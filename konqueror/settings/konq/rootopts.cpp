@@ -22,6 +22,7 @@
 #include <kglobalsettings.h>
 #include <kglobal.h>
 #include <klocale.h>
+#include <kio/global.h>
 #include <kio/job.h>
 #include <kmessagebox.h>
 #include <kstddirs.h>
@@ -314,17 +315,28 @@ void KRootOptions::save()
     bool trashMoved = false;
     bool autostartMoved = false;
 
-    if ( leDesktop->text() != KGlobalSettings::desktopPath() )
+    KURL desktopURL;
+    desktopURL.setPath( KGlobalSettings::desktopPath() );
+    KURL newDesktopURL;
+    newDesktopURL.setPath(leDesktop->text());
+
+    KURL trashURL;
+    trashURL.setPath( KGlobalSettings::trashPath() );
+    KURL newTrashURL;
+    newTrashURL.setPath(leTrash->text());
+
+    KURL autostartURL;
+    autostartURL.setPath( KGlobalSettings::autostartPath() );
+    KURL newAutostartURL;
+    newAutostartURL.setPath(leAutostart->text());
+
+    if ( !newDesktopURL.cmp( desktopURL, true ) )
     {
         // Test which other paths were inside this one (as it is by default)
         // and for each, test where it should go.
         // * Inside destination -> let them be moved with the desktop (but adjust name if necessary)
         // * Not inside destination -> move first
         // !!!
-        KURL desktopURL;
-        desktopURL.setPath( KGlobalSettings::desktopPath() );
-        KURL trashURL;
-        trashURL.setPath( KGlobalSettings::trashPath() );
         kdDebug() << "desktopURL=" << desktopURL.url() << endl;
         kdDebug() << "trashURL=" << trashURL.url() << endl;
         if ( desktopURL.isParentOf( trashURL ) )
@@ -332,58 +344,62 @@ void KRootOptions::save()
             // The trash is on the desktop (no, I don't do this at home....)
             kdDebug() << "The trash is currently on the desktop" << endl;
             // Either the Trash field wasn't changed (-> need to update it)
-            if ( leTrash->text() == KGlobalSettings::trashPath() )
+            if ( newTrashURL.cmp( trashURL, true ) )
             {
                 // Hack. It could be in a subdir inside desktop. Hmmm... Argl.
-                leTrash->setText( leDesktop->text() + "Trash/" );
+                leTrash->setText( leDesktop->text() + trashURL.fileName() );
                 kdDebug() << "The trash is moved with the desktop" << endl;
+                trashMoved = true;
             }
             // or it has been changed (->need to move it from here)
             else
-                moveDir( KGlobalSettings::trashPath(), leTrash->text() );
-
-            trashMoved = true;
+                trashMoved = moveDir( KGlobalSettings::trashPath(), leTrash->text() );
         }
 
-        KURL autostartURL;
-        autostartURL.setPath( KGlobalSettings::autostartPath() );
         if ( desktopURL.isParentOf( autostartURL ) )
         {
             kdDebug() << "Autostart is on the desktop" << endl;
 
             // Either the Autostart field wasn't changed (-> need to update it)
-            if ( leAutostart->text() == KGlobalSettings::autostartPath() )
+            if ( newAutostartURL.cmp( autostartURL, true ) )
             {
                 // Hack. It could be in a subdir inside desktop. Hmmm... Argl.
                 leAutostart->setText( leDesktop->text() + "Autostart/" );
                 kdDebug() << "Autostart is moved with the desktop" << endl;
+                autostartMoved = true;
             }
             // or it has been changed (->need to move it from here)
             else
-                moveDir( KGlobalSettings::autostartPath(), leAutostart->text() );
-
-            autostartMoved = true;
+                autostartMoved = moveDir( KGlobalSettings::autostartPath(), leAutostart->text() );
         }
 
-        moveDir( KGlobalSettings::desktopPath(), leDesktop->text() );
-        config->writeEntry( "Desktop", leDesktop->text(), true, true );
-        pathChanged = true;
+        if ( moveDir( KGlobalSettings::desktopPath(), leDesktop->text() ) )
+        {
+            config->writeEntry( "Desktop", leDesktop->text(), true, true );
+            pathChanged = true;
+        }
     }
 
-    if ( leTrash->text() != KGlobalSettings::trashPath() )
+    if ( !newTrashURL.cmp( trashURL, true ) )
     {
         if (!trashMoved)
-            moveDir( KGlobalSettings::trashPath(), leTrash->text() );
-        config->writeEntry( "Trash", leTrash->text(), true, true );
-        pathChanged = true;
+            trashMoved = moveDir( KGlobalSettings::trashPath(), leTrash->text() );
+        if (trashMoved)
+        {
+            config->writeEntry( "Trash", leTrash->text(), true, true );
+            pathChanged = true;
+        }
     }
 
-    if ( leAutostart->text() != KGlobalSettings::autostartPath() )
+    if ( !newAutostartURL.cmp( autostartURL, true ) )
     {
         if (!autostartMoved)
-            moveDir( KGlobalSettings::autostartPath(), leAutostart->text() );
-        config->writeEntry( "Autostart", leAutostart->text(), true, true );
-        pathChanged = true;
+            autostartMoved = moveDir( KGlobalSettings::autostartPath(), leAutostart->text() );
+        if (autostartMoved)
+        {
+            config->writeEntry( "Autostart", leAutostart->text(), true, true );
+            pathChanged = true;
+        }
     }
 
     config->sync();
@@ -396,26 +412,29 @@ void KRootOptions::save()
     }
 }
 
-void KRootOptions::moveDir( QString src, QString dest )
+bool KRootOptions::moveDir( const KURL & src, const KURL & dest )
 {
-    if ( src[0]=='/' && dest[0]=='/' )
-    {
-        KURL src_url;
-        src_url.setPath(src);
-        KURL dest_url;
-        dest_url.setPath(dest);
-        KIO::Job * job = KIO::move( src_url, dest_url );
-        connect( job, SIGNAL( result( KIO::Job * ) ), this, SLOT( slotResult( KIO::Job * ) ) );
-        // wait for job
-        qApp->enter_loop();
-    }
+    KIO::Job * job = KIO::move( src, dest );
+    connect( job, SIGNAL( result( KIO::Job * ) ), this, SLOT( slotResult( KIO::Job * ) ) );
+    m_ok = true;
+    // wait for job
+    qApp->enter_loop();
+    kdDebug() << "KRootOptions::slotResult returning " << m_ok << endl;
+    return m_ok;
 }
 
 void KRootOptions::slotResult( KIO::Job * job )
 {
-    qApp->exit_loop();
     if (job->error())
+    {
+        if ( job->error() != KIO::ERR_DOES_NOT_EXIST )
+            m_ok = false;
+        // If the source doesn't exist, no wonder we couldn't move the dir.
+        // In that case, trust the user and set the new setting in any case.
+
         job->showErrorDialog(this);
+    }
+    qApp->exit_loop();
 }
 
 

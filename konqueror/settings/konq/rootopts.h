@@ -63,7 +63,10 @@ private:
         QLineEdit *leDesktop;
         QLineEdit *leTrash;
         QLineEdit *leAutostart;
-        void moveDir( QString src, QString dest );
+
+        bool moveDir( const KURL & src, const KURL & dest );
+        bool m_ok;
+
 private slots:
         void slotResult( KIO::Job * job );
 };
