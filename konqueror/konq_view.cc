@@ -538,6 +538,7 @@ void KonqView::slotMouseOverInfo( const KFileItem *item )
 void KonqView::setLocationBarURL( const QString & locationBarURL )
 {
   kdDebug(1202) << "KonqView::setLocationBarURL " << locationBarURL << " this=" << this << endl;
+
   m_sLocationBarURL = locationBarURL;
   if ( m_pMainWindow->currentView() == this )
   {
@@ -1129,7 +1130,7 @@ bool KonqView::prepareReload( KParts::URLArgs& args )
 {
     args.reload = true;
     // Repost form data if this URL is the result of a POST HTML form.
-    if ( m_doPost )
+    if ( m_doPost && !args.redirectedRequest() )
     {
         if ( KMessageBox::warningContinueCancel( 0, i18n(
             "The page you are trying to view is the result of posted form data. "
