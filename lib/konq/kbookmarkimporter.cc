@@ -156,11 +156,17 @@ void KNSBookmarkImporter::parseNSBookmarks()
 
     if(f.open(IO_ReadOnly)) {
 
-        QCString s(1024);
+#define NSBKLINELIMIT 2048
+        QCString s(NSBKLINELIMIT);
         // skip header
-        while(f.readLine(s.data(), 1024) >= 0 && !s.contains("<DL>"));
+        while(f.readLine(s.data(), NSBKLINELIMIT) >= 0 && !s.contains("<DL>"));
 
-        while(f.readLine(s.data(), 1024)>=0) {
+        while(f.readLine(s.data(), NSBKLINELIMIT)>=0) {
+            if ( s[s.length()-1] != '\n' ) // Gosh, this line is longer than NSBKLINELIMIT. Skipping.
+            {
+               kdWarning() << "Netscape bookmarks contain a line longer than " << NSBKLINELIMIT << ". Skipping." << endl;
+               continue;
+            }
             QCString t = s.stripWhiteSpace();
             if(t.left(12) == "<DT><A HREF=" ||
                t.left(16) == "<DT><H3><A HREF=") {
