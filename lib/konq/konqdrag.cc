@@ -18,7 +18,6 @@
 */
 
 #include "konqdrag.h"
-#include <stdlib.h> // for atoi()
 
 KonqDrag::KonqDrag( QWidget * dragSource, const char* name )
     : QIconDrag( dragSource, name )
@@ -41,37 +40,27 @@ QByteArray KonqDrag::encodedData( const char* mime ) const
 	a = QIconDrag::encodedData( mime );
     else if ( QCString( mime ) == "text/uri-list" ) {
         QString s = urls.join( "\r\n" );
+        a = QCString(s.latin1());
+        /*
         a.resize( s.length() );
         memcpy( a.data(), s.latin1(), s.length() );
+        */
     }
     return a;
 }
 
-bool KonqDrag::canDecode( QMimeSource* e )
+bool KonqDrag::canDecode( const QMimeSource* e )
 {
     return  e->provides( "application/x-qiconlist" ) ||
       e->provides( "text/uri-list" );
 }
 
-bool KonqDrag::decode( QMimeSource *e, QStringList &uris )
+bool KonqDrag::decode( const QMimeSource *e, QStringList &uris )
 {
     QByteArray ba = e->encodedData( "text/uri-list" );
     if ( ba.size() ) {
-	uris.clear();
-	uint c = 0;
-	char* d = ba.data();
-	while ( c < ba.size() ) {
-	    uint f = c;
-	    while ( c < ba.size() && d[ c ] )
-		c++;
-	    if ( c < ba.size() ) {
-		uris.append( d + f );
-		c++;
-	    } else {
-		QString s( QString(d + f).left(c - f + 1) );
-		uris.append( s );
-	    }
-	}
+        QCString s( ba );
+        uris = QStringList::split( "\r\n", QString::fromLatin1( s ) );
 	return TRUE;
     }
     return FALSE;

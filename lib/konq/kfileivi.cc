@@ -19,6 +19,7 @@
 
 #include "kfileivi.h"
 #include "kfileitem.h"
+#include "konqdrag.h"
 #include "konqiconviewwidget.h"
 
 KFileIVI::KFileIVI( QIconView *iconview, KFileItem* fileitem, KIconLoader::Size size, bool bImagePreviewAllowed )
@@ -36,10 +37,27 @@ void KFileIVI::setIcon( KIconLoader::Size size, bool bImagePreviewAllowed )
 
 bool KFileIVI::acceptDrop( const QMimeSource *mime ) const
 {
-    if ( mime->provides( "text/uri-list" ) && m_fileitem->acceptsDrops() )
-	return true;
-    else
-	return QIconViewItem::acceptDrop( mime );
+    if ( mime->provides( "text/uri-list" ) ) // We're dragging URLs
+    {
+        if ( m_fileitem->acceptsDrops() ) // Directory, executables, ...
+            return true;
+        QStringList uris;
+        if ( KonqDrag::decode( mime, uris ) )
+        {
+            debug("here it is %s", m_fileitem->url().url().ascii());
+            // Check if we want to drop something on itself
+            // (Nothing will happen, but it's a convenient way to move icons)
+            QStringList::Iterator it = uris.begin();
+            for ( ; it != uris.end() ; it++ )
+            {
+                debug( (*it).ascii() );
+                if ( m_fileitem->url().cmp( KURL(*it), true /*ignore trailing slashes*/ ) )
+                    return true;
+            }
+            debug("nope");
+        }
+    }
+    return QIconViewItem::acceptDrop( mime );
 }
 
 void KFileIVI::setKey( const QString &key )

@@ -156,16 +156,19 @@ QDragObject * KonqIconViewWidget::dragObject()
     if ( !currentItem() )
 	return 0;
 
-    QPoint orig = viewportToContents( viewport()->mapFromGlobal( QCursor::pos() ) );
     KonqDrag *drag = new KonqDrag( viewport() );
-    drag->setPixmap( *currentItem()->pixmap(),
-		     QPoint( currentItem()->pixmapRect().width() / 2,
-			     currentItem()->pixmapRect().height() / 2 ) );
+    // Position of the mouse in the view
+    QPoint orig = viewportToContents( viewport()->mapFromGlobal( QCursor::pos() ) );
+    // Position of the item clicked in the view
+    QPoint itempos = currentItem()->pixmapRect( FALSE ).topLeft();
+    // Set pixmap, with the correct offset
+    drag->setPixmap( *currentItem()->pixmap(), orig - itempos );
+    // Append all items to the drag object
     for ( QIconViewItem *it = firstItem(); it; it = it->nextItem() ) {
 	if ( it->isSelected() ) {
           QString itemURL = ((KFileIVI *)it)->item()->url().url();
           QIconDragItem id;
-          id.setData( QCString(itemURL) );
+          id.setData( QCString(itemURL.latin1()) );
           drag->append( id,
                         QRect( it->pixmapRect( FALSE ).x() - orig.x(),
                                it->pixmapRect( FALSE ).y() - orig.y(),

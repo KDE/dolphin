@@ -59,11 +59,11 @@ public:
     void append( const QIconDragItem &item, const QRect &pr,
                              const QRect &tr, const QString &url );
 
-    static bool canDecode( QMimeSource* e );
+    static bool canDecode( const QMimeSource* e );
 
-    //static bool decode( QMimeSource *e, QValueList<KonqDragItem> &lst );
+    //static bool decode( const QMimeSource *e, QValueList<KonqDragItem> &lst );
 
-    static bool decode( QMimeSource *e, QStringList &uris );
+    static bool decode( const QMimeSource *e, QStringList &uris );
 
 protected:
     //KonqList icons;
