@@ -9,16 +9,12 @@ are working. You can save the results, delete, change properties of
 found files/directories, store them to an archive and ask kfm to open
 the directory containing this file or execute default binding.
 
-From version 0.2.9 kfind uses libkdeui so the widgets kmgsbox and ktabctl
-were removed from kfind distribution.
-
 Compilation 
 ----------- 
 
-It is necessary to set the environment variables QTDIR and KDEDIR.
-Then you have to install latest libkde and kfm!!! (unless you
-installed them already). Then you can simply do ./configure, make and
-make install. 
+KFind is now part of kdebase, and therefore you must install the kdelibs module
+before you attempt to compile kfind. It may be necessary to set the environment
+variables QTDIR and KDEDIR.  See ../INSTALL for more information.
 
 BUGS
 ----
