@@ -214,6 +214,13 @@ If you experience problems with that, please refer to
 Before sending bug reports, please check the problem with another
 X terminal to find out whether it is `konsole' specific or not.
 
+<sect1>Installation related problems
+<p>
+Konsole requieres some specific fonts that come along with it's
+distribution but are not installed due to the authors preference
+not claim root privileges during the installation process. You'll
+have to do this manually. See README.linux.console for details.
+
 <sect1>Application related problems
 <p>
 Some programs have flaws when run under a X console.
