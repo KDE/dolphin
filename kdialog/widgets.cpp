@@ -90,7 +90,8 @@ int Widgets::textBox(QWidget *parent, int width, int height, const QString& titl
 }
 
 
-bool Widgets::comboBox(QWidget *parent, const QString& title, const QString& text, const QStringList& args, QString &result)
+bool Widgets::comboBox(QWidget *parent, const QString& title, const QString& text, const QStringList& args, 
+		       const QString& defaultEntry, QString &result)
 {
   KDialogBase dlg( parent, 0, true, title, KDialogBase::Ok|KDialogBase::Cancel,
                    KDialogBase::Ok );
@@ -102,6 +103,7 @@ bool Widgets::comboBox(QWidget *parent, const QString& title, const QString& tex
   label.setText (text);
   KComboBox combo (vbox);
   combo.insertStringList (args);
+  combo.setCurrentItem( defaultEntry, false );
 
   bool retcode = (dlg.exec() == QDialog::Accepted);
 
@@ -111,7 +113,8 @@ bool Widgets::comboBox(QWidget *parent, const QString& title, const QString& tex
   return retcode;
 }
 
-bool Widgets::listBox(QWidget *parent, const QString& title, const QString& text, const QStringList& args, QString &result)
+bool Widgets::listBox(QWidget *parent, const QString& title, const QString& text, const QStringList& args, 
+		      const QString& defaultEntry, QString &result)
 {
   KListBoxDialog box(text,parent);
 
@@ -121,6 +124,7 @@ bool Widgets::listBox(QWidget *parent, const QString& title, const QString& text
   for (unsigned int i = 0; i+1<args.count(); i += 2) {
     box.insertItem(args[i+1]);
   }
+  box.setCurrentItem( defaultEntry );
 
   bool retcode = (box.exec() == QDialog::Accepted);
   if ( retcode )

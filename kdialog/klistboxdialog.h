@@ -35,6 +35,7 @@ public:
   QListBox &getTable() { return *table; };
 
   void insertItem( const QString& text );
+  void setCurrentItem ( const QString& text );
   int currentItem();
 
 protected:

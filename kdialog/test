@@ -29,7 +29,7 @@ echo "text box:"
 ./kdialog --miniicon "about_kde" --title "This is a text box" --textbox widgets.h 400 300
 
 echo "menu:"
-./kdialog --miniicon "about_kde"  --title "This is a menu" --menu "Choose one of these" a English b German c French d Spanish
+./kdialog --miniicon "about_kde"  --title "This is a menu" --default "French" --menu "Choose one of these" a English b German c French d Spanish
 
 echo "checklist:"
 ./kdialog --miniicon "about_kde" --title "This is a checklist" --checklist "Choose some of these" a English on  b German off  c French off d Spanish on
@@ -38,7 +38,7 @@ echo "radiolist:"
 ./kdialog --miniicon "about_kde" --title "This is a radiolist" --radiolist "Choose one of these" a English off b German off c French on d Spanish off
 
 echo "combobox:"
-./kdialog --miniicon "about_kde" --title "This is a combobox" --combobox "Pick your favorite ice-cream flavor:" "Vanilla" "Chocolate" "Strawberry" "Fudge"
+./kdialog --miniicon "about_kde" --default "Chocolate" --title "This is a combobox" --combobox "Pick your favorite ice-cream flavor:" "Vanilla" "Chocolate" "Strawberry" "Fudge"
 
 echo "passivepopup:"
 ./kdialog --title "This is a passive popup" --passivepopup "It will disappear in about 10 seconds" 10

@@ -79,6 +79,7 @@ static KCmdLineOptions options[] =
     // TODO gauge stuff, reading values from stdin
 
     { "title <text>", I18N_NOOP("Dialog title"), 0 },
+    { "default <text>", I18N_NOOP("Default entry to use for combobox and menu"), 0 },
     { "separate-output", I18N_NOOP("Return list items on separate lines (for checklist option)"), 0 },
     { "print-winid", I18N_NOOP("Outputs the winId of each dialog"), 0 },
     { "embed <winid>", I18N_NOOP("Makes the dialog transient for an X app specified by winid"), 0 },
@@ -130,6 +131,7 @@ static int directCommand(KCmdLineArgs *args)
     bool separateOutput = FALSE;
     bool printWId = args->isSet("print-winid");
     bool embed = args->isSet("embed");
+    QString defaultEntry;
 
     // --title text
     KCmdLineArgs *qtargs = KCmdLineArgs::parsedArgs("qt"); // --title is a qt option
@@ -300,8 +302,11 @@ static int directCommand(KCmdLineArgs *args)
                 list.append(QString::fromLocal8Bit(args->arg(i)));
             }
             QString text = QString::fromLocal8Bit(args->getOption("combobox"));
+	    if (args->isSet("default")) {
+	        defaultEntry = args->getOption("default");
+	    }
             QString result;
-            bool retcode = Widgets::comboBox(0, title, text, list, result);
+	    bool retcode = Widgets::comboBox(0, title, text, list, defaultEntry, result);
             cout << result.local8Bit().data() << endl;
             return retcode ? 0 : 1;
         }
@@ -316,8 +321,11 @@ static int directCommand(KCmdLineArgs *args)
                 list.append(QString::fromLocal8Bit(args->arg(i)));
             }
             QString text = QString::fromLocal8Bit(args->getOption("menu"));
+	    if (args->isSet("default")) {
+	        defaultEntry = args->getOption("default");
+	    }
             QString result;
-            bool retcode = Widgets::listBox(0, title, text, list, result);
+            bool retcode = Widgets::listBox(0, title, text, list, defaultEntry, result);
             if (1 == retcode) { // OK was selected
 	        cout << result.local8Bit().data() << endl;
 	    }

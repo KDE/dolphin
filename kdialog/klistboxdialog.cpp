@@ -43,6 +43,16 @@ void KListBoxDialog::insertItem(const QString& item)
   table->setCurrentItem(0);
 }
 
+void KListBoxDialog::setCurrentItem(const QString& item)
+{
+  for ( int i=0; i < (int) table->count(); i++ ) {
+    if ( table->text(i) == item ) {
+      table->setCurrentItem(i);
+      break;
+    }
+  }
+}
+
 int KListBoxDialog::currentItem()
 {
   return table->currentItem();
