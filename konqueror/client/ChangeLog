@@ -1,3 +1,7 @@
+1999-11-08  Kurt Granroth <granroth@kde.org>
+	* if 'exec' has no parameters, popup the Execute Command
+	  dialog from kdesktop
+
 1999-05-28  Simon Hausmann <hausmann@kde.org>
 
         * use kded instead of the ior file

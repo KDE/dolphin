@@ -56,7 +56,7 @@ int main( int argc, char **argv )
                 "            #   to open the trash bin.\n\n"));
     printf(i18n("  kfmclient openProperties 'url'\n"
                 "            # Opens a properties menu\n\n"));
-    printf(i18n("  kfmclient exec 'url' ['binding']\n"
+    printf(i18n("  kfmclient exec ['url' ['binding']]\n"
                 "            # Tries to execute 'url'. 'url' may be a usual\n"
                 "            #   URL, this URL will be opened. You may omit\n"
                 "            #   'binding'. In this case the default binding\n"));
@@ -163,7 +163,12 @@ int clientApp::doIt( int argc, char **argv )
   }
   else if ( strcmp( argv[1], "exec" ) == 0 )
   {
-    if ( argc == 3 )
+    if ( argc == 2 )
+    {
+      KDesktopIface_stub kdesky( "kdesktop", "KDesktopIface" );
+      kdesky.popupExecuteCommand();
+    }
+    else if ( argc == 3 )
     {
       KRun * run = new KRun( argv[2] );
       QObject::connect( run, SIGNAL( finished() ), this, SLOT( quit() ));
