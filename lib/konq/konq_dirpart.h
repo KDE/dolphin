@@ -265,6 +265,8 @@ public slots:
     virtual void slotClear() = 0;
     virtual void slotRedirection( const KURL & ) = 0;
 
+private slots:
+    void slotIconChanged(int group);
 protected:
     /**
      * Invoked from openURL to enable childern classes to
@@ -302,6 +304,8 @@ protected:
 private:
     void saveFindState( QDataStream& );
     void restoreFindState( QDataStream& );
+    
+    void adjustIconSizes();
 
     class KonqDirPartPrivate;
     KonqDirPartPrivate* d;

@@ -22,6 +22,7 @@
 #include "konq_propsview.h"
 #include "konq_settings.h"
 
+#include <kapplication.h>
 #include <kaction.h>
 #include <kdatastream.h>
 #include <kdebug.h>
@@ -39,15 +40,82 @@
 #include <qclipboard.h>
 #include <qfile.h>
 #include <assert.h>
+#include <qvaluevector.h>
 
 class KonqDirPart::KonqDirPartPrivate
 {
 public:
     QStringList mimeFilters;
-    KToggleAction *m_paEnormousIcons;
-    KToggleAction *m_paSmallMediumIcons;
-    int m_iIconSize[7];
+    KToggleAction *aEnormousIcons;
+    KToggleAction *aSmallMediumIcons;
+    QValueVector<int> iconSize;
+
+    void findAvailableIconSizes(void);
+    int findNearestIconSize(int size);
+    int nearestIconSizeError(int size);
 };
+
+void KonqDirPart::KonqDirPartPrivate::findAvailableIconSizes(void)
+{
+    KIconTheme *root = KGlobal::instance()->iconLoader()->theme();
+    iconSize.resize(1);
+    if (root) {
+	QValueList<int> avSizes = root->querySizes(KIcon::Desktop);
+        kdDebug(1203) << "The icon theme handles the sizes:" << avSizes << endl;
+	qHeapSort(avSizes);
+	int oldSize = -1;
+	if (avSizes.count() < 10) {
+	    // Fixed or threshold type icons
+	    QValueListConstIterator<int> i;
+	    for (i = avSizes.begin(); i != avSizes.end(); i++) {
+		// Skip duplicated values (sanity check)
+		if (*i != oldSize) iconSize.append(*i);
+		oldSize = *i;
+	    }
+	} else {
+	    // Scalable icons.
+	    const int progression[] = {16, 22, 32, 48, 64, 96, 128, 192, 256};
+	    
+	    QValueListConstIterator<int> j = avSizes.begin();
+	    for (uint i = 0; i < 9; i++) {
+		while (j++ != avSizes.end()) {
+		    if (*j >= progression[i]) {
+			iconSize.append(*j);
+			kdDebug(1203) << "appending " << *j << " size." << endl;
+			break;
+		    }
+		}
+	    }
+	}
+    } else {
+	iconSize.append(KIcon::SizeSmall); // 16
+	iconSize.append(KIcon::SizeMedium); // 32
+	iconSize.append(KIcon::SizeLarge); // 48
+	iconSize.append(KIcon::SizeHuge); // 64
+    }
+    kdDebug(1203) << "Using " << iconSize.count() << " icon sizes." << endl;
+}
+
+int KonqDirPart::KonqDirPartPrivate::findNearestIconSize(int preferred) 
+{
+    int s1 = iconSize[1];
+    if (preferred == 0) return KGlobal::iconLoader()->currentSize(KIcon::Desktop);
+    if (preferred <= s1) return s1;
+    for (uint i = 2; i <= iconSize.count(); i++) {
+        if (preferred <= iconSize[i]) {
+	    if (preferred - s1 <  iconSize[i] - preferred) return s1;
+	    else return iconSize[i];
+	} else {
+	    s1 = iconSize[i];
+	}
+    }
+    return s1;
+}
+
+int KonqDirPart::KonqDirPartPrivate::nearestIconSizeError(int size)
+{
+    return QABS(size - findNearestIconSize(size));
+}
 
 KonqDirPart::KonqDirPart( QObject *parent, const char *name )
             :KParts::ReadOnlyPart( parent, name ),
@@ -68,44 +136,48 @@ KonqDirPart::KonqDirPart( QObject *parent, const char *name )
     m_paDecIconSize = new KAction( i18n( "Decrease Icon Size" ), "viewmag-", 0, this, SLOT( slotDecIconSize() ), actionCollection(), "decIconSize" );
 
     m_paDefaultIcons = new KRadioAction( i18n( "&Default Size" ), 0, actionCollection(), "modedefault" );
-    d->m_paEnormousIcons = new KRadioAction( i18n( "&Huge" ), 0, 
+    d->aEnormousIcons = new KRadioAction( i18n( "&Huge" ), 0, 
 	    actionCollection(), "modeenormous" );
     m_paHugeIcons = new KRadioAction( i18n( "&Very Large" ), 0, actionCollection(), "modehuge" );
     m_paLargeIcons = new KRadioAction( i18n( "&Large" ), 0, actionCollection(), "modelarge" );
     m_paMediumIcons = new KRadioAction( i18n( "&Medium" ), 0, actionCollection(), "modemedium" );
-    d->m_paSmallMediumIcons = new KRadioAction( i18n( "&Small" ), 0, 
+    d->aSmallMediumIcons = new KRadioAction( i18n( "&Small" ), 0, 
 	    actionCollection(), "modesmallmedium" );
     m_paSmallIcons = new KRadioAction( i18n( "&Tiny" ), 0, actionCollection(), "modesmall" );
-
+    
     m_paDefaultIcons->setExclusiveGroup( "ViewMode" );
-    d->m_paEnormousIcons->setExclusiveGroup( "ViewMode" );
+    d->aEnormousIcons->setExclusiveGroup( "ViewMode" );
     m_paHugeIcons->setExclusiveGroup( "ViewMode" );
     m_paLargeIcons->setExclusiveGroup( "ViewMode" );
     m_paMediumIcons->setExclusiveGroup( "ViewMode" );
-    d->m_paSmallMediumIcons->setExclusiveGroup( "ViewMode" );
+    d->aSmallMediumIcons->setExclusiveGroup( "ViewMode" );
     m_paSmallIcons->setExclusiveGroup( "ViewMode" );
 
     connect( m_paDefaultIcons, SIGNAL( toggled( bool ) ), this, SLOT( slotIconSizeToggled( bool ) ) );
-    connect( d->m_paEnormousIcons, SIGNAL( toggled( bool ) ), 
+    connect( d->aEnormousIcons, SIGNAL( toggled( bool ) ), 
 	    this, SLOT( slotIconSizeToggled( bool ) ) );
     connect( m_paHugeIcons, SIGNAL( toggled( bool ) ), this, SLOT( slotIconSizeToggled( bool ) ) );
     connect( m_paLargeIcons, SIGNAL( toggled( bool ) ), this, SLOT( slotIconSizeToggled( bool ) ) );
     connect( m_paMediumIcons, SIGNAL( toggled( bool ) ), this, SLOT( slotIconSizeToggled( bool ) ) );
-    connect( d->m_paSmallMediumIcons, SIGNAL( toggled( bool ) ), 
+    connect( d->aSmallMediumIcons, SIGNAL( toggled( bool ) ), 
 	    this, SLOT( slotIconSizeToggled( bool ) ) );
     connect( m_paSmallIcons, SIGNAL( toggled( bool ) ), this, SLOT( slotIconSizeToggled( bool ) ) );
 
+    connect( kapp, SIGNAL(iconChanged(int)), SLOT(slotIconChanged(int)) );
+#if 0
     // Extract 6 icon sizes from the icon theme. 
     // Use 16,22,32,48,64,128 as default.
     // Use these also if the icon theme is scalable.
     int i;
-    d->m_iIconSize[0] = 0; // Default value
-    d->m_iIconSize[1] = KIcon::SizeSmall; // 16
-    d->m_iIconSize[2] = KIcon::SizeSmallMedium; // 22
-    d->m_iIconSize[3] = KIcon::SizeMedium; // 32
-    d->m_iIconSize[4] = KIcon::SizeLarge; // 48
-    d->m_iIconSize[5] = KIcon::SizeHuge; // 64
-    d->m_iIconSize[6] = KIcon::SizeEnormous; // 128
+    d->iconSize[0] = 0; // Default value
+    d->iconSize[1] = KIcon::SizeSmall; // 16
+    d->iconSize[2] = KIcon::SizeSmallMedium; // 22
+    d->iconSize[3] = KIcon::SizeMedium; // 32
+    d->iconSize[4] = KIcon::SizeLarge; // 48
+    d->iconSize[5] = KIcon::SizeHuge; // 64
+    d->iconSize[6] = KIcon::SizeEnormous; // 128
+    d->iconSize[7] = 192; 
+    d->iconSize[8] = 256; 
     KIconTheme *root = KGlobal::instance()->iconLoader()->theme();
     if (root)
     {
@@ -118,21 +190,29 @@ KonqDirPart::KonqDirPart( QObject *parent, const char *name )
 	QValueList<int>::Iterator it;
 	for (i=1, it=avSizes.begin(); (it!=avSizes.end()) && (i<7); it++, i++)
 	{
-	  d->m_iIconSize[i] = *it;
+	  d->iconSize[i] = *it;
 	  kdDebug(1203) << "m_iIconSize[" << i << "] = " << *it << endl;
 	}
 	// Generate missing sizes
 	for (; i < 7; i++) {
-	  d->m_iIconSize[i] = d->m_iIconSize[i - 1] + d->m_iIconSize[i - 1] / 2 ;
-	  kdDebug(1203) << "m_iIconSize[" << i << "] = " << d->m_iIconSize[i] << endl;
+	  d->iconSize[i] = d->iconSize[i - 1] + d->iconSize[i - 1] / 2 ;
+	  kdDebug(1203) << "m_iIconSize[" << i << "] = " << d->iconSize[i] << endl;
 	}
       }
     }
-
-    // Remove in KDE4
-    for (i = 0; i < 5; i++) {
-      m_iIconSize[i] = d->m_iIconSize[i];
-    }
+#else
+    d->iconSize.reserve(10);
+    d->iconSize.append(0); // Default value
+    adjustIconSizes();
+#endif
+    
+    // Remove in KDE4 ...
+    // These are here in the event subclasses access them.
+    m_iIconSize[1] = KIcon::SizeSmall;
+    m_iIconSize[2] = KIcon::SizeMedium;
+    m_iIconSize[3] = KIcon::SizeLarge;
+    m_iIconSize[4] = KIcon::SizeHuge;
+    // ... up to here
 
     KAction *a = new KAction( i18n( "Configure Background..." ), "background", 0, this, SLOT( slotBackgroundSettings() ),
                               actionCollection(), "bgsettings" );
@@ -145,6 +225,27 @@ KonqDirPart::~KonqDirPart()
     // Close the find part with us
     delete m_findPart;
     delete d;
+}
+
+void KonqDirPart::adjustIconSizes()
+{
+    d->findAvailableIconSizes();
+    m_paSmallIcons->setEnabled(d->findNearestIconSize(16) < 20);
+    d->aSmallMediumIcons->setEnabled(d->nearestIconSizeError(22) < 2);
+    m_paMediumIcons->setEnabled(d->nearestIconSizeError(32) < 6);
+    m_paLargeIcons->setEnabled(d->nearestIconSizeError(48) < 8);
+    m_paHugeIcons->setEnabled(d->nearestIconSizeError(64) < 12);
+    d->aEnormousIcons->setEnabled(d->findNearestIconSize(128) > 110);
+    
+    if (m_pProps) {
+	int size = m_pProps->iconSize();
+	int nearSize = d->findNearestIconSize(size);
+
+	if (size != nearSize) {
+	    m_pProps->setIconSize(nearSize);
+	}
+	newIconSize(nearSize);
+    }
 }
 
 void KonqDirPart::setMimeFilter (const QStringList& mime)
@@ -439,31 +540,33 @@ void KonqDirPart::slotIconSizeToggled( bool toggleOn )
 
     if ( m_paDefaultIcons->isChecked() )
         setIconSize(0);
-    else if ( d->m_paEnormousIcons->isChecked() )
-        setIconSize(d->m_iIconSize[6]);
+    else if ( d->aEnormousIcons->isChecked() )
+        setIconSize(d->findNearestIconSize(KIcon::SizeEnormous));
     else if ( m_paHugeIcons->isChecked() )
-        setIconSize(d->m_iIconSize[5]);
+        setIconSize(d->findNearestIconSize(KIcon::SizeHuge));
     else if ( m_paLargeIcons->isChecked() )
-        setIconSize(d->m_iIconSize[4]);
+        setIconSize(d->findNearestIconSize(KIcon::SizeLarge));
     else if ( m_paMediumIcons->isChecked() )
-        setIconSize(d->m_iIconSize[3]);
-    else if ( d->m_paSmallMediumIcons->isChecked() )
-        setIconSize(d->m_iIconSize[2]);
+        setIconSize(d->findNearestIconSize(KIcon::SizeMedium));
+    else if ( d->aSmallMediumIcons->isChecked() )
+        setIconSize(d->findNearestIconSize(KIcon::SizeSmallMedium));
     else if ( m_paSmallIcons->isChecked() )
-        setIconSize(d->m_iIconSize[1]);
+        setIconSize(d->findNearestIconSize(KIcon::SizeSmall));
 }
 
 void KonqDirPart::slotIncIconSize()
 {
     int s = m_pProps->iconSize();
     s = s ? s : KGlobal::iconLoader()->currentSize( KIcon::Desktop );
-    int sizeIndex = 0;
-    for ( int idx=1; idx < 7 ; ++idx )
-        if (s == d->m_iIconSize[idx])
+    uint sizeIndex = 0;
+    for ( uint idx = 1; idx < d->iconSize.count() ; ++idx )
+        if (s == d->iconSize[idx]) {
             sizeIndex = idx;
-    if ( sizeIndex > 0 && sizeIndex < 6 )
+	    break;
+	}
+    if ( sizeIndex > 0 && sizeIndex < d->iconSize.count() - 1 )
     {
-        setIconSize( d->m_iIconSize[sizeIndex + 1] );
+        setIconSize( d->iconSize[sizeIndex + 1] );
     }
 }
 
@@ -471,13 +574,15 @@ void KonqDirPart::slotDecIconSize()
 {
     int s = m_pProps->iconSize();
     s = s ? s : KGlobal::iconLoader()->currentSize( KIcon::Desktop );
-    int sizeIndex = 0;
-    for ( int idx=1; idx < 7 ; ++idx )
-        if (s == d->m_iIconSize[idx])
+    uint sizeIndex = 0;
+    for ( uint idx = 1; idx < d->iconSize.count() ; ++idx )
+        if (s == d->iconSize[idx]) {
             sizeIndex = idx;
+	    break;
+	}
     if ( sizeIndex > 1 )
     {
-        setIconSize( d->m_iIconSize[sizeIndex - 1] );
+        setIconSize( d->iconSize[sizeIndex - 1] );
     }
 }
 
@@ -485,16 +590,16 @@ void KonqDirPart::slotDecIconSize()
 void KonqDirPart::newIconSize( int size /*0=default, or 16,32,48....*/ )
 {
     int realSize = (size==0) ? KGlobal::iconLoader()->currentSize( KIcon::Desktop ) : size;
-    m_paDecIconSize->setEnabled(realSize > d->m_iIconSize[1]);
-    m_paIncIconSize->setEnabled(realSize < d->m_iIconSize[6]);
+    m_paDecIconSize->setEnabled(realSize > d->iconSize[1]);
+    m_paIncIconSize->setEnabled(realSize < d->iconSize.back());
 
-    m_paDefaultIcons->setChecked( size == 0 );
-    d->m_paEnormousIcons->setChecked( size == d->m_iIconSize[6] );
-    m_paHugeIcons->setChecked( size == d->m_iIconSize[5] );
-    m_paLargeIcons->setChecked( size == d->m_iIconSize[4] );
-    m_paMediumIcons->setChecked( size == d->m_iIconSize[3] );
-    d->m_paSmallMediumIcons->setChecked( size == d->m_iIconSize[2] );
-    m_paSmallIcons->setChecked( size == d->m_iIconSize[1] );
+    m_paDefaultIcons->setChecked(size == 0);
+    d->aEnormousIcons->setChecked(size == d->findNearestIconSize(KIcon::SizeEnormous));
+    m_paHugeIcons->setChecked(size == d->findNearestIconSize(KIcon::SizeHuge));
+    m_paLargeIcons->setChecked(size == d->findNearestIconSize(KIcon::SizeLarge));
+    m_paMediumIcons->setChecked(size == d->findNearestIconSize(KIcon::SizeMedium));
+    d->aSmallMediumIcons->setChecked(size == d->findNearestIconSize(KIcon::SizeSmallMedium));
+    m_paSmallIcons->setChecked(size == d->findNearestIconSize(KIcon::SizeSmall));
 }
 
 // Stores the new icon size and updates the GUI
@@ -565,6 +670,12 @@ void KonqDirPart::slotFindClosed()
     emit findClosed( this );
     // reload where we were before
     openURL( url() );
+}
+
+void KonqDirPart::slotIconChanged( int group )
+{
+    if (group != KIcon::Desktop) return;
+    adjustIconSizes();
 }
 
 void KonqDirPart::slotStartAnimationSearching()
