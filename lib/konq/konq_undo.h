@@ -23,6 +23,7 @@ struct KonqBasicOperation
 
   bool m_valid;
   bool m_directory;
+  bool m_renamed;
   KURL m_src;
   KURL m_dst;
 };
@@ -54,7 +55,7 @@ public:
 private slots:
   void slotResult( KIO::Job *job );
 
-  void slotCopyingDone( KIO::Job *, const KURL &from, const KURL &to, bool directory );
+  void slotCopyingDone( KIO::Job *, const KURL &from, const KURL &to, bool directory, bool renamed );
 
 private:
   class KonqCommandRecorderPrivate;
@@ -106,6 +107,8 @@ private:
   void broadcastUnlock();
 
   bool initializeFromKDesky();
+
+  enum UndoState { MAKINGDIRS, MOVINGFILES, REMOVINGDIRS };
 
   class KonqUndoManagerPrivate;
   KonqUndoManagerPrivate *d;

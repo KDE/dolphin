@@ -13,6 +13,8 @@
 #include <klocale.h>
 
 #include <kio/job.h>
+#include <kio/jobclasses.h>
+#include <kio/slaveinterface.h>
 
 class KonqCommandRecorder::KonqCommandRecorderPrivate
 {
@@ -40,8 +42,8 @@ KonqCommandRecorder::KonqCommandRecorder( KonqCommand::Type op, const KURL::List
   connect( job, SIGNAL( result( KIO::Job * ) ),
 	   this, SLOT( slotResult( KIO::Job * ) ) );
 
-  connect( job, SIGNAL( copyingDone( KIO::Job *, const KURL &, const KURL &, bool ) ),
-	   this, SLOT( slotCopyingDone( KIO::Job *, const KURL &, const KURL &, bool ) ) );
+  connect( job, SIGNAL( copyingDone( KIO::Job *, const KURL &, const KURL &, bool, bool ) ),
+	   this, SLOT( slotCopyingDone( KIO::Job *, const KURL &, const KURL &, bool, bool ) ) );
 };
 
 KonqCommandRecorder::~KonqCommandRecorder()
@@ -58,14 +60,15 @@ void KonqCommandRecorder::slotResult( KIO::Job *job )
   KonqUndoManager::self()->addCommand( d->m_cmd );
 }
 
-void KonqCommandRecorder::slotCopyingDone( KIO::Job *, const KURL &from, const KURL &to, bool directory )
+void KonqCommandRecorder::slotCopyingDone( KIO::Job *, const KURL &from, const KURL &to, bool directory, bool renamed )
 {
   KonqBasicOperation op;
   op.m_valid = true;
   op.m_directory = directory;
+  op.m_renamed = renamed;
   op.m_src = from;
   op.m_dst = to;
-  d->m_cmd.m_opStack.push( op );
+  d->m_cmd.m_opStack.prepend( op );
 }
 
 KonqUndoManager *KonqUndoManager::s_self = 0;
@@ -87,6 +90,9 @@ public:
 
   KonqCommand m_current;
   KIO::Job *m_currentJob;
+  UndoState m_undoState;
+  QValueStack<KURL> m_dirStack;
+  QValueStack<KURL> m_dirCleanupStack;
 
   bool m_lock;
 };
@@ -163,7 +169,38 @@ void KonqUndoManager::undo()
   assert( cmd.m_valid );
 
   d->m_current = cmd;
+  d->m_dirCleanupStack.clear();
+  d->m_dirStack.clear();
 
+  d->m_undoState = MOVINGFILES;
+
+  QValueList<KonqBasicOperation>::Iterator it = d->m_current.m_opStack.begin();
+  QValueList<KonqBasicOperation>::Iterator end = d->m_current.m_opStack.end();
+  while ( it != end )
+  {
+    if ( (*it).m_directory && !(*it).m_renamed )
+    {
+      d->m_dirStack.prepend( (*it).m_src );
+      d->m_dirCleanupStack.push( (*it).m_dst );
+      d->m_current.m_opStack.remove( it );
+      it = d->m_current.m_opStack.begin();
+      d->m_undoState = MAKINGDIRS;
+    }
+    else
+      ++it;
+   }
+
+  if ( d->m_undoState == MAKINGDIRS )
+  {
+    KURL::List::ConstIterator it = d->m_current.m_src.begin();
+    KURL::List::ConstIterator end = d->m_current.m_src.end();
+    for (; it != end; ++it )
+      d->m_dirStack.push( *it );
+  }
+
+  if ( d->m_current.m_type == KonqCommand::COPY )
+    d->m_dirStack.clear();
+  
   undoStep();
 }
 
@@ -172,48 +209,73 @@ void KonqUndoManager::slotResult( KIO::Job *job )
   assert( job == d->m_currentJob );
   if ( job->error() )
   {
-    d->m_currentJob = 0;
-    d->m_current.m_valid = false;
-    broadcastUnlock();
+    d->m_current.m_opStack.clear();
+    job->showErrorDialog( 0L );
   }
-  else
-    undoStep();
+
+  undoStep();
 }
 
 void KonqUndoManager::undoStep()
 {
-  while ( d->m_current.m_opStack.count() > 0 )
+  d->m_currentJob = 0; 
+  
+  if ( d->m_undoState == MAKINGDIRS )
   {
-    KonqBasicOperation op = d->m_current.m_opStack.pop();
-    if ( op.m_directory )
-      kdDebug() << "removing dir " << op.m_dst.prettyURL() << endl;
+    if ( !d->m_dirStack.isEmpty() )
+    {
+      KURL dir = d->m_dirStack.pop();
+      d->m_currentJob = KIO::mkdir( dir );
+    }
     else
-      kdDebug() << "moving " << op.m_dst.prettyURL() << " back to " << op.m_src.prettyURL() << endl;
+      d->m_undoState = MOVINGFILES;
   }
-
-  if ( d->m_current.m_opStack.count() == 0 )
+  
+  if ( d->m_undoState == MOVINGFILES )
   {
-    d->m_current.m_valid = false;
-    broadcastUnlock();
-    return;
-  }
-/*
-  KonqBasicOperation op = d->m_current.m_opStack.pop();
-  assert( op.m_valid );
-  if ( d->m_current.m_type == KonqCommand::MOVE )
+    if ( !d->m_current.m_opStack.isEmpty() )
+    {
+      KonqBasicOperation op = d->m_current.m_opStack.pop();
+    
+      assert( op.m_valid );
+      if ( op.m_directory )
+      {
+        if ( op.m_renamed )
+        {
+          // ### EEEEEEEEK
+          QByteArray packedArgs;
+    	  QDataStream stream( packedArgs, IO_WriteOnly );
+	  stream << op.m_dst << op.m_src << (Q_INT8) false /*m_overwrite*/;
+          d->m_currentJob = new KIO::SimpleJob( op.m_dst, KIO::CMD_RENAME, packedArgs, false );
+        }
+        else
+  	  assert( 0 ); // this should not happen!  
+      }
+      else
+        d->m_currentJob = KIO::file_move( op.m_dst, op.m_src, -1, true );
+    }
+    else
+      d->m_undoState = REMOVINGDIRS;
+   }
+  
+  if ( d->m_undoState == REMOVINGDIRS )
   {
-    kdDebug() << "moving " << op.m_dst.prettyURL() << " back to " << op.m_src.prettyURL() << endl;
-    d->m_currentJob = KIO::move( op.m_dst, op.m_src );
+    if ( !d->m_dirCleanupStack.isEmpty() )
+    {
+      KURL dir = d->m_dirCleanupStack.pop();
+      d->m_currentJob = KIO::rmdir( dir );
+    }
+    else
+    {
+      d->m_current.m_valid = false;
+      d->m_currentJob = 0;
+      broadcastUnlock();
+    }
   }
-  else
-  {
-    kdDebug() << "copying " << op.m_dst.prettyURL() << " back to " << op.m_src.prettyURL() << endl;
-    d->m_currentJob = KIO::copy( op.m_dst, op.m_src );
-  }
+  
   if ( d->m_currentJob )
     connect( d->m_currentJob, SIGNAL( result( KIO::Job * ) ),
 	     this, SLOT( slotResult( KIO::Job * ) ) );
-*/
 }
 
 void KonqUndoManager::push( const KonqCommand &cmd )
