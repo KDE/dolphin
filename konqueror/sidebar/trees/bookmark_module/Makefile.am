@@ -1,4 +1,4 @@
-INCLUDES = -I$(top_srcdir)/libkonq -I$(srcdir)/.. $(all_includes) -I$(srcdir)/../..
+INCLUDES = -I$(top_srcdir)/libkonq -I$(srcdir)/.. -I$(srcdir)/../.. $(all_includes)
 
 kde_module_LTLIBRARIES = libkonqsidebartree_bookmarks.la
 
