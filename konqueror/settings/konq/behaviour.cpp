@@ -130,6 +130,8 @@ KBehaviourOptions::KBehaviourOptions(KConfig *config, QString group, QWidget *pa
     QWhatsThis::add( label, homestr );
     QWhatsThis::add( homeURL, homestr );
 
+    lay->addItem(new QSpacerItem(0,20,QSizePolicy::Fixed,QSizePolicy::Fixed));
+
     cbShowDeleteCommand = new QCheckBox( i18n( "Show 'Delete' me&nu entries which bypass the trashcan" ), this );
     lay->addWidget( cbShowDeleteCommand );
     connect(cbShowDeleteCommand, SIGNAL(clicked()), this, SLOT(changed()));
