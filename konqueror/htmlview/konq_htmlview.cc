@@ -20,8 +20,6 @@
 #include <config.h>
 #include "konq_htmlview.h"
 #include "konq_propsview.h"
-#include "konq_frame.h"
-#include "konq_childview.h"
 #include "konq_factory.h"
 #include "konq_progressproxy.h"
 //#include "konq_searchdia.h"
@@ -49,6 +47,7 @@
 #include <konq_htmlsettings.h>
 #include <klibloader.h>
 #include <kstddirs.h>
+#include <kfileitem.h>
 
 
 class KonqHTMLViewFactory : public KLibFactory
@@ -695,10 +694,7 @@ void KonqHTMLView::openTxtView( const QString &url )
   }
 
   if ( obj && obj->inherits( "KonqFrame" ) )
-  {
-    KonqChildView *childView = ((KonqFrame *)obj)->childView();
-    childView->changeViewMode( "text/plain", url, false );
-  }
+    emit openURLRequest( url, false, 0, 0, "text/plain" );
   else
   {
     KConfig *config = KonqFactory::instance()->config();
