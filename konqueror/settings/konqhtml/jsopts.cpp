@@ -59,8 +59,8 @@ KJavaScriptOptions::KJavaScriptOptions( KConfig* config, QString group, QWidget 
 
   enableJavaScriptGloballyCB = new QCheckBox( i18n( "Ena&ble JavaScript globally" ), globalGB );
   QWhatsThis::add( enableJavaScriptGloballyCB, i18n("Enables the execution of scripts written in ECMA-Script "
-        "(also known as JavaScript) that can be contained in HTML pages. Be aware that JavaScript support "
-        "is not yet finished. Note that, as with any browser, enabling scripting languages can be a security problem.") );
+        "(also known as JavaScript) that can be contained in HTML pages. "
+        "Note that, as with any browser, enabling scripting languages can be a security problem.") );
   connect( enableJavaScriptGloballyCB, SIGNAL( clicked() ), this, SLOT( slotChanged() ) );
 
 //  enableJavaScriptDebugCB = new QCheckBox( i18n( "Enable debu&gging" ), globalGB );

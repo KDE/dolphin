@@ -159,8 +159,8 @@ KJavaOptions::KJavaOptions( KConfig* config, QString group,
      ********************** WhatsThis? items ***********************************
      **************************************************************************/
     QWhatsThis::add( enableJavaGloballyCB, i18n("Enables the execution of scripts written in Java "
-          "that can be contained in HTML pages. Be aware that Java support "
-          "is not yet finished. Note that, as with any browser, enabling active contents can be a security problem.") );
+          "that can be contained in HTML pages. "
+          "Note that, as with any browser, enabling active contents can be a security problem.") );
     QString wtstr = i18n("This box contains the domains and hosts you have set "
                          "a specific Java policy for. This policy will be used "
                          "instead of the default policy for enabling or disabling Java applets on pages sent by these "
