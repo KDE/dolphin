@@ -457,6 +457,10 @@ void KonqSidebarDirTreeModule::slotRefreshItems( const KFileItemList &entries )
                 remove(m_dictSubDirs, dirTreeItem->id, dirTreeItem);
                 m_dictSubDirs.insert(dirTreeItem->id, dirTreeItem);
             }
+            else
+            {
+                dirTreeItem->setText( 0, KIO::decodeFileName( fileItem->name() ) );
+            }
 
         } while ((item = itemList ? itemList->take(0) : 0));
         delete itemList;
