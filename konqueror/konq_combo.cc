@@ -682,6 +682,8 @@ void KonqComboListBoxPixmap::paint( QPainter *painter )
             else
                 pm = KonqPixmapProvider::self()->pixmapFor( text(), KIcon::SizeSmall );
         }
+        else
+            pm = QPixmap();
         lookup_pending = false;
     }
 
