@@ -209,12 +209,18 @@ KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const 
     m_pamPreview->insert( new KActionSeparator(this) );
 
     KTrader::OfferList plugins = KTrader::self()->query( "ThumbCreator" );
+    QMap< QString, KToggleAction* > previewActions;
     for ( KTrader::OfferList::ConstIterator it = plugins.begin(); it != plugins.end(); ++it )
     {
-        KToggleAction *preview = new KToggleAction( (*it)->name(), 0, actionCollection(), (*it)->desktopEntryName().latin1() );
-        connect( preview, SIGNAL( toggled( bool ) ), this, SLOT( slotPreview( bool ) ) );
-        m_pamPreview->insert( preview );
-        m_paPreviewPlugins.append( preview );
+        if ( KToggleAction*& preview = previewActions[ ( *it )->name() ] )
+            preview->setName( QCString( preview->name() ) + ',' + ( *it )->desktopEntryName().latin1() );
+        else
+        {
+            preview = new KToggleAction( (*it)->name(), 0, actionCollection(), (*it)->desktopEntryName().latin1() );
+            connect( preview, SIGNAL( toggled( bool ) ), this, SLOT( slotPreview( bool ) ) );
+            m_pamPreview->insert( preview );
+            m_paPreviewPlugins.append( preview );
+        }
     }
     KToggleAction *soundPreview = new KToggleAction( i18n("Sound Files"), 0, actionCollection(), "audio/" );
     connect( soundPreview, SIGNAL( toggled( bool ) ), this, SLOT( slotPreview( bool ) ) );
@@ -409,31 +415,35 @@ void KonqKfmIconView::slotPreview( bool toggle )
     }
     else
     {
-        m_pProps->setShowingPreview( name, toggle );
-        m_pIconView->setPreviewSettings( m_pProps->previewSettings() );
-        if ( !toggle )
+        QStringList types = QStringList::split( ',', name );
+        for ( QStringList::ConstIterator it = types.begin(); it != types.end(); ++it )
         {
-            kdDebug() << "KonqKfmIconView::slotPreview stopping image preview for " << name << endl;
-            if ( name == "audio/" )
-                m_pIconView->disableSoundPreviews();
-            else
+            m_pProps->setShowingPreview( *it, toggle );
+            m_pIconView->setPreviewSettings( m_pProps->previewSettings() );
+            if ( !toggle )
             {
-                KService::Ptr serv = KService::serviceByDesktopName( name );
-                Q_ASSERT( serv != 0L );
-                if ( serv ) {
-                    bool previewRunning = m_pIconView->isPreviewRunning();
-                    if ( previewRunning )
-                        m_pIconView->stopImagePreview();
-                    QStringList mimeTypes = serv->property("MimeTypes").toStringList();
-                    m_pIconView->setIcons( m_pIconView->iconSize(), mimeTypes );
-                    if ( previewRunning )
-                        m_pIconView->startImagePreview( m_pProps->previewSettings(), false );
+                kdDebug() << "KonqKfmIconView::slotPreview stopping image preview for " << *it << endl;
+                if ( *it == "audio/" )
+                    m_pIconView->disableSoundPreviews();
+                else
+                {
+                    KService::Ptr serv = KService::serviceByDesktopName( *it );
+                    Q_ASSERT( serv != 0L );
+                    if ( serv ) {
+                        bool previewRunning = m_pIconView->isPreviewRunning();
+                        if ( previewRunning )
+                            m_pIconView->stopImagePreview();
+                        QStringList mimeTypes = serv->property("MimeTypes").toStringList();
+                        m_pIconView->setIcons( m_pIconView->iconSize(), mimeTypes );
+                        if ( previewRunning )
+                            m_pIconView->startImagePreview( m_pProps->previewSettings(), false );
+                    }
                 }
             }
-        }
-        else
-        {
-            m_pIconView->startImagePreview( m_pProps->previewSettings(), true );
+            else
+            {
+                m_pIconView->startImagePreview( m_pProps->previewSettings(), true );
+            }
         }
     }
 }
@@ -1069,7 +1079,15 @@ bool KonqKfmIconView::doOpenURL( const KURL & url )
       m_paEnablePreviews->setChecked( m_pProps->isShowingPreview() );
       for ( m_paPreviewPlugins.first(); m_paPreviewPlugins.current(); m_paPreviewPlugins.next() )
       {
-          m_paPreviewPlugins.current()->setChecked( m_pProps->isShowingPreview( m_paPreviewPlugins.current()->name() ) );
+          QStringList types = QStringList::split( ',', m_paPreviewPlugins.current()->name() );
+          bool enabled = false;
+          for ( QStringList::ConstIterator it = types.begin(); it != types.end(); ++it )
+              if ( m_pProps->isShowingPreview( *it ) )
+              {
+                  enabled = true;
+                  break;
+              }
+          m_paPreviewPlugins.current()->setChecked( enabled );
           m_paPreviewPlugins.current()->setEnabled( m_pProps->isShowingPreview() );
       }
 
