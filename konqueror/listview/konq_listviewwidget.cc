@@ -115,6 +115,7 @@ KonqBaseListViewWidget::KonqBaseListViewWidget( KonqListView *parent, QWidget *p
    setSelectionModeExt( FileManager );
    setDragEnabled(true);
    setItemsMovable(false);
+   setShadeSortColumn(true);
 
    initConfig();
 #if 0
