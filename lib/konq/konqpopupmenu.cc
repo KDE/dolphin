@@ -358,8 +358,8 @@ KonqPopupMenu::KonqPopupMenu( const KFileItemList &items,
     bLastSepInserted = true;
     insertSeparator();
   
-    id = insertItem( i18n( "Edit Mime Type" ), 
-                                  this, SLOT( slotPopupMimeType() ) );
+    id = insertItem( i18n( "Edit File Type" ), // or "File Type Properties" ?
+                     this, SLOT( slotPopupMimeType() ) );
   }
   if ( PropertiesDialog::canDisplay( m_lstItems ) )
   {

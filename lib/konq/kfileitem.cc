@@ -108,8 +108,6 @@ void KFileItem::init()
       m_permissions = mode & 0x1FF; // extract permissions 
   }
 
-  assert(!m_strText.isNull());
-
   // determine the mimetype
   if (!m_pMimeType)
     m_pMimeType = KMimeType::findByURL( m_url, m_fileMode, m_bIsLocalURL );
