@@ -1144,7 +1144,7 @@ void KonqMainView::slotLoadingProgress( int percent )
 
   KParts::ReadOnlyPart *view = (KParts::ReadOnlyPart *)sender()->parent();
 
-#warning The caller of KonqMainView::slotLoadingProgress isn't necessarily a Part !
+#warning "The caller of KonqMainView::slotLoadingProgress isn't necessarily a Part !"
 // How to check if it comes from the job of the current view ? Looks like we need
 // a jobId stored in each view...
 
