@@ -28,3 +28,5 @@ METASOURCES = kbookmark.moc kbookmarkmenu.moc knewmenu.moc kpopupmenu.moc kprops
 
 include_HEADERS = kbookmark.h kbookmarkmenu.h knewmenu.h kpopupmenu.h kpropsdlg.h
 
+messages:
+	$(XGETTEXT) -C -ki18n -x $(includedir)/kde.pot *.cc *.h && mv messages.po ../po/libkonq.pot

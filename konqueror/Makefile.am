@@ -9,9 +9,6 @@ datadir = $(kde_datadir)/konqueror
 
 EXTRA_DIST = $(data_DATA)
 
-# this gives better compile-time warnings.
-# CXXFLAGS += -pedantic
-
 ####### Files
 
 bin_PROGRAMS = konqueror
@@ -49,7 +46,7 @@ DISTCLEANFILES = $(METASOURCES) konqueror.cc konqueror.h
 idl_DATA = konqueror.idl
 
 messages:
-	$(XGETTEXT) -C -ktranslate -kaliasLocale -ki18n -x $(includedir)/kde.pot $(konqueror_SOURCES) $(noinst_HEADERS) && mv messages.po ../po/konqueror.pot
+	$(XGETTEXT) -C -ktranslate -kaliasLocale -ki18n -x $(includedir)/kde.pot *.cc *.h && mv messages.po ../po/konqueror.pot
 
 ####### Build rules
 
