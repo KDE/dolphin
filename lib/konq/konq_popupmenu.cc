@@ -457,22 +457,7 @@ void KonqPopupMenu::slotPopupEmptyTrashBin()
 
 void KonqPopupMenu::slotPopupOpenWith()
 {
-  KOpenWithDlg l( m_lstPopupURLs );
-  if ( l.exec() )
-  {
-    KService::Ptr service = l.service();
-    if ( !!service )
-    {
-      KRun::run( *service, m_lstPopupURLs );
-      return;
-    }
-    else
-    {
-      QString exec = l.text();
-      exec += " %f";
-      KRun::run( exec, m_lstPopupURLs );
-    }
-  }
+  KOpenWithHandler::getOpenWithHandler()->displayOpenWithDialog( m_lstPopupURLs );
 }
 
 void KonqPopupMenu::slotPopupAddToBookmark()
