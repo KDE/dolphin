@@ -427,7 +427,7 @@ protected slots:
   void slotIconsChanged();
 
 protected:
-  QString detectNameFilter( QString & url );
+  static QString detectNameFilter( QString & url );
 
   virtual bool eventFilter(QObject*obj,QEvent *ev);
 

@@ -3802,9 +3802,7 @@ void KonqMainWindow::updateBookmarkBar()
   // hide if empty
   KToolBar * bar = static_cast<KToolBar *>( child( "bookmarkToolBar", "KToolBar" ) );
   if ( bar && bar->count() == 0 )
-  {
     bar->hide();
-  }
 }
 
 void KonqMainWindow::closeEvent( QCloseEvent *e )
@@ -3866,29 +3864,30 @@ void KonqMainWindow::bookmarksIntoCompletion( const KBookmarkGroup& group )
     static const QString& http = KGlobal::staticQString( "http" );
     static const QString& ftp = KGlobal::staticQString( "ftp" );
 
-    if ( !group.isNull() ) {
-        for ( KBookmark bm = group.first();
-              !bm.isNull(); bm = group.next(bm) ) {
-            if ( bm.isGroup() )
-                bookmarksIntoCompletion( bm.toGroup() );
+    if ( group.isNull() ) 
+        return;
 
-            else {
-                KURL url = bm.url();
-                if ( url.isValid() ) {
-                    QString u = url.prettyURL();
-                    s_pCompletion->addItem( u );
-                    if ( url.isLocalFile() )
-                        s_pCompletion->addItem( url.path() );
-                    else {
-                        if ( url.protocol() == http )
-                            s_pCompletion->addItem( u.mid( 7 ));
-                        else if ( url.protocol() == ftp &&
-                                  url.host().startsWith( ftp ) )
-                            s_pCompletion->addItem( u.mid( 6 ) );
-                    }
-                }
-            }
+    for ( KBookmark bm = group.first();
+          !bm.isNull(); bm = group.next(bm) ) {
+        if ( bm.isGroup() ) {
+            bookmarksIntoCompletion( bm.toGroup() );
+            continue;
         }
+
+        KURL url = bm.url();
+        if ( !url.isValid() ) 
+            continue;
+
+        QString u = url.prettyURL();
+        s_pCompletion->addItem( u );
+
+        if ( url.isLocalFile() )
+            s_pCompletion->addItem( url.path() );
+        else if ( url.protocol() == http )
+            s_pCompletion->addItem( u.mid( 7 ));
+        else if ( url.protocol() == ftp &&
+                  url.host().startsWith( ftp ) )
+            s_pCompletion->addItem( u.mid( 6 ) );
     }
 }
 
@@ -4130,3 +4129,6 @@ void KonqMainWindow::setActiveChild( KonqFrameBase* /*activeChild*/ ) { return; 
 // KonqFrameContainerBase implementation END
 
 #include "konq_mainwindow.moc"
+
+/* vim: et sw=4 ts=4
+ */
