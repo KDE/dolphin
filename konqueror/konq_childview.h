@@ -226,6 +226,11 @@ protected slots:
   void slotLoadingProgress( int percent );
   void slotSpeedProgress( int bytesPerSecond );
 
+  /**
+   * Creates a new entry in the history.
+   */
+  void createHistoryEntry();
+
 protected:
   /**
    * Connects the internal View to the mainview. Do this after creating it and before inserting it
@@ -234,10 +239,6 @@ protected:
 
 ////////////////// protected members ///////////////
 
-  /**
-   * Creates a new entry in the history.
-   */
-  void createHistoryEntry();
   /**
    * Updates the current entry in the history.
    */

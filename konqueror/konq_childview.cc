@@ -231,6 +231,9 @@ void KonqChildView::connectView(  )
 
   connect( ext, SIGNAL( selectionInfo( const KonqFileItemList & ) ),
 	   m_pMainView, SLOT( slotSelectionInfo( const KonqFileItemList & ) ) );
+  
+  connect( ext, SIGNAL( openURLNotify() ),
+	   this, SLOT( createHistoryEntry() ) );
 }
 
 void KonqChildView::slotStarted( KIO::Job * job )
