@@ -23,17 +23,18 @@
 #include <konq_iconviewwidget.h>
 #include <konq_operations.h>
 #include <konq_dirpart.h>
+#include <konq_mimetyperesolver.h>
+#include <qptrdict.h>
+#include <kfileivi.h>
 
 class KonqPropsView;
 class KonqDirLister;
 class KonqFileItem;
-class KFileIVI;
 class KAction;
 class KToggleAction;
 class KActionMenu;
 class QIconViewItem;
 class IconViewBrowserExtension;
-class QTimer;
 
 /**
  * The Icon View for konqueror.
@@ -66,6 +67,11 @@ public:
 
   // "Cut" icons : disable those whose URL is in lst, enable the rest
   virtual void disableIcons( const KURL::List & lst );
+
+  // See KonqMimeTypeResolver
+  void mimeTypeDeterminationFinished();
+  void determineIcon( KFileIVI * item );
+  int iconSize() { return m_pIconView->iconSize(); }
 
 public slots:
   void slotImagePreview( bool toggle );
@@ -101,7 +107,6 @@ protected slots:
   void slotMouseButtonClicked(int, QIconViewItem*, const QPoint&);
   void slotOnItem( QIconViewItem *item );
   void slotOnViewport();
-  void slotViewportAdjusted();
   void slotSelectionChanged();
 
   // slots connected to the directory lister
@@ -115,9 +120,8 @@ protected slots:
   void slotRedirection( const KURL & );
   void slotCloseView();
 
-  //void slotTotalFiles( int, unsigned long files );
-
-  void slotProcessMimeIcons();
+  void slotViewportAdjusted() { m_mimeTypeResolver->slotViewportAdjusted(); }
+  void slotProcessMimeIcons() { m_mimeTypeResolver->slotProcessMimeIcons(); }
 
   /**
    * This is the 'real' finished slot, where we emit the completed() signal
@@ -129,8 +133,6 @@ protected:
 
   virtual void guiActivateEvent( KParts::GUIActivateEvent *event );
 
-  KFileIVI * findVisibleIcon();
-  void determineIcon( KFileIVI * item );
   void newIconSize( int size );
 
   void setupSorting( SortCriterion criterion );
@@ -147,27 +149,27 @@ protected:
    * Set to true while the constructor is running.
    * @ref #initConfig needs to know about that.
    */
-  bool m_bInit;
+  bool m_bInit:1;
 
   /**
    * Set to true while the dirlister is running, _if_ we asked it
    * explicitely (openURL). If it is auto-updating, this is not set to true.
    */
-  bool m_bLoading;
+  bool m_bLoading:1;
 
   /**
    * Set to true if we still need to emit completed() at some point
    * (after the loading is finished and after the visible icons have been
    * processed)
    */
-  bool m_bNeedEmitCompleted;
+  bool m_bNeedEmitCompleted:1;
 
   /**
    * Set to true if slotCompleted needs to realign the icons
    */
-  bool m_bNeedAlign;
+  bool m_bNeedAlign:1;
 
-  //unsigned long m_ulTotalFiles;
+  bool m_bUpdateContentsPosAfterListing:1;
 
   SortCriterion m_eSortCriterion;
 
@@ -198,10 +200,9 @@ protected:
 
   KonqIconViewWidget *m_pIconView;
 
-  QList<KFileIVI> m_lstPendingMimeIconItems;
-  QTimer * m_timer;
+  QPtrDict<KFileIVI> m_itemDict; // maps KFileItem * -> KFileIVI *
 
-  bool m_bUpdateContentsPosAfterListing;
+  KonqMimeTypeResolver<KFileIVI,KonqKfmIconView> * m_mimeTypeResolver;
 
   QString m_mode;
 };
