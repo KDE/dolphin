@@ -3213,7 +3213,33 @@ void KonqMainWindow::slotFillContextMenu( const KBookmark &bm, QPopupMenu * pm )
   kdDebug() << "KonqMainWindow::slotFillContextMenu(bm, pm == " << pm << ")" << endl;
   if ( bm.isGroup() )
   {
-    // insert actions for a bookmark group into pm
+    KBookmarkGroup gp = bm.toGroup();
+
+    popupItems.clear();
+
+    QValueList<KURL> list = gp.groupUrlList();
+    QValueList<KURL>::Iterator it = list.begin();
+    QValueList<KURL>::Iterator end = list.end();
+    for (; it != end; ++it )
+    {
+      popupItems.append( new KFileItem( (*it), QString::null, 
+                                        KFileItem::Unknown) );
+    }
+
+    pm->insertItem( i18n( "Open Folder in Tabs" ), this, SLOT( slotPopupNewTab() ) );
+
+    /*
+    original code:
+       QStringList::const_iterator first = urlList.begin();
+       openFilteredURL( *first );
+       ++first;
+       while ( first != urlList.end() )
+       {
+           openFilteredURL( *first, true );
+           ++first;
+       }
+    TODO - use openfilteredurl in new code
+    */
   } 
   else 
   {
@@ -3544,20 +3570,6 @@ void KonqMainWindow::openBookmarkURL( const QString & url )
   kdDebug(1202) << (QString("KonqMainWindow::openBookmarkURL(%1)").arg(url)) << endl;
   openFilteredURL( url );
 }
-
-void KonqMainWindow::openBookmarkURLList( const QStringList& urlList )
-{
-    kdDebug(1202) << "KonqMainWindow::openBookmarkURLList()" << endl;
-    QStringList::const_iterator first = urlList.begin();
-    openFilteredURL( *first );
-    ++first;
-    while ( first != urlList.end() )
-    {
-        openFilteredURL( *first, true );
-        ++first;
-    }
-}
-
 
 void KonqMainWindow::setCaption( const QString &caption )
 {
