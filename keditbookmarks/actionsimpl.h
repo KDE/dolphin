@@ -30,6 +30,7 @@ public slots:
    void slotCopy();
    void slotPaste();
    void slotRename();
+   void slotPrint();
    void slotChangeURL();
    void slotChangeComment();
    void slotChangeIcon();

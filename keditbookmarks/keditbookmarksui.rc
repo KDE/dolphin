@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="keditbookmarks" version="24">
+<kpartgui name="keditbookmarks" version="25">
 
 <MenuBar>
 
@@ -25,6 +25,8 @@
     <Separator/>
     <Action name="exportHTML"/>
   </Menu>
+  <Separator/>
+  <Action name="file_print"/>
   <Separator/>
   <Action name="file_quit"/>
 </Menu>

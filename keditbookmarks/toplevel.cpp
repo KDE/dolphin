@@ -53,7 +53,7 @@
 
 #include "toplevel.h"
 
-#include "exporters.cpp"
+#include "exporters.h"
 
 CmdHistory* CmdHistory::s_self = 0;
 
@@ -360,13 +360,16 @@ void KEBApp::createActions() {
       (void) KStdAction::saveAs(this, SLOT( slotSaveAs() ), actionCollection());
    }
 
+   // save and quit should probably not be in the toplevel???
    (void) KStdAction::save(this, SLOT( slotSave() ), actionCollection());
    (void) KStdAction::quit(this, SLOT( close() ), actionCollection());
    (void) KStdAction::keyBindings(this, SLOT( slotConfigureKeyBindings() ), actionCollection());
    (void) KStdAction::configureToolbars(this, SLOT( slotConfigureToolbars() ), actionCollection());
+
    (void) KStdAction::cut(actn, SLOT( slotCut() ), actionCollection());
    (void) KStdAction::copy(actn, SLOT( slotCopy() ), actionCollection());
    (void) KStdAction::paste(actn, SLOT( slotPaste() ), actionCollection());
+   (void) KStdAction::print(actn, SLOT( slotPrint() ), actionCollection());
 
    // settings menu
    (void) new KToggleAction(

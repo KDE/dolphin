@@ -25,6 +25,7 @@
 
 #include <klocale.h>
 #include <dcopclient.h>
+#include <dcopref.h>
 #include <kdebug.h>
 #include <kapplication.h>
 
@@ -44,12 +45,16 @@
 #include <kbookmarkmanager.h>
 #include <kbookmarkimporter.h>
 
+#include <kparts/part.h>
+#include <kparts/componentfactory.h>
+
 #include "toplevel.h"
 #include "commands.h"
 #include "importers.h"
 #include "favicons.h"
 #include "testlink.h"
 #include "listview.h"
+#include "exporters.h"
 
 #include "actionsimpl.h"
 
@@ -128,6 +133,31 @@ void ActionsImpl::slotExportNS() {
    CurrentMgr::self()->doExport(CurrentMgr::NetscapeExport); }
 void ActionsImpl::slotExportMoz() {
    CurrentMgr::self()->doExport(CurrentMgr::MozillaExport); }
+   
+/* -------------------------------------- */
+
+#include <ktempfile.h>
+#include <kstddirs.h>
+
+void ActionsImpl::slotPrint() {
+   KParts::ReadOnlyPart *part 
+      = KParts::ComponentFactory
+              ::createPartInstanceFromQuery<KParts::ReadOnlyPart>("text/html", QString::null);
+
+   HTMLExporter exporter;
+   KTempFile tmpf(locateLocal("tmp", "print_bookmarks"), ".html");
+   QTextStream *tstream = tmpf.textStream();
+   tstream->setEncoding(QTextStream::UnicodeUTF8);
+   (*tstream) << exporter.toString(CurrentMgr::self()->mgr()->root());
+   tmpf.close();
+
+   // openStream, writeStream, closeStream are b0rked for khtml
+   part->openURL(tmpf.name());
+
+   QCString appId = kapp->dcopClient()->appId();
+   QCString objId = part->property("dcopObjectId").toString().latin1();
+   DCOPRef(appId, objId).send("print", false); 
+}
 
 /* -------------------------------------- */
 
