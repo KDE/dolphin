@@ -54,6 +54,8 @@ KUserInfoChFaceDlg::KUserInfoChFaceDlg(const QString& picsdir, QWidget *parent, 
 
   connect( m_FacesWidget, SIGNAL( selectionChanged( QIconViewItem * ) ), SLOT( slotFaceWidgetSelectionChanged( QIconViewItem * ) ) );
 
+  connect( m_FacesWidget, SIGNAL( doubleClicked( QIconViewItem *, const QPoint & ) ), SLOT( slotOk() ) );
+
   top->addWidget( m_FacesWidget );
 
   // Buttons to get more pics
