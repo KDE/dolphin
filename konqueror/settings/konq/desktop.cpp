@@ -61,7 +61,7 @@ KDesktopConfig::KDesktopConfig(QWidget *parent, const char *name)
                      KDialog::marginHint(),
                      KDialog::spacingHint());
 
-  QLabel *label = new QLabel(i18n("&Number of Desktops: "), number_group);
+  QLabel *label = new QLabel(i18n("N&umber of Desktops: "), number_group);
   _numLabel = new QLabel("4", number_group);
   _numSlider = new QSlider(1, 16, 1, 4, Horizontal, number_group);
   connect(_numSlider, SIGNAL(valueChanged(int)), SLOT(slotValueChanged(int)));

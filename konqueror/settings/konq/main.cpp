@@ -70,7 +70,7 @@ KonqyModule::KonqyModule(QWidget *parent, const char *name)
   connect(behaviour, SIGNAL(changed(bool)), this, SLOT(moduleChanged(bool)));
 
   font = new KonqFontOptions(config, groupName, false, this);
-  tab->addTab(font, i18n("&Appearance"));
+  tab->addTab(font, i18n("A&ppearance"));
   connect(font, SIGNAL(changed(bool)), this, SLOT(moduleChanged(bool)));
 
   trash = new KTrashOptions(config, "Trash", this);
@@ -151,11 +151,11 @@ KDesktopModule::KDesktopModule(QWidget *parent, const char *name)
   layout->addWidget(tab);
 
   root = new KRootOptions(config, this);
-  tab->addTab(root, i18n("&Desktop"));
+  tab->addTab(root, i18n("D&esktop"));
   connect(root, SIGNAL(changed(bool)), this, SLOT(moduleChanged(bool)));
 
   font = new KonqFontOptions(config, "FMSettings", true, this);
-  tab->addTab(font, i18n("&Appearance"));
+  tab->addTab(font, i18n("A&ppearance"));
   connect(font, SIGNAL(changed(bool)), this, SLOT(moduleChanged(bool)));
 
   virtualDesks = new KDesktopConfig(this, "VirtualDesktops");

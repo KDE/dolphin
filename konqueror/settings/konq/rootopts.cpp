@@ -119,7 +119,7 @@ KRootOptions::KRootOptions(KConfig *config, QWidget *parent, const char *name )
                                       " arranged horizontally or vertically.") );
 
   row++;
-  showHiddenBox = new QCheckBox(i18n("Show &Hidden Files on Desktop"), this);
+  showHiddenBox = new QCheckBox(i18n("Show H&idden Files on Desktop"), this);
   lay->addMultiCellWidget(showHiddenBox, row, row, 0, 0);
   connect(showHiddenBox, SIGNAL(clicked()), this, SLOT(changed()));
   QWhatsThis::add( showHiddenBox, i18n("If you check this option, any files"
@@ -283,7 +283,7 @@ KRootOptions::KRootOptions(KConfig *config, QWidget *parent, const char *name )
   lay->addMultiCellWidget(hLine, row, row, 0, RO_LASTCOL);
 
   row++;
-  tmpLabel = new QLabel(i18n("Desktop &path:"), this);
+  tmpLabel = new QLabel(i18n("Des&ktop path:"), this);
   lay->addWidget(tmpLabel, row, 0);
   leDesktop = new QLineEdit(this);
   tmpLabel->setBuddy( leDesktop );
@@ -309,7 +309,7 @@ KRootOptions::KRootOptions(KConfig *config, QWidget *parent, const char *name )
   QWhatsThis::add( leTrash, wtstr );
 
   row++;
-  tmpLabel = new QLabel(i18n("&Autostart path:"), this);
+  tmpLabel = new QLabel(i18n("A&utostart path:"), this);
   lay->addWidget(tmpLabel, row, 0);
   leAutostart = new QLineEdit(this);
   tmpLabel->setBuddy( leAutostart );
@@ -324,7 +324,7 @@ KRootOptions::KRootOptions(KConfig *config, QWidget *parent, const char *name )
   QWhatsThis::add( leAutostart, wtstr );
 
   row++;
-  tmpLabel = new QLabel(i18n("&Documents path:"), this);
+  tmpLabel = new QLabel(i18n("D&ocuments path:"), this);
   lay->addWidget(tmpLabel, row, 0);
   leDocument = new QLineEdit(this);
   tmpLabel->setBuddy( leDocument );
@@ -530,6 +530,7 @@ void KRootOptions::save()
 
         if ( moveDir( KGlobalSettings::desktopPath(), leDesktop->text(), i18n("Desktop") ) )
         {
+//            config->writeEntry( "Desktop", leDesktop->text());
             config->writePathEntry( "Desktop", leDesktop->text(), true, true );
             pathChanged = true;
         }
@@ -541,6 +542,7 @@ void KRootOptions::save()
             trashMoved = moveDir( KGlobalSettings::trashPath(), leTrash->text(), i18n("Trash") );
         if (trashMoved)
         {
+//            config->writeEntry( "Trash", leTrash->text());
             config->writePathEntry( "Trash", leTrash->text(), true, true );
             pathChanged = true;
         }
@@ -552,6 +554,7 @@ void KRootOptions::save()
             autostartMoved = moveDir( KGlobalSettings::autostartPath(), leAutostart->text(), i18n("Autostart") );
         if (autostartMoved)
         {
+//            config->writeEntry( "Autostart", leAutostart->text());
             config->writePathEntry( "Autostart", leAutostart->text(), true, true );
             pathChanged = true;
         }
@@ -559,6 +562,7 @@ void KRootOptions::save()
 
     if ( !newDocumentURL.cmp( documentURL, true ) )
     {
+//        config->writeEntry( "Documents", leDocument->text());
         config->writePathEntry( "Documents", leDocument->text(), true, true );
         pathChanged = true;
     }
