@@ -554,11 +554,6 @@ void KonqListView::slotBackgroundImage()
    }
 }
 
-void KonqListView::slotReloadTree()
-{
-//  m_pListView->openURL( url(), m_pListView->contentsX(), m_pListView->contentsY() );
-}
-
 void KonqListView::setupActions()
 {
    m_paShowTime=new KToggleAction(i18n("Show &Modification Time"), 0,this, SLOT(slotColumnToggled()), actionCollection(), "show_time" );

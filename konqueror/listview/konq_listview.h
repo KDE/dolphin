@@ -105,9 +105,7 @@ protected slots:
   void slotBackgroundColor();
   void slotBackgroundImage();
 
-  void slotReloadTree();
-
-   private:
+  private:
 
 
    KonqBaseListViewWidget *m_pListView;
