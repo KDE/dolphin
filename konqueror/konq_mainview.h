@@ -30,7 +30,7 @@
 #include <kparts/mainwindow.h>
 #include <kbookmark.h>
 #include <dcopobject.h>
-#include <kparts/xmlgui.h>
+#include <kxmlgui.h>
 #include <ktrader.h>
 
 class QAction;
@@ -337,7 +337,7 @@ private:
   static bool s_bMoveSelection;
 };
 
-class ViewModeGUIServant : public QObject, public KParts::XMLGUIServant
+class ViewModeGUIServant : public QObject, public KXMLGUIServant
 {
   Q_OBJECT
 public:
