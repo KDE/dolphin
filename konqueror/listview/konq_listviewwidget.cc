@@ -20,6 +20,10 @@
 
 #include "konq_listview.h"
 
+#include <qtimer.h>
+#include <qevent.h>
+#include <qcursor.h>
+
 #include <konq_settings.h>
 
 #include <kdebug.h>
@@ -85,6 +89,7 @@ KonqBaseListViewWidget::KonqBaseListViewWidget( KonqListView *parent, QWidget *p
 ,m_filenameColumn(0)
 ,m_itemToGoTo("")
 ,m_backgroundTimer(0)
+,m_renamedItem(0)
 {
    kdDebug(1202) << "+KonqBaseListViewWidget" << endl;
 
@@ -672,9 +677,17 @@ void KonqBaseListViewWidget::slotItemRenamed(QListViewItem* item, const QString 
    if (col != 0) return;
    assert(item);
    KFileItem * fileItem = static_cast<KonqBaseListViewItem*>(item)->item();
-   KonqOperations::rename( this, fileItem->url(), name );
+   KonqOperations::rename( this, fileItem->url(), name, this, SLOT(renamingFailed()));
+   m_renamedItem=static_cast<KonqBaseListViewItem*>(item);
    setFocus(); // When the KListViewLineEdit loses focus, focus tends to go to the location bar...
 }
+
+void KonqBaseListViewWidget::renamingFailed()
+{
+   if (m_renamedItem!=0)
+      m_renamedItem->updateContents();
+   m_renamedItem=0;
+};
 
 void KonqBaseListViewWidget::slotOnViewport()
 {

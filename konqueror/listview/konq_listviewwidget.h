@@ -19,10 +19,9 @@
 #ifndef __konq_listviewwidget_h__
 #define __konq_listviewwidget_h__
 
-#include <qcursor.h>
-#include <qpixmap.h>
-#include <qtimer.h>
-#include <qevent.h>
+//#include <qcursor.h>
+//#include <qpixmap.h>
+//#include <qevent.h>
 #include <qvaluelist.h>
 
 #include <kurl.h>
@@ -33,6 +32,7 @@
 #include "konq_listviewitems.h"
 
 namespace KIO { class Job; }
+
 class QCursor;
 class QRect;
 class KDirLister;
@@ -41,6 +41,15 @@ class ListViewPropertiesExtension;
 class KToggleAction;
 class KonqListView;
 class ListViewBrowserExtension;
+class QTimer;
+class QFocusEvent;
+class QDragMoveEvent;
+class QDragEnterEvent;
+class QDragLeaveEvent;
+class QDropEvent;
+class QPaintEvent;
+class QResizeEvent;
+class QMouseEvent;
 
 class ColumnInfo
 {
@@ -169,6 +178,7 @@ class KonqBaseListViewWidget : public KListView
       // forces a repaint on column size changes / branch expansion
       // when there is a background pixmap
       void slotUpdateBackground();
+      void renamingFailed();
 
    protected:
       //calls KListView::focusInEvent(), otherrwise this is never called,
@@ -248,6 +258,7 @@ class KonqBaseListViewWidget : public KListView
 
       QString m_itemToGoTo;
       QTimer *m_backgroundTimer;
+      KonqBaseListViewItem* m_renamedItem;
 };
 
 #endif
