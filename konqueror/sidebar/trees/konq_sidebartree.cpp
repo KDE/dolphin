@@ -90,11 +90,21 @@ void KonqSidebarTree::loadModuleFactories()
 }
 
 
+class KonqSidebarTree_Internal
+{
+public:
+    DropAcceptType m_dropMode;
+    QStringList m_dropFormats;
+};
+
+
 KonqSidebarTree::KonqSidebarTree( KonqSidebar_Tree *parent, QWidget *parentWidget, int virt, const QString& path )
     : KListView( parentWidget ),
       m_toolTip( this ),
       m_scrollingLocked( false )
 {
+    d = new KonqSidebarTree_Internal;
+    d->m_dropMode = SidebarTreeMode;
 
     loadModuleFactories();
 
@@ -166,6 +176,8 @@ KonqSidebarTree::KonqSidebarTree( KonqSidebar_Tree *parent, QWidget *parentWidge
 KonqSidebarTree::~KonqSidebarTree()
 {
     clearTree();
+
+    delete d;
 }
 
 void KonqSidebarTree::itemDestructed( KonqSidebarTreeItem *item )
@@ -176,6 +188,11 @@ void KonqSidebarTree::itemDestructed( KonqSidebarTreeItem *item )
     {
        m_currentBeforeDropItem = 0;
     }
+}
+
+void KonqSidebarTree::setDropFormats(const QStringList &formats)
+{
+    d->m_dropFormats = formats;
 }
 
 void KonqSidebarTree::clearTree()
@@ -243,6 +260,10 @@ void KonqSidebarTree::contentsDragMoveEvent( QDragMoveEvent *e )
         setSelected( selectedItem(), false ); // no item selected
         return;
     }
+
+    if (static_cast<KonqSidebarTreeItem*>(item)->acceptsDrops( m_lstDropFormats )) {
+        d->m_dropMode = SidebarTreeMode;
+
     if ( !item || !item->isSelectable() || !static_cast<KonqSidebarTreeItem*>(item)->acceptsDrops( m_lstDropFormats ))
     {
         m_dropItem = 0;
@@ -261,9 +282,13 @@ void KonqSidebarTree::contentsDragMoveEvent( QDragMoveEvent *e )
         m_dropItem = item;
         m_autoOpenTimer->start( autoOpenTimeout );
     }
+    } else {
+        d->m_dropMode = KListViewMode;
+        KListView::contentsDragMoveEvent(e);
+    }
 }
 
-void KonqSidebarTree::contentsDragLeaveEvent( QDragLeaveEvent * )
+void KonqSidebarTree::contentsDragLeaveEvent( QDragLeaveEvent *ev )
 {
     // Restore the current item to what it was before the dragging (#17070)
     if ( m_currentBeforeDropItem )
@@ -273,10 +298,15 @@ void KonqSidebarTree::contentsDragLeaveEvent( QDragLeaveEvent * )
     m_currentBeforeDropItem = 0;
     m_dropItem = 0;
     m_lstDropFormats.clear();
+
+    if (d->m_dropMode == KListViewMode) {
+        KListView::contentsDragLeaveEvent(ev);
+    }
 }
 
 void KonqSidebarTree::contentsDropEvent( QDropEvent *ev )
 {
+    if (d->m_dropMode == SidebarTreeMode) {
     m_autoOpenTimer->stop();
 
     if ( !selectedItem() )
@@ -288,6 +318,18 @@ void KonqSidebarTree::contentsDropEvent( QDropEvent *ev )
         KonqSidebarTreeItem *selection = static_cast<KonqSidebarTreeItem *>( selectedItem() );
         selection->drop( ev );
     }
+    } else {
+        KListView::contentsDropEvent(ev);
+    }
+}
+
+bool KonqSidebarTree::acceptDrag(QDropEvent* e) const
+{
+    // for KListViewMode...
+    for( int i = 0; e->format( i ); i++ )
+        if ( d->m_dropFormats.contains(e->format( i ) ) )
+            return true;
+    return false;
 }
 
 QDragObject* KonqSidebarTree::dragObject()

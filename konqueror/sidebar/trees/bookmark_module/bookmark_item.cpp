@@ -22,6 +22,10 @@
 #include <kdebug.h>
 #include <kiconloader.h>
 
+#include "bookmark_module.h"
+
+#define MYMODULE static_cast<KonqSidebarBookmarkModule*>(module())
+
 KonqSidebarBookmarkItem::KonqSidebarBookmarkItem( KonqSidebarTreeItem *parentItem, KonqSidebarTreeTopLevelItem *topLevelItem, const KBookmark & bk, int key )
     : KonqSidebarTreeItem( parentItem, topLevelItem ), m_bk(bk), m_key(key)
 {
@@ -43,8 +47,7 @@ void KonqSidebarBookmarkItem::middleButtonClicked()
 
 void KonqSidebarBookmarkItem::rightButtonPressed()
 {
-    kdDebug() << "KonqSidebarBookmarkItem::rightButtonPressed" << endl;
-    //TODO
+    MYMODULE->showPopupMenu();
 }
 
 void KonqSidebarBookmarkItem::del()
@@ -70,4 +73,9 @@ void KonqSidebarBookmarkItem::itemSelected()
 QString KonqSidebarBookmarkItem::key( int /*column*/, bool /*ascending*/ ) const
 {
     return QString::number(m_key).rightJustify( 5, '0' );
+}
+
+KBookmark &KonqSidebarBookmarkItem::bookmark()
+{
+    return m_bk;
 }

@@ -52,6 +52,8 @@ public:
 
     virtual QString key( int column, bool /*ascending*/ ) const;
 
+    virtual KBookmark &bookmark();
+
 private:
     KBookmark m_bk;
     int m_key;

@@ -60,6 +60,11 @@ private:
     QListView *m_view;
 };
 
+typedef enum {
+    SidebarTreeMode, // used if the drop is accepted by a KonqSidebarTreeItem. otherwise
+    KListViewMode    // use KListView's dnd implementation. accepts mime types set with setDropFormats()
+} DropAcceptType;
+
 /**
  * The multi-purpose tree (listview)
  * It parses its configuration (desktop files), each one corresponding to
@@ -100,6 +105,8 @@ public:
 
     void itemDestructed( KonqSidebarTreeItem *item );
 
+    void setDropFormats( const QStringList &formats ); // used in KListView mode
+
 public slots:
     virtual void setContentsPos( int x, int y );
 
@@ -108,6 +115,7 @@ protected:
     virtual void contentsDragMoveEvent( QDragMoveEvent *e );
     virtual void contentsDragLeaveEvent( QDragLeaveEvent *e );
     virtual void contentsDropEvent( QDropEvent *ev );
+    virtual bool acceptDrag(QDropEvent* e) const; // used in KListView mode
 
     virtual void leaveEvent( QEvent * );
 
