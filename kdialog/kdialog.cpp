@@ -23,12 +23,12 @@
 #include <stdlib.h>
 #include <iostream.h>
 
-#include <qlist.h>
+#include <qptrlist.h>
 #include <qfile.h>
-#include <qdstream.h>
+#include <qdatastream.h>
 #include <qregexp.h>
 #include <kmessagebox.h>
-#include <kapp.h>
+#include <kapplication.h>
 #include <kdebug.h>
 //#include <ktopwidget.h>
 #include <kmainwindow.h>

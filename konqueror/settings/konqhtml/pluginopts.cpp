@@ -11,25 +11,20 @@
 #include <qgroupbox.h>
 #include <qcheckbox.h>
 #include <qpushbutton.h>
-#include <qwhatsthis.h>
 #include <kconfig.h>
 #include <kglobal.h>
 #include <kstandarddirs.h>
 #include <klocale.h>
 #include <kdialog.h>
-#include <kdebug.h>
-#include <kapplication.h>
 #include <qtextstream.h>
 #include <kiconloader.h>
 #include <qlineedit.h>
 #include <kfiledialog.h>
 #include <kurlrequester.h>
 
-#include <qlayout.h>
 #include <qtoolbutton.h>
 #include <qwhatsthis.h>
 #include <qvgroupbox.h>
-#include <kconfig.h>
 #include <kdebug.h>
 #include <X11/Xlib.h>
 
@@ -46,7 +41,6 @@
 #include "pluginopts.h"
 
 #include <konq_defaults.h> // include default values directly from konqueror
-#include <klocale.h>
 
 #include "pluginopts.moc"
 

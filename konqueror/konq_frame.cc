@@ -40,7 +40,7 @@
 #include <konq_pixmapprovider.h>
 
 #include <assert.h>
-#include <kiconloader.h>
+
 
 #define DEFAULT_HEADER_HEIGHT 13
 
@@ -884,7 +884,7 @@ void KonqFrameTabs::setTitle( QString title , QWidget* sender)
   // kdDebug(1202) << "KonqFrameTabs::setTitle( " << title << " , " << sender << " )" << endl;
   QString newTitle = title;
   newTitle.replace('&', "&&");
- 
+
   removeTabToolTip( sender );
   if (newTitle.length() > 30)
   {
