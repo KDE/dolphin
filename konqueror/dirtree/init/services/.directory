@@ -2,8 +2,10 @@
 Icon=pipe
 Name=Services
 Name[da]=Tjenester
+Name[es]=Servicios
 Name[he]=םיתוריש
 Name[hu]=Szolgáltatások
 Name[ro]=Servicii
 Name[ru]=Сервисы
+Name[uk]=Служби
 Open=false
