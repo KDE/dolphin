@@ -26,18 +26,18 @@ motif_includes=
 motif_libraries=
 
 AC_ARG_WITH(motif,
-[  --without-motif         do not use Motif widgets],
+AC_HELP_STRING([--without-motif],[do not use Motif widgets]),
 [if test "$withval" = "no" ; then
   motif_includes=none
   motif_libraries=none
 fi])dnl
 
 AC_ARG_WITH(motif-includes,
-[  --with-motif-includes=DIR    Motif include files are in DIR],
+AC_HELP_STRING([--with-motif-includes=DIR],[Motif include files are in DIR]),
 motif_includes="$withval")
 
 AC_ARG_WITH(motif-libraries,
-[  --with-motif-libraries=DIR   Motif libraries are in DIR],
+AC_HELP_STRING([--with-motif-libraries=DIR],[Motif libraries are in DIR]),
 motif_libraries="$withval")
 
 dnl Check for this first, sometimes required to link lesstif programs
