@@ -392,14 +392,9 @@ void KonqBaseListViewWidget::drawRubber()
 
    QPoint pt( m_rubber->x(), m_rubber->y() );
    pt = contentsToViewport( pt );
-#if QT_VERSION < 300
-   style().drawFocusRect( &p, QRect( pt.x(), pt.y(), m_rubber->width(), m_rubber->height() ),
-                          colorGroup(), &colorGroup().base() );
-#else
    style().drawPrimitive( QStyle::PE_FocusRect, &p,
                           QRect( pt.x(), pt.y(), m_rubber->width(), m_rubber->height() ),
                           colorGroup(), QStyle::Style_Default, colorGroup().base() );
-#endif
    p.end();
 }
 
@@ -926,10 +921,7 @@ void KonqBaseListViewWidget::setComplete()
          setCurrentItem( firstChild() );
 
       if ( !m_restored && !m_pBrowserView->extension()->urlArgs().reload )
-      {
          ensureItemVisible( currentItem() );
-         //selectCurrentItemAndEnableSelectedBySimpleMoveMode();
-      }
       else
          setContentsPos( m_pBrowserView->extension()->urlArgs().xOffset,
                          m_pBrowserView->extension()->urlArgs().yOffset );
