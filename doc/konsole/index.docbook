@@ -1199,7 +1199,12 @@ can be specified to modify its behavior.</para>
 <varlistentry>
 <term><option>-e</option> <parameter>command</parameter></term>
 <listitem><para><action>Execute</action>
-<parameter>command</parameter> instead of the normal shell.</para></listitem>
+<parameter>command</parameter> instead of the normal shell.</para>
+<note><para>
+Any arguments after <parameter>command</parameter> will be passed to
+<parameter>command</parameter>, not &konsole;.
+</para></note>
+</listitem>
 </varlistentry>
 
 <varlistentry>
@@ -1291,8 +1296,8 @@ Antialiasing of a small font may be difficult to read.</para></listitem>
 </varlistentry>
 
 <varlistentry>
-<term><option>--schema</option> <parameter>file</parameter></term>
-<listitem><para><action>Start &konsole; using a specified .schema file</action> to customize appearance.</para></listitem>
+<term><option>--schema</option> <parameter>name</parameter> | <parameter>file</parameter></term>
+<listitem><para><action>Start &konsole; using schema 'name' or specified in 'file'</action> to customize appearance.</para></listitem>
 </varlistentry>
 
 <varlistentry>
@@ -1346,11 +1351,20 @@ lines</action>.</para></listitem>
 </variablelist>
 
 <informalexample>
-<para>For instance:</para>
+<para>Examples:</para>
 <screen><prompt>&percnt; </prompt><userinput><command>konsole</command><option> --vt_sz</option><parameter> 90x25</parameter><option> --nohist</option></userinput></screen>
 
 <para>Starts a &konsole; window with 90 columns and 25 rows, with no
 history</para>
+
+<screen><prompt>&percnt; </prompt><userinput><command>konsole</command><option> --noclose</option><option> -e</option><parameter> echo_args</parameter><parameter> Hello, thanks for using Konsole!</parameter></userinput></screen>
+
+<para>Starts a &konsole; window with the text printed 'Hello, thanks for using Konsole!'
+</para>
+<para>The <parameter>echo_args</parameter> is a simple Bash script:
+<programlisting>#!/bin/bash
+echo $*</programlisting>
+</para>
 </informalexample>
 
 <para>&konsole; also accepts generic &Qt; and &kde; options:</para>
