@@ -599,6 +599,8 @@ void KonqBaseListViewWidget::slotMouseButtonPressed(int _button, QListViewItem* 
 
 void KonqBaseListViewWidget::slotExecuted( QListViewItem* )
 {
+  if ( !m_pressedItem )
+      return;
   //isSingleClickArea() checks wether the mouse pointer is
   // over an area where an action should be triggered
   // no matter wether single or double click
