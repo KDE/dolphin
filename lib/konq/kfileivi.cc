@@ -334,17 +334,12 @@ void KFileIVI::returnPressed()
     m_fileitem->run();
 }
 
+
 void KFileIVI::paintItem( QPainter *p, const QColorGroup &c )
 {
-    QColorGroup cg( c );
-    cg.setColor( QColorGroup::Text, static_cast<KonqIconViewWidget*>(iconView())->itemColor() );
-    if ( m_fileitem->isLink() )
-    {
-        QFont f( p->font() );
-        f.setItalic( TRUE );
-        p->setFont( f );
-    }
-
+    QColorGroup cg = updateColors(c);
+    paintFontUpdate( p );
+		
     //*** TEMPORARY CODE - MUST BE MADE CONFIGURABLE FIRST - Martijn
     // SET UNDERLINE ON HOVER ONLY
     /*if ( ( ( KonqIconViewWidget* ) iconView() )->m_pActiveItem == this )
@@ -355,11 +350,33 @@ void KFileIVI::paintItem( QPainter *p, const QColorGroup &c )
     }*/
 
     KIconViewItem::paintItem( p, cg );
+    paintOverlay(p);
 
+}
+
+void KFileIVI::paintOverlay( QPainter *p ) const
+{
     if ( !d->m_overlay.isNull() ) {
         QRect rect = pixmapRect(true);
         p->drawPixmap(x() + rect.x() , y() + pixmapRect().height() - d->m_overlay.height(), d->m_overlay);
     }
+}
+
+void KFileIVI::paintFontUpdate( QPainter *p ) const
+{
+    if ( m_fileitem->isLink() )
+    {
+        QFont f( p->font() );
+        f.setItalic( TRUE );
+        p->setFont( f );
+    }
+}
+
+QColorGroup KFileIVI::updateColors( const QColorGroup &c ) const
+{
+    QColorGroup cg( c );
+    cg.setColor( QColorGroup::Text, static_cast<KonqIconViewWidget*>(iconView())->itemColor() );
+    return cg;
 }
 
 bool KFileIVI::move( int x, int y )

@@ -159,7 +159,7 @@ public:
      * blending methods depending on the configuration.
      */
     virtual void paintItem( QPainter *p, const QColorGroup &cg );
-
+		
     virtual bool move( int x, int y );
 
     /**
@@ -194,6 +194,21 @@ public:
 
 protected:
     virtual void dropped( QDropEvent *e, const QValueList<QIconDragItem> &  );
+
+    /**
+     * Contains the logic and code for painting the overlay pixmap.
+     */
+    void paintOverlay( QPainter *p ) const;
+
+    /**
+     * Updates the colorgroup.
+     */
+    QColorGroup updateColors(const QColorGroup &c) const;
+
+    /**
+     * Contains the logic and code for painting links.
+     */
+    void paintFontUpdate( QPainter *p ) const;
 
 private:
     /** You are not supposed to call this on a KFileIVI, from the outside,
