@@ -146,6 +146,8 @@ private:
   
   QGuardedPtr<KActionMenu> m_pamProfiles;
   bool m_bProfileListDirty;
+
+  QMap<QString, QString> m_mapProfileNames;
 };
 
 #endif

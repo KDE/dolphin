@@ -537,7 +537,14 @@ void KonqViewManager::setupView( KonqFrameContainer *parentContainer,
 
 void KonqViewManager::slotProfileActivated( int id )
 {
-  QString name = QString::fromLatin1( "konqueror/profiles/" ) + m_pamProfiles->popupMenu()->text( id );
+  
+  QString name = m_pamProfiles->popupMenu()->text( id );
+
+  QMap<QString, QString>::ConstIterator nameIt = m_mapProfileNames.find( name );
+  if ( nameIt != m_mapProfileNames.end() )
+    name = nameIt.data();
+
+  name.prepend( QString::fromLatin1( "konqueror/profiles/" ) );
   
   QString fileName = locate( "data", name, KonqFactory::instance() );
   
@@ -554,6 +561,7 @@ void KonqViewManager::slotProfileListAboutToShow()
   QPopupMenu *popup = m_pamProfiles->popupMenu();
   
   popup->clear();
+  m_mapProfileNames.clear();
   
   QStringList dirs = KonqFactory::instance()->dirs()->findDirs( "data", "konqueror/profiles/" );
   QStringList::ConstIterator dIt = dirs.begin();
@@ -568,7 +576,20 @@ void KonqViewManager::slotProfileListAboutToShow()
     QStringList::ConstIterator eEnd = entries.end();
     
     for (; eIt != eEnd; ++eIt )
-      popup->insertItem( *eIt );
+    {
+      QString name = *eIt;
+
+      KSimpleConfig cfg( QString( *dIt ).append( *eIt ), true );
+      cfg.setGroup( "Profile" );
+      if ( cfg.hasKey( "Name" ) )
+      {
+	name = cfg.readEntry( "Name" );
+	m_mapProfileNames.insert( name, *eIt );
+      }
+
+      popup->insertItem( name );
+    }
+
   }
   
   m_bProfileListDirty = false;
