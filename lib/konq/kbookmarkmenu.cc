@@ -131,7 +131,7 @@ void KBookmarkMenu::fillBookmarkMenu( KBookmark *parent )
     m_actions.append( paAddBookmarks );
 
     KAction * paNewFolder = new KAction( i18n( "&New Folder " ),
-                                              "filenew", //"folder",
+                                              "folder_new", //"folder",
                                               0,
                                               this,
                                               SLOT( slotBookmarkSelected() ),
