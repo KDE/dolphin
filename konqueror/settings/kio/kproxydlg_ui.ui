@@ -9,8 +9,11 @@
             <x>0</x>
             <y>0</y>
             <width>381</width>
-            <height>422</height>
+            <height>424</height>
         </rect>
+    </property>
+    <property name="caption">
+        <string>ProxyDlgUI</string>
     </property>
     <property name="whatsThis" stdset="0">
         <string>&lt;qt&gt;
@@ -289,6 +292,9 @@ Manually enter proxy server configuration information.
                 <widget class="QRadioButton">
                     <property name="name">
                         <cstring>rbPresetLogin</cstring>
+                    </property>
+                    <property name="enabled">
+                        <bool>false</bool>
                     </property>
                     <property name="text">
                         <string>Use the following lo&amp;gin info</string>
