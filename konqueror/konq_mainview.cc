@@ -87,6 +87,8 @@ KonqMainView::KonqMainView( KonqPart *part, QWidget *parent, const char *name )
   m_bViewModeLock = false;
   m_bURLEnterLock = false;
 
+  KonqFactory::instanceRef();
+
   if ( !s_plstAnimatedLogo )
     s_plstAnimatedLogo = new QList<QPixmap>;
 
@@ -142,6 +144,8 @@ KonqMainView::~KonqMainView()
 
   if ( m_pBookmarkMenu )
     delete m_pBookmarkMenu;
+
+  KonqFactory::instanceUnref();
 }
 
 QString KonqMainView::konqFilteredURL( const QString &_url )
@@ -1198,7 +1202,7 @@ void KonqMainView::initActions()
 
   m_ptaUseHTML = new KToggleAction( i18n( "&Use HTML" ), 0, this, SLOT( slotShowHTML() ), actionCollection(), "usehtml" );
 
-  m_paUp = new KActionMenu( i18n( "&Up" ), QIconSet( BarIcon( "up", KonqFactory::instance() ) ), actionCollection(), "up" );
+  m_paUp = new KonqHistoryAction( i18n( "&Up" ), QIconSet( BarIcon( "up", KonqFactory::instance() ) ), ALT+Key_Up, actionCollection(), "up" );
 
   connect( m_paUp, SIGNAL( activated() ), this, SLOT( slotUp() ) );
   connect( m_paUp->popupMenu(), SIGNAL( aboutToShow() ), this, SLOT( slotUpAboutToShow() ) );

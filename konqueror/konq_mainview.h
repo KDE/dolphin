@@ -226,7 +226,7 @@ private:
   KActionMenu *m_pamView;
   KActionMenu *m_pamBookmarks;
   
-  KActionMenu *m_paUp;
+  KonqHistoryAction *m_paUp;
   KonqHistoryAction *m_paBack;
   KonqHistoryAction *m_paForward;
   KAction *m_paHome;

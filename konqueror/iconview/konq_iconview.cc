@@ -22,6 +22,7 @@
 #include "konq_propsview.h"
 #include "konq_childview.h"
 #include "konq_frame.h"
+#include "konq_factory.h"
 
 #include <assert.h>
 #include <string.h>
@@ -64,7 +65,14 @@
 class KonqIconViewFactory : public KLibFactory
 {
 public:
-  KonqIconViewFactory() {}
+  KonqIconViewFactory() 
+  {
+    KonqFactory::instanceRef();
+  }
+  virtual ~KonqIconViewFactory()
+  {
+    KonqFactory::instanceUnref();
+  }
 
   virtual QObject* create( QObject*, const char*, const char*, const QStringList &args )
   {

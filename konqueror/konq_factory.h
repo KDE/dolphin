@@ -49,9 +49,13 @@ public:
 
   virtual QObject* create( QObject* parent = 0, const char* name = 0, const char* classname = "QObject", const QStringList &args = QStringList() );
 
-  static KInstance *instance();				
+  static void instanceRef();
+  static void instanceUnref();
+
+  static KInstance *instance();	
 
 private:
+  static unsigned long m_instanceRefCnt;
   static KInstance *s_instance;
   KonqBookmarkManager *m_bookmarkManager;
   KonqFileManager *m_fileManager;

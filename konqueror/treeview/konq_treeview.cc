@@ -48,7 +48,14 @@
 class KonqTreeViewFactory : public KLibFactory
 {
 public:
-  KonqTreeViewFactory() {}
+  KonqTreeViewFactory() 
+  {
+    KonqFactory::instanceRef();
+  }
+  virtual ~KonqTreeViewFactory()
+  {
+    KonqFactory::instanceUnref();
+  }
   
   virtual QObject* create( QObject*, const char*, const char*, const QStringList & )
   {

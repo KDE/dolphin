@@ -118,7 +118,9 @@ BrowserView* KonqViewManager::split (KonqFrameBase* splitFrame,
     KonqFrameContainer* parentContainer = splitFrame->parentContainer();
     bool moveNewContainer = (parentContainer->idAfter( splitFrame->widget() ) != 0);
 
-    //splitFrame->widget()->header()->passiveModeCheckBox()->show();
+    QWidget *frameWidget = splitFrame->widget();
+    if ( frameWidget->inherits( "KonqFrame" ) )
+      ((KonqFrame *)frameWidget)->header()->passiveModeCheckBox()->show();
 
     if( moveNewContainer )       
       kdebug(0, 1202, "Move new splitter: Yes %d",parentContainer->idAfter( splitFrame->widget() ) );

@@ -50,8 +50,15 @@
 class KonqTextViewFactory : public KLibFactory
 {
 public:
-  KonqTextViewFactory() {}
-  
+  KonqTextViewFactory() 
+  {
+    KonqFactory::instanceRef();
+  }
+  virtual ~KonqTextViewFactory()
+  {
+    KonqFactory::instanceUnref();
+  }
+
   virtual QObject* create( QObject*, const char*, const char*, const QStringList & )
   {
     QObject *obj = new KonqTextView;
