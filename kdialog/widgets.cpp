@@ -23,6 +23,7 @@
 
 #include "widgets.h"
 #include "klistboxdialog.h"
+#include "progressdialog.h"
 #include <kinputdialog.h>
 #include <kpassdlg.h>
 #include <kcombobox.h>
@@ -199,4 +200,13 @@ bool Widgets::radioBox(QWidget *parent, const QString& title, const QString& tex
   if ( retcode )
     result = tags[ table.currentItem() ];
   return retcode;
+}
+
+bool Widgets::progressBar(QWidget *parent, const QString& title, const QString& text, int totalSteps)
+{
+  ProgressDialog dlg( parent, title, text, totalSteps );
+  kapp->setTopWidget( &dlg );
+  dlg.setCaption( title );
+  dlg.exec();
+  return dlg.wasCancelled();
 }

@@ -33,6 +33,7 @@ namespace Widgets
     bool checkList(QWidget *parent, const QString& title, const QString& text, const QStringList& args, bool separateOutput, QStringList &result);
     bool radioBox(QWidget *parent, const QString& title, const QString& text, const QStringList& args, QString &result);
     bool comboBox(QWidget *parent, const QString& title, const QString& text, const QStringList& args, QString &result);
+    bool progressBar(QWidget *parent, const QString& title, const QString& text, int totalSteps);
 }
 
 #endif

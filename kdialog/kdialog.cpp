@@ -74,7 +74,8 @@ static KCmdLineOptions options[] =
     { "getopenurl [startDir] [filter]", I18N_NOOP("File dialog to open an existing URL"), 0 },
     { "getsaveurl [startDir] [filter]", I18N_NOOP("File dialog to save a URL"), 0 },
     { "geticon [group] [context]", I18N_NOOP("Icon chooser dialog"), 0 },
-
+    { "progressbar <text> [totalsteps]", I18N_NOOP("Progress bar dialog"), 0},
+    
     // TODO gauge stuff, reading values from stdin
 
     { "title <text>", I18N_NOOP("Dialog title"), 0 },
@@ -477,6 +478,23 @@ static int directCommand(KCmdLineArgs *args)
         return 1; // cancelled
     }
 
+    // --progressbar text totalsteps
+    if (args->isSet("progressbar"))
+    {
+       cout << "DCOPRef(kdialog-" << getpid() << ",ProgressDialog)" << endl;
+       if (fork())
+           exit(0);
+       close(1);
+     
+       int totalsteps = 100;
+       QString text = QString::fromLocal8Bit(args->getOption("progressbar"));
+
+       if (args->count() == 1)
+           totalsteps = QString::fromLocal8Bit(args->arg(0)).toInt();
+
+       return Widgets::progressBar(0, title, text, totalsteps) ? 1 : 0;
+    }
+    
     KCmdLineArgs::usage();
     return -2; // NOTREACHED
 }
