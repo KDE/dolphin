@@ -1415,13 +1415,19 @@ void KonqIconViewWidget::setSortDirectoriesFirst( bool b )
 
 void KonqIconViewWidget::contentsMouseMoveEvent( QMouseEvent *e )
 {
-    if ( QApplication::widgetAt( QCursor::pos() ) != topLevelWidget() )
+    if ( (d->pSoundPlayer && d->pSoundPlayer->isPlaying()) || (d->pSoundTimer && d->pSoundTimer->isActive()))
     {
-        if (d->pSoundPlayer)
-            d->pSoundPlayer->stop();
-        d->pSoundItem = 0;
-        if (d->pSoundTimer && d->pSoundTimer->isActive())
-            d->pSoundTimer->stop();
+        // The following call is SO expensive (the ::widgetAt call eats up to 80%
+        // of the mouse move cpucycles!), so it's mandatory to place that function 
+        // under strict checks, such as d->pSoundPlayer->isPlaying()
+        if ( QApplication::widgetAt( QCursor::pos() ) != topLevelWidget() )
+        {
+            if (d->pSoundPlayer)
+                d->pSoundPlayer->stop();
+            d->pSoundItem = 0;
+            if (d->pSoundTimer && d->pSoundTimer->isActive())
+                d->pSoundTimer->stop();
+        }
     }
     d->renameItem= false;
     QIconView::contentsMouseMoveEvent( e );

@@ -34,6 +34,7 @@ public:
 	virtual const QStringList &mimeTypes();
 	virtual void play(const QString &fileName);
 	virtual void stop();
+	virtual bool isPlaying();
 
 private:
 	QStringList m_mimeTypes;
@@ -98,6 +99,11 @@ void KonqSoundPlayerImpl::stop()
 {
 	delete m_player;
 	m_player = 0;
+}
+
+bool KonqSoundPlayerImpl::isPlaying()
+{
+	return m_player ? (m_player->state() == Arts::posPlaying) : false;
 }
 
 class KonqSoundFactory : public KLibFactory
