@@ -212,7 +212,7 @@ public slots:
   void copy() { m_iconView->iconViewWidget()->copySelection(); }
   void pastecopy() { m_iconView->iconViewWidget()->pasteSelection(false); }
   void pastecut() { m_iconView->iconViewWidget()->pasteSelection(true); }
-  void erase() { m_iconView->iconViewWidget()->deleteSelection(); }
+  void del() { m_iconView->iconViewWidget()->deleteSelection(); }
   void trash() { m_iconView->iconViewWidget()->trashSelection(); }
   // void print();
 
