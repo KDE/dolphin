@@ -136,12 +136,12 @@ KBehaviourOptions::KBehaviourOptions(KConfig *config, QString group, QWidget *pa
 
     lay->addItem(new QSpacerItem(0,20,QSizePolicy::Fixed,QSizePolicy::Fixed));
 
-    cbShowDeleteCommand = new QCheckBox( i18n( "Show 'Delete' me&nu entries which bypass the trashcan" ), this );
+    cbShowDeleteCommand = new QCheckBox( i18n( "Show 'Delete' context me&nu entries which bypass the trashcan" ), this );
     lay->addWidget( cbShowDeleteCommand );
     connect(cbShowDeleteCommand, SIGNAL(clicked()), this, SLOT(changed()));
 
     QWhatsThis::add( cbShowDeleteCommand, i18n("Check this if you want 'Delete' menu commands to be displayed "
-                                                "on the desktop and in the file manager's menus and context menus. "
+                                                "on the desktop and in the file manager's context menus. "
 						"You can always delete files by holding the Shift key "
 						"while calling 'Move to Trash'."));
 
