@@ -1,7 +1,9 @@
 2000-12-08  David Faure  <faure@kde.org>
 
 	* konq_mainwindow.cc (openURL): Support for about:blank
-
+	Fix for severe problems with the activation of the standard actions.
+	The state of the action is now stored in each KonqView.
+	
 2000-12-08  Malte Starostik <malte.starostik@t-online.de>
 	
 	* libkonq/, iconview/: Preview for HTML files implemented.
