@@ -41,6 +41,7 @@
 
 void Widgets::handleXGeometry(QWidget * dlg)
 {
+#ifdef Q_WS_X11
     if ( ! kapp->geometryArgument().isEmpty()) {
 	int x, y;
 	int w, h;
@@ -52,6 +53,7 @@ void Widgets::handleXGeometry(QWidget * dlg)
 	dlg->setGeometry(x, y, w, h);
 	// kdDebug() << "x: " << x << "  y: " << y << "  w: " << w << "  h: " << h << endl;
     }
+#endif
 }
 
 bool Widgets::inputBox(QWidget *parent, const QString& title, const QString& text, const QString& init, QString &result)

@@ -284,7 +284,7 @@ static int directCommand(KCmdLineArgs *args)
 	KPassivePopup *popup = KPassivePopup::message( title,
 						       QString::fromLocal8Bit( args->getOption("passivepopup") ),
 						       0, // icon
-						       0UL, // parent
+						       (QWidget*)0UL, // parent
 						       0, // name
 						       duration );
 	QTimer *timer = new QTimer();
