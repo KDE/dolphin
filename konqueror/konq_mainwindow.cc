@@ -253,10 +253,24 @@ QWidget *KonqMainWindow::createContainer( QWidget *parent, int index, const QDom
   return res;
 }
 
-void KonqMainWindow::openFilteredURL( const QString &_url )
+void KonqMainWindow::openFilteredURL( const QString & _url )
 {
-  KonqURLEnterEvent ev( konqFilteredURL( this, _url ) );
-  QApplication::sendEvent( this, &ev );
+    KURL filteredURL ( konqFilteredURL( this, _url ) );
+
+    // TODO : remember that url was typed in manually.
+    // Solution : a structure KonqOpenURLRequest with
+    //   KURL url (to open)
+    //   QString urlTyped = _url
+    //   bool follow-mode [true if follow - avoids loops]
+
+    openURL( 0L, filteredURL );
+
+    // #4070: Give focus to view after URL was entered manually
+    // Note: we do it here if the view mode (i.e. part) wasn't changed
+    // If it is changed, then it's done in KonqView::changeViewMode
+    if ( m_currentView && m_currentView->part() )
+      m_currentView->part()->widget()->setFocus();
+
 }
 
 void KonqMainWindow::openURL( KonqView *_view, const KURL &url, const QString &serviceType )
@@ -1173,20 +1187,6 @@ void KonqMainWindow::customEvent( QCustomEvent *event )
 {
   KParts::MainWindow::customEvent( event );
 
-  if ( KonqURLEnterEvent::test( event ) )
-  {
-    QString url = static_cast<KonqURLEnterEvent *>( event )->url();
-
-    openURL( 0L, KURL( url ) );
-
-    // #4070: Give focus to view after URL was entered manually
-    // Note: we do it here if the view mode (i.e. part) wasn't changed
-    // If it is changed, then it's done in KonqView::changeViewMode
-    if ( m_currentView && m_currentView->part() )
-      m_currentView->part()->widget()->setFocus();
-
-    return;
-  }
   if ( KonqFileSelectionEvent::test( event ) )
   {
     // Forward the event to all views
