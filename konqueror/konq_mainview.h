@@ -189,6 +189,8 @@ protected slots:
   void slotBackActivated( int id );
   void slotForwardActivated( int id );
 
+  void slotComboPlugged();
+
 protected:
 
   void fillHistoryPopup( QPopupMenu *menu, const QList<HistoryEntry> &history );
@@ -305,6 +307,8 @@ private:
   bool m_bURLEnterLock;
 
   KonqChildView *m_oldView;
+
+  QGuardedPtr<QComboBox> m_combo;
 
   static QList<QPixmap> *s_plstAnimatedLogo;
 

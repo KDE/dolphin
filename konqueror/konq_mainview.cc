@@ -123,24 +123,28 @@ KonqMainView::KonqMainView( KonqPart *part, QWidget *parent, const char *name )
   connect( KSycoca::self(), SIGNAL( databaseChanged() ),
            this, SLOT( slotDatabaseChanged() ) );
 
-  KConfig *config = KonqFactory::instance()->config();
-  config->setGroup( "Settings" );
-  QStringList locationBarCombo = config->readListEntry( "ToolBarCombo" );
-  if ( locationBarCombo.count() == 0 )
-    locationBarCombo << QString();
-
-  m_paURLCombo->setItems( locationBarCombo );
-  m_paURLCombo->QSelectAction::changeItem( 0, QString::null );
 }
 
 KonqMainView::~KonqMainView()
 {
 
-  KConfig *config = KonqFactory::instance()->config();
-  config->setGroup( "Settings" );
-  config->writeEntry( "ToolBarCombo", m_paURLCombo->items() );
-  config->sync();
-
+  if ( m_combo )
+  {
+ 
+    QStringList comboItems;
+  
+    for ( int i = 0; i < m_combo->count(); i++ )
+      comboItems.append( m_combo->text( i ) );
+  
+    while ( comboItems.count() > 10 )
+      comboItems.remove( comboItems.fromLast() );
+ 
+    KConfig *config = KonqFactory::instance()->config();
+    config->setGroup( "Settings" );
+    config->writeEntry( "ToolBarCombo", comboItems );
+    config->sync();
+  }
+    
   m_animatedLogoTimer.stop();
   delete m_pViewManager;
 
@@ -265,7 +269,9 @@ void KonqMainView::openURL( KonqChildView *_view, const QString &_url, bool relo
   else
   {
     //kdebug( KDEBUG_INFO, 1202, "%s", QString("Creating new konqrun for %1").arg(url).latin1() );
-    m_paURLCombo->QSelectAction::changeItem( 0, url );
+    if ( m_combo )
+      m_combo->setEditText( url );
+    
     (void) new KonqRun( this, 0L, url, 0, false, true );
   }
 
@@ -734,7 +740,8 @@ void KonqMainView::setActiveView( BrowserView *view )
 
   plugInViewGUI( view );
 
-  m_paURLCombo->QSelectAction::changeItem( 0, m_currentView->locationBarURL() );
+  if ( m_combo )
+    m_combo->setEditText( m_currentView->locationBarURL() );
 
   updateStatusBar();
 
@@ -810,11 +817,6 @@ void KonqMainView::customEvent( QCustomEvent *event )
   {
     QString url = ((KonqURLEnterEvent *)event)->url();
 
-    m_paURLCombo->blockSignals( true );
-    m_paURLCombo->setCurrentItem( 0 );
-    m_paURLCombo->QSelectAction::changeItem( 0, url );
-    m_paURLCombo->blockSignals( false );
-
     openURL( 0L, url );
 
     return;
@@ -842,9 +844,7 @@ void KonqMainView::slotURLEntered( const QString &text )
 
   m_bURLEnterLock = true;
 
-  m_paURLCombo->blockSignals( true );
   openFilteredURL( 0L, text );
-  m_paURLCombo->blockSignals( false );
 
   m_bURLEnterLock = false;
 }
@@ -1175,6 +1175,27 @@ void KonqMainView::slotForwardActivated( int id )
   m_currentView->goForward( m_paForward->popupMenu()->indexOf( id ) + 1 );
 }
 
+void KonqMainView::slotComboPlugged()
+{
+  m_combo = m_paURLCombo->combo();
+  connect( (QComboBox *)m_combo, SIGNAL( activated( const QString & ) ),
+	   this, SLOT( slotURLEntered( const QString & ) ) );
+  
+  KConfig *config = KonqFactory::instance()->config();
+  config->setGroup( "Settings" );
+  QStringList locationBarCombo = config->readListEntry( "ToolBarCombo" );
+  
+  while ( locationBarCombo.count() > 10 )
+    locationBarCombo.remove( locationBarCombo.fromLast() );
+  
+  if ( locationBarCombo.count() == 0 )
+    locationBarCombo << QString();
+
+  m_combo->clear();
+  m_combo->insertStringList( locationBarCombo );
+  m_combo->setCurrentItem( 0 );
+} 
+
 void KonqMainView::fillHistoryPopup( QPopupMenu *menu, const QList<HistoryEntry> &history )
 {
   menu->clear();
@@ -1195,8 +1216,8 @@ void KonqMainView::setLocationBarURL( KonqChildView *childView, const QString &u
 {
   childView->setLocationBarURL( url );
 
-  if ( childView == (KonqChildView *)m_currentView )
-    m_paURLCombo->QSelectAction::changeItem( 0, url );
+  if ( childView == (KonqChildView *)m_currentView && m_combo )
+    m_combo->setEditText( url );
 
 }
 
@@ -1364,10 +1385,8 @@ void KonqMainView::initActions()
   m_paAnimatedLogo = new KAction( QString::null, QIconSet( *s_plstAnimatedLogo->at( 0 ) ), 0, this, SLOT( slotNewWindow() ), actionCollection(), "animated_logo" );
 
   m_paURLCombo = new KonqComboAction( i18n( "Location " ), 0, actionCollection(), "toolbar_url_combo" );
-  connect( m_paURLCombo, SIGNAL( activated( const QString & ) ),
-           this, SLOT( slotURLEntered( const QString & ) ) );
-
-  m_paURLCombo->setEditable( true );
+  connect( m_paURLCombo, SIGNAL( plugged() ),
+           this, SLOT( slotComboPlugged() ) );
 
   m_paReload->plug( popup );
   m_paStop->plug( popup );

@@ -19,6 +19,8 @@
 
 #include "konq_actions.h"
 
+#include <assert.h>
+
 #include <qlabel.h>
 #include <qcombobox.h>
 
@@ -27,80 +29,68 @@
 extern int get_toolbutton_id();
 
 KonqComboAction::KonqComboAction( const QString& text, int accel,
-			      QObject* parent, const char* name )
-    : KSelectAction( text, accel, parent, name )
-{
-}
-
-KonqComboAction::KonqComboAction( const QString& text, int accel,
-			      QObject* receiver, const char* slot, QObject* parent,
-			      const char* name )
-    : KSelectAction( text, accel, receiver, slot, parent, name )
-{
-}
-
-KonqComboAction::KonqComboAction( const QString& text, const QIconSet& pix, int accel,
-			      QObject* parent, const char* name )
-    : KSelectAction( text, pix, accel, parent, name )
-{
-}
-
-KonqComboAction::KonqComboAction( const QString& text, const QIconSet& pix, int accel,
-			      QObject* receiver, const char* slot, QObject* parent,
-			      const char* name )
-    : KSelectAction( text, pix, accel, receiver, slot, parent, name )
-{
-}
-
-KonqComboAction::KonqComboAction( QObject* parent, const char* name )
-    : KSelectAction( parent, name )
+			          QObject* parent, const char* name )
+    : QAction( text, accel, parent, name )
 {
 }
 
 int KonqComboAction::plug( QWidget *w )
 {
-  if ( w->inherits( "KToolBar" ) )
-  {
-    QLabel *label = new QLabel( plainText(), w );
-    label->adjustSize();
-    ((KToolBar *)w)->insertWidget( get_toolbutton_id(), label->width(), label );
-  }
-
-  int container = KSelectAction::plug( w );
+  qDebug( "int KonqComboAction::plug( QWidget *w )" );
+  qDebug( "w is a %s", w->className() );
+  qDebug( "uh %i", w->inherits( "KToolBar" ) );
+  //  if ( !w->inherits( "KToolBar" ) );
+  //    return -1;
   
-  if ( container != -1 && w->inherits( "KToolBar" ) )
-  {
-    ((KToolBar *)w)->setItemAutoSized( menuId( container ), true );
-    ((KToolBar *)w)->getCombo( menuId( container ) )->setAutoCompletion( true );
-    ((KToolBar *)w)->getCombo( menuId( container ) )->setMaxCount( 10 );
-    ((KToolBar *)w)->getCombo( menuId( container ) )->setInsertionPolicy( QComboBox::AfterCurrent );
-  }    
+  qDebug( "plugging :-)" );
     
-  return container;
+  KToolBar *toolBar = (KToolBar *)w;
+  
+  QLabel *label = new QLabel( plainText(), w );
+  label->adjustSize();
+  toolBar->insertWidget( get_toolbutton_id(), label->width(), label );
+
+  int id = get_toolbutton_id();
+  
+  toolBar->insertCombo( m_items, id, true, 0L, 0L, 0L );
+  
+  QComboBox *comboBox = toolBar->getCombo( id );
+  
+  addContainer( toolBar, id );
+  
+  connect( toolBar, SIGNAL( destroyed() ), this, SLOT( slotDestroyed() ) );
+
+  toolBar->setItemAutoSized( id, true );
+  comboBox->setAutoCompletion( true );
+  comboBox->setMaxCount( 10 );
+  comboBox->setInsertionPolicy( QComboBox::AfterCurrent );
+
+  m_combo = comboBox;
+
+  emit plugged();
+  
+  return containerCount() - 1;
 }
 
 void KonqComboAction::unplug( QWidget *w )
 {
-  if ( w->inherits( "KToolBar" ) )
-  {
-    int idx = findContainer( w );
-    QWidget *l;
-    if ( ( l = ((KToolBar *)w)->getWidget( menuId( idx ) + 1 ) )->inherits( "QLabel" ) )
-    {
-      ((KToolBar *)w)->removeItem( menuId( idx ) + 1 );
-      delete l;
-    }	
-  }
-  KSelectAction::unplug( w );
-}
+//  if ( !w->inherits( "KToolBar" ) )
+//    return;
+  
+  KToolBar *toolBar = (KToolBar *)w;
+  
+  int idx = findContainer( w );
+  int id = menuId( idx ) + 1;
+  
+  QWidget *l = toolBar->getWidget( id );
+  
+  assert( l->inherits( "QLabel" ) );
+  
+  toolBar->removeItem( id );
 
-void KonqComboAction::changeItem( int id, int index, const QString &text )
-{
-  KSelectAction::changeItem( id, index, text );
-
-  QWidget* w = container( id );
-  if ( w->inherits( "KToolBar" ) )
-    ((KToolBar *)w)->getCombo( menuId( id ) )->changeItem( text, index );
+  toolBar->removeItem( menuId( idx ) );
+  
+  removeContainer( idx );
 }
 
 KonqHistoryAction::KonqHistoryAction( const QString& text, int accel, QObject* parent, const char* name )
@@ -175,8 +165,8 @@ void KonqHistoryAction::unplug( QWidget *widget )
     {
       bar->removeItem( menuId( idx ) );
       removeContainer( idx );
-    }      
-    
+    }
+
     return;
   }
 
@@ -223,5 +213,7 @@ QPopupMenu *KonqHistoryAction::popupMenu()
   m_popup = new QPopupMenu();
   return m_popup;
 }
+
+
 
 #include "konq_actions.moc"
