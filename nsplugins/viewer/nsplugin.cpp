@@ -1551,7 +1551,7 @@ void NSPluginStreamBase::inform()
 
                 // stream into temporary file (use lower() in case the
                 // filename as an upper case X in it)
-                _tempFile = new KTempFile( QString::null, src.fileName().lower() );
+                _tempFile = new KTempFile;
                 _tempFile->setAutoDelete( TRUE );
                 _fileURL = _tempFile->name();
                 kdDebug() << "saving into " << _fileURL << endl;
@@ -1618,8 +1618,9 @@ int NSPluginStreamBase::process( const QByteArray &data, int start )
           break;
       }
 
-      if (_tempFile)
+      if (_tempFile) {
           _tempFile->dataStream()->writeRawBytes(d, sent);
+      }
 
       to_sent -= sent;
       _pos += sent;
@@ -1641,8 +1642,9 @@ bool NSPluginStreamBase::pump()
 
         // handle AS_FILE_ONLY streams
         if ( _onlyAsFile ) {
-            if ( _tempFile )
+            if (_tempFile) {
                 _tempFile->dataStream()->writeRawBytes( _queue, _queue.size() );
+	    }
             newPos = _queuePos+_queue.size();
         } else {
             // normal streams
@@ -1706,8 +1708,9 @@ void NSPluginStreamBase::finish( bool err )
             _instance->NPURLNotify( _url.url(), NPRES_DONE, _notifyData );
     } else {
         // close temp file
-        if ( _tempFile )
+        if ( _tempFile ) {
             _tempFile->close();
+	}
 
         // destroy stream
         _instance->NPDestroyStream( _stream, NPRES_NETWORK_ERR );
