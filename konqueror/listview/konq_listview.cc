@@ -29,7 +29,6 @@
 #include <kcursor.h>
 #include <kdebug.h>
 #include <kio/job.h>
-#include <kio/paste.h>
 #include <klibloader.h>
 #include <klineeditdlg.h>
 #include <klocale.h>
@@ -153,10 +152,9 @@ void ListViewBrowserExtension::updateActions()
   emit enableAction( "del", del );
   emit enableAction( "shred", del );
 
-  bool bKIOClipboard = !KIO::isClipboardEmpty();
   QMimeSource *data = QApplication::clipboard()->data();
-  bool paste = ( bKIOClipboard || data->encodedData( data->format() ).size() != 0 ) &&
-    (selection.count() == 1); // Let's allow pasting only on an item, not on the background
+  bool paste = ( data->encodedData( data->format() ).size() != 0 ) &&
+    (selection.count() <= 1); // We can paste on ONE item or on the background
 
   emit enableAction( "paste", paste );
 
@@ -200,17 +198,7 @@ void ListViewBrowserExtension::paste()
   else
     pasteURL = m_listView->url();
 
-  // move or not move ?
-  bool move = false;
-  QMimeSource *data = QApplication::clipboard()->data();
-  if ( data->provides( "application/x-kde-cutselection" ) ) {
-    move = KonqDrag::decodeIsCutSelection( data );
-    kdDebug() << "move (from clipboard data) = " << move << endl;
-  }
-  KIO::Job * undoJob = KIO::pasteClipboard( pasteURL, move );
-
-  if ( undoJob )
-    (void) new KonqCommandRecorder( move ? KonqCommand::MOVE : KonqCommand::COPY, KURL::List(), pasteURL, undoJob );
+  KonqOperations::doPaste( m_listView->listViewWidget(), pasteURL );
 }
 
 void ListViewBrowserExtension::reparseConfiguration()
