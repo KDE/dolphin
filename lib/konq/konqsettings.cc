@@ -118,7 +118,7 @@ void KonqSettings::init( KConfig * config )
   m_bAutoLoadImages = config->readBoolEntry( "AutoLoadImages", true );
   m_bEnableJava = config->readBoolEntry( "EnableJava", false );
   m_bEnableJavaScript = config->readBoolEntry( "EnableJavaScript", false );
-  m_strJavaPath = config->readBoolEntry( "JavaPath", "/usr/lib/jdk" );
+  m_strJavaPath = config->readEntry( "JavaPath", "/usr/lib/jdk" );
 
 }
 
