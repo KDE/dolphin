@@ -31,7 +31,7 @@
 #include <kio/job.h>
 
 #include <konq_historymgr.h>
-#include <konq_faviconmgr.h>
+#include <konq_pixmapprovider.h>
 
 #include <assert.h>
 #include <kdebug.h>
@@ -412,7 +412,7 @@ void KonqView::setLocationBarURL( const QString & locationBarURL )
 
 void KonqView::setIconURL( const KURL & iconURL )
 {
-  m_pMainWindow->favIconMgr()->setIconForURL( m_sLocationBarURL, iconURL );
+  KonqPixmapProvider::self()->setIconForURL( m_sLocationBarURL, iconURL );
 }
 
 void KonqView::slotOpenURLNotify()
@@ -651,7 +651,7 @@ void KonqView::sendOpenURLEvent( const KURL &url, const KParts::URLArgs &args )
   {
     // Try to get /favicon.ico
     if ( m_serviceType == "text/html" && url.protocol().left(4) == "http" )
-      m_pMainWindow->favIconMgr()->downloadHostIcon( url );
+      KonqPixmapProvider::self()->downloadHostIcon( url );
   }
 }
 

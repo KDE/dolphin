@@ -199,9 +199,6 @@ public:
   // for the view manager
   void currentProfileChanged();
 
-  // favicon manager
-  KonqFavIconMgr *favIconMgr() { return m_favIconMgr; }
-
 signals:
   void viewAdded( KonqView *view );
   void viewRemoved( KonqView *view );
@@ -512,7 +509,6 @@ private:
   static QList<KonqMainWindow> *s_lstViews;
 
   QString m_currentDir; // stores current dir for relative URLs whenever applicable
-  KonqFavIconMgr *m_favIconMgr;
 };
 
 #endif

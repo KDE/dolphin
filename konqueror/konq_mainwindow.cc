@@ -223,9 +223,8 @@ KonqMainWindow::KonqMainWindow( const KURL &initialURL, bool openInitialURL, con
   connect( KonqUndoManager::self(), SIGNAL( undoAvailable( bool ) ),
            this, SLOT( slotUndoAvailable( bool ) ) );
 
-  m_favIconMgr = new KonqFavIconMgr( this );
-  connect( m_favIconMgr, SIGNAL( changed() ),
-           this, SLOT( slotIconsChanged() ) );
+  KonqPixmapProvider *prov = KonqPixmapProvider::self();
+  connect( prov, SIGNAL( changed() ), SLOT( slotIconsChanged() ) );
 
   resize( 700, 480 );
   //kdDebug(1202) << "KonqMainWindow::KonqMainWindow " << this << " done" << endl;
@@ -269,7 +268,7 @@ KonqMainWindow::~KonqMainWindow()
 
   delete m_pViewManager;
 
-  createShellGUI( false );
+  //  createShellGUI( false );
 
   delete m_pBookmarkMenu;
   delete m_pURLCompletion;
@@ -342,7 +341,7 @@ void KonqMainWindow::openFilteredURL( const QString & _url )
 
     // Filter URL to build a correct one
     KURL filteredURL;
-    if ( url == "about:blank" ) // hack to skip filtering
+    if ( url.startsWith( "about" ) ) // hack to skip filtering
         filteredURL = url;
     else
     {
@@ -354,7 +353,12 @@ void KonqMainWindow::openFilteredURL( const QString & _url )
     KonqOpenURLRequest req( _url );
     req.nameFilter = nameFilter;
 
-    openURL( 0L, filteredURL, QString::null, req );
+    QString serviceType;
+
+    if ( url == "about:" || url == "about:konqueror" ) // ### hack
+        serviceType = QString::fromLatin1( "KParts/ReadOnlyPart" );
+
+    openURL( 0L, filteredURL, serviceType, req );
 
     // #4070: Give focus to view after URL was entered manually
     // Note: we do it here if the view mode (i.e. part) wasn't changed
@@ -377,15 +381,18 @@ void KonqMainWindow::openURL( KonqView *_view, const KURL &url,
     return;
   }
 
-  if ( url.isMalformed() )
+  if ( !url.url().startsWith( "about:" ) )
   {
-    KMessageBox::error(0, i18n("Malformed URL\n%1").arg(url.url()));
-    return;
-  }
-  if ( !KProtocolInfo::isKnownProtocol( url.protocol() ) )
-  {
-    KMessageBox::error(0, i18n("Protocol not supported\n%1").arg(url.protocol()));
-    return;
+      if ( url.isMalformed() )
+      {
+          KMessageBox::error(0, i18n("Malformed URL\n%1").arg(url.url()));
+          return;
+      }
+      if ( !KProtocolInfo::isKnownProtocol( url.protocol() ) )
+      {
+          KMessageBox::error(0, i18n("Protocol not supported\n%1").arg(url.protocol()));
+          return;
+      }
   }
 
   KonqView *view = _view;
@@ -515,6 +522,12 @@ bool KonqMainWindow::openView( QString serviceType, const KURL &_url, KonqView *
   }
 
   QString serviceName; // default: none provided
+
+  {
+      QString plainURL = url.url();
+      if ( plainURL == "about:" || plainURL == "about:konqueror" )
+          serviceName = "konq_aboutpage";
+  }
 
   // Look for which view mode to use, if a directory - not if view locked
   if ( ( !childView || (!childView->isLockedViewMode()) )
@@ -986,8 +999,7 @@ void KonqMainWindow::slotIconsChanged()
 {
     if ( !m_combo )
         return;
-    KonqPixmapProvider *prov = static_cast<KonqPixmapProvider*> (m_combo->pixmapProvider());
-    prov->updateFavIcons();
+    KonqPixmapProvider *prov = KonqPixmapProvider::self();
     // FIXME: there is a smarter way, no? (malte)
     QString currentURL = m_combo->currentText();
     m_combo->setPixmapProvider(0);
@@ -2103,7 +2115,7 @@ void KonqMainWindow::slotComboPlugged()
   m_combo->setAutoDeleteCompletionObject( false );
   m_combo->setCompletionMode( s_pCompletion->completionMode() );
 
-  KonqPixmapProvider *prov = static_cast<KonqPixmapProvider*> (m_combo->pixmapProvider());
+  KonqPixmapProvider *prov = KonqPixmapProvider::self();
 
   KConfig *config = KGlobal::config();
   KConfigGroupSaver cs( config, "Settings" );
