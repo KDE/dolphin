@@ -38,7 +38,7 @@
 #include <kglobal.h>
 #include <kwm.h>
 #include <kmessagebox.h>
-#include <userpaths.h>
+#include <kuserpaths.h>
 
 #include <qmessagebox.h>
 
@@ -299,7 +299,7 @@ bool checkTemplates( bool bNewRelease )
     bool bTemplates = true;
  
     DIR* dp = 0L; // avoid warning
-    dp = opendir( UserPaths::templatesPath() );
+    dp = opendir( KUserPaths::templatesPath() );
     if ( dp == 0L )
       bTemplates = false;
     else
@@ -327,14 +327,14 @@ void testLocalInstallation()
   bool newRelease = isNewRelease();
   bool copyTemplates = checkTemplates(newRelease);
 
-  testDir( UserPaths::desktopPath(), TRUE );
-  copyDirectoryFile("directory.desktop", UserPaths::desktopPath(), false);
-  testDir( UserPaths::trashPath() );
-  copyDirectoryFile("directory.trash", UserPaths::trashPath(), newRelease); //for trash icon
-  testDir( UserPaths::templatesPath() );
-  copyDirectoryFile("directory.templates", UserPaths::templatesPath(), copyTemplates);
-  testDir( UserPaths::autostartPath() );
-  copyDirectoryFile("directory.autostart", UserPaths::autostartPath(), false);
+  testDir( KUserPaths::desktopPath(), TRUE );
+  copyDirectoryFile("directory.desktop", KUserPaths::desktopPath(), false);
+  testDir( KUserPaths::trashPath() );
+  copyDirectoryFile("directory.trash", KUserPaths::trashPath(), newRelease); //for trash icon
+  testDir( KUserPaths::templatesPath() );
+  copyDirectoryFile("directory.templates", KUserPaths::templatesPath(), copyTemplates);
+  testDir( KUserPaths::autostartPath() );
+  copyDirectoryFile("directory.autostart", KUserPaths::autostartPath(), false);
 
   if (copyTemplates)
   {
@@ -343,7 +343,7 @@ void testLocalInstallation()
     QString cmd = "cp ";
     for (QStringList::ConstIterator it = list.begin(); it != list.end(); it++)
       cmd += *it + " ";
-    cmd += UserPaths::templatesPath();
+    cmd += KUserPaths::templatesPath();
     system( cmd.ascii() );
     KWM::sendKWMCommand("krootwm:refreshNew");
   }

@@ -992,7 +992,7 @@ QString KfmTreeViewItem::text( int _column ) const
   if ( _column >= (int)m_fileitem->entry().count() )
     return "";
 
-  const UDSAtom & atom = m_fileitem->entry()[ _column ];
+  const KUDSAtom & atom = m_fileitem->entry()[ _column ];
   unsigned long uds = atom.m_uds;
 
   if ( uds == UDS_ACCESS )
@@ -1009,14 +1009,14 @@ QString KfmTreeViewItem::text( int _column ) const
     assert( 0 );
 }
 
-const char* KfmTreeViewItem::makeNumericString( const UDSAtom &_atom ) const
+const char* KfmTreeViewItem::makeNumericString( const KUDSAtom &_atom ) const
 {
   static char buffer[ 100 ];
   sprintf( buffer, "%i", (int)_atom.m_long );
   return buffer;
 }
 
-const char* KfmTreeViewItem::makeTimeString( const UDSAtom &_atom ) const
+const char* KfmTreeViewItem::makeTimeString( const KUDSAtom &_atom ) const
 {
   static char buffer[ 100 ];
 
@@ -1028,7 +1028,7 @@ const char* KfmTreeViewItem::makeTimeString( const UDSAtom &_atom ) const
   return buffer;
 }
 
-QString KfmTreeViewItem::makeTypeString( const UDSAtom &_atom ) const
+QString KfmTreeViewItem::makeTypeString( const KUDSAtom &_atom ) const
 {
   mode_t mode = (mode_t) _atom.m_long;
 
@@ -1041,7 +1041,7 @@ QString KfmTreeViewItem::makeTypeString( const UDSAtom &_atom ) const
     return i18n( "File" );
 }
 
-const char* KfmTreeViewItem::makeAccessString( const UDSAtom &_atom ) const
+const char* KfmTreeViewItem::makeAccessString( const KUDSAtom &_atom ) const
 {
   static char buffer[ 12 ];
 

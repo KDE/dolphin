@@ -57,7 +57,7 @@
 #include <kwm.h>
 #include <kmessagebox.h>
 #include <kglobal.h>
-#include <userpaths.h>
+#include <kuserpaths.h>
 #include <kprogress.h>
 #include <konqdefaults.h>
 
@@ -1233,7 +1233,7 @@ void KonqMainView::slotTrash()
 {
   CORBA::Object_var obj = m_currentView->view()->getInterface( "IDL:Browser/EditExtension:1.0" );
   Browser::EditExtension_var editExtension = Browser::EditExtension::_narrow( obj );
-  editExtension->moveSelection( UserPaths::trashPath().utf8() );
+  editExtension->moveSelection( KUserPaths::trashPath().utf8() );
 }
 
 void KonqMainView::slotDelete()

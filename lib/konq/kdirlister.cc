@@ -192,6 +192,7 @@ void KDirLister::slotBufferTimeout()
   }
 
   QValueListIterator<KUDSEntry> it = m_buffer.begin();
+
   for( ; it != m_buffer.end(); ++it )
   {
     QString name;

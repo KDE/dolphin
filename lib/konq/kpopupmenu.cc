@@ -106,7 +106,7 @@ KonqPopupMenu::KonqPopupMenu( KFileItemList items,
 	path += '/';
     
       if ( protocol != "file" ||
-	   path != UserPaths::trashPath() )
+	   path != KUserPaths::trashPath() )
 	isTrash = false;
     }
 
@@ -128,7 +128,7 @@ KonqPopupMenu::KonqPopupMenu( KFileItemList items,
   url.cleanPath();
     
   if ( url.protocol() == "file" &&
-       url.path(1) == UserPaths::trashPath() )
+       url.path(1) == KUserPaths::trashPath() )
     isCurrentTrash = true;
 
   //check if url is current directory
@@ -397,13 +397,13 @@ void KonqPopupMenu::slotPopupNewView()
 
 void KonqPopupMenu::slotPopupEmptyTrashBin()
 {
-  QDir trashDir( UserPaths::trashPath() );
+  QDir trashDir( KUserPaths::trashPath() );
   QStringList files = trashDir.entryList( QDir::Files );
   
   QStringList::Iterator it = files.begin();
   QStringList::Iterator end = files.end();
   for (; it != end; ++it )
-    (*it).prepend( UserPaths::trashPath() );
+    (*it).prepend( KUserPaths::trashPath() );
   
   KIOJob *job = new KIOJob;
   job->del( files );
@@ -425,7 +425,7 @@ void KonqPopupMenu::slotPopupPaste()
 void KonqPopupMenu::slotPopupTrash()
 {
   KIOJob *job = new KIOJob;
-  job->move( m_lstPopupURLs, UserPaths::trashPath() );
+  job->move( m_lstPopupURLs, KUserPaths::trashPath() );
 }
 
 void KonqPopupMenu::slotPopupDelete()

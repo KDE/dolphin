@@ -79,10 +79,10 @@ public:
 protected:
   void init();
   
-  const char* makeNumericString( const UDSAtom &_atom ) const;
-  const char* makeTimeString( const UDSAtom &_atom ) const;
-  const char* makeAccessString( const UDSAtom &_atom ) const;
-  QString makeTypeString( const UDSAtom &_atom ) const;
+  const char* makeNumericString( const KUDSAtom &_atom ) const;
+  const char* makeTimeString( const KUDSAtom &_atom ) const;
+  const char* makeAccessString( const KUDSAtom &_atom ) const;
+  QString makeTypeString( const KUDSAtom &_atom ) const;
 
   /** Pointer to the file item in KDirLister's list */      
   KFileItem* m_fileitem;

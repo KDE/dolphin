@@ -177,7 +177,7 @@ protected:
   /** Used internally between starting-of-listing and first timeout */
   QString m_sWorkingURL;
 
-  QValueList<UDSEntry> m_buffer;
+  QValueList<KUDSEntry> m_buffer;
   QTimer m_bufferTimer;
 
   QStringList m_lstPendingUpdates;

@@ -102,7 +102,7 @@ void KNewMenu::fillMenu()
     QStringList::Iterator templ = templatesList->begin(); // skip 'Folder'
     for ( ++templ; templ != templatesList->end(); ++templ)
     {
-        KSimpleConfig config(UserPaths::templatesPath() + *templ, true);
+        KSimpleConfig config(KUserPaths::templatesPath() + *templ, true);
         config.setDesktopGroup();
         QString name = *templ;
         if ( name.right(8) == ".desktop" )
@@ -126,11 +126,11 @@ void KNewMenu::fillTemplates()
     templatesList->clear();
     templatesList->append( "Folder" );
 
-    QDir d( UserPaths::templatesPath() );
+    QDir d( KUserPaths::templatesPath() );
     const QFileInfoList *list = d.entryInfoList();
     if ( list == 0L )
         warning(i18n("ERROR: Template does not exist '%s'"),
-		UserPaths::templatesPath().ascii());
+		KUserPaths::templatesPath().ascii());
     else
     {
 	QFileInfoListIterator it( *list );      // create list iterator
@@ -177,7 +177,7 @@ void KNewMenu::slotNewFile( int _id )
     QString text, value;
 
     if ( sName != "Folder" ) {
-      QString x = UserPaths::templatesPath() + sFile;
+      QString x = KUserPaths::templatesPath() + sFile;
       if (!QFile::exists(x)) {
           kdebug(KDEBUG_WARN, 1203, "%s doesn't exist", x.ascii());
           KMessageBox::sorry( 0L, i18n("Source file doesn't exist anymore !"));
@@ -239,7 +239,7 @@ void KNewMenu::slotNewFile( int _id )
 	}
 	else
 	{
-	    QString src = UserPaths::templatesPath() + sFile;
+	    QString src = KUserPaths::templatesPath() + sFile;
             for ( ; it != popupFiles.end(); ++it )
             {
                 KIOJob * job = new KIOJob( );

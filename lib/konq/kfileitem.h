@@ -42,7 +42,7 @@ public:
    * @param _entry the KIO entry used to get the file, contains info about it
    * @param _url the file url
    */
-  KFileItem( UDSEntry& _entry, KURL& _url );
+  KFileItem( KUDSEntry& _entry, KURL& _url );
   /**
    * Create an item representing a file, from all the necessary info for it
    * @param _text the text showed for the file
@@ -112,7 +112,7 @@ public:
    * @return the UDS entry. Used by the tree view to access all details
    * by position.
    */
-  const UDSEntry & entry() const { return m_entry; }
+  const KUDSEntry & entry() const { return m_entry; }
 
   // Used when updating a directory - marked == seen when refreshing
   bool isMarked() const { return m_bMarked; }
@@ -168,7 +168,7 @@ protected:
   /**
    * We keep a copy of the UDSEntry since we need it for @ref #getStatusBarInfo
    */
-  UDSEntry m_entry;
+  KUDSEntry m_entry;
   /**
    * The url of the file
    */

@@ -296,7 +296,7 @@ FilePropsPage::FilePropsPage( PropertiesDialog *_props ) : PropsPage( _props )
     {
       QString tmp = properties->kurl().path( 1 );
       // is it the trash bin ?
-      if ( properties->kurl().isLocalFile() && tmp == UserPaths::trashPath())
+      if ( properties->kurl().isLocalFile() && tmp == KUserPaths::trashPath())
         isTrash = true;
     
       // Extract the full name, but without file: for local files
@@ -1091,7 +1091,7 @@ bool DirPropsPage::supports( KFileItemList _items )
   // Is it the trash bin ?
   QString path = item->url().path( 1 ); // adds trailing slash
     
-  if ( item->url().isLocalFile() && path == UserPaths::trashPath() )
+  if ( item->url().isLocalFile() && path == KUserPaths::trashPath() )
     return false;
 
   return true;

@@ -31,7 +31,7 @@
 #include <klocale.h>
 #include <krun.h>
 
-KFileItem::KFileItem( UDSEntry& _entry, KURL& _url ) :
+KFileItem::KFileItem( KUDSEntry& _entry, KURL& _url ) :
   m_entry( _entry ), 
   m_url( _url ), 
   m_bIsLocalURL( _url.isLocalFile() ),
@@ -42,7 +42,7 @@ KFileItem::KFileItem( UDSEntry& _entry, KURL& _url ) :
   m_bLink = false;
   m_pMimeType = 0;
   m_strText = QString::null;
-  UDSEntry::Iterator it = m_entry.begin();
+  KUDSEntry::Iterator it = m_entry.begin();
   for( ; it != m_entry.end(); it++ ) {
     if ( (*it).m_uds == UDS_FILE_TYPE )
       m_mode = (mode_t)((*it).m_long);
@@ -186,7 +186,7 @@ QString KFileItem::getStatusBarInfo() const
 QString KFileItem::linkDest() const
 {
   // Extract it from the UDSEntry
-  UDSEntry::ConstIterator it = m_entry.begin();
+  KUDSEntry::ConstIterator it = m_entry.begin();
   for( ; it != m_entry.end(); it++ )
     if ( (*it).m_uds == UDS_LINK_DEST )
       return (*it).m_str;
@@ -207,7 +207,7 @@ QString KFileItem::linkDest() const
 long KFileItem::size() const
 {
   // Extract it from the UDSEntry
-  UDSEntry::ConstIterator it = m_entry.begin();
+  KUDSEntry::ConstIterator it = m_entry.begin();
   for( ; it != m_entry.end(); it++ )
     if ( (*it).m_uds == UDS_SIZE )
       return (*it).m_long;
@@ -224,7 +224,7 @@ long KFileItem::size() const
 QString KFileItem::time( int which ) const
 {
   // Extract it from the UDSEntry
-  UDSEntry::ConstIterator it = m_entry.begin();
+  KUDSEntry::ConstIterator it = m_entry.begin();
   for( ; it != m_entry.end(); it++ )
     if ( (*it).m_uds == which )
       return makeTimeString( (time_t)((*it).m_long) );
