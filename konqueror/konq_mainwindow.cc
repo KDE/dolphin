@@ -678,6 +678,64 @@ void KonqMainWindow::slotCreateNewWindow( const KURL &url, const KParts::URLArgs
     //FIXME: obey args (like passing post-data (to KRun), etc.)
 }
 
+void KonqMainWindow::slotCreateNewWindow( const KURL &url, const KParts::URLArgs &args,
+                                          const KParts::WindowArgs &windowArgs, KParts::ReadOnlyPart *&part )
+{
+    KonqMainWindow *mainWindow = new KonqMainWindow( KURL(), false );
+    mainWindow->enableAllActions( true );
+    mainWindow->setInitialFrameName( args.frameName );
+    //FIXME: obey args (like passing post-data (to KRun), etc.)
+
+    KonqOpenURLRequest req;
+    req.args = args;
+    mainWindow->openURL( 0L, url, args.serviceType, req, args.trustedSource );
+
+    mainWindow->show();
+
+    // cannot use activePart/currentView, because the activation through the partmanager
+    // is delayed by a singleshot timer (see KonqViewManager::setActivePart)
+    MapViews::ConstIterator it = mainWindow->viewMap().begin();
+    KonqView *view = it.data();
+    part = it.key();
+
+    // activate the view _now_ in order to make the menuBar() hide call work
+    if ( part )
+        mainWindow->viewManager()->setActivePart( part, true );
+
+    if ( windowArgs.geometry.isValid() )
+        mainWindow->setGeometry( windowArgs.geometry );
+
+    // process the window args
+
+    if ( !windowArgs.menuBarVisible )
+    {
+        // ### for some strange reason this does not work :-(
+        mainWindow->menuBar()->hide();
+        mainWindow->m_paShowMenuBar->setChecked( false );
+    }
+
+    if ( !windowArgs.toolBarsVisible )
+    {
+        static_cast<KToolBar *>( mainWindow->child( "mainToolBar", "KToolBar" ) )->hide();
+        static_cast<KToolBar *>( mainWindow->child( "locationToolBar", "KToolBar" ) )->hide();
+        static_cast<KToolBar *>( mainWindow->child( "bookmarkToolBar", "KToolBar" ) )->hide();
+
+        mainWindow->m_paShowToolBar->setChecked( false );
+        mainWindow->m_paShowLocationBar->setChecked( false );
+        mainWindow->m_paShowBookmarkBar->setChecked( false );
+    }
+
+    if ( view && !windowArgs.statusBarVisible )
+        view->frame()->statusbar()->hide();
+
+    if ( !windowArgs.resizable )
+        // ### this doesn't seem to work either :-(
+        mainWindow->setSizePolicy( QSizePolicy( QSizePolicy::Fixed, QSizePolicy::Fixed ) );
+
+    if ( windowArgs.fullscreen )
+        mainWindow->action( "fullscreen" )->activate();
+}
+
 void KonqMainWindow::slotNewWindow()
 {
   if ( m_currentView && m_currentView->url().protocol() == QString::fromLatin1( "http" ) )

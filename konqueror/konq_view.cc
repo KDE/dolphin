@@ -269,6 +269,9 @@ void KonqView::connectPart(  )
   connect( ext, SIGNAL( createNewWindow( const KURL &, const KParts::URLArgs & ) ),
            m_pMainWindow, SLOT( slotCreateNewWindow( const KURL &, const KParts::URLArgs & ) ) );
 
+  connect( ext, SIGNAL( createNewWindow( const KURL &, const KParts::URLArgs &, const KParts::WindowArgs &, KParts::ReadOnlyPart *& ) ),
+           m_pMainWindow, SLOT( slotCreateNewWindow( const KURL &, const KParts::URLArgs &, const KParts::WindowArgs &, KParts::ReadOnlyPart *& ) ) );
+
   connect( ext, SIGNAL( loadingProgress( int ) ),
            m_pKonqFrame->statusbar(), SLOT( slotLoadingProgress( int ) ) );
 

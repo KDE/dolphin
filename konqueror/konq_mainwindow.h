@@ -207,6 +207,8 @@ public slots:
   void openURL( KonqView *childView, const KURL &url, const KParts::URLArgs &args );
 
   void slotCreateNewWindow( const KURL &url, const KParts::URLArgs &args );
+  void slotCreateNewWindow( const KURL &url, const KParts::URLArgs &args,
+                            const KParts::WindowArgs &windowArgs, KParts::ReadOnlyPart *&part );
 
   void slotNewWindow();
   void slotDuplicateWindow();
