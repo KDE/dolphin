@@ -32,6 +32,7 @@
 #include <kdebug.h>
 #include <kmimetype.h>
 
+#if 0
 QPixmap KonqFileItem::pixmap( int _size, int _state,
 	                      bool bImagePreviewAllowed ) const
 {
@@ -245,3 +246,4 @@ QPixmap KonqFileItem::pixmap( int _size, int _state,
 
   return KFileItem::pixmap( _size, _state );
 }
+#endif

@@ -25,6 +25,7 @@
 
 class QPixmap;
 
+#if 0
 class KonqFileItem: public KFileItem
 {
 public:
@@ -58,6 +59,9 @@ public:
 protected:
   mutable bool bThumbnail;
 };
+#endif
+
+#define KonqFileItem KFileItem
 
 /**
  * List of KonqFileItems

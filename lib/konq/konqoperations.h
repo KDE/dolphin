@@ -21,9 +21,9 @@
 
 #include <kurl.h>
 #include <qobject.h>
+#include <konqfileitem.h>
 
 namespace KIO { class Job; }
-class KonqFileItem;
 class QWidget;
 
 /**

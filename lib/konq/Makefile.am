@@ -26,8 +26,9 @@ libkonq_la_LDFLAGS = $(all_libraries) -version-info 3:0 -no-undefined
 libkonq_la_LIBADD = $(LIB_KPARTS)
 
 libkonq_la_SOURCES = kbookmarkmenu.cc kbookmark.cc knewmenu.cc konqpopupmenu.cc \
-	konqdirlister.cc konqfileitem.cc kfileivi.cc \
-	konqsettings.cc konqdrag.cc konqiconviewwidget.cc \
+	konqdirlister.cc konqfileitem.cc \
+	kfileivi.cc konqiconviewwidget.cc konqimagepreviewjob.cc \
+	konqsettings.cc konqdrag.cc  \
 	konqoperations.cc kbookmarkbar.cc \
         konq_propsview.cc konq_events.cc konq_bgnddlg.cc \
         kdirnotify.stub konq_undo.cc konq_undo.skel
@@ -37,8 +38,9 @@ kdirnotify_DIR = $(kde_includes)
 METASOURCES = AUTO
 
 include_HEADERS = kbookmark.h kbookmarkmenu.h knewmenu.h konqpopupmenu.h \
-	konqdirlister.h konqfileitem.h kfileivi.h \
-	konqdefaults.h konqsettings.h konqdrag.h konqiconviewwidget.h \
+	konqdirlister.h konqfileitem.h \
+	kfileivi.h konqdrag.h konqiconviewwidget.h konqimagepreviewjob.h \
+	konqdefaults.h konqsettings.h \
 	konqoperations.h kbookmarkbar.h \
         konq_propsview.h konq_events.h konq_bgnddlg.h \
 	konq_undo.h

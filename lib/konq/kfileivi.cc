@@ -26,40 +26,45 @@
 #include <kipc.h>
 #undef Bool
 
-KFileIVI::KFileIVI( QIconView *iconview, KonqFileItem* fileitem, int size, bool bImagePreviewAllowed )
+KFileIVI::KFileIVI( KonqIconViewWidget *iconview, KonqFileItem* fileitem, int size )
     : QIconViewItem( iconview, fileitem->text(),
-		     fileitem->pixmap( size, KIcon::DefaultState, bImagePreviewAllowed ) ),
-    m_size(size), m_state( KIcon::DefaultState ), m_bpreview(bImagePreviewAllowed),
-    m_bDisabled( false ), m_fileitem( fileitem )
+		     fileitem->pixmap( size, KIcon::DefaultState ) ),
+  m_size(size), m_state( KIcon::DefaultState ),
+    m_bDisabled( false ), m_bThumbnail( false ), m_fileitem( fileitem )
 {
     setDropEnabled( S_ISDIR( m_fileitem->mode() ) );
 }
 
-void KFileIVI::setIcon( int size, int state, bool bImagePreviewAllowed,
-                        bool recalc, bool redraw )
+void KFileIVI::setIcon( int size, int state, bool recalc, bool redraw )
 {
     m_size = size;
     if ( m_bDisabled )
       m_state = KIcon::DisabledState;
     else
       m_state = state;
-    m_bpreview = bImagePreviewAllowed;
-    QIconViewItem::setPixmap( m_fileitem->pixmap( m_size, m_state, m_bpreview ), recalc, redraw );
+    QIconViewItem::setPixmap( m_fileitem->pixmap( m_size, m_state ), recalc, redraw );
 }
 
 void KFileIVI::setDisabled( bool disabled )
 {
-    if ( m_bDisabled != disabled )
+    if ( m_bDisabled != disabled && !isThumbnail() )
     {
         m_bDisabled = disabled;
         m_state = m_bDisabled ? KIcon::DisabledState : KIcon::DefaultState;
-        QIconViewItem::setPixmap( m_fileitem->pixmap( m_size, m_state, m_bpreview ), false, true );
+        QIconViewItem::setPixmap( m_fileitem->pixmap( m_size, m_state ), false, true );
     }
+}
+
+void KFileIVI::setThumbnailPixmap( const QPixmap & pixmap )
+{
+    m_bThumbnail = true;
+    QIconViewItem::setPixmap( pixmap, true /* ? */, true  /* ? */);
 }
 
 void KFileIVI::refreshIcon( bool redraw )
 {
-    QIconViewItem::setPixmap( m_fileitem->pixmap( m_size, m_state, m_bpreview ), true, redraw );
+    if ( !isThumbnail())
+        QIconViewItem::setPixmap( m_fileitem->pixmap( m_size, m_state ), true, redraw );
 }
 
 bool KFileIVI::acceptDrop( const QMimeSource *mime ) const
@@ -114,8 +119,7 @@ void KFileIVI::returnPressed()
 void KFileIVI::paintItem( QPainter *p, const QColorGroup &cg )
 {
     QColorGroup c( cg );
-    if ( iconView()->inherits( "KonqIconViewWidget" ) )
-	c.setColor( QColorGroup::Text, ( (KonqIconViewWidget*)iconView() )->itemColor() );
+    c.setColor( QColorGroup::Text, static_cast<KonqIconViewWidget*>(iconView())->itemColor() );
     if ( m_fileitem->isLink() )
     {
         QFont f( p->font() );

@@ -27,6 +27,7 @@
 class KonqFMSettings;
 class KFileIVI;
 class KonqIconDrag;
+class KonqImagePreviewJob;
 namespace KIO { class Job; }
 
 /**
@@ -178,7 +179,6 @@ protected slots:
     void slotOnViewport();
 
 protected:
-
     virtual QDragObject *dragObject();
     KonqIconDrag *konqDragObject( QWidget * dragSource = 0L );
 
@@ -197,6 +197,8 @@ protected:
 
     int m_size;
     bool m_bImagePreviewAllowed;
+
+    KonqImagePreviewJob * m_pImagePreviewJob;
 
     /** Konqueror settings */
     KonqFMSettings * m_pSettings;

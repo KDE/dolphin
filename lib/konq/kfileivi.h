@@ -22,8 +22,8 @@
 
 #include <qiconview.h>
 #include <kiconloader.h>
-
-class KonqFileItem;
+#include <konqfileitem.h>
+class KonqIconViewWidget;
 
 /**
  * KFileIVI (short form of "Konq - File - IconViewItem")
@@ -41,9 +41,8 @@ public:
      * @param parent the parent widget
      * @param fileitem the file item created by KonqDirLister
      * @param size the icon size
-     * @param bImagePreviewAllowed whether image preview is allowed, see KonqFileItem
      */
-    KFileIVI( QIconView *iconview, KonqFileItem* fileitem, int size, bool bImagePreviewAllowed );
+    KFileIVI( KonqIconViewWidget *iconview, KonqFileItem* fileitem, int size );
     virtual ~KFileIVI() { }
 
     /**
@@ -52,17 +51,26 @@ public:
      */
     virtual void returnPressed();
 
-    /** @return the file item held by this instance */
+    /**
+     * @return the file item held by this instance
+     */
     KonqFileItem * item() { return m_fileitem; }
 
-    /** @return true if dropping on this file is allowed
-     * Overloads QIconView::acceptDrop() */
+    /**
+     * @return true if dropping on this file is allowed
+     * Overloads QIconView::acceptDrop()
+     */
     virtual bool acceptDrop( const QMimeSource *mime ) const;
 
-    /** */
+    /**
+     * Changes the icon for this item.
+     * @param size the icon size (0 for default, otherwise size in pixels)
+     * @param state the state of the icon (enum in KIcon)
+     * @param recalc whether to update the layout of the icon view when setting the icon
+     * @param redraw whether to redraw the item after setting the icon
+     */
     virtual void setIcon( int size,
                           int state=KIcon::DefaultState,
-                          bool bImagePreviewAllowed=false,
                           bool recalc=false,
                           bool redraw=false);
 
@@ -77,7 +85,20 @@ public:
      */
     void setDisabled( bool disabled );
 
-    /** */
+    /**
+     * Set this when the thumbnail was loaded
+     */
+    void setThumbnailPixmap( const QPixmap & pixmap );
+
+    /**
+     * @return true if this item is a thumbnail
+     */
+    bool isThumbnail() const { return m_bThumbnail; }
+
+    /**
+     * Redetermines the icon (useful if KFileItem might return another icon).
+     * Does nothing with thumbnails
+     */
     virtual void refreshIcon( bool redraw );
 
     virtual void setKey( const QString &key );
@@ -90,8 +111,8 @@ protected:
     virtual void dropped( QDropEvent *e, const QValueList<QIconDragItem> &  );
 
     int m_size, m_state;
-    bool m_bpreview;
     bool m_bDisabled;
+    bool m_bThumbnail;
     /** Pointer to the file item in KonqDirLister's list */
     KonqFileItem* m_fileitem;
 };

@@ -39,6 +39,7 @@
 #include <konqsettings.h>
 #include <konqdrag.h>
 #include <konqoperations.h>
+#include <konqimagepreviewjob.h>
 #include <kglobalsettings.h>
 #include <kpropsdlg.h>
 #include <kipc.h>
@@ -77,14 +78,15 @@ KonqIconViewWidget::KonqIconViewWidget( QWidget * parent, const char * name, WFl
     setSelectionMode( QIconView::Extended );
     setItemTextPos( QIconView::Bottom );
 
-    int sz = KGlobal::iconLoader()->currentSize( KIcon::Desktop );
+    m_size = 0; // default is DesktopIcon size
+    int sz = KGlobal::iconLoader()->currentSize( KIcon::Desktop ); // which is this size
     setGridX( sz + 26 );
     setGridY( sz + 26 );
     setAutoArrange( true );
     setSorting( true, sortDirection() );
     m_bSortDirsFirst = true;
-    m_size = 0; // default is DesktopIcon size
     m_pActiveItem = 0;
+    m_pImagePreviewJob = 0L;
     m_bMousePressed = false;
     m_LineupMode = LineupBoth;
     // configurable settings
@@ -105,30 +107,22 @@ void KonqIconViewWidget::slotIconChanged( int group )
     if (group != KIcon::Desktop)
 	return;
 
-    QIconViewItem *it;
-    for (it=firstItem(); it; it = it->nextItem())
-    {
-	KFileIVI *ivi = static_cast<KFileIVI *>(it);
-	ivi->setIcon( m_size, KIcon::DefaultState, m_bImagePreviewAllowed, false, true );
-    }
-
-    int sz = KGlobal::iconLoader()->currentSize( KIcon::Desktop );
-    setGridX( sz + 26 );
-    setGridY( sz + 26 );
-    updateContents();
+    int size = m_size;
+    m_size = -1; // little trick to force grid change in setIcons
+    setIcons( size ); // force re-determining all icons
 }
 
 void KonqIconViewWidget::slotOnItem( QIconViewItem *item )
 {
     // Reset icon of previous item
     if (m_pActiveItem != 0L)
-	m_pActiveItem->setIcon( m_size, KIcon::DefaultState, m_bImagePreviewAllowed, false, true );
+	m_pActiveItem->setIcon( m_size, KIcon::DefaultState, false, true );
 
     if ( !m_bMousePressed &&
-         !static_cast<KFileIVI *>(item)->item()->isThumbnail() )
+         !static_cast<KFileIVI *>(item)->isThumbnail() )
     {
       m_pActiveItem = static_cast<KFileIVI *>(item);
-      m_pActiveItem->setIcon( m_size, KIcon::ActiveState, m_bImagePreviewAllowed, false, true );
+      m_pActiveItem->setIcon( m_size, KIcon::ActiveState, false, true );
     } else
       // Feature disabled during mouse clicking, e.g. rectangular selection
       // also disabled if the item is a thumbnail
@@ -139,7 +133,7 @@ void KonqIconViewWidget::slotOnViewport()
 {
     if (m_pActiveItem == 0L)
 	return;
-    m_pActiveItem->setIcon( m_size, KIcon::DefaultState, m_bImagePreviewAllowed, false, true );
+    m_pActiveItem->setIcon( m_size, KIcon::DefaultState, false, true );
     m_pActiveItem = 0L;
 }
 
@@ -162,16 +156,7 @@ void KonqIconViewWidget::initConfig()
 
     // Color settings
     QColor normalTextColor	 = m_pSettings->normalTextColor();
-    // QColor highlightedTextColor	 = m_pSettings->highlightedTextColor();
     setItemColor( normalTextColor );
-
-    /*
-      // What does this do ? (David)
-      if ( m_bgPixmap.isNull() )
-      viewport()->setBackgroundMode( PaletteBackground );
-      else
-      viewport()->setBackgroundMode( NoBackground );
-    */
 
     // Font settings
     QFont font( m_pSettings->standardFont() );
@@ -183,10 +168,21 @@ void KonqIconViewWidget::initConfig()
 
 void KonqIconViewWidget::setIcons( int size )
 {
+    bool sizeChanged = (m_size != size);
     m_size = size;
+    // Do this even if size didn't change, since this is used by refreshMimeTypes...
     for ( QIconViewItem *it = firstItem(); it; it = it->nextItem() ) {
         KFileIVI * ivi = static_cast<KFileIVI *>( it );
-	ivi->setIcon( size, ivi->state(), m_bImagePreviewAllowed, true, true );
+        if ( !ivi->isThumbnail() )
+          ivi->setIcon( size, ivi->state(),
+                        true, true /* perhaps we should do one big redraw instead ? */);
+    }
+    if ( sizeChanged )
+    {
+      int sz = m_size ? m_size : KGlobal::iconLoader()->currentSize( KIcon::Desktop );
+      setGridX( sz + 26 );
+      setGridY( sz + 26 );
+      updateContents(); // take new grid into account
     }
 }
 
@@ -199,11 +195,11 @@ void KonqIconViewWidget::refreshMimeTypes()
 
 void KonqIconViewWidget::setURL( const KURL &kurl )
 {
-  m_url = kurl;
-  if ( m_url.isLocalFile() )
-    m_dotDirectoryPath = m_url.path().append( ".directory" );
-  else
-    m_dotDirectoryPath = QString::null;
+    m_url = kurl;
+    if ( m_url.isLocalFile() )
+        m_dotDirectoryPath = m_url.path().append( ".directory" );
+    else
+        m_dotDirectoryPath = QString::null;
 }
 
 void KonqIconViewWidget::setImagePreviewAllowed( bool b )
@@ -211,10 +207,23 @@ void KonqIconViewWidget::setImagePreviewAllowed( bool b )
     if ( m_bImagePreviewAllowed == b )
         return;
     m_bImagePreviewAllowed = b;
-    for ( QIconViewItem *it = firstItem(); it; it = it->nextItem() ) {
-	(static_cast<KFileIVI *>( it ))->setIcon( m_size,
-		KIcon::DefaultState, m_bImagePreviewAllowed, true, true );
+
+#if 0 // DISABLED
+    if (b) // On
+    {
+        m_pImagePreviewJob = new KonqImagePreviewJob( this );
     }
+    else // Off
+    {
+        if (m_pImagePreviewJob)
+        {
+            m_pImagePreviewJob->kill();
+            m_pImagePreviewJob = 0L;
+        }
+        // Restore normal icons
+        setIcons( m_size );
+    }
+#endif
 }
 
 KFileItemList KonqIconViewWidget::selectedFileItems()
@@ -236,15 +245,15 @@ void KonqIconViewWidget::slotDropped( QDropEvent *ev, const QValueList<QIconDrag
     const KonqFileItem * item = m_rootItem;
     if ( !m_rootItem ) // No root item. E.g. over FTP.
     {
-      // Maybe we want to do a stat to get full info about the root item
-      // (when we use permissions). For now create a dummy one.
-      item = new KonqFileItem( S_IFDIR, (mode_t)-1, url() );
+        // Maybe we want to do a stat to get full info about the root item
+        // (when we use permissions). For now create a dummy one.
+        item = new KonqFileItem( S_IFDIR, (mode_t)-1, url() );
     }
 
     KonqOperations::doDrop( item, ev, this );
 
     if ( !m_rootItem )
-      delete item; // we just created it
+        delete item; // we just created it
 }
 
 void KonqIconViewWidget::slotDropItem( KFileIVI *item, QDropEvent *ev )
