@@ -242,24 +242,23 @@ void KWrite::slotOpen()
 {
   if (KTextEditor::encodingInterface(kateView->document()))
   {
-	  Kate::FileDialog *dialog = new Kate::FileDialog (QString::null,KTextEditor::encodingInterface(kateView->document())->encoding(), this, i18n ("Open File"));
-		Kate::FileDialogData data = dialog->exec ();
-		delete dialog;
-
-		for (KURL::List::Iterator i=data.urls.begin(); i != data.urls.end(); ++i)
-	  	{
-		  encoding = data.encoding;
-		  slotOpen ( *i );
-		}
+    Kate::FileDialog *dialog = new Kate::FileDialog (QString::null,KTextEditor::encodingInterface(kateView->document())->encoding(), this, i18n ("Open File"));
+    Kate::FileDialogData data = dialog->exec ();
+    delete dialog;
+    
+    for (KURL::List::Iterator i=data.urls.begin(); i != data.urls.end(); ++i)
+    {
+      encoding = data.encoding;
+      slotOpen ( *i );
+    }
   }
   else
   {
-    		KURL::List l=KFileDialog::getOpenURLs(QString::null,QString::null,this,QString::null);
-		for (KURL::List::Iterator i=l.begin(); i != l.end(); ++i)
-	  	{
-		  slotOpen ( *i );
-		}
-
+    KURL::List l=KFileDialog::getOpenURLs(QString::null,QString::null,this,QString::null);
+    for (KURL::List::Iterator i=l.begin(); i != l.end(); ++i)
+    {
+      slotOpen ( *i );
+    }
   }
 }
 
@@ -282,8 +281,8 @@ void KWrite::slotOpen( const KURL& url )
     t->loadURL(url);
   }
   else
-	{
-	  if (KTextEditor::encodingInterface(kateView->document())) KTextEditor::encodingInterface(kateView->document())->setEncoding(encoding);
+  {
+    if (KTextEditor::encodingInterface(kateView->document())) KTextEditor::encodingInterface(kateView->document())->setEncoding(encoding);
     loadURL(url);
   }
 }

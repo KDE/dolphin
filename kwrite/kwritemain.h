@@ -104,8 +104,8 @@ class KWrite : public KParts::MainWindow
     virtual void saveProperties(KConfig *);
     virtual void saveGlobalProperties(KConfig *);
 		
-	private:
-	  QString encoding;    
+  private:
+    QString encoding;    
     static QPtrList<KTextEditor::Document> docList;
 };
 
