@@ -334,8 +334,8 @@ bool KonqMainView::mappingCreateMenubar( OpenPartsUI::MenuBar_ptr menuBar )
     if ( m_currentView )
     {
       Browser::View_ptr view = m_currentView->view();
-      EMIT_EVENT( view, Browser::View::eventFillMenuEdit, 0L );
-      EMIT_EVENT( view, Browser::View::eventFillMenuView, 0L );
+      EMIT_EVENT( view, Browser::View::eventFillMenuEdit, (Browser::View::EventFillMenu*)0L );
+      EMIT_EVENT( view, Browser::View::eventFillMenuView, (Browser::View::EventFillMenu*)0L );
     }
 
     if ( m_pMenuNew )
@@ -2124,8 +2124,8 @@ void KonqMainView::setUpEnabled( QString _url, OpenParts::Id _id )
 void KonqMainView::clearViewGUIElements( KonqChildView *childView )
 {
   Browser::View_ptr view = childView->view();
-  EMIT_EVENT( view, Browser::View::eventFillMenuEdit, 0L );
-  EMIT_EVENT( view, Browser::View::eventFillMenuView, 0L );
+  EMIT_EVENT( view, Browser::View::eventFillMenuEdit, (Browser::View::EventFillMenu*)0L );
+  EMIT_EVENT( view, Browser::View::eventFillMenuView, (Browser::View::EventFillMenu*)0L );
     
   Browser::View::EventFillToolBar ev;
   ev.create = (CORBA::Boolean)false;
