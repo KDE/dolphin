@@ -20,6 +20,7 @@
 #include <kconfig.h>
 #include <kdebug.h>
 #include <kglobalsettings.h>
+#include <klistview.h>
 #include <klocale.h>
 #include <kio/job.h>
 #include <kmessagebox.h>
@@ -33,7 +34,6 @@
 #include <qlayout.h>
 #include <qlineedit.h>
 #include <qwhatsthis.h>
-#include <qlistview.h>
 #include <assert.h>
 
 #include "rootopts.h"
@@ -82,7 +82,7 @@ KRootOptions::KRootOptions(KConfig *config, QWidget *parent, const char *name )
 {
   QLabel * tmpLabel;
 
-#define RO_LASTROW 15   // 4 cb, 1 listview, 1 line, 3 combo, 1 line, 4 paths + last row
+#define RO_LASTROW 16   // 5 cb, 1 listview, 1 line, 3 combo, 1 line, 4 paths + last row
 #define RO_LASTCOL 2
 
   int row = 0;
@@ -103,10 +103,29 @@ KRootOptions::KRootOptions(KConfig *config, QWidget *parent, const char *name )
    */
   leftHandedMouse = ( KGlobalSettings::mouseSettings().handed == KGlobalSettings::KMouseSettings::LeftHanded);
 
-  VertAlignBox = new QCheckBox(i18n("Align Icons &Vertically on Desktop"), this);
-  lay->addMultiCellWidget(VertAlignBox, row, row, 0, 0);
-  connect(VertAlignBox, SIGNAL(clicked()), this, SLOT(changed()));
-  QWhatsThis::add( VertAlignBox, i18n("Check this option if you want the icons"
+  menuBarBox = new QCheckBox(i18n("Enable Desktop &Menu"), this);
+  lay->addMultiCellWidget(menuBarBox, row, row, 0, 0);
+  connect(menuBarBox, SIGNAL(clicked()), this, SLOT(changed()));
+  QWhatsThis::add( menuBarBox, i18n("Check this option if you want the"
+                                    " desktop popup menus to appear on the top of the screen in the style"
+                                    " of Macintosh.  This setting is independent of the global top-level"
+                                    " menu setting that applies to KDE applications.") );
+  row++;
+
+  iconsEnabledBox = new QCheckBox(i18n("Enable &Icons on Desktop"), this);
+  lay->addMultiCellWidget(iconsEnabledBox, row, row, 0, 0);
+  connect(iconsEnabledBox, SIGNAL(clicked()), this, SLOT(enableChanged()));
+  QWhatsThis::add( iconsEnabledBox, i18n("Uncheck this option if you do not want to have icons on the desktop."
+                                      " Without icons the desktop will be somewhat faster but you will no"
+                                      " longer be able to drag files to the desktop." ) );
+
+  row++;
+
+
+  vertAlignBox = new QCheckBox(i18n("Align Icons &Vertically on Desktop"), this);
+  lay->addMultiCellWidget(vertAlignBox, row, row, 0, 0);
+  connect(vertAlignBox, SIGNAL(clicked()), this, SLOT(changed()));
+  QWhatsThis::add( vertAlignBox, i18n("Check this option if you want the icons"
                                       " on the desktop to be aligned vertically (in columns). If you leave this"
                                       " option unchecked, desktop icons are aligned horizontally.<p>"
                                       " Note that you can drag icons wherever you want to on the desktop. When"
@@ -114,6 +133,7 @@ KRootOptions::KRootOptions(KConfig *config, QWidget *parent, const char *name )
                                       " arranged horizontally or vertically.") );
 
   row++;
+
   showHiddenBox = new QCheckBox(i18n("Show H&idden Files on Desktop"), this);
   lay->addMultiCellWidget(showHiddenBox, row, row, 0, 0);
   connect(showHiddenBox, SIGNAL(clicked()), this, SLOT(changed()));
@@ -127,14 +147,6 @@ KRootOptions::KRootOptions(KConfig *config, QWidget *parent, const char *name )
                                        " You should not change or delete these files unless you know what you"
                                        " are doing!") );
 
-  row++;
-  menuBarBox = new QCheckBox(i18n("Enable Desktop &Menu"), this);
-  lay->addMultiCellWidget(menuBarBox, row, row, 0, 0);
-  connect(menuBarBox, SIGNAL(clicked()), this, SLOT(changed()));
-  QWhatsThis::add( menuBarBox, i18n("Check this option if you want the"
-                                    " desktop popup menus to appear on the top of the screen in the style"
-                                    " of Macintosh.  This setting is independent of the global top-level"
-                                    " menu setting that applies to KDE applications.") );
 
   row++;
   vrootBox = new QCheckBox(i18n("Support Programs in Desktop Window"), this);
@@ -147,9 +159,10 @@ KRootOptions::KRootOptions(KConfig *config, QWidget *parent, const char *name )
 
   row++;
   lay->setRowStretch( row, 10 );
-  previewListView = new QListView( this );
+  previewListView = new KListView( this );
+  previewListView->setFullWidth(true);
   previewListView->addColumn( i18n("Show Previews for:") );
-  lay->addMultiCellWidget( previewListView, row - 4, row, 1, RO_LASTCOL );
+  lay->addMultiCellWidget( previewListView, row - 5, row, 1, RO_LASTCOL );
   QWhatsThis::add(previewListView, i18n("Select for which types of files you want to"
                                         " enable preview images"));
 
@@ -333,7 +346,7 @@ void KRootOptions::load()
     bool bShowHidden = g_pConfig->readBoolEntry("ShowHidden", DEFAULT_SHOW_HIDDEN_ROOT_ICONS);
     showHiddenBox->setChecked(bShowHidden);
     bool bVertAlign = g_pConfig->readNumEntry("VertAlign", DEFAULT_VERT_ALIGN);
-    VertAlignBox->setChecked(bVertAlign);
+    vertAlignBox->setChecked(bVertAlign);
     KTrader::OfferList plugins = KTrader::self()->query("ThumbCreator");
     previewListView->clear();
     QStringList previews = g_pConfig->readListEntry("Preview");
@@ -346,6 +359,8 @@ void KRootOptions::load()
     menuBarBox->setChecked(bMenuBar);
     g_pConfig->setGroup( "General" );
     vrootBox->setChecked( g_pConfig->readBoolEntry( "SetVRoot", false ) );
+    iconsEnabledBox->setChecked( g_pConfig->readBoolEntry( "Enabled", true ) );
+    
     //
     g_pConfig->setGroup( "Mouse Buttons" );
     QString s;
@@ -367,12 +382,13 @@ void KRootOptions::load()
     leTrash->setText( KGlobalSettings::trashPath() );
     leAutostart->setText( KGlobalSettings::autostartPath() );
     leDocument->setText( KGlobalSettings::documentPath() );
+    enableChanged();
 }
 
 void KRootOptions::defaults()
 {
     showHiddenBox->setChecked(DEFAULT_SHOW_HIDDEN_ROOT_ICONS);
-    VertAlignBox->setChecked(true);
+    vertAlignBox->setChecked(true);
     for (QListViewItem *item = previewListView->firstChild(); item; item = item->nextSibling())
         static_cast<KRootOptPreviewItem *>(item)->setOn(false);
     menuBarBox->setChecked(false);
@@ -392,7 +408,7 @@ void KRootOptions::save()
 {
     g_pConfig->setGroup( "Desktop Icons" );
     g_pConfig->writeEntry("ShowHidden", showHiddenBox->isChecked());
-    g_pConfig->writeEntry("VertAlign",VertAlignBox->isChecked());
+    g_pConfig->writeEntry("VertAlign",vertAlignBox->isChecked());
     QStringList previews;
     for ( KRootOptPreviewItem *item = static_cast<KRootOptPreviewItem *>( previewListView->firstChild() );
           item;
@@ -409,6 +425,7 @@ void KRootOptions::save()
 
     g_pConfig->setGroup( "General" );
     g_pConfig->writeEntry( "SetVRoot", vrootBox->isChecked() );
+    g_pConfig->writeEntry( "Enabled", iconsEnabledBox->isChecked() );
     KConfig *config = KGlobal::config();
     KConfigGroupSaver cgs( config, "Paths" );
 
@@ -575,6 +592,19 @@ void KRootOptions::slotResult( KIO::Job * job )
     qApp->exit_loop();
 }
 
+void KRootOptions::enableChanged()
+{
+    bool enabled = iconsEnabledBox->isChecked();
+    showHiddenBox->setEnabled(enabled);
+    vertAlignBox->setEnabled(enabled);
+    previewListView->setEnabled(enabled);
+    vrootBox->setEnabled(enabled);
+
+    // Desktop Paths
+    leDesktop->setEnabled(enabled);
+
+    changed();
+}
 
 void KRootOptions::changed()
 {

@@ -21,7 +21,7 @@ class KConfig;
 class QCheckBox;
 class QComboBox;
 class QLineEdit;
-class QListView;
+class KListView;
 namespace KIO { class Job; }
 
 //-----------------------------------------------------------------------------
@@ -43,6 +43,7 @@ public:
 
 private slots:
 
+        void enableChanged();
 	void changed();
 
 
@@ -50,11 +51,12 @@ private:
         KConfig *g_pConfig;
 
         // Checkboxes
+        QCheckBox *iconsEnabledBox;
         QCheckBox *showHiddenBox;
-        QCheckBox *VertAlignBox;
+        QCheckBox *vertAlignBox;
         QCheckBox *menuBarBox;
 	QCheckBox *vrootBox;
-        QListView *previewListView;
+        KListView *previewListView;
 
         // Combo for the menus
         void fillMenuCombo( QComboBox * combo );
