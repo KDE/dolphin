@@ -1,3 +1,7 @@
+1998-12-07  Mario Weilguni <mweilguni@kde.org>
+
+	* made it work with Qt 2.0
+
 1998-12-07  Alex Zepeda  <garbanzo@hooked.net>
 
 	* kfindtop.cpp: Commented out _height, as it's not used.

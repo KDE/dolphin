@@ -101,7 +101,7 @@ void KfOptions::insertPages()
     selectfileB->setFixedSize(selectfileB->sizeHint());
     browseB    ->setFixedSize(browseB    ->sizeHint());
     fileE      ->setFixedSize(344-(10+10+fileL->width()+browseB->width()),25);
-
+    
     kfindfileB ->move(10,20);
     selectfileB->move(10,50);
     kfindfileL ->move(30,20);
