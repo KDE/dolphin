@@ -63,7 +63,7 @@ KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name)
     QLabel * namedL = new QLabel(nameBox, i18n("&Named:"), pages[0], "named");
     QToolTip::add( namedL, i18n("You can use wildcard matching and \";\" for separating multiple names") );
     dirBox  = new KComboBox(TRUE, pages[0], "combo2");
-    QLabel * lookinL = new QLabel(dirBox, i18n("&Look in:"), pages[0], "named");
+    QLabel * lookinL = new QLabel(dirBox, i18n("Look &in:"), pages[0], "named");
     subdirsCb  = new QCheckBox(i18n("Include &subfolders"), pages[0]);
     caseSensCb  = new QCheckBox(i18n("Case s&ensitive search"), pages[0]);
     browseB    = new QPushButton(i18n("&Browse..."), pages[0]);
