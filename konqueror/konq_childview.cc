@@ -79,6 +79,7 @@ KonqChildView::KonqChildView( KonqViewFactory &viewFactory,
   m_iProgress = -1;
   m_bPassiveMode = false;
   m_bProgressSignals = true;
+  m_pCurrentHistoryEntry = 0L;
 }
 
 KonqChildView::~KonqChildView()
@@ -252,13 +253,17 @@ void KonqChildView::makeHistory( bool pushEntry )
   if ( pushEntry || !m_pCurrentHistoryEntry )
     m_pCurrentHistoryEntry = new HistoryEntry;
 
+  kDebug("looking for extension");
   if ( browserExtension() )
   {
+    kDebug("creating stream");
     QDataStream stream( m_pCurrentHistoryEntry->buffer, IO_WriteOnly );
 
+    kDebug("saving");
     browserExtension()->saveState( stream );
   }
 
+  kDebug("storing stuff");
   m_pCurrentHistoryEntry->strURL = m_pView->url().url();
   m_pCurrentHistoryEntry->strServiceType = m_serviceType;
   m_pCurrentHistoryEntry->strServiceName = m_service->name();

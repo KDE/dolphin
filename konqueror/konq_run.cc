@@ -30,6 +30,7 @@ KonqRun::KonqRun( KonqMainView* _view, KonqChildView *_childView, const QString 
   : KRun( _url, _mode, _is_local_file, _auto_delete )
 {
   m_pView = _view;
+  assert( m_pView );
   m_pChildView = _childView;
   m_bFoundMimeType = false;
 }
