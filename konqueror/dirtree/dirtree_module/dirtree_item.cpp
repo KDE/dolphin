@@ -16,38 +16,44 @@
    Boston, MA 02111-1307, USA.
 */
 
+#include "konq_treepart.h"
 #include "dirtree_item.h"
 #include "dirtree_module.h"
 #include <konq_operations.h>
 #include <konq_fileitem.h>
 #include <ksimpleconfig.h>
+#include <kdebug.h>
+#include <kglobalsettings.h>
+#include <kuserprofile.h>
+#include <qapplication.h>
+#include <qclipboard.h>
 
 #define MYMODULE static_cast<KonqDirTreeModule*>(module())
 
-KonqDirTreeItem::KonqDirTreeItem( KonqTree *parent, KonqTreeItem *parentItem, KonqTreeItem *topLevelItem, KonqFileItem *fileItem )
+KonqDirTreeItem::KonqDirTreeItem( KonqTree *parent, KonqTreeItem *parentItem, KonqTreeTopLevelItem *topLevelItem, KonqFileItem *fileItem )
     : KonqTreeItem( parent, parentItem, topLevelItem ), m_fileItem( fileItem )
 {
     if ( m_topLevelItem )
-        MYMODULE->addSubDir( this, m_topLevelItem, m_item->url() );
+        MYMODULE->addSubDir( this, m_fileItem->url() );
 }
 
-KonqDirTreeItem::KonqDirTreeItem( KonqTree *parent, KonqTreeItem *topLevelItem, KonqFileItem *item )
-    : KonqTreeItem( parent, parentItem, topLevelItem ), m_fileItem( fileItem )
+KonqDirTreeItem::KonqDirTreeItem( KonqTree *parent, KonqTreeTopLevelItem *topLevelItem, KonqFileItem *fileItem )
+    : KonqTreeItem( parent, topLevelItem ), m_fileItem( fileItem )
 {
     if ( m_topLevelItem )
-        MYMODULE->addSubDir( this, m_topLevelItem, m_item->url() );
+        MYMODULE->addSubDir( this, m_fileItem->url() );
 }
 
 KonqDirTreeItem::~KonqDirTreeItem()
 {
     if ( m_topLevelItem )
-        MYMODULE->removeSubDir( this, m_topLevelItem, m_item->url() );
+        MYMODULE->removeSubDir( this, m_fileItem->url() );
 }
 
 void KonqDirTreeItem::setOpen( bool open )
 {
     if ( open & !childCount() && m_bListable )
-        MYMODULE->openSubFolder( this, m_topLevelItem );
+        MYMODULE->openSubFolder( this );
 
     KonqTreeItem::setOpen( open );
 }
@@ -65,33 +71,12 @@ void KonqDirTreeItem::paintCell( QPainter *_painter, const QColorGroup & _cg, in
 
 KURL KonqDirTreeItem::externalURL() const
 {
-    if ( isLink() )
-    {
-        KSimpleConfig config( m_fileItem->url().path() );
-        config.setDesktopGroup();
-        config.setDollarExpansion(true);
-        if ( config.readEntry("Type") == "FSDevice" )
-        {
-            KURL url;
-            url.setPath( config.readEntry("MountPoint") );
-            return url;
-        }
-        else
-        {
-            KURL url = config.readEntry("URL");
-            return url;
-        }
-    }
-    else
-        return m_fileItem->url();
+    return m_fileItem->url();
 }
 
-virtual QString KonqDirTreeItem::externalMimeType() const
+QString KonqDirTreeItem::externalMimeType() const
 {
-    if ( isLink() )
-        return QString::null;
-    else
-        return m_fileItem->mimetype();
+    return m_fileItem->mimetype();
 }
 
 bool KonqDirTreeItem::acceptsDrops( const QStrList & formats )
@@ -103,9 +88,31 @@ bool KonqDirTreeItem::acceptsDrops( const QStrList & formats )
 
 void KonqDirTreeItem::drop( QDropEvent * ev )
 {
-    KonqOperations::doDrop( m_fileItem, selection->externalURL(), ev, tree() );
+    KonqOperations::doDrop( m_fileItem, externalURL(), ev, tree() );
 }
 
+void KonqDirTreeItem::itemSelected()
+{
+    bool cutcopy, del;
+    bool bInTrash = false;
+
+    if ( m_fileItem->url().directory(false) == KGlobalSettings::trashPath() )
+        bInTrash = true;
+
+    cutcopy = del = true;
+
+    KParts::BrowserExtension * ext = tree()->part()->extension();
+    emit ext->enableAction( "copy", cutcopy );
+    emit ext->enableAction( "cut", cutcopy );
+    emit ext->enableAction( "trash", del && !bInTrash );
+    emit ext->enableAction( "del", del );
+    emit ext->enableAction( "shred", del );
+
+    QMimeSource *data = QApplication::clipboard()->data();
+    bool paste = ( data->encodedData( data->format() ).size() != 0 );
+
+    emit ext->enableAction( "paste", paste );
+}
 
 void KonqDirTreeItem::middleButtonPressed()
 {
@@ -117,7 +124,7 @@ void KonqDirTreeItem::middleButtonPressed()
     if ( offer && offer->desktopEntryName() == "kfmclient" )
     {
         KParts::URLArgs args;
-        args.serviceType = fileItem->mimetype();
+        args.serviceType = m_fileItem->mimetype();
         emit tree()->part()->extension()->createNewWindow( m_fileItem->url(), args );
     }
     else

@@ -100,7 +100,9 @@ void KonqTree::clearTree()
     for ( KonqTreeModule * module = m_lstModules.first() ; module ; module = m_lstModules.next() )
         module->clearAll();
     m_topLevelItems.clear();
+#if 0
     m_mapCurrentOpeningFolders.clear();
+#endif
     clear();
     setRootIsDecorated( true );
 }
@@ -296,6 +298,7 @@ void KonqTree::slotMouseButtonPressed(int _button, QListViewItem* _item, const Q
 
 void KonqTree::slotAnimation()
 {
+#if 0
     QPixmap gearPixmap = SmallIcon( QString::fromLatin1( "kde" ).append( QString::number( m_animationCounter ) ), KonqTreeFactory::instance() );
 
     MapCurrentOpeningFolders::ConstIterator it = m_mapCurrentOpeningFolders.begin();
@@ -306,6 +309,7 @@ void KonqTree::slotAnimation()
     m_animationCounter++;
     if ( m_animationCounter == 7 )
         m_animationCounter = 1;
+#endif
 }
 
 void KonqTree::slotAutoOpenFolder()
@@ -325,6 +329,15 @@ void KonqTree::rescanConfiguration()
     m_autoOpenTimer->stop();
     clearTree();
     scanDir( 0, m_dirtreeDir.path(), true);
+}
+
+void KonqTree::slotSelectionChanged()
+{
+    KonqTreeItem * item = static_cast<KonqTreeItem *>( selectedItem() );
+    if ( item )
+        item->itemSelected();
+    /* else   -- doesn't seem to happen
+    {} */
 }
 
 void KonqTree::FilesAdded( const KURL & dir )
@@ -436,7 +449,7 @@ void KonqTree::scanDir2( KonqTreeItem *parent, const QString &path )
         cfg.setDesktopGroup();
         name = cfg.readEntry( "Name", name );
         icon = cfg.readEntry( "Icon", icon );
-        stripIcon( icon );
+        //stripIcon( icon );
         open = cfg.readBoolEntry( "Open", open );
     }
 
@@ -470,7 +483,6 @@ void KonqTree::loadTopLevelItem( KonqTreeItem *parent,  const QString &filename 
     QFileInfo inf( filename );
 
     QString path = filename;
-    QString icon;
     QString name = KIO::decodeFileName( inf.fileName() );
     if ( name.length() > 8 && name.right( 8 ) == ".desktop" )
         name.truncate( name.length() - 8 );
@@ -489,7 +501,6 @@ void KonqTree::loadTopLevelItem( KonqTreeItem *parent,  const QString &filename 
     else
         item = new KonqTreeTopLevelItem( this, module, path );
 
-    item->setPixmap( 0, SmallIcon( icon ) );
     item->setText( 0, name );
 
     if (module) // shouldn't be necessary
@@ -503,15 +514,11 @@ void KonqTree::loadTopLevelItem( KonqTreeItem *parent,  const QString &filename 
 
 }
 
-void KonqTree::stripIcon( QString &icon )
-{
-    QFileInfo info( icon );
-    icon = info.baseName();
-}
-
 void KonqTree::startAnimation( KonqTreeItem * item, const char * iconBaseName )
 {
-
+    // TODO
+    if ( !m_animationTimer->isActive() )
+        m_animationTimer->start( 50 );
 }
 
 void KonqTree::stopAnimation( KonqTreeItem * item )

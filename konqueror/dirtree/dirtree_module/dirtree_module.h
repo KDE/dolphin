@@ -27,11 +27,11 @@ class KonqTreeItem;
 class KonqDirTreeItem;
 class KonqPropsView;
 
-class KonqDirTreeModule : public KonqTreeModule
+class KonqDirTreeModule : public QObject, public KonqTreeModule
 {
     Q_OBJECT
 public:
-    KonqDirTreeModule( KonqTree * parentTree, const char * name = 0 );
+    KonqDirTreeModule( KonqTree * parentTree );
     virtual ~KonqDirTreeModule() {}
 
     virtual void addTopLevelItem( KonqTreeTopLevelItem * item );
@@ -44,16 +44,11 @@ public:
     virtual void trash();
     virtual void del();
     virtual void shred();
-    /**
-     * Called when an item in this module is selected
-     * Emit the appropriate enableAction signals.
-     */
-    virtual void slotSelectionChanged();
 
     // Called by KonqDirTreeItem
-    void openSubFolder( KonqTreeItem *item, KonqTreeItem *topLevel );
-    void addSubDir( KonqTreeItem *item, KonqTreeItem *topLevel, const KURL &url );
-    void removeSubDir( KonqTreeItem *item, KonqTreeItem *topLevel, const KURL &url );
+    void openSubFolder( KonqTreeItem *item );
+    void addSubDir( KonqTreeItem *item, const KURL &url );
+    void removeSubDir( KonqTreeItem *item, const KURL &url );
 
 private slots:
     void slotNewItems( const KFileItemList & );
@@ -63,17 +58,17 @@ private slots:
 
 private:
     void openDirectory( const KURL & url, bool keep );
+    KURL::List selectedUrls();
 
-    QMap<KURL, KonqDirTreeItem*> *subDirMap; // TODO get rid of "*"
-    KonqDirLister *m_dirLister; // TODO get rid of "*"
-    QMap<KURL,KonqDirTreeItem *> *m_mapSubDirs; // TODO get rid of "*"
-    KURL::List *m_lstPendingURLs; // TODO get rid of "*"
+    KonqDirLister *m_dirLister;
+    QMap<KURL,KonqDirTreeItem *> m_mapSubDirs;
+    KURL::List m_lstPendingURLs;
     KURL m_currentlyListedURL; // always the same as m_dirLister->url(), but used for redirections
 
     KURL m_selectAfterOpening;
     //KonqTreeTopLevelItem * m_topLevelItem;
 
-    static KonqPropsView * s_defaultViewProps;
+    KonqPropsView * s_defaultViewProps;
     KonqPropsView * m_pProps;
 };
 

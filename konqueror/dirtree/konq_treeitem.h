@@ -21,12 +21,12 @@
 
 #include <qlistview.h>
 #include <kurl.h>
+#include <konq_dirlister.h>
 class QPainter;
 class KonqTree;
 class KonqTreeItem;
 class KonqTreeModule;
 class KonqTreeTopLevelItem;
-class KonqDirLister;
 
 /**
  * The base class for any item in the tree.
@@ -46,7 +46,7 @@ public:
     virtual bool acceptsDrops( const QStrList & formats ) = 0;
     virtual void drop( QDropEvent * ev ) = 0;
 
-    virtual void middleButtonPressed() = 0;
+    virtual void middleButtonPressed() {}
     virtual void rightButtonPressed() = 0;
 
     // The URL to open when this link is clicked
@@ -56,6 +56,10 @@ public:
     // If unknown, return QString::null, konq will determine the mimetype itself
     virtual QString externalMimeType() const { return QString::null; }
 
+    // Called when this item is selected
+    // Reimplement, and emit the appropriate enableAction signals
+    // from tree()->part()->extension()
+    virtual void itemSelected() = 0;
 
     // Basically, true for directories and toplevel items
     void setListable( bool b ) { m_bListable = b; }

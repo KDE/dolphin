@@ -74,6 +74,7 @@ private slots:
     void slotDoubleClicked( QListViewItem *item );
     void slotClicked( QListViewItem *item );
     void slotMouseButtonPressed(int _button, QListViewItem* _item, const QPoint&, int col);
+    void slotSelectionChanged();
 
     void slotAnimation();
 
@@ -87,17 +88,16 @@ private:
     void scanDir2( KonqTreeItem *parent, const QString &path );
     void loadTopLevelItem( KonqTreeItem *parent, const QString &filename );
 
-    void stripIcon( QString &icon );
-
     QList<KonqTreeTopLevelItem> m_topLevelItems;
 
     QList<KonqTreeModule> m_lstModules;
 
     KonqTreePart *m_part;
 
-    // Basically a list of folders currently opened
+#if 0
     typedef QMap<KonqTreeItem *, QString> MapCurrentOpeningFolders;
     MapCurrentOpeningFolders m_mapCurrentOpeningFolders;
+#endif
 
     QTimer *m_animationTimer;
 

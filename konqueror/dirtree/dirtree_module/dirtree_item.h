@@ -21,14 +21,14 @@
 
 #include "konq_treeitem.h"
 #include <kurl.h>
-class KonqFileItem;
+#include <konq_fileitem.h>
 class QDropEvent;
 
 class KonqDirTreeItem : public KonqTreeItem
 {
 public:
-    KonqDirTreeItem( KonqTree *parent, KonqTreeItem *parentItem, KonqTreeItem *topLevelItem, KonqFileItem *fileItem );
-    KonqDirTreeItem( KonqTree *parent, KonqTreeItem *topLevelItem, KonqFileItem *fileItem );
+    KonqDirTreeItem( KonqTree *parent, KonqTreeItem *parentItem, KonqTreeTopLevelItem *topLevelItem, KonqFileItem *fileItem );
+    KonqDirTreeItem( KonqTree *parent, KonqTreeTopLevelItem *topLevelItem, KonqFileItem *fileItem );
     ~KonqDirTreeItem();
 
     KonqFileItem *fileItem() const { return m_fileItem; }
@@ -45,6 +45,9 @@ public:
 
     // The URL to open when this link is clicked
     virtual KURL externalURL() const;
+    virtual QString externalMimeType() const;
+
+    virtual void itemSelected();
 
 private:
     KonqFileItem *m_fileItem;

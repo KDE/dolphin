@@ -29,7 +29,22 @@
 #include <kprotocolinfo.h>
 #include <ksimpleconfig.h>
 #include <kurldrag.h>
-#include <kuserprofile.h>
+#include <qapplication.h>
+#include <qclipboard.h>
+
+void KonqTreeTopLevelItem::itemSelected()
+{
+    KParts::BrowserExtension * ext = tree()->part()->extension();
+    emit ext->enableAction( "copy", true );
+    emit ext->enableAction( "cut", true );
+    emit ext->enableAction( "trash", true );
+    emit ext->enableAction( "del", true );
+    emit ext->enableAction( "shred", true );
+
+    QMimeSource *data = QApplication::clipboard()->data();
+    bool paste = m_bTopLevelGroup && data->provides("text/uri-list");
+    emit ext->enableAction( "paste", paste );
+}
 
 bool KonqTreeTopLevelItem::acceptsDrops( const QStrList & formats )
 {

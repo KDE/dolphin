@@ -56,6 +56,9 @@ public:
     virtual bool isTopLevelItem() const { return true; }
 
     virtual KURL externalURL() const { return m_externalURL; }
+
+    virtual void itemSelected();
+
     // The module should call this for each toplevel item that is passed to it
     // unless it calls setClickable(false)
     void setExternalURL( const KURL & url ) { m_externalURL = url; }
