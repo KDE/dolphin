@@ -299,7 +299,7 @@ bool KonqRun::askSave( const KURL & url, KService::Ptr offer, const QString& mim
     QString question = offer ? i18n("Open '%1' using '%2'?").
                                arg( surl ).arg(offer->name())
                        : i18n("Open '%1' ?").arg( surl );
-    int choice = KMessageBox::warningYesNoCancel(
+    int choice = KMessageBox::questionYesNoCancel(
         0L, question, QString::null,
         i18n("Save to disk"), i18n("Open"),
         QString::fromLatin1("askSave")+ mimeType ); // dontAskAgainName
