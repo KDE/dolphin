@@ -846,8 +846,6 @@ void KonqBaseListViewWidget::updateListContents()
 
 bool KonqBaseListViewWidget::openURL( const KURL &url )
 {
-   m_url = url;
-
    // The first time or new protocol ? So create the columns first
    kdDebug(1202) << "protocol in ::openURL: -" << url.protocol() <<"- url: -"
                  << url.path() << "-" << endl;
@@ -906,10 +904,12 @@ bool KonqBaseListViewWidget::openURL( const KURL &url )
    if ( columnWidthMode(0) == Maximum )
       setColumnWidth(0,50);
 
+   m_url = url;
+   m_bUpdateContentsPosAfterListing = true;
+   
    // Start the directory lister !
    m_dirLister->openURL( url, false /* new url */, m_pBrowserView->extension()->urlArgs().reload );
 
-   m_bUpdateContentsPosAfterListing = true;
 
    // Apply properties and reflect them on the actions
    // do it after starting the dir lister to avoid changing the properties
