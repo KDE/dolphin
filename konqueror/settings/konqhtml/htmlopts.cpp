@@ -423,13 +423,13 @@ void KAppearanceOptions::save()
 {
     m_pConfig->setGroup(m_groupname);			
     m_pConfig->writeEntry( "FontSize", fSize );
-	m_pConfig->writeEntry( "MinimumFontSize", fMinSize );
+    m_pConfig->writeEntry( "MinimumFontSize", fMinSize );
     m_pConfig->writeEntry( "StandardFont", stdName );
     m_pConfig->writeEntry( "FixedFont", fixedName );
-	m_pConfig->writeEntry( "SerifFont", serifName );
-	m_pConfig->writeEntry( "SansSerifFont", sansSerifName );
-	m_pConfig->writeEntry( "CursiveFont", cursiveName );
-	m_pConfig->writeEntry( "FantasyFont", fantasyName );
+    m_pConfig->writeEntry( "SerifFont", serifName );
+    m_pConfig->writeEntry( "SansSerifFont", sansSerifName );
+    m_pConfig->writeEntry( "CursiveFont", cursiveName );
+    m_pConfig->writeEntry( "FantasyFont", fantasyName );
     // If the user chose "Use language encoding", write an empty string
     if (encodingName == i18n("Use language encoding"))
         encodingName = "";
@@ -592,30 +592,30 @@ void KJavaScriptOptions::load()
     // *** load ***
     m_pConfig->setGroup(m_groupname);
     bool bJavaGlobal = m_pConfig->readBoolEntry( "EnableJava", false);
-	bool bJavaScriptGlobal = m_pConfig->readBoolEntry( "EnableJavaScript",
+    bool bJavaScriptGlobal = m_pConfig->readBoolEntry( "EnableJavaScript",
 														false );
-	bool bJavaConsole = m_pConfig->readBoolEntry( "ShowJavaConsole", false );
-	bool bJavaAutoDetect = m_pConfig->readBoolEntry( "JavaAutoDetect", true );
-	QString sJDKArgs = m_pConfig->readEntry( "JavaArgs", "" );
+    bool bJavaConsole = m_pConfig->readBoolEntry( "ShowJavaConsole", false );
+    bool bJavaAutoDetect = m_pConfig->readBoolEntry( "JavaAutoDetect", true );
+    QString sJDKArgs = m_pConfig->readEntry( "JavaArgs", "" );
     QString sJDK = m_pConfig->readEntry( "JavaPath", "/usr/lib/jdk" );
 
-	updateDomainList(m_pConfig->readListEntry("JavaScriptDomainAdvice"));
-	changeJavaEnabled();
-	changeJavaScriptEnabled();
+    updateDomainList(m_pConfig->readListEntry("JavaScriptDomainAdvice"));
+    changeJavaEnabled();
+    changeJavaScriptEnabled();
 
     // *** apply to GUI ***
     enableJavaGloballyCB->setChecked( bJavaGlobal );
-	enableJavaScriptGloballyCB->setChecked( bJavaScriptGlobal );
-	javaConsoleCB->setChecked( bJavaConsole );
-	if( bJavaAutoDetect )
-	  autoDetectRB->setChecked( true );
-	else
-	  userSpecifiedRB->setChecked( true );
+    enableJavaScriptGloballyCB->setChecked( bJavaScriptGlobal );
+    javaConsoleCB->setChecked( bJavaConsole );
+    if( bJavaAutoDetect )
+        autoDetectRB->setChecked( true );
+    else
+        userSpecifiedRB->setChecked( true );
 
-	addArgED->setText( sJDKArgs );
-	pathED->setText( sJDK );
+    addArgED->setText( sJDKArgs );
+    pathED->setText( sJDK );
 
-	toggleJavaControls();
+    toggleJavaControls();
 }
 
 void KJavaScriptOptions::defaults()
@@ -635,19 +635,23 @@ void KJavaScriptOptions::save()
     m_pConfig->setGroup(m_groupname);
     m_pConfig->writeEntry( "EnableJava", enableJavaGloballyCB->isChecked());
     m_pConfig->writeEntry( "EnableJavaScript", enableJavaScriptGloballyCB->isChecked());
-	m_pConfig->writeEntry( "ShowJavaConsole", javaConsoleCB->isChecked() );
-	m_pConfig->writeEntry( "JavaAutoDetect", autoDetectRB->isChecked() );
-	m_pConfig->writeEntry( "JavaArgs", addArgED->text() );
-	m_pConfig->writeEntry( "JavaPath", pathED->text() );
+    m_pConfig->writeEntry( "ShowJavaConsole", javaConsoleCB->isChecked() );
+    m_pConfig->writeEntry( "JavaAutoDetect", autoDetectRB->isChecked() );
+    m_pConfig->writeEntry( "JavaArgs", addArgED->text() );
+    m_pConfig->writeEntry( "JavaPath", pathED->text() );
 
-	QStringList domainConfig;
-	QListViewItemIterator it( domainSpecificLV );
-	QListViewItem* current;
-	while( ( current = it.current() ) ) {
-	  ++it;
-	  domainConfig.append(QString::fromLatin1("%1:%2:%3").arg(current->text(0)).arg(javaDomainPolicy[current]).arg(javaScriptDomainPolicy[current]));
-	}
-	m_pConfig->writeEntry("JavaScriptDomainAdvice", domainConfig);
+    QStringList domainConfig;
+    QListViewItemIterator it( domainSpecificLV );
+    QListViewItem* current;
+    while( ( current = it.current() ) ) {
+        ++it;
+        QCString javaPolicy = KHTMLSettings::adviceToStr( 
+                 (KHTMLSettings::KJavaScriptAdvice) javaDomainPolicy[current]);
+        QCString javaScriptPolicy = KHTMLSettings::adviceToStr( 
+                 (KHTMLSettings::KJavaScriptAdvice) javaScriptDomainPolicy[current]);
+        domainConfig.append(QString::fromLatin1("%1:%2:%3").arg(current->text(0)).arg(javaPolicy).arg(javaScriptPolicy));
+    }
+    m_pConfig->writeEntry("JavaScriptDomainAdvice", domainConfig);
 	
     m_pConfig->sync();
 }
@@ -671,10 +675,8 @@ void KJavaScriptOptions::toggleJavaControls()
 void KJavaScriptOptions::addPressed()
 {
     PolicyDialog pDlg( this, 0L );
-    // We subtract one from the enum value because
-    // KJavaScriptDunno is not part of the choice list.
-    int def_javapolicy = KHTMLSettings::KJavaScriptReject - 1;
-    int def_javascriptpolicy = KHTMLSettings::KJavaScriptReject - 1;
+    int def_javapolicy = KHTMLSettings::KJavaScriptReject;
+    int def_javascriptpolicy = KHTMLSettings::KJavaScriptReject;
     pDlg.setDefaultPolicy( def_javapolicy, def_javascriptpolicy );
     pDlg.setCaption( i18n( "New Java/JavaScript Policy" ) );
     if( pDlg.exec() ) {
@@ -683,8 +685,8 @@ void KJavaScriptOptions::addPressed()
 															 pDlg.javaPolicyAdvice() ),
 												KHTMLSettings::adviceToStr( (KHTMLSettings::KJavaScriptAdvice)
 															 pDlg.javaScriptPolicyAdvice() ) );
-	  javaDomainPolicy.insert( index, KHTMLSettings::adviceToStr( (KHTMLSettings::KJavaScriptAdvice)pDlg.javaPolicyAdvice() ) );
-	  javaScriptDomainPolicy.insert( index, KHTMLSettings::adviceToStr( (KHTMLSettings::KJavaScriptAdvice)pDlg.javaScriptPolicyAdvice() ) );
+	  javaDomainPolicy.insert( index, (KHTMLSettings::KJavaScriptAdvice)pDlg.javaPolicyAdvice());
+	  javaScriptDomainPolicy.insert( index, (KHTMLSettings::KJavaScriptAdvice)pDlg.javaScriptPolicyAdvice());
 	  domainSpecificLV->setCurrentItem( index );
 	  changed();
     }
@@ -699,23 +701,21 @@ void KJavaScriptOptions::changePressed()
         return;
     }
 
-    KHTMLSettings::KJavaScriptAdvice javaAdvice = KHTMLSettings::strToAdvice(javaDomainPolicy[index]);
-    KHTMLSettings::KJavaScriptAdvice javaScriptAdvice = KHTMLSettings::strToAdvice(javaScriptDomainPolicy[index]);
+    int javaAdvice = javaDomainPolicy[index];
+    int javaScriptAdvice = javaScriptDomainPolicy[index];
 
     PolicyDialog pDlg( this );
     pDlg.setDisableEdit( false, index->text(0) );
     pDlg.setCaption( i18n( "Change Java/JavaScript Policy" ) );
-    // We subtract one from the enum value because
-    // KJavaScriptDunno is not part of the choice list.
-    pDlg.setDefaultPolicy( javaAdvice - 1, javaScriptAdvice - 1  );
+    pDlg.setDefaultPolicy( javaAdvice, javaScriptAdvice );
     if( pDlg.exec() )
     {
-      javaDomainPolicy[index] =
-		KHTMLSettings::adviceToStr((KHTMLSettings::KJavaScriptAdvice)pDlg.javaPolicyAdvice());
-	  javaScriptDomainPolicy[index] =
-		KHTMLSettings::adviceToStr((KHTMLSettings::KJavaScriptAdvice)pDlg.javaScriptPolicyAdvice() );
-      index->setText(1, i18n(javaDomainPolicy[index]) );
-	  index->setText(2, i18n(javaScriptDomainPolicy[index] ));
+      javaDomainPolicy[index] = pDlg.javaPolicyAdvice();
+      javaScriptDomainPolicy[index] = pDlg.javaScriptPolicyAdvice();
+      index->setText(1, i18n(KHTMLSettings::adviceToStr(
+              (KHTMLSettings::KJavaScriptAdvice)javaDomainPolicy[index])));
+      index->setText(2, i18n(KHTMLSettings::adviceToStr(
+              (KHTMLSettings::KJavaScriptAdvice)javaScriptDomainPolicy[index])));
       changed();
     }
 }
@@ -762,15 +762,15 @@ void KJavaScriptOptions::updateDomainList(const QStringList &domainConfig)
          it != domainConfig.end(); ++it) {
       QString domain;
       KHTMLSettings::KJavaScriptAdvice javaAdvice;
-	  KHTMLSettings::KJavaScriptAdvice javaScriptAdvice;
+      KHTMLSettings::KJavaScriptAdvice javaScriptAdvice;
       KHTMLSettings::splitDomainAdvice(*it, domain, javaAdvice, javaScriptAdvice);
-      QCString javaAdvStr = KHTMLSettings::adviceToStr(javaAdvice);
-	  QCString javaScriptAdvStr = KHTMLSettings::adviceToStr(javaScriptAdvice);
       QListViewItem *index =
-        new QListViewItem( domainSpecificLV, domain, i18n(javaAdvStr),
-						   i18n( javaScriptAdvStr ) );
-      javaDomainPolicy[index] = javaAdvStr;
-      javaScriptDomainPolicy[index] = javaScriptAdvStr;
+        new QListViewItem( domainSpecificLV, domain, 
+                i18n(KHTMLSettings::adviceToStr(javaAdvice)),
+                i18n(KHTMLSettings::adviceToStr(javaScriptAdvice)) );
+
+      javaDomainPolicy[index] = javaAdvice;
+      javaScriptDomainPolicy[index] = javaScriptAdvice;
     }
 }
 

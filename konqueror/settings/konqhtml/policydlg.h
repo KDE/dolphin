@@ -44,8 +44,8 @@ public:
     /*
     * Sets the default cookie policy.
     *
-    * @param javavalue 0 - Accpet, 1 - Reject
-    * @param javascriptvalue 0 - Accept, 1 - Reject
+    * @param javavalue 1 - Accept, 2 - Reject
+    * @param javascriptvalue 1 - Accept, 2 - Reject
     */    
     void setDefaultPolicy( int javavalue, int javascriptvalue );
 

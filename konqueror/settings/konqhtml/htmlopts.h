@@ -125,8 +125,8 @@ private:
   QRadioButton* userSpecifiedRB;
   QLineEdit* pathED;
   QLineEdit* addArgED;
-  QMap<QListViewItem*, const char *> javaDomainPolicy;
-  QMap<QListViewItem*, const char *> javaScriptDomainPolicy;
+  QMap<QListViewItem*, int> javaDomainPolicy;
+  QMap<QListViewItem*, int> javaScriptDomainPolicy;
 };
 
 

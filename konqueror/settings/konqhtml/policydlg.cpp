@@ -80,13 +80,13 @@ void PolicyDialog::setDisableEdit( bool state, const QString& text )
 
 void PolicyDialog::setDefaultPolicy( int javavalue, int javascriptvalue )
 {
-    if( javavalue > -1 && javavalue < (int) cb_javapolicy->count() )
+    if( javavalue > 0 && javavalue <= (int) cb_javapolicy->count() )
     {
-        cb_javapolicy->setCurrentItem( javavalue );
+        cb_javapolicy->setCurrentItem( javavalue-1 );
     }
-    if( javascriptvalue > -1 && javascriptvalue < (int) cb_javascriptpolicy->count() )
+    if( javascriptvalue > 0 && javascriptvalue <= (int) cb_javascriptpolicy->count() )
     {
-        cb_javascriptpolicy->setCurrentItem( javascriptvalue );
+        cb_javascriptpolicy->setCurrentItem( javascriptvalue-1 );
     }
 }
 
