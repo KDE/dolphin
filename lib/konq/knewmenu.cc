@@ -164,9 +164,6 @@ void KNewMenu::slotNewFile()
     int id = QString( sender()->name() + 7 ).toInt(); // skip "newmenu"
     if (id == 0) return;
 
-    m_sDest.clear();
-    m_sDest.setAutoDelete(true);
-
     QString sFile = *(templatesList->at( id - 1 ));
     //kDebugInfo( 1203, QString("sFile = %1").arg(sFile));
 

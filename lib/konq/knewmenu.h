@@ -111,12 +111,6 @@ private:
      */
     KURL::List popupFiles;
 
-    /*
-     * The destination of the copy, for each job being run (job id is the dict key).
-     * Used to popup properties for it
-     */
-    QIntDict <QString> m_sDest;
-
     static KDirWatch * m_pDirWatch;
 };
 
