@@ -247,7 +247,35 @@ void KBookmarkMenu::slotBookmarkSelected()
         QString title = m_pOwner->currentTitle();
         if (title.isEmpty())
           title = url;
-        (void)new KBookmark( KBookmarkManager::self(), bm, title, url );
+
+        // If this title is already used, we'll try to find something
+        // unused.
+        KBookmark *ch = bm->first();
+        int count = 1;
+        QString uniqueTitle = title;
+        do
+        {
+          while ( ch )
+          {
+            if ( uniqueTitle == ch->text() )
+            {
+              if ( url != ch->url() )
+              {
+                uniqueTitle = title + QString(" (%1)").arg(++count);
+                ch = bm->first();
+                break;
+              }
+              else
+              {
+                // this exact URL already exists
+                return;
+              }
+            }
+            ch = bm->next();
+          }
+        } while ( ch );
+
+        (void)new KBookmark( KBookmarkManager::self(), bm, uniqueTitle, url );
         // DCOP broadcast to notify about this new bookmark
         KURL uChanged;
         uChanged.setPath( bm->file() );
