@@ -203,7 +203,7 @@ void KonqDraggableLabel::mouseMoveEvent( QMouseEvent * ev )
   if ((startDragPos - ev->pos()).manhattanLength() > QApplication::startDragDistance())
   {
     validDrag = false;
-    if ( m_mw->currentView() )
+    if ( m_mw && m_mw->currentView() )
     {
       KURL::List lst;
       lst.append( m_mw->currentView()->url() );
