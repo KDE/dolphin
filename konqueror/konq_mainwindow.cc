@@ -2721,6 +2721,11 @@ void KonqMainWindow::initActions()
 
 void KonqMainWindow::updateToolBarActions()
 {
+   updateToolBarActions( false );
+}
+
+void KonqMainWindow::updateToolBarActions( bool pendingAction )
+{
   // Enables/disables actions that depend on the current view (mostly toolbar)
   // Up, back, forward, the edit extension, stop button, wheel
   setUpEnabled( m_currentView->url() );
@@ -2728,9 +2733,14 @@ void KonqMainWindow::updateToolBarActions()
   m_paForward->setEnabled( m_currentView->canGoForward() );
 
   if ( m_currentView->isLoading() )
+  {
     startAnimation(); // takes care of m_paStop
+  }
   else
-    stopAnimation(); // takes care of m_paStop
+  {
+    m_paAnimatedLogo->stop();
+    m_paStop->setEnabled( pendingAction );  //enable/disable based on any pending actions...
+  }
 }
 
 void KonqMainWindow::updateViewActions()

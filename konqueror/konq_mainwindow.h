@@ -168,6 +168,7 @@ public:
   void disableActionsNoView();
 
   void updateToolBarActions();
+  void updateToolBarActions( bool );
   void updateOpenWithActions();
   void updateViewModeActions();
   void updateViewActions();

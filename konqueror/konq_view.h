@@ -286,6 +286,7 @@ protected slots:
   // connected to the KROP's KIO::Job
   void slotStarted( KIO::Job * job );
   void slotCompleted();
+  void slotCompleted( bool );
   void slotCanceled( const QString & errMsg );
   void slotPercent( KIO::Job *, unsigned long percent );
   void slotSpeed( KIO::Job *, unsigned long bytesPerSecond );

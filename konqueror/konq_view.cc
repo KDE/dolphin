@@ -248,7 +248,9 @@ void KonqView::connectPart(  )
            this, SLOT( slotStarted( KIO::Job * ) ) );
   connect( m_pPart, SIGNAL( completed() ),
            this, SLOT( slotCompleted() ) );
-  connect( m_pPart, SIGNAL( canceled( const QString & ) ),
+  connect( m_pPart, SIGNAL( completed(bool) ),
+           this, SLOT( slotCompleted(bool) ) );
+   connect( m_pPart, SIGNAL( canceled( const QString & ) ),
            this, SLOT( slotCanceled( const QString & ) ) );
 
   KParts::BrowserExtension *ext = browserExtension();
@@ -360,12 +362,17 @@ void KonqView::slotInfoMessage( KIO::Job *, const QString &msg )
 
 void KonqView::slotCompleted()
 {
+   slotCompleted( false );   
+}
+
+void KonqView::slotCompleted( bool hasPending )
+{
   kdDebug(1202) << "KonqView::slotCompleted" << endl;
   m_bLoading = false;
   m_pKonqFrame->statusbar()->slotLoadingProgress( -1 );
 
   if ( m_pMainWindow->currentView() == this )
-    m_pMainWindow->updateToolBarActions();
+    m_pMainWindow->updateToolBarActions( hasPending );
 
   if ( ! m_bLockHistory )
   {
@@ -380,6 +387,7 @@ void KonqView::slotCompleted()
 
       emit viewCompleted( this );
   }
+  m_bLoading = hasPending;
 }
 
 void KonqView::slotCanceled( const QString & errorMsg )
