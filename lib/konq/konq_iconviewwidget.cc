@@ -100,16 +100,25 @@ void KFileTip::setItem( KFileIVI *ivi )
         rect.moveBy( off.x(), off.y() );
 
         QPoint pos = rect.center();
+        // m_corner:
+        // 0: upperleft
+        // 1: upperright
+        // 2: lowerleft
+        // 3: lowerright
         m_corner = 0;
+        // should the tooltip be shown to the left or to the right of the ivi ?
         if ( ( ( rect.center().x() > width() ) && ( rect.center().x() - off.x() > m_view->width() / 2 ) ) ||
              ( rect.center().x() + width() > QApplication::desktop()->width() ) )
         {
+            // to the left
             pos.setX( pos.x() - width() );
             m_corner = 1;
         }
+        // should the tooltip be shown above or below the ivi ?
         if ( ( ( rect.top() > height() ) && ( rect.top() - off.y() > m_view->height() / 2 ) ) ||
              ( rect.bottom() + height() > QApplication::desktop()->height() ) )
         {
+            // above
             pos.setY( rect.top() - height() );
             m_corner += 2;
         }
@@ -119,6 +128,7 @@ void KFileTip::setItem( KFileIVI *ivi )
         killTimers();
         setFilter( true );
         if ( !isVisible() ) startTimer( 700 );
+        else update();
     }
     else {
         killTimers();
