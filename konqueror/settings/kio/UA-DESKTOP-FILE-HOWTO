@@ -14,17 +14,17 @@ following entries and requirements:
 REQUIREMENTS:
 =============
 The following properties as defined by the DESKTOP ENTRY STANDARD
-should be set as shown below.
+must be set as shown below:
 
 Name=UADescription (XXXX)
 Type=Service
 ServiceTypes=UserAgentStrings
 
-Though the (XXXX) value show below can be any text, it is a good idea to make
+Though the (XXXX) value show above can be any text, it is a good idea to make
 it a short identification of the browser you're trying to describe.  However,
 there is NO requirement on what the text should be.  It can even be left out
-if you want to.  It is only meant to give people a qucik idea which browser
-is being described that particular desktop file.
+if you want to.  It is only meant to give people a quick idea which browser
+is being described by yuor desktop file.
 
 NEW PROPERTIES:
 ===============
