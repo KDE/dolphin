@@ -60,9 +60,11 @@ KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name)
     pages[0] = new QWidget( this, "page1" );
 
     nameBox = new KComboBox(TRUE, pages[0], "combo1");
+    nameBox->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);  // allow smaller than widest entry
     QLabel * namedL = new QLabel(nameBox, i18n("&Named:"), pages[0], "named");
     QToolTip::add( namedL, i18n("You can use wildcard matching and \";\" for separating multiple names") );
     dirBox  = new KComboBox(TRUE, pages[0], "combo2");
+    dirBox->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);  // allow smaller than widest entry
     QLabel * lookinL = new QLabel(dirBox, i18n("Look &in:"), pages[0], "named");
     subdirsCb  = new QCheckBox(i18n("Include &subfolders"), pages[0]);
     caseSensCb  = new QCheckBox(i18n("Case s&ensitive search"), pages[0]);
@@ -117,7 +119,7 @@ KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name)
     QGridLayout *grid = new QGridLayout( pages[0], 3, 2,
 					 KDialog::marginHint(),
 					 KDialog::spacingHint() );
-    QBoxLayout *subgrid = new QHBoxLayout( -1 , "subgrid" );
+    QBoxLayout *subgrid = new QVBoxLayout( -1 , "subgrid" );
     grid->addWidget( namedL, 0, 0 );
     grid->addMultiCellWidget( nameBox, 0, 0, 1, 2 );
     grid->addWidget( lookinL, 1, 0 );
@@ -126,10 +128,9 @@ KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name)
     grid->setColStretch(1,1);
     grid->addMultiCellLayout( subgrid, 2, 2, 1, 2 );
     subgrid->addWidget( subdirsCb );
-    subgrid->addSpacing( KDialog::spacingHint() );
     subgrid->addWidget( caseSensCb);
     subgrid->addWidget( useLocateCb );
-   subgrid->addStretch(1);
+    subgrid->addStretch(1);
 
     // Signals
 
@@ -243,6 +244,7 @@ KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name)
     pages[2] = new QWidget( this, "page3" );
 
     typeBox =new KComboBox(FALSE, pages[2], "typeBox");
+    typeBox->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);  // allow smaller than widest entry
     QLabel * typeL   =new QLabel(typeBox, i18n("File &type:"), pages[2], "type");
     textEdit=new KLineEdit(pages[2], "textEdit" );
     QLabel * textL   =new QLabel(textEdit, i18n("C&ontaining text:"), pages[2], "text");
