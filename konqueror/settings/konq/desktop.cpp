@@ -25,6 +25,7 @@
 #include <qslider.h>
 
 #include <kapplication.h>
+#include <kglobal.h>
 #include <dcopclient.h>
 #include <klocale.h>
 #include <kdialog.h>
@@ -114,6 +115,32 @@ KDesktopConfig::KDesktopConfig(QWidget *parent, const char * /*name*/)
   layout->addWidget(_wheelOption);
   layout->addStretch(1);
 
+  // Begin check for immutable
+  int kwin_screen_number = DefaultScreen(qt_xdisplay());
+
+  KConfig *config = KGlobal::config();
+
+  QCString groupname;
+  if (kwin_screen_number == 0)
+     groupname = "Desktops";
+  else
+     groupname.sprintf("Desktops-screen-%d", kwin_screen_number);
+
+  if (config->groupIsImmutable(QString::fromUtf8(groupname)))
+  {
+     name_group->setEnabled(false);
+     number_group->setEnabled(false);
+  }
+  else
+  {
+     KConfigGroupSaver cfgSaver(config, groupname);
+     if (config->entryIsImmutable("Number"))
+     {
+        number_group->setEnabled(false);
+     }
+  }
+  // End check for immutable
+
   load();
 }
 
@@ -135,10 +162,13 @@ void KDesktopConfig::load()
     _nameInput[i-1]->setEnabled(i <= n);
   emit changed(false);
 
-
-  KConfig *config = new KConfig("kdesktoprc", true);
+  KConfig *config = new KConfig("kdesktoprc", false, false);
   config->setGroup("Mouse Buttons");
   _wheelOption->setChecked(config->readBoolEntry("WheelSwitchesWorkspace",false));
+  
+  if (config->entryIsImmutable("WheelSwitchesWorkspace"))
+     _wheelOption->setEnabled(false);
+  
   delete config;
 }
 
