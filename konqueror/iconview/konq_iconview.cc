@@ -341,7 +341,7 @@ KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const 
 
     // Finally, determine initial grid size again, with those parameters
     //    m_pIconView->calculateGridX();
-    
+
     setViewMode( mode );
 }
 
@@ -584,6 +584,7 @@ void KonqKfmIconView::slotReturnPressed( QIconViewItem *item )
     if ( !item )
 	return;
 
+    item->setSelected( false, true );
     m_pIconView->visualActivate(item);
 
     KonqFileItem *fileItem = (static_cast<KFileIVI*>(item))->item();
@@ -625,10 +626,20 @@ void KonqKfmIconView::slotMouseButtonPressed(int _button, QIconViewItem* _item, 
 	    emit m_extension->popupMenu( _global, m_pIconView->selectedFileItems() );
 	    break;
 	case MidButton:
-	    // New view
-	    (static_cast<KFileIVI*>(_item))->item()->run();
-	    break;
-	}
+          {
+            // New window
+            KFileItem * fileItem = static_cast<KFileIVI*>(_item)->item();
+            if ( KonqFMSettings::settings()->shouldEmbed( fileItem->mimetype() ) )
+            {
+              KParts::URLArgs args;
+              args.serviceType = fileItem->mimetype();
+              emit m_extension->createNewWindow( fileItem->url(), args );
+            }
+            else
+              fileItem->run();
+            break;
+          }
+        }
     }
 }
 
@@ -1088,7 +1099,7 @@ void KonqKfmIconView::setViewMode( const QString &mode )
        m_pIconView->setArrangement(QIconView::LeftToRight);
        m_pIconView->setItemTextPos(QIconView::Bottom);
     }
-    
+
     m_pIconView->setUpdatesEnabled( true );
     m_pIconView->calculateGridX();
 }
