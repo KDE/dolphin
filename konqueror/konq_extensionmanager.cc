@@ -31,7 +31,8 @@ class KonqExtensionManagerPrivate
 {
 	public:
 		KPluginSelector *pluginSelector;
-		KConfig *config;
+		KConfig *konqConfig;
+		KConfig *khtmlConfig;
 		bool isChanged;
 };
 
@@ -55,13 +56,16 @@ KonqExtensionManager::KonqExtensionManager(QWidget *parent, const char *name) :
 	connect(d->pluginSelector, SIGNAL(configCommitted(const QCString &)),
 	        KSettings::Dispatcher::self(), SLOT(reparseConfiguration(const QCString &)));
 
-	d->config = new KConfig("konquerorrc");
-	d->pluginSelector->addPlugins("konqueror", i18n("Konqueror Extensions"), QString::null, d->config);
+	d->konqConfig = new KConfig("konquerorrc");
+	d->khtmlConfig = new KConfig("khtmlrc");
+	d->pluginSelector->addPlugins("konqueror", i18n("Extensions"), "Extensions", d->konqConfig);
+	d->pluginSelector->addPlugins("khtml",     i18n("Tools"),      "Tools",      d->khtmlConfig);
 }
 
 KonqExtensionManager::~KonqExtensionManager()
 {
-	delete d->config;
+	delete d->konqConfig;
+	delete d->khtmlConfig;
 }
 
 void KonqExtensionManager::setChanged(bool c)
