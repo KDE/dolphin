@@ -34,7 +34,11 @@ public:
     KNSBookmarkExporter( const QString & fileName ) : m_fileName(fileName) {}
     ~KNSBookmarkExporter() {}
 
-    void write();
+    // For compat
+    void write() { write(false); }
+    // Write out. Use utf8=true for Mozilla, false for Netscape
+    void write( bool utf8 );
+
 protected:
     void writeFolder( QTextStream &stream, KBookmarkGroup parent );
     QString m_fileName;

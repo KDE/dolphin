@@ -56,8 +56,10 @@ public:
     KNSBookmarkImporter( const QString & fileName ) : m_fileName(fileName) {}
     ~KNSBookmarkImporter() {}
 
-    // go for it
-    void parseNSBookmarks();
+    // for compat reasons only
+    void parseNSBookmarks() { parseNSBookmarks(false); }
+    // go for it. Set utf8 to true for Mozilla, false for Netscape.
+    void parseNSBookmarks( bool utf8 );
 
     // Usual place for NS bookmarks
     static QString netscapeBookmarksFile( bool forSaving=false );

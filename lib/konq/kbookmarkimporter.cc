@@ -25,6 +25,7 @@
 #include <kmimetype.h>
 #include <kdebug.h>
 #include <qdir.h>
+#include <qtextcodec.h>
 #include <kio/global.h>
 
 #include <sys/types.h>
@@ -151,12 +152,16 @@ void KBookmarkImporter::parseBookmark( QDomElement & parentElem, QCString _text,
 
 ////
 
-void KNSBookmarkImporter::parseNSBookmarks()
+void KNSBookmarkImporter::parseNSBookmarks( bool utf8 )
 {
     QFile f(m_fileName);
     QRegExp amp("&amp;");
     QRegExp lt("&lt;");
     QRegExp gt("&gt;");
+    QTextCodec * codec = utf8 ? QTextCodec::codecForName("UTF-8") : QTextCodec::codecForLocale();
+    ASSERT(codec);
+    if (!codec)
+        return;
 
     if(f.open(IO_ReadOnly)) {
 
@@ -187,8 +192,8 @@ void KNSBookmarkImporter::parseNSBookmarks()
                 name.replace( amp, "&" ).replace( lt, "<" ).replace( gt, ">" );
                 QCString additionnalInfo = t.mid( secondQuotes+1, endTag-secondQuotes-1 );
 
-                emit newBookmark( KStringHandler::csqueeze(QString::fromLocal8Bit(name)),
-                                  link, QString::fromLocal8Bit(additionnalInfo) );
+                emit newBookmark( KStringHandler::csqueeze(codec->toUnicode(name)),
+                                  link, codec->toUnicode(additionnalInfo) );
               }
             }
             else if(t.left(7).upper() == "<DT><H3") {
@@ -200,9 +205,9 @@ void KNSBookmarkImporter::parseNSBookmarks()
                 bool folded = (additionnalInfo.left(6) == "FOLDED");
                 if (folded) additionnalInfo.remove(0,7);
 
-                emit newFolder( KStringHandler::csqueeze(QString::fromLocal8Bit(name)),
+                emit newFolder( KStringHandler::csqueeze(codec->toUnicode(name)),
                                 !folded,
-                                QString::fromLocal8Bit(additionnalInfo) );
+                                codec->toUnicode(additionnalInfo) );
             }
             else if(t.left(4).upper() == "<HR>")
                 emit newSeparator();
