@@ -127,10 +127,10 @@ void KonqTxtView::restoreState( const Konqueror::View::HistoryEntry &history )
 {
   m_strURL = history.url.in();
   
-  CORBA::WString_var txt;
+  CORBA::WChar *txt;
   history.data >>= CORBA::Any::to_wstring( txt, 0 );
   
-  QString s = C2Q( txt.in() );
+  QString s = C2Q( txt );
   setText( s );
   
   SIGNAL_CALL2( "started", id(), history.url );
