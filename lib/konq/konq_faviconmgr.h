@@ -40,7 +40,7 @@ public:
      * Constructor.
      */
     KonqFavIconMgr(QObject *parent = 0, const char *name = 0);
-    
+
     /**
      * Downloads an icon from @p iconURL and associates @p url with it.
      */
@@ -58,20 +58,20 @@ public:
      * or QString::null otherwise
      */
     static QString iconForURL(const QString &url);
-   
+
 k_dcop:
     /**
      * an icon changed, used to propagate changes between applications
      * and instances
      */
-    ASYNC notifyChange();
-    
+    virtual ASYNC notifyChange( bool isHost, QString hostOrURL, QString iconURL );
+
 signals:
     /**
      * An icon has changed, emitted upon reception of @ref notifyChanged()
      */
     void changed();
-    
+
 private slots:
     void slotData(KIO::Job *, const QByteArray &);
     void slotResult(KIO::Job *);
@@ -80,7 +80,7 @@ private:
     // Can be removed after
     // "everybody upgraded from KDE 2.1b1 to a later version"
     friend void convertFavIcons();
-   
+
     void startDownload(const QString &, bool, const KURL &);
     static QString simplifyURL(const KURL &);
     static QString iconNameFromURL(const KURL &);

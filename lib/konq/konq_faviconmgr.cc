@@ -48,7 +48,7 @@ struct URLInfo
     QString iconURL;
     bool hostDefault;
 };
-                                
+
 QDataStream &operator>> (QDataStream &str, URLInfo &info)
 {
     str >> info.iconURL;
@@ -141,7 +141,7 @@ QString KonqFavIconMgr::iconForURL(const QString &url)
         QString iconURL = favicons()->readEntry(simplifyURL(url));
         if (!iconURL.isEmpty())
             return iconNameFromURL(iconURL);
-    
+
         QString icon = "favicons/" + _url.host();
         if (!locate("icon", icon + ".png").isEmpty())
             return icon;
@@ -209,9 +209,10 @@ void KonqFavIconMgr::startDownload(const QString &hostOrURL, bool isHost, const 
     m_downloads.insert(job, download);
 }
 
-void KonqFavIconMgr::notifyChange()
+void KonqFavIconMgr::notifyChange(bool isHost, QString hostOrURL, QString iconURL)
 {
-    favicons()->sync();
+    if ( !isHost )
+	favicons()->writeEntry( hostOrURL, iconURL );
     emit changed();
 }
 
@@ -258,18 +259,21 @@ void KonqFavIconMgr::slotResult(KIO::Job *job)
         iconName = "favicons/" + download.hostOrURL;
     else
         iconName = iconNameFromURL(iconURL);
-    
-    io.setIODevice(0);                                   
+
+    io.setIODevice(0);
     io.setFileName(locateLocal("icon", iconName + ".png"));
     io.setFormat("PNG");
     if (!io.write())
         return;
 
-    if (!download.isHost)
+    if (!download.isHost) {
         favicons()->writeEntry(download.hostOrURL, iconURL);
+	favicons()->sync();
+    }
     QByteArray data;
-    kapp->dcopClient()->send("*", "KonqFavIconMgr", "notifyChange()", data);
+    QDataStream stream( data, IO_WriteOnly );
+    stream << download.isHost << download.hostOrURL << iconURL;
+    kapp->dcopClient()->send("*", "KonqFavIconMgr", "notifyChange(bool,QString,QString)", data);
 }
 
 #include "konq_faviconmgr.moc"
-

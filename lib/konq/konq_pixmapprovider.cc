@@ -19,13 +19,12 @@
 
 #include <qstringlist.h>
 
+#include <kapp.h>
 #include <kconfig.h>
 #include <kiconloader.h>
 #include <kmimetype.h>
 #include <kprotocolinfo.h>
 #include <kurl.h>
-
-#include <konq_faviconmgr.h>
 
 #include "konq_pixmapprovider.h"
 
@@ -34,9 +33,15 @@ KonqPixmapProvider * KonqPixmapProvider::s_self = 0L;
 KonqPixmapProvider * KonqPixmapProvider::self()
 {
     if ( !s_self )
-	s_self = new KonqPixmapProvider;
-    
+	s_self = new KonqPixmapProvider( kapp, "KonqPixmapProvider" );
+
     return s_self;
+}
+
+KonqPixmapProvider::KonqPixmapProvider( QObject *parent, const char *name )
+    : KonqFavIconMgr( parent, name ),
+      KPixmapProvider()
+{
 }
 
 KonqPixmapProvider::~KonqPixmapProvider()
@@ -65,7 +70,7 @@ QPixmap KonqPixmapProvider::pixmapFor( const QString& url, int size )
 	u = url;
 
     icon = KonqFavIconMgr::iconForURL(u.url());
-    
+
     if (icon.isEmpty())
     {
         KMimeType::Ptr mt = KMimeType::findByURL( u, 0, u.isLocalFile() );
@@ -121,8 +126,17 @@ void KonqPixmapProvider::save( KConfig *kc, const QString& key,
     kc->writeEntry( key, list );
 }
 
-void KonqPixmapProvider::updateFavIcons()
+void KonqPixmapProvider::notifyChange( bool isHost, QString hostOrURL,
+                                       QString iconURL )
 {
+    // little hack: KonqFavIconMgr would emit changed(), but we want to
+    // update our cache before. And we want it to update its configuration
+    // before we ask for the new icons...
+    
+    blockSignals( true );
+    KonqFavIconMgr::notifyChange( isHost, hostOrURL, iconURL );
+    blockSignals( false );
+
     for ( QMapIterator<QString,QString> it = iconMap.begin();
           it != iconMap.end();
           ++it )
@@ -131,5 +145,11 @@ void KonqPixmapProvider::updateFavIcons()
         if ( ! iconName.isEmpty() )
             *it = iconName;
     }
+    
+    emit changed();
 }
 
+void KonqPixmapProvider::clear()
+{
+    iconMap.clear();
+}

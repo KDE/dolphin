@@ -22,10 +22,12 @@
 
 #include <qmap.h>
 
-#include <kconfig.h>
 #include <kpixmapprovider.h>
+#include "konq_faviconmgr.h"
 
-class KonqPixmapProvider : public QObject, public KPixmapProvider
+class KConfig;
+
+class KonqPixmapProvider : public KonqFavIconMgr, virtual public KPixmapProvider
 {
 public:
     static KonqPixmapProvider * self();
@@ -50,11 +52,17 @@ public:
     /**
      * Clears the pixmap cache
      */
-    void updateFavIcons();
+    void clear();
+
+protected:
+    KonqPixmapProvider( QObject *parent=0, const char *name=0 );
+    
+    /**
+     * Overridden from KonqFavIconMgr to update the cache
+     */
+    virtual void notifyChange( bool isHost, QString hostOrURL, QString iconURL );
 
 private:
-    KonqPixmapProvider() {}
-    
     QMap<QString,QString> iconMap;
     static KonqPixmapProvider * s_self;
 };
