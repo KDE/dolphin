@@ -426,6 +426,8 @@ QString KfindTabDialog::createQuery()
       {
         str = dirBox->text(dirBox->currentItem());
 
+	nameBox->insertItem( nameBox->currentText(),0 );
+
 	if ( (typeBox->currentItem())!=0 )
 	  {
 	    KfFileType *typ;
