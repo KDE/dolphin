@@ -48,7 +48,6 @@ signals:
 
 private:
     QGuardedPtr<KHistoryCombo> m_combo;
-    QStringList m_items;
     const QObject *m_receiver;
     const char *m_member;
 };
