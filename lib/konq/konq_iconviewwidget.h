@@ -101,11 +101,14 @@ public:
 
     /**
      * Sets the icons of all items, and stores the @p size
-     * This doesn't touch thumbnails, except @p stopImagePreview is set to true
-     * Takes care of the grid, when changing the size
-     * @param stopImagePreviewFor set to "image/" to make images normal again, etc.
+     * This doesn't touch thumbnails, except if @p stopImagePreviewFor is set.
+     * Takes care of the grid, when changing the size.
+     *
+     * @param stopImagePreviewFor set to a list of mimetypes which should be made normal again.
+     * For instance "text/plain,image/wmf".
+     * Can be set to "*" for "all mimetypes" and to "image/"+"*" for "all images".
      */
-    void setIcons( int size, const char * stopImagePreviewFor = 0 );
+    void setIcons( int size, const QStringList& stopImagePreviewFor = QStringList() );
 
     /**
      * Called on databaseChanged
@@ -121,9 +124,17 @@ public:
      */
     int gridXValue() const;
 
+    /**
+     * Start generating the previews.
+     * @param previewSettings
+     * @param force if true, all files are looked at.
+     *    Otherwise, only those which are not a thumbnail already.
+     */
     void startImagePreview( const QStringList &previewSettings, bool force );
     void stopImagePreview();
+    bool isPreviewRunning() const;
     void setThumbnailPixmap( KFileIVI * item, const QPixmap & pixmap );
+    void disableSoundPreviews();
 
     void setURL ( const KURL & kurl );
     const KURL & url() { return m_url; }
@@ -226,6 +237,7 @@ protected slots:
 protected:
     virtual QDragObject *dragObject();
     KonqIconDrag *konqDragObject( QWidget * dragSource = 0L );
+    bool mimeTypeMatch( const QString& mimeType, const QStringList& mimeList ) const;
 
     virtual void drawBackground( QPainter *p, const QRect &r );
     /**

@@ -26,6 +26,7 @@
 #include <qpainter.h>
 #include <qtooltip.h>
 #include <qmovie.h>
+#include <qregexp.h>
 
 #include <kapplication.h>
 #include <kdebug.h>
@@ -363,6 +364,7 @@ void KonqIconViewWidget::slotStartSoundPreview()
 
 void KonqIconViewWidget::slotPreview(const KFileItem *item, const QPixmap &pix)
 {
+    // ### slow. Idea: move KonqKfmIconView's m_itemDict into this class
     for (QIconViewItem *it = firstItem(); it; it = it->nextItem())
     {
         if (static_cast<KFileIVI *>(it)->item() == item)
@@ -482,32 +484,60 @@ void KonqIconViewWidget::initConfig( bool bInit )
 
 }
 
-void KonqIconViewWidget::setIcons( int size, const char * stopImagePreviewFor )
+void KonqIconViewWidget::disableSoundPreviews()
 {
-    kdDebug(1203) << "KonqIconViewWidget::setIcons( " << size << " , " << stopImagePreviewFor << ")" << endl;
+    d->bSoundPreviews = false;
+
+    if (d->pSoundPlayer)
+      d->pSoundPlayer->stop();
+    d->pSoundItem = 0;
+    if (d->pSoundTimer && d->pSoundTimer->isActive())
+      d->pSoundTimer->stop();
+}
+
+void KonqIconViewWidget::setIcons( int size, const QStringList& stopImagePreviewFor )
+{
+    //kdDebug(1203) << "KonqIconViewWidget::setIcons( " << size << " , " << stopImagePreviewFor.join(",") << ")" << endl;
     bool sizeChanged = (m_size != size);
     int oldGridX = gridX();
     m_size = size;
-    if ( sizeChanged || stopImagePreviewFor )
+    if ( sizeChanged || !stopImagePreviewFor.isEmpty() )
     {
         calculateGridX();
     }
+    bool stopAll = !stopImagePreviewFor.isEmpty() && stopImagePreviewFor.first() == "*";
     // Do this even if size didn't change, since this is used by refreshMimeTypes...
     for ( QIconViewItem *it = firstItem(); it; it = it->nextItem() ) {
         KFileIVI * ivi = static_cast<KFileIVI *>( it );
+        // Set a normal icon for files that are not thumbnails, and for files
+        // that are thumbnails but for which it should be stopped
         if ( !ivi->isThumbnail() ||
-             ( stopImagePreviewFor && strlen(stopImagePreviewFor) == 0) )
+             stopAll ||
+             mimeTypeMatch( ivi->item()->mimetype(), stopImagePreviewFor ) )
         {
-            // perhaps we should do one big redraw instead ?
             ivi->setIcon( size, ivi->state(), true, true );
         }
         else
             ivi->invalidateThumb( ivi->state(), true );
     }
-    if ( autoArrange() && (oldGridX != gridX() || stopImagePreviewFor) )
+    if ( autoArrange() && (oldGridX != gridX() || !stopImagePreviewFor.isEmpty()) )
     {
         arrangeItemsInGrid( true ); // take new grid into account
     }
+}
+
+bool KonqIconViewWidget::mimeTypeMatch( const QString& mimeType, const QStringList& mimeList ) const
+{
+    for (QStringList::ConstIterator mt = mimeList.begin(); mt != mimeList.end(); ++mt)
+    {
+        if ( mimeType == *mt )
+            return true;
+        // Support for *mt == "image/*"
+        QString tmp( mimeType );
+        if ( (*mt).endsWith("*") && tmp.replace(QRegExp("/.*"), "/*") == (*mt) )
+            return true;
+    }
+    return false;
 }
 
 void KonqIconViewWidget::setItemTextPos( ItemTextPos pos )
@@ -625,6 +655,11 @@ void KonqIconViewWidget::stopImagePreview()
         if (autoArrange())
             arrangeItemsInGrid();
     }
+}
+
+bool KonqIconViewWidget::isPreviewRunning() const
+{
+    return d->pPreviewJob;
 }
 
 KFileItemList KonqIconViewWidget::selectedFileItems()
