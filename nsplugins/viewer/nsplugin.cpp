@@ -380,20 +380,9 @@ DCOPRef NSPluginClass::NewInstance(QString mimeType, int mode, QStringList argn,
     {
       const char *n = (const char*)argn[i].ascii();
       const char *v = (const char*)argv[i].ascii();
-
-      if (!n)
-      {
-        kDebugWarning("NSPluginClass::NewInstance - argn[%d]=NULL", i);
-        _argn[i] = 0L;
-      } else
-       	 _argn[i] = strdup(n);      	
-
-      if (!v)
-      {
-        kDebugWarning("NSPluginClass::NewInstance - argv[%d]=NULL", i);
-        _argv[i] = 0L;
-      } else
-          _argv[i] = strdup(v);
+  	
+      _argn[i] = strdup(n);      	
+      _argv[i] = strdup(v);
       	
       kdDebug() << "argn=" << _argn[i] << " argv=" << _argv[i] << endl;
       if (!stricmp(_argn[i], "src")) src = argv[i];
