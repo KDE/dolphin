@@ -487,6 +487,9 @@ void ListView::handleSelectionChanged(KEBListView *) {
    s_listview_is_dirty = true;
    KEBApp::self()->updateActions();
    updateSelectedItems();
+   if (selectedItems()->count() == 1) {
+      KEBApp::self()->bkInfo()->showBookmark(firstSelected()->bookmark());
+   }
 }
 
 void ListView::handleContextMenu(KEBListView *, KListView *, QListViewItem *qitem, const QPoint &p) {
