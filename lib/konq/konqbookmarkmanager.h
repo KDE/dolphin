@@ -1,3 +1,6 @@
+#ifndef KONQBOOKMARKMANAGER_H
+#define KONQBOOKMARKMANAGER_H
+
 #include <kbookmarkmanager.h>
 #include <kstandarddirs.h>
 
@@ -18,3 +21,5 @@ public:
 };
 
 KBookmarkManager * KonqBookmarkManager::s_bookmarkManager;
+
+#endif
