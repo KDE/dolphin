@@ -123,6 +123,8 @@ void KQuery::slotListEntries( KIO::Job *, const KIO::UDSEntryList & list)
 
 	// FIXME: doesn't work with non local files
 	QString filename = file->url().path();
+	if(filename.startsWith("/dev/")) //TEST: Perhaps we can search in /dev...
+	  continue;
 	QFile qf(filename);
 	qf.open(IO_ReadOnly);
 	QTextStream stream(&qf);

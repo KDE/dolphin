@@ -85,6 +85,7 @@ KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name)
     subgrid->addSpacing( KDialog::spacingHint() );
     subgrid->addWidget( caseSensCb);
     subgrid->addStretch(1);
+
     // Signals
 
     connect( browseB, SIGNAL(clicked()),
@@ -96,80 +97,48 @@ KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name)
 
     pages[1] = new QWidget( this, "page2" );
 
-    rb1[0] = new QRadioButton(i18n("&All files"), pages[1]);
-    rb1[1] = new QRadioButton(i18n("Find all files created or &modified:"), pages[1]);
-    bg[0]  = new QButtonGroup();
-    bg[1]  = new QButtonGroup();
-    rb2[0] = new QRadioButton(i18n("&between"), pages[1] );
-    rb2[1] = new QRadioButton(i18n("during the previou&s"), pages[1] );
-    rb2[2] = new QRadioButton(i18n("&during the previous"), pages[1] );
+    findCreated =  new QCheckBox(i18n("Find all files created or &modified:"), pages[1]);
+    bg  = new QButtonGroup();
+    rb[0] = new QRadioButton(i18n("&between"), pages[1] );
+    rb[1] = new QRadioButton(i18n("during the previou&s"), pages[1] );
     QLabel * andL   = new QLabel(i18n("and"), pages[1], "and");
-    QLabel * monthL = new QLabel(i18n("month(s)"), pages[1], "months");
-    QLabel * dayL   = new QLabel(i18n("day(s)"), pages[1], "days");
-    le[0]  = new QLineEdit(pages[1], "lineEdit1" );
-    le[1]  = new QLineEdit(pages[1], "lineEdit2" );
-    le[2]  = new QLineEdit(pages[1], "lineEdit3" );
-    le[3]  = new QLineEdit(pages[1], "lineEdit4" );
+    betweenType = new QComboBox(FALSE, pages[1], "comboBetweenType");
+    betweenType->insertItem(i18n("minute(s)"));
+    betweenType->insertItem(i18n("hour(s)"));
+    betweenType->insertItem(i18n("day(s)"));
+    betweenType->insertItem(i18n("month(s)"));
+    betweenType->insertItem(i18n("year(s)"));
+    betweenType->setCurrentItem(1);
 
-    rb2[0]->setChecked(true);
+    fromDate = new KDateCombo(QDate(2000,1,1), pages[1], "fromDate");
+    toDate = new KDateCombo(pages[1], "toDate");
+    timeBox = new QSpinBox(1, 60, 1, pages[1], "timeBox");
+
+    rb[0]->setChecked(true);
 
     // Setup
-
-    le[0] ->setText(date2String(QDate(1980,1,1)));
-    le[1] ->setText(date2String(QDate::currentDate()));
-
-    le[2] ->setText("1");
-    le[2] ->setValidator(digitV);
-
-    le[3] ->setText("1");
-    le[3] ->setValidator(digitV);
-
-    rb1[0]->setChecked (TRUE);
-
-    bg[0]->insert( rb1[0] );
-    bg[0]->insert( rb1[1] );
-
-    bg[1]->insert( rb2[0] );
-    bg[1]->insert( rb2[1] );
-    bg[1]->insert( rb2[2] );
-
-    le[0]->setMaxLength(12);
-    le[1]->setMaxLength(12);
-    le[2]->setMaxLength(3);
-    le[3]->setMaxLength(3);
+    timeBox->setButtonSymbols(QSpinBox::PlusMinus);
+    bg->insert( rb[0] );
+    bg->insert( rb[1] );
 
     // Layout
 
-    int tmp = le[0]->fontMetrics().width(" 00/00/0000 ");
-    le[1]->setMinimumSize(tmp, le[1]->sizeHint().height());
-    tmp = le[2]->fontMetrics().width(" 000 ");
-    le[2]->setMinimumSize(tmp, le[2]->sizeHint().height());
-    le[3]->setMinimumSize(tmp, le[3]->sizeHint().height());
-
-    QGridLayout *grid1 = new QGridLayout( pages[1], 5,  6,
+    QGridLayout *grid1 = new QGridLayout( pages[1], 5,  4,
 					  KDialog::marginHint(),
 					  KDialog::spacingHint() );
-    grid1->addMultiCellWidget(rb1[0], 0, 0, 0, 6 );
-    grid1->addMultiCellWidget(rb1[1], 1, 1, 0, 6 );
+    grid1->addMultiCellWidget(findCreated, 0, 0, 0, 6 );
     grid1->addColSpacing(0, KDialog::spacingHint());
-    grid1->addWidget(rb2[0], 2, 1 );
-    grid1->addWidget(le[0], 2, 2 );
-    grid1->addWidget(andL, 2, 3 );
-    grid1->addMultiCellWidget( le[1], 2, 2, 4, 5 );
-    grid1->addMultiCellWidget( rb2[1], 3, 3, 1, 3 );
-    grid1->addWidget(le[2], 3, 4 );
-    grid1->addWidget(monthL, 3, 5 );
-    grid1->addMultiCellWidget( rb2[2], 4, 4, 1, 3 );
-    grid1->addWidget(le[3], 4, 4 );
-    grid1->addWidget(dayL, 4, 5 );
-    grid1->setColStretch(6, 1);
+    grid1->addWidget(rb[0], 2, 1 );
+    grid1->addWidget(fromDate, 2, 2 );
+    grid1->addWidget(andL, 2, 3, AlignHCenter );
+    grid1->addWidget(toDate, 2, 4 );
+    grid1->addWidget(rb[1], 3, 1 );
+    grid1->addWidget(timeBox, 3, 2);
+    grid1->addWidget(betweenType, 3, 3 );
 
     // Connect
-
-    connect( bg[0],  SIGNAL(clicked(int)),
-             this,   SLOT(fixLayout()) );
-    connect( bg[1],  SIGNAL(clicked(int)),
-             this,   SLOT(fixLayout()) );
+    connect( findCreated,  SIGNAL(toggled(bool)), this,   SLOT(fixLayout()) );
+    connect( bg,  SIGNAL(clicked(int)), this,   SLOT(fixLayout()) );
 
     addTab( pages[1], i18n(" Date Range ") );
 
@@ -187,8 +156,8 @@ KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name)
 
     sizeBox =new QComboBox(FALSE, pages[2], "sizeBox");
     QLabel * sizeL   =new QLabel(sizeBox,i18n("&Size is:"), pages[2],"size");
-    sizeEdit=new QLineEdit(pages[2], "sizeEdit" );
-    QLabel * kbL     =new QLabel(i18n("KB"), pages[2], "kb");
+    sizeEdit=new QSpinBox(1, INT_MAX, 1, pages[2], "sizeEdit" );
+    sizeUnitBox =new QComboBox(FALSE, pages[2], "sizeUnitBox");
 
     // Setup
 
@@ -212,14 +181,19 @@ KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name)
     sizeBox ->insertItem( i18n("(none)") );
     sizeBox ->insertItem( i18n("At Least") );
     sizeBox ->insertItem( i18n("At Most") );
+    sizeBox ->insertItem( i18n("Equal to") );
 
-    sizeEdit->setText("1");
-    sizeEdit->setMaxLength(5);
-    sizeEdit->setValidator(digitV);
+    sizeUnitBox ->insertItem( "Bytes" );
+    sizeUnitBox ->insertItem( "Kb" );
+    sizeUnitBox ->insertItem( "Mb" );
+    sizeUnitBox ->setCurrentItem(1);
+
+    sizeEdit->setButtonSymbols(QSpinBox::PlusMinus);
+    int tmp = sizeEdit->fontMetrics().width(" 000000000 ");
+    sizeEdit->setMinimumSize(tmp, sizeEdit->sizeHint().height());
 
     // Connect
-    connect( sizeBox, SIGNAL(highlighted(int)),
-	     this, SLOT(slotSizeBoxChanged(int)));
+    connect( sizeBox, SIGNAL(highlighted(int)), this, SLOT(slotSizeBoxChanged(int)));
 
     // Layout
     tmp = sizeEdit->fontMetrics().width(" 00000 ");
@@ -232,16 +206,13 @@ KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name)
     grid2->addWidget( textL, 1, 0 );
     grid2->addWidget( sizeL, 2, 0 );
     grid2->addMultiCellWidget( typeBox, 0, 0, 1, 6 );
-    grid2->addMultiCellWidget( textEdit, 1, 1, 1, 6 );
-
-    grid2->addWidget( caseContextCb, 2, 1 );
-    grid2->addWidget( regexpContentCb, 2, 2);
-
-    grid2->addWidget( sizeBox, 3, 1 );
-    grid2->addWidget( sizeEdit, 3, 2 );
-    grid2->addWidget( kbL, 3, 3 );
+    grid2->addMultiCellWidget( textEdit, 1, 1, 1, 4/*6*/ );
+    grid2->addWidget( caseContextCb, 1, 5 );
+    grid2->addWidget( regexpContentCb, 2, 5);
+    grid2->addWidget( sizeBox, 2, 1 );
+    grid2->addWidget( sizeEdit, 2, 2 );
+    grid2->addWidget( sizeUnitBox, 2, 3 );
     grid2->addColSpacing(4, KDialog::spacingHint());
-
     grid2->setColStretch(6,1);
 
     addTab( pages[2], i18n(" Advanced ") );
@@ -327,19 +298,22 @@ void KfindTabWidget::loadHistory()
 void KfindTabWidget::slotSizeBoxChanged(int index)
 {
   sizeEdit->setEnabled((bool)(index != 0));
+  sizeUnitBox->setEnabled((bool)(index != 0));
 }
 
 void KfindTabWidget::setDefaults()
-  {
-    le[0] ->setText(date2String(QDate(1980,1,1)));
-    le[1] ->setText(date2String(QDate::currentDate()));
-    le[2] ->setText("1");
-    le[3] ->setText("1");
+{
+    fromDate ->setDate(QDate(2000,1,1));
+    toDate ->setDate(QDate::currentDate());
+
+    timeBox->setValue(1);
+    betweenType->setCurrentItem(1);
 
     typeBox ->setCurrentItem(0);
     sizeBox ->setCurrentItem(0);
-    sizeEdit->setText("1");
-  }
+    sizeUnitBox ->setCurrentItem(1);
+    sizeEdit->setValue(1);
+}
 
 /*
   Checks if dates are correct and popups a error box
@@ -348,15 +322,13 @@ void KfindTabWidget::setDefaults()
 bool KfindTabWidget::isDateValid()
 {
   // All files
-  if ( !rb1[1]->isChecked() ) return TRUE;
+  if ( !findCreated->isChecked() ) return TRUE;
 
-  if ( rb2[1]->isChecked() || rb2[2]->isChecked() )
+  if (rb[1]->isChecked())
   {
-    QString str;
-    str = le[ rb2[1]->isChecked() ? 2 : 3 ]->text();
-    if (str.toInt() > 0 ) return TRUE;
+    if (timeBox->value() > 0 ) return TRUE;
 
-    KMessageBox::sorry(this, i18n("Can't search in a period which doesn't last a single day."));
+    KMessageBox::sorry(this, i18n("Can't search in a period which doesn't last a single minute."));
     return FALSE;
   }
 
@@ -365,13 +337,13 @@ bool KfindTabWidget::isDateValid()
   QDate hi1, hi2;
 
   QString str;
-  if ( !string2Date(le[0]->text(), &hi1).isValid() ||
-       !string2Date(le[1]->text(), &hi2).isValid() )
+  if ( ! fromDate->getDate(&hi1).isValid() ||
+       ! toDate->getDate(&hi2).isValid() )
     str = i18n("The date is not valid!");
   else if ( hi1 > hi2 )
     str = i18n("Invalid date range!");
   else if ( QDate::currentDate() < hi1 )
-    str = i18n("Can't search dates in the future!");
+    str = i18n("Well, how can I search dates in the future ?");
 
   if (!str.isNull()) {
     KMessageBox::sorry(0, str);
@@ -382,6 +354,7 @@ bool KfindTabWidget::isDateValid()
 
 void KfindTabWidget::setQuery(KQuery *query)
 {
+	int size;
   // only start if we have valid dates
   if (!isDateValid()) return;
 
@@ -391,16 +364,41 @@ void KfindTabWidget::setQuery(KQuery *query)
 
   query->setRecursive(subdirsCb->isChecked());
 
+  switch (sizeUnitBox->currentItem())
+  {
+     case 0:
+         size = 1; //one byte
+			break;
+     case 2:
+         size = 1048576; //1M
+			break;
+		case 1:
+		default:
+			size=1024; //1k
+			break;
+  }
+  size = sizeEdit->value() * size;
+  if (size < 0)  // overflow
+     if (KMessageBox::warningYesNo(this, i18n("Size is too big... would you set max size value ?"), i18n("Sorry"))
+           == KMessageBox::Yes)
+		{
+         sizeEdit->setValue(INT_MAX);
+	   	sizeUnitBox->setCurrentItem(0);
+		   size = INT_MAX;
+		}
+     else
+        return;
+
   switch (sizeBox->currentItem())
   {
-  case 1:
-    query->setSizeRange(sizeEdit->text().toInt() * 1024, -1);
-    break;
-  case 2:
-    query->setSizeRange(-1, sizeEdit->text().toInt() * 1024);
-    break;
-  default:
-    query->setSizeRange(-1, -1);
+    case 1:
+      query->setSizeRange(sizeEdit->text().toInt() * 1024, -1);
+      break;
+    case 2:
+      query->setSizeRange(-1, sizeEdit->text().toInt() * 1024);
+      break;
+    default:
+      query->setSizeRange(-1, -1);
   }
 
   // dates
@@ -408,11 +406,11 @@ void KfindTabWidget::setQuery(KQuery *query)
   epoch.setTime_t(0);
 
   // Add date predicate
-  if (rb1[1]->isChecked()) { // Modified
-    if (rb2[0]->isChecked()) { // Between dates
+  if (findCreated->isChecked()) { // Modified
+    if (rb[0]->isChecked()) { // Between dates
       QDate q1, q2;
-      string2Date(le[0]->text(), &q1);
-      string2Date(le[1]->text(), &q2);
+      fromDate->getDate(&q1);
+      toDate->getDate(&q2);
 
       // do not generate negative numbers .. find doesn't handle that
       time_t time1 = epoch.secsTo(q1);
@@ -422,15 +420,29 @@ void KfindTabWidget::setQuery(KQuery *query)
     }
     else
     {
-      time_t cur = epoch.secsTo(QDateTime::currentDateTime());
-      time_t days = cur;
+       time_t cur = time(NULL);
+       time_t minutes = cur;
 
-      if (rb2[1]->isChecked()) // Previous mounth
-	days = (time_t)(le[2]->text().toInt() * 30.41667);
-      else if (rb2[2]->isChecked()) // Previous day
-	days = le[3]->text().toInt();
+       switch (betweenType->currentItem())
+       {
+          case 0: // minutes
+                 minutes = timeBox->value();
+ 	              break;
+          case 1: // hours
+                 minutes = 60 * timeBox->value();
+ 	              break;
+          case 2: // days
+                 minutes = 60 * 24 * timeBox->value();
+ 	              break;
+          case 3: // months
+                 minutes = 60 * 24 * (time_t)(timeBox->value() * 30.41667);
+ 	              break;
+          case 4: // years
+                 minutes = 12 * 60 * 24 * (time_t)(timeBox->value() * 30.41667);
+ 	              break;
+       }
 
-      query->setTimeRange(cur - days * 24 * 60 * 60, 0);
+       query->setTimeRange(cur - minutes * 60, 0);
     }
   }
   else
@@ -498,25 +510,27 @@ void KfindTabWidget::fixLayout()
   // If "All files" is checked - disable all edits
   // and second radio group on page two
 
-  if(rb1[0]->isChecked())  {
-    for(i=0; i<4; i++)
-      le[i]->setEnabled(FALSE);
-
-    for(i=0; i<3; i++)
-      rb2[i]->setEnabled(FALSE);
+  if(! findCreated->isChecked())  {
+    fromDate->setEnabled(FALSE);
+    toDate->setEnabled(FALSE);
+    timeBox->setEnabled(FALSE);
+    for(i=0; i<2; i++)
+      rb[i]->setEnabled(FALSE);
+    betweenType->setEnabled(FALSE);
   }
   else {
-    for(i=0; i<3; i++)
-      rb2[i]->setEnabled(TRUE);
+    for(i=0; i<2; i++)
+      rb[i]->setEnabled(TRUE);
 
-    le[0]->setEnabled(rb2[0]->isChecked());
-    le[1]->setEnabled(rb2[0]->isChecked());
-    le[2]->setEnabled(rb2[1]->isChecked());
-    le[3]->setEnabled(rb2[2]->isChecked());
+    fromDate->setEnabled(rb[0]->isChecked());
+    toDate->setEnabled(rb[0]->isChecked());
+    timeBox->setEnabled(rb[1]->isChecked());
+    betweenType->setEnabled(rb[1]->isChecked());
   }
 
   // Size box on page three
   sizeEdit->setEnabled(sizeBox->currentItem() != 0);
+  sizeUnitBox->setEnabled(sizeBox->currentItem() != 0);
 }
 
 /**

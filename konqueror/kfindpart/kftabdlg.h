@@ -9,10 +9,13 @@
 
 #include <qtabwidget.h>
 #include <qcombobox.h>
+#include <qspinbox.h>
 #include <qvalidator.h> // for KDigitValidator
 
 #include <kurl.h>
 #include <kmimetype.h>
+
+#include "kdatecombo.h"
 
 class QButtonGroup;
 class QPushButton;
@@ -77,14 +80,19 @@ private:
 
   KfDirDialog *dirselector;
 
-  // for second page
-  QButtonGroup *bg[2];
-  QRadioButton *rb1[2], *rb2[3];
-  QLineEdit *le[4];
+  //2nd page
+  QCheckBox   *findCreated;
+  QComboBox   *betweenType;
+  QButtonGroup *bg;
+  QRadioButton *rb[2];
+  KDateCombo * fromDate;
+  KDateCombo * toDate;
+  QSpinBox *timeBox;
 
-  // for third page
+  //3rd page
   QComboBox *sizeBox;
-  QLineEdit *sizeEdit;
+  QComboBox *sizeUnitBox;
+  QSpinBox *sizeEdit;
   QCheckBox *caseContextCb;
   QCheckBox *regexpContentCb;
 

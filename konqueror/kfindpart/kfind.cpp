@@ -20,6 +20,7 @@
   Carsten Pfeiffer <pfeiffer@kde.org>
   Hans Petter Bieker <bieker@kde.org>
   Waldo Bastian <bastian@kde.org>
+  Beppe Grimaldi <grimalkin@ciaoweb.it>
   Eric Coquelle <coquelle@caramail.com>
 
  **********************************************************************/
