@@ -67,3 +67,19 @@ void KFileICI::returnPressed()
   m_fileitem->run();
 }
 
+bool KFileICI::isSmallerThen( const KIconContainerItem &_item )
+{
+  // Special handling for fixed pos items
+  if ( hasFixedPos() && !_item.hasFixedPos() )
+    return true;
+
+  if ( m_pContainer->sortCriterion() != KIconContainerItem::Size )
+    return KIconContainerItem::isSmallerThen( _item );
+
+  bool res = ( m_fileitem->size() < ((KFileICI&)_item).item()->size() );
+    
+  if ( m_pContainer->sortDirection() == KIconContainerItem::Descending )
+    res = !res;
+    
+  return res;
+}

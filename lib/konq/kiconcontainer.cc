@@ -96,6 +96,9 @@ KIconContainer::KIconContainer( QWidget *_parent, const char *_name, WFlags _fla
   viewport()->setMouseTracking( true );
 
   setFrameStyle( QFrame::NoFrame | QFrame::Plain );
+  
+  m_eSortDirection = KIconContainerItem::Ascending;
+  m_eSortCriterion = KIconContainerItem::NameCaseSensitive;
 }
 
 KIconContainer::~KIconContainer()
@@ -255,6 +258,7 @@ void KIconContainer::remove( KIconContainerItem* _item, bool _refresh )
   {
     _item->setSelected( false, false );
     emit selectionChanged( _item );
+    emit selectionChanged();
   }
   
   m_lstItems.removeRef( _item );
@@ -342,6 +346,7 @@ void KIconContainer::selectAll()
       setSelected( *it, false );
       (*it)->refresh();
     }
+  emit selectionChanged();
 }
 
 void KIconContainer::unselectAll()
@@ -350,6 +355,8 @@ void KIconContainer::unselectAll()
   for( ; *it; ++it )
     if ( (*it)->isSelected() )
       setSelected( *it, false );
+    
+  emit selectionChanged();
 }
 
 void KIconContainer::selectIcons( const QRect& rect, bool _refresh )
@@ -366,6 +373,7 @@ void KIconContainer::selectIcons( const QRect& rect, bool _refresh )
       repaintItem( (*it) );
     }
   }
+  emit selectionChanged();
 }
 
 void KIconContainer::rearrangeIcons()
@@ -638,7 +646,10 @@ void KIconContainer::dragMoveEvent( QDragMoveEvent *_ev )
     }
     // unhighlight the icon over which the drag was before
     if ( m_dragOverItem != 0 )
+    {
       setSelected( m_dragOverItem, false );
+      emit selectionChanged();
+    }      
     
     // Does the new item accept this drop ?
     if ( it->acceptsDrops( m_lstDropFormats ) )
@@ -646,6 +657,7 @@ void KIconContainer::dragMoveEvent( QDragMoveEvent *_ev )
       _ev->accept();
       setSelected( it, true );
       m_dragOverItem = it;
+      emit selectionChanged();
     }
     else
     {
@@ -664,7 +676,10 @@ void KIconContainer::dragMoveEvent( QDragMoveEvent *_ev )
   // We are over the background so unhighlight the icon
   // over which the mouse was before ( if any )
   if ( m_dragOverItem != 0 )
+  {
     setSelected( m_dragOverItem, false ); 
+    emit selectionChanged();
+  }    
   m_dragOverItem = 0;
 
   drawDragShadow( _ev->pos() );
@@ -705,7 +720,10 @@ void KIconContainer::dragLeaveEvent( QDragLeaveEvent * )
 {
   // Did we highlight some icons ?
   if ( m_dragOverItem )
+  {
     setSelected( m_dragOverItem, false );
+    emit selectionChanged();
+  }    
   m_dragOverItem = 0;
 
   if ( !m_dragIcons.isEmpty() )
@@ -722,7 +740,10 @@ void KIconContainer::dropEvent( QDropEvent * e )
 
   // Unhighlight the icon that got the drop ( if any )
   if ( m_dragOverItem  )
+  {
     setSelected( m_dragOverItem, false );
+    emit selectionChanged();
+  }    
   m_dragOverItem = 0;
   
 
@@ -788,12 +809,14 @@ void KIconContainer::viewportMousePressEvent( QMouseEvent *_ev )
       if ( ( _ev->state() & ControlButton ) && _ev->button() == LeftButton )
       {
 	setSelected( it, !it->isSelected() );
+	emit selectionChanged();
 	return;
       }
       if ( _ev->button() == RightButton && !it->isSelected() )
       {    
 	unselectAll();
 	setSelected( it, true );
+	emit selectionChanged();
       }
       else if ( _ev->button() == LeftButton || _ev->button() == MidButton )
       {    
@@ -801,6 +824,7 @@ void KIconContainer::viewportMousePressEvent( QMouseEvent *_ev )
         {      
 	  unselectAll();
 	  setSelected( it, true );
+	  emit selectionChanged();
 	}
 	
 	// This may be the beginning of DND
@@ -892,19 +916,22 @@ void KIconContainer::viewportMousePressEvent( QMouseEvent *_ev )
       if ( ( _ev->state() & ControlButton ) && _ev->button() == LeftButton )
       {
 	setSelected( it, !it->isSelected() );
+	emit selectionChanged();
 	return;
       }
       if ( _ev->button() == RightButton && !it->isSelected() )
       {    
 	unselectAll();
 	setSelected( it, true );
-
+	
+        emit selectionChanged();
 	emit mousePressed( it, globalPos, _ev->button() );
       }
       else if ( _ev->button() == LeftButton || _ev->button() == MidButton )
       {    
 	unselectAll();
 	setSelected( it, true );
+	emit selectionChanged();
       }
       return;
     }
@@ -1165,7 +1192,7 @@ void KIconContainer::setup()
   if ( m_displayMode == Horizontal )
   {    
     // TODO: That is slow
-    // m_lstItems.sort();
+    m_lstItems.sort();
     // How many items can we put in one line ?
     int cols = viewport()->width() / ( m_iItemWidth + m_iColumnSpacing );
     if ( cols == 0 )
@@ -1221,7 +1248,7 @@ void KIconContainer::setup()
     }
     
     // TODO: slow ....
-    // m_lstItems.sort();
+    m_lstItems.sort();
     // How many columns can we have
     int cols = viewport()->width() / ( m_iItemWidth + m_iColumnSpacing );
     if ( cols == 0 )
@@ -1291,7 +1318,7 @@ void KIconContainer::setup()
     }
     
     // TODO: slow ....
-    // m_lstItems.sort();
+    m_lstItems.sort();
     // How many columns can we have
     int cols = viewport()->width() / ( m_iItemWidth + m_iColumnSpacing );
     if ( cols == 0 )
@@ -1710,10 +1737,22 @@ bool KIconContainerItem::isSmallerThen( const KIconContainerItem& _item )
   // Special handling for fixed pos items
   if ( hasFixedPos() && !_item.hasFixedPos() )
     return true;
+
+  bool res;
   
-  if ( strcmp( text(), _item.text() ) < 0 )
-    return true;
-  return false;
+  KIconContainerItem::SortCriterion criterion = m_pContainer->sortCriterion();
+  
+  if ( criterion == KIconContainerItem::NameCaseSensitive )
+    res = ( text() < _item.text()  );
+  else if ( criterion == KIconContainerItem::NameCaseInsensitive )
+    res = ( text().lower() < _item.text().lower() );
+  else
+    assert( 0 );
+    
+  if ( m_pContainer->sortDirection() == KIconContainerItem::Descending )
+    res = !res;
+    
+  return res;
 }
 
 void KIconContainerItem::paint( QPainter* _painter, bool _drag )

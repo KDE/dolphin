@@ -53,6 +53,8 @@ protected:
   virtual void paint( QPainter* _painter, bool _drag );
   virtual void refresh( bool _display_mode_changed );
   
+  virtual bool isSmallerThen( const KIconContainerItem &_item );
+  
   /** Pointer to the file item in KDirLister's list */
   KFileItem* m_fileitem;
 };

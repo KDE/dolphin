@@ -46,6 +46,11 @@ class KIconContainerItem
 public:
   enum Flags { NoFlags = 0, Selected = 1, Invisible = 2 };
 
+  enum SortDirection { Ascending, Descending };
+  enum SortCriterion { NameCaseSensitive, NameCaseInsensitive,
+                       Size };
+  // ( please note that the Size criterion works only for KFileICI's )  
+
   /** Construct a "full" icon (we know all about it)
    * @param _container the parent container
    * @param _pixmap the pixmap drawn as the icon
@@ -283,6 +288,12 @@ public:
    */
   virtual void rearrangeIcons();
 
+  void setSortDirection( KIconContainerItem::SortDirection dir ) { m_eSortDirection = dir; }
+  KIconContainerItem::SortDirection sortDirection() const { return m_eSortDirection; }
+
+  void setSortCriterion( KIconContainerItem::SortCriterion crit ) { m_eSortCriterion = crit; }
+  KIconContainerItem::SortCriterion sortCriterion() const { return m_eSortCriterion; }
+
 signals:
   void mousePressed( KIconContainerItem* _item, const QPoint& _global, int _button );
   void mouseReleased( KIconContainerItem* _item, const QPoint& _global, int _button );
@@ -290,6 +301,7 @@ signals:
   void returnPressed( KIconContainerItem* _item, const QPoint& _global );
   void currentChanged( KIconContainerItem* _item );
   void selectionChanged( KIconContainerItem* _item );
+  void selectionChanged();
   void onItem( KIconContainerItem* _item );
 
   /**
@@ -407,6 +419,9 @@ protected:
   bool m_isShowingDotFiles;
 
   bool m_onItem;
+  
+  KIconContainerItem::SortDirection m_eSortDirection;
+  KIconContainerItem::SortCriterion m_eSortCriterion;
 };
 
 #endif
