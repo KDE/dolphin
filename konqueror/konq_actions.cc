@@ -232,8 +232,11 @@ int KonqLogoAction::plug( QWidget *widget, int index )
   int containerId = KAction::plug( widget, index );
 
   if ( widget->inherits( "KToolBar" ) )
+  {
     ((KToolBar *)widget)->alignItemRight( menuId( containerId ) );
-
+    ((KToolBar *)widget)->setItemNoStyle( menuId( containerId ) );
+  }
+  
   return containerId;
 }
 
