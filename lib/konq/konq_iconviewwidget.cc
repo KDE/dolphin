@@ -50,7 +50,9 @@
 
 KonqIconViewWidget::KonqIconViewWidget( QWidget * parent, const char * name, WFlags f, bool kdesktop )
     : KIconView( parent, name, f ),
-      m_rootItem( 0L ), m_size( 0 ) /* default is DesktopIcon size */, m_bDesktop( kdesktop )
+      m_rootItem( 0L ), m_size( 0 ) /* default is DesktopIcon size */,
+      m_bDesktop( kdesktop ),
+      m_bSetGridX( !kdesktop ) /* No line breaking on the desktop */
 {
     QObject::connect( this, SIGNAL( dropped( QDropEvent *, const QValueList<QIconDragItem> & ) ),
                       this, SLOT( slotDropped( QDropEvent*, const QValueList<QIconDragItem> & ) ) );
@@ -157,7 +159,7 @@ void KonqIconViewWidget::setThumbnailPixmap( KFileIVI * item, const QPixmap & pi
         if ( m_pActiveItem == item )
             m_pActiveItem = 0L;
         item->setThumbnailPixmap( pixmap );
-        if ( item->width() > gridX() )
+        if ( m_bSetGridX &&  item->width() > gridX() )
         {
           setGridX( item->width() );
           arrangeItemsInGrid();
@@ -215,26 +217,33 @@ void KonqIconViewWidget::setIcons( int size, bool stopImagePreview )
 
 void KonqIconViewWidget::setItemTextPos( ItemTextPos pos )
 {
-  calculateGridX();
-  if ( itemTextPos() != pos )
-  {
-     if ( pos == QIconView::Right )
-       setGridX( gridX() + 50 );
-     else
-       setGridX( gridX() - 50 );
-  }
-  KIconView::setItemTextPos( pos );
+    if ( m_bSetGridX )
+    {
+        calculateGridX();
+        if ( itemTextPos() != pos )
+        {
+            if ( pos == QIconView::Right )
+                setGridX( gridX() + 50 );
+            else
+                setGridX( gridX() - 50 );
+        }
+    }
+
+    KIconView::setItemTextPos( pos );
 }
 
 void KonqIconViewWidget::calculateGridX()
 {
-  int sz = m_size ? m_size : KGlobal::iconLoader()->currentSize( KIcon::Desktop );
-  int newGridX = sz + 30 + (( itemTextPos() == QIconView::Right ) ? 50 : 0);
+    if ( m_bSetGridX )
+    {
+        int sz = m_size ? m_size : KGlobal::iconLoader()->currentSize( KIcon::Desktop );
+        int newGridX = sz + 30 + (( itemTextPos() == QIconView::Right ) ? 50 : 0);
 
-  kdDebug(1203) << "calculateGridX: newGridX=" << newGridX
-                << "sz=" << sz << endl;
+        kdDebug(1203) << "calculateGridX: newGridX=" << newGridX
+                      << "sz=" << sz << endl;
 
-  setGridX( newGridX );
+        setGridX( newGridX );
+    }
 }
 
 void KonqIconViewWidget::refreshMimeTypes()

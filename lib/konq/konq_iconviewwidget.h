@@ -228,6 +228,7 @@ protected:
     QRect m_IconRect;
 
     bool m_bDesktop;
+    bool m_bSetGridX;
 };
 
 #endif
