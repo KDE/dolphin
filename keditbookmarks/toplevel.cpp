@@ -48,8 +48,12 @@
 void KEBListView::rename( QListViewItem *_item, int c )
 {
     KEBListViewItem * item = static_cast<KEBListViewItem *>(_item);
-    if ( !(item->bookmark().isGroup() && c == 1) && !item->bookmark().isSeparator() && ( firstChild() != item) )
-   	    KListView::rename( _item, c );
+    if ( !(item->bookmark().isGroup() && c == 1) 
+      && !item->bookmark().isSeparator() 
+      && ( firstChild() != item) 
+    ) {
+       KListView::rename( _item, c );
+    }
 }
 
 bool KEBListView::acceptDrag(QDropEvent * e) const
@@ -128,9 +132,9 @@ void KEBTopLevel::createActions() {
 
     KAction * act = new KAction( i18n( "Import &Netscape Bookmarks" ), "netscape", 0, this, SLOT( slotImportNS() ), actionCollection(), "importNS" );
     (void) new KAction( i18n( "Import &Opera Bookmarks..." ), "opera", 0, this, SLOT( slotImportOpera() ), actionCollection(), "importOpera" );
-    (void) new KAction( i18n( "Import &Galeon Bookmarks..." ), "galeon", 0, this, SLOT( slotImportGaleon() ), actionCollection(), "importGaleon" );
-    (void) new KAction( i18n( "Import &KDE Bookmarks..." ), "bookmarks", 0, this, SLOT( slotImportKDE() ), actionCollection(), "importKDE" );
-    (void) new KAction( i18n( "&Import IE Bookmarks..." ), "ie", 0, this, SLOT( slotImportIE() ), actionCollection(), "importIE" );
+    (void) new KAction( i18n( "Import &Galeon Bookmarks..." ), 0, this, SLOT( slotImportGaleon() ), actionCollection(), "importGaleon" );
+    (void) new KAction( i18n( "Import &KDE Bookmarks..." ), 0, this, SLOT( slotImportKDE() ), actionCollection(), "importKDE" );
+    (void) new KAction( i18n( "&Import IE Bookmarks..." ), 0, this, SLOT( slotImportIE() ), actionCollection(), "importIE" );
     (void) new KAction( i18n( "&Export to Netscape Bookmarks" ), "netscape", 0, this, SLOT( slotExportNS() ), actionCollection(), "exportNS" );
     act = new KAction( i18n( "Import &Mozilla Bookmarks..." ), "mozilla", 0, this, SLOT( slotImportMoz() ), actionCollection(), "importMoz" );
     (void) new KAction( i18n( "Export to &Mozilla Bookmarks..." ), "mozilla", 0, this, SLOT( slotExportMoz() ), actionCollection(), "exportMoz" );
@@ -353,9 +357,12 @@ KBookmark KEBTopLevel::selectedBookmark() const
    return *(selectedBookmarks()->first());
 }
 
-#define IS_REAL(it) ( (it.current()->isSelected()) \
+// if selected + ( (parent is selected) or (has no parent) )
+
+#define IS_REAL(it) ( (it.current()->isSelected())                                        \
                    && ( (it.current()->parent() && !it.current()->parent()->isSelected()) \
-                    || !(it.current()->parent()) ) )
+                    || !(it.current()->parent()) )                                        \
+                   && ( it.current() != KEBTopLevel::self()->m_pListView->firstChild()) )
 
 QPtrList<QListViewItem> * KEBTopLevel::selectedItems()
 {
@@ -457,7 +464,7 @@ void KEBTopLevel::slotSelectionChanged()
         coll->action("edit_paste")     ->setEnabled(itemSelected && !root && m_bCanPaste);
         coll->action("rename")         ->setEnabled(singleSelect && !separator && !root);
         coll->action("changeurl")      ->setEnabled(singleSelect && !group && !separator && !root);
-        coll->action("delete")         ->setEnabled(itemSelected && !root); // AK - root should work
+        coll->action("delete")         ->setEnabled(itemSelected && !root);
         coll->action("newfolder")      ->setEnabled(!multiSelect);
         // coll->action("updatefavicon")  ->setEnabled(singleSelect && !root && !separator);
         coll->action("changeicon")     ->setEnabled(singleSelect && !root && !separator);
@@ -1244,7 +1251,7 @@ void KEBTopLevel::itemMoved(QPtrList<QListViewItem> *_items, const QString & new
        {
            QString oldAddress = item->bookmark().address();
            if ( oldAddress == destAddress
-             || destAddress.startsWith(oldAddress) )  // duplicate code??? // duplicate code???
+             || destAddress.startsWith(oldAddress) )  // duplicate code???
            {
                continue;
            }
