@@ -532,13 +532,21 @@ void KonqBaseListViewWidget::slotReturnPressed( QListViewItem *_item )
       KMessageBox::error( this, i18n("You do not have enough permissions to read <b>%1</b>").arg(u.prettyURL()) );
       return;
    }
+   if ( fileItem->isLink() )
+      u = KURL( u, fileItem->linkDest() );
 
    if (KonqFMSettings::settings()->alwaysNewWin() && fileItem->isDir()) {
       KParts::URLArgs args;
       args.serviceType = fileItem->mimetype(); // inode/directory
       emit m_pBrowserView->extension()->createNewWindow( u, args );
    } else
-      emitOpenURLRequest( u, fileItem->mimetype() );
+   {
+      QString mimetype;
+      fileItem->determineMimeType();
+      if ( fileItem->isMimeTypeKnown() )
+          mimetype = fileItem->mimetype();
+      emitOpenURLRequest( u, mimetype );
+   }
 }
 
 void KonqBaseListViewWidget::slotRightButtonPressed( QListViewItem *, const QPoint &_global, int )
