@@ -67,7 +67,7 @@ public:
     static XEvent* lastEvent();
 
 protected:
-    bool processNextEvent( ProcessEventsFlags flags, bool canWait );
+    bool processEvents( ProcessEventsFlags flags );
 
 private:
     void appStartingUp();

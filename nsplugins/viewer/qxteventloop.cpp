@@ -416,7 +416,7 @@ void qmotif_timeout_handler( XtPointer, XtIntervalId * )
 
 /*! \reimp
  */
-bool QXtEventLoop::processNextEvent( ProcessEventsFlags flags, bool canWait )
+bool QXtEventLoop::processEvents( ProcessEventsFlags flags )
 {
     // Qt uses posted events to do lots of delayed operations, like repaints... these
     // need to be delivered before we go to sleep
@@ -447,7 +447,7 @@ bool QXtEventLoop::processNextEvent( ProcessEventsFlags flags, bool canWait )
 	mask = pendingmask & XtIMTimer;
     }
 
-    if ( canWait )
+    if ( ( flags & WaitForMore ) )
 	XtAppProcessEvent( d->appContext, XtIMAll );
     else
 	XtAppProcessEvent( d->appContext, mask );
@@ -461,7 +461,7 @@ bool QXtEventLoop::processNextEvent( ProcessEventsFlags flags, bool canWait )
     }
     d->activate_timers = FALSE;
 
-    return ( canWait || ( pendingmask != 0 ) || nevents > 0 );
+    return ( (flags & WaitForMore) || ( pendingmask != 0 ) || nevents > 0 );
 }
 
 #include "qxteventloop.moc"
