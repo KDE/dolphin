@@ -970,6 +970,24 @@ void KonqMainWindow::slotCreateNewWindow( const KURL &url, const KParts::URLArgs
         }
     }
 
+    KConfig *config = KGlobal::config();
+    KConfigGroupSaver cs( config, QString::fromLatin1("FMSettings") );
+    if ( config->readBoolEntry( "MMBOpensTab", false ) ) {
+        bool aftercurrentpage = config->readBoolEntry( "OpenAfterCurrentPage", false );
+        bool newtabsinfront = config->readBoolEntry( "NewTabsInFront", false );
+        KonqView* newView = m_pViewManager->addTab(QString::null, QString::null, false, aftercurrentpage);
+        if (newView == 0L) return;
+
+        if (newtabsinfront)
+          m_pViewManager->showTab( newView );
+
+        openURL( newView, url.isEmpty() ? KURL("about:blank") : url, QString::null);
+        newView->setViewName( args.frameName );
+        part=newView->part();
+
+        return;
+    }
+
     mainWindow = new KonqMainWindow( KURL(), false );
     mainWindow->setInitialFrameName( args.frameName );
     mainWindow->resetAutoSaveSettings(); // Don't autosave
