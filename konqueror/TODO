@@ -2,7 +2,6 @@ kio:
 ====
 - Nice ftp dialog for users who do not know how to put their
   user name in a URL. (i.e. autodetect when passwd needed)
-- Fix kio_uiserver's dialog for mounting, deleting, etc. (no source + dest)
 
 kio_http:
 =========
@@ -15,6 +14,7 @@ khtml:
 - (if local dir) : drop should copy to parent dir (for Antonio :)
 - meta-equiv redirections not supported #3051
 - many bugs in the buglist :(
+- #3490, stop animated gifs
 
 libkonq:
 ========
@@ -89,6 +89,11 @@ listviews:
 
 - crash in double-click mode when double-clicking. #3356 (already fixed?)
 
+dirtree:
+========
+
+- Create dynamic items when browing non-local URLs (FTP etc.)
+
 kpropsdlg (kfile):
 ======
 - Bug #2717: turning off all read permissions
@@ -102,6 +107,8 @@ And more:
 
 - Show caitoo in the RMB on links - this is different from usual services,
 since it's not associated to a mimetype, but to non-local protocols...
+
+
 
 - see grep TODO *.cc *.h
 

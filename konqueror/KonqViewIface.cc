@@ -41,10 +41,9 @@ void KonqViewIface::openURL( QString url )
 
 bool KonqViewIface::changeViewMode( const QString &serviceType,
                                     const QString &serviceName,
-                                    const QString &url,
-                                    const QString &locationBarURL )
+                                    const QString &url )
 {
-  return m_pView->changeViewMode( serviceType, serviceName, url, locationBarURL );
+  return m_pView->changeViewMode( serviceType, serviceName, url );
 }
 
 void KonqViewIface::lockHistory()

@@ -52,13 +52,10 @@ k_dcop:
    * @param serviceName allows to enforce a particular service to be chosen,
    *        @see KonqFactory.
    * @param url the URL to open in the view. If not set, no URL is opened.
-   * @param locationBarURL the url we want to display in the location bar
-   *    May be different from @p url e.g. if using "allowHTML".
    */
   bool changeViewMode( const QString &serviceType,
                        const QString &serviceName,
-                       const QString &url,
-                       const QString &locationBarURL );
+                       const QString &url );
 
   /**
    * Call this to prevent next openURL() call from changing history lists

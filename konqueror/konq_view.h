@@ -94,19 +94,19 @@ public:
 
   /**
    * Change the type of view (i.e. loads a new konqueror view)
+   * Contract: the caller should call stop() first,
+   * and setLocationBarURL + setTypedURL
+   *
    * @param serviceType the service type we want to show
    * @param serviceName allows to enforce a particular service to be chosen,
    *        @see KonqFactory.
    * @param url the URL to open in the view. If not set, no URL is opened.
-   * @param locationBarURL the url we want to display in the location bar
-   *    May be different from @p url e.g. if using "allowHTML".
-   * @param typedURL the url that was typed, if any.
+   * @param nameFilter e.g. *.cpp
    */
   bool changeViewMode( const QString &serviceType,
                        const QString &serviceName = QString::null,
                        const KURL &url = KURL(),
-                       const QString & locationBarURL = QString::null,
-                       const QString & typedURL = QString::null);
+                       const QString & nameFilter = QString::null);
 
   /**
    * Call this to prevent next openURL() call from changing history lists
@@ -240,6 +240,7 @@ public:
 
   void callExtensionMethod( const char *methodName );
   void callExtensionBoolMethod( const char *methodName, bool value );
+  void callExtensionStringMethod( const char *methodName, QString value );
 
   void setViewName( const QString &name ) { m_name = name; }
   QString viewName() const { return m_name; }
@@ -268,6 +269,7 @@ public slots:
   /**
    * Store location-bar URL in the child view
    * and updates the main view if this view is the current one
+   * May be different from url e.g. if using "allowHTML".
    */
   void setLocationBarURL( const QString & locationBarURL );
 

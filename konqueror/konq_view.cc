@@ -133,7 +133,7 @@ void KonqView::openURL( const KURL &url )
 
   updateHistoryEntry();
 
-  //kdDebug(1202) << "Current position : " << m_lstHistory.at() << endl;
+  kdDebug(1202) << "Current position : " << m_lstHistory.at() << endl;
 }
 
 void KonqView::switchView( KonqViewFactory &viewFactory, const KURL & url )
@@ -145,21 +145,21 @@ void KonqView::switchView( KonqViewFactory &viewFactory, const KURL & url )
   KParts::ReadOnlyPart *oldPart = m_pPart;
   m_pPart = m_pKonqFrame->attach( viewFactory ); // creates the part
 
-  if ( !url.isEmpty() )
-    openURL( url );
-
-  // uncomment if you want to use metaviews (Simon)
-  // initMetaView();
-
+  // Activate the new part
   if ( oldPart )
   {
     emit sigPartChanged( this, oldPart, m_pPart );
-
     delete oldPart;
     //    closeMetaView(); I think this is not needed (Simon)
   }
 
   connectPart();
+
+  if ( !url.isEmpty() )
+    openURL( url );
+
+  // uncomment if you want to use metaviews (Simon)
+  // initMetaView();
 
   // Honour "non-removeable passive mode" (like the dirtree)
   QVariant prop = m_service->property( "X-KDE-BrowserView-PassiveMode");
@@ -186,29 +186,10 @@ void KonqView::switchView( KonqViewFactory &viewFactory, const KURL & url )
 bool KonqView::changeViewMode( const QString &serviceType,
                                const QString &serviceName,
                                const KURL &url,
-                               const QString &locationBarURL,
-                               const QString &typedURL)
+                               const QString &nameFilter)
 {
-  if ( m_bLoading )
-  {
-    stop();
-  }
-
-  // Since we only set URL to empty URL when calling this from go(), it
-  // means we are going back or forward in the history and we already shifted
-  // our position in the history -> don't update the history entry.
-  if ( !url.isEmpty() )
-  {
-      if ( !m_bLockHistory && m_lstHistory.count() > 0 )
-          updateHistoryEntry();
-      // Don't reset m_bLockHistory, we'll need it in openURL
-  }
-
-  // Ok, now we can show (and store) the new location bar URL
-  // (If we do that later, slotPartActivated will display the wrong one,
-  //  and if we do that earlier, it messes up the history entry ;-)
-  if ( !locationBarURL.isEmpty() )
-      setLocationBarURL( locationBarURL );
+  // Caller should call stop first.
+  assert ( !m_bLoading );
 
   kdDebug(1202) << "changeViewMode: serviceType is " << serviceType
                 << " serviceName is " << serviceName
@@ -237,7 +218,6 @@ bool KonqView::changeViewMode( const QString &serviceType,
     m_partServiceOffers = partServiceOffers;
     m_appServiceOffers = appServiceOffers;
     m_serviceType = serviceType;
-    m_sTypedURL = typedURL;
 
     switchView( viewFactory, url );
 
@@ -252,6 +232,7 @@ bool KonqView::changeViewMode( const QString &serviceType,
   }
   else if ( !url.isEmpty() )
   {
+    callExtensionStringMethod( "setNameFilter(QString)", nameFilter );
     openURL( url );
   }
   return true;
@@ -342,7 +323,7 @@ void KonqView::slotInfoMessage( KIO::Job *, const QString &msg )
 
 void KonqView::slotCompleted()
 {
-  //kdDebug(1202) << "KonqView::slotCompleted" << endl;
+  kdDebug(1202) << "KonqView::slotCompleted" << endl;
   m_bLoading = false;
   m_pKonqFrame->statusbar()->slotLoadingProgress( -1 );
 
@@ -426,9 +407,11 @@ void KonqView::updateHistoryEntry()
     browserExtension()->saveState( stream );
   }
 
+  kdDebug(1202) << "Saving part URL : " << m_pPart->url().url() << " in history position " << m_lstHistory.at() << endl;
   current->url = m_pPart->url();
-  //kdDebug(1202) << "Saving location bar URL : " << m_sLocationBarURL << endl;
+  //kdDebug(1202) << "Saving location bar URL : " << m_sLocationBarURL << " in history position " << m_lstHistory.at() << endl;
   current->locationBarURL = m_sLocationBarURL;
+  kdDebug(1202) << "Saving title : " << m_pMainWindow->currentTitle() << " in history position " << m_lstHistory.at() << endl;
   current->title = m_pMainWindow->currentTitle();
   current->strServiceType = m_serviceType;
   current->strServiceName = m_service->name();
@@ -436,9 +419,7 @@ void KonqView::updateHistoryEntry()
 
 void KonqView::go( int steps )
 {
-
-  if ( m_lstHistory.count() > 0 )
-    updateHistoryEntry();
+  stop();
 
   int newPos = m_lstHistory.at() + steps;
   kdDebug(1202) << "go : steps=" << steps
@@ -458,7 +439,9 @@ void KonqView::go( int steps )
                                           // the pointer points to will change with the following calls
 
   //kdDebug(1202) << "Restoring servicetype/name, and location bar URL from history : " << h.locationBarURL << endl;
-  if ( ! changeViewMode( h.strServiceType, h.strServiceName, QString::null, h.locationBarURL ) )
+  setLocationBarURL( h.locationBarURL );
+  m_sTypedURL = QString::null;
+  if ( ! changeViewMode( h.strServiceType, h.strServiceName, KURL() ) )
   {
     kdWarning(1202) << "Couldn't change view mode to " << h.strServiceType
                     << " " << h.strServiceName << endl;
@@ -500,20 +483,22 @@ void KonqView::setRun( KonqRun * run )
 
 void KonqView::stop()
 {
+  kdDebug(1202) << "KonqView::stop()" << endl;
   m_bAborted = false;
   if ( m_bLoading )
   {
     m_pPart->closeURL();
     m_bAborted = true;
+    m_pKonqFrame->statusbar()->slotLoadingProgress( -1 );
+    m_bLoading = false;
   }
   else if ( m_pRun )
+  {
     delete static_cast<KonqRun *>(m_pRun); // should set m_pRun to 0L
-
-  m_bLoading = false;
-  m_pKonqFrame->statusbar()->slotLoadingProgress( -1 );
-
-    //  if ( m_pRun ) debug(" m_pRun is not NULL "); else debug(" m_pRun is NULL ");
-  //if ( m_pRun ) delete (KonqRun *)m_pRun; // should set m_pRun to 0L
+    m_pKonqFrame->statusbar()->slotLoadingProgress( -1 );
+  }
+  if ( !m_bLockHistory && m_lstHistory.count() > 0 )
+    updateHistoryEntry();
 }
 
 void KonqView::reload()
@@ -663,7 +648,7 @@ QStringList KonqView::childFrameNames( KParts::ReadOnlyPart *part )
   return res;
 }
 
-KParts::BrowserHostExtension *KonqView::hostExtension( KParts::ReadOnlyPart *part, const QString &name )
+KParts::BrowserHostExtension* KonqView::hostExtension( KParts::ReadOnlyPart *part, const QString &name )
 {
   KParts::BrowserHostExtension *ext = static_cast<KParts::BrowserHostExtension *>( part->child( 0L, "KParts::BrowserHostExtension" ) );
 
@@ -708,6 +693,23 @@ void KonqView::callExtensionBoolMethod( const char *methodName, bool value )
   QMetaData * mdata = obj->metaObject()->slot( methodName );
   if( mdata )
     (obj->*((BoolMethod)mdata->ptr))(value);
+}
+
+void KonqView::callExtensionStringMethod( const char *methodName, QString value )
+{
+  QObject *obj = m_pPart->child( 0L, "KParts::BrowserExtension" );
+  // assert(obj); Hmm, not all views have a browser extension !
+  if ( !obj )
+    return;
+
+  kdDebug() << "KonqView::callExtensionStringMethod " << methodName << endl;
+  typedef void (QObject::*StringMethod)(QString);
+  QMetaData * mdata = obj->metaObject()->slot( methodName );
+  if( mdata )
+  {
+    (obj->*((StringMethod)mdata->ptr))(value);
+    kdDebug() << "Call done" << endl;
+  }
 }
 
 KonqViewIface * KonqView::dcopObject()

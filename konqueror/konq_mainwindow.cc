@@ -260,11 +260,29 @@ QWidget * KonqMainWindow::createContainer( QWidget *parent, int index, const QDo
 
 void KonqMainWindow::openFilteredURL( const QString & _url )
 {
+    QString url( _url );
+
+    // Look for wildcard selection
+    QString nameFilter;
+    int pos = _url.findRev( '/' );
+    if ( pos != -1 )
+    {
+      QString lastbit = _url.mid( pos + 1 );
+      if ( lastbit.find( '*' ) != -1 )
+      {
+        nameFilter = lastbit;
+        url = _url.left( pos + 1 );
+        kdDebug(1202) << "Found wildcard. nameFilter=" << nameFilter << "  New url=" << url << endl;
+      }
+    }
+
     // Filter URL to build a correct one
-    KURL filteredURL( konqFilteredURL( this, _url ) );
+    KURL filteredURL( konqFilteredURL( this, url ) );
+    kdDebug(1202) << "url " << url << " filtered into " << filteredURL.url() << endl;
 
     // Remember the initial (typed) URL
     KonqOpenURLRequest req( _url );
+    req.nameFilter = nameFilter;
 
     openURL( 0L, filteredURL, QString::null, req );
 
@@ -366,6 +384,9 @@ bool KonqMainWindow::openView( QString serviceType, const KURL &_url, KonqView *
   // and since that's what the user entered).
   // changeViewMode will take care of setting and storing that url.
   QString originalURL = url.prettyURL();
+  if ( !req.nameFilter.isEmpty() ) // keep filter in location bar
+    // Bug: The URI filter shouldn't remove the trailing slash...
+    originalURL += '/' + req.nameFilter;
 
   QString serviceName; // default: none provided
 
@@ -410,6 +431,7 @@ bool KonqMainWindow::openView( QString serviceType, const KURL &_url, KonqView *
   if ( !childView )
   {
     // Create a new view
+    // TODO pass req.nameFilter somehow !
     KonqView* newView = m_pViewManager->splitView( Qt::Horizontal, url, serviceType, serviceName );
 
     if ( !newView )
@@ -432,7 +454,10 @@ bool KonqMainWindow::openView( QString serviceType, const KURL &_url, KonqView *
   }
   else // We know the child view
   {
-    return childView->changeViewMode( serviceType, serviceName, url, originalURL, req.typedURL );
+    //childView->stop(); done by openURL
+    childView->setLocationBarURL( originalURL );
+    childView->setTypedURL( req.typedURL );
+    return childView->changeViewMode( serviceType, serviceName, url, req.nameFilter );
   }
 }
 
@@ -670,6 +695,7 @@ void KonqMainWindow::slotViewModeToggle( bool toggle )
 
   m_bViewModeToggled = true;
 
+  m_currentView->stop();
   m_currentView->lockHistory();
   m_currentView->changeViewMode( m_currentView->serviceType(), modeName,
                                  m_currentView->url() );
@@ -2143,10 +2169,16 @@ void KonqMainWindow::openBookmarkURL( const QString & url )
 
 void KonqMainWindow::setCaption( const QString &caption )
 {
-  //kdDebug(1202) << "KonqMainWindow::setCaption( " << caption << ")" << endl;
-  // Keep an unmodified copy of the caption (before kapp->makeStdCaption is applied)
-  m_title = caption;
-  KParts::MainWindow::setCaption( caption );
+  // KParts sends us empty captions when activating a brand new part
+  // We can't change it there (in case of apps removing all parts altogether)
+  // but here we never do that.
+  if ( !caption.isEmpty() )
+  {
+    kdDebug(1202) << "KonqMainWindow::setCaption(" << caption << ")" << endl;
+    // Keep an unmodified copy of the caption (before kapp->makeStdCaption is applied)
+    m_title = caption;
+    KParts::MainWindow::setCaption( caption );
+  }
 }
 
 QString KonqMainWindow::currentURL() const
@@ -2262,10 +2294,12 @@ void KonqMainWindow::slotOpenEmbedded()
 
 void KonqMainWindow::slotOpenEmbeddedDoIt()
 {
+  m_currentView->stop();
+  m_currentView->setLocationBarURL(m_popupURL.url());
+  m_currentView->setTypedURL(QString::null);
   (void) m_currentView->changeViewMode( m_popupServiceType,
 					m_popupService,
-                                        m_popupURL,
-					m_popupURL.url() );
+                                        m_popupURL );
 }
 
 void KonqMainWindow::slotDatabaseChanged()

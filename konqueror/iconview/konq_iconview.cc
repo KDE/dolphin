@@ -170,6 +170,12 @@ void IconViewBrowserExtension::setSaveViewPropertiesLocally( bool value )
   m_iconView->m_pProps->setSaveViewPropertiesLocally( value );
 }
 
+void IconViewBrowserExtension::setNameFilter( QString nameFilter )
+{
+  kdDebug() << "IconViewBrowserExtension::setNameFilter " << nameFilter << endl;
+  m_iconView->m_dirLister->setNameFilter( nameFilter );
+}
+
 
 KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const char *name, const QString& mode  )
     : KParts::ReadOnlyPart( parent, name )

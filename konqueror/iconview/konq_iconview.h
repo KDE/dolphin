@@ -225,7 +225,7 @@ protected:
 class IconViewBrowserExtension : public KParts::BrowserExtension
 {
   Q_OBJECT
-    friend class KonqKfmIconView; // so that it can emit our signals
+  friend class KonqKfmIconView; // so that it can emit our signals
 public:
   IconViewBrowserExtension( KonqKfmIconView *iconView );
 
@@ -248,6 +248,8 @@ public slots:
   // Those slots are automatically connected by the shell
   void reparseConfiguration();
   void setSaveViewPropertiesLocally( bool value );
+  void setNameFilter( QString nameFilter );
+
   void refreshMimeTypes() { m_iconView->iconViewWidget()->refreshMimeTypes(); }
 
   void cut() { m_iconView->iconViewWidget()->cutSelection(); }
