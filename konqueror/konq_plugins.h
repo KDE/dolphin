@@ -30,7 +30,7 @@ public:
   static void reload();
 
 private:
-  static void installPlugin( KOM::Component_ptr comp, KTrader::ServicePtr pluginInfo );
+  static void installPlugin( KOM::Component_ptr comp, KService::Ptr pluginInfo );
 
   static KTrader::OfferList komPluginOffers;
   static bool bInitialized;

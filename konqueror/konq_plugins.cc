@@ -77,7 +77,7 @@ void KonqPlugins::reload()
   bInitialized = true;
 }
 
-void KonqPlugins::installPlugin( KOM::Component_ptr comp, KTrader::ServicePtr pluginInfo )
+void KonqPlugins::installPlugin( KOM::Component_ptr comp, KService::Ptr pluginInfo )
 {
   QStringList requiredInterfaces = pluginInfo->property( "X-KDE-KonqKOM-RequiredInterfaces" )->stringListValue();
   

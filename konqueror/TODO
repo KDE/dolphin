@@ -17,3 +17,6 @@ templates, just like New/Folder, since the file would be not used at all.
 - see grep TODO *.cc *.h *.idl
 
 - see http://bugs.kde.org/db/pa/lkfm.html !
+
+- implement search functionality in KonqHTMLView -> wait until khtml catched
+  up :-)

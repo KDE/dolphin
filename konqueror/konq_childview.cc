@@ -427,7 +427,7 @@ bool KonqChildView::createView( const QString &serviceType,
     return false;
     
   //activate the view plugin
-  KTrader::ServicePtr service = offers.first();
+  KService::Ptr service = offers.first();
   
   if ( service->repoIds().count() == 0 )  //uh...is it a CORBA service at all??
     return false;

@@ -239,7 +239,7 @@ int clientApp::doIt( int argc, char **argv )
     {
       QStringList urls;
       urls.append( argv[2] );
-      KSharedPtr<KService> serv = KServiceProvider::getServiceProvider()->serviceByServiceType( argv[3] );
+      KService::Ptr serv = KServiceProvider::getServiceProvider()->serviceByServiceType( argv[3] );
       if (!serv) return 1;
       bool ret = KRun::run( *serv, urls );
       if (!ret) return 1;
