@@ -159,6 +159,8 @@ void KBookmarkManager::scanIntern( KBookmark *_bm, const char * _path )
     {
       // QString name = ep->d_name;	
 
+// TODO : use KMimeMagic here !!!
+
       QString file = _path;
       file += "/";
       file += ep->d_name;
@@ -197,7 +199,7 @@ void KBookmarkManager::scanIntern( KBookmark *_bm, const char * _path )
 	  QString type = cfg.readEntry( "Type" );	
 	  // Is it really a bookmark file ?
 	  if ( type == "Link" )
-	    (void) new KBookmark( this, _bm, ep->d_name, cfg, "Desktop Entry" );
+	    (void) new KBookmark( this, _bm, ep->d_name, cfg, QString::null /* desktop group */ );
 	} else {
 	// maybe its an IE Favourite..
 	  KSimpleConfig cfg( file, true );
@@ -230,7 +232,11 @@ KBookmark::KBookmark( KBookmarkManager *_bm, KBookmark *_parent, QString _text,
   assert( _bm != 0L );
   assert( _parent != 0L );
 
-  _cfg.setGroup( _group );
+  if ( _group )
+    _cfg.setGroup( _group );
+  else
+    _cfg.setDesktopGroup();
+
   m_url = _cfg.readEntry( "URL", "ERROR ! No URL !" );
 
   m_id = g_id++;
