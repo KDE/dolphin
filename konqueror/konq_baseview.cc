@@ -60,6 +60,7 @@ bool KonqBaseView::mappingCreateViewToolBar( Konqueror::View::EventCreateViewToo
 
 bool KonqBaseView::mappingOpenURL( Konqueror::EventOpenURL eventURL )
 {
+  SIGNAL_CALL1( "setLocationBarURL", (char*)eventURL.url );
   return false;
 }
 

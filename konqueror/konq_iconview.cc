@@ -88,6 +88,7 @@ KonqKfmIconView::~KonqKfmIconView()
 
 bool KonqKfmIconView::mappingOpenURL( Konqueror::EventOpenURL eventURL )
 {
+  KonqBaseView::mappingOpenURL(eventURL);
   openURL( eventURL.url );
   return true;
 }
@@ -186,9 +187,8 @@ void KonqKfmIconView::slotMousePressed( KIconContainerItem *_item, const QPoint 
       mode_t mode = 0;
       urls.append( cURL );
       
-      // A url ending with '/' is always a directory (said somebody)
-      // Wrong, says David : file:/tmp/myfile.gz#gzip:/ isn't !
-      if ( !m_url.hasSubURL() && i >= 1 && cURL[ i - 1 ] == '/' )
+      // A url ending with '/' is always a directory
+      if ( i >= 1 && cURL[ i - 1 ] == '/' )
 	mode = S_IFDIR;
       // With HTTP we can be shure that everything that does not end with '/'
       // is NOT a directory

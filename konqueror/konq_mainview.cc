@@ -441,7 +441,7 @@ bool KonqMainView::mappingChildGotFocus( OpenParts::Part_ptr child )
 
 //  KfmViewProps * vProps = m_currentView->m_pView->props();
 //  setViewModeMenu( vProps->viewMode() );
-//  setLocationBarURL( m_currentView->m_pView->currentURL() );
+  setLocationBarURL( m_currentView->m_vView->url() );
 
   // m_vMenuView->setItemChecked( ..., vProps->isShowingDirTree() );
 //  m_vMenuView->setItemChecked( MVIEW_SHOWDOT_ID, vProps->isShowingDotFiles() );
@@ -631,7 +631,7 @@ void KonqMainView::openURL( const char * _url, CORBA::Boolean _reload )
   else if ( url[0] == '~' )
   {
     QString tmp( QDir::homeDirPath().data() );
-    tmp += m_vLocationBar->linedText( TOOLBAR_URL_ID ) + 1;
+    tmp += _url + 1;
     K2URL u( tmp );
     url = u.url();
   }
@@ -654,15 +654,14 @@ void KonqMainView::openURL( const char * _url, CORBA::Boolean _reload )
   if ( u.isMalformed() )
   {
     string tmp = i18n("Malformed URL\n");
-    tmp += m_vLocationBar->linedText( TOOLBAR_URL_ID );
+    tmp += _url;
     QMessageBox::critical( (QWidget*)0L, i18n( "KFM Error" ), tmp.c_str(), i18n( "OK" ) );
     return;
   }
 
   /////////// Now find which view type will handle this URL ////////////
 
- //TODO ... use KfmRun here (Simon) 
-  //            ..... why ? What is it supposed to do ? (David.)
+ //TODO ... use KfmRun here
 
 
   Konqueror::EventOpenURL eventURL;

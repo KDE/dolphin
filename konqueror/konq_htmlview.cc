@@ -92,6 +92,7 @@ KBrowser* KonqHTMLView::createFrame( QWidget *_parent, const char *_name )
 
 bool KonqHTMLView::mappingOpenURL( Konqueror::EventOpenURL eventURL )
 {
+  KonqBaseView::mappingOpenURL(eventURL);
   openURL( eventURL.url ); // implemented by kbrowser
   return true;
 }
