@@ -179,6 +179,9 @@ void KonqCombo::loadItems()
     clear();
     int i = 0;
 
+    s_config->setGroup( "History" ); // delete the old 2.0.x completion
+    s_config->writeEntry( "CompletionItems", "unused" );
+
     s_config->setGroup( "Location Bar" );
     QStringList items = s_config->readListEntry( "ComboContents" );
     QStringList::ConstIterator it = items.begin();
@@ -207,6 +210,7 @@ void KonqCombo::saveItems()
     s_config->setGroup( "Location Bar" );
     s_config->writeEntry( "ComboContents", items );
     KonqPixmapProvider::self()->save( s_config, "ComboIconCache", items );
+
     s_config->sync();
 }
 
