@@ -30,7 +30,6 @@ class KonqListView;
 class KonqTreeViewWidget : public KonqBaseListViewWidget
 {
    friend class KonqListViewDir;
-   friend class KonqTreeViewDir;
 
    Q_OBJECT
 public:
@@ -58,7 +57,6 @@ protected:
    // Called by KonqListViewDir
    void addSubDir( KonqListViewDir *_dir );
    void removeSubDir( const KURL & _url );
-   void clearSubDir( const KURL & _url );
 
    void openSubFolder( KonqListViewDir *_dir, bool _reload );
    void stopListingSubFolder( KonqListViewDir *_dir );

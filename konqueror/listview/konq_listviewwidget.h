@@ -1,5 +1,6 @@
 /* This file is part of the KDE project
    Copyright (C) 1998, 1999 Torben Weis <weis@kde.org>
+                 2004 Michael Brade <brade@kde.org>
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public
@@ -75,8 +76,8 @@ class KonqBaseListViewWidget : public KListView
    friend class KonqBaseListViewItem;
    friend class KonqListView;
    friend class ListViewBrowserExtension;
-Q_OBJECT
 
+   Q_OBJECT
 public:
    KonqBaseListViewWidget( KonqListView *parent, QWidget *parentWidget );
    virtual ~KonqBaseListViewWidget();
@@ -106,6 +107,7 @@ public:
    virtual bool openURL( const KURL &url );
 
    void selectedItems( QPtrList<KonqBaseListViewItem> *_list );
+   KFileItemList visibleFileItems();
    KFileItemList selectedFileItems();
    KURL::List selectedUrls();
 
@@ -176,6 +178,7 @@ protected slots:
    void slotUpdateBackground();
    
    //Notifies the browser view of the currently selected items
+   void slotSelectionChanged();
    virtual void reportItemCounts();
 
 protected:

@@ -125,7 +125,7 @@ KonqBaseListViewWidget::KonqBaseListViewWidget( KonqListView *parent, QWidget *p
             this, SLOT(slotItemRenamed( QListViewItem *, const QString &, int )) );
    connect( this, SIGNAL(contextMenuRequested( QListViewItem *, const QPoint&, int )),
             this, SLOT(slotPopupMenu( QListViewItem *, const QPoint&, int )) );
-   connect( this, SIGNAL(selectionChanged()), this, SLOT(reportItemCounts()) );
+   connect( this, SIGNAL(selectionChanged()), this, SLOT(slotSelectionChanged()) );
 
    connect( horizontalScrollBar(), SIGNAL(valueChanged( int )),
             this, SIGNAL(viewportAdjusted()) );
@@ -741,7 +741,21 @@ void KonqBaseListViewWidget::slotItemRenamed( QListViewItem *item, const QString
 void KonqBaseListViewWidget::reportItemCounts()
 {
    KFileItemList lst = selectedFileItems();
-   m_pBrowserView->emitCounts( lst, false );
+   if ( !lst.isEmpty() )
+      m_pBrowserView->emitCounts( lst );
+   else
+   {
+      lst = visibleFileItems();
+      m_pBrowserView->emitCounts( lst );
+   }
+}
+
+void KonqBaseListViewWidget::slotSelectionChanged()
+{
+   reportItemCounts();
+
+   KFileItemList lst = selectedFileItems();
+   emit m_pBrowserView->m_extension->selectionInfo( lst );
 }
 
 void KonqBaseListViewWidget::slotMouseButtonClicked( int _button, 
@@ -773,6 +787,18 @@ void KonqBaseListViewWidget::selectedItems( QPtrList<KonqBaseListViewItem> *_lis
    for ( ; it != end(); it++ )
       if ( it->isSelected() )
          _list->append( &*it );
+}
+
+KFileItemList KonqBaseListViewWidget::visibleFileItems()
+{
+   KFileItemList list;
+   KonqBaseListViewItem *item = static_cast<KonqBaseListViewItem *>(firstChild());
+   while ( item )
+   {
+      list.append( item->item() );
+      item = static_cast<KonqBaseListViewItem *>(item->itemBelow());
+   }
+   return list;
 }
 
 KFileItemList KonqBaseListViewWidget::selectedFileItems()
@@ -1107,21 +1133,23 @@ void KonqBaseListViewWidget::slotRefreshItems( const KFileItemList & entries )
    //kdDebug(1202) << k_funcinfo << endl;
 
    QPtrListIterator<KFileItem> kit ( entries );
-   for( ; kit.current(); ++kit )
+   for ( ; kit.current(); ++kit )
    {
       iterator it = begin();
-      for( ; it != end(); ++it )
+      for ( ; it != end(); ++it )
          if ( (*it).item() == kit.current() )
          {
             it->updateContents();
             break;
          }
    }
+   
+   reportItemCounts();
 }
 
 void KonqBaseListViewWidget::slotRedirection( const KURL & url )
 {
-   kdDebug(1202) << k_funcinfo << endl;
+   kdDebug(1202) << k_funcinfo << url << endl;
 
    if ( (columns() < 1) || (url.protocol() != m_url.protocol()) )
    {

@@ -1,6 +1,6 @@
 /* This file is part of the KDE project
    Copyright (C) 1998, 1999 Torben Weis <weis@kde.org>
-                 2001, 2002 Michael Brade <brade@kde.org>
+                 2001, 2002, 2004 Michael Brade <brade@kde.org>
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public
@@ -24,12 +24,11 @@
 #include <kdirlister.h>
 #include <kdebug.h>
 
-
 template class QDict<KonqListViewDir>;
 
-//////////////////////////////////////////////
+
 KonqTreeViewWidget::KonqTreeViewWidget( KonqListView *parent, QWidget *parentWidget)
-: KonqBaseListViewWidget(parent,parentWidget)
+   : KonqBaseListViewWidget( parent, parentWidget )
 {
    kdDebug(1202) << "+KonqTreeViewWidget" << endl;
 
@@ -56,6 +55,8 @@ KonqTreeViewWidget::~KonqTreeViewWidget()
 
 bool KonqTreeViewWidget::openURL( const KURL &url )
 {
+   //kdDebug(1202) << k_funcinfo << url.prettyURL() << endl;
+
    if ( m_pBrowserView->extension()->urlArgs().reload )
    {
       QDictIterator<KonqListViewDir> it( m_dictSubDirs );
@@ -94,57 +95,18 @@ void KonqTreeViewWidget::restoreState( QDataStream &stream )
     KonqBaseListViewWidget::restoreState( stream );
 }
 
-void KonqTreeViewWidget::addSubDir( KonqListViewDir* _dir )
+void KonqTreeViewWidget::addSubDir( KonqListViewDir *_dir )
 {
    m_dictSubDirs.insert( _dir->url(-1), _dir );
 }
 
 void KonqTreeViewWidget::removeSubDir( const KURL & _url )
 {
-   clearSubDir( _url );
+   slotClear( _url );
 
    m_dictSubDirs.remove( _url.url(-1) );
    m_urlsToOpen.remove( _url.url(-1) );
    m_urlsToReload.remove( _url.url(-1) );
-}
-
-void KonqTreeViewWidget::clearSubDir( const KURL & _url )
-{
-   QListViewItem *item = m_dictSubDirs[_url.url(-1)];
-   if ( item )
-   {
-      // search all subdirs of _url (item)
-      QDictIterator<KonqListViewDir> it( m_dictSubDirs );
-      for ( ; it.current(); ++it )
-      {
-         if ( !_url.equals( it.current()->item()->url(), true )
-              && _url.isParentOf( it.current()->item()->url() ) )
-         {
-            setSelected( it.current(), false );
-            m_pBrowserView->deleteItem( it.current()->item() );
-            
-            QListViewItem* child = it.current()->firstChild();
-            while ( child )
-            {
-               // unselect the items in the closed folder
-               setSelected( child, false );
-               // delete the item from the counts for the statusbar
-               KFileItem* tmp = static_cast<KonqListViewItem*>(child)->item();
-               m_pBrowserView->deleteItem( tmp );
-               child = child->nextSibling();
-            }
-            
-            m_dictSubDirs.remove( it.currentKey() );
-            m_urlsToOpen.remove( it.currentKey() );
-            m_urlsToReload.remove( it.currentKey() );
-         }
-      }
-      
-      // Delete all child items, their file-items are no longer valid
-      QListViewItem* child;
-      while((child = item->firstChild()))
-         delete child;
-   }
 }
 
 void KonqTreeViewWidget::slotCompleted()
@@ -188,18 +150,46 @@ void KonqTreeViewWidget::slotClear()
 
 void KonqTreeViewWidget::slotClear( const KURL & _url )
 {
+   // normally this means we have to delete only the contents of directory _url
+   // but we are allowed to delete the subdirs as well since the opening of
+   // subdirs happens level per level. If a subdir is deleted with delete, all
+   // its children will be deleted by Qt immediately!
+
    kdDebug(1202) << k_funcinfo << _url << endl;
 
-   // normally this means we have to empty _only_ the directory _url but
-   // we are allowed to delete the subdirs as well since the opening of
-   // subdirs happens level per level.
+   QListViewItem *item = m_dictSubDirs[_url.url(-1)];
+   if ( item )
+   {
+      // search all subdirs of _url (item)
+      QDictIterator<KonqListViewDir> it( m_dictSubDirs );
+      for ( ; it.current(); ++it )
+      {
+         if ( !_url.equals( it.current()->item()->url(), true )
+              && _url.isParentOf( it.current()->item()->url() ) )
+         {
+            m_dictSubDirs.remove( it.currentKey() );
+            m_urlsToOpen.remove( it.currentKey() );
+            m_urlsToReload.remove( it.currentKey() );
+         }
+      }
+      
+      // Remark: This code works only if we have exactly one tree which is the
+      // case for Konqy's treeview. It will break if m_dictSubDirs contains two
+      // subdirectories where only one of them will have its items deleted by
+      // the following code.
 
-   clearSubDir( _url );
+      // delete all child items, their fileitems are no longer valid
+      QListViewItem *child;
+      while ( (child = item->firstChild()) )
+         delete child;
+   }
+
+   reportItemCounts();
 }
 
 void KonqTreeViewWidget::slotRedirection( const KURL &oldUrl, const KURL &newUrl )
 {
-   kdDebug(1202) << k_funcinfo << oldUrl << " -> " << newUrl << endl;
+   kdDebug(1202) << k_funcinfo << oldUrl.url() << " -> " << newUrl.url() << endl;
 
    KonqListViewDir *dir = m_dictSubDirs.take( oldUrl.url(-1) );
    Q_ASSERT( dir );
@@ -207,13 +197,13 @@ void KonqTreeViewWidget::slotRedirection( const KURL &oldUrl, const KURL &newUrl
    // TODO: do we need to rename the fileitem in dir as well?
 }
 
-void KonqTreeViewWidget::slotNewItems( const KFileItemList & entries )
+void KonqTreeViewWidget::slotNewItems( const KFileItemList &entries )
 {
     // Find parent item - it's the same for all the items
     QPtrListIterator<KFileItem> kit( entries );
     KURL dir( (*kit)->url().upURL() );
 
-    KonqListViewDir * parentDir = 0L;
+    KonqListViewDir *parentDir = 0L;
     if ( !m_url.equals( dir, true ) ) // ignore trailing slash
         parentDir = m_dictSubDirs[ dir.url(-1) ];
 
