@@ -24,6 +24,8 @@
 
 - Image Preview : make size configurable for tackat :)
 
+- Integrate kdf and kdu ...
+
 - More key bindings. Lots of things are missing key bindings,
   Ctrl+A for select all for instance. => partially done.
   Needs disconnecting/reconnecting on view switching.

@@ -120,7 +120,7 @@ KonqMainView::KonqMainView( KonqPart *part, QWidget *parent, const char *name )
 
   connect( QApplication::clipboard(), SIGNAL( dataChanged() ),
            this, SLOT( checkEditExtension() ) );
-  connect( KSycoca::self(), SIGNAL( databaseChanged() ), 
+  connect( KSycoca::self(), SIGNAL( databaseChanged() ),
            this, SLOT( slotDatabaseChanged() ) );
 
   KConfig *config = KonqFactory::instance()->config();
@@ -270,10 +270,10 @@ void KonqMainView::openURL( KonqChildView *_view, const QString &_url, bool relo
 
   if ( view && view == m_currentView )
   {
-    view->setLoading( true );  
+    view->setLoading( true );
     startAnimation();
   }
-    
+
 }
 
 void KonqMainView::openURL( const QString &url, bool reload, int xOffset,
@@ -634,7 +634,7 @@ debug(" KonqMainView::openView %s %s", serviceType.ascii(), url.ascii());
   if ( !childView )
     {
       BrowserView* view = m_pViewManager->splitView( Qt::Horizontal, url, serviceType );
-      
+
       if ( !view )
       {
         KMessageBox::sorry( 0L, i18n( "Could not create view for %1\nCheck your installation").arg(serviceType) );
@@ -1054,7 +1054,7 @@ void KonqMainView::slotDelete()
   bool confirm = config->readBoolEntry( "ConfirmDestructive", true );
   if (confirm)
     if ( KMessageBox::questionYesNo(0, i18n( "Do you really want to delete the file(s) ?" ))
-	 == KMessageBox::No) 
+	 == KMessageBox::No)
       return;
 
   QObject *obj = m_currentView->view()->child( 0L, "EditExtension" );
@@ -1423,7 +1423,7 @@ void KonqMainView::updateStatusBar()
 void KonqMainView::updateExtensionDependendActions( BrowserView *view )
 {
   m_paPrint->setEnabled( view->child( 0L, "PrintingExtension" ) != (QObject *)0L );
-  
+
   bool bViewPropExt = view->child( 0L, "ViewPropertiesExtension" ) != (QObject *)0L;
   m_paSaveSettings->setEnabled( bViewPropExt );
   m_paSaveSettingsPerURL->setEnabled( bViewPropExt );
@@ -1509,10 +1509,14 @@ void KonqMainView::slotPopupMenu( const QPoint &_global, const KFileItemList &_i
 
 void KonqMainView::slotDatabaseChanged()
 {
-  // We could do better : for each item update the mimetype-related info
-  // That would reduce flickering
-  // TODO
-  slotReload();
+  MapViews::ConstIterator it = m_mapViews.begin();
+  MapViews::ConstIterator end = m_mapViews.end();
+  for (; it != end; ++it )
+  {
+    QObject *obj = (*it)->view()->child( 0L, "ViewPropertiesExtension" );
+    if ( obj )
+      ((ViewPropertiesExtension *)obj)->refreshMimeTypes();
+  }
 }
 
 void KonqMainView::reparseConfiguration()

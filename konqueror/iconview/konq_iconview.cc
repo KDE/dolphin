@@ -56,7 +56,7 @@
 class KonqIconViewFactory : public KLibFactory
 {
 public:
-  KonqIconViewFactory() 
+  KonqIconViewFactory()
   {
     KonqFactory::instanceRef();
   }
@@ -124,7 +124,7 @@ void IconViewPropertiesExtension::reparseConfiguration()
 {
  KonqFMSettings::reparseConfiguration();
   // m_pProps is a problem here (what is local, what is global ?)
-  // but settings is easy : 
+  // but settings is easy :
   m_iconView->iconViewWidget()->initConfig();
 }
 
@@ -136,6 +136,11 @@ void IconViewPropertiesExtension::saveLocalProperties()
 void IconViewPropertiesExtension::savePropertiesAsDefault()
 {
   m_iconView->m_pProps->saveAsDefault();
+}
+
+void IconViewPropertiesExtension::refreshMimeTypes()
+{
+  m_iconView->iconViewWidget()->refreshMimeTypes();
 }
 
 KonqKfmIconView::KonqKfmIconView()
@@ -226,7 +231,7 @@ KonqKfmIconView::KonqKfmIconView()
   KAction * paBackgroundImage = new KAction( i18n( "Background Image..." ), 0, this, SLOT( slotBackgroundImage() ), this );
 
   //
-  
+
   connect( m_paLargeIcons, SIGNAL( toggled( bool ) ), this, SLOT( slotViewLarge( bool ) ) );
   connect( m_paNormalIcons, SIGNAL( toggled( bool ) ), this, SLOT( slotViewNormal( bool ) ) );
   connect( m_paSmallIcons, SIGNAL( toggled( bool ) ), this, SLOT( slotViewSmall( bool ) ) );
@@ -289,7 +294,7 @@ KonqKfmIconView::KonqKfmIconView()
 
   m_pIconView->setResizeMode( QIconView::Adjust );
   // KDE extension : KIconLoader size
-  m_pIconView->setSize( KIconLoader::Medium ); // TODO : part of KonqPropsView
+  m_pIconView->setIcons( KIconLoader::Medium ); // TODO : part of KonqPropsView
 
   m_eSortCriterion = NameCaseInsensitive;
 
@@ -457,19 +462,19 @@ void KonqKfmIconView::slotKofficeMode( bool b )
 void KonqKfmIconView::slotViewLarge( bool b )
 {
     if ( b )
-        m_pIconView->setSize( KIconLoader::Large );
+        m_pIconView->setIcons( KIconLoader::Large );
 }
 
 void KonqKfmIconView::slotViewNormal( bool b )
 {
     if ( b )
-        m_pIconView->setSize( KIconLoader::Medium );
+        m_pIconView->setIcons( KIconLoader::Medium );
 }
 
 void KonqKfmIconView::slotViewSmall( bool b )
 {
     if ( b )
-        m_pIconView->setSize( KIconLoader::Small );
+        m_pIconView->setIcons( KIconLoader::Small );
 }
 
 void KonqKfmIconView::slotTextBottom( bool b )
@@ -525,7 +530,7 @@ void KonqKfmIconView::saveState( QDataStream &stream )
 {
   BrowserView::saveState( stream );
 
-  stream << (Q_INT32)m_pIconView->size() 
+  stream << (Q_INT32)m_pIconView->size()
          << (Q_INT32)m_pIconView->itemTextPos()
          << (Q_INT32)m_pProps->m_bImagePreview;
 }

@@ -42,9 +42,10 @@ public:
   virtual void reparseConfiguration();
   virtual void saveLocalProperties();
   virtual void savePropertiesAsDefault();
+  virtual void refreshMimeTypes();
 
 private:
-  KonqKfmIconView *m_iconView;  
+  KonqKfmIconView *m_iconView;
 };
 
 /**
