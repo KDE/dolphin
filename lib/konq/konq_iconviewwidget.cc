@@ -390,7 +390,7 @@ void KonqIconViewWidget::setURL( const KURL &kurl )
     stopImagePreview();
     m_url = kurl;
     if ( m_url.isLocalFile() )
-        m_dotDirectoryPath = m_url.path().append( ".directory" );
+        m_dotDirectoryPath = m_url.path(1).append( ".directory" );
     else
         m_dotDirectoryPath = QString::null;
 }
@@ -749,6 +749,8 @@ void KonqIconViewWidget::slotSaveIconPositions()
 {
   if ( m_dotDirectoryPath.isEmpty() )
     return;
+  if ( !m_bDesktop )
+    return; // Currently not available in Konqueror
   kdDebug(1214) << "KonqIconViewWidget::slotSaveIconPositions" << endl;
   KSimpleConfig dotDirectory( m_dotDirectoryPath );
   QIconViewItem *it = firstItem();
