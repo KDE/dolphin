@@ -39,10 +39,14 @@
 **
 *****************************************************************************/
 
+// horrible hack that is the only way to combine motif and qt event handling correctly
+#define private public
+
 #include <kapp.h>
 #include <qwidget.h>
 #include <qobjcoll.h>
 #include <qwidcoll.h>
+#include <kdebug.h>
 
 #include "kxt.h"
 
@@ -311,7 +315,6 @@ KXtApplication::KXtApplication(int& argc, char** argv,
     if (resources) XtAppSetFallbackResources(appcon, (char**)resources);
     XtDisplayInitialize(appcon, qt_xdisplay(), name(), rAppName, options,
     	num_options, &argc, argv);
-
     init();
 }
 
@@ -322,13 +325,13 @@ KXtApplication::KXtApplication(int& argc, char** argv,
   Use this constructor when introducing Qt widgets into an existing
   Xt/Motif application.
 */
-KXtApplication::KXtApplication(Display*display, int& argc, char** argv,
+KXtApplication::KXtApplication(Display* dpy, int& argc, char** argv,
 	const QCString& rAppName, bool allowStyles, bool GUIenabled)
-   : KApplication(argc, argv, rAppName, allowStyles, GUIenabled)
+   : KApplication(dpy, argc, argv, rAppName, allowStyles, GUIenabled)
 {
     my_xt = FALSE;
     init();
-    appcon = XtDisplayToApplicationContext(display);
+    appcon = XtDisplayToApplicationContext(dpy);
 }
 
 /*!
@@ -356,16 +359,6 @@ void KXtApplication::init()
     qt_np_add_timer_setter(np_set_timer);
     qt_np_add_event_proc(np_event_proc);
     qt_np_count++;
-}
-
-
-Widget KXtApplication::createToplevelWidget()
-{
-    String n, c;
-    XtGetApplicationNameAndClass(qt_xdisplay(), &n, &c);
-    Widget w = XtAppCreateShell(n, c, topLevelShellWidgetClass, qt_xdisplay(), 0, 0);
-    XtRealizeWidget(w);
-    return w;
 }
 
 
@@ -432,6 +425,7 @@ void KXtWidget::init(const char* name, WidgetClass widget_class,
     if (!parent || XtIsRealized(parent))
 	XtRealizeWidget(xtw);
 }
+
 
 /*!
   Constructs a KXtWidget of the special Xt widget class known as

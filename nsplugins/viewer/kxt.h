@@ -32,8 +32,6 @@ public:
     KXtApplication(Display*, int& argc, char** argv, const QCString& rAppName,
                    bool allowStyles=true, bool GUIenabled=true);
     ~KXtApplication();
-
-    static Widget createToplevelWidget();
 };
 
 class KXtWidget : public QWidget {
