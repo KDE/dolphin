@@ -200,6 +200,8 @@ KonqListView::KonqListView( QWidget *parentWidget, QObject *parent, const char *
  : KonqDirPart( parent, name )
 ,m_headerTimer(0)
 {
+   setInstance( KonqListViewFactory::instance(), false );
+
    // Create a properties instance for this view
    // All the listview view modes inherit the same properties defaults...
    m_pProps = new KonqPropsView( KonqListViewFactory::instance(), KonqListViewFactory::defaultViewProps() );
@@ -237,7 +239,6 @@ KonqListView::KonqListView( QWidget *parentWidget, QObject *parent, const char *
 
    m_mimeTypeResolver = new KMimeTypeResolver<KonqBaseListViewItem,KonqListView>(this);
 
-   setInstance( KonqListViewFactory::instance() );
    setXMLFile( xmlFile );
 
    setupActions();
@@ -271,6 +272,8 @@ KonqListView::KonqListView( QWidget *parentWidget, QObject *parent, const char *
    // signals from konqdirpart (for BC reasons)
    connect( this, SIGNAL( findOpened( KonqDirPart * ) ), SLOT( slotKFindOpened() ) );
    connect( this, SIGNAL( findClosed( KonqDirPart * ) ), SLOT( slotKFindClosed() ) );
+
+   loadPlugins( this, this, instance() );
 }
 
 KonqListView::~KonqListView()
