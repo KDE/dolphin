@@ -479,9 +479,7 @@ bool KonqMainWindow::openView( QString serviceType, const KURL &_url, KonqView *
 	{
 	  url.setProtocol( QString::fromLatin1("tar") );
 	  url.setPath( url.path() + '/' );
-
 	  serviceType = "inode/directory";
-
 	  // kdDebug(1202) << "TAR FILE. Now trying with " << url.url() << endl;
 
 	}
@@ -2077,9 +2075,7 @@ void KonqMainWindow::slotComboPlugged()
           kdError() << "Label not constructed yet!" << endl;;
   } else kdError() << "Not a KonqLabelAction !" << endl;;
 
-  m_combo->setCompletionObject( s_pCompletion, false ); //we handle the signals
-  m_combo->setAutoDeleteCompletionObject( false );
-  m_combo->setCompletionMode( s_pCompletion->completionMode() );
+  m_combo->init( s_pCompletion );
 
   m_pURLCompletion = new KURLCompletion( KURLCompletion::FileCompletion );
   m_pURLCompletion->setCompletionMode( s_pCompletion->completionMode() );

@@ -46,14 +46,12 @@ KonqCombo::KonqCombo( QWidget *parent, const char *name )
     KConfigGroupSaver cs( s_config, "Location Bar" );
     setMaxCount( s_config->readNumEntry("Maximum of URLs in combo", 20 ));
 
-    loadItems();
-
-    completionBox()->setTabHandling( true );
     // we should also connect the completionBox' highlighted signal to
     // our setEditText() slot, because we're handling the signals ourselves.
-    // But, setCompletionObject(), telling that we are handling the signals
-    // is called _after_ the completionBox is created -> KComboBox still
-    // thinks it handles the signals alone -> it does the connect(s) itself.
+    // But we're lazy and let KCompletionBox do this and simply switch off
+    // handling of signals later.
+    setHandleSignals( true );
+    completionBox()->setTabHandling( true );
 
     connect( this, SIGNAL( returnPressed()), SLOT( slotReturnPressed() ));
     connect( completionBox(), SIGNAL( activated(const QString&)),
@@ -66,6 +64,15 @@ KonqCombo::KonqCombo( QWidget *parent, const char *name )
 
 KonqCombo::~KonqCombo()
 {
+}
+
+void KonqCombo::init( KCompletion *completion )
+{
+    setCompletionObject( completion, false ); //KonqMainWindow handles signals
+    setAutoDeleteCompletionObject( false );
+    setCompletionMode( completion->completionMode() );
+
+    loadItems();
 }
 
 void KonqCombo::setURL( const QString& url )
@@ -243,14 +250,98 @@ void KonqCombo::clearTemporary( bool makeCurrent )
 	setCurrentItem( temporary );
 }
 
+bool KonqCombo::eventFilter( QObject *o, QEvent *ev )
+{
+    // Handle Ctrl+Del/Backspace etc better than the Qt widget, which always
+    // jumps to the next whitespace.
+    QLineEdit *edit = lineEdit();
+    if ( o == edit ) {
+        int type = ev->type();
+        if ( type == QEvent::KeyPress ) {
+            QKeyEvent *e = static_cast<QKeyEvent *>( ev );
+            if ( KStdAccel::isEqual( e, KStdAccel::deleteWordBack() ) ||
+                 KStdAccel::isEqual( e, KStdAccel::deleteWordForward() ) ||
+                 ((e->state() & ControlButton) && 
+                   e->key() == Key_Left || e->key() == Key_Right ) ) {
+                selectWord(e);
+                e->accept();
+                return true;
+            }
+        }
+    }
+    return KComboBox::eventFilter( o, ev );
+}
+
 void KonqCombo::keyPressEvent( QKeyEvent *e )
 {
     KHistoryCombo::keyPressEvent( e );
     // we have to set it as temporary, otherwise we wouldn't get our nice
     // pixmap. Yes, QComboBox still sucks.
     if ( KStdAccel::isEqual( e, KStdAccel::rotateUp() ) ||
-	 KStdAccel::isEqual( e, KStdAccel::rotateDown() ) )
+         KStdAccel::isEqual( e, KStdAccel::rotateDown() ) )
 	setTemporary( currentText() );
+}
+
+void KonqCombo::selectWord(QKeyEvent *e)
+{
+    // Handle Ctrl+Cursor etc better than the Qt widget, which always
+    // jumps to the next whitespace. This code additionally jumps to 
+    // the next [/#?:], which makes more sense for URLs.
+    QLineEdit *edit = lineEdit();
+    QString text = edit->text();
+    // The list of chars that will stop the cursor
+    // (TODO: make it a parameter when in kdelibs/kdeui)
+    typedef QValueList<QChar> JumpChars;
+    JumpChars chars;
+    chars.append(QChar('/'));   // path seperator
+    chars.append(QChar('?'));   // parameter sperator
+    chars.append(QChar('#'));   // local anchor seperator
+    chars.append(QChar(':'));   // Konqueror's enhanced browsing seperator
+    // TODO: make this a parameter when in kdelibs/kdeui
+    bool allow_space_break = true;
+    int pos = edit->cursorPosition();
+    int pos_old = pos;
+    int count = 0;
+    if( e->key() == Key_Left || e->key() == Key_Backspace ) {
+	do {
+	    pos--;
+	    count++;
+            if( allow_space_break && text[pos].isSpace() && count > 1 )
+                break;
+	} while( pos >= 0 && (chars.findIndex(text[pos]) == -1 || count <= 1) );
+	if( e->state() & ShiftButton ) {
+            edit->cursorLeft(true, count-1);
+	} else if(  e->key() == Key_Backspace ) {
+            edit->cursorLeft(false, count-1);
+            QString text = edit->text();
+            int pos_to_right = edit->text().length() - pos_old;
+            QString cut = text.left(edit->cursorPosition()) + text.right(pos_to_right);
+            edit->setText(cut);
+            edit->setCursorPosition(pos_old-count+1);
+        } else {
+            edit->cursorLeft(false, count-1);
+        }
+     } else if( e->key() == Key_Right || e->key() == Key_Delete ){
+	do {
+	    pos++;
+	    count++;
+            if( allow_space_break && text[pos].isSpace() )
+                break;
+	} while( pos < text.length() && chars.findIndex(text[pos]) == -1 );
+	if( e->state() & ShiftButton ) {
+            edit->cursorRight(true, count+1);
+	} else if(  e->key() == Key_Delete ) {
+            edit->cursorLeft(false, count+1);
+            QString text = edit->text();
+            int pos_to_right = text.length() - pos - 1;
+	    QString cut = text.left(pos_old) + 
+               (pos_to_right > 0 ? text.right(pos_to_right) : "" );
+            edit->setText(cut);
+            edit->setCursorPosition(pos_old);
+        } else {
+            edit->cursorRight(false, count+1);
+        }
+    }
 }
 
 void KonqCombo::slotCleared()

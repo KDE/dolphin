@@ -24,6 +24,7 @@
 
 #include <kcombobox.h>
 
+class KCompletion;
 class KConfig;
 
 // we use KHistoryCombo _only_ for the up/down keyboard handling, otherwise
@@ -36,6 +37,9 @@ public:
     KonqCombo( QWidget *parent, const char *name );
     ~KonqCombo();
 
+    // initializes with the completion object and calls loadItems()
+    void init( KCompletion * );
+    
     // determines internally if it's temporary or final
     void setURL( const QString& url );
 
@@ -55,9 +59,11 @@ public:
 
 protected:
     virtual void keyPressEvent( QKeyEvent * );
+    virtual bool eventFilter( QObject *, QEvent * );
     virtual void mousePressEvent( QMouseEvent * );
     virtual void mouseMoveEvent( QMouseEvent * );
-    
+    void selectWord(QKeyEvent *e);
+
 private slots:
     void slotReturnPressed();
     void slotCleared();
