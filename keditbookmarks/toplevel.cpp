@@ -106,7 +106,7 @@ void KEBListViewItem::init( const KBookmark & bk )
     modUpdate();
 }
 
-/* AK - move all this netscapeinfo stuff to kbookmark */
+// AK - TODO abstract this away, possibly split this rather large file up?
 
 void internal_nsGet(QString nsinfo, QString & nCreate, QString & nAccess, QString & nModify) {
   QStringList sl = QStringList::split(' ', nsinfo);
@@ -175,8 +175,6 @@ void KEBListViewItem::nsPut( QString nm )
 
 void KEBListViewItem::modUpdate( )
 {
-
-  // AK - attempt to clean up
 
   QString url = m_bookmark.url().url();
 
@@ -349,6 +347,11 @@ KEBTopLevel::KEBTopLevel( const QString & bookmarksFile, bool readonly )
     s_pManager = KBookmarkManager::managerForFile( bookmarksFile, false );
     m_bReadOnly = readonly;
 
+    if (!m_bReadOnly) {
+       // Create the DCOP interface object
+       m_dcopIface = new KBookmarkEditorIface();
+    }
+
     initListView();
 
     s_topLevel = this;
@@ -408,32 +411,34 @@ void KEBTopLevel::resetActions()
 {
     m_taShowNS->setChecked( s_pManager->showNSBookmarks() );
 
-    if (m_bReadOnly) {
-       actionCollection()->action("exportNS")->setEnabled(false);
-       actionCollection()->action("exportMoz")->setEnabled(false);
-       actionCollection()->action("importMoz")->setEnabled(false);
-       actionCollection()->action("settings_showNS")->setEnabled(false);
+    // first disable all actions
+
+    QValueList<KAction *> actions = actionCollection()->actions();
+    QValueList<KAction *>::Iterator it = actions.begin();
+    QValueList<KAction *>::Iterator end = actions.end();
+    for (; it != end; ++it )
+    {
+       KAction *act = *it;
+       /* do not touch the configureblah actions */
+       if ( strncmp( act->name(), "configure", 9 ) )
+          act->setEnabled( false );
     }
 
-    // AK - reduce this stuff
-    actionCollection()->action("edit_cut")       ->setEnabled(false);
-    actionCollection()->action("edit_copy")      ->setEnabled(false);
-    actionCollection()->action("edit_paste")     ->setEnabled(false);
-    actionCollection()->action("rename")         ->setEnabled(false);
-    actionCollection()->action("changeurl")      ->setEnabled(false);
-    actionCollection()->action("delete")         ->setEnabled(false);
-    actionCollection()->action("newfolder")      ->setEnabled(false);
-    actionCollection()->action("changeicon")     ->setEnabled(false);
-    actionCollection()->action("insertseparator")->setEnabled(false);
-    actionCollection()->action("newbookmark")    ->setEnabled(false);
-    actionCollection()->action("sort")           ->setEnabled(false);
-    actionCollection()->action("expandall")      ->setEnabled(false);
-    actionCollection()->action("collapseall")    ->setEnabled(false);
-    actionCollection()->action("setastoolbar")   ->setEnabled(false);
-    actionCollection()->action("openlink")       ->setEnabled(false);
-    actionCollection()->action("testlink")       ->setEnabled(false);
-    actionCollection()->action("testall")        ->setEnabled(false);
-    actionCollection()->action("canceltests")    ->setEnabled(false);
+    // then reenable needed ones
+
+    actionCollection()->action("file_open")->setEnabled(true);
+    actionCollection()->action("file_save")->setEnabled(true); // setModified
+    actionCollection()->action("file_save_as")->setEnabled(true);
+    actionCollection()->action("file_quit")->setEnabled(true);
+
+    actionCollection()->action("importNS")->setEnabled(true);
+
+    if (!m_bReadOnly) {
+       actionCollection()->action("exportNS")->setEnabled(true);
+       actionCollection()->action("exportMoz")->setEnabled(true);
+       actionCollection()->action("importMoz")->setEnabled(true);
+       actionCollection()->action("settings_showNS")->setEnabled(true);
+    }
 
 }
 
@@ -452,16 +457,25 @@ void KEBTopLevel::initListView()
     m_pListView->setRootIsDecorated( true );
     m_pListView->setRenameable( 0 );
     m_pListView->setRenameable( 1 );
+
     if (!m_bReadOnly) {
        m_pListView->setItemsRenameable( true );
        m_pListView->setItemsMovable( false ); // We move items ourselves (for undo)
        m_pListView->setAcceptDrops( true );
        m_pListView->setDropVisualizer( true );
     }
+
     m_pListView->setSelectionModeExt( KListView::Extended );
     m_pListView->setDragEnabled( true );
     m_pListView->setAllColumnsShowFocus( true );
     m_pListView->setSorting(-1, false);
+
+    connect( m_pListView, SIGNAL(selectionChanged() ),
+             SLOT(slotSelectionChanged() ) );
+    connect( m_pListView, SIGNAL(contextMenu( KListView *, QListViewItem *, const QPoint & )),
+
+             SLOT(slotContextMenu( KListView *, QListViewItem *, const QPoint & )) );
+
 
     if (!m_bReadOnly) {
        connect( m_pListView, SIGNAL(itemRenamed(QListViewItem *, const QString &, int)),
@@ -470,17 +484,8 @@ void KEBTopLevel::initListView()
                 SLOT(slotDropped(QDropEvent* , QListViewItem* , QListViewItem* )) );
        connect( kapp->clipboard(), SIGNAL(dataChanged()),
                 SLOT(slotClipboardDataChanged() ) );
-    }
 
-    connect( m_pListView, SIGNAL(selectionChanged() ),
-             SLOT(slotSelectionChanged() ) );
-    connect( m_pListView, SIGNAL(contextMenu( KListView *, QListViewItem *, const QPoint & )),
-
-             SLOT(slotContextMenu( KListView *, QListViewItem *, const QPoint & )) );
-
-    // If someone plays with konq's bookmarks while we're open, update. (when applicable)
-    if (!m_bReadOnly) {
-
+       // If someone plays with konq's bookmarks while we're open, update. (when applicable)
        connect( s_pManager, SIGNAL( changed(const QString &, const QString &) ),
                 SLOT( slotBookmarksChanged(const QString &, const QString &) ) );
 
@@ -488,13 +493,9 @@ void KEBTopLevel::initListView()
        connect( &m_commandHistory, SIGNAL( commandExecuted() ), SLOT( slotCommandExecuted() ) );
        connect( &m_commandHistory, SIGNAL( documentRestored() ), SLOT( slotDocumentRestored() ) );
 
-       // Create the DCOP interface object
-       m_dcopIface = new KBookmarkEditorIface();
-       connect(m_dcopIface,
-               SIGNAL(addedBookmark(QString,QString,QString,QString)),
+       connect(m_dcopIface, SIGNAL(addedBookmark(QString,QString,QString,QString)),
                SLOT(slotAddedBookmark(QString,QString,QString,QString)));
-       connect(m_dcopIface,
-               SIGNAL(createdNewFolder(QString,QString)),
+       connect(m_dcopIface, SIGNAL(createdNewFolder(QString,QString)),
                SLOT(slotCreatedNewFolder(QString,QString)));
     }
 }
@@ -504,6 +505,27 @@ KEBTopLevel::~KEBTopLevel()
     s_topLevel = 0L;
     if (m_dcopIface)
         delete m_dcopIface;
+}
+
+void KEBTopLevel::slotConfigureKeyBindings()
+{
+    KKeyDialog::configure(actionCollection());
+}
+
+void KEBTopLevel::slotConfigureToolbars()
+{
+    saveMainWindowSettings( KGlobal::config(), "MainWindow" );
+    KEditToolbar dlg(actionCollection());
+    connect(&dlg,SIGNAL(newToolbarConfig()),this,SLOT(slotNewToolbarConfig()));
+    if (dlg.exec())
+    {
+        createGUI();
+    }
+}
+
+void KEBTopLevel::slotNewToolbarConfig() // This is called when OK or Apply is clicked
+{
+    applyMainWindowSettings( KGlobal::config(), "MainWindow" );
 }
 
 #define ITEM_TO_BK(item) static_cast<KEBListViewItem *>(item)->bookmark()
@@ -571,27 +593,6 @@ QValueList<KBookmark> KEBTopLevel::getBookmarkSelection()
        bookmarks.append( KBookmark( ITEM_TO_BK(item) ) );
     }
     return bookmarks;
-}
-
-void KEBTopLevel::slotConfigureKeyBindings()
-{
-    KKeyDialog::configure(actionCollection());
-}
-
-void KEBTopLevel::slotConfigureToolbars()
-{
-    saveMainWindowSettings( KGlobal::config(), "MainWindow" );
-    KEditToolbar dlg(actionCollection());
-    connect(&dlg,SIGNAL(newToolbarConfig()),this,SLOT(slotNewToolbarConfig()));
-    if (dlg.exec())
-    {
-        createGUI();
-    }
-}
-
-void KEBTopLevel::slotNewToolbarConfig() // This is called when OK or Apply is clicked
-{
-    applyMainWindowSettings( KGlobal::config(), "MainWindow" );
 }
 
 void KEBTopLevel::updateSelection()
@@ -942,8 +943,6 @@ void KEBTopLevel::slotSort()
 
 void KEBTopLevel::slotSetAsToolbar()
 {
-    // AK - possibly rethink
-
     KMacroCommand * cmd = new KMacroCommand(i18n("Set as Bookmark Toolbar"));
 
     KBookmarkGroup oldToolbar = s_pManager->toolbar();
@@ -1039,12 +1038,13 @@ void KEBTopLevel::slotCollapseAll()
 
 void KEBTopLevel::slotShowNS()
 {
-    // AK - move to kbookmark
     QDomElement rootElem = s_pManager->root().internalElement();
     QString attr = "hide_nsbk";
     rootElem.setAttribute(attr, rootElem.attribute(attr) == "yes" ? "no" : "yes");
-    setModified(); // one will need to save, to get konq to notice the change
-    // If that's bad, then we need to put this flag in a KConfig.
+
+    // one will need to save, to get konq to notice the change
+    // if that's bad, then we need to put this flag in a KConfig.
+    setModified(); 
 }
 
 void KEBTopLevel::setModified( bool modified )
@@ -1241,8 +1241,9 @@ void KEBTopLevel::update()
         for ( ; it.current() != 0; ++it ) {
             KEBListViewItem* item = static_cast<KEBListViewItem*>(it.current());
             QString address = ITEM_TO_BK(item).address();
+            // AK - hacky, FIXME
             if ( address != "ERROR" )  
-                addressList << address; // AK - hacky, fix me
+                addressList << address; 
         }
         fillListView();
         KEBListViewItem * newItem = NULL;
