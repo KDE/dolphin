@@ -507,7 +507,8 @@ bool KonqMainWindow::openView( QString serviceType, const KURL &_url, KonqView *
   {
       serviceType = "KonqAboutPage"; // not KParts/ReadOnlyPart, it fills the Location menu ! :)
       serviceName = "konq_aboutpage";
-      originalURL = QString::null;
+      originalURL = req.typedURL.isEmpty() ? QString::null : QString::fromLatin1("about:konqueror");
+      // empty if from profile, about:konqueror if the user typed it (not req.typedURL, it could be "about:")
   }
 
   // Look for which view mode to use, if a directory - not if view locked
@@ -2378,6 +2379,8 @@ void KonqMainWindow::setLocationBarURL( const QString &url )
 // called via DCOP from KonquerorIface
 void KonqMainWindow::addToCombos( const QString& url, const QCString& objId )
 {
+    kdDebug(1202) << "KonqMainWindow::addToCombos " << url << " " << objId << endl;
+    assert(s_lstViews);
     KonqCombo *combo = 0L;
     KonqMainWindow *window = s_lstViews->first();
     while ( window ) {
