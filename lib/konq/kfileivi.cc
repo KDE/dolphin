@@ -194,11 +194,6 @@ void KFileIVI::setEffect( int group, int state )
     d->state = state;
 }
 
-void KFileIVI::setThumbnailName( const QString & name )
-{
-    m_thumbnailName = name;
-}
-
 void KFileIVI::refreshIcon( bool redraw )
 {
     if ( !isThumbnail())

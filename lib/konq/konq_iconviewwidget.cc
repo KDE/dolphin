@@ -355,9 +355,7 @@ void KonqIconViewWidget::setIcons( int size, const char * stopImagePreviewFor )
     for ( QIconViewItem *it = firstItem(); it; it = it->nextItem() ) {
         KFileIVI * ivi = static_cast<KFileIVI *>( it );
 	if ( !ivi->isThumbnail() ||
-	    ( stopImagePreviewFor && strlen(stopImagePreviewFor) == 0) ||
-	    ( stopImagePreviewFor &&
-	    ivi->thumbnailName() == stopImagePreviewFor ) )
+	    ( stopImagePreviewFor && strlen(stopImagePreviewFor) == 0) )
 	{
             // perhaps we should do one big redraw instead ?
 	    ivi->setIcon( size, ivi->state(), true, true );
