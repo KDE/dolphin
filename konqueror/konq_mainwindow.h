@@ -406,6 +406,8 @@ private slots:
    * emulating a enter key press event.
    */
   void goURL();
+  
+  void bookmarksIntoCompletion();
 
 private:
   /**
@@ -417,7 +419,7 @@ private:
   /**
    * Adds all children of @p group to the static completion object
    */
-  void bookmarksIntoCompletion( const KBookmarkGroup& group );
+  static void bookmarksIntoCompletion( const KBookmarkGroup& group );
 
   /**
    * Returns all matches of the url-history for @p s. If there are no direct

@@ -29,6 +29,7 @@
 #include "konq_frame.h"
 #include "konq_events.h"
 #include "konq_actions.h"
+#include "delayedinitializer.h"
 #include <konq_pixmapprovider.h>
 #include <konq_operations.h>
 
@@ -136,10 +137,6 @@ KonqMainWindow::KonqMainWindow( const KURL &initialURL, bool openInitialURL, con
   if ( !s_pCompletion ) {
     KonqHistoryManager *mgr = new KonqHistoryManager( kapp, "history mgr" );
     s_pCompletion = mgr->completionObject();
-
-    // add all bookmarks to the completion list for easy access
-    // neil: disable for faster startup
-    bookmarksIntoCompletion( KBookmarkManager::self()->root() );
 
     // setup the completion object before createGUI(), so that the combo
     // picks up the correct mode from the HistoryManager (in slotComboPlugged)
@@ -2164,6 +2161,20 @@ void KonqMainWindow::slotComboPlugged()
            SLOT( slotMatch(const QString&) ));
 
   m_combo->lineEdit()->installEventFilter(this);
+  
+  static bool bookmarkCompletionInitialized = false;
+  if ( !bookmarkCompletionInitialized )
+  {
+      bookmarkCompletionInitialized = true;
+      DelayedInitializer *initializer = new DelayedInitializer( QEvent::KeyPress, m_combo->lineEdit() );
+      connect( initializer, SIGNAL( initialize() ), this, SLOT( bookmarksIntoCompletion() ) );
+  }
+}
+
+void KonqMainWindow::bookmarksIntoCompletion()
+{
+    // add all bookmarks to the completion list for easy access
+    bookmarksIntoCompletion( KBookmarkManager::self()->root() );
 }
 
 // the user changed the completion mode in the combo
