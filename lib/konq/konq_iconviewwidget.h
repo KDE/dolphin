@@ -25,6 +25,7 @@
 #include <konq_fileitem.h>
 #include <qguardedptr.h>
 
+class KPixmapSplitter;
 class KonqFMSettings;
 class KFileIVI;
 class KonqIconDrag;
@@ -234,6 +235,9 @@ protected:
 
     bool m_bDesktop;
     bool m_bSetGridX;
+
+    /* for the PreviewJob */
+    KPixmapSplitter *m_splitter;
 };
 
 #endif

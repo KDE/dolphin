@@ -30,7 +30,7 @@ libkonq_la_SOURCES = konq_popupmenu.cc knewmenu.cc \
 	konq_settings.cc konq_drag.cc  \
 	konq_operations.cc \
         konq_dirpart.cc konq_propsview.cc konq_events.cc konq_bgnddlg.cc \
-        konq_undo.cc konq_undo.skel
+        konq_undo.cc konq_undo.skel kpixmapsplitter.cc
 
 kdirnotify_DIR = $(kde_includes)
 
@@ -47,7 +47,7 @@ include_HEADERS = konq_popupmenu.h knewmenu.h \
 	konq_defaults.h konq_settings.h \
 	konq_operations.h \
         konq_dirpart.h konq_propsview.h konq_events.h konq_bgnddlg.h \
-	konq_undo.h
+	konq_undo.h kpixmapsplitter.h
 
 messages:
 	$(XGETTEXT) *.cc *.h -o $(podir)/libkonq.pot

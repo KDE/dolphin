@@ -21,6 +21,7 @@
 
 #include <kio/job.h>
 
+class KPixmapSplitter;
 class KFileIVI;
 class KonqIconViewWidget;
 
@@ -40,7 +41,8 @@ public:
     /**
      * Create a job for determining the pixmaps of the images in the @p iconView
      */
-    KonqImagePreviewJob( KonqIconViewWidget * iconView, bool force );
+    KonqImagePreviewJob( KonqIconViewWidget * iconView, bool force,
+			 KPixmapSplitter *splitter = 0L );
     virtual ~KonqImagePreviewJob();
 
     // Call this to get started
@@ -85,6 +87,8 @@ private:
 
     // Over that, it's too much
     unsigned long m_maximumSize;
+
+    KPixmapSplitter *m_splitter;
 };
 
 #endif

@@ -1,5 +1,6 @@
 /*  This file is part of the KDE project
     Copyright (C) 2000 David Faure <faure@kde.org>
+                  2000 Carsten Pfeiffer <pfeiffer@kde.org>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -17,9 +18,13 @@
 */
 
 #include "konq_imagepreviewjob.h"
+
+#include <qfile.h>
+
 #include <kfileivi.h>
 #include <kiconloader.h>
 #include <konq_iconviewwidget.h>
+#include <kpixmapsplitter.h>
 #include <assert.h>
 #include <stdio.h> // for tmpnam
 #include <unistd.h> // for unlink
@@ -28,16 +33,20 @@
  * A job that determines the thumbnails for the images in the current directory
  * of the icon view (KonqIconViewWidget)
  */
-KonqImagePreviewJob::KonqImagePreviewJob( KonqIconViewWidget * iconView, bool force )
+KonqImagePreviewJob::KonqImagePreviewJob( KonqIconViewWidget * iconView, bool force, KPixmapSplitter *splitter )
   : KIO::Job( false /* no GUI */ ), m_bCanSave( true ), m_iconView( iconView )
 {
   m_extent = 0;
   kdDebug(1203) << "KonqImagePreviewJob::KonqImagePreviewJob()" << endl;
+  m_splitter = splitter;
+
   // Look for images and store the items in our todo list :)
   for (QIconViewItem * it = m_iconView->firstItem(); it; it = it->nextItem() )
   {
     KFileIVI * ivi = static_cast<KFileIVI *>( it );
-    if ( ivi->item()->mimetype().left(6) == "image/" )
+    QString mimeType = ivi->item()->mimetype();
+    if ( mimeType.startsWith( "image/" ) ||
+	 (m_splitter && mimeType.startsWith( "text/")) )
       if ( force || !ivi->isThumbnail() )
         m_items.append( ivi );
   }
@@ -377,8 +386,113 @@ void KonqImagePreviewJob::createThumbnail( QString pixPath )
   QPixmap pix;
   QImage img;
   kdDebug() << "KonqImagePreviewJob::createThumbnail loading " << pixPath << endl;
-  if ( pix.load( pixPath ) )
+
+  bool ok = false;
+
+  // create text-preview
+  if ( m_currentItem->item()->mimetype().startsWith( "text/" ) ) {
+      const int bytesToRead = 256; // FIXME, make configurable
+      QFile file( pixPath );
+      if ( file.open( IO_ReadOnly )) {
+	  char data[bytesToRead+1];
+	  int read = file.readBlock( data, bytesToRead );
+	  if ( read > 0 ) {
+	      ok = true;
+	      data[read] = '\0';
+	      QString text = QString::fromLocal8Bit( data );
+	      kdDebug(1203) << "Textpreview-data: " << text << endl;
+	      // FIXME: maybe strip whitespace and read more?
+	
+	      // do the actual drawing
+	      QPixmap source = m_splitter->pixmap();
+	      QRect rect;
+	
+	      // example: width: 60, height: 64
+	      float ratio = 15.0 / 16.0; // so we get a page-like size
+	      int width = (int) (ratio * (float) m_extent);
+	      pix.resize( width, m_extent );
+	      pix.fill( QColor( 245, 245, 245 ) ); // light-grey background
+	
+	      QSize chSize = m_splitter->itemSize(); // the size of one char
+	      int xOffset = chSize.width();
+	      int yOffset = chSize.height();
+
+	      // one pixel for the rectangle, the rest. whitespace
+	      int xborder = 1 + width/16;    // minimum x-border
+	      int yborder = 1 + m_extent/16; // minimum y-border
+
+	      // calculate a better border so that the text is centered
+	      int canvasWidth = width - 2*xborder;
+	      int canvasHeight = m_extent -  2*yborder;
+	      int numCharsPerLine = (int) (canvasWidth / chSize.width());
+	      int numLines = (int) (canvasHeight / chSize.height());
+
+	      int rest = width - (numCharsPerLine * chSize.width());
+	      xborder = QMAX( xborder, rest/2); // center horizontally
+	      rest = m_extent - (numLines * chSize.height());
+	      yborder = QMAX( yborder, rest/2); // center vertically
+	      // end centering
+	
+	      int x = xborder, y = yborder; // where to paint the characters
+	      int posNewLine  = width - (chSize.width() + xborder);
+	      int posLastLine = m_extent - (chSize.height() + yborder);
+	      bool newLine = false;
+	      ASSERT( posNewLine > 0 );
+	
+	      for ( uint i = 0; i < text.length(); i++ ) {
+		  if ( x > posNewLine || newLine ) { // start a new line?
+		      x = xborder;
+		      y += yOffset;
+		      newLine = false;
+		
+		      if ( y > posLastLine ) // more text than space
+			  break;
+
+		      // after starting a new line, we also jump to the next
+		      // physical newline in the file if we don't come from one
+		      if ( !newLine ) {
+			  int pos = text.find( '\n', i );
+			  if ( pos > (int) i )
+			      i = pos +1;
+		      }
+		  }
+		
+		  // check for newlines in the text (unix,dos)
+		  QChar ch = text.at( i );
+		  if ( ch == '\n' ) {
+		      newLine = true;
+		      continue;
+		  }
+		  else if ( ch == '\r' && text.at(i+1) == '\n' ) {
+		      newLine = true;
+		      i++; // skip the next character (\n) as well
+		      continue;
+		  }
+		
+		
+		  rect = m_splitter->coordinates( ch );
+		  if ( !rect.isEmpty() ) {
+		      bitBlt( &pix, QPoint(x,y), &source, rect, CopyROP );
+		  }
+
+		  x += xOffset;
+	      }
+
+	      QPainter p( &pix );
+	      p.setPen( QColor( 88, 88, 88 ));
+	      p.drawRect( 0, 0, pix.width(), pix.height() );
+	
+	      if ( m_bCanSave )
+		  img = pix.convertToImage();
+	  }
+	  file.close();
+      }
+  }
+
+  // create image preview
+  else if ( pix.load( pixPath ) )
   {
+    ok = true;
     int w = pix.width(), h = pix.height();
     kdDebug() << "w=" << w << " h=" << h << " m_extent=" << m_extent << endl;
     // scale to pixie size
@@ -409,7 +523,10 @@ void KonqImagePreviewJob::createThumbnail( QString pixPath )
     }
     else if (m_bCanSave)
         img = pix.convertToImage();
+  }
 
+
+  if ( ok ) {
     // Set the thumbnail
     m_iconView->setThumbnailPixmap( m_currentItem, pix );
 
