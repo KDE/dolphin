@@ -103,7 +103,8 @@ void KonqHTMLWidget::openURL( const QString &url, bool reload, int xOffset, int 
     }
 
 /// Loop! (David)  emit openURLRequest( url.url(), reload, xOffset, yOffset );
-  emit openURLRequest( KURL( url ), reload, xOffset, yOffset );
+    //  emit openURLRequest( KURL( url ), reload, xOffset, yOffset );
+    emit openURLRequest( KURL( url ), KParts::URLArgs( reload, xOffset, yOffset ) );
 }
 
 
@@ -135,8 +136,8 @@ KonqHTMLView::KonqHTMLView( QWidget *parent, const char *name )
                     //this, SIGNAL( canceled() ) );
 
   // pass signals from the widget directly to the extension
-  connect( m_pWidget, SIGNAL( openURLRequest( const KURL &, bool, int, int, const QString & ) ),
-           m_extension, SIGNAL( openURLRequest( const KURL &, bool, int, int, const QString & ) ) );
+  //  connect( m_pWidget, SIGNAL( openURLRequest( const KURL &, bool, int, int, const QString & ) ),
+  //           m_extension, SIGNAL( openURLRequest( const KURL &, bool, int, int, const QString & ) ) );
   connect( m_pWidget, SIGNAL( popupMenu( const QPoint &, const KFileItemList & ) ),
            m_extension, SIGNAL( popupMenu( const QPoint &, const KFileItemList & ) ) );
   connect( m_pWidget, SIGNAL( newWindow( const QString & ) ),
@@ -659,7 +660,8 @@ void KonqHTMLView::openTxtView( const KURL &url )
   }
 
   if ( obj && obj->inherits( "KonqFrame" ) )
-    emit m_extension->openURLRequest( url, false, 0, 0, "text/plain" );
+  //    emit m_extension->openURLRequest( url, false, 0, 0, "text/plain" );
+    emit m_extension->openURLRequest( url, KParts::URLArgs( false, 0, 0, "text/plain" ) );
   else
   {
     KConfig *config = KonqFactory::instance()->config();
