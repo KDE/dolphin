@@ -450,7 +450,7 @@ void KonqIconViewWidget::slotItemRenamed(QIconViewItem *item, const QString &nam
     // completed. Unfortunately, KIconView forces us to allow the text to be changed
     // before we try the rename, so set it back to the pre-rename state.
     viewItem->setText( fileItem->text() );
-    kdDebug()<<" fileItem->text() ;"<<fileItem->text()<<endl;
+    kdDebug(1203)<<" fileItem->text() ;"<<fileItem->text()<<endl;
     // Don't do anything if the user renamed to a blank name.
     if( !name.isEmpty() )
     {
@@ -458,7 +458,7 @@ void KonqIconViewWidget::slotItemRenamed(QIconViewItem *item, const QString &nam
         KURL oldurl( fileItem->url() );
         KURL newurl( url() );
         newurl.setPath( url().path(1) + KIO::encodeFileName( name ) );
-        kdDebug()<<" newurl :"<<newurl.url()<<endl;
+        kdDebug(1203)<<" newurl :"<<newurl.url()<<endl;
         // We use url()+name so that it also works if the name is a relative path (#51176)
         KonqOperations::rename( this, oldurl, newurl );
     }
