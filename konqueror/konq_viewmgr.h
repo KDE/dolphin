@@ -126,6 +126,12 @@ public:
   void removeTab( KonqFrameBase* tab = 0L );
 
   /**
+   * Removes all, but the specified tab. If no tab is specified every tab, but the current will be removed
+   * Also takes care of setting the specified tab as active if the active view was not in this tab
+   */
+  void removeOtherTabs( KonqFrameBase* tab = 0L );
+
+  /**
    * Brings the tab specified by @p view to the front of the stack
    *
    */

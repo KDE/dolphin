@@ -92,8 +92,8 @@
   <Separator/>
   <Action name="newtab"/>
   <Action name="duplicatecurrenttab"/>
-  <Action name="removecurrenttab"/>
   <Action name="breakoffcurrenttab"/>
+  <Action name="removecurrenttab"/>
   <Separator/>
   <ActionList name="toggleview" />
   <Separator/>

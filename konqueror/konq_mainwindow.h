@@ -377,6 +377,7 @@ protected slots:
   void slotPopupNewTabAtFront();
   void slotPopupPasteTo();
   void slotRemoveView();
+  void slotRemoveOtherTabsPopup();
   void slotRemoveTab();
   void slotRemoveTabPopup();
   void slotDumpDebugInfo();

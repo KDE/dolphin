@@ -2064,6 +2064,13 @@ void KonqMainWindow::slotRemoveTabPopup()
   m_pViewManager->removeTab( m_pWorkingTab );
 }
 
+
+void KonqMainWindow::slotRemoveOtherTabsPopup()
+{
+      m_pViewManager->removeOtherTabs( m_pWorkingTab );
+}
+
+
 void KonqMainWindow::slotDumpDebugInfo()
 {
 #ifndef NDEBUG

@@ -549,6 +549,34 @@ void KonqViewManager::removeTab( KonqFrameBase* tab )
 #endif
 }
 
+
+void KonqViewManager::removeOtherTabs( KonqFrameBase* tab )
+{
+
+  if (m_pDocContainer == 0L) return;
+  if (m_pDocContainer->frameType() != "Tabs") return;
+
+  KonqFrameTabs* tabContainer = static_cast<KonqFrameTabs*>(m_pDocContainer);
+
+  KonqFrameBase *currentFrame;
+
+  if ( tab == 0L )
+    currentFrame = dynamic_cast<KonqFrameBase*>(tabContainer->currentPage());
+  else
+    currentFrame = tab;
+
+
+  QPtrList<KonqFrameBase> frameList = *tabContainer->childFrameList();
+  QPtrListIterator<KonqFrameBase> it( frameList );
+
+  for ( it.toFirst(); it != 0L; ++it )
+  {
+    if( it.current() != tab)
+      removeTab(it.current());
+  }
+
+}
+
 void KonqViewManager::showTab( KonqView *view )
 {
   static_cast<KonqFrameTabs*>( docContainer() )->showPage( view->frame() );
