@@ -105,9 +105,10 @@ KonqBaseListViewWidget::KonqBaseListViewWidget( KonqListView *parent, QWidget *p
    setItemsMovable(false);
 
    initConfig();
-
+#if 0
    connect( this, SIGNAL(rightButtonPressed(QListViewItem*,const QPoint&,int)),
             this, SLOT(slotRightButtonPressed(QListViewItem*,const QPoint&,int)));
+#endif
    connect( this, SIGNAL(returnPressed(QListViewItem*)),
             this, SLOT(slotReturnPressed(QListViewItem*)));
    connect( this, SIGNAL( mouseButtonClicked(int, QListViewItem*, const QPoint&, int)),
