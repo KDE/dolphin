@@ -38,7 +38,6 @@
 
 #include "kmimetypes.h"
 #include "kpixmapcache.h"
-#include "konqueror.h" // for KBookmarkOwner
 
 #include <opUIUtils.h>
 
@@ -48,8 +47,8 @@
  *
  ********************************************************************/
 
-KBookmarkMenu::KBookmarkMenu( OpenPartsUI::Menu_ptr menu, OpenParts::Part_ptr part, bool _root )
-  : m_bIsRoot(_root), m_pOwner(0L)
+KBookmarkMenu::KBookmarkMenu( KBookmarkOwner * _owner, OpenPartsUI::Menu_ptr menu, OpenParts::Part_ptr part, bool _root )
+  : m_bIsRoot(_root), m_pOwner(_owner)
 {
   m_lstSubMenus.setAutoDelete( true );
 
@@ -75,11 +74,6 @@ KBookmarkMenu::~KBookmarkMenu()
   m_vMenu->disconnect( "activated", m_vPart, "slotBookmarkSelected" );
 
   m_vMenu = 0L;
-}
-
-void KBookmarkMenu::changeOwner( KBookmarkOwner *_owner )
-{
-  m_pOwner = _owner;
 }
 
 void KBookmarkMenu::slotBookmarksChanged()
@@ -120,7 +114,7 @@ void KBookmarkMenu::fillBookmarkMenu( KBookmark *parent )
       OpenPartsUI::Menu_var subMenuVar;
       OpenPartsUI::Pixmap_var pix = OPUIUtils::convertPixmap( *(bm->pixmap( true )) );
       m_vMenu->insertItem12( pix, bm->text(), subMenuVar, -1, -1 );
-      KBookmarkMenu *subMenu = new KBookmarkMenu( subMenuVar, m_vPart, false );
+      KBookmarkMenu *subMenu = new KBookmarkMenu( m_pOwner, subMenuVar, m_vPart, false );
       m_lstSubMenus.append( subMenu );
       subMenu->fillBookmarkMenu( bm );
     }

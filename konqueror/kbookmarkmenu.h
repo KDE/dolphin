@@ -64,9 +64,8 @@ class KBookmarkMenu : public QObject
 {
   Q_OBJECT
 public:
-  KBookmarkMenu( OpenPartsUI::Menu_ptr menu, OpenParts::Part_ptr part, bool _root = true );
- ~KBookmarkMenu();  
-  void changeOwner( KBookmarkOwner *_owner );
+  KBookmarkMenu( KBookmarkOwner *_owner, OpenPartsUI::Menu_ptr menu, OpenParts::Part_ptr part, bool _root = true );
+  ~KBookmarkMenu();  
 
 public slots:
   void slotBookmarksChanged();

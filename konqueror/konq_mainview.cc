@@ -337,7 +337,7 @@ bool KonqMainView::mappingCreateMenubar( OpenPartsUI::MenuBar_ptr menuBar )
   createViewMenu();
   
   menuBar->insertMenu( i18n("&Bookmarks"), m_vMenuBookmarks, -1, -1 );
-  m_pBookmarkMenu = new KBookmarkMenu( m_vMenuBookmarks, this, true );
+  m_pBookmarkMenu = new KBookmarkMenu( this, m_vMenuBookmarks, this, true );
 
   menuBar->insertMenu( i18n("&Options"), m_vMenuOptions, -1, -1 );
 
@@ -2018,6 +2018,7 @@ void KonqMainView::initView()
 
 void KonqMainView::openBookmarkURL( const char *url )
 {
+  debug("KonqMainView::openBookmarkURL(%s)",url);
   openURL( url, false );
 }
  
