@@ -102,10 +102,7 @@ void KBookmarkMenu::slotBookmarksChanged()
     m_vMenu->insertItem( text, m_vPart, "slotEditBookmarks", 0 );
   }    
 
-  // Converting the same pixmap via UIUtils for each item is VERY long.
-  // We could add a method to opMenu* that would take a pixmap file name and
-  // use KPixmapCache instead.  Just my 2 euros (David).
-  kdebug(0, 1203, "fillBookmarkMenu : starting (this can be VERY long - see comment in kbookmarkmenu.cc, line %d)",__LINE__);
+  kdebug(0, 1203, "fillBookmarkMenu : starting (this his hopefully faster than before)");
   fillBookmarkMenu( KBookmarkManager::self()->root() );
   kdebug(0, 1203, "fillBookmarkMenu : done");
 }
@@ -120,29 +117,31 @@ void KBookmarkMenu::fillBookmarkMenu( KBookmark *parent )
 
   text = Q2C( i18n("&Add Bookmark") );
   m_vMenu->insertItem7( text, (CORBA::Long)parent->id(), -1 );
-  // kdebug(0, 1202, "KBookmarkMenu::fillBookmarkMenu( %p ) : inserted item", parent);
   m_vMenu->insertSeparator( -1 );
+
+  // Create one OpenPartsUI::Pixmap (will be reused for each call)
+  OpenPartsUI::Pixmap* pix = new OpenPartsUI::Pixmap;
+  pix->onlyFilename = true;
 
   for ( bm = parent->children()->first(); bm != 0L;  bm = parent->children()->next() )
   {
-    QPixmap * pixmap = bm->pixmap();
-    // kdebug(0, 1202, "Got pixmap = %p", pixmap);
-    OpenPartsUI::Pixmap_var pix = OPUIUtils::convertPixmap( *pixmap );
-    // kdebug(0, 1202, "Adding bookmark with text = %s", bm->text().ascii());
+    QString pixmapFullPath = KPixmapCache::pixmapFile( bm->pixmapFile(), true /* mini icon */ );
+    pix->data = CORBA::string_dup( pixmapFullPath.data() );
     text = Q2C( bm->text() );
     if ( bm->type() == KBookmark::URL )
     {
-        m_vMenu->insertItem11( pix, text, (CORBA::Long)bm->id(), -1 );	
+        m_vMenu->insertItem11( *pix, text, (CORBA::Long)bm->id(), -1 );	
     }
     else
     {	
         OpenPartsUI::Menu_var subMenuVar;
-        m_vMenu->insertItem12( pix, text, subMenuVar, -1, -1 );
+        m_vMenu->insertItem12( *pix, text, subMenuVar, -1, -1 );
         KBookmarkMenu *subMenu = new KBookmarkMenu( m_pOwner, subMenuVar, m_vPart, false );
         m_lstSubMenus.append( subMenu );
         subMenu->fillBookmarkMenu( bm );
     }
   }
+  delete pix;
 }
 
 void KBookmarkMenu::slotBookmarkSelected( int _id )

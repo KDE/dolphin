@@ -49,6 +49,7 @@ public:
   int type() { return m_type; }
   int id() { return m_id; }
   QString file() { return m_file; }
+  QString pixmapFile();
   QPixmap* pixmap();
   
   void append( KBookmark *_bm ) { m_lstChildren.append( _bm ); }

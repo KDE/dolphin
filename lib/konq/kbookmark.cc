@@ -220,6 +220,13 @@ KBookmark::KBookmark( KBookmarkManager *_bm, KBookmark *_parent, QString _text,
     _cfg.setDesktopGroup();
 
   m_url = _cfg.readEntry( "URL", "ERROR ! No URL !" );
+  m_sPixmap = _cfg.readEntry( "MiniIcon", QString::null );
+  if (m_sPixmap.right( 4 ) == ".xpm" )
+  {
+    m_sPixmap.truncate( m_sPixmap.length() - 4 );
+    m_sPixmap.append( ".png" ); 
+    // Should we update the config file ?
+  }
 
   m_id = g_id++;
   m_pManager = _bm;
@@ -368,7 +375,7 @@ KBookmark* KBookmark::findBookmark( int _id )
   return 0L;
 }
 
-QPixmap* KBookmark::pixmap( )
+QString KBookmark::pixmapFile( )
 {
   if ( m_sPixmap.isEmpty() )
   {
@@ -377,11 +384,13 @@ QPixmap* KBookmark::pixmap( )
     QString url = m_file;
     KURL::encode( url );
     m_sPixmap = KMimeType::findByURL( url, buff.st_mode, true )->icon( url, true );
-    // The following is wrong. Never cache a QPixmap * got from the LRU cache !!
-    // KPixmapCache::pixmapForURL( url, buff.st_mode, true, true );
   }
+  return m_sPixmap;
+}
 
-  return KPixmapCache::pixmap( m_sPixmap, true /* mini icon */);
+QPixmap* KBookmark::pixmap( )
+{
+  return KPixmapCache::pixmap( pixmapFile(), true /* mini icon */);
 }
 
 #include "kbookmark.moc"
