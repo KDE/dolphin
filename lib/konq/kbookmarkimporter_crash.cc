@@ -95,11 +95,8 @@ QStringList KCrashBookmarkImporter::getCrashLogs() {
    {
       QCString &clientId = *it;
 
-      if ( (clientId == dcop->appId()) 
-        || qstrncmp(clientId, "konqueror", 9) != 0
-      ) {
+      if ( qstrncmp(clientId, "konqueror", 9) != 0 ) 
          continue;
-      }
 
       QByteArray data, replyData;
       QCString replyType;
