@@ -393,7 +393,8 @@ void KonqTree::scanDir( KonqTreeItem *parent, const QString &path, bool isRoot )
             // Version 2 includes the history
             // Version 3 includes the bookmarks
             // Version 4 includes lan.desktop and floppy.desktop, Alex
-            const int currentVersion = 4;
+            // Version 5 includes some stuff from Rob Kaper
+            const int currentVersion = 5;
             QString key = QString::fromLatin1("X-KDE-DirTreeVersionNumber");
             KSimpleConfig versionCfg( path + "/.directory" );
             int versionNumber = versionCfg.readNumEntry( key, 1 );
