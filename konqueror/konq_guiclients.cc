@@ -239,6 +239,9 @@ void ToggleViewGUIClient::slotToggleView( bool toggle )
     else
       newSplitterSizes << 30 << 100;
 
+    if (!childView || !childView->frame())
+        return;
+
     KonqFrameContainerBase *newContainer = childView->frame()->parentContainer();
 
     if (newContainer->frameType()=="Container")

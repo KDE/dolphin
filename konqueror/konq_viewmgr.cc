@@ -189,6 +189,10 @@ KonqView* KonqViewManager::splitWindow( Qt::Orientation orientation,
 {
   kdDebug(1202) << "KonqViewManager::splitWindow(default)" << endl;
 
+  // Don't crash when doing things too quickly.
+  if (!m_pMainWindow || !m_pMainWindow->currentView())
+    return 0L;
+
   KURL url = m_pMainWindow->currentView()->url();
   QString locationBarURL = m_pMainWindow->currentView()->locationBarURL();
 
