@@ -294,9 +294,6 @@ KURL KonqDirTreeItem::externalURL() const
         else
         {
             KURL url = config.readEntry("URL");
-
-            if ( url.path().isEmpty() )
-                url.setPath( "/" );
             return url;
         }
     }
@@ -382,7 +379,7 @@ void KonqDirTree::clearTree()
 
 void KonqDirTree::openSubFolder( KonqDirTreeItem *item, KonqDirTreeItem *topLevel )
 {
-  TopLevelItem topLevelItem = findTopLevelByItem( topLevel ? topLevel : item );
+  TopLevelItem & topLevelItem = findTopLevelByItem( topLevel ? topLevel : item );
 
   assert( topLevelItem.m_item );
 
@@ -391,7 +388,14 @@ void KonqDirTree::openSubFolder( KonqDirTreeItem *item, KonqDirTreeItem *topLeve
   kdDebug(1202) << "openSubFolder( " << u.url() << " )  topLevel=" << topLevel << endl;
 
   if ( topLevelItem.m_dirLister->job() == 0 )
+  {
+    topLevelItem.m_currentlyListedURL = u;
+    kdDebug() << "KonqDirTree::openSubFolder m_currentlyListedURL=" << topLevelItem.m_currentlyListedURL.prettyURL() << endl;
+    kdDebug() << "KonqDirTree::openSubFolder toplevelitem=" << &topLevelItem << endl;
+    kdDebug() << "KonqDirTree::openSubFolder toplevelitem=" << topLevelItem.m_item->externalURL().prettyURL() << endl;
+    kdDebug() << "KonqDirTree::openSubFolder dirlister=" << topLevelItem.m_dirLister << endl;
     topLevelItem.m_dirLister->openURL( u, false, topLevel ? true : false );
+  }
   else  if ( !topLevelItem.m_lstPendingURLs->contains( u ) )
     topLevelItem.m_lstPendingURLs->append( u );
 
@@ -622,7 +626,8 @@ void KonqDirTree::slotNewItems( const KFileItemList& entries )
 
   const KonqDirLister *lister = static_cast<const KonqDirLister *>( sender() );
 
-  TopLevelItem topLevelItem = findTopLevelByDirLister( lister );
+  TopLevelItem & topLevelItem = findTopLevelByDirLister( lister );
+  kdDebug() << "KonqDirTree::slotNewItems topLevelItem=" << &topLevelItem << endl;
 
   assert( topLevelItem.m_item );
 
@@ -644,17 +649,18 @@ void KonqDirTree::slotNewItems( const KFileItemList& entries )
     QMap<KURL, KonqDirTreeItem *>::ConstIterator dirEnd = topLevelItem.m_mapSubDirs->end();
     for (; dirIt != dirEnd; ++dirIt )
     {
-      //    kdDebug(1202) << "comparing " << dirIt.key().url() << " with " << dir.url() << endl;
       if ( dir.cmp( dirIt.key(), true ) )
         break;
     }
 
     if( dirIt == topLevelItem.m_mapSubDirs->end() )
     {
+      // ### TODO Make this a message box
       kdError(1202) << "THIS SHOULD NOT HAPPEN. INTERNAL ERROR" << endl;
       kdError(1202) << "KonqDirTree:slotNewItems got item " << item->url().url() << endl;
       kdError(1202) << "Couldn't find directory " << dir.url() << " in dirtree's m_mapSubDirs" << endl;
-      assert( 0 );
+      ASSERT( 0 );
+      return;
     }
 
     KonqDirTreeItem *parentDir = dirIt.data();
@@ -750,6 +756,34 @@ void KonqDirTree::slotRightButtonPressed( QListViewItem *item )
   emit m_view->extension()->popupMenu( QCursor::pos(), lstItems );
 }
 
+void KonqDirTree::slotRedirection( const KURL & url )
+{
+  kdDebug(1202) << "KonqDirTree::slotRedirection(" << url.prettyURL() << ")" << endl;
+  const KonqDirLister *lister = static_cast<const KonqDirLister *>( sender() );
+
+  TopLevelItem & topLevelItem = findTopLevelByDirLister( lister );
+
+  KURL dir = topLevelItem.m_currentlyListedURL;
+  QMap<KURL, KonqDirTreeItem *>::Iterator dirIt = topLevelItem.m_mapSubDirs->begin();
+  QMap<KURL, KonqDirTreeItem *>::Iterator dirEnd = topLevelItem.m_mapSubDirs->end();
+  for (; dirIt != dirEnd; ++dirIt )
+  {
+    if ( dir.cmp( dirIt.key(), true ) )
+      break;
+  }
+
+  if (dirIt==dirEnd)
+    kdWarning() << "NOT FOUND   dir=" << dir.prettyURL() << endl;
+  else
+  {
+    // We need to update the URL in m_mapSubDirs
+    KonqDirTreeItem * item = dirIt.data();
+    topLevelItem.m_mapSubDirs->remove( dirIt );
+    topLevelItem.m_mapSubDirs->insert( url, item );
+    kdDebug() << "Updating url to " << url.prettyURL() << endl;
+  }
+}
+
 void KonqDirTree::slotListingStopped()
 {
   const KonqDirLister *lister = static_cast<const KonqDirLister *>( sender() );
@@ -784,7 +818,8 @@ void KonqDirTree::slotListingStopped()
 
   if ( topLevelItem.m_lstPendingURLs->count() > 0 )
   {
-    kdDebug(1202) << "openURL (was pending) " << topLevelItem.m_lstPendingURLs->first().url() << endl;
+    kdDebug(1202) << "openURL (was pending) " << topLevelItem.m_lstPendingURLs->first().prettyURL() << endl;
+    topLevelItem.m_currentlyListedURL = topLevelItem.m_lstPendingURLs->first();
     topLevelItem.m_dirLister->openURL( topLevelItem.m_lstPendingURLs->first(), false, true );
   }
 
@@ -1056,6 +1091,8 @@ void KonqDirTree::loadTopLevelItem( KonqDirTreeItem *parent,  const QString &fil
              this, SLOT( slotListingStopped() ) );
     connect( dirLister, SIGNAL( canceled() ),
              this, SLOT( slotListingStopped() ) );
+    connect( dirLister, SIGNAL( redirection( const KURL &) ),
+             this, SLOT( slotRedirection( const KURL &) ) );
   }
   else
     item->setExpandable( false );
@@ -1080,26 +1117,26 @@ void KonqDirTree::stripIcon( QString &icon )
   icon = info.baseName();
 }
 
-KonqDirTree::TopLevelItem KonqDirTree::findTopLevelByItem( KonqDirTreeItem *item )
+KonqDirTree::TopLevelItem & KonqDirTree::findTopLevelByItem( KonqDirTreeItem *item )
 {
-  QValueList<TopLevelItem>::ConstIterator it = m_topLevelItems.begin();
-  QValueList<TopLevelItem>::ConstIterator end = m_topLevelItems.end();
+  QValueList<TopLevelItem>::Iterator it = m_topLevelItems.begin();
+  QValueList<TopLevelItem>::Iterator end = m_topLevelItems.end();
   for (; it != end; ++it )
    if ( (*it).m_item == item )
      return *it;
 
-  return TopLevelItem();
+  return nullTopLevelItem;
 }
 
-KonqDirTree::TopLevelItem KonqDirTree::findTopLevelByDirLister( const KonqDirLister *lister )
+KonqDirTree::TopLevelItem & KonqDirTree::findTopLevelByDirLister( const KonqDirLister *lister )
 {
-  QValueList<TopLevelItem>::ConstIterator it = m_topLevelItems.begin();
-  QValueList<TopLevelItem>::ConstIterator end = m_topLevelItems.end();
+  QValueList<TopLevelItem>::Iterator it = m_topLevelItems.begin();
+  QValueList<TopLevelItem>::Iterator end = m_topLevelItems.end();
   for (; it != end; ++it )
    if ( (*it).m_dirLister == lister )
      return *it;
 
-  return TopLevelItem();
+  return nullTopLevelItem;
 }
 
 #include "konq_dirtree.moc"

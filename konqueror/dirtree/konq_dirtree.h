@@ -135,6 +135,7 @@ protected:
 private slots:
   void slotNewItems( const KFileItemList & );
   void slotDeleteItem( KFileItem *item );
+  void slotRedirection( const KURL & );
 
   void slotDoubleClicked( QListViewItem *item );
   void slotRightButtonPressed( QListViewItem *item );
@@ -164,12 +165,15 @@ private:
 
     KonqDirTreeItem *m_item;
     KonqDirLister *m_dirLister;
+    KURL m_currentlyListedURL; // always the same as m_dirLister->url(), but used for redirections
     QMap<KURL,KonqDirTreeItem *> *m_mapSubDirs;
     KURL::List *m_lstPendingURLs;
   };
 
-  TopLevelItem findTopLevelByItem( KonqDirTreeItem *item );
-  TopLevelItem findTopLevelByDirLister( const KonqDirLister *lister );
+  TopLevelItem nullTopLevelItem;
+
+  TopLevelItem & findTopLevelByItem( KonqDirTreeItem *item );
+  TopLevelItem & findTopLevelByDirLister( const KonqDirLister *lister );
 
   QValueList<TopLevelItem> m_topLevelItems;
 
