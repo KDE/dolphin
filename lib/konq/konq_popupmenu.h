@@ -109,7 +109,7 @@ public:
   ProtocolInfo protocolInfo() const;
 
   // KonqMainWindow needs position of "newview" to insert "newtab" properly
-  int newviewPos() const { return m_newviewPos; }
+  int newviewPos() const;
 
 public slots:
   void slotPopupNewDir();
@@ -143,7 +143,6 @@ private:
   ProtocolInfo m_info;
   QPtrList<KonqPopupMenuPlugin> m_pluginList;
   KBookmarkManager* m_pManager;
-  int m_newviewPos;
 };
 
 class KonqPopupMenuPlugin : public QObject, public KonqXMLGUIClient {

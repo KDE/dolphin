@@ -73,6 +73,7 @@ class KonqPopupMenu::KonqPopupMenuPrivate
 {
 public:
   QString m_urlTitle;
+  int     m_newviewPos;
 };
 
 KonqPopupMenu::ProtocolInfo::ProtocolInfo( )
@@ -110,9 +111,10 @@ KonqPopupMenu::KonqPopupMenu( KBookmarkManager *mgr, const KFileItemList &items,
                               KNewMenu * newMenu,
                   bool showPropertiesAndFileType )
   : QPopupMenu( 0L, "konq_popupmenu" ), m_actions( actions ), m_ownActions( static_cast<QObject *>( 0 ), "KonqPopupMenu::m_ownActions" ),
-    m_pMenuNew( newMenu ), m_sViewURL(viewURL), m_lstItems(items), m_pManager(mgr), m_newviewPos(0)
+    m_pMenuNew( newMenu ), m_sViewURL(viewURL), m_lstItems(items), m_pManager(mgr)
 {
   d = new KonqPopupMenuPrivate;
+  d->m_newviewPos=0;
   assert( m_lstItems.count() >= 1 );
 
   m_ownActions.setWidget( this );
@@ -244,7 +246,7 @@ KonqPopupMenu::KonqPopupMenu( KBookmarkManager *mgr, const KFileItemList &items,
         addAction( actNewDir );
         addSeparator();
       }
-      m_newviewPos+=2;
+      d->m_newviewPos+=2;
     }
 
     // hack for khtml pages/frames
@@ -257,11 +259,11 @@ KonqPopupMenu::KonqPopupMenu( KBookmarkManager *mgr, const KFileItemList &items,
       addAction( "forward" );
       if ( currentDir ) { // khtml adds a different "reload frame" for frames
         addAction( "reload" );
-	m_newviewPos+=1;
+	d->m_newviewPos+=1;
       }
       addGroup( "reload" );
       addSeparator();
-      m_newviewPos+=4;
+      d->m_newviewPos+=4;
     }
 
     // "open in new window" always available
@@ -510,6 +512,9 @@ KonqPopupMenu::KonqPopupMenu( KBookmarkManager *mgr, const KFileItemList &items,
   m_factory->addClient( this );
 }
 
+KonqPopupMenu::newviewPos() const {
+  return d->m_newviewPos;
+}
 
 void KonqPopupMenu::slotOpenShareFileDialog()
 {
