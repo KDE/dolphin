@@ -268,7 +268,7 @@ KRootOptions::KRootOptions(KConfig *config, QWidget *parent, const char *name )
   tmpLabel->setBuddy( leDocument );
   lay->addMultiCellWidget(leDocument, row, row, 1, RO_LASTCOL);
   connect(leDocument, SIGNAL(textChanged(const QString &)), this, SLOT(changed()));
-  wtstr = i18n("This directory will be used by default to"
+  wtstr = i18n("This directory will be used by default to "
                "load or save documents to or from.");
   QWhatsThis::add( tmpLabel, wtstr );
   QWhatsThis::add( leDocument, wtstr );
