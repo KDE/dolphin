@@ -1,0 +1,6 @@
+[Desktop Entry]
+Type=Service
+Exec=blahfoo
+Name=About-Page for Konqueror
+ServiceTypes=KParts/ReadOnlyPart
+X-KDE-Library=libkonqaboutpage
