@@ -3208,8 +3208,8 @@ void KonqMainWindow::currentProfileChanged()
 {
     bool enabled = !m_pViewManager->currentProfile().isEmpty();
     m_paSaveViewProfile->setEnabled( enabled );
-    m_paSaveViewProfile->setText( enabled ? i18n("&Save View Profile \"%1\"").arg(m_pViewManager->currentProfileText())
-                                          : i18n("&Save View Profile") );
+    m_paSaveViewProfile->setText( enabled ? i18n("&Save View Profile \"%1\"...").arg(m_pViewManager->currentProfileText())
+                                          : i18n("&Save View Profile...") );
 }
 
 void KonqMainWindow::enableAllActions( bool enable )
