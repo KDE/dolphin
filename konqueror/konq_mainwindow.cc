@@ -2918,12 +2918,9 @@ void KonqMainWindow::initActions()
   m_paAnimatedLogo = new KonqLogoAction( i18n("Animated Logo"), 0, this, SLOT( slotDuplicateWindow() ), actionCollection(), "animated_logo" );
 
   // Location bar
-  QToolButton* label = new KonqDraggableLabel( this, i18n("L&ocation: ") );
+  QLabel* label = new KonqDraggableLabel( this, i18n("L&ocation: ") );
   (void) new KWidgetAction( label, i18n("L&ocation: "), Key_F6, this, SLOT( slotLocationLabelActivated() ), actionCollection(), "location_label" );
-  // When the location label's toolbutton accelerator gets activated,
-  // focus the URI combo. This is meant to do a similar task to QLabel->setBuddy();
-  connect( label, SIGNAL(clicked()), m_combo, SLOT(setFocus()) );
-  connect( label, SIGNAL(clicked()), m_combo->lineEdit(), SLOT(selectAll()) );
+  label->setBuddy( m_combo );
 
   KWidgetAction* comboAction = new KWidgetAction( m_combo, i18n( "Location Bar" ), 0,
                   0, 0, actionCollection(), "toolbar_url_combo" );

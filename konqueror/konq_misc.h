@@ -82,10 +82,9 @@ public:
 
 };
 
-#include <qtoolbutton.h>
+#include <qlabel.h>
 
-// Use a toolbutton instead of a label so it is styled correctly. (gallium)
-class KonqDraggableLabel : public QToolButton
+class KonqDraggableLabel : public QLabel
 {
 public:
     KonqDraggableLabel( KonqMainWindow * mw, const QString & text );
@@ -94,10 +93,6 @@ protected:
     void mousePressEvent( QMouseEvent * ev );
     void mouseMoveEvent( QMouseEvent * ev );
     void mouseReleaseEvent( QMouseEvent * );
-    QSize sizeHint() const;
-    void drawButton( QPainter * p );
-    void enterEvent( QEvent* ) {};
-    void leaveEvent( QEvent* ) {};
     void dragEnterEvent( QDragEnterEvent *ev );
     void dropEvent( QDropEvent* ev );
 
