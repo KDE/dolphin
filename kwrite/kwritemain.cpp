@@ -52,6 +52,8 @@
 #include <kparts/event.h>
 #include <kmenubar.h>
 
+#include <kio/netaccess.h>
+
 #include "kwritemain.h"
 #include "kwritemain.moc"
 
@@ -264,6 +266,12 @@ void KWrite::slotOpen()
 void KWrite::slotOpen( const KURL& url )
 {
   if (url.isEmpty()) return;
+
+  if (!KIO::NetAccess::exists(url, true, this))
+  {
+    KMessageBox::error (this, i18n("The given file could not be read, check if it exists or if it is readable for the current user."));
+    return;
+  }
 
   if (kateView->document()->isModified() || !kateView->document()->url().isEmpty())
   {
