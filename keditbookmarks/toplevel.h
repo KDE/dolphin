@@ -43,20 +43,25 @@ struct SelcAbilities {
 
 class CmdHistory : public QObject {
    Q_OBJECT
-private:
-   KCommandHistory m_commandHistory;
-   static CmdHistory *s_self;
 public:
    CmdHistory(KActionCollection *collection);
    virtual ~CmdHistory() { ; }
+
    void notifyDocSaved();
+
    void clearHistory();
    void addCommand(KCommand *);
    void didCommand(KCommand *);
+
    static CmdHistory *self();
+
 protected slots:
    void slotCommandExecuted();
    void slotDocumentRestored();
+
+private:
+   KCommandHistory m_commandHistory;
+   static CmdHistory *s_self;
 };
 
 class KBookmark;
@@ -65,21 +70,26 @@ class KBookmarkManager;
 class CurrentMgr : public QObject {
    Q_OBJECT
 public:
-   static CurrentMgr* self() { if (!s_mgr) { s_mgr = new CurrentMgr(); } return s_mgr; }
-   void createManager(const QString &filename);
    typedef enum {HTMLExport, OperaExport, IEExport, MozillaExport, NetscapeExport} ExportType;
-   void doExport(ExportType type);
-   void notifyManagers();
-   QString correctAddress(const QString &address);
-   KBookmarkManager* mgr() const { return m_mgr; }
+
+   static CurrentMgr* self() { if (!s_mgr) { s_mgr = new CurrentMgr(); } return s_mgr; }
    static KBookmark bookmarkAt(const QString & a);
+
+   KBookmarkManager* mgr() const { return m_mgr; }
+   bool showNSBookmarks() const;
+   QString correctAddress(const QString &address) const;
+   QString path() const;
+
+   void createManager(const QString &filename);
+   void notifyManagers();
    bool managerSave();
    void saveAs(const QString &fileName);
+   void doExport(ExportType type);
    void setUpdate(bool update);
-   QString path();
-   bool showNSBookmarks();
+
 protected slots:
    void slotBookmarksChanged(const QString &, const QString &);
+
 private:
    CurrentMgr() : m_mgr(0) { ; }
    KBookmarkManager *m_mgr;
@@ -89,29 +99,23 @@ private:
 class BookmarkInfoWidget : public QWidget {
 public:
    BookmarkInfoWidget(QWidget * = 0, const char * = 0);
-public:
    void showBookmark(const KBookmark &bk);
 private:
    KLineEdit *m_title_le, *m_url_le, *m_comment_le, *m_moddate_le, *m_credate_le;
    KBookmark m_bk;
 };
 
-class KEBApp : public KMainWindow
-{
+class KEBApp : public KMainWindow {
    Q_OBJECT
-
 public:
    static KEBApp* self() { return s_topLevel; }
-
-   QWidget* popupMenuFactory(const char *type) { return factory()->container(type, this); }
 
    KEBApp(const QString & bookmarksFile, bool readonly, const QString &address, bool browser);
    virtual ~KEBApp();
 
    void setModifiedFlag(bool);
 
-   KToggleAction* getToggleAction(const char *);
-
+   void updateActions();
    void setActionsEnabled(SelcAbilities);
 
    void setCancelFavIconUpdatesEnabled(bool);
@@ -119,21 +123,18 @@ public:
 
    void notifyCommandExecuted();
 
-   void updateActions();
+   QWidget* popupMenuFactory(const char *type) { 
+      return factory()->container(type, this); 
+   }
 
-   bool readonly() { return m_readOnly; }
-   bool modified() { return m_modified; }
-   bool nsShown();
-   bool splitView() { return m_splitView; } 
+   KToggleAction* getToggleAction(const char *) const;
+
+   bool readonly() const { return m_readOnly; }
+   bool modified() const { return m_modified; }
+   bool splitView() const { return m_splitView; } 
+   bool nsShown() const;
 
    BookmarkInfoWidget *bkInfo() { return m_bkinfo; }
-
-private:
-   static KBookmarkManager* bookmarkManager();
-
-   bool save();
-
-   void updateListView();
 
 public slots:
    void slotLoad();
@@ -150,29 +151,35 @@ protected slots:
    void slotNewToolbarConfig();
 
 private:
-   void construct();
-   void readConfig();
-   void resetActions();
-   void createActions();
+   static KBookmarkManager* bookmarkManager();
 
    virtual bool queryClose();
 
-   bool m_modified;
-   bool m_canPaste;
-   bool m_readOnly;
+   void readConfig();
+   void construct();
+   void resetActions();
+   void createActions();
 
-   CmdHistory *m_cmdHistory;
-   MagicKLineEdit *m_iSearchLineEdit;
-   KBookmarkEditorIface *m_dcopIface;
-   QString m_bookmarksFilename;
-   bool m_saveOnClose;
-   bool m_advancedAddBookmark;
-   bool m_browser;
-   bool m_splitView;
+   bool save();
+   void updateListView();
 
    static KEBApp *s_topLevel;
 
+   KBookmarkEditorIface *m_dcopIface;
+   CmdHistory *m_cmdHistory;
+   MagicKLineEdit *m_iSearchLineEdit;
    BookmarkInfoWidget *m_bkinfo;
+
+   QString m_bookmarksFilename;
+
+   bool m_modified:1;
+   bool m_canPaste:1;
+   bool m_readOnly:1;
+
+   bool m_saveOnClose:1;
+   bool m_advancedAddBookmark:1;
+   bool m_splitView:1;
+   bool m_browser:1;
 };
 
 #endif

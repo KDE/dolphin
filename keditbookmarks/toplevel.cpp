@@ -113,8 +113,8 @@ KBookmark CurrentMgr::bookmarkAt(const QString &a) {
 bool CurrentMgr::managerSave() { return mgr()->save(); }
 void CurrentMgr::saveAs(const QString &fileName) { mgr()->saveAs(fileName); }
 void CurrentMgr::setUpdate(bool update) { mgr()->setUpdate(update); }
-QString CurrentMgr::path() { return mgr()->path(); }
-bool CurrentMgr::showNSBookmarks() { return mgr()->showNSBookmarks(); }
+QString CurrentMgr::path() const { return mgr()->path(); }
+bool CurrentMgr::showNSBookmarks() const { return mgr()->showNSBookmarks(); }
 
 void CurrentMgr::createManager(const QString &filename) {
    if (m_mgr) {
@@ -234,7 +234,7 @@ void CurrentMgr::doExport(ExportType type) {
    }
 }
 
-QString CurrentMgr::correctAddress(const QString &address) {
+QString CurrentMgr::correctAddress(const QString &address) const {
    return mgr()->findByAddress(address, true).address();
 }
 
@@ -502,7 +502,7 @@ void KEBApp::createActions() {
                       actn, SLOT( slotExportMoz() ), actionCollection(), "exportMoz");
 }
 
-KToggleAction* KEBApp::getToggleAction(const char *action) {
+KToggleAction* KEBApp::getToggleAction(const char *action) const {
    return static_cast<KToggleAction*>(actionCollection()->action(action));
 }
 
@@ -555,7 +555,7 @@ void KEBApp::slotSaveOnClose() {
    appconfig.writeEntry("Save On Close", m_saveOnClose);
 }
 
-bool KEBApp::nsShown() {
+bool KEBApp::nsShown() const {
    return getToggleAction("settings_showNS")->isChecked();
 }
 
