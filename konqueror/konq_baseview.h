@@ -2,7 +2,7 @@
 #define __konq_baseview_h__
 
 #include "konqueror.h"
-#include "kbookmarkmenu.h"
+// #include <kbookmarkmenu.h>
 
 #include <opPart.h>
 #include <qwidget.h>

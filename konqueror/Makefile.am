@@ -17,7 +17,7 @@ EXTRA_DIST = $(data_DATA)
 bin_PROGRAMS = konqueror
 
 # Source files, please keep sorted.
-konqueror_SOURCES =  kbookmarkmenu.cc kbrowser.cc \
+konqueror_SOURCES =  kbrowser.cc \
 	konq_propsmainview.cc kfmrun.cc konq_propsview.cc \
 	kiconcontainer.cc \
 	konq_baseview.cc konq_childview.cc konq_frame.cc \
@@ -28,7 +28,7 @@ konqueror_SOURCES =  kbookmarkmenu.cc kbrowser.cc \
 
 # noinst_HEADERS = ... to be completed
 
-METASOURCES = kbookmarkmenu.moc kbrowser.moc \
+METASOURCES = kbrowser.moc \
 	kfmrun.moc \
 	kiconcontainer.moc \
 	konq_childview.moc konq_frame.moc \
@@ -54,7 +54,6 @@ konqueror.h: $(srcdir)/konqueror.idl
 	  $(IDL) $(IDL_FLAGS) $(srcdir)/konqueror.idl
 
 kfmrun.cc: konqueror.h
-kbookmarkmenu.cc: konqueror.h
 konq_baseview.cc: konqueror.h
 konq_baseview.h: konqueror.h
 konq_main.h: konqueror.h

@@ -20,7 +20,6 @@
 #ifndef __konq_mainview_h__
 #define __konq_mainview_h__
 
-#include "kbookmarkmenu.h"
 #include "konqueror.h"
 
 #include <opPart.h>
@@ -32,9 +31,9 @@
 #include <qwidget.h>
 
 #include <kmimetypes.h>
+#include <kbookmarkmenu.h>
 
 class KAccel;
-class KBookmarkMenu;
 class KNewMenu;
 class KService;
 class KURLCompletion;
