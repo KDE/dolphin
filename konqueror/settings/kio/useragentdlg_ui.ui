@@ -8,7 +8,7 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>466</width>
+            <width>465</width>
             <height>448</height>
         </rect>
     </property>
@@ -37,6 +37,9 @@
             <vbox>
                 <property name="name">
                     <cstring>unnamed</cstring>
+                </property>
+                <property name="margin">
+                    <number>11</number>
                 </property>
                 <widget class="KLineEdit">
                     <property name="name">
@@ -115,6 +118,9 @@
             <hbox>
                 <property name="name">
                     <cstring>unnamed</cstring>
+                </property>
+                <property name="margin">
+                    <number>11</number>
                 </property>
                 <widget class="KListView">
                     <property name="name">
@@ -196,9 +202,12 @@
         </widget>
     </vbox>
 </widget>
-<layoutdefaults spacing="6" margin="11"/>
+<includes>
+    <include location="global" impldecl="in implementation">kdialog.h</include>
+</includes>
+<layoutdefaults spacing="6" margin="0"/>
+<layoutfunctions spacing="KDialog::spacingHint"/>
 <includehints>
-    <includehint>qwidget.h</includehint>
     <includehint>klineedit.h</includehint>
     <includehint>klistview.h</includehint>
 </includehints>
