@@ -204,13 +204,14 @@ void KDirLister::updateDirectory()
   m_buffer.clear();
   
   KIOJob* job = new KIOJob;
-  connect( job, SIGNAL( sigListEntry( int, UDSEntry& ) ), this, SLOT( slotUpdateListEntry( int, UDSEntry& ) ) );
+  connect( job, SIGNAL( sigListEntry( int, const UDSEntry& ) ), this, SLOT( slotUpdateListEntry( int, const UDSEntry& ) ) );
   connect( job, SIGNAL( sigFinished( int ) ), this, SLOT( slotUpdateFinished( int ) ) );
   connect( job, SIGNAL( sigError( int, int, const char* ) ),
 	   this, SLOT( slotUpdateError( int, int, const char* ) ) );
   
   m_jobId = job->id();
   job->listDir( m_sURL );
+  kdebug(KDEBUG_INFO, 1203, "update started in %s", m_sURL.data());
 
   emit started( QString::null );
 }
@@ -229,7 +230,7 @@ void KDirLister::slotUpdateFinished( int /*_id*/ )
   if ( m_bufferTimer.isActive() )
     m_bufferTimer.stop();
   
-  slotBufferTimeout(); // out of the above test, since the dir might be empty (David)
+  // slotBufferTimeout(); //  ??
   m_jobId = 0;
   m_bComplete = true;
   
@@ -251,13 +252,19 @@ void KDirLister::slotUpdateFinished( int /*_id*/ )
   
     assert( !name.isEmpty() );
 
+    // Form the complete url
+    KURL u( m_url );
+    u.addPath( name.data() );
+    kdebug(KDEBUG_INFO, 1203, "slotUpdateFinished : found %s",name.ascii() );
+
     // Find this icon
     bool done = false;
     QListIterator<KFileItem> kit ( m_lstFileItems );
     for( ; kit.current() && !done; ++kit )
     {
-      if ( name == (*kit)->getText() )
+      if ( u == (*kit)->url() )
       {  
+        kdebug(KDEBUG_INFO, 1203, "slotUpdateFinished : keeping %s",name.ascii() );
 	(*kit)->mark();
 	done = true;
       }
@@ -265,15 +272,12 @@ void KDirLister::slotUpdateFinished( int /*_id*/ )
     
     if ( !done )
     {
-      kdebug(KDEBUG_INFO, 1203, "slotUpdateFinished : %s",name.data() );
       // HACK
       bool m_isShowingDotFiles = true;
 
       if ( m_isShowingDotFiles || name[0]!='.' )
       {
-        KURL u( m_url );
-        u.addPath( name.data() );
-        kdebug(KDEBUG_INFO, 1203,"Inserting %s", name.ascii());
+        kdebug(KDEBUG_INFO, 1203,"slotUpdateFinished : inserting %s", name.ascii());
         KFileItem* item = new KFileItem( *it, u );
         m_lstFileItems.append( item );
         item->mark();

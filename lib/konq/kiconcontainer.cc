@@ -727,7 +727,7 @@ void KIconContainer::dropEvent( QDropEvent * e )
         if ( movedItem )
           movedItem->setFixedPos( e->pos() + (*it).pos );
         else
-          kdebug(KDEBUG_ERROR, 1205, "Item moved is not on the desktop !");
+          kdebug(KDEBUG_ERROR, 1205, "Can't find item with url='%s' in the iconcontainer !", (*it).url.ascii() );
       }
     } else // It's not : emit event
     {

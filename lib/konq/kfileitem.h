@@ -59,11 +59,12 @@ public:
    */
   QString url() const { return m_url.url(); }
   /**
-   * @return the mode of the file
+   * @return the mode of the file, as returned by stat()
    */
   mode_t mode() const { return m_mode; }
   /**
-   * @return true if the file is a link
+   * @return true if this icons represents a link in the UNIX sense of
+   * a link. If yes, then we have to draw the label with an italic font.
    */
   bool isLink() const;
   /**
