@@ -37,7 +37,13 @@ class KonqIconViewWidget : public KIconView
 {
     Q_OBJECT
     Q_PROPERTY( bool sortDirectoriesFirst READ sortDirectoriesFirst WRITE setSortDirectoriesFirst );
+    Q_PROPERTY( QRect iconArea READ iconArea WRITE setIconArea );
+    Q_PROPERTY( int lineupMode READ lineupMode WRITE setLineupMode );
+
 public:
+
+    enum LineupMode { LineupHorizontal=1, LineupVertical, LineupBoth };
+
     /**
      * Constructor
      * @param settings An instance of KonqFMSettings, see static methods in konqsettings.h
@@ -46,6 +52,36 @@ public:
     virtual ~KonqIconViewWidget() {}
 
     void initConfig();
+
+    /**
+     * Set the area that will be occupied by icons. It is still possible to 
+     * drag icons outside this area; this only applies to automatically placed
+     * icons.
+     */
+    void setIconArea( const QRect &rect );
+
+    /** 
+     * Returns the icon area.
+     */
+    QRect iconArea() const;
+
+    /**
+     * Set the lineup mode. This determines in which direction(s) icons are
+     * moved when lineing them up.
+     */
+    void setLineupMode(int mode);
+
+    /**
+     * Returns the lineup mode.
+     */
+    int lineupMode() const;
+
+    /**
+     * Line up the icons to a regular grid. The outline of the grid is 
+     * specified by @ref #iconArea. The two length parameters are
+     * @ref #gridX and @ref #gridY.
+     */
+    void lineupIcons();
 
     /**
      * Sets the icons of all items, and stores the @p size
@@ -100,6 +136,11 @@ public:
      */
     virtual void takeItem( QIconViewItem *item );
 
+    /**
+     * Reimplemented from QIconView to take into account @ref #iconArea.
+     */
+    virtual void insertInGrid( QIconViewItem *item );
+
 public slots:
     /**
      * Checks the new selection and emits enableAction() signals
@@ -152,6 +193,9 @@ protected:
 
     QString m_iconPositionGroupPrefix;
     QString m_dotDirectoryPath;
+
+    int m_LineupMode;
+    QRect m_IconRect;
 };
 
 #endif
