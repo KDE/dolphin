@@ -36,13 +36,12 @@ public:
         virtual void saveSettings();
         virtual void applySettings();
         virtual void defaultSettings();
- 
+
 private:
         QCheckBox *urlpropsbox;
         QCheckBox *treefollowbox;
         QLineEdit *leTerminal;
         QLineEdit *leEditor;
-	QCheckBox *m_pAutoLoadImagesCheckBox;
 	QCheckBox *m_pHaveBiiigToolBarCheckBox;
 };
 

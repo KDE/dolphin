@@ -17,6 +17,7 @@
 #include <qlayout.h>//CT - 12Nov1998
 #include <qpushbutton.h>
 #include <qradiobutton.h>
+#include <qlineedit.h>
 #include <kglobal.h>
 #include <kconfig.h>
 #include <X11/Xlib.h>
@@ -59,7 +60,7 @@ KFontOptions::KFontOptions( QWidget *parent, const char *name, const char *group
     bgLay->setRowStretch(0,0);
     bgLay->setRowStretch(1,1);
     bg->setExclusive( TRUE );
-  
+
     m_pSmall = new QRadioButton( i18n("Small"), bg );
     bgLay->addWidget(m_pSmall,1,0);
 
@@ -83,7 +84,7 @@ KFontOptions::KFontOptions( QWidget *parent, const char *name, const char *group
     m_pStandard->insertStrList( &standardFonts );
     connect( m_pStandard, SIGNAL( activated(const QString&) ),
              SLOT( slotStandardFont(const QString&) ) );
-  
+
     label = new QLabel( i18n( "Fixed Font"), this );
     lay->addWidget(label,4,1);
 
@@ -92,22 +93,22 @@ KFontOptions::KFontOptions( QWidget *parent, const char *name, const char *group
     m_pFixed->setGeometry( 120, 130, 180, 25 );
     getFontList( fixedFonts, "-*-*-*-*-*-*-*-*-*-*-m-*-*-*" );
     m_pFixed->insertStrList( &fixedFonts );
-  
+
     connect( m_pFixed, SIGNAL( activated(const QString&) ),
              SLOT( slotFixedFont(const QString&) ) );
-  
+
     // default charset Lars Knoll 17Nov98 (moved by David)
     label = new QLabel( i18n( "Default Charset"), this );
     lay->addWidget(label,5,1);
     lay->activate();
 
     m_pCharset = new QComboBox( false, this );
-#warning FIXME, this seems to be broken in kcharsets (Simon)    
+#warning FIXME, this seems to be broken in kcharsets (Simon)
 //    charsets = KGlobal::charsets()->availableCharsetNames();
     charsets.prepend(i18n("Use language charset"));
     m_pCharset->insertStringList( charsets );
     lay->addWidget(m_pCharset,5,2);
-    
+
     connect( m_pCharset, SIGNAL( activated(const QString& ) ),
              SLOT( slotCharset(const QString&) ) );
 
@@ -119,14 +120,14 @@ KFontOptions::KFontOptions( QWidget *parent, const char *name, const char *group
 void KFontOptions::getFontList( QStrList &list, const char *pattern )
 {
     int num;
-  
+
     char **xFonts = XListFonts( qt_xdisplay(), pattern, 2000, &num );
-  
+
     for ( int i = 0; i < num; i++ )
     {
         addFont( list, xFonts[i] );
     }
-  
+
     XFreeFontNames( xFonts );
 }
 
@@ -146,16 +147,16 @@ void KFontOptions::addFont( QStrList &list, const char *xfont )
     if ( ( pos = font.find( '-' ) ) > 0 )
     {
         font.truncate( pos );
-    
+
         if ( font.find( "open look", 0, false ) >= 0 )
             return;
-    
+
         QStrListIterator it( list );
-    
+
         for ( ; it.current(); ++it )
             if ( it.current() == font )
                 return;
-    
+
         list.append( font.ascii() );
     }
 }
@@ -183,7 +184,7 @@ void KFontOptions::slotCharset(const QString& n)
 void KFontOptions::loadSettings()
 {
     g_pConfig->setGroup( m_sGroup );		
-    QString fs = g_pConfig->readEntry( "BaseFontSize" );  
+    QString fs = g_pConfig->readEntry( "BaseFontSize" );
     if ( !fs.isEmpty() )
     {
         fSize = fs.toInt();
@@ -219,7 +220,7 @@ void KFontOptions::updateGUI()
         stdName = KGlobal::generalFont().family();
     if ( fixedName.isEmpty() )
         fixedName = KGlobal::fixedFont().family();
-    
+
     QStrListIterator sit( standardFonts );
     int i;
     for ( i = 0; sit.current(); ++sit, i++ )
@@ -234,8 +235,8 @@ void KFontOptions::updateGUI()
         if ( fixedName == fit.current() )
             m_pFixed->setCurrentItem( i );
     }
-    
-    for ( QStringList::Iterator cit = charsets.begin(); cit != charsets.end(); ++cit ) 
+
+    for ( QStringList::Iterator cit = charsets.begin(); cit != charsets.end(); ++cit )
     {
         if ( charsetName == *cit )
             m_pCharset->setCurrentItem( i );
@@ -315,7 +316,7 @@ KColorOptions::KColorOptions( QWidget *parent, const char *name, const char *gro
 
     label = new QLabel( i18n("Normal Text Color:"), this );
     lay->addWidget(label,3,1);
-  
+
     m_pText = new KColorButton( textColor, this );
     lay->addWidget(m_pText,3,3);
     connect( m_pText, SIGNAL( changed( const QColor & ) ),
@@ -424,4 +425,83 @@ void KColorOptions::applySettings()
     saveSettings();
 }
 
+
+KHtmlOptions::KHtmlOptions( QWidget *parent, const char *name )
+    : KConfigWidget( parent, name )
+{
+    QVBoxLayout *lay = new QVBoxLayout(this, 40 /* big border */, 20);
+
+    cb_enableJavaScript = new QCheckBox(i18n("Enable Java&Script"), this);
+    lay->addWidget(cb_enableJavaScript);
+    // ### don't add JavaScript for KRASH.
+#warning remove this line after KRASH (Lars)
+    cb_enableJavaScript->setEnabled(false);
+    
+    cb_enableJava = new QCheckBox(i18n("Enable &Java"), this);
+    lay->addWidget(cb_enableJava);
+
+    QHBoxLayout *hlay = new QHBoxLayout(10);
+    lay->addLayout(hlay);
+    QLabel * label = new QLabel(i18n("Path to JDK"),this);
+    hlay->addWidget(label, 1);
+
+    le_JavaPath = new QLineEdit(this);
+    hlay->addWidget(le_JavaPath, 5);
+
+    m_pAutoLoadImagesCheckBox = new QCheckBox( i18n( ""
+     "Automatically load images\n"
+     "(Otherwise, click the Images button to load when needed)" ), this );
+
+    lay->addWidget( m_pAutoLoadImagesCheckBox, 1 );
+
+    lay->addStretch(10);
+    lay->activate();
+
+    loadSettings();
+}
+
+void KHtmlOptions::loadSettings()
+{
+    // *** load ***
+    g_pConfig->setGroup( "HTML Settings" );
+    bool bJavaScript = g_pConfig->readBoolEntry( "EnableJavaScript", false);
+    bool bJava = g_pConfig->readBoolEntry( "EnableJava", false);
+    QString sJDK = g_pConfig->readEntry( "JavaPath", "/usr/lib/jdk" );
+    bool bAutoLoadImages = g_pConfig->readBoolEntry( "AutoLoadImages", true );
+
+    // *** apply to GUI ***
+
+    cb_enableJavaScript->setChecked(bJavaScript);
+    cb_enableJava->setChecked(bJava);
+    le_JavaPath->setText(sJDK);
+    m_pAutoLoadImagesCheckBox->setChecked( bAutoLoadImages );
+}
+
+void KHtmlOptions::defaultSettings()
+{
+    cb_enableJavaScript->setChecked(false);
+    cb_enableJava->setChecked(false);
+    le_JavaPath->setText("/usr/lib/jdk");
+    m_pAutoLoadImagesCheckBox->setChecked( false );
+}
+
+void KHtmlOptions::saveSettings()
+{
+    g_pConfig->setGroup( "HTML Settings" );
+    g_pConfig->writeEntry( "EnableJavaScript", cb_enableJavaScript->isChecked());
+    g_pConfig->writeEntry( "EnableJava", cb_enableJava->isChecked());
+    g_pConfig->writeEntry( "JavaPath", le_JavaPath->text());
+    g_pConfig->writeEntry( "AutoLoadImages", m_pAutoLoadImagesCheckBox->isChecked() );
+    g_pConfig->sync();
+}
+
+void KHtmlOptions::applySettings()
+{
+    saveSettings();
+}
+
 #include "htmlopts.moc"
+
+
+
+

@@ -55,7 +55,7 @@ private:
   QComboBox* m_pFixed;
   QComboBox* m_pStandard;
   QComboBox* m_pCharset;
-  
+
   int fSize;
   QString stdName;
   QString fixedName;
@@ -79,7 +79,7 @@ public:
   virtual void saveSettings();
   virtual void applySettings();
   virtual void defaultSettings();
-  
+
 protected slots:
   void slotBgColorChanged( const QColor &col );
   void slotTextColorChanged( const QColor &col );
@@ -98,6 +98,25 @@ private:
   QColor vLinkColor;
 
   QCString m_sGroup;
+};
+
+class KHtmlOptions : public KConfigWidget
+{
+  Q_OBJECT
+public:
+  KHtmlOptions( QWidget *parent, const char *name);
+
+  virtual void loadSettings();
+  virtual void saveSettings();
+  virtual void applySettings();
+  virtual void defaultSettings();
+
+private:
+    QLineEdit *le_JavaPath;
+    QCheckBox *cb_enableJava;
+    QCheckBox *cb_enableJavaScript;
+    QCheckBox *m_pAutoLoadImagesCheckBox;
+
 };
 
 #endif		// __HTML_OPTIONS_H__

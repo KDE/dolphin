@@ -32,6 +32,7 @@ public:
 private:
   KFontOptions  *m_pFontOptions;
   KColorOptions *m_pColorOptions;
+  KHtmlOptions *m_pHtmlOptions;
   KHTTPOptions  *m_pHTTPOptions;
   KMiscOptions  *m_pMiscOptions;
   KBehaviourOptions *m_pBehaviourOptions;
@@ -44,6 +45,7 @@ KonqControlApplication::KonqControlApplication( int &argc, char **argv )
   m_pBehaviourOptions  = 0L;
   m_pFontOptions  = 0L;
   m_pColorOptions = 0L;
+  m_pHtmlOptions = 0L;
   m_pHTTPOptions  = 0L;
   m_pMiscOptions  = 0L;
   m_pRootOptions  = 0L;
@@ -55,7 +57,7 @@ KonqControlApplication::KonqControlApplication( int &argc, char **argv )
       setTitle( i18n( "Desktop Icons Configuration" ) );
   else
       setTitle( i18n( "Konqueror Configuration" ) );
-  
+
   if ( !runGUI() )
     return;
 
@@ -73,16 +75,20 @@ KonqControlApplication::KonqControlApplication( int &argc, char **argv )
 
   if ( !pages || pages->contains( "font" ) )
     addPage( m_pFontOptions = new KFontOptions( dialog, "font", groupname ), i18n( "&Font" ), "konq-2.html" );
-   
+
   if ( !pages || pages->contains( "color" ) )
     addPage( m_pColorOptions = new KColorOptions( dialog, "color", groupname ), i18n( "&Color" ), "konq-3.html" );
-   
+
+  // ### FIXME: get the ref to the help page right
+  if ( !pages || pages->contains( "html" ) )
+    addPage( m_pHtmlOptions = new KHtmlOptions( dialog, "html"), i18n( "&Html" ), "konq-3.html" );
+
   if ( !pages || pages->contains( "http" ) )
-    addPage( m_pHTTPOptions = new KHTTPOptions( dialog, "http" ), i18n( "&HTTP" ), "konq-4.html" );
-    
+    addPage( m_pHTTPOptions = new KHTTPOptions( dialog, "http" ), i18n( "H&TTP" ), "konq-4.html" );
+
   if ( !pages || pages->contains( "misc" ) )
     addPage( m_pMiscOptions = new KMiscOptions( dialog, "misc" ), i18n( "&Other" ), "konq-5.html" );
-   
+
   if ( m_pRootOptions || m_pFontOptions || m_pColorOptions || m_pHTTPOptions || m_pMiscOptions || m_pBehaviourOptions )
      dialog->show();
   else
@@ -102,13 +108,16 @@ void KonqControlApplication::init()
 
   if ( m_pFontOptions )
     m_pFontOptions->loadSettings();
-    
+
   if ( m_pColorOptions )
     m_pColorOptions->loadSettings();
-    
+
+  if ( m_pHtmlOptions )
+    m_pHtmlOptions->loadSettings();
+
   if ( m_pHTTPOptions )
     m_pHTTPOptions->loadSettings();
-    
+
   if ( m_pMiscOptions )
     m_pMiscOptions->loadSettings();
 }
@@ -123,13 +132,16 @@ void KonqControlApplication::defaultValues()
 
   if ( m_pFontOptions )
     m_pFontOptions->defaultSettings();
-    
+
   if ( m_pColorOptions )
     m_pColorOptions->defaultSettings();
-    
+
+  if ( m_pHtmlOptions )
+    m_pHtmlOptions->defaultSettings();
+
   if ( m_pHTTPOptions )
     m_pHTTPOptions->defaultSettings();
-    
+
   if ( m_pMiscOptions )
     m_pMiscOptions->defaultSettings();
 }
@@ -144,19 +156,22 @@ void KonqControlApplication::apply()
 
   if ( m_pFontOptions )
     m_pFontOptions->applySettings();
-    
+
   if ( m_pColorOptions )
     m_pColorOptions->applySettings();
 
+  if ( m_pHtmlOptions )
+    m_pHtmlOptions->applySettings();
+
   if ( m_pHTTPOptions )
-    m_pHTTPOptions->applySettings();    
- 
+    m_pHTTPOptions->applySettings();
+
   if ( m_pMiscOptions )
     m_pMiscOptions->applySettings();
 
   QString exeloc = locate("exe","kfmclient");
   if ( exeloc.isEmpty() ) {
-  	  KMessageBox::error( 0L, 
+  	  KMessageBox::error( 0L,
 	  i18n( "Can't find the kfmclient program - can't apply configuration dynamically" ), i18n( "Error" ) );
 	return;
   }
@@ -182,12 +197,12 @@ void KonqControlApplication::apply()
 int main(int argc, char **argv )
 {
     KonqControlApplication app( argc, argv );
-  
+
 
   int ret = 0;
   if ( app.runGUI() )
     ret = app.exec();
-  
+
   delete g_pConfig;
   return ret;
 }
