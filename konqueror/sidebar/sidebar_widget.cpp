@@ -32,9 +32,6 @@
 #include <qdockarea.h>
 #include <config.h>
 #include <qpopupmenu.h>
-#if QT_VERSION >= 300
-#include <private/qucomextra_p.h>
-#endif
 
 
 QString  Sidebar_Widget::PATH=QString(""); 
@@ -178,6 +175,7 @@ Sidebar_Widget::Sidebar_Widget(QWidget *parent, KParts::ReadOnlyPart *par, const
 	Menu->insertItem(i18n("Add New"),addMenu,0);
 	Menu->insertSeparator();
 	Menu->insertItem(i18n("Multiple Views"),1);
+	Menu->insertItem(i18n("Show tabs left"),2);
         connect(Menu,SIGNAL(aboutToShow()),this,SLOT(aboutToShowConfigMenu()));
 	connect(Menu,SIGNAL(activated(int)),this,SLOT(activatedMenu(int)));
 
@@ -209,6 +207,7 @@ Sidebar_Widget::Sidebar_Widget(QWidget *parent, KParts::ReadOnlyPart *par, const
 void Sidebar_Widget::aboutToShowConfigMenu()
 {
 	Menu->setItemChecked(1,!singleWidgetMode);
+	Menu->setItemChecked(2,!showTabsRight);
 }
 
 
@@ -301,7 +300,9 @@ void Sidebar_Widget::buttonPopupActivate(int id)
 
 void Sidebar_Widget::activatedMenu(int id)
 {
-	if (id==1)
+	switch (id)
+	{
+		case 1:
 		{
 			singleWidgetMode = ! singleWidgetMode;
 			if ((singleWidgetMode) && (visibleViews.count()>1))
@@ -309,13 +310,22 @@ void Sidebar_Widget::activatedMenu(int id)
 					if (i!=latestViewed)
 						if (Buttons.at(i)->dock!=0)
 							if (Buttons.at(i)->dock->isVisible()) showHidePage(i);
+			break;
 		}
+		case 2:
+		{
+			showTabsRight = ! showTabsRight;
+			//We have to reverse the widget order
+			break;
+		}
+	}
 }
 
 void Sidebar_Widget::readConfig()
 {
 	KConfig conf("konqsidebartng.rc");
 	singleWidgetMode=(conf.readEntry("SingleWidgetMode","true")=="true");
+	showTabsRight=(conf.readEntry("ShowTabsLeft","false")=="false");
 	QStringList list=conf.readListEntry("OpenViews");
 	kdDebug()<<"readConfig: "<<conf.readEntry("OpenViews")<<endl;
 	for (int i=0; i<Buttons.count();i++)
@@ -323,6 +333,7 @@ void Sidebar_Widget::readConfig()
 		if (list.contains(Buttons.at(i)->file))
 			{
 				ButtonBar->setTab(i,true); //showHidePage(i);				
+				showHidePage(i);
 				if (singleWidgetMode) return;
 			} 
 	}

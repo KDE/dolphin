@@ -88,6 +88,7 @@ class Sidebar_Widget: public QHBox, public KonqSidebar_PluginInterface
 	KParts::ReadOnlyPart *partParent;
 	ButtonInfo* getActiveModule();
 	bool singleWidgetMode;
+	bool showTabsRight;
 	void readConfig();
 	class QStringList visibleViews;
 	class QPopupMenu *buttonPopup;
