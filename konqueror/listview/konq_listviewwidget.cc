@@ -623,7 +623,7 @@ bool KonqBaseListViewWidget::openURL( const KURL &url )
       QObject::connect( m_dirLister, SIGNAL( closeView() ),
                         this, SLOT( slotCloseView() ) );
       QObject::connect( m_dirLister, SIGNAL( itemsFilteredByMime( const KFileItemList & ) ),
-                        m_pBrowserView, SLOT( itemsFilteredByMime( const KFileItemList & ) ) );
+                        m_pBrowserView, SIGNAL( itemsFilteredByMime( const KFileItemList & ) ) );
   }
 
    // The first time or new protocol ? So create the columns first
