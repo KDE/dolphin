@@ -33,6 +33,7 @@
 #include <kiconloader.h>
 #include <konq_settings.h>
 #include <klocale.h>
+#include <kdebug.h>
 
 #include "kivdirectoryoverlay.h"
 
@@ -48,12 +49,6 @@ KIVDirectoryOverlay::KIVDirectoryOverlay(KFileIVI* directory)
         m_lister->setShowingDotFiles(false);
     }
     m_directory = directory;
-
-    if ( m_directory->item()->isReadable() ) {
-        m_popularIcons = new QDict<int>;
-        m_popularIcons->setAutoDelete(true);
-        m_lister->openURL(m_directory->item()->url());
-    }
 }
 
 KIVDirectoryOverlay::~KIVDirectoryOverlay()
@@ -61,6 +56,17 @@ KIVDirectoryOverlay::~KIVDirectoryOverlay()
     if (m_lister) m_lister->stop();
     delete m_lister;
     delete m_popularIcons;
+}
+
+void KIVDirectoryOverlay::start()
+{
+    if ( m_directory->item()->isReadable() ) {
+        m_popularIcons = new QDict<int>;
+        m_popularIcons->setAutoDelete(true);
+        m_lister->openURL(m_directory->item()->url());
+    } else {
+        emit finished();
+    }
 }
 
 void KIVDirectoryOverlay::timerEvent(QTimerEvent *)
@@ -95,6 +101,8 @@ void KIVDirectoryOverlay::slotCompleted()
     if (!m_bestIcon.isNull()) {
         m_directory->setOverlay(m_bestIcon);
     }
+    
+    emit finished();
 }
 
 void KIVDirectoryOverlay::slotNewItems( const KFileItemList& items )

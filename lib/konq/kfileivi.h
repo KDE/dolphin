@@ -180,7 +180,7 @@ public:
      * Sets showing of directory overlays. Does nothing if this does 
      * not represent a folder.
      */
-    void setShowDirectoryOverlay( bool );
+    KIVDirectoryOverlay* setShowDirectoryOverlay( bool );
     bool showDirectoryOverlay( );
 
 protected:

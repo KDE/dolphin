@@ -128,22 +128,24 @@ void KFileIVI::setOverlay( const QString& iconName )
 	refreshIcon(true);
 }
 
-void KFileIVI::setShowDirectoryOverlay( bool show ) 
+KIVDirectoryOverlay* KFileIVI::setShowDirectoryOverlay( bool show )
 {
-    if ( !m_fileitem->isDir() ) return;
+    if ( !m_fileitem->isDir() ) return 0;
 
 	if (show) {
         if (!d->m_directoryOverlay) d->m_directoryOverlay = new KIVDirectoryOverlay(this);
+        return d->m_directoryOverlay;
 	} else {
         if (d->m_directoryOverlay) {
 		    delete d->m_directoryOverlay;
             d->m_directoryOverlay = 0;
 		}
         setOverlay(QString());
+        return 0;
 	}
 }
 
-bool KFileIVI::showDirectoryOverlay(  ) 
+bool KFileIVI::showDirectoryOverlay(  )
 {
     return (bool)d->m_directoryOverlay;
 }

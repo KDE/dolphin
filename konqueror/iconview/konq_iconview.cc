@@ -403,12 +403,20 @@ void KonqKfmIconView::slotShowDot()
 
 void KonqKfmIconView::slotShowDirectoryOverlays()
 {
-    m_pProps->setShowingDirectoryOverlays( !m_pProps->isShowingDirectoryOverlays() );
+    bool show = !m_pProps->isShowingDirectoryOverlays();
+
+    m_pProps->setShowingDirectoryOverlays( show );
 
     for ( QIconViewItem *item = m_pIconView->firstItem(); item; item = item->nextItem() )
     {
         KFileIVI* kItem = static_cast<KFileIVI*>(item);
-        kItem -> setShowDirectoryOverlay(m_pProps->isShowingDirectoryOverlays());
+        if ( !kItem->item()->isDir() ) continue;
+
+        if (show) {
+            showDirectoryOverlay(kItem);
+        } else {
+            kItem -> setShowDirectoryOverlay(false);
+        }
     }
 
     m_pIconView->updateContents();
@@ -724,9 +732,7 @@ void KonqKfmIconView::slotNewItems( const KFileItemList& entries )
         KFileItem* fileItem = item->item();
 
         if ( fileItem->isDir() && m_pProps->isShowingDirectoryOverlays() ) {
-            KConfigGroup group( KGlobal::config(), "PreviewSettings" );
-            if ( group.readBoolEntry( fileItem->url().protocol(), true /*default*/ ) )
-                item->setShowDirectoryOverlay( true );
+            showDirectoryOverlay(item);
         }
 
         QString key;
@@ -772,6 +778,31 @@ void KonqKfmIconView::slotDeleteItem( KFileItem * _fileitem )
         m_itemDict.remove( _fileitem );
         // This doesn't delete the item, but we don't really care.
         // slotClear() will do it anyway - and it seems this avoids crashes
+    }
+}
+
+void KonqKfmIconView::showDirectoryOverlay(KFileIVI* item)
+{
+    KFileItem* fileItem = item->item();
+
+    KConfigGroup group( KGlobal::config(), "PreviewSettings" );
+    if ( group.readBoolEntry( fileItem->url().protocol(), true /*default*/ ) ) {
+        KIVDirectoryOverlay* overlay = item->setShowDirectoryOverlay( true );
+        m_paOutstandingOverlays.append(overlay);
+        connect( overlay, SIGNAL( finished() ), this, SLOT( slotDirectoryOverlayFinished() ) );
+        
+        if (m_paOutstandingOverlays.count() == 1) {
+            m_paOutstandingOverlays.first() -> start();
+        }
+    }
+}
+
+void KonqKfmIconView::slotDirectoryOverlayFinished()
+{
+    m_paOutstandingOverlays.removeFirst();
+    
+    if (m_paOutstandingOverlays.count() > 0) {
+        m_paOutstandingOverlays.first() -> start();
     }
 }
 
@@ -897,6 +928,8 @@ bool KonqKfmIconView::doOpenURL( const KURL & url )
 
     m_bNeedAlign = false;
     m_bUpdateContentsPosAfterListing = true;
+
+    m_paOutstandingOverlays = QPtrList<KIVDirectoryOverlay>();
 
     // Start the directory lister !
     m_dirLister->openURL( url, false, m_extension->urlArgs().reload );

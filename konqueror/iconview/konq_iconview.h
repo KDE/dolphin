@@ -111,6 +111,7 @@ protected slots:
   virtual void slotRefreshItems( const KFileItemList& );
   virtual void slotClear();
   virtual void slotRedirection( const KURL & );
+  virtual void slotDirectoryOverlayFinished();
 
   /**
    * This is the 'real' finished slot, where we emit the completed() signal
@@ -169,6 +170,7 @@ protected:
 
   KToggleAction *m_paDotFiles;
   KToggleAction *m_paDirectoryOverlays;
+  QPtrList<KIVDirectoryOverlay> m_paOutstandingOverlays;
 /*  KToggleAction *m_paImagePreview;
   KToggleAction *m_paTextPreview;
   KToggleAction *m_paHTMLPreview;*/
@@ -193,6 +195,9 @@ protected:
   KMimeTypeResolver<KFileIVI,KonqKfmIconView> * m_mimeTypeResolver;
 
   QString m_mode;
+  
+  private:
+  void showDirectoryOverlay(KFileIVI*  item);
 };
 
 class IconViewBrowserExtension : public KParts::BrowserExtension

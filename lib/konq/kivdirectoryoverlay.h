@@ -33,6 +33,10 @@ class KIVDirectoryOverlay : public QObject
 public:
     KIVDirectoryOverlay(KFileIVI* directory);
     virtual ~KIVDirectoryOverlay();
+    void start();
+
+signals:
+    void finished();
 
 protected:
     virtual void timerEvent(QTimerEvent *);
