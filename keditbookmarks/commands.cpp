@@ -34,6 +34,9 @@
 #include <kbookmarkdrag.h>
 #include <kbookmarkmanager.h>
 
+#include <kurldrag.h>
+#include <kdesktopfile.h>
+
 CmdGen* CmdGen::s_self = 0;
 
 QString CreateCommand::name() const {
@@ -489,6 +492,7 @@ KMacroCommand* CmdGen::deleteItems(const QString &commandName,
     return mcmd;
 }
 
+
 KMacroCommand* CmdGen::insertMimeSource(
         const QString &cmdName, QMimeSource *_data, const QString &addr
         ) {
@@ -505,6 +509,22 @@ KMacroCommand* CmdGen::insertMimeSource(
             mydrag->setEncodedData(data->encodedData("GALEON_BOOKMARK"));
             data = mydrag;
             break;
+        } else if (strcmp(format, "text/uri-list") == 0) { 
+            KURL::List uris;
+            if ( KURLDrag::decode(data, uris) 
+              && uris.count() == 1 
+              && uris.first().url().endsWith(".desktop")) 
+            {
+                KDesktopFile df(uris.first().path(), true);
+                QString title = df.readName();
+                KURL url(df.readURL());
+                if (title.isNull())
+                    title = url.prettyURL();
+                KBookmark bk;
+                bk = KBookmark::standaloneBookmark(title, url, df.readIcon());
+                KBookmarkDrag *mydrag = KBookmarkDrag::newDrag(bk, 0);
+                data = mydrag;
+            }
         }
     }
     if (!KBookmarkDrag::canDecode(data))
