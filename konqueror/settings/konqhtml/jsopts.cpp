@@ -114,7 +114,7 @@ KJavaScriptOptions::KJavaScriptOptions( KConfig* config, QString group, QWidget 
   domainSpecificGBLayout->addWidget( importDomainPB, 3, 1 );
   QWhatsThis::add( importDomainPB, i18n("Click this button to choose the file that contains "
                                         "the JavaScript policies. These policies will be merged "
-                                        "with the exisiting ones. Duplicate entries are ignored.") );
+                                        "with the existing ones. Duplicate entries are ignored.") );
   connect( importDomainPB, SIGNAL( clicked() ), this, SLOT( importPressed() ) );
   importDomainPB->setEnabled( false );
 
