@@ -45,11 +45,7 @@ KDirLister::KDirLister( bool _delayedMimeTypes )
 KDirLister::~KDirLister()
 {
   // Stop running jobs
-  if ( m_job )
-  {
-    m_job->kill();
-    m_job = 0;
-  }
+  stop();
   delete m_rootFileItem; // no problem if 0L says the master
   forgetDirs();
 }
@@ -94,12 +90,8 @@ void KDirLister::openURL( const KURL& _url, bool _showDotFiles, bool _keep )
 
   // TODO: Check whether the URL is really a directory
 
-  // Stop running jobs
-  if ( m_job )
-  {
-    m_job->kill();
-    m_job = 0;
-  }
+  // Stop running jobs, if any
+  stop();
 
   // Complete switch, don't keep previous URLs
   if ( !_keep )
@@ -140,6 +132,18 @@ void KDirLister::openURL( const KURL& _url, bool _showDotFiles, bool _keep )
     m_rootFileItem = 0L;
     m_bKofficeDocs = false;
   }
+}
+
+void KDirLister::stop()
+{
+  // Stop running jobs
+  if ( m_job )
+  {
+    disconnect( m_job, this );
+    m_job->kill();
+    m_job = 0;
+  }
+  m_bComplete = true;
 }
 
 void KDirLister::slotResult( KIO::Job * job )
@@ -226,11 +230,7 @@ void KDirLister::updateDirectory( const QString& _dir )
   }
 
   // Stop running jobs
-  if ( m_job )
-  {
-    m_job->kill();
-    m_job = 0;
-  }
+  stop();
 
   m_bComplete = false;
   m_buffer.clear();

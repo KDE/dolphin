@@ -74,7 +74,7 @@ public:
   /**
    * Stop listing the current directory
    */
-  virtual void stop() { slotResult( 0 ); }
+  virtual void stop();
 
   /**
    * @return the url used by this instance to list the files
