@@ -55,6 +55,7 @@ private:
     QCheckBox* m_pAutoLoadImagesCheckBox;
     QCheckBox* m_pAutoRedirectCheckBox;
     QCheckBox* m_pBackRightClick;
+    QCheckBox* m_pShowMMBInTabs;
     QCheckBox* m_pFormCompletionCheckBox;
     KIntNumInput* m_pMaxFormCompletionItems;
 };

@@ -65,6 +65,13 @@ KMiscHTMLOptions::KMiscHTMLOptions(KConfig *config, QString group, QWidget *pare
 
     connect(cbCursor, SIGNAL(clicked()), this, SLOT(changed()));
 
+    m_pShowMMBInTabs = new QCheckBox( i18n( "Open &links in new tab instead of in new window" ), this );
+    QWhatsThis::add( m_pShowMMBInTabs, i18n("This will open a new tab instead of a new window in various situations, "
+                          "such as choosing a link or a folder with the middle mouse button.") );
+    lay->addMultiCellWidget( m_pShowMMBInTabs, row, row, 0, 1);
+    row++;
+    connect(m_pShowMMBInTabs, SIGNAL(clicked()), this, SLOT(changed()));
+
     m_pBackRightClick = new QCheckBox( i18n( "Right click goes &back in history" ), this );
     QWhatsThis::add( m_pBackRightClick, i18n(
       "If this box is checked, you can go back in history by right clicking on a Konqueror view. "
@@ -183,6 +190,9 @@ void KMiscHTMLOptions::load()
     m_pFormCompletionCheckBox->setChecked( m_pConfig->readBoolEntry( "FormCompletion", true ) );
     m_pMaxFormCompletionItems->setValue( m_pConfig->readNumEntry( "MaxFormCompletionItems", 10 ) );
     m_pMaxFormCompletionItems->setEnabled( m_pFormCompletionCheckBox->isChecked() );
+    
+    m_pConfig->setGroup("FMSettings");
+    m_pShowMMBInTabs->setChecked( m_pConfig->readBoolEntry( "MMBOpensTab", false ) );
 }
 
 void KMiscHTMLOptions::defaults()
@@ -194,6 +204,7 @@ void KMiscHTMLOptions::defaults()
     m_pAnimationsCombo->setCurrentItem( AnimationsAlways );
     m_pFormCompletionCheckBox->setChecked(true);
     m_pMaxFormCompletionItems->setEnabled( true );
+    m_pShowMMBInTabs->setChecked( false );
     m_pBackRightClick->setChecked( false );
     m_pMaxFormCompletionItems->setValue( 10 );
 }
@@ -236,6 +247,9 @@ void KMiscHTMLOptions::save()
 
     m_pConfig->writeEntry( "FormCompletion", m_pFormCompletionCheckBox->isChecked() );
     m_pConfig->writeEntry( "MaxFormCompletionItems", m_pMaxFormCompletionItems->value() );
+
+    m_pConfig->setGroup("FMSettings");
+    m_pConfig->writeEntry( "MMBOpensTab", m_pShowMMBInTabs->isChecked() );
 
     m_pConfig->sync();
 
