@@ -12,14 +12,16 @@ libkonq contents :
 1) menus
 kbookmark.*     : general purpose bookmark class
 kbookmarkmenu.* : bookmark menu
-konq_popupmenu.* : popupmenu for URLs
+kbookmarkbar.*  : bookmark bar
+konq_popupmenu.*: popupmenu for URLs
 knewmenu.*      : implements the 'new' menu (file templates)
 
 2) files
-kfileitem.*     : item representing a file and all the information associated
-kdirlister.*    : directory lister (handles the job and kfileitems for any view)
+konq_fileitem.* : item representing a file and all the information associated
+konq_dirlister.*: directory lister (handles the job and kfileitems for any view)
 konq_operations.*: common operations to all views, like deleting files, and
                   dropping files.
+konq_undo.*     : undo feature for file operations
 
 3) icons
 kfileivi.*      : icon representing a file (inherits QListViewItem and 
@@ -28,12 +30,17 @@ konq_iconviewwidget.* : the specialisation of QIconView that knows about files.
                   Basic widget for icon views in konqueror and kdesktop.
 konq_drag.*      : the drag object for konqiconviewwidget (adds text/uri-list
                   support to QIconView's drag object).
+konq_imagepreviewjob.* : the KIO::Job that implements the image preview feature
 
-
-4) dialog boxes
-kpropsdlg.*     : the properties dialog box (for any URL)
-
-5) configuration
+4) configuration
+konq_propsview.* : view properties (global and per-directory)
 konq_settings.*  : settings
 konq_defaults.h  : default values, shared with kcmkonq
+
+5) directory views
+konq_dirpart.*   : base class for directory views
+konq_bgnddlg.*   : background chosing dialog
+
+6) other
+konq_events.*    : events sent by konqueror, for use by the views [& metaviews]
 
