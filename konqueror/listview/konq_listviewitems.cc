@@ -59,9 +59,9 @@ void KonqListViewItem::init()
    setText(0,m_fileitem->text());
    //now we have the first column, so let's do the rest
 
-   for (unsigned int i=0; i<m_pListViewWidget->columnConfigInfo()->count(); i++)
+   for (unsigned int i=0; i<KonqBaseListViewWidget::NumberOfAtoms; i++)
    {
-      ColumnInfo *tmpColumn=m_pListViewWidget->columnConfigInfo()->at(i);
+      ColumnInfo *tmpColumn=&m_pListViewWidget->columnConfigInfo()[i];
       if (tmpColumn->displayThisOne)
       {
          switch (tmpColumn->udsId)
@@ -82,7 +82,7 @@ void KonqListViewItem::init()
             setText(tmpColumn->displayInColumn,m_fileitem->mimetype());
             break;
          case KIO::UDS_URL:
-            setText(tmpColumn->displayInColumn,m_fileitem->url().path());
+            setText(tmpColumn->displayInColumn,m_fileitem->url().prettyURL());
             break;
          case KIO::UDS_LINK_DEST:
             setText(tmpColumn->displayInColumn,m_fileitem->linkDest());
@@ -116,9 +116,9 @@ QString KonqListViewItem::key( int _column, bool asc) const
    //check if it is a time column
    if (_column>1)
    {
-      for (unsigned int i=0; i<m_pListViewWidget->columnConfigInfo()->count(); i++)
+      for (unsigned int i=0; i<KonqBaseListViewWidget::NumberOfAtoms; i++)
       {
-         ColumnInfo *cInfo=m_pListViewWidget->columnConfigInfo()->at(i);
+         ColumnInfo *cInfo=&m_pListViewWidget->columnConfigInfo()[i];
          if (_column==cInfo->displayInColumn)
          {
             if ((cInfo->udsId==KIO::UDS_MODIFICATION_TIME)
@@ -137,6 +137,18 @@ QString KonqListViewItem::key( int _column, bool asc) const
    }
    tmp+=text(_column);
    return tmp;
+}
+
+QString KonqListViewItem::makeNumericString( const KIO::UDSAtom &_atom ) const
+{
+  return KGlobal::locale()->formatNumber( _atom.m_long, 0);
+}
+
+QString KonqListViewItem::makeTimeString( const KIO::UDSAtom &_atom ) const
+{
+   QDateTime dt; dt.setTime_t((time_t) _atom.m_long);
+   return KGlobal::locale()->formatDate(dt.date(), true) + " " +
+      KGlobal::locale()->formatTime(dt.time());
 }
 
 void KonqListViewItem::paintCell( QPainter *_painter, const QColorGroup & _cg, int _column, int _width, int _alignment )
@@ -161,7 +173,7 @@ void KonqListViewItem::paintCell( QPainter *_painter, const QColorGroup & _cg, i
   // Now prevent QListViewItem::paintCell from drawing a white background
   // I hope color0 is transparent :-))
   // Sorry, to me it looks more like black (alex)
-  //cg.setColor( QColorGroup::Base, Qt::color0 );
+  //cg.setColor( QColorGroup::Base, QColor(qRgba(0, 0, 0, 0)));
 
   QListViewItem::paintCell( _painter, cg, _column, _width, _alignment );
 }

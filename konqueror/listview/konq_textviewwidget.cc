@@ -90,6 +90,7 @@ void KonqTextViewWidget::createColumns()
       addColumn(i18n("Name"),fontMetrics().width("_a_quite_long_filename_"));
       setColumnAlignment(0,AlignRight);
    };
+   setSorting(m_filenameColumn,TRUE);
 
    //remove all but the first two columns
    for (int i=columns()-1; i>1; i--)
@@ -97,11 +98,13 @@ void KonqTextViewWidget::createColumns()
 
    int currentColumn(m_filenameColumn+1);
    //now add the checked columns
-   for (int i=0; i<confColumns.count(); i++)
+   for (int i=0; i<NumberOfAtoms; i++)
    {
-      if ((confColumns.at(i)->displayThisOne) && (confColumns.at(i)->displayInColumn==currentColumn))
+      if ((confColumns[i].displayThisOne) && (confColumns[i].displayInColumn==currentColumn))
       {
-         ColumnInfo *tmpColumn=confColumns.at(i);
+         if (sortedByColumn==confColumns[i].desktopFileName)
+            setSorting(currentColumn,ascending);
+         ColumnInfo *tmpColumn=&confColumns[i];
          QString tmpName=tmpColumn->name;
          if (tmpColumn->udsId==KIO::UDS_SIZE)
          {
@@ -126,7 +129,7 @@ void KonqTextViewWidget::createColumns()
          else if (tmpColumn->udsId==KIO::UDS_FILE_TYPE)
             addColumn(i18n(tmpName),fontMetrics().width("a_comment_for_mimetype_"));
          else if (tmpColumn->udsId==KIO::UDS_MIME_TYPE)
-            addColumn(i18n(tmpName),fontMetrics().width("a_long_mimetype"));
+            addColumn(i18n(tmpName),fontMetrics().width("_a_long_/_mimetype_"));
          else if (tmpColumn->udsId==KIO::UDS_URL)
             addColumn(i18n(tmpName),fontMetrics().width("_a_long_lonq_long_url_"));
 

@@ -65,8 +65,8 @@ public:
 
   /**
    * (inherited from QListViewItem)
-   */
-  virtual void setup();
+   *
+  virtual void setup();*/
 
   /**
    * URL of this directory

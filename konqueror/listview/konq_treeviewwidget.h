@@ -42,7 +42,7 @@ class KonqTreeViewWidget : public KonqBaseListViewWidget
 
       // slots connected to the directory lister
       virtual void slotClear();
-      virtual void slotNewItems( const KonqFileItemList & );
+      virtual void slotNewItems( const KFileItemList & );
 
    protected:
       KonqListViewDir * findDir( const QString &_url );

@@ -118,9 +118,9 @@ void KonqTreeViewWidget::slotClear()
       clear();
 }
 
-void KonqTreeViewWidget::slotNewItems( const KonqFileItemList & entries )
+void KonqTreeViewWidget::slotNewItems( const KFileItemList & entries )
 {
-   QListIterator<KonqFileItem> kit ( entries );
+   QListIterator<KFileItem> kit ( entries );
    for( ; kit.current(); ++kit )
    {
       bool isdir = S_ISDIR( (*kit)->mode() );
@@ -138,16 +138,16 @@ void KonqTreeViewWidget::slotNewItems( const KonqFileItemList & entries )
       if ( parentDir )
       { // adding under a directory item
          if ( isdir )
-            new KonqListViewDir( this, parentDir, (*kit) );
+            new KonqListViewDir( this, parentDir, static_cast<KonqFileItem*>(*kit) );
          else
-            new KonqListViewItem( this, parentDir, (*kit) );
+            new KonqListViewItem( this, parentDir, static_cast<KonqFileItem*>(*kit) );
       }
       else
       { // adding on the toplevel
          if ( isdir )
-            new KonqListViewDir( this, (*kit) );
+            new KonqListViewDir( this, static_cast<KonqFileItem*>(*kit) );
          else
-            new KonqListViewItem( this, (*kit) );
+            new KonqListViewItem( this,static_cast<KonqFileItem*> (*kit) );
       }
    }
 }

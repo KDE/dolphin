@@ -41,6 +41,16 @@
 #include <stdlib.h>
 #include <assert.h>
 
+ColumnInfo::ColumnInfo()
+   :displayInColumn(-1)
+   ,name("")
+   ,desktopFileName("")
+   ,udsId(0)
+   ,displayThisOne(FALSE)
+   ,toggleThisOne(0)
+{};
+
+
 ColumnInfo::ColumnInfo(const char* n, const char* desktopName, int kioUds,int count,bool enabled,KToggleAction* someAction)
    :displayInColumn(count)
    ,name(n)
@@ -50,17 +60,26 @@ ColumnInfo::ColumnInfo(const char* n, const char* desktopName, int kioUds,int co
    ,toggleThisOne(someAction)
 {}
 
+void ColumnInfo::setData(const char* n, const char* desktopName, int kioUds,int count,bool enabled,KToggleAction* someAction)
+{
+   displayInColumn=count;
+   name=n;
+   desktopFileName=desktopName;
+   udsId=kioUds;
+   displayThisOne=enabled;
+   toggleThisOne=someAction;
+};
 
 
 KonqBaseListViewWidget::KonqBaseListViewWidget( KonqListView *parent, QWidget *parentWidget)
 :KListView(parentWidget )
+,sortedByColumn(0)
+,ascending(TRUE)
 ,m_dirLister(0L)
 ,m_dragOverItem(0L)
 ,m_pressed(FALSE)
 ,m_pressedItem(0L)
-,m_iconSize(KIcon::SizeSmall)
 ,m_filesSelected(FALSE)
-,m_checkMimeTypes(TRUE)
 ,m_showIcons(TRUE)
 ,m_filenameColumn(0)
 ,m_pBrowserView(parent)
@@ -78,7 +97,7 @@ KonqBaseListViewWidget::KonqBaseListViewWidget( KonqListView *parent, QWidget *p
    //Adjust QListView behaviour
    setSelectionMode( Extended );
    setMultiSelection(TRUE);
-   setSorting(m_filenameColumn);
+   //setSorting(m_filenameColumn);
 
    initConfig();
 
@@ -101,7 +120,7 @@ KonqBaseListViewWidget::KonqBaseListViewWidget( KonqListView *parent, QWidget *p
    //setFrameStyle( QFrame::NoFrame | QFrame::Plain );
    setShowSortIndicator(TRUE);
 
-   confColumns.setAutoDelete(TRUE);
+   //confColumns.setAutoDelete(TRUE);
 }
 
 KonqBaseListViewWidget::~KonqBaseListViewWidget()
@@ -319,6 +338,9 @@ void KonqBaseListViewWidget::readProtocolConfig( const QString & protocol )
    else
       config->setGroup( "ListView_default" );
 
+   sortedByColumn=config->readEntry("SortBy","FileName");
+   ascending=config->readBoolEntry("SortOrder",TRUE);
+
    QStringList lstColumns = config->readListEntry( "Columns" );
    if (lstColumns.isEmpty())
    {
@@ -332,52 +354,52 @@ void KonqBaseListViewWidget::readProtocolConfig( const QString & protocol )
    }
 
    //disable everything
-   for (unsigned int i=0; i<confColumns.count(); i++)
+   for (unsigned int i=0; i<NumberOfAtoms; i++)
    {
-      confColumns.at(i)->displayThisOne=FALSE;
-      confColumns.at(i)->displayInColumn=-1;
-      confColumns.at(i)->toggleThisOne->setChecked(FALSE);
-      confColumns.at(i)->toggleThisOne->setEnabled(TRUE);
-   }
+      confColumns[i].displayThisOne=FALSE;
+      confColumns[i].displayInColumn=-1;
+      confColumns[i].toggleThisOne->setChecked(FALSE);
+      confColumns[i].toggleThisOne->setEnabled(TRUE);
+   };
    int currentColumn(m_filenameColumn+1);
    //check all columns in lstColumns
    for (unsigned int i=0; i<lstColumns.count(); i++)
    {
       //search the column in confColumns
-      for (unsigned int j=0; j<confColumns.count(); j++)
+      for (unsigned int j=0; j<NumberOfAtoms; j++)
       {
-         if (confColumns.at(j)->name==*lstColumns.at(i))
+         if (confColumns[j].name==*lstColumns.at(i))
          {
-            confColumns.at(j)->displayThisOne=TRUE;
-            confColumns.at(j)->displayInColumn=currentColumn;
-            confColumns.at(j)->toggleThisOne->setChecked(TRUE);
+            confColumns[j].displayThisOne=TRUE;
+            confColumns[j].displayInColumn=currentColumn;
+            confColumns[j].toggleThisOne->setChecked(TRUE);
             currentColumn++;
             break;
          }
       }
    }
+   //check what the protocol provides
    KProtocolManager *protocolManager=&KProtocolManager::self();
    QStringList listingList=protocolManager->listing(protocol);
    kdDebug(1202)<<"protocol: -"<<protocol<<"-"<<endl;
    for (unsigned int j=0; j<listingList.count(); j++)
       kdDebug(1202)<<"listing: -"<<*listingList.at(j)<<"-"<<endl;
 
-   // Even if this is not given by the protocol, we can determine it.
-   listingList.append( "MimeType" );
-
-   for (unsigned int i=0; i<confColumns.count(); i++)
+   for (unsigned int i=0; i<NumberOfAtoms; i++)
    {
+      if ((confColumns[i].udsId==KIO::UDS_URL) || (confColumns[i].udsId==KIO::UDS_MIME_TYPE))
+         continue;
       unsigned int k(0);
       for (k=0; k<listingList.count(); k++)
-         if (*listingList.at(k)==confColumns.at(i)->desktopFileName) break;
-      if (*listingList.at(k)!=confColumns.at(i)->desktopFileName)
+         if (*listingList.at(k)==confColumns[i].desktopFileName) break;
+      if (*listingList.at(k)!=confColumns[i].desktopFileName)
       {
-         for (unsigned int l=0; l<confColumns.count(); l++)
-            if (confColumns.at(i)->displayInColumn>confColumns.at(i)->displayInColumn)
-               confColumns.at(i)->displayInColumn--;
-         confColumns.at(i)->displayThisOne=FALSE;
-         confColumns.at(i)->toggleThisOne->setEnabled(FALSE);
-         confColumns.at(i)->toggleThisOne->setChecked(FALSE);
+         for (unsigned int l=0; l<NumberOfAtoms; l++)
+            if (confColumns[i].displayInColumn>confColumns[i].displayInColumn)
+               confColumns[i].displayInColumn--;
+         confColumns[i].displayThisOne=FALSE;
+         confColumns[i].toggleThisOne->setEnabled(FALSE);
+         confColumns[i].toggleThisOne->setChecked(FALSE);
       }
    }
 }
@@ -815,7 +837,7 @@ void KonqBaseListViewWidget::slotReturnPressed( QListViewItem *_item )
   }
 }*/
 
-void KonqBaseListViewWidget::slotRightButtonPressed( QListViewItem *_item, const QPoint &_global, int )
+void KonqBaseListViewWidget::slotRightButtonPressed( QListViewItem *, const QPoint &_global, int )
 {
   popupMenu( _global );
 }
@@ -842,18 +864,21 @@ void KonqBaseListViewWidget::createColumns()
 {
    //this column is always required, so add it
    if (columns()<=m_filenameColumn) addColumn(i18n("Name"));
+   setSorting(m_filenameColumn,TRUE);
 
    //remove all but the first column
    for (int i=columns()-1; i>0; i--)
       removeColumn(i);
    //now add the checked columns
    int currentColumn(m_filenameColumn+1);
-   for (int i=0; i<confColumns.count(); i++)
+   for (int i=0; i<NumberOfAtoms; i++)
    {
-      if ((confColumns.at(i)->displayThisOne) && (confColumns.at(i)->displayInColumn==currentColumn))
+      if ((confColumns[i].displayThisOne) && (confColumns[i].displayInColumn==currentColumn))
       {
-         addColumn(i18n(confColumns.at(i)->name ));
-         if (confColumns.at(i)->udsId==KIO::UDS_SIZE) setColumnAlignment(currentColumn,AlignRight);
+         addColumn(i18n(confColumns[i].name ));
+         if (sortedByColumn==confColumns[i].desktopFileName)
+            setSorting(currentColumn,ascending);
+         if (confColumns[i].udsId==KIO::UDS_SIZE) setColumnAlignment(currentColumn,AlignRight);
          i=-1;
          currentColumn++;
       }
@@ -872,7 +897,7 @@ bool KonqBaseListViewWidget::openURL( const KURL &url )
    if ( !m_dirLister )
    {
       // Create the directory lister
-      m_dirLister = new KonqDirLister(true);
+      m_dirLister = new KonqDirLister(m_showIcons==FALSE);
 
       QObject::connect( m_dirLister, SIGNAL( started( const QString & ) ),
                         this, SLOT( slotStarted( const QString & ) ) );
@@ -901,7 +926,24 @@ bool KonqBaseListViewWidget::openURL( const KURL &url )
 
    m_url=url;
 
-   m_pProps->enterDir( url );
+   //settings changed ?
+   if (m_pProps->enterDir( url ))
+   {
+      switch (m_pProps->iconSize())
+      {
+      case KIcon::SizeSmall:
+         m_pBrowserView->m_paSmallIcons->setChecked(TRUE);
+         break;
+      case KIcon::SizeMedium:
+         m_pBrowserView->m_paMediumIcons->setChecked(TRUE);
+         break;
+      case KIcon::SizeLarge:
+         m_pBrowserView->m_paLargeIcons->setChecked(TRUE);
+         break;
+      default:
+         break;
+      };
+   };
    // TODO: setChecked on the actions, depending on isShowing...
 
    // Start the directory lister !

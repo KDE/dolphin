@@ -29,7 +29,6 @@
 #include <kio/paste.h>
 #include <kio/job.h>
 #include <kdebug.h>
-#include <konq_propsview.h>
 #include <kaction.h>
 #include <kstdaction.h>
 #include <kparts/mainwindow.h>
@@ -243,48 +242,49 @@ void ListViewBrowserExtension::editMimeType()
 KonqListView::KonqListView( QWidget *parentWidget, QObject *parent, const char *name, const QString& mode )
  : KParts::ReadOnlyPart( parent, name )
 {
-  setInstance( KonqListViewFactory::instance() );
+   setInstance( KonqListViewFactory::instance() );
 
-  m_browser = new ListViewBrowserExtension( this );
+   m_browser = new ListViewBrowserExtension( this );
 
-  if (mode=="TextView")
-  {
-     kdDebug(1202) << "Creating KonqTextViewWidget\n" << endl;
-     setXMLFile( "konq_textview.rc" );
-     m_pListView=new KonqTextViewWidget(this, parentWidget);
-  }
-  else if (mode=="MixedTree")
-  {
-     kdDebug(1202) << "Creating KonqTreeViewWidget\n" << endl;
-     setXMLFile( "konq_treeview.rc" );
-     m_pListView=new KonqTreeViewWidget(this,parentWidget);
-  }
-  else
-  {
-     kdDebug(1202) << "Creating KonqDetailedListViewWidget\n" << endl;
-     setXMLFile( "konq_detailedlistview.rc" );
-     m_pListView = new KonqBaseListViewWidget( this, parentWidget);
-  }
-  setWidget( m_pListView );
+   if (mode=="TextView")
+   {
+      kdDebug(1202) << "Creating KonqTextViewWidget\n" << endl;
+      setXMLFile( "konq_textview.rc" );
+      m_pListView=new KonqTextViewWidget(this, parentWidget);
+   }
+   else if (mode=="MixedTree")
+   {
+      kdDebug(1202) << "Creating KonqTreeViewWidget\n" << endl;
+      setXMLFile( "konq_treeview.rc" );
+      m_pListView=new KonqTreeViewWidget(this,parentWidget);
+   }
+   else
+   {
+      kdDebug(1202) << "Creating KonqDetailedListViewWidget\n" << endl;
+      setXMLFile( "konq_detailedlistview.rc" );
+      m_pListView = new KonqBaseListViewWidget( this, parentWidget);
+   }
+   setWidget( m_pListView );
 
-  setupActions();
+   setupActions();
 
-  // Note: File Type is in fact the mimetype comment. We use UDS_FILE_TYPE but that's not what we show in fact :/
-   m_pListView->confColumns.append( new ColumnInfo(I18N_NOOP("File Type"),"Type",KIO::UDS_FILE_TYPE,-1,FALSE,m_paShowType));
-   m_pListView->confColumns.append( new ColumnInfo(I18N_NOOP("Size"),"Size",KIO::UDS_SIZE,-1,FALSE,m_paShowSize) );
-   m_pListView->confColumns.append( new ColumnInfo(I18N_NOOP("Modified"),"Date",KIO::UDS_MODIFICATION_TIME,-1,FALSE,m_paShowTime) );
-   m_pListView->confColumns.append( new ColumnInfo(I18N_NOOP("Accessed"),"AccessDate",KIO::UDS_ACCESS_TIME,-1,FALSE,m_paShowAccessTime) );
-   m_pListView->confColumns.append( new ColumnInfo(I18N_NOOP("Created"),"CreationDate",KIO::UDS_CREATION_TIME,-1,FALSE,m_paShowCreateTime) );
-   m_pListView->confColumns.append( new ColumnInfo(I18N_NOOP("Permissions"),"Access",KIO::UDS_ACCESS,-1,FALSE,m_paShowPermissions) );
-   m_pListView->confColumns.append( new ColumnInfo(I18N_NOOP("Owner"),"Owner",KIO::UDS_USER,-1,FALSE,m_paShowOwner) );
-   m_pListView->confColumns.append( new ColumnInfo(I18N_NOOP("Group"),"Group",KIO::UDS_GROUP,-1,FALSE,m_paShowGroup) );
-   m_pListView->confColumns.append( new ColumnInfo(I18N_NOOP("Link"),"Link",KIO::UDS_LINK_DEST,-1,FALSE,m_paShowLinkDest) );
-   m_pListView->confColumns.append( new ColumnInfo(I18N_NOOP("URL"),"URL",KIO::UDS_URL,-1,FALSE,m_paShowURL));
-   m_pListView->confColumns.append( new ColumnInfo(I18N_NOOP("MimeType"),"MimeType",KIO::UDS_MIME_TYPE,-1,FALSE,m_paShowMimeType));
+   m_pListView->confColumns[0].setData(I18N_NOOP("MimeType"),"Type",KIO::UDS_MIME_TYPE,-1,FALSE,m_paShowMimeType);
+   m_pListView->confColumns[1].setData(I18N_NOOP("Size"),"Size",KIO::UDS_SIZE,-1,FALSE,m_paShowSize);
+   m_pListView->confColumns[2].setData(I18N_NOOP("Modified"),"Date",KIO::UDS_MODIFICATION_TIME,-1,FALSE,m_paShowTime);
+   m_pListView->confColumns[3].setData(I18N_NOOP("Accessed"),"AccessDate",KIO::UDS_ACCESS_TIME,-1,FALSE,m_paShowAccessTime);
+   m_pListView->confColumns[4].setData(I18N_NOOP("Created"),"CreationDate",KIO::UDS_CREATION_TIME,-1,FALSE,m_paShowCreateTime);
+   m_pListView->confColumns[5].setData(I18N_NOOP("Permissions"),"Access",KIO::UDS_ACCESS,-1,FALSE,m_paShowPermissions);
+   m_pListView->confColumns[6].setData(I18N_NOOP("Owner"),"Owner",KIO::UDS_USER,-1,FALSE,m_paShowOwner);
+   m_pListView->confColumns[7].setData(I18N_NOOP("Group"),"Group",KIO::UDS_GROUP,-1,FALSE,m_paShowGroup);
+   m_pListView->confColumns[8].setData(I18N_NOOP("Link"),"Link",KIO::UDS_LINK_DEST,-1,FALSE,m_paShowLinkDest);
+   m_pListView->confColumns[9].setData(I18N_NOOP("URL"),"URL",KIO::UDS_URL,-1,FALSE,m_paShowURL);
+   // Note: File Type is in fact the mimetype comment. We use UDS_FILE_TYPE but that's not what we show in fact :/
+   m_pListView->confColumns[10].setData(I18N_NOOP("File Type"),"Type",KIO::UDS_FILE_TYPE,-1,FALSE,m_paShowType);
 
    QObject::connect( m_pListView, SIGNAL( selectionChanged() ),
                     m_browser, SLOT( updateActions() ) );
    connect(m_pListView->header(),SIGNAL(indexChange(int,int,int)),this,SLOT(headerDragged(int,int,int)));
+   connect(m_pListView->header(),SIGNAL(clicked(int)),this,SLOT(slotHeaderClicked(int)));
 }
 
 KonqListView::~KonqListView()
@@ -376,7 +376,6 @@ void KonqListView::slotUnselect()
 void KonqListView::slotSelectAll()
 {
    m_pListView->selectAll(TRUE);
-   //m_pListView->updateSelectedFilesInfo();
    emit m_pListView->selectionChanged();
    m_pListView->updateSelectedFilesInfo();
 }
@@ -384,16 +383,14 @@ void KonqListView::slotSelectAll()
 void KonqListView::slotUnselectAll()
 {
     m_pListView->selectAll(FALSE);
-    //m_pListView->updateSelectedFilesInfo();
-   emit m_pListView->selectionChanged();
-   m_pListView->updateSelectedFilesInfo();
+    emit m_pListView->selectionChanged();
+    m_pListView->updateSelectedFilesInfo();
 }
 
 
 void KonqListView::slotInvertSelection()
 {
     m_pListView->invertSelection();
-    //m_pListView->updateSelectedFilesInfo();
     m_pListView->repaintContents(0,0,m_pListView->width(),m_pListView->height());
     emit m_pListView->selectionChanged();
     m_pListView->updateSelectedFilesInfo();
@@ -401,38 +398,38 @@ void KonqListView::slotInvertSelection()
 
 void KonqListView::slotIconSizeToggled( bool)
 {
-   if (m_paLargeIcons->isChecked()) m_pListView->m_iconSize=KIcon::SizeLarge;
-   else if (m_paMediumIcons->isChecked()) m_pListView->m_iconSize=KIcon::SizeMedium;
-   else m_pListView->m_iconSize=KIcon::SizeSmall;
+   if (m_paLargeIcons->isChecked()) m_pListView->m_pProps->setIconSize(KIcon::SizeLarge);
+   else if (m_paMediumIcons->isChecked()) m_pListView->m_pProps->setIconSize(KIcon::SizeMedium);
+   else m_pListView->m_pProps->setIconSize(KIcon::SizeSmall);
    m_pListView->updateListContents();
 }
 
 void KonqListView::slotShowDot()
 {
-  m_pListView->dirLister()->setShowingDotFiles( m_paShowDot->isChecked() );
+   m_pListView->m_dirLister->setShowingDotFiles( m_paShowDot->isChecked() );
 }
 void KonqListView::slotColumnToggled()
 {
    kDebugInfo(1202,"::slotColumnToggled\n");
-   for (unsigned int i=0; i<m_pListView->confColumns.count(); i++)
+   for (unsigned int i=0; i<KonqBaseListViewWidget::NumberOfAtoms; i++)
    {
-      m_pListView->confColumns.at(i)->displayThisOne=m_pListView->confColumns.at(i)->toggleThisOne->isChecked()&&m_pListView->confColumns.at(i)->toggleThisOne->isEnabled();
+      m_pListView->confColumns[i].displayThisOne=m_pListView->confColumns[i].toggleThisOne->isChecked()&&m_pListView->confColumns[i].toggleThisOne->isEnabled();
       //this column has been enabled, the columns after it slide one column back
-      if ((m_pListView->confColumns.at(i)->displayThisOne) && (m_pListView->confColumns.at(i)->displayInColumn==-1))
+      if ((m_pListView->confColumns[i].displayThisOne) && (m_pListView->confColumns[i].displayInColumn==-1))
       {
          int maxColumn(0);
-         for (unsigned int j=0; j<m_pListView->confColumns.count(); j++)
-            if ((m_pListView->confColumns.at(j)->displayInColumn>maxColumn) && (m_pListView->confColumns.at(j)->displayThisOne))
-               maxColumn=m_pListView->confColumns.at(j)->displayInColumn;
-         m_pListView->confColumns.at(i)->displayInColumn=maxColumn+1;
+         for (unsigned int j=0; j<KonqBaseListViewWidget::NumberOfAtoms; j++)
+            if ((m_pListView->confColumns[j].displayInColumn>maxColumn) && (m_pListView->confColumns[j].displayThisOne))
+               maxColumn=m_pListView->confColumns[j].displayInColumn;
+         m_pListView->confColumns[i].displayInColumn=maxColumn+1;
       }
       //this column has been disabled, the columns after it slide one column
-      if ((!m_pListView->confColumns.at(i)->displayThisOne) && (m_pListView->confColumns.at(i)->displayInColumn!=-1))
+      if ((!m_pListView->confColumns[i].displayThisOne) && (m_pListView->confColumns[i].displayInColumn!=-1))
       {
-         for (unsigned int j=0; j<m_pListView->confColumns.count(); j++)
-            if (m_pListView->confColumns.at(j)->displayInColumn>m_pListView->confColumns.at(i)->displayInColumn)
-               m_pListView->confColumns.at(j)->displayInColumn--;
-         m_pListView->confColumns.at(i)->displayInColumn=-1;
+         for (unsigned int j=0; j<KonqBaseListViewWidget::NumberOfAtoms; j++)
+            if (m_pListView->confColumns[j].displayInColumn>m_pListView->confColumns[i].displayInColumn)
+               m_pListView->confColumns[j].displayInColumn--;
+         m_pListView->confColumns[i].displayInColumn=-1;
       }
    }
 
@@ -446,12 +443,12 @@ void KonqListView::slotColumnToggled()
    config->setGroup( groupName );
    QStringList lstColumns;
    int currentColumn(m_pListView->m_filenameColumn+1);
-   for (int i=0; i<m_pListView->confColumns.count(); i++)
+   for (int i=0; i<KonqBaseListViewWidget::NumberOfAtoms; i++)
    {
-      kdDebug(1202)<<"checking: -"<<m_pListView->confColumns.at(i)->name<<"-"<<endl;
-      if ((m_pListView->confColumns.at(i)->displayThisOne) && (currentColumn==m_pListView->confColumns.at(i)->displayInColumn))
+      kdDebug(1202)<<"checking: -"<<m_pListView->confColumns[i].name<<"-"<<endl;
+      if ((m_pListView->confColumns[i].displayThisOne) && (currentColumn==m_pListView->confColumns[i].displayInColumn))
       {
-          lstColumns.append(m_pListView->confColumns.at(i)->name);
+          lstColumns.append(m_pListView->confColumns[i].name);
           kdDebug(1202)<<" adding"<<endl;
           currentColumn++;
           i=-1;
@@ -460,6 +457,29 @@ void KonqListView::slotColumnToggled()
    config->writeEntry("Columns",lstColumns);
    config->sync();
 }
+
+void KonqListView::slotHeaderClicked(int sec)
+{
+   kdDebug(1202)<<"section: "<<sec<<" clicked"<<endl;
+   int clickedColumn(0);
+   for (int i=0; i<KonqBaseListViewWidget::NumberOfAtoms; i++)
+      if (m_pListView->confColumns[i].displayInColumn==sec) clickedColumn=i;
+
+   if (m_pListView->confColumns[clickedColumn].desktopFileName!=m_pListView->sortedByColumn)
+   {
+      m_pListView->sortedByColumn=m_pListView->confColumns[clickedColumn].desktopFileName;
+      m_pListView->ascending=TRUE;
+   }
+   else
+      m_pListView->ascending=!m_pListView->ascending;
+
+   KConfig * config = KGlobal::config();
+   QString groupName="ListView_" + m_pListView->url().protocol();
+   config->setGroup( groupName );
+   config->writeEntry("SortBy",m_pListView->confColumns[clickedColumn].desktopFileName);
+   config->writeEntry("SortOrder",m_pListView->ascending);
+   config->sync();
+};
 
 void KonqListView::headerDragged(int sec, int from, int to)
 {
@@ -477,26 +497,26 @@ void KonqListView::slotSaveAfterHeaderDrag()
    QStringList lstColumns;
 
    int oldCurrentColumn(-1);
-   for (unsigned int i=0; i<m_pListView->confColumns.count(); i++)
+   for (unsigned int i=0; i<KonqBaseListViewWidget::NumberOfAtoms; i++)
    {
       int currentColumn(1000);
-      for (unsigned int j=0; j<m_pListView->confColumns.count(); j++)
+      for (unsigned int j=0; j<KonqBaseListViewWidget::NumberOfAtoms; j++)
       {
-         int tmp=m_pListView->header()->mapToIndex(m_pListView->confColumns.at(j)->displayInColumn);
+         int tmp=m_pListView->header()->mapToIndex(m_pListView->confColumns[j].displayInColumn);
          if ((tmp>oldCurrentColumn) && (tmp<currentColumn))
             currentColumn=tmp;
-      }
+      };
       kdDebug(1202)<<"currentColumn: "<<currentColumn<<endl;
       //everything done
       if (currentColumn==1000) break;
-      for (unsigned int j=0; j<m_pListView->confColumns.count(); j++)
+      for (unsigned int j=0; j<KonqBaseListViewWidget::NumberOfAtoms; j++)
       {
-         int tmp=m_pListView->header()->mapToIndex(m_pListView->confColumns.at(j)->displayInColumn);
+         int tmp=m_pListView->header()->mapToIndex(m_pListView->confColumns[j].displayInColumn);
          if (tmp==currentColumn)
          {
             oldCurrentColumn=currentColumn;
-            lstColumns.append(m_pListView->confColumns.at(j)->name);
-            kdDebug(1202)<<"appending: "<<m_pListView->confColumns.at(j)->name<<endl;
+            lstColumns.append(m_pListView->confColumns[j].name);
+            kdDebug(1202)<<"appending: "<<m_pListView->confColumns[j].name<<endl;
          }
       }
 
@@ -538,6 +558,7 @@ void KonqListView::setupActions()
 {
    m_paShowTime=new KToggleAction(i18n("Show &Modification Time"), 0,this, SLOT(slotColumnToggled()), actionCollection(), "show_time" );
    m_paShowType=new KToggleAction(i18n("Show &File Type"), 0, this, SLOT(slotColumnToggled()),actionCollection(), "show_type" );
+   m_paShowMimeType=new KToggleAction(i18n("Show MimeType"), 0, this, SLOT(slotColumnToggled()),actionCollection(), "show_mimetype" );
    m_paShowAccessTime=new KToggleAction(i18n("Show &Access Time"), 0, this, SLOT(slotColumnToggled()),actionCollection(), "show_access_time" );
    m_paShowCreateTime=new KToggleAction(i18n("Show &Creation Time"), 0, this, SLOT(slotColumnToggled()),actionCollection(), "show_creation_time" );
    m_paShowLinkDest=new KToggleAction(i18n("Show &Link Destination"), 0, this, SLOT(slotColumnToggled()),actionCollection(), "show_link_dest" );
@@ -546,7 +567,6 @@ void KonqListView::setupActions()
    m_paShowGroup=new KToggleAction(i18n("Show Group"), 0, this, SLOT(slotColumnToggled()),actionCollection(), "show_group" );
    m_paShowPermissions=new KToggleAction(i18n("Show permissions"), 0, this, SLOT(slotColumnToggled()),actionCollection(), "show_permissions" );
    m_paShowURL=new KToggleAction(i18n("Show URL"), 0, this, SLOT(slotColumnToggled()),actionCollection(), "show_url" );
-   m_paShowMimeType=new KToggleAction(i18n("Show MimeType"), 0, this, SLOT(slotColumnToggled()),actionCollection(), "show_mimetype" );
 
    m_paSelect = new KAction( i18n( "&Select..." ), CTRL+Key_Plus, this, SLOT( slotSelect() ), actionCollection(), "select" );
   m_paUnselect = new KAction( i18n( "&Unselect..." ), CTRL+Key_Minus, this, SLOT( slotUnselect() ), actionCollection(), "unselect" );
@@ -557,29 +577,22 @@ void KonqListView::setupActions()
   m_paLargeIcons = new KToggleAction( i18n( "&Large" ), 0, actionCollection(), "modelarge" );
   m_paMediumIcons = new KToggleAction( i18n( "&Medium" ), 0, actionCollection(), "modemedium" );
   m_paSmallIcons = new KToggleAction( i18n( "&Small" ), 0, actionCollection(), "modesmall" );
-//  m_paNoIcons = new KToggleAction( i18n( "&Disabled" ), 0, actionCollection(), "modenone" );
 
   m_paShowDot = new KToggleAction( i18n( "Show &Dot Files" ), 0, this, SLOT( slotShowDot() ), actionCollection(), "show_dot" );
-//  m_paCheckMimeTypes = new KToggleAction( i18n( "Determine &File Types" ), 0, this, SLOT( slotCheckMimeTypes() ), actionCollection(), "ckeck_mimetypes" );
   /*KAction * m_paBackgroundColor =*/ new KAction( i18n( "Background Color..." ), 0, this, SLOT( slotBackgroundColor() ), actionCollection(), "bgcolor" );
   /*KAction * m_paBackgroundImage =*/ new KAction( i18n( "Background Image..." ), 0, this, SLOT( slotBackgroundImage() ), actionCollection(), "bgimage" );
 
   m_paLargeIcons->setExclusiveGroup( "ViewMode" );
   m_paMediumIcons->setExclusiveGroup( "ViewMode" );
   m_paSmallIcons->setExclusiveGroup( "ViewMode" );
-  //m_paNoIcons->setExclusiveGroup( "ViewMode" );
 
   m_paLargeIcons->setChecked( false );
   m_paMediumIcons->setChecked( false );
   m_paSmallIcons->setChecked( true );
-//  m_paNoIcons->setChecked( false );
-
-//  m_paCheckMimeTypes->setChecked( true );
 
   connect( m_paLargeIcons, SIGNAL( toggled( bool ) ), this, SLOT( slotIconSizeToggled( bool ) ) );
   connect( m_paMediumIcons, SIGNAL( toggled( bool ) ), this, SLOT( slotIconSizeToggled( bool ) ) );
   connect( m_paSmallIcons, SIGNAL( toggled( bool ) ), this, SLOT( slotIconSizeToggled( bool ) ) );
-//  connect( m_paNoIcons, SIGNAL( toggled( bool ) ), this, SLOT( slotViewNone( bool ) ) );
 }
 
 #include "konq_listview.moc"

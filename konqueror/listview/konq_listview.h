@@ -23,19 +23,18 @@
 #include <kparts/browserextension.h>
 #include <kglobalsettings.h>
 #include <konqoperations.h>
-#include <konq_listviewwidget.h>
 #include <kparts/factory.h>
 
 #include <qvaluelist.h>
 #include <qlistview.h>
 #include <qstringlist.h>
 
+#include <konq_propsview.h>
 #include "konq_listviewwidget.h"
 
 class KAction;
 class KToggleAction;
 class ListViewBrowserExtension;
-class KonqPropsView;
 
 class KonqListViewFactory : public KParts::Factory
 {
@@ -101,8 +100,8 @@ protected slots:
   void headerDragged(int sec, int from, int to);
   //saves the new order of the columns
   void slotSaveAfterHeaderDrag();
+  void slotHeaderClicked(int sec);
 
-//  void slotCheckMimeTypes();
   void slotBackgroundColor();
   void slotBackgroundImage();
 
@@ -123,11 +122,11 @@ protected slots:
   KToggleAction *m_paLargeIcons;
   KToggleAction *m_paMediumIcons;
   KToggleAction *m_paSmallIcons;
-//  KToggleAction *m_paNoIcons;
 
   KToggleAction *m_paShowDot;
   KToggleAction *m_paShowTime;
   KToggleAction *m_paShowType;
+  KToggleAction *m_paShowMimeType;
   KToggleAction *m_paShowAccessTime;
   KToggleAction *m_paShowCreateTime;
   KToggleAction *m_paShowLinkDest;
@@ -136,9 +135,7 @@ protected slots:
   KToggleAction *m_paShowGroup;
   KToggleAction *m_paShowPermissions;
   KToggleAction *m_paShowURL;
-  KToggleAction *m_paShowMimeType;
 
-//  KToggleAction *m_paCheckMimeTypes;
 };
 
 class ListViewBrowserExtension : public KParts::BrowserExtension

@@ -28,18 +28,20 @@
 #include <klistview.h>
 #include <kparts/browserextension.h>
 
+#include <konq_propsview.h>
 namespace KIO { class Job; }
 class QCursor;
 class KonqDirLister;
 class KonqBaseListViewItem;
-class KonqPropsView;
 class KonqFMSettings;
 class ListViewPropertiesExtension;
 
 class ColumnInfo
 {
    public:
+      ColumnInfo();
       ColumnInfo(const char* n,const char* desktopName,int kioUds,int count,bool enabled,KToggleAction* someAction);
+      void setData(const char* n,const char* desktopName,int kioUds,int count,bool enabled,KToggleAction* someAction);
       int displayInColumn;
       QString name;
       QString desktopFileName;
@@ -61,7 +63,7 @@ class KonqBaseListViewWidget : public KListView
    public:
       KonqBaseListViewWidget( KonqListView *parent, QWidget *parentWidget);
       virtual ~KonqBaseListViewWidget();
-
+      enum {NumberOfAtoms=11};
 
       virtual void stop();
       const KURL & url();
@@ -97,10 +99,10 @@ class KonqBaseListViewWidget : public KListView
        */
       KonqPropsView * props() { return m_pProps; }
 
-      QList<ColumnInfo> *columnConfigInfo() {return &confColumns;};
-
-      virtual void setCheckMimeTypes( bool enable ) { m_checkMimeTypes = enable; }
-      virtual bool checkMimetypes() { return m_checkMimeTypes; }
+      //QList<ColumnInfo> *columnConfigInfo() {return &confColumns;};
+      ColumnInfo * columnConfigInfo() {return confColumns;};
+      QString sortedByColumn;
+      bool ascending;
 
       virtual void setShowIcons( bool enable ) { m_showIcons = enable; }
       virtual bool showIcons() { return m_showIcons; }
@@ -115,7 +117,7 @@ class KonqBaseListViewWidget : public KListView
       QColor itemColor() const { return m_itemColor; }
       void setColor( const QColor &c ) { m_color = c; }
       QColor color() const { return m_color; }
-      int iconSize() const {return m_iconSize;};
+      int iconSize() const {return m_pProps->iconSize();};
 
    public slots:
       //virtual void slotOnItem( KonqBaseListViewItem* _item );
@@ -207,7 +209,8 @@ class KonqBaseListViewWidget : public KListView
 
       virtual void focusInEvent( QFocusEvent* _event );
 
-      KonqDirLister *dirLister() const { return m_dirLister; }
+      //this one is called only by KListView, and this is friend anyways (Alex)
+      //KonqDirLister *dirLister() const { return m_dirLister; }
 
       /** The directory lister for this URL */
       KonqDirLister* m_dirLister;
@@ -215,8 +218,13 @@ class KonqBaseListViewWidget : public KListView
       /** View properties */
       KonqPropsView * m_pProps;
 
-      //I think I could use a simple *array for this... (Alex)
-      QList<ColumnInfo> confColumns;
+      //QList<ColumnInfo> confColumns;
+      // IMO there is really no need for an advanced data structure
+      //we have a fixed number of members,
+      //it consumes less memory and access should be faster (Alex)
+      ColumnInfo confColumns[NumberOfAtoms];
+      //maybe I can do some speedup...
+      //ColumnInfo* orderOfColumns[NumberOfAtoms];
 
       KonqBaseListViewItem* m_dragOverItem;
       QStringList m_lstDropFormats;
@@ -229,7 +237,6 @@ class KonqBaseListViewWidget : public KListView
       QFont m_itemFont;
       QColor m_itemColor;
       QColor m_color;
-      int m_iconSize;
 
       KonqFMSettings* m_pSettings;
 
@@ -238,7 +245,6 @@ class KonqBaseListViewWidget : public KListView
       long int m_idShowDot;
 
       bool m_filesSelected;
-      bool m_checkMimeTypes;
       bool m_showIcons;
       int m_filenameColumn;
 

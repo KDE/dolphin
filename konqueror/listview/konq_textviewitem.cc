@@ -33,9 +33,9 @@ QString KonqTextViewItem::key( int _column, bool asc) const
    //check if it is a time column
    if (_column>1)
    {
-      for (unsigned int i=0; i<m_pTextView->columnConfigInfo()->count(); i++)
+      for (unsigned int i=0; i<KonqBaseListViewWidget::NumberOfAtoms; i++)
       {
-         ColumnInfo *cInfo=m_pTextView->columnConfigInfo()->at(i);
+         ColumnInfo *cInfo=&m_pTextView->columnConfigInfo()[i];
          if (_column==cInfo->displayInColumn)
          {
             if ((cInfo->udsId==KIO::UDS_MODIFICATION_TIME)
@@ -130,9 +130,9 @@ void KonqTextViewItem::updateContents()
    setText(1,m_fileitem->text());
    //now we have the first two columns, so let's do the rest
 
-   for (unsigned int i=0; i<m_pTextView->confColumns.count(); i++)
+   for (unsigned int i=0; i<KonqBaseListViewWidget::NumberOfAtoms; i++)
    {
-      ColumnInfo *tmpColumn=m_pTextView->confColumns.at(i);
+      ColumnInfo *tmpColumn=&m_pTextView->confColumns[i];
       if (tmpColumn->displayThisOne)
       {
          switch (tmpColumn->udsId)
@@ -153,7 +153,7 @@ void KonqTextViewItem::updateContents()
             setText(tmpColumn->displayInColumn,m_fileitem->mimetype());
             break;
          case KIO::UDS_URL:
-            setText(tmpColumn->displayInColumn,m_fileitem->url().path());
+            setText(tmpColumn->displayInColumn,m_fileitem->url().prettyURL());
             break;
          case KIO::UDS_SIZE:
             tmp.sprintf("%9d",size);

@@ -39,6 +39,7 @@ KonqListViewDir::KonqListViewDir( KonqTreeViewWidget *_parent, KonqFileItem* _fi
 ,m_treeViewWidget(_parent)
 {
   m_treeViewWidget->addSubDir( _fileitem->url(), this );
+  setExpandable (TRUE);
 
   m_bComplete = false;
 }
@@ -48,7 +49,7 @@ KonqListViewDir::KonqListViewDir( KonqTreeViewWidget *_treeview, KonqListViewDir
 ,m_treeViewWidget(_treeview)
 {
   m_treeViewWidget->addSubDir( _fileitem->url(), this );
-
+  setExpandable (TRUE);
   m_bComplete = false;
 }
 
@@ -58,11 +59,11 @@ KonqListViewDir::~KonqListViewDir()
     m_treeViewWidget->removeSubDir( m_fileitem->url() );
 }
 
-void KonqListViewDir::setup()
+/*void KonqListViewDir::setup()
 {
   setExpandable( true );
   QListViewItem::setup();
-}
+}*/
 
 void KonqListViewDir::setOpen( bool _open )
 {
