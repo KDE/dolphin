@@ -915,17 +915,24 @@ void Sidebar_Widget::enableAction( const char * name, bool enabled )
 {
  	if (sender()->parent()->isA("ButtonInfo"))
 	{
-		ButtonInfo *btninfo=static_cast<ButtonInfo*>(sender()->parent());
-//		ButtonInfo *btninfo=dynamic_cast<ButtonInfo*>(sender()->parent());
+		ButtonInfo *btninfo = static_cast<ButtonInfo*>(sender()->parent());
 		if (btninfo)
 		{
-			if (QString(name)=="copy") btninfo->copy=enabled;
-			if (QString(name)=="cut") btninfo->cut=enabled;
-			if (QString(name)=="paste") btninfo->paste=enabled;
-			if (QString(name)=="trash") btninfo->trash=enabled;
-			if (QString(name)=="del") btninfo->del=enabled;
-			if (QString(name)=="shred") btninfo->shred=enabled;
-			if (QString(name)=="rename") btninfo->rename=enabled;
+			QString n(name);
+			if (n == "copy")
+				btninfo->copy = enabled;
+			else if (n == "cut")
+				btninfo->cut = enabled;
+			else if (n == "paste")
+				btninfo->paste = enabled;
+			else if (n == "trash")
+				btninfo->trash = enabled;
+			else if (n == "del")
+				btninfo->del = enabled;
+			else if (n == "shred")
+				btninfo->shred = enabled;
+			else if (n == "rename")
+				btninfo->rename = enabled;
 		}
 	}
 }
