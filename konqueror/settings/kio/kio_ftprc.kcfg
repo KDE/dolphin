@@ -7,6 +7,7 @@
      <label>Disable Passive FTP</label>
      <whatsthis>When FTP connections are passive the client connects to the server, instead of the other way round, so firewalls do not block the connection; old FTP servers may not support Passive FTP though.</whatsthis>
      <default>false</default>
+   </entry>
 
    <entry name="MarkPartial" type="Bool">
      <label>Mark partially uploaded files</label>

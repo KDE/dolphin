@@ -6,24 +6,24 @@
      <default>false</default>
    </entry>
    <entry name="ProxyConnectTimeout" type="UInt" >
+     <default>10</default>
      <min>2</min>
      <max>3600</max>
-     <default>10</default>
    </entry>
    <entry name="ConnectTimeout" type="UInt" >
+     <default>20</default>
      <min>2</min>
      <max>3600</max>
-     <default>20</default>
    </entry>
    <entry name="ReadTimeout" type="UInt" >
+     <default>15</default>
      <min>2</min>
      <max>3600</max>
-     <default>15</default>
    </entry>
    <entry name="ResponeTimeout" type="UInt" >
+     <default>600</default>
      <min>2</min>
      <max>3600</max>
-     <default>600</default>
    </entry>
  </group>
  <group name="Proxy Settings" >

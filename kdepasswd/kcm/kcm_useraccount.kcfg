@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE kcfg SYSTEM "http://www.kde.org/standards/kcfg/1.0/kcfg.dtd">
 <kcfg>
-	<kcfgfile name="kdm/kdmrc"/>
 	<include>kglobal.h</include>
 	<include>kstandarddirs.h</include>
+	<kcfgfile name="kdm/kdmrc"/>
 	<group name="X-*-Greeter">
 		<entry name="faceDir" type="Path">
 			<default code="true">
@@ -35,8 +35,8 @@
 			<default>$HOME/.face.icon</default>
 		</entry>
 		<entry name="CustomKey" type="String">
-			<default>Zz_custom</default>
 			<label>Sort key for KIconViewItems</label>
+			<default>Zz_custom</default>
 		</entry>
 	</group>
 </kcfg>
