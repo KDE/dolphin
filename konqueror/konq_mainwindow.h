@@ -491,6 +491,8 @@ private:
   typedef QMap<QCString,QCString> ActionSlotMap;
   static ActionSlotMap *s_actionSlotMap;
 
+  QString m_currentDir; // stores current dir for relative URLs whenever applicable
+
 };
 
 #endif

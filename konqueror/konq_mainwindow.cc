@@ -318,7 +318,7 @@ void KonqMainWindow::openFilteredURL( const QString & _url )
     QString nameFilter = detectNameFilter( url );
 
     // Filter URL to build a correct one
-    KURL filteredURL( KonqMisc::konqFilteredURL( this, url ) );
+    KURL filteredURL( KonqMisc::konqFilteredURL( this, url, m_currentDir ) );
     kdDebug(1202) << "url " << url << " filtered into " << filteredURL.url() << endl;
 
     // Remember the initial (typed) URL
@@ -1268,7 +1268,9 @@ void KonqMainWindow::slotViewCompleted( KonqView * view )
   // Register this URL as a working one, in the completion object and the combo
   // Only register remote URLs, because local ones will be found by
   // KURLCompletion
-  bool isLocal = KURL( viewURL ).isLocalFile();
+  KURL u( viewURL );
+  bool isLocal = u.isLocalFile();
+
 
   if ( !m_combo->contains( viewURL ) ) {
       // goes both into the combo and the completion object
@@ -1303,6 +1305,18 @@ void KonqMainWindow::slotViewCompleted( KonqView * view )
       if ( !u.isEmpty() && u != viewURL )
 	  m_combo->completionObject()->addItem( u ); // short version
   }
+
+  // Need to update the current working directory
+  // of the completion object everytime the user
+  // changes the directory!! (DA)
+  if( m_pURLCompletion )
+  {
+    if( isLocal )
+      m_pURLCompletion->setDir( u.path() );
+    else
+      m_pURLCompletion->setDir( u.url() );  //needs work!! (DA)
+  }
+
 }
 
 void KonqMainWindow::slotPartActivated( KParts::Part *part )
@@ -1933,6 +1947,7 @@ void KonqMainWindow::slotComboPlugged()
 
   m_combo->setHistoryItems( locationBarCombo );
   m_pURLCompletion = new KURLCompletion( KURLCompletion::FileCompletion );
+  m_pURLCompletion->setReplaceHome( false );  // Leave ~ alone! Will be taken care of by filters!!
   m_pURLCompletion->setCompletionMode( (KGlobalSettings::Completion) mode );
 
   connect( m_combo, SIGNAL( completion( const QString& )),
@@ -1959,16 +1974,29 @@ void KonqMainWindow::slotCompletionModeChanged( KGlobalSettings::Completion m )
 // completion (history)
 void KonqMainWindow::slotMakeCompletion( const QString& text )
 {
-  QString completion = m_pURLCompletion->makeCompletion( text );
+  if( m_pURLCompletion )
+  {
+    // kdDebug(1202) << "Local Completion object found!" << endl;
+    QString completion = m_pURLCompletion->makeCompletion( text );
+    m_currentDir = QString::null;
 
-  if ( completion.isNull() ) { // ask the global one
+    if ( completion.isNull() )
+    {
+      // ask the global one
       // tell the static completion object about the current completion mode
       s_pCompletion->setCompletionMode( m_combo->completionMode() );
       completion = s_pCompletion->makeCompletion( text );
-  }
+    }
+    else
+    {
+      if( !m_pURLCompletion->dir().isEmpty() )
+        m_currentDir = m_pURLCompletion->dir();
+    }
 
-  if ( !completion.isNull() )
-    m_combo->setCompletedText( completion );
+    if ( !completion.isNull() )
+      m_combo->setCompletedText( completion );
+  }
+  // kdDebug(1202) << "Current dir: " << m_currentDir << "  Current text: " << text << endl;
 }
 
 void KonqMainWindow::slotRotation( KCompletionBase::KeyBindingType type )
