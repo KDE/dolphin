@@ -8,6 +8,7 @@
 #include <klocale.h>
 #include <kdatepicker.h>
 #include <kdatetbl.h>
+#include <kdebug.h>
 
 #include "kdatecombo.h"
 
@@ -30,9 +31,10 @@ void KDateCombo::initObject(const QDate & date, QWidget *parent, const char *nam
   popupFrame = new KPopupFrame(this, "popupFrame");
   datePicker = new KDatePicker(popupFrame, date, "datePicker");
   datePicker->setMinimumSize(datePicker->sizeHint());
+  datePicker->installEventFilter(this);
   popupFrame->setMainWidget(datePicker);
   setDate(date);
-  connect(datePicker, SIGNAL(dateEntered(QDate)), this, SLOT(dateEnteredEvent(QDate)));
+
   connect(datePicker, SIGNAL(dateSelected(QDate)), this, SLOT(dateEnteredEvent(QDate)));
 }
 
@@ -88,3 +90,20 @@ void KDateCombo::mousePressEvent (QMouseEvent * e)
     }
 }
 
+bool KDateCombo::eventFilter (QObject* o, QEvent* e)
+{
+  if ( e->type() == QEvent::KeyRelease )
+  {
+      QKeyEvent *k = (QKeyEvent *)e;
+      //Press return == pick selected date and close the combo
+      if((k->key()==Qt::Key_Return)||(k->key()==Qt::Key_Enter))
+      {
+        dateEnteredEvent(datePicker->getDate());
+        return true;
+      }
+      else
+        return false;
+  }
+  else
+    return false;
+}

@@ -39,7 +39,8 @@ private:
    QDate & string2Date(const QString &, QDate * );
 
 protected:
-   virtual void mousePressEvent (QMouseEvent * e);
+  bool eventFilter (QObject*, QEvent*);
+  virtual void mousePressEvent (QMouseEvent * e);
    
 protected slots:
    void dateEnteredEvent(QDate);
