@@ -55,6 +55,7 @@ class KonqFrame;
 class KBookmarkMenu;
 class ViewModeGUIClient;
 class OpenWithGUIClient;
+class ToggleViewGUIClient;
 
 namespace KParts {
  class BrowserExtension;
@@ -105,8 +106,6 @@ public slots:
   // View menu
   void slotViewModeToggle( bool toggle );
   void slotShowHTML();
-  void slotToggleDirTree( bool );
-  void slotToggleCmdLine( bool );
   void slotReload();
   void slotStop();
 
@@ -316,8 +315,6 @@ private:
   KonqBookmarkBar *m_paBookmarkBar;
 
   KToggleAction *m_ptaUseHTML;
-  KToggleAction *m_ptaShowDirTree;
-  KToggleAction *m_ptaShowCmdLine;
 
   KToggleAction *m_paShowMenuBar;
   KToggleAction *m_paShowStatusBar;
@@ -356,6 +353,7 @@ private:
 
   ViewModeGUIClient *m_viewModeGUIClient;
   OpenWithGUIClient *m_openWithGUIClient;
+  ToggleViewGUIClient *m_toggleViewGUIClient;
 
   KTrader::OfferList m_popupEmbeddingServices;
   QString m_popupService;
@@ -413,6 +411,24 @@ private:
   KonqMainView *m_mainView;
 
   QDomDocument m_doc;
+};
+
+class ToggleViewGUIClient : public QObject, public KXMLGUIClient
+{
+  Q_OBJECT
+public:
+  ToggleViewGUIClient( KonqMainView *mainView );
+  virtual ~ToggleViewGUIClient();
+
+  bool empty() const { return m_empty; }
+
+private slots:
+  void slotToggleView( bool toggle );
+private:
+  KonqMainView *m_mainView;
+  QDomDocument m_doc;
+  bool m_empty;
+  QMap<QString,bool> m_mapOrientation;
 };
 
 #endif

@@ -127,6 +127,8 @@ KonqMainView::KonqMainView( const KURL &initialURL, bool openInitialURL, const c
   m_viewModeGUIClient = new ViewModeGUIClient( this );
   m_openWithGUIClient = new OpenWithGUIClient( this );
 
+  m_toggleViewGUIClient = new ToggleViewGUIClient( this );
+  
   initActions();
   initPlugins();
 
@@ -139,6 +141,14 @@ KonqMainView::KonqMainView( const KURL &initialURL, bool openInitialURL, const c
 
   createGUI( 0L );
 
+  if ( !m_toggleViewGUIClient->empty() )
+    guiFactory()->addClient( m_toggleViewGUIClient );
+  else
+  {
+    delete m_toggleViewGUIClient;
+    m_toggleViewGUIClient = 0;
+  }
+  
   // hide if empty
   KToolBar * bar = (KToolBar *)child( "bookmarkToolBar", "KToolBar" );
   if ( bar && bar->count() <= 1 ) // there is always a separator
@@ -526,90 +536,6 @@ void KonqMainView::slotShowHTML()
   }
 }
 
-void KonqMainView::slotToggleDirTree( bool toggle )
-{
-  KonqFrameContainer *mainContainer = m_pViewManager->mainContainer();
-
-  assert( mainContainer );
-
-  if ( toggle )
-  {
-    KonqFrameBase *splitFrame = mainContainer->firstChild();
-
-    KonqFrameContainer *newContainer;
-
-    /*KParts::ReadOnlyPart *view =*/ m_pViewManager->split( splitFrame, Qt::Horizontal, QString::fromLatin1( "Browser/View" ), QString::fromLatin1( "KonqDirTree" ), &newContainer );
-
-    newContainer->moveToLast( splitFrame->widget() );
-
-    KonqFrameBase *firstCh = newContainer->firstChild();
-    KonqFrameBase *secondCh = newContainer->secondChild();
-    newContainer->setFirstChild( secondCh );
-    newContainer->setSecondChild( firstCh );
-
-    QValueList<int> newSplitterSizes;
-    newSplitterSizes << 30 << 100;
-
-    newContainer->setSizes( newSplitterSizes );
-
-    // Now done with X-KDE-BrowserView-PassiveMode
-    //KonqChildView *cv = childView( view );
-    //    cv->frame()->statusbar()->passiveModeCheckBox()->setChecked( true );
-    //  cv->setPassiveMode( true );
-    //  cv->frame()->statusbar()->hideStuff();
-  }
-  else
-  {
-    QList<KonqChildView> viewList;
-
-    mainContainer->listViews( &viewList );
-
-    QListIterator<KonqChildView> it( viewList );
-    for (; it.current(); ++it )
-      if ( it.current()->view()->inherits( "KonqDirTreePart" ) )
-        m_pViewManager->removeView( it.current() );
-    // takes care of choosing the new active view
-  }
-}
-
-void KonqMainView::slotToggleCmdLine( bool toggle )
-{
-  KonqFrameContainer *mainContainer = m_pViewManager->mainContainer();
-  assert( mainContainer );
-
-  if ( toggle ) // show it
-  {
-    KURL url = m_currentView->url();
-    KonqFrameBase *splitFrame = mainContainer->firstChild();
-
-    KonqFrameContainer *newContainer;
-
-    KParts::ReadOnlyPart *view = m_pViewManager->split( splitFrame, Qt::Vertical,
-         QString::fromLatin1( "application/x-konsole" ), QString::fromLatin1( "Konsole" ),
-                                                        &newContainer );
-
-    KonqChildView *cv = childView( view );
-    cv->openURL( url );
-
-    QValueList<int> newSplitterSizes;
-    newSplitterSizes << 100 << 30;
-
-    newContainer->setSizes( newSplitterSizes );
-  }
-  else
-  {
-    QList<KonqChildView> viewList;
-
-    mainContainer->listViews( &viewList );
-
-    QListIterator<KonqChildView> it( viewList );
-    for (; it.current(); ++it )
-      if ( it.current()->view()->inherits( "konsolePart" ) )
-        m_pViewManager->removeView( it.current() );
-    // takes care of choosing the new active view
-  }
-}
-
 void KonqMainView::slotStop()
 {
   if ( m_currentView )
@@ -891,22 +817,6 @@ void KonqMainView::insertChildView( KonqChildView *childView )
   m_mapViews.insert( childView->view(), childView );
 
   m_paRemoveView->setEnabled( m_mapViews.count() > 1 );
-
-  if ( childView->view()->inherits( "KonqDirTreePart" ) )
-  {
-    m_ptaShowDirTree->blockSignals( true );
-    m_ptaShowDirTree->setChecked( true );
-    m_ptaShowDirTree->blockSignals( false );
-  }
-  /*
-    What is this for ?
-  if ( childView->view()->inherits( "konsolePart" ) )
-  {
-    m_ptaShowCmdLine->blockSignals( true );
-    m_ptaShowCmdLine->setChecked( true );
-    m_ptaShowCmdLine->blockSignals( false );
-  }
-  */
 }
 
 void KonqMainView::removeChildView( KonqChildView *childView )
@@ -920,23 +830,6 @@ void KonqMainView::removeChildView( KonqChildView *childView )
   {
     m_currentView = 0L;
     m_pViewManager->setActivePart( 0L );
-  }
-
-  bool haveTree = false;
-  MapViews::ConstIterator cIt = m_mapViews.begin();
-  MapViews::ConstIterator cEnd = m_mapViews.end();
-  for (; cIt != cEnd; ++cIt )
-    if ( (*cIt)->view()->inherits( "KonqDirTreePart" ) )
-    {
-      haveTree = true;
-      break;
-    }
-
-  if ( !haveTree )
-  {
-    m_ptaShowDirTree->blockSignals( true );
-    m_ptaShowDirTree->setChecked( false );
-    m_ptaShowDirTree->blockSignals( false );
   }
 }
 
@@ -1414,10 +1307,6 @@ void KonqMainView::initActions()
   m_paShellClose = KStdAction::close( this, SLOT( close() ), actionCollection(), "close" );
 
   m_ptaUseHTML = new KToggleAction( i18n( "&Use HTML" ), 0, this, SLOT( slotShowHTML() ), actionCollection(), "usehtml" );
-  m_ptaShowDirTree = new KToggleAction( i18n( "Show Directory Tree" ), 0, actionCollection(), "showdirtree" );
-  connect( m_ptaShowDirTree, SIGNAL( toggled( bool ) ), this, SLOT( slotToggleDirTree( bool ) ) );
-  m_ptaShowCmdLine = new KToggleAction( i18n( "Show Command Line" ), 0, actionCollection(), "showcmdline" );
-  connect( m_ptaShowCmdLine, SIGNAL( toggled( bool ) ), this, SLOT( slotToggleCmdLine( bool ) ) );
 
   // Go menu
   m_paUp = new KonqHistoryAction( i18n( "&Up" ), "up", CTRL+Key_Up, actionCollection(), "up" );
@@ -2047,5 +1936,130 @@ void PopupMenuGUIClient::addEmbeddingService( QDomElement &menu, int idx, const 
   (void)new KAction( name, service->pixmap( KIconLoader::Small ), 0,
 		     m_mainView, SLOT( slotOpenEmbedded() ), actionCollection(), actName );
 }
+
+static const char *toggleViewGUI = ""
+"<!DOCTYPE toggleviewxml>"
+"<toggleviewxml name=\"toggleview\">"
+"<MenuBar>"
+" <Menu name=\"view\">"
+" </Menu>"
+"</MenuBar>"
+"</toggleviewxml>";
+
+ToggleViewGUIClient::ToggleViewGUIClient( KonqMainView *mainView )
+: QObject( mainView )
+{
+  m_mainView = mainView; 
+  m_doc.setContent( QString::fromLatin1( toggleViewGUI ) );
+  QDomElement menuElement = m_doc.documentElement().namedItem( "MenuBar" ).namedItem( "Menu" ).toElement();
+  setDocument( m_doc );
+  
+  KTrader::OfferList offers = KTrader::self()->query( "Browser/View" );
+  KTrader::OfferList::Iterator it = offers.begin();
+  while ( it != offers.end() )
+  {
+    QVariant prop = (*it)->property( "X-KDE-BrowserView-Toggable" );
+    QVariant orientation = (*it)->property( "X-KDE-BrowserView-ToggableView-Orientation" );
+    
+    if ( !prop.isValid() || !prop.toBool() ||
+	 !orientation.isValid() || orientation.toString().isEmpty() )
+    {
+      offers.remove( it );
+      it = offers.begin();
+    }
+    else
+      ++it;
+  }
+ 
+  m_empty = ( offers.count() == 0 );
+  
+  kdDebug() << "views left " << offers.count() << endl;
+  
+  if ( m_empty )
+    return;
+  
+  KTrader::OfferList::ConstIterator cIt = offers.begin();
+  KTrader::OfferList::ConstIterator cEnd = offers.end();
+  for (; cIt != cEnd; ++cIt )
+  {
+    QString description = i18n( "Show %1" ).arg( (*cIt)->comment() );
+    QString name = (*cIt)->name();
+    KToggleAction *action = new KToggleAction( description, 0, actionCollection(), name.latin1() );
+    
+    // HACK
+    if ( (*cIt)->icon() != "unknown.png" )
+      action->setIcon( (*cIt)->icon() );
+    
+    connect( action, SIGNAL( toggled( bool ) ),
+	     this, SLOT( slotToggleView( bool ) ) );
+    
+    QDomElement e = m_doc.createElement( "Action" );
+    menuElement.appendChild( e );
+    e.setAttribute( "name", name );
+    QVariant orientation = (*cIt)->property( "X-KDE-BrowserView-ToggableView-Orientation" );
+    bool horizontal = orientation.toString().lower() == "horizontal";
+    m_mapOrientation.insert( name, horizontal );    
+  }
+  
+} 
+
+ToggleViewGUIClient::~ToggleViewGUIClient()
+{
+}
+
+void ToggleViewGUIClient::slotToggleView( bool toggle )
+{
+  QString serviceName = QString::fromLatin1( sender()->name() );
+  
+  bool horizontal = m_mapOrientation[ serviceName ];
+  
+  KonqViewManager *viewManager = m_mainView->viewManager();
+  
+  KonqFrameContainer *mainContainer = viewManager->mainContainer();
+  
+  if ( toggle )
+  {
+    KonqFrameBase *splitFrame = mainContainer->firstChild();
+    
+    KonqFrameContainer *newContainer;
+    
+    KParts::ReadOnlyPart *view = viewManager->split( splitFrame, horizontal ? Qt::Vertical : Qt::Horizontal, 
+						     QString::fromLatin1( "Browser/View" ), serviceName, &newContainer );
+    
+    if ( !horizontal )
+    {
+      newContainer->moveToLast( splitFrame->widget() );
+      
+      KonqFrameBase *firstCh = newContainer->firstChild();
+      KonqFrameBase *secondCh = newContainer->secondChild();
+      newContainer->setFirstChild( secondCh );
+      newContainer->setSecondChild( firstCh );
+    }
+    
+    QValueList<int> newSplitterSizes;
+    
+    if ( horizontal )
+      newSplitterSizes << 100 << 30;
+    else
+      newSplitterSizes << 30 << 100;
+
+    newContainer->setSizes( newSplitterSizes );
+    
+    KonqChildView *cv = m_mainView->childView( view );
+    cv->openURL( m_mainView->currentChildView()->url() );
+  }
+  else
+  {
+    QList<KonqChildView> viewList;
+    
+    mainContainer->listViews( &viewList );
+    
+    QListIterator<KonqChildView> it( viewList );
+    for (; it.current(); ++it )
+      if ( it.current()->service()->name() == serviceName )
+        // takes care of choosing the new active view
+        viewManager->removeView( it.current() );
+  }
+} 
 
 #include "konq_mainview.moc"

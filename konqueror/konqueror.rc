@@ -1,4 +1,4 @@
-<!DOCTYPE QConfig ><QConfig name="Konqueror">
+<!DOCTYPE kpartgui><kpartgui name="Konqueror">
 <MenuBar>
  <Menu name="file"><text>&amp;File</text>
   <Action name="new_menu"/>
@@ -26,8 +26,7 @@
  </Menu>
  <Menu name="view"><text>&amp;View</text>
   <Action name="usehtml"/>
-  <Action name="showdirtree"/>
-  <Action name="showcmdline"/>
+  <Merge name="toggleview" />
   <Separator/>
   <Action name="reload"/>
   <Action name="stop" />
@@ -117,5 +116,5 @@
   <Action name="toolbar_url_combo" />
 </ToolBar>
 <ToolBar fullWidth="true" name="bookmarkToolBar" />
-</QConfig>
+</kpartgui>
 
