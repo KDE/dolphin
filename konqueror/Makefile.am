@@ -1,7 +1,7 @@
 
 INCLUDES = -I$(top_srcdir)/libkonq -I$(top_srcdir)/kcontrol/input $(all_includes)
 
-SUBDIRS = . plugins kfmexec client iconview dirtree listview pics
+SUBDIRS = . kfmexec client iconview dirtree listview pics
 
 lib_LTLIBRARIES = konqueror.la
 
