@@ -451,7 +451,7 @@ void KEnvVarProxyDlg::autoDetectPressed()
     if ( !found )
     {
         QString msg = i18n("Could not find any of the commonly used\n"
-                           "environment vairbale names for setting\n"
+                           "environment variable names for setting\n"
                            "system wide proxy information!");
         QString details = i18n("<qt>To see the variable names used in the "
                                "automatic detection process, close this "
