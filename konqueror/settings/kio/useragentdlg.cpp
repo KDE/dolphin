@@ -12,8 +12,9 @@
 #include <kapp.h>
 #include <klocale.h>
 
-#include <qlayout.h> //CT
+#include <qlayout.h>
 #include <qwhatsthis.h>
+#include <qcombobox.h>
 
 #include <dcopclient.h>
 #include <kprotocolmanager.h>
@@ -64,9 +65,12 @@ UserAgentOptions::UserAgentOptions( QWidget * parent, const char * name ) :
   loginasLA->setAlignment( AlignRight|AlignVCenter );
   lay->addWidget(loginasLA,2,1);
 
-  loginasED = new QLineEdit( this );
+  loginasED = new QComboBox( true, this );
+  loginasED->setInsertionPolicy( QComboBox::AtTop );
   lay->addWidget(loginasED,2,2);
   loginasLA->setBuddy( loginasED );
+  loginasED->insertItem( "Mozilla/4.74 (X11; U; Linux 2.2.14 i686)" );
+  loginasED->setEditText( "" );
 
   wtstr = i18n( "Here you can enter the identification Konqueror should use for the given server."
     " Example: <em>Mozilla/4.0 (compatible; Konqueror 2.0; Linux)</em>");
@@ -163,7 +167,7 @@ void UserAgentOptions::save()
 
 void UserAgentOptions::textChanged( const QString& )
 {
-  if( !loginasED->text().isEmpty() && !onserverED->text().isEmpty() )
+  if( !loginasED->currentText().isEmpty() && !onserverED->text().isEmpty() )
     addPB->setEnabled( true );
   else
     addPB->setEnabled( false );
@@ -178,10 +182,10 @@ void UserAgentOptions::addClicked()
 
   QString text = onserverED->text();
   text += ':';
-  text += loginasED->text();
+  text += loginasED->currentText();
   bindingsLB->insertItem( new QListBoxText( text ), 0);
   onserverED->setText( "" );
-  loginasED->setText( "" );
+  loginasED->setEditText( "" );
   onserverED->setFocus();
 }
 
@@ -200,7 +204,7 @@ void UserAgentOptions::listboxHighlighted( const QString& _itemtext )
   QString itemtext( _itemtext );
   int colonpos = itemtext.find( ':' );
   onserverED->setText( itemtext.left( colonpos ) );
-  loginasED->setText( itemtext.right( itemtext.length() - colonpos - 1) );
+  loginasED->setEditText( itemtext.right( itemtext.length() - colonpos - 1) );
   deletePB->setEnabled( true );
   addPB->setEnabled( false );
 
