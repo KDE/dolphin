@@ -5,6 +5,8 @@
 #include <dcopclient.h>
 #include <qlabel.h>
 
+#include <kparts/browserinterface.h>
+
 #include "nspluginloader.h"
 
 #include "plugin_part.h"
@@ -19,6 +21,8 @@ public:
                           const char *name = 0L )
         : KParts::BrowserExtension( parent, name ) {}
     ~PluginBrowserExtension() {}
+
+    // ATTENTION: you -CANNOT- add data members here
 };
 
 
@@ -123,7 +127,7 @@ PluginPart::PluginPart(QWidget *parentWidget, const char *widgetName, QObject *p
 
     // we have to keep the class name of KParts::PluginBrowserExtension
     // to let khtml find it
-    _extension = (PluginBrowserExtension *)new KParts::BrowserExtension(this);
+    _extension = static_cast<PluginBrowserExtension*>(new KParts::BrowserExtension(this));
 
     // create
     _loader = NSPluginLoader::instance();
@@ -228,10 +232,16 @@ bool PluginPart::closeURL()
 }
 
 
-void PluginPart::requestURL(QCString url, QCString target)
+void PluginPart::requestURL(const QString& url, const QString& target)
 {
     kdDebug(1432) << "PluginPart::requestURL( url=" << url
                   << ", target=" << target << endl;
+
+    if (url == "javascript:history.back();") {
+        _extension->browserInterface()->callMethod("goHistory(int)", -1);
+        return;
+    }
+
     KURL new_url(this->url(), url);
     KParts::URLArgs args;
     args.frameName = target;

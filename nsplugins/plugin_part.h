@@ -79,7 +79,7 @@ public:
              const char *name, const QStringList &args = QStringList());
   virtual ~PluginPart();
 
-  void requestURL(QCString url, QCString target);
+  void requestURL(const QString& url, const QString& target);
   void statusMessage( QString msg );
 
 protected:

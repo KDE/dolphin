@@ -554,7 +554,7 @@ void NSPluginInstance::timer()
             url = req.url;
 
         // non empty target = frame target
-        if ( !req.target.isEmpty() )
+        if ( !req.target.isEmpty())
         {
             if (_callback)
             {
@@ -589,6 +589,12 @@ void NSPluginInstance::timer()
                     QByteArray buf;
                     buf.setRawData( _baseURL.latin1(), _baseURL.length()+1 );
                     s->get( url, "text/html", buf, req.notify, true );
+                } else if (url.lower().startsWith("javascript:history.back()")){
+                    if (_callback) {
+                        _callback->requestURL( url, req.target );
+                        if ( req.notify )
+                            NPURLNotify( req.url, NPRES_DONE, req.notify );
+                    }
                 } else {
                     // create stream
                     NSPluginStream *s = new NSPluginStream( this );
