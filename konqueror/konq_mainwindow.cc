@@ -1918,7 +1918,7 @@ void KonqMainWindow::slotPopupNewTab()
   KURL url;
   KFileItemListIterator it ( popupItems );
   QString mimeType, mimeComment;
-  KonqView* newView;
+  KonqView* newView = 0;
   for ( ; it.current(); ++it )
   {
     newView = 0L;
@@ -3981,7 +3981,7 @@ void KonqMainWindow::dumpViewList()
 /**
  * Call this after inserting a new frame into the splitter.
  */
-void KonqMainWindow::insertChildFrame( KonqFrameBase * frame, int index )
+void KonqMainWindow::insertChildFrame( KonqFrameBase * frame, int /*index*/ )
 {
   m_pChildFrame = frame;
   frame->setParentContainer(this);
@@ -3991,7 +3991,7 @@ void KonqMainWindow::insertChildFrame( KonqFrameBase * frame, int index )
 /**
  * Call this before deleting one of our children.
  */
-void KonqMainWindow::removeChildFrame( KonqFrameBase * frame ) { m_pChildFrame = 0L; }
+void KonqMainWindow::removeChildFrame( KonqFrameBase * /*frame*/ ) { m_pChildFrame = 0L; }
 
 void KonqMainWindow::saveConfig( KConfig* config, const QString &prefix, bool saveURLs, KonqFrameBase* docContainer, int id, int depth ) { if( m_pChildFrame ) m_pChildFrame->saveConfig( config, prefix, saveURLs, docContainer, id, depth); }
 
@@ -3999,14 +3999,14 @@ void KonqMainWindow::copyHistory( KonqFrameBase *other ) { if( m_pChildFrame ) m
 
 void KonqMainWindow::printFrameInfo( QString spaces ) { if( m_pChildFrame ) m_pChildFrame->printFrameInfo( spaces ); }
 
-void KonqMainWindow::reparentFrame( QWidget* parent,
-                                    const QPoint & p, bool showIt ) { return; }
+void KonqMainWindow::reparentFrame( QWidget* /*parent*/,
+                                    const QPoint & /*p*/, bool /*showIt*/ ) { return; }
 
 KonqFrameContainerBase* KonqMainWindow::parentContainer() { return 0L; }
-void KonqMainWindow::setParentContainer(KonqFrameContainerBase* parent) { return; }
+void KonqMainWindow::setParentContainer(KonqFrameContainerBase* /*parent*/) { return; }
 
-void KonqMainWindow::setTitle( QString title , QWidget* sender) { return; }
-void KonqMainWindow::setIconURL( const KURL & iconURL, QWidget* sender ) { return; }
+void KonqMainWindow::setTitle( QString /*title*/ , QWidget* /*sender*/) { return; }
+void KonqMainWindow::setIconURL( const KURL & /*iconURL*/, QWidget* /*sender*/ ) { return; }
 
 QWidget* KonqMainWindow::widget() { return this; }
 
