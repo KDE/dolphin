@@ -23,7 +23,7 @@
 #include <kstdaction.h>
 #include <kdebug.h>
 #include <klocale.h>
-#include <qpopupmenu.h>
+#include <kpopupmenu.h>
 
 KMacroCommand::KMacroCommand( const QString & name ) : KCommand(name)
 {
