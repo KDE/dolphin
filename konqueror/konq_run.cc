@@ -38,7 +38,7 @@ KonqRun::KonqRun( KonqMainWindow* mainWindow, KonqView *_childView,
     m_req( req ), m_bTrustedSource( trustedSource )
 {
   m_pMainWindow = mainWindow;
-  assert( m_pMainWindow );
+  assert( !m_pMainWindow.isNull() );
   m_pView = _childView;
   if (m_pView)
     m_pView->setLoading(true);
