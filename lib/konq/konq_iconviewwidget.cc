@@ -279,6 +279,7 @@ bool KFileTip::eventFilter( QObject *, QEvent *e )
 {
     switch ( e->type() )
     {
+        case QEvent::Leave:
         case QEvent::MouseButtonPress:
         case QEvent::MouseButtonRelease:
         case QEvent::KeyPress:
