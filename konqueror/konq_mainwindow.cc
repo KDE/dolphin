@@ -4581,7 +4581,7 @@ void KonqMainWindow::closeEvent( QCloseEvent *e )
               KMessageBox::warningYesNoCancel(
                   this,
                   i18n("You have multiple tabs open in this window, "
-                        "are you sure you wish to quit it?"),
+                        "are you sure you wish to close it?"),
                   i18n("Confirmation"),
                   KStdGuiItem::quit(),
                   KGuiItem(i18n( "C&lose Current Tab" ), "tab_remove"),
