@@ -32,8 +32,10 @@
 #include <qstring.h>
 
 #include <kio_propsdlg.h>
+#include <krun.h>
 #include <kregistry.h>
 #include <kregfactories.h>
+#include <kservices.h>
 
 #include "kfmclient.h"
 
@@ -110,23 +112,25 @@ int main( int argc, char **argv )
     
   clientApp a( argc, argv );
 
-  // Register mimetypes and services, for kio_propsdlg (and krun, later)
-  KRegistry registry;
-  registry.addFactory( new KMimeTypeFactory );
-  registry.addFactory( new KServiceFactory );
-  registry.load( );
-
   return a.doIt( argc, argv );
 }
 
-void clientApp::openURL( const char * url)
+void clientApp::openFileManagerWindow(const char* _url)
 {
-  if ( !getIOR() )
-    return ;
+  getIOR();
 
-  CORBA::String_var s = CORBA::string_dup( url );
+  CORBA::String_var s = CORBA::string_dup( _url );
    //  Konqueror::MainWindow_ptr mainWindow = Konqueror::MainWindow::_duplicate( 
   (void) m_vApp->createMainWindow( s );
+}
+
+void clientApp::initRegistry()
+{
+  // Register mimetypes and services, for kio_propsdlg and krun
+  KRegistry * registry = new KRegistry;
+  registry->addFactory( new KMimeTypeFactory );
+  registry->addFactory( new KServiceFactory );
+  registry->load( );
 }
 
 int clientApp::doIt( int argc, char **argv )
@@ -134,7 +138,7 @@ int clientApp::doIt( int argc, char **argv )
   if ( argc < 2 )
   {
     printf( "Syntax Error: Too few arguments\n" );
-    exit(1);
+    return 1;
   }
     
   if ( strcmp( argv[1], "refreshDesktop" ) == 0 )
@@ -142,7 +146,7 @@ int clientApp::doIt( int argc, char **argv )
     if ( argc != 2 )
     {
       printf( "Syntax Error: Too many arguments\n" );
-      exit(1);
+      return 1;
     }
     //	kfm.refreshDesktop();
   }
@@ -151,7 +155,7 @@ int clientApp::doIt( int argc, char **argv )
     if ( argc != 2 )
     {
       printf( "Syntax Error: Too many arguments\n" );
-      exit(1);
+      return 1;
     }
     //	kfm.sortDesktop();
   }
@@ -160,7 +164,7 @@ int clientApp::doIt( int argc, char **argv )
     if ( argc != 2 )
     {
       printf( "Syntax Error: Too many arguments\n" );
-      exit(1);
+      return 1;
     }
     //	kfm.configure();
   }
@@ -168,23 +172,23 @@ int clientApp::doIt( int argc, char **argv )
   {
     if ( argc == 2 )
     {
-      openURL( QDir::homeDirPath() );
+      openFileManagerWindow( QDir::homeDirPath() );
     }
     else if ( argc == 3 )
     {
-      openURL( argv[2] );
+      openFileManagerWindow( argv[2] );
     }
     else
     {
       printf( "Syntax Error: Too many arguments\n" );
-      exit(1);
+      return 1;
     }
   }
   else if ( strcmp( argv[1], "refreshDirectory" ) == 0 )
   {
     if ( argc == 2 )
     {
-      openURL( QDir::homeDirPath() );
+      openFileManagerWindow( QDir::homeDirPath() );
     }
     else if ( argc == 3 )
     {
@@ -193,13 +197,14 @@ int clientApp::doIt( int argc, char **argv )
     else
     {
       printf( "Syntax Error: Too many arguments\n" );
-      exit(1);
+      return 1;
     }
   }
   else if ( strcmp( argv[1], "openProperties" ) == 0 )
   {
     if ( argc == 3 )
     {
+      initRegistry();
       PropertiesDialog * p = new PropertiesDialog( argv[2] );
       QObject::connect( p, SIGNAL( propertiesClosed() ), this, SLOT( quit() ));
       exec();
@@ -207,23 +212,34 @@ int clientApp::doIt( int argc, char **argv )
     else
     {
       printf( "Syntax Error: Too many/few arguments\n" );
-      exit(1);
+      return 1;
     }
   }
   else if ( strcmp( argv[1], "exec" ) == 0 )
   {
+    initRegistry();
     if ( argc == 3 )
     {
       // kfm.exec( argv[2], 0L );
+      KRun * run = new KRun( argv[2] );
+      QObject::connect( run, SIGNAL( finished() ), this, SLOT( quit() ));
+      QObject::connect( run, SIGNAL( error() ), this, SLOT( quit() ));
+      exec();
     }
     else if ( argc == 4 )
     {
       // kfm.exec( argv[2], argv[3] );
+      QStrList urls;
+      urls.append( argv[2] );
+      KService * serv = KService::findByName( argv[3] );
+      if (!serv) return 1;
+      bool ret = KRun::run( serv, urls );
+      if (!ret) return 1;
     }
     else
     {
       printf( "Syntax Error: Too many/few arguments\n" );
-      exit(1);
+      return 1;
     }
   }
   else if ( strcmp( argv[1], "move" ) == 0 )
@@ -231,7 +247,7 @@ int clientApp::doIt( int argc, char **argv )
     if ( argc <= 3 )
     {
       printf( "Syntax Error: Too many/few arguments\n" );
-      exit(1);
+      return 1;
     }
     QString src = "";
     int i = 2;
@@ -250,7 +266,7 @@ int clientApp::doIt( int argc, char **argv )
     if ( argc <= 3 )
     {
       printf( "Syntax Error: Too many/few arguments\n" );
-      exit(1);
+      return 1;
     }
     QString src = "";
     int i = 2;
@@ -269,7 +285,7 @@ int clientApp::doIt( int argc, char **argv )
     if ( argc <=2 )
     {
       printf( "Syntax Error: Too many/few arguments\n" );
-      exit(1);
+      return 1;
     }
 
     if (argc > 3) {
@@ -287,61 +303,67 @@ int clientApp::doIt( int argc, char **argv )
     }
     else
     {
-      openURL( argv[2] );
+      openFileManagerWindow( argv[2] );
     }
   }
   else if ( strcmp( argv[1], "selectRootIcons" ) == 0 )
   {
     if ( argc == 7 )
     {
+      /* 
       int x = atoi( argv[2] );
       int y = atoi( argv[3] );	  
       int w = atoi( argv[4] );
       int h = atoi( argv[5] );
       int add = atoi( argv[6] );
       bool bAdd = (bool)add;
-      // kfm.selectRootIcons( x, y, w, h, bAdd );
+      kfm.selectRootIcons( x, y, w, h, bAdd );
+      */
     }
     else
     {
       printf( "Syntax Error: Too many/few arguments\n" );
-      exit(1);
+      return 1;
     }
   }
   else
   {
     printf("Syntax Error: Unknown command '%s'\n",argv[1] );
-    exit(1);
+    return 1;
   }
   return 0;
 }
 
-bool clientApp::getIOR()
+void clientApp::getIOR()
 {
   // TODO : add display name, or switch to Torben's trader ;)
   const QString refFile = kapp->localkdedir()+"/share/apps/konqueror/konqueror.ior";
   //const QString refFile = QDir::homeDirPath() + "/.konqueror.ior"; // not the app !
+
+  // Read IOR from file
   ifstream in( refFile.data() );
 
   if ( in.fail() )
-  {
     cerr << " Can't open `" << refFile.data() << "': " << strerror(errno) << endl;
-    return false;
-  }
   else
   {
     char s[1000];
     in >> s;
     in.close();
+
+    // Turn IOR into object reference
     CORBA::Object_var obj = opapp_orb->string_to_object( s );
-    
     m_vApp = Konqueror::Application::_narrow( obj );
-    if( CORBA::is_nil( m_vApp ) )
-    {
-      QMessageBox::critical( (QWidget*)0L, i18n("ERROR"), i18n("Can't contact konqueror !"), i18n("Ok") );
-      return false;
-    } 
-    return true;
+    if( !CORBA::is_nil( m_vApp ) )
+      return;
   }
+
+  // TODO : start konqueror server here
+  
+  QMessageBox::critical( (QWidget*)0L, i18n("ERROR"),
+                         i18n("Can't contact konqueror !"), i18n("Ok") );
+
+  // fatal("Can't contact konqueror"); dumps a core...
+  ::exit(1);
 }
 

@@ -21,9 +21,11 @@
 #define __kfmclient_h
 
 #include <opApplication.h>
+#include <krun.h>
 #include "konqueror.h"
 
-class clientApp : public OPApplication
+class clientApp : public OPApplication,
+                  public KFileManager
 {
 public:
 
@@ -35,11 +37,14 @@ public:
   /** Parse command-line arguments and "do it" */
   int doIt( int argc, char **argv );
 
+  /** Implements KFileManager interface */
+  void openFileManagerWindow(const char* _url);
+
 protected:
 
-  void openURL( const char *s );
+  void initRegistry();
 
-  bool getIOR();
+  void getIOR();
 
   Konqueror::Application_ptr m_vApp;
 
