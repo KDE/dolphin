@@ -481,7 +481,7 @@ void KonqPopupMenu::setup(bool showPropertiesAndFileType)
               {
                   // we use the categories .desktop entry to define submenus
                   // if none is defined, we just pop it in the main menu
-                  QString submenuName = cfg.readEntry( "Submenu" );
+                  QString submenuName = cfg.readEntry( "X-KDE-Submenu" );
                   if (submenuName.isEmpty())
                   {
                     user += KDEDesktopMimeType::userDefinedServices( *dIt + *eIt, url.isLocalFile() );
