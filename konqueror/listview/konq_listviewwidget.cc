@@ -204,13 +204,11 @@ void KonqBaseListViewWidget::readProtocolConfig( const KURL & url )
          "FileNameColumnWidth", 25 * fontMetrics().width( "m" )
    );
 
-   bool defaultColumns = false;
    QStringList lstColumns = config->readListEntry( "Columns" );
    QValueList<int> lstColumnWidths = config->readIntListEntry( "ColumnWidths" );
    if ( lstColumns.isEmpty() )
    {
       // Default column selection
-      defaultColumns = true;
       lstColumns.append( "Size" );
       lstColumns.append( "File Type" );
       lstColumns.append( "Modified" );
@@ -233,7 +231,7 @@ void KonqBaseListViewWidget::readProtocolConfig( const KURL & url )
    for ( int num = 1; extraFieldsIt != extraFields.end(); ++extraFieldsIt, ++num )
    {
       QString column = (*extraFieldsIt).name;
-      if ( defaultColumns || ( lstColumns.find(column) == lstColumns.end() ) )
+      if ( lstColumns.find(column) == lstColumns.end() )
          lstColumns << column;
       QString type = (*extraFieldsIt).type; // ## TODO use when sorting
       confColumns[extraIndex++].setData( column, QString("Extra%1").arg(num), KIO::UDS_EXTRA, -1, false, 0);
