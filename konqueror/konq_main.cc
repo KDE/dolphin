@@ -358,8 +358,6 @@ int main( int argc, char **argv )
   registry.addFactory( new KServiceFactory );
   registry.load( );
 
-  KMimeType::check();
-
   KonqPlugins::init();
   
   cerr << "===================== mime stuff finished ==============" << endl;
