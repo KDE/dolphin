@@ -26,10 +26,11 @@
    <Separator/>
    <Action name="sort_directoriesfirst" />
   </Menu>
-  <Separator/>
-  <Action name="image_preview"/>
-  <Action name="text_preview"/>
-  <Action name="html_preview"/>
+  <Menu name="iconview_preview"><text>Preview</text>
+   <Action name="image_preview"/>
+   <Action name="text_preview"/>
+   <Action name="html_preview"/>
+  </Menu>
   <Action name="show_dot"/>
   <Separator/>
   <Action name="bgcolor"/>
