@@ -89,6 +89,7 @@ KBookmarkMenu::~KBookmarkMenu()
 
 void KBookmarkMenu::slotBookmarksChanged()
 {
+  //kdDebug(1203) << "KBookmarkMenu::slotBookmarksChanged()" << endl;
   m_lstSubMenus.clear();
 
   QListIterator<KAction> it( m_actions );
@@ -164,6 +165,7 @@ void KBookmarkMenu::fillBookmarkMenu( KBookmark *parent )
   {
     if ( bm->type() == KBookmark::URL )
     {
+      //kdDebug(1203) << "Creating URL bookmark menu item for " << bm->text() << endl;
       // create a normal URL item, with ID as a name
       KAction * action = new KAction( bm->text(), bm->pixmapFile(), 0,
                                       this, SLOT( slotBookmarkSelected() ),
@@ -204,7 +206,7 @@ void KBookmarkMenu::slotNSLoad()
 
 void KBookmarkMenu::slotBookmarkSelected()
 {
-  kdDebug(1203) << "KBookmarkMenu::slotBookmarkSelected()" << endl;
+  //kdDebug(1203) << "KBookmarkMenu::slotBookmarkSelected()" << endl;
   if ( !m_pOwner ) return; // this view doesn't handle bookmarks...
   kdDebug(1203) << sender()->name() << endl;
 
@@ -252,6 +254,7 @@ void KBookmarkMenu::slotBookmarkSelected()
         uChanged.setPath( bm->file() );
         KonqDirWatcher_stub allDirWatchers("*", "KonqDirWatcher*");
         allDirWatchers.FilesAdded( uChanged );
+        //kdDebug(1203) << "KonqDirWatcher notified for " << uChanged.url() << endl;
         return;
       }
 

@@ -118,6 +118,7 @@ void KBookmarkManager::FilesRemoved( const KURL::List & fileList )
 
 void KBookmarkManager::slotNotify( const QString &_url )
 {
+  //kdDebug(1203) << "KBookmarkManager::slotNotify( " << _url << ")" << endl;
   if ( !m_bNotify )
     return;
 
@@ -148,17 +149,16 @@ void KBookmarkManager::emitChanged()
   {
     // ... no => emit signal
     emit changed();
-    // OLD AND DEPRECATED - check if still needed
-    // tell krootwm to refresh the bookmarks popup menu
-    KWM::sendKWMCommand ("krootwm:refreshBM");
   }
 }
 
-void KBookmarkManager::scan( const char * _path )
+void KBookmarkManager::scan( const QString & _path )
 {
-  m_Root->clear();
+  //kdDebug(1203) << "KBookmarkManager::scan" << endl;
   if (m_Toolbar)
     m_Toolbar->clear();
+
+  m_Root->clear();
 
   // Do not emit 'changed' signals here.
   m_bAllowSignalChanged = false;
@@ -169,8 +169,9 @@ void KBookmarkManager::scan( const char * _path )
   emitChanged();
 }
 
-void KBookmarkManager::scanIntern( KBookmark *_bm, const char * _path )
+void KBookmarkManager::scanIntern( KBookmark *_bm, const QString & _path )
 {
+  //kdDebug(1203) << "KBookmarkManager::scanIntern" << endl;
   // Substitute all symbolic links in the path
   QDir dir( _path );
   QString canonical = dir.canonicalPath();
@@ -178,8 +179,11 @@ void KBookmarkManager::scanIntern( KBookmark *_bm, const char * _path )
   // Did we scan this one already ?
   for( s = m_lstParsedDirs.first(); s != 0L; s = m_lstParsedDirs.next() )
   {
-    if ( qstrcmp( *s, canonical ) == 0 )
+    if ( *s == canonical )
+    {
+      kdWarning() << "Directory " << s << " already parsed" << endl;
       return;
+    }
   }
   m_lstParsedDirs.append( new QString( canonical ) );
 
@@ -198,6 +202,7 @@ void KBookmarkManager::scanIntern( KBookmark *_bm, const char * _path )
       file.setPath( QString( _path ) + '/' + ep->d_name );
 
       KMimeType::Ptr res = KMimeType::findByURL( file, 0, true );
+      //kdDebug(1203) << " - " << file.url() << "  ->  " << res->name() << endl;
 
       if ( res->name() == "inode/directory" )
       {
@@ -214,6 +219,8 @@ void KBookmarkManager::scanIntern( KBookmark *_bm, const char * _path )
         // Is it really a bookmark file ?
         if ( type == "Link" )
           (void) new KBookmark( this, _bm, ep->d_name, cfg, QString::null /* desktop group */ );
+         else
+           kdWarning(1203) << "  Not a link ? Type=" << type << endl;
       }
       else if ( res->name() == "text/plain")
       {
@@ -232,7 +239,6 @@ void KBookmarkManager::scanIntern( KBookmark *_bm, const char * _path )
 
 void KBookmarkManager::editBookmarks( const QString & _url )
 {
-//  KFileManager::getFileManager()->openFileManagerWindow( _url );
   KRun::runURL( _url, "inode/directory" ); 
 }
 
@@ -385,7 +391,11 @@ KBookmark *KBookmark::first()
     m_sortIt = m_sortOrder.begin();
     if ( m_sortIt == m_sortOrder.end() )
         return 0L;
-    return m_bookmarkMap.find(*m_sortIt);
+    KBookmark * valid = m_bookmarkMap.find(*m_sortIt);
+    if ( valid )
+        return valid;
+    else
+        return next(); // first one was no good, keep looking
 }
 
 KBookmark *KBookmark::next()
@@ -407,12 +417,13 @@ void KBookmark::append( const QString& _name, KBookmark *_bm )
 {
   m_lstChildren.append( _bm );
   m_bookmarkMap.insert( _name, _bm );
-  if ( m_sortOrder.contains( _name ) == 0 )
+  if ( !m_sortOrder.contains( _name ) )
     m_sortOrder.append( _name );
 }
 
 void KBookmark::clear()
 {
+  //kdDebug(1203) << "KBookmark::clear" << endl;
   KBookmark *bm;
 
   for ( bm = children()->first(); bm != 0L; bm = children()->next() )
