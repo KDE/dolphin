@@ -255,10 +255,20 @@ KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const 
     m_paSortDirsFirst = new KToggleAction( i18n( "Directories First" ), 0, actionCollection(), "sort_directoriesfirst" );
     KToggleAction *aSortDescending = new KToggleAction( i18n( "Descending" ), 0, actionCollection(), "sort_descend" );
 
-    m_paSortDirsFirst->setChecked( true );
+    m_paSortDirsFirst->setChecked( KonqIconViewFactory::defaultViewProps()->isDirsFirst() );
 
     connect( aSortDescending, SIGNAL( toggled( bool ) ), this, SLOT( slotSortDescending() ) );
     connect( m_paSortDirsFirst, SIGNAL( toggled( bool ) ), this, SLOT( slotSortDirsFirst() ) );
+    
+    //enable stored settings
+    slotSortDirsFirst();
+    if (KonqIconViewFactory::defaultViewProps()->isDescending())
+    {
+     aSortDescending->setChecked(true);
+     m_pIconView->setSorting(true,true);//enable sort ascending in QIconview
+     slotSortDescending();//invert sorting (now descending) and actually resort items
+    }
+    
     /*
     m_pamSort->insert( aSortByNameCS );
     m_pamSort->insert( aSortByNameCI );
@@ -592,6 +602,8 @@ void KonqKfmIconView::slotSortDescending()
     setupSortKeys(); // keys have to change, for directories
 
     m_pIconView->sort( m_pIconView->sortDirection() );
+    
+    KonqIconViewFactory::defaultViewProps()->setDescending( !m_pIconView->sortDirection() );
 }
 
 void KonqKfmIconView::slotSortDirsFirst()
@@ -601,6 +613,8 @@ void KonqKfmIconView::slotSortDirsFirst()
     setupSortKeys();
 
     m_pIconView->sort( m_pIconView->sortDirection() );
+    
+    KonqIconViewFactory::defaultViewProps()->setDirsFirst( m_paSortDirsFirst->isChecked() );
 }
 
 void KonqKfmIconView::newIconSize( int size )
@@ -795,7 +809,7 @@ void KonqKfmIconView::slotNewItems( const KFileItemList& entries )
             case NameCaseSensitive: key = item->text(); break;
             case NameCaseInsensitive: key = item->text().lower(); break;
             case Size: key = makeSizeKey( item ); break;
-            case Type: key = item->item()->mimetype(); break; // ### slows down listing :-(
+            case Type: key = item->item()->mimetype()+ "\008" +item->text().lower(); break; // ### slows down listing :-(
             case Date:
             {
                 QDateTime dayt;
@@ -1129,7 +1143,7 @@ void KonqKfmIconView::setupSortKeys()
     case Type:
         // Sort by Type + Name (#17014)
         for ( QIconViewItem *it = m_pIconView->firstItem(); it; it = it->nextItem() )
-            it->setKey( static_cast<KFileIVI *>( it )->item()->mimetype() + '~' + it->text().lower() );
+            it->setKey( static_cast<KFileIVI *>( it )->item()->mimetype() + "\008" + it->text().lower() );
         break;
     case Date:
     {

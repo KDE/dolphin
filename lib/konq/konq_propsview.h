@@ -89,6 +89,12 @@ public:
   void setSortCriterion( const QString &criterion );
   const QString& sortCriterion() const;
 
+  void setDirsFirst ( bool first );
+  bool isDirsFirst() const;
+
+  void setDescending (bool descending);
+  bool isDescending() const;
+
   void setShowingDotFiles( bool show );
   bool isShowingDotFiles() const { return m_bShowDot; }
 

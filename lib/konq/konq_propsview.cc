@@ -66,6 +66,8 @@ struct KonqPropsView::Private
    QStringList* previewsToShow;
    bool previewsEnabled:1;
    bool caseInsensitiveSort:1;
+   bool dirsfirst:1;
+   bool descending:1;
    QString sortcriterion;
 };
 
@@ -86,7 +88,9 @@ KonqPropsView::KonqPropsView( KInstance * instance, KonqPropsView * defaultProps
 
   m_iIconSize = config->readNumEntry( "IconSize", 0 );
   m_iItemTextPos = config->readNumEntry( "ItemTextPos", QIconView::Bottom );
-  d->sortcriterion=config->readEntry( "SortingCriterion" , "sort_nc" );
+  d->sortcriterion = config->readEntry( "SortingCriterion", "sort_nc" );
+  d->dirsfirst = config->readBoolEntry( "SortDirsFirst", true );
+  d->descending = config->readBoolEntry( "SortDescending", false );
   m_bShowDot = config->readBoolEntry( "ShowDotFiles", false );
   m_bShowDirectoryOverlays = config->readBoolEntry( "ShowDirectoryOverlays", false );
 
@@ -131,6 +135,15 @@ bool KonqPropsView::isCaseInsensitiveSort() const
    return d->caseInsensitiveSort;
 }
 
+bool KonqPropsView::isDirsFirst() const
+{
+   return d->dirsfirst;
+}
+
+bool KonqPropsView::isDescending() const
+{
+   return d->descending;
+}
 
 KConfigBase * KonqPropsView::currentConfig()
 {
@@ -183,6 +196,8 @@ bool KonqPropsView::enterDir( const KURL & dir )
     m_iIconSize = m_defaultProps->iconSize();
     m_iItemTextPos = m_defaultProps->itemTextPos();
     d->sortcriterion = m_defaultProps->sortCriterion();
+    d->dirsfirst = m_defaultProps->isDirsFirst();
+    d->descending = m_defaultProps->isDescending();
     m_bShowDot = m_defaultProps->isShowingDotFiles();
     d->caseInsensitiveSort=m_defaultProps->isCaseInsensitiveSort();
     m_dontPreview = m_defaultProps->m_dontPreview;
@@ -199,7 +214,9 @@ bool KonqPropsView::enterDir( const KURL & dir )
 
     m_iIconSize = config->readNumEntry( "IconSize", m_iIconSize );
     m_iItemTextPos = config->readNumEntry( "ItemTextPos", m_iItemTextPos );
-    d->sortcriterion=config->readEntry( "SortingCriterion" , d->sortcriterion );
+    d->sortcriterion = config->readEntry( "SortingCriterion" , d->sortcriterion );
+    d->dirsfirst = config->readBoolEntry( "SortDirsFirst", d->dirsfirst );
+    d->descending = config->readBoolEntry( "SortDescending", d->descending );
     m_bShowDot = config->readBoolEntry( "ShowDotFiles", m_bShowDot );
     d->caseInsensitiveSort=config->readBoolEntry("CaseInsensitiveSort",d->caseInsensitiveSort);
     m_bShowDirectoryOverlays = config->readBoolEntry( "ShowDirectoryOverlays", m_bShowDirectoryOverlays );
@@ -290,6 +307,32 @@ void KonqPropsView::setSortCriterion( const QString &criterion )
     {
         KConfigGroupSaver cgs(currentConfig(), currentGroup());
         currentConfig()->writeEntry( "SortingCriterion", d->sortcriterion );
+        currentConfig()->sync();
+    }
+}
+
+void KonqPropsView::setDirsFirst( bool first)
+{
+    d->dirsfirst = first;
+    if ( m_defaultProps && !m_bSaveViewPropertiesLocally )
+        m_defaultProps->setDirsFirst( first );
+    else if (currentConfig())
+    {
+        KConfigGroupSaver cgs(currentConfig(), currentGroup());
+        currentConfig()->writeEntry( "SortDirsFirst", d->dirsfirst );
+        currentConfig()->sync();
+    }
+}
+
+void KonqPropsView::setDescending( bool descend)
+{
+    d->descending = descend;
+    if ( m_defaultProps && !m_bSaveViewPropertiesLocally )
+        m_defaultProps->setDescending( descend );
+    else if (currentConfig())
+    {
+        KConfigGroupSaver cgs(currentConfig(), currentGroup());
+        currentConfig()->writeEntry( "SortDescending", d->descending );
         currentConfig()->sync();
     }
 }
