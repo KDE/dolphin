@@ -38,6 +38,7 @@ private:
     QSpinBox* sb_serverResponse;
     QGroupBox* gb_Ftp;
     QCheckBox* cb_ftpEnablePasv;
+    QCheckBox* cb_ftpMarkPartial;
 };
 
 #endif // KIOPREFERENCES_H
