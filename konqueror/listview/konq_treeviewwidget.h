@@ -56,12 +56,12 @@ protected:
    KonqListViewDir *findDir( const QString &_url );
 
    // Called by KonqListViewDir
-   void addSubDir( KonqListViewDir* _dir );
+   void addSubDir( KonqListViewDir *_dir );
    void removeSubDir( const KURL & _url );
    void clearSubDir( const KURL & _url );
 
-   void openSubFolder( KonqListViewDir* _dir, bool _reload );
-   void stopListingSubFolder( KonqListViewDir* _dir );
+   void openSubFolder( KonqListViewDir *_dir, bool _reload );
+   void stopListingSubFolder( KonqListViewDir *_dir );
 
    // URL -> item (for directories only)
    QDict<KonqListViewDir> m_dictSubDirs;

@@ -39,11 +39,15 @@ class KonqBaseListViewWidget;
 class KonqBaseListViewItem : public KListViewItem
 {
    public:
-      KonqBaseListViewItem(KonqBaseListViewWidget *_listViewWidget, KFileItem* _fileitem);
-      KonqBaseListViewItem(KonqBaseListViewWidget *_listViewWidget, KonqBaseListViewItem *_parent, KFileItem* _fileitem);
+      KonqBaseListViewItem( KonqBaseListViewWidget *_listViewWidget, 
+                            KFileItem *_fileitem );
+      KonqBaseListViewItem( KonqBaseListViewWidget *_treeViewWidget, 
+                            KonqBaseListViewItem *_parent, KFileItem *_fileitem );
       virtual ~KonqBaseListViewItem();
+
       /** @return the file item held by this instance */
       KFileItem * item() { return m_fileitem; }
+
       void mimetypeFound();
       virtual void updateContents() = 0;
       virtual void setDisabled( bool disabled ) { m_bDisabled = disabled; }
@@ -86,14 +90,16 @@ class KonqListViewItem : public KonqBaseListViewItem
        * @param _parent the parent widget, the tree view
        * @param _fileitem the file item created by KDirLister
        */
-      KonqListViewItem( KonqBaseListViewWidget *_listViewWidget, KFileItem* _fileitem );
+      KonqListViewItem( KonqBaseListViewWidget *_parent, KFileItem *_fileitem );
+
       /**
        * Create an item representing a file, inside a directory
-       * @param _treeview the parent tree view  - now unused
+       * @param _treeview the parent tree view
        * @param _parent the parent widget, a directory item in the tree view
        * @param _fileitem the file item created by KDirLister
        */
-      KonqListViewItem( KonqBaseListViewWidget *, KonqListViewItem *_parent, KFileItem* _fileitem );
+      KonqListViewItem( KonqBaseListViewWidget *_treeview, 
+                        KonqListViewItem *_parent, KFileItem *_fileitem );
 
       virtual ~KonqListViewItem() {}
 

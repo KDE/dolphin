@@ -32,17 +32,17 @@
  * KonqListViewItem
  *
  **************************************************************/
-KonqListViewItem::KonqListViewItem( KonqBaseListViewWidget *_listViewWidget, KonqListViewItem * _parent, KFileItem* _fileitem )
-   : KonqBaseListViewItem(_listViewWidget,_parent,_fileitem ),
-     m_pixmaps(listView()->columns())
+KonqListViewItem::KonqListViewItem( KonqBaseListViewWidget *_listViewWidget, 
+                                    KonqListViewItem * _parent, KFileItem* _fileitem )
+   : KonqBaseListViewItem( _listViewWidget, _parent, _fileitem ),
+     m_pixmaps( listView()->columns() )
 {
    updateContents();
 }
 
 KonqListViewItem::KonqListViewItem( KonqBaseListViewWidget *_listViewWidget, KFileItem* _fileitem )
-   : KonqBaseListViewItem(_listViewWidget,_fileitem),
-     m_pixmaps(listView()->columns())
-
+   : KonqBaseListViewItem( _listViewWidget, _fileitem ),
+     m_pixmaps( listView()->columns() )
 {
    updateContents();
 }
@@ -53,7 +53,7 @@ void KonqListViewItem::updateContents()
    setDisabled( m_bDisabled );
 
    // Set the text of each column
-   setText(0,m_fileitem->text());
+   setText( 0, m_fileitem->text() );
 
    // The order is: .dir (0), dir (1), .file (2), file (3)
    sortChar = S_ISDIR( m_fileitem->mode() ) ? 1 : 3;
@@ -63,7 +63,7 @@ void KonqListViewItem::updateContents()
    //now we have the first column, so let's do the rest
 
    int numExtra = 1;
-   for (unsigned int i=0; i<m_pListViewWidget->NumberOfAtoms; i++)
+   for ( unsigned int i=0; i<m_pListViewWidget->NumberOfAtoms; i++ )
    {
       ColumnInfo *tmpColumn=&m_pListViewWidget->columnConfigInfo()[i];
       if (tmpColumn->displayThisOne)
