@@ -22,7 +22,7 @@
 
 #include <qdatastream.h>
 #include <qfile.h>
-#include <qlist.h>
+#include <qptrlist.h>
 #include <qobject.h>
 #include <qmap.h>
 

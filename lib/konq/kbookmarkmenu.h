@@ -20,8 +20,8 @@
 #ifndef __kbookmarkmenu_h__
 #define __kbookmarkmenu_h__
 
-#include <qlist.h>
-#include <qstack.h>
+#include <qptrlist.h>
+#include <qptrstack.h>
 #include <qobject.h>
 #include <sys/types.h>
 #include "kbookmark.h"
@@ -167,7 +167,7 @@ protected slots:
     void endMenu();
 
 protected:
-    QStack<KBookmarkMenu> mstack;
+    QPtrStack<KBookmarkMenu> mstack;
     KBookmarkMenu * m_menu;
     KActionCollection * m_actionCollection;
 };

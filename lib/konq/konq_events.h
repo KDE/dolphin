@@ -4,7 +4,7 @@
 //$Id$
 
 #include <kparts/event.h>
-#include <qlist.h>
+#include <qptrlist.h>
 
 namespace KParts
 {

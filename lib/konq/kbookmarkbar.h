@@ -21,7 +21,7 @@
 
 #include <qobject.h>
 #include <qguardedptr.h>
-#include <qlist.h>
+#include <qptrlist.h>
 #include <kbookmark.h>
 
 class KToolBar;

@@ -20,7 +20,7 @@
 #ifndef __konqmimetyperesolver_h
 #define __konqmimetyperesolver_h
 
-#include <qlist.h>
+#include <qptrlist.h>
 #include <qtimer.h>
 #include <kdebug.h>
 

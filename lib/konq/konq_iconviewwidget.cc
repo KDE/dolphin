@@ -23,7 +23,7 @@
 #include <qclipboard.h>
 #include <qfile.h>
 #include <qdragobject.h>
-#include <qlist.h>
+#include <qptrlist.h>
 #include <qregion.h>
 #include <qtimer.h>
 #include <qpainter.h>
