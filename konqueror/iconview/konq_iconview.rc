@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="KonqIconView" version="8">
+<kpartgui name="KonqIconView" version="9">
 <MenuBar>
  <Menu name="edit"><text>&amp;Edit</text>
   <Action name="select"/>
@@ -22,6 +22,7 @@
    <Action name="sort_nci"/>
    <Action name="sort_size"/>
    <Action name="sort_type"/>
+   <Action name="sort_date"/>
    <Separator/>
    <Action name="sort_descend"/>
    <Separator/>

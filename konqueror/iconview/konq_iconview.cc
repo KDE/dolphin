@@ -40,6 +40,7 @@
 #include <kivdirectoryoverlay.h>
 
 #include <qregexp.h>
+#include <qdatetime.h>
 
 #include <config.h>
 
@@ -224,21 +225,25 @@ KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const 
     KToggleAction *aSortByNameCI = new KRadioAction( i18n( "By Name (Case Insensitive)" ), 0, actionCollection(), "sort_nci" );
     KToggleAction *aSortBySize = new KRadioAction( i18n( "By Size" ), 0, actionCollection(), "sort_size" );
     KToggleAction *aSortByType = new KRadioAction( i18n( "By Type" ), 0, actionCollection(), "sort_type" );
+    KToggleAction *aSortByDate = new KRadioAction( i18n( "By Date" ), 0, actionCollection(), "sort_date" );
 
     aSortByNameCS->setExclusiveGroup( "sorting" );
     aSortByNameCI->setExclusiveGroup( "sorting" );
     aSortBySize->setExclusiveGroup( "sorting" );
     aSortByType->setExclusiveGroup( "sorting" );
+    aSortByDate->setExclusiveGroup( "sorting" );
 
     aSortByNameCS->setChecked( false );
     aSortByNameCI->setChecked( true );
     aSortBySize->setChecked( false );
     aSortByType->setChecked( false );
+    aSortByDate->setChecked( false );
 
     connect( aSortByNameCS, SIGNAL( toggled( bool ) ), this, SLOT( slotSortByNameCaseSensitive( bool ) ) );
     connect( aSortByNameCI, SIGNAL( toggled( bool ) ), this, SLOT( slotSortByNameCaseInsensitive( bool ) ) );
     connect( aSortBySize, SIGNAL( toggled( bool ) ), this, SLOT( slotSortBySize( bool ) ) );
     connect( aSortByType, SIGNAL( toggled( bool ) ), this, SLOT( slotSortByType( bool ) ) );
+    connect( aSortByDate, SIGNAL( toggled( bool ) ), this, SLOT( slotSortByDate( bool ) ) );
 
     m_paSortDirsFirst = new KToggleAction( i18n( "Directories First" ), 0, actionCollection(), "sort_directoriesfirst" );
     KToggleAction *aSortDescending = new KToggleAction( i18n( "Descending" ), 0, actionCollection(), "sort_descend" );
@@ -552,6 +557,14 @@ void KonqKfmIconView::slotSortByType( bool toggle )
   setupSorting( Type );
 }
 
+void KonqKfmIconView::slotSortByDate( bool toggle )
+{
+  if( !toggle)
+    return;
+    
+  setupSorting( Date );
+}
+
 void KonqKfmIconView::setupSorting( SortCriterion criterion )
 {
     m_eSortCriterion = criterion;
@@ -752,6 +765,13 @@ void KonqKfmIconView::slotNewItems( const KFileItemList& entries )
             case NameCaseInsensitive: key = item->text().lower(); break;
             case Size: key = makeSizeKey( item ); break;
             case Type: key = item->item()->mimetype(); break; // ### slows down listing :-(
+            case Date:
+            {
+                QDateTime dayt;
+                dayt.setTime_t(item->item()->time(KIO::UDS_MODIFICATION_TIME ));
+                key = dayt.toString("yyyyMMddhhmmss");
+                break;
+            }
             default: Q_ASSERT(0);
         }
 
@@ -1054,6 +1074,15 @@ void KonqKfmIconView::setupSortKeys()
         // Sort by Type + Name (#17014)
         for ( QIconViewItem *it = m_pIconView->firstItem(); it; it = it->nextItem() )
             it->setKey( static_cast<KFileIVI *>( it )->item()->mimetype() + '~' + it->text().lower() );
+        break;
+    case Date:
+        //Sorts by time of modification
+        QDateTime dayt;
+        for ( QIconViewItem *it = m_pIconView->firstItem(); it; it = it->nextItem() )
+        {
+            dayt.setTime_t(static_cast<KFileIVI *>( it )->item()->time(KIO::UDS_MODIFICATION_TIME));
+            it->setKey(dayt.toString("yyyyMMddhhmmss"));
+        }
         break;
     }
 }
