@@ -69,24 +69,11 @@ void KBookmarkBar::clear()
     m_actions.clear();
     m_actions.setAutoDelete( false );
 
-    // remove that strange separator thing..
-    if (m_toolBar)
-        m_toolBar->clear();
 }
 
 void KBookmarkBar::slotBookmarksChanged()
 {
     clear();
-
-    if ( m_toolBar )
-    // ### What's this?? Is that still really needed with QToolBar? (Simon)
-    { // KToolBar needs a setMinimumSize method similar to this
-      KToolBarButton *separ = new KToolBarButton(m_toolBar);
-
-      m_toolBar->insertWidget(-1, 1, separ);
-      separ->resize(1, 26);
-      separ->hide();
-    }
 
     fillBookmarkBar(KBookmarkManager::self()->toolbar());
 }
