@@ -82,11 +82,6 @@ public:
 
   // conflict with KonqHtmlView  virtual const char* url() { return m_strURL; }
   
-  /**
-   * You should overload this function to implement popup menus. By default this function does nothing.
-   */
-  virtual void popupMenu( QStrList& _urls, const QPoint& _global_point, bool _on_background = false );
-
   virtual void setDefaultTextColors( const QColor& _textc, const QColor& _linkc, const QColor& _vlinkc );
   virtual void setDefaultBGColor( const QColor& bgcolor );
 
