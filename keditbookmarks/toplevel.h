@@ -101,7 +101,7 @@ public:
     static KEBTopLevel * self() { return s_topLevel; }
     static KBookmarkManager * bookmarkManager() { return s_pManager; }
 
-    KEBTopLevel( const QString & bookmarksFile );
+    KEBTopLevel( const QString & bookmarksFile, bool readonly );
     virtual ~KEBTopLevel();
 
 public:
@@ -192,7 +192,6 @@ protected:
     bool m_bModified;
     bool m_bCanPaste;
     bool m_bReadOnly;
-    bool m_bUnique;
 
     KToggleAction * m_taShowNS;
     KListView * m_pListView;

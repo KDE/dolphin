@@ -341,7 +341,7 @@ void KBookmarkEditorIface::slotCreatedNewFolder( QString filename, QString text,
 KEBTopLevel * KEBTopLevel::s_topLevel = 0L;
 KBookmarkManager * KEBTopLevel::s_pManager = 0L;
 
-KEBTopLevel::KEBTopLevel( const QString & bookmarksFile )
+KEBTopLevel::KEBTopLevel( const QString & bookmarksFile, bool readonly )
     : KMainWindow(), m_commandHistory( actionCollection() ), m_dcopIface(NULL)
 {
     // Create the bookmark manager.
@@ -357,22 +357,7 @@ KEBTopLevel::KEBTopLevel( const QString & bookmarksFile )
     m_pListView->addColumn( "Address", 100 );
 #endif
 
-    if (!kapp->dcopClient()->isApplicationRegistered(kapp->name())) {
-       kapp->dcopClient()->registerAs(kapp->name(),false);
-       m_bUnique = true;
-    } else {
-       int answer = KMessageBox::warningYesNo( this, i18n("Another instance of KEditBookmarks is already running, do you really want to open another instance or continue work in the same instance?\nPlease note that, unfortunately, duplicate views are read-only."), i18n("Warning"), i18n("Run another"), i18n("Quit") );
-       if (0) {
-          i18n("Continue in same");
-       }
-       m_bUnique = false;
-       bool oldWindow = (answer==KMessageBox::No);
-       if (oldWindow) {
-          // kapp->dcopClient()->send( "keditbookmarks", "KEditBookmarks", "activateWindow()", data );
-          close();
-       }
-    }
-    m_bReadOnly = !m_bUnique;
+    m_bReadOnly = readonly;
     m_pListView->setRootIsDecorated( true );
     m_pListView->setRenameable( 0 );
     m_pListView->setRenameable( 1 );
@@ -407,25 +392,21 @@ KEBTopLevel::KEBTopLevel( const QString & bookmarksFile )
     // If someone plays with konq's bookmarks while we're open, update. (when applicable)
     if (!m_bReadOnly) {
 
-       if (m_bUnique) {
-          connect( s_pManager, SIGNAL( changed(const QString &, const QString &) ),
-                   SLOT( slotBookmarksChanged(const QString &, const QString &) ) );
-       }
+       connect( s_pManager, SIGNAL( changed(const QString &, const QString &) ),
+                SLOT( slotBookmarksChanged(const QString &, const QString &) ) );
 
        // Update GUI after executing command
        connect( &m_commandHistory, SIGNAL( commandExecuted() ), SLOT( slotCommandExecuted() ) );
        connect( &m_commandHistory, SIGNAL( documentRestored() ), SLOT( slotDocumentRestored() ) );
 
-       if (m_bUnique) {
-          // Create the DCOP interface object
-          m_dcopIface = new KBookmarkEditorIface();
-          connect(m_dcopIface,
-                  SIGNAL(addedBookmark(QString,QString,QString,QString)),
-                  SLOT(slotAddedBookmark(QString,QString,QString,QString)));
-          connect(m_dcopIface,
-                  SIGNAL(createdNewFolder(QString,QString)),
-                  SLOT(slotCreatedNewFolder(QString,QString)));
-       }
+       // Create the DCOP interface object
+       m_dcopIface = new KBookmarkEditorIface();
+       connect(m_dcopIface,
+               SIGNAL(addedBookmark(QString,QString,QString,QString)),
+               SLOT(slotAddedBookmark(QString,QString,QString,QString)));
+       connect(m_dcopIface,
+               SIGNAL(createdNewFolder(QString,QString)),
+               SLOT(slotCreatedNewFolder(QString,QString)));
     }
 
     s_topLevel = this;

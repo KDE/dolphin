@@ -22,6 +22,8 @@
 #include <kcmdlineargs.h>
 #include <klocale.h>
 #include <kstandarddirs.h>
+#include <kmessagebox.h>
+#include <kdebug.h>
 #include "toplevel.h"
 
 static KCmdLineOptions options[] =
@@ -43,8 +45,29 @@ int main(int argc, char ** argv)
   KApplication::addCmdLineOptions();
   // KUniqueApplication::addCmdLineOptions();
   KCmdLineArgs::addCmdLineOptions( options );
+
+  KApplication::disableAutoDcopRegistration(); 
   KApplication app;
-  // KUniqueApplication app;
+
+  bool unique;
+
+  QCString appName = "keditbookmarks";
+  QCString givenName = app.dcopClient()->registerAs(appName,false);
+
+  if (givenName != appName) {
+     int answer = KMessageBox::warningYesNo( 0, i18n("Another instance of KEditBookmarks is already running, do you really want to open another instance or continue work in the same instance?\nPlease note that, unfortunately, duplicate views are read-only."), i18n("Warning"), i18n("Run another"), i18n("Quit") );
+     if (0) {
+        i18n("Continue in same");
+     }
+     unique = false;
+     bool quit = (answer==KMessageBox::No);
+     if (quit) {
+        // app.dcopClient()->send( "keditbookmarks", "KEditBookmarks", "activateWindow()", data );
+        return 0;
+     }
+  } else {
+     unique = true;
+  } 
 
   KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
   QString bookmarksFile = (args->count() == 0)
@@ -52,7 +75,7 @@ int main(int argc, char ** argv)
                           : QString::fromLatin1(args->arg(0));
   args->clear();
 
-  KEBTopLevel * toplevel = new KEBTopLevel( bookmarksFile );
+  KEBTopLevel * toplevel = new KEBTopLevel( bookmarksFile, !unique );
   toplevel->show();
   app.setMainWidget(toplevel);
 
