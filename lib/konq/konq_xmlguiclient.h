@@ -25,11 +25,13 @@
 #include <kaction.h>
 #include <kxmlguiclient.h>
 #include <qstringlist.h>
+#include <libkonq_export.h>
+
 /**
  * This class implements common methods to manipulate the DOMDocument of KXMLGUIClient
  *
  */
-class KonqXMLGUIClient : public KXMLGUIClient
+class LIBKONQ_EXPORT KonqXMLGUIClient : public KXMLGUIClient
 {
 public:
   KonqXMLGUIClient( );

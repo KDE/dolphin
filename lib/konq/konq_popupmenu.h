@@ -128,7 +128,7 @@ public:
    */
   void setURLTitle( const QString& urlTitle );
 
-  class ProtocolInfo {
+  class LIBKONQ_EXPORT ProtocolInfo {
    public:
     ProtocolInfo();
     bool supportsReading()  const;
