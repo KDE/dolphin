@@ -124,7 +124,7 @@ public:
     PropsPage( Properties *_props );
 
     /// Returns the name that should appear in the tab.
-    virtual const char* getTabName() { return ""; }
+    virtual QString getTabName() { return ""; }
     /// Apply all changes to the file.
     /**
       This function is called when the user presses 'Ok'. The last page inserted
@@ -150,7 +150,7 @@ public:
     /// Constructor
     FilePropsPage( Properties *_props );
 
-    virtual const char* getTabName() { return i18n("&General"); }
+    virtual QString getTabName() { return i18n("&General"); }
     /// Applies all changes made
     /** 'General' must be always the first page in the dialog, since this
       function may rename the file which may confuse other applyChanges
@@ -183,7 +183,7 @@ public:
     /// Constructor
     FilePermissionsPropsPage( Properties *_props );
 
-    virtual const char* getTabName() { return i18n("&Permissions"); }
+    virtual QString getTabName() { return i18n("&Permissions"); }
     virtual void applyChanges();
 
     /// Tests whether the file specified by _kurl needs a 'Permissions' page.
@@ -219,7 +219,7 @@ public:
     /// Constructor
     ExecPropsPage( Properties *_props );
 
-    virtual const char* getTabName() { return i18n("E&xecute"); }
+    virtual QString getTabName() { return i18n("E&xecute"); }
     virtual void applyChanges();
 
     static bool supports( KURL *_kurl, mode_t _mode );
@@ -262,7 +262,7 @@ public:
     /// Constructor
     URLPropsPage( Properties *_props );
 
-    virtual const char* getTabName() { return i18n("U&RL"); }
+    virtual QString getTabName() { return i18n("U&RL"); }
     virtual void applyChanges();
 
     static bool supports( KURL *_kurl, mode_t _mode );
@@ -286,7 +286,7 @@ public:
     DirPropsPage( Properties *_props );
     ~DirPropsPage() {};
 
-    virtual const char* getTabName() { return i18n("&Dir"); }
+    virtual QString getTabName() { return i18n("&Dir"); }
     virtual void applyChanges();
 
     static bool supports( KURL *_kurl, mode_t _mode );
@@ -332,7 +332,7 @@ public:
     /// Constructor
     ApplicationPropsPage( Properties *_props );
 
-    virtual const char* getTabName() { return i18n("&Application"); }
+    virtual QString getTabName() { return i18n("&Application"); }
     virtual void applyChanges();
 
     static bool supports( KURL *_kurl, mode_t _mode );
@@ -373,7 +373,7 @@ public:
     /// Constructor
     BindingPropsPage( Properties *_props );
 
-    virtual const char* getTabName() { return i18n("&Binding"); }
+    virtual QString getTabName() { return i18n("&Binding"); }
     virtual void applyChanges();
 
     static bool supports( KURL *_kurl, mode_t _mode );
@@ -398,7 +398,7 @@ public:
     DevicePropsPage( Properties *_props );
     ~DevicePropsPage() { }
 
-    virtual const char* getTabName() { return i18n("De&vice"); }
+    virtual QString getTabName() { return i18n("De&vice"); }
     virtual void applyChanges();
 
     static bool supports( KURL *_kurl, mode_t _mode );
