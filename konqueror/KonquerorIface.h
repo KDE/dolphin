@@ -37,27 +37,34 @@ public:
   ~KonquerorIface();
 
 k_dcop:
+ /**
+   Note : it would be very nice to be able to return a DCOPRef in each of those
+   DCOP calls which create a window. But Konqueror uses DCOP internally
+   (history broadcasts etc.), and DCOP doesn't support re-entrancy, so we can't 
+   do that. Sorry.
+  */
+
   /**
    * Opens a new window for the given @p url (using createSimpleWindow, i.e. a single view)
    */
-  DCOPRef openBrowserWindow( const QString &url );
+  ASYNC openBrowserWindow( const QString &url );
 
   /**
    * Opens a new window for the given @p url (using createNewWindow, i.e. with an appropriate profile)
    */
-  DCOPRef createNewWindow( const QString &url );
+  ASYNC createNewWindow( const QString &url );
 
   /**
    * Opens a new window for the given @p url (using createNewWindow, i.e. with an appropriate profile)
    * @param mimetype to speed it up.
    */
-  DCOPRef createNewWindow( const QString &url, const QString & mimetype );
+  ASYNC createNewWindow( const QString &url, const QString & mimetype );
 
   /**
    * As the name says, this creates a window from a profile.
    * Used for instance by khelpcenter.
    */
-  DCOPRef createBrowserWindowFromProfile( const QString &path );
+  ASYNC createBrowserWindowFromProfile( const QString &path );
 
   /**
    * As the name says, this creates a window from a profile.
@@ -65,7 +72,7 @@ k_dcop:
    * @param path full path to the profile file
    * @param filename name of the profile file, if under the profiles dir
    */
-  DCOPRef createBrowserWindowFromProfile( const QString &path, const QString &filename );
+  ASYNC createBrowserWindowFromProfile( const QString &path, const QString &filename );
 
   /**
    * Creates a window from a profile and a URL.
@@ -75,7 +82,7 @@ k_dcop:
    * @param filename name of the profile file, if under the profiles dir
    * @param url the URL to open
    */
-  DCOPRef createBrowserWindowFromProfileAndURL( const QString &path, const QString &filename, const QString &url );
+  ASYNC createBrowserWindowFromProfileAndURL( const QString &path, const QString &filename, const QString &url );
 
   /**
    * Creates a window the fastest way : the caller has to provide
@@ -85,7 +92,7 @@ k_dcop:
    * @param url the URL to open
    * @param mimetype the mimetype that the URL we want to open has
    */
-  DCOPRef createBrowserWindowFromProfileAndURL( const QString &path, const QString &filename, const QString &url, const QString &mimetype );
+  ASYNC createBrowserWindowFromProfileAndURL( const QString &path, const QString &filename, const QString &url, const QString &mimetype );
 
   /**
    * Called by kcontrol when the global configuration changes

@@ -38,68 +38,68 @@ KonquerorIface::~KonquerorIface()
 {
 }
 
-DCOPRef KonquerorIface::openBrowserWindow( const QString &url )
+ASYNC KonquerorIface::openBrowserWindow( const QString &url )
 {
-    KonqMainWindow *res = KonqMisc::createSimpleWindow( KURL(url) );
-    if ( !res )
+    /*KonqMainWindow *res = */ KonqMisc::createSimpleWindow( KURL(url) );
+    /*if ( !res )
         return DCOPRef();
-    return res->dcopObject();
+    return res->dcopObject();*/
 }
 
-DCOPRef KonquerorIface::createNewWindow( const QString &url )
+ASYNC KonquerorIface::createNewWindow( const QString &url )
 {
-    KonqMainWindow *res = KonqMisc::createNewWindow( KURL(url) );
-    if ( !res )
+    /*KonqMainWindow *res = */KonqMisc::createNewWindow( KURL(url) );
+    /*if ( !res )
         return DCOPRef();
-    return res->dcopObject();
+    return res->dcopObject();*/
 }
 
-DCOPRef KonquerorIface::createNewWindow( const QString &url, const QString &mimetype )
+ASYNC KonquerorIface::createNewWindow( const QString &url, const QString &mimetype )
 {
     KParts::URLArgs args;
     args.serviceType = mimetype;
-    KonqMainWindow *res = KonqMisc::createNewWindow( KURL(url), args );
-    if ( !res )
+    /*KonqMainWindow *res = */KonqMisc::createNewWindow( KURL(url), args );
+    /*if ( !res )
         return DCOPRef();
-    return res->dcopObject();
+    return res->dcopObject();*/
 }
 
-DCOPRef KonquerorIface::createBrowserWindowFromProfile( const QString &path )
+ASYNC KonquerorIface::createBrowserWindowFromProfile( const QString &path )
 {
     kdDebug(1202) << "void KonquerorIface::createBrowserWindowFromProfile( const QString &path ) " << endl;
     kdDebug(1202) << path << endl;
-    KonqMainWindow *res = KonqMisc::createBrowserWindowFromProfile( path, QString::null );
-    if ( !res )
+    /*KonqMainWindow *res = */KonqMisc::createBrowserWindowFromProfile( path, QString::null );
+    /*if ( !res )
         return DCOPRef();
-    return res->dcopObject();
+    return res->dcopObject();*/
 }
 
-DCOPRef KonquerorIface::createBrowserWindowFromProfile( const QString & path, const QString &filename )
+ASYNC KonquerorIface::createBrowserWindowFromProfile( const QString & path, const QString &filename )
 {
     kdDebug(1202) << "void KonquerorIface::createBrowserWindowFromProfile( path, filename ) " << endl;
     kdDebug(1202) << path << "," << filename << endl;
-    KonqMainWindow *res = KonqMisc::createBrowserWindowFromProfile( path, filename );
-    if ( !res )
+    /*KonqMainWindow *res = */KonqMisc::createBrowserWindowFromProfile( path, filename );
+    /*if ( !res )
         return DCOPRef();
-    return res->dcopObject();
+    return res->dcopObject();*/
 }
 
-DCOPRef KonquerorIface::createBrowserWindowFromProfileAndURL( const QString & path, const QString &filename, const QString &url )
+ASYNC KonquerorIface::createBrowserWindowFromProfileAndURL( const QString & path, const QString &filename, const QString &url )
 {
-    KonqMainWindow *res = KonqMisc::createBrowserWindowFromProfile( path, filename, KURL(url) );
-    if ( !res )
+    /*KonqMainWindow *res = */KonqMisc::createBrowserWindowFromProfile( path, filename, KURL(url) );
+    /*if ( !res )
         return DCOPRef();
-    return res->dcopObject();
+    return res->dcopObject();*/
 }
 
-DCOPRef KonquerorIface::createBrowserWindowFromProfileAndURL( const QString &path, const QString &filename, const QString &url, const QString &mimetype )
+ASYNC KonquerorIface::createBrowserWindowFromProfileAndURL( const QString &path, const QString &filename, const QString &url, const QString &mimetype )
 {
     KParts::URLArgs args;
     args.serviceType = mimetype;
-    KonqMainWindow *res = KonqMisc::createBrowserWindowFromProfile( path, filename, KURL(url), args );
-    if ( !res )
+    /*KonqMainWindow *res = */KonqMisc::createBrowserWindowFromProfile( path, filename, KURL(url), args );
+    /*if ( !res )
         return DCOPRef();
-    return res->dcopObject();
+    return res->dcopObject();*/
 }
 
 void KonquerorIface::reparseConfiguration()
