@@ -638,7 +638,7 @@ extern "C" int kdemain(int argc, char **argv)
             Kate::Document::setOpenErrorDialogsActivated (true);
         }
         else
-          KMessageBox::sorry( t, i18n("The file '%1' could not be opened, it is not a normal file, it is a folder!").arg(args->url(z).url()) );
+          KMessageBox::sorry( t, i18n("The file '%1' could not be opened: it is not a normal file, it is a folder.").arg(args->url(z).url()) );
       }
     }
   }
