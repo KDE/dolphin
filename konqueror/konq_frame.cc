@@ -375,7 +375,7 @@ void KonqFrameBase::printFrameInfo(QString spaces)
 KonqFrame::KonqFrame( QWidget* parent, KonqFrameContainerBase *parentContainer, const char *name )
 :QWidget(parent,name)
 {
-   kdDebug(1202) << "****************** KonqFrame::KonqFrame() ********************" << endl;
+   //kdDebug(1202) << "KonqFrame::KonqFrame()" << endl;
 
    m_pLayout = 0L;
    m_pView = 0L;
@@ -391,7 +391,7 @@ KonqFrame::KonqFrame( QWidget* parent, KonqFrameContainerBase *parentContainer, 
 
 KonqFrame::~KonqFrame()
 {
-  kdDebug(1202) << "KonqFrame::~KonqFrame() " << this << endl;
+   //kdDebug(1202) << "KonqFrame::~KonqFrame() " << this << endl;
 }
 
 bool KonqFrame::isActivePart()
@@ -430,8 +430,8 @@ void KonqFrame::printFrameInfo( QString spaces )
 {
    QString className = "NoPart";
    if (part()) className = part()->widget()->className();
-   kdDebug(1202) << spaces << "KonqFrame " << this << " visble=" << QString("%1").arg(isVisible()) << " containing view "
-                 << childView() << " visble=" << QString("%1").arg(isVisible())
+   kdDebug(1202) << spaces << "KonqFrame " << this << " visible=" << QString("%1").arg(isVisible()) << " containing view "
+                 << childView() << " visible=" << QString("%1").arg(isVisible())
                  << " and part " << part() << " whose widget is a " << className << endl;
 }
 
@@ -509,13 +509,13 @@ void KonqFrame::setView( KonqView* child )
 
 void KonqFrame::setTitle( QString title , QWidget* /*sender*/)
 {
-  kdDebug(1202) << "KonqFrame::setTitle( " << title << " )" << endl;
+  //kdDebug(1202) << "KonqFrame::setTitle( " << title << " )" << endl;
   if (m_pParentContainer) m_pParentContainer->setTitle( title , this);
 }
 
 void KonqFrame::setTabIcon( QString url, QWidget* /*sender*/ )
 {
-  kdDebug(1202) << "KonqFrame::setTabIcon( " << url << " )" << endl;
+  //kdDebug(1202) << "KonqFrame::setTabIcon( " << url << " )" << endl;
   if (m_pParentContainer) m_pParentContainer->setTabIcon( url, this );
 }
 
@@ -593,7 +593,7 @@ KonqFrameContainer::KonqFrameContainer( Orientation o,
 
 KonqFrameContainer::~KonqFrameContainer()
 {
-    kdDebug(1202) << "KonqFrameContainer::~KonqFrameContainer() " << this << " - " << className() << endl;
+    //kdDebug(1202) << "KonqFrameContainer::~KonqFrameContainer() " << this << " - " << className() << endl;
 		if ( m_pFirstChild )
 			delete m_pFirstChild;
 		if ( m_pSecondChild )
@@ -673,15 +673,20 @@ KonqFrameBase* KonqFrameContainer::otherChild( KonqFrameBase* child )
 
 void KonqFrameContainer::printFrameInfo( QString spaces )
 {
-	kdDebug(1202) << spaces << "KonqFrameContainer " << this << " visble=" << QString("%1").arg(isVisible())
+        kdDebug(1202) << spaces << "KonqFrameContainer " << this << " visible=" << QString("%1").arg(isVisible())
                       << " activeChild=" << m_pActiveChild << endl;
-        if (!m_pActiveChild) kdDebug(1202) << "WARNING: " << this << " has a null active child!" << endl;
-	KonqFrameBase* child = firstChild();
-	if (child != 0L) child->printFrameInfo(spaces + "  ");
-	else kdDebug(1202) << spaces << "  Null child" << endl;
-  child = secondChild();
-	if (child != 0L) child->printFrameInfo(spaces + "  ");
-	else kdDebug(1202) << spaces << "  Null child" << endl;
+        if (!m_pActiveChild)
+            kdDebug(1202) << "WARNING: " << this << " has a null active child!" << endl;
+        KonqFrameBase* child = firstChild();
+        if (child != 0L)
+            child->printFrameInfo(spaces + "  ");
+        else
+            kdDebug(1202) << spaces << "  Null child" << endl;
+        child = secondChild();
+        if (child != 0L)
+            child->printFrameInfo(spaces + "  ");
+        else
+            kdDebug(1202) << spaces << "  Null child" << endl;
 }
 
 void KonqFrameContainer::reparentFrame( QWidget* parent, const QPoint & p, bool showIt )
@@ -698,19 +703,19 @@ void KonqFrameContainer::swapChildren()
 
 void KonqFrameContainer::setTitle( QString title , QWidget* sender)
 {
-  kdDebug(1202) << "KonqFrameContainer::setTitle( " << title << " , " << sender << " )" << endl;
+  //kdDebug(1202) << "KonqFrameContainer::setTitle( " << title << " , " << sender << " )" << endl;
   if (m_pParentContainer && activeChild() && (sender == activeChild()->widget())) m_pParentContainer->setTitle( title , this);
 }
 
 void KonqFrameContainer::setTabIcon( QString url, QWidget* sender )
 {
-  kdDebug(1202) << "KonqFrameContainer::setTabIcon( " << url << " , " << sender << " )" << endl;
+  //kdDebug(1202) << "KonqFrameContainer::setTabIcon( " << url << " , " << sender << " )" << endl;
   if (m_pParentContainer && activeChild() && (sender == activeChild()->widget())) m_pParentContainer->setTabIcon( url, this );
 }
 
 void KonqFrameContainer::insertChildFrame( KonqFrameBase* frame, int /*index*/  )
 {
-  kdDebug(1202) << "KonqFrameContainer " << this << ": insertChildFrame " << frame << endl;
+  //kdDebug(1202) << "KonqFrameContainer " << this << ": insertChildFrame " << frame << endl;
 
   if (frame)
   {
@@ -718,13 +723,13 @@ void KonqFrameContainer::insertChildFrame( KonqFrameBase* frame, int /*index*/  
       {
           m_pFirstChild = frame;
           frame->setParentContainer(this);
-          kdDebug(1202) << "Setting as first child" << endl;
+          //kdDebug(1202) << "Setting as first child" << endl;
       }
       else if( !m_pSecondChild )
       {
           m_pSecondChild = frame;
           frame->setParentContainer(this);
-          kdDebug(1202) << "Setting as second child" << endl;
+          //kdDebug(1202) << "Setting as second child" << endl;
       }
       else
         kdWarning(1202) << this << " already has two children..."
@@ -735,14 +740,13 @@ void KonqFrameContainer::insertChildFrame( KonqFrameBase* frame, int /*index*/  
 
 void KonqFrameContainer::removeChildFrame( KonqFrameBase * frame )
 {
-  kdDebug(1202) << "KonqFrameContainer::RemoveChildFrame " << this << ". Child " << frame << " removed" << endl;
+  //kdDebug(1202) << "KonqFrameContainer::RemoveChildFrame " << this << ". Child " << frame << " removed" << endl;
 
   if( m_pFirstChild == frame )
-	{
-		m_pFirstChild = m_pSecondChild;
-		m_pSecondChild = 0L;
-	}
-
+  {
+    m_pFirstChild = m_pSecondChild;
+    m_pSecondChild = 0L;
+  }
   else if( m_pSecondChild == frame )
     m_pSecondChild = 0L;
 
@@ -777,7 +781,7 @@ KonqTabBar::~KonqTabBar()
 
 void KonqTabBar::mousePressEvent(QMouseEvent *e)
 {
-  kdDebug(1202) << "KonqTabBar::mousePressEvent begin" << endl;
+  //kdDebug(1202) << "KonqTabBar::mousePressEvent begin" << endl;
 
   if (e->button() == RightButton)
   {
@@ -791,13 +795,13 @@ void KonqTabBar::mousePressEvent(QMouseEvent *e)
 
   QTabBar::mousePressEvent( e );
 
-  kdDebug(1202) << "KonqTabBar::mousePressEvent end" << endl;
+  //kdDebug(1202) << "KonqTabBar::mousePressEvent end" << endl;
 }
 
 KonqFrameTabs::KonqFrameTabs(QWidget* parent, KonqFrameContainerBase* parentContainer, KonqViewManager* viewManager, const char * name)
   : QTabWidget(parent, name)
 {
-  kdDebug(1202) << "**************** KonqFrameTabs::KonqFrameTabs() *********************" << endl;
+  //kdDebug(1202) << "KonqFrameTabs::KonqFrameTabs()" << endl;
 
   m_pParentContainer = parentContainer;
   m_pChildFrameList = new QPtrList<KonqFrameBase>;
@@ -812,7 +816,7 @@ KonqFrameTabs::KonqFrameTabs(QWidget* parent, KonqFrameContainerBase* parentCont
 
 KonqFrameTabs::~KonqFrameTabs()
 {
-  kdDebug(1202) << "KonqFrameTabs::~KonqFrameTabs() " << this << " - " << className() << endl;
+  //kdDebug(1202) << "KonqFrameTabs::~KonqFrameTabs() " << this << " - " << className() << endl;
   m_pChildFrameList->setAutoDelete(true);
   delete m_pChildFrameList;
 }
@@ -857,7 +861,7 @@ void KonqFrameTabs::copyHistory( KonqFrameBase *other )
 
 void KonqFrameTabs::printFrameInfo( QString spaces )
 {
-  kdDebug(1202) << spaces << "KonqFrameTabs " << this << " visble=" << QString("%1").arg(isVisible())
+  kdDebug(1202) << spaces << "KonqFrameTabs " << this << " visible=" << QString("%1").arg(isVisible())
                 << " activeChild=" << m_pActiveChild << endl;
   if (!m_pActiveChild) kdDebug(1202) << "WARNING: " << this << " has a null active child!" << endl;
   KonqFrameBase* child;
@@ -876,7 +880,7 @@ void KonqFrameTabs::reparentFrame( QWidget* parent, const QPoint & p, bool showI
 
 void KonqFrameTabs::setTitle( QString title , QWidget* sender)
 {
-  kdDebug(1202) << "KonqFrameTabs::setTitle( " << title << " , " << sender << " )" << endl;
+  //kdDebug(1202) << "KonqFrameTabs::setTitle( " << title << " , " << sender << " )" << endl;
   QString newTitle = title;
   removeTabToolTip( sender );
   if (newTitle.length() > 30)
@@ -890,7 +894,7 @@ void KonqFrameTabs::setTitle( QString title , QWidget* sender)
 
 void KonqFrameTabs::setTabIcon( QString url, QWidget* sender )
 {
-  kdDebug(1202) << "KonqFrameTabs::setTabIcon( " << url << " , " << sender << " )" << endl;
+  //kdDebug(1202) << "KonqFrameTabs::setTabIcon( " << url << " , " << sender << " )" << endl;
   QIconSet iconSet = QIconSet( KonqPixmapProvider::self()->pixmapFor( url ) );
   if (tabIconSet( sender ).pixmap().serialNumber() != iconSet.pixmap().serialNumber())
     setTabIconSet( sender, iconSet );
@@ -907,11 +911,11 @@ void KonqFrameTabs::activateChild()
 
 void KonqFrameTabs::insertChildFrame( KonqFrameBase* frame, int index )
 {
-  kdDebug(1202) << "KonqFrameTabs " << this << ": insertChildFrame " << frame << endl;
+  //kdDebug(1202) << "KonqFrameTabs " << this << ": insertChildFrame " << frame << endl;
 
   if (frame)
   {
-    kdDebug(1202) << "Adding frame" << endl;
+    //kdDebug(1202) << "Adding frame" << endl;
     insertTab(frame->widget(),"", index);
     frame->setParentContainer(this);
     if (index == -1) m_pChildFrameList->append(frame);
@@ -928,7 +932,7 @@ void KonqFrameTabs::insertChildFrame( KonqFrameBase* frame, int index )
 
 void KonqFrameTabs::removeChildFrame( KonqFrameBase * frame )
 {
-  kdDebug(1202) << "KonqFrameTabs::RemoveChildFrame " << this << ". Child " << frame << " removed" << endl;
+  //kdDebug(1202) << "KonqFrameTabs::RemoveChildFrame " << this << ". Child " << frame << " removed" << endl;
   if (frame) {
     removePage(frame->widget());
     m_pChildFrameList->remove(frame);
@@ -936,7 +940,7 @@ void KonqFrameTabs::removeChildFrame( KonqFrameBase * frame )
   else
     kdWarning(1202) << "KonqFrameTabs " << this << ": removeChildFrame(0L) !" << endl;
 
-  kdDebug(1202) << "KonqFrameTabs::RemoveChildFrame finished" << endl;
+  //kdDebug(1202) << "KonqFrameTabs::RemoveChildFrame finished" << endl;
 }
 
 void KonqFrameTabs::slotCurrentChanged( QWidget* newPage )
