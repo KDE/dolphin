@@ -239,7 +239,7 @@ void RenameCommand::execute()
     KBookmark bk = KBookmarkManager::self()->findByAddress( m_address );
     Q_ASSERT( !bk.isNull() );
 
-    QDomText domtext = bk.internalElement().elementsByTagName("title").item(0).firstChild().toText();
+    QDomText domtext = bk.internalElement().namedItem("title").firstChild().toText();
 
     m_oldText = domtext.data();
     domtext.setData( m_newText );

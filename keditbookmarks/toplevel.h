@@ -116,6 +116,7 @@ public slots:
     void slotImportMoz();
     void slotExportMoz();
     void slotSave();
+    void slotSaveAs();
     void slotDocumentRestored();
     void slotCut();
     void slotCopy();

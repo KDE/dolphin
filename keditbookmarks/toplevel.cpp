@@ -25,6 +25,7 @@
 #include <kbookmarkexporter.h>
 #include <kdebug.h>
 #include <kedittoolbar.h>
+#include <kfiledialog.h>
 #include <kkeydialog.h>
 #include <kstdaction.h>
 #include <klocale.h>
@@ -372,6 +373,7 @@ KEBTopLevel::KEBTopLevel( const QString & bookmarksFile )
     act = new KAction( i18n( "Import Mozilla Bookmarks" ), "mozilla", 0, this, SLOT( slotImportMoz() ), actionCollection(), "importMoz" );
     (void) new KAction( i18n( "Export To Mozilla Bookmarks" ), "mozilla", 0, this, SLOT( slotExportMoz() ), actionCollection(), "exportMoz" );
     (void) KStdAction::save( this, SLOT( slotSave() ), actionCollection() );
+    (void) KStdAction::saveAs( this, SLOT( slotSaveAs() ), actionCollection() );
     (void) KStdAction::quit( this, SLOT( close() ), actionCollection() );
     (void) KStdAction::cut( this, SLOT( slotCut() ), actionCollection() );
     (void) KStdAction::copy( this, SLOT( slotCopy() ), actionCollection() );
@@ -487,6 +489,14 @@ void KEBTopLevel::slotClipboardDataChanged()
 void KEBTopLevel::slotSave()
 {
     (void)save();
+}
+
+void KEBTopLevel::slotSaveAs()
+{
+	QString saveFilename= 
+		KFileDialog::getSaveFileName( QString::null, "*.xml", this );
+
+	KBookmarkManager::self()->saveAs( saveFilename );
 }
 
 bool KEBTopLevel::save()
