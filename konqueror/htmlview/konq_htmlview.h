@@ -107,7 +107,7 @@ public:
   virtual bool openFile() { return false; }
 
   // used to be called stop()
-  virtual void closeURL();
+  virtual bool closeURL();
 
   // to avoid having to call widget() and cast very often
   KonqHTMLWidget * htmlWidget() { return m_pWidget; }

@@ -200,9 +200,10 @@ void KonqHTMLView::slotCompleted()
   emit completed();
 }
 
-void KonqHTMLView::closeURL()
+bool KonqHTMLView::closeURL()
 {
   m_pWidget->slotStop();
+  return true; // always true for a read-only part
 }
 
 /*
