@@ -30,7 +30,6 @@
 #include <kcursor.h>
 #include <kdebug.h>
 #include <kio/job.h>
-#include <kio/paste.h>
 #include <klocale.h>
 #include <kfileivi.h>
 #include <konq_fileitem.h>
@@ -483,14 +482,6 @@ void KonqIconViewWidget::copySelection()
 
 void KonqIconViewWidget::pasteSelection()
 {
-    // move or not move ?
-    bool move = false;
-    QMimeSource *data = QApplication::clipboard()->data();
-    if ( data->provides( "application/x-kde-cutselection" ) ) {
-      move = KonqDrag::decodeIsCutSelection( data );
-      kdDebug(1203) << "move (from clipboard data) = " << move << endl;
-    }
-
     KURL::List lst = selectedUrls();
     assert ( lst.count() <= 1 );
     KURL pasteURL;
@@ -499,10 +490,7 @@ void KonqIconViewWidget::pasteSelection()
     else
       pasteURL = url();
 
-    KIO::Job *undoJob = KIO::pasteClipboard( pasteURL, move );
-
-    if ( undoJob )
-      (void) new KonqCommandRecorder( move ? KonqCommand::MOVE : KonqCommand::COPY, KURL::List(), pasteURL, undoJob );
+    KonqOperations::doPaste( this, pasteURL );
 }
 
 KURL::List KonqIconViewWidget::selectedUrls()
@@ -806,13 +794,13 @@ void KonqIconViewWidget::lineupIcons()
 
     // For dx, use what used to be the gridX
     int sz = m_size ? m_size : KGlobal::iconLoader()->currentSize( KIcon::Desktop );
-    int dx = sz + 30 + (( itemTextPos() == QIconView::Right ) ? 50 : 0); 
+    int dx = sz + 30 + (( itemTextPos() == QIconView::Right ) ? 50 : 0);
     // For dy, well, let's use any icon, it should do
     int dy = firstItem()->height();
 
     dx += spacing();
     dy += spacing();
-   
+
     kdDebug(1203) << "dx = " << dx << ", dy = " << dy << "\n";
 
     if ((dx < 15) || (dy < 15))

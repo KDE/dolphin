@@ -1,6 +1,8 @@
 /*  This file is part of the KDE project
     Copyright (C) 2000  David Faure <faure@kde.org>
 
+#include "konq_operations.h"
+
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation; either version 2 of the License, or
@@ -17,6 +19,7 @@
 */
 
 #include <qwidget.h>
+#include <qclipboard.h>
 #include <konq_operations.h>
 #include <kconfig.h>
 #include <klocale.h>
@@ -58,24 +61,9 @@ KonqOperations::KonqOperations( QWidget *parent )
 
 void KonqOperations::editMimeType( const QString & mimeType )
 {
-  /*
-  QString mimeTypeFile = locate("mime", mimeType + ".desktop");
-  if ( mimeTypeFile.isEmpty() )
-  {
-    mimeTypeFile = locate("mime", mimeType + ".kdelnk");
-    if ( mimeTypeFile.isEmpty() )
-    {
-      mimeTypeFile = locate("mime", mimeType );
-      if ( mimeTypeFile.isEmpty() )
-        return; // hmmm
-    }
-  }
-  (void) new KPropertiesDialog( mimeTypeFile  );
-  */
-
   QString keditfiletype = QString::fromLatin1("keditfiletype");
   KRun::runCommand( keditfiletype + " " + mimeType,
-                    keditfiletype, keditfiletype /* Icon. hmm, doesn't exist yet */);
+                    keditfiletype, keditfiletype /*unused*/);
 }
 
 void KonqOperations::del( QWidget * parent, int method, const KURL::List & selectedURLs )
@@ -113,7 +101,7 @@ void KonqOperations::del( QWidget * parent, int method, const KURL::List & selec
 
 void KonqOperations::emptyTrash()
 {
-  KonqOperations *op = new KonqOperations( 0L );;
+  KonqOperations *op = new KonqOperations( 0L );
 
   QDir trashDir( KGlobalSettings::trashPath() );
   QStringList files = trashDir.entryList( QDir::Files | QDir::Dirs );
@@ -132,6 +120,26 @@ void KonqOperations::emptyTrash()
   if ( urls.count() > 0 )
     op->_del( EMPTYTRASH, urls, SKIP_CONFIRMATION );
 
+}
+
+void KonqOperations::doPaste( QWidget * parent, const KURL & destURL )
+{
+    // move or not move ?
+    bool move = false;
+    QMimeSource *data = QApplication::clipboard()->data();
+    if ( data->provides( "application/x-kde-cutselection" ) ) {
+      move = KonqDrag::decodeIsCutSelection( data );
+      kdDebug(1203) << "move (from clipboard data) = " << move << endl;
+    }
+
+    KIO::Job *job = KIO::pasteClipboard( destURL, move );
+    if ( job )
+    {
+        KonqOperations * op = new KonqOperations( parent );
+        KIO::CopyJob * copyJob = static_cast<KIO::CopyJob *>(job);
+        op->setOperation( job, move ? MOVE : COPY, copyJob->srcURLs(), copyJob->destURL() );
+        (void) new KonqCommandRecorder( move ? KonqCommand::MOVE : KonqCommand::COPY, KURL::List(), destURL, job );
+    }
 }
 
 void KonqOperations::_del( int method, const KURL::List & selectedURLs, int confirmation )

@@ -56,6 +56,11 @@ public:
      */
     static void doDrop( const KonqFileItem * destItem, QDropEvent * ev, QWidget * parent );
 
+    /**
+     * Paste the clipboard contents
+     */
+    static void doPaste( QWidget * parent, const KURL & destURL );
+
     static void emptyTrash();
 
 protected:
