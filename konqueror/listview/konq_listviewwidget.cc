@@ -589,6 +589,7 @@ void KonqBaseListViewWidget::viewportDragMoveEvent( QDragMoveEvent *_ev )
    if ( !item )
    {
       _ev->acceptAction();
+      m_dragOverItem = 0L;
       return;
    }
 
