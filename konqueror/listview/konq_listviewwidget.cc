@@ -846,10 +846,9 @@ void KonqBaseListViewWidget::updateListContents()
 
 bool KonqBaseListViewWidget::openURL( const KURL &url )
 {
-   m_pBrowserView->beforeOpenURL();
-
    // The first time or new protocol ? So create the columns first
-   kdDebug(1202) << "protocol in ::openURL: -" << url.protocol()<<"- url: -"<<url.path()<<"-"<<endl;
+   kdDebug(1202) << "protocol in ::openURL: -" << url.protocol() <<"- url: -"
+                 << url.path() << "-" << endl;
 
    if (( columns() <1) || ( url.protocol() != m_url.protocol() ))
    {
@@ -876,8 +875,6 @@ bool KonqBaseListViewWidget::openURL( const KURL &url )
             m_goToFirstItem=true;
       };
    };
-
-   m_url=url;
 
    // Check for new properties in the new dir
    // newProps returns true the first time, and any time something might
