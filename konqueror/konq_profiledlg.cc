@@ -113,7 +113,7 @@ KonqProfileDlg::KonqProfileDlg( KonqViewManager *manager, const QString & presel
   m_pGrid->addMultiCellWidget( m_cbSaveSize, 8, 8, 0, N_BUTTONS-1 );
 
   m_pSaveButton = new QPushButton( i18n( "Save" ), this );
-  m_pSaveButton->setEnabled( false );
+  m_pSaveButton->setEnabled( !m_pProfileNameLineEdit.isEmpty() );
   m_pSaveButton->setDefault( true );
 
   m_pGrid->addWidget( m_pSaveButton, 9, 0 );
