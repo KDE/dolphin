@@ -83,7 +83,7 @@ public:
      * @param state the state of the icon (enum in KIcon)
      * @param redraw whether to redraw the item after setting the icon
      */
-    void KFileIVI::invalidateThumb( int state, bool redraw = false );
+    void invalidateThumb( int state, bool redraw = false );
 
     /**
      * Return the current state of the icon
