@@ -65,8 +65,8 @@ public slots:
 private:
    void setItemMod(class KEBListViewItem *item, const QString &modDate);
 
-   virtual void doBlah();
-   virtual bool isBlahable(const KBookmark &bk);
+   virtual void doAction();
+   virtual bool isApplicable(const KBookmark &bk);
 
    KIO::TransferJob *m_job;
    bool m_errSet;

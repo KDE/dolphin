@@ -54,8 +54,8 @@ public slots:
    void slotDone(bool succeeded);
 
 private:
-   virtual void doBlah();
-   virtual bool isBlahable(const KBookmark &bk);
+   virtual void doAction();
+   virtual bool isApplicable(const KBookmark &bk);
    FavIconUpdater *m_updater;
    bool m_done;
 };

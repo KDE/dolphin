@@ -43,8 +43,8 @@ signals:
    void deleteSelf(BookmarkIterator *);
 
 protected:
-   virtual void doBlah() = 0;
-   virtual bool isBlahable(const KBookmark &bk) = 0;
+   virtual void doAction() = 0;
+   virtual bool isApplicable(const KBookmark &bk) = 0;
 
    KEBListViewItem* curItem();
 

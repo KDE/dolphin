@@ -52,8 +52,8 @@ public:
    void setSearch(int options, const QString& pattern);
 
 private:
-   virtual void doBlah();
-   virtual bool isBlahable(const KBookmark &bk);
+   virtual void doAction();
+   virtual bool isApplicable(const KBookmark &bk);
 
    int m_showstatuscounter;
    KEBListViewItem *m_statusitem;

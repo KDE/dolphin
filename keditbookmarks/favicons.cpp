@@ -61,14 +61,14 @@ void FavIconsItr::slotDone(bool succeeded) {
    delayedEmitNextOne();
 }
 
-bool FavIconsItr::isBlahable(const KBookmark &bk) {
+bool FavIconsItr::isApplicable(const KBookmark &bk) {
    // quick hack. fix later on
    return (!bk.isGroup() && !bk.isSeparator() 
        && (bk.url().protocol().startsWith("http")) );
 }
 
-void FavIconsItr::doBlah() {
-   kdDebug() << "FavIconsItr::doBlah()" << endl;
+void FavIconsItr::doAction() {
+   kdDebug() << "FavIconsItr::doAction()" << endl;
    m_done = false;
    curItem()->setTmpStatus(i18n("Updating favicon..."));
    if (!m_updater) {

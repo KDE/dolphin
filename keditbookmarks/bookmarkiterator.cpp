@@ -57,14 +57,14 @@ void BookmarkIterator::nextOne() {
    QValueListIterator<KBookmark> head = m_bks.begin();
    KBookmark bk = (*head);
 
-   if (bk.hasParent() && isBlahable(bk)) {
+   if (bk.hasParent() && isApplicable(bk)) {
       m_url = bk.url().url();
 
       // kdDebug() << "BookmarkIterator::nextOne " << m_url << " : " << bk.address() << "\n";
 
       m_book = bk;
 
-      doBlah();
+      doAction();
 
       m_bks.remove(head);
 

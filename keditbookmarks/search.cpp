@@ -98,12 +98,12 @@ void SearchItr::setSearch(int /*options*/, const QString& pattern) {
    */
 }
 
-bool SearchItr::isBlahable(const KBookmark &bk) {
+bool SearchItr::isApplicable(const KBookmark &bk) {
    return (!bk.isSeparator());
 }
 
-void SearchItr::doBlah() {
-   // kdDebug() << "doBlah()" << m_statusitem << endl;
+void SearchItr::doAction() {
+   // kdDebug() << "doAction()" << m_statusitem << endl;
 
    KEBListViewItem* new_statusitem = 0;
    KEBListViewItem* openparent = ListView::self()->findOpenParent(curItem());

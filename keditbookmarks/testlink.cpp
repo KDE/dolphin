@@ -64,11 +64,11 @@ TestLinkItr::~TestLinkItr() {
    }
 }
 
-bool TestLinkItr::isBlahable(const KBookmark &bk) {
+bool TestLinkItr::isApplicable(const KBookmark &bk) {
    return (!bk.isGroup() && !bk.isSeparator());
 }
 
-void TestLinkItr::doBlah() {
+void TestLinkItr::doAction() {
    m_job = KIO::get(m_book.url(), true, false);
    connect(m_job, SIGNAL( result( KIO::Job *)),
            this, SLOT( slotJobResult(KIO::Job *)));
