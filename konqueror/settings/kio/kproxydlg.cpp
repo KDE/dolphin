@@ -261,7 +261,7 @@ void KProxyDialog::save()
     {
       if ( _data->type != KProtocolManager::EnvVarProxy )
       {
-        showInvalidMessage();        
+        showInvalidMessage();
         return;
       }
 
@@ -360,7 +360,7 @@ QString KProxyDialog::quickHelp() const
                "<p>Caching proxy servers give you faster access to sites you have "
                "already visited by locally storing or caching the content of those "
                "pages. Filtering proxy servers on the other hand provide the "
-               "abiltiy to block out requests for ads, spam or anything else you "
+               "ability to block out requests for ads, spam or anything else you "
                "want block."
                "<p><u>Note:</u>Some proxy servers provide both services." );
 }
@@ -368,7 +368,7 @@ QString KProxyDialog::quickHelp() const
 void KProxyDialog::showInvalidMessage( const QString& _msg )
 {
   QString msg;
-  
+
   if( !_msg.isEmpty() )
     msg = _msg;
   else
@@ -376,7 +376,7 @@ void KProxyDialog::showInvalidMessage( const QString& _msg )
                 "<p>Please click on the <b>Setup...</b> "
                 "button and correct the problem before proceeding; "
                 "otherwise your changes will be ignored.</qt>" );
-  
+
   KMessageBox::error( this, msg, i18n("Invalid Proxy Setup") );
 }
 
