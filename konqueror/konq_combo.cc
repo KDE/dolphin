@@ -313,7 +313,7 @@ void KonqCombo::loadItems()
     s_config->writeEntry( "CompletionItems", "unused" );
 
     s_config->setGroup( "Location Bar" );
-    QStringList items = s_config->readListEntry( "ComboContents" );
+    QStringList items = s_config->readPathListEntry( "ComboContents" );
     QStringList::ConstIterator it = items.begin();
     QString item;
     bool first = true;
@@ -369,7 +369,7 @@ void KonqCombo::saveItems()
         items.append( text( i ) );
 
     s_config->setGroup( "Location Bar" );
-    s_config->writeEntry( "ComboContents", items );
+    s_config->writePathEntry( "ComboContents", items );
     KonqPixmapProvider::self()->save( s_config, "ComboIconCache", items );
 
     s_config->sync();
