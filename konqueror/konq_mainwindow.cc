@@ -815,7 +815,7 @@ bool KonqMainWindow::openView( QString serviceType, const KURL &_url, KonqView *
 
   KURL url( _url );
 
-  // In case we open an index.html or .kde.html, we want the location bar
+  // In case we open an index.html, we want the location bar
   // to still display the original URL (so that 'up' uses that URL,
   // and since that's what the user entered).
   // changeViewMode will take care of setting and storing that url.
@@ -838,7 +838,6 @@ bool KonqMainWindow::openView( QString serviceType, const KURL &_url, KonqView *
 
     if ( url.isLocalFile() ) // local, we can do better (.directory)
     {
-      // Ok, there is an index.html. But does the user want to see it ?
       // Read it in the .directory file, default to m_bHTMLAllowed
       KURL urlDotDir( url );
       urlDotDir.addPath(".directory");
@@ -1886,7 +1885,11 @@ QString KonqMainWindow::findIndexFile( const QString &dir )
   if ( QFile::exists( f ) )
     return f;
 
-  f = d.filePath( ".kde.html", false );
+  f = d.filePath( "index.htm", false );
+  if ( QFile::exists( f ) )
+    return f;
+
+  f = d.filePath( "index.HTML", false );
   if ( QFile::exists( f ) )
     return f;
 
