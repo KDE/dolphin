@@ -1,0 +1,15 @@
+[Desktop Entry]
+Encoding=UTF-8
+Type=Application
+DocPath=kcontrol/file-manager.html
+Icon=kfm
+Exec=kcmshell fileappearance
+
+X-KDE-ModuleType=Library
+X-KDE-Library=konq
+X-KDE-FactoryName=appearance
+
+Name=Appearance
+
+Comment=You can configure how Konqueror looks as a file manager here
+Keywords=konqueror,filemanager,word wrap,wrap,underline,display,filesize,bytes,font,color,colour

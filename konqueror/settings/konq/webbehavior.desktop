@@ -1,0 +1,15 @@
+[Desktop Entry]
+Encoding=UTF-8
+Type=Application
+DocPath=kcontrol/file-manager.html
+Icon=kfm
+Exec=kcmshell filebehavior
+
+X-KDE-ModuleType=Library
+X-KDE-Library=konq
+X-KDE-FactoryName=behavior
+
+Name=Behavior
+
+Comment=You can configure how Konqueror behaves as a file manager here
+Keywords=konqueror,filemanager,kfm,tips,file tips,separate window,spawn windows,behavior,behaviour,memory usage,Home URL,
