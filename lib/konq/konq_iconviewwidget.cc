@@ -551,8 +551,9 @@ void KonqIconViewWidget::slotMovieUpdate( const QRect& rect )
         const QPixmap &frame = d->m_movie->framePixmap();
         // This can happen if the icon was scaled to the desired size, so KIconLoader
         // will happily return a movie with different dimensions than the icon
-        if ( frame.width() != d->pActiveItem->iconSize() ||
-             frame.height() != d->pActiveItem->iconSize() ) {
+        int iconSize=d->pActiveItem->iconSize();
+        if (iconSize==0) iconSize = KGlobal::iconLoader()->currentSize( KIcon::Desktop );
+        if ( frame.width() != iconSize || frame.height() != iconSize ) {
             d->pActiveItem->setAnimated( false );
             d->m_movie->pause();
             // No movie available, remember it
