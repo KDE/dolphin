@@ -21,7 +21,7 @@
 #include <klocale.h>
 #include <dcopclient.h>
 #include <kconfig.h>
-#include <uiserver_stub.h>
+#include <kio/uiserver_stub.h>
 
 
 //-----------------------------------------------------------------------------
