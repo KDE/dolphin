@@ -1189,7 +1189,7 @@ void KonqMainView::initActions()
   m_paPaste = new KAction( i18n( "&Paste" ), QIconSet( BarIcon( "editpaste", KonqFactory::instance() ) ), stdAccel.paste(), this, SLOT( slotPaste() ), actionCollection(), "paste" );
   m_paStop = new KAction( i18n( "Sto&p loading" ), QIconSet( BarIcon( "stop", KonqFactory::instance() ) ), Key_Escape, this, SLOT( slotStop() ), actionCollection(), "stop" );
 
-  m_paTrash = new KAction( i18n( "&Move to Trash" ), QIconSet( BarIcon( "trash", KonqFactory::instance() ) ), stdAccel.cut(), this, SLOT( slotTrash() ), actionCollection(), "trash" );
+  m_paTrash = new KAction( i18n( "&Move to Trash" ), QIconSet( BarIcon( "trash", KonqFactory::instance() ) ), 0, this, SLOT( slotTrash() ), actionCollection(), "trash" );
   m_paDelete = new KAction( i18n( "&Delete" ), CTRL+Key_Delete, this, SLOT( slotDelete() ), actionCollection(), "delete" );
 
   m_paCut->plug( m_pamEdit->popupMenu() );
