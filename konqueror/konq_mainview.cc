@@ -459,8 +459,10 @@ bool KonqMainView::mappingParentGotFocus( OpenParts::Part_ptr child )
 
 bool KonqMainView::mappingOpenURL( Konqueror::EventOpenURL eventURL )
 {
-  if ( m_currentView && !CORBA::is_nil( m_currentView->m_vView ) )
+/*  if ( m_currentView && !CORBA::is_nil( m_currentView->m_vView ) )
     EMIT_EVENT( m_currentView->m_vView, Konqueror::eventOpenURL, eventURL );
+
+*/
 }
 
 void KonqMainView::insertView( Konqueror::View_ptr view )
@@ -907,9 +909,6 @@ void KonqMainView::slotAboutApp()
 
 void KonqMainView::slotURLEntered()
 {
-  if ( CORBA::is_nil( m_vLocationBar ) ) //hm... this can be removed
-    return;
-
   string url = m_vLocationBar->linedText( TOOLBAR_URL_ID );
 
   // Exit if the user did not enter an URL
@@ -959,6 +958,7 @@ void KonqMainView::slotURLEntered()
   Konqueror::EventOpenURL eventURL;
   eventURL.url = url.c_str();
   eventURL.reload = (CORBA::Boolean)false;
+  debug("KonqMainView : emitting EventOpenURL %s",url.c_str());
   EMIT_EVENT( m_currentView->m_vView, Konqueror::eventOpenURL, eventURL );
   
 //  m_currentView->m_pView->openURL( url.c_str() );

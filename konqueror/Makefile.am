@@ -39,6 +39,7 @@ konqueror.cc: konqueror.h
 konqueror.h: $(srcdir)/konqueror.idl
 	  $(IDL) $(IDL_FLAGS) $(srcdir)/konqueror.idl
 
+konq_baseview.cc: konqueror.h
 konq_baseview.h: konqueror.h
 konq_main.h: konqueror.h
 konq_mainview.h: konqueror.h

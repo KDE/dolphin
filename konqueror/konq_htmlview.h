@@ -27,7 +27,7 @@
 
 #include <qpoint.h>
 
-class KonqHtmlView;
+class KonqHTMLView;
 
 class KonqEmbededFrame : public KHTMLEmbededWidget
 {
@@ -44,23 +44,21 @@ protected:
   QWidget* m_pChild;
 };
 
-class KonqHtmlView : public KBrowser,
+class KonqHTMLView : public KBrowser,
                      public KonqBaseView,
                      virtual public Konqueror::HTMLView_skel
 {
   Q_OBJECT  
 
 public:
-  KonqHtmlView( QWidget *_parent, KonqBaseView *_view, const char *_name = 0L, KBrowser *_parent_browser = 0L );
-  virtual ~KonqHtmlView();
+  KonqHTMLView( QWidget *_parent = 0L, const char *_name = 0L, KBrowser *_parent_browser = 0L );
+  virtual ~KonqHTMLView();
 
-  // virtual bool mappingOpenURL( Konqueror::EventOpenURL eventURL );
+  virtual bool mappingOpenURL( Konqueror::EventOpenURL eventURL );
   virtual void setFocus();
 
   virtual void stop();
-  virtual char *viewName() { return "KonquerorHtmlView"; }
-
-  // virtual void openURL( const char* _url );
+  virtual char *viewName() { return "KonquerorHTMLView"; }
 
 signals:
   void gotFocus();
@@ -69,7 +67,6 @@ public slots:
   virtual void slotMousePressed( const char*, const QPoint&, int );
 
 protected slots:
-  void slotNewWindow( const char *_url );
   void slotOnURL( const char *_url );
   
 protected:
@@ -80,7 +77,7 @@ protected:
    * For internal use only
    *
    * Overrides @ref KBrowser::createFrame. It just creates a new instance
-   * of KonqHtmlView. These instances are used as frames.
+   * of KonqHTMLView. These instances are used as frames.
    */
   virtual KBrowser* createFrame( QWidget *_parent, const char *_name );
 
@@ -92,7 +89,6 @@ protected:
 						int _marginwidth, int _marginheight,
 						int _frameborder, bool _noresize );
 
-  KonqBaseView* m_pView;
 };
 
 #endif

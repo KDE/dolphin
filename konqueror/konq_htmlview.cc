@@ -72,14 +72,22 @@ void KonqHTMLView::initConfig()
     htmlWidget->setURLCursor( KCursor().arrowCursor() );
 }
 
+/*
 void KonqHTMLView::slotNewWindow( const char *_url )
 {
   (void)new KRun( _url, 0, false );
 }
+*/
 
 KBrowser* KonqHTMLView::createFrame( QWidget *_parent, const char *_name )
 {
   return ( new KonqHTMLView( _parent, _name, this ) );
+}
+
+bool KonqHTMLView::mappingOpenURL( Konqueror::EventOpenURL eventURL )
+{
+  openURL( eventURL.url ); // implemented by kbrowser
+  return true;
 }
 
 void KonqHTMLView::slotMousePressed( const char* _url, const QPoint &_global, int _button )
