@@ -36,6 +36,9 @@
   <Action name="bgcolor"/>
   <Action name="bgimage"/>
  </Menu>
+ <Menu name="tools"><text>&amp;Tools</text>
+  <Action name="executeshellcommand"/>
+ </Menu>
 </MenuBar>
 <ToolBar name="mainToolBar"><text>Main Toolbar</text>
  <Action name="incIconSize" />
