@@ -95,7 +95,7 @@ public:
   /**
    * Filters the URL and calls the main openURL method.
    */
-  void openFilteredURL( const QString &_url );
+  void openFilteredURL( const QString &_url, bool inNewTab = false );
 
   /**
    * The main openURL method.

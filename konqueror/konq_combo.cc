@@ -36,6 +36,7 @@ const int KonqCombo::temporary = 0;
 KonqCombo::KonqCombo( QWidget *parent, const char *name )
     : KHistoryCombo( parent, name ),
       m_returnPressed( false ),
+      m_ctrlReturnPressed( false ),
       m_permanent( false )
 {
     setInsertionPolicy( NoInsertion );
@@ -271,6 +272,13 @@ void KonqCombo::slotReturnPressed()
     m_returnPressed = true;
 }
 
+bool KonqCombo::ctrlReturnPressed()
+{
+    bool result=m_ctrlReturnPressed;
+    m_ctrlReturnPressed=false;
+    return result;
+}
+
 void KonqCombo::clearTemporary( bool makeCurrent )
 {
     applyPermanent();
@@ -288,9 +296,12 @@ bool KonqCombo::eventFilter( QObject *o, QEvent *ev )
         int type = ev->type();
         if ( type == QEvent::KeyPress ) {
             QKeyEvent *e = static_cast<QKeyEvent *>( ev );
+            if ((e->key() == Key_Return || e->key() == Key_Enter) && (e->state() & ControlButton))
+                 m_ctrlReturnPressed = true;
+
             if ( KStdAccel::isEqual( e, KStdAccel::deleteWordBack() ) ||
                  KStdAccel::isEqual( e, KStdAccel::deleteWordForward() ) ||
-                 ((e->state() & ControlButton) && 
+                 ((e->state() & ControlButton) &&
                    (e->key() == Key_Left || e->key() == Key_Right) ) ) {
                 selectWord(e);
                 e->accept();
@@ -319,7 +330,7 @@ void KonqCombo::keyPressEvent( QKeyEvent *e )
 void KonqCombo::selectWord(QKeyEvent *e)
 {
     // Handle Ctrl+Cursor etc better than the Qt widget, which always
-    // jumps to the next whitespace. This code additionally jumps to 
+    // jumps to the next whitespace. This code additionally jumps to
     // the next [/#?:], which makes more sense for URLs.
     QLineEdit *edit = lineEdit();
     QString text = edit->text();

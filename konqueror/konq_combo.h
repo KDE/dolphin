@@ -39,7 +39,7 @@ public:
 
     // initializes with the completion object and calls loadItems()
     void init( KCompletion * );
-    
+
     // determines internally if it's temporary or final
     void setURL( const QString& url );
 
@@ -56,8 +56,11 @@ public:
     void saveItems();
 
     static void setConfig( KConfig * );
-    
+
     virtual void popup();
+
+    // tell if URL was sent while Ctrl was pressed
+    bool ctrlReturnPressed();
 
 protected:
     virtual void keyPressEvent( QKeyEvent * );
@@ -80,6 +83,7 @@ private:
 
 private:
     bool m_returnPressed;
+    bool m_ctrlReturnPressed;
     bool m_permanent;
     int m_cursorPos;
     int m_currentIndex;

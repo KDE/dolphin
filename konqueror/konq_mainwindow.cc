@@ -340,7 +340,7 @@ QString KonqMainWindow::detectNameFilter( QString & url )
     return nameFilter;
 }
 
-void KonqMainWindow::openFilteredURL( const QString & _url )
+void KonqMainWindow::openFilteredURL( const QString & _url, bool inNewTab )
 {
     QString url( _url );
     QString nameFilter = detectNameFilter( url );
@@ -360,6 +360,8 @@ void KonqMainWindow::openFilteredURL( const QString & _url )
     // Remember the initial (typed) URL
     KonqOpenURLRequest req( _url );
     req.nameFilter = nameFilter;
+    req.newTab = inNewTab;
+    req.newTabInFront = true;
 
     openURL( 0L, filteredURL, QString::null, req );
 
@@ -1967,7 +1969,7 @@ void KonqMainWindow::slotURLEntered( const QString &text )
 
   m_bURLEnterLock = true;
 
-  openFilteredURL( text.stripWhiteSpace() );
+  openFilteredURL( text.stripWhiteSpace(), m_combo->ctrlReturnPressed() );
 
   m_bURLEnterLock = false;
 }
