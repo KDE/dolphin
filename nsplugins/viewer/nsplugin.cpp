@@ -259,7 +259,7 @@ NPError g_NPN_GetURLNotify(NPP instance, const char *url, const char *target,
    NSPluginInstance *inst = static_cast<NSPluginInstance*>(instance->ndata);
    kdDebug(1431) << "g_NPN_GetURLNotify: ndata=" << (void*)inst << endl;
    inst->requestURL( QString::fromLatin1(url), QString::null,
-                     QString::fromLatin1(target), notifyData );
+                     QString::fromLatin1(target), notifyData, true );
 
    return NPERR_NO_ERROR;
 }
@@ -352,7 +352,7 @@ NPError g_NPN_PostURLNotify(NPP instance, const char* url, const char* target,
    NSPluginInstance *inst = static_cast<NSPluginInstance*>(instance->ndata);
    if (inst && !inst->normalizedURL(QString::fromLatin1(url)).isNull()) {
       inst->postURL( QString::fromLatin1(url), postdata, args.contentType(),
-                     QString::fromLatin1(target), notifyData, args );
+                     QString::fromLatin1(target), notifyData, args, true );
    } else {
       // Unsupported / insecure
       return NPERR_INVALID_URL;
@@ -367,8 +367,95 @@ NPError g_NPN_PostURL(NPP instance, const char* url, const char* target,
 {
 // http://devedge.netscape.com/library/manuals/2002/plugin/1.0/npn_api13.html
    kdDebug(1431) << "g_NPN_PostURL()" << endl;
+   kdDebug(1431) << "url=[" << url << "] target=[" << target << "]" << endl;
+   QByteArray postdata;
+   KParts::URLArgs args;
 
-   return g_NPN_PostURLNotify(instance, url, target, len, buf, file, 0L);
+   if (len == 0) {
+      return NPERR_NO_DATA;
+   }
+
+   if (file) { // buf is a filename
+      QFile f(buf);
+      if (!f.open(IO_ReadOnly)) {
+         return NPERR_FILE_NOT_FOUND;
+      }
+
+      // FIXME: this will not work because we need to strip the header out!
+      postdata = f.readAll();
+      f.close();
+   } else {    // buf is raw data
+      // First strip out the header
+      const char *previousStart = buf;
+      uint32 l;
+      bool previousCR = true;
+
+      for (l = 1;; l++) {
+         if (l == len) {
+            break;
+         }
+
+         if (buf[l-1] == '\n' || (previousCR && buf[l-1] == '\r')) {
+            if (previousCR) { // header is done!
+               if ((buf[l-1] == '\r' && buf[l] == '\n') ||
+                   (buf[l-1] == '\n' &&  buf[l] == '\r'))
+                  l++;
+               l++;
+               previousStart = &buf[l-1];
+               break;
+            }
+
+            QString thisLine = QString::fromLatin1(previousStart, &buf[l-1] - previousStart).stripWhiteSpace();
+
+            previousStart = &buf[l];
+            previousCR = true;
+
+            kdDebug(1431) << "Found header line: [" << thisLine << "]" << endl;
+            if (thisLine.startsWith("Content-Type: ")) {
+               args.setContentType(thisLine);
+            }
+         } else {
+            previousCR = false;
+         }
+      }
+
+      postdata.duplicate(previousStart, len - l + 1);
+   }
+
+   kdDebug(1431) << "Post data: " << postdata.size() << " bytes" << endl;
+#if 0
+   QFile f("/tmp/nspostdata");
+   f.open(IO_WriteOnly);
+   f.writeBlock(postdata);
+   f.close();
+#endif
+
+   if (!target || !*target) {
+      // Send the results of the post to the plugin
+      // (works by default)
+   } else if (!strcmp(target, "_current") || !strcmp(target, "_self") ||
+              !strcmp(target, "_top")) {
+      // Unload the plugin, put the results in the frame/window that the
+      // plugin was loaded in
+      // FIXME
+   } else if (!strcmp(target, "_new") || !strcmp(target, "_blank")){
+      // Open a new browser window and write the results there
+      // FIXME
+   } else {
+      // Write the results to the specified frame
+      // FIXME
+   }
+
+   NSPluginInstance *inst = static_cast<NSPluginInstance*>(instance->ndata);
+   if (inst && !inst->normalizedURL(QString::fromLatin1(url)).isNull()) {
+      inst->postURL( QString::fromLatin1(url), postdata, args.contentType(),
+                     QString::fromLatin1(target), 0L, args, false );
+   } else {
+      // Unsupported / insecure
+      return NPERR_INVALID_URL;
+   }
+
+   return NPERR_NO_ERROR;
 }
 
 
@@ -507,7 +594,6 @@ NSPluginInstance::NSPluginInstance(NPP privateData, NPPluginFuncs *pluginFuncs,
    _tempFiles.setAutoDelete( true );
    _streams.setAutoDelete( true );
    _waitingRequests.setAutoDelete( true );
-   _delayedRequests.setAutoDelete( true );
    _callback = new NSPluginCallbackIface_stub( appId.latin1(), callbackId.latin1() );
 
    KURL base(src);
@@ -590,7 +676,6 @@ void NSPluginInstance::destroy()
 
         kdDebug(1431) << "delete streams" << endl;
         _waitingRequests.clear();
-        _delayedRequests.clear();
 
 	shutdown();
 
@@ -761,7 +846,7 @@ QString NSPluginInstance::normalizedURL(const QString& url) const {
 
 
 void NSPluginInstance::requestURL( const QString &url, const QString &mime,
-                                   const QString &target, void *notify )
+                                   const QString &target, void *notify, bool forceNotify )
 {
     // Generally this should already be done, but let's be safe for now.
     QString nurl = normalizedURL(url);
@@ -770,34 +855,15 @@ void NSPluginInstance::requestURL( const QString &url, const QString &mime,
     }
 
     kdDebug(1431) << "NSPluginInstance::requestURL url=" << nurl << " target=" << target << " notify=" << notify << endl;
-    _waitingRequests.enqueue( new Request( nurl, mime, target, notify ) );
+    _waitingRequests.enqueue( new Request( nurl, mime, target, notify, forceNotify ) );
     _timer->start( 100, true );
-}
-
-
-void NSPluginInstance::processDelayedRequests()
-{
-    while (_delayedRequests.head()) {
-        Request req(*_delayedRequests.head());
-        _delayedRequests.remove();
-        requestURL(req.url, req.mime, req.target, req.notify);
-    }
-}
-
-
-void NSPluginInstance::delayedRequestURL( const QString &url, const QString &mime,
-                                   const QString &target, void *notify )
-{
-    kdDebug(1431) << "NSPluginInstance::delayedRequestURL url=" << url << " target=" << target << " notify=" << notify << endl;
-    _delayedRequests.enqueue(new Request(url, mime, target, notify));
-    QTimer::singleShot(10, this, SLOT(processDelayedRequests()));
 }
 
 
 void NSPluginInstance::postURL( const QString &url, const QByteArray& data,
                                 const QString &mime,
                                 const QString &target, void *notify,
-                                const KParts::URLArgs& args )
+                                const KParts::URLArgs& args, bool forceNotify )
 {
     // Generally this should already be done, but let's be safe for now.
     QString nurl = normalizedURL(url);
@@ -806,7 +872,7 @@ void NSPluginInstance::postURL( const QString &url, const QByteArray& data,
     }
 
     kdDebug(1431) << "NSPluginInstance::postURL url=" << nurl << " target=" << target << " notify=" << notify << endl;
-    _waitingRequests.enqueue( new Request( nurl, data, mime, target, notify, args) );
+    _waitingRequests.enqueue( new Request( nurl, data, mime, target, notify, args, forceNotify) );
     _timer->start( 100, true );
 }
 
@@ -1360,7 +1426,7 @@ DCOPRef NSPluginClass::newInstance( QString url, QString mimeType, bool embed,
 
    // create source stream
    if ( !src.isEmpty() )
-      inst->delayedRequestURL( src, mimeType, QString::null, 0 );
+      inst->requestURL( src, mimeType, QString::null, 0 );
 
    _instances.append( inst );
    return DCOPRef(kapp->dcopClient()->appId(), inst->objId());
@@ -1451,7 +1517,7 @@ void NSPluginStreamBase::inform()
 
 }
 
-bool NSPluginStreamBase::create( const QString& url, const QString& mimeType, void *notify )
+bool NSPluginStreamBase::create( const QString& url, const QString& mimeType, void *notify, bool forceNotify)
 {
     if ( _stream )
         return false;
@@ -1463,6 +1529,7 @@ bool NSPluginStreamBase::create( const QString& url, const QString& mimeType, vo
     _onlyAsFile = false;
     _streamType = NP_NORMAL;
     _informed = false;
+    _forceNotify = forceNotify;
 
     // create new stream
     _stream = new NPStream;
@@ -1591,7 +1658,7 @@ void NSPluginStreamBase::finish( bool err )
         }
 
         _instance->NPDestroyStream( _stream, NPRES_DONE );
-        if ( _notifyData )
+        if (_notifyData || _forceNotify)
             _instance->NPURLNotify( _url.url(), NPRES_DONE, _notifyData );
     } else {
         // close temp file
@@ -1600,7 +1667,7 @@ void NSPluginStreamBase::finish( bool err )
 
         // destroy stream
         _instance->NPDestroyStream( _stream, NPRES_NETWORK_ERR );
-        if ( _notifyData )
+        if (_notifyData || _forceNotify)
             _instance->NPURLNotify( _url.url(), NPRES_NETWORK_ERR, _notifyData );
     }
 

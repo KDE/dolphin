@@ -81,7 +81,7 @@ protected:
   bool pump();
   bool error() { return _error; };
   void queue( const QByteArray &data );
-  bool create( const QString& url, const QString& mimeType, void *notify );
+  bool create( const QString& url, const QString& mimeType, void *notify, bool forceNotify = false );
   int tries() { return _tries; };
   void inform( );
 
@@ -105,6 +105,7 @@ private:
   bool _onlyAsFile;
   bool _error;
   bool _informed;
+  bool _forceNotify;
 };
 
 
@@ -195,18 +196,14 @@ public:
   // signal emitters
   void emitStatus( const QString &message);
   void requestURL( const QString &url, const QString &mime,
-		   const QString &target, void *notify );
-  void delayedRequestURL( const QString &url, const QString &mime,
-		   const QString &target, void *notify );
-
+		   const QString &target, void *notify, bool forceNotify = false );
   void postURL( const QString &url, const QByteArray& data, const QString &mime,
-             const QString &target, void *notify, const KParts::URLArgs& args );
+             const QString &target, void *notify, const KParts::URLArgs& args, bool forceNotify = false );
 
   QString normalizedURL(const QString& url) const;
 
 public slots:
   void streamFinished( NSPluginStreamBase *strm );
-  void processDelayedRequests();
 
 private slots:
   void timer();
@@ -238,28 +235,29 @@ private:
   {
       // A GET request
       Request( const QString &_url, const QString &_mime,
-	       const QString &_target, void *_notify)
-	  { url=_url; mime=_mime; target=_target; notify=_notify; post=false; }
+	       const QString &_target, void *_notify, bool _forceNotify = false)
+	  { url=_url; mime=_mime; target=_target; notify=_notify; post=false; forceNotify = _forceNotify; }
 
       // A POST request
       Request( const QString &_url, const QByteArray& _data,
                const QString &_mime, const QString &_target, void *_notify,
-               const KParts::URLArgs& _args)
+               const KParts::URLArgs& _args, bool _forceNotify = false)
 	  { url=_url; mime=_mime; target=_target;
-            notify=_notify; post=true; data=_data; args=_args; }
+            notify=_notify; post=true; data=_data; args=_args; forceNotify = _forceNotify; }
 
       QString url;
       QString mime;
       QString target;
       QByteArray data;
       bool post;
+      bool forceNotify;
       void *notify;
       KParts::URLArgs args;
   };
 
   NPWindow _win;
   NPSetWindowCallbackStruct _win_info;
-  QPtrQueue<Request> _waitingRequests, _delayedRequests;
+  QPtrQueue<Request> _waitingRequests;
   QMap<int, Request*> _jsrequests;
 };
 
