@@ -78,7 +78,13 @@ KonqFrameTabs::KonqFrameTabs(QWidget* parent, KonqFrameContainerBase* parentCont
 
   KConfig *config = KGlobal::config();
   KConfigGroupSaver cs( config, QString::fromLatin1("FMSettings") );
-  setHoverCloseButton( config->readBoolEntry( "HoverCloseButton", true ) );
+  m_permanentCloseButtons = config->readBoolEntry( "PermanentCloseButton", false );
+  if (m_permanentCloseButtons) {
+    setHoverCloseButton( true );
+    setHoverCloseButtonDelayed( false );
+  }
+  else
+    setHoverCloseButton( config->readBoolEntry( "HoverCloseButton", false ) );
   connect( this, SIGNAL( closeRequest( QWidget * )), SLOT(slotCloseRequest( QWidget * )));
   connect( this, SIGNAL( removeTabPopup() ), m_pViewManager->mainWindow(), SLOT( slotRemoveTabPopup() ) );
 
@@ -261,7 +267,7 @@ void KonqFrameTabs::setTitle( const QString &title , QWidget* sender)
               newTitle = konqview->frame()->title();
           }
 
-	  newTitle.replace( '&', "&&" );
+          newTitle.replace( '&', "&&" );
           if ( newTitle.length() > newMaxLength )
             newTitle = newTitle.left( newMaxLength-3 ) + "...";
           if ( newTitle != tabLabel( page( i ) ) )
@@ -274,7 +280,11 @@ void KonqFrameTabs::setTitle( const QString &title , QWidget* sender)
 void KonqFrameTabs::setTabIcon( const QString &url, QWidget* sender )
 {
   //kdDebug(1202) << "KonqFrameTabs::setTabIcon( " << url << " , " << sender << " )" << endl;
-  QIconSet iconSet = QIconSet( KonqPixmapProvider::self()->pixmapFor( url ) );
+  QIconSet iconSet;
+  if (m_permanentCloseButtons)
+    iconSet =  SmallIcon( "fileclose" );
+  else
+    iconSet =  QIconSet( KonqPixmapProvider::self()->pixmapFor( url ) );
   if (tabIconSet( sender ).pixmap().serialNumber() != iconSet.pixmap().serialNumber())
     setTabIconSet( sender, iconSet );
 }

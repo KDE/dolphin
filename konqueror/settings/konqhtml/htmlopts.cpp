@@ -79,6 +79,10 @@ KMiscHTMLOptions::KMiscHTMLOptions(KConfig *config, QString group, QWidget *pare
     QWhatsThis::add( m_pDynamicTabbarHide, i18n("This will display the tab bar only if there are two or more tabs. Otherwise it will always be displayed.") );
     connect(m_pDynamicTabbarHide, SIGNAL(clicked()), this, SLOT(slotChanged()));
 
+    m_pPermanentCloseButton = new QCheckBox( i18n( "Show close button instead of website icon" ), bgTabbedBrowsing );
+    QWhatsThis::add( m_pPermanentCloseButton, i18n("This will display close buttons inside each tab instead of websites' icons.") );
+    connect(m_pPermanentCloseButton, SIGNAL(clicked()), this, SLOT(slotChanged()));
+
     lay->addMultiCellWidget( bgTabbedBrowsing, row, row, 0, 1 );
     row++;
 
@@ -217,6 +221,7 @@ void KMiscHTMLOptions::load()
     m_pNewTabsInBackground->setChecked( ! (m_pConfig->readBoolEntry( "NewTabsInFront", false )) );
     m_pOpenAfterCurrentPage->setChecked( m_pConfig->readBoolEntry( "OpenAfterCurrentPage", false ) );
     m_pDynamicTabbarHide->setChecked( ! (m_pConfig->readBoolEntry( "AlwaysTabbedMode", false )) );
+    m_pPermanentCloseButton->setChecked( m_pConfig->readBoolEntry( "PermanentCloseButton", false ) );
 
     m_pConfig->setGroup("Notification Messages");
     m_pTabConfirm->setChecked( !m_pConfig->hasKey("MultipleTabConfirm") );
@@ -237,6 +242,7 @@ void KMiscHTMLOptions::defaults()
     m_pBackRightClick->setChecked( false );
     m_pOpenAfterCurrentPage->setChecked( false );
     m_pDynamicTabbarHide->setChecked( true );
+    m_pPermanentCloseButton->setChecked( false );
     m_pMaxFormCompletionItems->setValue( 10 );
 }
 
@@ -284,6 +290,7 @@ void KMiscHTMLOptions::save()
     m_pConfig->writeEntry( "NewTabsInFront", !(m_pNewTabsInBackground->isChecked()) );
     m_pConfig->writeEntry( "OpenAfterCurrentPage", m_pOpenAfterCurrentPage->isChecked() );
     m_pConfig->writeEntry( "AlwaysTabbedMode", !(m_pDynamicTabbarHide->isChecked()) );
+    m_pConfig->writeEntry( "PermanentCloseButton", m_pPermanentCloseButton->isChecked() );
 
     // It only matters wether the key is present, its value has no meaning
     m_pConfig->setGroup("Notification Messages");

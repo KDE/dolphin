@@ -118,6 +118,7 @@ private:
 #if QT_VERSION >= 0x030200
   QToolButton* m_rightWidget;
 #endif
+  bool m_permanentCloseButtons;
 };
 
 #endif

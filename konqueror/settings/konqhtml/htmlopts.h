@@ -60,6 +60,7 @@ private:
     QCheckBox* m_pFormCompletionCheckBox;
     QCheckBox* m_pOpenAfterCurrentPage;
     QCheckBox* m_pDynamicTabbarHide;
+    QCheckBox* m_pPermanentCloseButton;
     KIntNumInput* m_pMaxFormCompletionItems;
 };
 
