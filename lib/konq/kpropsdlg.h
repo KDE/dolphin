@@ -280,10 +280,15 @@ public:
    * Applies all changes made.  'General' must be always the first
    * page in the dialog, since this function may rename the file which
    * may confuse other applyChanges functions. When this page is the
-   * first one this means that this applyChanges function is the last
+   * first one this means that this applyChanges function is the first
    * one called.
    */
   virtual void applyChanges();
+
+  /**
+   * Called after all pages applied their changes
+   */
+  void postApplyChanges();
 
   /**
    * Tests whether the files specified by _items need a 'General' page.

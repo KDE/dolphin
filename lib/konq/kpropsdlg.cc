@@ -181,6 +181,9 @@ void PropertiesDialog::slotApply()
   for ( page = pageList.first(); page != 0L; page = pageList.next() )
     page->applyChanges();
 
+  if ( pageList.first()->isA("FilePropsPage") )
+    ((FilePropsPage *)pageList.first())->postApplyChanges();
+
   emit applied();
   emit propertiesClosed();
   delete this;
@@ -647,7 +650,14 @@ void FilePropsPage::slotRenameFinished( KIO::Job * job )
     cfg.writeEntry( "Icon", sIcon );
     //cfg.writeEntry( "MiniIcon", sIcon ); // deprecated
     cfg.sync();
+  }
+}
 
+void FilePropsPage::postApplyChanges()
+{
+  // Called after all pages applied their changes
+  if (properties->kurl().isLocalFile())
+  {
     // Force updates if that file is displayed.
     KDirWatch::self()->setFileDirty( properties->kurl().path() );
   }
