@@ -193,6 +193,7 @@ void OperaImportCommand::doExecute(const KBookmarkGroup &bkGroup) {
 
 void CrashesImportCommand::doExecute(const KBookmarkGroup &bkGroup) {
    KCrashBookmarkImporterImpl importer;
+   importer.setShouldDelete(true);
    importer.setFilename(m_fileName);
    parseInto(bkGroup, &importer);
 }
