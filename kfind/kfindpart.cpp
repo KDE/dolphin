@@ -58,7 +58,7 @@ KFindPart::KFindPart( QWidget * parentWidget, const char *widgetName,
     connect( m_kfindWidget, SIGNAL(destroyMe()),
              this, SLOT(slotDestroyMe()) );
     connect(m_kfindWidget->dirlister,SIGNAL(deleteItem(KFileItem*)), this, SLOT(removeFile(KFileItem*)));
-
+    connect(m_kfindWidget->dirlister,SIGNAL(newItems(const KFileItemList&)), this, SLOT(newFiles(const KFileItemList&)));
     //setXMLFile( "kfind.rc" );
     query = new KQuery(this);
     connect(query, SIGNAL(addFile(const KFileItem *, const QString&)),
@@ -139,6 +139,16 @@ void KFindPart::removeFile(KFileItem *item)
   emit finished();
 }
 
+void KFindPart::newFiles(const KFileItemList&)
+{
+  if(m_bShowsResult)
+    return;
+  emit started();
+  emit clear();
+  emit newItems(m_lstFileItems);
+  emit finished();
+}
+
 void KFindPart::slotResult(int errorCode)
 {
   if (errorCode == 0)
@@ -150,7 +160,7 @@ void KFindPart::slotResult(int errorCode)
   else
     emit canceled(); // TODO ?
     //setStatusMsg(i18n("Error."));
-
+  m_bShowsResult=false;
   m_kfindWidget->searchFinished();
 }
 

@@ -80,7 +80,7 @@ protected slots:
     /* An item has been removed, so update konqueror's view */
     void removeFile(KFileItem *item);
     void slotResult(int errorCode);
-
+    void newFiles(const KFileItemList&);
   // slots connected to the directory lister  //added for konqdirpart
 //  virtual void slotStarted();
   virtual void slotCanceled(){};
