@@ -165,7 +165,7 @@ void KBehaviourOptions::load()
     cbNewWin->setChecked( g_pConfig->readBoolEntry("AlwaysNewWin", false) );
     updateWinPixmap(cbNewWin->isChecked());
 
-    homeURL->setURL(g_pConfig->readEntry("HomeURL", "~"));
+    homeURL->setURL(g_pConfig->readPathEntry("HomeURL", "~"));
 
     bool stips = g_pConfig->readBoolEntry( "ShowFileTips", true );
     cbShowTips->setChecked( stips );
@@ -215,7 +215,7 @@ void KBehaviourOptions::save()
     g_pConfig->setGroup( groupname );
 
     g_pConfig->writeEntry( "AlwaysNewWin", cbNewWin->isChecked() );
-    g_pConfig->writeEntry( "HomeURL", homeURL->url().isEmpty()? "~" : homeURL->url() );
+    g_pConfig->writePathEntry( "HomeURL", homeURL->url().isEmpty()? "~" : homeURL->url() );
 
     g_pConfig->writeEntry( "ShowFileTips", cbShowTips->isChecked() );
     g_pConfig->writeEntry( "ShowPreviewsInFileTips", cbShowPreviewsInTips->isChecked() );
