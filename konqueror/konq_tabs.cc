@@ -451,7 +451,8 @@ void KonqFrameTabs::refreshSubPopupMenuTab()
             QString title = frame->title().stripWhiteSpace();
             if ( title.isEmpty() )
                 title = frame->activeChildView()->url().url();
-            m_pSubPopupMenuTab->insertItem( title, i );
+            m_pSubPopupMenuTab->insertItem( QIconSet( KonqPixmapProvider::self()->pixmapFor( frame->activeChildView()->url().url() ) ), title, i );
+
         }
         i++;
     }
