@@ -240,7 +240,7 @@ static QCString konqyToReuse( const QString& url, const QString& mimetype, const
         return "";
     QCString appObj;
     QByteArray data;
-    if( KApplication::dcopClient()->findObject( "konqueror*", "KonquerorIface",
+    if( !KApplication::dcopClient()->findObject( "konqueror*", "KonquerorIface",
              "processCanBeReused()", data, ret, appObj, false, 3000 ) )
         return "";
     return ret;
