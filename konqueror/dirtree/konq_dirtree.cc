@@ -28,6 +28,7 @@
 #include <konqsettings.h>
 #include <kparts/factory.h>
 #include <kdebug.h>
+#include <kprotocolmanager.h>
 
 #include <assert.h>
 
@@ -522,9 +523,14 @@ void KonqDirTree::slotDoubleClicked( QListViewItem *item )
   if ( item == m_lastItem )
     return;
 
+  KonqDirTreeItem *dItem = static_cast<KonqDirTreeItem *>( item );
+
   KParts::URLArgs args;
-  args.serviceType = QString::fromLatin1( "inode/directory" );
-  emit m_view->extension()->openURLRequest( ((KonqDirTreeItem *)item)->fileItem()->url(), args );
+
+  if ( dItem->isListable() )
+    args.serviceType = QString::fromLatin1( "inode/directory" );
+
+  emit m_view->extension()->openURLRequest( dItem->fileItem()->url(), args );
 
   m_lastItem = item;
 }
@@ -561,9 +567,14 @@ void KonqDirTree::slotClicked( QListViewItem *item )
   if ( item == m_lastItem )
     return;
 
+  KonqDirTreeItem *dItem = static_cast<KonqDirTreeItem *>( item );
+
   KParts::URLArgs args;
-  args.serviceType = QString::fromLatin1( "inode/directory" );
-  emit m_view->extension()->openURLRequest( ((KonqDirTreeItem *)item)->fileItem()->url(), args );
+
+  if ( dItem->isListable() )
+    args.serviceType = QString::fromLatin1( "inode/directory" );
+  
+  emit m_view->extension()->openURLRequest( dItem->fileItem()->url(), args );
 
   m_lastItem = item;
 }
@@ -585,13 +596,13 @@ void KonqDirTree::slotListingStopped()
     if ( url.cmp( dirIt.key(), true ) )
       break;
   }
-  
+
   if ( dirIt != topLevelItem.m_mapSubDirs->end() && dirIt.data()->childCount() == 0 )
   {
       dirIt.data()->setExpandable( false );
       dirIt.data()->repaint();
   }
-  
+
   KURL::List::Iterator it = topLevelItem.m_lstPendingURLs->find( url );
   if ( it != topLevelItem.m_lstPendingURLs->end() )
     topLevelItem.m_lstPendingURLs->remove( it );
@@ -785,17 +796,26 @@ void KonqDirTree::loadTopLevelItem( QListViewItem *parent,  const QString &filen
   item->setPixmap( 0, KonqFactory::instance()->iconLoader()->loadIcon( icon, KIconLoader::Small ) );
   item->setText( 0, name );
 
-  KDirLister *dirLister = new KDirLister( true );
-  dirLister->setDirOnlyMode( true );
+  KDirLister *dirLister = 0;
 
-  connect( dirLister, SIGNAL( newItems( const KonqFileItemList & ) ),
-	   this, SLOT( slotNewItems( const KonqFileItemList & ) ) );
-  connect( dirLister, SIGNAL( deleteItem( KonqFileItem * ) ),
-	   this, SLOT( slotDeleteItem( KonqFileItem * ) ) );
-  connect( dirLister, SIGNAL( completed() ),
-	   this, SLOT( slotListingStopped() ) );
-  connect( dirLister, SIGNAL( canceled() ),
-	   this, SLOT( slotListingStopped() ) );
+  bool bListable = KProtocolManager::self().supportsListing( kurl.protocol() );
+
+  if ( bListable )
+  {
+    dirLister = new KDirLister( true );
+    dirLister->setDirOnlyMode( true );
+
+    connect( dirLister, SIGNAL( newItems( const KonqFileItemList & ) ),
+  	     this, SLOT( slotNewItems( const KonqFileItemList & ) ) );
+    connect( dirLister, SIGNAL( deleteItem( KonqFileItem * ) ),
+	     this, SLOT( slotDeleteItem( KonqFileItem * ) ) );
+    connect( dirLister, SIGNAL( completed() ),
+	     this, SLOT( slotListingStopped() ) );
+    connect( dirLister, SIGNAL( canceled() ),
+	     this, SLOT( slotListingStopped() ) );
+  }
+  else
+    item->setExpandable( false );
 
   m_topLevelItems.append( TopLevelItem( item, dirLister, new QMap<KURL, KonqDirTreeItem *>, new KURL::List ) );
 
@@ -804,7 +824,10 @@ void KonqDirTree::loadTopLevelItem( QListViewItem *parent,  const QString &filen
   bool hasOpenKey = cfg.hasKey( "Open" );
   bool open = cfg.readBoolEntry( "Open", true );
 
-  if ( ( !hasOpenKey && fileItem->url().isLocalFile() ) || ( hasOpenKey && open ) )
+  if ( !bListable )
+    item->setListable( false );
+
+  if ( ( ( !hasOpenKey && fileItem->url().isLocalFile() ) || ( hasOpenKey && open ) ) && item->isExpandable() )
     item->setOpen( true );
 
 }

@@ -1,4 +1,3 @@
-
 #ifndef __konq_dirtree_h__
 #define __konq_dirtree_h__
 
@@ -56,6 +55,7 @@ public:
   KonqFileItem *fileItem() const { return m_item; }
 
   void setListable( bool b );
+  bool isListable() const { return m_bListable; }
 
 private:
   KonqDirTree *m_tree;
