@@ -195,7 +195,11 @@ void KFileIVI::setEffect( int group, int state )
 
     KIconEffect *effect = KGlobal::iconLoader()->iconEffect();
 
-    if( effect->fingerprint( KIcon::Desktop, d->state ) !=
+    bool haveEffect = effect->hasEffect( KIcon::DefaultState, d->state ) !=
+                      effect->hasEffect( KIcon::DefaultState, state );
+    
+    if( haveEffect && 
+        effect->fingerprint( KIcon::Desktop, d->state ) !=
 	effect->fingerprint( KIcon::Desktop, state ) )
     {
 	// Effects on are not applied until they are first accessed to
