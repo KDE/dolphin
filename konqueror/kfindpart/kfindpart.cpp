@@ -66,7 +66,6 @@ extern "C"
 {
     void *init_libkfindpart()
     {
-	KGlobal::locale()->insertCatalogue(QString::fromLatin1("kfindpart"));
         return new KFindFactory;
     }
 };
@@ -74,6 +73,8 @@ extern "C"
 KFindPart::KFindPart( QWidget * parentWidget, QObject *parent, const char *name )
     : KParts::ReadOnlyPart( parent, name )
 {
+    setInstance( KFindFactory::instance() );
+
     kdDebug() << "KFindPart::KFindPart " << this << endl;
     m_kfindWidget = new Kfind( parentWidget, name );
     setWidget( m_kfindWidget );
@@ -82,8 +83,6 @@ KFindPart::KFindPart( QWidget * parentWidget, QObject *parent, const char *name 
              this, SLOT(slotStarted()) );
     connect( m_kfindWidget, SIGNAL(destroyMe()),
              this, SLOT(slotDestroyMe()) );
-
-    setInstance( KFindFactory::instance() );
 
     //setXMLFile( "kfind.rc" );
 
