@@ -96,6 +96,7 @@ private:
   QColor normalTextColor;
   QColor highlightedTextColor;
 
+  QCheckBox* m_pWordWrap;
 };
 
 #endif

@@ -132,6 +132,12 @@ KonqFontOptions::KonqFontOptions(KConfig *config, QString group, QWidget *parent
     connect( m_pHighlightedText, SIGNAL( changed( const QColor & ) ),
              SLOT( slotHighlightedTextColorChanged( const QColor & ) ) );
 
+    row++;
+
+    m_pWordWrap = new QCheckBox( i18n("&Word-wrap icon text"), this );
+    lay->addMultiCellWidget(m_pWordWrap,row,row,1,COLUMNS);
+    connect( m_pWordWrap, SIGNAL(clicked()), this, SLOT(changed()) );
+
 
     load();
 }
@@ -215,6 +221,8 @@ void KonqFontOptions::load()
     m_pNormalText->setColor( normalTextColor );
     m_pHighlightedText->setColor( highlightedTextColor );
 
+    m_pWordWrap->setChecked( g_pConfig->readBoolEntry( "WordWrapText", DEFAULT_WORDWRAPTEXT ) );
+
     updateGUI();
 }
 
@@ -230,6 +238,7 @@ void KonqFontOptions::defaults()
     m_pBg->setColor( bgColor );
     m_pNormalText->setColor( normalTextColor );
     m_pHighlightedText->setColor( highlightedTextColor );
+    m_pWordWrap->setChecked( DEFAULT_WORDWRAPTEXT );
 
     updateGUI();
 }
@@ -260,6 +269,7 @@ void KonqFontOptions::save()
     g_pConfig->writeEntry( "BgColor", bgColor );
     g_pConfig->writeEntry( "NormalTextColor", normalTextColor );
     g_pConfig->writeEntry( "HighlightedTextColor", highlightedTextColor );
+    g_pConfig->writeEntry( "WordWrapText", m_pWordWrap->isChecked() );
     g_pConfig->sync();
 }
 
