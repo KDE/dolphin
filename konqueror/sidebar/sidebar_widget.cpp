@@ -71,18 +71,18 @@ void addBackEnd::aboutToShowAddMenu()
 
 		confFile = new KSimpleConfig(*it, true);
 		confFile->setGroup("Desktop Entry");
-		QString icon = confFile->readEntry("Icon","");
+		QString icon = confFile->readEntry("Icon");
 		if (!icon.isEmpty())
 		{
 			menu->insertItem(SmallIcon(icon),
-					 confFile->readEntry("Name",""), i);
+					 confFile->readEntry("Name"), i);
 		} else {
-			menu->insertItem(confFile->readEntry("Name",""), i);
+			menu->insertItem(confFile->readEntry("Name"), i);
 		}
 		libNames.resize(libNames.size()+1);
-		libNames.insert(libNames.count(), new QString(confFile->readEntry("X-KDE-KonqSidebarAddModule","")));
+		libNames.insert(libNames.count(), new QString(confFile->readEntry("X-KDE-KonqSidebarAddModule")));
 		libParam.resize(libParam.size()+1);
-		libParam.insert(libParam.count(), new QString(confFile->readEntry("X-KDE-KonqSidebarAddParam","")));
+		libParam.insert(libParam.count(), new QString(confFile->readEntry("X-KDE-KonqSidebarAddParam")));
 		delete confFile;
 	}
 	menu->insertSeparator();
@@ -170,7 +170,7 @@ void addBackEnd::activatedAddMenu(int id)
 					KSimpleConfig scf(myFile,false);
 					scf.setGroup("Desktop Entry");
 					for (QMap<QString,QString>::ConstIterator it = map.begin(); it != map.end(); ++it)
-						scf.writeEntry(it.key(), it.data());
+						scf.writePathEntry(it.key(), it.data());
 					scf.sync();
 					emit updateNeeded();
 
@@ -660,11 +660,11 @@ bool Sidebar_Widget::addButton(const QString &desktoppath,int pos)
 	confFile = new KSimpleConfig(m_path+desktoppath,true);
 	confFile->setGroup("Desktop Entry");
 
-    	QString icon = confFile->readEntry("Icon",QString::null);
-	QString name = confFile->readEntry("Name",QString::null);
-	QString comment = confFile->readEntry("Comment",QString::null);
+    	QString icon = confFile->readEntry("Icon");
+	QString name = confFile->readEntry("Name");
+	QString comment = confFile->readEntry("Comment");
 	QString url = confFile->readPathEntry("URL",QString::null);
-	QString lib = confFile->readEntry("X-KDE-KonqSidebarModule",QString::null);
+	QString lib = confFile->readEntry("X-KDE-KonqSidebarModule");
 
         delete confFile;
 

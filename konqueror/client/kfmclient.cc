@@ -270,7 +270,7 @@ bool clientApp::createNewWindow(const KURL & url, const QString & mimetype)
 	// check if user wants to use external browser
 	KConfig config( QString::fromLatin1("kfmclientrc"));
 	config.setGroup( QString::fromLatin1("Settings"));
-	QString strBrowser = config.readEntry( QString::fromLatin1("ExternalBrowser"));
+	QString strBrowser = config.readPathEntry("ExternalBrowser");
 	if (!strBrowser.isEmpty())
 	{
 		KProcess proc;

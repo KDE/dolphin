@@ -1194,7 +1194,7 @@ void KonqMainWindow::slotOpenTerminal()
 {
   KConfig *config = KGlobal::config();
   config->setGroup( "General" );
-  QString term = config->readEntry( "TerminalApplication", DEFAULT_TERMINAL );
+  QString term = config->readPathEntry( "TerminalApplication", DEFAULT_TERMINAL );
 
   QString dir ( QDir::homeDirPath() );
 

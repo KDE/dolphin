@@ -79,8 +79,8 @@ void KonqSidebarTree::loadModuleFactories()
   {
     KSimpleConfig ksc(*it);
     ksc.setGroup("Desktop Entry");
-    QString name    = ksc.readEntry("X-KDE-TreeModule","");
-    QString libName = ksc.readEntry("X-KDE-TreeModule-Lib","");
+    QString name    = ksc.readEntry("X-KDE-TreeModule");
+    QString libName = ksc.readEntry("X-KDE-TreeModule-Lib");
     if ((name.isEmpty()) || (libName.isEmpty()))
         {kdWarning()<<"Bad Configuration file for a dirtree module "<<*it<<endl; continue;}
 
@@ -662,7 +662,7 @@ void KonqSidebarTree::loadTopLevelItem( KonqSidebarTreeItem *parent,  const QStr
     // Here's where we need to create the right module...
     // ### TODO: make this KTrader/KLibrary based.
     QString moduleName = cfg.readEntry( "X-KDE-TreeModule" );
-    QString showHidden=cfg.readEntry("X-KDE-TreeModule-ShowHidden","");
+    QString showHidden=cfg.readEntry("X-KDE-TreeModule-ShowHidden");
 
     if (moduleName.isEmpty()) moduleName="Directory";
     kdDebug(1201) << "##### Loading module: " << moduleName << " file: " << filename << endl;
