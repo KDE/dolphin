@@ -171,7 +171,8 @@ void KonqIconViewWidget::setThumbnailPixmap( KFileIVI * item, const QPixmap & pi
         if ( m_bSetGridX &&  item->width() > gridX() )
         {
           setGridX( item->width() );
-          arrangeItemsInGrid();
+          if (autoArrange())
+            arrangeItemsInGrid();
         }
     }
 }
@@ -219,7 +220,7 @@ void KonqIconViewWidget::setIcons( int size, const char * stopImagePreviewFor )
             ivi->setIcon( size, ivi->state(),
                           true, true /* perhaps we should do one big redraw instead ? */);
     }
-    if ( oldGridX != gridX() || stopImagePreviewFor )
+    if ( autoArrange() && (oldGridX != gridX() || stopImagePreviewFor) )
     {
         arrangeItemsInGrid( true ); // take new grid into account
     }
@@ -288,7 +289,8 @@ void KonqIconViewWidget::stopImagePreview()
     if (!m_pImagePreviewJob.isNull())
     {
         m_pImagePreviewJob->kill();
-        arrangeItemsInGrid();
+        if (autoArrange())
+            arrangeItemsInGrid();
     }
 }
 

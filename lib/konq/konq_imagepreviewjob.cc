@@ -101,7 +101,8 @@ void KonqImagePreviewJob::determineNextIcon()
   // No more items ?
   if ( m_items.isEmpty() )
   {
-    m_iconView->arrangeItemsInGrid();
+    if (m_iconView->autoArrange())
+        m_iconView->arrangeItemsInGrid();
     // Done
     kdDebug(1203) << "determineNextIcon: emitting result" << endl;
     emit result(this);
