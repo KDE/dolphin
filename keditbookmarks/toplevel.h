@@ -108,7 +108,7 @@ public:
 
     StringMap Modify;
     StringMap oldModify;
-    QList <TestLink> tests;
+    QPtrList <TestLink> tests;
 
 public slots:
     void slotImportNS();
