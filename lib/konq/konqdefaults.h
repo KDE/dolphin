@@ -68,6 +68,7 @@
 // Default UserAgent string (e.g. Konqueror/2.0)
 #define DEFAULT_USERAGENT_STRING QString("Konqueror/")+KDE_VERSION_STRING
 
-// Default action on delete :
-// 1 = move to trash, 2 = simple delete, 3 = shred
-#define DEFAULT_DELETEACTION 1
+// Confirmations for deletions
+#define DEFAULT_CONFIRMTRASH true
+#define DEFAULT_CONFIRMDELETE true
+#define DEFAULT_CONFIRMSHRED true

@@ -25,8 +25,8 @@
 #include <kpropsdlg.h>
 
 #include <dcopclient.h>
-//#include <kdirnotify_stub.h>
 #include "konq_undo.h"
+#include "konqdefaults.h"
 
 // For doDrop
 #include <qpopupmenu.h>
@@ -137,7 +137,9 @@ bool KonqOperations::askDeleteConfirmation( const KURL::List & selectedURLs )
 {
     KConfig *config = new KConfig("konquerorrc", false, true);
     config->setGroup( "Trash" );
-    if ( config->readBoolEntry( "ConfirmDestructive", true ) )
+    QString groupName = ( m_method == DEL ? "ConfirmDelete" : m_method == SHRED ? "ConfirmShred" : "ConfirmTrash" );
+    bool defaultValue = ( m_method == DEL ? DEFAULT_CONFIRMDELETE : m_method == SHRED ? DEFAULT_CONFIRMSHRED : DEFAULT_CONFIRMTRASH );
+    if ( config->readBoolEntry( groupName, defaultValue ) )
     {
       KURL::List::ConstIterator it = selectedURLs.begin();
       QStringList prettyList;
