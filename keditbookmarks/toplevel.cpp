@@ -512,9 +512,11 @@ void KEBTopLevel::slotChangeIcon()
     ASSERT(!bk.isNull());
     KIconDialog dlg(this);
     QString newIcon = dlg.selectIcon(KIcon::Small, KIcon::FileSystem);
-    EditCommand * cmd = new EditCommand( i18n("Icon change"), bk.address(),
-                                         EditCommand::Edition("icon", newIcon) );
-    m_commandHistory.addCommand( cmd );
+    if ( !newIcon.isEmpty() ) {
+        EditCommand * cmd = new EditCommand( i18n("Icon change"), bk.address(),
+                                             EditCommand::Edition("icon", newIcon) );
+        m_commandHistory.addCommand( cmd );
+    }
 }
 
 void KEBTopLevel::slotDropped (QDropEvent* e, QListViewItem * _newParent, QListViewItem * _afterNow)
