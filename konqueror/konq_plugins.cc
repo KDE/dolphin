@@ -113,7 +113,12 @@ void KonqPlugins::associate( const QString viewName, const QString serviceType )
 
 void KonqPlugins::parseService( KService *service )
 {
-  KSimpleConfig config( service->file(), true );
+#warning "Disabled plugin parsing !!! FIXME ! (David)"
+  return;
+  KSimpleConfig config("",true); // whatever ;)
+
+  //KSimpleConfig config( service->file(), true );
+
   QString serverExec;
   QString serverName;
   QString activationMode;
