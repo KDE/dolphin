@@ -118,7 +118,7 @@ KonqMainWindow::KonqMainWindow( const KURL &initialURL, bool openInitialURL, con
       ActionSlotMap::ConstIterator itEnd = s_actionSlotMap->end();
       for ( int i=0 ; it != itEnd ; ++it, ++i )
       {
-          kdDebug(1202) << " action " << it.key() << " number " << i << endl;
+          //kdDebug(1202) << " action " << it.key() << " number " << i << endl;
           s_actionNumberMap->insert( it.key(), i );
       }
   }
@@ -227,12 +227,12 @@ KonqMainWindow::KonqMainWindow( const KURL &initialURL, bool openInitialURL, con
            this, SLOT( slotUndoAvailable( bool ) ) );
 
   resize( 700, 480 );
-  kdDebug(1202) << "KonqMainWindow::KonqMainWindow " << this << " done" << endl;
+  //kdDebug(1202) << "KonqMainWindow::KonqMainWindow " << this << " done" << endl;
 }
 
 KonqMainWindow::~KonqMainWindow()
 {
-  kdDebug(1202) << "KonqMainWindow::~KonqMainWindow " << this << endl;
+  //kdDebug(1202) << "KonqMainWindow::~KonqMainWindow " << this << endl;
   if ( s_lstViews )
   {
     s_lstViews->removeRef( this );
@@ -248,7 +248,7 @@ KonqMainWindow::~KonqMainWindow()
   disconnect( actionCollection(), SIGNAL( clearStatusText() ),
               this, SLOT( slotClearStatusText() ) );
 
-  kdDebug(1202) << "KonqMainWindow::~KonqMainWindow saving combo contents" << endl;
+  //kdDebug(1202) << "KonqMainWindow::~KonqMainWindow saving combo contents" << endl;
   if ( m_combo )
   {
     KConfig *config = KGlobal::config();
@@ -264,7 +264,7 @@ KonqMainWindow::~KonqMainWindow()
 
     config->sync();
   }
-  kdDebug(1202) << "KonqMainWindow::~KonqMainWindow saving combo contents done" << endl;
+  //kdDebug(1202) << "KonqMainWindow::~KonqMainWindow saving combo contents done" << endl;
 
   delete m_pViewManager;
 
@@ -277,7 +277,7 @@ KonqMainWindow::~KonqMainWindow()
 
   KonqUndoManager::decRef();
 
-  kdDebug(1202) << "KonqMainWindow::~KonqMainWindow " << this << " done" << endl;
+  //kdDebug(1202) << "KonqMainWindow::~KonqMainWindow " << this << " done" << endl;
 }
 
 QWidget * KonqMainWindow::createContainer( QWidget *parent, int index, const QDomElement &element, int &id )
@@ -498,7 +498,11 @@ bool KonqMainWindow::openView( QString serviceType, const KURL &_url, KonqView *
   // changeViewMode will take care of setting and storing that url.
   QString originalURL = url.prettyURL();
   if ( !req.nameFilter.isEmpty() ) // keep filter in location bar
+  {
+    if (originalURL.right(1) != "/")
+        originalURL += '/';
     originalURL += req.nameFilter;
+  }
 
   QString serviceName; // default: none provided
 
@@ -1496,8 +1500,8 @@ void KonqMainWindow::slotPartActivated( KParts::Part *part )
 
   if ( !m_bLockLocationBarURL )
   {
-    kdDebug(1202) << "slotPartActivated: setting location bar url to "
-                  << m_currentView->locationBarURL() << " m_currentView=" << m_currentView << endl;
+    //kdDebug(1202) << "slotPartActivated: setting location bar url to "
+    //              << m_currentView->locationBarURL() << " m_currentView=" << m_currentView << endl;
     if ( m_combo )
       m_combo->setEditText( m_currentView->locationBarURL() );
   }
@@ -2413,14 +2417,14 @@ void KonqMainWindow::setLocationBarURL( const QString &url )
 
 void KonqMainWindow::startAnimation()
 {
-  kdDebug(1202) << "KonqMainWindow::startAnimation" << endl;
+  //kdDebug(1202) << "KonqMainWindow::startAnimation" << endl;
   m_paAnimatedLogo->start();
   m_paStop->setEnabled( true );
 }
 
 void KonqMainWindow::stopAnimation()
 {
-  kdDebug(1202) << "KonqMainWindow::stopAnimation" << endl;
+  //kdDebug(1202) << "KonqMainWindow::stopAnimation" << endl;
   m_paAnimatedLogo->stop();
   m_paStop->setEnabled( false );
 }
@@ -2677,7 +2681,7 @@ QString KonqMainWindow::findIndexFile( const QString &dir )
 
 void KonqMainWindow::connectExtension( KonqView * view, KParts::BrowserExtension *ext )
 {
-  kdDebug(1202) << "Connecting extension " << ext << endl;
+  //kdDebug(1202) << "Connecting extension " << ext << endl;
   ActionSlotMap::ConstIterator it = s_actionSlotMap->begin();
   ActionSlotMap::ConstIterator itEnd = s_actionSlotMap->end();
 
@@ -2695,7 +2699,7 @@ void KonqMainWindow::connectExtension( KonqView * view, KParts::BrowserExtension
         connect( act, SIGNAL( activated() ), ext, it.data() /* SLOT(slot name) */ );
         int actionNumber = (*s_actionNumberMap)[ it.key() ];
         act->setEnabled( view->actionStatus()[ actionNumber ] );
-        kdDebug() << "KonqMainWindow::connectExtension connecting to " << it.key() << " (" << actionNumber << ") and setting it to " << act->isEnabled() << endl;
+        //kdDebug(1202) << "KonqMainWindow::connectExtension connecting to " << it.key() << " (" << actionNumber << ") and setting it to " << act->isEnabled() << endl;
       } else
           act->setEnabled(false);
 
@@ -2706,7 +2710,7 @@ void KonqMainWindow::connectExtension( KonqView * view, KParts::BrowserExtension
 
 void KonqMainWindow::disconnectExtension( KParts::BrowserExtension *ext )
 {
-  kdDebug(1202) << "Disconnecting extension " << ext << endl;
+  //kdDebug(1202) << "Disconnecting extension " << ext << endl;
   ActionSlotMap::ConstIterator it = s_actionSlotMap->begin();
   ActionSlotMap::ConstIterator itEnd = s_actionSlotMap->end();
 
@@ -2853,7 +2857,7 @@ void KonqMainWindow::setCaption( const QString &caption )
   // but here we never do that.
   if ( !caption.isEmpty() )
   {
-    kdDebug(1202) << "KonqMainWindow::setCaption(" << caption << ")" << endl;
+    //kdDebug(1202) << "KonqMainWindow::setCaption(" << caption << ")" << endl;
     // Keep an unmodified copy of the caption (before kapp->makeStdCaption is applied)
     m_title = caption;
     KParts::MainWindow::setCaption( caption );
@@ -2954,7 +2958,7 @@ void KonqMainWindow::slotPopupMenu( KXMLGUIClient *client, const QPoint &_global
   // (This is a bit of a hack for the directory tree....)
   const KURL & viewURL = m_currentView->isToggleView() ? KURL() : m_currentView->url();
 
-  kdDebug() << "KonqMainWindow::slotPopupMenu " << viewURL.prettyURL() << endl;
+  kdDebug(1202) << "KonqMainWindow::slotPopupMenu " << viewURL.prettyURL() << endl;
 
   KonqPopupMenu pPopupMenu ( _items,
                              viewURL,
@@ -3260,7 +3264,7 @@ void KonqMainWindow::updateBookmarkBar()
 
 void KonqMainWindow::closeEvent( QCloseEvent *e )
 {
-  kdDebug() << "KonqMainWindow::closeEvent begin" << endl;
+  //kdDebug() << "KonqMainWindow::closeEvent begin" << endl;
   // This breaks session management (the window is withdrawn in kwin)
   // so let's do this only when closed by the user.
   if ( static_cast<KonquerorApplication *>(kapp)->closedByUser() )
@@ -3269,7 +3273,7 @@ void KonqMainWindow::closeEvent( QCloseEvent *e )
     qApp->flushX();
   }
   KParts::MainWindow::closeEvent( e );
-  kdDebug() << "KonqMainWindow::closeEvent end" << endl;
+  //kdDebug() << "KonqMainWindow::closeEvent end" << endl;
 }
 
 
