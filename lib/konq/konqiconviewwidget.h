@@ -111,6 +111,7 @@ public:
   virtual void copySelection();
   virtual void pasteSelection( bool move = false );
   virtual void moveSelection( const QString &destinationURL = QString::null );
+  virtual QStringList selectedUrls();
 
 private:
   KonqIconViewWidget *m_iconView;

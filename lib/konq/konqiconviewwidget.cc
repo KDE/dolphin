@@ -236,7 +236,7 @@ void KonqIconViewWidget::slotDrop( QDropEvent *e )
 void KonqIconViewWidget::slotDropItem( KFileIVI *item, QDropEvent *e )
 {
   QStringList lst;
- 
+
   // Use either the root url or the item url
   KURL dest( ( item == 0L ) ? m_url /*m_dirLister->url()*/ : item->item()->url().url() );
 
@@ -432,11 +432,7 @@ void IconEditExtension::pasteSelection( bool move )
 
 void IconEditExtension::moveSelection( const QString &destinationURL )
 {
-  QStringList lstURLs;
-
-  for ( QIconViewItem *it = m_iconView->firstItem(); it; it = it->nextItem() )
-    if ( it->isSelected() )
-      lstURLs.append( ( (KFileIVI *)it )->item()->url().url() );
+  QStringList lstURLs = selectedUrls();
 
   KIOJob *job = new KIOJob;
 
@@ -444,6 +440,16 @@ void IconEditExtension::moveSelection( const QString &destinationURL )
     job->move( lstURLs, destinationURL );
   else
     job->del( lstURLs );
+}
+
+QStringList IconEditExtension::selectedUrls()
+{
+  QStringList lstURLs;
+
+  for ( QIconViewItem *it = m_iconView->firstItem(); it; it = it->nextItem() )
+    if ( it->isSelected() )
+      lstURLs.append( ( (KFileIVI *)it )->item()->url().url() );
+  return lstURLs;
 }
 
 #include "konqiconviewwidget.moc"
