@@ -849,7 +849,7 @@ bool KonqIconViewWidget::initConfig( bool bInit )
             fontChanged = true;
         }
     }
-    setWordWrapIconText( m_pSettings->wordWrapText() );
+    setIconTextHeight( m_pSettings->iconTextHeight() );
 
     KConfigGroup group( KGlobal::config(), "PreviewSettings" );
     bool boost = group.readBoolEntry( "BoostSize", false );

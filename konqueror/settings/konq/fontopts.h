@@ -68,7 +68,6 @@ public slots:
   void slotTextBackgroundColorChanged( const QColor &col );
 
 private slots:
-
   void changed();
 
 private:
@@ -100,7 +99,7 @@ private:
   //QColor highlightedTextColor;
   QColor textBackgroundColor;
 
-  QCheckBox* m_pWordWrap;
+  QSpinBox* m_pNbLines;
   QCheckBox* cbUnderline;
   QCheckBox* m_pSizeInBytes;
   int m_gridXSpacing;

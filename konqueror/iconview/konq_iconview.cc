@@ -374,7 +374,7 @@ KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const 
 
     // Respect kcmkonq's configuration for word-wrap icon text.
     // If we want something else, we have to adapt the configuration or remove it...
-    m_pIconView->setWordWrapIconText(KonqFMSettings::settings()->wordWrapText());
+    m_pIconView->setIconTextHeight(KonqFMSettings::settings()->iconTextHeight());
 
     // Finally, determine initial grid size again, with those parameters
     //    m_pIconView->calculateGridX();

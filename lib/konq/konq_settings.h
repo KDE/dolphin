@@ -74,6 +74,7 @@ public:
 
   // Behaviour settings
   bool wordWrapText() const { return m_bWordWrapText; }
+  int iconTextHeight() const { return m_iconTextHeight; }
   bool underlineLink() const { return m_underlineLink; }
   bool fileSizeInBytes() const { return m_fileSizeInBytes; }
   bool alwaysNewWin() const { return m_alwaysNewWin; }
@@ -114,6 +115,7 @@ private:
   QColor m_itemTextBackground;
 
   bool m_bWordWrapText;
+  int m_iconTextHeight;
 
   QString m_homeURL;
   bool m_showFileTips;

@@ -139,15 +139,20 @@ KonqFontOptions::KonqFontOptions(KConfig *config, QString group, bool desktop, Q
     }
     else
     {
-        m_pWordWrap = new QCheckBox( i18n("&Word-wrap icon text"), this );
-        lay->addMultiCellWidget(m_pWordWrap,row,row,0,LASTCOLUMN);
-        connect( m_pWordWrap, SIGNAL(clicked()), this, SLOT(changed()) );
+        m_pNbLines = new QSpinBox( 1, 10, 1, this );
+        m_pNbLines->setSuffix( i18n( " lines" ) );
+        m_pNbLines->setSpecialValueText( i18n( "1 line" ) );
+        QLabel* wordWrap = new QLabel( m_pNbLines, i18n("H&eight for icon text:"), this );
+        lay->addWidget( wordWrap, row, 0 );
+        lay->addWidget( m_pNbLines, row, 1 );
+        connect( m_pNbLines, SIGNAL( valueChanged(int) ),
+                 this, SLOT( changed() ) );
 
-        QWhatsThis::add( m_pWordWrap, i18n("Checking this option will wrap long filenames"
-                                       " to multiple lines, rather than showing only the part of the filename"
-                                       " that fits on a single line.<p>"
-                                       " Hint: if you uncheck this option, you can still see the word-wrapped filename"
-                                       " by pausing the mouse pointer over the icon.") );
+        QString thwt = i18n("This is the maximum number of lines that can be"
+                            " used to draw icon text. Long file names are"
+                            " truncated at the end of the last line.");
+        QWhatsThis::add( wordWrap, thwt );
+        QWhatsThis::add( m_pNbLines, thwt );
 
         row++;
     }
@@ -224,7 +229,14 @@ void KonqFontOptions::load()
     }
     else
     {
-        m_pWordWrap->setChecked( g_pConfig->readBoolEntry( "WordWrapText", DEFAULT_WORDWRAPTEXT ) );
+        int n = g_pConfig->readNumEntry( "TextHeight", 0 );
+        if ( n == 0 ) {
+            if ( g_pConfig->readBoolEntry( "WordWrapText", true ) )
+                n = DEFAULT_TEXTHEIGHT;
+            else
+                n = 1;
+        }
+        m_pNbLines->setValue( n );
         m_pSizeInBytes->setChecked( g_pConfig->readBoolEntry( "DisplayFileSizeInBytes", DEFAULT_FILESIZEINBYTES ) );
     }
     cbUnderline->setChecked( g_pConfig->readBoolEntry("UnderlineLinks", DEFAULT_UNDERLINELINKS ) );
@@ -258,7 +270,7 @@ void KonqFontOptions::defaults()
     }
     else
     {
-        m_pWordWrap->setChecked( DEFAULT_WORDWRAPTEXT );
+        m_pNbLines->setValue( DEFAULT_TEXTHEIGHT );
         m_pSizeInBytes->setChecked( DEFAULT_FILESIZEINBYTES );
     }
     cbUnderline->setChecked( DEFAULT_UNDERLINELINKS );
@@ -288,7 +300,7 @@ void KonqFontOptions::save()
         g_pConfig->writeEntry( "ItemTextBackground", m_cbTextBackground->isChecked() ? textBackgroundColor : QColor());
     else
     {
-        g_pConfig->writeEntry( "WordWrapText", m_pWordWrap->isChecked() );
+        g_pConfig->writeEntry( "TextHeight", m_pNbLines->value() );
         g_pConfig->writeEntry( "DisplayFileSizeInBytes", m_pSizeInBytes->isChecked() );
     }
     g_pConfig->writeEntry( "UnderlineLinks", cbUnderline->isChecked() );

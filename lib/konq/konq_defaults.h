@@ -47,6 +47,7 @@
 // appearance tab
 #define DEFAULT_UNDERLINELINKS true
 #define DEFAULT_WORDWRAPTEXT true // kfm-like, sorry Reggie :-)
+#define DEFAULT_TEXTHEIGHT 2
 #define DEFAULT_FILESIZEINBYTES false
 
 #define DEFAULT_RENAMEICONDIRECTLY false

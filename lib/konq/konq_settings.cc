@@ -85,7 +85,16 @@ void KonqFMSettings::init( KConfig * config )
   m_highlightedTextColor = KGlobalSettings::highlightedTextColor();
   m_highlightedTextColor = config->readColorEntry( "HighlightedTextColor", &m_highlightedTextColor );
   m_itemTextBackground = config->readColorEntry( "ItemTextBackground" );
-  m_bWordWrapText = config->readBoolEntry( "WordWrapText", DEFAULT_WORDWRAPTEXT );
+  
+  m_iconTextHeight = config->readNumEntry( "TextHeight", 0 );
+  if ( m_iconTextHeight == 0 ) {
+    if ( config->readBoolEntry( "WordWrapText", true ) )
+      m_iconTextHeight = DEFAULT_TEXTHEIGHT;
+    else
+      m_iconTextHeight = 1;
+  }
+  m_bWordWrapText = ( m_iconTextHeight > 1 );
+  
   m_underlineLink = config->readBoolEntry( "UnderlineLinks", DEFAULT_UNDERLINELINKS );
   d->m_renameIconDirectly = config->readBoolEntry( "RenameIconDirectly", DEFAULT_RENAMEICONDIRECTLY );
   m_fileSizeInBytes = config->readBoolEntry( "DisplayFileSizeInBytes", DEFAULT_FILESIZEINBYTES );
