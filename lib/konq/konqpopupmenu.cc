@@ -266,7 +266,7 @@ KonqPopupMenu::KonqPopupMenu( const KFileItemList &items,
   {
     // Query the trader for offers associated to this mimetype
        
-    KTrader::OfferList offers = KTrader::self()->query( m_sMimeType );
+    KTrader::OfferList offers = KTrader::self()->query( m_sMimeType, "Type == 'Application'" );
 
     QValueList<KDEDesktopMimeType::Service> builtin;
     QValueList<KDEDesktopMimeType::Service> user;
