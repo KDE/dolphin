@@ -19,6 +19,7 @@
 
 #include "konq_profiledlg.h"
 #include "konq_viewmgr.h"
+#include "konq_mainwindow.h"
 #include "konq_factory.h"
 
 #include <qcheckbox.h>
@@ -66,7 +67,7 @@ KonqProfileDlg::KonqProfileDlg( KonqViewManager *manager, QWidget *parent )
 
   m_mapEntries = readAllProfiles();
 
-  m_pGrid = new QGridLayout( this, 9, 3, KDialog::marginHint(), KDialog::spacingHint() );
+  m_pGrid = new QGridLayout( this, 10, 3, KDialog::marginHint(), KDialog::spacingHint() );
 
   m_pGrid->addMultiCellWidget( new QLabel( i18n( "Enter Profile Name :" ), this ), 0, 0, 0, 2 );
 
@@ -91,19 +92,23 @@ KonqProfileDlg::KonqProfileDlg( KonqViewManager *manager, QWidget *parent )
   // that one shouldn't apply the profile if the current URL can't be opened into it...
   m_pGrid->addMultiCellWidget( m_cbSaveURLs, 7, 7, 0, 2 );
 
+  m_cbSaveSize = new QCheckBox( i18n("Save window size in profile"), this );
+  m_cbSaveSize->setChecked( false );
+  m_pGrid->addMultiCellWidget( m_cbSaveSize, 8, 8, 0, 2 );
+
   m_pSaveButton = new QPushButton( i18n( "Save" ), this );
   m_pSaveButton->setEnabled( false );
   m_pSaveButton->setDefault( true );
 
-  m_pGrid->addWidget( m_pSaveButton, 8, 0 );
+  m_pGrid->addWidget( m_pSaveButton, 9, 0 );
 
   m_pDeleteProfileButton = new QPushButton( i18n( "Delete Selected Profile" ), this );
 
-  m_pGrid->addWidget( m_pDeleteProfileButton, 8, 1 );
+  m_pGrid->addWidget( m_pDeleteProfileButton, 9, 1 );
 
   m_pCloseButton = new QPushButton( i18n( "Close" ), this );
 
-  m_pGrid->addWidget( m_pCloseButton, 8, 2 );
+  m_pGrid->addWidget( m_pCloseButton, 9, 2 );
 
   connect( m_pListBox, SIGNAL( selected( const QString & ) ),
            m_pProfileNameLineEdit, SLOT( setText( const QString & ) ) );
@@ -144,6 +149,11 @@ void KonqProfileDlg::slotSave()
   KSimpleConfig cfg( fileName );
   cfg.setGroup( "Profile" );
   m_pViewManager->saveViewProfile( cfg, m_cbSaveURLs->isChecked() );
+  if ( m_cbSaveSize->isChecked() )
+  {
+    cfg.writeEntry( "Width", m_pViewManager->mainWindow()->width() );
+    cfg.writeEntry( "Height", m_pViewManager->mainWindow()->height() );
+  }
 
   accept();
 }

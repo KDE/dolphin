@@ -61,6 +61,7 @@ private:
   QPushButton *m_pSaveButton;
   QPushButton *m_pCloseButton;
   QCheckBox *m_cbSaveURLs;
+  QCheckBox *m_cbSaveSize;
 
   QListBox *m_pListBox;
 };

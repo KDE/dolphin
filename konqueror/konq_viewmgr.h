@@ -130,6 +130,8 @@ public:
 
   KonqFrameContainer *mainContainer() const { return m_pMainContainer; }
 
+  KonqMainWindow *mainWindow() const { return m_pMainWindow; }
+
   /**
    * Reimplemented from PartManager
    */
