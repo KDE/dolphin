@@ -50,22 +50,23 @@ void KShellCmdPlugin::slotExecuteShellCommand()
       KMessageBox::sorry(part->widget(),i18n("Executing shell commands works only on local directories."));
       return;
    }
-   QString defaultValue;
+   QString path;
    if ( part->currentItem() )
    {
-     // Putting the complete path to the selected file isn't really necessary, since
-     // we'll cd to the directory first. But we do need to get the complete relative path.
-     defaultValue = KProcess::quote(
-         KURL::relativePath( url.path(), part->currentItem()->url().path() ) );
+      // Putting the complete path to the selected file isn't really necessary,
+      // since we'll cd to the directory first. But we do need to get the 
+      // complete relative path.
+      path = KURL::relativePath( url.path(), 
+                                 part->currentItem()->url().path() );
    }
    else
    {
-      defaultValue = KProcess::quote( url.path() );
+      path = KProcess::quote( url.path() );
    }
    bool ok;
    QString cmd = KInputDialog::getText( QString::null,
-      i18n( "Execute shell command in current directory:" ), defaultValue,
-      &ok, part->widget() );
+      i18n( "Execute shell command in current directory:" ), 
+      KProcess::quote( path ), &ok, part->widget() );
    if ( ok )
    {
       QString chDir;
