@@ -28,6 +28,7 @@
 #include <kdebug.h>
 #include <kuserprofile.h>
 #include <konq_drag.h>
+#include <klocale.h>
 
 #include <qapplication.h>
 #include <qclipboard.h>
@@ -109,6 +110,31 @@ void KonqDirPart::slotClipboardDataChanged()
             (void) QUriDrag::decode( data, lst );
 
     disableIcons( lst );
+}
+
+QString KonqDirPart::displayString(int items, int files, long size, int dirs)
+{
+    QString text;
+    if (items == 1)
+        text = i18n("One Item");
+    else
+        text = i18n("%1 Items").arg(items);
+    text += " - ";
+    if (files == 1)
+        text += i18n("One File");
+    else
+        text += i18n("%1 Files").arg(files);
+    if ( files > 0 )
+    {
+        text += " ";
+        text += i18n("(%1 Total)").arg(KIO::convertSize( size ) );
+    }
+    text += " - ";
+    if (dirs == 1)
+        text += i18n("One Directory");
+    else
+        text += i18n("%1 Directories").arg(dirs);
+    return text;
 }
 
 #include "konq_dirpart.moc"

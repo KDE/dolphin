@@ -60,6 +60,11 @@ public:
      */
     virtual void disableIcons( const QStrList & lst ) = 0;
 
+    /**
+     * Helper for statusbar information about selection
+     */
+    static QString displayString(int items, int files, long size, int dirs);
+
 public slots:
     void slotBackgroundColor();
     void slotBackgroundImage();
