@@ -67,7 +67,7 @@ KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name)
     subdirsCb  = new QCheckBox(i18n("Include &subfolders"), pages[0]);
     caseSensCb  = new QCheckBox(i18n("Case s&ensitive search"), pages[0]);
     browseB    = new QPushButton(i18n("&Browse..."), pages[0]);
-    useLocateCb = new QCheckBox(i18n("Use files index"), pages[0]);
+    useLocateCb = new QCheckBox(i18n("&Use files index"), pages[0]);
 
     // Setup
 
@@ -291,7 +291,7 @@ KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name)
 
     initMimeTypes();
     initSpecialMimeTypes();
-    
+
     for ( KMimeType::List::ConstIterator it = m_types.begin();
           it != m_types.end(); ++it )
     {
@@ -703,7 +703,7 @@ void KfindTabWidget::setQuery(KQuery *query)
       case -1:
         query->setMimeType( m_AudioTypes );
         break;
-      default: 
+      default:
         query->setMimeType( m_types[id]->name() );
      }
   }
