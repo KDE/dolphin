@@ -1997,7 +1997,7 @@ void KonqMainWindow::slotGoHistoryActivated( int steps )
 
 void KonqMainWindow::slotGoHistoryDelayed()
 {
-  if (!m_goBuffer) return;
+  if (!m_goBuffer || !m_currentView) return;
   int steps = m_goBuffer;
   m_goBuffer = 0;
   m_currentView->go( steps );
