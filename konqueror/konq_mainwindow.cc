@@ -2477,6 +2477,14 @@ void KonqMainWindow::enableAllActions( bool enable )
       slotUndoAvailable( KonqUndoManager::self()->undoAvailable() );
 
       m_paStop->setEnabled( m_currentView && m_currentView->isLoading() );
+
+      if (m_toggleViewGUIClient)
+      {
+          QList<KAction> actions = m_toggleViewGUIClient->actions();
+          for ( KAction * it = actions.first(); it ; it = actions.next() )
+              it->setEnabled( true );
+      }
+
   }
   actionCollection()->action( "quit" )->setEnabled( true );
 }
