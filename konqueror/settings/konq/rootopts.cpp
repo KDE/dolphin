@@ -137,6 +137,22 @@ KRootOptions::KRootOptions(KConfig *config, QWidget *parent, const char *name )
                                     " of Macintosh.  This setting is independent of the global top-level"
                                     " menu setting that applies to KDE applications.") );
 
+#ifdef HAVE_MNTENT_H
+  row++;
+  dynamicDevicesBox = new QCheckBox(i18n("Enable Dynamic Desktop Devices"), 
+				    this);
+  lay->addMultiCellWidget(dynamicDevicesBox, row, row, 0, 0);
+  connect(dynamicDevicesBox, SIGNAL(clicked()), this, SLOT(changed()));
+  QWhatsThis::add(dynamicDevicesBox, 
+		  i18n("If you check this option, any"
+		       " removable devices that you have"
+		       " permission to mount will be"
+		       " shown on the desktop. If you add or remove devices,"
+		       " icons will be updated accordingly.<p>"
+		       "This usually includes CD-ROM drives, ZIP"
+		       " drives, etc."));
+#endif
+  
   row++;
   vrootBox = new QCheckBox(i18n("Support Programs in Desktop Window"), this);
   lay->addMultiCellWidget(vrootBox, row, row, 0, 0);
@@ -342,6 +358,10 @@ void KRootOptions::load()
         new KRootOptPreviewItem(this, previewListView, *it, previews.contains((*it)->desktopEntryName()));
     new KRootOptPreviewItem(this, previewListView, previews.contains("audio/"));
     //
+#ifdef HAVE_MNTENT_H
+    dynamicDevicesBox->setChecked(g_pConfig->readBoolEntry("DynamicDevices", DEFAULT_DESKTOP_DYNDEV));
+#endif
+    //
     g_pConfig->setGroup( "Menubar" );
     bool bMenuBar = g_pConfig->readBoolEntry("ShowMenubar", false);
     menuBarBox->setChecked(bMenuBar);
@@ -376,6 +396,9 @@ void KRootOptions::defaults()
     VertAlignBox->setChecked(true);
     for (QListViewItem *item = previewListView->firstChild(); item; item = item->nextSibling())
         static_cast<KRootOptPreviewItem *>(item)->setOn(false);
+#ifdef HAVE_MNTENT_H
+    dynamicDevicesBox->setChecked(DEFAULT_DESKTOP_DYNDEV);
+#endif
     menuBarBox->setChecked(false);
     vrootBox->setChecked( false );
     leftComboBox->setCurrentItem( NOTHING );
@@ -401,6 +424,9 @@ void KRootOptions::save()
         if ( item->isOn() )
             previews.append( item->pluginName() );
     g_pConfig->writeEntry( "Preview", previews );
+#ifdef HAVE_MNTENT_H
+    g_pConfig->writeEntry( "DynamicDevices", dynamicDevicesBox->isChecked());
+#endif
     g_pConfig->setGroup( "Menubar" );
     g_pConfig->writeEntry("ShowMenubar", menuBarBox->isChecked());
     g_pConfig->setGroup( "Mouse Buttons" );
