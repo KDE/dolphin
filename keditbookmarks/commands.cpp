@@ -32,7 +32,7 @@ void MoveCommand::execute()
     // Look for m_from in the QDom tree
     KBookmark bk = KBookmarkManager::self()->findByAddress( m_from );
     ASSERT( !bk.isNull() );
-    //kdDebug() << "BEFORE:" << KBookmarkManager::self()->internalDocument().toCString() << endl;
+    //kdDebug() << "BEFORE:" << KBookmarkManager::self()->internalDocument().toString() << endl;
     int posInOldParent = KBookmark::positionInParent( m_from );
     KBookmark oldParent = KBookmarkManager::self()->findByAddress( KBookmark::parentAddress( m_from ) );
     KBookmark oldPreviousSibling = posInOldParent == 0 ? KBookmark(QDomElement())

@@ -65,7 +65,7 @@ QByteArray KEBDrag::encodedData( const char* mime ) const
         QDomElement elem = doc.createElement("xbel");
         doc.appendChild( elem );
         elem.appendChild( m_bookmark.internalElement().cloneNode( true /* deep */ ) );
-        kdDebug() << "KEBDrag::encodedData " << doc.toCString() << endl;
+        kdDebug() << "KEBDrag::encodedData " << doc.toString() << endl;
         a = doc.toCString();
     }
     return a;
