@@ -159,6 +159,12 @@ KRootOptions::KRootOptions(KConfig *config, QWidget *parent, const char * )
                                     " xmountain. If you have problems with applications like netscape that check"
                                     " the root window for running instances, disable this option.") );
 
+  autoLineupIconsBox = new QCheckBox(i18n("Auto line up icons"), groupBox);
+  connect (autoLineupIconsBox, SIGNAL(clicked()), this, SLOT(changed()));
+  QWhatsThis::add ( autoLineupIconsBox, i18n("Check this option if you "
+	      "want to see your icons automatically aligned to the "
+	      "grid when you move them.") );
+
   previewListView = new KListView( this );
   previewListView->setFullWidth(true);
   previewListView->addColumn( i18n("Show Previews For") );
@@ -366,6 +372,7 @@ void KRootOptions::load()
     g_pConfig->setGroup( "General" );
     vrootBox->setChecked( g_pConfig->readBoolEntry( "SetVRoot", false ) );
     iconsEnabledBox->setChecked( g_pConfig->readBoolEntry( "Enabled", true ) );
+    autoLineupIconsBox->setChecked( g_pConfig->readBoolEntry( "AutoLineUpIcons", true ) );
 
     //
     g_pConfig->setGroup( "Mouse Buttons" );
@@ -399,6 +406,7 @@ void KRootOptions::defaults()
         static_cast<KRootOptPreviewItem *>(item)->setOn(false);
     menuBarBox->setChecked(false);
     vrootBox->setChecked( false );
+    autoLineupIconsBox->setChecked( true );
     leftComboBox->setCurrentItem( NOTHING );
     middleComboBox->setCurrentItem( WINDOWLISTMENU );
     rightComboBox->setCurrentItem( DESKTOPMENU );
@@ -434,6 +442,8 @@ void KRootOptions::save()
     g_pConfig->setGroup( "General" );
     g_pConfig->writeEntry( "SetVRoot", vrootBox->isChecked() );
     g_pConfig->writeEntry( "Enabled", iconsEnabledBox->isChecked() );
+    g_pConfig->writeEntry( "AutoLineUpIcons", autoLineupIconsBox->isChecked() );
+
     saveDevicesListView();
     g_pConfig->sync();
 
@@ -458,6 +468,7 @@ void KRootOptions::enableChanged()
     showHiddenBox->setEnabled(enabled);
     previewListView->setEnabled(enabled);
     vrootBox->setEnabled(enabled);
+    autoLineupIconsBox->setEnabled(enabled);
 
 #if defined(Q_OS_LINUX) || defined (Q_OS_FREEBSD)
     enableDevicesBox->setEnabled(enabled);

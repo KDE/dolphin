@@ -57,6 +57,7 @@ private:
         QCheckBox *showHiddenBox;
         QCheckBox *menuBarBox;
 	QCheckBox *vrootBox;
+	QCheckBox *autoLineupIconsBox;
 	
 	QCheckBox *enableDevicesBox;
 	KListView *devicesListView;
