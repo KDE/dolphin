@@ -73,6 +73,9 @@ public:
   void setViewMode( const QString &mode );
   QString viewMode() const { return m_mode; }
 
+  // "Cut" icons : disable those whose URL is in lst, enable the rest
+  virtual void disableIcons( const QStrList & lst );
+
 public slots:
   void slotImagePreview( bool toggle );
   void slotShowDot();

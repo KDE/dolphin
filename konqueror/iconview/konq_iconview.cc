@@ -714,7 +714,7 @@ void KonqKfmIconView::slotCompleted()
     m_bLoading = false;
 
     // Disable cut icons if any
-    m_pIconView->slotClipboardDataChanged();
+    slotClipboardDataChanged();
 
 }
 
@@ -1144,6 +1144,11 @@ void KonqKfmIconView::setupSortKeys()
 QString KonqKfmIconView::makeSizeKey( KFileIVI *item )
 {
     return QString::number( item->item()->size() ).rightJustify( 20, '0' );
+}
+
+void KonqKfmIconView::disableIcons( const QStrList & lst )
+{
+    m_pIconView->disableIcons( lst );
 }
 
 #include "konq_iconview.moc"
