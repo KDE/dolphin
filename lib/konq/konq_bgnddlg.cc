@@ -46,9 +46,12 @@ KonqBgndDialog::KonqBgndDialog( const QString & pixmapFile, KInstance *instance 
                  Ok,
                  true, // separator
                  i18n( "Set as default" )
-                 )
+      )
 {
-    m_propsPage = new KBgndDialogPage( this, pixmapFile, instance );
+    KGlobal::dirs()->addResourceType("tiles",
+                                     KGlobal::dirs()->kde_default("data") + "konqueror/tiles/");
+    kdDebug() << KGlobal::dirs()->kde_default("data") + "konqueror/tiles/" << endl;
+    m_propsPage = new KBgndDialogPage( this, pixmapFile, instance, "tiles" );
     setMainWidget( m_propsPage );
 }
 
@@ -56,10 +59,10 @@ KonqBgndDialog::~KonqBgndDialog()
 {
 }
 
-KBgndDialogPage::KBgndDialogPage( QWidget * parent, const QString & pixmapFile, KInstance *instance )
-  : QWidget( parent, "KBgndDialogPage" )
+KBgndDialogPage::KBgndDialogPage( QWidget * parent, const QString & pixmapFile, KInstance *instance, const char * resource )
+  : QWidget( parent, "KBgndDialogPage" ), m_resource( resource )
 {
-    m_instance = instance; 
+    m_instance = instance;
 
     QLabel* tmpQLabel = new QLabel( this, "Label_1" );
     tmpQLabel->setText( i18n("Background") );
@@ -69,7 +72,7 @@ KBgndDialogPage::KBgndDialogPage( QWidget * parent, const QString & pixmapFile, 
     m_wallBox = new QComboBox( false, this, "ComboBox_1" );
     m_wallBox->insertItem( i18n("None") );
 
-    QStringList list = KGlobal::dirs()->findAllResources("wallpaper");
+    QStringList list = KGlobal::dirs()->findAllResources(resource);
 
     for (QStringList::ConstIterator it = list.begin(); it != list.end(); it++)
         m_wallBox->insertItem( ( (*it).at(0)=='/' ) ?        // if absolute path
@@ -145,7 +148,9 @@ void KBgndDialogPage::loadWallPaper()
     else
     {
         m_wallFile = m_wallBox->text( i );
-        QString file = locate("wallpaper", m_wallFile);
+        QString file = locate(m_resource.data(), m_wallFile);
+        if ( file.isEmpty() && m_resource != "wallpaper") // add fallback for compatibility
+            file = locate("wallpaper", m_wallFile);
         if ( file.isEmpty() )
         {
           kdWarning(1203) << "Couldn't locate wallpaper " << m_wallFile << endl;

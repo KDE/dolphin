@@ -38,7 +38,13 @@ class KBgndDialogPage : public QWidget
 {
   Q_OBJECT
 public:
-  KBgndDialogPage( QWidget * parent, const QString & pixmapFile, KInstance *instance );
+  /**
+   * @param parent
+   * @param pixmapFile
+   * @param instance
+   * @param resource the resource to use to list the available pixmaps. e.g. "wallpapers"
+   */
+  KBgndDialogPage( QWidget * parent, const QString & pixmapFile, KInstance *instance, const char * resource );
   virtual ~KBgndDialogPage();
 
   QPixmap pixmap() { return m_wallPixmap; }
@@ -60,11 +66,13 @@ protected:
   QString m_wallFile;
   int imageX, imageW, imageH, imageY;
   KInstance *m_instance;
+  QCString m_resource;
 };
 
 
 /**
  * Dialog for configuring the background image
+ * Currently it defines and shows the pixmaps under the tiles resource
  */
 class KonqBgndDialog : public KDialogBase
 {

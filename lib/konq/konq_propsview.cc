@@ -45,7 +45,9 @@ static QPixmap wallpaperPixmap( const QString & _wallpaper )
     if ( QPixmapCache::find( key, pix ) )
       return pix;
 
-    QString path = locate("wallpaper", _wallpaper);
+    QString path = locate("tiles", _wallpaper);
+    if (path.isEmpty())
+        path = locate("wallpaper", _wallpaper);
     if (!path.isEmpty())
     {
       // This looks really ugly, especially on an 8bit display.
@@ -80,6 +82,10 @@ KonqPropsView::KonqPropsView( KInstance * instance, KonqPropsView * defaultProps
   m_textColor = config->readColorEntry( "TextColor" ); // will be set to QColor() if not found
   m_bgColor = config->readColorEntry( "BgColor" ); // will be set to QColor() if not found
   m_bgPixmapFile = config->readEntry( "BgImage", "" );
+
+  KGlobal::dirs()->addResourceType("tiles",
+                                    KGlobal::dirs()->kde_default("data") + "konqueror/tiles/");
+
   loadPixmap();
 }
 
