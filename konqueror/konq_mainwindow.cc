@@ -2424,7 +2424,7 @@ void KonqMainWindow::setUpEnabled( const KURL &url )
   bool bHasUpURL = false;
 
   if ( url.hasPath() )
-    bHasUpURL = ( url.path() != "/" );
+    bHasUpURL = ( url.hasPath() && url.path() != "/" && url.path()[0]=='/' );
   if ( !bHasUpURL )
     bHasUpURL = url.hasSubURL();
 
