@@ -648,6 +648,7 @@ void KonqKfmIconView::slotViewportRightClicked( QIconViewItem *i )
     if ( i )
         return;
     KFileItem * item = m_dirLister->rootItem();
+    bool delRootItem = false;
     if ( ! item )
     {
       if ( m_bLoading )
@@ -660,6 +661,7 @@ void KonqKfmIconView::slotViewportRightClicked( QIconViewItem *i )
         // We didn't get a root item (e.g. over FTP)
         // TODO Use KIO::stat (or NetAccess::stat ?) here !
         item = new KFileItem( S_IFDIR, (mode_t)-1, url() );
+	delRootItem = true;
       }
     }
 
@@ -667,7 +669,7 @@ void KonqKfmIconView::slotViewportRightClicked( QIconViewItem *i )
     items.append( item );
     emit m_extension->popupMenu( QCursor::pos(), items );
 
-    if ( ! m_dirLister->rootItem() )
+    if ( delRootItem )
       delete item; // we just created it
 }
 
