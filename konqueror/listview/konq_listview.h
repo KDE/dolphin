@@ -78,6 +78,9 @@ public:
   virtual void saveState( QDataStream &stream );
   virtual void restoreState( QDataStream &stream );
 
+  // "Cut" icons : disable those whose URL is in lst, enable the others
+  virtual void disableIcons( const QStrList & lst );
+
 protected:
   virtual void guiActivateEvent( KParts::GUIActivateEvent *event );
   void setupActions();

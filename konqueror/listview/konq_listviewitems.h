@@ -42,9 +42,12 @@ class KonqBaseListViewItem : public QListViewItem
       virtual ~KonqBaseListViewItem() {}
       /** @return the file item held by this instance */
       KonqFileItem * item() {return m_fileitem;}
-      virtual void updateContents() {};
+      virtual void updateContents() {}
+      virtual void setDisabled( bool disabled ) { m_bDisabled = disabled; }
+
    protected:
       QChar sortChar;
+      bool m_bDisabled;
       /** Pointer to the file item in KonqDirLister's list */
       KonqFileItem* m_fileitem;
       static const char* makeAccessString( const mode_t mode );
@@ -76,6 +79,7 @@ class KonqListViewItem : public KonqBaseListViewItem
       virtual void paintCell( QPainter *_painter, const QColorGroup & cg,
                               int column, int width, int alignment );
       virtual void updateContents() {init();}
+      virtual void setDisabled( bool disabled );
    protected:
       void init();
 
@@ -86,12 +90,14 @@ class KonqListViewItem : public KonqBaseListViewItem
 inline KonqBaseListViewItem::KonqBaseListViewItem(KonqBaseListViewWidget *_listViewWidget,KonqFileItem* _fileitem)
 :QListViewItem(_listViewWidget)
 ,sortChar('1')
+,m_bDisabled(false)
 ,m_fileitem(_fileitem)
 {}
 
 inline KonqBaseListViewItem::KonqBaseListViewItem(KonqBaseListViewItem *_parent,KonqFileItem* _fileitem)
 :QListViewItem(_parent)
 ,sortChar('1')
+,m_bDisabled(false)
 ,m_fileitem(_fileitem)
 {}
 

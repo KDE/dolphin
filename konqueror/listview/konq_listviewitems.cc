@@ -50,7 +50,9 @@ KonqListViewItem::KonqListViewItem( KonqBaseListViewWidget *_listViewWidget, Kon
 
 void KonqListViewItem::init()
 {
-   setPixmap( 0, m_fileitem->pixmap( m_pListViewWidget->iconSize(), false /*no image preview*/ ) );
+   // Set the pixmap
+   setDisabled( m_bDisabled );
+
    // Set the text of each column
 
    if (S_ISDIR(m_fileitem->mode()))
@@ -106,6 +108,13 @@ void KonqListViewItem::init()
          };
       };
    };
+}
+
+void KonqListViewItem::setDisabled( bool disabled )
+{
+    KonqBaseListViewItem::setDisabled( disabled );
+    int state = disabled ? KIcon::DisabledState : KIcon::DefaultState;
+    setPixmap( 0, m_fileitem->pixmap( m_pListViewWidget->iconSize(), state ) );
 }
 
 QString KonqListViewItem::key( int _column, bool asc) const

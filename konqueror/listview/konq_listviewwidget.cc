@@ -456,62 +456,6 @@ void KonqBaseListViewWidget::viewportDropEvent( QDropEvent *ev  )
      delete destItem; // we just created it
 }
 
-/*
-void KonqBaseListViewWidget::viewportMousePressEvent( QMouseEvent *_ev )
-{
-  KListView::viewportMousePressEvent( _ev );
-
-  //what was it intended for ? (alex)
-  //QPoint globalPos = mapToGlobal( _ev->pos() );
-  m_pressed = false;
-
-  KonqBaseListViewItem *item = (KonqBaseListViewItem*)itemAt( _ev->pos() );
-  if ( item ) {
-    if ( _ev->button() == LeftButton || _ev->button() == MidButton ) {
-
-      m_pressed = true;
-      m_pressedPos = _ev->pos();
-      m_pressedItem = item;
-      return;
-
-    }
-  }
-}
-
-void KonqBaseListViewWidget::viewportMouseDoubleClickEvent( QMouseEvent *_ev)
-{
-   kdDebug(1202)<<"viewportMouseDoubleClickEvent"<<endl;
-   //this one adjusts m_pressedItem
-   viewportMousePressEvent(_ev);
-   KListView::viewportMouseDoubleClickEvent(_ev);
-}
-
-void KonqBaseListViewWidget::viewportMouseReleaseEvent( QMouseEvent *_mouse )
-{
-   KListView::viewportMouseReleaseEvent( _mouse );
-
-   if ( !m_pressed )
-      return;
-
-   m_pressed = false;
-   m_pressedItem = 0L;
-}
-
-void KonqBaseListViewWidget::viewportMouseMoveEvent( QMouseEvent *_mouse )
-{
-   KListView::viewportMouseMoveEvent( _mouse );
-   if ( m_pressed && m_pressedItem )
-   {
-      kdDebug() << "KonqBaseListViewWidget::viewportMouseMoveEvent : m_pressed=" << m_pressed << endl;
-      int x = _mouse->pos().x();
-      int y = _mouse->pos().y();
-
-      //Is it time to start a drag?
-      if ( abs( x - m_pressedPos.x() ) > KGlobalSettings::dndEventDelay() || abs( y - m_pressedPos.y() ) > KGlobalSettings::dndEventDelay() )
-      {
-}
-*/
-
 void KonqBaseListViewWidget::startDrag()
 {
          // Collect all selected items
@@ -842,7 +786,8 @@ void KonqBaseListViewWidget::setComplete()
         }
         emit selectionChanged();
     }
-
+    // Show "cut" icons as such
+    m_pBrowserView->slotClipboardDataChanged();
 }
 
 void KonqBaseListViewWidget::slotStarted( const QString & /*url*/ )
@@ -997,5 +942,24 @@ void KonqBaseListViewWidget::paintEmptyArea( QPainter *p, const QRect &r )
     }
 }
 
+void KonqBaseListViewWidget::disableIcons( const QStrList & lst )
+{
+  iterator kit = begin();
+  for( ; kit != end(); ++kit )
+  {
+      bool bFound = false;
+      // Wow. This is ugly. Matching two lists together....
+      // Some sorting to optimise this would be a good idea ?
+      for (QStrListIterator it(lst); !bFound && *it; ++it)
+      {
+          if ( (*kit).item()->url().url() == QString::fromLatin1( *it ) ) // *it is encoded already
+          {
+              bFound = true;
+              // maybe remove "it" from lst here ?
+          }
+      }
+      (*kit).setDisabled( bFound );
+  }
+}
 
 #include "konq_listviewwidget.moc"

@@ -333,6 +333,11 @@ void KonqListView::restoreState( QDataStream &stream )
     m_pListView->restoreState( stream );
 }
 
+void KonqListView::disableIcons( const QStrList &lst )
+{
+    m_pListView->disableIcons( lst );
+}
+
 void KonqListView::guiActivateEvent( KParts::GUIActivateEvent *event )
 {
   KParts::ReadOnlyPart::guiActivateEvent( event );
@@ -502,7 +507,7 @@ void KonqListView::slotHeaderClicked(int sec)
       nameOfSortColumn="FileName";
    else
       nameOfSortColumn=m_pListView->confColumns[clickedColumn].desktopFileName;
-      
+
    if (nameOfSortColumn!=m_pListView->sortedByColumn)
    {
       m_pListView->sortedByColumn=nameOfSortColumn;
@@ -510,7 +515,7 @@ void KonqListView::slotHeaderClicked(int sec)
    }
    else
       m_pListView->ascending=!m_pListView->ascending;
-   
+
    KConfig * config = KGlobal::config();
    QString groupName="ListView_" + m_pListView->url().protocol();
    config->setGroup( groupName );

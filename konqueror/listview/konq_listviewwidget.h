@@ -108,18 +108,18 @@ class KonqBaseListViewWidget : public KListView
       virtual void setShowIcons( bool enable ) { m_showIcons = enable; }
       virtual bool showIcons() { return m_showIcons; }
 
-//      bool underlineLink()            {return m_bUnderlineLink;}
-
       void setItemFont( const QFont &f ) { m_itemFont = f; }
       QFont itemFont() const { return m_itemFont; }
       void setItemColor( const QColor &c ) { m_itemColor = c; }
       QColor itemColor() const { return m_itemColor; }
-      int iconSize() const {return props()->iconSize(); }
+      int iconSize() const { return props()->iconSize(); }
 
       virtual void paintEmptyArea( QPainter *p, const QRect &r );
 
       virtual void saveState( QDataStream & ) {}
       virtual void restoreState( QDataStream & ) {}
+
+      virtual void disableIcons( const QStrList & lst );
 
    public slots:
       //virtual void slotOnItem( KonqBaseListViewItem* _item );
@@ -172,12 +172,6 @@ class KonqBaseListViewWidget : public KListView
       virtual void viewportDragLeaveEvent( QDragLeaveEvent *_ev );
       virtual void viewportDropEvent( QDropEvent *_ev );
 
-      //virtual void viewportMousePressEvent( QMouseEvent *_ev );
-      //virtual void viewportMouseMoveEvent( QMouseEvent *_ev );
-      //virtual void viewportMouseReleaseEvent( QMouseEvent *_ev );
-      //virtual void viewportMouseDoubleClickEvent( QMouseEvent *_ev );
-
-
       /** Common method for slotCompleted and slotCanceled */
       virtual void setComplete();
 
@@ -206,10 +200,6 @@ class KonqBaseListViewWidget : public KListView
       KonqFileItem * openURLRequestFileItem;
       KonqBaseListViewItem* m_dragOverItem;
     //QStringList m_lstDropFormats;
-
-    //bool m_pressed;
-    //QPoint m_pressedPos;
-    //KonqBaseListViewItem* m_pressedItem;
 
       QFont m_itemFont;
       QColor m_itemColor;
