@@ -24,6 +24,7 @@
 #include <dcopclient.h>
 
 #include "useragentdlg.h"
+#include "fakeuaprovider.h"
 #include "uagentproviderdlg.h"
 
 UserAgentOptions::UserAgentOptions( QWidget * parent, const char * name )
@@ -36,13 +37,16 @@ UserAgentOptions::UserAgentOptions( QWidget * parent, const char * name )
 
   // Send User-agent info ?
   cb_sendUAString = new QCheckBox( i18n("Do not se&nd the user-agent string"), this );
-  QWhatsThis::add( cb_sendUAString, i18n("<qt>If checked, no identification information about your "
-                                         "browser will be sent to sites you visit while browsing.  "
-                                         "<p><u>Note:</u> many sites rely on this information to display "
-                                         "pages properly, hence, it is highly recommended that you do "
-                                         "not totaly disable this feature but rather customize it.  "
-                                         "<P>As shown below in <b>bold</>, only minimal identification "
-                                         "information is sent to remote sites.</qt>") );
+  QString wtstr = i18n("<qt>If checked, no identification information about "
+                       "your browser will be sent to sites you visit while "
+                       "browsing."
+                       "<P><u>NOTE:</u>Many sites rely on this information to "
+                       "display pages properly, hence, it is highly recommended "
+                       "that you do not totaly disable this feature but rather "
+                       "customize it."
+                       "<P>Only minimal identification information is sent to "
+                       "remote sites as shown below in <b>bold</b>.</qt>");
+  QWhatsThis::add( cb_sendUAString, wtstr );
   connect( cb_sendUAString, SIGNAL( clicked() ), this, SLOT( changeSendUAString() ) );
 
   // Default User-agent customization.
@@ -55,9 +59,10 @@ UserAgentOptions::UserAgentOptions( QWidget * parent, const char * name )
   bg_grid->setColStretch(0, 0);
   bg_grid->setColStretch(1, 2);
   bg_grid->addColSpacing(0, 3*KDialog::spacingHint() );
-  QWhatsThis::add( bg_default, i18n("Check anyone of the following boxes to modify the level "
-                                    "of information about your user-agent(browser) that is "
-                                    "sent to remote sites.") );
+  wtstr = i18n("Check anyone of the following boxes to modify the level of "
+               "information that should be included in the default browser "
+               "identification shown above in <b>bold<b>.");
+  QWhatsThis::add( bg_default, wtstr );
   connect(bg_default, SIGNAL(clicked(int)), this, SLOT(changeDefaultUAModifiers(int)));
   lb_default = new QLabel( bg_default );
   QFont f = lb_default->font();
@@ -65,35 +70,41 @@ UserAgentOptions::UserAgentOptions( QWidget * parent, const char * name )
   lb_default->setFont( f );
   lb_default->setAlignment( Qt::AlignVCenter | Qt::AlignHCenter | Qt::WordBreak );
   bg_grid->addMultiCellWidget( lb_default, 1, 1, 0, 1);
-  QWhatsThis::add( lb_default, i18n("This is the default information that is sent to remote "
-                                    "sites when you browse the internet.  You can modify it "
-                                    "using the checkboxes below.") );
+  wtstr = i18n("This is the default identification sent to remote sites "
+               "during browsing.  You can modify it using the checkboxes "
+               "below.");
+  QWhatsThis::add( lb_default, wtstr );
 
   cb_showOS = new QCheckBox( i18n("Add operating s&ystem &name"), bg_default);
   bg_grid->addMultiCellWidget( cb_showOS, 2, 2, 0, 1 );
-  QWhatsThis::add( cb_showOS, i18n("Check this box to add your <em>operating system name</em> "
-                                   "to the default identification string.") );
+  wtstr = i18n("Check this box to add your <code>operating system name</code> "
+               "to the default identification string.");
+  QWhatsThis::add( cb_showOS, wtstr );
 
   cb_showOSV = new QCheckBox( i18n("Add operating system &version"), bg_default );
   bg_grid->addWidget( cb_showOSV, 3, 1 );
   cb_showOSV->setEnabled( false );
-  QWhatsThis::add( cb_showOSV, i18n("Check this box to add your <em>operating system version number</em> "
-                                    "to the default identification string.") );
+  wtstr = i18n("Check this box to add your <code>operating system version "
+               "number</code> to the default identification string.");
+  QWhatsThis::add( cb_showOSV, wtstr );
 
   cb_showPlatform = new QCheckBox( i18n("Add &platform name"), bg_default );
   bg_grid->addMultiCellWidget( cb_showPlatform, 4, 4, 0, 1 );
-  QWhatsThis::add( cb_showPlatform, i18n("Check this box to add your <em>platform</em> to the "
-                                         "default identification string.") );
+  wtstr = i18n("Check this box to add your <code>platform</code> to the default "
+               "identification string.");
+  QWhatsThis::add( cb_showPlatform, wtstr );
 
   cb_showMachine = new QCheckBox( i18n("Add &machine (processor) type"), bg_default );
   bg_grid->addMultiCellWidget( cb_showMachine, 5, 5, 0, 1 );
-  QWhatsThis::add( cb_showMachine, i18n("Check this box to add your <em>machine or processor "
-                                        "type</em> to the default identification string.") );
+  wtstr = i18n("Check this box to add your <code>machine or processor type"
+               "</code> to the default identification string.");
+  QWhatsThis::add( cb_showMachine, wtstr );
 
   cb_showLanguage = new QCheckBox( i18n("Add your &language setting"), bg_default );
   bg_grid->addMultiCellWidget( cb_showLanguage, 6, 6, 0, 1 );
-  QWhatsThis::add( cb_showLanguage, i18n("Check this box to add your <em>machine or processor "
-                                         "type</em> to the default identification string.") );
+  wtstr = i18n("Check this box to add your language settings to the default "
+               "identification string.");
+  QWhatsThis::add( cb_showLanguage, wtstr );
 
   // Site/Domain specific settings
   gb_siteSpecific = new QGroupBox( i18n("Site/domain specific identification"), this );
@@ -108,25 +119,30 @@ UserAgentOptions::UserAgentOptions( QWidget * parent, const char * name )
   lv_siteUABindings = new KListView( gb_siteSpecific );
   lv_siteUABindings->setShowSortIndicator( true );
   lv_siteUABindings->setAllColumnsShowFocus( true );
-  lv_siteUABindings->addColumn(i18n("Server Mask"));
-  lv_siteUABindings->addColumn(i18n("UserAgent" ));
-  lv_siteUABindings->addColumn(i18n("Alias" ));
+  lv_siteUABindings->addColumn(i18n("Site/domain name"));
+  lv_siteUABindings->addColumn(i18n("UserAgent"));
+  lv_siteUABindings->addColumn(i18n("Alias"));
   lv_siteUABindings->setColumnAlignment(0, Qt::AlignLeft);
   lv_siteUABindings->setColumnAlignment(1, Qt::AlignLeft);
   lv_siteUABindings->setColumnAlignment(2, Qt::AlignLeft);
+  lv_siteUABindings->setColumnWidthMode(0, QListView::Manual);
+  lv_siteUABindings->setColumnWidthMode(1, QListView::Manual);
+  lv_siteUABindings->setColumnWidthMode(2, QListView::Manual);
+  lv_siteUABindings->setColumnWidth(0, lv_siteUABindings->fontMetrics().width('W')*15);
+
   lv_siteUABindings->setTreeStepSize(0);
   lv_siteUABindings->setSorting(0);
   s_grid->addMultiCellWidget( lv_siteUABindings, 1, 2, 0, 0 );
   connect( lv_siteUABindings, SIGNAL( selectionChanged() ), SLOT( updateButtons() ) );
-  QWhatsThis::add( lv_siteUABindings, i18n( "<qt>This box contains a list of identification(s) that will "
-                                            "be used in place of the default one when browsing the given "
-                                            "sites.  These site-specific bindings enable Konqueror to "
-                                            "change its identity when you visit the associated site(s) "
-                                            "This feature allows you to fool sites that refuse to support "
-                                            "browsers other than Netscape Navigator or Internet Explorer even "
-                                            "when they are perfectly capable of rendering them properly. "
-                                            "<br/>Use the buttons on the right to add a new site-specific "
-                                            "identifier, change and/or delete an existing one.</qt>" ) );
+  wtstr = i18n("<qt>This box contains a list of browser-identifications that "
+               "will be used in place of the default one when browsing the "
+               "listed site(s)."
+               "<P>These site-specific bindings enable any browser that uses "
+               "this information to change its identity when you visit the "
+               "associated site."
+               "<P>Use the buttons on the right to add a new site-specific "
+               "identifier or to change and/or delete an existing one.</qt>");
+  QWhatsThis::add( lv_siteUABindings, wtstr );
   QVBox* vbox = new QVBox( gb_siteSpecific );
   vbox->setSpacing( KDialog::spacingHint() );
   pb_add = new QPushButton( i18n("&New..."), vbox );
@@ -152,21 +168,28 @@ UserAgentOptions::UserAgentOptions( QWidget * parent, const char * name )
   connect( pb_export, SIGNAL( clicked() ), this, SLOT( exportPressed() ) );
 
   s_grid->addWidget( vbox, 1, 1 );
-  QWhatsThis::add( gb_siteSpecific, i18n("<qt>You can modify the default identification string, most "
-                                         "and or set a site (ex:www.kde.org) or a domain (ex:kde.org) "
-                                         "specific identification string.<p>  To add a new agent string, "
-                                         "simply click the <i>Add...</i> button and supply the necessary "
-                                         "information requested by the dialog box. To change an existing "
-                                         "string, click on the <i>Change...</i> button.  Clicking the <i>Delete</i> "
-                                         "will remove the selected policy causing the default setting to be "
-                                         "used for that site or domain. The <i>Import</i> and <i>Export</i> "
-                                         "buttons allows you to easily share your policies with other people "
-                                         "by allowing you to save and retrieve them from a zipped file.") );
+  wtstr = i18n("<qt>Here you can modify the default browser-identification string "
+               "and/or set a site <code>(ex:www.kde.org)</code> or a domain "
+               "<code>(ex:kde.org)</code> specific identification."
+               "<P>To add a new agent string, simply click the <code>New "
+               "</code>button and supply the necessary information requested "
+               "by the dialog box. To change an existing site specific entry "
+               ", click on the <code>Change</code> button.  The <code>Delete "
+               "</code> will remove the selected policy causing the default "
+               "setting to be used for that site or domain.");
+               /*
+               "The <code>Import</code> and <code>Export</code> buttons allows "
+               "you to easily share your policies with other people by allowing "
+               "you to save and retrieve them from a zipped file.")
+               */
+  QWhatsThis::add( gb_siteSpecific, wtstr );
   load();
 }
 
 UserAgentOptions::~UserAgentOptions()
 {
+  if ( m_provider )
+    delete m_provider;
 }
 
 void UserAgentOptions::load()
@@ -208,6 +231,7 @@ void UserAgentOptions::load()
   cb_showMachine->setChecked( m_iMods.showMachine );
   cb_showLanguage->setChecked( m_iMods.showLanguage );
   changeSendUAString();
+  m_provider = 0L;
 }
 
 void UserAgentOptions::updateButtons()
@@ -257,7 +281,7 @@ void UserAgentOptions::save()
 
 void UserAgentOptions::addPressed()
 {
-  UAProviderDlg* dlg = new UAProviderDlg( i18n("Add Identification"), this );
+  UAProviderDlg* dlg = new UAProviderDlg( i18n("Add Identification"), this, 0L, m_provider );
   if ( dlg->exec() == QDialog::Accepted )
   {
     bool found = false;
@@ -284,7 +308,7 @@ void UserAgentOptions::addPressed()
 
 void UserAgentOptions::changePressed()
 {
-  UAProviderDlg* dlg = new UAProviderDlg( i18n("Modify Identification"), this );
+  UAProviderDlg* dlg = new UAProviderDlg( i18n("Modify Identification"), this, 0L, m_provider );
   dlg->setEnableHostEdit( false );
   dlg->setSiteName( lv_siteUABindings->currentItem()->text(0) );
   dlg->setIdentity( lv_siteUABindings->currentItem()->text(1) );
@@ -370,13 +394,21 @@ void UserAgentOptions::changeDefaultUAModifiers( int id )
 
 QString UserAgentOptions::quickHelp() const
 {
-  return i18n( "<h1>User Agent</h1>The user agent control screen allows you "
-               "to have full control over what konqueror will report itself "
-               "as to remote web site machines.  The default is <br/><b>%1</b><br/> "
-               "<p>Some web sites, however, do not function properly if they think "
-               "they are talking to browsers other than the latest version of Netscape "
-               "Navigator or Internet Explorer.  For these sites, you may want to override "
-               "the default by adding a site or domain specific identification." ).arg( DEFAULT_USERAGENT_STRING );
+  return i18n( "<h1>Browser Identification</h1> "
+               "The browser-identification control screen allows you to have "
+               "full control over what konqueror will report itself as to web "
+               "sites."
+               "<P>This ability to fake identity is necessary because some web "
+               "sites do not display properly when they detect that  they are "
+               "not talking to current versions of Netscape Navigator or Internet "
+               "Explorer even if the \"unsupported browser\" actually supports "
+               "all the necessary features to render those pages properly. Hence "
+               "for such sites, you may want to override the default identification "
+               "by adding a site or domain specific entry."
+               "<P><u>NOTE:</u>To obtain specific help on a particular section of "
+               "the dialog box, simply click on the little question-mark button on "
+               "the top right corner of this window and then click on that section "
+               "for which you are seeking help." );
 }
 
 #include "useragentdlg.moc"

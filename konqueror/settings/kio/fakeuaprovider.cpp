@@ -120,9 +120,8 @@ bool FakeUASProvider::verifyDesktopFilename( QString& filename )
 
 void FakeUASProvider::loadFromDesktopFiles()
 {
+  m_providers.clear();
   m_providers = KTrader::self()->query("UserAgentStrings");
-  if ( !m_providers.count() ) return;
-  parseDescription();
 }
 
 void FakeUASProvider::parseDescription()
@@ -191,6 +190,11 @@ QString FakeUASProvider::aliasFor( const QString& name )
 QStringList FakeUASProvider::userAgentStringList()
 {
   if ( m_bIsDirty )
+  {
     loadFromDesktopFiles();
+    if ( !m_providers.count() )
+      return QStringList();
+    parseDescription();
+  }
   return m_lstIdentity;
 }

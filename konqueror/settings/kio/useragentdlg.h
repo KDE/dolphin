@@ -23,6 +23,7 @@ class QStringList;
 class QButtonGroup;
 
 class KListView;
+class FakeUASProvider;
 
 class UserAgentOptions : public KCModule
 {
@@ -77,8 +78,10 @@ private:
   QPushButton*    pb_export;
   QPushButton*    pb_add;
 
-  // Useragent modifiers
+  // Useragent modifiers...
   KProtocolManager::UAMODIFIERS m_iMods;
+  // Fake user-agent modifiers...
+  FakeUASProvider* m_provider;
 };
 
 #endif

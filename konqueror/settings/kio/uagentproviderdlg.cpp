@@ -31,7 +31,6 @@
 #include <klineedit.h>
 #include <kcombobox.h>
 #include <kurllabel.h>
-#include <ktempfile.h>
 #include <kmessagebox.h>
 #include <kiconloader.h>
 #include <kprotocolmanager.h>
@@ -63,8 +62,8 @@ void UALineEdit::keyPressEvent( QKeyEvent* e )
 }
 
 UAProviderDlg::UAProviderDlg( const QString& caption, QWidget *parent,
-                              const char *name )
-              :KDialog(parent, name, true)
+                              const char *name, FakeUASProvider* provider )
+              :KDialog(parent, name, true), m_provider(provider)
 {
   setIcon( SmallIcon("agent") );
   QVBoxLayout *lay = new QVBoxLayout( this, KDialog::marginHint(), KDialog::spacingHint() );
@@ -75,11 +74,12 @@ UAProviderDlg::UAProviderDlg( const QString& caption, QWidget *parent,
   m_leSite = new UALineEdit( this );
   label->setBuddy( m_leSite );
   connect( m_leSite, SIGNAL( textChanged(const QString&)), SLOT(slotTextChanged(const QString&)) );
-  QString wtstr = i18n( "Enter the site name or domain where fake identity should be used.  "
-                        "Note that wildcard syntax (\"*,?\") is NOT allowed.  Instead enter "
-                        "the top level address of any site to match all locations under it.  "
-                        "For example, if you want all site at \"http://www.acme.com\" to "
-                        "receive this fake address, simply enter \"acme.com\" here.");
+  QString wtstr = i18n( "Enter the site or domain name where a fake identity should be used.  "
+                        "<p><u>NOTE:<u> Wildcard syntax (\"*,?\") is NOT allowed.  Instead enter "
+                        "the top level address of any site to match all locations underneath it.  "
+                        "For example, if you want all site at <code>http://www.acme.com</code> to "
+                        "receive a certain fake browser-identification, simply enter "
+                        "<code>acme.com</code> here. ");
   QWhatsThis::add( label, wtstr );
   QWhatsThis::add( m_leSite, wtstr );
 
@@ -89,8 +89,9 @@ UAProviderDlg::UAProviderDlg( const QString& caption, QWidget *parent,
   label->setBuddy( m_cbIdentity );
   m_cbIdentity->setMinimumWidth( m_cbIdentity->fontMetrics().width('W') * 30 );
   connect ( m_cbIdentity, SIGNAL(activated(const QString&)), SLOT(slotActivated(const QString&)) );
-  wtstr = i18n( "<qt>Select the identity used whenever contacting the site given "
-                "above.  Upon selection a friendlier description, if one was "
+  wtstr = i18n( "<qt>Select the browser-identification to use whenever "
+                "contacting the site or domain name given above."
+                "<P>Upon selection,  a friendlier description, if one was "
                 "supplied in the description file, will be shown in the box "
                 "below.</qt>" );
   QWhatsThis::add( label, wtstr );
@@ -100,37 +101,47 @@ UAProviderDlg::UAProviderDlg( const QString& caption, QWidget *parent,
   m_leAlias = new KLineEdit( this );
   m_leAlias->setReadOnly( true );
   label->setBuddy( m_leAlias );
-  wtstr = i18n( "A plain (friendlier) description for the above identification string." );
+  wtstr = i18n( "A plain (friendlier) description of the above "
+                "browser-identification string." );
   QWhatsThis::add( label, wtstr );
   QWhatsThis::add( m_leAlias, wtstr );
 
-  QWidget *buttonBox = new QWidget( this );
-  QBoxLayout *buttonLayout = new QHBoxLayout( buttonBox );
-  buttonLayout->setSpacing( KDialog::spacingHint() ); 
-  m_btnOK = new QPushButton( i18n("&OK"), buttonBox );
-  m_btnCancel = new QPushButton( i18n("&Cancel"), buttonBox );
+  // Organize the buttons in a button box...
+  QWidget* btnBox = new QWidget( this );
+  QBoxLayout *btnLay = new QHBoxLayout( btnBox );
+  btnLay->setSpacing( KDialog::spacingHint() );
+
+  // Update Button
+  QPushButton* btn = new QPushButton( i18n("&Update List"), btnBox );
+  wtstr = i18n( "Updates the browser identification list shown above."
+                "<P><u>NOTE:</u> There is no need to press this button "
+                "unless a new description browser-identfication description "
+                "file was added after after this configuration box was already "
+                "displayed!" );
+  QWhatsThis::add( btn, wtstr );
+  connect( btn, SIGNAL(clicked()), SLOT(updateInfo()) );
+  btnLay->addWidget( btn );
+  btnLay->addStretch( 1 );
+
+  // OK button
+  m_btnOK = new QPushButton( i18n("&OK"), btnBox );
+  btnLay->addWidget( m_btnOK );
   m_btnOK->setDefault( true );
   m_btnOK->setEnabled( false );
-
-  buttonLayout->addStretch( 1 );
-  buttonLayout->addWidget( m_btnOK );
-  buttonLayout->addWidget( m_btnCancel );
-
-  m_provider = new FakeUASProvider();
-
   connect( m_btnOK, SIGNAL(clicked()), SLOT(accept()) );
-  connect( m_btnCancel, SIGNAL(clicked()), SLOT(reject()) );
-  QAccel* a = new QAccel( this );
-  a->connectItem( a->insertItem(Qt::Key_Escape), m_btnCancel, SLOT(animateClick()) );
 
-  lay->addSpacing( KDialog::spacingHint() );
-  loadInfo();
-  m_leSite->setFocus();
+  // Cancel Button
+  btn = new QPushButton( i18n("&Cancel"), btnBox );
+  btnLay->addWidget( btn );
+  connect( btn, SIGNAL(clicked()), SLOT(reject()) );
+  QAccel* a = new QAccel( this );
+  a->connectItem( a->insertItem(Qt::Key_Escape), btn, SLOT(animateClick()) );
+  setBaseSize( minimumSizeHint() );
+  init();
 }
 
 UAProviderDlg::~UAProviderDlg()
 {
-  delete m_provider;
 }
 
 void UAProviderDlg::slotActivated( const QString& text )
@@ -153,10 +164,10 @@ void UAProviderDlg::slotTextChanged( const QString& text )
   m_btnOK->setEnabled( !(text.isEmpty() || m_cbIdentity->currentText().isEmpty()) );
 }
 
-void UAProviderDlg::loadInfo()
+void UAProviderDlg::init()
 {
-  m_cbIdentity->insertStringList( m_provider->userAgentStringList() );
-  m_cbIdentity->insertItem( "", 0 );
+  if ( !m_provider )
+    m_provider = new FakeUASProvider();
   QStringList list = KProtocolManager::userAgentList();
   if ( list.count() )
   {
@@ -164,6 +175,18 @@ void UAProviderDlg::loadInfo()
     for( ; it != list.end(); ++it )
       m_provider->createNewUAProvider( (*it) );
   }
+  m_cbIdentity->clear();
+  m_cbIdentity->insertStringList( m_provider->userAgentStringList() );
+  m_cbIdentity->insertItem( "", 0 );
+  m_leSite->setFocus();
+}
+
+void UAProviderDlg::updateInfo()
+{
+  QString citem = m_cbIdentity->currentText();
+  m_provider->setListDirty(true);
+  init();
+  setIdentity(citem);
 }
 
 void UAProviderDlg::setEnableHostEdit( bool state )

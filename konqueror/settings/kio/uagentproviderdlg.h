@@ -45,8 +45,10 @@ class UAProviderDlg : public KDialog
   Q_OBJECT
 
 public:
-  UAProviderDlg( const QString& caption, QWidget *parent = 0,
-                 const char *name = 0 );
+  UAProviderDlg( const QString& caption,
+                 QWidget *parent = 0,
+                 const char *name = 0,
+                 FakeUASProvider* provider = 0 );
   ~UAProviderDlg();
 
   void setSiteName( const QString& );
@@ -60,14 +62,16 @@ public:
 protected slots:
   void slotActivated( const QString& );
   void slotTextChanged( const QString& );
-  void loadInfo();
+  void updateInfo();
+
+protected:
+  void init();
 
 private:
   FakeUASProvider* m_provider;
 
   QGroupBox*     m_gbNewBox;
   QPushButton*   m_btnOK;
-  QPushButton*   m_btnCancel;
   UALineEdit*    m_leSite;
   KComboBox*     m_cbIdentity;
   KLineEdit*     m_leAlias;
