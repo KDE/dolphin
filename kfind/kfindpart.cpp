@@ -96,7 +96,7 @@ void KFindPart::slotStarted()
     emit clear();
 }
 
-void KFindPart::addFile(const KFileItem *item, const QString& matchingLine)
+void KFindPart::addFile(const KFileItem *item, const QString& /*matchingLine*/)
 {
     // item is deleted by caller
     // we need to clone it
@@ -172,7 +172,7 @@ void KFindPart::saveState( QDataStream& stream )
   stream << m_lstFileItems.count();
   while(fileitem!=NULL)
   {
-        stream << fileitem->url();
+        stream << *fileitem;
         fileitem=m_lstFileItems.next();
   }
 }
@@ -189,8 +189,9 @@ void KFindPart::restoreState( QDataStream& stream )
   slotStarted();
   for(int i=0;i<nbitems;i++)
   {
-    stream >> itemUrl;
-    addFile(new KFileItem(itemUrl,"",0),"");
+    KFileItem* item = new KFileItem( KFileItem::Unknown, KFileItem::Unknown, KURL() );
+    stream >> *item;
+    addFile(item, "");
   }
     emit finished();
 }

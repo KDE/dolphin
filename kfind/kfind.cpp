@@ -162,12 +162,12 @@ void Kfind::setFocus()
 
 void Kfind::saveState( QDataStream *stream )
 {
-	query->kill();
+  query->kill();
   *stream << tabWidget->nameBox->currentText();
   *stream << tabWidget->dirBox->currentText();
   *stream << tabWidget->typeBox->currentItem();
   *stream << tabWidget->textEdit->text();
-  *stream << ( tabWidget->subdirsCb->isChecked() ? 0 : 1 );
+  *stream << (int)( tabWidget->subdirsCb->isChecked() ? 0 : 1 );
 }
 
 void Kfind::restoreState( QDataStream *stream )
