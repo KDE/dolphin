@@ -63,7 +63,7 @@ KEBApp::KEBApp(const QString & bookmarksFile, bool readonly, const QString &addr
 
    setCentralWidget(splitter);
    resize(ListView::self()->widget()->sizeHint().width()
-        + 0, 400);
+         + 0 /* TODO - other split view */, 400);
 
    createActions();
    createGUI();
@@ -223,40 +223,37 @@ void KEBApp::updateActions() {
 void KEBApp::setActionsEnabled(SelcAbilities sa) {
    KActionCollection * coll = actionCollection();
 
-   bool t2 = !m_readOnly && sa.itemSelected;
-   bool t4 = !m_readOnly && sa.singleSelect && !sa.root && !sa.separator;
-   bool t5 = !m_readOnly && !sa.multiSelect;
+   coll->action("nexthit")          ->setEnabled(true);
+
+   coll->action("expandall")        ->setEnabled(true);
+   coll->action("collapseall")      ->setEnabled(true);
+
+   coll->action("search")           ->setEnabled(!sa.multiSelect);
 
    coll->action("edit_copy")        ->setEnabled(sa.itemSelected);
+   coll->action("openlink")         ->setEnabled(sa.itemSelected && !sa.urlIsEmpty
+                                              && !sa.group && !sa.separator);
+
+   coll->action("testall")          ->setEnabled(!m_readOnly && sa.notEmpty);
+   coll->action("updateallfavicons")->setEnabled(!m_readOnly && sa.notEmpty);
+
+   bool t2 = !m_readOnly && sa.itemSelected;
    coll->action("delete")           ->setEnabled(t2 && !sa.root);
    coll->action("edit_cut")         ->setEnabled(t2 && !sa.root);
    coll->action("edit_paste")       ->setEnabled(t2 && m_canPaste);
+   coll->action("testlink")         ->setEnabled(t2 && !sa.separator);
+   coll->action("updatefavicon")    ->setEnabled(t2 && !sa.separator);
 
+   bool t4 = !m_readOnly && sa.singleSelect && !sa.root && !sa.separator;
    coll->action("rename")           ->setEnabled(t4);
    coll->action("changeicon")       ->setEnabled(t4);
    coll->action("changecomment")    ->setEnabled(t4);
    coll->action("changeurl")        ->setEnabled(t4 && !sa.group);
 
+   bool t5 = !m_readOnly && !sa.multiSelect;
    coll->action("newfolder")        ->setEnabled(t5);
    coll->action("newbookmark")      ->setEnabled(t5);
    coll->action("insertseparator")  ->setEnabled(t5);
-
-   coll->action("expandall")        ->setEnabled(true);
-   coll->action("collapseall")      ->setEnabled(true);
-   coll->action("openlink")         ->setEnabled(sa.itemSelected && !sa.urlIsEmpty
-                                              && !sa.group && !sa.separator);
-
-   coll->action("search")           ->setEnabled(!sa.multiSelect);
-
-   // fix and move into the class where it should be!
-   coll->action("nexthit")          ->setEnabled(true);
-
-   coll->action("testall")          ->setEnabled(!m_readOnly && sa.notEmpty);
-   coll->action("testlink")         ->setEnabled(t2 && !sa.separator);
-
-   coll->action("updateallfavicons")->setEnabled(!m_readOnly && sa.notEmpty);
-   coll->action("updatefavicon")    ->setEnabled(t2 && !sa.separator);
-
    coll->action("sort")             ->setEnabled(t5 && sa.group);
    coll->action("setastoolbar")     ->setEnabled(t5 && sa.group);
 }
@@ -272,14 +269,13 @@ void KEBApp::setCancelTestsEnabled(bool enabled) {
 }
 
 void KEBApp::setModifiedFlag(bool modified) {
-   QString caption = i18n("Bookmark Editor");
    m_modified = modified;
 
-#if 0
-   if (filename != default filename) {
-      caption += QString(" [%1]").arg(filename.name());
+   QString caption = i18n("Bookmark Editor");
+
+   if (m_bookmarksFilename != KBookmarkManager::userBookmarksManager()->path()) {
+      caption += QString(" %1").arg(m_bookmarksFilename);
    }
-#endif
 
    if (m_readOnly) {
       m_modified = false;
