@@ -69,6 +69,7 @@ inline KonqSettings * KonqSettings::defaultHTMLSettings()
 void KonqSettings::reparseConfiguration()
 {
   KConfig *config = kapp->config();
+  config->reparseConfiguration();
   for (int i = 0 ; i < 3 ; i++ )
   {
     if (s_pSettings[i])
