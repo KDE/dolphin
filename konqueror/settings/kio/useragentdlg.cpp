@@ -95,7 +95,7 @@ UserAgentOptions::UserAgentOptions( QWidget * parent, const char * name )
   QFont f = lb_default->font();
   f.setBold( true );
   lb_default->setFont( f );
-  lb_default->setAlignment( Qt::AlignVCenter | Qt::AlignHCenter | Qt::WordBreak );
+  lb_default->setAlignment( Qt::AlignVCenter | Qt::AlignHCenter );
   bg_grid->addMultiCellWidget (lb_default, 1, 1, 0, 1);
   wtstr = i18n("This is the default identification sent to remote sites "
                "during browsing. You can modify it using the checkboxes "
