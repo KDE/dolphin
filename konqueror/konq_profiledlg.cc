@@ -184,7 +184,7 @@ void KonqProfileDlg::slotTextChanged( const QString & text )
 
   // If we type the name of a profile, select it in the list
   QListBoxItem * item = m_pListBox->findItem( text );
-  if ( item )
+  if ( item && item->text() == text /*only full text, not partial*/ )
     m_pListBox->setSelected( item, true );
   else
     // otherwise, clear selection
