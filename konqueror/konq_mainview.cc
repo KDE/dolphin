@@ -89,7 +89,6 @@ KonqMainView::KonqMainView( const QString &initialURL, bool openInitialURL, cons
 {
   m_currentView = 0L;
   m_pBookmarkMenu = 0L;
-  m_bViewModeLock = false;
   m_bURLEnterLock = false;
 
   KonqFactory::instanceRef();
@@ -117,8 +116,6 @@ KonqMainView::KonqMainView( const QString &initialURL, bool openInitialURL, cons
   connect( m_pViewManager, SIGNAL( activePartChanged( KParts::Part * ) ),
 	   this, SLOT( slotPartActivated( KParts::Part * ) ) );
 
-  m_viewModeActions.setAutoDelete( true );
-
   m_viewModeGUIServant = new ViewModeGUIServant( this );
 
   m_helpMenu = new KHelpMenu( this );
@@ -126,20 +123,11 @@ KonqMainView::KonqMainView( const QString &initialURL, bool openInitialURL, cons
   initActions();
   initPlugins();
 
-  m_bMenuEditDirty = true;
-  m_bMenuViewDirty = true;
-
-  // (David) : should the views do that ?
-  //  connect( QApplication::clipboard(), SIGNAL( dataChanged() ),
-  //           this, SLOT( checkEditExtension() ) );
   connect( KSycoca::self(), SIGNAL( databaseChanged() ),
            this, SLOT( slotDatabaseChanged() ) );
 
   setXMLFile( locate( "data", "konqueror/konqueror.rc" ) );
-  //  setUpdatesEnabled( false );
-  //  guiFactory()->addServant( this );
-  //  setUpdatesEnabled( true );
-  //   updateRects();
+
   createGUI( 0L );
 
   // hide if empty
@@ -294,8 +282,6 @@ void KonqMainView::openURL( KonqChildView *_view, const KURL &url, bool reload, 
   kDebugStringArea( 1202, QString("KonqMainView::openURL : _url = '%1'").arg(url.url()) );
 
   /////////// First, modify the URL if necessary (adding protocol, ...) //////
-
-  //  QString url = konqFilteredURL(_url);
 
   if ( url.isMalformed() )
   {
@@ -453,13 +439,9 @@ void KonqMainView::slotViewModeToggle( bool toggle )
   if ( m_currentView->service()->name() == modeName )
     return;
 
-  m_bViewModeLock = true;
-
   m_currentView->lockHistory();
   m_currentView->changeViewMode( m_currentView->serviceType(), QString::null,
                                  false, modeName );
-				
-  m_bViewModeLock = false;
 }
 
 void KonqMainView::slotShowHTML()
@@ -467,8 +449,6 @@ void KonqMainView::slotShowHTML()
   bool b = !m_currentView->allowHTML();
 
   m_currentView->setAllowHTML( b );
-
-  m_bMenuViewDirty = true;
 
   if ( b && m_currentView->supportsServiceType( "inode/directory" ) )
   {
@@ -651,11 +631,7 @@ void KonqMainView::slotViewChanged( KParts::ReadOnlyPart *oldView, KParts::ReadO
   m_mapViews.insert( newView, (KonqChildView *)sender() );
 
   if ( (KonqChildView *)sender() == (KonqChildView *)m_currentView )
-  {
     updateStatusBar();
-    //checkEditExtension();
-    m_bMenuViewDirty = true;
-  }
 
   // Add the new part to the manager
   m_pViewManager->addPart( newView, true );
@@ -769,8 +745,6 @@ void KonqMainView::slotPartActivated( KParts::Part *part )
     return;
   }
 
-  //  guiFactory()->removeServant( m_viewModeGUIServant );
-
   KonqChildView *oldView = m_currentView;
 
   if ( m_currentView && m_currentView->browserExtension() )
@@ -800,8 +774,6 @@ void KonqMainView::slotPartActivated( KParts::Part *part )
 
   updateStatusBar();
   updateToolBarActions();
-
-  m_bMenuViewDirty = true;
 }
 
 void KonqMainView::insertChildView( KonqChildView *childView )
@@ -826,10 +798,7 @@ void KonqMainView::removeChildView( KonqChildView *childView )
   m_paRemoveView->setEnabled( m_mapViews.count() > 1 );
 
   if ( childView == m_currentView )
-  {
-  //    unPlugViewGUI( m_currentView->view() );
     m_currentView = 0L;
-  }
 
   bool haveTree = false;
   MapViews::ConstIterator cIt = m_mapViews.begin();
@@ -921,83 +890,6 @@ void KonqMainView::slotFileNewAboutToShow()
   m_pMenuNew->setPopupFiles( m_currentView->url().url() );
 }
 
-void KonqMainView::slotMenuEditAboutToShow()
-{
-  if ( !m_bMenuEditDirty )
-    return;
-
-  m_bMenuEditDirty = false;
-}
-
-void KonqMainView::slotMenuViewAboutToShow()
-{
-  if ( !m_bMenuViewDirty || !m_pamView->isEnabled() )
-    return;
-
-  kDebugInfo( 1202, "void KonqMainView::slotMenuViewAboutToShow()" );
-
-  if ( !m_bViewModeLock )
-  {
-    kDebugInfo( 1202, "no lock!" );
-    m_pamView->popupMenu()->clear(); //remove separators
-    m_pamView->remove( m_ptaUseHTML );
-    m_pamView->remove( m_ptaShowDirTree );
-    m_pamView->remove( m_paReload );
-
-    m_viewModeActions.clear();
-
-    KTrader::OfferList services = m_currentView->serviceOffers();
-
-    if ( services.count() > 1 )
-    {
-      KTrader::OfferList::ConstIterator it = services.begin();
-      KTrader::OfferList::ConstIterator end = services.end();
-
-      for (; it != end; ++it )
-      {
-        KToggleAction *action = new KToggleAction( (*it)->comment(), 0, this, (*it)->name() );
-
-        m_viewModeActions.append( action );
-        m_pamView->insert( action );
-
-        if ( (*it)->name() == m_currentView->service()->name() )
-          action->setChecked( true );
-	
-        action->setExclusiveGroup( "KonqMainView_ViewModes" );
-
-        connect( action, SIGNAL( toggled( bool ) ),
-                 this, SLOT( slotViewModeToggle( bool ) ) );
-      }
-
-      m_pamView->popupMenu()->insertSeparator();
-    }
-
-    m_pamView->insert( m_ptaUseHTML );
-    m_pamView->insert( m_ptaShowDirTree );
-    m_pamView->popupMenu()->insertSeparator();
-    m_pamView->insert( m_paReload );
-
-    // hhhhhmmmmmmmmmmmmmm... (Simon)
-    m_ptaUseHTML->blockSignals( true );
-    m_ptaUseHTML->setChecked( m_currentView->allowHTML() );
-    m_ptaUseHTML->blockSignals( false );
-
-    m_pamView->popupMenu()->insertSeparator();
-
-  }
-
-  /*
-  const QValueList<BrowserView::ViewAction> *actions = m_currentView->view()->actions();
-  QValueList<BrowserView::ViewAction>::ConstIterator it = actions->begin();
-  QValueList<BrowserView::ViewAction>::ConstIterator end = actions->end();
-  for (; it != end; ++it )
-    if ( ( (*it).m_flags & BrowserView::MenuView ) == BrowserView::MenuView )
-     (*it).m_action->plug( m_pamView->popupMenu() );
-  */
-
-  m_bMenuViewDirty = false;
-}
-
 void KonqMainView::slotSplitViewHorizontal()
 {
   m_pViewManager->splitView( Qt::Horizontal );
@@ -1027,12 +919,10 @@ void KonqMainView::slotRemoveView()
   if ( nextView == 0L )
   	return;
 	
-  //  setActiveView( nextView->view() );
   m_pViewManager->setActivePart( nextView->view() );
 
   m_pViewManager->removeView( prevView );
 
-  //if ( m_mapViews.count() == 1 )
   if ( m_pViewManager->chooseNextView((KonqChildView *)m_currentView) == 0L )
     m_currentView->frame()->header()->passiveModeCheckBox()->hide();
 }
@@ -1060,28 +950,6 @@ void KonqMainView::speedProgress( int bytesPerSecond )
   m_statusBar->changeItem( sizeStr, STATUSBAR_SPEED_ID );
 }
 
-/*
-void KonqMainView::checkEditExtension()
-{
-  bool bCut = false;
-  bool bCopy = false;
-  bool bPaste = false;
-  bool bMove = false;
-
-  if ( m_currentView && m_currentView->view() )
-  {
-    QObject *obj = m_currentView->view()->child( 0L, "EditExtension" );
-    if ( obj )
-      ((EditExtension *)obj)->can( bCut, bCopy, bPaste, bMove );
-  }
-
-  m_paCut->setEnabled( bCut );
-  m_paCopy->setEnabled( bCopy );
-  m_paPaste->setEnabled( bPaste );
-  m_paTrash->setEnabled( bMove );
-  m_paDelete->setEnabled( bMove ); // should we do this for the trash can?
-}
-*/
 void KonqMainView::callExtensionMethod( KonqChildView * childView, const char * methodName )
 {
   QObject *obj = childView->view()->child( 0L, "KParts::BrowserExtension" );
@@ -1311,31 +1179,7 @@ void KonqMainView::setLocationBarURL( KonqChildView *childView, const QString &u
     m_combo->setEditText( url );
 
 }
-/*
-void KonqMainView::viewActivateEvent( ViewActivateEvent *e )
-{
-  if ( e->deactivated() )
-    return;
 
-  m_statusBar = shell()->createStatusBar();
-
-  m_progressBar = new KProgress( 0, 100, 0, KProgress::Horizontal, m_statusBar );
-
-  m_statusBar->insertWidget( m_progressBar, 120, STATUSBAR_LOAD_ID );
-  m_statusBar->insertItem( QString::fromLatin1( "XXXXXXXX" ), STATUSBAR_SPEED_ID );
-  m_statusBar->insertItem( 0L, STATUSBAR_MSG_ID );
-
-  m_statusBar->changeItem( 0L, STATUSBAR_SPEED_ID );
-
-  m_statusBar->show();
-
-  m_progressBar->hide();
-  if ( m_currentView )
-    setLocationBarURL( m_currentView, m_currentView->locationBarURL() );
-
-  View::viewActivateEvent( e );
-}
-*/
 void KonqMainView::startAnimation()
 {
   m_animatedLogoCounter = 0;
@@ -1393,16 +1237,10 @@ void KonqMainView::initActions()
   // Edit menu
   m_pamEdit = new KActionMenu( i18n( "&Edit" ), actionCollection(), "edit" );
 
-  //  connect( m_pamEdit->popupMenu(), SIGNAL( aboutToShow() ),
-  //           this, SLOT( slotMenuEditAboutToShow() ) );
-
   // View menu
   m_pamView = new KActionMenu( i18n( "&View" ), actionCollection(), "view" );
 
   QPopupMenu *popup = m_pamView->popupMenu();
-
-  //  connect( popup, SIGNAL( aboutToShow() ),
-  //           this, SLOT( slotMenuViewAboutToShow() ) );
 
   m_ptaUseHTML = new KToggleAction( i18n( "&Use HTML" ), 0, this, SLOT( slotShowHTML() ), actionCollection(), "usehtml" );
   m_ptaShowDirTree = new KToggleAction( i18n( "Show Directory Tree" ), 0, actionCollection(), "showdirtree" );
@@ -1573,8 +1411,6 @@ void KonqMainView::updateToolBarActions()
   m_paBack->setEnabled( m_currentView->canGoBack() );
   m_paForward->setEnabled( m_currentView->canGoForward() );
 
-  //checkEditExtension();
-
   if ( m_currentView->isLoading() )
     startAnimation(); // takes care of m_paStop
   else
@@ -1685,17 +1521,6 @@ void KonqMainView::enableAllActions( bool enable )
   int count = actionCollection()->count();
   for ( int i = 0; i < count; i++ )
     actionCollection()->action( i )->setEnabled( enable );
-
-  /*
-  if ( enable )
-  {
-    if ( ! m_currentView )
-      qDebug("No current view !");
-    else
-      updateExtensionDependendActions( m_currentView );
-  }
-  */
-  // Hmm...
 }
 
 void KonqMainView::openBookmarkURL( const QString & url )
@@ -1742,8 +1567,6 @@ void KonqMainView::slotPopupMenu( const QPoint &_global, const KFileItemList &_i
   popupMenuCollection.insert( m_paForward );
   popupMenuCollection.insert( m_paUp );
 
-  //checkEditExtension();
-
   popupMenuCollection.insert( m_paCut );
   popupMenuCollection.insert( m_paCopy );
   popupMenuCollection.insert( m_paPaste );
@@ -1760,7 +1583,6 @@ void KonqMainView::slotPopupMenu( const QPoint &_global, const KFileItemList &_i
   delete pPopupMenu;
 
   m_currentView = m_oldView;
-  //checkEditExtension();
 }
 
 void KonqMainView::slotDatabaseChanged()

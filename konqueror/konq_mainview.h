@@ -127,8 +127,6 @@ k_dcop:
 public:
   bool openView( QString serviceType, const KURL &_url, KonqChildView *childView );
 
-  //  void setActiveView( BrowserView *view );
-
   void insertChildView( KonqChildView *childView );
   void removeChildView( KonqChildView *childView );
   KonqChildView *childView( KParts::ReadOnlyPart *view );
@@ -168,8 +166,6 @@ protected slots:
   void slotURLEntered( const QString &text );
 
   void slotFileNewAboutToShow();
-  void slotMenuEditAboutToShow();
-  void slotMenuViewAboutToShow();
 
   void slotSplitViewHorizontal();
   void slotSplitViewVertical();
@@ -179,7 +175,6 @@ protected slots:
 
   void slotSaveDefaultProfile();
 
-  //void checkEditExtension();
   void slotDatabaseChanged(); // connect to KSycoca
 
   void slotCut();
@@ -215,8 +210,6 @@ protected:
 
   void callExtensionMethod( KonqChildView * childView, const char * methodName );
 
-//  virtual void viewActivateEvent( ViewActivateEvent *e );
-
 private:
 
   void startAnimation();
@@ -226,11 +219,6 @@ private:
 
   void initActions();
   void initPlugins();
-
-  //  void plugInViewGUI( BrowserView *view );
-  //  void unPlugViewGUI( BrowserView *view );
-
-  // void updateExtensionDependendActions( KonqChildView *childView );
 
   QString konqFilteredURL( const QString &url );
 
@@ -316,12 +304,6 @@ private:
   KToggleAction *m_paShowToolBar;
   KToggleAction *m_paShowLocationBar;
   KToggleAction *m_paShowBookmarkBar;
-
-  bool m_bMenuEditDirty;
-  bool m_bMenuViewDirty;
-
-  QList<KToggleAction> m_viewModeActions;
-  bool m_bViewModeLock;
 
   typedef QMap<KParts::ReadOnlyPart *, KonqChildView *> MapViews;
 
