@@ -17,6 +17,11 @@
    Boston, MA 02111-1307, USA.
 */
 
+#include "toplevel.h"
+#include "listview.h"
+#include "testlink.h"
+#include "bookmarkiterator.h"
+
 #include <qtimer.h>
 #include <qpainter.h>
 
@@ -26,11 +31,6 @@
 #include <krfcdate.h>
 #include <kcharsets.h>
 #include <kbookmarkmanager.h>
-
-#include "toplevel.h"
-#include "listview.h"
-#include "testlink.h"
-#include "bookmarkiterator.h"
 
 #include <kaction.h>
 

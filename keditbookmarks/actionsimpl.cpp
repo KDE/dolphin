@@ -17,6 +17,16 @@
    Boston, MA 02111-1307, USA.
 */
 
+#include "actionsimpl.h"
+
+#include "toplevel.h"
+#include "commands.h"
+#include "importers.h"
+#include "favicons.h"
+#include "testlink.h"
+#include "listview.h"
+#include "exporters.h"
+
 #include <stdlib.h>
 
 #include <qclipboard.h>
@@ -52,15 +62,10 @@
 #include <kbookmarkmanager.h>
 #include <kbookmarkimporter.h>
 
-#include "toplevel.h"
-#include "commands.h"
-#include "importers.h"
-#include "favicons.h"
-#include "testlink.h"
-#include "listview.h"
-#include "exporters.h"
-
-#include "actionsimpl.h"
+#include <kbookmarkimporter.h>
+#include <kbookmarkimporter_ie.h>
+#include <kbookmarkimporter_opera.h>
+#include <kbookmarkexporter.h>
 
 ActionsImpl* ActionsImpl::s_self = 0;
 
@@ -226,11 +231,6 @@ void KEBApp::slotSaveAs() {
    if (!saveFilename.isEmpty())
       CurrentMgr::self()->saveAs(saveFilename);
 }
-
-#include <kbookmarkimporter.h>
-#include <kbookmarkimporter_ie.h>
-#include <kbookmarkimporter_opera.h>
-#include <kbookmarkexporter.h>
 
 void CurrentMgr::doExport(ExportType type) {
    // TODO - add a factory and make all this use the base class

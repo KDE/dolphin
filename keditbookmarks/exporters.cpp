@@ -16,13 +16,13 @@
    Boston, MA 02111-1307, USA.
 */
 
+#include "exporters.h"
+
 #include <kdebug.h>
 #include <klocale.h>
 #include <kapplication.h>
 
 #include <qfile.h>
-
-#include "exporters.h"
 
 HTMLExporter::HTMLExporter() 
    : m_out(&m_string, IO_WriteOnly) {

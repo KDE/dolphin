@@ -17,6 +17,12 @@
    Boston, MA 02111-1307, USA.
 */
 
+#include "importers.h"
+
+#include "commands.h"
+#include "toplevel.h"
+#include "listview.h"
+
 #include <qregexp.h>
 #include <kdebug.h>
 #include <klocale.h>
@@ -31,12 +37,6 @@
 #include <kbookmarkimporter_opera.h>
 #include <kbookmarkimporter_crash.h>
 #include <kbookmarkdombuilder.h>
-
-#include "commands.h"
-#include "toplevel.h"
-#include "listview.h"
-
-#include "importers.h"
 
 QString ImportCommand::name() const {
    return i18n("Import %1 Bookmarks").arg(visibleName());

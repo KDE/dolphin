@@ -17,13 +17,14 @@
    Boston, MA 02111-1307, USA.
 */
 
-#include <kdebug.h>
-
-#include <qtimer.h>
+#include "bookmarkiterator.h"
 
 #include "toplevel.h"
 #include "listview.h"
-#include "bookmarkiterator.h"
+
+#include <kdebug.h>
+
+#include <qtimer.h>
 
 BookmarkIterator::BookmarkIterator(QValueList<KBookmark> bks) : m_bklist(bks) {
    connect(this, SIGNAL( deleteSelf(BookmarkIterator *) ), 

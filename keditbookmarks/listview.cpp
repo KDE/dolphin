@@ -17,6 +17,12 @@
    Boston, MA 02111-1307, USA.
 */
 
+#include "listview.h"
+
+#include "toplevel.h"
+#include "commands.h"
+#include "testlink.h" // paintCellHelper
+
 #include <stdlib.h>
 
 #include <qclipboard.h>
@@ -39,12 +45,6 @@
 
 #include <kbookmarkdrag.h>
 #include <kbookmarkmanager.h>
-
-#include "toplevel.h"
-#include "commands.h"
-#include "testlink.h" // paintCellHelper
-
-#include "listview.h"
 
 // #define DEBUG_ADDRESSES
 

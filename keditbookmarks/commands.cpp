@@ -17,6 +17,13 @@
    Boston, MA 02111-1307, USA.
 */
 
+#include "commands.h"
+
+#include "kinsertionsort.h"
+
+#include "toplevel.h"
+#include "listview.h"
+
 #include <assert.h>
 
 #include <kdebug.h>
@@ -24,13 +31,6 @@
 
 #include <kbookmarkdrag.h>
 #include <kbookmarkmanager.h>
-
-#include "kinsertionsort.h"
-
-#include "toplevel.h"
-#include "listview.h"
-
-#include "commands.h"
 
 CmdGen* CmdGen::s_self = 0;
 

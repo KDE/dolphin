@@ -16,6 +16,12 @@
    Boston, MA 02111-1307, USA.
 */
 
+#include "updater.h"
+
+#include "bookmarkiterator.h"
+#include "listview.h"
+#include "toplevel.h"
+
 #include <kdebug.h>
 #include <klocale.h>
 #include <kapplication.h>
@@ -25,12 +31,6 @@
 #include <kparts/part.h>
 #include <kparts/componentfactory.h>
 #include <kparts/browserextension.h>
-
-#include "bookmarkiterator.h"
-#include "listview.h"
-#include "toplevel.h"
-
-#include "updater.h"
 
 FavIconUpdater::FavIconUpdater(QObject *parent, const char *name)
    : KonqFavIconMgr(parent, name) {

@@ -17,6 +17,11 @@
    Boston, MA 02111-1307, USA.
 */
 
+#include "dcop.h"
+
+#include "toplevel.h"
+#include "commands.h"
+
 #include <stdlib.h>
 
 #include <qclipboard.h>
@@ -28,11 +33,6 @@
 #include <dcopclient.h>
 #include <kdebug.h>
 #include <kapplication.h>
-
-#include "toplevel.h"
-#include "commands.h"
-
-#include "dcop.h"
 
 KBookmarkEditorIface::KBookmarkEditorIface()
  : QObject(), DCOPObject("KBookmarkEditor") {

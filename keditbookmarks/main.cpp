@@ -17,6 +17,8 @@
    Boston, MA 02111-1307, USA.
 */
 
+#include "toplevel.h"
+
 #include <dcopclient.h>
 #include <dcopref.h>
 #include <klocale.h>
@@ -32,8 +34,6 @@
 
 #include <kbookmarkmanager.h>
 #include <kbookmarkexporter.h>
-
-#include "toplevel.h"
 
 static KCmdLineOptions options[] = {
    {"exportmoz <filename>", I18N_NOOP("Export bookmarks to file in Mozilla format."), 0},

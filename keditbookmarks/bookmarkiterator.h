@@ -20,6 +20,7 @@
 #define __bookmarkiterator_h
 
 #include <qobject.h>
+#include <qptrlist.h>
 #include <kbookmark.h>
 
 class KEBListViewItem;

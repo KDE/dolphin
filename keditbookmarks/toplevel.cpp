@@ -17,6 +17,14 @@
    Boston, MA 02111-1307, USA.
 */
 
+#include "toplevel.h"
+
+#include "listview.h"
+#include "actionsimpl.h"
+#include "dcop.h"
+#include "search.h"
+#include "exporters.h"
+
 #include <stdlib.h>
 
 #include <qclipboard.h>
@@ -41,15 +49,6 @@
 
 #include <kbookmarkdrag.h>
 #include <kbookmarkmanager.h>
-
-#include "listview.h"
-#include "actionsimpl.h"
-#include "dcop.h"
-#include "search.h"
-
-#include "toplevel.h"
-
-#include "exporters.h"
 
 CmdHistory* CmdHistory::s_self = 0;
 

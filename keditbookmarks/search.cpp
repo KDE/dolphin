@@ -16,6 +16,10 @@
    Boston, MA 02111-1307, USA.
 */
 
+#include "toplevel.h"
+#include "listview.h"
+#include "search.h"
+
 #include <qregexp.h>
 #include <qtimer.h>
 
@@ -24,10 +28,6 @@
 #include <kfind.h>
 
 #include <kbookmarkmanager.h>
-
-#include "toplevel.h"
-#include "listview.h"
-#include "search.h"
 
 MagicKLineEdit::MagicKLineEdit(
    const QString &text, QWidget *parent, const char *name

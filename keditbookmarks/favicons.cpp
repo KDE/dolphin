@@ -16,16 +16,16 @@
    Boston, MA 02111-1307, USA.
 */
 
-#include <kdebug.h>
-#include <klocale.h>
-#include <kapplication.h>
+#include "favicons.h"
 
 #include "bookmarkiterator.h"
 #include "listview.h"
 #include "toplevel.h"
 #include "updater.h"
 
-#include "favicons.h"
+#include <kdebug.h>
+#include <klocale.h>
+#include <kapplication.h>
 
 FavIconsItrHolder *FavIconsItrHolder::s_self = 0;
 
