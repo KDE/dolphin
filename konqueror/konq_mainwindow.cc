@@ -1983,12 +1983,23 @@ void KonqMainWindow::slotBreakOffTabPopup()
   m_pViewManager->breakOffTab( m_pWorkingTab );
 }
 
+void KonqMainWindow::slotPopupNewTabAtFront()
+{
+  popupNewTab(true);
+}
+
 void KonqMainWindow::slotPopupNewTab()
+{
+  popupNewTab(false);
+}
+
+void KonqMainWindow::popupNewTab(bool infront)
 {
   KURL url;
   KFileItemListIterator it ( popupItems );
   QString mimeType, mimeComment;
   KonqView* newView = 0;
+  KonqView* lastView = 0;
   for ( ; it.current(); ++it )
   {
     newView = 0L;
@@ -1997,9 +2008,14 @@ void KonqMainWindow::slotPopupNewTab()
     mimeComment = (*it)->mimeComment();
     if (mimeType == "application/octet-stream") mimeType = mimeComment = "";
     newView = m_pViewManager->addTab(mimeType, mimeComment);
-    if (newView != 0L)
+    if (newView != 0L) 
+    {
       newView->openURL( url, url.prettyURL() );
+      lastView = newView;
+    }
   }
+  if (infront)
+    m_pViewManager->showTab(lastView);
 }
 
 void KonqMainWindow::slotRemoveView()
@@ -3387,8 +3403,10 @@ void KonqMainWindow::slotPopupMenu( KXMLGUIClient *client, const QPoint &_global
   actPaste->setEnabled( m_paPaste->isEnabled() );
   popupMenuCollection.insert( actPaste );
 
-  KAction *actNewTab = new KAction( i18n( "Open in New Tab" ), "tab_new", 0, this, SLOT( slotPopupNewTab() ), actionCollection(), "openintab" );
-  actNewTab->setStatusText( i18n( "Open the document in a new tab" ) );
+  KAction *actNewTab = new KAction( i18n( "Open in Background Tab" ), "tab_new", 0, this, SLOT( slotPopupNewTab() ), actionCollection(), "openintab" );
+  actNewTab->setStatusText( i18n( "Open the document in a new background tab" ) );
+  KAction *actNewTabFront = new KAction( i18n( "Open in New Tab" ), "tab_new_raised", 0, this, SLOT( slotPopupNewTabAtFront() ), actionCollection(), "openintabfront" );
+  actNewTabFront->setStatusText( i18n( "Open the document in a foreground new tab" ) );
 
   if ( _items.count() == 1 )
     m_popupEmbeddingServices = KTrader::self()->query( _items.getFirst()->mimetype(),

@@ -372,6 +372,7 @@ protected slots:
   void slotBreakOffTab();
   void slotBreakOffTabPopup();
   void slotPopupNewTab();
+  void slotPopupNewTabAtFront();
   void slotPopupPasteTo();
   void slotRemoveView();
   void slotRemoveTab();
@@ -488,6 +489,8 @@ private:
 
   void initCombo();
   void initActions();
+
+  void popupNewTab(bool infront);
 
   /**
    * Tries to find a index.html (.kde.html) file in the specified directory
