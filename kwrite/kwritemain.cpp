@@ -20,9 +20,10 @@
 
 // $Id$
 
-#include <qdropsite.h>
-#include <qdragobject.h>
-#include <qvbox.h>
+#include "kwritemain.h"
+#include "kwritemain.moc"
+
+#include <kate/document.h>
 
 #include <ktexteditor/configinterface.h>
 #include <ktexteditor/sessionconfiginterface.h>
@@ -31,7 +32,7 @@
 #include <ktexteditor/encodinginterface.h>
 #include <ktexteditor/editorchooser.h>
 
-#include <kate/document.h>
+#include <kio/netaccess.h>
 
 #include <dcopclient.h>
 #include <kurldrag.h>
@@ -55,12 +56,10 @@
 #include <kparts/event.h>
 #include <kmenubar.h>
 
-#include <kio/netaccess.h>
-
-#include "kwritemain.h"
-#include "kwritemain.moc"
-
-#include "kwritedialogs.h"
+#include <qdropsite.h>
+#include <qdragobject.h>
+#include <qvbox.h>
+#include <qlayout.h>
 
 // StatusBar field IDs
 #define ID_GEN 1
@@ -654,7 +653,7 @@ extern "C" int kdemain(int argc, char **argv)
     }
     else
     {
-      for ( uint z = 0; z < args->count(); z++ )
+      for ( int z = 0; z < args->count(); z++ )
       {
         KWrite *t = new KWrite();
       
@@ -675,4 +674,22 @@ extern "C" int kdemain(int argc, char **argv)
   }
 
   return a.exec ();
+}
+
+KWriteEditorChooser::KWriteEditorChooser(QWidget *):
+	KDialogBase(KDialogBase::Plain,i18n("Choose Editor Component"),KDialogBase::Ok | KDialogBase::Cancel, KDialogBase::Cancel)
+{
+	(new QVBoxLayout(plainPage()))->setAutoAdd(true);
+	m_chooser=new KTextEditor::EditorChooser(plainPage(),"Editor Chooser");
+	setMainWidget(m_chooser);
+	m_chooser->readAppSetting();
+}
+
+KWriteEditorChooser::~KWriteEditorChooser() {
+;
+}
+
+void KWriteEditorChooser::slotOk() {
+	m_chooser->writeAppSetting();
+	KDialogBase::slotOk();
 }

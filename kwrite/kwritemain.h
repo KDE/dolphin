@@ -21,9 +21,14 @@
 #ifndef __KWRITE_MAIN_H__
 #define __KWRITE_MAIN_H__
 
-#include <kparts/mainwindow.h>
 #include <ktexteditor/view.h>
 #include <ktexteditor/document.h>
+
+#include <kparts/mainwindow.h>
+
+#include <kdialogbase.h>
+
+namespace KTextEditor { class EditorChooser; }
 
 class KAction;
 class KToggleAction;
@@ -108,5 +113,18 @@ class KWrite : public KParts::MainWindow
     static QPtrList<KTextEditor::Document> docList;
 };
 
-#endif
+class KWriteEditorChooser: public KDialogBase
+{
+  Q_OBJECT
+  
+  public:
+          KWriteEditorChooser(QWidget *parent);
+          virtual ~KWriteEditorChooser();
+  private:
+          KTextEditor::EditorChooser *m_chooser;
+  
+  protected slots:
+          virtual void slotOk();
+};
 
+#endif
