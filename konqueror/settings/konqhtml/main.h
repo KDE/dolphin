@@ -2,6 +2,7 @@
  * main.h
  *
  * Copyright (c) 1999 Matthias Hoelzer-Kluepfel <hoelzer@kde.org>
+ * Copyright (c) 2000 Daniel Molkentin <molkentin@kde.org>
  *
  * Requires the Qt widget libraries, available at no cost at
  * http://www.troll.no/
@@ -28,6 +29,7 @@
 #include <kcmodule.h>
 
 class KAppearanceOptions;
+class KJavaOptions;
 class KJavaScriptOptions;
 class KHTTPOptions;
 class KMiscHTMLOptions;
@@ -61,10 +63,10 @@ private:
 
   QTabWidget   *tab;
 
+  KMiscHTMLOptions   *misc;
   KAppearanceOptions *appearance;
   KJavaScriptOptions *javascript;
-  //KHTTPOptions       *http;
-  KMiscHTMLOptions   *misc;
+  KJavaOptions       *java;
 
   KConfig *m_globalConfig;
   KConfig *m_localConfig;

@@ -1,128 +1,58 @@
-//-----------------------------------------------------------------------------
 //
-// HTML Options
 //
-// (c) Martin R. Jones 1996
+// "Misc Options" Tab for KFM configuration
 //
-// Port to KControl
-// (c) Torben Weis 1998
+// (c) Sven Radej 1998
+// (c) David Faure 1998
 
-#ifndef __HTML_OPTIONS_H__
-#define __HTML_OPTIONS_H__
+#ifndef __KMISCHTML_OPTIONS_H
+#define __KMISCHTML_OPTIONS_H
+
+#include <qstrlist.h>
+#include <qcheckbox.h>
+#include <qlineedit.h>
 
 #include <kcmodule.h>
-#include <qmap.h>
 
-class KColorButton;
-class KConfig;
-class KListView;
-class KURLRequester;
-class QCheckBox;
-class QComboBox;
-class QLineEdit;
-class QListViewItem;
-class QRadioButton;
-class QSpinBox;
 
 //-----------------------------------------------------------------------------
+// The "Misc Options" Tab for the HTML view contains :
 
-class KAppearanceOptions : public KCModule
+// Change cursor over links
+// Underline links
+// AutoLoad Images
+// ... there is room for others :))
+
+
+#include <qstring.h>
+#include <kconfig.h>
+class KURLRequester;
+
+class KMiscHTMLOptions : public KCModule
 {
-  Q_OBJECT
+    Q_OBJECT
+
 public:
-  KAppearanceOptions(KConfig *config, QString group, QWidget *parent=0, const char *name=0);
-
-  virtual void load();
-  virtual void save();
-  virtual void defaults();
-
-public slots:
-  void slotFontSize( int );
-  void slotMinimumFontSize( int );
-  void slotStandardFont(const QString& n);
-  void slotFixedFont(const QString& n);
-  void slotSerifFont( const QString& n );
-  void slotSansSerifFont( const QString& n );
-  void slotCursiveFont( const QString& n );
-  void slotFantasyFont( const QString& n );
-  void slotEncoding( const QString& n);
-    void slotCharset( const QString &n );
+    KMiscHTMLOptions(KConfig *config, QString group, QWidget *parent = 0L, const char *name = 0L );
+    virtual void load();
+    virtual void save();
+    virtual void defaults();
 
 private slots:
-  void changed();
+
+	void changed();
 
 private:
-  void updateGUI();
+    KConfig* m_pConfig;
+	QString  m_groupname;
 
-private:
+    QCheckBox* cbCursor;
+    QCheckBox* cbUnderline;
+    QCheckBox* m_pAutoLoadImagesCheckBox;
+    QCheckBox* m_pEnableFaviconCheckBox;
 
-  KConfig *m_pConfig;
-  QString m_groupname;
-
-  QRadioButton* m_pSmall;
-  QRadioButton* m_pMedium;
-  QRadioButton* m_pLarge;
-  QSpinBox* minSizeSB;
-  QComboBox* m_pFixed;
-  QComboBox* m_pStandard;
-  QComboBox* m_pSerif;
-  QComboBox* m_pSansSerif;
-  QComboBox* m_pCursive;
-  QComboBox* m_pFantasy;
-  QComboBox* m_pEncoding;
-  QComboBox* m_pChset;
-
-  int fSize;
-  int fMinSize;
-    QMap<QString, QStringList> fontsForCharset;
-  QStringList encodings;
-  QStringList chSets;
-    QString charset;
-    QStringList fonts;
-    QStringList defaultFonts;
-    QString encodingName;
+    QCheckBox* userSheet;
+    KURLRequester* userSheetLocation;
 };
 
-
-class KJavaScriptOptions : public KCModule
-{
-  Q_OBJECT
-public:
-  KJavaScriptOptions( KConfig* config, QString group, QWidget* parent = 0, const char* name = 0 );
-
-  virtual void load();
-  virtual void save();
-  virtual void defaults();
-
-private slots:
-  void changed();
-  void importPressed(); 
-  void exportPressed();
-  void addPressed();
-  void changePressed();
-  void deletePressed();
-  void toggleJavaControls();
-
-private:
-  void changeJavaEnabled();
-  void changeJavaScriptEnabled();
-  void updateDomainList(const QStringList &domainConfig);
-
-  KConfig *m_pConfig;
-  QString m_groupname;
-
-  QCheckBox* enableJavaGloballyCB;
-  QCheckBox* enableJavaScriptGloballyCB;
-  KListView* domainSpecificLV;
-  QCheckBox* javaConsoleCB;
-  QRadioButton* autoDetectRB;
-  QRadioButton* userSpecifiedRB;
-  QLineEdit* addArgED;
-  KURLRequester* pathED;
-  QMap<QListViewItem*, int> javaDomainPolicy;
-  QMap<QListViewItem*, int> javaScriptDomainPolicy;
-};
-
-
-#endif		// __HTML_OPTIONS_H__
-
+#endif

@@ -13,7 +13,7 @@
 
 #include "policydlg.h"
 
-PolicyDialog::PolicyDialog( QWidget *parent, const char *name )
+PolicyDialog::PolicyDialog( bool javascript, bool java, QWidget *parent, const char *name )
              :KDialog(parent, name, true)
 {
   QVBoxLayout *topl = new QVBoxLayout(this, marginHint(), spacingHint());
@@ -32,8 +32,9 @@ PolicyDialog::PolicyDialog( QWidget *parent, const char *name )
   QWhatsThis::add(le_domain, i18n("Enter the name of a host (like www.kde.org) "
                                   "or a domain, starting with a dot (like .kde.org or .org)") );
 
-  l = new QLabel(i18n("&Java policy:"), this);
-  grid->addWidget(l, 1, 0);
+
+  l_javapolicy = new QLabel(i18n("Java policy:"), this);
+  grid->addWidget(l_javapolicy, 1, 0);
 
   cb_javapolicy = new QComboBox(this);
   l->setBuddy( cb_javapolicy );
@@ -43,10 +44,11 @@ PolicyDialog::PolicyDialog( QWidget *parent, const char *name )
   grid->addWidget(cb_javapolicy, 1, 1);
 
   QWhatsThis::add(cb_javapolicy, i18n("Select a Java policy for "
-                                      "the above host or domain.") );
+                                    "the above host or domain.") );
 
-  l = new QLabel(i18n("Java&Script policy:"), this);
-  grid->addWidget(l, 2, 0);
+
+  l_javascriptpolicy = new QLabel(i18n("JavaScript policy:"), this);
+  grid->addWidget(l_javascriptpolicy, 2, 0);
 
   cb_javascriptpolicy = new QComboBox(this);
   cb_javascriptpolicy->insertStringList( policies );
@@ -54,7 +56,8 @@ PolicyDialog::PolicyDialog( QWidget *parent, const char *name )
   grid->addWidget(cb_javascriptpolicy, 2, 1);
 
   QWhatsThis::add(cb_javascriptpolicy, i18n("Select a JavaScript policy for "
-                                            "the above host or domain.") );
+                                          "the above host or domain.") );
+
 
   KButtonBox *bbox = new KButtonBox(this);
   topl->addWidget(bbox);
@@ -66,6 +69,19 @@ PolicyDialog::PolicyDialog( QWidget *parent, const char *name )
 
   QPushButton *cancelButton = bbox->addButton(i18n("Cancel"));
   connect(cancelButton, SIGNAL(clicked()), this, SLOT(reject()));
+
+  //now hide the parts not being used
+  if( !java )
+  {
+    cb_javapolicy->hide();
+    l_javapolicy->hide();
+  }
+
+  if( !javascript )
+  {
+    cb_javascriptpolicy->hide();
+    l_javascriptpolicy->hide();
+  }
 
   le_domain->setFocus();
 }

@@ -12,7 +12,7 @@ class PolicyDialog : public KDialog
     Q_OBJECT
     
 public:
-    PolicyDialog( QWidget *parent = 0, const char *name = 0 );
+    PolicyDialog( bool javascript=true, bool java=true, QWidget *parent = 0, const char *name = 0 );
     ~PolicyDialog() {};
     
     /*
@@ -55,8 +55,11 @@ protected slots:
 
 private:
     QLineEdit *le_domain;
+    QLabel *l_javapolicy;
+    QLabel *l_javascriptpolicy;
     QComboBox *cb_javapolicy;
     QComboBox *cb_javascriptpolicy;
+
 };
 
 #endif

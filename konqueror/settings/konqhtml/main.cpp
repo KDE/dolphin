@@ -2,6 +2,7 @@
  * main.cpp
  *
  * Copyright (c) 1999 Matthias Hoelzer-Kluepfel <hoelzer@kde.org>
+ * Copyright (c) 2000 Daniel Molkentin <molkentin@kde.org>
  *
  * Requires the Qt widget libraries, available at no cost at
  * http://www.troll.no/
@@ -35,9 +36,13 @@
 #include <qmessagebox.h>
 #include <qtabwidget.h>
 #include <qlayout.h>
+
 #include "htmlopts.h"
 #include "khttpoptdlg.h"
-#include "miscopts.h"
+#include "jsopts.h"
+#include "javaopts.h"
+#include "appearance.h"
+#include "htmlopts.h"
 
 #include "main.h"
 #include "main.moc"
@@ -54,20 +59,20 @@ KonqHTMLModule::KonqHTMLModule(QWidget *parent, const char *name)
   layout->addWidget(tab);
 
   misc = new KMiscHTMLOptions(m_localConfig, "HTML Settings", this);
-  tab->addTab(misc, i18n("&HTML"));
-  connect(misc, SIGNAL(changed(bool)), this, SLOT(moduleChanged(bool)));
+  tab->addTab( misc, i18n("&HTML") );
+  connect(misc, SIGNAL( changed( bool ) ), this, SLOT(moduleChanged(bool) ) );
 
   appearance = new KAppearanceOptions(m_localConfig, "HTML Settings", this);
-  tab->addTab(appearance, i18n("&Appearance"));
-  connect(appearance, SIGNAL(changed(bool)), this, SLOT(moduleChanged(bool)));
+  tab->addTab(appearance, i18n( "&Appearance" ) );
+  connect(appearance, SIGNAL( changed(bool) ), this, SLOT(moduleChanged(bool) ) );
+
+  java = new KJavaOptions( m_localConfig, "Java/JavaScript Settings", this );
+  tab->addTab( java, i18n( "&Java" ) );
+  connect( java, SIGNAL( changed( bool ) ), this, SLOT( moduleChanged( bool ) ) );
 
   javascript = new KJavaScriptOptions( m_localConfig, "Java/JavaScript Settings", this );
-  tab->addTab( javascript, i18n( "&Java/JavaScript" ) );
+  tab->addTab( javascript, i18n( "Java&Script" ) );
   connect( javascript, SIGNAL( changed( bool ) ), this, SLOT( moduleChanged( bool ) ) );
-
-  //http = new KHTTPOptions(m_globalConfig, "HTML Settings", this);
-  //tab->addTab(http, i18n("H&TTP"));
-  //connect(http, SIGNAL(changed(bool)), this, SLOT(moduleChanged(bool)));
 
 }
 
@@ -81,7 +86,7 @@ void KonqHTMLModule::load()
 {
   appearance->load();
   javascript->load();
-  //http->load();
+  java->load();
   misc->load();
 }
 
@@ -90,7 +95,7 @@ void KonqHTMLModule::save()
 {
   appearance->save();
   javascript->save();
-  //http->save();
+  java->save();
   misc->save();
 
   // Send signal to konqueror
@@ -106,7 +111,7 @@ void KonqHTMLModule::defaults()
 {
   appearance->defaults();
   javascript->defaults();
-  //http->defaults();
+  java->defaults();
   misc->defaults();
 }
 
@@ -123,9 +128,13 @@ QString KonqHTMLModule::quickHelp() const
               "<h2>Appearance</h2>On this page, you can configure "
               "which fonts Konqueror should use to display the web "
               "pages you view."
-              "<h2>Java/JavaScript</h2>On this page, you can configure "
-              "whether Java and/or JavaScript programs embedded in web pages should "
-              "be allowed to be executed by Konqueror.<br>Active content is always a "
+              "<h2>JavaScript</h2>On this page, you can configure "
+              "whether JavaScript programs embedded in web pages should "
+              "be allowed to be executed by Konqueror."
+              "<h2>Java</h2>On this page, you can configure "
+              "whether Java applets embedded in web pages should "
+              "be allowed to be executed by Konqueror."
+              "<br><br><b>Note:</b> Active content is always a "
               "security risk, which is why Konqueror allows you to specify very "
               "fine-grained from which hosts you want to execute Java and/or "
               "JavaScript programs." );
