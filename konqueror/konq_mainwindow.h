@@ -395,6 +395,7 @@ private:
   QList<KAction> m_openWithActions;
   KActionMenu *m_viewModeMenu;
   QList<KAction> m_viewModeActions;
+  bool m_bViewModeToggled;
 
   KonqMainWindowIface * m_dcopObject;
 

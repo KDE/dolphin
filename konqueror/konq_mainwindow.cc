@@ -115,6 +115,8 @@ KonqMainWindow::KonqMainWindow( const KURL &initialURL, bool openInitialURL, con
   m_dcopObject = 0L;
   m_bURLEnterLock = false;
 
+  m_bViewModeToggled = false;
+  
   if ( !s_plstAnimatedLogo )
   {
     s_plstAnimatedLogo = new QStringList;
@@ -228,6 +230,8 @@ KonqMainWindow::~KonqMainWindow()
 
   delete m_pBookmarkMenu;
 
+  m_viewModeActions.clear();
+  
   kdDebug(1202) << "KonqMainWindow::~KonqMainWindow done" << endl;
 }
 
@@ -519,6 +523,8 @@ void KonqMainWindow::slotViewModeToggle( bool toggle )
   if ( m_currentView->service()->name() == modeName )
     return;
 
+  m_bViewModeToggled = true;
+  
   m_currentView->lockHistory();
   m_currentView->changeViewMode( m_currentView->serviceType(), modeName,
                                  m_currentView->url() );
@@ -976,25 +982,27 @@ void KonqMainWindow::slotPartActivated( KParts::Part *part )
 
   // View-dependent GUI
 
-  setUpdatesEnabled( false );
-  unplugViewModeActions();
   unplugActionList( "openwith" );
-  updateViewModeActions( m_currentView->partServiceOffers() );
   updateOpenWithActions( m_currentView->appServiceOffers() );
-
-  KService::Ptr service = currentView()->service();
-  QVariant prop = service->property( "X-KDE-BrowserView-Toggable" );
-  if ( !prop.isValid() || !prop.toBool() ) // No view mode for toggable views
-  // (The other way would be to enforce a better servicetype for them, than Browser/View)
-
-    if ( m_currentView->partServiceOffers().count() > 1 && m_viewModeMenu )
-      plugViewModeActions();
-
   if ( m_currentView->appServiceOffers().count() > 0 )
     plugActionList( "openwith", m_openWithActions );
 
-  setUpdatesEnabled( true );
+  if ( !m_bViewModeToggled ) // if we just toggled the view mode via the view mode actions, then
+                             // we don't need to do all the time-taking stuff below (Simon)
+  {
+    unplugViewModeActions();
+    updateViewModeActions( m_currentView->partServiceOffers() );
 
+    KService::Ptr service = currentView()->service();
+    QVariant prop = service->property( "X-KDE-BrowserView-Toggable" );
+    if ( !prop.isValid() || !prop.toBool() ) // No view mode for toggable views
+    // (The other way would be to enforce a better servicetype for them, than Browser/View)
+      if ( m_currentView->partServiceOffers().count() > 1 && m_viewModeMenu )
+        plugViewModeActions();
+  }
+
+  m_bViewModeToggled = false;
+  
   m_currentView->frame()->statusbar()->repaint();
 
   if ( oldView )
@@ -2192,9 +2200,10 @@ void KonqMainWindow::updateViewModeActions( const KTrader::OfferList &services )
 	
 	  QString icon = (*it)->icon();
           if ( icon != QString::fromLatin1( "unknown" ) )
-	    action = new KRadioAction( (*it)->comment(), icon, 0, 0, (*it)->name() );
+  	    // we *have* to specify a parent qobject, otherwise the exclusive group stuff doesn't work!(Simon)
+	    action = new KRadioAction( (*it)->comment(), icon, 0, this, (*it)->name() );
 	  else
-            action = new KRadioAction( (*it)->comment(), 0, 0, (*it)->name() );
+            action = new KRadioAction( (*it)->comment(), 0, this, (*it)->name() );
 
           if ( (*it)->name() == m_currentView->service()->name() )
               action->setChecked( true );
