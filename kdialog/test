@@ -54,3 +54,20 @@ echo "passivepopup:"
 echo "password:"
 ./kdialog --title "This is a password dialog" --geometry 400x300+100+50 --icon "desktop" --miniicon "about_kde" --password "Enter the password:"
 
+echo "Open File:"
+./kdialog --getopenfilename . "*.cpp *.cc *.c |C and C++ Source Files"
+
+echo "Open multiple files:"
+./kdialog --multiple --getopenfilename . "*.cpp *.cc *.c |C and C++ Source Files"
+
+echo "Open multiple files, output on separate lines:"
+./kdialog --multiple --separate-output --getopenfilename . "*.cpp *.cc *.c |C and C++ Source Files"
+
+echo "Open URL:"
+./kdialog --getopenurl . "*.cpp *.cc *.c |C and C++ Source Files"
+
+echo "Open multiple URLs:"
+./kdialog --multiple --getopenurl . "*.cpp *.cc *.c |C and C++ Source Files"
+
+echo "Open multiple URLs, output on separate lines:"
+./kdialog --multiple --separate-output --getopenurl . "*.cpp *.cc *.c |C and C++ Source Files"

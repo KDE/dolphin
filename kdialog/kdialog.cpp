@@ -80,7 +80,8 @@ static KCmdLineOptions options[] =
 
     { "title <text>", I18N_NOOP("Dialog title"), 0 },
     { "default <text>", I18N_NOOP("Default entry to use for combobox and menu"), 0 },
-    { "separate-output", I18N_NOOP("Return list items on separate lines (for checklist option)"), 0 },
+    { "multiple", I18N_NOOP("Allows the --getopenurl and --getopenfilename options to return multiple files"), 0 },
+    { "separate-output", I18N_NOOP("Return list items on separate lines (for checklist option and file open with --multiple)"), 0 },
     { "print-winid", I18N_NOOP("Outputs the winId of each dialog"), 0 },
     { "embed <winid>", I18N_NOOP("Makes the dialog transient for an X app specified by winid"), 0 },
     { "dontagain <file:entry>", I18N_NOOP("Config file and option name for saving the \"dont-show/ask-again\" state"), 0 },
@@ -123,6 +124,20 @@ bool WinIdEmbedder::eventFilter(QObject *o, QEvent *e)
         delete this; // delete - set the transient hint only on the first dialog
     }
     return QObject::eventFilter(o, e);
+}
+
+static void outputStringList(QStringList list, bool separateOutput)
+{
+    if ( separateOutput) {
+	for ( QStringList::Iterator it = list.begin(); it != list.end(); ++it ) {
+	    cout << (*it).local8Bit().data() << endl;
+	}
+    } else {
+	for ( QStringList::Iterator it = list.begin(); it != list.end(); ++it ) {
+	    cout << (*it).local8Bit().data() << " ";
+	}
+	cout << endl;
+    }
 }
 
 static int directCommand(KCmdLineArgs *args)
@@ -382,11 +397,19 @@ static int directCommand(KCmdLineArgs *args)
         if (args->count() >= 1)  {
             filter = QString::fromLocal8Bit(args->arg(0));
         }
-        QString result = KFileDialog::getOpenFileName( startDir, filter, 0, title );
-        if (!result.isEmpty())  {
-            cout << result.local8Bit().data() << endl;
-            return 0;
-        }
+        if (args->isSet("multiple")) {
+	    QStringList result = KFileDialog::getOpenFileNames( startDir, filter, 0, title );
+	    if ( !result.isEmpty() ) {
+		outputStringList( result, separateOutput );
+		return 0;
+	    }
+	} else {
+	    QString result = KFileDialog::getOpenFileName( startDir, filter, 0, title );
+	    if (!result.isEmpty())  {
+		cout << result.local8Bit().data() << endl;
+		return 0;
+	    }
+	}
         return 1; // cancelled
     }
 
@@ -426,11 +449,19 @@ static int directCommand(KCmdLineArgs *args)
         if (args->count() >= 1)  {
             filter = QString::fromLocal8Bit(args->arg(0));
         }
-        KURL result = KFileDialog::getOpenURL( startDir, filter, 0, title );
-        if (!result.isEmpty())  {
-            cout << result.url().local8Bit().data() << endl;
-            return 0;
-        }
+        if (args->isSet("multiple")) {
+	    KURL::List result = KFileDialog::getOpenURLs( startDir, filter, 0, title );
+	    if ( !result.isEmpty() ) {
+		outputStringList( result.toStringList(), separateOutput );
+		return 0;
+	    }
+	} else {
+	    KURL result = KFileDialog::getOpenURL( startDir, filter, 0, title );
+	    if (!result.isEmpty())  {
+		cout << result.url().local8Bit().data() << endl;
+		return 0;
+	    }
+	}
         return 1; // cancelled
     }
 
