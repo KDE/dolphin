@@ -7,7 +7,7 @@ description desktop files are used to create list of addresses for sites
 which unfortunately require "faked" identities in order to be displayed
 properly.
 
-Inorder to create new user-agent description files, simply follow the normal
+In order to create new user-agent description files, simply follow the normal
 the specification set by the "DESKTOP ENTRY STANDARD" augmented with the
 following entries and requirements:
 
@@ -21,10 +21,10 @@ Type=Service
 ServiceTypes=UserAgentStrings
 
 Though the (XXXX) value show above can be any text, it is a good idea to make
-it a short identification of the browser you're trying to describe.  However,
-there is NO requirement on what the text should be.  It can even be left out
-if you want to.  It is only meant to give people a quick idea which browser
-is being described by your desktop file.
+it a short identification of the browser being emulated.  However, there is NO 
+requirement on what the text should be.  It can even be left out.  It is only 
+meant to give people a quick idea which browser is being emulated by your 
+desktop file.
 
 NEW PROPERTIES:
 ===============
@@ -125,8 +125,8 @@ X-KDE-UA-NAME=Netscape Navigator
 X-KDE-UA-VERSION=4.76
 X-KDE-UA-DYNAMIC-ENTRY=1
 
-The first entry is a description for internet explorer running on
-a Windows 98 machine while the second entry is an example of "keyword"
+The first entry is a description file for Internet Explorer running on
+a Windows 98 machine while the second one is an example of "keyword"
 usage to describe fields that should be replaced dynamically based on
 the current system settings.
 
