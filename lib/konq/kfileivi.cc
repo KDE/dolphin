@@ -20,10 +20,10 @@
 #include "kfileivi.h"
 #include "kfileitem.h"
 
-KFileIVI::KFileIVI( QIconView *iconview, KFileItem* fileitem, KIconLoader::Size size )
+KFileIVI::KFileIVI( QIconView *iconview, KFileItem* fileitem, KIconLoader::Size size, bool bImagePreviewAllowed )
   : QIconViewItem( iconview, fileitem->text(), 
                    // We can't use the two QIconSet sizes here ... because we have three :)
-                   QIconSet( fileitem->pixmap( size ), QIconSet::Automatic ) ),
+                   QIconSet( fileitem->pixmap( size, bImagePreviewAllowed ), QIconSet::Automatic ) ),
     m_fileitem( fileitem )
 {
   setDropEnabled( m_fileitem->mimetype() == "inode/directory" );
@@ -35,9 +35,9 @@ KFileIVI::KFileIVI( QIconView *iconview, KFileItem* fileitem, KIconLoader::Size 
   }
 }
 
-void KFileIVI::setSize( KIconLoader::Size size )
+void KFileIVI::setSize( KIconLoader::Size size, bool bImagePreviewAllowed )
 {
-  setIcon( QIconSet( m_fileitem->pixmap( size ) ) );
+  setIcon( QIconSet( m_fileitem->pixmap( size, bImagePreviewAllowed ) ) );
 }
 
 bool KFileIVI::acceptDrop( const QMimeSource *mime ) const

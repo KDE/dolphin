@@ -41,8 +41,9 @@ public:
    * @param parent the parent widget
    * @param fileitem the file item created by KDirLister
    * @param size the icon size
+   * @param bImagePreviewAllowed whether image preview is allowed, see KFileItem
    */
-  KFileIVI( QIconView *iconview, KFileItem* fileitem, KIconLoader::Size size );
+  KFileIVI( QIconView *iconview, KFileItem* fileitem, KIconLoader::Size size, bool bImagePreviewAllowed );
   virtual ~KFileIVI() { }
 
   /**
@@ -58,8 +59,8 @@ public:
    * Overloads QIconView::acceptDrop() */
   virtual bool acceptDrop( const QMimeSource *mime ) const;
 
-  /** Change icon size */
-  virtual void setSize( KIconLoader::Size size );
+  /** Change icon size and/or image preview mode */
+  virtual void setSize( KIconLoader::Size size, bool bImagePreviewAllowed );
 
   virtual void setKey( const QString &key );
 

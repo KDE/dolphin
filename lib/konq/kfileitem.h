@@ -108,9 +108,13 @@ public:
    */
   bool isLocalFile() const { return m_bIsLocalURL; }
   /**
-   * @return a pixmap representing the file
+   * Returns a pixmap representing the file
+   * @param size KDE-size for the pixmap
+   * @param bImagePreviewAllowed if true, an image file will return a pixmap 
+   * with the image, loaded from the xvpics dir (created if necessary)
+   * @return the pixmap
    */
-  QPixmap pixmap( KIconLoader::Size _size ) const;
+  QPixmap pixmap( KIconLoader::Size _size, bool bImagePreviewAllowed ) const;
   /**
    * @return the text of the file item
    * It's not exactly the filename since some decoding happens ('%2F'->'/')

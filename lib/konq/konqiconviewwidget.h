@@ -49,6 +49,8 @@ public:
   void setSize( KIconLoader::Size size );
   KIconLoader::Size size() { return m_size; }
 
+  void setImagePreviewAllowed( bool b );
+
   void setURL ( const QString & kurl ) { m_url = kurl; }
   const QString & url() { return m_url; }
 
@@ -77,6 +79,7 @@ protected:
   QString m_url;
 
   KIconLoader::Size m_size;
+  bool m_bImagePreviewAllowed;
 
   /** Konqueror settings */
   KonqFMSettings * m_pSettings;

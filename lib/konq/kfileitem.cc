@@ -26,6 +26,9 @@
 
 #include <kglobal.h>
 #include <kmimetype.h>
+#include <qimage.h>
+#include <qfile.h>
+#include <qdir.h>
 #include <qpixmap.h>
 #include <klocale.h>
 #include <krun.h>
@@ -121,8 +124,67 @@ void KFileItem::refresh()
   init();
 }
 
-QPixmap KFileItem::pixmap( KIconLoader::Size _size ) const
+QPixmap KFileItem::pixmap( KIconLoader::Size _size, bool bImagePreviewAllowed ) const
 {
+  if ( m_pMimeType->name().left(6) == "image/" && m_bIsLocalURL && bImagePreviewAllowed )
+  {
+    QString xvpicPath = m_url.directory()+"/.xvpics/"+m_url.filename();
+    QPixmap pix;
+
+    // Is the xv pic available ?
+    struct stat buff;
+    bool bAvail = false;
+    if ( stat( xvpicPath.local8Bit(), &buff ) == 0 )
+    { // Yes
+      bAvail = true;
+      // Get the time of the xv pic
+      time_t t1 = buff.st_mtime;
+      // Get time of the orig file
+      if ( lstat( m_url.path().local8Bit(), &buff ) == 0 )
+      {
+        time_t t2 = buff.st_mtime;
+        // Is it outdated ?
+        if ( t1 < t2 )
+          bAvail = false;
+      }
+    }
+    
+    if ( bAvail )
+    {
+      if ( pix.load( xvpicPath ) ) 
+        return pix;
+    } else
+    {
+      // No xv pic, or too old -> load the orig image and create the XV pic
+      if ( pix.load( m_url.path() ) )
+      {
+        // Create .xvpics/ if it doesn't exist
+        QDir xvDir( m_url.directory() );
+        if ( !xvDir.exists(".xvpics") )
+          xvDir.mkdir(".xvpics");
+        // Save XV file
+        int w, h;
+        if ( pix.width() > pix.height() )
+        {
+          w = QMIN( pix.width(), 80 ); // TODO make configurable for tackat :-)
+          h = (int)( (float)pix.height() * ( (float)w / (float)pix.width() ) );
+        }
+        else
+        {
+          h = QMIN( pix.height(), 60 ); // TODO make configurable for tackat :-)
+          w = (int)( (float)pix.width() * ( (float)h / (float)pix.height() ) );
+        }
+        QImageIO iio;
+        iio.setImage( pix.convertToImage().smoothScale( w, h ) );
+        iio.setFileName( xvpicPath );
+        iio.setFormat( "XV" );
+        iio.write();
+        // Load it
+        if ( pix.load( xvpicPath ) ) return pix;
+      }
+    }
+  }
+
   QPixmap p = m_pMimeType->pixmap( m_url, _size );
   if (p.isNull())
     warning("Pixmap not found for mimetype %s",m_pMimeType->name().latin1());

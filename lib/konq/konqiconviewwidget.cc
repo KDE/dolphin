@@ -42,7 +42,8 @@
 #include <errno.h>
 
 KonqIconViewWidget::KonqIconViewWidget( QWidget * parent, const char * name, WFlags f )
-  : QIconView( parent, name, f )
+  : QIconView( parent, name, f ),
+    m_bImagePreviewAllowed( false )
 {
   QObject::connect( this, SIGNAL( dropped( QDropEvent * ) ),
 	            this, SLOT( slotDrop( QDropEvent* ) ) );
@@ -93,9 +94,17 @@ void KonqIconViewWidget::setSize( KIconLoader::Size size )
 {
   m_size = size;
   for ( QIconViewItem *it = firstItem(); it; it = it->nextItem() ) {
-    ((KFileIVI*)it)->setSize( size );
+    ((KFileIVI*)it)->setSize( size, m_bImagePreviewAllowed );
   }
   setViewMode( (size == KIconLoader::Small) ? QIconSet::Small : QIconSet::Large );
+}
+
+void KonqIconViewWidget::setImagePreviewAllowed( bool b )
+{
+  m_bImagePreviewAllowed = b;
+  for ( QIconViewItem *it = firstItem(); it; it = it->nextItem() ) {
+    ((KFileIVI*)it)->setSize( m_size, m_bImagePreviewAllowed );
+  }
 }
 
 KFileItemList KonqIconViewWidget::selectedFileItems()
