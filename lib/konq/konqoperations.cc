@@ -147,16 +147,16 @@ bool KonqOperations::askDeleteConfirmation( const KURL::List & selectedURLs )
       if ( prettyList.count() == 1 )
       {
         QString url = prettyList.first();
-        QString msg = (m_method == DEL ? i18n( "Do you really want to delete '%1' ?" ).arg( url ) :
-                       m_method == SHRED ? i18n( "Do you really want to shred '%1' ?" ).arg( url ) :
-                       i18n( "Do you really want to move '%1' to the trash ?" ).arg( url ));
+        QString msg = (m_method == DEL ? i18n( "Do you really want to delete '%1'?" ).arg( url ) :
+                       m_method == SHRED ? i18n( "Do you really want to shred '%1'?" ).arg( url ) :
+                       i18n( "Do you really want to move '%1' to the trash?" ).arg( url ));
         return ( KMessageBox::questionYesNo( 0, msg ) == KMessageBox::Yes );
       }
       else
       {
-        QString msg = (m_method == DEL ? i18n( "Do you really want to delete the files ?" ) :
-                       m_method == SHRED ? i18n( "Do you really want to shred the files ?" ) :
-                       i18n( "Do you really want to move the files to the trashcan ?" ));
+        QString msg = (m_method == DEL ? i18n( "Do you really want to delete the files?" ) :
+                       m_method == SHRED ? i18n( "Do you really want to shred the files?" ) :
+                       i18n( "Do you really want to move the files to the trashcan?" ));
 
         return ( KMessageBox::questionYesNoList( 0, msg, prettyList ) == KMessageBox::Yes );
       }
