@@ -825,23 +825,23 @@ FilePermissionsPropsPage::FilePermissionsPropsPage( PropertiesDialog *_props )
       }
     }
     endgrent();
-  }
 
-  /* add the effective Group to the list .. */
-  ge = getgrgid (getegid());
-  if (ge) {
-    QString name = QString::fromLatin1(ge->gr_name);
-    if (name.isEmpty())
-      name.setNum(ge->gr_gid);
-    if (groupList.find(name) == groupList.end())
-      groupList += name;
-  }
+    /* add the effective Group to the list .. */
+    ge = getgrgid (getegid());
+    if (ge) {
+      QString name = QString::fromLatin1(ge->gr_name);
+      if (name.isEmpty())
+	name.setNum(ge->gr_gid);
+      if (groupList.find(name) == groupList.end())
+	groupList += name;
+    }
 
-  /* add the group the file currently belongs to ..
-   * .. if its not there already
-   */
-  if (groupList.find(strGroup) == groupList.end())
-    groupList += strGroup;
+    /* add the group the file currently belongs to ..
+     * .. if its not there already
+     */
+    if (groupList.find(strGroup) == groupList.end())
+      groupList += strGroup;
+  }
 
   l = new QLabel( i18n("Group:"), gb );
   gl->addWidget (l, 2, 0);
