@@ -490,9 +490,12 @@ void Sidebar_Widget::createButtons()
 	
 	if(showExtraButtons)
 	{
-		ButtonBar->insertButton(SmallIcon("configure"), -1, Menu, i18n("Configure Sidebar"));
-		ButtonBar->insertButton(SmallIcon("remove"),-2);
-		connect(ButtonBar->getButton(-2),SIGNAL(clicked(int)),partParent,SLOT(deleteLater()));
+		if (!ButtonBar->getButton(-1))
+		{
+			ButtonBar->insertButton(SmallIcon("configure"), -1, Menu, i18n("Configure Sidebar"));
+			ButtonBar->insertButton(SmallIcon("remove"),-2);
+			connect(ButtonBar->getButton(-2),SIGNAL(clicked(int)),partParent,SLOT(deleteLater()));
+		}
 	}
 	
 }
