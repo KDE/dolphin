@@ -680,22 +680,10 @@ void KEBTopLevel::selectImport(ImportCommand *cmd)
     }
 }
 
-// TODO - AK - remove duplicate code - FIXME
-
-void KEBTopLevel::slotImportIE()
-{
-    int answer = KMessageBox::questionYesNoCancel( this, i18n("Import as a new subfolder or replace all the current bookmarks?"),
-                                                   i18n("IE Import"), i18n("As New Folder"), i18n("Replace") );
-    if ( answer == KMessageBox::Cancel )
-	return;
-    bool subFolder = (answer==KMessageBox::Yes);
-    ImportCommand * cmd = new ImportCommand( i18n("Import IE Bookmarks"), KIEBookmarkImporter::IEBookmarksDir(),
-                                             subFolder ? i18n("IE Bookmarks") : QString::null, "ie", false, BK_IE); // TODO - icon
-    m_commandHistory.addCommand( cmd );
-    selectImport(cmd);
-}
-
-// TODO - sort out this mess
+// TODO for 3.1 - clean up this mess:
+//              - make just doImport("Galeon", "galeon"), +
+//              - obsolete the stupid type param somehow...
+//              - obsolete the filename thing too
 
 QString kdeBookmarksFile() {
    // locateLocal on the bookmarks file and get dir?
@@ -708,93 +696,74 @@ QString galeonBookmarksFile() {
                                         i18n("*.xbel|Galeon bookmark files (*.xbel)") );
 }
 
-/*
-#define FOLDER_OR_REPLACE i18n("Import as a new subfolder or replace all the current bookmarks?")
-#define FOLDER i18n("As New Folder")
-#define REPLACE i18n("Replace")
-int answer = KMessageBox::questionYesNo( this, FOLDER_OR_REPLACE,
-                                         i18n("Opera Galeon Import"), FOLDER, REPLACE );
-*/
+void KEBTopLevel::doImport
+(QString imp, QString imp_bks, QString bks, QString dirname, QString icon, bool dabool, int type)
+{
+   if (!dirname.isEmpty()) {
+      int answer = KMessageBox::questionYesNoCancel(
+            this, i18n("Import as a new subfolder or replace all the current bookmarks?"),
+            imp, i18n("As New Folder"), i18n("Replace"));
+
+      if (answer == KMessageBox::Cancel) return;
+
+      bool subFolder = (answer==KMessageBox::Yes);
+
+      // update the gui
+      slotCommandExecuted();
+
+      ImportCommand * cmd = new ImportCommand(
+            imp_bks, dirname,
+            subFolder ? bks : QString::null,
+            icon, dabool, type);
+      m_commandHistory.addCommand( cmd );
+      selectImport(cmd);
+
+   } else {
+      // AK - note
+      // do something, yet this case is ambigious,
+      // for a cancel from the file dialog it should
+      // do nothing, yet for a import without "..."
+      // it shouldn't even be called + thus should be
+      // a assert, or possible not... 
+      // need to think more about this...
+   }
+}
+
+// (imp, imp_bks, bks), dirname, icon, bool, type
+#define BK_STRS(a) i18n(##a" Import"), i18n("Import "##a" Bookmarks"), i18n(##a" Bookmarks")
+
+void KEBTopLevel::slotImportIE()
+{ doImport( BK_STRS("IE"), KIEBookmarkImporter::IEBookmarksDir(), "ie", false, BK_IE); }
+// TODO - no such icon!
 
 void KEBTopLevel::slotImportGaleon()
-{
-    int answer = KMessageBox::questionYesNoCancel( this, i18n("Import as a new subfolder or replace all the current bookmarks?"),
-                                                   i18n("Galeon Import"), i18n("As New Folder"), i18n("Replace") );
-    if ( answer == KMessageBox::Cancel )
-	return;
-    bool subFolder = (answer==KMessageBox::Yes);
-
-    // update the gui
-    slotCommandExecuted();
-
-    ImportCommand * cmd = new ImportCommand( i18n("Import Galeon Bookmarks"), galeonBookmarksFile(),
-                                             subFolder ? i18n("Galeon Bookmarks") : QString::null, "galeon", false, BK_XBEL); // TODO - icon
-    m_commandHistory.addCommand( cmd );
-    selectImport(cmd);
-}
+{ doImport( BK_STRS("Galeon"), galeonBookmarksFile(), "galeon", false, BK_XBEL); }
+// TODO - no such icon!
 
 void KEBTopLevel::slotImportKDE()
-{
-    int answer = KMessageBox::questionYesNoCancel( this, i18n("Import as a new subfolder or replace all the current bookmarks?"),
-                                                   i18n("KDE Import"), i18n("As New Folder"), i18n("Replace") );
-    if ( answer == KMessageBox::Cancel )
-	return;
-    bool subFolder = (answer==KMessageBox::Yes);
-
-    // update the gui
-    slotCommandExecuted();
-
-    ImportCommand * cmd = new ImportCommand( i18n("Import KDE Bookmarks"), kdeBookmarksFile(),
-                                             subFolder ? i18n("KDE Bookmarks") : QString::null, "bookmarks", false, BK_XBEL); // TODO - icon
-    m_commandHistory.addCommand( cmd );
-    selectImport(cmd);
-}
+{ doImport( BK_STRS("KDE"), kdeBookmarksFile(), "bookmark_folder", false, BK_XBEL); }
+// TODO - find a good icon! default bk folder icon???
 
 void KEBTopLevel::slotImportOpera()
-{
-    int answer = KMessageBox::questionYesNoCancel( this, i18n("Import as a new subfolder or replace all the current bookmarks?"),
-                                                   i18n("Opera Import"), i18n("As New Folder"), i18n("Replace") );
-    if ( answer == KMessageBox::Cancel )
-	return;
-    bool subFolder = (answer==KMessageBox::Yes);
-    ImportCommand * cmd = new ImportCommand( i18n("Import Opera Bookmarks"), KOperaBookmarkImporter::operaBookmarksFile(),
-                                             subFolder ? i18n("Opera Bookmarks") : QString::null, "opera", false, BK_OPERA); // TODO - icon
-    m_commandHistory.addCommand( cmd );
-    selectImport(cmd);
-}
+{ doImport( BK_STRS("Opera"), KOperaBookmarkImporter::operaBookmarksFile(), "opera", false, BK_OPERA); }
+
+void KEBTopLevel::slotImportMoz()
+{ doImport( BK_STRS("Mozilla"), KNSBookmarkImporter::mozillaBookmarksFile(), "mozilla", true, BK_NS); }
 
 void KEBTopLevel::slotImportNS()
 {
-    int answer = KMessageBox::questionYesNoCancel( this, i18n("Import as a new subfolder or replace all the current bookmarks?"),
-                                                   i18n("Netscape Import"), i18n("As New Folder"), i18n("Replace") );
-    if ( answer == KMessageBox::Cancel )
-	return;
-    bool subFolder = (answer==KMessageBox::Yes);
-    ImportCommand * cmd = new ImportCommand( i18n("Import Netscape Bookmarks"), KNSBookmarkImporter::netscapeBookmarksFile(),
-                                             subFolder ? i18n("Netscape Bookmarks") : QString::null, "netscape", false, BK_NS);
-    m_commandHistory.addCommand( cmd );
-    selectImport(cmd);
+   doImport( BK_STRS("Netscape"), KNSBookmarkImporter::netscapeBookmarksFile(), "netscape", false, BK_NS);
 
-    // Ok, we don't need the dynamic menu anymore
-    if ( m_taShowNS->isChecked() )
-        m_taShowNS->activate();
+   // Ok, we don't need the dynamic menu anymore
+   if ( m_taShowNS->isChecked() )
+      m_taShowNS->activate();
+
+   // AK - are you sure about the above?, this is a bit
+   // "automated" and intrusive and unlike the menu the
+   // bookmarks don't get automatically updated...
 }
 
-void KEBTopLevel::slotImportMoz()
-{
-    int answer = KMessageBox::questionYesNoCancel( this, i18n("Import as a new subfolder or replace all the current bookmarks?"),
-                                                   i18n("Mozilla Import"), i18n("As New Folder"), i18n("Replace") );
-    if ( answer == KMessageBox::Cancel )
-	return;
-    bool subFolder = (answer==KMessageBox::Yes);
-    QString mozFile=KNSBookmarkImporter::mozillaBookmarksFile();
-    if(!mozFile.isEmpty())
-    {
-        ImportCommand * cmd = new ImportCommand( i18n("Import Mozilla Bookmarks"), mozFile,
-                                                 subFolder ? i18n("Mozilla Bookmarks") : QString::null, "mozilla", true, BK_NS);
-        m_commandHistory.addCommand( cmd );
-    }
-}
+// TODO - sort out this mess
 
 void KEBTopLevel::slotExportNS()
 {

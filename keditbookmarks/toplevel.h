@@ -155,6 +155,8 @@ public:
     StringMap oldModify;
     QPtrList <TestLink> tests;
 
+   void doImport(QString, QString, QString, QString, QString, bool, int);
+
 public slots:
     void slotImportKDE();
     void slotImportGaleon();
