@@ -671,24 +671,17 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
                     {
                         // we could cram the following three if statements into
                         // one gigantic boolean statement but that would be a
-                        // hororr show for readability
+                        // horror show for readability
                         // DF: ok, but every if() could set a bool, and then the code to actually
                         // run in there (excludeTypes etc.) could be done only in one place.
+                        // AJS: fair enough, let thy will be done =)
 
                         // first check if we have an all mimetype
+                        bool checkTheMimetypes = false;
                         if (*it == "all/all" ||
                             *it == "allfiles" /*compat with KDE up to 3.0.3*/)
                         {
-                            ok = true;
-                            for (QStringList::iterator itex = excludeTypes.begin(); itex != excludeTypes.end(); ++itex)
-                            {
-                                if( ((*itex).right(1) == "*" && (*itex).left((*itex).find('/')) == mimeGroup) ||
-                                    ((*itex) == m_sMimeType) )
-                                {
-                                    ok = false;
-                                    break;
-                                }
-                            }
+                            checkTheMimetypes = true;
                         }
 
                         // next, do we match all files?
@@ -696,17 +689,7 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
                             !isDirectory &&
                             *it == "all/allfiles")
                         {
-                            ok = true;
-                            for (QStringList::iterator itex = excludeTypes.begin(); itex != excludeTypes.end(); ++itex)
-                            {
-                                if( ((*itex).right(1) == "*" && (*itex).left((*itex).find('/')) == mimeGroup) ||
-                                    ((*itex) == m_sMimeType) )
-                                {
-                                    ok = false;
-                                    break;
-                                }
-                            }
-
+                            checkTheMimetypes = true;
                         }
 
                         // if we have a mimetype, see if we have an exact or a type globbed match
@@ -716,6 +699,11 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
                             (!mimeGroup.isEmpty() &&
                              ((*it).right(1) == "*" &&
                               (*it).left((*it).find('/')) == mimeGroup)))
+                        {
+                            checkTheMimetypes = true;
+                        }
+
+                        if (checkTheMimetypes)
                         {
                             ok = true;
                             for (QStringList::iterator itex = excludeTypes.begin(); itex != excludeTypes.end(); ++itex)
