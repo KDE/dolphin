@@ -4333,15 +4333,17 @@ void KonqMainWindow::slotPopupMenu( KXMLGUIClient *client, const QPoint &_global
 
   bool openedForViewURL = false;
   //bool dirsSelected = false;
+  bool devicesFile = false;
 
   if ( _items.count() == 1 )
   {
+      KURL firstURL = _items.getFirst()->url();
       if ( !viewURL.isEmpty() )
       {
-          KURL firstURL = _items.getFirst()->url();
 	  //firstURL.cleanPath();
           openedForViewURL = firstURL.equals( viewURL, true );
       }
+      devicesFile = firstURL.protocol().find("device", 0, false) == 0;
       //dirsSelected = S_ISDIR( _items.getFirst()->mode() );
   }
     //check if current url is trash
@@ -4349,7 +4351,7 @@ void KonqMainWindow::slotPopupMenu( KXMLGUIClient *client, const QPoint &_global
   url.cleanPath();
   bool isIntoTrash = url.protocol() == "trash";
   bool doTabHandling = !openedForViewURL && !isIntoTrash && sReading;
-  bool showEmbeddingServices = !isIntoTrash && (itemFlags & KParts::BrowserExtension::ShowTextSelectionItems) == 0;
+  bool showEmbeddingServices = !isIntoTrash && !devicesFile && (itemFlags & KParts::BrowserExtension::ShowTextSelectionItems) == 0;
   PopupMenuGUIClient *konqyMenuClient = new PopupMenuGUIClient( this, m_popupEmbeddingServices,
                                                                 showEmbeddingServices, doTabHandling );
 
