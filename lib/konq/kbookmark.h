@@ -55,7 +55,7 @@ public:
   QString pixmapFile();
   QPixmap pixmap();
   
-  void append( KBookmark *_bm ) { m_lstChildren.append( _bm ); }
+  void append( KBookmark *_bm ) { (_bm->type() == Folder) ? m_lstChildren.prepend( _bm) : m_lstChildren.append( _bm ); }
   
   QList<KBookmark> *children() { return &m_lstChildren; }
   
