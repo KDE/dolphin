@@ -26,138 +26,112 @@
 #include <qwhatsthis.h>
 #include <qpushbutton.h>
 
+#include <kurl.h>
 #include <klocale.h>
+#include <klineedit.h>
 #include <kmessagebox.h>
+#include <kio/ioslave_defaults.h>
 
-#include "kproxydlg.h"
+#include "kproxyexceptiondlg.h"
+#include "kenvvarproxydlg.h"
 
-#define ENV_HTTP_PROXY    "HTTP_PROXY,http_proxy,HTTPPROXY,httpproxy,PROXY,\
-                           proxy"
-#define ENV_SECURE_PROXY  "HTTPS_PROXY,https_proxy,HTTPSPROXY,httpsproxy,\
-                           PROXY,proxy"
-#define ENV_FTP_PROXY     "FTP_PROXY,ftp_proxy,FTPPROXY,ftpproxy,PROXY,proxy"
 
-class KEnvLineEdit : public KLineEdit
-{
-public:
-  KEnvLineEdit( QWidget *parent, const char *name=0L );
+#define ENV_FTP_PROXY   "FTP_PROXY,ftp_proxy,FTPPROXY,ftpproxy,PROXY,proxy"
+#define ENV_HTTP_PROXY  "HTTP_PROXY,http_proxy,HTTPPROXY,httpproxy,PROXY,proxy"
+#define ENV_HTTPS_PROXY "HTTPS_PROXY,https_proxy,HTTPSPROXY,httpsproxy,PROXY,proxy"
 
-protected:
-  virtual void keyPressEvent( QKeyEvent * );
-};
-
-KEnvLineEdit::KEnvLineEdit( QWidget *parent, const char *name )
-            :KLineEdit( parent, name )
-{
-    // For now do not accept any drops since they
-    // might contain characters we do not accept.
-    // TODO: Re-implement ::dropEvent to allow
-    // acceptable formats...
-    setAcceptDrops( false );
-}
-
-void KEnvLineEdit::keyPressEvent( QKeyEvent * e )
-{
-    int key = e->key();
-    QString keycode = e->text();
-    if ( (key >= Qt::Key_Escape && key <= Qt::Key_Help) ||
-          key == Qt::Key_Period ||
-          (cursorPosition() > 0 && key == Qt::Key_Minus) ||
-          (!keycode.isEmpty() && keycode.unicode()->isPrint()) )
-    {
-        KLineEdit::keyPressEvent(e);
-        return;
-    }
-    e->accept();
-}
 
 KEnvVarProxyDlg::KEnvVarProxyDlg( QWidget* parent, const char* name )
-                :KCommonProxyDlg( parent, name, true )
+                :KProxyDialogBase( parent, name, true,
+                                   i18n( "Variable Proxy Configuration" ) )
 {
-    setCaption( i18n( "Variable Proxy Configuration" ) );
-    QVBoxLayout* mainLayout = new QVBoxLayout( this );
-    mainLayout->setSpacing( KDialog::spacingHint() );
-    mainLayout->setMargin( 2*KDialog::marginHint() );
+    QWidget *page = new QWidget( this );
+    setMainWidget (page);
 
-    gb_servers = new QGroupBox( this, "gb_servers" );
-    gb_servers->setSizePolicy( QSizePolicy(QSizePolicy::Expanding,
+    QVBoxLayout* mainLayout = new QVBoxLayout( page );
+    mainLayout->setSpacing( KDialog::spacingHint() );
+    mainLayout->setMargin( KDialog::marginHint() );
+
+    m_gbHostnames = new QGroupBox( page, "m_gbHostnames" );
+    m_gbHostnames->setSizePolicy( QSizePolicy(QSizePolicy::Expanding,
                                            QSizePolicy::Fixed,
-                                           gb_servers->sizePolicy().hasHeightForWidth()) );
-    gb_servers->setTitle( i18n( "Servers" ) );
-    gb_servers->setColumnLayout(0, Qt::Vertical );
-    gb_servers->layout()->setSpacing( 0 );
-    gb_servers->layout()->setMargin( 0 );
-    QGridLayout* gb_serversLayout = new QGridLayout( gb_servers->layout() );
-    gb_serversLayout->setAlignment( Qt::AlignTop );
-    gb_serversLayout->setSpacing( KDialog::spacingHint() );
-    gb_serversLayout->setMargin( 2*KDialog::marginHint() );
+                                           m_gbHostnames->sizePolicy().hasHeightForWidth()) );
+    m_gbHostnames->setTitle( i18n( "Servers" ) );
+    m_gbHostnames->setColumnLayout(0, Qt::Vertical );
+    m_gbHostnames->layout()->setSpacing( 0 );
+    m_gbHostnames->layout()->setMargin( 0 );
+
+    QGridLayout* serverLayout = new QGridLayout( m_gbHostnames->layout() );
+    serverLayout->setAlignment( Qt::AlignTop );
+    serverLayout->setSpacing( KDialog::spacingHint() );
+    serverLayout->setMargin( KDialog::marginHint() );
 
     QGridLayout* glay = new QGridLayout;
     glay->setSpacing( KDialog::spacingHint() );
     glay->setMargin( 0 );
 
-    cb_envHttp = new QCheckBox( i18n("&HTTP:"), gb_servers, "cb_envHttp" );
-    QWhatsThis::add( cb_envHttp, i18n("Check this box to enable environment "
+    m_cbEnvHttp = new QCheckBox( i18n("&HTTP:"), m_gbHostnames, "m_cbEnvHttp" );
+    QWhatsThis::add( m_cbEnvHttp, i18n("Check this box to enable environment "
                                       "variable based proxy setup for HTTP "
                                       "connections.") );
-    le_envHttp = new KEnvLineEdit( gb_servers, "le_envHttp" );
-    le_envHttp->setEnabled( false );
-    le_envHttp->setMinimumWidth( le_envHttp->fontMetrics().width('W') * 20 );
-    le_envHttp->setSizePolicy( QSizePolicy(QSizePolicy::MinimumExpanding,
+    m_leEnvHttp = new KLineEdit( m_gbHostnames, "m_leEnvHttp" );
+    m_leEnvHttp->setEnabled( false );
+    m_leEnvHttp->setMinimumWidth( m_leEnvHttp->fontMetrics().width('W') * 20 );
+    m_leEnvHttp->setSizePolicy( QSizePolicy(QSizePolicy::MinimumExpanding,
                                            QSizePolicy::Fixed,
-                                           le_envHttp->sizePolicy().hasHeightForWidth()) );
-    QWhatsThis::add( le_envHttp, i18n("<qt>Enter the name of the environment "
+                                           m_leEnvHttp->sizePolicy().hasHeightForWidth()) );
+    QWhatsThis::add( m_leEnvHttp, i18n("<qt>Enter the name of the environment "
                                       "variable, eg. <tt>HTTP_PROXY</tt>, "
                                       "used to store the address of the HTTP "
                                       "proxy server.<p>Alternatively, you can "
                                       "click on the <tt>\"Auto Detect\"</tt> "
                                       "button to attempt automatic discovery "
                                       "of this variable.</qt>") );
-    glay->addWidget( cb_envHttp, 0, 0 );
-    glay->addWidget( le_envHttp, 0, 1 );
+    glay->addWidget( m_cbEnvHttp, 0, 0 );
+    glay->addWidget( m_leEnvHttp, 0, 1 );
 
-    cb_envSecure = new QCheckBox( i18n("HTTP&S:"), gb_servers, "cb_envSecure" );
-    QWhatsThis::add( cb_envSecure, i18n("Check this box to enable environment "
-                                        "variable based proxy setup for secure "
+    m_cbEnvHttps = new QCheckBox( i18n("HTTP&S:"), m_gbHostnames, "m_cbEnvHttps" );
+    QWhatsThis::add( m_cbEnvHttps, i18n("Check this box to enable environment "
+                                        "variable based proxy setup for Https "
                                         "connections such as HTTPS.") );
-    le_envSecure = new KEnvLineEdit( gb_servers, "le_envSecure" );
-    le_envSecure->setEnabled( false );
-    le_envSecure->setSizePolicy( QSizePolicy(QSizePolicy::MinimumExpanding,
+    m_leEnvHttps = new KLineEdit( m_gbHostnames, "m_leEnvHttps" );
+    m_leEnvHttps->setEnabled( false );
+    m_leEnvHttps->setSizePolicy( QSizePolicy(QSizePolicy::MinimumExpanding,
                                             QSizePolicy::Fixed,
-                                            le_envSecure->sizePolicy().hasHeightForWidth()) );
-    QWhatsThis::add( le_envSecure, i18n("<qt>Enter the name of the environment "
+                                            m_leEnvHttps->sizePolicy().hasHeightForWidth()) );
+    QWhatsThis::add( m_leEnvHttps, i18n("<qt>Enter the name of the environment "
                                         "variable, eg. <tt>HTTPS_PROXY"
                                         "</tt>, used to store the address of "
-                                        "the secure proxy server.<p>"
+                                        "the Https proxy server.<p>"
                                         "Alternatively, you can click on the "
                                         "<tt>\"Auto Detect\"</tt> button "
                                         "to attempt an automatic discovery of "
                                         "this variable(s).</qt>") );
 
-    glay->addWidget( cb_envSecure, 1, 0 );
-    glay->addWidget( le_envSecure, 1, 1 );
+    glay->addWidget( m_cbEnvHttps, 1, 0 );
+    glay->addWidget( m_leEnvHttps, 1, 1 );
 
-    cb_envFtp = new QCheckBox( i18n("&FTP:"), gb_servers, "cb_envFtp" );
-    QWhatsThis::add( cb_envFtp, i18n("Check this box to enable environment "
+    m_cbEnvFtp = new QCheckBox( i18n("&FTP:"), m_gbHostnames, "m_cbEnvFtp" );
+    QWhatsThis::add( m_cbEnvFtp, i18n("Check this box to enable environment "
                                      "variable based proxy setup for FTP "
                                      "connections.") );
 
-    le_envFtp = new KEnvLineEdit( gb_servers, "le_envFtp" );
-    le_envFtp->setEnabled( false );
-    le_envFtp->setSizePolicy( QSizePolicy(QSizePolicy::MinimumExpanding,
+    m_leEnvFtp = new KLineEdit( m_gbHostnames, "m_leEnvFtp" );
+    m_leEnvFtp->setEnabled( false );
+    m_leEnvFtp->setSizePolicy( QSizePolicy(QSizePolicy::MinimumExpanding,
                                           QSizePolicy::Fixed,
-                                          le_envFtp->sizePolicy().hasHeightForWidth()) );
-    QWhatsThis::add( le_envFtp, i18n("<qt>Enter the name of the environment "
+                                          m_leEnvFtp->sizePolicy().hasHeightForWidth()) );
+    QWhatsThis::add( m_leEnvFtp, i18n("<qt>Enter the name of the environment "
                                      "variable, eg. <tt>FTP_PROXY</tt>, "
                                      "used to store the address of the FTP "
                                      "proxy server.<p>Alternatively, you can "
                                      "click on the <tt>\"Auto Detect\"</tt> "
                                      "button to attempt an automatic discovery "
                                      "of this variable.</qt>") );
-    glay->addWidget( cb_envFtp, 2, 0 );
-    glay->addWidget( le_envFtp, 2, 1 );
+    glay->addWidget( m_cbEnvFtp, 2, 0 );
+    glay->addWidget( m_leEnvFtp, 2, 1 );
 
-    gb_serversLayout->addLayout( glay, 0, 0 );
+    serverLayout->addLayout( glay, 0, 0 );
 
     QHBoxLayout* hlay = new QHBoxLayout;
     hlay->setSpacing( KDialog::spacingHint() );
@@ -166,53 +140,53 @@ KEnvVarProxyDlg::KEnvVarProxyDlg( QWidget* parent, const char* name )
                               QSizePolicy::Fixed, QSizePolicy::Minimum );
     hlay->addItem( spacer );
 
-    cb_showValue = new QCheckBox( i18n("Show Actual &Values"), gb_servers,
-                                  "cb_showValue" );
-    hlay->addWidget( cb_showValue );
+    m_cbShowValue = new QCheckBox( i18n("Show Actual &Values"), m_gbHostnames,
+                                  "m_cbShowValue" );
+    hlay->addWidget( m_cbShowValue );
     spacer = new QSpacerItem( 20, 20, QSizePolicy::MinimumExpanding,
                               QSizePolicy::Minimum );
     hlay->addItem( spacer );
-    gb_serversLayout->addLayout( hlay, 1, 0 );
+    serverLayout->addLayout( hlay, 1, 0 );
 
     QVBoxLayout* vlay = new QVBoxLayout;
     vlay->setSpacing( KDialog::spacingHint() );
     vlay->setMargin( 0 );
 
-    pb_verify = new QPushButton( i18n("&Verify"), gb_servers, "pb_verify" );
-    QWhatsThis::add( pb_verify, i18n("<qt>Click this button to quickly "
+    m_pbVerify = new QPushButton( i18n("&Verify"), m_gbHostnames, "m_pbVerify" );
+    QWhatsThis::add( m_pbVerify, i18n("<qt>Click this button to quickly "
                                      "determine whether or not the environment "
                                      "variable names you supplied are valid. "
                                      "If an environment variable is not found, "
                                      "the associated labels will be "
                                      "<b>highlighted</b> to indicate the "
                                      "invalid settings.</qt>") );
-    vlay->addWidget( pb_verify );
+    vlay->addWidget( m_pbVerify );
 
-    pb_detect = new QPushButton( i18n("Auto &Detect"), gb_servers,
-                                 "pb_detect" );
-    QWhatsThis::add( pb_detect, i18n("<qt>Click on this button to attempt "
+    m_pbDetect = new QPushButton( i18n("Auto &Detect"), m_gbHostnames,
+                                 "m_pbDetect" );
+    QWhatsThis::add( m_pbDetect, i18n("<qt>Click on this button to attempt "
                                      "automatic discovery of the environment "
                                      "variables used for setting system wide "
                                      "proxy information.<p> This automatic "
                                      "lookup works by searching for the "
                                      "following common variable names:</p>"
                                      "<p><u>For HTTP: </u>%1</p>"
-                                     "<p><u>For Secure: </u>%2</p>"
-                                     "<p><u>For FTP: </u>%3</p></qt>").arg(ENV_HTTP_PROXY).arg(ENV_SECURE_PROXY).arg(ENV_FTP_PROXY));
-    vlay->addWidget( pb_detect );
+                                     "<p><u>For Https: </u>%2</p>"
+                                     "<p><u>For FTP: </u>%3</p></qt>").arg(ENV_HTTP_PROXY).arg(ENV_HTTPS_PROXY).arg(ENV_FTP_PROXY));
+    vlay->addWidget( m_pbDetect );
 
     spacer = new QSpacerItem( 20, 20, QSizePolicy::Minimum,
                               QSizePolicy::MinimumExpanding );
     vlay->addItem( spacer );
 
-    gb_serversLayout->addLayout( vlay, 0, 1 );
-    mainLayout->addWidget( gb_servers );
+    serverLayout->addLayout( vlay, 0, 1 );
+    mainLayout->addWidget( m_gbHostnames );
 
-    gb_exceptions = new KExceptionBox( this, "gb_exceptions" );
-    gb_exceptions->setSizePolicy( QSizePolicy(QSizePolicy::Expanding,
+    m_gbExceptions = new KExceptionBox( page, "m_gbExceptions" );
+    m_gbExceptions->setSizePolicy( QSizePolicy(QSizePolicy::Expanding,
                                               QSizePolicy::Preferred,
-                                              gb_exceptions->sizePolicy().hasHeightForWidth()) );
-    mainLayout->addWidget( gb_exceptions );
+                                              m_gbExceptions->sizePolicy().hasHeightForWidth()) );
+    mainLayout->addWidget( m_gbExceptions );
 
     hlay = new QHBoxLayout;
     hlay->setSpacing( KDialog::spacingHint() );
@@ -222,165 +196,195 @@ KEnvVarProxyDlg::KEnvVarProxyDlg( QWidget* parent, const char* name )
                               QSizePolicy::Minimum );
     hlay->addItem( spacer );
 
-    pb_ok = new QPushButton( i18n("&OK"), this, "pb_ok" );
-    pb_ok->setAutoDefault( true );
-    hlay->addWidget( pb_ok );
-
-    pb_cancel = new QPushButton( i18n("&Cancel"), this, "pb_cancel" );
-    hlay->addWidget( pb_cancel );
-    mainLayout->addLayout( hlay );
-
     init();
+}
+
+KEnvVarProxyDlg::~KEnvVarProxyDlg ()
+{
 }
 
 void KEnvVarProxyDlg::init()
 {
-    d = 0L;
-    connect( cb_envHttp, SIGNAL( toggled(bool) ), le_envHttp,
+    connect( m_cbEnvHttp, SIGNAL( toggled(bool) ), m_leEnvHttp,
              SLOT( setEnabled(bool) ) );
-    connect( cb_envSecure, SIGNAL( toggled(bool) ), le_envSecure,
+    connect( m_cbEnvHttps, SIGNAL( toggled(bool) ), m_leEnvHttps,
              SLOT( setEnabled(bool) ) );
-    connect( cb_envFtp, SIGNAL( toggled(bool) ), le_envFtp,
+    connect( m_cbEnvFtp, SIGNAL( toggled(bool) ), m_leEnvFtp,
              SLOT( setEnabled(bool) ) );
 
-    connect( cb_envHttp, SIGNAL( toggled(bool) ), SLOT( setChecked(bool) ) );
-    connect( cb_envSecure, SIGNAL( toggled(bool) ), SLOT( setChecked(bool) ) );
-    connect( cb_envFtp, SIGNAL( toggled(bool) ), SLOT( setChecked(bool) ) );
-    connect( cb_showValue, SIGNAL( toggled(bool) ), SLOT( showValue(bool) ) );    
+    connect( m_cbEnvHttp, SIGNAL( toggled(bool) ), SLOT( setChecked(bool) ) );
+    connect( m_cbEnvHttps, SIGNAL( toggled(bool) ), SLOT( setChecked(bool) ) );
+    connect( m_cbEnvFtp, SIGNAL( toggled(bool) ), SLOT( setChecked(bool) ) );
+    connect( m_cbShowValue, SIGNAL( toggled(bool) ), SLOT( showValue(bool) ) );
 
-
-    connect( pb_ok, SIGNAL( clicked() ), SLOT( accept() ) );
-    connect( pb_cancel, SIGNAL( clicked() ), SLOT( reject() ) );
-    connect( pb_verify, SIGNAL( clicked() ), SLOT( verifyPressed() ) );
-    connect( pb_detect, SIGNAL( clicked() ), SLOT( autoDetectPressed() ) );
+    connect( m_pbVerify, SIGNAL( clicked() ), SLOT( verifyPressed() ) );
+    connect( m_pbDetect, SIGNAL( clicked() ), SLOT( autoDetectPressed() ) );
 
     setChecked( true );
 }
 
-void KEnvVarProxyDlg::setProxyData( const ProxyData* data )
+void KEnvVarProxyDlg::setProxyData( const KProxyData& data )
 {
-    if ( data && data->envBased )
+    if ( data.type == KProtocolManager::EnvVarProxy )
     {
-        if ( !data->httpProxy.isEmpty() )
+        if ( !data.httpProxy.isEmpty() )
         {
-            cb_envHttp->setChecked( true );
-            le_envHttp->setText( data->httpProxy );
-        } else
-            le_envHttp->setText( "http://" );
+            m_cbEnvHttp->setChecked( true );
+            m_leEnvHttp->setText( data.httpProxy );
+        }
 
-        if ( !data->secureProxy.isEmpty() )
+        if ( !data.httpsProxy.isEmpty() )
         {
-            cb_envSecure->setChecked( true );
-            le_envSecure->setText( data->secureProxy );
-        } else
-            le_envSecure->setText( "https://" );
-
-        if ( !data->ftpProxy.isEmpty() )
+            m_cbEnvHttps->setChecked( true );
+            m_leEnvHttps->setText( data.httpsProxy );
+        }
+        if ( !data.ftpProxy.isEmpty() )
         {
-            cb_envFtp->setChecked( true );
-            le_envFtp->setText( data->ftpProxy );
-        } else
-            le_envFtp->setText( "ftp://" );
+            m_cbEnvFtp->setChecked( true );
+            m_leEnvFtp->setText( data.ftpProxy );
+        }
 
-        gb_exceptions->fillExceptions( data );
-        d = data;
+        m_gbExceptions->fillExceptions( data.noProxyFor );
+        m_gbExceptions->setCheckReverseProxy( data.useReverseProxy );
+    }
+    else if ( data.type == KProtocolManager::NoProxy )
+    {
+        KURL u;
+
+        // If this is a non-URL check...
+        u = data.httpProxy;
+        if ( !u.isValid() )
+        {
+            QString envVar;
+            envVar = QString::fromLocal8Bit( getenv(data.httpProxy.local8Bit()) );
+            if ( envVar.isEmpty() )
+            {
+                m_cbEnvHttp->setChecked( true );
+                m_leEnvHttp->setText( envVar );
+            }
+        }
+
+        u = data.httpsProxy;
+        if ( !u.isValid() )
+        {
+            QString envVar;
+            envVar = QString::fromLocal8Bit( getenv(data.httpsProxy.local8Bit()) );
+            if ( envVar.isEmpty() )
+            {
+                m_cbEnvHttps->setChecked( true );
+                m_leEnvHttps->setText( envVar );
+            }
+        }
+
+        u = data.ftpProxy;
+        if ( !u.isValid() )
+        {
+            QString envVar;
+            envVar = QString::fromLocal8Bit( getenv(data.ftpProxy.local8Bit()) );
+            if ( envVar.isEmpty() )
+            {
+                m_cbEnvFtp->setChecked( true );
+                m_leEnvFtp->setText( envVar );
+            }
+        }
+
+        m_gbExceptions->fillExceptions( data.noProxyFor );
+        m_gbExceptions->setCheckReverseProxy( data.useReverseProxy );
     }
 }
 
-ProxyData KEnvVarProxyDlg::data() const
+const KProxyData KEnvVarProxyDlg::data() const
 {
-    ProxyData data;
-    if ( cb_envHttp->isChecked() )
-        data.httpProxy = le_envHttp->text();
-    if ( cb_envSecure->isChecked() )
-        data.secureProxy = le_envSecure->text();
-    if ( cb_envFtp->isChecked() )
-        data.ftpProxy = le_envFtp->text();
+    KProxyData data;
 
-    QStringList list = gb_exceptions->exceptions();
+    if (!m_bHasValidData)
+      return data;
+
+    if ( m_cbEnvHttp->isChecked() )
+        data.httpProxy = m_leEnvHttp->text();
+
+    if ( m_cbEnvHttps->isChecked() )
+        data.httpsProxy = m_leEnvHttps->text();
+
+    if ( m_cbEnvFtp->isChecked() )
+        data.ftpProxy = m_leEnvFtp->text();
+
+    QStringList list = m_gbExceptions->exceptions();
     if ( list.count() )
         data.noProxyFor = list;
 
-    data.useReverseProxy = gb_exceptions->isReverseProxyChecked();
-    data.changed = ( !d || (data.httpProxy != d->httpProxy ||
-                    data.secureProxy != d->secureProxy ||
-                    data.ftpProxy != d->ftpProxy ||
-                    data.noProxyFor != d->noProxyFor ||
-                    data.useReverseProxy != d->useReverseProxy ) );
-    data.envBased = true;
+    data.useReverseProxy = m_gbExceptions->isReverseProxyChecked();
+    data.type = KProtocolManager::EnvVarProxy;
+
     return data;
 }
 
 
 void KEnvVarProxyDlg::verifyPressed()
 {
-    unsigned short i;
-    if ( !validate(i) )
+    if ( !validate() )
     {
-        QString msg;
-        if ( i > 0 )
-            msg = i18n("The highlighted input fields contain unknown or "
-                       "invalid \nenvironment variable names.");
-        else
-            msg = i18n("The highlighted input field contains unknown or "
-                       "invalid \nenvironment variable name.");
-        QString details = i18n("<qt>Make sure you entered the actual "
-                               "environment variable name rather than the "
-                               "address of the proxy server. For example, "
-                               "if the set variable name used to specify the "
-                               "HTTP proxy server is <b>HTTP_PROXY</b>, then "
-                               "you need to enter <b>HTTP_PROXY</b> instead "
-                               "of the actual address specified by the "
-                               "variable.</qt>");
+        QString msg = i18n("The highlighted input field(s) contain unknown or "
+                           "invalid proxy environment variable.");
+
+        QString details = i18n("<qt>Make sure you entered the actual environment "
+                               "variable name rather than its value. For "
+                               "example, if the environment variable is <br><b>"
+                               "HTTP_PROXY=http://localhost:3128</b><br> you need "
+                               "to enter <b>HTTP_PROXY</b> here instead of the "
+                               "actual address specified by the variable.</qt>");
+
         KMessageBox::detailedSorry( this, msg, details,
                                     i18n("Invalid Proxy Setup") );
     }
     else
     {
-        KMessageBox::information( this, i18n("Environment variable(s) "
-                                             "successfully verified!"),
+        KMessageBox::information( this, i18n("Successfully verified."),
                                         i18n("Proxy Setup") );
     }
 }
 
 void KEnvVarProxyDlg::autoDetectPressed()
 {
-    bool found = false;
     QString env;
     QStringList list;
     QStringList::ConstIterator it;
-    if ( cb_envHttp->isChecked() )
+
+    bool found = false;
+
+    if ( m_cbEnvHttp->isChecked() )
     {
         list = QStringList::split( ',', QString::fromLatin1(ENV_HTTP_PROXY) );
         it = list.begin();
         for( ; it != list.end(); ++it )
         {
             env = QString::fromLocal8Bit( getenv( (*it).local8Bit() ) );
-            if (  !env.isEmpty() )
+            if ( !env.isEmpty() )
             {
-                le_envHttp->setText( (cb_showValue->isChecked()?env:*it) );
+                m_leEnvHttp->setText( (m_cbShowValue->isChecked()?env:*it) );
                 found |= true;
                 break;
             }
         }
     }
-    if ( cb_envSecure->isChecked() )
+
+    if ( m_cbEnvHttps->isChecked() )
     {
-        list = QStringList::split( ',',
-                                   QString::fromLatin1(ENV_SECURE_PROXY) );
+        list = QStringList::split( ',', QString::fromLatin1(ENV_HTTPS_PROXY));
         it = list.begin();
         for( ; it != list.end(); ++it )
         {
             env = QString::fromLocal8Bit( getenv( (*it).local8Bit() ) );
             if ( !env.isEmpty() )
             {
-                le_envSecure->setText( (cb_showValue->isChecked()?env:*it) );
+                m_leEnvHttps->setText( (m_cbShowValue->isChecked()?env:*it) );
                 found |= true;
                 break;
             }
         }
     }
-    if ( cb_envFtp->isChecked() )
+
+    if ( m_cbEnvFtp->isChecked() )
     {
         list = QStringList::split( ',', QString::fromLatin1(ENV_FTP_PROXY) );
         it = list.begin();
@@ -389,7 +393,7 @@ void KEnvVarProxyDlg::autoDetectPressed()
             env = QString::fromLocal8Bit( getenv( (*it).local8Bit() ) );
             if ( !env.isEmpty() )
             {
-                le_envFtp->setText( (cb_showValue->isChecked()?env:*it) );
+                m_leEnvFtp->setText( (m_cbShowValue->isChecked()?env:*it) );
                 found |= true;
                 break;
             }
@@ -398,17 +402,19 @@ void KEnvVarProxyDlg::autoDetectPressed()
 
     if ( !found )
     {
-        QString msg = i18n("Could not find any of the commonly used "
-                           "environment variable names for setting "
-                           "system wide proxy information!");
-        QString details = i18n("<qt>To see the variable names used in the "
-                               "automatic detection process, close this "
-                               "dialog box, click on the quick help button "
+        QString msg = i18n("Did not detect any environment variables "
+                           "commonly used to set system wide proxy "
+                           "information.");
+
+        QString details = i18n("<qt>To learn about the variable names the "
+                               "automatic detection process searches for, "
+                               "press OK, click on the quick help button "
                                "(<b>?</b>) on the top right corner of the "
-                               "\"Variable Proxy Configuration\" dialog and "
-                               "then click on the Auto Detect button.</qt> ");
+                               "previous dialog and then click on the "
+                               "\"Auto Detect\" button.</qt> ");
+
         KMessageBox::detailedSorry( this, msg, details,
-                                    i18n("Result of Auto Proxy Detect") );
+                                    i18n("Automatic Proxy Variable Detection") );
     }
 }
 
@@ -417,112 +423,109 @@ void KEnvVarProxyDlg::showValue( bool enable )
     if ( enable )
     {
         QString txt, env;
-        lst_envVars.clear();
-        if ( cb_envHttp->isChecked() )
+        m_lstEnvVars.clear();
+        if ( m_cbEnvHttp->isChecked() )
         {
-            txt = le_envHttp->text();
+            txt = m_leEnvHttp->text();
             env = QString::fromLocal8Bit( getenv( txt.local8Bit() ) );
-            le_envHttp->setText( env );
-            lst_envVars << txt;
+            m_leEnvHttp->setText( env );
+            m_lstEnvVars << txt;
         }
-        if ( cb_envSecure->isChecked() )
+        if ( m_cbEnvHttps->isChecked() )
         {
-            txt = le_envSecure->text();
+            txt = m_leEnvHttps->text();
             env = QString::fromLocal8Bit( getenv( txt.local8Bit() ) );
-            le_envSecure->setText( env );
-            lst_envVars << txt;
+            m_leEnvHttps->setText( env );
+            m_lstEnvVars << txt;
         }
-        if ( cb_envFtp->isChecked() )
+        if ( m_cbEnvFtp->isChecked() )
         {
-            txt = le_envFtp->text();
+            txt = m_leEnvFtp->text();
             env = QString::fromLocal8Bit( getenv( txt.local8Bit() ) );
-            le_envFtp->setText( env );
-            lst_envVars << txt;
+            m_leEnvFtp->setText( env );
+            m_lstEnvVars << txt;
         }
     }
     else
     {
         int count = 0;
-        if ( cb_envHttp->isChecked() )
-            le_envHttp->setText( lst_envVars[count++] );
-        if ( cb_envSecure->isChecked() )
-            le_envSecure->setText( lst_envVars[count++] );
-        if ( cb_envFtp->isChecked() )
-            le_envFtp->setText( lst_envVars[count++] );
+        if ( m_cbEnvHttp->isChecked() )
+            m_leEnvHttp->setText( m_lstEnvVars[count++] );
+
+        if ( m_cbEnvHttps->isChecked() )
+            m_leEnvHttps->setText( m_lstEnvVars[count++] );
+
+        if ( m_cbEnvFtp->isChecked() )
+            m_leEnvFtp->setText( m_lstEnvVars[count++] );
     }
 }
 
 void KEnvVarProxyDlg::setChecked( bool )
 {
-    bool checked = (cb_envHttp->isChecked() ||
-                    cb_envSecure->isChecked() ||
-                    cb_envFtp->isChecked());
-    pb_verify->setEnabled( checked );
-    pb_detect->setEnabled( checked );
-    pb_ok->setEnabled( checked );
+    bool checked;
+
+    checked = (m_cbEnvHttp->isChecked() || m_cbEnvHttps->isChecked() ||
+               m_cbEnvFtp->isChecked());
+
+    m_pbVerify->setEnabled( checked );
+    m_pbDetect->setEnabled( checked );
 }
 
-bool KEnvVarProxyDlg::validate( unsigned short& i )
+bool KEnvVarProxyDlg::validate()
 {
     QFont f;
-    bool notValid = false;
-    i = 0;
-    if ( cb_envHttp->isChecked() )
+    QString value;
+
+    if ( m_cbEnvHttp->isChecked() )
     {
-        if ( getenv( le_envHttp->text().local8Bit() ) == 0L )
+        value = m_cbShowValue ? m_lstEnvVars[0] : m_leEnvHttp->text();
+
+        if ( getenv( value.local8Bit() ) == 0L )
         {
-            f = cb_envHttp->font();
+            f = m_cbEnvHttp->font();
             f.setBold( true );
-            cb_envHttp->setFont( f );
-            notValid |= true;
-            i++;
+            m_cbEnvHttp->setFont( f );
+            m_bHasValidData |= true;
+        }
+    }
+
+    if ( m_cbEnvHttps->isChecked() )
+    {
+        value = m_cbShowValue ? m_lstEnvVars[1] : m_leEnvHttp->text();
+
+        if ( getenv( value.local8Bit() ) == 0L )
+        {
+            f = m_cbEnvHttps->font();
+            f.setBold( true );
+            m_cbEnvHttps->setFont( f );
+            m_bHasValidData |= true;
         }
 
     }
-    if ( cb_envSecure->isChecked() )
-    {
-        if ( getenv( le_envSecure->text().local8Bit() ) == 0L )
-        {
-            f = cb_envSecure->font();
-            f.setBold( true );
-            cb_envSecure->setFont( f );
-            notValid |= true;
-            i++;
-        }
 
-    }
-    if ( cb_envFtp->isChecked() )
+    if ( m_cbEnvFtp->isChecked() )
     {
-        if ( getenv( le_envFtp->text().local8Bit() ) == 0L )
+        value = m_cbShowValue ? m_lstEnvVars[2] : m_leEnvHttp->text();
+
+        if ( getenv( value.local8Bit() ) == 0L )
         {
-            f = cb_envFtp->font();
+            f = m_cbEnvFtp->font();
             f.setBold( true );
-            cb_envFtp->setFont( f );
-            notValid |= true;
-            i++;
+            m_cbEnvFtp->setFont( f );
+            m_bHasValidData |= true;
         }
     }
-    return !notValid;
+
+    return m_bHasValidData;
 }
 
-void KEnvVarProxyDlg::reject()
+void KEnvVarProxyDlg::slotOk()
 {
-    d = 0L;
-    QDialog::reject();
-}
-
-void KEnvVarProxyDlg::accept()
-{
-    unsigned short i;
-    if ( !validate( i ) )
+    if ( !validate() )
     {
-        QString msg;
-        if ( i > 0 )
-            msg = i18n("The highlighted input fields contain unknown or "
-                       "invalid \nenvironment variables!");
-        else
-            msg = i18n("The highlighted input field contains an unknown or "
-                       "invalid \nenvironment variable!");
+        QString msg = i18n("The highlighted input field(s) contain unknown or "
+                           "invalid environment variable!");
+
         QString details = i18n("<qt>Make sure you entered the actual "
                                "environment variable name rather than the "
                                "address of the proxy server. For example, "
@@ -531,9 +534,13 @@ void KEnvVarProxyDlg::accept()
                                "you need to enter <b>HTTP_PROXY</b> instead "
                                "of the actual address specified by the "
                                "variable.</qt>");
+
         KMessageBox::detailedError( this, msg, details,
                                     i18n("Invalid Proxy Setup") );
         return;
     }
-    QDialog::accept();
+
+    KDialogBase::slotOk ();
 }
+
+#include "kenvvarproxydlg.moc"
