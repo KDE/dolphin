@@ -106,8 +106,12 @@ QString KonqHistoryItem::key( int column, bool ascending ) const
 QString KonqHistoryItem::toolTipText() const
 {
     if ( s_settings->m_detailedTips ) {
-	QString tip = i18n("<qt><center><b>%1</b></center><hr>First visited: %2<br>Last visited: %3<br>Number of times visited: %4</qt>");
-	return tip.arg( m_entry->url.url() ).arg( KGlobal::locale()->formatDateTime( m_entry->firstVisited ) ).arg( KGlobal::locale()->formatDateTime( m_entry->lastVisited ) ).arg( m_entry->numberOfTimesVisited );
+        // this weird ordering of %4, %1, %2, %3 is due to the reason, that some 
+        // urls seem to contain %N, which would get substituted in the next
+        // .arg() calls. So to fix this, we first substitute the last items
+        // and then put in the url.
+	QString tip = i18n("<qt><center><b>%4</b></center><hr>Last visited: %1<br>First visited: %2<br>Number of times visited: %3</qt>");
+	return tip.arg( KGlobal::locale()->formatDateTime( m_entry->lastVisited ) ).arg( KGlobal::locale()->formatDateTime( m_entry->firstVisited ) ).arg( m_entry->numberOfTimesVisited ).arg( m_entry->url.url() );
     }
 
     return m_entry->url.url();

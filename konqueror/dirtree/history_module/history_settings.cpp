@@ -52,7 +52,7 @@ void KonqHistorySettings::readSettings()
     metric = config->readEntry("Metric olderThan", days );
     m_metricOlderThan = (metric == days) ? DAYS : MINUTES;
 
-    m_detailedTips = config->readBoolEntry("Detailed Tooltips", false);
+    m_detailedTips = config->readBoolEntry("Detailed Tooltips", true);
 
     m_fontYoungerThan = config->readFontEntry( "Font youngerThan",
 					       &m_fontYoungerThan );
@@ -75,7 +75,7 @@ void KonqHistorySettings::notifySettingsChanged( KonqHistorySettings s,
 						 QCString id )
 {
     KonqHistorySettings oldSettings( s );
-    
+
     m_valueYoungerThan = s.m_valueYoungerThan;
     m_valueOlderThan   = s.m_valueOlderThan;
 
