@@ -7,7 +7,7 @@ KDE_ICON = kfind
 INCLUDES= -I$(top_srcdir)/libkonq $(all_includes)
 
 #This section is kfindpart
-kde_module_LTLIBRARIES = libkfindpart.la
+lib_LTLIBRARIES = libkfindpart.la
 
 libkfindpart_la_SOURCES = kftabdlg.cpp kfind.cpp kquery.cpp kdatecombo.cpp kfindpart.cpp
 libkfindpart_la_LDFLAGS = $(all_libraries) $(KDE_PLUGIN)
