@@ -215,6 +215,7 @@ protected:
   OpenPartsUI::Menu_var m_vMenuFileNew;
   OpenPartsUI::Menu_var m_vMenuEdit;
   OpenPartsUI::Menu_var m_vMenuView;
+  OpenPartsUI::Menu_var m_vMenuGo;
   OpenPartsUI::Menu_var m_vMenuBookmarks;
   OpenPartsUI::Menu_var m_vMenuOptions;
 

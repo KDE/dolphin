@@ -67,8 +67,7 @@ enum _ids {
 
 ////// menu items //////
     MFILE_NEW_ID, MFILE_NEWWINDOW_ID, MFILE_RUN_ID, MFILE_OPENTERMINAL_ID,
-    MFILE_GOTO_ID, MFILE_CACHE_ID, MFILE_HISTORY_ID, MFILE_OPENLOCATION_ID,
-    MFILE_FIND_ID, MFILE_PRINT_ID, MFILE_CLOSE_ID,
+    MFILE_OPENLOCATION_ID, MFILE_FIND_ID, MFILE_PRINT_ID, MFILE_CLOSE_ID,
 
     MEDIT_COPY_ID, MEDIT_PASTE_ID, MEDIT_TRASH_ID, MEDIT_DELETE_ID, MEDIT_SELECT_ID,
     MEDIT_SELECTALL_ID, // MEDIT_FINDINPAGE_ID, MEDIT_FINDNEXT_ID,
@@ -78,8 +77,10 @@ enum _ids {
     MVIEW_SPLITWINDOW_ID, MVIEW_ROWABOVE_ID, MVIEW_ROWBELOW_ID,
     MVIEW_SHOWDOT_ID, MVIEW_SHOWHTML_ID,
     MVIEW_LARGEICONS_ID, MVIEW_SMALLICONS_ID, MVIEW_TREEVIEW_ID, 
-    MVIEW_RELOAD_ID, MVIEW_STOPLOADING_ID
+    MVIEW_RELOAD_ID, MVIEW_STOPLOADING_ID,
     // + view frame source, view document source, document encoding
+
+    MGO_CACHE_ID, MGO_HISTORY_ID, MGO_MIMETYPES_ID, MGO_APPLICATIONS_ID
 
     // clear cache is needed somewhere
     // MOPTIONS_...
@@ -100,6 +101,7 @@ KonqMainView::KonqMainView( const char *url = 0L, QWidget *_parent = 0L ) : QWid
   m_vMenuFileNew = 0L;
   m_vMenuEdit = 0L;
   m_vMenuView = 0L;
+  m_vMenuGo = 0L;
   m_vMenuBookmarks = 0L;
   m_vMenuOptions = 0L;
 
@@ -272,6 +274,7 @@ bool KonqMainView::mappingCreateMenubar( OpenPartsUI::MenuBar_ptr menuBar )
     m_vMenuEdit = 0L;
     m_vMenuView = 0L;
     createViewMenu();
+    m_vMenuGo = 0L;
     m_vMenuBookmarks = 0L;
     m_vMenuOptions = 0L;
 
@@ -295,13 +298,6 @@ bool KonqMainView::mappingCreateMenubar( OpenPartsUI::MenuBar_ptr menuBar )
   m_vMenuFile->insertItem4( i18n("Open &Terminal"), this, "slotTerminal", CTRL+Key_T, MFILE_OPENTERMINAL_ID, -1 );
   m_vMenuFile->insertSeparator( -1 );
 
-  OpenPartsUI::Menu_var m_vMenuFileGoto;
-
-  m_vMenuFile->insertItem8( i18n("&Goto"), m_vMenuFileGoto, MFILE_GOTO_ID, -1 );
-
-  m_vMenuFileGoto->insertItem4( i18n("&Cache"), this, "slotShowCache", 0, MFILE_CACHE_ID, -1 );
-  m_vMenuFileGoto->insertItem4( i18n("&History"), this, "slotShowHistory", 0, MFILE_HISTORY_ID, -1 );
-
   m_vMenuFile->insertItem4( i18n("&Open Location..."), this, "slotOpenLocation", stdAccel.open(), MFILE_OPENLOCATION_ID, -1 );
   m_vMenuFile->insertItem4( i18n("&Find"), this, "slotToolFind", stdAccel.find(), MFILE_FIND_ID, -1 );
   m_vMenuFile->insertSeparator( -1 );
@@ -321,16 +317,22 @@ bool KonqMainView::mappingCreateMenubar( OpenPartsUI::MenuBar_ptr menuBar )
   m_vMenuEdit->insertItem4( i18n("&Select"), this, "slotSelect", CTRL+Key_S, MEDIT_SELECT_ID, -1 );
   m_vMenuEdit->insertItem4( i18n("Select &all"), this, "slotSelectAll", CTRL+Key_A, MEDIT_SELECTALL_ID, -1 );
   m_vMenuEdit->insertSeparator( -1 );
-  m_vMenuEdit->insertItem4( i18n("Mime &Types"), this, "slotEditMimeTypes", 0, MEDIT_MIMETYPES_ID, -1 );
-  m_vMenuEdit->insertItem4( i18n("App&lications"), this, "slotEditApplications", 0, MEDIT_APPLICATIONS_ID, -1 );
-  //TODO: Global mime types and applications for root
-  m_vMenuEdit->insertSeparator( -1 );
   m_vMenuEdit->insertItem4( i18n("Save &Geometry"), this, "slotSaveGeometry", 0, MEDIT_SAVEGEOMETRY_ID, -1 );
 
   menuBar->insertMenu( i18n("&View"), m_vMenuView, -1, -1 );  
   
   createViewMenu();
   
+  menuBar->insertMenu( i18n("&Go"), m_vMenuGo, -1, -1 );
+
+  //TODO: up, back, forward, home
+  m_vMenuGo->insertSeparator( -1 );
+  m_vMenuGo->insertItem4( i18n("&Cache"), this, "slotShowCache", 0, MGO_CACHE_ID, -1 );
+  m_vMenuGo->insertItem4( i18n("&History"), this, "slotShowHistory", 0, MGO_HISTORY_ID, -1 );
+  m_vMenuGo->insertItem4( i18n("Mime &Types"), this, "slotEditMimeTypes", 0, MGO_MIMETYPES_ID, -1 );
+  m_vMenuGo->insertItem4( i18n("App&lications"), this, "slotEditApplications", 0, MGO_APPLICATIONS_ID, -1 );
+  //TODO: Global mime types and applications for root
+
   menuBar->insertMenu( i18n("&Bookmarks"), m_vMenuBookmarks, -1, -1 );
   m_pBookmarkMenu = new KBookmarkMenu( this, m_vMenuBookmarks, this, true );
 
