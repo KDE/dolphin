@@ -45,7 +45,7 @@ noinst_HEADERS = KonqMainWindowIface.h KonqViewIface.h delayedinitializer.h \
 	konq_misc.h konq_openurlrequest.h konq_profiledlg.h konq_run.h \
 	konq_view.h konq_viewmgr.h version.h
 
-konqueror_la_LDFLAGS = $(KDE_RPATH) $(all_libraries) -module
+konqueror_la_LDFLAGS = $(all_libraries) -module -avoid-version
 konqueror_la_LIBADD = ../libkonq/libkonq.la $(LIBMALLOC)
 
 # Hmm, this experiment of a static konq failed, don't trust it...
