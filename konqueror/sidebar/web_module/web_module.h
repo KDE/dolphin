@@ -84,6 +84,9 @@ class KHTMLSideBar : public KHTMLPart
 			if (button == LeftButton ){
 				if( _target.lower() == "_self" ) {
 					openURL( url );
+				} else if ( _target.lower() == "_blank" ) {
+					emit openURLNewWindow(completeURL(url).url(),
+								args);
 				} else {
 					emit openURLRequest(completeURL(url).url(),
 							args);
