@@ -44,12 +44,21 @@
 
 template class QDict<KonqListViewDir>;
 
-KonqListViewWidget::KonqListViewWidget( KonqListView *parent, QWidget *parentWidget )
+KonqListViewWidget::KonqListViewWidget( KonqListView *parent, QWidget *parentWidget, const QString& mode )
 : KListView( parentWidget )
 {
   kDebugInfo( 1202, "+KonqListViewWidget");
+  kDebugInfo( 1202, "Mode == %s", mode.ascii());
 
-  setMultiSelection( true );
+  if( mode == "MixedTree" )
+    m_mode = MixedTree;
+  else if( mode == "DetailedList" )
+    m_mode = DetailedList;
+  else {
+    kdWarning() << "Unknown ListView Mode!!" << endl;
+    kdWarning() << "Defaulting to DetailedList" << endl;
+    m_mode = DetailedList;
+  }
 
   m_pBrowserView       = parent;
   m_pWorkingDir        = 0L;
@@ -64,21 +73,22 @@ KonqListViewWidget::KonqListViewWidget( KonqListView *parent, QWidget *parentWid
   m_overItem           = 0L;
   m_dirLister          = 0L;
   m_lasttvd            = 0L;
-
-  m_mode = TreeMode;
-  m_showIcons = true;
-  m_checkMimeTypes = true;  
+  m_showIcons          = true;
+  m_checkMimeTypes     = true;  
 
   // Create a properties instance for this view
   // (copying the default values)
   m_pProps = new KonqPropsView( * KonqPropsView::defaultProps() );
   m_pSettings = KonqFMSettings::defaultTreeSettings();
 
-  if( m_mode == TreeMode )
-    setRootIsDecorated( true );
-
-  setTreeStepSize( 20 );
+  //Adjust QListView behaviour
+  setSelectionMode( Extended );
   setSorting( 1 );
+
+  if( m_mode == MixedTree ) {
+    setRootIsDecorated( true );
+    setTreeStepSize( 20 );
+  }
 
   initConfig();
 
@@ -498,7 +508,7 @@ void KonqListViewWidget::slotOnItem( QListViewItem* _item)
 void KonqListViewWidget::slotOnViewport()
 {
   m_overItem = 0L;
-  //TODO: Display summary in ListMode in statusbar, like iconview does
+  //TODO: Display summary in DetailedList in statusbar, like iconview does
 }
 
 void KonqListViewWidget::selectedItems( QValueList<KonqListViewItem*>& _list )
@@ -704,14 +714,14 @@ void KonqListViewWidget::slotNewItems( const KonqFileItemList & entries )
 
     switch(m_mode){
 
-    case ListMode: 
+    case DetailedList: 
       if ( isdir )
 	new KonqListViewDir( this, (*kit) );
       else
 	new KonqListViewItem( this, (*kit) );
       break;
 
-    case TreeMode: 
+    case MixedTree: 
       if ( parentDir ) { // adding under a directory item
 	if ( isdir )
 	  new KonqListViewDir( this, parentDir, (*kit) );
@@ -751,7 +761,7 @@ void KonqListViewWidget::openSubFolder( const KURL &_url, KonqListViewDir* _dir 
     return;
   }
 
-  if( m_mode == ListMode ) {
+  if( m_mode == DetailedList ) {
     KParts::URLArgs args;
     args.serviceType = _dir->item()->mimetype();
     emit m_pBrowserView->extension()->openURLRequest( _dir->item()->url(), args );

@@ -10,8 +10,8 @@ libkonqlistview_la_LDFLAGS = $(all_libraries) -version-info 1:0:0 -module -no-un
 libkonqlistview_la_LIBADD = $(top_builddir)/konqueror/libkonqueror.la
 
 servicedir = $(kde_servicesdir)
-service_DATA = konq_treeview.desktop
+service_DATA = konq_treeview.desktop konq_detailedlistview.desktop
 
 rcdir = $(kde_datadir)/konqueror
-rc_DATA = konq_listview.rc
+rc_DATA = konq_treeview.rc konq_detailedlistview.rc 
 

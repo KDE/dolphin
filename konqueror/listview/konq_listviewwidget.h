@@ -51,13 +51,13 @@ class KonqListViewWidget : public KListView
 
   Q_OBJECT
 public:
-  KonqListViewWidget( KonqListView *parent, QWidget *parentWidget );
+  KonqListViewWidget( KonqListView *parent, QWidget *parentWidget, const QString& mode );
   ~KonqListViewWidget();
 
   void stop();
   const KURL & url();
 
-  enum KonqListViewMode { ListMode, TreeMode };
+  enum KonqListViewMode { DetailedList, MixedTree };
 
   struct iterator
   {

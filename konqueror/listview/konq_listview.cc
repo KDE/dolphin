@@ -45,6 +45,7 @@
 #include <qdragobject.h>
 #include <qapplication.h>
 #include <qclipboard.h>
+#include <qstringlist.h>
 #include <klocale.h>
 #include <klibloader.h>
 
@@ -60,9 +61,12 @@ public:
     KonqFactory::instanceUnref();
   }
 
-  virtual KParts::Part* createPart( QWidget *parentWidget, const char *, QObject *parent, const char *name, const char*, const QStringList & )
+  virtual KParts::Part* createPart( QWidget *parentWidget, const char *, QObject *parent, const char *name, const char*, const QStringList &args )
   {
-    KParts::Part *obj = new KonqListView( parentWidget, parent, name );
+    if( args.count() < 1 )
+      kdWarning() << "KonqListView: Missing Parameter" << endl;
+
+    KParts::Part *obj = new KonqListView( parentWidget, parent, name, args.first() );
     emit objectCreated( obj );
     return obj;
   }
@@ -71,7 +75,7 @@ public:
 
 extern "C"
 {
-  void *init_libkonqtreeview()
+  void *init_libkonqlistview()
   {
     return new KonqListViewFactory;
   }
@@ -175,7 +179,7 @@ void ListViewBrowserExtension::savePropertiesAsDefault()
   m_listView->listViewWidget()->m_pProps->saveAsDefault();
 }
 
-KonqListView::KonqListView( QWidget *parentWidget, QObject *parent, const char *name )
+KonqListView::KonqListView( QWidget *parentWidget, QObject *parent, const char *name, const QString& mode )
  : KParts::ReadOnlyPart( parent, name )
 {
   setInstance( KonqFactory::instance() );
@@ -183,7 +187,7 @@ KonqListView::KonqListView( QWidget *parentWidget, QObject *parent, const char *
 
   m_browser = new ListViewBrowserExtension( this );
 
-  m_pListView = new KonqListViewWidget( this, parentWidget );
+  m_pListView = new KonqListViewWidget( this, parentWidget, mode );
 
   setWidget( m_pListView );
 

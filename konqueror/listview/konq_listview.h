@@ -42,7 +42,7 @@ class KonqListView : public KParts::ReadOnlyPart
   friend class KonqListViewWidget;
   Q_OBJECT
 public:
-  KonqListView( QWidget *parentWidget, QObject *parent, const char *name );
+  KonqListView( QWidget *parentWidget, QObject *parent, const char *name, const QString& mode );
   virtual ~KonqListView();
 
   virtual bool openURL( const KURL &url );

@@ -1,7 +1,7 @@
 [Desktop Entry]
 Type=Service
 Exec=blahfoo
-Comment=TreeView
+Comment=Tree View
 Comment[cs]=Stromový pohled
 Comment[de]=Verzeichnis-Ansicht
 Comment[eo]=Arba rigardo
@@ -11,4 +11,5 @@ Comment[sl]=Drevesni pogled
 MimeType=inode/directory
 Name=KonqTreeView
 ServiceTypes=KParts/ReadOnlyPart,Browser/View
-X-KDE-Library=libkonqtreeview
+X-KDE-Library=libkonqlistview
+X-KDE-BrowserView-Args=MixedTree

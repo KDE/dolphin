@@ -1,0 +1,9 @@
+<!DOCTYPE kpartgui>
+<kpartgui name="KonqDetailedListView">
+<MenuBar>
+ <Menu name="view">
+  <Action name="show_dot" />
+ </Menu>
+</MenuBar>
+</kpartgui>
+
