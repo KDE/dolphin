@@ -1446,13 +1446,16 @@ void KonqMainWindow::slotPartActivated( KParts::Part *part )
       disconnectExtension( ext );
     }
 
-    KActionCollection *coll = oldView->part()->actionCollection();
-    if ( coll )
+    if ( oldView->part() )
     {
-        disconnect( coll, SIGNAL( actionStatusText( const QString & ) ),
-                    this, SLOT( slotActionStatusText( const QString & ) ) );
-        disconnect( coll, SIGNAL( clearStatusText() ),
-                    this, SLOT( slotClearStatusText() ) );
+      KActionCollection *coll = oldView->part()->actionCollection();
+      if ( coll )
+      {
+          disconnect( coll, SIGNAL( actionStatusText( const QString & ) ),
+                      this, SLOT( slotActionStatusText( const QString & ) ) );
+          disconnect( coll, SIGNAL( clearStatusText() ),
+                      this, SLOT( slotClearStatusText() ) );
+      }
     }
   }
 
@@ -1526,7 +1529,7 @@ void KonqMainWindow::slotPartActivated( KParts::Part *part )
 
   m_currentView->frame()->statusbar()->repaint();
 
-  if ( oldView )
+  if ( oldView && oldView->frame() )
     oldView->frame()->statusbar()->repaint();
 
   if ( !m_bLockLocationBarURL )
