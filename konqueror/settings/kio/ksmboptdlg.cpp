@@ -34,7 +34,7 @@ KSMBOptions::KSMBOptions(QWidget *parent, const char *name)
     //   net groupbox
     // =======================
 
-    groupNet = new QGroupBox(i18n("Network settings"), this);
+    groupNet = new QGroupBox(i18n("Network Settings"), this);
     topLayout->addWidget(groupNet, 2, 0);
     topLayout->addRowSpacing(3,10);
     topLayout->setRowStretch(3,0);
@@ -99,7 +99,7 @@ KSMBOptions::KSMBOptions(QWidget *parent, const char *name)
     //   user groupbox
     // =======================
 
-    groupUser = new QGroupBox(i18n("User settings"), this);
+    groupUser = new QGroupBox(i18n("User Settings"), this);
     topLayout->addWidget(groupUser, 4, 0);
     QWhatsThis::add( groupUser, i18n( "In this area, you can configure which shares to access. You can also remove shares that you no longer want to access or that have been revoked." ) );
 
@@ -200,7 +200,7 @@ KSMBOptions::KSMBOptions(QWidget *parent, const char *name)
 
     topLayout->addRowSpacing(5,10);
 
-    groupPassword = new QHButtonGroup(i18n("Password policy (while browsing)"), this);
+    groupPassword = new QHButtonGroup(i18n("Password Policy (while browsing)"), this);
     groupPassword->setExclusive( true );
     topLayout->addWidget(groupPassword, 6, 0);
     radioPolicyAdd = new QRadioButton( i18n("Add &new bindings"), groupPassword );
