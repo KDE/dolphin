@@ -79,6 +79,9 @@ public:
 
    static int doImport(QWidget*, QString);
 
+   static ImportCommand* performImport(const QCString &, QWidget *);
+   static ImportCommand* importerFactory(const QCString &);
+
    virtual ~ImportCommand()
    { ; }
 
@@ -216,12 +219,6 @@ public:
    virtual QString requestFilename() const;
 private:
    virtual void doExecute();
-};
-
-class ImportCommandFactory
-{
-public:
-   static ImportCommand* call(const QCString &, QWidget *);
 };
 
 #endif

@@ -294,28 +294,30 @@ void XBELImportCommand::doExecute() {
    }
 }
 
-ImportCommand* ImportCommandFactory::call(const QCString &type, QWidget *top) {
-   ImportCommand *importer;
+ImportCommand* ImportCommand::importerFactory(const QCString &type) {
+   if (type == "Galeon") return new GaleonImportCommand();
+   else if (type == "IE") return new IEImportCommand();
+   else if (type == "KDE2") return new KDE2ImportCommand();
+   else if (type == "Opera") return new OperaImportCommand();
+   else if (type == "Moz") return new MozImportCommand();
+   else if (type == "NS") return new NSImportCommand();
+   else {
+      kdError() << "ImportCommand::importerFactory() - invalid type (" << type << ")!" << endl;
+      return 0;
+   }
+}
 
-   if (type == "Galeon")
-      importer = new GaleonImportCommand();
-   if (type == "IE")
-      importer = new IEImportCommand();
-   if (type == "KDE2")
-      importer = new KDE2ImportCommand();
-   if (type == "Opera")
-      importer = new OperaImportCommand();
-   if (type == "Moz")
-      importer = new MozImportCommand();
-   if (type == "NS")
-      importer = new NSImportCommand();
+ImportCommand* ImportCommand::performImport(const QCString &type, QWidget *top) {
+   ImportCommand *importer = ImportCommand::importerFactory(type);
 
    QString mydirname = importer->requestFilename();
    if (mydirname.isEmpty()) {
+      delete importer;
       return 0;
    }
    int ret = ImportCommand::doImport(top, importer->visibleName());
    if (ret == 0) {
+      delete importer;
       return 0;
    }
 

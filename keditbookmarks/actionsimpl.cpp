@@ -127,7 +127,7 @@ void ActionsImpl::slotInsertSeparator() {
 }
 
 void ActionsImpl::slotImport() { 
-   top->addImport(ImportCommandFactory::call(sender()->name()+6, top));
+   top->addImport(ImportCommand::performImport(sender()->name()+6, top));
 }
 
 void ActionsImpl::slotExportNS() {
