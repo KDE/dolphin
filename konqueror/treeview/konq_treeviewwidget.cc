@@ -92,6 +92,9 @@ KonqTreeViewWidget::KonqTreeViewWidget( KonqTreeView *parent )
   m_dragOverItem = 0L;
 
   setFrameStyle( QFrame::NoFrame | QFrame::Plain );
+
+  connect( &m_timer, SIGNAL( timeout() ), this, SLOT( slotTimeout() ) );
+  m_lstNewItems.setAutoDelete( false );
 }
 
 KonqTreeViewWidget::~KonqTreeViewWidget()
@@ -621,6 +624,7 @@ void KonqTreeViewWidget::slotStarted( const QString & /*url*/ )
 {
   if ( !m_bTopLevelComplete )
     emit m_pBrowserView->started();
+  m_timer.start( 500 );
 }
 
 void KonqTreeViewWidget::slotCompleted()
@@ -628,12 +632,16 @@ void KonqTreeViewWidget::slotCompleted()
   if ( !m_bTopLevelComplete )
     emit m_pBrowserView->completed();
   setComplete();
+  m_timer.stop();
+  slotUpdate();
 }
 
 void KonqTreeViewWidget::slotCanceled()
 {
   setComplete();
   emit m_pBrowserView->canceled();
+  m_timer.stop();
+  slotUpdate();
 }
 
 void KonqTreeViewWidget::slotClear()
@@ -645,27 +653,39 @@ void KonqTreeViewWidget::slotClear()
   
 void KonqTreeViewWidget::slotNewItem( KFileItem * _fileitem )
 {
-  kdebug( KDEBUG_INFO, 1202, "KonqTreeViewWidget::slotNewItem(...)");
-  bool isdir = S_ISDIR( _fileitem->mode() );
-
-  KURL dir ( _fileitem->url() );
-  dir.setFileName( "" );
-  kdebug( KDEBUG_INFO, 1202, "dir = %s", dir.url().ascii());
-  KonqTreeViewDir * parentDir = findDir ( dir.url( 0 ) );
-  kdebug( KDEBUG_INFO, 1202, "findDir returned %p", parentDir );
-
-  if ( parentDir ) { // adding under a directory item
-    if ( isdir )
-      new KonqTreeViewDir( this, parentDir, _fileitem );
-    else
-      new KonqTreeViewItem( this, parentDir, _fileitem );
-  } else { // adding on the toplevel
-    if ( isdir )
-      new KonqTreeViewDir( this, _fileitem );
-    else
-      new KonqTreeViewItem( this, _fileitem );
-  }
+  m_lstNewItems.append( _fileitem );
 }
+
+void KonqTreeViewWidget::slotUpdate()
+{
+  QListIterator<KFileItem> kit ( m_lstNewItems );
+  for( ; kit.current(); ++kit )
+  {
+    kdebug( KDEBUG_INFO, 1202, "KonqTreeViewWidget::slotNewItem(...)");
+    bool isdir = S_ISDIR( (*kit)->mode() );
+
+    KURL dir ( (*kit)->url() );
+    dir.setFileName( "" );
+    kdebug( KDEBUG_INFO, 1202, "dir = %s", dir.url().ascii());
+    KonqTreeViewDir * parentDir = findDir ( dir.url( 0 ) );
+    kdebug( KDEBUG_INFO, 1202, "findDir returned %p", parentDir );
+
+    if ( parentDir ) { // adding under a directory item
+      if ( isdir )
+        new KonqTreeViewDir( this, parentDir, (*kit) );
+      else
+        new KonqTreeViewItem( this, parentDir, (*kit) );
+    } else { // adding on the toplevel
+      if ( isdir )
+        new KonqTreeViewDir( this, (*kit) );
+      else
+        new KonqTreeViewItem( this, (*kit) );
+    }
+  }
+  m_lstNewItems.clear();
+  update(); // FIXME
+}
+
 
 void KonqTreeViewWidget::slotDeleteItem( KFileItem * _fileitem )
 {

@@ -23,6 +23,7 @@
 #include <qcursor.h>
 #include <qpixmap.h>
 #include <qdict.h>
+#include <qtimer.h>
 
 struct KUDSAtom;
 class QCursor;
@@ -95,6 +96,9 @@ protected slots:
   virtual void slotNewItem( KFileItem * );
   virtual void slotDeleteItem( KFileItem * );
 
+  // Called by m_timer timeout and upon completion
+  virtual void slotUpdate();
+  
   virtual void slotCurrentChanged( QListViewItem* _item ) { slotOnItem( (KonqTreeViewItem*)_item ); }
 
 protected:
@@ -172,6 +176,10 @@ protected:
   QString m_strURL;
 
   KonqTreeView *m_pBrowserView;
+
+  QTimer m_timer;
+  QList<KFileItem> m_lstNewItems;
+  
 };
 
 #endif
