@@ -894,17 +894,21 @@ void NSPluginInstance::resizePlugin(int w, int h)
 void NSPluginInstance::javascriptResult(int id, QString result) {
     QMap<int, Request*>::iterator i = _jsrequests.find( id );
     if (i != _jsrequests.end()) {
-        Request * req = i.data();
+        Request *req = i.data();
         _jsrequests.remove( i );
-        NSPluginStream s( this );
-        s.create( req->url, QString("text/plain"), req->notify );
+        NSPluginStream *s = new NSPluginStream( this );
+        connect( s, SIGNAL(finished(NSPluginStreamBase*)),
+                 SLOT(streamFinished(NSPluginStreamBase*)) );
+        _streams.append( s );
+
+        s->create( req->url, QString("text/plain"), req->notify );
         int len = result.length();
         QByteArray data( len + 1 );
         if (len)
             memcpy( data.data(), result.latin1(), len );
         data[len] = 0;
-        s.process( data, 0 );
-        s.finish( false );
+        s->process( data, 0 );
+        s->finish( false );
         delete req;
     }
 }
