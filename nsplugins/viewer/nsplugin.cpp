@@ -4,23 +4,23 @@
 
 
   Copyright (c) 2000 Matthias Hoelzer-Kluepfel <hoelzer@kde.org>
-		     Stefan Schimanski <1Stein@gmx.de>
- 
+                     Stefan Schimanski <1Stein@gmx.de>
+
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
   the Free Software Foundation; either version 2 of the License, or
   (at your option) any later version.
- 
+
   This program is distributed in the hope that it will be useful,
   but WITHOUT ANY WARRANTY; without even the implied warranty of
   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
   GNU General Public License for more details.
- 
+
   You should have received a copy of the GNU General Public License
   along with this program; if not, write to the Free Software
   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
- 
-*/                                                                            
+
+*/
 
 
 #include "NSPluginCallbackIface_stub.h"
@@ -55,9 +55,10 @@
 
 
 
-NSPluginInstance::NSPluginInstance(NPP privateData, NPPluginFuncs *pluginFuncs, 
-				   KLibrary *handle, int width, int height, 
-				   QString src, QString mime, QObject *parent )
+NSPluginInstance::NSPluginInstance(NPP privateData, NPPluginFuncs *pluginFuncs,
+                                   KLibrary *handle, int width, int height,
+                                   QString src, QString mime,
+                                   QObject *parent )
    : QObject( parent ), DCOPObject(), _destroyed(false),
      _callback(0), _handle(handle), _width(width), _height(height)
 {
@@ -84,7 +85,7 @@ NSPluginInstance::NSPluginInstance(NPP privateData, NPPluginFuncs *pluginFuncs,
    XtGetApplicationNameAndClass(qt_xdisplay(), &n, &c);
 
    _toplevel = XtAppCreateShell("shell", c, topLevelShellWidgetClass,
-				qt_xdisplay(), args, nargs);
+                                qt_xdisplay(), args, nargs);
 
    // What exactly does widget mapping mean? Without this call the widget isn't
    // embedded correctly. With it the viewer doesn't show anything in standalone mode.
@@ -95,7 +96,7 @@ NSPluginInstance::NSPluginInstance(NPP privateData, NPPluginFuncs *pluginFuncs,
    _form = XtCreateManagedWidget("form", compositeWidgetClass, _toplevel, args, nargs);
    XtRealizeWidget(_form);
 
-   // Create widget that is passed to the plugin        	
+   // Create widget that is passed to the plugin
    _area = XmCreateDrawingArea(_form, (char*)("drawingArea"), args, nargs);
    //_area = XtCreateManagedWidget( "drawingArea", constraintWidgetClass, _form, args, nargs );
    XtRealizeWidget(_area);
@@ -112,14 +113,14 @@ NSPluginInstance::NSPluginInstance(NPP privateData, NPPluginFuncs *pluginFuncs,
       s->get( src, mime, 0 );
    } else
       kdDebug() << "No src stream" << endl;
-} 
+}
 
 
 NSPluginInstance::~NSPluginInstance()
 {
-   kdDebug() << "-> ~NSPluginInstance" << endl;   
+   kdDebug() << "-> ~NSPluginInstance" << endl;
 
-   destroy();   
+   destroy();
    ::free(_npp);
 
    kdDebug() << "<- ~NSPluginInstance" << endl;
@@ -150,7 +151,7 @@ void NSPluginInstance::destroy()
 
       kdDebug() << "destroy plugin" << endl;
       if ( _pluginFuncs.destroy )
-	 _pluginFuncs.destroy( _npp, 0 );
+         _pluginFuncs.destroy( _npp, 0 );
 
       XtDestroyWidget(_area);
       XtDestroyWidget(_form);
@@ -174,37 +175,37 @@ void NSPluginInstance::requestURL( QCString url, QCString target, void *notify )
    if ( !target.isEmpty() )
    {
       if (_callback)
-      { 
-	 _callback->requestURL( url, target ); 
-	 if ( notify ) NPURLNotify( url, NPRES_DONE, notify );
+      {
+         _callback->requestURL( url, target );
+         if ( notify ) NPURLNotify( url, NPRES_DONE, notify );
       }
    } else
    {
       if (!url.isEmpty())
       {
-	 kdDebug() << "Starting new stream" << endl;
+         kdDebug() << "Starting new stream" << endl;
 
          NSPluginStream *s = new NSPluginStream( this );
-         _streams.append( s );	 	 
+         _streams.append( s );
 
-	 // make absolute url
-	 if ( KURL::isRelativeURL(url) )
-	 {
-	    KURL absUrl( _src, url );
-	    s->get( absUrl.url(), QString::null, notify );
-	 } else
-	    s->get( url, QString::null, notify );
+         // make absolute url
+         if ( KURL::isRelativeURL(url) )
+         {
+            KURL absUrl( _src, url );
+            s->get( absUrl.url(), QString::null, notify );
+         } else
+            s->get( url, QString::null, notify );
       } else
       {
-	 kdDebug() << "No src stream" << endl;      
-	 if ( notify ) NPURLNotify( url, NPRES_NETWORK_ERR, notify );
+         kdDebug() << "No src stream" << endl;
+         if ( notify ) NPURLNotify( url, NPRES_NETWORK_ERR, notify );
       }
    }
 }
 
 
 void NSPluginInstance::destroyStream( NSPluginStream *strm )
-{   
+{
    kdDebug() << "-> NSPluginInstance::destroyStream" << endl;
    _streams.remove( strm );
    delete strm;
@@ -213,13 +214,13 @@ void NSPluginInstance::destroyStream( NSPluginStream *strm )
 
 
 int NSPluginInstance::setWindow(int remove)
-{  
+{
    if (remove)
    {
       NPSetWindow(0);
       return NPERR_NO_ERROR;
    }
-   
+
    kdDebug() << "-> NSPluginInstance::setWindow" << endl;
 
    NPWindow win;
@@ -237,7 +238,7 @@ int NSPluginInstance::setWindow(int remove)
    clip.top = 0;
    clip.left = 0;
    clip.bottom = _height;
-   clip.right = _width;  
+   clip.right = _width;
    win.clipRect = clip;
 
    win.window = (void*) XtWindow(_area);
@@ -248,7 +249,7 @@ int NSPluginInstance::setWindow(int remove)
    win_info.visual = DefaultVisualOfScreen( XtScreen(_area) );
    win_info.colormap = DefaultColormapOfScreen( XtScreen(_area) );
    win_info.depth = DefaultDepthOfScreen( XtScreen(_area) );
-  
+
    win.ws_info = &win_info;
 
    NPError error = NPSetWindow( &win );
@@ -429,7 +430,7 @@ NSPluginClass::NSPluginClass( const QString &library, QObject *parent )
    : QObject( parent ), DCOPObject(), _libname(library), _constructed(false),  _initialized(false)
 {
    _handle = KLibLoader::self()->library(library.latin1());
-  
+
    kdDebug() << "Library handle=" << _handle << endl;
 
    if (!_handle)
@@ -479,10 +480,10 @@ NSPluginClass::~NSPluginClass()
 int NSPluginClass::Initialize()
 {
    kdDebug() << "NSPluginClass::Initialize()" << endl;
-                                              
+
    if (!_constructed)
-      return NPERR_GENERIC_ERROR;                             
-                                              
+      return NPERR_GENERIC_ERROR;
+
    if (_initialized)
       kdError() << "FUNC ALREADY INITIALIZED!" << endl;
 
@@ -513,7 +514,7 @@ int NSPluginClass::Initialize()
    _nsFuncs.invalidaterect = NPN_InvalidateRect;
    _nsFuncs.invalidateregion = NPN_InvalidateRegion;
    _nsFuncs.forceredraw = NPN_ForceRedraw;
-  
+
    NPError error = _NP_Initialize(&_nsFuncs, &_pluginFuncs);
 
    if (error==NPERR_NO_ERROR)
@@ -535,7 +536,8 @@ void NSPluginClass::Shutdown()
 }
 
 
-DCOPRef NSPluginClass::NewInstance(QString url, QString mimeType, int mode, QStringList argn, QStringList argv)
+DCOPRef NSPluginClass::NewInstance(QString url, QString mimeType, bool embed,
+                                   QStringList argn, QStringList argv)
 {
    kdDebug() << "-> NSPluginClass::NewInstance" << endl;
 
@@ -550,12 +552,12 @@ DCOPRef NSPluginClass::NewInstance(QString url, QString mimeType, int mode, QStr
    {
       const char *n = (const char*)argn[i].ascii();
       const char *v = (const char*)argv[i].ascii();
-  	
-      _argn[i] = strdup(n);      	
-      _argv[i] = strdup(v);    	
+
+      _argn[i] = strdup(n);
+      _argv[i] = strdup(v);
 
       if (!strcasecmp(_argn[i], "WIDTH")) width = atoi(_argv[i]);
-      if (!strcasecmp(_argn[i], "HEIGHT")) height = atoi(_argv[i]);      
+      if (!strcasecmp(_argn[i], "HEIGHT")) height = atoi(_argv[i]);
       kdDebug() << "argn=" << _argn[i] << " argv=" << _argv[i] << endl;
    }
 
@@ -564,22 +566,23 @@ DCOPRef NSPluginClass::NewInstance(QString url, QString mimeType, int mode, QStr
    strcpy(mime, mimeType.ascii());
    NPP npp = new NPP_t;
    npp->ndata = NULL;
-   NPError error = _pluginFuncs.newp(mime, npp, mode, argc, _argn, _argv, 0); 
+   NPError error = _pluginFuncs.newp(mime, npp, embed ? NP_EMBED : NP_FULL,
+                                     argc, _argn, _argv, 0);
    kdDebug() << "Result of NPP_New = " << (int)error << endl;
 
    if (error != NPERR_NO_ERROR)
-   {    
+   {
       delete npp;
-      kdDebug() << "<- PlluginClass::NewInstance = 0" << endl; 
+      kdDebug() << "<- PlluginClass::NewInstance = 0" << endl;
       return DCOPRef();
    }
 
    // Create DCOP instance for created plugin
-   NSPluginInstance *inst = new NSPluginInstance( npp, &_pluginFuncs, _handle, 
-						  width, height, src, mimeType, this );
+   NSPluginInstance *inst = new NSPluginInstance( npp, &_pluginFuncs, _handle,
+                                                  width, height, src, mimeType, this );
    if (!inst)
    {
-      kdDebug() << "<- PlluginClass::NewInstance = 0" << endl; 
+      kdDebug() << "<- PlluginClass::NewInstance = 0" << endl;
       return DCOPRef();
    }
 
@@ -645,30 +648,30 @@ NPError NPN_GetValue(NPP /*instance*/, NPNVariable variable, void *value)
    switch (variable)
    {
       case NPNVxDisplay:
-	 *((struct _XDisplay**)value) = qt_xdisplay();
-	 return NPERR_NO_ERROR;
+         *((struct _XDisplay**)value) = qt_xdisplay();
+         return NPERR_NO_ERROR;
       case NPNVxtAppContext:
-	 value = XtDisplayToApplicationContext(qt_xdisplay());
-	 return NPERR_NO_ERROR;
+         value = XtDisplayToApplicationContext(qt_xdisplay());
+         return NPERR_NO_ERROR;
 #ifdef NP4
       case NPNVjavascriptEnabledBool:
-	 (bool)(*value) = false; // FIXME: Let's have a talk with Harri :-)
-	 return NPERR_NO_ERROR;
+         (bool)(*value) = false; // FIXME: Let's have a talk with Harri :-)
+         return NPERR_NO_ERROR;
       case NPNVasdEnabledBool:
-	 (bool)(*value) = false; // FIXME: No clue what this means...
-	 return NPERR_NO_ERROR;
+         (bool)(*value) = false; // FIXME: No clue what this means...
+         return NPERR_NO_ERROR;
       case NPNVOfflineBool:
-	 (bool)(*value) = false;
-	 return NPERR_NO_ERROR;
+         (bool)(*value) = false;
+         return NPERR_NO_ERROR;
 #endif
       default:
-	 return NPERR_INVALID_PARAM;
-   } 
+         return NPERR_INVALID_PARAM;
+   }
 }
 
 
 NPError NPN_DestroyStream(NPP instance, NPStream* stream,
-			  NPReason /*reason*/)
+                          NPReason /*reason*/)
 {
    kdDebug() << "NPN_DestroyStream()" << endl;
 
@@ -723,19 +726,19 @@ NPError NPN_GetURL(NPP instance, const char *url, const char *target)
 
 
 NPError NPN_GetURLNotify(NPP instance, const char *url, const char *target,
-			 void* notifyData)
+                         void* notifyData)
 {
    kdDebug() << "NPN_GetURLNotify: url=" << url << " target=" << target << endl;
 
    NSPluginInstance *inst = (NSPluginInstance*) instance->ndata;
-   inst->requestURL( url, target, notifyData );    
+   inst->requestURL( url, target, notifyData );
 
    return NPERR_NO_ERROR;
 }
 
 
 NPError NPN_PostURL(NPP /*instance*/, const char */*url*/, const char */*target*/,
-		    uint32 /*len*/, const char */*buf*/, NPBool /*file*/)
+                    uint32 /*len*/, const char */*buf*/, NPBool /*file*/)
 {
    kdDebug() << "NPN_PostURL() [unimplemented]" << endl;
 
@@ -744,7 +747,7 @@ NPError NPN_PostURL(NPP /*instance*/, const char */*url*/, const char */*target*
 
 
 NPError NPN_PostURLNotify(NPP /*instance*/, const char */*url*/, const char */*target*/,
-			  uint32 /*len*/, const char */*buf*/, NPBool /*file*/, void */*notifyData*/)
+                          uint32 /*len*/, const char */*buf*/, NPBool /*file*/, void */*notifyData*/)
 {
    kdDebug() << "NPN_PostURL() [unimplemented]" << endl;
 
@@ -823,7 +826,7 @@ NPError NPN_SetValue(NPP /*instance*/, NPPVariable /*variable*/, void */*value*/
 /*****************************************************************************************/
 
 NSPluginStream::NSPluginStream( NSPluginInstance *instance )
-   : QObject( instance ), _instance(instance), _job(0), _stream(0), _tempFile(0L), 
+   : QObject( instance ), _instance(instance), _job(0), _stream(0), _tempFile(0L),
    _pos(0), _queue(0), _queuePos(0)
 {
    _resumeTimer = new QTimer( this );
@@ -834,7 +837,7 @@ NSPluginStream::NSPluginStream( NSPluginInstance *instance )
 NSPluginStream::~NSPluginStream()
 {
    kdDebug() << "-> ~NSPluginStream" << endl;
-   
+
    //delete _job;
 
    if (_stream)
@@ -900,17 +903,17 @@ void NSPluginStream::get( QString url, QString mimeType, void *notify )
       QString tmpFile;
       if( KIO::NetAccess::download( src, tmpFile) )
       {
-	 _instance->NPStreamAsFile( _stream, tmpFile.ascii() );
-	 _instance->NPDestroyStream( _stream, NPRES_DONE );
-	 if ( _notifyData ) _instance->NPURLNotify( url.ascii(), NPRES_NETWORK_ERR, _notifyData );
-	 delete _stream;
-	 _stream = 0;
+         _instance->NPStreamAsFile( _stream, tmpFile.ascii() );
+         _instance->NPDestroyStream( _stream, NPRES_DONE );
+         if ( _notifyData ) _instance->NPURLNotify( url.ascii(), NPRES_NETWORK_ERR, _notifyData );
+         delete _stream;
+         _stream = 0;
 
-	 KIO::NetAccess::removeTempFile( tmpFile );
-      }    
+         KIO::NetAccess::removeTempFile( tmpFile );
+      }
       return;
    } else if ( _streamType == NP_ASFILE )
-   {      
+   {
       _tempFile = new KTempFile( QString::null, src.fileName() );
       _tempFile->setAutoDelete( TRUE );
    } else
@@ -923,9 +926,9 @@ void NSPluginStream::get( QString url, QString mimeType, void *notify )
    kdDebug() << "-> KIO::get( " << url << " )" << endl;
    _job = KIO::get(url, false, false);
    connect(_job, SIGNAL(data(KIO::Job *, const QByteArray &)),
-	   this, SLOT(data(KIO::Job *, const QByteArray &)));
+           this, SLOT(data(KIO::Job *, const QByteArray &)));
    connect(_job, SIGNAL(result(KIO::Job *)),
-	   this, SLOT(result(KIO::Job *)));
+           this, SLOT(result(KIO::Job *)));
    kdDebug() << "<- KIO::get" << endl;
 }
 
@@ -934,7 +937,7 @@ void NSPluginStream::get( QString url, QString mimeType, void *notify )
 void NSPluginStream::data(KIO::Job * /*job*/, const QByteArray &data)
 {
    //kdDebug() << "-> NSPluginStream::data" << endl;
-   unsigned int pos = process( data, 0 );  
+   unsigned int pos = process( data, 0 );
    if (pos<data.size())
    {
       kdDebug() << "pos<size" << endl;
@@ -959,9 +962,9 @@ void NSPluginStream::resume()
       _queuePos = pos;
       if (_queuePos>=_queue->size())
       {
-	 delete _queue;
-	 _queue = 0;
-	 _queuePos = 0;
+         delete _queue;
+         _queue = 0;
+         _queuePos = 0;
       }
    }
 
@@ -994,13 +997,13 @@ unsigned int NSPluginStream::process( const QByteArray &data, int start )
       //kdDebug() << "<- Feeding stream: sent = " << sent << endl;
 
       if (sent==0) // interrupt the stream for a few ms
-	 break;
+         break;
 
       if (_tempFile)
-      {      	 	
-	 _tempFile->dataStream()->writeRawBytes( d, sent );      	
+      {
+         _tempFile->dataStream()->writeRawBytes( d, sent );
       }
-      
+
       to_sent -= sent;
       _pos += sent;
       d += sent;
@@ -1018,19 +1021,19 @@ void NSPluginStream::result(KIO::Job *job)
    {
       if ( _tempFile )
       {
-	 _tempFile->close();
-	 _instance->addTempFile(_tempFile);	 
-	 _instance->NPStreamAsFile(_stream, _tempFile->name().ascii());
-	 _tempFile = 0;	 	 
+         _tempFile->close();
+         _instance->addTempFile(_tempFile);
+         _instance->NPStreamAsFile(_stream, _tempFile->name().ascii());
+         _tempFile = 0;
       }
-      
+
       _instance->NPDestroyStream( _stream, NPRES_DONE );
       if ( _notifyData ) _instance->NPURLNotify( _url, NPRES_DONE, _notifyData );
    } else
    {
       // close temp file
       if ( _tempFile )
-	 _tempFile->close();
+         _tempFile->close();
 
       // destroy stream
       _instance->NPDestroyStream(_stream, NPRES_NETWORK_ERR);
@@ -1039,6 +1042,6 @@ void NSPluginStream::result(KIO::Job *job)
       _stream = 0;
 
       // destroy NSPluginStream object
-      _instance->destroyStream( this );      
+      _instance->destroyStream( this );
    }
 }

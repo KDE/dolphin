@@ -189,7 +189,8 @@ public:
   // shutdown method
   void Shutdown();
 
-  DCOPRef NewInstance(QString url, QString mimeType, int mode, QStringList argn, QStringList argv);
+  DCOPRef NewInstance(QString url, QString mimeType, bool embed, 
+		      QStringList argn, QStringList argv);
   
 private:
   KLibrary *_handle;

@@ -5,22 +5,22 @@
 
   Copyright (c) 2000 Matthias Hoelzer-Kluepfel <hoelzer@kde.org>
                      Stefan Schimanski <1Stein@gmx.de>
- 
+
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
   the Free Software Foundation; either version 2 of the License, or
   (at your option) any later version.
- 
+
   This program is distributed in the hope that it will be useful,
   but WITHOUT ANY WARRANTY; without even the implied warranty of
   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
   GNU General Public License for more details.
- 
+
   You should have received a copy of the GNU General Public License
   along with this program; if not, write to the Free Software
   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
- 
-*/                                                                            
+
+*/
 
 
 #include <qdir.h>
@@ -87,12 +87,12 @@ NSPluginLoader::NSPluginLoader()
   // trap dcop register events
   kapp->dcopClient()->setNotifications(true);
   QObject::connect(kapp->dcopClient(), SIGNAL(applicationRegistered(const QCString&)),
-		   this, SLOT(applicationRegistered(const QCString&)));
+                   this, SLOT(applicationRegistered(const QCString&)));
 }
 
 
 NSPluginLoader *NSPluginLoader::instance()
-{   
+{
   if (!s_instance)
     s_instance = new NSPluginLoader;
 
@@ -109,7 +109,7 @@ void NSPluginLoader::release()
    kdDebug() << "NSPluginLoader::release -> " <<  s_refCount << endl;
 
    if (s_refCount==0)
-   {      
+   {
       delete s_instance;
       s_instance = 0;
    }
@@ -145,28 +145,28 @@ void NSPluginLoader::scanPlugins()
     {
       line = cache.readLine();
       if (line.isEmpty() || (line.left(1) == "#"))
-	continue;
+        continue;
 
       if (line.left(1) == "[")
-	{
-	  plugin = line.mid(1,line.length()-2);
-	  continue;
-	}
+        {
+          plugin = line.mid(1,line.length()-2);
+          continue;
+        }
 
       QStringList desc = QStringList::split(':', line, TRUE);
       QString mime = desc[0].stripWhiteSpace();
       QStringList suffixes = QStringList::split(',', desc[1].stripWhiteSpace());
       if (!mime.isEmpty())
-	{
-	  // insert the mimetype -> plugin mapping
-	  _mapping.insert(mime, new QString(plugin));
-	  
-	  // insert the suffix -> mimetype mapping
-	  QStringList::Iterator suffix;
-	  for (suffix = suffixes.begin(); suffix != suffixes.end(); ++suffix)
-	    if (!_filetype.find((*suffix).stripWhiteSpace()))
-	      _filetype.insert((*suffix).stripWhiteSpace(), new QString(mime));
-	}
+        {
+          // insert the mimetype -> plugin mapping
+          _mapping.insert(mime, new QString(plugin));
+
+          // insert the suffix -> mimetype mapping
+          QStringList::Iterator suffix;
+          for (suffix = suffixes.begin(); suffix != suffixes.end(); ++suffix)
+            if (!_filetype.find((*suffix).stripWhiteSpace()))
+              _filetype.insert((*suffix).stripWhiteSpace(), new QString(mime));
+        }
     }
 }
 
@@ -178,7 +178,7 @@ QString NSPluginLoader::lookupMimeType(const QString &url)
     {
       QString ext = QString(".")+dit2.currentKey();
       if (url.right(ext.length()) == ext)
-	return *dit2.current();
+        return *dit2.current();
       ++dit2;
     }
   return QString::null;
@@ -198,7 +198,7 @@ QString NSPluginLoader::lookup(const QString &mimeType)
 bool NSPluginLoader::loadViewer()
 {
    kdDebug() << "NSPluginLoader::loadViewer" << endl;
-  
+
    _running = false;
    _process = new KProcess;
 
@@ -208,16 +208,16 @@ bool NSPluginLoader::loadViewer()
 
    connect( _process, SIGNAL(processExited(KProcess*)), this, SLOT(processTerminated(KProcess*)) );
 
-   // find the external viewer process   
+   // find the external viewer process
    QString viewer = KGlobal::dirs()->findExe("nspluginviewer");
    if (!viewer)
    {
       kdDebug() << "can't find nspluginviewer" << endl;
-      delete _process;	      	
+      delete _process;
       return false;
    }
 
-   // find the external artsdsp process   
+   // find the external artsdsp process
 #if 0
    QString artsdsp = KGlobal::dirs()->findExe("artsdsp");
    if (!artsdsp)
@@ -229,7 +229,7 @@ bool NSPluginLoader::loadViewer()
       *_process << artsdsp;
    }
 #endif
-   
+
    *_process << viewer;
 
    // tell the process it's parameters
@@ -247,23 +247,23 @@ bool NSPluginLoader::loadViewer()
       //kapp->processEvents(); // would lead to recursive calls in khtml
       sleep(1); kdDebug() << "sleep" << endl;
       cnt++;
-      if (cnt >= 5)
+      if (cnt >= 10)
       {
-	 kdDebug() << "timeout" << endl;
-	 delete _process;      
-	 return false;
-      } 
+         kdDebug() << "timeout" << endl;
+         delete _process;
+         return false;
+      }
 
       if (!_process->isRunning())
       {
-	 kdDebug() << "nspluginviewer terminated" << endl;
-	 delete _process;
-	 return false;
-      }      
-   }      
+         kdDebug() << "nspluginviewer terminated" << endl;
+         delete _process;
+         return false;
+      }
+   }
 
    // get viewer dcop interface
-   _viewer = new NSPluginViewerIface_stub( _dcopid, "viewer" );   
+   _viewer = new NSPluginViewerIface_stub( _dcopid, "viewer" );
 
    return _viewer!=0;
 }
@@ -271,7 +271,7 @@ bool NSPluginLoader::loadViewer()
 
 void NSPluginLoader::unloadViewer()
 {
-   kdDebug() << "-> NSPluginLoader::unloadViewer" << endl;   
+   kdDebug() << "-> NSPluginLoader::unloadViewer" << endl;
 
    if ( _viewer )
    {
@@ -283,7 +283,7 @@ void NSPluginLoader::unloadViewer()
       _process = 0;
    }
 
-   kdDebug() << "<- NSPluginLoader::unloadViewer" << endl;  
+   kdDebug() << "<- NSPluginLoader::unloadViewer" << endl;
 }
 
 
@@ -313,8 +313,9 @@ void NSPluginLoader::processTerminated(KProcess *proc)
 }
 
 
-NSPluginInstance *NSPluginLoader::NewInstance(QWidget *parent, QString url, QString mimeType, int type,
-					      QStringList argn, QStringList argv)
+NSPluginInstance *NSPluginLoader::NewInstance(QWidget *parent, QString url,
+                                              QString mimeType, bool embed,
+                                              QStringList argn, QStringList argv)
 {
    kdDebug() << "-> NSPluginLoader::NewInstance( parent=" << (void*)parent << ", url=" << url << ", mime=" << mimeType << ", ...)" << endl;
 
@@ -325,8 +326,8 @@ NSPluginInstance *NSPluginLoader::NewInstance(QWidget *parent, QString url, QStr
 
       if ( !_viewer )
       {
-	 kdDebug() << "No viewer dcop stub found" << endl;
-	 return 0;
+         kdDebug() << "No viewer dcop stub found" << endl;
+         return 0;
       }
    }
 
@@ -353,7 +354,7 @@ NSPluginInstance *NSPluginLoader::NewInstance(QWidget *parent, QString url, QStr
       if (argn[i].lower() == "width") width = argv[i].toUInt();
       if (argn[i].lower() == "height") height = argv[i].toUInt();
    }
-  
+
    // lookup plugin for mime type
    QString plugin_name = lookup(mime);
    if (plugin_name.isEmpty())
@@ -363,7 +364,7 @@ NSPluginInstance *NSPluginLoader::NewInstance(QWidget *parent, QString url, QStr
    }
 
    // get plugin class object
-   DCOPRef cls_ref = _viewer->NewClass( plugin_name );   
+   DCOPRef cls_ref = _viewer->NewClass( plugin_name );
    if ( cls_ref.isNull() )
    {
       kdDebug() << "Couldn't create plugin class" << endl;
@@ -371,17 +372,22 @@ NSPluginInstance *NSPluginLoader::NewInstance(QWidget *parent, QString url, QStr
    }
    NSPluginClassIface_stub *cls = new NSPluginClassIface_stub( cls_ref.app(), cls_ref.object() );
 
+   // handle special plugin cases
+   if ( mime=="application/x-shockwave-flash" )
+       embed = true; // flash doesn't work in full mode :(
+
+
    // get plugin instance
-   DCOPRef inst_ref = cls->NewInstance( url, mime, type, argn, argv );   
+   DCOPRef inst_ref = cls->NewInstance( url, mime, embed, argn, argv );
    if ( inst_ref.isNull() )
    {
       kdDebug() << "Couldn't create plugin instance" << endl;
       return 0;
    }
-   NSPluginInstance *plugin = new NSPluginInstance( parent, inst_ref.app(), inst_ref.object() ); 
+   NSPluginInstance *plugin = new NSPluginInstance( parent, inst_ref.app(), inst_ref.object() );
    _plugins.append( plugin );
-   connect( plugin, SIGNAL(destroyed(NSPluginInstance *)), 
-	    this, SLOT(pluginDestroyed(NSPluginInstance *)) );
+   connect( plugin, SIGNAL(destroyed(NSPluginInstance *)),
+            this, SLOT(pluginDestroyed(NSPluginInstance *)) );
 
    kdDebug() << "<- NSPluginLoader::NewInstance = " << (void*)plugin << endl;
    return plugin;

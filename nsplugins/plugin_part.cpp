@@ -147,9 +147,9 @@ bool PluginPart::openURL(const KURL &url)
    m_url = url;
    emit setWindowCaption( url.prettyURL() );
 
-   // delete _widget; _widget = 0;
    QString surl = url.url();
    QString smime = _extension->urlArgs().serviceType;
+   bool embed = false;
 
    // handle arguments
    QStringList argn, argv;
@@ -171,8 +171,16 @@ bool PluginPart::openURL(const KURL &url)
 
          if (!name.isEmpty())
          {
-            argn << name;
-            argv << value;
+             // hack to pass view mode from khtml
+             if ( name=="NSPLUGINEMBED" )
+             {
+                 embed = true;
+                 kdDebug() << "********************************* NSPLUGINEMBED ************************" << endl;
+             } else
+             {
+                 argn << name;
+                 argv << value;
+             }
          }
 
          if (surl.isEmpty() && (name=="SRC" || name=="DATA" || name=="MOVIE"))
@@ -206,7 +214,7 @@ bool PluginPart::openURL(const KURL &url)
    }
 
    // create plugin widget
-   _widget = _loader->NewInstance( _canvas, surl, smime, 1, argn, argv );
+   _widget = _loader->NewInstance( _canvas, surl, smime, embed, argn, argv );
    if ( _widget )
    {
       _widget->resize( _canvas->width(), _canvas->height() );
