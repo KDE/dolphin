@@ -231,7 +231,7 @@ KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name)
     sizeBox ->insertItem( i18n("(none)") );
     sizeBox ->insertItem( i18n("At Least") );
     sizeBox ->insertItem( i18n("At Most") );
-    sizeBox ->insertItem( i18n("Equal to") );
+    sizeBox ->insertItem( i18n("Equal To") );
 
     sizeUnitBox ->insertItem( "Bytes" );
     sizeUnitBox ->insertItem( "Kb" );
