@@ -37,7 +37,8 @@ KPluginOptions::KPluginOptions( KConfig* config, QString group, QWidget *parent,
     toplevel->addWidget( globalGB );
     enablePluginsGloballyCB = new QCheckBox( i18n( "Enable &Plugins globally" ), globalGB );
     connect( enablePluginsGloballyCB, SIGNAL( clicked() ), this, SLOT( changed() ) );
-
+    QSpacerItem* spacer = new QSpacerItem( 20, 20, QSizePolicy::Minimum, QSizePolicy::Expanding );
+    toplevel->addItem( spacer );
 
     /***************************************************************************
      ********************** WhatsThis? items ***********************************
