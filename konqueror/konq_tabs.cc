@@ -49,6 +49,7 @@
 #define CLOSETAB_ID 6
 #define RELOAD_ALL_ID 7
 #define CLOSE_OTHER_ID 8
+#define OTHERTABS_ID 9
 
 //###################################################################
 
@@ -91,7 +92,7 @@ KonqFrameTabs::KonqFrameTabs(QWidget* parent, KonqFrameContainerBase* parentCont
                             m_pViewManager->mainWindow()->action("reload")->shortcut() );
   m_pPopupMenu->insertSeparator();
   m_pSubPopupMenuTab = new QPopupMenu( this );
-  m_pPopupMenu->insertItem( i18n("Other Tabs" ), m_pSubPopupMenuTab );
+  m_pPopupMenu->insertItem( i18n("Other Tabs" ), m_pSubPopupMenuTab, OTHERTABS_ID );
   connect( m_pSubPopupMenuTab, SIGNAL( activated ( int ) ),
            this, SLOT( slotSubPopupMenuTabActivated( int ) ) );
   m_pPopupMenu->insertSeparator();
@@ -447,10 +448,12 @@ void KonqFrameTabs::slotMovedTab( int from, int to )
 
 void KonqFrameTabs::slotContextMenu( QWidget *w, const QPoint &p )
 {
-  m_pPopupMenu->setItemEnabled( BREAKOFF_ID, m_pChildFrameList->count()>1 );
-  m_pPopupMenu->setItemEnabled( CLOSETAB_ID, m_pChildFrameList->count()>1 );
-  m_pPopupMenu->setItemEnabled( RELOAD_ALL_ID, m_pChildFrameList->count()>1 );
-  m_pPopupMenu->setItemEnabled( CLOSE_OTHER_ID, m_pChildFrameList->count()>1 );
+  uint tabCount = m_pChildFrameList->count();
+  m_pPopupMenu->setItemEnabled( BREAKOFF_ID, tabCount>1 );
+  m_pPopupMenu->setItemEnabled( CLOSETAB_ID, tabCount>1 );
+  m_pPopupMenu->setItemEnabled( RELOAD_ALL_ID, tabCount>1 );
+  m_pPopupMenu->setItemEnabled( CLOSE_OTHER_ID, tabCount>1 );
+  m_pPopupMenu->setItemEnabled( OTHERTABS_ID, tabCount>1 );
   // Yes, I know this is an unchecked dynamic_cast - I'm casting sideways in a class hierarchy and it could crash one day, but I haven't checked setWorkingTab so I don't know if it can handle nulls.
   m_pViewManager->mainWindow()->setWorkingTab( dynamic_cast<KonqFrameBase*>(w) );
   refreshSubPopupMenuTab();
@@ -488,7 +491,6 @@ void KonqFrameTabs::refreshSubPopupMenuTab()
                                     SLOT( slotRemoveOtherTabsPopup() ),
                                     m_pViewManager->mainWindow()->action("removeothertabs")->shortcut(),
                                     CLOSE_OTHER_ID );
-
 }
 
 void KonqFrameTabs::slotCloseRequest( QWidget *w )
