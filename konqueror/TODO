@@ -9,5 +9,7 @@ filename but would only use it to write, not read at startup.
 This involves making New/Mimetype and New/Application built-in
 templates, just like New/Folder, since the file would be not used at all.
 
-and see http://bugs.kde.org/db/pa/lkfm.html !
+- see grep TODO *.cc *.h *.idl
+
+- see http://bugs.kde.org/db/pa/lkfm.html !
 

@@ -192,6 +192,7 @@ public:
   
   virtual void setSelected( KIconContainerItem* _item, bool _selected );
   virtual bool isSelected( KIconContainerItem* _item ) { return _item->isSelected(); }
+  virtual void selectAll();
   virtual void unselectAll();
   
 signals:

@@ -63,6 +63,7 @@
 #include <kkeydialog.h>
 #include <klineeditdlg.h>
 #include <kpixmapcache.h>
+#include <kprocess.h>
 #include <kprotocolmanager.h>
 #include <kpropsdlg.h>
 #include <kservices.h>
@@ -71,7 +72,6 @@
 #include <kwm.h>
 #include <userpaths.h>
 
-#include <iostream>
 #include <assert.h>
 
 enum _ids {
@@ -488,7 +488,8 @@ bool KonqMainView::mappingCreateToolbar( OpenPartsUI::ToolBarFactory_ptr factory
 
   m_vToolBar = factory->create( OpenPartsUI::ToolBarFactory::Transient );
 
-  m_vToolBar->setFullWidth( false );
+  m_vToolBar->setFullWidth( true ); // was false (why?). Changed by David so
+                                    // that alignItemRight works
 
   CORBA::WString_var toolTip;
   
@@ -554,7 +555,7 @@ bool KonqMainView::mappingCreateToolbar( OpenPartsUI::ToolBarFactory_ptr factory
   if ( !m_Props->m_bShowToolBar )
     m_vToolBar->enable( OpenPartsUI::Hide );
 
-  //TODO: m_vToolBar->setBarPos( convert_to_openpartsui_bar_pos( m_Props->m_toolBarPos ) ) );
+  m_vToolBar->setBarPos( (OpenPartsUI::BarPosition)(m_Props->m_toolBarPos) );
 
   m_vLocationBar = factory->create( OpenPartsUI::ToolBarFactory::Transient );
 
@@ -573,7 +574,8 @@ bool KonqMainView::mappingCreateToolbar( OpenPartsUI::ToolBarFactory_ptr factory
   }
     
   //TODO: support completion in opToolBar->insertLined....
-  //TODO: m_vLocationBar->setBarPos( convert_to_openpartsui_bar_pos( m_Props->m_locationBarPos ) ) );
+
+  m_vLocationBar->setBarPos( (OpenPartsUI::BarPosition)(m_Props->m_locationBarPos) );
 
   m_vLocationBar->enable( OpenPartsUI::Show );
   if ( !m_Props->m_bShowLocationBar )
@@ -835,7 +837,7 @@ void KonqMainView::setItemEnabled( OpenPartsUI::Menu_ptr menu, int id, bool enab
   if ( !CORBA::is_nil( menu ) ) 
     menu->setItemEnabled( id, enable );
  
-  if ( !CORBA::is_nil( m_vToolBar ) ) // TODO : and if such ID exists in toolbar
+  if ( !CORBA::is_nil( m_vToolBar ) )
     m_vToolBar->setItemEnabled( id, enable );
 } 
 
@@ -1018,12 +1020,32 @@ void KonqMainView::slotOpenLocation()
 
 void KonqMainView::slotToolFind()
 {
-  // TODO
+  KShellProcess proc;
+  proc << "kfind";
+  
+  KURL url ( currentURL() );
+
+  if( url.isLocalFile() )
+    proc << url.directory();
+
+  proc.start(KShellProcess::DontCare);
 }
 
 void KonqMainView::slotPrint()
 {
   // TODO
+  // It was simple in kfm : call KHTMLWidget::print()
+  // but now it depends on the view...
+  // PROBLEM : KHTMLWidget::print() does too much.
+  // It calls QPrinter::setup() AND prints the HTML page
+
+  // We need to : 
+  // if current view is a HTML view, call that method
+  // otherwise call QPrinter::setup ourselves, and
+  // implement print() in icon/tree/text/(part??) views
+  // But it's silly to print an icon view, isn't it ?
+  // Then why not simply disable "print" if not a HTML view ?
+  //  ... ideas please ! (David)
 }
 
 void KonqMainView::slotClose()
@@ -1053,12 +1075,30 @@ void KonqMainView::slotDelete()
 
 void KonqMainView::slotSelect()
 {
-  // TODO
+  KLineEditDlg l( i18n("Select files:"), "", this );
+  if ( l.exec() )
+  {
+    QString pattern = l.text();
+    if ( pattern.isEmpty() )
+      return;
+
+    // QRegExp re( pattern, true, true );
+    // view->getActiveView()->select( re, true );
+
+    // TODO
+    // 1) Do we need unicode support ?
+    // 2) Let's let views implement this (icon, tree, html??)
+    // 3) To add : Konqueror::View::supportsSelectRegExp()
+    // (in order to enabled/disable menu item)
+  }
 }
 
 void KonqMainView::slotSelectAll()
 {
   // TODO
+  // Icon, tree, HTML, text :: all except part views should handle that
+  // (and return true to Konqueror::View::supportsSelectAll())
+  // m_currentView->selectAll();
 }
 
 void KonqMainView::slotSaveGeometry()

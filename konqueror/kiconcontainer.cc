@@ -295,6 +295,14 @@ void KIconContainer::setCurrentItem( iterator _item )
   emit currentChanged( 0L );
 }
 
+void KIconContainer::selectAll()
+{
+  iterator it = begin();
+  for( ; it != end(); ++it )
+    if ( !(*it)->isSelected() )
+      setSelected( &**it, true );
+}
+
 void KIconContainer::unselectAll()
 {
   iterator it = begin();

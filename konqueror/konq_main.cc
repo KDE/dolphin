@@ -23,16 +23,11 @@
 #include <komApplication.h>
 #include <komBase.h>
 
-#include <kmimetypes.h>
-#include <kmimemagic.h>
 #include <kservices.h>
-#include <kuserprofile.h>
 #include <kregistry.h>
 #include <kregfactories.h>
-#include <kio_job.h>
 #include <kio_cache.h>
 
-#include <khtml.h>
 #include <kimgio.h>
 #include <kapp.h>
 #include <klocale.h>
@@ -59,9 +54,6 @@
 #include "konq_treeview.h"
 #include "konq_txtview.h"
 #include "konq_plugins.h"
-
-// DEBUG
-#include <iostream>
 
 void sig_handler( int signum );
 void sig_term_handler( int signum );
