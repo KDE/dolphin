@@ -170,7 +170,7 @@ KonqPopupMenu::KonqPopupMenu( const KFileItemList &items,
 
   addMerge( "konqueror" );
 
-  m_paNewView = new KAction( i18n( "New Window" ), 0, this, SLOT( slotPopupNewView() ), &m_ownActions, "newview" );
+  m_paNewView = new KAction( i18n( "New Window" ), "window_new", 0, this, SLOT( slotPopupNewView() ), &m_ownActions, "newview" );
 
   if ( ( isCurrentTrash && currentDir ) ||
        ( m_lstItems.count() == 1 && bTrashIncluded ) )
@@ -241,7 +241,7 @@ KonqPopupMenu::KonqPopupMenu( const KFileItemList &items,
     }
   }
 
-  act = new KAction( i18n( "Add To Bookmarks" ), 0, this, SLOT( slotPopupAddToBookmark() ), &m_ownActions, "addbookmark" );
+  act = new KAction( i18n( "Add To Bookmarks" ), "bookmark_add", 0, this, SLOT( slotPopupAddToBookmark() ), &m_ownActions, "addbookmark" );
   addAction( act );
 
   //////////////////////////////////////////////////////
