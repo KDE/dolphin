@@ -400,6 +400,8 @@ void UserAgentOptions::changePressed()
   UAProviderDlg* dlg = new UAProviderDlg( i18n("Modify Identification"),
                                           this, 0L, m_provider );
   QListViewItem *index = lv_siteUABindings->currentItem();
+  if(!index)
+    return;
   QString old_site = index->text(0);
   dlg->setSiteName( old_site );
   dlg->setIdentity( index->text(1) );
