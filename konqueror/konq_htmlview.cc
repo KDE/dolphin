@@ -23,6 +23,7 @@
 #include "konq_childview.h"
 #include "konq_txtview.h"
 #include "konq_defaults.h"
+#include "konq_progressproxy.h"
 
 #include <sys/stat.h>
 #include <unistd.h>
@@ -44,7 +45,6 @@
 #include <kmimetypes.h>
 #include <kapp.h>
 #include <kpixmapcache.h>
-#include <konq_progressproxy.h>
 
 #include <opUIUtils.h>
 

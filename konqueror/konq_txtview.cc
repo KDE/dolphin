@@ -21,6 +21,7 @@
 #include "konq_mainview.h"
 #include "konq_defaults.h"
 #include "konq_searchdia.h"
+#include "konq_progressproxy.h"
 
 #include <sys/stat.h>
 #include <unistd.h>
@@ -40,7 +41,6 @@
 #include <kapp.h>
 #include <kglobal.h>
 #include <kpixmapcache.h>
-#include <konq_progressproxy.h>
 
 #define TOOLBAR_SEARCH_ID Browser::View::TOOLBAR_ITEM_ID_BEGIN
 #define TOOLBAR_EDITOR_ID Browser::View::TOOLBAR_ITEM_ID_BEGIN + 1
