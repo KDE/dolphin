@@ -361,7 +361,8 @@ public slots:
 protected slots:
   void slotViewCompleted( KonqView * view );
 
-  void slotURLEntered( const QString &text, const Qt::ButtonState &state );
+  void slotURLEntered( const QString &text );
+  void slotURLEntered( const QString &text, ButtonState state );
 
   void slotFileNewAboutToShow();
   void slotLocationLabelActivated();

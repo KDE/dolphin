@@ -289,15 +289,7 @@ bool KonqCombo::eventFilter( QObject *o, QEvent *ev )
         if ( type == QEvent::KeyPress ) {
             QKeyEvent *e = static_cast<QKeyEvent *>( ev );
             if (e->key() == Key_Return || e->key() == Key_Enter) {
-                emit returnPressed();
-                emit returnPressed( currentText() );
                 emit activated( currentText(), e->state() );
-
-                KCompletionBox *box=completionBox(false);
-                if ( box && box->isVisible() )
-                    box->hide();
-
-                return trapReturnKey();
             }
 
             if ( KStdAccel::isEqual( e, KStdAccel::deleteWordBack() ) ||

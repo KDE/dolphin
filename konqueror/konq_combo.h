@@ -67,7 +67,7 @@ protected:
     void selectWord(QKeyEvent *e);
 
 signals:
-    void activated( const QString &, const Qt::ButtonState & );
+    void activated( const QString &, ButtonState );
 
 private slots:
     void slotReturnPressed();
