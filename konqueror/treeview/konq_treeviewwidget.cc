@@ -29,8 +29,8 @@
 #include <kdirlister.h>
 #include <kdirwatch.h>
 #include <kglobal.h>
-#include <kio_job.h>
-#include <kio_paste.h>
+#include <kio/job.h>
+#include <kio/paste.h>
 #include <klocale.h>
 #include <stdlib.h>
 #include <kmessagebox.h>

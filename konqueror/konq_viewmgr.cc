@@ -59,7 +59,7 @@ KonqViewManager::~KonqViewManager()
 
 KParts::ReadOnlyPart* KonqViewManager::splitView ( Qt::Orientation orientation )
 {
-  kdebug(0, 1202, "KonqViewManager::splitView(default)" );
+  kDebugInfo(1202, "KonqViewManager::splitView(default)" );
 
   return splitView( orientation, m_pMainView->currentChildView()->url() );
 }

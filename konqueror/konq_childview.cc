@@ -24,7 +24,7 @@
 #include "konq_run.h"
 #include "konq_viewmgr.h"
 #include "konq_mainview.h"
-#include <kio_job.h>
+#include <kio/job.h>
 
 #include <assert.h>
 
@@ -354,7 +354,7 @@ void KonqChildView::go( QList<HistoryEntry> &stack, int steps )
   stack.setAutoDelete( false );
   stack.removeFirst();
   stack.setAutoDelete( true );
-  
+
   if ( m_bViewStarted )
     stop();
 
@@ -391,7 +391,7 @@ void KonqChildView::go( QList<HistoryEntry> &stack, int steps )
   m_pMainView->setLocationBarURL( this, h->url.decodedURL() );
 
   delete h;
-  
+
   if ( m_pMainView->currentChildView() == this )
     m_pMainView->updateToolBarActions();
 }

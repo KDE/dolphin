@@ -39,8 +39,7 @@
 #include <klocale.h>
 #include <kfiledialog.h>
 #include <kurl.h>
-#include <kio_error.h>
-#include <kio_job.h>
+#include <kio/job.h>
 #include <kmimetype.h>
 #include <konqdefaults.h>
 #include <konq_htmlsettings.h>

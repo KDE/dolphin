@@ -68,7 +68,7 @@ KonqViewFactory KonqFactory::createView( const QString &serviceType,
 				         KService::Ptr *serviceImpl,
 				         KTrader::OfferList *serviceOffers )
 {
-  kdebug(0,1202,QString("trying to create view for \"%1\"").arg(serviceType));
+  kDebugInfo(1202,QString("trying to create view for \"%1\"").arg(serviceType));
 
   // First check user's settings
   QString mimeTypeGroup = serviceType.left(serviceType.find("/"));
@@ -83,10 +83,10 @@ KonqViewFactory KonqFactory::createView( const QString &serviceType,
 
   KService::Ptr service;
   KLibFactory *factory = 0L;
-  
+
   while ( 42 )
   {
-  
+
     if ( offers.count() == 0 )
       return KonqViewFactory();
 
@@ -122,7 +122,7 @@ KonqViewFactory KonqFactory::createView( const QString &serviceType,
 
     if ( factory )
       break;
-    
+
     offers.remove( offers.begin() );
   }
 

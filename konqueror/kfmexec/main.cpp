@@ -7,8 +7,8 @@
 #include <kdebug.h>
 #include <kurl.h>
 #include <kmessagebox.h>
-#include <kio_job.h>
-#include <kio_netaccess.h>
+#include <kio/job.h>
+#include <kio/netaccess.h>
 #include <klocale.h>
 #include <kcmdlineargs.h>
 #include <kaboutdata.h>

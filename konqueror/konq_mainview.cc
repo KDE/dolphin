@@ -60,7 +60,7 @@
 #include <konqpopupmenu.h>
 #include <konqsettings.h>
 #include <kprogress.h>
-#include <kio_job.h>
+#include <kio/job.h>
 #include <ktrader.h>
 #include <kapp.h>
 #include <dcopclient.h>

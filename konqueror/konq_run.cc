@@ -41,7 +41,7 @@ KonqRun::~KonqRun()
 
 void KonqRun::foundMimeType( const char *_type )
 {
-  kdebug(0,1202,"FILTERING %s", _type);
+  kDebugInfo(1202,"FILTERING %s", _type);
 
   m_bFoundMimeType = true;
 
@@ -54,7 +54,7 @@ void KonqRun::foundMimeType( const char *_type )
     m_timer.start( 0, true );
     return;
   }
-  kdebug(0,1202,"Nothing special to do here");
+  kDebugInfo(1202,"Nothing special to do here");
 
   KRun::foundMimeType( _type );
 }

@@ -19,10 +19,10 @@
 #include <kfileitem.h>
 #include <kdirlister.h>
 #include <klocale.h>
-#include <kio_job.h>
+#include <kio/job.h>
 #include <kuserpaths.h>
 #include <kdebug.h>
-#include <kio_paste.h>
+#include <kio/paste.h>
 #include <kglobal.h>
 #include <kdesktopfile.h>
 #include <konqsettings.h>
@@ -666,16 +666,16 @@ void KonqDirTree::scanDir( QListViewItem *parent, const QString &path, bool isRo
       cp.sprintf( "cp %s %s", homeLnk.local8Bit().data(), path.local8Bit().data() );
       system( cp.data() );
     }
-    
+
     QString rootLnk = locate( "data", "konqueror/dirtree/root.desktop", KonqFactory::instance() );
-    
+
     if ( !rootLnk.isEmpty() )
     {
       QCString cp;
       cp.sprintf( "cp %s %s", rootLnk.local8Bit().data(), path.local8Bit().data() );
       system( cp.data() );
     }
-    
+
     dir.setPath( path ); //hack to make QDir to consider the dir to be dirty and re-read it
     entries = dir.entryList( QDir::Files );
   }

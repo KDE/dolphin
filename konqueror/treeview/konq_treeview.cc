@@ -25,8 +25,8 @@
 #include <kcursor.h>
 #include <kdirlister.h>
 #include <kfileitem.h>
-#include <kio_paste.h>
-#include <kio_job.h>
+#include <kio/paste.h>
+#include <kio/job.h>
 #include <kdebug.h>
 #include <konq_propsview.h>
 #include <kaction.h>
@@ -104,7 +104,7 @@ void TreeViewBrowserExtension::updateActions()
   m_treeView->treeViewWidget()->selectedItems( selection );
 
   bool cutcopy, move;
-  
+
   cutcopy = move = ( selection.count() != 0 );
   bool bInTrash = false;
   QValueList<KonqTreeViewItem*>::ConstIterator it = selection.begin();
@@ -127,13 +127,13 @@ void TreeViewBrowserExtension::updateActions()
   emit enableAction( "trash", move );
   emit enableAction( "pastecut", paste );
   emit enableAction( "pastecopy", paste );
-} 
+}
 
 void TreeViewBrowserExtension::cut()
 {
   //TODO: grey out item
-  copy(); 
-} 
+  copy();
+}
 
 void TreeViewBrowserExtension::copy()
 {
@@ -151,7 +151,7 @@ void TreeViewBrowserExtension::copy()
   QUriDrag *urlData = new QUriDrag;
   urlData->setUnicodeUris( lstURLs );
   QApplication::clipboard()->setData( urlData );
-} 
+}
 
 void TreeViewBrowserExtension::pasteSelection( bool move )
 {
@@ -159,7 +159,7 @@ void TreeViewBrowserExtension::pasteSelection( bool move )
   m_treeView->treeViewWidget()->selectedItems( selection );
   assert ( selection.count() == 1 );
   pasteClipboard( selection.first()->item()->url().url(), move );
-} 
+}
 
 void TreeViewBrowserExtension::moveSelection( const QString &destinationURL )
 {
@@ -178,7 +178,7 @@ void TreeViewBrowserExtension::moveSelection( const QString &destinationURL )
     job->move( lstURLs, destinationURL );
   else
     job->del( lstURLs );
-} 
+}
 
 void TreeViewBrowserExtension::reparseConfiguration()
 {
@@ -201,15 +201,15 @@ void TreeViewBrowserExtension::savePropertiesAsDefault()
 KonqTreeView::KonqTreeView( QWidget *parentWidget, QObject *parent, const char *name )
  : KParts::ReadOnlyPart( parent, name )
 {
-  setInstance( KonqFactory::instance() ); 
+  setInstance( KonqFactory::instance() );
   setXMLFile( "konq_treeview.rc" );
-  
+
   m_browser = new TreeViewBrowserExtension( this );
-  
+
   m_pTreeView = new KonqTreeViewWidget( this, parentWidget );
 
   setWidget( m_pTreeView );
-  
+
   m_paShowDot = new KToggleAction( i18n( "Show &Dot Files" ), 0, this, SLOT( slotShowDot() ), actionCollection(), "show_dot" );
 
   QObject::connect( m_pTreeView, SIGNAL( selectionChanged() ),
@@ -222,7 +222,7 @@ KonqTreeView::~KonqTreeView()
 
 bool KonqTreeView::openURL( const KURL &url )
 {
-  m_url = url; 
+  m_url = url;
 
   KURL u( url );
 
@@ -242,7 +242,7 @@ void KonqTreeView::guiActivateEvent( KParts::GUIActivateEvent *event )
   KParts::ReadOnlyPart::guiActivateEvent( event );
   if ( event->activated() )
     m_browser->updateActions();
-} 
+}
 
 void KonqTreeView::slotReloadTree()
 {

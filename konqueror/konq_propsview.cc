@@ -63,7 +63,7 @@ KonqPropsView * KonqPropsView::defaultProps()
 {
   if (!m_pDefaultProps)
   {
-    kdebug(0,1202,"Reading global config for konq_propsview");
+    kDebugInfo(1202,"Reading global config for konq_propsview");
     KConfig *config = KonqFactory::instance()->config();
     KConfigGroupSaver cgs(config, "Settings");
     m_pDefaultProps = new KonqPropsView(config);
@@ -99,7 +99,7 @@ KonqPropsView::KonqPropsView( KConfig * config )
     QPixmap p = wallpaperPixmap( pix );
     if ( !p.isNull() )
     {
-      kdebug(0,1202,"Got background");
+      kDebugInfo(1202,"Got background");
       m_bgPixmap = p;
     }
   }

@@ -68,10 +68,10 @@ KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name,
     // Setup
 
     subdirsCb->setChecked(true);
-    
+
     // Layout
 
-    QGridLayout *grid = new QGridLayout( pages[0], 3, 3, 
+    QGridLayout *grid = new QGridLayout( pages[0], 3, 3,
 					 KDialog::marginHint(),
 					 KDialog::spacingHint() );
     grid->addWidget( namedL, 0, 0 );
@@ -81,7 +81,7 @@ KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name,
     grid->addWidget( browseB, 1, 2);
     grid->addWidget( subdirsCb, 2, 1);
     grid->setColStretch(1,1);
-    
+
     // Signals
 
     connect( browseB, SIGNAL(clicked()),
@@ -145,7 +145,7 @@ KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name,
     le[2]->setMinimumSize(tmp, le[2]->sizeHint().height());
     le[3]->setMinimumSize(tmp, le[3]->sizeHint().height());
 
-    QGridLayout *grid1 = new QGridLayout( pages[1], 5,  6, 
+    QGridLayout *grid1 = new QGridLayout( pages[1], 5,  6,
 					  KDialog::marginHint(),
 					  KDialog::spacingHint() );
     grid1->addMultiCellWidget(rb1[0], 0, 0, 0, 6 );
@@ -227,7 +227,7 @@ KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name,
     tmp = sizeEdit->fontMetrics().width(" 00000 ");
     sizeEdit->setMinimumSize(tmp, sizeEdit->sizeHint().height());
 
-    QGridLayout *grid2 = new QGridLayout( pages[2], 3, 6, 
+    QGridLayout *grid2 = new QGridLayout( pages[2], 3, 6,
 					  KDialog::marginHint(),
 					  KDialog::spacingHint() );
     grid2->addWidget( typeL, 0, 0 );
@@ -353,7 +353,7 @@ QString KfindTabWidget::createQuery() {
   else if (::access("/usr/bin/slocate", X_OK) == 0)
     locateBin = "slocate ";
   else (locateBin = KStandardDirs::findExe("locate"));
-    
+
   // Add the directory we make search in
   str = "find ";
   str += quote(dirBox->currentText());
@@ -361,7 +361,7 @@ QString KfindTabWidget::createQuery() {
 
   // Add different file types
   // default case is for special types we got from file manager
-  
+
   switch(typeBox->currentItem()) {
   case 0: // all files
     type = "";
@@ -397,17 +397,17 @@ QString KfindTabWidget::createQuery() {
     okToUseLocate = false;
     break;
 
-  default: // Mime type 
+  default: // Mime type
     okToUseLocate = false;
     KfFileType *typ = types->first();
     int i;
     QString pattern;
-    
-    // If user have selected a mime type create additional filter 
-    
+
+    // If user have selected a mime type create additional filter
+
     for (i=SPECIAL_TYPES; i<typeBox->currentItem(); i++ )
       typ = types->next();
-    
+
     QStrList& pats = typ->getPattern();
     for (pattern = pats.first(), i=0;
 	 pattern != 0L;
@@ -417,30 +417,30 @@ QString KfindTabWidget::createQuery() {
       else
 	type += " -o -name \"" + pattern + "\" ";
     }
-    
+
     // If we have more then one predicate we need "(" ... ")"
     if(i > 1)
       type = " \"(\"" + type + " \")\" ";
   } // Switch
-  
+
   // If name is empty replace it with "*"
   if(nameBox->currentText().isEmpty())
     name = "*";
   else
     name = nameBox->currentText();
-  
+
   name = " -name " + quote(name);
-  
+
   // Add type (can be empty)
   str += name + type;
-  
+
   // Add sub-dir check
   if (!subdirsCb->isChecked()) {
     okToUseLocate = false;
     str.append(" -maxdepth 1 ");
   }
-  
-  // Add date predicate 
+
+  // Add date predicate
   if (rb1[1]->isChecked()) { // Modified
     okToUseLocate = false;
     if (rb2[0]->isChecked()) { // Between dates
@@ -459,14 +459,14 @@ QString KfindTabWidget::createQuery() {
 	if (rb2[2]->isChecked()) // Previous day
 	  str.append(pom = QString(" -daystart -mtime -%1").arg(le[3]->text()));
   }
-  
+
   // Add size predicate
   if (sizeBox->currentItem() !=  0) {
     okToUseLocate = false;
     type = (sizeBox->currentItem() == 1) ? "+" : "-";
     str.append(pom = QString(" -size  %1%2k ").arg(type).arg(sizeEdit->text()));
   }
-  
+
   // Add sub-string predicate
   if(!textEdit->text().isEmpty()) {
     okToUseLocate = false;
@@ -482,9 +482,9 @@ QString KfindTabWidget::createQuery() {
   //     check it.
   //  2. The reg expression below is broken. What is the correct one?
   //  3. Most important: lets don't make assumption what user wants to use.
-  //     locate is dangerous because it requires up-to-data database. If 
+  //     locate is dangerous because it requires up-to-data database. If
   //     user doesn't have a propper cron the results are unpredictable.
-  //     This must be a configuration option for experienced users. 
+  //     This must be a configuration option for experienced users.
   // Whoever wants to enable it please let me know. Dima.
 
   if (false /*okToUseLocate*/) {
@@ -496,8 +496,8 @@ QString KfindTabWidget::createQuery() {
       foo += "/.*";
     str += quote(foo + nameBox->currentText() + "[^/]*$");
   }
-    
-  kdebug(KDEBUG_INFO, 1903, "QUERY=%s\n", str.ascii());
+
+  kDebugInfo(1903, "QUERY=%s\n", str.ascii());
 
   return(str);
 }

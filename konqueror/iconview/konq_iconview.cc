@@ -37,8 +37,7 @@
 #include <kdirlister.h>
 #include <kfileivi.h>
 #include <kfileitem.h>
-#include <kio_error.h>
-#include <kio_job.h>
+#include <kio/job.h>
 #include <klibloader.h>
 #include <klineeditdlg.h>
 #include <kmimetype.h>

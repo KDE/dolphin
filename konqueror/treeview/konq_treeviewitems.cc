@@ -21,9 +21,10 @@
 #include "konq_treeviewitems.h"
 #include "konq_treeviewwidget.h"
 #include <kfileitem.h>
-#include <kio_job.h>
+#include <kio/job.h>
 #include <klocale.h>
 #include <assert.h>
+#include <stdio.h>
 
 /**************************************************************
  *
@@ -108,7 +109,7 @@ QString KonqTreeViewItem::makeTimeString( const KUDSAtom &_atom ) const
 {
   QDateTime dt; dt.setTime_t((time_t) _atom.m_long);
 
-  return KGlobal::locale()->formatDate(dt.date(), true) + " " + 
+  return KGlobal::locale()->formatDate(dt.date(), true) + " " +
     KGlobal::locale()->formatTime(dt.time());
 }
 
@@ -185,7 +186,7 @@ void KonqTreeViewItem::paintCell( QPainter *_painter, const QColorGroup & _cg, i
     _painter->setFont( f );
   }
   // TODO text color
-  
+
   if (!m_pTreeView->props()->bgPixmap().isNull())
   {
     _painter->drawTiledPixmap( 0, 0, _width, height(),
