@@ -95,6 +95,7 @@ public slots:
   void slotSaveSettings();
   void slotSaveSettingsPerURL();
   void slotConfigureFileManager();
+  void slotConfigureFileTypes();
   void slotConfigureNetwork();
   void slotConfigureKeys();
 
