@@ -565,7 +565,7 @@ void KonqMainWindow::slotNewWindow()
   // -> for konq_misc ?
   KonqMainWindow *mainWindow = new KonqMainWindow( QString::null, false );
   // We assume it exists, since we install it... otherwise the window should remain empty
-  mainWindow->viewManager()->loadViewProfile( QString::fromLatin1("webbrowsing") );
+  mainWindow->viewManager()->loadViewProfile( locate( "data", QString::fromLatin1("konqueror/profiles/webbrowsing") ) );
   mainWindow->enableAllActions( true );
   mainWindow->show();
 }
@@ -906,8 +906,8 @@ void KonqMainWindow::slotUndoAvailable( bool avail )
 
 void KonqMainWindow::slotUndoTextChanged( const QString &text )
 {
-  m_paUndo->setText( text ); 
-} 
+  m_paUndo->setText( text );
+}
 
 void KonqMainWindow::slotPartChanged( KonqView *childView, KParts::ReadOnlyPart *oldPart, KParts::ReadOnlyPart *newPart )
 {
