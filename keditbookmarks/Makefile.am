@@ -2,9 +2,13 @@ INCLUDES= -I$(top_srcdir)/libkonq $(all_includes)
 
 METASOURCES = AUTO
 
-bin_PROGRAMS =
+bin_PROGRAMS = kbookmarkmerger
 lib_LTLIBRARIES =
 kdeinit_LTLIBRARIES = keditbookmarks.la
+
+kbookmarkmerger_SOURCES = kbookmarkmerger.cpp
+kbookmarkmerger_LDFLAGS = $(all_libraries) $(KDE_RPATH)
+kbookmarkmerger_LDADD = $(LIB_KIO)
 
 dcop_DCOPIDLNG = true
 keditbookmarks_la_SOURCES = main.cpp listview.cpp toplevel.cpp actionsimpl.cpp commands.cpp importers.cpp dcop.skel dcop.cpp bookmarkiterator.cpp  \
