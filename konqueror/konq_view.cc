@@ -32,6 +32,7 @@
 #include <assert.h>
 #include <kdebug.h>
 #include <kurldrag.h>
+#include <qscrollview.h>
 
 #include <qapplication.h>
 #include <qmetaobject.h>
@@ -325,7 +326,7 @@ void KonqView::connectPart(  )
       m_pPart->widget()->installEventFilter( this );
   if (m_bBackRightClick && m_pPart->widget()->inherits("QScrollView") )
   {
-    (dynamic_cast<QScrollView *>(m_pPart->widget()))->viewport()->installEventFilter( this );
+    (static_cast<QScrollView *>(m_pPart->widget()))->viewport()->installEventFilter( this );
   }
 
   // KonqDirPart signal
