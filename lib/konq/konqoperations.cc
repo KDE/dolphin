@@ -23,13 +23,13 @@
 
 // For doDrop
 #include <qpopupmenu.h>
-#include <qdragobject.h>
 #include <kio/paste.h>
 #include <kio/job.h>
 #include <klocale.h>
 #include <kdebug.h>
 #include <kprocess.h>
 #include <konqfileitem.h>
+#include <konqdrag.h>
 #include <assert.h>
 #include <unistd.h>
 #include <kuserpaths.h>
@@ -95,8 +95,9 @@ bool KonqOperations::askDeleteConfirmation( const KURL::List & selectedURLs )
 void KonqOperations::doDrop( const KonqFileItem * destItem, QDropEvent * ev, QObject * receiver )
 {
     KURL dest = destItem->url();
+    //kdDebug() << "dest : " << dest.url() << endl;
     QStringList lst;
-    if ( QUriDrag::decodeToUnicodeUris( ev, lst ) ) // Are they urls ?
+    if ( KonqDrag::decode( ev, lst ) ) // Are they urls ?
     {
 	if( lst.count() == 0 )
 	{

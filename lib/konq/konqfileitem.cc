@@ -107,11 +107,11 @@ KonqFileItem::KonqFileItem( const KURL &url, const QString &mimeType, mode_t mod
   m_fileMode( mode ),
   m_permissions( 0 ),
   m_bLink( false ),
-  m_bMarked( false ) 
+  m_bMarked( false )
 {
-  m_pMimeType = KMimeType::mimeType( mimeType );  
-  init( false ); 
-} 
+  m_pMimeType = KMimeType::mimeType( mimeType );
+  init( false );
+}
 
 void KonqFileItem::init( bool _determineMimeTypeOnDemand )
 {
@@ -415,7 +415,7 @@ QString KonqFileItem::iconName()
 
 void KonqFileItem::run()
 {
-  (void) new KRun( m_url.url(), m_fileMode, m_bIsLocalURL );
+  (void) new KRun( m_url, m_fileMode, m_bIsLocalURL );
 }
 
 QString KonqFileItem::makeTimeString( time_t _time )

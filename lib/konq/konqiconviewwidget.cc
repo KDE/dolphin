@@ -269,7 +269,7 @@ KURL::List KonqIconViewWidget::selectedUrls()
 
 bool KonqIconViewWidget::sortDirectoriesFirst() const
 {
-  return m_bSortDirsFirst; 
+  return m_bSortDirsFirst;
 }
 
 void KonqIconViewWidget::setSortDirectoriesFirst( bool b )
