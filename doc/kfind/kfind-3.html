@@ -1,0 +1,81 @@
+<HTML>
+<HEAD>
+<TITLE> The KFind Documentation: Onscreen Fundamentals</TITLE>
+</HEAD>
+<BODY>
+<A HREF="kfind-2.html">Previous</A>
+<A HREF="kfind-4.html">Next</A>
+<A HREF="kfind.html#toc3">Table of Contents</A>
+<HR>
+<H2><A NAME="s3">3. Onscreen Fundamentals</A></H2>
+
+<P>In this section will be briefly described Kfind user interface. </P>
+<P>The Kfind window separated in four areas: toolbar, search parameters
+dialog, viewing area and statusbar. The viewing area and
+statusbar are visible only after receiving search results.</P>
+
+
+<H2><A NAME="ss3.1">3.1 Toolbar</A></H2>
+
+<P>
+<DL>
+<DT><B>Start Search</B><DD><P>Starts new search using parameters specified in parameters
+dialog. </P>
+<DT><B>New Search</B><DD><P>Clears results and hides viewing area.</P>
+<DT><B>Stop Search</B><DD><P>Stops runing search process.</P>
+<DT><B>Open</B><DD><P>Asks <B>Kfm</B> to start default binding for selected file.</P>
+<DT><B>Add to Archive</B><DD><P>Adds selected file to chosen archive.</P>
+<DT><B>Delete</B><DD><P>Deletes selected files and asks <B>Kfm</B> to refresh directory.</P>
+<DT><B>Properties</B><DD><P>Shows properties of selected file.</P>
+<DT><B>Open Containing Folder</B><DD><P>Asks <B>Kfm</B> to open folder containing selected file.</P>
+<DT><B>Save Search Results</B><DD><P>Saves results to file specified in <B>Options->Preferences</B> dialog.</P>
+<DT><B>Help</B><DD><P>Shows <B>KFind</B> documentation.</P>
+<DT><B>Quit</B><DD><P>Exits KFind.</P>
+</DL>
+</P>
+
+
+<H2><A NAME="ss3.2">3.2 Search Parameters Dialog</A></H2>
+
+<P>This dialog is the main part of <CODE>KFind</CODE>. It's used for specifying
+parameter for find utility. There are three find parameters groups:</P>
+<P>
+<DL>
+<DT><B>Name and location</B><DD><P>This dialog is used to specify filename user is looking
+for. Filename is entered into combobox and can contain following
+wildcards:
+<BLOCKQUOTE><CODE>
+? matches any character 
+<P>* matches any sequence of characters </P>
+<P><F>[</F>] matches a defines set of characters, e.g. <F>a-zA-Z0-9\.</F>
+matches upper and lower case ASCII letters, digits, and dot.</P>
+</CODE></BLOCKQUOTE>
+
+The combo box stores names history.  The <B>Look in</B> combo box and
+<B>Browse</B> button are used to specify directory where the search will
+be performed. Whether the <CODE>find</CODE> should look into subdirectories
+is specified by <B>Include subfolders</B> check button.</P>
+<DT><B>Date Modified</B><DD><P>This dialog allows searching for files created within a
+specified time period.</P>
+<DT><B>Advanced</B><DD><P>This page allows file searches for specific types of files e.g
+Postscript-documents, JPEG image files or WAV sound files. The search
+can also be restricted to files above or below a certain size.</P>
+
+</DL>
+</P>
+
+
+<H2><A NAME="ss3.3">3.3 Viewing Area</A></H2>
+
+<P>The viewing area contains results of find
+process. After clicking on item the functions open, add to
+archive,delete, properties and  open containing folder will be enabled.
+Double clicking causes executing default binding.</P>
+
+
+<HR>
+<A HREF="kfind-2.html">Previous</A>
+<A HREF="kfind-4.html">Next</A>
+<A HREF="kfind.html#toc3">Table of Contents</A>
+</BODY>
+</HTML>
