@@ -361,7 +361,6 @@ public slots:
 protected slots:
   void slotViewCompleted( KonqView * view );
 
-  void slotURLEntered( const QString &text );
   void slotURLEntered( const QString &text, ButtonState state );
 
   void slotFileNewAboutToShow();
@@ -465,8 +464,8 @@ private slots:
   void goURL();
 
   void bookmarksIntoCompletion();
-  
-  void initBookmarkBar();  
+
+  void initBookmarkBar();
 
 private:
   /**

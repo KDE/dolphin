@@ -41,6 +41,9 @@ KonqCombo::KonqCombo( QWidget *parent, const char *name )
     setInsertionPolicy( NoInsertion );
     setSizePolicy( QSizePolicy( QSizePolicy::Expanding, QSizePolicy::Fixed ));
     setDuplicatesEnabled( false );
+    // don't emit activated( const QString& ) upon returnPress, we're
+    // emitting activated( const QString&, ButtonState ) ourselves
+    setTrapReturnKey( true );
 
     Q_ASSERT( s_config );
 
@@ -59,6 +62,9 @@ KonqCombo::KonqCombo( QWidget *parent, const char *name )
              this, SLOT( slotReturnPressed() ));
     connect( this, SIGNAL( cleared() ), SLOT( slotCleared() ));
     connect( this, SIGNAL( highlighted( int )), SLOT( slotSetIcon( int )));
+
+    connect( this, SIGNAL( activated( const QString& )),
+             SLOT( slotActivated( const QString& )) );
 
     if ( !kapp->dcopClient()->isAttached() )
 	kapp->dcopClient()->attach();
@@ -238,15 +244,17 @@ void KonqCombo::slotSetIcon( int index )
 
 void KonqCombo::popup()
 {
-    for( int i = 0;
-         i < count();
-         ++i )
+    for( int i = 0; i < count(); ++i )
+    {
         if( pixmap( i ) == NULL )
+        {
             // on-demand icon loading
             changeItem( KonqPixmapProvider::self()->pixmapFor( text( i ),
                 KIcon::SizeSmall), text( i ), i );
-    KHistoryCombo::popup();
+        }
     }
+    KHistoryCombo::popup();
+}
 
 void KonqCombo::saveItems()
 {
@@ -288,12 +296,12 @@ bool KonqCombo::eventFilter( QObject *o, QEvent *ev )
         int type = ev->type();
         if ( type == QEvent::KeyPress ) {
             QKeyEvent *e = static_cast<QKeyEvent *>( ev );
+
             if (e->key() == Key_Return || e->key() == Key_Enter) {
                 emit activated( currentText(), e->state() );
-                setTrapReturnKey( true );
             }
 
-            if ( KStdAccel::isEqual( e, KStdAccel::deleteWordBack() ) ||
+            else if ( KStdAccel::isEqual( e, KStdAccel::deleteWordBack() ) ||
                  KStdAccel::isEqual( e, KStdAccel::deleteWordForward() ) ||
                  ((e->state() & ControlButton) &&
                    (e->key() == Key_Left || e->key() == Key_Right) ) ) {
@@ -374,7 +382,7 @@ void KonqCombo::selectWord(QKeyEvent *e)
             edit->cursorForward(false, -count-1);
             QString text = edit->text();
             int pos_to_right = text.length() - pos - 1;
-	    QString cut = text.left(pos_old) + 
+	    QString cut = text.left(pos_old) +
                (pos_to_right > 0 ? text.right(pos_to_right) : "" );
             edit->setText(cut);
             edit->setCursorPosition(pos_old);
@@ -446,6 +454,11 @@ void KonqCombo::mouseMoveEvent( QMouseEvent *e )
             drag->dragCopy();
         }
     }
+}
+
+void KonqCombo::slotActivated( const QString& text )
+{
+    emit activated( text, NoButton );
 }
 
 void KonqCombo::setConfig( KConfig *kc )

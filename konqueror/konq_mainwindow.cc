@@ -1975,11 +1975,6 @@ void KonqMainWindow::updateLocalPropsActions()
     m_paRemoveLocalProperties->setEnabled( canWrite );
 }
 
-void KonqMainWindow::slotURLEntered( const QString &text )
-{
-  slotURLEntered( text, NoButton );
-}
-
 void KonqMainWindow::slotURLEntered( const QString &text, ButtonState state )
 {
   if ( m_bURLEnterLock || text.isEmpty() )
@@ -2365,8 +2360,6 @@ void KonqMainWindow::initCombo()
 
   m_combo->init( s_pCompletion );
 
-  connect( m_combo, SIGNAL(activated(const QString&)),
-           this, SLOT(slotURLEntered(const QString&)) );
   connect( m_combo, SIGNAL(activated(const QString&,ButtonState)),
            this, SLOT(slotURLEntered(const QString&,ButtonState)) );
 

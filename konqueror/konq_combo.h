@@ -73,6 +73,7 @@ private slots:
     void slotReturnPressed();
     void slotCleared();
     void slotSetIcon( int index );
+    void slotActivated( const QString& text );
 
 private:
     void updateItem( const QPixmap& pix, const QString&, int index );
