@@ -827,6 +827,9 @@ void NSPluginInstance::resizePlugin(int w, int h)
    if (!_visible)
       return;
 
+   if (w == _width && h == _height)
+      return;
+
    kdDebug(1431) << "-> NSPluginInstance::resizePlugin( w=" << w << ", h=" << h << " ) " << endl;
 
    _width = w;
