@@ -200,43 +200,45 @@ KonqListView::KonqListView( QWidget *parentWidget, QObject *parent, const char *
  : KonqDirPart( parent, name )
 ,m_headerTimer(0)
 {
-   setInstance( KonqListViewFactory::instance() );
-
    // Create a properties instance for this view
    // All the listview view modes inherit the same properties defaults...
    m_pProps = new KonqPropsView( KonqListViewFactory::instance(), KonqListViewFactory::defaultViewProps() );
 
    setBrowserExtension( new ListViewBrowserExtension( this ) );
 
+   QString xmlFile;
+
    if (mode=="TextView")
    {
       kdDebug(1202) << "Creating KonqTextViewWidget" << endl;
-      setXMLFile( "konq_textview.rc" );
+      xmlFile = "konq_textview.rc";
       m_pListView=new KonqTextViewWidget(this, parentWidget);
    }
    else if (mode=="MixedTree")
    {
       kdDebug(1202) << "Creating KonqTreeViewWidget" << endl;
-      setXMLFile( "konq_treeview.rc" );
+      xmlFile = "konq_treeview.rc";
       m_pListView=new KonqTreeViewWidget(this,parentWidget);
    }
    else if (mode=="InfoListView")
    {
       kdDebug(1202) << "Creating KonqInfoListViewWidget" << endl;
-      setXMLFile( "konq_infolistview.rc" );
+      xmlFile = "konq_infolistview.rc";
       m_pListView=new KonqInfoListViewWidget(this,parentWidget);
    }
    else
    {
       kdDebug(1202) << "Creating KonqDetailedListViewWidget" << endl;
-      setXMLFile( "konq_detailedlistview.rc" );
+      xmlFile = "konq_detailedlistview.rc";
       m_pListView = new KonqBaseListViewWidget( this, parentWidget);
    }
    setWidget( m_pListView );
    setDirLister( m_pListView->m_dirLister );
 
-
    m_mimeTypeResolver = new KMimeTypeResolver<KonqBaseListViewItem,KonqListView>(this);
+
+   setInstance( KonqListViewFactory::instance() );
+   setXMLFile( xmlFile );
 
    setupActions();
 
