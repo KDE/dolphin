@@ -25,6 +25,7 @@
 #include <qptrlist.h>
 #include <qpopupmenu.h>
 #include <qtoolbutton.h>
+#include <qtooltip.h>
 
 #include <kdebug.h>
 #include <kiconloader.h>
@@ -82,6 +83,7 @@ KonqFrameTabs::KonqFrameTabs(QWidget* parent, KonqFrameContainerBase* parentCont
     connect( leftWidget, SIGNAL( clicked() ), m_pViewManager->mainWindow(), SLOT( slotAddTab() ) );
     leftWidget->setIconSet( SmallIcon( "tab_new" ) );
     leftWidget->adjustSize();
+    QToolTip::add(leftWidget, i18n("Open a new tab"));
     setCornerWidget( leftWidget, TopLeft );
   }
   if ( config->readBoolEntry( "CloseTabButton", true ) ) {
@@ -89,6 +91,7 @@ KonqFrameTabs::KonqFrameTabs(QWidget* parent, KonqFrameContainerBase* parentCont
     connect( rightWidget, SIGNAL( clicked() ), m_pViewManager->mainWindow(), SLOT( slotRemoveTab() ) );
     rightWidget->setIconSet( SmallIcon( "tab_remove" ) );
     rightWidget->adjustSize();
+    QToolTip::add(rightWidget, i18n("Close the current tab"));
     setCornerWidget( rightWidget, TopRight );
   }
 #endif
