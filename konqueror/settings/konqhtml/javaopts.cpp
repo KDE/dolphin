@@ -318,12 +318,13 @@ void KJavaOptions::changePressed()
     int javaAdvice = javaDomainPolicy[index];
     int javaScriptAdvice = KHTMLSettings::KJavaScriptDunno;
     PolicyDialog pDlg( false, true, this );
-    pDlg.setDisableEdit( false, index->text(0) );
-    pDlg.setCaption( i18n( "Change Java/JavaScript Policy" ) );
+    pDlg.setDisableEdit( true, index->text(0) );
+    pDlg.setCaption( i18n( "Change Java Policy" ) );
     pDlg.setDefaultPolicy( javaAdvice, javaScriptAdvice );
     if( pDlg.exec() )
     {
         javaDomainPolicy[index] = pDlg.javaPolicyAdvice();
+        index->setText( 0, pDlg.domain() );
         index->setText( 1, i18n(KHTMLSettings::adviceToStr(
             (KHTMLSettings::KJavaScriptAdvice)javaDomainPolicy[index])) );
         changed();

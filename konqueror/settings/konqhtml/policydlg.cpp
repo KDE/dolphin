@@ -93,7 +93,7 @@ void PolicyDialog::setDisableEdit( bool state, const QString& text )
 
     le_domain->setEnabled( state );
 
-    if( !state )
+    if( state )
         cb_javapolicy->setFocus();
 }
 
