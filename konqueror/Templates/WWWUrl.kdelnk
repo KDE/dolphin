@@ -1,0 +1,24 @@
+# KDE Config File
+[KDE Desktop Entry]
+URL=http://www.kde.org
+Icon=www.xpm
+Type=Link
+Name=World Wide Web URL
+Name[br]=URL ar gwiad
+Name[ca]=URL de la World Wide Web
+Name[cs]=Wold Wide Web URL
+Name[da]=WWW URL
+Name[de]=World-Wide-Web URL
+Name[es]=Dirección de World Wide Web (URL de HTTP)
+Name[fi]=WWW -osoite
+Name[fr]=Adresse World Wide Web (HTTP)
+Name[is]=Vefslóð (URL)
+Name[it]=Indirizzo World Wide Web
+Name[no]=Verdensvev-URL
+Name[pt]=URL de HTTP
+Name[pt_BR]=URL da Web
+Name[ro]=Legãturã Internet WWW  (URL de HTTP)
+Name[ru]=áÄÒÅÓ WWW (HTTP)
+Name[sk]=Odkaz na World Wide Web (HTTP)
+Name[sl]=Spletni vir (URL)
+Name[sv]=World Wide Web-URL

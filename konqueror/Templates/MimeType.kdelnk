@@ -1,0 +1,28 @@
+# KDE Config File
+[KDE Desktop Entry]
+MimeType=
+DefaultApp=
+Icon=unknown.xpm
+Type=MimeType
+Patterns=;
+Name=Mime Type
+Name[br]=Rizh Mime
+Name[ca]=Tipus Mime
+Name[cs]=Mime typ
+Name[da]=Mimetype
+Name[de]=Mime-Typ
+Name[es]=Tipo MIME
+Name[fi]=Mimetyyppi
+Name[fr]=Type MIME
+Name[hr]=Mime tip
+Name[is]=MIME-tag
+Name[it]=Tipo MIME
+Name[no]=Mimetype
+Name[pl]=Typ mime
+Name[pt]=Tipo MIME
+Name[pt_BR]=Tipo MIME
+Name[ro]=Tip MIME
+Name[ru]=Ù…– MIME
+Name[sk]=MIME typ
+Name[sl]=Tip MIME
+Name[sv]=MIME-typ
