@@ -379,7 +379,7 @@ void Sidebar_Widget::activatedMenu(int id)
 		{
 			singleWidgetMode = ! singleWidgetMode;
 			if ((singleWidgetMode) && (visibleViews.count()>1))
-				for (int i=0; i<Buttons.count(); i++)
+				for (uint i=0; i<Buttons.count(); i++)
 					if (i!=latestViewed)
 					{
 						if (Buttons.at(i)->dock!=0)
@@ -514,7 +514,7 @@ void Sidebar_Widget::createButtons()
 	//PARSE ALL DESKTOP FILES
 	if (Buttons.count()>0)
 	{
-		for (int i=0;i<Buttons.count();i++)
+		for (uint i=0;i<Buttons.count();i++)
 			{
 				if (Buttons.at(i)->dock!=0)
 				{
@@ -596,7 +596,7 @@ bool Sidebar_Widget::addButton(const QString &desktoppath,int pos)
 	if (pos==-1)
 	{
 	  	ButtonBar->insertTab(SmallIcon(icon), lastbtn,name);
-		int id=Buttons.insert(lastbtn,new ButtonInfo(desktoppath,0,url,lib,this));
+		/*int id=*/Buttons.insert(lastbtn,new ButtonInfo(desktoppath,0,url,lib,this));
 		KMultiVertTabBarTab *tab=ButtonBar->getTab(lastbtn);
 		tab->installEventFilter(this);
 		connect(tab,SIGNAL(clicked(int)),this,SLOT(showHidePage(int)));
@@ -617,7 +617,7 @@ bool Sidebar_Widget::eventFilter(QObject *obj, QEvent *ev)
 			{
 				kdDebug()<<"Request for popup"<<endl;
 				popupFor=-1;
-				for (int i=0;i<Buttons.count();i++)
+				for (uint i=0;i<Buttons.count();i++)
 				{
 					if (bt==ButtonBar->getTab(i))
 						{popupFor=i; break;}

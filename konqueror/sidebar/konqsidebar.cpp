@@ -90,7 +90,7 @@ KonqSidebarFactory::~KonqSidebarFactory()
 
 KParts::Part* KonqSidebarFactory::createPartObject( QWidget *parentWidget, const char *widgetName,
                                                         QObject *parent, const char *name,
-                                                        const char *classname, const QStringList &args )
+                                                        const char * /*classname*/, const QStringList &/*args*/ )
 {
     // Create an instance of our Part
     KonqSidebar* obj = new KonqSidebar( parentWidget, widgetName, parent, name );
