@@ -32,7 +32,7 @@ int main( int argc, char ** argv )
   aboutData.addAuthor("Martin Hartig");
   aboutData.addAuthor("Stephan Kulow", 0, "coolo@kde.org");
   aboutData.addAuthor("Mario Weilguni",0, "mweilguni@sime.com");
-  aboutData.addAuthor("Alex Zepeda",0, "jazepeda@pacbell.net");
+  aboutData.addAuthor("Alex Zepeda",0, "zipzippy@sonic.net");
   aboutData.addAuthor("Miroslav Flídr",0, "flidr@kky.zcu.cz");
   aboutData.addAuthor("Harri Porten",0, "porten@kde.org");
   aboutData.addAuthor("Dima Rogozin",0, "dima@mercury.co.il");

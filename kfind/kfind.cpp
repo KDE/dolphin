@@ -13,7 +13,7 @@
   Martin Hartig
   Stephan Kulow <coolo@kde.org>
   Mario Weilguni <mweilguni@sime.com>
-  Alex Zepeda <jazepeda@pacbell.net>
+  Alex Zepeda <zipzippy@sonic.net>
   Miroslav Flídr <flidr@kky.zcu.cz>
   Harri Porten <porten@kde.org>
   Dima Rogozin <dima@mercury.co.il>
