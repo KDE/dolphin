@@ -54,7 +54,7 @@ KonqHTMLView::KonqHTMLView( KonqMainView *mainView )
 {
   ADD_INTERFACE( "IDL:Konqueror/HTMLView:1.0" );
   ADD_INTERFACE( "IDL:Browser/PrintingExtension:1.0" );
-  ADD_INTERFACE( "IDL:Browser/ClipboardExtension:1.0" );
+  ADD_INTERFACE( "IDL:Browser/EditExtension:1.0" );
 
   SIGNAL_IMPL( "loadingProgress" );
   SIGNAL_IMPL( "speedProgress" );
@@ -569,9 +569,9 @@ void KonqHTMLView::openTxtView( const QString &url )
   }
 }
 
-void KonqHTMLView::beginDoc( const CORBA::WChar *url, CORBA::Long dx, CORBA::Long dy )
+void KonqHTMLView::beginDoc( const char *url, CORBA::Long dx, CORBA::Long dy )
 {
-  KBrowser::begin( C2Q( url ), (int)dx, (int)dy );
+  KBrowser::begin( url, (int)dx, (int)dy );
 }
 
 void KonqHTMLView::writeDoc( const char *data )
@@ -617,6 +617,11 @@ CORBA::Boolean KonqHTMLView::canPaste()
   return (CORBA::Boolean)false;
 }
 
+CORBA::Boolean KonqHTMLView::canMove()
+{
+  return (CORBA::Boolean)false;
+}
+
 void KonqHTMLView::copySelection()
 {
   QString text;
@@ -630,6 +635,11 @@ void KonqHTMLView::copySelection()
 }
 
 void KonqHTMLView::pasteSelection()
+{
+  assert( 0 );
+}
+
+void KonqHTMLView::moveSelection( const char * )
 {
   assert( 0 );
 }

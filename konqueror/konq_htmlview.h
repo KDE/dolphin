@@ -48,7 +48,7 @@ class KonqHTMLView : public KBrowser,
                      public KonqBaseView,
                      virtual public Konqueror::HTMLView_skel,
 		     virtual public Browser::PrintingExtension_skel,
-		     virtual public Browser::ClipboardExtension_skel
+		     virtual public Browser::EditExtension_skel
 {
   Q_OBJECT  
 
@@ -79,7 +79,7 @@ public:
   
   virtual void slotLoadImages();
   
-  virtual void beginDoc( const CORBA::WChar *url, CORBA::Long dx, CORBA::Long dy );
+  virtual void beginDoc( const char *url, CORBA::Long dx, CORBA::Long dy );
   virtual void writeDoc( const char *data );
   virtual void endDoc();
   virtual void parseDoc();
@@ -88,9 +88,11 @@ public:
   
   virtual CORBA::Boolean canCopy();
   virtual CORBA::Boolean canPaste();
+  virtual CORBA::Boolean canMove();
   
   virtual void copySelection();
   virtual void pasteSelection();
+  virtual void moveSelection( const char * );
       
 public slots:
   virtual void slotMousePressed( const QString &, const QPoint&, int );

@@ -59,6 +59,7 @@
 #include <kstddirs.h>
 #include <kwm.h>
 #include <kglobal.h>
+#include <userpaths.h>
 
 #include <assert.h>
 #include <pwd.h>
@@ -185,7 +186,7 @@ KonqMainView::KonqMainView( const char *url, QWidget *parent ) : QWidget( parent
   initConfig();
   
   QObject::connect( QApplication::clipboard(), SIGNAL( dataChanged() ),
-                    this, SLOT( checkClipboardExtension() ) );
+                    this, SLOT( checkEditExtension() ) );
 }
 
 KonqMainView::~KonqMainView()
@@ -760,7 +761,7 @@ void KonqMainView::setActiveView( OpenParts::Id id )
   setItemEnabled( m_vMenuView, MVIEW_STOP_ID, m_currentView->isLoading() );
 
   setItemEnabled( m_vMenuFile, MFILE_PRINT_ID, m_currentView->view()->supportsInterface( "IDL:Browser/PrintingExtension:1.0" ) );
-  checkClipboardExtension();
+  checkEditExtension();
 
   if ( !CORBA::is_nil( m_vLocationBar ) )
   {
@@ -1149,26 +1150,30 @@ void KonqMainView::slotPrint()
 
 void KonqMainView::slotCopy()
 {
-  CORBA::Object_var obj = m_currentView->view()->getInterface( "IDL:Browser/ClipboardExtension:1.0" );
-  Browser::ClipboardExtension_var clipboardExtension = Browser::ClipboardExtension::_narrow( obj );
-  clipboardExtension->copySelection();
+  CORBA::Object_var obj = m_currentView->view()->getInterface( "IDL:Browser/EditExtension:1.0" );
+  Browser::EditExtension_var editExtension = Browser::EditExtension::_narrow( obj );
+  editExtension->copySelection();
 }
 
 void KonqMainView::slotPaste()
 {
-  CORBA::Object_var obj = m_currentView->view()->getInterface( "IDL:Browser/ClipboardExtension:1.0" );
-  Browser::ClipboardExtension_var clipboardExtension = Browser::ClipboardExtension::_narrow( obj );
-  clipboardExtension->pasteSelection();
+  CORBA::Object_var obj = m_currentView->view()->getInterface( "IDL:Browser/EditExtension:1.0" );
+  Browser::EditExtension_var editExtension = Browser::EditExtension::_narrow( obj );
+  editExtension->pasteSelection();
 }
 
 void KonqMainView::slotTrash()
 {
-  // TODO
+  CORBA::Object_var obj = m_currentView->view()->getInterface( "IDL:Browser/EditExtension:1.0" );
+  Browser::EditExtension_var editExtension = Browser::EditExtension::_narrow( obj );
+  editExtension->moveSelection( UserPaths::trashPath().utf8() );
 }
 
 void KonqMainView::slotDelete()
 {
-  // TODO
+  CORBA::Object_var obj = m_currentView->view()->getInterface( "IDL:Browser/EditExtension:1.0" );
+  Browser::EditExtension_var editExtension = Browser::EditExtension::_narrow( obj );
+  editExtension->moveSelection( 0L );
 }
 
 void KonqMainView::slotSplitViewHorizontal()
@@ -1788,22 +1793,26 @@ void KonqMainView::slotIdChanged( KonqChildView * childView, OpenParts::Id oldId
     m_currentId = newId;
 }
 
-void KonqMainView::checkClipboardExtension()
+void KonqMainView::checkEditExtension()
 {
   bool bCopy = false;
   bool bPaste = false;
+  bool bMove = false;
   
   if ( m_currentView &&
-       m_currentView->view()->supportsInterface( "IDL:Browser/ClipboardExtension:1.0" ) )
+       m_currentView->view()->supportsInterface( "IDL:Browser/EditExtension:1.0" ) )
   {
-    CORBA::Object_var obj = m_currentView->view()->getInterface( "IDL:Browser/ClipboardExtension:1.0" );
-    Browser::ClipboardExtension_var clipboardExtension = Browser::ClipboardExtension::_narrow( obj );
-    bCopy = (bool)clipboardExtension->canCopy();
-    bPaste = (bool)clipboardExtension->canPaste();
+    CORBA::Object_var obj = m_currentView->view()->getInterface( "IDL:Browser/EditExtension:1.0" );
+    Browser::EditExtension_var editExtension = Browser::EditExtension::_narrow( obj );
+    bCopy = (bool)editExtension->canCopy();
+    bPaste = (bool)editExtension->canPaste();
+    bMove = (bool)editExtension->canMove();
   }
   
   setItemEnabled( m_vMenuEdit, MEDIT_COPY_ID, bCopy );
   setItemEnabled( m_vMenuEdit, MEDIT_PASTE_ID, bPaste );
+  setItemEnabled( m_vMenuEdit, MEDIT_TRASH_ID, bMove );
+  setItemEnabled( m_vMenuEdit, MEDIT_DELETE_ID, bMove );
 }
 
 void KonqMainView::slotSelectView1()
@@ -2120,7 +2129,7 @@ void KonqMainView::createEditMenu()
     m_vMenuEdit->insertItem4( text, this, "slotDelete", CTRL+Key_Delete, MEDIT_DELETE_ID, -1 );
     m_vMenuEdit->insertSeparator( -1 );
 
-    checkClipboardExtension();
+    checkEditExtension();
 
     if ( m_currentView )
       EMIT_EVENT( m_currentView->view(), Browser::View::eventFillMenuEdit, m_vMenuEdit );

@@ -50,7 +50,7 @@ KonqTxtView::KonqTxtView( KonqMainView *mainView )
   kdebug(KDEBUG_INFO, 1202, "+KonqTxtView");
   ADD_INTERFACE( "IDL:Konqueror/TxtView:1.0" );
   ADD_INTERFACE( "IDL:Browser/PrintingExtension:1.0" );
-  ADD_INTERFACE( "IDL:Browser/ClipboardExtension:1.0" );
+  ADD_INTERFACE( "IDL:Browser/EditExtension:1.0" );
 
   SIGNAL_IMPL( "loadingProgress" );
   SIGNAL_IMPL( "speedProgress" );
@@ -281,12 +281,22 @@ CORBA::Boolean KonqTxtView::canPaste()
   return (CORBA::Boolean)false;
 }
 
+CORBA::Boolean KonqTxtView::canMove()
+{
+  return (CORBA::Boolean)false;
+}
+
 void KonqTxtView::copySelection()
 {
   copy();
 }
 
 void KonqTxtView::pasteSelection()
+{
+  assert( 0 );
+}
+
+void KonqTxtView::moveSelection( const char * )
 {
   assert( 0 );
 }

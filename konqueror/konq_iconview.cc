@@ -53,7 +53,7 @@ KonqKfmIconView::KonqKfmIconView( KonqMainView *mainView )
 {
   kdebug(0, 1202, "+KonqKfmIconView");
   ADD_INTERFACE( "IDL:Konqueror/KfmIconView:1.0" );
-  ADD_INTERFACE( "IDL:Browser/ClipboardExtension:1.0" );
+  ADD_INTERFACE( "IDL:Browser/EditExtension:1.0" );
 
   m_pMainView = mainView;
   m_vViewMenu = 0L;
@@ -397,6 +397,7 @@ void KonqKfmIconView::slotDeleteItem( KFileItem * _fileitem )
   for( ; *it; ++it )
     if ( ((KFileICI*)*it)->item() == _fileitem ) // compare the pointers
     {
+cerr << "huuuuuuuuuuuuuu" << endl;    
       remove( (*it), false /* don't refresh yet */ );
       // bSetupNeeded not set to true, so that simply deleting a file leaves
       // a blank space. Well that's just my preference (David)
@@ -450,6 +451,11 @@ CORBA::Boolean KonqKfmIconView::canPaste()
   return (CORBA::Boolean) ( bKIOClipboard || data->encodedData( data->format() ).size() != 0 );
 }
 
+CORBA::Boolean KonqKfmIconView::canMove()
+{
+  return canCopy();
+}
+
 void KonqKfmIconView::copySelection()
 {
   QList<KIconContainerItem> selection;
@@ -469,6 +475,25 @@ void KonqKfmIconView::copySelection()
 void KonqKfmIconView::pasteSelection()
 {
   pasteClipboard( m_dirLister->url() );
+}
+
+void KonqKfmIconView::moveSelection( const char *destinationURL )
+{
+  QList<KIconContainerItem> selection;
+  selectedItems( selection );
+  
+  QStringList lstURLs;
+ 
+  QListIterator<KIconContainerItem> it( selection );
+  for (; it.current(); ++it )
+    lstURLs.append( ( (KFileICI *)it.current() )->item()->url().url() );
+  
+  KIOJob *job = new KIOJob;
+  
+  if ( destinationURL )
+    job->move( lstURLs, destinationURL );
+  else
+    job->del( lstURLs );
 }
 
 void KonqKfmIconView::slotOnItem( KIconContainerItem *_item )

@@ -27,7 +27,7 @@
 module Konqueror
 {
  
-  interface KfmIconView : Browser::View, Browser::ClipboardExtension
+  interface KfmIconView : Browser::View, Browser::EditExtension
   {
     enum IconViewState { LargeIcons, SmallIcons };
   
@@ -46,7 +46,7 @@ module Konqueror
     slot void slotReloadTree();
   };
   
-  interface HTMLView : Browser::View, Browser::PrintingExtension, Browser::ClipboardExtension
+  interface HTMLView : Browser::View, Browser::PrintingExtension, Browser::EditExtension
   {
     slot void saveDocument();
     slot void saveFrame();
@@ -56,13 +56,13 @@ module Konqueror
 
     slot void slotLoadImages();
     
-    void beginDoc( in wstring url, in long dx, in long dy );
+    void beginDoc( in string url, in long dx, in long dy );
     void writeDoc( in string data );
     void endDoc();
     void parseDoc();
   };
   
-  interface TxtView : Browser::View, Browser::PrintingExtension, Browser::ClipboardExtension
+  interface TxtView : Browser::View, Browser::PrintingExtension, Browser::EditExtension
   {
     slot void slotSelectAll();
     slot void slotEdit();
