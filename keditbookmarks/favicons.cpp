@@ -44,12 +44,12 @@ FavIconsItr::FavIconsItr(QValueList<KBookmark> bks)
    : BookmarkIterator(bks) {
 
    m_updater = 0;
-   m_done = false;
+   m_done = true;
 }
 
 FavIconsItr::~FavIconsItr() {
    delete m_updater;
-   if (!m_done && curItem()) {
+   if (curItem()) {
       curItem()->restoreStatus();
    }
 }
@@ -62,7 +62,6 @@ void FavIconsItr::slotDone(bool succeeded) {
 }
 
 bool FavIconsItr::isApplicable(const KBookmark &bk) {
-   // quick hack. fix later on
    return (!bk.isGroup() && !bk.isSeparator() 
        && (bk.url().protocol().startsWith("http")) );
 }

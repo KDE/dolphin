@@ -324,11 +324,17 @@ void KEBListViewItem::nsPut(const QString &nm) {
 void KEBListViewItem::modUpdate() {
    QString statusLine;
    // DESIGN - should return paint style?
-   statusLine = TestLinkItrHolder::calcPaintStyle(m_bookmark.url().url(), m_paintstyle, nsGet());
-   setText(KEBListView::StatusColumn, statusLine);
+   statusLine = 
+      TestLinkItrHolder::calcPaintStyle(m_bookmark.url().url(), 
+                                        m_paintstyle, nsGet());
+   // ARGGGGGGGGGGGGGGGGHHHHHHHHHHHH!!!!!!!!!!!!
+   if (statusLine != "Error") {
+      setText(KEBListView::StatusColumn, statusLine);
+   }
 }
 
 void KEBListViewItem::setTmpStatus(const QString &status) {
+   kdDebug() << "KEBListViewItem::setTmpStatus" << endl;
    QString url = m_bookmark.url().url();
    m_paintstyle = 2;
    setText(KEBListView::StatusColumn, status);
@@ -337,8 +343,11 @@ void KEBListViewItem::setTmpStatus(const QString &status) {
 }
 
 void KEBListViewItem::restoreStatus() {
-   TestLinkItrHolder::blah2(m_bookmark.url().url(), m_oldStatus);
-   modUpdate();
+   if (!m_oldStatus.isNull()) {
+      kdDebug() << "KEBListViewItem::restoreStatus" << endl;
+      TestLinkItrHolder::blah2(m_bookmark.url().url(), m_oldStatus);
+      modUpdate();
+   }
 }
 
 #include "testlink.moc"
