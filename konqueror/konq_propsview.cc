@@ -32,6 +32,8 @@
 #include <qfile.h>
 #include <iostream>
 
+#include <ksimpleconfig.h>
+
 QPixmap wallpaperPixmap( const char *_wallpaper )
 {
     QString key = "wallpapers/";
