@@ -30,6 +30,8 @@
 #include <dcopclient.h>
 #include <qxt.h>
 #include <klocale.h>
+#include <qintdict.h>
+#include <qsocketnotifier.h>
 
 #include "kxt.h"
 #include "nsplugin.h"
@@ -62,6 +64,7 @@ static int x_errhandler(Display *dpy, XErrorEvent *error)
 
 QCString plugin;              // name of the plugin
 QCString dcopId;
+XtAppContext appcon;
 
 /**
  * parseCommandLine - get command line parameters
@@ -85,6 +88,111 @@ void parseCommandLine(int argc, char *argv[])
 }
 
 
+/**
+ * MyDCOPClient - ugly trick to access protected method
+ *
+ */
+class MyDCOPClient : public DCOPClient
+{
+ public:
+  void processSocket() { processSocketData(0); };
+};
+
+
+struct SocketNot
+{
+  int sock;
+  int type;
+  QObject *obj;
+  XtInputId id;
+};
+
+QIntDict<SocketNot> _read_notifiers;
+QIntDict<SocketNot> _write_notifiers;
+QIntDict<SocketNot> _except_notifiers;
+
+
+/**
+ * socketCallback - send event to the socket notifier
+ *
+ */
+void socketCallback(void *client_data, int */*source*/, XtInputId */*id*/)
+{
+  kDebugInfo("-> socketCallback( client_data=%x )", client_data);
+
+  QEvent event( QEvent::SockAct );
+  SocketNot *socknot = (SocketNot *)client_data;
+  QApplication::sendEvent( socknot->obj, &event );
+
+  kDebugInfo("<- dcopReadCallback");
+}
+
+
+/**
+ * qt_set_socket_handler - redefined internal qt function to register sockets
+ * The linker looks in the main binary first and finds this implementation before
+ * the original one in Qt. I hope this works with every dynamic library loader on any OS.
+ *
+ */
+extern bool qt_set_socket_handler( int, int, QObject *, bool );
+bool qt_set_socket_handler( int sockfd, int type, QObject *obj, bool enable )
+{
+  kDebugInfo("qt_set_socket_handler( sockfd=%d, type=%d, obj=%x, enable=%d )");
+
+  SocketNot *socknot = 0;
+  QIntDict<SocketNot> *notifiers;
+
+  switch (type)
+  {
+  case QSocketNotifier::Read: notifiers = &_read_notifiers; break;
+  case QSocketNotifier::Write: notifiers = &_write_notifiers; break;
+  case QSocketNotifier::Exception: notifiers = &_except_notifiers; break;
+  default: return FALSE;
+  }
+
+  socknot = notifiers->find( sockfd );
+  if (enable)
+  {
+    if (!socknot)
+    {
+      socknot = new SocketNot;
+      notifiers->insert( sockfd, socknot );
+    } else
+        XtRemoveInput( socknot->id );
+  	
+    socknot->sock = sockfd;
+    socknot->type = type;
+    socknot->obj = obj;
+  	
+    switch (type)
+    {
+    case QSocketNotifier::Read:
+    	socknot->id = XtAppAddInput(appcon, sockfd, (XtPointer)XtInputReadMask,
+  	                            socketCallback, socknot);
+        break;
+
+    case QSocketNotifier::Write:
+    	socknot->id = XtAppAddInput(appcon, sockfd, (XtPointer)XtInputWriteMask,
+  	                            socketCallback, socknot);
+        break;
+
+    case QSocketNotifier::Exception:
+    	socknot->id = XtAppAddInput(appcon, sockfd, (XtPointer)XtInputExceptMask,
+  	                            socketCallback, socknot);
+        break;
+    }
+  } else
+      if (socknot)
+      {
+    	XtRemoveInput( socknot->id );
+    	notifiers->remove( socknot->sock );
+    	delete socknot;
+      }
+
+  return TRUE;
+}
+
+
 int main(int argc, char** argv)
 {
   // trap X errors
@@ -92,12 +200,16 @@ int main(int argc, char** argv)
   setvbuf( stderr, NULL, _IONBF, 0 );
 
   // Create application
+  XtToolkitInitialize();
+  appcon = XtCreateApplicationContext();
+  Display *dpy = XtOpenDisplay(appcon, NULL, "nspluginviewer", "nspluginviewer", 0, 0, &argc, argv);
+
   parseCommandLine(argc, argv);
-  KXtApplication app(argc, argv, "nspluginviewer");
-  //app.createToplevelWidget();
+  KXtApplication app(dpy, argc, argv, "nspluginviewer");
 
   // initialize the dcop client
-  if (!app.dcopClient()->attach())
+  DCOPClient *dcop = app.dcopClient();
+  if (!dcop->attach())
     {
       QMessageBox::critical(NULL,
         i18n("Error connecting to DCOP server"),
@@ -108,7 +220,7 @@ int main(int argc, char** argv)
       exit(1);
     }
 
-  dcopId = app.dcopClient()->registerAs(plugin);
+  dcopId = dcop->registerAs(plugin);
 
   // create the DCOP object for the plugin class
   NSPluginClass *cls = new NSPluginClass(plugin, plugin);
@@ -129,5 +241,8 @@ int main(int argc, char** argv)
   _argv << "400" << "250" << src << mime;
   cls->NewInstance(mime, 1, _argn, _argv);*/
 
-  app.exec();
+  // start main loop
+  XtAppMainLoop(appcon);
+
+  delete cls;
 }
