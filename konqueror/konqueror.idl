@@ -84,7 +84,7 @@ module Konqueror
      * "KonquerorHTMLView")
      */
     string viewName();
-
+    
     /*
      * The three events defined below can be mapped by a view to provide view
      * specific GUI elements.
@@ -207,17 +207,14 @@ module Konqueror
   interface TxtView : View
   {
   };
-  
-  enum NewViewPosition { above, below, left, right };
 
   interface MainView : OpenParts::Part
   {
     // Position is relative to activeView(); above and below create a new row
-    void insertView( in View view, in NewViewPosition newViewPosition, in string serviceType );
+
     void setActiveView( in OpenParts::Id id );
     View activeView();
     ViewList viewList();
-    void removeView( in OpenParts::Id id );
 
     slot void openURL( in URLRequest url );    
     
@@ -290,6 +287,7 @@ module Konqueror
 
     slot void slotURLStarted( in OpenParts::Id id, in string url );
     slot void slotURLCompleted( in OpenParts::Id id );
+
   };
   
   interface MainWindow : OpenParts::MainWindow

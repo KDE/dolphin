@@ -44,6 +44,8 @@ class QSplitter;
 
 typedef QSplitter Row;
 
+enum NewViewPosition { above, below, left, right };
+  
 class KonqMainView : public QWidget,
                      virtual public OPPartIf,
 		     virtual public Konqueror::MainView_skel,
@@ -68,12 +70,9 @@ public:
   bool mappingNewTransfer( Konqueror::EventNewTransfer transfer );
 
   //IDL
-  // Position is relative to activeView(); above and below create a new row
-  virtual void insertView( Konqueror::View_ptr view, Konqueror::NewViewPosition newViewPosition, const char *serviceType );
   virtual void setActiveView( OpenParts::Id id );
   virtual Konqueror::View_ptr activeView();
   virtual Konqueror::ViewList *viewList();
-  virtual void removeView( OpenParts::Id id );
 
   virtual void openURL( const Konqueror::URLRequest &url );
   virtual void openURL( const char * _url, CORBA::Boolean _reload );
@@ -84,10 +83,7 @@ public:
   virtual void createNewWindow( const char *url );
   virtual void popupMenu( const Konqueror::View::MenuPopupRequest &popup );
 
-  void openDirectory( const char *url );
-  void openHTML( const char *url );
-  void openPluginView( const char *url, Konqueror::View_ptr view );
-  void openText( const char *url );
+  bool openView( const QString &serviceType, const QString &url );
   
   ////////////////////
   /// Overloaded functions of KBookmarkOwner
@@ -201,7 +197,11 @@ protected:
   /**
    * Create a new view from the current view (same URL, same view type) 
    */
-  void splitView ( Konqueror::NewViewPosition newViewPosition );
+  void splitView ( NewViewPosition newViewPosition );
+
+  // Position is relative to activeView(); above and below create a new row
+  void insertView( Konqueror::View_ptr view, NewViewPosition newViewPosition, const QStringList &serviceTypes );
+  void removeView( OpenParts::Id id );
 
   void changeViewMode( const char *viewName ) ; 
 

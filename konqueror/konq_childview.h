@@ -19,11 +19,12 @@
 #ifndef __konq_childview_h__
 #define __konq_childview_h__
 
-#include "konqueror.h"
+#include "konq_mainview.h"
 
 #include <qlist.h>
 #include <qstring.h>
 #include <qobject.h>
+#include <qstringlist.h>
 
 #include <list>
 
@@ -59,11 +60,11 @@ public:
    */
   KonqChildView( Konqueror::View_ptr view,
                  Row * row,
-                 Konqueror::NewViewPosition newViewPosition,
+                 NewViewPosition newViewPosition,
                  OpenParts::Part_ptr parent,
                  QWidget * parentWidget,
                  OpenParts::MainWindow_ptr mainWindow,
-		 const QString &serviceType
+		 const QStringList &serviceTypes
                );
 
   ~KonqChildView();
@@ -97,21 +98,18 @@ public:
   void emitMenuEvents( OpenPartsUI::Menu_ptr viewMmenu, OpenPartsUI::Menu_ptr editMenu, bool create );
 
   /**
-   * Changes the view mode of the current view, if different from viewName
-   */
-  void changeViewMode( const char *viewName );
-  /**
    * Replace the current view vith _vView
    */
-  void switchView( Konqueror::View_ptr _vView );
+  void switchView( Konqueror::View_ptr _vView, const QStringList &serviceTypes );
 
+  bool changeViewMode( const QString &serviceType, const QString &url = QString::null );
+  
+  void changeView( Konqueror::View_ptr _vView, const QStringList &serviceTypes, const QString &url = QString::null );
+  
   /**
    * Create a view
-   * @param viewName the type of view to be created (e.g. "KonqKfmIconView") 
-   *
-   * urgh, the serviceType string pointer is ugly... , David - do you have a good idea how to make this better?
    */
-  Konqueror::View_ptr createViewByName( const char *viewName, QString *serviceType = 0L );
+  Konqueror::View_ptr createViewByServiceType( const QString &serviceType );
   
   /**
    * Call this to prevent next makeHistory() call from changing history lists
@@ -184,9 +182,13 @@ public:
   void setLocationBarURL( const QString locationBarURL ) { m_sLocationBarURL = locationBarURL; }
 
   /**
-   * Returns the Servicetype this view is currently displaying
+   * Returns the Servicetypes this view is capable to display
    */
-  QString serviceType() { return m_strServiceType; }
+  QStringList serviceTypes() { return m_lstServiceTypes; }
+  
+  bool supportsServiceType( const QString &serviceType );
+
+  static bool createView( const QString &serviceType, Konqueror::View_var &view, QStringList &serviceTypes );
 
 signals:
 
@@ -214,13 +216,13 @@ protected:
     bool bHasHistoryEntry;
     QString strURL;
     Konqueror::View::HistoryEntry entry;
-    QString strViewName;
+    QString strServiceType;
   };
 
-  /** Used by makeHistory, to store the URL and ViewName 
+  /** Used by makeHistory, to store the URL and ServiceType 
    * _previously_ opened in this view */
   QString m_sLastURL;
-  QString m_sLastViewName;
+  QString m_sLastServiceType;
     
   Konqueror::View_var m_vView;
     
@@ -245,7 +247,7 @@ protected:
   Row * m_row;
   QVBoxLayout * m_pLayout;
   bool m_bBuiltin;
-  QString m_strServiceType;
+  QStringList m_lstServiceTypes;
 };
 
 #endif

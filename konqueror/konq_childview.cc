@@ -26,6 +26,10 @@
 #include "konq_htmlview.h"
 #include "konq_plugins.h"
 
+#include <kded_instance.h>
+#include <ktrader.h>
+#include <kactivator.h>
+
 #include <opFrame.h>
 #include <qsplitter.h>
 #include <qlayout.h>
@@ -52,11 +56,11 @@ void VeryBadHackToFixCORBARefCntBug( CORBA::Object_ptr obj )
 
 KonqChildView::KonqChildView( Konqueror::View_ptr view, 
                               Row * row, 
-                              Konqueror::NewViewPosition newViewPosition,
+                              NewViewPosition newViewPosition,
                               OpenParts::Part_ptr parent,
                               QWidget * ,
                               OpenParts::MainWindow_ptr mainWindow,
-			      const QString &serviceType
+			      const QStringList &serviceTypes
                               )
   : m_row( row )
 {
@@ -78,13 +82,13 @@ KonqChildView::KonqChildView( Konqueror::View_ptr view,
   m_vParent = OpenParts::Part::_duplicate( parent );
   m_vMainWindow = OpenParts::MainWindow::_duplicate( mainWindow );
 
-  if (newViewPosition == Konqueror::left)
+  if (newViewPosition == left)
     m_row->moveToFirst( m_pWidget );
   
   attach( view );
 
-  m_sLastViewName = viewName();
-  m_strServiceType = serviceType;
+  m_sLastServiceType = serviceTypes.getFirst();
+  m_lstServiceTypes = serviceTypes;
 }
 
 KonqChildView::~KonqChildView()
@@ -104,6 +108,7 @@ void KonqChildView::attach( Konqueror::View_ptr view )
 
   m_pHeader->setPart( view );
   m_vView = Konqueror::View::_duplicate( view );
+  m_vView->incRef();
   m_vView->setMainWindow( m_vMainWindow );
   m_vView->setParent( m_vParent );
   connectView( );
@@ -135,7 +140,9 @@ void KonqChildView::attach( Konqueror::View_ptr view )
     m_pFrame->attach( view );
   }
 
-  KonqPlugins::installKOMPlugins( view );
+// disabled for now because it's slow (yet another trader query) and we
+// don't have any KOM plugins for views, yet (Simon)
+//  KonqPlugins::installKOMPlugins( view );
   m_pLayout->activate();
 }
 
@@ -189,101 +196,64 @@ void KonqChildView::emitMenuEvents( OpenPartsUI::Menu_ptr viewMenu, OpenPartsUI:
   EMIT_EVENT( m_vView, Konqueror::View::eventFillMenuEdit, ev );
 }
 
-void KonqChildView::switchView( Konqueror::View_ptr _vView )
+void KonqChildView::switchView( Konqueror::View_ptr _vView, const QStringList &serviceTypes )
 {
   kdebug(0,1202,"switchView : part->inactive");
   m_vMainWindow->setActivePart( m_vParent->id() );
-  OpenParts::Id oldId = m_vView->id();
-  kdebug(0,1202,"switchView : oldId=%d", oldId);
     
   detach();
   Konqueror::View_var vView = Konqueror::View::_duplicate( _vView );
   kdebug(0,1202,"switchView : attaching new one");
   attach( vView );
-    
-  kdebug(0,1202,"switchView : emitting sigIdChanged");
-  emit sigIdChanged( this, oldId, vView->id() );
-  kdebug(0,1202,"switchView : setActivePart");
-  m_vMainWindow->setActivePart( vView->id() ); 
 
+  m_lstServiceTypes = serviceTypes;
+  
   show(); // switchView is never called on startup. We can always show() the view.
 }
 
-void KonqChildView::changeViewMode( const char *viewName )
+bool KonqChildView::changeViewMode( const QString &serviceType, const QString &_url )
 {
-  // check the current view name against the asked one
-  if ( strcmp( viewName, this->viewName() ) != 0L )
+  QString url = _url;
+  if ( url.isEmpty() )
+    url = KonqChildView::url();
+    
+  //no need to change anything if we are able to display this servicetype
+  if ( m_lstServiceTypes.find( serviceType ) != m_lstServiceTypes.end() )
   {
-    QString sViewURL = url(); // store current URL
-    Konqueror::View_var vView = createViewByName( viewName, &m_strServiceType ); 
-    switchView( vView );
-    openURL( sViewURL );
+    openURL( url );
+    return true;
   }
+
+  Konqueror::View_var vView;
+  QStringList serviceTypes;
+  if ( !createView( serviceType, vView, serviceTypes ) )
+   return false;
+  
+  OpenParts::Id oldId = m_vView->id();
+  switchView( vView, serviceTypes );
+  
+  emit sigIdChanged( this, oldId, vView->id() );
+  
+  openURL( url );
+  
+  m_vMainWindow->setActivePart( vView->id() ); 
+  return true;
 }
 
-Konqueror::View_ptr KonqChildView::createViewByName( const char *viewName, QString *serviceType )
+void KonqChildView::changeView( Konqueror::View_ptr _vView, const QStringList &serviceTypes, const QString &_url = QString::null )
 {
-  Konqueror::View_var vView;
-  QString sType;
-
-  kdebug(0,1202,"void KonqChildView::createViewByName( %s )", viewName);
-
-  //check for builtin views
-  if ( strcmp( viewName, "KonquerorKfmIconView" ) == 0 )
-  {
-    KonqKfmIconView * v = new KonqKfmIconView;
-    vView = Konqueror::View::_duplicate( v );
-    sType = "inode/directory";
-  }
-  else if ( strcmp( viewName, "KonquerorKfmTreeView" ) == 0 )
-  {
-    KonqKfmTreeView * v = new KonqKfmTreeView;
-    vView = Konqueror::View::_duplicate( v );
-    sType = "inode/directory";
-  }
-  else if ( strcmp( viewName, "KonquerorHTMLView" ) == 0 )
-  {
-    KonqHTMLView * v = new KonqHTMLView;
-    vView = Konqueror::View::_duplicate( v );
-    sType = "text/html";
-  }
-  else if ( strcmp( viewName, "KonquerorPartView" ) == 0 )
-  {
-    KonqPartView * v = new KonqPartView;
-    vView = Konqueror::View::_duplicate( v );
-    sType = "part"; //????????? ;-)
-  }
-  else if ( strcmp( viewName, "KonquerorTxtView" ) == 0 )
-  {
-    KonqTxtView * v = new KonqTxtView;
-    vView = Konqueror::View::_duplicate( v );
-    sType = "text/plain";
-  }
-  else
-  {
-    sType = KonqPlugins::getServiceType( viewName );
-    assert( !sType.isNull() );
+  QString url = _url;
+  if ( url.isEmpty() )
+    url = KonqChildView::url();
     
-    CORBA::Object_var obj = KonqPlugins::lookupViewServer( sType );
-    assert( !CORBA::is_nil( obj ) );
-    
-    Konqueror::ViewFactory_var factory = Konqueror::ViewFactory::_narrow( obj );
-    assert( !CORBA::is_nil( obj ) );
-    
-    vView = factory->create();
-    assert( !CORBA::is_nil( vView ) );
-  }
-
-  vView->incRef(); //it's a little bit...uhm... tricky do increase the KOM
-                   //reference counter here, because IMO it would make more
-		   //sense in the constructor and in attach() .
-		   //Nevertheless it works fine this way and it helps us to
-		   //make sure that we're also "owner" of the view.
-    
-  if ( serviceType )
-    *serviceType = sType;
-    
-  return Konqueror::View::_duplicate( vView );
+  OpenParts::Id oldId = m_vView->id();
+  switchView( _vView, serviceTypes );
+  
+  emit sigIdChanged( this, oldId, _vView->id() );
+  
+  openURL( url );
+  
+  m_vMainWindow->setActivePart( _vView->id() );
 }
 
 void KonqChildView::connectView(  )
@@ -376,11 +346,11 @@ void KonqChildView::makeHistory( bool bCompleted, QString url )
   
     h.bHasHistoryEntry = false;
     h.strURL = m_sLastURL; // use url from last call
-    h.strViewName = m_sLastViewName;
+    h.strServiceType = m_sLastServiceType;
     
     m_tmpInternalHistoryEntry = h;
     m_sLastURL = url; // remember for next call
-    m_sLastViewName = viewName();
+    m_sLastServiceType = m_lstServiceTypes.getFirst();
   }
   else
   {
@@ -401,16 +371,27 @@ void KonqChildView::goBack()
   InternalHistoryEntry h = m_lstBack.back();
   m_lstBack.pop_back();
   m_bBack = true;
-  kdebug(0,1202,"restoring %s with mode %s", h.entry.url.in(), h.strViewName.data());
-
-  changeViewMode( h.strViewName );
+  kdebug(0,1202,"restoring %s with stype %s", h.entry.url.in(), h.strServiceType.ascii());
 
   if ( h.bHasHistoryEntry )  
-    m_vView->restoreState( h.entry );
+  {
+    Konqueror::View_var vView;
+    QStringList serviceTypes;
+    createView( h.strServiceType, vView, serviceTypes );
+    
+    OpenParts::Id oldId = m_vView->id();
+    switchView( vView, serviceTypes );
+
+    emit sigIdChanged( this, oldId, vView->id() );
+  
+    vView->restoreState( h.entry );
+    
+    m_vMainWindow->setActivePart( vView->id() );    
+  }    
   else
   {
     kdebug(0,1202,"restoring %s",h.strURL.data());
-    openURL( h.strURL );
+    changeViewMode( h.strServiceType, h.strURL );
   }
 }
 
@@ -422,12 +403,23 @@ void KonqChildView::goForward()
   m_lstForward.pop_front();
   m_bForward = true;
 
-  changeViewMode( h.strViewName );
-    
   if ( h.bHasHistoryEntry )  
-    m_vView->restoreState( h.entry );
+  {
+    Konqueror::View_var vView;
+    QStringList serviceTypes;
+    createView( h.strServiceType, vView, serviceTypes );
+    
+    OpenParts::Id oldId = m_vView->id();
+    switchView( vView, serviceTypes );
+
+    emit sigIdChanged( this, oldId, vView->id() );
+  
+    vView->restoreState( h.entry );
+    
+    m_vMainWindow->setActivePart( vView->id() );    
+  }    
   else
-    openURL( h.strURL );
+    changeViewMode( h.strServiceType, h.strURL );
 }
 
 QString KonqChildView::url()
@@ -475,9 +467,85 @@ void KonqChildView::reload()
   // (Simon)
 }
 
+bool KonqChildView::supportsServiceType( const QString &serviceType )
+{
+  return ( m_lstServiceTypes.find( serviceType ) != m_lstServiceTypes.end() );
+}
+
 void KonqChildView::slotHeaderClicked()
 {
   m_vMainWindow->setActivePart( m_vView->id() );
+}
+
+bool KonqChildView::createView( const QString &serviceType, Konqueror::View_var &view, QStringList &serviceTypes )
+{
+  serviceTypes.clear();
+
+  kdebug(0,1202,"trying to create view for %s", serviceType.ascii());
+  
+  //check for builtin views first
+  if ( serviceType == "inode/directory" )
+  {
+    //default for directories is the iconview
+    view = Konqueror::View::_duplicate( new KonqKfmIconView );
+    serviceTypes.append( serviceType );
+    return true;
+  }
+  else if ( serviceType == "text/html" )
+  {
+    view = Konqueror::View::_duplicate( new KonqHTMLView );
+    serviceTypes.append( serviceType );
+    return true;
+  }
+  else if ( serviceType.left( 5 ) == "text/" &&
+            ( serviceType.mid( 5, 2 ) == "x-" ||
+	      serviceType.mid( 5 ) == "english" ||
+	      serviceType.mid( 5 ) == "plain" ) )
+  {
+    view = Konqueror::View::_duplicate( new KonqTxtView );
+    serviceTypes.append( serviceType );
+    return true;
+  }
+  
+  //now let's query the Trader for view plugins
+  KTrader *trader = KdedInstance::self()->ktrader();
+  KActivator *activator = KdedInstance::self()->kactivator();
+  
+  KTrader::OfferList offers = trader->query( serviceType, "'Konqueror/View' in ServiceTypes" );
+  
+  if ( offers.count() == 0 ) //no results?
+    return false;
+    
+  //activate the view plugin
+  KTrader::ServicePtr service = offers.getFirst();
+  
+  if ( service->repoIds().count() == 0 )  //uh...is it a CORBA service at all??
+    return false;
+  
+  QString repoId = service->repoIds().getFirst();
+  QString tag = service->name(); //use service name as default tag
+  int tagPos = repoId.find( "#" );
+  if ( tagPos != -1 )
+  {
+    tag = repoId.mid( tagPos + 1 );
+    repoId.truncate( tagPos );
+  }  
+
+  CORBA::Object_var obj = activator->activateService( service->name(), repoId, tag );
+  
+  Konqueror::ViewFactory_var factory = Konqueror::ViewFactory::_narrow( obj );
+  
+  if ( CORBA::is_nil( factory ) )
+    return false;
+
+  view = factory->create();
+
+  if ( CORBA::is_nil( view ) )
+    return false;
+
+  serviceTypes = service->serviceTypes();
+
+  return true;
 }
 
 #include "konq_childview.moc"

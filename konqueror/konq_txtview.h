@@ -39,7 +39,7 @@ public:
 
   virtual void stop();
   virtual char *viewName() { return CORBA::string_dup( "KonquerorTxtView" ); }
-
+  
   virtual Konqueror::View::HistoryEntry *saveState();
   virtual void restoreState( const Konqueror::View::HistoryEntry &history );
 

@@ -43,57 +43,14 @@ KfmRun::~KfmRun()
 void KfmRun::foundMimeType( const char *_type )
 {
   kdebug(0,1202,"FILTERING %s", _type);
-  
-  if ( strcmp( _type, "inode/directory" ) == 0 )
-  {    
-    m_pView->openDirectory( m_strURL );
-    m_pView = 0L;
-    m_bFinished = true;
-    m_timer.start( 0, true );
-    return;
-  }
-  else if ( strcmp( _type, "text/html" ) == 0 )
-  {
-    m_pView->openHTML( m_strURL );
-    m_pView = 0L;
-    m_bFinished = true;
-    m_timer.start( 0, true );
-    return;
-  }
-  else if ( strncmp( _type, "text/", 5 ) == 0 )
-  {
-    //FIXME: this is a bad hack
-    
-    QString type( _type );
-    type.remove( 0, 5 );
-    
-    if ( ( type.left( 2 ) == "x-" ) ||
-         ( type == "english" ) ||
-	 ( type == "plain" ) )
-       {
-         m_pView->openText( m_strURL );
-	 m_pView = 0L;
-	 m_bFinished = true;
-	 m_timer.start( 0, true );
-	 return;
-       }
-  }
 
-  CORBA::Object_var obj = KonqPlugins::lookupViewServer( _type );
-  if ( !CORBA::is_nil( obj ) )
+  if ( m_pView->openView( QString( _type ), m_strURL ) )
   {
-    kdebug(0,1202,"found plugin for %s", _type);
-
-    Konqueror::ViewFactory_var factory = Konqueror::ViewFactory::_narrow( obj );
-    Konqueror::View_var v = factory->create();
-    KonqPlugins::associate( v->viewName(), _type );
-    m_pView->openPluginView( m_strURL, v );
     m_pView = 0L;
     m_bFinished = true;
     m_timer.start( 0, true );
     return;
   }
-    
   kdebug(0,1202,"Nothing special to do here");
 
   KRun::foundMimeType( _type );

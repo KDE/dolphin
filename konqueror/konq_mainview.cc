@@ -318,9 +318,10 @@ void KonqMainView::initPanner()
 
 void KonqMainView::initView()
 {
-  KonqKfmIconView * pView = new KonqKfmIconView ;
-  kdebug(0, 1202, "pView is %p", pView);
-  insertView( pView, Konqueror::left, "inode/directory" );
+  KonqKfmIconView * pView = new KonqKfmIconView;
+  QStringList serviceTypes;
+  serviceTypes.append( "inode/directory" );
+  insertView( pView, left, serviceTypes );
 
   MapViews::Iterator it = m_mapViews.find( pView->id() );
   it.data()->lockHistory(); // first URL won't go into history
@@ -630,7 +631,6 @@ bool KonqMainView::mappingParentGotFocus( OpenParts::Part_ptr  )
     m_currentView->emitMenuEvents( m_vMenuView, m_vMenuEdit, false );
     m_currentView->repaint();
   }
-  m_currentView = 0L;
 
   // no more active view (even temporarily)
   setUpEnabled( "/", 0 );
@@ -657,8 +657,8 @@ bool KonqMainView::mappingNewTransfer( Konqueror::EventNewTransfer transfer )
 }
 
 void KonqMainView::insertView( Konqueror::View_ptr view,
-                               Konqueror::NewViewPosition newViewPosition,
-			       const char *serviceType )
+                               NewViewPosition newViewPosition,
+			       const QStringList &serviceTypes )
 {
   Row * currentRow;
   if ( m_currentView )
@@ -666,17 +666,17 @@ void KonqMainView::insertView( Konqueror::View_ptr view,
   else // complete beginning, we don't even have a view
     currentRow = m_lstRows.first();
 
-  if (newViewPosition == Konqueror::above || 
-      newViewPosition == Konqueror::below)
+  if (newViewPosition == above || 
+      newViewPosition == below)
   {
     kdebug(0,1202,"Creating a new row");
-    currentRow = newRow( (newViewPosition == Konqueror::below) ); // append if below
+    currentRow = newRow( (newViewPosition == below) ); // append if below
     // Now insert a view, say on the right (doesn't matter)
-    newViewPosition = Konqueror::right;
+    newViewPosition = right;
   }
 
   KonqChildView *v = new KonqChildView( view, currentRow, newViewPosition,
-                                        this, this, m_vMainWindow, QString( serviceType ) );
+                                        this, this, m_vMainWindow, serviceTypes );
   QObject::connect( v, SIGNAL(sigIdChanged( KonqChildView *, OpenParts::Id, OpenParts::Id )), 
                     this, SLOT(slotIdChanged( KonqChildView * , OpenParts::Id, OpenParts::Id ) ));
 
@@ -741,8 +741,7 @@ Konqueror::ViewList *KonqMainView::viewList()
   for (; it != m_mapViews.end(); it++ )
   {
     seq->length( i++ );
-    (*seq)[ i ] = it.data()->view(); // no duplicate here ?
-                                     // no, because view() does it already :)
+    (*seq)[ i ] = it.data()->view();
   }
 
   return seq;
@@ -775,7 +774,7 @@ void KonqMainView::slotIdChanged( KonqChildView * childView, OpenParts::Id oldId
 {
   m_mapViews.remove( oldId );
   m_mapViews.insert( newId, childView );
-  if ( oldId == m_currentId)
+  if ( oldId == m_currentId )
     m_currentId = newId;
 }
 
@@ -888,67 +887,33 @@ void KonqMainView::createNewWindow( const char *url )
   m_pShell->show();
 }
 
-void KonqMainView::openDirectory( const char *url )
+bool KonqMainView::openView( const QString &serviceType, const QString &url )
 {
-  m_pRun = 0L;
-
-  // Wrong. If the current view is a treeview, we want to keep it this way
-  // Same if it's an icon view. We want to change it only if it can't handle
-  // a directory. We need a generic way to know if the current view
-  // can handle a given mimetype or not... or at least if it can handle
-  // a directory...
+  assert( m_currentView );
   
-  // I think this should solve it :-) (Simon)
-  if ( m_currentView->serviceType() != "inode/directory" )
-    m_currentView->changeViewMode( "KonquerorKfmIconView" );  
-
-  //TODO: check for html index file and stuff (Simon)
+  //first check whether the current view can display this type directly, then
+  //try to change the view mode. if this fails, too, then Konqueror cannot
+  //display the data addressed by the URL
+  if ( !m_currentView->supportsServiceType( serviceType ) &&
+       !m_currentView->changeViewMode( serviceType, url ) )
+    return false;
     
-  // Do we perhaps want to display a html index file ? => Save the path of the URL
-  //QString tmppath;
-  //if ( lst.size() == 1 && lst.front().isLocalFile() /*&& isHTMLAllowed()*/ )
-  //tmppath = lst.front().path();
-
-  m_currentView->openURL( url );
-}
-
-void KonqMainView::openHTML( const char *url )
-{
   m_pRun = 0L;
-  
-  m_currentView->changeViewMode( "KonquerorHTMLView" );
-  m_currentView->openURL( url );
-}
-
-void KonqMainView::openPluginView( const char *url, Konqueror::View_ptr view )
-{
-  m_pRun = 0L;
-  Konqueror::View_var vView = Konqueror::View::_duplicate( view );
-
-  m_currentView->switchView( vView );
-  m_currentView->openURL( url );
-
-  setUpEnabled( QString::null, m_currentId ); // HACK.
-     // How can we really know if a plugin supports 'up' ?
-}
-
-void KonqMainView::openText( const char *url )
-{
-  m_pRun = 0L;
-  
-  m_currentView->changeViewMode( "KonquerorTxtView" );
-  m_currentView->openURL( url );
+  return true;
 }
 
 // protected
-void KonqMainView::splitView ( Konqueror::NewViewPosition newViewPosition )
+void KonqMainView::splitView ( NewViewPosition newViewPosition )
 {
   QString url = m_currentView->url();
-  QString viewName = m_currentView->viewName();
+  const QString serviceType = m_currentView->serviceTypes().getFirst();
 
-  QString sType;
-  Konqueror::View_var vView = m_currentView->createViewByName( viewName, &sType );
-  insertView( vView, newViewPosition, sType.ascii() );
+  Konqueror::View_var vView;
+  QStringList serviceTypes;
+  
+  (void)KonqChildView::createView( serviceType, vView, serviceTypes );
+  
+  insertView( vView, newViewPosition, serviceTypes );
   MapViews::Iterator it = m_mapViews.find( vView->id() );
   it.data()->openURL( url );
 }
@@ -1110,19 +1075,19 @@ void KonqMainView::slotDelete()
 void KonqMainView::slotSplitView()
 {
   // Create new view, same URL as current view, on its right.
-  splitView( Konqueror::right );
+  splitView( right );
 }
 
 void KonqMainView::slotRowAbove()
 {
   // Create new row above, with a view, same URL as current view.
-  splitView( Konqueror::above );
+  splitView( above );
 }
 
 void KonqMainView::slotRowBelow()
 {
   // Create new row below, with a view, same URL as current view.
-  splitView( Konqueror::below );
+  splitView( below );
 }
 
 void KonqMainView::slotRemoveView()
@@ -1147,12 +1112,17 @@ void KonqMainView::slotShowHTML()
 
 void KonqMainView::slotLargeIcons()
 {
-  m_currentView->changeViewMode( "KonquerorKfmIconView" );
+  Konqueror::View_var v;
+
+  if ( m_currentView->viewName() != "KonquerorKfmIconView" )
+  {
+    v = Konqueror::View::_duplicate( new KonqKfmIconView );
+    QStringList serviceTypes;
+    serviceTypes.append( "inode/directory" );
+    m_currentView->changeView( v, serviceTypes );
+  }
   
-  //this must never fail... 
-  //(but it's quite sure that doesn't fail ;) 
-  //(we could also ask via supportsInterface() ...anyway)
-  Konqueror::View_var v = m_currentView->view();
+  v = m_currentView->view();
   Konqueror::KfmIconView_var iv = Konqueror::KfmIconView::_narrow( v );
   
   iv->slotLargeIcons();
@@ -1160,9 +1130,17 @@ void KonqMainView::slotLargeIcons()
 
 void KonqMainView::slotSmallIcons()
 {
-  m_currentView->changeViewMode( "KonquerorKfmIconView" );
+  Konqueror::View_var v;
   
-  Konqueror::View_var v = m_currentView->view();
+  if ( m_currentView->viewName() != "KonquerorKfmIconView" )
+  {
+    v = Konqueror::View::_duplicate( new KonqKfmIconView );
+    QStringList serviceTypes;
+    serviceTypes.append( "inode/directory" );
+    m_currentView->changeView( v, serviceTypes );
+  }
+  
+  v = m_currentView->view();
   Konqueror::KfmIconView_var iv = Konqueror::KfmIconView::_narrow( v );
   
   iv->slotSmallIcons();
@@ -1170,7 +1148,13 @@ void KonqMainView::slotSmallIcons()
 
 void KonqMainView::slotTreeView()
 {
-  m_currentView->changeViewMode( "KonquerorKfmTreeView" );
+  if ( m_currentView->viewName() != "KonquerorKfmTreeView" )
+  {
+    Konqueror::View_var v = Konqueror::View::_duplicate( new KonqKfmTreeView );
+    QStringList serviceTypes;
+    serviceTypes.append( "inode/directory" );
+    m_currentView->changeView( v, serviceTypes );
+  }
 }
 
 void KonqMainView::slotReload()
@@ -1397,13 +1381,20 @@ void KonqMainView::slotURLStarted( OpenParts::Id id, const char *url )
   if ( id == m_currentId )
     slotStartAnimation();
 
+  kdebug(0, 1202, "KonqMainView::slotURLStarted #1", id, url);
   it.data()->makeHistory( false /* not completed */, url );
+  kdebug(0, 1202, "KonqMainView::slotURLStarted #2", id, url);
   if ( id == m_currentId )
   {
+  kdebug(0, 1202, "KonqMainView::slotURLStarted #3", id, url);
     setUpEnabled( m_currentView->url(), id );
+  kdebug(0, 1202, "KonqMainView::slotURLStarted #4", id, url);
     setItemEnabled( m_vMenuGo, MGO_BACK_ID, m_currentView->canGoBack() );
+  kdebug(0, 1202, "KonqMainView::slotURLStarted #5", id, url);
     setItemEnabled( m_vMenuGo, MGO_FORWARD_ID, m_currentView->canGoForward() );
+  kdebug(0, 1202, "KonqMainView::slotURLStarted #6", id, url);
   }
+  kdebug(0, 1202, "KonqMainView::slotURLStarted #7", id, url);
 }
 
 void KonqMainView::slotURLCompleted( OpenParts::Id id )

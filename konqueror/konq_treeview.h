@@ -98,7 +98,7 @@ public:
 
   virtual void stop();
   virtual char *viewName() { return CORBA::string_dup("KonquerorKfmTreeView"); }
-
+  
   virtual char *url();
 
   virtual void slotReloadTree();

@@ -28,25 +28,7 @@
 class KonqPlugins
 {
 public:
-  static CORBA::Object_ptr lookupViewServer( const QString serviceType );
-  
   static void installKOMPlugins( KOM::Component_ptr comp );
-  
-  /**
-   * Associate a view-name with a service type. When a plugin view is created, we need
-   * to store its name and service here, in case we want to create another one from the
-   * view name (e.g. "split")
-   */
-  static void associate( const QString &viewName, const QString &serviceType );
-
-  /**
-   * @return the service type that the view named 'viewName' handles
-   */
-  static QString getServiceType( const QString &viewName );
-
-private:
-  /* Maps view names to service types (only for plugin views!!) */
-  static QMap<QString,QString> s_mapServiceTypes;
 };
 
 #endif
