@@ -37,8 +37,8 @@ KonqPixmapProvider * KonqPixmapProvider::self()
 }
 
 KonqPixmapProvider::KonqPixmapProvider( QObject *parent, const char *name )
-    : KonqFavIconMgr( parent, name ),
-      KPixmapProvider()
+    : KPixmapProvider(), 
+      KonqFavIconMgr( parent, name )
 {
 }
 
