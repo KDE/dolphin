@@ -27,6 +27,8 @@
 module Konqueror
 {
   enum DirectoryDisplayMode { TreeView, LargeIcons, SmallIcons, SmallVerticalIcons };
+
+  const string eventURLEntered = "Konqueror/GUI/URLEntered";
  
   interface KfmIconView : Browser::View, Browser::EditExtension
   {
@@ -134,6 +136,7 @@ module Konqueror
     slot void slotConfigureBrowser();
     slot void slotConfigureKeys();
     slot void slotReloadPlugins();
+    slot void slotConfigurePlugins();
 
     // Window menu
     slot void slotSplitViewHorizontal();

@@ -20,20 +20,90 @@
 #ifndef __konq_plugins_h__
 #define __konq_plugins_h__
 
-#include <kom.h>
+#include <qdialog.h>
+#include <qdict.h>
+
+#include <komBase.h>
 #include <ktrader.h>
+
+class KonqEventFilterProxy: public KOMBase
+{
+public:
+  KonqEventFilterProxy( CORBA::Object_ptr factory, const QStringList &events, KOM::Base_ptr obj );
+
+  virtual CORBA::Boolean eventFilter( KOM::Base_ptr obj, const char *name, const CORBA::Any &value );
+  
+  virtual void disconnectFilterNotify( KOM::Base_ptr obj );
+  
+private:
+  KOMVar<KOM::Plugin> m_rRef;
+  CORBA::Object_var m_vVirtualFactoryRef;
+};
 
 class KonqPlugins
 {
 public:
   static void installKOMPlugins( KOM::Component_ptr comp );
+  
   static void reload();
-
+  
+  static void configure( QWidget *parent = 0L );
+  
 private:
   static void installPlugin( KOM::Component_ptr comp, KService::Ptr pluginInfo );
 
   static KTrader::OfferList komPluginOffers;
   static bool bInitialized;
+};
+
+class QListView;
+class QListViewItem;
+class QXEmbed;
+class KProcess;
+class QCheckBox;
+class QVBox;
+class QSplitter;
+class QPushButton;
+
+class KonqPluginConfigDialog : public QDialog
+{
+  Q_OBJECT
+public:
+  KonqPluginConfigDialog( QWidget *parent = 0L );
+  ~KonqPluginConfigDialog();
+
+protected:
+  virtual void accept();
+
+private slots:
+  void slotSelectionChanged( QListViewItem *item );
+  void slotActivate( bool enable );
+
+private:
+
+  struct Entry
+  {
+    bool m_bActive;
+    KService::Ptr m_pService;
+  };
+
+  QDict<Entry> m_mapPlugins;
+  
+  QSplitter *m_pSplitter;
+  
+  QListView *m_pListView;
+  
+  QCheckBox *m_pCheckBox;
+  
+  QVBox *m_pLayout;
+  
+  QXEmbed *m_pEmbed;
+  
+  QPushButton *m_pCloseButton;
+  
+  KProcess *m_pProcess;
+
+  Entry *m_pEntry;
 };
 
 #endif

@@ -1,0 +1,8 @@
+[Desktop Entry]
+X-KDE-ServiceType=Konqueror/EventFilter
+
+[PropertyDef::RequiredInterfaces]
+Type=QStringList
+
+[PropertyDef::Events]
+Type=QStringList

@@ -3,7 +3,7 @@ LDFLAGS   = $(all_libraries) $(KDE_RPATH) $(MICO_LDFLAGS)
 LDADD = -lkparts -lkded $(LIB_KFILE) $(LIB_KHTML) $(top_builddir)/libkonq/libkonq.la 
 IDL_FLAGS = --query-server-for-narrow --relative-paths --any -I$(idldir)
 
-SUBDIRS = client pics Templates
+SUBDIRS = client pics Templates plugins
 
 data_DATA = directory.trash directory.autostart directory.templates directory.desktop
 datadir = $(kde_datadir)/konqueror
@@ -11,7 +11,7 @@ datadir = $(kde_datadir)/konqueror
 service_DATA = konqueror.desktop
 servicedir = $(kde_servicesdir)
 
-servicetype_DATA = konqkomplugin.desktop
+servicetype_DATA = konq_eventfilter.desktop
 servicetypedir = $(kde_servicetypesdir)
 
 EXTRA_DIST = $(data_DATA) $(service_DATA) $(servicetype_DATA)
@@ -41,7 +41,7 @@ noinst_HEADERS = browser.h kfmrun.h \
 METASOURCES = kfmrun.moc \
 	konq_childview.moc konq_frame.moc \
 	konq_htmlview.moc konq_iconview.moc \
-	konq_main.moc konq_mainview.moc konq_mainwindow.moc \
+	konq_main.moc konq_mainview.moc konq_mainwindow.moc konq_plugins.moc \
 	konq_profiledlg.moc konq_progressproxy.moc konq_searchdia.moc \
 	konq_treeview.moc konq_txtview.moc
 

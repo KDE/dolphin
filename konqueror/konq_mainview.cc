@@ -94,6 +94,7 @@ enum _ids {
     MOPTIONS_CONFIGUREBROWSER_ID,
     MOPTIONS_CONFIGUREKEYS_ID,
     MOPTIONS_RELOADPLUGINS_ID,
+    MOPTIONS_CONFIGUREPLUGINS_ID,
     
     MWINDOW_SPLITVIEWHOR_ID, MWINDOW_SPLITVIEWVER_ID, 
     MWINDOW_SPLITWINHOR_ID, MWINDOW_SPLITWINVER_ID, 
@@ -296,6 +297,7 @@ bool KonqMainView::event( const char* event, const CORBA::Any& value )
   MAPPING( OpenParts::eventParentGotFocus, OpenParts::Part_ptr, mappingParentGotFocus );
   MAPPING( Browser::eventOpenURL, Browser::EventOpenURL, mappingOpenURL );
   MAPPING( Browser::eventNewTransfer, Browser::EventNewTransfer, mappingNewTransfer );
+  MAPPING_WSTRING( Konqueror::eventURLEntered, mappingURLEntered );
 
   END_EVENT_MAPPER;
 
@@ -468,8 +470,10 @@ bool KonqMainView::mappingCreateMenubar( OpenPartsUI::MenuBar_ptr menuBar )
   m_vMenuOptions->insertItem4( text, this, "slotConfigureBrowser", 0, MOPTIONS_CONFIGUREBROWSER_ID, -1 );
   text = Q2C( i18n("Configure &keys") );
   m_vMenuOptions->insertItem4( text, this, "slotConfigureKeys", 0, MOPTIONS_CONFIGUREKEYS_ID, -1 );
-  text = Q2C( i18n("Reload Plugins") );
-  m_vMenuOptions->insertItem4( text, this, "slotReloadPlugins", 0, MOPTIONS_RELOADPLUGINS_ID, -1 );
+//  text = Q2C( i18n("Reload Plugins") );
+//  m_vMenuOptions->insertItem4( text, this, "slotReloadPlugins", 0, MOPTIONS_RELOADPLUGINS_ID, -1 );
+  text = Q2C( i18n("Configure Plugins...") );
+  m_vMenuOptions->insertItem4( text, this, "slotConfigurePlugins", 0, MOPTIONS_CONFIGUREPLUGINS_ID, -1 );
 
   text = Q2C( i18n( "&Window" ) );
   m_vMenuBar->insertMenu( text, m_vMenuWindow, -1, -1 );
@@ -798,6 +802,21 @@ bool KonqMainView::mappingNewTransfer( Browser::EventNewTransfer transfer )
   KIOJob *job = new KIOJob;
   job->copy( transfer.source.in(), transfer.destination.in() );
   
+  return true;
+}
+
+bool KonqMainView::mappingURLEntered( const CORBA::WChar *_url )
+{
+  QString url = C2Q( _url );
+
+  // Exit if the user did not enter an URL
+  if ( url.isEmpty() )
+    return false;
+
+  openURL( url.ascii() );
+  
+  m_vLocationBar->setCurrentComboItem( TOOLBAR_URL_ID, 0 );
+  m_vLocationBar->changeComboItem( TOOLBAR_URL_ID, _url, 0 );
   return true;
 }
 
@@ -1598,6 +1617,11 @@ void KonqMainView::slotReloadPlugins()
   }
 }
 
+void KonqMainView::slotConfigurePlugins()
+{
+  KonqPlugins::configure( this );
+}
+
 void KonqMainView::slotSaveDefaultProfile()
 {
   KConfig *config = kapp->getConfig();
@@ -1675,16 +1699,7 @@ void KonqMainView::slotHelpAbout()
 
 void KonqMainView::slotURLEntered( const CORBA::WChar *_url )
 {
-  QString url = C2Q( _url );
-
-  // Exit if the user did not enter an URL
-  if ( url.isEmpty() )
-    return;
-
-  openURL( url.ascii() );
-  
-  m_vLocationBar->setCurrentComboItem( TOOLBAR_URL_ID, 0 );
-  m_vLocationBar->changeComboItem( TOOLBAR_URL_ID, _url, 0 );
+  EMIT_EVENT_WSTRING( this, Konqueror::eventURLEntered, _url );
 }
 
 void KonqMainView::slotFileNewActivated( CORBA::Long id )

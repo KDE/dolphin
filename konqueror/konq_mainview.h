@@ -65,6 +65,7 @@ public:
   bool mappingParentGotFocus( OpenParts::Part_ptr child );
   bool mappingOpenURL( Browser::EventOpenURL eventURL );
   bool mappingNewTransfer( Browser::EventNewTransfer transfer );
+  bool mappingURLEntered( const CORBA::WChar *_url );
 
   //IDL
   virtual void setActiveView( OpenParts::Id id );
@@ -159,6 +160,7 @@ public:
   virtual void slotConfigureBrowser();
   virtual void slotConfigureKeys();
   virtual void slotReloadPlugins();
+  virtual void slotConfigurePlugins();
 
   // Window menu
   virtual void slotSplitViewHorizontal();
