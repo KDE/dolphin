@@ -18,7 +18,7 @@
 */
 
 #ifndef __konq_viewmgr_h__
-#define __konq_viewmgr_h__ $Id$
+#define __konq_viewmgr_h__ "$Id$"
 
 #include "konq_factory.h"
 
