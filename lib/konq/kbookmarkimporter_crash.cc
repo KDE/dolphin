@@ -36,11 +36,6 @@
 
 #define LINELIMIT 4096
 
-//    QTextCodec * codec = QTextCodec::codecForName("UTF-8");
-//    Q_ASSERT(codec);
-//    if (!codec)
-//        return;
-
 void KCrashBookmarkImporter::parseCrashLog( QString filename, bool del )
 {
     QFile f(filename);
@@ -48,6 +43,10 @@ void KCrashBookmarkImporter::parseCrashLog( QString filename, bool del )
     if(f.open(IO_ReadOnly)) {
 
         QCString s(4096);
+
+        QTextCodec * codec = QTextCodec::codecForName("UTF-8");
+        Q_ASSERT(codec);
+        if (!codec) return;
 
         typedef QMap<QString, QString> ViewMap;
         ViewMap views;
@@ -58,12 +57,16 @@ void KCrashBookmarkImporter::parseCrashLog( QString filename, bool del )
                kdWarning() << "Crash bookmarks contain a line longer than " << LINELIMIT << ". Skipping." << endl;
                continue;
             }
-            QCString t = s.stripWhiteSpace();
-            QRegExp rx( "(.*)\\((.*)\\) \\=\\= (.*)$" );
+            // KStringHandler::csqueeze()
+            QString t = codec->toUnicode(s.stripWhiteSpace());
+            QRegExp rx( "(.*)\\((.*)\\):(.*)$" );
             rx.setMinimal( TRUE );
-            rx.exactMatch(t);
-            if (rx.cap(1) == "opened") {
-               views[rx.cap(2)] = rx.cap(3);
+            if (rx.exactMatch(t)) {
+               if (rx.cap(1) == "opened") {
+                  views[rx.cap(2)] = rx.cap(3);
+               } else if (rx.cap(1) == "close") {
+                  views.remove(rx.cap(2));
+               }
             }
         }
 
@@ -103,7 +106,7 @@ QStringList KCrashBookmarkImporter::getCrashLogs() {
       QDataStream arg(data, IO_WriteOnly);
 
       if ( !dcop->call( clientId.data(), "KonquerorIface", "crashLogFile()", data, replyType, replyData) ) {
-         kdWarning() << "umm.. you've probably not got my patched konqi :)" << endl;
+         kdWarning() << "can't find dcop function KonquerorIface::crashLogFile()" << endl;
       } else {
          QDataStream reply(replyData, IO_ReadOnly);
 
@@ -123,8 +126,8 @@ QStringList KCrashBookmarkImporter::getCrashLogs() {
    QStringList crashFiles;
 
    for ( ; (fi = it.current()) != 0; ++it ) {
-      bool stillActive = activeLogs.contains(fi->absFilePath());
-      if (!stillActive) {
+      bool dead = !activeLogs.contains(fi->absFilePath());
+      if (dead) {
          crashFiles << fi->absFilePath();
       }
    }
