@@ -2114,37 +2114,16 @@ void KonqMainWindow::slotRemoveLocalProperties()
 
 bool KonqMainWindow::askForTarget(const QString& text, KURL& url)
 {
-   KDialog *dlg=new KDialog(this,"blah",true);
-   QVBoxLayout *layout=new QVBoxLayout(dlg,dlg->marginHint(),dlg->spacingHint());
-   QLabel *label=new QLabel(text,dlg);
-   label->setMinimumSize(300,label->height());
-   layout->addWidget(label);
-   label=new QLabel(m_currentView->url().prettyURL(),dlg);
-   layout->addWidget(label);
-   label=new QLabel(i18n("to"),dlg);
-   layout->addWidget(label);
    QString initialUrl = (viewCount()==2) ? otherView(m_currentView)->url().prettyURL() : m_currentView->url().prettyURL();
-   KURLRequester *urlReq=new KURLRequester(initialUrl, dlg);
-   connect( urlReq, SIGNAL( openFileDialog( KURLRequester * )),
-	    SLOT( slotRequesterClicked( KURLRequester * )));
-
-   layout->addWidget(urlReq);
-   QHBox *hbox=new QHBox(dlg);
-   layout->addWidget(hbox);
-   hbox->setSpacing(dlg->spacingHint());
-   QPushButton *ok=new QPushButton(i18n("&OK"),hbox);
-   QPushButton *cancel=new QPushButton(i18n("&Cancel"),hbox);
-   connect(ok,SIGNAL(clicked()),dlg,SLOT(accept()));
-   connect(cancel,SIGNAL(clicked()),dlg,SLOT(reject()));
-   ok->setDefault(true);
-   if (dlg->exec()==QDialog::Rejected)
+   QString label=text+" "+m_currentView->url().prettyURL()+" "+i18n("to:");
+   KURLRequesterDlg dlg(initialUrl,label,this,"urlrequester",true);
+   dlg.setCaption(i18n("Enter Target"));
+   if (dlg.exec())
    {
-      delete dlg;
-      return false;
+      url=dlg.selectedURL();
+      return true;
    }
-   url=urlReq->url();
-   delete dlg;
-   return true;
+   return false;
 }
 
 void KonqMainWindow::slotRequesterClicked( KURLRequester *req )
