@@ -41,7 +41,7 @@ void KonqSidebarTreeItem::initItem( KonqSidebarTreeTopLevelItem *topLevelItem )
     setExpandable( true );
 }
 
-void KonqSidebarTreeItem::middleButtonPressed()
+void KonqSidebarTreeItem::middleButtonClicked()
 {
     emit tree()->createNewWindow( externalURL() );
 }

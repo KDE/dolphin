@@ -134,7 +134,7 @@ QDragObject * KonqSidebarTreeTopLevelItem::dragObject( QWidget * parent, bool mo
     return drag;
 }
 
-void KonqSidebarTreeTopLevelItem::middleButtonPressed()
+void KonqSidebarTreeTopLevelItem::middleButtonClicked()
 {
     if ( !m_bTopLevelGroup )
         emit tree()->createNewWindow( m_externalURL );

@@ -42,7 +42,7 @@ public:
     virtual void drop( QDropEvent * ev );
     virtual QDragObject * dragObject( QWidget * parent, bool move = false );
 
-    virtual void middleButtonPressed();
+    virtual void middleButtonClicked();
     virtual void rightButtonPressed();
 
     virtual void paste();

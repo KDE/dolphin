@@ -117,6 +117,7 @@ private slots:
     void slotDoubleClicked( QListViewItem *item );
     void slotExecuted( QListViewItem *item );
     void slotMouseButtonPressed(int _button, QListViewItem* _item, const QPoint&, int col);
+    void slotMouseButtonClicked(int _button, QListViewItem* _item, const QPoint&, int col);
     void slotSelectionChanged();
 
     void slotAnimation();

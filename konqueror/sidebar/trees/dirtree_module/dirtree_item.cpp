@@ -164,7 +164,7 @@ void KonqSidebarDirTreeItem::itemSelected()
     tree()->enableActions( true, true, paste, true && !bInTrash, true, true );
 }
 
-void KonqSidebarDirTreeItem::middleButtonPressed()
+void KonqSidebarDirTreeItem::middleButtonClicked()
 {
     // Duplicated from KonqDirPart :(
     // Optimisation to avoid KRun to call kfmclient that then tells us

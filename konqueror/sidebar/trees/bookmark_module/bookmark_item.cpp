@@ -36,7 +36,7 @@ QDragObject * KonqSidebarBookmarkItem::dragObject( QWidget * parent, bool )
     return drag;
 }
 
-void KonqSidebarBookmarkItem::middleButtonPressed()
+void KonqSidebarBookmarkItem::middleButtonClicked()
 {
     emit tree()->createNewWindow( externalURL() );
 }

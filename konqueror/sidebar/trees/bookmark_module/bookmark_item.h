@@ -36,7 +36,7 @@ public:
     // Create a drag object from this item.
     virtual QDragObject * dragObject( QWidget * parent, bool move = false );
 
-    virtual void middleButtonPressed();
+    virtual void middleButtonClicked();
     virtual void rightButtonPressed();
 
     virtual void del();

@@ -110,6 +110,8 @@ KonqSidebarTree::KonqSidebarTree( KonqSidebar_Tree *parent, QWidget *parentWidge
              this, SLOT( slotDoubleClicked( QListViewItem * ) ) );
     connect( this, SIGNAL( mouseButtonPressed(int, QListViewItem*, const QPoint&, int)),
              this, SLOT( slotMouseButtonPressed(int, QListViewItem*, const QPoint&, int)) );
+    connect( this, SIGNAL( mouseButtonClicked( int, QListViewItem*, const QPoint&, int ) ),
+	     this, SLOT( slotMouseButtonClicked( int, QListViewItem*, const QPoint&, int ) ) );
     connect( this, SIGNAL( returnPressed( QListViewItem * ) ),
              this, SLOT( slotDoubleClicked( QListViewItem * ) ) );
     connect( this, SIGNAL( selectionChanged() ),
@@ -355,7 +357,18 @@ void KonqSidebarTree::slotExecuted( QListViewItem *item )
     openURLRequest( dItem->externalURL(), args );
 }
 
-void KonqSidebarTree::slotMouseButtonPressed(int _button, QListViewItem* _item, const QPoint&, int col)
+void KonqSidebarTree::slotMouseButtonPressed( int _button, QListViewItem* _item, const QPoint&, int col )
+{
+    KonqSidebarTreeItem * item = static_cast<KonqSidebarTreeItem*>( _item );
+    if ( _item && col < 2 && _button == RightButton)
+    {
+	item->setSelected( true );
+	item->rightButtonPressed();
+    }
+
+}
+
+void KonqSidebarTree::slotMouseButtonClicked(int _button, QListViewItem* _item, const QPoint&, int col)
 {
     KonqSidebarTreeItem * item = static_cast<KonqSidebarTreeItem*>(_item);
     if(_item && col < 2)
@@ -365,11 +378,7 @@ void KonqSidebarTree::slotMouseButtonPressed(int _button, QListViewItem* _item, 
             slotExecuted( item );
             break;
         case MidButton:
-            item->middleButtonPressed();
-            break;
-        case RightButton:
-            item->setSelected( true );
-            item->rightButtonPressed();
+            item->middleButtonClicked();
             break;
         }
     }
