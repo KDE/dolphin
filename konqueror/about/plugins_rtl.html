@@ -1,0 +1,47 @@
+<html>
+<head>
+<script language="Javascript"> <!--
+function listPlugins() {
+document.write("<table border=\"1\">");
+document.write("<tr><td>Plugin</td><td>Description</td><td>File</td><td>Types</td></tr>");
+for (i = 0; i < navigator.plugins.length; i++)
+{
+    document.write("<tr><td>"+navigator.plugins[i].name);
+    document.write("</td><td>"+navigator.plugins[i].description);
+    document.write("</td><td>"+navigator.plugins[i].filename);
+    document.write("</td><td><ul>");
+    for (j = 0; j < navigator.plugins[i].length; j++)
+    {
+        document.write("<li>"+navigator.plugins[i][j].type+" - "
+                             +navigator.plugins[i][j].description+" ("
+                             +navigator.plugins[i][j].suffixes+")</li>");
+    }
+    document.write("</ul></td></tr>");
+}
+document.write("</table>");
+
+document.write("<br/><br/>");
+
+document.write("<table border=\"1\">");
+document.write("<tr><td>Mime Type</td><td>Description</td><td>Suffixes</td><td>Plugin</td></tr>");
+for (i = 0; i < navigator.mimeTypes.length; i++)
+{
+    document.write("<tr><td>"+navigator.mimeTypes[i].type);
+    document.write("</td><td>"+navigator.mimeTypes[i].description);
+    document.write("</td><td>"+navigator.mimeTypes[i].suffixes);
+    if (navigator.mimeTypes[i].enabledPlugin) {
+        document.write("</td><td>");
+        // This could be enhanced to write the plugin name(s) by
+        // searching through navigator.plugins[][]
+        document.write("Installed.");
+    }
+    document.write("</td></tr>");
+}
+document.write("</table>");
+}
+//--></script>
+</head>
+<body onload="listPlugins();">
+</body>
+</html>
+

@@ -22,12 +22,13 @@ public:
     static QString intro();
     static QString specs();
     static QString tips();
+    static QString plugins();
 
 private:
     static QString loadFile( const QString& file );
 
     static KInstance *s_instance;
-    static QString *s_intro_html, *s_specs_html, *s_tips_html;
+    static QString *s_intro_html, *s_specs_html, *s_tips_html, *s_plugins_html;
 };
 
 class KonqAboutPage : public KHTMLPart
@@ -50,11 +51,12 @@ protected:
     virtual void urlSelected( const QString &url, int button, int state, const QString &target, KParts::URLArgs args = KParts::URLArgs() );
 
 private:
-    void serve( const QString& );
+    void serve( const QString&, const QString& );
 
     KHTMLPart *m_doc;
     //KonqMainWindow *m_mainWindow;
     QString m_htmlDoc;
+    QString m_what;
 };
 
 #endif

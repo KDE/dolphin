@@ -473,7 +473,7 @@ void KonqMainWindow::openURL( KonqView *_view, const KURL &_url,
   }
 
   kdDebug(1202) << QString("trying openView for %1 (servicetype %2)").arg(url.url()).arg(serviceType) << endl;
-  if ( ( !serviceType.isEmpty() && serviceType != "application/octet-stream") || url.url() == "about:konqueror" )
+  if ( ( !serviceType.isEmpty() && serviceType != "application/octet-stream") || url.url() == "about:konqueror" || url.url() == "about:plugins")
   {
     // Built-in view ?
     if ( !openView( serviceType, url, view /* can be 0L */, req ) )
@@ -624,11 +624,11 @@ bool KonqMainWindow::openView( QString serviceType, const KURL &_url, KonqView *
 
   QString serviceName; // default: none provided
 
-  if ( url.url() == "about:konqueror" )
+  if ( url.url() == "about:konqueror" || url.url() == "about:plugins" )
   {
       serviceType = "KonqAboutPage"; // not KParts/ReadOnlyPart, it fills the Location menu ! :)
       serviceName = "konq_aboutpage";
-      originalURL = req.typedURL.isEmpty() ? QString::null : QString::fromLatin1("about:konqueror");
+      originalURL = req.typedURL.isEmpty() ? QString::null : url.url();
       // empty if from profile, about:konqueror if the user typed it (not req.typedURL, it could be "about:")
   }
   else if ( url.url() == "about:blank" && req.typedURL.isEmpty() )

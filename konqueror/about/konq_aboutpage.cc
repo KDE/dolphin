@@ -27,6 +27,7 @@ KInstance *KonqAboutPageFactory::s_instance = 0;
 QString *KonqAboutPageFactory::s_intro_html = 0;
 QString *KonqAboutPageFactory::s_specs_html = 0;
 QString *KonqAboutPageFactory::s_tips_html = 0;
+QString *KonqAboutPageFactory::s_plugins_html = 0;
 
 KonqAboutPageFactory::KonqAboutPageFactory( QObject *parent, const char *name )
     : KParts::Factory( parent, name )
@@ -44,6 +45,8 @@ KonqAboutPageFactory::~KonqAboutPageFactory()
     s_specs_html = 0;
     delete s_tips_html;
     s_tips_html = 0;
+    delete s_plugins_html;
+    s_plugins_html = 0;
 }
 
 KParts::Part *KonqAboutPageFactory::createPartObject( QWidget *parentWidget, const char *widgetName,
@@ -275,6 +278,21 @@ QString KonqAboutPageFactory::tips()
 }
 
 
+QString KonqAboutPageFactory::plugins()
+{
+    if ( s_plugins_html )
+        return *s_plugins_html;
+
+    QString res = loadFile( locate( "data", kapp->reverseLayout() ? "konqueror/about/plugins_rtl.html" : "konqueror/about/plugins.html" ));
+    if ( res.isEmpty() )
+	return res;
+
+    s_plugins_html = new QString( res );
+
+    return res;
+}
+
+
 KonqAboutPage::KonqAboutPage( //KonqMainWindow *
                               QWidget *parentWidget, const char *widgetName,
                               QObject *parent, const char *name )
@@ -296,9 +314,11 @@ KonqAboutPage::~KonqAboutPage()
 {
 }
 
-bool KonqAboutPage::openURL( const KURL & )
+bool KonqAboutPage::openURL( const KURL &u )
 {
-    serve( KonqAboutPageFactory::intro() );
+    if (u.url() == "about:plugins")
+       serve( KonqAboutPageFactory::plugins(), "plugins" );
+    else serve( KonqAboutPageFactory::intro(), "konqueror" );
     return true;
 }
 
@@ -310,17 +330,20 @@ bool KonqAboutPage::openFile()
 void KonqAboutPage::saveState( QDataStream &stream )
 {
     stream << m_htmlDoc;
+    stream << m_what;
 }
 
 void KonqAboutPage::restoreState( QDataStream &stream )
 {
     stream >> m_htmlDoc;
-    serve( m_htmlDoc );
+    stream >> m_what;
+    serve( m_htmlDoc, m_what );
 }
 
-void KonqAboutPage::serve( const QString& html )
+void KonqAboutPage::serve( const QString& html, const QString& what )
 {
-    begin( "about:konqueror" );
+    m_what = what;
+    begin( QString("about:%1").arg(what) );
     write( html );
     end();
     m_htmlDoc = html;
@@ -341,19 +364,19 @@ void KonqAboutPage::urlSelected( const QString &url, int button, int state, cons
     if ( url == QString::fromLatin1("intro.html") || url == QString::fromLatin1("intro_rtl.html") )
     {
         emit browserExtension()->openURLNotify();
-	serve( KonqAboutPageFactory::intro() );
+	serve( KonqAboutPageFactory::intro(), "konqueror" );
         return;
     }
     else if ( url == QString::fromLatin1("specs.html") || url == QString::fromLatin1("specs_rtl.html") )
     {
         emit browserExtension()->openURLNotify();
-	serve( KonqAboutPageFactory::specs() );
+	serve( KonqAboutPageFactory::specs(), "konqueror" );
         return;
     }
     else if ( url == QString::fromLatin1("tips.html") || url == QString::fromLatin1("tips_rtl.html") )
     {
         emit browserExtension()->openURLNotify();
-        serve( KonqAboutPageFactory::tips() );
+        serve( KonqAboutPageFactory::tips(), "konqueror" );
         return;
     }
 
