@@ -902,31 +902,41 @@ void KonqMainWindow::slotPartActivated( KParts::Part *part )
   kdDebug(1202) << "slotPartActivated " << part << " "
                 <<  ( part && part->instance() && part->instance()->aboutData() ? part->instance()->aboutData()->appName() : "" ) << endl;
 
+  KonqView *newView = 0;
+  KonqView *oldView = m_currentView;
+  
+  if ( part )
+  {
+    newView = m_mapViews.find( static_cast<KParts::ReadOnlyPart *>( part ) ).data();
+
+    if ( newView->passiveMode() )
+    {
+      // Passive view. Don't connect anything, don't change m_currentView
+      // Another view will become the current view very soon
+      return;
+    }
+  }
+
+  KParts::BrowserExtension *ext = 0;
+
+  if ( oldView )
+    ext = oldView->browserExtension();
+
+  if ( ext )
+    disconnectExtension( ext );
+
   if ( !part )
   {
     createGUI( 0L );
     return;
   }
 
-  KonqView *newView = m_mapViews.find( static_cast<KParts::ReadOnlyPart *>( part ) ).data();
-
-  if ( newView->passiveMode() )
-  {
-    // Passive view. Don't connect anything, don't change m_currentView
-    // Another view will become the current view very soon
-    return;
-  }
-
-  KonqView *oldView = m_currentView;
-
-  if ( m_currentView && m_currentView->browserExtension() )
-    disconnectExtension( m_currentView->browserExtension() );
-
   m_currentView = newView;
+  ext = m_currentView->browserExtension();
 
-  if ( m_currentView->browserExtension() )
+  if ( ext )
   {
-    connectExtension( m_currentView->browserExtension() );
+    connectExtension( ext );
     createGUI( part );
   }
   else
