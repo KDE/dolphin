@@ -33,8 +33,8 @@
 #include <kurl.h>
 
 KBookmarkBar::KBookmarkBar( KBookmarkOwner *_owner, KToolBar *_toolBar,
-                            QActionCollection *_collec )
-    : m_pOwner(_owner), m_toolBar(_toolBar), m_actionCollection(_collec)
+                            QActionCollection *_collec, QObject *parent, const char *name )
+    : QObject( parent, name ), m_pOwner(_owner), m_toolBar(_toolBar), m_actionCollection(_collec)
 {
     // force the "icon to the left of the text" look
     m_toolBar->setIconText(KToolBar::IconTextRight);
