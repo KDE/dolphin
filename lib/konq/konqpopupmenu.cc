@@ -523,7 +523,7 @@ KAction *KonqPopupMenu::action( const QDomElement &element ) const
   return res;
 }
 
-QDomDocument KonqPopupMenu::document() const
+QDomDocument KonqPopupMenu::domDocument() const
 {
   return m_doc;
 }

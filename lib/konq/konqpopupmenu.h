@@ -80,7 +80,7 @@ public:
   /**
    * Reimplemented for internal purpose
    */
-  virtual QDomDocument document() const;
+  virtual QDomDocument domDocument() const;
 
 public slots:
   void slotPopupNewView();
