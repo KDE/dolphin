@@ -142,8 +142,8 @@ KEBTopLevel::KEBTopLevel( const QString & bookmarksFile )
              SLOT(slotItemRenamed(QListViewItem *, const QString &, int)) );
     connect( m_pListView, SIGNAL(moved (QListViewItem *, QListViewItem *, QListViewItem *)),
              SLOT(slotMoved(QListViewItem *, QListViewItem *, QListViewItem *)) );
-    connect( m_pListView, SIGNAL(selectionChanged( QListViewItem * ) ),
-             SLOT(slotSelectionChanged( QListViewItem * ) ) );
+    connect( m_pListView, SIGNAL(selectionChanged() ),
+             SLOT(slotSelectionChanged() ) );
     connect( m_pListView, SIGNAL(contextMenu( KListView *, QListViewItem *, const QPoint & )),
              SLOT(slotContextMenu( KListView *, QListViewItem *, const QPoint & )) );
     // If someone plays with konq's bookmarks while we're open, update.
@@ -173,7 +173,7 @@ KEBTopLevel::KEBTopLevel( const QString & bookmarksFile )
     actionCollection()->action("edit_sort")->setEnabled(false); // not implemented
     actionCollection()->action("edit_testlink")->setEnabled(false); // not implemented
 
-    slotSelectionChanged(0);
+    slotSelectionChanged();
 
     createGUI();
 
@@ -416,8 +416,9 @@ void KEBTopLevel::slotMoved(QListViewItem *_item, QListViewItem * /*_afterFirst*
     setModified(); // should be done by the command ? not sure.
 }
 
-void KEBTopLevel::slotSelectionChanged( QListViewItem * item )
+void KEBTopLevel::slotSelectionChanged()
 {
+    QListViewItem * item = m_pListView->selectedItem();
     kdDebug() << "KEBTopLevel::slotSelectionChanged " << item << endl;
     bool itemSelected = (item != 0L);
     bool group = false;
@@ -490,7 +491,7 @@ void KEBTopLevel::update()
     else
     {
         fillListView();
-        slotSelectionChanged(0);
+        slotSelectionChanged();
     }
 }
 

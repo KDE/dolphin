@@ -90,7 +90,7 @@ public slots:
 protected slots:
     void slotItemRenamed(QListViewItem *, const QString &, int);
     void slotMoved(QListViewItem *, QListViewItem *, QListViewItem *);
-    void slotSelectionChanged( QListViewItem * );
+    void slotSelectionChanged();
     void slotContextMenu( KListView *, QListViewItem *, const QPoint & );
     void slotBookmarksChanged();
 
