@@ -352,7 +352,7 @@ NPError g_NPN_PostURLNotify(NPP instance, const char* url, const char* target,
 
    NSPluginInstance *inst = static_cast<NSPluginInstance*>(instance->ndata);
    if (inst && !inst->normalizedURL(QString::fromLatin1(url)).isNull()) {
-      inst->postURL( QString::fromLatin1(url), postdata, QString::null,
+      inst->postURL( QString::fromLatin1(url), postdata, args.contentType(),
                      QString::fromLatin1(target), notifyData, args );
    } else {
       // Unsupported / insecure
@@ -674,9 +674,14 @@ void NSPluginInstance::timer()
         {
             if (_callback)
             {
-                _callback->requestURL( url, req.target );
-                if ( req.notify )
+                if ( req.post ) {
+                    _callback->postURL( url, req.target, req.data, req.mime );
+                } else {
+                    _callback->requestURL( url, req.target );
+                }
+                if ( req.notify ) {
                     NPURLNotify( req.url, NPRES_DONE, req.notify );
+                }
             }
         } else {
             if (!url.isEmpty())

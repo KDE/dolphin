@@ -35,6 +35,7 @@ class NSPluginCallbackIface : virtual public DCOPObject
 k_dcop:
 
   virtual ASYNC requestURL(QString url, QString target) = 0;
+  virtual ASYNC postURL(QString url, QString target, QByteArray data, QString mime) = 0;
   virtual ASYNC statusMessage( QString msg ) = 0;
   virtual QString evalJavaScript( QString script ) = 0;
 

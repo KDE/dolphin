@@ -27,6 +27,7 @@ public:
 
   ASYNC reloadPage();
   ASYNC requestURL(QString url, QString target);
+  ASYNC postURL(QString url, QString target, QByteArray data, QString mime);
   ASYNC statusMessage( QString msg );
   QString evalJavaScript( QString script );
 
@@ -82,6 +83,7 @@ public:
              const char *name, const QStringList &args = QStringList());
   virtual ~PluginPart();
 
+  void postURL(const QString& url, const QString& target, const QByteArray& data, const QString& mime);
   void requestURL(const QString& url, const QString& target);
   void statusMessage( QString msg );
   QString evalJavaScript( const QString& script );

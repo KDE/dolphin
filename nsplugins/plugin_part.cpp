@@ -93,9 +93,15 @@ NSPluginCallback::NSPluginCallback(PluginPart *part)
 }
 
 
+void NSPluginCallback::postURL(QString url, QString target, QByteArray data, QString mime)
+{
+    _part->postURL( url, target, data, mime );
+}
+
+
 void NSPluginCallback::requestURL(QString url, QString target)
 {
-    _part->requestURL( url.latin1(), target.latin1() );
+    _part->requestURL( url, target );
 }
 
 
@@ -290,6 +296,21 @@ void PluginPart::reloadPage()
     _extension->browserInterface()->callMethod("goHistory(int)", 0);
 }
 
+void PluginPart::postURL(const QString& url, const QString& target, const QByteArray& data, const QString& mime)
+{
+    kdDebug(1432) << "PluginPart::postURL( url=" << url
+                  << ", target=" << target << endl;
+
+    KURL new_url(this->url(), url);
+    KParts::URLArgs args;
+    args.setDoPost(true);
+    args.frameName = target;
+    args.postData = data;
+    args.setContentType(mime);
+
+    emit _extension->openURLRequest( new_url, args );
+}
+
 void PluginPart::requestURL(const QString& url, const QString& target)
 {
     kdDebug(1432) << "PluginPart::requestURL( url=" << url
@@ -303,6 +324,7 @@ void PluginPart::requestURL(const QString& url, const QString& target)
     KURL new_url(this->url(), url);
     KParts::URLArgs args;
     args.frameName = target;
+    args.setDoPost(false);
 
     emit _extension->openURLRequest( new_url, args );
 }
