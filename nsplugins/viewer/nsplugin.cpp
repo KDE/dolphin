@@ -744,6 +744,20 @@ int NSPluginInstance::setWindow(int remove)
 }
 
 
+static void resizeWidgetTree(Window w, int width, int height) {
+   Window rroot, parent, *children;
+   unsigned int nchildren = 0;
+
+   if (XQueryTree(qt_xdisplay(), w, &rroot, &parent, &children, &nchildren)) {
+      for (unsigned int i = 0; i < nchildren; i++) {
+         XResizeWindow(qt_xdisplay(), children[i], width, height);
+         resizeWidgetTree(children[i], width, height);
+      }
+   }
+
+}
+
+
 void NSPluginInstance::resizePlugin(int w, int h)
 {
    if (!_visible)
@@ -761,6 +775,8 @@ void NSPluginInstance::resizePlugin(int w, int h)
 
    XtSetValues(_form, args, nargs);
    XtSetValues(_area, args, nargs);
+
+   resizeWidgetTree(XtWindow(_area), _width, _height);
 
    setWindow();
 
