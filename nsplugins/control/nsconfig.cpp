@@ -237,7 +237,7 @@ void NSPluginConfig::dirInit()
     connect( m_widget->dirRemove, SIGNAL(clicked()), SLOT(dirRemove()) );
     connect( m_widget->dirUp, SIGNAL(clicked()), SLOT(dirUp()) );
     connect( m_widget->dirDown, SIGNAL(clicked()), SLOT(dirDown()) );
-
+    connect( m_widget->useArtsdsp, SIGNAL(clicked ()),SLOT(change()));
     connect( m_widget->dirEdit,
              SIGNAL(textChanged(const QString&)),
              SLOT(dirEdited(const QString &)) );
