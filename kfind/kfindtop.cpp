@@ -20,6 +20,7 @@
 #include <qkeycode.h>
 #include <qaccel.h>
 
+#include <kwm.h>
 #include "kfoptions.h"
 #include "kftabdlg.h"
 #include "kfind.h"
@@ -34,6 +35,10 @@
 KfindTop::KfindTop(const char *searchPath) : KTopLevelWidget()
   {
     setCaption(QString("KFind ")+KFIND_VERSION);
+
+    KWM::setIcon(winId(), kapp->getIconLoader()->loadIcon("kfind.xpm"));   
+    //KWM::setMiniIcon(winId(), 
+    //	     kapp->getIconLoader()->loadIcon("mini-kfind.xpm"));   
 
     _toolBar = new KToolBar( this, "_toolBar" );
     _toolBar->setBarPos( KToolBar::Top );      
@@ -51,9 +56,6 @@ KfindTop::KfindTop(const char *searchPath) : KTopLevelWidget()
     _mainMenu->show();
 
     //_mainMenu->enableMoving(false);
-
-
-
 
     _statusBar = new KStatusBar( this, "_statusBar");
     _statusBar->insertItem("0 file(s) found", 0);
@@ -83,14 +85,13 @@ KfindTop::KfindTop(const char *searchPath) : KTopLevelWidget()
     connect(_kfind ,SIGNAL(enableStatusBar(bool)),
     	    this,SLOT(enableStatusBar(bool)));
     connect(_mainMenu ,SIGNAL(moved(menuPosition)),
-           this,SLOT(resizeOnFloating()));
+    	    this,SLOT(resizeOnFloating()));
     connect(_toolBar ,SIGNAL(moved(BarPosition)),
-           this,SLOT(resizeOnFloating()));
+    	    this,SLOT(resizeOnFloating()));
 
     int width=(440>_toolBar->width())?440:_toolBar->width();
     int height=(_kfind->sizeHint()).height()+10;
     //the main widget  never should be smaller
-    //_kfind->setMinimumSize(width,height);
     setMinimumSize(width,height+_toolBar->height()+_mainMenu->height());
     //setMaximumSize(9999,height+_toolBar->height()+_mainMenu->height());
 
@@ -103,6 +104,10 @@ KfindTop::~KfindTop()
     delete _editMenu;
     delete _optionMenu;
     delete _helpMenu;
+    delete _kfind;
+    delete _mainMenu;
+    delete _toolBar;
+    delete _statusBar;
   };
 
 void KfindTop::help()
@@ -127,39 +132,39 @@ void KfindTop::menuInit()
     _optionMenu = new QPopupMenu;
     _helpMenu   = new QPopupMenu;        
 
-    openWithM  = _fileMenu->insertItem(trans->translate("Open"),
+    openWithM  = _fileMenu->insertItem(trans->translate("&Open"),
 				       this,SIGNAL(open()), CTRL+Key_O );
-    toArchM    = _fileMenu->insertItem(trans->translate("Add to archive"),
+    toArchM    = _fileMenu->insertItem(trans->translate("&Add to archive"),
 				       this,SIGNAL(addToArchive()));
     _fileMenu             ->insertSeparator();
-    deleteM    = _fileMenu->insertItem(trans->translate("Delete"),
+    deleteM    = _fileMenu->insertItem(trans->translate("&Delete"),
 				       this,SIGNAL(deleteFile()));
-    propsM     = _fileMenu->insertItem(trans->translate("Properties"),
+    propsM     = _fileMenu->insertItem(trans->translate("&Properties"),
 				       this,SIGNAL(properties()));
     _fileMenu             ->insertSeparator();
-    openFldrM  = _fileMenu->insertItem(trans->translate("Open Containing Folder"),
+    openFldrM  = _fileMenu->insertItem(trans->translate("Open Containing &Folder"),
 				       this,SIGNAL(openFolder()));
     _fileMenu             ->insertSeparator();
-    saveSearchM= _fileMenu->insertItem(trans->translate("Save Search"),
+    saveSearchM= _fileMenu->insertItem(trans->translate("&Save Search"),
 				       this,SIGNAL(saveResults()),CTRL+Key_S);
     _fileMenu             ->insertSeparator();
-    quitM      = _fileMenu->insertItem(trans->translate("Quit"),qApp,
-                                      SLOT(quit()),CTRL+Key_Q);
+    quitM      = _fileMenu->insertItem(trans->translate("&Quit"),qApp,
+				       SLOT(quit()),CTRL+Key_Q);
 
     for(int i=openWithM;i>quitM;i--)
        _fileMenu->setItemEnabled(i,FALSE);  
    
-    int undo =       _editMenu->insertItem(trans->translate("Undo"),
+    int undo =       _editMenu->insertItem(trans->translate("&Undo"),
 					   this, SIGNAL(undo()) );
     _editMenu                 ->insertSeparator();
-    int cut  =       _editMenu->insertItem(trans->translate("Cut"),
+    int cut  =       _editMenu->insertItem(trans->translate("&Cut"),
 					   this, SIGNAL(cut()) );
-    int copy =       _editMenu->insertItem(trans->translate("Copy"),
+    int copy =       _editMenu->insertItem(trans->translate("&Copy"),
 					   this,SIGNAL(copy()) );
     _editMenu                 ->insertSeparator();
-    int select_all = _editMenu->insertItem(trans->translate("Select All"),
+    int select_all = _editMenu->insertItem(trans->translate("&Select All"),
 					   this,SIGNAL(selectAll()) );
-    int invert_sel = _editMenu->insertItem(trans->translate("Invert Selection"),
+    int invert_sel = _editMenu->insertItem(trans->translate("&Invert Selection"),
 					   this,SIGNAL(invertSelection()) );
 
     _editMenu->setItemEnabled( undo      , FALSE );
@@ -170,14 +175,14 @@ void KfindTop::menuInit()
 
     CHECK_PTR( _optionMenu ); 
 
-    _optionMenu->insertItem(trans->translate("Preferences ..."),
+    _optionMenu->insertItem(trans->translate("&Preferences ..."),
 			    this,SLOT(prefs()));
     //_optionMenu->insertItem("Configure key bindings",this,SIGNAL(keys()));
 
-    _helpMenu->insertItem(trans->translate("Kfind help"),
-                         this, SLOT(help()));
+    _helpMenu->insertItem(trans->translate("Kfind &help"),
+			  this, SLOT(help()));
     _helpMenu->insertSeparator();
-    _helpMenu->insertItem(trans->translate("About"), this, SLOT( about() ) );  
+    _helpMenu->insertItem(trans->translate("&About"), this, SLOT( about() ));  
 
     _mainMenu = new KMenuBar(this, "_mainMenu");
     _mainMenu->insertItem( trans->translate("&File"), _fileMenu);
@@ -274,26 +279,29 @@ void KfindTop::enableSearchButton(bool enable)
 
 void KfindTop::enableStatusBar(bool enable)
   {
-     int _height=(_kfind->sizeHint()).height()+10;  
-     // int height to _height cause I need height()
+     int _heightTmp=(_kfind->sizeHint()).height()+10;
+     int _height=_kfind->height();
+
      if ( enable )
        {
-         _statusBar->enable(KStatusBar::Show);  // but show toolbars first
-        _kfind->setMaximumSize(9999,9999);
+	 if (_heightTmp==_height)
+	   _height+=200;
+         _statusBar->enable(KStatusBar::Show);
+	 _kfind->setMaximumSize(9999,9999);
          setMaximumSize(9999,9999);
          //_kfind->resize(width(),_height);
-        resize(width(),_mainMenu->height()+_toolBar->height()+_height+_statusBar->height());
-        //resizeOnFloating();   
-        updateRects();
+	 resize(width(),_mainMenu->height()+_toolBar->height()+_height+_statusBar->height());
+	 resizeOnFloating();
+	 updateRects();
        }
      else
        {
          _statusBar->enable(KStatusBar::Hide);
-        _kfind->setMaximumSize(9999,_height);
-        setMaximumSize(9999,_height+_toolBar->height()+_mainMenu->height());
-        _kfind->resize(width(),_height);
-        resizeOnFloating();
-        updateRects(); // back to y-fixed
+	 _kfind->setMaximumSize(9999,_height);
+	 //setMaximumSize(9999,_height+_toolBar->height()+_mainMenu->height());
+	 _kfind->resize(width(),_height);
+	 resizeOnFloating();
+	 updateRects();
        };                                      
   };
 
@@ -320,5 +328,9 @@ void KfindTop::resizeOnFloating()
       _height+=_statusBar->height();
      
     setMinimumSize(width(),_height);
-    resize(width(),_height);
+    if ( !_statusBar->isVisible() )
+      {
+	resize(width(),_height);
+	//setMaximumSize(9999,_height);
+      };
   };
