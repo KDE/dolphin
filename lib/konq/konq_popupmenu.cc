@@ -418,9 +418,7 @@ KonqPopupMenu::KonqPopupMenu( const KFileItemList &items,
       if ( insertedOffer )
         addSeparator();
   }
-  addGroup( "plugins" );	
   addPlugins( ); // now it's time to add plugins
-  addMerge( "plugins" );
 
   if ( !m_sMimeType.isEmpty() && showPropertiesAndFileType )
   {
@@ -554,6 +552,8 @@ void KonqPopupMenu::addPlugins( ){
 	plugin_offers = KTrader::self()->query( m_sMimeType.isNull() ? QString::fromLatin1( "all/all" ) : m_sMimeType , "'KonqPopupMenu/Plugin' in ServiceTypes");
 	KTrader::OfferList::ConstIterator iterator = plugin_offers.begin( );
 	KTrader::OfferList::ConstIterator end = plugin_offers.end( );
+        if ( !plugin_offers.isEmpty() )
+            addGroup( "plugins" );
 	// travers the offerlist
 	for(; iterator != end; ++iterator ){
 		KonqPopupMenuPlugin *plugin =
@@ -565,9 +565,13 @@ void KonqPopupMenu::addPlugins( ){
 			continue;
 		m_pluginList.append( plugin );
 		insertChildClient( plugin );
-		addMerge( 0 ); // we want to be at a special position not at the end
 	}
 
+        if ( !plugin_offers.isEmpty() )
+        {
+            addMerge( "plugins" );
+            addSeparator();
+        }
 }
 KURL KonqPopupMenu::url( ) const {
   return m_sViewURL;
