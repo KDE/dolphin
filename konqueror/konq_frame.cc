@@ -115,28 +115,28 @@ bool KonqFrameStatusBar::eventFilter(QObject*,QEvent *e)
 {
    if (e->type()==QEvent::MouseButtonPress)
    {
-      emit headerClicked();
+      emit clicked();
       update();
       if ( ((QMouseEvent*)e)->button()==RightButton)
          splitFrameMenu();
       return TRUE;
-   };
+   }
    return FALSE;
-};
+}
 
 void KonqFrameStatusBar::slotDisplayStatusText(const QString& text)
 {
    //kdDebug()<<"KongFrameHeader::slotDisplayStatusText("<<text<<")"<<endl;
    statusLabel.resize(fontMetrics().width(text),13);
    statusLabel.setText(text);
-};
+}
 
 void KonqFrameStatusBar::slotConnectToNewView(KParts::ReadOnlyPart *,KParts::ReadOnlyPart *newOne)
 {
    if (newOne!=0)
       connect(newOne,SIGNAL(setStatusBarText(const QString &)),this,SLOT(slotDisplayStatusText(const QString&)));
    slotDisplayStatusText( QString::null );
-};
+}
 
 void KonqFrameStatusBar::paintEvent(QPaintEvent* e)
 {
@@ -152,7 +152,7 @@ void KonqFrameStatusBar::paintEvent(QPaintEvent* e)
    {
       p.drawPixmap(4,m_yOffset,QPixmap(lightgrey_xpm));
    };
-};
+}
 
 //###################################################################
 
@@ -218,7 +218,7 @@ void KonqFrame::attachInternal()
    m_pLayout = new QVBoxLayout( this, 0, -1, "KonqFrame's QVBoxLayout" );
 
    m_pLayout->addWidget( m_pView->widget() );
-   m_pLayout->addWidget( m_pStatusBarr );
+   m_pLayout->addWidget( m_pStatusBar );
    m_pView->widget()->show();
    if ( m_pChildView->mainView()->fullScreenMode() )
      m_pChildView->mainView()->attachToolbars( this );

@@ -73,6 +73,9 @@ class KonqFrameStatusBar : public QWidget
       ~KonqFrameStatusBar() {}
       QCheckBox *passiveModeCheckBox() const { return m_pPassiveModeCheckBox; }
 
+   public slots:
+      void slotConnectToNewView(KParts::ReadOnlyPart *oldOne,KParts::ReadOnlyPart *newOne);
+
    signals:
       /**
        * This signal is emitted when the user clicked the bar.
@@ -80,7 +83,6 @@ class KonqFrameStatusBar : public QWidget
       void clicked();
 
       void passiveModeChange( bool mode );
-      void slotConnectToNewView(KParts::ReadOnlyPart *oldOne,KParts::ReadOnlyPart *newOne);
    protected slots:
       void slotDisplayStatusText(const QString& text);
 
