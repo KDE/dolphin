@@ -20,6 +20,7 @@
 #define KBOOKMARKBAR_H
 
 #include <qobject.h>
+#include <qguardedptr.h>
 #include <qlist.h>
 
 class KToolBar;
@@ -58,7 +59,7 @@ protected:
     void fillBookmarkBar( KBookmark *parent );
 
     KBookmarkOwner    *m_pOwner;
-    KToolBar          *m_toolBar;
+    QGuardedPtr<KToolBar> m_toolBar;
     KActionCollection *m_actionCollection;
     QList<KAction>     m_actions;
     QList<KBookmarkMenu> m_lstSubMenus;

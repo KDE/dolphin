@@ -70,7 +70,8 @@ void KBookmarkBar::clear()
     m_actions.setAutoDelete( false );
 
     // remove that strange separator thing..
-    m_toolBar->clear();
+    if (m_toolBar)
+        m_toolBar->clear();
 }
 
 void KBookmarkBar::slotBookmarksChanged()
