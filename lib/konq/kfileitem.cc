@@ -142,13 +142,13 @@ void KFileItem::refresh()
 {
   m_fileMode = (mode_t)-1;
   m_permissions = (mode_t)-1;
-  init( true );
+  init( false );
 }
 
 void KFileItem::refreshMimeType()
 {
   m_pMimeType = 0L;
-  init( true ); // Will determine the mimetype
+  init( false ); // Will determine the mimetype
 }
 
 QPixmap KFileItem::pixmap( KIconLoader::Size _size, bool bImagePreviewAllowed ) const
