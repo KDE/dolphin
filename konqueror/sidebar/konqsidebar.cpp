@@ -51,7 +51,7 @@ bool KonqSidebar::openFile()
 	return true;
 }
 
-bool KonqSidebar::openURL(const KURL &url){if (m_widget) m_widget->openURL(url); return true;} 
+bool KonqSidebar::openURL(const KURL &url){if (m_widget) return m_widget->openURL(url); return false;} 
 
 void KonqSidebar::customEvent(QCustomEvent* ev)
 {

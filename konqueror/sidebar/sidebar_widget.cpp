@@ -566,18 +566,24 @@ void Sidebar_Widget::createButtons()
 	
 }
 
-void Sidebar_Widget::openURL(const class KURL &url)
+bool Sidebar_Widget::openURL(const class KURL &url)
 {
 	storedUrl=url;
 	stored_url=true;
 	ButtonInfo *info;
+        bool ret = false;
 	for (unsigned int i=0;i<Buttons.count();i++)
 		{
 			if ((info=Buttons.at(i))->dock!=0)
 				{
-					if ((info->dock->isVisibleTo(this)) && (info->module)) info->module->openURL(url);
+					if ((info->dock->isVisibleTo(this)) && (info->module))
+                                        {
+                                            ret = true;
+                                            info->module->openURL(url);
+                                        }
 				}
 		}
+        return ret;
 }
 
 bool Sidebar_Widget::addButton(const QString &desktoppath,int pos)

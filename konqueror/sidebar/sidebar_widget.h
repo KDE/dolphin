@@ -83,7 +83,7 @@ class Sidebar_Widget: public QWidget
   public:
   Sidebar_Widget(QWidget *parent, KParts::ReadOnlyPart *par, const char * name);
   ~Sidebar_Widget();
-  void openURL(const class KURL &url);
+  bool openURL(const class KURL &url);
   void stdAction(const char *handlestd);
   //virtual KParts::ReadOnlyPart *getPart();
   KParts::BrowserExtension *getExtension();
