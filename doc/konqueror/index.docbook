@@ -1,43 +1,72 @@
 <!DOCTYPE book PUBLIC  "-//KDE//DTD DocBook V3.1-Based Variant V1.0//EN" [
- <!ENTITY konqueror   "<application>konqueror</application>">
+ <!ENTITY Konqueror   "<application>Konqueror</application>">
+ <!ENTITY Konquerorname "&Konqueror;" -- this only *seems* redundant -->
+ <!ENTITY LMB   "<acronym>LMB</acronym>">
+ <!ENTITY MMB   "<acronym>MMB</acronym>">
+ <!ENTITY RMB   "<acronym>RMB</acronym>">
+ <!ENTITY Location   "<guimenu>Location</guimenu>">
+ <!ENTITY Edit   "<guimenu>Edit</guimenu>">
+ <!ENTITY View   "<guimenu>View</guimenu>">
+ <!ENTITY Go   "<guimenu>Go</guimenu>">
+ <!ENTITY Bookmarks   "<guimenu>Bookmarks</guimenu>">
+ <!ENTITY Tools   "<guimenu>Tools</guimenu>">
+ <!ENTITY Settings   "<guimenu>Settings</guimenu>">
+ <!ENTITY Window   "<guimenu>Window</guimenu>">
  <!ENTITY % addindex "IGNORE">
- <![ %addindex; [ <!ENTITY kdedocindex SYSTEM "docindex.docbook"> ]]>
+ <!ENTITY % ents PUBLIC "-//KDE//ENTITIES Application-Variable Entities V1.0//EN">
+ %ents;
 ]>
 
-<book id="konqueror" lang="en">
+<book id="konqueror" lang="en"> 
+
 <bookinfo>
 <title>The Konqueror Handbook</title>
+
 <authorgroup>
-<author>
-<firstname>Wim</firstname>
-<surname>Bakker</surname>
-</author>
-<author>
-<firstname>Alex</firstname>
-<surname>Cruz</surname>
-</author>
-<author>
-<firstname>Arjan</firstname>
-<surname>Dronkers</surname>
-</author>
+
 <author>
 <firstname>Erwan</firstname>
 <surname>Loisant</surname>
+<affiliation>
+<address><email>jadawin@free.fr</email></address>
+</affiliation>
 </author>
+
 <author>
-<firstname>Pam</firstname>
+<firstname>Pamela</firstname>
 <surname>Roberts</surname>
+<affiliation>
+<address><email>pam.roberts@btinternet.com</email></address>
+</affiliation>
+<!-- <contrib>Editor</contrib> -->
 </author>
+
+<othercredit>
+<othername>The KDE Team</othername>
+<contrib>Developers</contrib>
+</othercredit>
+
+<othercredit>
+<firstname>Lauri</firstname>
+<surname>Watts</surname>
+<affiliation><address><email>vampyr@atconnex.net</email></address></affiliation>
+<contrib>Reviewer</contrib>
+</othercredit>
+
 </authorgroup>
 
-<date>11/05/2000</date>
-<releaseinfo>0.00.01</releaseinfo>
+<copyright>
+<year>2000</year>
+<holder>Erwan Loisant, Pamela Roberts</holder>
+</copyright>
 
-<abstract>
-<para>
-&konqueror; is KDE's advanced File Manager, Web Browser and Document Viewer.
-</para>
-</abstract>
+<legalnotice>&FDLNotice;</legalnotice>
+
+<date>08/08/2000</date>
+<releaseinfo>1.93.00</releaseinfo>
+
+<abstract><para>&Konqueror; is KDE's advanced File Manager, Web Browser and
+Document Viewer.</para></abstract>
 
 <keywordset>
 <keyword>KDE</keyword>
@@ -47,202 +76,1567 @@
 <keyword>Browser</keyword>
 <keyword>Viewer</keyword>
 </keywordset>
+
 </bookinfo>
+
 
 <chapter id="introduction">
 <title>Introduction</title>
-<para>
-<application>Konqueror</application> is KDE's advanced File Manager, Web 
-Browser and 
-Document Viewer.
-</para>
 
-<!-- Note that the revhistory tags apply to the documentation version and not 
-to
-the app version. That is why we use an ItemizedList here. -->
+<para>&Konqueror; is KDE's advanced File Manager, Web Browser and Document
+Viewer.</para>
 
+<para>This document describes &Konqueror; version 1.9.3 from KDE 1.92 (Beta
+3.0).</para>
 
 <sect1 id="konqueror-revhistory">
-<title>Konqueror Revision History</title>
-<para>
+<title>&Konqueror; Revision History</title>
+
 <itemizedlist>
-<listitem><para>1.9.2 - from 10 May snapshots.</para>
+<listitem><para>1.9.3</para>
 </listitem>
 </itemizedlist>
-</para>
+
 </sect1>
 </chapter>
-
 
 <chapter id="installation">
 <title>Installation</title>
-<para>
-<application>Konqueror</application> is part of the kdebase package which is an 
-essential part of KDE.
-</para>
-<para>
-For instructions on acquiring KDE please see <ulink 
-url="http://www.kde.org">http://www.kde.org</ulink>
-</para>
-<para>
-For further information about <application>Konqueror</application> you might 
-like to visit 
-<ulink url="http://www.konqueror.org">http://www.konqueror.org</ulink>.
-</para>
+
+<para>&Konqueror; is part of the kdebase package which an essential part of
+KDE.</para>
+
+<para>For instructions on acquiring KDE please see <ulink 
+url="http://www.kde.org">http://www.kde.org</ulink></para>
+
+<para>For further information about &Konqueror; you might like to visit 
+<ulink url="http://www.konqueror.org">http://www.konqueror.org</ulink>.</para>
+
 </chapter>
 
-<chapter id="using-konqueror">
-<title>Using Konqueror</title>
+<chapter id="basics">
+<title>&Konqueror; Basics</title>
 
-<!-- This chapter should tell the user how to use your app. You should use as
-many sections (Chapter, Sect1, Sect3, etc...) as is necessary to fully document
-your application. -->
+<important><para> Throughout this document the acronym &LMB; will be used for
+<mousebutton>Left</mousebutton> Mouse Button, &RMB; for
+<mousebutton>Right</mousebutton> Mouse Button, and &MMB; for the often useful
+<mousebutton>Middle</mousebutton> Mouse Button. If your mouse only has two
+buttons then you should be able to set your system up so that you can simulate a
+&MMB; by pressing both buttons at the same time.</para></important>
 
-<para></para>
+<sect1 id="konq-start">
+<title>Starting &Konqueror;</title>
 
+<para>You can start &Konqueror; in a number of ways</para>
 
-<sect1 id="konqueror-parts">
+<itemizedlist>
+<listitem><para>If you have a house shaped icon on the panel or desktop, then
+&LMB; click on it.</para></listitem>
+<listitem><para>From the <guimenu>K</guimenu> menu, select
+<menuchoice><guisubmenu>System</guisubmenu><guimenuitem>File
+Manager</guimenuitem></menuchoice>.</para></listitem>
+<listitem><para><keycombo><keycap>Alt</keycap><keycap>F2</keycap></keycombo> 
+will open a "<guilabel>Run Command</guilabel>" dialog box, type
+<command>konqueror</command> (lower case) and press the
+<guibutton>RUN</guibutton> button.</para></listitem>
+<listitem><para>Type <command>konqueror</command> in a
+<application>Konsole</application> terminal window.</para></listitem>
+<listitem><para>From the <guibutton>K</guibutton> menu
+<menuchoice><guimenu>Internet</guimenu><guimenuitem>Konqueror Web
+Browser</guimenuitem></menuchoice> to start it in Web browing mode without first
+showing the contents of your home directory.</para></listitem>
+</itemizedlist>
+
+<para>&Konqueror; is also started automatically when you &LMB; click on a
+desktop icon that represents a directory, such as the <guiicon>Trash</guiicon>
+icon, or a URL.</para>
+
+<caution><para>If you are used to having to double-click to perform an action,
+then take care, because in common with the rest of KDE, &Konqueror; defaults to
+single-clicking.</para></caution>
+
+</sect1>
+
+<sect1 id="parts">
 <title>The Parts of Konqueror</title>
-<!-- Note that all graphics should be in .png format. Use no gifs because of
-patent issues. -->
-<para>
-<screenshot>
-<screeninfo>Here's a screenshot of 
-<application>Konqueror</application></screeninfo>
-<graphic fileref="konq1.png" format="png"></graphic>
-</screenshot>
+
+<para>A brief look at the main parts of &Konqueror;'s window:</para>
+
+<mediaobject>
+<imageobject><imagedata format="PNG" fileref="parts.png"></imageobject>
+<textobject>
+<phrase>Here's a screenshot of &Konqueror;</phrase>
+</textobject>
+</mediaobject>
+
+<para>The <interface>Titlebar</interface> is the strip across the top of 
+Konqueror"s window, and operates in the same way as for other KDE 
+applications. &RMB; on the central portion brings up the neat 
+Titlebar &RMB; menu which, among other 
+features, lets you change Konqueror's appearance (<guimenu>decoration</guimenu>). 
 </para>
 
-<para>The Title Bar</para>
+<para>The <interface>Menubar</interface> is the strip containing the names of the
+drop-down menus. &LMB; or &RMB; click on a name to alternately show and hide
+that menu, or you can use <keycap>Alt</keycap> + the underlined letter in the
+name as a hot key, for example
+<keycombo><keycap>Alt</keycap><keycap>E</keycap></keycombo> to show the &Edit;
+menu. The various menus are described in the <link
+linkend="menubar">Menubar</link> section of this document.</para>
 
-<para>The Menu Bar</para>
+<para><interface>The Toolbar</interface> contains icons for commonly used
+operations. Hover the mouse pointer over an icon to see a brief description of
+what that icon does, &LMB; click will activate the icon. &RMB; on a clear area
+of the Toolbar to bring up the Toolbar &RMB; Menu which will let you change the
+appearance and position of the Toolbar.</para>
 
-<para>The Tool Bar</para>
+<para><interface>The Locationbar</interface> shows the path to the directory, 
+URL or file being viewed. You can type a path or <abbrev>URL</abbrev> here and
+press <keycap>Enter</keycap> to go to it.</para>
 
-<para>The Location Bar</para>
+<para><interface>The Bookmarkbar</interface> is the area under the Locationbar
+in the previous screenshot. You can add frequently used bookmarks here </para>
 
-<para>The Bookmark Bar</para>
+<para><interface>The Window</interface> is the main area of &Konqueror; and can
+show you the contents of a directory, a web page, or a document. Using the <link
+linkend="menuwin">&Window;</link> menu you can split &Konqueror;'s main window
+into one or more separate views, useful for drag and drop operations.</para>
 
-<para>The Window</para>
+<para><interface>The Status Bar</interface> runs across the bottom of the window
+and gives general information about whatever the mouse pointer is hovering
+over. If you have split the main window into a number of view then you will get
+an Status Bar for each view, and it will include a small light at the left hand
+end to show which is the "active" view. &RMB; on the Status Bar brings up the
+Status Bar &RMB; Menu.</para>
 
-<para>The Info Bar</para>
+<Note><para>Don't worry if your &Konqueror; doesn't look exactly like this screenshot, 
+it is highly configurable and there is no "standard" way of setting it up. In
+particular:</para>
 
+<itemizedlist>
+<listitem><para>You can use the <link linkend="menuset">&Settings;</link> menu
+to choose whether to show or hide the Menubar, Toolbar, Locationbar and
+Bookmarkbar.</para></listitem>
+<listitem><para>You can also "flatten" the Toolbar, Locationbar and Bookmarkbar
+by &LMB; clicking on the vertical lines at the left hand end of the bars or move
+them around by &LMB; dragging these bars.</para></listitem>
+</itemizedlist>
+
+<para>For more details of how to change &Konqueror;'s appearence, see the <link
+linkend="menuset">Configuring &Konqueror;</link> section</para></Note>
 
 </sect1>
 
+<sect1 id="bubble">
+<title>Bubble Help and What's This ?</title>
 
-<sect1 id="konqueror-filemanager">
-<title>Konqueror the File Manager</title>
-<para>
-</para>
+<para>You can find out a lot about how &Konqueror; works without needing to
+read this entire document  if you take advantage of the Bubble Help and
+<guimenuitem>What's This ?</guimenuitem> features.</para>
+
+<para>Bubble Help means that if you hover the mouse pointer over a Toolbar
+button it should bring up a terse description of what that button does.</para>
+
+<para><guimenuitem>What's This ?</guimenuitem> is invoked by the Menubar
+<menuchoice><guimenu>Help</guimenu><guimenuitem>What's This
+?</guimenuitem></menuchoice> item, by the
+<keycombo><keycap>Shift</keycap><keycap>F1</keycap></keycombo> hotkey, or by
+just &LMB; clicking on the question mark near the top right hand corner of a
+window, and changes the cursor to show a question mark alongside the
+arrow.</para>
+
+<para>When this question mark is visible, a &LMB; click won't actually do
+anything until you have clicked on a control (or the text alongside it) which
+supports <guimenuitem>What's This ?</guimenuitem>, in which case it will display
+a reasonably comprehensive description of what the control is supposed to do.
+Most of the dialog boxes that &Konqueror; brings up support the
+<guimenuitem>What's This ?</guimenuitem> feature.</para>
+
 </sect1>
 
-<sect1 id="konqueror-browser">
-<title>Konqueror the Web Browser</title>
-<para>
-</para>
+<sect1 id="lmbmmb">
+<title>&LMB; and &MMB; Actions</title>
+
+<para>&LMB; click on an item in &Konqueror;'s window and it will be
+"activated". Thus</para>
+
+<itemizedlist>
+
+<listitem><para>&LMB; click on an icon in the Toolbar to do whatever that icon
+is supposed to do. </para></listitem>
+<listitem<para>&LMB; click on an item in the Menubar to make that menu drop
+down.</para></listitem>
+<listitem<para>&LMB; click on a menu item to do that thing.</para></listitem>
+<listitem<para>&LMB; click on a link in a web page will make &Konqueror; follow
+that link.</para></listitem>
+<listitem<para>&LMB; click on a directory icon or name and &Konqueror; will
+descend into (show the contents of) that directory</para></listitem>
+<listitem<para>&LMB; click on a file name or icon and &Konqueror; will do
+whatever it thinks appropriate, based on the file type. In general this means
+opening <abbrev>HTML</abbrev> pages, or previewing text, image or
+<application>Koffice</application> files, embedding then within &Konqueror;'s
+window. ("Preview" means that you can see the file but not change it).</para>
+<para>&Konqueror; decides what the file type is by matching the filename
+extension against against a list of known types. If that fails it tries to guess
+the type from the file contents. You can change the list of known file types and
+associated actions and add new types, see the section <link
+linkend="fileassoc">File Types and Associations</link>.</para></listitem>
+</itemizedlist>
+
+<para>&MMB; on a file or directory name or icon does essentially the same as
+&LMB; except that it does it in a new &Konqueror; window.</para>
+
+<note><para>To see what &RMB; does, see the section <link
+linkend="RMB-menus">RMB Menus</link>.</para></note>
+
 </sect1>
 
-<sect1 id="konqueror-docviewer">
-<title>Konqueror the Document Viewer</title>
-<para>
-</para>
-</sect1>
+<sect1 id="RMB-menus">
+<title>&RMB; Menus</title>
 
-<sect1 id="konqueror-config">
-<title>Configuring Konqueror</title>
-<para>
-</para>
+<para>Holding the &RMB; down over almost any part of &Konqueror;'s window will
+bring up an appropriate menu.</para>
+
+<variablelist>
+
+<varlistentry>
+<term><guimenu>Titlebar RMB Menu</guimenu></term>
+<listitem><para>&RMB; on any free area of the Titlebar brings up the Titlebar
+Menu, allowing you to control the position of &Konqueror;'s window as well as
+the decoration applied to all KDE program windows. Note that this menu can also
+be obtained with &LMB; on the icon at the top left corner. </para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><guimenu>Toolbar RMB Menu</guimenu></term> 
+<listitem><para>&RMB; on any free area of the Toolbar to bring up the Toolbar
+Menu.  You can use it to control whether the Toolbar is at the top, bottom, left
+or right of &Konqueror's window or is a separate floating object.  You can also
+use the Toolbar Menu to set the size of the buttons on the Toolbar, and whether
+they are shown as icons, text or both.</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><guimenu>Bookmarkbar RMB Menu</guimenu></term>
+<listitem><para> If you have the Bookmarkbar showing, then &RMB; on any free
+part of it to bring up the Bookmarkbar Menu which lets you change its position
+and whether items are shown as text, icons, or both. </para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><guimenu>View RMB Menu</guimenu></term>
+<listitem><para>If you &RMB; on any free area of a view then you will get this
+menu, which contains the <guiicon>Up</guiicon>, <guiicon>Back</guiicon>,
+<guiicon>Forward</guiicon> and <guiicon>Reload</guiicon> navigation commands as
+well as the "<guimenuitem>Create new</guimenuitem>" option from the &Edit;
+menu. </para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><guimenu>File RMB Menu</guimenu></term>
+<listitem><para>This is a most useful feature, as &RMB; on the name or icon of
+any file or directory not only "selects" that item but also brings up a menu
+allowing you to <guiicon>Cut</guiicon>, <guiicon>Copy</guiicon> or Remove the
+item in various ways, add it to your &Bookmarks;, open it with the program of
+your choice or preview it, or edit the file type or
+properties.</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><guimenu>Status Bar RMB Menu</guimenu></term>
+<listitem><para>&RMB; on the Status Bar at the bottom of a window or view, to add
+or remove a view within &Konqueror;'s window.</para></listitem>
+</varlistentry>
+</variablelist>
+
 </sect1>
 
 </chapter>
 
-<!-- *********************************************** -->
+<chapter id="filemanager">
+<title>Konqueror the File Manager</title>
+
+<Note><para>In <application>Linux</application> all directories are arranged in
+a simple inverted tree structure descending and branching down from from a
+single top level "root" directory. This means that you can get from any
+directory to any other by going "up" until you reach a common point then "down"
+through the appropriate sub-directories until you reach your target. </para>
+
+<para>The position of any file or directory in the tree can be described by its
+"path", which is a simple list of the directories you would have to descend
+through to get to the target directory. For example
+<filename>/home/pam</filename> is the subdirectory "<filename>pam</filename>" of
+the subdirectory "<filename>home</filename>" of the top level directory, which
+is represented by the leading"/"</para>
+
+<para>Note that every accessible drive on your system, including your floppy and
+cdrom, will appear in the tree descending from /. Their exact paths will depend
+on how your system was set up, but will usually be something like
+<filename>/mnt/floppy</filename> and <filename>/mnt/cdrom</filename>. See also
+the section on <link linkend="mount"> Mounting Your Floppy or
+CDROM</link></para></Note>
+
+<sect1 id="navigation">
+<title>Navigation</title>
+
+<para>&Konqueror; is basically a file manager, and as such will display the
+names of the files and sub-directories held in a directory. The "path" of the
+directory you are looking at is shown in the Titlebar and also in the
+Locationbar.</para>
+
+<para>Sub-directories are usually displayed with an icon that looks a little
+like a folder, although some special directories, such as
+<filename>Trash</filename> and <filename>Desktop</filename>, may have different,
+distinctive, icons. Files have their own icons, which may indicate what type of
+file it is - or at least what &Konqueror; thinks it is. </para>
+
+<para>You can "select" a file or sub-directory by using the keyboard arrow keys
+to move through the displayed items. The appearance of the selected item will
+change and some information about it will be displayed in the Status Bar.</para>
+
+<para>To move between directories you can simply step up and down the
+tree</para>
+
+<itemizedlist>
+<listitem><para>To descend into a sub-directory &LMB; click on its name or icon,
+or if you have "selected" it then just press
+<keycap>Enter</keycap>.</para></listitem>
+<listitem><para>To go up the directory tree, &LMB; click on the
+<guiicon>Up</guiicon> button in the Toolbar, or use
+<keycombo><keycap>Ctrl</keycap><keycap>Uparrow</keycap></keycombo>, or use the
+Menubar <link linkend="menugo">&Go;-><guimenuitem>Up</guimenuitem></link>
+option.</para></listitem>
+</itemizedlist>
+
+<para>You can also go directly to any directory by typing its path into the
+Locationbar window or into the dialog box invoked by the Menubar <link
+linkend="menufile">&Location;-><guimenuitem>Open Location</guimenuitem></link>
+item or by <keycombo><keycap>CTRL</keycap><keycap>O</keycap></keycombo>. Don't
+forget that in <application>Linux</application> file and directory names are
+case sensitive, although <abbrev>WWW</abbrev> <abbrev>URL</abbrev>s may not
+be.</para>
+
+<para>Once you have moved to a new directory then you can go back to your
+previous choice by using the Toolbar <guiicon>Back</guiicon> button, the Menubar
+<link
+linkend="menugo"><menuchoice>&Go;<guimenuitem>Back</guimenuitem></menuchoice>
+</link>item, or
+<keycombo><keycap>Ctrl</keycap><keycap>LeftArrow</keycap></keycombo>.</para>
+
+<para>Once you have gone back you can go forward. Use the Toolbar
+<guiicon>Forward</guiicon> button, the Menubar <link
+linkend="menugo">&Go;-><guimenuitem>Forward</guimenuitem></link> item or
+<keycombo><keycap>Ctrl</keycap><keycap>RightArrow</keycap></keycombo>.</para>
+
+<Tip><para>Holding the &LMB; pressed while the mouse pointer is over the Toolbar
+<guiicon>Up</guiicon>, <guiicon>Back</guiicon> or <guiicon>Forward</guiicon>
+buttons brings up a menu of recently visited locations.  choices.</para></Tip>
+
+<mediaobject>
+<imageobject><imagedata format="PNG" fileref="dirtree.png"></imageobject>
+<textobject>
+<phrase>The Directory Tree View</phrase>
+</textobject>
+</mediaobject>
+
+<para>If you want a better view of the directory structure, then the Menubar <link 
+linkend="menuwin">&Window;-><guimenuitem>Show Directory 
+Tree</guimenuitem></link> option splits the 
+window into two views as shown above.</para>
+
+<para>The left hand view only shows directories and is arranged as three trees;
+one descending from your <guilabel>Home</guilabel> directory, one named
+"<guilabel>Network</guilabel>" and one from the <guilabel>Root</guilabel>
+directory. The right hand view shows the contents of the selected directory. For
+this screenshot the Menubar <link
+linkend="menuview"><menuchoice>&View;<guimenuitem>View
+Mode...</guimenuitem></menuchoice></link> and <link
+linkend="menuview"><menuchoice>&View;<guimenuitem>Show
+details...</guimenuitem></menuchoice></link> options have been used to get a
+text listing rather than an Icon based view.</para>
+
+<para>When &Konqueror; is showing more than one view, there will be a small box
+at the bottom right of eack view. &LMB; clicking on the box toggles an almost
+invisibly small icon on and off. Views showing this icon are linked so that a
+change of directory in one view makes the other view change to the new
+directory. In this way selecting any directory in the Directory Tree view will
+automatically show the directory contents in the other view.</para>
+
+<para>To navigate through the items in the Directory Tree view using your
+ mouse;</para>
+
+<itemizedlist>
+<listitem><para>&LMB; click on a + symbol to show any
+subdirectories..</para></listitem>
+<listitem><para>To collapse a sub-tree &LMB; click on the -
+symbol.</para></listitem>
+<listitem><para>Once you can see the wanted directory, &LMB; click on its name
+or icon to open it in the other window. </para></listitem>
+</itemizedlist>
+
+<para>Or, once you have selected an item in the Directory Tree view, you can
+navigate from the keyboard;</para>
+
+<itemizedlist>
+<listitem><para>Use the <keycap>Up</keycap> and <keycap>Down Arrow</keycap> keys
+to move up and down the displayed directories. </para></listitem>
+<listitem><para>The <keycap>Right Arrow</keycap> key will descend into a
+directory.</para></listitem>
+<listitem><para>The <keycap>Left Arrow</keycap> key to collapse a
+sub-directory.</para></listitem>
+<listitem><para> Once you have reached the wanted directory then
+<keycap>Enter</keycap> will open it in the other view.</para></listitem>
+</itemizedlist>
+ 
+<note><para>The "Home Directory" shown in the Directory Tree view is actually your 
+personal home directory, which will have a path such as
+<filename>/home/pam2</filename> if your username is "pam2".</para>
+
+<para>The "Root" directory has the path "<filename>/</filename>", and is the
+base directory of your system's local files. If you expand the "Root" directory
+you will find another directory called "root". This belongs to the system
+administrator or Super User and is her home directory. You will also find a
+directory called "home", in which you should be able to find your own "Home"
+directory again.</para>
+
+<para>The "Network" directory holds details of files or web pages you can reach over 
+your network (if you are connected to one).</para></note>
+
+<sect2 id="filefind">
+<title>Finding Files and Directories</title>
+
+<para>If you don't know or can't remember where a file or directory is within your 
+system, then use the Toolbar <guiicon>Find File</guiicon> button or the Menubar <link 
+linkend="menutool">&Tools;-><guimenuitem>Find File</guimenuitem></link> option
+to launch <application>Kfind</application>.</para>
+
+<mediaobject>
+<imageobject><imagedata format="PNG" fileref="kfind.png"></imageobject>
+<textobject>
+<phrase>Kfind a file</phrase>
+</textobject>
+</mediaobject>
+
+</sect2>
+
+<sect2>
+<title>Hidden (dot) Files</title>
+
+<para>If the name of a file or directory begins with a period (dot), then it is a 
+"hidden" file or directory, and will not normally be shown by &Konqueror;.</para>
+
+<para>To see the hidden files or sub-directories use the Menubar <link
+linkend="menuview">&View;-><guimenuitem>Show Dot Files</guimenuitem></link>
+option.</para>
+
+</sect2>
+
+<sect2 id="mount">
+<title>Mounting Your Floppy or CDROM</title>
+
+<para>Linux requires that you "<command>mount</command>" a floppy disk or CDROM 
+when you have inserted it into the drive, so that Linux can see what's on
+it. You also need to "unmount" it before removong the disk so
+<application>Linux</application> can register that it is no longer
+available. </para>
+
+<para>How you do this will depend on how your system  was set up:</para>
+
+<itemizedlist>
+<listitem><para>You may have an "<application>Automount</application>" facility,
+in which case you don't have to bother about explicitly mounting and unmounting,
+although you may find that the CDROM occasionally starts up by itself for no
+apparent reason.</para></listitem>
+<listitem><para>You may have Floppy and CDROM icons on your desktop, in which
+case &LMB; click on the icon to mount a disk. To unmount &RMB; on the icon and
+choose the <guimenuitem>Unmount</guimenuitem> item.</para></listitem>
+<listitem><para>Or you can do it the traditional way by typing into a text
+console window:</para>
+<screen width="40">
+<command>mount <option><replaceable>/mnt/floppy</replaceable></option></command>
+</screen>
+
+<para>to mount, for example, the floppy drive, and</para>
+
+<screen width="40">
+<command>umount <option><replaceable>/mnt/floppy</replaceable></option></command></screen>
+
+<para>to unmount it. (Note; type "<command>umount</command>" not
+"<command>unmount</command>")</para>
+</listitem>
+
+</itemizedlist>
+</sect2>
+
+</sect1>
+
+<sect1 id="deleting">
+<title>Deleting Files and Directories</title>
+
+<para>&Konqueror; gives you three ways to dispose of an unwanted file or
+directory;</para>
+
+<itemizedlist>
+<listitem><para>You can move it to the <filename>Trash</filename> directory,
+which is the safest method as you can get it back when you realise that you have
+made a mistake.</para></listitem>
+<listitem><para>You can just plain Delete it, which just removes the entry from
+the directory and adds the disk area occupied by the file(s) to the system's
+list of free disk areas.</para></listitem>
+<listitem><para>Or you can Shred it, which is like Delete, but also overwrites
+the disk area occupied by the file(s) with random data. Useful for disposing of
+incriminating departmental memos or similar files when you don't want any trace
+of them to remain on your system.</para></listitem>
+</itemizedlist>
+
+<para>The simplest way of removing a file or directory is to position the mouse 
+pointer over its name or icon then press the &RMB;, which will bring up 
+a menu containing the options "<guimenuitem>Move to Trash</guimenuitem>",
+"<guimenuitem>Delete</guimenuitem>" and
+"<guimenuitem>Shred</guimenuitem>".</para>
+
+<para>Or, if you have "selected" the item, then the Menubar <link 
+linkend="menuedit">&Edit;</link> menu will give you the choice of "<guimenuitem
+>Move to Trash</guimenuitem>", "<guimenuitem>Delete</guimenuitem>" and
+"<guimenuitem>Shred</guimenuitem>" options.</para>
+
+<para><keycombo><keycap>Ctrl</keycap><keycap>Del</keycap></keycombo> will move a
+selected item or items to Trash.</para>
+
+<para><keycombo><keycap>Ctrl</keycap><keycap>Shift</keycap><keycap>Del</keycap></keycombo>
+will really, truly and irrevocably delete the selected item or items.</para>
+
+<note><para>You won't be able to remove a file or directory if you don't have
+the necessary permissions, see the section on <link linkend="suser">Super User
+Mode</link> for further details.</para></note>
+</sect1>
+
+<sect1 id="moving">
+<title>Moving and Copying</title>
+
+<para>To copy a file or sub-directory between directories you can;</para>
+
+<itemizedlist>
+<listitem><para>Position the mouse pointer over its name or icon and hold down
+the &RMB;, which will bring up a menu containing the
+"<guimenuitem>Copy</guimenuitem>" option. Choose that.</para>
+<para>Or if the item is "selected" then you can use the <guiicon>Copy</guiicon>
+button on the Toolbar or the Menubar <link
+linkend="menuedit">&Edit;-><guimenuitem>Copy</guimenuitem></link> item, or the
+<keycombo><keycap>Ctrl</keycap><keycap>C</keycap></keycombo>
+hotkey.</para></listitem>
+<listitem><para>Navigate to the directory you want to copy the item into then
+Paste the item into the new directory by using the Toolbar
+<guiicon>Paste</guiicon> button or the Menubar <link
+linkend="menuedit"><menuchoice>&Edit;<guimenuitem>Paste</guimenuitem></menuchoice></link>
+option or the <keycombo><keycap>Ctrl</keycap><keycap>V</keycap></keycombo>
+hotkey, or by moving the mouse pointer to a clear area of the window and holding
+the &RMB; down to bring up a menu containing the
+<guimenuitem>Paste</guimenuitem> option.  </para></listitem>
+</itemizedlist>
+
+<para>Moving a file or sub-directory between directories can be done in the same
+way as copying, except that you choose the "<guimenuitem>Cut</guimenuitem>"
+option or <keycombo><keycap>Ctrl</keycap><keycap>X</keycap></keycombo> instead
+of "<guimenuitem>Copy</guimenuitem>". The item that you have
+"<guimenuitem>Cut</guimenuitem>" will be removed from the original directory
+when you do the "<guimenuitem>Paste</guimenuitem>".</para>
+
+<note><para>You may not be able to copy or move a file or directory if you don't
+have the necessary permissions, see the section on <link linkend="suser">Super
+User Mode</link> for further details.</para></note>
+
+<sect2>
+<title>Using Drag 'n Drop</title>
+
+<para>&Konqueror; also supports Drag and Drop copying and moving of files and
+directories.</para>
+
+<para>If you have set up &Konqueror; to show the Directory Tree View as
+described in a previous section, then:</para>
+
+<procedure>
+<step><para>Make sure the two views are not linked (the small boxes at the
+bottom right of each view should be empty, &LMB; click on one of them if they
+not empty).</para></step>
+<step><para>Navigate through the Directory Tree View so that you can see the
+directory you want to copy or move into.</para></step>
+<step><para>Set the main view to show the item you wish to copy or move. Position the 
+mouse pointer over its name or icon then, holding the &LMB; pressed, "drag" it 
+over to the Directory Tree view and position the mouse pointer over the target 
+directory. Release the &LMB; and you will be presented with a menu choice of 
+<guimenuitem>Copy</guimenuitem> or
+<guimenuitem>Move</guimenuitem>.</para></step>
+</procedure>
+
+<para>You can also set up &Konqueror; to show more than one directory and drag &
+drop between them.</para>
+
+<mediaobject>
+<imageobject><imagedata format="PNG" fileref="dragdrop.png"></imageobject>
+<textobject>
+<phrase>Split Views for Drag & Drop</phrase>
+</textobject>
+</mediaobject>
+
+<para>For this screenshot we have used the Menubar <link
+linkend="menuwin"><menuchoice>&Window; <guimenuitem>Split View
+Left/Right</guimenuitem></menuchoice></link> option, also available with the
+hotkey
+<keycombo><keycap>Ctrl</keycap><keycap>Shift</keycap><keycap>L</keycap></keycombo>,
+to split the main &Konqueror; window into two views, each showing the contents
+of a different directory.</para>
+
+<para>With this arrangement it is easy to drag and drop between the directories,
+but take care to "drop" the item into an empty area of the target directory view
+- dropping it on top of another file name or icon can cause problems.</para>
+
+<para>When the window is split into two (or more) views it is usually best to
+make sure that they are not linked - the little boxes at the bottom right of
+each view should be empty.</para>
+
+<para>The "active" view, that is the one whose path is shown in the Locationbar
+and which responds to navigation and Menubar commands, is shown by the little
+green light in the bottom left corner. To make a view active &LMB; click on an
+empty area of the view or on its Status Bar.</para>
+
+<para>To remove an active view from &Konqueror;'s window use the
+<keycombo><keycap>Ctrl</keycap><keycap>Shift</keycap><keycap>R</keycap></keycombo>
+hotkey, or the Menubar <link linkend="menuwin"><menuchoice>&Window;
+<guimenuitem>Remove Active View</guimenuitem></menuchoice></link> option, or
+&RMB; on the Status Bar and choose the "<guimenuitem>Remove Active
+View</guimenuitem>" option from the resulting menu.</para>
+
+<note><para>You can also drag and drop between different instances of
+&Konqueror;.</para></note>
+
+</sect2>
+</sect1>
+
+<sect1 id="multiple">
+<title>Selecting Multiple Files</title>
+
+<para>You sometimes want to delete, copy or move a number of files that are
+similar in some way. For example you may wish to move all of the .png graphics
+files from one directory to another. &Konqueror; makes this easy by letting you
+select multiple files based on similarities in their file names.
+</para>
+
+<para>Use the Menubar <link
+linkend="menuedit"><menuchoice>&Edit;<guimenuitem>Select...</guimenuitem></menuchoice></link>
+item or the hotkey <keycombo><keycap>Ctrl</keycap><keycap>+</keycap></keycombo>
+. This brings up a little dialog box in which you enter a filename containing
+the wildcard characters <keycap>*</keycap> , which matches any number of
+characters, and <keycap>?</keycap> which matches a single character. Press
+<guibutton>OK</guibutton> and &Konqueror; will highlight all files with matching
+names. For example;</para>
+
+<itemizedlist>
+
+<listitem><para> "<filename>flag*.png</filename>" will select all filenames
+starting with the letters "flag" and ending with "<filename>.png</filename>".
+</para></listitem>
+<listitem><para>"<filename>memo?.txt</filename>" will select
+"<filename>memo1.txt</filename>" and "<filename>memo9.txt</filename>" but not
+"<filename>memo99.txt</filename>"</para></listitem>
+</itemizedlist>
+
+<para>When you have selected a range of files, you can narrow down the selection
+by uing the Menubar <link linkend="menuedit"><menuchoice>&Edit;
+<guimenuitem>Unselect...</guimenuitem></menuchoice></link> option or
+<keycombo><keycap>Ctrl</keycap><keycap>-</keycap></keycombo> to specify which of
+the selected files should be removed from the selection.</para>
+
+<para>Use <keycombo><keycap>Ctrl</keycap><keycap>U</keycap></keycombo> or the
+Menubar <link linkend="menuedit"><menuchoice>&Edit; <guimenuitem>Unselect
+All</guimenuitem></menuchoice></link> option or just &LMB; click on a clear area
+of the view to cancel the selection(s).</para>
+
+<para>You can even invert the selection, that is deselect all selected files and
+select those that were previously unselected. Use the Menubar <link
+linkend="menuedit"><menuchoice>&Edit; <guimenuitem>Invert
+Selection</guimenuitem></menuchoice></link> option or
+<keycombo><keycap>Ctrl</keycap><keycap>*</keycap></keycombo> to do this.</para>
+
+<para>Once you have selected the right files then the normal delete, copy or
+move commands will act on all of the selected files at once. </para>
+
+<note><para>Depending on your keyboard type and locale, you will probably find
+that the <keycombo><keycap>Ctrl</keycap><keycap>+</keycap></keycombo>,
+<keycombo><keycap>Ctrl</keycap><keycap>-</keycap></keycombo> and
+<keycombo><keycap>Ctrl</keycap><keycap>*</keycap></keycombo> hotkeys only work
+with the Numeric keypad <keycap>+</keycap>, <keycap>-</keycap> and
+<keycap>*</keycap> keys.</para></note>
+
+</sect1>
+
+<sect1 id="making">
+<title>Creating New Files and Directories</title>
+
+<para>To create a new file or directory select the Menubar <link
+linkend="menuedit"><menuchoice>&Edit; <guimenuitem>Create
+New...</guimenuitem></menuchoice></link> option, or &RMB; on a clear area of the
+view to bring up the View &RMB; menu and select "<guimenuitem>Create new
+</guimenuitem>".  Or you can use the <guiicon>Create new</guiicon> button in the
+Toolbar.  Select "<guimenuitem>Directory</guimenuitem>", "<guimenuitem>Text
+File</guimenuitem>" or "<guimenuitem>HTML File</guimenuitem>" as appropriate and
+enter the name of your new file or directory into the little dialog box.</para>
+
+</sect1>
+
+<sect1 id="newname">
+<title>Changing the Name and Permissions</title>
+
+<para>To change the name or permissions of a file or directory &RMB; on its name
+or icon and select the "<guimenuitem>Properties...</guimenuitem>" item. Or, if
+you have "selected" the file or directory, then you can use the Menubar <link
+linkend="menuedit"><menuchoice>&Edit;
+<guimenuitem>Properties</guimenuitem></menuchoice></link> option.</para>
+
+<para>This will bring up the Properties dialog box which has two tabs;</para>
+
+<itemizedlist>
+<listitem><para> "<guilabel>General</guilabel>", which gives you some
+information about the item and lets you change its name and, for a directory,
+the associated icon.</para></listitem>
+<listitem><para>"<guilabel>Permissions</guilabel>", which shows you the item"s
+ownership and access permissions and lets you change the
+permissions.</para></listitem>
+</itemizedlist>
+
+<sect2 id="suser">
+<title>Super User Mode</title>
+
+<para>If you are running as a normal user and try to access files outside of
+your own home directory you will often be prevented from doing so and get an
+error message such as "Access Denied". </para>
+
+<para>To access these files you need to be logged in as the system
+administrator, often known as the Super User or "root". </para>
+
+<para>Rather than logging out then in again, you can launch &Konqueror; from the
+<guimenu>K</guimenu> Menu in Super User Mode. You will be asked for the "root"
+login password but as long as you can provide that &Konqueror; will be started
+up with full access privileges to all files on your system.</para>
+
+<!-- Lauri: There should probably be a major caution here about the damage that -->
+<!-- can be done to the system in Super User Mode -->
+
+</sect2>
+</sect1>
+
+<sect1 id="commandline">
+<title>At the Command Line</title>
+
+<para>Although &Konqueror; is a very powerful and flexible <abbrev>GUI</abbrev>
+file manager, there are occasions when the experienced Linux user wants to get
+down to the basics and work at the text command line level.</para>
+
+<para>She could, of course, open an instance of
+<application>Konsole</application>, perhaps with &Konqueror;'s Menubar
+<menuchoice><guimenu>Tools</guimenu> <guimenuitem>Open
+Terminal</guimenuitem></menuchoice> option.</para>
+
+<para>But &Konqueror; has yet another nice feature here, the Menubar 
+<menuchoice><guimenu>Window</guimenu> <guimenuitem>Show Terminal
+Emulator</guimenuitem></menuchoice> option opens up a terminal window as a new
+view within &Konqueror;, and as long as the link icon is visible at the bottom
+right corner of each view, the terminal will follow any directory changes you
+make in the normal file manager view.</para>
+
+<mediaobject>
+<imageobject><imagedata format="PNG" fileref="cmndline.png"></imageobject>
+<textobject>
+<phrase>Including the terminal emulator</phrase>
+</textobject>
+</mediaobject>
+
+</sect1>
+ 
+<sect1 id="samba">
+<title>Sharing Data With Win 9x/NT Boxes</title>
+
+<para>On a <acronym>LAN</acronym> (Local Area Network), <application>MS
+Windows</application> machines can share directories or devices such as printers
+with each other.  The protocol used by <application>Microsoft</application> for
+this is called <application>SMB</application>, standing for <application>Server
+Block Message</application>.</para>
+
+<para>If you're on a <acronym>LAN</acronym> where
+<application>Windows</application> machines are also connected with
+<application>SMB</application>, you may want to access them using this
+system. You're lucky, because &Konqueror; is able to do this.</para>
+
+<para>The first thing to do is to configure <application>KDE</application> to
+tell it which machine you want to access. This is done with the <application>KDE
+Control Center</application>, <menuchoice><guimenu>Browsing</guimenu>
+<guimenuitem>Neighborhood</guimenuitem></menuchoice> option. Read the
+<application>KControl</application> documentation for more information.</para>
+
+<para>Once this configuration is done, you can easily browse the Neighborhood.
+There are two ways to access to <application>SMB</application> shared
+resources:</para>
+
+<orderedlist>
+<listitem><para>Check "<guimenuitem>Show Directory Tree</guimenuitem>" in the
+&Window; menu, then browse the "<menuchoice><guimenuitem>Network</guimenuitem>
+<guimenuitem>Windows Shares</guimenuitem></menuchoice>" item.</para></listitem>
+<listitem><para>Directly type the URL of the machine: 
+<userinput>smb://WORKGROUP/MACHINE/</userinput> or simply
+<userinput>smb://MACHINE</userinput> into the Locationbar.
+</para></listitem>
+</orderedlist>
+
+<note><para>In the <application>SMB</application> sharing system, a Workgroup is
+a group of machines. Belonging to one Workgroup or another does not affect the
+rights system.</para></note>
+
+<mediaobject>
+<imageobject><imagedata format="PNG" fileref="samba.png"></imageobject>
+<textobject>
+<phrase>Browsing my mother's machine</phrase>
+</textobject>
+</mediaobject>
+
+<para>In the screenshot above, "Urizen" is my own Linux box and "Luvah" is my
+mother's Windows PC. Both belong to the "Farmer" workgroup. On the Luvah system,
+there are two shared folders:</para>
+
+<orderedlist>
+<listitem><para>FRANCOISE: This folder contains my mother's work files. It is
+shared as <emphasis>read only</emphasis>, that means that nobody can create,
+modify or delete files from a distant machine.</para></listitem>
+<listitem><para>PUBLIC: In this folder, shared as <emphasis>read &
+write</emphasis>, everyone on the local network is allowed to create or modify
+files. That folder is used to give files easily to Luvah's
+user.</para></listitem>
+</orderedlist>
+
+<note><para><application>KDE</application> itself does not provide a
+<application>SMB</application> server.  If you want to share your own files with
+Windows users, you must install a <application>Samba</application> server. This
+requires Super-User rights and a few "command line Linux" operations.</para>
+
+<para><application>Samba</application> may be provided with your Linux
+distribution, otherwise see <ulink
+url="http://www.samba.org">http://www.samba.org</ulink> for download and
+installation instructions.</para></note>
+
+</sect1>
+
+</chapter>
+
+<chapter id="browser">
+<title>Konqueror the Web Browser</title>
+
+<mediaobject>
+<imageobject><imagedata format="PNG" fileref="konqorg.png"></imageobject>
+<textobject>
+<phrase>Browsing www.konqueror.org</phrase>
+</textobject>
+</mediaobject>
+
+<sect1 id="conn-inet">
+<title>Connecting to the Internet</title>
+
+<para>Once you are connected to the Internet you can use &Konqueror; to browse the 
+Web just as easily as you can use it to handle your local files. Just type a 
+<abbrev>URL</abbrev> into the Locationbar window, press <keycap>Enter</keycap>,
+and you are away !</para>
+
+<itemizedlist>
+
+<listitem><para>If you use a dial-up modem connection, then you will be using
+<application>Kppp</application> or a similar dialler program to make the
+connection.</para></listitem>
+<listitem><para>If your machine is connected to a local area network
+(<acronym>LAN</acronym>) that gives you a proxy connection to the Internet then
+you will have to set &Konqueror; up for the proxy connection as described in the
+<link linkend="config-prox">Proxy Configuration</link>
+section. </para></listitem>
+<listitem><para>If you are lucky enough to have a high speed cable connection,
+then the service provider will probably give you an external cable modem which
+needs an ethernet connection to your machine. Unfortunately the details of how
+to establish the connection depend on the service provider and to some extent on
+which <application>Linux</application> distribution you are using.  Some
+<abbrev>ISP</abbrev>s connect their customers to the Internet through a proxy
+server, in which case see the <link linkend="config-prox">Proxy
+Configuration</link> section of this document.  You may find it useful to search
+the archives of your distribution's user group mailing list for help.
+</para></listitem>
+</itemizedlist>
+
+<note><para>An error message such as "<computeroutput>Unknown
+Host</computeroutput>" usually means that &Konqueror; cannot find a connection
+to the Internet or that you have entered an incorrect url.</para></note>
+</sect1>
+
+<sect1 id="surf">
+<title>Surfing and Searching</title>
+
+<para>Once you have a connection to the Internet, then you can surf with
+&Konqueror; just as you can with any other browser. Type a <abbrev>URL</abbrev>
+into the Locationbar window, press <keycap>Enter</keycap>, and &Konqueror; will
+download and display that page.</para>
+
+<itemizedlist>
+<listitem><para>LMB click on a link in the page to go there.</para></listitem>
+<listitem><para>To open a link in a new instance of &Konqueror;, leaving the old
+page still visible, then &RMB; on the link and select the "New View"
+option. </para></listitem
+</itemizedlist>
+
+<para>You can also select the multiple view mode with
+<keycombo><keycap>Ctrl</keycap><keycap>Shift</keycap><keycap>L</keycap></keycombo>
+or the Menubar <link linkend="menuwin"><menuchoice>&Window; <guimenuitem>Split
+View Left/Right</guimenuitem></menuchoice></link> option which will let you see
+different pages at the same time. This can be useful if you are looking through
+a complicated set of pages such as this document, but make sure the little link
+box at the bottom right hand corner is empty when you are doing this.</para>
+
+<itemizedlist>
+<listitem><para>To go back to the previous page use the
+<keycombo><keycap>Ctrl</keycap><keycap>Left Arrow</keycap></keycombo> hotkey,
+the <guiicon>Back</guiicon> button on the Toolbar, or the Menubar <link
+linkend="menugo"><menuchoice>&Go;
+<guimenuitem>Back</guimenuitem></menuchoice></link> option, just as you do when
+navigating through your own files.</para></listitem>
+<listitem><para>Similarly, once you have gone back you can go forward by using 
+<keycombo><keycap>Ctrl</keycap><keycap>Right Arrow</keycap></keycombo>, the 
+<guiicon>Forward</guiicon> button, or the Menubar <link 
+linkend="menugo"><menuchoice>&Go;
+<guimenuitem>Forward</guimenuitem></menuchoice></link> option.</para></listitem>
+</itemizedlist>
+
+<para>Notice how the gear wheel goes round and round while a page is
+downloading.  This is to give you something to watch while you are waiting and
+to assure you that &Konqueror; is still trying.... If you want to stop the
+download for any reason then use the <keycap>Esc</keycap> key, the Toolbar
+<guiicon>Stop</guiicon> button or the Menubar <link
+linkend="menuview"><menuchoice>&View;
+<guimenuitem>Stop</guimenuitem></menuchoice></link> item.</para>
+
+<para>When you are viewing a web page you should see two new icons in the
+Toolbar, looking like magnifying glasses with small + and - symbols. Use these
+to adjust the size of the text in the page if you find it difficult to
+read.</para>
+
+<para>Some people seem to spend more time searching for a web page than actually
+reading it. Do you know that you can just type the subject you are looking for
+into the Locationbar window, and &Konqueror; will automatically submit it to one
+of the Web search engines? Try it by entering the name of your home town.</para>
+
+<para>To change the default search engine that &Konqueror; uses, select the
+Menubar <link linkend="menuset">&Settings;-><guimenuitem>Configure->Internet
+Keywords...</guimenuitem></link> option to bring up the Internet Keywords dialog
+box, pick a new one from the Search Fallback drop-down menu and press the
+<guibutton>Apply</guibutton> button. This dialog box also shows you shortcut
+names for various search engines, so that if, say, Altavista is not the default
+site but you want to use it to search for "&Konqueror;" you can just type
+<command>altavista:konqueror</command> or <command>av:konqueror</command> into
+the Locationbar.</para>
+
+<note><para>If you get a "Malformed URL" error message when using this automatic
+search facility then visit the Internet Keywords dialog box, make sure that the
+<guilabel>Enable Internet Keywords</guilabel> box is checked then press the
+<guibutton>Apply</guibutton> button.</para></note>
+
+</sect1>
+
+<sect1 id="bookmarks">
+<title>Using Bookmarks</title>
+
+<para>Although you can use &Konqueror;'s bookmarks to record the locations of
+your own files and directories, they are most useful when you are surfing the
+Web, letting you build up a list of useful sites.</para>
+
+<itemizedlist>
+<listitem><para>To open the &Bookmarks; drop-down list you may either &LMB;
+click on the Menubar &Bookmarks; item, or use the
+<keycombo><keycap>Alt</keycap><keycap>B</keycap></keycombo> hotkey. Once the
+list is visible, you can navigate through it with the arrow keys or with your
+mouse, then press <keycap>Enter</keycap> or &LMB; click to visit the selected
+location.</para></listitem>
+
+<listitem><para>To add a new item to the list use the Menubar <link
+linkend="menubook"><menuchoice>&Bookmarks; <guimenuitem>Add
+Bookmark</guimenuitem></menuchoice></link> item or
+<keycombo><keycap>Ctrl</keycap><keycap>B</keycap></keycombo> when you are
+viewing the web page.</para></listitem>
+</itemizedlist>
+
+<para>You can organize and categorize your list of bookmarks by adding
+subdirectories using the Menubar <link
+linkend="menubook"><menuchoice>&Bookmarks; <guimenuitem>New
+Folder</guimenuitem></menuchoice></link> item.</para>
+
+<para>Your bookmarks are saved as <filename>.desktop</filename> files in a
+normal directory, which you can open with the Menubar <link
+linkend="menubook"><menuchoice>&Bookmarks; <guimenuitem>Edit
+Bookmarks</guimenuitem></menuchoice></link> item to delete any unwanted bookmark
+or move it to a subdirectory. You can also change the displayed name by
+selecting it in the Bookmarks directory with &RMB;, picking <guimenuitem>File
+Properties</guimenuitem> from the drop-down menu and modifying the name in the
+General tab page.  Whatever new name you choose must end with
+<filename>.desktop</filename>.</para>
+
+<para>If you are also using <application>Netscape</application>, then a 
+<application>Netscape</application> Bookmarks folder will automatically be added
+to &Konqueror;'s bookmark list so you can use your
+<application>Netscape</application> bookmarks in &Konqueror;. </para>
+
+<para>If you have chosen to include a Bookmarkbar in &Konqueror;'s window, then
+the drop-down menu will also include an entry for the <guimenu>Bookmark
+Toolbar</guimenu>, allowing you to add new entries or subdirectories. You will
+find the Bookmarkbar links in the subdirectory "<filename>Toolbar</filename>" of
+the normal Bookmarks directory.</para>
+
+<para>If you have a dual-boot
+<application>Linux</application>/<application>Windows</application> system, then
+<application>Internet Explorer</application>'s
+<menuchoice><guimenu>File</guimenu><guisubmenu>Import and
+Export</guisubmenu><guimenuitem>Export Favorites</guimenuitem></menuchoice>
+option will create a <filename>.htm</filename> file containing links to your
+<application>IE</application> favourites. From within &Konqueror; you can then,
+as long as you have access to the <application>Windows</application> partition,
+find that file and add it to your bookmarks. In this way you can access all of
+your old <application>IE</application> favourites.</para>
+
+</sect1>
+
+<sect1 id="save-print-web">
+<title>Saving and Printing Web Items</title>
+
+<para>When you are viewing a web page you can save it (or at least the basic
+html or similar source text) to your local disk with the Menubar <link
+linkend="menuview"><menuchoice>&Edit; <guimenuitem>Save
+As...</guimenuitem></menuchoice></link> item. If the page you are viewing uses
+frames, then you will also be given the <link
+linkend="menuview"><menuchoice>&View; <guimenuitem>Save Frame
+As...</guimenuitem></menuchoice></link> option.</para>
+
+<para>If the page uses a background image, then you can get and save that with
+the Menubar <link linkend="menuview"><menuchoice>&View; <guimenuitem>Save
+Background Image As...</guimenuitem></menuchoice></link> option.</para>
+
+<para>But if what you really want is that glorious picture of the latest
+Ferrari, then &RMB; on the image will give you a drop-down menu with a
+<guimenuitem>Save Image As... </guimenuitem> option.</para>
+
+<para>Be sure to respect the owners copyright, and ask for permission before
+using any pictures saved this way for anything other than your own viewing
+pleasure.</para>
+
+<para>Printing a copy of the page you are viewing is easily done with the
+Menubar <link linkend="menuview"><menuchoice>&View;
+<guimenuitem>Print</guimenuitem></menuchoice></link> option, with
+<keycombo><keycap>Ctrl</keycap><keycap>P</keycap></keycombo> or with the Toolbar
+<guiicon>Print</guiicon> button.</para>
+
+</sect1>
+
+<sect1 id="ftp">
+<title>FTP</title>
+
+<para><abbrev>FTP</abbrev>, or File Transfer Protocol, is one of the the
+earliest, and still perhaps the best, way of transferring files between
+computers over the Internet.</para>
+
+<para>With <abbrev>FTP</abbrev> you can see files and directories on the distant
+computer just as if they were on your own system, download them onto your
+computer using &Konqueror;'s normal <guimenuitem>Copy</guimenuitem> and
+<guimenuitem>Paste</guimenuitem> or Drag 'n Drop methods, and, if allowed,
+upload files from your machine to the other computer's filesystem. To try it,
+type the url</para>
+
+<screen>
+<userinput>ftp://ftp.kde.org/pub/kde</userinput>
+</screen>
+
+<para>into the Locationbar and press <keycap>Enter</keycap>.As long as you are
+connected to the Internet, and as long as the KDE's ftp site is not too busy,
+you should end up seeing the <filename>/pub/kde</filename> directory at
+ftp.kde.org</para>
+
+<note><para>Although, strictly speaking, <abbrev>FTP</abbrev> url's should be
+entered starting with <userinput>ftp://</userinput> and <abbrev>WWW</abbrev>
+urls starting with <userinput>http://</userinput> &Konqueror; is usually smart
+enough to figure out what is meant, and insert these characters for you if you
+leave them out.</para></note>
+
+<para>When you access an <abbrev>ftp</abbrev> site it will usually need some
+form of username and password from you. To simplify things, most
+<abbrev>ftp</abbrev> sites that offer files for free downloading will accept the
+word "<userinput>anonymous</userinput>" as a username and your email address as
+a password, and to make your life even easier &Konqueror; will automatically
+supply these without troubling you. </para>
+
+<para>Sites that are more concerned with security will need a proper username
+and password, in which case &Konqueror; will ask you for them or you can include
+them in the url you type into the Locationbar, as for example</para>
+
+<screen>
+<userinput>ftp://<replaceable>username:password</replaceable>@ftp.cia.org</userinput></screen>
+
+<para>If you do this, then note the way that &Konqueror; hides the password as
+soon as you press <keycap>Enter</keycap>, to protect your privacy.</para>
+
+</sect1>
+
+<sect1 id="optionalbrowser">
+<title>Java & Javascript</title>
+
+<para>Hypermedia pages may contain dynamic content, such as
+<application>Javascript</application> or <application>Java</application>. You
+can (de)activate these modules in the <menuchoice>&Settings;
+<guisubmenu>Configure</guisubmenu> <guisubmenu>Browser...</guisubmenu>
+<guimenuitem>Advanced</guimenuitem></menuchoice> tab page.</para>
+
+<para><application>Javascript</application> is a small script language that add
+animation to html pages. Web site designer often use
+<application>Javascript</application>, so you should check this option unless
+you notice unstability because of it.</para>
+
+<para><application>Java</application> is a full featured language sometimes used
+on the web to provide embedded applets. You should check this option unless
+&Konqueror; crashes on <application>Java</application> applets. The
+"<guilabel>Show Java Console</guilabel>" option is useful for Java
+developers. </para>
+
+<note><para>You need a working <application>Java Virtual Machine</application>
+(<application>JVM</application>) to use Java in &Konqueror;: you can use the
+<application>Sun JVM</application> which is the standard one (see <ulink
+url="http://java.sun.com">http://java.sun.com</ulink>. for information and
+download) or Kaffe (<ulink
+url="http://www.kaffe.org">http://www.kaffe.org</ulink>) a virtual machine
+distributed under the terms of the General Public License.  </para></note>
+
+<!-- Lauri: Are you sure on this?  I'm assuming you've checked, but as recently -->
+<!-- as a couple of weeks ago, only the blackdown JVM was reliable -->
+
+</sect1>
+
+<sect1 id="miscbrowser">
+<title>Miscellaneous Browser Features</title>
+
+<itemizedlist>
+<listitem><para>&RMB; press on a link and choose <guimenuitem>Copy Link
+Location</guimenuitem>. This copies the url to the clipboard so you can then
+paste it into, say, an e-mail to a friend telling her about this wonderful new
+site.</para></listitem>
+<listitem><para>The Menubar <link linkend="menuview"><menuchoice>&View;
+<guimenuitem>View Document Source</guimenuitem></menuchoice></link> or <link
+linkend="menuview"><menuchoice>&View; <guimenuitem>View Frame
+Source</guimenuitem></menuchoice></link> options let you look at the source code
+for the page or frame. You can then put this code into a text editor with one of
+the Menubar <link linkend="menuedit"><menuchoice>&Edit; <guimenuitem>Open
+With</guimenuitem></menuchoice></link> options. Use the <guiicon>Back</guiicon>
+button to see the web page as intended again.</para></listitem>
+<listitem><para>The little red, white and blue "<guiicon>eraser</guiicon>" icon
+at the left of the Locationbar clears the Locationbar window when you &LMB;
+click on it. This can be very useful when you want to copy a
+<abbrev>URL</abbrev> from a text document such as an email, which you can do by
+simply highlighting the <abbrev>URL</abbrev> by dragging the mouse pointer across
+it with &LMB; pressed. This is the standard Linux/Unix way of copying
+text.</para>
+
+<para>&LMB; clicking on the icon to clear the location window.</para>
+
+<para>Moving the cursor into the location window and &MMB; clicking to paste the
+URL there. This is the standard Linux/Unix way of doing a text
+paste. </para></listitem>
+
+</itemizedlist>
+</sect1>
+
+</chapter>
+
+<chapter id="config">
+<title>Configuring Konqueror</title>
+
+<para>In common with the rest of <application>KDE</application>, &Konqueror; is
+highly configurable, so you can really get the look and feel that best fits your
+needs and wishes.</para>
+
+<sect1 id="look">
+<title>Tuning Konqueror's Look</title>
+
+<para>The basic look of &Konqueror; is homogenous with the rest of KDE, so if
+you want to change the look of &Konqueror; you have to change the whole of KDE's
+appearance. See the documentation of <application>KControl</application> for
+that, or if you just want to change the window's frame and button style then
+&RMB; on the Titlebar and choose the <guimenuitem>Decoration</guimenuitem>
+option.</para>
+
+<para>However, you can change the font and some color options with the
+<guimenuitem>appearance</guimenuitem> tabs of the dialog boxes you get by
+selecting :</para>
+
+<itemizedlist>
+<listitem><para><menuchoice>&Settings; <guisubmenu>Configure</guisubmenu> 
+<guimenuitem>File Manager</guimenuitem></menuchoice></para></listitem>
+<listitem><para> or <menuchoice>&Settings; <guisubmenu>Configure</guisubmenu> 
+<guimenuitem>Browser</guimenuitem></menuchoice></para></listitem>
+</itemizedlist>
+
+<para>For the File Manager and the Web Browser respectively.</para>
+
+</sect1>
+
+<sect1 id="configure-bars">
+<title>Changing Bars</title>
+
+<para>When KDE is newly installed, &Konqueror;'s window contains a Menubar, a
+Toolbar, a Locationbar and possibly a Bookmarkbar.</para>
+
+<itemizedlist>
+<listitem><para>Maybe you don't need all these bars. To hide one of them, go in
+<menuchoice>&Settings;<guimenuitem>"Show
+whateveryouwant"</guimenuitem></menuchoice> and uncheck its box. To show a
+hidden bar, just check the box.</para></listitem>
+<listitem><para>On the left hand end of each bar you can see some vertical
+lines. By &LMB; clicking on them, you "flatten" the bar, meaning that it is
+hidden but can be quickly restored by &LMB; clicking on the now horizontal
+lines.</para></listitem>
+<listitem><para>You can also drag the bars and make them float by dragging these
+lines.</para></listitem>
+<listitem><para>If you &RMB; click on the Toolbar or Bookmarkbar, you will get a
+menu to configure this bar. You can choose the orientation, text position and
+icon size</para></listitem>
+</itemizedlist>
+
+<note><para>If you hide the Menubar, you won't be able to access the &Settings;
+menu! To restore it, &RMB; on the view and check "<guimenuitem>Show
+Menubar</guimenuitem>".</para></note>
+
+<sect2 id="finebars">
+<title>Toolbar Configuration</title>
+
+<para>The contents and position of Toolbars can be configured with the Menubar
+<menuchoice>&Settings; <guimenuitem>Configure</guimenuitem>
+<guimenuitem>Toolbars</guimenuitem></menuchoice> option, which brings up the
+"<guilabel>Configure Toolbars</guilabel>" Dialog Box.</para>
+
+<mediaobject>
+<imageobject><imagedata format="PNG" fileref="konqdoc5.png"></imageobject>
+<textobject>
+<phrase>Configuring toolbars</phrase>
+</textobject>
+</mediaobject>
+
+<para>Here you can change buttons. For example, let's suppose I don't need the
+"<guibutton>Back</guibutton>" and "<guibutton>Forward</guibutton>" buttons but I
+would like to add some more icons to the Toolbar.</para>
+
+<para>By clicking on an action in the right hand box (<guilabel>Current
+actions:</guilabel>) and clicking the left arrow in the center, I remove that
+action from the Toolbar. By clicking on an action in the left hand box and
+clicking on the right arrow, I add the action to the Toolbar.</para>
+
+<para>Note that you can rearrange the position of buttons in the Toolbar by
+clicking on the up and down arrow buttons.</para>
+
+</sect2>                                             
+</sect1>
+
+<sect1 id="fileassoc">
+<title>File Types and Associations</title>
+
+<para>What &Konqueror; does when you click on a file name or icon is determined
+by the file type and the list of actions that &Konqueror; keeps for the various
+file types and can be changed to suit your taste or to add a new file
+type.</para>
+
+<para>&RMB; on a text file and select the <guimenuitem>Edit File
+Type</guimenuitem> item.  This will bring up a dialog box.</para>
+
+<mediaobject>
+<imageobject><imagedata format="PNG" fileref="filetype1.png"></imageobject>
+<textobject>
+<phrase><guimenuitem>Edit File Type</guimenuitem> dialog,
+<guimenu>General</guimenu> tab</phrase>
+</textobject>
+</mediaobject>
+
+<para>Under the <guilabel>General</guilabel> tab, the
+<guilabel>Application Preference Order</guilabel> section defines what appears
+in the <guimenuitem>Open With</guimenuitem> menu for this type of file. You can
+change these applications and their order. You can also change the icon that
+&Konqueror; uses for this file type by &LMB; on the icon, and you can add the
+extensions (<guilabel>Filename Patterns</guilabel>) for any other types of file
+that you want to be handled in the same way.</para>
+   
+<note><para>&Konqueror; is clever enough to recognise most plain text files and
+treat them as such even though they don't have the <filename>.txt</filename>
+extension.</para></note>
+
+<para>The <guimenuitem>Embedding</guimenuitem> (which actually refers to the
+Preview) tab page controls what happens when you &LMB; click on a
+filename. </para>
+
+<note><para>File types are divided into several groups;
+<guimenuitem>application</guimenuitem>, <guimenuitem>audio</guimenuitem>,
+<guimenuitem>image</guimenuitem>, <guimenuitem>inode</guimenuitem>,
+<guimenuitem>message</guimenuitem>, <guimenuitem>text</guimenuitem> and
+<guimenuitem>video</guimenuitem>.</para></note>
+
+<para>&Konqueror; can be configured to associate any file type with an installed
+application.</para>
+
+<para>For example, the Targa image type doesn't exist in &Konqueror;, if you
+have such a file on your disk, it will have a question mark as an icon. If you
+&LMB click on it, &Konqueror; will ask you which application you want to
+use. You could just type in the name of a suitable application each time you
+select a Targa file, but the best approach is to tell &Konqueror; what to do
+with a Targa image.</para>
+
+<para>Let's add the Targa mime type to &Konqueror;.</para>
+
+<procedure>
+<step><para>Open the <menuchoice>&Settings; <guisubmenu>Configure</guisubmenu>
+<guimenuitem>File Association</guimenuitem></menuchoice> dialog
+box.</para></step> <step><para>Click on the <guibutton>Add...</guibutton>
+button at the lower left, this will bring up a little dialog
+box..</para></step>
+<step><para>Select "<guimenuitem>Image</guimenuitem>" in the
+<guilabel>Group</guilabel> Drop Down Box, type "<userinput>Targa</userinput>"
+in the <guilabel>Type name</guilabel> Text Box, and press
+<guibutton>OK</guibutton>.</para>
+
+<mediaobject>
+<imageobject><imagedata format="PNG" fileref="filetype3.png"></imageobject>
+<textobject>
+<phrase>Adding the Targa type, step 2</phrase>
+</textobject>
+</mediaobject>
+</step>
+
+<step><para>Now have a look at the upper right hand corner of the File
+Associations Dialog Box.  Click on the icon and choose a nice one, here the best
+seems to be the "image" icon. In the "<guilabel>Filename Patterns</guilabel>"
+Text Box, add the patterns <userinput>*.tga</userinput> and
+<userinput>*.TGA</userinput> by clicking on the upper right
+"<guibutton>Add...</guibutton>" button. It means that every file with the .tga
+or .TGA (case is important) extension will now be considered as a Targa image.
+</para></step> 
+
+<step><para>&Konqueror; now knows what a Targa file is, but it
+doesn't know what to do with it. We need to tell &Konqueror; which application
+to launch to view a Targa file. At the lower right hand corner in the
+"<guilabel>Application Preference Order</guilabel>" area, click on the
+<guibutton>Add...</guibutton> button bring up the following Dialog Box.</para>
+
+<mediaobject>
+<imageobject><imagedata format="PNG" fileref="filetype4.png"></imageobject>
+<textobject>
+<phrase>Adding the Targa type, step 3</phrase>
+</textobject>
+</mediaobject>
+</step>
+
+<step><para>You can choose an application from the "<guilabel>Known
+Applications</guilabel>" List Box, but as we want to use
+<application>Gimp</application> which is not listed, type
+<userinput>gimp</userinput> into the <guilabel>Add Application</guilabel>
+box.</para></step>
+
+<step><para><application>Gimp</application> is a really nice but it is big
+and not designed for quick viewing. Click once more on the
+"<guibutton>Add...</guibutton> button at the lower right hand corner of the File
+Associations Dialog Box to bring up the little Application Dialog Box, and in
+the "<guilabel>Add Application</guilabel>" Text Box, type
+<userinput>xv</userinput> or the name of any other suitable application you can
+have on your system.  </para></step>
+
+<step><para>Now you have two application in the list. The first one will be the
+default application, you can arrange them as you prefer with the <guibutton>Move
+Up</guibutton> and <guibutton>Move Down</guibutton> buttons. You should choose
+an application for quick viewing as the default application.  </para></step>
+
+</procedure>
+
+<para>All Targa files will now be recognized.</para>
+
+</sect1>
+
+<sect1 id="plugin">
+<title>Plugins</title>
+
+<para>Currently, &Konqueror; supports <application>Netscape 4.x</application>
+plugins.</para>
+
+<para>When <application>KDE</application> starts up, it looks in the following
+directories for <filename>.so</filename> files containing plugin code.</para>
+
+<simplelist>
+<member><filename>  /usr/local/netscape/plugins</filename></member>
+<member><filename>  /opt/netscape/plugins</filename></member>
+<member><filename>  /opt/netscape/communicator/plugins</filename></member>
+<member><filename>  /usr/lib/netscape/plugins</filename></member>
+<member><filename>  $HOME/.netscape/plugins</filename></member>
+<member><filename>  $MOZILLA_HOME/plugins</filename></member>
+<member><filename>  $NPX_PLUGIN_PATH</filename></member>
+</simplelist>
+
+<para>It examines every plugin to find out which <abbrev>MIME</abbrev> types the
+plugin supports. It then creates <abbrev>MIME</abbrev> type definitions for
+<application>KDE</application> in the user's</para>
+<screen>
+<filename>  ~/.kde/share/mimelnk</filename></screen>
+
+<para>directory to make other applications aware of the new mime types.</para>
+
+<para>The result is that when you &LMB; click on a file with a mime type
+supported by one of your <application>Netscape</application> plugins &Konqueror;
+should display it correctly.</para>
+
+<para>You can install new <application>Netscape</application> plugins such as 
+<application>Macromedia Flash</application> in the directories mentioned
+above.</para>
+
+</sect1>
+
+<sect1 id="config-prox">
+<title>Proxy Configuration</title>
+
+<para>The <guilabel>Proxies</guilabel> dialog box is invoked with the Menubar
+<menuchoice>&Settings; <guisubmenu>Configure</guisubmenu>
+<guimenuitem>Proxies...</guimenuitem></menuchoice> option.</para>
+
+<mediaobject>
+<imageobject><imagedata format="PNG" fileref="konqdoc9.png"></imageobject>
+<textobject>
+<phrase>The Proxies Configuration dialog box</phrase>
+</textobject>
+</mediaobject>
+
+<para>A "proxy" connection to the Internet is one that is made through another
+machine, usually a <acronym>LAN</acronym> (Local Area Network) server, and can
+give you improved security by separating the computers connected to the local
+network from the wide open world of the Internet itself. A proxy server can also
+cache downloaded files to give you faster access to recent downloads.</para>
+
+<para>Proxy servers are traditionally associated with a local intranet within an
+organisation, but are now also used by some Cable Network <abbrev>ISP</abbrev>s
+who connect their customers living near to each other onto a local area network
+to improve the overall average performance of the cable network. </para>
+
+<para>If you are on a <acronym>LAN</acronym>, the proxy is perhaps the only way
+you can connect to the web, in which case you need to ask your system
+administrator or <abbrev>ISP</abbrev> for connection details.</para>
+
+<procedure>
+<step><para>To configure &Konqueror; to work with your proxy server, open the
+Proxies Configuration dialog box, check "<guilabel>Use Proxy</guilabel>" and
+fill the fields according what your system administrator or <abbrev>ISP</abbrev>
+has told you.</para></step>
+<step><para>Of course, the proxy shouldn't be used to access a machine on your
+local network. So, in the "<guilabel>No Proxy for:</guilabel>" field, type the
+names of local machines on your network separated by commas. This is usually the
+domain name of your <abbrev>ISP</abbrev> or your company. For example, if you're
+on the Ireste school network, you would type "<userinput>ireste.fr,
+intranet</userinput>", "intranet" being the machine where the intranet web
+server is located. This is important if you are on a <abbrev>LAN</abbrev>
+because the proxy won't find the internal machines.</para></step>
+</procedure>
+
+<note><para>The "<guilabel>Use Cache</guilabel>" option is not really a proxy
+option. It allows you to choose to store (cache) downloaded pages on your local
+disk so they need not be downloaded again the next time you access them. We
+advise you to use this option (whether you use a proxy or not) unless you are
+short of disk space in your home directory. </para></note>
+</sect1>
+
+</chapter>
 
 <chapter id="commands">
 <title>Command Reference</title>
 
-<!-- (OPTIONAL, BUT RECOMMENDED) This chapter should list all of the
-application windows and their menubar and toolbar commands for easy reference.
-Also include any keys that have a special function but have no equivalent in 
-the
-menus or toolbars. This may not be necessary for small apps or apps with no 
-tool
-or menu bars. -->
-
-<para></para>
-
-
-<sect1 id="konqueror-commands-menubar">
+<sect1 id="menubar">
 <title>The Menubar</title>
-<para></para>
 
 <!-- The File Menu  -->
-<sect2>
+
+<sect2 id="menufile">
 <title><menuchoice>
 <shortcut>
-<keycombo><keycap>Alt</keycap><keycap>f</keycap></keycombo>
+<keycombo><keycap>Alt</keycap><keycap>F</keycap></keycombo>
 </shortcut>
 <guimenu>File</guimenu>
 </menuchoice>
 </title>
 
-<para>
 <variablelist>
+
 <varlistentry>
 <term><menuchoice>
-<!-- <shortcut><keycap>n</keycap></shortcut> -->
+<shortcut><keycombo><keycap>Ctrl</keycap><keycap>N</keycap></keycombo></shortcut>
 <guimenu>File</guimenu>
-<guimenuitem>New</guimenuitem>
+<guimenuitem>New Window</guimenuitem>
 </menuchoice></term>
-<listitem><para><action>Create a new Text or HTML file, Directory, File System 
-Device, Application or URL</action></para></listitem>
+<listitem><para><action>Open another &Konqueror;
+window. .</action></para></listitem>
 </varlistentry>
 
 <varlistentry>
 <term><menuchoice>
 <guimenu>File</guimenu>
-<guimenuitem>Edit File Type...</guimenuitem>
+<guimenuitem>Duplicate Window</guimenuitem>
 </menuchoice></term>
-<listitem><para><action>Edit type of selected file</action></para></listitem>
-</varlistentry>
-
-<varlistentry>
-<term><menuchoice>
-<guimenu>File</guimenu>
-<guimenuitem>Properties...</guimenuitem>
-</menuchoice></term>
-<listitem><para><action>Edit Properties of selected 
-file</action></para></listitem>
+<listitem><para><action>Open another &Konqueror; window, duplicating the current
+one.</action></para></listitem>
 </varlistentry>
 
 <varlistentry>
 <term><menuchoice>
 <shortcut>
-<keycombo><keycap>Ctrl</keycap><keycap>W</keycap></keycombo>
+<keycombo><keycap>Ctrl</keycap><keycap>O</keycap></keycombo>
 </shortcut><guimenu>File</guimenu>
-<guimenuitem>Close</guimenuitem>
+<guimenuitem>Open Location</guimenuitem>
 </menuchoice></term>
-<listitem><para><action>Close down Konqueror</action></para></listitem>
+<listitem><para><action>Open a directory or file by entering its path (for
+example <filename>/home/pam</filename> or
+<filename>/home/pam/fred.txt</filename>) in a simple dialog
+box.</action></para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>File</guimenu>
+<guimenuitem>Quit</guimenuitem>
+</menuchoice></term>
+<listitem><para><action>Close down &Konqueror;</action></para></listitem>
 </varlistentry>
 
 </variablelist>
-</para>
+
 </sect2>
 
-
 <!-- The Edit Menu  -->
-<sect2>
+<sect2 id="menuedit">
 <title><menuchoice>
 <shortcut>
-<keycombo><keycap>Alt</keycap><keycap>e</keycap></keycombo>
+<keycombo><keycap>Alt</keycap><keycap>E</keycap></keycombo>
 </shortcut>
 <guimenu>Edit</guimenu>
 </menuchoice>
 </title>
 
-<para>
+<Note><para>Most items in the Edit menu can also be found in the <link
+linkend="RMB-menus">View &RMB; Menu</link>.</para></Note>
+
 <variablelist>
+
+<varlistentry>
+<term><menuchoice>
+<shortcut>
+<keycombo><keycap>Ctrl</keycap><keycap>Z</keycap></keycombo>
+</shortcut><guimenu>Edit</guimenu>
+<guimenuitem>Undo</guimenuitem>
+</menuchoice></term>
+<listitem><para><action>Sometimes lets you reverse a mistaken
+action. </action></para></listitem>
+</varlistentry>
 
 <varlistentry>
 <term><menuchoice>
@@ -251,7 +1645,9 @@ file</action></para></listitem>
 </shortcut><guimenu>Edit</guimenu>
 <guimenuitem>Cut</guimenuitem>
 </menuchoice></term>
-<listitem><para><action>Cut selected file or folder</action></para></listitem>
+<listitem><para><action>Puts selected item(s) into the clipboard, a
+<guimenuitem>Paste</guimenuitem> will then remove the item(s) from the original
+location.</action></para></listitem>
 </varlistentry>
 
 <varlistentry>
@@ -261,7 +1657,8 @@ file</action></para></listitem>
 </shortcut><guimenu>Edit</guimenu>
 <guimenuitem>Copy</guimenuitem>
 </menuchoice></term>
-<listitem><para><action>Copy selected file or folder</action></para></listitem>
+<listitem><para><action>Copy selected item(s) to the
+clipboard.</action></para></listitem>
 </varlistentry>
 
 <varlistentry>
@@ -271,8 +1668,8 @@ file</action></para></listitem>
 </shortcut><guimenu>Edit</guimenu>
 <guimenuitem>Paste</guimenuitem>
 </menuchoice></term>
-<listitem><para><action>Paste file or folder from 
-clipboard</action></para></listitem>
+<listitem><para><action>Paste item(s) from clipboard to the currently viewed
+directory.</action></para></listitem>
 </varlistentry>
 
 <varlistentry>
@@ -282,15 +1679,19 @@ clipboard</action></para></listitem>
 </shortcut><guimenu>Edit</guimenu>
 <guimenuitem>Move to Trash</guimenuitem>
 </menuchoice></term>
-<listitem><para><action>Move file or folder to Trash</action></para></listitem>
+<listitem><para><action>Move selected item(s) to the Trash
+directory.</action></para></listitem>
 </varlistentry>
 
 <varlistentry>
 <term><menuchoice>
+<shortcut>
+<keycombo><keycap>Ctrl</keycap><keycap>Shift</keycap><keycap>Del</keycap></keycombo>
+</shortcut>
 <guimenu>Edit</guimenu>
 <guimenuitem>Delete</guimenuitem>
 </menuchoice></term>
-<listitem><para><action>Delete file or folder</action></para></listitem>
+<listitem><para><action>Delete the selected item(s).</action></para></listitem>
 </varlistentry>
 
 <varlistentry>
@@ -298,16 +1699,34 @@ clipboard</action></para></listitem>
 <guimenu>Edit</guimenu>
 <guimenuitem>Shred</guimenuitem>
 </menuchoice></term>
-<listitem><para><action>Shred file or folder</action></para></listitem>
+<listitem><para><action>Shred the selected item(s).</action></para></listitem>
 </varlistentry>
 
 <varlistentry>
 <term><menuchoice>
 <guimenu>Edit</guimenu>
-<guimenuitem>Open With Terminal emulator window</guimenuitem>
+<guimenuitem>Create new</guimenuitem>
 </menuchoice></term>
-<listitem><para><action>Open With Terminal emulator window 
-??</action></para></listitem>
+<listitem><para><action>Create a URL, Floppy or CDROM device link, Application,
+Directory, File or File System Device.</action></para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>Edit</guimenu>
+<guimenuitem>Edit File Type..</guimenuitem>
+</menuchoice></term>
+<listitem><para><action>Open the <guilabel>Edit File Type</guilabel> dialog
+box</action></para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>Edit</guimenu>
+<guimenuitem>Properties..</guimenuitem>
+</menuchoice></term>
+<listitem><para><action>Open the <guilabel>Edit Properties</guilabel> dialog
+box</action></para></listitem>
 </varlistentry>
 
 <varlistentry>
@@ -317,7 +1736,16 @@ clipboard</action></para></listitem>
 </shortcut><guimenu>Edit</guimenu>
 <guimenuitem>Select</guimenuitem>
 </menuchoice></term>
-<listitem><para><action>Select file or folder</action></para></listitem>
+<listitem><para>Together with the <guimenuitem>Unselect</guimenuitem>,
+<guimenuitem>Unselect All</guimenuitem> and <guimenuitem>Invert</guimenuitem>
+Selection commands, this provides an easy and powerful way of selecting multiple
+files.</para>
+<para><action>It brings up a simple dialog box where you can enter a file name
+using the wild card characters * and ?, for example entering
+<filename>*.html</filename> will select all files ending with
+<filename>.html</filename> while <filename>?a*</filename> will select all files
+which have the letter a as the second character in their
+filename.</action></para></listitem>
 </varlistentry>
 
 <varlistentry>
@@ -337,7 +1765,7 @@ clipboard</action></para></listitem>
 </shortcut><guimenu>Edit</guimenu>
 <guimenuitem>Unselect All</guimenuitem>
 </menuchoice></term>
-<listitem><para><action>Unselect all selected files or 
+<listitem><para><action>Unselect all selected files or
 folders</action></para></listitem>
 </varlistentry>
 
@@ -352,19 +1780,19 @@ folders</action></para></listitem>
 </varlistentry>
 
 </variablelist>
-</para>
+
 </sect2>
 
 <!-- The View Menu  -->
-<sect2>
+<sect2 id="menuview">
 <title><menuchoice>
 <shortcut>
-<keycombo><keycap>Alt</keycap><keycap>v</keycap></keycombo>
+<keycombo><keycap>Alt</keycap><keycap>V</keycap></keycombo>
 </shortcut>
 <guimenu>View</guimenu>
 </menuchoice>
 </title>
-<para>
+
 <variablelist>
 
 <varlistentry>
@@ -372,7 +1800,10 @@ folders</action></para></listitem>
 <guimenu>View</guimenu>
 <guimenuitem>View Mode...</guimenuitem>
 </menuchoice></term>
-<listitem><para><action>Select view mode</action></para></listitem>
+<listitem><para><action>Select view mode. </action></para><para>Selects Icon,
+Text,  MultiColumn View, Detailed List or Tree view mode. When you are viewing
+the source text for a document or web page, it lets you choose between text
+editors.</para></listitem>
 </varlistentry>
 
 <varlistentry>
@@ -380,7 +1811,36 @@ folders</action></para></listitem>
 <guimenu>View</guimenu>
 <guimenuitem>Use index.html</guimenuitem>
 </menuchoice></term>
-<listitem><para><action>Use index.html</action></para></listitem>
+<listitem><para><action>If a selected directory contains a file 
+"<filename>index.html</filename>", it will be opened as a web page rather than
+showing the directory as a list of files.</action></para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>View</guimenu>
+<guimenuitem>Lock to current location</guimenuitem>
+</menuchoice></term>
+<listitem><para><action>Lock to current location.
+</action></para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>View</guimenu>
+<guimenuitem>Unlock all views</guimenuitem>
+</menuchoice></term>
+<listitem><para><action>Unlock all views.
+</action></para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>View</guimenu>
+<guimenuitem>Link View</guimenuitem>
+</menuchoice></term>
+<listitem><para><action>Link current view to others in a multiple view
+window.</action></para></listitem>
 </varlistentry>
 
 <varlistentry>
@@ -398,7 +1858,27 @@ folders</action></para></listitem>
 <guimenu>View</guimenu>
 <guimenuitem>Stop</guimenuitem>
 </menuchoice></term>
-<listitem><para><action>Stop</action></para></listitem>
+<listitem><para><action>Stop load (particularly useful when web
+browsing).</action></para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<shortcut><keycombo><keycap>Ctrl</keycap><keycap>P</keycap></keycombo></shortcut>
+<guimenu>View</guimenu>
+<guimenuitem>Print...</guimenuitem>
+</menuchoice></term>
+<listitem><para><action>Print.</action></para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<shortcut><keycombo><keycap>Ctrl</keycap><keycap>P</keycap></keycombo></shortcut>
+<guimenu>View</guimenu>
+<guimenuitem>Print Frame</guimenuitem>
+</menuchoice></term>
+<listitem><para><action>Print selected frame of a Web
+page</action></para></listitem>
 </varlistentry>
 
 <varlistentry>
@@ -406,7 +1886,8 @@ folders</action></para></listitem>
 <guimenu>View</guimenu>
 <guimenuitem>Icon Mode...</guimenuitem>
 </menuchoice></term>
-<listitem><para><action>Icon Mode ??</action></para></listitem>
+<listitem><para><action>Select size of icons and position of text used when
+wiewing a directory in Icon Mode.</action></para></listitem>
 </varlistentry>
 
 <varlistentry>
@@ -414,7 +1895,11 @@ folders</action></para></listitem>
 <guimenu>View</guimenu>
 <guimenuitem>View Document Source</guimenuitem>
 </menuchoice></term>
-<listitem><para><action>View Document Source</action></para></listitem>
+<listitem><para><action>View document source text</action></para>
+<para>Only available if you are viewing a document or <abbrev>HTML</abbrev>
+page. When you are in Document Source view mode the back button will return you
+to the Document View.</para>
+</listitem>
 </varlistentry>
 
 <varlistentry>
@@ -422,7 +1907,10 @@ folders</action></para></listitem>
 <guimenu>View</guimenu>
 <guimenuitem>View Frame Source</guimenuitem>
 </menuchoice></term>
-<listitem><para><action>View Frame Source</action></para></listitem>
+<listitem><para><action>View frame source text</action></para>
+<para>Only applies if you are viewing a web site that uses frames. Similar to 
+<guimenuitem>View Document Source</guimenuitem>. </para>
+</listitem>
 </varlistentry>
 
 <varlistentry>
@@ -430,7 +1918,11 @@ folders</action></para></listitem>
 <guimenu>View</guimenu>
 <guimenuitem>Save Background Image As...</guimenuitem>
 </menuchoice></term>
-<listitem><para><action>Save Background Image</action></para></listitem>
+<listitem><para><action>Save background image</action></para>
+<para>Only applies if you are viewing a web page with a background image. Opens
+the <guilabel>Save As dialog</guilabel> box  to let you save the background
+image file to your own computer.</para>
+</listitem>
 </varlistentry>
 
 <varlistentry>
@@ -438,7 +1930,11 @@ folders</action></para></listitem>
 <guimenu>View</guimenu>
 <guimenuitem>Save As...</guimenuitem>
 </menuchoice></term>
-<listitem><para><action>Save</action></para></listitem>
+<listitem><para><action>Save</action></para>
+<para>Only applies if you are viewing a document or web page, uses the
+<guilabel>Save As</guilabel> dialog box to let you save a copy to your own
+computer.</para>
+</listitem>
 </varlistentry>
 
 <varlistentry>
@@ -446,7 +1942,8 @@ folders</action></para></listitem>
 <guimenu>View</guimenu>
 <guimenuitem>Save Frame As...</guimenuitem>
 </menuchoice></term>
-<listitem><para><action>Save Frame</action></para></listitem>
+<listitem><para><action>Similar to Save As but for use with a web site that uses
+frames.</action></para></listitem>
 </varlistentry>
 
 <varlistentry>
@@ -454,7 +1951,10 @@ folders</action></para></listitem>
 <guimenu>View</guimenu>
 <guimenuitem>Set Encoding</guimenuitem>
 </menuchoice></term>
-<listitem><para><action>Set encoding</action></para></listitem>
+<listitem><para><action>Set encoding</action></para>
+<para>Allows you to choose the character encoding used to display
+<abbrev>HTML</abbrev> pages. "Auto" is usually the best
+choice.</para></listitem>
 </varlistentry>
 
 <varlistentry>
@@ -462,23 +1962,24 @@ folders</action></para></listitem>
 <guimenu>View</guimenu>
 <guimenuitem>Sort...</guimenuitem>
 </menuchoice></term>
-<listitem><para><action>Sort ??</action></para></listitem>
+<listitem><para><action>Choose order in which items are presented in the
+window.</action></para></listitem>
 </varlistentry>
 
 <varlistentry>
 <term><menuchoice>
 <guimenu>View</guimenu>
-<guimenuitem>Show Dot Files</guimenuitem>
+<guimenuitem>Image Preview</guimenuitem>
 </menuchoice></term>
-<listitem><para><action>Show dot files</action></para></listitem>
+<listitem><para><action>Preview image.</action></para></listitem>
 </varlistentry>
 
 <varlistentry>
 <term><menuchoice>
 <guimenu>View</guimenu>
-<guimenuitem>Show...</guimenuitem>
+<guimenuitem>Show Hidden Files</guimenuitem>
 </menuchoice></term>
-<listitem><para><action>Show ??</action></para></listitem>
+<listitem><para><action>Show hidden (dot) files</action></para></listitem>
 </varlistentry>
 
 <varlistentry>
@@ -498,19 +1999,19 @@ folders</action></para></listitem>
 </varlistentry>
 
 </variablelist>
-</para>
+
 </sect2>
 
 <!-- The Go Menu  -->
-<sect2>
+<sect2 id="menugo">
 <title><menuchoice>
 <shortcut>
-<keycombo><keycap>Alt</keycap><keycap>g</keycap></keycombo>
+<keycombo><keycap>Alt</keycap><keycap>G</keycap></keycombo>
 </shortcut>
 <guimenu>Go</guimenu>
 </menuchoice>
 </title>
-<para>
+
 <variablelist>
 
 <varlistentry>
@@ -520,7 +2021,8 @@ folders</action></para></listitem>
 </shortcut><guimenu>Go</guimenu>
 <guimenuitem>Up</guimenuitem>
 </menuchoice></term>
-<listitem><para><action>Go up</action></para></listitem>
+<listitem><para><action>Go up a level in the directory 
+hierarchy</action></para></listitem>
 </varlistentry>
 
 <varlistentry>
@@ -530,7 +2032,7 @@ folders</action></para></listitem>
 </shortcut><guimenu>Go</guimenu>
 <guimenuitem>Back</guimenuitem>
 </menuchoice></term>
-<listitem><para><action>Go back</action></para></listitem>
+<listitem><para><action>Go back to the previous view</action></para></listitem>
 </varlistentry>
 
 <varlistentry>
@@ -540,7 +2042,8 @@ folders</action></para></listitem>
 </shortcut><guimenu>Go</guimenu>
 <guimenuitem>Forward</guimenuitem>
 </menuchoice></term>
-<listitem><para><action>Go forward</action></para></listitem>
+<listitem><para><action>You can only go forward if you've just gone 
+back.</action></para></listitem>
 </varlistentry>
 
 <varlistentry>
@@ -548,19 +2051,9 @@ folders</action></para></listitem>
 <shortcut>
 <keycombo><keycap>Ctrl</keycap><keycap>Home</keycap></keycombo>
 </shortcut><guimenu>Go</guimenu>
-<guimenuitem>Home Directory</guimenuitem>
+<guimenuitem>Home URL</guimenuitem>
 </menuchoice></term>
-<listitem><para><action>Go home</action></para></listitem>
-</varlistentry>
-
-<varlistentry>
-<term><menuchoice>
-<shortcut>
-<keycombo><keycap>Ctrl</keycap><keycap>O</keycap></keycombo>
-</shortcut><guimenu>Go</guimenu>
-<guimenuitem>Open Location</guimenuitem>
-</menuchoice></term>
-<listitem><para><action>Open Location</action></para></listitem>
+<listitem><para><action>Go to your home directory</action></para></listitem>
 </varlistentry>
 
 <varlistentry>
@@ -568,8 +2061,8 @@ folders</action></para></listitem>
 <guimenu>Go</guimenu>
 <guimenuitem>Applications</guimenuitem>
 </menuchoice></term>
-<listitem><para><action>Open directory holding 
-applications</action></para></listitem>
+<listitem><para><action>Open the directory holding your
+applications.</action></para></listitem>
 </varlistentry>
 
 <varlistentry>
@@ -577,7 +2070,7 @@ applications</action></para></listitem>
 <guimenu>Go</guimenu>
 <guimenuitem>Directory Tree</guimenuitem>
 </menuchoice></term>
-<listitem><para><action>Open directory tree in seperate 
+<listitem><para><action>Show the directory tree in separate
 window</action></para></listitem>
 </varlistentry>
 
@@ -586,7 +2079,8 @@ window</action></para></listitem>
 <guimenu>Go</guimenu>
 <guimenuitem>Trash</guimenuitem>
 </menuchoice></term>
-<listitem><para><action>Open Trash directory</action></para></listitem>
+<listitem><para><action>Open your <filename>Trash</filename> directory in a 
+separate window.</action></para></listitem>
 </varlistentry>
 
 <varlistentry>
@@ -594,7 +2088,8 @@ window</action></para></listitem>
 <guimenu>Go</guimenu>
 <guimenuitem>Templates</guimenuitem>
 </menuchoice></term>
-<listitem><para><action>Open Templates directory</action></para></listitem>
+<listitem><para><action>Open the <filename>Templates</filename> directory 
+in a separate window.</action></para></listitem>
 </varlistentry>
 
 <varlistentry>
@@ -602,23 +2097,25 @@ window</action></para></listitem>
 <guimenu>Go</guimenu>
 <guimenuitem>Autostart</guimenuitem>
 </menuchoice></term>
-<listitem><para><action>Open Autostart directory</action></para></listitem>
+<listitem><para><action>Open your <filename>Autostart</filename> directory at
+<filename>~/.kde/Autostart</filename> in a separate
+window.</action></para></listitem>
 </varlistentry>
 
 </variablelist>
-</para>
+
 </sect2>
 
 <!-- The Bookmarks Menu  -->
-<sect2>
+<sect2 id="menubook">
 <title><menuchoice>
 <shortcut>
-<keycombo><keycap>Alt</keycap><keycap>b</keycap></keycombo>
+<keycombo><keycap>Alt</keycap><keycap>B</keycap></keycombo>
 </shortcut>
 <guimenu>Bookmarks</guimenu>
 </menuchoice>
 </title>
-<para>
+
 <variablelist>
 
 <varlistentry>
@@ -626,15 +2123,30 @@ window</action></para></listitem>
 <guimenu>Bookmarks</guimenu>
 <guimenuitem>Edit Bookmarks...</guimenuitem>
 </menuchoice></term>
-<listitem><para><action>Edit bookmarks</action></para></listitem>
+<listitem><para><action>Open your bookmarks directory
+<filename>~/.kde/share/apps/kfm/bookmarks</filename> in a separate
+window</action></para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<shortcut>
+<keycombo><keycap>Ctrl</keycap><keycap>B</keycap></keycombo>
+</shortcut>
+<guimenu>Bookmarks</guimenu>
+<guimenuitem>Add Bookmark</guimenuitem>
+</menuchoice></term>
+<listitem><para><action>Add current selection to your
+bookmarks.</action></para></listitem>
 </varlistentry>
 
 <varlistentry>
 <term><menuchoice>
 <guimenu>Bookmarks</guimenu>
-<guimenuitem>Add Bookmark</guimenuitem>
+<guimenuitem>New Folder</guimenuitem>
 </menuchoice></term>
-<listitem><para><action>Crash system</action></para></listitem>
+<listitem><para><action>Create a new folder in your Bookmarks
+dirctory.</action></para></listitem>
 </varlistentry>
 
 <varlistentry>
@@ -642,32 +2154,45 @@ window</action></para></listitem>
 <guimenu>Bookmarks</guimenu>
 <guimenuitem>Netscape Bookmarks</guimenuitem>
 </menuchoice></term>
-<listitem><para><action>View Netscape bookmarks</action></para></listitem>
+<listitem><para><action>To see and use your <application>Netscape</application>
+bookmarks. </action></para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>Bookmarks</guimenu>
+<guimenuitem>Bookmark Toolbar</guimenuitem>
+</menuchoice></term>
+<listitem><para><action>To see, edit and use your Bookmarkbar
+entries. </action></para></listitem>
 </varlistentry>
 
 </variablelist>
-</para>
+
 </sect2>
 
 <!-- The Tools Menu  -->
-<sect2>
+<sect2 id="menutool">
 <title><menuchoice>
 <shortcut>
-<keycombo><keycap>Alt</keycap><keycap>t</keycap></keycombo>
+<keycombo><keycap>Alt</keycap><keycap>T</keycap></keycombo>
 </shortcut>
 <guimenu>Tools</guimenu>
 </menuchoice>
 </title>
 
-<para>
+
 <variablelist>
 
 <varlistentry>
 <term><menuchoice>
+<shortcut>
+<keycombo><keycap>Alt</keycap><keycap>F2</keycap></keycombo></shortcut>
 <guimenu>Tools</guimenu>
 <guimenuitem>Run Command...</guimenuitem>
 </menuchoice></term>
-<listitem><para><action>Run command</action></para></listitem>
+<listitem><para><action>Run a program by entering its name in a simple dialog
+box.</action></para></listitem>
 </varlistentry>
 
 <varlistentry>
@@ -677,7 +2202,8 @@ window</action></para></listitem>
 <guimenu>Tools</guimenu>
 <guimenuitem>Open Terminal...</guimenuitem>
 </menuchoice></term>
-<listitem><para><action>Open terminal</action></para></listitem>
+<listitem><para><action>Open a <application>Konsole</application> terminal
+window.</action></para></listitem>
 </varlistentry>
 
 <varlistentry>
@@ -685,23 +2211,24 @@ window</action></para></listitem>
 <guimenu>Tools</guimenu>
 <guimenuitem>Find File...</guimenuitem>
 </menuchoice></term>
-<listitem><para><action>Find File</action></para></listitem>
+<listitem><para><action>Open the <application>Kfind</application>
+application.</action></para></listitem>
 </varlistentry>
 
 </variablelist>
-</para>
+
 </sect2>
 
 <!-- The Settings Menu  -->
-<sect2>
+<sect2 id="menuset">
 <title><menuchoice>
 <shortcut>
-<keycombo><keycap>Alt</keycap><keycap>s</keycap></keycombo>
+<keycombo><keycap>Alt</keycap><keycap>S</keycap></keycombo>
 </shortcut>
 <guimenu>Settings</guimenu>
 </menuchoice>
 </title>
-<para>
+
 <variablelist>
 
 <varlistentry>
@@ -709,7 +2236,7 @@ window</action></para></listitem>
 <guimenu>Settings</guimenu>
 <guimenuitem>Show Menubar</guimenuitem>
 </menuchoice></term>
-<listitem><para><action>Show Menubar</action></para></listitem>
+<listitem><para><action>Show/Hide the menubar</action></para></listitem>
 </varlistentry>
 
 <varlistentry>
@@ -717,40 +2244,23 @@ window</action></para></listitem>
 <guimenu>Settings</guimenu>
 <guimenuitem>Show Toolbar</guimenuitem>
 </menuchoice></term>
-<listitem><para><action>Show Toolbar</action></para></listitem>
+<listitem><para><action>Show/Hide the toolbar</action></para></listitem>
 </varlistentry>
 
 <varlistentry>
 <term><menuchoice>
 <guimenu>Settings</guimenu>
-<guimenuitem>Show Locationbar</guimenuitem>
+<guimenuitem>Show Location Toolbar</guimenuitem>
 </menuchoice></term>
-<listitem><para><action>Show Locationbar</action></para></listitem>
+<listitem><para><action>Show/Hide the locationbar</action></para></listitem>
 </varlistentry>
 
 <varlistentry>
 <term><menuchoice>
 <guimenu>Settings</guimenu>
-<guimenuitem>Show Bookmarkbar</guimenuitem>
+<guimenuitem>Show Bookmark Toolbar</guimenuitem>
 </menuchoice></term>
-<listitem><para><action>Show Bookmarkbar</action></para></listitem>
-</varlistentry>
-
-<varlistentry>
-<term><menuchoice>
-<guimenu>Settings</guimenu>
-<guimenuitem>Show Directory Tree</guimenuitem>
-</menuchoice></term>
-<listitem><para><action>Show Directory Tree></action></para></listitem>
-</varlistentry>
-
-<varlistentry>
-<term><menuchoice>
-<guimenu>Settings</guimenu>
-<guimenuitem>Show Terminal emulator window</guimenuitem>
-</menuchoice></term>
-<listitem><para><action>Show Terminal emulator 
-window</action></para></listitem>
+<listitem><para><action>Show/Hide the bookmarkbar</action></para></listitem>
 </varlistentry>
 
 <varlistentry>
@@ -758,8 +2268,8 @@ window</action></para></listitem>
 <guimenu>Settings</guimenu>
 <guimenuitem>Save View Properties to Directory</guimenuitem>
 </menuchoice></term>
-<listitem><para><action>Save View Properties to 
-Directory</action></para></listitem>
+<listitem><para><action>Save View properties to directory. This is currently
+broken</action></para></listitem>
 </varlistentry>
 
 <varlistentry>
@@ -767,50 +2277,39 @@ Directory</action></para></listitem>
 <guimenu>Settings</guimenu>
 <guimenuitem>Remove Directory Properties</guimenuitem>
 </menuchoice></term>
-<listitem><para><action>Remove Directory Properties 
-</action></para></listitem>
+<listitem><para><action>Remove directory properties. This menu option does not
+currenlty work.</action></para></listitem>
 </varlistentry>
 
 <varlistentry>
-<term><menuchoice>
-<guimenu>Settings</guimenu>
-<guimenuitem>Configure</guimenuitem>
-</menuchoice></term>
-<listitem><para><action>Configure</action></para></listitem>
+<term><menuchoice> <guimenu>Settings</guimenu>
+<guimenuitem>Configure</guimenuitem> </menuchoice></term>
+<listitem><para><action>Lets you configure the File manager, File Associations,
+Browser, Internet Keywords, Cookies, Proxies, Key Bindings or Toolbars by
+bringing up the appropriate dialog box</action></para></listitem>
 </varlistentry>
 
 </variablelist>
-</para>
+
 </sect2>
 
-<!-- The Windows Menu  -->
-<sect2>
+<!-- The Window Menu  -->
+<sect2 id="menuwin">
 <title><menuchoice>
 <shortcut>
-<keycombo><keycap>Alt</keycap><keycap>w</keycap></keycombo>
+<keycombo><keycap>Alt</keycap><keycap>W</keycap></keycombo>
 </shortcut>
-<guimenu>Windows</guimenu>
+<guimenu>Window</guimenu>
 </menuchoice>
 </title>
 
-<para>
 <variablelist>
 
 <varlistentry>
 <term><menuchoice>
 <shortcut>
-<keycombo><keycap>Ctrl</keycap><keycap>N</keycap></keycombo></shortcut>
-<guimenu>Windows</guimenu>
-<guimenuitem>New Window</guimenuitem>
-</menuchoice></term>
-<listitem><para><action>Open new window</action></para></listitem>
-</varlistentry>
-
-<varlistentry>
-<term><menuchoice>
-<shortcut>
 <keycombo><keycap>Ctrl</keycap><keycap>Shift</keycap><keycap>L</keycap></keycombo></shortcut>
-<guimenu>Windows</guimenu>
+<guimenu>Window</guimenu>
 <guimenuitem>Split View Left/Right</guimenuitem>
 </menuchoice></term>
 <listitem><para><action>Split View Left/Right</action></para></listitem>
@@ -820,7 +2319,7 @@ Directory</action></para></listitem>
 <term><menuchoice>
 <shortcut>
 <keycombo><keycap>Ctrl</keycap><keycap>Shift</keycap><keycap>T</keycap></keycombo></shortcut>
-<guimenu>Windows</guimenu>
+<guimenu>Window</guimenu>
 <guimenuitem>Split View Top/Bottom</guimenuitem>
 </menuchoice></term>
 <listitem><para><action>Split View Top/Bottom</action></para></listitem>
@@ -828,25 +2327,27 @@ Directory</action></para></listitem>
 
 <varlistentry>
 <term><menuchoice>
-<guimenu>Windows</guimenu>
-<guimenuitem>New View On Right </guimenuitem>
+<guimenu>Window</guimenu>
+<guimenuitem>New View On Right</guimenuitem>
 </menuchoice></term>
-<listitem><para><action>New View On Right</action></para></listitem>
+<listitem><para><action>Add a new view at the right of &Konqueror;'s
+window.</action></para></listitem>
 </varlistentry>
 
 <varlistentry>
 <term><menuchoice>
-<guimenu>Windows</guimenu>
+<guimenu>Window</guimenu>
 <guimenuitem>New View At Bottom</guimenuitem>
 </menuchoice></term>
-<listitem><para><action>New View At Bottom</action></para></listitem>
+<listitem><para><action>Add a new view at the bottom of &Konqueror;'s
+window.</action></para></listitem>
 </varlistentry>
 
 <varlistentry>
 <term><menuchoice>
 <shortcut>
 <keycombo><keycap>Ctrl</keycap><keycap>Shift</keycap><keycap>R</keycap></keycombo></shortcut>
-<guimenu>Windows</guimenu>
+<guimenu>Window</guimenu>
 <guimenuitem>Remove Active View</guimenuitem>
 </menuchoice></term>
 <listitem><para><action>Remove Active View</action></para></listitem>
@@ -854,7 +2355,26 @@ Directory</action></para></listitem>
 
 <varlistentry>
 <term><menuchoice>
-<guimenu>Windows</guimenu>
+<guimenu>Settings</guimenu>
+<guimenuitem>Show Directory Tree</guimenuitem>
+</menuchoice></term>
+<listitem><para><action>Show the directory tree in a new pane in the current 
+window.</action></para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>Settings</guimenu>
+<guimenuitem>Show Terminal emulator window</guimenuitem>
+</menuchoice></term>
+<listitem><para><action>Open a small terminal window at the bottom of the main 
+window.</action></para></listitem>
+</varlistentry>
+
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>Window</guimenu>
 <guimenuitem>Save/Remove View Profile</guimenuitem>
 </menuchoice></term>
 <listitem><para><action>Save/Remove View Profile</action></para></listitem>
@@ -862,7 +2382,7 @@ Directory</action></para></listitem>
 
 <varlistentry>
 <term><menuchoice>
-<guimenu>Windows</guimenu>
+<guimenu>Window</guimenu>
 <guimenuitem>Load View Profile</guimenuitem>
 </menuchoice></term>
 <listitem><para><action>Load View Profile</action></para></listitem>
@@ -872,27 +2392,26 @@ Directory</action></para></listitem>
 <term><menuchoice>
 <shortcut>
 <keycombo><keycap>Ctrl</keycap><keycap>Shift</keycap><keycap>F</keycap></keycombo></shortcut>
-<guimenu>Windows</guimenu>
+<guimenu>Window</guimenu>
 <guimenuitem>Fullscreen Mode</guimenuitem>
 </menuchoice></term>
 <listitem><para><action>Fullscreen Mode</action></para></listitem>
 </varlistentry>
 
 </variablelist>
-</para>
+
 </sect2>
 
 <!-- The Help Menu  -->
-<sect2>
+<sect2 id="menuhelp">
 <title><menuchoice>
 <shortcut>
-<keycombo><keycap>Alt</keycap><keycap>h</keycap></keycombo>
+<keycombo><keycap>Alt</keycap><keycap>H</keycap></keycombo>
 </shortcut>
 <guimenu>Help</guimenu>
 </menuchoice>
 </title>
 
-<para>
 <variablelist>
 
 <varlistentry>
@@ -911,7 +2430,9 @@ Directory</action></para></listitem>
 <guimenu>Help</guimenu>
 <guimenuitem>What's This?</guimenuitem>
 </menuchoice></term>
-<listitem><para><action>Don't know, it doesn't work</action></para></listitem>
+<listitem><para><action>Draws a question mark (?) beside the mouse pointer, 
+clicking on a window item such as the <guiicon>Stop</guiicon> button will then
+display a brief explanation.</action></para></listitem>
 </varlistentry>
 
 <varlistentry>
@@ -939,149 +2460,13 @@ Directory</action></para></listitem>
 </varlistentry>
 
 </variablelist>
-</para>
+
 </sect2>
 
 </sect1>
-
-<!-- *********************************************** -->
-
-<sect1 id="konqueror-commands-rmb-titlebar">
-<title>Titlebar RMB Menu</title>
-<para>
-RMB on any free area of the Titlebar to bring up the Titlebar Menu.
-</para>
-</sect1>
-
-
-<!-- *********************************************** -->
-
-<sect1 id="konqueror-commands-rmb-toolbar">
-<title>Toolbar RMB Menu</title>
-<para>
-RMB on any free area of the Toolbar to bring up the Toolbar Menu.
-</para>
-</sect1>
-
-
-
-<!-- *********************************************** -->
-
-<sect1 id="konqueror-commands-rmb-window">
-<title>Window RMB Menu</title>
-<para>
-RMB on any free area of the window to bring up this Menu.
-</para>
-</sect1>
-
-<!-- *********************************************** -->
-
-<sect1 id="konqueror-commands-properties-dialog">
-<title>Properties Dialog</title>
-<para>
-Properties dialog
-</para>
-</sect1>
-
-<!-- *********************************************** -->
-
-<sect1 id="konqueror-commands-properties-saveas">
-<title>Save As Dialog</title>
-<para>
-Save As dialog
-</para>
-</sect1>
-
-<!-- *********************************************** -->
-
-<sect1 id="konqueror-commands-properties-config-fm">
-<title>Configure File Manager Dialog</title>
-<para>
-Configure File Manager dialog
-</para>
-</sect1>
-
-<!-- *********************************************** -->
-
-<sect1 id="konqueror-commands-properties-config-browser">
-<title>Configure Browser Dialog</title>
-<para>
-Configure Browser dialog
-</para>
-</sect1>
-
-<!-- *********************************************** -->
-
-<sect1 id="konqueror-commands-properties-config-fa">
-<title>Configure File Associations Dialog</title>
-<para>
-Configure File Associations dialog
-</para>
-</sect1>
-
-<!-- *********************************************** -->
-
-<sect1 id="konqueror-commands-properties-config-net">
-<title>Configure Network Dialog</title>
-<para>
-Configure Network dialog
-</para>
-</sect1>
-
-<!-- *********************************************** -->
-
-<sect1 id="konqueror-commands-properties-config-keys">
-<title>Configure Key Bindings Dialog</title>
-<para>
-Configure Key Bindings dialog
-</para>
-</sect1>
-
-<!-- *********************************************** -->
-
-<sect1 id="konqueror-commands-properties-config-tool">
-<title>Configure Toolbars Dialog</title>
-<para>
-Configure Toolbars dialog
-</para>
-</sect1>
-
-
-
 </chapter>
 
 <!-- *********************************************** -->
-
-<chapter id="developers">
-<title>Developer's Guide to Konqueror</title>
-
-<!-- (OPTIONAL) A Programming/Scripting reference chapter should be
-used for apps that use plugins or that provide their own scripting hooks
-and/or development libraries. -->
-
-<para>
-Programming <application>Konqueror</application> plugins is a joy (or so I am 
-told)
-</para>
-
-</chapter>
-
-<chapter id="faq">
-<title>Questions and Answers</title>
-
-<!-- (OPTIONAL but recommended) This chapter should include all of the silly
-(and not-so-silly) newbie questions that fill up your mailbox. This chapter
-should be reserved for BRIEF questions and answers! If one question uses more
-than a page or so then it should probably be part of the
-"Using this Application" chapter instead. You should use links to
-cross-reference questions to the parts of your documentation that answer them.
-This is also a great place to provide pointers to other FAQ's if your users
-must do some complicated configuration on other programs in order for your
-application work. -->
-
-<para>What questions ?</para>
-
-</chapter>
 
 <chapter id="credits">
 
@@ -1093,94 +2478,95 @@ distribution. -->
 
 <title>Credits and License</title>
 
-<para>
-<application>konqueror</application>
-</para>
-<para>
-Program copyright 1997-2000 
+<para>&Konqueror;. Program copyright 1999-2000, the &Konqueror developers:</para> 
+
 <itemizedlist>
-<listitem><para><emphasis>Author: </emphasis>Torben Weis 
-<email>weis@kde.org</email></para></listitem>
-
-<listitem><para><emphasis>Current maintainer: </emphasis>David Faure 
-<email>faure@kde.org</email></para></listitem>
-
-<listitem><para><emphasis>Current team:</emphasis></para></listitem>
-
-<listitem><para>David Faure <email>faure@kde.org</email></para></listitem>
-
-<listitem><para>Simon Hausmann <email>hausmann@kde.org</email></para></listitem>
-
-<listitem><para>Michael Reiher <email>michael.reiher@gmx.de</email></para></listitem>
-
-<listitem><para>Mattias Welk <email>welk@fokus.gmd.de</email></para></listitem>
-
-<listitem><para>Alexander Neundorf <email>neundorf@kde.org</email></para></listitem>
-
-<listitem><para><emphasis>HTML rendering engine:</emphasis></para></listitem>
-
-<listitem><para>Lars Knoll <email>knoll@kde.org</email></para></listitem>
-
-<listitem><para>Antti Koivisto 
-<email>koivisto@kde.org</email></para></listitem>
-
-<listitem><para>Waldo Bastian <email>bastian@kde.org</email></para></listitem>
-
-<listitem><para><emphasis>KIO library/slaves:</emphasis></para></listitem>
-
-<listitem><para>Matt Koss <email>koss@napri.sk</email></para></listitem>
-<listitem><para>Alex Zepeda 
-<email>garbanzo@hooked.net</email></para></listitem>
-
+<listitem><para>Torben Weis <email>weis@kde.org</email> <emphasis>kfm
+author</emphasis></para></listitem>
+<listitem><para>David Faure <email>faure@kde.org</email> <emphasis>developer
+(parts, I/O lib) and maintainer</emphasis></para></listitem>
+<listitem><para>Simon Hausmann <email>hausmann@kde.org</email>
+<emphasis>developer (framework, parts)</emphasis></para></listitem>
+<listitem><para>Michael Reiher <email>michael.reiher@gmx.de</email>
+<emphasis>developer (framework)</emphasis></para></listitem>
+<listitem><para>Mattias Welk <email>welk@fokus.gmd.de</email>
+<emphasis>developer</emphasis></para></listitem>
+<listitem><para>Alexander Neundorf <email>neundorf@kde.org</email>
+<emphasis>developer (list views)</emphasis></para></listitem>
+<listitem><para>Lars Knoll <email>knoll@kde.org</email> <emphasis>developer
+(HTML rendering engine)</emphasis></para></listitem>
+<listitem><para>Antti Koivisto <email>koivisto@kde.org</email>
+<emphasis>developer (HTML rendering engine)</emphasis></para></listitem>
+<listitem><para>Waldo Bastian <email>bastian@kde.org</email> <emphasis>developer
+(HTML rendering engine, I/O lib)</emphasis></para></listitem>
+<listitem><para>Matt Koss <email>koss@napri.sk</email> <emphasis>developer (I/O
+lib)</emphasis></para></listitem>
+<listitem><para>Alex Zepeda <email>jazepeda@pacbell.net</email>
+<emphasis>developer (I/O lib)</emphasis></para></listitem>
+<listitem><para>Stephan Kulow <email>coolo@kde.org</email> <emphasis>developer
+(I/O lib)</emphasis></para></listitem>
+<listitem><para>Richard Moore <email>rich@kde.org</email> <emphasis>developer
+(Java applet support)</emphasis></para></listitem>
+<listitem><para>Dima Rogozin <email>dima@mercury.co.il</email>
+<emphasis>developer (Java applet support)</emphasis></para></listitem>
 </itemizedlist>
-</para>
 
-<para>
-Documentation copyright 2000 
-<!--
+<para>Documentation copyright 2000 </para>
+
 <itemizedlist>
-<listitem>
-<para>Wim Bakker <email>wim@comned.com</email></para>
-</listitem>
-<listitem>
-<para>Alex Cruz <email>mechtech@home.com</email></para>
-</listitem>
-<listitem>
-<para>Arjan Dronkers <email>arjan@toyland.xs4all.nl</email></para>
-</listitem>
-<listitem>
-<para>Erwan Loisant <email>jadawin@free.fr</email></para>
-</listitem>
-<listitem>
-<para>Pam Roberts <email>pam.roberts@btinternet.com</email></para>
-</listitem>
+<listitem><para>Erwan Loisant <email>jadawin@free.fr</email></para></listitem>
+<listitem><para>Pamela Roberts
+<email>pam.roberts@btinternet.com</email></para></listitem>
 </itemizedlist>
--->
-</para>
 
-<para>
-Translations done by:
+<para>Translations done by:</para>
+
 <itemizedlist>
 <listitem>
 <para></para>
 </listitem>
 </itemizedlist>
-</para>
 
-<!-- For URL links to common stuff like the one below,
-always use paths like "common/gpl-licence".
-In this path, "common" will be a symbolic link built at "make install" time.
-This link will normally point to $KDEDIR/share/doc/HTML/en/common,
-where "en" should be replaced with the current language. -->
-
-<para>
-This program is licensed under the terms of the
-<ulink url="common/gpl-licence.html">GNU GPL</ulink>.
-</para>
+&license-links;
 </chapter>
 
 <![ %addindex; [ &kdedocindex; ]]>
 </book>
+
+<!--
+Local Variables:
+mode: sgml
+sgml-omittag: nil
+sgml-shorttag: t
+sgml-minimize-attributes: nil
+sgml-general-insert-case: lower
+End:
+-->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
