@@ -24,12 +24,13 @@
 #include <kdebug.h>
 #include <kconfig.h>
 #include <kiconloader.h>
+#include <kpixmap.h>
 #include <opFrame.h>
 
 #include "ksplitter.h"
 #include "konq_frame.h"
 
-#define DEFAULT_HEADER_HEIGHT 9
+#define DEFAULT_HEADER_HEIGHT 11
 
 KonqFrameHeader::KonqFrameHeader( KonqFrame *_parent, const char *_name ) 
                                 : QWidget( _parent, _name ),
@@ -51,16 +52,18 @@ KonqFrameHeader::KonqFrameHeader( KonqFrame *_parent, const char *_name )
 
   key = config->readEntry("TitlebarLook");
   if( key == "shadedHorizontal")
-    frameHeaderLook = H_SHADED;
+    frameHeaderLook = HShaded;
   else if( key == "shadedVertical")
-    frameHeaderLook = V_SHADED;
+    frameHeaderLook = VShaded;
+  else if( key == "shadedDiagonal")
+    frameHeaderLook = DShaded;
   else if( key == "plain")
-    frameHeaderLook = PLAIN;
+    frameHeaderLook = Plain;
   else if( key == "pixmap")
-    frameHeaderLook = PIXMAP;
+    frameHeaderLook = XPixmap;
   else{
     config->writeEntry("TitlebarLook", "shadedHorizontal");
-    frameHeaderLook = H_SHADED;
+    frameHeaderLook = HShaded;
   }
   /*key = config->readEntry("TitleAlignment");
   if (key == "left")
@@ -91,7 +94,7 @@ KonqFrameHeader::KonqFrameHeader( KonqFrame *_parent, const char *_name )
   frameHeaderActive = new QPixmap;
   frameHeaderInactive = new QPixmap;
 
-  if ( frameHeaderLook == PIXMAP ) {
+  if ( frameHeaderLook == XPixmap ) {
     KIconLoader* iconLoader = new KIconLoader(0, "kwm");
     
     *(frameHeaderActive) = iconLoader->reloadIcon("activetitlebar.xpm");
@@ -101,7 +104,7 @@ KonqFrameHeader::KonqFrameHeader( KonqFrame *_parent, const char *_name )
       *frameHeaderInactive = *frameHeaderActive;
 
     if (frameHeaderActive->size() == QSize(0,0))
-      frameHeaderLook = PLAIN;
+      frameHeaderLook = Plain;
   }
   /*
   if (config->hasKey("TitleAnimation")){
@@ -121,6 +124,17 @@ KonqFrameHeader::KonqFrameHeader( KonqFrame *_parent, const char *_name )
   setFixedHeight( DEFAULT_HEADER_HEIGHT );
 }
 
+enum KPixmap::GradientMode 
+KonqFrameHeader::mapShade( KonqFrameHeaderLook look)
+{
+  switch (look)
+    {
+    case HShaded: return KPixmap::Horizontal;
+    case VShaded: return KPixmap::Vertical;
+    case DShaded: return KPixmap::Diagonal;
+    }
+}
+
 void
 KonqFrameHeader::paintEvent( QPaintEvent* )
 {
@@ -137,7 +151,7 @@ KonqFrameHeader::paintEvent( QPaintEvent* )
   //QPixmap* buffer = 0;
   KonqFrameHeaderLook look = frameHeaderLook;
 
-  if (look == H_SHADED || look == V_SHADED){
+  if ( look == HShaded || look == VShaded || look == DShaded ){
     // the new horizontal (and vertical) shading code
     /*if (colors_have_changed){
       aShadepm.resize(0,0);
@@ -149,17 +163,20 @@ KonqFrameHeader::paintEvent( QPaintEvent* )
     // consumption)
     if ( hasFocus ){
       if ( kapp->activeTitleColor() ==  frameHeaderBlendActive)
-        look = PLAIN;
+        look = Plain;
     }
     else {
       if ( kapp->inactiveTitleColor() ==  frameHeaderBlendInactive)
-        look = PLAIN;
+        look = Plain;
     }
   }
   QPainter p;
 
   /*  if (only_label && animate){
-    double_buffering = (look == H_SHADED || look == V_SHADED || look == PIXMAP);
+    double_buffering = ( look == HShaded || 
+                         look == VShaded || 
+                         look == D_SAHDED ||
+                         look == XPixmap);
     if(titlestring_delay) {
       titlestring_delay--;
       return;
@@ -195,27 +212,31 @@ KonqFrameHeader::paintEvent( QPaintEvent* )
   p.setClipRect(r);
   p.setClipping(true);
 
-  if ( look == PIXMAP){
+  if ( look == XPixmap){
     pm = hasFocus ? frameHeaderActive : frameHeaderInactive;
     for (int x = r.x(); x < r.x() + r.width(); x+=pm->width())
       p.drawPixmap(x, r.y(), *pm);
   }
-  else if ( look == H_SHADED || look == V_SHADED ){
+  else if ( look == HShaded || look == VShaded || look == DShaded ){
     // the new horizontal shading code
     QPixmap* pm = 0;
     if (hasFocus){
       if (activeShadePm.size() != r.size()){
 	activeShadePm.resize(r.width(), r.height());
-	gradientFill( activeShadePm, kapp->activeTitleColor(), 
-		      frameHeaderBlendActive, look == V_SHADED );
+	//gradientFill( activeShadePm, kapp->activeTitleColor(), 
+	//	      frameHeaderBlendActive, look == VShaded );
+	activeShadePm.gradientFill(kapp->activeTitleColor(), 
+				   frameHeaderBlendActive, mapShade(look));
       }
       pm = &activeShadePm;
     }
     else {
       if (inactiveShadePm.size() != r.size()){
 	inactiveShadePm.resize(r.width(), r.height());
-	gradientFill( inactiveShadePm, kapp->inactiveTitleColor(), 
-		      frameHeaderBlendInactive, look == V_SHADED );
+	//gradientFill( inactiveShadePm, kapp->inactiveTitleColor(), 
+	//	      frameHeaderBlendInactive, look == VShaded );
+	inactiveShadePm.gradientFill(kapp->inactiveTitleColor(), 
+				     frameHeaderBlendInactive, mapShade(look));
       }
       pm = &inactiveShadePm;
     }
@@ -284,7 +305,7 @@ KonqFrameHeader::paintEvent( QPaintEvent* )
 
   //CT 02Dec1998 - optional noPixmap behind text,
   //     suggested by Nils Meier <nmeier@vossnet.de>
-  if (!options.PixmapUnderTitleText && look == PIXMAP ) {
+  if (!options.PixmapUnderTitleText && look == XPixmap ) {
     // NM 02Dec1998 - Clear bg behind text 
     p.setBackgroundColor(is_active ? myapp->activeTitleColor() :
 			 myapp->inactiveTitleColor());
@@ -330,51 +351,7 @@ KonqFrameHeader::mousePressEvent( QMouseEvent* event )
   update();
 }
 
-void 
-KonqFrameHeader::gradientFill(KPixmap &pm, QColor ca, QColor cb,bool vertShaded)
-{
-  if(vertShaded == false && QColor::numBitPlanes() >= 15) 
-  {    
-    int w = pm.width();
-    int h = pm.height();
-    
-    int c_red_a = ca.red() << 16;
-    int c_green_a = ca.green() << 16;
-    int c_blue_a = ca.blue() << 16;
-
-    int c_red_b = cb.red() << 16;
-    int c_green_b = cb.green() << 16;
-    int c_blue_b = cb.blue() << 16;
-    
-    int d_red = (c_red_b - c_red_a) / w;
-    int d_green = (c_green_b - c_green_a) / w;
-    int d_blue = (c_blue_b - c_blue_a) / w;
-
-    QImage img(w, h, 32);
-    uchar *p = img.scanLine(0);
-
-    int r = c_red_a, g = c_green_a, b = c_blue_a;
-    for(int x = 0; x < w; x++) {
-      *p++ = b >> 16;
-      *p++ = g >> 16;
-      *p++ = r >> 16;
-      p++;
-     
-      r += d_red;
-      g += d_green;
-      b += d_blue;
-    }
-
-    uchar *src = img.scanLine(0);
-    for(int y = 1; y < h; y++)
-      memcpy(img.scanLine(y), src, 4*w);
-
-    pm.convertFromImage(img);
-  } else
-    pm.gradientFill(ca, cb, vertShaded);
-}
-
-KonqFrame::KonqFrame( KSplitter *_parentSplitter, const char *_name )
+ KonqFrame::KonqFrame( KSplitter *_parentSplitter, const char *_name )
                     : QWidget( _parentSplitter, _name),
 		      m_pParentSplitter( _parentSplitter )
 {
