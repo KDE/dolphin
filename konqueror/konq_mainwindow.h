@@ -286,7 +286,6 @@ protected slots:
   void slotSaveViewProfile();
   void slotSaveViewPropertiesLocally();
   void slotRemoveLocalProperties();
-  void slotSaveOptions();
 
   void slotOpenEmbedded();
   void slotOpenEmbeddedDoIt();

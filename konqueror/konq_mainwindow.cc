@@ -173,9 +173,8 @@ KonqMainWindow::KonqMainWindow( const KURL &initialURL, bool openInitialURL, con
 
   // Read basic main-view settings
   KConfig *config = KGlobal::config();
-
-  KConfigGroupSaver cgs( config, "MainWindow" );
   applyMainWindowSettings( config );
+  setAutoSaveSettings( QString::null, false );
 
   m_paShowMenuBar->setChecked( !menuBar()->isHidden() );
   m_paShowToolBar->setChecked( !toolBarByName("mainToolBar")->isHidden() );
@@ -183,7 +182,7 @@ KonqMainWindow::KonqMainWindow( const KURL &initialURL, bool openInitialURL, con
   m_paShowBookmarkBar->setChecked( !toolBarByName("bookmarkToolBar")->isHidden() );
   updateBookmarkBar(); // hide if empty
 
-  config->setGroup("MainView Settings");
+  KConfigGroupSaver cgs(config,"MainView Settings");
   m_bSaveViewPropertiesLocally = config->readBoolEntry( "SaveViewPropertiesLocally", false );
   m_paSaveViewPropertiesLocally->setChecked( m_bSaveViewPropertiesLocally );
   m_bHTMLAllowed = config->readBoolEntry( "HTMLAllowed", false );
@@ -467,14 +466,15 @@ bool KonqMainWindow::openView( QString serviceType, const KURL &_url, KonqView *
 
   QString serviceName; // default: none provided
 
-  // Look for which view mode to use, if a directory - not if view locked, and not if following a URL
-  if ( ( !childView || (!req.followMode && !childView->isLockedViewMode()) )
+  // Look for which view mode to use, if a directory - not if view locked
+  if ( ( !childView || (!childView->isLockedViewMode()) )
        && serviceType == "inode/directory" )
     { // Phew !
 
       // Set view mode if necessary (current view doesn't support directories)
       if ( !childView || !childView->supportsServiceType( serviceType ) )
         serviceName = m_sViewModeForDirectory;
+      kdDebug(1202) << "serviceName=" << serviceName << " m_sViewModeForDirectory=" << m_sViewModeForDirectory << endl;
 
       if ( url.isLocalFile() ) // local, we can do better (.directory)
         {
@@ -489,7 +489,8 @@ bool KonqMainWindow::openView( QString serviceType, const KURL &_url, KonqView *
               KSimpleConfig config( urlDotDir.path(), true );
               config.setGroup( "URL properties" );
               HTMLAllowed = config.readBoolEntry( "HTMLAllowed", m_bHTMLAllowed );
-              serviceName = config.readEntry( "ViewMode", m_sViewModeForDirectory );
+              serviceName = config.readEntry( "ViewMode", serviceName );
+              kdDebug(1202) << "serviceName=" << serviceName << endl;
             }
           if ( HTMLAllowed &&
                ( ( indexFile = findIndexFile( url.path() ) ) != QString::null ) )
@@ -2230,14 +2231,10 @@ void KonqMainWindow::toggleBar( const char *name )
     bar->hide();
   else
     bar->show();
-}
 
-void KonqMainWindow::slotSaveOptions()
-{
-    KConfig * config = KGlobal::config();
-    KConfigGroupSaver cgs( config, "MainWindow" );
-    saveMainWindowSettings( config );
-    config->sync();
+  saveMainWindowSettings( KGlobal::config() );
+  KGlobal::config()->sync();
+  // otherwise changing toolbar style in kcontrol will lose our changes
 }
 
 void KonqMainWindow::slotToggleFullScreen()
@@ -2457,7 +2454,7 @@ void KonqMainWindow::initActions()
   m_paRemoveView = new KAction( i18n( "&Remove Active View" ), "remove_view", CTRL+SHIFT+Key_R, this, SLOT( slotRemoveView() ), actionCollection(), "removeview" );
 
   m_paSaveRemoveViewProfile = new KAction( i18n( "Configure View Profiles..." ), 0, m_pViewManager, SLOT( slotProfileDlg() ), actionCollection(), "saveremoveviewprofile" );
-  m_pamLoadViewProfile = new KActionMenu( i18n( "Load View Profile" ), actionCollection(), "loadviewprofile" );
+  m_pamLoadViewProfile = new KActionMenu( i18n( "Load &View Profile" ), actionCollection(), "loadviewprofile" );
 
   m_pViewManager->setProfiles( m_pamLoadViewProfile );
 

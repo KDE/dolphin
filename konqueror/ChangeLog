@@ -1,3 +1,9 @@
+2000-11-15  David Faure  <faure@kde.org>
+
+	* konq_mainwindow.cc: Implemented auto-saving of toolbars (KMainWindow),
+	removed "Save Settings".
+	Fixed "clicking on directory in dirtree uses wrong view mode for dirs".
+
 2000-11-06  David Faure  <faure@kde.org>
 
 	* konq_operations.cc: statURL, calls a slot when it stat'ed
