@@ -700,7 +700,7 @@ void KonqBaseListViewWidget::slotItemRenamed(QListViewItem* item, const QString 
    if( !name.isEmpty() )
    {
       // Actually attempt the rename. If it succeeds, KDirLister will update the name.
-      KonqOperations::rename( this, renamedItem->item()->url(), name );
+      KonqOperations::rename( this, renamedItem->item()->url(), KIO::encodeFileName( name ) );
    }
 
    // When the KListViewLineEdit loses focus, focus tends to go to the location bar...
