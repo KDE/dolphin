@@ -131,6 +131,7 @@ KJavaOptions::KJavaOptions( KConfig* config, QString group,
     serverTimeoutSB = new KIntNumInput( secondsHB );
     serverTimeoutSB->setRange( 0, 1000, 5 );
     serverTimeoutSB->setLabel( i18n("Applet Server Timeout (seconds)"), AlignLeft );
+    connect(serverTimeoutSB, SIGNAL(valueChanged(int)),this,SLOT(changed()));
 
     QHBox* pathHB = new QHBox( javartGB );
     pathHB->setSpacing( 10 );
