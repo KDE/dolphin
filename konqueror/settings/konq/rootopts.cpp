@@ -32,7 +32,7 @@
 #include <qcombobox.h>
 #include <qlabel.h>
 #include <qlayout.h>
-#include <qlineedit.h>
+#include <kurlrequester.h>
 #include <qwhatsthis.h>
 #include <assert.h>
 
@@ -410,11 +410,12 @@ DesktopPathConfig::DesktopPathConfig(QWidget *parent, const char *name )
   row++;
   tmpLabel = new QLabel(i18n("Des&ktop path:"), this);
   lay->addWidget(tmpLabel, row, 0);
-  leDesktop = new QLineEdit(this);
-  tmpLabel->setBuddy( leDesktop );
-  lay->addMultiCellWidget(leDesktop, row, row, 1, RO_LASTCOL);
-  connect(leDesktop, SIGNAL(textChanged(const QString &)), this, SLOT(changed()));
-  QWhatsThis::add( leDesktop, i18n("This directory contains all the files"
+  urDesktop = new KURLRequester(this);
+  urDesktop->setMode( KFile::Directory );
+  tmpLabel->setBuddy( urDesktop );
+  lay->addMultiCellWidget(urDesktop, row, row, 1, RO_LASTCOL);
+  connect(urDesktop, SIGNAL(textChanged(const QString &)), this, SLOT(changed()));
+  QWhatsThis::add( urDesktop, i18n("This directory contains all the files"
                                    " which you see on your desktop. You can change the location of this"
                                    " directory if you want to, and the contents will move automatically"
                                    " to the new location as well.") );
@@ -422,43 +423,46 @@ DesktopPathConfig::DesktopPathConfig(QWidget *parent, const char *name )
   row++;
   tmpLabel = new QLabel(i18n("&Trash path:"), this);
   lay->addWidget(tmpLabel, row, 0);
-  leTrash = new QLineEdit(this);
-  tmpLabel->setBuddy( leTrash );
-  lay->addMultiCellWidget(leTrash, row, row, 1, RO_LASTCOL);
-  connect(leTrash, SIGNAL(textChanged(const QString &)), this, SLOT(changed()));
+  urTrash = new KURLRequester(this);
+  urTrash->setMode( KFile::Directory );
+  tmpLabel->setBuddy( urTrash );
+  lay->addMultiCellWidget(urTrash, row, row, 1, RO_LASTCOL);
+  connect(urTrash, SIGNAL(textChanged(const QString &)), this, SLOT(changed()));
   QString wtstr = i18n("This directory contains deleted files (until"
                " you empty the trashcan). You can change the location of this"
                " directory if you want to, and the contents will move automatically"
                " to the new location as well.");
   QWhatsThis::add( tmpLabel, wtstr );
-  QWhatsThis::add( leTrash, wtstr );
+  QWhatsThis::add( urTrash, wtstr );
 
   row++;
   tmpLabel = new QLabel(i18n("A&utostart path:"), this);
   lay->addWidget(tmpLabel, row, 0);
-  leAutostart = new QLineEdit(this);
-  tmpLabel->setBuddy( leAutostart );
-  lay->addMultiCellWidget(leAutostart, row, row, 1, RO_LASTCOL);
-  connect(leAutostart, SIGNAL(textChanged(const QString &)), this, SLOT(changed()));
+  urAutostart = new KURLRequester(this);
+  urAutostart->setMode( KFile::Directory );
+  tmpLabel->setBuddy( urAutostart );
+  lay->addMultiCellWidget(urAutostart, row, row, 1, RO_LASTCOL);
+  connect(urAutostart, SIGNAL(textChanged(const QString &)), this, SLOT(changed()));
   wtstr = i18n("This directory contains applications or"
                " links to applications (shortcuts) that you want to have started"
                " automatically whenever KDE starts. You can change the location of this"
                " directory if you want to, and the contents will move automatically"
                " to the new location as well.");
   QWhatsThis::add( tmpLabel, wtstr );
-  QWhatsThis::add( leAutostart, wtstr );
+  QWhatsThis::add( urAutostart, wtstr );
 
   row++;
   tmpLabel = new QLabel(i18n("D&ocuments path:"), this);
   lay->addWidget(tmpLabel, row, 0);
-  leDocument = new QLineEdit(this);
-  tmpLabel->setBuddy( leDocument );
-  lay->addMultiCellWidget(leDocument, row, row, 1, RO_LASTCOL);
-  connect(leDocument, SIGNAL(textChanged(const QString &)), this, SLOT(changed()));
+  urDocument = new KURLRequester(this);
+  urDocument->setMode( KFile::Directory );
+  tmpLabel->setBuddy( urDocument );
+  lay->addMultiCellWidget(urDocument, row, row, 1, RO_LASTCOL);
+  connect(urDocument, SIGNAL(textChanged(const QString &)), this, SLOT(changed()));
   wtstr = i18n("This directory will be used by default to "
                "load or save documents from or to.");
   QWhatsThis::add( tmpLabel, wtstr );
-  QWhatsThis::add( leDocument, wtstr );
+  QWhatsThis::add( urDocument, wtstr );
 
   // -- Bottom --
   assert( row == RO_LASTROW-1 ); // if it fails here, check the row++ and RO_LASTROW above
@@ -470,20 +474,20 @@ DesktopPathConfig::DesktopPathConfig(QWidget *parent, const char *name )
 void DesktopPathConfig::load()
 {
     // Desktop Paths
-    leDesktop->setText( KGlobalSettings::desktopPath() );
-    leTrash->setText( KGlobalSettings::trashPath() );
-    leAutostart->setText( KGlobalSettings::autostartPath() );
-    leDocument->setText( KGlobalSettings::documentPath() );
+    urDesktop->setURL( KGlobalSettings::desktopPath() );
+    urTrash->setURL( KGlobalSettings::trashPath() );
+    urAutostart->setURL( KGlobalSettings::autostartPath() );
+    urDocument->setURL( KGlobalSettings::documentPath() );
     changed();
 }
 
 void DesktopPathConfig::defaults()
 {
     // Desktop Paths - keep defaults in sync with kglobalsettings.cpp
-    leDesktop->setText( QDir::homeDirPath() + "/Desktop/" );
-    leTrash->setText( QDir::homeDirPath() + "/Desktop/" + i18n("Trash") + '/' );
-    leAutostart->setText( KGlobal::dirs()->localkdedir() + "Autostart/" );
-    leDocument->setText( QDir::homeDirPath() );
+    urDesktop->setURL( QDir::homeDirPath() + "/Desktop/" );
+    urTrash->setURL( QDir::homeDirPath() + "/Desktop/" + i18n("Trash") + '/' );
+    urAutostart->setURL( KGlobal::dirs()->localkdedir() + "Autostart/" );
+    urDocument->setURL( QDir::homeDirPath() );
 }
 
 void DesktopPathConfig::save()
@@ -498,22 +502,22 @@ void DesktopPathConfig::save()
     KURL desktopURL;
     desktopURL.setPath( KGlobalSettings::desktopPath() );
     KURL newDesktopURL;
-    newDesktopURL.setPath(leDesktop->text());
+    newDesktopURL.setPath(urDesktop->url());
 
     KURL trashURL;
     trashURL.setPath( KGlobalSettings::trashPath() );
     KURL newTrashURL;
-    newTrashURL.setPath(leTrash->text());
+    newTrashURL.setPath(urTrash->url());
 
     KURL autostartURL;
     autostartURL.setPath( KGlobalSettings::autostartPath() );
     KURL newAutostartURL;
-    newAutostartURL.setPath(leAutostart->text());
+    newAutostartURL.setPath(urAutostart->url());
 
     KURL documentURL;
     documentURL.setPath( KGlobalSettings::documentPath() );
     KURL newDocumentURL;
-    newDocumentURL.setPath(leDocument->text());
+    newDocumentURL.setPath(urDocument->url());
 
     if ( !newDesktopURL.cmp( desktopURL, true ) )
     {
@@ -532,7 +536,7 @@ void DesktopPathConfig::save()
             if ( newTrashURL.cmp( trashURL, true ) )
             {
                 // Hack. It could be in a subdir inside desktop. Hmmm... Argl.
-                leTrash->setText( leDesktop->text() + trashURL.fileName() );
+                urTrash->setURL( urDesktop->url() + trashURL.fileName() );
                 kdDebug() << "The trash is moved with the desktop" << endl;
                 trashMoved = true;
             }
@@ -540,11 +544,11 @@ void DesktopPathConfig::save()
             else
             {
                 KURL futureTrashURL;
-                futureTrashURL.setPath( leDesktop->text() + trashURL.fileName() );
+                futureTrashURL.setPath( urDesktop->url() + trashURL.fileName() );
                 if ( newTrashURL.cmp( futureTrashURL, true ) )
                     trashMoved = true; // The trash moves with the desktop
                 else
-                    trashMoved = moveDir( KGlobalSettings::trashPath(), leTrash->text(), i18n("Trash") );
+                    trashMoved = moveDir( KGlobalSettings::trashPath(), urTrash->url(), i18n("Trash") );
             }
         }
 
@@ -556,7 +560,7 @@ void DesktopPathConfig::save()
             if ( newAutostartURL.cmp( autostartURL, true ) )
             {
                 // Hack. It could be in a subdir inside desktop. Hmmm... Argl.
-                leAutostart->setText( leDesktop->text() + "Autostart/" );
+                urAutostart->setURL( urDesktop->url() + "Autostart/" );
                 kdDebug() << "Autostart is moved with the desktop" << endl;
                 autostartMoved = true;
             }
@@ -564,18 +568,18 @@ void DesktopPathConfig::save()
             else
             {
                 KURL futureAutostartURL;
-                futureAutostartURL.setPath( leDesktop->text() + "Autostart/" );
+                futureAutostartURL.setPath( urDesktop->url() + "Autostart/" );
                 if ( newAutostartURL.cmp( futureAutostartURL, true ) )
                     autostartMoved = true;
                 else
-                    autostartMoved = moveDir( KGlobalSettings::autostartPath(), leAutostart->text(), i18n("Autostart") );
+                    autostartMoved = moveDir( KGlobalSettings::autostartPath(), urAutostart->url(), i18n("Autostart") );
             }
         }
 
-        if ( moveDir( KGlobalSettings::desktopPath(), leDesktop->text(), i18n("Desktop") ) )
+        if ( moveDir( KGlobalSettings::desktopPath(), urDesktop->url(), i18n("Desktop") ) )
         {
-//            config->writeEntry( "Desktop", leDesktop->text());
-            config->writePathEntry( "Desktop", leDesktop->text(), true, true );
+//            config->writeEntry( "Desktop", urDesktop->url());
+            config->writePathEntry( "Desktop", urDesktop->url(), true, true );
             pathChanged = true;
         }
     }
@@ -583,11 +587,11 @@ void DesktopPathConfig::save()
     if ( !newTrashURL.cmp( trashURL, true ) )
     {
         if (!trashMoved)
-            trashMoved = moveDir( KGlobalSettings::trashPath(), leTrash->text(), i18n("Trash") );
+            trashMoved = moveDir( KGlobalSettings::trashPath(), urTrash->url(), i18n("Trash") );
         if (trashMoved)
         {
-//            config->writeEntry( "Trash", leTrash->text());
-            config->writePathEntry( "Trash", leTrash->text(), true, true );
+//            config->writeEntry( "Trash", urTrash->url());
+            config->writePathEntry( "Trash", urTrash->url(), true, true );
             pathChanged = true;
         }
     }
@@ -595,19 +599,19 @@ void DesktopPathConfig::save()
     if ( !newAutostartURL.cmp( autostartURL, true ) )
     {
         if (!autostartMoved)
-            autostartMoved = moveDir( KGlobalSettings::autostartPath(), leAutostart->text(), i18n("Autostart") );
+            autostartMoved = moveDir( KGlobalSettings::autostartPath(), urAutostart->url(), i18n("Autostart") );
         if (autostartMoved)
         {
-//            config->writeEntry( "Autostart", leAutostart->text());
-            config->writePathEntry( "Autostart", leAutostart->text(), true, true );
+//            config->writeEntry( "Autostart", Autostart->url());
+            config->writePathEntry( "Autostart", urAutostart->url(), true, true );
             pathChanged = true;
         }
     }
 
     if ( !newDocumentURL.cmp( documentURL, true ) )
     {
-//        config->writeEntry( "Documents", leDocument->text());
-        config->writePathEntry( "Documents", leDocument->text(), true, true );
+//        config->writeEntry( "Documents", urDocument->url());
+        config->writePathEntry( "Documents", urDocument->url(), true, true );
         pathChanged = true;
     }
 

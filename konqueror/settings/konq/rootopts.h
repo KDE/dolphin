@@ -20,7 +20,7 @@
 class KConfig;
 class QCheckBox;
 class QComboBox;
-class QLineEdit;
+class KURLRequester;
 class KListView;
 namespace KIO { class Job; }
 
@@ -85,10 +85,10 @@ private slots:
 
 private:
         // Desktop Paths
-        QLineEdit *leDesktop;
-        QLineEdit *leTrash;
-        QLineEdit *leAutostart;
-        QLineEdit *leDocument;
+        KURLRequester *urDesktop;
+        KURLRequester *urTrash;
+        KURLRequester *urAutostart;
+        KURLRequester *urDocument;
 
         bool moveDir( const KURL & src, const KURL & dest, const QString & type );
         bool m_ok;

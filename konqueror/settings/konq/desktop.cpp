@@ -87,8 +87,8 @@ KDesktopConfig::KDesktopConfig(QWidget *parent, const char *name)
 
   for(int i = 0; i < 8; i++)
     {
-      _nameLabel[i] = new QLabel(i18n("Desktop%1:").arg(i+1), name_group);
-      _nameLabel[i+8] = new QLabel(i18n("Desktop%1:").arg(i+8+1), name_group);
+      _nameLabel[i] = new QLabel(i18n("Desktop %1:").arg(i+1), name_group);
+      _nameLabel[i+8] = new QLabel(i18n("Desktop %1:").arg(i+8+1), name_group);
       _nameInput[i] = new KLineEdit(name_group);
       _nameInput[i+8] = new KLineEdit(name_group);
       QWhatsThis::add( _nameLabel[i], i18n( "Here you can enter the name for desktop %1" ).arg( i+1 ) );
