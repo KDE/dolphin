@@ -72,7 +72,10 @@ void KonqRun::scanFile()
   // WABA: We directly do a get for http.
   // There is no compelling reason not to do use this with other protocols
   // as well, but only http has been tested so far.
-  if (m_strURL.protocol() != "http")
+  // David: added support for FTP and SMB... See kde-cvs for comments.
+  if (m_strURL.protocol().left(4) != "http" // http and https
+      && m_strURL.protocol() != "ftp"
+      && m_strURL.protocol() != "smb")
   {
      KRun::scanFile();
      return;
