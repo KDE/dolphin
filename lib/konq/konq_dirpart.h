@@ -27,6 +27,7 @@
 #include <kdatastream.h>
 #include <kio/global.h>
 
+class KDirLister;
 namespace KParts { class BrowserExtension; }
 class KonqPropsView;
 class QScrollView;
@@ -54,6 +55,12 @@ public:
     KonqDirPartBrowserExtension * extension()
       { return m_extension; }
 
+    /**
+     * The derived part should call this in its constructor
+     */
+    void setDirLister( KDirLister* lister );
+    // TODO KDE4 create the KDirLister here and simplify the parts?
+
     QScrollView * scrollWidget();
 
     virtual void saveState( QDataStream &stream );
@@ -73,7 +80,7 @@ public:
     QString nameFilter() const { return m_nameFilter; }
 
     void setFilesToSelect( const QStringList & filesToSelect ) { m_filesToSelect = filesToSelect; }
-    
+
     /**
      * Sets per directory mime-type based filtering.
      *
@@ -108,12 +115,7 @@ public:
      * This class takes care of the counting of items, size etc. in the
      * current directory. Call this in slotClear.
      */
-    void resetCount()
-    {
-        m_lDirSize = 0;
-        m_lFileCount = 0;
-        m_lDirCount = 0;
-    }
+    void resetCount();
 
     /**
      * Update the counts for those new items
@@ -280,7 +282,7 @@ protected:
 
     QString m_nameFilter;
     QStringList m_filesToSelect;
-    
+
     KonqPropsView * m_pProps;
 
     KAction *m_paIncIconSize;
@@ -294,18 +296,16 @@ protected:
     KParts::ReadOnlyPart * m_findPart;
     KonqDirPartBrowserExtension * m_extension;
 
-    // Remove in KDE4
+    // Remove all those in KDE4
     int m_iIconSize[5];
-
     KIO::filesize_t m_lDirSize;
     uint m_lFileCount;
     uint m_lDirCount;
-    //bool m_bMultipleItemsSelected;
 
 private:
     void saveFindState( QDataStream& );
     void restoreFindState( QDataStream& );
-    
+
     void adjustIconSizes();
 
     class KonqDirPartPrivate;

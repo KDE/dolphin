@@ -26,6 +26,7 @@
 #include <kaction.h>
 #include <kdatastream.h>
 #include <kdebug.h>
+#include <kdirlister.h>
 #include <kiconloader.h>
 #include <klocale.h>
 #include <kmessagebox.h>
@@ -45,10 +46,14 @@
 class KonqDirPart::KonqDirPartPrivate
 {
 public:
+    KonqDirPartPrivate() : dirLister( 0 ) {}
     QStringList mimeFilters;
     KToggleAction *aEnormousIcons;
     KToggleAction *aSmallMediumIcons;
     QValueVector<int> iconSize;
+
+    KDirLister* dirLister;
+    bool dirSizeDirty;
 
     void findAvailableIconSizes(void);
     int findNearestIconSize(int size);
@@ -75,7 +80,7 @@ void KonqDirPart::KonqDirPartPrivate::findAvailableIconSizes(void)
 	} else {
 	    // Scalable icons.
 	    const int progression[] = {16, 22, 32, 48, 64, 96, 128, 192, 256};
-	    
+
 	    QValueListConstIterator<int> j = avSizes.begin();
 	    for (uint i = 0; i < 9; i++) {
 		while (j++ != avSizes.end()) {
@@ -96,7 +101,7 @@ void KonqDirPart::KonqDirPartPrivate::findAvailableIconSizes(void)
     kdDebug(1203) << "Using " << iconSize.count() << " icon sizes." << endl;
 }
 
-int KonqDirPart::KonqDirPartPrivate::findNearestIconSize(int preferred) 
+int KonqDirPart::KonqDirPartPrivate::findNearestIconSize(int preferred)
 {
     int s1 = iconSize[1];
     if (preferred == 0) return KGlobal::iconLoader()->currentSize(KIcon::Desktop);
@@ -123,9 +128,7 @@ KonqDirPart::KonqDirPart( QObject *parent, const char *name )
     m_findPart( 0L )
 {
     d = new KonqDirPartPrivate;
-    m_lDirSize = 0;
-    m_lFileCount = 0;
-    m_lDirCount = 0;
+    resetCount();
     //m_bMultipleItemsSelected = false;
 
     connect( QApplication::clipboard(), SIGNAL(dataChanged()), this, SLOT(slotClipboardDataChanged()) );
@@ -136,15 +139,15 @@ KonqDirPart::KonqDirPart( QObject *parent, const char *name )
     m_paDecIconSize = new KAction( i18n( "Decrease Icon Size" ), "viewmag-", 0, this, SLOT( slotDecIconSize() ), actionCollection(), "decIconSize" );
 
     m_paDefaultIcons = new KRadioAction( i18n( "&Default Size" ), 0, actionCollection(), "modedefault" );
-    d->aEnormousIcons = new KRadioAction( i18n( "&Huge" ), 0, 
+    d->aEnormousIcons = new KRadioAction( i18n( "&Huge" ), 0,
 	    actionCollection(), "modeenormous" );
     m_paHugeIcons = new KRadioAction( i18n( "&Very Large" ), 0, actionCollection(), "modehuge" );
     m_paLargeIcons = new KRadioAction( i18n( "&Large" ), 0, actionCollection(), "modelarge" );
     m_paMediumIcons = new KRadioAction( i18n( "&Medium" ), 0, actionCollection(), "modemedium" );
-    d->aSmallMediumIcons = new KRadioAction( i18n( "&Small" ), 0, 
+    d->aSmallMediumIcons = new KRadioAction( i18n( "&Small" ), 0,
 	    actionCollection(), "modesmallmedium" );
     m_paSmallIcons = new KRadioAction( i18n( "&Tiny" ), 0, actionCollection(), "modesmall" );
-    
+
     m_paDefaultIcons->setExclusiveGroup( "ViewMode" );
     d->aEnormousIcons->setExclusiveGroup( "ViewMode" );
     m_paHugeIcons->setExclusiveGroup( "ViewMode" );
@@ -154,18 +157,18 @@ KonqDirPart::KonqDirPart( QObject *parent, const char *name )
     m_paSmallIcons->setExclusiveGroup( "ViewMode" );
 
     connect( m_paDefaultIcons, SIGNAL( toggled( bool ) ), this, SLOT( slotIconSizeToggled( bool ) ) );
-    connect( d->aEnormousIcons, SIGNAL( toggled( bool ) ), 
+    connect( d->aEnormousIcons, SIGNAL( toggled( bool ) ),
 	    this, SLOT( slotIconSizeToggled( bool ) ) );
     connect( m_paHugeIcons, SIGNAL( toggled( bool ) ), this, SLOT( slotIconSizeToggled( bool ) ) );
     connect( m_paLargeIcons, SIGNAL( toggled( bool ) ), this, SLOT( slotIconSizeToggled( bool ) ) );
     connect( m_paMediumIcons, SIGNAL( toggled( bool ) ), this, SLOT( slotIconSizeToggled( bool ) ) );
-    connect( d->aSmallMediumIcons, SIGNAL( toggled( bool ) ), 
+    connect( d->aSmallMediumIcons, SIGNAL( toggled( bool ) ),
 	    this, SLOT( slotIconSizeToggled( bool ) ) );
     connect( m_paSmallIcons, SIGNAL( toggled( bool ) ), this, SLOT( slotIconSizeToggled( bool ) ) );
 
     connect( kapp, SIGNAL(iconChanged(int)), SLOT(slotIconChanged(int)) );
 #if 0
-    // Extract 6 icon sizes from the icon theme. 
+    // Extract 6 icon sizes from the icon theme.
     // Use 16,22,32,48,64,128 as default.
     // Use these also if the icon theme is scalable.
     int i;
@@ -176,8 +179,8 @@ KonqDirPart::KonqDirPart( QObject *parent, const char *name )
     d->iconSize[4] = KIcon::SizeLarge; // 48
     d->iconSize[5] = KIcon::SizeHuge; // 64
     d->iconSize[6] = KIcon::SizeEnormous; // 128
-    d->iconSize[7] = 192; 
-    d->iconSize[8] = 256; 
+    d->iconSize[7] = 192;
+    d->iconSize[8] = 256;
     KIconTheme *root = KGlobal::instance()->iconLoader()->theme();
     if (root)
     {
@@ -205,7 +208,7 @@ KonqDirPart::KonqDirPart( QObject *parent, const char *name )
     d->iconSize.append(0); // Default value
     adjustIconSizes();
 #endif
-    
+
     // Remove in KDE4 ...
     // These are here in the event subclasses access them.
     m_iIconSize[1] = KIcon::SizeSmall;
@@ -236,7 +239,7 @@ void KonqDirPart::adjustIconSizes()
     m_paLargeIcons->setEnabled(d->nearestIconSizeError(48) < 8);
     m_paHugeIcons->setEnabled(d->nearestIconSizeError(64) < 12);
     d->aEnormousIcons->setEnabled(d->findNearestIconSize(128) > 110);
-    
+
     if (m_pProps) {
 	int size = m_pProps->iconSize();
 	int nearSize = d->findNearestIconSize(size);
@@ -427,17 +430,7 @@ void KonqDirPart::updatePasteAction()
 
 void KonqDirPart::newItems( const KFileItemList & entries )
 {
-    for (KFileItemListIterator it(entries); it.current(); ++it)
-    {
-        if ( !it.current()->isDir() )
-        {
-            if (!it.current()->isLink()) // ignore symlinks
-                m_lDirSize += it.current()->size();
-            m_lFileCount++;
-        }
-        else
-            m_lDirCount++;
-    }
+    d->dirSizeDirty = true;
     if ( m_findPart )
         emitTotalCount();
 
@@ -446,26 +439,41 @@ void KonqDirPart::newItems( const KFileItemList & entries )
 
 void KonqDirPart::deleteItem( KFileItem * fileItem )
 {
-    if ( !fileItem->isDir() )
-    {
-        if ( !fileItem->isLink() )
-            m_lDirSize -= fileItem->size();
-        m_lFileCount--;
-    }
-    else
-        m_lDirCount--;
-
+    d->dirSizeDirty = true;
     emit itemRemoved( fileItem );
 }
 
 void KonqDirPart::emitTotalCount()
 {
+    if ( !d->dirLister || d->dirLister->url().isEmpty() )
+        return;
+    kdDebug() << k_funcinfo << "d->dirSizeDirty=" << d->dirSizeDirty << endl;
+    if ( d->dirSizeDirty ) {
+        m_lDirSize = 0;
+        m_lFileCount = 0;
+        m_lDirCount = 0;
+        KFileItemList entries = d->dirLister->items();
+        for (KFileItemListIterator it(entries); it.current(); ++it)
+        {
+            if ( !it.current()->isDir() )
+            {
+                if (!it.current()->isLink()) // symlinks don't contribute to the size
+                    m_lDirSize += it.current()->size();
+                m_lFileCount++;
+            }
+            else
+                m_lDirCount++;
+        }
+        d->dirSizeDirty = false;
+    }
+    kdDebug() << k_funcinfo << "filecount=" << m_lFileCount << " dirsize=" << m_lDirSize << endl;
+
     QString summary =
         KIO::itemsSummaryString(m_lFileCount + m_lDirCount,
-                                  m_lFileCount,
-                                  m_lDirCount,
-                                  m_lDirSize,
-                                  true);
+                                m_lFileCount,
+                                m_lDirCount,
+                                m_lDirSize,
+                                true);
     bool bShowsResult = false;
     if (m_findPart)
     {
@@ -715,5 +723,18 @@ void KonqDirPartBrowserExtension::restoreState( QDataStream &stream )
     }
 }
 
+
+void KonqDirPart::resetCount()
+{
+    m_lDirSize = 0;
+    m_lFileCount = 0;
+    m_lDirCount = 0;
+    d->dirSizeDirty = true;
+}
+
+void KonqDirPart::setDirLister( KDirLister* lister )
+{
+    d->dirLister = lister;
+}
 
 #include "konq_dirpart.moc"
