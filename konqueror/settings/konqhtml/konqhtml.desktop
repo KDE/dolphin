@@ -5,7 +5,7 @@ Icon=konqueror
 Exec=kcmshell Browsing/Web/konqhtml
 
 X-KDE-ModuleType=Library
-X-KDE-LibraryName=konqhtml
+X-KDE-Library=konqhtml
 X-KDE-FactoryName=html
 X-KDE-ControlModuleType=User
 X-KDE-HideFromPanel=true
@@ -23,14 +23,15 @@ Name[fi]=Konqueror Selain
 Name[fr]=Navigateur Konqueror
 Name[he]=Konqueror ןפדפד
 Name[hr]=Konquerer preglednik
-Name[hu]=Konqueror Böngésző
+Name[hu]=Konqueror böngésző
 Name[is]=Konqueror vefsjáin
 Name[it]=Browser Konqueror
 Name[ja]=Konquerorブラウザ
 Name[mk]=Разгледувачот Konqueror
 Name[nl]=Konquerorbrowser
 Name[no]=Konqueror nettlos
-Name[no_NY]=Konqueror nettlesar
+Name[no_NY]=Nettlesaren Konqueror
+Name[pl]=Przeglądarka Konquerora
 Name[pt]=Navegador Konqueror
 Name[ro]=Navigator de web Konqueror
 Name[ru]=Броузер Konqueror
@@ -39,27 +40,29 @@ Name[sr]=Konqueror pretraĹživaÄ�
 Name[sv]=Erövraren (bläddrare)
 Name[ta]=Konqueror உலாவி
 Name[tr]=Konqueror Tarayıcı
+Name[uk]=Переглядач Konqueror
 
 Comment=Configure the look and feel of the Internet Browser called Konqueror
 Comment[ca]=Configura l'aspecte i efecte del fullejador Internet anomenat Konqueror
 Comment[cs]=Zde můžete nastavit vzhled a chování internetového prohlížeče zvaného Konqueror
 Comment[da]=Man kan indstille konquerors udseende her
 Comment[de]=Hier können Sie das Aussehen von Konqueror einstellen, dem Internet-Browser
-Comment[eo]=Agordaĵo de Konkeranto
+Comment[eo]=Agordo de Konkeranto
 Comment[es]=Configurar la apariencia del navegador de internet llamado Konqueror
 Comment[et]=Interneti brauseri Konqueror tööilme konfigureerimine
 Comment[fi]=Muokkaa Konqueror Internet-selaimen ulkonäköä ja toimintoja
 Comment[fr]=Configuration du comportement du Navigateur Internet Konqueror
 Comment[he]=Konqueror ארקנה טנרטניאה ןפדפד לש השוחתהו הארמה תרדגה
 Comment[hr]=Ovdje možete podesiti izgled i ponašanje Web preglednika zvanog Konqueror
-Comment[hu]=Itt lehet megváltoztatni a Konqueror internet böngésző beállításait
+Comment[hu]=Itt lehet megváltoztatni a Konqueror internetböngésző beállításait
 Comment[is]=Stilla viðmót vefsjáarinnar í Konqueror
 Comment[it]=Configura l'aspetto del browser Internet chiamato Konqueror
-Comment[ja]=ここでインターネットブラウザ、Konquerorのルック&フィールを設定します
+Comment[ja]=ここでインターネットブラウザ、Konquerorのルック&=E3=83=95ィールを設定します
 Comment[mk]=Поставки на изгледот и чувствот на Интернет разгледувачот Konqueror
 Comment[nl]=Pas het voorkomen van de Internetbrowser Konqueror aan
 Comment[no]=Her kan du konfigurere hvordan nettlosen Konqueror skal føles og se ut
-Comment[no_NY]=Du kan setja opp utsjånaden til nettlesaren Konqueror her
+Comment[no_NY]=Her kan du setja opp utsjånaden til nettlesaren Konqueror
+Comment[pl]=Konfiguracja wyglądu i zachowania Przeglądarki internetowej, zwanej Konqueror
 Comment[pt]=Configuração do navegador de internet Konqueror
 Comment[ro]=Configurează aspectul navigatorului de web Konqueror
 Comment[ru]=Вы можете настроить, как будет выглядеть Konqueror
@@ -68,6 +71,7 @@ Comment[sr]=Podesite izgled Internet pretraĹživaÄ�a koji se zove Konqueror
 Comment[sv]=Här kan du ställa in internetbläddraren Erövrarens utseende och känsla
 Comment[ta]=konqueror எனஂற இைணய உலாவியினஂ ேதாறஂறமஂ மறஂறுமஂ உணரஂைவ பைடகஂகவுமஂ
 Comment[tr]=Konqueror isimli İnternet Tarayıcısının görünüm ve dokusu buradan yapılandırılır
+Comment[uk]=Настроїти вигляд та поведінку переглядача Інтернет - Konqueror
 
 Keywords=konqueror,kfm,browser,html,web,www,fonts,colours,colors,java,javascript
 Keywords[ca]=konqueror,kfm,fullejador,html,web,www,fonts,colors,java,javascript
@@ -89,8 +93,26 @@ Keywords[mk]=konqueror,kfm,browser,разгледувач,html,web,www,фонт�
 Keywords[nl]=konqueror,kfm,browser,html,web,www,fonts,lettertypen,kleuren,,java,javascript
 Keywords[no]=konqueror,kfm,nettlos,html,web,www,vev,verdensveven,skriftyper,farger,java,javaskriptipt
 Keywords[no_NY]=konqueror,kfm,nettlesar,html,web,www,skrifttypar,fargar,java,javascript
+Keywords[pl]=konqueror,kfm,przeglądarka,html,sieć,www,fonty,kolory,java,javascript
 Keywords[pt]=konqueror,kfm,navegador,html,web,www,fontes,cores,java,javascript
 Keywords[ro]=konqueror,kfm,navigator,browser,html,web,www,font,culori,java,javascript
 Keywords[sl]=konqueror,kfm,brskalnik,html,splet,www,pisave,barve,java,javascript
 Keywords[ta]=konqueror,kfm,உலாவி,html,வைல,நிறஙஂகளஂ,www,எழு஡ஂதுவைககளஂ,java,javascript
 Keywords[tr]=konqueror,kfm,tarayıcı,html,ağ,www,yazı tipleri,renkler,java,javascript
+Keywords[uk]=konqueror,kfm,переглядач,html,web,www,шрифти,кол=D1 ори,java,javascript
+ipt,boje,pisma
+ipt,boje,pisma
+ipt,boje,pisma
+ipt,boje,pisma
+ipt,boje,pisma
+ipt,boje,pisma
+ipt,boje,pisma
+ipt,boje,pisma
+ipt,boje,pisma
+ipt,boje,pisma
+ipt,boje,pisma
+ipt,boje,pisma
+ipt,boje,pisma
+ipt,boje,pisma
+ipt,boje,pisma
+ipt,boje,pisma
