@@ -1727,7 +1727,7 @@ void KonqMainView::slotPopupMenu( KXMLGUIClient *client, const QPoint &_global, 
   popupMenuCollection.insert( m_paShred );
 
   if ( _items.count() == 1 )
-    // Can't use X-KDE-BrowserView-Builtin directly in the query because '-' is a substraction !!!
+    // Can't use X-KDE-BrowserView-HideFromMenus directly in the query because '-' is a substraction !!!
     m_popupEmbeddingServices = KTrader::self()->query( _items.getFirst()->mimetype(),
 						  "('Browser/View' in ServiceTypes) or "
 						  "('KParts/ReadOnlyPart' in ServiceTypes)" );
@@ -1983,7 +1983,7 @@ PopupMenuGUIClient::PopupMenuGUIClient( KonqMainView *mainView, const KTrader::O
   if ( embeddingServices.count() == 1 )
   {
     KService::Ptr service = *embeddingServices.begin();
-    builtin = service->property( "X-KDE-BrowserView-Builtin" );
+    builtin = service->property( "X-KDE-BrowserView-HideFromMenus" );
     if ( ( !builtin.isValid() || !builtin.toBool() ) &&
 	 service->name() != currentServiceName )
       addEmbeddingService( menu, 0, i18n( "Preview in %1" ).arg( service->comment() ), service );
@@ -2002,7 +2002,7 @@ PopupMenuGUIClient::PopupMenuGUIClient( KonqMainView *mainView, const KTrader::O
 
     for (; it != end; ++it )
     {
-      builtin = (*it)->property( "X-KDE-BrowserView-Builtin" );
+      builtin = (*it)->property( "X-KDE-BrowserView-HideFromMenus" );
       if ( ( !builtin.isValid() || !builtin.toBool() ) &&
        (*it)->name() != currentServiceName )
       {
