@@ -186,13 +186,15 @@ private:
    QString m_groupAddress;
 };
 
+class KEBListViewItem;
+
 class CmdGen {
 public:
    static CmdGen* self() { if (!s_self) s_self = new CmdGen(); return s_self; }
    KMacroCommand* setAsToolbar(const KBookmark &bk);
-   KMacroCommand* deleteItems(QString commandName, QPtrList<class QListViewItem> *items);
+   KMacroCommand* deleteItems(QString commandName, QPtrList<KEBListViewItem> *items);
    KMacroCommand* insertMimeSource(const QString &cmdName, QMimeSource *data, const QString &addr);
-   KMacroCommand* itemsMoved(QPtrList<QListViewItem> *items, const QString &newAddress, bool copy);
+   KMacroCommand* itemsMoved(QPtrList<KEBListViewItem> *items, const QString &newAddress, bool copy);
 private:
    CmdGen() { ; }
    static CmdGen *s_self;

@@ -384,12 +384,11 @@ KMacroCommand* CmdGen::setAsToolbar(const KBookmark &bk) {
    return mcmd;
 }
 
-KMacroCommand* CmdGen::deleteItems(QString commandName, QPtrList<QListViewItem> *items) {
-   QPtrListIterator<QListViewItem> it(*items);
+KMacroCommand* CmdGen::deleteItems(QString commandName, QPtrList<KEBListViewItem> *items) {
+   QPtrListIterator<KEBListViewItem> it(*items);
    KMacroCommand *mcmd = new KMacroCommand(commandName);
    for (; it.current() != 0; ++it) {
-      QListViewItem *item = it.current();
-      DeleteCommand *dcmd = new DeleteCommand(listview->itemToBookmark(item).address());
+      DeleteCommand *dcmd = new DeleteCommand(it.current()->bookmark().address());
       dcmd->execute();
       mcmd->addCommand(dcmd);
    }
@@ -413,13 +412,14 @@ KMacroCommand* CmdGen::insertMimeSource(const QString &cmdName, QMimeSource *dat
    return mcmd;
 }
 
-KMacroCommand* CmdGen::itemsMoved(QPtrList<QListViewItem> *items, const QString &newAddress, bool copy) {
+KMacroCommand* CmdGen::itemsMoved(QPtrList<KEBListViewItem> *items, const QString &newAddress, bool copy) {
    KMacroCommand *mcmd = new KMacroCommand(copy ? i18n("Copy Items") : i18n("Move Items"));
 
    QString currentPos = newAddress;
 
-   for (QPtrListIterator<QListViewItem> it(*items); it.current() != 0; ++it) {
-      KEBListViewItem *item = static_cast<KEBListViewItem *>(it.current());
+   for (QPtrListIterator<KEBListViewItem> it(*items); it.current() != 0; ++it) {
+      // make *it and inline it?
+      KEBListViewItem *item = it.current();
       KCommand *cmd;
       if (copy) {
          cmd = new CreateCommand(

@@ -133,18 +133,18 @@ public:
    void connectSignals();
 
    // item stuff
-   QListViewItem* getFirstChild();
-   QPtrList<QListViewItem>* itemList();
+   KEBListViewItem* getFirstChild();
+   QPtrList<KEBListViewItem>* itemList();
 
    // selected item stuff
    int numSelected();
-   QListViewItem* selectedItem();
-   QPtrList<QListViewItem>* selectedItems();
-   QListViewItem* firstSelected();
+   KEBListViewItem* selectedItem();
+   QPtrList<KEBListViewItem>* selectedItems();
+   KEBListViewItem* firstSelected();
 
    // bookmark helpers
-   const KBookmark itemToBookmark(QListViewItem *item);
-   QValueList<KBookmark> itemsToBookmarks(QPtrList<QListViewItem>* items);
+   const KBookmark qitemToBookmark(QListViewItem *item);
+   QValueList<KBookmark> itemsToBookmarks(QPtrList<KEBListViewItem>* items);
 
    // bookmark stuff
    KBookmark selectedBookmark();
@@ -186,7 +186,7 @@ protected slots:
 private:
    ListView();
    static ListView *s_self;
-   void deselectParents(QListViewItem *item);
+   void deselectParents(KEBListViewItem *item);
    QString m_last_selection_address;
    KEBListView *m_listView;
 };

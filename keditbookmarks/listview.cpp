@@ -98,34 +98,33 @@ void ListView::connectSignals() {
            this,       SLOT( slotDropped(QDropEvent*, QListViewItem*, QListViewItem*) ));
 }
 
-QListViewItem* ListView::getFirstChild() {
-   return m_listView->firstChild();
+KEBListViewItem* ListView::getFirstChild() {
+   return static_cast<KEBListViewItem *>(m_listView->firstChild());
 }
 
-QPtrList<QListViewItem>* ListView::itemList() {
-   QPtrList<QListViewItem> *items = new QPtrList<QListViewItem>();
+QPtrList<KEBListViewItem>* ListView::itemList() {
+   QPtrList<KEBListViewItem> *items = new QPtrList<KEBListViewItem>();
    for (QListViewItemIterator it(m_listView); it.current(); it++) {
-      items->append(it.current());
+      items->append(static_cast<KEBListViewItem *>(it.current()));
    }
    return items;
 }
 
-const KBookmark ListView::itemToBookmark(QListViewItem *item) {
+const KBookmark ListView::qitemToBookmark(QListViewItem *item) {
    return static_cast<KEBListViewItem *>(item)->bookmark();
 }
 
-QValueList<KBookmark> ListView::itemsToBookmarks(QPtrList<QListViewItem>* items) {
+QValueList<KBookmark> ListView::itemsToBookmarks(QPtrList<KEBListViewItem>* items) {
    QValueList<KBookmark> bookmarks;
-   for (QPtrListIterator<QListViewItem> it(*items); it.current() != 0; ++it) {
-      KEBListViewItem *item = static_cast<KEBListViewItem *>(it.current());
-      bookmarks.append(KBookmark(item->bookmark()));
+   for (QPtrListIterator<KEBListViewItem> it(*items); it.current() != 0; ++it) {
+      bookmarks.append(KBookmark(it.current()->bookmark()));
    }
    return bookmarks;
 }
 
-QPtrList<QListViewItem>* ListView::selectedItems() {
-   QPtrList<QListViewItem> *items = new QPtrList<QListViewItem>();
-   for (QPtrListIterator<QListViewItem> it(*itemList()); it.current() != 0; ++it) {
+QPtrList<KEBListViewItem>* ListView::selectedItems() {
+   QPtrList<KEBListViewItem> *items = new QPtrList<KEBListViewItem>();
+   for (QPtrListIterator<KEBListViewItem> it(*itemList()); it.current() != 0; ++it) {
       if (it.current()->isSelected()) {
          items->append(it.current());
       }
@@ -133,7 +132,7 @@ QPtrList<QListViewItem>* ListView::selectedItems() {
    return items;
 }
 
-QListViewItem* ListView::firstSelected() {
+KEBListViewItem* ListView::firstSelected() {
    return selectedItems()->first();
 }
 
@@ -159,7 +158,7 @@ void ListView::openParents(KEBListViewItem *item) {
    }
 }
 
-void ListView::deselectParents(QListViewItem *item) {
+void ListView::deselectParents(KEBListViewItem *item) {
    QListViewItem *c = item;
    while(true) {
       if (c = c->parent(), c) {
@@ -171,7 +170,7 @@ void ListView::deselectParents(QListViewItem *item) {
 }
 
 void ListView::updateSelectedItems() {
-   for (QPtrListIterator<QListViewItem> it(*itemList()); it.current() != 0; ++it) {
+   for (QPtrListIterator<KEBListViewItem> it(*itemList()); it.current() != 0; ++it) {
       if (it.current()->isSelected()) {
          deselectParents(it.current());
       }
@@ -179,18 +178,19 @@ void ListView::updateSelectedItems() {
 }
 
 KBookmark ListView::selectedBookmark() {
-   return itemToBookmark(firstSelected());
+   // TODO - remove!
+   return firstSelected()->bookmark();
 }
 
 QValueList<KBookmark> ListView::selectedBookmarksExpanded() {
    QValueList<KBookmark> bookmarks;
    QStringList addresses;
-   for (QPtrListIterator<QListViewItem> it(*itemList()); it.current() != 0; ++it) {
+   for (QPtrListIterator<KEBListViewItem> it(*itemList()); it.current() != 0; ++it) {
       if ((it.current()->isSelected()) && !IS_EF(it.current())) {
          if (it.current()->childCount() > 0) {
-            for(QListViewItemIterator it2(it.current()); it2.current(); it2++) {
+            for(QListViewItemIterator it2((QListViewItem*)it.current()); it2.current(); it2++) {
                if (!IS_EF(it2.current())) {
-                  const KBookmark bk = itemToBookmark(it2.current());
+                  const KBookmark bk = qitemToBookmark(it2.current());
                   if (!addresses.contains(bk.address())) {
                      bookmarks.append(bk);
                      addresses.append(bk.address());
@@ -203,7 +203,7 @@ QValueList<KBookmark> ListView::selectedBookmarksExpanded() {
                }
             }
          } else {
-            const KBookmark bk = itemToBookmark(it.current());
+            const KBookmark bk = qitemToBookmark(it.current());
             if (!addresses.contains(bk.address())) {
                bookmarks.append(bk);
                addresses.append(bk.address());
@@ -216,9 +216,9 @@ QValueList<KBookmark> ListView::selectedBookmarksExpanded() {
 
 QValueList<KBookmark> ListView::allBookmarks() {
    QValueList<KBookmark> bookmarks;
-   for (QPtrListIterator<QListViewItem> it(*itemList()); it.current() != 0; ++it) {
+   for (QPtrListIterator<KEBListViewItem> it(*itemList()); it.current() != 0; ++it) {
       if ((it.current()->childCount() == 0) && !IS_EF(it.current())) {
-         bookmarks.append(itemToBookmark(it.current()));
+         bookmarks.append(qitemToBookmark(it.current()));
       }
    }
    return bookmarks;
@@ -234,7 +234,7 @@ QString ListView::userAddress() {
       return "/0";
 
    } else {
-      KBookmark current = itemToBookmark(selectedItems()->first());
+      KBookmark current = qitemToBookmark(selectedItems()->first());
       return (current.isGroup()) 
            ? (current.address() + "/0")
            : KBookmark::nextAddress(current.address());
@@ -269,7 +269,7 @@ KEBListViewItem* ListView::getItemRoughlyAtAddress(const QString &address) {
 }
 
 void ListView::setOpen(bool open) {
-   for (QPtrListIterator<QListViewItem> it(*itemList()); it.current() != 0; ++it) {
+   for (QPtrListIterator<KEBListViewItem> it(*itemList()); it.current() != 0; ++it) {
       if (it.current()->parent()) {
          (static_cast<KEBListViewItem*>(it.current()))->setOpen(open);
       }
@@ -277,24 +277,24 @@ void ListView::setOpen(bool open) {
 }
 
 void ListView::updateLastAddress() {
-   QListViewItem *lastItem = 0;
-   for (QPtrListIterator<QListViewItem> it(*itemList()); it.current() != 0; ++it) {
+   KEBListViewItem *lastItem = 0;
+   for (QPtrListIterator<KEBListViewItem> it(*itemList()); it.current() != 0; ++it) {
       if ((it.current()->isSelected()) && !IS_EF(it.current())) {
          lastItem = it.current();
       }
    }
    if (lastItem) {
-      m_last_selection_address = itemToBookmark(lastItem).address();
+      m_last_selection_address = qitemToBookmark(lastItem).address();
    }
 }
 
 SelcAbilities ListView::getSelectionAbilities() {
-   QListViewItem *item = selectedItems()->first();
+   KEBListViewItem *item = selectedItems()->first();
 
    static SelcAbilities sa = { false, false, false, false, false, false, false, false };
 
    if (item) {
-      KBookmark nbk = itemToBookmark(item);
+      KBookmark nbk = qitemToBookmark(item);
       sa.itemSelected   = true;
       sa.group          = nbk.isGroup();
       sa.separator      = nbk.isSeparator();
@@ -303,7 +303,7 @@ SelcAbilities ListView::getSelectionAbilities() {
       sa.root           = (getFirstChild() == item);
       sa.multiSelect    = (selectedItems()->count() > 1);
    } else {
-      kdDebug() << "no item" << endl;
+      // kdDebug() << "no item" << endl;
    }
 
    sa.notEmpty = (getFirstChild()->childCount() > 0);
@@ -329,11 +329,12 @@ void ListView::slotDropped(QDropEvent *e, QListViewItem *newParent, QListViewIte
       mcmd = CmdGen::self()->insertMimeSource(i18n("Drop items"), e, newAddress);
 
    } else {
-      QPtrList<QListViewItem> *selection = listview->selectedItems();
-      QListViewItem *firstItem = selection->first();
+      QPtrList<KEBListViewItem> *selection = listview->selectedItems();
+      KEBListViewItem *firstItem = selection->first();
       if (!firstItem || firstItem == itemAfterQLVI) {
          return;
       }
+      // TODO - fix the stupid bug
       bool copy = (e->action() == QDropEvent::Copy);
       mcmd = CmdGen::self()->itemsMoved(selection, newAddress, copy);
    }
@@ -344,10 +345,10 @@ void ListView::slotDropped(QDropEvent *e, QListViewItem *newParent, QListViewIte
 void ListView::updateListView() {
    // get address list for selected items, make a function?
    QStringList addressList;
-   QPtrList<QListViewItem> *selcItems = selectedItems();
+   QPtrList<KEBListViewItem> *selcItems = selectedItems();
    if (selcItems->count() != 0) {
-      for (QPtrListIterator<QListViewItem> it(*selcItems); it.current() != 0; ++it) {
-         QString address = itemToBookmark(static_cast<KEBListViewItem*>(it.current())).address();
+      for (QPtrListIterator<KEBListViewItem> it(*selcItems); it.current() != 0; ++it) {
+         QString address = qitemToBookmark(static_cast<KEBListViewItem*>(it.current())).address();
          if (address != "ERROR") {
             addressList << address;
          }
@@ -413,7 +414,8 @@ void ListView::slotContextMenu(KListView *, QListViewItem *item, const QPoint &p
    if (!item) {
       return;
    }
-   const char *type = (itemToBookmark(item).isGroup() ? "popup_folder" : "popup_bookmark");
+   // TODO
+   const char *type = (qitemToBookmark(item).isGroup() ? "popup_folder" : "popup_bookmark");
    QWidget* popup = KEBTopLevel::self()->popupMenuFactory(type);
    if (popup) {
       static_cast<QPopupMenu*>(popup)->popup(p);
@@ -432,7 +434,7 @@ void ListView::slotDoubleClicked(QListViewItem *item, const QPoint &, int column
 
 void ListView::slotItemRenamed(QListViewItem *item, const QString &newText, int column) {
    Q_ASSERT(item);
-   KBookmark bk = itemToBookmark(item);
+   KBookmark bk = qitemToBookmark(item);
    KCommand *cmd = 0;
    switch (column) {
       case COL_NAME:
@@ -458,7 +460,7 @@ void ListView::slotItemRenamed(QListViewItem *item, const QString &newText, int 
 }
 
 void ListView::rename(int column) {
-   QListViewItem* item = firstSelected();
+   KEBListViewItem* item = firstSelected();
    Q_ASSERT(item);
    m_listView->rename(item, column);
 }
@@ -482,7 +484,7 @@ bool KEBListView::acceptDrag(QDropEvent * e) const {
 }
 
 QDragObject *KEBListView::dragObject() {
-   QPtrList<QListViewItem> *selcItems = listview->selectedItems();
+   QPtrList<KEBListViewItem> *selcItems = listview->selectedItems();
    if (selcItems->count() == 0) {
       return (QDragObject*)0;
    } else {
