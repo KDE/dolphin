@@ -5,4 +5,6 @@ The syntax is very much inspired from the "dialog" command
 However the width and height attributes have been removed for
 most dialogs - Qt/KDE have layouts ;)
 
+Tutorial on using kdialog: http://www.frogmouth.net/kdebook/x230.html
+
 Current maintainer: David Faure <faure@kde.org>
