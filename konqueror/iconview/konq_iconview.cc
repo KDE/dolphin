@@ -607,28 +607,11 @@ void KonqKfmIconView::slotReturnPressed( QIconViewItem *item )
     if (KonqFMSettings::settings()->alwaysNewWin() && fileItem->mode() & S_IFDIR) {
         fileItem->run();
     } else {
-        // We want to emit openURLRequest, but not right now, because
-        // the iconview is going to emit other signals.
-        // Let's not destroy it while it isn't finished emitting.
-        openURLRequestFileItem = fileItem;
-        QTimer::singleShot( 0, this, SLOT(slotOpenURLRequest()) );
+        KParts::URLArgs args;
+        args.serviceType = fileItem->mimetype();
+        args.trustedSource = true;
+        emit m_extension->openURLRequest( fileItem->url(), args );
     }
-}
-
-void KonqKfmIconView::slotOpenURLRequest()
-{
-  if ( !openURLRequestFileItem )
-    // This shouldn't happen. Well, it can, if one double-clicks on an icon
-    // or for any other reason, two singleshots get fired before we get here.
-    kdWarning(1202) << "Null openURLRequestFileItem in KonqKfmIconView !" << endl;
-  else
-  {
-    KParts::URLArgs args;
-    args.serviceType = openURLRequestFileItem->mimetype();
-    args.trustedSource = true;
-    emit m_extension->openURLRequest( openURLRequestFileItem->url(), args );
-    openURLRequestFileItem = 0L;
-  }
 }
 
 void KonqKfmIconView::slotMouseButtonPressed(int _button, QIconViewItem* _item, const QPoint& _global)

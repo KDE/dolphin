@@ -248,7 +248,7 @@ void KonqView::connectPart(  )
   if ( !ext )
     return;
 
-  connect( ext, SIGNAL( openURLRequest( const KURL &, const KParts::URLArgs &) ),
+  connect( ext, SIGNAL( openURLRequestDelayed( const KURL &, const KParts::URLArgs &) ),
            m_pMainWindow, SLOT( slotOpenURLRequest( const KURL &, const KParts::URLArgs & ) ) );
 
   connect( ext, SIGNAL( popupMenu( const QPoint &, const KFileItemList & ) ),

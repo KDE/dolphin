@@ -573,11 +573,12 @@ KonqPropsView * KonqBaseListViewWidget::props() const
   return m_pBrowserView->m_pProps;
 }
 
-void KonqBaseListViewWidget::emitOpenURLRequest(const KURL& url, const KParts::URLArgs& args)
+void KonqBaseListViewWidget::emitOpenURLRequest(const KURL& url, const QString & mimeType)
 {
-   KParts::URLArgs a = args;
-   a.trustedSource = true;
-   emit m_pBrowserView->extension()->openURLRequest(url,a);
+   KParts::URLArgs args;
+   args.trustedSource = true;
+   args.serviceType = mimeType;
+   emit m_pBrowserView->extension()->openURLRequest(url,args);
 }
 
 void KonqBaseListViewWidget::slotReturnPressed( QListViewItem *_item )
@@ -587,7 +588,6 @@ void KonqBaseListViewWidget::slotReturnPressed( QListViewItem *_item )
    KonqFileItem *fileItem = static_cast<KonqBaseListViewItem*>(_item)->item();
    if ( !fileItem )
       return;
-   QString serviceType = QString::null;
 
    KURL u( fileItem->url() );
 
@@ -595,46 +595,9 @@ void KonqBaseListViewWidget::slotReturnPressed( QListViewItem *_item )
         KParts::URLArgs args;
         args.serviceType = fileItem->mimetype(); // inode/directory
         emit m_pBrowserView->extension()->createNewWindow( u, args );
-    } else {
-        // We want to emit openURLRequest, but not right now, because
-        // the listview is going to emit other signals (mouse release).
-        // Let's not destroy it while it isn't finished emitting.
-        openURLRequestFileItem = fileItem;
-        QTimer::singleShot( 0, this, SLOT(slotOpenURLRequest()) );
-    }
+    } else
+        emitOpenURLRequest( u, fileItem->mimetype() );
 }
-
-void KonqBaseListViewWidget::slotOpenURLRequest()
-{
-  if ( !openURLRequestFileItem )
-    // This shouldn't happen. Well, it can, if one double-clicks on an icon
-    // or for any other reason, two singleshots get fired before we get here.
-    kdWarning(1202) << "Null openURLRequestFileItem in KonqBaseListViewWidget !" << endl;
-  else
-  {
-    KParts::URLArgs args;
-    args.serviceType = openURLRequestFileItem->mimetype();
-    emit m_pBrowserView->extension()->openURLRequest( openURLRequestFileItem->url(), args );
-    openURLRequestFileItem = 0L;
-  }
-}
-
-/*void KonqBaseListViewWidget::slotReturnPressed( QListViewItem *_item )
-{
-  if ( !_item )
-    return;
-
-  KonqFileItem *item = ((KonqBaseListViewItem*)_item)->item();
-  mode_t mode = item->mode();
-
-  //execute only if item is a file (or a symlink to a file)
-  if ( S_ISREG( mode ) )
-  {
-    KParts::URLArgs args;
-    args.serviceType = item->mimetype();
-    emit m_pBrowserView->extension()->openURLRequest( item->url(), args );
-  }
-}*/
 
 void KonqBaseListViewWidget::slotRightButtonPressed( QListViewItem *, const QPoint &_global, int )
 {
@@ -647,7 +610,7 @@ void KonqBaseListViewWidget::slotPopupMenu(KListView* , QListViewItem* )
    QPoint p (width() / 2, height() / 2 );
    p = mapToGlobal( p );
    popupMenu( p );
-};
+}
 
 void KonqBaseListViewWidget::popupMenu( const QPoint& _global )
 {
@@ -902,7 +865,7 @@ void KonqBaseListViewWidget::drawContentsOffset( QPainter* _painter, int _offset
   if ( !_painter )
     return;
 
-  kdDebug() << "KonqBaseListViewWidget::drawContentsOffset" << endl;
+  //kdDebug() << "KonqBaseListViewWidget::drawContentsOffset" << endl;
 
   paintEmptyArea( _painter, QRect( _clipx - _offsetx, _clipy - _offsety, _clipw, _cliph ) );
 
@@ -914,7 +877,7 @@ void KonqBaseListViewWidget::drawContentsOffset( QPainter* _painter, int _offset
 // When that day comes, rename this to drawBackground and get rid of drawContentsOffset
 void KonqBaseListViewWidget::paintEmptyArea( QPainter *p, const QRect &r )
 {
-    kdDebug() << "KonqBaseListViewWidget::paintEmptyArea" << endl;
+    //kdDebug() << "KonqBaseListViewWidget::paintEmptyArea" << endl;
     const QPixmap *pm = backgroundPixmap();
     bool hasPixmap = pm && !pm->isNull();
     if ( !hasPixmap ) {

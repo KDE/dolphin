@@ -127,8 +127,6 @@ protected slots:
 
   void slotProcessMimeIcons();
 
-  void slotOpenURLRequest();
-
   /**
    * This is the 'real' finished slot, where we emit the completed() signal
    * after everything was done.
@@ -206,9 +204,6 @@ protected:
   long m_lDirCount;
 
   int m_iIconSize[3];
-
-  // used by slotOpenURLRequest
-  KonqFileItem * openURLRequestFileItem;
 
   KonqIconViewWidget *m_pIconView;
 
