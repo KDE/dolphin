@@ -628,8 +628,6 @@ debug(" KonqMainView::openView %s %s", serviceType.ascii(), url.ascii());
 
   if ( !childView )
     {
-      enableAllActions( true );
-
       BrowserView* view = m_pViewManager->splitView( Qt::Horizontal, url, serviceType );
       
       if ( !view )
@@ -637,6 +635,8 @@ debug(" KonqMainView::openView %s %s", serviceType.ascii(), url.ascii());
         KMessageBox::sorry( 0L, i18n( "Could not create view for %1\nCheck your installation").arg(serviceType) );
         return true; // fake everything was ok, we don't want to propagate the error
       }
+
+      enableAllActions( true );
 
       setActiveView( view );
 
