@@ -510,7 +510,7 @@ void KonqKfmIconView::slotSortDirsFirst()
 
 void KonqKfmIconView::guiActivateEvent( KParts::GUIActivateEvent *event )
 {
-  ReadOnlyPart::guiActivateEvent( event );
+  KParts::ReadOnlyPart::guiActivateEvent( event );
   if ( event->activated() )
     m_pIconView->slotSelectionChanged();
 }
