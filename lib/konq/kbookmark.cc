@@ -302,7 +302,7 @@ KBookmark::KBookmark( KBookmarkManager *_bm, KBookmark *_parent, QString _text, 
   FILE *f = fopen( m_file, "w" );
   if ( f == 0L )
   {
-    QMessageBox::critical( (QWidget*)0L, i18n(" Error"), i18n("Could not write bookmark" ) );
+    QMessageBox::critical( (QWidget*)0L, i18n(" Error"), i18n("Could not write bookmark" ), i18n("OK") );
     return;
   }
 
