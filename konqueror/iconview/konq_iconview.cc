@@ -48,6 +48,7 @@
 #include <kurl.h>
 #include <kparts/mainwindow.h>
 #include <kparts/partmanager.h>
+#include <kparts/factory.h>
 
 #include <qmessagebox.h>
 #include <qfile.h>
@@ -58,7 +59,7 @@
 
 template class QList<KFileIVI>;
 
-class KonqIconViewFactory : public KLibFactory
+class KonqIconViewFactory : public KParts::Factory
 {
 public:
     KonqIconViewFactory()
@@ -70,9 +71,9 @@ public:
 	KonqFactory::instanceUnref();
     }
 
-    virtual QObject* create( QObject *parent, const char *name, const char*, const QStringList &args )
+    virtual KParts::Part* createPart( QWidget *parentWidget, const char *, QObject *parent, const char *name, const char*, const QStringList &args )
     {
-	KonqKfmIconView *obj = new KonqKfmIconView( (QWidget *)parent, parent, name );
+	KonqKfmIconView *obj = new KonqKfmIconView( parentWidget, parent, name );
 	emit objectCreated( obj );
 
 	QStringList::ConstIterator it = args.begin();

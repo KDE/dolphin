@@ -27,6 +27,7 @@
 #include <kglobal.h>
 #include <kdesktopfile.h>
 #include <konqsettings.h>
+#include <kparts/factory.h>
 
 #include <assert.h>
 
@@ -40,7 +41,7 @@ inline bool operator<( const KURL &u1, const KURL &u2 )
   return u1.url( 0 ) < u2.url( 0 );
 }
 
-class KonqDirTreeFactory : public KLibFactory
+class KonqDirTreeFactory : public KParts::Factory
 {
 public:
   KonqDirTreeFactory()
@@ -52,9 +53,9 @@ public:
     KonqFactory::instanceUnref();
   }
 
-  virtual QObject* create( QObject *parent, const char *name, const char*, const QStringList & )
+  virtual KParts::Part* createPart( QWidget *parentWidget, const char *, QObject *parent, const char *name, const char*, const QStringList & )
   {
-    QObject *obj = new KonqDirTreePart( (QWidget *)parent, parent, name );
+    KParts::Part *obj = new KonqDirTreePart( parentWidget, parent, name );
     emit objectCreated( obj );
     return obj;
   }

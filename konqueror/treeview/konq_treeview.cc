@@ -32,6 +32,7 @@
 #include <kaction.h>
 #include <kparts/mainwindow.h>
 #include <kparts/partmanager.h>
+#include <kparts/factory.h>
 
 #include <assert.h>
 #include <string.h>
@@ -47,7 +48,7 @@
 #include <klocale.h>
 #include <klibloader.h>
 
-class KonqTreeViewFactory : public KLibFactory
+class KonqTreeViewFactory : public KParts::Factory
 {
 public:
   KonqTreeViewFactory()
@@ -59,9 +60,9 @@ public:
     KonqFactory::instanceUnref();
   }
 
-  virtual QObject* create( QObject *parent, const char *name, const char*, const QStringList & )
+  virtual KParts::Part* createPart( QWidget *parentWidget, const char *, QObject *parent, const char *name, const char*, const QStringList & )
   {
-    QObject *obj = new KonqTreeView( (QWidget *)parent, parent, name );
+    KParts::Part *obj = new KonqTreeView( parentWidget, parent, name );
     emit objectCreated( obj );
     return obj;
   }
