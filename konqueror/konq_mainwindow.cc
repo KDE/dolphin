@@ -1,5 +1,6 @@
 /* This file is part of the KDE project
    Copyright (C) 1998, 1999 Simon Hausmann <hausmann@kde.org>
+   Copyright (C) 2000 Carsten Pfeiffer <pfeiffer@kde.org>
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public
@@ -1228,7 +1229,9 @@ void KonqMainWindow::slotViewCompleted( KonqView * view )
 {
   assert( view );
 
-  if ( currentView() == view )
+  QString viewURL = view->locationBarURL();
+  bool isActiveView = currentView() == view;
+  if ( isActiveView )
   {
     //kdDebug(1202) << "updating toolbar actions" << endl;
     updateToolBarActions();
@@ -1237,9 +1240,15 @@ void KonqMainWindow::slotViewCompleted( KonqView * view )
   if (!m_combo) // happens if removed from .rc file :)
     return;
 
+  // we have to remember the current text because removeItem() would clear
+  // the location edit if we remove the current item. We set the url back,
+  // a bit below.
+  QString currentText = m_combo->currentText();
+
+
   // FIXME: workaround against Qt limitation: since we can't set the pixmap for
-  // the edit-field, we had to add a dummy item into the combobox with the right
-  // pixmap. Now we got to remove it.
+  // the edit-field, we had to add a dummy item into the combobox with the
+  // right pixmap. Now we got to remove it.
   if ( m_qComboHack )
       m_combo->removeItem( m_combo->count() -1 );
 
@@ -1247,35 +1256,39 @@ void KonqMainWindow::slotViewCompleted( KonqView * view )
   // Register this URL as a working one, in the completion object and the combo
   // Only register remote URLs, because local ones will be found by
   // KURLCompletion
-  bool isLocal = KURL( view->locationBarURL() ).isLocalFile();
+  bool isLocal = KURL( viewURL ).isLocalFile();
 
-  if ( !m_combo->contains( view->locationBarURL() ) ) {
+  if ( !m_combo->contains( viewURL ) ) {
       // goes both into the combo and the completion object
-       m_combo->addToHistory( view->locationBarURL() );
-       m_combo->setCurrentItem( 0 );
-       if ( isLocal ) // but we only want remote urls in the completion object
-	   m_combo->completionObject()->removeItem( view->locationBarURL() );
+      m_combo->addToHistory( viewURL );
+      if ( isLocal ) // but we only want remote urls in the completion object
+	  m_combo->completionObject()->removeItem( viewURL );
   }
-  else {
-      // or just into the completion object (for proper weighting)
-      if ( !isLocal )
-	  m_combo->completionObject()->addItem( view->locationBarURL() );
 
-      // it's already in the combo, so we better make it the current item
-      // ... _if_ the user didn't change the url while we were loading
-      if ( m_combo->currentText() == view->locationBarURL() ) {
-	  for ( int i = 0; i < m_combo->count(); i++ ) {
-	      if ( m_combo->text( i ) == m_combo->currentText() ) {
-		  m_combo->setCurrentItem( i );
-		  break;
-	      }
+  else if ( !isLocal ) // just add it to the completion object for proper weighting
+      m_combo->completionObject()->addItem( viewURL );
+
+
+
+  // it's in the combo, so we better make it the current item
+  // ... _if_ the user didn't change the url while we were loading
+  if ( isActiveView && currentText == viewURL ) {
+      for ( int i = 0; i < m_combo->count(); i++ ) {
+	  if ( m_combo->text( i ) == currentText ) {
+	      m_combo->setCurrentItem( i );
+	      break;
 	  }
       }
   }
 
+  // set the old url back, if it was cleared by addToHistory() or
+  // removeItem() above
+  if ( m_combo->currentText().isEmpty() )
+      m_combo->setEditText( currentText );
+
   if ( !isLocal ) {
       QString u = view->typedURL();
-      if ( !u.isEmpty() && u != view->locationBarURL() )
+      if ( !u.isEmpty() && u != viewURL )
 	  m_combo->completionObject()->addItem( u ); // short version
   }
 }
@@ -1930,7 +1943,7 @@ void KonqMainWindow::slotRotation( KCompletionBase::KeyBindingType type )
       KCompletion *comp = m_combo->completionObject();
       completion = prev ? comp->previousMatch() : comp->nextMatch();
     }
-    if ( completion.isNull() || completion == m_combo->currentText() )
+    if ( completion.isEmpty() || completion == m_combo->currentText() )
       return;
 
     m_combo->setCompletedText( completion );
@@ -2198,8 +2211,8 @@ void KonqMainWindow::setLocationBarURL( const QString &url )
   ASSERT( !url.isEmpty());
   // FIXME, change the current pixmap of the combo, using
   // QComboBox::setCurrentPixmap() (in Qt 2.2 as Reggie promised :) (pfeiffer)
-  // grmbl, it's not in 2.2, so we have to hack around this limitation by adding a
-  // dummy item into combo
+  // grmbl, it's not in 2.2, so we have to hack around this limitation by 
+  // adding a dummy item into combo
 
   if ( m_combo ) {
     if ( m_qComboHack ) {
@@ -2216,7 +2229,7 @@ void KonqMainWindow::setLocationBarURL( const QString &url )
     }
 
     // here's the hack
-    QPixmap pix = m_combo->pixmapProvider()->pixmapFor( url, KIcon::SizeSmall );
+    QPixmap pix = m_combo->pixmapProvider()->pixmapFor(url, KIcon::SizeSmall);
     m_combo->insertItem( pix, url );
     m_combo->setCurrentItem( m_combo->count() -1 );
     m_qComboHack = true;
