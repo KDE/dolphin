@@ -65,7 +65,7 @@ UserAgentOptions::UserAgentOptions( QWidget * parent, const char * name ) :
   lay->addWidget(loginasED,2,2);
 
   wtstr = i18n( "Here you can enter the identification Konqueror should use for the given server."
-    " Exampe: <em>Mozilla/4.0 (compatible; MSIE 4.0)</em>");
+    " Example: <em>Mozilla/4.0 (compatible; Konqueror 2.0; Linux)</em>");
   QWhatsThis::add( loginasLA, wtstr );
   QWhatsThis::add( loginasED, wtstr );
 
