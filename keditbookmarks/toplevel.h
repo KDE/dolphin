@@ -203,8 +203,8 @@ protected slots:
     void slotBookmarksChanged( const QString &, const QString & );
     void slotCommandExecuted();
     void slotNewToolbarConfig();
-    void slotExpandAll();
-    void slotCollapseAll();
+    void slotExpandAll() { setAllOpen(true); }
+    void slotCollapseAll() { setAllOpen(false); }
 
     // slots for DCOP-originated events
     void slotAddedBookmark( QString url, QString text, QString address, QString icon );

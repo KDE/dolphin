@@ -160,7 +160,7 @@ void FavIconUpdater::downloadIconComplex(const KBookmark &bk) {
             this, SLOT( setIconURL( const KURL & ) ) );
 
    // Now start getting, to ensure mimetype and possible connection
-   FavIconWebGrabber * run = new FavIconWebGrabber( part, bk.url() );
+   /*FavIconWebGrabber * run = */ new FavIconWebGrabber( part, bk.url() );
 }
 
 FavIconBrowserInterface::FavIconBrowserInterface( FavIconUpdater *view, const char *name )
