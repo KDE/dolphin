@@ -359,18 +359,24 @@ void KonqImagePreviewJob::createThumbnail( QString pixPath )
   if ( pix.load( pixPath ) )
   {
     int w = pix.width(), h = pix.height();
+    kdDebug() << "w=" << w << " h=" << h << " m_extent=" << m_extent << endl;
     // scale to pixie size
     if(w > m_extent || h > m_extent){
+        kdDebug() << "ok" << endl;
         if(w > h){
             h = (int)( (double)( h * m_extent ) / w );
+            if ( h == 0 ) h = 1;
             w = m_extent;
             ASSERT( h <= m_extent );
         }
         else{
+            kdDebug() << "Setting h to m_extent" << endl;
             w = (int)( (double)( w * m_extent ) / h );
+            if ( w == 0 ) w = 1;
             h = m_extent;
             ASSERT( w <= m_extent );
         }
+        kdDebug() << "smoothScale to " << w << "x" << h << endl;
         img = pix.convertToImage().smoothScale( w, h );
         pix.convertFromImage( img );
     }
