@@ -981,8 +981,6 @@ void KonqMainWindow::slotConfigureKeys()
 
 void KonqMainWindow::slotConfigureToolbars()
 {
-  QValueList<KXMLGUIClient*> clients = factory()->clients();
-
   KEditToolbar edit(factory());
   if ( edit.exec() )
   {
