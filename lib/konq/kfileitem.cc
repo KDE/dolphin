@@ -31,6 +31,7 @@
 #include <qpixmap.h>
 
 #include <kglobal.h>
+#include <kdebug.h>
 #include <klocale.h>
 #include <kmimetype.h>
 #include <krun.h>
@@ -377,7 +378,7 @@ KMimeType::Ptr KFileItem::determineMimeType()
 {
   if ( !m_pMimeType )
   {
-    debug("finding for %s",m_url.url().ascii());
+    kdDebug(1203) << "finding mimetype for" << m_url.url() << endl;
     m_pMimeType = KMimeType::findByURL( m_url, m_fileMode, m_bIsLocalURL );
   }
 

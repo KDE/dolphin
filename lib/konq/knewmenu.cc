@@ -23,6 +23,7 @@
 #include <kaction.h>
 #include <kapp.h>
 #include <kurl.h>
+#include <kdebug.h>
 #include <ksimpleconfig.h>
 #include <klineeditdlg.h>
 #include <kmessagebox.h>
@@ -103,7 +104,7 @@ void KNewMenu::fillMenu()
         {
           if ( (*it)->text() == name )
           {
-            debug("skipping %s",(*templ).ascii());
+            kdDebug(1203) << "skipping" << (*templ) << endl;
             bSkip = true;
           }
         }

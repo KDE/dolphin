@@ -44,17 +44,14 @@ bool KFileIVI::acceptDrop( const QMimeSource *mime ) const
         QStringList uris;
         if ( KonqDrag::decode( mime, uris ) )
         {
-            debug("here it is %s", m_fileitem->url().url().ascii());
             // Check if we want to drop something on itself
             // (Nothing will happen, but it's a convenient way to move icons)
             QStringList::Iterator it = uris.begin();
             for ( ; it != uris.end() ; it++ )
             {
-                debug( (*it).ascii() );
                 if ( m_fileitem->url().cmp( KURL(*it), true /*ignore trailing slashes*/ ) )
                     return true;
             }
-            debug("nope");
         }
     }
     return QIconViewItem::acceptDrop( mime );

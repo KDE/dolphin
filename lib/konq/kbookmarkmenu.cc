@@ -142,9 +142,9 @@ void KBookmarkMenu::fillBookmarkMenu( KBookmark *parent )
 
 void KBookmarkMenu::slotBookmarkSelected()
 {
-  debug("KBookmarkMenu::slotBookmarkSelected()");
+  kdDebug(1203) << "KBookmarkMenu::slotBookmarkSelected()" << endl;
   if ( !m_pOwner ) return; // this view doesn't handle bookmarks...
-  debug( sender()->name() );
+  kdDebug(1203) << sender()->name() << endl;
 
   int id = QString( sender()->name() + 8 ).toInt(); // skip "bookmark"
   KBookmark *bm = KBookmarkManager::self()->findBookmark( id );
@@ -170,7 +170,7 @@ void KBookmarkMenu::slotBookmarkSelected()
     m_pOwner->openBookmarkURL( bm->url() );
   }
   else
-    debug("Bookmark not found !");
+    kdError(1203) << "Bookmark not found !" << endl;
 }
 
 #include "kbookmarkmenu.moc"

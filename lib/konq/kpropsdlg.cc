@@ -623,8 +623,8 @@ void FilePropsPage::slotRenameFinished( KIO::Job * job )
     QString sIcon;
     if ( str != iconButton->icon() )
       sIcon = iconButton->icon();
-    debug(QString("sIcon = '%1'").arg(sIcon));
-    debug(QString("str = '%1'").arg(str));
+    kdDebug(1203) << QString("sIcon = '%1'").arg(sIcon) << endl;
+    kdDebug(1203) << QString("str = '%1'").arg(str) << endl;
     // (otherwise write empty value)
     cfg.writeEntry( "Icon", sIcon );
     //cfg.writeEntry( "MiniIcon", sIcon ); // deprecated
@@ -876,9 +876,9 @@ void FilePermissionsPropsPage::applyChanges()
       KMessageBox::sorry( 0, i18n( "Could not change owner/group\nPerhaps access denied." ));
   }
 
-  debug("permissions : %d", permissions);
-  debug("p : %d", p);
-  debug("path : %s", path.ascii());
+  kdDebug(1203) << "old permissions : " << permissions << endl;
+  kdDebug(1203) << "new permissions : " << p << endl;
+  kdDebug(1203) << "path : " << path << endl;
   if ( permissions != p )
   {
     KIO::Job * job = KIO::chmod( path, p );
@@ -1603,7 +1603,7 @@ void DevicePropsPage::applyChanges()
   }
 
   config.writeEntry( "UnmountIcon", unmounted->icon() );
-  debug(QString("unmounted->icon() = '%1'").arg(unmounted->icon()));
+  kdDebug(1203) << "unmounted->icon() = " << unmounted->icon() << endl;
 
   config.writeEntry( "ReadOnly", readonly->isChecked() );
 
