@@ -59,7 +59,7 @@ k_dcop:
     /**
      * an icon changed, updates the combo box
      */
-    virtual ASYNC notifyChange( bool, QString, QString ) = 0;
+    virtual ASYNC notifyChange( bool, QString, QString );
 
 signals:
     void changed();
