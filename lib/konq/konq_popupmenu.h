@@ -83,6 +83,7 @@ public:
   KFileItemList fileItemList() const;
   KURL::List popupURLList( ) const;
 public slots:
+  void slotPopupNewDir();
   void slotPopupNewView();
   void slotPopupEmptyTrashBin();
   void slotPopupOpenWith();
@@ -91,14 +92,14 @@ public slots:
   void slotPopupMimeType();
   void slotPopupProperties();
 
-
 protected:
   KActionCollection &m_actions;
   KActionCollection m_ownActions;
 
 private:
   void addPlugins( );
-  KAction *m_paNewView;
+  class KonqPopupMenuPrivate;
+  KonqPopupMenuPrivate *d;
   KNewMenu *m_pMenuNew;
   KURL m_sViewURL;
   QString m_sMimeType;

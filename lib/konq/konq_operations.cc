@@ -126,6 +126,14 @@ void KonqOperations::emptyTrash()
 
 }
 
+void KonqOperations::mkdir( QWidget *parent, const KURL & url )
+{
+    KIO::Job * job = KIO::mkdir( url );
+    KonqOperations * op = new KonqOperations( parent );
+    op->setOperation( job, MKDIR, KURL::List(), url );
+    //(void) new KonqCommandRecorder( KonqCommand::MKDIR, newurl, job ); // no support yet, apparently
+}
+
 void KonqOperations::doPaste( QWidget * parent, const KURL & destURL )
 {
     // move or not move ?

@@ -26,6 +26,7 @@
 #include <kopenwith.h>
 #include <kprotocolinfo.h>
 #include <kiconloader.h>
+#include <klineeditdlg.h>
 #include <kglobalsettings.h>
 #include <kstandarddirs.h>
 #include <kxmlguifactory.h>
@@ -64,6 +65,12 @@ public:
   QPopupMenu *m_menu;
 };
 
+class KonqPopupMenu::KonqPopupMenuPrivate
+{
+public:
+  KonqPopupMenuPrivate();
+};
+
 KonqPopupMenu::KonqPopupMenu( const KFileItemList &items,
                               KURL viewURL,
                               KActionCollection & actions,
@@ -72,6 +79,7 @@ KonqPopupMenu::KonqPopupMenu( const KFileItemList &items,
   : QPopupMenu( 0L, "konq_popupmenu" ), m_actions( actions ), m_pMenuNew( newMenu ),
     m_sViewURL(viewURL), m_lstItems(items)
 {
+  d = 0; // make it new KonqPopupMenuPrivate when necessary
   assert( m_lstItems.count() >= 1 );
 
   bool currentDir     = false;
@@ -162,13 +170,13 @@ KonqPopupMenu::KonqPopupMenu( const KFileItemList &items,
 
   addMerge( "konqueror" );
 
-  m_paNewView = new KAction( i18n( "New Window" ), "window_new", 0, this, SLOT( slotPopupNewView() ), &m_ownActions, "newview" );
-  m_paNewView->setStatusText( i18n( "Open the document in a new window" ) );
+  KAction *actNewView = new KAction( i18n( "New Window" ), "window_new", 0, this, SLOT( slotPopupNewView() ), &m_ownActions, "newview" );
+  actNewView->setStatusText( i18n( "Open the document in a new window" ) );
 
   if ( ( isCurrentTrash && currentDir ) ||
        ( m_lstItems.count() == 1 && bTrashIncluded ) )
   {
-    addAction( m_paNewView );
+    addAction( actNewView );
     addSeparator();
 
     act = new KAction( i18n( "Empty Trash Bin" ), 0, this, SLOT( slotPopupEmptyTrashBin() ), &m_ownActions, "empytrash" );
@@ -176,16 +184,24 @@ KonqPopupMenu::KonqPopupMenu( const KFileItemList &items,
   }
   else
   {
-    kdDebug() << "KonqPopupMenu::KonqPopupMenu currentDir && sWriting && m_pMenuNew : " << currentDir << "," << sWriting << "," << m_pMenuNew << endl;
-    if ( currentDir && S_ISDIR(mode) && sWriting && m_pMenuNew ) // Add the "new" menu
+    if ( S_ISDIR(mode) && sWriting ) // A dir, and we can create things into it
     {
-      // As requested by KNewMenu :
-      m_pMenuNew->slotCheckUpToDate();
-      m_pMenuNew->setPopupFiles( m_lstPopupURLs );
+      if ( currentDir && m_pMenuNew ) // Current dir -> add the "new" menu
+      {
+        // As requested by KNewMenu :
+        m_pMenuNew->slotCheckUpToDate();
+        m_pMenuNew->setPopupFiles( m_lstPopupURLs );
 
-      addAction( m_pMenuNew );
+        addAction( m_pMenuNew );
 
-      addSeparator();
+        addSeparator();
+      }
+      else
+      {
+        KAction *actNewDir = new KAction( i18n( "Create Directory" ), "folder_new", 0, this, SLOT( slotPopupNewDir() ), &m_ownActions, "newdir" );
+        addAction( actNewDir );
+        addSeparator();
+      }
     }
 
     // hack for khtml pages/frames
@@ -201,7 +217,7 @@ KonqPopupMenu::KonqPopupMenu( const KFileItemList &items,
       addGroup( "reload" );
       addSeparator();
 
-      addAction( m_paNewView );
+      addAction( actNewView );
       addSeparator();
     }
 
@@ -434,6 +450,7 @@ KonqPopupMenu::~KonqPopupMenu()
   m_pluginList.clear( );
   delete m_factory;
   delete m_builder;
+  delete d;
 }
 
 void KonqPopupMenu::slotPopupNewView()
@@ -441,6 +458,23 @@ void KonqPopupMenu::slotPopupNewView()
   KURL::List::ConstIterator it = m_lstPopupURLs.begin();
   for ( ; it != m_lstPopupURLs.end(); it++ )
     (void) new KRun(*it);
+}
+
+void KonqPopupMenu::slotPopupNewDir()
+{
+    KLineEditDlg l( i18n("New Directory"), i18n("Directory"), 0L );
+    if ( l.exec() )
+    {
+        QString name = KIO::encodeFileName( l.text() );
+        KURL::List::ConstIterator it = m_lstPopupURLs.begin();
+        for ( ; it != m_lstPopupURLs.end(); it++ )
+        {
+            KURL url(*it);
+            url.addPath( name );
+            kdDebug() << "KonqPopupMenu::slotPopupNewDir creating dir " << url.url() << endl;
+            KonqOperations::mkdir( 0L, url );
+        }
+    }
 }
 
 void KonqPopupMenu::slotPopupEmptyTrashBin()

@@ -45,7 +45,7 @@ public:
      */
     static void editMimeType( const QString & mimeType );
 
-    enum { TRASH, DEL, SHRED, COPY, MOVE, LINK, EMPTYTRASH, STAT };
+    enum { TRASH, DEL, SHRED, COPY, MOVE, LINK, EMPTYTRASH, STAT, MKDIR };
     /**
      * @param method should be TRASH, DEL or SHRED
      */
@@ -74,6 +74,11 @@ public:
     static void emptyTrash();
 
     /**
+     * Create a directory
+     */
+    static void mkdir( QWidget *parent, const KURL & url );
+
+    /**
      * Get info about a given URL, and when that's done (it's asynchronous!),
      * call a given slot with the KFileItem * as argument.
      * The KFileItem will be deleted by statURL after calling the slot. Make a copy
@@ -92,7 +97,7 @@ protected:
     void _del( int method, const KURL::List & selectedURLs, int confirmation );
     void _statURL( const KURL & url, const QObject *receiver, const char *member );
 
-    // internal, for COPY/MOVE/LINK
+    // internal, for COPY/MOVE/LINK/MKDIR
     void setOperation( KIO::Job * job, int method, const KURL::List & src, const KURL & dest );
 
     struct DropInfo
