@@ -187,6 +187,7 @@ void KonqBaseListViewWidget::readProtocolConfig( const QString & protocol )
    {
       // Default column selection
       lstColumns.append( "Size" );
+      lstColumns.append( "File Type" );
       lstColumns.append( "Modified" );
       lstColumns.append( "Permissions" );
       lstColumns.append( "Owner" );
