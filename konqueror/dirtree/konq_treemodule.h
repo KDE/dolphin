@@ -50,6 +50,8 @@ public:
     virtual void del() {}
     virtual void shred() {}
 
+    KonqTree *tree() const { return m_pTree; }
+
 protected:
     KonqTree * m_pTree;
 };
