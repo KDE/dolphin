@@ -169,16 +169,23 @@ KMiscHTMLOptions::~KMiscHTMLOptions()
 
 void KMiscHTMLOptions::load()
 {
+    KConfig khtmlrc("khtmlrc", true, false);
+#define SET_GROUP(x) m_pConfig->setGroup(x); khtmlrc.setGroup(x)
+#define READ_BOOL(x,y) m_pConfig->readBoolEntry(x, khtmlrc.readBoolEntry(x, y))
+#define READ_ENTRY(x) m_pConfig->readEntry(x, khtmlrc.readEntry(x))
+
+
     // *** load ***
-    m_pConfig->setGroup( "MainView Settings" );
-    bool bBackRightClick = m_pConfig->readBoolEntry( "BackRightClick", false );
-    m_pConfig->setGroup( "HTML Settings" );
-    bool changeCursor = m_pConfig->readBoolEntry("ChangeCursor", KDE_DEFAULT_CHANGECURSOR);
-    bool underlineLinks = m_pConfig->readBoolEntry("UnderlineLinks", DEFAULT_UNDERLINELINKS);
-    bool hoverLinks = m_pConfig->readBoolEntry("HoverLinks", true);
-    bool bAutoLoadImages = m_pConfig->readBoolEntry( "AutoLoadImages", true );
+    SET_GROUP( "MainView Settings" );
+    bool bBackRightClick = READ_BOOL( "BackRightClick", false );
+    SET_GROUP( "HTML Settings" );
+    bool changeCursor = READ_BOOL("ChangeCursor", KDE_DEFAULT_CHANGECURSOR);
+    bool underlineLinks = READ_BOOL("UnderlineLinks", DEFAULT_UNDERLINELINKS);
+    bool hoverLinks = READ_BOOL("HoverLinks", true);
+    bool bAutoLoadImages = READ_BOOL( "AutoLoadImages", true );
+    QString strAnimations = READ_ENTRY( "ShowAnimations" ).lower();
+
     bool bAutoRedirect = m_pConfig->readBoolEntry( "AutoDelayedActions", true );
-    QString strAnimations = m_pConfig->readEntry( "ShowAnimations" ).lower();
 
     // *** apply to GUI ***
     cbCursor->setChecked( changeCursor );
@@ -218,17 +225,10 @@ void KMiscHTMLOptions::load()
 
 void KMiscHTMLOptions::defaults()
 {
-    cbCursor->setChecked( false );
-    m_pAutoLoadImagesCheckBox->setChecked( true );
-    m_pAutoRedirectCheckBox->setChecked( true );
-    m_pUnderlineCombo->setCurrentItem( UnderlineAlways );
-    m_pAnimationsCombo->setCurrentItem( AnimationsAlways );
-    m_pFormCompletionCheckBox->setChecked(true);
-    m_pMaxFormCompletionItems->setEnabled( true );
-    m_pShowMMBInTabs->setChecked( false );
-    m_pBackRightClick->setChecked( false );
-    m_pDynamicTabbarHide->setChecked( true );
-    m_pMaxFormCompletionItems->setValue( 10 );
+    bool old = m_pConfig->readDefaults();
+    m_pConfig->setReadDefaults(true);
+    load();
+    m_pConfig->setReadDefaults(old);
 }
 
 void KMiscHTMLOptions::save()

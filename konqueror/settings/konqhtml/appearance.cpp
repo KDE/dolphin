@@ -38,7 +38,7 @@ KAppearanceOptions::KAppearanceOptions(KConfig *config, QString group, QWidget *
 
   m_minSize = new KIntNumInput( fMinSize, gb );
   m_minSize->setLabel( i18n( "M&inimum font size:" ) );
-  m_minSize->setRange( 1, 20 );
+  m_minSize->setRange( 2, 30 );
   connect( m_minSize, SIGNAL( valueChanged( int ) ), this, SLOT( slotMinimumFontSize( int ) ) );
   connect( m_minSize, SIGNAL( valueChanged( int ) ), this, SLOT( slotChanged() ) );
   QWhatsThis::add( m_minSize, i18n( "Konqueror will never display text smaller than "
@@ -46,7 +46,7 @@ KAppearanceOptions::KAppearanceOptions(KConfig *config, QString group, QWidget *
 
   m_MedSize = new KIntNumInput( m_minSize, fSize, gb );
   m_MedSize->setLabel( i18n( "&Medium font size:" ) );
-  m_MedSize->setRange( 4, 28 );
+  m_MedSize->setRange( 2, 30 );
   connect( m_MedSize, SIGNAL( valueChanged( int ) ), this, SLOT( slotFontSize( int ) ) );
   connect( m_MedSize, SIGNAL( valueChanged( int ) ), this, SLOT( slotChanged() ) );
   QWhatsThis::add( m_MedSize,
@@ -306,24 +306,35 @@ void KAppearanceOptions::slotEncoding(const QString& n)
 
 void KAppearanceOptions::load()
 {
-    m_pConfig->setGroup(m_groupname);
-    fSize = m_pConfig->readNumEntry( "MediumFontSize", 10 );
-    fMinSize = m_pConfig->readNumEntry( "MinimumFontSize", HTML_DEFAULT_MIN_FONT_SIZE );
+    KConfig khtmlrc("khtmlrc", true, false);
+#define SET_GROUP(x) m_pConfig->setGroup(x); khtmlrc.setGroup(x)
+#define READ_NUM(x,y) m_pConfig->readNumEntry(x, khtmlrc.readNumEntry(x, y))
+#define READ_ENTRY(x,y) m_pConfig->readEntry(x, khtmlrc.readEntry(x, y))
+#define READ_LIST(x) m_pConfig->readListEntry(x, khtmlrc.readListEntry(x))
+
+    SET_GROUP(m_groupname);
+    fSize = READ_NUM( "MediumFontSize", 10 );
+    fMinSize = READ_NUM( "MinimumFontSize", HTML_DEFAULT_MIN_FONT_SIZE );
+    if (fSize < fMinSize)
+      fSize = fMinSize;
 
     defaultFonts = QStringList();
-    defaultFonts.append( m_pConfig->readEntry( "StandardFont", KGlobalSettings::generalFont().family() ) );
-    defaultFonts.append( m_pConfig->readEntry( "FixedFont", KGlobalSettings::fixedFont().family() ) );
-    defaultFonts.append( m_pConfig->readEntry( "SerifFont", HTML_DEFAULT_VIEW_SERIF_FONT ) );
-    defaultFonts.append( m_pConfig->readEntry( "SansSerifFont", HTML_DEFAULT_VIEW_SANSSERIF_FONT ) );
-    defaultFonts.append( m_pConfig->readEntry( "CursiveFont", HTML_DEFAULT_VIEW_CURSIVE_FONT ) );
-    defaultFonts.append( m_pConfig->readEntry( "FantasyFont", HTML_DEFAULT_VIEW_FANTASY_FONT ) );
+    defaultFonts.append( READ_ENTRY( "StandardFont", KGlobalSettings::generalFont().family() ) );
+    defaultFonts.append( READ_ENTRY( "FixedFont", KGlobalSettings::fixedFont().family() ) );
+    defaultFonts.append( READ_ENTRY( "SerifFont", HTML_DEFAULT_VIEW_SERIF_FONT ) );
+    defaultFonts.append( READ_ENTRY( "SansSerifFont", HTML_DEFAULT_VIEW_SANSSERIF_FONT ) );
+    defaultFonts.append( READ_ENTRY( "CursiveFont", HTML_DEFAULT_VIEW_CURSIVE_FONT ) );
+    defaultFonts.append( READ_ENTRY( "FantasyFont", HTML_DEFAULT_VIEW_FANTASY_FONT ) );
     defaultFonts.append( QString("0") ); // default font size adjustment
 
-    fonts = m_pConfig->readListEntry( "Fonts" );
+    if (m_pConfig->hasKey("Fonts"))
+       fonts = m_pConfig->readListEntry( "Fonts" );
+    else
+       fonts = khtmlrc.readListEntry( "Fonts" );
     while (fonts.count() < 7)
        fonts.append(QString::null);
 
-    encodingName = m_pConfig->readEntry( "DefaultEncoding" );
+    encodingName = READ_ENTRY( "DefaultEncoding", QString::null );
     //kdDebug(0) << "encoding = " << encodingName << endl;
 
     updateGUI();
@@ -332,23 +343,10 @@ void KAppearanceOptions::load()
 
 void KAppearanceOptions::defaults()
 {
-  fSize = 10;
-  fMinSize = HTML_DEFAULT_MIN_FONT_SIZE;
-  encodingName = "";
-  defaultFonts.clear();
-  defaultFonts.append( KGlobalSettings::generalFont().family() );
-  defaultFonts.append( KGlobalSettings::fixedFont().family() );
-  defaultFonts.append( HTML_DEFAULT_VIEW_SERIF_FONT );
-  defaultFonts.append( HTML_DEFAULT_VIEW_SANSSERIF_FONT );
-  defaultFonts.append( HTML_DEFAULT_VIEW_CURSIVE_FONT );
-  defaultFonts.append( HTML_DEFAULT_VIEW_FANTASY_FONT );
-  defaultFonts.append( QString("0") );
-  fonts.clear();
-  while (fonts.count() < 7)
-    fonts.append(QString::null);
-
-  updateGUI();
-  emit changed(true);
+    bool old = m_pConfig->readDefaults();
+    m_pConfig->setReadDefaults(true);
+    load();
+    m_pConfig->setReadDefaults(old);
 }
 
 void KAppearanceOptions::updateGUI()
@@ -368,8 +366,12 @@ void KAppearanceOptions::updateGUI()
     if(encodingName.isEmpty())
         m_pEncoding->setCurrentItem( 0 );
     m_pFontSizeAdjust->setValue( fonts[6].toInt() );
+    m_MedSize->blockSignals(true);
     m_MedSize->setValue( fSize );
+    m_MedSize->blockSignals(false);
+    m_minSize->blockSignals(true);
     m_minSize->setValue( fMinSize );
+    m_minSize->blockSignals(false);
 }
 
 void KAppearanceOptions::save()
