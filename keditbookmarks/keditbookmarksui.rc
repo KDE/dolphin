@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="keditbookmarks" version="3">
+<kpartgui name="keditbookmarks" version="4">
 
 <MenuBar>
 
@@ -47,6 +47,8 @@
 
 <Menu name="popup_folder">
              <!-- Edition -->
+ <Action name="edit_undo"/>
+ <Action name="edit_redo"/>
  <Action name="edit_cut"/>
  <Action name="edit_copy"/>
  <Action name="edit_paste"/>
@@ -64,6 +66,8 @@
 
 <Menu name="popup_bookmark">
              <!-- Edition -->
+ <Action name="edit_undo"/>
+ <Action name="edit_redo"/>
  <Action name="edit_cut"/>
  <Action name="edit_copy"/>
  <Action name="edit_paste"/>
