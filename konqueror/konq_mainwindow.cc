@@ -3357,7 +3357,20 @@ void KonqMainWindow::show()
 
 QString KonqMainWindow::currentURL() const
 {
-  return m_currentView ? m_currentView->url().prettyURL() : QString::null;
+  if ( !m_currentView )
+    return QString::null;
+  QString url = m_currentView->url().prettyURL();
+  if ( m_currentView->part() && m_currentView->part()->inherits("KonqDirPart") )
+  {
+      QString nameFilter = static_cast<KonqDirPart *>(m_currentView->part())->nameFilter();
+      if ( !nameFilter.isEmpty() )
+      {
+          if (url.right(1) != "/")
+              url += '/';
+          url += nameFilter;
+      }
+  }
+  return url;
 }
 
 QString KonqMainWindow::currentTitle() const
