@@ -148,6 +148,7 @@ public slots:
     virtual void slotRefreshItems( const KFileItemList& ) = 0;
     virtual void slotClear() = 0;
     virtual void slotRedirection( const KURL & ) = 0;
+    virtual QString currentItem() {return "";};
 
 protected:
 
