@@ -144,6 +144,8 @@ void KonqTxtView::mousePressEvent( QMouseEvent *e )
     popupRequest.isLocalFile = (CORBA::Boolean)u.isLocalFile();
     SIGNAL_CALL1( "popupMenu", popupRequest );
   }
+  else
+    QMultiLineEdit::mousePressEvent( e );
 }
 
 #include "konq_txtview.moc"
