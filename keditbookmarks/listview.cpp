@@ -216,11 +216,75 @@ void ListView::deselectParents(KEBListViewItem *item) {
    }
 }
 
+static int whichChildrenSelected(KEBListViewItem *item) {
+   // ARGH. code dup
+   bool some = false;
+   bool all = true;
+   QListViewItem *endOfFolder
+      = item->nextSibling() ? item->nextSibling()->itemAbove() : 0;
+   for(QListViewItemIterator it((QListViewItem*)item); it.current(); it++) {
+      KEBListViewItem *item = static_cast<KEBListViewItem *>(it.current());
+      if (!item->isEmptyFolder()) {
+         if (item->isSelected()) {
+            some = true;
+         } else {
+            all = false;
+         }
+      }
+      if (endOfFolder && it.current() == endOfFolder) {
+         break;
+      }
+   }
+   // 0 == none, 1 == some, 2 == all
+   return all ? 2 : (some ? 1 : 0);
+}
+
+static void deselectAllButParent(KEBListViewItem *item) {
+   // ARGH. code dup
+   QListViewItem *endOfFolder
+      = item->nextSibling() ? item->nextSibling()->itemAbove() : 0;
+   for(QListViewItemIterator it((QListViewItem*)item); it.current(); it++) {
+      KEBListViewItem *item = static_cast<KEBListViewItem *>(it.current());
+      if (!item->isEmptyFolder() && item->isSelected()) {
+         it.current()->setSelected(false);
+      }
+      if (endOfFolder && it.current() == endOfFolder) {
+         break;
+      }
+   }
+   item->setSelected(true);
+}
+
 void ListView::updateSelectedItems() {
+   bool selected = false;
+
+   // adjust the curren selection
    for (QPtrListIterator<KEBListViewItem> it(*(m_listView->itemList())); 
         it.current() != 0; ++it) {
-      if (it.current()->isSelected()) {
-         deselectParents(it.current());
+      if (!it.current()->isEmptyFolder() && it.current()->isSelected()) {
+         selected = true;
+      }
+      if (it.current()->childCount() == 0) {
+         continue;
+      }
+      int which = whichChildrenSelected(it.current());
+      if (which == 2) { 
+         // if all selected then only select outer folder
+         deselectAllButParent(it.current());
+      } else if (which == 0) { 
+         // if some selected then don't select outer folder
+         it.current()->setSelected(false);
+      }
+   }
+
+   // deselect empty folders if there is a real selection
+   if (!selected) {
+      return;
+   }
+   for (QPtrListIterator<KEBListViewItem> it(*(m_listView->itemList())); 
+        it.current() != 0; ++it) {
+      if (it.current()->isEmptyFolder()) {
+         it.current()->setSelected(false);
       }
    }
 }
@@ -235,14 +299,14 @@ QValueList<KBookmark> ListView::selectedBookmarksExpanded() {
          continue;
       }
       if (it.current()->childCount() > 0) {
+         // ARGH. code dup
          QListViewItem *endOfFolder = 0;
          if (it.current()->nextSibling()) {
             endOfFolder = it.current()->nextSibling()->itemAbove();
          }
-         // TODO check that this loop covers all, included subfolders!
          for(QListViewItemIterator it2((QListViewItem*)it.current()); it2.current(); it2++) {
             KEBListViewItem *item = static_cast<KEBListViewItem *>(it2.current());
-            if (!item->isEmptyFolder()) {
+            if (!item->isEmptyFolder() && (item->childCount() == 0)) {
                bookmarks.append(item->bookmark());
             }
             if (endOfFolder && it2.current() == endOfFolder) {
@@ -402,7 +466,6 @@ void ListView::handleDropped(KEBListView *lv, QDropEvent *e, QListViewItem *newP
       if (!firstItem || firstItem == itemAfterQLVI) {
          return;
       }
-      // TODO - fix the stupid bug
       bool copy = (e->action() == QDropEvent::Copy);
       mcmd = CmdGen::self()->itemsMoved(selection, newAddress, copy);
    }
@@ -506,12 +569,10 @@ void ListView::handleContextMenu(KEBListView *lv, KListView *, QListViewItem *qi
    if (!item) {
       return;
    }
-   // BLAH
-   const char *type = 
-      (item == m_listView->rootItem()) 
-   || (item->bookmark().isGroup()) 
-   || (item->isEmptyFolder())
-    ? "popup_folder" : "popup_bookmark";
+   const char *type = ( (item == m_listView->rootItem()) 
+                     || (item->bookmark().isGroup()) 
+                     || (item->isEmptyFolder()))
+                      ? "popup_folder" : "popup_bookmark";
    QWidget* popup = KEBApp::self()->popupMenuFactory(type);
    if (popup) {
       static_cast<QPopupMenu*>(popup)->popup(p);
