@@ -351,26 +351,28 @@ void KWrite::newCaption()
 {
   if (m_kateView->document()->url().isEmpty()) {
     setCaption(i18n("Untitled"),m_kateView->document()->isModified());
-  } else {
-    //set caption
-    if ( m_paShowPath->isChecked() )
+  }
+  else
+  {
+    QString c;
+    if (!m_paShowPath->isChecked())
     {
-       //File name shouldn't be too long - Maciek
-       if (m_kateView->document()->url().filename().length() > 200)
-         setCaption(m_kateView->document()->url().prettyURL().left(197) + "...",m_kateView->document()->isModified());
-       else
-         setCaption(m_kateView->document()->url().prettyURL(),m_kateView->document()->isModified());
-     }
-      else
-     {
-       //File name shouldn't be too long - Maciek
-       if (m_kateView->document()->url().filename().length() > 200)
-         setCaption("..." + m_kateView->document()->url().fileName().right(197),m_kateView->document()->isModified());
-       else
-         setCaption(m_kateView->document()->url().fileName(),m_kateView->document()->isModified());
+      c = m_kateView->document()->url().filename();
 
+      //File name shouldn't be too long - Maciek
+      if (c.length() > 64)
+        c = c.left(64) + "...";
+    }
+    else
+    {
+      c = m_kateView->document()->url().prettyURL();
+
+      //File name shouldn't be too long - Maciek
+      if (c.length() > 64)
+        c = "..." + c.right(64);
     }
 
+    setCaption (c, m_kateView->document()->isModified());
   }
 }
 
