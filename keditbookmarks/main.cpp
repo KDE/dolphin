@@ -88,13 +88,14 @@ static int askUser(KApplication &app, QString filename, bool &readonly) {
                               i18n("Run Another"),     /* yes */
                               i18n("Continue in Same") /*  no */);
 
-   if (ret != KMessageBox::No) {
+   if (ret == KMessageBox::No) {
       continueInWindow(requestedName);
       return false;
-   } else {
+   } else if (ret == KMessageBox::Yes) {
       readonly = true;
-      return true;
    }
+
+   return true;
 }
 
 int main(int argc, char **argv) {
