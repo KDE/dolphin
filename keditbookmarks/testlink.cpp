@@ -199,7 +199,8 @@ QString TestLinkItrHolder::calcPaintStyle(const QString &url, KEBListViewItem::P
     if (self()->getOldMod(url).isNull()) {
         // first time
         oldModStr = nsinfo;
-        self()->setOldMod(url, oldModStr);
+        if (!nsinfo.isEmpty())
+            self()->setOldMod(url, oldModStr);
 
     } else if (!newModStr.isNull()) {
         oldModStr = self()->getOldMod(url);
@@ -214,7 +215,9 @@ QString TestLinkItrHolder::calcPaintStyle(const QString &url, KEBListViewItem::P
         }
     }
 
-    int oldMod = oldModStr.toInt(); // TODO - check validity?
+    int oldMod = 0;
+    if (!oldModStr.isNull())
+        oldMod = oldModStr.toInt(); // TODO - check validity?
 
     QString statusStr;
     KEBListViewItem::PaintStyle style = KEBListViewItem::DefaultStyle;
@@ -297,9 +300,8 @@ void KEBListViewItem::nsPut(const QString &newModDate) {
 void KEBListViewItem::modUpdate() {
     QString nCreate, nAccess, nModify;
     QString nsinfo = m_bookmark.internalElement().attribute("netscapeinfo");
-    if (nsinfo.isEmpty())
-        return; // don't call calcPaintStyle when nsinfo isn't interesting in any case
-    parseNsInfo(nsinfo, nCreate, nAccess, nModify);
+    if (!nsinfo.isEmpty())
+        parseNsInfo(nsinfo, nCreate, nAccess, nModify);
     QString statusLine;
     statusLine = TestLinkItrHolder::calcPaintStyle(m_bookmark.url().url(), m_paintStyle, nModify);
     if (statusLine != "Error")
