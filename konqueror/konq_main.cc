@@ -57,6 +57,7 @@
 #include "konq_partview.h"
 #include "konq_treeview.h"
 #include "konq_txtview.h"
+#include <kstddirs.h>
 
 void sig_handler( int signum );
 void sig_term_handler( int signum );
@@ -262,14 +263,7 @@ bool checkTemplates( bool bNewRelease )
  */
 void testLocalInstallation()
 {
-  // share and share/config already checked by KApplication
-  UserPaths::testLocalDir( "/share/apps/kfm" ); // don't rename this to konqueror !
-  UserPaths::testLocalDir( "/share/apps/kfm/bookmarks" ); // we want to keep user's bookmarks !
-  UserPaths::testLocalDir( "/share/apps/konqueror" ); // for kfmclient
-  UserPaths::testLocalDir( "/share/icons" );
-  UserPaths::testLocalDir( "/share/icons/mini" );
-  UserPaths::testLocalDir( "/share/applnk" );
-  UserPaths::testLocalDir( "/share/mimelnk" );
+  KGlobal::dirs()->getSaveLocation("data", "konqueror", true); // for kfmclient
 
   bool newRelease = isNewRelease();
   bool copyTemplates = checkTemplates(newRelease);
@@ -344,8 +338,7 @@ int main( int argc, char **argv )
 
   kimgioRegister();
 
-  QString path = kapp->localkdedir();
-  path += "/share/apps/kfm/bookmarks";
+  QString path = KGlobal::dirs()->getSaveLocation("data", "kfm/bookmarks", true);
   KonqBookmarkManager bm ( path );
 
   app.connect( &app, SIGNAL( lastWindowClosed() ), &app, SLOT( quit() ) ); 
