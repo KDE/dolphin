@@ -38,7 +38,7 @@ bool KDEpasswd1Dialog::checkPassword(const char *password)
         QString msg = QString::fromLocal8Bit(proc.error());
         if (!msg.isEmpty())
             msg = "<p>\"<i>" + msg + "</i>\"";
-        msg = "<qt>" + i18n("Conversation with `passwd' failed.") + msg;
+        msg = "<qt>" + i18n("Conversation with 'passwd' failed.") + msg;
 	KMessageBox::error(this, msg);
 	done(Rejected);
 	return false;
@@ -48,7 +48,7 @@ bool KDEpasswd1Dialog::checkPassword(const char *password)
 	return true;
 
     case PasswdProcess::PasswdNotFound:
-	KMessageBox::error(this, i18n("Could not find the program `passwd'."));
+	KMessageBox::error(this, i18n("Could not find the program 'passwd'."));
 	done(Rejected);
 	return false;
 
@@ -156,7 +156,7 @@ bool KDEpasswd2Dialog::checkPassword(const char *password)
         QString msg = QString::fromLocal8Bit(proc.error());
         if (!msg.isEmpty())
             msg = "<p>\"<i>" + msg + "</i>\"";
-        msg = "<qt>" + i18n("Conversation with `passwd' failed.") + msg;
+        msg = "<qt>" + i18n("Conversation with 'passwd' failed.") + msg;
 	KMessageBox::sorry(this, msg);
 	done(Rejected);
 	return true;
