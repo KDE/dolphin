@@ -1732,6 +1732,7 @@ void KonqMainView::slotPopupMenu( KXMLGUIClient *client, const QPoint &_global, 
   popupMenuCollection.insert( m_paBack );
   popupMenuCollection.insert( m_paForward );
   popupMenuCollection.insert( m_paUp );
+  popupMenuCollection.insert( m_paReload );
 
   popupMenuCollection.insert( m_paCut );
   popupMenuCollection.insert( m_paCopy );
