@@ -1,3 +1,7 @@
+1999-04-06  Harri Porten  <porten@kde.org>
+
+	* kfind.cpp: replaced simple delete and free() with delete [] iBuffer
+
 1998-12-07  Mario Weilguni <mweilguni@kde.org>
 
 	* made it work with Qt 2.0
