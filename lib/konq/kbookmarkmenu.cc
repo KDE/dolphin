@@ -35,6 +35,7 @@
 #include <kapp.h>
 #include <kwm.h>
 #include <kbookmark.h>
+#include <kdebug.h>
 #include <qmsgbox.h>
 #include <qstring.h>
 

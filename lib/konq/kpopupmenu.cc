@@ -22,6 +22,7 @@
 #include <opMenu.h>
 
 #include <kbookmark.h>
+#include <kdebug.h>
 #include <kio_job.h>
 #include <kio_openwith.h>
 #include <kio_paste.h>
