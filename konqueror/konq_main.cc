@@ -63,9 +63,7 @@ int main( int argc, char **argv )
   KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
 
   KTempFile crashlog_file(locateLocal("tmp", "konqueror-crash-"), ".log");
-
   KonqMainWindow::s_crashlog_file = crashlog_file.file();
-  KonqMainWindow::s_crashlog_file->open( IO_WriteOnly );
 
   if ( kapp->isRestored() )
   {
