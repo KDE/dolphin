@@ -28,6 +28,7 @@
 namespace KIO { class Job; }
 
 class KDirWatch;
+class KLineEdit;
 class KURLRequester;
 
 /**
