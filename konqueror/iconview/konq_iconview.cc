@@ -595,7 +595,6 @@ void KonqKfmIconView::slotMouseButtonClicked(int _button, QIconViewItem* _item, 
 
 void KonqKfmIconView::slotStarted()
 {
-    m_pIconView->selectAll( false );
     if ( m_bLoading )
         emit started( m_dirLister->job() );
     // An update may come in while we are still processing icons...
@@ -718,6 +717,10 @@ void KonqKfmIconView::slotClear()
     m_pIconView->clear();
     m_mimeTypeResolver->m_lstPendingMimeIconItems.clear();
     m_itemDict.clear();
+    // Bug in QIconview IMHO - it should emit selectionChanged()
+    // (bug reported, but code seems to be that way on purpose)
+    m_pIconView->slotSelectionChanged();
+    slotSelectionChanged();
 }
 
 void KonqKfmIconView::slotRedirection( const KURL & url )
