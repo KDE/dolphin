@@ -1412,7 +1412,7 @@ DevicePropsPage::DevicePropsPage( PropertiesDialog *_props ) : PropsPage( _props
   config.setDesktopGroup();
   QString deviceStr = config.readEntry( "Dev" );
   QString mountPointStr = config.readEntry( "MountPoint" );
-  bool readonly = config.readEntry( "ReadOnly" );
+  bool readonly = config.readBoolEntry( "ReadOnly", false );
   QString fstypeStr = config.readEntry( "FSType" );
   QString unmountedStr = config.readEntry( "UnmountIcon" );
 
