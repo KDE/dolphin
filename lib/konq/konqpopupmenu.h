@@ -71,10 +71,6 @@ public:
 public slots:
   void slotPopupNewView();
   void slotPopupEmptyTrashBin();
-  void slotPopupCopy();
-  void slotPopupPaste();
-  void slotPopupTrash();
-  void slotPopupDelete();
   void slotPopupOpenWith();
   void slotPopupAddToBookmark();
   void slotPopup( int id );

@@ -32,6 +32,7 @@
 #include <kfileitem.h>
 #include <konqsettings.h>
 #include <konqdrag.h>
+#include <kuserpaths.h>
 
 #include <X11/Xlib.h>
 
@@ -357,15 +358,22 @@ IconEditExtension::IconEditExtension( KonqIconViewWidget *iconView )
 void IconEditExtension::can( bool &cut, bool &copy, bool &paste, bool &move )
 {
   bool bItemSelected = false;
+  bool bInTrash = false;
 
   for ( QIconViewItem *it = m_iconView->firstItem(); it; it = it->nextItem() )
+  {
     if ( it->isSelected() )
     {
       bItemSelected = true;
-      break;
     }
+    if ( ((KFileIVI *)it)->item()->url().directory(false) == KUserPaths::trashPath() )
+    {
+      bInTrash = true;
+    }
+  }
 
   cut = move = copy = bItemSelected;
+  move = move && !bInTrash;
 
   bool bKIOClipboard = !isClipboardEmpty();
 

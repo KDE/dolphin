@@ -393,36 +393,6 @@ void KonqPopupMenu::slotPopupEmptyTrashBin()
   job->del( files );
 }
 
-void KonqPopupMenu::slotPopupCopy()
-{
-  QUriDrag *urlData = new QUriDrag;
-  urlData->setUnicodeUris( m_lstPopupURLs );
-  QApplication::clipboard()->setData( urlData );
-}
-
-void KonqPopupMenu::slotPopupPaste()
-{
-  assert( m_lstPopupURLs.count() == 1 );
-  pasteClipboard( m_lstPopupURLs.first() );
-}
-
-void KonqPopupMenu::slotPopupTrash()
-{
-  KIOJob *job = new KIOJob;
-  job->move( m_lstPopupURLs, KUserPaths::trashPath() );
-}
-
-void KonqPopupMenu::slotPopupDelete()
-{
-  if ( KMessageBox::questionYesNo(0, i18n( "Do you really want to delete the file(s) ?" ))
-       == KMessageBox::No)
-    return;
-
-  KIOJob *job = new KIOJob;
-  QStringList lst(m_lstPopupURLs);
-  job->del( lst );
-}
-
 void KonqPopupMenu::slotPopupOpenWith()
 {
   KOpenWithDlg l( m_lstPopupURLs, i18n("Open With:"), "", (QWidget*)0L);
