@@ -135,7 +135,7 @@ KonqMainView::KonqMainView( const KURL &initialURL, bool openInitialURL, const c
   connect( KSycoca::self(), SIGNAL( databaseChanged() ),
            this, SLOT( slotDatabaseChanged() ) );
 
-  setXMLFile( locate( "data", "konqueror/konqueror.rc" ) );
+  setXMLFile( "konqueror.rc" );
 
   createGUI( 0L );
 
