@@ -296,7 +296,7 @@ KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name)
     // Setup
     const QString whatsmetainfo
       = i18n("<qt>Search within files' specific comments/metainfo<br>"
-	     "These are some commentaries or informations, for example:<br>"
+	     "These are some examples:<br>"
 	     "<ul>"
 	     "<li><b>Audio files (mp3...)</b> Search in id3 tag for a title, an album</li>"
 	     "<li><b>Images (png...)</b> Search images with a special resolution, comment...</li>"
@@ -306,7 +306,7 @@ KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name)
       = i18n("<qt>If specified, search only in this field<br>"
 	     "<ul>"
 	     "<li><b>Audio files (mp3...)</b>This can be Title, Album...</li>"
-	     "<li><b>Images (png...)</b>Search only in Resolution, Bitdepht...</li>"
+	     "<li><b>Images (png...)</b>Search only in Resolution, Bitdepth...</li>"
 	     "</ul>"
 	     "</qt>");
     QWhatsThis::add(textMetaInfo,whatsmetainfo);
