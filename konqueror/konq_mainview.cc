@@ -1448,6 +1448,11 @@ void KonqMainView::slotPopupMenu( const QPoint &_global, const KFileItemList &_i
   delete pPopupMenu;
 }
 
+void KonqMainView::databaseChanged()
+{
+  slotReload();
+}
+
 void KonqMainView::reparseConfiguration()
 {
   debug("KonqMainView::reparseConfiguration() !");

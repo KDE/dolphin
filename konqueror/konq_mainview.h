@@ -111,6 +111,8 @@ k_dcop:
 
   virtual void reparseConfiguration();
 
+  virtual void databaseChanged(); // called by kded
+
 public:
   bool openView( QString serviceType, QString _url, KonqChildView *childView );
 
