@@ -29,6 +29,7 @@
 #include <kio_job.h>
 #include <kio_paste.h>
 #include <kmimetypes.h>
+#include <kmessagebox.h>
 #include <kpixmapcache.h>
 #include <kprotocolmanager.h>
 
@@ -43,7 +44,6 @@
 
 #include <qheader.h>
 #include <qpixmap.h>
-#include <qmsgbox.h>
 #include <qkeycode.h>
 #include <qlist.h>
 #include <qdragobject.h>
@@ -747,7 +747,7 @@ void KonqKfmTreeView::openURL( const char *_url, int xOffset, int yOffset )
   if ( url.isMalformed() )
   {
     QString tmp = i18n( "Malformed URL\n%1" ).arg( _url );
-    QMessageBox::critical( this, i18n( "Error" ), tmp, i18n( "OK" ) );
+    KMessageBox::sorry( this, tmp);
     return;
   }
 
@@ -765,7 +765,7 @@ void KonqKfmTreeView::openURL( const char *_url, int xOffset, int yOffset )
     if ( listing.isEmpty() )
     {
       QString tmp = i18n( "Unknown Protocol %1" ).arg( url.protocol());
-      QMessageBox::critical( this, i18n( "Error" ), tmp, i18n( "OK" ) );
+      KMessageBox::sorry( this, tmp );
       return;
     }
 

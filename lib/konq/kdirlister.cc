@@ -22,7 +22,6 @@
 #include <assert.h>
 
 #include <qdir.h>
-#include <qmsgbox.h>
 
 #include <kapp.h>
 #include <kdebug.h>
@@ -30,6 +29,7 @@
 #include <klocale.h>
 #include <kio_error.h>
 #include <kio_job.h>
+#include <kmessagebox.h>
 #include <kurl.h>
 #include <userpaths.h>
 
@@ -74,7 +74,7 @@ void KDirLister::openURL( const KURL& _url, bool _showDotFiles, bool _keep )
   if ( _url.isMalformed() )
   {
     QString tmp = i18n("Malformed URL\n%1").arg(_url.url());
-    QMessageBox::critical( (QWidget*)0L, i18n( "Error" ), tmp, i18n( "OK" ) );
+    KMessageBox::error( (QWidget*)0L, tmp);
     return;
   }
     

@@ -43,7 +43,6 @@
 #include <qlineedit.h>
 #include <qpushbutton.h>
 #include <qcheckbox.h>
-#include <qmessagebox.h>
 #include <qlist.h>
 #include <qstrlist.h>
 #include <qstringlist.h>
@@ -58,6 +57,7 @@
 #include <kstddirs.h>
 #include <kfiledialog.h>
 #include <kmimetypes.h>
+#include <kmessagebox.h>
 #include <kservices.h>
 #include <kfileitem.h> // for encodeFileName
 
@@ -409,7 +409,7 @@ void FilePropsPage::applyChanges()
 	if ( rename( path, s ) != 0 ) {
             QString tmp;
             tmp.sprintf(i18n("Could not rename the file or directory\n%s\n"), strerror(errno));
-            QMessageBox::warning( this, i18n( "Properties Dialog Error" ), tmp, i18n("OK"));
+            KMessageBox::sorry( this, tmp);
         }
 	// properties->emitPropertiesChanged( n );
     }
@@ -673,17 +673,13 @@ void FilePermissionsPropsPage::applyChanges()
 	    return;
 	}
 	if ( chown( path, pw->pw_uid, g->gr_gid ) != 0 )
-	    QMessageBox::warning( 0, i18n( "Properties Dialog Error" ),
-				  i18n( "Could not change owner/group\nPerhaps access denied." ),
-				  i18n( "OK") );
+	    KMessageBox::sorry( 0, i18n( "Could not change owner/group\nPerhaps access denied." ));
     }    
 
     if ( p != permissions )
     {
 	if ( chmod( path, p ) != 0 )
-	    QMessageBox::warning( 0, i18n( "Properties Dialog Error" ),
-				  i18n( "Could not change permissions\nPerhaps access denied." ),
-				  i18n( "OK") );
+	    KMessageBox::sorry( 0, i18n( "Could not change permissions\nPerhaps access denied." ));
     }
 
 }
@@ -927,9 +923,7 @@ void ExecPropsPage::applyChanges()
       {
 #endif
       
-	QMessageBox::warning( 0, i18n("Properties Dialog Error"),
-			      i18n("Could not save properties\nPerhaps permissions denied"),
-			      i18n("OK") );
+	KMessageBox::sorry( 0, i18n("Could not save properties\nPerhaps permissions denied"));
 	return;
 #ifdef SVEN
       }
@@ -1031,9 +1025,7 @@ void URLPropsPage::applyChanges()
     QFile f( path );
     if ( !f.open( IO_ReadWrite ) )
     {
-	QMessageBox::warning( 0, i18n("Properties Dialog Error"), 
-			        i18n("Could not save properties\nPerhaps permissions denied"),
-				i18n("OK") );
+	KMessageBox::sorry( 0, i18n("Could not save properties\nPerhaps permissions denied"));
 	return;
     }
     f.close();
@@ -1140,9 +1132,7 @@ void DirPropsPage::applyChanges()
     QFile f( tmp );
     if ( !f.open( IO_ReadWrite ) )
     {
-      QMessageBox::warning( 0, i18n("Properties Dialog Error"), 
-			     i18n("Could not write to\n") + tmp,
-			     i18n("OK") );
+      KMessageBox::error( 0, i18n("Could not write to\n") + tmp);
 	return;
     }
     f.close();
@@ -1586,9 +1576,7 @@ void ApplicationPropsPage::applyChanges()
 	//debug ("************Cannot save");
 #endif
 
-	QMessageBox::warning( 0, i18n("Properties Dialog Error"),
-			        i18n("Could not save properties\nPerhaps permissions denied"),
-				i18n("OK") );
+	KMessageBox::sorry( 0, i18n("Could not save properties\nPerhaps permissions denied"));
 	return;
 #ifdef SVEN
       }
@@ -1919,9 +1907,7 @@ void BindingPropsPage::applyChanges()
       if (err)
       {
 #endif
-	QMessageBox::warning( 0, i18n("Properties Dialog Error"),
-			        i18n("Could not save properties\nPerhaps permissions denied"),
-				i18n("OK") );
+	KMessageBox::sorry( 0, i18n("Could not save properties\nPerhaps permissions denied"));
 	return;
 #ifdef SVEN
       }
@@ -2073,9 +2059,7 @@ void DevicePropsPage::applyChanges()
     QFile f( path );
     if ( !f.open( IO_ReadWrite ) )
     {
-	QMessageBox::warning( 0, i18n("Properties Dialog Error"), 
-			        i18n("Could not save properties\nPerhaps permissions denied"),
-				i18n("OK") );
+	KMessageBox::sorry( 0, i18n("Could not save properties\nPerhaps permissions denied"));
 	return;
     }
     f.close();

@@ -18,12 +18,12 @@
 */
 
 #include <qdir.h>
-#include <qmsgbox.h>
 
 #include <kapp.h>
 #include <kurl.h>
 #include <ksimpleconfig.h>
 #include <klineeditdlg.h>
+#include <kmessagebox.h>
 #include <kdebug.h>
 
 #include <kio_interface.h>
@@ -179,10 +179,9 @@ void KNewMenu::slotNewFile( int _id )
       QString x = UserPaths::templatesPath() + sFile;
       if (!QFile::exists(x)) {
           kdebug(KDEBUG_WARN, 1203, "%s doesn't exist", x.ascii());
-          QMessageBox::critical( 0L, i18n( "Error" ), i18n(
+          KMessageBox::sorry( 0L, i18n(
               "Source file doesn't exist anymore ! \n"
-              "Use \"Rescan Bindings\" in View menu to update the menu"),
-         i18n("OK"));
+              "Use \"Rescan Bindings\" in View menu to update the menu"));
           return;
       }
       KSimpleConfig config(x, true);

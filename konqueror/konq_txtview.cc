@@ -30,7 +30,6 @@
 #include <qprinter.h>
 #include <qpainter.h>
 #include <qpaintdevicemetrics.h>
-#include <qmessagebox.h>
 
 #include <kio_job.h>
 #include <kio_cache.h>
@@ -40,6 +39,7 @@
 #include <opUIUtils.h>
 #include <kapp.h>
 #include <kglobal.h>
+#include <kmessagebox.h>
 #include <kpixmapcache.h>
 
 #define TOOLBAR_SEARCH_ID Browser::View::TOOLBAR_ITEM_ID_BEGIN
@@ -378,8 +378,7 @@ void KonqTxtView::slotFindNext( bool backwards, bool caseSensitive )
     {
       if ( !m_bFound )
       {
-        QMessageBox::information( m_pSearchDialog , i18n( "Konqueror: Error" ),
-                                  i18n( "Search string not found." ), i18n( "Ok" ) );
+        KMessageBox::information( m_pSearchDialog , i18n( "Search string not found." ));
         return;      
       }
 

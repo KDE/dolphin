@@ -21,7 +21,6 @@
 #include <qclipboard.h>
 #include <qapplication.h>
 #include <qdragobject.h>
-#include <qmessagebox.h>
 
 #include <opMenu.h>
 
@@ -31,6 +30,7 @@
 #include <kio_job.h>
 #include <kio_openwith.h>
 #include <kio_paste.h>
+#include <kmessagebox.h>
 #include <kpixmapcache.h>
 #include <kprotocolmanager.h>
 #include <krun.h>
@@ -428,9 +428,8 @@ void KonqPopupMenu::slotPopupTrash()
 
 void KonqPopupMenu::slotPopupDelete()
 {
-  if ( QMessageBox::warning( (QWidget *)0L, i18n( "Confirmation required" ),
-                             i18n( "Do you really want to delete the file(s) ?" ),
-			     i18n( "Yes" ), i18n( "No" ) ) != 0 )
+  if ( KMessageBox::questionYesNo(0, i18n( "Do you really want to delete the file(s) ?" ))
+       == KMessageBox::No)
     return;
 
   KIOJob *job = new KIOJob;

@@ -36,7 +36,7 @@
 #include <kapp.h>
 #include <kwm.h>
 #include <kdebug.h>
-#include <qmsgbox.h>
+#include <kmessagebox.h>
 #include <qstring.h>
 
 #include "kmimetypes.h"
@@ -165,7 +165,7 @@ void KBookmarkMenu::slotBookmarkSelected( int _id )
     if ( u.isMalformed() )
     {
       QString tmp = i18n("Malformed URL\n%1").arg(bm->url());
-      QMessageBox::critical( 0L, i18n( "Error" ), tmp, i18n( "OK" ) );
+      KMessageBox::error( 0L, tmp);
       return;
     }
 	

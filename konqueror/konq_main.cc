@@ -37,6 +37,7 @@
 #include <klocale.h>
 #include <kglobal.h>
 #include <kwm.h>
+#include <kmessagebox.h>
 #include <userpaths.h>
 
 #include <qmessagebox.h>
@@ -221,9 +222,7 @@ void testDir( const char *_name, bool showMsg = FALSE )
       m.truncate( m.length() - 1 );
     
     if (showMsg)
-      QMessageBox::information( 0, i18n("Information"),
-                                i18n("Creating directory:\n") + m,
-				i18n("OK") );
+      KMessageBox::information( 0, i18n("Creating directory:\n") + m );
     ::mkdir( m, S_IRWXU );
   }
   else
@@ -290,11 +289,9 @@ bool checkTemplates( bool bNewRelease )
  
     if( bNewRelease && bTemplates )
     {
-      int btn = QMessageBox::information( 0,
-                i18n("Information"),
-                i18n("A new KDE version has been installed.\nThe Template files may have changed.\n\nWould you like to install the new ones?"),
-                i18n("Yes"), i18n("No") );
-      if( !btn ) { // "Yes"
+      int btn = KMessageBox::questionYesNo( 0,
+                                            i18n("A new KDE version has been installed.\nThe Template files may have changed.\n\nWould you like to install the new ones?"));
+      if( btn == KMessageBox::Yes ) { // "Yes"
         bTemplates = false; // force reinstall
       }
     }

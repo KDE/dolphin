@@ -39,7 +39,6 @@
 #include <opUIUtils.h>
 
 #include <qkeycode.h>
-#include <qmsgbox.h>
 #include <qpixmap.h>
 #include <qpoint.h>
 #include <qregexp.h>
@@ -57,6 +56,7 @@
 #include <kstdaccel.h>
 #include <kstddirs.h>
 #include <kwm.h>
+#include <kmessagebox.h>
 #include <kglobal.h>
 #include <userpaths.h>
 #include <kprogress.h>
@@ -913,9 +913,7 @@ void KonqMainView::openURL( const char * _url, bool reload, int xOffset, int yOf
       struct passwd *pwe = getpwnam( user.latin1() );
       if ( !pwe )
       {
-	QMessageBox::warning( this, i18n( "Konqueror: Error" ),
-	                      i18n( "User %1 doesn't exist" ).arg( user ),
-			      i18n( "&OK" ) );
+	KMessageBox::sorry( this, i18n( "User %1 doesn't exist" ).arg( user ));
 	return;
       }
       user = QString::fromLatin1( pwe->pw_dir );
@@ -943,7 +941,7 @@ void KonqMainView::openURL( const char * _url, bool reload, int xOffset, int yOf
   if ( u.isMalformed() )
   {
     QString tmp = i18n("Malformed URL\n%1").arg(_url);
-    QMessageBox::critical( (QWidget*)0L, i18n( "Error" ), tmp, i18n( "OK" ) );
+    KMessageBox::error(0, tmp);
     return;
   }
 
@@ -1477,7 +1475,7 @@ void KonqMainView::slotShowCache()
   QString file = KIOCache::storeIndex();
   if ( file.isEmpty() )
   {
-    QMessageBox::critical( 0L, i18n("Error"), i18n( "Could not write index file" ), i18n( "OK" ) );
+    KMessageBox::sorry( 0L, i18n( "Could not write index file" ));
     return;
   }
 
@@ -1661,7 +1659,7 @@ void KonqMainView::slotHelpContents()
 
 void KonqMainView::slotHelpAbout()
 {
-  QMessageBox about( i18n( "About Konqueror" ), i18n(
+  KMessageBox::about( 0, i18n(
 "Konqueror Version 0.1\n"
 "Author: Torben Weis <weis@kde.org>\n"
 "Current maintainer: David Faure <faure@kde.org>\n\n"
@@ -1672,9 +1670,7 @@ void KonqMainView::slotHelpAbout()
 "Matthias Welk <welk@fokus.gmd.de>\n"
 "Waldo Bastian <bastian@kde.org> , Lars Knoll <knoll@mpi-hd.mpg.de> (khtml library)\n"
 "Matt Koss <koss@napri.sk>, Alex Zepeda <garbanzo@hooked.net> (kio library/slaves)\n"
-  ), QMessageBox::Information, QMessageBox::Ok + QMessageBox::Default, 0, 0, 0, "aboutkonqy" );
-  about.setButtonText( 0, i18n("&OK") );
-  about.exec();
+  ));
 }
 
 void KonqMainView::slotURLEntered( const CORBA::WChar *_url )
