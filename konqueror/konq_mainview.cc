@@ -21,6 +21,7 @@
 
 #include <kparts/browserextension.h>
 #include "konq_guiclients.h"
+#include "KonqMainWindowIface.h"
 #include "konq_mainview.h"
 #include "konq_childview.h"
 #include "konq_run.h"
@@ -2205,10 +2206,9 @@ void KonqMainWindow::updateViewModeActions( const KTrader::OfferList &services )
 
 DCOPObject* KonqMainWindow::dcopObject()
 {
-  //if ( !m_dcopObject )
-  //      m_dcopObject = new KonqMainWindowIface( this );
-
-    return m_dcopObject;
+  if ( !m_dcopObject )
+      m_dcopObject = new KonqMainWindowIface( this );
+  return m_dcopObject;
 }
 
 #include "konq_mainview.moc"

@@ -22,7 +22,8 @@ include_HEADERS = KonquerorIface.h
 bin_PROGRAMS = konqueror
 
 konqueror_la_SOURCES = konq_main.cc \
-	    KonquerorIface.cc KonquerorIface.skel konq_mainview.skel \
+	    KonquerorIface.cc KonquerorIface.skel \
+	    KonqMainWindowIface.cc KonqMainWindowIface.skel \
 	    konq_mainview.cc konq_guiclients.cc \
 	    konq_run.cc konq_childview.cc konq_viewmgr.cc \
 	    konq_misc.cc \

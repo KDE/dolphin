@@ -63,7 +63,7 @@ public:
    * @param view the IDL View to be added in the child view
    * @param viewFrame the frame where to create the view - becomes owned by the view,
    * which will delete it when destroyed.
-   * @param mainWindow is the mainview :-)
+   * @param mainWindow is the main window :-)
    * @param serviceTypes is the list of supported servicetypes
    */
   KonqView( KonqViewFactory &viewFactory,
@@ -132,7 +132,7 @@ public:
 
   /**
    * Set the KonqRun instance that is running something for this view
-   * The mainview uses this to store the KonqRun for each child view.
+   * The main window uses this to store the KonqRun for each child view.
    */
   void setRun( KonqRun * run  );
   /**
@@ -258,7 +258,7 @@ protected slots:
 
 protected:
   /**
-   * Connects the internal View to the mainview.
+   * Connects the internal part to the main window.
    * Do this after creating it and before inserting it.
    */
   void connectPart();

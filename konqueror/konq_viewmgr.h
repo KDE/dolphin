@@ -62,9 +62,9 @@ public:
    * Returns the newly created view or 0L if the view couldn't be created.
    */
   KonqView* splitView( Qt::Orientation orientation,
-                            const KURL &url,
-                            QString serviceType = QString::null,
-                            const QString & serviceName = QString::null );
+                       const KURL &url,
+                       QString serviceType = QString::null,
+                       const QString & serviceName = QString::null );
 
   /**
    * Does basically the same as splitView() but inserts the new view at the top
@@ -78,10 +78,10 @@ public:
    * Returns the newly created view or 0L if the new view couldn't be created.
    */
   KonqView* split (KonqFrameBase* splitFrame,
-                        Qt::Orientation orientation,
-                        const QString &serviceType = QString::null,
-                        const QString &serviceName = QString::null,
-                        KonqFrameContainer **newFrameContainer = 0L );
+                   Qt::Orientation orientation,
+                   const QString &serviceType = QString::null,
+                   const QString &serviceName = QString::null,
+                   KonqFrameContainer **newFrameContainer = 0L );
 
   /**
    * Guess!:-)
