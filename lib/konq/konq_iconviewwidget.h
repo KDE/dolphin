@@ -25,6 +25,7 @@
 #include <kurl.h>
 #include <qguardedptr.h>
 #include <kfileitem.h>
+#include <kio/jobclasses.h>
 
 class KonqFMSettings;
 class KFileIVI;
@@ -224,7 +225,6 @@ public slots:
 
     void slotToolTipPreview( const KFileItem *, const QPixmap & );
     void slotToolTipPreviewResult();
-
 signals:
     /**
      * For cut/copy/paste/move/delete (see kparts/browserextension.h)
@@ -235,7 +235,6 @@ signals:
     void imagePreviewFinished();
 
 protected slots:
-
     virtual void slotDropped( QDropEvent *e, const QValueList<QIconDragItem> & );
 
     void slotItemRenamed(QIconViewItem *item, const QString &name);
@@ -250,6 +249,8 @@ protected slots:
     void slotMovieUpdate( const QRect& rect );
     void slotMovieStatus( int status );
     void slotReenableAnimation();
+
+    void slotAboutToCreate(const QPoint &pos, const QValueList<KIO::CopyInfo> &files);
 
 protected:
     virtual QDragObject *dragObject();

@@ -23,7 +23,7 @@
 #include <qobject.h>
 #include <qevent.h>
 
-namespace KIO { class Job; }
+namespace KIO { class Job; class CopyInfo; }
 class QWidget;
 class KFileItem;
 class KonqMainWindow;
@@ -69,6 +69,7 @@ public:
     /**
      * Paste the clipboard contents
      */
+    static void doPaste( QWidget * parent, const KURL & destURL, const QPoint &pos );
     static void doPaste( QWidget * parent, const KURL & destURL );
 
     static void emptyTrash();
@@ -106,6 +107,7 @@ public:
 
 signals:
     void statFinished( const KFileItem * item );
+    void aboutToCreate(const QPoint &pos, const QValueList<KIO::CopyInfo> &files);
 
 protected:
     enum { DEFAULT_CONFIRMATION, SKIP_CONFIRMATION, FORCE_CONFIRMATION };
@@ -134,11 +136,13 @@ protected:
     {
         QByteArray data;
         KURL destURL;
+        QPoint mousePos;
     };
     void setPasteInfo( KIOPasteInfo * info ) { m_pasteInfo = info; }
 
 protected slots:
 
+    void slotAboutToCreate(KIO::Job *job, const QValueList<KIO::CopyInfo> &files);
     void slotResult( KIO::Job * job );
     void slotStatResult( KIO::Job * job );
     void asyncDrop( const KFileItem * item );

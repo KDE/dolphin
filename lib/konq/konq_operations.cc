@@ -42,6 +42,7 @@
 #include <kglobalsettings.h>
 #include <kimageio.h>
 #include <kio/job.h>
+#include <kio/jobclasses.h>
 #include <kio/paste.h>
 #include <konq_drag.h>
 #include <konq_iconviewwidget.h>
@@ -142,6 +143,11 @@ void KonqOperations::mkdir( QWidget *parent, const KURL & url )
 
 void KonqOperations::doPaste( QWidget * parent, const KURL & destURL )
 {
+   doPaste(parent, destURL, QPoint());
+}
+
+void KonqOperations::doPaste( QWidget * parent, const KURL & destURL, const QPoint &pos )
+{
     // move or not move ?
     bool move = false;
     QMimeSource *data = QApplication::clipboard()->data();
@@ -155,6 +161,10 @@ void KonqOperations::doPaste( QWidget * parent, const KURL & destURL )
     {
         KonqOperations * op = new KonqOperations( parent );
         KIO::CopyJob * copyJob = static_cast<KIO::CopyJob *>(job);
+        KIOPasteInfo * pi = new KIOPasteInfo;
+        pi->destURL = destURL;
+        pi->mousePos = pos;
+        op->setPasteInfo( pi );
         op->setOperation( job, move ? MOVE : COPY, copyJob->srcURLs(), copyJob->destURL() );
         (void) new KonqCommandRecorder( move ? KonqCommand::MOVE : KonqCommand::COPY, KURL::List(), destURL, job );
     }
@@ -450,6 +460,7 @@ void KonqOperations::doDrop( const KFileItem * destItem, const KURL & dest, QDro
             KIOPasteInfo * pi = new KIOPasteInfo;
             pi->data = data;
             pi->destURL = dest;
+            pi->mousePos = ev->pos();
             op->setPasteInfo( pi );
             QTimer::singleShot( 0, op, SLOT( slotKIOPaste() ) );
         }
@@ -460,8 +471,16 @@ void KonqOperations::doDrop( const KFileItem * destItem, const KURL & dest, QDro
 void KonqOperations::slotKIOPaste()
 {
     assert(m_pasteInfo); // setPasteInfo should have been called before
-    KIO::pasteData( m_pasteInfo->destURL, m_pasteInfo->data );
-    delete this;
+    KIO::CopyJob *job = KIO::pasteDataAsync( m_pasteInfo->destURL, m_pasteInfo->data );
+    if ( job )
+    {
+        setOperation( job, COPY, KURL::List(), job->destURL() );
+        (void) new KonqCommandRecorder( KonqCommand::COPY, KURL::List(), m_destURL, job );
+    }
+    else
+    {
+        delete this;
+    }
 }
 
 void KonqOperations::asyncDrop( const KFileItem * destItem )
@@ -711,16 +730,31 @@ void KonqOperations::rename( QWidget * parent, const KURL & oldurl, const KURL& 
 
 void KonqOperations::setOperation( KIO::Job * job, int method, const KURL::List & /*src*/, const KURL & dest )
 {
-  m_method = method;
-  //m_srcURLs = src;
-  m_destURL = dest;
-  if ( job )
-  {
-    connect( job, SIGNAL( result( KIO::Job * ) ),
-             SLOT( slotResult( KIO::Job * ) ) );
-  }
-  else // for link
-    slotResult( 0L );
+    m_method = method;
+    //m_srcURLs = src;
+    m_destURL = dest;
+    if ( job )
+    {
+        connect( job, SIGNAL( result( KIO::Job * ) ),
+                 SLOT( slotResult( KIO::Job * ) ) );
+    }
+    else // for link
+        slotResult( 0L );
+
+    KIO::CopyJob *copyJob = dynamic_cast<KIO::CopyJob*>(job);
+    KonqIconViewWidget *iconView = dynamic_cast<KonqIconViewWidget*>(parent());
+    if (copyJob && iconView)
+    {
+        connect(copyJob, SIGNAL(aboutToCreate(KIO::Job *,const QValueList<KIO::CopyInfo> &)),
+             this, SLOT(slotAboutToCreate(KIO::Job *,const QValueList<KIO::CopyInfo> &)));
+        connect(this, SIGNAL(aboutToCreate(const QPoint &, const QValueList<KIO::CopyInfo> &)),
+             iconView, SLOT(slotAboutToCreate(const QPoint &, const QValueList<KIO::CopyInfo> &)));
+    }
+}
+
+void KonqOperations::slotAboutToCreate(KIO::Job *, const QValueList<KIO::CopyInfo> &files)
+{
+    emit aboutToCreate( m_info ? m_info->mousePos : m_pasteInfo ? m_pasteInfo->mousePos : QPoint(), files);
 }
 
 void KonqOperations::statURL( const KURL & url, const QObject *receiver, const char *member )
