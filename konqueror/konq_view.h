@@ -255,6 +255,7 @@ protected slots:
   void slotCanceled( const QString & errMsg );
   void slotPercent( KIO::Job *, unsigned long percent );
   void slotSpeed( KIO::Job *, unsigned long bytesPerSecond );
+  void slotInfoMessage( KIO::Job *, const QString &msg );
 
   /**
    * Connected to the BrowserExtension

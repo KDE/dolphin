@@ -316,6 +316,7 @@ void KonqView::slotStarted( KIO::Job * job )
   {
       connect( job, SIGNAL( percent( KIO::Job *, unsigned long ) ), this, SLOT( slotPercent( KIO::Job *, unsigned long ) ) );
       connect( job, SIGNAL( speed( KIO::Job *, unsigned long ) ), this, SLOT( slotSpeed( KIO::Job *, unsigned long ) ) );
+      connect( job, SIGNAL( infoMessage( KIO::Job *, const QString & ) ), this, SLOT( slotInfoMessage( KIO::Job *, const QString & ) ) );
   }
 }
 
@@ -328,6 +329,11 @@ void KonqView::slotSpeed( KIO::Job *, unsigned long bytesPerSecond )
 {
   m_pKonqFrame->statusbar()->slotSpeedProgress( bytesPerSecond );
 }
+
+void KonqView::slotInfoMessage( KIO::Job *, const QString &msg )
+{
+  m_pKonqFrame->statusbar()->message( msg ); 
+} 
 
 void KonqView::slotCompleted()
 {
