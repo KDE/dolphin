@@ -409,7 +409,7 @@ Manually enter proxy server configuration information.
                     <property name="whatsThis" stdset="0">
                         <string>&lt;qt&gt;
 Use persistent proxy connection.&lt;p&gt;
-Note that eventhough persistent a proxy connection is faster, it only works correctly with proxies that are fully HTTP 1.1 compliant. Do &lt;b&gt;NOT&lt;/b&gt; use this option in combination with non-HTTP 1.1 compliant proxy servers such as JunkBuster and WWWOfle.
+Note that eventhough a persistent proxy connection is faster, it only works correctly with proxies that are fully HTTP 1.1 compliant. Do &lt;b&gt;NOT&lt;/b&gt; use this option in combination with non-HTTP 1.1 compliant proxy servers such as JunkBuster and WWWOfle.
 &lt;/qt&gt;</string>
                     </property>
                 </widget>
