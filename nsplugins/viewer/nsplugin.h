@@ -4,6 +4,7 @@
 
 
   Copyright (c) 2000 Matthias Hoelzer-Kluepfel <hoelzer@kde.org>
+                     Stefan Schimanski <1Stein@gmx.de>
  
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -125,7 +126,7 @@ public:
   void emitStatus(const char *message) { emit status(message); };
 
   // window id
-  int winId() { return XtWindow(_area); };
+  int winId() { return XtWindow(_toplevel); };
 
   NPError setWindow(bool remove=false);
 
@@ -140,11 +141,9 @@ private:
   KLibrary *_handle;
   NPPluginFuncs _pluginFuncs;
 
-  Widget   _area;
+  Widget   _area, _toplevel;
 
   int _width, _height;
-
-
 };
 
 

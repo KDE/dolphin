@@ -63,12 +63,19 @@ NSPluginInstance::NSPluginInstance(NPP _privateData, NPPluginFuncs *pluginFuncs,
   Cardinal nargs=0;
   XtSetArg(args[nargs], XmNwidth, width); nargs++;
   XtSetArg(args[nargs], XmNheight, height); nargs++;
-  _area = XtCreateWidget("area", xmDrawingAreaWidgetClass, KXtApplication::toplevel, args, nargs);
+
+  String n, c;
+  XtGetApplicationNameAndClass(qt_xdisplay(), &n, &c);
+  _toplevel = XtAppCreateShell(n, c, topLevelShellWidgetClass, qt_xdisplay(), 0, 0);
+  XtSetMappedWhenManaged(_toplevel, False);
+  XtRealizeWidget(_toplevel);
+  XSync(qt_xdisplay(), False);    // I want all windows to be created now
+	
+  _area = XmCreateDrawingArea(_toplevel, "area", args, nargs);
 
   XtRealizeWidget(_area);
   XtMapWidget(_area);
 
-  //  setWindow();
   setWindow();
 } 
 
@@ -193,7 +200,7 @@ void NSPluginInstance::URLNotify(const char *url, NPReason reason, void *notifyD
 }
 
 
-NSPluginClass::NSPluginClass(const QString &library, const QCString dcopId)
+NSPluginClass::NSPluginClass(const QString &library, QCString dcopId)
   : DCOPObject(dcopId), _libname(library), _constructed(false),  _initialized(false)
 {
   _handle = KLibLoader::self()->library(library);
@@ -212,24 +219,24 @@ NSPluginClass::NSPluginClass(const QString &library, const QCString dcopId)
 
   if (!_NP_GetMIMEDescription)
   {
-  	kDebugInfo("Could not get symbol NP_GetMIMEDescription");
+    kDebugInfo("Could not get symbol NP_GetMIMEDescription");
     return;
   } else
-	  	kDebugInfo("Resolved NP_GetMIMEDescription to %p", _NP_GetMIMEDescription);
+      kDebugInfo("Resolved NP_GetMIMEDescription to %p", _NP_GetMIMEDescription);
 
   if (!_NP_Initialize)
   {
-  	kDebugInfo("Could not get symbol NP_Initialize");
-  	return;
+    kDebugInfo("Could not get symbol NP_Initialize");
+    return;
   } else
-  		kDebugInfo("Resolved NP_Initialize to %p", _NP_Initialize);
+    kDebugInfo("Resolved NP_Initialize to %p", _NP_Initialize);
 
   if (!_NP_Shutdown)
   {
-  	kDebugInfo("Could not get symbol NP_Shutdown");
-  	return;
+    kDebugInfo("Could not get symbol NP_Shutdown");
+    return;
   } else
-  		kDebugInfo("Resolved NP_Shutdown to %p", _NP_Shutdown);
+     kDebugInfo("Resolved NP_Shutdown to %p", _NP_Shutdown);
 
   kDebugInfo("Plugin library %s loaded!", library.ascii());
   _constructed = true;
@@ -249,7 +256,7 @@ NSPluginClass::~NSPluginClass()
 
 int NSPluginClass::Initialize()
 {
-  kDebugInfo("NSPluginInstance::Initialize()"); 
+  kDebugInfo("NSPluginClass::Initialize()");
                                               
   if (!_constructed)
     return NPERR_GENERIC_ERROR;                             
@@ -264,8 +271,8 @@ int NSPluginClass::Initialize()
   _nsFuncs.size = sizeof(_nsFuncs);
   _nsFuncs.version = (NP_VERSION_MAJOR << 8) + NP_VERSION_MINOR;
   _nsFuncs.geturl = NPN_GetURL;
-	_nsFuncs.posturl = NPN_PostURL;
-	_nsFuncs.requestread = NPN_RequestRead;
+  _nsFuncs.posturl = NPN_PostURL;
+  _nsFuncs.requestread = NPN_RequestRead;
   _nsFuncs.newstream = NPN_NewStream;
   _nsFuncs.write = NPN_Write;
   _nsFuncs.destroystream = NPN_DestroyStream;
@@ -309,11 +316,12 @@ void NSPluginClass::Shutdown()
 
 int NSPluginClass::NewInstance(QString mimeType, int mode, QStringList argn, QStringList argv)
 {
-  QString src;
+  kdDebug() << "NSPluginClass::NewInstance" << endl;
 
   // copy parameters over
   unsigned int argc = argn.count();
   char *_argn[argc], *_argv[argc];
+  QString src;
   for (unsigned int i=0; i<argc; i++)
     {
       _argn[i] = strdup((const char*)argn[i].ascii());
