@@ -63,12 +63,11 @@ template class QList<KBookmarkMenu>;
  ********************************************************************/
 
 KBookmarkMenu::KBookmarkMenu( KBookmarkOwner * _owner, QPopupMenu * _parentMenu,
-                              KActionCollection *, bool _isRoot, bool _add,
+                              KActionCollection *collec, bool _isRoot, bool _add,
                               const QString & parentAddress )
   : m_bIsRoot(_isRoot), m_bAddBookmark(_add), m_pOwner(_owner),
     m_parentMenu( _parentMenu ),
-    m_actionCollection( 0L /* we don't need one anymore, they are in m_actions
-                              and we don't want them in kedittoolbar */ ),
+    m_actionCollection( collec ),
     m_parentAddress( parentAddress )
 {
   m_lstSubMenus.setAutoDelete( true );
@@ -247,7 +246,6 @@ void KBookmarkMenu::fillBookmarkMenu()
                                                   m_bAddBookmark,
                                                   bm.address() );
       m_lstSubMenus.append( subMenu );
-      // let's delay this. subMenu->fillBookmarkMenu( bm );
     }
   }
 }
@@ -266,8 +264,7 @@ void KBookmarkMenu::slotAddBookmark()
 
   KBookmarkGroup parentBookmark = KBookmarkManager::self()->findByAddress( m_parentAddress ).toGroup();
   ASSERT(!parentBookmark.isNull());
-  // If this title is already used, we'll try to find something
-  // unused.
+  // If this title is already used, we'll try to find something unused.
   KBookmark ch = parentBookmark.first();
   int count = 1;
   QString uniqueTitle = title;

@@ -73,7 +73,7 @@ public:
    *
    * @param owner implementation of the KBookmarkOwner interface (callbacks)
    * @param parentMenu menu to be filled
-   * @param collec parent for the KActions. OBSOLETE.
+   * @param collec parent collection for the KActions. Only used for other menus than the toplevel one.
    * @param root true for the toplevel menu
    * @param add true to show the "Add Bookmark" and "New Folder" entries
    * @param parentBookmark the address of the group containing the items
@@ -83,7 +83,7 @@ public:
    * An _empty_ parentAddress denotes the toplevel bookmark menu
    */
   KBookmarkMenu( KBookmarkOwner * owner, QPopupMenu * parentMenu,
-                 KActionCollection * , bool root, bool add = true,
+                 KActionCollection * collec, bool root, bool add = true,
                  const QString & parentAddress = "" );
 
   ~KBookmarkMenu();
@@ -130,7 +130,7 @@ protected:
   QList<KBookmarkMenu> m_lstSubMenus;
   KActionCollection * m_actionCollection;
   /**
-   * List of our actions
+   * List of our actions.
    */
   QList<KAction> m_actions;
   /**
