@@ -1,0 +1,5 @@
+sort out the stupid klistview hack!
+:
+dirk has noted its buggy as shit even now
+if you tab to next field then the current
+field isn't saved!
