@@ -119,8 +119,10 @@ void KonqSidebarDirTreeModule::openTopLevelItem( KonqSidebarTreeTopLevelItem * i
 
 void KonqSidebarDirTreeModule::addSubDir( KonqSidebarTreeItem *item )
 {
-    kdDebug(1201) << this << " KonqSidebarDirTreeModule::addSubDir " << item->externalURL().url(-1) << endl;
-    m_dictSubDirs.insert( item->externalURL().url(-1), item );
+    KURL url( item->externalURL() );
+    url.cleanPath();
+    kdDebug(1201) << this << " KonqSidebarDirTreeModule::addSubDir " << url.url(-1) << endl;
+    m_dictSubDirs.insert( url.url(-1), item );
 }
 
 void KonqSidebarDirTreeModule::removeSubDir( KonqSidebarTreeItem *item, bool childrenOnly )
@@ -352,7 +354,7 @@ void KonqSidebarDirTreeModule::slotListingStopped( const KURL & url )
 
     kdDebug(1201) << "KonqSidebarDirTree::slotListingStopped " << url.prettyURL() << endl;
 
-    if ( item->childCount() == 0 )
+    if ( item && item->childCount() == 0 )
     {
         item->setExpandable( false );
         item->repaint();
