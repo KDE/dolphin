@@ -1,0 +1,8 @@
+[Desktop Entry]
+Encoding=UTF-8
+Type=Link
+URL=
+Icon=netscape
+Name=Mozilla Sidebar Module
+Open=false
+X-KDE-KonqSidebarAddModule=konqsidebar_mozilla
