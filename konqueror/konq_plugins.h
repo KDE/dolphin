@@ -41,6 +41,7 @@ private:
   KOM::Base_var m_vObj;
   KOMVar<KOM::Plugin> m_rRef;
   CORBA::Object_var m_vVirtualFactoryRef;
+  bool m_bShutdown;
 };
 
 class KonqPlugins

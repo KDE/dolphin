@@ -59,6 +59,7 @@ KonqEventFilterProxy::KonqEventFilterProxy( CORBA::Object_ptr factory, const QSt
 
   obj->installFilter( this, "eventFilter", seq, KOM::Base::FM_WRITE );
   m_vObj = KOM::Base::_duplicate( obj );
+  m_bShutdown = false;
 }
 
 void KonqEventFilterProxy::cleanUp()
@@ -66,7 +67,8 @@ void KonqEventFilterProxy::cleanUp()
   if ( m_bIsClean )
     return;
 
-  m_vObj->uninstallFilter( this );
+  if ( !m_bShutdown )
+    m_vObj->uninstallFilter( this );
   
   m_vObj = 0L;
   m_rRef = 0L;
@@ -92,6 +94,7 @@ CORBA::Boolean KonqEventFilterProxy::eventFilter( KOM::Base_ptr obj, const char 
 void KonqEventFilterProxy::disconnectFilterNotify( KOM::Base_ptr obj )
 {
   KOMBase::disconnectFilterNotify( obj );
+  m_bShutdown = true;
   destroy();
 }
 

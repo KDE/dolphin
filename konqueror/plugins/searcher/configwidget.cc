@@ -19,11 +19,39 @@
 
 #include "configwidget.h"
 
-#include <qlabel.h>
+#include <qlayout.h>
+#include <qlistview.h>
+
+#include <klocale.h>
 
 ConfigWidget::ConfigWidget()
 {
-  (new QLabel( "fooblahfuzbang", this ))->show();
+  m_lstSearchEngines = EngineCfg::self()->engines();
+
+  QVBoxLayout *topLayout = new QVBoxLayout( this );
+  
+  m_pListView = new QListView( this );
+  m_pListView->addColumn( i18n( "Name" ) );
+  m_pListView->addColumn( i18n( "Keys" ) );
+  m_pListView->addColumn( i18n( "Query" ) );
+  
+  topLayout->addWidget( m_pListView );
+  
+  QValueList<EngineCfg::Entry>::ConstIterator it = m_lstSearchEngines.begin();
+  QValueList<EngineCfg::Entry>::ConstIterator end = m_lstSearchEngines.end();
+  for (; it != end; ++it )
+  {
+    QString keystr;
+    
+    QStringList::ConstIterator sIt = (*it).m_lstKeys.begin();
+    QStringList::ConstIterator sEnd = (*it).m_lstKeys.end();
+    for (; sIt != sEnd; ++sIt )
+      keystr += *sIt + ',';
+    
+    (void)new QListViewItem( m_pListView, (*it).m_strName, keystr, (*it).m_strQuery );
+  }
+  
+  resize( topLayout->sizeHint() );
 }
 
 ConfigWidget::~ConfigWidget()

@@ -22,11 +22,20 @@
 
 #include <qwidget.h>
 
+#include "enginecfg.h"
+
+class QListView;
+
 class ConfigWidget : public QWidget
 {
 public: 
   ConfigWidget();
   ~ConfigWidget();
+  
+private:
+  QValueList<EngineCfg::Entry> m_lstSearchEngines;
+  
+  QListView *m_pListView;
 };
 
 #endif
