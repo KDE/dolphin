@@ -236,7 +236,12 @@ QString ListView::userAddress() {
       return "/0";
    }
 
-   KBookmark current = firstSelected()->bookmark();
+   KEBListViewItem *item = firstSelected();
+   if (item->isEmptyFolder()) {
+      item = item->parent();
+   }
+
+   KBookmark current = item->bookmark();
    if (!current.hasParent()) {
       // oops!
       return "/0";
