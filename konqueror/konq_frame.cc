@@ -475,11 +475,14 @@ KonqFrame::attach( Browser::View_ptr view )
     m_pOPFrame->attach( view );
     m_pOPFrame->setGeometry( 0, 0, width(), height() );
   }
+  m_pHeader->show();
 }
 
 void
 KonqFrame::detach( void )
 {
+  m_pHeader->hide();
+  m_vView = 0L;
   if( m_pOPFrame) {
     delete m_pOPFrame;
     m_pOPFrame = 0L;

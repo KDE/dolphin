@@ -38,7 +38,6 @@
 
 #include <opUIUtils.h>
 
-#include <qprogressbar.h>
 #include <qkeycode.h>
 #include <qmsgbox.h>
 #include <qpixmap.h>
@@ -60,6 +59,7 @@
 #include <kwm.h>
 #include <kglobal.h>
 #include <userpaths.h>
+#include <kprogress.h>
 
 #include <assert.h>
 #include <pwd.h>
@@ -216,7 +216,7 @@ void KonqMainView::init()
 
   if ( !CORBA::is_nil( m_vStatusBar ) )
   {
-    m_pProgressBar = new QProgressBar( 100 );
+    m_pProgressBar = new KProgress( 0, 100, 0, KProgress::Horizontal );
     m_vStatusBar->insertWidget( m_pProgressBar->winId(), 120, STATUSBAR_LOAD_ID );
     CORBA::WString_var item = Q2C( QString::fromLatin1( "XXXXXXXX" ) );
     m_vStatusBar->insertItem( item, STATUSBAR_SPEED_ID );
@@ -779,7 +779,7 @@ bool KonqMainView::mappingParentGotFocus( OpenParts::Part_ptr  )
   setItemEnabled( m_vMenuGo, MGO_APPLICATIONS_ID, false );
 
   if ( m_pProgressBar )
-    m_pProgressBar->reset();
+    m_pProgressBar->setValue( -1 );
 
   if ( !CORBA::is_nil( m_vStatusBar ) )
     m_vStatusBar->changeItem( 0L, STATUSBAR_SPEED_ID );
@@ -832,13 +832,7 @@ void KonqMainView::setActiveView( OpenParts::Id id )
   }    
 
   if ( m_pProgressBar )
-  {
-    int prog = m_currentView->progress();
-    if ( prog == -1 )
-      m_pProgressBar->reset();
-    else
-      m_pProgressBar->setProgress( prog );
-  }
+    m_pProgressBar->setValue( m_currentView->progress() );
 
   if ( !CORBA::is_nil( m_vStatusBar ) )
     m_vStatusBar->changeItem( 0L, STATUSBAR_SPEED_ID );
@@ -1431,7 +1425,7 @@ void KonqMainView::slotStop()
     m_currentView->setKfmRun( 0L );
     slotStopAnimation();
     if ( m_pProgressBar ) 
-      m_pProgressBar->reset();
+      m_pProgressBar->setValue( -1 );
       
     if ( !CORBA::is_nil( m_vStatusBar ) )
     {
@@ -1814,7 +1808,7 @@ void KonqMainView::slotURLStarted( OpenParts::Id id, const char *url )
     setItemEnabled( m_vMenuGo, MGO_BACK_ID, m_currentView->canGoBack() );
     setItemEnabled( m_vMenuGo, MGO_FORWARD_ID, m_currentView->canGoForward() );
     if ( m_pProgressBar )
-      m_pProgressBar->reset();
+      m_pProgressBar->setValue( -1 );
 
     if ( !CORBA::is_nil( m_vStatusBar ) )
       m_vStatusBar->changeItem( 0L, STATUSBAR_SPEED_ID );
@@ -1842,7 +1836,7 @@ void KonqMainView::slotURLCompleted( OpenParts::Id id )
     setItemEnabled( m_vMenuGo, MGO_FORWARD_ID, m_currentView->canGoForward() );
     
     if ( m_pProgressBar ) 
-      m_pProgressBar->reset();
+      m_pProgressBar->setValue( -1 );
       
     if ( !CORBA::is_nil( m_vStatusBar ) )
       m_vStatusBar->changeItem( 0L, STATUSBAR_SPEED_ID );
@@ -1878,7 +1872,7 @@ void KonqMainView::slotUpActivated( CORBA::Long id )
 void KonqMainView::slotLoadingProgress( OpenParts::Id id, CORBA::Long percent )
 {
   if ( id == m_currentId && m_pProgressBar && m_currentView->isLoading() )
-    m_pProgressBar->setProgress( (int)percent );
+    m_pProgressBar->setValue( (int)percent );
   
   MapViews::Iterator it = m_mapViews.find( id );
   

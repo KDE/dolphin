@@ -32,7 +32,7 @@
 #include <kmimetypes.h>
 #include <kbookmarkmenu.h>
 
-class QProgressBar;
+class KProgress;
 class KAccel;
 class KNewMenu;
 class KService;
@@ -361,7 +361,7 @@ private:
 
   QStringList m_lstLocationBarCombo;
 
-  QProgressBar *m_pProgressBar;
+  KProgress *m_pProgressBar;
   
   static QList<OpenPartsUI::Pixmap>* s_lstAnimatedLogo;
   static QList<KonqMainView>* s_lstWindows;

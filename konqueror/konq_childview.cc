@@ -193,7 +193,6 @@ bool KonqChildView::changeViewMode( const QString &serviceType,
   QStringList serviceTypes;
   if ( CORBA::is_nil( ( vView = KonqFactory::createView( serviceType, serviceTypes, m_pMainView, dirMode ) ) ) )
    return false;
-  
   makeHistory( false );
   OpenParts::Id oldId = m_vView->id();
   switchView( vView, serviceTypes );
