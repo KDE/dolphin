@@ -1,5 +1,5 @@
 INCLUDES  = $(MICO_INCLUDES) -I$(idldir) -I$(top_srcdir)/libkonq $(all_includes)
-LDFLAGS   = $(MICO_LDFLAGS) $(KDE_RPATH) $(all_libraries)
+LDFLAGS   = $(all_libraries) $(KDE_RPATH) $(MICO_LDFLAGS)
 LDADD = -lkparts -lkded $(LIB_KFILE) $(LIB_KHTML) $(top_builddir)/libkonq/libkonq.la 
 
 SUBDIRS = client pics Templates
