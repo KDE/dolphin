@@ -230,25 +230,7 @@ void KonqMainView::openURL( KonqChildView *_view, const QString &_url, bool relo
                             int yOffset )
 {
   debug("%s", QString("KonqMainView::openURL : _url = '%1'").arg(_url).latin1());
-
-  if ( _url.left( 7 ) == "mailto:" )
-  {
-    QString addr = _url.mid( 7 );
-    KURL::decode( addr );
-    QString subj;
-
-    int subjPos = addr.find( "?subject=" );
-    if ( subjPos != -1 )
-    {
-      subj = addr.mid( subjPos + 9 );
-      addr.truncate( subjPos );
-    }
-
-    kapp->invokeMailer( addr, subj );
-
-    return;
-  }
-
+  
   /////////// First, modify the URL if necessary (adding protocol, ...) //////
 
   QString url = konqFilteredURL(_url);
@@ -635,6 +617,27 @@ void KonqMainView::slotCompleted()
 void KonqMainView::slotCanceled()
 {
   slotCompleted();
+}
+
+void KonqMainView::slotRunFinished()
+{
+  KonqRun *run = (KonqRun *)sender();
+
+  if ( run->foundMimeType() )
+    return;
+  
+  KonqChildView *childView = run->childView();
+  
+  if ( !childView )
+    return;
+  
+  childView->setLoading( false );
+  
+  if ( childView == m_currentView )
+  {
+    stopAnimation();
+    setLocationBarURL( childView, childView->view()->url() );
+  }
 }
 
 void KonqMainView::slotSetStatusBarText( const QString &text )

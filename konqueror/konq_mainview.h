@@ -59,7 +59,7 @@ public:
 
   void openFilteredURL( KonqChildView *_view, const QString &_url );
 
-  void openURL( KonqChildView *_view, const QString &_url, bool reload = false, 
+  void openURL( KonqChildView *_view, const QString &_url, bool reload = false,
                 int xOffset = 0, int yOffset = 0 );
 
   KonqViewManager *viewManager() const { return m_pViewManager; }
@@ -76,7 +76,7 @@ public slots:
   void slotOpenLocation();
   void slotToolFind();
   void slotPrint();
-  
+
   // View menu
   void slotViewModeToggle( bool toggle );
   void slotShowHTML();
@@ -92,7 +92,7 @@ public slots:
   void slotShowHistory();
   void slotEditMimeTypes();
   void slotEditApplications();
-  
+
   void slotSaveSettings();
   void slotSaveSettingsPerURL();
   void slotConfigureFileManager();
@@ -106,7 +106,8 @@ public slots:
   void slotStarted();
   void slotCompleted();
   void slotCanceled();
-  
+  void slotRunFinished();
+
   void slotSetStatusBarText( const QString &text );
 
 public:
@@ -125,13 +126,13 @@ public:
 
   int viewCount() { return m_mapViews.count(); }
   QValueList<BrowserView *> viewList();
-  
+
   KonqChildView *currentChildView() { return m_currentView; }
   BrowserView *currentView();
 
   virtual void customEvent( QCustomEvent *event );
 
-  /// Overloaded functions of KBookmarkOwner 
+  /// Overloaded functions of KBookmarkOwner
   virtual void openBookmarkURL( const QString & _url );
   virtual QString currentTitle();
   virtual QString currentURL();
@@ -168,7 +169,7 @@ protected slots:
   void checkEditExtension();
   void slotDatabaseChanged(); // connect to KSycoca
 
-  void slotCut();  
+  void slotCut();
   void slotCopy();
   void slotPaste();
   void slotTrash();
@@ -186,7 +187,7 @@ protected slots:
   void slotBackActivated( int id );
   void slotForwardActivated( int id );
 
-protected:  
+protected:
 
   void fillHistoryPopup( QPopupMenu *menu, const QList<HistoryEntry> &history );
 
@@ -217,50 +218,50 @@ private:
 
   KNewMenu * m_pMenuNew;
   KAction *m_paNewWindow;
-  
+
   KAction *m_paRun;
   KAction *m_paOpenTerminal;
   KAction *m_paOpenLocation;
   KAction *m_paToolFind;
-  
+
   KAction *m_paPrint;
-  
+
   KActionMenu *m_pamEdit;
   KActionMenu *m_pamView;
   KActionMenu *m_pamBookmarks;
-  
+
   KonqHistoryAction *m_paUp;
   KonqHistoryAction *m_paBack;
   KonqHistoryAction *m_paForward;
   KAction *m_paHome;
-  
+
   KAction *m_paCache;
   KAction *m_paHistory;
   KAction *m_paMimeTypes;
   KAction *m_paApplications;
-  
+
   KAction *m_paSaveSettings;
   KAction *m_paSaveSettingsPerURL;
-  
+
   KAction *m_paConfigureFileManager;
   KAction *m_paConfigureBrowser;
   KAction *m_paConfigureFileTypes;
   KAction *m_paConfigureNetwork;
   KAction *m_paConfigureKeys;
-  
+
   KAction *m_paSplitViewHor;
   KAction *m_paSplitViewVer;
   KAction *m_paSplitWindowHor;
   KAction *m_paSplitWindowVer;
   KAction *m_paRemoveView;
-  
+
   KAction *m_paSaveDefaultProfile;
-  
+
   KAction *m_paSaveRemoveViewProfile;
   KActionMenu *m_pamLoadViewProfile;
-  
-  KAction *m_paAbout; 
-  
+
+  KAction *m_paAbout;
+
   KAction *m_paReload;
   KAction *m_paCut;
   KAction *m_paCopy;
@@ -283,9 +284,9 @@ private:
   bool m_bViewModeLock;
 
   typedef QMap<BrowserView *, KonqChildView *> MapViews;
-  
+
   MapViews m_mapViews;
-  
+
   KonqChildView *m_currentView;
 
   KBookmarkMenu* m_pBookmarkMenu;
@@ -293,7 +294,7 @@ private:
   KonqViewManager *m_pViewManager;
 
   QGuardedPtr<KStatusBar> m_statusBar;
-  
+
   QGuardedPtr<KProgress> m_progressBar;
 
   QTimer m_animatedLogoTimer;
@@ -303,7 +304,7 @@ private:
 
   static QList<QPixmap> *s_plstAnimatedLogo;
 
-  static bool s_bMoveSelection;  
+  static bool s_bMoveSelection;
 };
 
 #endif

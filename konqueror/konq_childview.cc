@@ -1,21 +1,21 @@
 /* This file is part of the KDE project
    Copyright (C) 1998, 1999 David Faure <faure@kde.org>
- 
+
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public
    License as published by the Free Software Foundation; either
    version 2 of the License, or (at your option) any later version.
- 
+
    This program is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
     General Public License for more details.
- 
+
    You should have received a copy of the GNU General Public License
    along with this program; see the file COPYING.  If not, write to
    the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
    Boston, MA 02111-1307, USA.
-*/     
+*/
 
 #include "konq_childview.h"
 #include "konq_frame.h"
@@ -29,7 +29,7 @@
 
 #include <kdebug.h>
 
-KonqChildView::KonqChildView( BrowserView *view, 
+KonqChildView::KonqChildView( BrowserView *view,
 			      KonqFrame* viewFrame,
 			      KonqMainView *mainView,
 			      const KService::Ptr &service,
@@ -50,7 +50,7 @@ KonqChildView::KonqChildView( BrowserView *view,
 
   m_service = service;
   m_serviceOffers = serviceOffers;
-  
+
   QStringList serviceTypes = m_service->serviceTypes();
   QStringList::ConstIterator serviceTypeIt = serviceTypes.begin();
   while ( serviceTypeIt != serviceTypes.end() )
@@ -58,13 +58,13 @@ KonqChildView::KonqChildView( BrowserView *view,
     if ( *serviceTypeIt != "Browser/View" )
       break;
     serviceTypeIt++;
-  }      
+  }
 
   if ( *serviceTypeIt == "Browser/View" )
     qFatal( "invalid history entry! we're missing a proper servicetype!" );
-  
+
   m_serviceType = *serviceTypeIt;
-  
+
   m_bAllowHTML = KonqPropsView::defaultProps()->isHTMLAllowed();
   m_lstBack.setAutoDelete( true );
   m_lstForward.setAutoDelete( true );
@@ -102,7 +102,7 @@ void KonqChildView::attach( BrowserView *view )
 void KonqChildView::detach()
 {
   m_pKonqFrame->detach();
-  
+
   QObject *obj = m_pView->child( 0L, "EditExtension" );
   if ( obj )
     obj->disconnect( m_pMainView );
@@ -115,7 +115,7 @@ void KonqChildView::detach()
 void KonqChildView::repaint()
 {
 //  kdebug(0,1202,"KonqChildView::repaint()");
-  if (m_pKonqFrame != 0L) 
+  if (m_pKonqFrame != 0L)
     m_pKonqFrame->repaint();
 //  kdebug(0,1202,"KonqChildView::repaint() : done");
 }
@@ -124,7 +124,7 @@ void KonqChildView::show()
 {
   kdebug(0,1202,"KonqChildView::show()");
 //  m_vView->show( true );
-  if ( m_pKonqFrame ) 
+  if ( m_pKonqFrame )
     m_pKonqFrame->show();
 }
 
@@ -148,7 +148,7 @@ void KonqChildView::switchView( BrowserView *pView )
   show(); // switchView is never called on startup. We can always show() the view.
 }
 
-bool KonqChildView::changeViewMode( const QString &serviceType, 
+bool KonqChildView::changeViewMode( const QString &serviceType,
                                     const QString &_url, bool useMiscURLData,
 				    const QString &serviceName )
 {
@@ -181,7 +181,7 @@ bool KonqChildView::changeViewMode( const QString &serviceType,
 
     switchView( pView );
   }
-  
+
   openURL( url, useMiscURLData );
 
   return true;
@@ -234,19 +234,19 @@ void KonqChildView::makeHistory( bool pushEntry )
   {
     if ( !m_bHistoryLock )
     {
-      if ( m_bBack ) 
+      if ( m_bBack )
       {
         m_bBack = false;
 //        kdebug(0,1202,"pushing into forward history : %s", m_pCurrentHistoryEntry->strURL.ascii() );
         m_lstForward.insert( 0, m_pCurrentHistoryEntry );
       }
-      else if ( m_bForward ) 
+      else if ( m_bForward )
       {
         m_bForward = false;
 //        kdebug(0,1202,"pushing into backward history : %s", m_pCurrentHistoryEntry->strURL.ascii() );
         m_lstBack.insert( 0, m_pCurrentHistoryEntry );
-      } 
-      else 
+      }
+      else
       {
         m_lstForward.clear();
 //        kdebug(0,1202,"pushing into backward history : %s", m_pCurrentHistoryEntry->strURL.ascii() );
@@ -256,7 +256,7 @@ void KonqChildView::makeHistory( bool pushEntry )
     else
       m_bHistoryLock = false;
   }
-  
+
   if ( pushEntry || !m_pCurrentHistoryEntry )
     m_pCurrentHistoryEntry = new HistoryEntry;
 
@@ -272,24 +272,24 @@ void KonqChildView::makeHistory( bool pushEntry )
 void KonqChildView::go( QList<HistoryEntry> &stack, int steps )
 {
   assert( (int)stack.count() >= steps );
-  
+
   for ( int i = 0; i < steps-1; i++ )
     stack.removeFirst();
 
   HistoryEntry *h = stack.first();
-  
+
   assert( h );
-  
+
 //  m_bReloadURL = false;
 //  m_iXOffset = h->xOffset;
 //  m_iYOffset = h->yOffset;
 //  changeViewMode( h->strServiceType, h->strURL, true, h->strServiceName );
-  
+
   if ( m_bViewStarted )
     stop();
 
   makeHistory( false );
-  
+
   if ( !m_service->serviceTypes().contains( h->strServiceType ) ||
        h->strServiceName != m_service->name() )
   {
@@ -308,14 +308,14 @@ void KonqChildView::go( QList<HistoryEntry> &stack, int steps )
     emit sigViewChanged( oldView, pView );
 
     switchView( pView );
-  }       
+  }
 
   QDataStream stream( h->buffer, IO_ReadOnly );
 
   QString url = h->strURL;
   KURL::decode( url );
   m_pMainView->setLocationBarURL( this, url );
-  
+
   m_pView->restoreState( stream );
 
   stack.removeFirst();
@@ -343,6 +343,10 @@ void KonqChildView::run( const QString & url )
 {
   debug(" ********** KonqChildView::run ");
   m_pRun = new KonqRun( mainView(), this, url, 0, false, true );
+  
+  connect( m_pRun, SIGNAL( finished() ),
+	   mainView(), SLOT( slotRunFinished() ) );
+  
   // stop() will get called by KonqMainView::openView or the KonqRun will
   // be destroyed upon completion (autodelete)
 }
@@ -368,7 +372,7 @@ void KonqChildView::reload()
   m_bForward = false;
   m_bBack = false;
   lockHistory();
-  
+
   m_pView->openURL( m_pView->url(), true, m_pView->xOffset(), m_pView->yOffset() );
 }
 
@@ -379,5 +383,5 @@ void KonqChildView::setPassiveMode( bool mode )
   if ( mode && m_pMainView->viewCount() > 1 && m_pMainView->currentChildView() == this )
     m_pMainView->setActiveView( m_pMainView->viewManager()->chooseNextView( this )->view() );
 }
-  
+
 #include "konq_childview.moc"
