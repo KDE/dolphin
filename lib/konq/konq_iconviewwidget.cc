@@ -66,8 +66,6 @@ KonqIconViewWidget::KonqIconViewWidget( QWidget * parent, const char * name, WFl
       verticalScrollBar(),  SIGNAL(valueChanged(int)),
       this,                 SLOT(slotViewportScrolled(int)));
 
-    QObject::connect( QApplication::clipboard(), SIGNAL(dataChanged()), this, SLOT(slotClipboardDataChanged()) );
-
     kapp->addKipcEventMask( KIPC::IconChanged );
     connect( kapp, SIGNAL(iconChanged(int)), SLOT(slotIconChanged(int)) );
     connect( this, SIGNAL(onItem(QIconViewItem *)), SLOT(slotOnItem(QIconViewItem *)) );
