@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="KonqTreeView" version="9">
+<kpartgui name="KonqTreeView" version="10">
 <MenuBar>
  <Menu name="edit"><text>&amp;Edit</text>
    <Menu name="selection"><text>Selection</text>
@@ -45,6 +45,7 @@
  </Menu>
 </MenuBar>
 <ToolBar name="mainToolBar"><text>Treeview Toolbar</text>
+ <Separator/>
  <Action name="incIconSize" />
  <Action name="decIconSize" />
 </ToolBar>
