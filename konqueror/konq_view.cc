@@ -105,6 +105,14 @@ void KonqView::openURL( const KURL &url, const QString & locationBarURL, const Q
   kdDebug(1202) << "KonqView::openURL url=" << url.url() << " locationBarURL=" << locationBarURL << endl;
   setServiceTypeInExtension();
 
+  KParts::BrowserExtension *ext = browserExtension();
+  KParts::URLArgs args;
+  if ( ext )
+    args = ext->urlArgs();
+
+  if ( args.lockHistory() )
+    lockHistory();
+
   if ( !m_bLockHistory )
   {
     // Store this new URL in the history, removing any existing forward history.
@@ -115,11 +123,6 @@ void KonqView::openURL( const KURL &url, const QString & locationBarURL, const Q
 
   callExtensionStringMethod( "setNameFilter(QString)", nameFilter );
   setLocationBarURL( locationBarURL );
-
-  KParts::BrowserExtension *ext = browserExtension();
-  KParts::URLArgs args;
-  if ( ext )
-    args = ext->urlArgs();
 
   if ( m_bAborted && m_pPart && m_pPart->url() == url )
   {
