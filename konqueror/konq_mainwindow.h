@@ -232,9 +232,9 @@ public:
 			   const QCString& objId );
 
   void dumpViewList();
-  
+
   // KonqFrameContainerBase implementation BEGIN
-  
+
   /**
    * Call this after inserting a new frame into the splitter.
    */
@@ -243,7 +243,7 @@ public:
    * Call this before deleting one of our children.
    */
   void removeChildFrame( KonqFrameBase * frame );
-  
+
   void saveConfig( KConfig* config, const QString &prefix, bool saveURLs, KonqFrameBase* docContainer, int id = 0, int depth = 0 );
 
   void copyHistory( KonqFrameBase *other );
@@ -258,18 +258,18 @@ public:
 
   void setTitle( QString title , QWidget* sender);
   void setTabIcon( QString url, QWidget* sender );
-  
+
   QWidget* widget();
 
   void listViews( ChildViewList *viewList );
   QCString frameType();
 
   KonqFrameBase* childFrame();
-  
+
   void setActiveChild( KonqFrameBase* activeChild );
 
   // KonqFrameContainerBase implementation END
-  
+
   KonqFrameBase* workingTab() { return m_pWorkingTab; }
   void setWorkingTab( KonqFrameBase* tab ) { m_pWorkingTab = tab; }
 
@@ -370,6 +370,7 @@ protected slots:
   void slotBreakOffTab();
   void slotBreakOffTabPopup();
   void slotPopupNewTab();
+  void slotPopupPasteTo();
   void slotRemoveView();
   void slotRemoveTab();
   void slotRemoveTabPopup();
@@ -389,7 +390,7 @@ protected slots:
   void slotReconfigure();
 
   void slotForceSaveMainWindowSettings();
-  
+
   void slotOpenWith();
 
   void slotGoMenuAboutToShow();
@@ -499,7 +500,7 @@ private:
 
   void connectActionCollection( KActionCollection *coll );
   void disconnectActionCollection( KActionCollection *coll );
-  
+
   KNewMenu * m_pMenuNew;
 
   KAction *m_paFileType;
@@ -629,7 +630,7 @@ private:
   static QStringList *s_plstAnimatedLogo;
 
   static QPtrList<KonqMainWindow> *s_lstViews;
-    
+
   QString m_currentDir; // stores current dir for relative URLs whenever applicable
 
   bool m_urlCompletionStarted;

@@ -188,7 +188,7 @@ void KonqView::switchView( KonqViewFactory &viewFactory )
       kdDebug(1202) << "KonqView::switchView X-KDE-BroswerView-FollowActive -> setFollowActive" <<endl;
       setFollowActive(true);
     }
-   
+
     // Honour "linked view"
     prop = m_service->property( "X-KDE-BrowserView-LinkedView");
     if ( prop.isValid() && prop.toBool() )
@@ -444,7 +444,7 @@ void KonqView::slotCompleted( bool hasPending )
     {
       // Try to get /favicon.ico
       if ( m_serviceType == "text/html" && url().protocol().left(4) == "http" )
-      KonqPixmapProvider::self()->downloadHostIcon( url() );
+      KonqPixmapProvider::downloadHostIcon( url() );
     }
   }
 }
@@ -480,7 +480,7 @@ void KonqView::setLocationBarURL( const QString & locationBarURL )
 
 void KonqView::setIconURL( const KURL & iconURL )
 {
-  KonqPixmapProvider::self()->setIconForURL( m_sLocationBarURL, iconURL );
+  KonqPixmapProvider::setIconForURL( m_sLocationBarURL, iconURL );
   m_bGotIconURL = true;
 }
 
@@ -817,19 +817,9 @@ KParts::BrowserHostExtension* KonqView::hostExtension( KParts::ReadOnlyPart *par
 bool KonqView::callExtensionMethod( const char *methodName )
 {
   QObject *obj = KParts::BrowserExtension::childObject( m_pPart );
-  // assert(obj); Hmm, not all views have a browser extension !
-  if ( !obj )
+  if ( !obj ) // not all views have a browser extension !
     return false;
 
-#if QT_VERSION < 300
-  QMetaData * mdata = obj->metaObject()->slot( methodName );
-  if( mdata )
-  {
-    (obj->*(mdata->ptr))();
-    return true;
-  };
-  return false;
-#else
   int id = obj->metaObject()->findSlot( methodName );
   if ( id == -1 )
     return false;
@@ -837,26 +827,14 @@ bool KonqView::callExtensionMethod( const char *methodName )
 
   obj->qt_invoke( id, o );
   return true;
-#endif
 }
 
 bool KonqView::callExtensionBoolMethod( const char *methodName, bool value )
 {
   QObject *obj = KParts::BrowserExtension::childObject( m_pPart );
-  // assert(obj); Hmm, not all views have a browser extension !
-  if ( !obj )
+  if ( !obj ) // not all views have a browser extension !
     return false;
 
-#if QT_VERSION < 300
-  typedef void (QObject::*BoolMethod)(bool);
-  QMetaData * mdata = obj->metaObject()->slot( methodName );
-  if( mdata )
-  {
-    (obj->*((BoolMethod)mdata->ptr))(value);
-    return true;
-  };
-  return false;
-#else
   int id = obj->metaObject()->findSlot( methodName );
   if ( id == -1 )
     return false;
@@ -866,28 +844,14 @@ bool KonqView::callExtensionBoolMethod( const char *methodName, bool value )
 
   obj->qt_invoke( id, o );
   return true;
-#endif
 }
 
 bool KonqView::callExtensionStringMethod( const char *methodName, QString value )
 {
   QObject *obj = KParts::BrowserExtension::childObject( m_pPart );
-  // assert(obj); Hmm, not all views have a browser extension !
-  if ( !obj )
+  if ( !obj ) // not all views have a browser extension !
     return false;
 
-#if QT_VERSION < 300
-  //kdDebug(1202) << "KonqView::callExtensionStringMethod " << methodName << endl;
-  typedef void (QObject::*StringMethod)(QString);
-  QMetaData * mdata = obj->metaObject()->slot( methodName );
-  if( mdata )
-  {
-    (obj->*((StringMethod)mdata->ptr))(value);
-    return true;
-    //kdDebug(1202) << "Call done" << endl;
-  };
-  return false;
-#else
   int id = obj->metaObject()->findSlot( methodName );
   if ( id == -1 )
     return false;
@@ -897,7 +861,23 @@ bool KonqView::callExtensionStringMethod( const char *methodName, QString value 
 
   obj->qt_invoke( id, o );
   return true;
-#endif
+}
+
+bool KonqView::callExtensionURLMethod( const char *methodName, const KURL& value )
+{
+  QObject *obj = KParts::BrowserExtension::childObject( m_pPart );
+  if ( !obj ) // not all views have a browser extension !
+    return false;
+
+  int id = obj->metaObject()->findSlot( methodName );
+  if ( id == -1 )
+    return false;
+  QUObject o[ 2 ];
+
+  static_QUType_ptr.set( o + 1, &value );
+
+  obj->qt_invoke( id, o );
+  return true;
 }
 
 void KonqView::setViewName( const QString &name )

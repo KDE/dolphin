@@ -783,7 +783,7 @@ bool KonqMainWindow::makeViewsFollow( const KURL & url, const KParts::URLArgs &a
 	{
 	    res=openView(serviceType,url,view,req) || res;
 	}
-  } 
+  }
 
   return res;
 }
@@ -1987,7 +1987,7 @@ void KonqMainWindow::slotPopupNewTab()
     if (newView != 0L)
       newView->openURL( url, url.prettyURL() );
   }
-  
+
   if (newView != 0L) {
     kdDebug(1202) << "slotPopupNewTab() setting part " << newView->part() << " active." << endl;
     m_pViewManager->setActivePart( newView->part(), true );
@@ -2241,7 +2241,7 @@ void KonqMainWindow::slotGoHistoryDelayed()
       /*bOthersFollowed = */makeViewsFollow( m_currentView->url(), KParts::URLArgs(),
                                              m_currentView->serviceType(), m_currentView, MakeLinkedViewsFollow );
   makeViewsFollow(m_currentView->url(), KParts::URLArgs(),m_currentView->serviceType(),m_currentView,MakeFollowActiveFollow);
-					     
+
 }
 
 void KonqMainWindow::slotBackAboutToShow()
@@ -2281,12 +2281,12 @@ void KonqMainWindow::slotForwardActivated( int id )
 void KonqMainWindow::initCombo()
 {
   m_combo = new KonqCombo( 0L, "history combo");
- 
+
   m_combo->init( s_pCompletion );
 
   connect( m_combo, SIGNAL(activated(const QString&)),
            this, SLOT(slotURLEntered(const QString&)) );
-  
+
   m_pURLCompletion = new KURLCompletion( KURLCompletion::FileCompletion );
   m_pURLCompletion->setCompletionMode( s_pCompletion->completionMode() );
   // This only turns completion off. ~ is still there in the result
@@ -3362,6 +3362,11 @@ void KonqMainWindow::slotPopupMenu( KXMLGUIClient *client, const QPoint &_global
   popupMenuCollection.insert( m_paDelete );
   popupMenuCollection.insert( m_paShred );
 
+  // The pasteto action is used when clicking on a dir, to paste into it.
+  KAction *actPaste = KStdAction::paste( this, SLOT( slotPopupPasteTo() ), &popupMenuCollection, "pasteto" );
+  actPaste->setEnabled( m_paPaste->isEnabled() );
+  popupMenuCollection.insert( actPaste );
+
   if ( _items.count() == 1 )
     m_popupEmbeddingServices = KTrader::self()->query( _items.getFirst()->mimetype(),
                                                        "KParts/ReadOnlyPart",
@@ -3444,7 +3449,7 @@ void KonqMainWindow::slotPopupMenu( KXMLGUIClient *client, const QPoint &_global
   delete konqyMenuClient;
   m_popupEmbeddingServices.clear();
 
-  kdDebug(1202) << "-------- KonqMainWindow::slotPopupMenu() - m_oldView = " << m_oldView << ", currentView = " << currentView 
+  kdDebug(1202) << "-------- KonqMainWindow::slotPopupMenu() - m_oldView = " << m_oldView << ", currentView = " << currentView
                 << ", m_currentView = " << m_currentView << endl;
 
   if ( m_oldView && (m_oldView != currentView) && (currentView == m_currentView) )
@@ -3492,6 +3497,13 @@ void KonqMainWindow::slotDatabaseChanged()
     for (; it != end; ++it )
       (*it)->callExtensionMethod( "refreshMimeTypes()" );
   }
+}
+
+void KonqMainWindow::slotPopupPasteTo()
+{
+    if ( !m_currentView || m_popupURL.isEmpty() )
+        return;
+    m_currentView->callExtensionURLMethod( "pasteTo(const KURL&)", m_popupURL );
 }
 
 void KonqMainWindow::slotReconfigure()

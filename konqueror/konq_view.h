@@ -253,6 +253,7 @@ public:
   bool callExtensionMethod( const char *methodName );
   bool callExtensionBoolMethod( const char *methodName, bool value );
   bool callExtensionStringMethod( const char *methodName, QString value );
+  bool callExtensionURLMethod( const char *methodName, const KURL& value );
 
   void setViewName( const QString &name );
   QString viewName() const;
@@ -299,7 +300,7 @@ public slots:
    * get an icon for the URL from the BrowserExtension
    */
   void setIconURL( const KURL &iconURL );
-  
+
   void setTabIcon( QString url );
 
   void setCaption( const QString & caption );
