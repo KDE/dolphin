@@ -72,11 +72,6 @@ KonqTextViewWidget::KonqTextViewWidget( KonqListView *parent, QWidget *parentWid
 KonqTextViewWidget::~KonqTextViewWidget()
 {}
 
-bool KonqTextViewWidget::isExecuteArea( const QPoint& point )
-{
-   return isNameColumn(point);
-}
-
 void KonqTextViewWidget::createColumns()
 {
    //the textview has fixed size columns
@@ -213,8 +208,7 @@ void KonqTextViewWidget::setComplete()
    }
 }
 
-
-bool KonqTextViewWidget::isNameColumn(const QPoint& point )
+bool KonqTextViewWidget::isExecuteArea( const QPoint& point )
 {
    if (!itemAt( point ) )
       return false;
@@ -230,7 +224,7 @@ bool KonqTextViewWidget::isNameColumn(const QPoint& point )
    return ( x > offset && x < ( offset + width ) );
 }
 
-void KonqTextViewWidget::viewportDragMoveEvent( QDragMoveEvent *_ev )
+/*void KonqTextViewWidget::viewportDragMoveEvent( QDragMoveEvent *_ev )
 {
    KonqBaseListViewItem *item =
        isNameColumn( _ev->pos() ) ? (KonqBaseListViewItem*)itemAt( _ev->pos() ) : 0L;
@@ -278,8 +272,8 @@ void KonqTextViewWidget::viewportDropEvent( QDropEvent *ev  )
        isNameColumn( ev->pos() ) ? (KonqBaseListViewItem*)itemAt( ev->pos() ) : 0;
 
    KFileItem * destItem = (item) ? item->item() : m_dirLister->rootItem();
-   KonqOperations::doDrop( destItem /*may be 0L*/, destItem ? destItem->url() : url(), ev, this );
-}
+   KonqOperations::doDrop( destItem /*may be 0L/, destItem ? destItem->url() : url(), ev, this );
+}*/
 
 
 #include "konq_textviewwidget.moc"
