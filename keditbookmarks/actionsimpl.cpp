@@ -55,14 +55,6 @@
 
 #include "actionsimpl.h"
 
-void ActionsImpl::slotExpandAll() {
-   KEBApp::self()->setAllOpen(true);
-}
-
-void ActionsImpl::slotCollapseAll() {
-   KEBApp::self()->setAllOpen(false);
-}
-
 ActionsImpl* ActionsImpl::s_self = 0;
 
 /* -------------------------------------- */
@@ -253,6 +245,16 @@ void ActionsImpl::slotChangeIcon() {
                             EditCommand::Edition("icon", newIcon),
                             i18n("Icon"));
    KEBApp::self()->addCommand(cmd);
+}
+
+void ActionsImpl::slotExpandAll() {
+   ListView::self()->setOpen(true);
+   KEBApp::self()->setModifiedFlag(true);
+}
+
+void ActionsImpl::slotCollapseAll() {
+   ListView::self()->setOpen(false);
+   KEBApp::self()->setModifiedFlag(true);
 }
 
 #include "actionsimpl.moc"

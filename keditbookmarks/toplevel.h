@@ -74,8 +74,6 @@ public:
    bool modified() { return m_modified; }
    bool nsShown();
 
-   void setAllOpen(bool open);
-
 private:
    static KBookmarkManager* bookmarkManager();
 

@@ -327,15 +327,6 @@ void KEBApp::emitSlotCommandExecuted() {
 
 /* -------------------------- */
 
-// DESIGN - poinless drivel
-
-void KEBApp::setAllOpen(bool open) {
-   ListView::self()->setOpen(open);
-   setModifiedFlag(true);
-}
-
-/* -------------------------- */
-
 // LATER - move
 void KEBApp::slotCommandExecuted() {
    if (!m_readOnly) {

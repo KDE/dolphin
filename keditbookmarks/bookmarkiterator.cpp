@@ -32,6 +32,7 @@ BookmarkIterator::BookmarkIterator(QValueList<KBookmark> bks) : m_bklist(bks) {
 }
 
 BookmarkIterator::~BookmarkIterator() {
+   ;
 }
 
 void BookmarkIterator::delayedEmitNextOne() {
@@ -61,20 +62,21 @@ void BookmarkIterator::nextOne() {
    QValueListIterator<KBookmark> head = m_bklist.begin();
    KBookmark bk = (*head);
 
-   if (bk.hasParent() && isApplicable(bk)) {
-      // kdDebug() << "BookmarkIterator::nextOne " << bk.url().url() 
-      //           << " : " << bk.address() << "\n";
+   bool viable = bk.hasParent() && isApplicable(bk);
+
+   if (viable) {
       m_bk = bk;
       doAction();
-      // maybe the remove should be in nextOne()?
-      m_bklist.remove(head);
-   } else {
-      m_bklist.remove(head);
+   }
+
+   m_bklist.remove(head);
+
+   if (!viable) {
       emit nextOne();
    }
 }
 
-/* ---------------------------**** */
+/* --------------------------- */
 
 BookmarkIteratorHolder::BookmarkIteratorHolder() {
    m_itrs.setAutoDelete(true);
@@ -92,7 +94,6 @@ void BookmarkIteratorHolder::removeItr(BookmarkIterator *itr) {
 
 void BookmarkIteratorHolder::cancelAllItrs() {
    BookmarkIterator *itr;
-   // DESIGN - use an iterator (it), umm... confusing :)
    for (itr = m_itrs.first(); itr != 0; itr = m_itrs.next()) {
       removeItr(itr);
    }
