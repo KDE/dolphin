@@ -197,11 +197,13 @@ KonqPopupMenu::KonqPopupMenu( const KFileItemList &items,
         addSeparator();
       }
 
-      if ( currentDir ) {
+      if ( currentDir || m_sViewURL.protocol() == "http" /* hack for khtml frames */ )
+      {
         addAction( "up" );
         addAction( "back" );
         addAction( "forward" );
-        addAction( "reload" );
+        if ( currentDir )
+            addAction( "reload" );
         addGroup( "reload" );
         addSeparator();
       }
