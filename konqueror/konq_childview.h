@@ -175,9 +175,6 @@ public:
    */
   KonqFrame* frame() { return m_pKonqFrame; }
 
-  void setAllowHTML( bool allow ) { m_bAllowHTML = allow; }
-  bool allowHTML() const { return m_bAllowHTML; }
-
   /**
    * Returns the servicetype this view is currently displaying
    */
@@ -190,12 +187,23 @@ public:
 
   bool supportsServiceType( const QString &serviceType ) { return serviceTypes().contains( serviceType ); }
 
+  // True if "Use index.html" is set (->the view doesn't necessarily show HTML!)
+  void setAllowHTML( bool allow ) { m_bAllowHTML = allow; }
+  bool allowHTML() const { return m_bAllowHTML; }
+
+  // True if currently loading
   void setLoading( bool b ) { m_bLoading = b; }
   bool isLoading() const { return m_bLoading; }
 
+  // True if "locked to current location" (and their view mode, in fact)
   bool passiveMode() const { return m_bPassiveMode; }
   void setPassiveMode( bool mode );
 
+  // True if locked to current view mode (usually temporarily)
+  bool lockedViewMode() const { return m_bLockedViewMode; }
+  void setLockedViewMode( bool mode ) { m_bLockedViewMode = mode; }
+
+  // True if 'link' symbol set
   bool linkedView() const { return m_bLinkedView; }
   void setLinkedView( bool mode );
 
@@ -288,6 +296,7 @@ protected:
   KonqFrame *m_pKonqFrame;
   bool m_bLoading;
   bool m_bPassiveMode;
+  bool m_bLockedViewMode;;
   bool m_bLinkedView;
   KTrader::OfferList m_partServiceOffers;
   KTrader::OfferList m_appServiceOffers;

@@ -64,6 +64,7 @@ KonqChildView::KonqChildView( KonqViewFactory &viewFactory,
   m_lstHistory.setAutoDelete( true );
   m_bLoading = false;
   m_bPassiveMode = false;
+  m_bLockedViewMode = false;
   m_bLinkedView = false;
   m_bAborted = false;
 

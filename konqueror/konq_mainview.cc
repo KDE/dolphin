@@ -802,8 +802,13 @@ bool KonqMainView::openView( QString serviceType, const KURL &_url, KonqChildVie
   QString serviceName; // default: none provided
   m_paRemoveLocalProperties->setEnabled( false ); // default: no local props
 
-  if ( serviceType == "inode/directory" )
-  {
+  // Look for which view mode to use, if a directory - not if view locked to 
+  // its current mode or passive.
+  if ( ( !childView ||
+         (!childView->lockedViewMode() && !childView->passiveMode())
+       )
+     && serviceType == "inode/directory" )
+  { // Phew !
     serviceName = m_sViewModeForDirectory;
     if ( url.isLocalFile() ) // local, we can do better (.directory)
     {
@@ -859,6 +864,10 @@ bool KonqMainView::openView( QString serviceType, const KURL &_url, KonqChildVie
     }
   else // We know the child view
   {
+    // We used the 'locking' for keeping the servicename empty,
+    // Now we can reset it.
+    if ( childView->lockedViewMode() )
+        childView->setLockedViewMode( false );
     return childView->changeViewMode( serviceType, serviceName, url, originalURL );
   }
 }
@@ -1113,6 +1122,7 @@ void KonqMainView::customEvent( QCustomEvent *event )
          {
            kdDebug(1202) << "Sending openURL to view " << it.key()->className() << " url:" << ev->url().url() << endl;
            kdDebug(1202) << "Current view url:" << (*it)->url().url() << endl;
+           (*it)->setLockedViewMode(true);
            openURL( (*it), ev->url() );
          } else
            kdDebug(1202) << "View doesn't support service type " << senderChildView->serviceType() << endl;
