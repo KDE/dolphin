@@ -1,3 +1,9 @@
+2000-11-22  David Faure  <faure@kde.org>
+
+	* konq_listview.cc: Added "Default" Icon Size, which corresponds to 
+	KIcon::Small (but when switching to icon view, it becomes whatever's 
+	configured for the "Desktop" group).
+
 2000-11-21  David Faure  <faure@kde.org>
 
 	* konq_listview.cc: Case Insensitive Sort option, on by default.
