@@ -81,7 +81,7 @@ class KWrite : public KParts::MainWindow
     void slotEnableActions( bool enable );
 
     /**
-     * adds a chenged URL to the recent files
+     * adds a changed URL to the recent files
      */
     void slotFileNameChanged();
 
