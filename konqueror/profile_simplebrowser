@@ -1,0 +1,9 @@
+[Profile]
+Name=Simple Browser
+XMLUIFile=konq-simplebrowser.rc
+RootItem=View0
+View0_ServiceName=konq_aboutpage
+View0_ServiceType=KonqAboutPage
+View0_URL=about:konqueror
+Width=60%
+Height=80%

@@ -9,7 +9,7 @@ lib_LTLIBRARIES =
 kdeinit_LTLIBRARIES = konqueror.la
 
 konqdatadir = $(kde_datadir)/konqueror
-konqdata_DATA = konqueror.rc
+konqdata_DATA = konqueror.rc konq-simplebrowser.rc
 
 kde_services_DATA = konqueror_config.desktop
 kde_apps_DATA = konqueror.desktop
@@ -77,9 +77,11 @@ install-data-local:
 	$(INSTALL_DATA) $(srcdir)/profile_webbrowsing.desktop $(DESTDIR)$(profiledir)/webbrowsing
 	$(INSTALL_DATA) $(srcdir)/profile_filemanagement.desktop $(DESTDIR)$(profiledir)/filemanagement
 	$(INSTALL_DATA) $(srcdir)/profile_midnightcommander.desktop $(DESTDIR)$(profiledir)/midnightcommander
-	$(INSTALL_DATA) $(srcdir)/profile_filepreview.desktop $(DESTDIR)$(profiledir)/filepreview
 	$(INSTALL_DATA) $(srcdir)/profile_tabbedbrowsing.desktop $(DESTDIR)$(profiledir)/tabbedbrowsing
 	$(INSTALL_DATA) $(srcdir)/profile_kde_devel.desktop $(DESTDIR)$(profiledir)/kde_devel
+	$(INSTALL_DATA) $(srcdir)/profile_simplebrowser.desktop $(DESTDIR)$(profiledir)/simplebrowser
+
+#	$(INSTALL_DATA) $(srcdir)/profile_filepreview.desktop $(DESTDIR)$(profiledir)/filepreview
 
 uninstall-local:
 	-rm -f $(DESTDIR)$(profiledir)/webbrowsing $(DESTDIR)$(profiledir)/filemanagement $(DESTDIR)$(profiledir)/midnightcommander $(DESTDIR)$(profiledir)/filepreview
