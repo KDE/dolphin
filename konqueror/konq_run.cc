@@ -155,15 +155,31 @@ void KonqRun::handleError( KIO::Job *job )
   foundMimeType( "text/html" );
 }
 
+void KonqRun::init()
+{
+    KParts::BrowserRun::init();
+    // Maybe init went to the "let's try stat'ing" part. Then connect to info messages.
+    // (in case it goes to scanFile, this will be done below)
+    KIO::StatJob *job = dynamic_cast<KIO::StatJob*>( m_job );
+    if ( job && !job->error() && m_pView ) {
+        connect( job, SIGNAL( infoMessage( KIO::Job*, const QString& ) ),
+                 m_pView, SLOT( slotInfoMessage(KIO::Job*, const QString& ) ) );
+    }
+}
+
 void KonqRun::scanFile()
 {
     KParts::BrowserRun::scanFile();
     // could be a static cast as of now, but who would notify when
     // BrowserRun changes
     KIO::TransferJob *job = dynamic_cast<KIO::TransferJob*>( m_job );
-    if ( job && !job->error() )
+    if ( job && !job->error() ) {
         connect( job, SIGNAL( redirection( KIO::Job *, const KURL& )),
                  SLOT( slotRedirection( KIO::Job *, const KURL& ) ));
+        if ( m_pView )
+            connect( job, SIGNAL( infoMessage( KIO::Job*, const QString& ) ),
+                     m_pView, SLOT( slotInfoMessage(KIO::Job*, const QString& ) ) );
+    }
 }
 
 void KonqRun::slotRedirection( KIO::Job *job, const KURL& redirectedToURL )

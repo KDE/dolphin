@@ -312,6 +312,10 @@ public slots:
 
   void setCaption( const QString & caption );
 
+  // connected to the KROP's KIO::Job
+  // but also to KonqRun's job
+  void slotInfoMessage( KIO::Job *, const QString &msg );
+
 protected slots:
   // connected to the KROP's KIO::Job
   void slotStarted( KIO::Job * job );
@@ -320,7 +324,6 @@ protected slots:
   void slotCanceled( const QString & errMsg );
   void slotPercent( KIO::Job *, unsigned long percent );
   void slotSpeed( KIO::Job *, unsigned long bytesPerSecond );
-  void slotInfoMessage( KIO::Job *, const QString &msg );
 
   /**
    * Connected to the BrowserExtension
