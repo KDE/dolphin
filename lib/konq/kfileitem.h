@@ -16,15 +16,12 @@
     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 */ 
 
-#ifndef __konq_fileicon_h__
-#define __konq_fileicon_h__
+#ifndef __konq_fileitem_h__
+#define __konq_fileitem_h__
 
 /*
- * A KFileIcon is a generic class to handle files represented by icons.
- * It includes functionalities such as mimetype, icon, ...
- *
- * TODO : a KFileIconLister (?) to handle listing & refreshing
- * Currently, it's duplicated by kdesktop, konq_iconview and konq_treeview
+ * A KFileItem is a generic class to handle files listed by KDirLister.
+ * It includes functionalities such as mimetype, icon, text, mode, link, ...
  */
 
 #include <qstringlist.h>
@@ -36,37 +33,43 @@
 class KMimeType;
 class QPixmap;
 
-class KFileIcon
+class KFileItem
 {
 public:
   /**
-   * Create an icon representing a file
+   * Create an item representing a file, from a UDSEntry - e.g. returned by KDirLister
    * @param _entry the KIO entry used to get the file, contains info about it
    * @param _url the file url
-   * @param _mini whether a mini icon should be used
    */
-  KFileIcon( UDSEntry& _entry, KURL& _url, bool _mini );
+  KFileItem( UDSEntry& _entry, KURL& _url );
+  /**
+   * Create an item representing a file, from all the necessary info for it
+   * @param _text the text showed for the file
+   * @param _mode the file mode (according to stat())
+   * @param _url the file url
+   */
+  KFileItem::KFileItem( QString _text, mode_t _mode, KURL& _url );
   /**
    * Destructor
    */
-  virtual ~KFileIcon() { }
+  ~KFileItem() { }
 
   /**
    * @return the url of the file
    */
-  virtual QString url() const { return m_url.url(); }
+  QString url() const { return m_url.url(); }
   /**
    * @return the mode of the file
    */
-  virtual mode_t mode() const { return m_mode; }
+  mode_t mode() const { return m_mode; }
   /**
    * @return true if the file is a link
    */
-  virtual bool isLink() const;
+  bool isLink() const;
   /**
-   * @return the mimetype of the file
+   * @return true if the file is a local file
    */
-  virtual KMimeType* mimeType() const { return m_pMimeType; }
+  bool isLocalFile() const { return m_bIsLocalURL; }
   /**
    * @return a pixmap representing the file
    * Don't cache it, don't delete it. It's handled by KPixmapCache !
@@ -74,30 +77,34 @@ public:
    * The method is named getPixmap because it actually determines the pixmap
    * each time. For a KIconContainerItem derived class, use getPixmap
    * then setPixmap to store the pixmap in the item, then pixmap() to get it later
-   * getPixmap() should only be called it might have changed (e.g. m_bMini changed)
+   * getPixmap() should only be called it might have changed
    */
-  virtual QPixmap* getPixmap() const;
+  QPixmap* getPixmap( bool _mini ) const;
   /**
-   * @return the text of the file icon (i.e. the filename)
+   * @return the text of the file item (i.e. the filename)
    * Named "getText" instead of "text" for the same reason as above.
    */
-  virtual QString getText() const { return m_strText; }
-
-  // TODO : probably setMini is needed
+  QString getText() const { return m_strText; }
 
   // Used when updating a directory - marked == seen when refreshing
-  virtual bool isMarked() const { return m_bMarked; }
-  virtual void mark() { m_bMarked = true; }
-  virtual void unmark() { m_bMarked = false; }
+  bool isMarked() const { return m_bMarked; }
+  void mark() { m_bMarked = true; }
+  void unmark() { m_bMarked = false; }
   
   /**
    * @return the string to be displayed in the statusbar when the mouse 
    *         is over this item
    */
-  virtual QString getStatusBarInfo() const;
+  QString getStatusBarInfo() const;
 
   // TODO
-  virtual bool acceptsDrops( QStringList& /* _formats */ ) const;
+  bool acceptsDrops( QStringList& /* _formats */ ) const;
+
+  /**
+   * Let's "KRun" this file !
+   * (called when file is clicked or double-clicked or return is pressed)
+   */
+  void run();
 
 protected:
   /**
@@ -115,22 +122,18 @@ protected:
    */
   KURL m_url;
   /**
-   * Mini icon or not mini icon
-   */
-  bool m_bMini;
-  /**
-   * The mode (as given by stat()) for the file
-   */
-  mode_t m_mode;
-  /**
    * True if local file
    */
   bool m_bIsLocalURL;
 
   /**
-   * The text for this icon, i.e. the file name without path
+   * The text for this item, i.e. the file name without path
    */
   QString m_strText;
+  /**
+   * The mode (as given by stat()) for the file
+   */
+  mode_t m_mode;
   /**
    * The mimetype of the file
    */

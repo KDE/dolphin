@@ -19,23 +19,18 @@
 
 #include <unistd.h>
 
-#include "kfileicon.h"
+#include "kfileitem.h"
 
 #include <kmimetypes.h>
 #include <kpixmapcache.h>
 #include <klocale.h>
+#include <krun.h>
 
-KFileIcon::KFileIcon( UDSEntry& _entry, KURL& _url, bool _mini ) :
+KFileItem::KFileItem( UDSEntry& _entry, KURL& _url ) :
   m_entry( _entry ), 
   m_url( _url ), 
-  m_bMini( _mini ),
   m_bIsLocalURL( _url.isLocalFile() ),
   m_bMarked( false )
-{
-  KFileIcon::init(); // don't call derived methods !
-}
-
-void KFileIcon::init()
 {
   // extract the mode and the filename from the UDS Entry
   m_mode = 0;
@@ -48,7 +43,22 @@ void KFileIcon::init()
     else if ( it->m_uds == UDS_NAME )
       m_strText = it->m_str.c_str();
   }
+  KFileItem::init(); // don't call derived methods !
+}
 
+KFileItem::KFileItem( QString _text, mode_t _mode, KURL& _url ) :
+  m_entry( 0 ), // warning !
+  m_url( _url ), 
+  m_bIsLocalURL( _url.isLocalFile() ),
+  m_strText( _text ),
+  m_mode( _mode ),
+  m_bMarked( false )
+{
+  KFileItem::init(); // don't call derived methods !
+}  
+
+void KFileItem::init()
+{
   assert(!m_strText.isNull());
 
   // determine the mimetype
@@ -56,20 +66,20 @@ void KFileIcon::init()
   assert (m_pMimeType);
 }
 
-QPixmap* KFileIcon::getPixmap() const
+QPixmap* KFileItem::getPixmap( bool _mini ) const
 {
-  QPixmap * p = KPixmapCache::pixmapForMimeType( m_pMimeType, m_url, m_bIsLocalURL, m_bMini );
+  QPixmap * p = KPixmapCache::pixmapForMimeType( m_pMimeType, m_url, m_bIsLocalURL, _mini );
   if (!p)
     warning("Pixmap not found for mimetype %s",m_pMimeType->mimeType().ascii());
   return p;
 }
 
-inline bool KFileIcon::isLink() const
+bool KFileItem::isLink() const
 {
   return S_ISLNK( m_mode );
 }
 
-bool KFileIcon::acceptsDrops( QStringList& /* _formats */ ) const
+bool KFileItem::acceptsDrops( QStringList& /* _formats */ ) const
 {
   if ( strcmp( "inode/directory", m_pMimeType->mimeType() ) == 0 )
     return true;
@@ -87,7 +97,7 @@ bool KFileIcon::acceptsDrops( QStringList& /* _formats */ ) const
   return false;
 }
 
-QString KFileIcon::getStatusBarInfo() const
+QString KFileItem::getStatusBarInfo() const
 {
   QString comment = m_pMimeType->comment( m_url, false );
   QString text;
@@ -153,3 +163,7 @@ QString KFileIcon::getStatusBarInfo() const
     return m_url.decodedURL();
 }
 
+void KFileItem::run()
+{
+  (void) new KRun( m_url.url(), m_mode, m_bIsLocalURL );
+}

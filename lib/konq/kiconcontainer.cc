@@ -877,7 +877,7 @@ void KIconContainer::viewportMouseMoveEvent( QMouseEvent *_mouse )
     return;
   }
   
-#warning "had to define Dnd_X_Precision (where is it defined ?) (David)"
+#warning "had to define Dnd_X_Precision (it's defined in drag.h which I don't want!) (David)"
 #define Dnd_X_Precision 2
 #define Dnd_Y_Precision 2
 
