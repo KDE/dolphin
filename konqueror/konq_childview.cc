@@ -124,14 +124,19 @@ void KonqChildView::emitEventViewMenu( OpenPartsUI::Menu_ptr menu, bool create )
 
 void KonqChildView::switchView( Konqueror::View_ptr _vView )
 {
+  debug("switchView : part->inactive");
   m_vMainWindow->setActivePart( m_vParent->id() );
+  debug("switchView : oldId=");
   OpenParts::Id oldId = m_vView->id();
     
   detach();
   Konqueror::View_var vView = Konqueror::View::_duplicate( _vView );
+  debug("switchView : attaching new one");
   attach( vView );
     
+  debug("switchView : emitting sigIdChanged");
   emit sigIdChanged( this, oldId, vView->id() );
+  debug("switchView : setActivePart");
   m_vMainWindow->setActivePart( vView->id() ); 
 }
 

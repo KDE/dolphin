@@ -453,8 +453,17 @@ bool KonqMainView::mappingChildGotFocus( OpenParts::Part_ptr child )
 
 bool KonqMainView::mappingParentGotFocus( OpenParts::Part_ptr child )
 {
-  //hum....
   cerr << "void KonqMainView::mappingParentGotFocus( OpenParts::Part_ptr child )" << endl;
+  // removing view-specific menu entries (view will probably be destroyed !)
+  if (m_currentView)
+    m_currentView->emitEventViewMenu( m_vMenuView, false );
+  m_currentView = 0L;
+
+  // no more active view (even temporarily)
+  slotSetUpEnabled( "/", 0 );
+  setItemEnabled( m_vMenuGo, MGO_BACK_ID, false );
+  setItemEnabled( m_vMenuGo, MGO_FORWARD_ID, false );
+
   return true;
 }
 
@@ -491,7 +500,7 @@ void KonqMainView::insertView( Konqueror::View_ptr view,
 
   m_mapViews[ view->id() ] = v;
 
-  //createViewMenu();
+  setItemEnabled( m_vMenuView, MVIEW_REMOVEVIEW_ID, true );
 }
 
 void KonqMainView::setActiveView( OpenParts::Id id )
@@ -549,6 +558,8 @@ void KonqMainView::removeView( OpenParts::Id id )
   {
     if ( id == m_currentId )
     {
+      // give focus to mainwindow. Shouldn't we pick up another view
+      // instead ? 
       m_vMainWindow->setActivePart( this->id() );
       m_currentView = 0L;
     }
@@ -556,6 +567,8 @@ void KonqMainView::removeView( OpenParts::Id id )
     delete it->second;
     m_mapViews.erase( it );
   }
+  if ( m_mapViews.size() == 1 )
+    setItemEnabled( m_vMenuView, MVIEW_REMOVEVIEW_ID, false );
 }
 
 void KonqMainView::slotIdChanged( KonqChildView * childView, OpenParts::Id oldId, OpenParts::Id newId )
