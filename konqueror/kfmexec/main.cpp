@@ -42,7 +42,7 @@
 
 
 static const char *description =
-	I18N_NOOP("KFM Exec - Opens remote files, watches modifications, asks for upload");
+        I18N_NOOP("KFM Exec - Opens remote files, watches modifications, asks for upload");
 
 static const char *version = "v0.0.1";
 
@@ -75,54 +75,54 @@ KFMExec::KFMExec()
     {
         KURL url = args->url(i);
         // A local file, not an URL ?
-	// => It is not encoded and not shell escaped, too.
-	if ( url.isLocalFile() )
-	{
-	    QString tmp( shellQuote( url.path() ) );
-	    if ( !files.isEmpty() )
-		files += " ";
-	    files += "\"";
-	    files += tmp;
-	    files += "\"";
-	}
-	// It is an URL
-	else
+        // => It is not encoded and not shell escaped, too.
+        if ( url.isLocalFile() )
         {
-	    if ( url.isMalformed() )
-	    {
+            QString tmp( shellQuote( url.path() ) );
+            if ( !files.isEmpty() )
+                files += " ";
+            files += "\"";
+            files += tmp;
+            files += "\"";
+        }
+        // It is an URL
+        else
+        {
+            if ( url.isMalformed() )
+            {
                 KMessageBox::error( 0L, i18n( "The URL %1\nis malformed" ).arg( url.url() ) );
-	    }
-	    // We must fetch the file
-	    else
-	    {
+            }
+            // We must fetch the file
+            else
+            {
                 // Build the destination filename, in ~/.kde/share/apps/kfmexec/tmp/
                 // Unlike KDE-1.1, we put the filename at the end so that the extension is kept
                 // (Some programs rely on it)
-		QString tmp = locateLocal( "appdata", "tmp/" ) +
-		              QString("%1.%2.%3").arg(getpid()).arg(jobCounter++).arg(url.fileName());
-		if ( !files.isEmpty() )
-		    files += " ";
-		files += "\"";
-		files += tmp;
-		files += "\"";
+                QString tmp = locateLocal( "appdata", "tmp/" ) +
+                              QString("%1.%2.%3").arg(getpid()).arg(jobCounter++).arg(url.fileName());
+                if ( !files.isEmpty() )
+                    files += " ";
+                files += "\"";
+                files += tmp;
+                files += "\"";
                 kdDebug() << "files= " << files << endl;
-		fileList.append( tmp );
-		urlList.append( url );
+                fileList.append( tmp );
+                urlList.append( url );
 
-		expectedCounter++;
-		KIO::Job *job = KIO::file_copy( url, tmp );
-		jobList->append( job );
+                expectedCounter++;
+                KIO::Job *job = KIO::file_copy( url, tmp );
+                jobList->append( job );
 
-		connect( job, SIGNAL( result( KIO::Job * ) ), SLOT( slotResult( KIO::Job * ) ) );
-	
-	    }
-	}
+                connect( job, SIGNAL( result( KIO::Job * ) ), SLOT( slotResult( KIO::Job * ) ) );
+
+            }
+        }
     }
     args->clear();
 
     counter = 0;
     if ( counter == expectedCounter )
-	slotResult( 0L );
+        slotResult( 0L );
 }
 
 void KFMExec::slotResult( KIO::Job * job )
@@ -133,7 +133,7 @@ void KFMExec::slotResult( KIO::Job * job )
     counter++;
 
     if ( counter < expectedCounter )
-	return;
+        return;
 
     // We know we can run the app now - but let's finish the job properly first.
     QTimer::singleShot( 0, this, SLOT( slotRunApp() ) );
@@ -158,9 +158,9 @@ void KFMExec::slotRunApp()
     QStringList::ConstIterator it = fileList.begin();
     for ( ; it != fileList.end() ; ++it )
     {
-	struct stat buff;
-	stat( QFile::encodeName(*it), &buff );
-	times[i++] = buff.st_mtime;
+        struct stat buff;
+        stat( QFile::encodeName(*it), &buff );
+        times[i++] = buff.st_mtime;
     }
 
     kdDebug() << "EXEC '" << command << "'" << endl;
@@ -175,23 +175,24 @@ void KFMExec::slotRunApp()
     it = fileList.begin();
     for ( ; it != fileList.end() ; ++it, ++urlIt )
     {
-	struct stat buff;
+        struct stat buff;
         QString src = *it;
         KURL dest = *urlIt;
-	if ( stat( QFile::encodeName(src), &buff ) == 0 && times[i++] != buff.st_mtime )
-	{
-	    if ( KMessageBox::questionYesNo( 0L, i18n( "The file\n%1\nhas been modified.\nDo you want to save it?" ).arg(src) )
-                      == KMessageBox::Yes )
-	    {
-		kdDebug() << QString("src='%1'  dest='%2'").arg(src).arg(dest.url()).ascii() << endl;
+        if ( stat( QFile::encodeName(src), &buff ) == 0 && times[i++] != buff.st_mtime )
+        {
+            if ( KMessageBox::questionYesNo( 0L,
+                                             i18n( "The file\n%1\nhas been modified.\nDo you want to upload the changes?" ).arg(dest.prettyURL()),
+                                             i18n("File changed" ) ) == KMessageBox::Yes )
+            {
+                kdDebug() << QString("src='%1'  dest='%2'").arg(src).arg(dest.url()).ascii() << endl;
                 // Do it the synchronous way.
-		KIO::NetAccess::upload( src, dest );
-	    }
-	}
-	else
-	{
-	    unlink( src.local8Bit() );
-	}
+                KIO::NetAccess::upload( src, dest );
+            }
+        }
+        else
+        {
+            unlink( src.local8Bit() );
+        }
     }
 
     kdDebug() << "Finished, quitting." << endl;
@@ -207,32 +208,32 @@ QString KFMExec::shellQuote( const QString & data )
     int pos = 0;
     while ( ( pos = cmd.find( ";", pos )) != -1 )
     {
-	cmd.replace( pos, 1, "\\;" );
-	pos += 2;
+        cmd.replace( pos, 1, "\\;" );
+        pos += 2;
     }
     pos = 0;
     while ( ( pos = cmd.find( "\"", pos )) != -1 )
     {
-	cmd.replace( pos, 1, "\\\"" );
-	pos += 2;
+        cmd.replace( pos, 1, "\\\"" );
+        pos += 2;
     }
     pos = 0;
     while ( ( pos = cmd.find( "|", pos ) ) != -1 )
     {
-	cmd.replace( pos, 1, "\\|" );
-	pos += 2;
+        cmd.replace( pos, 1, "\\|" );
+        pos += 2;
     }
     pos = 0;
     while ( ( pos = cmd.find( "(", pos )) != -1 )
     {
-	cmd.replace( pos, 1, "\\(" );
-	pos += 2;
+        cmd.replace( pos, 1, "\\(" );
+        pos += 2;
     }
     pos = 0;
     while ( ( pos = cmd.find( ")", pos )) != -1 )
     {
-	cmd.replace( pos, 1, "\\)" );
-	pos += 2;
+        cmd.replace( pos, 1, "\\)" );
+        pos += 2;
     }
 
     return cmd;
@@ -256,7 +257,7 @@ int main( int argc, char **argv )
     if ( argc < 2 )
     {
         kdFatal() << i18n( "Syntax Error:\nkfmexec command [URLs ....]" ) << endl;
-	exit(1);
+        exit(1);
     }
 
     KFMExec exec;
