@@ -477,8 +477,8 @@ bool KonqMainWindow::openView( QString serviceType, const KURL &_url, KonqView *
      return false; // execute, don't open
   // Contract: the caller of this method should ensure the view is stopped first.
 
-  kdDebug(1202) << "KonqMainWindow::openView " << serviceType << " " << _url.url() << " " << childView << endl;
-  kdDebug(1202) << "req.followMode=" << req.followMode << endl;
+  //kdDebug(1202) << "KonqMainWindow::openView " << serviceType << " " << _url.url() << " " << childView << endl;
+  //kdDebug(1202) << "req.followMode=" << req.followMode << endl;
   //kdDebug(1202) << "req.nameFilter= " << req.nameFilter << endl;
   //kdDebug(1202) << "req.typedURL= " << req.typedURL << endl;
   //kdDebug(1202) << "req.newTab= " << req.newTab << endl;
@@ -487,7 +487,6 @@ bool KonqMainWindow::openView( QString serviceType, const KURL &_url, KonqView *
   bool bOthersFollowed = false;
   if ( childView )
   {
-    kdDebug(1202) << " childView->isFollowActive()=" << childView->isFollowActive() << endl;
     // If we're not already following another view (and if we are not reloading)
     if ( !req.followMode && !req.args.reload && !m_pViewManager->isLoadingProfile() )
     {
@@ -614,7 +613,7 @@ bool KonqMainWindow::openView( QString serviceType, const KURL &_url, KonqView *
 
   bool ok = true;
   if ( !childView )
-    {
+  {
       if (req.newTab)
       {
         childView = m_pViewManager->addTab( serviceType, serviceName );
@@ -642,28 +641,29 @@ bool KonqMainWindow::openView( QString serviceType, const KURL &_url, KonqView *
       }
 
       if ( !childView )
-        {
+      {
           KMessageBox::sorry( 0L, i18n( "Could not create view for %1\nThe diagnostics is:\n%2").arg(serviceType)
               .arg(KLibLoader::self()->lastErrorMessage()) );
           return true; // fake everything was ok, we don't want to propagate the error
-        }
       }
+  }
   else // We know the child view
-    {
+  {
       //childView->stop();
-      ok = childView->changeViewMode( serviceType, serviceName );
-    }
+      if ( !childView->isLockedViewMode() )
+          ok = childView->changeViewMode( serviceType, serviceName );
+  }
 
   if (ok)
-    {
+  {
       //kdDebug(1202) << "req.nameFilter= " << req.nameFilter << endl;
       //kdDebug(1202) << "req.typedURL= " << req.typedURL << endl;
       childView->setTypedURL( req.typedURL );
       if ( childView->browserExtension() )
           childView->browserExtension()->setURLArgs( req.args );
       if ( !url.isEmpty() )
-	  childView->openURL( url, originalURL, req.nameFilter );
-    }
+          childView->openURL( url, originalURL, req.nameFilter );
+  }
   kdDebug(1202) << "KonqMainWindow::openView ok=" << ok << " bOthersFollowed=" << bOthersFollowed << " returning " << (ok || bOthersFollowed) << endl;
   return ok || bOthersFollowed;
 }
@@ -791,11 +791,13 @@ bool KonqMainWindow::makeViewsFollow( const KURL & url, const KParts::URLArgs &a
       res = openView( serviceType, url, view, req ) || res;
     }
     else
+    {
         // Make the sidebar follow the URLs opened in the active view
-	if ((view!=senderView) && view->isFollowActive() && senderView == m_currentView)
-	{
-	    res=openView(serviceType,url,view,req) || res;
-	}
+        if ((view!=senderView) && view->isFollowActive() && senderView == m_currentView)
+        {
+            res=openView(serviceType,url,view,req) || res;
+        }
+    }
   }
 
   return res;
