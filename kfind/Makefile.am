@@ -6,12 +6,15 @@ KDE_ICON = kfind
 # set the include path for X, qt and KDE
 INCLUDES= -I$(top_srcdir)/libkonq $(all_includes)
 
+noinst_LTLIBRARIES = libkfind_common.la
+libkfind_common_la_SOURCES = kftabdlg.cpp kfind.cpp kquery.cpp kdatecombo.cpp
+
 #This section is kfindpart
 lib_LTLIBRARIES = libkfindpart.la
 
-libkfindpart_la_SOURCES = kftabdlg.cpp kfind.cpp kquery.cpp kdatecombo.cpp kfindpart.cpp
+libkfindpart_la_SOURCES = findpart.cpp
 libkfindpart_la_LDFLAGS = $(all_libraries) $(KDE_PLUGIN)
-libkfindpart_la_LIBADD = $(LIB_KPARTS) $(top_builddir)/libkonq/libkonq.la 
+libkfindpart_la_LIBADD = libkfind_common.la $(LIB_KPARTS) $(top_builddir)/libkonq/libkonq.la 
 
 noinst_HEADERS	= kftabdlg.h kfind.h version.h kquery.h  kdatecombo.h
 
@@ -27,9 +30,8 @@ messages:
 #And this is for kfind
 
 bin_PROGRAMS = kfind
-kfind_SOURCES = kfwin.cpp kfinddlg.cpp main.cpp kftabdlg.cpp kfind.cpp kquery.cpp kdatecombo.cpp
-kfind_LDADD   =  $(LIB_KPARTS)
-#kfind_LDADD   =  libkfindpart.la $(top_builddir)/libkonq/libkonq.la
+kfind_SOURCES = kfwin.cpp kfinddlg.cpp main.cpp 
+kfind_LDADD   =  libkfind_common.la $(LIB_KPARTS)
 
 # the library search path.
 kfind_LDFLAGS = $(all_libraries) $(KDE_RPATH)
