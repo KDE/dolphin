@@ -63,7 +63,6 @@
 #include <kdebug.h>
 #include <kedittoolbar.h>
 #include <kglobalsettings.h>
-#include <khelpmenu.h>
 #include <kiconloader.h>
 #include <kkeydialog.h>
 #include <klocale.h>
@@ -2166,14 +2165,6 @@ void KonqMainWindow::initActions()
 
   connect( m_ptaFullScreen, SIGNAL( toggled( bool ) ),
            this, SLOT( slotToggleFullScreen( bool ) ) );
-
-  KHelpMenu * m_helpMenu = new KHelpMenu( this, KonqFactory::aboutData() );
-  KStdAction::helpContents( m_helpMenu, SLOT( appHelpActivated() ), actionCollection(), "contents" );
-  KStdAction::whatsThis( m_helpMenu, SLOT( contextHelpActivated() ), actionCollection(), "whats_this" );
-  KStdAction::aboutApp( m_helpMenu, SLOT( aboutApplication() ), actionCollection(), "about_app" );
-  // old one KStdAction::aboutApp( this, SLOT( slotAbout() ), actionCollection(), "about_app" );
-  KStdAction::aboutKDE( m_helpMenu, SLOT( aboutKDE() ), actionCollection(), "about_kde" );
-  KStdAction::reportBug( m_helpMenu, SLOT( reportBug() ), actionCollection(), "report_bug" );
 
   m_paReload = new KAction( i18n( "&Reload" ), "reload", KStdAccel::key(KStdAccel::Reload), this, SLOT( slotReload() ), actionCollection(), "reload" );
 

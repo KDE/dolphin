@@ -1,4 +1,4 @@
-<!DOCTYPE kpartgui SYSTEM "kpartgui.dtd"><kpartgui name="Konqueror" version="15">
+<!DOCTYPE kpartgui SYSTEM "kpartgui.dtd"><kpartgui name="Konqueror" version="16">
 <MenuBar>
  <Menu name="file" noMerge="1"><text>&amp;Location</text>
   <Action name="new_window"/>
@@ -100,17 +100,6 @@
   <Action name="fullscreen"/>
  </Menu>
  <Merge/>
- <Separator/>
- <Menu name="help" noMerge="1"><text>&amp;Help</text>
-  <Merge />
-  <Action name="contents"/>
-  <Action name="whats_this"/>
-  <Separator/>
-  <Action name="report_bug"/>
-  <Separator/>
-  <Action name="about_app"/>
-  <Action name="about_kde"/>
- </Menu>
 </MenuBar>
 <ToolBar fullWidth="true" name="mainToolBar" newline="true">
  <Action name="up"/>
