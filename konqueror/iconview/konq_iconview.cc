@@ -578,6 +578,7 @@ bool KonqKfmIconView::closeURL()
 {
     debug("KonqKfmIconView::stop()");
     if ( m_dirLister ) m_dirLister->stop();
+    m_lstPendingMimeIconItems.clear();
     return true;
 }
 
