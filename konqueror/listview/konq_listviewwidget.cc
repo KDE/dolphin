@@ -80,9 +80,6 @@ KonqBaseListViewWidget::KonqBaseListViewWidget( KonqListView *parent, QWidget *p
 ,m_bUpdateContentsPosAfterListing(false)
 ,m_bAscending(true)
 ,m_itemFound(false)
-,m_goToFirstItem(false)
-,m_xOffset(0)
-,m_yOffset(0)
 ,m_filenameColumn(0)
 ,m_itemToGoTo("")
 ,m_backgroundTimer(0)
@@ -232,7 +229,7 @@ void KonqBaseListViewWidget::readProtocolConfig( const QString & protocol )
    }
    //check what the protocol provides
    QStringList listingList=KProtocolInfo::listing(protocol);
-   kdDebug(1202)<<"protocol: -"<<protocol<<"-"<<endl;
+   kdDebug(1202) << k_funcinfo << "protocol: " << protocol << endl;
 
    // Even if this is not given by the protocol, we can determine it.
    // Please don't remove this ;-). It makes it possible to show the file type
@@ -849,35 +846,21 @@ void KonqBaseListViewWidget::updateListContents()
 
 bool KonqBaseListViewWidget::openURL( const KURL &url )
 {
-   // The first time or new protocol ? So create the columns first
-   kdDebug(1202) << "protocol in ::openURL: -" << url.protocol() <<"- url: -"
-                 << url.path() << "-" << endl;
+   kdDebug(1202) << k_funcinfo << "protocol: " << url.protocol()
+                               <<" url: " << url.path() << endl;
 
-   if (( columns() <1) || ( url.protocol() != m_url.protocol() ))
+   // The first time or new protocol? So create the columns first.
+   if ( columns() < 1 || url.protocol() != m_url.protocol() )
    {
       readProtocolConfig( url.protocol() );
       createColumns();
    }
-   m_bTopLevelComplete = false;
 
-   m_itemToGoTo="";
-   m_itemFound=false;
-   m_goToFirstItem=false;
-   if (url.protocol()!=m_url.protocol())
-      m_goToFirstItem=true;
-   else
-   {
-      //we go one dir deeper
-      if (url.path(-1).contains(m_url.path(-1)))
-         m_goToFirstItem=true;
-      //we go one dir up, get the position from the current url
-      else if (m_url.path(-1).contains(url.path(-1)))
-      {
-         m_itemToGoTo=m_url.fileName(true);
-         if (m_itemToGoTo.isEmpty())
-            m_goToFirstItem=true;
-      };
-   };
+   m_bTopLevelComplete = false;
+   m_itemFound = false;
+
+   if ( m_itemToGoTo.isEmpty() && url.cmp( m_url.upURL(), true ) )
+      m_itemToGoTo = m_url.fileName( true );
 
    // Check for new properties in the new dir
    // newProps returns true the first time, and any time something might
@@ -890,18 +873,13 @@ bool KonqBaseListViewWidget::openURL( const KURL &url )
 
    if ( m_pBrowserView->extension()->urlArgs().reload )
    {
-      if (currentItem()!=0)
-      {
-         if (itemRect(currentItem()).isValid())
-            m_itemToGoTo=currentItem()->text(0);
-         else
-            m_itemFound=true;            //HACK
-         m_goToFirstItem = false;
-      }
-      else
-         m_goToFirstItem = true;
-      m_xOffset = contentsX();
-      m_yOffset = contentsY();
+      KParts::URLArgs args = m_pBrowserView->extension()->urlArgs();
+      args.xOffset = contentsX();
+      args.yOffset = contentsY();
+      m_pBrowserView->extension()->setURLArgs( args );
+
+      if ( currentItem() && itemRect( currentItem() ).isValid() )
+         m_itemToGoTo = currentItem()->text(0);
    }
 
    if ( columnWidthMode(0) == Maximum )
@@ -909,10 +887,9 @@ bool KonqBaseListViewWidget::openURL( const KURL &url )
 
    m_url = url;
    m_bUpdateContentsPosAfterListing = true;
-   
+
    // Start the directory lister !
    m_dirLister->openURL( url, false /* new url */, m_pBrowserView->extension()->urlArgs().reload );
-
 
    // Apply properties and reflect them on the actions
    // do it after starting the dir lister to avoid changing the properties
@@ -932,6 +909,9 @@ bool KonqBaseListViewWidget::openURL( const KURL &url )
 
 void KonqBaseListViewWidget::setComplete()
 {
+   kdDebug(1202) << k_funcinfo << "Update Contents Pos: " 
+                 << m_bUpdateContentsPosAfterListing << endl;
+
    m_bTopLevelComplete = true;
 
    // Alex: this flag is set when we are just finishing a voluntary listing,
@@ -940,23 +920,26 @@ void KonqBaseListViewWidget::setComplete()
    // we don't want to go to the first item ! (David)
    if ( m_bUpdateContentsPosAfterListing )
    {
-       //kdDebug() << "KonqBaseListViewWidget::setComplete m_bUpdateContentsPosAfterListing=true" << endl;
       m_bUpdateContentsPosAfterListing = false;
 
-      if ((m_goToFirstItem==true) || (m_itemFound==false))
-      {
-          kdDebug() << "going to first item" << endl;
-          setCurrentItem(firstChild());
-          ensureItemVisible(firstChild());
-          //selectCurrentItemAndEnableSelectedBySimpleMoveMode();
-      } else
-          setContentsPos( m_xOffset, m_yOffset );
+      if ( !m_itemFound )
+         setCurrentItem( firstChild() );
 
-      // this sucks a bit, for instance if you scroll with the wheel mouse, and the
-      // the active item was out of the view when you used back/forward.
-      // The x/y offset already restores the contents pos anyway.
-      //ensureItemVisible(currentItem());
+      if ( !m_restored && !m_pBrowserView->extension()->urlArgs().reload )
+      {
+         ensureItemVisible( currentItem() );
+         //selectCurrentItemAndEnableSelectedBySimpleMoveMode();
+      }
+      else
+         setContentsPos( m_pBrowserView->extension()->urlArgs().xOffset,
+                         m_pBrowserView->extension()->urlArgs().yOffset );
+
+      emit selectionChanged();
    }
+
+   m_itemToGoTo = "";
+   m_restored = false;
+
    // Show "cut" icons as such
    m_pBrowserView->slotClipboardDataChanged();
    // Show totals
@@ -972,29 +955,35 @@ void KonqBaseListViewWidget::setComplete()
 
 void KonqBaseListViewWidget::slotStarted()
 {
+   //kdDebug(1202) << k_funcinfo << endl;
+
    if (!m_bTopLevelComplete)
       emit m_pBrowserView->started( 0 );
 }
 
 void KonqBaseListViewWidget::slotCompleted()
 {
-   bool complete = m_bTopLevelComplete;
+   //kdDebug(1202) << k_funcinfo << endl;
+
    setComplete();
-   if ( !complete )
+   if ( m_bTopLevelComplete )
        emit m_pBrowserView->completed();
    m_pBrowserView->listingComplete();
 }
 
 void KonqBaseListViewWidget::slotCanceled()
 {
+   //kdDebug(1202) << k_funcinfo << endl;
+
    setComplete();
    emit m_pBrowserView->canceled( QString::null );
 }
 
 void KonqBaseListViewWidget::slotClear()
 {
+   kdDebug(1202) << k_funcinfo << endl;
+
    m_pBrowserView->resetCount();
-   kdDebug(1202) << "KonqBaseListViewWidget::slotClear()" << endl;
    m_pBrowserView->lstPendingMimeIconItems().clear();
 
    viewport()->setUpdatesEnabled( false );
@@ -1004,20 +993,17 @@ void KonqBaseListViewWidget::slotClear()
 
 void KonqBaseListViewWidget::slotNewItems( const KFileItemList & entries )
 {
-   //kdDebug(1202) << "KonqBaseListViewWidget::slotNewItems " << entries.count() << endl;
-   for (QPtrListIterator<KFileItem> kit ( entries ); kit.current(); ++kit )
+   //kdDebug(1202) << k_funcinfo << entries.count() << endl;
+
+   for ( QPtrListIterator<KFileItem> kit ( entries ); kit.current(); ++kit )
    {
       KonqListViewItem * tmp = new KonqListViewItem( this, *kit );
-      if (m_goToFirstItem==false)
-         if (m_itemFound==false)
-            if (tmp->text(0)==m_itemToGoTo)
-            {
-               setCurrentItem(tmp);
-               ensureItemVisible(tmp);
-               emit selectionChanged();
-               //selectCurrentItemAndEnableSelectedBySimpleMoveMode();
-               m_itemFound=true;
-            };
+      if ( !m_itemFound && tmp->text(0) == m_itemToGoTo )
+      {
+         setCurrentItem( tmp );
+         m_itemFound = true;
+      }
+
       if ( !(*kit)->isMimeTypeKnown() )
           m_pBrowserView->lstPendingMimeIconItems().append( tmp );
    }
@@ -1034,8 +1020,9 @@ void KonqBaseListViewWidget::slotNewItems( const KFileItemList & entries )
 
 void KonqBaseListViewWidget::slotDeleteItem( KFileItem * _fileitem )
 {
+  kdDebug(1202) << k_funcinfo << "removing " << _fileitem->url().url() << " from tree!" << endl;
+
   m_pBrowserView->deleteItem( _fileitem );
-  kdDebug(1202) << "removing " << _fileitem->url().url() << " from tree!" << endl;
   iterator it = begin();
   for( ; it != end(); ++it )
     if ( (*it).item() == _fileitem )
@@ -1067,6 +1054,8 @@ void KonqBaseListViewWidget::slotRefreshItems( const KFileItemList & entries )
 
 void KonqBaseListViewWidget::slotRedirection( const KURL & url )
 {
+   kdDebug(1202) << k_funcinfo << endl;
+
    if (( columns() <1) || ( url.protocol() != m_url.protocol() ))
    {
       readProtocolConfig( url.protocol() );
@@ -1079,7 +1068,7 @@ void KonqBaseListViewWidget::slotRedirection( const KURL & url )
 
 void KonqBaseListViewWidget::slotCloseView()
 {
-   kdDebug() << "KonqBaseListViewWidget::slotCloseView" << endl;
+   kdDebug(1202) << k_funcinfo << endl;
    //delete m_pBrowserView;
 }
 
@@ -1192,31 +1181,27 @@ void KonqBaseListViewWidget::saveState( QDataStream & ds )
 
 void KonqBaseListViewWidget::restoreState( QDataStream & ds )
 {
+   m_restored = true;
+
    QString str;
    ds >> str;
    if ( !str.isEmpty() )
-   {
       m_itemToGoTo = str;
-      m_goToFirstItem = false;
-   }
-
-   // Store those, because the toplevel completed() erases them (in BE) !
-   // (needed for the treeview)
-   m_xOffset = m_pBrowserView->extension()->urlArgs().xOffset;
-   m_yOffset = m_pBrowserView->extension()->urlArgs().yOffset;
 }
 
 void KonqBaseListViewWidget::slotUpdateBackground()
 {
    if ( viewport()->paletteBackgroundPixmap() && !viewport()->paletteBackgroundPixmap()->isNull() )
    {
-	if ( !m_backgroundTimer )
-	{
-	   m_backgroundTimer = new QTimer( this );
-	   connect( m_backgroundTimer, SIGNAL( timeout() ), viewport(), SLOT( update() ) );
-	}
-	else m_backgroundTimer->stop();
-	m_backgroundTimer->start( 50, true );
+      if ( !m_backgroundTimer )
+      {
+         m_backgroundTimer = new QTimer( this );
+         connect( m_backgroundTimer, SIGNAL( timeout() ), viewport(), SLOT( update() ) );
+      }
+      else
+         m_backgroundTimer->stop();
+
+      m_backgroundTimer->start( 50, true );
    }
 }
 

@@ -241,9 +241,10 @@ class KonqBaseListViewWidget : public KListView
       bool m_bUpdateContentsPosAfterListing:1;
       bool m_bAscending:1;
       bool m_itemFound:1;
-      bool m_goToFirstItem:1;
+      bool m_restored:1;
 
-      int m_xOffset, m_yOffset;
+//to be removed
+bool m_goToFirstItem;
 
       int m_filenameColumn;
 
