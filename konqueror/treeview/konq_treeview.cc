@@ -139,10 +139,10 @@ KonqTreeView::KonqTreeView()
   m_pTreeView = new KonqTreeViewWidget( this );
   m_pTreeView->show();
 
-  m_paReloadTree = new KAction( i18n( "Rel&oad Tree" ), 0, this, SLOT( slotReloadTree() ), this );
+//  m_paReloadTree = new KAction( i18n( "Rel&oad Tree" ), 0, this, SLOT( slotReloadTree() ), this );
   m_paShowDot = new KToggleAction( i18n( "Show &Dot Files" ), 0, this, SLOT( slotShowDot() ), this );
 
-  actions()->append( BrowserView::ViewAction( m_paReloadTree, BrowserView::MenuView ) );
+//  actions()->append( BrowserView::ViewAction( m_paReloadTree, BrowserView::MenuView ) );
   actions()->append( BrowserView::ViewAction( m_paShowDot, BrowserView::MenuView ) );
 
   QObject::connect( m_pTreeView, SIGNAL( selectionChanged() ),

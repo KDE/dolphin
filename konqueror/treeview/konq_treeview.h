@@ -73,7 +73,7 @@ protected slots:
 
 private:
   KonqTreeViewWidget *m_pTreeView;
-  KAction *m_paReloadTree;
+//  KAction *m_paReloadTree;
   KToggleAction *m_paShowDot;
 };
 
