@@ -20,6 +20,7 @@
 #include <qdir.h>
 
 #include <kparts/browserextension.h>
+#include <kurifilter.h>
 #include "konq_mainview.h"
 #include "konq_childview.h"
 #include "konq_run.h"
@@ -256,80 +257,25 @@ QWidget *KonqMainView::createContainer( QWidget *parent, int index, const QDomEl
 
 QString KonqMainView::konqFilteredURL( const QString &_url )
 {
-  QString url = _url.stripWhiteSpace();
-
-  // Absolute path?
-  if ( url[0] == '/' )
+  KURIFilterData data = _url;
+  KURIFilter::self()->filterURI( data );
+  if( data.hasBeenFiltered() )
   {
-    KURL::encode( url );
-    url.prepend( "file:" );
-  }
-  // Home directory?
-  else if ( url.find( QRegExp( "^~.*" ) ) == 0 )
-  {
-    QString user;
-    QString path;
-    int index;
-
-    index = url.find( "/" );
-    if ( index != -1 )
+    KURIFilterData::URITypes type = data.uriType();
+    if( type == KURIFilterData::UNKNOWN )
     {
-      user = url.mid( 1, index-1 );
-      path = url.mid( index+1 );
+      KMessageBox::sorry( this, i18n( "The url \"%1\" is of unknown type" ).arg( _url ) );
+      return QString::null;  // should never happen unless the search filter is unavailable.
+    }
+    else if( type == KURIFilterData::ERROR )
+    {
+      KMessageBox::sorry( this, i18n( data.errorMsg() ) );
+      return QString::null;
     }
     else
-      user = url.mid( 1 );
-
-    if ( user.isEmpty() )
-      user = QDir::homeDirPath();
-    else
-    {
-      struct passwd *pwe = getpwnam( user.latin1() );
-      if ( !pwe )
-      {
-	KMessageBox::sorry( this, i18n( "User %1 doesn't exist" ).arg( user ));
-	return QString::null;
-      }
-      user = QString::fromLatin1( pwe->pw_dir );
-    }
-
-    KURL u( user + '/' + path );
-    url = u.url();
+      return data.uri().url();
   }
-  else if ( strncmp( url, "www.", 4 ) == 0 )
-  {
-    QString tmp = "http://";
-    KURL::encode( url );
-    tmp += url;
-    url = tmp;
-  }
-  else if ( strncmp( url, "ftp.", 4 ) == 0 )
-  {
-    QString tmp = "ftp://";
-    KURL::encode( url );
-    tmp += url;
-    url = tmp;
-  }
-  // Samba notation for \\host\share?
-  else if ( strncmp( url, "\\\\", 2 ) == 0 )
-  {
-    for (unsigned int i=0; i<url.length(); i++ )
-      if (url[i] == '\\') url[i]='/';
-    KURL::encode( url );
-    url.prepend( "smb:" );
-  }
-/*
-  else if ( gethostbyname( url.ascii() ) != 0 )
-  {
-    QString tmp = "http://";
-    KURL::encode( url );
-    tmp += url;
-    tmp += "/";
-    url = tmp;
-  }
-*/
-
-  return url;
+  return _url;  // return the original url if it cannot be filtered.
 }
 
 void KonqMainView::openFilteredURL( KonqChildView * /*_view*/, const QString &_url )
@@ -1911,7 +1857,7 @@ PopupMenuGUIClient::PopupMenuGUIClient( KonqMainView *mainView, const KTrader::O
     menu.appendChild( subMenu );
     QDomElement text = m_doc.createElement( "text" );
     subMenu.appendChild( text );
-    text.appendChild( m_doc.createTextNode( i18n( "Preview in ..." ) ) );
+    text.appendChild( m_doc.createTextNode( i18n( "Preview in" ) ) );
     subMenu.setAttribute( "group", "preview" );
 
     bool inserted = false;
