@@ -53,7 +53,7 @@
 #include "main.h" 
 
 typedef KGenericFactory<KCMUserAccount, QWidget> Factory;
-K_EXPORT_COMPONENT_FACTORY( kcm_useraccount, Factory("kcm_useraccount") )
+K_EXPORT_COMPONENT_FACTORY( kcm_useraccount, Factory("useraccount") )
 
 KCMUserAccount::KCMUserAccount( QWidget *parent, const char *name,
 	const QStringList &)
