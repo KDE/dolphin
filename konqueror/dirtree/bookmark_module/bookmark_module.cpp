@@ -91,7 +91,7 @@ void KonqBookmarkModule::fillGroup( KonqTreeItem * parentItem, KBookmarkGroup gr
 // Borrowed from KEditBookmarks
 KonqBookmarkItem * KonqBookmarkModule::findByAddress( const QString & address ) const
 {
-    QListViewItem * item = tree()->firstChild();
+    QListViewItem * item = m_topLevelItem;
     // The address is something like /5/10/2
     QStringList addresses = QStringList::split('/',address);
     for ( QStringList::Iterator it = addresses.begin() ; it != addresses.end() ; ++it )
