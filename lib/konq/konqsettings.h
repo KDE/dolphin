@@ -83,10 +83,6 @@ public:
   const QColor& normalTextColor() const { return m_normalTextColor; }
   const QColor& highlightedTextColor() const { return m_highlightedTextColor; }
 
-  bool visualActivate() const { return m_bVisualActivate; }
-  unsigned int visualActivateSpeed() const { return m_visualActivateSpeed; }
-  unsigned int visualActivateCount() const { return m_visualActivateCount; }
-
 private:
 
   static KonqFMSettings * s_pSettings;
@@ -107,10 +103,6 @@ private:
   bool m_bWordWrapText;
 
   QString m_homeURL;
-  
-  bool m_bVisualActivate;
-  unsigned int m_visualActivateSpeed;
-  unsigned int m_visualActivateCount;
   
   /** Called by constructor and reparseConfiguration */
   void init( KConfig * config );

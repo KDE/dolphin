@@ -140,6 +140,11 @@ public:
      * Reimplemented from QIconView to take into account @ref #iconArea.
      */
     virtual void insertInGrid( QIconViewItem *item );
+    
+    /**
+     * Give feedback when item is activated.
+     */
+    virtual void visualActivate(QIconViewItem *);
 
 public slots:
     /**
@@ -170,6 +175,7 @@ protected slots:
     void slotOnViewport();
 
 protected:
+
     virtual void drawBackground( QPainter *p, const QRect &r );
     virtual void viewportResizeEvent(QResizeEvent *);
     virtual void contentsDragEnterEvent( QDragEnterEvent *e );

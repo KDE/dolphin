@@ -727,7 +727,7 @@ void KonqKfmIconView::slotReturnPressed( QIconViewItem *item )
     if ( !item )
 	return;
 
-    visualActivate(item);
+    m_pIconView->visualActivate(item);
 
     KonqFileItem *fileItem = (static_cast<KFileIVI*>(item))->item();
     if ( !fileItem )
@@ -1185,86 +1185,6 @@ void KonqKfmIconView::setupSortKeys()
 QString KonqKfmIconView::makeSizeKey( KFileIVI *item )
 {
     return QString::number( item->item()->size() ).rightJustify( 20, '0' );
-}
-
-void KonqKfmIconView::visualActivate(QIconViewItem * item)
-{
-    // Draw concentric rectangles, beginning from the centre of the item's
-    // pixmap area and expanding to the size of the pixmap area.
-    // The rects are removed as the next rect is drawn, giving the impression
-    // that there is one rect, expanding outwards.
-
-    if (!KonqFMSettings::settings()->visualActivate())
-      return;
-
-    unsigned int actCount = KonqFMSettings::settings()->visualActivateCount();
-
-    // actCount ranges from 1..10.
-
-    if (actCount < 1)
-      actCount = 1;
-
-    else if (actCount > 10)
-      actCount = 10;
-
-    unsigned int actSpeed = KonqFMSettings::settings()->visualActivateSpeed();
-
-    // actSpeed ranges from 1..100.
-
-    if (actSpeed < 1)
-      actSpeed = 1;
-
-    else if (actSpeed > 100)
-      actSpeed = 100;
-
-    // actSpeed needs to be converted to actDelay.
-    // actDelay is inversely proportional to actSpeed and needs to be
-    // divided up into actCount portions.
-    // We also convert the us value to ms.
-
-    unsigned int actDelay = (1000 * (100 - actSpeed)) / actCount;
-    qDebug("actDelay == %d", actDelay);
-
-    // Rect of the QIconViewItem.
-    QRect irect = item->rect();
-
-    // Rect of the QIconViewItem's pixmap area.
-    QRect rect = item->pixmapRect();
-
-    // Adjust to correct position. If this isn't done, the fact that the
-    // text may be wider than the pixmap puts us off-centre.
-    rect.moveBy(irect.x(), irect.y());
-
-    // We work from the centre of the pixmap - it's nicer that way.
-    QPoint c = rect.center();
-
-    QPainter p(m_pIconView->viewport());
-
-    // Use NotROP to avoid having to repaint the pixmap each time.
-    p.setPen(QPen(Qt::black, 1, Qt::DotLine));
-    p.setRasterOp(Qt::NotROP);
-
-    // The spacing between the rects we draw.
-    // Use the minimum of width and height to avoid painting outside the
-    // pixmap area.
-    unsigned int delta(QMIN(rect.width() / actCount, rect.height() / actCount));
-
-    for (unsigned int i = 1; i < actCount; i++) {
-
-        int sz = i * delta;
-
-        QSize rectSize(sz, sz);
-        QPoint rectPos(c.x() - sz / 2, c.y() - sz / 2);
-
-        QRect r(m_pIconView->contentsToViewport(rectPos), rectSize);
-
-        p.drawRect(r);
-        p.flush();
-
-        usleep(actDelay);
-
-        p.drawRect(r);
-    }
 }
 
 #include "konq_iconview.moc"

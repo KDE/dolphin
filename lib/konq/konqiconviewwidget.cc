@@ -41,6 +41,7 @@
 #include <kglobalsettings.h>
 #include <kpropsdlg.h>
 #include <kipc.h>
+#include <kiconeffect.h>
 
 #include <assert.h>
 #include <unistd.h>
@@ -831,5 +832,19 @@ void KonqIconViewWidget::lineupIcons()
     return;
 }
 
+void KonqIconViewWidget::visualActivate(QIconViewItem * item)
+{
+    // Rect of the QIconViewItem.
+    QRect irect = item->rect();
+
+    // Rect of the QIconViewItem's pixmap area.
+    QRect rect = item->pixmapRect();
+
+    // Adjust to correct position. If this isn't done, the fact that the
+    // text may be wider than the pixmap puts us off-centre.
+    rect.moveBy(irect.x(), irect.y());
+
+    KIconEffect::visualActivate(viewport(), rect);
+}
 
 #include "konqiconviewwidget.moc"
