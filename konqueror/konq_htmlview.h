@@ -78,8 +78,8 @@ public slots:
   void slotURLClicked( const char *url );
 
 protected slots:
-  void slotShowURL( KHTMLView *view, const char *_url );
-  void slotSetTitle( const char *title );
+  void slotShowURL( KHTMLView *view, QString _url );
+  void slotSetTitle( QString title );
   void slotStarted( const char *url );
   void slotCompleted();
   void slotCanceled();

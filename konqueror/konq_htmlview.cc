@@ -54,8 +54,8 @@ KonqHTMLView::KonqHTMLView()
 
 //  initConfig();
 
-  QObject::connect( this, SIGNAL( setTitle( const char* ) ),
-                    this, SLOT( slotSetTitle( const char * ) ) );
+  QObject::connect( this, SIGNAL( setTitle( QString ) ),
+                    this, SLOT( slotSetTitle( QString ) ) );
   QObject::connect( this, SIGNAL( completed() ),
                     this, SLOT( slotCompleted() ) );
 //  QObject::connect( this, SIGNAL( started( const char * ) ),
@@ -180,8 +180,8 @@ void KonqHTMLView::slotMousePressed( const char* _url, const QPoint &_global, in
 
 void KonqHTMLView::slotFrameInserted( KBrowser *frame )
 {
-  QObject::connect( frame, SIGNAL( onURL( KHTMLView*, const char* ) ), 
-                    this, SLOT( slotShowURL( KHTMLView*, const char* ) ) );
+  QObject::connect( frame, SIGNAL( onURL( KHTMLView*, QString ) ), 
+                    this, SLOT( slotShowURL( KHTMLView*, QString ) ) );
 
   QObject::connect( frame, SIGNAL( mousePressed( const char*, const QPoint&, int ) ),
                     this, SLOT( slotMousePressed( const char*, const QPoint&, int ) ) );
@@ -216,7 +216,7 @@ void KonqHTMLView::slotURLClicked( const char *url )
   SIGNAL_CALL2( "started", id(), CORBA::Any::from_string( (char *)url, 0 ) );
 }
 
-void KonqHTMLView::slotShowURL( KHTMLView *, const char *_url )
+void KonqHTMLView::slotShowURL( KHTMLView *, QString _url )
 {
   if ( !_url )
   {
@@ -310,9 +310,9 @@ void KonqHTMLView::slotShowURL( KHTMLView *, const char *_url )
   }    
 }
 
-void KonqHTMLView::slotSetTitle( const char *title )
+void KonqHTMLView::slotSetTitle( QString title )
 {
-  CORBA::WString_var ctitle = Q2C( QString( title ) );
+  CORBA::WString_var ctitle = Q2C( title );
   m_vMainWindow->setPartCaption( id(), ctitle );
 }
 

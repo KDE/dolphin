@@ -126,6 +126,9 @@ void KonqChildView::attach( Konqueror::View_ptr view )
 #else 
     QWidget * localWidget = localView->widget();
     localWidget->reparent( m_pWidget, 0, QPoint(0, 0) );
+    delete m_pLayout;
+    m_pLayout = new QVBoxLayout( m_pWidget );
+    m_pLayout->addWidget( m_pHeader );
     m_pLayout->addWidget( localWidget ); 
     m_pFrame = 0L;
 #endif
