@@ -187,8 +187,7 @@ void KJavaScriptOptions::save()
 
         domainConfig.append(QString::fromLatin1("%1:%2:%3").arg(current->text(0)).arg(javaPolicy).arg(javaScriptPolicy));
     }
-    if( domainConfig.count() > 0 )
-        m_pConfig->writeEntry("ECMADomainSettings", domainConfig);
+    m_pConfig->writeEntry("ECMADomainSettings", domainConfig);
 
     m_pConfig->sync();
 }
@@ -272,6 +271,7 @@ void KJavaScriptOptions::changeJavaScriptEnabled()
 
 void KJavaScriptOptions::updateDomainList(const QStringList &domainConfig)
 {
+    domainSpecificLV->clear();
     for (QStringList::ConstIterator it = domainConfig.begin();
          it != domainConfig.end(); ++it) {
       QString domain;

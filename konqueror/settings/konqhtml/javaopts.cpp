@@ -262,8 +262,7 @@ void KJavaOptions::save()
         QCString javaScriptPolicy = KHTMLSettings::adviceToStr( KHTMLSettings::KJavaScriptDunno );
         domainConfig.append(QString::fromLatin1("%1:%2:%3").arg(current->text(0)).arg(javaPolicy).arg(javaScriptPolicy));
     }
-    if( domainConfig.count() > 0 )
-        m_pConfig->writeEntry("JavaDomainSettings", domainConfig);
+    m_pConfig->writeEntry("JavaDomainSettings", domainConfig);
 
     m_pConfig->sync();
 }
@@ -357,6 +356,7 @@ void KJavaOptions::exportPressed()
 
 void KJavaOptions::updateDomainList(const QStringList &domainConfig)
 {
+    domainSpecificLV->clear();
     for ( QStringList::ConstIterator it = domainConfig.begin();
           it != domainConfig.end(); ++it)
     {
