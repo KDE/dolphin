@@ -12,9 +12,6 @@
             <height>470</height>
         </rect>
     </property>
-    <property name="caption">
-        <string>UserAgentDlgUI</string>
-    </property>
     <property name="whatsThis" stdset="0">
         <string>&lt;qt&gt;
 Here you can modify the default browser-identification text or set a site &lt;code&gt;(ex:www.kde.org)&lt;/code&gt; or a domain &lt;code&gt;(ex:kde.org)&lt;/code&gt; specific identification text.&lt;p&gt;
