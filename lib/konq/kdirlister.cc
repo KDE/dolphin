@@ -39,6 +39,7 @@ KDirLister::KDirLister()
   m_jobId = 0;
   m_lstFileItems.setAutoDelete( true );
   m_rootFileItem = 0L;
+  m_bDirOnlyMode = false;
 }
 
 KDirLister::~KDirLister()
@@ -190,6 +191,13 @@ void KDirLister::slotListEntry( int /*_id*/, const KUDSEntry& _entry )
     u.addPath( name );
     //kdebug(0,1203,"Adding %s", u.url().ascii());
     KFileItem* item = new KFileItem( _entry, u );
+    
+    if ( m_bDirOnlyMode && !S_ISDIR( item->mode() ) )
+    {
+      delete item;
+      return;
+    }
+    
     m_lstFileItems.append( item );
     emit newItem( item );
 
@@ -310,6 +318,13 @@ void KDirLister::slotUpdateFinished( int /*_id*/ )
       {
         //kdebug(KDEBUG_INFO, 1203,"slotUpdateFinished : inserting %s", name.ascii());
         KFileItem* item = new KFileItem( *it, u );
+	
+	if ( m_bDirOnlyMode && !S_ISDIR( item->mode() ) )
+	{
+	  delete item;
+	  continue;
+	}
+	
         m_lstFileItems.append( item );
         item->mark();
         emit newItem( item );

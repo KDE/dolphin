@@ -124,6 +124,9 @@ public:
    */
   bool kofficeDocsFound() { return m_bKofficeDocs; }
 
+  void setDirOnlyMode( bool dirsOnly ) { m_bDirOnlyMode = dirsOnly; }
+  bool dirOnlyMode() { return m_bDirOnlyMode; }
+
 signals:
   /**
    * Tell the view that we started to list _url.
@@ -191,6 +194,9 @@ protected:
 
   /** Whether koffice documents were found */
   bool m_bKofficeDocs;
+  
+  /** List only directories */
+  bool m_bDirOnlyMode;
 };
 
 #endif
