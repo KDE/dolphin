@@ -826,7 +826,8 @@ void KonqMainView::slotPartActivated( KParts::Part *part )
 
   guiFactory()->removeClient( m_viewModeGUIClient );
   m_viewModeGUIClient->update( m_currentView->serviceOffers() );
-  guiFactory()->addClient( m_viewModeGUIClient );
+  if ( m_currentView->serviceOffers().count() > 1 )
+    guiFactory()->addClient( m_viewModeGUIClient );
 
   m_currentView->frame()->header()->repaint();
 
