@@ -119,6 +119,8 @@ KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name)
     le[2]  = new QLineEdit(pages[1], "lineEdit3" );
     le[3]  = new QLineEdit(pages[1], "lineEdit4" );
 
+    rb2[0]->setChecked(true);
+
     // Setup
 
     le[0] ->setText(date2String(QDate(1980,1,1)));
