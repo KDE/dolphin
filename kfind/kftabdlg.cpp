@@ -380,7 +380,6 @@ void KfindTabWidget::initMimeTypes()
     }
 }
 
-
 void KfindTabWidget::saveHistory()
 {
   save_pattern(nameBox, "History", "Patterns");
