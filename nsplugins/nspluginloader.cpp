@@ -378,6 +378,16 @@ QWidget *NSPluginLoader::NewInstance(QWidget *parent, QString url, QString mimeT
       kdDebug() << "Unknown MimeType" << endl;
       return 0;
     }
+
+  // get requested size
+  unsigned int width = 0;
+  unsigned int height = 0;
+  int argc = argn.count();
+  for (unsigned int i=0; i<argc; i++)
+    {
+       if (!stricmp(argn[i], "width")) width = argv[i].toUInt();
+       if (!stricmp(argn[i], "height")) height = argv[i].toUInt();
+    }
   
   // load the plugin
   QString plugin = lookup(mime);
@@ -404,6 +414,10 @@ QWidget *NSPluginLoader::NewInstance(QWidget *parent, QString url, QString mimeT
     {
       kdDebug() << "Window id = " << winid << endl;
       QXEmbed *win = new QXEmbed(parent);
+
+      if (width) win->setFixedSize(width, win->height());
+      if (height) win->setFixedSize(win->width(), height);
+
       win->embed(winid);
       return win;
     }
