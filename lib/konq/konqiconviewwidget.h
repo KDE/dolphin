@@ -75,12 +75,9 @@ public:
     void setItemColor( const QColor &c );
     QColor itemColor() const;
 
-
     virtual void cutSelection();
     virtual void copySelection();
     virtual void pasteSelection( bool move );
-    virtual void deleteSelection();
-    virtual void trashSelection();
     virtual KURL::List selectedUrls();
 
 public slots:
@@ -101,12 +98,8 @@ protected slots:
     /** connect each item to this */
     virtual void slotDropItem( KFileIVI *item, QDropEvent *e );
 
-    void slotResult( KIO::Job * job );
-
 protected:
     virtual void drawBackground( QPainter *p, const QRect &r );
-
-    //void initDragEnter( QDropEvent *e );
 
     KURL m_url;
 

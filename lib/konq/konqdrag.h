@@ -65,16 +65,6 @@ public:
 
     static bool decode( QMimeSource *e, QStringList &uris );
 
-    /**
-     * DROP - this has nothing to do with KonqDrag, but need to be in a central
-     * place as well, for the icon view and the tree views to use it
-     * @param dest destination url for the drop (usually background url or item url)
-     * @param ev the drop event
-     * @param receiver an object that has to have a slotResult( KIO::Job* ) method
-     * All views should have that for other jobs they use anyway. Let's re-use !
-     */
-    static void doDrop( const KURL & dest, QDropEvent * ev, QObject * receiver );
-
 protected:
     //KonqList icons;
     QStringList urls;

@@ -34,6 +34,7 @@
 #include <konqdefaults.h>
 #include <konqsettings.h>
 #include <konqdrag.h>
+#include <konqoperations.h>
 #include <kuserpaths.h>
 
 #include <assert.h>
@@ -125,17 +126,16 @@ KFileItemList KonqIconViewWidget::selectedFileItems()
     return lstItems;
 }
 
-
 void KonqIconViewWidget::slotDropped( QDropEvent *ev, const QValueList<QIconDragItem> & )
 {
     // Drop on background
-    KonqDrag::doDrop( m_url, ev, this );
+    KonqOperations::doDrop( m_url, ev, this );
 }
 
 void KonqIconViewWidget::slotDropItem( KFileIVI *item, QDropEvent *ev )
 {
     assert( item );
-    KonqDrag::doDrop( item->item()->url(), ev, this );
+    KonqOperations::doDrop( item->item()->url(), ev, this );
 }
 
 void KonqIconViewWidget::drawBackground( QPainter *p, const QRect &r )
@@ -211,7 +211,8 @@ void KonqIconViewWidget::slotSelectionChanged()
 
     emit enableAction( "cut", iCount > 0 );
     emit enableAction( "copy", iCount > 0 );
-    emit enableAction( "del", iCount > 0 && !bInTrash );
+    emit enableAction( "del", iCount > 0 /*&& !bInTrash*/ );
+    emit enableAction( "shred", iCount > 0 /*&& !bInTrash*/ );
     emit enableAction( "trash", iCount > 0 && !bInTrash );
 
     bool bKIOClipboard = !KIO::isClipboardEmpty();
@@ -239,48 +240,12 @@ void KonqIconViewWidget::copySelection()
 
 void KonqIconViewWidget::pasteSelection( bool move )
 {
-    KFileItemList lstItems = selectedFileItems();
-    assert ( lstItems.count() <= 1 );
-    if ( lstItems.count() == 1 )
-	KIO::pasteClipboard( lstItems.first()->url(), move );
+    KURL::List lst = selectedUrls();
+    assert ( lst.count() <= 1 );
+    if ( lst.count() == 1 )
+	KIO::pasteClipboard( lst.first(), move );
     else
 	KIO::pasteClipboard( url(), move );
-}
-
-void KonqIconViewWidget::deleteSelection()
-{
-    KURL::List urls = selectedUrls();
-
-    KConfig *config = KGlobal::config();
-    config->setGroup( "Trash" );
-    if ( config->readBoolEntry( "ConfirmDestructive", true ) )
-    {
-      KURL::List::Iterator it = urls.begin();
-      QStringList decodedList;
-      for ( ; it != urls.end(); ++it )
-        decodedList.append( (*it).decodedURL() );
-
-      if ( KMessageBox::questionYesNoList(0, i18n( "Do you really want to delete the file(s) ?" ), decodedList )
-           == KMessageBox::No )
-        return;
-    }
-
-    int deleteAction = config->readNumEntry("DeleteAction", DEFAULT_DELETEACTION);
-    if (deleteAction == 1) // move to trash
-        trashSelection();
-    else // shred or delete
-    {
-        KIO::Job *job = KIO::del( urls, (deleteAction == 3) );
-        connect( job, SIGNAL( result( KIO::Job * ) ),
-                 SLOT( slotResult( KIO::Job * ) ) );
-    }
-}
-
-void KonqIconViewWidget::trashSelection()
-{
-    KIO::Job *job = KIO::move( selectedUrls(), KUserPaths::trashPath() );
-    connect( job, SIGNAL( result( KIO::Job * ) ),
-             SLOT( slotResult( KIO::Job * ) ) );
 }
 
 KURL::List KonqIconViewWidget::selectedUrls()
@@ -291,12 +256,6 @@ KURL::List KonqIconViewWidget::selectedUrls()
 	if ( it->isSelected() )
 	    lstURLs.append( ( (KFileIVI *)it )->item()->url() );
     return lstURLs;
-}
-
-void KonqIconViewWidget::slotResult( KIO::Job * job )
-{
-    if (job->error())
-        job->showErrorDialog();
 }
 
 #include "konqiconviewwidget.moc"
