@@ -15,7 +15,7 @@ class ButtonInfo: public QObject
 	~ButtonInfo(){;}
 	class QString file;
 	class KDockWidget *dock;
-	class QWidget *widget;	
+	class KonqSidebarPlugin *module;	
 };
 
 class Sidebar_Widget: public QHBox
@@ -33,6 +33,7 @@ class Sidebar_Widget: public QHBox
 	bool createView(ButtonInfo *data);
 	class KDockWidget *mainW;
 	int latestViewed;
+	class KonqSidebarPlugin *loadModule(QWidget *par,QString &desktopName,QString lib_name);
   protected slots:
 	void showHidePage(int value);
 };

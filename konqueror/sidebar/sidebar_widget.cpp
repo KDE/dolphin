@@ -8,6 +8,10 @@
 #include <klocale.h>
 #include <ksimpleconfig.h>
 #include <kstddirs.h>
+#include <klibloader.h>
+#include "konqsidebarplugin.h"
+#include <qfile.h>
+#include <kdebug.h>
 
 Sidebar_Widget::Sidebar_Widget(QWidget *parent, const char *name):QHBox(parent,name)
 {
@@ -35,6 +39,7 @@ Sidebar_Widget::Sidebar_Widget(QWidget *parent, const char *name):QHBox(parent,n
 	connect(ButtonBar,SIGNAL(toggled(int)),this,SLOT(showHidePage(int)));
 }
 
+
 void Sidebar_Widget::createButtons()
 {
 	//PARSE ALL DESKTOP FILES
@@ -60,7 +65,7 @@ bool Sidebar_Widget::addButton(const QString &desktoppath,int pos)
 	confFile->setGroup("Desktop Entry");
  
     	QString icon=confFile->readEntry("Icon","");
-//	QString libname=confFile->readEntry("author","");
+	QString name=confFile->readEntry("Name","");
 
         delete confFile;
 
@@ -68,14 +73,42 @@ bool Sidebar_Widget::addButton(const QString &desktoppath,int pos)
 
 	if (pos==-1)
 	{
-	  	ButtonBar->insertButton(icon, lastbtn, true,
-    	    				i18n("Configure this dialog"));
+	  	ButtonBar->insertButton(icon, lastbtn, true,name);
 	  	ButtonBar->setToggle(lastbtn);
 		Buttons.insert(lastbtn,new ButtonInfo(desktoppath,0,0));
 	}
 	
 	return true;
 }
+
+KonqSidebarPlugin *Sidebar_Widget::loadModule(QWidget *par,QString &desktopName,QString lib_name)
+	{
+
+ 				KLibLoader *loader = KLibLoader::self();
+ 
+      				// try to load the library
+      				QString libname("lib%1");
+      				KLibrary *lib = loader->library(QFile::encodeName(libname.arg(lib_name)));
+      				if (lib)
+        			{
+         			 	// get the create_ function
+          				QString factory("create_%1");
+          				void *create = lib->symbol(QFile::encodeName(factory.arg(lib_name)));
+ 
+          				if (create)
+            					{
+				        	   	// create the module
+								
+					              	KonqSidebarPlugin* (*func)(QObject *, QWidget*, QString&, const char *);
+					              	func = (KonqSidebarPlugin* (*)(QObject *, QWidget *, QString&, const char *)) create;
+					              	return  (KonqSidebarPlugin*)func(this,par,desktopName,0);
+					            }
+			        }		    
+			    	else
+		      			kdWarning() << "Module " << lib_name << " doesn't specify a library!" << endl;
+				kdWarning()<<loader->lastErrorMessage();
+			return 0;
+	}
 
 bool Sidebar_Widget::createView( ButtonInfo *data)
 	{
@@ -84,9 +117,8 @@ bool Sidebar_Widget::createView( ButtonInfo *data)
 			confFile->setGroup("Desktop Entry");
 
 			data->dock=Area->createDockWidget(confFile->readEntry("Name",i18n("Unknown")),0);
-//			data->widget=createPlugin(data->dock,data->->file);			
-			data->widget=new QLabel(data->file,data->dock);
-			data->dock->setWidget(data->widget);
+			data->module=loadModule(data->dock,data->file,confFile->readEntry("X-KDE-KonqSidebarModule",""));
+			data->dock->setWidget(data->module->getWidget());
 			data->dock->setEnableDocking(KDockWidget::DockTop|
 			KDockWidget::DockBottom|KDockWidget::DockDesktop);
 			data->dock->setDockSite(KDockWidget::DockTop|KDockWidget::DockBottom);	

@@ -1,6 +1,6 @@
 # this has all of the subdirectories that make will recurse into.  if
 # there are none, comment this out
-SUBDIRS = .
+SUBDIRS = . test
 
 # set the include path for X, qt and KDE
 INCLUDES = $(all_includes)
@@ -15,12 +15,16 @@ messages: rc.cpp
 	$(XGETTEXT) *.cpp -o $(podir)/kpartapp.pot
 
 
-kde_module_LTLIBRARIES = libkonqsidebar.la
+lib_LTLIBRARIES = libkonqsidebar.la libkonqsidebarplugin.la
 
 # the Part's source, library search path, and link libraries
 libkonqsidebar_la_SOURCES = konqsidebar.cpp sidebar_widget.cpp
 libkonqsidebar_la_LDFLAGS = -module $(KDE_PLUGIN) $(all_libraries)
 libkonqsidebar_la_LIBADD  = $(LIB_KPARTS) $(LIB_KFILE)
+
+libkonqsidebarplugin_la_SOURCES=konqsidebarplugin.cpp
+libkonqsidebarplugin_la_LDFLAGS = -module $(KDE_PLUGIN) $(all_libraries)
+libkonqsidebarplugin_la_LIBADD = $(LIB_QT) $(LIB_KDECORE)
 
 # this is where the desktop file will go 
 partdesktopdir   = $(kde_servicesdir)
