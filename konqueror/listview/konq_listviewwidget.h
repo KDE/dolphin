@@ -178,7 +178,6 @@ class KonqBaseListViewWidget : public KListView
       // forces a repaint on column size changes / branch expansion
       // when there is a background pixmap
       void slotUpdateBackground();
-      void renamingFinished(bool success);
 
    protected:
       //calls KListView::focusInEvent(), otherrwise this is never called,
@@ -257,7 +256,6 @@ class KonqBaseListViewWidget : public KListView
 
       QString m_itemToGoTo;
       QTimer *m_backgroundTimer;
-      KonqBaseListViewItem* m_renamedItem;
 };
 
 #endif

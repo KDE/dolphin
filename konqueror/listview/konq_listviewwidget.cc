@@ -88,7 +88,6 @@ KonqBaseListViewWidget::KonqBaseListViewWidget( KonqListView *parent, QWidget *p
 ,m_filenameColumn(0)
 ,m_itemToGoTo("")
 ,m_backgroundTimer(0)
-,m_renamedItem(0)
 {
    kdDebug(1202) << "+KonqBaseListViewWidget" << endl;
 
@@ -678,32 +677,21 @@ void KonqBaseListViewWidget::slotItemRenamed(QListViewItem* item, const QString 
    Q_ASSERT( col == 0 );
    Q_ASSERT( item != 0 );
 
-   m_renamedItem = static_cast<KonqBaseListViewItem*>(item);
-
    // The correct behavior is to show the old name until the rename has successfully
    // completed. Unfortunately, KListView forces us to allow the text to be changed
    // before we try the rename, so set it back to the pre-rename state.
-   m_renamedItem->updateContents();
+   KonqBaseListViewItem *renamedItem = static_cast<KonqBaseListViewItem*>(item);
+   renamedItem->updateContents();
 
    // Don't do anything if the user renamed to a blank name.
    if( !name.isEmpty() )
    {
-      // Actually attempt the rename. If it succeeds, we'll update the name.
-      KonqOperations::rename( this, m_renamedItem->item()->url(), name, this, SLOT(renamingFinished(bool)) );
+      // Actually attempt the rename. If it succeeds, KDirLister will update the name.
+      KonqOperations::rename( this, renamedItem->item()->url(), name );
    }
    
    // When the KListViewLineEdit loses focus, focus tends to go to the location bar...
    setFocus();
-}
-
-void KonqBaseListViewWidget::renamingFinished(bool success)
-{
-   Q_ASSERT( m_renamedItem != 0 );
-   
-   if( success )
-       m_renamedItem->updateContents();
-   
-   m_renamedItem = 0;
 }
 
 void KonqBaseListViewWidget::slotOnViewport()
