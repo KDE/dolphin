@@ -19,7 +19,7 @@ bin_PROGRAMS = konqueror
 # Source files, please keep sorted.
 konqueror_SOURCES =  kbrowser.cc kfmrun.cc \
 	konq_baseview.cc konq_childview.cc konq_frame.cc \
-	konq_htmlview.cc konq_iconview.cc konq_kfmview.cc \
+	konq_htmlview.cc konq_iconview.cc \
 	konq_main.cc konq_mainview.cc konq_mainwindow.cc \
 	konq_partview.cc konq_plugins.cc \
 	konq_propsmainview.cc konq_propsview.cc \
@@ -28,7 +28,7 @@ konqueror_SOURCES =  kbrowser.cc kfmrun.cc \
 
 noinst_HEADERS = kbrowser.h kfmrun.h \
 	konq_baseview.h konq_childview.h konq_frame.h \
-        konq_htmlview.h konq_iconview.h konq_kfmview.h \
+        konq_htmlview.h konq_iconview.h \
         konq_main.h konq_mainview.h konq_mainwindow.h \
         konq_partview.h konq_plugins.h \
         konq_propsmainview.h konq_propsview.h \

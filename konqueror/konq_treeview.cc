@@ -1290,14 +1290,14 @@ void KonqKfmTreeView::focusInEvent( QFocusEvent* _event )
  **************************************************************/
 
 KfmTreeViewItem::KfmTreeViewItem( KonqKfmTreeView *_treeview, KfmTreeViewDir *_parent, UDSEntry& _entry, KURL& _url )
-  : QListViewItem( _parent ), KonqKfmViewItem( _entry, _url )
+  : QListViewItem( _parent ), KFileIcon( _entry, _url )
 {
   m_pTreeView = _treeview;
   init();
 }
 
 KfmTreeViewItem::KfmTreeViewItem( KonqKfmTreeView *_parent, UDSEntry& _entry, KURL& _url )
-  : QListViewItem( _parent ), KonqKfmViewItem( _entry, _url )
+  : QListViewItem( _parent ), KFileIcon( _entry, _url )
 {
   m_pTreeView = _parent;
   init();

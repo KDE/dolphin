@@ -20,7 +20,7 @@
 #define __konq_iconview_h__
 
 #include "kiconcontainer.h"
-#include "konq_kfmview.h"
+#include "kfileicon.h"
 #include "konq_baseview.h"
 
 #include <qtimer.h>
@@ -33,7 +33,7 @@ class KonqKfmIconViewItem;
 class KMimeType;
 
 class KonqKfmIconViewItem : public KIconContainerItem,
-                            public KonqKfmViewItem
+                            public KFileIcon
 {
 public:
   KonqKfmIconViewItem( KonqKfmIconView *_parent, UDSEntry& _entry, KURL& _url);

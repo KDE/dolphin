@@ -681,7 +681,7 @@ void KonqKfmIconView::focusInEvent( QFocusEvent* _event )
 }
 
 KonqKfmIconViewItem::KonqKfmIconViewItem( KonqKfmIconView *_parent, UDSEntry& _entry, KURL& _url )
-  : KIconContainerItem( _parent ), KonqKfmViewItem( _entry, _url )
+  : KIconContainerItem( _parent ), KFileIcon( _entry, _url )
 {
   m_pIconView = _parent;
   init( _entry );
