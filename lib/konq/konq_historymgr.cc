@@ -275,8 +275,13 @@ void KonqHistoryManager::addToHistory( bool pending, const KURL& _url,
 
     if ( filterOut( _url ) ) // we only want remote URLs
 	return;
+
+    // http URLs without a path will get redirected immediately to url + '/'
+    if ( _url.path().isEmpty() && _url.protocol().startsWith("http") )
+	return;
+
     KURL url( _url );
-    url.setPass( "" ); // No password in the history, especially not in the completion !
+    url.setPass( QString::null ); // No password in the history, especially not in the completion!
     url.setHost( url.host().lower() ); // All host parts lower case
     KonqHistoryEntry entry;
     QString u = url.prettyURL();
