@@ -253,6 +253,7 @@ void KonqHistoryManager::addToHistory( bool pending, const KURL& _url,
 	return;
     KURL url( _url );
     url.setPass( "" ); // No password in the history, especially not in the completion !
+    url.setHost( url.host().lower() ); // All host parts lower case
     KonqHistoryEntry entry;
     QString u = url.prettyURL();
     entry.url = url;
