@@ -89,12 +89,12 @@ KEBTopLevel::KEBTopLevel(const QString & bookmarksFile, bool readonly, QString a
 
    construct();
 
-   kdDebug() << address << endl;
    KEBListViewItem *item = listview->getItemAtAddress(address);
-   if (item) {
-      listview->setCurrent(item);
-      item->setSelected(true);
+   if (!item) {
+      item = listview->getFirstChild();
    }
+   listview->setCurrent(item);
+   item->setSelected(true);
 }
 
 void KEBTopLevel::construct() {
@@ -106,6 +106,8 @@ void KEBTopLevel::construct() {
    slotClipboardDataChanged();
 
    resetActions();
+   updateActions();
+
    setAutoSaveSettings();
    setModifiedFlag(false);
    cmdHistory->docSaved();
@@ -223,6 +225,7 @@ void KEBTopLevel::slotSaveOnClose() {
 bool KEBTopLevel::nsShown() {
    return static_cast<KToggleAction*>(actionCollection()->action("settings_showNS"))->isChecked();
 }
+
 void KEBTopLevel::updateActions() {
    listview->updateLastAddress();
    setActionsEnabled(listview->getSelectionAbilities());
@@ -246,8 +249,6 @@ void KEBTopLevel::setActionsEnabled(SelcAbilities sa) {
    ea("changeicon",        t4);
    ea("changeurl",         t4 && !sa.group);
 
-   ea("search",            sa.singleSelect && !sa.root);
-
    ea("newfolder",         t5);
    ea("newbookmark",       t5);
    ea("insertseparator",   t5);
@@ -255,6 +256,8 @@ void KEBTopLevel::setActionsEnabled(SelcAbilities sa) {
    ea("expandall",         true);
    ea("collapseall",       true);
    ea("openlink",          sa.itemSelected && !sa.urlIsEmpty && !sa.group && !sa.separator);
+
+   ea("search",            !sa.multiSelect);
 
    ea("testall",           !m_readOnly && sa.notEmpty);
    ea("testlink",          t2 && !sa.separator);
@@ -392,7 +395,7 @@ void KEBTopLevel::slotDocumentRestored() {
 
 void KEBTopLevel::slotBookmarksChanged(const QString &, const QString &caller) {
    // this is called when someone changes bookmarks in konqueror....
-   kdDebug() << "blah blah blah!!!: " << caller << " == " << kapp->name() << "?" << endl;
+   kdDebug() << "FIXME: " << caller << " == " << kapp->name() << "?" << endl;
    // TODO umm.. what happens if a readonly gets a update for a non-readonly???
    // the non-readonly maybe has a pretty much random kapp->name() ??? umm...
    if ((caller != kapp->name()) && !m_modified) {

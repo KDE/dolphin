@@ -42,7 +42,7 @@ void SearchItrHolder::doItrListChanged() {
 
 SearchItr::SearchItr(QValueList<KBookmark> bks)
    : BookmarkIterator(bks), m_showstatuscounter(0), m_statusitem(0)  {
-   ;
+   listview->clearSelection();
 }
 
 SearchItr::~SearchItr() {
