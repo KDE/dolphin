@@ -54,64 +54,92 @@ KonqViewManager::~KonqViewManager()
   if (m_pMainContainer) delete m_pMainContainer;
 }
 
-void KonqViewManager::splitView ( Qt::Orientation orientation ) 
+BrowserView* KonqViewManager::splitView ( Qt::Orientation orientation ) 
 {
-  kdebug(0, 1202, "KonqViewManager::splitview(default)" );
-  KonqChildView* currentChildView = m_pMainView->currentChildView();
-  QString url = currentChildView->url();
-  const QString serviceType = currentChildView->serviceType();
+  kdebug(0, 1202, "KonqViewManager::splitView(default)" );
 
-  BrowserView *pView;
-  QStringList serviceTypes;
+  return splitView( orientation, m_pMainView->currentChildView()->url() );
+}
+
+BrowserView* KonqViewManager::splitView ( Qt::Orientation orientation, 
+					  QString url,
+					  QString serviceType )
+{
+  kdebug(0, 1202, "KonqViewManager::splitView(ServiceType)" );
   
-  QString serviceName = currentChildView->service()->name();
+  KonqFrame* viewFrame = 0L;
+  if( m_pMainContainer )
+    viewFrame = m_pMainView->currentChildView()->frame();
+
+  BrowserView* view = split( viewFrame, orientation, serviceType );
+
+  if( view )
+    m_pMainView->childView( view )->openURL( url );
+
+  return view;
+}
+
+BrowserView* KonqViewManager::splitWindow( Qt::Orientation orientation )
+{
+  kdebug(0, 1202, "KonqViewManager::splitWindow(default)" );
+
+  QString url = m_pMainView->currentChildView()->url();
+
+  KonqFrameBase* splitFrame = 0L;
+  if( m_pMainContainer )
+    splitFrame = m_pMainContainer->firstChild();
+
+  BrowserView* view = split( splitFrame, orientation );
+
+  if( view )    
+    m_pMainView->childView( view )->openURL( url );
+
+  return view;
+}
+
+BrowserView* KonqViewManager::split (KonqFrameBase* splitFrame,
+				     Qt::Orientation orientation, 
+				     QString serviceType )
+{
+  kdebug(0, 1202, "KonqViewManager::split" );
   
   KService::Ptr service;
   KTrader::OfferList serviceOffers;
-  
-  if ( !( pView = KonqFactory::createView( serviceType, serviceName, &service, &serviceOffers ) ) )
-    return; //do not split the view at all if we can't clone the current view
 
-  splitView( orientation, pView, service, serviceOffers );
+  BrowserView* newView = createView( serviceType, service, serviceOffers );
 
-  m_pMainView->childView( pView )->openURL( url );
-}
+  if( !newView )
+    return 0L; //do not split at all if we can't create the new view
 
-void KonqViewManager::splitView ( Qt::Orientation orientation, 
-			          BrowserView *newView,
-			          const KService::Ptr &service,
-			          const KTrader::OfferList &serviceOffers )
-{
-  kdebug(0, 1202, "KonqViewManager::splitview" );
-  
   if( m_pMainContainer )
   {
-    KonqChildView* currentChildView = m_pMainView->currentChildView();
-    KonqFrame* viewFrame = currentChildView->frame();
-    KonqFrameContainer* parentContainer = viewFrame->parentContainer();
-    bool moveNewContainer = (parentContainer->idAfter( viewFrame ) != 0);
+    assert( splitFrame );
 
-    viewFrame->header()->passiveModeCheckBox()->show();
+    KonqFrameContainer* parentContainer = splitFrame->parentContainer();
+    bool moveNewContainer = (parentContainer->idAfter( splitFrame->widget() ) != 0);
+
+    //splitFrame->widget()->header()->passiveModeCheckBox()->show();
 
     if( moveNewContainer )       
-      kdebug(0, 1202, "Move new splitter: Yes %d",parentContainer->idAfter( viewFrame ) );
+      kdebug(0, 1202, "Move new splitter: Yes %d",parentContainer->idAfter( splitFrame->widget() ) );
     else
-      kdebug(0, 1202, "Move new splitter: No %d",parentContainer->idAfter( viewFrame ) );
+      kdebug(0, 1202, "Move new splitter: No %d",parentContainer->idAfter( splitFrame->widget() ) );
     
     QValueList<int> sizes;
     sizes = parentContainer->sizes();
 
-    QPoint pos = viewFrame->pos();
+    QPoint pos = splitFrame->widget()->pos();
 
-    viewFrame->hide();
-    viewFrame->reparent( m_pMainView, 0, pos );
+    splitFrame->widget()->hide();
+    splitFrame->widget()->reparent( m_pMainView, 0, pos );
     
     KonqFrameContainer *newContainer = new KonqFrameContainer( orientation, parentContainer );
     newContainer->setOpaqueResize( true );
+
     if( moveNewContainer )
       parentContainer->moveToFirst( newContainer );
 
-    viewFrame->reparent( newContainer, 0, pos, true );
+    splitFrame->widget()->reparent( newContainer, 0, pos, true );
 
     setupView( newContainer, newView, service, serviceOffers );
 
@@ -140,49 +168,51 @@ void KonqViewManager::splitView ( Qt::Orientation orientation,
 
     m_pMainView->childView( newView )->frame()->header()->passiveModeCheckBox()->hide();
   }
+
+  return newView;
 }
 
-void KonqViewManager::splitWindow( Qt::Orientation orientation )
-{
-  if ( !m_pMainContainer )
-  {
-    splitView( orientation );
-    return;
-  }
+// void KonqViewManager::splitWindow( Qt::Orientation orientation )
+// {
+//   if ( !m_pMainContainer )
+//   {
+//     splitView( orientation );
+//     return;
+//   }
 
-  KonqFrameContainer *oldMainContainer = m_pMainContainer;
+//   KonqFrameContainer *oldMainContainer = m_pMainContainer;
 
-  KonqChildView* currentChildView = m_pMainView->currentChildView();
-  QString url = currentChildView->url();
-  const QString serviceType = currentChildView->serviceType();
+//   KonqChildView* currentChildView = m_pMainView->currentChildView();
+//   QString url = currentChildView->url();
+//   const QString serviceType = currentChildView->serviceType();
 
-  BrowserView *pView;
-  QStringList serviceTypes;
+//   BrowserView *pView;
+//   QStringList serviceTypes;
   
-  QString serviceName = currentChildView->service()->name();
+//   QString serviceName = currentChildView->service()->name();
   
-  KService::Ptr service;
-  KTrader::OfferList serviceOffers;
+//   KService::Ptr service;
+//   KTrader::OfferList serviceOffers;
   
-  if ( !( pView = KonqFactory::createView( serviceType, serviceName, &service, &serviceOffers ) ) )
-    return; //do not split the window at all if we can't clone the current view
+//   if ( !( pView = KonqFactory::createView( serviceType, serviceName, &service, &serviceOffers ) ) )
+//     return; //do not split the window at all if we can't clone the current view
 
-  m_pMainContainer = new KonqFrameContainer( orientation, m_pMainView );
-  m_pMainContainer->setOpaqueResize();
-  m_pMainContainer->setGeometry( 0, 0, m_pMainView->width(), m_pMainView->height() );
+//   m_pMainContainer = new KonqFrameContainer( orientation, m_pMainView );
+//   m_pMainContainer->setOpaqueResize();
+//   m_pMainContainer->setGeometry( 0, 0, m_pMainView->width(), m_pMainView->height() );
 
-  oldMainContainer->reparent( m_pMainContainer, 0, QPoint( 0, 0 ), true );
+//   oldMainContainer->reparent( m_pMainContainer, 0, QPoint( 0, 0 ), true );
 
-  setupView( m_pMainContainer, pView, service, serviceOffers );
+//   setupView( m_pMainContainer, pView, service, serviceOffers );
 
-  QValueList<int> sizes;
-  sizes << 100 << 100;
-  m_pMainContainer->setSizes( sizes );
+//   QValueList<int> sizes;
+//   sizes << 100 << 100;
+//   m_pMainContainer->setSizes( sizes );
 
-  m_pMainContainer->show();
+//   m_pMainContainer->show();
 
-  m_pMainView->childView( pView )->openURL( url );
-}
+// //   m_pMainView->childView( pView )->openURL( url );
+// }
 
 void KonqViewManager::removeView( KonqChildView *view )
 {
@@ -496,11 +526,38 @@ void KonqViewManager::slotProfileDlg()
   m_bProfileListDirty = true;
 }
 
-void KonqViewManager::setupView( KonqFrameContainer *parentContainer, 
-                                 BrowserView *view, 
-				 const KService::Ptr &service, 
+BrowserView* KonqViewManager::createView( QString serviceType, 
+					  KService::Ptr &service,
+					  KTrader::OfferList &serviceOffers )
+{
+  kdebug(0, 1202, "KonqViewManager::createView" );
+  BrowserView *view;
+
+  if( serviceType.isEmpty() ) {
+    //clone current view
+    serviceType = m_pMainView->currentChildView()->serviceType();
+    QString serviceName = m_pMainView->currentChildView()->service()->name();
+
+    view = KonqFactory::createView( serviceType, serviceName, 
+				    &service, &serviceOffers );
+  }
+  else {
+    //create view with the given servicetype
+    view = KonqFactory::createView( serviceType, QString::null,
+				    &service, &serviceOffers );
+  }
+
+  return view;
+}
+
+void KonqViewManager::setupView( KonqFrameContainer *parentContainer,
+                                 BrowserView* view,
+				 const KService::Ptr &service,
 				 const KTrader::OfferList &serviceOffers )
 {
+  kdebug(0, 1202, "KonqViewManager::setupView" );
+  assert(view);
+
   KonqFrame* newViewFrame = new KonqFrame( parentContainer );
 
   KonqChildView *v = new KonqChildView( view, newViewFrame, 
@@ -514,6 +571,8 @@ void KonqViewManager::setupView( KonqFrameContainer *parentContainer,
   v->lockHistory();
 
   //if (isVisible()) v->show();
+
+  return;
 }
 
 void KonqViewManager::slotProfileActivated( int id )

@@ -87,6 +87,9 @@ KonqChildView::~KonqChildView()
 
 void KonqChildView::attach( BrowserView *view )
 {
+  kdebug(0,1202,"KonqChildView::attach");
+  assert( view );
+
   m_pView = view;
   connectView( );
 

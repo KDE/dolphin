@@ -31,6 +31,7 @@ class QString;
 class QStringList;
 class KConfig;
 class KonqMainView;
+class KonqFrameBase;
 class KonqFrameContainer;
 class KonqChildView;
 class BrowserView;
@@ -48,18 +49,17 @@ public:
    * vertically. The first of the resulting views will contain the initial 
    * view, the other will be a new one with the same URL and the same view type
    */
-  void splitView( Qt::Orientation orientation );
+  BrowserView* splitView( Qt::Orientation orientation );
 
   /**
    * Does the same as the above, except that the second view will be the one 
    * provided by newView
    */
-  void splitView( Qt::Orientation orientation,
-		  BrowserView *newView,
-		  const KService::Ptr &service,
-		  const KTrader::OfferList &serviceOffers );
+  BrowserView* splitView( Qt::Orientation orientation,
+			  QString url,
+			  QString serviceType = QString::null );
 
-  void splitWindow( Qt::Orientation orientation );
+  BrowserView* splitWindow( Qt::Orientation orientation );
 
   /**
    * Guess!:-)
@@ -91,6 +91,14 @@ protected slots:
 private:
 
   /**
+   * Creates a new View based on the given ServiceType. If servicsType is empty
+   * it clones the current view.
+   */
+  BrowserView* createView( QString serviceType, 
+			   KService::Ptr &service,
+			   KTrader::OfferList &serviceOffers );
+
+  /**
    * Mainly creates the the backend structure(KonqChildView) for a view and
    * connects it
    */
@@ -99,6 +107,14 @@ private:
 		  const KService::Ptr &service,
 		  const KTrader::OfferList &serviceOffers );
   
+  /**
+   * Do the actual splitting. The new View will be created from serviceType.
+   * Returns the new View or 0L if the new View couldn't be created.
+   */
+  BrowserView* split (KonqFrameBase* splitFrame,
+		      Qt::Orientation orientation, 
+		      QString serviceType = QString::null );
+
   KonqMainView *m_pMainView;
   
   KonqFrameContainer *m_pMainContainer;

@@ -107,6 +107,7 @@ class KonqFrameBase
   virtual void reparent( QWidget* parent, Qt::WFlags f, 
 			 const QPoint & p, bool showIt=FALSE ) = 0;
 
+  virtual KonqFrameContainer* parentContainer() = 0;
   virtual QWidget* widget() = 0;
 
   virtual void listViews( ChildViewList *viewList ) = 0;
