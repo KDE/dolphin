@@ -441,8 +441,6 @@ void KonqMainWindow::openURL( KonqView *_view, const KURL &_url,
             //kdDebug(1202) << "KonqMainWindow::openURL : we were not following. Fire app." << endl;
             // We know the servicetype, let's try its preferred service
             KService::Ptr offer = KServiceTypeProfile::preferredService(serviceType, "Application");
-            if ( isMimeTypeAssociatedWithSelf( serviceType, offer ) )
-                return;
             // Remote URL: save or open ?
             bool open = url.isLocalFile();
             if ( !open ) {
@@ -453,6 +451,8 @@ void KonqMainWindow::openURL( KonqView *_view, const KURL &_url,
             }
             if ( open )
             {
+                if ( isMimeTypeAssociatedWithSelf( serviceType, offer ) )
+                    return;
                 KURL::List lst;
                 lst.append(url);
                 //kdDebug(1202) << "Got offer " << (offer ? offer->name().latin1() : "0") << endl;
