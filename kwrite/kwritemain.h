@@ -92,7 +92,8 @@ class KWrite : public KParts::MainWindow
 
   //session management
   public:
-    void restore(KConfig *,int);
+    void restore(KConfig *,int);     
+    static void restore();
 
   private:
     virtual void readProperties(KConfig *);
@@ -100,7 +101,8 @@ class KWrite : public KParts::MainWindow
     virtual void saveGlobalProperties(KConfig *);
 		
 	private:
-	  QString encoding;
+	  QString encoding;    
+    static QPtrList<KTextEditor::Document> docList;
 };
 
 #endif

@@ -55,7 +55,7 @@
 // StatusBar field IDs
 #define ID_GEN 1
 
-QPtrList<KTextEditor::Document> docList; //documents
+QPtrList<KTextEditor::Document> KWrite::docList;
 
 KWrite::KWrite (KTextEditor::Document *doc)
 {
@@ -65,7 +65,7 @@ KWrite::KWrite (KTextEditor::Document *doc)
      resize(640,400); 
 
   if (!doc) {
-    doc = KTextEditor::createDocument ("katepart");//libqeditorpart"); //katepart");
+    doc = KTextEditor::createDocument ("katepart", this, "KTextEditor::Document");//libqeditorpart"); //katepart");
     docList.append(doc);
   }
   setupEditWidget(doc);
@@ -452,7 +452,7 @@ void KWrite::saveGlobalProperties(KConfig *config) //save documents
 }
 
 //restore session
-void restore()
+void KWrite::restore()
 {
   KConfig *config;
   int docs, windows, z;
@@ -543,12 +543,9 @@ int main(int argc, char **argv)
     client->registerAs("kwrite");
   }
 
-  //list that contains all documents
-  docList.setAutoDelete(false);
-
   KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
   if (kapp->isRestored()) {
-    restore();
+    KWrite::restore();
   } else {
     KWrite *t;
 
