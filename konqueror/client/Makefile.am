@@ -19,4 +19,5 @@ messages:
 	$(XGETTEXT) -kaliasLocal *.h *.cc -o $(podir)/kfmclient.pot
 
 updatedir = $(kde_datadir)/kconf_update
-update_DATA = kfmclient_3_2.upd kfmclient_3_2_update.sh
+update_DATA = kfmclient_3_2.upd
+update_SCRIPTS = kfmclient_3_2_update.sh
