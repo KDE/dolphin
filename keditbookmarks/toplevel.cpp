@@ -203,6 +203,7 @@ KEBTopLevel::KEBTopLevel( const QString & bookmarksFile )
 
     createGUI();
 
+    setAutoSaveSettings( QString::null, true );
     setModified(false); // for a nice caption
 
     s_topLevel = this;
