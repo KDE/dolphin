@@ -314,8 +314,8 @@ void KDirLister::slotUpdateFinished( int /*_id*/ )
   KFileItem* kci;
   for( kci = lst.first(); kci != 0L; kci = lst.next() )
   {
-    m_lstFileItems.remove( kci );
     emit deleteItem( kci );
+    m_lstFileItems.remove( kci );
   }
 
   m_buffer.clear();
