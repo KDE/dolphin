@@ -141,11 +141,13 @@ protected slots:
   virtual void slotListEntry( int _id, const UDSEntry& _entry );
   virtual void slotError( int _id, int _errid, const char *_errortext );
   virtual void slotBufferTimeout();
-  virtual void slotDirectoryDirty( const QString& _dir );
-
   virtual void slotUpdateError( int _id, int _errid, const char *_errortext );
   virtual void slotUpdateFinished( int _id );
   virtual void slotUpdateListEntry( int _id, const UDSEntry& _entry );
+
+  // internal slots connected to KDirWatch
+  virtual void slotDirectoryDirty( const QString& _dir );
+  virtual void slotDirectoryVeryDirty( const QString& _dir );
 
 protected:  
   /** Unregister dirs from kdirwatch and clear m_lstDirs */

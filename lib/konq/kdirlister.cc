@@ -56,6 +56,18 @@ KDirLister::~KDirLister()
   forgetDirs();
 }
 
+void KDirLister::slotDirectoryVeryDirty( const QString& _dir )
+{
+  kdebug( KDEBUG_INFO, 1203, "KDirLister::slotDirectoryVeryDirty( %s )", _dir.ascii() );
+  // if we watch this dir, pass the signal above
+  for ( QStringList::Iterator it = m_lstDirs.begin(); it != m_lstDirs.end(); ++it )
+    if ( _dir == (*it) )
+    {
+      emit update();
+      break;
+    }
+}
+
 void KDirLister::slotDirectoryDirty( const QString& _dir )
 {
   // _dir does not contain a trailing slash
@@ -101,8 +113,12 @@ void KDirLister::openURL( const KURL& _url, bool _showDotFiles, bool _keep )
     //kdebug(0, 1203, "adding %s", _url.path().ascii() );
     kdirwatch->addDir( _url.path() );
     if ( !_keep ) // already done if keep == true
+    {
       connect( kdirwatch, SIGNAL( dirty( const QString& ) ), 
                this, SLOT( slotDirectoryDirty( const QString& ) ) );
+      connect( kdirwatch, SIGNAL( veryDirty( const QString& ) ), 
+               this, SLOT( slotDirectoryVeryDirty( const QString& ) ) );
+    }
   }
   m_lstDirs.append( _url.path( -1 ) ); // store path without trailing slash
 
@@ -164,7 +180,7 @@ void KDirLister::slotListEntry( int /*_id*/, const UDSEntry& _entry )
 
 void KDirLister::slotBufferTimeout()
 {
-  kdebug(0,1203,"BUFFER TIMEOUT");
+  //kdebug(0,1203,"BUFFER TIMEOUT");
 
   //The first entry ?
   if ( !m_bFoundOne )
@@ -201,7 +217,7 @@ void KDirLister::slotBufferTimeout()
 
   // kdebug(0, 1203, "Update !");
   // Tell the view to redraw itself
-  emit update();
+  //emit update(); // QIconView is smart and doesn't need that.
   // kdebug(0, 1203, "Update done");
 
   m_buffer.clear();
@@ -343,7 +359,7 @@ void KDirLister::slotUpdateFinished( int /*_id*/ )
   
   m_buffer.clear();
 
-  emit update();
+  //emit update();
   emit completed();
   
   // continue with pending updates
