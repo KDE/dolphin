@@ -1250,6 +1250,9 @@ void KonqViewManager::setActivePart( KParts::Part *part, bool immediate )
       return;
     }
 
+    if (m_pMainWindow && m_pMainWindow->currentView())
+      m_pMainWindow->currentView()->setLocationBarURL(m_pMainWindow->locationBarURL());
+
     KParts::PartManager::setActivePart( part );
 
     if (part && part->widget())
