@@ -3,9 +3,9 @@ kde_module_LTLIBRARIES = kcm_useraccount.la
 kcm_useraccount_la_SOURCES = main_widget.ui chfnprocess.cpp \
 			     main.cpp chfacedlg.cpp settings.kcfgc pass.kcfgc
 kcm_useraccount_la_LDFLAGS = $(all_libraries) -module -avoid-version -no-undefined
-kcm_useraccount_la_LIBADD = $(LIB_KDEUI) $(LIB_KIO) -lkonq
+kcm_useraccount_la_LIBADD = $(top_builddir)/libkonq/libkonq.la
 
-AM_CPPFLAGS = $(all_includes)
+AM_CPPFLAGS = -I$(top_srcdir)/libkonq $(all_includes)
 
 kde_kcfg_DATA = kcm_useraccount.kcfg kcm_useraccount_pass.kcfg
 
