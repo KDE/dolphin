@@ -23,6 +23,8 @@
 #include <qpixmap.h>
 #include <qintdict.h>
 #include <qtimer.h>
+#include <qstack.h>
+
 #include <kurl.h>
 #include <konq_fileitem.h>
 #include <klistview.h>
@@ -49,6 +51,14 @@ class ColumnInfo
       int udsId;
       bool displayThisOne;
       KToggleAction *toggleThisOne;
+};
+
+struct PositionHistoryEntry
+{
+   PositionHistoryEntry(const QString& p, int pos)
+      :path(p), currentItem(pos) {};
+   QString path;
+   int currentItem;
 };
 
 /**
@@ -219,6 +229,9 @@ class KonqBaseListViewWidget : public KListView
 
    public:
       KonqListView *m_pBrowserView;
+      QStack<PositionHistoryEntry> m_positionInDirHist;
+      int m_itemToGoTo;
+
 };
 
 #endif

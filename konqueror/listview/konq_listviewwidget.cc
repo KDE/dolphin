@@ -83,6 +83,8 @@ KonqBaseListViewWidget::KonqBaseListViewWidget( KonqListView *parent, QWidget *p
 ,m_bAscending(TRUE)
 ,m_filenameColumn(0)
 ,m_pBrowserView(parent)
+,m_positionInDirHist()
+,m_itemToGoTo(0)
 {
    kdDebug(1202) << "+KonqBaseListViewWidget" << endl;
 
@@ -136,6 +138,7 @@ KonqBaseListViewWidget::KonqBaseListViewWidget( KonqListView *parent, QWidget *p
    //setFrameStyle( QFrame::NoFrame | QFrame::Plain );
    setShowSortIndicator(TRUE);
 
+   m_positionInDirHist.setAutoDelete(TRUE);
    //confColumns.setAutoDelete(TRUE);
 }
 
@@ -680,6 +683,31 @@ bool KonqBaseListViewWidget::openURL( const KURL &url )
    }
    m_bTopLevelComplete = false;
 
+   m_itemToGoTo=0;
+   if (url.protocol()!=m_url.protocol())
+      m_positionInDirHist.clear();
+   else
+   {
+      //we go one dir deeper, so push the current posiotion on the stack
+      if (url.path().contains(m_url.path()))
+      {
+         m_positionInDirHist.push(new PositionHistoryEntry(m_url.path(),itemIndex(currentItem())));
+      }
+      //we go one dir up, get the position from the stack
+      else if (m_url.path().contains(url.path()))
+      {
+         PositionHistoryEntry *pos=m_positionInDirHist.pop();
+         if (pos!=0)
+         {
+            if (pos->path==url.path())
+               m_itemToGoTo=pos->currentItem;
+            delete pos;
+         };
+      }
+      else
+         m_positionInDirHist.clear();
+
+   };
    m_url=url;
 
    m_pBrowserView->resetCount();
@@ -730,24 +758,31 @@ bool KonqBaseListViewWidget::openURL( const KURL &url )
 void KonqBaseListViewWidget::setComplete()
 {
     m_bTopLevelComplete = true;
-    if ( m_bUpdateContentsPosAfterListing )
+
+/*    if ( m_bUpdateContentsPosAfterListing )
     {
         setContentsPos( m_pBrowserView->extension()->urlArgs().xOffset,
                         m_pBrowserView->extension()->urlArgs().yOffset );
         m_bUpdateContentsPosAfterListing = false;
         if ((firstChild()!=0) && (m_pBrowserView->extension()->urlArgs().yOffset==0))
         {
-            setCurrentItem(firstChild());
-            ensureItemVisible(currentItem());
+           //the call above saves the two following calls, aleXXX
+           setCurrentItem(firstChild());
+           ensureItemVisible(currentItem());
         }
         emit selectionChanged();
-    }
+    }*/
+    QListViewItem *newCurrentItem=itemAtIndex(m_itemToGoTo);
+    setCurrentItem(newCurrentItem);
+    ensureItemVisible(newCurrentItem);
+    emit selectionChanged();
+
     //ugghh, hack, to set the selectedBySimpleMove in KListview->d, aleXXX
     QKeyEvent tmpEvent(QEvent::KeyPress,0,0,0,"MajorHack");
     keyPressEvent(&tmpEvent);
-
     // Show "cut" icons as such
     m_pBrowserView->slotClipboardDataChanged();
+
 }
 
 void KonqBaseListViewWidget::slotStarted()
