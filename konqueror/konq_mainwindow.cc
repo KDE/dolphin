@@ -1294,7 +1294,7 @@ void KonqMainWindow::slotViewCompleted( KonqView * view )
 
   // set the old url back, if it was cleared by addToHistory() or
   // removeItem() above
-  if ( m_combo->currentText().isEmpty() )
+  if ( m_combo->currentText() != currentText )
       m_combo->setEditText( currentText );
 
   if ( !isLocal ) {
