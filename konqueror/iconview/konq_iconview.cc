@@ -21,7 +21,6 @@
 #include "konq_propsview.h"
 #include "konq_childview.h"
 #include "konq_frame.h"
-#include "konq_drag.h"
 
 #include <assert.h>
 #include <string.h>
@@ -42,6 +41,7 @@
 #include <kurl.h>
 #include <kdebug.h>
 #include <konqsettings.h>
+#include <konqdrag.h>
 #include <klibloader.h>
 
 #include <qmsgbox.h>
