@@ -60,7 +60,7 @@ protected:
     /**
      * Overridden from KonqFavIconMgr to update the cache
      */
-    virtual void notifyChange( bool isHost, QString hostOrURL, QString iconURL );
+    virtual void notifyChange( bool isHost, QString hostOrURL, QString iconName );
     
     QPixmap loadIcon( const QString& url, const QString& icon, int size );
 

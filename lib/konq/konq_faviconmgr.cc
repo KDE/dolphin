@@ -74,8 +74,3 @@ void KonqFavIconMgr::downloadHostIcon(const KURL &url)
     kapp->dcopClient()->send("kded", "favicons", "downloadHostIcon(KURL)", data);
 }
 
-void KonqFavIconMgr::notifyChange( bool, QString, QString )
-{
-    emit changed();
-}
-
