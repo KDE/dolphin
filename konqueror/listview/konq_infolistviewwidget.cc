@@ -222,7 +222,8 @@ void KonqInfoListViewWidget::slotNewItems( const KFileItemList& list)
 
     slotUpdateBackground();
 
-    determineCounts(list);
+    if ( !m_favorite.mimetype )
+        determineCounts(list);
 
     kdDebug(1203) << " ------------------------ startin metainfo job ------\n";
 
@@ -277,6 +278,7 @@ void KonqInfoListViewWidget::slotClear()
     m_metaInfoTodo.clear();
     delete m_metaInfoJob;
     m_metaInfoJob = 0;
+    m_favorite = KonqILVMimeType();
 
     KonqBaseListViewWidget::slotClear();
 }
