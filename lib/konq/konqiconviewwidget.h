@@ -59,8 +59,8 @@ public:
 
     void setImagePreviewAllowed( bool b );
 
-    void setURL ( const QString & kurl ) { m_url = kurl; }
-    const QString & url() { return m_url; }
+    void setURL ( const KURL & kurl ) { m_url = kurl; }
+    const KURL & url() { return m_url; }
 
     /** Made public for konq_iconview (copy) */
     virtual QDragObject *dragObject();
@@ -80,7 +80,7 @@ public:
     virtual void pasteSelection( bool move );
     virtual void deleteSelection();
     virtual void trashSelection();
-    virtual QStringList selectedUrls();
+    virtual KURL::List selectedUrls();
 
 public slots:
     /**
@@ -108,7 +108,7 @@ protected:
 
     void initDragEnter( QDropEvent *e );
 
-    QString m_url;
+    KURL m_url;
 
     KIconLoader::Size m_size;
     bool m_bImagePreviewAllowed;

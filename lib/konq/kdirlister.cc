@@ -62,7 +62,9 @@ void KDirLister::slotFileDirty( const QString& _file )
     emit deleteItem( item );
     // We need to refresh the item, because i.e. the permissions can have changed.
     item->refresh();
-    emit newItem( item );
+    KFileItemList lst;
+    lst.append( item );
+    emit newItems( lst );
   }
 }
 
@@ -154,14 +156,14 @@ void KDirLister::slotResult( KIO::Job * job )
 
 void KDirLister::slotEntries( KIO::Job*, const KIO::UDSEntryList& entries )
 {
-  QList<KFileItem> lstNewItems;
-  UDSEntryListIterator it(list);
+  KFileItemList lstNewItems;
+  KIO::UDSEntryListIterator it(entries);
   for (; it.current(); ++it) {
     QString name;
 
     // Find out about the name
     KIO::UDSEntry::ConstIterator entit = it.current()->begin();
-    for( ; entit != _entry.end(); entit++ )
+    for( ; entit != it.current()->end(); entit++ )
       if ( (*entit).m_uds == KIO::UDS_NAME )
         name = (*entit).m_str;
 
@@ -172,14 +174,14 @@ void KDirLister::slotEntries( KIO::Job*, const KIO::UDSEntryList& entries )
     else if ( name == "." )
     {
       KURL u( m_url );
-      m_rootFileItem = new KFileItem( *it, u, m_bDelayedMimeTypes );
+      m_rootFileItem = new KFileItem( *(*it), u, m_bDelayedMimeTypes );
     }
     else if ( m_isShowingDotFiles || name[0] != '.' )
     {
       KURL u( m_url );
       u.addPath( name );
       //kDebugInfo(1203,"Adding %s", u.url().ascii());
-      KFileItem* item = new KFileItem( *it, u, m_bDelayedMimeTypes );
+      KFileItem* item = new KFileItem( *(*it), u, m_bDelayedMimeTypes );
 
       if ( m_bDirOnlyMode && !S_ISDIR( item->mode() ) )
       {
@@ -249,6 +251,7 @@ void KDirLister::slotUpdateResult( KIO::Job * job )
     return;
   }
 
+  KFileItemList lstNewItems;
   QStringList::Iterator pendingIt = m_lstPendingUpdates.find( m_url.path( 0 ) );
   if ( pendingIt != m_lstPendingUpdates.end() )
     m_lstPendingUpdates.remove( pendingIt );
@@ -314,8 +317,8 @@ void KDirLister::slotUpdateResult( KIO::Job * job )
 	}
 	
         m_lstFileItems.append( item );
+        lstNewItems.append( item );
         item->mark();
-        emit newItem( item );
       }
     }
   }
@@ -331,6 +334,8 @@ void KDirLister::slotUpdateResult( KIO::Job * job )
       lst.append( *kit );
     }
   }
+
+  emit newItems( lstNewItems );
 
   KFileItem* kci;
   for( kci = lst.first(); kci != 0L; kci = lst.next() )
@@ -353,7 +358,11 @@ void KDirLister::slotUpdateResult( KIO::Job * job )
 
 void KDirLister::slotUpdateEntries( KIO::Job*, const KIO::UDSEntryList& list )
 {
-  m_buffer.append( list );
+  // list is a QList, m_buffer is a QValueList, keeps a copy
+  KIO::UDSEntryListIterator it(list);
+  for (; it.current(); ++it) {
+      m_buffer.append( *(*it) );
+  }
 }
 
 void KDirLister::setShowingDotFiles( bool _showDotFiles )

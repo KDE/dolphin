@@ -29,7 +29,7 @@
 #include <kurl.h>
 #include <kio/global.h>
 
-namespace KIO { class Job; }
+namespace KIO { class Job; class ListJob; }
 
 /** The dir lister deals with the kiojob used to list and update a directory,
  * handles the timer, and has signals for the user of this class (e.g. konqueror
@@ -119,7 +119,7 @@ public:
    */
   KFileItem * rootItem() { return m_rootFileItem; }
 
-  int jobId() { return m_jobId; }
+  //int jobId() { return m_jobId; }
 
   /**
    * @return true if koffice documents were listed since the last clear()
@@ -144,8 +144,8 @@ signals:
 
   /** Clear all items */
   void clear();
-  /** Signal a new item */
-  void newItem( KFileItem * _fileItem );
+  /** Signal new items */
+  void newItems( const KFileItemList & items );
   /** Signal a item to remove */
   void deleteItem( KFileItem * _fileItem );
 
@@ -168,7 +168,7 @@ protected:
   KURL m_url;
   QString m_sURL;
 
-  KIO::Job * m_job;
+  KIO::ListJob * m_job;
 
   /** The internal storage of file items */
   QList<KFileItem> m_lstFileItems;

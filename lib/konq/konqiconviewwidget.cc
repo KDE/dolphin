@@ -240,7 +240,7 @@ void KonqIconViewWidget::slotDropItem( KFileIVI *item, QDropEvent *e )
     QStringList lst;
 
     // Use either the root url or the item url
-    KURL dest( ( item == 0L ) ? m_url /*m_dirLister->url()*/ : item->item()->url().url() );
+    KURL dest( ( item == 0L ) ? m_url /*m_dirLister->url()*/ : item->item()->url() );
 
     // Check the state of the modifiers key at the time of the drop
     Window root;
@@ -292,9 +292,9 @@ void KonqIconViewWidget::dropStuff( KFileIVI *item, QDropEvent *ev )
 	    return;
 	}
 	// Use either the root url or the item url
-	KURL dest( ( item == 0L ) ? m_url /*m_dirLister->url()*/ : item->item()->url().url() );
+	KURL dest( ( item == 0L ) ? m_url /*m_dirLister->url()*/ : item->item()->url() );
 
-        KIO::Job * job;
+        KIO::Job * job = 0L;
 	switch ( ev->action() ) {
 	case QDropEvent::Move : job = KIO::move( lst, dest.url( 1 ) );
 	    ev->acceptAction(TRUE); ev->accept(); break;
@@ -304,12 +304,13 @@ void KonqIconViewWidget::dropStuff( KFileIVI *item, QDropEvent *ev )
 	    ev->acceptAction(TRUE); ev->accept(); break;
 	default : kDebugError( 1202, "Unknown action %d", ev->action() ); return;
 	}
-        // TODO connect job result
+        connect( job, SIGNAL( result( KIO::Job * ) ),
+                 SLOT( slotResult( KIO::Job * ) ) );
     }
     else if ( formats.count() >= 1 )
     {
 	if ( item == 0L )
-	    KIO::pasteData( m_url /*m_dirLister->url()*/, ev->data( formats.first() ) );
+	    KIO::pasteData( m_url, ev->data( formats.first() ) );
 	else
 	{
 	    kDebugInfo(1202,"Pasting to %s", item->item()->url().url().ascii() /* item's url */);
@@ -440,49 +441,55 @@ void KonqIconViewWidget::pasteSelection( bool move )
     KFileItemList lstItems = selectedFileItems();
     assert ( lstItems.count() <= 1 );
     if ( lstItems.count() == 1 )
-	pasteClipboard( lstItems.first()->url().url(), move );
+	KIO::pasteClipboard( lstItems.first()->url().url(), move );
     else
-	pasteClipboard( url(), move );
+	KIO::pasteClipboard( url(), move );
 }
 
 void KonqIconViewWidget::deleteSelection()
 {
-    QStringList urls = selectedUrls();
+    KURL::List urls = selectedUrls();
 
     KConfig *config = KGlobal::config();
     config->setGroup( "Misc Defaults" );
     if ( config->readBoolEntry( "ConfirmDestructive", true ) )
     {
-      QStringList::Iterator it = urls.begin();
-      QStringList::Iterator end = urls.end();
-      for ( ; it != end; ++it )
-        KURL::decode( *it );
+      KURL::List::Iterator it = urls.begin();
+      QStringList decodedList;
+      for ( ; it != urls.end(); ++it )
+        decodedList.append( (*it).decodedURL() );
 
-      if ( KMessageBox::questionYesNoList(0, i18n( "Do you really want to delete the file(s) ?" ), urls )
+      if ( KMessageBox::questionYesNoList(0, i18n( "Do you really want to delete the file(s) ?" ), decodedList )
            == KMessageBox::No )
         return;
     }
 
-    KIO::Job *job = new KIO::Job;
-    job->del( urls );
+    KIO::Job *job = KIO::del( urls );
+    connect( job, SIGNAL( result( KIO::Job * ) ),
+             SLOT( slotResult( KIO::Job * ) ) );
 }
 
 void KonqIconViewWidget::trashSelection()
 {
-    QStringList urls = selectedUrls();
-    KIO::Job *job = new KIO::Job;
-    job->move( urls, KUserPaths::trashPath() );
+    KIO::Job *job = KIO::move( selectedUrls(), KUserPaths::trashPath() );
+    connect( job, SIGNAL( result( KIO::Job * ) ),
+             SLOT( slotResult( KIO::Job * ) ) );
 }
 
-QStringList KonqIconViewWidget::selectedUrls()
+KURL::List KonqIconViewWidget::selectedUrls()
 {
-    QStringList lstURLs;
+    KURL::List lstURLs;
 
     for ( QIconViewItem *it = firstItem(); it; it = it->nextItem() )
 	if ( it->isSelected() )
-	    lstURLs.append( ( (KFileIVI *)it )->item()->url().url() );
+	    lstURLs.append( ( (KFileIVI *)it )->item()->url() );
     return lstURLs;
 }
 
+void KonqIconViewWidget::slotResult( KIO::Job * job )
+{
+    if (job->error())
+        job->showErrorDialog();
+}
 
 #include "konqiconviewwidget.moc"
