@@ -206,7 +206,7 @@ KEnvVarProxyDlg::KEnvVarProxyDlg( QWidget* parent, const char* name )
 
     pb_verify = new QPushButton( i18n("&Verify"), gb_servers, "pb_verify" );
     QWhatsThis::add( pb_verify, i18n("<qt>Click this button to quickly "
-                                     "determine whether or not the enviornment "
+                                     "determine whether or not the environment "
                                      "variable names you supplied are valid.  "
                                      "If an environment variable is not found "
                                      "the associted labels will be "
@@ -355,14 +355,14 @@ void KEnvVarProxyDlg::verifyPressed()
     {
         QString msg;
         if ( i > 0 )
-            msg = i18n("The highlighted input fileds contain unknown or "
+            msg = i18n("The highlighted input fields contain unknown or "
                        "invalid \nenvironment variable names.");
         else
-            msg = i18n("The highlighted input filed contains unknown or "
+            msg = i18n("The highlighted input field contains unknown or "
                        "invalid \nenvironment variable name.");
         QString details = i18n("<qt>Make sure you entered the actual "
                                "environment variable name rather than the "
-                               "adrdress of the proxy server.  For example, "
+                               "address of the proxy server.  For example, "
                                "if the set variable name used to specify the "
                                "http proxy server is <b>HTTP_PROXY</b>, then "
                                "you need to enter <b>HTTP_PROXY</b> instead "

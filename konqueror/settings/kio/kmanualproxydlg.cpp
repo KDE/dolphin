@@ -223,7 +223,7 @@ KManualProxyDlg::KManualProxyDlg( QWidget* parent, const char* name )
                                        "information for <tt>HTTP</tt> and "
                                        "press this button, whatever you "
                                        "entered will be copied to all the "
-                                       "fields below that are enbaled!") );
+                                       "fields below that are enabled!") );
     vlay->addWidget( pb_copyDown );
     QSpacerItem* spacer = new QSpacerItem( 1, 1 );
     vlay->addItem( spacer );

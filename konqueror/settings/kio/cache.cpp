@@ -51,7 +51,7 @@ KCacheConfigDialog::KCacheConfigDialog( QWidget* parent, const char* name )
                                             cb_useCache->sizePolicy().hasHeightForWidth()) );
     QWhatsThis::add( cb_useCache, i18n("Click here if you want the web pages "
                                        "you view to be stored in your hard "
-                                       "disk for quciker access. Enabling "
+                                       "disk for quicker access. Enabling "
                                        "this feature will make browsing "
                                        "faster since the pages will only be "
                                        "downloaded as necessary.  This is "
