@@ -19,7 +19,6 @@
 #ifndef __konq_iconviewwidget_h__
 #define __konq_iconviewwidget_h__
 
-#include <kbrowser.h>
 #include <kiconloader.h>
 #include <kiconview.h>
 #include <kurl.h>
@@ -75,6 +74,26 @@ public:
     void setItemColor( const QColor &c );
     QColor itemColor() const;
 
+
+    virtual void cutSelection();
+    virtual void copySelection();
+    virtual void pasteSelection( bool move );
+    virtual void deleteSelection();
+    virtual void trashSelection();
+    virtual QStringList selectedUrls();
+
+public slots:
+    /**
+     * Checks the new selection and emits enableAction() signals
+     */
+    virtual void slotSelectionChanged();
+
+signals:
+    /**
+     * For cut/copy/paste/move/delete (see kbrowser.h)
+     */
+    void enableAction( const char * name, bool enabled );
+
 protected slots:
 
     virtual void slotDrop( QDropEvent *e );
@@ -98,29 +117,6 @@ protected:
     KonqFMSettings * m_pSettings;
 
     QColor iColor;
-};
-
-/**
- * Implementation of the EditExtension interface
- * that handles icons
- */
-class IconEditExtension : public EditExtension
-{
-    friend class KonqKfmIconView; //HACK
-    Q_OBJECT
-public:
-    IconEditExtension( QObject *parent, KonqIconViewWidget *iconView );
-
-    virtual void can( bool &cut, bool &copy, bool &paste, bool &move );
-
-    virtual void cutSelection();
-    virtual void copySelection();
-    virtual void pasteSelection( bool move = false );
-    virtual void moveSelection( const QString &destinationURL = QString::null );
-    virtual QStringList selectedUrls();
-
-private:
-    KonqIconViewWidget *m_iconView;
 };
 
 #endif

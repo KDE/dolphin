@@ -48,6 +48,9 @@ KonqIconViewWidget::KonqIconViewWidget( QWidget * parent, const char * name, WFl
     QObject::connect( this, SIGNAL( dropped( QDropEvent * ) ),
 		      this, SLOT( slotDrop( QDropEvent* ) ) );
 	
+    QObject::connect( this, SIGNAL( selectionChanged() ),
+                      this, SLOT( slotSelectionChanged() ) );
+
     // hardcoded settings
     setSelectionMode( QIconView::Extended );
     setItemTextPos( QIconView::Bottom );
@@ -386,22 +389,12 @@ QColor KonqIconViewWidget::itemColor() const
 }
 
 
-////////////////////////////////////////////////////////////////////////////
-
-IconEditExtension::IconEditExtension( QObject *parent, KonqIconViewWidget *iconView )
-    : EditExtension( parent, "IconEditExtension" )
-{
-    m_iconView = iconView;
-    connect( m_iconView, SIGNAL( selectionChanged() ),
-	     this, SIGNAL( selectionChanged() ) );
-}
-
-void IconEditExtension::can( bool &cut, bool &copy, bool &paste, bool &move )
+void KonqIconViewWidget::slotSelectionChanged()
 {
     bool bInTrash = false;
     int iCount = 0;
 
-    for ( QIconViewItem *it = m_iconView->firstItem(); it; it = it->nextItem() )
+    for ( QIconViewItem *it = firstItem(); it; it = it->nextItem() )
     {
 	if ( it->isSelected() )
 	    iCount++;
@@ -410,55 +403,77 @@ void IconEditExtension::can( bool &cut, bool &copy, bool &paste, bool &move )
 	    bInTrash = true;
     }
 
-    cut = move = copy = iCount > 0;
-    move = move && !bInTrash;
+    emit enableAction( "cut", iCount > 0 );
+    emit enableAction( "copy", iCount > 0 );
+    emit enableAction( "move", iCount > 0 && !bInTrash );
+    emit enableAction( "delete", iCount > 0 && !bInTrash );
 
     bool bKIOClipboard = !isClipboardEmpty();
     QMimeSource *data = QApplication::clipboard()->data();
-    paste = ( bKIOClipboard || data->encodedData( data->format() ).size() != 0 ) &&
+    bool bPaste = ( bKIOClipboard || data->encodedData( data->format() ).size() != 0 ) &&
 	(iCount <= 1); // We can't paste to more than one destination, can we ?
+
+    emit enableAction( "paste", bPaste );
+
     // TODO : if only one url, check that it's a dir
 }
 
-void IconEditExtension::cutSelection()
+void KonqIconViewWidget::cutSelection()
 {
     //TODO: grey out items
     copySelection();
 }
 
-void IconEditExtension::copySelection()
+void KonqIconViewWidget::copySelection()
 {
-    QDragObject * obj = m_iconView->dragObject();
+    QDragObject * obj = dragObject();
     QApplication::clipboard()->setData( obj );
 }
 
-void IconEditExtension::pasteSelection( bool move )
+void KonqIconViewWidget::pasteSelection( bool move )
 {
-    KFileItemList lstItems = m_iconView->selectedFileItems();
+    KFileItemList lstItems = selectedFileItems();
     assert ( lstItems.count() <= 1 );
     if ( lstItems.count() == 1 )
 	pasteClipboard( lstItems.first()->url().url(), move );
     else
-	pasteClipboard( m_iconView->url(), move );
+	pasteClipboard( url(), move );
 }
 
-void IconEditExtension::moveSelection( const QString &destinationURL )
+void KonqIconViewWidget::deleteSelection()
 {
-    QStringList lstURLs = selectedUrls();
+    QStringList urls = selectedUrls();
+
+    KConfig *config = KGlobal::config();
+    config->setGroup( "Misc Defaults" );
+    if ( config->readBoolEntry( "ConfirmDestructive", true ) )
+    {
+      QStringList::Iterator it = urls.begin();
+      QStringList::Iterator end = urls.end();
+      for ( ; it != end; ++it )
+        KURL::decode( *it );
+
+      if ( KMessageBox::questionYesNoList(0, i18n( "Do you really want to delete the file(s) ?" ), urls )
+           == KMessageBox::No )
+        return;
+    }
 
     KIOJob *job = new KIOJob;
-
-    if ( !destinationURL.isEmpty() )
-	job->move( lstURLs, destinationURL );
-    else
-	job->del( lstURLs );
+    job->del( urls );
 }
 
-QStringList IconEditExtension::selectedUrls()
+void KonqIconViewWidget::trashSelection()
+{
+    QStringList urls = selectedUrls();
+    KIOJob *job = new KIOJob;
+    job->move( urls, KUserPaths::trashPath() );
+}
+
+QStringList KonqIconViewWidget::selectedUrls()
 {
     QStringList lstURLs;
 
-    for ( QIconViewItem *it = m_iconView->firstItem(); it; it = it->nextItem() )
+    for ( QIconViewItem *it = firstItem(); it; it = it->nextItem() )
 	if ( it->isSelected() )
 	    lstURLs.append( ( (KFileIVI *)it )->item()->url().url() );
     return lstURLs;
@@ -466,4 +481,3 @@ QStringList IconEditExtension::selectedUrls()
 
 
 #include "konqiconviewwidget.moc"
-
