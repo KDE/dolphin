@@ -198,7 +198,7 @@ void KWrite::slotNew()
 
 void KWrite::slotOpen()
 {
-  KateFileDialog *dialog = new KateFileDialog (QString::null,static_cast<KTextEditor::EncodingInterface*>(kateView->document()->qt_cast("KTextEditor::EncodingInterface"))->encoding(), this, i18n ("Open File"));
+  KateFileDialog *dialog = new KateFileDialog (QString::null,KTextEditor::encodingInterface(kateView->document())->encoding(), this, i18n ("Open File"));
 	KateFileDialogData data = dialog->exec ();
 	delete dialog;
 
@@ -216,21 +216,21 @@ void KWrite::slotOpen( const KURL& url )
   if (kateView->document()->isModified() || !kateView->document()->url().isEmpty())
   {
     KWrite *t = new KWrite();
-		static_cast<KTextEditor::EncodingInterface*>(kateView->document()->qt_cast("KTextEditor::EncodingInterface"))->setEncoding(encoding);
+    KTextEditor::encodingInterface(kateView->document())->setEncoding(encoding);
     t->readConfig();
     t->init();
     t->loadURL(url);
   }
   else
 	{
-	  static_cast<KTextEditor::EncodingInterface*>(kateView->document()->qt_cast("KTextEditor::EncodingInterface"))->setEncoding(encoding);
+	  KTextEditor::encodingInterface(kateView->document())->setEncoding(encoding);
     loadURL(url);
   }
 }
 
 void KWrite::newView()
 {
-  KWrite *t = new KWrite((KTextEditor::Document *)kateView->document());
+  KWrite *t = new KWrite(kateView->document());
   t->readConfig();
   t->init();
 }
@@ -280,12 +280,12 @@ void KWrite::editToolbars()
 
 void KWrite::printNow()
 {
-  static_cast<KTextEditor::PrintInterface*>(kateView->document()->qt_cast("KTextEditor::PrintInterface"))->print ();
+  KTextEditor::printInterface(kateView->document())->print ();
 }
 
 void KWrite::printDlg()
 {
-  static_cast<KTextEditor::PrintInterface*>(kateView->document()->qt_cast("KTextEditor::PrintInterface"))->printDialog ();
+  KTextEditor::printInterface(kateView->document())->printDialog ();
 }
 
 void KWrite::newStatus(const QString &msg)
@@ -386,7 +386,7 @@ void KWrite::readConfig() {
   config->setGroup("General Options");
   readConfig(config);
 
-  static_cast<KTextEditor::ConfigInterface*>(kateView->document()->qt_cast("KTextEditor::ConfigInterface"))->readConfig();
+  KTextEditor::configInterface(kateView->document())->readConfig();
 }
 
 
@@ -399,7 +399,7 @@ void KWrite::writeConfig()
   config->setGroup("General Options");
   writeConfig(config);
 
-  static_cast<KTextEditor::ConfigInterface*>(kateView->document()->qt_cast("KTextEditor::ConfigInterface"))->writeConfig();
+  KTextEditor::configInterface(kateView->document())->writeConfig();
 }
 
 // session management
@@ -415,14 +415,14 @@ void KWrite::restore(KConfig *config, int n)
 void KWrite::readProperties(KConfig *config)
 {
   readConfig(config);
-  static_cast<KTextEditor::ViewConfigInterface*>(kateView->qt_cast("KTextEditor::ViewConfigInterface"))->readSessionConfig(config);
+  KTextEditor::viewConfigInterface(kateView)->readSessionConfig(config);
 }
 
 void KWrite::saveProperties(KConfig *config)
 {
   writeConfig(config);
-  config->writeEntry("DocumentNumber",docList.find((KTextEditor::Document *)kateView->document()) + 1);
-  static_cast<KTextEditor::ViewConfigInterface*>(kateView->qt_cast("KTextEditor::ViewConfigInterface"))->writeSessionConfig(config);
+  config->writeEntry("DocumentNumber",docList.find(kateView->document()) + 1);
+  KTextEditor::viewConfigInterface(kateView)->writeSessionConfig(config);
 }
 
 void KWrite::saveGlobalProperties(KConfig *config) //save documents
@@ -437,8 +437,8 @@ void KWrite::saveGlobalProperties(KConfig *config) //save documents
   for (z = 1; z <= docList.count(); z++) {
      buf = QString("Document%1").arg(z);
      config->setGroup(buf);
-     doc = (KTextEditor::Document *) docList.at(z - 1);
-     static_cast<KTextEditor::ConfigInterface*>(doc->qt_cast("KTextEditor::ConfigInterface"))->writeSessionConfig(config);
+     doc = docList.at(z - 1);
+     KTextEditor::configInterface(doc)->writeSessionConfig(config);
   }
 }
 
@@ -464,7 +464,7 @@ void restore()
      config->setGroup(buf);
      KTextEditor::Document *tmpDoc = (KTextEditor::Document *) factory->create (0L, "kate", "KTextEditor::Document");
      doc = (KTextEditor::Document *)tmpDoc; //new doc with default path
-     static_cast<KTextEditor::ConfigInterface*>(doc->qt_cast("KTextEditor::ConfigInterface"))->readSessionConfig(config);
+     KTextEditor::configInterface(doc)->readSessionConfig(config);
      docList.append(doc);
   }
 
