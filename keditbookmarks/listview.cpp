@@ -111,11 +111,11 @@ QValueList<KBookmark> ListView::itemsToBookmarks(QPtrList<KEBListViewItem>* item
    return bookmarks;
 }
 
-static QPtrList<KEBListViewItem>* selected_items_cache = 0;
-static bool listview_is_dirty = false;
+bool ListView::s_listview_is_dirty = false;
 
 QPtrList<KEBListViewItem>* ListView::selectedItems() {
-   if (!selected_items_cache || listview_is_dirty) {
+   static QPtrList<KEBListViewItem>* s_selected_items_cache = 0;
+   if (!s_selected_items_cache || s_listview_is_dirty) {
       QPtrList<KEBListViewItem> *items = new QPtrList<KEBListViewItem>();
       for (QPtrListIterator<KEBListViewItem> it(*(m_listView->itemList()));
            it.current() != 0; ++it) {
@@ -123,9 +123,9 @@ QPtrList<KEBListViewItem>* ListView::selectedItems() {
             items->append(it.current());
          }
       }
-      selected_items_cache = items;
+      s_selected_items_cache = items;
    }
-   return selected_items_cache;
+   return s_selected_items_cache;
 }
 
 KEBListViewItem* ListView::firstSelected() {
@@ -480,7 +480,7 @@ void ListView::handleCurrentChanged(KEBListView *, QListViewItem *item) {
 }
 
 void ListView::handleSelectionChanged(KEBListView *) {
-   listview_is_dirty = true;
+   s_listview_is_dirty = true;
    KEBApp::self()->updateActions();
    updateSelectedItems();
 }
@@ -539,8 +539,13 @@ void ListView::clearSelection() {
    m_listView->clearSelection();
 }
 
-static int s_myrenamecolumn = -1;
-static KEBListViewItem *s_myrenameitem = 0;
+int ListView::s_myrenamecolumn = -1;
+KEBListViewItem *ListView::s_myrenameitem = 0;
+
+void ListView::startRename(int column, KEBListViewItem *item) {
+   s_myrenamecolumn = column;
+   s_myrenameitem = item;
+}
 
 void ListView::renameNextCell(bool fwd) {
    // this needs to take special care
@@ -667,8 +672,7 @@ void KEBListView::rename(QListViewItem *qitem, int column) {
    ) {
       return;
    }
-   s_myrenamecolumn = column;
-   s_myrenameitem = item;
+   ListView::startRename(column, item);
    KeyPressEater *keyPressEater = new KeyPressEater(this);
    renameLineEdit()->installEventFilter(keyPressEater);
    KListView::rename(item, column);

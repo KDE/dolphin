@@ -174,17 +174,23 @@ public:
    void handleDoubleClicked(KEBListView *, QListViewItem *, const QPoint &, int);
    void handleItemRenamed(KEBListView *, QListViewItem *, const QString &, int);
 
+   static void startRename(int column, KEBListViewItem *item);
+
 private:
    void updateTree();
    void fillWithGroup(KEBListView *, KBookmarkGroup, KEBListViewItem * = 0);
 
    ListView();
-   static ListView *s_self;
    void deselectParents(KEBListViewItem *item);
    QString m_last_selection_address;
    KEBListView *m_listView;
    KEBListView *m_folderListView;
    bool m_splitView;
+   // statics
+   static ListView *s_self;
+   static bool s_listview_is_dirty;
+   static int s_myrenamecolumn;
+   static KEBListViewItem *s_myrenameitem;
 };
 
 #endif
