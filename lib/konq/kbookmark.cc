@@ -369,6 +369,8 @@ KBookmark::KBookmark( KBookmarkManager *_bm, KBookmark *_parent, QString _text, 
   assert( !_text.isEmpty() && !url.isEmpty() );
 
   QString icon;
+
+  // TODO: replace all this with one call to KMimeType::iconForURL !
   if ( url.isLocalFile() )
   {
     struct stat buff;
@@ -406,7 +408,7 @@ KBookmark::KBookmark( KBookmarkManager *_bm, KBookmark *_parent, QString _text, 
 
   fprintf( f, "[Desktop Entry]\n" );
   fprintf( f, "URL=%s\n", m_url.utf8().data() );
-  fprintf( f, "Icon=%s\n", icon.latin1() );
+  fprintf( f, "Icon=%s\n", icon.utf8().data() );
   fprintf( f, "Type=Link\n" );
   fclose( f );
 
@@ -496,14 +498,9 @@ QString KBookmark::pixmapFile()
 {
   if ( m_sPixmap.isEmpty() )
   {
-    QCString path = QFile::encodeName( m_file );
-    struct stat buff;
-    stat( path.data(), &buff );
     KURL url;
     url.setPath( m_file );
-    // Get the full path to the Small icon and store it into m_sPixmap
-    KMimeType::pixmapForURL( url, buff.st_mode, KIcon::Small,
-            0, KIcon::DefaultState, &m_sPixmap );
+    m_sPixmap = KMimeType::iconForURL( url );
   }
   return m_sPixmap;
 }
