@@ -2,21 +2,32 @@ kio:
 ====
 - Nice ftp dialog for users who do not know how to put their
   user name in a URL. (i.e. autodetect when passwd needed)
-- About mounting : handle warnings differently than errors.
-(After a message on stderr, test if mounted, and if yes -> it was just a
-warning.)
+
+kio_http:
+=========
+- implementing mimetype with a beginning of GET
+- lacking errorPage stuff
+- switching to proxy http as soon as settings are changed (not after killall kio_http) #3588
+- auto-unzipping of tar.gz files downloaded (some time ago)
+- cache expiration (I think of the "non implemented" line-edit in kcontrol)
+- and of course better SSL security as Waldo discovered  #3443  
 
 khtml:
 ======
 - Don't change URL until the new page is actually showing up.
 Otherwise, relative links are broken if we abort loading early.
 - (if local dir) : drop should copy to parent dir (for Antonio :)
+- meta-equiv redirections not supported #3051
 - many bugs :(
 - implement search functionality in KonqHTMLView -> wait until khtml catched
   up :-)
 
 libkonq:
 ========
+
+- KDirLister::refreshItem
+
+- Bookmarks : DCOP call to notify changes (when 'add bookmark'), like in KDE 1.1
 
 - When you are adding to the selection (eg. by shift + LMB)
   then change the mouse cursor to indicate this. Several drawing programs do
@@ -32,6 +43,10 @@ even in this box the cursor icon is "forbidden" (_sometimes_). And add Cancel.
 
 konqueror framework:
 ====================
+
+- the 'shared lib' or interface problem for plugins.
+
+- DCOP interfaces
 
 - What about a "clear" button at the right of the location bar, to clear the URL
 before pasting another one ?

@@ -21,14 +21,15 @@ include_HEADERS = KonquerorIface.h
 
 bin_PROGRAMS = konqueror
 
-konqueror_la_SOURCES = konq_main.cc KonquerorIface.skel konq_mainview.skel \
-		    konq_mainview.cc konq_guiclients.cc \
-		    konq_run.cc konq_childview.cc konq_viewmgr.cc \
-                    konq_misc.cc \
-		    konq_frame.cc \
-		    konq_actions.cc \
-		    konq_profiledlg.cc \
-		    konq_factory.cc
+konqueror_la_SOURCES = konq_main.cc \
+	    KonquerorIface.cc KonquerorIface.skel konq_mainview.skel \
+	    konq_mainview.cc konq_guiclients.cc \
+	    konq_run.cc konq_childview.cc konq_viewmgr.cc \
+	    konq_misc.cc \
+	    konq_frame.cc \
+	    konq_actions.cc \
+	    konq_profiledlg.cc \
+	    konq_factory.cc
 
 konqueror_la_LDFLAGS = $(all_libraries) -module -avoid-version
 konqueror_la_LIBADD = ../libkonq/libkonq.la

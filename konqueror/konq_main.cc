@@ -19,13 +19,11 @@
 
 #include <iostream.h>
 
-#include "konq_run.h"
 #include "konq_misc.h"
+#include "konq_factory.h"
 #include "konq_mainview.h"
-#include "konq_viewmgr.h"
 #include "KonquerorIface.h"
 
-#include <ktrader.h>
 #include <klocale.h>
 #include <kglobal.h>
 #include <kstddirs.h>
@@ -35,7 +33,6 @@
 #include <kaboutdata.h>
 #include <dcopclient.h>
 #include <kimageio.h>
-#include <ksimpleconfig.h>
 #include <kopenwith.h>
 
 static KCmdLineOptions options[] =
@@ -44,54 +41,6 @@ static KCmdLineOptions options[] =
   { "+[URL]",   I18N_NOOP("Location to open."), 0 },
   { 0, 0, 0}
 };
-
-class KonquerorIfaceImpl : virtual public KonquerorIface
-{
-public:
-  KonquerorIfaceImpl();
-  virtual ~KonquerorIfaceImpl();
-
-  virtual void openBrowserWindow( const QString &url );
-
-  virtual void createBrowserWindowFromProfile( const QString &filename );
-
-  virtual void setMoveSelection( int move );
-};
-
-KonquerorIfaceImpl::KonquerorIfaceImpl()
- : DCOPObject( "KonquerorIface" )
-{
-}
-
-KonquerorIfaceImpl::~KonquerorIfaceImpl()
-{
-}
-
-void KonquerorIfaceImpl::openBrowserWindow( const QString &url )
-{
-  KFileManager::getFileManager()->openFileManagerWindow( url );
-}
-
-void KonquerorIfaceImpl::createBrowserWindowFromProfile( const QString &filename )
-{
-  kdDebug(1202) << "void KonquerorIfaceImpl::createBrowserWindowFromProfile( const QString &filename ) " << endl;
-  kdDebug(1202) << filename << endl;
-
-  KonqMainView *mainView = new KonqMainView( QString::null, false );
-
-  KSimpleConfig cfg( filename, true );
-  cfg.setGroup( "Profile" );
-  mainView->viewManager()->loadViewProfile( cfg );
-  mainView->enableAllActions( true );
-
-  mainView->show();
-}
-
-void KonquerorIfaceImpl::setMoveSelection( int move )
-{
-  kdDebug(1202) << "setMoveSelection: " << move << endl;
-  KonqMainView::setMoveSelection( (bool)move );
-}
 
 int main( int argc, char **argv )
 {
@@ -103,7 +52,7 @@ int main( int argc, char **argv )
 
   app.dcopClient()->registerAs( "konqueror", false );
 
-  (void)new KonquerorIfaceImpl();
+  (void)new KonquerorIface();
 
   KGlobal::locale()->insertCatalogue("libkonq"); // needed for apps using libkonq
   KImageIO::registerFormats();
