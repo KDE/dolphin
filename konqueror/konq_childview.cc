@@ -101,6 +101,9 @@ void KonqChildView::show()
 
 void KonqChildView::openURL( const KURL &url, bool useMiscURLData  )
 {
+  if ( m_lstHistory.count() > 0 ) 
+    updateHistoryEntry();
+  
   if ( useMiscURLData && browserExtension() )
   {
     KParts::URLArgs args(false, m_iXOffset, m_iYOffset);
@@ -231,7 +234,7 @@ void KonqChildView::connectView(  )
 
   connect( ext, SIGNAL( selectionInfo( const KonqFileItemList & ) ),
 	   m_pMainView, SLOT( slotSelectionInfo( const KonqFileItemList & ) ) );
-  
+
   connect( ext, SIGNAL( openURLNotify() ),
 	   this, SLOT( createHistoryEntry() ) );
 }
