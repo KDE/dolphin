@@ -54,11 +54,7 @@
 #include <qtimer.h>
 
 // StatusBar field IDs
-#define ID_LINE_COLUMN 1
-#define ID_INS_OVR 2
-#define ID_SEL_NORM_BLOCK 3
-#define ID_MODIFIED 4
-#define ID_GENERAL 5
+#define ID_GEN 1
 
 enum saveResult { SAVE_OK, SAVE_CANCEL, SAVE_RETRY, SAVE_ERROR };
 
@@ -203,9 +199,6 @@ void KWrite::init()
   if (sb) m_paShowStatusBar->setChecked( !sb->isHidden() );
     else m_paShowStatusBar->setEnabled(false);
 
-  newCurPos();
-  newStatus();
-
   show();
 }
 
@@ -237,8 +230,8 @@ void KWrite::setupEditWidget(KTextEditor::Document *doc)
 {
   kateView = (KTextEditor::View *)doc->createView (this, 0L);
 
-  connect(kateView,SIGNAL(cursorPositionChanged()),this,SLOT(newCurPos()));
-  connect(kateView,SIGNAL(newStatus()),this,SLOT(newStatus()));
+  connect(kateView,SIGNAL(newStatus()),this,SLOT(newCaption()));
+  connect(kateView,SIGNAL(viewStatusMsg(const QString &)),this,SLOT(newStatus(const QString &)));
   connect(kateView->document(),SIGNAL(fileNameChanged()),this,SLOT(newCaption()));
   connect(kateView,SIGNAL(dropEventPass(QDropEvent *)),this,SLOT(slotDropEvent(QDropEvent *)));
 
@@ -284,12 +277,7 @@ void KWrite::setupStatusBar()
 {
   KStatusBar *statusbar;
   statusbar = statusBar();
-  statusbar->insertItem(" Line:000000 Col: 000 ", ID_LINE_COLUMN);
-  statusbar->insertItem(" XXX ", ID_INS_OVR);
-  statusbar->insertItem(" XXX ", ID_SEL_NORM_BLOCK);
-  statusbar->insertFixedItem(" * ", ID_MODIFIED);
-  statusbar->insertItem("", ID_GENERAL, 1);
-  statusbar->setItemAlignment( ID_GENERAL, AlignLeft );
+  statusbar->insertItem("", ID_GEN);
 }
 
 void KWrite::slotNew()
@@ -396,29 +384,11 @@ void KWrite::printDlg()
   static_cast<KTextEditor::PrintInterface*>(kateView->document()->qt_cast("KTextEditor::PrintInterface"))->printDialog ();
 }
 
-void KWrite::newCurPos()
-{
-  statusBar()->changeItem(i18n(" Line: %1 Col: %2 ")
-    .arg(KGlobal::locale()->formatNumber(static_cast<KTextEditor::ViewCursorInterface*>(kateView->qt_cast("KTextEditor::ViewCursorInterface"))->cursorLine()+1, 0))
-    .arg(KGlobal::locale()->formatNumber(static_cast<KTextEditor::ViewCursorInterface*>(kateView->qt_cast("KTextEditor::ViewCursorInterface"))->cursorColumn(), 0)),
-    ID_LINE_COLUMN);
-}
-
-void KWrite::newStatus()
+void KWrite::newStatus(const QString &msg)
 {
   newCaption();
 
-  bool readOnly = !kateView->document()->isReadWrite();
- // uint config = kateView->document()->configFlags();
-//  bool block=kateView->document()->blockSelectionMode();
-
-  if (readOnly)
-    statusBar()->changeItem(i18n(" R/O "),ID_INS_OVR);
- // else
-  //  statusBar()->changeItem(config & KTextEditor::Document::cfOvr ? i18n(" OVR ") : i18n(" INS "),ID_INS_OVR);
-
-  statusBar()->changeItem(kateView->document()->isModified() ? " * " : "",ID_MODIFIED);
- // statusBar()->changeItem(block ? i18n("BLK") : i18n(" NORM "),ID_SEL_NORM_BLOCK);
+  statusBar()->changeItem(msg,ID_GEN);
 }
 
 void KWrite::newCaption()

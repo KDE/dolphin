@@ -77,8 +77,7 @@ class KWrite : public KParts::MainWindow
     void printNow();
     void printDlg();
 
-    void newCurPos();
-    void newStatus();
+    void newStatus(const QString &msg);
     void newCaption();
 
     void slotDropEvent(QDropEvent *);
