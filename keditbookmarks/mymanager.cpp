@@ -18,35 +18,16 @@
 
 #include <stdlib.h>
 
-#include <qclipboard.h>
-#include <qpopupmenu.h>
-#include <qpainter.h>
-
 #include <klocale.h>
-#include <dcopref.h>
 #include <kdebug.h>
 #include <kapplication.h>
+#include <dcopref.h>
 
-#include <kaction.h>
-#include <kstdaction.h>
-#include <kedittoolbar.h>
-#include <kfiledialog.h>
-#include <kkeydialog.h>
-#include <kmessagebox.h>
-#include <krun.h>
-
-#include <kicondialog.h>
-#include <kiconloader.h>
-
-#include <kbookmarkdrag.h>
 #include <kbookmarkmanager.h>
-
-#include <klineeditdlg.h>
+#include <kbookmarkimporter.h>
 
 #include "kebbookmarkexporter.h"
-
 #include "toplevel.h"
-#include "importers.h"
 
 #include "mymanager.h"
 
@@ -72,7 +53,11 @@ void MyManager::notifyManagers() {
    DCOPRef("*", objId).send("notifyCompleteChange", QString::fromLatin1(kapp->name()));
 }
 
-void MyManager::doExport(const QString &path, bool moz) {
+void MyManager::doExport(bool moz) {
+   QString path = 
+          (moz)
+        ? KNSBookmarkImporter::mozillaBookmarksFile(true)
+        : KNSBookmarkImporter::netscapeBookmarksFile(true);
    if (!path.isEmpty()) {
       KEBNSBookmarkExporter exporter(mgr(), path);
       exporter.write(moz);
@@ -83,27 +68,5 @@ void MyManager::doExport(const QString &path, bool moz) {
 
 QString MyManager::correctAddress(const QString &address) {
    return mgr()->findByAddress(address, true).address();
-}
-
-// TODO - simplistic forwards, remove or inline in .h
-
-void MyManager::saveAs(const QString &fileName) {
-   mgr()->saveAs(fileName);
-}
-
-bool MyManager::managerSave() {
-   return mgr()->save();
-}
-
-bool MyManager::showNSBookmarks() {
-   return mgr()->showNSBookmarks();
-}
-
-QString MyManager::path() {
-   return mgr()->path();
-}
-
-void MyManager::setUpdate(bool update) {
-   mgr()->setUpdate(update);
 }
 

@@ -108,7 +108,7 @@ public:
    void restoreStatus();
 
    virtual void setOpen(bool);
-   bool isEmptyFolder()const { return m_emptyFolder; }
+   bool isEmptyFolder() const { return m_emptyFolder; }
    const KBookmark& bookmark() { return m_bookmark; }
    void paintCell(QPainter *p, const QColorGroup &cg, int column, int width, int alignment);
 
@@ -174,7 +174,7 @@ public:
 
    static ListView* self() { assert(s_self); return s_self; }
    static void createListView(QWidget *parent);
-   QWidget *widget()const { return m_listView; }
+   QWidget *widget() const { return m_listView; }
    void rename(int);
    void clearSelection();
 

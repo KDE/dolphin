@@ -43,7 +43,7 @@ protected:
 class KEBNSBookmarkExporterImpl : public KEBBookmarkExporterBase
 {
 public:
-    KEBNSBookmarkExporterImpl(KBookmarkManager* mgr,const QString & fileName)
+    KEBNSBookmarkExporterImpl(KBookmarkManager* mgr, const QString & fileName)
       : KEBBookmarkExporterBase(mgr, fileName) 
     { ; }
     virtual ~KEBNSBookmarkExporterImpl() {}
@@ -56,7 +56,7 @@ protected:
 class KEBNSBookmarkExporter
 {
 public:
-    KEBNSBookmarkExporter( KBookmarkManager* mgr,const QString & fileName )
+    KEBNSBookmarkExporter(KBookmarkManager* mgr, const QString & fileName)
       : m_fileName(fileName), m_pManager(mgr) 
     { ; }
     ~KEBNSBookmarkExporter() {}
@@ -65,7 +65,7 @@ public:
     void write() { write(false); } // deprecated
 
 protected:
-    void writeFolder( QTextStream &stream, KBookmarkGroup parent );
+    void writeFolder(QTextStream &stream, KBookmarkGroup parent);
     QString m_fileName;
     KBookmarkManager* m_pManager;
 };

@@ -19,24 +19,25 @@
 #ifndef __mymanager_h
 #define __mymanager_h
 
+#include <kbookmarkmanager.h>
+
 class QString;
-class KBookmarkManager;
 
 class MyManager {
    friend class BkManagerAccessor;
 public:
    static MyManager* self() { if (!s_mgr) { s_mgr = new MyManager(); } return s_mgr; }
    void createManager(class KEBTopLevel *top, QString filename);
-   void doExport(const QString &path, bool moz);
+   void doExport(bool moz);
    void notifyManagers();
-   bool managerSave();
-   void saveAs(const QString &fileName);
+   bool managerSave() { return mgr()->save(); }
+   void saveAs(const QString &fileName) { mgr()->saveAs(fileName); }
+   void setUpdate(bool update) { mgr()->setUpdate(update); }
+   QString path() { return mgr()->path(); }
+   bool showNSBookmarks() { return mgr()->showNSBookmarks(); }
    QString correctAddress(const QString &address);
-   void setUpdate(bool update);
-   QString path();
-   bool showNSBookmarks();
 protected:
-   KBookmarkManager* mgr()const { return m_mgr; }
+   KBookmarkManager* mgr() const { return m_mgr; }
 private:
    MyManager() {
       m_mgr = 0;

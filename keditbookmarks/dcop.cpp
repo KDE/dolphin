@@ -28,19 +28,6 @@
 #include <kdebug.h>
 #include <kapplication.h>
 
-#include <kaction.h>
-#include <kstdaction.h>
-#include <kedittoolbar.h>
-#include <kfiledialog.h>
-#include <kkeydialog.h>
-#include <kmessagebox.h>
-#include <krun.h>
-
-#include <kicondialog.h>
-#include <kiconloader.h>
-
-#include <klineeditdlg.h>
-
 #include "toplevel.h"
 #include "commands.h"
 #include "importers.h"

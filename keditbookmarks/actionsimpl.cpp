@@ -142,11 +142,11 @@ void ActionsImpl::slotImport() {
 }
 
 void ActionsImpl::slotExportNS() {
-   MyManager::self()->doExport(KNSBookmarkImporter::netscapeBookmarksFile(true), false);
+   MyManager::self()->doExport(false);
 }
 
 void ActionsImpl::slotExportMoz() {
-   MyManager::self()->doExport(KNSBookmarkImporter::mozillaBookmarksFile(true), true);
+   MyManager::self()->doExport(true);
 }
 
 /* ------------------------------------------------------------- */
