@@ -348,7 +348,7 @@ void Sidebar_Widget::activatedMenu(int id)
 					if (i!=latestViewed)
 					{
 						if (Buttons.at(i)->dock!=0)
-							if (Buttons.at(i)->dock->isVisible()) showHidePage(i);
+							if (Buttons.at(i)->dock->isVisibleTo(this)) showHidePage(i);
 					}
 					else
 					{
@@ -485,7 +485,7 @@ void Sidebar_Widget::createButtons()
 				if (Buttons.at(i)->dock!=0)
 				{
 					noUpdate=true;					
-					if (Buttons.at(i)->dock->isVisible()) showHidePage(i);
+					if (Buttons.at(i)->dock->isVisibleTo(this)) showHidePage(i);
 					if (Buttons.at(i)->module!=0) delete Buttons.at(i)->module;
 					delete Buttons.at(i)->dock;
 				}
@@ -532,7 +532,7 @@ void Sidebar_Widget::openURL(const class KURL &url)
 		{
 			if ((info=Buttons.at(i))->dock!=0)
 				{
-					if ((info->dock->isVisible()) && (info->module)) info->module->openURL(url);
+					if ((info->dock->isVisibleTo(this)) && (info->module)) info->module->openURL(url);
 				}
 		}
 }
