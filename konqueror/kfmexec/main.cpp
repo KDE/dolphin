@@ -211,7 +211,7 @@ void KFMExec::slotRunApp()
         }
         else
         {
-            unlink( src.local8Bit() );
+            unlink( QFile::encodeName(src) );
         }
     }
 
