@@ -1,4 +1,5 @@
 [Desktop Entry]
+Encoding=UTF-8
 # This desktop file is the one used by KApplication::invokeBrowser
 Type=Application
 Exec=kfmclient openURL %u
@@ -8,10 +9,10 @@ InitialPreference=9
 NoDisplay=true
 Name=Konqueror
 Name[af]=konqueror
-Name[ara]=كونكيورر
+Name[ar]=كونكيورر
 Name[eo]=Konkeranto
 Name[ko]=컹커러
 Name[lv]=Iekarotājs
 Name[ta]=¸¡ý¦¸¡Ã÷
-Name[xxx]=xx
+Name[xx]=xx
 X-DCOP-ServiceType=Multi

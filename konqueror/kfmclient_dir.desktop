@@ -1,4 +1,5 @@
 [Desktop Entry]
+Encoding=UTF-8
 Type=Application
 Exec=kfmclient openURL %u inode/directory
 Icon=konqueror
@@ -7,8 +8,10 @@ MimeType=inode/directory
 InitialPreference=9
 NoDisplay=true
 Name=Konqueror
-Name[af]=KONQUEROR
+Name[af]=konqueror
+Name[ar]=كونكيورر
 Name[eo]=Konkeranto
 Name[ko]=컹커러
 Name[lv]=Iekarotājs
 Name[ta]=¸¡ý¦¸¡Ã÷
+Name[xx]=xx

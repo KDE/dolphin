@@ -1,8 +1,25 @@
 [Desktop Entry]
+Encoding=UTF-8
 Type=Application
 Exec=kdesu konqueror
 DocPath=konqueror/index.html
 Icon=kfm
 
 Name=File Manager - Super User Mode
+Name[ar]=مدير الملفات - وضعية المستخدم الجذري
+Name[da]=Filhåndtering (Superbruger-tilstand)
+Name[de]=Konqueror (Systemverwaltungs-Modus)
+Name[es]=Administrador de archivos - modo superusuario
+Name[fi]=Tiedostonhallinta - pääkäyttäjätila
+Name[fr]=Konqueror (mode super-utilisateur)
+Name[he]=מנהל קבצים - מצב משתמש-על
+Name[hu]=Fájlkezelő (rendszergazdai mód)
+Name[lt]=Bylų tvarkyklė – Super vartotojo režimas
+Name[lv]=Failu Pārvaldnieks - Super Lietotāja Režīms
+Name[pt]=Gestor de Ficheiros - Modo de Super Utilizador
+Name[pt_BR]=Gestor de Ficheiros - Modo de Super Utilizador
+Name[sk]=Správca súborov - Super-užívateľský mód
+Name[sv]=Filhanterare - Administratörsläge
+Name[ta]=§¸¡ôÒ §ÁÄ¡Ç÷ - Á£ôÀÂÉ÷ Ó¨È¨Á
+Name[xx]=xx
 

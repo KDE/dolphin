@@ -1,4 +1,5 @@
 [Desktop Entry]
+Encoding=UTF-8
 Exec=keditbookmarks
 Icon=keditbookmarks
 Type=Application
@@ -50,6 +51,7 @@ Name[vi]=Trình biên tập các bookmarks
 Name[xh]=Umhleli wamanqaku encwadi
 Name[xx]=xx
 Name[zh_CN]=书签编辑器
+Name[zh_TW]=書籤編輯器
 Name[zu]=Umhleli wamamaki Ezincwadi
 
 X-DCOP-ServiceType=Multi
