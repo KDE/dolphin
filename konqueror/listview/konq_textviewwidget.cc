@@ -151,7 +151,7 @@ void KonqTextViewWidget::slotNewItems( const KFileItemList & entries )
                setCurrentItem(tmp);
                ensureItemVisible(tmp);
                emit selectionChanged();
-               selectCurrentItemAndEnableSelectedBySimpleMoveMode();
+               activateAutomaticSelection();
                m_itemFound=true;
             };
    };
@@ -183,7 +183,7 @@ void KonqTextViewWidget::setComplete()
       {
           setCurrentItem(firstChild());
           ensureItemVisible(firstChild());
-          selectCurrentItemAndEnableSelectedBySimpleMoveMode();
+          activateAutomaticSelection();
       }
       else
          setContentsPos( m_xOffset, m_yOffset );

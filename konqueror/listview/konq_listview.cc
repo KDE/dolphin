@@ -363,11 +363,21 @@ void KonqListView::slotSelect()
       m_pListView->blockSignals( true );
 
       for (KonqBaseListViewWidget::iterator it = m_pListView->begin(); it != m_pListView->end(); it++ )
+      {
+         if ((m_pListView->automaticSelection()) && (it->isSelected()))
+         {
+             it->setSelected(FALSE);
+             //the following line is to prevent that more than one item were selected
+             //and now get deselected and automaticSelection() was true, this shouldn't happen
+             //but who knows, aleXXX
+             m_pListView->deactivateAutomaticSelection();
+         };
          if ( re.search( it->text(0) ) != -1 )
             it->setSelected( TRUE);
-
+      };
       m_pListView->blockSignals( false );
    }
+   m_pListView->deactivateAutomaticSelection();
    emit m_pListView->selectionChanged();
    m_pListView->viewport()->update();
 }
@@ -391,6 +401,7 @@ void KonqListView::slotUnselect()
 
       m_pListView->blockSignals(FALSE);
    }
+   m_pListView->deactivateAutomaticSelection();
    emit m_pListView->selectionChanged();
    m_pListView->viewport()->update();
 }
@@ -398,19 +409,27 @@ void KonqListView::slotUnselect()
 void KonqListView::slotSelectAll()
 {
    m_pListView->selectAll(TRUE);
+   m_pListView->deactivateAutomaticSelection();
    emit m_pListView->selectionChanged();
 }
 
 void KonqListView::slotUnselectAll()
 {
     m_pListView->selectAll(FALSE);
+   m_pListView->deactivateAutomaticSelection();
     emit m_pListView->selectionChanged();
 }
 
 
 void KonqListView::slotInvertSelection()
 {
-    m_pListView->invertSelection();
+   if ((m_pListView->automaticSelection())
+       && (m_pListView->currentItem()!=0)
+       && (m_pListView->currentItem()->isSelected()))
+      m_pListView->currentItem()->setSelected(FALSE);
+
+   m_pListView->invertSelection();
+    m_pListView->deactivateAutomaticSelection();
     emit m_pListView->selectionChanged();
     m_pListView->viewport()->update();
 }
