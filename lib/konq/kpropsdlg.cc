@@ -49,6 +49,8 @@
 
 #include <kurl.h>
 #include <klocale.h>
+#include <kglobal.h>
+#include <kstddirs.h>
 #include <kfiledialog.h>
 #include <kmimetypes.h>
 #include <kservices.h>
@@ -355,7 +357,7 @@ FilePropsPage::FilePropsPage( PropertiesDialog *_props ) : PropsPage( _props )
     layout->activate();
 }
 
-bool FilePropsPage::supports( const KURL& _kurl, mode_t _mode )
+bool FilePropsPage::supports( const KURL& _kurl, mode_t  )
 {
   // Only local files for now - to be extended
   return _kurl.isLocalFile();
@@ -612,7 +614,7 @@ FilePermissionsPropsPage::FilePermissionsPropsPage( PropertiesDialog *_props )
     box->activate();
 }
 
-bool FilePermissionsPropsPage::supports( const KURL& _kurl, mode_t _mode )
+bool FilePermissionsPropsPage::supports( const KURL& _kurl, mode_t )
 {
   return _kurl.isLocalFile();
 }
@@ -700,7 +702,7 @@ ExecPropsPage::ExecPropsPage( PropertiesDialog *_props ) : PropsPage( _props )
     hlayout->addStretch(1);
 
     // and the icon button, on the right of this vertical layout
-    iconBox = new KIconLoaderButton( kapp->getIconLoader(), this );
+    iconBox = new KIconLoaderButton( KGlobal::iconLoader(), this );
     iconBox->setFixedSize( 50, 50 );
     hlayout->addWidget(iconBox, 0, AlignCenter);
 
@@ -822,7 +824,7 @@ void ExecPropsPage::enableCheckedEdit()
 }
 
 
-bool ExecPropsPage::supports( const KURL& _kurl, mode_t _mode )
+bool ExecPropsPage::supports( const KURL& _kurl, mode_t )
 {
     if (!_kurl.isLocalFile())
         return false;
@@ -974,7 +976,7 @@ URLPropsPage::URLPropsPage( PropertiesDialog *_props ) : PropsPage( _props )
 {
     QVBoxLayout * layout = new QVBoxLayout(this, SEPARATION);
     URLEdit = new QLineEdit( this, "LineEdit_1" );
-    iconBox = new KIconLoaderButton( kapp->getIconLoader(), this );
+    iconBox = new KIconLoaderButton( KGlobal::iconLoader(), this );
 
     QLabel* tmpQLabel;
     tmpQLabel = new QLabel( this, "Label_1" );
@@ -1016,7 +1018,7 @@ URLPropsPage::URLPropsPage( PropertiesDialog *_props ) : PropsPage( _props )
 
 }
 
-bool URLPropsPage::supports( const KURL& _kurl, mode_t _mode )
+bool URLPropsPage::supports( const KURL& _kurl, mode_t  )
 {
 /*
     KURL u( _kurl->url() );
@@ -1088,7 +1090,7 @@ DirPropsPage::DirPropsPage( PropertiesDialog *_props ) : PropsPage( _props )
     // the other pages of the dialog (!?). Ok, no layout ! DF.
 
     // See resize event for widgets placement
-    iconBox = new KIconLoaderButton( kapp->getIconLoader(), this );
+    iconBox = new KIconLoaderButton( KGlobal::iconLoader(), this );
 
     QLabel* tmpQLabel = new QLabel( this, "Label_1" );
     tmpQLabel->setText( i18n("Background") );
@@ -1132,23 +1134,11 @@ DirPropsPage::DirPropsPage( PropertiesDialog *_props ) : PropsPage( _props )
     
     iconBox->setIcon( iconStr );
 
-    // Load all wallpapers in the combobox
-    tmp = kapp->kde_wallpaperdir().copy();
-    QDir d2( tmp.data() );
-    const QFileInfoList *list = d2.entryInfoList();  
-    QFileInfoListIterator it2( *list );      // create list iterator
-    QFileInfo *fi;                          // pointer for traversing  
-
+    QStringList list = KGlobal::dirs()->findAllResources("wallpaper");
     wallBox->insertItem(  i18n("(Default)"), 0 );
     
-    while ( ( fi = it2.current() ) )
-    {
-	if ( fi->fileName() != ".." && fi->fileName() != "." )
-	{
-	    wallBox->insertItem( fi->fileName().data() );
-	}
-	++it2;                               // goto next list element
-    }
+    for (QStringList::ConstIterator it = list.begin(); it != list.end(); it++)
+	wallBox->insertItem( *it );
     
     showSettings( wallStr );
 
@@ -1265,7 +1255,7 @@ void DirPropsPage::showSettings( QString filename )
 
 void DirPropsPage::slotBrowse( )
 {
-    QString filename = KFileDialog::getOpenFileName( kapp->kde_wallpaperdir().copy() );
+    QString filename = KFileDialog::getOpenFileName( 0 );
     showSettings( filename );
     drawWallPaper( );
 }
@@ -1297,13 +1287,8 @@ void DirPropsPage::drawWallPaper()
 	return;
     }
 
-    QString file;
-    if (text.left(0) == "/") { // absolute path
-      file = kapp->kde_wallpaperdir().copy();
-      file += "/";
-      file += text;
-    } else file = text;
-    
+    QString file = KGlobal::locate("wallpaper", text);
+
     if ( file != wallFile )
     {
 	// debugT("Loading WallPaper '%s'\n",file.data());
@@ -1518,7 +1503,7 @@ void ApplicationPropsPage::addMimeType( const char * name )
         availableExtensionsList->inSort( name );
 }
 
-bool ApplicationPropsPage::supports( const KURL& _kurl, mode_t _mode )
+bool ApplicationPropsPage::supports( const KURL& _kurl, mode_t  )
 {
     if (!_kurl.isLocalFile())
         return false;
@@ -1773,7 +1758,7 @@ BindingPropsPage::BindingPropsPage( PropertiesDialog *_props ) : PropsPage( _pro
     patternEdit = new QLineEdit( this, "LineEdit_1" );
     commentEdit = new QLineEdit( this, "LineEdit_3" );
     mimeEdit = new QLineEdit( this, "LineEdit_3" );
-    iconBox = new KIconLoaderButton( kapp->getIconLoader(), this );
+    iconBox = new KIconLoaderButton( KGlobal::iconLoader(), this );
     appBox = new QComboBox( false, this, "ComboBox_2" );
 
     QBoxLayout * mainlayout = new QVBoxLayout(this, SEPARATION);
@@ -1884,7 +1869,7 @@ BindingPropsPage::BindingPropsPage( PropertiesDialog *_props ) : PropsPage( _pro
     // appBox->setCurrentItem( index );
 }
 
-bool BindingPropsPage::supports( const KURL& _kurl, mode_t _mode )
+bool BindingPropsPage::supports( const KURL& _kurl, mode_t )
 {
     if (!_kurl.isLocalFile())
         return false;
@@ -2152,10 +2137,10 @@ DevicePropsPage::DevicePropsPage( PropertiesDialog *_props ) : PropsPage( _props
     tmpQLabel->setText(  i18n("Unmounted Icon") );
     tmpQLabel->adjustSize();
     
-    mounted = new KIconLoaderButton( kapp->getIconLoader(), this );
+    mounted = new KIconLoaderButton( KGlobal::iconLoader(), this );
     mounted->setGeometry( 10, 250, 50, 50 );
     
-    unmounted = new KIconLoaderButton( kapp->getIconLoader(), this );
+    unmounted = new KIconLoaderButton( KGlobal::iconLoader(), this );
     unmounted->setGeometry( 170, 250, 50, 50 );
 
     QString path( _props->kurl().path() );
