@@ -22,6 +22,7 @@
 #include <qlayout.h>
 #include <qwhatsthis.h>
 #include <qslider.h>
+#include <qcheckbox.h>
 
 #include <kapplication.h>
 #include <dcopclient.h>
@@ -30,6 +31,7 @@
 #include <kdialog.h>
 #include <klineedit.h>
 #include <knuminput.h>
+#include <kconfig.h>
 
 #include <netwm.h>
 
@@ -66,7 +68,7 @@ KDesktopConfig::KDesktopConfig(QWidget *parent, const char */*name*/)
   QLabel *label = new QLabel(i18n("N&umber of desktops: "), number_group);
   _numInput = new KIntNumInput(4, number_group);
   _numInput->setRange(1, 16, 1, true);
-  connect(_numInput, SIGNAL(valueChanged(int)), SLOT(slotValueChanged(int)));
+  connect(_numInput, SIGNAL(valueChanged(int)), SLOT(slotOptionChanged()));
   label->setBuddy( _numInput );
   QString wtstr = i18n( "Here you can set how many virtual desktops you want on your KDE desktop. Move the slider to change the value." );
   QWhatsThis::add( label, wtstr );
@@ -100,6 +102,11 @@ KDesktopConfig::KDesktopConfig(QWidget *parent, const char */*name*/)
     }
 
   layout->addWidget(name_group);
+  
+  _wheelOption = new QCheckBox(i18n("Mouse wheel over desktop switches desktop"), this);
+  connect(_wheelOption,SIGNAL(toggled(bool)),this,SLOT(slotOptionChanged()));
+  
+  layout->addWidget(_wheelOption);
   layout->addStretch(1);
 
   load();
@@ -119,6 +126,12 @@ void KDesktopConfig::load()
   for(int i = 1; i <= 16; i++)
     _nameInput[i-1]->setEnabled(i <= n);
   emit changed(false);
+  
+  
+  KConfig *config = new KConfig("kdesktoprc", true);
+  config->setGroup("Mouse Buttons");
+  _wheelOption->setChecked(config->readBoolEntry("WheelSwitchesWorkspace",false));
+  delete config;
 }
 
 void KDesktopConfig::save()
@@ -137,6 +150,11 @@ void KDesktopConfig::save()
 
   XSync(qt_xdisplay(), FALSE);
 
+  KConfig *config = new KConfig("kdesktoprc");
+  config->setGroup("Mouse Buttons");
+  config->writeEntry("WheelSwitchesWorkspace", _wheelOption->isChecked());
+  delete config;
+    
   // Tell kdesktop about the new config file
   if ( !kapp->dcopClient()->isAttached() )
      kapp->dcopClient()->attach();
@@ -166,6 +184,9 @@ void KDesktopConfig::defaults()
 
   for(int i = 0; i < 16; i++)
     _nameInput[i]->setEnabled(i < n);
+    
+  _wheelOption->setChecked(false);
+    
   emit changed(false);
 }
 
@@ -185,7 +206,7 @@ void KDesktopConfig::slotValueChanged(int n)
   emit changed(true);
 }
 
-void KDesktopConfig::slotTextChanged(const QString&)
+void KDesktopConfig::slotOptionChanged()
 {
   emit changed(true);
 }

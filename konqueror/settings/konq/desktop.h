@@ -24,6 +24,7 @@
 
 class QSpinBox;
 class QLabel;
+class QCheckBox;
 class KLineEdit;
 class KIntNumInput;
 
@@ -43,12 +44,13 @@ class KDesktopConfig : public KCModule
 
  protected slots:
   void slotValueChanged(int);
-  void slotTextChanged(const QString&);
+  void slotOptionChanged();
     
  private:
   KIntNumInput *_numInput;
   QLabel     *_nameLabel[16];
   KLineEdit  *_nameInput[16];
+  QCheckBox  *_wheelOption;
 };
 
 #endif
