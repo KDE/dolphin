@@ -35,11 +35,17 @@ PluginLiveConnectExtension::~PluginLiveConnectExtension() {
 }
 
 bool PluginLiveConnectExtension::get(const unsigned long, const QString &field, Type &type, unsigned long &retobj, QString &value) {
+Q_UNUSED(type);
+Q_UNUSED(retobj);
+Q_UNUSED(value);
     kdDebug(1432) << "PLUGIN:LiveConnect::get " << field << endl;
     return false;
 }
 
 bool PluginLiveConnectExtension::call(const unsigned long, const QString &func, const QStringList &args, Type &type, unsigned long &retobjid, QString &value) {
+Q_UNUSED(type);
+Q_UNUSED(retobjid);
+Q_UNUSED(value);
     kdDebug(1432) << "PLUGIN:LiveConnect::call " << func << " args: " << args << endl;
       return false;
 }
@@ -183,6 +189,7 @@ PluginPart::PluginPart(QWidget *parentWidget, const char *widgetName, QObject *p
     _canvas->setFocusPolicy( QWidget::ClickFocus );
     _canvas->setBackgroundMode( QWidget::NoBackground );
     setWidget(_canvas);
+    _canvas->show();
     QObject::connect( _canvas, SIGNAL(resized(int,int)),
                       this, SLOT(pluginResized(int,int)) );
 }
@@ -317,7 +324,9 @@ void PluginPart::statusMessage( QString msg )
 void PluginPart::pluginResized(int w, int h)
 {
     kdDebug(1432) << "PluginPart::pluginResized()" << endl;
-    if ( _widget ) _widget->resize( w, h );
+
+    if ( _widget )
+        _widget->resize( w, h );
 }
 
 

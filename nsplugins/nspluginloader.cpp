@@ -59,6 +59,7 @@ NSPluginInstance::NSPluginInstance(QWidget *parent, const QCString& app, const Q
     setProtocol(QXEmbed::XPLAIN);
     embed( NSPluginInstanceIface_stub::winId() );
     displayPlugin();
+    show();
     shown = true;
 }
 
