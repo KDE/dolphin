@@ -456,6 +456,12 @@ void KonqViewManager::loadViewProfile( KConfig &cfg )
   //if ( nextChildView )
   //  nextChildView->part()->widget()->setFocus();
 
+  // Window size
+  int width = cfg.readNumEntry( "Width", -1 );
+  int height = cfg.readNumEntry( "Height", -1 );
+  if ( width > -1 && height > -1 )
+    m_pMainWindow->resize( width, height );
+
   kdDebug(1202) << "KonqViewManager::loadViewProfile done" << endl;
   printFullHierarchy( m_pMainContainer );
 }
