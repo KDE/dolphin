@@ -435,7 +435,7 @@ void KonqKfmIconView::slotBufferTimeout()
 
       KURL u( m_url );
       u.addPath( name.c_str() );
-      KonqKfmIconViewItem* item = new KonqKfmIconViewItem( this, *it, u, name.c_str() );
+      KonqKfmIconViewItem* item = new KonqKfmIconViewItem( this, *it, u );
       insert( item, -1, -1, false );
 
       //cerr << "Ended " << name << endl;
@@ -550,7 +550,7 @@ void KonqKfmIconView::slotUpdateFinished( int /*_id*/ )
       {
         KURL u( m_url );
         u.addPath( name.c_str() );
-        KonqKfmIconViewItem* item = new KonqKfmIconViewItem( this, *it, u, name.c_str() );
+        KonqKfmIconViewItem* item = new KonqKfmIconViewItem( this, *it, u );
         item->mark();
         insert( item );
         cerr << "Inserting " << name << endl;
@@ -675,48 +675,38 @@ void KonqKfmIconView::focusInEvent( QFocusEvent* _event )
   KIconContainer::focusInEvent( _event );
 }
 
-KonqKfmIconViewItem::KonqKfmIconViewItem( KonqKfmIconView *_parent, UDSEntry& _entry, KURL& _url, const char *_name )
-  : KIconContainerItem( _parent )
+KonqKfmIconViewItem::KonqKfmIconViewItem( KonqKfmIconView *_parent, UDSEntry& _entry, KURL& _url )
+  : KIconContainerItem( _parent ), KonqKfmViewItem( _entry, _url )
 {
-  init( _parent, _entry, _url, _name );
+  m_pIconView = _parent;
+  init( _entry );
 }
 
-void KonqKfmIconViewItem::init( KonqKfmIconView* _IconView, UDSEntry& _entry, KURL& _url, const char *_name )
+void KonqKfmIconViewItem::init( UDSEntry& _entry )
 {
-  m_pParent = _IconView;
-  m_entry = _entry;
-  m_strURL = _url.url();
-  m_bMarked = false;
+  m_displayMode = m_pIconView->displayMode();
 
-  mode_t mode = 0;
-  UDSEntry::iterator it = _entry.begin();
-  for( ; it != _entry.end(); it++ )
-    if ( it->m_uds == UDS_FILE_TYPE )
-      mode = (mode_t)it->m_long;
+  // Find out about the name
+  const char * name = 0L;
+  UDSEntry::iterator it2 = _entry.begin();
+  for( ; it2 != _entry.end(); it2++ )
+    if ( it2->m_uds == UDS_NAME )
+      name = it2->m_str.c_str();
+  assert(name);
+  setText(name);
 
-  m_bIsLocalURL = _url.isLocalFile();
-  m_displayMode = m_pParent->displayMode();
-
-  bool mini = false;
-  if ( m_pParent->displayMode() == KIconContainer::Vertical )
-    mini = true;
-
-  m_pMimeType = KMimeType::findByURL( _url, mode, m_bIsLocalURL );
-
-  setText( _name );
-
-  QPixmap * p = KPixmapCache::pixmapForMimeType( m_pMimeType, _url, m_bIsLocalURL, mini );
+  bool mini = m_pIconView->displayMode() == KIconContainer::Vertical;
+  QPixmap * p = KPixmapCache::pixmapForMimeType( m_pMimeType, m_url, m_bIsLocalURL, mini );
   if (!p) warning("Pixmap not found for mimetype %s",m_pMimeType->mimeType());
   else setPixmap( *p );
+
 }
 
 void KonqKfmIconViewItem::refresh()
 {
-  if ( m_displayMode != m_pParent->displayMode() )
+  if ( m_displayMode != m_pIconView->displayMode() )
   {
-    m_displayMode = m_pParent->displayMode();
-
-    KURL url( m_strURL.data() );
+    m_displayMode = m_pIconView->displayMode();
 
     mode_t mode = 0;
     UDSEntry::iterator it = m_entry.begin();
@@ -724,16 +714,14 @@ void KonqKfmIconViewItem::refresh()
       if ( it->m_uds == UDS_FILE_TYPE )
 	mode = (mode_t)it->m_long;
 
-    bool mini = false;
-    if ( m_pParent->displayMode() == KIconContainer::Vertical )
-      mini = true;
-
-    setPixmap( *( KPixmapCache::pixmapForURL( url, mode, m_bIsLocalURL, mini ) ) );
+    bool mini = m_pIconView->displayMode() == KIconContainer::Vertical;
+    setPixmap( *( KPixmapCache::pixmapForURL( m_url, mode, m_bIsLocalURL, mini ) ) );
   }
 
   KIconContainerItem::refresh();
 }
 
+/*
 void KonqKfmIconViewItem::returnPressed()
 {
   mode_t mode = 0;
@@ -743,29 +731,11 @@ void KonqKfmIconViewItem::returnPressed()
       mode = (mode_t)it->m_long;
 
   // (void)new KRun( m_strURL.c_str(), mode, m_bIsLocalURL );
-//  m_pParent->view()->openURL( m_strURL.c_str(), mode, m_bIsLocalURL );
+//  m_pIconView->view()->openURL( m_strURL.c_str(), mode, m_bIsLocalURL );
 // HACKHACKHACK
-  m_pParent->openURLRequest( m_strURL.c_str() );
+  m_pIconView->openURLRequest( m_strURL.c_str() );
 }
-
-bool KonqKfmIconViewItem::acceptsDrops( QStrList& /* _formats */ )
-{
-  if ( strcmp( "inode/directory", m_pMimeType->mimeType() ) == 0 )
-    return true;
-
-  if ( !m_bIsLocalURL )
-    return false;
-
-  if ( strcmp( "application/x-kdelnk", m_pMimeType->mimeType() ) == 0 )
-    return true;
-
-  // Executable, shell script ... ?
-  KURL u( m_strURL.data() );
-  if ( access( u.path(), X_OK ) == 0 )
-    return true;
-
-  return false;
-}
+*/
 
 void KonqKfmIconViewItem::paint( QPainter* _painter, const QColorGroup _grp )
 {
@@ -798,12 +768,12 @@ void KonqKfmIconViewItem::popupMenu( const QPoint &_global )
     if ( it->m_uds == UDS_FILE_TYPE )
       mode = (mode_t)it->m_long;
 
-  m_pParent->setSelected( this, true );
+  m_pIconView->setSelected( this, true );
 
   QStrList lst;
   lst.append( m_strURL.data() );
 
-  m_pParent->view()->popupMenu( _global, lst, mode, m_bIsLocalURL );
+  m_pIconView->view()->popupMenu( _global, lst, mode, m_bIsLocalURL );
 }
 */
 

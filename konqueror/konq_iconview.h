@@ -21,6 +21,7 @@
 #define __konq_iconview_h__
 
 #include "kiconcontainer.h"
+#include "konq_kfmview.h"
 #include "konq_baseview.h"
 
 #include <qtimer.h>
@@ -28,48 +29,24 @@
 
 #include <string>
 
-#include <kurl.h>
-#include <kio_interface.h>
-
 class KonqKfmIconView;
 class KonqKfmIconViewItem;
 class KMimeType;
 
-class KonqKfmIconViewItem : public KIconContainerItem
+class KonqKfmIconViewItem : public KIconContainerItem,
+                            public KonqKfmViewItem
 {
 public:
-  KonqKfmIconViewItem( KonqKfmIconView *_parent, UDSEntry& _entry, KURL& _url, const char *_name );
+  KonqKfmIconViewItem( KonqKfmIconView *_parent, UDSEntry& _entry, KURL& _url);
   virtual ~KonqKfmIconViewItem() { }
 
-  virtual const char* url() { return m_strURL.c_str(); }
-
-  // virtual void popupMenu( const QPoint& _global );
-  virtual void returnPressed();
-
-  virtual bool isMarked() { return m_bMarked; }
-  virtual void mark() { m_bMarked = true; }
-  virtual void unmark() { m_bMarked = false; }
-  
-  virtual UDSEntry udsEntry() { return m_entry; }
-  
-  virtual bool acceptsDrops( QStrList& _formats );
-
-  virtual KMimeType* mimeType() { return m_pMimeType; }
 protected:
-  virtual void init( KonqKfmIconView* _finder, UDSEntry& _entry, KURL& _url, const char *_name );
+  void init( UDSEntry& _entry );
   virtual void paint( QPainter* _painter, const QColorGroup _grp );
-
   virtual void refresh();
   
-  UDSEntry m_entry;
-  KMimeType* m_pMimeType;
-  string m_strURL;
-  KonqKfmIconView* m_pParent;
-  
-  bool m_bIsLocalURL;
+  KonqKfmIconView* m_pIconView;
   KIconContainer::DisplayMode m_displayMode;
-
-  bool m_bMarked;
 };
 
 class KonqKfmIconView : public KIconContainer,

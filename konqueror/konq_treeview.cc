@@ -740,7 +740,7 @@ void KonqKfmTreeView::slotRightButtonPressed( QListViewItem *_item, const QPoint
 
   if ( !_item )
   {
-    // Popup menu for m_strURL
+    // Popup menu for m_url
     // Torben: I think this is impossible in the treeview, or ?
     //         Perhaps if the list is smaller than the window height.
   }
@@ -795,18 +795,15 @@ void KonqKfmTreeView::openURL( const char *_url )
   KURL url( _url );
   if ( url.isMalformed() )
   {
-    string tmp = i18n( "Malformed URL" ).ascii();
-    tmp += "\n";
-    tmp += _url;
-    QMessageBox::critical( this, i18n( "Error" ), tmp.c_str(), i18n( "OK" ) );
+    QString tmp = i18n( "Malformed URL\n%s" ).arg( _url );
+    QMessageBox::critical( this, i18n( "Error" ), tmp, i18n( "OK" ) );
     return;
   }
 
   //test if we are switching to a new protocol
-  if ( !m_strURL.isEmpty() )
+  if ( !m_url.url().isEmpty() )
   {
-    KURL u( m_strURL.data() );
-    if ( strcmp( u.protocol(), url.protocol() ) != 0 )
+    if ( strcmp( m_url.protocol(), url.protocol() ) != 0 )
       isNewProtocol = true;
   }
 
@@ -816,9 +813,8 @@ void KonqKfmTreeView::openURL( const char *_url )
     list<string> listing;
     if ( !ProtocolManager::self()->listing( url.protocol(), listing ) )
     {
-      string tmp = i18n( "Unknown Protocol " ).ascii();
-      tmp += url.protocol();
-      QMessageBox::critical( this, i18n( "Error" ), tmp.c_str(), i18n( "OK" ) );
+      QString tmp = i18n( "Unknown Protocol %s" ).arg( url.protocol());
+      QMessageBox::critical( this, i18n( "Error" ), tmp, i18n( "OK" ) );
       return;
     }
 
@@ -926,9 +922,8 @@ void KonqKfmTreeView::openSubFolder( const char *_url, KfmTreeViewDir* _dir )
   }
 
   /** Debug code **/
-  assert( m_iColumns != -1 && !m_strURL.isEmpty() );
-  KURL u( m_strURL.data() );
-  if ( strcmp( u.protocol(), url.protocol() ) != 0 )
+  assert( m_iColumns != -1 && !m_url.url().isEmpty() );
+  if ( strcmp( m_url.protocol(), url.protocol() ) != 0 )
     assert( 0 );
   /** End Debug code **/
 
@@ -1317,62 +1312,32 @@ void KonqKfmTreeView::focusInEvent( QFocusEvent* _event )
 
 /**************************************************************
  *
- * KFMFinderItem
+ * KfmTreeViewItem
  *
  **************************************************************/
 
 KfmTreeViewItem::KfmTreeViewItem( KonqKfmTreeView *_treeview, KfmTreeViewDir *_parent, UDSEntry& _entry, KURL& _url )
-  : QListViewItem( _parent )
+  : QListViewItem( _parent ), KonqKfmViewItem( _entry, _url )
 {
-  init( _treeview, _entry, _url );
+  m_pTreeView = _treeview;
+  init();
 }
 
 KfmTreeViewItem::KfmTreeViewItem( KonqKfmTreeView *_parent, UDSEntry& _entry, KURL& _url )
-  : QListViewItem( _parent )
+  : QListViewItem( _parent ), KonqKfmViewItem( _entry, _url )
 {
-  init( _parent, _entry, _url );
+  m_pTreeView = _parent;
+  init();
 }
 
-void KfmTreeViewItem::init( KonqKfmTreeView* _treeview, UDSEntry& _entry, KURL& _url )
+void KfmTreeViewItem::init()
 {
-  m_pTreeView = _treeview;
-  m_entry = _entry;
-  m_strURL = _url.url();
-  m_bMarked = false;
-
-  mode_t mode = 0;
-  UDSEntry::iterator it = _entry.begin();
-  for( ; it != _entry.end(); it++ )
-    if ( it->m_uds == UDS_FILE_TYPE )
-      mode = (mode_t)it->m_long;
-
-  m_bIsLocalURL = _url.isLocalFile();
-
-  m_pMimeType = KMimeType::findByURL( _url, mode, m_bIsLocalURL );
-  QPixmap * p = KPixmapCache::pixmapForMimeType( m_pMimeType, _url, m_bIsLocalURL, true );
+  QPixmap * p = KPixmapCache::pixmapForMimeType( m_pMimeType, m_url, m_bIsLocalURL, true );
   if (!p) warning("Pixmap not found for mimetype %s",m_pMimeType->mimeType());
   else setPixmap( 0, *p );
 }
 
-bool KfmTreeViewItem::acceptsDrops( QStrList& /* _formats */ )
-{
-  if ( strcmp( "inode/directory", m_pMimeType->mimeType() ) == 0 )
-    return true;
-
-  if ( !m_bIsLocalURL )
-    return false;
-
-  if ( strcmp( "application/x-kdelnk", m_pMimeType->mimeType() ) == 0 )
-    return true;
-
-  // Executable, shell script ... ?
-  KURL u( m_strURL.data() );
-  if ( access( u.path(), X_OK ) == 0 )
-    return true;
-
-  return false;
-}
-
+/*
 void KfmTreeViewItem::returnPressed()
 {
   mode_t mode = 0;
@@ -1385,6 +1350,7 @@ void KfmTreeViewItem::returnPressed()
 //  m_pFinder->view()->openURL( m_strURL.c_str(), mode, m_bIsLocalURL );
   m_pTreeView->openURLRequest( m_strURL.c_str() ); //FIXME: obey mode/m_bIsLocalURL
 }
+*/
 
 /*
 void KfmTreeViewItem::popupMenu( const QPoint &_global, int _column )
@@ -1541,7 +1507,7 @@ void KfmTreeViewItem::paintCell( QPainter *_painter, const QColorGroup & cg, int
 
 /**************************************************************
  *
- * KFMFinderDir
+ * KfmTreeViewDir
  *
  **************************************************************/
 
@@ -1549,7 +1515,6 @@ KfmTreeViewDir::KfmTreeViewDir( KonqKfmTreeView *_parent, UDSEntry& _entry, KURL
   : KfmTreeViewItem( _parent, _entry, _url )
 {
   QString url = _url.url();
-//  m_pFinder->addSubDir( url, this );
   m_pTreeView->addSubDir( url, this );
 
   m_bComplete = false;
@@ -1559,7 +1524,6 @@ KfmTreeViewDir::KfmTreeViewDir( KonqKfmTreeView *_treeview, KfmTreeViewDir * _pa
   : KfmTreeViewItem( _treeview, _parent, _entry, _url )
 {
   QString url = _url.url();
-//  m_pFinder->addSubDir( url, this );
   m_pTreeView->addSubDir( url, this );
 
   m_bComplete = false;
@@ -1567,10 +1531,8 @@ KfmTreeViewDir::KfmTreeViewDir( KonqKfmTreeView *_treeview, KfmTreeViewDir * _pa
 
 KfmTreeViewDir::~KfmTreeViewDir()
 {
-//  if ( m_pFinder )
-//    m_pFinder->removeSubDir( m_strURL.c_str() );
   if ( m_pTreeView )
-    m_pTreeView->removeSubDir( m_strURL.c_str() );
+    m_pTreeView->removeSubDir( m_url.url() );
 }
 
 void KfmTreeViewDir::setup()
@@ -1587,8 +1549,7 @@ void KfmTreeViewDir::setOpen( bool _open )
     return;
   }
 
-//  m_pFinder->openSubFolder( m_strURL.c_str(), this );
-  m_pTreeView->openSubFolder( m_strURL.c_str(), this );
+  m_pTreeView->openSubFolder( m_url.url(), this );
 
   QListViewItem::setOpen( _open );
 }
@@ -1596,8 +1557,7 @@ void KfmTreeViewDir::setOpen( bool _open )
 string KfmTreeViewDir::url( int _trailing )
 {
   string tmp;
-  KURL u( m_strURL.c_str() );
-  tmp = u.url( _trailing );
+  tmp = m_url.url( _trailing );
   return tmp;
 }
 

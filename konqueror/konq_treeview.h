@@ -29,11 +29,7 @@
 
 #include <string>
 
-#include <kurl.h>
-
-#include <kio_interface.h>
-
-#include "konq_baseview.h"
+#include "konq_kfmview.h"
 #include "mousemode.h"
 
 class KfmTreeViewDir;
@@ -41,7 +37,8 @@ class KfmTreeViewItem;
 class KonqKfmTreeView;
 class KMimeType;
 
-class KfmTreeViewItem : public QListViewItem
+class KfmTreeViewItem : public QListViewItem,
+                        public KonqKfmViewItem
 {
 public:
   KfmTreeViewItem( KonqKfmTreeView *_treeview, KfmTreeViewDir *_parent, UDSEntry& _entry, KURL& _url );
@@ -52,38 +49,18 @@ public:
   virtual QString text( int column ) const;
   virtual QString key( int _column, bool ) const;
 
-  virtual const char* url() { return m_strURL.c_str(); }
-
-  // virtual void popupMenu( const QPoint& _global, int _column );
-  virtual void returnPressed();
-
-  virtual bool isMarked() { return m_bMarked; }
-  virtual void mark() { m_bMarked = true; }
-  virtual void unmark() { m_bMarked = false; }
-
-  virtual UDSEntry& udsEntry() { return m_entry; }
-
-  virtual bool acceptsDrops( QStrList& /* _formats */ );
-
   virtual void prepareToDie() { m_pTreeView = 0L; }
   virtual void paintCell( QPainter *_painter, const QColorGroup & cg, int column, int width, int alignment );
-  virtual KMimeType* mimeType() { return m_pMimeType; }
 
 protected:
-  virtual void init( KonqKfmTreeView* _treeview, UDSEntry& _entry, KURL& _url );
-
+  virtual void init();
+  
   const char* makeNumericString( const UDSAtom &_atom ) const;
   const char* makeTimeString( const UDSAtom &_atom ) const;
   const char* makeAccessString( const UDSAtom &_atom ) const;
   QString makeTypeString( const UDSAtom &_atom ) const;
 
-  UDSEntry m_entry;
-  string m_strURL;
   KonqKfmTreeView* m_pTreeView;
-  KMimeType* m_pMimeType;
-
-  bool m_bIsLocalURL;
-  bool m_bMarked;
 };
 
 class KfmTreeViewDir : public KfmTreeViewItem

@@ -13,7 +13,7 @@ bin_PROGRAMS = konqueror
 konqueror_SOURCES =  kbookmark.cc kbrowser.cc \
 	kfmguiprops.cc kfmpaths.cc kfmpopup.cc kfmrun.cc kfmviewprops.cc \
 	kiconcontainer.cc \
-	konq_baseview.cc konq_htmlview.cc konq_iconview.cc \
+	konq_baseview.cc konq_kfmview.cc konq_htmlview.cc konq_iconview.cc \
 	konq_main.cc konq_mainview.cc konq_mainwindow.cc konqueror.cc \
 	konq_treeview.cc konq_partview.cc
 
