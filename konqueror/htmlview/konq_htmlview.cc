@@ -102,7 +102,7 @@ KonqHTMLView::KonqHTMLView()
   m_pBrowser->enableJava(enableJava);
   setenv("CLASSPATH",javaPath.latin1(), 1);
   m_pBrowser->enableJScript(enableJavaScript);
-  
+
   m_paViewDocument = new KAction( i18n( "View Document Source" ), 0, this, SLOT( viewDocumentSource() ), this );
   m_paViewFrame = new KAction( i18n( "View Frame Source" ), 0, this, SLOT( viewFrameSource() ), this );
 
@@ -159,6 +159,16 @@ int KonqHTMLView::yOffset()
 void KonqHTMLView::stop()
 {
   m_pBrowser->slotStop();
+}
+
+void KonqHTMLView::saveState( QDataStream &stream )
+{
+    m_pBrowser->saveState(stream);
+}
+
+void KonqHTMLView::restoreState( QDataStream &stream )
+{
+    m_pBrowser->restoreState(stream);
 }
 
 /*
