@@ -64,7 +64,7 @@ konqueror_LDFLAGS = $(KDE_RPATH) $(all_libraries)
 #konqueror_static_LDFLAGS = $(all_libraries) -static
 
 dummy.cc:
-	echo > dummy.cc
+	echo "extern \"C\" int kdemain( int argc, char **argv ); int main( int argc, char **argv ) { return kdemain( argc, argv ); }" > dummy.cc
 
 messages: rc.cpp
 	$(EXTRACTRC) *.rc */*.rc >> rc.cpp
