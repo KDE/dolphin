@@ -40,19 +40,20 @@ int main(int argc, char **argv)
     KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
 
     KApplication app;
+    bool bRoot = (getuid() == 0);
 
     QCString user;
     if (args->count())
 	user = args->arg(0);
 
-    if (!user.isEmpty() && (getuid() != 0))
+    if (!user.isEmpty() && !bRoot)
     {
         KMessageBox::sorry(0, i18n("You need to be root to change the password of other users."));
         return 0;
     }
 
     QCString oldpass;
-    if (user.isEmpty())
+    if (!bRoot)
     {
         int result = KDEpasswd1Dialog::getPassword(oldpass);
         if (result != KDEpasswd1Dialog::Accepted)
