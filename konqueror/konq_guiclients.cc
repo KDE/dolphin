@@ -169,7 +169,7 @@ ToggleViewGUIClient::ToggleViewGUIClient( KonqMainWindow *mainWindow )
     QString description = i18n( "Show %1" ).arg( (*cIt)->name() );
     QString name = (*cIt)->desktopEntryName();
     //kdDebug(1202) << "ToggleViewGUIClient: name=" << name << endl;
-    KToggleAction *action = new KToggleAction( description, 0, 0, name.latin1() );
+    KToggleAction *action = new KToggleAction( description, 0, mainWindow->actionCollection(), name.latin1() );
 
     // HACK
     if ( (*cIt)->icon() != "unknown" )
