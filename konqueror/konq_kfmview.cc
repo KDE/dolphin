@@ -44,7 +44,7 @@ void KonqKfmViewItem::init()
       mode = (mode_t)it->m_long;
 
   m_pMimeType = KMimeType::findByURL( m_url, mode, m_bIsLocalURL );
-
+  assert (m_pMimeType);
 }
 
 bool KonqKfmViewItem::acceptsDrops( QStrList& /* _formats */ )

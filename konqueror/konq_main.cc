@@ -35,7 +35,9 @@
 #include <khtml.h>
 #include <kimgio.h>
 #include <kapp.h>
+#include <klocale.h>
 #include <kwm.h>
+#include <userpaths.h>
 
 #include <qmessagebox.h>
 
@@ -49,7 +51,7 @@
 #include "kfmrun.h"
 #include "konq_main.h"
 #include "konq_mainwindow.h"
-#include "userpaths.h"
+#include "konq_topwidget.h"
 #include "konq_mainview.h"
 #include "konq_iconview.h"
 #include "konq_htmlview.h"
@@ -57,7 +59,6 @@
 #include "konq_treeview.h"
 #include "konq_txtview.h"
 #include "konq_plugins.h"
-#include <klocale.h>
 
 // DEBUG
 #include <iostream>
@@ -151,23 +152,7 @@ void KonqApp::start()
 {
   if ( g_bWithGUI )
   {
-    QString home = "file:";
-    home += QDir::homeDirPath();
-    KonqMainWindow *m_pShell = new KonqMainWindow( home.data() );
-    
-    m_pShell->show();
-
-    /* BUGGY
-    // Add a tree view on the right. Probably temporary.
-    Konqueror::View_var vView2 = Konqueror::View::_duplicate( new KonqKfmTreeView );
-    m_pShell->mainView()->insertView( vView2, Konqueror::right );
-    Konqueror::URLRequest req;
-    req.url = CORBA::string_dup( home );
-    req.reload = false;
-    req.xOffset = 0;
-    req.yOffset = 0;
-    m_pShell->mainView()->openURL( req );
-    */
+    (void) new KonqTopWidget();
   }
 }
 
@@ -403,16 +388,13 @@ void sig_handler( int )
 
 void sig_term_handler( int )
 {
-  // printf("###################### SIG TERM ###################\n");
+  kdebug( KDEBUG_INFO, 1202, "###################### SIG TERM ###################" );
 
-  /*
-  if ( pkfm->isGoingDown() )
+  if ( KonqTopWidget::isGoingDown() )
     return;
 
-  // Save cache and stuff and delete the sockets ...
-  pkfm->slotSave();
-  pkfm->slotShutDown();
-  */
+  KonqTopWidget::getKonqTopWidget()->slotSave();
+  KonqTopWidget::getKonqTopWidget()->slotShutDown();
 
   QFile iorFile( kapp->localkdedir() + "/share/apps/konqueror/konqueror.ior" );
   if ( iorFile.exists() )
@@ -423,7 +405,7 @@ void sig_term_handler( int )
 
 void sig_pipe_handler( int )
 {
-  printf("###################### SIG Pipe ###################\n");
+  kdebug( KDEBUG_INFO, 1202, "###################### SIG PIPE ###################" );
   signal( SIGPIPE, sig_pipe_handler );
 }
 
