@@ -146,6 +146,15 @@ KonqMainView::KonqMainView( const QString &initialURL, bool openInitialURL, cons
   //   updateRects();
   createGUI( 0L );
 
+  // hide if empty
+  KToolBar * bar = (KToolBar *)child( "bookmarkToolBar", "KToolBar" );
+  assert(bar);
+  if ( bar->count() <= 1 ) // there is always a separator
+  {
+    m_paShowBookmarkBar->setChecked( false );
+    bar->hide();
+  }
+
   m_statusBar = statusBar();
 
   m_progressBar = new KProgress( 0, 100, 0, KProgress::Horizontal, m_statusBar );
