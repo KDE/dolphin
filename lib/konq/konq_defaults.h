@@ -19,30 +19,8 @@
 */
 
 // Default values for konqueror/kdesktop settings
-// This file is used by konqueror and kdesktop, and will be used by kcmkonq,
+// This file is used by konqueror kdesktop, and kcmkonq,
 // to share the same defaults
-
-#if 0 // OLD KFM STUFF - we might want to do this also in konq ?
-#define ID_STRING_OPEN 1 /* Open */
-#define ID_STRING_CD   2 /* Cd */
-#define ID_STRING_NEW_VIEW 3 /* New View */
-#define ID_STRING_COPY  4 /* Copy */
-#define ID_STRING_DELETE 5 /* Delete */
-#define ID_STRING_MOVE_TO_TRASH 6 /* Move to Trash */
-#define ID_STRING_PASTE 7 /* Paste */
-#define ID_STRING_OPEN_WITH 8 /* Open With */
-#define ID_STRING_CUT 9 /* Cut */
-#define ID_STRING_MOVE 10 /* Move */
-#define ID_STRING_PROP 11 /* Properties */
-#define ID_STRING_LINK 12 /* Link */
-#define ID_STRING_TRASH 13 /* Empty Trash Bin*/
-#define ID_STRING_ADD_TO_BOOMARKS 14
-#define ID_STRING_SAVE_URL_PROPS 15 /* sven */
-#define ID_STRING_SHOW_MENUBAR 16 /* sven */
-#define ID_STRING_UP 17 /* sven */
-#define ID_STRING_BACK 18 /* sven */
-#define ID_STRING_FORWARD 19 /* sven */
-#endif
 
 // appearance tab
 #define DEFAULT_UNDERLINELINKS true
@@ -51,9 +29,6 @@
 #define DEFAULT_FILESIZEINBYTES false
 
 #define DEFAULT_RENAMEICONDIRECTLY false
-
-// root window icon text transparency default -- stefan@space.twc.de
-//#define DEFAULT_TRANSPARENT_ICON_TEXT true
 
 // transparency of blended mimetype icons in textpreview
 #define DEFAULT_TEXTPREVIEW_ICONTRANSPARENCY 70
