@@ -69,9 +69,9 @@ void KonqOperations::editMimeType( const QString & mimeType )
   (void) new KPropertiesDialog( mimeTypeFile  );
   */
 
-  KRun::runCommand( QString::fromLatin1("keditfiletype ") + mimeType,
-                    QString::fromLatin1("keditfiletype"),
-                    QString::fromLatin1("keditfiletype") /* Icon. hmm, doesn't exist yet */);
+  QString keditfiletype = QString::fromLatin1("keditfiletype");
+  KRun::runCommand( keditfiletype + " " + mimeType,
+                    keditfiletype, keditfiletype /* Icon. hmm, doesn't exist yet */);
 }
 
 void KonqOperations::del( QWidget * parent, int method, const KURL::List & selectedURLs )
