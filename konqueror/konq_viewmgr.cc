@@ -420,8 +420,8 @@ void KonqViewManager::duplicateTab( KonqFrameBase* tab )
   // so we do it once at the end :
   m_pMainWindow->viewCountChanged();
 
-  m_pMainWindow->activateChild();
-
+  tabContainer->setCurrentPage( tabContainer->count() - 1 );
+  
   m_pMainWindow->dumpViewList();
   printFullHierarchy( m_pMainWindow );
   kdDebug(1202) << "------------- KonqViewManager::duplicateTab done --------------" << endl;
@@ -489,12 +489,14 @@ void KonqViewManager::removeTab( KonqFrameBase* tab )
   if (m_pDocContainer->frameType() != "Tabs") return;
 
   KonqFrameTabs* tabContainer = static_cast<KonqFrameTabs*>(m_pDocContainer);
-
+  
   KonqFrameBase* currentFrame;
   if ( tab == 0L )
     currentFrame = dynamic_cast<KonqFrameBase*>(tabContainer->currentPage());
   else
     currentFrame = tab;
+
+  if (currentFrame->widget() == tabContainer->currentPage()) setActivePart( 0L, true );
 
   tabContainer->removeChildFrame(currentFrame);
 
@@ -535,6 +537,8 @@ void KonqViewManager::removeView( KonqView *view )
 
     KonqFrameContainerBase* grandParentContainer = parentContainer->parentContainer();
     kdDebug(1202) << "grandParentContainer=" << grandParentContainer << endl;
+
+    setActivePart( 0L, true );
 
     int index = -1;
     QValueList<int> splitterSizes;
@@ -581,7 +585,7 @@ void KonqViewManager::removeView( KonqView *view )
     delete parentContainer;
 
     //kdDebug(1202) << "--- Reparenting otherFrame to grandParentContainer" << grandParentContainer << endl;
-    otherFrame->reparentFrame( grandParentContainer->widget(), pos, true /*showIt*/ );
+    otherFrame->reparentFrame( grandParentContainer->widget(), pos );
 
     //kdDebug(1202) << "--- Inserting otherFrame into grandParentContainer" << grandParentContainer << endl;
     grandParentContainer->insertChildFrame( otherFrame, index );
@@ -595,13 +599,12 @@ void KonqViewManager::removeView( KonqView *view )
     if (grandParentContainer->frameType()=="Container")
       static_cast<KonqFrameContainer*>(grandParentContainer)->setSizes( splitterSizes );
 
-    otherFrame->activateChild();
-
     otherFrame->widget()->show();
 
-    grandParentContainer->widget()->setUpdatesEnabled( true );
-    
     grandParentContainer->setActiveChild( otherFrame );
+    grandParentContainer->activateChild();
+    
+    grandParentContainer->widget()->setUpdatesEnabled( true );
   }
   else if (parentContainer->frameType()=="Tabs") {
     kdDebug(1202) << "parentContainer " << parentContainer << " is a KonqFrameTabs" << endl;
@@ -809,7 +812,7 @@ KonqView *KonqViewManager::setupView( KonqFrameContainerBase *parentContainer,
 
   parentContainer->insertChildFrame( newViewFrame );
 
-  newViewFrame->show();
+  if (parentContainer->frameType() != "Tabs") newViewFrame->show();
 
   // Don't register passive views to the part manager
   if ( !v->isPassiveMode() ) // note that KonqView's constructor could set this to true even if passiveMode is false
@@ -928,11 +931,9 @@ void KonqViewManager::loadViewProfile( KConfig &cfg, const QString & filename,
   // Set an active part first so that we open the URL in the current view
   // (to set the location bar correctly and asap)
   KonqView *nextChildView = 0L;
-#if 0
   nextChildView = m_pMainWindow->activeChildView();
   if (nextChildView == 0L) nextChildView = chooseNextView( 0L );
   setActivePart( nextChildView ? nextChildView->part() : 0L, true /* immediate */);
-#endif
 
   if ( !forcedURL.isEmpty())
   {

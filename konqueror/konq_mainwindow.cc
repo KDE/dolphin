@@ -106,6 +106,7 @@ KonqMainWindow::KonqMainWindow( const KURL &initialURL, bool openInitialURL, con
 
   m_currentView = 0L;
   m_pChildFrame = 0L;
+  m_pActiveChild = 0L;
   m_pWorkingTab = 0L;
   m_initialKonqRun = 0L;
   m_pBookmarkMenu = 0L;
@@ -1945,6 +1946,7 @@ void KonqMainWindow::slotAddTab()
 {
   KonqView* newView = m_pViewManager->addTab();
   if (newView == 0L) return;
+  static_cast<KonqFrameTabs*>(m_pViewManager->docContainer())->showPage( newView->frame() );
   openURL( newView, KURL("about:blank") );
   focusLocationBar();
   m_pWorkingTab = 0L;
@@ -1986,11 +1988,6 @@ void KonqMainWindow::slotPopupNewTab()
     newView = m_pViewManager->addTab(mimeType, mimeComment);
     if (newView != 0L)
       newView->openURL( url, url.prettyURL() );
-  }
-
-  if (newView != 0L) {
-    kdDebug(1202) << "slotPopupNewTab() setting part " << newView->part() << " active." << endl;
-    m_pViewManager->setActivePart( newView->part(), true );
   }
 }
 

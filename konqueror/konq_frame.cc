@@ -634,7 +634,7 @@ void KonqFrameContainer::saveConfig( KConfig* config, const QString &prefix, boo
 
   //write docContainer
   if (this == docContainer) config->writeEntry( QString::fromLatin1( "docContainer" ).prepend( prefix ), true );
-  
+
   if (m_pSecondChild == m_pActiveChild) config->writeEntry( QString::fromLatin1( "activeChildIndex" ).prepend( prefix ), 1 );
   else config->writeEntry( QString::fromLatin1( "activeChildIndex" ).prepend( prefix ), 0 );
 
@@ -900,9 +900,6 @@ void KonqFrameTabs::insertChildFrame( KonqFrameBase* frame, int index )
     frame->setParentContainer(this);
     if (index == -1) m_pChildFrameList->append(frame);
     else m_pChildFrameList->insert(index, frame);
-    m_pActiveChild = frame;
-    showPage( frame->widget() );
-    frame->activateChild();
     KonqView* activeChildView = frame->activeChildView();
     if (activeChildView != 0L) {
       activeChildView->setCaption( activeChildView->caption() );
