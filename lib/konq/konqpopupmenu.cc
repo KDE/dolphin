@@ -64,6 +64,8 @@ KonqPopupMenu::KonqPopupMenu( const KonqFileItemList &items,
   m_lstPopupURLs.clear();
   int id;
 
+  setFont(KGlobal::menuFont());
+
   KProtocolManager pManager = KProtocolManager::self();
 
   KURL url;
