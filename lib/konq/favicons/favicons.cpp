@@ -220,7 +220,7 @@ void FaviconsModule::slotResult(KIO::Job *job)
         buffer.open(IO_ReadOnly);
         QImageIO io;
         io.setIODevice(&buffer);
-        io.setParameters("16");
+        io.setParameters("size=16");
         // Check here too, the job might have had no error, but the downloaded
         // file contains just a 404 message sent with a 200 status.
         // microsoft.com does that... (malte)
