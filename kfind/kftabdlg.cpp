@@ -107,7 +107,7 @@ KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name)
     QWhatsThis::add(namedL,nameWhatsThis);
     const QString whatsfileindex
         = i18n("<qt>This lets you use the files' index created by the <i>slocate</i> "
-               "package to speed-up the search. Don't forget to update the index from time to time "
+               "package to speed-up the search; remember to update the index from time to time "
                "(using <i>updatedb</i>)."
                "</qt>");
     QWhatsThis::add(useLocateCb,whatsfileindex);
@@ -555,9 +555,9 @@ bool KfindTabWidget::isDateValid()
   QString str;
   if ( ! fromDate->getDate(&hi1).isValid() ||
        ! toDate->getDate(&hi2).isValid() )
-    str = i18n("The date is not valid!");
+    str = i18n("The date is not valid.");
   else if ( hi1 > hi2 )
-    str = i18n("Invalid date range!");
+    str = i18n("Invalid date range.");
   else if ( QDate::currentDate() < hi1 )
     str = i18n("Unable to search dates in the future.");
 

@@ -215,7 +215,7 @@ void KfindWindow::saveResults()
 
   if ( !file.open(IO_WriteOnly) )
     KMessageBox::error(parentWidget(),
-		       i18n("It wasn't possible to save results!"));
+		       i18n("Unable to save results."));
   else {
     QTextStream stream( &file );
     stream.setEncoding( QTextStream::Locale );
