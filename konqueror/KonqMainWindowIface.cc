@@ -27,6 +27,7 @@
 #include <kapplication.h>
 #include <kdcopactionproxy.h>
 #include <kdcoppropertyproxy.h>
+#include <kwin.h>
 
 KonqMainWindowIface::KonqMainWindowIface( KonqMainWindow * mainWindow )
     : DCOPObject( mainWindow->name() ), m_pMainWindow( mainWindow )
@@ -112,5 +113,5 @@ bool KonqMainWindowIface::windowCanBeUsedForTab( int screen )
         return false; // this window shows on different screen
     if( KonqMainWindow::isPreloaded() )
         return false; // we want a tab in an already shown window
-    return true;
+    return !( KWin::windowInfo( m_pMainWindow->winId() ).isMinimized() );
 }
