@@ -256,7 +256,7 @@ KProxyDialog::KProxyDialog( QWidget* parent,  const char* name )
     hlay->setSpacing( KDialog::spacingHint() );
     hlay->setMargin( 0 );
 
-    cb_useProxy = new QCheckBox( i18n("Use &Proxy"), this, "cb_useProxy" );
+    cb_useProxy = new QCheckBox( i18n("Use &proxy"), this, "cb_useProxy" );
     cb_useProxy->setSizePolicy( QSizePolicy( QSizePolicy::Fixed,
                                 QSizePolicy::Fixed,
                                 cb_useProxy->sizePolicy().hasHeightForWidth()));

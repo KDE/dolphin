@@ -138,7 +138,7 @@ KJavaOptions::KJavaOptions( KConfig* config, QString group,
 
     QHBox* pathHB = new QHBox( javartGB );
     pathHB->setSpacing( 10 );
-    QLabel* pathLA = new QLabel( i18n( "&Path to java executable, or 'java'" ),
+    QLabel* pathLA = new QLabel( i18n( "&Path to Java executable, or 'java'" ),
                                  pathHB );
     pathED = new  KURLRequester( pathHB );
     connect( pathED, SIGNAL(textChanged( const QString& )), this, SLOT(changed()) );

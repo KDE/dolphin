@@ -50,7 +50,7 @@ KCookiesPolicies::KCookiesPolicies(QWidget *parent, const char *name)
     hlay->setSpacing( KDialog::spacingHint() );
     hlay->setMargin( 0 );
 
-    cb_enableCookies = new QCheckBox( i18n("Enable Coo&kies"), this );
+    cb_enableCookies = new QCheckBox( i18n("Enable coo&kies"), this );
     QWhatsThis::add( cb_enableCookies, i18n("This option turns on cookie support. Normally "
                                             "you will want to have cookie support enabled and "
                                             "customize it to suit your privacy needs.") );

@@ -45,7 +45,7 @@ KCacheConfigDialog::KCacheConfigDialog( QWidget* parent, const char* name )
     hlay->setSpacing( KDialog::spacingHint() );
     hlay->setMargin( 0 );
 
-    cb_useCache = new QCheckBox( i18n("&Use Cache"), this, "cb_useCache" );
+    cb_useCache = new QCheckBox( i18n("&Use cache"), this, "cb_useCache" );
     cb_useCache->setSizePolicy( QSizePolicy(QSizePolicy::Fixed,
                                             QSizePolicy::Fixed,
                                             cb_useCache->sizePolicy().hasHeightForWidth()) );

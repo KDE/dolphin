@@ -89,7 +89,7 @@ KMiscHTMLOptions::KMiscHTMLOptions(KConfig *config, QString group, QWidget *pare
     lay->addMultiCellWidget(sep, row, row, 0, 1);
     row++;
 
-    QLabel *label = new QLabel( i18n("Un&derline Links:"), this);
+    QLabel *label = new QLabel( i18n("Un&derline links:"), this);
     m_pUnderlineCombo = new QComboBox( false, this );
     label->setBuddy(m_pUnderlineCombo);
     m_pUnderlineCombo->insertItem(i18n("Enabled"), UnderlineAlways);
