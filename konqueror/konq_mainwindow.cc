@@ -450,8 +450,17 @@ void KonqMainWindow::openURL( KonqView *_view, const KURL &_url,
   }
 
   KonqView *view = _view;
-  if ( !view  && !req.newTab)
+  if ( !view  && !req.newTab )
     view = m_currentView; /* Note, this can be 0L, e.g. on startup */
+  else if ( !view && req.newTab ) {
+    KConfig *config = KGlobal::config();
+    KConfigGroupSaver cs( config, QString::fromLatin1("FMSettings") );
+    bool openAfterCurrentPage = config->readBoolEntry( "OpenAfterCurrentPage", false );
+    view = m_pViewManager->addTab(QString::null,
+                                  QString::null,
+                                  false,
+                                  openAfterCurrentPage);
+  }
 
   if ( view )
   {
@@ -554,7 +563,6 @@ bool KonqMainWindow::openView( QString serviceType, const KURL &_url, KonqView *
   kdDebug(1202) << "req.newTab= " << req.newTab << endl;
   kdDebug(1202) << "req.newTabInFront= " << req.newTabInFront << endl;
   kdDebug(1202) << "req.openAfterCurrentPage= " << req.openAfterCurrentPage << endl;
-
   bool bOthersFollowed = false;
 
   if ( childView )
@@ -756,7 +764,9 @@ bool KonqMainWindow::openView( QString serviceType, const KURL &_url, KonqView *
       if ( !url.isEmpty() )
           childView->openURL( url, originalURL, req.nameFilter );
   }
-  kdDebug(1202) << "KonqMainWindow::openView ok=" << ok << " bOthersFollowed=" << bOthersFollowed << " returning " << (ok || bOthersFollowed) << endl;
+  kdDebug(1202) << "KonqMainWindow::openView ok=" << ok << " bOthersFollowed=" << bOthersFollowed << " returning "
+                << (ok || bOthersFollowed)
+                << endl;
   return ok || bOthersFollowed;
 }
 
