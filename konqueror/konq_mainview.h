@@ -231,8 +231,6 @@ private:
   KAction *m_paConfigureFileManager;
   KAction *m_paConfigureNetwork;
   KAction *m_paConfigureKeys;
-  KAction *m_paReloadPlugins;
-  KAction *m_paConfigurePlugins;
   
   KAction *m_paSplitViewHor;
   KAction *m_paSplitViewVer;

@@ -1191,8 +1191,6 @@ void KonqMainView::initActions()
   m_paConfigureFileManager = new KAction( i18n( "&Configure File Manager..." ), 0, this, SLOT( slotConfigureFileManager() ), actionCollection(), "configurefilemanager" );
   m_paConfigureNetwork = new KAction( i18n( "Configure &Network..." ), 0, this, SLOT( slotConfigureNetwork() ), actionCollection(), "configurenetwork" );
   m_paConfigureKeys = new KAction( i18n( "Configure &keys..." ), 0, this, SLOT( slotConfigureKeys() ), actionCollection(), "configurekeys" );
-  m_paReloadPlugins = new KAction( i18n( "Reload Plugins" ), 0, this, SLOT( slotReloadPlugins() ), actionCollection(), "reloadplugins" );
-  m_paConfigurePlugins = new KAction( i18n( "Configure Plugins..." ), 0, this, SLOT( slotConfigurePlugins() ), actionCollection(), "configureplugins" );
 
   m_paSplitViewHor = new KAction( i18n( "Split View &Horizontally" ), 0, this, SLOT( slotSplitViewHorizontal() ), actionCollection(), "splitviewh" );
   m_paSplitViewVer = new KAction( i18n( "Split View &Vertically" ), 0, this, SLOT( slotSplitViewVertical() ), actionCollection(), "splitviewv" );

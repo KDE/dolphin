@@ -32,8 +32,6 @@
   <Action name="configurefilemanager"/>
   <Action name="configurenetwork"/>
   <Action name="configurekeys"/>
-  <Action name="reloadplugins"/>
-  <Action name="configureplugins"/>
  </Menu>
  <Menu name="Window"><text>&Window</text>
   <Action name="splitviewh"/>
