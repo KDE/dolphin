@@ -145,15 +145,12 @@ void KfindTop::menuInit()
 					this,SIGNAL(selectAll()) );
   editUnselectAll = _editMenu->insertItem(i18n("Unse&lect All"),
 					  this,SIGNAL(unselectAll()) );
-  editInvertSelection = _editMenu->insertItem(i18n("&Invert Selection"),
-					      this,SIGNAL(invertSelection()) );
   
   _editMenu->setItemEnabled( undo      , FALSE );
   _editMenu->setItemEnabled( cut       , FALSE );
   _editMenu->setItemEnabled( editCopy  , FALSE );
   _editMenu->setItemEnabled( editSelectAll, FALSE );
   _editMenu->setItemEnabled( editUnselectAll, FALSE );
-  _editMenu->setItemEnabled( editInvertSelection, FALSE ); 
   
   _optionMenu->insertItem(i18n("&Preferences ..."),
 			  this,SLOT(prefs()));
@@ -240,7 +237,6 @@ void KfindTop::enableSaveResults(bool enable)
   _fileMenu->setItemEnabled(saveSearchM, enable);
   _editMenu->setItemEnabled(editSelectAll, enable);
   _editMenu->setItemEnabled(editUnselectAll, enable);
-  _editMenu->setItemEnabled(editInvertSelection, enable);
 }
 
 void KfindTop::enableMenuItems(bool enable)

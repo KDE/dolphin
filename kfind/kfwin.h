@@ -7,16 +7,27 @@
 #ifndef KFWIN_H
 #define KFWIN_H
 
-#include <qlistbox.h> 
+#include <qlistview.h> 
 
 class KfArchiver;
+class QFileInfo;
 
-class KfindWindow: public   QListBox
+class KfFileLVI : public QListViewItem
+{
+ public:
+  KfFileLVI(QListView* lv, QString file);
+  ~KfFileLVI();
+  
+  QString key(int column, bool) const;
+  
+  QFileInfo *fileInfo;
+};
+
+class KfindWindow: public   QListView
 {
   Q_OBJECT  
 public:
   KfindWindow( QWidget * parent = 0, const char * name = 0 );
-  virtual ~KfindWindow();
   
   virtual void timerEvent(QTimerEvent *);
 
@@ -27,13 +38,14 @@ public:
 
   void copySelection();
 
+  void insertItem(QString str);
+
 public slots:
   void selectAll();
   void unselectAll();
-  void invertSelection();
 
 private slots:
-  void highlighted();
+  void rightButtonPressed(QListViewItem *, const QPoint &, int);
   void deleteFiles();
   void fileProperties();
   void openFolder();
@@ -43,13 +55,19 @@ private slots:
   void openBinding();
 
 protected:
+  void resizeEvent(QResizeEvent *e);
+  void contentsMouseReleaseEvent(QMouseEvent *e);
+  void contentsMousePressEvent(QMouseEvent *e);
 
 signals:
   void resultSelected(bool);
   void statusChanged(const char *);
 
 private:
-  void execAddToArchive(KfArchiver *arch,QString filename);
+  bool haveSelection;
+  void execAddToArchive(KfArchiver *arch, QString filename);
+  void resetColumns();
+  void selectionChanged(bool selectionMade);
 };
 
 #endif

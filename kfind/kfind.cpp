@@ -75,8 +75,6 @@ Kfind::Kfind( QWidget *parent, const char *name, const char *searchPath )
 	  win,SLOT(selectAll()));
   connect(parentWidget(),SIGNAL(unselectAll()),
 	  win,SLOT(unselectAll()));
-  connect(parentWidget(),SIGNAL(invertSelection()),
-	  win,SLOT(invertSelection()));
   
   connect(&findProcess, SIGNAL(processExited(KProcess *)),
 	  this, SLOT(stopSearch()));
