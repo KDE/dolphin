@@ -74,10 +74,10 @@ KPreviewOptions::KPreviewOptions( QWidget *parent, const char *name )
         }
     }
     QWhatsThis::add( scrollView,
-                     i18n("This option makes it possible to choose when the file previews"
-                          " in the File Manager should be activated.\n"
-                          " In the list of protocols that appear, select which ones are fast"
-                          " enough for you to allow previews to be generated.") );
+                     i18n("This option makes it possible to choose when the file previews "
+                          "in the File Manager should be activated.\n"
+                          "In the list of protocols that appear, select which ones are fast "
+                          "enough for you to allow previews to be generated.") );
 
     lay->addWidget( new QLabel( i18n( "Maximum file size:" ), this ) );
 
