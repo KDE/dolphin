@@ -81,6 +81,12 @@ void addBackEnd::aboutToShowAddMenu()
 				i--;
 				continue;
 			}
+		} else {
+			if (confFile->readEntry("X-KDE-KonqSidebarBrowser").upper()=="FALSE") {
+				delete confFile;
+				i--;
+				continue;
+			}
 		}
 		QString icon = confFile->readEntry("Icon");
 		if (!icon.isEmpty())
@@ -183,10 +189,13 @@ void addBackEnd::activatedAddMenu(int id)
 
 				if (!myFile.isEmpty())
 				{
+					kdDebug() <<"trying to save to file: "<<myFile;
 					KSimpleConfig scf(myFile,false);
 					scf.setGroup("Desktop Entry");
-					for (QMap<QString,QString>::ConstIterator it = map.begin(); it != map.end(); ++it)
+					for (QMap<QString,QString>::ConstIterator it = map.begin(); it != map.end(); ++it) {
+						kdDebug() <<"writing:"<<it.key()<<" / "<<it.data()<<endl;
 						scf.writePathEntry(it.key(), it.data());
+					}
 					scf.sync();
 					emit updateNeeded();
 
