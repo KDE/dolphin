@@ -9,6 +9,7 @@
 #include <qmap.h>
 
 class KonqDirTree;
+class QTimer;
 
 class KonqDirTreeBrowserView : public BrowserView
 {
@@ -75,6 +76,8 @@ private slots:
 
   void slotListingStopped();
 
+  void slotAnimation();
+
 private:
   void init();
   void scanDir( QListViewItem *parent, const QString &path );
@@ -117,6 +120,12 @@ private:
   QMap<QListViewItem *,QString> m_groupItems;
 
   KonqDirTreeBrowserView *m_view;
+
+  QMap<QString, QListViewItem *> m_mapCurrentOpeningFolders;
+
+  QTimer *m_animationTimer;
+  
+  int m_animationCounter;
 };
 
 #endif

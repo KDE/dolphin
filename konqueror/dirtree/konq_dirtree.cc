@@ -6,6 +6,7 @@
 #include <qheader.h>
 #include <qcursor.h>
 #include <qfileinfo.h>
+#include <qtimer.h>
 
 #include <ksimpleconfig.h>
 #include <kstddirs.h>
@@ -130,6 +131,12 @@ KonqDirTree::KonqDirTree( KonqDirTreeBrowserView *parent )
 
   m_view = parent;
 
+  m_animationCounter = 1;
+  m_animationTimer = new QTimer( this );
+
+  connect( m_animationTimer, SIGNAL( timeout() ),
+	   this, SLOT( slotAnimation() ) );
+
   addColumn( "" );
   header()->hide();
 
@@ -142,6 +149,8 @@ KonqDirTree::KonqDirTree( KonqDirTreeBrowserView *parent )
 	   this, SLOT( slotRightButtonPressed( QListViewItem * ) ) );
   connect( this, SIGNAL( clicked( QListViewItem * ) ),
 	   this, SLOT( slotClicked( QListViewItem * ) ) );
+  connect( this, SIGNAL( returnPressed( QListViewItem * ) ),
+	   this, SLOT( slotDoubleClicked( QListViewItem * ) ) );
 
   m_unselectableItems.append( m_root );
 
@@ -175,9 +184,16 @@ void KonqDirTree::openSubFolder( KonqDirTreeItem *item, KonqDirTreeItem *topLeve
 
   if ( topLevelItem.m_dirLister->jobId() == 0 )
     topLevelItem.m_dirLister->openURL( u, false, topLevel ? true : false );
-  else if ( !topLevelItem.m_lstPendingURLs->contains( u.url() ) )
+  else  if ( !topLevelItem.m_lstPendingURLs->contains( u.url() ) )
     topLevelItem.m_lstPendingURLs->append( u.url() );
 
+  if ( !topLevel )
+    return;
+
+  m_mapCurrentOpeningFolders.insert( u.url(), item );
+
+  if ( !m_animationTimer->isActive() )
+    m_animationTimer->start( 50 );
 }
 
 void KonqDirTree::addSubDir( KonqDirTreeItem *item, KonqDirTreeItem *topLevel, const QString &url )
@@ -306,13 +322,39 @@ void KonqDirTree::slotListingStopped()
 
   assert( topLevelItem.m_item );
 
-  QStringList::Iterator it = topLevelItem.m_lstPendingURLs->find( lister->url() );
+  QString url = lister->url();
+
+  QStringList::Iterator it = topLevelItem.m_lstPendingURLs->find( url );
   if ( it != topLevelItem.m_lstPendingURLs->end() )
     topLevelItem.m_lstPendingURLs->remove( it );
 
   if ( topLevelItem.m_lstPendingURLs->count() > 0 )
     topLevelItem.m_dirLister->openURL( topLevelItem.m_lstPendingURLs->first(), false, true );
 
+  QMap<QString, QListViewItem *>::Iterator oIt = m_mapCurrentOpeningFolders.find( url );
+  if ( oIt != m_mapCurrentOpeningFolders.end() )
+  {
+    oIt.data()->setPixmap( 0, ((KonqDirTreeItem *)oIt.data())->fileItem()->pixmap( KIconLoader::Small, false ) );
+
+    m_mapCurrentOpeningFolders.remove( oIt );
+
+    if ( m_mapCurrentOpeningFolders.count() == 0 )
+      m_animationTimer->stop();
+  }
+}
+
+void KonqDirTree::slotAnimation()
+{
+  QPixmap gearPixmap = BarIcon( QString::fromLatin1( "kde" ).append( QString::number( m_animationCounter ) ), KonqFactory::instance() );
+
+  QMap<QString, QListViewItem *>::ConstIterator it = m_mapCurrentOpeningFolders.begin();
+  QMap<QString, QListViewItem *>::ConstIterator end = m_mapCurrentOpeningFolders.end();
+  for (; it != end; ++it )
+    it.data()->setPixmap( 0, gearPixmap );
+
+  m_animationCounter++;
+  if ( m_animationCounter == 10 )
+    m_animationCounter = 1;
 }
 
 void KonqDirTree::init()
