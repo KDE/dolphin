@@ -1,4 +1,4 @@
-<!DOCTYPE kpartgui SYSTEM "kpartgui.dtd"><kpartgui name="Konqueror" version="31">
+<!DOCTYPE kpartgui SYSTEM "kpartgui.dtd"><kpartgui name="Konqueror" version="32">
 <MenuBar>
  <Menu name="file" noMerge="1"><text>&amp;Location</text>
   <Action name="new_window"/>
@@ -116,18 +116,19 @@
  <WeakSeparator/>
  <Action name="animated_logo"/>
 </ToolBar>
-<ToolBar hidden="true" name="extraToolBar" newline="false" index="1">
+<ToolBar hidden="true" name="extraToolBar" newline="false" index="1"><text>Extra Toolbar</text>
   <Action name="konq_dirtree" />
   <Action name="findfile" />
   <Action name="splitwindowv" />
   <Action name="splitwindowh" />
   <Action name="removeview" /> 
 </ToolBar>
-<ToolBar fullWidth="true" name="locationToolBar" newline="true">
+<ToolBar fullWidth="true" name="locationToolBar" newline="true"><text>Location Toolbar</text>
   <Action name="clear_location" />
   <Action name="location_label" />
   <Action name="toolbar_url_combo" />
 </ToolBar>
-<ToolBar noEdit="true" iconText="icontextright" fullWidth="true" name="bookmarkToolBar" newline="true"/>
+<ToolBar noEdit="true" iconText="icontextright" fullWidth="true" name="bookmarkToolBar" newline="true"><text>Bookmark Toolbar</text>
+</ToolBar>
 </kpartgui>
 
