@@ -1187,8 +1187,6 @@ void KonqMainView::slotForwardActivated( int id )
 void KonqMainView::slotComboPlugged()
 {
   m_combo = m_paURLCombo->combo();
-  connect( (QComboBox *)m_combo, SIGNAL( activated( const QString & ) ),
-	   this, SLOT( slotURLEntered( const QString & ) ) );
 
   KConfig *config = KonqFactory::instance()->config();
   config->setGroup( "Settings" );
@@ -1395,7 +1393,7 @@ void KonqMainView::initActions()
 
   m_paAnimatedLogo = new KAction( QString::null, QIconSet( *s_plstAnimatedLogo->at( 0 ) ), 0, this, SLOT( slotNewWindow() ), actionCollection(), "animated_logo" );
 
-  m_paURLCombo = new KonqComboAction( i18n( "Location " ), 0, actionCollection(), "toolbar_url_combo" );
+  m_paURLCombo = new KonqComboAction( i18n( "Location " ), 0, this, SLOT( slotURLEntered( const QString & ) ), actionCollection(), "toolbar_url_combo" );
   connect( m_paURLCombo, SIGNAL( plugged() ),
            this, SLOT( slotComboPlugged() ) );
 

@@ -28,31 +28,34 @@
 
 extern int get_toolbutton_id();
 
-KonqComboAction::KonqComboAction( const QString& text, int accel,
+KonqComboAction::KonqComboAction( const QString& text, int accel, const QObject *receiver, const char *member,
 			          QObject* parent, const char* name )
     : QAction( text, accel, parent, name )
 {
+  m_receiver = receiver;
+  m_member = member;
 }
 
 int KonqComboAction::plug( QWidget *w )
 {
   //  if ( !w->inherits( "KToolBar" ) );
   //    return -1;
-  
+
   KToolBar *toolBar = (KToolBar *)w;
-  
+
   QLabel *label = new QLabel( plainText(), w );
   label->adjustSize();
   toolBar->insertWidget( get_toolbutton_id(), label->width(), label );
 
   int id = get_toolbutton_id();
-  
-  toolBar->insertCombo( m_items, id, true, 0L, 0L, 0L );
-  
+
+  #warning "SOMEONE PLEASE FIX ktoolbar.[cpp/h] and make insertCombo take a const QObject * as argument"
+  toolBar->insertCombo( m_items, id, true, SIGNAL( activated( const QString & ) ), (QObject *)m_receiver, m_member );
+
   QComboBox *comboBox = toolBar->getCombo( id );
-  
+
   addContainer( toolBar, id );
-  
+
   connect( toolBar, SIGNAL( destroyed() ), this, SLOT( slotDestroyed() ) );
 
   toolBar->setItemAutoSized( id, true );
@@ -63,7 +66,7 @@ int KonqComboAction::plug( QWidget *w )
   m_combo = comboBox;
 
   emit plugged();
-  
+
   return containerCount() - 1;
 }
 
@@ -71,20 +74,20 @@ void KonqComboAction::unplug( QWidget *w )
 {
 //  if ( !w->inherits( "KToolBar" ) )
 //    return;
-  
+
   KToolBar *toolBar = (KToolBar *)w;
-  
+
   int idx = findContainer( w );
   int id = menuId( idx ) + 1;
-  
+
   QWidget *l = toolBar->getWidget( id );
-  
+
   assert( l->inherits( "QLabel" ) );
-  
+
   toolBar->removeItem( id );
 
   toolBar->removeItem( menuId( idx ) );
-  
+
   removeContainer( idx );
 }
 

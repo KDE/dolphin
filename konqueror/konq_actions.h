@@ -30,7 +30,7 @@ class KonqComboAction : public QAction
 {
   Q_OBJECT
 public:
-    KonqComboAction( const QString& text, int accel = 0, QObject* parent = 0, const char* name = 0 );
+    KonqComboAction( const QString& text, int accel, const QObject *receiver, const char *member, QObject* parent, const char* name );
 
     virtual int plug( QWidget *w );
 
@@ -44,6 +44,8 @@ signals:
 private:
     QGuardedPtr<QComboBox> m_combo;
     QStringList m_items;
+    const QObject *m_receiver;
+    const char *m_member;
 };
 
 class KonqHistoryAction : public KAction
