@@ -85,24 +85,6 @@ void parseCommandLine(int argc, char *argv[])
 }
 
 
-class MyApplication : public KApplication
-{
-public:
-
-  MyApplication(int argc, char **argv, const QCString &name)
-    : KApplication(argc, argv, name) {};
-
-protected:
-
-  bool x11EventFilter(XEvent *xev) {
-    printf("ping\n");
-    XtDispatchEvent(xev);
-    return KApplication::x11EventFilter(xev);
-  }
-
-};
-
-
 int main(int argc, char** argv)
 {
   // trap X errors
