@@ -63,7 +63,8 @@ bool KonqSearcher::eventFilter(QObject *, QEvent *ev) {
 
 	    // See if it's a searcher prefix. If not, use Internet Keywords
 	    // if we can. Note that we want a colon to match a searcher
-	    // prefix.
+	    // prefix. Also note that other filterings like doing a DNS
+	    // lookup for a hostname should have been taken care of before.
 
 	    int pos = url.find(':');
 	    if (pos >= 0) {
