@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=Application
+Exec=kfmclient openProfile webbrowsing
+Icon=konqueror
+DocPath=konqueror/index.html
+
+Name=Konqueror Web Browser
