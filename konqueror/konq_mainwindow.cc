@@ -471,25 +471,25 @@ bool KonqMainWindow::openView( QString serviceType, const KURL &_url, KonqView *
 
   //////////// Tar files support
 
-  if ( url.isLocalFile())  // kio_tar only supports local files 
+  if ( url.isLocalFile())  // kio_tar only supports local files
     {
       if ( serviceType == QString::fromLatin1("application/x-tar")  ||
 	   serviceType == QString::fromLatin1("application/x-tgz")  ||
-	   serviceType == QString::fromLatin1("application/x-tbz") ) 
+	   serviceType == QString::fromLatin1("application/x-tbz") )
 	{
 	  url.setProtocol( QString::fromLatin1("tar") );
 	  url.setPath( url.path() + '/' );
-	  
+
 	  serviceType = "inode/directory";
-	  
+
 	  // kdDebug(1202) << "TAR FILE. Now trying with " << url.url() << endl;
-	
+
 	}
-      else if (serviceType == QString::fromLatin1("application/x-webarchive") ) 
+      else if (serviceType == QString::fromLatin1("application/x-webarchive") )
 	{
 	  url.setProtocol( QString::fromLatin1("tar") );
 	  url.setPath( url.path() + "/index.html");
- 
+
 	  serviceType = "text/html";
 	}
     }
@@ -661,7 +661,7 @@ void KonqMainWindow::openURL( KonqView *childView, const KURL &url, const KParts
   KonqOpenURLRequest req;
   req.args = args;
 
-  if ( args.postData.size() > 0 ) // todo merge in if statement below
+  if ( args.doPost() ) // todo merge in if statement below
   {
     kdDebug(1202) << "KonqMainWindow::openURL - with postData. serviceType=" << args.serviceType << endl;
     openURL( childView, url, args.serviceType, req, args.trustedSource );

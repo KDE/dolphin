@@ -82,8 +82,7 @@ void KonqRun::foundMimeType( const QString & _type )
 
   // If we were in a POST and we didn't embed a viewer, we MUST save.
   // We can't fire an external application, that's impossible.
-  if ( !m_bFinished &&
-       m_req.args.postData.size() > 0 )
+  if ( !m_bFinished && m_req.args.doPost() )
   {
       kdDebug(1203) << "KonqRun: saving directly" << endl;
       save( m_strURL, m_suggestedFilename );
@@ -171,7 +170,7 @@ void KonqRun::scanFile()
   }
 
   KIO::TransferJob *job;
-  if ( m_req.args.postData.size() > 0 && m_strURL.protocol().startsWith("http"))
+  if ( m_req.args.doPost() && m_strURL.protocol().startsWith("http"))
   {
       job = KIO::http_post( m_strURL, m_req.args.postData, false );
       job->addMetaData("content-type", m_req.args.contentType() );
