@@ -79,7 +79,7 @@ int main( int argc, char ** argv )
     // session management (Matthias)
     if (kapp->isRestored()){
       int n = 1;
-      while (KTopLevelWidget::canBeRestored(n)){
+      while (KTMainWindow::canBeRestored(n)){
 	kfind = new KfindTop(searchPath.ascii()); 
 	kfind->restore(n);
 	n++;
