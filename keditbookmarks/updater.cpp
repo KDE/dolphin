@@ -55,7 +55,7 @@ void FavIconUpdater::downloadIcon(const KBookmark &bk) {
    } else {
       KonqFavIconMgr::downloadHostIcon(bk.url());
       favicon = KonqFavIconMgr::iconForURL(bk.url().url());
-      // kdDebug() << "favicon == " << favicon << endl;;
+      // kdDebug() << "favicon == " << favicon << endl;
       if (favicon.isNull()) {
          downloadIconActual(bk);
       }
@@ -104,7 +104,7 @@ void FavIconUpdater::notifyChange(bool isHost, QString hostOrURL, QString iconNa
    kdDebug() << "FavIconUpdater::notifyChange()" << endl;
 
    Q_UNUSED(isHost);
-   // kdDebug() << isHost << endl;;
+   // kdDebug() << isHost << endl;
    Q_UNUSED(hostOrURL);
    // kdDebug() << hostOrURL << "==" << m_bk.url().url() << "-> " << iconName << endl;
 

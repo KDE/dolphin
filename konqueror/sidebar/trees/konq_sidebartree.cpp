@@ -619,7 +619,7 @@ void KonqSidebarTree::loadTopLevelGroup( KonqSidebarTreeItem *parent, const QStr
 
     m_topLevelItems.append( item );
 
-    kdDebug(1201) << "Inserting group " << name << "   " << path << endl;;
+    kdDebug(1201) << "Inserting group " << name << "   " << path << endl;
 
     scanDir( item, path );
 

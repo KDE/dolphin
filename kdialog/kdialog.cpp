@@ -219,7 +219,7 @@ int directCommand(KCmdLineArgs *args)
 
             unsigned int i;
             for (i=0; i<result.count(); i++)
-                cout << result[i].local8Bit().data() << endl;;
+                cout << result[i].local8Bit().data() << endl;
             exit( retcode ? 0 : 1 );
         }
         return -1;

@@ -403,7 +403,7 @@ void Sidebar_Widget::buttonPopupActivate(int id)
 			KIconDialog kicd(this);
 //			kicd.setStrictIconSize(true);
 			QString iconname=kicd.selectIcon(KIcon::Small);
-			kdDebug()<<"New Icon Name:"<<iconname<<endl;;
+			kdDebug()<<"New Icon Name:"<<iconname<<endl;
 			if (!iconname.isEmpty())
 			{
 				KSimpleConfig ksc(m_path+m_currentButton->file);
