@@ -133,7 +133,7 @@ void KonqKfmIconView::slotSmallIcons()
 
 void KonqKfmIconView::stop()
 {
-  //TODO
+  slotCloseURL( 0 ); // FIXME (just trying)
 }
 
 char *KonqKfmIconView::url()
@@ -401,11 +401,9 @@ void KonqKfmIconView::slotError( int /*_id*/, int _errid, const char *_errortext
 void KonqKfmIconView::slotCloseURL( int /*_id*/ )
 {
   if ( m_bufferTimer.isActive() )
-  {
     m_bufferTimer.stop();
-    slotBufferTimeout();
-  }
 
+  slotBufferTimeout(); // out of the above test, since the dir might be empty (David)
   m_jobId = 0;
   m_bComplete = true;
 
@@ -424,6 +422,14 @@ void KonqKfmIconView::slotBufferTimeout()
   //cerr << "BUFFER TIMEOUT" << endl;
 
   list<UDSEntry>::iterator it = m_buffer.begin();
+
+  clear();
+  m_strURL = m_strWorkingURL.c_str();
+  m_strWorkingURL = "";
+  m_url = m_strURL.data();
+  KURL u( m_url );
+  m_bIsLocalURL = u.isLocalFile();
+
   for( ; it != m_buffer.end(); it++ )
   {
     string name;
@@ -440,17 +446,8 @@ void KonqKfmIconView::slotBufferTimeout()
 
       //cerr << "Processing " << name << endl;
 
-    // The first entry in the toplevel ?
-      if ( !m_strWorkingURL.empty() )
-      {
-        clear();
-
-        m_strURL = m_strWorkingURL.c_str();
-        m_strWorkingURL = "";
-        m_url = m_strURL.data();
-        KURL u( m_url );
-        m_bIsLocalURL = u.isLocalFile();
-      }
+      // The first entry in the toplevel ?
+      //  if ( !m_strWorkingURL.empty() ) { }
 
       KURL u( m_url );
       u.addPath( name.c_str() );
@@ -523,11 +520,9 @@ void KonqKfmIconView::slotUpdateError( int /*_id*/, int _errid, const char *_err
 void KonqKfmIconView::slotUpdateFinished( int /*_id*/ )
 {
   if ( m_bufferTimer.isActive() )
-  {
     m_bufferTimer.stop();
-    slotBufferTimeout();
-  }
 
+  slotBufferTimeout(); // out of the above test, since the dir might be empty (David)
   m_jobId = 0;
   m_bComplete = true;
 

@@ -187,11 +187,13 @@ protected:
     bool bHasHistoryEntry;
     QString strURL;
     Konqueror::View::HistoryEntry entry;
-    CORBA::String_var strViewName;
+    QString strViewName;
   };
 
-  /* Used by makeHistory, to store the URL _previously_ opened in this view */
-  QString m_strLastURL;
+  /* Used by makeHistory, to store the URL and ViewName 
+   * _previously_ opened in this view */
+  QString m_sLastURL;
+  QString m_sLastViewName;
     
   Konqueror::View_var m_vView;
     

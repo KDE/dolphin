@@ -140,13 +140,10 @@ void KonqChildView::switchView( Konqueror::View_ptr _vView )
 
 void KonqChildView::changeViewMode( const char *viewName )
 {
-  QString vn = m_vView->viewName();
-  cerr << "current view is a " << vn << endl;
-  QString sViewURL = m_vView->url();
-  
   // check the current view name against the asked one
-  if ( strcmp( viewName, vn ) != 0L )
+  if ( strcmp( viewName, this->viewName() ) != 0L )
   {
+    QString sViewURL = url(); // store current URL
     Konqueror::View_var vView = createViewByName( viewName ); 
     switchView( vView );
     openURL( sViewURL );
@@ -295,11 +292,12 @@ void KonqChildView::makeHistory( bool bCompleted, QString url )
       m_bHistoryLock = false;
   
     h.bHasHistoryEntry = false;
-    h.strURL = m_strLastURL; // use url from last call
-    h.strViewName = m_vView->viewName();
+    h.strURL = m_sLastURL; // use url from last call
+    h.strViewName = m_sLastViewName;
     
     m_tmpInternalHistoryEntry = h;
-    m_strLastURL = url; // remember for next call
+    m_sLastURL = url; // remember for next call
+    m_sLastViewName = viewName();
   }
   else
   {
@@ -320,14 +318,17 @@ void KonqChildView::goBack()
   InternalHistoryEntry h = m_lstBack.back();
   m_lstBack.pop_back();
   m_bBack = true;
-  cerr << "restoring " << h.entry.url << endl;      
+  cerr << "restoring " << h.entry.url << " with mode " << h.strViewName << endl; 
 
   changeViewMode( h.strViewName );
 
   if ( h.bHasHistoryEntry )  
     m_vView->restoreState( h.entry );
   else
+  {
+    debug("restoring %s",h.strURL.data());
     openURL( h.strURL );
+  }
 }
 
 void KonqChildView::goForward()
