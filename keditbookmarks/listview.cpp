@@ -339,6 +339,7 @@ SelcAbilities ListView::getSelectionAbilities() {
 }
 
 // TODO
+/* TYP */
 void ListView::slotDropped(QDropEvent *e, QListViewItem *newParent, QListViewItem *itemAfterQLVI) {
    if (!newParent) {
       // drop before root item
@@ -412,7 +413,6 @@ void ListView::fillWithGroup() {
    }
 }
 
-/* MOVE */
 void ListView::fillWithGroup(KEBListView *listview, KBookmarkGroup group, 
                              bool groupsonly, KEBListViewItem *parentItem) {
    if (!parentItem) {
@@ -449,11 +449,13 @@ void ListView::fillWithGroup(KEBListView *listview, KBookmarkGroup group,
    }
 }
 
+/* TYP */
 void ListView::slotSelectionChanged() {
    KEBApp::self()->updateActions();
    updateSelectedItems();
 }
 
+/* TYP */
 void ListView::slotContextMenu(KListView *, QListViewItem *qitem, const QPoint &p) {
    KEBListViewItem *item = static_cast<KEBListViewItem *>(qitem);
    if (!item) {
@@ -469,10 +471,12 @@ void ListView::slotContextMenu(KListView *, QListViewItem *qitem, const QPoint &
 }
 
 /* MOVE */
+/* TYP */
 void ListView::slotDoubleClicked(QListViewItem *item, const QPoint &, int column) {
    m_listView->rename(item, column);
 }
 
+/* TYP */
 void ListView::slotItemRenamed(QListViewItem *item, const QString &newText, int column) {
    Q_ASSERT(item);
    KBookmark bk = static_cast<KEBListViewItem *>(item)->bookmark();
