@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=UADescription (Opera 4.03 on NT)
+Type=Service
+ServiceTypes=UserAgentStrings
+X-KDE-UA-TAG=OPR
+X-KDE-UA-FULL=Opera/4.03 (Windows NT 4.0; U)
+X-KDE-UA-NAME=Opera
+X-KDE-UA-VERSION=4.03
+X-KDE-UA-SYSNAME=Windows NT
+X-KDE-UA-SYSRELEASE=4.0

@@ -1,0 +1,450 @@
+# KDE tags expanded automatically by am_edit - $Revision$ 
+# Makefile.in generated automatically by automake 1.4 from Makefile.am
+
+# Copyright (C) 1994, 1995-8, 1999 Free Software Foundation, Inc.
+# This Makefile.in is free software; the Free Software Foundation
+# gives unlimited permission to copy and/or distribute it,
+# with or without modifications, as long as this notice is preserved.
+
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY, to the extent permitted by law; without
+# even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+# PARTICULAR PURPOSE.
+
+
+SHELL = @SHELL@
+
+srcdir = @srcdir@
+top_srcdir = @top_srcdir@
+VPATH = @srcdir@
+prefix = @prefix@
+exec_prefix = @exec_prefix@
+#>- 
+bindir = @bindir@
+#>+ 3
+DEPDIR = .deps
+
+bindir = @bindir@
+sbindir = @sbindir@
+libexecdir = @libexecdir@
+datadir = @datadir@
+sysconfdir = @sysconfdir@
+sharedstatedir = @sharedstatedir@
+localstatedir = @localstatedir@
+libdir = @libdir@
+infodir = @infodir@
+mandir = @mandir@
+includedir = @includedir@
+oldincludedir = /usr/include
+
+DESTDIR =
+
+pkgdatadir = $(datadir)/@PACKAGE@
+pkglibdir = $(libdir)/@PACKAGE@
+pkgincludedir = $(includedir)/@PACKAGE@
+
+top_builddir = ../../..
+
+ACLOCAL = @ACLOCAL@
+AUTOCONF = @AUTOCONF@
+AUTOMAKE = @AUTOMAKE@
+AUTOHEADER = @AUTOHEADER@
+
+INSTALL = @INSTALL@
+INSTALL_PROGRAM = @INSTALL_PROGRAM@ $(AM_INSTALL_PROGRAM_FLAGS)
+INSTALL_DATA = @INSTALL_DATA@
+INSTALL_SCRIPT = @INSTALL_SCRIPT@
+transform = @program_transform_name@
+
+NORMAL_INSTALL = :
+PRE_INSTALL = :
+POST_INSTALL = :
+NORMAL_UNINSTALL = :
+PRE_UNINSTALL = :
+POST_UNINSTALL = :
+build_alias = @build_alias@
+build_triplet = @build@
+host_alias = @host_alias@
+host_triplet = @host@
+target_alias = @target_alias@
+target_triplet = @target@
+ACCESS_SUBDIR = @ACCESS_SUBDIR@
+ARTSCCONFIG = @ARTSCCONFIG@
+AS = @AS@
+AUDIOCD_SUBDIR = @AUDIOCD_SUBDIR@
+AUTODIRS = @AUTODIRS@
+BZIP2FILES = @BZIP2FILES@
+CC = @CC@
+CDPARANOIA_INCS = @CDPARANOIA_INCS@
+CDPARANOIA_LIBS = @CDPARANOIA_LIBS@
+CDPARANOIA_RPATH = @CDPARANOIA_RPATH@
+CONF_FILES = @CONF_FILES@
+CONN_FLAGS = @CONN_FLAGS@
+CPP = @CPP@
+CUPSSUBDIR = @CUPSSUBDIR@
+CXX = @CXX@
+CXXCPP = @CXXCPP@
+DCOPIDL = @DCOPIDL@
+DCOPIDL2CPP = @DCOPIDL2CPP@
+DCOP_DEPENDENCIES = @DCOP_DEPENDENCIES@
+DLLTOOL = @DLLTOOL@
+DPMSINC = @DPMSINC@
+DPMSLIB = @DPMSLIB@
+EXEEXT = @EXEEXT@
+GCJ = @GCJ@
+GCJFLAGS = @GCJFLAGS@
+GLINC = @GLINC@
+GLLIB = @GLLIB@
+GL_SAVERS = @GL_SAVERS@
+GMSGFMT = @GMSGFMT@
+IDL = @IDL@
+IDL_DEPENDENCIES = @IDL_DEPENDENCIES@
+KCM_AUDIOCD = @KCM_AUDIOCD@
+KDB2HTML = @KDB2HTML@
+KDECONFIG = @KDECONFIG@
+KDEDB_INCLUDES = @KDEDB_INCLUDES@
+KDEDB_LIBS = @KDEDB_LIBS@
+KDEDB_SUBDIR = @KDEDB_SUBDIR@
+KDE_CXXFLAGS = @KDE_CXXFLAGS@
+KDE_EXTRA_RPATH = @KDE_EXTRA_RPATH@
+KDE_INCLUDES = @KDE_INCLUDES@
+KDE_LDFLAGS = @KDE_LDFLAGS@
+KDE_PLUGIN = @KDE_PLUGIN@
+KDE_RPATH = @KDE_RPATH@
+KDE_USE_CLOSURE_FALSE = @KDE_USE_CLOSURE_FALSE@
+KDE_USE_CLOSURE_TRUE = @KDE_USE_CLOSURE_TRUE@
+KDE_USE_FINAL_FALSE = @KDE_USE_FINAL_FALSE@
+KDE_USE_FINAL_TRUE = @KDE_USE_FINAL_TRUE@
+KDM_GREET_LIBS = @KDM_GREET_LIBS@
+KERBEROS_INCS = @KERBEROS_INCS@
+KERBEROS_LIBS = @KERBEROS_LIBS@
+KERBEROS_ROOT = @KERBEROS_ROOT@
+KRB_RPATH = @KRB_RPATH@
+LAME_INCS = @LAME_INCS@
+LAME_LIBS = @LAME_LIBS@
+LAME_RPATH = @LAME_RPATH@
+LDAP_INCS = @LDAP_INCS@
+LDAP_LIBS = @LDAP_LIBS@
+LDAP_RPATH = @LDAP_RPATH@
+LDAP_SUBDIR = @LDAP_SUBDIR@
+LIBALIB = @LIBALIB@
+LIBCFG = @LIBCFG@
+LIBCOMPAT = @LIBCOMPAT@
+LIBCRYPT = @LIBCRYPT@
+LIBCURSES = @LIBCURSES@
+LIBDEVINFO = @LIBDEVINFO@
+LIBDL = @LIBDL@
+LIBJPEG = @LIBJPEG@
+LIBKSTAT = @LIBKSTAT@
+LIBMICO = @LIBMICO@
+LIBOBJS = @LIBOBJS@
+LIBODM = @LIBODM@
+LIBOSSAUDIO = @LIBOSSAUDIO@
+LIBPNG = @LIBPNG@
+LIBPTHREAD = @LIBPTHREAD@
+LIBPYTHON = @LIBPYTHON@
+LIBQIMGIO = @LIBQIMGIO@
+LIBRESOLV = @LIBRESOLV@
+LIBSENSORS = @LIBSENSORS@
+LIBSM = @LIBSM@
+LIBSOCKET = @LIBSOCKET@
+LIBSSL = @LIBSSL@
+LIBTIFF = @LIBTIFF@
+LIBTOOL = @LIBTOOL@
+LIBUCB = @LIBUCB@
+LIBUTEMPTER = @LIBUTEMPTER@
+LIBUTIL = @LIBUTIL@
+LIBXDMCP = @LIBXDMCP@
+LIBZ = @LIBZ@
+LIB_CUPS = @LIB_CUPS@
+LIB_KAB = @LIB_KAB@
+LIB_KDB = @LIB_KDB@
+LIB_KDBCORE = @LIB_KDBCORE@
+LIB_KDBUI = @LIB_KDBUI@
+LIB_KDECORE = @LIB_KDECORE@
+LIB_KDEPRINT_CUPS = @LIB_KDEPRINT_CUPS@
+LIB_KDEUI = @LIB_KDEUI@
+LIB_KFILE = @LIB_KFILE@
+LIB_KFM = @LIB_KFM@
+LIB_KFORMULA = @LIB_KFORMULA@
+LIB_KHTML = @LIB_KHTML@
+LIB_KIMGIO = @LIB_KIMGIO@
+LIB_KIO = @LIB_KIO@
+LIB_KPARTS = @LIB_KPARTS@
+LIB_KSPELL = @LIB_KSPELL@
+LIB_KSYCOCA = @LIB_KSYCOCA@
+LIB_KWRITE = @LIB_KWRITE@
+LIB_LIBS = @LIB_LIBS@
+LIB_QT = @LIB_QT@
+LIB_SMB = @LIB_SMB@
+LIB_TRU64_MACH = @LIB_TRU64_MACH@
+LIB_X11 = @LIB_X11@
+LN_S = @LN_S@
+MAKEINFO = @MAKEINFO@
+MCOPIDL = @MCOPIDL@
+MICO_INCLUDES = @MICO_INCLUDES@
+MICO_LDFLAGS = @MICO_LDFLAGS@
+MOC = @MOC@
+MOTIF_CFLAGS = @MOTIF_CFLAGS@
+MOTIF_LIBS = @MOTIF_LIBS@
+MSGFMT = @MSGFMT@
+NOOPT_CXXFLAGS = @NOOPT_CXXFLAGS@
+NOREPO = @NOREPO@
+OBJDUMP = @OBJDUMP@
+OBJEXT = @OBJEXT@
+PACKAGE = @PACKAGE@
+PAMINC = @PAMINC@
+PAMLIBPATHS = @PAMLIBPATHS@
+PAMLIBS = @PAMLIBS@
+PASSWDLIB = @PASSWDLIB@
+PYTHONINC = @PYTHONINC@
+PYTHONLIB = @PYTHONLIB@
+PYTHONMODDIR = @PYTHONMODDIR@
+QT_INCLUDES = @QT_INCLUDES@
+QT_LDFLAGS = @QT_LDFLAGS@
+RANLIB = @RANLIB@
+REPO = @REPO@
+RUN_KAPPFINDER = @RUN_KAPPFINDER@
+SETUIDFLAGS = @SETUIDFLAGS@
+SQL_SUBDIR = @SQL_SUBDIR@
+SSL_INCLUDES = @SSL_INCLUDES@
+SSL_LDFLAGS = @SSL_LDFLAGS@
+STD_DEFINES = @STD_DEFINES@
+STRIP = @STRIP@
+TOPSUBDIRS = @TOPSUBDIRS@
+UIC = @UIC@
+UNAME = @UNAME@
+USER_INCLUDES = @USER_INCLUDES@
+USER_LDFLAGS = @USER_LDFLAGS@
+USE_EXCEPTIONS = @USE_EXCEPTIONS@
+USE_RTTI = @USE_RTTI@
+USE_THREADS = @USE_THREADS@
+VERSION = @VERSION@
+VORBISENC_LIBS = @VORBISENC_LIBS@
+VORBISFILE_LIBS = @VORBISFILE_LIBS@
+VORBIS_INCS = @VORBIS_INCS@
+VORBIS_LIBS = @VORBIS_LIBS@
+VORBIS_RPATH = @VORBIS_RPATH@
+XBINDIR = @XBINDIR@
+XDMDIR = @XDMDIR@
+XGETTEXT = @XGETTEXT@
+XPMINC = @XPMINC@
+XPMLIB = @XPMLIB@
+XTESTLIB = @XTESTLIB@
+X_EXTRA_LIBS = @X_EXTRA_LIBS@
+X_INCLUDES = @X_INCLUDES@
+X_LDFLAGS = @X_LDFLAGS@
+X_PRE_LIBS = @X_PRE_LIBS@
+X_SERVER = @X_SERVER@
+all_includes = @all_includes@
+all_libraries = @all_libraries@
+idldir = @idldir@
+include_motif = @include_motif@
+kde_appsdir = @kde_appsdir@
+kde_bindir = @kde_bindir@
+kde_confdir = @kde_confdir@
+kde_datadir = @kde_datadir@
+kde_htmldir = @kde_htmldir@
+kde_icondir = @kde_icondir@
+kde_includes = @kde_includes@
+kde_libraries = @kde_libraries@
+kde_libs_htmldir = @kde_libs_htmldir@
+kde_libs_prefix = @kde_libs_prefix@
+kde_locale = @kde_locale@
+kde_mimedir = @kde_mimedir@
+kde_moduledir = @kde_moduledir@
+kde_servicesdir = @kde_servicesdir@
+kde_servicetypesdir = @kde_servicetypesdir@
+kde_sounddir = @kde_sounddir@
+kde_templatesdir = @kde_templatesdir@
+kde_wallpaperdir = @kde_wallpaperdir@
+kdmchooserdir = @kdmchooserdir@
+kdmgreetera = @kdmgreetera@
+kdmgreeterla = @kdmgreeterla@
+link_motif = @link_motif@
+micodir = @micodir@
+nogroup = @nogroup@
+qt_includes = @qt_includes@
+qt_libraries = @qt_libraries@
+x_includes = @x_includes@
+x_libraries = @x_libraries@
+
+services_DATA = ie401onwinnt4.desktop ie501onwinnt5.desktop ie50onppc.desktop                 ie50onwin95.desktop ie55onwin98.desktop ie55onwinnt5.desktop                 mozm18onwinnt4.desktop mozm18oncurrent.desktop nn301oncurrent.desktop                 nn475onwin95.desktop nn475oncurrent.desktop nn476onppc.desktop                 op403onwinnt4.desktop lynxoncurrent.desktop w3moncurrent.desktop                 wgetoncurrent.desktop
+
+servicesdir = $(kde_servicesdir)/useragentstrings
+mkinstalldirs = $(SHELL) $(top_srcdir)/admin/mkinstalldirs
+CONFIG_HEADER = ../../../config.h
+CONFIG_CLEAN_FILES = 
+DATA =  $(services_DATA)
+
+DIST_COMMON =  Makefile.am Makefile.in
+
+
+#>- DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
+#>+ 4
+KDE_DIST=mozm18oncurrent.desktop ie401onwinnt4.desktop nn476onppc.desktop wgetoncurrent.desktop nn301oncurrent.desktop nn475onwin95.desktop nn475oncurrent.desktop ie55onwin98.desktop w3moncurrent.desktop lynxoncurrent.desktop mozm18onwinnt4.desktop ie50onppc.desktop ie50onwin95.desktop ie501onwinnt5.desktop op403onwinnt4.desktop ie55onwinnt5.desktop 
+
+DISTFILES= $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST) $(KDE_DIST)
+
+
+TAR = gtar
+GZIP_ENV = --best
+#>- all: all-redirect
+#>+ 1
+all: docs-am  all-redirect
+.SUFFIXES:
+$(srcdir)/Makefile.in: Makefile.am $(top_srcdir)/configure.in $(ACLOCAL_M4) 
+#>- 	cd $(top_srcdir) && $(AUTOMAKE) --gnu kcontrol/kio/uasproviders/Makefile
+#>+ 2
+	cd $(top_srcdir) && $(AUTOMAKE) --gnu kcontrol/kio/uasproviders/Makefile
+	cd $(top_srcdir) && perl admin/am_edit kcontrol/kio/uasproviders/Makefile.in
+
+Makefile: $(srcdir)/Makefile.in  $(top_builddir)/config.status $(BUILT_SOURCES)
+	cd $(top_builddir) \
+	  && CONFIG_FILES=$(subdir)/$@ CONFIG_HEADERS= $(SHELL) ./config.status
+
+
+install-servicesDATA: $(services_DATA)
+	@$(NORMAL_INSTALL)
+	$(mkinstalldirs) $(DESTDIR)$(servicesdir)
+	@list='$(services_DATA)'; for p in $$list; do \
+	  if test -f $(srcdir)/$$p; then \
+	    echo " $(INSTALL_DATA) $(srcdir)/$$p $(DESTDIR)$(servicesdir)/$$p"; \
+	    $(INSTALL_DATA) $(srcdir)/$$p $(DESTDIR)$(servicesdir)/$$p; \
+	  else if test -f $$p; then \
+	    echo " $(INSTALL_DATA) $$p $(DESTDIR)$(servicesdir)/$$p"; \
+	    $(INSTALL_DATA) $$p $(DESTDIR)$(servicesdir)/$$p; \
+	  fi; fi; \
+	done
+
+uninstall-servicesDATA:
+	@$(NORMAL_UNINSTALL)
+	list='$(services_DATA)'; for p in $$list; do \
+	  rm -f $(DESTDIR)$(servicesdir)/$$p; \
+	done
+tags: TAGS
+TAGS:
+
+
+distdir = $(top_builddir)/$(PACKAGE)-$(VERSION)/$(subdir)
+
+subdir = kcontrol/kio/uasproviders
+
+distdir: $(DISTFILES)
+	here=`cd $(top_builddir) && pwd`; \
+	top_distdir=`cd $(top_distdir) && pwd`; \
+	distdir=`cd $(distdir) && pwd`; \
+	cd $(top_srcdir) \
+	  && $(AUTOMAKE) --include-deps --build-dir=$$here --srcdir-name=$(top_srcdir) --output-dir=$$top_distdir --gnu kcontrol/kio/uasproviders/Makefile
+#>- 	@for file in $(DISTFILES); do \
+#>- 	  d=$(srcdir); \
+#>- 	  if test -d $$d/$$file; then \
+#>- 	    cp -pr $$/$$file $(distdir)/$$file; \
+#>- 	  else \
+#>- 	    test -f $(distdir)/$$file \
+#>- 	    || ln $$d/$$file $(distdir)/$$file 2> /dev/null \
+#>- 	    || cp -p $$d/$$file $(distdir)/$$file || :; \
+#>- 	  fi; \
+#>- 	done
+#>+ 10
+	@for file in $(DISTFILES); do \
+	  d=$(srcdir); \
+	  if test -d $$d/$$file; then \
+	    cp -pr $$d/$$file $(distdir)/$$file; \
+	  else \
+	    test -f $(distdir)/$$file \
+	    || ln $$d/$$file $(distdir)/$$file 2> /dev/null \
+	    || cp -p $$d/$$file $(distdir)/$$file || :; \
+	  fi; \
+	done
+info-am:
+info: info-am
+dvi-am:
+dvi: dvi-am
+check-am: all-am
+check: check-am
+installcheck-am:
+installcheck: installcheck-am
+install-exec-am:
+install-exec: install-exec-am
+
+install-data-am: install-servicesDATA
+install-data: install-data-am
+
+install-am: all-am
+	@$(MAKE) $(AM_MAKEFLAGS) install-exec-am install-data-am
+install: install-am
+uninstall-am: uninstall-servicesDATA
+uninstall: uninstall-am
+all-am: Makefile $(DATA)
+all-redirect: all-am
+install-strip:
+	$(MAKE) $(AM_MAKEFLAGS) AM_INSTALL_PROGRAM_FLAGS=-s install
+installdirs:
+	$(mkinstalldirs)  $(DESTDIR)$(servicesdir)
+
+
+mostlyclean-generic:
+
+clean-generic:
+
+distclean-generic:
+	-rm -f Makefile $(CONFIG_CLEAN_FILES)
+	-rm -f config.cache config.log stamp-h stamp-h[0-9]*
+
+maintainer-clean-generic:
+mostlyclean-am:  mostlyclean-generic
+
+mostlyclean: mostlyclean-am
+
+clean-am:  clean-generic mostlyclean-am
+
+#>- clean: clean-am
+#>+ 1
+clean: kde-rpo-clean  clean-am
+
+distclean-am:  distclean-generic clean-am
+	-rm -f libtool
+
+distclean: distclean-am
+
+maintainer-clean-am:  maintainer-clean-generic distclean-am
+	@echo "This command is intended for maintainers to use;"
+	@echo "it deletes files that may require special tools to rebuild."
+
+maintainer-clean: maintainer-clean-am
+
+.PHONY: uninstall-servicesDATA install-servicesDATA tags distdir info-am \
+info dvi-am dvi check check-am installcheck-am installcheck \
+install-exec-am install-exec install-data-am install-data install-am \
+install uninstall-am uninstall all-redirect all-am all installdirs \
+mostlyclean-generic distclean-generic clean-generic \
+maintainer-clean-generic clean mostlyclean distclean maintainer-clean
+
+
+# Tell versions [3.59,3.63) of GNU make to not export all variables.
+# Otherwise a system limit (for SysV at least) may be exceeded.
+.NOEXPORT:
+
+#>+ 2
+docs-am:
+
+#>+ 5
+force-reedit:
+		cd $(top_srcdir) && $(AUTOMAKE) --gnu kcontrol/kio/uasproviders/Makefile
+	cd $(top_srcdir) && perl admin/am_edit kcontrol/kio/uasproviders/Makefile.in
+
+
+#>+ 2
+final:
+	$(MAKE) all-am
+#>+ 2
+no-final:
+	$(MAKE) all-am
+#>+ 3
+cvs-clean:
+	$(MAKE) -f $(top_srcdir)/admin/Makefile.common cvs-clean
+
+#>+ 3
+kde-rpo-clean:
+	-rm -f *.rpo

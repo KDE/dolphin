@@ -1,0 +1,12 @@
+[Desktop Entry]
+Name=UADescription (NN on Mac PPC)
+Type=Service
+ServiceTypes=UserAgentStrings
+X-KDE-UA-TAG=NN
+X-KDE-UA-FULL=Mozilla/4.76 (Macintosh; U; PPC)
+X-KDE-UA-NAME=Netscape Navigator
+X-KDE-UA-VERSION=4.76
+X-KDE-UA-SYSNAME=Mac
+X-KDE-UA-SYSRELEASE=PPC
+
+

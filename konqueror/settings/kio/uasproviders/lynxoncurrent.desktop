@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=UADescription (Lynx 2.8.3)
+Type=Service
+ServiceTypes=UserAgentStrings
+X-KDE-UA-TAG=MISC
+X-KDE-UA-FULL=Lynx/2.8.3dev.6 libwww-FM/2.14
+X-KDE-UA-NAME=Lynx
+X-KDE-UA-VERSION=2.8.3dev.6

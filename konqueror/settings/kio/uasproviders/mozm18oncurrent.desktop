@@ -1,0 +1,11 @@
+[Desktop Entry]
+Name=UADescription (M18 on current)
+Type=Service
+ServiceTypes=UserAgentStrings
+X-KDE-UA-TAG=MOZ
+X-KDE-UA-FULL=Mozilla/5.0 (appSysName; U; appLanguage; m18) Gecko/20001010
+X-KDE-UA-NAME=Mozilla
+X-KDE-UA-VERSION=M18
+X-KDE-UA-SYSNAME=Windows NT
+X-KDE-UA-SYSRELEASE=4.0
+X-KDE-UA-DYNAMIC-ENTRY=1

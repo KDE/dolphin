@@ -1,56 +1,69 @@
+/**
+ * Copyright (c) 2000-2001 Dawit Alemayehu <adawit@kde.org>
+ *
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+ */
+
 #ifndef _POLICYDLG_H
 #define _POLICYDLG_H
 
 #include <qstring.h>
-#include <qlineedit.h>
-#include <qcombobox.h>
 
+#include <klineedit.h>
+#include <kcombobox.h>
 #include <kdialog.h>
+
+class QPushButton;
+
+class DomainLineEdit : public KLineEdit
+{
+  Q_OBJECT
+
+public:
+  DomainLineEdit( QWidget *parent, const char *name=0 );
+
+protected:
+  virtual void keyPressEvent( QKeyEvent * );
+};
 
 class PolicyDialog : public KDialog
 {
     Q_OBJECT
-    
+
 public:
-    PolicyDialog( QWidget *parent = 0, const char *name = 0 );
+    PolicyDialog( const QString& caption, QWidget *parent = 0, const char *name = 0 );
     ~PolicyDialog() {};
-    
+
     /*
     * @return 1 for "Accept", 2 for "Reject" and 3 for "Ask"
     */
-    int policyAdvice() const { return cb_policy->currentItem() + 1; }
-    
-    /*
-    * @return the hostname for whom the policy is being set
-    */
-    QString domain() const { return le_domain->text(); }
-    
-    /*
-    * Sets the line-edit to be enabled/disabled.
-    *
-    * This method will set the text in the lineedit if the
-    * value is not null.
-    *
-    * @param state @p true to enable the line-edit, otherwise disabled.
-    * @param text  the text to be set in the line-edit. Default is NULL.
-    */
-    void setDisableEdit( bool /*state*/, const QString& text = QString::null );
-    
-    /*
-    * Sets the default cookie policy.
-    *
-    * @param value 0 - Accpet, 1 - Reject, 2 - Ask
-    */    
+    int policyAdvice() const { return m_cbPolicy->currentItem() + 1; }
+    QString domain() const { return m_leDomain->text(); }
+
+    void setEnableHostEdit( bool, const QString& hname = QString::null );
     void setDefaultPolicy( int /*value*/ );
 
 protected slots:
-
-    virtual void accept();
+    void slotTextChanged( const QString& );
 
 private:
+    DomainLineEdit*  m_leDomain;
+    KComboBox*       m_cbPolicy;
 
-    QLineEdit *le_domain;
-    QComboBox *cb_policy;
+    QPushButton*     m_btnOK;
+    QPushButton*     m_btnCancel;
 };
 
 #endif

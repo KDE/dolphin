@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=UADescription (Wget 1.5.3)
+Type=Service
+ServiceTypes=UserAgentStrings
+X-KDE-UA-TAG=MISC
+X-KDE-UA-FULL=Wget/1.5.3
+X-KDE-UA-NAME=Wget
+X-KDE-UA-VERSION=1.5.3

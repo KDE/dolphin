@@ -1,6 +1,6 @@
 // kcookiesmanagement.cpp - View/delete received cookies
 //
-// Original framework by (Waldo, David, Adawit)?
+// Original framework by Waldo, David, Dawit
 // This dialog created by Marco Pinelli <pinmc@orion.it>
 
 #include <qlayout.h>

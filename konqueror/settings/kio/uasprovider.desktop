@@ -1,0 +1,25 @@
+[Desktop Entry]
+Type=ServiceType
+X-KDE-ServiceType=UserAgentStrings
+Comment=UserAgent Strings
+
+[PropertyDef::X-KDE-UA-TAG]
+Type=QString
+
+[PropertyDef::X-KDE-UA-FULL]
+Type=QString
+
+[PropertyDef::X-KDE-UA-NAME]
+Type=QString
+
+[PropertyDef::X-KDE-UA-VERSION]
+Type=QString
+
+[PropertyDef::X-KDE-UA-SYSNAME]
+Type=QString
+
+[PropertyDef::X-KDE-UA-SYSRELEASE]
+Type=QString
+
+[PropertyDef::X-KDE-UA-DYNAMIC-ENTRY]
+Type=bool

@@ -1,0 +1,11 @@
+[Desktop Entry]
+Name=UADescription (NN 4.7 on Windows 95)
+Type=Service
+ServiceTypes=UserAgentStrings
+X-KDE-UA-TAG=NN
+X-KDE-UA-FULL=Mozilla/4.7 [appLanguage] (Win95; U)
+X-KDE-UA-NAME=Netscape Navigator
+X-KDE-UA-VERSION=4.76
+X-KDE-UA-SYSNAME=Windows
+X-KDE-UA-SYSRELEASE=95
+X-KDE-UA-DYNAMIC-ENTRY=1

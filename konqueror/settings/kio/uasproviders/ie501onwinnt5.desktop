@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=UADescription (IE 5.01 on Win 2000)
+Type=Service
+ServiceTypes=UserAgentStrings
+X-KDE-UA-TAG=IE
+X-KDE-UA-FULL=Mozilla/4.0 (compatible; MSIE 5.01; Windows NT 5.0)
+X-KDE-UA-NAME=Internet Explorer
+X-KDE-UA-VERSION=5.01
+X-KDE-UA-SYSNAME=Windows
+X-KDE-UA-SYSRELEASE=2000

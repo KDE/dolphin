@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=UADescription (w3m 0.1.9)
+Type=Service
+ServiceTypes=UserAgentStrings
+X-KDE-UA-TAG=MISC
+X-KDE-UA-FULL=w3m/0.1.9
+X-KDE-UA-NAME=w3m
+X-KDE-UA-VERSION=0.1.9

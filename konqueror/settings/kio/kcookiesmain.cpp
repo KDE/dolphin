@@ -22,19 +22,18 @@
 KCookiesMain::KCookiesMain(QWidget *parent, const char *name)
   : KCModule(parent, name)
 {
-     /* Let's start the cookiejar even if cookies are disabled, for the sake
-        of the management widget
-     */
      QString error;
      bool managerOK = true;
-     if (KApplication::startServiceByDesktopName("kcookiejar", QStringList(), &error ))
+     if ( !kapp->dcopClient()->isApplicationRegistered("kcookiejar") )
      {
-        kdDebug(7103) << "kcm_kio: error starting KCookiejar: " << error << "\n" << endl;
-        KMessageBox::sorry(0, i18n("This control module could not start the cookie server process\n"
-                                   "It will not be possible to manage received cookies"));
-        managerOK = false;
+        if (KApplication::startServiceByDesktopName("kcookiejar", QStringList(), &error ))
+        {
+          kdDebug(7103) << "kcm_kio: error starting KCookiejar: " << error << "\n" << endl;
+          KMessageBox::sorry(0, i18n("This control module could not start the cookie server process\n"
+                                     "It will not be possible to manage received cookies"));
+          managerOK = false;
+        }
      }
-
     QVBoxLayout *layout = new QVBoxLayout(this);
     tab = new QTabWidget(this);
     layout->addWidget(tab);

@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=UADescription (NN 3.01 on current)
+Type=Service
+ServiceTypes=UserAgentStrings
+X-KDE-UA-TAG=NN
+X-KDE-UA-FULL=Mozilla/3.01 (appPlatform; I; appSysName appSysRelease appMachineType)
+X-KDE-UA-NAME=Netscape Navigator
+X-KDE-UA-VERSION=3.01
+X-KDE-UA-DYNAMIC-ENTRY=1

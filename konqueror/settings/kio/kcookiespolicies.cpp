@@ -1,8 +1,26 @@
-// kcookiespolicies.cpp - Cookies configuration
-//
-// First version of cookies configuration by Waldo Bastian <bastian@kde.org>
-// This dialog box created by David Faure <faure@kde.org>
-
+/**
+ * kcookiespolicies.cpp - Cookies configuration
+ *
+ * Copyright (c) original version Waldo Bastian <bastian@kde.org>
+ *
+ * Copyright (c) 1999 David Faure <faure@kde.org>
+ * Copyright (c) 2000-2001 Dawit Alemayehu <adawit@kde.org>
+ *
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+ */
+#include <qvbox.h>
 #include <qlayout.h>
 #include <qcheckbox.h>
 #include <qgroupbox.h>
@@ -89,7 +107,6 @@ KCookiesPolicies::KCookiesPolicies(QWidget *parent, const char *name)
     QVBoxLayout *lay = new QVBoxLayout( this, KDialog::marginHint(), KDialog::spacingHint() );
     lay->setAutoAdd( true );
 
-
     cb_enableCookies = new QCheckBox( i18n("&Enable Cookies"), this );
     QWhatsThis::add( cb_enableCookies, i18n("This option turns on cookie support. Normally "
                                             "you will want to have cookie support enabled and "
@@ -112,28 +129,26 @@ KCookiesPolicies::KCookiesPolicies(QWidget *parent, const char *name)
     bg_default->setExclusive( true );
 
     rb_gbPolicyAsk = new QRadioButton( i18n("A&sk for confirmation before accepting cookies."), bg_default);
-    rb_gbPolicyAccept = new QRadioButton( i18n("A&ccept all cookies by default"), bg_default );
+    rb_gbPolicyAccept = new QRadioButton( i18n("Acce&pt all cookies by default"), bg_default );
     rb_gbPolicyReject = new QRadioButton( i18n("&Reject all cookies by default"), bg_default );
 
     // Create Group Box for specific settings
-    gb_domainSpecific = new QGroupBox( i18n("Domain Specific Policies"), this);
+    gb_domainSpecific = new QGroupBox( i18n("Site/domain specific policy"), this);
     lay->setStretchFactor( gb_domainSpecific, 10 );
-    QGridLayout *ds_lay = new QGridLayout( gb_domainSpecific, 6, 2,
-                       KDialog::marginHint(), KDialog::spacingHint() );
+    QGridLayout *ds_lay = new QGridLayout( gb_domainSpecific, 3, 2,
+                                           KDialog::marginHint(),
+                                           KDialog::spacingHint() );
+    ds_lay->addRowSpacing( 0, fontMetrics().lineSpacing() );
     ds_lay->setColStretch( 0, 2 ); // only resize the listbox horizontally, not the buttons
-    ds_lay->addRowSpacing( 0, 2 * KDialog::spacingHint() );
-    ds_lay->setRowStretch( 0, 0 );
-    ds_lay->setRowStretch( 1, 1 );
-    ds_lay->setRowStretch( 2, 1 );
-    ds_lay->setRowStretch( 3, 1 );
-    ds_lay->setRowStretch( 4, 1 );
-    ds_lay->setRowStretch( 5, 1 );
+    //ds_lay->setRowStretch( 1, 2 );
+    ds_lay->setRowStretch( 2, 2 );
 
     // CREATE SPLIT LIST BOX
     lv_domainPolicy = new KListView( gb_domainSpecific );
     lv_domainPolicy->addColumn(i18n("Hostname"));
     lv_domainPolicy->addColumn(i18n("Policy"), 100);
-    ds_lay->addMultiCellWidget( lv_domainPolicy, 1, 5, 0, 0 );
+    ds_lay->addMultiCellWidget( lv_domainPolicy, 1, 2, 0, 0 );
+    connect( lv_domainPolicy, SIGNAL(selectionChanged()), SLOT(updateButtons()) );
     QString wtstr = i18n("This box contains the domains and hosts you have set "
                          "a specific cookie policy for. This policy will be used "
                          "instead of the default policy for any cookie sent by these "
@@ -142,39 +157,43 @@ KCookiesPolicies::KCookiesPolicies(QWidget *parent, const char *name)
     QWhatsThis::add( lv_domainPolicy, wtstr );
     QWhatsThis::add( gb_domainSpecific, wtstr );
 
-    pb_domPolicyAdd = new QPushButton( i18n("Add..."), gb_domainSpecific );
+
+    QVBox* vbox = new QVBox( gb_domainSpecific );
+    vbox->setSpacing( KDialog::spacingHint() );
+    pb_domPolicyAdd = new QPushButton( i18n("&Add..."), vbox );
     QWhatsThis::add( pb_domPolicyAdd, i18n("Click on this button to manually add a domain "
                                            "specific policy.") );
     connect( pb_domPolicyAdd, SIGNAL(clicked()), SLOT( addPressed() ) );
-    ds_lay->addWidget( pb_domPolicyAdd, 1, 1);
 
-    pb_domPolicyChange = new QPushButton( i18n("Change..."), gb_domainSpecific );
+
+    pb_domPolicyChange = new QPushButton( i18n("C&hange..."), vbox );
+    pb_domPolicyChange->setEnabled( false );
     QWhatsThis::add( pb_domPolicyChange, i18n("Click on this button to change the policy for the "
                                               "domain selected in the list box.") );
     connect( pb_domPolicyChange, SIGNAL( clicked() ), this, SLOT( changePressed() ) );
-    ds_lay->addWidget( pb_domPolicyChange, 2, 1);
 
-    pb_domPolicyDelete = new QPushButton( i18n("Delete"), gb_domainSpecific );
+
+    pb_domPolicyDelete = new QPushButton( i18n("De&lete"), vbox );
+    pb_domPolicyDelete->setEnabled( false );
     QWhatsThis::add( pb_domPolicyDelete, i18n("Click on this button to change the policy for the "
                                               "domain selected in the list box.") );
     connect( pb_domPolicyDelete, SIGNAL( clicked() ), this, SLOT( deletePressed() ) );
-    ds_lay->addWidget( pb_domPolicyDelete, 3, 1);
 
-    pb_domPolicyImport = new QPushButton( i18n("Import..."), gb_domainSpecific );
+
+    pb_domPolicyImport = new QPushButton( i18n("Import..."), vbox );
     QWhatsThis::add( pb_domPolicyImport, i18n("Click this button to choose the file that contains "
                                               "the cookie policies.  These policies will be merged "
                                               "with the exisiting ones.  Duplicate enteries are ignored.") );
     connect( pb_domPolicyDelete, SIGNAL( clicked() ), this, SLOT( importPressed() ) );
-    ds_lay->addWidget( pb_domPolicyImport, 4, 1);
     pb_domPolicyImport->setEnabled( false );
 
-    pb_domPolicyExport = new QPushButton( i18n("Export..."), gb_domainSpecific );
+    pb_domPolicyExport = new QPushButton( i18n("Export..."), vbox );
     QWhatsThis::add( pb_domPolicyExport, i18n("Click this button to save the cookie policy to a zipped "
                                               "file.  The file, named <b>cookie_policy.tgz</b>, will be "
                                               "saved to a location of your choice." ) );
 
     connect( pb_domPolicyDelete, SIGNAL( clicked() ), this, SLOT( exportPressed() ) );
-    ds_lay->addWidget( pb_domPolicyExport, 5, 1);
+    ds_lay->addWidget( vbox, 1, 1 );
     pb_domPolicyExport->setEnabled( false );
 
     QWhatsThis::add( gb_domainSpecific, i18n("Here you can set specific cookie policies for any particular "
@@ -187,8 +206,7 @@ KCookiesPolicies::KCookiesPolicies(QWidget *parent, const char *name)
                                              "button allows you to easily share your policies with other people by allowing "
                                              "you to save and retrive them from a zipped file.") );
 
-    lay->addSpacing( KDialog::spacingHint());
-    // Pheweee!! Finally read the options
+    lay->addSpacing( KDialog::spacingHint() );
     load();
 }
 
@@ -198,57 +216,49 @@ KCookiesPolicies::~KCookiesPolicies()
 
 void KCookiesPolicies::addPressed()
 {
-    PolicyDialog pDlg( this, 0L );
+    PolicyDialog*  dlg = new PolicyDialog( i18n( "New Cookie Policy" ), this );
     // We subtract one from the enum value because
     // KCookieDunno is not part of the choice list.
     int def_policy = KCookieAsk - 1;
-    pDlg.setDefaultPolicy( def_policy );
-    pDlg.setCaption( i18n( "New Cookie Policy" ) );
-    if( pDlg.exec() ) {
-
-        QListViewItem* index = new QListViewItem(lv_domainPolicy, pDlg.domain(),
-                                                 adviceToStr( (KCookieAdvice) pDlg.policyAdvice()));
-        domainPolicy.insert( index, adviceToStr( (KCookieAdvice)pDlg.policyAdvice() ) );
-        lv_domainPolicy->setCurrentItem( index );
-        changed();
+    dlg->setDefaultPolicy( def_policy );
+    if( dlg->exec() )
+    {
+      QListViewItem* index = new QListViewItem(lv_domainPolicy, dlg->domain(),
+                                               adviceToStr(static_cast<KCookieAdvice>(dlg->policyAdvice())));
+      domainPolicy.insert( index, adviceToStr(static_cast<KCookieAdvice>(dlg->policyAdvice())) );
+      lv_domainPolicy->setCurrentItem( index );
+      changed();
     }
+    delete dlg;
 }
 
 void KCookiesPolicies::changePressed()
 {
     QListViewItem *index = lv_domainPolicy->currentItem();
-    if ( index == 0 )
-    {
-        KMessageBox::information( 0, i18n("<qt>No policy selected!\nPlease choose a policy to <i>modify</i> first.</qt>") );
-        return;
-    }
-
     KCookieAdvice advice = strToAdvice(domainPolicy[index]);
-
-    PolicyDialog pDlg( this );
-    pDlg.setDisableEdit( false, index->text(0) );
-    pDlg.setCaption( i18n( "Change Cookie Policy" ) );
-    // We subtract one from the enum value because
-    // KCookieDunno is not part of the choice list.
-    pDlg.setDefaultPolicy( advice - 1 );
-    if( pDlg.exec() )
+    PolicyDialog* dlg = new PolicyDialog( i18n("Change Cookie Policy"), this );
+    dlg->setEnableHostEdit( false, index->text(0) );
+    dlg->setDefaultPolicy( advice - 1 );
+    if( dlg->exec() )
     {
-      domainPolicy[index] = adviceToStr((KCookieAdvice)pDlg.policyAdvice());
+      domainPolicy[index] = adviceToStr(static_cast<KCookieAdvice>(dlg->policyAdvice()));
       index->setText(1, i18n(domainPolicy[index]));
       changed();
     }
+    delete dlg;
 }
 
 void KCookiesPolicies::deletePressed()
 {
-    QListViewItem *index = lv_domainPolicy->currentItem();
-    if ( index == 0 )
-    {
-        KMessageBox::information( 0, i18n("<qt>No policy selected!\nPlease choose a policy to <i>delete</i> first.</qt>") );
-        return;
-    }
-    domainPolicy.remove(index);
-    delete index;
+    QListViewItem* item = lv_domainPolicy->selectedItem()->itemBelow();
+    if ( !item )
+      item = lv_domainPolicy->selectedItem()->itemAbove();
+    QListViewItem* curr = lv_domainPolicy->selectedItem();
+    domainPolicy.remove(curr);
+    delete curr;
+    if ( item )
+      lv_domainPolicy->setSelected( item, true );
+    updateButtons();
     changed();
 }
 
@@ -258,6 +268,14 @@ void KCookiesPolicies::importPressed()
 
 void KCookiesPolicies::exportPressed()
 {
+}
+
+void KCookiesPolicies::updateButtons()
+{
+  bool hasItems = lv_domainPolicy->childCount() > 0;
+  bool itemSelected = ( hasItems && lv_domainPolicy->selectedItem()!=0 );
+  pb_domPolicyChange->setEnabled( itemSelected );
+  pb_domPolicyDelete->setEnabled( itemSelected );
 }
 
 void KCookiesPolicies::changeCookiesEnabled()

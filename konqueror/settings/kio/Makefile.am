@@ -1,3 +1,5 @@
+SUBDIRS = uasproviders
+
 INCLUDES = $(all_includes)
 LDFLAGS =  $(all_libraries)
 
@@ -7,13 +9,14 @@ kde_module_LTLIBRARIES = libkcm_kio.la
 
 # kcookiesmanagement.cpp
 #libkcm_kio_la_SOURCES = policydlg.cpp kcookiesmain.cpp kcookiespolicies.cpp \
-#			main.cpp ksmboptdlg.cpp useragentdlg.cpp kproxydlg.cpp kcookiesmanagement.cpp 
+#			main.cpp ksmboptdlg.cpp useragentdlg.cpp kproxydlg.cpp kcookiesmanagement.cpp
 
 libkcm_kio_la_SOURCES = policydlg.cpp kcookiesmain.cpp kcookiespolicies.cpp \
-			main.cpp smbrodlg.cpp useragentdlg.cpp kproxydlg.cpp kcookiesmanagement.cpp 
+			main.cpp smbrodlg.cpp useragentdlg.cpp kproxydlg.cpp kcookiesmanagement.cpp \
+      fakeuaprovider.cpp uagentproviderdlg.cpp
 
 libkcm_kio_la_LDFLAGS  = $(all_libraries) -module -avoid-version -no-undefined
-libkcm_kio_la_LIBADD = $(LIB_KIO)
+libkcm_kio_la_LIBADD = $(LIB_KSYCOCA)
 
 messages:
 	$(XGETTEXT) $(libkcm_kio_la_SOURCES) -o $(podir)/kcmkio.pot
@@ -24,6 +27,9 @@ test.cpp:
 	echo "int main() {};" > test.cpp
 test_LDFLAGS  = $(all_libraries) -module -avoid-version
 test_LDADD = -lkdeui -lkio
+
+servicetypes_DATA = uasprovider.desktop
+servicetypesdir = $(kde_servicetypesdir)
 
 data_DATA = cookies.desktop proxy.desktop useragent.desktop
 datadir = $(kde_appsdir)/Settings/WebBrowsing
