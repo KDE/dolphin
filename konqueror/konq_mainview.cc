@@ -1063,7 +1063,7 @@ void KonqMainView::slotUpAboutToShow()
   u.cd( ".." );
   while ( u.hasPath() )
   {
-    popup->insertItem( u.decodedURL() );
+    popup->insertItem( KMimeType::pixmapForURL( u ), u.decodedURL() );
 
     if ( u.path() == "/" )
       break;
@@ -1179,6 +1179,7 @@ void KonqMainView::initActions()
 {
   KStdAccel stdAccel;
 
+  // File menu
   m_pMenuNew = new KNewMenu ( actionCollection(), "new_menu" );
   QObject::connect( m_pMenuNew->popupMenu(), SIGNAL(aboutToShow()),
                     this, SLOT(slotFileNewAboutToShow()) );
@@ -1208,6 +1209,7 @@ void KonqMainView::initActions()
 
   m_ptaUseHTML = new KToggleAction( i18n( "&Use HTML" ), 0, this, SLOT( slotShowHTML() ), actionCollection(), "usehtml" );
 
+  // Go menu : TODO : connect to abouttoshow and append max 10 history items
   m_paUp = new KonqHistoryAction( i18n( "&Up" ), QIconSet( BarIcon( "up", KonqFactory::instance() ) ), ALT+Key_Up, actionCollection(), "up" );
 
   connect( m_paUp, SIGNAL( activated() ), this, SLOT( slotUp() ) );
@@ -1237,6 +1239,7 @@ void KonqMainView::initActions()
   m_paMimeTypes = new KAction( i18n( "File &Types" ), 0, this, SLOT( slotEditMimeTypes() ), actionCollection(), "mimetypes" );
   m_paApplications = new KAction( i18n( "App&lications" ), 0, this, SLOT( slotEditApplications() ), actionCollection(), "applications" );
 
+  // Options menu
   m_paSaveSettings = new KAction( i18n( "Sa&ve Settings" ), 0, this, SLOT( slotSaveSettings() ), actionCollection(), "savesettings" );
   m_paSaveSettingsPerURL = new KAction( i18n( "Save Settings for this &URL" ), 0, this, SLOT( slotSaveSettingsPerURL() ), actionCollection(), "savesettingsperurl" );
 
@@ -1443,13 +1446,10 @@ void KonqMainView::slotPopupMenu( const QPoint &_global, const KFileItemList &_i
 {
   //kdebug(KDEBUG_INFO, 1202, "KonqMainView::slotPopupMenu(...)");
   QString url = m_currentView->url();
-  // TODO enable "back" if m_currentView->canGoBack();
-  // TODO enable "forward" if m_currentView->canGoForward();
-  // Well, not here, but dynamically, so that the go menu is right as well
 
   QActionCollection popupMenuCollection;
   if ( !shell()->menuBar()->isVisible() )
-    // HACK !
+    // Somewhat a hack...
     popupMenuCollection.insert( ((KonqShell *) shell())->menuBarAction() );
   popupMenuCollection.insert( m_paBack );
   popupMenuCollection.insert( m_paForward );
@@ -1477,6 +1477,7 @@ void KonqMainView::slotDatabaseChanged()
 {
   // We could do better : for each item update the mimetype-related info
   // That would reduce flickering
+  // TODO
   slotReload();
 }
 
