@@ -84,6 +84,7 @@
 #include <kglobalsettings.h>
 #include <kedittoolbar.h>
 #include <kurlrequesterdlg.h>
+#include <kkeydialog.h>
 
 #include "version.h"
 
@@ -702,9 +703,7 @@ void KonqMainView::slotConfigureNetwork()
 
 void KonqMainView::slotConfigureKeys()
 {
-  //just testing Torben's widget :-) -- to be replaced by kdelibs config widget (Simon)
-  //KActionDialog *actionDia = new KActionDialog( actionCollection(), this, 0 );
-  //actionDia->show();
+  KKeyDialog::configureKeys(actionCollection(), xmlFile());
 }
 
 void KonqMainView::slotConfigureToolbars()

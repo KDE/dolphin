@@ -62,6 +62,8 @@
   <Action name="configurebrowser"/>
   <Action name="configurefiletypes"/>
   <Action name="configurenetwork"/>
+  <Separator/>
+  <Action name="configurekeys"/>
   <Action name="configuretoolbars"/>
  </Menu>
  <Menu name="window"><text>&amp;Window</text>
