@@ -1208,14 +1208,23 @@ QSize KonqViewManager::readConfigSize( KConfig &cfg, QWidget *widget )
     int width = -1;
     int height = -1;
 
+    QRect geom;
+    KConfig gc("kdeglobals", false, false);
+    gc.setGroup("Windows");
+    if (gc.readBoolEntry("XineramaEnabled", true) &&
+        gc.readBoolEntry("XineramaPlacementEnabled", true)) {
+        int screen = widget ? QApplication::desktop()->screenNumber(widget) :-1;
+        geom = QApplication::desktop()->screenGeometry(screen);
+    } else {
+        geom = QApplication::desktop()->geometry();
+    }
+
     if ( widthStr.contains( '%' ) == 1 )
     {
         widthStr.truncate( widthStr.length() - 1 );
         int relativeWidth = widthStr.toInt( &ok );
         if ( ok ) {
-            int screen = widget ? QApplication::desktop()->screenNumber(widget)
-                                : -1;
-            width = relativeWidth * QApplication::desktop()->screenGeometry(screen).width() / 100;
+            width = relativeWidth * geom.width() / 100;
         }
     }
     else
@@ -1230,9 +1239,7 @@ QSize KonqViewManager::readConfigSize( KConfig &cfg, QWidget *widget )
         heightStr.truncate( heightStr.length() - 1 );
         int relativeHeight = heightStr.toInt( &ok );
         if ( ok ) {
-            int screen = widget ? QApplication::desktop()->screenNumber(widget)
-                                : -1;
-            height = relativeHeight * QApplication::desktop()->screenGeometry(screen).height() / 100;
+            height = relativeHeight * geom.height() / 100;
         }
     }
     else
