@@ -25,24 +25,17 @@ libkonq_la_LIBADD = $(LIB_KFILE)
 libkonq_la_SOURCES = kbookmarkmenu.cc kbookmark.cc knewmenu.cc konqpopupmenu.cc \
 	kdirlister.cc konqfileitem.cc kfileivi.cc \
 	konqsettings.cc konqdrag.cc konqiconviewwidget.cc \
-	konqoperations.cc kbookmarkbar.cc
+	konqoperations.cc kbookmarkbar.cc \
+        konq_propsview.cc konq_events.cc konq_bgnddlg.cc 
 
-
-METASOURCES = kbookmark.moc kbookmarkmenu.moc knewmenu.moc konqpopupmenu.moc \
-	kdirlister.moc kfileivi.moc konqdrag.moc konqiconviewwidget.moc \
-	konqoperations.moc kbookmarkbar.moc
+METASOURCES = AUTO
 
 include_HEADERS = kbookmark.h kbookmarkmenu.h knewmenu.h konqpopupmenu.h \
 	kdirlister.h konqfileitem.h kfileivi.h \
 	konqdefaults.h konqsettings.h konqdrag.h konqiconviewwidget.h \
-	konqoperations.h kbookmarkbar.h
+	konqoperations.h kbookmarkbar.h \
+        konq_propsview.h konq_events.h konq_bgnddlg.h 
 
-check_PROGRAMS = linktest
-linktest_SOURCES = $(libkonq_la_SOURCES) linktest.cpp
-linktest.cpp:
-	echo "int main() {};" > linktest.cpp
-linktest_LDFLAGS  = $(all_libraries) -module -avoid-version
-linktest_LDADD = $(libkonq_la_LIBADD) 
 messages:
 	$(XGETTEXT) *.cc *.h -o $(podir)/libkonq.pot
 
