@@ -28,5 +28,5 @@ messages:
 	$(XGETTEXT) $(kcm_userinfo_la_SOURCES) -o $(podir)/userinfo.pot
 
 # this is where the desktop file will go 
-desktopdir   = $(kde_appsdir)/Settings/Components
+desktopdir   = $(kde_appsdir)/Settings/System
 desktop_DATA = userinfo.desktop
