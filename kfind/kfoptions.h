@@ -47,8 +47,6 @@ private:
   /// Inserts all pages in the dialog.
   void insertPages();
 
-  KLocale trans;
-
   /// Store pointers to dialog pages
   QWidget *pages[3]; 
   

@@ -41,6 +41,9 @@
 #include "kfarch.h"
 #include "kfsave.h"
 
+#include <klocale.h>
+#define klocale KLocale::klocale()
+
 extern KfSaveOptions *saving; 
 extern QList<KfArchiver> *archivers;
 //extern QList<KfFileType> *types;
@@ -93,7 +96,7 @@ void KfindWindow::updateResults(const char *file )
       strl->removeLast();
 
     lbx->insertStrList(strl,-1);
-    sprintf(str,"%d file(s) found",count);
+    sprintf(str,klocale->translate("%d file(s) found"),count);
     emit statusChanged(str);
 
     fclose(f);    
@@ -129,18 +132,22 @@ void KfindWindow::saveResults()
 
     items=lbx->count();
     if (results==0L)
-      KMsgBox::yesNo(parentWidget(),"Error",
-		     "It wasn't possible to save results!",
+      KMsgBox::yesNo(parentWidget(),klocale->translate("Error"),
+		     klocale->translate("It wasn't possible to save results!"),
 		     KMsgBox::EXCLAMATION,
-		     "OK","Cancel");
+		     klocale->translate("OK"),
+		     klocale->translate("Cancel"));
     else
       {
 	if ( strcmp(saving->getSaveFormat(),"HTML")==0)
 	  {
 	    fprintf(results,"<HTML><HEAD>\n");
-	    fprintf(results,"<!DOCTYPE KFIND-Result-file>\n");
-	    fprintf(results,"<TITLE>KFind Results File</TITLE></HEAD>\n");
-	    fprintf(results,"<BODY><H1>KFind Results File</H1>\n");
+	    fprintf(results,"<!DOCTYPE %s>\n",
+		    klocale->translate("KFind Results File"));
+	    fprintf(results,"<TITLE>%sKFind Results File</TITLE></HEAD>\n",
+		    klocale->translate("KFind Results File"));
+	    fprintf(results,"<BODY><H1>%s</H1>\n",
+		    klocale->translate("KFind Results File"));
 	    fprintf(results,"<DL><p>\n"); 
 	
 	    item=0;  
@@ -163,9 +170,10 @@ void KfindWindow::saveResults()
 	    
 	  };
 	fclose(results); 
-	KMsgBox::message(parentWidget(),"Error",
-			 "Results were saved to file\n"+filename,
-			 KMsgBox::INFORMATION,"OK");
+	KMsgBox::message(parentWidget(),klocale->translate("Error"),
+			 klocale->translate("Results were saved to file\n")+
+			 filename,
+			 KMsgBox::INFORMATION,klocale->translate("OK"));
       };
   };
 
@@ -178,10 +186,11 @@ void KfindWindow::deleteFiles()
   {
     QString tmp;
 
-    tmp.sprintf("Do you really want to delete file:\n%s",
+    tmp.sprintf(klocale->translate("Do you really want to delete file:\n%s"),
                 lbx->text(lbx->currentItem()));
-    if(KMsgBox::yesNo(parentWidget(),"Delete File",
-                      tmp,KMsgBox::QUESTION, "OK","Cancel") == 1)
+    if(KMsgBox::yesNo(parentWidget(),klocale->translate("Delete File"),
+                      tmp,KMsgBox::QUESTION, klocale->translate("OK"),
+		      klocale->translate("Cancel")) == 1)
       {
 	//        printf("So we'll delete it!\n");
         
@@ -191,17 +200,19 @@ void KfindWindow::deleteFiles()
               if (remove(file->filePath())==-1)
                   switch(errno)
                     {
-    	              case EACCES: KMsgBox::yesNo(parentWidget(),"Error",
-                                               "You have no permission
-                                                \n to delete this file",
-                                                KMsgBox::EXCLAMATION,
-                                                "OK","Cancel");
+    	              case EACCES: KMsgBox::yesNo(parentWidget(),
+						  klocale->translate("Error"),
+						  klocale->translate("You have no permission\n to delete this file"),
+						  KMsgBox::EXCLAMATION,
+						  klocale->translate("OK"),
+						  klocale->translate("Cancel"));
                                    break;
-                      default: KMsgBox::yesNo(parentWidget(),"Error",
-                                            "It isn't possible to delete
-                                             \nselected file",
-                                             KMsgBox::EXCLAMATION,
-                                             "OK","Cancel");
+                      default: KMsgBox::yesNo(parentWidget(),
+					      klocale->translate("Error"),
+					      klocale->translate("It isn't possible to delete\nselected file"),
+					      KMsgBox::EXCLAMATION,
+					      klocale->translate("OK"),
+					      klocale->translate("Cancel"));
                     }
                 else
                   {
@@ -218,23 +229,25 @@ void KfindWindow::deleteFiles()
               if (rmdir(file->filePath())==-1)
 		  switch(errno)
                     {
-	             case EACCES: KMsgBox::yesNo(parentWidget(),"Error",
-                                           "You have no permission
-                                            \n to delete this directory",
-                                            KMsgBox::EXCLAMATION,
-                                            "OK","Cancel");
+		    case EACCES: KMsgBox::yesNo(parentWidget(),
+						klocale->translate("Error"),
+						klocale->translate("You have no permission\n to delete this directory"),
+						KMsgBox::EXCLAMATION,
+						klocale->translate("OK"),
+						klocale->translate("Cancel"));
                                   break;
-      	             case ENOTEMPTY: KMsgBox::yesNo(parentWidget(),"Error",
-                                           "Specified directory 
-                                            \nis not empty!",
-                                            KMsgBox::EXCLAMATION,
-                                            "OK","Cancel");
+      	             case ENOTEMPTY: KMsgBox::yesNo(parentWidget(),
+					   klocale->translate("Error"),
+                                           klocale->translate("Specified directory\nis not empty!"),
+                                           KMsgBox::EXCLAMATION,
+                                           klocale->translate("OK"),
+					   klocale->translate("Cancel"));
                                      break;
-     	             default: KMsgBox::yesNo(parentWidget(),"Error",
-                                        "It isn't possible to delete
-                                         \nselected directory",
+     	             default: KMsgBox::yesNo(parentWidget(),klocale->translate("Error"),
+                                        klocale->translate("It isn't possible to delete\nselected directory"),
                                          KMsgBox::EXCLAMATION,
-                                         "OK","Cancel");
+                                         klocale->translate("OK"),
+					 klocale->translate("Cancel"));
                    }
                  else
                   {
@@ -323,8 +336,9 @@ void KfindWindow::addToArchive()
     if ( (arch = KfArchiver::findByPattern("*"+pattern1))!=0L)
       execAddToArchive(arch,filename);
     else
-      KMsgBox::message(parentWidget(),"Error","Couldn't recognize archive type!"
-		       ,KMsgBox::STOP, "OK"); 
+      KMsgBox::message(parentWidget(),klocale->translate("Error"),
+		       klocale->translate("Couldn't recognize archive type!")
+		       ,KMsgBox::STOP, klocale->translate("OK")); 
 
 };
 
@@ -384,7 +398,7 @@ void KfindWindow::execAddToArchive(KfArchiver *arch,QString archname)
     };
 
   if ( !archProcess.start(KProcess::DontCare) )
-    printf("Error by creating child process!\n");
+    warning(klocale->translate("Error while creating child process!"));
 };
 
 

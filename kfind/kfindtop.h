@@ -7,8 +7,8 @@
 #ifndef KFINDTOP_H
 #define KFINDTOP_H
 
-#include "ktopwidget.h"
-#include "klocale.h"
+#include <ktopwidget.h>
+#include <klocale.h>
 
 class QPopupMenu;
 class KMenuBar;
@@ -73,7 +73,6 @@ private:
   Kfind          *_kfind;
   KfindTabDialog *_kfindTabDialog;
 
-  KLocale    trans;       
   int        openWithM;
   int        toArchM;
   int        deleteM;

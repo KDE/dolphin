@@ -32,6 +32,9 @@
 #include "kftypes.h"
 #include "kftabdlg.h"
 
+#include <klocale.h>
+#define trans KLocale::klocale()
+
 extern QList<KfFileType> *types;
 
 KfindTabDialog::KfindTabDialog( QWidget *parent, const char *name, const char *searchPath = 0 )
@@ -41,12 +44,12 @@ KfindTabDialog::KfindTabDialog( QWidget *parent, const char *name, const char *s
     //Page One of KfTAbDialog
     pages[0] = new QWidget( this, "page1" );
 
-    namedL     = new QLabel(trans.translate("&Named:")  ,pages[0],"named");
+    namedL     = new QLabel(trans->translate("&Named:")  ,pages[0],"named");
     nameBox    = new QComboBox(TRUE           ,pages[0],"combo1");
-    lookinL    = new QLabel(trans.translate("&Look in:"),pages[0],"named");
+    lookinL    = new QLabel(trans->translate("&Look in:"),pages[0],"named");
     dirBox     = new QComboBox(FALSE          ,pages[0],"combo2");
     subdirsCb  = new QCheckBox(                pages[0]);
-    browseB    = new QPushButton(trans.translate("&Browse ..."),pages[0]);
+    browseB    = new QPushButton(trans->translate("&Browse ..."),pages[0]);
 
     nameBox->insertItem( "*" );
     dirBox ->insertItem( searchPath );
@@ -58,7 +61,7 @@ KfindTabDialog::KfindTabDialog( QWidget *parent, const char *name, const char *s
     dirBox ->insertItem( "/var" );
     dirBox ->insertItem( "/mnt" );
 
-    subdirsCb->setText( trans.translate("Include &subfolders") );
+    subdirsCb->setText( trans->translate("Include &subfolders") );
 
     int wTmpNamed = (namedL->sizeHint()).width();
     int wTmpLook  = (lookinL->sizeHint()).width();
@@ -88,7 +91,7 @@ KfindTabDialog::KfindTabDialog( QWidget *parent, const char *name, const char *s
     connect( browseB,  SIGNAL(clicked()),
              this, SLOT(getDirectory()) );   
 
-    addTab( pages[0], trans.translate(" Name&Location ") );
+    addTab( pages[0], trans->translate(" Name&Location ") );
                                                       
     //Page Two of KfTAbDialog
     pages[1] = new QWidget( this, "page2" );
@@ -100,20 +103,19 @@ KfindTabDialog::KfindTabDialog( QWidget *parent, const char *name, const char *s
     rb2[0] = new QRadioButton(       pages[1] );
     rb2[1] = new QRadioButton(       pages[1] );
     rb2[2] = new QRadioButton(       pages[1] );
-    andL   = new QLabel (trans.translate("and"),      pages[1],"and");
-    monthL = new QLabel (trans.translate("month(s)"), pages[1],"months");
-    dayL   = new QLabel (trans.translate("day(s)"),   pages[1],"days");
+    andL   = new QLabel (trans->translate("and"),      pages[1],"and");
+    monthL = new QLabel (trans->translate("month(s)"), pages[1],"months");
+    dayL   = new QLabel (trans->translate("day(s)"),   pages[1],"days");
     le[0]  = new QLineEdit(          pages[1], "lineEdit1" );
     le[1]  = new QLineEdit(          pages[1], "lineEdit2" );
     le[2]  = new QLineEdit(          pages[1], "lineEdit3" );
     le[3]  = new QLineEdit(          pages[1], "lineEdit4" );
 
-    rb1[0]->setText( trans.translate("&All files") );
-    rb1[1]->setText( trans.translate("_findall",
-				     "Find all files created or &modified:") );
-    rb2[0]->setText( trans.translate("&between") );
-    rb2[1]->setText( trans.translate("during the previou&s ") );
-    rb2[2]->setText( trans.translate("&during the previous ") );
+    rb1[0]->setText( trans->translate("&All files") );
+    rb1[1]->setText( trans->translate("Find all files created or &modified:") );
+    rb2[0]->setText( trans->translate("&between") );
+    rb2[1]->setText( trans->translate("during the previou&s ") );
+    rb2[2]->setText( trans->translate("&during the previous ") );
     le[0] ->setText(date2String(QDate(1980,1,1)));
     le[1] ->setText(date2String(QDate::currentDate()));
     le[2] ->setText("1");
@@ -161,16 +163,16 @@ KfindTabDialog::KfindTabDialog( QWidget *parent, const char *name, const char *s
     connect( le[3],  SIGNAL(returnPressed()),
              this,  SLOT(isCheckedValid()) );      
     
-    addTab( pages[1], trans.translate(trans.translate(" Date Modified ")) );
+    addTab( pages[1], trans->translate(" Date Modified ") );
 
     //Page Tree of KfTAbDialog
     pages[2] = new QWidget( this, "page3" );
 
-    typeL   =new QLabel(trans.translate("Of &type:")        ,pages[2],"type");
+    typeL   =new QLabel(trans->translate("Of &type:")        ,pages[2],"type");
     typeBox =new QComboBox(FALSE                            ,pages[2],"typeBox");
-    textL   =new QLabel(trans.translate("&Containing Text:"),pages[2],"text");
+    textL   =new QLabel(trans->translate("&Containing Text:"),pages[2],"text");
     textEdit=new QLineEdit(                 pages[2], "textEdit" );
-    sizeL   =new QLabel(trans.translate("&Size is:")        ,pages[2],"size");
+    sizeL   =new QLabel(trans->translate("&Size is:")        ,pages[2],"size");
     sizeBox =new QComboBox(FALSE           ,pages[2],"sizeBox");
     sizeEdit=new QLineEdit(                 pages[2], "sizeEdit" );
     kbL     =new QLabel("KB"               ,pages[2],"kb");
@@ -193,25 +195,24 @@ KfindTabDialog::KfindTabDialog( QWidget *parent, const char *name, const char *s
 
     KfFileType *typ;
 
-    typeBox->insertItem(trans.translate("_alltypes",
-					"All Files and Folders"));
+    typeBox->insertItem(trans->translate("All Files and Folders"));
     for ( typ = types->first(); typ != 0L; typ = types->next() )
       if (typ->getComment("")!="")
 	typeBox->insertItem(typ->getComment(""));
       else
 	typeBox->insertItem(typ->getName());
 
-    sizeBox ->insertItem( trans.translate("(none)") );
-    sizeBox ->insertItem( trans.translate("At Least") );
-    sizeBox ->insertItem( trans.translate("At Most") );
+    sizeBox ->insertItem( trans->translate("(none)") );
+    sizeBox ->insertItem( trans->translate("At Least") );
+    sizeBox ->insertItem( trans->translate("At Most") );
     sizeBox ->setFixedSize(sizeBox->sizeHint());
     sizeEdit->setText("1");
 
     connect( sizeEdit,  SIGNAL(returnPressed()),
              this    ,  SLOT(checkSize()) );      
 
-    addTab( pages[2], trans.translate(trans.translate(" Advanced ")) );  
-  };
+    addTab( pages[2], trans->translate(" Advanced ") );  
+  }
 
 void KfindTabDialog::resizeEvent( QResizeEvent *ev )
   {
@@ -272,7 +273,7 @@ void KfindTabDialog::resizeEvent( QResizeEvent *ev )
     sizeBox ->setGeometry(10+sizeL->width(),sizeL->y(),80,25);
     sizeEdit->setGeometry( 10+sizeBox->x()+sizeBox->width(), sizeL->y(),60,25);
     kbL     ->move(10+sizeEdit->x()+sizeEdit->width(),sizeL->y());
-  };
+  }
 
 
 QSize KfindTabDialog::sizeHint()
@@ -280,7 +281,7 @@ QSize KfindTabDialog::sizeHint()
     QSize size(320,180);
 
     return (size);   
-  };
+  }
 
 void KfindTabDialog::setDefaults()
   {
@@ -292,7 +293,7 @@ void KfindTabDialog::setDefaults()
     typeBox ->setCurrentItem(0);
     sizeBox ->setCurrentItem(0);
     sizeEdit->setText("1");
-  };
+  }
 
 void KfindTabDialog::enableEdit(int i)
   {
@@ -300,7 +301,7 @@ void KfindTabDialog::enableEdit(int i)
       {
           rb1[0]->setChecked(FALSE);
           rb1[1]->setChecked(TRUE);
-      };
+      }
 
     disableAllEdit();
 
@@ -320,8 +321,8 @@ void KfindTabDialog::enableEdit(int i)
               prevMonth = TRUE;
             else
              prevDay = TRUE;
-        };
-  };
+        }
+  }
 
 void KfindTabDialog::disableAllEdit()
   {
@@ -332,7 +333,7 @@ void KfindTabDialog::disableAllEdit()
     betweenDates  = FALSE;
     prevMonth     = FALSE;
     prevDay       = FALSE;
-  };
+  }
 
 
 void KfindTabDialog::enableCheckedEdit()
@@ -340,7 +341,7 @@ void KfindTabDialog::enableCheckedEdit()
     for (int i=0;i<3;i++)
       if (rb2[i]->isChecked())
         enableEdit(i);
-  };
+  }
 
 void KfindTabDialog::isCheckedValid()
   {
@@ -373,7 +374,7 @@ void KfindTabDialog::isCheckedValid()
         if (!rightDates)
             {
               QMessageBox mb(this,"message box");
-              mb.setText( "The date is not valid!!");
+              mb.setText( trans->translate("The date is not valid!!"));
               mb.show();
               enableSearch = FALSE;
             };
@@ -385,7 +386,7 @@ void KfindTabDialog::isCheckedValid()
         if ( !(match != -1 && len == (int)strlen(le[2]->text())) )
           {
             QMessageBox mb(this,"message box");
-            mb.setText( "The month(s) value isn't valid!!");
+            mb.setText( trans->translate("The month(s) value isn't valid!!"));
             mb.show();
             enableSearch = FALSE;
           };
@@ -396,7 +397,7 @@ void KfindTabDialog::isCheckedValid()
         if (! (match != -1 && len == (int)strlen(le[3]->text())) )
           {
             QMessageBox mb(this,"message box");
-            mb.setText( "The day(s) value isn't valid!!");
+            mb.setText( trans->translate("The day(s) value isn't valid!!"));
             mb.show();
             enableSearch = FALSE;
           };
@@ -413,7 +414,7 @@ void KfindTabDialog::checkSize()
     if ( !(match != -1 && len == (int)strlen(sizeEdit->text())) )
       {
         QMessageBox mb(this,"message box");
-        mb.setText( "The value in size isn't valid number!!");
+        mb.setText( trans->translate("The value in size isn't valid number!!"));
         mb.show();
         enableSearch = FALSE;
       };

@@ -42,14 +42,17 @@ extern QList<KfFileType> *types;
 extern KfSaveOptions *saving;
 extern QList<KfArchiver> *archivers;
 
+#define trans KLocale::klocale()
+
 KfOptions::KfOptions( QWidget *parent=0, const char *name=0 ):QTabDialog( parent, name) 
   {
     resize(400,330);
     insertPages();
 
-    setCancelButton();
-    setCaption(trans.translate("Preferences"));
-
+    setOKButton( trans->translate("OK"));
+    setCancelButton( trans->translate("Cancel"));
+    setCaption(trans->translate("Preferences"));
+    
     this->setMinimumSize(400,330);
     this->setMaximumSize(400,330);
  
@@ -64,14 +67,14 @@ void KfOptions::insertPages()
     // First page of tab preferences dialog
     pages[0]= new QWidget(this,"page1");
 
-    formatL     = new QLabel(trans.translate("File format:"),
+    formatL     = new QLabel(trans->translate("File format:"),
 			     pages[0],"formatL");
-    fileL       = new QLabel(trans.translate("Save results to file:"),
+    fileL       = new QLabel(trans->translate("Save results to file:"),
 			     pages[0],"fileL");
-    kfindfileL  = new QLabel(trans.translate(
+    kfindfileL  = new QLabel(trans->translate(
 			      "Save results to file ~/.kfind-results.html"),
 			     pages[0],"kfindfileL");
-    browseB     = new QPushButton(trans.translate("Browse"),
+    browseB     = new QPushButton(trans->translate("Browse"),
 			     pages[0],"browseB");
     formatBox   = new QComboBox(                     pages[0],"formatBox");
     fileE       = new QLineEdit(                     pages[0],"fileE");
@@ -84,7 +87,7 @@ void KfOptions::insertPages()
     bg->setExclusive(TRUE);
 
     formatBox->insertItem("HTML");
-    formatBox->insertItem(trans.translate("Plain Text"));
+    formatBox->insertItem(trans->translate("Plain Text"));
     formatBox->setFixedSize(formatBox    ->sizeHint());
 
     formatL    ->setFixedSize(formatL    ->sizeHint());
@@ -113,23 +116,23 @@ void KfOptions::insertPages()
     connect( browseB     ,SIGNAL(clicked()),
              this, SLOT(selectFile()) );
 
-    addTab(pages[0],trans.translate("Saving"));
+    addTab(pages[0],trans->translate("Saving"));
 
     // Second page of tab preferences dialog
     pages[1]= new QWidget(this,"page2");
 
     filetypesLBox = new QListBox(                     pages[1],"filetypesLBox");
-    typeL         = new QLabel("Type Description:",pages[1],"typeL");
-    iconL         = new QLabel("Icon:"               ,pages[1],"iconL");
-    paternsL      = new QLabel("Patterns:"           ,pages[1],"paternsL");
-    defappsL      = new QLabel("Default Application:",pages[1],"defappsL");
+    typeL         = new QLabel(trans->translate("Type Description:"),pages[1],"typeL");
+    iconL         = new QLabel(trans->translate("Icon:"),pages[1],"iconL");
+    paternsL      = new QLabel(trans->translate("Patterns:"),pages[1],"paternsL");
+    defappsL      = new QLabel(trans->translate("Default Application:"),pages[1],"defappsL");
     typeE         = new QLineEdit(                    pages[1],"typeE");
     iconE         = new QLineEdit(                    pages[1],"iconE");
     //    paternsE      = new QLineEdit(                    pages[1],"paternsE");
     paternsLBox   = new QListBox(                     pages[1],"paternsLBox");
     defappsE      = new QLineEdit(                    pages[1],"defappsE");
-    addTypeB      = new QPushButton("Add New"        ,pages[1],"addTypeB");
-    removeTypeB   = new QPushButton("Remove"         ,pages[1],"removeTypeB");
+    addTypeB      = new QPushButton(trans->translate("Add New"),pages[1],"addTypeB");
+    removeTypeB   = new QPushButton(trans->translate("Remove"),pages[1],"removeTypeB");
 
     defappsE   ->setEnabled(FALSE);
     addTypeB   ->setEnabled(FALSE);
@@ -175,20 +178,23 @@ void KfOptions::insertPages()
     connect(filetypesLBox,SIGNAL(highlighted(int)),
              this, SLOT(fillFiletypeDetail(int)) );
 
-    addTab(pages[1],"Filetypes");
+    addTab(pages[1],trans->translate("Filetypes"));
 
     // Third page of tab preferences dialog
     pages[2]= new QWidget(this,"page3");
 
     archiversLBox   = new QListBox(                pages[2],"archivesLBox");
-    createL         = new QLabel("Create Archive:",pages[2],"createL");
-    addL            = new QLabel("Add to Archive:",pages[2],"addL");
+    createL         = new QLabel(trans->translate("Create Archive:"),
+				 pages[2],"createL");
+    addL            = new QLabel(trans->translate("Add to Archive:"),
+				 pages[2],"addL");
     createE         = new QLineEdit(               pages[2],"createE");
     addE            = new QLineEdit(               pages[2],"addE");
-    paternsL2       = new QLabel("Paterns:"       ,pages[2],"paternsL2");
+    paternsL2       = new QLabel(trans->translate("Patterns:"),
+				 pages[2],"paternsL2");
     paternsLBox2    = new QListBox(                pages[2],"paternsLBox2");
-    addArchiverB    = new QPushButton("Add New"   ,pages[2],"addArchiverB");
-    removeArchiverB = new QPushButton("Remove"    ,pages[2],"removeArchiverB");
+    addArchiverB    = new QPushButton(trans->translate("Add New"), pages[2],"addArchiverB");
+    removeArchiverB = new QPushButton(trans->translate("Remove"),pages[2],"removeArchiverB");
 
     createE        ->setEnabled(FALSE);
     addE           ->setEnabled(FALSE);
@@ -226,7 +232,7 @@ void KfOptions::insertPages()
      connect(archiversLBox,SIGNAL(highlighted(int)),
 	     this, SLOT(fillArchiverDetail(int)) );
 
-    addTab(pages[2],"Archivers");
+    addTab(pages[2],trans->translate("Archivers"));
   };
 
 void KfOptions::selectFile()

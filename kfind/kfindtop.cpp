@@ -23,6 +23,7 @@
 #include "kfind.h"
 #include "kfindtop.h"
 #include <klocale.h>
+#define trans KLocale::klocale()
 
 #include "version.h" 
 
@@ -106,9 +107,7 @@ void KfindTop::about()
   {
     QString tmp;
     
-    tmp.sprintf(trans.translate("_abouttext",
-				"KFind %s\nFrontend to find utility
-                                \nMiroslav Flídr <flidr@kky.zcu.cz>"),
+    tmp.sprintf(trans->translate("KFind %s\nFrontend to find utility\nMiroslav Flídr <flidr@kky.zcu.cz>"),
 		KFIND_VERSION);
 
     KMsgBox::message(this,"about box",tmp,KMsgBox::INFORMATION, "OK");
@@ -121,46 +120,46 @@ void KfindTop::menuInit()
     _optionMenu = new QPopupMenu;
     _helpMenu   = new QPopupMenu;        
 
-    _mainMenu->insertItem( trans.translate("&File"), _fileMenu);
-    _mainMenu->insertItem( trans.translate("&Edit"), _editMenu);
-    _mainMenu->insertItem( trans.translate("&Options"), _optionMenu);
+    _mainMenu->insertItem( trans->translate("&File"), _fileMenu);
+    _mainMenu->insertItem( trans->translate("&Edit"), _editMenu);
+    _mainMenu->insertItem( trans->translate("&Options"), _optionMenu);
     _mainMenu->insertSeparator();
-    _mainMenu->insertItem( trans.translate("&Help"), _helpMenu );
+    _mainMenu->insertItem( trans->translate("&Help"), _helpMenu );
 
 
-    openWithM  = _fileMenu->insertItem(trans.translate("Open"),
+    openWithM  = _fileMenu->insertItem(trans->translate("Open"),
 				       this,SIGNAL(open()), CTRL+Key_O );
-    toArchM    = _fileMenu->insertItem(trans.translate("Add to archive"),
+    toArchM    = _fileMenu->insertItem(trans->translate("Add to archive"),
 				       this,SIGNAL(addToArchive()));
     _fileMenu             ->insertSeparator();
-    deleteM    = _fileMenu->insertItem(trans.translate("Delete"),
+    deleteM    = _fileMenu->insertItem(trans->translate("Delete"),
 				       this,SIGNAL(deleteFile()));
-    propsM     = _fileMenu->insertItem(trans.translate("Properties"),
+    propsM     = _fileMenu->insertItem(trans->translate("Properties"),
 				       this,SIGNAL(properties()));
     _fileMenu             ->insertSeparator();
-    openFldrM  = _fileMenu->insertItem(trans.translate("Open Containing Folder"),
+    openFldrM  = _fileMenu->insertItem(trans->translate("Open Containing Folder"),
 				       this,SIGNAL(openFolder()));
     _fileMenu             ->insertSeparator();
-    saveSearchM= _fileMenu->insertItem(trans.translate("Save Search"),
+    saveSearchM= _fileMenu->insertItem(trans->translate("Save Search"),
 				       this,SIGNAL(saveResults()),CTRL+Key_S);
     _fileMenu             ->insertSeparator();
-    quitM      = _fileMenu->insertItem(trans.translate("Quit"),qApp,
+    quitM      = _fileMenu->insertItem(trans->translate("Quit"),qApp,
 				       SLOT(quit()),ALT+Key_Q);
 
     for(int i=openWithM;i>quitM;i--)
        _fileMenu->setItemEnabled(i,FALSE);  
    
-    int undo =       _editMenu->insertItem(trans.translate("Undo"),
+    int undo =       _editMenu->insertItem(trans->translate("Undo"),
 					   this, SIGNAL(undo()) );
     _editMenu                 ->insertSeparator();
-    int cut  =       _editMenu->insertItem(trans.translate("Cut"),
+    int cut  =       _editMenu->insertItem(trans->translate("Cut"),
 					   this, SIGNAL(cut()) );
-    int copy =       _editMenu->insertItem(trans.translate("Copy"),
+    int copy =       _editMenu->insertItem(trans->translate("Copy"),
 					   this,SIGNAL(copy()) );
     _editMenu                 ->insertSeparator();
-    int select_all = _editMenu->insertItem(trans.translate("Select All"),
+    int select_all = _editMenu->insertItem(trans->translate("Select All"),
 					   this,SIGNAL(selectAll()) );
-    int invert_sel = _editMenu->insertItem(trans.translate("Invert Selection"),
+    int invert_sel = _editMenu->insertItem(trans->translate("Invert Selection"),
 					   this,SIGNAL(invertSelection()) );
 
     _editMenu->setItemEnabled( undo      , FALSE );
@@ -171,14 +170,14 @@ void KfindTop::menuInit()
 
     CHECK_PTR( _optionMenu ); 
 
-    _optionMenu->insertItem(trans.translate("Preferences ..."),
+    _optionMenu->insertItem(trans->translate("Preferences ..."),
 			    this,SLOT(prefs()));
     //_optionMenu->insertItem("Configure key bindings",this,SIGNAL(keys()));
 
-    _helpMenu->insertItem(trans.translate("Kfind help"),
+    _helpMenu->insertItem(trans->translate("Kfind help"),
 			  this, SLOT(help()),ALT+Key_H );
     _helpMenu->insertSeparator();
-    _helpMenu->insertItem(trans.translate("About"), this, SLOT( about() ) );  
+    _helpMenu->insertItem(trans->translate("About"), this, SLOT( about() ) );  
   };
 
 void KfindTop::toolBarInit()
@@ -191,17 +190,17 @@ void KfindTop::toolBarInit()
     icon.load(directory + "toolbar/viewzoom.xpm");
     _toolBar->insertButton( icon, 0, SIGNAL(clicked()),
 			    _kfind, SLOT(startSearch()),
-			    TRUE, trans.translate("Start Search"));
+			    TRUE, trans->translate("Start Search"));
 
     icon.load(directory + "toolbar/reload.xpm");
     _toolBar->insertButton( icon, 1, SIGNAL(clicked()),
 			    _kfind, SLOT(newSearch()),
-			    TRUE, trans.translate("New Search"));
+			    TRUE, trans->translate("New Search"));
 
     icon.load(directory + "toolbar/stop.xpm");
     _toolBar->insertButton( icon, 2, SIGNAL(clicked()),
 			    _kfind, SLOT(stopSearch()),
-			    FALSE, trans.translate("Stop Search"));
+			    FALSE, trans->translate("Stop Search"));
 
     _toolBar->insertSeparator();
 
@@ -209,43 +208,43 @@ void KfindTop::toolBarInit()
     icon.load(directory + "toolbar/idea.xpm");
     _toolBar->insertButton( icon, 3,SIGNAL(clicked()),
 			    _kfind,SIGNAL(open()),
-			    FALSE, trans.translate("Open"));
+			    FALSE, trans->translate("Open"));
 
     icon.load(directory + "toolbar/archive.xpm");
     _toolBar->insertButton( icon, 4,SIGNAL(clicked()),
 			    _kfind,SIGNAL(addToArchive()),
-			    FALSE, trans.translate("Add to archive"));
+			    FALSE, trans->translate("Add to archive"));
 
     icon.load(directory + "toolbar/delete.xpm");
     _toolBar->insertButton( icon, 5,SIGNAL(clicked()),
 			    _kfind,SIGNAL(deleteFile()),
-			    FALSE, trans.translate("Delete"));
+			    FALSE, trans->translate("Delete"));
 
     icon.load(directory + "toolbar/info.xpm");
     _toolBar->insertButton( icon, 6,SIGNAL(clicked()),
 			    _kfind,SIGNAL(properties()),
-			    FALSE, trans.translate("Properties"));
+			    FALSE, trans->translate("Properties"));
 
     icon.load(directory + "toolbar/fileopen.xpm");
     _toolBar->insertButton( icon, 7,SIGNAL(clicked()),
 			    _kfind,SIGNAL(openFolder()),
-			    FALSE, trans.translate("Open Containing Folder"));
+			    FALSE, trans->translate("Open Containing Folder"));
 
     icon.load(directory + "toolbar/save.xpm");
     _toolBar->insertButton( icon, 8,SIGNAL(clicked()),
 			    _kfind,SIGNAL(saveResults()),
-			    FALSE, trans.translate("Save Search Results"));
+			    FALSE, trans->translate("Save Search Results"));
 
     _toolBar->insertSeparator();
     icon.load(directory + "toolbar/contents.xpm");
     _toolBar->insertButton( icon, 9, SIGNAL( clicked() ),
 			  this, SLOT( help() ),
-			  TRUE, trans.translate("Help"));
+			  TRUE, trans->translate("Help"));
 
     icon.load(directory + "toolbar/exit.xpm");
     _toolBar->insertButton( icon, 10, SIGNAL( clicked() ),
                           KApplication::getKApplication(), SLOT( quit() ),  
-			  TRUE, trans.translate("Quit"));
+			  TRUE, trans->translate("Quit"));
   };
 
 void KfindTop::enableSaveResults(bool enable)
