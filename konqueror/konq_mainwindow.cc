@@ -1748,7 +1748,7 @@ void KonqMainWindow::slotReload( KonqView* reloadView )
   if ( !reloadView || reloadView->url().isEmpty() )
     return;
 
-  if ( reloadView->part() ) {
+  if ( reloadView->part() && (reloadView->part()->metaObject()->findProperty("modified") != -1)  ) {
     QVariant prop = reloadView->part()->property("modified");
     if (prop.isValid() && prop.toBool())
       if ( KMessageBox::warningContinueCancel( this,
@@ -2542,7 +2542,8 @@ void KonqMainWindow::slotDuplicateTabPopup()
 
 void KonqMainWindow::slotBreakOffTab()
 {
-  if (m_currentView && m_currentView->part()) {
+  if (m_currentView && m_currentView->part() &&
+      (m_currentView->part()->metaObject()->findProperty("modified") != -1) ) {
     QVariant prop = m_currentView->part()->property("modified");
     if (prop.isValid() && prop.toBool())
       if ( KMessageBox::warningContinueCancel( this,
@@ -2559,7 +2560,7 @@ void KonqMainWindow::slotBreakOffTabPopup()
 {
   KonqView* originalView = m_currentView;
   KonqView *view = m_pWorkingTab->activeChildView();
-  if (view && view->part()) {
+  if (view && view->part() && (view->part()->metaObject()->findProperty("modified") != -1) ) {
     QVariant prop = view->part()->property("modified");
     if (prop.isValid() && prop.toBool()) {
       m_pViewManager->showTab( view );
@@ -2667,7 +2668,8 @@ void KonqMainWindow::openMultiURL( KURL::List url )
 
 void KonqMainWindow::slotRemoveView()
 {
-  if (m_currentView && m_currentView->part()) {
+  if (m_currentView && m_currentView->part() &&
+      (m_currentView->part()->metaObject()->findProperty("modified") != -1) ) {
     QVariant prop = m_currentView->part()->property("modified");
     if (prop.isValid() && prop.toBool())
       if ( KMessageBox::warningContinueCancel( this,
@@ -2682,7 +2684,8 @@ void KonqMainWindow::slotRemoveView()
 
 void KonqMainWindow::slotRemoveTab()
 {
-  if (m_currentView && m_currentView->part()) {
+  if (m_currentView && m_currentView->part() &&
+      (m_currentView->part()->metaObject()->findProperty("modified") != -1) ) {
     QVariant prop = m_currentView->part()->property("modified");
     if (prop.isValid() && prop.toBool())
       if ( KMessageBox::warningContinueCancel( this,
@@ -2698,7 +2701,7 @@ void KonqMainWindow::slotRemoveTabPopup()
 {
   KonqView *originalView = m_currentView;
   KonqView *view = m_pWorkingTab->activeChildView();
-  if (view && view->part()) {
+  if (view && view->part() && (view->part()->metaObject()->findProperty("modified") != -1) ) {
     QVariant prop = view->part()->property("modified");
     if (prop.isValid() && prop.toBool()) {
       m_pViewManager->showTab( view );
@@ -2735,7 +2738,7 @@ void KonqMainWindow::slotRemoveOtherTabsPopup()
   MapViews::ConstIterator end = m_mapViews.end();
   for (; it != end; ++it ) {
     KonqView *view = it.data();
-    if ( view != originalView && view && view->part()) {
+    if ( view != originalView && view && view->part() && (view->part()->metaObject()->findProperty("modified") != -1) ) {
       QVariant prop = view->part()->property("modified");
       if (prop.isValid() && prop.toBool()) {
         m_pViewManager->showTab( view );
@@ -2768,7 +2771,7 @@ void KonqMainWindow::slotReloadAllTabs()
   MapViews::ConstIterator end = m_mapViews.end();
   for (; it != end; ++it ) {
     KonqView *view = it.data();
-    if (view && view->part()) {
+    if (view && view->part() && (view->part()->metaObject()->findProperty("modified") != -1) ) {
       QVariant prop = view->part()->property("modified");
       if (prop.isValid() && prop.toBool()) {
         m_pViewManager->showTab( view );
@@ -5129,7 +5132,7 @@ void KonqMainWindow::closeEvent( QCloseEvent *e )
       MapViews::ConstIterator end = m_mapViews.end();
       for (; it != end; ++it ) {
         KonqView *view = it.data();
-        if (view && view->part()) {
+        if (view && view->part() && (view->part()->metaObject()->findProperty("modified") != -1) ) {
           QVariant prop = view->part()->property("modified");
           if (prop.isValid() && prop.toBool()) {
             m_pViewManager->showTab( view );
@@ -5146,7 +5149,8 @@ void KonqMainWindow::closeEvent( QCloseEvent *e )
       }
 //      m_pViewManager->showTab( originalView );
     }
-    else if ( m_currentView && m_currentView->part() )
+    else if ( m_currentView && m_currentView->part() &&
+             (m_currentView->part()->metaObject()->findProperty("modified") != -1) )
     {
       QVariant prop = m_currentView->part()->property("modified");
       if (prop.isValid() && prop.toBool())

@@ -1147,7 +1147,7 @@ void KonqViewManager::loadViewProfile( KConfig &cfg, const QString & filename,
       for ( it.toFirst(); it != 0L; ++it )
       {
           KonqView *view = it.current()->activeChildView();
-          if (view && view->part()) {
+          if (view && view->part() && (view->part()->metaObject()->findProperty("modified") != -1)) {
             QVariant prop = view->part()->property("modified");
             if (prop.isValid() && prop.toBool()) {
                 showTab( view );
@@ -1166,7 +1166,7 @@ void KonqViewManager::loadViewProfile( KConfig &cfg, const QString & filename,
   else
   {
       KonqView *view = m_pMainWindow->currentView();
-      if (view && view->part()) {
+      if (view && view->part() && (view->part()->metaObject()->findProperty("modified") != -1)) {
         QVariant prop = view->part()->property("modified");
         if (prop.isValid() && prop.toBool())
             if ( KMessageBox::warningContinueCancel( 0,
