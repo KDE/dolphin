@@ -257,8 +257,8 @@ QString KCacheConfigDialog::quickHelp() const
                  "<p>The cache is an internal memory in Konqueror where recently "
                  "read web pages are stored. If you want to retrieve a web "
                  "page again that you have recently read, it will not be "
-                 "downloaded from the net, but rather retrieved from the "
-                 "cache which is a lot faster.</p>" );
+                 "downloaded from the Internet, but rather retrieved from the "
+                 "cache, which is a lot faster.</p>" );
 }
 
 #include "cache.moc"
