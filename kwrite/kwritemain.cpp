@@ -18,7 +18,6 @@
 #include <qdropsite.h>
 #include <qdragobject.h>
 #include <qvbox.h>
-#include <qtimer.h>
 
 #include <dcopclient.h>
 #include <kfiledialog.h>
@@ -58,9 +57,6 @@ TopLevel::TopLevel (Kate::Document *doc)
 {
   setMinimumSize(200,200);
   factory = KLibLoader::self()->factory( "libkatepart" );
-
-  statusbarTimer = new QTimer(this);
-  connect(statusbarTimer,SIGNAL(timeout()),this,SLOT(timeout()));
 
   if (!doc) {
     KTextEditor::Document *tmpDoc = (KTextEditor::Document *) factory->create (0L, "kate", "KTextEditor::Document");
@@ -302,10 +298,6 @@ void TopLevel::newStatus()
 
   statusBar()->changeItem(kateView->getDoc()->isModified() ? " * " : "",ID_MODIFIED);
   statusBar()->changeItem(block ? i18n("BLK") : i18n(" NORM "),ID_SEL_NORM_BLOCK);
-}
-
-void TopLevel::timeout() {
-  statusBar()->changeItem("", ID_GENERAL);
 }
 
 void TopLevel::newCaption()

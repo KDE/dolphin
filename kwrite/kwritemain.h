@@ -59,8 +59,6 @@ class TopLevel : public KParts::MainWindow
     KToggleAction * m_paShowToolBar;
     KToggleAction * m_paShowStatusBar;
 
-    QTimer *statusbarTimer;
-
   public slots:
     void slotNew();
     void slotOpen();
@@ -77,7 +75,6 @@ class TopLevel : public KParts::MainWindow
 
     void newCurPos();
     void newStatus();
-    void timeout();
     void newCaption();
 
     void slotDropEvent(QDropEvent *);
