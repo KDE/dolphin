@@ -26,7 +26,6 @@
 #include <qwhatsthis.h>
 #include <qradiobutton.h>
 
-#include <kdebug.h>
 #include <klocale.h>
 #include <klistview.h>
 #include <dcopclient.h>
@@ -395,7 +394,7 @@ KProxyDialog::KProxyDialog( QWidget* parent,  const char* name )
     pb_envSetup->setSizePolicy( QSizePolicy(QSizePolicy::Fixed,
                                              QSizePolicy::Fixed,
                                              pb_envSetup->sizePolicy().hasHeightForWidth()) );
-    pb_envSetup->setEnabled( false );
+    //pb_envSetup->setEnabled( false );
     hlay->addWidget( pb_envSetup );
     spacer = new QSpacerItem( 20, 20, QSizePolicy::Expanding,
                               QSizePolicy::Minimum );
@@ -423,7 +422,7 @@ KProxyDialog::KProxyDialog( QWidget* parent,  const char* name )
     pb_manSetup->setSizePolicy( QSizePolicy(QSizePolicy::Fixed,
                                              QSizePolicy::Fixed,
                                              pb_manSetup->sizePolicy().hasHeightForWidth()) );
-    pb_manSetup->setEnabled( false );
+    //pb_manSetup->setEnabled( false );
     hlay->addWidget( pb_manSetup );
     spacer = new QSpacerItem( 20, 20, QSizePolicy::Expanding,
                               QSizePolicy::Minimum );
@@ -492,10 +491,10 @@ KProxyDialog::KProxyDialog( QWidget* parent,  const char* name )
              SLOT( autoDiscoverChecked( bool ) ) );
     connect( rb_autoScript, SIGNAL( toggled(bool) ),
              SLOT( autoScriptChecked( bool ) ) );
-    connect( rb_manual, SIGNAL( toggled(bool) ),
-             SLOT( manualChecked( bool ) ) );
-    connect( rb_envVar, SIGNAL( toggled(bool) ),
-             SLOT( envVarChecked( bool ) ) );
+    /*connect( rb_manual, SIGNAL( toggled(bool) ),
+             SLOT( manualChecked( bool ) ) ); */
+    /*connect( rb_envVar, SIGNAL( toggled(bool) ),
+             SLOT( envVarChecked( bool ) ) ); */
 
     connect( rb_prompt, SIGNAL( toggled(bool) ),
              SLOT( promptChecked( bool ) ) );
@@ -505,7 +504,7 @@ KProxyDialog::KProxyDialog( QWidget* parent,  const char* name )
     connect( ur_location, SIGNAL( textChanged(const QString&) ),
              SLOT( autoScriptChanged(const QString&) ) );
 
-    connect( pb_envSetup, SIGNAL( clicked() ), SLOT( setupManProxy() ) );
+    connect( pb_envSetup, SIGNAL( clicked() ), SLOT( setupEnvProxy() ) );
     connect( pb_manSetup, SIGNAL( clicked() ), SLOT( setupManProxy() ) );
 
     d = new ProxyData;
@@ -528,7 +527,7 @@ void KProxyDialog::load()
     d->httpProxy = KProtocolManager::proxyFor( "http" );
     d->secureProxy = KProtocolManager::proxyFor( "https" );
     d->ftpProxy = KProtocolManager::proxyFor( "ftp" );
-    d->gopherProxy = KProtocolManager::proxyFor( "gopher" );
+    //d->gopherProxy = KProtocolManager::proxyFor( "gopher" );
     d->scriptProxy = KProtocolManager::proxyConfigScript();
     d->noProxyFor = QStringList::split( QRegExp("[',''\t'' ']"),
                                         KProtocolManager::noProxyFor() );
@@ -658,7 +657,6 @@ void KProxyDialog::save()
     KSaveIOConfig::setProxyFor( "http", d->httpProxy );
     KSaveIOConfig::setProxyFor( "https", d->secureProxy );
     KSaveIOConfig::setProxyFor( "ftp", d->ftpProxy );
-    KSaveIOConfig::setProxyFor( "gopher", d->gopherProxy );
     KSaveIOConfig::setNoProxyFor( d->noProxyFor.join(",") );
     KSaveIOConfig::setProxyConfigScript( d->scriptProxy );
     KSaveIOConfig::setUseReverseProxy( d->useReverseProxy );
@@ -666,7 +664,7 @@ void KProxyDialog::save()
     // Update all running and applicable io-slaves
     QByteArray data;
     QDataStream stream( data, IO_WriteOnly );
-    stream << "http" << "https" << "ftp" << "gopher";
+    stream << "http" << "https" << "ftp";
     if ( !kapp->dcopClient()->isAttached() )
       kapp->dcopClient()->attach();
     kapp->dcopClient()->send( "*", "KIO::Scheduler",
@@ -691,11 +689,8 @@ QString KProxyDialog::quickHelp() const
 
 void KProxyDialog::setupManProxy()
 {
-    KCommonProxyDlg* dlg;
-    if ( rb_envVar->isChecked() )
-        dlg = new KEnvVarProxyDlg( this );
-    else
-        dlg = new KManualProxyDlg( this );
+    KCommonProxyDlg* dlg = new KManualProxyDlg( this );
+    rb_manual->setChecked(true);
 
     dlg->setProxyData( d );
     if ( dlg->exec() == QDialog::Accepted )
@@ -708,11 +703,37 @@ void KProxyDialog::setupManProxy()
             d->httpProxy = data.httpProxy;
             d->secureProxy = data.secureProxy;
             d->ftpProxy = data.ftpProxy;
-            d->gopherProxy = data.gopherProxy;
             d->noProxyFor = data.noProxyFor;
             d->changed = data.changed;
             d->envBased = data.envBased;
             changed( true );
+            m_bSettingChanged = true;
+        }
+    }
+    delete dlg;
+}
+
+void KProxyDialog::setupEnvProxy()
+{
+    KCommonProxyDlg* dlg = new KEnvVarProxyDlg( this );
+    rb_envVar->setChecked(true);
+
+    dlg->setProxyData( d );
+    if ( dlg->exec() == QDialog::Accepted )
+    {
+        ProxyData data = dlg->data();
+        if ( data.changed )
+        {
+            d->reset();
+            d->useReverseProxy = data.useReverseProxy;
+            d->httpProxy = data.httpProxy;
+            d->secureProxy = data.secureProxy;
+            d->ftpProxy = data.ftpProxy;
+            d->noProxyFor = data.noProxyFor;
+            d->changed = data.changed;
+            d->envBased = data.envBased;
+            changed( true );
+            m_bSettingChanged = true;
         }
     }
     delete dlg;
@@ -754,7 +775,6 @@ void KProxyDialog::manualChecked( bool on )
         if ( d )
           d->changed = false;
     }
-    pb_manSetup->setEnabled( on );
 }
 
 void KProxyDialog::envVarChecked( bool on )
@@ -766,7 +786,6 @@ void KProxyDialog::envVarChecked( bool on )
         if ( d )
           d->changed = false;
     }
-    pb_envSetup->setEnabled( on );
 }
 
 void KProxyDialog::promptChecked( bool on )

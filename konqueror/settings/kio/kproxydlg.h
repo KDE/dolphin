@@ -271,6 +271,7 @@ protected slots:
     void useProxyChecked( bool );
     void autoScriptChanged( const QString& );
     void setupManProxy();
+    void setupEnvProxy();
     void changed( bool );
 
 private:

@@ -178,36 +178,6 @@ KManualProxyDlg::KManualProxyDlg( QWidget* parent, const char* name )
     glay->addWidget( label, 2, 2 );
     glay->addWidget( sb_ftpproxy, 2, 3 );
 
-    cb_gopherproxy = new QCheckBox( i18n("&Gopher:"), gb_servers,
-                                    "cb_gopherproxy" );
-    QWhatsThis::add( cb_gopherproxy, i18n("Check this box to enable manual "
-                                          "proxy setup for gopher "
-                                          "connections."));
-    le_gopherproxy = new KManLineEdit( gb_servers, "le_gopherproxy" );
-    le_gopherproxy->setEnabled( false );
-    le_gopherproxy->setSizePolicy( QSizePolicy( QSizePolicy::MinimumExpanding,
-                                                QSizePolicy::Fixed,
-                                                le_gopherproxy->sizePolicy().hasHeightForWidth()) );
-    QWhatsThis::add( le_gopherproxy, i18n("Enter the address of the gopher "
-                                          "proxy server.") );
-    label = new QLabel( i18n("Port"), gb_servers, "lbl_gopherproxy" );
-    connect( cb_gopherproxy, SIGNAL( toggled(bool) ), label,
-             SLOT( setEnabled(bool) ) );
-    label->setEnabled( false );
-    label->setSizePolicy( QSizePolicy(QSizePolicy::Minimum,
-                                      QSizePolicy::Fixed,
-                                      label->sizePolicy().hasHeightForWidth()) );
-    sb_gopherproxy = new QSpinBox( gb_servers, "sb_gopherport" );
-    sb_gopherproxy->setEnabled( false );
-    QWhatsThis::add( sb_gopherproxy, i18n("Enter the port number for the gopher "
-                                         "proxy server. Default is 8080. "
-                                         "Another common value is 3128.") );
-
-    glay->addWidget( cb_gopherproxy, 3, 0 );
-    glay->addWidget( le_gopherproxy, 3, 1 );
-    glay->addWidget( label, 3, 2 );
-    glay->addWidget( sb_gopherproxy, 3, 3 );
-
     gb_serversLayout->addLayout( glay, 0, 0 );
 
     QVBoxLayout* vlay = new QVBoxLayout;
@@ -250,9 +220,12 @@ KManualProxyDlg::KManualProxyDlg( QWidget* parent, const char* name )
 
     pb_ok = new QPushButton( i18n("&OK"), this, "pb_ok" );
     pb_ok->setAutoDefault( true );
+    pb_ok->setFixedWidth( pb_ok->sizeHint().width() );
     hlay->addWidget( pb_ok );
+    
 
     pb_cancel = new QPushButton( i18n("&Cancel"), this, "pb_cancel" );
+    pb_cancel->setFixedWidth( pb_cancel->sizeHint().width() );
     hlay->addWidget( pb_cancel );
     mainLayout->addLayout( hlay );
 
@@ -269,8 +242,6 @@ void KManualProxyDlg::init()
              SLOT( setEnabled(bool) ) );
     connect( cb_ftpproxy, SIGNAL( toggled(bool) ), le_ftpproxy,
              SLOT( setEnabled(bool) ) );
-    connect( cb_gopherproxy, SIGNAL( toggled(bool) ), le_gopherproxy,
-             SLOT( setEnabled(bool) ) );
 
     // Enable port settings
     connect( cb_httpproxy, SIGNAL( toggled(bool) ), sb_httpproxy,
@@ -279,14 +250,10 @@ void KManualProxyDlg::init()
              SLOT( setEnabled(bool) ) );
     connect( cb_ftpproxy, SIGNAL( toggled(bool) ), sb_ftpproxy,
              SLOT( setEnabled(bool) ) );
-    connect( cb_gopherproxy, SIGNAL( toggled(bool) ), sb_gopherproxy,
-             SLOT( setEnabled(bool) ) );
 
     connect( cb_httpproxy, SIGNAL( toggled(bool) ), SLOT( setChecked(bool) ) );
     connect( cb_secproxy, SIGNAL( toggled(bool) ), SLOT( setChecked(bool) ) );
     connect( cb_ftpproxy, SIGNAL( toggled(bool) ), SLOT( setChecked(bool) ) );
-    connect( cb_gopherproxy, SIGNAL( toggled(bool) ),
-             SLOT( setChecked(bool) ) );
 
     connect( pb_ok, SIGNAL( clicked() ), SLOT( accept() ) );
     connect( pb_cancel, SIGNAL( clicked() ), SLOT( reject() ) );
@@ -295,7 +262,11 @@ void KManualProxyDlg::init()
     sb_httpproxy->setMaxValue( MAX_PORT_VALUE );
     sb_secproxy->setMaxValue( MAX_PORT_VALUE );
     sb_ftpproxy->setMaxValue( MAX_PORT_VALUE );
-    sb_gopherproxy->setMaxValue( MAX_PORT_VALUE );
+
+    // default values;
+    le_httpproxy->setText( "http://" );
+    le_secproxy->setText( "https://" );
+    le_ftpproxy->setText( "ftp://" );
 
     setChecked( true );
 }
@@ -312,7 +283,9 @@ void KManualProxyDlg::setProxyData( const ProxyData* data )
         if ( port < 1 )
             port = DEFAULT_PROXY_PORT;
         u.setPort( 0 );
-        le_httpproxy->setText( u.url() );
+        if(cb_httpproxy->isChecked())
+            le_httpproxy->setText( u.url() );
+
         sb_httpproxy->setValue( port );
 
         u = data->secureProxy;
@@ -322,7 +295,8 @@ void KManualProxyDlg::setProxyData( const ProxyData* data )
         if ( port < 1 )
             port = DEFAULT_PROXY_PORT;
         u.setPort( 0 );
-        le_secproxy->setText( u.url() );
+        if(cb_secproxy->isChecked())
+            le_secproxy->setText( u.url() );
         sb_secproxy->setValue( port );
 
         u = data->ftpProxy;
@@ -332,18 +306,9 @@ void KManualProxyDlg::setProxyData( const ProxyData* data )
         if ( port < 1 )
             port = DEFAULT_PROXY_PORT;
         u.setPort( 0 );
-        le_ftpproxy->setText( u.url() );
+        if(cb_ftpproxy->isChecked())
+            le_ftpproxy->setText( u.url() );
         sb_ftpproxy->setValue( port );
-
-        u = data->gopherProxy;
-        cb_gopherproxy->setChecked( !data->gopherProxy.isEmpty() &&
-                                    u.isValid() );
-        port = u.port();
-        if ( port < 1 )
-            port = DEFAULT_PROXY_PORT;
-        u.setPort( 0 );
-        le_gopherproxy->setText( u.url() );
-        sb_gopherproxy->setValue( port );
 
         gb_exceptions->fillExceptions( data );
         d = data;
@@ -353,7 +318,6 @@ void KManualProxyDlg::setProxyData( const ProxyData* data )
        sb_httpproxy->setValue( DEFAULT_PROXY_PORT );
        sb_secproxy->setValue( DEFAULT_PROXY_PORT );
        sb_ftpproxy->setValue( DEFAULT_PROXY_PORT );
-       sb_gopherproxy->setValue( DEFAULT_PROXY_PORT );
     }
 }
 
@@ -388,15 +352,6 @@ ProxyData KManualProxyDlg::data() const
             data.ftpProxy = u.url();
         }
     }
-    if ( cb_gopherproxy->isChecked() )
-    {
-        u = le_gopherproxy->text();
-        if ( u.isValid() )
-        {
-            u.setPort( sb_gopherproxy->value() );
-            data.gopherProxy = u.url();
-        }
-    }
     QStringList list = gb_exceptions->exceptions();
     if ( list.count() )
         data.noProxyFor = list;
@@ -405,7 +360,6 @@ ProxyData KManualProxyDlg::data() const
     data.changed = ( !d || (data.httpProxy != d->httpProxy ||
                     data.secureProxy != d->secureProxy ||
                     data.ftpProxy != d->ftpProxy ||
-                    data.gopherProxy != d->gopherProxy ||
                     data.noProxyFor != d->noProxyFor ||
                     data.useReverseProxy != d->useReverseProxy) );
     data.envBased = false;
@@ -416,8 +370,7 @@ void KManualProxyDlg::setChecked( bool )
 {
    bool checked = (cb_httpproxy->isChecked() ||
                    cb_secproxy->isChecked() ||
-                   cb_ftpproxy->isChecked() ||
-                   cb_gopherproxy->isChecked());
+                   cb_ftpproxy->isChecked());
     pb_copyDown->setEnabled( checked );
     pb_ok->setEnabled( checked );
 }
@@ -466,18 +419,6 @@ bool KManualProxyDlg::validate()
             i++;
         }
     }
-    if ( cb_gopherproxy->isChecked() )
-    {
-        u = le_gopherproxy->text();
-        if ( !u.isValid() )
-        {
-            f = cb_httpproxy->font();
-            f.setBold( true );
-            cb_httpproxy->setFont( f );
-            notValid |= true;
-            i++;
-        }
-    }
 
     if ( notValid )
     {
@@ -507,7 +448,6 @@ void KManualProxyDlg::copyDown()
     bool isHttpProxyChecked = cb_httpproxy->isChecked();
     bool isSecProxyChecked = cb_secproxy->isChecked();
     bool isFtpProxyChecked = cb_ftpproxy->isChecked();
-    bool isGopherProxyChecked = cb_gopherproxy->isChecked();
 
     if ( isHttpProxyChecked )
         action += 4;
@@ -515,8 +455,6 @@ void KManualProxyDlg::copyDown()
         action += 3;
     else if ( isFtpProxyChecked )
         action += 2;
-    else if ( isGopherProxyChecked )
-        action += 1;
 
     switch ( action )
     {
@@ -532,11 +470,6 @@ void KManualProxyDlg::copyDown()
             sb_ftpproxy->setValue( sb_httpproxy->value() );
         }
 
-        if ( isGopherProxyChecked )
-        {
-            le_gopherproxy->setText( le_httpproxy->text() );
-            sb_gopherproxy->setValue( sb_httpproxy->value() );
-        }
         break;
     case 2:
         if ( isFtpProxyChecked )
@@ -544,18 +477,8 @@ void KManualProxyDlg::copyDown()
             le_ftpproxy->setText( le_secproxy->text() );
             sb_ftpproxy->setValue( sb_secproxy->value() );
         }
-        if ( isGopherProxyChecked )
-        {
-            le_gopherproxy->setText( le_secproxy->text() );
-            sb_gopherproxy->setValue( sb_secproxy->value() );
-        }
         break;
     case 1:
-        if ( isGopherProxyChecked )
-        {
-            le_gopherproxy->setText( le_ftpproxy->text() );
-            sb_gopherproxy->setValue( sb_ftpproxy->value() );
-        }
     case 0:
     default:
         break;

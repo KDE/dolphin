@@ -36,8 +36,6 @@
 #define ENV_SECURE_PROXY  "HTTPS_PROXY,https_proxy,HTTPSPROXY,httpsproxy,\
                            PROXY,proxy"
 #define ENV_FTP_PROXY     "FTP_PROXY,ftp_proxy,FTPPROXY,ftpproxy,PROXY,proxy"
-#define ENV_GOPHER_PROXY  "GOPHER_PROXY,gopher_proxy,GOPHERPROXY,gopherproxy,\
-                           PROXY,proxy"
 
 class KEnvLineEdit : public KLineEdit
 {
@@ -159,30 +157,6 @@ KEnvVarProxyDlg::KEnvVarProxyDlg( QWidget* parent, const char* name )
     glay->addWidget( cb_envFtp, 2, 0 );
     glay->addWidget( le_envFtp, 2, 1 );
 
-
-    cb_envGopher = new QCheckBox( gb_servers, "cb_envGopher" );
-    cb_envGopher->setText( i18n( "&Gopher:" ) );
-    QWhatsThis::add( cb_envGopher, i18n("Check this box to enable environment "
-                                        "variable based proxy setup for "
-                                        "Gopher connections.") );
-
-    le_envGopher = new KEnvLineEdit( gb_servers, "le_envGopher" );
-    le_envGopher->setEnabled( false );
-    le_envGopher->setSizePolicy( QSizePolicy(QSizePolicy::MinimumExpanding,
-                                             QSizePolicy::Fixed,
-                                             le_envGopher->sizePolicy().hasHeightForWidth()) );
-    QWhatsThis::add( le_envGopher, i18n("<qt>Enter the name of the environment "
-                                        "variable, eg. <tt>GOPHER_PROXY"
-                                        "</tt>, used to store the address "
-                                        "of the gopher proxy server.<p>"
-                                        "Alternatively, you can click on the "
-                                        "<tt>\"Auto Detect\"</tt> "
-                                        "button on the right to attempt an "
-                                        "automatic discovery of these "
-                                        "varibles.</qt>") );
-
-    glay->addWidget( cb_envGopher, 3, 0 );
-    glay->addWidget( le_envGopher, 3, 1 );
     gb_serversLayout->addLayout( glay, 0, 0 );
 
     QHBoxLayout* hlay = new QHBoxLayout;
@@ -224,8 +198,7 @@ KEnvVarProxyDlg::KEnvVarProxyDlg( QWidget* parent, const char* name )
                                      "following common variable names:</p>"
                                      "<p><u>For HTTP: </u>%1</p>"
                                      "<p><u>For Secure: </u>%2</p>"
-                                     "<p><u>For FTP: </u>%3</p>"
-                                     "<p><u>For Gopher: </u>%4</p></qt>").arg(ENV_HTTP_PROXY).arg(ENV_SECURE_PROXY).arg(ENV_FTP_PROXY).arg(ENV_GOPHER_PROXY) );
+                                     "<p><u>For FTP: </u>%3</p></qt>").arg(ENV_HTTP_PROXY).arg(ENV_SECURE_PROXY).arg(ENV_FTP_PROXY));
     vlay->addWidget( pb_detect );
 
     spacer = new QSpacerItem( 20, 20, QSizePolicy::Minimum,
@@ -269,13 +242,10 @@ void KEnvVarProxyDlg::init()
              SLOT( setEnabled(bool) ) );
     connect( cb_envFtp, SIGNAL( toggled(bool) ), le_envFtp,
              SLOT( setEnabled(bool) ) );
-    connect( cb_envGopher, SIGNAL( toggled(bool) ), le_envGopher,
-             SLOT( setEnabled(bool) ) );
 
     connect( cb_envHttp, SIGNAL( toggled(bool) ), SLOT( setChecked(bool) ) );
     connect( cb_envSecure, SIGNAL( toggled(bool) ), SLOT( setChecked(bool) ) );
     connect( cb_envFtp, SIGNAL( toggled(bool) ), SLOT( setChecked(bool) ) );
-    connect( cb_envGopher, SIGNAL( toggled(bool) ), SLOT( setChecked(bool) ) );
     connect( cb_showValue, SIGNAL( toggled(bool) ), SLOT( showValue(bool) ) );    
 
 
@@ -295,25 +265,22 @@ void KEnvVarProxyDlg::setProxyData( const ProxyData* data )
         {
             cb_envHttp->setChecked( true );
             le_envHttp->setText( data->httpProxy );
-        }
+        } else
+            le_envHttp->setText( "http://" );
 
         if ( !data->secureProxy.isEmpty() )
         {
             cb_envSecure->setChecked( true );
             le_envSecure->setText( data->secureProxy );
-        }
+        } else
+            le_envSecure->setText( "https://" );
 
         if ( !data->ftpProxy.isEmpty() )
         {
             cb_envFtp->setChecked( true );
             le_envFtp->setText( data->ftpProxy );
-        }
-
-        if ( !data->gopherProxy.isEmpty() )
-        {
-            cb_envGopher->setChecked( true );
-            le_envGopher->setText( data->gopherProxy );
-        }
+        } else
+            le_envFtp->setText( "ftp://" );
 
         gb_exceptions->fillExceptions( data );
         d = data;
@@ -329,8 +296,6 @@ ProxyData KEnvVarProxyDlg::data() const
         data.secureProxy = le_envSecure->text();
     if ( cb_envFtp->isChecked() )
         data.ftpProxy = le_envFtp->text();
-    if ( cb_envGopher->isChecked() )
-        data.gopherProxy = le_envGopher->text();
 
     QStringList list = gb_exceptions->exceptions();
     if ( list.count() )
@@ -340,7 +305,6 @@ ProxyData KEnvVarProxyDlg::data() const
     data.changed = ( !d || (data.httpProxy != d->httpProxy ||
                     data.secureProxy != d->secureProxy ||
                     data.ftpProxy != d->ftpProxy ||
-                    data.gopherProxy != d->gopherProxy ||
                     data.noProxyFor != d->noProxyFor ||
                     data.useReverseProxy != d->useReverseProxy ) );
     data.envBased = true;
@@ -431,22 +395,6 @@ void KEnvVarProxyDlg::autoDetectPressed()
             }
         }
     }
-    if ( cb_envGopher->isChecked() )
-    {
-        list = QStringList::split( ',',
-                                   QString::fromLatin1(ENV_GOPHER_PROXY) );
-        it = list.begin();
-        for( ; it != list.end(); ++it )
-        {
-            env = QString::fromLocal8Bit( getenv( (*it).local8Bit() ) );
-            if ( !env.isEmpty() )
-            {
-                le_envGopher->setText( (cb_showValue->isChecked()?env:*it) );
-                found |= true;
-                break;
-            }
-        }
-    }
 
     if ( !found )
     {
@@ -491,13 +439,6 @@ void KEnvVarProxyDlg::showValue( bool enable )
             le_envFtp->setText( env );
             lst_envVars << txt;
         }
-        if ( cb_envGopher->isChecked() )
-        {
-            txt = le_envGopher->text();
-            env = QString::fromLocal8Bit( getenv( txt.local8Bit() ) );
-            le_envGopher->setText( env );
-            lst_envVars << txt;
-        }
     }
     else
     {
@@ -508,8 +449,6 @@ void KEnvVarProxyDlg::showValue( bool enable )
             le_envSecure->setText( lst_envVars[count++] );
         if ( cb_envFtp->isChecked() )
             le_envFtp->setText( lst_envVars[count++] );
-        if ( cb_envGopher->isChecked() )
-            le_envGopher->setText( lst_envVars[count++] );
     }
 }
 
@@ -517,8 +456,7 @@ void KEnvVarProxyDlg::setChecked( bool )
 {
     bool checked = (cb_envHttp->isChecked() ||
                     cb_envSecure->isChecked() ||
-                    cb_envFtp->isChecked() ||
-                    cb_envGopher->isChecked());
+                    cb_envFtp->isChecked());
     pb_verify->setEnabled( checked );
     pb_detect->setEnabled( checked );
     pb_ok->setEnabled( checked );
@@ -560,17 +498,6 @@ bool KEnvVarProxyDlg::validate( unsigned short& i )
             f = cb_envFtp->font();
             f.setBold( true );
             cb_envFtp->setFont( f );
-            notValid |= true;
-            i++;
-        }
-    }
-    if ( cb_envGopher->isChecked() )
-    {
-        if ( getenv( le_envGopher->text().local8Bit() ) == 0L )
-        {
-            f = cb_envGopher->font();
-            f.setBold( true );
-            cb_envGopher->setFont( f );
             notValid |= true;
             i++;
         }
