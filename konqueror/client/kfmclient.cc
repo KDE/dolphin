@@ -45,6 +45,8 @@
 #include "KonquerorIface_stub.h"
 #include "KDesktopIface_stub.h"
 
+#include <X11/Xlib.h>
+
 static const char appName[] = "kfmclient";
 
 static const char description[] = I18N_NOOP("KDE tool for opening URLs from the command line");
@@ -219,7 +221,13 @@ bool clientApp::createNewWindow(const KURL & url, const QString & mimetype)
         KStartupInfoData data;
         data.addPid( 0 );   // say there's another process for this ASN with unknown PID
         data.setHostname(); // ( no need to bother to get this konqy's PID )
-        KStartupInfo::sendChange( id, data );
+        Display* dpy = qt_xdisplay();
+        if( dpy == NULL ) // we may be running without QApplication here
+            dpy = XOpenDisplay( NULL );
+        if( dpy != NULL )
+            KStartupInfo::sendChangeX( dpy, id, data );
+        if( dpy != NULL && dpy != qt_xdisplay())
+            XCloseDisplay( dpy );
     }
     else
     {
@@ -282,7 +290,13 @@ bool clientApp::openProfile( const QString & profileName, const QString & url, c
   KStartupInfoData sidata;
   sidata.addPid( 0 );   // say there's another process for this ASN with unknown PID
   sidata.setHostname(); // ( no need to bother to get this konqy's PID )
-  KStartupInfo::sendChange( id, sidata );
+  Display* dpy = qt_xdisplay();
+  if( dpy == NULL ) // we may be running without QApplication here
+      dpy = XOpenDisplay( NULL );
+  if( dpy != NULL )
+      KStartupInfo::sendChangeX( dpy, id, sidata );
+  if( dpy != NULL && dpy != qt_xdisplay())
+      XCloseDisplay( dpy );
   return true;
 }
 
