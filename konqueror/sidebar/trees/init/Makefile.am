@@ -1,6 +1,7 @@
 SUBDIRS = remote services
 
-dataEntry_DATA = home.desktop root.desktop history.desktop bookmarks.desktop services.desktop remote.desktop devices.desktop
+dataEntry_DATA = home.desktop root.desktop history.desktop bookmarks.desktop \
+                 services.desktop remote.desktop
 dataEntrydir = $(kde_datadir)/konqsidebartng/entries
 
 dataAdd_DATA = virtualfolderadd.desktop 
