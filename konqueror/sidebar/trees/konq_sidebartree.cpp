@@ -522,8 +522,11 @@ void KonqSidebarTree::scanDir( KonqSidebarTreeItem *parent, const QString &path,
         if (copyConfig)
         {
             // We will copy over the configuration for the dirtree, from the global directory
-            QString dirtree_dir = KGlobal::dirs()->findDirs("data","konqsidebartng/virtual_folders/"+m_dirtreeDir.relDir+"/").last();  // most global
-            kdDebug(1201) << "KonqSidebarTree::scanDir dirtree_dir=" << dirtree_dir << endl;
+            QStringList dirtree_dirs = KGlobal::dirs()->findDirs("data","konqsidebartng/virtual_folders/"+m_dirtreeDir.relDir+"/");
+
+
+//            QString dirtree_dir = KGlobal::dirs()->findDirs("data","konqsidebartng/virtual_folders/"+m_dirtreeDir.relDir+"/").last();  // most global
+//            kdDebug(1201) << "KonqSidebarTree::scanDir dirtree_dir=" << dirtree_dir << endl;
 
             /*
             // debug code
@@ -536,39 +539,41 @@ void KonqSidebarTree::scanDir( KonqSidebarTreeItem *parent, const QString &path,
             // end debug code
             */
 
-            if ( !dirtree_dir.isEmpty() && dirtree_dir != path )
-            {
-                QDir globalDir( dirtree_dir );
-                Q_ASSERT( globalDir.isReadable() );
-                // Only copy the entries that don't exist yet in the local dir
-                QStringList globalDirEntries = globalDir.entryList();
-                QStringList::ConstIterator eIt = globalDirEntries.begin();
-                QStringList::ConstIterator eEnd = globalDirEntries.end();
-                for (; eIt != eEnd; ++eIt )
-                {
-                    //kdDebug(1201) << "KonqSidebarTree::scanDir dirtree_dir contains " << *eIt << endl;
-                    if ( *eIt != "." && *eIt != ".."
-                         && !entries.contains( *eIt ) && !dirEntries.contains( *eIt ) )
-                    { // we don't have that one yet -> copy it.
-                        QString cp("cp -R ");
-                        cp += KProcess::quote(dirtree_dir + *eIt);
-                        cp += " ";
-                        cp += KProcess::quote(path);
-                        kdDebug(1201) << "KonqSidebarTree::scanDir executing " << cp << endl;
-                        ::system( QFile::encodeName(cp) );
-                    }
-                }
-
-                // hack to make QDir refresh the lists
-                dir.setPath(path);
-                entries = dir.entryList( QDir::Files );
-                dirEntries = dir.entryList( QDir::Dirs );
-                dirEntries.remove( "." );
-                dirEntries.remove( ".." );
-            }
-        }
-    }
-
+	    for (QStringList::const_iterator ddit=dirtree_dirs.constBegin();ddit!=dirtree_dirs.constEnd();++ddit) {
+		QString dirtree_dir=*ddit;
+		if (dirtree_dir==path) continue;
+	        //    if ( !dirtree_dir.isEmpty() && dirtree_dir != path )
+	            {
+        	        QDir globalDir( dirtree_dir );
+                	Q_ASSERT( globalDir.isReadable() );
+	                // Only copy the entries that don't exist yet in the local dir
+        	        QStringList globalDirEntries = globalDir.entryList();
+                	QStringList::ConstIterator eIt = globalDirEntries.begin();
+	                QStringList::ConstIterator eEnd = globalDirEntries.end();
+        	        for (; eIt != eEnd; ++eIt )
+                	{
+	                    //kdDebug(1201) << "KonqSidebarTree::scanDir dirtree_dir contains " << *eIt << endl;
+        	            if ( *eIt != "." && *eIt != ".."
+                	         && !entries.contains( *eIt ) && !dirEntries.contains( *eIt ) )
+	                    { // we don't have that one yet -> copy it.
+                	        QString cp("cp -R ");
+        	                cp += KProcess::quote(dirtree_dir + *eIt);
+	                        cp += " ";
+        	                cp += KProcess::quote(path);
+                	        kdDebug(1201) << "KonqSidebarTree::scanDir executing " << cp << endl;
+                        	::system( QFile::encodeName(cp) );
+	                    }
+        	        }
+		     }
+                  }
+	                // hack to make QDir refresh the lists
+	                dir.setPath(path);
+        	        entries = dir.entryList( QDir::Files );
+	                dirEntries = dir.entryList( QDir::Dirs );
+        	        dirEntries.remove( "." );
+	                dirEntries.remove( ".." );
+             }
+	}
     QStringList::ConstIterator eIt = entries.begin();
     QStringList::ConstIterator eEnd = entries.end();
 
