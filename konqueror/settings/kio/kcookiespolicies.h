@@ -20,8 +20,8 @@
 
 
 class DCOPClient;
-class KSplitList;
 class QStringList;
+class KListView;
 
 class KCookiesPolicies : public KCModule
 {
@@ -46,26 +46,25 @@ protected slots:
     void changed();
 
 private:
-    void updateDomainList();
+    void updateDomainList(const QStringList &list);
 
     // Global Policy Cookies enabled
-    QGroupBox*    gb_global;      
-    QButtonGroup* bg_default;    
+    QGroupBox*    gb_global;
+    QButtonGroup* bg_default;
     QCheckBox*    cb_enableCookies;
     QRadioButton* rb_gbPolicyAccept;
     QRadioButton* rb_gbPolicyAsk;
     QRadioButton* rb_gbPolicyReject;
-   
+
     // Domain specific cookie policies
     QGroupBox*    gb_domainSpecific;
-    KSplitList*   lb_domainPolicy;
+    KListView*   lb_domainPolicy;
     QPushButton*  pb_domPolicyAdd;
-    QPushButton*  pb_domPolicyDelete;    
+    QPushButton*  pb_domPolicyDelete;
     QPushButton*  pb_domPolicyChange;
     QPushButton*  pb_domPolicyImport;
     QPushButton*  pb_domPolicyExport;
 
-    QStringList domainConfig;
 };
 
 #endif // __KCOOKIESPOLICIES_H
