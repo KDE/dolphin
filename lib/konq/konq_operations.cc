@@ -452,7 +452,7 @@ void KonqOperations::slotKIOPaste()
 {
     assert(m_pasteInfo); // setPasteInfo should have been called before
     KIO::pasteData( m_pasteInfo->destURL, m_pasteInfo->data );
-    delete m_pasteInfo;
+    delete this;
 }
 
 void KonqOperations::asyncDrop( const KFileItem * destItem )
