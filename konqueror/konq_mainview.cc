@@ -1319,17 +1319,17 @@ void KonqMainView::slotComboPlugged()
 void KonqMainView::slotShowMenuBar()
 {
   if (menuBar()->isVisible())
-    menuBar()->enable( KMenuBar::Hide );
+    menuBar()->hide();
   else
-    menuBar()->enable( KMenuBar::Show );
+    menuBar()->show();
 }
 
 void KonqMainView::slotShowStatusBar()
 {
   if (statusBar()->isVisible())
-    statusBar()->enable( KStatusBar::Hide );
+    statusBar()->hide();
   else
-    statusBar()->enable( KStatusBar::Show );
+    statusBar()->show();
 }
 
 void KonqMainView::slotShowToolBar()
@@ -1337,9 +1337,9 @@ void KonqMainView::slotShowToolBar()
   KToolBar * bar = (KToolBar *)child( "mainToolBar", "KToolBar" );
   if (!bar) return;
   if (bar->isVisible())
-    bar->enable( KToolBar::Hide );
+    bar->hide();
   else
-    bar->enable( KToolBar::Show );
+    bar->show();
 }
 
 void KonqMainView::slotShowLocationBar()
@@ -1347,9 +1347,9 @@ void KonqMainView::slotShowLocationBar()
   KToolBar * bar = (KToolBar *)child( "locationToolBar", "KToolBar" );
   if (!bar) return;
   if (bar->isVisible())
-    bar->enable( KToolBar::Hide );
+    bar->hide();
   else
-    bar->enable( KToolBar::Show );
+    bar->show();
 }
 
 void KonqMainView::slotShowBookmarkBar()
@@ -1357,9 +1357,9 @@ void KonqMainView::slotShowBookmarkBar()
   KToolBar * bar = (KToolBar *)child( "bookmarkToolBar", "KToolBar" );
   if (!bar) return;
   if (bar->isVisible())
-    bar->enable( KToolBar::Hide );
+    bar->hide();
   else
-    bar->enable( KToolBar::Show );
+    bar->show();
 }
 
 void KonqMainView::fillHistoryPopup( QPopupMenu *menu, const QList<HistoryEntry> &history )
