@@ -2155,8 +2155,14 @@ void KonqMainWindow::slotBreakOffTab()
 void KonqMainWindow::slotBreakOffTabPopup()
 {
   //Can't do this safely here as the tabbar may disappear and we're
-  //handing off here.
-  QTimer::singleShot(0, this, SLOT( slotBreakOffTab() ) );
+  //hanging off here.
+  QTimer::singleShot(0, this, SLOT( slotBreakOffTabPopupDelayed() ) );
+}
+
+void KonqMainWindow::slotBreakOffTabPopupDelayed()
+{
+  m_pViewManager->breakOffTab( m_pWorkingTab );
+  updateViewActions();
 }
 
 void KonqMainWindow::slotPopupNewTabAtFront()
@@ -2219,24 +2225,25 @@ void KonqMainWindow::slotRemoveTab()
 
 void KonqMainWindow::slotRemoveTabPopup()
 {
-  //Can't do this safely here, since if this is the last
-  //tab, the tabbar may disappear, and the popup from
-  //which we're invoked is created in response to a tabbar
-  //event
-  QTimer::singleShot( 0, this, SLOT( slotRemoveTab() ) );
+  //Can't do immediately - may kill the tabbar, and we're in an event path down from it
+  QTimer::singleShot( 0, this, SLOT( slotRemoveTabPopupDelayed() ) );
 }
 
-
-void KonqMainWindow::slotRemoveOtherTabs()
+void KonqMainWindow::slotRemoveTabPopupDelayed()
 {
-      m_pViewManager->removeOtherTabs( m_pWorkingTab );
-      updateViewActions();
+  m_pViewManager->removeTab( m_pWorkingTab );
 }
 
 void KonqMainWindow::slotRemoveOtherTabsPopup()
 {
-  //As above, delayed for safety
-  QTimer::singleShot( 0, this, SLOT( slotRemoveOtherTabs() ) );
+  //Can't do immediately - kills the tabbar, and we're in an event path down from it
+  QTimer::singleShot( 0, this, SLOT( slotRemoveOtherTabsPopupDelayed() ) );
+}
+
+void KonqMainWindow::slotRemoveOtherTabsPopupDelayed()
+{
+  m_pViewManager->removeOtherTabs( m_pWorkingTab );
+  updateViewActions();
 }
 
 void KonqMainWindow::slotReloadAllTabs()
@@ -2244,6 +2251,7 @@ void KonqMainWindow::slotReloadAllTabs()
     m_pViewManager->reloadAllTabs();
     updateViewActions();
 }
+
 
 void KonqMainWindow::slotActivateNextTab()
 {

@@ -394,17 +394,24 @@ protected slots:
   void slotSplitViewVertical();
   void slotDuplicateTab();
   void slotDuplicateTabPopup();
+
   void slotBreakOffTab();
   void slotBreakOffTabPopup();
+  void slotBreakOffTabPopupDelayed();
+
   void slotPopupNewTab();
   void slotPopupNewTabAtFront();
   void slotPopupPasteTo();
   void slotRemoveView();
-  void slotRemoveOtherTabs();
+
   void slotRemoveOtherTabsPopup();
-    void slotReloadAllTabs();
+  void slotRemoveOtherTabsPopupDelayed();
+
+  void slotReloadAllTabs();
   void slotRemoveTab();
   void slotRemoveTabPopup();
+  void slotRemoveTabPopupDelayed();
+
   void slotActivateNextTab();
   void slotActivatePrevTab();
   void slotDumpDebugInfo();
