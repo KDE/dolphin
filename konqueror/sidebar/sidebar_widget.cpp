@@ -24,6 +24,7 @@
 #include <qpushbutton.h>
 #include <qwhatsthis.h>
 #include <qlayout.h>
+#include <qstringlist.h>
 
 #include <klocale.h>
 #include <ksimpleconfig.h>
@@ -39,6 +40,7 @@
 #include <kpopupmenu.h>
 #include <kprocess.h>
 #include <kurlrequesterdlg.h>
+#include <kinputdialog.h>
 #include <kfiledialog.h>
 #include "konqsidebar.h"
 
@@ -494,7 +496,8 @@ void Sidebar_Widget::buttonPopupActivate(int id)
                                 else
                                 {
                                     QString newurl= dlg->selectedURL().prettyURL();
-                                    ksc.writeEntry("Name",newurl);
+                                    //If we are going to set the name by 'set name', we don't set it here.
+                                    //ksc.writeEntry("Name",newurl);
                                     ksc.writePathEntry("URL",newurl);
                                     ksc.sync();
                                     QTimer::singleShot(0,this,SLOT(updateButtons()));
@@ -511,6 +514,27 @@ void Sidebar_Widget::buttonPopupActivate(int id)
 				QFile f(m_path+m_currentButton->file);
 				if (!f.remove())
 					qDebug("Error, file not deleted");
+				QTimer::singleShot(0,this,SLOT(updateButtons()));
+			}
+			break;
+		}
+		case 4: // Set a name for this sidebar tab
+		{
+			bool ok;
+			
+			// Pop up the dialog asking the user for name.
+			const QString name = KInputDialog::getText(i18n("Set Name"), i18n("Enter the name:"),
+			        m_currentButton->displayName, &ok, this);
+			
+			if(ok)
+			{
+				// Write the name in the .desktop file of this side button.
+				KSimpleConfig ksc(m_path+m_currentButton->file);
+				ksc.setGroup("Desktop Entry");
+				ksc.writeEntry("Name", name, true, false, true /*localized*/ );
+				ksc.sync();
+				
+				// Update the buttons with a QTimer (why?)
 				QTimer::singleShot(0,this,SLOT(updateButtons()));
 			}
 			break;
@@ -789,6 +813,7 @@ bool Sidebar_Widget::eventFilter(QObject *obj, QEvent *ev)
 				{
 					m_buttonPopup=new KPopupMenu(this, "Sidebar_Widget::ButtonPopup");
 					m_buttonPopup->insertTitle(SmallIcon("unknown"), "", 50);
+					m_buttonPopup->insertItem(SmallIconSet("www"), i18n("Set Name..."),4); // Item to open a dialog to change the name of the sidebar item (by Pupeno)
 					m_buttonPopup->insertItem(SmallIconSet("www"), i18n("Set URL..."),2);
 					m_buttonPopup->insertItem(SmallIconSet("image"), i18n("Set Icon..."),1);
 					m_buttonPopup->insertSeparator();
