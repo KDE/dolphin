@@ -16,7 +16,7 @@
    Boston, MA 02111-1307, USA.
 */
 
-#include "mozilla_module.h"
+#include "web_module.h"
 #include <qfileinfo.h>
 
 #include <khtml_part.h>
@@ -26,7 +26,7 @@
 #include <kglobal.h>
 
 
-KonqSidebarMozillaModule::KonqSidebarMozillaModule(KInstance *instance, QObject *parent, QWidget *widgetParent, QString &desktopName, const char* name)
+KonqSideBarWebModule::KonqSideBarWebModule(KInstance *instance, QObject *parent, QWidget *widgetParent, QString &desktopName, const char* name)
 	: KonqSidebarPlugin(instance, parent, widgetParent, desktopName, name)
 {
 	_htmlPart = new KHTMLPart;
@@ -39,42 +39,42 @@ KonqSidebarMozillaModule::KonqSidebarMozillaModule(KInstance *instance, QObject 
 }
 
 
-KonqSidebarMozillaModule::~KonqSidebarMozillaModule() {
+KonqSideBarWebModule::~KonqSideBarWebModule() {
 	delete _htmlPart;
 	_htmlPart = 0L;
 }
 
 
-QWidget *KonqSidebarMozillaModule::getWidget() {
+QWidget *KonqSideBarWebModule::getWidget() {
 	return _htmlPart->widget();
 }
 
 
-void *KonqSidebarMozillaModule::provides(const QString &) {
+void *KonqSideBarWebModule::provides(const QString &) {
 	return 0L;
 }
 
 
-void KonqSidebarMozillaModule::handleURL(const KURL &) {
+void KonqSideBarWebModule::handleURL(const KURL &) {
 }
 
 
 extern "C" {
-	KonqSidebarPlugin* create_konqsidebar_mozilla(KInstance *instance, QObject *parent, QWidget *widget, QString &desktopName, const char *name) {
-		return new KonqSidebarMozillaModule(instance, parent, widget, desktopName, name);
+	KonqSidebarPlugin* create_konqsidebar_web(KInstance *instance, QObject *parent, QWidget *widget, QString &desktopName, const char *name) {
+		return new KonqSideBarWebModule(instance, parent, widget, desktopName, name);
 	} 
 }
 
 
 extern "C" {
-	bool add_konqsidebar_mozilla(QString* fn, QString* param, QMap<QString,QString> *map) {
-		KGlobal::dirs()->addResourceType("mozillasidebardata", KStandardDirs::kde_default("data") + "konqsidebartng/mozillasidebar");
+	bool add_konqsidebar_web(QString* fn, QString* param, QMap<QString,QString> *map) {
+		KGlobal::dirs()->addResourceType("websidebardata", KStandardDirs::kde_default("data") + "konqsidebartng/websidebar");
 		KURL url;
 		url.setProtocol("file");
-		QStringList paths = KGlobal::dirs()->resourceDirs("mozillasidebardata");
+		QStringList paths = KGlobal::dirs()->resourceDirs("websidebardata");
 		for (QStringList::Iterator i = paths.begin(); i != paths.end(); ++i) {
-			if (QFileInfo(*i + "mozillasidebar.html").exists()) {
-				url.setPath(*i + "mozillasidebar.html");
+			if (QFileInfo(*i + "websidebar.html").exists()) {
+				url.setPath(*i + "websidebar.html");
 				break;
 			}
 		}
@@ -84,14 +84,14 @@ extern "C" {
 		map->insert("Type", "Link");
 		map->insert("URL", url.url());
 		map->insert("Icon", "netscape");
-		map->insert("Name", i18n("Mozilla Sidebar Plugin"));
+		map->insert("Name", i18n("Web SideBar Plugin"));
 		map->insert("Open", "true");
-		map->insert("X-KDE-KonqSidebarModule","konqsidebar_mozilla");
-		fn->setLatin1("mozillaplugin%1.desktop");
+		map->insert("X-KDE-KonqSidebarModule","konqsidebar_web");
+		fn->setLatin1("websidebarplugin%1.desktop");
 		return true;
 	}
 }
 
 
-#include "mozilla_module.moc"
+#include "web_module.moc"
 

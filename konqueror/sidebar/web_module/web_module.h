@@ -16,20 +16,20 @@
    Boston, MA 02111-1307, USA.
 */
 
-#ifndef mozilla_module_h
-#define mozilla_module_h
+#ifndef web_module_h
+#define web_module_h
 
 #include <qobject.h>
 #include <konqsidebarplugin.h>
 
 class KHTMLPart;
 
-class KonqSidebarMozillaModule : public KonqSidebarPlugin
+class KonqSideBarWebModule : public KonqSidebarPlugin
 {
 	Q_OBJECT
 public:
-	KonqSidebarMozillaModule(KInstance *instance, QObject *parent, QWidget *widgetParent, QString &desktopName, const char *name);
-	virtual ~KonqSidebarMozillaModule();
+	KonqSideBarWebModule(KInstance *instance, QObject *parent, QWidget *widgetParent, QString &desktopName, const char *name);
+	virtual ~KonqSideBarWebModule();
 
 	virtual QWidget *getWidget();
 	virtual void *provides(const QString &);
@@ -40,3 +40,4 @@ protected:
 };
 
 #endif
+

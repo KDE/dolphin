@@ -2,7 +2,7 @@
 Encoding=UTF-8
 Type=Link
 URL=
-Icon=konqsidebar_mozilla
-Name=Mozilla Sidebar Module
+Icon=netscape
+Name=Web SideBar Module
 Open=false
-X-KDE-KonqSidebarModule=konqsidebar_mozilla
+X-KDE-KonqSidebarModule=konqsidebar_web
