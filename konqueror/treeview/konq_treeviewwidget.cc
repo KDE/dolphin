@@ -122,8 +122,14 @@ const KURL & KonqTreeViewWidget::url()
   return m_url;
 }
 
-void KonqTreeViewWidget::initConfig()
+QStringList KonqTreeViewWidget::readProtocolConfig( const QString & protocol )
 {
+  KConfig * config = KGlobal::config();
+  if ( config->hasGroup( "TreeView_" + protocol ) )
+    config->setGroup( "TreeView_" + protocol );
+  else
+    config->setGroup( "TreeView_default" );
+
   // Default configuration for the columns (TODO get this from config file)
   m_dctColumnForAtom.clear();
   m_dctColumnForAtom.setAutoDelete( true );
@@ -135,17 +141,23 @@ void KonqTreeViewWidget::initConfig()
   m_dctColumnForAtom.insert( KIO::UDS_USER, new int(5) );
   m_dctColumnForAtom.insert( KIO::UDS_GROUP, new int(6) );
   m_dctColumnForAtom.insert( KIO::UDS_LINK_DEST, new int(7) );
+  QStringList lstColumns = config->readListEntry( "Headers" );
+  if (lstColumns.isEmpty())
+  {
+    lstColumns.append( i18n("Name") );
+    lstColumns.append( i18n("Type") );
+    lstColumns.append( i18n("Size") );
+    lstColumns.append( i18n("Date") );
+    lstColumns.append( i18n("Permissions") );
+    lstColumns.append( i18n("Owner") );
+    lstColumns.append( i18n("Group") );
+    lstColumns.append( i18n("Link") );
+  }
+  return lstColumns;
+}
 
-  m_lstColumns.clear();
-  m_lstColumns.append( i18n("Name") );
-  m_lstColumns.append( i18n("Type") );
-  m_lstColumns.append( i18n("Size") );
-  m_lstColumns.append( i18n("Date") );
-  m_lstColumns.append( i18n("Permissions") );
-  m_lstColumns.append( i18n("Owner") );
-  m_lstColumns.append( i18n("Group") );
-  m_lstColumns.append( i18n("Link") );
-
+void KonqTreeViewWidget::initConfig()
+{
   QColor bgColor           = m_pSettings->bgColor();
   // TODO QColor textColor         = m_pSettings->normalTextColor();
    // TODO highlightedTextColor
@@ -549,24 +561,21 @@ bool KonqTreeViewWidget::openURL( const KURL &url )
     if ( m_iColumns == -1 )
       m_iColumns = 0;
 
+    QStringList lstColumns = readProtocolConfig( url.protocol() );
+    QStringList::Iterator it = lstColumns.begin();
     int currentColumn = 0;
-
-    QStringList::Iterator it = m_lstColumns.begin();
-    for( ; it != m_lstColumns.end(); it++ )
+    for( ; it != lstColumns.end(); it++, currentColumn++ )
     {	
       if ( currentColumn > m_iColumns - 1 )
       {
 	addColumn( *it );
 	m_iColumns++;
-	currentColumn++;
       }
       else
-      {
 	setColumnText( currentColumn, *it );
-	currentColumn++;
-      }
     }
 
+    // We had more columns than this. Should we delete them ?
     while ( currentColumn < m_iColumns )
       setColumnText( currentColumn++, "" );
   }

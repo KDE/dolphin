@@ -54,8 +54,7 @@ Saving layout for the other protocols :
 
 In konqueror/treeview: for the current protocol, create in memory
 the dicts    UDS number -> column number (reversing the config file)
-                  This allows sorting the UDSEntryList using qBubbleSort
-                  ( defining a type able to know if two UDS entries are < )
+                  This allows sorting the UDSEntryList in one go.
 
 + QStringList of headers (i18n'ed).
 

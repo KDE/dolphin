@@ -121,7 +121,9 @@ protected slots:
   void slotResult( KIO::Job * );
 
 protected:
-  virtual void initConfig();
+  void initConfig();
+  QStringList readProtocolConfig( const QString & protocol );
+
   virtual void viewportDragMoveEvent( QDragMoveEvent *_ev );
   virtual void viewportDragEnterEvent( QDragEnterEvent *_ev );
   virtual void viewportDragLeaveEvent( QDragLeaveEvent *_ev );
@@ -172,8 +174,6 @@ protected:
    * Not in the dict -> not shown.
    */
   QIntDict<int> m_dctColumnForAtom;
-  // List of columns headers
-  QStringList m_lstColumns;
 
   bool m_bTopLevelComplete;
   bool m_bSubFolderComplete;
