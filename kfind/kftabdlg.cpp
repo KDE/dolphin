@@ -550,6 +550,8 @@ QString KfindTabDialog::createQuery()
 
     if (enableSearch)
       {
+        dirBox->insertItem( dirBox->currentText(),0 );
+	
         str += dirBox->text(dirBox->currentItem());
 
         nameBox->insertItem( nameBox->currentText(),0 );
