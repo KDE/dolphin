@@ -68,9 +68,15 @@ void KonqSidebarHistoryItem::update( const KonqHistoryEntry *entry )
     assert(group);
     QString path = entry->url.path();
     if ( group->hasFavIcon() && (path.isNull() || path == "/") )
-	setPixmap( 0, *(group->pixmap(0)) );
+    {
+        const QPixmap *pm = group->pixmap(0);
+        if (pm)
+	    setPixmap( 0, *pm );
+    }
     else
+    {
 	setPixmap( 0, SmallIcon(KProtocolInfo::icon( entry->url.protocol() )));
+    }
 
     group->itemUpdated( this ); // update for sorting
 }
