@@ -151,6 +151,9 @@ KonqProfileDlg::KonqProfileDlg( KonqViewManager *manager, const QString & presel
   connect( m_pCloseButton, SIGNAL( clicked() ),
            this, SLOT( accept() ) );
 
+  m_pDeleteProfileButton->setEnabled( m_pListView->currentItem ()!=0 );
+  m_pRenameProfileButton->setEnabled( m_pListView->currentItem ()!=0 );
+
   resize( sizeHint() );
 }
 
@@ -186,6 +189,8 @@ void KonqProfileDlg::slotSave()
 
 void KonqProfileDlg::slotDelete()
 {
+    if(!m_pListView->currentItem())
+        return;
   QMap<QString, QString>::Iterator it = m_mapEntries.find( m_pListView->selectedItem()->text(0) );
 
   if ( it != m_mapEntries.end() && QFile::remove( it.data() ) )
@@ -197,7 +202,9 @@ void KonqProfileDlg::slotDelete()
 
 void KonqProfileDlg::slotRename()
 {
-  QString currentText = m_pListView->selectedItem()->text(0);
+ if(!m_pListView->currentItem())
+        return;
+    QString currentText = m_pListView->selectedItem()->text(0);
   QMap<QString, QString>::Iterator it = m_mapEntries.find( currentText );
 
   if ( it != m_mapEntries.end() )
