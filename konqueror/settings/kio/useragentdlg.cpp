@@ -37,7 +37,7 @@ UserAgentOptions::UserAgentOptions( QWidget * parent, const char * name ) :
   lay->setColStretch(0,0);
   lay->setColStretch(1,0);
   lay->setColStretch(2,1);
-  lay->setColStretch(3,1);
+  lay->setColStretch(3,0);
   lay->setColStretch(4,0);
 
   onserverLA = new QLabel( i18n( "On server:" ), this );
@@ -46,7 +46,7 @@ UserAgentOptions::UserAgentOptions( QWidget * parent, const char * name ) :
 
   onserverED = new QLineEdit( this );
   lay->addWidget(onserverED,1,2);
-  
+
   connect( onserverED, SIGNAL( textChanged(const QString&) ),
 		   SLOT( textChanged( const QString&) ) );
 
@@ -66,7 +66,7 @@ UserAgentOptions::UserAgentOptions( QWidget * parent, const char * name ) :
   addPB->setEnabled( false );
   connect( addPB, SIGNAL( clicked() ), SLOT( addClicked() ) );
   connect( addPB, SIGNAL( clicked() ), SLOT( changed() ) );
-  
+
   deletePB = new QPushButton( i18n( "&Delete" ), this );
   lay->addWidget(deletePB,2,3);
 
@@ -178,10 +178,10 @@ void UserAgentOptions::addClicked()
 
 void UserAgentOptions::deleteClicked()
 {
-  if( bindingsLB->count() ) 
+  if( bindingsLB->count() )
 	bindingsLB->removeItem( highlighted_item );
   if( !bindingsLB->count() ) // no more items
-    listboxHighlighted("");  
+    listboxHighlighted("");
 }
 
 
