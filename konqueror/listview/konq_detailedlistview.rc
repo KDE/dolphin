@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="KonqDetailedListView" version="6">
+<kpartgui name="KonqDetailedListView" version="7">
 <MenuBar>
  <Menu name="edit"><text>&amp;Edit</text>
   <Action name="select"/>
@@ -12,6 +12,7 @@
   <Menu name="iconview_mode"><text>Icon Size</text>
    <Action name="modedefault"/>
    <Separator/>
+   <Action name="modehuge"/>
    <Action name="modelarge"/>
    <Action name="modemedium"/>
    <Action name="modesmall"/>
