@@ -223,7 +223,7 @@ void KonqPopupMenu::setup(bool showPropertiesAndFileType)
   }
 
   bool isCurrentTrash = ( url.isLocalFile() &&
-                          url.path(1) == KGlobalSettings::trashPath() && 
+                          url.path(1) == KGlobalSettings::trashPath() &&
                           currentDir) ||
 		       ( m_lstItems.count() == 1 && bTrashIncluded );
 
@@ -243,7 +243,7 @@ void KonqPopupMenu::setup(bool showPropertiesAndFileType)
   {
     if (isCurrentTrash)
       actNewView->setStatusText( i18n( "Open the Trash in a new window" ) );
-    else 
+    else
       actNewView->setStatusText( i18n( "Open the document in a new window" ) );
   }
 
@@ -342,10 +342,12 @@ void KonqPopupMenu::setup(bool showPropertiesAndFileType)
         }
     }
   }
-
-  act = new KAction( i18n( "&Add to Bookmarks" ), "bookmark_add", 0, this, SLOT( slotPopupAddToBookmark() ), &m_ownActions, "bookmark_add" );
-  if (kapp->authorizeKAction("bookmarks"))
-     addAction( act );
+  if ( !isCurrentTrash )
+  {
+      act = new KAction( i18n( "&Add to Bookmarks" ), "bookmark_add", 0, this, SLOT( slotPopupAddToBookmark() ), &m_ownActions, "bookmark_add" );
+      if (kapp->authorizeKAction("bookmarks"))
+          addAction( act );
+  }
 
   //////////////////////////////////////////////////////
 
@@ -542,9 +544,10 @@ void KonqPopupMenu::setup(bool showPropertiesAndFileType)
       if ( insertedOffer )
         addSeparator();
   }
-  addPlugins( ); // now it's time to add plugins
+  if ( !isCurrentTrash )
+      addPlugins( ); // now it's time to add plugins
 
-  if ( !m_sMimeType.isEmpty() && showPropertiesAndFileType )
+  if ( !m_sMimeType.isEmpty() && showPropertiesAndFileType && !isCurrentTrash)
   {
       act = new KAction( i18n( "&Edit File Type..." ), 0, this, SLOT( slotPopupMimeType() ),
                        &m_ownActions, "editfiletype" );
