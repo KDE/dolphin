@@ -141,6 +141,11 @@ KProxyOptions::KProxyOptions(QWidget *parent, const char *name)
   ui->pb_rmHost->setEnabled(false);
   ui->pb_editHost->setEnabled(false);
 
+  // KDE3.0: Remove this ugly hack and update the string itself.
+  QString text = ui->lb_https_url->text();
+  text.replace(QRegExp("[Hh][Tt][Tt][Pp]"), "HTTPS");
+  ui->lb_https_url->setText(text);
+
   connect(ui->pb_addHost, SIGNAL(clicked()), SLOT(slotAddHost()));
   connect(ui->pb_rmHost, SIGNAL(clicked()), SLOT(slotRemoveHost()));
   connect(ui->pb_editHost, SIGNAL(clicked()), SLOT(slotEditHost()));
@@ -155,10 +160,13 @@ KProxyOptions::KProxyOptions(QWidget *parent, const char *name)
   connect( ui->url_autoProxy, SIGNAL( textChanged( const QString & ) ), SLOT( changed() ) );
   connect( ui->le_http_url, SIGNAL(textChanged(const QString&)), this, SLOT(changed()));
   connect( ui->sb_http_port, SIGNAL(valueChanged(int)), this, SLOT(changed()));
- // connect( ui->sb_http_port->editor(), SIGNAL(textChanged(const QString &)), this, SLOT(changed()));
+  connect( ui->sb_http_port->editor(), SIGNAL(textChanged(const QString &)), this, SLOT(changed()));
+  connect( ui->le_https_url, SIGNAL(textChanged(const QString&)), this, SLOT(changed()));
+  connect( ui->sb_https_port, SIGNAL(valueChanged(int)), this, SLOT(changed()));
+  connect( ui->sb_https_port->editor(), SIGNAL(textChanged(const QString&)), this, SLOT(changed()));
   connect( ui->le_ftp_url, SIGNAL(textChanged(const QString&)), this, SLOT(changed()));
   connect( ui->sb_ftp_port, SIGNAL(valueChanged(int)), this, SLOT(changed()));
- // connect( ui->sb_ftp_port->editor(), SIGNAL(textChanged(const QString&)), this, SLOT(changed()));
+  connect( ui->sb_ftp_port->editor(), SIGNAL(textChanged(const QString&)), this, SLOT(changed()));
   connect( ui->cb_useCache, SIGNAL( clicked() ), SLOT( changeCache() ) );
   connect( ui->cb_useCache, SIGNAL( clicked() ), this, SLOT( changed() ) );
   connect( ui->rb_verify, SIGNAL( clicked() ), SLOT( changeCache() ) );
@@ -200,6 +208,7 @@ QString KProxyOptions::quickHelp() const
 void KProxyOptions::load()
 {
   updateGUI ( KProtocolManager::proxyFor( "http" ),
+              KProtocolManager::proxyFor( "https" ),
               KProtocolManager::proxyFor( "ftp" ),
               KProtocolManager::proxyType(),
               KProtocolManager::noProxyFor(),
@@ -224,6 +233,8 @@ void KProxyOptions::defaults() {
   ui->cb_useProxy->setChecked(false);
   ui->le_http_url->setText("");
   ui->sb_http_port->setValue(3128);
+  ui->le_https_url->setText("");
+  ui->sb_https_port->setValue(3128);
   ui->le_ftp_url->setText("");
   ui->sb_ftp_port->setValue(3128);
   ui->klv_no_prx->clear();
@@ -235,7 +246,7 @@ void KProxyOptions::defaults() {
   ui->sb_max_cache_size->setValue(DEFAULT_MAX_CACHE_SIZE);
 }
 
-void KProxyOptions::updateGUI(QString httpProxy, QString ftpProxy,
+void KProxyOptions::updateGUI(QString httpProxy, QString httpsProxy, QString ftpProxy,
                               KProtocolManager::ProxyType proxyType,
                               QString noProxyFor, QString autoProxy)
 {
@@ -254,6 +265,21 @@ void KProxyOptions::updateGUI(QString httpProxy, QString ftpProxy,
   {
     ui->le_http_url->setText( QString::null );
     ui->sb_http_port->setValue(DEFAULT_PROXY_PORT);
+  }
+
+  if( !httpsProxy.isEmpty() )
+  {
+    url = httpsProxy;
+    ui->le_https_url->setText( url.host() );
+    uint port_num = url.port();
+    if( port_num == 0 )
+      port_num = DEFAULT_PROXY_PORT;
+    ui->sb_https_port->setValue(port_num);
+  }
+  else
+  {
+    ui->le_https_url->setText( QString::null );
+    ui->sb_https_port->setValue(DEFAULT_PROXY_PORT);
   }
 
   if( !ftpProxy.isEmpty() )
@@ -288,28 +314,45 @@ void KProxyOptions::updateGUI(QString httpProxy, QString ftpProxy,
 void KProxyOptions::save()
 {
     QString url = ui->le_http_url->text();
+    int port = ui->sb_http_port->value();
     if( !url.isEmpty() )
     {
       if ( url.left( 7 ) != "http://" )
         url.prepend( "http://" );
 
       url += ":";
-      url += QString::number(ui->sb_http_port->value());
+      url += QString::number(port);
     }
     KProtocolManager::setProxyFor( "http", url );
 
-    url = ui->le_ftp_url->text();
+    url = ui->le_https_url->text();
+    port = ui->sb_https_port->value();
     if( !url.isEmpty() )
     {
-      if ( url.left( 6 ) == "ftp://" )
-        url.replace( 0, 3, "http" );
-      else
+      if ( url.startsWith("https://") )
+        url.replace( 0, 5, "http" );
+      else if ( !url.startsWith("http://") )
         url.prepend( "http://" );
 
       url += ":";
-      url += QString::number(ui->sb_ftp_port->value());
+      url += QString::number(port);
+    }
+    KProtocolManager::setProxyFor( "https", url );
+
+    url = ui->le_ftp_url->text();
+    port = ui->sb_ftp_port->value();
+    if( !url.isEmpty() )
+    {
+      if ( url.startsWith("ftp://") )
+        url.replace( 0, 3, "http" );
+      else if ( !url.startsWith("http://") )
+        url.prepend( "http://" );
+
+      url += ":";
+      url += QString::number(port);
     }
     KProtocolManager::setProxyFor( "ftp", url );
+
     if ( ui->cb_useProxy->isChecked() )
     {
         if ( ui->cb_autoProxy->isChecked() )
@@ -362,6 +405,8 @@ void KProxyOptions::save()
 
 void KProxyOptions::copyDown()
 {
+  ui->le_https_url->setText( ui->le_http_url->text() );
+  ui->sb_https_port->setValue(ui->sb_http_port->value());
   ui->le_ftp_url->setText( ui->le_http_url->text() );
   ui->sb_ftp_port->setValue(ui->sb_http_port->value());
 }
@@ -376,6 +421,8 @@ void KProxyOptions::setProxy()
   ui->url_autoProxy->setEnabled( useProxy && autoProxy );
   ui->le_http_url->setEnabled( useProxy && !autoProxy );
   ui->sb_http_port->setEnabled( useProxy && !autoProxy );
+  ui->le_https_url->setEnabled( useProxy && !autoProxy );
+  ui->sb_https_port->setEnabled( useProxy && !autoProxy );
   ui->le_ftp_url->setEnabled( useProxy && !autoProxy );
   ui->sb_ftp_port->setEnabled( useProxy && !autoProxy );
   ui->gb_no_proxy_for->setEnabled( useProxy && !autoProxy );

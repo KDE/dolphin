@@ -105,21 +105,6 @@
                                 <name>spacing</name>
                                 <number>6</number>
                             </property>
-                            <widget row="1"  column="0" >
-                                <class>QLabel</class>
-                                <property stdset="1">
-                                    <name>name</name>
-                                    <cstring>lb_ftp_url</cstring>
-                                </property>
-                                <property stdset="1">
-                                    <name>text</name>
-                                    <string>&amp;FTP Proxy:</string>
-                                </property>
-                                <property>
-                                    <name>buddy</name>
-                                    <cstring>le_ftp_url</cstring>
-                                </property>
-                            </widget>
                             <widget row="0"  column="0" >
                                 <class>QLabel</class>
                                 <property stdset="1">
@@ -133,6 +118,43 @@
                                 <property>
                                     <name>buddy</name>
                                     <cstring>le_http_url</cstring>
+                                </property>
+                            </widget>
+                            <widget row="0"  column="1" >
+                                <class>QLineEdit</class>
+                                <property stdset="1">
+                                    <name>name</name>
+                                    <cstring>le_http_url</cstring>
+                                </property>
+                                <property>
+                                    <name>whatsThis</name>
+                                    <string>If you want access to an HTTP proxy server, enter its address here.</string>
+                                </property>
+                            </widget>
+                            <widget row="0"  column="2" >
+                                <class>QLabel</class>
+                                <property stdset="1">
+                                    <name>name</name>
+                                    <cstring>lb_http_port</cstring>
+                                </property>
+                                <property stdset="1">
+                                    <name>text</name>
+                                    <string>Port:</string>
+                                </property>
+                            </widget>
+                            <widget row="0"  column="3" >
+                                <class>KMySpinBox</class>
+                                <property stdset="1">
+                                    <name>name</name>
+                                    <cstring>sb_http_port</cstring>
+                                </property>
+                                <property stdset="1">
+                                    <name>maxValue</name>
+                                    <number>65535</number>
+                                </property>
+                                <property stdset="1">
+                                    <name>value</name>
+                                    <number>8080</number>
                                 </property>
                             </widget>
                             <widget row="0"  column="4" >
@@ -164,55 +186,48 @@
                                     <string>Click this button to copy the values for the HTTP proxy"     " server to the fields for the FTP proxy server, if you have one proxy for both protocols.</string>
                                 </property>
                             </widget>
-                            <widget row="0"  column="1" >
-                                <class>QLineEdit</class>
+                            <widget row="1"  column="0" >
+                                <class>QLabel</class>
                                 <property stdset="1">
                                     <name>name</name>
-                                    <cstring>le_http_url</cstring>
+                                    <cstring>lb_https_url</cstring>
+                                </property>
+                                <property stdset="1">
+                                    <name>text</name>
+                                    <string>&amp;HTTP Proxy:</string>
                                 </property>
                                 <property>
-                                    <name>whatsThis</name>
-                                    <string>If you want access to an HTTP proxy server, enter its address here.</string>
+                                    <name>buddy</name>
+                                    <cstring>le_https_url</cstring>
                                 </property>
                             </widget>
                             <widget row="1"  column="1" >
                                 <class>QLineEdit</class>
                                 <property stdset="1">
                                     <name>name</name>
-                                    <cstring>le_ftp_url</cstring>
+                                    <cstring>le_https_url</cstring>
                                 </property>
                                 <property>
                                     <name>whatsThis</name>
-                                    <string>If you want access to an FTP proxy server, enter its address here.</string>
-                                </property>
-                            </widget>
-                            <widget row="0"  column="2" >
-                                <class>QLabel</class>
-                                <property stdset="1">
-                                    <name>name</name>
-                                    <cstring>lb_http_port</cstring>
-                                </property>
-                                <property stdset="1">
-                                    <name>text</name>
-                                    <string>Port:</string>
+                                    <string>If you want access to an HTTP proxy server, enter its address here.</string>
                                 </property>
                             </widget>
                             <widget row="1"  column="2" >
                                 <class>QLabel</class>
                                 <property stdset="1">
                                     <name>name</name>
-                                    <cstring>lb_ftp_port</cstring>
+                                    <cstring>lb_https_port</cstring>
                                 </property>
                                 <property stdset="1">
                                     <name>text</name>
                                     <string>Port:</string>
                                 </property>
                             </widget>
-                            <widget row="0"  column="3" >
-                                <class>QSpinBox</class>
+                            <widget row="1"  column="3" >
+                                <class>KMySpinBox</class>
                                 <property stdset="1">
                                     <name>name</name>
-                                    <cstring>sb_http_port</cstring>
+                                    <cstring>sb_https_port</cstring>
                                 </property>
                                 <property stdset="1">
                                     <name>maxValue</name>
@@ -223,8 +238,45 @@
                                     <number>8080</number>
                                 </property>
                             </widget>
-                            <widget row="1"  column="3" >
-                                <class>QSpinBox</class>
+                            <widget row="2"  column="0" >
+                                <class>QLabel</class>
+                                <property stdset="1">
+                                    <name>name</name>
+                                    <cstring>lb_ftp_url</cstring>
+                                </property>
+                                <property stdset="1">
+                                    <name>text</name>
+                                    <string>&amp;FTP Proxy:</string>
+                                </property>
+                                <property>
+                                    <name>buddy</name>
+                                    <cstring>le_ftp_url</cstring>
+                                </property>
+                            </widget>
+                            <widget row="2"  column="1" >
+                                <class>QLineEdit</class>
+                                <property stdset="1">
+                                    <name>name</name>
+                                    <cstring>le_ftp_url</cstring>
+                                </property>
+                                <property>
+                                    <name>whatsThis</name>
+                                    <string>If you want access to an FTP proxy server, enter its address here.</string>
+                                </property>
+                            </widget>
+                            <widget row="2"  column="2" >
+                                <class>QLabel</class>
+                                <property stdset="1">
+                                    <name>name</name>
+                                    <cstring>lb_ftp_port</cstring>
+                                </property>
+                                <property stdset="1">
+                                    <name>text</name>
+                                    <string>Port:</string>
+                                </property>
+                            </widget>
+                            <widget row="2"  column="3" >
+                                <class>KMySpinBox</class>
                                 <property stdset="1">
                                     <name>name</name>
                                     <cstring>sb_ftp_port</cstring>
@@ -622,7 +674,7 @@
                                 </property>
                             </widget>
                             <widget>
-                                <class>QSpinBox</class>
+                                <class>KMySpinBox</class>
                                 <property stdset="1">
                                     <name>name</name>
                                     <cstring>sb_max_cache_size</cstring>

@@ -48,7 +48,13 @@ public:
       #warning workaround for a bug of QSpinBox in >= Qt 2.2.0
       #endif
       if ( editor()->edited() )
-          const_cast<KMySpinBox*>(this)->interpretText();
+      {
+          KMySpinBox *non_const_this  = const_cast<KMySpinBox*>(this);
+          bool b = non_const_this->signalsBlocked();
+          non_const_this->blockSignals(true);
+          non_const_this->interpretText();
+          non_const_this->blockSignals(b);
+      }
       return QSpinBox::value();
    }
 };
@@ -131,7 +137,7 @@ Q_OBJECT
     void changeProxy();
     void changeCache();
     void clearCache();
-    void updateGUI(QString httpProxy, QString ftpProxy,
+    void updateGUI(QString httpProxy, QString httpsProxy, QString ftpProxy,
                    KProtocolManager::ProxyType proxyType,
                    QString noProxyFor, QString autoProxy);
 
