@@ -4,14 +4,6 @@
     <property name="name">
         <cstring>widget2</cstring>
     </property>
-    <property name="geometry">
-        <rect>
-            <x>0</x>
-            <y>0</y>
-            <width>368</width>
-            <height>343</height>
-        </rect>
-    </property>
     <property name="caption">
         <string>unnamed</string>
     </property>
@@ -219,6 +211,27 @@
                 </widget>
             </vbox>
         </widget>
+        <widget class="QButtonGroup">
+            <property name="name">
+                <cstring>buttonGroup3</cstring>
+            </property>
+            <property name="title">
+                <string>Options</string>
+            </property>
+            <vbox>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <widget class="QCheckBox">
+                    <property name="name">
+                        <cstring>cbPersConn</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Use persistent connections to proxy</string>
+                    </property>
+                </widget>
+            </vbox>
+        </widget>
         <spacer>
             <property name="name">
                 <cstring>Spacer1</cstring>
@@ -228,12 +241,6 @@
             </property>
             <property name="sizeType">
                 <enum>Expanding</enum>
-            </property>
-            <property name="sizeHint">
-                <size>
-                    <width>20</width>
-                    <height>16</height>
-                </size>
             </property>
         </spacer>
     </vbox>

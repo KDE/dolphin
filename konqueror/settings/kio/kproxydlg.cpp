@@ -175,6 +175,11 @@ KProxyDialog::KProxyDialog( QWidget* parent)
                                         "$KDEHOME/share/config/kionetrc"
                                         "</tt> file.") );
 
+    QWhatsThis::add( dlg->cbPersConn, i18n("Using persistent proxy connections is faster but "
+                                        "only works correctly with proxies that are fully HTTP 1.1 "
+                                        "compliant. Do <b>NOT</b> use this option in combination "
+                                        "with programs such as JunkBuster or WWWOfle.") );
+
     // signals and slots connections
     connect( dlg->cbUseProxy, SIGNAL( toggled(bool) ),
              SLOT( slotUseProxyChanged() ) );
@@ -187,6 +192,9 @@ KProxyDialog::KProxyDialog( QWidget* parent)
     connect( dlg->rbPrompt, SIGNAL( toggled(bool) ),
              SLOT( slotChanged() ) );
     connect( dlg->rbAutoLogin, SIGNAL( toggled(bool) ),
+             SLOT( slotChanged() ) );
+
+    connect( dlg->cbPersConn, SIGNAL( toggled(bool) ),
              SLOT( slotChanged() ) );
 
     connect( dlg->location, SIGNAL( textChanged(const QString&) ),
@@ -222,6 +230,8 @@ void KProxyDialog::load()
   dlg->cbUseProxy->setChecked( useProxy );
   dlg->gbConfigure->setEnabled( useProxy );
   dlg->gbAuth->setEnabled( useProxy );
+
+  dlg->cbPersConn->setChecked( proto.persistentProxyConnection() );
 
   if ( !m_data->scriptProxy.isEmpty() )
     dlg->location->lineEdit()->setText( m_data->scriptProxy );
@@ -346,6 +356,8 @@ void KProxyDialog::save()
   {
     KSaveIOConfig::setProxyType( KProtocolManager::NoProxy );
   }
+  
+  KSaveIOConfig::setPersistentProxyConnection( dlg->cbPersConn->isChecked() );
 
   // Save the common proxy setting...
   KSaveIOConfig::setProxyFor( "ftp", m_data->ftpProxy );
