@@ -9,6 +9,7 @@
 #include <qlayout.h>//CT - 12Nov1998
 #include <qwhatsthis.h>
 #include <qvbuttongroup.h>
+#include <qvgroupbox.h>
 #include <qradiobutton.h>
 #include <kapp.h>
 
@@ -33,15 +34,38 @@ KMiscHTMLOptions::KMiscHTMLOptions(KConfig *config, QString group, QWidget *pare
 {
     QVBoxLayout *lay = new QVBoxLayout(this, 10, 5);
 
-    QVButtonGroup *bg = new QVButtonGroup( i18n("Un&derline Links"), this );
-    bg->setExclusive( TRUE );
-    connect(bg, SIGNAL(clicked(int)), this, SLOT(changed()));
-    lay->addWidget(bg);
-    QWhatsThis::add( bg, i18n("Controls how Konqueror handles underlining hyperlinks.") );
+     // Form completion
 
-    m_pUnderlineRadio[Always] = new QRadioButton( i18n("&Always"), bg );
-    m_pUnderlineRadio[Never] = new QRadioButton( i18n("&Never"), bg );
-    m_pUnderlineRadio[Hover] = new QRadioButton( i18n("&Hover"), bg );
+    QVGroupBox *bgForm = new QVGroupBox( i18n("Form C&ompletion"), this );
+    m_pFormCompletionCheckBox = new QCheckBox(i18n( "Enable completion of &forms" ), bgForm);
+    QWhatsThis::add( m_pFormCompletionCheckBox, i18n( "If this box is checked, Konqueror will remember"
+                                                        " the data you enter in web forms and suggest it in similar fields for all forms." ) );
+    connect(m_pFormCompletionCheckBox, SIGNAL(clicked()), this, SLOT(changed()));
+
+    m_pMaxFormCompletionItems = new KIntNumInput( bgForm );
+    m_pMaxFormCompletionItems->setLabel( i18n( "&Maximum completions:" ) );
+    m_pMaxFormCompletionItems->setRange( 1, 100 );
+    QWhatsThis::add( m_pMaxFormCompletionItems,
+        i18n( "Here you can select how many values Konqueror will remember for a form field." ) );
+    connect(m_pMaxFormCompletionItems, SIGNAL(valueChanged(int)), SLOT(changed()));
+
+    lay->addWidget( bgForm );
+
+    // Underline Link Settings
+
+    QVButtonGroup *bgLinks = new QVButtonGroup( i18n("Un&derline Links"), this );
+    bgLinks->setExclusive( TRUE );
+    connect(bgLinks, SIGNAL(clicked(int)), this, SLOT(changed()));
+    QWhatsThis::add( bgForm, i18n("Controls how Konqueror handles underlining hyperlinks.") );
+
+    m_pUnderlineRadio[Always] = new QRadioButton( i18n("&Always"), bgLinks );
+    m_pUnderlineRadio[Never] = new QRadioButton( i18n("&Never"), bgLinks );
+    m_pUnderlineRadio[Hover] = new QRadioButton( i18n("&Hover"), bgLinks );
+
+    lay->addWidget(bgLinks);
+
+
+    // Misc
 
     cbCursor = new QCheckBox(i18n("&Change cursor over links"), this);
     lay->addWidget(cbCursor);
@@ -67,19 +91,6 @@ KMiscHTMLOptions::KMiscHTMLOptions(KConfig *config, QString group, QWidget *pare
     connect(m_pEnableFaviconCheckBox, SIGNAL(clicked()), this, SLOT(changed()));
 */
 
-    m_pFormCompletionCheckBox = new QCheckBox(
-        i18n( "Enable completion of &forms" ), this );
-    QWhatsThis::add( m_pFormCompletionCheckBox, i18n( "If this box is checked, Konqueror will remember the data you enter in web forms and suggest it in similar fields for all forms." ) );
-    connect(m_pFormCompletionCheckBox, SIGNAL(clicked()), this, SLOT(changed()));
-    lay->addWidget( m_pFormCompletionCheckBox, 1 );
-
-    m_pMaxFormCompletionItems = new KIntNumInput( this );
-    m_pMaxFormCompletionItems->setLabel( i18n( "&Maximum completions:" ) );
-    m_pMaxFormCompletionItems->setRange( 1, 100 );
-    QWhatsThis::add( m_pMaxFormCompletionItems, i18n( "Here you can select how many values Konqueror will remember for a form field." ) );
-    connect(m_pMaxFormCompletionItems, SIGNAL(valueChanged(int)), SLOT(changed()));
-    lay->addWidget( m_pMaxFormCompletionItems, 1 );
-    
     lay->addStretch(10);
     lay->activate();
 
