@@ -65,3 +65,6 @@ noinst_HEADERS = konq_sound.h
 
 messages:
 	$(XGETTEXT) *.cc *.h -o $(podir)/libkonq.pot
+
+include ../admin/Doxyfile.am
+
