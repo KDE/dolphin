@@ -178,17 +178,15 @@ KBookmark ListView::selectedBookmark() {
    return firstSelected()->bookmark();
 }
 
-#define IS_EF(item) ((item)->isEmptyFolder())
-
 QValueList<KBookmark> ListView::selectedBookmarksExpanded() {
    QValueList<KBookmark> bookmarks;
    QStringList addresses;
    for (QPtrListIterator<KEBListViewItem> it(*itemList()); it.current() != 0; ++it) {
-      if ((it.current()->isSelected()) && !IS_EF(it.current())) {
+      if ((it.current()->isSelected()) && !it.current()->isEmptyFolder()) {
          if (it.current()->childCount() > 0) {
             for(QListViewItemIterator it2((QListViewItem*)it.current()); it2.current(); it2++) {
 	       KEBListViewItem *item = static_cast<KEBListViewItem *>(it2.current());
-               if (!IS_EF(item)) {
+               if (!item->isEmptyFolder()) {
                   const KBookmark bk = item->bookmark();
                   if (!addresses.contains(bk.address())) {
                      bookmarks.append(bk);
@@ -216,7 +214,7 @@ QValueList<KBookmark> ListView::selectedBookmarksExpanded() {
 QValueList<KBookmark> ListView::allBookmarks() {
    QValueList<KBookmark> bookmarks;
    for (QPtrListIterator<KEBListViewItem> it(*itemList()); it.current() != 0; ++it) {
-      if ((it.current()->childCount() == 0) && !IS_EF(it.current())) {
+      if ((it.current()->childCount() == 0) && !it.current()->isEmptyFolder()) {
          bookmarks.append(it.current()->bookmark());
       }
    }
@@ -226,7 +224,7 @@ QValueList<KBookmark> ListView::allBookmarks() {
 void ListView::updateLastAddress() {
    KEBListViewItem *lastItem = 0;
    for (QPtrListIterator<KEBListViewItem> it(*itemList()); it.current() != 0; ++it) {
-      if ((it.current()->isSelected()) && !IS_EF(it.current())) {
+      if ((it.current()->isSelected()) && !it.current()->isEmptyFolder()) {
          lastItem = it.current();
       }
    }
