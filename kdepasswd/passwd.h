@@ -35,7 +35,7 @@ private:
     int ConversePasswd(const char *oldpass, const char *newpass,
 	    int check);
 
-    QCString m_User, m_Error;
+    QCString m_User, m_ThisUser, m_Error;
 };
 
 

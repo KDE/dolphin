@@ -50,6 +50,7 @@ PasswdProcess::PasswdProcess(QCString user)
 	}
 	m_User = user;
     }
+    m_ThisUser = pw->pw_name;
 }
 
 
@@ -77,7 +78,8 @@ int PasswdProcess::exec(const char *oldpass, const char *newpass,
     putenv("LANG=C");
 
     QCStringList args;
-    args += m_User;
+    if (m_User != m_ThisUser)
+        args += m_User;
     int ret = PtyProcess::exec("passwd", args);
     if (ret < 0)
     {
