@@ -2154,9 +2154,9 @@ void KonqMainWindow::slotComboPlugged()
           // focus the URI combo. This is meant to do a similar task to QLabel->setBuddy();
           connect( (const QObject*)label, SIGNAL(clicked()), (const QObject*)m_combo, SLOT(setFocus()) );
           connect( (const QObject*)label, SIGNAL(clicked()), m_combo->lineEdit(), SLOT(selectAll()) );
-      } else
-          kdError() << "Label not constructed yet!" << endl;;
-  } else kdError() << "Not a KonqLabelAction !" << endl;;
+      } else // this can happen if the label is removed, using the toolbar editor
+          kdDebug() << "Label not constructed yet!" << endl;
+  } else kdError() << "Not a KonqLabelAction !" << endl;
 
   m_combo->init( s_pCompletion );
 
