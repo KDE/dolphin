@@ -356,7 +356,7 @@ void KonqKfmIconView::slotShowDot()
 
 void KonqKfmIconView::slotSelect()
 {
-    KLineEditDlg l( i18n("Select files:"), "", m_pIconView );
+    KLineEditDlg l( i18n("Select files:"), "*", m_pIconView );
     if ( l.exec() )
     {
         QString pattern = l.text();
@@ -385,7 +385,7 @@ void KonqKfmIconView::slotSelect()
 
 void KonqKfmIconView::slotUnselect()
 {
-    KLineEditDlg l( i18n("Unselect files:"), "", m_pIconView );
+    KLineEditDlg l( i18n("Unselect files:"), "*", m_pIconView );
     if ( l.exec() )
     {
         QString pattern = l.text();
