@@ -452,7 +452,7 @@ void KManualProxyDlg::showErrorMsg( const QString& caption,
                           "mycompany,com, localhost, http://localhost</code><p>"
                           "<u>Examples of INVALID entries:</u><br/>"
                           "<code>http://my company.com, http:/mycompany,com "
-                          "file:/localhost</code>");
+                          "file:/localhost</code></qt>");
   
   KMessageBox::detailedError( this, msg, details, cap );
 }

@@ -356,13 +356,13 @@ QString KProxyDialog::quickHelp() const
   return i18n( "<h1>Proxy</h1>"
                "<p>A proxy server is an intermediate program that sits between "
                "your machine and the Internet and provides services such as "
-               "web page caching and/or filtering."
+               "web page caching and/or filtering.</p>"
                "<p>Caching proxy servers give you faster access to sites you have "
                "already visited by locally storing or caching the content of those "
                "pages. Filtering proxy servers on the other hand provide the "
                "ability to block out requests for ads, spam or anything else you "
-               "want block."
-               "<p><u>Note:</u>Some proxy servers provide both services." );
+               "want block.</p>"
+               "<p><u>Note:</u> Some proxy servers provide both services.</p>" );
 }
 
 void KProxyDialog::showInvalidMessage( const QString& _msg )

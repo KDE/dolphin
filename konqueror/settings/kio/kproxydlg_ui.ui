@@ -16,7 +16,7 @@
         <string>&lt;qt&gt;
 Setup proxy configuration.
 &lt;p&gt;
-A proxy server is an intermediate machine that sits between your computer and the Internet and provides services such as web page caching and filtering. Caching proxy servers give you faster access to web sites you have already visited by locally storing or caching those pages. Filtering proxy servers usually provide the abiltiy to block out requests for ads, spam or anything else you want block.
+A proxy server is an intermediate machine that sits between your computer and the Internet and provides services such as web page caching and filtering. Caching proxy servers give you faster access to web sites you have already visited by locally storing or caching those pages. Filtering proxy servers usually provide the ability to block out requests for ads, spam or anything else you want block.
 &lt;p&gt;
 If you are uncertain whether or not you need to use a proxy server to connect to the Internet, consult your Internet service provider's setup guide or your system administrator.
 &lt;/qt&gt;</string>
@@ -79,7 +79,7 @@ If you are uncertain whether or not you need to use a proxy server to connect to
                         <string>&lt;qt&gt;
 Automatically detect and configure the proxy settings.&lt;p&gt;
 Automatic detection is performed using the &lt;b&gt;Web Proxy Auto-Discovery Protocol (WPAD)&lt;/b&gt;.&lt;p&gt;
-&lt;b&gt;NOTE:&lt;/b&gt;This option might not work properly or not work at all in some Unix/Linux distributions. If you encounter a problem when using this option, please check the FAQ section at http://konqueror.kde.org.
+&lt;b&gt;NOTE:&lt;/b&gt; This option might not work properly or not work at all in some Unix/Linux distributions. If you encounter a problem when using this option, please check the FAQ section at http://konqueror.kde.org.
 &lt;/qt&gt;</string>
                     </property>
                 </widget>
