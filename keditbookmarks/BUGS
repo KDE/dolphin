@@ -26,3 +26,18 @@ export favicons with Mozilla bookmark export
 
 56165 
 KEditBookmarks ignores charset of the bookmarks.xml file 
+
+--
+bookmarks in general:
+
+49470 
+fails to open bookmarks 
+
+60032 
+Bookmarks Import IE Error with Solution 
+
+63874
+Cannot create Bookmark from URLs -directly- pointing to a file!
+
+62124 
+Save bookmarks on desktop, not only bookmarks xml file 
