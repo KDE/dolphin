@@ -456,8 +456,8 @@ QString UserAgentDlg::quickHelp() const
                "such sites might be using non-standard web protocols and or "
                "specifications."
                "<P><u>NOTE:</u> To obtain specific help on a particular section "
-               "of the dialog box, simply click on the little <b>?</b> button on "
-               "the top right corner of the window, then click on the section "
+               "of the dialog box, simply click on the quick help button on "
+               "the window title bar, then click on the section "
                "for which you are seeking help." );
 }
 

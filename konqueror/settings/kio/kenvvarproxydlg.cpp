@@ -396,9 +396,9 @@ void KEnvVarProxyDlg::autoDetectPressed()
     QString details = i18n("<qt>To learn about the variable names the "
                            "automatic detection process searches for, "
                            "press OK, click on the quick help button "
-                           "(<b>?</b>) on the top right corner of the "
+                           "on the window title bar of the "
                            "previous dialog and then click on the "
-                           "\"Auto Detect\" button.</qt> ");
+                           "\"<b>Auto Detect</b>\" button.</qt>");
 
     KMessageBox::detailedSorry( this, msg, details,
                                 i18n("Automatic Proxy Variable Detection") );
