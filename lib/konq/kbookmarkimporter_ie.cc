@@ -63,9 +63,6 @@ void KIEBookmarkImporter::parseIEBookmarks_url_file( QString filename, QString n
 void KIEBookmarkImporter::parseIEBookmarks_dir( QString dirname, QString name )
 {
 
-   if (dirname != m_fileName) 
-      emit newFolder( name, false, "" );
-
    QDir d(dirname);
    d.setFilter( QDir::Files | QDir::Dirs );
    d.setSorting( QDir::Name | QDir::DirsFirst );
@@ -73,6 +70,11 @@ void KIEBookmarkImporter::parseIEBookmarks_dir( QString dirname, QString name )
    d.setMatchAllDirs(TRUE);
 
    const QFileInfoList *list = d.entryInfoList();
+   if (!list) return;
+
+   if (dirname != m_fileName) 
+      emit newFolder( name, false, "" );
+
    QFileInfoListIterator it( *list );
    QFileInfo *fi;
 
