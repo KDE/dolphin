@@ -19,6 +19,7 @@
 
 #include "konqsettings.h"
 #include "konqdefaults.h"
+#include "mousedefaults.h"
 #include <kconfig.h>
 #include <kglobal.h>
 #include <assert.h>
@@ -95,14 +96,16 @@ void KonqFMSettings::init( KConfig * config )
   m_highlightedTextColor = config->readColorEntry( "HighlightedTextColor", &FM_DEFAULT_HIGHLIGHTED_TXT_COLOR );
   m_bWordWrapText = config->readBoolEntry( "WordWrapText", DEFAULT_WORDWRAPTEXT );
 
-  // Behaviour
+  // Global KDE settings
   {
     KConfigGroupSaver cgs(config, "KDE");
     m_bSingleClick = config->readBoolEntry("SingleClick", DEFAULT_SINGLECLICK);
+
+    m_iAutoSelect = config->readNumEntry("AutoSelect", DEFAULT_AUTOSELECT);
+    m_bChangeCursor = config->readBoolEntry( "ChangeCursor", DEFAULT_CHANGECURSOR );
   }
 
-  m_iAutoSelect = config->readNumEntry("AutoSelect", DEFAULT_AUTOSELECT);
-  m_bChangeCursor = config->readBoolEntry( "ChangeCursor", DEFAULT_CHANGECURSOR );
+  // Behaviour
   m_underlineLink = config->readBoolEntry( "UnderlineLinks", DEFAULT_UNDERLINELINKS );
   m_alwaysNewWin = config->readBoolEntry( "AlwaysNewWin", FALSE );
 

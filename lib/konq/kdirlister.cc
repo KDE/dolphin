@@ -181,7 +181,7 @@ void KDirLister::slotEntries( KIO::Job*, const KIO::UDSEntryList& entries )
     {
       KURL u( m_url );
       u.addPath( name );
-      kdDebug(1203)<< "Adding " << u.url() << endl;
+      //kdDebug(1203)<< "Adding " << u.url() << endl;
       KonqFileItem* item = new KonqFileItem( *(*it), u, m_bDelayedMimeTypes );
 
       if ( m_bDirOnlyMode && !S_ISDIR( item->mode() ) )

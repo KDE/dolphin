@@ -16,7 +16,7 @@
 #    the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
 #    Boston, MA 02111-1307, USA.
 
-INCLUDES = $(all_includes)
+INCLUDES = $(all_includes) -I$(top_srcdir)/kcontrol/input
 
 lib_LTLIBRARIES = libkonq.la
 libkonq_la_LDFLAGS = $(all_libraries) -version-info 3:0 -no-undefined

@@ -44,10 +44,7 @@
 #define ID_STRING_FORWARD 19 /* sven */
 #endif
 
-// behaviour tab
-#define DEFAULT_SINGLECLICK true
-#define DEFAULT_AUTOSELECT -1
-#define DEFAULT_CHANGECURSOR false
+// appearance tab
 #define DEFAULT_UNDERLINELINKS true
 #define DEFAULT_WORDWRAPTEXT true // kfm-like, sorry Reggie :-)
 
