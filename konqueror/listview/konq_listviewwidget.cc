@@ -112,52 +112,51 @@ KonqBaseListViewWidget::KonqBaseListViewWidget( KonqListView *parent, QWidget *p
    connect( this, SIGNAL(rightButtonPressed(QListViewItem*,const QPoint&,int)),
             this, SLOT(slotRightButtonPressed(QListViewItem*,const QPoint&,int)));
 #endif
-   connect( this, SIGNAL(returnPressed(QListViewItem*)),
-            this, SLOT(slotReturnPressed(QListViewItem*)));
-   connect( this, SIGNAL( mouseButtonClicked(int, QListViewItem*, const QPoint&, int)),
-            this, SLOT( slotMouseButtonClicked(int, QListViewItem*, const QPoint&, int)) );
-   connect( this, SIGNAL(executed(QListViewItem* )),
-            this, SLOT(slotExecuted(QListViewItem*)));
+   connect( this, SIGNAL(returnPressed( QListViewItem * )),
+            this, SLOT(slotReturnPressed( QListViewItem * )) );
+   connect( this, SIGNAL( mouseButtonClicked( int, QListViewItem *, const QPoint&, int )),
+            this, SLOT( slotMouseButtonClicked( int, QListViewItem *, const QPoint&, int )) );
+   connect( this, SIGNAL(executed( QListViewItem * )),
+            this, SLOT(slotExecuted( QListViewItem * )) );
 
-   connect( this, SIGNAL(currentChanged(QListViewItem*)),
-            this, SLOT(slotCurrentChanged(QListViewItem*)));
-   connect( this, SIGNAL(itemRenamed(QListViewItem*, const QString &, int)),
-            this, SLOT(slotItemRenamed(QListViewItem*, const QString &, int)));
-   connect( this, SIGNAL(contextMenuRequested(QListViewItem*, const QPoint&, int)),
-            this, SLOT(slotPopupMenu(QListViewItem*, const QPoint&, int)));
-   connect( this, SIGNAL(selectionChanged()),
-            this, SLOT(reportItemCounts()));
+   connect( this, SIGNAL(currentChanged( QListViewItem * )),
+            this, SLOT(slotCurrentChanged( QListViewItem * )) );
+   connect( this, SIGNAL(itemRenamed( QListViewItem *, const QString &, int )),
+            this, SLOT(slotItemRenamed( QListViewItem *, const QString &, int )) );
+   connect( this, SIGNAL(contextMenuRequested( QListViewItem *, const QPoint&, int )),
+            this, SLOT(slotPopupMenu( QListViewItem *, const QPoint&, int )) );
+   connect( this, SIGNAL(selectionChanged()), this, SLOT(reportItemCounts()) );
 
-   connect( horizontalScrollBar(), SIGNAL(valueChanged(int)),
-            this, SIGNAL(viewportAdjusted()));
-   connect( verticalScrollBar(), SIGNAL(valueChanged(int)),
-            this, SIGNAL(viewportAdjusted()));
+   connect( horizontalScrollBar(), SIGNAL(valueChanged( int )),
+            this, SIGNAL(viewportAdjusted()) );
+   connect( verticalScrollBar(), SIGNAL(valueChanged( int )),
+            this, SIGNAL(viewportAdjusted()) );
 
    // Connect the directory lister
-   connect( m_dirLister, SIGNAL( started( const KURL & ) ),
-            this, SLOT( slotStarted() ) );
-   connect( m_dirLister, SIGNAL( completed() ), this, SLOT( slotCompleted() ) );
-   connect( m_dirLister, SIGNAL( canceled() ), this, SLOT( slotCanceled() ) );
-   connect( m_dirLister, SIGNAL( clear() ), this, SLOT( slotClear() ) );
-   connect( m_dirLister, SIGNAL( newItems( const KFileItemList & ) ),
-            this, SLOT( slotNewItems( const KFileItemList & ) ) );
-   connect( m_dirLister, SIGNAL( deleteItem( KFileItem * ) ),
-            this, SLOT( slotDeleteItem( KFileItem * ) ) );
-   connect( m_dirLister, SIGNAL( refreshItems( const KFileItemList & ) ),
-            this, SLOT( slotRefreshItems( const KFileItemList & ) ) );
-   connect( m_dirLister, SIGNAL( redirection( const KURL & ) ),
-            this, SLOT( slotRedirection( const KURL & ) ) );
-   connect( m_dirLister, SIGNAL( itemsFilteredByMime( const KFileItemList & ) ),
-            m_pBrowserView, SIGNAL( itemsFilteredByMime( const KFileItemList & ) ) );
+   connect( m_dirLister, SIGNAL(started( const KURL & )),
+            this, SLOT(slotStarted()) );
+   connect( m_dirLister, SIGNAL(completed()), this, SLOT(slotCompleted()) );
+   connect( m_dirLister, SIGNAL(canceled()), this, SLOT(slotCanceled()) );
+   connect( m_dirLister, SIGNAL(clear()), this, SLOT(slotClear()) );
+   connect( m_dirLister, SIGNAL(newItems( const KFileItemList & ) ),
+            this, SLOT(slotNewItems( const KFileItemList & )) );
+   connect( m_dirLister, SIGNAL(deleteItem( KFileItem * )),
+            this, SLOT(slotDeleteItem( KFileItem * )) );
+   connect( m_dirLister, SIGNAL(refreshItems( const KFileItemList & )),
+            this, SLOT( slotRefreshItems( const KFileItemList & )) );
+   connect( m_dirLister, SIGNAL(redirection( const KURL & )),
+            this, SLOT(slotRedirection( const KURL & )) );
+   connect( m_dirLister, SIGNAL(itemsFilteredByMime( const KFileItemList & )),
+            m_pBrowserView, SIGNAL(itemsFilteredByMime( const KFileItemList & )) );
 
-   connect( m_dirLister, SIGNAL( infoMessage( const QString& ) ),
-            m_pBrowserView->extension(), SIGNAL( infoMessage( const QString& ) ) );
-   connect( m_dirLister, SIGNAL( percent( int ) ),
-            m_pBrowserView->extension(), SIGNAL( loadingProgress( int ) ) );
-   connect( m_dirLister, SIGNAL( speed( int ) ),
-            m_pBrowserView->extension(), SIGNAL( speedProgress( int ) ) );
+   connect( m_dirLister, SIGNAL(infoMessage( const QString& )),
+            m_pBrowserView->extension(), SIGNAL(infoMessage( const QString& )) );
+   connect( m_dirLister, SIGNAL(percent( int )),
+            m_pBrowserView->extension(), SIGNAL(loadingProgress( int )) );
+   connect( m_dirLister, SIGNAL(speed( int )),
+            m_pBrowserView->extension(), SIGNAL(speedProgress( int )) );
 
-   connect( header(), SIGNAL( sizeChange( int, int, int ) ), SLOT( slotUpdateBackground() ) );
+   connect( header(), SIGNAL(sizeChange( int, int, int )), SLOT(slotUpdateBackground()) );
 
    viewport()->setMouseTracking( true );
    viewport()->setFocusPolicy( QWidget::WheelFocus );
