@@ -1000,7 +1000,6 @@ void KonqIconViewWidget::startImagePreview( const QStringList &, bool force )
         return;
     }
 
-        kdDebug() << "\nd->pSoundPlayer = true\n\n";
     if ((d->bSoundPreviews = d->previewSettings.contains( "audio/" )) &&
         !d->pSoundPlayer)
     {
