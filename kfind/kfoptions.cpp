@@ -60,8 +60,8 @@ void KfOptions::setupSavingPage( void )
   formatBox   = new QComboBox(page);
   fileE       = new QLineEdit(page);
   kfindfileB  = new QRadioButton(
-    "Save results to file ~/.kfind-results.html", page);
-  selectfileB = new QRadioButton("Save results to file:", page );
+    i18n("Save results to file ~/.kfind-results.html"), page);
+  selectfileB = new QRadioButton(i18n("Save results to file:"), page );
 
   bg          = new QButtonGroup();
 
