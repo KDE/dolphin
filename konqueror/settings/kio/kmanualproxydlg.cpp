@@ -96,7 +96,7 @@ KManualProxyDlg::KManualProxyDlg( QWidget* parent, const char* name )
                                             QSizePolicy::Fixed,
                                             m_leHttps->sizePolicy().hasHeightForWidth()) );
     
-    QWhatsThis::add( m_leHttps, i18n("Enter the address of HTTPS proxy "
+    QWhatsThis::add( m_leHttps, i18n("Enter the address of the HTTPS proxy "
                                      "server.") );
     m_lbHttps->setBuddy( m_leHttps );
     glay->addWidget( m_leHttps, 1, 1 );
