@@ -303,7 +303,7 @@ void KProxyDialog::save()
   if ( updateProxyScout )
     KSaveIOConfig::updateProxyScout( this );
 
-  setChanged( false );
+  emit changed( false );
 }
 
 void KProxyDialog::defaults()
@@ -312,7 +312,7 @@ void KProxyDialog::defaults()
   dlg->rbNoProxy->setChecked( true );
   dlg->location->lineEdit()->clear();
   dlg->cbPersConn->setChecked( false );
-  setChanged( true );
+  emit changed( true );
 }
 
 QString KProxyDialog::quickHelp() const
@@ -335,7 +335,7 @@ void KProxyDialog::setupManProxy()
   if ( dlg->exec() == QDialog::Accepted )
   {
     *_data = dlg->data();
-    setChanged( true );
+    emit changed( true );
   }
 
   delete dlg;
@@ -352,7 +352,7 @@ void KProxyDialog::setupEnvProxy()
   if ( dlg->exec() == QDialog::Accepted )
   {
     *_data = dlg->data();
-    setChanged( true );
+    emit changed( true );
   }
 
   delete dlg;
@@ -361,7 +361,7 @@ void KProxyDialog::setupEnvProxy()
 void KProxyDialog::slotChanged()
 {
   _defaultData = false;
-  setChanged( true );
+  emit changed( true );
 }
 
 void KProxyDialog::slotUseProxyChanged()
@@ -370,7 +370,7 @@ void KProxyDialog::slotUseProxyChanged()
   bool useProxy = !(dlg->rbNoProxy->isChecked());
   dlg->gbAuth->setEnabled(useProxy);
   dlg->gbOptions->setEnabled(useProxy);
-  setChanged( true );
+  emit changed( true );
 }
 
 #include "kproxydlg.moc"

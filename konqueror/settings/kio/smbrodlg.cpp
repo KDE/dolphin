@@ -119,7 +119,6 @@ void SMBRoOptions::load()
    m_passwordLe->setText(password);
 
    delete cfg;
-   setChanged(false);
 }
 
 void SMBRoOptions::save()
@@ -151,7 +150,6 @@ void SMBRoOptions::save()
    cfg->writeEntry( "Password", scrambled);
 
    delete cfg;
-   setChanged(false);
 }
 
 void SMBRoOptions::defaults()
@@ -160,12 +158,11 @@ void SMBRoOptions::defaults()
    m_passwordLe->setText("");
    m_workgroupLe->setText("");
    m_showHiddenShares->setChecked(false);
-   setChanged(true);
 }
 
 void SMBRoOptions::changed()
 {
-   setChanged(true);
+   emit KCModule::changed(true);
 }
 
 QString SMBRoOptions::quickHelp() const

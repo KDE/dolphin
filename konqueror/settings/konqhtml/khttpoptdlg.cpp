@@ -65,7 +65,7 @@ void KHTTPOptions::defaults()
 
 void KHTTPOptions::slotChanged()
 {
-  setChanged(true);
+  emit changed(true);
 }
 
 

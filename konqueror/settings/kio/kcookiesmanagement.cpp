@@ -130,7 +130,7 @@ void KCookiesManagement::load()
 {
   defaults();
   getDomains();
-  setChanged( false );
+  emit changed( false );
 }
 
 void KCookiesManagement::save()
@@ -202,7 +202,7 @@ void KCookiesManagement::save()
     else
       break;
   }
-  setChanged( false );
+  emit changed( false );
 }
 
 void KCookiesManagement::defaults()
@@ -215,7 +215,7 @@ void KCookiesManagement::defaults()
   dlg->pbDelete->setEnabled(false);
   dlg->pbDeleteAll->setEnabled(false);
   dlg->pbPolicy->setEnabled(false);
-  setChanged( true );
+  emit changed( true );
 }
 
 void KCookiesManagement::clearCookieDetails()
@@ -236,7 +236,7 @@ QString KCookiesManagement::quickHelp() const
 void KCookiesManagement::configChanged()
 {
   kdDebug() << "Config changed..." << endl;
-  setChanged(true);
+  emit changed(true);
 }
 
 void KCookiesManagement::getDomains()

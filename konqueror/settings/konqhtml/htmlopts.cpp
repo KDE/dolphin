@@ -159,7 +159,7 @@ KMiscHTMLOptions::KMiscHTMLOptions(KConfig *config, QString group, QWidget *pare
     lay->setRowStretch(row, 1);
 
     load();
-    setChanged(false);
+    emit changed(false);
 }
 
 KMiscHTMLOptions::~KMiscHTMLOptions()
@@ -280,14 +280,14 @@ void KMiscHTMLOptions::save()
     kapp->dcopClient()->attach();
   kapp->dcopClient()->send( "konqueror*", "KonquerorIface", "reparseConfiguration()", data );
 
-    setChanged(false);
+    emit changed(false);
 }
 
 
 void KMiscHTMLOptions::slotChanged()
 {
     m_pMaxFormCompletionItems->setEnabled( m_pFormCompletionCheckBox->isChecked() );
-    setChanged(true);
+    emit changed(true);
 }
 
 

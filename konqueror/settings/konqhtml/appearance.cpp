@@ -327,7 +327,7 @@ void KAppearanceOptions::load()
     //kdDebug(0) << "encoding = " << encodingName << endl;
 
     updateGUI();
-    setChanged(false);
+    emit changed(false);
 }
 
 void KAppearanceOptions::defaults()
@@ -348,7 +348,7 @@ void KAppearanceOptions::defaults()
     fonts.append(QString::null);
 
   updateGUI();
-  setChanged(true);
+  emit changed(true);
 }
 
 void KAppearanceOptions::updateGUI()
@@ -390,13 +390,13 @@ void KAppearanceOptions::save()
     kapp->dcopClient()->attach();
   kapp->dcopClient()->send( "konqueror*", "KonquerorIface", "reparseConfiguration()", data );
 
-  setChanged(false);
+  emit changed(false);
 }
 
 
 void KAppearanceOptions::slotChanged()
 {
-  setChanged(true);
+  emit changed(true);
 }
 
 QString KAppearanceOptions::quickHelp() const

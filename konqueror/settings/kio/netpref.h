@@ -27,7 +27,7 @@ public:
     QString quickHelp() const;
 
 protected slots:
-    void configChanged() { setChanged(true); }
+    void configChanged() { emit changed(true); }
 
 private:
     QVGroupBox* gb_Ftp;

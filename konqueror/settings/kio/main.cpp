@@ -112,7 +112,7 @@ LanBrowser::LanBrowser(QWidget *parent)
 
 void LanBrowser::slotEmitChanged()
 {
-   setChanged(true);
+   emit changed(true);
 }
 
 void LanBrowser::load()
@@ -124,7 +124,7 @@ void LanBrowser::load()
      resLisaPage->load();
    if (kioLanPage)
      kioLanPage->load();
-   setChanged(false);
+   emit changed(false);
 }
 
 void LanBrowser::save()
@@ -136,7 +136,7 @@ void LanBrowser::save()
      kioLanPage->save();
    if (lisaPage)
      lisaPage->save();
-   setChanged(false);
+   emit changed(false);
 }
 
 

@@ -120,7 +120,7 @@ void UserAgentDlg::load()
   dlg->cbProcessorType->setChecked( m_ua_keys.contains('m') );
   dlg->cbLanguage->setChecked( m_ua_keys.contains('l') );
   updateButtons();
-  setChanged( false );
+  emit changed( false );
 }
 
 void UserAgentDlg::updateButtons()
@@ -212,7 +212,7 @@ void UserAgentDlg::save()
 
   KSaveIOConfig::updateRunningIOSlaves (this);
 
-  setChanged( false );
+  emit changed( false );
 }
 
 bool UserAgentDlg::handleDuplicate( const QString& site,
@@ -331,7 +331,7 @@ void UserAgentDlg::deleteAllPressed()
 
 void UserAgentDlg::configChanged()
 {
-  setChanged ( true );
+  emit changed ( true );
 }
 
 void UserAgentDlg::changeDefaultUAModifiers( int )

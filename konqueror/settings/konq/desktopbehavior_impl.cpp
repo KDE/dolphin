@@ -53,7 +53,7 @@ DesktopBehaviorModule::DesktopBehaviorModule(KConfig *config, QWidget *parent, c
 
 void DesktopBehaviorModule::changed()
 {
-    setChanged( true );
+    emit KCModule::changed( true );
 }
 
 class DesktopBehaviorPreviewItem : public QCheckListItem

@@ -234,7 +234,7 @@ void KonqFontOptions::load()
     m_gridXSpacing=cfg.readNumEntry("GridXSpacing", 50);
 
     updateGUI();
-    setChanged( false );
+    emit KCModule::changed( false );
 }
 
 void KonqFontOptions::defaults()
@@ -263,7 +263,7 @@ void KonqFontOptions::defaults()
     }
     cbUnderline->setChecked( DEFAULT_UNDERLINELINKS );
     updateGUI();
-    setChanged( true );
+    emit KCModule::changed( true );
 }
 
 void KonqFontOptions::updateGUI()
@@ -313,13 +313,13 @@ void KonqFontOptions::save()
     else
         appname.sprintf("kdesktop-screen-%d", konq_screen_number);
     kapp->dcopClient()->send( appname, "KDesktopIface", "configure()", data );
-    setChanged( false );
+    emit KCModule::changed( false );
 }
 
 
 void KonqFontOptions::changed()
 {
-  setChanged( true );
+  emit KCModule::changed( true );
 }
 
 void KonqFontOptions::slotTextBackgroundClicked()

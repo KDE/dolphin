@@ -70,7 +70,7 @@ void KCacheConfigDialog::load()
   connect ( m_dlg->bgCachePolicy, SIGNAL(clicked (int)), SLOT(configChanged()) );
   connect ( m_dlg->sbMaxCacheSize, SIGNAL(valueChanged(int)), SLOT(configChanged()) );
   connect ( m_dlg->pbClearCache, SIGNAL(clicked()), SLOT(slotClearCache()) );
-  setChanged( false );
+  emit changed( false );
 } 
 
 void KCacheConfigDialog::save()
@@ -90,7 +90,7 @@ void KCacheConfigDialog::save()
   // Update running io-slaves...
   KSaveIOConfig::updateRunningIOSlaves (this);
 
-  setChanged( false );
+  emit changed( false );
 }
 
 void KCacheConfigDialog::defaults()
@@ -99,7 +99,7 @@ void KCacheConfigDialog::defaults()
   m_dlg->rbVerifyCache->setChecked( true );
   m_dlg->sbMaxCacheSize->setValue( DEFAULT_MAX_CACHE_SIZE );
 
-  setChanged( true );
+  emit changed( true );
 }
 
 QString KCacheConfigDialog::quickHelp() const
@@ -114,7 +114,7 @@ QString KCacheConfigDialog::quickHelp() const
 
 void KCacheConfigDialog::configChanged()
 {
-  setChanged( true );
+  emit changed( true );
 }
 
 void KCacheConfigDialog::slotClearCache()
