@@ -83,6 +83,7 @@ public:
   QString file() const { return m_file; }
   /**
    * @return the pixmap file for this bookmark
+   * (i.e. the name of the icon)
    */
   QString pixmapFile();
   /**
