@@ -456,10 +456,11 @@ void KonqKfmIconView::slotDrop( QDropEvent *_ev, KIconContainerItem* _item, QStr
       return;
     }
     KIOJob* job = new KIOJob;
-    // Use either the root url or the item url (we stored it as the icon "name")
-    QString dest = ( _item == 0 ) ? m_dirLister->url() : _item->name();
 
-    job->copy( lst, dest );
+    // Use either the root url or the item url (we stored it as the icon "name")
+    KURL dest( ( _item == 0 ) ? m_dirLister->url() : _item->name() );
+
+    job->copy( lst, dest.url( 1 ) );
   }
   else if ( _formats.count() >= 1 )
   {
