@@ -4217,7 +4217,7 @@ void KonqMainWindow::slotAddWebSideBar(const KURL& url, const QString& name)
             KonqView *view = it.data();
             if (view) {
                 KService::Ptr svc = view->service();
-                if (svc->name() == "Navigation Panel") {
+                if (svc->desktopEntryName() == "konq_sidebartng") {
                     emit view->browserExtension()->addWebSideBar(url, name);
                     break;
                 }

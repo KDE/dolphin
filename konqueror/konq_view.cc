@@ -375,11 +375,6 @@ void KonqView::connectPart(  )
       connect( ext, SIGNAL( speedProgress( int ) ),
                m_pKonqFrame->statusbar(), SLOT( slotSpeedProgress( int ) ) );
 
-      if (service()->name() != "Navigation Panel") {
-          connect( ext, SIGNAL( infoMessage( const QString & ) ),
-               m_pKonqFrame->statusbar(), SLOT( message( const QString & ) ) );
-      }
-
       connect( ext, SIGNAL( selectionInfo( const KFileItemList & ) ),
                this, SLOT( slotSelectionInfo( const KFileItemList & ) ) );
 
@@ -392,7 +387,10 @@ void KonqView::connectPart(  )
       connect( ext, SIGNAL( enableAction( const char *, bool ) ),
                this, SLOT( slotEnableAction( const char *, bool ) ) );
 
-      if (service()->name() != "Navigation Panel") {
+      if (service()->desktopEntryName() != "konq_sidebartng") {
+          connect( ext, SIGNAL( infoMessage( const QString & ) ),
+               m_pKonqFrame->statusbar(), SLOT( message( const QString & ) ) );
+
           connect( ext,
                    SIGNAL( addWebSideBar(const KURL&, const QString&) ),
                    m_pMainWindow,
