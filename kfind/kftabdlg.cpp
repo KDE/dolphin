@@ -34,7 +34,10 @@
 #include "kftypes.h"
 #include "kftabdlg.h"
 
-#define FIND_PROGRAM "find"
+// Static utility functions
+static void save_pattern(QComboBox *, const QString, const char *, const char*);
+static QString quote(const QString);
+
 #define SPECIAL_TYPES 7
 
 extern QList<KfFileType> *types;
@@ -247,35 +250,6 @@ KfindTabWidget::~KfindTabWidget()
   delete pages[2];
 }
 
-static void save_pattern(QComboBox *obj, const QString new_item,
-			 const char *group, const char *entry) 
-{ 
-  int i;
-  for(i=0; i<obj->count(); i++)
-    if(new_item == obj->text(i))
-      break;
-  
-  // If we could not finish the loop item already exists
-  // Nothing to save
-  if(i < obj->count())
-    return;
-  
-  // New item. Add it to the combo and save
-  obj->insertItem(new_item);
-  
-  // QComboBox allows insertion of items more than specified by
-  // maxCount() (QT bug?). This API call will truncate list if needed.
-  obj->setMaxCount(15);
-
-  QStrList sl;
-  for(i=0; i<obj->count(); i++)
-    sl.append(obj->text(i).ascii());
-  
-  KConfig *conf = kapp->getConfig();
-  conf->setGroup(group);
-  conf->writeEntry(entry, sl, ',');
-}
-
 void KfindTabWidget::saveHistory() 
 {
   save_pattern(nameBox, nameBox->currentText(), "History", "Patterns");
@@ -397,86 +371,87 @@ QString KfindTabWidget::createQuery() {
   if(!isDateValid())
     return NULL;
   
-  QString str,pom;
+  QString str, pom, type = "", name="";
   int month;
-  char *type;
   
-  str = FIND_PROGRAM;
-  str += " ";
+  // Add the directory we make search in
+  str = "find ";
+  str += quote(dirBox->currentText());
   
-  str += dirBox->currentText();
-  
-  QString str1;
-  str1 += " \"(\" -name \"";
-  
-  if(nameBox->currentText().isEmpty())
-    str1 += "*";
-  else
-    str1 += nameBox->currentText();
-  str1 += "\" \")\"";
-  str1 += " ";
-  
+  // Add different file types
+  // default case is for special types we got from file manager
   switch(typeBox->currentItem()) {
   case 0: // all files
+    type = "";
     break;
     
   case 1: // files
-    str1 += "-type f";
+    type = " -type f";
     break;
     
   case 2: // folders
-    str1 += "-type d";
+    type = " -type d";
     break;
     
   case 3: // symlink
-    str1 += "-type l";
+    type = " -type l";
     break;
     
   case 4: // special file
-    str1 += "-type p -or -type s -or -type b or -type c";
+    type += " -type p -or -type s -or -type b or -type c";
     break;
     
   case 5: // executables
-    str1 += "-perm +111 -type f";
+    type = " -perm +111 -type f";
     break;
     
   case 6: // suid binaries
-    str1 += "-perm +6000 -type f";
+    type = " -perm +6000 -type f";
     break;
     
   default: 
-    str1 = "";
-    KfFileType *typ;
+    KfFileType *typ = types->first();
+    int i;
+    QString pattern;
     
-    typ = types->first();
-    for (int i=SPECIAL_TYPES; i<typeBox->currentItem(); i++ )
+    for (i=SPECIAL_TYPES; i<typeBox->currentItem(); i++ )
       typ = types->next();
     
-    QStrList& pats = typ->getPattern();
-    bool firstpattern = FALSE;
-    str += " \"(\" ";
-    for (QString pattern=pats.first(); pattern!=0L; 
-	 pattern=pats.next()) {
-      if (!firstpattern) {
-	str += " -name ";
-	firstpattern=TRUE;
-      }
-      else
-	str += " -o -name ";
-      
-      if ( pattern.find("*",0) == 0 ) {
-	str += nameBox->text(nameBox->currentItem());
-	str += "\"" + pattern + "\"";
-      }
-      else {
-	str += "\"" + pattern + "\"";
-	str += nameBox->text(nameBox->currentItem());
-      }
-    }                                             
-    str += " \")\"";
-  }
+    // If a string in the name box doesn't contain neither '*' nor '.'
+    // we use it as a prefix for custom file types. Otherwise it is ignored.
+    // The idea is to make search for files with given extensiona 
+    // and the prefix.
+    QString prefix = nameBox->text(nameBox->currentItem());
+    if(!(prefix.find('*') < 0 && prefix.find('.') < 0))
+      prefix = "";
     
-  str += str1;
+    QStrList& pats = typ->getPattern();
+    for (pattern = pats.first(), i=0; 
+	 pattern != 0L; 
+	 pattern = pats.next(), i++) {
+      if (i == 0)
+	name += " -name ";
+      else
+	name += " -o -name ";
+      
+      name += prefix + pattern;
+    }
+    // If we have more then one predicate we need "(" ... ")"
+    if(i > 0)
+      name = "\"(\"" + name + "\")\"";
+  }
+  
+  // If name is empty after the switch no special type was provided.
+  // We fill it with content of name box.
+  if(name.isEmpty()) {
+    if(nameBox->currentText().isEmpty())
+      name = "*";
+    else
+      name = nameBox->currentText();
+    name = " -name " + quote(name);
+  }
+   
+  str += name + type;
   
   if (!subdirsCb->isChecked())
     str.append(" -maxdepth 1 ");
@@ -485,8 +460,8 @@ QString KfindTabWidget::createQuery() {
     if (rb2[0]->isChecked()) { // Between dates
       QDate q1, q2;
       str.append(pom.sprintf(" -daystart -mtime -%d -mtime +%d",
-			     (string2Date(le[0]->text(),&q1)).daysTo(QDate::currentDate()),
-			     (string2Date(le[1]->text(),&q2)).daysTo(QDate::currentDate()) ));
+	   (string2Date(le[0]->text(),&q1)).daysTo(QDate::currentDate()),
+	   (string2Date(le[1]->text(),&q2)).daysTo(QDate::currentDate()) ));
     }
     else
       if (rb2[1]->isChecked()) { // Previous mounth
@@ -515,13 +490,10 @@ QString KfindTabWidget::createQuery() {
   }
   
   if(!textEdit->text().isEmpty()) {
-    str += "|xargs egrep -l";
-    if(caseCb->isChecked())
-      str += " \"";
-    else
-      str += " -i \"";
-    str += textEdit->text();
-    str += "\"";
+    str += " | xargs egrep -l ";
+    if(!caseCb->isChecked())
+      str += " -i ";
+    str += quote(textEdit->text());
   }
   
   kdebug(KDEBUG_INFO, 1903, "QUERY=%s\n", str.ascii());    
@@ -647,4 +619,43 @@ void KfComboBox::keyPressEvent(QKeyEvent *e)
     emit returnPressed();
   else
     QComboBox::keyPressEvent(e);
+}
+
+//*******************************************************
+//             Static utility functions	
+//*******************************************************
+static void save_pattern(QComboBox *obj, const QString new_item,
+			 const char *group, const char *entry) 
+{ 
+  int i;
+  for(i=0; i<obj->count(); i++)
+    if(new_item == obj->text(i))
+      break;
+  
+  // If we could not finish the loop item already exists
+  // Nothing to save
+  if(i < obj->count())
+    return;
+  
+  // New item. Add it to the combo and save
+  obj->insertItem(new_item);
+  
+  // QComboBox allows insertion of items more than specified by
+  // maxCount() (QT bug?). This API call will truncate list if needed.
+  obj->setMaxCount(15);
+
+  QStrList sl;
+  for(i=0; i<obj->count(); i++)
+    sl.append(obj->text(i).ascii());
+  
+  KConfig *conf = kapp->getConfig();
+  conf->setGroup(group);
+  conf->writeEntry(entry, sl, ',');
+}
+
+static QString quote(const QString str) {
+  if(str.contains('"') > 0)
+    return "'" + str + "'";
+  else
+    return '"' + str + '"';
 }
