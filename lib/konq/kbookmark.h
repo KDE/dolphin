@@ -69,11 +69,9 @@ public:
   QPixmap pixmap();
   
   /**
-   * Append a new bookmark to the list.  Note that if the type is a
-   * Folder, it will add the bookmark to the top of the list rather
-   * then appending it to the bottom
+   * Append a new bookmark to the list.
    */
-  void append( KBookmark *_bm ) { (_bm->type() == Folder) ? m_lstChildren.prepend( _bm) : m_lstChildren.append( _bm ); }
+  void append( KBookmark *_bm ); 
   
   QList<KBookmark> *children() { return &m_lstChildren; }
   

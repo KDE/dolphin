@@ -361,6 +361,14 @@ KBookmark::KBookmark( KBookmarkManager *_bm, KBookmark *_parent, QString _text, 
   m_pManager->emitChanged();
 }
 
+void KBookmark::append( KBookmark *_bm )
+{ 
+  /*CT: Kurt said this will be configurable
+  if ( _bm->type() == Folder && BookmarkFoldersFirst)  
+      lstChildren.prepend( _bm) : m_lstChildren.append( _bm );
+  */
+}
+
 void KBookmark::clear()
 {
   KBookmark *bm;
