@@ -287,8 +287,7 @@ NSPluginInstance::NSPluginInstance(NPP privateData, NPPluginFuncs *pluginFuncs,
 {
    _npp = privateData;
    _npp->ndata = this;
-   _src = KURL(src).path();
-   _destroyed = false,
+   _destroyed = false;
    _callback = 0;
    _handle = handle;
    _width = width;
@@ -296,6 +295,10 @@ NSPluginInstance::NSPluginInstance(NPP privateData, NPPluginFuncs *pluginFuncs,
    _tempFiles.setAutoDelete( true );
    _streams.setAutoDelete( true );
    _waitingRequests.setAutoDelete( true );
+
+   KURL base(src);
+   base.setFileName( QString::null );
+   _baseURL = base.url();
 
    memcpy(&_pluginFuncs, pluginFuncs, sizeof(_pluginFuncs));
 
@@ -410,7 +413,7 @@ void NSPluginInstance::timer()
                     _streams.append( s );
 
                     QByteArray buf;
-                    buf.setRawData( _src.latin1(), _src.length()+1 );
+                    buf.setRawData( _baseURL.latin1(), _baseURL.length()+1 );
                     s->get( req.url, "text/html", buf, req.notify, true );
                 } else {
                     // create stream
@@ -419,10 +422,16 @@ void NSPluginInstance::timer()
                              SLOT(streamFinished(NSPluginStreamBase*)) );
                     _streams.append( s );
 
+                    kdDebug() << "getting " << req.url << " src=" << _baseURL << endl;
+
                     // make absolute url
                     if ( KURL::isRelativeURL(req.url) )
                     {
-                        KURL absUrl( _src, req.url );
+                        KURL absUrl( _baseURL, req.url );
+                        s->get( absUrl.url(), req.mime, req.notify );
+                    } else if ( req.url[0]=='/' && KURL(_baseURL).hasHost() ) {
+                        KURL absUrl( _baseURL );
+                        absUrl.setPath( req.url );
                         s->get( absUrl.url(), req.mime, req.notify );
                     } else
                         s->get( req.url, req.mime, req.notify );

@@ -256,7 +256,6 @@ void scanDirectory( QString dir, QStringList &mimeInfoList,
                 cache << ":" << *token;
             cache << endl;
 
-
             // append type to MIME type list
             if ( !mimeInfoList.contains( *type ) )
                 mimeInfoList.append( *type );

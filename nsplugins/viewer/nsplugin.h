@@ -212,7 +212,7 @@ private:
   NPPluginFuncs _pluginFuncs;
 
   Widget _area, _form, _toplevel;
-  QString _src;
+  QString _baseURL;
   int _width, _height;
 
   struct Request
