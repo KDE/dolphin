@@ -18,7 +18,6 @@
 */
 
 #include "konq_propsview.h"
-#include "konq_factory.h"
 #include <konqdefaults.h>
 #include <konqsettings.h>
 
@@ -31,6 +30,7 @@
 #include <unistd.h>
 #include <qfile.h>
 #include <iostream>
+#include <kinstance.h>
 
 #include <ksimpleconfig.h>
 
@@ -59,12 +59,12 @@ QPixmap wallpaperPixmap( const char *_wallpaper )
 KonqPropsView * KonqPropsView::m_pDefaultProps = 0L;
 
 // static
-KonqPropsView * KonqPropsView::defaultProps()
+KonqPropsView * KonqPropsView::defaultProps( KInstance *instance )
 {
   if (!m_pDefaultProps)
   {
     kdDebug(1202) << "Reading global config for konq_propsview" << endl;
-    KConfig *config = KonqFactory::instance()->config();
+    KConfig *config = instance->config();
     KConfigGroupSaver cgs(config, "Settings");
     m_pDefaultProps = new KonqPropsView(config);
   }
@@ -135,9 +135,9 @@ bool KonqPropsView::enterDir( const KURL & dir )
   return true;
 }
 
-void KonqPropsView::saveAsDefault()
+void KonqPropsView::saveAsDefault( KInstance *instance )
 {
-  KConfig *config = KonqFactory::instance()->config();
+  KConfig *config = instance->config();
   KConfigGroupSaver cgs(config, "Settings");
   saveProps( config );
 }

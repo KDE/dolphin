@@ -1,21 +1,21 @@
 /*  This file is part of the KDE project
     Copyright (C) 1997 David Faure <faure@kde.org>
- 
+
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation; either version 2 of the License, or
     (at your option) any later version.
- 
+
     This program is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
- 
+
     You should have received a copy of the GNU General Public License
     along with this program; if not, write to the Free Software
     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
- 
-*/ 
+
+*/
 
 #ifndef __kfm_viewprops_h__
 #define __kfm_viewprops_h__
@@ -25,6 +25,7 @@
 #include <kconfig.h>
 #include <kurl.h>
 
+class KInstance;
 class KonqKfmIconView;
 class KonqTreeViewWidget;
 
@@ -46,17 +47,17 @@ class KonqPropsView
 
   // This is not a QObject because we need a copy constructor.
 public:
-  
+
   /**
    * The static instance of KonqPropsView, holding the default values
    * from the config file
    */
-  static KonqPropsView * defaultProps();
-  
+  static KonqPropsView * defaultProps( KInstance *instance );
+
   /**
    * To construct a new KonqPropsView instance with values taken
    * from defaultProps, use the copy constructor.
-  
+
    * Constructs a KonqPropsView instance from a config file.
    * Set the group before calling.
    * ("Settings" for global props, "ViewNNN" for local props)
@@ -77,17 +78,17 @@ public:
    * Save in local .directory if possible
    */
   void saveLocal( const KURL & dir );
-  
+
   /**
    * Save those properties as default
    * ("Options"/"Save settings")  ["as default" missing ?]
    */
-  void saveAsDefault();
+  void saveAsDefault( KInstance *instance );
 
   /**
    * Save to config file
    * Set the group before calling.
-   * ("Settings" for global props, "ViewNNN" for SM (TODO), 
+   * ("Settings" for global props, "ViewNNN" for SM (TODO),
    * "URL properties" for .directory files)
    */
   void saveProps( KConfig * config );
@@ -102,7 +103,7 @@ public:
 
   const QColor& bgColor() { return m_bgColor; }
   const QPixmap& bgPixmap() { return m_bgPixmap; }
-  
+
 //without the protected user made views can access this directly
 //without modifying konqy's sources
 //protected:

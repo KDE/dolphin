@@ -86,7 +86,7 @@ private:
   static KInstance *s_instance;
 };
 
-static KInstance *KonqIconViewFactory::s_instance = 0;
+KInstance *KonqIconViewFactory::s_instance = 0;
 
 extern "C"
 {
@@ -127,7 +127,7 @@ void IconViewBrowserExtension::saveLocalProperties()
 
 void IconViewBrowserExtension::savePropertiesAsDefault()
 {
-    m_iconView->m_pProps->saveAsDefault();
+    m_iconView->m_pProps->saveAsDefault( KonqIconViewFactory::instance() );
 }
 
 
@@ -144,7 +144,7 @@ KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const 
 
     // Create a properties instance for this view
     // (copying the default values)
-    m_pProps = new KonqPropsView( * KonqPropsView::defaultProps() );
+    m_pProps = new KonqPropsView( * KonqPropsView::defaultProps( KonqIconViewFactory::instance() ) );
 
     m_pIconView = new KonqIconViewWidget( parentWidget, "qiconview" );
 

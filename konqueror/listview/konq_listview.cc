@@ -34,7 +34,6 @@
 #include <kstdaction.h>
 #include <kparts/mainwindow.h>
 #include <kparts/partmanager.h>
-#include <kparts/factory.h>
 #include <klineeditdlg.h>
 
 #include <assert.h>
@@ -53,40 +52,34 @@
 #include <klibloader.h>
 #include <qregexp.h>
 
-class KonqListViewFactory : public KParts::Factory
+KonqListViewFactory::KonqListViewFactory()
 {
-public:
-  KonqListViewFactory()
-  {
-  }
-  virtual ~KonqListViewFactory()
-  {
-    if ( s_instance )
-      delete s_instance;
-  }
+}
 
-  virtual KParts::Part* createPart( QWidget *parentWidget, const char *, QObject *parent, const char *name, const char*, const QStringList &args )
-  {
-    if( args.count() < 1 )
-      kdWarning() << "KonqListView: Missing Parameter" << endl;
-
-    KParts::Part *obj = new KonqListView( parentWidget, parent, name, args.first() );
-    emit objectCreated( obj );
-    return obj;
-  }
-
-  static KInstance *instance()
-  {
-    if ( !s_instance )
-      s_instance = new KInstance( "konqueror" );
+KonqListViewFactory::~KonqListViewFactory()
+{
+  if ( s_instance )
     delete s_instance;
-  }
+}
 
-private:
-  static KInstance *s_instance;
-};
+KParts::Part* KonqListViewFactory::createPart( QWidget *parentWidget, const char *, QObject *parent, const char *name, const char*, const QStringList &args )
+{
+  if( args.count() < 1 )
+    kdWarning() << "KonqListView: Missing Parameter" << endl;
 
-static KInstance *KonqListViewFactory::s_instance = 0;
+  KParts::Part *obj = new KonqListView( parentWidget, parent, name, args.first() );
+  emit objectCreated( obj );
+  return obj;
+}
+
+KInstance *KonqListViewFactory::instance()
+{
+  if ( !s_instance )
+    s_instance = new KInstance( "konqueror" );
+  return s_instance;
+}
+
+KInstance *KonqListViewFactory::s_instance = 0;
 
 extern "C"
 {
@@ -191,7 +184,7 @@ void ListViewBrowserExtension::saveLocalProperties()
 
 void ListViewBrowserExtension::savePropertiesAsDefault()
 {
-  m_listView->listViewWidget()->m_pProps->saveAsDefault();
+  m_listView->listViewWidget()->m_pProps->saveAsDefault( KonqListViewFactory::instance() );
 }
 
 KonqListView::KonqListView( QWidget *parentWidget, QObject *parent, const char *name, const QString& mode )

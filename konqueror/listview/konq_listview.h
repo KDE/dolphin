@@ -24,6 +24,7 @@
 #include <kglobalsettings.h>
 #include <konqoperations.h>
 #include <konq_listviewwidget.h>
+#include <kparts/factory.h>
 
 #include <qvaluelist.h>
 #include <qlistview.h>
@@ -34,6 +35,20 @@
 class KAction;
 class KToggleAction;
 class ListViewBrowserExtension;
+
+class KonqListViewFactory : public KParts::Factory
+{
+public:
+  KonqListViewFactory();
+  virtual ~KonqListViewFactory();
+
+  virtual KParts::Part* createPart( QWidget *parentWidget, const char *, QObject *parent, const char *name, const char*, const QStringList &args );
+
+  static KInstance *instance();
+
+private:
+  static KInstance *s_instance;
+};
 
 /**
  * The part for the tree view. It does quite nothing, just the

@@ -67,7 +67,7 @@ KonqBaseListViewWidget::KonqBaseListViewWidget( KonqListView *parent, QWidget *p
 
    // Create a properties instance for this view
    // (copying the default values)
-   m_pProps = new KonqPropsView( * KonqPropsView::defaultProps() );
+   m_pProps = new KonqPropsView( * KonqPropsView::defaultProps( KonqListViewFactory::instance() ) );
 
    //Adjust QListView behaviour
    setSelectionMode( Extended );

@@ -59,7 +59,7 @@ KonqChildView::KonqChildView( KonqViewFactory &viewFactory,
   m_appServiceOffers = appServiceOffers;
   m_serviceType = serviceType;
 
-  m_bAllowHTML = KonqPropsView::defaultProps()->isHTMLAllowed();
+  m_bAllowHTML = KonqPropsView::defaultProps( KonqFactory::instance() )->isHTMLAllowed();
   m_lstHistory.setAutoDelete( true );
   m_bReloadURL = false;
   m_iXOffset = 0;

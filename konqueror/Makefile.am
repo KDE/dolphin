@@ -21,8 +21,7 @@ include_HEADERS = KonquerorIface.h
 libkonqueror_la_SOURCES = \
 			  konq_propsview.cc \
 			  konq_events.cc \
-			  konq_bgnddlg.cc \
-		          konq_factory.cc
+			  konq_bgnddlg.cc
 
 #			  konq_metadata.cc
 #			  konq_htmlsettings.cc
@@ -40,7 +39,8 @@ konqueror_la_SOURCES = konq_main.cc KonquerorIface.skel konq_mainview.skel \
 		    konq_frame.cc \
 		    konq_actions.cc \
 		    konq_profiledlg.cc \
-		    konq_propsmainview.cc
+		    konq_propsmainview.cc \
+		    konq_factory.cc
 
 konqueror_la_LDFLAGS = $(all_libraries) -module -avoid-version
 konqueror_la_LIBADD = libkonqueror.la $(LIB_KIMGIO)
