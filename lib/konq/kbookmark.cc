@@ -177,22 +177,22 @@ void KBookmarkManager::scanIntern( KBookmark *_bm, const char * _path )
   {
     if ( strcmp( ep->d_name, "." ) != 0 && strcmp( ep->d_name, ".." ) != 0 )
     {
-      QString file = _path;
-      file += '/';
-      file += ep->d_name;
+      QString path( QString( _path ) + '/' + ep->d_name );
+      KURL::encode( path );
+      KURL file( path );
 
-      KMimeType::Ptr res = KMimeType::findByURL( KURL( file ), 0, true );
+      KMimeType::Ptr res = KMimeType::findByURL( file, 0, true );
 
       if ( res->name() == "inode/directory" )
       {
         KBookmark* bm = new KBookmark( this, _bm, KFileItem::decodeFileName( ep->d_name ) );
         if ( KFileItem::decodeFileName( ep->d_name ) == "Toolbar" )
             m_Toolbar = bm;
-        scanIntern( bm, file );
+        scanIntern( bm, file.path() );
       }
       else if ( res->name() == "application/x-desktop" )
       {
-        KSimpleConfig cfg( file, true );
+        KSimpleConfig cfg( file.path(), true );
         cfg.setDesktopGroup();
         QString type = cfg.readEntry( "Type" );	
         // Is it really a bookmark file ?
@@ -202,13 +202,13 @@ void KBookmarkManager::scanIntern( KBookmark *_bm, const char * _path )
       else if ( res->name() == "text/plain")
       {
         // maybe its an IE Favourite..
-        KSimpleConfig cfg( file, true );
+        KSimpleConfig cfg( file.path(), true );
         cfg.setGroup("InternetShortCut");
         QString url = cfg.readEntry("URL");
         if (!url.isEmpty() )
           (void) new KBookmark( this, _bm, ep->d_name, cfg, "InternetShortCut" );
       } else kdebug(KDEBUG_WARN, 1203, "Invalid bookmark : found mimetype='%s' for file='%s'!",
-                    res->mimeType().ascii(), file.ascii());
+                    res->mimeType().ascii(), file.path().ascii());
     }
   }
 
