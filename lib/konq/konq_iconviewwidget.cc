@@ -1135,9 +1135,9 @@ KonqIconDrag * KonqIconViewWidget::konqDragObject( QWidget * dragSource )
           QIconDragItem id;
           id.setData( QCString(itemURL.latin1()) );
           drag->append( id,
-                        QRect( it->pixmapRect().topLeft() - offset,
+                        QRect( it->pixmapRect(false).topLeft() - m_mousePos - offset,
                                it->pixmapRect().size() ),
-                        QRect( it->textRect().topLeft() - offset,
+                        QRect( it->textRect(false).topLeft() - m_mousePos - offset,
                                it->textRect().size() ),
                         itemURL );
         }
@@ -1146,7 +1146,7 @@ KonqIconDrag * KonqIconViewWidget::konqDragObject( QWidget * dragSource )
     if (primaryItem)
     {
        // Set pixmap, with the correct offset
-       drag->setPixmap( *primaryItem->pixmap(), offset );
+       drag->setPixmap( *primaryItem->pixmap(), m_mousePos - primaryItem->pixmapRect(false).topLeft() + offset );
     }
 
     return drag;
