@@ -181,16 +181,16 @@ void KBookmarkManager::scanIntern( KBookmark *_bm, const char * _path )
       file += '/';
       file += ep->d_name;
 
-      KMimeMagicResult * res = KMimeMagic::self()->findFileType( file );
+      KMimeType::Ptr res = KMimeType::findByURL( KURL( file ), 0, true );
 
-      if ( res->mimeType() == "inode/directory" )
+      if ( res->name() == "inode/directory" )
       {
         KBookmark* bm = new KBookmark( this, _bm, KFileItem::decodeFileName( ep->d_name ) );
         if ( KFileItem::decodeFileName( ep->d_name ) == "Toolbar" )
             m_Toolbar = bm;
         scanIntern( bm, file );
       }
-      else if ( res->mimeType() == "application/x-desktop" )
+      else if ( res->name() == "application/x-desktop" )
       {
         KSimpleConfig cfg( file, true );
         cfg.setDesktopGroup();
@@ -199,7 +199,7 @@ void KBookmarkManager::scanIntern( KBookmark *_bm, const char * _path )
         if ( type == "Link" )
           (void) new KBookmark( this, _bm, ep->d_name, cfg, QString::null /* desktop group */ );
       }
-      else if ( res->mimeType() == "text/plain")
+      else if ( res->name() == "text/plain")
       {
         // maybe its an IE Favourite..
         KSimpleConfig cfg( file, true );
