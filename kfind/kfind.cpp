@@ -89,6 +89,8 @@ Kfind::Kfind(QWidget *parent, const char *name)
 Kfind::~Kfind()
 {
   stopSearch();
+  dirlister->stop();
+  delete dirlister;
   kdDebug() << "Kfind::~Kfind" << endl;
 }
 
