@@ -162,7 +162,7 @@ static QCString getPreloadedKonqy()
         return "";
     DCOPRef ref( "kded", "konqy_preloader" );
     QCString ret;
-    if( ref.call( "getPreloadedKonqy", DCOPRef::NoEventLoop, 3000 ).get( ret ))
+    if( ref.callExt( "getPreloadedKonqy", DCOPRef::NoEventLoop, 3000 ).get( ret ))
 	return ret;
     return QCString();
 }
