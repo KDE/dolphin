@@ -41,13 +41,15 @@ KonqViewManager::KonqViewManager( KonqMainView *mainView )
   m_pMainSplitter = new QSplitter( Qt::Vertical, m_pMainView );
   m_pMainSplitter->setOpaqueResize();
   m_pMainSplitter->show();
-  opapp->addIndependendWidget( m_pMainSplitter );
+  
+  // exclude the splitter and all child widgets from the part focus handling
+  m_pMainView->addSeparatedWidget( m_pMainSplitter );
 }
 
 KonqViewManager::~KonqViewManager()
 {
   clear();
-  opapp->removeIndependendWidget( m_pMainSplitter );
+  m_pMainView->removeSeparatedWidget( m_pMainSplitter );
   delete m_pMainSplitter;
 }
 
