@@ -131,8 +131,8 @@ void KonqChildView::switchView( Konqueror::View_ptr _vView )
   Konqueror::View_var vView = Konqueror::View::_duplicate( _vView );
   attach( vView );
     
-  m_vMainWindow->setActivePart( vView->id() );
   emit sigIdChanged( this, oldId, vView->id() );
+  m_vMainWindow->setActivePart( vView->id() ); 
 }
 
 void KonqChildView::changeViewMode( const char *viewName )
