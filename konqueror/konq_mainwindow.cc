@@ -390,7 +390,7 @@ void KonqMainWindow::initBookmarkBar()
   connect( m_paBookmarkBar,
            SIGNAL( aboutToShowContextMenu(const KBookmark &, QPopupMenu*) ),
            this, SLOT( slotFillContextMenu(const KBookmark &, QPopupMenu*) ));
-  connect( m_paBookmarkBar,	   
+  connect( m_paBookmarkBar,
 	   SIGNAL( openBookmark(const QString &, bool) ),
 	   this, SLOT( slotOpenBookmarkURL(const QString &, bool) ));
 
@@ -1788,9 +1788,9 @@ void KonqMainWindow::slotGoApplications()
   openURL( 0L, KURL( "programs:/" ) );
 }
 
-void KonqMainWindow::slotGoDevices()
+void KonqMainWindow::slotGoMedia()
 {
-  openURL( 0L, KURL( "devices:/" ) );
+  openURL( 0L, KURL( "media:/" ) );
 }
 
 void KonqMainWindow::slotGoSettings()
@@ -3584,7 +3584,7 @@ void KonqMainWindow::initActions()
   m_paHome = new KAction( i18n( "Home URL" ), "gohome", KStdAccel::shortcut(KStdAccel::Home), this, SLOT( slotHome() ), actionCollection(), "home" );
 
   (void) new KAction( i18n( "App&lications" ), 0, this, SLOT( slotGoApplications() ), actionCollection(), "go_applications" );
-  (void) new KAction( i18n( "&Devices" ), 0, this, SLOT( slotGoDevices() ), actionCollection(), "go_devices" );
+  (void) new KAction( i18n( "&Storage Media" ), 0, this, SLOT( slotGoMedia() ), actionCollection(), "go_media" );
   (void) new KAction( i18n( "Sett&ings" ), 0, this, SLOT( slotGoSettings() ), actionCollection(), "go_settings" );
   //(void) new KAction( i18n( "Sidebar Configuration" ), 0, this, SLOT( slotGoDirTree() ), actionCollection(), "go_dirtree" );
   (void) new KAction( i18n( "Trash" ), 0, this, SLOT( slotGoTrash() ), actionCollection(), "go_trash" );

@@ -368,7 +368,7 @@ public slots:
   void slotForward();
   void slotHome();
   void slotGoApplications();
-  void slotGoDevices();
+  void slotGoMedia();
   void slotGoSettings();
   void slotGoDirTree();
   void slotGoTrash();
@@ -588,7 +588,7 @@ private:
   KAction *m_paProperties;
 
   KAction *m_paPrint;
-  
+
   KActionMenu *m_pamBookmarks;
 
   KToolBarPopupAction *m_paUp;

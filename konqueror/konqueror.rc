@@ -53,8 +53,8 @@
   <Action name="home"/>
   <Separator/>
   <Action name="go_applications"/>
-  <Action name="go_devices"/>
   <Action name="go_settings"/>
+  <Action name="go_media"/>
   <Action name="go_dirtree"/>
   <Action name="go_trash"/>
   <Action name="go_templates"/>
