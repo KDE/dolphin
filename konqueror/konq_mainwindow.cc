@@ -448,7 +448,8 @@ bool KonqMainWindow::openView( QString serviceType, const KURL &_url, KonqView *
 
   if ( url.isLocalFile() // kio_tar only supports local files
        && ( serviceType == QString::fromLatin1("application/x-tar")  ||
-            serviceType == QString::fromLatin1("application/x-tgz") ) )
+            serviceType == QString::fromLatin1("application/x-tgz")  ||
+            serviceType == QString::fromLatin1("application/x-tbz") ) )
     {
       url.setProtocol( QString::fromLatin1("tar") );
       url.setPath( url.path() + '/' );
