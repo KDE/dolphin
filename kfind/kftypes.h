@@ -13,7 +13,7 @@
 #include <qfile.h>
 
 #include <kapp.h>
-#include <Kconfig.h>
+#include <kconfig.h>
  
 class KfFileType
 {

@@ -45,8 +45,9 @@ void KfFileType::initFileTypes( const char* _path )
                 if ( !f.open( IO_ReadOnly ) )
                     return;
 
-                QTextStream pstream( &f );
-                KConfig config( &pstream );
+				f.close(); // kalle
+				// kalle                QTextStream pstream( &f );
+                KConfig config( file ); //
                 config.setGroup( "KDE Desktop Entry" );
 
                 // Read a new extension group

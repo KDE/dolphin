@@ -18,7 +18,7 @@ KfSaveOptions::KfSaveOptions()
   KConfig *config = KApplication::getKApplication()->getConfig();
   config->setGroup( "Saving" );
   
-  saveFormat = (config->readEntry( "Format" )).upper();
+  saveFormat = QString(config->readEntry( "Format" )).upper();
   if ( saveFormat.isNull() | (saveFormat=="") )
     saveFormat = "HTML";
 
