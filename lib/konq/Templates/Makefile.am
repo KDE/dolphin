@@ -1,14 +1,14 @@
 
 # The links (that contain translations)
 templ_DATA = linkFtpURL.desktop linkProgram.desktop linkWWWURL.desktop \
-	linkURL.desktop linkDevice.desktop linkCDROM.desktop \
+	linkURL.desktop linkFloppy.desktop linkCDROM.desktop \
 	Directory.desktop TextFile.desktop HTMLFile.desktop
 
 templdir = $(kde_templatesdir)
 
 # The source files (the actual _templates)
 sources_DATA = FtpURL.desktop Program.desktop WWWURL.desktop \
-        URL.desktop Device.desktop CDROM-Device.desktop \
+        URL.desktop Floppy.desktop CDROM-Device.desktop \
 	TextFile.txt HTMLFile.html
 
 sourcesdir = $(kde_templatesdir)/.source

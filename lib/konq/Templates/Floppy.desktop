@@ -4,5 +4,5 @@ Dev=
 ReadOnly=0
 FSType=Default
 Type=FSDevice
-Icon=
-UnmountIcon=
+Icon=3floppy_mount
+UnmountIcon=3floppy_unmount
