@@ -531,7 +531,7 @@ void KonqListView::slotSaveAfterHeaderDrag()
 
 void KonqListView::slotBackgroundColor()
 {
-   QColor bgndColor = m_pListView->m_pProps->bgColor();
+   QColor bgndColor = m_pListView->m_pProps->bgColor(m_pListView);
    if ( KColorDialog::getColor( bgndColor ) == KColorDialog::Accepted )
    {
       m_pListView->m_pProps->setBgColor( bgndColor );
