@@ -168,6 +168,7 @@ void UAProviderDlg::init()
 {
   if ( !m_provider )
     m_provider = new FakeUASProvider();
+#if 0
   QStringList list = KProtocolManager::userAgentList();
   if ( list.count() )
   {
@@ -175,6 +176,7 @@ void UAProviderDlg::init()
     for( ; it != list.end(); ++it )
       m_provider->createNewUAProvider( (*it) );
   }
+#endif
   m_cbIdentity->clear();
   m_cbIdentity->insertStringList( m_provider->userAgentStringList() );
   m_cbIdentity->insertItem( "", 0 );

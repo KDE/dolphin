@@ -13,7 +13,7 @@
 #define _USERAGENTDLG_H "$Id$"
 
 #include <kcmodule.h>
-#include <kprotocolmanager.h>
+#include <kconfig.h>
 
 class QLabel;
 class QCheckBox;
@@ -79,9 +79,11 @@ private:
   QPushButton*    pb_add;
 
   // Useragent modifiers...
-  KProtocolManager::UAMODIFIERS m_iMods;
+  QString m_ua_keys;
   // Fake user-agent modifiers...
   FakeUASProvider* m_provider;
+  
+  KConfig *m_config;
 };
 
 #endif

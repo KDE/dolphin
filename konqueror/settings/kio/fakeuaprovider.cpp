@@ -180,7 +180,7 @@ void FakeUASProvider::parseDescription()
 
 QString FakeUASProvider::aliasFor( const QString& name )
 {
-  int id = m_lstIdentity.findIndex(name);
+  int id = userAgentStringList().findIndex(name);
   if ( id == -1 )
     return QString::null;
   else

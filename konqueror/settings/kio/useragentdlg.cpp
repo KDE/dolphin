@@ -22,6 +22,10 @@
 #include <kdialog.h>
 #include <klistview.h>
 #include <dcopclient.h>
+#include <kprotocolmanager.h>
+#include <ksimpleconfig.h>
+
+#include <kio/http_slave_defaults.h>
 
 #include "useragentdlg.h"
 #include "fakeuaprovider.h"
@@ -36,8 +40,8 @@ UserAgentOptions::UserAgentOptions( QWidget * parent, const char * name )
   //lay->setMargin( KDialog::marginHint() );
 
   // Send User-agent info ?
-  cb_sendUAString = new QCheckBox( i18n("Do not se&nd browser identification"), this );
-  QString wtstr = i18n("<qt>If checked, no identification information about "
+  cb_sendUAString = new QCheckBox( i18n("Se&nd browser identification"), this );
+  QString wtstr = i18n("<qt>If unchecked, no identification information about "
                        "your browser will be sent to sites you visit while "
                        "browsing."
                        "<P><u>NOTE:</u> Many sites rely on this information to "
@@ -183,6 +187,8 @@ UserAgentOptions::UserAgentOptions( QWidget * parent, const char * name )
                "you to save and retrieve them from a zipped file.")
                */
   QWhatsThis::add( gb_siteSpecific, wtstr );
+  m_config = new KConfig("kio_httprc", false, false);
+  m_provider = new FakeUASProvider();
   load();
 }
 
@@ -190,47 +196,39 @@ UserAgentOptions::~UserAgentOptions()
 {
   if ( m_provider )
     delete m_provider;
+  delete m_config;
 }
 
 void UserAgentOptions::load()
 {
-  QStringList list = KProtocolManager::userAgentList();
-  uint entries = list.count();
-  if( entries > 0 )
+  lv_siteUABindings->clear();
+  QStringList list = m_config->groupList();
+  for ( QStringList::Iterator it = list.begin(); it != list.end(); ++it )
   {
-    int count;
-    QString sep = "::";
-    lv_siteUABindings->clear();
-    for ( QStringList::Iterator it = list.begin(); it != list.end(); ++it )
-    {
-      int pos = (*it).find(sep);
-      if ( pos == -1 )
+      if ( (*it) == "<default>")
+         continue;
+      QString domain = "." + *it;
+      m_config->setGroup(*it);
+      QString userAgent = m_config->readEntry("UserAgent");
+      if (!userAgent.isEmpty());
       {
-        pos = (*it).find( ':' );
-        if ( pos == -1 ) continue;
-        sep = (*it).mid(pos+1);
-        (void) new QListViewItem( lv_siteUABindings, (*it).left(pos), sep, sep );
+         QString comment = m_provider->aliasFor(userAgent);
+         (void) new QListViewItem( lv_siteUABindings, domain, userAgent, comment );
       }
-      else
-      {
-        QStringList split = QStringList::split( sep, (*it) );
-        count = split.count();
-        if ( count < 2 ) continue;
-        if ( count < 3 ) split.append( split[1] );
-        (void) new QListViewItem( lv_siteUABindings, split[0], split[1], split[2] );
-      }
-    }
   }
+
   // Update buttons and checkboxes...
-  cb_sendUAString->setChecked( !KProtocolManager::sendUserAgent() );
-  KProtocolManager::defaultUserAgentModifiers( m_iMods );
-  lb_default->setText( KProtocolManager::customDefaultUserAgent( m_iMods ) );
-  cb_showOS->setChecked( m_iMods.showOS );
-  cb_showOSV->setChecked( m_iMods.showOSVersion );
-  cb_showOSV->setEnabled( m_iMods.showOSVersion );
-  cb_showPlatform->setChecked( m_iMods.showPlatform );
-  cb_showMachine->setChecked( m_iMods.showMachine );
-  cb_showLanguage->setChecked( m_iMods.showLanguage );
+  m_config->setGroup(QString::null);
+  bool b = m_config->readBoolEntry("SendUserAgent", true);
+  cb_sendUAString->setChecked( b );
+  m_ua_keys = m_config->readEntry("UserAgentKeys", DEFAULT_USER_AGENT_KEYS).lower();
+  lb_default->setText( KProtocolManager::defaultUserAgent( m_ua_keys ) );
+  cb_showOS->setChecked( m_ua_keys.contains('o') );
+  cb_showOSV->setChecked( m_ua_keys.contains('v') );
+  cb_showOSV->setEnabled( m_ua_keys.contains('o') );
+  cb_showPlatform->setChecked( m_ua_keys.contains('p') );
+  cb_showMachine->setChecked( m_ua_keys.contains('m') );
+  cb_showLanguage->setChecked( m_ua_keys.contains('l') );
   changeSendUAString();
   m_provider = 0L;
 }
@@ -246,34 +244,78 @@ void UserAgentOptions::updateButtons()
 void UserAgentOptions::defaults()
 {
   lv_siteUABindings->clear();
-  m_iMods.showOS = false;
-  m_iMods.showOSVersion = false;
-  m_iMods.showPlatform = false;
-  m_iMods.showMachine = false;
-  m_iMods.showLanguage = true;
-  cb_showOS->setChecked( m_iMods.showOS );
-  cb_showOSV->setChecked( m_iMods.showOSVersion );
-  cb_showPlatform->setChecked( m_iMods.showPlatform );
-  cb_showMachine->setChecked( m_iMods.showMachine );
-  cb_showLanguage->setChecked( m_iMods.showLanguage );
-  lb_default->setText( KProtocolManager::customDefaultUserAgent(m_iMods) );
-  cb_sendUAString->setChecked( false );
+  m_ua_keys = DEFAULT_USER_AGENT_KEYS;
+  lb_default->setText( KProtocolManager::defaultUserAgent(m_ua_keys) );
+  cb_showOS->setChecked( m_ua_keys.contains('o') );
+  cb_showOSV->setChecked( m_ua_keys.contains('v') );
+  cb_showOSV->setEnabled( m_ua_keys.contains('o') );
+  cb_showPlatform->setChecked( m_ua_keys.contains('p') );
+  cb_showMachine->setChecked( m_ua_keys.contains('m') );
+  cb_showLanguage->setChecked( m_ua_keys.contains('l') );
+  cb_sendUAString->setChecked( true );
   changeSendUAString();
   emit KCModule::changed( true );
 }
 
 void UserAgentOptions::save()
 {
-  QStringList list;
+  QStringList deleteList;
+  // This is tricky because we have to take care to delete entries
+  // as well.
+  QStringList list = m_config->groupList();
+  for ( QStringList::Iterator it = list.begin(); it != list.end(); ++it )
+  {
+      if ( (*it) == "<default>")
+         continue;
+      QString domain = "." + *it;
+      m_config->setGroup(*it);
+      if (m_config->hasKey("UserAgent"))
+         deleteList.append(*it);
+  }
+
   QListViewItem* it = lv_siteUABindings->firstChild();
   while(it)
   {
-    list.append(QString(it->text(0) + "::" + it->text(1) + "::" + it->text(2)).stripWhiteSpace());
+    QString domain = it->text(0);
+    if (domain[0] == '.')
+      domain = domain.mid(1);
+    QString userAgent = it->text(1);
+    m_config->setGroup(domain);
+    m_config->writeEntry("UserAgent", userAgent);
+    deleteList.remove(domain);
+
     it = it->nextSibling();
   }
-  KProtocolManager::setEnableSendUserAgent( !cb_sendUAString->isChecked() );
-  KProtocolManager::setDefaultUserAgentModifiers( m_iMods );
-  KProtocolManager::setUserAgentList( list );
+  m_config->setGroup(QString::null);
+  m_config->writeEntry("SendUserAgent", cb_sendUAString->isChecked());
+  m_config->writeEntry("UserAgentKeys", m_ua_keys );
+  m_config->sync();
+
+  // Delete all entries from deleteList.
+  if (!deleteList.isEmpty())
+  {
+     // Remove entries from local file.
+     KSimpleConfig cfg("kio_httprc");
+     for ( QStringList::Iterator it = deleteList.begin(); 
+           it != deleteList.end(); ++it )
+     {
+        cfg.setGroup(*it);
+        cfg.deleteEntry("UserAgent", false);
+        cfg.deleteGroup(*it, false); // Delete if empty.
+     }
+     cfg.sync();
+  
+     m_config->reparseConfiguration();
+     // Check everything is gone, reset to blank otherwise.
+     for ( QStringList::Iterator it = deleteList.begin(); 
+           it != deleteList.end(); ++it )
+     {
+        m_config->setGroup(*it);
+        if (m_config->hasKey("UserAgent"))
+           m_config->writeEntry("UserAgent", QString::null);
+     }
+     m_config->sync();
+  }
 
   // Inform running io-slaves about change...
   QByteArray data;
@@ -354,42 +396,40 @@ void UserAgentOptions::changeSendUAString()
 {
   if( cb_sendUAString->isChecked() )
   {
-    bg_default->setEnabled( false );
-    gb_siteSpecific->setEnabled( false );
+    bg_default->setEnabled( true );
+    gb_siteSpecific->setEnabled( true );
   }
   else
   {
-    bg_default->setEnabled( true );
-    gb_siteSpecific->setEnabled( true );
+    bg_default->setEnabled( false );
+    gb_siteSpecific->setEnabled( false );
   }
   updateButtons();
   emit KCModule::changed(true);
 }
 
-void UserAgentOptions::changeDefaultUAModifiers( int id )
+void UserAgentOptions::changeDefaultUAModifiers( int )
 {
-  switch ( id )
-  {
-    case SHOW_OS:
-      m_iMods.showOS= cb_showOS->isChecked();
-      cb_showOSV->setEnabled( m_iMods.showOS );
-      break;
-    case SHOW_OS_VERSION:
-      m_iMods.showOSVersion= cb_showOSV->isChecked();
-      break;
-    case SHOW_PLATFORM:
-      m_iMods.showPlatform= cb_showPlatform->isChecked();
-      break;
-    case SHOW_MACHINE:
-      m_iMods.showMachine= cb_showMachine->isChecked();
-      break;
-    case SHOW_LANGUAGE:
-      m_iMods.showLanguage= cb_showLanguage->isChecked();
-      break;
-    default:
-      break;
-  }
-  QString modVal = KProtocolManager::customDefaultUserAgent( m_iMods );
+  m_ua_keys = ":"; // Make sure it's not empty
+
+  if ( cb_showOS->isChecked() )
+     m_ua_keys += 'o';
+
+  if ( cb_showOSV->isChecked() )
+     m_ua_keys += 'v';
+
+  if ( cb_showPlatform->isChecked() )
+     m_ua_keys += 'p';
+
+  if ( cb_showMachine->isChecked() )
+     m_ua_keys += 'm';
+
+  if ( cb_showLanguage->isChecked() )
+     m_ua_keys += 'l';
+
+  cb_showOSV->setEnabled(m_ua_keys.contains('o'));
+
+  QString modVal = KProtocolManager::defaultUserAgent( m_ua_keys );
   if ( lb_default->text() != modVal )
   {
     lb_default->setText(modVal);
