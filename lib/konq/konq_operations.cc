@@ -50,7 +50,6 @@
 KonqOperations::KonqOperations( QWidget *parent )
 : QObject( parent, "KonqOperations" )
 {
-  m_bSkipConfirmation = false;
 }
 
 void KonqOperations::editMimeType( const QString & mimeType )
@@ -83,14 +82,34 @@ void KonqOperations::del( QWidget * parent, int method, const KURL::List & selec
     kdWarning(1203) << "Empty URL list !" << endl;
     return;
   }
+  // We have to check the trash itself isn't part of the selected
+  // URLs.
+  bool bTrashIncluded = false;
+  KURL::List::ConstIterator it = selectedURLs.begin();
+  for ( ; it != selectedURLs.end() && !bTrashIncluded; ++it )
+      if ( (*it).isLocalFile() && (*it).path(1) == KGlobalSettings::trashPath() )
+          bTrashIncluded = true;
+  int confirmation = DEFAULT_CONFIRMATION;
+  if ( bTrashIncluded )
+  {
+      switch ( method ) {
+          case TRASH:
+              // Can't trash the trash
+              // TODO KMessageBox
+              return;
+          case DEL:
+          case SHRED:
+              confirmation = FORCE_CONFIRMATION;
+              break;
+      }
+  }
   KonqOperations * op = new KonqOperations( parent );
-  op->_del( method, selectedURLs );
+  op->_del( method, selectedURLs, confirmation );
 }
 
 void KonqOperations::emptyTrash()
 {
   KonqOperations *op = new KonqOperations( 0L );;
-  op->m_bSkipConfirmation = true;
 
   QDir trashDir( KGlobalSettings::trashPath() );
   QStringList files = trashDir.entryList( QDir::Files | QDir::Dirs );
@@ -107,13 +126,13 @@ void KonqOperations::emptyTrash()
     urls.append( *it );
 
   if ( urls.count() > 0 )
-    op->_del( DEL, urls );
+    op->_del( DEL, urls, SKIP_CONFIRMATION );
 }
 
-void KonqOperations::_del( int method, const KURL::List & selectedURLs )
+void KonqOperations::_del( int method, const KURL::List & selectedURLs, int confirmation )
 {
   m_method = method;
-  if ( m_bSkipConfirmation || askDeleteConfirmation( selectedURLs ) )
+  if ( confirmation == SKIP_CONFIRMATION || askDeleteConfirmation( selectedURLs, confirmation ) )
   {
     m_srcURLs = selectedURLs;
     KIO::Job *job;
@@ -140,13 +159,18 @@ void KonqOperations::_del( int method, const KURL::List & selectedURLs )
     delete this;
 }
 
-bool KonqOperations::askDeleteConfirmation( const KURL::List & selectedURLs )
+bool KonqOperations::askDeleteConfirmation( const KURL::List & selectedURLs, int confirmation )
 {
-    KConfig *config = new KConfig("konquerorrc", false, true);
-    config->setGroup( "Trash" );
-    QString groupName = ( m_method == DEL ? "ConfirmDelete" : m_method == SHRED ? "ConfirmShred" : "ConfirmTrash" );
-    bool defaultValue = ( m_method == DEL ? DEFAULT_CONFIRMDELETE : m_method == SHRED ? DEFAULT_CONFIRMSHRED : DEFAULT_CONFIRMTRASH );
-    if ( config->readBoolEntry( groupName, defaultValue ) )
+    bool ask = ( confirmation == FORCE_CONFIRMATION );
+    if ( !ask )
+    {
+        KConfig *config = new KConfig("konquerorrc", false, true);
+        config->setGroup( "Trash" );
+        QString groupName = ( m_method == DEL ? "ConfirmDelete" : m_method == SHRED ? "ConfirmShred" : "ConfirmTrash" );
+        bool defaultValue = ( m_method == DEL ? DEFAULT_CONFIRMDELETE : m_method == SHRED ? DEFAULT_CONFIRMSHRED : DEFAULT_CONFIRMTRASH );
+        ask = config->readBoolEntry( groupName, defaultValue );
+    }
+    if ( ask )
     {
       KURL::List::ConstIterator it = selectedURLs.begin();
       QStringList prettyList;

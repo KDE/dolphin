@@ -59,8 +59,9 @@ public:
     static void emptyTrash();
 
 protected:
-    bool askDeleteConfirmation( const KURL::List & selectedURLs );
-    void _del( int method, const KURL::List & selectedURLs );
+    enum { DEFAULT_CONFIRMATION, SKIP_CONFIRMATION, FORCE_CONFIRMATION };
+    bool askDeleteConfirmation( const KURL::List & selectedURLs, int confirmation );
+    void _del( int method, const KURL::List & selectedURLs, int confirmation );
 
     // internal, for COPY/MOVE/LINK
     void setOperation( KIO::Job * job, int method, const KURL::List & src, const KURL & dest );
@@ -70,7 +71,6 @@ protected slots:
     void slotResult( KIO::Job * job );
 
 private:
-    bool m_bSkipConfirmation;
     int m_method;
     KURL::List m_srcURLs;
     KURL m_destURL;
