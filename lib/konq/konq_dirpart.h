@@ -25,6 +25,7 @@
 #include <kparts/browserextension.h>
 #include <kfileitem.h>
 #include <kdatastream.h>
+#include <kio/global.h>
 
 namespace KParts { class BrowserExtension; }
 class KonqPropsView;
@@ -296,7 +297,7 @@ protected:
     // Remove in KDE4
     int m_iIconSize[5];
 
-    long long m_lDirSize;
+    KIO::filesize_t m_lDirSize;
     uint m_lFileCount;
     uint m_lDirCount;
     //bool m_bMultipleItemsSelected;
