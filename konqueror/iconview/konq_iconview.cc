@@ -369,8 +369,9 @@ void KonqKfmIconView::slotImagePreview( bool toggle )
     if ( !toggle )
     {
         m_pIconView->stopImagePreview();
-        m_pIconView->setIcons( m_pIconView->iconSize() );
+        m_pIconView->setIcons( m_pIconView->iconSize(), true );
         calculateGridX();
+        m_pIconView->arrangeItemsInGrid( true );
     }
     else
     {
