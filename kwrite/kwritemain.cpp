@@ -181,7 +181,7 @@ void KWrite::setupActions()
 
   m_recentFiles = KStdAction::openRecent(this, SLOT(slotOpen(const KURL&)),
                                          actionCollection());
-  m_recentFiles->setWhatsThis(i18n("This lists files you had recently opened and allows you to easily open them again"));
+  m_recentFiles->setWhatsThis(i18n("This lists files you have opened recently, and allows you to easily open them again."));
 
   a=new KAction(i18n("New &View"), 0, this, SLOT(newView()),
               actionCollection(), "file_newView");
@@ -205,10 +205,10 @@ void KWrite::setupActions()
                     actionCollection(), "set_showPath");
   m_paShowPath->setWhatsThis(i18n("Show the complete document path in the window caption"));
   a=KStdAction::keyBindings(this, SLOT(editKeys()), actionCollection());
-  a->setWhatsThis(i18n("Configure the application's keyboard shorcut assignments"));
+  a->setWhatsThis(i18n("Configure the application's keyboard shortcut assignments."));
 
   a=KStdAction::configureToolbars(this, SLOT(editToolbars()), actionCollection(), "set_configure_toolbars");
-  a->setWhatsThis(i18n("Configure which items should appear in the toolbar(s)"));
+  a->setWhatsThis(i18n("Configure which items should appear in the toolbar(s)."));
 }
 
 void KWrite::setupStatusBar()
