@@ -266,6 +266,15 @@ KBookmark::KBookmark( KBookmarkManager *_bm, KBookmark *_parent, QString _text )
     m_file += KFileItem::encodeFileName( _text );
   }
 
+  // test for the .directory file
+  QString directory_file( m_file + "/.directory" );
+  if ( QFile::exists( directory_file ) )
+  {
+    KSimpleConfig cfg( directory_file, true );
+    cfg.setDesktopGroup();
+    m_text = cfg.readEntry( "Name", m_text );
+  }
+
   if ( _parent )
     _parent->append( this );
 
