@@ -399,6 +399,7 @@ void KBookmark::clear()
   }
 
   m_lstChildren.clear();
+  m_bookmarkMap.clear();
 }
 
 KBookmark* KBookmark::findBookmark( int _id )

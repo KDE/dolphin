@@ -98,6 +98,7 @@ protected:
   QPopupMenu * m_parentMenu;
   QList<KBookmarkMenu> m_lstSubMenus;
   KActionCollection * m_actionCollection;
+  QList<KAction> m_actions;
 };
 
 #endif

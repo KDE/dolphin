@@ -64,6 +64,7 @@ KBookmarkMenu::KBookmarkMenu( KBookmarkOwner * _owner, QPopupMenu * _parentMenu,
   : m_bIsRoot(_root), m_bAddBookmark(_add), m_pOwner(_owner), m_parentMenu( _parentMenu ), m_actionCollection( _collec )
 {
   m_lstSubMenus.setAutoDelete( true );
+  m_actions.setAutoDelete( true );
 
   if ( m_bIsRoot )
   {
@@ -87,11 +88,13 @@ void KBookmarkMenu::slotBookmarksChanged()
   }
 
   m_parentMenu->clear();
+  m_actions.clear();
 
   if ( m_bIsRoot )
   {
     KAction * m_paEditBookmarks = KStdAction::editBookmarks( KBookmarkManager::self(), SLOT( slotEditBookmarks() ), m_actionCollection, "edit_bookmarks" );
     m_paEditBookmarks->plug( m_parentMenu );
+    m_actions.append( m_paEditBookmarks );
 
     if ( !m_bAddBookmark )
       m_parentMenu->insertSeparator();
@@ -112,6 +115,7 @@ void KBookmarkMenu::fillBookmarkMenu( KBookmark *parent )
                                               m_actionCollection,
                                               QString("bookmark%1").arg(parent->id()) );
     m_paAddBookmarks->plug( m_parentMenu );
+    m_actions.append( m_paAddBookmarks );
     m_parentMenu->insertSeparator();
 
     if ( m_bIsRoot )
@@ -138,10 +142,11 @@ void KBookmarkMenu::fillBookmarkMenu( KBookmark *parent )
       KAction * action = new KAction( bm->text(), bm->pixmapFile(), 0,
                                       this, SLOT( slotBookmarkSelected() ),
                                       m_actionCollection, QString("bookmark%1").arg(bm->id()) );
-      
+
       action->setShortText( bm->url() );
-      
+
       action->plug( m_parentMenu );
+      m_actions.append( action );
     }
     else
     {	
@@ -238,6 +243,7 @@ void KBookmarkMenu::openNSBookmarks()
                                         m_actionCollection, QString("bookmark%1").arg(link) );
 	action->setShortText( link );
         action->plug( mstack.top()->m_parentMenu );
+	mstack.top()->m_actions.append( action );
       }
       else if(t.left(7) == "<DT><H3") {
         QCString name = t.mid(t.find('>', 8)+1);
