@@ -206,12 +206,11 @@ bool KonqOperations::askDeleteConfirmation( const KURL::List & selectedURLs, int
 
       if ( prettyList.count() == 1 )
       {
-        //TODO "Do you really want to delete <filename> from <directory>"
-        // so that it's possible to use KIO::decodeName on the filename
-        QString url = KStringHandler::csqueeze(prettyList.first());
-        QString msg = (m_method == DEL ? i18n( "Do you really want to delete '%1'?" ).arg( url ) :
-                       m_method == SHRED ? i18n( "Do you really want to shred '%1'?" ).arg( url ) :
-                       i18n( "Do you really want to move '%1' to the trash?" ).arg( url ));
+        QString filename = KStringHandler::csqueeze(KIO::decodeFileName(selectedURLs.first().fileName()));
+        QString directory = KStringHandler::csqueeze(selectedURLs.first().directory());
+        QString msg = (m_method == DEL ? i18n( "Do you really want to delete <b>%1</b> from '%2'?" ).arg( filename ).arg( directory ) :
+                       m_method == SHRED ? i18n( "Do you really want to shred <b>%1</b>?" ).arg( filename ) :
+                       i18n( "Do you really want to move <b>%1</b> to the trash?" ).arg( filename ));
         return ( KMessageBox::questionYesNo( 0, msg ) == KMessageBox::Yes );
       }
       else
