@@ -365,7 +365,8 @@ struct KonqIconViewWidgetPrivate
     QStringList previewSettings;
     bool renameItem;
     bool firstClick;
-    QMouseEvent *pClickEvent;
+    QPoint mousePos;
+    int mouseState;
 };
 
 KonqIconViewWidget::KonqIconViewWidget( QWidget * parent, const char * name, WFlags f, bool kdesktop )
@@ -396,7 +397,6 @@ KonqIconViewWidget::KonqIconViewWidget( QWidget * parent, const char * name, WFl
 
     d->pFileTip = new KFileTip(this);
     d->firstClick = false;
-    d->pClickEvent =  0L;
     calculateGridX();
     setAutoArrange( true );
     setSorting( true, sortDirection() );
@@ -1347,7 +1347,9 @@ void KonqIconViewWidget::doubleClickTimeout()
 {
     d->renameItem= true;
     mousePressChangeValue();
-    contentsMouseReleaseEvent( d->pClickEvent );
+    QMouseEvent e( QEvent::MouseButtonPress,d->mousePos , 1, d->mouseState);
+    contentsMouseReleaseEvent( &e );
+    d->renameItem= false;
 }
 
 void KonqIconViewWidget::mousePressChangeValue()
@@ -1366,7 +1368,8 @@ void KonqIconViewWidget::contentsMousePressEvent( QMouseEvent *e )
     if ( !KGlobalSettings::singleClick() && m_pSettings->renameIconDirectly() && e->button() == LeftButton && item && item->textRect( false ).contains(e->pos())&& !d->firstClick )
     {
         d->firstClick = true;
-        d->pClickEvent = e;
+        d->mousePos = e->pos();
+        d->mouseState = e->state();
         QTimer::singleShot(QApplication::doubleClickInterval(),this,SLOT(doubleClickTimeout()));
         return;
     }
