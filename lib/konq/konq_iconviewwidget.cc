@@ -747,7 +747,10 @@ void KonqIconViewWidget::gridValues( int* x, int* y, int* dx, int* dy,
     // Let have exactly nx columns and ny rows
     *dx = w / *nx;
     *dy = h / *ny;
-    kdDebug(1203) << "dx = " << *dx << ", dy = " << *dy << "\n";
+    kdDebug(1203) << "x=" << *x << " y=" << *y << " spacing=" << spacing() << " iconSize=" << iconSize
+                  << " w=" << w << " h=" << h
+                  << " nx=" << *nx << " ny=" << *ny
+                  << " dx=" << *dx << " dy=" << *dy << endl;
 }
 
 void KonqIconViewWidget::calculateGridX()
@@ -1506,12 +1509,8 @@ void KonqIconViewWidget::insertInGrid(QIconViewItem *item)
 
 void KonqIconViewWidget::lineupIcons()
 {
-    if ( !firstItem() ) {
-        kdDebug(1203) << "No icons at all ?\n";
-        return;
-    }
-
-    int iconSize = m_size ? m_size : KGlobal::iconLoader()->currentSize( KIcon::Desktop );
+    // even if there are no items yet, calculate the maxItemWidth to have the correct
+    // item rect when we insert new items
 
     // Create a grid of (ny x nx) bins.
     int x0, y0, dx, dy, nx, ny;
@@ -1524,6 +1523,13 @@ void KonqIconViewWidget::lineupIcons()
         setMaxItemWidth( itemWidth );
         setFont( font() );  // Force calcRect()
     }
+
+    if ( !firstItem() ) {
+        kdDebug(1203) << "No icons at all ?\n";
+        return;
+    }
+
+    int iconSize = m_size ? m_size : KGlobal::iconLoader()->currentSize( KIcon::Desktop );
 
     typedef QValueList<QIconViewItem*> Bin;
     Bin*** bins = new Bin**[nx];
