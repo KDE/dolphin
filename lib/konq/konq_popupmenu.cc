@@ -158,12 +158,39 @@ void KonqPopupMenu::init (QWidget * parentWidget, KonqPopupFlags kpf, KParts::Br
 }
 
 
+int KonqPopupMenu::insertServicesSubmenus(const QMap<QString, ServiceList>& submenus,
+                                          QDomElement& menu,
+                                          bool isBuiltin)
+{
+    int count = 0;
+    QMap<QString, ServiceList>::ConstIterator it;
 
-void KonqPopupMenu::insertServices(const ServiceList& list,
-                                   QDomElement& menu,
-                                   bool isBuiltin)
+    for (it = submenus.begin(); it != submenus.end(); ++it)
+    {
+        if (it.data().isEmpty())
+        {
+            //avoid empty sub-menus
+            continue;
+        }
+
+        QDomElement actionSubmenu = m_doc.createElement( "menu" );
+        actionSubmenu.setAttribute( "name", "actions " + it.key() );
+        menu.appendChild( actionSubmenu );
+        QDomElement subtext = m_doc.createElement( "text" );
+        actionSubmenu.appendChild( subtext );
+        subtext.appendChild( m_doc.createTextNode( it.key() ) );
+        count += insertServices(it.data(), actionSubmenu, isBuiltin);
+    }
+
+    return count;
+}
+
+int KonqPopupMenu::insertServices(const ServiceList& list,
+                                  QDomElement& menu,
+                                  bool isBuiltin)
 {
     static int id = 1000;
+    int count = 0;
 
     ServiceList::const_iterator it = list.begin();
     for( ; it != list.end(); ++it )
@@ -197,8 +224,11 @@ void KonqPopupMenu::insertServices(const ServiceList& list,
             addAction( act, menu ); // Add to toplevel menu
 
             m_mapPopupServices[ id++ ] = *it;
+            ++count;
         }
     }
+
+    return count;
 }
 
 bool KonqPopupMenu::KIOSKAuthorizedAction(KConfig& cfg)
@@ -488,8 +518,8 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
     //////////////////////////////////////////////////////
 
     ServiceList builtin;
-    ServiceList user;
-    QMap<QString, ServiceList> userSubmenus;
+    ServiceList user, userToplevel, userPriority;
+    QMap<QString, ServiceList> userSubmenus, userToplevelSubmenus, userPrioritySubmenus;
 
     bool isSingleLocal = (m_lstItems.count() == 1 && m_lstItems.first()->url().isLocalFile());
     // 1 - Look for builtin and user-defined services
@@ -610,15 +640,35 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
                     {
                         // we use the categories .desktop entry to define submenus
                         // if none is defined, we just pop it in the main menu
+                        int priority = cfg.readNumEntry("X-KDE-Priority", 2);
                         QString submenuName = cfg.readEntry( "X-KDE-Submenu" );
+                        ServiceList* list = &user;
+
                         if (submenuName.isEmpty())
                         {
-                            user += KDEDesktopMimeType::userDefinedServices( *dIt + *eIt, url.isLocalFile() );
+                            if (priority == PriorityTopLevel)
+                            {
+                                list = &userToplevel;
+                            }
+                            else if (priority == PriorityImportant)
+                            {
+                                list = &userPriority;
+                            }
+                        }
+                        else if (priority == PriorityTopLevel)
+                        {
+                            list = &(userToplevelSubmenus[submenuName]);
+                        }
+                        else if (priority == PriorityImportant)
+                        {
+                            list = &(userPrioritySubmenus[submenuName]);
                         }
                         else
                         {
-                            userSubmenus[submenuName] += KDEDesktopMimeType::userDefinedServices( *dIt + *eIt, url.isLocalFile() );
+                            list = &(userSubmenus[submenuName]);
                         }
+
+                        (*list) += KDEDesktopMimeType::userDefinedServices( *dIt + *eIt, url.isLocalFile() );
                     }
                 }
             }
@@ -696,48 +746,47 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
             addGroup( "preview" );
         }
     }
+
     // Second block, builtin + user
-    if ( !user.isEmpty() || !userSubmenus.empty() || !builtin.isEmpty() )
+    QDomElement actionMenu = m_menuElement;
+    int userItemCount = 0;
+    if (user.count() + userSubmenus.count() +
+        userPriority.count() + userPrioritySubmenus.count())
     {
-        QDomElement actionMenu;
-
-        if (user.count() + userSubmenus.count() + builtin.count() > 1)
-        {
-            actionMenu = m_doc.createElement( "menu" );
-            actionMenu.setAttribute( "name", "actions submenu" );
-            m_menuElement.appendChild( actionMenu );
-            QDomElement text = m_doc.createElement( "text" );
-            actionMenu.appendChild( text );
-            text.appendChild( m_doc.createTextNode( i18n("Ac&tions") ) );
-        }
-        else
-        {
-            actionMenu = m_menuElement;
-        }
-
-        QMap<QString, ServiceList>::Iterator it;
-        for (it = userSubmenus.begin(); it != userSubmenus.end(); ++it)
-        {
-            if (it.data().isEmpty())
-            {
-                //avoid empty sub-menus
-                continue;
-            }
-
-            QDomElement actionSubmenu = m_doc.createElement( "menu" );
-            actionSubmenu.setAttribute( "name", "actions " + it.key() );
-            actionMenu.appendChild( actionSubmenu );
-            QDomElement subtext = m_doc.createElement( "text" );
-            actionSubmenu.appendChild( subtext );
-            subtext.appendChild( m_doc.createTextNode( it.key() ) );
-            insertServices(it.data(), actionSubmenu, false);
-        }
-
-        insertServices(user, actionMenu, false);
-        insertServices(builtin, actionMenu, true);
+        // we have more than one item, so let's make a submenu
+        actionMenu = m_doc.createElement( "menu" );
+        actionMenu.setAttribute( "name", "actions submenu" );
+        m_menuElement.appendChild( actionMenu );
+        QDomElement text = m_doc.createElement( "text" );
+        actionMenu.appendChild( text );
+        text.appendChild( m_doc.createTextNode( i18n("Ac&tions") ) );
     }
 
-    addSeparator();
+    userItemCount += insertServicesSubmenus(userPrioritySubmenus, actionMenu, false);
+    userItemCount += insertServices(userPriority, actionMenu, false);
+
+    // see if we need to put a separator between our priority items and our regular items
+    if (userItemCount > 0 &&
+        (user.count() > 0 ||
+         userSubmenus.count() > 0 ||
+         builtin.count() > 0) &&
+         actionMenu.lastChild().toElement().tagName().lower() != "separator")
+    {
+        QDomElement separator = m_doc.createElement( "separator" );
+        actionMenu.appendChild(separator);
+    }
+
+    userItemCount += insertServicesSubmenus(userSubmenus, actionMenu, false);
+    userItemCount += insertServices(user, actionMenu, false);
+    userItemCount += insertServices(builtin, m_menuElement, true);
+
+    userItemCount += insertServicesSubmenus(userToplevelSubmenus, m_menuElement, false);
+    userItemCount += insertServices(userToplevel, m_menuElement, false);
+
+    if (userItemCount > 0)
+    {
+        addSeparator();
+    }
 
     if ( !isCurrentTrash && !isIntoTrash && !devicesFile)
         addPlugins( ); // now it's time to add plugins

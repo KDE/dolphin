@@ -62,7 +62,8 @@ public:
          ShowProperties = 1,  // whether to show the "Properties" menu item
          IsLink = 2,          // HTML link. If set, we won't have cut/copy/paste, and we'll say "bookmark this link"
          ShowNewWindow = 4 };
-    // WARNING: bitfield. Next item is 8
+         // WARNING: bitfield. Next item is 8
+  enum { PriorityTopLevel = 0, PriorityImportant, PriorityNormal };
 
   /**
    * @deprecated, lacks parentWidget pointer, and
@@ -173,7 +174,8 @@ private:
   void init (QWidget * parentWidget, KonqPopupFlags kpf, KParts::BrowserExtension::PopupFlags itemFlags);
   void setup(KonqPopupFlags kpf);
   void addPlugins( );
-  void insertServices(const ServiceList& list, QDomElement& menu, bool isBuiltin);
+  int  insertServicesSubmenus(const QMap<QString, ServiceList>& list, QDomElement& menu, bool isBuiltin);
+  int  insertServices(const ServiceList& list, QDomElement& menu, bool isBuiltin);
   bool KIOSKAuthorizedAction(KConfig& cfg);
 
   class KonqPopupMenuPrivate;
