@@ -184,7 +184,12 @@ KonqPopupMenu::KonqPopupMenu( const KFileItemList &items,
   }
   else
   {
-    if ( S_ISDIR( mode ) ) // all URLs are directories
+    // hack for khtml pages/frames
+    bool httpPage = (m_sViewURL.protocol().find("http", 0, false) == 0);
+
+    //kdDebug() << "httpPage=" << httpPage << " dir=" << S_ISDIR( mode ) << " currentDir=" << currentDir << endl;
+
+    if ( S_ISDIR( mode ) ) // all URLs are directories (also set for rmb-on-background of html pages)
     {
       if ( currentDir && sWriting && m_pMenuNew ) // Add the "new" menu
       {
@@ -197,7 +202,7 @@ KonqPopupMenu::KonqPopupMenu( const KFileItemList &items,
         addSeparator();
       }
 
-      if ( currentDir || m_sViewURL.protocol() == "http" /* hack for khtml frames */ )
+      if ( currentDir || httpPage )
       {
         addAction( "up" );
         addAction( "back" );
@@ -213,8 +218,7 @@ KonqPopupMenu::KonqPopupMenu( const KFileItemList &items,
     }
     else // not all URLs are dirs
     {
-      // HACK - should be also possible for anything we can embed
-      if ( m_sViewURL.protocol() == "http" )
+      if ( httpPage ) // HTML link
       {
         addAction( m_paNewView );
         addSeparator();
@@ -233,10 +237,12 @@ KonqPopupMenu::KonqPopupMenu( const KFileItemList &items,
       addAction( "paste" );
     }
 
+    // The actions in this group are defined in PopupMenuGUIClient
+    // When defined, it includes a separator before the 'find' action
+    addGroup( "find" );
+
     if (!currentDir)
     {
-        addGroup( "find" );
-
         if ( sReading || sWriting ) // only if we added an action above
             addSeparator();
 
