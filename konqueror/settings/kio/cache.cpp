@@ -85,7 +85,7 @@ KCacheConfigDialog::KCacheConfigDialog( QWidget* parent, const char* name )
     
     QWhatsThis::add( rb_verify, i18n("Select this if you want to verify "
                                      "whether the page cached in your hard "
-                                     "disk is still valid.");
+                                     "disk is still valid.") );
     hlay->addWidget( rb_verify );
     spacer = new QSpacerItem( 20, 20, QSizePolicy::Expanding,
                               QSizePolicy::Minimum );
