@@ -24,57 +24,45 @@
 #include <qtextstream.h>
 #include <kbookmark.h>
 
+// Note - KNSBookmarkImporter can be used to get the path to the filename
+
 class KEBBookmarkExporterBase
 {
 public:
-    // use KNSBookmarkImporter to get the path to the filename
-    KEBBookmarkExporterBase( KBookmarkManager* mgr,const QString & fileName )
-        : m_fileName(fileName), m_pManager(mgr) {}
+    KEBBookmarkExporterBase(KBookmarkManager* mgr, const QString & fileName)
+        : m_fileName(fileName), m_pManager(mgr) 
+    { ; }
     virtual ~KEBBookmarkExporterBase() {}
-
-    // Write out. Use utf8=true for Mozilla, false for Netscape
-    virtual void write( bool utf8 ) = 0;
-
+    virtual void write(bool utf8 /* true for mozilla */) = 0;
 protected:
-    virtual void writeFolder( QTextStream &stream, KBookmarkGroup parent ) = 0;
+    virtual const QString folderAsString(KBookmarkGroup parent) = 0;
     QString m_fileName;
     KBookmarkManager* m_pManager;
 };
 
-/**
- * A class that exports all the current bookmarks to Netscape/Mozilla bookmarks
- * Warning, it overwrites the existing bookmarks.html file !
- */
 class KEBNSBookmarkExporterImpl : public KEBBookmarkExporterBase
 {
 public:
-    // use KNSBookmarkImporter to get the path to the filename
-    KEBNSBookmarkExporterImpl( KBookmarkManager* mgr,const QString & fileName )
-      : KEBBookmarkExporterBase( mgr, fileName ) {}
+    KEBNSBookmarkExporterImpl(KBookmarkManager* mgr,const QString & fileName)
+      : KEBBookmarkExporterBase(mgr, fileName) 
+    { ; }
     virtual ~KEBNSBookmarkExporterImpl() {}
-
-    virtual void write( bool utf8 );
-
+    virtual void write(bool utf8);
 protected:
-    virtual void writeFolder( QTextStream &stream, KBookmarkGroup parent );
+    virtual const QString folderAsString(KBookmarkGroup parent);
 };
 
-/**
- * A class that exports all the current bookmarks to Netscape/Mozilla bookmarks
- * Warning, it overwrites the existing bookmarks.html file !
- */
+// BC - remove for KDE 4.0
 class KEBNSBookmarkExporter
 {
 public:
-    // use KNSBookmarkImporter to get the path to the filename
     KEBNSBookmarkExporter( KBookmarkManager* mgr,const QString & fileName )
-      : m_fileName(fileName), m_pManager(mgr) {}
+      : m_fileName(fileName), m_pManager(mgr) 
+    { ; }
     ~KEBNSBookmarkExporter() {}
 
-    // For compat
-    void write() { write(false); }
-    // Write out. Use utf8=true for Mozilla, false for Netscape
     void write( bool utf8 );
+    void write() { write(false); } // deprecated
 
 protected:
     void writeFolder( QTextStream &stream, KBookmarkGroup parent );
