@@ -690,10 +690,14 @@ void KonqMainWindow::slotOpenTerminal()
 
   KURL u( m_currentView->url() );
   if ( u.isLocalFile() )
-    dir = u.path();
+    if ( m_currentView->serviceType() == "inode/directory" )
+      dir = u.path();
+    else
+      dir = u.directory();
 
   QString cmd = QString("cd \"%1\" ; %2 &").arg( dir ).arg( term );
-  system( cmd.latin1() );
+  kdDebug(1202) << "slotOpenTerminal: " << cmd << endl;
+  system( QFile::encodeName(cmd) );
 }
 
 void KonqMainWindow::slotOpenLocation()
