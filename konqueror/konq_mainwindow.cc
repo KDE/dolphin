@@ -130,7 +130,7 @@ int KonqMainWindow::s_preloadUsageCount;
 
 KonqOpenURLRequest KonqOpenURLRequest::null;
 
-static int current_memory_usage();
+static int current_memory_usage( int* limit = NULL );
 
 #include "konq_mainwindow_p.h"
 
@@ -5515,10 +5515,11 @@ bool KonqMainWindow::checkPreloadResourceUsage()
         kdDebug(1202) << "Running from tty, not keeping for preloading" << endl;
         return false;
     }
-    int usage = current_memory_usage();
+    int limit;
+    int usage = current_memory_usage( &limit );
     kdDebug(1202) << "Memory usage increase: " << ( usage - s_initialMemoryUsage )
-        << " (" << usage << "/" << s_initialMemoryUsage << ")" << endl;
-    int max_allowed_usage = s_initialMemoryUsage + 16 * 1024 * 1024;
+        << " (" << usage << "/" << s_initialMemoryUsage << "), increase limit: " << limit << endl;
+    int max_allowed_usage = s_initialMemoryUsage + limit;
     if( usage > max_allowed_usage ) // too much memory used?
     {
 	kdDebug(1202) << "Not keeping for preloading due to high memory usage" << endl;
@@ -5538,7 +5539,7 @@ bool KonqMainWindow::checkPreloadResourceUsage()
     return true;
 }
 
-static int current_memory_usage()
+static int current_memory_usage( int* limit )
 {
 #ifdef __linux__
 // Check whole memory usage - VmSize
@@ -5551,12 +5552,18 @@ static int current_memory_usage()
             line = line.stripWhiteSpace();
             int usage = line.section( ' ', 0, 0 ).toInt();
             if( usage > 0 )
-                return usage * 1024;
+            {
+                int pagesize = sysconf (_SC_PAGE_SIZE);
+                if( pagesize < 0 )
+                    pagesize = 4096;
+                if( limit != NULL )
+                    *limit = 16 * 1024 * 1024;
+                return usage * pagesize;
+            }
         }
     }
     kdWarning() << "Couldn't read VmSize from /proc/*/statm." << endl;
 #endif
-
 // Check malloc() usage - very imprecise, but better than nothing.
     int usage_sum = 0;
 #if defined(KDE_MALLINFO_STDLIB) || defined(KDE_MALLINFO_MALLOC)
@@ -5581,6 +5588,10 @@ static int current_memory_usage()
         usage_sum += m.usmblks;
 #endif
     }
+    // unlike /proc , this doesn't include things like size of dlopened modules,
+    // and also doesn't include malloc overhead
+    if( limit != NULL )
+        *limit = 6 * 1024 * 1024;
 #endif
     return usage_sum;
 }
