@@ -189,13 +189,13 @@ void TopLevel::slotNew()
 void TopLevel::slotOpen()
 {
   KateFileDialog *dialog = new KateFileDialog (QString::null,kateView->doc()->encoding(), this, i18n ("Open File"));
-	KateFileDialogData *data = dialog->exec ();
+	KateFileDialogData data = dialog->exec ();
 
-	if (data == 0L)
-	  return;
-
-	encoding = data->encoding;
-  slotOpen( data->url );
+	for (KURL::List::Iterator i=data.urls.begin(); i != data.urls.end(); ++i)
+  {
+	  encoding = data.encoding;
+    slotOpen ( *i );
+  }
 }
 
 void TopLevel::slotOpen( const KURL& url )
