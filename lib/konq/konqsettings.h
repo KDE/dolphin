@@ -83,6 +83,7 @@ public:
   int autoSelect() { return m_iAutoSelect; }
   bool changeCursor() { return m_bChangeCursor; }
   bool underlineLink() { return m_underlineLink; }
+  bool wordWrapText() { return m_bWordWrapText; }
 
   // Font settings
   const QString& stdFontName() { return m_strStdFontName; }
@@ -114,6 +115,7 @@ protected:
   int m_iAutoSelect;
   bool m_bChangeCursor;
   bool m_underlineLink;
+  bool m_bWordWrapText;
 
   QString m_strStdFontName;
   QString m_strFixedFontName;

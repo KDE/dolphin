@@ -112,6 +112,7 @@ void KonqSettings::init( KConfig * config )
   m_iAutoSelect = config->readNumEntry("AutoSelect", DEFAULT_AUTOSELECT);
   m_bChangeCursor = config->readBoolEntry( "ChangeCursor", DEFAULT_CHANGECURSOR );
   m_underlineLink = config->readBoolEntry( "UnderlineLink", DEFAULT_UNDERLINELINKS );
+  m_bWordWrapText = config->readBoolEntry( "WordWrapText", DEFAULT_WORDWRAPTEXT );
 
   // Other
   config->setGroup( "HTML Settings" ); // group will be restored by cgs anyway
