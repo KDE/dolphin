@@ -255,7 +255,9 @@ void KNewMenu::slotNewFile()
           KMessageBox::sorry( 0L, i18n("The templates file %1 doesn't exist!").arg(entry.templatePath));
           return;
     }
-    QString defaultName = KURL( entry.templatePath ).fileName();
+    //not i18n'ed enough said Hans
+    //QString defaultName = KURL( entry.templatePath ).fileName();
+    QString defaultName = entry.text;
     if ( KDesktopFile::isDesktopFile( entry.templatePath ) )
     {
           KURL::List::Iterator it = popupFiles.begin();
