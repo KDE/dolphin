@@ -445,8 +445,6 @@ void KonqSidebarBookmarkModule::fillGroup( KonqSidebarTreeItem * parentItem, KBo
     int n = 0;
     for ( KBookmark bk = group.first() ; !bk.isNull() ; bk = group.next(bk), ++n )
     {
-        if ( !bk.isSeparator() ) // Separators don't look good in the tree IMHO
-        {
             KonqSidebarBookmarkItem * item = new KonqSidebarBookmarkItem( parentItem, m_topLevelItem, bk, n );
             if ( bk.isGroup() )
             {
@@ -459,9 +457,10 @@ void KonqSidebarBookmarkModule::fillGroup( KonqSidebarTreeItem * parentItem, KBo
                 else
                     item->setOpen(false);
             }
+            else if ( bk.isSeparator() )
+                item->setVisible( false );
             else
                 item->setExpandable( false );
-        }
     }
 }
 
