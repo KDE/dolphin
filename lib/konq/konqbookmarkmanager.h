@@ -20,6 +20,4 @@ public:
     static KBookmarkManager *s_bookmarkManager;
 };
 
-KBookmarkManager * KonqBookmarkManager::s_bookmarkManager;
-
 #endif

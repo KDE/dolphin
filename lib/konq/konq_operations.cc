@@ -27,6 +27,7 @@
 #include <dcopclient.h>
 #include "konq_undo.h"
 #include "konq_defaults.h"
+#include "konqbookmarkmanager.h"
 
 // For doDrop
 #include <qdir.h>//first
@@ -49,6 +50,8 @@
 #include <qpopupmenu.h>
 #include <unistd.h>
 #include <X11/Xlib.h>
+
+KBookmarkManager * KonqBookmarkManager::s_bookmarkManager;
 
 KonqOperations::KonqOperations( QWidget *parent )
     : QObject( parent, "KonqOperations" ), m_info(0L), m_pasteInfo(0L)
