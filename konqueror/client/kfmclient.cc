@@ -205,7 +205,7 @@ static bool startNewKonqueror( QString url, QString mimetype, const QString& pro
         && cfg.readEntry( "SafeParts" ) != QString::fromLatin1( "SAFE" ))
         allowed_parts = cfg.readListEntry( "SafeParts" );
     if( allowed_parts.count() == 1 && allowed_parts.first() == QString::fromLatin1( "ALL" ))
-	return true; // all parts allowed
+	return false; // all parts allowed
     if( mimetype.isEmpty())
 	mimetype = KMimeType::findByURL( KURL( url ) )->name();
     KTrader::OfferList offers = KTrader::self()->query( mimetype, QString::fromLatin1( "KParts/ReadOnlyPart" ),
