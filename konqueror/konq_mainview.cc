@@ -67,6 +67,7 @@
 #include <kstdaccel.h>
 #include <kstddirs.h>
 #include <kwm.h>
+#include <kglobal.h>
 
 #include <assert.h>
 #include <pwd.h>
@@ -309,6 +310,7 @@ bool KonqMainView::mappingCreateMenubar( OpenPartsUI::MenuBar_ptr menuBar )
   {
     m_vMenuFileNew->disconnect("activated", this, "slotFileNewActivated");
     m_vMenuFileNew->disconnect("aboutToShow", this, "slotFileNewAboutToShow");
+    m_vMenuOptionsProfiles->disconnect( "activated", this, "slotViewProfileActivated" );
 
     if ( m_pMenuNew )
     {
@@ -437,8 +439,18 @@ bool KonqMainView::mappingCreateMenubar( OpenPartsUI::MenuBar_ptr menuBar )
   m_vMenuOptions->insertItem4( text, this, "slotConfigureKeys", 0, MOPTIONS_CONFIGUREKEYS_ID, -1 );
   text = Q2C( i18n("Reload Plugins") );
   m_vMenuOptions->insertItem4( text, this, "slotReloadPlugins", 0, MOPTIONS_RELOADPLUGINS_ID, -1 );
-  text = Q2C( i18n("Save Current View Configuration" ) );
-  m_vMenuOptions->insertItem4( text, this, "slotSaveViewConfiguration", 0, MOPTIONS_SAVEVIEWCONFIGURATION_ID, -1 );
+  text = Q2C( i18n( "Save Current View Profile..." ) );
+  m_vMenuOptions->insertItem4( text, this, "slotSaveViewProfile", 0, MOPTIONS_SAVEVIEWCONFIGURATION_ID, -1 );
+
+  text = Q2C( i18n( "Load View Profile" ) );
+  m_vMenuOptions->insertItem8( text, m_vMenuOptionsProfiles, -1, -1 );
+  
+  m_vMenuOptionsProfiles->connect( "activated", this, "slotViewProfileActivated" );
+  
+  fillProfileMenu();
+  
+//  text = Q2C( i18n("Load View Profile" ) );
+//  m_vMenuOptions->insertItem4( text, this, "slotLoadViewConfiguration", 0, -1, -1 );
 
   text = Q2C( i18n( "&Help" ) );
   CORBA::Long helpId = m_vMenuBar->insertMenu( text, m_vMenuHelp, -1, -1 );
@@ -972,37 +984,25 @@ void KonqMainView::clearMainView()
     clearRow( it.current() );
 }
 
-void KonqMainView::saveViewProfile( const QString &fileName )
+void KonqMainView::saveViewProfile( KConfig &cfg )
 {
-  KSimpleConfig cfg( fileName );
-
   QList<KonqChildView> viewList;
   
+  cfg.setGroup( "MainSplitter" );
+  cfg.writeEntry( "SplitterSizes", QProperty( m_pMainSplitter->sizes() ) );
+ 
   QListIterator<RowInfo> rowIt( m_lstRows );
   for ( int i = 0; rowIt.current(); ++rowIt, ++i )
   {
     cfg.setGroup( QString::fromLatin1( "Row %1" ).arg( i ) );
     
-    QValueList<int> sizes = rowIt.current()->splitter->sizes();
+    cfg.writeEntry( "SplitterSizes", QProperty( rowIt.current()->splitter->sizes() ) );
+
     QStringList strlst;
-    QValueList<int>::ConstIterator intIt = sizes.begin();
-    QValueList<int>::ConstIterator intEnd = sizes.end();
-    for (; intIt != intEnd; ++intIt )
-    {
-      QString s;
-      s.setNum( *intIt );
-      strlst.append( s );
-    }
-
-    cfg.writeEntry( "SplitterSizes", strlst );
-
-    strlst.clear();
     QListIterator<KonqChildView> viewIt( rowIt.current()->children );
     for (; viewIt.current(); ++viewIt )
     {
-      QString s;
-      s.setNum( viewList.count() );
-      strlst.append( s );
+      strlst.append( QString().setNum( viewList.count() ) );
       viewList.append( viewIt.current() );
     }
     
@@ -1021,34 +1021,79 @@ void KonqMainView::saveViewProfile( const QString &fileName )
   cfg.sync();
 }
 
-void KonqMainView::loadViewProfile( const QString &fileName )
+void KonqMainView::loadViewProfile( KConfig &cfg )
 {
   clearMainView();
   
-  KSimpleConfig cfg( fileName, true );
-  
   QStringList groupList = cfg.groupList();
   
-  QStringList::ConstIterator gIt = groupList.begin();
-  QStringList::ConstIterator gEnd = groupList.end();
+  QStringList::ConstIterator sIt = groupList.begin();
+  QStringList::ConstIterator sEnd = groupList.end();
   
   QValueList<int> rowList;
-  QValueList<int> viewList;
   
-  for (; gIt != gEnd; ++gIt )
-   if ( strcmp( (*gIt).left( 4 ).latin1(), "Row " ) == 0 )
+  for (; sIt != sEnd; ++sIt )
+   if ( strcmp( (*sIt).left( 4 ).latin1(), "Row " ) == 0 )
    {
-     QString rowNr = *gIt;
+     QString rowNr = *sIt;
      rowNr.remove( 0, 4 );
      rowList.append( rowNr.toInt() );
-   }
-   else if ( strcmp( (*gIt).left( 5 ).latin1(), "View " ) == 0 )
-   {
-     QString viewNr = *gIt;
-     viewNr.remove( 0, 5 );
-     viewList.append( viewNr.toInt() );
-   }
+   };
+
+  cfg.setGroup( "MainSplitter" );
+  QValueList<int> mainSplitterSizes = 
+    QProperty( cfg.readPropertyEntry( "SplitterSizes", QProperty::IntListType ) )
+    .intListValue();
+
+  QValueList<int>::ConstIterator rIt = rowList.begin();
+  QValueList<int>::ConstIterator rEnd = rowList.end();
   
+  for (; rIt != rEnd; ++rIt )
+  {
+    cfg.setGroup( QString::fromLatin1( "Row %1" ).arg( *rIt ) );
+    
+    RowInfo *rowInfo = new RowInfo;
+    
+    QSplitter *rowSplitter = new QSplitter( Qt::Horizontal, m_pMainSplitter );
+    rowSplitter->setOpaqueResize();
+    rowSplitter->show();
+    
+    rowInfo->splitter = rowSplitter;
+    
+    QValueList<int> splitterSizes = 
+      QProperty( cfg.readPropertyEntry( "SplitterSizes", QProperty::IntListType ) )
+      .intListValue();
+    
+    QStringList childList = cfg.readListEntry( "ChildViews" );
+    
+    QStringList::ConstIterator cIt = childList.begin();
+    QStringList::ConstIterator cEnd = childList.end();
+    
+    for (; cIt != cEnd; ++cIt )
+    {
+      cfg.setGroup( QString::fromLatin1( "View " ) + (*cIt ) );
+      
+      QString serviceType = cfg.readEntry( "ServiceType" );
+      QString url = cfg.readEntry( "URL" );
+      
+      Browser::View_var vView;
+      QStringList serviceTypes;
+      
+      //Simon TODO: error handling
+      KonqChildView::createView( serviceType, vView, serviceTypes, this );
+      
+      setupView( rowInfo, vView, serviceTypes );
+      
+      MapViews::ConstIterator vIt = m_mapViews.find( vView->id() );
+      vIt.data()->openURL( url );
+    }
+
+    rowInfo->splitter->setSizes( splitterSizes );
+    
+    m_lstRows.append( rowInfo );
+  }
+
+  m_pMainSplitter->setSizes( mainSplitterSizes );  
 }
 
 void KonqMainView::splitView ( Orientation orientation ) 
@@ -1119,9 +1164,6 @@ void KonqMainView::splitView ( Orientation orientation,
     
     m_pMainSplitter->setSizes( sizes );
   }
-  
-  setItemEnabled( m_vMenuView, MVIEW_REMOVEVIEW_ID, 
-	(m_mapViews.count() > 1) );
 }
 
 void KonqMainView::setupView( RowInfo *row, Browser::View_ptr view, const QStringList &serviceTypes )
@@ -1142,6 +1184,9 @@ void KonqMainView::setupView( RowInfo *row, Browser::View_ptr view, const QStrin
   v->lockHistory();
 
   if (isVisible()) v->show();
+
+  setItemEnabled( m_vMenuView, MVIEW_REMOVEVIEW_ID, 
+	(m_mapViews.count() > 1) );
 }
 
 void KonqMainView::createViewMenu()
@@ -1205,6 +1250,31 @@ QString KonqMainView::findIndexFile( const QString &dir )
     return f; 
 
   return QString::null;
+}
+
+void KonqMainView::fillProfileMenu()
+{
+  m_vMenuOptionsProfiles->clear();
+
+  QStringList dirs = KGlobal::dirs()->findDirs( "data", "konqueror/profiles/" );
+  
+  QStringList::ConstIterator dIt = dirs.begin();
+  QStringList::ConstIterator dEnd = dirs.end();
+  
+  for (; dIt != dEnd; ++dIt )
+  {
+    QDir dir( *dIt );
+    QStringList entries = dir.entryList( QDir::Files );
+    
+    QStringList::ConstIterator eIt = entries.begin();
+    QStringList::ConstIterator eEnd = entries.end();
+    
+    CORBA::WString_var text;
+    
+    for (; eIt != eEnd; ++eIt )
+      m_vMenuOptionsProfiles->insertItem7( ( text = Q2C( *eIt ) ), -1, -1 );
+    
+  }
 }
 
 /////////////////////// MENUBAR AND TOOLBAR SLOTS //////////////////
@@ -1584,14 +1654,40 @@ void KonqMainView::slotReloadPlugins()
   }
 }
 
-void KonqMainView::slotSaveViewConfiguration()
+void KonqMainView::slotSaveViewProfile()
 {
-  //TODO: dialog for profile name
-  QString name = "konqueror/profiles/fooprofile.desktop";
-
-  QString fileName = locateLocal( "data", name );
+  KLineEditDlg *dlg = new KLineEditDlg( i18n( "Enter Name for Profile" ),
+                                       QString::null, this, false );
   
-  saveViewProfile( fileName );
+  if ( dlg->exec() && !dlg->text().isEmpty() )
+  {
+    QString fileName = locateLocal( "data", 
+                       QString::fromLatin1( "konqueror/profiles/" ) + 
+		       dlg->text() );
+    
+    if ( QFile::exists( fileName ) )
+    {
+      QFile f( fileName );
+      f.remove();
+    }
+    
+    KConfig cfg( fileName );
+    saveViewProfile( cfg );
+    
+    if ( !CORBA::is_nil( m_vMenuOptionsProfiles ) )
+      fillProfileMenu();
+  }
+}
+
+void KonqMainView::slotViewProfileActivated( CORBA::Long id )
+{
+  CORBA::WString_var text = m_vMenuOptionsProfiles->text( id );
+  QString name = QString::fromLatin1( "konqueror/profiles/" ) + C2Q( text );
+  
+  QString fileName = locate( "data", name );
+  
+  KConfig cfg( fileName, true );
+  loadViewProfile( cfg );
 }
 
 void KonqMainView::slotHelpContents()

@@ -154,7 +154,8 @@ public slots:  // IDL
   virtual void slotConfigureBrowser();
   virtual void slotConfigureKeys();
   virtual void slotReloadPlugins();
-  virtual void slotSaveViewConfiguration();
+  virtual void slotSaveViewProfile();
+  virtual void slotViewProfileActivated( CORBA::Long id );
 
   // Help menu
   virtual void slotHelpContents();    
@@ -187,7 +188,7 @@ public slots:  // IDL
   // internal ;-)
   //  
   void slotIdChanged( KonqChildView * childView, OpenParts::Id oldId, OpenParts::Id newId );
-  
+
 protected:
 
   virtual void resizeEvent( QResizeEvent *e );
@@ -213,8 +214,8 @@ private:
 
   void clearMainView();
 
-  void saveViewProfile( const QString &fileName );
-  void loadViewProfile( const QString &fileName );
+  void saveViewProfile( KConfig &cfg );
+  void loadViewProfile( KConfig &cfg );
 
   /**
    * Splits the view, depending on orientation, either horizontally or 
@@ -264,6 +265,7 @@ private:
    */
   QString findIndexFile( const QString &directory );
 
+  void fillProfileMenu();
 
   OpenPartsUI::Menu_var m_vMenuFile;
   OpenPartsUI::Menu_var m_vMenuFileNew;
@@ -272,6 +274,7 @@ private:
   OpenPartsUI::Menu_var m_vMenuGo;
   OpenPartsUI::Menu_var m_vMenuBookmarks;
   OpenPartsUI::Menu_var m_vMenuOptions;
+  OpenPartsUI::Menu_var m_vMenuOptionsProfiles;
   OpenPartsUI::Menu_var m_vMenuHelp;
 
   OpenPartsUI::ToolBar_var m_vToolBar;

@@ -125,7 +125,7 @@ void KonqChildView::show()
     m_pKonqFrame->show();
 }
 
-void KonqChildView::openURL( QString url, bool useMiscURLData  )
+void KonqChildView::openURL( const QString &url, bool useMiscURLData  )
 {
   Browser::EventOpenURL eventURL;
   eventURL.url = CORBA::string_dup( url.data() );

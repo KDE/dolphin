@@ -75,7 +75,7 @@ public:
    * Displays another URL, but without changing the view mode (caller has to 
    * ensure that the call makes sense)
    */
-  void openURL( QString url, bool useMiscURLData = false );
+  void openURL( const QString &url, bool useMiscURLData = false );
   /**
    * Builds or destroys view-specific part of the menus.
    */
