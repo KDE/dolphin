@@ -1381,7 +1381,7 @@ DevicePropsPage::DevicePropsPage( PropertiesDialog *_props ) : PropsPage( _props
   layout->addWidget(label, 1, 0);
 
   mountpoint = new KLineEdit( this, "LineEdit_mountpoint" );
-  layout->addWidget(mountPoint, 1, 1);
+  layout->addWidget(mountpoint, 1, 1);
   if ( !IamRoot )
     mountpoint->setEnabled( false );
 
@@ -1412,7 +1412,7 @@ DevicePropsPage::DevicePropsPage( PropertiesDialog *_props ) : PropsPage( _props
   config.setDesktopGroup();
   QString deviceStr = config.readEntry( "Dev" );
   QString mountPointStr = config.readEntry( "MountPoint" );
-  bool readonly = config.readBoolEntry( "ReadOnly", false );
+  bool ro = config.readBoolEntry( "ReadOnly", false );
   QString fstypeStr = config.readEntry( "FSType" );
   QString unmountedStr = config.readEntry( "UnmountIcon" );
 
@@ -1437,7 +1437,7 @@ DevicePropsPage::DevicePropsPage( PropertiesDialog *_props ) : PropsPage( _props
   if ( !fstypeStr.isEmpty() )
     fstype->setText( fstypeStr );
 
-  readonly->setChecked( readonlyfalse );
+  readonly->setChecked( ro );
 
   if ( unmountedStr.isEmpty() )
     unmountedStr = KMimeType::mimeType("")->KServiceType::icon(); // default icon
