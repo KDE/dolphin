@@ -57,8 +57,8 @@ public:
 
   virtual bool event( const char *event, const CORBA::Any &value );
   virtual bool mappingOpenURL( Browser::EventOpenURL eventURL );
-  virtual bool mappingFillMenuView( Browser::View::EventFillMenu viewMenu );
-  virtual bool mappingFillMenuEdit( Browser::View::EventFillMenu editMenu );
+  virtual bool mappingFillMenuView( Browser::View::EventFillMenu_ptr viewMenu );
+  virtual bool mappingFillMenuEdit( Browser::View::EventFillMenu_ptr editMenu );
   virtual bool mappingRequestDocument( Konqueror::HTMLView::HTMLDocumentRequest docRequest );
 
   virtual void stop();
@@ -112,6 +112,12 @@ private:
   OpenPartsUI::Menu_var m_vViewMenu;
   KonqMainView *m_pMainView;
   bool m_bAutoLoadImages;
+  
+  CORBA::Long m_idSaveDocument;
+  CORBA::Long m_idSaveFrame;
+  CORBA::Long m_idSaveBackground;
+  CORBA::Long m_idViewDocument;
+  CORBA::Long m_idViewFrame;
 };
 
 #endif

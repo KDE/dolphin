@@ -39,8 +39,8 @@ public:
   virtual ~KonqTxtView();
   
   virtual bool mappingOpenURL( Browser::EventOpenURL eventURL );
-  virtual bool mappingFillMenuView( Browser::View::EventFillMenu viewMenu );
-  virtual bool mappingFillMenuEdit( Browser::View::EventFillMenu editMenu );
+  virtual bool mappingFillMenuView( Browser::View::EventFillMenu_ptr viewMenu );
+  virtual bool mappingFillMenuEdit( Browser::View::EventFillMenu_ptr editMenu );
 
   virtual CORBA::Long xOffset();
   virtual CORBA::Long yOffset();
@@ -80,6 +80,8 @@ private:
   int m_iSearchLine;
   KonqSearchDialog *m_pSearchDialog;
   bool m_bFound;
+  
+  CORBA::Long m_idFixedFont;
 };
 
 #endif

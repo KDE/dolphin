@@ -289,10 +289,7 @@ void KonqMainView::initGui()
 void KonqMainView::checkPrintingExtension()
 {
   if ( m_currentView )
-  {
-    Browser::View_var view = m_currentView->view();
-    setItemEnabled( m_vMenuFile, MFILE_PRINT_ID, view->supportsInterface( "IDL:Browser/PrintingExtension:1.0" ) );
-  }
+    setItemEnabled( m_vMenuFile, MFILE_PRINT_ID, m_currentView->view()->supportsInterface( "IDL:Browser/PrintingExtension:1.0" ) );
 }
 
 bool KonqMainView::event( const char* event, const CORBA::Any& value )
@@ -384,15 +381,7 @@ bool KonqMainView::mappingCreateMenubar( OpenPartsUI::MenuBar_ptr menuBar )
   text = Q2C( i18n("&Edit") );
   menuBar->insertMenu( text, m_vMenuEdit, -1, -1 );
 
-  text = Q2C( i18n("&Copy") );
-  m_vMenuEdit->insertItem4( text, this, "slotCopy", stdAccel.copy(), MEDIT_COPY_ID, -1 );
-  text = Q2C( i18n("&Paste") );
-  m_vMenuEdit->insertItem4( text, this, "slotPaste", stdAccel.paste(), MEDIT_PASTE_ID, -1 );
-  text = Q2C( i18n("&Move to Trash") );
-  m_vMenuEdit->insertItem4( text, this, "slotTrash", stdAccel.cut(), MEDIT_TRASH_ID, -1 );
-  text = Q2C( i18n("&Delete") );
-  m_vMenuEdit->insertItem4( text, this, "slotDelete", CTRL+Key_Delete, MEDIT_DELETE_ID, -1 );
-  m_vMenuEdit->insertSeparator( -1 );
+  createEditMenu();
 
   text = Q2C( i18n("&View") );
   menuBar->insertMenu( text, m_vMenuView, -1, -1 );  
@@ -627,7 +616,9 @@ bool KonqMainView::mappingParentGotFocus( OpenParts::Part_ptr  )
   // removing view-specific menu entries (view will probably be destroyed !)
   if (m_currentView)
   {
-    m_currentView->emitMenuEvents( m_vMenuView, m_vMenuEdit, false );
+    EMIT_EVENT( m_currentView->view(), Browser::View::eventFillMenuEdit, 0L );
+    EMIT_EVENT( m_currentView->view(), Browser::View::eventFillMenuView, 0L );
+    
     m_currentView->repaint();
   }
 
@@ -659,9 +650,13 @@ void KonqMainView::setActiveView( OpenParts::Id id )
 {
   kdebug(0, 1202, "KonqMainView::setActiveView( %d )", id);
   KonqChildView* previousView = m_currentView;
-  // clean view-specific part of the view menu
+  // clean view-specific part of the view/edit menus
   if ( previousView != 0L )
-    previousView->emitMenuEvents( m_vMenuView, m_vMenuEdit, false );
+  {
+    Browser::View_ptr v = previousView->view();
+    EMIT_EVENT( v, Browser::View::eventFillMenuEdit, 0L );
+    EMIT_EVENT( v, Browser::View::eventFillMenuView, 0L );
+  }    
 
   MapViews::Iterator it = m_mapViews.find( id );
   assert( it != m_mapViews.end() );
@@ -674,8 +669,7 @@ void KonqMainView::setActiveView( OpenParts::Id id )
   setItemEnabled( m_vMenuGo, MGO_BACK_ID, m_currentView->canGoBack() );
   setItemEnabled( m_vMenuGo, MGO_FORWARD_ID, m_currentView->canGoForward() );
 
-  Browser::View_var view = m_currentView->view();
-  setItemEnabled( m_vMenuFile, MFILE_PRINT_ID, view->supportsInterface( "IDL:Browser/PrintingExtension:1.0" ) );
+  setItemEnabled( m_vMenuFile, MFILE_PRINT_ID, m_currentView->view()->supportsInterface( "IDL:Browser/PrintingExtension:1.0" ) );
 
   if ( !CORBA::is_nil( m_vLocationBar ) )
   {
@@ -683,7 +677,8 @@ void KonqMainView::setActiveView( OpenParts::Id id )
     m_vLocationBar->changeComboItem( TOOLBAR_URL_ID, text, 0 );
   }    
 
-  m_currentView->emitMenuEvents( m_vMenuView, m_vMenuEdit, true );
+  createEditMenu();
+  createViewMenu();
   if ( isVisible() )
   {
     if (previousView != 0L) // might be 0L e.g. if we just removed the current view
@@ -695,7 +690,8 @@ void KonqMainView::setActiveView( OpenParts::Id id )
 Browser::View_ptr KonqMainView::activeView()
 {
   if ( m_currentView )
-    return m_currentView->view(); //KonqChildView does the necessary duplicate already
+    //KonqChildView::view() does *not* call _duplicate, so we have to do it here
+    return Browser::View::_duplicate( m_currentView->view() );
   else
     return Browser::View::_nil();
 }
@@ -716,7 +712,7 @@ Browser::ViewList *KonqMainView::viewList()
   for (; it != m_mapViews.end(); it++ )
   {
     seq->length( i++ );
-    (*seq)[ i ] = it.data()->view();
+    (*seq)[ i ] = Browser::View::_duplicate( it.data()->view() );
   }
 
   return seq;
@@ -1298,7 +1294,36 @@ void KonqMainView::createViewMenu()
 	(m_mapViews.count() > 1) );
 
     if ( m_currentView )
+    {
       m_vMenuView->setItemChecked( MVIEW_SHOWHTML_ID, (m_currentView->allowHTML() ) );
+      
+      EMIT_EVENT( m_currentView->view(), Browser::View::eventFillMenuView, m_vMenuView );
+    }
+
+  }
+}
+
+void KonqMainView::createEditMenu()
+{
+  if ( !CORBA::is_nil( m_vMenuEdit ) )
+  {
+    m_vMenuEdit->clear();
+
+    KStdAccel stdAccel; //?????????????????????
+
+    CORBA::WString_var text = Q2C( i18n("&Copy") );
+    m_vMenuEdit->insertItem4( text, this, "slotCopy", stdAccel.copy(), MEDIT_COPY_ID, -1 );
+    text = Q2C( i18n("&Paste") );
+    m_vMenuEdit->insertItem4( text, this, "slotPaste", stdAccel.paste(), MEDIT_PASTE_ID, -1 );
+    text = Q2C( i18n("&Move to Trash") );
+    m_vMenuEdit->insertItem4( text, this, "slotTrash", stdAccel.cut(), MEDIT_TRASH_ID, -1 );
+    text = Q2C( i18n("&Delete") );
+    m_vMenuEdit->insertItem4( text, this, "slotDelete", CTRL+Key_Delete, MEDIT_DELETE_ID, -1 );
+    m_vMenuEdit->insertSeparator( -1 );
+
+    if ( m_currentView )
+      EMIT_EVENT( m_currentView->view(), Browser::View::eventFillMenuEdit, m_vMenuEdit );
+
   }
 }
 
@@ -1320,9 +1345,8 @@ QString KonqMainView::findIndexFile( const QString &dir )
 void KonqMainView::fillProfileMenu()
 {
   m_vMenuOptionsProfiles->clear();
-
-  QStringList dirs = KGlobal::dirs()->findDirs( "data", "konqueror/profiles/" );
   
+  QStringList dirs = KGlobal::dirs()->findDirs( "data", "konqueror/profiles/" );
   QStringList::ConstIterator dIt = dirs.begin();
   QStringList::ConstIterator dEnd = dirs.end();
   
@@ -1411,21 +1435,7 @@ void KonqMainView::slotToolFind()
 
 void KonqMainView::slotPrint()
 {
-  // TODO
-  // It was simple in kfm : call KHTMLWidget::print()
-  // but now it depends on the view...
-  // PROBLEM : KHTMLWidget::print() does too much.
-  // It calls QPrinter::setup() AND prints the HTML page
-
-  // We need to : 
-  // if current view is a HTML view, call that method
-  // otherwise call QPrinter::setup ourselves, and
-  // implement print() in icon/tree/text/(part??) views
-  // But it's silly to print an icon view, isn't it ?
-  // Then why not simply disable "print" if not a HTML view ?
-  //  ... ideas please ! (David)
-  // Here's a proposal :-) (Simon)
-  Browser::View_var view = m_currentView->view();
+  Browser::View_ptr view = m_currentView->view();
   
   if ( view->supportsInterface( "IDL:Browser/PrintingExtension:1.0" ) )
   {
@@ -1512,7 +1522,7 @@ void KonqMainView::slotLargeIcons()
     m_currentView->changeView( v, serviceTypes );
   }
   
-  v = m_currentView->view();
+  v = Browser::View::_duplicate( m_currentView->view() );
   Konqueror::KfmIconView_var iv = Konqueror::KfmIconView::_narrow( v );
   
   iv->slotLargeIcons();
@@ -1531,7 +1541,7 @@ void KonqMainView::slotSmallIcons()
     m_currentView->changeView( v, serviceTypes );
   }
   
-  v = m_currentView->view();
+  v = Browser::View::_duplicate( m_currentView->view() );
   Konqueror::KfmIconView_var iv = Konqueror::KfmIconView::_narrow( v );
   
   iv->slotSmallIcons();
@@ -1703,19 +1713,19 @@ void KonqMainView::slotReloadPlugins()
 
   KonqPlugins::installKOMPlugins( this );
 
-  Browser::View_var vView;
+  Browser::View_ptr pView;
   
   MapViews::ConstIterator it = m_mapViews.begin();
   MapViews::ConstIterator end = m_mapViews.end();
   for (; it != end; ++it )
   {
-    vView = (*it)->view();
-    
-    plugins = vView->describePlugins();
+    pView = (*it)->view();
+
+    plugins = pView->describePlugins();
     for ( CORBA::ULong k = 0; k < plugins->length(); ++k )
-      removePlugin( plugins[ k ].id );
-      
-    KonqPlugins::installKOMPlugins( vView );
+      pView->removePlugin( plugins[ k ].id );
+
+    KonqPlugins::installKOMPlugins( pView );
   }
 }
 

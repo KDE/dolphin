@@ -265,6 +265,12 @@ private:
   void createViewMenu();
 
   /**
+   * Fills the edit menu with the entries of the mainview, merged with the
+   * ones of the current view.
+   */
+  void createEditMenu();
+
+  /**
    * Tries to find a index.html (.kde.html) file in the specified directory
    */
   QString findIndexFile( const QString &directory );

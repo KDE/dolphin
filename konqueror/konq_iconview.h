@@ -47,8 +47,8 @@ public:
   virtual ~KonqKfmIconView();
 
   virtual bool mappingOpenURL( Browser::EventOpenURL eventURL );
-  virtual bool mappingFillMenuView( Browser::View::EventFillMenu viewMenu );
-  virtual bool mappingFillMenuEdit( Browser::View::EventFillMenu editMenu );
+  virtual bool mappingFillMenuView( Browser::View::EventFillMenu_ptr viewMenu );
+  virtual bool mappingFillMenuEdit( Browser::View::EventFillMenu_ptr editMenu );
 
   // IDL
   virtual void stop();
@@ -111,6 +111,8 @@ protected:
   
   int m_iXOffset;
   int m_iYOffset;
+  
+  CORBA::Long m_idShowDotFiles;
   
   KonqMainView *m_pMainView;
 };

@@ -95,8 +95,8 @@ class KonqKfmTreeView : public QListView,
 public:
 
   virtual bool mappingOpenURL( Browser::EventOpenURL eventURL );
-  virtual bool mappingFillMenuView( Browser::View::EventFillMenu viewMenu );
-  virtual bool mappingFillMenuEdit( Browser::View::EventFillMenu editMenu );
+  virtual bool mappingFillMenuView( Browser::View::EventFillMenu_ptr viewMenu );
+  virtual bool mappingFillMenuEdit( Browser::View::EventFillMenu_ptr editMenu );
 
   virtual void stop();
   virtual char *viewName() { return CORBA::string_dup("KonquerorKfmTreeView"); }

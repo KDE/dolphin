@@ -138,29 +138,18 @@ bool KonqKfmTreeView::mappingOpenURL( Browser::EventOpenURL eventURL )
   return true;
 }
 
-bool KonqKfmTreeView::mappingFillMenuView( Browser::View::EventFillMenu viewMenu )
+bool KonqKfmTreeView::mappingFillMenuView( Browser::View::EventFillMenu_ptr viewMenu )
 {
-#define MVIEW_RELOADTREE_ID_2 1483 // temporary
-  
-  if ( !CORBA::is_nil( viewMenu.menu ) )
+  if ( !CORBA::is_nil( viewMenu ) )
   {
-    if ( viewMenu.create )
-    {
-      kdebug(0,1202,"Adding reload tree");
-      CORBA::WString_var text = Q2C( i18n("Rel&oad Tree") );
-      viewMenu.menu->insertItem4( text, this, "slotReloadTree", 0, MVIEW_RELOADTREE_ID_2, -1 );
-    }
-    else
-    {
-      kdebug(0,1202,"Removing reload tree");
-      viewMenu.menu->removeItem( MVIEW_RELOADTREE_ID_2 );
-    }
+    CORBA::WString_var text = Q2C( i18n("Rel&oad Tree") );
+    viewMenu->insertItem4( text, this, "slotReloadTree", 0, -1, -1 );
   }
   
   return true;
 }
 
-bool KonqKfmTreeView::mappingFillMenuEdit( Browser::View::EventFillMenu /*editMenu*/ )
+bool KonqKfmTreeView::mappingFillMenuEdit( Browser::View::EventFillMenu_ptr /*editMenu*/ )
 {
   // TODO : add select and selectall
   return true;

@@ -144,16 +144,6 @@ void KonqChildView::openURL( const QString &url, bool useMiscURLData  )
   EMIT_EVENT( m_vView, Browser::eventOpenURL, eventURL );
 }
 
-void KonqChildView::emitMenuEvents( OpenPartsUI::Menu_ptr viewMenu, OpenPartsUI::Menu_ptr editMenu, bool create )
-{
-  Browser::View::EventFillMenu ev;
-  ev.menu = OpenPartsUI::Menu::_duplicate( viewMenu );
-  ev.create = create;
-  EMIT_EVENT( m_vView, Browser::View::eventFillMenuView, ev );
-  ev.menu = OpenPartsUI::Menu::_duplicate( editMenu );
-  EMIT_EVENT( m_vView, Browser::View::eventFillMenuEdit, ev );
-}
-
 void KonqChildView::switchView( Browser::View_ptr _vView, const QStringList &serviceTypes )
 {
   kdebug(0,1202,"switchView : part->inactive");

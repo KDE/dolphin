@@ -62,9 +62,9 @@ bool KonqBaseView::event( const char *event, const CORBA::Any &value )
 {
   EVENT_MAPPER( event, value );
   
-  MAPPING( Browser::View::eventFillMenuEdit, Browser::View::EventFillMenu, mappingFillMenuEdit );
-  MAPPING( Browser::View::eventFillMenuView, Browser::View::EventFillMenu, mappingFillMenuView );
-  MAPPING( Browser::View::eventCreateViewToolBar, Browser::View::EventCreateViewToolBar, mappingCreateViewToolBar );
+  MAPPING( Browser::View::eventFillMenuEdit, Browser::View::EventFillMenu_ptr, mappingFillMenuEdit );
+  MAPPING( Browser::View::eventFillMenuView, Browser::View::EventFillMenu_ptr, mappingFillMenuView );
+  MAPPING( Browser::View::eventFillToolBar, Browser::View::EventFillToolBar_ptr, mappingFillToolBar );
   MAPPING( Browser::eventOpenURL, Browser::EventOpenURL, mappingOpenURL );
     
   END_EVENT_MAPPER;
@@ -72,17 +72,17 @@ bool KonqBaseView::event( const char *event, const CORBA::Any &value )
   return false;
 }
 
-bool KonqBaseView::mappingFillMenuView( Browser::View::EventFillMenu )
+bool KonqBaseView::mappingFillMenuView( Browser::View::EventFillMenu_ptr )
 {
   return false;
 }
 
-bool KonqBaseView::mappingFillMenuEdit( Browser::View::EventFillMenu )
+bool KonqBaseView::mappingFillMenuEdit( Browser::View::EventFillMenu_ptr )
 {
   return false;
 }
 
-bool KonqBaseView::mappingCreateViewToolBar( Browser::View::EventCreateViewToolBar )
+bool KonqBaseView::mappingFillToolBar( Browser::View::EventFillToolBar_ptr )
 {
   return false;
 }

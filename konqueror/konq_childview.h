@@ -76,10 +76,6 @@ public:
    * ensure that the call makes sense)
    */
   void openURL( const QString &url, bool useMiscURLData = false );
-  /**
-   * Builds or destroys view-specific part of the menus.
-   */
-  void emitMenuEvents( OpenPartsUI::Menu_ptr viewMmenu, OpenPartsUI::Menu_ptr editMenu, bool create );
 
   /**
    * Replace the current view vith _vView
@@ -155,9 +151,11 @@ public:
   /**
    * Get view object (should never be needed, except for IDL methods 
    * like activeView() and viewList())
+   *
+   * note: as you can see this method does *not* call _duplicate, so take
+   *       care of this when calling..
    */
-  Browser::View_ptr view() { return Browser::View::_duplicate(m_vView); }
-  // FIXME : is duplicated needed ? activeView will do it too !
+  Browser::View_ptr view() { return m_vView; }
 
   /**
    * Returns a pointer to the KonqFrame which the view lives in

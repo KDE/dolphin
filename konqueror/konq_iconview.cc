@@ -101,60 +101,32 @@ bool KonqKfmIconView::mappingOpenURL( Browser::EventOpenURL eventURL )
   return true;
 }
 
-bool KonqKfmIconView::mappingFillMenuView( Browser::View::EventFillMenu viewMenu )
+bool KonqKfmIconView::mappingFillMenuView( Browser::View::EventFillMenu_ptr viewMenu )
 {
-#define MVIEW_IMAGEPREVIEW_ID_ICONVIEW 1594 // all those defines should be put ...
-#define MVIEW_SHOWDOT_ID_ICONVIEW 1595 // ... in a single file
-
-  if ( !CORBA::is_nil( viewMenu.menu ) )
+  m_vViewMenu = OpenPartsUI::Menu::_duplicate( viewMenu );
+  
+  if ( !CORBA::is_nil( viewMenu ) )
   {
-    if ( viewMenu.create )
-    {
-      CORBA::WString_var text;
-      kdebug(0,1202,"adding image preview and showdotfiles");
-      text = Q2C( i18n("Image &Preview") );
-      viewMenu.menu->insertItem4( text, this, "slotShowSchnauzer" , 0, MVIEW_IMAGEPREVIEW_ID_ICONVIEW, -1 );
-      text = Q2C( i18n("Show &Dot Files") );
-      viewMenu.menu->insertItem4( text, this, "slotShowDot" , 0, MVIEW_SHOWDOT_ID_ICONVIEW, -1 );
-      viewMenu.menu->setItemChecked( MVIEW_SHOWDOT_ID_ICONVIEW, m_pProps->m_bShowDot );
-      m_vViewMenu = OpenPartsUI::Menu::_duplicate( viewMenu.menu );
-    }
-    else
-    {
-      kdebug(0,1202,"removing image preview and showdotfiles");
-      viewMenu.menu->removeItem( MVIEW_SHOWDOT_ID_ICONVIEW );
-      viewMenu.menu->removeItem( MVIEW_IMAGEPREVIEW_ID_ICONVIEW );
-      m_vViewMenu = 0L;
-    }
+    CORBA::WString_var text;
+    text = Q2C( i18n("Image &Preview") );
+    viewMenu->insertItem4( text, this, "slotShowSchnauzer" , 0, -1, -1 );
+    text = Q2C( i18n("Show &Dot Files") );
+    m_idShowDotFiles = viewMenu->insertItem4( text, this, "slotShowDot" , 0, -1, -1 );
+    viewMenu->setItemChecked( m_idShowDotFiles, m_pProps->m_bShowDot );
   }
   
   return true;
 }
 
-bool KonqKfmIconView::mappingFillMenuEdit( Browser::View::EventFillMenu editMenu )
+bool KonqKfmIconView::mappingFillMenuEdit( Browser::View::EventFillMenu_ptr editMenu )
 {
-#define MEDIT_SELECT_ID_ICONVIEW 1394 // hmm...
-#define MEDIT_SELECTALL_ID_ICONVIEW 1395
-
-  if ( !CORBA::is_nil( editMenu.menu ) )
+  if ( !CORBA::is_nil( editMenu ) )
   {
-    if ( editMenu.create )
-    {
-      CORBA::WString_var text;
-      //    menu->insertItem4( i18n("&Large Icons"), this, "slotLargeIcons", 0, -1, -1 );
-      //    menu->insertItem4( i18n("&Small Icons"), this, "slotSmallIcons", 0, -1, -1 );
-      kdebug(0,1202,"adding select and selectall");
-      text = Q2C( i18n("Select") );
-      editMenu.menu->insertItem4( text, this, "slotSelect" , 0, MEDIT_SELECT_ID_ICONVIEW, -1 );
-      text = Q2C( i18n("Select &All") );
-      editMenu.menu->insertItem4( text, this, "slotSelectAll" , 0, MEDIT_SELECTALL_ID_ICONVIEW, -1 );
-    }
-    else
-    {
-      kdebug(0,1202,"removing select and selectall");
-      editMenu.menu->removeItem( MEDIT_SELECT_ID_ICONVIEW );
-      editMenu.menu->removeItem( MEDIT_SELECTALL_ID_ICONVIEW );
-    }
+    CORBA::WString_var text;
+    text = Q2C( i18n("Select") );
+    editMenu->insertItem4( text, this, "slotSelect" , 0, -1, -1 );
+    text = Q2C( i18n("Select &All") );
+    editMenu->insertItem4( text, this, "slotSelectAll" , 0, -1, -1 );
   }
   
   return true;
@@ -177,7 +149,7 @@ void KonqKfmIconView::slotShowDot()
   m_dirLister->setShowingDotFiles( m_pProps->m_bShowDot );
   bSetupNeeded = true; // we don't want the non-dot files to remain where they are !
 
-  m_vViewMenu->setItemChecked( MVIEW_SHOWDOT_ID_ICONVIEW, m_pProps->m_bShowDot );
+  m_vViewMenu->setItemChecked( m_idShowDotFiles, m_pProps->m_bShowDot );
 }
 
 void KonqKfmIconView::slotSelect()

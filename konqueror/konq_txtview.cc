@@ -93,60 +93,32 @@ bool KonqTxtView::mappingOpenURL( Browser::EventOpenURL eventURL )
   return true;
 }
 
-bool KonqTxtView::mappingFillMenuView( Browser::View::EventFillMenu viewMenu )
+bool KonqTxtView::mappingFillMenuView( Browser::View::EventFillMenu_ptr viewMenu )
 {
-//HACK
-#define MVIEW_BASE_ID 1423
-#define MVIEW_FIXEDFONT_ID MVIEW_BASE_ID+1
+  m_vMenuView = OpenPartsUI::Menu::_duplicate( viewMenu );
 
-  if ( CORBA::is_nil( viewMenu.menu ) )
-    return true;
-    
-  if ( viewMenu.create )
+  if ( !CORBA::is_nil( viewMenu ) )
   {
     CORBA::WString_var txt;
-    m_vMenuView = OpenPartsUI::Menu::_duplicate( viewMenu.menu );
-    m_vMenuView->insertItem4( ( txt = Q2C( i18n( "Use Fixed Font" ) ) ),
-                              this, "slotFixedFont", 0,
-			      MVIEW_FIXEDFONT_ID, -1 );
-    m_vMenuView->setItemChecked( MVIEW_FIXEDFONT_ID, m_bFixedFont );
-  }
-  else
-  {
-    viewMenu.menu->removeItem( MVIEW_FIXEDFONT_ID );
-    m_vMenuView = 0L;
+    m_idFixedFont = m_vMenuView->insertItem4( ( txt = Q2C( i18n( "Use Fixed Font" ) ) ),
+                                              this, "slotFixedFont", 0, -1, -1 );
+    m_vMenuView->setItemChecked( m_idFixedFont, m_bFixedFont );
   }
 
   return true;
 }
 
-bool KonqTxtView::mappingFillMenuEdit( Browser::View::EventFillMenu editMenu )
+bool KonqTxtView::mappingFillMenuEdit( Browser::View::EventFillMenu_ptr editMenu )
 {
-//HACK
-#define MEDIT_BASE_ID 1523
-#define MEDIT_SELECTALL_ID MEDIT_BASE_ID+1
-#define MEDIT_EDIT_ID MEDIT_BASE_ID+2
-#define MEDIT_SEARCH_ID MEDIT_BASE_ID+3
-
-  if ( !CORBA::is_nil( editMenu.menu ) )
+  if ( !CORBA::is_nil( editMenu ) )
   {
-    if ( editMenu.create )
-    {
-      CORBA::WString_var txt;
-      editMenu.menu->insertItem4( ( txt = Q2C( i18n( "Select &All" ) ) ), 
-                                  this, "slotSelectAll", 0, 
-				  MEDIT_SELECTALL_ID, -1 );
-      editMenu.menu->insertItem4( ( txt = Q2C( i18n( "Launch &Editor" ) ) ),
-                                  this, "slotEdit", 0, MEDIT_EDIT_ID, -1 );
-      editMenu.menu->insertItem4( ( txt = Q2C( i18n( "Search..." ) ) ),
-                                  this, "slotSearch", 0, MEDIT_SEARCH_ID, -1 );
-    }
-    else
-    {
-      editMenu.menu->removeItem( MEDIT_SELECTALL_ID );
-      editMenu.menu->removeItem( MEDIT_EDIT_ID );
-      editMenu.menu->removeItem( MEDIT_SEARCH_ID );
-    }
+    CORBA::WString_var txt;
+    editMenu->insertItem4( ( txt = Q2C( i18n( "Select &All" ) ) ), 
+                           this, "slotSelectAll", 0, -1, -1 );
+    editMenu->insertItem4( ( txt = Q2C( i18n( "Launch &Editor" ) ) ),
+                           this, "slotEdit", 0, -1, -1 );
+    editMenu->insertItem4( ( txt = Q2C( i18n( "Search..." ) ) ),
+                           this, "slotSearch", 0, -1, -1 );
   }
 
   return true;
@@ -193,7 +165,7 @@ void KonqTxtView::slotFixedFont()
 {
   m_bFixedFont = !m_bFixedFont;
   if ( !CORBA::is_nil( m_vMenuView ) )
-    m_vMenuView->setItemChecked( MVIEW_FIXEDFONT_ID, m_bFixedFont );
+    m_vMenuView->setItemChecked( m_idFixedFont, m_bFixedFont );
     
   if ( m_bFixedFont )
     setFont( KGlobal::fixedFont() );

@@ -39,9 +39,9 @@ public:
   virtual void cleanUp();
   
   virtual bool event( const char *event, const CORBA::Any &value );
-  virtual bool mappingFillMenuView( Browser::View::EventFillMenu viewMenu );
-  virtual bool mappingFillMenuEdit( Browser::View::EventFillMenu viewMenu );
-  virtual bool mappingCreateViewToolBar( Browser::View::EventCreateViewToolBar viewToolBar );
+  virtual bool mappingFillMenuView( Browser::View::EventFillMenu_ptr viewMenu );
+  virtual bool mappingFillMenuEdit( Browser::View::EventFillMenu_ptr viewMenu );
+  virtual bool mappingFillToolBar( Browser::View::EventFillToolBar_ptr viewToolBar );
   virtual bool mappingOpenURL( Browser::EventOpenURL eventURL );
 
   /**
