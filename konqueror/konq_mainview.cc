@@ -674,13 +674,10 @@ void KonqMainView::slotConfigureKeys()
 
 void KonqMainView::slotConfigureToolbars()
 {
-  KActionCollection collection;
-  collection = *actionCollection() + *currentView()->actionCollection();
-  KEditToolbar edit(&collection, xmlFile(), currentView()->xmlFile());
-  if (edit.exec())
-  {
-    // don't know how to recreate GUI
-  }
+  QValueList<KXMLGUIClient*> clients = factory()->clients();
+
+  KEditToolbar edit(factory());
+  edit.exec();
 }
 
 void KonqMainView::slotViewChanged( KParts::ReadOnlyPart *oldView, KParts::ReadOnlyPart *newView )
