@@ -14,7 +14,7 @@
 #include <stdio.h>
 #include <qaccel.h>  
 #include <stdlib.h>
-
+#include <kapp.h>
 #include <kmsgbox.h>
 
 #include "kfmenu.h"
