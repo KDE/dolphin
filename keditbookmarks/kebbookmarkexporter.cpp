@@ -27,9 +27,20 @@
 
 #include "kebbookmarkexporter.h"
 
-// write bookmarks file
-//
+// for compat
 void KEBNSBookmarkExporter::write( bool utf8 )
+{
+    KEBNSBookmarkExporter exporter( m_pManager, m_fileName );
+    exporter.write( utf8 );
+}
+
+// for compat
+void KEBNSBookmarkExporter::writeFolder( QTextStream &/*fstream*/, KBookmarkGroup /*parent*/ )
+{
+    kdFatal(7043) << "Sorry, BIC compatibility for KEBNSBookmarkExporter does allow for subclassing!, email me (lypanov) if you need this!" << endl;
+}
+
+void KEBNSBookmarkExporterImpl::write( bool utf8 )
 {
     if ( QFile::exists( m_fileName ) )
     {
@@ -71,7 +82,7 @@ void KEBNSBookmarkExporter::write( bool utf8 )
 
 // write the contents of a folder (recursive)
 //
-void KEBNSBookmarkExporter::writeFolder( QTextStream &fstream, KBookmarkGroup parent )
+void KEBNSBookmarkExporterImpl::writeFolder( QTextStream &fstream, KBookmarkGroup parent )
 {
     QRegExp amp("&");
     QRegExp lt("<");
