@@ -39,16 +39,9 @@ struct SelcAbilities {
    bool notEmpty:1;
 };
 
-class QListViewItem;
-class KBookmark;
 class KBookmarkManager;
-class KListView;
-class KEBListView;
-class KEBListViewItem;
-class BookmarkIterator;
-class ImportCommand;
 class KBookmarkEditorIface;
-class MyManager;
+class ImportCommand;
 
 class KEBTopLevel : public KMainWindow
 {
@@ -84,6 +77,8 @@ public:
 
    bool readonly() { return m_readOnly; }
 
+   void setAllOpen(bool open);
+
 private:
    static KBookmarkManager* bookmarkManager();
 
@@ -92,45 +87,13 @@ private:
    void updateListView();
 
 public slots:
-   void slotImportKDE();
-   void slotImportGaleon();
-   void slotImportOpera();
-   void slotImportIE();
-   void slotImportNS();
-   void slotExportNS();
-   void slotImportMoz();
-   void slotExportMoz();
    void slotLoad();
    void slotSave();
    void slotSaveAs();
    void slotDocumentRestored();
-   void slotCut();
-   void slotCopy();
-   void slotPaste();
-   void slotRename();
-   void slotChangeURL();
-   void slotChangeIcon();
-   void slotDelete();
-   void slotNewFolder();
-   void slotNewBookmark();
-   void slotInsertSeparator();
-   void slotSort();
-   void slotSetAsToolbar();
-   void slotOpenLink();
-   void slotShowNS();
    void slotSaveOnClose();
    void slotConfigureKeyBindings();
    void slotConfigureToolbars();
-   void slotTestSelection();
-   void slotTestAll();
-   void slotCancelAllTests();
-   void slotUpdateFavIcon();
-   void slotUpdateAllFavIcons();
-   void slotCancelFavIconUpdates();
-   void slotSearch();
-   void slotCancelSearch();
-   void slotExpandAll();
-   void slotCollapseAll();
 
 protected slots:
    void slotClipboardDataChanged();
@@ -142,11 +105,10 @@ protected slots:
 
 private:
    void construct();
-
    void resetActions();
    void createActions();
+
    virtual bool queryClose();
-   void setAllOpen(bool open);
 
    bool m_modified;
    bool m_canPaste;
@@ -158,7 +120,6 @@ private:
    bool m_saveOnClose;
 
    static KEBTopLevel *s_topLevel;
-
 };
 
 #endif
