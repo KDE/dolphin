@@ -393,12 +393,21 @@ void KonqMainView::openURL( const KURL &url, const KParts::URLArgs &args )
 {
   //TODO: handle post data!
 
+ KParts::ReadOnlyPart *part = static_cast<KParts::ReadOnlyPart *>( sender()->parent() );
+ KonqChildView *view = childView( part );
+
   //  ### HACK !!
   if ( args.postData.size() > 0 )
   {
-    KonqChildView *view = childView( (KParts::ReadOnlyPart *)sender()->parent() );
     view->browserExtension()->setURLArgs( args );
     openURL( view, url, args.reload, args.xOffset, args.yOffset, QString::fromLatin1( "text/html" ) );
+    return;
+  }
+
+  if ( !args.reload && urlcmp( url.url(), part->url().url(), true, true ) )
+  {
+    view->browserExtension()->setURLArgs( args );
+    openView( view->serviceType(), url, view );
     return;
   }
 
@@ -549,7 +558,7 @@ void KonqMainView::slotToggleDirTree( bool toggle )
 
     if ( m_currentView->view()->inherits( "KonqDirTreePart" ) )
       m_pViewManager->setActivePart( m_pViewManager->chooseNextView( m_currentView )->view() );
-    
+
     for (; it.current(); ++it )
       if ( it.current()->view()->inherits( "KonqDirTreePart" ) )
         m_pViewManager->removeView( it.current() );
