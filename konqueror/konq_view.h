@@ -310,8 +310,10 @@ protected:
 
   /**
    * Updates the current entry in the history.
+   * @param saveLocationBarURL whether to save the location bar URL as part of it
+   * (not done in openURL, to be able to revert if aborting)
    */
-  void updateHistoryEntry();
+  void updateHistoryEntry(bool saveLocationBarURL);
 
   void sendOpenURLEvent( const KURL &url, const KParts::URLArgs &args = KParts::URLArgs() );
 
@@ -331,23 +333,23 @@ protected:
   QList<HistoryEntry> m_lstHistory;
 
   KonqMainWindow *m_pMainWindow;
-  bool m_bAllowHTML;
   QGuardedPtr<KonqRun> m_pRun;
   KonqFrame *m_pKonqFrame;
-  bool m_bLoading;
-  bool m_bLockedLocation;
-  bool m_bPassiveMode;
-  bool m_bLockedViewMode;;
-  bool m_bLinkedView;
-  bool m_bToggleView;
+  uint m_bAllowHTML:1;
+  uint m_bLoading:1;
+  uint m_bLockedLocation:1;
+  uint m_bPassiveMode:1;
+  uint m_bLockedViewMode:1;
+  uint m_bLinkedView:1;
+  uint m_bToggleView:1;
+  uint m_bLockHistory:1;
+  uint m_bAborted:1;
   KTrader::OfferList m_partServiceOffers;
   KTrader::OfferList m_appServiceOffers;
   KService::Ptr m_service;
   QString m_serviceType;
   QGuardedPtr<KParts::ReadOnlyPart> m_metaView;
-  bool m_bLockHistory;
   QString m_name;
-  bool m_bAborted;
   KonqViewIface * m_dcopObject;
 };
 

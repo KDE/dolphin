@@ -420,6 +420,7 @@ private:
   // Set in constructor, used in slotRunFinished
   uint m_bNeedApplyMainWindowSettings:1;
   uint m_bViewModeToggled:1;
+  uint m_bLockLocationBarURL:1;
 
   MapViews m_mapViews;
 

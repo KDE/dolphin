@@ -112,6 +112,7 @@ KonqMainWindow::KonqMainWindow( const KURL &initialURL, bool openInitialURL, con
   m_combo = 0L;
   m_bURLEnterLock = false;
   m_bLocationBarConnected = false;
+  m_bLockLocationBarURL = false;
 
   m_bViewModeToggled = false;
 
@@ -996,13 +997,12 @@ void KonqMainWindow::slotPartChanged( KonqView *childView, KParts::ReadOnlyPart 
   m_mapViews.remove( oldPart );
   m_mapViews.insert( newPart, childView );
 
-  // Call the partmanager implementation (the one that only removes the part
-  // from its internal list. We don't want to destroy the child view
-  m_pViewManager->KParts::PartManager::removePart( oldPart );
-
-  // Add the new part to the manager
-  // Note: this makes it active... so it calls slotPartActivated
-  m_pViewManager->addPart( newPart, true );
+  // Remove the old part, and add the new part to the manager
+  // Note: this makes the new part active... so it calls slotPartActivated
+  // When it does that from here, we don't want to revert the location bar URL,
+  // hence the m_bLockLocationBarURL hack.
+  m_bLockLocationBarURL = true;
+  m_pViewManager->replacePart( oldPart, newPart, true );
 
   viewsChanged();
 }
@@ -1010,7 +1010,7 @@ void KonqMainWindow::slotPartChanged( KonqView *childView, KParts::ReadOnlyPart 
 
 void KonqMainWindow::slotRunFinished()
 {
-  //kdDebug(1202) << "KonqMainWindow::slotRunFinished()" << endl;
+  kdDebug(1202) << "KonqMainWindow::slotRunFinished()" << endl;
   const KonqRun *run = static_cast<const KonqRun *>( sender() );
 
   KonqView *childView = run->childView();
@@ -1136,6 +1136,8 @@ void KonqMainWindow::slotPartActivated( KParts::Part *part )
       return;
     }
   }
+  else
+    kdWarning(1202) << "No more active part !!!! This shouldn't happen anymore !" << endl;
 
   KParts::BrowserExtension *ext = 0;
 
@@ -1220,10 +1222,15 @@ void KonqMainWindow::slotPartActivated( KParts::Part *part )
 
   m_paLinkView->setChecked( m_currentView->isLinkedView() );
 
-  kdDebug(1202) << "slotPartActivated: setting location bar url to "
-               << m_currentView->locationBarURL() << endl;
-  if ( m_combo )
-    m_combo->setEditText( m_currentView->locationBarURL() );
+  if ( !m_bLockLocationBarURL )
+  {
+    kdDebug(1202) << "slotPartActivated: setting location bar url to "
+                  << m_currentView->locationBarURL() << " m_currentView=" << m_currentView << endl;
+    if ( m_combo )
+      m_combo->setEditText( m_currentView->locationBarURL() );
+  }
+  else
+    m_bLockLocationBarURL = false;
 
   updateToolBarActions();
 

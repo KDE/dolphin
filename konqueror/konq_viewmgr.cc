@@ -68,7 +68,7 @@ KonqView* KonqViewManager::splitView ( Qt::Orientation orientation,
   kdDebug(1202) << "KonqViewManager::splitView(ServiceType)" << endl;
 
   KonqFrame* viewFrame = 0L;
-  if( m_pMainContainer )
+  if( m_pMainContainer && m_pMainWindow->currentView() )
     viewFrame = m_pMainWindow->currentView()->frame();
 
   KonqView* childView = split( viewFrame, orientation, serviceType, serviceName );
