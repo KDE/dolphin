@@ -154,7 +154,7 @@ bool KonqFrameStatusBar::eventFilter(QObject*,QEvent *e)
    {
       emit clicked();
       update();
-      if ( ((QMouseEvent*)e)->button()==RightButton)
+      if ( static_cast<QMouseEvent *>(e)->button() == RightButton)
          splitFrameMenu();
       return TRUE;
    }
@@ -284,86 +284,6 @@ void KonqFrameStatusBar::paintEvent(QPaintEvent* e)
 }
 
 
-KonqFrameHeader::KonqFrameHeader( KonqFrame *_parent, const char *_name )
-:QWidget( _parent, _name )
-,m_pParentKonqFrame( _parent )
-{
-   // this is the best font i could think of to use.
-   QFont f = KGlobalSettings::generalFont();
-
-   // do I have to worry about negative font sizes? (bc of the -1)
-//   f.setPixelSize(f.pixelSize() - 1);
-
-
-
-   m_pLayout = new QHBoxLayout( this, 0, -1, "KonqFrame's QVBoxLayout" );
-   m_pHeaderLabel = new QLabel( this, "KonqFrameHeader label" );
-   m_pHeaderLabel->setAlignment(AlignCenter);
-   m_pHeaderLabel->setFrameStyle( QFrame::StyledPanel );
-   m_pHeaderLabel->installEventFilter(this);
-   m_pCloseButton = new QToolButton( this );
-   m_pCloseButton->setAutoRaise(true);
-
-   // button is square -- figure out the len of an edge
-   int edge = m_pCloseButton->fontMetrics().height() + 5;
-
-   m_pCloseButton->setMaximumHeight(edge);
-   m_pCloseButton->setMaximumWidth(edge);
-   m_pCloseButton->setMinimumWidth(edge);  //make it square as the width is smaller than the height
-
-   f.setBold(false);
-   m_pHeaderLabel->setFont(f);
-   f.setBold(true);
-   m_pCloseButton->setFont(f);
-
-
-   m_pLayout->addWidget( m_pHeaderLabel );
-   m_pLayout->addWidget( m_pCloseButton );
-
-   m_pLayout->setStretchFactor( m_pHeaderLabel, 1 );
-   m_pLayout->setStretchFactor( m_pCloseButton, 0 );
-
-   m_pCloseButton->setText("x");
-
-
-   m_pCloseButton->setFocusPolicy(NoFocus);
-}
-
-KonqFrameHeader::~KonqFrameHeader()
-{
-}
-
-void KonqFrameHeader::setText(const QString &text)
-{
-    if( !isVisible() ) show();
-    m_pHeaderLabel->setText(text);
-}
-
-void KonqFrameHeader::setAction( KAction *inAction )
-{
-    connect(m_pCloseButton, SIGNAL(clicked()), inAction, SLOT(activate()));
-}
-
-
-bool KonqFrameHeader::eventFilter(QObject*,QEvent *e)
-{
-   if (e->type()==QEvent::MouseButtonPress)
-   {
-      if ( ((QMouseEvent*)e)->button()==RightButton)
-         showCloseMenu();
-      return true;
-   }
-   return false;
-}
-
-void KonqFrameHeader::showCloseMenu()
-{
-    QPopupMenu menu;
-
-    menu.insertItem(i18n("Close"), m_pCloseButton, SLOT(animateClick()));
-    menu.exec(QCursor::pos());
-}
-
 //###################################################################
 
 void KonqFrameBase::printFrameInfo(QString spaces)
@@ -383,7 +303,6 @@ KonqFrame::KonqFrame( QWidget* parent, KonqFrameContainerBase *parentContainer, 
 
    // the frame statusbar
    m_pStatusBar = new KonqFrameStatusBar( this, "KonquerorFrameStatusBar");
-   m_pHeader = new KonqFrameHeader(this, "KonquerorFrameHeader");
    connect(m_pStatusBar, SIGNAL(clicked()), this, SLOT(slotStatusBarClicked()));
    connect( m_pStatusBar, SIGNAL( linkedViewClicked( bool ) ), this, SLOT( slotLinkedViewClicked( bool ) ) );
    m_separator = 0;
@@ -462,14 +381,11 @@ void KonqFrame::attachInternal()
 
    m_pLayout = new QVBoxLayout( this, 0, -1, "KonqFrame's QVBoxLayout" );
 
-   m_pLayout->addWidget( m_pHeader );
-
    m_pLayout->addWidget( m_pPart->widget() );
 
    m_pLayout->addWidget( m_pStatusBar );
    m_pPart->widget()->show();
    m_pStatusBar->show();
-   m_pHeader->hide();
 
    m_pLayout->activate();
 

@@ -75,7 +75,8 @@ protected:
 
 
 /**
- * The KonqFrameStatusBar indicates wether a view is active or not.
+ * The KonqFrameStatusBar is the statusbar under each konqueror view.
+ * It indicates in particular whether a view is active or not.
  */
 class KonqFrameStatusBar : public QWidget
 {
@@ -85,6 +86,9 @@ class KonqFrameStatusBar : public QWidget
       KonqFrameStatusBar( KonqFrame *_parent = 0L, const char *_name = 0L );
       virtual ~KonqFrameStatusBar();
 
+      /**
+       * Checks/unchecks the linked-view checkbox
+       */
       void setLinkedView( bool b );
       /**
        * Shows/hides the active-view indicator
@@ -96,6 +100,9 @@ class KonqFrameStatusBar : public QWidget
       void showLinkedViewIndicator( bool b );
 
    public slots:
+      /**
+       * Display a temporary message in the statusbar
+       */
       void message( const QString &msg );
       void slotConnectToNewView(KonqView *, KParts::ReadOnlyPart *oldOne,KParts::ReadOnlyPart *newOne);
       void slotLoadingProgress( int percent );
@@ -134,39 +141,6 @@ class KonqFrameStatusBar : public QWidget
       QString m_savedMessage;
 };
 
-
-/**
- * The KonqFrameHeader provides a title and button to remove the view.
- */
-
-class KonqFrameHeader : public QWidget
-{
-  Q_OBJECT
-
-   public:
-      KonqFrameHeader( KonqFrame *_parent = 0L, const char *_name = 0L );
-      virtual ~KonqFrameHeader();
-      /**
-       * Connects an action to the button.
-       * @param inAction the KAction to connect.
-       */
-      virtual void setAction( KAction *inAction );
-      /**
-       * Sets the text on the header.
-       * @param text the text to display.
-       */
-      virtual void setText(const QString& text);
-    /**
-     * Used to pop up close menu on RMB click.
-     */
-      virtual bool eventFilter(QObject *obj, QEvent *ev);
-   protected:
-      virtual void showCloseMenu();
-      KonqFrame* m_pParentKonqFrame;
-      QLabel *m_pHeaderLabel;
-      QToolButton *m_pCloseButton;
-      QHBoxLayout *m_pLayout;
-};
 
 typedef QPtrList<KonqView> ChildViewList;
 
@@ -281,7 +255,6 @@ public:
   QVBoxLayout *layout()const { return m_pLayout; }
 
   KonqFrameStatusBar *statusbar() const { return m_pStatusBar; }
-  KonqFrameHeader    *header() const { return m_pHeader; }
 
   virtual void activateChild();
 
@@ -313,7 +286,6 @@ protected:
 
   KSeparator *m_separator;
   KonqFrameStatusBar* m_pStatusBar;
-  KonqFrameHeader *m_pHeader;
 };
 
 class KonqFrameContainerBase : public KonqFrameBase
