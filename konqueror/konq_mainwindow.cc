@@ -317,7 +317,13 @@ void KonqMainWindow::openFilteredURL( const QString & _url )
     KURL filteredURL = KonqMisc::konqFilteredURL( this, url, m_currentDir );
     kdDebug(1202) << "url " << url << " filtered into " << filteredURL.url() << endl;
 
-    kdDebug() << "KonqMainWindow::openFilteredURL" << endl;
+    if (!KProtocolInfo::supportsListing(filteredURL.protocol()))
+    {
+        // Protocol doesn't support listing. Ouch. Revert to full URL, no name-filtering.
+        url = _url;
+        nameFilter = QString::null;
+        filteredURL = KonqMisc::konqFilteredURL( this, url, m_currentDir );
+    }
 
     // Remember the initial (typed) URL
     KonqOpenURLRequest req( _url );
