@@ -276,6 +276,7 @@ KonqMainWindow::~KonqMainWindow()
 void KonqMainWindow::resetWindow()
 {
     ignoreInitialGeometry();
+    kapp->setTopWidget( this ); // set again the default window icon
 }
 
 QWidget * KonqMainWindow::createContainer( QWidget *parent, int index, const QDomElement &element, int &id )
