@@ -16,8 +16,8 @@
    Boston, MA 02111-1307, USA.
 */
 
-#ifndef __bookmark_iterator_h
-#define __bookmark_iterator_h
+#ifndef __bookmarkiterator_h
+#define __bookmarkiterator_h
 
 #include <qobject.h>
 #include <kbookmark.h>
