@@ -158,7 +158,7 @@ void KonqFrameStatusBar::splitFrameMenu()
    actionColl->action( "splitviewh" )->plug( &menu );
    actionColl->action( "splitviewv" )->plug( &menu );
    menu.insertSeparator();
-       actionColl->action( "lock" )->plug( &menu );
+   actionColl->action( "lock" )->plug( &menu );
 
    actRemoveView.plug( &menu );
 
@@ -181,7 +181,7 @@ bool KonqFrameStatusBar::eventFilter(QObject* o, QEvent *e)
       updateActiveStatus();
       return true;
    }
-	   
+
    return false;
 }
 
@@ -270,7 +270,7 @@ void KonqFrameStatusBar::updateActiveStatus()
 
     const QColorGroup& activeCg = kapp->palette().active();
     setPaletteBackgroundColor( hasFocus ? activeCg.midlight() : activeCg.mid() );
-    
+
     static QPixmap indicator_viewactive( UserIcon( "indicator_viewactive" ) );
     static QPixmap indicator_empty( UserIcon( "indicator_empty" ) );
     m_led->setPixmap( hasFocus ? indicator_viewactive : indicator_empty );
@@ -445,20 +445,17 @@ void KonqFrame::slotStatusBarClicked()
 
 void KonqFrame::slotLinkedViewClicked( bool mode )
 {
-  bool oneFollowActive=false;
-  if (m_pView->mainWindow()->viewCount() == 2)
+  if (m_pView->mainWindow()->linkableViewsCount() == 2)
   {
-    // Two views : link both
+    // Exactly two linkable views : link both
     KonqMainWindow::MapViews mapViews = m_pView->mainWindow()->viewMap();
     KonqMainWindow::MapViews::Iterator it = mapViews.begin();
-    oneFollowActive=(*it)->isFollowActive();
-    ++it;
-    oneFollowActive |=(*it)->isFollowActive();
-    if (oneFollowActive) mode=false;
-
-    it=mapViews.begin();
+    if( (*it)->isFollowActive() ) // skip sidebar
+        ++it;
     (*it)->setLinkedView( mode );
     ++it;
+    if( (*it)->isFollowActive() ) // skip sidebar
+        ++it;
     (*it)->setLinkedView( mode );
   }
   else // Normal case : just this view
@@ -667,7 +664,7 @@ void KonqFrameContainer::removeChildFrame( KonqFrameBase * frame )
 
 void KonqFrameContainer::childEvent( QChildEvent *c )
 {
-  // Child events cause layout changes. These are unnecassery if we are going 
+  // Child events cause layout changes. These are unnecassery if we are going
   // to be deleted anyway.
   if (!m_bAboutToBeDeleted)
       QSplitter::childEvent(c);

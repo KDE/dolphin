@@ -588,8 +588,8 @@ void KonqViewManager::removeTab( KonqFrameBase* tab )
 
   delete currentFrame;
 
-  tabContainer->slotCurrentChanged(tabContainer->currentPage());  
-  
+  tabContainer->slotCurrentChanged(tabContainer->currentPage());
+
   if (tabContainer->count() == 1) {
     KConfig *config = KGlobal::config();
     KConfigGroupSaver cs( config, QString::fromLatin1("FMSettings") );
@@ -723,7 +723,7 @@ void KonqViewManager::updatePixmaps()
 {
   if (m_pDocContainer == 0L) return;
   if (m_pDocContainer->frameType() != "Tabs") return;
-  
+
   KonqFrameTabs* tabContainer = static_cast<KonqFrameTabs*>(m_pDocContainer);
 
   QPtrList<KonqView> viewList;
@@ -895,18 +895,18 @@ void KonqViewManager::slotPassiveModePartDeleted()
 
 void KonqViewManager::viewCountChanged()
 {
-  bool bShowActiveViewIndicator = ( m_pMainWindow->/*activeViewsCount*/viewCount() > 1 );
-  bool bShowLinkedViewIndicator = ( m_pMainWindow->viewCount() > 1 );
+  bool bShowActiveViewIndicator = ( m_pMainWindow->viewCount() > 1 );
+  bool bShowLinkedViewIndicator = ( m_pMainWindow->linkableViewsCount() > 1 );
 
   KonqMainWindow::MapViews mapViews = m_pMainWindow->viewMap();
   KonqMainWindow::MapViews::Iterator it = mapViews.begin();
   KonqMainWindow::MapViews::Iterator end = mapViews.end();
   for (  ; it != end ; ++it )
   {
-      it.data()->frame()->statusbar()->showActiveViewIndicator(bShowActiveViewIndicator && !it.data()->isPassiveMode());
-      it.data()->frame()->statusbar()->showLinkedViewIndicator( bShowLinkedViewIndicator && (!it.data()->isFollowActive()));
+    KonqFrameStatusBar* sb = it.data()->frame()->statusbar();
+    sb->showActiveViewIndicator( bShowActiveViewIndicator && !it.data()->isPassiveMode() );
+    sb->showLinkedViewIndicator( bShowLinkedViewIndicator && !it.data()->isFollowActive() );
   }
-
 }
 
 void KonqViewManager::clear()
@@ -1470,7 +1470,7 @@ void KonqViewManager::loadItem( KConfig &cfg, KonqFrameContainerBase *parent,
     if ( openURL )
     {
       KURL url;
-      
+
       if ( cfg.hasKey( key ) )
       {
         QString u = cfg.readPathEntry( key );

@@ -2041,11 +2041,16 @@ void KonqMainWindow::viewCountChanged()
   // This is called when the number of views changes.
   kdDebug(1202) << "KonqMainWindow::viewCountChanged" << endl;
 
-  m_paLinkView->setEnabled( viewCount() > 1 );
+  int lvc = linkableViewsCount();
+  m_paLinkView->setEnabled( lvc > 1 );
 
-  // Only one view -> make it unlinked
-  if ( viewCount() == 1 )
-      m_mapViews.begin().data()->setLinkedView( false );
+  // Only one view (or one view + sidebar) -> make it/them unlinked
+  if ( lvc == 1 ) {
+      MapViews::Iterator it = m_mapViews.begin();
+      MapViews::Iterator end = m_mapViews.end();
+      for (; it != end; ++it )
+          it.data()->setLinkedView( false );
+  }
 
   viewsChanged();
 
@@ -2147,6 +2152,18 @@ int KonqMainWindow::activeViewsCount() const
   MapViews::ConstIterator end = m_mapViews.end();
   for (; it != end; ++it )
     if ( !it.data()->isPassiveMode() )
+      ++res;
+
+  return res;
+}
+
+int KonqMainWindow::linkableViewsCount() const
+{
+  int res = 0;
+  MapViews::ConstIterator it = m_mapViews.begin();
+  MapViews::ConstIterator end = m_mapViews.end();
+  for (; it != end; ++it )
+    if ( !it.data()->isFollowActive() )
       ++res;
 
   return res;
@@ -2362,6 +2379,7 @@ void KonqMainWindow::openMultiURL( KURL::List url )
     for (; it != end; ++it )
     {
         KonqView* newView = m_pViewManager->addTab();
+        Q_ASSERT( newView );
         if (newView == 0L) continue;
         openURL( newView, *it,QString::null);
         m_pViewManager->showTab( newView );

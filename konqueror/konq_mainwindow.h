@@ -87,6 +87,7 @@ class KonqMainWindow : public KParts::MainWindow, public KonqFrameContainerBase
   Q_OBJECT
   Q_PROPERTY( int viewCount READ viewCount )
   Q_PROPERTY( int activeViewsCount READ activeViewsCount )
+  Q_PROPERTY( int linkableViewsCount READ linkableViewsCount )
   Q_PROPERTY( QString locationBarURL READ locationBarURL )
   Q_PROPERTY( bool fullScreenMode READ fullScreenMode )
   Q_PROPERTY( QString currentTitle READ currentTitle )
@@ -154,6 +155,9 @@ public:
 
   // Number of views not in "passive" mode
   int activeViewsCount() const;
+
+  // Number of views that can be linked, i.e. not with "follow active view" behavior
+  int linkableViewsCount() const;
 
   // Number of main views (non-toggle non-passive views)
   int mainViewsCount() const;
