@@ -29,6 +29,8 @@ public:
   KonqPart( Part *parent = 0, const char *name = 0 );
   ~KonqPart();
   
+  void setOpenInitialURL( bool open ) { m_bOpenInitialURL = open; }
+  
   virtual View *createView( QWidget *parent = 0, const char *name = 0 );
   virtual Shell *createShell();
   
@@ -37,6 +39,9 @@ public:
 				
 protected:
   virtual QString configFile() const;
+  
+private:
+  bool m_bOpenInitialURL;  
 };
 
 #endif

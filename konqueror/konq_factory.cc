@@ -25,18 +25,21 @@
 #include "konq_treeview.h"
 #include "konq_txtview.h"
 #include "konq_htmlview.h"
+#include "konq_misc.h"
+#include "konq_run.h"
 #include "browser.h"
 
 #include <kded_instance.h>
 #include <ktrader.h>
 #include <kdebug.h>
 #include <klibglobal.h>
+#include <kstddirs.h>
 
 KLibGlobal *KonqFactory::s_global = 0L;
 
 extern "C"
 {
-  void *init_konqueror()
+  void *init_libkonqueror()
   {
     return new KonqFactory;
   }
@@ -44,7 +47,11 @@ extern "C"
 
 KonqFactory::KonqFactory()
 {
-  s_global = new KLibGlobal( "konqueror" );
+  s_global = 0L;
+  QString path = global()->dirs()->saveLocation("data", "kfm/bookmarks", true);  
+  (void)new KonqBookmarkManager( path );
+  (void)new KTraderServiceProvider;
+  (void)new KonqFileManager;
 }
 
 BrowserView *KonqFactory::createView( const QString &serviceType,
@@ -108,8 +115,8 @@ BrowserView *KonqFactory::createView( const QString &serviceType,
 
 QObject* KonqFactory::create( QObject* parent = 0, const char* name = 0 )
 {
-  if ( !parent || !parent->inherits( "Part" ) )
-    return 0L;
+//  if ( !parent || !parent->inherits( "Part" ) )
+//    return 0L;
   
   return new KonqPart( (Part *)parent, name );
 }
@@ -117,7 +124,7 @@ QObject* KonqFactory::create( QObject* parent = 0, const char* name = 0 )
 KLibGlobal *KonqFactory::global()
 {
   if ( !s_global )
-    (void)init_konqueror();
+    s_global = new KLibGlobal( "konqueror" );
   
   return s_global;
 }

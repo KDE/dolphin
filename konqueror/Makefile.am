@@ -18,7 +18,7 @@ libkonqueror_la_SOURCES = konq_mainview.cc konq_part.cc konq_shell.cc \
 
 libkonqueror_la_METASOURCES = AUTO
 
-libkonqueror_la_LDFLAGS = $(all_libraries) -version-info 1:0:0 -module -avoid-version
+libkonqueror_la_LDFLAGS = $(all_libraries) -version-info 1:0:0
 
 libkonqueror_la_LIBADD = -lkparts ../libkonq/libkonq.la $(LIB_KIO) $(LIB_KDEUI) $(LIB_QT) $(LIB_KHTML)
 

@@ -22,11 +22,14 @@
 #include "konq_shell.h"
 #include "konq_factory.h"
 
+#include <qdir.h>
+
 #include <kstddirs.h>
 
 KonqPart::KonqPart( Part *parent, const char *name )
  : Part( parent, name )
 {
+  m_bOpenInitialURL = true;
 }
 
 KonqPart::~KonqPart()
@@ -36,6 +39,10 @@ KonqPart::~KonqPart()
 View *KonqPart::createView( QWidget *parent, const char *name )
 {
   KonqMainView *view = new KonqMainView( this, parent, name ? name : "KonqMainView" );
+  
+  if ( m_bOpenInitialURL )
+    view->openURL( 0L, QDir::homeDirPath().prepend( "file:" ) );
+  
   return view;
 }
 

@@ -66,6 +66,7 @@ bool KonqFileManager::openFileManagerWindow( const char *_url )
   KonqShell *shell = new KonqShell;
   
   KonqPart *part = new KonqPart;
+  part->setOpenInitialURL( false );
   
   shell->setRootPart( part );
   
