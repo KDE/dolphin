@@ -651,13 +651,13 @@ void KEBTopLevel::slotAddedBookmark(QString url, QString text, QString address, 
 
 void KEBTopLevel::slotNewBookmark()
 {
-    CreateCommand * cmd = new CreateCommand( i18n("Create bookmark" ), insertionAddress(), QString::null, QString::null, KURL() );
+    CreateCommand * cmd = new CreateCommand( i18n("Create Bookmark" ), insertionAddress(), QString::null, QString::null, KURL() );
     m_commandHistory.addCommand( cmd );
 }
 
 void KEBTopLevel::slotInsertSeparator()
 {
-    CreateCommand * cmd = new CreateCommand( i18n("Insert separator"), insertionAddress() );
+    CreateCommand * cmd = new CreateCommand( i18n("Insert Separator"), insertionAddress() );
     m_commandHistory.addCommand( cmd );
 }
 
@@ -827,7 +827,7 @@ void KEBTopLevel::pasteData( const QString & cmdName,  QMimeSource * data, const
     QString currentAddress = insertionAddress;
     if ( KBookmarkDrag::canDecode( data ) )
     {
-        KMacroCommand * mcmd = new KMacroCommand( i18n("Add a number of bookmarks") );
+        KMacroCommand * mcmd = new KMacroCommand( i18n("Add a Number of Bookmarks") );
         QValueList<KBookmark> bookmarks = KBookmarkDrag::decode( data );
         for ( QValueListConstIterator<KBookmark> it = bookmarks.begin(); it != bookmarks.end(); ++it ) {
            CreateCommand * cmd = new CreateCommand( cmdName, currentAddress, (*it) );
@@ -843,7 +843,7 @@ void KEBTopLevel::slotSort()
 {
     KBookmark bk = selectedBookmark();
     Q_ASSERT(bk.isGroup());
-    SortCommand * cmd = new SortCommand(i18n("Sort alphabetically"), bk.address());
+    SortCommand * cmd = new SortCommand(i18n("Sort Alphabetically"), bk.address());
     m_commandHistory.addCommand( cmd );
 }
 
@@ -993,7 +993,7 @@ void KEBTopLevel::slotItemRenamed(QListViewItem * item, const QString & newText,
         case 1:
             if ( bk.url() != newText )
             {
-                EditCommand * cmd = new EditCommand( i18n("URL change"), bk.address(),
+                EditCommand * cmd = new EditCommand( i18n("URL Change"), bk.address(),
                                                      EditCommand::Edition("href", newText) );
                 m_commandHistory.addCommand( cmd );
             }
@@ -1170,7 +1170,7 @@ void KEBTopLevel::slotChangeIcon()
     KIconDialog dlg(this);
     QString newIcon = dlg.selectIcon(KIcon::Small, KIcon::FileSystem);
     if ( !newIcon.isEmpty() ) {
-        EditCommand * cmd = new EditCommand( i18n("Icon change"), bk.address(),
+        EditCommand * cmd = new EditCommand( i18n("Icon Change"), bk.address(),
                                              EditCommand::Edition("icon", newIcon) );
         m_commandHistory.addCommand( cmd );
     }

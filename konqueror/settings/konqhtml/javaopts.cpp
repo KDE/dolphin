@@ -136,7 +136,7 @@ KJavaOptions::KJavaOptions( KConfig* config, QString group,
     QHBox* secondsHB = new QHBox( javartGB );
     serverTimeoutSB = new KIntNumInput( secondsHB );
     serverTimeoutSB->setRange( 0, 1000, 5 );
-    serverTimeoutSB->setLabel( i18n("App&let Server timeout:"), AlignLeft );
+    serverTimeoutSB->setLabel( i18n("App&let server timeout:"), AlignLeft );
     serverTimeoutSB->setSuffix(i18n(" sec"));
     connect(serverTimeoutSB, SIGNAL(valueChanged(int)),this,SLOT(changed()));
 

@@ -168,7 +168,7 @@ KRootOptions::KRootOptions(KConfig *config, QWidget *parent, const char * )
 
   previewListView = new KListView( this );
   previewListView->setFullWidth(true);
-  previewListView->addColumn( i18n("Show Previews for:") );
+  previewListView->addColumn( i18n("Show Previews For") );
   QWhatsThis::add(previewListView, i18n("Select for which types of files you want to"
                                         " enable preview images"));
 
