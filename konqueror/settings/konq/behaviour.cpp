@@ -116,7 +116,7 @@ KBehaviourOptions::KBehaviourOptions(KConfig *config, QString group, QWidget *pa
     connect(cbShowMMBInTabs, SIGNAL(clicked()), this, SLOT(changed()));
 
     
-    QWhatsThis::add( cbShowMMBInTabs, i18n("This will open a new tab instead of a new window in various situations "
+    QWhatsThis::add( cbShowMMBInTabs, i18n("This will open a new tab instead of a new window in various situations, "
                           "such as choosing a link or a folder with the middle mouse button.") );
 
 	QHBoxLayout *hlay = new QHBoxLayout( lay );
