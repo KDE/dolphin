@@ -126,12 +126,16 @@ void KDesktopConfig::save()
   // set number of desktops
   NETRootInfo info( qt_xdisplay(), NET::NumberOfDesktops | NET::DesktopNames );
   info.setNumberOfDesktops(_numInput->value());
-  XSync(qt_xdisplay(), FALSE);
   info.activate();
 
   // set desktop names
   for(int i = 1; i <= 16; i++)
+  {
     info.setDesktopName(i, (_nameInput[i-1]->text()).utf8());
+    info.activate();
+  }
+
+  XSync(qt_xdisplay(), FALSE);
 
   // Tell kdesktop about the new config file
   if ( !kapp->dcopClient()->isAttached() )
