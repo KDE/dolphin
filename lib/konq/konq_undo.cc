@@ -254,6 +254,7 @@ void KonqUndoManager::undo()
   d->m_dirStack.clear();
 
   d->m_undoState = MOVINGFILES;
+  kdDebug(1203) << "KonqUndoManager::undo MOVINGFILES" << endl;
 
   QValueList<KonqBasicOperation>::Iterator it = d->m_current.m_opStack.begin();
   QValueList<KonqBasicOperation>::Iterator end = d->m_current.m_opStack.end();
@@ -265,6 +266,7 @@ void KonqUndoManager::undo()
       d->m_dirCleanupStack.prepend( (*it).m_dst );
       it = d->m_current.m_opStack.remove( it );
       d->m_undoState = MAKINGDIRS;
+      kdDebug(1203) << "KonqUndoManager::undo MAKINGDIRS" << endl;
     }
     else if ( (*it).m_link )
     {
@@ -342,6 +344,7 @@ void KonqUndoManager::undoStep()
     if ( !d->m_dirStack.isEmpty() )
     {
       KURL dir = d->m_dirStack.pop();
+      kdDebug(1203) << "KonqUndoManager::undoStep creatingDir " << dir.prettyURL() << endl;
       d->m_currentJob = KIO::mkdir( dir );
       d->m_uiserver->creatingDir( d->m_uiserverJobId, dir );
     }
@@ -360,6 +363,7 @@ void KonqUndoManager::undoStep()
       {
         if ( op.m_renamed )
         {
+          kdDebug(1203) << "KonqUndoManager::undoStep rename " << op.m_dst.prettyURL() << " " << op.m_src.prettyURL() << endl;
           d->m_currentJob = KIO::rename( op.m_dst, op.m_src, false );
           d->m_uiserver->moving( d->m_uiserverJobId, op.m_dst, op.m_src );
         }
@@ -367,14 +371,19 @@ void KonqUndoManager::undoStep()
           assert( 0 ); // this should not happen!
       }
       else if ( op.m_link )
+      {
+        kdDebug(1203) << "KonqUndoManager::undoStep symlink " << op.m_target << " " << op.m_src.prettyURL() << endl;
         d->m_currentJob = KIO::symlink( op.m_target, op.m_src, true, false );
+      }
       else if ( d->m_current.m_type == KonqCommand::COPY )
       {
+        kdDebug(1203) << "KonqUndoManager::undoStep file_delete " << op.m_dst.prettyURL() << endl;
         d->m_currentJob = KIO::file_delete( op.m_dst );
         d->m_uiserver->deleting( d->m_uiserverJobId, op.m_dst );
       }
       else
       {
+        kdDebug(1203) << "KonqUndoManager::undoStep file_move " << op.m_dst.prettyURL() << " " << op.m_src.prettyURL() << endl;
         d->m_currentJob = KIO::file_move( op.m_dst, op.m_src, -1, true );
         d->m_uiserver->moving( d->m_uiserverJobId, op.m_dst, op.m_src );
       }
@@ -385,9 +394,11 @@ void KonqUndoManager::undoStep()
 
   if ( d->m_undoState == REMOVINGFILES )
   {
+    kdDebug(1203) << "KonqUndoManager::undoStep REMOVINGFILES" << endl;
     if ( !d->m_fileCleanupStack.isEmpty() )
     {
       KURL file = d->m_fileCleanupStack.pop();
+      kdDebug(1203) << "KonqUndoManager::undoStep file_delete " << file.prettyURL() << endl;
       d->m_currentJob = KIO::file_delete( file );
       d->m_uiserver->deleting( d->m_uiserverJobId, file );
     }
@@ -400,6 +411,7 @@ void KonqUndoManager::undoStep()
     if ( !d->m_dirCleanupStack.isEmpty() )
     {
       KURL dir = d->m_dirCleanupStack.pop();
+      kdDebug(1203) << "KonqUndoManager::undoStep rmdir " << dir.prettyURL() << endl;
       d->m_currentJob = KIO::rmdir( dir );
       d->m_uiserver->deleting( d->m_uiserverJobId, dir );
     }
@@ -409,6 +421,8 @@ void KonqUndoManager::undoStep()
       d->m_currentJob = 0;
       if ( d->m_undoJob )
       {
+          kdDebug(1203) << "KonqUndoManager::undoStep deleting undojob" << endl;
+          d->m_uiserver->jobFinished( d->m_uiserverJobId );
           delete d->m_undoJob;
           d->m_undoJob = 0;
       }
