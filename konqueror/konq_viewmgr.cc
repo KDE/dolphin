@@ -602,6 +602,8 @@ void KonqViewManager::loadViewProfile( KConfig &cfg, const QString & filename,
       // TODO choose a linked view if any (instead of just the first one),
       // then open the same URL in any non-linked one
   }
+  else // No URL -> the user will want to type one
+    m_pMainWindow->focusLocationBar();
 
   // Window size
 

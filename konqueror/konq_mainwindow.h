@@ -162,6 +162,7 @@ public:
    * Change URL displayed in the location bar
    */
   void setLocationBarURL( const QString &url );
+  void focusLocationBar();
 
   void enableAllActions( bool enable );
 

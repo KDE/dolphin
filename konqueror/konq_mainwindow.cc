@@ -2450,6 +2450,11 @@ void KonqMainWindow::setLocationBarURL( const QString &url )
   }
 }
 
+void KonqMainWindow::focusLocationBar()
+{
+    m_combo->setFocus();
+}
+
 void KonqMainWindow::startAnimation()
 {
   //kdDebug(1202) << "KonqMainWindow::startAnimation" << endl;
