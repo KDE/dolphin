@@ -29,8 +29,11 @@ servicetypesdir = $(kde_servicetypesdir)
 data_DATA = cookies.desktop useragent.desktop cache.desktop
 datadir = $(kde_appsdir)/Settings/Network/WebBrowsing
 
-smb_DATA = smb.desktop netpref.desktop proxy.desktop 
-smbdir = $(kde_appsdir)/Settings/Network
+data2_DATA = lanbrowser.desktop netpref.desktop proxy.desktop 
+data2dir = $(kde_appsdir)/Settings/Network
+
+smb_DATA = smb.desktop
+smbdir = $(kde_appsdir)/.hidden
 
 install-data-local: uninstall.desktop
 	$(mkinstalldirs) $(DESTDIR)$(kde_appsdir)/Settings/WebBrowsing
