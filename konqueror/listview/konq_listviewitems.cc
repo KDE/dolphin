@@ -27,6 +27,27 @@
 #include <qheader.h>
 #include <kiconloader.h>
 
+static QString retrieveExtraEntry( KFileItem* fileitem, int numExtra )
+{
+    /// ######## SLOOOOW
+    KIO::UDSEntry::ConstIterator it = fileitem->entry().begin();
+    const KIO::UDSEntry::ConstIterator end = fileitem->entry().end();
+    int n = 0;
+    for( ; it != end; ++it )
+    {
+        if ((*it).m_uds == KIO::UDS_EXTRA)
+        {
+            ++n;
+            if ( n == numExtra )
+            {
+                return (*it).m_str;
+            }
+        }
+    }
+    return QString::null;
+}
+
+
 /**************************************************************
  *
  * KonqListViewItem
@@ -113,31 +134,18 @@ void KonqListViewItem::updateContents()
             break;
          case KIO::UDS_EXTRA:
          {
-             // extraData[numExtra]
-             /// ######## SLOOOOW
-             KIO::UDSEntry::ConstIterator it = m_fileitem->entry().begin();
-             int n = 0;
-             for( ; it != m_fileitem->entry().end(); it++ ) {
-                 if ((*it).m_uds == KIO::UDS_EXTRA)
-                 {
-                     ++n;
-                     if ( n == numExtra )
-                     {
-                         if ( tmpColumn->type == QVariant::DateTime )
-                         {
-                             QDateTime dt = QDateTime::fromString( (*it).m_str, Qt::ISODate );
-                             setText(tmpColumn->displayInColumn,
-                                     KGlobal::locale()->formatDate(dt.date(),TRUE)+" "+
-                                     KGlobal::locale()->formatTime(dt.time())+" ");
-                         }
-                         else // if ( tmpColumn->type == QVariant::String )
-                             setText(tmpColumn->displayInColumn, (*it).m_str);
-                         break;
-                     }
-                 }
+             const QString entryStr = retrieveExtraEntry( m_fileitem, numExtra );
+             if ( tmpColumn->type == QVariant::DateTime )
+             {
+                 QDateTime dt = QDateTime::fromString( entryStr, Qt::ISODate );
+                 setText(tmpColumn->displayInColumn,
+                         KGlobal::locale()->formatDate(dt.date(),TRUE)+" "+
+                         KGlobal::locale()->formatTime(dt.time())+" ");
              }
-
+             else // if ( tmpColumn->type == QVariant::String )
+                 setText(tmpColumn->displayInColumn, entryStr);
              ++numExtra;
+             break;
          }
          default:
             break;
@@ -233,9 +241,12 @@ int KonqBaseListViewItem::compare( QListViewItem* item, int col, bool ascending 
       // Dirs are always first, even when sorting in descending order
       return !ascending ? k->sortChar - sortChar : sortChar - k->sortChar;
 
+   int numExtra = 0;
    for ( unsigned int i=0; i<m_pListViewWidget->NumberOfAtoms; i++ )
    {
       ColumnInfo *cInfo = &m_pListViewWidget->columnConfigInfo()[i];
+      if ( cInfo->udsId == KIO::UDS_EXTRA )
+          ++numExtra;
       if ( col == cInfo->displayInColumn )
       {
          switch ( cInfo->udsId )
@@ -253,6 +264,16 @@ int KonqBaseListViewItem::compare( QListViewItem* item, int col, bool ascending 
                 KIO::filesize_t s1 = m_fileitem->size();
                 KIO::filesize_t s2 = k->m_fileitem->size();
                 return ( s1 > s2 ) ? 1 : ( s1 < s2 ) ? -1 : 0;
+            }
+            case KIO::UDS_EXTRA:
+            {
+                if ( cInfo->type & QVariant::DateTime ) {
+                    const QString entryStr1 = retrieveExtraEntry( m_fileitem, numExtra );
+                    QDateTime dt1 = QDateTime::fromString( entryStr1, Qt::ISODate );
+                    const QString entryStr2 = retrieveExtraEntry( k->m_fileitem, numExtra );
+                    QDateTime dt2 = QDateTime::fromString( entryStr2, Qt::ISODate );
+                    return ( dt1 > dt2 ) ? 1 : ( dt1 < dt2 ) ? -1 : 0;
+                }
             }
             default:
                 break;
