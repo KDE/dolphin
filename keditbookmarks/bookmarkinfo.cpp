@@ -173,17 +173,17 @@ BookmarkInfoWidget::BookmarkInfoWidget(QWidget *parent, const char *name)
     connect(m_comment_le, SIGNAL( textChanged(const QString &) ), 
                           SLOT( slotTextChangedComment(const QString &) ));
 
-    m_visitdate_le = new KLineEdit(this);
-    grid->addWidget(m_visitdate_le, 0, 3);
-    grid->addWidget(
-            new QLabel(m_visitdate_le, i18n("First viewed:"), this), 
-            0, 2 );
-
     m_credate_le = new KLineEdit(this);
-    grid->addWidget(m_credate_le, 1, 3);
+    grid->addWidget(m_credate_le, 0, 3);
     grid->addWidget(
-            new QLabel(m_credate_le, i18n("Viewed last:"), this), 
-            1, 2);
+            new QLabel(m_credate_le, i18n("First viewed:"), this), 
+            0, 2);
+
+    m_visitdate_le = new KLineEdit(this);
+    grid->addWidget(m_visitdate_le, 1, 3);
+    grid->addWidget(
+            new QLabel(m_visitdate_le, i18n("Viewed last:"), this), 
+            1, 2 );
 
     m_visitcount_le = new KLineEdit(this);
     grid->addWidget(m_visitcount_le, 2, 3);
