@@ -22,12 +22,13 @@ class QCheckBox;
 #include <kcmodule.h>
 #include "nsconfigwidget.h"
 
-class QProgressDialog;
 class QBoxLayout;
-class KProcIO;
+class QLabel;
+class QProgressDialog;
+class QSlider;
 class KDialogBase;
-
 class KPluginOptions;
+class KProcIO;
 
 /** policies with plugin-specific constructor
   */
@@ -117,6 +118,7 @@ private:
 
  protected slots:
   void progress(KProcIO *);
+  void updatePLabel(int);
   void change() { change( true ); };
   void change( bool c ) { emit changed(c); m_changed = c; };
 
@@ -127,6 +129,8 @@ private:
   NSConfigWidget *m_widget;
   bool m_changed;
   QProgressDialog *m_progress;
+  QSlider *priority;
+  QLabel *priorityLabel;
   PluginPolicies global_policies;
   PluginDomainListView *domainSpecific;
   KDialogBase *domainSpecificDlg;

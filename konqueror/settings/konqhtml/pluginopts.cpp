@@ -2,35 +2,34 @@
 // (c) 2001, Daniel Naber, based on javaopts.cpp
 // (c) 2000 Stefan Schimanski <1Stein@gmx.de>, Netscape parts
 
-#include <stdlib.h>
+
 #include <stdio.h>
+#include <stdlib.h>
 #include <unistd.h>
 
-#include <qregexp.h>
 #include <qlayout.h>
-#include <kstandarddirs.h>
-#include <klocale.h>
-#include <kiconloader.h>
-#include <kfiledialog.h>
-#include <kurlrequester.h>
-
-#include <qwhatsthis.h>
-#include <qvgroupbox.h>
-#include <kdebug.h>
-
-#include <kapplication.h>
-#include <dcopclient.h>
-#include <kprocio.h>
 #include <qprogressdialog.h>
-#include <kmessagebox.h>
+#include <qregexp.h>
+#include <qslider.h>
+#include <qvgroupbox.h>
+#include <qwhatsthis.h>
+
+#include <dcopclient.h>
+#include <kapplication.h>
+#include <kdebug.h>
+#include <kfiledialog.h>
+#include <kiconloader.h>
 #include <klistview.h>
+#include <klocale.h>
+#include <kmessagebox.h>
+#include <kprocio.h>
+#include <kstandarddirs.h>
+#include <kurlrequester.h>
 
 #include "htmlopts.h"
 #include "pluginopts.h"
 #include "policydlg.h"
 
-
-#include "pluginopts.moc"
 
 // == class PluginPolicies =====
 
@@ -53,24 +52,28 @@ KPluginOptions::KPluginOptions( KConfig* config, QString group, QWidget *parent,
 {
     QVBoxLayout* toplevel = new QVBoxLayout( this, 0, KDialog::spacingHint() );
 
-    /***************************************************************************
-     ********************* Global Settings *************************************
-     **************************************************************************/
+    /**************************************************************************
+     ******************** Global Settings *************************************
+     *************************************************************************/
     QVGroupBox* globalGB = new QVGroupBox( i18n( "Global Settings" ), this );
     toplevel->addWidget( globalGB );
     enablePluginsGloballyCB = new QCheckBox( i18n( "&Enable plugins globally" ), globalGB );
     enableHTTPOnly = new QCheckBox( i18n( "Only allow &HTTP and HTTPS URLs for plugins" ), globalGB );
+    priorityLabel = new QLabel(i18n("CPU priority for plugins: %1").arg(QString::null), globalGB);
+    priority = new QSlider(5, 100, 5, 100, Horizontal, globalGB);
     connect( enablePluginsGloballyCB, SIGNAL( clicked() ), this, SLOT( slotChanged() ) );
     connect( enablePluginsGloballyCB, SIGNAL( clicked() ), this, SLOT( slotTogglePluginsEnabled() ) );
     connect( enableHTTPOnly, SIGNAL( clicked() ), this, SLOT( slotChanged() ) );
+    connect( priority, SIGNAL( valueChanged(int) ), this, SLOT( slotChanged() ) );
+    connect( priority, SIGNAL( valueChanged(int) ), this, SLOT( updatePLabel(int) ) );
 
     QFrame *hrule = new QFrame(globalGB);
     hrule->setFrameStyle(QFrame::HLine | QFrame::Sunken);
     hrule->setSizePolicy(QSizePolicy::MinimumExpanding,QSizePolicy::Fixed);
 
-    /***************************************************************************
-     ********************* Domain-specific Settings ****************************
-     **************************************************************************/
+    /**************************************************************************
+     ********************* Domain-specific Settings ***************************
+     *************************************************************************/
     QPushButton *domainSpecPB = new QPushButton(i18n("Domain-Specific Settin&gs..."),
     						globalGB);
     domainSpecPB->setSizePolicy(QSizePolicy::Fixed,QSizePolicy::Fixed);
@@ -86,9 +89,9 @@ KPluginOptions::KPluginOptions( KConfig* config, QString group, QWidget *parent,
 
     domainSpecificDlg->setMainWidget(domainSpecific);
 
-    /***************************************************************************
-     ********************** WhatsThis? items ***********************************
-     **************************************************************************/
+    /**************************************************************************
+     ********************** WhatsThis? items **********************************
+     *************************************************************************/
     QWhatsThis::add( enablePluginsGloballyCB, i18n("Enables the execution of plugins "
           "that can be contained in HTML pages, e.g. Macromedia Flash. "
           "Note that, as with any browser, enabling active contents can be a security problem.") );
@@ -118,7 +121,7 @@ KPluginOptions::KPluginOptions( KConfig* config, QString group, QWidget *parent,
                                             "you to save and retrieve them from a zipped file.") );
 #endif
 
-/***********************************************************************************/
+/*****************************************************************************/
 
     QVGroupBox* netscapeGB = new QVGroupBox( i18n( "Netscape Plugins" ), this );
     toplevel->addWidget( netscapeGB );
@@ -145,6 +148,26 @@ KPluginOptions::~KPluginOptions()
   delete m_pConfig;
 }
 
+
+void KPluginOptions::updatePLabel(int p) {
+    QString level;
+    p = (100 - p)/5;
+    if (p > 15) {
+            level = i18n("lowest priority", "lowest");
+    } else if (p > 11) {
+            level = i18n("low priority", "low");
+    } else if (p > 7) {
+            level = i18n("medium priority", "medium");
+    } else if (p > 3) {
+            level = i18n("high priority", "high");
+    } else {
+            level = i18n("highest priority", "highest");
+    }
+
+    priorityLabel->setText(i18n("CPU priority for plugins: %1").arg(level));
+}
+
+
 void KPluginOptions::load()
 {
     // *** load ***
@@ -156,7 +179,7 @@ void KPluginOptions::load()
 
     domainSpecific->initialize(m_pConfig->readListEntry("PluginDomains"));
 
-/***********************************************************************************/
+/****************************************************************************/
 
   KConfig *config = new KConfig("kcmnspluginrc", true);
 
@@ -169,6 +192,8 @@ void KPluginOptions::load()
   m_widget->dirUp->setEnabled( false );
   m_widget->dirDown->setEnabled( false );
   enableHTTPOnly->setChecked( config->readBoolEntry("HTTP URLs Only", false) );
+  priority->setValue(100 - KCLAMP(config->readNumEntry("Nice Level", 0), 0, 19) * 5);
+  updatePLabel(priority->value());
 
   dirLoad( config );
   pluginLoad( config );
@@ -183,8 +208,9 @@ void KPluginOptions::defaults()
     global_policies.defaults();
     enablePluginsGloballyCB->setChecked( global_policies.isFeatureEnabled() );
     enableHTTPOnly->setChecked(false);
+    priority->setValue(100);
 
-/***********************************************************************************/
+/*****************************************************************************/
 
     KConfig *config = new KConfig( QString::null, true, false );
 
@@ -216,7 +242,7 @@ void KPluginOptions::save()
     kapp->dcopClient()->attach();
   kapp->dcopClient()->send( "konqueror*", "KonquerorIface", "reparseConfiguration()", data );
 
-/***********************************************************************************/
+/*****************************************************************************/
 
     KConfig *config= new KConfig("kcmnspluginrc", false);
 
@@ -226,6 +252,7 @@ void KPluginOptions::save()
     config->setGroup("Misc");
     config->writeEntry( "startkdeScan", m_widget->scanAtStartup->isChecked() );
     config->writeEntry( "HTTP URLs Only", enableHTTPOnly->isChecked() );
+    config->writeEntry("Nice Level", (int)(100 - priority->value()) / 5);
     config->sync();
     delete config;
 
@@ -479,7 +506,7 @@ void KPluginOptions::pluginInit()
 }
 
 
-void KPluginOptions::pluginLoad( KConfig */*config*/ )
+void KPluginOptions::pluginLoad( KConfig* /*config*/ )
 {
     kdDebug() << "-> KPluginOptions::fillPluginList" << endl;
     m_widget->pluginList->clear();
@@ -556,7 +583,7 @@ void KPluginOptions::pluginLoad( KConfig */*config*/ )
 }
 
 
-void KPluginOptions::pluginSave( KConfig */*config*/ )
+void KPluginOptions::pluginSave( KConfig* /*config*/ )
 {
 
 }
@@ -631,3 +658,4 @@ PluginPolicies *PluginDomainListView::copyPolicies(Policies *pol) {
   return new PluginPolicies(*static_cast<PluginPolicies *>(pol));
 }
 
+#include "pluginopts.moc"
