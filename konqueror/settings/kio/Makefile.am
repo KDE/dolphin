@@ -17,7 +17,7 @@ kcm_kio_la_SOURCES = policydlg.cpp kcookiesmain.cpp kcookiespolicies.cpp \
       manualproxy_ui.ui envvarproxy_ui.ui
 
 kcm_kio_la_LDFLAGS  = $(all_libraries) -module -avoid-version -no-undefined
-kcm_kio_la_LIBADD = $(LIB_KSYCOCA) $(LIB_KIO) -lkutils
+kcm_kio_la_LIBADD = $(LIB_KSYCOCA) $(LIB_KIO) $(LIB_KUTILS)
 
 messages: rc.cpp
 	$(XGETTEXT) *.cpp -o $(podir)/kcmkio.pot
