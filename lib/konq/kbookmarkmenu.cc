@@ -45,7 +45,7 @@
 #include <kurl.h>
 #include <kwm.h>
 
-#include "kmimetypes.h"
+#include <kmimetype.h>
 #include "kpixmapcache.h"
 
 

@@ -24,7 +24,6 @@
 
 #include <kbookmark.h>
 #include <kdebug.h>
-#include <kded_instance.h>
 #include <kio_job.h>
 #include <kio_openwith.h>
 #include <kio_paste.h>
@@ -32,7 +31,7 @@
 #include <kpixmapcache.h>
 #include <kprotocolmanager.h>
 #include <krun.h>
-#include <kservices.h>
+#include <kservice.h>
 #include <ktrader.h>
 #include <kurl.h>
 #include <kuserprofile.h>
@@ -266,9 +265,8 @@ KonqPopupMenu::KonqPopupMenu( KFileItemList items,
   if ( !m_sMimeType.isNull() ) // common mimetype among all URLs ?
   {
     // Query the trader for offers associated to this mimetype
-    KTrader* trader = KdedInstance::self()->ktrader();
        
-    KTrader::OfferList offers = trader->query( m_sMimeType );
+    KTrader::OfferList offers = KTrader::self()->query( m_sMimeType );
 
     QValueList<KDEDesktopMimeType::Service> builtin;
     QValueList<KDEDesktopMimeType::Service> user;

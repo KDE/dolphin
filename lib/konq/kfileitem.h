@@ -30,8 +30,8 @@
 #include <qlist.h>
 #include <kio_interface.h>
 #include <kurl.h>
+#include <kmimetype.h>
 
-class KMimeType;
 class QPixmap;
 
 class KFileItem : public KIO
@@ -193,7 +193,7 @@ protected:
   /**
    * The mimetype of the file
    */
-  KMimeType* m_pMimeType;
+  KMimeType::Ptr m_pMimeType;
 
 private:
   /**

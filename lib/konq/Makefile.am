@@ -16,11 +16,11 @@
 #    the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
 #    Boston, MA 02111-1307, USA.
 
-INCLUDES = $(all_includes) $(MICO_INCLUDES)
+INCLUDES = $(all_includes)
 
 lib_LTLIBRARIES = libkonq.la
 libkonq_la_LDFLAGS = $(all_libraries) -version-info 3:0
-libkonq_la_LIBADD = -lkded $(LIB_KFILE)
+libkonq_la_LIBADD = $(LIB_KFILE)
 
 libkonq_la_SOURCES = kbookmarkmenu.cc kbookmark.cc knewmenu.cc konqpopupmenu.cc \
 	kpropsdlg.cc \

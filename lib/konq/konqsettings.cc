@@ -26,7 +26,7 @@
 
 KonqSettings * KonqSettings::s_pSettings[] = { 0L, 0L, 0L };
 
-static char * s_sGroupName[] = { "HTML Settings", "HTML Settings", "Desktop Settings" };
+static const char * s_sGroupName[] = { "HTML Settings", "HTML Settings", "Desktop Settings" };
 // TODO : update second group name to FM Settings if we decide to have
 // a separate icon/html config
 // (but then has to be done in kcmkonq of course)

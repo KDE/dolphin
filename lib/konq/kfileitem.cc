@@ -26,7 +26,7 @@
 
 #include "kfileitem.h"
 
-#include <kmimetypes.h>
+#include <kmimetype.h>
 #include <kpixmapcache.h>
 #include <klocale.h>
 #include <krun.h>
@@ -51,7 +51,7 @@ KFileItem::KFileItem( const KUDSEntry& _entry, KURL& _url ) :
     else if ( (*it).m_uds == UDS_URL )
       m_url = KURL((*it).m_str);
     else if ( (*it).m_uds == UDS_MIME_TYPE )
-      m_pMimeType = KMimeType::find((*it).m_str);
+      m_pMimeType = KMimeType::mimeType((*it).m_str);
     else if ( (*it).m_uds == UDS_LINK_DEST )
       m_bLink = !(*it).m_str.isEmpty(); // we don't store the link dest
   }

@@ -60,9 +60,9 @@
 #include <kglobal.h>
 #include <kstddirs.h>
 #include <kfiledialog.h>
-#include <kmimetypes.h>
+#include <kmimetype.h>
 #include <kmessagebox.h>
-#include <kservices.h>
+#include <kservice.h>
 #include <kfileitem.h> // for encodeFileName
 
 #include "kpropsdlg.h"
@@ -1377,9 +1377,10 @@ ApplicationPropsPage::ApplicationPropsPage( PropertiesDialog *_props ) : PropsPa
     addMimeType( "alldirs" );
     addMimeType( "allfiles" );
 
-    QDictIterator<KMimeType> it2 ( KMimeType::mimeTypes() );
-    for ( ; it2.current(); ++it2 )
-        addMimeType ( it2.currentKey() );
+    KMimeType::List mimeTypes = KMimeType::allMimeTypes();
+    QValueListIterator<KMimeType::Ptr> it2 = mimeTypes.begin();
+    for ( ; it2 != mimeTypes.end(); ++it2 )
+        addMimeType ( (*it2)->name() );
 }
 
 void ApplicationPropsPage::addMimeType( const char * name )
@@ -1562,10 +1563,11 @@ BindingPropsPage::BindingPropsPage( PropertiesDialog *_props ) : PropsPage( _pro
     QStringList applist;
     QString currApp;
     appBox->insertItem( i18n("<none>") );
-    QListIterator<KService> it ( KService::services() );
-    for ( ; it.current(); ++it )
+    KService::List services = KService::allServices();
+    QValueListIterator<KService::Ptr> it = services.begin();
+    for ( ; it != services.end(); ++it )
     {
-	currApp = it.current()->name();
+	currApp = (*it)->name();
 
 	// list every app only once
 	if ( applist.find( currApp ) == applist.end() ) {

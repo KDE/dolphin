@@ -40,8 +40,8 @@
 #include <kdebug.h>
 #include <kmessagebox.h>
 
-#include "kmimetypes.h"
-#include "kpixmapcache.h"
+#include <kmimetype.h>
+#include <kpixmapcache.h>
 #include "kfileitem.h"
 
 /**
