@@ -935,6 +935,12 @@ void KonqKfmIconView::slotRedirection( const KURL & url )
     emit m_extension->setLocationBarURL( url.prettyURL() );
 }
 
+void KonqKfmIconView::slotCloseView()
+{
+    kdDebug() << "KonqKfmIconView::slotCloseView, deleting icon view" << endl;
+    delete this;
+}
+
 static QString displayString(int items, int files, long size, int dirs)
 {
     QString text;
@@ -1085,6 +1091,8 @@ bool KonqKfmIconView::openURL( const KURL & url )
 			  this, SLOT( slotRefreshItems( const KFileItemList& ) ) );
 	QObject::connect( m_dirLister, SIGNAL( redirection( const KURL & ) ),
                           this, SLOT( slotRedirection( const KURL & ) ) );
+	QObject::connect( m_dirLister, SIGNAL( closeView() ),
+                          this, SLOT( slotCloseView() ) );
     }
 
     m_bLoading = true;

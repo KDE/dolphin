@@ -648,6 +648,7 @@ void KonqBaseListViewWidget::slotOpenURLRequest()
 
 void KonqBaseListViewWidget::slotRightButtonPressed( QListViewItem *, const QPoint &_global, int )
 {
+  kdDebug(1202) << "KonqBaseListViewWidget::slotRightButtonPressed" << endl;
   popupMenu( _global );
 }
 
@@ -734,7 +735,9 @@ bool KonqBaseListViewWidget::openURL( const KURL &url )
                         this, SLOT( slotRefreshItems( const KFileItemList & ) ) );
       QObject::connect( m_dirLister, SIGNAL( redirection( const KURL & ) ),
                         this, SLOT( slotRedirection( const KURL & ) ) );
-   }
+      QObject::connect( m_dirLister, SIGNAL( closeView() ),
+                        this, SLOT( slotCloseView() ) );
+  }
 
    // The first time or new protocol ? So create the columns first
    kdDebug(1202) << "protocol in ::openURL: -" << url.protocol()<<"- url: -"<<url.path()<<"-"<<endl;
@@ -853,6 +856,11 @@ void KonqBaseListViewWidget::slotRefreshItems( const KFileItemList & entries )
 void KonqBaseListViewWidget::slotRedirection( const KURL & url )
 {
     emit m_pBrowserView->extension()->setLocationBarURL( url.prettyURL() );
+}
+
+void KonqBaseListViewWidget::slotCloseView()
+{
+  delete m_pBrowserView;
 }
 
 KonqBaseListViewWidget::iterator& KonqBaseListViewWidget::iterator::operator++()

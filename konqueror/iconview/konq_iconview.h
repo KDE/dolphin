@@ -116,6 +116,7 @@ protected slots:
   void slotRefreshItems( const KFileItemList& );
   void slotClear();
   void slotRedirection( const KURL & );
+  void slotCloseView();
 
   //void slotTotalFiles( int, unsigned long files );
 

@@ -143,6 +143,7 @@ class KonqBaseListViewWidget : public KListView
       virtual void slotDeleteItem( KFileItem * );
       virtual void slotRefreshItems( const KFileItemList & );
       virtual void slotRedirection( const KURL & );
+      virtual void slotCloseView();
 
    protected:
       //creates the listview columns according to confColumns
