@@ -326,6 +326,7 @@ void KDirLister::slotUpdateFinished( int /*_id*/ )
   
   m_buffer.clear();
 
+  emit update();
   emit completed();
 }
 
