@@ -36,7 +36,6 @@
 
 #include <kdebug.h>
 #include <kfm.h>
-#include <kfmclient_ipc.h>
 #include <kprocess.h>
 #include <kmsgbox.h>
 
