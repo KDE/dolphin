@@ -3047,7 +3047,7 @@ void KonqMainWindow::initActions()
   // Append the old konqueror tab-keys to the new defaults
   m_psNextTab = new KShortcut(KStdAccel::tabNext());
   m_psNextTab->append(KKey(CTRL+Key_BracketRight));
-  m_psPrevTab = new KShortcut(KStdAccel::tabLast());
+  m_psPrevTab = new KShortcut(KStdAccel::tabPrev());
   m_psPrevTab->append(KKey(CTRL+Key_BracketLeft));
 
   m_paActivateNextTab = new KAction( i18n( "Activate Next Tab" ), "tab_next", *m_psNextTab, this, SLOT( slotActivateNextTab() ), actionCollection(), "activatenexttab" );
