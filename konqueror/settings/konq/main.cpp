@@ -131,7 +131,9 @@ KDesktopModule::KDesktopModule(QWidget *parent, const char *name)
 {
   KConfig *config = new KConfig("kdesktoprc", false, false);
 
+  QVBoxLayout *layout = new QVBoxLayout(this);
   tab = new QTabWidget(this);
+  layout->addWidget(tab);
 
   root = new KRootOptions(config, this);
   tab->addTab(root, i18n("&Desktop"));
