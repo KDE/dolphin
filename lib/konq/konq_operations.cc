@@ -234,6 +234,7 @@ void KonqOperations::doDrop( const KonqFileItem * destItem, const KURL & dest, Q
         if( lst.count() == 0 )
         {
             kdWarning(1203) << "Oooops, no data ...." << endl;
+            ev->accept(false);
             return;
         }
         // Check if we dropped something on itself
@@ -247,6 +248,8 @@ void KonqOperations::doDrop( const KonqFileItem * destItem, const KURL & dest, Q
                 // Note: ev->source() can be 0L! (in case of kdesktop) (Simon)
                 if ( !ev->source() || ev->source() != parent && ev->source()->parent() != parent )
                     KMessageBox::sorry( parent, i18n("You can't drop a directory on itself") );
+                kdDebug(1203) << "Dropped on itself" << endl;
+                ev->accept(false);
                 return; // do nothing instead of displaying kfm's annoying error box
             }
         }
@@ -280,8 +283,7 @@ void KonqOperations::doDrop( const KonqFileItem * destItem, const KURL & dest, Q
             op->_statURL( dest, op, SLOT( asyncDrop( const KFileItem * ) ) );
         }
 
-        ev->acceptAction(TRUE);
-        ev->accept();
+        ev->acceptAction();
     }
     else
     {
@@ -307,6 +309,7 @@ void KonqOperations::doDrop( const KonqFileItem * destItem, const KURL & dest, Q
 
             KIO::pasteData( dest, data );
         }
+        ev->acceptAction();
     }
 }
 
