@@ -75,7 +75,7 @@ void KNewMenu::fillMenu()
 
     int i = 2;
     QStringList::Iterator templ = templatesList->begin(); // skip 'Folder'
-    for ( ++templ; templ != templatesList->end(); ++templ)
+    for ( ++templ; templ != templatesList->end(); ++templ, ++i)
     {
         KSimpleConfig config(KUserPaths::templatesPath() + *templ, true);
         config.setDesktopGroup();
@@ -105,7 +105,7 @@ void KNewMenu::fillMenu()
         if ( !bSkip )
         {
           KAction * act = new KAction( name, 0, this, SLOT( slotNewFile() ),
-                                       m_actionCollection, QString("newmenu%1").arg( i++ ) );
+                                       m_actionCollection, QString("newmenu%1").arg( i ) );
           act->plug( popupMenu() );
         }
     }
@@ -164,6 +164,8 @@ void KNewMenu::slotNewFile()
       }
       if ( KDesktopFile::isDesktopFile( x ) )
       {
+debug(x);
+debug("is desktop file !");
           QStringList::Iterator it = popupFiles.begin();
           for ( ; it != popupFiles.end(); ++it )
           {
