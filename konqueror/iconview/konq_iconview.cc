@@ -195,18 +195,18 @@ KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const 
     m_paDotFiles = new KToggleAction( i18n( "Show &Hidden Files" ), 0, this, SLOT( slotShowDot() ),
                                       actionCollection(), "show_dot" );
     m_paDotFiles->setStatusText( i18n( "Toggle displaying of hidden dot files" ) );
-	
-	m_paDirectoryOverlays = new KToggleAction( i18n( "&Folder Icons Reflect Contents" ), 0, this, SLOT( slotShowDirectoryOverlays() ),
+
+    m_paDirectoryOverlays = new KToggleAction( i18n( "&Folder Icons Reflect Contents" ), 0, this, SLOT( slotShowDirectoryOverlays() ),
                                       actionCollection(), "show_directory_overlays" );
 
     m_pamPreview = new KActionMenu( i18n( "Preview" ), actionCollection(), "iconview_preview" );
-    
-    m_paEnablePreviews = new KToggleAction( i18n("Show Previews"), 0, actionCollection(), "all" );
+
+    m_paEnablePreviews = new KToggleAction( i18n("Show Previews"), 0, actionCollection(), "iconview_preview_all" );
     connect( m_paEnablePreviews, SIGNAL( toggled( bool ) ), this, SLOT( slotPreview( bool ) ) );
-    //m_paEnablePreviews->setIcon("thumbnail");
-    m_pamPreview->insert( m_paEnablePreviews );    
-    m_pamPreview->insert( new KActionSeparator );   
-    
+    m_paEnablePreviews->setIcon("thumbnail");
+    m_pamPreview->insert( m_paEnablePreviews );
+    m_pamPreview->insert( new KActionSeparator );
+
     KTrader::OfferList plugins = KTrader::self()->query( "ThumbCreator" );
     for ( KTrader::OfferList::ConstIterator it = plugins.begin(); it != plugins.end(); ++it )
     {
@@ -371,7 +371,7 @@ const KFileItem * KonqKfmIconView::currentItem()
 void KonqKfmIconView::slotPreview( bool toggle )
 {
     QCString name = sender()->name(); // e.g. clipartthumbnail (or audio/, special case)
-    if (name == "all")
+    if (name == "iconview_preview_all")
     {
         m_pProps->setShowingPreview( toggle );
         if ( !toggle )

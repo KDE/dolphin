@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="KonqIconView" version="7">
+<kpartgui name="KonqIconView" version="8">
 <MenuBar>
  <Menu name="edit"><text>&amp;Edit</text>
   <Action name="select"/>
@@ -38,5 +38,8 @@
 <ToolBar name="mainToolBar"><text>Iconview Toolbar</text>
  <Action name="incIconSize" />
  <Action name="decIconSize" />
+</ToolBar>
+<ToolBar name="extraToolBar"><text>Iconview Extra Toolbar</text>
+ <Action name="iconview_preview_all" />
 </ToolBar>
 </kpartgui>
