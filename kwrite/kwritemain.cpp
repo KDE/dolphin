@@ -73,7 +73,6 @@ KWrite::KWrite (KTextEditor::Document *doc)
     : m_kateView(0),
       m_recentFiles(0),
       m_paShowPath(0),
-//      m_paShowToolBar(0),
       m_paShowStatusBar(0)
 {
   setMinimumSize(200,200);
@@ -81,11 +80,12 @@ KWrite::KWrite (KTextEditor::Document *doc)
   if (!initialGeometrySet())
      resize(640,400);
 
-  if (!doc) {
+  if (!doc)
+  {
     doc=KTextEditor::EditorChooser::createDocument(this,"KTextEditor::Document");
-//    doc = KTextEditor::createDocument ("katepart", this, "KTextEditor::Document");//libqeditorpart"); //katepart");
     docList.append(doc);
   }
+
   setupEditWidget(doc);
   setupActions();
   setupStatusBar();
@@ -246,7 +246,7 @@ void KWrite::slotOpen()
     Kate::FileDialog *dialog = new Kate::FileDialog (QString::null,KTextEditor::encodingInterface(m_kateView->document())->encoding(), this, i18n ("Open File"));
     Kate::FileDialogData data = dialog->exec ();
     delete dialog;
-    
+
     for (KURL::List::Iterator i=data.urls.begin(); i != data.urls.end(); ++i)
     {
       encoding = data.encoding;
@@ -294,14 +294,6 @@ void KWrite::newView()
   t->readConfig();
   t->init();
 }
-
-/*void KWrite::toggleToolBar()
-{
-  if( m_paShowToolBar->isChecked() )
-    toolBar("mainToolBar")->show();
-  else
-    toolBar("mainToolBar")->hide();
-}*/
 
 void KWrite::toggleStatusBar()
 {
@@ -628,7 +620,8 @@ int main(int argc, char **argv)
                 text.append( line + "\n" );
             } while( !line.isNull() );
 
-            Kate::Document *doc = static_cast<Kate::Document *>(t->kateView()->document()->qt_cast( "Kate::Document" ));
+
+            KTextEditor::EditInterface *doc = KTextEditor::editInterface (t->kateView()->document());
             if( doc ) {
                 doc->setText( text );
             }

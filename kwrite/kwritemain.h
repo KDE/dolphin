@@ -41,7 +41,7 @@ class KWrite : public KParts::MainWindow
     void init(); //initialize caption, status and show
 
     void loadURL(const KURL &url);
-    
+
     KTextEditor::View *kateView() const { return m_kateView; }
 
   private:
@@ -58,7 +58,6 @@ class KWrite : public KParts::MainWindow
     KTextEditor::View * m_kateView;
     KRecentFilesAction * m_recentFiles;
     KToggleAction * m_paShowPath;
-//    KToggleAction * m_paShowToolBar;
     KToggleAction * m_paShowStatusBar;
 
   public slots:
@@ -67,7 +66,6 @@ class KWrite : public KParts::MainWindow
     void slotOpen();
     void slotOpen( const KURL& url);
     void newView();
-//    void toggleToolBar();
     void toggleStatusBar();
     void editKeys();
     void editToolbars();
@@ -97,16 +95,16 @@ class KWrite : public KParts::MainWindow
 
   //session management
   public:
-    void restore(KConfig *,int);     
+    void restore(KConfig *,int);
     static void restore();
 
   private:
     virtual void readProperties(KConfig *);
     virtual void saveProperties(KConfig *);
     virtual void saveGlobalProperties(KConfig *);
-		
+
   private:
-    QString encoding;    
+    QString encoding;
     static QPtrList<KTextEditor::Document> docList;
 };
 
