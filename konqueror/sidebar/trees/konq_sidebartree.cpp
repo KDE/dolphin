@@ -110,8 +110,6 @@ KonqSidebarTree::KonqSidebarTree( KonqSidebar_Tree *parent, QWidget *parentWidge
              this, SLOT( slotDoubleClicked( QListViewItem * ) ) );
     connect( this, SIGNAL( mouseButtonPressed(int, QListViewItem*, const QPoint&, int)),
              this, SLOT( slotMouseButtonPressed(int, QListViewItem*, const QPoint&, int)) );
-    connect( this, SIGNAL( clicked( QListViewItem * ) ),
-             this, SLOT( slotExecuted( QListViewItem * ) ) );
     connect( this, SIGNAL( returnPressed( QListViewItem * ) ),
              this, SLOT( slotDoubleClicked( QListViewItem * ) ) );
     connect( this, SIGNAL( selectionChanged() ),
@@ -141,7 +139,7 @@ KonqSidebarTree::KonqSidebarTree( KonqSidebar_Tree *parent, QWidget *parentWidge
     m_dirtreeDir.type=virt;
     // Initial parsing
     rescanConfiguration();
-  
+
     if (firstChild())
     {
       m_bOpeningFirstChild = true;
@@ -361,13 +359,20 @@ void KonqSidebarTree::slotMouseButtonPressed(int _button, QListViewItem* _item, 
 {
     KonqSidebarTreeItem * item = static_cast<KonqSidebarTreeItem*>(_item);
     if(_item && col < 2)
-        if (_button == MidButton)
+    {
+        switch( _button ) {
+        case LeftButton:
+            slotExecuted( item );
+            break;
+        case MidButton:
             item->middleButtonPressed();
-        else if (_button == RightButton)
-        {
+            break;
+        case RightButton:
             item->setSelected( true );
             item->rightButtonPressed();
+            break;
         }
+    }
 }
 
 void KonqSidebarTree::slotAutoOpenFolder()
