@@ -2,6 +2,9 @@
 Name=FTP Servers
 Name[cs]=FTP servery
 Name[da]=FTP Servere
+Name[fi]=FTP-palvelimet
 Name[hu]=FTP Kiszolgálók
+Name[no]=FTP-tjenere
+Name[no_NY]=FTP-tjenere
 Icon=ftp
 
