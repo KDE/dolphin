@@ -29,7 +29,7 @@
 
 #include <view.h>
 #include <kbookmarkmenu.h>
-#include "KonqMainViewIface.h"
+#include <dcopobject.h>
 
 class QAction;
 class KAction;
@@ -47,10 +47,11 @@ class KonqComboAction;
 struct HistoryEntry;
 
 class KonqMainView : public View,
-                     virtual public KonqMainViewIface,
-                     virtual public KBookmarkOwner
+                     virtual public KBookmarkOwner,
+                     public DCOPObject
 {
   Q_OBJECT
+  K_DCOP
 public:
   KonqMainView( KonqPart *part, QWidget *parent = 0, const char *name = 0 );
   ~KonqMainView();
@@ -106,9 +107,11 @@ public slots:
   void slotSetStatusBarText( const QString &text );
 
 public:
+k_dcop:
 
-  virtual void configure(); // implemented from KonqMainViewIface
+  virtual void configure();
 
+public:
   bool openView( QString serviceType, QString _url, KonqChildView *childView );
 
   void setActiveView( BrowserView *view );

@@ -16,7 +16,7 @@ servicetype_DATA = konq_plugin.desktop
 
 METASOURCES = AUTO
 
-include_HEADERS = KonquerorIface.h KonqMainViewIface.h
+include_HEADERS = KonquerorIface.h
 
 libkonqueror_la_SOURCES = konq_mainview.cc konq_part.cc konq_shell.cc \
 			  konq_run.cc konq_childview.cc konq_viewmgr.cc \
@@ -35,7 +35,7 @@ kbrowser.moc.cc: $(kde_includes)/kbrowser.h
 
 bin_PROGRAMS = konqueror
 
-konqueror_SOURCES = konq_main.cc KonquerorIface.skel KonqMainViewIface.skel
+konqueror_SOURCES = konq_main.cc KonquerorIface.skel konq_mainview.skel
 konqueror_LDFLAGS = $(KDE_RPATH) $(all_libraries)
 konqueror_LDADD = libkonqueror.la $(LIB_KIMGIO)
 
@@ -45,7 +45,7 @@ messages:
 
 check_PROGRAMS = linktest
 #using $(konqueror_SOURCES) below doesn't work (am_edit)
-linktest_SOURCES = konq_main.cc KonquerorIface.skel KonqMainViewIface.skel
+linktest_SOURCES = konq_main.cc KonquerorIface.skel konq_mainview.skel
 linktest_LDADD = $(lib_LTLIBRARIES) \
 	$(top_builddir)/konqueror/htmlview/libkonqhtmlview.la \
 	$(top_builddir)/konqueror/iconview/libkonqiconview.la \
