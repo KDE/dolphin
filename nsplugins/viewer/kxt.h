@@ -32,6 +32,9 @@ public:
     KXtApplication(Display*, int& argc, char** argv, const QCString& rAppName,
                    bool allowStyles=true, bool GUIenabled=true);
     ~KXtApplication();
+
+private slots:
+   void timeout();
 };
 
 class KXtWidget : public QWidget {

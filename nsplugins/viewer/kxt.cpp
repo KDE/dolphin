@@ -44,6 +44,7 @@
 #include <qobjcoll.h>
 #include <qwidcoll.h>
 #include <kdebug.h>
+#include <qtimer.h>
 
 #include "kxt.h"
 
@@ -251,6 +252,13 @@ void np_event_proc( XEvent* e )
     }
 }
 
+
+static void timerCallback(void *client_data, XtIntervalId *id)
+{
+  ((XtTimerCallbackProc)qt_np_timeout)(client_data, id);
+}
+
+
 static void np_set_timer( int interval )
 {
     // Ensure we only have one timeout in progress - QApplication is
@@ -259,7 +267,8 @@ static void np_set_timer( int interval )
 	XtRemoveTimeOut( qt_np_timerid );
     }
     qt_np_timerid = XtAppAddTimeOut(appcon, interval,
-	(XtTimerCallbackProc)qt_np_timeout, 0);
+    	(XtTimerCallbackProc)timerCallback, 0);
+//	(XtTimerCallbackProc)qt_np_timeout, 0);
 }
 
 static void np_do_timers( void*, void* )
@@ -356,6 +365,14 @@ void KXtApplication::init()
     qt_np_add_timer_setter(np_set_timer);
     qt_np_add_event_proc(np_event_proc);
     qt_np_count++;
+    QTimer *timer = new QTimer( this );
+    timer->start(500);
+}
+
+
+/* without this timer the timer handling seems to fail */
+void KXtApplication::timeout()
+{
 }
 
 
