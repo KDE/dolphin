@@ -33,6 +33,8 @@ public:
   void setProgressMsg(const QString &);
 
 private:
+  void closeEvent(QCloseEvent *);
+  /*Return a QStringList of all subdirs of d*/
   QStringList getAllSubdirs(QDir d);
 
 public slots:
@@ -52,7 +54,6 @@ signals:
   void resultSelected(bool);
 
 private:
-  void closeEvent(QCloseEvent *);
   KfindTabWidget *tabWidget;
   KfindWindow * win;
   KAboutApplication * aboutWin;
@@ -61,8 +62,9 @@ private:
   KQuery *query;
   KStatusBar *mStatusBar;
   KDirLister *dirlister;
+  //If true, disable dirlister's newItems slot...
   bool searching;
-//  QStringList directories;
+  int depth;
 };
 
 #endif

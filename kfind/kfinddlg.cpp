@@ -130,23 +130,17 @@ void KfindDlg::startSearch()
   enableButton(User2, true); // Enable "Stop"
   enableButton(User3, false); // Disable "Save..."
 
-  setStatusMsg(i18n("Preparing search..."));
-  
   dirlister->openURL(query->url());
 
   //Getting a list of all subdirs
   if(tabWidget->isSearchRecursive())
   {
+    depth=0;
     QStringList subdirs=getAllSubdirs(query->url().path());
-    //getAllSubdirs(query->url().path());
-    //QStringList subdirs=directories;
     for(QStringList::Iterator it = subdirs.begin(); it != subdirs.end(); ++it)
-    {
-      kdDebug()<<QString("Listening%1").arg(*it)<<endl;
       dirlister->openURL(KURL(*it),true);
-    }
   }
-
+  
   searching=true;
   win->beginSearch(query->url());
   tabWidget->beginSearch();
@@ -200,8 +194,6 @@ void KfindDlg::slotResult(int errorCode)
   enableButton(User2, false); // Disable "Stop"
   enableButton(User3, true); // Enable "Save..."
 
-  connect(dirlister, SIGNAL( newItems ( const KFileItemList& )), this, SLOT(slotNewItems( const KFileItemList& )));
-
   win->endSearch();
   tabWidget->endSearch();
   setFocus();
@@ -249,7 +241,7 @@ void KfindDlg::slotDeleteItem(KFileItem* item)
   iter=win->firstChild();
   while( iter ) {
     iterwithpath=query->url().path(+1)+iter->text(1)+iter->text(0);
-    kdDebug()<<QString("iterwithpath: %1").arg(iterwithpath)<<endl;
+
     if(iterwithpath==item->url().path())
     {
       win->takeItem(iter);
@@ -261,8 +253,6 @@ void KfindDlg::slotDeleteItem(KFileItem* item)
 
 void KfindDlg::slotNewItems( const KFileItemList& items )
 {
-  kdDebug()<<QString("Will try to add some items")<<endl;
-  
   if(searching)
     return;
     
@@ -276,8 +266,7 @@ void KfindDlg::slotNewItems( const KFileItemList& items )
   
   while(iter.current()!=0)
   {
-    iterwithpath=iter.current()->url().path();
-    kdDebug()<<QString("Processed: %1 SearchDir= %2").arg(iterwithpath).arg(query->url().path(+1))<<endl;
+    iterwithpath=iter.current()->url().path(+1);
     if(iterwithpath.find(query->url().path(+1))==0)
     {
       kdDebug()<<QString("Can be added, path OK")<<endl;
@@ -310,21 +299,20 @@ QStringList KfindDlg::getAllSubdirs(QDir d)
 {
   QStringList dirs;
   QStringList subdirs;
-  d.setFilter( QDir::Dirs );
 
-  //kdDebug()<<QString("Searching for subdirs in%1").arg(d.path())<<endl;
-  
+  if(depth>50)//otherwise, it's too slow
+    return NULL;
+    
+  d.setFilter( QDir::Dirs );
   dirs = d.entryList();
 
   for(QStringList::Iterator it = dirs.begin(); it != dirs.end(); ++it)
   {
     if((*it==".")||(*it==".."))
       continue;
-    //kdDebug()<<QString("Found this subdir:%1").arg(d.path()+"/"+*it)<<endl;
     subdirs.append(d.path()+"/"+*it);
+    depth++;
     subdirs+=getAllSubdirs(d.path()+"/"+*it);
-    //directories.append(d.path()+"/"+*it);
-    //getAllSubdirs(d.path()+"/"+*it);
   }
 
   return subdirs;
