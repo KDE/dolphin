@@ -161,7 +161,7 @@ void KFMExec::slotRunApp()
 	times[i++] = buff.st_mtime;
     }
 
-    kdDebug() << "EXEC '" << debugString(command) << "'" << endl;
+    kdDebug() << "EXEC '" << command << "'" << endl;
 
     system( command );
 

@@ -64,7 +64,7 @@ void KonqRun::foundMimeType( const QString & _type )
 
 void KonqRun::scanFile()
 {
-  // WABA: We directly do a get for http. 
+  // WABA: We directly do a get for http.
   // There is no compelling reason not to do use this with other protocols
   // as well, but only http has been tested so far.
   if (m_strURL.protocol() != "http")
@@ -84,7 +84,7 @@ void KonqRun::scanFile()
       // Found something - can we trust it ? (see mimetypeFastMode)
       if ( KProtocolManager::self().mimetypeFastMode( m_strURL.protocol(), mime->name() ) )
       {
-        kdDebug(1202) << "Scanfile: MIME TYPE is " << debugString(mime->name()) << endl;
+        kdDebug(1202) << "Scanfile: MIME TYPE is " << mime->name() << endl;
         foundMimeType( mime->name() );
         return;
       }
@@ -96,13 +96,13 @@ void KonqRun::scanFile()
            this, SLOT( slotKonqScanFinished(KIO::Job *)));
   connect( job, SIGNAL( mimetype( KIO::Job *, const QString &)),
            this, SLOT( slotKonqMimetype(KIO::Job *, const QString &)));
-  m_job = job;  
+  m_job = job;
 }
 
 void KonqRun::slotKonqScanFinished(KIO::Job *job)
 {
   kdDebug(1202) << "slotKonqScanFinished" << endl;
-  KRun::slotScanFinished(job);  
+  KRun::slotScanFinished(job);
 }
 
 void KonqRun::slotKonqMimetype(KIO::Job *, const QString &type)
@@ -110,7 +110,7 @@ void KonqRun::slotKonqMimetype(KIO::Job *, const QString &type)
   kdDebug(1202) << "slotKonqMimetype" << endl;
 
   KIO::SimpleJob *job = (KIO::SimpleJob *) m_job;
-   
+
   job->putOnHold();
   m_job = 0;
 
