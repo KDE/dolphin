@@ -450,22 +450,21 @@ void KonqMainWindow::openURL( KonqView *_view, const KURL &_url,
   }
 
   KonqView *view = _view;
-  KConfig *config = KGlobal::config();
-  KConfigGroupSaver cs( config, QString::fromLatin1("FMSettings") );
-  bool newTabsinFront= config->readBoolEntry( "NewTabsInFront", true );
   if ( !view  && !req.newTab )
     view = m_currentView; /* Note, this can be 0L, e.g. on startup */
   else if ( !view && req.newTab ) {
+    KConfig *config = KGlobal::config();
+    KConfigGroupSaver cs( config, QString::fromLatin1("FMSettings") );
     bool openAfterCurrentPage = config->readBoolEntry( "OpenAfterCurrentPage", false );
     view = m_pViewManager->addTab(QString::null,
                                   QString::null,
                                   false,
                                   openAfterCurrentPage);
     view->frame()->setTitle( _url.host() , 0L);
-  }
 
-  if ( newTabsinFront )
-    m_pViewManager->showTab( view );
+    if ( req.newTabInFront )
+      m_pViewManager->showTab( view );
+  }
 
   if ( view )
   {
