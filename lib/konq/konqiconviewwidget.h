@@ -100,6 +100,7 @@ protected:
  */
 class IconEditExtension : public EditExtension
 {
+  friend class KonqKfmIconView; //HACK
   Q_OBJECT
 public:
   IconEditExtension( KonqIconViewWidget *iconView );
