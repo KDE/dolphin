@@ -720,8 +720,8 @@ bool Sidebar_Widget::createView( ButtonInfo *data)
         connect(this,         SIGNAL(fileSelection(const KFileItemList&)),
                 data->module, SLOT(openPreview(const KFileItemList&)));
 
-        connect(this,         SIGNAL(fileMouseOver(const KFileItem*)),
-                data->module, SLOT(openPreviewOnMouseOver(const KFileItem*)));
+        connect(this,         SIGNAL(fileMouseOver(const KFileItem&)),
+                data->module, SLOT(openPreviewOnMouseOver(const KFileItem&)));
 
 			}
 
@@ -1022,7 +1022,10 @@ void Sidebar_Widget::customEvent(QCustomEvent* ev)
 		emit fileSelection(static_cast<KonqFileSelectionEvent*>(ev)->selection());
   else if (KonqFileMouseOverEvent::test(ev))
   {
-		emit fileMouseOver(static_cast<KonqFileMouseOverEvent*>(ev)->item());
+		if (!(static_cast<KonqFileMouseOverEvent*>(ev)->item())) 
+			emit fileMouseOver(KFileItem(KURL(),QString::null,KFileItem::Unknown));
+		else
+		emit fileMouseOver(*static_cast<KonqFileMouseOverEvent*>(ev)->item());
   }
 
 }

@@ -42,7 +42,7 @@ class KonqSidebarPlugin : public QObject
 	protected:
 		virtual void handleURL(const KURL &url)=0;
 		virtual void handlePreview(const KFileItemList & items);
-		virtual void handlePreviewOnMouseOver(const KFileItem *items); //not used yet, perhaps in KDE 3.1
+		virtual void handlePreviewOnMouseOver(const KFileItem &items); //not used yet, perhaps in KDE 3.1
 		QString desktopName;
 		KInstance* m_parentInstance;
 
@@ -59,7 +59,7 @@ class KonqSidebarPlugin : public QObject
 
 	  void openPreview(const KFileItemList& items);
 
-	  void openPreviewOnMouseOver(const KFileItem* item); // not used yet, perhaps KDE 3.1
+	  void openPreviewOnMouseOver(const KFileItem& item); // not used yet, perhaps KDE 3.1
 	/*
 		if your plugin supports a setup dialog, instead (replaces the url menu entry in the popup) (not supported yet)
 			void setup(QWidget *parent);
