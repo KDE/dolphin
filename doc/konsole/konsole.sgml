@@ -26,6 +26,18 @@ emulation means, that it's task is to provide a display
 to an application that is originally designed to run on a computer
 with a character terminal attached.
 <p>
+To give a short taxonomy of free X terminals, there' two other
+of this kind: xterm, which is the original, written even before X
+itself (a month or two), and xvt, a light-wight xterm clone, on
+which most other currently available derivates (notably eterm)
+base. After a decade, konsole is the first rewrite from ground up.
+While xterm has definitely been hacked to death meanwhile (it's
+README starts with the words "Abandon All Hope, Ye Who Enter Here"),
+konsole offers a fresh start using contemporary technologies and
+understanding of X.
+
+<sect>Overview
+<p>
 When invoked, konsole starts this client application (which is
 the shell by default) and displays all the clients output in it's
 window while forwarding key presses and mouse clicks to the client.
@@ -35,6 +47,7 @@ application that actually runs in it. There are only a few
 special features that konsole adds to this. These additional
 features are not uncommon, so much of the following description
 applies to any decent terminal emulation.
+<p>
 
 <itemize>
 <item>History Buffer
@@ -46,17 +59,17 @@ in the buffer, one can look at it and copy it partially or entirely
 to the clipboard.
 
 <item>Keyboard
-  <p>
-  The Cntl-PageUp and Cntl-PageDown keys are used to scroll through
-  the history buffer. All other keystrokes are passed on to the 
-  application run within the emulation. Note that their might be
-  some dead keys.
+<p>
+The Cntl-PageUp and Cntl-PageDown keys are used to scroll through
+the history buffer. All other keystrokes are passed on to the 
+application run within the emulation. Note that their might be
+some dead keys.
 
 <item>Mouse
-  <p>
-  You need a three button mouse to make full use of the terminal.
-  The buttons have different functions:
-  <p>
+<p>
+You need a three button mouse to make full use of the terminal.
+The buttons have different functions:
+<p>
   <itemize>
   <item>Left button
     <p>
@@ -94,8 +107,21 @@ to the clipboard.
 
   <item>Right Button
     <p>
-    The right button brings up the configuration menu.
+    The right button brings up the configuration menu. Additionally,
+    the shift and the control key may be uses with this button to
+    get access to other parts of the menu.
   </itemize>
+
+<item>Sessions
+<p>
+Konsole offers to run several sessions (programs) at once. New sessions
+can be started using the "New"-menu. One can switch between sessions
+with the "Sessions"-menu. Both menus are available as right mouse button
+menus, too, when pression the shift or the control key as modifiers.
+<p>
+The session menu can be freely configured due to the local needs.
+(A section explaining how is missing, see /opt/kde/share/apps/konsole
+for some examples.)
 
 </itemize>
 
@@ -114,7 +140,7 @@ on konsole's window with the right mouse button.
    <p>
 <item>Frame
    <p>
-  Draws a border.
+  Selects whether a decorating border is to be drawn.
    <p>
 <item>Scrollbar
    <p>
@@ -124,19 +150,29 @@ on konsole's window with the right mouse button.
    <p>
 <item>Font
    <p>
-   not written yet.
-   <p>
-<item>Color
-   <p>
-   not written yet.
+   The font menu offers two completely different adjustments.
+   First, a collection of fonts of different sizes given, so
+   that a font that matches both the resolution and the prefered
+   window size can be chosen. Second, there is one additional
+   "Linux" font, that is different from all the above by it's
+   encoding. One needs to have this font set when running a
+   linux console emulation.
    <p>
 <item>Size
    <p>
-   not written yet.
+   While the size of the window is freely adjustable by the regular
+   means, it may sometimes be desireable to set the size of konsole
+   window to match the requierements of old, size unaware programs.
+   The size menu offeres the most often used sizes. If non of them
+   match, resize the screen due to your needs. When the size is
+   changed, konsole displays it in the title to help with the
+   adjustment.
    <p>
-<item>Background
+<item>Color Schema
    <p>
-   not written yet.
+   This option allows one to select a color schema.
+   (A section explaining how is missing, see /opt/kde/share/apps/konsole
+   for some examples.)
    <p>
 </itemize>
 <p>
@@ -211,6 +247,10 @@ Some programs have flaws when run under a X console.
     pretty certain that mc's sub shell handling causes this effect.
 </itemize>
 
+<item> Resizing does not work well when running under linux console emulation.
+    Especially, mc does not forward the resize information to the subshell.
+    It is not mouse aware then any longer, too.
+   
 <sect2>vim 4.6
 <p>
 <itemize>
@@ -223,7 +263,8 @@ Some programs have flaws when run under a X console.
 <itemize>
 
 <item> assumes black background. So turn to white-on-black color scheme
-    when using it.
+    when using it. When run under the linux console emulation, it does
+    not cope well with resize events (segfault).
 </itemize>
 
 
@@ -278,33 +319,15 @@ Some programs have flaws when run under a X console.
   character). X11 is known to have these dead keys.
 
 
-<sect1>Color Scheme and Font Attributes
+<sect1>Color Scheme
 <p>
-<itemize>
-<item> The colors have been chosen to match VGA, that is the
-    appearance of the Linux character console. Therefore,
-    the colors are gamma-corrected a little and appear more
-    dim then the colors of xterm.
-
-<item> Dark yellow is brown for the same reason.
-
-<item> Apparently, not emulation used with Linux does carefully
-    distinguishes between the BOLD and the INTENSIVE attribute.
-    The later does not even exists. Thus, while bold means
-    intensive on VT100 terminals, it is treated as a font
-    attribute by xterm and rxvt. For strange reasons, both
-    applications really treat bold as meaning bold+intensive.
-    I found that looks weird, and hacked around it so that bold
-    means intensive for all but the default colors, which are
-    instead presented bold (and cannot be intensified).
-    Although the rendition function is well able to handle
-    bold and intensive separately, it appears that no agreed-on
-    escape codes exists, that could be used to take these two
-    orthogonal attributes apart. (I'm working on this.)
-</itemize>
-
+  Because of a storm of complaints about the color scheme,
+  konsole offers configurable color schemes in it's latest
+  versions. A proper document on them is still missing.
 
 <sect1>Fonts
+<p>
+(Slightly outdated, check README.linux.console)
 <p>
 <itemize>
 <item> the VGA font uses a different encoding then the other ones,
@@ -333,38 +356,6 @@ Some programs have flaws when run under a X console.
   and konsole does not fchown(2) the pseudo tty.
 
 
-<sect1>Problems compiling the distribution<label id="probPack">
-<p>
-Due to the fact that this (and all other packages) are produced as
-daily snapshots to provide you with the most actual developer's version,
-you might well experience that konsole does not compile right out of
-the box because a peer program or the package configuration material
-itself is temporarily broken. Here is a workaround to compile konsole
-in this cases:
-<itemize>
-<item>if configure works
-<verb>
-  $ cd konsole
-  $ make
-  $ make install
-</verb>
-<item>if configure fails or you've downloaded konsole alone from cvs:
-<verb>
-  $ cd konsole
-  $ rm * (just keep the directories)
-  $ mv config/var/Makefile.am.aside config/var/Makefile.am
-  $ [evtl. remove (recursively) all CVS directories from config]
-  $ cp config/var/Makefile.cvs .
-  $ edit src/Makefile.am:
-    change: TOPDIR=$(top_srcdir)/konsole
-        to: TOPDIR=$(top_srcdir)
-  $ make -f Makefile.cvs
-  $ configure
-  $ make
-  $ make install
-</verb>
-</itemize>
-
 <sect1>Known bugs (konsole-0.8.6)
 <p>
 <itemize>
@@ -372,9 +363,6 @@ in this cases:
   set. This truly reflects, what i receive from Qt. All the keys
   come in as #ffff. Think this comes from the eventFilter i had to
   install to get the key-presses.
-
-<item> The decision when to put lines into the history is sometimes not
-  ideal.
 
 <item> check TODO for "bugs" due to missing features, also.
 </itemize>
