@@ -19,8 +19,8 @@
 #include "pluginopts.moc"
 
 KPluginOptions::KPluginOptions( KConfig* config, QString group, QWidget *parent,
-                            const char *name )
-    : KCModule( parent, name ),
+                            const char *)
+    : KCModule( parent, "kcmkonqhtml" ),
       m_pConfig( config ),
       m_groupname( group )
 {
