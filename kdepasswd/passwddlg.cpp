@@ -6,10 +6,8 @@
  * Copyright (C) 2000 Geert Jansen <jansen@kde.org>
  */
 
-#include <qstring.h>
 #include <klocale.h>
 #include <kmessagebox.h>
-#include <kdebug.h>
 
 #include "passwd.h"
 #include "passwddlg.h"

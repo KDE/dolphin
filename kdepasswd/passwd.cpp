@@ -21,12 +21,9 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 
-#include <qcstring.h>
 
 #include <kdebug.h>
-#include <kstddirs.h>
 
-#include <kdesu/process.h>
 #include "passwd.h"
 
 
