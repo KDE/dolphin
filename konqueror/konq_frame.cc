@@ -79,6 +79,7 @@ KonqFrameStatusBar::KonqFrameStatusBar( KonqFrame *_parent, const char *_name )
    m_yOffset=(h-13)/2;
 
    m_pPassiveModeCheckBox->setGeometry(20,m_yOffset,13,13);
+   m_pPassiveModeCheckBox->setFocusPolicy(NoFocus);
    statusLabel.setGeometry(40,0,50,h);
 
    connect(m_pPassiveModeCheckBox,SIGNAL(toggled(bool)),this,SIGNAL(passiveModeChange(bool)));
