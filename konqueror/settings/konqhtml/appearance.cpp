@@ -46,33 +46,27 @@ KAppearanceOptions::KAppearanceOptions(KConfig *config, QString group, QWidget *
   int r = 0;
   int E = 0, M = 2, W = 4; //CT 3 (instead 2) allows smaller color buttons
 
-  QButtonGroup *bg = new QButtonGroup( 1, QGroupBox::Vertical,
-                                       i18n("Font Si&ze"), this );
-  lay->addMultiCellWidget(bg, r, r, E, W);
+  QGroupBox* gb = new QGroupBox( 1, QGroupBox::Horizontal, i18n("Font Si&ze"), this );
+  lay->addMultiCellWidget(gb, r, r, E, W);
 
-  QWhatsThis::add( bg, i18n("This is the relative font size Konqueror uses to display web sites.") );
+  QWhatsThis::add( gb, i18n("This is the relative font size Konqueror uses to display web sites.") );
 
-  bg->setExclusive( TRUE );
-  connect(bg, SIGNAL(clicked(int)), this, SLOT(changed()));
+  m_minSize = new KIntNumInput( fMinSize, gb );
+  m_minSize->setLabel( i18n( "M&inimum Font Size" ) );
+  m_minSize->setRange( 1, 20 );
+  connect( m_minSize, SIGNAL( valueChanged( int ) ), this, SLOT( slotMinimumFontSize( int ) ) );
+  connect( m_minSize, SIGNAL( valueChanged( int ) ), this, SLOT( changed() ) );
+  QWhatsThis::add( m_minSize, i18n( "Konqueror will never display text smaller than "
+                                    "this size,<br>overwriting any other settings" ) );
 
-  m_pXSmall = new QRadioButton( i18n("&Tiny"), bg );
-  m_pSmall = new QRadioButton( i18n("&Small"), bg );
-  m_pMedium = new QRadioButton( i18n("&Medium"), bg );
-  m_pLarge = new QRadioButton( i18n("&Large"), bg );
-  m_pXLarge = new QRadioButton( i18n("&Huge"), bg );
-
-  QLabel* minSizeLA = new QLabel( i18n( "M&inimum Font Size" ), this );
-  r++;
-  lay->addMultiCellWidget( minSizeLA, r, r, E , E+1 );
-
-  minSizeSB = new QSpinBox( this );
-  minSizeLA->setBuddy( minSizeSB );
-  connect( minSizeSB, SIGNAL( valueChanged( int ) ),
-	   this, SLOT( slotMinimumFontSize( int ) ) );
-  connect( minSizeSB, SIGNAL( valueChanged( int ) ),
-	   this, SLOT( changed() ) );
-  lay->addWidget( minSizeSB, r, M );
-  QWhatsThis::add( minSizeSB, i18n( "Konqueror will never display text smaller than this size,<br> no matter the web site settings" ) );
+  m_MedSize = new KIntNumInput( m_minSize, fSize, gb );
+  m_MedSize->setLabel( i18n( "Medium Font Size" ) );
+  m_MedSize->setRange( 4, 28 );
+  connect( m_MedSize, SIGNAL( valueChanged( int ) ), this, SLOT( slotFontSize( int ) ) );
+  connect( m_MedSize, SIGNAL( valueChanged( int ) ), this, SLOT( changed() ) );
+  QWhatsThis::add( m_MedSize,
+                   i18n("This is the relative font size Konqueror uses "
+                        "to display web sites.") );
 
   QLabel *chsetLA = new QLabel( i18n("Charset:"), this );
   ++r;
@@ -88,97 +82,97 @@ KAppearanceOptions::KAppearanceOptions(KConfig *config, QString group, QWidget *
   QLabel* label = new QLabel( i18n("S&tandard Font"), this );
   lay->addWidget( label , ++r, E+1);
 
-  m_pStandard = new KFontCombo( this );
-  label->setBuddy( m_pStandard );
-  lay->addMultiCellWidget(m_pStandard, r, r, M, W);
+  m_pFonts[0] = new KFontCombo( this );
+  label->setBuddy( m_pFonts[0] );
+  lay->addMultiCellWidget(m_pFonts[0], r, r, M, W);
 
   wtstr = i18n("This is the font used to display normal text in a web page.");
   QWhatsThis::add( label, wtstr );
-  QWhatsThis::add( m_pStandard, wtstr );
+  QWhatsThis::add( m_pFonts[0], wtstr );
 
-  connect( m_pStandard, SIGNAL( activated(const QString&) ),
+  connect( m_pFonts[0], SIGNAL( activated(const QString&) ),
 	   SLOT( slotStandardFont(const QString&) ) );
-  connect( m_pStandard, SIGNAL( activated(const QString&) ),
+  connect( m_pFonts[0], SIGNAL( activated(const QString&) ),
 	   SLOT(changed() ) );
 
   label = new QLabel( i18n( "&Fixed Font"), this );
   lay->addWidget( label, ++r, E+1 );
 
-  m_pFixed = new KFontCombo( this );
-  label->setBuddy( m_pFixed );
-  lay->addMultiCellWidget(m_pFixed, r, r, M, W);
+  m_pFonts[1] = new KFontCombo( this );
+  label->setBuddy( m_pFonts[1] );
+  lay->addMultiCellWidget(m_pFonts[1], r, r, M, W);
 
   wtstr = i18n("This is the font used to display fixed-width (i.e. non-proportional) text.");
   QWhatsThis::add( label, wtstr );
-  QWhatsThis::add( m_pFixed, wtstr );
+  QWhatsThis::add( m_pFonts[1], wtstr );
 
-  connect( m_pFixed, SIGNAL( activated(const QString&) ),
+  connect( m_pFonts[1], SIGNAL( activated(const QString&) ),
 	   SLOT( slotFixedFont(const QString&) ) );
-  connect( m_pFixed, SIGNAL( activated(const QString&) ),
+  connect( m_pFonts[1], SIGNAL( activated(const QString&) ),
 	   SLOT(changed() ) );
 
   label = new QLabel( i18n( "S&erif Font" ), this );
   lay->addWidget( label, ++r, E+1 );
 
-  m_pSerif = new KFontCombo( this );
-  label->setBuddy( m_pSerif );
-  lay->addMultiCellWidget( m_pSerif, r, r, M, W );
+  m_pFonts[2] = new KFontCombo( this );
+  label->setBuddy( m_pFonts[2] );
+  lay->addMultiCellWidget( m_pFonts[2], r, r, M, W );
 
   wtstr= i18n( "This is the font used to display text that is marked up as serif." );
   QWhatsThis::add( label, wtstr );
-  QWhatsThis::add( m_pSerif, wtstr );
+  QWhatsThis::add( m_pFonts[2], wtstr );
 
-  connect( m_pSerif, SIGNAL( activated( const QString& ) ),
+  connect( m_pFonts[2], SIGNAL( activated( const QString& ) ),
 	   SLOT( slotSerifFont( const QString& ) ) );
-  connect( m_pSerif, SIGNAL( activated( const QString& ) ),
+  connect( m_pFonts[2], SIGNAL( activated( const QString& ) ),
 	   SLOT( changed() ) );
 
   label = new QLabel( i18n( "S&ans Serif Font" ), this );
   lay->addWidget( label, ++r, E+1 );
 
-  m_pSansSerif = new KFontCombo( this );
-  label->setBuddy( m_pSansSerif );
-  lay->addMultiCellWidget( m_pSansSerif, r, r, M, W );
+  m_pFonts[3] = new KFontCombo( this );
+  label->setBuddy( m_pFonts[3] );
+  lay->addMultiCellWidget( m_pFonts[3], r, r, M, W );
 
   wtstr= i18n( "This is the font used to display text that is marked up as sans-serif." );
   QWhatsThis::add( label, wtstr );
-  QWhatsThis::add( m_pSansSerif, wtstr );
+  QWhatsThis::add( m_pFonts[3], wtstr );
 
-  connect( m_pSansSerif, SIGNAL( activated( const QString& ) ),
+  connect( m_pFonts[3], SIGNAL( activated( const QString& ) ),
 	   SLOT( slotSansSerifFont( const QString& ) ) );
-  connect( m_pSansSerif, SIGNAL( activated( const QString& ) ),
+  connect( m_pFonts[3], SIGNAL( activated( const QString& ) ),
 	   SLOT( changed() ) );
 
   label = new QLabel( i18n( "&Cursive Font" ), this );
   lay->addWidget( label, ++r, E+1 );
 
-  m_pCursive = new KFontCombo( this );
-  label->setBuddy( m_pCursive );
-  lay->addMultiCellWidget( m_pCursive, r, r, M, W );
+  m_pFonts[4] = new KFontCombo( this );
+  label->setBuddy( m_pFonts[4] );
+  lay->addMultiCellWidget( m_pFonts[4], r, r, M, W );
 
   wtstr= i18n( "This is the font used to display text that is marked up as italic." );
   QWhatsThis::add( label, wtstr );
-  QWhatsThis::add( m_pCursive, wtstr );
+  QWhatsThis::add( m_pFonts[4], wtstr );
 
-  connect( m_pCursive, SIGNAL( activated( const QString& ) ),
+  connect( m_pFonts[4], SIGNAL( activated( const QString& ) ),
 	   SLOT( slotCursiveFont( const QString& ) ) );
-  connect( m_pCursive, SIGNAL( activated( const QString& ) ),
+  connect( m_pFonts[4], SIGNAL( activated( const QString& ) ),
 	   SLOT( changed() ) );
 
   label = new QLabel( i18n( "Fantas&y Font" ), this );
   lay->addWidget( label, ++r, E+1 );
 
-  m_pFantasy = new KFontCombo( this );
-  label->setBuddy( m_pFantasy );
-  lay->addMultiCellWidget( m_pFantasy, r, r, M, W );
+  m_pFonts[5] = new KFontCombo( this );
+  label->setBuddy( m_pFonts[5] );
+  lay->addMultiCellWidget( m_pFonts[5], r, r, M, W );
 
   wtstr= i18n( "This is the font used to display text that is marked up as a fantasy font." );
   QWhatsThis::add( label, wtstr );
-  QWhatsThis::add( m_pFantasy, wtstr );
+  QWhatsThis::add( m_pFonts[5], wtstr );
 
-  connect( m_pFantasy, SIGNAL( activated( const QString& ) ),
+  connect( m_pFonts[5], SIGNAL( activated( const QString& ) ),
 	   SLOT( slotFantasyFont( const QString& ) ) );
-  connect( m_pFantasy, SIGNAL( activated( const QString& ) ),
+  connect( m_pFonts[5], SIGNAL( activated( const QString& ) ),
 	   SLOT( changed() ) );
 
   label = new QLabel( i18n( "Font size adjustment for this encoding:" ), this );
@@ -214,21 +208,31 @@ KAppearanceOptions::KAppearanceOptions(KConfig *config, QString group, QWidget *
   connect( m_pEncoding, SIGNAL( activated(const QString& ) ),
 	   SLOT(changed() ) );
 
-  connect( bg, SIGNAL( clicked( int ) ), SLOT( slotFontSize( int ) ) );
+//  connect( bg, SIGNAL( clicked( int ) ), SLOT( slotFontSize( int ) ) );
 
   r++; lay->setRowStretch(r, 8);
+
+
   load();
 }
 
 void KAppearanceOptions::slotFontSize( int i )
 {
-    fSize = i - 1;
+    fSize = i;
+    if ( fSize < fMinSize ) {
+        m_minSize->setValue( fSize );
+        fMinSize = fSize;
+    }
 }
 
 
 void KAppearanceOptions::slotMinimumFontSize( int i )
 {
-  fMinSize = i;
+    fMinSize = i;
+    if ( fMinSize > fSize ) {
+        m_MedSize->setValue( fMinSize );
+        fSize = fMinSize;
+    }
 }
 
 
@@ -287,7 +291,7 @@ void KAppearanceOptions::slotCharset( const QString &n )
 void KAppearanceOptions::load()
 {
     m_pConfig->setGroup(m_groupname);
-    fSize = m_pConfig->readNumEntry( "FontSize", 1 ); // medium
+    fSize = m_pConfig->readNumEntry( "MediumFontSize", 12 );
     fMinSize = m_pConfig->readNumEntry( "MinimumFontSize", HTML_DEFAULT_MIN_FONT_SIZE );
 
     defaultFonts = QStringList();
@@ -309,6 +313,8 @@ void KAppearanceOptions::load()
     }
     charset = chSets[0];
     encodingName = m_pConfig->readEntry( "DefaultEncoding", "" );
+    enforceCharset = m_pConfig->readBoolEntry( "EnforceDefaultCharset", true );
+
     //kdDebug(0) << "encoding = " << encodingName << endl;
 
     updateGUI();
@@ -316,9 +322,10 @@ void KAppearanceOptions::load()
 
 void KAppearanceOptions::defaults()
 {
-  fSize = 1; // medium
+  fSize = 12;
   fMinSize = HTML_DEFAULT_MIN_FONT_SIZE;
   encodingName = "";
+  enforceCharset = true;
   defaultFonts.clear();
   defaultFonts.append( KGlobalSettings::generalFont().family() );
   defaultFonts.append( KGlobalSettings::fixedFont().family() );
@@ -344,77 +351,49 @@ void KAppearanceOptions::updateGUI()
 	fonts = defaultFonts;
     }
 
+
     KCharsets *s = KGlobal::charsets();
-    //kdDebug() << s->xNameToID( charset ) << endl;
-    QStringList families = s->availableFamilies( s->xNameToID( charset ) );
-    families.sort();
+    m_families = s->availableFamilies( s->xNameToID( charset ) );
+    m_families.sort();
 
-    m_pStandard->setFonts( families );
-    i = 0;
-    for ( QStringList::Iterator sit = families.begin(); sit != families.end(); ++sit, i++ ) {
-        if ( fonts[0] == *sit )
-            m_pStandard->setCurrentItem( i );
-    }
+    m_pFonts[0]->setFonts( m_families );
+    m_pFonts[1]->setFonts( m_families );
+    m_pFonts[2]->setFonts( m_families );
+    m_pFonts[3]->setFonts( m_families );
+    m_pFonts[4]->setFonts( m_families );
+    m_pFonts[5]->setFonts( m_families );
 
-    m_pFixed->setFonts( families );
-    i = 0;
-    for ( QStringList::Iterator sit = families.begin(); sit != families.end(); ++sit, i++ ) {
-        if ( fonts[1] == *sit )
-            m_pFixed->setCurrentItem( i );
-    }
+    for ( int f = 0; f < 6; f++ ) {
+        QString cf = defaultFonts[f];
+        QString ff = fonts[f].lower();
 
-    m_pSerif->setFonts( families );
-    i = 0;
-    for ( QStringList::Iterator sit = families.begin(); sit != families.end(); ++sit, i++ ) {
-        if ( fonts[2] == *sit )
-            m_pSerif->setCurrentItem( i );
-    }
+        for ( QStringList::Iterator sit = m_families.begin(); sit != m_families.end(); ++sit, i++ )
+            if ( ( *sit ).lower() == ff )
+                cf = *sit;
 
-    m_pSansSerif->setFonts( families );
-    i = 0;
-    for ( QStringList::Iterator sit = families.begin(); sit != families.end(); ++sit, i++ ) {
-        if ( fonts[3] == *sit )
-            m_pSansSerif->setCurrentItem( i );
-    }
-
-    m_pCursive->setFonts( families );
-    i = 0;
-    for ( QStringList::Iterator sit = families.begin(); sit != families.end(); ++sit, i++ ) {
-        if ( fonts[4] == *sit )
-            m_pCursive->setCurrentItem( i );
-    }
-
-    m_pFantasy->setFonts( families );
-    i = 0;
-    for ( QStringList::Iterator sit = families.begin(); sit != families.end(); ++sit, i++ ) {
-        if ( fonts[5] == *sit )
-            m_pFantasy->setCurrentItem( i );
+        i = 0;
+        for ( QStringList::Iterator sit = m_families.begin(); sit != m_families.end(); ++sit, i++ ) {
+            if ( cf == *sit )
+                m_pFonts[f]->setCurrentItem( i );
+        }
     }
 
     i = 0;
     for ( QStringList::Iterator it = encodings.begin(); it != encodings.end(); ++it, ++i )
-    {
         if ( encodingName == *it )
             m_pEncoding->setCurrentItem( i );
-    }
-    
+
     m_pFontSizeAdjust->setValue( fonts[6].toInt() );
-
-    m_pXSmall->setChecked( fSize == -1 );
-    m_pSmall->setChecked( fSize == 0 );
-    m_pMedium->setChecked( fSize == 1 );
-    m_pLarge->setChecked( fSize == 2 );
-    m_pXLarge->setChecked( fSize == 3 );
-
-	minSizeSB->setValue( fMinSize );
+    m_MedSize->setValue( fSize );
+    m_minSize->setValue( fMinSize );
 }
 
 void KAppearanceOptions::save()
 {
     fontsForCharset[charset] = fonts;
-    
+
     m_pConfig->setGroup(m_groupname);
-    m_pConfig->writeEntry( "FontSize", fSize );
+    m_pConfig->writeEntry( "MediumFontSize", fSize );
     m_pConfig->writeEntry( "MinimumFontSize", fMinSize );
 
     QMap<QString, QStringList>::Iterator it;
@@ -423,14 +402,13 @@ void KAppearanceOptions::save()
 	//kdDebug() << "         "<< it.data().join(",") << endl;
 	m_pConfig->writeEntry( it.key(), it.data() );
     }
-    
+
     // If the user chose "Use language encoding", write an empty string
     if (encodingName == i18n("Use language encoding"))
         encodingName = "";
     m_pConfig->writeEntry( "DefaultEncoding", encodingName );
+    m_pConfig->writeEntry( "EnforceDefaultCharset", enforceCharset );
     m_pConfig->sync();
-
-
 }
 
 

@@ -1,3 +1,4 @@
+// -*- c-basic-offset: 2 -*-
 // (c) Martin R. Jones 1996
 // (c) Bernd Wuebben 1998
 // KControl port & modifications
@@ -36,8 +37,8 @@ public slots:
   void slotCursiveFont( const QString& n );
   void slotFantasyFont( const QString& n );
   void slotEncoding( const QString& n);
-    void slotCharset( const QString &n );
-    void slotFontSizeAdjust( int value );
+  void slotCharset( const QString &n );
+  void slotFontSizeAdjust( int value );
     
 private slots:
   void changed();
@@ -49,33 +50,27 @@ private:
 
   KConfig *m_pConfig;
   QString m_groupname;
+  QStringList m_families;
 
-  QRadioButton* m_pXSmall;
-  QRadioButton* m_pSmall;
-  QRadioButton* m_pMedium;
-  QRadioButton* m_pLarge;
-  QRadioButton* m_pXLarge;
-  QSpinBox* minSizeSB;
-  KFontCombo* m_pFixed;
-  KFontCombo* m_pStandard;
-  KFontCombo* m_pSerif;
-  KFontCombo* m_pSansSerif;
-  KFontCombo* m_pCursive;
-  KFontCombo* m_pFantasy;
+  KIntNumInput* m_minSize;
+  KIntNumInput* m_MedSize;
+  KIntNumInput* m_pageDPI;
+  KFontCombo* m_pFonts[6];
   QComboBox* m_pEncoding;
   QComboBox* m_pChset;
 
-    QSpinBox *m_pFontSizeAdjust;
-    
+  QSpinBox *m_pFontSizeAdjust;
+
+  bool enforceCharset;
   int fSize;
   int fMinSize;
-    QMap<QString, QStringList> fontsForCharset;
+  QMap<QString, QStringList> fontsForCharset;
   QStringList encodings;
   QStringList chSets;
-    QString charset;
-    QStringList fonts;
-    QStringList defaultFonts;
-    QString encodingName;
+  QString charset;
+  QStringList fonts;
+  QStringList defaultFonts;
+  QString encodingName;
 };
 
 #endif // __APPEARANCE_H__
