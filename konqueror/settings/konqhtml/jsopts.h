@@ -50,7 +50,7 @@ private:
   QString m_groupname;
   QCheckBox *enableJavaScriptGloballyCB;
   QCheckBox *disableWindowOpenCB;
-  QCheckBox *enableDebugOutputCB;
+//  QCheckBox *enableDebugOutputCB;
 
   //bool bJavaScriptGlobal;
 

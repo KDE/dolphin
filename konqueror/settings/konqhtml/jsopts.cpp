@@ -130,16 +130,16 @@ KJavaScriptOptions::KJavaScriptOptions( KConfig* config, QString group, QWidget 
                                              "break certain sites that require <i>window.open()</i> for proper operation. Use this "
                                              "feature carefully!") );
   connect( disableWindowOpenCB, SIGNAL( clicked() ), this, SLOT( changed() ) );
-
+/*
   kdDebug() << "\"Show debugger window\" says: make me useful!" << endl;
   enableDebugOutputCB = new QCheckBox( i18n( "&Show debugger window" ), miscSettingsGB);
-  enableDebugOutputCB->setEnabled( false );
+  enableDebugOutputCB->hide();
 
   QWhatsThis::add( enableDebugOutputCB, i18n("Show a window with informations and warnings issued by the JavaScript interpreter. "
                                              "This is extremely useful for both debugging your own html pages and tracing down "
                                              "problems with Konquerors JavaScript support.") );
   connect( enableDebugOutputCB, SIGNAL( clicked() ), this, SLOT( changed() ) );
-
+*/
 
   // Finally do the loading
   load();
@@ -159,14 +159,14 @@ void KJavaScriptOptions::load()
     // *** apply to GUI ***
     enableJavaScriptGloballyCB->setChecked( m_pConfig->readBoolEntry("EnableJavaScript") );
     disableWindowOpenCB->setChecked( m_pConfig->readBoolEntry("DisableWindowOpen") );
-    enableDebugOutputCB->setChecked( m_pConfig->readBoolEntry("EnableJSDebugOutput") );
+  // enableDebugOutputCB->setChecked( m_pConfig->readBoolEntry("EnableJSDebugOutput") );
 }
 
 void KJavaScriptOptions::defaults()
 {
   enableJavaScriptGloballyCB->setChecked( false );
   disableWindowOpenCB->setChecked( false );
-  enableDebugOutputCB->setChecked( false );
+ // enableDebugOutputCB->setChecked( false );
 }
 
 void KJavaScriptOptions::save()
@@ -174,7 +174,7 @@ void KJavaScriptOptions::save()
     m_pConfig->setGroup(m_groupname);
     m_pConfig->writeEntry( "EnableJavaScript", enableJavaScriptGloballyCB->isChecked() );
     m_pConfig->writeEntry( "DisableWindowOpen", disableWindowOpenCB->isChecked() );
-    m_pConfig->writeEntry( "EnableJSDebugOutput", enableDebugOutputCB->isChecked() );
+//    m_pConfig->writeEntry( "EnableJSDebugOutput", enableDebugOutputCB->isChecked() );
 
     QStringList domainConfig;
     QListViewItemIterator it( domainSpecificLV );
