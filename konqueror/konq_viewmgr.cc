@@ -663,6 +663,9 @@ void KonqViewManager::removePart( KParts::Part * part )
   // This is called when a part auto-deletes itself (case 1), or when
   // the "delete view" above deletes, in turn, the part (case 2)
 
+  kdDebug(1202) << "Calling KParts::PartManager::removePart " << part << endl;
+  KParts::PartManager::removePart( part );
+
   // If we were called by PartManager::slotObjectDestroyed, then the inheritance has
   // been deleted already... Can't use inherits().
 
@@ -683,8 +686,6 @@ void KonqViewManager::removePart( KParts::Part * part )
         removeView( view );
   }
 
-  kdDebug(1202) << "Calling KParts::PartManager::removePart " << part << endl;
-  KParts::PartManager::removePart( part );
   kdDebug(1202) << "KonqViewManager::removePart ( " << part << " ) done" << endl;
 }
 
