@@ -511,11 +511,12 @@ KBookmark KEBTopLevel::selectedBookmark() const
 
 QPtrList<QListViewItem> * KEBTopLevel::selectedItems()
 {
-   // collect all selected items
+   // selection helper
    QPtrList<QListViewItem> *items = new QPtrList<QListViewItem>();
    for( QListViewItemIterator it(KEBTopLevel::self()->m_pListView); it.current(); it++ ) {
-      if ( it.current()->isSelected() ) {
-         items->append(it.current());
+      if (it.current()->isSelected()) {
+         if ( !it.current()->parent() || !it.current()->parent()->isSelected() ) 
+            items->append(it.current());
       }
    }
    return items;
@@ -523,11 +524,14 @@ QPtrList<QListViewItem> * KEBTopLevel::selectedItems()
 
 QPtrList<KBookmark>* KEBTopLevel::selectedBookmarks() const
 {
+   // selection helper
    QPtrList<KBookmark> *bookmarks = new QPtrList<KBookmark>();
    for( QListViewItemIterator it(m_pListView); it.current(); it++ ) {
-      if ( it.current()->isSelected() ) {
-         KEBListViewItem * kebItem = static_cast<KEBListViewItem *>(it.current());
-         bookmarks->append(&kebItem->bookmark());
+      if (it.current()->isSelected()) {
+         if ( !it.current()->parent() || !it.current()->parent()->isSelected() ) {
+            KEBListViewItem * kebItem = static_cast<KEBListViewItem *>(it.current());
+            bookmarks->append(&kebItem->bookmark());
+         }
       }
    }
    return bookmarks;
@@ -568,19 +572,6 @@ void KEBTopLevel::slotNewToolbarConfig() // This is called when OK or Apply is c
 
 void KEBTopLevel::updateSelection()
 {
-   // collect all selected items
-   for( QListViewItemIterator it(KEBTopLevel::self()->m_pListView); it.current(); it++ ) {
-      if ( it.current()->isSelected() ) {
-         QListViewItem* parent = it.current()->parent();
-         if (parent && parent->isSelected()) {
-            if (parent->isOpen()) {
-               parent->setSelected(false);
-            } else {
-               it.current()->setSelected(false);
-            }
-         }
-      }
-   }
    // AK - optimisation, make a selectedItems "cache"
 }
 
