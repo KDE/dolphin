@@ -183,8 +183,8 @@ void KonqChildView::connectView(  )
   connect( ext, SIGNAL( setLocationBarURL( const QString & ) ),
            m_pMainView, SLOT( slotSetLocationBarURL( const QString & ) ) );
 
-  connect( ext, SIGNAL( createNewWindow( const KURL & ) ),
-           m_pMainView, SLOT( slotCreateNewWindow( const KURL & ) ) );
+  connect( ext, SIGNAL( createNewWindow( const KURL &, KParts::URLArgs & ) ),
+           m_pMainView, SLOT( slotCreateNewWindow( const KURL &, KParts::URLArgs & ) ) );
 
   connect( ext, SIGNAL( loadingProgress( int ) ),
            this, SLOT( slotLoadingProgress( int ) ) );

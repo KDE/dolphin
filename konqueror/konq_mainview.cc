@@ -375,8 +375,9 @@ void KonqMainView::openURL( const KURL &url, const KParts::URLArgs &args )
   openURL( url, args.reload, args.xOffset, args.yOffset, args.serviceType );
 }
 
-void KonqMainView::slotCreateNewWindow( const KURL &url )
+void KonqMainView::slotCreateNewWindow( const KURL &url, const KParts::URLArgs &args )
 {
+  //FIXME: obey args (like passing post-data (to KRun), etc.)
   KonqFileManager::getFileManager()->openFileManagerWindow( url.url() );
 }
 

@@ -84,7 +84,7 @@ public slots:
 
   void openURL( const KURL &url, const KParts::URLArgs &args );
 
-  void slotCreateNewWindow( const KURL &url );
+  void slotCreateNewWindow( const KURL &url, const KParts::URLArgs &args );
 
   void slotNewWindow();
   void slotRun();
