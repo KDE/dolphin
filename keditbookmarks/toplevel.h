@@ -192,6 +192,7 @@ public slots:
     void slotConfigureToolbars();
     void slotTestLink();
     void slotTestAllLinks();
+    void slotCancelTest(TestLink *t);
     void slotCancelAllTests();
 
 protected slots:

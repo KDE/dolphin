@@ -47,8 +47,11 @@
 
 #include <favicons.h>
 
-KEBTopLevel * KEBTopLevel::s_topLevel = 0L;
-KBookmarkManager * KEBTopLevel::s_pManager = 0L;
+#define COL_NAME 0
+#define COL_URL  1 
+
+KEBTopLevel * KEBTopLevel::s_topLevel = 0;
+KBookmarkManager * KEBTopLevel::s_pManager = 0;
 
 KEBTopLevel::KEBTopLevel(const QString & bookmarksFile, bool readonly)
    : KMainWindow(), m_commandHistory(actionCollection()), m_dcopIface(0) 
@@ -208,8 +211,8 @@ void KEBTopLevel::initListView(bool firstTime)
 #endif
 
       m_pListView->setRootIsDecorated( true );
-      m_pListView->setRenameable( 0 );
-      m_pListView->setRenameable( 1 );
+      m_pListView->setRenameable( COL_NAME );
+      m_pListView->setRenameable( COL_URL );
 
       m_pListView->setSelectionModeExt( KListView::Extended );
       m_pListView->setDragEnabled( true );
@@ -265,7 +268,7 @@ void KEBTopLevel::connectSignals() {
 
 KEBTopLevel::~KEBTopLevel()
 {
-   s_topLevel = 0L;
+   s_topLevel = 0;
    if (m_dcopIface) {
       delete m_dcopIface;
    }
@@ -537,7 +540,7 @@ void KEBTopLevel::slotRename()
    QListViewItem* item = selectedItem();
    Q_ASSERT(item);
    if (item) {
-      m_pListView->rename(item, 0);
+      m_pListView->rename(item, COL_NAME);
    }
 }
 
@@ -546,7 +549,7 @@ void KEBTopLevel::slotChangeURL()
    QListViewItem* item = selectedItem();
    Q_ASSERT(item);
    if (item) {
-      m_pListView->rename(item, 1);
+      m_pListView->rename(item, COL_URL);
    }
 }
 
@@ -791,7 +794,7 @@ void KEBTopLevel::slotCopy()
    // This is not a command, because it can't be undone
    Q_ASSERT( numSelected() != 0 ); // really an ASSERT?
    QValueList<KBookmark> bookmarks = getBookmarkSelection();
-   KBookmarkDrag* data = KBookmarkDrag::newDrag( bookmarks, 0L /* not this ! */ );
+   KBookmarkDrag* data = KBookmarkDrag::newDrag( bookmarks, 0 /* not this ! */ );
 
    QClipboard *clipboard = QApplication::clipboard();
    bool oldMode = clipboard->selectionModeEnabled();
@@ -890,23 +893,29 @@ void KEBTopLevel::testBookmarks(QPtrList<KBookmark>* bks)
       KBookmark *bk = it.current();
       // AK - fixme!!!
       if (1) {
+         // AK - insert in position 0 and therefore backwards???
          tests.insert(0, new TestLink(*bk));
          actionCollection()->action("canceltests")->setEnabled( true );
       }
    }
 }
 
+// needed by the TestLink stuff
+void KEBTopLevel::slotCancelTest(TestLink *t)
+{
+   tests.removeRef(t);
+   delete t;
+   if (tests.count() == 0) {
+      actionCollection()->action("canceltests")->setEnabled( false );
+   }
+}
+
 void KEBTopLevel::slotCancelAllTests()
 {
    TestLink *t, *p;
-
    for (t = tests.first(); t != 0; t=p) {
       p = tests.next();
-      tests.removeRef(t);
-      delete t;
-      if (tests.count() == 0) {
-         actionCollection()->action("canceltests")->setEnabled( false );
-      }
+      slotCancelTest(t);
    }
 }
 
@@ -954,16 +963,16 @@ void KEBTopLevel::slotItemRenamed(QListViewItem * item, const QString & newText,
    Q_ASSERT(item);
    KBookmark bk = ITEM_TO_BK(item);
    switch (column) {
-      case 0:
+      case COL_NAME:
          if ( (bk.fullText() != newText) && !newText.isEmpty()) {
             RenameCommand * cmd = new RenameCommand( i18n("Renaming"), bk.address(), newText );
             m_commandHistory.addCommand( cmd );
 
          } else if(newText.isEmpty()) {
-            item->setText (0, bk.fullText() );
+            item->setText(COL_NAME, bk.fullText() );
          }
          break;
-      case 1:
+      case COL_URL:
          if (bk.url() != newText) {
             EditCommand * cmd = new EditCommand( i18n("URL Change"), bk.address(),
                                                  EditCommand::Edition("href", newText) );
@@ -1168,7 +1177,7 @@ void KEBTopLevel::fillListView()
 
 void KEBTopLevel::fillGroup(KEBListViewItem * parentItem, KBookmarkGroup group)
 {
-   KEBListViewItem * lastItem = 0L;
+   KEBListViewItem * lastItem = 0;
    for (KBookmark bk = group.first() ; !bk.isNull() ; bk = group.next(bk)) {
       //kdDebug() << "KEBTopLevel::fillGroup group=" << group.text() << " bk=" << bk.text() << endl;
       if (bk.isGroup()) {
@@ -1200,15 +1209,13 @@ bool KEBTopLevel::queryClose()
             return save();
          case KMessageBox::No :
             return true;
-         // case KMessageBox::Cancel :
+            // case KMessageBox::Cancel :
          default:
             return false;
       }
    }
    return true;
 }
-
-///////////////////
 
 void KEBTopLevel::slotCommandExecuted()
 {
