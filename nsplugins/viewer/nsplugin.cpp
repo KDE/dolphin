@@ -43,6 +43,7 @@
 #include <ktempfile.h>
 
 #include <X11/Intrinsic.h>
+#include <X11/Composite.h>
 #include <Xm/DrawingA.h>
 
 
@@ -66,13 +67,15 @@ NSPluginInstance::NSPluginInstance(NPP _privateData, NPPluginFuncs *pluginFuncs,
 
   String n, c;
   XtGetApplicationNameAndClass(qt_xdisplay(), &n, &c);
-  _toplevel = XtAppCreateShell("form", c, applicationShellWidgetClass, qt_xdisplay(), 0, 0);
+  _toplevel = XtAppCreateShell("shell", c, applicationShellWidgetClass, qt_xdisplay(), 0, 0);
   XtSetMappedWhenManaged(_toplevel, False);
   XtRealizeWidget(_toplevel);
+
+  _form = XtCreateManagedWidget("form", compositeWidgetClass, _toplevel, args, nargs);
+  XtRealizeWidget(_form);
         	
-  _area = XmCreateDrawingArea(_toplevel, "drawingArea", args, nargs);
+  _area = XmCreateDrawingArea(_form, "drawingArea", args, nargs);
   XtRealizeWidget(_area);
-  XtManageChild(_area);
   XtMapWidget(_area);
 
   setWindow();
@@ -87,6 +90,8 @@ NSPluginInstance::~NSPluginInstance()
 
   setWindow(true);
   XtDestroyWidget(_area);
+  XtDestroyWidget(_form);
+  XtDestroyWidget(_toplevel);
 
   return;
 }

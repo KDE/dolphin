@@ -141,7 +141,7 @@ private:
   KLibrary *_handle;
   NPPluginFuncs _pluginFuncs;
 
-  Widget   _area, _toplevel;
+  Widget   _area, _form, _toplevel;
 
   int _width, _height;
 };
