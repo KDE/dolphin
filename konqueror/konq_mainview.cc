@@ -561,7 +561,8 @@ bool KonqMainView::mappingCreateToolbar( OpenPartsUI::ToolBarFactory_ptr factory
   CORBA::WString_var text = Q2C( i18n("Location : ") );
   m_vLocationBar->insertTextLabel( text, -1, -1 );
 
-  m_vLocationBar->insertLined(0L, TOOLBAR_URL_ID, SIGNAL(returnPressed()), this, "slotURLEntered", true, i18n("Current Location"), 70, -1 );
+  toolTip = Q2C( i18n("Current Location") );
+  m_vLocationBar->insertLined(0L, TOOLBAR_URL_ID, SIGNAL(returnPressed()), this, "slotURLEntered", true, toolTip, 70, -1 );
   m_vLocationBar->setItemAutoSized( TOOLBAR_URL_ID, true );
   if ( m_currentView )
   {
@@ -671,7 +672,10 @@ void KonqMainView::setActiveView( OpenParts::Id id )
   setItemEnabled( m_vMenuGo, MGO_FORWARD_ID, m_currentView->canGoForward() );
 
   if ( !CORBA::is_nil( m_vLocationBar ) )
-    m_vLocationBar->setLinedText( TOOLBAR_URL_ID, m_currentView->locationBarURL().ascii() );
+  {
+    CORBA::WString_var text = Q2C( m_currentView->locationBarURL() );
+    m_vLocationBar->setLinedText( TOOLBAR_URL_ID, text );
+  }    
 
   m_currentView->emitEventViewMenu( m_vMenuView, true );
   if (previousView != 0L) // might be 0L e.g. if we just removed the current view
@@ -798,11 +802,13 @@ void KonqMainView::setLocationBarURL( OpenParts::Id id, const char *_url )
 {
   MapViews::Iterator it = m_mapViews.find( id );
   assert( it != m_mapViews.end() );
-  
+
+  CORBA::WString_var wurl = Q2C( QString( _url ) );
+    
   it.data()->setLocationBarURL( _url );
   
   if ( ( id == m_currentId ) && (!CORBA::is_nil( m_vLocationBar ) ) )
-    m_vLocationBar->setLinedText( TOOLBAR_URL_ID, _url );
+    m_vLocationBar->setLinedText( TOOLBAR_URL_ID, wurl );
 
   // hmm, not the right URL it seems. slotSetUpEnabled( _url, id );
 }
@@ -1205,8 +1211,8 @@ void KonqMainView::slotHelp()
 
 void KonqMainView::slotURLEntered()
 {
-  CORBA::String_var _url = m_vLocationBar->linedText( TOOLBAR_URL_ID );
-  QString url = _url.in();
+  CORBA::WString_var _url = m_vLocationBar->linedText( TOOLBAR_URL_ID );
+  QString url = C2Q( _url.in() );
 
   // Exit if the user did not enter an URL
   if ( url.isEmpty() )
@@ -1221,7 +1227,7 @@ void KonqMainView::slotURLEntered()
   else if ( url[0] == '~' )
   {
     QString tmp( QDir::homeDirPath() );
-    tmp += m_vLocationBar->linedText( TOOLBAR_URL_ID ) + 1;
+    tmp += C2Q( _url.in() ).remove( 0, 1 );
     KURL u( tmp );
     url = u.url();
   }
@@ -1244,7 +1250,7 @@ void KonqMainView::slotURLEntered()
   if ( u.isMalformed() )
   {
     string tmp = i18n("Malformed URL\n").ascii();
-    tmp += m_vLocationBar->linedText( TOOLBAR_URL_ID );
+    tmp += C2Q( _url.in() );
     QMessageBox::critical( (QWidget*)0L, i18n( "Error" ), tmp.c_str(), i18n( "OK" ) );
     return;
   }
