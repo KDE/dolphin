@@ -348,7 +348,7 @@ void Sidebar_Widget::buttonPopupActivate(int id)
 		case 2:
 		{
 			  bool okval;
-			  QString newurl=KLineEditDlg::getText(i18n("Enter a URL"), Buttons.at(popupFor)->URL,&okval,this);
+			  QString newurl=KLineEditDlg::getText(i18n("Enter a URL:"), Buttons.at(popupFor)->URL,&okval,this);
 			  if ((okval) && (!newurl.isEmpty()))
 				{
                                         KSimpleConfig ksc(PATH+Buttons.at(popupFor)->file);

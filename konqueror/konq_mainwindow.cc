@@ -3017,7 +3017,7 @@ void KonqMainWindow::initActions()
                   0, 0, actionCollection(), "toolbar_url_combo" );
   comboAction->setShortcutConfigurable( false );
   comboAction->setAutoSized( true );
-  (void)new KAction( i18n( "Clear location bar" ),
+  (void)new KAction( i18n( "Clear Location Bar" ),
                      QApplication::reverseLayout() ? "clear_left" : "locationbar_erase",
                      0, this, SLOT( slotClearLocationBar() ), actionCollection(), "clear_location" );
 

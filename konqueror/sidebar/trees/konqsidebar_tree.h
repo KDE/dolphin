@@ -54,7 +54,7 @@ class KonqSidebarTreeSelectionDialog : public KDialogBase
     			QWidget *page = new QWidget( this );
  			setMainWidget(page);
  			QVBoxLayout *topLayout = new QVBoxLayout( page, 0, spacingHint() );
-			QLabel *label = new QLabel( i18n("Select type"), page, "caption" );
+			QLabel *label = new QLabel( i18n("Select type:"), page, "caption" );
 			topLayout->addWidget( label );
 			cb=new QComboBox(page);
 			cb->setMinimumWidth(fontMetrics().maxWidth()*20);
