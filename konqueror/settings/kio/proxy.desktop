@@ -16,6 +16,7 @@ Name[el]=Διακομιστές proxy
 Name[eo]=Prokuriloj
 Name[es]=Proxys
 Name[et]=Proxy'd
+Name[eu]=Proxiak
 Name[fi]=Välityspalvelimet
 Name[gl]=Proxys
 Name[he]=םיכוותמ
@@ -82,7 +83,6 @@ Comment[tr]=Kullanmanız gereken vekil sunucuları buradan yapılandırınız
 Comment[uk]=Настройте проксі-сервери, що потрібні Вам для роботи (потрібні здебільшого, якщо Ви знаходитесь за firewall)
 Comment[zh_CN.GB2312]=配置您必须使用的代理服务 (通常当您在防火墙后面时需要)
 Comment[zh_TW.Big5]=設定任何你必須使用的代理伺服器(通常是你需要的□□□□□□如果你在防火牆之後)
-are behind a firewall)
 
 Keywords=Proxy,Proxy server,WWW,Internet,Browsing,HTTP,FTP,Network,Firewall,Cache,Ports,Size
 Keywords[ca]=Procuració,servidor de procuració,WWW,Internet,Navegació,HTTP,FTP,Xarxa,Tallafocs,Cau,Ports,Mida
