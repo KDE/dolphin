@@ -117,9 +117,10 @@ KWrite::KWrite (KTextEditor::Document *doc)
 KWrite::~KWrite()
 {
   if (m_kateView->document()->views().count() == 1)
-    docList.remove(m_kateView->document());
-    
-  delete m_kateView->document();
+  {
+    docList.remove(m_kateView->document()); 
+    delete m_kateView->document();
+  }
 }
 
 void KWrite::slotConfigure()
@@ -151,6 +152,9 @@ void KWrite::loadURL(const KURL &url)
 
 bool KWrite::queryClose()
 {
+  if (m_kateView->document()->views().count() > 1)
+    return true;
+
   if (m_kateView->document()->queryClose())
   {
     writeConfig();
@@ -208,15 +212,13 @@ void KWrite::setupActions()
   KStdAction::print(this, SLOT(printDlg()), actionCollection())->setWhatsThis(i18n("Use this command to print the current document"));
   KStdAction::openNew( this, SLOT(slotNew()), actionCollection(), "file_new" )->setWhatsThis(i18n("Use this command to create a new document"));
   KStdAction::open( this, SLOT( slotOpen() ), actionCollection(), "file_open" )->setWhatsThis(i18n("Use this command to open an existing document for editing"));
-//  m_recentFiles = KStdAction::openRecent(this, SLOT(slotOpen(const KURL&)),
-//                                        actionCollection());
 
   m_recentFiles = KStdAction::openRecent(this, SLOT(slotOpen(const KURL&)),
                                          actionCollection());
   m_recentFiles->setWhatsThis(i18n("This lists files which you have opened recently, and allows you to easily open them again."));
 
-  a=new KAction(i18n("New &View"), 0, this, SLOT(newView()),
-              actionCollection(), "file_newView");
+  a=new KAction(i18n("&New Window"), "window_new", 0, this, SLOT(newView()),
+              actionCollection(), "view_new_view");
   a->setWhatsThis(i18n("Create another view containing the current document"));
 
   a=new KAction(i18n("Choose Editor..."),0,this,SLOT(changeEditor()),
@@ -225,9 +227,7 @@ void KWrite::setupActions()
 
   KStdAction::quit(this, SLOT(close()), actionCollection())->setWhatsThis(i18n("Close the current document view"));
 
-
   // setup Settings menu
-  //m_paShowToolBar = KStdAction::showToolbar( this, SLOT( toggleToolBar() ), actionCollection(), "settings_show_toolbar" );
   setStandardToolBarMenuEnabled(true);
 
   m_paShowStatusBar = KStdAction::showStatusbar(this, SLOT(toggleStatusBar()), actionCollection(), "settings_show_statusbar");
