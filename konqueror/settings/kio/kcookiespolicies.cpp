@@ -4,17 +4,18 @@
 // This dialog box created by David Faure <faure@kde.org>
 
 #include <qlayout.h>
+#include <qcheckbox.h>
+#include <qgroupbox.h>
 #include <qwhatsthis.h>
+#include <qpushbutton.h>
+#include <qradiobutton.h>
+#include <qvbuttongroup.h>
 
-#include <kkeydialog.h> // for ksplitlist
-#include <kbuttonbox.h>
 #include <kmessagebox.h>
 #include <klistview.h>
-
 #include <klocale.h>
 #include <kapp.h>
 #include <kconfig.h>
-#include <kprocess.h>
 #include <kdebug.h>
 #include <ksimpleconfig.h>
 #include <dcopclient.h>
@@ -310,8 +311,7 @@ void KCookiesPolicies::load()
 
 void KCookiesPolicies::save()
 {
-  KSimpleConfig *cfg = new KSimpleConfig( "kcookiejarrc" );
-
+  KConfig *cfg = new KConfig( "kcookiejarrc" );
   cfg->setGroup( "Cookie Policy" );
 
   bool b_useCookies = cb_enableCookies->isChecked();

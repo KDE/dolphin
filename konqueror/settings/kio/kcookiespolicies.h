@@ -10,19 +10,19 @@
 #ifndef __KCOOKIESPOLICIES_H
 #define __KCOOKIESPOLICIES_H
 
-#include <qradiobutton.h>
-#include <qpushbutton.h>
-#include <qcheckbox.h>
-#include <qvbuttongroup.h>
-#include <qgroupbox.h>
 #include <qmap.h>
 #include <kcmodule.h>
 
-
-class DCOPClient;
+class QGroupBox;
+class QCheckBox;
+class QPushButton;
+class QRadioButton;
+class QButtonGroup;
 class QStringList;
-class KListView;
 class QListViewItem;
+
+class KListView;
+class DCOPClient;
 
 class KCookiesPolicies : public KCModule
 {
