@@ -199,7 +199,7 @@ const KAboutData *KonqFactory::aboutData()
                         KONQUEROR_VERSION,
                         I18N_NOOP("Web browser, file manager, ..."),
                         KAboutData::License_GPL,
-                        "(c) 1999-2000, The Konqueror developers",
+                        "(c) 1999-2001, The Konqueror developers",
                         0,
                         "http://www.konqueror.org" );
     s_aboutData->addAuthor( "David Faure", I18N_NOOP("developer (parts, I/O lib) and maintainer"), "faure@kde.org" );
