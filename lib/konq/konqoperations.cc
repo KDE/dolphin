@@ -121,7 +121,7 @@ void KonqOperations::_del( int method, const KURL::List & selectedURLs )
     {
       case TRASH:
         job = KIO::move( selectedURLs, KGlobalSettings::trashPath() );
-	(void) new KonqCommandRecorder( KonqCommand::MOVE, selectedURLs, KGlobalSettings::trashPath(), job );
+        (void) new KonqCommandRecorder( KonqCommand::MOVE, selectedURLs, KGlobalSettings::trashPath(), job );
         break;
       case DEL:
         job = KIO::del( selectedURLs );
@@ -181,11 +181,11 @@ void KonqOperations::doDrop( const KonqFileItem * destItem, QDropEvent * ev, QWi
     KURL::List lst;
     if ( KonqDrag::decode( ev, lst ) ) // Are they urls ?
     {
-	if( lst.count() == 0 )
-	{
-	    kdWarning(1203) << "Oooops, no data ...." << endl;
-	    return;
-	}
+        if( lst.count() == 0 )
+        {
+            kdWarning(1203) << "Oooops, no data ...." << endl;
+            return;
+        }
         // Check if we dropped something on itself
         KURL::List::Iterator it = lst.begin();
         for ( ; it != lst.end() ; it++ )
@@ -236,12 +236,12 @@ void KonqOperations::doDrop( const KonqFileItem * destItem, QDropEvent * ev, QWi
                 case QDropEvent::Move :
                   job = KIO::move( lst, dest );
                   op->setOperation( job, MOVE, lst, dest );
-		  (void) new KonqCommandRecorder( KonqCommand::MOVE, lst, dest, job );
+                  (void) new KonqCommandRecorder( KonqCommand::MOVE, lst, dest, job );
                   break;
                 case QDropEvent::Copy :
                   job = KIO::copy( lst, dest );
                   op->setOperation( job, COPY, lst, dest );
-		  (void) new KonqCommandRecorder( KonqCommand::COPY, lst, dest, job );
+                  (void) new KonqCommandRecorder( KonqCommand::COPY, lst, dest, job );
                   break;
                 case QDropEvent::Link :
                   job = KIO::link( lst, dest );
@@ -275,7 +275,8 @@ void KonqOperations::doDrop( const KonqFileItem * destItem, QDropEvent * ev, QWi
             {
                 // Should be a local executable
                 // (If this fails, there is a bug in KonqFileItem::acceptsDrops)
-                assert ( access( QFile::encodeName(dest.path()), X_OK ) == 0 );
+                kdDebug() << "KonqOperations::doDrop " << dest.path() << "should be an executable" << endl;
+                ASSERT ( access( QFile::encodeName(dest.path()), X_OK ) == 0 );
                 // Launch executable for each of the files
                 KURL::List::Iterator it = lst.begin();
                 for ( ; it != lst.end() ; it++ )

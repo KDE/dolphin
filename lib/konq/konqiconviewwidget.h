@@ -153,7 +153,7 @@ public:
     virtual void visualActivate(QIconViewItem *);
 
     bool isDesktop() const { return m_bDesktop; }
-    
+
 public slots:
     /**
      * Called when the clipboard's data changes, to update the 'cut' icons
@@ -213,6 +213,7 @@ protected:
 
     KFileIVI * m_pActiveItem;
     bool m_bMousePressed;
+    QPoint m_mousePos;
 
     QColor iColor;
 

@@ -8,7 +8,7 @@
 
    This program is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.	 See the GNU
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
     General Public License for more details.
 
    You should have received a copy of the GNU General Public License
@@ -53,8 +53,8 @@ KonqIconViewWidget::KonqIconViewWidget( QWidget * parent, const char * name, WFl
       m_rootItem( 0L ), m_bDesktop( kdesktop )
 {
     QObject::connect( this, SIGNAL( dropped( QDropEvent *, const QValueList<QIconDragItem> & ) ),
-		      this, SLOT( slotDropped( QDropEvent*, const QValueList<QIconDragItem> & ) ) );
-	
+                      this, SLOT( slotDropped( QDropEvent*, const QValueList<QIconDragItem> & ) ) );
+
     QObject::connect( this, SIGNAL( selectionChanged() ),
                       this, SLOT( slotSelectionChanged() ) );
 
@@ -103,7 +103,7 @@ KonqIconViewWidget::~KonqIconViewWidget()
 void KonqIconViewWidget::slotIconChanged( int group )
 {
     if (group != KIcon::Desktop)
-	return;
+        return;
 
     int size = m_size;
     if ( m_size == 0 )
@@ -115,7 +115,7 @@ void KonqIconViewWidget::slotOnItem( QIconViewItem *item )
 {
     // Reset icon of previous item
     if (m_pActiveItem != 0L)
-	m_pActiveItem->setIcon( m_size, KIcon::DefaultState, false, true );
+        m_pActiveItem->setIcon( m_size, KIcon::DefaultState, false, true );
 
     if ( !m_bMousePressed &&
          !static_cast<KFileIVI *>(item)->isThumbnail() )
@@ -131,7 +131,7 @@ void KonqIconViewWidget::slotOnItem( QIconViewItem *item )
 void KonqIconViewWidget::slotOnViewport()
 {
     if (m_pActiveItem == 0L)
-	return;
+        return;
     m_pActiveItem->setIcon( m_size, KIcon::DefaultState, false, true );
     m_pActiveItem = 0L;
 }
@@ -173,7 +173,7 @@ void KonqIconViewWidget::initConfig()
     m_pSettings = KonqFMSettings::settings();
 
     // Color settings
-    QColor normalTextColor	 = m_pSettings->normalTextColor();
+    QColor normalTextColor       = m_pSettings->normalTextColor();
     setItemColor( normalTextColor );
 
     // Font settings
@@ -186,7 +186,7 @@ void KonqIconViewWidget::initConfig()
 
 void KonqIconViewWidget::setIcons( int size, bool stopImagePreview )
 {
-    kdDebug(1203) << "KonqIconViewWidget::setIcons( " << size << " , " << stopImagePreview << endl;
+    //kdDebug(1203) << "KonqIconViewWidget::setIcons( " << size << " , " << stopImagePreview << ")" << endl;
     bool sizeChanged = (m_size != size);
     int oldGridX = gridX();
     m_size = size;
@@ -221,7 +221,7 @@ void KonqIconViewWidget::calculateGridX()
 void KonqIconViewWidget::refreshMimeTypes()
 {
     for ( QIconViewItem *it = firstItem(); it; it = it->nextItem() )
-	(static_cast<KFileIVI *>( it ))->item()->refreshMimeType();
+        (static_cast<KFileIVI *>( it ))->item()->refreshMimeType();
     setIcons( m_size );
 }
 
@@ -259,10 +259,10 @@ KFileItemList KonqIconViewWidget::selectedFileItems()
 
     QIconViewItem *it = firstItem();
     for (; it; it = it->nextItem() )
-	if ( it->isSelected() ) {
-	    KFileItem *fItem = (static_cast<KFileIVI *>(it))->item();
-	    lstItems.append( fItem );
-	}
+        if ( it->isSelected() ) {
+            KFileItem *fItem = (static_cast<KFileIVI *>(it))->item();
+            lstItems.append( fItem );
+        }
     return lstItems;
 }
 
@@ -288,41 +288,43 @@ void KonqIconViewWidget::drawBackground( QPainter *p, const QRect &r )
     const QPixmap *pm  = backgroundPixmap();
     bool hasPixmap = pm && !pm->isNull();
     if ( !hasPixmap ) {
-	pm = viewport()->backgroundPixmap();
-	hasPixmap = pm && !pm->isNull();
+        pm = viewport()->backgroundPixmap();
+        hasPixmap = pm && !pm->isNull();
     }
     if (!hasPixmap && backgroundMode() != NoBackground) {
-	p->fillRect(r, backgroundColor());
-	return;
+        p->fillRect(r, backgroundColor());
+        return;
     }
 
     if (hasPixmap) {
-	int ax = (r.x() + contentsX() + leftMargin()) % pm->width();
-	int ay = (r.y() + contentsY() + topMargin()) % pm->height();
-	p->drawTiledPixmap(r, *pm, QPoint(ax, ay));
+        int ax = (r.x() + contentsX() + leftMargin()) % pm->width();
+        int ay = (r.y() + contentsY() + topMargin()) % pm->height();
+        p->drawTiledPixmap(r, *pm, QPoint(ax, ay));
     }
 }
 
 QDragObject * KonqIconViewWidget::dragObject()
 {
     if ( !currentItem() )
-	return 0;
+        return 0;
 
     return konqDragObject( viewport() );
 }
 
 KonqIconDrag * KonqIconViewWidget::konqDragObject( QWidget * dragSource )
 {
+    kdDebug() << "KonqIconViewWidget::konqDragObject" << endl;
+
     KonqIconDrag * drag = new KonqIconDrag( dragSource );
     // Position of the mouse in the view
-    QPoint orig = viewportToContents( viewport()->mapFromGlobal( QCursor::pos() ) );
+    QPoint orig = viewportToContents( viewport()->mapFromGlobal( m_mousePos ) );
     // Position of the item clicked in the view
     QPoint itempos = currentItem()->pixmapRect( FALSE ).topLeft();
     // Set pixmap, with the correct offset
     drag->setPixmap( *currentItem()->pixmap(), orig - itempos );
     // Append all items to the drag object
     for ( QIconViewItem *it = firstItem(); it; it = it->nextItem() ) {
-	if ( it->isSelected() ) {
+        if ( it->isSelected() ) {
           QString itemURL = (static_cast<KFileIVI *>(it))->item()->url().url();
           QIconDragItem id;
           id.setData( QCString(itemURL.latin1()) );
@@ -331,10 +333,10 @@ KonqIconDrag * KonqIconViewWidget::konqDragObject( QWidget * dragSource )
                                it->pixmapRect( FALSE ).y() - orig.y(),
                                it->pixmapRect().width(), it->pixmapRect().height() ),
                         QRect( it->textRect( FALSE ).x() - orig.x(),
-                               it->textRect( FALSE ).y() - orig.y(),	
+                               it->textRect( FALSE ).y() - orig.y(),
                                it->textRect().width(), it->textRect().height() ),
                         itemURL );
-	}
+        }
     }
     return drag;
 }
@@ -415,9 +417,9 @@ void KonqIconViewWidget::slotSelectionChanged()
 
     for ( QIconViewItem *it = firstItem(); it; it = it->nextItem() )
     {
-	if ( it->isSelected() )
+        if ( it->isSelected() )
         {
-	    iCount++;
+            iCount++;
             if ( ! firstSelectedItem )
                 firstSelectedItem = (static_cast<KFileIVI *>( it ))->item();
 
@@ -436,7 +438,7 @@ void KonqIconViewWidget::slotSelectionChanged()
     bool bKIOClipboard = !KIO::isClipboardEmpty();
     QMimeSource *data = QApplication::clipboard()->data();
     bool paste = ( bKIOClipboard || data->encodedData( data->format() ).size() != 0 ) &&
-	(iCount <= 1); // We can't paste to more than one destination, can we ?
+        (iCount <= 1); // We can't paste to more than one destination, can we ?
 
     emit enableAction( "paste", paste );
 
@@ -494,8 +496,8 @@ KURL::List KonqIconViewWidget::selectedUrls()
     KURL::List lstURLs;
 
     for ( QIconViewItem *it = firstItem(); it; it = it->nextItem() )
-	if ( it->isSelected() )
-	    lstURLs.append( (static_cast<KFileIVI *>( it ))->item()->url() );
+        if ( it->isSelected() )
+            lstURLs.append( (static_cast<KFileIVI *>( it ))->item()->url() );
     return lstURLs;
 }
 
@@ -548,6 +550,8 @@ void KonqIconViewWidget::contentsDropEvent( QDropEvent *e )
 
 void KonqIconViewWidget::contentsMousePressEvent( QMouseEvent *e )
 {
+  kdDebug() << "KonqIconViewWidget::contentsMousePressEvent" << endl;
+  m_mousePos = QCursor::pos();
   m_bMousePressed = true;
   KIconView::contentsMousePressEvent( e );
 }
@@ -599,12 +603,12 @@ void KonqIconViewWidget::slotSaveIconPositions()
 void KonqIconViewWidget::insertInGrid(QIconViewItem *item)
 {
     if (0L == item)
-	return;
+        return;
 
     if (!m_IconRect.isValid())
     {
-	QIconView::insertInGrid(item);
-	return;
+        QIconView::insertInGrid(item);
+        return;
     }
 
     QRegion r(m_IconRect);
@@ -612,8 +616,8 @@ void KonqIconViewWidget::insertInGrid(QIconViewItem *item)
     int y = -1;
     for (; i; i = i->nextItem() )
     {
-	r = r.subtract(i->rect());
-	y = QMAX(y, i->y() + i->height());
+        r = r.subtract(i->rect());
+        y = QMAX(y, i->y() + i->height());
     }
 
     QArray<QRect> rects = r.rects();
@@ -621,22 +625,22 @@ void KonqIconViewWidget::insertInGrid(QIconViewItem *item)
     bool foundPlace = FALSE;
     for (; it != rects.end(); ++it)
     {
-	QRect rect = *it;
-	if (rect.width() >= item->width() && rect.height() >= item->height())
-	{
-	    int sx = 0, sy = 0;
-	    if (rect.width() >= item->width() + spacing())
-		sx = spacing();
-	    if (rect.height() >= item->height() + spacing())
-		sy = spacing();
-	    item->move(rect.x() + sx, rect.y() + sy);
-	    foundPlace = true;
-	    break;
-	}
+        QRect rect = *it;
+        if (rect.width() >= item->width() && rect.height() >= item->height())
+        {
+            int sx = 0, sy = 0;
+            if (rect.width() >= item->width() + spacing())
+                sx = spacing();
+            if (rect.height() >= item->height() + spacing())
+                sy = spacing();
+            item->move(rect.x() + sx, rect.y() + sy);
+            foundPlace = true;
+            break;
+        }
     }
 
     if (!foundPlace)
-	item->move(m_IconRect.topLeft());
+        item->move(m_IconRect.topLeft());
 
     //item->dirty = false;
     return;
@@ -668,18 +672,18 @@ private:
 QIconViewItem *QIVItemBin::top()
 {
     if (mData.count() == 0)
-	return 0L;
+        return 0L;
 
     QIconViewItem *it = mData.first();
     QIconViewItem *item = it;
     int y = it->y();
     for (it=mData.next(); it; it=mData.next())
     {
-	if (it->y() < y)
-	{
-	    y = it->y();
-	    item = it;
-	}
+        if (it->y() < y)
+        {
+            y = it->y();
+            item = it;
+        }
     }
     mData.remove(item);
     return item;
@@ -688,18 +692,18 @@ QIconViewItem *QIVItemBin::top()
 QIconViewItem *QIVItemBin::bottom()
 {
     if (mData.count() == 0)
-	return 0L;
+        return 0L;
 
     QIconViewItem *it = mData.first();
     QIconViewItem *item = it;
     int y = it->y();
     for (it=mData.next(); it; it=mData.next())
     {
-	if (it->y() > y)
-	{
-	    y = it->y();
-	    item = it;
-	}
+        if (it->y() > y)
+        {
+            y = it->y();
+            item = it;
+        }
     }
     mData.remove(item);
     return item;
@@ -708,18 +712,18 @@ QIconViewItem *QIVItemBin::bottom()
 QIconViewItem *QIVItemBin::left()
 {
     if (mData.count() == 0)
-	return 0L;
+        return 0L;
 
     QIconViewItem *it=mData.first();
     QIconViewItem *item = it;
     int x = it->x();
     for (it=mData.next(); it; it=mData.next())
     {
-	if (it->x() < x)
-	{
-	    x = it->x();
-	    item = it;
-	}
+        if (it->x() < x)
+        {
+            x = it->x();
+            item = it;
+        }
     }
     mData.remove(item);
     return item;
@@ -728,23 +732,23 @@ QIconViewItem *QIVItemBin::left()
 QIconViewItem *QIVItemBin::right()
 {
     if (mData.count() == 0)
-	return 0L;
+        return 0L;
 
     QIconViewItem *it=mData.first();
     QIconViewItem *item = it;
     int x = it->x();
     for (it=mData.next(); it; it=mData.next())
     {
-	if (it->x() > x)
-	{
-	    x = it->x();
-	    item = it;
-	}
+        if (it->x() > x)
+        {
+            x = it->x();
+            item = it;
+        }
     }
     mData.remove(item);
     return item;
 }
-	
+
 
 /*
  * The algorithm used for lineing up the icons could be called
@@ -784,34 +788,34 @@ void KonqIconViewWidget::lineupIcons()
 
     if ((dx < 15) || (dy < 15))
     {
-	kdWarning(1203) << "Do you really have that fine a grid?\n";
-	return;
+        kdWarning(1203) << "Do you really have that fine a grid?\n";
+        return;
     }
 
     int x1, x2, y1, y2;
     if (m_IconRect.isValid())
     {
-	x1 = m_IconRect.left(); x2 = m_IconRect.right();
-	y1 = m_IconRect.top(); y2 = m_IconRect.bottom();
+        x1 = m_IconRect.left(); x2 = m_IconRect.right();
+        y1 = m_IconRect.top(); y2 = m_IconRect.bottom();
     } else
     {
-	x1 = 0; x2 = viewport()->width();
-	y1 = 0; y2 = viewport()->height();
+        x1 = 0; x2 = viewport()->width();
+        y1 = 0; y2 = viewport()->height();
     }
-	
+
     int nx = (x2 - x1) / dx;
     int ny = (y2 - y1) / dy;
 
     kdDebug(1203) << "nx = " << nx << " ny = " << ny << "\n";
     if ((nx > 150) || (ny > 100))
     {
-	kdWarning(1203) << "Do you really have that fine a grid?\n";
-	return;
+        kdWarning(1203) << "Do you really have that fine a grid?\n";
+        return;
     }
     if ((nx <= 1) || (ny <= 1))
     {
-	kdWarning(1203) << "Iconview is too small, not doing anything.\n";
-	return;
+        kdWarning(1203) << "Iconview is too small, not doing anything.\n";
+        return;
     }
 
     // Create a grid of (ny x nx) bins.
@@ -822,24 +826,24 @@ void KonqIconViewWidget::lineupIcons()
     for (j=0; j<ny; j++)
     {
         bins[j] = new QIVItemPtr[nx];
-	for (i=0; i<nx; i++)
-	    bins[j][i] = 0L;
+        for (i=0; i<nx; i++)
+            bins[j][i] = 0L;
     }
 
     // Put each ivi in its corresponding bin.
     QIconViewItem *item;
     for (item=firstItem(); item; item=item->nextItem())
     {
-	i = (item->x() + item->width()/2 - x1) / dx;
-	if (i < 0) i = 0;
-	else if (i >= nx) i = nx - 1;
-	j = (item->y() + item->height()/2 - y1) / dy;
-	if (j < 0) j = 0;
-	else if (j >= ny) j = ny - 1;
+        i = (item->x() + item->width()/2 - x1) / dx;
+        if (i < 0) i = 0;
+        else if (i >= nx) i = nx - 1;
+        j = (item->y() + item->height()/2 - y1) / dy;
+        if (j < 0) j = 0;
+        else if (j >= ny) j = ny - 1;
 
-	if (bins[j][i] == 0L)
-	    bins[j][i] = new QIVItemBin;
-	bins[j][i]->add(item);
+        if (bins[j][i] == 0L)
+            bins[j][i] = new QIVItemBin;
+        bins[j][i]->add(item);
     }
 
     // The shuffle code
@@ -847,83 +851,83 @@ void KonqIconViewWidget::lineupIcons()
     int infinity = 100000, nmoves = 1;
     for (n=0; (n < 10) && (nmoves != 0); n++)
     {
-	nmoves = 0;
-	for (j=0; j<ny; j++)
-	{
-	    for (i=0; i<nx; i++)
-	    {
-		if (!bins[j][i] || (bins[j][i]->count() < 2))
-		    continue;
+        nmoves = 0;
+        for (j=0; j<ny; j++)
+        {
+            for (i=0; i<nx; i++)
+            {
+                if (!bins[j][i] || (bins[j][i]->count() < 2))
+                    continue;
 
-		// Calculate the 4 "friction coefficients".
-		int tf = 0;
-		for (k=j-1; (k >= 0) && bins[k][i] && bins[k][i]->count(); k--)
-		    tf += bins[k][i]->count();
-		if (k == -1)
-		    tf += infinity;
+                // Calculate the 4 "friction coefficients".
+                int tf = 0;
+                for (k=j-1; (k >= 0) && bins[k][i] && bins[k][i]->count(); k--)
+                    tf += bins[k][i]->count();
+                if (k == -1)
+                    tf += infinity;
 
-		int bf = 0;
-		for (k=j+1; (k < ny) && bins[k][i] && bins[k][i]->count(); k++)
-		    bf += bins[k][i]->count();
-		if (k == ny)
-		    bf += infinity;
+                int bf = 0;
+                for (k=j+1; (k < ny) && bins[k][i] && bins[k][i]->count(); k++)
+                    bf += bins[k][i]->count();
+                if (k == ny)
+                    bf += infinity;
 
-		int lf = 0;
-		for (k=i-1; (k >= 0) && bins[j][k] && bins[j][k]->count(); k--)
-		    lf += bins[j][k]->count();
-		if (k == -1)
-		    lf += infinity;
+                int lf = 0;
+                for (k=i-1; (k >= 0) && bins[j][k] && bins[j][k]->count(); k--)
+                    lf += bins[j][k]->count();
+                if (k == -1)
+                    lf += infinity;
 
-		int rf = 0;
-		for (k=i+1; (k < nx) && bins[j][k] && bins[j][k]->count(); k++)
-		    rf += bins[j][k]->count();
-		if (k == nx)
-		    rf += infinity;
+                int rf = 0;
+                for (k=i+1; (k < nx) && bins[j][k] && bins[j][k]->count(); k++)
+                    rf += bins[j][k]->count();
+                if (k == nx)
+                    rf += infinity;
 
-		// If we are stuck between walls, continue
-		if ( (tf >= infinity) && (bf >= infinity) &&
-		     (lf >= infinity) && (rf >= infinity)
-		   )
-		    continue;
+                // If we are stuck between walls, continue
+                if ( (tf >= infinity) && (bf >= infinity) &&
+                     (lf >= infinity) && (rf >= infinity)
+                   )
+                    continue;
 
-		// Is there a preferred lineup direction?
-		if (m_LineupMode == LineupHorizontal)
-		{
-		    tf += infinity;
-		    bf += infinity;
-		} else if (m_LineupMode == LineupVertical)
-		{
-		    lf += infinity;
-		    rf += infinity;
-		}
-		
-		// Move one item in the direction of the least friction.
-		if (tf <= MIN3(bf,lf,rf))
-		{
-		    if (!bins[j-1][i])
-			bins[j-1][i] = new QIVItemBin;
-		    bins[j-1][i]->add(bins[j][i]->top());
-		} else if (bf <= MIN3(tf,lf,rf))
-		{
-		    if (!bins[j+1][i])
-			bins[j+1][i] = new QIVItemBin;
-		    bins[j+1][i]->add(bins[j][i]->bottom());
-		} else if (lf <= MIN3(tf,bf,rf))
-		{
-		    if (!bins[j][i-1])
-			bins[j][i-1] = new QIVItemBin;
-		    bins[j][i-1]->add(bins[j][i]->left());
-		} else
-		{
-		    if (!bins[j][i+1])
-			bins[j][i+1] = new QIVItemBin;
-		    bins[j][i+1]->add(bins[j][i]->right());
-		}
+                // Is there a preferred lineup direction?
+                if (m_LineupMode == LineupHorizontal)
+                {
+                    tf += infinity;
+                    bf += infinity;
+                } else if (m_LineupMode == LineupVertical)
+                {
+                    lf += infinity;
+                    rf += infinity;
+                }
 
-		nmoves++;
-	    }
-	}
-	kdDebug(1203) << "nmoves = " << nmoves << "\n";
+                // Move one item in the direction of the least friction.
+                if (tf <= MIN3(bf,lf,rf))
+                {
+                    if (!bins[j-1][i])
+                        bins[j-1][i] = new QIVItemBin;
+                    bins[j-1][i]->add(bins[j][i]->top());
+                } else if (bf <= MIN3(tf,lf,rf))
+                {
+                    if (!bins[j+1][i])
+                        bins[j+1][i] = new QIVItemBin;
+                    bins[j+1][i]->add(bins[j][i]->bottom());
+                } else if (lf <= MIN3(tf,bf,rf))
+                {
+                    if (!bins[j][i-1])
+                        bins[j][i-1] = new QIVItemBin;
+                    bins[j][i-1]->add(bins[j][i]->left());
+                } else
+                {
+                    if (!bins[j][i+1])
+                        bins[j][i+1] = new QIVItemBin;
+                    bins[j][i+1]->add(bins[j][i]->right());
+                }
+
+                nmoves++;
+            }
+        }
+        kdDebug(1203) << "nmoves = " << nmoves << "\n";
     }
 
     // Perform the actual moving
@@ -931,34 +935,34 @@ void KonqIconViewWidget::lineupIcons()
     int x, y;
     for (j=0; j<ny; j++)
     {
-	for (i=0; i<nx; i++)
-	{
-	    if (!bins[j][i] || !bins[j][i]->count())
-		continue;
+        for (i=0; i<nx; i++)
+        {
+            if (!bins[j][i] || !bins[j][i]->count())
+                continue;
 
-	    item = bins[j][i]->top();
-	    x = x1 + i*dx + spacing(); y = y1 + j*dy + spacing();
-	    if (item->pos() != QPoint(x, y))
-	    {
-		item->move(x, y);
-	    }
-	    if (bins[j][i]->count())
-	    {
-		kdDebug(1203) << "Lineup incomplete..\n";
-		item = bins[j][i]->top();
-		for (k=1; item; k++)
-		{
-		    x = x1 + i*dx + spacing() + 10*k; y = y1 + j*dy + spacing() + 5*k;
-		    if (item->pos() != QPoint(x, y))
-		    {
-			item->move(x, y);
-		    }
-		    item = bins[j][i]->top();
-		}
-	    }
-	    delete bins[j][i];
-	    n++;
-	}
+            item = bins[j][i]->top();
+            x = x1 + i*dx + spacing(); y = y1 + j*dy + spacing();
+            if (item->pos() != QPoint(x, y))
+            {
+                item->move(x, y);
+            }
+            if (bins[j][i]->count())
+            {
+                kdDebug(1203) << "Lineup incomplete..\n";
+                item = bins[j][i]->top();
+                for (k=1; item; k++)
+                {
+                    x = x1 + i*dx + spacing() + 10*k; y = y1 + j*dy + spacing() + 5*k;
+                    if (item->pos() != QPoint(x, y))
+                    {
+                        item->move(x, y);
+                    }
+                    item = bins[j][i]->top();
+                }
+            }
+            delete bins[j][i];
+            n++;
+        }
     }
 
     updateContents();
