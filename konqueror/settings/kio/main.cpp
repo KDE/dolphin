@@ -22,7 +22,7 @@
 
 #include <qfile.h>
 
-#include <kcmoduleloader.h>
+#include <kparts/componentfactory.h>
 #include <klocale.h>
 
 #include "kcookiesmain.h"
@@ -74,6 +74,69 @@ extern "C"
 
 }
 
+static KCModule *load(QWidget *parent, const QString &libname, const QString &library, const QString &handle)
+{
+    KLibLoader *loader = KLibLoader::self();
+    // attempt to load modules with ComponentFactory, only if the symbol init_<lib> exists
+    // (this is because some modules, e.g. kcmkio with multiple modules in the library,
+    // cannot be ported to KGenericFactory)
+    KLibrary *lib = loader->library(QFile::encodeName(libname.arg(library)));
+    if (lib) {
+        QString initSym("init_");
+        initSym += libname.arg(library);
+
+        if ( lib->hasSymbol(QFile::encodeName(initSym)) )
+        {
+            // Reuse "lib" instead of letting createInstanceFromLibrary recreate it
+            //KCModule *module = KParts::ComponentFactory::createInstanceFromLibrary<KCModule>(QFile::encodeName(libname.arg(library)));
+            KLibFactory *factory = lib->factory();
+            if ( factory )
+            {
+                KCModule *module = KParts::ComponentFactory::createInstanceFromFactory<KCModule>( factory );
+                if (module)
+                    return module;
+            }
+        }
+
+	// get the create_ function
+	QString factory("create_%1");
+	void *create = lib->symbol(QFile::encodeName(factory.arg(handle)));
+
+	if (create)
+	    {
+		// create the module
+		KCModule* (*func)(QWidget *, const char *);
+		func = (KCModule* (*)(QWidget *, const char *)) create;
+		return  func(parent, 0);
+	    }
+
+        lib->unload();
+    }
+    return 0;
+}
+
+static KCModule *loadModule(QWidget *parent, const QString &module)
+{
+    KService::Ptr service = KService::serviceByDesktopName(module);
+    if (!service)
+       return 0;
+    QString library = service->library();
+
+    if (library.isEmpty())
+       return 0;
+
+    QString handle =  service->property("X-KDE-FactoryName").toString();
+    if (handle.isEmpty())
+       handle = library;
+
+    KCModule *kcm = load(parent, "kcm_%1", library, handle);
+    if (!kcm)
+       kcm = load(parent, "libkcm_%1", library, handle);
+    return kcm;
+}
+
+
+
 LanBrowser::LanBrowser(QWidget *parent)
 :KCModule(parent,"kcmkio")
 ,layout(this)
@@ -85,21 +148,21 @@ LanBrowser::LanBrowser(QWidget *parent)
    tabs.addTab(smbPage, i18n("&Windows Shares"));
    connect(smbPage,SIGNAL(changed(bool)),this,SLOT(slotEmitChanged()));
 
-   lisaPage = KCModuleLoader::loadModule("kcmlisa", &tabs);
+   lisaPage = loadModule(&tabs, "kcmlisa");
    if (lisaPage)
    {
      tabs.addTab(lisaPage,i18n("&LISa Daemon"));
      connect(lisaPage,SIGNAL(changed()),this,SLOT(slotEmitChanged()));
    }
 
-   resLisaPage = KCModuleLoader::loadModule("kcmreslisa", &tabs);
+   resLisaPage = loadModule(&tabs, "kcmreslisa");
    if (resLisaPage)
    {
      tabs.addTab(resLisaPage,i18n("R&esLISa Daemon"));
      connect(resLisaPage,SIGNAL(changed()),this,SLOT(slotEmitChanged()));
    }
 
-   kioLanPage = KCModuleLoader::loadModule("kcmkiolan", &tabs);
+   kioLanPage = loadModule(&tabs, "kcmkiolan");
    if (kioLanPage)
    {
      tabs.addTab(kioLanPage,i18n("lan:/ && &rlan:/"));
