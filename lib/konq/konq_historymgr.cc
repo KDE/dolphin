@@ -98,7 +98,7 @@ bool KonqHistoryManager::loadHistory()
 	}
 	
 	// it doesn't make sense to save to save maxAge and maxCount  in the
-	// binary file, this would make backups impossible (they would clear 
+	// binary file, this would make backups impossible (they would clear
 	// themselves on startup, because all entries expire).
 	Q_UINT32 dummy;
 	stream >> dummy;
@@ -200,8 +200,7 @@ void KonqHistoryManager::addToHistory( bool pending, const KURL& url,
 {
     kdDebug(1203) << "## addToHistory: " << url.url() << "Typed URL: " << typedURL << ", Title: " << title << endl;
 
-    // we only want remote URLs
-    if ( url.isLocalFile() || url.host().isEmpty() )
+    if ( filterOut( url ) ) // we only want remote URLs
 	return;
 
     KonqHistoryEntry entry;
@@ -245,6 +244,23 @@ void KonqHistoryManager::addToHistory( bool pending, const KURL& url,
     emitAddToHistory( entry );
 }
 
+// interface of KParts::HistoryManager
+// Usually, we only record the history for non-local URLs (i.e. filterOut()
+// returns true. But when using the HistoryProvider interface, we record 
+// exactly those filtered-out urls. 
+// Moreover, we  don't get any pending/confirming entries, just one insert()
+void KonqHistoryManager::insert( const QString& url )
+{
+    KURL u = url;
+    if ( !filterOut( url ) )
+	return;
+
+    KonqHistoryEntry entry;
+    entry.url = u;
+    entry.firstVisited = QDateTime::currentDateTime();
+    entry.lastVisited = entry.firstVisited;
+    emitAddToHistory( entry );
+}
 
 void KonqHistoryManager::emitAddToHistory( const KonqHistoryEntry& entry )
 {
@@ -542,6 +558,10 @@ KonqHistoryEntry * KonqHistoryManager::findEntry( const KURL& url )
     return m_history.findEntry( url );
 }
 
+bool KonqHistoryManager::filterOut( const KURL& url )
+{
+    return ( url.isLocalFile() || url.host().isEmpty() );
+}
 
 //////////////////////////////////////////////////////////////////
 

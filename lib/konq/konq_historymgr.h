@@ -172,7 +172,13 @@ public:
     const KonqHistoryList& entries() const { return m_history; }
 
     // HistoryProvider interfae, let konq handle this
-    virtual void insert( const QString& ) {}
+    /**
+     * Reimplemented in such a way that all URLs that would be filtered
+     * out normally (see @ref filterOut()) will still be added to the history.
+     * By default, file:/ urls will be filtered out, but if they come thru
+     * the HistoryProvider interface, they are added to the history.
+     */
+    virtual void insert( const QString& );
     virtual void remove( const QString& ) {}
     virtual void clear() {}
 
@@ -289,6 +295,13 @@ protected:
 		       const QString& typedURL = QString::null,
 		       const QString& title = QString::null );
 
+
+    /**
+     * @returns true if the given @p url should be filtered out and not be
+     * added to the history. By default, all local urls (url.isLocalFile())
+     * will return true, as well as urls with an empty host.
+     */
+    virtual bool filterOut( const KURL& url );
 
 private:
     void clearPending();
