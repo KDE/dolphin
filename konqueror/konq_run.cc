@@ -27,6 +27,7 @@
 #include <kio/job.h>
 #include <kmessagebox.h>
 #include <klocale.h>
+#include <kstringhandler.h>
 
 #include <assert.h>
 #include <iostream.h>
@@ -182,10 +183,11 @@ bool KonqRun::isExecutable( const QString &serviceType )
 
 bool KonqRun::askSave( const KURL & url, KService::Ptr offer )
 {
+    QString surl = KStringHandler::csqueeze( url.prettyURL() );
     // Inspired from kmail
     QString question = offer ? i18n("Open '%1' using '%2'?").
-                               arg( url.prettyURL() ).arg(offer->name())
-                       : i18n("Open '%1' ?").arg( url.prettyURL() );
+                               arg( surl ).arg(offer->name())
+                       : i18n("Open '%1' ?").arg( surl );
     int choice = KMessageBox::warningYesNoCancel(0L, question, QString::null,
                                                  i18n("Save to disk"), i18n("Open"));
     if ( choice == KMessageBox::Yes ) // Save
