@@ -494,6 +494,7 @@ void FilePropsPage::applyChanges()
   // handle icon changes
   if (!iconArea->isA("QLabel")) {
     KIconLoaderButton *iconButton = (KIconLoaderButton *) iconArea;
+    QString oldPath = properties->kurl().path();
     QString path;
     
     // Save the file where we can -> usually in ~/.kde/...
@@ -527,6 +528,10 @@ void FilePropsPage::applyChanges()
     // (otherwise write empty value)
     cfg.writeEntry( "Icon", sIcon );
     cfg.writeEntry( "MiniIcon", sIcon );
+    cfg.sync();
+
+    // Force updates if that file is displayed.
+    KDirWatch::self()->setFileDirty( oldPath );
   }
 }
 
