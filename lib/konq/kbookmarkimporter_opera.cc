@@ -28,82 +28,6 @@
 #include <dirent.h>
 #include <sys/stat.h>
 
-/*
-void KOperaBookmarkImporter::parseOperaBookmarks_url_file( QString filename, QString name ) {
-
-    QFile f(filename);
-
-    // TODO - what sort of url's can we get???
-    // QTextCodec * codec = QTextCodec::codecForName("UTF-8");
-    // Q_ASSERT(codec);
-    // if (!codec)
-    //   return;
-
-    if(f.open(IO_ReadOnly)) {
-
-#define LINELIMIT 4096
-        QCString s(4096);
-
-        typedef QMap<QString, QString> ViewMap;
-        ViewMap views;
-
-        while(f.readLine(s.data(), LINELIMIT)>=0) {
-            if ( s[s.length()-1] != '\n' ) // Gosh, this line is longer than LINELIMIT. Skipping.
-            {
-               kdWarning() << "IE bookmarks contain a line longer than " << LINELIMIT << ". Skipping." << endl;
-               continue;
-            }
-            QCString t = s.stripWhiteSpace();
-            QRegExp rx( "URL=(.*)" );
-            if (rx.exactMatch(t)) {
-               emit newBookmark( name, rx.cap(1).latin1(), QString("") );
-            }
-        }
-
-        f.close();
-    }
-}
-
-void KOperaBookmarkImporter::parseOperaBookmarks_dir( QString dirname, QString name )
-{
-
-   if (dirname != m_fileName) 
-      emit newFolder( name, false, "" );
-
-   QDir d(dirname);
-   d.setFilter( QDir::Files | QDir::Dirs );
-   d.setSorting( QDir::Name | QDir::DirsFirst );
-   d.setNameFilter("*.url;index.ini");
-   d.setMatchAllDirs(TRUE);
-
-   const QFileInfoList *list = d.entryInfoList();
-   QFileInfoListIterator it( *list );
-   QFileInfo *fi;
-
-   while ( (fi = it.current()) != 0 ) {
-      ++it;
-
-      if (fi->fileName() == "." || fi->fileName() == "..") continue;
-
-      if (fi->isDir()) {
-         parseOperaBookmarks_dir(fi->absFilePath(), fi->fileName());
-
-      } else if (fi->isFile()) {
-         if (fi->fileName().endsWith(".url")) {
-            QString name = fi->fileName();
-            name.truncate(name.length() - 4); // .url
-            parseOperaBookmarks_url_file(fi->absFilePath(), name);
-         }
-      }
-   }
-
-   if (dirname != m_fileName) 
-      emit endFolder();
-}
-
-
-*/
-
 #define LINELIMIT 4096
 
 // TODO - what sort of url's can we get???
@@ -117,8 +41,6 @@ void KOperaBookmarkImporter::parseOperaBookmarks( )
    QString URL = QString::null;
    QString NAME = QString::null;
    QString TYPE = QString::null;
-
-   // kdWarning() << "getting" << m_fileName << endl;
 
    QFile f(m_fileName);
 
@@ -140,6 +62,7 @@ void KOperaBookmarkImporter::parseOperaBookmarks( )
         if (lineno <= 2) continue; // skip first two header lines
 
         QString currentLine = s.stripWhiteSpace();
+        // kdWarning() << currentLine << endl;
 
         if ( currentLine == "" ) {
 
@@ -155,10 +78,6 @@ void KOperaBookmarkImporter::parseOperaBookmarks( )
              && TYPE == "FOLDER" ) 
            {
               emit newFolder( NAME, false, "" ); 
-              /*
-              fileContents.add( "<folder>" );
-              fileContents.add( "<title>" + NAME + "</title>" );
-              */
               TYPE = QString::null;
               NAME = QString::null;
               URL = QString::null;
@@ -169,7 +88,6 @@ void KOperaBookmarkImporter::parseOperaBookmarks( )
 
         } else {
            QString tag;
-           // kdWarning() << currentLine << endl;
 
            if ( tag = "#", currentLine.startsWith( tag ) ) {
               TYPE = currentLine.remove( 0, tag.length() );
@@ -194,7 +112,8 @@ void KOperaBookmarkImporter::parseOperaBookmarks( )
 
 QString KOperaBookmarkImporter::operaBookmarksFile( )
 {
-    return KFileDialog::getOpenFileName( QString::null, i18n("*.adr|Opera bookmark files (*.adr)") );
+    return KFileDialog::getOpenFileName( QDir::homeDirPath() + "/.opera", 
+                                         i18n("*.adr|Opera bookmark files (*.adr)") );
 }
 
 #include "kbookmarkimporter_opera.moc"

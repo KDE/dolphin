@@ -25,9 +25,9 @@
 #include <ksimpleconfig.h>
 
 /**
- * A class for importing NS bookmarks
+ * A class for importing all crash sessions as bookmarks
  * KEditBookmarks uses it to insert bookmarks into its DOM tree,
- * and KActionMenu uses it to create actions directly.
+ * and KActionMenu uses it to create actions directly. (TODO)
  */
 class KCrashBookmarkImporter : public QObject
 {

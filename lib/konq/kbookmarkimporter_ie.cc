@@ -28,25 +28,20 @@
 #include <dirent.h>
 #include <sys/stat.h>
 
+// TODO - what sort of url's can we get???
+// QTextCodec * codec = QTextCodec::codecForName("UTF-8");
+// Q_ASSERT(codec);
+// if (!codec) return;
+
+#define LINELIMIT 4096
+
 void KIEBookmarkImporter::parseIEBookmarks_url_file( QString filename, QString name ) {
 
     QFile f(filename);
 
-    /*
-    // TODO - what sort of url's can we get???
-    QTextCodec * codec = QTextCodec::codecForName("UTF-8");
-    Q_ASSERT(codec);
-    if (!codec)
-        return;
-    */
-
     if(f.open(IO_ReadOnly)) {
 
-#define LINELIMIT 4096
         QCString s(4096);
-
-        typedef QMap<QString, QString> ViewMap;
-        ViewMap views;
 
         while(f.readLine(s.data(), LINELIMIT)>=0) {
             if ( s[s.length()-1] != '\n' ) // Gosh, this line is longer than LINELIMIT. Skipping.
@@ -74,7 +69,7 @@ void KIEBookmarkImporter::parseIEBookmarks_dir( QString dirname, QString name )
    QDir d(dirname);
    d.setFilter( QDir::Files | QDir::Dirs );
    d.setSorting( QDir::Name | QDir::DirsFirst );
-   d.setNameFilter("*.url;index.ini");
+   d.setNameFilter("*.url"); // AK - possibly add ";index.ini" ?
    d.setMatchAllDirs(TRUE);
 
    const QFileInfoList *list = d.entryInfoList();
@@ -95,6 +90,7 @@ void KIEBookmarkImporter::parseIEBookmarks_dir( QString dirname, QString name )
             name.truncate(name.length() - 4); // .url
             parseIEBookmarks_url_file(fi->absFilePath(), name);
          }
+         // AK - add index.ini
       }
    }
 
@@ -110,6 +106,8 @@ void KIEBookmarkImporter::parseIEBookmarks( )
 
 QString KIEBookmarkImporter::IEBookmarksDir( )
 {
+    // TODO - add suggestive paths to kfile dialog somehow?
+    // e.g /mnt/windows/blha blah blah
     return KFileDialog::getExistingDirectory( );
 }
 

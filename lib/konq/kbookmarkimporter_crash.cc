@@ -22,6 +22,7 @@
 #include <klocale.h>
 #include <kdebug.h>
 #include <kapplication.h>
+#include <kstandarddirs.h>
 #include <qfile.h>
 #include <qdir.h>
 #include <qstring.h>
@@ -203,7 +204,7 @@ void KCrashBookmarkImporter::parseCrashBookmarks( )
 
 QString KCrashBookmarkImporter::crashBookmarksDir( )
 {
-    return KFileDialog::getExistingDirectory( );
+   return locateLocal("tmp", "");
 }
 
 #include "kbookmarkimporter_crash.moc"
