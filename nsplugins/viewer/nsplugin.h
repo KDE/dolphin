@@ -79,7 +79,7 @@ protected:
   bool pump();
   bool error() { return _error; };
   void queue( const QByteArray &data );
-  bool create( QString url, QString mimeType, void *notify );
+  bool create( const QString& url, const QString& mimeType, void *notify );
   int tries() { return _tries; };
   void inform( );
 

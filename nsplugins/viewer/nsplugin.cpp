@@ -578,8 +578,8 @@ void NSPluginInstance::timer()
 
                     emitStatus( i18n("Submitting data to %1").arg(url) );
                     s->post( url, req.data, req.mime, req.notify );
-                } else if ( url.lower()=="javascript:document.location" ||
-                     url.lower()=="javascript:window.location.href" ) {
+                } else if (url.lower().startsWith("javascript:document.location") ||
+                     url.lower().startsWith("javascript:window.location.href")) {
                     // hack to get java vm and HyperCosm 3d working
                     NSPluginBufStream *s = new NSPluginBufStream( this );
                     connect( s, SIGNAL(finished(NSPluginStreamBase*)),
@@ -589,7 +589,7 @@ void NSPluginInstance::timer()
                     QByteArray buf;
                     buf.setRawData( _baseURL.latin1(), _baseURL.length()+1 );
                     s->get( url, "text/html", buf, req.notify, true );
-                } else if (url.lower().startsWith("javascript:history.back()")){
+                } else if (url.lower().startsWith("javascript:history.back")){
                     if (_callback) {
                         _callback->requestURL( url, req.target );
                         if ( req.notify )
@@ -1158,6 +1158,7 @@ NSPluginStreamBase::~NSPluginStreamBase()
 {
    if (_stream) {
       _instance->NPDestroyStream( _stream, NPRES_USER_BREAK );
+      free(const_cast<char*>(_stream->url));
       delete _stream;
       _stream = 0;
    }
@@ -1218,7 +1219,7 @@ void NSPluginStreamBase::inform()
 
 }
 
-bool NSPluginStreamBase::create( QString url, QString mimeType, void *notify )
+bool NSPluginStreamBase::create( const QString& url, const QString& mimeType, void *notify )
 {
     if ( _stream )
         return false;
@@ -1369,6 +1370,7 @@ void NSPluginStreamBase::finish( bool err )
     }
 
     // delete stream
+    free(const_cast<char *>(_stream->url));
     delete _stream;
     _stream = 0;
 
