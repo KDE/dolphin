@@ -153,6 +153,9 @@ KonqMainWindow::KonqMainWindow( const KURL &initialURL, bool openInitialURL, con
     KonqHistoryManager *mgr = new KonqHistoryManager( kapp, "history mgr" );
     s_pCompletion = mgr->completionObject();
 
+    // add all bookmarks to the completion list for easy access
+    bookmarksIntoCompletion( KBookmarkManager::self()->root() );
+
     // setup the completion object before createGUI(), so that the combo
     // picks up the correct mode from the HistoryManager (in slotComboPlugged)
     KConfigGroupSaver cs( config, QString::fromLatin1("Settings") );
@@ -2171,7 +2174,7 @@ void KonqMainWindow::slotMatch( const QString &match )
 {
   if ( match.isEmpty() ) // this case is handled directly
     return;
-    
+
   // Check flag to avoid match() raised by rotation
   if ( m_urlCompletionStarted ) {
     m_urlCompletionStarted = false;
@@ -3534,6 +3537,28 @@ void KonqMainWindow::slotIntro()
 void KonqMainWindow::slotOpenURL( const KURL& url )
 {
     openURL( 0L, url );
+}
+
+void KonqMainWindow::bookmarksIntoCompletion( const KBookmarkGroup& group )
+{
+    if ( !group.isNull() ) {
+        for ( KBookmark bm = group.first(); 
+              !bm.isNull(); bm = group.next(bm) ) {
+            if ( bm.isGroup() )
+                bookmarksIntoCompletion( bm.toGroup() );
+
+            else {
+                KURL url = bm.url();
+                if ( url.isValid() ) {
+                    s_pCompletion->addItem( url.prettyURL() );
+                    if ( url.isLocalFile() )
+                        s_pCompletion->addItem( url.path() );
+                    else
+                        s_pCompletion->addItem( url.host() + url.path() );
+                }
+            }
+        }
+    }
 }
 
 #include "konq_mainwindow.moc"

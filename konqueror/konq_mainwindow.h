@@ -393,6 +393,11 @@ private:
    */
   void updateBookmarkBar();
 
+  /**
+   * Adds all children of @p group to the static completion object
+   */
+  void bookmarksIntoCompletion( const KBookmarkGroup& group );
+
   void startAnimation();
   void stopAnimation();
 
