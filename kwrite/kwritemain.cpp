@@ -79,8 +79,8 @@ KWrite::KWrite (KTextEditor::Document *doc)
   {
     if ( !(doc = KTextEditor::EditorChooser::createDocument(0,"KTextEditor::Document")) )
     {
-      KMessageBox::error(this, i18n("A KDE text editor component could not be found!\n"
-                                    "Please check your KDE installation."));
+      KMessageBox::error(this, i18n("A KDE text-editor component could not be found;\n"
+                                    "please check your KDE installation."));
       kapp->exit(1);
     }
 
