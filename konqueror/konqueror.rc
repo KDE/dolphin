@@ -81,6 +81,7 @@
     <Action name="configurecookies"/>
     <Action name="configureproxies"/>
     <Action name="configurecrypto"/>
+    <Action name="configureuseragent"/>
     <Separator/>
     <Action name="configurekeys"/>
     <Action name="configuretoolbars"/>

@@ -1126,6 +1126,11 @@ void KonqMainWindow::slotConfigureCrypto()
   KRun::runCommand( "kcmshell crypto", "kcmshell", "" );
 }
 
+void KonqMainWindow::slotConfigureUserAgent()
+{
+  KRun::runCommand( "kcmshell useragent", "kcmshell", "" );
+}
+
 void KonqMainWindow::slotConfigureKeys()
 {
   KKeyDialog::configureKeys(actionCollection(), xmlFile());
@@ -2442,6 +2447,7 @@ void KonqMainWindow::initActions()
   new KAction( i18n( "&Cookies..." ), 0, this, SLOT( slotConfigureCookies() ), actionCollection(), "configurecookies" );
   new KAction( i18n( "&Proxies..." ), 0, this, SLOT( slotConfigureProxies() ), actionCollection(), "configureproxies" );
   new KAction( i18n( "Cr&yptography..." ), 0, this, SLOT( slotConfigureCrypto() ), actionCollection(), "configurecrypto" );
+  new KAction( i18n( "&User Agent..." ), 0, this, SLOT( slotConfigureUserAgent() ), actionCollection(), "configureuseragent" );
 
   new KAction( i18n( "&Key Bindings..." ), 0, this, SLOT( slotConfigureKeys() ), actionCollection(), "configurekeys" );
   new KAction( i18n( "&Toolbars..." ), 0, this, SLOT( slotConfigureToolbars() ), actionCollection(), "configuretoolbars" );
