@@ -148,4 +148,4 @@ Keywords[zh_CN]=konqueror,filemanager,kfm,tips,file tips,separate window,spawn w
 Keywords[zh_TW]=konqueror,filemanager,kfm,tips,file tips,separate window,spawn windows,behavior,behaviour,memory usage,Home URL,征服家,檔案管理程式,檔案密訣,分離視窗,產生視窗,行為,記憶體使用量,家 URL,
 Keywords[zu]=konqueror,imenenja yefayela,kfm,amacebo,amacebo efayela,i-window elahlukene,ama-window azelwe,ukuziphatha,ukuziphhatha, ukusetshenziswa kenkumbulo,i-URL yasekhaya,
 
-Categories=Qt;KDE;Settings;X-KDE-settings-desktop
+Categories=Qt;KDE;X-KDE-settings-desktop

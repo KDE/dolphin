@@ -97,4 +97,4 @@ Comment[xx]=xxSetup lisa, reslisa and the ioslavesxx
 Comment[zh_CN]=设置 lisa、reslisa 和 ioslaves
 Comment[zu]=lungiselela i-lisa, i-reslisa ne-ioslaves
 
-Categories=Qt;KDE;Settings;X-KDE-settings-network
+Categories=Qt;KDE;X-KDE-settings-network

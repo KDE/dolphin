@@ -153,4 +153,4 @@ Keywords[zh_CN]=konqueror,kfm,browser,html,web,www,fonts,colours,colors,java,jav
 Keywords[zh_TW]=konqueror,kfm,browser,html,web,www,fonts,colours,colors,java,javascript,cursor,links,images,charsets,character sets,encoding,瀏覽,字型,色彩,顏色,游標,連結,影像,字元,字集,編碼
 Keywords[zu]=konqueror,kfm,umcingi,html,web,www,izinhlobo zamagama, imibala,imibala,java,javascripy,inkomba,izixhumanisi,izithombe,charsets, amaqoqo ezimpawu,ukubhala ngekhodi 
 
-Categories=Qt;KDE;Settings;X-KDE-settings-webbrowsing
+Categories=Qt;KDE;X-KDE-settings-webbrowsing

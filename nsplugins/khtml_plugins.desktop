@@ -143,4 +143,4 @@ Keywords[zh_CN]=konqueror,kfm,browser,html,web,www,fonts,plugins,浏览器,字�
 Keywords[zh_TW]=konqueror,kfm,browser,html,web,www,fonts,plugins,征服家,瀏覽器,網頁,字型,外掛程式
 Keywords[zu]=komqueror,kfm,umcingi,html,web,www,izinhlobo zamagama, ama-plugin
 
-Categories=Qt;KDE;Settings;X-KDE-settings-webbrowsing
+Categories=Qt;KDE;X-KDE-settings-webbrowsing

@@ -168,4 +168,4 @@ X-KDE-Library=kio
 X-KDE-ModuleType=Library
 X-KDE-ParentApp=kcontrol
 
-Categories=Qt;KDE;Settings;X-KDE-settings-network
+Categories=Qt;KDE;X-KDE-settings-network

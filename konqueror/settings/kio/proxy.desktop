@@ -135,4 +135,4 @@ Keywords[zh_CN]=Proxy,Proxy server,Firewall,Squid,proxy,代理,代理服务器,�
 Keywords[zh_TW]=Proxy,Proxy server,Firewall,Squid,proxy,代理,代理伺服器,防火牆
 Keywords[zu]=Umlingani,Umlekeleli ongumlingana,Firewall,Squid,umlingani
 
-Categories=Qt;KDE;Settings;X-KDE-settings-network
+Categories=Qt;KDE;X-KDE-settings-network

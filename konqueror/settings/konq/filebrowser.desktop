@@ -159,4 +159,4 @@ Keywords[zh_CN]=konqueror,filemanager,word wrap,wrap,underline,display,filesize,
 Keywords[zh_TW]=konqueror,filemanager,word wrap,wrap,underline,display,filesize,bytes,font,color,colour,征服家,檔案管理程式,文字換行,換行,底線,顯示,檔案大小,位元組,字型,顏色
 Keywords[zu]=konqueror,imenenja yamafayela,ukugoqwa kwamafayela, ukugoqwa,dwebela,veza,usayizi ama-byte osayizi wefayela,uhlobo lwamagama, umbala,umbala
 
-Categories=Qt;KDE;Settings;X-KDE-settings-components
+Categories=Qt;KDE;X-KDE-settings-components

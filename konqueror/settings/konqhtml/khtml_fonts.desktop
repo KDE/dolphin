@@ -152,4 +152,4 @@ Keywords[zh_CN]=konqueror,kfm,browser,html,web,www,fonts,charsets,character sets
 Keywords[zh_TW]=konqueror,kfm,browser,html,web,www,fonts,charsets,character sets,征服家,字元,字元集,編碼,瀏覽器,字型,網頁
 Keywords[zu]=konqueror,kfm,umcingi,html,web,www,izinhlobo zamagama,charsets,amaqoqo ezimpawu,ukubhala ngekhodi
 
-Categories=Qt;KDE;Settings;X-KDE-settings-webbrowsing
+Categories=Qt;KDE;X-KDE-settings-webbrowsing

@@ -129,4 +129,4 @@ Keywords[zh_CN]=konqueror,kfm,browser,html,web,www,java,javascript,浏览器
 Keywords[zh_TW]=konqueror,kfm,browser,html,web,www,java,javascript,征服家,瀏覽器,網頁
 Keywords[zu]=konqueror,kfm,umcingi,html,web,www,java,javascript
 
-Categories=Qt;KDE;Settings;X-KDE-settings-webbrowsing
+Categories=Qt;KDE;X-KDE-settings-webbrowsing

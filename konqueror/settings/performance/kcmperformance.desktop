@@ -58,4 +58,4 @@ Keywords[tr]=performans,hız,bellek,geliştirme
 Keywords[xx]=xxperformance,speed,memory,improvexx
 Keywords[zh_CN]=performance,speed,memory,improve,性能,速度,内存,提高
 
-Categories=Qt;KDE;Settings;X-KDE-settings-components
+Categories=Qt;KDE;X-KDE-settings-components

@@ -143,4 +143,4 @@ Keywords[zh_CN]=konqueror,filemanager,paths,desktop,trash,directories,autostart,
 Keywords[zh_TW]=konqueror,filemanager,paths,desktop,trash,directories,autostart,征服家,檔案管理程式,路徑,桌面,垃圾桶,目錄,自動啟動
 Keywords[zu]=konqueror,imenenja yamafayela,izindlela,desktop,izibi,uhlu lwamafayela,ukuqala ngokuzenzekela
 
-Categories=Qt;KDE;Settings;X-KDE-settings-system
+Categories=Qt;KDE;X-KDE-settings-system

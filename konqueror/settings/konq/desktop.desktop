@@ -146,4 +146,4 @@ Keywords[zh_CN]=desktop,number,virtual desktop,桌面,数量,虚拟桌面
 Keywords[zh_TW]=desktop,number,virtual desktop,桌面,名稱,桌面編號,桌面個數
 Keywords[zu]=desktop,inombolo,i-desktop yangamanga
 
-Categories=Qt;KDE;Settings;X-KDE-settings-desktop
+Categories=Qt;KDE;X-KDE-settings-desktop
