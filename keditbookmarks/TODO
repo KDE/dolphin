@@ -1,37 +1,32 @@
-BUGS
-----
-
-general xbel bug: http://bugzilla.gnome.org/show_bug.cgi?id=69702
+selecting a closed folder should selected all items inside - i.e, the outer parent
+   currently something really strange is happening here
+someone multi selected deletes are broken again:
+   no longer crashes, but doesn't select current well, maybe laurent just broke it
+   TODO note added to program, quite a difficult problem...
+a selected folder only takes one click to get a rename???
 tbcache: don't create a tbcache file when its gonna be empty in any case!!!
 historymgr: get dirtyness working for the kbookmarkmap
 proper readonly support - rmb should work but things should be disabled?  no addbookmark, etc.
-multi selection deletion then shift down selects roots
-clicking in the increm. search text field selects the root item in the list view
-tips dialog - fixes bugs - shortcuts for keyboard selection are wierd
-selecting a closed folder should selected all items inside - i.e, the outer parent
-show a partial highlight of items that are implicitly selected
+general xbel bug: http://bugzilla.gnome.org/show_bug.cgi?id=69702
 
-TODO
-----
+kawil's feature is majorly b0rked, it acts on the wrong element it seems...
 
-bookmarklets: add some examples!
-main bookmark config:
-   make the keditbookmarks prefs persistant
-   and make a simple include selector using
-   for example kautoconfig, including a 
-   simple dynamic menu config gui
+possible qt bug:
+   multi selection deletion then shift down selects roots
+   valgrind doesn't show anything either
+   logging all the setSelected calls i can see doesn't help
 
-THINGS FOR 3.3+
-------------------
+STUFF FROM BEINERI:
 
-tools:
-   recursive 404 finder
-   duplicate finder
+   And the "Cancel" entries in the "Bookmark" menus looks strange too. How about
+   a KMail-like progress bar (in a status bar?) with an "X" button to stop them?
+   And "Advanced Add Bookmark" doesn't work for "Add Bookmark" in context menu?
 
-basic gui:
-   split view stuff - including filtered views
-   need to get keyboard shortcut changes working somehow (wheels)
-   have to get dynamic filtering (e.g sorting, pruning),
+---
+
+   Btw, I think when you have no tab and call "Bookmarks Tabs as Folder..."
+   it should not only create a folder but bookmark the current page within
+   the folder unconditional if it's a tab or not. :-)
 
 CHECKS
 ------
@@ -67,65 +62,33 @@ with memcheck
    ==20415==    by 0x402669AA: KEBListView::itemList() (listview.cpp:682)
    ==20415==    by 0x402634EA: ListView::selectedItems() const (qptrlist.h:157)
 
-STUFF:
-
-   Bookmark current tabs as tabset/folder? :-)
-   I just wonder how to unset "Show in Toolbar". Shoudln't it be a toggle action?
-   And the "Cancel" entries in the "Bookmark" menus looks strange too. How about
-   a KMail-like progress bar (in a status bar?) with an "X" button to stop them?
-   And "Advanced Add Bookmark" doesn't work for "Add Bookmark" in context menu?
-
----
-
-   > > Do you still plan to move those options? And make features like "Quick
-   > > Actions" non-dependent on the "Advanced Add Bookmark" functionality?
-   > yup, for certain. and want to make them all instant apply for 3.2.
-
-   Fine. And any plans to reorder the RMB/"Quick actions" entries to be more
-   logical/synchronious to each other and other Konqueror context menus? :-)
-
-    Folder:                              Bookmark:
-     "Add Bookmark Here"                  "Delete Bookmark"
-     "Delete Folder                       "Copy Link Location"
-     "Open Folder in Bookmarks Editor"    "Open Bookmark"
-     "Properties"                         "Add Bookmark Here"
-     "Open Folder in Tabs"                "Properties"
-                                          "Open in New Tab"
-
-   Like moving "Properties" to last entry as in the Konqueror file manager
-   context menus? And moving destructive actions down from 1st/2nd place?
-
-   "Add Bookmark Here" when pointing at a bookmark looks strange and if you
-   call it you have to close and reopen the menu to see an entry was added?
-
-   And is "Open Bookmark" in context menu necessary? Anyway, my proposal:
-
-    Folder:                              Bookmark:
-     "Add Bookmark Here"                  "Open Bookmark"
-     "Open Folder in Tabs"                "Open in New Tab"
-     "Open Folder in Editor"              "Copy Link Location"
-     "---"                                "---"
-     "Delete Folder"                      "Delete Bookmark"
-     "---"                                "---"
-     "---"                                "---"
-     "Properties"                         "Properties"
-
-   Btw, if you want to "Delete Folder" it wants to confirm "Delete Bookmark?".
-
-----
-
-   Btw, I think when you have no tab and call "Bookmarks Tabs as Folder..."
-   it should not only create a folder but bookmark the current page within
-   the folder unconditional if it's a tab or not. :-)
-
-----
-
-   bookmarkinfo.ui: colons?
-
    
-TESTING::
+DONE TESTING:
+------------
 
    favicon and status check updates:
       removal of items while checks are happening
       program exit with checks and updates are still going on
-   random deletion of all items
+   random deletion of all items - TODO
+
+THINGS FOR 3.3+
+------------------
+
+tools:
+   recursive 404 finder
+   duplicate finder
+
+basic gui:
+   split view stuff - including filtered views
+   need to get keyboard shortcut changes working somehow (wheels)
+   have to get dynamic filtering (e.g sorting, pruning),
+
+main bookmark config:
+   make the keditbookmarks prefs persistant
+   and make a simple include selector using
+   for example kautoconfig, including a 
+   simple dynamic menu config gui
+
+bookmarklets: add some examples!
+
+tips dialog - fixes bugs - shortcuts for keyboard selection are wierd
