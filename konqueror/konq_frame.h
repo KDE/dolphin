@@ -188,7 +188,7 @@ class KonqFrameContainer : public QSplitter, public KonqFrameBase
 public:
   KonqFrameContainer( Orientation o, 
 		      QWidget* parent, 
-		      const char * name);
+		      const char * name = 0);
   ~KonqFrameContainer() {}
 
   void listViews( ChildViewList *viewList );
