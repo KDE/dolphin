@@ -395,8 +395,9 @@ private:
 
   KToggleAction *m_ptaFullScreen;
 
+  QValueList<int> m_tempContainerSizes;
   KonqFrameContainer *m_tempContainer;
-  QWidget::FocusPolicy m_tempFocusPolicy;
+  QWidget::FocusPolicy m_tempFocusPolicy; // ### do we need this? (Simon)
 
   MapViews m_mapViews;
 

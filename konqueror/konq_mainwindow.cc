@@ -1750,6 +1750,7 @@ void KonqMainWindow::slotFullScreenStart()
   KonqFrame *widget = m_currentView->frame();
   m_tempContainer = widget->parentContainer();
   m_tempFocusPolicy = widget->focusPolicy();
+  m_tempContainerSizes = m_tempContainer->sizes();
 
   widget->statusbar()->hide();
 
@@ -1816,6 +1817,8 @@ void KonqMainWindow::slotFullScreenStop()
 
   toolbar1->reparent( this, 0, QPoint( 0, 0 ), true );
   toolbar2->reparent( this, 0, QPoint( 0, 0 ), true );
+  
+  m_tempContainer->setSizes( m_tempContainerSizes );
 }
 
 void KonqMainWindow::setLocationBarURL( const QString &url )
