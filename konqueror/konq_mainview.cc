@@ -1745,8 +1745,7 @@ void KonqMainView::slotPopupMenu( KXMLGUIClient *client, const QPoint &_global, 
                              m_currentView->url(),
                              popupMenuCollection,
                              m_pMenuNew,
-                             true /*allow embedding*/,
-			     ( client != 0 ) ? true : false );
+                             true /*allow embedding*/ );
   connect( &pPopupMenu, SIGNAL( openEmbedded( const QString &, const KURL &, const QString & ) ),
            this, SLOT( slotOpenEmbedded( const QString &, const KURL &, const QString & ) ) );
 

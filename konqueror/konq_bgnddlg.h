@@ -35,7 +35,7 @@ class DirPropsPage : public QWidget
 {
   Q_OBJECT
 public:
-  DirPropsPage( QWidget * parent, const KURL & dirURL );
+  DirPropsPage( QWidget * parent, const KURL & dirURL, KInstance *instance );
   virtual ~DirPropsPage();
 
   QPixmap pixmap() { return m_wallPixmap; }
@@ -59,6 +59,7 @@ protected:
   QPixmap m_wallPixmap;
   QString m_wallFile;
   int imageX, imageW, imageH, imageY;
+  KInstance *m_instance;
 };
 
 
@@ -72,7 +73,7 @@ public:
   /**
    * Constructor
    */
-  KonqBgndDialog( const KURL & dirURL );
+  KonqBgndDialog( const KURL & dirURL, KInstance *instance );
   ~KonqBgndDialog();
 
   QPixmap pixmap() { return m_propsPage->pixmap(); }

@@ -37,7 +37,7 @@
 #include "konq_bgnddlg.h"
 
 
-KonqBgndDialog::KonqBgndDialog( const KURL & dirURL )
+KonqBgndDialog::KonqBgndDialog( const KURL & dirURL, KInstance *instance )
   : KDialogBase( 0L, // no parent,
                  "KonqBgndDialog",
                  true, //modal
@@ -53,7 +53,7 @@ KonqBgndDialog::KonqBgndDialog( const KURL & dirURL )
   //if ( item->url().isLocalFile() && path == KGlobalSettings::trashPath() )
   //  return false;
 
-    m_propsPage = new DirPropsPage( this, dirURL );
+    m_propsPage = new DirPropsPage( this, dirURL, instance );
     connect( this, SIGNAL( okClicked() ), m_propsPage, SLOT( slotApply() ) );
     connect( this, SIGNAL( applyClicked() ), m_propsPage, SLOT( slotApply() ) );
     connect( this, SIGNAL( user1Clicked() ), m_propsPage, SLOT( slotApplyGlobal() ) );
@@ -65,9 +65,10 @@ KonqBgndDialog::~KonqBgndDialog()
 {
 }
 
-DirPropsPage::DirPropsPage( QWidget * parent, const KURL & dirURL )
+DirPropsPage::DirPropsPage( QWidget * parent, const KURL & dirURL, KInstance *instance )
   : QWidget( parent, "DirPropsPage" ), m_url( dirURL )
 {
+    m_instance = instance; 
     m_fileitem = new KonqFileItem( -1, -1, dirURL );
 
     QLabel* tmpQLabel = new QLabel( this, "Label_1" );
@@ -237,7 +238,7 @@ void DirPropsPage::resizeEvent ( QResizeEvent *)
 void DirPropsPage::slotApplyGlobal()
 {
     // Write the image setting to konqueror's configuration
-    KConfig *config = KonqFactory::instance()->config();
+    KConfig *config = m_instance->config();
     //dangerous KConfig *config = new KConfig( "konquerorrc", false, false );
 
     config->setGroup( "Settings" );
