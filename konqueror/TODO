@@ -47,9 +47,6 @@ konqueror framework:
 
 - the 'shared lib' or interface problem for plugins.
 
-- What about a "clear" button at the right of the location bar, to clear the URL
-before pasting another one ?
-
 - Bug #2760 and other problems with splitter sizes
 
 - #3176 : From the main KDE menu, choose "Context Help", next click on the main form of konqueror

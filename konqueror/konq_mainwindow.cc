@@ -1848,14 +1848,10 @@ void KonqMainWindow::initActions()
   m_paStop = new KAction( i18n( "&Stop" ), "stop", Key_Escape, this, SLOT( slotStop() ), actionCollection(), "stop" );
 
   // Which is the default
-  KConfig *config = KonqFactory::instance()->config();
-  config->setGroup( "Trash" );
-  int deleteAction = config->readNumEntry("DeleteAction", DEFAULT_DELETEACTION);
-  const int deleteKey = CTRL+Key_Delete ; // Key_Delete conflict with the location bar
-
-  m_paTrash = new KAction( i18n( "&Move to Trash" ), "trash", deleteAction==1 ? deleteKey : 0, actionCollection(), "trash" );
-  m_paDelete = new KAction( i18n( "&Delete" ), deleteAction==2 ? deleteKey : 0, actionCollection(), "del" );
-  m_paShred = new KAction( i18n( "&Shred" ), deleteAction==3 ? deleteKey : 0, actionCollection(), "shred" );
+  // Key_Delete conflicts with the location bar
+  m_paTrash = new KAction( i18n( "&Move to Trash" ), "trash", CTRL+Key_Delete, actionCollection(), "trash" );
+  m_paDelete = new KAction( i18n( "&Delete" ), CTRL+SHIFT+Key_Delete, actionCollection(), "del" );
+  m_paShred = new KAction( i18n( "&Shred" ), 0, actionCollection(), "shred" );
 
   m_paAnimatedLogo = new KonqLogoAction( *s_plstAnimatedLogo, this, SLOT( slotNewWindow() ), actionCollection(), "animated_logo" );
 
@@ -2048,9 +2044,9 @@ void KonqMainWindow::enableAllActions( bool enable )
       m_paLinkView->setEnabled( viewCount() > 1 );
       // Load profile submenu
       m_pViewManager->profileListDirty();
-      
+
       slotUndoAvailable( KonqUndoManager::self()->undoAvailable() );
-      
+
       m_paStop->setEnabled( m_currentView && m_currentView->isLoading() );
   }
   actionCollection()->action( "close" )->setEnabled( true );
