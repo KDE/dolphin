@@ -28,6 +28,7 @@
 #include "konq_run.h"
 #include "konq_events.h"
 #include "konq_viewmgr.h"
+#include "konq_browseriface.h"
 #include <kio/job.h>
 
 #include <konq_historymgr.h>
@@ -79,6 +80,7 @@ KonqView::KonqView( KonqViewFactory &viewFactory,
   m_bLinkedView = false;
   m_bAborted = false;
   m_bToggleView = false;
+  m_browserIface = new KonqBrowserInterface( this, "browseriface" );
 
   switchView( viewFactory );
 }
@@ -257,6 +259,8 @@ void KonqView::connectPart(  )
 
   if ( !ext )
     return;
+
+  ext->setBrowserInterface( m_browserIface );
 
   connect( ext, SIGNAL( openURLRequestDelayed( const KURL &, const KParts::URLArgs &) ),
            m_pMainWindow, SLOT( slotOpenURLRequest( const KURL &, const KParts::URLArgs & ) ) );

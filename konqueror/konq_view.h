@@ -39,6 +39,7 @@
 class KonqRun;
 class KonqFrame;
 class KonqViewIface;
+class KonqBrowserInterface;
 
 struct HistoryEntry
 {
@@ -121,6 +122,8 @@ public:
    * @return true if view can go forward
    */
   bool canGoForward() { return m_lstHistory.at() != ((int)m_lstHistory.count())-1; }
+
+  uint historyLength() { return m_lstHistory.count(); }
 
   /**
    * Move in history. +1 is "forward", -1 is "back", you can guess the rest.
@@ -257,6 +260,8 @@ public:
 
   KonqViewIface * dcopObject();
 
+  void goHistory( int steps );
+
   static QStringList childFrameNames( KParts::ReadOnlyPart *part );
 
   static KParts::BrowserHostExtension *hostExtension( KParts::ReadOnlyPart *part, const QString &name );
@@ -302,7 +307,6 @@ protected slots:
   void slotSelectionInfo( const KFileItemList &items );
   void slotOpenURLNotify();
   void slotEnableAction( const char * name, bool enabled );
-  void goHistory( int steps );
 
 protected:
   /**
@@ -365,6 +369,7 @@ protected:
   QString m_name;
   QString m_caption;
   KonqViewIface * m_dcopObject;
+  KonqBrowserInterface *m_browserIface;
 };
 
 #endif

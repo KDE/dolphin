@@ -1,3 +1,8 @@
+2001-03-02  Simon Hausmann  <simon@kde.org>
+
+	* konq_view.cc, konq_browseriface.cc/h: Utilize and implement the newly
+	  added KParts::BrowserInterface
+
 2001-02-06  Simon Hausmann  <simon@kde.org>
 	
 	* konq_mainwindow.cc (openBookmarkURL): Patch by 
