@@ -663,7 +663,7 @@ void KonqKfmIconView::slotNewItems( const KFileItemList& entries )
 
         item->setKey( key );
 
-        //kdDebug() << "KonqKfmIconView::slotNewItems " << _fileitem->url().url() << " " << _fileitem->mimeTypePtr()->name() << endl;
+        //kdDebug() << "KonqKfmIconView::slotNewItems " << (*it)->url().url() << " " << (*it)->mimeTypePtr()->name() << " mimetypeknown:" << (*it)->isMimeTypeKnown() << endl;
         if ( !(*it)->isMimeTypeKnown() )
             m_mimeTypeResolver->m_lstPendingMimeIconItems.append( item );
 
@@ -742,11 +742,13 @@ void KonqKfmIconView::slotSelectionChanged()
 
 void KonqKfmIconView::determineIcon( KFileIVI * item )
 {
+  // kdDebug() << "KonqKfmIconView::determineIcon " << item->item()->name() << endl;
   int oldSerial = item->pixmap()->serialNumber();
 
   (void) item->item()->determineMimeType();
 
   item->setIcon( iconSize(), item->state(), true, true );
+  item->setMouseOverAnimation( item->item()->iconName() );
 }
 
 void KonqKfmIconView::mimeTypeDeterminationFinished()
