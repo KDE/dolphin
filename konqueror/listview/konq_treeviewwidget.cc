@@ -101,6 +101,15 @@ void KonqTreeViewWidget::addSubDir( KonqListViewDir* _dir )
 
 void KonqTreeViewWidget::removeSubDir( const KURL & _url )
 {
+   clearSubDir( _url );
+
+   m_dictSubDirs.remove( _url.url(-1) );
+   m_urlsToOpen.remove( _url.url(-1) );
+   m_urlsToReload.remove( _url.url(-1) );
+}
+
+void KonqTreeViewWidget::clearSubDir( const KURL & _url )
+{
    QListViewItem *item = m_dictSubDirs[_url.url(-1)];
    if ( item )
    {
@@ -130,12 +139,7 @@ void KonqTreeViewWidget::removeSubDir( const KURL & _url )
             m_urlsToReload.remove( it.currentKey() );
          }
       }
-
-      m_dictSubDirs.remove( _url.url(-1) );
    }
-
-   m_urlsToOpen.remove( _url.url(-1) );
-   m_urlsToReload.remove( _url.url(-1) );
 }
 
 void KonqTreeViewWidget::slotCompleted()
@@ -185,7 +189,7 @@ void KonqTreeViewWidget::slotClear( const KURL & _url )
    // we are allowed to delete the subdirs as well since the opening of
    // subdirs happens level per level.
 
-   removeSubDir( _url );
+   clearSubDir( _url );
 }
 
 void KonqTreeViewWidget::slotRedirection( const KURL &oldUrl, const KURL &newUrl )
