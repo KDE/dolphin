@@ -763,28 +763,28 @@ void KEBTopLevel::doImport(
 }
 
 // (imp, imp_bks, bks), dirname, icon, bool, type
-#define BK_STRS(a) i18n(##a" Import"), i18n("Import "##a" Bookmarks"), i18n(##a" Bookmarks")
+#define BK_STRS(a) i18n("%1 Import").arg(a), i18n("Import %1 Bookmarks").arg(a), i18n("%1 Bookmarks").arg(a)
 
 // TODO - maybe requests for ie + galeon icons should be made?, just a "windows" icon would do for ie
 
 void KEBTopLevel::slotImportIE()
-{ doImport( BK_STRS("IE"), KIEBookmarkImporter::IEBookmarksDir(), "", false, BK_IE); }
+{ doImport( BK_STRS(i18n("IE")), KIEBookmarkImporter::IEBookmarksDir(), "", false, BK_IE); }
 
 void KEBTopLevel::slotImportGaleon()
-{ doImport( BK_STRS("Galeon"), galeonBookmarksFile(), "", false, BK_XBEL); }
+{ doImport( BK_STRS(i18n("Galeon")), galeonBookmarksFile(), "", false, BK_XBEL); }
 
 void KEBTopLevel::slotImportKDE()
-{ doImport( BK_STRS("KDE"), kdeBookmarksFile(), "", false, BK_XBEL); }
+{ doImport( BK_STRS(i18n("KDE")), kdeBookmarksFile(), "", false, BK_XBEL); }
 
 void KEBTopLevel::slotImportOpera()
-{ doImport( BK_STRS("Opera"), KOperaBookmarkImporter::operaBookmarksFile(), "opera", false, BK_OPERA); }
+{ doImport( BK_STRS(i18n("Opera")), KOperaBookmarkImporter::operaBookmarksFile(), "opera", false, BK_OPERA); }
 
 void KEBTopLevel::slotImportMoz()
-{ doImport( BK_STRS("Mozilla"), KNSBookmarkImporter::mozillaBookmarksFile(), "mozilla", true, BK_NS); }
+{ doImport( BK_STRS(i18n("Mozilla")), KNSBookmarkImporter::mozillaBookmarksFile(), "mozilla", true, BK_NS); }
 
 void KEBTopLevel::slotImportNS()
 {
-   doImport( BK_STRS("Netscape"), KNSBookmarkImporter::netscapeBookmarksFile(), "netscape", false, BK_NS);
+   doImport( BK_STRS(i18n("Netscape")), KNSBookmarkImporter::netscapeBookmarksFile(), "netscape", false, BK_NS);
 
    // Ok, we don't need the dynamic menu anymore
    if (m_taShowNS->isChecked()) {
