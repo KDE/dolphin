@@ -515,6 +515,8 @@ void KonqKfmIconView::slotSortDescending()
     else
 	m_pIconView->setSorting( true, true );
 
+    setupSortKeys(); // keys have to change, for directories
+
     m_pIconView->sort( m_pIconView->sortDirection() );
 }
 
