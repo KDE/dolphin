@@ -135,7 +135,6 @@ public:
       init(fileName, folder, "", false);
    }
    virtual QString requestFilename() const;
-private:
 };
 
 class KDE2ImportCommand : public XBELImportCommand
@@ -146,7 +145,6 @@ public:
       init(fileName, folder, "", false);
    }
    virtual QString requestFilename() const;
-private:
 };
 
 // part pure
@@ -168,7 +166,6 @@ public:
       init(fileName, folder, "netscape", false);
    }
    virtual QString requestFilename() const;
-private:
 };
 
 class MozImportCommand : public HTMLImportCommand
@@ -179,7 +176,6 @@ public:
       init(fileName, folder, "mozilla", true);
    }
    virtual QString requestFilename() const;
-private:
 };
 
 class IEImportCommand : public ImportCommand
@@ -193,7 +189,6 @@ public:
 private:
    virtual void doExecute();
 };
-
 
 class OperaImportCommand : public ImportCommand
 {
