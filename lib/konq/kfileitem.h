@@ -127,7 +127,7 @@ public:
    * @return the text of the file item
    * It's not exactly the filename since some decoding happens ('%2F'->'/')
    */
-  QString text() const;
+  QString text() const { return m_strText; }
 
   /**
    * @return the mimetype of the file item

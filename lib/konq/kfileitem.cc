@@ -34,65 +34,6 @@
 #include <klocale.h>
 #include <kmimetype.h>
 #include <krun.h>
-#include <kdesktopfile.h>
-
-// array of all i18n Name fields from KDE 1.1.2
-const char *legacy_names[] = {
-    "Adres FTP", "Adres internetowy (URL)", "Adres w sieci WWW (URL)",
-    "Adresse FTP", "Adresse Internet (URL)", "Adresse World Wide Web (HTTP)",
-    "Adresã internet (URL)", "Adreça Internet (URL)", "Anvendelse",
-    "Anwendung", "Aplicaciones", "Aplicacions", "Aplicativo", "Aplicação",
-    "Aplicaþie", "Aplikace", "Aplikacja", "Aplikácia", "Application",
-    "Applicazione", "Applikasjon", "Applikáció", "Dateisystem",
-    "Datoteka za enoto", "Dirección Web (URL de HTTP)",
-    "Dirección de Internet (URL)", "Dispositiu de sistema de fitxers",
-    "Dispositivo com Sistema de Ficheiros", "Dispositivo con Filesystem",
-    "Dispositivo de sistema de archivos", "Dispositivo de sistema de arquivos",
-    "Dispozitiv de sistem de fiºiere", "Endereço Internet (URL)",
-    "FTP -linkki", "FTP URL", "FTP odkaz", "FTP-URL", "FTP-slóð",
-    "File System Device", "Filsystemenhet", "Filsystemsenhed",
-    "Filsystemsenhet", "Forrit", "Fájlrendszer Eszköz", "Indirizzo FTP",
-    "Indirizzo Internet (URL)", "Indirizzo World Wide Web",
-    "Internet -osoite (URL)", "Internet Address (URL)", "Internet Cím (URL)",
-    "Internet adresa (URL)", "Internet adresse (URL)", "Internetadress (URL)",
-    "Internetadresse (URL)", "Internetni naslov (URL)",
-    "Internetovská adresa (URL)", "Internetová adresa (URL)",
-    "Internettadresse (URL)", "Legãturã FTP (URL)",
-    "Legãturã Internet WWW  (URL de HTTP)", "MIME typ", "MIME ¥¿¥¤¥×",
-    "MIME-tag", "MIME-typ", "Mime Type", "Mime Típus", "Mime tip", "Mime typ",
-    "Mime-Typ", "Mimetype", "Mimetyyppi", "Netslóð (URL)",
-    "Odkaz na World Wide Web (HTTP)", "Program",
-    "Périphérique système de fichiers", "Skráakerfistæki", "Sovellus",
-    "Spletni vir (URL)", "Tiedostosysteemi", "Tip MIME", "Tipo MIME",
-    "Tipus Mime", "Typ mime", "Type MIME", "URL", "URL d'FTP", "URL da Web",
-    "URL de FTP", "URL de HTTP", "URL de la World Wide Web",
-    "Uporabni¹ki program", "Ureðaj datoteènog sustava", "Urz±dzenie",
-    "Vefslóð (URL)", "Verdensvev-URL", "Vir FTP", "WWW -osoite", "WWW URL",
-    "Wold Wide Web URL", "World Wide Web URL", "World Wide Web-URL",
-    "World-Wide-Web URL",
-    "Zariadenie súborového systému (File System Device)",
-    "Zaøízení souborového systému", "¥¢¥×¥ê¥±¡¼¥·¥ç¥ó",
-    "¥¤¥ó¥¿¡¼¥Í¥Ã¥È ¥¢¥É¥ì¥¹ (URL)", "¥Õ¥¡¥¤¥ë ¥·¥¹¥Æ¥à ¥Ç¥Ð¥¤¥¹",
-    "áÄÒÅÓ WWW (HTTP)", "æÁÊÌ óÉÓÔÅÍÎÏÇÏ õÓÔÒÏÊÓÔ×Á",
-    "ðÒÉÌÏÖÅÎÉÅ", "ôÉÐ MIME", "õÎÉ×ÅÒÓÁÌØÎÏÅ ÍÅÓÔÏÐÏÌÏÖÅÎÉÅ ÒÅÓÕÒÓÁ (URL)",
-    NULL
-};
-
-static bool is_legacy_name(const QString& _name)
-{
-    // this function exists to handle KDE 1.x names like Application
-    // and Dateisystem and the like.  it returns true, if _name
-    // matches any of them.  note that this would be a LOT more
-    // efficient if these were all in a hash table.. but I don't know
-    // if we can guarantee that the hash table was initialized before
-    // this instance of the KFileItem
-    for (int i = 0; legacy_names[i]; i++)
-    {
-        if (_name == legacy_names[i])
-            return true;
-    }
-    return false;
-}
 
 KFileItem::KFileItem( const KUDSEntry& _entry, KURL& _url ) :
   m_entry( _entry ),
@@ -433,28 +374,6 @@ QString KFileItem::mimeComment() const
 QString KFileItem::iconName() const
 {
   return m_pMimeType->icon(m_url, false);
-}
-
-QString KFileItem::text() const
-{
-    if (m_bIsLocalURL && m_pMimeType->name() == "application/x-desktop")
-    {
-        KDesktopFile desktop(m_url.path(), true);
-        QString desktop_name(desktop.readName());
-        if (desktop_name.isNull() || desktop_name.isEmpty() ||
-            is_legacy_name(desktop_name))
-        {
-            desktop_name = m_strText;
-            if ((desktop_name.right(8) == ".desktop") ||
-                (desktop_name.right(7) == ".kdelnk"))
-            {
-                desktop_name.truncate(desktop_name.findRev('.'));
-            }
-        }
-        return desktop_name;
-    }
-    else
-        return m_strText;
 }
 
 void KFileItem::run()
