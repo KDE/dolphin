@@ -36,6 +36,12 @@ const char* KonqIconDrag::format( int i ) const
         return "application/x-kde-cutselection";
     else if ( i == 3 )
         return "text/plain";
+    else if ( i == 4 ) //These two are imporant because they may end up being format 0,
+                       //which is what KonqDirPart::updatePasteAction() checks
+        return "text/plain;charset=ISO-8859-1";
+    else if ( i == 5 ) //..as well as potentially for interoperability
+        return "text/plain;charset=UTF-8";
+
     else return 0;
 }
 
@@ -62,6 +68,32 @@ QByteArray KonqIconDrag::encodedData( const char* mime ) const
             for (QStringList::ConstIterator it = urls.begin(); it != urls.end(); ++it)
                 uris.append(KURL((*it).latin1(), 106).prettyURL()); // 106 is mib enum for utf8 codec
             QCString s = uris.join( "\n" ).local8Bit();
+            a.resize( s.length() + 1 ); // trailing zero
+            memcpy( a.data(), s.data(), s.length() + 1 );
+        }
+    }
+    else if ( mimetype.lower() == "text/plain;charset=iso-8859-1")
+    {
+        if (!urls.isEmpty())
+        {
+            QStringList uris;
+
+            for (QStringList::ConstIterator it = urls.begin(); it != urls.end(); ++it) 
+               uris.append(KURL(*it, 106).url(0, 4)); // 106 is mib enum for utf8 codec; 4 for latin1
+
+            QCString s = uris.join( "\n" ).latin1();
+            a.resize( s.length() + 1 ); // trailing zero
+            memcpy( a.data(), s.data(), s.length() + 1 );
+        }
+    }
+    else if ( mimetype.lower() == "text/plain;charset=utf-8")
+    {
+        if (!urls.isEmpty())
+        {
+            QStringList uris;
+            for (QStringList::ConstIterator it = urls.begin(); it != urls.end(); ++it) 
+                uris.append(KURL(*it, 106).prettyURL()); // 106 is mib enum for utf8 codec
+            QCString s = uris.join( "\n" ).utf8();
             a.resize( s.length() + 1 ); // trailing zero
             memcpy( a.data(), s.data(), s.length() + 1 );
         }
