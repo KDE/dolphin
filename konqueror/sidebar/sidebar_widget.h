@@ -79,14 +79,19 @@ class Sidebar_Widget: public QWidget
 {
   Q_OBJECT
   public:
-  Sidebar_Widget(QWidget *parent, KParts::ReadOnlyPart *par, const char * name);
-  ~Sidebar_Widget();
-  bool openURL(const class KURL &url);
-  void stdAction(const char *handlestd);
-  //virtual KParts::ReadOnlyPart *getPart();
-  KParts::BrowserExtension *getExtension();
+	Sidebar_Widget(QWidget *parent, KParts::ReadOnlyPart *par,
+						const char * name);
+	~Sidebar_Widget();
+	bool openURL(const class KURL &url);
+	void stdAction(const char *handlestd);
+	//virtual KParts::ReadOnlyPart *getPart();
+	KParts::BrowserExtension *getExtension();
 
   static QString PATH;
+
+  public slots:
+	void addWebSideBar(const KURL& url, const QString& name);
+
   private:
 	class KDockArea *Area;
 	class KMultiTabBar *ButtonBar;
@@ -136,10 +141,10 @@ class Sidebar_Widget: public QWidget
 	void slotDeleted();
 	void saveOpenViews();
   signals:
-		void started(KIO::Job *);
-                void completed();
-		void fileSelection(const KFileItemList& iems);
-		void fileMouseOver(const KFileItem& item);
+	void started(KIO::Job *);
+	void completed();
+	void fileSelection(const KFileItemList& iems);
+	void fileMouseOver(const KFileItem& item);
   public:
 	/* interface KonqSidebar_PluginInterface*/
 	KInstance  *getInstance();

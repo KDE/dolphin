@@ -390,10 +390,12 @@ void KonqView::connectPart(  )
       connect( ext, SIGNAL( enableAction( const char *, bool ) ),
                this, SLOT( slotEnableAction( const char *, bool ) ) );
 
-      connect( ext,
-               SIGNAL( addWebSideBar(const KURL&, const QString&) ),
-               m_pMainWindow,
-               SLOT( slotAddWebSideBar(const KURL&, const QString&) ) );
+      if (service()->name() != "Navigation Panel") {
+          connect( ext,
+                   SIGNAL( addWebSideBar(const KURL&, const QString&) ),
+                   m_pMainWindow,
+                   SLOT( slotAddWebSideBar(const KURL&, const QString&) ) );
+      }
 
       callExtensionBoolMethod( "setSaveViewPropertiesLocally(bool)", m_pMainWindow->saveViewPropertiesLocally() );
   }

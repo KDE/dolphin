@@ -4193,15 +4193,35 @@ void KonqMainWindow::slotAddWebSideBar(const KURL& url, const QString& name)
         return;
 
     kdDebug(1202) << "Requested to add URL " << url.url() << " [" << name << "] to the sidebar!" << endl;
+
+    KAction *a = m_toggleViewGUIClient->action("konq_sidebartng");
+    if (!a) {
+        KMessageBox::sorry(0L, i18n("Your sidebar is not functional or unavailable.  A new entry cannot be added."), i18n("Web Sidebar"));
+        return;
+    }
+
     int rc = KMessageBox::questionYesNo(0L, 
               i18n("Add new web extension \"%1\" to your sidebar?")
                                 .arg(name.isEmpty() ? name : url.prettyURL()),
               i18n("Web Sidebar"));
 
     if (rc == KMessageBox::Yes) {
-        KAction *a = m_toggleViewGUIClient->action("konq_sidebartng");
-        if (a && !static_cast<KToggleAction*>(a)->isChecked()) {
+        // Show the sidebar
+        if (!static_cast<KToggleAction*>(a)->isChecked()) {
             a->activate();
+        }
+
+        // Tell it to add a new panel
+        MapViews::ConstIterator it;
+        for (it = viewMap().begin(); it != viewMap().end(); ++it) {
+            KonqView *view = it.data();
+            if (view) {
+                KService::Ptr svc = view->service();
+                if (svc->name() == "Navigation Panel") {
+                    emit view->browserExtension()->addWebSideBar(url, name);
+                    break;
+                }
+            }
         }
     }
 }

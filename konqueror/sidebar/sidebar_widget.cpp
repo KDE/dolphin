@@ -261,6 +261,12 @@ Sidebar_Widget::Sidebar_Widget(QWidget *parent, KParts::ReadOnlyPart *par, const
 	connect(Area,SIGNAL(dockWidgetHasUndocked(KDockWidget*)),this,SLOT(dockWidgetHasUndocked(KDockWidget*)));
 }
 
+void Sidebar_Widget::addWebSideBar(const KURL& url, const QString& name) {
+	kdDebug() << "Web sidebar entry to be added: " << url.url()
+		<< " [" << name << "]" << endl;
+}
+
+
 void Sidebar_Widget::finishRollBack()
 {
         PATH=KGlobal::dirs()->saveLocation("data","konqsidebartng/entries/",true);

@@ -31,8 +31,10 @@ KonqSidebar::KonqSidebar( QWidget *parentWidget, const char *widgetName,
     m_widget = new Sidebar_Widget( parentWidget,this, widgetName );
     m_extension = new KonqSidebarBrowserExtension( this, m_widget,"KonqSidebar::BrowserExtension" );
     connect(m_widget,SIGNAL(started(KIO::Job *)),
-            this, SIGNAL(started(KIO::Job*)));
+		this, SIGNAL(started(KIO::Job*)));
     connect(m_widget,SIGNAL(completed()),this,SIGNAL(completed()));
+    connect(m_extension, SIGNAL(addWebSideBar(const KURL&, const QString&)),
+		m_widget, SLOT(addWebSideBar(const KURL&, const QString&)));
     setWidget(m_widget);
 }
 
