@@ -134,6 +134,8 @@ KProxyOptions::KProxyOptions(QWidget *parent, const char *name)
   connect( cb_useCache, SIGNAL( clicked() ), SLOT( changeCache() ) );
   connect( cb_useCache, SIGNAL( clicked() ), this, SLOT( changed() ) );
 
+  bg_cacheControl = new QButtonGroup(i18n("Cache Control Options"),this);
+
   rb_verify = new QRadioButton( i18n("Keep Cache in Sync"), this);
   QWhatsThis::add(rb_verify, i18n("Enable this to ask Web servers whether a cached page is still valid. If this is disabled, a cached copy of remote files will be used whenever possible. You can still use the reload button to synchronize the cache with the remote host."));
   connect( rb_verify, SIGNAL( clicked() ), SLOT( changeCache() ) );
@@ -149,10 +151,10 @@ KProxyOptions::KProxyOptions(QWidget *parent, const char *name)
   connect( rb_offlineMode, SIGNAL( clicked() ), SLOT( changeCache() ) );
   connect( rb_offlineMode, SIGNAL( clicked() ), this, SLOT( changed() ) );
 
-  bg_cacheControl = new QButtonGroup(i18n("Cache Control Options"),this);
   bg_cacheControl->insert(rb_verify);
   bg_cacheControl->insert(rb_cacheIfPossible);
   bg_cacheControl->insert(rb_offlineMode);
+  bg_cacheControl->hide();
 
   sb_max_cache_size = new KMySpinBox(100, 2000000, 100, this);
   connect(sb_max_cache_size, SIGNAL(valueChanged(int)), this, SLOT(changed()));
