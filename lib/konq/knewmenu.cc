@@ -33,7 +33,7 @@
 
 #include <kio/global.h>
 #include <kio/job.h>
-#include <kuserpaths.h>
+#include <kglobalsettings.h>
 
 #include "kpropsdlg.h"
 #include "knewmenu.h"
@@ -84,7 +84,7 @@ void KNewMenu::fillMenu()
     QStringList::Iterator templ = templatesList->begin(); // skip 'Folder'
     for ( ++templ; templ != templatesList->end(); ++templ, ++i)
     {
-        KSimpleConfig config(KUserPaths::templatesPath() + *templ, true);
+        KSimpleConfig config(KGlobalSettings::templatesPath() + *templ, true);
         config.setDesktopGroup();
         QString name = *templ;
         if ( name.right(8) == ".desktop" )
@@ -125,7 +125,7 @@ void KNewMenu::slotFillTemplates()
     if ( ! m_pDirWatch )
     {
         m_pDirWatch = new KDirWatch( 5000 ); // 5 seconds
-        m_pDirWatch->addDir( KUserPaths::templatesPath() );
+        m_pDirWatch->addDir( KGlobalSettings::templatesPath() );
         connect ( m_pDirWatch, SIGNAL( dirty( const QString & ) ),
                   this, SLOT ( slotFillTemplates() ) );
         connect ( m_pDirWatch, SIGNAL( fileDirty( const QString & ) ),
@@ -136,11 +136,11 @@ void KNewMenu::slotFillTemplates()
     templatesList->clear();
     templatesList->append( "Folder" );
 
-    QDir d( KUserPaths::templatesPath() );
+    QDir d( KGlobalSettings::templatesPath() );
     const QFileInfoList *list = d.entryInfoList();
     if ( list == 0L )
         KMessageBox::error( 0L, i18n("ERROR: Template does not exist '%1'").arg(
-		KUserPaths::templatesPath()));
+		KGlobalSettings::templatesPath()));
     else
     {
 	QFileInfoListIterator it( *list );      // create list iterator
@@ -171,7 +171,7 @@ void KNewMenu::slotNewFile()
     QString text, value;
 
     if ( sName != "Folder" ) {
-      QString x = KUserPaths::templatesPath() + sFile;
+      QString x = KGlobalSettings::templatesPath() + sFile;
       if (!QFile::exists(x)) {
           kDebugWarning( 1203, "%s doesn't exist", x.ascii());
           KMessageBox::sorry( 0L, i18n("Source file doesn't exist anymore !"));
@@ -216,7 +216,7 @@ void KNewMenu::slotNewFile()
 	}
 	else
 	{
-	    QString src = KUserPaths::templatesPath() + sFile;
+	    QString src = KGlobalSettings::templatesPath() + sFile;
             for ( ; it != popupFiles.end(); ++it )
             {
 		KURL dest( *it );

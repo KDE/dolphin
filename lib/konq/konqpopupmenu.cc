@@ -34,7 +34,7 @@
 #include <ktrader.h>
 #include <kurl.h>
 #include <kuserprofile.h>
-#include <kuserpaths.h>
+#include <kglobalsettings.h>
 #include <kglobal.h>
 #include <kstddirs.h>
 
@@ -98,7 +98,7 @@ KonqPopupMenu::KonqPopupMenu( const KonqFileItemList &items,
 	path += '/';
 
       if ( protocol != "file" ||
-	   path != KUserPaths::trashPath() )
+	   path != KGlobalSettings::trashPath() )
 	isTrash = false;
     }
 
@@ -120,7 +120,7 @@ KonqPopupMenu::KonqPopupMenu( const KonqFileItemList &items,
   url.cleanPath();
 
   if ( url.protocol() == "file" &&
-       url.path(1) == KUserPaths::trashPath() )
+       url.path(1) == KGlobalSettings::trashPath() )
     isCurrentTrash = true;
 
   //check if url is current directory
@@ -396,7 +396,7 @@ void KonqPopupMenu::slotPopupNewView()
 
 void KonqPopupMenu::slotPopupEmptyTrashBin()
 {
-  QDir trashDir( KUserPaths::trashPath() );
+  QDir trashDir( KGlobalSettings::trashPath() );
   QStringList files = trashDir.entryList( QDir::Files && QDir::Dirs );
   files.remove(QString("."));
   files.remove(QString(".."));
@@ -404,7 +404,7 @@ void KonqPopupMenu::slotPopupEmptyTrashBin()
   QStringList::Iterator it(files.begin());
   for (; it != files.end(); ++it )
   {
-    (*it).prepend( KUserPaths::trashPath() );
+    (*it).prepend( KGlobalSettings::trashPath() );
   }
 
   KIO::Job *job = KIO::del( files );

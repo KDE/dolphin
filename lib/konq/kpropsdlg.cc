@@ -72,7 +72,6 @@
 #include <kmessagebox.h>
 #include <kservice.h>
 #include <konqfileitem.h>
-#include <kuserpaths.h>
 #include <kglobal.h>
 #include <kcompletion.h>
 #include <klineedit.h>
@@ -323,7 +322,7 @@ FilePropsPage::FilePropsPage( PropertiesDialog *_props )
   if ( !m_bFromTemplate ) {
     QString tmp = properties->kurl().path( 1 );
     // is it the trash bin ?
-    if ( properties->kurl().isLocalFile() && tmp == KUserPaths::trashPath())
+    if ( properties->kurl().isLocalFile() && tmp == KGlobalSettings::trashPath())
       isTrash = true;
 
     // Extract the full name, but without file: for local files

@@ -32,7 +32,7 @@
 #include <konqdrag.h>
 #include <assert.h>
 #include <unistd.h>
-#include <kuserpaths.h>
+#include <kglobalsettings.h>
 #include <X11/Xlib.h>
 
 void KonqOperations::del( int method, const KURL::List & selectedURLs )
@@ -49,7 +49,7 @@ void KonqOperations::_del( int method, const KURL::List & selectedURLs )
     {
       case TRASH:
       {
-        KIO::Job *job = KIO::move( selectedURLs, KUserPaths::trashPath() );
+        KIO::Job *job = KIO::move( selectedURLs, KGlobalSettings::trashPath() );
         connect( job, SIGNAL( result( KIO::Job * ) ),
                  SLOT( slotResult( KIO::Job * ) ) );
         break;
@@ -121,7 +121,7 @@ void KonqOperations::doDrop( const KonqFileItem * destItem, QDropEvent * ev, QOb
             XQueryPointer( qt_xdisplay(), qt_xrootwin(), &root, &child,
                            &root_x, &root_y, &win_x, &win_y, &keybstate );
 
-            if ( dest.path( 1 ) == KUserPaths::trashPath() )
+            if ( dest.path( 1 ) == KGlobalSettings::trashPath() )
                 ev->setAction( QDropEvent::Move );
             else if ( ((keybstate & ControlMask) == 0) && ((keybstate & ShiftMask) == 0) )
             {

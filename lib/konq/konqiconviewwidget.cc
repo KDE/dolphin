@@ -35,7 +35,7 @@
 #include <konqsettings.h>
 #include <konqdrag.h>
 #include <konqoperations.h>
-#include <kuserpaths.h>
+#include <kglobalsettings.h>
 
 #include <assert.h>
 #include <unistd.h>
@@ -218,7 +218,7 @@ void KonqIconViewWidget::slotSelectionChanged()
 	if ( it->isSelected() )
 	    iCount++;
 
-	if ( ((KFileIVI *)it)->item()->url().directory(false) == KUserPaths::trashPath() )
+	if ( ((KFileIVI *)it)->item()->url().directory(false) == KGlobalSettings::trashPath() )
 	    bInTrash = true;
     }
     cutcopy = del = ( iCount > 0 );

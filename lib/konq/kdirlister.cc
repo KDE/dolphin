@@ -30,7 +30,7 @@
 #include <kio/job.h>
 #include <kmessagebox.h>
 #include <kurl.h>
-#include <kuserpaths.h>
+#include <kglobalsettings.h>
 
 KDirLister::KDirLister( bool _delayedMimeTypes )
 {
