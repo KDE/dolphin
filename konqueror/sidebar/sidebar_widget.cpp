@@ -74,7 +74,7 @@ void addBackEnd::aboutToShowAddMenu()
 
   }
   menu->insertSeparator();
-  menu->insertItem(i18n("Rollback to system default"),i);
+  menu->insertItem(i18n("Rollback to System Default"),i);
 }
 
 
