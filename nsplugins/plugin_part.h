@@ -22,16 +22,13 @@ class PluginPart;
 class NSPluginCallback : public NSPluginCallbackIface
 {
 public:
-
   NSPluginCallback(PluginPart *part);
 
-  virtual void requestURL(QString url, QString target);
-  virtual void statusMessage( QString msg );
+  ASYNC requestURL(QString url, QString target);
+  ASYNC statusMessage( QString msg );
 
 private:
-
   PluginPart *_part;
-
 };
 
 
@@ -40,7 +37,6 @@ class PluginFactory : public KParts::Factory
   Q_OBJECT
 
 public:
-
   PluginFactory();
   virtual ~PluginFactory();
 

@@ -359,7 +359,6 @@ void writeServicesFile( QStringList mimeTypes )
 
 void removeExistingExtensions( QString &extension )
 {
-    kdDebug() << "========> extension = " << extension << endl;
     QStringList filtered;
     QStringList exts = QStringList::split( ",", extension );
     for ( QStringList::Iterator it=exts.begin(); it!=exts.end(); ++it ) {
@@ -367,8 +366,6 @@ void removeExistingExtensions( QString &extension )
 
         KMimeType::Ptr mime = KMimeType::findByURL( KURL("file:///foo."+ext ),
                                                     0, true, true );
-        kdDebug() << "mime=" << mime->name() << " " << endl;
-        kdDebug() << "kde=" << mime->property( "X-KDE-nsplugin" ).toString() << endl;
         if( mime->name()=="application/octet-stream" ||
             mime->comment().left(8)=="Netscape" ) {
             kdDebug() << "accepted" << endl;

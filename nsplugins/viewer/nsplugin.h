@@ -69,6 +69,7 @@ public:
 
   KURL url() { return _url; };
   int pos() { return _pos; };
+  void stop();
 
 signals:
   void finished( NSPluginStreamBase *strm );
@@ -150,6 +151,7 @@ public:
   // constructor, destructor
   NSPluginInstance( NPP privateData, NPPluginFuncs *pluginFuncs, KLibrary *handle,
 		    int width, int height, QString src, QString mime,
+                    QString appId, QString callbackId,
 		    QObject *parent, const char* name=0 );
   ~NSPluginInstance();
 
@@ -158,7 +160,6 @@ public:
   int winId() { return XtWindow(_toplevel); };
   int setWindow(int remove=0);
   void resizePlugin(int w, int h);
-  void setCallback( QCString app, QCString obj );
 
   // value handling
   NPError NPGetValue(NPPVariable variable, void *value);
@@ -237,7 +238,8 @@ public:
 
   QString getMIMEDescription();
   DCOPRef newInstance(QString url, QString mimeType, bool embed,
-		      QStringList argn, QStringList argv);
+		      QStringList argn, QStringList argv,
+                      QString appId, QString callbackId );
   void destroyInstance( NSPluginInstance* inst );
   bool error() { return _error; };
 

@@ -2,7 +2,7 @@
 
   kxt.cpp  -  Xt enabled Qt classed (derived from Qt Extension QXt)
 
-  Copyright (c) 2000 Stefan Schimanski <1Stein@gmx.de>
+  Copyright (c) 2000,2001 Stefan Schimanski <1Stein@gmx.de>
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -282,6 +282,7 @@ static void np_do_timers( void*, void* )
         int interval = QMIN(tm->tv_sec,INT_MAX/1000)*1000 + tm->tv_usec/1000;
         np_set_timer( interval );
     }
+    qxtapp->sendPostedEvents();
 }
 
 /*!
@@ -620,4 +621,4 @@ void KXtWidget::resizeEvent( QResizeEvent* )
     XSendEvent( qt_xdisplay(), c.event, TRUE, NoEventMask, (XEvent*)&c );
     XtResizeWidget( xtw, width(), height(), preferred.border_width );
 }
-#include "kxt.moc"
+

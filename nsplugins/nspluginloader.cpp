@@ -322,7 +322,8 @@ void NSPluginLoader::processTerminated(KProcess *proc)
 
 NSPluginInstance *NSPluginLoader::newInstance(QWidget *parent, QString url,
                                               QString mimeType, bool embed,
-                                              QStringList argn, QStringList argv)
+                                              QStringList argn, QStringList argv,
+                                              QString appId, QString callbackId )
 {
    kdDebug() << "-> NSPluginLoader::NewInstance( parent=" << (void*)parent << ", url=" << url << ", mime=" << mimeType << ", ...)" << endl;
 
@@ -385,7 +386,7 @@ NSPluginInstance *NSPluginLoader::newInstance(QWidget *parent, QString url,
 
 
    // get plugin instance
-   DCOPRef inst_ref = cls->newInstance( url, mime, embed, argn, argv );
+   DCOPRef inst_ref = cls->newInstance( url, mime, embed, argn, argv, appId, callbackId );
    if ( inst_ref.isNull() )
    {
       kdDebug() << "Couldn't create plugin instance" << endl;

@@ -200,9 +200,9 @@ bool PluginPart::openURL(const KURL &url)
     emit setStatusBarText( i18n("Loading Netscape plugin for %1").arg(url.prettyURL()) );
 
     // create plugin widget
-    NSPluginInstance *inst = _loader->newInstance( _canvas, surl, smime, embed, argn, argv );
+    NSPluginInstance *inst = _loader->newInstance( _canvas, surl, smime, embed, argn, argv,
+                                                   kapp->dcopClient()->appId(), _callback->objId() );
     if ( inst ) {
-        inst->setCallback(kapp->dcopClient()->appId(), _callback->objId());
         inst->resize( _canvas->width(), _canvas->height() );
         inst->show();
         _widget = inst;

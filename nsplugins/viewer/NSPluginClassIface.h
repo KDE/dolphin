@@ -47,8 +47,9 @@ class NSPluginClassIface : virtual public DCOPObject
 
 k_dcop:
 
-  virtual DCOPRef newInstance(QString url, QString mimeType, bool embed, 
-			      QStringList argn, QStringList argv) = 0;
+  virtual DCOPRef newInstance(QString url, QString mimeType, bool embed,
+			      QStringList argn, QStringList argv,
+                              QString appId, QString callbackId ) = 0;
   virtual QString getMIMEDescription() = 0;
 
 };
@@ -67,8 +68,6 @@ k_dcop:
   virtual int setWindow(int remove=0) = 0;
 
   virtual void resizePlugin(int w, int h) = 0;
-
-  virtual void setCallback(QCString _app, QCString _obj) = 0;
 
 };
 

@@ -34,8 +34,8 @@ class NSPluginCallbackIface : virtual public DCOPObject
 
 k_dcop:
 
-  virtual void requestURL(QString url, QString target) = 0;
-  virtual void statusMessage( QString msg ) = 0;
+  virtual ASYNC requestURL(QString url, QString target) = 0;
+  virtual ASYNC statusMessage( QString msg ) = 0;
 
 };
 

@@ -31,7 +31,7 @@
 #include <kcmdlineargs.h>
 #include <dcopclient.h>
 #include <klocale.h>
-#include <qintdict.h>
+#include <qlist.h>
 #include <qsocketnotifier.h>
 #include <stdlib.h>
 #include "../../config.h"
@@ -96,16 +96,12 @@ void parseCommandLine(int argc, char *argv[])
 
 struct SocketNot
 {
-  int sock;
-  int type;
+  int fd;
   QObject *obj;
   XtInputId id;
 };
 
-QIntDict<SocketNot> _read_notifiers;
-QIntDict<SocketNot> _write_notifiers;
-QIntDict<SocketNot> _except_notifiers;
-
+QList<SocketNot> _notifiers[3];
 
 /**
  * socketCallback - send event to the socket notifier
@@ -135,56 +131,59 @@ bool qt_set_socket_handler( int sockfd, int type, QObject *obj, bool enable )
 {
   kdDebug(1430) << "-> qt_set_socket_handler( sockfd=" << sockfd << ", type=" << type << ", obj=" << obj << ", enable=" << enable << " )" << endl;
 
-  if ( sockfd < 0 || type < 0 || type > 2 || obj == 0 )
-  {
-     return FALSE;
+  if ( sockfd < 0 || type < 0 || type > 2 || obj == 0 ) {
+#if defined(CHECK_RANGE)
+      qWarning( "QSocketNotifier: Internal error" );
+#endif
+      return FALSE;
   }
 
-  SocketNot *socknot = 0;
-  QIntDict<SocketNot> *notifiers;
   XtPointer inpMask = 0;
 
-  switch (type)
-  {
-  case QSocketNotifier::Read:
-     inpMask = (XtPointer)XtInputReadMask;
-     notifiers = &_read_notifiers;
-     break;
-  case QSocketNotifier::Write:
-     inpMask = (XtPointer)XtInputWriteMask;
-     notifiers = &_write_notifiers;
-     break;
-  case QSocketNotifier::Exception:
-     inpMask = (XtPointer)XtInputExceptMask;
-     notifiers = &_except_notifiers;
-     break;
+  switch (type) {
+  case QSocketNotifier::Read:      inpMask = (XtPointer)XtInputReadMask; break;
+  case QSocketNotifier::Write:     inpMask = (XtPointer)XtInputWriteMask; break;
+  case QSocketNotifier::Exception: inpMask = (XtPointer)XtInputExceptMask; break;
   default: return FALSE;
   }
 
-  socknot = notifiers->find( sockfd );
-  if (enable)
-  {
-    if (!socknot)
-    {
-      socknot = new SocketNot;
-    } else
-    {
-        XtRemoveInput( socknot->id );
-        notifiers->remove( socknot->sock );
-    }
+  if (enable) {
+      SocketNot *sn = new SocketNot;
+      sn->obj = obj;
+      sn->fd = sockfd;
 
-    socknot->sock = sockfd;
-    socknot->type = type;
-    socknot->obj = obj;
-    socknot->id = XtAppAddInput( g_appcon, sockfd, inpMask, socketCallback, socknot );
-    notifiers->insert( sockfd, socknot );
-  } else
-      if (socknot)
-      {
-        XtRemoveInput( socknot->id );
-        notifiers->remove( socknot->sock );
-        delete socknot;
+      if( _notifiers[type].isEmpty() ) {
+          _notifiers[type].insert( 0, sn );
+      } else {
+          SocketNot *p = _notifiers[type].first();
+          while ( p && p->fd > sockfd )
+              p = _notifiers[type].next();
+
+#if defined(CHECK_STATE)
+          if ( p && p->fd==sockfd ) {
+              static const char *t[] = { "read", "write", "exception" };
+              qWarning( "QSocketNotifier: Multiple socket notifiers for "
+                        "same socket %d and type %s", sockfd, t[type] );
+          }
+#endif
+          if ( p )
+              _notifiers[type].insert( _notifiers[type].at(), sn );
+          else
+              _notifiers[type].append( sn );
       }
+
+      sn->id = XtAppAddInput( g_appcon, sockfd, inpMask, socketCallback, sn );
+
+  } else {
+
+      SocketNot *sn = _notifiers[type].first();
+      while ( sn && !(sn->obj == obj && sn->fd == sockfd) )
+          sn = _notifiers[type].next();
+      if ( !sn )				// not found
+          return FALSE;
+
+      XtRemoveInput( sn->id );
+  }
 
   kdDebug(1430) << "<- qt_set_socket_handler" << endl;
   return TRUE;
@@ -205,7 +204,12 @@ int main(int argc, char** argv)
    kdDebug(1430) << "2 - XtToolkitInitialize" << endl;
    XtToolkitInitialize();
    g_appcon = XtCreateApplicationContext();
-   Display *dpy = XtOpenDisplay(g_appcon, NULL, "nspluginviewer", "nspluginviewer", 0, 0, &argc, argv);
+   Display *dpy = XtOpenDisplay(g_appcon, NULL, "nspluginviewer", "nspluginviewer",
+                                0, 0, &argc, argv);
+
+   _notifiers[0].setAutoDelete( TRUE );
+   _notifiers[1].setAutoDelete( TRUE );
+   _notifiers[2].setAutoDelete( TRUE );
 
    kdDebug(1430) << "3 - parseCommandLine" << endl;
    parseCommandLine(argc, argv);

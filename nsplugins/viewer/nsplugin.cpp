@@ -283,19 +283,20 @@ NPError g_NPN_SetValue(NPP /*instance*/, NPPVariable /*variable*/, void */*value
 NSPluginInstance::NSPluginInstance(NPP privateData, NPPluginFuncs *pluginFuncs,
                                    KLibrary *handle, int width, int height,
                                    QString src, QString /*mime*/,
+                                   QString appId, QString callbackId,
                                    QObject *parent, const char* name )
    : QObject( parent, name ), DCOPObject()
 {
    _npp = privateData;
    _npp->ndata = this;
    _destroyed = false;
-   _callback = 0;
    _handle = handle;
    _width = width;
    _height = height;
    _tempFiles.setAutoDelete( true );
    _streams.setAutoDelete( true );
    _waitingRequests.setAutoDelete( true );
+   _callback = new NSPluginCallbackIface_stub( appId.latin1(), callbackId.latin1() );
 
    KURL base(src);
    base.setFileName( QString::null );
@@ -351,6 +352,13 @@ void NSPluginInstance::destroy()
 
         kdDebug(1431) << "delete streams" << endl;
         _waitingRequests.clear();
+
+        for( NSPluginStreamBase *s=_streams.first(); s!=0; ) {
+            NSPluginStreamBase *next = _streams.next();
+            s->stop();
+            s = next;
+        }
+
         _streams.clear();
 
         kdDebug(1431) << "delete callbacks" << endl;
@@ -464,10 +472,8 @@ void NSPluginInstance::requestURL( const QString &url, const QString &mime,
 
 void NSPluginInstance::emitStatus(const QString &message)
 {
-    kdDebug(1431) << "-> NSPluginInstance::emitStatus " << message << endl;
     if( _callback )
       _callback->statusMessage( message );
-    kdDebug(1431) << "<- NSPluginInstance::emitStatus " << endl;
 }
 
 
@@ -640,13 +646,6 @@ void NSPluginInstance::NPURLNotify(QString url, NPReason reason, void *notifyDat
 void NSPluginInstance::addTempFile(KTempFile *tmpFile)
 {
    _tempFiles.append(tmpFile);
-}
-
-
-void NSPluginInstance::setCallback(QCString app, QCString obj)
-{
-   delete _callback;
-   _callback = new NSPluginCallbackIface_stub(app, obj);
 }
 
 /***************************************************************************/
@@ -824,8 +823,9 @@ void NSPluginClass::shutdown()
 }
 
 
-DCOPRef NSPluginClass::newInstance(QString url, QString mimeType, bool embed,
-                                   QStringList argn, QStringList argv)
+DCOPRef NSPluginClass::newInstance( QString url, QString mimeType, bool embed,
+                                    QStringList argn, QStringList argv,
+                                    QString appId, QString callbackId )
 {
    kdDebug(1431) << "-> NSPluginClass::NewInstance" << endl;
 
@@ -863,7 +863,8 @@ DCOPRef NSPluginClass::newInstance(QString url, QString mimeType, bool embed,
 
    // Create plugin instance object
    NSPluginInstance *inst = new NSPluginInstance( npp, &_pluginFuncs, _handle,
-                                                  width, height, baseURL, mimeType, this );
+                                                  width, height, baseURL, mimeType,
+                                                  appId, callbackId, this );
 
    // create plugin instance
    NPError error = _pluginFuncs.newp(mime, npp, embed ? NP_EMBED : NP_FULL,
@@ -924,6 +925,10 @@ NSPluginStreamBase::~NSPluginStreamBase()
 }
 
 
+void NSPluginStreamBase::stop()
+{
+    finish( true );
+}
 
 
 bool NSPluginStreamBase::create( QString url, QString mimeType, void *notify )
