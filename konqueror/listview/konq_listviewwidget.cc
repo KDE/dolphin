@@ -75,6 +75,8 @@ KonqBaseListViewWidget::KonqBaseListViewWidget( KonqListView *parent, QWidget *p
 ,m_pBrowserView(parent)
 ,m_dirLister(new KonqDirLister( true /*m_showIcons==FALSE*/))
 ,m_dragOverItem(0)
+,m_scrollTimer(0)
+,m_rubber(0)
 ,m_showIcons(true)
 ,m_bCaseInsensitive(true)
 ,m_bAscending(true)
@@ -308,6 +310,196 @@ void KonqBaseListViewWidget::initConfig()
    setItemColor( m_pSettings->normalTextColor() );
 
    updateListContents();
+}
+
+void KonqBaseListViewWidget::contentsMousePressEvent( QMouseEvent *e )
+{
+   if ( m_rubber )
+   {
+      drawRubber();
+      delete m_rubber;
+      m_rubber = 0;
+   }
+
+   m_selected.clear();
+
+   QPoint vp = contentsToViewport( e->pos() );
+   KonqBaseListViewItem *item = isExecuteArea( vp ) ?
+         (KonqBaseListViewItem*)itemAt( vp ) : 0L;
+
+   if ( item )
+      KListView::contentsMousePressEvent( e );
+   else {
+      if ( e->button() == LeftButton )
+      {
+         m_rubber = new QRect( e->x(), e->y(), 0, 0 );
+         if ( e->state() & ControlButton )
+            selectedItems( m_selected );
+         else
+            setSelected( itemAt( vp ), false );
+      }
+
+      QListView::contentsMousePressEvent( e );
+   }
+}
+
+void KonqBaseListViewWidget::contentsMouseReleaseEvent( QMouseEvent *e )
+{
+   if ( m_rubber )
+   {
+      drawRubber();
+      delete m_rubber;
+      m_rubber = 0;
+   }
+   m_selected.clear();
+
+   KListView::contentsMouseReleaseEvent( e );
+}
+
+void KonqBaseListViewWidget::contentsMouseMoveEvent( QMouseEvent *e )
+{
+   if ( m_rubber )
+      slotAutoScroll();
+   else
+      KListView::contentsMouseMoveEvent( e );
+}
+
+void KonqBaseListViewWidget::drawRubber()
+{
+   if ( !m_rubber )
+      return;
+
+   QPainter p;
+   p.begin( viewport() );
+   p.setRasterOp( NotROP );
+   p.setPen( QPen( color0, 1 ) );
+   p.setBrush( NoBrush );
+
+   QPoint pt( m_rubber->x(), m_rubber->y() );
+   pt = contentsToViewport( pt );
+   style().drawFocusRect( &p, QRect( pt.x(), pt.y(), m_rubber->width(), m_rubber->height() ),
+                          colorGroup(), &colorGroup().base() );
+   p.end();
+}
+
+void KonqBaseListViewWidget::slotAutoScroll()
+{
+   if ( !m_rubber )
+      return;
+
+   // this code assumes that all items have the same height
+   drawRubber();
+
+   QPoint pos = viewport()->mapFromGlobal( QCursor::pos() );
+   QPoint vc = viewportToContents( pos );
+   ensureVisible( vc.x(), vc.y() );
+
+   int oldTop = m_rubber->normalize().top();
+   int oldBottom = m_rubber->normalize().bottom();
+
+   m_rubber->setRight( vc.x() );
+   m_rubber->setBottom( vc.y() );
+
+   QRect* oldRubber = m_rubber;
+   m_rubber = 0;
+
+   QListViewItem *cur = itemAt( QPoint(0,0) );
+
+   bool block = signalsBlocked();
+   blockSignals( true );
+
+   if ( cur )
+   {
+      QRect rect = itemRect( cur );
+      rect = QRect( viewportToContents( rect.topLeft() ),
+                    viewportToContents( rect.bottomRight() ) );
+
+      int offset = 0;
+      if ( !allColumnsShowFocus() )
+      {
+         int hpos = header()->mapToIndex( 0 );
+         for ( int index = 0; index < hpos; index++ )
+            offset += columnWidth( header()->mapToSection( index ) );
+
+         rect.setLeft( offset );
+         rect.setRight( offset + columnWidth( 0 ) );
+      }
+      else
+      {
+         for ( int index = 0; index < columns(); index++ )
+            offset += columnWidth( header()->mapToSection( index ) );
+
+         rect.setLeft( 0 );
+         rect.setRight( offset );
+      }
+
+      QRect r = rect;
+      QListViewItem *tmp = cur;
+
+      while ( cur && rect.top() <= oldBottom )
+      {
+         if ( rect.intersects( oldRubber->normalize() ) )
+         {
+            if ( !cur->isSelected() && cur->isSelectable() )
+               setSelected( cur, true );
+         } else if ( !m_selected.contains( (KonqBaseListViewItem*)cur ) )
+            setSelected( cur, false );
+
+         cur = cur->itemBelow();
+         rect.moveBy( 0, rect.height() );
+      }
+
+      rect = r;
+      rect.moveBy( 0, -rect.height() );
+      cur = tmp->itemAbove();
+
+      while ( cur && rect.bottom() >= oldTop )
+      {
+         if ( rect.intersects( oldRubber->normalize() ) )
+         {
+            if ( !cur->isSelected() && cur->isSelectable() )
+               setSelected( cur, true );
+         } else if ( !m_selected.contains( (KonqBaseListViewItem*)cur ) )
+            setSelected( cur, false );
+
+         cur = cur->itemAbove();
+         rect.moveBy( 0, -rect.height() );
+      }
+   }
+
+   blockSignals( block );
+   emit selectionChanged();
+
+   m_rubber = oldRubber;
+   drawRubber();
+
+   pos = viewport()->mapFromGlobal( QCursor::pos() );
+   vc = viewportToContents( pos );
+   if ( !QRect( 0, 0, viewport()->width(), viewport()->height() ).contains( vc ) &&
+        !m_scrollTimer )
+   {
+      m_scrollTimer = new QTimer( this );
+
+      connect( m_scrollTimer, SIGNAL( timeout() ),
+               this, SLOT( slotAutoScroll() ) );
+      m_scrollTimer->start( 100, false );
+   }
+   else if ( QRect( 0, 0, viewport()->width(), viewport()->height() ).contains( vc ) &&
+             m_scrollTimer )
+   {
+      disconnect( m_scrollTimer, SIGNAL( timeout() ),
+                  this, SLOT( slotAutoScroll() ) );
+      m_scrollTimer->stop();
+      delete m_scrollTimer;
+      m_scrollTimer = 0;
+   }
+}
+
+void KonqBaseListViewWidget::viewportPaintEvent( QPaintEvent *e )
+{
+   drawRubber();
+   KListView::viewportPaintEvent( e );
+   drawRubber();
 }
 
 void KonqBaseListViewWidget::viewportResizeEvent(QResizeEvent * e)

@@ -21,9 +21,9 @@
 
 #include <qcursor.h>
 #include <qpixmap.h>
-#include <qintdict.h>
 #include <qtimer.h>
 #include <qevent.h>
+#include <qvaluelist.h>
 
 #include <kurl.h>
 #include <konq_fileitem.h>
@@ -34,6 +34,7 @@
 
 namespace KIO { class Job; }
 class QCursor;
+class QRect;
 class KonqDirLister;
 class KonqFMSettings;
 class ListViewPropertiesExtension;
@@ -144,6 +145,8 @@ class KonqBaseListViewWidget : public KListView
       void slotItemRenamed(QListViewItem*, const QString &, int);
 
    protected slots:
+      void slotAutoScroll();
+
       // from QListView
       virtual void slotReturnPressed( QListViewItem *_item );
       virtual void slotRightButtonPressed( QListViewItem *_item, const QPoint &_global, int _column );
@@ -186,7 +189,13 @@ class KonqBaseListViewWidget : public KListView
       virtual void viewportDragEnterEvent( QDragEnterEvent *_ev );
       virtual void viewportDragLeaveEvent( QDragLeaveEvent *_ev );
       virtual void viewportDropEvent( QDropEvent *_ev );
-      virtual void viewportResizeEvent(QResizeEvent * e);
+      virtual void viewportPaintEvent( QPaintEvent *e );
+      virtual void viewportResizeEvent( QResizeEvent *e );
+
+      virtual void drawRubber();
+      virtual void contentsMousePressEvent( QMouseEvent *e );
+      virtual void contentsMouseReleaseEvent( QMouseEvent *e );
+      virtual void contentsMouseMoveEvent( QMouseEvent *e );
 
       /** Common method for slotCompleted and slotCanceled */
       virtual void setComplete();
@@ -212,9 +221,13 @@ class KonqBaseListViewWidget : public KListView
 
       KonqBaseListViewItem* m_dragOverItem;
     //QStringList m_lstDropFormats;
+      QValueList<KonqBaseListViewItem*> m_selected;
+      QTimer *m_scrollTimer;
 
       QFont m_itemFont;
       QColor m_itemColor;
+
+      QRect *m_rubber;
 
       bool m_bTopLevelComplete:1;
       bool m_showIcons:1;
@@ -231,7 +244,6 @@ class KonqBaseListViewWidget : public KListView
       KURL m_url;
 
       QString m_itemToGoTo;
-
 };
 
 #endif
