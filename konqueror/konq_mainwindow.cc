@@ -1151,6 +1151,13 @@ void KonqMainWindow::customEvent( QCustomEvent *event )
   {
     KParts::OpenURLEvent * ev = static_cast<KParts::OpenURLEvent*>(event);
     KonqView * senderChildView = childView(ev->part());
+
+    // ### FIXME: use urlargs from OpenURLEvent, next wednesday ;-) (Simon)
+    KParts::BrowserExtension *ext = senderChildView->browserExtension();
+    KParts::URLArgs args;
+    if ( ext )
+      args = ext->urlArgs();
+
     // Check if sender is linked
     bool bLinked = senderChildView->linkedView();
     // Forward the event to all views
@@ -1161,12 +1168,17 @@ void KonqMainWindow::customEvent( QCustomEvent *event )
       // Don't resend to sender
       if (it.key() != ev->part())
       {
-        //kdDebug(1202) << "Sending event to view " << it.key()->className() << endl;
+      //kdDebug(1202) << "Sending event to view " << it.key()->className() << endl;
        QApplication::sendEvent( it.key(), event );
+       
+       bool reload = false;
+       if ( ext )
+         reload = args.reload;
+       
        // Linked-views feature
        if ( bLinked && (*it)->linkedView()
             && !(*it)->isLoading()
-            && (*it)->url() != ev->url() ) // avoid loops !
+            && ( (*it)->url() != ev->url() || reload ) ) // avoid loops !
        {
          // A linked view follows this URL if it supports that service type
          // _OR_ if the sender is passive (in this case it's locked and we want
@@ -1177,7 +1189,10 @@ void KonqMainWindow::customEvent( QCustomEvent *event )
            kdDebug(1202) << "Sending openURL to view " << it.key()->className() << " url:" << ev->url().url() << endl;
            kdDebug(1202) << "Current view url:" << (*it)->url().url() << endl;
            (*it)->setLockedViewMode(true);
-           openURL( (*it), ev->url() );
+	   if ( ext )
+	     openURL( (*it), ev->url(), args );
+	   else
+             openURL( (*it), ev->url() );
          } else
            kdDebug(1202) << "View doesn't support service type " << senderChildView->serviceType() << endl;
        }
