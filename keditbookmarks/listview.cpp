@@ -108,12 +108,7 @@ void KEBListView::readonlyFlagInit(bool readonly) {
 }
 
 void ListView::setInitialAddress(QString address) {
-   KEBListViewItem *item = getItemAtAddress(address);
-   if (!item) {
-      item = m_listView->rootItem();
-   }
-   setCurrent(item);
-   item->setSelected(true);
+   m_last_selection_address = address;
 }
 
 void ListView::connectSignals() {

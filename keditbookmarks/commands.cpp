@@ -105,21 +105,15 @@ void CreateCommand::unexecute() {
    if (item && item->bookmark().hasParent() && item->bookmark().address() == m_to) {
       item->setSelected(false);
 
-      QListViewItem *selectItem = 0;
-
       // can't use itemBelow here, in case we're deleting a folder
-      if (selectItem = item->nextSibling(), !selectItem) {
+      QListViewItem *selectItem = item->nextSibling();
+      if (!selectItem) {
          // no next sibling ? Go to previous one, then.
-         QString prevAddr = bk.parentGroup().previousAddress(bk.address());
-
-         selectItem = 
-            (prevAddr.isEmpty()) 
-          ? ListView::self()->getItemAtAddress(KBookmark::parentAddress(bk.address()))
-          : ListView::self()->getItemAtAddress(prevAddr);
-      }
-
-      if (selectItem) {
-         item->setSelected(true);
+         QString selcAddr = bk.parentGroup().previousAddress(bk.address());
+         if (selcAddr.isEmpty()) {
+            KBookmark::parentAddress(bk.address());
+         }
+         ListView::self()->setInitialAddress(selcAddr);
       }
    }
 

@@ -117,11 +117,9 @@ void ActionsImpl::slotImport() {
    if (!import) {
       return;
    }
+   // TODO - following line doesn't work, fixme
+   ListView::self()->setInitialAddress(import->groupAddress());
    CmdHistory::self()->addCommand(import);
-   KEBListViewItem *item = ListView::self()->getItemAtAddress(import->groupAddress());
-   if (item) {
-      ListView::self()->setCurrent(item);
-   }
 }
 
 void ActionsImpl::slotExportNS() {

@@ -170,6 +170,7 @@ KEBApp::KEBApp(const QString & bookmarksFile, bool readonly, const QString &addr
 
    ListView::createListViews(splitter);
    ListView::self()->initListViews();
+   ListView::self()->setInitialAddress(address);
 
    setCentralWidget(splitter);
    resize(ListView::self()->widget()->sizeHint().width()
@@ -187,8 +188,6 @@ KEBApp::KEBApp(const QString & bookmarksFile, bool readonly, const QString &addr
    KGlobal::locale()->insertCatalogue("libkonq");
 
    construct();
-
-   ListView::self()->setInitialAddress(address);
 
    updateActions();
 }
