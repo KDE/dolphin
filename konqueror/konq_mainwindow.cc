@@ -97,7 +97,7 @@ QList<KonqMainWindow> *KonqMainWindow::s_lstViews = 0;
 KonqMainWindow::ActionSlotMap *KonqMainWindow::s_actionSlotMap = 0;
 
 KonqMainWindow::KonqMainWindow( const KURL &initialURL, bool openInitialURL, const char *name )
- : KParts::MainWindow( name, WDestructiveClose | WStyle_ContextHelp )
+ : m_currentView( 0 ), KParts::MainWindow( name, WDestructiveClose | WStyle_ContextHelp )
 {
   if ( !s_lstViews )
     s_lstViews = new QList<KonqMainWindow>;
@@ -107,7 +107,6 @@ KonqMainWindow::KonqMainWindow( const KURL &initialURL, bool openInitialURL, con
   if ( !s_actionSlotMap )
       s_actionSlotMap = new ActionSlotMap( KParts::BrowserExtension::actionSlotMap() );
 
-  m_currentView = 0L;
   m_pBookmarkMenu = 0L;
   m_dcopObject = 0L;
   m_combo = 0L;
@@ -1793,8 +1792,7 @@ void KonqMainWindow::slotComboPlugged()
 
 bool KonqMainWindow::eventFilter(QObject*obj,QEvent *ev)
 {
-  if (m_currentView &&
-      ( ev->type()==QEvent::FocusIn || ev->type()==QEvent::FocusOut ))
+  if ( ( ev->type()==QEvent::FocusIn || ev->type()==QEvent::FocusOut ) && m_currentView )
   {
     kdDebug() << "KonqMainWindow::eventFilter " << obj << endl;
     ASSERT( obj == m_combo->lineEdit() );
