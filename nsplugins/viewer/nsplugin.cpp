@@ -494,6 +494,7 @@ void NSPluginInstance::destroy()
         if (saved)
           g_NPN_MemFree(saved);
 
+#if 0
         XtRemoveEventHandler(_form, (KeyPressMask|KeyReleaseMask), 
                              False, forwarder, (XtPointer)this);
         XtRemoveEventHandler(_toplevel, (KeyPressMask|KeyReleaseMask), 
@@ -501,6 +502,7 @@ void NSPluginInstance::destroy()
         XtDestroyWidget(_area);
         XtDestroyWidget(_form);
         XtDestroyWidget(_toplevel);
+#endif
 
         ::free(_npp);   // matched with malloc() in newInstance
 
