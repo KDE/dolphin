@@ -769,8 +769,8 @@ bool Sidebar_Widget::eventFilter(QObject *obj, QEvent *ev)
 				{
 					m_buttonPopup=new KPopupMenu(this, "Sidebar_Widget::ButtonPopup");
 					m_buttonPopup->insertTitle(SmallIcon("unknown"), "", 50);
-					m_buttonPopup->insertItem(SmallIconSet("www"), i18n("Set URL"),2);
-					m_buttonPopup->insertItem(SmallIconSet("image"), i18n("Set Icon"),1);
+					m_buttonPopup->insertItem(SmallIconSet("www"), i18n("Set URL..."),2);
+					m_buttonPopup->insertItem(SmallIconSet("image"), i18n("Set Icon..."),1);
 					m_buttonPopup->insertSeparator();
 					m_buttonPopup->insertItem(SmallIconSet("remove"), i18n("Remove"),3);
 					m_buttonPopup->insertSeparator();
