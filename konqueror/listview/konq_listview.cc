@@ -346,31 +346,30 @@ void KonqListView::disableIcons( const KURL::List &lst )
 void KonqListView::slotSelect()
 {
    KLineEditDlg l( i18n("Select files:"), "*", m_pListView );
-   if ( l.exec() )
+   if ( !l.exec() )
+      return;
+   QString pattern = l.text();
+   if ( pattern.isEmpty() )
+      return;
+
+   QRegExp re( pattern, true, true );
+
+   m_pListView->blockSignals( true );
+
+   for (KonqBaseListViewWidget::iterator it = m_pListView->begin(); it != m_pListView->end(); it++ )
    {
-      QString pattern = l.text();
-      if ( pattern.isEmpty() )
-         return;
-
-      QRegExp re( pattern, true, true );
-
-      m_pListView->blockSignals( true );
-
-      for (KonqBaseListViewWidget::iterator it = m_pListView->begin(); it != m_pListView->end(); it++ )
+      if ((m_pListView->automaticSelection()) && (it->isSelected()))
       {
-         if ((m_pListView->automaticSelection()) && (it->isSelected()))
-         {
-             it->setSelected(FALSE);
-             //the following line is to prevent that more than one item were selected
-             //and now get deselected and automaticSelection() was true, this shouldn't happen
-             //but who knows, aleXXX
-             m_pListView->deactivateAutomaticSelection();
-         };
-         if ( re.search( it->text(0) ) != -1 )
-            it->setSelected( TRUE);
+         it->setSelected(FALSE);
+         //the following line is to prevent that more than one item were selected
+         //and now get deselected and automaticSelection() was true, this shouldn't happen
+         //but who knows, aleXXX
+         m_pListView->deactivateAutomaticSelection();
       };
-      m_pListView->blockSignals( false );
-   }
+      if ( re.search( it->text(0) ) != -1 )
+         it->setSelected( TRUE);
+   };
+   m_pListView->blockSignals( false );
    m_pListView->deactivateAutomaticSelection();
    emit m_pListView->selectionChanged();
    m_pListView->viewport()->update();
@@ -379,22 +378,21 @@ void KonqListView::slotSelect()
 void KonqListView::slotUnselect()
 {
    KLineEditDlg l( i18n("Unselect files:"), "*", m_pListView );
-   if ( l.exec() )
-   {
-      QString pattern = l.text();
-      if ( pattern.isEmpty() )
-         return;
+   if ( !l.exec() )
+      return;
+   QString pattern = l.text();
+   if ( pattern.isEmpty() )
+      return;
 
-      QRegExp re( pattern, TRUE, TRUE );
+   QRegExp re( pattern, TRUE, TRUE );
 
-      m_pListView->blockSignals(TRUE);
+   m_pListView->blockSignals(TRUE);
 
-      for (KonqBaseListViewWidget::iterator it = m_pListView->begin(); it != m_pListView->end(); it++ )
-         if ( re.search( it->text(0) ) != -1 )
-            it->setSelected(FALSE);
+   for (KonqBaseListViewWidget::iterator it = m_pListView->begin(); it != m_pListView->end(); it++ )
+      if ( re.search( it->text(0) ) != -1 )
+         it->setSelected(FALSE);
 
-      m_pListView->blockSignals(FALSE);
-   }
+   m_pListView->blockSignals(FALSE);
    m_pListView->deactivateAutomaticSelection();
    emit m_pListView->selectionChanged();
    m_pListView->viewport()->update();
