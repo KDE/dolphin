@@ -26,7 +26,7 @@ libkonq_la_LIBADD = $(LIB_KPARTS)
 libkonq_la_SOURCES = konq_popupmenu.cc knewmenu.cc \
    kbookmarkmenu.cc kbookmark.cc kbookmarkbar.cc kbookmarkimporter.cc \
    kbookmarkexporter.cc kbookmarkmanager.cc kbookmarkmanager.skel \
-   kbookmarkdrag.cc kbookmarklistener.stub kbookmarklistener.signals \
+   kbookmarkdrag.cc kbookmarknotifier.skel \
    konq_xmlguiclient.cc\
    kfileivi.cc konq_iconviewwidget.cc konq_settings.cc konq_drag.cc  \
    konq_operations.cc \
@@ -46,9 +46,9 @@ servicetypedir = $(kde_servicetypesdir)
 
 METASOURCES = AUTO
 
-include_HEADERS = konq_popupmenu.h knewmenu.h kbookmarklistener.h \
+include_HEADERS = konq_popupmenu.h knewmenu.h kbookmarknotifier.h \
     kbookmark.h kbookmarkmenu.h kbookmarkbar.h kbookmarkimporter.h \
-    kbookmarkexporter.h kbookmarkmanager.h kbookmarkdrag.h kbookmarklistener_signals.h kbookmarklistener_stub.h \
+    kbookmarkexporter.h kbookmarkmanager.h kbookmarkdrag.h \
     kfileivi.h konq_drag.h konq_iconviewwidget.h \
     konq_defaults.h konq_settings.h \
     konq_operations.h \

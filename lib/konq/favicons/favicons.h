@@ -83,6 +83,10 @@ k_dcop:
      */
     ASYNC downloadHostIcon(const KURL &url);
 
+k_dcop_signals:
+    void iconChanged(bool isHost, QString hostOrURL, QString iconName);
+    void infoMessage(KURL iconURL, QString msg);
+
 private:
     void startDownload(const QString &, bool, const KURL &);
     QString simplifyURL(const KURL &);

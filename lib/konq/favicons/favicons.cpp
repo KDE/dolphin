@@ -218,19 +218,13 @@ void FaviconsModule::slotResult(KIO::Job *job)
     if (iconName.isEmpty())
         d->failedDownloads.append(iconURL);
 
-    QByteArray data;
-    QDataStream stream( data, IO_WriteOnly );
-    stream << download.isHost << download.hostOrURL << iconName;
-    emitDCOPSignal("iconChanged(bool,QString,QString)", data);
+    emit iconChanged(download.isHost, download.hostOrURL, iconName);
 }
 
 void FaviconsModule::slotInfoMessage(KIO::Job *job, const QString &msg)
 {
     QString iconURL = static_cast<KIO::TransferJob *>(job)->url().url();
-    QByteArray data;
-    QDataStream stream( data, IO_WriteOnly );
-    stream << iconURL << msg;
-    emitDCOPSignal("infoMessage(KURL,QString)", data);
+    emit infoMessage(iconURL, msg);
 }
 
 void FaviconsModule::slotKill()
