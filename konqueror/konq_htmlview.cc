@@ -80,8 +80,8 @@ KonqHTMLView::~KonqHTMLView()
   delete m_pBrowser;
 }
 
-void KonqHTMLView::openURL( const QString &url, bool reload = false,
-                            int xOffset = 0, int yOffset = 0 )
+void KonqHTMLView::openURL( const QString &url, bool reload,
+                            int xOffset, int yOffset )
 {
     m_bAutoLoadImages = KonqSettings::defaultHTMLSettings()->autoLoadImages();
     m_pBrowser->enableImages( m_bAutoLoadImages );
@@ -186,7 +186,8 @@ bool KonqHTMLView::mappingFillToolBar( Browser::View::EventFillToolBar viewToolB
   return true;
 }
 */
-void KonqHTMLView::slotMousePressed( const QString &_url, const QPoint &_global, int _button )
+void KonqHTMLView::slotMousePressed( const QString &_url, 
+				     const QPoint &_global, int _button )
 {
   QString url = _url;
 
@@ -215,12 +216,12 @@ void KonqHTMLView::slotMousePressed( const QString &_url, const QPoint &_global,
       if ( i >= 1 && cURL[ i - 1 ] == '/' )
         mode = S_IFDIR;
     }
-/*
+#if 0
     KFileItem item( "viewURL" /*whatever*/ /*, mode, u );
     KFileItemList items;
     items.append( &item );
     m_pMainView->popupMenu( _global, items );
-*/
+#endif
   }
 }
 

@@ -118,7 +118,7 @@ void KonqTxtEditExtension::pasteSelection()
 {
 }
 
-void KonqTxtEditExtension::moveSelection( const QString &destinationURL = QString::null )
+void KonqTxtEditExtension::moveSelection( const QString &/*destinationURL*/ )
 {
 }
 
