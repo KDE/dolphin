@@ -272,7 +272,7 @@ void KonqMainView::openURL( KonqChildView *_view, const QString &_url, bool relo
       openView( serviceType, url, view );
     else
       view->run( url );
-          
+
   }
   else
   {
@@ -934,9 +934,7 @@ void KonqMainView::slotFileNewAboutToShow()
   // As requested by KNewMenu :
   m_pMenuNew->slotCheckUpToDate();
   // And set the files that the menu apply on :
-  QStringList urls;
-  urls.append( m_currentView->url() );
-  m_pMenuNew->setPopupFiles( urls );
+  m_pMenuNew->setPopupFiles( m_currentView->url() );
 }
 
 void KonqMainView::slotMenuEditAboutToShow()
@@ -1375,6 +1373,13 @@ void KonqMainView::initActions()
   KStdAccel stdAccel;
 
   // File menu
+  /*
+    TODO in the next kparts
+  KActionMenu * m_pamFile = (KActionMenu *)(actionCollection()->action("file_menu"));
+  QObject::connect( m_pamFile->popupMenu(), SIGNAL(aboutToShow()),
+                    this, SLOT(slotFileNewAboutToShow()) );
+                    */
+
   m_pMenuNew = new KNewMenu ( actionCollection(), "new_menu" );
   QObject::connect( m_pMenuNew->popupMenu(), SIGNAL(aboutToShow()),
                     this, SLOT(slotFileNewAboutToShow()) );
