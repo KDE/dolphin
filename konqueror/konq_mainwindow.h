@@ -276,6 +276,9 @@ public:
   KonqFrameBase* workingTab() { return m_pWorkingTab; }
   void setWorkingTab( KonqFrameBase* tab ) { m_pWorkingTab = tab; }
 
+  bool isMimeTypeAssociatedWithSelf( const QString &mimeType );
+  bool isMimeTypeAssociatedWithSelf( const QString &mimeType, const KService::Ptr &offer );
+
 signals:
   void viewAdded( KonqView *view );
   void viewRemoved( KonqView *view );

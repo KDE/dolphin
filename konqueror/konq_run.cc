@@ -97,18 +97,9 @@ void KonqRun::foundMimeType( const QString & _type )
   // (we saved, canceled, or we're starting another app... in any case the current view should stop loading).
   m_bFault = true;
 
-  if ( !m_bFinished ) // only if we're going to open
-  {
-    // Prevention against user stupidity : if the associated app for this mimetype
-    // is konqueror/kfmclient, then we'll loop forever. So we have to check what KRun
-    // is going to do before calling it.
-    KService::Ptr offer = KServiceTypeProfile::preferredService( mimeType, "Application" );
-    if ( offer && ( offer->desktopEntryName() == "konqueror" || offer->desktopEntryName().startsWith("kfmclient") ) )
-    {
-      KMessageBox::error( m_pMainWindow, i18n("There appears to be a configuration error. You have associated Konqueror with %1, but it can't handle this file type.").arg(mimeType));
-      m_bFinished = true;
-    }
-  }
+  if ( !m_bFinished && // only if we're going to open
+       m_pMainWindow->isMimeTypeAssociatedWithSelf( mimeType ) )
+    m_bFinished = true;
 
   if ( m_bFinished ) {
     m_pMainWindow = 0L;

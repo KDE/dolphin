@@ -450,6 +450,8 @@ void KonqMainWindow::openURL( KonqView *_view, const KURL &_url,
             //kdDebug(1202) << "KonqMainWindow::openURL : we were not following. Fire app." << endl;
             // We know the servicetype, let's try its preferred service
             KService::Ptr offer = KServiceTypeProfile::preferredService(serviceType, "Application");
+            if ( isMimeTypeAssociatedWithSelf( serviceType, offer ) )
+                return;
             // Remote URL: save or open ?
             bool open = url.isLocalFile();
             if ( !open ) {
@@ -4214,6 +4216,24 @@ QCString KonqMainWindow::frameType() { return QCString("MainWindow"); }
 KonqFrameBase* KonqMainWindow::childFrame() { return m_pChildFrame; }
 
 void KonqMainWindow::setActiveChild( KonqFrameBase* /*activeChild*/ ) { return; }
+
+bool KonqMainWindow::isMimeTypeAssociatedWithSelf( const QString &mimeType )
+{
+    return isMimeTypeAssociatedWithSelf( mimeType, KServiceTypeProfile::preferredService( mimeType, "Application" ) );
+}
+
+bool KonqMainWindow::isMimeTypeAssociatedWithSelf( const QString &mimeType, const KService::Ptr &offer )
+{
+    // Prevention against user stupidity : if the associated app for this mimetype
+    // is konqueror/kfmclient, then we'll loop forever. So we have to check what KRun
+    // is going to do before calling it.
+    if ( !offer || ( offer->desktopEntryName() != "konqueror" && 
+                     offer->desktopEntryName().startsWith("kfmclient") ) )
+        return false;
+
+    KMessageBox::error( this, i18n("There appears to be a configuration error. You have associated Konqueror with %1, but it can't handle this file type.").arg(mimeType));
+    return true;
+}
 
 // KonqFrameContainerBase implementation END
 
