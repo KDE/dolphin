@@ -106,19 +106,17 @@ QValueList<KBookmark> ListView::itemsToBookmarks(QPtrList<KEBListViewItem>* item
 QPtrList<KEBListViewItem>* ListView::selectedItems() const {
     static QPtrList<KEBListViewItem>* s_selected_items_cache = 0;
     if (!s_selected_items_cache || s_listview_is_dirty) {
+        kdDebug () << "regened" << endl;
         QPtrList<KEBListViewItem> *items = new QPtrList<KEBListViewItem>();
         for (QPtrListIterator<KEBListViewItem> it(*(m_listView->itemList()));
                 it.current() != 0; ++it) {
-            if (it.current()->isSelected())
+            if (!it.current()->isEmptyFolderPadder() && it.current()->isSelected())
                 items->append(it.current());
         }
         s_selected_items_cache = items;
     }
+    s_listview_is_dirty = false;
     return s_selected_items_cache;
-}
-
-KEBListViewItem* ListView::firstSelected() const {
-    return selectedItems()->first();
 }
 
 KEBListViewItem* ListView::findOpenParent(KEBListViewItem *item) const {
@@ -267,7 +265,7 @@ QString ListView::userAddress() const {
         return "/0";
     }
 
-    KEBListViewItem *item = firstSelected();
+    KEBListViewItem *item = selectedItems()->first();
     if (item->isEmptyFolderPadder())
         item = static_cast<KEBListViewItem*>(item->parent());
 
@@ -308,7 +306,7 @@ void ListView::setOpen(bool open) {
 }
 
 SelcAbilities ListView::getSelectionAbilities() const {
-    KEBListViewItem *item = firstSelected();
+    KEBListViewItem *item = selectedItems()->first();
 
     static SelcAbilities sa = { false, false, false, false, false, false, false, false, false };
 
@@ -329,43 +327,43 @@ SelcAbilities ListView::getSelectionAbilities() const {
     return sa;
 }
 
-    void ListView::handleDropped(KEBListView *lv, QDropEvent *e, QListViewItem *newParent, QListViewItem *itemAfterQLVI) {
-        bool inApp = (e->source() == m_listView->viewport())
-            || (m_folderListView && e->source() == m_folderListView->viewport());
-        bool toOther = e->source() != lv->viewport();
+void ListView::handleDropped(KEBListView *lv, QDropEvent *e, QListViewItem *newParent, QListViewItem *itemAfterQLVI) {
+    bool inApp = (e->source() == m_listView->viewport())
+        || (m_folderListView && e->source() == m_folderListView->viewport());
+    bool toOther = e->source() != lv->viewport();
 
-        Q_UNUSED(toOther);
+    Q_UNUSED(toOther);
 
-        if (m_splitView)
+    if (m_splitView)
+        return;
+
+    // drop before root item
+    if (!newParent)
+        return;
+
+    KEBListViewItem *itemAfter = static_cast<KEBListViewItem *>(itemAfterQLVI);
+
+    QString newAddress 
+        = (!itemAfter || itemAfter->isEmptyFolderPadder())
+        ? (static_cast<KEBListViewItem *>(newParent)->bookmark().address() + "/0")
+        : (KBookmark::nextAddress(itemAfter->bookmark().address()));
+
+    KMacroCommand *mcmd = 0;
+
+    if (!inApp) {
+        mcmd = CmdGen::self()->insertMimeSource(i18n("Drop items"), e, newAddress);
+
+    } else {
+        QPtrList<KEBListViewItem> *selection = selectedItems();
+        KEBListViewItem *firstItem = selection->first();
+        if (!firstItem || firstItem == itemAfterQLVI)
             return;
-
-        // drop before root item
-        if (!newParent)
-            return;
-
-        KEBListViewItem *itemAfter = static_cast<KEBListViewItem *>(itemAfterQLVI);
-
-        QString newAddress 
-            = (!itemAfter || itemAfter->isEmptyFolderPadder())
-            ? (static_cast<KEBListViewItem *>(newParent)->bookmark().address() + "/0")
-            : (KBookmark::nextAddress(itemAfter->bookmark().address()));
-
-        KMacroCommand *mcmd = 0;
-
-        if (!inApp) {
-            mcmd = CmdGen::self()->insertMimeSource(i18n("Drop items"), e, newAddress);
-
-        } else {
-            QPtrList<KEBListViewItem> *selection = selectedItems();
-            KEBListViewItem *firstItem = selection->first();
-            if (!firstItem || firstItem == itemAfterQLVI)
-                return;
-            bool copy = (e->action() == QDropEvent::Copy);
-            mcmd = CmdGen::self()->itemsMoved(selection, newAddress, copy);
-        }
-
-        CmdHistory::self()->didCommand(mcmd);
+        bool copy = (e->action() == QDropEvent::Copy);
+        mcmd = CmdGen::self()->itemsMoved(selection, newAddress, copy);
     }
+
+    CmdHistory::self()->didCommand(mcmd);
+}
 
 void ListView::updateListView() {
     s_selected_addresses.clear();
@@ -440,7 +438,7 @@ void ListView::fillWithGroup(KEBListView *lv, KBookmarkGroup group, KEBListViewI
 void ListView::handleCurrentChanged(KEBListView *lv, QListViewItem *item) {
     // hasParent is paranoid, after some thinking remove it
     KEBListViewItem *currentItem = static_cast<KEBListViewItem *>(item);
-    if (currentItem && currentItem->bookmark().hasParent())
+    if (currentItem && currentItem->isEmptyFolderPadder() && currentItem->bookmark().hasParent())
         m_last_selection_address = selectedItems()->count() >= 1
             ? selectedItems()->first()->bookmark().address()
             : currentItem->bookmark().address();
@@ -461,15 +459,15 @@ void ListView::handleMoved(KEBListView *) {
        KMacroCommand *mcmd = CmdGen::self()->deleteItems( i18n("Moved Items"), 
        ListView::self()->selectedItems());
        CmdHistory::self()->didCommand(mcmd);
-       */
+    */
 }
 
 void ListView::handleSelectionChanged(KEBListView *) {
     s_listview_is_dirty = true;
-    KEBApp::self()->updateActions();
     updateSelectedItems();
+    KEBApp::self()->updateActions();
     if (selectedItems()->count() >= 1)
-        KEBApp::self()->bkInfo()->showBookmark(firstSelected()->bookmark());
+        KEBApp::self()->bkInfo()->showBookmark(selectedItems()->first()->bookmark());
 }
 
 void ListView::handleContextMenu(KEBListView *, KListView *, QListViewItem *qitem, const QPoint &p) {
@@ -514,7 +512,7 @@ void ListView::handleItemRenamed(KEBListView *lv, QListViewItem *item, const QSt
 // used by f2 and f3 shortcut slots - see actionsimpl
 void ListView::rename(int column) {
     // TODO - check which listview has focus
-    m_listView->rename(firstSelected(), column);
+    m_listView->rename(selectedItems()->first(), column);
 }
 
 void ListView::clearSelection() {

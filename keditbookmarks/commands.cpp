@@ -112,7 +112,7 @@ void CreateCommand::unexecute() {
     Q_ASSERT(!bk.isNull() && !bk.parentGroup().isNull());
 
     KEBListViewItem *item = 
-        static_cast<KEBListViewItem*>(ListView::self()->firstSelected());
+        static_cast<KEBListViewItem*>(ListView::self()->selectedItems()->first());
 
     if (item 
             && item->bookmark().hasParent() 

@@ -136,7 +136,6 @@ public:
    int numSelected() const;
    KEBListViewItem* selectedItem() const;
    QPtrList<KEBListViewItem>* selectedItems() const;
-   KEBListViewItem* firstSelected() const;
 
    // bookmark helpers
    QValueList<KBookmark> itemsToBookmarks(QPtrList<KEBListViewItem>* items) const;

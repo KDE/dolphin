@@ -559,7 +559,7 @@ void KBookmarkGroupList::visitEnter(const KBookmarkGroup &grp) {
 }
 
 void ActionsImpl::slotRecursiveSort() {
-    KBookmark bk = ListView::self()->firstSelected()->bookmark();
+    KBookmark bk = ListView::self()->selectedItems()->first()->bookmark();
     Q_ASSERT(bk.isGroup());
     KMacroCommand *mcmd = new KMacroCommand(i18n("Recursive Sort"));
     KBookmarkGroupList lister(CurrentMgr::self()->mgr());
@@ -574,7 +574,7 @@ void ActionsImpl::slotRecursiveSort() {
 }
 
 void ActionsImpl::slotSort() {
-    KBookmark bk = ListView::self()->firstSelected()->bookmark();
+    KBookmark bk = ListView::self()->selectedItems()->first()->bookmark();
     Q_ASSERT(bk.isGroup());
     SortCommand *cmd = new SortCommand(i18n("Sort Alphabetically"), bk.address());
     CmdHistory::self()->addCommand(cmd);
@@ -612,21 +612,21 @@ void ActionsImpl::slotChangeComment() {
 }
 
 void ActionsImpl::slotSetAsToolbar() {
-    KBookmark bk = ListView::self()->firstSelected()->bookmark();
+    KBookmark bk = ListView::self()->selectedItems()->first()->bookmark();
     Q_ASSERT(bk.isGroup());
     KMacroCommand *mcmd = CmdGen::self()->setAsToolbar(bk);
     CmdHistory::self()->addCommand(mcmd);
 }
 
 void ActionsImpl::slotShowInToolbar() {
-    KBookmark bk = ListView::self()->firstSelected()->bookmark();
+    KBookmark bk = ListView::self()->selectedItems()->first()->bookmark();
     bool shown = CmdGen::self()->shownInToolbar(bk);
     KMacroCommand *mcmd = CmdGen::self()->setShownInToolbar(bk, !shown);
     CmdHistory::self()->addCommand(mcmd);
 }
 
 void ActionsImpl::slotChangeIcon() {
-    KBookmark bk = ListView::self()->firstSelected()->bookmark();
+    KBookmark bk = ListView::self()->selectedItems()->first()->bookmark();
     KIconDialog dlg(KEBApp::self());
     QString newIcon = dlg.selectIcon(KIcon::Small, KIcon::FileSystem);
     if (newIcon.isEmpty())
