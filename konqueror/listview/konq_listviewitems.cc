@@ -218,11 +218,12 @@ const QPixmap* KonqListViewItem::pixmap( int column ) const
    return pm;
 }
 
-int KonqBaseListViewItem::compare( QListViewItem* item, int col, bool ) const
+int KonqBaseListViewItem::compare( QListViewItem* item, int col, bool ascending ) const
 {
    KonqListViewItem* k = static_cast<KonqListViewItem*>( item );
    if ( sortChar != k->sortChar )
-      return sortChar - k->sortChar;
+      // Dirs are always first, even when sorting in descending order
+      return !ascending ? k->sortChar - sortChar : sortChar - k->sortChar;
 
    for ( unsigned int i=0; i<m_pListViewWidget->NumberOfAtoms; i++ )
    {
