@@ -1120,7 +1120,6 @@ void KonqIconViewWidget::slotSelectionChanged()
     int canDel = 0;
     bool bInTrash = false;
     int iCount = 0;
-    KFileItem * firstSelectedItem = 0L;
 
     for ( QIconViewItem *it = firstItem(); it; it = it->nextItem() )
     {
@@ -1128,9 +1127,6 @@ void KonqIconViewWidget::slotSelectionChanged()
         {
             iCount++;
             canCopy++;
-
-            if ( ! firstSelectedItem )
-                firstSelectedItem = (static_cast<KFileIVI *>( it ))->item();
 
             KURL url = ( static_cast<KFileIVI *>( it ) )->item()->url();
             if ( url.directory(false) == KGlobalSettings::trashPath() )
@@ -1145,12 +1141,7 @@ void KonqIconViewWidget::slotSelectionChanged()
     emit enableAction( "trash", canDel > 0 && !bInTrash && m_url.isLocalFile() );
     emit enableAction( "del", canDel > 0 );
     emit enableAction( "shred", canDel > 0 );
-
-    KFileItemList lstItems;
-    if ( firstSelectedItem )
-        lstItems.append( firstSelectedItem );
-    emit enableAction( "properties", ( iCount == 1 ) &&
-                       KPropertiesDialog::canDisplay( lstItems ) );
+    emit enableAction( "properties", iCount > 0 && KPropertiesDialog::canDisplay( selectedFileItems() ) );
     emit enableAction( "editMimeType", ( iCount == 1 ) );
     emit enableAction( "rename", ( iCount == 1 ) );
 }

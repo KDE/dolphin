@@ -136,8 +136,7 @@ void IconViewBrowserExtension::reparseConfiguration()
 
 void IconViewBrowserExtension::properties()
 {
-    KFileItem * item = m_iconView->iconViewWidget()->selectedFileItems().first();
-    (void) new KPropertiesDialog( item );
+    (void) new KPropertiesDialog( m_iconView->iconViewWidget()->selectedFileItems() );
 }
 
 void IconViewBrowserExtension::editMimeType()

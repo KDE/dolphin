@@ -125,14 +125,13 @@ void ListViewBrowserExtension::updateActions()
   int canCopy = 0;
   int canDel = 0;
   bool bInTrash = false;
+  KFileItemList lstItems;
+
   QValueList<KonqBaseListViewItem*>::ConstIterator it = selection.begin();
-  KFileItem * firstSelectedItem = 0L;
   for (; it != selection.end(); ++it )
   {
+    lstItems.append( (*it)->item() );
     canCopy++;
-    if ( ! firstSelectedItem )
-      firstSelectedItem = (*it)->item();
-
     KURL url = (*it)->item()->url();
     if ( url.directory(false) == KGlobalSettings::trashPath() )
       bInTrash = true;
@@ -145,12 +144,7 @@ void ListViewBrowserExtension::updateActions()
   emit enableAction( "trash", canDel > 0 && !bInTrash && m_listView->url().isLocalFile() );
   emit enableAction( "del", canDel > 0 );
   emit enableAction( "shred", canDel > 0 );
-
-  KFileItemList lstItems;
-  if ( firstSelectedItem )
-      lstItems.append( firstSelectedItem );
-  emit enableAction( "properties", ( selection.count() == 1 ) &&
-                     KPropertiesDialog::canDisplay( lstItems ) );
+  emit enableAction( "properties", selection.count() > 0 && KPropertiesDialog::canDisplay( lstItems ) );
   emit enableAction( "editMimeType", ( selection.count() == 1 ) );
   emit enableAction( "rename", ( m_listView->listViewWidget()->currentItem() != 0 ) );
 }
@@ -212,8 +206,13 @@ void ListViewBrowserExtension::properties()
 {
     QValueList<KonqBaseListViewItem*> selection;
     m_listView->listViewWidget()->selectedItems( selection );
-    assert ( selection.count() == 1 );
-    (void) new KPropertiesDialog( selection.first()->item() );
+    KFileItemList lstItems;
+
+    QValueList<KonqBaseListViewItem*>::ConstIterator it = selection.begin();
+    for ( ; it != selection.end(); ++it )
+        lstItems.append( (*it)->item() );
+			  
+    (void) new KPropertiesDialog( lstItems );
 }
 
 void ListViewBrowserExtension::editMimeType()
