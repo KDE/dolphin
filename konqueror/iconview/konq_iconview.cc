@@ -60,14 +60,6 @@
 
 #include <config.h>
 
-//<<<<<<< konq_iconview.cc
-static const char *mocs[] = {
-	"libkonqiconview_la_moc_classes.h",
-	0
-};
-
-//=======
-//>>>>>>> 1.303
 template class QList<KFileIVI>;
 //template class QValueList<int>;
 
