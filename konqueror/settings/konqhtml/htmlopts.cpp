@@ -57,7 +57,7 @@ KAppearanceOptions::KAppearanceOptions(KConfig *config, QString group, QWidget *
   int E = 0, M = 1, W = 3; //CT 3 (instead 2) allows smaller color buttons
 
   QButtonGroup *bg = new QButtonGroup( 1, QGroupBox::Vertical,
-				       i18n("Font Si&ze"), this );
+                                       i18n("Font Si&ze"), this );
   lay->addMultiCellWidget(bg, r, r, E, W);
 
   QWhatsThis::add( bg, i18n("This is the relative font size Konqueror uses to display web sites.") );
@@ -71,7 +71,7 @@ KAppearanceOptions::KAppearanceOptions(KConfig *config, QString group, QWidget *
 
   QLabel* minSizeLA = new QLabel( i18n( "M&inimum Font Size" ), this );
   lay->addWidget( minSizeLA, ++r, E );
-	
+
   minSizeSB = new QSpinBox( this );
   minSizeLA->setBuddy( minSizeSB );
   connect( minSizeSB, SIGNAL( valueChanged( int ) ),
@@ -235,7 +235,7 @@ void KAppearanceOptions::addFont( QStrList &list, const char *xfont )
     const char *ptr = strchr( xfont, '-' );
     if ( !ptr )
         return;
-	
+
     ptr = strchr( ptr + 1, '-' );
     if ( !ptr )
         return;
@@ -421,7 +421,7 @@ void KAppearanceOptions::updateGUI()
 
 void KAppearanceOptions::save()
 {
-    m_pConfig->setGroup(m_groupname);			
+    m_pConfig->setGroup(m_groupname);
     m_pConfig->writeEntry( "FontSize", fSize );
     m_pConfig->writeEntry( "MinimumFontSize", fMinSize );
     m_pConfig->writeEntry( "StandardFont", stdName );
@@ -473,15 +473,14 @@ KJavaScriptOptions::KJavaScriptOptions( KConfig* config, QString group, QWidget 
   QHBox* domainSpecificHB = new QHBox( domainSpecificGB );
   domainSpecificHB->setSpacing( 10 );
   domainSpecificLV = new KListView( domainSpecificHB );
-  domainSpecificLV->setMinimumHeight( 0.10 * sizeHint().height() );
   domainSpecificLV->addColumn(i18n("Hostname"));
   domainSpecificLV->addColumn(i18n("Java Policy"), 100);
   domainSpecificLV->addColumn(i18n("JavaScript Policy"), 120);
   QString wtstr = i18n("This box contains the domains and hosts you have set "
-					   "a specific JavaScript policy for. This policy will be used "
-					   "instead of the default policy for enabling or disabling JavaScript on pages sent by these "
-					   "domains or hosts. <p>Select a policy and use the controls on "
-					   "the right to modify it.");
+                       "a specific JavaScript policy for. This policy will be used "
+                       "instead of the default policy for enabling or disabling JavaScript on pages sent by these "
+                       "domains or hosts. <p>Select a policy and use the controls on "
+                       "the right to modify it.");
   QWhatsThis::add( domainSpecificLV, wtstr );
   QWhatsThis::add( domainSpecificGB, wtstr );
 
@@ -489,43 +488,43 @@ KJavaScriptOptions::KJavaScriptOptions( KConfig* config, QString group, QWidget 
   domainSpecificVB->setSpacing( 10 );
   QPushButton* addDomainPB = new QPushButton( i18n("Add..."), domainSpecificVB );
   QWhatsThis::add( addDomainPB, i18n("Click on this button to manually add a domain-"
-									 "specific policy.") );
+                                     "specific policy.") );
   connect( addDomainPB, SIGNAL(clicked()), SLOT( addPressed() ) );
 
   QPushButton* changeDomainPB = new QPushButton( i18n("Change..."), domainSpecificVB );
   QWhatsThis::add( changeDomainPB, i18n("Click on this button to change the policy for the "
-										"domain selected in the list box.") );
+                                        "domain selected in the list box.") );
   connect( changeDomainPB, SIGNAL( clicked() ), this, SLOT( changePressed() ) );
 
   QPushButton* deleteDomainPB = new QPushButton( i18n("Delete"), domainSpecificVB );
   QWhatsThis::add( deleteDomainPB, i18n("Click on this button to change the policy for the "
-										"domain selected in the list box.") );
+                                        "domain selected in the list box.") );
   connect( deleteDomainPB, SIGNAL( clicked() ), this, SLOT( deletePressed() ) );
 
   QPushButton* importDomainPB = new QPushButton( i18n("Import..."), domainSpecificVB );
   QWhatsThis::add( importDomainPB, i18n("Click this button to choose the file that contains "
-										"the JavaScript policies.  These policies will be merged "
-										"with the exisiting ones.  Duplicate enteries are ignored.") );
+                                        "the JavaScript policies.  These policies will be merged "
+                                        "with the exisiting ones.  Duplicate enteries are ignored.") );
   connect( importDomainPB, SIGNAL( clicked() ), this, SLOT( importPressed() ) );
   importDomainPB->setEnabled( false );
 
   QPushButton* exportDomainPB = new QPushButton( i18n("Export..."), domainSpecificVB );
   QWhatsThis::add( exportDomainPB, i18n("Click this button to save the JavaScript policy to a zipped "
-										"file.  The file, named <b>javascript_policy.tgz</b>, will be "
-										"saved to a location of your choice." ) );
+                                        "file.  The file, named <b>javascript_policy.tgz</b>, will be "
+                                        "saved to a location of your choice." ) );
 
   connect( exportDomainPB, SIGNAL( clicked() ), this, SLOT( exportPressed() ) );
   exportDomainPB->setEnabled( false );
 
   QWhatsThis::add( domainSpecificGB, i18n("Here you can set specific JavaScript policies for any particular "
-										  "domain. To add a new policy, simply click the <i>Add...</i> "
-										  "button and supply the necessary information requested by the "
-										  "dialog box. To change an exisiting policy, click on the <i>Change...</i> "
-										  "button and choose the new policy from the policy dialog box.  Clicking "
-										  "on the <i>Delete</i> will remove the selected policy causing the default "
-										  "policy setting to be used for that domain. The <i>Import</i> and <i>Export</i> "
-										  "button allows you to easily share your policies with other people by allowing "
-										  "you to save and retrive them from a zipped file.") );
+                                          "domain. To add a new policy, simply click the <i>Add...</i> "
+                                          "button and supply the necessary information requested by the "
+                                          "dialog box. To change an exisiting policy, click on the <i>Change...</i> "
+                                          "button and choose the new policy from the policy dialog box.  Clicking "
+                                          "on the <i>Delete</i> will remove the selected policy causing the default "
+                                          "policy setting to be used for that domain. The <i>Import</i> and <i>Export</i> "
+                                          "button allows you to easily share your policies with other people by allowing "
+                                          "you to save and retrive them from a zipped file.") );
 
   // the Java runtime settings
   QVGroupBox* javartGB = new QVGroupBox( i18n( "Java Runtime Settings" ), this );
@@ -540,24 +539,24 @@ KJavaScriptOptions::KJavaScriptOptions( KConfig* config, QString group, QWidget 
   dummy->hide();
   findJavaHB->setSpacing( 10 );
   autoDetectRB = new QRadioButton( i18n( "&Automatically detect Java" ),
-								   findJavaHB );
+                                   findJavaHB );
   connect( autoDetectRB, SIGNAL( toggled( bool ) ),
 		   this, SLOT( changed() ) );
   connect( autoDetectRB, SIGNAL( toggled( bool ) ),
 		   this, SLOT( toggleJavaControls() ) );
   dummy->insert( autoDetectRB );
   userSpecifiedRB = new QRadioButton( i18n( "Use user-specified Java" ),
-									  findJavaHB );
+                                      findJavaHB );
   connect( userSpecifiedRB, SIGNAL( toggled( bool ) ),
 		   this, SLOT( changed() ) );
   connect( userSpecifiedRB, SIGNAL( toggled( bool ) ),
 		   this, SLOT( toggleJavaControls() ) );
   dummy->insert( userSpecifiedRB );
   wtstr = i18n("If 'Automatically detect Java' is selected, konqueror will try to find "
-       "your java installation on its own (this should normally work, if java is somewhere in your path). "
-					   "Select 'Use user-specified Java' if konqueror can't find your Java installation or if you have "
-					   "several virtual machines installed and want to use a special one. In this case, enter the full path "
-					   "to your java installation in the edit field below.");
+               "your java installation on its own (this should normally work, if java is somewhere in your path). "
+               "Select 'Use user-specified Java' if konqueror can't find your Java installation or if you have "
+               "several virtual machines installed and want to use a special one. In this case, enter the full path "
+               "to your java installation in the edit field below.");
   QWhatsThis::add( autoDetectRB, wtstr );
   QWhatsThis::add( userSpecifiedRB, wtstr );
 
@@ -577,7 +576,7 @@ KJavaScriptOptions::KJavaScriptOptions( KConfig* config, QString group, QWidget 
 		   this, SLOT( changed() ) );
   addArgLA->setBuddy( addArgED );
   wtstr = i18n("If 'Use user-specified Java' is selected, you'll need to enter the path to "
-			   "your Java installation here (i.e. /usr/lib/jdk ).");
+               "your Java installation here (i.e. /usr/lib/jdk ).");
   QWhatsThis::add( pathED, wtstr );
   wtstr = i18n("If you want special arguments to be passed to the virtual machine, enter them here.");
   QWhatsThis::add( addArgED, wtstr );
@@ -593,7 +592,7 @@ void KJavaScriptOptions::load()
     m_pConfig->setGroup(m_groupname);
     bool bJavaGlobal = m_pConfig->readBoolEntry( "EnableJava", false);
     bool bJavaScriptGlobal = m_pConfig->readBoolEntry( "EnableJavaScript",
-														false );
+                                                       false );
     bool bJavaConsole = m_pConfig->readBoolEntry( "ShowJavaConsole", false );
     bool bJavaAutoDetect = m_pConfig->readBoolEntry( "JavaAutoDetect", true );
     QString sJDKArgs = m_pConfig->readEntry( "JavaArgs", "" );
@@ -645,14 +644,14 @@ void KJavaScriptOptions::save()
     QListViewItem* current;
     while( ( current = it.current() ) ) {
         ++it;
-        QCString javaPolicy = KHTMLSettings::adviceToStr( 
+        QCString javaPolicy = KHTMLSettings::adviceToStr(
                  (KHTMLSettings::KJavaScriptAdvice) javaDomainPolicy[current]);
-        QCString javaScriptPolicy = KHTMLSettings::adviceToStr( 
+        QCString javaScriptPolicy = KHTMLSettings::adviceToStr(
                  (KHTMLSettings::KJavaScriptAdvice) javaScriptDomainPolicy[current]);
         domainConfig.append(QString::fromLatin1("%1:%2:%3").arg(current->text(0)).arg(javaPolicy).arg(javaScriptPolicy));
     }
     m_pConfig->writeEntry("JavaScriptDomainAdvice", domainConfig);
-	
+
     m_pConfig->sync();
 }
 
@@ -680,15 +679,15 @@ void KJavaScriptOptions::addPressed()
     pDlg.setDefaultPolicy( def_javapolicy, def_javascriptpolicy );
     pDlg.setCaption( i18n( "New Java/JavaScript Policy" ) );
     if( pDlg.exec() ) {
-	  QListViewItem* index = new QListViewItem( domainSpecificLV, pDlg.domain(),
-												KHTMLSettings::adviceToStr( (KHTMLSettings::KJavaScriptAdvice)
-															 pDlg.javaPolicyAdvice() ),
-												KHTMLSettings::adviceToStr( (KHTMLSettings::KJavaScriptAdvice)
-															 pDlg.javaScriptPolicyAdvice() ) );
-	  javaDomainPolicy.insert( index, (KHTMLSettings::KJavaScriptAdvice)pDlg.javaPolicyAdvice());
-	  javaScriptDomainPolicy.insert( index, (KHTMLSettings::KJavaScriptAdvice)pDlg.javaScriptPolicyAdvice());
-	  domainSpecificLV->setCurrentItem( index );
-	  changed();
+        QListViewItem* index = new QListViewItem( domainSpecificLV, pDlg.domain(),
+                                                  KHTMLSettings::adviceToStr( (KHTMLSettings::KJavaScriptAdvice)
+                                                                              pDlg.javaPolicyAdvice() ),
+                                                  KHTMLSettings::adviceToStr( (KHTMLSettings::KJavaScriptAdvice)
+                                                                              pDlg.javaScriptPolicyAdvice() ) );
+        javaDomainPolicy.insert( index, (KHTMLSettings::KJavaScriptAdvice)pDlg.javaPolicyAdvice());
+        javaScriptDomainPolicy.insert( index, (KHTMLSettings::KJavaScriptAdvice)pDlg.javaScriptPolicyAdvice());
+        domainSpecificLV->setCurrentItem( index );
+        changed();
     }
 }
 
@@ -765,7 +764,7 @@ void KJavaScriptOptions::updateDomainList(const QStringList &domainConfig)
       KHTMLSettings::KJavaScriptAdvice javaScriptAdvice;
       KHTMLSettings::splitDomainAdvice(*it, domain, javaAdvice, javaScriptAdvice);
       QListViewItem *index =
-        new QListViewItem( domainSpecificLV, domain, 
+        new QListViewItem( domainSpecificLV, domain,
                 i18n(KHTMLSettings::adviceToStr(javaAdvice)),
                 i18n(KHTMLSettings::adviceToStr(javaScriptAdvice)) );
 
