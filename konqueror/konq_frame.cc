@@ -771,6 +771,11 @@ KonqTabBar::KonqTabBar(KonqViewManager* viewManager, KonqFrameTabs *parent, cons
   m_pPopupMenu->insertItem( SmallIcon( "tab_remove" ), "Close &Other Tabs", m_pViewManager->mainWindow(), SLOT( slotRemoveOtherTabsPopup() ) );
 }
 
+KonqTabBar::~KonqTabBar()
+{
+    delete m_pPopupMenu;
+}
+
 void KonqTabBar::mousePressEvent(QMouseEvent *e)
 {
   kdDebug(1202) << "KonqTabBar::mousePressEvent begin" << endl;
@@ -786,8 +791,8 @@ void KonqTabBar::mousePressEvent(QMouseEvent *e)
   }
 
   QTabBar::mousePressEvent( e );
-  
-  kdDebug(1202) << "KonqTabBar::mousePressEvent end" << endl; 
+
+  kdDebug(1202) << "KonqTabBar::mousePressEvent end" << endl;
 }
 
 KonqFrameTabs::KonqFrameTabs(QWidget* parent, KonqFrameContainerBase* parentContainer, KonqViewManager* viewManager, const char * name)

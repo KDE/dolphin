@@ -284,7 +284,7 @@ public:
   KonqFrameHeader    *header() const { return m_pHeader; }
 
   virtual void activateChild();
-  
+
   KonqView* activeChildView() { return m_pView; }
 
 public slots:
@@ -344,7 +344,7 @@ public:
                                                               m_pParentContainer->setActiveChild( this ); }
 
   virtual void activateChild() { if (m_pActiveChild) m_pActiveChild->activateChild(); }
-  
+
   virtual KonqView* activeChildView() { if (m_pActiveChild) return m_pActiveChild->activeChildView();
                                         else return 0L; }
 
@@ -423,7 +423,7 @@ class KonqTabBar : public QTabBar
 
   public:
     KonqTabBar(KonqViewManager* viewManager, KonqFrameTabs *parent, const char *name = 0);
-
+    ~KonqTabBar();
   protected:
     void mousePressEvent(QMouseEvent *e);
 
@@ -481,7 +481,7 @@ signals:
 
 protected:
   QPtrList<KonqFrameBase>* m_pChildFrameList;
-  
+
 private:
   KonqViewManager* m_pViewManager;
 };
