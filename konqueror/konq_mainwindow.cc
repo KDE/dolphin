@@ -292,14 +292,6 @@ KonqMainWindow::~KonqMainWindow()
   kdDebug(1202) << "KonqMainWindow::~KonqMainWindow " << this << " done" << endl;
 }
 
-// used by preloading - this KonqMainWindow will be reused, reset everything
-// that won't be reset by loading a profile
-void KonqMainWindow::resetWindow()
-{
-    ignoreInitialGeometry();
-    kapp->setTopWidget( this ); // set again the default window icon
-}
-
 QWidget * KonqMainWindow::createContainer( QWidget *parent, int index, const QDomElement &element, int &id )
 {
   static QString nameBookmarkBar = QString::fromLatin1( "bookmarkToolBar" );
@@ -4502,6 +4494,28 @@ void KonqMainWindow::setPreloadedWindow( KonqMainWindow* window )
         return;
     window->viewManager()->clear();
     KIO::Scheduler::unregisterWindow( window );
+}
+
+#include <X11/Xlib.h>
+#include <sys/time.h>
+#include <X11/Xatom.h>
+// used by preloading - this KonqMainWindow will be reused, reset everything
+// that won't be reset by loading a profile
+void KonqMainWindow::resetWindow()
+{
+    // bad hack - without updating the _KDE_NET_USER_TIME property,
+    // will apply don't_steal_focus to this window, and will not make it active
+    // (shows mainly with 'konqueror --preload')
+    // the system used by don't_steal_focus should be probably rethought
+    static Atom atom = XInternAtom( qt_xdisplay(), "_KDE_NET_USER_TIME", False );
+    timeval tv;
+    gettimeofday( &tv, NULL );
+    unsigned long now = tv.tv_sec * 10 + tv.tv_usec / 100000;
+    XChangeProperty(qt_xdisplay(), winId(), atom, XA_CARDINAL,
+                    32, PropModeReplace, (unsigned char *)&now, 1);
+
+    ignoreInitialGeometry();
+    kapp->setTopWidget( this ); // set again the default window icon
 }
 
 // since the preloading code tries to reuse KonqMainWindow,
