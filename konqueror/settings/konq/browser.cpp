@@ -113,7 +113,7 @@ KBrowserOptions::KBrowserOptions(KConfig *config, QString group, QWidget *parent
 
   tab->addTab(appearance, i18n("&Appearance"));
   tab->addTab(behavior, i18n("&Behavior"));
-  tab->addTab(previews, i18n("&Previews"));
+  tab->addTab(previews, i18n("&Previews && Meta-data"));
   if (kuick)
   {
     kuick->layout()->setMargin( KDialog::marginHint() );

@@ -77,10 +77,19 @@ public:
         hide();
     }
 
+    void setPreview(bool on)
+    {
+        m_preview = on;
+        if(on)
+            m_iconLabel->show();
+        else
+            m_iconLabel->hide();
+    }
+
     void setOptions( bool on, bool preview, int num)
     {
         m_num = num;
-        m_preview = preview;
+        setPreview(preview);
         m_on = on;
     }
 
@@ -905,6 +914,9 @@ void KonqIconViewWidget::setURL( const KURL &kurl )
 {
     stopImagePreview();
     m_url = kurl;
+
+    d->pFileTip->setPreview( KConfigGroup( KGlobal::config(), "PreviewSettings" ).readBoolEntry( m_url.protocol(), true ) );
+
     if ( m_url.isLocalFile() )
         m_dotDirectoryPath = m_url.path(1).append( ".directory" );
     else

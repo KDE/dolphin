@@ -45,7 +45,8 @@ KPreviewOptions::KPreviewOptions( QWidget *parent, const char */*name*/ )
 {
     QVBoxLayout *lay = new QVBoxLayout(this, 0, KDialog::spacingHint());
 
-    lay->addWidget( new QLabel( i18n("Allow previews and \"Folder Icons Reflect Contents\" on protocols:"), this ) );
+    lay->addWidget( new QLabel( i18n("<p>Allow previews, \"Folder Icons Reflect Contents\", and "
+                                     "retrieval of meta-data on protocols:</p>"), this ) );
 
     QHBoxLayout *hbox = new QHBoxLayout(); // hbox to avoid a very wide scrollview
     lay->addLayout( hbox );
@@ -76,8 +77,8 @@ KPreviewOptions::KPreviewOptions( QWidget *parent, const char */*name*/ )
         }
     }
     QWhatsThis::add( scrollView,
-                     i18n("This option makes it possible to choose when the file previews "
-                          "and smart folder icons in the File Manager should be activated.\n"
+                     i18n("This option makes it possible to choose when the file previews, "
+                          "smart folder icons, and meta-data in the File Manager should be activated.\n"
                           "In the list of protocols that appear, select which ones are fast "
                           "enough for you to allow previews to be generated.") );
 
