@@ -49,6 +49,7 @@ DomainListView::DomainListView(KConfig *config,const QString &title,
   connect(domainSpecificLV,SIGNAL(doubleClicked(QListViewItem *)), SLOT(changePressed()));
   connect(domainSpecificLV,SIGNAL(returnPressed(QListViewItem *)), SLOT(changePressed()));
   connect(domainSpecificLV, SIGNAL( executed( QListViewItem *)), SLOT( updateButton()));
+  connect(domainSpecificLV, SIGNAL(selectionChanged()), SLOT(updateButton()));
   thisLayout->addMultiCellWidget(domainSpecificLV, 0, 5, 0, 0);
 
   addDomainPB = new QPushButton(i18n("&New..."), this);
