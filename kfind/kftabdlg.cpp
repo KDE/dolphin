@@ -180,9 +180,8 @@ KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name)
     regexpContentCb  =new QCheckBox(i18n("Use &Regular Expression Matching"), pages[2]);
 
     QPushButton* editRegExp = 0;
-    regExpDialog = KParts::ComponentFactory::createInstanceFromQuery<QDialog>( "KRegExpEditor/KRegExpEditor", QString::null, this );
-    if ( regExpDialog ) {
-      // The editor was available, so lets use it.
+    if ( !KTrader::self()->query("KRegExpEditor/KRegExpEditor").isEmpty() ) {
+      // The editor is available, so lets use it.
       editRegExp = new QPushButton(i18n("&Edit Regular Expression"), pages[2], "editRegExp");
     }
 
@@ -228,7 +227,7 @@ KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name)
     connect( sizeBox, SIGNAL(highlighted(int)),
 	     this, SLOT(slotSizeBoxChanged(int)));
 
-    if ( regExpDialog ) {
+    if ( editRegExp ) {
       // The editor was available, so lets use it.
       connect( regexpContentCb, SIGNAL(toggled(bool) ), editRegExp, SLOT(setEnabled(bool)) );
       editRegExp->setEnabled(false);
@@ -253,7 +252,7 @@ KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name)
     grid2->addWidget( sizeUnitBox, 2, 3 );
     grid2->addMultiCellWidget( regexpContentCb, 3, 3, 1, 2);
 
-    if ( regExpDialog ) {
+    if ( editRegExp ) {
       // The editor was available, so lets use it.
       grid2->addWidget( editRegExp, 3, 3 );
     }
@@ -367,14 +366,14 @@ void KfindTabWidget::loadHistory()
   }
 }
 
-void KfindTabWidget::slotEditRegExp() 
+void KfindTabWidget::slotEditRegExp()
 {
   if ( ! regExpDialog )
     regExpDialog = KParts::ComponentFactory::createInstanceFromQuery<QDialog>( "KRegExpEditor/KRegExpEditor", QString::null, this );
 
   KRegExpEditorInterface *iface = dynamic_cast<KRegExpEditorInterface *>( regExpDialog );
   if ( !iface )
-      return;
+       return;
 
   iface->setRegExp( textEdit->text() );
   bool ok = regExpDialog->exec();
