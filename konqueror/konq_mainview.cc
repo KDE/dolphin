@@ -112,10 +112,10 @@ KonqMainView::KonqMainView( const KURL &initialURL, bool openInitialURL, const c
 
   if ( s_plstAnimatedLogo->count() == 0 )
   {
-    for ( int i = 1; i <= 9; i++ )
+    for ( int i = 1; i <= 50; i++ )
     {
       QString n;
-      n.sprintf( "kde%i", i );
+      n.sprintf( "animated/kde.%0.4i", i );
       s_plstAnimatedLogo->append( n );
     }
   }
