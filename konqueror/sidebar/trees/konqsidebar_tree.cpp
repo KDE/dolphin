@@ -3,6 +3,7 @@
 #include "konq_sidebartree.h"
 #include <kdebug.h>
 #include <kstandarddirs.h>
+#include <ksimpleconfig.h>
 #include <qclipboard.h>
 #include <qdragobject.h>
 

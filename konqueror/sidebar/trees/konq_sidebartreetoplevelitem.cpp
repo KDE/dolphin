@@ -24,6 +24,8 @@
 #include <konq_operations.h>
 #include <kprotocolinfo.h>
 #include <kurldrag.h>
+#include <kmimetype.h>
+#include <ksimpleconfig.h>
 #include <qapplication.h>
 #include <qclipboard.h>
 #include <qcursor.h>
