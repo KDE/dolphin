@@ -1461,7 +1461,10 @@ int KonqMainWindow::mainViewsCount() const
   MapViews::ConstIterator end = m_mapViews.end();
   for (; it != end; ++it )
     if ( !it.data()->isPassiveMode() && !it.data()->isToggleView() )
+    {
+      //kdDebug(1202) << "KonqMainWindow::mainViewsCount " << res << " " << it.data() << " " << it.data()->part()->widget() << endl;
       ++res;
+    }
 
   return res;
 }
@@ -1795,19 +1798,26 @@ bool KonqMainWindow::eventFilter(QObject*obj,QEvent *ev)
   if (m_currentView &&
       ( ev->type()==QEvent::FocusIn || ev->type()==QEvent::FocusOut ))
   {
+    kdDebug() << "KonqMainWindow::eventFilter " << obj << endl;
     ASSERT( obj == m_combo->lineEdit() );
 
     QFocusEvent * focusEv = static_cast<QFocusEvent*>(ev);
     if (focusEv->reason() == QFocusEvent::Popup )
     {
-      //kdDebug(1202) << "Reason for focus change was popup. gotFocus=" << focusEv->gotFocus() << endl;
+      kdDebug(1202) << "Reason for focus change was popup. gotFocus=" << focusEv->gotFocus() << endl;
       return KParts::MainWindow::eventFilter( obj, ev );
     }
 
     KParts::BrowserExtension * ext = m_currentView->browserExtension();
     QStrList slotNames;
     if (ext)
-      ext->metaObject()->slotNames();
+      slotNames = ext->metaObject()->slotNames();
+
+    //for ( char * s = slotNames.first() ; s ; s = slotNames.next() )
+    //{
+    //    kdDebug() << "slotNames=" << s << endl;
+    //}
+
     if (ev->type()==QEvent::FocusIn)
     {
       //kdDebug(1202) << "ComboBox got the focus..." << endl;
@@ -1823,16 +1833,30 @@ bool KonqMainWindow::eventFilter(QObject*obj,QEvent *ev)
         disconnect( m_paCopy, SIGNAL( activated() ), ext, SLOT( copy() ) );
       if (slotNames.contains("paste()"))
         disconnect( m_paPaste, SIGNAL( activated() ), ext, SLOT( paste() ) );
+      if (slotNames.contains("del()"))
+        disconnect( m_paDelete, SIGNAL( activated() ), ext, SLOT( del() ) );
+      if (slotNames.contains("trash()"))
+        disconnect( m_paTrash, SIGNAL( activated() ), ext, SLOT( trash() ) );
+      if (slotNames.contains("shred()"))
+        disconnect( m_paShred, SIGNAL( activated() ), ext, SLOT( shred() ) );
 
       connect( m_paCut, SIGNAL( activated() ), this, SLOT( slotComboCut() ) );
       connect( m_paCopy, SIGNAL( activated() ), this, SLOT( slotComboCopy() ) );
       connect( m_paPaste, SIGNAL( activated() ), this, SLOT( slotComboPaste() ) );
+      //connect( m_paDelete, SIGNAL( activated() ), this, SLOT( slotComboDelete() ) );
+      connect( m_paTrash, SIGNAL( activated() ), this, SLOT( slotComboDelete() ) );
+      //connect( m_paShred, SIGNAL( activated() ), this, SLOT( slotComboDelete() ) );
       connect( QApplication::clipboard(), SIGNAL(dataChanged()), this, SLOT(slotClipboardDataChanged()) );
       connect( m_combo->lineEdit(), SIGNAL(textChanged(const QString &)), this, SLOT(slotClipboardDataChanged()) );
 
       m_bCutWasEnabled = m_paCut->isEnabled();
       m_bCopyWasEnabled = m_paCopy->isEnabled();
       m_bPasteWasEnabled = m_paPaste->isEnabled();
+      m_bDeleteWasEnabled = m_paDelete->isEnabled();
+      m_paTrash->setText( i18n("&Delete") ); // Name Delete the action associated with 'del'
+      m_paTrash->setEnabled(true);
+      m_paDelete->setEnabled(false);
+      m_paShred->setEnabled(false);
 
       slotClipboardDataChanged();
 
@@ -1851,17 +1875,29 @@ bool KonqMainWindow::eventFilter(QObject*obj,QEvent *ev)
         connect( m_paCopy, SIGNAL( activated() ), ext, SLOT( copy() ) );
       if (slotNames.contains("paste()"))
         connect( m_paPaste, SIGNAL( activated() ), ext, SLOT( paste() ) );
+      if (slotNames.contains("del()"))
+        connect( m_paDelete, SIGNAL( activated() ), ext, SLOT( del() ) );
+      if (slotNames.contains("trash()"))
+        connect( m_paTrash, SIGNAL( activated() ), ext, SLOT( trash() ) );
+      if (slotNames.contains("shred()"))
+        connect( m_paShred, SIGNAL( activated() ), ext, SLOT( shred() ) );
 
       disconnect( m_paCut, SIGNAL( activated() ), this, SLOT( slotComboCut() ) );
       disconnect( m_paCopy, SIGNAL( activated() ), this, SLOT( slotComboCopy() ) );
       disconnect( m_paPaste, SIGNAL( activated() ), this, SLOT( slotComboPaste() ) );
+      //disconnect( m_paDelete, SIGNAL( activated() ), this, SLOT( slotComboDelete() ) );
+      disconnect( m_paTrash, SIGNAL( activated() ), this, SLOT( slotComboDelete() ) );
+      //disconnect( m_paShred, SIGNAL( activated() ), this, SLOT( slotComboDelete() ) );
       disconnect( QApplication::clipboard(), SIGNAL(dataChanged()), this, SLOT(slotClipboardDataChanged()) );
       disconnect( m_combo->lineEdit(), SIGNAL(textChanged(const QString &)), this, SLOT(slotClipboardDataChanged()) );
 
       m_paCut->setEnabled( m_bCutWasEnabled );
       m_paCopy->setEnabled( m_bCopyWasEnabled );
       m_paPaste->setEnabled( m_bPasteWasEnabled );
-
+      m_paDelete->setEnabled( m_bDeleteWasEnabled );
+      m_paTrash->setEnabled( m_bDeleteWasEnabled );
+      m_paShred->setEnabled( m_bDeleteWasEnabled );
+      m_paTrash->setText( i18n("&Move to Trash") ); // Name back
     }
   }
   return KParts::MainWindow::eventFilter( obj, ev );
@@ -1872,9 +1908,10 @@ void KonqMainWindow::slotClipboardDataChanged()
   //kdDebug(1202) << "KonqMainWindow::slotClipboardDataChanged()" << endl;
   QMimeSource *data = QApplication::clipboard()->data();
   m_paPaste->setEnabled( data->provides( "text/plain" ) );
-  //kdDebug(1202) << "m_combo->lineEdit()->hasMarkedText() : " << m_combo->lineEdit()->hasMarkedText() << endl;
-  m_paCopy->setEnabled( m_combo->lineEdit()->hasMarkedText() );
-  m_paCut->setEnabled( m_combo->lineEdit()->hasMarkedText() );
+  bool hasSelection = m_combo->lineEdit()->hasMarkedText();
+  //kdDebug(1202) << "m_combo->lineEdit()->hasMarkedText() : " << hasSelection << endl;
+  m_paCopy->setEnabled( hasSelection );
+  m_paCut->setEnabled( hasSelection );
 }
 
 void KonqMainWindow::slotComboCut()
@@ -1891,6 +1928,11 @@ void KonqMainWindow::slotComboCopy()
 void KonqMainWindow::slotComboPaste()
 {
   m_combo->lineEdit()->paste();
+}
+
+void KonqMainWindow::slotComboDelete()
+{
+  m_combo->lineEdit()->del();
 }
 
 void KonqMainWindow::slotClearLocationBar()
@@ -2155,11 +2197,9 @@ void KonqMainWindow::initActions()
   m_paPaste = KStdAction::paste( 0, 0, actionCollection(), "paste" );
   m_paStop = new KAction( i18n( "&Stop" ), "stop", Key_Escape, this, SLOT( slotStop() ), actionCollection(), "stop" );
 
-  // Which is the default
-  // Key_Delete conflicts with the location bar
-  m_paTrash = new KAction( i18n( "&Move to Trash" ), "trash", CTRL+Key_Delete, actionCollection(), "trash" );
-  m_paDelete = new KAction( i18n( "&Delete" ), CTRL+SHIFT+Key_Delete, actionCollection(), "del" );
-  m_paShred = new KAction( i18n( "&Shred" ), 0, actionCollection(), "shred" );
+  m_paTrash = new KAction( i18n( "&Move to Trash" ), "trash", Key_Delete, actionCollection(), "trash" );
+  m_paDelete = new KAction( i18n( "&Delete" ), SHIFT+Key_Delete, actionCollection(), "del" );
+  m_paShred = new KAction( i18n( "&Shred" ), CTRL+SHIFT+Key_Delete, actionCollection(), "shred" );
 
   m_paAnimatedLogo = new KonqLogoAction( *s_plstAnimatedLogo, this, SLOT( slotNewWindow() ), actionCollection(), "animated_logo" );
 

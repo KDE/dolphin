@@ -174,6 +174,9 @@ public:
 
   static QList<KonqMainWindow> *mainWindowList() { return s_lstViews; }
 
+  // public for konq_guiclients
+  void viewCountChanged();
+
 signals:
   void viewAdded( KonqView *view );
   void viewRemoved( KonqView *view );
@@ -293,6 +296,7 @@ protected slots:
   void slotComboCut();
   void slotComboCopy();
   void slotComboPaste();
+  void slotComboDelete();
   void slotClipboardDataChanged();
 
   void slotShowMenuBar();
@@ -316,7 +320,6 @@ protected:
 
   void applyMainWindowSettings();
 
-  void viewCountChanged();
   void viewsChanged();
 
 private:
@@ -412,6 +415,7 @@ private:
   uint m_bCutWasEnabled:1;
   uint m_bCopyWasEnabled:1;
   uint m_bPasteWasEnabled:1;
+  uint m_bDeleteWasEnabled:1;
   uint m_bLocationBarConnected:1;
   uint m_bURLEnterLock:1;
   // Global settings
