@@ -293,7 +293,7 @@ int clientApp::doIt( int argc, char **argv )
   }
   else
   {
-    fprintf( stderr, i18n("Syntax Error: Unknown command '%s'\n"),argv[1] );
+    fprintf( stderr, i18n("Syntax Error: Unknown command '%1'\n").arg(argv[1]).local8Bit() );
     return 1;
   }
   return 0;
