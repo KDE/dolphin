@@ -6,7 +6,7 @@
 #include <kglobal.h>
 
 
-#include "kcookiesdlg.h"
+#include "kcookiesmain.h"
 #include "ksmboptdlg.h"
 #include "useragentdlg.h"
 #include "kproxydlg.h"
@@ -18,7 +18,7 @@ extern "C"
   KCModule *create_cookie(QWidget *parent, const char *name)
   {
     KGlobal::locale()->insertCatalogue("kcmkio");
-    return new KCookiesOptions(parent, name);
+    return new KCookiesMain(parent, name);
   };
 
   KCModule *create_smb(QWidget *parent, const char *name)

@@ -19,7 +19,7 @@
 #include <kcmodule.h>
 
 
-class DCOPClient;
+//class DCOPClient;
 
 class KCookiesOptions : public KCModule
 {

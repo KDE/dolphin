@@ -236,13 +236,14 @@ void KCookiesOptions::removeDomain(const QString& domain)
 {
     QString searchFor(domain);
     searchFor += ":";
-
-    for (QStringList::ConstIterator it = domainConfig.begin();
-	 it != domainConfig.end(); it++)
+	// Thanks to Pierre-Andre for noticing the flaw here and sending a patch
+	// Why were we using a constant iterator for a non-constant string list ??
+	// This should stop the SIGSEGV
+    for (QStringList::Iterator it = domainConfig.begin(); it != domainConfig.end(); it++)
     {
        if (strncasecmp((*it).latin1(), searchFor.latin1(), searchFor.length()) == 0)
        {
-           domainConfig.remove(*it);
+           domainConfig.remove(it);
            return;
        }
     }
@@ -314,8 +315,6 @@ void KCookiesOptions::updateDomain(int index)
   if ((index < 0) || (index >= (int) domainConfig.count()))
       return;
 
-  int id = 0;
-
   QString configStr = *domainConfig.at(index);
   if (configStr.isNull())
       return;
@@ -353,18 +352,15 @@ void KCookiesOptions::changeCookiesEnabled()
 
 void KCookiesOptions::updateDomainList()
 {
+
   wList->clear();
-
-  int id = 0;
-
   for (QStringList::ConstIterator domain = domainConfig.begin();
        domain != domainConfig.end(); domain++)
   {
        KSplitListItem *sli = new KSplitListItem( *domain, id);
-       connect( wList, SIGNAL( newWidth( int ) ),
-	       sli, SLOT( setWidth( int ) ) );
-       sli->setWidth(wList->width());
-       wList->inSort( sli );
+       connect( wList, SIGNAL( newWidth( int ) ), sli, SLOT( setWidth( int ) ) );
+       sli->setWidth( wList->width() );
+       wList->insertItem( sli );
        id++;
   }
 }
@@ -390,6 +386,11 @@ void KCookiesOptions::load()
                               (globalAdvice != KCookieReject) );
 
   domainConfig = g_pConfig->readListEntry("CookieDomainAdvice");
+
+  // Sort the list once loaded.  Thanks to Pierre-Andre
+  // This should fix the incorrect items being set in
+  // the cookie domain config boxes... (DA)
+  domainConfig.sort();
 
   updateDomainList();
   changeCookiesEnabled();
@@ -458,7 +459,7 @@ QString KCookiesOptions::quickHelp()
 {
   return i18n("<h1>Cookies</h1> Cookies contain information that Konqueror "
     " (or other KDE applications using the http protocol) stores on your "
-    " computer, initiiated by a remote internet server. This means, that "
+    " computer and are initiated by a remote internet server. This means, that "
     " a web server can store information about you and your browsing activities "
     " on your machine for later use. You might consider this an attack on your "
     " privacy. <p> However, cookies are useful in certain situations. For example, they "
