@@ -22,7 +22,9 @@
 #include <kcommand.h>
 #include <kbookmark.h>
 
-class MoveCommand : public KCommand
+// ## TODO: s/KNamedCommand/KCommand/ where possible (i.e. virtual QString name())
+
+class MoveCommand : public KNamedCommand
 {
 public:
     /**
@@ -31,7 +33,7 @@ public:
      * item before telling us about it.
      */
     MoveCommand( const QString & name, const QString & from, const QString & to )
-        : KCommand(name), m_from(from), m_to(to)
+        : KNamedCommand(name), m_from(from), m_to(to)
     {}
     virtual ~MoveCommand() {}
     virtual void execute();
@@ -41,33 +43,33 @@ private:
     QString m_to;
 };
 
-class CreateCommand : public KCommand
+class CreateCommand : public KNamedCommand
 {
 public:
     // Create a separator
     CreateCommand( const QString & name, const QString & address )
-        : KCommand(name), m_to(address),
+        : KNamedCommand(name), m_to(address),
           m_group(false), m_separator(true), m_originalBookmark(QDomElement())
     {}
 
     // Create a bookmark
     CreateCommand( const QString & name, const QString & address,
                    const QString & text, const QString &iconPath, const KURL & url )
-        : KCommand(name), m_to(address), m_text(text),m_iconPath(iconPath), m_url(url),
+        : KNamedCommand(name), m_to(address), m_text(text),m_iconPath(iconPath), m_url(url),
           m_group(false), m_separator(false), m_originalBookmark(QDomElement())
     {}
 
     // Create a folder
     CreateCommand( const QString & name, const QString & address,
                    const QString & text, const QString &iconPath, bool open )
-        : KCommand(name), m_to(address), m_text(text),m_iconPath(iconPath),
+        : KNamedCommand(name), m_to(address), m_text(text),m_iconPath(iconPath),
           m_group(true), m_separator(false), m_open(open), m_originalBookmark(QDomElement())
     {}
 
     // Create a copy of an existing bookmark (whatever it is)
     CreateCommand( const QString & name, const QString & address,
                    const KBookmark & original )
-        : KCommand(name), m_to(address), m_group(false), m_separator(false),
+        : KNamedCommand(name), m_to(address), m_group(false), m_separator(false),
           m_open(false), m_originalBookmark( original )
     {}
 
@@ -85,11 +87,11 @@ private:
     KBookmark m_originalBookmark;
 };
 
-class DeleteCommand : public KCommand
+class DeleteCommand : public KNamedCommand
 {
 public:
     DeleteCommand( const QString & name, const QString & from )
-        : KCommand(name), m_from(from), m_cmd(0L), m_subCmd(0L)
+        : KNamedCommand(name), m_from(from), m_cmd(0L), m_subCmd(0L)
     {}
     virtual ~DeleteCommand()
     { delete m_cmd; }
@@ -99,11 +101,11 @@ public:
     static KMacroCommand * deleteAll( const KBookmarkGroup & parentGroup );
 private:
     QString m_from;
-    KCommand * m_cmd;
+    KNamedCommand * m_cmd;
     KMacroCommand * m_subCmd;
 };
 
-class EditCommand : public KCommand
+class EditCommand : public KNamedCommand
 {
 public:
 
@@ -119,7 +121,7 @@ public:
      */
     EditCommand( const QString & name, const QString & address,
                  Edition edition ) :
-        KCommand(name), m_address(address)
+        KNamedCommand(name), m_address(address)
     {
         m_editions.append(edition);
     }
@@ -129,7 +131,7 @@ public:
      */
     EditCommand( const QString & name, const QString & address,
                  const QValueList<Edition> & editions ) :
-        KCommand(name), m_address(address), m_editions(editions)
+        KNamedCommand(name), m_address(address), m_editions(editions)
     {}
     virtual ~EditCommand() {}
     virtual void execute();
@@ -140,11 +142,11 @@ private:
     QValueList<Edition> m_reverseEditions;
 };
 
-class RenameCommand : public KCommand
+class RenameCommand : public KNamedCommand
 {
 public:
     RenameCommand( const QString & name, const QString & address, const QString & newText )
-        : KCommand(name), m_address(address), m_newText(newText) {}
+        : KNamedCommand(name), m_address(address), m_newText(newText) {}
     virtual ~RenameCommand() {}
     virtual void execute();
     virtual void unexecute();
@@ -172,7 +174,7 @@ private:
 
 #include <qptrstack.h>
 #include <qobject.h>
-class ImportCommand : public QObject, public KCommand
+class ImportCommand : public QObject, public KNamedCommand
 {
     Q_OBJECT
 public:
@@ -184,7 +186,7 @@ public:
      * @param utf8 true if the HTML is in utf-8 encoding
      */
     ImportCommand( const QString & name, const QString & fileName, const QString & folder, const QString & icon, bool utf8 )
-        : KCommand(name), m_fileName(fileName), m_folder(folder), m_icon(icon), m_cleanUpCmd(0L), m_utf8(utf8)
+        : KNamedCommand(name), m_fileName(fileName), m_folder(folder), m_icon(icon), m_cleanUpCmd(0L), m_utf8(utf8)
     {}
     virtual ~ImportCommand() {}
     virtual void execute();
@@ -214,7 +216,7 @@ class TestLink: public QObject
 {
     Q_OBJECT
 public:
-    
+
   TestLink(KBookmark  bk);
   ~TestLink();
 
