@@ -218,7 +218,7 @@ void KonqIconViewWidget::slotOnItem( QIconViewItem *item )
             d->pActiveItem->refreshIcon( true );
         }
         else {
-            d->pActiveItem->setEffect( KIcon::Desktop, KIcon::DefaultState );
+            d->pActiveItem->setActive( false );
         }
 	d->pActiveItem = 0L;
     }
@@ -282,16 +282,7 @@ void KonqIconViewWidget::slotOnItem( QIconViewItem *item )
             // Only do the normal "mouseover" effect if no animation is in use
             if (!d->pActiveItem->isAnimated())
             {
-                d->pActiveItem->setEffect( KIcon::Desktop, KIcon::ActiveState );
-
-                //kdDebug(1203) << "desktop;defaultstate=" <<
-                //      KGlobal::iconLoader()->iconEffect()->
-                //      fingerprint(KIcon::Desktop, KIcon::DefaultState) <<
-                //      endl;
-                //kdDebug(1203) << "desktop;activestate=" <<
-                //      KGlobal::iconLoader()->iconEffect()->
-                //      fingerprint(KIcon::Desktop, KIcon::ActiveState) <<
-                //      endl;
+                d->pActiveItem->setActive( true );
             }
 	}
         else // No change in current item
@@ -362,7 +353,7 @@ void KonqIconViewWidget::slotOnViewport()
     }
     else
     {
-        d->pActiveItem->setEffect( KIcon::Desktop, KIcon::DefaultState );
+        d->pActiveItem->setActive( false );
     }
     d->pActiveItem = 0L;
 }

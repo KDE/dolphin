@@ -38,7 +38,6 @@ struct KFileIVI::Private
     QIconSet icons; // Icon states (cached to prevent re-applying icon effects
 		    // every time)
     QPixmap  thumb; // Raw unprocessed thumbnail
-    int	     state; // Currently displayed state of the icon
     QString m_animatedIcon; // Name of animation
     bool m_animated;        // Animation currently running ?
 };
@@ -54,7 +53,6 @@ KFileIVI::KFileIVI( KonqIconViewWidget *iconview, KFileItem* fileitem, int size 
 
     // Cache entry for the icon effects
     d->icons.reset( *pixmap(), QIconSet::Large );
-    d->state = KIcon::DefaultState;
     d->m_animated = false;
 
     // iconName() requires the mimetype to be known
@@ -87,7 +85,7 @@ void KFileIVI::invalidateThumb( int state, bool redraw )
     d->icons.setPixmap( KGlobal::iconLoader()->iconEffect()->
 			apply( d->thumb, KIcon::Desktop, state ),
 			QIconSet::Large, mode );
-    d->state = state;
+    m_state = state;
 
     QIconViewItem::setPixmap( d->icons.pixmap( QIconSet::Large, mode ),
 			      false, redraw );
@@ -101,15 +99,13 @@ void KFileIVI::setIcon( int size, int state, bool recalc, bool redraw )
       m_state = KIcon::DisabledState;
     else
       m_state = state;
-
-    d->state = m_state;
     setPixmapDirect( m_fileitem->pixmap( m_size, m_state ), recalc, redraw );
 }
 
 void KFileIVI::setPixmapDirect( const QPixmap& pixmap, bool recalc, bool redraw )
 {
     QIconSet::Mode mode;
-    switch( d->state )
+    switch( m_state )
     {
 	case KIcon::DisabledState:
 	    mode = QIconSet::Disabled;
@@ -137,7 +133,8 @@ void KFileIVI::setDisabled( bool disabled )
     if ( m_bDisabled != disabled && !isThumbnail() )
     {
         m_bDisabled = disabled;
-        m_state = m_bDisabled ? KIcon::DisabledState : KIcon::DefaultState;
+        bool active = ( m_state == KIcon::ActiveState );
+        m_state = m_bDisabled ? KIcon::DisabledState : ( active ? KIcon::ActiveState : KIcon::DefaultState );
         QIconViewItem::setPixmap( m_fileitem->pixmap( m_size, m_state ), false, true );
     }
 }
@@ -153,14 +150,22 @@ void KFileIVI::setThumbnailPixmap( const QPixmap & pixmap )
 		    apply( pixmap, KIcon::Desktop, KIcon::DefaultState ),
 		    QIconSet::Large, QIconSet::Normal );
 
-    d->state = KIcon::DefaultState;
+    m_state = KIcon::DefaultState;
 
     // Recalc when setting this pixmap!
     QIconViewItem::setPixmap( d->icons.pixmap( QIconSet::Large,
 			      QIconSet::Normal ), true );
 }
 
-void KFileIVI::setEffect( int group, int state )
+void KFileIVI::setActive( bool active )
+{
+    if ( active )
+        setEffect( KIcon::ActiveState );
+    else
+        setEffect( m_bDisabled ? KIcon::DisabledState : KIcon::DefaultState );
+}
+
+void KFileIVI::setEffect( int state )
 {
     QIconSet::Mode mode;
     switch( state )
@@ -180,11 +185,18 @@ void KFileIVI::setEffect( int group, int state )
 
     KIconEffect *effect = KGlobal::iconLoader()->iconEffect();
 
-    bool haveEffect = effect->hasEffect( KIcon::Desktop, d->state ) !=
+    bool haveEffect = effect->hasEffect( KIcon::Desktop, m_state ) !=
                       effect->hasEffect( KIcon::Desktop, state );
 
+                //kdDebug(1203) << "desktop;defaultstate=" <<
+                //      effect->fingerprint(KIcon::Desktop, KIcon::DefaultState) <<
+                //      endl;
+                //kdDebug(1203) << "desktop;activestate=" <<
+                //      effect->fingerprint(KIcon::Desktop, KIcon::ActiveState) <<
+                //      endl;
+
     if( haveEffect &&
-        effect->fingerprint( KIcon::Desktop, d->state ) !=
+        effect->fingerprint( KIcon::Desktop, m_state ) !=
 	effect->fingerprint( KIcon::Desktop, state ) )
     {
 	// Effects on are not applied until they are first accessed to
@@ -203,7 +215,7 @@ void KFileIVI::setEffect( int group, int state )
 	}
 	QIconViewItem::setPixmap( d->icons.pixmap( QIconSet::Large, mode ) );
     }
-    d->state = state;
+    m_state = state;
 }
 
 void KFileIVI::refreshIcon( bool redraw )

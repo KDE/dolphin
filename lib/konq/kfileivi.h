@@ -122,7 +122,7 @@ public:
      * Set the icon to use the specified KIconEffect
      * See the docs for KIconEffect for details.
      */
-    void setEffect( int group, int state );
+    void setEffect( /*int group,*/ int state );
 
     /**
      * @return true if this item is a thumbnail
@@ -163,6 +163,9 @@ public:
     /** Return true if we are currently animating this icon */
     bool isAnimated() const;
     void setAnimated( bool );
+
+    /** Called when the mouse is over the icon */
+    void setActive( bool active );
 
 protected:
     virtual void dropped( QDropEvent *e, const QValueList<QIconDragItem> &  );
