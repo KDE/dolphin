@@ -338,13 +338,13 @@ void KfOptions::applyChanges()
     if ( kfindfileB->isChecked() | (strcmp(fileE->text(),"")==0) )
       {
 	saving->setSaveStandard(TRUE);
-	config->writeEntry( "Filename", "" );
-	config->writeEntry( "Format", "" );
+	config->writeEntry( "Filename", QString() );
+	config->writeEntry( "Format", QString() );
       }
     else
       {
 	saving->setSaveStandard(FALSE);
-	config->writeEntry( "Filename", saving->getSaveFile() );
-	config->writeEntry( "Format", saving->getSaveFormat() );
+	config->writeEntry( "Filename", QString( saving->getSaveFile() ) );
+	config->writeEntry( "Format", QString( saving->getSaveFormat() ) );
       };
   };
