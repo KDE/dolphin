@@ -216,6 +216,10 @@ void KonqIconViewWidget::slotDrop( QDropEvent *e )
 
 void KonqIconViewWidget::slotDropItem( KFileIVI *item, QDropEvent *e )
 {
+
+  // Use either the root url or the item url (we stored it as the icon "name")
+  KURL dest( ( item == 0L ) ? m_url /*m_dirLister->url()*/ : item->item()->url().url() );
+
   // Check the state of the modifiers key at the time of the drop
   Window root;
   Window child;
@@ -223,7 +227,10 @@ void KonqIconViewWidget::slotDropItem( KFileIVI *item, QDropEvent *e )
   uint keybstate;
   XQueryPointer( qt_xdisplay(), qt_xrootwin(), &root, &child,
                  &root_x, &root_y, &win_x, &win_y, &keybstate );
-  if ( ((keybstate & ControlMask) == 0) && ((keybstate & ShiftMask) == 0) )
+
+  if ( dest.path( 1 ) == KUserPaths::trashPath() )
+    e->setAction( QDropEvent::Move );
+  else if ( ((keybstate & ControlMask) == 0) && ((keybstate & ShiftMask) == 0) )
   {
     // Nor control nor shift are pressed => show popup menu
     QPopupMenu popup;
