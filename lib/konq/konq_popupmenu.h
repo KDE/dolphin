@@ -74,9 +74,6 @@ public:
   class ProtocolInfo {
    public:
     ProtocolInfo();
-    ProtocolInfo(bool readable, bool writeable, 
-		 bool deleteable, bool moveable, 
-		 bool trashIncluded );
     bool supportsReading()  const;
     bool supportsWriting()  const;
     bool supportsDeleting() const;

@@ -78,16 +78,6 @@ KonqPopupMenu::ProtocolInfo::ProtocolInfo( )
   m_Moving = false;
   m_TrashIncluded = false;
 }
-KonqPopupMenu::ProtocolInfo::ProtocolInfo(bool readable, bool writable,
-					  bool deletable, bool movable,
-					  bool trashIncluded )
-{
-  m_Reading = readable;
-  m_Writing = writable;
-  m_Deleting = deletable;
-  m_Moving = movable;
-  m_TrashIncluded = trashIncluded;
-}
 bool KonqPopupMenu::ProtocolInfo::supportsReading() const
 {
   return m_Reading;
