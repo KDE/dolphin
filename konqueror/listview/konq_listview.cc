@@ -162,16 +162,9 @@ void ListViewBrowserExtension::rename()
 
 void ListViewBrowserExtension::trash()
 {
-  if (sender() && sender()->inherits( "KAction" ) &&
-   (static_cast<KAction*>(const_cast<QObject*>(sender()))->activationReason()==KAction::PopupMenuActivation) &&
-   (KApplication::keyboardMouseState() & Qt::ShiftButton))
-     KonqOperations::del(m_listView->listViewWidget(),
-                                         KonqOperations::DEL,
-                                         m_listView->listViewWidget()->selectedUrls());
-  else
-     KonqOperations::del(m_listView->listViewWidget(),
-                                         KonqOperations::TRASH,
-                                         m_listView->listViewWidget()->selectedUrls());
+  KonqOperations::del(m_listView->listViewWidget(),
+                      KonqOperations::TRASH,
+                      m_listView->listViewWidget()->selectedUrls());
 }
 
 void ListViewBrowserExtension::reparseConfiguration()

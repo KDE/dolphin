@@ -137,16 +137,9 @@ void IconViewBrowserExtension::reparseConfiguration()
 
 void IconViewBrowserExtension::trash()
 {
-   if (sender() && sender()->inherits( "KAction" ) &&
-     (static_cast<KAction*>(const_cast<QObject*>(sender()))->activationReason()==KAction::PopupMenuActivation) &&
-     (KApplication::keyboardMouseState() & Qt::ShiftButton))
-       KonqOperations::del(m_iconView->iconViewWidget(),
-                                     KonqOperations::DEL,
-                                     m_iconView->iconViewWidget()->selectedUrls());
-   else
-       KonqOperations::del(m_iconView->iconViewWidget(),
-                                     KonqOperations::TRASH,
-                                     m_iconView->iconViewWidget()->selectedUrls());
+   KonqOperations::del(m_iconView->iconViewWidget(),
+                       KonqOperations::TRASH,
+                       m_iconView->iconViewWidget()->selectedUrls());
 }
 
 void IconViewBrowserExtension::properties()

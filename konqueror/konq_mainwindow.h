@@ -527,6 +527,7 @@ private slots:
   void bookmarksIntoCompletion();
 
   void initBookmarkBar();
+  void slotTrashActivated( KAction::ActivationReason reason, Qt::ButtonState state );
 
 private:
   /**

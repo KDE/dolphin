@@ -3249,8 +3249,8 @@ bool KonqMainWindow::eventFilter(QObject*obj,QEvent *ev)
         disconnect( m_paPaste, SIGNAL( activated() ), ext, SLOT( paste() ) );
       if (slotNames.contains("del()"))
         disconnect( m_paDelete, SIGNAL( activated() ), ext, SLOT( del() ) );
-      if (slotNames.contains("trash()"))
-        disconnect( m_paTrash, SIGNAL( activated() ), ext, SLOT( trash() ) );
+      disconnect( m_paTrash, SIGNAL( activated( KAction::ActivationReason, Qt::ButtonState ) ),
+                  this, SLOT( slotTrashActivated( KAction::ActivationReason, Qt::ButtonState ) ) );
 
       connect( m_paCut, SIGNAL( activated() ), m_combo->lineEdit(), SLOT( cut() ) );
       connect( m_paCopy, SIGNAL( activated() ), m_combo->lineEdit(), SLOT( copy() ) );
@@ -3291,8 +3291,8 @@ bool KonqMainWindow::eventFilter(QObject*obj,QEvent *ev)
         connect( m_paPaste, SIGNAL( activated() ), ext, SLOT( paste() ) );
       if (slotNames.contains("del()"))
         connect( m_paDelete, SIGNAL( activated() ), ext, SLOT( del() ) );
-      if (slotNames.contains("trash()"))
-        connect( m_paTrash, SIGNAL( activated() ), ext, SLOT( trash() ) );
+      connect( m_paTrash, SIGNAL( activated( KAction::ActivationReason, Qt::ButtonState ) ),
+               this, SLOT( slotTrashActivated( KAction::ActivationReason, Qt::ButtonState ) ) );
 
       disconnect( m_paCut, SIGNAL( activated() ), m_combo->lineEdit(), SLOT( cut() ) );
       disconnect( m_paCopy, SIGNAL( activated() ), m_combo->lineEdit(), SLOT( copy() ) );
@@ -3672,6 +3672,8 @@ void KonqMainWindow::initActions()
 
   m_paRename = new KAction( i18n( "&Rename" ), /*"editrename",*/ Key_F2, actionCollection(), "rename" );
   m_paTrash = new KAction( i18n( "&Move to Trash" ), "edittrash", Key_Delete, actionCollection(), "trash" );
+  connect( m_paTrash, SIGNAL( activated( KAction::ActivationReason, Qt::ButtonState ) ),
+           this, SLOT( slotTrashActivated( KAction::ActivationReason, Qt::ButtonState ) ) );
 
   KConfig *config = KGlobal::config();
   KConfigGroupSaver cgs( config, "FMSettings" );
@@ -4023,7 +4025,8 @@ void KonqMainWindow::connectExtension( KParts::BrowserExtension *ext )
       // Does the extension have a slot with the name of this action ?
       if ( slotNames.contains( it.key()+"()" ) )
       {
-          connect( act, SIGNAL( activated() ), ext, it.data() /* SLOT(slot name) */ );
+          if ( it.key() != "trash" )
+              connect( act, SIGNAL( activated() ), ext, it.data() /* SLOT(slot name) */ );
           act->setEnabled( ext->isActionEnabled( it.key() ) );
       } else
           act->setEnabled(false);
@@ -4052,6 +4055,16 @@ void KonqMainWindow::disconnectExtension( KParts::BrowserExtension *ext )
         act->disconnect( ext );
     }
   }
+}
+
+void KonqMainWindow::slotTrashActivated( KAction::ActivationReason reason, Qt::ButtonState state )
+{
+  if ( !m_currentView )
+    return;
+  if ( reason == KAction::PopupMenuActivation && ( state & Qt::ShiftButton ) )
+      m_currentView->callExtensionMethod( "del()" );
+  else
+      m_currentView->callExtensionMethod( "trash()" );
 }
 
 void KonqMainWindow::enableAction( const char * name, bool enabled )
@@ -5598,6 +5611,5 @@ static int current_memory_usage( int* limit )
 
 #include "konq_mainwindow.moc"
 #include "konq_mainwindow_p.moc"
-
 /* vim: et sw=4 ts=4
  */
