@@ -113,5 +113,5 @@ bool KonqMainWindowIface::windowCanBeUsedForTab( int screen )
         return false; // this window shows on different screen
     if( KonqMainWindow::isPreloaded() )
         return false; // we want a tab in an already shown window
-    return !( KWin::windowInfo( m_pMainWindow->winId() ).isMinimized() );
+    return !( m_pMainWindow->isMinimized() );
 }
