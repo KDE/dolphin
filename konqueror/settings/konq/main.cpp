@@ -277,7 +277,7 @@ extern "C"
   KCModule *create_dappearance(QWidget *parent, const char *name)
   {
     KConfig *config = new KConfig(configname(), false, false);
-    return new KonqFontOptions(config, "FMSettings", true, parent, name);
+    return new KonqFontOptions(config, "FMSettings", true, parent);
   }
 
   KCModule *create_dpath(QWidget *parent, const char *name)
