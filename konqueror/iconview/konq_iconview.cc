@@ -698,6 +698,7 @@ void KonqKfmIconView::slotRefreshItems( const KFileItemList& entries )
 
 void KonqKfmIconView::slotClear()
 {
+    resetCount();
     m_pIconView->clear();
     m_mimeTypeResolver->m_lstPendingMimeIconItems.clear();
     m_itemDict.clear();
@@ -789,8 +790,6 @@ bool KonqKfmIconView::openURL( const KURL & url )
     }
 
     m_bLoading = true;
-
-    resetCount();
 
     // Store url in the icon view
     m_pIconView->setURL( url );

@@ -655,8 +655,6 @@ bool KonqBaseListViewWidget::openURL( const KURL &url )
 
    m_url=url;
 
-   m_pBrowserView->resetCount();
-
    // Check for new properties in the new dir
    // newProps returns true the first time, and any time something might
    // have changed.
@@ -745,6 +743,7 @@ void KonqBaseListViewWidget::slotCanceled()
 
 void KonqBaseListViewWidget::slotClear()
 {
+   m_pBrowserView->resetCount();
    kdDebug(1202) << "KonqBaseListViewWidget::slotClear()" << endl;
    m_pBrowserView->lstPendingMimeIconItems().clear();
    clear();
