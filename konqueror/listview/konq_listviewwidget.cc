@@ -108,8 +108,8 @@ KonqBaseListViewWidget::KonqBaseListViewWidget( KonqListView *parent, QWidget *p
             this, SLOT(slotRightButtonPressed(QListViewItem*,const QPoint&,int)));
    connect( this, SIGNAL(returnPressed(QListViewItem*)),
             this, SLOT(slotReturnPressed(QListViewItem*)));
-   connect( this, SIGNAL( mouseButtonPressed(int, QListViewItem*, const QPoint&, int)),
-            this, SLOT( slotMouseButtonPressed(int, QListViewItem*, const QPoint&, int)) );
+   connect( this, SIGNAL( mouseButtonClicked(int, QListViewItem*, const QPoint&, int)),
+            this, SLOT( slotMouseButtonClicked(int, QListViewItem*, const QPoint&, int)) );
    connect( this, SIGNAL(executed(QListViewItem* )),
             this, SLOT(slotExecuted(QListViewItem*)));
 
@@ -713,11 +713,11 @@ void KonqBaseListViewWidget::slotOnViewport()
    m_pBrowserView->emitMouseOver( 0 );
 }
 
-void KonqBaseListViewWidget::slotMouseButtonPressed(int _button, QListViewItem* _item, const QPoint&, int col)
+void KonqBaseListViewWidget::slotMouseButtonClicked(int _button, QListViewItem* _item, const QPoint& pos, int)
 {
    if ( _button == MidButton )
    {
-      if(_item && col < 2)
+      if(_item && isExecuteArea( viewport()->mapFromGlobal(pos) ) )
          m_pBrowserView->mmbClicked( static_cast<KonqBaseListViewItem*>(_item)->item() );
       else // MMB on background
          m_pBrowserView->mmbClicked( 0L );
