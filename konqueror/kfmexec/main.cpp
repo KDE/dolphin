@@ -47,7 +47,7 @@ KFMExec::KFMExec()
 
     expectedCounter = 0;
     command = args->arg(0);
-    kDebugInfo( command.ascii() );
+    kdDebug() << command.ascii() << endl;
 
     for ( int i = 1; i < args->count(); i++ )
     {
@@ -132,7 +132,7 @@ void KFMExec::slotResult( KIO::Job * job )
 	times[i++] = buff.st_mtime;
     }
 
-    kDebugInfo("EXEC '%s'\n", debugString(command) );
+    kdDebug() << "EXEC '" << debugString(command) << "'\n" << endl;
 
     system( command );
 
@@ -150,7 +150,7 @@ void KFMExec::slotResult( KIO::Job * job )
 	    if ( KMessageBox::questionYesNo( 0L, i18n( "The file\n%1\nhas been modified.\nDo you want to save it?" ).arg(src) )
                       == KMessageBox::Yes )
 	    {
-		kDebugInfo(QString("src='%1'  dest='%2'").arg(src).arg(dest.url()).ascii());
+		kdDebug() << QString("src='%1'  dest='%2'").arg(src).arg(dest.url()).ascii() << endl;
                 // Do it the synchronous way.
 		KIO::NetAccess::upload( src, dest );
 	    }
@@ -219,7 +219,7 @@ int main( int argc, char **argv )
 
     if ( argc < 2 )
     {
-        kDebugFatal( i18n( "Syntax Error:\nkfmexec command [URLs ....]" ) );
+        kdFatal() << i18n( "Syntax Error:\nkfmexec command [URLs ....]" ) << endl;
 	exit(1);
     }
 

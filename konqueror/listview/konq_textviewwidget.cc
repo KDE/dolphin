@@ -45,7 +45,7 @@ KonqTextViewWidget::KonqTextViewWidget( KonqListView *parent, QWidget *parentWid
 :KonqBaseListViewWidget(parent,parentWidget)
 ,timer()
 {
-   kDebugInfo( 1202, "+KonqTextViewWidget");
+   kdDebug(1202) << "+KonqTextViewWidget" << endl;
 
    addColumn(" ",fontMetrics().width("@")+2);
    addColumn(i18n("Name"),fontMetrics().width("_a_quite_long_filename_"));

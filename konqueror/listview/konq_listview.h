@@ -128,11 +128,14 @@ class ListViewBrowserExtension : public KParts::BrowserExtension
       void cut();
       void pastecut() { pasteSelection( true ); }
       void pastecopy() { pasteSelection( false ); }
-      void trash() { KonqOperations::del(KonqOperations::TRASH,
+      void trash() { KonqOperations::del(m_listView->listViewWidget(),
+                                         KonqOperations::TRASH,
                                          m_listView->listViewWidget()->selectedUrls()); }
-      void del() { KonqOperations::del(KonqOperations::DEL,
+      void del() { KonqOperations::del(m_listView->listViewWidget(),
+                                       KonqOperations::DEL,
                                        m_listView->listViewWidget()->selectedUrls()); }
-      void shred() { KonqOperations::del(KonqOperations::SHRED,
+      void shred() { KonqOperations::del(m_listView->listViewWidget(),
+                                         KonqOperations::SHRED,
                                          m_listView->listViewWidget()->selectedUrls()); }
 
       void reparseConfiguration();

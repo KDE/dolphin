@@ -159,7 +159,7 @@ void IconViewBrowserExtension::savePropertiesAsDefault()
 KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const char *name )
     : KParts::ReadOnlyPart( parent, name )
 {
-    kDebugInfo( 1202, "+KonqKfmIconView");
+    kdDebug(1202) << "+KonqKfmIconView" << endl;
 
     setInstance( KonqFactory::instance() );
 
@@ -350,7 +350,7 @@ KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const 
 
 KonqKfmIconView::~KonqKfmIconView()
 {
-    kDebugInfo( 1202, "-KonqKfmIconView");
+    kdDebug(1202) << "-KonqKfmIconView" << endl;
     if ( m_dirLister ) delete m_dirLister;
     delete m_pProps;
     //no need for that, KParts deletes our widget already ;-)
@@ -378,7 +378,7 @@ void KonqKfmIconView::slotImagePreview( bool toggle )
 
 void KonqKfmIconView::slotShowDot()
 {
-    kDebugInfo( 1202, "KonqKfmIconView::slotShowDot()");
+    kdDebug(1202) << "KonqKfmIconView::slotShowDot()" << endl;
     m_pProps->m_bShowDot = !m_pProps->m_bShowDot;
     m_dirLister->setShowingDotFiles( m_pProps->m_bShowDot );
     //we don't want the non-dot files to remain where they are

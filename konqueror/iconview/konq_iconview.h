@@ -216,11 +216,14 @@ public slots:
   void pastecopy() { m_iconView->iconViewWidget()->pasteSelection(false); }
   void pastecut() { m_iconView->iconViewWidget()->pasteSelection(true); }
 
-  void trash() { KonqOperations::del(KonqOperations::TRASH,
+  void trash() { KonqOperations::del(m_iconView->iconViewWidget(),
+                                     KonqOperations::TRASH,
                                      m_iconView->iconViewWidget()->selectedUrls()); }
-  void del() { KonqOperations::del(KonqOperations::DEL,
+  void del() { KonqOperations::del(m_iconView->iconViewWidget(),
+                                   KonqOperations::DEL,
                                    m_iconView->iconViewWidget()->selectedUrls()); }
-  void shred() { KonqOperations::del(KonqOperations::SHRED,
+  void shred() { KonqOperations::del(m_iconView->iconViewWidget(),
+                                     KonqOperations::SHRED,
                                      m_iconView->iconViewWidget()->selectedUrls()); }
   // void print();
 

@@ -348,18 +348,18 @@ void KonqMainView::openURL( KonqChildView *_view, const KURL &url, bool reload, 
       m_combo->setEditText( url.decodedURL() );
   }
 
-  kDebugInfo( 1202, "%s", QString("trying openView for %1 (servicetype %2)").arg(url.url()).arg(serviceType).latin1() );
+  kdDebug(1202) << QString("trying openView for %1 (servicetype %2)").arg(url.url()).arg(serviceType) << endl;
   if ( !serviceType.isEmpty() )
   {
     if ( !openView( serviceType, url, view /* can be 0L */) )
     {
-      kDebugInfo( 1202, "%s", QString("Creating new KRun for %1").arg(url.url()).latin1() );
+      kdDebug(1202) << QString("Creating new KRun for %1").arg(url.url()) << endl;
       (void)new KRun( url );
     }
   }
   else
   {
-    kDebugInfo( 1202, "%s", QString("Creating new konqrun for %1").arg(url.url()).latin1() );
+    kdDebug(1202) << QString("Creating new konqrun for %1").arg(url.url()) << endl;
     KonqRun * run = new KonqRun( this, view /* can be 0L */, url, 0, false, true );
     if ( view )
       view->setRun( run );
@@ -700,7 +700,7 @@ void KonqMainView::slotRunFinished()
 
   if ( run->hasError() )
   {
-    kDebugWarning( 1202, " Couldn't run ... what do we do ? " );
+    kdWarning(1202) << " Couldn't run ... what do we do ? " << endl;
     if ( !childView ) // Nothing to show ??
     {
       close(); // This window is useless
@@ -730,7 +730,7 @@ void KonqMainView::slotSetStatusBarText( const QString & )
 
 bool KonqMainView::openView( QString serviceType, const KURL &_url, KonqChildView *childView )
 {
-  kDebugInfo( 1202, " KonqMainView::openView %s %s", serviceType.ascii(), _url.url().ascii());
+  kdDebug(1202) << " KonqMainView::openView " << serviceType << " " << _url.url() << endl;
   QString indexFile;
 
   KURL url = _url;
@@ -759,11 +759,11 @@ bool KonqMainView::openView( QString serviceType, const KURL &_url, KonqChildVie
     }
   else
   {
-    kDebugInfo( 1202, "%s", QString("(1) KonqMainView::openView : url = '%1'").arg(url.url()).latin1());
+    kdDebug(1202) << (QString("(1) KonqMainView::openView : url = '%1'").arg(url.url())) << endl;
     // This is already called in ::openURL
     //    childView->stop();
   }
-  kDebugInfo( 1202, "%s", QString("(2) KonqMainView::openView : url = '%1'").arg(url.url()).latin1());
+  kdDebug(1202) << (QString("(2) KonqMainView::openView : url = '%1'").arg(url.url())) << endl;
 
   if ( ( serviceType == "inode/directory" ) &&
        ( childView->allowHTML() ) &&
@@ -1565,7 +1565,7 @@ QString KonqMainView::findIndexFile( const QString &dir )
 
 void KonqMainView::connectExtension( KParts::BrowserExtension *ext )
 {
-  kDebugInfo( 1202, "connectExtension" );
+  kdDebug(1202) << "connectExtension" << endl;
   // "cut", "copy", "pastecut", "pastecopy", "del", "trash", "shred"
   // "reparseConfiguration", "refreshMimeTypes"
   // are not directly connected. The slots in this class are connected instead and
@@ -1584,7 +1584,7 @@ void KonqMainView::connectExtension( KParts::BrowserExtension *ext )
   // Loop over standard action names
   for ( unsigned int i = 0 ; i < sizeof(s_actionnames)/sizeof(char*) ; i++ )
   {
-    kDebugInfo( 1202, s_actionnames[i] );
+    kdDebug(1202) << s_actionnames[i] << endl;
     QAction * act = actionCollection()->action( s_actionnames[i] );
     assert(act);
     QCString slotName = QCString(s_actionnames[i])+"()";
@@ -1599,7 +1599,7 @@ void KonqMainView::connectExtension( KParts::BrowserExtension *ext )
       {
         // OUCH. Here we use the fact that qobjectdefs.h:#define SLOT(a) "1"#a
         ext->connect( act, SIGNAL( activated() ), ext, QCString("1") + slotName );
-        kDebugInfo( 1202, "Connecting to %s", s_actionnames[i] );
+        kdDebug(1202) << "Connecting to " << s_actionnames[i] << endl;
         enable = true;
       }
     }
@@ -1611,7 +1611,7 @@ void KonqMainView::connectExtension( KParts::BrowserExtension *ext )
 
 void KonqMainView::disconnectExtension( KParts::BrowserExtension *ext )
 {
-  kDebugInfo( 1202, "Disconnecting extension" );
+  kdDebug(1202) << "Disconnecting extension" << endl;
   QValueList<QAction *> actions = actionCollection()->actions();
   QValueList<QAction *>::ConstIterator it = actions.begin();
   QValueList<QAction *>::ConstIterator end = actions.end();
@@ -1630,7 +1630,7 @@ void KonqMainView::slotEnableAction( const char * name, bool enabled )
 
   QAction * act = actionCollection()->action( hackName.data() );
   if (!act)
-    kDebugWarning( 1202, "Unknown action %s - can't enable", hackName.data() );
+    kdWarning(1202) << "Unknown action " << hackName.data() << " - can't enable" << endl;
   else
     act->setEnabled( enabled );
 }
@@ -1646,7 +1646,7 @@ void KonqMainView::enableAllActions( bool enable )
 
 void KonqMainView::openBookmarkURL( const QString & url )
 {
-  kDebugInfo(1202, "%s", QString("KonqMainView::openBookmarkURL(%1)").arg(url).latin1() );
+  kdDebug(1202) << (QString("KonqMainView::openBookmarkURL(%1)").arg(url)) << endl;
   openURL( 0L, KURL( url ) );
 }
 
@@ -1677,7 +1677,7 @@ void KonqMainView::slotPopupMenu( const QPoint &_global, const KonqFileItemList 
 
   m_currentView = childView( (KParts::ReadOnlyPart *)sender()->parent() );
 
-  //kDebugInfo( 1202, "KonqMainView::slotPopupMenu(...)");
+  //kdDebug(1202) << "KonqMainView::slotPopupMenu(...)" << endl;
 
   QActionCollection popupMenuCollection;
   if ( !menuBar()->isVisible() )
@@ -1715,7 +1715,7 @@ void KonqMainView::slotDatabaseChanged()
 
 void KonqMainView::reparseConfiguration()
 {
-  kDebugInfo( 1202, "KonqMainView::reparseConfiguration() !");
+  kdDebug(1202) << "KonqMainView::reparseConfiguration() !" << endl;
   kapp->config()->reparseConfiguration();
   KonqFMSettings::reparseConfiguration();
   KonqHTMLSettings::reparseConfiguration();

@@ -36,12 +36,12 @@ KonqRun::KonqRun( KonqMainView* _view, KonqChildView *_childView, const KURL & _
 
 KonqRun::~KonqRun()
 {
-  kDebugInfo( 1202, "KonqRun::~KonqRun()" );
+  kdDebug(1202) << "KonqRun::~KonqRun()" << endl;
 }
 
 void KonqRun::foundMimeType( const QString & _type )
 {
-  kDebugInfo(1202,"FILTERING %s", _type.ascii());
+  kdDebug(1202) << "FILTERING " << _type << endl;
 
   m_bFoundMimeType = true;
 
@@ -54,7 +54,7 @@ void KonqRun::foundMimeType( const QString & _type )
     m_timer.start( 0, true );
     return;
   }
-  kDebugInfo(1202,"Nothing special to do here");
+  kdDebug(1202) << "Nothing special to do here" << endl;
 
   KRun::foundMimeType( _type );
 }

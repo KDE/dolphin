@@ -51,7 +51,7 @@ KonqTreeViewWidget::KonqTreeViewWidget( KonqListView *parent, QWidget *parentWid
 ,m_lasttvd(0L)
 ,m_bSubFolderComplete(TRUE)
 {
-   kDebugInfo( 1202, "+KonqTreeViewWidget");
+   kdDebug(1202) << "+KonqTreeViewWidget" << endl;
 
    setRootIsDecorated( true );
    setTreeStepSize( 20 );
@@ -59,7 +59,7 @@ KonqTreeViewWidget::KonqTreeViewWidget( KonqListView *parent, QWidget *parentWid
 
 KonqTreeViewWidget::~KonqTreeViewWidget()
 {
-   kDebugInfo( 1202, "-KonqTreeViewWidget");
+   kdDebug(1202) << "-KonqTreeViewWidget" << endl;
 }
 
 void KonqTreeViewWidget::addSubDir(const KURL & _url, KonqListViewDir* _dir)
@@ -111,7 +111,7 @@ void KonqTreeViewWidget::setComplete()
 
 void KonqTreeViewWidget::slotClear()
 {
-   kDebugInfo( 1202, "KonqTreeViewWidget::slotClear()");
+   kdDebug(1202) << "KonqTreeViewWidget::slotClear()" << endl;
    if ( !m_pWorkingDir )
       clear();
 }
@@ -125,12 +125,12 @@ void KonqTreeViewWidget::slotNewItems( const KonqFileItemList & entries )
 
       KURL dir ( (*kit)->url() );
       dir.setFileName( "" );
-      //kDebugInfo( 1202, "dir = %s", dir.url().ascii());
+      //kdDebug(1202) << "dir = " << dir.url() << endl;
       KonqListViewDir * parentDir = 0L;
       if( !m_url.cmp( dir, true ) ) // ignore trailing slash
       {
          parentDir = findDir ( dir.url( 0 ) );
-         kDebugInfo( 1202, "findDir returned %p", parentDir );
+         kdDebug(1202) << "findDir returned " << parentDir << endl;
       }
 
       if ( parentDir )
@@ -155,7 +155,7 @@ void KonqTreeViewWidget::openSubFolder(const KURL &_url, KonqListViewDir* _dir)
    if ( !m_bTopLevelComplete )
    {
       // TODO: Give a warning
-      kDebugInfo(1202,"Still waiting for toplevel directory");
+      kdDebug(1202) << "Still waiting for toplevel directory" << endl;
       return;
    }
 

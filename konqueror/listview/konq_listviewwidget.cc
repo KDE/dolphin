@@ -68,7 +68,7 @@ KonqBaseListViewWidget::KonqBaseListViewWidget( KonqListView *parent, QWidget *p
 ,m_pBrowserView(parent)
 ,m_selectedFilesStatusText()
 {
-   kDebugInfo( 1202, "+KonqBaseListViewWidget");
+   kdDebug(1202) << "+KonqBaseListViewWidget" << endl;
 
    m_bTopLevelComplete  = true;
 
@@ -106,7 +106,7 @@ KonqBaseListViewWidget::KonqBaseListViewWidget( KonqListView *parent, QWidget *p
 
 KonqBaseListViewWidget::~KonqBaseListViewWidget()
 {
-  kDebugInfo( 1202, "-KonqBaseListViewWidget");
+  kdDebug(1202) << "-KonqBaseListViewWidget" << endl;
 
   if ( m_dirLister ) delete m_dirLister;
   delete m_pProps;
@@ -723,13 +723,13 @@ void KonqBaseListViewWidget::slotCanceled()
 
 void KonqBaseListViewWidget::slotClear()
 {
-   kDebugInfo( 1202, "KonqBaseListViewWidget::slotClear()");
+   kdDebug(1202) << "KonqBaseListViewWidget::slotClear()" << endl;
    clear();
 }
 
 void KonqBaseListViewWidget::slotNewItems( const KonqFileItemList & entries )
 {
-   kDebugInfo(1202,"KonqBaseListViewWidget::slotNewItems %d\n",entries.count());
+   kdDebug(1202) << "KonqBaseListViewWidget::slotNewItems " << entries.count() << "\n" << endl;
    QListIterator<KonqFileItem> kit ( entries );
    for( ; kit.current(); ++kit )
       new KonqListViewItem( this, (*kit) );
@@ -737,7 +737,7 @@ void KonqBaseListViewWidget::slotNewItems( const KonqFileItemList & entries )
 
 void KonqBaseListViewWidget::slotDeleteItem( KonqFileItem * _fileitem )
 {
-  kDebugInfo(1202,"removing %s from tree!", _fileitem->url().url().ascii() );
+  kdDebug(1202) << "removing " << _fileitem->url().url() << " from tree!" << endl;
   iterator it = begin();
   for( ; it != end(); ++it )
     if ( (*it).item() == _fileitem )

@@ -63,7 +63,7 @@ KonqPropsView * KonqPropsView::defaultProps()
 {
   if (!m_pDefaultProps)
   {
-    kDebugInfo(1202,"Reading global config for konq_propsview");
+    kdDebug(1202) << "Reading global config for konq_propsview" << endl;
     KConfig *config = KonqFactory::instance()->config();
     KConfigGroupSaver cgs(config, "Settings");
     m_pDefaultProps = new KonqPropsView(config);
@@ -99,7 +99,7 @@ KonqPropsView::KonqPropsView( KConfig * config )
     QPixmap p = wallpaperPixmap( pix );
     if ( !p.isNull() )
     {
-      kDebugInfo(1202,"Got background");
+      kdDebug(1202) << "Got background" << endl;
       m_bgPixmap = p;
     }
   }
@@ -119,7 +119,7 @@ bool KonqPropsView::enterDir( const KURL & dir )
   u.addPath(".directory");
   if (u.isLocalFile() && QFile::exists( u.path() ))
   {
-    //kDebugInfo( 1202, "Found .directory file" );
+    //kdDebug(1202) << "Found .directory file" << endl;
     KSimpleConfig config( u.path(), true);
     config.setGroup("URL properties");
     m_bgColor = config.readColorEntry( "BgColor", &m_bgColor );
@@ -154,7 +154,7 @@ void KonqPropsView::saveLocal( const KURL & dir )
     return;
   }
 
-  //kDebugInfo( 1202, "Found .directory file" );
+  //kdDebug(1202) << "Found .directory file" << endl;
   KSimpleConfig config( u.path());
   config.setGroup("URL properties");
   saveProps( & config );

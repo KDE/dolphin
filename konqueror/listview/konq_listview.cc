@@ -193,19 +193,19 @@ KonqListView::KonqListView( QWidget *parentWidget, QObject *parent, const char *
 
   if (mode=="TextView")
   {
-     kDebugInfo(1202,"Creating KonqTextViewWidget\n");
+     kdDebug(1202) << "Creating KonqTextViewWidget\n" << endl;
      setXMLFile( "konq_textview.rc" );
      m_pListView=new KonqTextViewWidget(this, parentWidget);
   }
   else if (mode=="MixedTree")
   {
-     kDebugInfo(1202,"Creating KonqTreeViewWidget\n");
+     kdDebug(1202) << "Creating KonqTreeViewWidget\n" << endl;
      setXMLFile( "konq_treeview.rc" );
      m_pListView=new KonqTreeViewWidget(this,parentWidget);
   }
   else
   {
-     kDebugInfo(1202,"Creating KonqDetailedListViewWidget\n");
+     kdDebug(1202) << "Creating KonqDetailedListViewWidget\n" << endl;
      setXMLFile( "konq_detailedlistview.rc" );
      m_pListView = new KonqBaseListViewWidget( this, parentWidget);
   };

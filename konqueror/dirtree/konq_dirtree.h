@@ -11,38 +11,10 @@
 #include <qdict.h>
 #include <qmap.h>
 
+class KonqDirTreeBrowserExtension;
 class KonqDirTree;
 class QTimer;
 class KonqDirTreePart;
-
-class KonqDirTreeBrowserExtension : public KParts::BrowserExtension
-{
-  Q_OBJECT
-  friend class KonqDirTree;
-public:
-  KonqDirTreeBrowserExtension( KonqDirTreePart *parent, KonqDirTree *dirTree );
-
-protected slots:
-  void copy();
-  void cut();
-  void pastecut() { pasteSelection( true ); }
-  void pastecopy() { pasteSelection( false ); }
-  void trash() { KonqOperations::del(KonqOperations::TRASH,
-                                     selectedUrls()); }
-  void del() { KonqOperations::del(KonqOperations::DEL,
-                                   selectedUrls()); }
-  void shred() { KonqOperations::del(KonqOperations::SHRED,
-                                     selectedUrls()); }
-
-  KURL::List selectedUrls();
-
-  void slotSelectionChanged();
-  void slotResult( KIO::Job * );
-private:
-  void pasteSelection( bool move );
-
-  KonqDirTree *m_tree;
-};
 
 class KonqDirTreePart : public KParts::ReadOnlyPart
 {
@@ -178,6 +150,38 @@ private:
   QTimer *m_autoOpenTimer;
 
   QListViewItem *m_lastItem;
+};
+
+class KonqDirTreeBrowserExtension : public KParts::BrowserExtension
+{
+  Q_OBJECT
+  friend class KonqDirTree;
+public:
+  KonqDirTreeBrowserExtension( KonqDirTreePart *parent, KonqDirTree *dirTree );
+
+protected slots:
+  void copy();
+  void cut();
+  void pastecut() { pasteSelection( true ); }
+  void pastecopy() { pasteSelection( false ); }
+  void trash() { KonqOperations::del(m_tree,
+                                     KonqOperations::TRASH,
+                                     selectedUrls()); }
+  void del() { KonqOperations::del(m_tree,
+                                   KonqOperations::DEL,
+                                   selectedUrls()); }
+  void shred() { KonqOperations::del(m_tree,
+                                     KonqOperations::SHRED,
+                                     selectedUrls()); }
+
+  KURL::List selectedUrls();
+
+  void slotSelectionChanged();
+  void slotResult( KIO::Job * );
+private:
+  void pasteSelection( bool move );
+
+  KonqDirTree *m_tree;
 };
 
 #endif

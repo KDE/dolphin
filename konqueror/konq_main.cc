@@ -74,8 +74,8 @@ void KonquerorIfaceImpl::openBrowserWindow( const QString &url )
 
 void KonquerorIfaceImpl::createBrowserWindowFromProfile( const QString &filename )
 {
-  kDebugInfo( 1202, "void KonquerorIfaceImpl::createBrowserWindowFromProfile( const QString &filename ) " );
-  kDebugInfo( 1202, "%s", filename.ascii() );
+  kdDebug(1202) << "void KonquerorIfaceImpl::createBrowserWindowFromProfile( const QString &filename ) " << endl;
+  kdDebug(1202) << filename << endl;
 
   KonqMainView *mainView = new KonqMainView( QString::null, false );
 
@@ -89,7 +89,7 @@ void KonquerorIfaceImpl::createBrowserWindowFromProfile( const QString &filename
 
 void KonquerorIfaceImpl::setMoveSelection( int move )
 {
-  kDebugInfo( 1202, "setMoveSelection: %i", move );
+  kdDebug(1202) << "setMoveSelection: " << move << endl;
   KonqMainView::setMoveSelection( (bool)move );
 }
 
@@ -139,7 +139,7 @@ int main( int argc, char **argv )
 		dcopService, error ))
      {
         // Error starting kcookiejar.
-        kDebugInfo( 1202, "Error starting KCookiejar: %s\n", error.ascii());
+        kdDebug(1202) << "Error starting KCookiejar: " << error << "\n" << endl;
      }
   }
   delete kioConfig;
