@@ -139,7 +139,7 @@ QString KonqListViewItem::key( int _column, bool asc ) const
          case KIO::UDS_CREATION_TIME:
            return tmp + QString::number( m_fileitem->time(cInfo->udsId) ).rightJustify( 20, '0' );
          case KIO::UDS_SIZE:
-           return tmp + QString::number( m_fileitem->size() ).rightJustify( 20, '0' );
+           return tmp + KIO::number( m_fileitem->size() ).rightJustify( 20, '0' );
          default:
            break;
        }

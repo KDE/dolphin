@@ -53,7 +53,7 @@ QString KonqTextViewItem::key( int _column, bool asc) const
             }
             else if (cInfo->udsId==KIO::UDS_SIZE)
             {
-               tmp += QString::number( m_fileitem->size() ).rightJustify( 20, '0' );
+               tmp += KIO::number( m_fileitem->size() ).rightJustify( 20, '0' );
                return tmp;
             }
             else break;
