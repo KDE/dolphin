@@ -53,7 +53,7 @@
 
 KonqFrameTabs::KonqFrameTabs(QWidget* parent, KonqFrameContainerBase* parentContainer,
                              KonqViewManager* viewManager, const char * name)
-  : KTabWidget(parent, name), m_rightWidget(0)
+  : KTabWidget(parent, name), m_rightWidget(0), m_leftWidget(0), m_alwaysTabBar(false)
 {
   //kdDebug(1202) << "KonqFrameTabs::KonqFrameTabs()" << endl;
 
@@ -141,13 +141,13 @@ KonqFrameTabs::KonqFrameTabs(QWidget* parent, KonqFrameContainerBase* parentCont
            m_pViewManager->mainWindow(), SLOT( slotRemoveTabPopup() ) );
 
   if ( config->readBoolEntry( "AddTabButton", true ) ) {
-    QToolButton * leftWidget = new QToolButton( this );
-    connect( leftWidget, SIGNAL( clicked() ),
+    m_leftWidget = new QToolButton( this );
+    connect( m_leftWidget, SIGNAL( clicked() ),
              m_pViewManager->mainWindow(), SLOT( slotAddTab() ) );
-    leftWidget->setIconSet( SmallIcon( "tab_new" ) );
-    leftWidget->adjustSize();
-    QToolTip::add(leftWidget, i18n("Open a new tab"));
-    setCornerWidget( leftWidget, TopLeft );
+    m_leftWidget->setIconSet( SmallIcon( "tab_new" ) );
+    m_leftWidget->adjustSize();
+    QToolTip::add(m_leftWidget, i18n("Open a new tab"));
+    setCornerWidget( m_leftWidget, TopLeft );
   }
   if ( config->readBoolEntry( "CloseTabButton", true ) ) {
     m_rightWidget = new QToolButton( this );
@@ -374,6 +374,7 @@ void KonqFrameTabs::insertChildFrame( KonqFrameBase* frame, int index )
   if (frame)
     {
       //kdDebug(1202) << "Adding frame" << endl;
+      bool showTabBar = (count() == 1);
       insertTab(frame->widget(),"", index);
       frame->setParentContainer(this);
       if (index == -1) m_pChildFrameList->append(frame);
@@ -385,6 +386,10 @@ void KonqFrameTabs::insertChildFrame( KonqFrameBase* frame, int index )
         activeChildView->setCaption( activeChildView->caption() );
         activeChildView->setTabIcon( activeChildView->url().url() );
       }
+      if (showTabBar)
+          this->showTabBar();
+      else if ( count() == 1 )
+          this->hideTabBar();//the first frame inserted (initialization)
     }
   else
     kdWarning(1202) << "KonqFrameTabs " << this << ": insertChildFrame(0L) !" << endl;
@@ -398,6 +403,8 @@ void KonqFrameTabs::removeChildFrame( KonqFrameBase * frame )
     m_pChildFrameList->remove(frame);
     if (m_rightWidget)
       m_rightWidget->setEnabled( m_pChildFrameList->count()>1 );
+    if (count() == 1)
+      hideTabBar();
   }
   else
     kdWarning(1202) << "KonqFrameTabs " << this << ": removeChildFrame(0L) !" << endl;
@@ -568,6 +575,35 @@ void KonqFrameTabs::slotInitiateDrag( QWidget *w )
     KURLDrag *d = new KURLDrag( lst, this );
     d->setPixmap( KMimeType::pixmapForURL( lst.first(), 0, KIcon::Small ) );
     d->dragCopy();
+  }
+}
+
+void KonqFrameTabs::hideTabBar()
+{
+  if ( !m_alwaysTabBar ) {
+    m_leftWidget->hide();
+    m_rightWidget->hide();
+    tabBar()->hide();
+  }
+}
+
+void KonqFrameTabs::showTabBar()
+{
+  tabBar()->show();
+  m_leftWidget->show();
+  m_rightWidget->show();
+}
+
+void KonqFrameTabs::setAlwaysTabbedMode( bool enable )
+{
+  bool update = ( enable != m_alwaysTabBar );
+
+  m_alwaysTabBar = enable;
+  if ( update ) {
+    if ( m_alwaysTabBar )
+      showTabBar();
+    else
+      hideTabBar();
   }
 }
 

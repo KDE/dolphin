@@ -90,10 +90,6 @@ public:
    */
   void convertDocContainer();
 
-  /**
-   * Reverts a Tab docContainer into a View
-   */
-  void revertDocContainer();
 
   /**
    * Adds a tab to m_pMainContainer

@@ -1119,8 +1119,6 @@ void KonqMainWindow::slotCreateNewWindow( const KURL &url, const KParts::URLArgs
     // activate the view _now_ in order to make the menuBar() hide call work
     if ( part ) {
        mainWindow->viewManager()->setActivePart( part, true );
-       if ( dynamic_cast<KonqFrameTabs*>(mainWindow->viewManager()->docContainer()) )
-         mainWindow->viewManager()->revertDocContainer();
     }
 
     QString profileName = QString::fromLatin1( url.isLocalFile() ? "konqueror/profiles/filemanagement" : "konqueror/profiles/webbrowsing" );

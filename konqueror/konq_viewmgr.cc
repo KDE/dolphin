@@ -77,8 +77,10 @@ KonqView* KonqViewManager::Initialize( const QString &serviceType, const QString
 
   KConfig *config = KGlobal::config();
   KConfigGroupSaver cs( config, QString::fromLatin1("FMSettings") );
-  if ( config->readBoolEntry( "AlwaysTabbedMode", false ) )
+
     convertDocContainer();
+  static_cast<KonqFrameTabs*>( m_pDocContainer )->setAlwaysTabbedMode(
+    config->readBoolEntry( "AlwaysTabbedMode", false ) );
 
   m_pDocContainer->widget()->show();
   return childView;
@@ -304,60 +306,6 @@ void KonqViewManager::convertDocContainer()
 
   m_pDocContainer = newContainer;
 }
-
-void KonqViewManager::revertDocContainer()
-{
-  // If the tab container is left with only one tab after the removal,
-  // destroy it and put its lone child frame in its place
-
-  KonqFrameTabs* tabContainer = static_cast<KonqFrameTabs*>(m_pDocContainer);
-
-  KonqFrameContainerBase* parentContainer = tabContainer->parentContainer();
-  kdDebug(1202) << "parentContainer=" << parentContainer << endl;
-  if (parentContainer == 0L) return;
-
-  bool moveNewContainer = false;
-  QValueList<int> splitterSizes;
-  if (parentContainer->frameType()=="Container") {
-    moveNewContainer = (static_cast<KonqFrameContainer*>(parentContainer)->idAfter( tabContainer ) != 0);
-    splitterSizes = static_cast<KonqFrameContainer*>(parentContainer)->sizes();
-  }
-
-  KonqFrameBase* otherFrame = tabContainer->childFrameList()->first();
-  kdDebug(1202) << "otherFrame=" << otherFrame << endl;
-  if (otherFrame == 0L ) return;
-
-  parentContainer->widget()->setUpdatesEnabled( false );
-
-  QPoint pos = otherFrame->widget()->pos();
-  otherFrame->reparentFrame( m_pMainWindow, pos );
-
-  tabContainer->removeChildFrame( otherFrame );
-  parentContainer->removeChildFrame( tabContainer );
-
-  delete tabContainer;
-
-  otherFrame->reparentFrame( parentContainer->widget(), pos );
-  parentContainer->insertChildFrame( otherFrame );
-
-  if ( moveNewContainer ) {
-    static_cast<KonqFrameContainer*>(parentContainer)->moveToFirst( otherFrame->widget() );
-    static_cast<KonqFrameContainer*>(parentContainer)->swapChildren();
-  }
-  if (parentContainer->frameType()=="Container")
-    static_cast<KonqFrameContainer*>(parentContainer)->setSizes( splitterSizes );
-
-  otherFrame->widget()->show();
-
-  parentContainer->widget()->setUpdatesEnabled( true );
-
-  parentContainer->setActiveChild( otherFrame );
-
-  parentContainer->activateChild();
-
-  m_pDocContainer = otherFrame;
-}
-
 
 KonqView* KonqViewManager::addTab(const QString &serviceType, const QString &serviceName, bool passiveMode, bool openAfterCurrentPage  )
 {
@@ -591,13 +539,6 @@ void KonqViewManager::removeTab( KonqFrameBase* tab )
   delete currentFrame;
 
   tabContainer->slotCurrentChanged(tabContainer->currentPage());
-
-  if (tabContainer->count() == 1) {
-    KConfig *config = KGlobal::config();
-    KConfigGroupSaver cs( config, QString::fromLatin1("FMSettings") );
-    if ( !( config->readBoolEntry( "AlwaysTabbedMode", false ) ) )
-      revertDocContainer();
-  }
 
 #ifdef DEBUG_VIEWMGR
   m_pMainWindow->dumpViewList();
@@ -1160,7 +1101,7 @@ void KonqViewManager::loadViewProfile( KConfig &cfg, const QString & filename,
                   "LoadProfileTabsConfirm" ) == KMessageBox::Cancel )
               return;
       }
-      
+
       KonqView *originalView = m_pMainWindow->currentView();
       QPtrList<KonqFrameBase> frameList = *tabContainer->childFrameList();
       QPtrListIterator<KonqFrameBase> it( frameList );
@@ -1193,7 +1134,7 @@ void KonqViewManager::loadViewProfile( KConfig &cfg, const QString & filename,
             return;
       }
   }
-  
+
   KConfig *config = KGlobal::config();
   KConfigGroupSaver cs( config, QString::fromLatin1("FMSettings") );
   bool alwaysTabbedMode = config->readBoolEntry( "AlwaysTabbedMode", false );
@@ -1217,7 +1158,7 @@ void KonqViewManager::loadViewProfile( KConfig &cfg, const QString & filename,
   }
   //kdDebug(1202) << "KonqViewManager::loadViewProfile : loading RootItem " << rootItem << endl;
 
-  if ( alwaysTabbedMode && rootItem == "empty" )
+  if ( rootItem == "empty" )
   {
     cfg.writeEntry( "View0_ServiceType", "text/html" );
     cfg.writeEntry( "View0_ServiceName", "html" );
@@ -1246,8 +1187,10 @@ void KonqViewManager::loadViewProfile( KConfig &cfg, const QString & filename,
     m_pMainWindow->action( "clear_location" )->activate();
   }
 
-  if ( alwaysTabbedMode && m_pDocContainer->frameType() != "Tabs")
+  if ( m_pDocContainer->frameType() != "Tabs")
     convertDocContainer();
+
+  static_cast<KonqFrameTabs*>( m_pDocContainer )->setAlwaysTabbedMode( alwaysTabbedMode );
 
   // Set an active part first so that we open the URL in the current view
   // (to set the location bar correctly and asap)
