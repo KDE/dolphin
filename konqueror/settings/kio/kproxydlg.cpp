@@ -87,7 +87,7 @@ void KProxyOptions::defaults()
 QString KProxyOptions::quickHelp() const
 {
   QWidget *w = m_tab->currentPage();
-  if (w->inherits("KCModule"))
+  if (w && w->inherits("KCModule"))
   {
      KCModule *m = static_cast<KCModule *>(w);
      return m->quickHelp();
