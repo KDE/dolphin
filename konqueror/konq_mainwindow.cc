@@ -704,7 +704,9 @@ void KonqMainWindow::slotOpenURLRequest( const KURL &url, const KParts::URLArgs 
 
     if ( frameName == _blank )
     {
-      slotCreateNewWindow( url, args );
+      //slotCreateNewWindow( url, args );
+      // no sidebar (this is also for the always-new-window FM option)
+      KonqMisc::createSimpleWindow( url, args );
       return;
     }
 
