@@ -475,12 +475,12 @@ void KonqMainWindow::openURL( KonqView *_view, const KURL &_url,
   }
 
   KonqView *view = _view;
-     
+
   // When clicking a 'follow active' view (e.g. view is the sidebar),
   // open the URL in the active view
   if ( view && view->isFollowActive() )
     view = m_currentView;
-  
+
   if ( !view  && !req.newTab )
     view = m_currentView; /* Note, this can be 0L, e.g. on startup */
   else if ( !view && req.newTab ) {
@@ -801,11 +801,11 @@ bool KonqMainWindow::openView( QString serviceType, const KURL &_url, KonqView *
           // So we ask the user, instead, except in some very well-known cases.
           if ( !forceAutoEmbed && !KProtocolInfo::supportsWriting( url ) && url.protocol() != "about" ) {
               QString suggestedFilename;
-              
+
               KonqRun* run = childView->run();
               if (run)
                   suggestedFilename = run->suggestedFilename();
-                  
+
               KParts::BrowserRun::AskSaveResult res = KParts::BrowserRun::askEmbedOrSave(
                   url, serviceType, suggestedFilename );
               if ( res == KParts::BrowserRun::Open )
@@ -3228,11 +3228,11 @@ void KonqMainWindow::initActions()
   m_paRemoveView = new KAction( i18n( "&Remove Active View" ),"view_remove", CTRL+SHIFT+Key_R, this, SLOT( slotRemoveView() ), actionCollection(), "removeview" );
   m_paRemoveTab = new KAction( i18n( "Close Current Tab" ), "tab_remove", CTRL+Key_W, this, SLOT( slotRemoveTab() ), actionCollection(), "removecurrenttab" );
 
-  m_paActivateNextTab = new KAction( i18n( "Activate Next Tab" ), "tab_next", KStdAccel::tabNext(), this, SLOT( slotActivateNextTab() ), actionCollection(), "activatenexttab" );
-  m_paActivatePrevTab = new KAction( i18n( "Activate Previous Tab" ), "tab_previous", KStdAccel::tabPrev(), this, SLOT( slotActivatePrevTab() ), actionCollection(), "activateprevtab" );
+  m_paActivateNextTab = new KAction( i18n( "Activate Next Tab" ), "tab_next", QApplication::reverseLayout() ? KStdAccel::tabPrev() : KStdAccel::tabNext(), this, SLOT( slotActivateNextTab() ), actionCollection(), "activatenexttab" );
+  m_paActivatePrevTab = new KAction( i18n( "Activate Previous Tab" ), "tab_previous", QApplication::reverseLayout() ? KStdAccel::tabNext() : KStdAccel::tabPrev(), this, SLOT( slotActivatePrevTab() ), actionCollection(), "activateprevtab" );
 
-  m_paMoveTabLeft = new KAction( i18n("Move Tab Left"), 0 , CTRL+SHIFT+Key_Left,this, SLOT( slotMoveTabLeft()),actionCollection(),"tab_move_left");
-  m_paMoveTabRight = new KAction( i18n("Move Tab Right"), 0 , CTRL+SHIFT+Key_Right,this, SLOT( slotMoveTabRight()),actionCollection(),"tab_move_right");
+  m_paMoveTabLeft = new KAction( i18n("Move Tab Left"), 0 , QApplication::reverseLayout() ? CTRL+SHIFT+Key_Right : CTRL+SHIFT+Key_Left,this, SLOT( slotMoveTabLeft()),actionCollection(),"tab_move_left");
+  m_paMoveTabRight = new KAction( i18n("Move Tab Right"), 0 , QApplication::reverseLayout() ? CTRL+SHIFT+Key_Left : CTRL+SHIFT+Key_Right,this, SLOT( slotMoveTabRight()),actionCollection(),"tab_move_right");
 
 #ifndef NDEBUG
   m_paDumpDebugInfo = new KAction( i18n( "Dump Debug Info" ), "view_dump_debug_info", 0, this, SLOT( slotDumpDebugInfo() ), actionCollection(), "dumpdebuginfo" );
