@@ -1,7 +1,7 @@
 /*
    kmanualproxydlg.cpp - Proxy configuration dialog
 
-   Copyright (C) 2001,02,03 - Dawit Alemayehu <adawit@kde.org>
+   Copyright (C) 2001-2004 Dawit Alemayehu <adawit@kde.org>
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public
@@ -411,7 +411,7 @@ bool KManualProxyDlg::isValidURL( const QString& _url, KURL* result ) const
     KURL url (_url);
     
     QStringList filters;
-    filters << "kshorturifilter" << "localdomainfilter";
+    filters << "kshorturifilter" << "localdomainurifilter";
     
     // If the typed URL is malformed, and the filters cannot filter it
     // then it must be an invalid entry, 
@@ -466,10 +466,10 @@ bool KManualProxyDlg::getException ( QString& result,
     // Specify the appropriate message...
     if ( dlg->cbReverseProxy->isChecked() )
       label = i18n("Enter the URL or address that should use the above proxy "
-                  "settings:");
+                   "settings:");
     else
       label = i18n("Enter the address or URL that should be excluded from "
-                  "using the above proxy settings:");
+                   "using the above proxy settings:");
     
     QString whatsThis = i18n("<qt>Enter a valid address or url.<p>"
                             "<b><u>NOTE:</u></b> Wildcard matching such as "
