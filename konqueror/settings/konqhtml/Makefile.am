@@ -1,4 +1,4 @@
-INCLUDES = -I$(top_srcdir)/libkonq $(all_includes) 
+INCLUDES = -I$(top_srcdir)/libkonq $(all_includes) -I$(top_srcdir)/kcontrol/input
 LDFLAGS =  $(all_libraries)
 
 METASOURCES = AUTO
@@ -9,7 +9,7 @@ libkcm_konqhtml_la_SOURCES = main.cpp htmlopts.cpp \
 			khttpoptdlg.cpp miscopts.cpp
 
 libkcm_konqhtml_la_LDFLAGS  = $(all_libraries) -module -avoid-version -no-undefined
-libkcm_konqhtml_la_LIBADD = -lkdeui  
+libkcm_konqhtml_la_LIBADD = -lkdeui
 
 messages:
 	$(XGETTEXT) $(libkcm_konqhtml_la_SOURCES) -o $(podir)/kcmkonqhtml.pot
@@ -21,4 +21,4 @@ messages:
 #test.cpp:
 #	echo "int main() {};" > test.cpp
 #test_LDFLAGS  = $(all_libraries) -module -avoid-version
-#test_LDADD = -lkdeui                                                    
+#test_LDADD = -lkdeui

@@ -13,6 +13,7 @@
 #include "miscopts.h"
 
 #include <konqdefaults.h> // include default values directly from konqueror
+#include <mousedefaults.h> // get default for DEFAULT_CHANGECURSOR
 #include <klocale.h>
 #include <kconfig.h>
 
