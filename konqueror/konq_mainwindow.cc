@@ -1755,6 +1755,8 @@ void KonqMainWindow::slotPartActivated( KParts::Part *part )
     kdDebug(1202) << "No part activated - returning" << endl;
     unplugViewModeActions();
     createGUI( 0L );
+    KParts::MainWindow::setCaption( "" );
+    KParts::MainWindow::setIcon( kapp->icon());
     return;
   }
 
