@@ -396,6 +396,12 @@ void KonqSidebarDirTreeModule::slotNewItems( const KFileItemList& entries )
     KonqSidebarTreeItem * parentItem;
     lookupItems(m_dictSubDirs, dir.url(-1), parentItem, parentItemList);
 
+    if ( !parentItem )   // hack for dnssd://domain/type/service listed in dnssd:/type/ dir
+    {
+    	dir.setHost( QString::null );
+	lookupItems( m_dictSubDirs, dir.url(-1), parentItem, parentItemList );
+    }
+	
     if( !parentItem )
     {
         KMessageBox::error( tree(), i18n("Cannot find parent item %1 in the tree. Internal error.").arg( dir.url(-1) ) );
