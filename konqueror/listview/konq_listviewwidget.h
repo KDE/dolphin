@@ -137,6 +137,7 @@ class KonqBaseListViewWidget : public KListView
       virtual void slotClear();
       virtual void slotNewItems( const KFileItemList & );
       virtual void slotDeleteItem( KFileItem * );
+      virtual void slotRefreshItems( const KFileItemList & );
       virtual void slotRedirection( const KURL & );
 
    protected:

@@ -880,6 +880,8 @@ bool KonqBaseListViewWidget::openURL( const KURL &url )
                         this, SLOT( slotNewItems( const KFileItemList & ) ) );
       QObject::connect( m_dirLister, SIGNAL( deleteItem( KFileItem * ) ),
                         this, SLOT( slotDeleteItem( KFileItem * ) ) );
+      QObject::connect( m_dirLister, SIGNAL( refreshItems( const KFileItemList & ) ),
+                        this, SLOT( slotRefreshItems( const KFileItemList & ) ) );
       QObject::connect( m_dirLister, SIGNAL( redirection( const KURL & ) ),
                         this, SLOT( slotRedirection( const KURL & ) ) );
    }
@@ -900,7 +902,6 @@ bool KonqBaseListViewWidget::openURL( const KURL &url )
    // TODO: setChecked on the actions, depending on isShowing...
 
    // Start the directory lister !
-   //m_dirLister->openURL( url, m_pProps->m_bShowDot, false /* new url */ );
    m_dirLister->openURL( url, m_pProps->isShowingDotFiles(), false /* new url */ );
 
    //  setCaptionFromURL( m_sURL );
@@ -957,6 +958,21 @@ void KonqBaseListViewWidget::slotDeleteItem( KFileItem * _fileitem )
       delete &(*it);
       return;
     }
+}
+
+void KonqBaseListViewWidget::slotRefreshItems( const KFileItemList & entries )
+{
+   QListIterator<KFileItem> kit ( entries );
+   for( ; kit.current(); ++kit )
+   {
+       iterator it = begin();
+       for( ; it != end(); ++it )
+           if ( (*it).item() == kit.current() )
+           {
+               it->updateContents();
+               break;
+           }
+   }
 }
 
 void KonqBaseListViewWidget::slotRedirection( const KURL & url )
