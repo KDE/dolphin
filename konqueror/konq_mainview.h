@@ -46,6 +46,7 @@ class KonqPart;
 class KonqComboAction;
 class KonqHistoryAction;
 struct HistoryEntry;
+class KonqFrameBase;
 
 class KonqMainView : public View,
                      virtual public KBookmarkOwner,
@@ -82,6 +83,7 @@ public slots:
   // View menu
   void slotViewModeToggle( bool toggle );
   void slotShowHTML();
+  void slotToggleDirTree( bool );
   void slotReload();
   void slotStop();
 
@@ -284,6 +286,7 @@ private:
   KonqComboAction *m_paURLCombo;
 
   KToggleAction *m_ptaUseHTML;
+  KToggleAction *m_ptaShowDirTree;
 
   bool m_bMenuEditDirty;
   bool m_bMenuViewDirty;

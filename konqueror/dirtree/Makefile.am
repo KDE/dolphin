@@ -19,6 +19,6 @@ dirtreestuff_DATA = home.desktop
 #dirtreeftpstuffdir = $(kde_datadir)/konqueror/dirtree/FTPs
 #dirtreeftpstuff_DATA = .directory kde_ftp.desktop
 
-dirtreeprofiledir = $(kde_datadir)/konqueror/profiles
-dirtreeprofile_DATA = dirtree_profile.desktop
+#dirtreeprofiledir = $(kde_datadir)/konqueror/profiles
+#dirtreeprofile_DATA = dirtree_profile.desktop
 

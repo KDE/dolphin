@@ -412,6 +412,46 @@ void KonqMainView::slotShowHTML()
   }
 }
 
+void KonqMainView::slotToggleDirTree( bool toggle )
+{
+  KonqFrameContainer *mainContainer = m_pViewManager->mainContainer();
+
+  assert( mainContainer );
+
+  if ( toggle )
+  {
+    KonqFrameBase *splitFrame = mainContainer->firstChild();
+
+    KonqFrameContainer *newContainer;
+
+    BrowserView *view = m_pViewManager->split( splitFrame, Qt::Horizontal, QString::fromLatin1( "Browser/View" ), QString::fromLatin1( "KonqDirTree" ), &newContainer );
+
+    newContainer->moveToLast( splitFrame->widget() );
+
+    QValueList<int> newSplitterSizes;
+    newSplitterSizes << 30 << 100;
+
+    newContainer->setSizes( newSplitterSizes );
+
+    KonqChildView *cv = childView( view );
+
+    cv->setPassiveMode( true );
+    cv->frame()->header()->passiveModeCheckBox()->setChecked( true );
+  }
+  else
+  {
+    QList<KonqChildView> viewList;
+
+    mainContainer->listViews( &viewList );
+
+    QListIterator<KonqChildView> it( viewList );
+
+    for (; it.current(); ++it )
+      if ( it.current()->view()->inherits( "KonqDirTreeBrowserView" ) )
+        m_pViewManager->removeView( it.current() );
+  }
+}
+
 void KonqMainView::slotStop()
 {
   if ( m_currentView )
@@ -772,6 +812,13 @@ void KonqMainView::insertChildView( KonqChildView *childView )
   m_mapViews.insert( childView->view(), childView );
 
   m_paRemoveView->setEnabled( m_mapViews.count() > 1 );
+
+  if ( childView->view()->inherits( "KonqDirTreeBrowserView" ) )
+  {
+    m_ptaShowDirTree->blockSignals( true );
+    m_ptaShowDirTree->setChecked( true );
+    m_ptaShowDirTree->blockSignals( false );
+  }
 }
 
 void KonqMainView::removeChildView( KonqChildView *childView )
@@ -785,6 +832,23 @@ void KonqMainView::removeChildView( KonqChildView *childView )
   {
     unPlugViewGUI( m_currentView->view() );
     m_currentView = 0L;
+  }
+
+  bool haveTree = false;
+  MapViews::ConstIterator cIt = m_mapViews.begin();
+  MapViews::ConstIterator cEnd = m_mapViews.end();
+  for (; cIt != cEnd; ++cIt )
+    if ( (*cIt)->view()->inherits( "KonqDirTreeBrowserView" ) )
+    {
+      haveTree = true;
+      break;
+    }
+
+  if ( !haveTree )
+  {
+    m_ptaShowDirTree->blockSignals( true );
+    m_ptaShowDirTree->setChecked( false );
+    m_ptaShowDirTree->blockSignals( false );
   }
 }
 
@@ -887,6 +951,7 @@ void KonqMainView::slotMenuViewAboutToShow()
     qDebug( "no lock!" );
     m_pamView->popupMenu()->clear(); //remove separators
     m_pamView->remove( m_ptaUseHTML );
+    m_pamView->remove( m_ptaShowDirTree );
     m_pamView->remove( m_paReload );
 
     m_viewModeActions.clear();
@@ -918,6 +983,7 @@ void KonqMainView::slotMenuViewAboutToShow()
     }
 
     m_pamView->insert( m_ptaUseHTML );
+    m_pamView->insert( m_ptaShowDirTree );
     m_pamView->popupMenu()->insertSeparator();
     m_pamView->insert( m_paReload );
 
@@ -1096,25 +1162,25 @@ void KonqMainView::slotDelete()
 
   if ( !obj )
     return;
-  
+
   KConfig *config = KonqFactory::instance()->config();
   config->setGroup( "Misc Defaults" );
   bool confirm = config->readBoolEntry( "ConfirmDestructive", true );
   if (confirm)
   {
     QStringList selectedUrls = ((EditExtension *)obj)->selectedUrls();
-    
+
     QStringList::Iterator it = selectedUrls.begin();
     QStringList::Iterator end = selectedUrls.end();
     for ( ; it != end; ++it )
       KURL::decode( *it );
-    
+
     if ( KMessageBox::questionYesNoList(0, i18n( "Do you really want to delete the file(s) ?" ),
          selectedUrls )
 	 == KMessageBox::No)
       return;
   }
-    
+
   ((EditExtension *)obj)->moveSelection();
 }
 
@@ -1331,6 +1397,8 @@ void KonqMainView::initActions()
            this, SLOT( slotMenuViewAboutToShow() ) );
 
   m_ptaUseHTML = new KToggleAction( i18n( "&Use HTML" ), 0, this, SLOT( slotShowHTML() ), actionCollection(), "usehtml" );
+  m_ptaShowDirTree = new KToggleAction( i18n( "Show Directory Tree" ), 0, actionCollection(), "showdirtree" );
+  connect( m_ptaShowDirTree, SIGNAL( toggled( bool ) ), this, SLOT( slotToggleDirTree( bool ) ) );
 
   // Go menu : TODO : connect to abouttoshow and append max 10 history items
   m_paUp = new KonqHistoryAction( i18n( "&Up" ), QIconSet( BarIcon( "up", KonqFactory::instance() ) ), ALT+Key_Up, actionCollection(), "up" );
