@@ -52,10 +52,12 @@ int NSPluginLoader::s_refCount = 0;
 NSPluginInstance::NSPluginInstance(QWidget *parent, const QCString& app, const QCString& id)
   : EMBEDCLASS(parent), DCOPStub(app, id), NSPluginInstanceIface_stub(app, id)
 {
+    shown = false;
     _loader = NSPluginLoader::instance();
     setBackgroundMode(QWidget::NoBackground);
     embed( NSPluginInstanceIface_stub::winId() );
     displayPlugin();
+    shown = true;
 }
 
 
@@ -71,6 +73,8 @@ NSPluginInstance::~NSPluginInstance()
 
 void NSPluginInstance::resizeEvent(QResizeEvent *event)
 {
+  if (shown == false)
+     return;
   EMBEDCLASS::resizeEvent(event);
   resizePlugin(width(), height());
   kdDebug() << "NSPluginInstance(client)::resizeEvent" << endl;

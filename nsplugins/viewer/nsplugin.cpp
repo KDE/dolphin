@@ -760,10 +760,6 @@ void NSPluginInstance::displayPlugin()
    // display plugin
    setWindow();
 
-   // create source stream
-   if ( !_url.isEmpty() )
-      requestURL( _url, _mimetype, QString::null, 0 );
-
    kdDebug(1431) << "<- NSPluginInstance::displayPlugin = " << (void*)this << endl;
 }
 
@@ -1008,6 +1004,10 @@ DCOPRef NSPluginClass::newInstance( QString url, QString mimeType, bool embed,
       kdDebug(1431) << "<- PluginClass::NewInstance = 0" << endl;
       return DCOPRef();
    }
+
+   // create source stream
+   if ( !src.isEmpty() )
+      inst->requestURL( src, mimeType, QString::null, 0 );
 
    _instances.append( inst );
    return DCOPRef(kapp->dcopClient()->appId(), inst->objId());

@@ -51,6 +51,7 @@ public:
 protected:
     void resizeEvent(QResizeEvent *event);
     class NSPluginLoader *_loader;
+    bool shown;
 };
 
 
