@@ -53,14 +53,7 @@ KDirLister::~KDirLister()
       job->kill();
     m_jobId = 0;
   }
-  QString previousPath = m_initialURL.path();
-  if ( !previousPath.isEmpty() )
-    // Forget about previous url
-    if ( m_initialURL.isLocalFile() )
-    {
-      kdirwatch->removeDir( previousPath );
-      kdirwatch->disconnect( this );
-    }
+  forgetDirs();
 }
 
 void KDirLister::slotDirectoryDirty( const QString& _dir )
@@ -74,7 +67,7 @@ void KDirLister::slotDirectoryDirty( const QString& _dir )
   updateDirectory();
 }
 
-void KDirLister::openURL( const KURL& _url, bool _showDotFiles )
+void KDirLister::openURL( const KURL& _url, bool _showDotFiles, bool _keep )
 {
   if ( _url.isMalformed() )
   {
@@ -95,27 +88,21 @@ void KDirLister::openURL( const KURL& _url, bool _showDotFiles )
       job->kill();
     m_jobId = 0;
   }
-  
-  QString previousPath = m_initialURL.path();
-  //kdebug(0, 1202, "previousPath = %s", previousPath.ascii() );
-  if ( !previousPath.isEmpty() )
-    // Forget about previous url
-    if ( m_initialURL.isLocalFile() )
-    {
-      //kdebug(0, 1202, "removing %s", previousPath.ascii() );
-      kdirwatch->removeDir( previousPath );
-      kdirwatch->disconnect( this );
-    }
+
+  // Complete switch, don't keep previous URLs
+  if ( !_keep )
+    forgetDirs();
 
   // Automatic updating of directories ?
   if ( _url.isLocalFile() )
   {
     //kdebug(0, 1202, "adding %s", _url.path().ascii() );
     kdirwatch->addDir( _url.path() );
-    connect( kdirwatch, SIGNAL( dirty( const QString& ) ), 
-	     this, SLOT( slotDirectoryDirty( const QString& ) ) );
+    if ( !_keep ) // already done if keep == true
+      connect( kdirwatch, SIGNAL( dirty( const QString& ) ), 
+               this, SLOT( slotDirectoryDirty( const QString& ) ) );
   }
-  m_initialURL = _url; // keep a copy
+  m_lstDirs.append( _url.path() );
 
   m_bComplete = false;
 
@@ -125,15 +112,19 @@ void KDirLister::openURL( const KURL& _url, bool _showDotFiles )
   connect( job, SIGNAL( sigError( int, int, const char* ) ),
 	   this, SLOT( slotError( int, int, const char* ) ) );
 
+  m_url = _url; // keep a copy
   m_sURL = _url.url(); // filled in now, in case somebody calls url(). Will be updated later in case of redirection
-  m_bFoundOne = false;
+
+  // Complete switch (keep == false) => none found (foundone == false) => will clear items
+  // Keep dirs (keep == true) => don't clear items
+  m_bFoundOne = _keep;
 
   m_buffer.clear();
   
   m_jobId = job->id();
-  job->listDir( _url.url() );
+  job->listDir( m_sURL );
 
-  emit started( _url.url() );
+  emit started( m_sURL );
 }
 
 void KDirLister::slotError( int /*_id*/, int _errid, const char *_errortext )
@@ -173,13 +164,13 @@ void KDirLister::slotBufferTimeout()
 {
   kdebug(0,1203,"BUFFER TIMEOUT");
 
-  //The first entry in the toplevel ?
+  //The first entry ?
   if ( !m_bFoundOne )
   { 
     emit clear();
     m_lstFileItems.clear(); // clear our internal list
-    m_url = m_initialURL; // HACK. How to detect redirects instead ?
-    m_sURL = m_url.url();
+    // TODO : update m_url in case of redirection
+    // m_sURL = m_url.url();
     m_bFoundOne = true; // remember not to go here again
     m_bIsLocalURL = m_url.isLocalFile();
   }
@@ -284,7 +275,7 @@ void KDirLister::slotUpdateFinished( int /*_id*/ )
       // Form the complete url
       KURL u( m_url );
       u.addPath( name.data() );
-      //kdebug(KDEBUG_INFO, 1203, "slotUpdateFinished : found %s",name.ascii() );
+      kdebug(KDEBUG_INFO, 1203, "slotUpdateFinished : found %s",name.ascii() );
 
       // Find this icon
       bool done = false;
@@ -349,7 +340,7 @@ void KDirLister::setShowingDotFiles( bool _showDotFiles )
   }
 }
 
-KFileItem* KDirLister::item( const QString& _url )
+KFileItem* KDirLister::find( const QString& _url )
 {
   QListIterator<KFileItem> it = m_lstFileItems;
   for( ; it.current(); ++it )
@@ -359,6 +350,19 @@ KFileItem* KDirLister::item( const QString& _url )
   }
 
   return 0L;
+}
+
+void KDirLister::forgetDirs()
+{
+  for ( QStringList::Iterator it = m_lstDirs.begin(); it != m_lstDirs.end(); ++it ) {
+    if ( KURL( *it ).isLocalFile() )
+    {
+      kdebug(0, 1203, "forgetting about %s", (*it).ascii() );
+      kdirwatch->removeDir( *it );
+    }
+  }
+  m_lstDirs.clear();
+  kdirwatch->disconnect( this );
 }
 
 #include "kdirlister.moc"
