@@ -39,7 +39,7 @@ public:
     /**
      * Create an icon, within a qlistview, representing a file
      * @param parent the parent widget
-     * @param fileitem the file item created by KDirLister
+     * @param fileitem the file item created by KonqDirLister
      * @param size the icon size
      * @param bImagePreviewAllowed whether image preview is allowed, see KonqFileItem
      */
@@ -73,7 +73,7 @@ protected:
 
     int m_size;
     bool m_bpreview;
-    /** Pointer to the file item in KDirLister's list */
+    /** Pointer to the file item in KonqDirLister's list */
     KonqFileItem* m_fileitem;
 
 private slots:

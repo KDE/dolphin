@@ -29,7 +29,8 @@ class KonqFileItem: public KFileItem
 {
 public:
   // Need to redeclare all constructors ! I want Java !!! :)
-  KonqFileItem( const KIO::UDSEntry& entry, KURL& url, bool determineMimeTypeOnDemand = false )
+  KonqFileItem( const KIO::UDSEntry& entry, const KURL& url, 
+		bool determineMimeTypeOnDemand = false )
  : KFileItem( entry, url, determineMimeTypeOnDemand ) {}
 
   KonqFileItem( mode_t mode, mode_t permissions, const KURL& url, bool determineMimeTypeOnDemand = false )
@@ -46,25 +47,6 @@ public:
    * @return the pixmap
    */
   QPixmap pixmap( int _size, bool bImagePreviewAllowed ) const;
-
-  /*
-   * @return the string to be displayed in the statusbar when the mouse
-   *         is over this item
-   */
-  QString getStatusBarInfo();
-
-  /**
-   * @return true if files can be dropped over this item
-   * Contrary to popular belief, not only dirs will return true :)
-   * Executables, .desktop files, will do so as well.
-   */
-  bool acceptsDrops( );
-
-  /**
-   * Let's "KRun" this file !
-   * (called when file is clicked or double-clicked or return is pressed)
-   */
-  void run();
 
 };
 

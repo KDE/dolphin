@@ -23,7 +23,7 @@ libkonq_la_LDFLAGS = $(all_libraries) -version-info 3:0 -no-undefined
 libkonq_la_LIBADD = $(LIB_KPARTS)
 
 libkonq_la_SOURCES = kbookmarkmenu.cc kbookmark.cc knewmenu.cc konqpopupmenu.cc \
-	kdirlister.cc konqfileitem.cc kfileivi.cc \
+	konqdirlister.cc konqfileitem.cc kfileivi.cc \
 	konqsettings.cc konqdrag.cc konqiconviewwidget.cc \
 	konqoperations.cc kbookmarkbar.cc \
         konq_propsview.cc konq_events.cc konq_bgnddlg.cc 
@@ -31,7 +31,7 @@ libkonq_la_SOURCES = kbookmarkmenu.cc kbookmark.cc knewmenu.cc konqpopupmenu.cc 
 METASOURCES = AUTO
 
 include_HEADERS = kbookmark.h kbookmarkmenu.h knewmenu.h konqpopupmenu.h \
-	kdirlister.h konqfileitem.h kfileivi.h \
+	konqdirlister.h konqfileitem.h kfileivi.h \
 	konqdefaults.h konqsettings.h konqdrag.h konqiconviewwidget.h \
 	konqoperations.h kbookmarkbar.h \
         konq_propsview.h konq_events.h konq_bgnddlg.h 

@@ -20,34 +20,19 @@
 
 #include <sys/time.h>
 
-#include <assert.h>
-#include <unistd.h>
-
 #include "konqfileitem.h"
 
 #include <qdir.h>
-#include <qfile.h>
 #include <qimage.h>
 #include <qpixmap.h>
 
-#include <kglobal.h>
 #include <kdebug.h>
-#include <klocale.h>
 #include <kmimetype.h>
-#include <krun.h>
 
 QPixmap KonqFileItem::pixmap( int _size, bool bImagePreviewAllowed ) const
 {
-  if ( !m_pMimeType )
-  {
-    if ( S_ISDIR( m_fileMode ) )
-     return DesktopIcon( "folder", _size );
-
-    return DesktopIcon( "unknown", _size );
-  }
-
-
-  if ( m_pMimeType->name().left(6) == "image/" && m_bIsLocalURL && bImagePreviewAllowed )
+  if ( m_pMimeType && m_pMimeType->name().left(6) == "image/" &&
+       m_bIsLocalURL && bImagePreviewAllowed )
   {
       kdDebug(1203) << "Requested thumbnail size: " << _size << endl;
       if(_size == 0) // default size requested
@@ -209,85 +194,5 @@ QPixmap KonqFileItem::pixmap( int _size, bool bImagePreviewAllowed ) const
       }
   }
 
-  QPixmap p = m_pMimeType->pixmap( m_url, KIcon::Desktop, _size );
-  if (p.isNull())
-    warning("Pixmap not found for mimetype %s",m_pMimeType->name().latin1());
-  return p;
+  return KFileItem::pixmap( _size );
 }
-
-bool KonqFileItem::acceptsDrops()
-{
-  // Any directory : yes
-  if ( S_ISDIR( mode() ) )
-    return true;
-
-  // But only local .desktop files and executables
-  if ( !m_bIsLocalURL )
-    return false;
-
-  if ( m_pMimeType && mimetype() == "application/x-desktop")
-    return true;
-
-  // Executable, shell script ... ?
-  if ( access( m_url.path(), X_OK ) == 0 )
-    return true;
-
-  return false;
-}
-
-QString KonqFileItem::getStatusBarInfo()
-{
-  QString comment = determineMimeType()->comment( m_url, false );
-  QString text = m_strText;
-  // Extract from the KIO::UDSEntry the additional info we didn't get previously
-  QString myLinkDest = linkDest();
-  long mySize = size();
-
-  QString text2 = text.copy();
-
-  if ( m_bLink )
-  {
-      QString tmp;
-      if ( comment.isEmpty() )
-	tmp = i18n ( "Symbolic Link" );
-      else
-        tmp = i18n("%1 (Link)").arg(comment);
-      text += "->";
-      text += myLinkDest;
-      text += "  ";
-      text += tmp;
-  }
-  else if ( S_ISREG( m_fileMode ) )
-  {
-      text = QString("%1 (%2)").arg(text2).arg( KIO::convertSize( mySize ) );
-      text += "  ";
-      text += comment;
-  }
-  else if ( S_ISDIR ( m_fileMode ) )
-  {
-      text += "/  ";
-      text += comment;
-    }
-    else
-    {
-      text += "  ";
-      text += comment;
-    }	
-    return text;
-}
-
-void KonqFileItem::run()
-{
-  (void) new KRun( m_url, m_fileMode, m_bIsLocalURL );
-}
-
-/* Doesn't deserve a method
-QString KonqFileItem::makeTimeString( time_t _time )
-{
-  QDateTime dt;
-  dt.setTime_t(_time);
-
-  return KGlobal::locale()->formatDateTime(dt);
-}
-*/
-
