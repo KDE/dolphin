@@ -39,7 +39,7 @@ static KCmdLineOptions options[] = {
    {"exportmoz <filename>", I18N_NOOP("Export bookmarks to file in Mozilla format."), 0},
    {"exportns <filename>", I18N_NOOP("Export bookmarks to file in Netscape (<=4) format."), 0},
    {"+[file]", I18N_NOOP("File to edit"), 0},
-   {0, 0, 0}
+   KCmdLineLastOption
 };
 
 static int askUser(KApplication &app, QString filename, bool &readonly) {
