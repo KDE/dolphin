@@ -111,7 +111,8 @@ KManualProxyDlg::KManualProxyDlg( QWidget* parent, const char* name )
     sb_httpproxy = new QSpinBox( gb_servers, "sb_httpproxy" );
     sb_httpproxy->setEnabled( false );
     QWhatsThis::add( sb_httpproxy, i18n("Enter the port number of the HTTP "
-                                       "proxy server.  Default is 8080.") );
+                                       "proxy server.  Default is 8080. "
+                                       "Another common value is 3128.") );
 
     glay->addWidget( cb_httpproxy, 0, 0 );
     glay->addWidget( le_httpproxy, 0, 1 );
@@ -140,7 +141,8 @@ KManualProxyDlg::KManualProxyDlg( QWidget* parent, const char* name )
     sb_secproxy = new QSpinBox( gb_servers, "sb_secport" );
     sb_secproxy->setEnabled( false );
     QWhatsThis::add( sb_secproxy, i18n("Enter the port number of the secure "
-                                      "proxy server.  Default is 8080.") );
+                                      "proxy server.  Default is 8080. "
+                                      "Another common value is 3128.") );
 
     glay->addWidget( cb_secproxy, 1, 0 );
     glay->addWidget( le_secproxy, 1, 1 );
@@ -168,7 +170,8 @@ KManualProxyDlg::KManualProxyDlg( QWidget* parent, const char* name )
     sb_ftpproxy = new QSpinBox( gb_servers, "sb_ftpport" );
     sb_ftpproxy->setEnabled( false );
     QWhatsThis::add( sb_ftpproxy, i18n("Enter the port number of the ftp "
-                                      "proxy server.  Default 8080.") );
+                                      "proxy server.  Default 8080. "
+                                      "Another common value is 3128.") );
 
     glay->addWidget( cb_ftpproxy, 2, 0 );
     glay->addWidget( le_ftpproxy, 2, 1 );
@@ -197,7 +200,8 @@ KManualProxyDlg::KManualProxyDlg( QWidget* parent, const char* name )
     sb_gopherproxy = new QSpinBox( gb_servers, "sb_gopherport" );
     sb_gopherproxy->setEnabled( false );
     QWhatsThis::add( sb_gopherproxy, i18n("Enter the port number for the gopher "
-                                         "proxy server.  Default is 8080.") );
+                                         "proxy server.  Default is 8080. "
+                                         "Another common value is 3128.") );
 
     glay->addWidget( cb_gopherproxy, 3, 0 );
     glay->addWidget( le_gopherproxy, 3, 1 );
