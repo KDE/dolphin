@@ -194,7 +194,8 @@ KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name)
 
     sizeBox =new KComboBox(FALSE, pages[2], "sizeBox");
     QLabel * sizeL   =new QLabel(sizeBox,i18n("&Size is:"), pages[2],"size");
-    sizeEdit=new QSpinBox(1, INT_MAX, 1, pages[2], "sizeEdit" );
+    sizeEdit=new QSpinBox(0, INT_MAX, 1, pages[2], "sizeEdit" );
+    sizeEdit->setValue(1);
     sizeUnitBox =new KComboBox(FALSE, pages[2], "sizeUnitBox");
 
     m_usernameBox = new KComboBox( true, pages[2], "m_combo1");
@@ -515,10 +516,13 @@ void KfindTabWidget::setQuery(KQuery *query)
   switch (sizeBox->currentItem())
   {
     case 1:
-      query->setSizeRange(sizeEdit->text().toInt() * 1024, -1);
+      query->setSizeRange(size, -1);
       break;
     case 2:
-      query->setSizeRange(-1, sizeEdit->text().toInt() * 1024);
+      query->setSizeRange(-1, size);
+      break;
+    case 3:
+      query->setSizeRange(size,size);
       break;
     default:
       query->setSizeRange(-1, -1);
