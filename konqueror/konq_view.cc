@@ -234,13 +234,20 @@ bool KonqView::changeViewMode( const QString &serviceType,
     m_serviceType = serviceType;
 
     switchView( viewFactory );
+
+    // Give focus to the new part. Note that we don't do it each time we
+    // open a URL (becomes awful in view-follows-view mode), but we do
+    // each time we change the view mode.
+    // We don't do it in switchView either because it's called from the constructor too,
+    // where the location bar url isn't set yet.
+    kdDebug(1202) << "Giving focus to new part " << m_pPart->widget() << endl;
+    m_pPart->widget()->setFocus();
+
   }
 
   if ( !url.isEmpty() )
   {
     openURL( url );
-
-    show(); // is this necessary ?
   }
   return true;
 }
