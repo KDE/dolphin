@@ -180,6 +180,9 @@ void KonqViewManager::removeView( KonqChildView *view )
   //adjustments shouldn't be neccessary. I'm not sure wether this is a 
   //QSplitter problem or not. Michael.
   grandParentContainer->setSizes( sizes );
+
+  m_pMainContainer->setGeometry( 0, 0, m_pMainContainer->width(), m_pMainContainer->height()+1 );
+  m_pMainContainer->setGeometry( 0, 0, m_pMainContainer->width(), m_pMainContainer->height()-1 );
 }
 
 void KonqViewManager::saveViewProfile( KConfig &cfg )
