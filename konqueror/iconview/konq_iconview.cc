@@ -366,25 +366,16 @@ KonqKfmIconView::~KonqKfmIconView()
 void KonqKfmIconView::slotImagePreview( bool toggle )
 {
     m_pProps->setShowingImagePreview( toggle );
-    if ( !m_pProps->isShowingImagePreview() )
-      calculateGridX();
-    m_pIconView->setImagePreviewAllowed ( toggle );
-    if ( m_pProps->isShowingImagePreview() ) {
-	QIconViewItem *i = m_pIconView->firstItem();
-	for ( ; i; i = i->nextItem() ) {
-	    m_pIconView->setGridX( QMAX( m_pIconView->gridX(), i->width() ) );
-	}
+    if ( !toggle )
+    {
+        m_pIconView->stopImagePreview();
+        m_pIconView->setIcons( m_pIconView->iconSize() );
+        calculateGridX();
     }
-    m_pIconView->arrangeItemsInGrid( TRUE );
-
-    if ( toggle )
-      if ( m_lstPendingMimeIconItems.count() == 0 )
-      {
-        QIconViewItem *i = m_pIconView->firstItem();
-        for ( ; i; i = i->nextItem() ) {
-          m_lstPendingMimeIconItems.append( static_cast<KFileIVI*>(i) );
-        }
-      }
+    else
+    {
+        m_pIconView->startImagePreview();
+    }
 }
 
 void KonqKfmIconView::calculateGridX()
@@ -580,6 +571,8 @@ void KonqKfmIconView::slotViewLarge( bool b )
 	m_pIconView->setIcons( m_pProps->iconSize() );
         calculateGridX();
 	m_pIconView->arrangeItemsInGrid( true );
+        if ( m_pProps->isShowingImagePreview() )
+          m_pIconView->startImagePreview();
     }
 }
 
@@ -591,6 +584,8 @@ void KonqKfmIconView::slotViewMedium( bool b )
 	m_pIconView->setIcons( m_pProps->iconSize() );
         calculateGridX();
 	m_pIconView->arrangeItemsInGrid( true );
+        if ( m_pProps->isShowingImagePreview() )
+          m_pIconView->startImagePreview();
     }
 }
 
@@ -602,6 +597,8 @@ void KonqKfmIconView::slotViewSmall( bool b )
 	m_pIconView->setIcons( m_pProps->iconSize() );
         calculateGridX();
 	m_pIconView->arrangeItemsInGrid( true );
+        if ( m_pProps->isShowingImagePreview() )
+          m_pIconView->startImagePreview();
     }
 }
 
@@ -613,6 +610,8 @@ void KonqKfmIconView::slotViewDefault( bool b)
 	m_pIconView->setIcons( m_pProps->iconSize() );
         calculateGridX();
 	m_pIconView->arrangeItemsInGrid( true );
+        if ( m_pProps->isShowingImagePreview() )
+          m_pIconView->startImagePreview();
     }
 }
 	
@@ -661,9 +660,9 @@ void KonqKfmIconView::slotBackgroundImage()
 
 bool KonqKfmIconView::closeURL()
 {
-    debug("KonqKfmIconView::stop()");
     if ( m_dirLister ) m_dirLister->stop();
     m_lstPendingMimeIconItems.clear();
+    m_pIconView->stopImagePreview();
     return true;
 }
 
@@ -1044,6 +1043,10 @@ void KonqKfmIconView::slotProcessMimeIcons()
                 kdDebug(1202) << "KonqKfmIconView completed()" << endl;
                 emit completed();
                 m_bNeedEmitCompleted = false;
+                if ( m_pProps->isShowingImagePreview() )
+                  // We can do this only when the mimetypes are fully determined,
+                  // since we only do image preview... on images :-)
+                  m_pIconView->startImagePreview();
             }
             if ( m_bNeedAlign )
             {
@@ -1063,13 +1066,7 @@ void KonqKfmIconView::slotProcessMimeIcons()
                                             /* m_pProps->isShowingImagePreview() */ );
 
     if ( currentIcon->serialNumber() != newIcon.serialNumber() )
-    {
-	item->QIconViewItem::setPixmap( newIcon );
-	if ( item->width() > m_pIconView->gridX() )
-	    m_pIconView->setGridX( item->width() );
-	if ( item->isThumbnail() )
-	    m_bNeedAlign = true;
-    }
+      item->QIconViewItem::setPixmap( newIcon );
 
     m_lstPendingMimeIconItems.remove(item);
     m_timer->start( nextDelay, true /* single shot */ );
@@ -1140,7 +1137,8 @@ bool KonqKfmIconView::openURL( const KURL & url )
 
       m_paDotFiles->setChecked( m_pProps->isShowingDotFiles() );
       m_paImagePreview->setChecked( m_pProps->isShowingImagePreview() );
-      m_pIconView->setImagePreviewAllowed ( m_pProps->isShowingImagePreview() );
+      // Done after listing now
+      //m_pIconView->setImagePreviewAllowed ( m_pProps->isShowingImagePreview() );
 
       m_pProps->applyColors( m_pIconView );
 
