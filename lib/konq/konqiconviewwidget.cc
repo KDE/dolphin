@@ -248,15 +248,18 @@ void KonqIconViewWidget::slotDropItem( KFileIVI *item, QDropEvent *ev )
 
 void KonqIconViewWidget::drawBackground( QPainter *p, const QRect &r )
 {
-    const QPixmap *pm = backgroundPixmap();
-    if (!pm || pm->isNull()) {
-	p->fillRect(r, backgroundColor());
-	return;
+    const QPixmap *pm  = backgroundPixmap();
+    bool hasPixmap = pm && !pm->isNull();
+    if (!hasPixmap && backgroundMode() != NoBackground) {
+        p->fillRect(r, backgroundColor());
+        return;
     }
 
-    int ax = (r.x() + contentsX()) % pm->width();
-    int ay = (r.y() + contentsY()) % pm->height();
-    p->drawTiledPixmap(r, *pm, QPoint(ax, ay));
+    if (hasPixmap) {
+        int ax = (r.x() + contentsX()) % pm->width();
+        int ay = (r.y() + contentsY()) % pm->height();
+        p->drawTiledPixmap(r, *pm, QPoint(ax, ay));
+    }
 }
 
 QDragObject * KonqIconViewWidget::dragObject()
