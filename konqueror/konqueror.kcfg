@@ -1,0 +1,190 @@
+<!DOCTYPE kcfg SYSTEM "http://www.kde.org/standards/kcfg/1.0/kcfg.dtd">
+<kcfg>
+ <kcfgfile name="konquerorrc" />
+ <group name="FMSettings" >
+  <entry key="AlwaysNewWin" type="Bool" />
+  <entry key="AlwaysTabbedMode" type="Bool" />
+  <entry key="DisplayFileSizeInBytes" type="Bool" />
+  <entry key="HomeURL" type="Path" />
+  <entry key="MMBOpensTab" type="Bool" />
+  <entry key="NewTabsInFront" type="Bool" />
+  <entry key="NormalTextColor" type="Color" />
+  <entry key="OpenAfterCurrentPage" type="Bool" />
+  <entry key="RenameIconDirectly" type="Bool" />
+  <entry key="ShowFileTips" type="Bool" />
+  <entry key="ShowPreviewsInFileTips" type="Bool" />
+  <entry key="StandardFont" type="Font" />
+  <entry key="UnderlineLinks" type="Bool" />
+  <entry key="WordWrapText" type="Bool" />
+  <entry key="FileTipsItems" type="Int" />
+ </group>
+ <group name="HTML Settings" >
+  <entry key="AutomaticDetectionLanguage" type="String" />
+  <entry key="DefaultEncoding" type="String" />
+  <entry key="ShowAnimations" type="String" />
+  <entry key="AutoDelayedActions" type="Bool" />
+  <entry key="AutoLoadImages" type="Bool" />
+  <entry key="ChangeCursor" type="Bool" />
+  <entry key="EnforceDefaultCharset" type="Bool" />
+  <entry key="Fonts" type="StringList" />
+  <entry key="FormCompletion" type="Bool" />
+  <entry key="HoverLinks" type="Bool" />
+  <entry key="MaxFormCompletionItems" type="Int" />
+  <entry key="MediumFontSize" type="Int" />
+  <entry key="MinimumFontSize" type="Int" />
+  <entry key="UnderlineLinks" type="Bool" />
+  <entry key="UserStyleSheetEnabled" type="Bool" />
+  <entry key="iso8859-1" type="StringList" />
+  <entry key="iso8859-10" type="StringList" />
+  <entry key="iso8859-13" type="StringList" />
+  <entry key="iso8859-14" type="StringList" />
+  <entry key="iso8859-15" type="StringList" />
+  <entry key="iso8859-2" type="StringList" />
+  <entry key="iso8859-3" type="StringList" />
+  <entry key="iso8859-4" type="StringList" />
+  <entry key="iso8859-5" type="StringList" />
+  <entry key="iso8859-6" type="StringList" />
+  <entry key="iso8859-7" type="StringList" />
+  <entry key="iso8859-8" type="StringList" />
+  <entry key="iso8859-9" type="StringList" />
+  <entry key="koi8-r" type="StringList" />
+  <entry key="koi8-u" type="StringList" />
+  <entry key="microsoft-cp1251" type="StringList" />
+  <entry key="paratype-cp154" type="StringList" />
+ </group>
+ <group name="HistorySettings" >
+  <entry key="OpenGroups" type="String" />
+ </group>
+ <group name="Java/JavaScript Settings" >
+  <entry key="ECMADomains" type="String" />
+  <entry key="JavaArgs" type="String" />
+  <entry key="JavaDomains" type="String" />
+  <entry key="JavaPath" type="String" />
+  <entry key="PluginDomains" type="String" />
+  <entry key="AppletServerTimeout" type="Int" />
+  <entry key="EnableJava" type="Bool" />
+  <entry key="EnableJavaScript" type="Bool" />
+  <entry key="EnablePlugins" type="Bool" />
+  <entry key="ReportJavaScriptErrors" type="Bool" />
+  <entry key="ShowJavaConsole" type="Bool" />
+  <entry key="ShutdownAppletServer" type="Bool" />
+  <entry key="UseSecurityManager" type="Bool" />
+  <entry key="WindowFocusPolicy" type="Int" />
+  <entry key="WindowMovePolicy" type="Int" />
+  <entry key="WindowOpenPolicy" type="Int" />
+  <entry key="WindowResizePolicy" type="Int" />
+  <entry key="WindowStatusPolicy" type="Int" />
+ </group>
+ <group name="KFileDialog Settings" >
+  <entry key="Automatic Preview" type="String" />
+  <entry key="Autoplay sounds" type="String" />
+  <entry key="Preview Size" type="String" />
+  <entry key="Recent Files" type="String" />
+  <entry key="ShowPreviews" type="String" />
+  <entry key="ViewMode" type="String" />
+ </group>
+ <group name="KFileDialog Speedbar" >
+  <entry key="Number of Entries" type="String" />
+  <entry key="Speedbar IconSize" type="String" />
+ </group>
+ <group name="KFileIconView" >
+  <entry key="ViewMode" type="String" />
+ </group>
+ <group name="KMid" >
+  <entry key="ActiveCollection" type="String" />
+ </group>
+ <group name="KPrinter Settings" >
+  <entry key="ApplicationOptions" type="String" />
+  <entry key="DialogReduced" type="String" />
+  <entry key="DocDirectory" type="String" />
+  <entry key="PrintCommand" type="String" />
+  <entry key="Printer" type="String" />
+ </group>
+ <group name="KonqMainWindow" >
+  <entry key="StatusBar" type="String" />
+ </group>
+ <group name="KonqMainWindow Toolbar bookmarkToolBar" >
+  <entry key="IconText" type="String" />
+  <entry key="Index" type="String" />
+ </group>
+ <group name="KonqMainWindow Toolbar debugToolBar" >
+  <entry key="Index" type="String" />
+ </group>
+ <group name="KonqMainWindow Toolbar edit_toolbar" >
+  <entry key="Index" type="String" />
+ </group>
+ <group name="KonqMainWindow Toolbar extraToolBar" >
+  <entry key="IconText" type="String" />
+  <entry key="Index" type="String" />
+ </group>
+ <group name="KonqMainWindow Toolbar formatToolBar" >
+  <entry key="Hidden" type="String" />
+  <entry key="IconSize" type="String" />
+  <entry key="IconText" type="String" />
+  <entry key="Index" type="String" />
+  <entry key="NewLine" type="String" />
+  <entry key="Offset" type="String" />
+  <entry key="Position" type="String" />
+ </group>
+ <group name="KonqMainWindow Toolbar locationToolBar" >
+  <entry key="IconText" type="String" />
+  <entry key="Index" type="String" />
+  <entry key="Offset" type="String" />
+ </group>
+ <group name="KonqMainWindow Toolbar mainToolBar" >
+  <entry key="Hidden" type="String" />
+  <entry key="Index" type="String" />
+  <entry key="Offset" type="String" />
+ </group>
+ <group name="ListView_file" >
+  <entry key="SortBy" type="String" />
+  <entry key="SortOrder" type="String" />
+ </group>
+ <group name="ListView_ftp" >
+  <entry key="SortBy" type="String" />
+  <entry key="SortOrder" type="String" />
+ </group>
+ <group name="MainView Settings" >
+  <entry key="BackRightClick" type="String" />
+  <entry key="HTMLAllowed" type="String" />
+  <entry key="ToggableViewsShown" type="String" />
+  <entry key="ViewMode" type="String" />
+ </group>
+ <group name="ModeToolBarServices" >
+  <entry key="konq_iconview" type="String" />
+  <entry key="konq_listview" type="String" />
+  <entry key="libcervisia" type="String" />
+  <entry key="libkonqiconview" type="String" />
+  <entry key="libkonqlistview" type="String" />
+ </group>
+ <group name="NonPasswordCachingSites" >
+  <entry key="Sites" type="String" />
+ </group>
+ <group name="Notification Messages" >
+  <entry key="plugin-application/x-shockwave-flash" type="String" />
+  <entry key="plugin-image/svg+xml" type="String" />
+ </group>
+ <group name="Open-with settings" >
+  <entry key="CompletionMode" type="String" />
+  <entry key="History" type="String" />
+ </group>
+ <group name="Reusing" >
+  <entry key="SafeParts" type="String" />
+  <entry key="AlwaysHavePreloaded" type="Bool" />
+  <entry key="MaxPreloadCount" type="Int" />
+  <entry key="PreloadOnStartup" type="Bool" />
+ </group>
+ <group name="Settings" >
+  <entry key="BgImage" type="String" />
+  <entry key="SaveURLInProfile" type="Bool" />
+  <entry key="SaveWindowSizeInProfile" type="Bool" />
+ </group>
+ <group name="TipOfDay" >
+  <entry key="RunOnStart" type="Bool" />
+ </group>
+ <group name="Trash" >
+  <entry key="ConfirmDelete" type="Bool" />
+  <entry key="ConfirmShred" type="Bool" />
+  <entry key="ConfirmTrash" type="Bool" />
+ </group>
+</kcfg>

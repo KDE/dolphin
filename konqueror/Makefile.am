@@ -70,6 +70,8 @@ xdg_apps_DATA = kfmclient.desktop kfmclient_dir.desktop kfmclient_html.desktop \
 konq_data4_DATA = konqfilemgr.desktop
 konq_data4dir = $(kde_appsdir)/.hidden
 
+kde_kcfg_DATA = konqueror.kcfg
+
 # Use a hand-made rule for profiles because they are renamed upon installation
 profiledir = $(kde_datadir)/konqueror/profiles
 install-data-local:
