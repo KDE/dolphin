@@ -39,11 +39,15 @@ public:
 
     /**
      * Text shown for the bookmark
-     * If bigger than @p maxlen, the text is shortened by
+     * If bigger than 40, the text is shortened by
      * replacing middle characters with "..." (see KStringHandler::csqueeze)
-     * You should not have to change maxlen - this is mainly for keditbookmarks.
      */
-    QString text( uint maxlen = 40 ) const;
+    QString text() const;
+    /**
+     * Text shown for the bookmark, not truncated.
+     * You should not use this - this is mainly for keditbookmarks.
+     */
+    QString fullText() const;
     /**
      * URL contained by the bookmark
      */
@@ -54,9 +58,27 @@ public:
      */
     QString icon() const;
 
-    // TODO move up, move down, etc.
+    /**
+     * @return the group containing this bookmark
+     */
+    KBookmarkGroup parentGroup() const;
 
-    KBookmarkGroup toGroup( KBookmarkManager * manager ) const;
+    /**
+     * Convert this to a group - do this only if
+     * isGroup() returns true.
+     */
+    KBookmarkGroup toGroup() const;
+
+    // Hard to decide. Good design would imply that each bookmark
+    // knows about its manager, so that there can be several managers.
+    // But if we say there is only one manager (i.e. set of bookmarks)
+    // per application, then KBookmarkManager::self() is much easier.
+    //KBookmarkManager * manager() const { return m_manager; }
+
+    /**
+     * @internal for KEditBookmarks
+     */
+    QDomElement internalElement() const { return element; }
 
 protected:
     QDomElement element;
@@ -72,31 +94,39 @@ protected:
 class KBookmarkGroup : public KBookmark
 {
 public:
-    KBookmarkGroup( KBookmarkManager * manager, QDomElement elem ) : KBookmark(elem)
-    {
-        m_manager = manager;
-    }
+    KBookmarkGroup( QDomElement elem ) : KBookmark(elem) {}
+
     bool operator == ( const KBookmarkGroup & g ) const { return element == g.element; }
 
     KBookmark first() const;
     KBookmark next( KBookmark & current ) const;
 
-    KBookmarkManager * manager() const { return m_manager; }
-
-    void createNewFolder( const QString & text );
+    /**
+     * Create a new bookmark folder, as the last child of this group
+     * @p text for the folder. If empty, the user will be queried for it.
+     */
+    KBookmarkGroup createNewFolder( const QString & text = QString::null );
+    /**
+     * Create a new bookmark, as the last child of this group
+     */
     void addBookmark( const QString & text, const QString & url );
+    /**
+     * Delete a bookmark - it has to be one of our children !
+     */
+    void deleteBookmark( KBookmark bk );
 
+    /**
+     * @return true if this is the toolbar group
+     */
     bool isToolbarGroup() const;
     /**
      * @internal
      */
     QDomElement findToolbar() const;
 
-    static KBookmarkGroup null() { return KBookmarkGroup(0,QDomElement()); }
+    static KBookmarkGroup null() { return KBookmarkGroup(QDomElement()); }
 
-private:
-    KBookmarkManager * m_manager;
-    // Note: you can't add new member variables here.
+    // Note: you can't add member variables here.
     // The KBookmarks are created on the fly, as wrappers
     // around internal QDomElements. Any additional information
     // has to be implemented as an attribute of the QDomElement.
@@ -142,7 +172,11 @@ public:
 
     void parse();
 
-    void save();
+    /**
+     * Save the bookmarks to the XML file on disk.
+     * @return true if saving was successful
+     */
+    bool save();
 
     /**
      * This will return the path that this manager is using to read

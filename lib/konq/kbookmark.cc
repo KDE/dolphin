@@ -27,8 +27,12 @@
 #include <kurl.h>
 #include <qdom.h>
 #include <qfile.h>
+#include <ksavefile.h>
+#include <klineeditdlg.h>
 #include <qtextstream.h>
 #include <kmessagebox.h>
+#include <kprocess.h>
+#include <klocale.h>
 
 KBookmarkManager* KBookmarkManager::s_pSelf = 0L;
 
@@ -131,31 +135,36 @@ void KBookmarkManager::importDesktopFiles()
     save();
 }
 
-void KBookmarkManager::save()
+bool KBookmarkManager::save()
 {
-    QFile file( m_bookmarksFile );
+    KSaveFile file( m_bookmarksFile );
 
-    if ( !file.open( IO_WriteOnly ) )
+    if ( file.status() != 0 )
     {
-        kdWarning() << "KBookmarkManager::save : can't open for writing " << m_bookmarksFile << endl;
-        return;
+        KMessageBox::error( 0L, i18n("Couldn't save bookmarks in %1. %2").arg(m_bookmarksFile).arg(strerror(file.status())) );
+        return false;
     }
     //This seems to save in local8bit ?!?!?!?
     //QTextStream ts( &file );
     //ts << m_doc;
     QCString cstr = m_doc.toCString(); // is in UTF8
-    file.writeBlock( cstr.data(), cstr.length() );
-    file.close();
+    file.file()->writeBlock( cstr.data(), cstr.length() );
+    if (!file.close())
+    {
+        KMessageBox::error( 0L, i18n("Couldn't save bookmarks in %1. %2").arg(m_bookmarksFile).arg(strerror(file.status())) );
+        return false;
+    }
+    return true;
 }
 
 KBookmarkGroup KBookmarkManager::root()
 {
-    return KBookmarkGroup(this,m_doc.documentElement());
+    return KBookmarkGroup(m_doc.documentElement());
 }
 
 KBookmarkGroup KBookmarkManager::toolbar()
 {
-    return KBookmarkGroup(this,root().findToolbar());
+    return KBookmarkGroup(root().findToolbar());
 }
 
 void KBookmarkManager::emitChanged( KBookmarkGroup & group )
@@ -168,9 +177,9 @@ void KBookmarkManager::emitChanged( KBookmarkGroup & group )
 
 void KBookmarkManager::slotEditBookmarks()
 {
-    // TODO : call keditbookmarks from here
-    // Oh, and TODO : write keditbookmarks :-)
-    KMessageBox::sorry( 0L, QString("Not implemented yet - edit %1").arg(m_bookmarksFile) );
+    KProcess proc;
+    proc << QString::fromLatin1("keditbookmarks") << m_bookmarksFile;
+    proc.start(KProcess::DontCare);
 }
 
 ///////
@@ -188,16 +197,28 @@ KBookmark KBookmarkGroup::next( KBookmark & current ) const
     return KBookmark(current.element.nextSibling().toElement());
 }
 
-void KBookmarkGroup::createNewFolder( const QString & text )
+KBookmarkGroup KBookmarkGroup::createNewFolder( const QString & text )
 {
+    QString txt( text );
+    if ( text.isEmpty() )
+    {
+        KLineEditDlg l( i18n("New Folder:"), "", 0L );
+        l.setCaption( i18n("Create new bookmark folder in %1").arg( parentGroup().text() ) );
+        if ( l.exec() )
+            txt = l.text();
+        else
+            return KBookmarkGroup::null();
+    }
+
+    ASSERT(!element.isNull());
     QDomDocument doc = element.ownerDocument();
     QDomElement groupElem = doc.createElement( "GROUP" );
     element.appendChild( groupElem );
-    QDomElement textElem = doc.createElement( "TEXT ");
+    QDomElement textElem = doc.createElement( "TEXT" );
     groupElem.appendChild( textElem );
-    textElem.appendChild( doc.createTextNode( text ) );
-    ASSERT( m_manager );
-    m_manager->emitChanged( *this );
+    textElem.appendChild( doc.createTextNode( txt ) );
+    KBookmarkManager::self()->emitChanged( *this );
+    return KBookmarkGroup(groupElem);
 }
 
 void KBookmarkGroup::addBookmark( const QString & text, const QString & url )
@@ -209,8 +230,12 @@ void KBookmarkGroup::addBookmark( const QString & text, const QString & url )
     QString icon = KMimeType::iconForURL( KURL(url) );
     elem.setAttribute( "ICON", icon );
     elem.appendChild( doc.createTextNode( text ) );
-    ASSERT( m_manager );
-    m_manager->emitChanged( *this );
+    KBookmarkManager::self()->emitChanged( *this );
+}
+
+void KBookmarkGroup::deleteBookmark( KBookmark bk )
+{
+    element.removeChild( bk.element );
 }
 
 bool KBookmarkGroup::isToolbarGroup() const
@@ -229,7 +254,7 @@ QDomElement KBookmarkGroup::findToolbar() const
             return e;
         else
         {
-            QDomElement result = KBookmarkGroup(0 /*m_manager*/,e).findToolbar();
+            QDomElement result = KBookmarkGroup(e).findToolbar();
             if (!result.isNull())
                 return result;
         }
@@ -245,7 +270,12 @@ bool KBookmark::isGroup() const
             || element.tagName() == "BOOKMARKS" ); // don't forget the toplevel group
 }
 
-QString KBookmark::text( uint maxlen ) const
+QString KBookmark::text() const
+{
+    return KStringHandler::csqueeze( fullText() );
+}
+
+QString KBookmark::fullText() const
 {
     QString txt;
     // This small hack allows to avoid virtual tables in
@@ -255,7 +285,7 @@ QString KBookmark::text( uint maxlen ) const
     else
         txt = element.text();
 
-    return KStringHandler::csqueeze( txt, maxlen );
+    return txt;
 }
 
 QString KBookmark::url() const
@@ -276,10 +306,15 @@ QString KBookmark::icon() const
     return icon;
 }
 
-KBookmarkGroup KBookmark::toGroup( KBookmarkManager * manager ) const
+KBookmarkGroup KBookmark::parentGroup() const
+{
+    return KBookmarkGroup( element.parentNode().toElement() );
+}
+
+KBookmarkGroup KBookmark::toGroup() const
 {
     ASSERT( isGroup() );
-    return KBookmarkGroup(manager, element);
+    return KBookmarkGroup(element);
 }
 
 //////////////

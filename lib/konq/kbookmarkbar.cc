@@ -111,7 +111,7 @@ void KBookmarkBar::fillBookmarkBar(KBookmarkGroup & parent)
             KBookmarkMenu *menu;
             menu = new KBookmarkMenu(m_pOwner, action->popupMenu(),
                                      m_actionCollection, false, false,
-                                     bm.toGroup( parent.manager() ));
+                                     bm.toGroup());
             menu->fillBookmarkMenu();
             action->plug(m_toolBar);
             m_actions.append( action );

@@ -46,7 +46,6 @@
 #include <kiconloader.h>
 #include <kio/job.h>
 #include <kglobal.h>
-#include <klineeditdlg.h>
 #include <klocale.h>
 #include <kmessagebox.h>
 #include <kurl.h>
@@ -81,7 +80,7 @@ KBookmarkMenu::KBookmarkMenu( KBookmarkOwner * _owner, QPopupMenu * _parentMenu,
 
     if ( m_bIsRoot )
     {
-      connect( _parentBookmark.manager(), SIGNAL( changed(KBookmarkGroup &) ),
+      connect( KBookmarkManager::self(), SIGNAL( changed(KBookmarkGroup &) ),
                SLOT( slotBookmarksChanged(KBookmarkGroup &) ) );
     }
   }
@@ -160,7 +159,7 @@ void KBookmarkMenu::fillBookmarkMenu()
 
   if ( m_bIsRoot )
   {
-    KAction * m_paEditBookmarks = KStdAction::editBookmarks( m_parentBookmark.manager(), SLOT( slotEditBookmarks() ),
+    KAction * m_paEditBookmarks = KStdAction::editBookmarks( KBookmarkManager::self(), SLOT( slotEditBookmarks() ),
                                                              m_actionCollection, "edit_bookmarks" );
     m_paEditBookmarks->plug( m_parentMenu );
     m_paEditBookmarks->setStatusText( i18n( "Edit your bookmark collection in a separate window" ) );
@@ -226,7 +225,7 @@ void KBookmarkMenu::fillBookmarkMenu()
       KBookmarkMenu *subMenu = new KBookmarkMenu( m_pOwner, actionMenu->popupMenu(),
                                                   m_actionCollection, false,
                                                   m_bAddBookmark,
-                                                  bm.toGroup( m_parentBookmark.manager() ) );
+                                                  bm.toGroup() );
       m_lstSubMenus.append( subMenu );
       // let's delay this. subMenu->fillBookmarkMenu( bm );
     }
@@ -280,12 +279,7 @@ void KBookmarkMenu::slotAddBookmark()
 void KBookmarkMenu::slotNewFolder()
 {
   if ( !m_pOwner ) return; // this view doesn't handle bookmarks...
-  KLineEditDlg l( i18n("New Folder:"), "", 0L );
-  l.setCaption( i18n("Create new bookmark folder in %1").arg( m_parentBookmark.text() ) );
-  if ( l.exec() )
-  {
-    m_parentBookmark.createNewFolder( l.text() );
-  }
+  m_parentBookmark.createNewFolder();
 }
 
 void KBookmarkMenu::slotBookmarkSelected()
