@@ -20,14 +20,11 @@ noinst_HEADERS	  =  kfarch.h kfdird.h kfindtop.h kftabdlg.h kfwin.h kfind.h \
 install-data-local:
 	$(mkinstalldirs) $(PICSDIR)
 	$(INSTALL_DATA) kfind.xpm $(PICSDIR)
-	$(mkinstalldirs) $(prefix)/apps/Utilities
-	$(INSTALL_DATA) 'KDE Find Tool.kdelnk' $(prefix)/apps/Utilities
 	(cd doc && $(MAKE) install)
 	(cd pics && $(MAKE) install)
 
 uninstall-local:
 	rm -f $(PICSDIR)/$(TARGET).xpm
-	rm -f '$(prefix)/apps/Utilities/KDE Find Tool.kdelnk'
 	(cd doc && $(MAKE) uninstall)
 	(cd pics && $(MAKE) uninstall)
 
