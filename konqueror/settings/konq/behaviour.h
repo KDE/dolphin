@@ -46,6 +46,7 @@ protected slots:
 
   void changed();
   void updateWinPixmap(bool);
+  void slotShowTips(bool);
 
 private:
 
@@ -57,7 +58,6 @@ private:
   QCheckBox *cbListProgress;
 
   QLabel *winPixmap;
-  QLabel *fileTips;
 
   QLineEdit *homeURL;
 
@@ -67,6 +67,7 @@ private:
                 *rbOPWeb,
                 *rbOPAlways;
 
+  QLabel *fileTips;
   QSpinBox  *sbToolTip;
   QCheckBox *cbShowTips;
 };

@@ -103,8 +103,9 @@ KBehaviourOptions::KBehaviourOptions(KConfig *config, QString group, QWidget *pa
     sbToolTip = new QSpinBox(this);
     lay->addWidget(sbToolTip, row, 3);
     connect(sbToolTip, SIGNAL(valueChanged(int)), this, SLOT(changed()));
-    connect(cbShowTips, SIGNAL(toggled(bool)), sbToolTip, SLOT(setEnabled(bool)));
-    connect(cbShowTips, SIGNAL(toggled(bool)), fileTips, SLOT(setEnabled(bool)));
+    connect(cbShowTips, SIGNAL(toggled(bool)), SLOT(slotShowTips(bool)));
+    //connect(cbShowTips, SIGNAL(toggled(bool)), sbToolTip, SLOT(setEnabled(bool)));
+    //connect(cbShowTips, SIGNAL(toggled(bool)), fileTips, SLOT(setEnabled(bool)));
     fileTips->setBuddy(sbToolTip);
 
     QString tipstr = i18n("If you move the mouse over a file, you usually see a small popup window that shows some "
@@ -176,6 +177,13 @@ KBehaviourOptions::KBehaviourOptions(KConfig *config, QString group, QWidget *pa
 }
 
 
+void KBehaviourOptions::slotShowTips(bool b)
+{
+    sbToolTip->setEnabled( b );
+    fileTips->setEnabled( b );
+}
+
+
 void KBehaviourOptions::load()
 {
     g_pConfig->setGroup( groupname );
@@ -186,6 +194,7 @@ void KBehaviourOptions::load()
 
     bool stips = g_pConfig->readBoolEntry( "ShowFileTips", true );
     cbShowTips->setChecked( stips );
+    slotShowTips( stips );
 
     if (!stips) sbToolTip->setEnabled( false );
 
