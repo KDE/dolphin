@@ -1,5 +1,5 @@
 /* This file is part of the KDE project
-   Copyright (C) 1998, 1999 Torben Weis <weis@kde.org>
+   Copyright (C) 1998, 1999 David Faure <faure@kde.org>
  
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Library General Public
@@ -17,17 +17,21 @@
    Boston, MA 02111-1307, USA.
 */     
 
-// Popup menus for kfm icons. Only the 'New' submenu for the moment.
-// (c) David Faure, 1998
-#ifndef KFMPOPUP_H
-#define KFMPOPUP_H
+#ifndef __knewmenu_h
+#define __knewmenu_h
 
+#include <qintdict.h>
 #include <qpopmenu.h>
 #include <qstringlist.h>
 
 #include <openparts_ui.h>
 
-// The 'New' submenu, with 'Folder' and one item per Template
+/**
+ * The manager for the 'New' submenu
+ * Fills it with 'Folder' and one item per Template
+ * Updates the menu if templates are added (fillTemplates() has to be called)
+ *  hmm, perhaps a long-period KDirWatch here ??
+ */
 class KNewMenu : public QObject
 {
   Q_OBJECT
@@ -44,7 +48,7 @@ public:
      * Set the files the popup is shown for
      */
     void setPopupFiles(QStringList & _files);
-    void setPopupFiles(const char * _file) {
+    void setPopupFiles(QString _file) {
         popupFiles.clear();
         popupFiles.append( _file );
     }
@@ -113,4 +117,4 @@ private:
     QPopupMenu *m_pMenu;
 };
 
-#endif // KFMPOPUP_H
+#endif

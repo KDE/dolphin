@@ -1,5 +1,5 @@
 /* This file is part of the KDE project
-   Copyright (C) 1998, 1999 Torben Weis <weis@kde.org>
+   Copyright (C) 1998, 1999 David Faure <faure@kde.org>
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Library General Public
@@ -17,9 +17,6 @@
    Boston, MA 02111-1307, USA.
 */
 
-// Popup menus for kfm icons. Only the 'New' submenu for the moment.
-// (c) David Faure, 1998
-
 #include <qdir.h>
 #include <qmsgbox.h>
 
@@ -30,12 +27,10 @@
 
 #include <kio_interface.h>
 #include <kio_job.h>
+#include <kio_propsdlg.h>
+#include <userpaths.h>
 
-#include "userpaths.h"
-// --- Sven's check if this is global apps/mime start ---
-//#include "kfm.h"
-// --- Sven's check if this is global apps/mime end ---
-#include "kfmpopup.h"
+#include "knewmenu.h"
 
 QStringList * KNewMenu::templatesList = 0L;
 int KNewMenu::templatesVersion = 0;
@@ -66,12 +61,6 @@ KNewMenu::KNewMenu( OpenPartsUI::Menu_ptr menu) : menuItemsVersion(0)
 void KNewMenu::setPopupFiles(QStringList & _files)
 {
   popupFiles = _files;
-  /*
-  popupFiles.clear();
-  const char *s;
-  for ( s = _files.first(); s != 0L; s = _files.next() )
-    popupFiles.append( s );
-  */
 }
 
 void KNewMenu::slotCheckUpToDate( )
@@ -262,9 +251,8 @@ void KNewMenu::slotNewFile( int _id )
 void KNewMenu::slotCopyFinished( int id )
 {
   // Now open the properties dialog on the file, as it was a kdelnk
-  // TODO
-  //(void) new Properties( m_sDest.find( id )->data() );
+  (void) new PropertiesDialog( m_sDest.find( id )->data() );
   m_sDest.remove( id );
 }
 
-#include "kfmpopup.moc"
+#include "knewmenu.moc"

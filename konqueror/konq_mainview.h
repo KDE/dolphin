@@ -188,6 +188,7 @@ public slots:
   void slotStopAnimation();
   
   // Popup
+  /*
   void slotPopupNewView();
   void slotPopupEmptyTrashBin();
   void slotPopupCopy();
@@ -198,6 +199,7 @@ public slots:
   void slotPopupBookmarks();
   void slotPopup( int id );
   void slotPopupProperties();
+  */
 
   void slotIdChanged( KonqChildView * childView, OpenParts::Id oldId, OpenParts::Id newId );
   void slotSetUpEnabled( QString url, OpenParts::Id id );
@@ -289,10 +291,12 @@ protected:
 
   KfmGuiProps *m_Props;
 
+  /*
   QStringList m_lstPopupURLs;
   CORBA::Long m_popupMode; // mode_t of first URL in m_lstPopupURLs
   QMap<int,const KService *> m_mapPopup;
   QMap<int,KDELnkMimeType::Service> m_mapPopup2;
+  */
 
   KfmRun *m_pRun;
 
