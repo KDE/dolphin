@@ -21,7 +21,7 @@
 #include "kfinddlg.moc"
 
 KfindDlg::KfindDlg(const KURL & url, QWidget *parent, const char *name)
-  : KDialogBase( Plain, QString::null, 
+  : KDialogBase( Plain, QString::null,
 	User1 | User2 | User3 | Apply | Close | Help, User1,
         parent, name, true, true,
 	i18n("&Find"), i18n("Stop"), i18n("Save...") )
@@ -36,7 +36,7 @@ KfindDlg::KfindDlg(const KURL & url, QWidget *parent, const char *name)
   setEscapeButton(User2);
 
   setButtonApplyText(i18n("About"));
-  
+
   // remove misleading default help
   setButtonWhatsThis(Apply,QString::null);
   setButtonTip(Apply,QString::null);
@@ -109,8 +109,8 @@ void KfindDlg::startSearch()
 
   isResultReported = false;
 
-  // Reset count
-  setProgressMsg(i18n("%1 files found").arg(0));
+  // Reset count - use the same i18n as below
+  setProgressMsg(i18n("one file found", "%n files found", 0));
   setStatusMsg(i18n("Searching..."));
 
   emit resultSelected(false);
@@ -181,12 +181,7 @@ void KfindDlg::addFile(const KFileItem* item, const QString& matchingLine)
   }
 
   int count = win->childCount();
-  QString str;
-  if (count == 1)
-    str = i18n("1 file found");
-  else
-    str = i18n("%1 files found")
-      .arg(KGlobal::locale()->formatNumber(count, 0));
+  QString str = i18n("one file found", "%n files found", count);
   setProgressMsg(str);
 }
 
