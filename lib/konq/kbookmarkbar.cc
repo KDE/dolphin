@@ -41,9 +41,6 @@ KBookmarkBar::KBookmarkBar( KBookmarkOwner *_owner, KToolBar *_toolBar,
     : QObject( parent, name ), m_pOwner(_owner), m_toolBar(_toolBar),
       m_actionCollection( 0L /* see KBookmarkMenu */ )
 {
-    // force the "icon to the left of the text" look
-    m_toolBar->setIconText(KToolBar::IconTextRight);
-
     m_lstSubMenus.setAutoDelete( true );
 
     connect( KBookmarkManager::self(), SIGNAL( changed(const QString &) ),
