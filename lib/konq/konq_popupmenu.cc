@@ -333,7 +333,7 @@ void KonqPopupMenu::setup(bool showPropertiesAndFileType)
     }
   }
 
-  act = new KAction( i18n( "&Add to Bookmarks" ), "bookmark_add", 0, this, SLOT( slotPopupAddToBookmark() ), &m_ownActions, "addbookmark" );
+  act = new KAction( i18n( "&Add to Bookmarks" ), "bookmark_add", 0, this, SLOT( slotPopupAddToBookmark() ), &m_ownActions, "bookmark_add" );
   if (kapp->authorizeKAction("bookmarks"))
      addAction( act );
 
