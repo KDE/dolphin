@@ -430,7 +430,7 @@ void KonqOperations::doDrop( const KFileItem * destItem, const KURL & dest, QDro
 void KonqOperations::slotKIOPaste()
 {
     assert(m_pasteInfo); // setPasteInfo should have been called before
-    KIO::CopyJob *job = KIO::pasteDataAsync( m_pasteInfo->destURL, m_pasteInfo->data/*, m_pasteInfo->dialogText*/ );
+    KIO::CopyJob *job = KIO::pasteDataAsync( m_pasteInfo->destURL, m_pasteInfo->data, m_pasteInfo->dialogText );
     if ( job )
     {
         setOperation( job, COPY, KURL::List(), job->destURL() );
