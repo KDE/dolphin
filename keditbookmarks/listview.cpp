@@ -237,6 +237,11 @@ QString ListView::userAddress() {
    }
 
    KBookmark current = firstSelected()->bookmark();
+   if (!current.hasParent()) {
+      // oops!
+      return "/0";
+   }
+   
    return (current.isGroup()) 
         ? (current.address() + "/0")
         : KBookmark::nextAddress(current.address());
@@ -477,8 +482,9 @@ void ListView::renameNextCell(bool fwd) {
       } else if (!fwd && myrenamecolumn > KEBListView::NameColumn) {
          myrenamecolumn--;
       } else {
-         myrenameitem    = fwd ? myrenameitem->itemBelow()
-                               : myrenameitem->itemAbove();
+         myrenameitem    = static_cast<KEBListViewItem *>(
+                           fwd ? myrenameitem->itemBelow()
+                               : myrenameitem->itemAbove());
          if (!myrenameitem) {
             myrenameitem = fwd ? m_listView->firstChild()
                                : m_listView->lastItem();
