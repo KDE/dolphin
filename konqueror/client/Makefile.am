@@ -1,24 +1,21 @@
 
-INCLUDES= -I.. $(all_includes) -I$(idldir)
+INCLUDES= -I.. $(all_includes) $(MICO_INCLUDES) -I$(idldir)
 LDFLAGS = $(all_libraries) $(KDE_RPATH)
-LDADD   = -lkparts -lkpartsui -lkom $(LIB_KIO) $(LIBMICO)
+LDADD   = -lkparts 
 
 # this gives better compile-time warnings.
 CXXFLAGS += -pedantic
 
-IDL_FLAGS = --query-server-for-narrow --relative-paths -I.. -I$(idldir)
+IDL_FLAGS = --query-server-for-narrow --relative-paths -I$(srcdir)/.. -I$(idldir)
 
 konqueror.cc: konqueror.h
-konqueror.h: ../konqueror.idl
-	$(IDL) $(IDL_FLAGS) ../konqueror.idl
+konqueror.h: $(srcdir)/../konqueror.idl
+	$(IDL) $(IDL_FLAGS) $(srcdir)/../konqueror.idl
 
 bin_PROGRAMS = kfmclient
 
 kfmclient_SOURCES = kfmclient.cc konqueror.cc
 noinst_HEADERS = kfmclient.h
 
-BUILT_SOURCES =
+BUILT_SOURCES = konqueror.h
 
-kfmclient.cc: konqueror.h
-
-####### Meta objects
