@@ -384,8 +384,7 @@ void KonqIconViewWidget::slotSelectionChanged()
     bool paste = ( bKIOClipboard || data->encodedData( data->format() ).size() != 0 ) &&
 	(iCount <= 1); // We can't paste to more than one destination, can we ?
 
-    emit enableAction( "pastecopy", paste );
-    emit enableAction( "pastecut", paste );
+    emit enableAction( "paste", paste );
 
     KFileItemList lstItems;
     if ( firstSelectedItem )
@@ -412,13 +411,14 @@ void KonqIconViewWidget::copySelection()
     QApplication::clipboard()->setData( obj );
 }
 
-void KonqIconViewWidget::pasteSelection( bool move )
+void KonqIconViewWidget::pasteSelection()
 {
     // move or not move ?
+    bool move = false;
     QMimeSource *data = QApplication::clipboard()->data();
     if ( data->provides( "application/x-kde-cutselection" ) ) {
-      bool bMove = KonqDrag::decodeIsCutSelection( data );
-      kdDebug() << " CHECK: move (from dcop hack) = " << move << "  bMove (from clipboard data) = " << bMove << endl;
+      move = KonqDrag::decodeIsCutSelection( data );
+      kdDebug() << "move (from clipboard data) = " << move << endl;
     }
 
     KURL::List lst = selectedUrls();

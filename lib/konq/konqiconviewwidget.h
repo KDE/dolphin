@@ -113,7 +113,7 @@ public:
 
     virtual void cutSelection();
     virtual void copySelection();
-    virtual void pasteSelection( bool move );
+    virtual void pasteSelection();
     virtual KURL::List selectedUrls();
 
     bool sortDirectoriesFirst() const;
