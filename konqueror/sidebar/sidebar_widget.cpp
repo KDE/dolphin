@@ -105,8 +105,9 @@ void addBackEnd::activatedAddMenu(int id)
 					kdDebug()<<"filename part is "<<filename<<endl;
 					bool found=false;
 					myFile = locateLocal("data",filename);
-					if (!QFile::exists(myFile))
+					if (QFile::exists(myFile))
 						{
+							kdDebug()<<"Searching for new possible entry"<<endl;
 							for (ulong l=0;l<ULONG_MAX;l++)
 								{
 									kdDebug()<<myFile<<endl;
