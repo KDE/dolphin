@@ -90,9 +90,11 @@ public:
   /**
    * Called by openURL when it knows the service type (either directly,
    * or using KonqRun)
+   * @param req is not passed by reference because the calling KonqRun
+   * that holds it might get destroyed (by childView->stop())
    */
   bool openView( QString serviceType, const KURL &_url, KonqView *childView,
-                 const KonqOpenURLRequest & req = KonqOpenURLRequest() );
+                 KonqOpenURLRequest req = KonqOpenURLRequest() );
 
 
   void abortLoading();

@@ -371,10 +371,14 @@ void KonqMainWindow::openURL( KonqView *_view, const KURL &url,
   }
 }
 
-bool KonqMainWindow::openView( QString serviceType, const KURL &_url, KonqView *childView, const KonqOpenURLRequest & req )
+bool KonqMainWindow::openView( QString serviceType, const KURL &_url, KonqView *childView, KonqOpenURLRequest req )
 {
+  // Contract: the caller of this method should ensure the view is stopped first.
+
   kdDebug(1202) << "KonqMainWindow::openView " << serviceType << " " << _url.url() << " " << childView << endl;
   kdDebug(1202) << "req.followMode=" << req.followMode << endl;
+  kdDebug(1202) << "req.nameFilter= " << req.nameFilter << endl;
+  kdDebug(1202) << "req.typedURL= " << req.typedURL << endl;
 
   // If linked view and if we are not already following another view
   if ( childView && childView->isLinkedView() && !req.followMode )
@@ -456,12 +460,14 @@ bool KonqMainWindow::openView( QString serviceType, const KURL &_url, KonqView *
   }
   else // We know the child view
   {
-    //childView->stop(); done by openURL
+    //childView->stop();
     ok = childView->changeViewMode( serviceType, serviceName );
   }
 
   if (ok)
   {
+    kdDebug(1202) << "req.nameFilter= " << req.nameFilter << endl;
+    kdDebug(1202) << "req.typedURL= " << req.typedURL << endl;
     childView->setTypedURL( req.typedURL );
     childView->openURL( url, originalURL, req.nameFilter );
   }
@@ -543,6 +549,7 @@ void KonqMainWindow::openURL( KonqView *childView, const KURL &url, const KParts
     if ( serviceType.isEmpty() )
       serviceType = childView->serviceType();
 
+    childView->stop();
     openView( serviceType, url, childView );
     return;
   }
@@ -741,6 +748,7 @@ void KonqMainWindow::slotShowHTML()
 {
   bool b = !m_currentView->allowHTML();
 
+  m_currentView->stop();
   m_currentView->setAllowHTML( b );
 
   // Save this setting, either locally or globally

@@ -56,6 +56,8 @@ void KonqRun::foundMimeType( const QString & _type )
   if (m_pView)
     m_pView->setLoading(false); // first phase finished, don't confuse KonqView
 
+  kdDebug(1202) << "m_req.nameFilter= " << m_req.nameFilter << endl;
+  kdDebug(1202) << "m_req.typedURL= " << m_req.typedURL << endl;
   if ( m_pMainWindow->openView( _type, m_strURL, m_pView, m_req ) )
   {
     m_pMainWindow = 0L;
