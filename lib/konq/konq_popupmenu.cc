@@ -560,7 +560,8 @@ void KonqPopupMenu::slotPopupNewView()
 
 void KonqPopupMenu::slotPopupNewDir()
 {
-    KLineEditDlg l( i18n("New Directory"), i18n("Directory"), 0L );
+    KLineEditDlg l( i18n("Enter directory name:"), i18n("Directory"), 0L );
+    l.setCaption(i18n("New Directory"));
     if ( l.exec() )
     {
         QString name = KIO::encodeFileName( l.text() );
