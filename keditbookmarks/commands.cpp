@@ -167,7 +167,7 @@ void CreateCommand::unexecute() {
    Q_ASSERT(!bk.isNull() && !bk.parentGroup().isNull());
 
    KEBListViewItem *item = 
-      static_cast<KEBListViewItem*>(listview->firstSelected());
+      static_cast<KEBListViewItem*>(ListView::self()->firstSelected());
 
    if (item && item->bookmark().hasParent() && item->bookmark().address() == m_to) {
       item->setSelected(false);
@@ -181,8 +181,8 @@ void CreateCommand::unexecute() {
 
          selectItem = 
             (prevAddr.isEmpty()) 
-          ? listview->getItemAtAddress(KBookmark::parentAddress(bk.address()))
-          : listview->getItemAtAddress(prevAddr);
+          ? ListView::self()->getItemAtAddress(KBookmark::parentAddress(bk.address()))
+          : ListView::self()->getItemAtAddress(prevAddr);
       }
 
       if (selectItem) {

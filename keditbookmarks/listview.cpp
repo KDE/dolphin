@@ -326,7 +326,7 @@ void ListView::slotDropped(QDropEvent *e, QListViewItem *newParent, QListViewIte
       mcmd = CmdGen::self()->insertMimeSource(i18n("Drop items"), e, newAddress);
 
    } else {
-      QPtrList<KEBListViewItem> *selection = listview->selectedItems();
+      QPtrList<KEBListViewItem> *selection = selectedItems();
       KEBListViewItem *firstItem = selection->first();
       if (!firstItem || firstItem == itemAfterQLVI) {
          return;
@@ -481,11 +481,11 @@ bool KEBListView::acceptDrag(QDropEvent * e) const {
 }
 
 QDragObject *KEBListView::dragObject() {
-   QPtrList<KEBListViewItem> *selcItems = listview->selectedItems();
+   QPtrList<KEBListViewItem> *selcItems = ListView::self()->selectedItems();
    if (selcItems->count() == 0) {
       return (QDragObject*)0;
    } else {
-      QValueList<KBookmark> bookmarks = listview->itemsToBookmarks(selcItems);
+      QValueList<KBookmark> bookmarks = ListView::self()->itemsToBookmarks(selcItems);
       KBookmarkDrag *drag = KBookmarkDrag::newDrag(bookmarks, viewport());
       const QString iconname = (bookmarks.size() == 1) ? bookmarks.first().icon() : "bookmark";
       drag->setPixmap(SmallIcon(iconname)) ;

@@ -43,7 +43,7 @@ void BookmarkIterator::slotCancelTest(BookmarkIterator *test) {
 }
 
 KEBListViewItem* BookmarkIterator::curItem() {
-   return listview->getItemAtAddress(m_book.address());
+   return ListView::self()->getItemAtAddress(m_book.address());
 }
 
 void BookmarkIterator::nextOne() {
