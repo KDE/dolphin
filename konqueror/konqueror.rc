@@ -39,7 +39,6 @@
   <ActionList name="viewmode" />
   <Action name="usehtml"/>
   <Action name="lock"/>
-  <Action name="unlock"/>
   <Action name="link"/>
   <Separator/>
   <Action name="reload"/>

@@ -343,7 +343,6 @@ public slots:
   void slotViewModeToggle( bool toggle );
   void slotShowHTML();
   void slotLockView();
-  void slotUnlockView();
   void slotLinkView();
   void slotReload( KonqView* view = 0L );
   void slotStop();
@@ -595,8 +594,7 @@ private:
   KAction *m_paSaveRemoveViewProfile;
   KActionMenu *m_pamLoadViewProfile;
 
-  KAction *m_paLockView;
-  KAction *m_paUnlockView;
+  KToggleAction *m_paLockView;
   KToggleAction *m_paLinkView;
   KAction *m_paReload;
   KAction *m_paUndo;

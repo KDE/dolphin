@@ -159,9 +159,6 @@ void KonqFrameStatusBar::splitFrameMenu()
    actionColl->action( "splitviewh" )->plug( &menu );
    actionColl->action( "splitviewv" )->plug( &menu );
    menu.insertSeparator();
-   if (m_pParentKonqFrame->childView()->isLockedLocation())
-       actionColl->action( "unlock" )->plug( &menu );
-   else
        actionColl->action( "lock" )->plug( &menu );
 
    actRemoveView.plug( &menu );

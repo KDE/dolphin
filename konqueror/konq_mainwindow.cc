@@ -1595,20 +1595,9 @@ void KonqMainWindow::setShowHTML( bool b )
     m_ptaUseHTML->setChecked( b );
 }
 
-void KonqMainWindow::slotUnlockView()
-{
-  Q_ASSERT(m_currentView->isLockedLocation());
-  m_currentView->setLockedLocation( false );
-  m_paLockView->setEnabled( true );
-  m_paUnlockView->setEnabled( false );
-}
-
 void KonqMainWindow::slotLockView()
 {
-  Q_ASSERT(!m_currentView->isLockedLocation());
-  m_currentView->setLockedLocation( true );
-  m_paLockView->setEnabled( false );
-  m_paUnlockView->setEnabled( true );
+  m_currentView->setLockedLocation( m_paLockView->isChecked() );
 }
 
 void KonqMainWindow::slotStop()
@@ -3177,8 +3166,7 @@ void KonqMainWindow::initActions()
   (void) KStdAction::quit( this, SLOT( close() ), actionCollection(), "quit" );
 
   m_ptaUseHTML = new KToggleAction( i18n( "&Use index.html" ), 0, this, SLOT( slotShowHTML() ), actionCollection(), "usehtml" );
-  m_paLockView = new KAction( i18n( "Lock to Current Location"), 0, this, SLOT( slotLockView() ), actionCollection(), "lock" );
-  m_paUnlockView = new KAction( i18n( "Unlock View"), 0, this, SLOT( slotUnlockView() ), actionCollection(), "unlock" );
+  m_paLockView = new KToggleAction( i18n( "Lock to Current Location"), 0, this, SLOT( slotLockView() ), actionCollection(), "lock" );
   m_paLinkView = new KToggleAction( i18n( "Lin&k View"), 0, this, SLOT( slotLinkView() ), actionCollection(), "link" );
 
   // Go menu
@@ -3378,7 +3366,6 @@ void KonqMainWindow::initActions()
 
   m_ptaUseHTML->setStatusText( i18n("If present, open index.html when entering a folder.") );
   m_paLockView->setStatusText( i18n("A locked view can't change folders. Use in combination with 'link view' to explore many files from one folder") );
-  m_paUnlockView->setStatusText( i18n("Unlocks the current view, so that it becomes normal again.") );
   m_paLinkView->setStatusText( i18n("Sets the view as 'linked'. A linked view follows folder changes made in other linked views.") );
 }
 
@@ -3469,8 +3456,8 @@ void KonqMainWindow::updateViewActions()
   //m_paLockView->setEnabled( m_pViewManager->chooseNextView(m_currentView) != 0L && );
   //kdDebug(1202) << "KonqMainWindow::updateViewActions m_paLockView enabled ? " << m_paLockView->isEnabled() << endl;
 
-  m_paLockView->setEnabled( m_currentView && !m_currentView->isLockedLocation() && viewCount() > 1 );
-  m_paUnlockView->setEnabled( m_currentView && m_currentView->isLockedLocation() );
+  m_paLockView->setEnabled( viewCount() > 1 );
+  m_paLockView->setChecked( m_currentView && m_currentView->isLockedLocation() );
 
   // Can remove view if we'll still have a main view after that
   m_paRemoveView->setEnabled( mainViewsCount() > 1 ||
@@ -3728,7 +3715,7 @@ void KonqMainWindow::disableActionsNoView()
     m_ptaUseHTML->setEnabled( false );
     m_pMenuNew->setEnabled( false );
     m_paLockView->setEnabled( false );
-    m_paUnlockView->setEnabled( false );
+    m_paLockView->setChecked( false );
     m_paSplitViewVer->setEnabled( false );
     m_paSplitViewHor->setEnabled( false );
     m_paRemoveView->setEnabled( false );
