@@ -76,22 +76,25 @@ KfindTop::KfindTop(const char *searchPath) : KTopLevelWidget()
     connect(_kfind ,SIGNAL(enableSearchButton(bool)),
 	    this,SLOT(enableSearchButton(bool)));
     connect(_kfind ,SIGNAL(enableStatusBar(bool)),
-    	    this,SLOT(enableStatusBar(bool)));
-    connect(_mainMenu ,SIGNAL(moved(menuPosition)),
-    	    this,SLOT(resizeOnFloating()));
-    connect(_toolBar ,SIGNAL(moved(BarPosition)),
-    	    this,SLOT(resizeOnFloating()));
+            this,SLOT(enableStatusBar(bool)));
+
+// No, No, No!!! This is pointless!   (sven)
+//    connect(_mainMenu ,SIGNAL(moved(menuPosition)),
+//    	    this,SLOT(resizeOnFloating()));
+//    connect(_toolBar ,SIGNAL(moved(BarPosition)),
+//    	    this,SLOT(resizeOnFloating()));
 
     //_width=(440>_toolBar->width())?440:_toolBar->width();
     _width=520;
     int _height=(_kfind->sizeHint()).height();
 
-    //the main widget  never should be smaller
-    setMinimumSize(_width,_height+_toolBar->height()+_mainMenu->height());
-    setMaximumSize(9999,_height+_toolBar->height()+_mainMenu->height());
+// Fixed and Y-fixed guys:  Please, please, please stop setting fixed size
+// on KTW! Fix it on your main view!
+//                                     sven
 
-    resize(_width,_height+_toolBar->height()+_mainMenu->height());
-   };    
+    this->enableStatusBar(false); // _kfile emited before connected (sven)
+
+   }; // and what's this semi-colon for? Grrrr!!!! (sven, too)
 
 KfindTop::~KfindTop()
   {
@@ -277,29 +280,34 @@ void KfindTop::enableSearchButton(bool enable)
     _toolBar->setItemEnabled(2,!enable);
   };
 
-void KfindTop::enableStatusBar(bool enable)
+void KfindTop::enableStatusBar(bool enable) // rewriten (sven)
+{
+  /*
+   DON`T LOOK HERE FOR EXAMPLE! IT`S A FORNBIDDEN DANCE!
+   instead please mail me: sven@lisa.exp.univie.ac.at
+  */
+  //debug ("Wow, what an honour!");
+  if (enable) // we become full-free - win is hsown and set
   {
-     int _heightTmp=(_kfind->sizeHint()).height();
-     int _height=_kfind->height();
 
-     if ( enable )
-       {
-         if (_heightTmp==_height)
-           _height+=200;
-         _statusBar->enable(KStatusBar::Show);
-         setMaximumSize(9999,9999);
-         resize(width(),_mainMenu->height()+_toolBar->height()+_height+_statusBar->height());
-         resizeOnFloating();
-         updateRects();
-       }
-     else
-       {
-         _statusBar->enable(KStatusBar::Hide);
-         resizeOnFloating();
-         updateRects();
-       };                               
-  };
-
+    KTopLevelWidget::enableStatusBar(KStatusBar::Show); // implicite update
+    _kfind->resize(_kfind->sizeHint());  // set size
+    _kfind->setMaximumSize(9999, 9999);  // set us loos
+    _kfind->setMinimumSize(_kfind->sizeHint()- QSize(0, 200));
+    setMaximumSize(9999, 9999); // kill any constraints
+    adjustSize(); // force us to resizeresizeresizeresizeresize
+    setMinimumSize (size()); // dont' make us smaller
+    
+  }
+  else  // we become YFixed - win is hidden
+  {
+    _kfind->resize(width(), _kfind->sizeHint().height());
+    _kfind->setMinimumSize(_kfind->sizeHint());
+    _kfind->setMaximumSize(9999, _kfind->sizeHint().height());
+    KTopLevelWidget::enableStatusBar(KStatusBar::Hide); // updateRects: one
+    updateRects();  // Ooops? Twice?
+  }
+}
 void KfindTop::statusChanged(const char *str)
   {
     _statusBar->changeItem((char *)str, 0);
@@ -313,23 +321,9 @@ void KfindTop::prefs()
   };
 
 void KfindTop::resizeOnFloating()
-  {
-    int _height=(_kfind->sizeHint()).height();
-
-    if (_mainMenu->menuBarPos()!=KMenuBar::Floating)
-      _height+=_mainMenu->height();
-    if (_toolBar->barPos()!=KToolBar::Floating)
-      _height+=_toolBar->height();
-    if (_statusBar->isVisible())
-      _height+=_statusBar->height();
-
-    setMinimumSize(_width,_height);
-    if ( !_statusBar->isVisible() )
-      {
-        resize(width(),_height);
-        setMaximumSize(9999,_height);
-      };                       
-  };
+{
+  // If someone is more lazy than I am - he doesn't breath. (sven)
+};
 
 void KfindTop::copySelection() {
   if(_kfind)
