@@ -77,7 +77,7 @@ static KCmdLineOptions options[] =
     { "separate-output", I18N_NOOP("Return list items on separate lines (for checklist option)"), 0 },
     { "print-winid", I18N_NOOP("Outputs the winId of each dialog"), 0 },
     { "embed <winid>", I18N_NOOP("Makes the dialog transient for an X app specified by winid"), 0 },
-    { "dontagain <file:entry>", I18N_NOOP("Config file and option name for saving the \"dont-show/ask-again\" state."), 0 },
+    { "dontagain <file:entry>", I18N_NOOP("Config file and option name for saving the \"dont-show/ask-again\" state"), 0 },
 
     { "+[arg]", I18N_NOOP("Arguments - depending on main option"), 0 },
     KCmdLineLastOption
@@ -89,7 +89,7 @@ static KCmdLineOptions options[] =
 class WinIdEmbedder: public QObject
 {
 public:
-    WinIdEmbedder(bool printID = false, WId winId = 0): 
+    WinIdEmbedder(bool printID = false, WId winId = 0):
         QObject(qApp), print(printID), id(winId)
     {
         if (qApp)
