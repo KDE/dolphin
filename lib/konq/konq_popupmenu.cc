@@ -246,8 +246,8 @@ KonqPopupMenu::KonqPopupMenu( const KFileItemList &items,
 
         if ( sDeleting ) {
             addAction( "del" );
-            if ( m_sViewURL.isLocalFile() )
-                addAction( "shred" );
+            //if ( m_sViewURL.isLocalFile() )
+            //    addAction( "shred" );
         }
     }
   }
