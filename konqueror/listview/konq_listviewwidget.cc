@@ -755,7 +755,7 @@ void KonqBaseListViewWidget::slotReturnPressed( QListViewItem *_item )
    KURL u( fileItem->url() );
    if ( !fileItem->isReadable() )
    {
-      KMessageBox::error( this, i18n("You do not have enough permissions to read <b>%1</b>").arg(u.prettyURL()) );
+      KMessageBox::error( this, i18n("<p>You do not have enough permissions to read <b>%1</b></p>").arg(u.prettyURL()) );
       return;
    }
    if ( fileItem->isLink() )

@@ -245,7 +245,7 @@ bool KonqOperations::askDeleteConfirmation( const KURL::List & selectedURLs, int
         {
           case DEL:
              result = KMessageBox::warningContinueCancel( 0,
-             	i18n( "Do you really want to delete <b>%1</b> from '%2'?" ).arg( filename ).arg( directory ),
+             	i18n( "<p>Do you really want to delete <b>%1</b> from <b>%2</b>?</p>" ).arg( filename ).arg( directory ),
 		i18n( "Delete File" ),
 		i18n( "Delete" ),
 		keyName, false);
@@ -253,7 +253,7 @@ bool KonqOperations::askDeleteConfirmation( const KURL::List & selectedURLs, int
 
 	  case SHRED:
              result = KMessageBox::warningContinueCancel( 0,
-             	i18n( "Do you really want to shred <b>%1</b>?" ).arg( filename ),
+             	i18n( "<p>Do you really want to shred <b>%1</b>?</p>" ).arg( filename ),
 		i18n( "Shred File" ),
 		i18n( "Shred" ),
 		keyName, false);
@@ -262,7 +262,7 @@ bool KonqOperations::askDeleteConfirmation( const KURL::List & selectedURLs, int
           case MOVE:
  	  default:
              result = KMessageBox::warningContinueCancel( 0,
-             	i18n( "Do you really want to move <b>%1</b> to the trash?" ).arg( filename ),
+             	i18n( "<p>Do you really want to move <b>%1</b> to the trash?</p>" ).arg( filename ),
 		i18n( "Move to Trash" ),
 		i18n( "Verb", "Trash" ),
 		keyName, false);

@@ -529,7 +529,7 @@ void KonqKfmIconView::slotReturnPressed( QIconViewItem *item )
         return;
     if ( !fileItem->isReadable() )
     {
-        KMessageBox::error( m_pIconView, i18n("You do not have enough permissions to read <b>%1</b>").arg(fileItem->url().prettyURL()) );
+        KMessageBox::error( m_pIconView, i18n("<p>You do not have enough permissions to read <b>%1</b></p>").arg(fileItem->url().prettyURL()) );
         return;
     }
     if (KonqFMSettings::settings()->alwaysNewWin() && fileItem->isDir()) {
