@@ -28,6 +28,7 @@
 #include <kdebug.h>
 #include <kinstance.h>
 #include <kstddirs.h>
+#include <kservicetype.h>
 
 #include <assert.h>
 
@@ -66,17 +67,43 @@ KonqFactory::~KonqFactory()
 KonqViewFactory KonqFactory::createView( const QString &serviceType,
                                          const QString &serviceName,
 				         KService::Ptr *serviceImpl,
-				         KTrader::OfferList *serviceOffers )
+				         KTrader::OfferList *serviceOffers,
+                                         bool forceAutoEmbed )
 {
   kDebugInfo(1202,QString("trying to create view for \"%1\"").arg(serviceType));
 
-  // First check user's settings
-  QString mimeTypeGroup = serviceType.left(serviceType.find("/"));
-  if (serviceType != "text/html") // HACK. Will be replaced by a X-KDE-Embed setting in the mimetypes
-    if (! KonqFMSettings::defaultIconSettings()->shouldEmbed( mimeTypeGroup ) )
-      return KonqViewFactory();
+  if ( ! forceAutoEmbed )
+  {
+      // First check in user's settings whether to embed or not
+      // 1 - in the mimetype file itself
+      KServiceType::Ptr serviceTypePtr = KServiceType::serviceType( serviceType );
 
-  // Then query the trader
+      if ( !serviceTypePtr )
+          return KonqViewFactory();
+
+      kdDebug(1202) << serviceTypePtr->desktopEntryPath() << endl;
+      KDesktopFile deFile( serviceTypePtr->desktopEntryPath(),
+                           true /*readonly*/, "mime");
+      if ( deFile.hasKey( "X-KDE-AutoEmbed" ) )
+      {
+          bool autoEmbed = deFile.readBoolEntry( "X-KDE-AutoEmbed" );
+          if (!autoEmbed)
+          {
+              kdDebug(1202) << "X-KDE-AutoEmbed set to false, no embedding" << endl;
+              return KonqViewFactory();
+          }
+          kdDebug(1202) << "X-KDE-AutoEmbed set to true, embedding" << endl;
+      } else {
+          kdDebug(1202) << "No X-KDE-AutoEmbed, looking for group" << endl;
+          // 2 - in the configuration for the group if nothing was found in the mimetype
+          QString mimeTypeGroup = serviceType.left(serviceType.find("/"));
+          if (! KonqFMSettings::defaultIconSettings()->shouldEmbed( mimeTypeGroup ) )
+              return KonqViewFactory();
+      }
+  }
+  kdDebug(1202) << "Embedding" << endl;
+
+  // Ok, we embed. Query the trader
   static QString browserViewConstraint = QString::fromLatin1( "('Browser/View' in ServiceTypes) or ('KParts/ReadOnlyPart' in ServiceTypes)" );
 
   KTrader::OfferList offers = KTrader::self()->query( serviceType, browserViewConstraint );

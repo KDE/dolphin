@@ -61,7 +61,8 @@ public:
   static KonqViewFactory createView( const QString &serviceType,
 				     const QString &serviceName = QString::null,
 				     KService::Ptr *serviceImpl = 0,
-				     KTrader::OfferList *serviceOffers = 0 );
+				     KTrader::OfferList *serviceOffers = 0,
+                                     bool forceAutoEmbed = false ); // TODO use from RMB
 				
 
   static void instanceRef();
