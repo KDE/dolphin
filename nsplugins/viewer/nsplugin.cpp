@@ -590,7 +590,7 @@ NPError NSPluginInstance::NPDestroyStream(NPStream *stream, NPReason reason)
 }
 
 
-NPError NSPluginInstance::NPNewStream(const NPMIMEType type, NPStream *stream, NPBool seekable, uint16 *stype)
+NPError NSPluginInstance::NPNewStream(NPMIMEType type, NPStream *stream, NPBool seekable, uint16 *stype)
 {
    if (!_pluginFuncs.newstream)
       return NPERR_GENERIC_ERROR;
