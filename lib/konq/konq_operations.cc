@@ -580,13 +580,24 @@ void KonqOperations::doFileCopy()
     KURL::List lst = m_info->lst;
     QDropEvent::Action action = m_info->action;
     QString newTrashPath;
+    bool isDesktopFile = false;
     KURL::List mlst;
     for (KURL::List::ConstIterator it = lst.begin(); it != lst.end(); ++it)
     {
-        if ( (*it).path(1) == KGlobalSettings::trashPath())
+        bool local = (*it).isLocalFile();
+        if ( local && ((*it).path(1) == KGlobalSettings::trashPath()))
             newTrashPath=m_destURL.path()+(*it).path().right((*it).path().length()-(*it).directory().length());
-        if ( KProtocolInfo::supportsDeleting( *it ) && (!(*it).isLocalFile() || QFileInfo((*it).directory()).isWritable() ))
+        if ( KProtocolInfo::supportsDeleting( *it ) && (!local || QFileInfo((*it).directory()).isWritable() ))
             mlst.append(*it);
+        if ( local && KDesktopFile::isDesktopFile((*it).path()))
+            isDesktopFile = true;
+    }
+
+    bool linkOnly = false;
+    if (isDesktopFile && !kapp->authorize("run_desktop_files") &&
+        (m_destURL.path(1) == KGlobalSettings::desktopPath()) )
+    {
+       linkOnly = true;
     }
 
     if ( !mlst.isEmpty() && m_destURL.path( 1 ) == KGlobalSettings::trashPath() )
@@ -599,7 +610,8 @@ void KonqOperations::doFileCopy()
             return;
         }
     }
-    else if ( ((m_info->keybstate & ControlMask) == 0) && ((m_info->keybstate & ShiftMask) == 0) )
+    else if ( (((m_info->keybstate & ControlMask) == 0) && ((m_info->keybstate & ShiftMask) == 0)) ||
+              linkOnly )
     {
         KonqIconViewWidget *iconView = dynamic_cast<KonqIconViewWidget*>(parent());
         bool bSetWallpaper = false;
@@ -626,10 +638,11 @@ void KonqOperations::doFileCopy()
         }
         //bool sTrash = url.path(1) == KGlobalSettings::trashPath();
         // Nor control nor shift are pressed => show popup menu
+        
         QPopupMenu popup;
-        if ( sReading )
+        if ( sReading && !linkOnly)
             popup.insertItem(SmallIconSet("editcopy"), i18n( "&Copy Here" ), 1 );
-        if (!mlst.isEmpty() && (sMoving || (sReading && sDeleting)))
+        if (!mlst.isEmpty() && (sMoving || (sReading && sDeleting)) && !linkOnly )
             popup.insertItem( i18n( "&Move Here" ), 2 );
         popup.insertItem(SmallIconSet("www"), i18n( "&Link Here" ), 3 );
         if (bSetWallpaper)
