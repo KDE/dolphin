@@ -173,29 +173,30 @@ void HTMLExporter::write( const KBookmarkGroup &grp, QString filename ) {
     QTextStream fstream(&file);
     fstream.setEncoding(QTextStream::UnicodeUTF8);
     traverse(grp);
+    fstream << "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\">" << endl;
+    fstream << "<HTML><HEAD><TITLE>My Bookmarks</TITLE></HEAD>" << endl;
+    fstream << "<BODY>" << endl;
+    fstream << "<TABLE>" << endl;
     fstream << m_string;
+    fstream << "</TABLE>" << endl;
+    fstream << "</BODY></HTML>" << endl;
 }
 
 void HTMLExporter::visit( const KBookmark &bk ) {
-    kdDebug() << "visit(" << bk.text() << ")" << endl;
-    m_out << "#URL" << endl;
-    m_out << "\tNAME=" << bk.fullText() << endl;
-    m_out << "\tURL=" << bk.url().url().utf8() << endl;
-    m_out << endl;
+    // kdDebug() << "visit(" << bk.text() << ")" << endl;
+    m_out << "<TR><TD></TD><TD><A href=\"" << bk.url().url().utf8() << "\">"
+          << bk.fullText() << "</A></TD></TR>" << endl;
 }
 
 void HTMLExporter::visitEnter( const KBookmarkGroup &grp ) {
-    kdDebug() << "visitEnter(" << grp.text() << ")" << endl;
-    m_out << "#FOLDER" << endl;
-    m_out << "\tNAME="<< grp.fullText() << endl;
-    m_out << endl;
-}
+    // kdDebug() << "visitEnter(" << grp.text() << ")" << endl;
+    m_out << "<TR><TD></TD><TD><H3>" << grp.fullText() << "</H3></TD></TR>" << endl;
+    m_out << "<TABLE><TR><TD width=20></TD><TD><P></TD></TR>" << endl;
+} 
 
 void HTMLExporter::visitLeave( const KBookmarkGroup & ) {
-    kdDebug() << "visitLeave()" << endl;
-    m_out << endl;
-    m_out << "-" << endl;
-    m_out << endl;
+    // kdDebug() << "visitLeave()" << endl;
+    m_out << "<TR><TD></P></TD></TR></TABLE>" << endl;
 }
 
 void CurrentMgr::doExport(ExportType type) {
@@ -389,7 +390,7 @@ void KEBApp::createActions() {
                       actn, SLOT( slotExportNS() ), actionCollection(), "exportNS");
    (void) new KAction(i18n("&Export to Opera Bookmarks"), "opera", 0,
                       actn, SLOT( slotExportOpera() ), actionCollection(), "exportOpera");
-   (void) new KAction(i18n("&Export to HTML Bookmarks"), "opera", 0,
+   (void) new KAction(i18n("&Export to HTML Bookmarks"), "html", 0,
                       actn, SLOT( slotExportHTML() ), actionCollection(), "exportHTML");
    (void) new KAction(i18n("&Export to IE Bookmarks"), "ie", 0,
                       actn, SLOT( slotExportIE() ), actionCollection(), "exportIE");
