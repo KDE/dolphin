@@ -1,6 +1,6 @@
 
-data_DATA =  kfind.html kfind-1.html kfind-2.html \
-         kfind-3.html kfind-4.html kfind.sgml  
+data_DATA =  index.html index-1.html index-2.html \
+         index-3.html index-4.html index.sgml  
 
 datadir = $(kde_htmldir)/en/kfind
 
