@@ -397,6 +397,8 @@ void KonqMainWindow::openURL( KonqView *_view, const KURL &url,
 
 bool KonqMainWindow::openView( QString serviceType, const KURL &_url, KonqView *childView, KonqOpenURLRequest req )
 {
+  if ( KonqRun::isRunnable( serviceType ) )
+     return false; // execute, don't open
   // Contract: the caller of this method should ensure the view is stopped first.
 
   kdDebug(1202) << "KonqMainWindow::openView " << serviceType << " " << _url.url() << " " << childView << endl;
@@ -2733,9 +2735,11 @@ void KonqMainWindow::updateBookmarkBar()
 
 void KonqMainWindow::closeEvent( QCloseEvent *e )
 {
+  kdDebug() << "KonqMainWindow::closeEvent begin" << endl;
   hide();
   qApp->flushX();
   KParts::MainWindow::closeEvent( e );
+  kdDebug() << "KonqMainWindow::closeEvent end" << endl;
 }
 
 

@@ -72,7 +72,6 @@ void KonqRun::foundMimeType( const QString & _type )
       return;
   }
 
-  // Try to open in a view
   m_bFinished = m_pMainWindow->openView( mimeType, m_strURL, m_pView, m_req );
 
   // Support for saving remote files.
@@ -168,12 +167,17 @@ void KonqRun::slotKonqMimetype(KIO::Job *, const QString &type)
 
 bool KonqRun::allowExecution( const QString &serviceType, const KURL &url )
 {
-    if ( serviceType != "application/x-desktop" &&
-         serviceType != "application/x-executable" &&
-         serviceType != "application/x-shellscript" )
+    if ( !isRunnable( serviceType ) )
       return true;
 
     return ( KMessageBox::warningYesNo( 0, i18n( "Do you really want to execute '%1' ? " ).arg( url.prettyURL() ) ) == KMessageBox::Yes );
+}
+
+bool KonqRun::isRunnable( const QString &serviceType )
+{
+    return ( serviceType == "application/x-desktop" ||
+             serviceType == "application/x-executable" ||
+             serviceType == "application/x-shellscript" );
 }
 
 bool KonqRun::askSave( const KURL & url, KService::Ptr offer )
