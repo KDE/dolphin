@@ -4199,6 +4199,10 @@ void KonqMainWindow::slotAddWebSideBar(const KURL& url, const QString& name)
               i18n("Web Sidebar"));
 
     if (rc == KMessageBox::Yes) {
+        KAction *a = m_toggleViewGUIClient->action("konq_sidebartng");
+        if (a && !static_cast<KToggleAction*>(a)->isChecked()) {
+            a->activate();
+        }
     }
 }
 
