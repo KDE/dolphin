@@ -294,6 +294,7 @@ void KonqCombo::selectWord(QKeyEvent *e)
     typedef QValueList<QChar> JumpChars;
     JumpChars chars;
     chars.append(QChar('/'));   // path seperator
+    chars.append(QChar('.'));   // domain part seperator
     chars.append(QChar('?'));   // parameter sperator
     chars.append(QChar('#'));   // local anchor seperator
     chars.append(QChar(':'));   // Konqueror's enhanced browsing seperator
