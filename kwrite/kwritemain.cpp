@@ -117,6 +117,8 @@ KWrite::~KWrite()
 {
   if (m_kateView->document()->views().count() == 1)
     docList.remove(m_kateView->document());
+    
+  delete m_kateView->document();
 }
 
 void KWrite::slotConfigure()
