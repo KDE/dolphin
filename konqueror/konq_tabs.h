@@ -96,12 +96,8 @@ signals:
   void removeTabPopup();
 
 protected:
-  void resizeEvent( QResizeEvent * );
-
-  uint tabBarWidthForMaxChars( uint );
-    void refreshSubPopupMenuTab();
+  void refreshSubPopupMenuTab();
   void hideTabBar();
-  void showTabBar();
 
   QPtrList<KonqFrameBase>* m_pChildFrameList;
 
@@ -122,7 +118,6 @@ private:
   KonqViewManager* m_pViewManager;
   QPopupMenu* m_pPopupMenu;
   QPopupMenu* m_pSubPopupMenuTab;
-  uint m_CurrentMaxLength, m_maxLength, m_minLength;
   QToolButton* m_rightWidget;
   QToolButton* m_leftWidget;
   bool m_permanentCloseButtons;

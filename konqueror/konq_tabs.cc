@@ -116,11 +116,6 @@ KonqFrameTabs::KonqFrameTabs(QWidget* parent, KonqFrameContainerBase* parentCont
   KConfigGroupSaver cs( config, QString::fromLatin1("FMSettings") );
 
   m_MouseMiddleClickClosesTab = config->readBoolEntry( "MouseMiddleClickClosesTab", false );
-  m_maxLength = config->readNumEntry("MaximumTabLength", 30);
-  m_minLength = config->readNumEntry("MinimumTabLength", 3);
-  if (m_minLength>m_maxLength)
-    m_maxLength=m_minLength;
-  m_CurrentMaxLength = m_maxLength;
 
   m_permanentCloseButtons = config->readBoolEntry( "PermanentCloseButton", false );
   if (m_permanentCloseButtons) {
@@ -155,6 +150,7 @@ KonqFrameTabs::KonqFrameTabs(QWidget* parent, KonqFrameContainerBase* parentCont
     setCornerWidget( m_rightWidget, TopRight );
   }
 
+  setAutomaticResizeTabs( true );
   setTabReorderingEnabled( true );
   connect( this, SIGNAL( movedTab( int, int ) ),
            SLOT( slotMovedTab( int, int ) ) );
@@ -247,99 +243,10 @@ void KonqFrameTabs::reparentFrame( QWidget* parent, const QPoint & p, bool showI
   QWidget::reparent( parent, p, showIt );
 }
 
-uint KonqFrameTabs::tabBarWidthForMaxChars( uint maxLength )
-{
-  int hframe, overlap;
-  hframe  = tabBar()->style().pixelMetric( QStyle::PM_TabBarTabHSpace, this );
-  overlap = tabBar()->style().pixelMetric( QStyle::PM_TabBarTabOverlap, this );
-
-  QFontMetrics fm = tabBar()->fontMetrics();
-  int x = 0;
-  for( int i=0; i < count(); ++i ) {
-    QString newTitle;
-    KonqFrame* konqframe = dynamic_cast<KonqFrame*>( page(i) );
-    if ( konqframe )
-      newTitle = konqframe->title();
-    else {
-      KonqView* konqview= static_cast<KonqFrameContainer*>( page(i) )->activeChildView();
-      if ( konqview )
-        newTitle = konqview->frame()->title();
-    }
-
-    newTitle = KStringHandler::rsqueeze( newTitle, maxLength ).leftJustify( m_minLength, ' ' );
-
-    QTab* tab = tabBar()->tabAt( i );
-    int lw = fm.width( newTitle );
-    int iw = 0;
-    if ( tab->iconSet() )
-      iw = tab->iconSet()->pixmap( QIconSet::Small, QIconSet::Normal ).width() + 4;
-    x += ( tabBar()->style().sizeFromContents( QStyle::CT_TabBarTab, this,
-                   QSize( QMAX( lw + hframe + iw, QApplication::globalStrut().width() ), 0 ),
-                   QStyleOption( tab ) ) ).width();
-  }
-  return x;
-}
-
 void KonqFrameTabs::setTitle( const QString &title , QWidget* sender)
 {
   // kdDebug(1202) << "KonqFrameTabs::setTitle( " << title << " , " << sender << " )" << endl;
-  removeTabToolTip( sender );
-
-  uint lcw=0, rcw=0;
-
-  int tabBarHeight = tabBar()->sizeHint().height();
-  if ( cornerWidget( TopLeft ) && cornerWidget( TopLeft )->isVisible() )
-    lcw = QMAX( cornerWidget( TopLeft )->width(), tabBarHeight );
-  if ( cornerWidget( TopRight ) && cornerWidget( TopRight )->isVisible() )
-    rcw = QMAX( cornerWidget( TopRight )->width(), tabBarHeight );
-
-  uint maxTabBarWidth = width() - lcw - rcw;
-  // kdDebug(1202) << "maxTabBarWidth=" << maxTabBarWidth << endl;
-
-  uint newMaxLength=m_maxLength;
-  for ( ; newMaxLength > m_minLength; newMaxLength-- ) {
-    // kdDebug(1202) << "tabBarWidthForMaxChars(" << newMaxLength
-    //               << ")=" << tabBarWidthForMaxChars( newMaxLength ) << endl;
-    if ( tabBarWidthForMaxChars( newMaxLength ) < maxTabBarWidth )
-      break;
-  }
-  // kdDebug(1202) << "newMaxLength=" << newMaxLength << endl;
-
-  QString newTitle = title;
-  if ( newTitle.length() > newMaxLength )
-      setTabToolTip( sender, newTitle );
-
-  newTitle = KStringHandler::rsqueeze( newTitle, newMaxLength ).leftJustify( m_minLength, ' ' );
-
-  newTitle.replace( '&', "&&" );
-  if ( tabLabel( sender ) != newTitle )
-    changeTab( sender, newTitle );
-
-  if( newMaxLength != m_CurrentMaxLength )
-    {
-      for( int i = 0; i < count(); ++i)
-        {
-          KonqFrame* konqframe = dynamic_cast<KonqFrame*>( page(i) );
-          if ( konqframe )
-            newTitle = konqframe->title();
-          else {
-            KonqView* konqview= static_cast<KonqFrameContainer*>( page(i) )->activeChildView();
-            if ( konqview )
-              newTitle = konqview->frame()->title();
-          }
-
-          removeTabToolTip( page( i ) );
-          if ( newTitle.length() > newMaxLength )
-              setTabToolTip( page( i ), newTitle );
-
-          newTitle = KStringHandler::rsqueeze( newTitle, newMaxLength ).leftJustify( m_minLength, ' ' );
-
-          newTitle.replace( '&', "&&" );
-          if ( newTitle != tabLabel( page( i ) ) )
-            changeTab( page( i ), newTitle );
-        }
-      m_CurrentMaxLength = newMaxLength;
-    }
+  setTabLabel( sender,title );
 }
 
 void KonqFrameTabs::setTabIcon( const QString &url, QWidget* sender )
@@ -383,7 +290,7 @@ void KonqFrameTabs::insertChildFrame( KonqFrameBase* frame, int index )
         activeChildView->setTabIcon( activeChildView->url().url() );
       }
       if (showTabBar)
-          this->showTabBar();
+          setTabBarHidden(false);
       else if ( count() == 1 )
           this->hideTabBar();//the first frame inserted (initialization)
     }
@@ -546,21 +453,6 @@ void KonqFrameTabs::slotMouseMiddleClick( QWidget *w )
   }
 }
 
-void KonqFrameTabs::resizeEvent( QResizeEvent *e )
-{
-    KTabWidget::resizeEvent( e );
-    if ( count() ) {
-      KonqFrame* konqframe = dynamic_cast<KonqFrame*>( page(0) );
-      if ( konqframe )
-        setTitle( konqframe->title(), page( 0 ) );
-      else {
-        KonqView* konqview= static_cast<KonqFrameContainer*>( page(0) )->activeChildView();
-        if ( konqview )
-          setTitle( konqview->frame()->title(), page( 0 ) );
-      }
-    }
-}
-
 void KonqFrameTabs::slotTestCanDecode(const QDragMoveEvent *e, bool &accept /* result */)
 {
   accept = KURLDrag::canDecode( e );
@@ -606,23 +498,10 @@ void KonqFrameTabs::slotInitiateDrag( QWidget *w )
 void KonqFrameTabs::hideTabBar()
 {
   if ( !m_alwaysTabBar ) {
-    if (m_leftWidget)
-    m_leftWidget->hide();
-    if (m_rightWidget)
-    m_rightWidget->hide();
-    tabBar()->hide();
+    setTabBarHidden(true);
   }
   m_pPopupMenu->setItemEnabled( BREAKOFF_ID, false );
   m_pPopupMenu->setItemEnabled( CLOSETAB_ID, false );
-}
-
-void KonqFrameTabs::showTabBar()
-{
-  tabBar()->show();
-  if (m_leftWidget)
-  m_leftWidget->show();
-  if (m_rightWidget)
-  m_rightWidget->show();
 }
 
 void KonqFrameTabs::setAlwaysTabbedMode( bool enable )
@@ -632,7 +511,7 @@ void KonqFrameTabs::setAlwaysTabbedMode( bool enable )
   m_alwaysTabBar = enable;
   if ( update ) {
     if ( m_alwaysTabBar )
-      showTabBar();
+      setTabBarHidden(false);
     else
       hideTabBar();
   }
