@@ -147,7 +147,7 @@ void KonqIconViewWidget::slotOnItem( QIconViewItem *item )
     {
 	delete d->pSoundPlayer;
 	d->pSoundPlayer = 0;
-	
+
 	d->pSoundItem = 0;
 	if (d->pSoundTimer && d->pSoundTimer->isActive())
     	    d->pSoundTimer->stop();
@@ -329,9 +329,9 @@ void KonqIconViewWidget::setItemTextPos( ItemTextPos pos )
         if ( itemTextPos() != pos )
         {
             if ( pos == QIconView::Right )
-                setGridX( gridX() + 50 );
+                setGridX( gridX() + 100 );
             else
-                setGridX( gridX() - 50 );
+                setGridX( gridX() - 100 );
         }
     }
 
@@ -343,7 +343,7 @@ void KonqIconViewWidget::calculateGridX()
     if ( m_bSetGridX )
     {
         int sz = m_size ? m_size : KGlobal::iconLoader()->currentSize( KIcon::Desktop );
-        int newGridX = sz + 30 + (( itemTextPos() == QIconView::Right ) ? 50 : 0);
+        int newGridX = sz + 50 + (( itemTextPos() == QIconView::Right ) ? 100 : 0);
 
         kdDebug(1203) << "calculateGridX: newGridX=" << newGridX
                       << "sz=" << sz << endl;
