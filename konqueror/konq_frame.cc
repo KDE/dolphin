@@ -104,7 +104,7 @@ bool KonqFrameHeader::eventFilter(QObject*,QEvent *e)
 
 void KonqFrameHeader::slotDisplayStatusText(const QString& text)
 {
-   cerr<<"KongFrameHeader::slotDisplayStatusText("<<text<<")"<<endl;
+   //kdDebug()<<"KongFrameHeader::slotDisplayStatusText("<<text<<")"<<endl;
    statusLabel.resize(fontMetrics().width(text),13);
    statusLabel.setText(text);
 };
