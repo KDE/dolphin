@@ -221,7 +221,11 @@ void KFileIVI::paintAlphaItem( QPainter *p, const QColorGroup &cg,
     if (onBg)
     {
       txtRect.moveTopLeft(QPoint(0,0));
-      txtPixmap=new QPixmap(txtRect.size());
+      QImage txtImg(txtRect.size(),32);
+      KImageEffect::paint(bgx-textRect(false).x(), bgy-textRect(false).y(),
+	  txtImg, background);
+      txtPixmap=new QPixmap();
+      txtPixmap->convertFromImage(txtImg);
       p=new QPainter(txtPixmap);
     } else {
       if (!p) return;
