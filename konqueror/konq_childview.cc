@@ -101,9 +101,6 @@ void KonqChildView::show()
 
 void KonqChildView::openURL( const KURL &url, bool useMiscURLData  )
 {
-  if ( m_lstHistory.count() > 0 )
-    updateHistoryEntry();
-
   if ( useMiscURLData && browserExtension() )
   {
     KParts::URLArgs args(false, m_iXOffset, m_iYOffset);
@@ -161,6 +158,9 @@ bool KonqChildView::changeViewMode( const QString &serviceType,
 {
   if ( m_bViewStarted )
     stop();
+  
+  if ( m_lstHistory.count() > 0 )
+    updateHistoryEntry();
 
   if ( !m_service->serviceTypes().contains( serviceType ) ||
        ( !serviceName.isEmpty() && serviceName != m_service->name() ) )
@@ -219,7 +219,7 @@ void KonqChildView::connectView(  )
 
   connect( ext, SIGNAL( popupMenu( const QPoint &, const KURL &, const QString &, mode_t ) ),
 	   m_pMainView, SLOT( slotPopupMenu( const QPoint &, const KURL &, const QString &, mode_t ) ) );
-  
+
   connect( ext, SIGNAL( popupMenu( KXMLGUIClient *, const QPoint &, const KonqFileItemList & ) ),
            m_pMainView, SLOT( slotPopupMenu( KXMLGUIClient *, const QPoint &, const KonqFileItemList & ) ) );
 
