@@ -176,48 +176,36 @@ KonqPopupMenu::KonqPopupMenu( const KFileItemList &items,
   }
   else
   {
+    kdDebug() << "KonqPopupMenu::KonqPopupMenu currentDir && sWriting && m_pMenuNew : " << currentDir << "," << sWriting << "," << m_pMenuNew << endl;
+    if ( currentDir && S_ISDIR(mode) && sWriting && m_pMenuNew ) // Add the "new" menu
+    {
+      // As requested by KNewMenu :
+      m_pMenuNew->slotCheckUpToDate();
+      m_pMenuNew->setPopupFiles( m_lstPopupURLs );
+
+      addAction( m_pMenuNew );
+
+      addSeparator();
+    }
+
     // hack for khtml pages/frames
     bool httpPage = (m_sViewURL.protocol().find("http", 0, false) == 0);
 
-    //kdDebug() << "httpPage=" << httpPage << " dir=" << S_ISDIR( mode ) << " currentDir=" << currentDir << endl;
-
-    if ( S_ISDIR( mode ) ) // all URLs are directories (also set for rmb-on-background of html pages)
+    if ( currentDir || httpPage ) // rmb on background or html frame
     {
-      if ( currentDir && sWriting && m_pMenuNew ) // Add the "new" menu
-      {
-        // As requested by KNewMenu :
-        m_pMenuNew->slotCheckUpToDate();
-        m_pMenuNew->setPopupFiles( m_lstPopupURLs );
-
-        addAction( m_pMenuNew );
-
-        addSeparator();
-      }
-
-      if ( currentDir || httpPage )
-      {
-        addAction( "up" );
-        addAction( "back" );
-        addAction( "forward" );
-        if ( currentDir )
-            addAction( "reload" );
-        addGroup( "reload" );
-        addSeparator();
-      }
+      addAction( "up" );
+      addAction( "back" );
+      addAction( "forward" );
+      if ( currentDir ) // khtml adds a different "reload frame" for frames
+        addAction( "reload" );
+      addGroup( "reload" );
+      addSeparator();
 
       addAction( m_paNewView );
       addSeparator();
     }
-    else // not all URLs are dirs
-    {
-      if ( httpPage ) // HTML link
-      {
-        addAction( m_paNewView );
-        addSeparator();
-      }
-    }
 
-    if ( sReading ) {
+    if ( !currentDir && sReading ) {
       if ( sDeleting ) {
         addAction( "undo" );
         addAction( "cut" );
@@ -225,7 +213,7 @@ KonqPopupMenu::KonqPopupMenu( const KFileItemList &items,
       addAction( "copy" );
     }
 
-    if ( sWriting ) {
+    if ( S_ISDIR(mode) && sWriting ) {
       addAction( "paste" );
     }
 
@@ -299,11 +287,11 @@ KonqPopupMenu::KonqPopupMenu( const KFileItemList &items,
   }
 
   KTrader::OfferList offers;
-      // if check m_sMimeType.isNull (no commom mime type) set it to all/all 
+      // if check m_sMimeType.isNull (no commom mime type) set it to all/all
       // 3 - Query for applications
       offers = KTrader::self()->query( m_sMimeType.isNull( ) ? QString::fromLatin1( "all/all" ) : m_sMimeType ,
    "Type == 'Application' and DesktopEntryName != 'kfmclient' and DesktopEntryName != 'kfmclient_dir' and DesktopEntryName != 'kfmclient_html'" );
-   
+
 
   //// Ok, we have everything, now insert
 
