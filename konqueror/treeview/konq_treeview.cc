@@ -29,7 +29,8 @@
 #include <kio_job.h>
 #include <kdebug.h>
 #include <konq_propsview.h>
-#include <kuserpaths.h>
+#include <kaction.h>
+#include <kpartsmainwindow.h>
 
 #include <assert.h>
 #include <string.h>
@@ -59,7 +60,7 @@ public:
 
   virtual QObject* create( QObject *parent, const char *name, const char*, const QStringList & )
   {
-    QObject *obj = new KonqTreeView( (QWidget *)parent, name );
+    QObject *obj = new KonqTreeView( (QWidget *)parent, parent, name );
     emit objectCreated( obj );
     return obj;
   }
@@ -74,43 +75,36 @@ extern "C"
   }
 };
 
-TreeViewPropertiesExtension::TreeViewPropertiesExtension( KonqTreeView *treeView )
-  : ViewPropertiesExtension( treeView, "ViewPropertiesExtension" )
+TreeViewBrowserExtension::TreeViewBrowserExtension( KonqTreeView *treeView )
+ : KParts::BrowserExtension( treeView )
 {
   m_treeView = treeView;
 }
 
-void TreeViewPropertiesExtension::reparseConfiguration()
+void TreeViewBrowserExtension::setXYOffset( int x, int y )
 {
-  // m_pProps is a problem here (what is local, what is global ?)
-  // but settings is easy :
-  m_treeView->treeViewWidget()->initConfig();
+  m_treeView->treeViewWidget()->setXYOffset( x, y );
 }
 
-void TreeViewPropertiesExtension::saveLocalProperties()
+int TreeViewBrowserExtension::xOffset()
 {
-  // TODO move this to KonqTreeView. Ugly.
-  m_treeView->treeViewWidget()->m_pProps->saveLocal( m_treeView->url() );
+  return m_treeView->treeViewWidget()->contentsX();
 }
 
-void TreeViewPropertiesExtension::savePropertiesAsDefault()
+int TreeViewBrowserExtension::yOffset()
 {
-  m_treeView->treeViewWidget()->m_pProps->saveAsDefault();
+  return m_treeView->treeViewWidget()->contentsY();
 }
 
-TreeViewEditExtension::TreeViewEditExtension( KonqTreeView *treeView )
- : EditExtension( treeView, "TreeViewEditExtension" )
-{
-  m_treeView = treeView;
-}
-
-void TreeViewEditExtension::can( bool &cut, bool &copy, bool &paste, bool &move )
+void TreeViewBrowserExtension::updateActions()
 {
   QValueList<KonqTreeViewItem*> selection;
 
   m_treeView->treeViewWidget()->selectedItems( selection );
 
-  cut = move = copy = ( selection.count() != 0 );
+  bool cutcopy, move;
+  
+  cutcopy = move = ( selection.count() != 0 );
   bool bInTrash = false;
   QValueList<KonqTreeViewItem*>::ConstIterator it = selection.begin();
   QValueList<KonqTreeViewItem*>::ConstIterator end = selection.end();
@@ -123,17 +117,24 @@ void TreeViewEditExtension::can( bool &cut, bool &copy, bool &paste, bool &move 
 
   bool bKIOClipboard = !isClipboardEmpty();
   QMimeSource *data = QApplication::clipboard()->data();
-  paste = ( bKIOClipboard || data->encodedData( data->format() ).size() != 0 ) &&
+  bool paste = ( bKIOClipboard || data->encodedData( data->format() ).size() != 0 ) &&
     (selection.count() == 1); // Let's allow pasting only on an item, not on the background
-}
 
-void TreeViewEditExtension::cutSelection()
+  emit enableAction( "copy", cutcopy );
+  emit enableAction( "cut", cutcopy );
+  emit enableAction( "del", move );
+  emit enableAction( "trash", move );
+  emit enableAction( "pastecut", paste );
+  emit enableAction( "pastecopy", paste );
+} 
+
+void TreeViewBrowserExtension::cut()
 {
-  //TODO: grey out items
-  copySelection();
-}
+  //TODO: grey out item
+  copy(); 
+} 
 
-void TreeViewEditExtension::copySelection()
+void TreeViewBrowserExtension::copy()
 {
   QValueList<KonqTreeViewItem*> selection;
 
@@ -149,29 +150,17 @@ void TreeViewEditExtension::copySelection()
   QUriDrag *urlData = new QUriDrag;
   urlData->setUnicodeUris( lstURLs );
   QApplication::clipboard()->setData( urlData );
-}
+} 
 
-void TreeViewEditExtension::pasteSelection( bool move )
+void TreeViewBrowserExtension::pasteSelection( bool move )
 {
   QValueList<KonqTreeViewItem*> selection;
   m_treeView->treeViewWidget()->selectedItems( selection );
   assert ( selection.count() == 1 );
   pasteClipboard( selection.first()->item()->url().url(), move );
-}
+} 
 
-void TreeViewEditExtension::moveSelection( const QString &destinationURL )
-{
-  QStringList lstURLs = selectedUrls();
-
-  KIOJob *job = new KIOJob;
-
-  if ( !destinationURL.isEmpty() )
-    job->move( lstURLs, destinationURL );
-  else
-    job->del( lstURLs );
-}
-
-QStringList TreeViewEditExtension::selectedUrls()
+void TreeViewBrowserExtension::moveSelection( const QString &destinationURL )
 {
   QValueList<KonqTreeViewItem*> selection;
   m_treeView->treeViewWidget()->selectedItems( selection );
@@ -182,87 +171,74 @@ QStringList TreeViewEditExtension::selectedUrls()
   for (; it != end; ++it )
     lstURLs.append( (*it)->item()->url().url() );
 
-  return lstURLs;
+  KIOJob *job = new KIOJob;
+
+  if ( !destinationURL.isEmpty() )
+    job->move( lstURLs, destinationURL );
+  else
+    job->del( lstURLs );
+} 
+
+void TreeViewBrowserExtension::reparseConfiguration()
+{
+  // m_pProps is a problem here (what is local, what is global ?)
+  // but settings is easy :
+  m_treeView->treeViewWidget()->initConfig();
 }
 
-TreeViewBrowserExtension::TreeViewBrowserExtension( KonqTreeView *treeView )
- : BrowserView( treeView )
+void TreeViewBrowserExtension::saveLocalProperties()
 {
-  m_treeView = treeView; 
+  // TODO move this to KonqTreeView. Ugly.
+  m_treeView->treeViewWidget()->m_pProps->saveLocal( m_treeView->url() );
 }
 
-void TreeViewBrowserExtension::setXYOffset( int x, int y )
+void TreeViewBrowserExtension::savePropertiesAsDefault()
 {
-  m_treeView->setXYOffset( x, y );
+  m_treeView->treeViewWidget()->m_pProps->saveAsDefault();
 }
 
-int TreeViewBrowserExtension::xOffset()
+KonqTreeView::KonqTreeView( QWidget *parentWidget, QObject *parent, const char *name )
+ : KParts::ReadOnlyPart( parent, name )
 {
-  return m_treeView->treeViewWidget()->contentsX();
-}
-
-int TreeViewBrowserExtension::yOffset()
-{
-  return m_treeView->treeViewWidget()->contentsY();
-}
-
-KonqTreeView::KonqTreeView( QWidget *parent, const char *name )
- : BrowserView( parent, name )
-{
-  EditExtension *extension = new TreeViewEditExtension( this );
-  (void)new TreeViewPropertiesExtension( this );
+  setInstance( KonqFactory::instance() ); 
+  setXMLFile( "konq_treeview.rc" );
+  
   m_browser = new TreeViewBrowserExtension( this );
   
-  m_pTreeView = new KonqTreeViewWidget( this );
-  m_pTreeView->show();
+  m_pTreeView = new KonqTreeViewWidget( this, parentWidget );
 
-  m_paShowDot = new KToggleAction( i18n( "Show &Dot Files" ), 0, this, SLOT( slotShowDot() ), this );
-
-  actions()->append( BrowserView::ViewAction( m_paShowDot, BrowserView::MenuView ) );
+  setWidget( m_pTreeView );
+  
+  m_paShowDot = new KToggleAction( i18n( "Show &Dot Files" ), 0, this, SLOT( slotShowDot() ), actionCollection(), "show_dot" );
 
   QObject::connect( m_pTreeView, SIGNAL( selectionChanged() ),
-                    extension, SIGNAL( selectionChanged() ) );
+                    m_browser, SLOT( updateActions() ) );
 }
 
 KonqTreeView::~KonqTreeView()
 {
-  delete m_pTreeView;
 }
 
-void KonqTreeView::openURL( const QString &url, bool /*reload*/,
-                            int xOffset, int yOffset )
+bool KonqTreeView::openURL( const KURL &url )
 {
-  m_pTreeView->openURL( url, xOffset, yOffset );
+  m_url = url; 
+  return m_pTreeView->openURL( url );
 }
 
-QString KonqTreeView::url()
-{
-  return m_pTreeView->url().url();
-}
-
-int KonqTreeView::xOffset()
-{
-  return m_pTreeView->contentsX();
-}
-
-int KonqTreeView::yOffset()
-{
-  return m_pTreeView->contentsY();
-}
-
-void KonqTreeView::stop()
+void KonqTreeView::closeURL()
 {
   m_pTreeView->stop();
 }
 
-void KonqTreeView::resizeEvent( QResizeEvent * )
+void KonqTreeView::guiActivateEvent( KParts::GUIActivateEvent *event )
 {
-  m_pTreeView->setGeometry( 0, 0, width(), height() );
-}
+  if ( event->activated() )
+    m_browser->updateActions();
+} 
 
 void KonqTreeView::slotReloadTree()
 {
-  m_pTreeView->openURL( url(), m_pTreeView->contentsX(), m_pTreeView->contentsY() );
+//  m_pTreeView->openURL( url(), m_pTreeView->contentsX(), m_pTreeView->contentsY() );
 }
 
 void KonqTreeView::slotShowDot()

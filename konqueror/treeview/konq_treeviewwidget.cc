@@ -41,8 +41,8 @@
 
 #include <assert.h>
 
-KonqTreeViewWidget::KonqTreeViewWidget( KonqTreeView *parent )
-: QListView( parent )
+KonqTreeViewWidget::KonqTreeViewWidget( KonqTreeView *parent, QWidget *parentWidget )
+: QListView( parentWidget )
 {
   kdebug(0, 1202, "+KonqTreeViewWidget");
 
@@ -85,6 +85,8 @@ KonqTreeViewWidget::KonqTreeViewWidget( KonqTreeView *parent )
 
   viewport()->setAcceptDrops( true );
   viewport()->setMouseTracking( true );
+  viewport()->setFocusPolicy( QWidget::WheelFocus );
+  setFocusPolicy( QWidget::WheelFocus );
   setAcceptDrops( true );
 
   m_dragOverItem = 0L;
@@ -443,7 +445,7 @@ void KonqTreeViewWidget::slotOnItem( KonqTreeViewItem* _item)
   QString s;
   if ( _item )
     s = _item->item()->getStatusBarInfo();
-  emit m_pBrowserView->setStatusBarText( s );
+  emit m_pBrowserView->extension()->setStatusBarText( s );
 }
 
 void KonqTreeViewWidget::selectedItems( QValueList<KonqTreeViewItem*>& _list )
@@ -464,7 +466,7 @@ void KonqTreeViewWidget::slotReturnPressed( QListViewItem *_item )
 
   //execute only if item is a file (or a symlink to a file)
   if ( S_ISREG( mode ) )
-    emit m_pBrowserView->openURLRequest( item->url().url(), false, 0, 0 );
+    emit m_pBrowserView->extension()->openURLRequest( item->url(), false, 0, 0 );
 }
 
 void KonqTreeViewWidget::slotRightButtonPressed( QListViewItem *_item, const QPoint &_global, int )
@@ -505,21 +507,12 @@ void KonqTreeViewWidget::popupMenu( const QPoint& _global )
     lstItems.setAutoDelete( true ); // will delete 'item'
   }
 
-  emit m_pBrowserView->popupMenu( _global, lstItems );
+  emit m_pBrowserView->extension()->popupMenu( _global, lstItems );
 }
 
-void KonqTreeViewWidget::openURL( const char *_url, int xOffset, int yOffset )
+bool KonqTreeViewWidget::openURL( const KURL &url )
 {
-  kdebug(0, 1202, "KonqTreeViewWidget::openURL( %s, %d, %d )", _url, xOffset, yOffset );
   bool isNewProtocol = false;
-
-  KURL url( _url );
-  if ( url.isMalformed() )
-  {
-    QString tmp = i18n( "Malformed URL\n%1" ).arg( _url );
-    KMessageBox::sorry( this, tmp);
-    return;
-  }
 
   //test if we are switching to a new protocol
   if ( m_dirLister )
@@ -536,7 +529,7 @@ void KonqTreeViewWidget::openURL( const char *_url, int xOffset, int yOffset )
     {
       QString tmp = i18n( "Unknown Protocol %1" ).arg( url.protocol());
       KMessageBox::sorry( this, tmp );
-      return;
+      return false;
     }
 
     if ( m_iColumns == -1 )
@@ -581,10 +574,11 @@ void KonqTreeViewWidget::openURL( const char *_url, int xOffset, int yOffset )
   }
 
   m_bTopLevelComplete = false;
-  m_iXOffset = xOffset;
-  m_iYOffset = yOffset;
 
-  m_sURL = url;
+  m_iXOffset = 0;
+  m_iYOffset = 0;
+
+  m_sURL = url.url();
 
   if ( m_pProps->enterDir( url ) )
   {
@@ -595,6 +589,7 @@ void KonqTreeViewWidget::openURL( const char *_url, int xOffset, int yOffset )
   m_dirLister->openURL( url, m_pProps->m_bShowDot, false /* new url */ );
 
 //  setCaptionFromURL( m_sURL );
+  return true;
 }
 
 void KonqTreeViewWidget::setComplete()
@@ -615,7 +610,7 @@ void KonqTreeViewWidget::setComplete()
 void KonqTreeViewWidget::slotStarted( const QString & /*url*/ )
 {
   if ( !m_bTopLevelComplete )
-    emit m_pBrowserView->started();
+    emit m_pBrowserView->started( 0 );
   m_timer.start( 500, true );
 }
 
@@ -631,7 +626,7 @@ void KonqTreeViewWidget::slotCompleted()
 void KonqTreeViewWidget::slotCanceled()
 {
   setComplete();
-  emit m_pBrowserView->canceled();
+  emit m_pBrowserView->canceled( QString::null );
   m_timer.stop();
   slotUpdate();
 }

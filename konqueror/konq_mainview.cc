@@ -440,7 +440,7 @@ void KonqMainView::slotViewModeToggle( bool toggle )
     return;
 
   m_currentView->lockHistory();
-  m_currentView->changeViewMode( m_currentView->serviceType(), QString::null,
+  m_currentView->changeViewMode( m_currentView->serviceType(), m_currentView->url(),
                                  false, modeName );
 }
 
@@ -631,7 +631,10 @@ void KonqMainView::slotViewChanged( KParts::ReadOnlyPart *oldView, KParts::ReadO
   m_mapViews.insert( newView, (KonqChildView *)sender() );
 
   if ( (KonqChildView *)sender() == (KonqChildView *)m_currentView )
+  {
+    m_pViewManager->removePart( oldView );
     updateStatusBar();
+  }
 
   // Add the new part to the manager
   m_pViewManager->addPart( newView, true );
@@ -734,7 +737,10 @@ bool KonqMainView::openView( QString serviceType, const KURL &_url, KonqChildVie
 void KonqMainView::slotPartActivated( KParts::Part *part )
 {
   if ( !part )
+  {
+    createGUI( 0L );
     return;
+  }
 
   KonqChildView *newView = m_mapViews.find( (KParts::ReadOnlyPart *)part ).data();
 
@@ -1149,7 +1155,7 @@ void KonqMainView::toggleBar( const char *name, const char *className )
     bar->hide();
   else
     bar->show();
-} 
+}
 
 void KonqMainView::fillHistoryPopup( QPopupMenu *menu, const QList<HistoryEntry> &history )
 {
@@ -1567,7 +1573,7 @@ static const char *viewModeGUI = ""
 "<!DOCTYPE viewmodexml>"
 "<viewmodexml name=\"viewmode\">"
 "<MenuBar>"
-" <Menu name=\"view_menu\">"
+" <Menu name=\"view\">"
 " </Menu>"
 "</MenuBar>"
 "</viewmodexml>";
@@ -1608,6 +1614,9 @@ void ViewModeGUIServant::update( const KTrader::OfferList &services )
     n = m_menuElement.firstChild();
   }
 
+  if ( services.count() <= 1 )
+    return;
+  
   KTrader::OfferList::ConstIterator it = services.begin();
   KTrader::OfferList::ConstIterator end = services.end();
   for (; it != end; ++it )

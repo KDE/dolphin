@@ -82,6 +82,7 @@ KonqViewFactory KonqFactory::createView( const QString &serviceType,
   if ( offers.count() == 0 ) //no results?
     return KonqViewFactory();
 
+ 
   KService::Ptr service = offers.first();
 
   if ( !serviceName.isEmpty() )

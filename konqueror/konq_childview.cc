@@ -125,16 +125,16 @@ void KonqChildView::switchView( KonqViewFactory &viewFactory )
   if ( m_pView )
     m_pView->widget()->hide();
 
-  KParts::ReadOnlyPart *newView = m_pKonqFrame->attach( viewFactory );
-
-  if ( m_pView )
+  KParts::ReadOnlyPart *oldView = m_pView;
+  m_pView = m_pKonqFrame->attach( viewFactory );
+  
+  if ( oldView )
   {
-    emit sigViewChanged( m_pView, newView );
+    emit sigViewChanged( oldView, m_pView );
 
-    delete m_pView;
+    delete oldView;
   }
 
-  m_pView = newView;
   connectView();
   show();
 }
@@ -396,7 +396,7 @@ void KonqChildView::go( QList<HistoryEntry> &stack, int steps )
     m_pView->openURL( h->url );
 
   sendOpenURLEvent( h->url );
-  
+
   m_pMainView->setLocationBarURL( this, h->url.decodedURL() );
 
   stack.removeFirst();
@@ -496,6 +496,6 @@ void KonqChildView::sendOpenURLEvent( const KURL &url )
     KParts::OpenURLEvent ev( m_pView, url );
     QApplication::sendEvent( it.key(), &ev );
   }
-} 
+}
 
 #include "konq_childview.moc"

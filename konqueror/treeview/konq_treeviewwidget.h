@@ -45,11 +45,11 @@ class KonqTreeViewWidget : public QListView
   friend KonqTreeViewItem;
   friend KonqTreeViewDir;
   friend KonqTreeView;
-  friend TreeViewPropertiesExtension;
+  friend class TreeViewBrowserExtension;
 
   Q_OBJECT
 public:
-  KonqTreeViewWidget( KonqTreeView *parent );
+  KonqTreeViewWidget( KonqTreeView *parent, QWidget *parentWidget );
   ~KonqTreeViewWidget();
 
   void stop();
@@ -74,7 +74,9 @@ public:
   iterator begin() { iterator it( (KonqTreeViewItem*)firstChild() ); return it; }
   iterator end() { iterator it; return it; }
 
-  virtual void openURL( const char* _url, int xOffset, int yOffset );
+  virtual bool openURL( const KURL &url );
+
+  void setXYOffset( int x, int y ) { m_iXOffset = x; m_iYOffset = y; }
 
   virtual void openSubFolder( const KURL &_url, KonqTreeViewDir* _dir );
 

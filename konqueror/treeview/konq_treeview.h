@@ -21,6 +21,7 @@
 #define __konq_treeview_h__
 
 #include <kbrowser.h>
+#include <kuserpaths.h>
 
 #include <qvaluelist.h>
 #include <qlistview.h>
@@ -28,7 +29,9 @@
 
 class KonqTreeViewWidget;
 class KonqTreeView;
+class KToggleAction;
 
+/*
 class TreeViewPropertiesExtension : public ViewPropertiesExtension
 {
   Q_OBJECT
@@ -60,10 +63,12 @@ public:
 private:
   KonqTreeView *m_treeView;
 };
-
-class TreeViewBrowserExtension : public BrowserView
+*/
+class TreeViewBrowserExtension : public KParts::BrowserExtension
 {
+  Q_OBJECT
   friend class KonqTreeView;
+  friend class KonqTreeViewWidget;
 public:
   TreeViewBrowserExtension( KonqTreeView *treeView );
 
@@ -71,31 +76,47 @@ public:
   virtual int xOffset();
   virtual int yOffset();
 
+protected slots:
+  void updateActions();
+
+  void copy();
+  void cut();
+  void del() { moveSelection( QString::null ); }
+  void pastecut() { pasteSelection( true ); }
+  void pastecopy() { pasteSelection( false ); }
+  void trash() { moveSelection( KUserPaths::trashPath() ); }
+
+  void reparseConfiguration();
+  void saveLocalProperties();
+  void savePropertiesAsDefault();
+
 private:
+  void pasteSelection( bool move );
+  void moveSelection( const QString &destinationURL );
+
   KonqTreeView *m_treeView;
 };
 
 class KonqTreeView : public KParts::ReadOnlyPart
 {
   friend class KonqTreeViewWidget;
-  friend class TreeViewPropertiesExtension;
   Q_OBJECT
 public:
   KonqTreeView( QWidget *parentWidget, QObject *parent, const char *name );
   virtual ~KonqTreeView();
 
-  virtual void openURL( const QString &url, bool reload = false,
-                        int xOffset = 0, int yOffset = 0 );
+  virtual bool openURL( const KURL &url );
 
-  virtual QString url();
-  virtual int xOffset();
-  virtual int yOffset();
-  virtual void stop();
+  virtual void closeURL();
+
+  virtual bool openFile() { return true; }
 
   KonqTreeViewWidget *treeViewWidget() const { return m_pTreeView; }
 
+  TreeViewBrowserExtension *extension() const { return m_browser; }
+
 protected:
-  virtual void resizeEvent( QResizeEvent * );
+  virtual void guiActivateEvent( KParts::GUIActivateEvent *event );
 
 protected slots:
   void slotReloadTree();
