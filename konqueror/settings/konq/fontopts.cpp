@@ -45,7 +45,7 @@ KonqFontOptions::KonqFontOptions(KConfig *config, QString group, QWidget *parent
     QString wtstr;
     int row = 0;
 
-#define LASTLINE 9
+#define LASTLINE 8
 #define LASTCOLUMN 2
     QGridLayout *lay = new QGridLayout(this,LASTLINE+1,LASTCOLUMN+1,KDialog::marginHint(),
 				       KDialog::spacingHint());
@@ -99,21 +99,6 @@ KonqFontOptions::KonqFontOptions(KConfig *config, QString group, QWidget *parent
 
     //
 #define COLOR_BUTTON_COL 1
-
-    label = new QLabel( i18n("Background Color:"), this );
-    lay->addWidget(label,row,0);
-
-    m_pBg = new KColorButton( bgColor, this );
-    lay->addWidget(m_pBg,row,COLOR_BUTTON_COL,Qt::AlignLeft);
-
-    wtstr = i18n("This is the default background color used in Konqueror windows.");
-    QWhatsThis::add( label, wtstr );
-    QWhatsThis::add( m_pBg, wtstr );
-
-    connect( m_pBg, SIGNAL( changed( const QColor & ) ),
-             SLOT( slotBgColorChanged( const QColor & ) ) );
-
-    row++;
     label = new QLabel( i18n("Normal Text Color:"), this );
     lay->addWidget(label,row,0);
 
@@ -247,11 +232,9 @@ void KonqFontOptions::load()
     else if (m_stdFont.pointSizeFloat() == 14.0)
        fSize = 5;
 
-    bgColor = g_pConfig->readColorEntry( "BgColor", &FM_DEFAULT_BG_COLOR );
     normalTextColor = g_pConfig->readColorEntry( "NormalTextColor", &FM_DEFAULT_TXT_COLOR );
     highlightedTextColor = g_pConfig->readColorEntry( "HighlightedTextColor", &FM_DEFAULT_HIGHLIGHTED_TXT_COLOR );
 
-    m_pBg->setColor( bgColor );
     m_pNormalText->setColor( normalTextColor );
     m_pHighlightedText->setColor( highlightedTextColor );
 
@@ -266,12 +249,10 @@ void KonqFontOptions::defaults()
     fSize=4;
     stdName = KGlobal::generalFont().family();
     m_stdFont = QFont(stdName, 12);
-    bgColor = FM_DEFAULT_BG_COLOR;
 
     normalTextColor = FM_DEFAULT_TXT_COLOR;
     highlightedTextColor = FM_DEFAULT_HIGHLIGHTED_TXT_COLOR;
 
-    m_pBg->setColor( bgColor );
     m_pNormalText->setColor( normalTextColor );
     m_pHighlightedText->setColor( highlightedTextColor );
     m_pWordWrap->setChecked( DEFAULT_WORDWRAPTEXT );
@@ -311,7 +292,6 @@ void KonqFontOptions::save()
     m_stdFont.setFamily( stdName );    
     g_pConfig->writeEntry( "StandardFont", m_stdFont );
 
-    g_pConfig->writeEntry( "BgColor", bgColor );
     g_pConfig->writeEntry( "NormalTextColor", normalTextColor );
     g_pConfig->writeEntry( "HighlightedTextColor", highlightedTextColor );
     g_pConfig->writeEntry( "WordWrapText", m_pWordWrap->isChecked() );
@@ -323,15 +303,6 @@ void KonqFontOptions::save()
 void KonqFontOptions::changed()
 {
   emit KCModule::changed(true);
-}
-
-void KonqFontOptions::slotBgColorChanged( const QColor &col )
-{
-    if ( bgColor != col )
-    {
-        bgColor = col;
-        changed();
-    }
 }
 
 void KonqFontOptions::slotNormalTextColorChanged( const QColor &col )

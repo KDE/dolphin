@@ -62,7 +62,6 @@ public slots:
   void slotFontSize( int );
   void slotStandardFont(const QString& n);
 
-  void slotBgColorChanged( const QColor &col );
   void slotNormalTextColorChanged( const QColor &col );
   void slotHighlightedTextColorChanged( const QColor &col );
 
@@ -93,7 +92,6 @@ private:
   KColorButton* m_pBg;
   KColorButton* m_pNormalText;
   KColorButton* m_pHighlightedText;
-  QColor bgColor;
   QColor normalTextColor;
   QColor highlightedTextColor;
 
