@@ -35,6 +35,25 @@
 #include <qvbox.h>
 #include <qfile.h>
 
+#if defined Q_WS_X11 && ! defined K_WS_QTONLY
+#include <netwm.h>
+#endif
+
+void Widgets::handleXGeometry(QWidget * dlg)
+{
+    if ( ! kapp->geometryArgument().isEmpty()) {
+	int x, y;
+	int w, h;
+	int m = XParseGeometry( kapp->geometryArgument().latin1(), &x, &y, (unsigned int*)&w, (unsigned int*)&h);
+	if ( (m & XNegative) )
+	    x = KApplication::desktop()->width()  + x - w;
+	if ( (m & YNegative) )
+	    y = KApplication::desktop()->height() + y - h;
+	dlg->setGeometry(x, y, w, h);
+	// kdDebug() << "x: " << x << "  y: " << y << "  w: " << w << "  h: " << h << endl;
+    }
+}
+
 bool Widgets::inputBox(QWidget *parent, const QString& title, const QString& text, const QString& init, QString &result)
 {
   bool ok;
@@ -51,6 +70,9 @@ bool Widgets::passwordBox(QWidget *parent, const QString& title, const QString& 
   kapp->setTopWidget( &dlg );
   dlg.setCaption(title);
   dlg.setPrompt(text);
+
+  handleXGeometry(&dlg);
+
   bool retcode = (dlg.exec() == QDialog::Accepted);
   if ( retcode )
     result = dlg.password();
@@ -85,6 +107,7 @@ int Widgets::textBox(QWidget *parent, int width, int height, const QString& titl
   if ( width > 0 && height > 0 )
       dlg.setInitialSize( QSize( width, height ) );
 
+  handleXGeometry(&dlg);
   dlg.exec();
   return 0;
 }
@@ -104,6 +127,8 @@ bool Widgets::comboBox(QWidget *parent, const QString& title, const QString& tex
   KComboBox combo (vbox);
   combo.insertStringList (args);
   combo.setCurrentItem( defaultEntry, false );
+
+  handleXGeometry(&dlg);
 
   bool retcode = (dlg.exec() == QDialog::Accepted);
 
@@ -125,6 +150,8 @@ bool Widgets::listBox(QWidget *parent, const QString& title, const QString& text
     box.insertItem(args[i+1]);
   }
   box.setCurrentItem( defaultEntry );
+
+  handleXGeometry(&box);
 
   bool retcode = (box.exec() == QDialog::Accepted);
   if ( retcode )
@@ -159,6 +186,8 @@ bool Widgets::checkList(QWidget *parent, const QString& title, const QString& te
   for (unsigned int i=0; i+2<args.count(); i += 3) {
     table.setSelected( i/3, args[i+2] == QString::fromLatin1("on") );
   }
+
+  handleXGeometry(&box);
 
   bool retcode = (box.exec() == QDialog::Accepted);
 
@@ -200,6 +229,8 @@ bool Widgets::radioBox(QWidget *parent, const QString& title, const QString& tex
     table.setSelected( i/3, args[i+2] == QString::fromLatin1("on") );
   }
 
+  handleXGeometry(&box);
+
   bool retcode = (box.exec() == QDialog::Accepted);
   if ( retcode )
     result = tags[ table.currentItem() ];
@@ -211,6 +242,7 @@ bool Widgets::progressBar(QWidget *parent, const QString& title, const QString& 
   ProgressDialog dlg( parent, title, text, totalSteps );
   kapp->setTopWidget( &dlg );
   dlg.setCaption( title );
+  handleXGeometry(&dlg);
   dlg.exec();
   return dlg.wasCancelled();
 }

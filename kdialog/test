@@ -1,5 +1,5 @@
 echo "yesno box:"
-./kdialog --title "This is a yesno box" --yesno "Choose: yes or no"
+./kdialog --title --geometry 400x300+100+50 "This is a yesno box" --yesno "Choose: yes or no"
 if [ $? = 0 ]; then
   echo " your choice was: yes"
 else
@@ -7,7 +7,7 @@ else
 fi
 
 echo "continue or cancel warning box:"
-./kdialog --title "This is a warningcontinuecancel box" --warningcontinuecancel "Choose: continue or cancel"
+./kdialog --title --geometry 200x300+100-50 "This is a warningcontinuecancel box" --warningcontinuecancel "Choose: continue or cancel"
 if [ $? = 0 ]; then
   echo " your choice was: continue"
 else
@@ -15,7 +15,7 @@ else
 fi
 
 echo "message box:"
-./kdialog --title "This is a message" --msgbox "Well, this is it:\nthe message"
+./kdialog --geometry 300x400-100-50 --title "This is a message" --msgbox "Well, this is it:\nthe message"
 
 echo "input box:"
 ./kdialog --title "This is a input box" --inputbox "What is your name" "Joe User"
@@ -25,24 +25,32 @@ else
   echo " you did not accept"
 fi
 
+echo "input box, with geometry:"
+./kdialog --geometry 300x400-100-50 --title "This is a input box" --inputbox "What is your name" "Joe User"
+if [ $? = 0 ]; then
+  echo " you accepted"
+else
+  echo " you did not accept"
+fi
+
 echo "text box:"
-./kdialog --miniicon "about_kde" --title "This is a text box" --textbox widgets.h 400 300
+./kdialog --geometry 300x400-100-50 --miniicon "about_kde" --title "This is a text box" --textbox widgets.h 400 300
 
 echo "menu:"
-./kdialog --miniicon "about_kde"  --title "This is a menu" --default "French" --menu "Choose one of these" a English b German c French d Spanish
+./kdialog --miniicon "about_kde" --geometry 300x400-100-50 --title "This is a menu" --default "French" --menu "Choose one of these" a English b German c French d Spanish
 
 echo "checklist:"
-./kdialog --miniicon "about_kde" --title "This is a checklist" --checklist "Choose some of these" a English on  b German off  c French off d Spanish on
+./kdialog --geometry 400x300+100+50 --miniicon "about_kde" --title "This is a checklist" --checklist "Choose some of these" a English on  b German off  c French off d Spanish on
 
 echo "radiolist:"
-./kdialog --miniicon "about_kde" --title "This is a radiolist" --radiolist "Choose one of these" a English off b German off c French on d Spanish off
+./kdialog --geometry 400x300+100+50 --miniicon "about_kde" --title "This is a radiolist" --radiolist "Choose one of these" a English off b German off c French on d Spanish off
 
 echo "combobox:"
-./kdialog --miniicon "about_kde" --default "Chocolate" --title "This is a combobox" --combobox "Pick your favorite ice-cream flavor:" "Vanilla" "Chocolate" "Strawberry" "Fudge"
+./kdialog --geometry 400x300+100+50 --miniicon "about_kde" --default "Chocolate" --title "This is a combobox" --combobox "Pick your favorite ice-cream flavor:" "Vanilla" "Chocolate" "Strawberry" "Fudge"
 
 echo "passivepopup:"
-./kdialog --title "This is a passive popup" --passivepopup "It will disappear in about 10 seconds" 10
+./kdialog --geometry 400x300+100+50 --title "This is a passive popup" --passivepopup "It will disappear in about 10 seconds" 10
 
 echo "password:"
-./kdialog --title "This is a password dialog" --icon "desktop" --miniicon "about_kde" --password "Enter the password:"
+./kdialog --title "This is a password dialog" --geometry 400x300+100+50 --icon "desktop" --miniicon "about_kde" --password "Enter the password:"
 

@@ -19,6 +19,7 @@
 #include <dcopclient.h>
 #include "progressdialog.h"
 #include "kdebug.h"
+#include "widgets.h"
 
 ProgressDialog::ProgressDialog(QWidget* parent, const QString& caption, const QString& text, int totalSteps)
     : DCOPObject( "ProgressDialog" ), KProgressDialog(parent, 0, caption, text, false)
@@ -26,6 +27,7 @@ ProgressDialog::ProgressDialog(QWidget* parent, const QString& caption, const QS
     setAutoClose( false );
     setTotalSteps( totalSteps );
     showCancelButton( false );
+    Widgets::handleXGeometry(this);
 }
 
 void ProgressDialog::setTotalSteps( int totalSteps )
