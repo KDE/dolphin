@@ -123,30 +123,30 @@ void ListView::setInitialAddress(QString address) {
 void ListView::connectSignals() {
    connectSignals(m_listView);
    if (SPLIT) {
-      // connectSignals(m_listView2);
+      connectSignals(m_listView2);
    }
 }
 
 // fowards
 
 void KEBListView::slotSelectionChanged() { 
-  ListView::self()->slotSelectionChanged(); 
+  ListView::self()->slotSelectionChanged(this); 
 }
 
 void KEBListView::slotContextMenu(KListView *a, QListViewItem *b, const QPoint &c) {
-  ListView::self()->slotContextMenu(a,b,c); 
+  ListView::self()->slotContextMenu(this, a,b,c); 
 }
 
 void KEBListView::slotItemRenamed(QListViewItem *a, const QString &b, int c) { 
-  ListView::self()->slotItemRenamed(a,b,c); 
+  ListView::self()->slotItemRenamed(this, a,b,c); 
 }
 
 void KEBListView::slotDoubleClicked(QListViewItem *a, const QPoint &b, int c) { 
-  ListView::self()->slotDoubleClicked(a,b,c); 
+  ListView::self()->slotDoubleClicked(this, a,b,c); 
 }
 
 void KEBListView::slotDropped(QDropEvent *a, QListViewItem *b, QListViewItem *c) { 
-  ListView::self()->slotDropped(a,b,c); 
+  ListView::self()->slotDropped(this, a,b,c); 
 }
 
 void ListView::connectSignals(KEBListView *listview) {
@@ -362,7 +362,7 @@ SelcAbilities ListView::getSelectionAbilities() {
 
 // TODO
 /* TYP */
-void ListView::slotDropped(QDropEvent *e, QListViewItem *newParent, QListViewItem *itemAfterQLVI) {
+void ListView::slotDropped(KEBListView *, QDropEvent *e, QListViewItem *newParent, QListViewItem *itemAfterQLVI) {
    if (!newParent) {
       // drop before root item
       return;
@@ -471,13 +471,13 @@ void ListView::fillWithGroup(KEBListView *listview, KBookmarkGroup group,
    }
 }
 
-void ListView::slotSelectionChanged() {
+void ListView::slotSelectionChanged(KEBListView *) {
    KEBApp::self()->updateActions();
    updateSelectedItems();
 }
 
 /* TYP */
-void ListView::slotContextMenu(KListView *, QListViewItem *qitem, const QPoint &p) {
+void ListView::slotContextMenu(KEBListView *, KListView *, QListViewItem *qitem, const QPoint &p) {
    KEBListViewItem *item = static_cast<KEBListViewItem *>(qitem);
    if (!item) {
       return;
@@ -493,12 +493,12 @@ void ListView::slotContextMenu(KListView *, QListViewItem *qitem, const QPoint &
 
 /* MOVE */
 /* TYP */
-void ListView::slotDoubleClicked(QListViewItem *item, const QPoint &, int column) {
+void ListView::slotDoubleClicked(KEBListView *, QListViewItem *item, const QPoint &, int column) {
    m_listView->rename(item, column);
 }
 
 /* TYP */
-void ListView::slotItemRenamed(QListViewItem *item, const QString &newText, int column) {
+void ListView::slotItemRenamed(KEBListView *, QListViewItem *item, const QString &newText, int column) {
    Q_ASSERT(item);
    KBookmark bk = static_cast<KEBListViewItem *>(item)->bookmark();
    KCommand *cmd = 0;

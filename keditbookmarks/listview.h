@@ -140,7 +140,7 @@ public:
    void updateSelectedItems(); // DESIGN - rename?
    void updateListView();
    SelcAbilities getSelectionAbilities();
-   void emitSlotSelectionChanged() { emit slotSelectionChanged(); }
+   void emitSlotSelectionChanged() { emit slotSelectionChanged(m_listView); }
    void setOpen(bool open); // DESIGN -rename to setAllOpenFlag
    void fillWithGroup();
    void fillWithGroup(KEBListView *listview, KBookmarkGroup group,
@@ -158,11 +158,11 @@ public:
    void clearSelection();
 
 public slots:
-   void slotDropped(QDropEvent *, QListViewItem *, QListViewItem *);
-   void slotSelectionChanged();
-   void slotContextMenu(KListView *, QListViewItem *, const QPoint &);
-   void slotDoubleClicked(QListViewItem *, const QPoint &, int);
-   void slotItemRenamed(QListViewItem *, const QString &, int);
+   void slotDropped(KEBListView *, QDropEvent *, QListViewItem *, QListViewItem *);
+   void slotSelectionChanged(KEBListView *);
+   void slotContextMenu(KEBListView *, KListView *, QListViewItem *, const QPoint &);
+   void slotDoubleClicked(KEBListView *, QListViewItem *, const QPoint &, int);
+   void slotItemRenamed(KEBListView *, QListViewItem *, const QString &, int);
 
 private:
    ListView();
