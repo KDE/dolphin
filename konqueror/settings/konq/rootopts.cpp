@@ -287,7 +287,7 @@ KRootOptions::KRootOptions(KConfig *config, QWidget *parent, const char * )
 
   //BEGIN devices configuration
   row++;
-#ifdef Q_OS_LINUX
+#if defined(Q_OS_LINUX) || defined(Q_OS_FREEBSD)
   groupBox = new QVGroupBox( i18n("Devices"), this );
   lay->addMultiCellWidget( groupBox, row, row, 0, RO_LASTCOL );
   
@@ -330,7 +330,7 @@ void KRootOptions::fillDevicesListView()
 
 void KRootOptions::saveDevicesListView()
 {
-#ifdef Q_OS_LINUX
+#if defined(Q_OS_LINUX) || defined (Q_OS_FREEBSD)
     g_pConfig->setGroup( "Devices" );
     g_pConfig->writeEntry("enabled",enableDevicesBox->isChecked());
     QStringList exclude;
@@ -393,7 +393,7 @@ void KRootOptions::load()
     m_wheelSwitchesWorkspace = g_pConfig->readBoolEntry("WheelSwitchesWorkspace", false);
 
     comboBoxChanged();
-#ifdef Q_OS_LINUX
+#if defined(Q_OS_LINUX) || defined(Q_OS_FREEBSD)
     fillDevicesListView();
 #endif
     enableChanged();
@@ -410,7 +410,7 @@ void KRootOptions::defaults()
     middleComboBox->setCurrentItem( WINDOWLISTMENU );
     rightComboBox->setCurrentItem( DESKTOPMENU );
     iconsEnabledBox->setChecked(true);
-#ifdef Q_OS_LINUX
+#if defined(Q_OS_LINUX) || defined(Q_OS_FREEBSD)
     fillDevicesListView();
 #endif
 
@@ -468,7 +468,7 @@ void KRootOptions::enableChanged()
     previewListView->setEnabled(enabled);
     vrootBox->setEnabled(enabled);
 
-#ifdef Q_OS_LINUX
+#if defined(Q_OS_LINUX) || defined (Q_OS_FREEBSD)
     enableDevicesBox->setEnabled(enabled);
     devicesListView->setEnabled(enableDevicesBox->isChecked() && iconsEnabledBox->isChecked());
 #endif
