@@ -92,7 +92,8 @@ KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name)
     grid->addMultiCellLayout( subgrid, 2, 2, 1, 2 );
     subgrid->addWidget( subdirsCb );
     subgrid->addSpacing( KDialog::spacingHint() );
-    subgrid->addWidget( caseSensCb, 1 );
+    subgrid->addWidget( caseSensCb);
+    subgrid->addStretch(1);
     // Signals
 
     connect( browseB, SIGNAL(clicked()),
