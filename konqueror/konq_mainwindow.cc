@@ -2454,6 +2454,12 @@ void KonqMainWindow::slotRemoveTabPopupDelayed()
 
 void KonqMainWindow::slotRemoveOtherTabsPopup()
 {
+  if ( KMessageBox::warningContinueCancel( this,
+       i18n("Do you really want to close all other tabs?"),
+       i18n("Close Other Tabs Confirmation"), KStdGuiItem::close(),
+       "CloseOtherTabConfirm") != KMessageBox::Continue )
+    return;
+
   //Can't do immediately - kills the tabbar, and we're in an event path down from it
   QTimer::singleShot( 0, this, SLOT( slotRemoveOtherTabsPopupDelayed() ) );
 }
