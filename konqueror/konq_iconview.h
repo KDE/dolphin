@@ -19,7 +19,7 @@
 #ifndef __konq_iconview_h__
 #define __konq_iconview_h__
 
-#include "kiconcontainer.h"
+#include "qiconview.h"
 #include "konq_baseview.h"
 
 #include <qtimer.h>
@@ -31,19 +31,23 @@ class KonqPropsView;
 class KDirLister;
 class KFileItem;
 class Qt2CORBAProxy;
+class KFileIVI;
 
 /**
  * The Icon View for konqueror. Handles big icons (Horizontal mode) and
  * small icons (Vertical mode).
  * The "Kfm" in the name stands for file management since it shows files :)
  */
-class KonqKfmIconView : public KIconContainer,
+class KonqKfmIconView : public QIconView,
                         public KonqBaseView,
                         virtual public Konqueror::KfmIconView_skel,
 			virtual public Browser::EditExtension_skel
 {
   Q_OBJECT
 public:
+
+  enum SortCriterion { NameCaseSensitive, NameCaseInsensitive, Size };
+
   // C++
   KonqKfmIconView( KonqMainView *mainView = 0L );
   virtual ~KonqKfmIconView();
@@ -86,33 +90,44 @@ public slots:
   virtual Konqueror::DirectoryDisplayMode viewMode();
 
 protected slots:
-  // slots connected to the icon container
-  virtual void slotMousePressed( KIconContainerItem* _item, const QPoint& _global, int _button );
-  virtual void slotDoubleClicked( KIconContainerItem* _item, const QPoint& _global, int _button );
-  virtual void slotReturnPressed( KIconContainerItem* _item, const QPoint& _global );
-  virtual void slotDrop( QDropEvent*, KIconContainerItem*, QStringList& _formats );
-
+  // slots connected to QIconView
+  virtual void slotMousePressed( QIconViewItem *item );
+  virtual void slotDrop( QDropEvent *e );
+  void slotDropItem( KFileIVI *item, QDropEvent *e );
+ 
   void slotSelectionChanged();
-
-  virtual void slotOnItem( KIconContainerItem* );
   
+  void slotItemRightClicked( QIconViewItem *item );
+  void slotViewportRightClicked();
+ 
+  void slotOnItem( QIconViewItem *item );
+  void slotOnViewport();
+
   // slots connected to the directory lister
   virtual void slotStarted( const QString & );
   virtual void slotCompleted();
   virtual void slotCanceled();
-  virtual void slotUpdate();
+  virtual void slotDirListerUpdate();
   virtual void slotClear();
   virtual void slotNewItem( KFileItem * );
   virtual void slotDeleteItem( KFileItem * );
 
 protected:  
+  void dropStuff( QDropEvent *e, KFileIVI *item = 0L );
+
   virtual void initConfig();
+
+  void setupSorting( SortCriterion criterion );
 
   /** Overloaded from OPPartIf */
   void setFocus( bool mode );
 
   /** */
   void setupSortMenu();
+
+  void setupSortKeys();
+
+  QString makeSizeKey( KFileIVI *item );
 
   /** The directory lister for this URL */
   KDirLister* m_dirLister;
@@ -147,6 +162,8 @@ protected:
   long int m_idSortByNameCaseInsensitive;
   long int m_idSortBySize;
   long int m_idSortDescending;
+
+  SortCriterion m_eSortCriterion;
   
   KonqMainView *m_pMainView;
 };

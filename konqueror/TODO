@@ -3,6 +3,10 @@
   user name in a URL.
 - Sorting by date, ... 
 
+- Move all the release checks (copying templates, creating dirs, ...)
+  to kdesktop, since konqueror isn't in startkde anymore. And make it
+  call convert_kdelnk.sh as well.
+
 - Confirmation box before deleting :)
   A nice one would contain the list of files to be deleted, if few of them
   otherwise the number (or simply "...")
