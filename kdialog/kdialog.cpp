@@ -42,6 +42,7 @@
 #include <kcmdlineargs.h>
 #include <kaboutdata.h>
 #include <kfiledialog.h>
+#include <kicondialog.h>
 
 using namespace std;
 
@@ -72,9 +73,9 @@ static KCmdLineOptions options[] =
     { "getexistingdirectory [startDir]", I18N_NOOP("File dialog to select an existing directory"), 0 },
     { "getopenurl [startDir] [filter]", I18N_NOOP("File dialog to open an existing URL"), 0 },
     { "getsaveurl [startDir] [filter]", I18N_NOOP("File dialog to save a URL"), 0 },
+    { "geticon [group] [context]", I18N_NOOP("Icon chooser dialog"), 0 },
 
     // TODO gauge stuff, reading values from stdin
-
 
     { "title <text>", I18N_NOOP("Dialog title"), 0 },
     { "separate-output", I18N_NOOP("Return list items on separate lines (for checklist option)"), 0 },
@@ -122,17 +123,7 @@ bool WinIdEmbedder::eventFilter(QObject *o, QEvent *e)
     return QObject::eventFilter(o, e);
 }
 
-// string to int, with default value
-int convert(const QString &val, int def)
-{
-  bool ok;
-  int result = val.toInt(&ok);
-  if (!ok)
-    result = def;
-  return result;
-}
-
-int directCommand(KCmdLineArgs *args)
+static int directCommand(KCmdLineArgs *args)
 {
     QString title;
     bool separateOutput = FALSE;
@@ -228,7 +219,7 @@ int directCommand(KCmdLineArgs *args)
         if ( type == KMessageBox::WarningContinueCancel ) {
             /* TODO configurable button texts*/
             ret = KMessageBox::messageBox( 0, type, text, title, KStdGuiItem::cont(),
-                KStdGuiItem::no(), dontagain ); 
+                KStdGuiItem::no(), dontagain );
         } else {
             ret = KMessageBox::messageBox( 0, type, text, title /*, TODO configurable button texts*/,
                 KStdGuiItem::yes(), KStdGuiItem::no(), dontagain );
@@ -445,6 +436,47 @@ int directCommand(KCmdLineArgs *args)
         return 1; // cancelled
     }
 
+    // geticon [group] [context]
+    if (args->isSet("geticon")) {
+        QString groupStr, contextStr;
+        groupStr = QString::fromLocal8Bit(args->getOption("geticon"));
+        if (args->count() >= 1)  {
+            contextStr = QString::fromLocal8Bit(args->arg(0));
+        }
+        KIcon::Group group = KIcon::NoGroup;
+        if ( groupStr == QString::fromLatin1( "Desktop" ) )
+            group = KIcon::Desktop;
+        else if ( groupStr == QString::fromLatin1( "Toolbar" ) )
+            group = KIcon::Toolbar;
+        else if ( groupStr == QString::fromLatin1( "MainToolbar" ) )
+            group = KIcon::MainToolbar;
+        else if ( groupStr == QString::fromLatin1( "Small" ) )
+            group = KIcon::Small;
+        else if ( groupStr == QString::fromLatin1( "Panel" ) )
+            group = KIcon::Panel;
+        else if ( groupStr == QString::fromLatin1( "User" ) )
+            group = KIcon::User;
+        KIcon::Context context = KIcon::Any;
+        // From kicontheme.cpp
+        if ( contextStr == QString::fromLatin1( "Devices" ) )
+            context = KIcon::Device;
+        else if ( contextStr == QString::fromLatin1( "MimeTypes" ) )
+            context = KIcon::MimeType;
+        else if ( contextStr == QString::fromLatin1( "FileSystems" ) )
+            context = KIcon::FileSystem;
+        else if ( contextStr == QString::fromLatin1( "Applications" ) )
+            context = KIcon::Application;
+        else if ( contextStr == QString::fromLatin1( "Actions" ) )
+            context = KIcon::Action;
+
+        QString result = KIconDialog::getIcon( group, context, false, 0, false, 0, title );
+        if (!result.isEmpty())  {
+            cout << result.local8Bit().data() << endl;
+            return 0;
+        }
+        return 1; // cancelled
+    }
+
     KCmdLineArgs::usage();
     return -2; // NOTREACHED
 }
@@ -456,6 +488,7 @@ int main(int argc, char *argv[])
                         "0.9.5", I18N_NOOP( "KDialog can be used to show nice dialog boxes from shell scripts" ), KAboutData::License_BSD,
                         "(C) 2000, Nick Thompson");
   aboutData.addAuthor("David Faure", I18N_NOOP("Current maintainer"),"faure@kde.org");
+  aboutData.addAuthor("Brad Hards", 0, "bradh@frogmouth.net");
   aboutData.addAuthor("Nick Thompson",0, 0/*"nickthompson@lucent.com" bounces*/);
   aboutData.addAuthor("Matthias Hölzer",0,"hoelzer@kde.org");
   aboutData.addAuthor("David Gümbel",0,"david.guembel@gmx.net");
