@@ -12,7 +12,7 @@ libkonqdirtree_la_LIBADD = $(top_builddir)/libkonq/libkonq.la
 
 libkonqtree_la_SOURCES = konq_tree.cpp konq_treepart.cpp konq_treeitem.cpp konq_treetoplevelitem.cpp
 libkonqtree_la_LDFLAGS = $(all_libraries) $(KDE_PLUGIN)
-libkonqtree_la_LIBADD = $(top_builddir)/libkonq/libkonq.la dirtree_module/libkonqdirtreemodule.la history_module/libkonqhistorymodule.la # temporary hack
+libkonqtree_la_LIBADD = dirtree_module/libkonqdirtreemodule.la history_module/libkonqhistorymodule.la $(top_builddir)/libkonq/libkonq.la # temporary hack
 
 servicedir = $(kde_servicesdir)
 service_DATA = konq_dirtree.desktop
