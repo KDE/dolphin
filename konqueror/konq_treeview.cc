@@ -1349,8 +1349,9 @@ void KfmTreeViewItem::init( KonqKfmTreeView* _treeview, UDSEntry& _entry, K2URL&
   m_bIsLocalURL = _url.isLocalFile();
 
   m_pMimeType = KMimeType::findByURL( _url, mode, m_bIsLocalURL );
-
-  setPixmap( 0, *( KPixmapCache::pixmapForMimeType( m_pMimeType, _url, m_bIsLocalURL, true ) ) );
+  QPixmap * p = KPixmapCache::pixmapForMimeType( m_pMimeType, _url, m_bIsLocalURL, true );
+  if (!p) warning("Pixmap not found for mimetype %s",m_pMimeType->mimeType());
+  else setPixmap( 0, *p );
 }
 
 bool KfmTreeViewItem::acceptsDrops( QStrList& /* _formats */ )
