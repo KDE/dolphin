@@ -1,5 +1,5 @@
 // -*- mode:cperl; cperl-indent-level:4; cperl-continued-statement-offset:4; indent-tabs-mode:nil -*-
-// vim: set ts=4 sts=4 sw=4 et: 
+// vim: set ts=4 sts=4 sw=4 et:
 /* This file is part of the KDE project
    Copyright (C) 2000 David Faure <faure@kde.org>
    Copyright (C) 2002-2003 Alexander Kellett <lypanov@kde.org>
@@ -58,18 +58,18 @@ bool KEBApp::queryClose() {
 
 CmdHistory* CmdHistory::s_self = 0;
 
-CmdHistory::CmdHistory(KActionCollection *collection) 
+CmdHistory::CmdHistory(KActionCollection *collection)
     : m_commandHistory(collection) {
-    connect(&m_commandHistory, SIGNAL( commandExecuted() ),  
+    connect(&m_commandHistory, SIGNAL( commandExecuted() ),
             SLOT( slotCommandExecuted() ));
-    connect(&m_commandHistory, SIGNAL( documentRestored() ), 
+    connect(&m_commandHistory, SIGNAL( documentRestored() ),
             SLOT( slotDocumentRestored() ));
     assert(!s_self);
     s_self = this; // this is hacky
 }
 
 CmdHistory* CmdHistory::self() {
-    assert(s_self); 
+    assert(s_self);
     return s_self;
 }
 
@@ -85,7 +85,7 @@ void CmdHistory::slotDocumentRestored() {
     }
 }
 
-void CmdHistory::notifyDocSaved() { 
+void CmdHistory::notifyDocSaved() {
     m_commandHistory.documentSaved();
 }
 
@@ -110,8 +110,8 @@ void CmdHistory::clearHistory() {
 
 CurrentMgr *CurrentMgr::s_mgr = 0;
 
-KBookmark CurrentMgr::bookmarkAt(const QString &a) { 
-    return self()->mgr()->findByAddress(a); 
+KBookmark CurrentMgr::bookmarkAt(const QString &a) {
+    return self()->mgr()->findByAddress(a);
 }
 
 bool CurrentMgr::managerSave() { return mgr()->save(); }
@@ -134,11 +134,11 @@ void CurrentMgr::createManager(const QString &filename) {
 
 void CurrentMgr::slotBookmarksChanged(const QString &, const QString &caller) {
     // kdDebug() << "CurrentMgr::slotBookmarksChanged" << endl;
-    if ((caller.latin1() != kapp->dcopClient()->appId()) 
+    if ((caller.latin1() != kapp->dcopClient()->appId())
      && !KEBApp::self()->modified()) {
-        // TODO 
-        // umm.. what happens if a readonly gets a update 
-        // for a non-readonly??? the non-readonly maybe 
+        // TODO
+        // umm.. what happens if a readonly gets a update
+        // for a non-readonly??? the non-readonly maybe
         // has a pretty much random kapp->name() ???
         CmdHistory::self()->clearHistory();
         ListView::self()->updateListView();
@@ -168,8 +168,8 @@ QString CurrentMgr::correctAddress(const QString &address) const {
 KEBApp *KEBApp::s_topLevel = 0;
 
 KEBApp::KEBApp(
-    const QString &bookmarksFile, bool readonly, 
-    const QString &address, bool browser, const QString &caption 
+    const QString &bookmarksFile, bool readonly,
+    const QString &address, bool browser, const QString &caption
 ) : KMainWindow(), m_dcopIface(0), m_bookmarksFilename(bookmarksFile),
     m_caption(caption), m_readOnly(readonly), m_browser(browser) {
 
@@ -182,21 +182,21 @@ KEBApp::KEBApp(
     QSplitter *vsplitter = new QSplitter(this);
 
     KToolBar *quicksearch = new KToolBar(vsplitter, "search toolbar");
-    
+
     KAction *resetQuickSearch = new KAction( i18n( "Reset Quick Search" ),
         QApplication::reverseLayout() ? "clear_left" : "locationbar_erase",
         0, actionCollection(), "reset_quicksearch" );
-    resetQuickSearch->setWhatsThis( i18n( "<b>Reset Quick Search<b><br>"
+    resetQuickSearch->setWhatsThis( i18n( "<b>Reset Quick Search</b><br>"
         "Resets the quick search so that all bookmarks are shown again." ) );
     resetQuickSearch->plug( quicksearch );
 
     QLabel *lbl = new QLabel(i18n("Se&arch:"), quicksearch, "kde toolbar widget");
-    
-    KListViewSearchLine *searchLineEdit = new KListViewSearchLine(quicksearch, 0, "KListViewSearchLine");    
+
+    KListViewSearchLine *searchLineEdit = new KListViewSearchLine(quicksearch, 0, "KListViewSearchLine");
     quicksearch->setStretchableWidget(searchLineEdit);
     lbl->setBuddy(searchLineEdit);
     connect(resetQuickSearch, SIGNAL(activated()), searchLineEdit, SLOT(clear()));
-    
+
     readConfig();
 
     QSplitter *splitter = new QSplitter(vsplitter);
@@ -204,15 +204,15 @@ KEBApp::KEBApp(
     ListView::self()->initListViews();
     ListView::self()->setInitialAddress(address);
     searchLineEdit->setListView(static_cast<KListView*>(ListView::self()->widget()));
-    
+
     m_bkinfo = new BookmarkInfoWidget(vsplitter);
 
     vsplitter->setOrientation(QSplitter::Vertical);
-    vsplitter->setSizes(QValueList<int>() << h << 380 
+    vsplitter->setSizes(QValueList<int>() << h << 380
                                           << m_bkinfo->sizeHint().height() );
 
     setCentralWidget(vsplitter);
-    resize(ListView::self()->widget()->sizeHint().width(), 
+    resize(ListView::self()->widget()->sizeHint().width(),
            vsplitter->sizeHint().height());
 
     createActions();
@@ -223,7 +223,7 @@ KEBApp::KEBApp(
 
     m_dcopIface = new KBookmarkEditorIface();
 
-    connect(kapp->clipboard(), SIGNAL( dataChanged() ),      
+    connect(kapp->clipboard(), SIGNAL( dataChanged() ),
                                SLOT( slotClipboardDataChanged() ));
 
     ListView::self()->connectSignals();
@@ -288,7 +288,7 @@ void KEBApp::readConfig() {
 }
 
 static void writeConfigBool(
-    const QString &rcfile, const QString &group, 
+    const QString &rcfile, const QString &group,
     const QString &entry, bool flag
 ) {
     KConfig config(rcfile, false, false);
@@ -302,7 +302,7 @@ void KEBApp::slotSplitView() {
     Q_ASSERT( 0 );
 #if 0
     m_splitView = getToggleAction("settings_splitview")->isChecked();
-    writeConfigBool("keditbookmarksrc", "General", 
+    writeConfigBool("keditbookmarksrc", "General",
                     "Split View", m_splitView);
     sorryRelogin(this);
 #endif
@@ -310,7 +310,7 @@ void KEBApp::slotSplitView() {
 
 void KEBApp::slotSaveOnClose() {
     m_saveOnClose = getToggleAction("settings_saveonclose")->isChecked();
-    writeConfigBool("keditbookmarksrc", "General", 
+    writeConfigBool("keditbookmarksrc", "General",
                     "Save On Close", m_saveOnClose);
 }
 
@@ -328,7 +328,7 @@ void KEBApp::setModifiedFlag(bool modified) {
     m_modified = modified && !m_readOnly;
 
     QString caption = m_caption.isNull() ? QString::null : (m_caption + " ");
-    if (m_bookmarksFilename 
+    if (m_bookmarksFilename
      != KBookmarkManager::userBookmarksManager()->path())
         caption += (caption.isEmpty()?"":" - ") + m_bookmarksFilename;
     if (m_readOnly)
@@ -336,7 +336,7 @@ void KEBApp::setModifiedFlag(bool modified) {
 
     setCaption(caption, m_modified);
 
-    // we receive dcop if modified 
+    // we receive dcop if modified
     // rather than reparse notifies
     CurrentMgr::self()->setUpdate(!m_modified);
 }
@@ -367,7 +367,7 @@ void KEBApp::notifyCommandExecuted() {
 void KEBApp::slotConfigureToolbars() {
     saveMainWindowSettings(KGlobal::config(), "MainWindow");
     KEditToolbar dlg(actionCollection());
-    connect(&dlg, SIGNAL( newToolbarConfig() ), 
+    connect(&dlg, SIGNAL( newToolbarConfig() ),
                   SLOT( slotNewToolbarConfig() ));
     dlg.exec();
 }
