@@ -51,7 +51,9 @@
   iconview file: file (with and without servicemenus)
   iconview file: directory
   iconview remote protocol (e.g. ftp: or fish:)
+  iconview trash:/
   sidebar directory tree
+  sidebar Devices / Hard Disc
   khtml background
   khtml link
   khtml image (www.kde.org RMB on K logo)
@@ -60,7 +62,6 @@
   embedded katepart
   kdesktop folder
   trash link on desktop
-  iconview on trash:/
   trashed file or directory
   application .desktop file
  Then the same after uninstalling kdeaddons/konq-plugins (kuick and arkplugin in particular)
@@ -339,13 +340,12 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
     m_sMimeType         = m_lstItems.first()->mimetype();
     QString mimeGroup   = m_sMimeType.left(m_sMimeType.find('/'));
     mode_t mode         = m_lstItems.first()->mode();
-    bool isDirectory    = m_sMimeType == "inode/directory";
+    bool isDirectory    = S_ISDIR(mode);
     bool bTrashIncluded = false;
-    bool bCanChangeSharing = false;
+    bool devicesFile = false;
+    bool isLocal = m_lstItems.first()->isLocalFile();
     m_lstPopupURLs.clear();
     int id = 0;
-    if( isDirectory && m_lstItems.first()->isLocalFile())
-        bCanChangeSharing=true;
     setFont(KGlobalSettings::menuFont());
     m_pluginList.setAutoDelete( true );
     m_ownActions.setHighlightingEnabled( true );
@@ -359,7 +359,6 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
     KURL url;
     KFileItemListIterator it ( m_lstItems );
     // Check whether all URLs are correct
-    bool devicesFile = false;
     for ( ; it.current(); ++it )
     {
         url = (*it)->url();
@@ -379,6 +378,9 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
             if ( mimeGroup != (*it)->mimetype().left((*it)->mimetype().find('/')))
                 mimeGroup = QString::null; // mimetype groups are different as well!
         }
+
+        if ( isLocal && !url.isLocalFile() )
+            isLocal = false;
 
         if ( !bTrashIncluded &&
              (*it)->url().protocol() == "trash" &&
@@ -584,7 +586,7 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
 
     PopupServices s;
 
-    bool isSingleLocal = (m_lstItems.count() == 1 && m_lstItems.first()->url().isLocalFile());
+    bool isSingleLocal = m_lstItems.count() == 1 && isLocal;
     // 1 - Look for builtin and user-defined services
     if ( m_sMimeType == "application/x-desktop" && isSingleLocal ) // .desktop file
     {
@@ -699,7 +701,7 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
 
                         // next, do we match all files?
                         if (!ok &&
-                            !isDirectory /* ## or inherits from it */ &&
+                            !isDirectory &&
                             *it == "all/allfiles")
                         {
                             ok = true;
@@ -761,7 +763,9 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
 
         m_mapPopup.clear();
         m_mapPopupServices.clear();
-        if ( !devicesFile )
+        // "Open With..." for folders is really not very useful, especially for remote folders.
+        // (devices:/something, or trash:/, or ftp://...)
+        if ( !isDirectory || isLocal )
         {
             if ( hasAction() )
                 addSeparator();
@@ -816,8 +820,8 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
                 addAction( act );
             }
 
-            addGroup( "preview" );
         }
+        addGroup( "preview" );
     }
 
     // Second block, builtin + user
@@ -875,7 +879,7 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
             m_menuElement.lastChild().toElement().tagName().lower() == "separator" )
         m_menuElement.removeChild( m_menuElement.lastChild() );
 
-    if ( bCanChangeSharing && !isCurrentTrash && !isIntoTrash )
+    if ( isDirectory && isLocal )
     {
         if ( KFileShare::authorization() == KFileShare::Authorized )
         {
@@ -1071,8 +1075,8 @@ void KonqPopupMenu::addPlugins()
         insertChildClient( plugin );
     }
 
+    // ## Where is this used?
     addMerge( "plugins" );
-    addPendingSeparator();
 }
 
 KURL KonqPopupMenu::url() const // ### should be viewURL()
