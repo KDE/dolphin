@@ -268,7 +268,7 @@ int main( int argc, char **argv )
 
     if ( argc < 2 )
     {
-        kdFatal() << i18n( "Syntax Error:\nkfmexec command [URLs ....]" ) << endl;
+        kdError() << i18n( "Syntax Error:\nkfmexec command [URLs ....]" ) << endl;
         exit(1);
     }
 
