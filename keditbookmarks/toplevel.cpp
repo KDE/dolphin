@@ -385,9 +385,9 @@ void KEBApp::createActions() {
                       i18n("Display Only Marked Bookmarks in Konqueror Bookmark Toolbar"), 0,
                       this, SLOT( slotFilteredToolbar() ), actionCollection(), 
                       "settings_filteredtoolbar");
-   (void) new KToggleAction(
+   /* (void) new KToggleAction(
                       i18n("Split View (Very Experimental!)"), 0,
-                      this, SLOT( slotSplitView() ), actionCollection(), "settings_splitview");
+                      this, SLOT( slotSplitView() ), actionCollection(), "settings_splitview"); */
    (void) new KToggleAction(
                       i18n("&Show Netscape Bookmarks in Konqueror Windows"), 0,
                       actn, SLOT( slotShowNS() ), actionCollection(), "settings_showNS");
@@ -476,7 +476,7 @@ void KEBApp::resetActions() {
    getToggleAction("settings_saveonclose")->setChecked(m_saveOnClose);
    getToggleAction("settings_advancedaddbookmark")->setChecked(m_advancedAddBookmark);
    getToggleAction("settings_filteredtoolbar")->setChecked(m_filteredToolbar);
-   getToggleAction("settings_splitview")->setChecked(m_splitView);
+   // getToggleAction("settings_splitview")->setChecked(m_splitView);
    getToggleAction("settings_showNS")->setChecked(CurrentMgr::self()->showNSBookmarks());
 }
 
@@ -491,7 +491,7 @@ void KEBApp::readConfig() {
    KConfig appconfig("keditbookmarksrc", false, false);
    appconfig.setGroup("General");
    m_saveOnClose = appconfig.readBoolEntry("Save On Close", false);
-   m_splitView = appconfig.readBoolEntry("Split View", false);
+   m_splitView = false; // appconfig.readBoolEntry("Split View", false);
 }
 
 static void writeConfigBool(
@@ -523,6 +523,7 @@ void KEBApp::slotFilteredToolbar() {
 }
 
 void KEBApp::slotSplitView() {
+   Q_ASSERT( 0 );
    m_splitView = getToggleAction("settings_splitview")->isChecked();
    writeConfigBool("keditbookmarksrc", "General", "Split View", m_splitView);
    sorryRelogin(this);
