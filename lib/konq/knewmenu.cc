@@ -239,8 +239,8 @@ void KNewMenu::slotFillTemplates()
     s_templatesList->clear();
     //s_templatesList->append( "Folder" );
 
-    // Look into "templates" dirs. No filter, not recursive, suppress duplicate fileNames
-    QStringList files = m_actionCollection->instance()->dirs()->findAllResources("templates"); //, QString::null, false, true);
+    // Look into "templates" dirs.
+    QStringList files = m_actionCollection->instance()->dirs()->findAllResources("templates");
     for ( QStringList::Iterator it = files.begin() ; it != files.end() ; ++it )
     {
         kdDebug(1203) << *it << endl;
@@ -252,6 +252,38 @@ void KNewMenu::slotFillTemplates()
             s_templatesList->append( e );
         }
     }
+
+    // Honour SortOrder
+        QStringList order =
+        KDesktopFile(rp + QString::fromUtf8(".directory")).sortOrder();
+
+    if (order.isEmpty())
+        return lsort;
+
+    // Iterate through the sort spec list. If we find an entry that matches one
+    // in the original list, take it out of the original list and add it to the
+    // sorted list. Finally, add all entries that are still in the original list
+    // to the end of the sorted list.
+
+    List sorted;
+    List orig = lsort;
+
+    for (QStringList::ConstIterator it(order.begin()); it != order.end(); ++it)
+        for (List::Iterator sit(orig.begin()); sit != orig.end(); ++sit)
+            {
+                if (*it == (*sit)->entryPath().mid((*sit)->entryPath().findRev('/') + 1))
+                    {
+                        sorted.append(*sit);
+                        orig.remove(sit);
+                        break;
+                    }
+            }
+
+    for (List::Iterator sit(orig.begin()); sit != orig.end(); ++sit)
+        sorted.append(*sit);
+
+    return sorted;
+
 }
 
 void KNewMenu::slotNewFile()
@@ -304,6 +336,12 @@ void KNewMenu::slotNewFile()
         if ( name.length() == 0 )
             return;
 
+        if ( m_isURLDesktopFile )
+        {
+          m_destURL = name;
+          name += ".desktop";
+        }
+
         KURL::List::Iterator it = popupFiles.begin();
         /*
         if ( sFile =="Folder" )
@@ -352,9 +390,8 @@ void KNewMenu::slotResult( KIO::Job * job )
         {
           //kdDebug(1203) << destURL.path() << endl;
           KDesktopFile df( destURL.path() );
-          QString url = KIO::decodeFileName( destURL.fileName() );
-          df.writeEntry( "Icon", KProtocolInfo::icon( KURL(url).protocol() ) );
-          df.writeEntry( "URL", url );
+          df.writeEntry( "Icon", KProtocolInfo::icon( KURL(m_destURL).protocol() ) );
+          df.writeEntry( "URL", m_destURL );
           df.sync();
         }
       }

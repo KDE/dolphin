@@ -150,6 +150,7 @@ private:
      * True when a desktop file with Type=URL is being copied
      */
     bool m_isURLDesktopFile;
+    QString m_destURL;
 
     static KDirWatch * s_pDirWatch;
 };
