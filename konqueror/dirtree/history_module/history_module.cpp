@@ -441,7 +441,7 @@ void KonqHistoryDialog::applySettings()
 {
     KonqHistoryManager *manager = KonqHistoryManager::kself();
     manager->emitSetMaxCount( spinEntries->value() );
-    manager->emitSetMaxAge( spinExpire->value() );
+    manager->emitSetMaxAge( cbExpire->isChecked() ? spinExpire->value() : 0 );
 
     m_settings->m_valueYoungerThan = spinNewer->value();
     m_settings->m_valueOlderThan   = spinOlder->value();
