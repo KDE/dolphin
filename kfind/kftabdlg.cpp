@@ -622,7 +622,9 @@ KDigitValidator::KDigitValidator( QWidget * parent, const char *name )
 }
 
 KDigitValidator::~KDigitValidator()
-{}
+{
+  delete r;
+}
 
 QValidator::State KDigitValidator::validate( QString & input, int & ) const
 {
