@@ -133,6 +133,7 @@ void KEBTopLevel::createActions() {
     (void) new KAction( i18n( "Import Crashed Sessions as Bookmarks" ), "crash", 0, this, SLOT( slotImportCrash() ), actionCollection(), "importCrash" );
     (void) new KAction( i18n( "Import Opera Bookmarks..." ), "opera", 0, this, SLOT( slotImportOpera() ), actionCollection(), "importOpera" );
     (void) new KAction( i18n( "Import Galeon Bookmarks..." ), "galeon", 0, this, SLOT( slotImportGaleon() ), actionCollection(), "importGaleon" );
+    (void) new KAction( i18n( "Import KDE Bookmarks..." ), "bookmarks", 0, this, SLOT( slotImportKDE() ), actionCollection(), "importKDE" );
     (void) new KAction( i18n( "Import IE Bookmarks..." ), "ie", 0, this, SLOT( slotImportIE() ), actionCollection(), "importIE" );
     (void) new KAction( i18n( "Export to Netscape Bookmarks" ), "netscape", 0, this, SLOT( slotExportNS() ), actionCollection(), "exportNS" );
     act = new KAction( i18n( "Import Mozilla Bookmarks..." ), "mozilla", 0, this, SLOT( slotImportMoz() ), actionCollection(), "importMoz" );
@@ -207,6 +208,7 @@ void KEBTopLevel::resetActions()
     if (!m_bReadOnly) {
        actionCollection()->action("importCrash")->setEnabled(true);
        actionCollection()->action("importGaleon")->setEnabled(true);
+       actionCollection()->action("importKDE")->setEnabled(true);
        actionCollection()->action("importOpera")->setEnabled(true);
        actionCollection()->action("importIE")->setEnabled(true);
        bool nsExists = QFile::exists( KNSBookmarkImporter::netscapeBookmarksFile() );
@@ -685,6 +687,12 @@ void KEBTopLevel::slotImportIE()
     selectImport(cmd);
 }
 
+QString kdeBookmarksFile() {
+   // locateLocal on the bookmarks file and get dir?
+   return KFileDialog::getOpenFileName( QDir::homeDirPath() + "/.kde", 
+                                        i18n("*.xml|KDE bookmark files (*.xml)") );
+}
+
 QString galeonBookmarksFile() {
    return KFileDialog::getOpenFileName( QDir::homeDirPath() + "/.galeon", 
                                         i18n("*.xbel|Galeon bookmark files (*.xbel)") );
@@ -710,6 +718,22 @@ void KEBTopLevel::slotImportGaleon()
 
     ImportCommand * cmd = new ImportCommand( i18n("Import Galeon Bookmarks"), galeonBookmarksFile(),
                                              subFolder ? i18n("Galeon Bookmarks") : QString::null, "galeon", false, BK_XBEL); // TODO - icon
+    m_commandHistory.addCommand( cmd );
+    selectImport(cmd);
+}
+
+void KEBTopLevel::slotImportKDE()
+{
+    // Hmm, there's no questionYesNoCancel...
+    int answer = KMessageBox::questionYesNo( this, i18n("Import as a new subfolder or replace all the current bookmarks?"),
+                                             i18n("KDE Import"), i18n("As New Folder"), i18n("Replace") );
+    bool subFolder = (answer==KMessageBox::Yes);
+
+    // update the gui
+    slotCommandExecuted();
+
+    ImportCommand * cmd = new ImportCommand( i18n("Import KDE Bookmarks"), kdeBookmarksFile(),
+                                             subFolder ? i18n("KDE Bookmarks") : QString::null, "bookmarks", false, BK_XBEL); // TODO - icon
     m_commandHistory.addCommand( cmd );
     selectImport(cmd);
 }

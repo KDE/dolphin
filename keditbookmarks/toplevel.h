@@ -144,6 +144,7 @@ public:
 
 public slots:
     void slotImportCrash();
+    void slotImportKDE();
     void slotImportGaleon();
     void slotImportOpera();
     void slotImportIE();

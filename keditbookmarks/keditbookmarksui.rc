@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="keditbookmarks" version="10">
+<kpartgui name="keditbookmarks" version="11">
 
 <MenuBar>
 
@@ -11,6 +11,7 @@
  <Action name="importIE"/>
  <Action name="importOpera"/>
  <Action name="importGaleon"/>
+ <Action name="importKDE"/>
  <Action name="importMoz"/>
  <Action name="importNS"/>
  <Action name="importCrash"/>
