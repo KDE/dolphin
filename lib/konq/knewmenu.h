@@ -112,7 +112,7 @@ private:
      * Read the entrys from the template directory and add them to the menu.
      * This work only with the new Versions of kword at the moment (cvs Version only).
      */
-    bool makeKOffice( const QString tmp, const QString exec, QPopupMenu *popup );
+//    bool makeKOffice( const QString tmp, const QString exec, QPopupMenu *popup );
 
     /**
      * Opens the desktop files and completes the Entry list
