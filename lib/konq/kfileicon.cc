@@ -37,19 +37,19 @@ KFileIcon::KFileIcon( UDSEntry& _entry, KURL& _url, bool _mini ) :
 
 void KFileIcon::init()
 {
-  // extract the mode and the name from the UDS Entry
+  // extract the mode and the filename from the UDS Entry
   m_mode = 0;
-  m_name = QString::null;
+  m_strText = QString::null;
   UDSEntry::iterator it = m_entry.begin();
   for( ; it != m_entry.end(); it++ )
   {
     if ( it->m_uds == UDS_FILE_TYPE )
       m_mode = (mode_t)it->m_long;
     else if ( it->m_uds == UDS_NAME )
-      m_name = it->m_str.c_str();
+      m_strText = it->m_str.c_str();
   }
 
-  assert(!m_name.isNull());
+  assert(!m_strText.isNull());
 
   // determine the mimetype
   m_pMimeType = KMimeType::findByURL( m_url, m_mode, m_bIsLocalURL );

@@ -29,7 +29,7 @@
 #include <kcursor.h>
 #include <kdebug.h>
 #include <kglobal.h>
-#include <kiconloader.h>
+#include <kstddirs.h>
 
 #include <assert.h>
 #include <string.h>
@@ -138,6 +138,15 @@ void KIconContainer::clear()
   m_lstItems.clear();
 }
 
+KIconContainerItem *KIconContainer::find( const QString& _name )
+{
+  iterator it = begin();
+  for( ; *it; ++it )
+    if ( (*it)->name() == _name )
+      return (*it);
+  return 0L;
+}
+
 void KIconContainer::setDisplayMode( DisplayMode _m )
 {
   if ( m_displayMode == _m )
@@ -198,30 +207,24 @@ void KIconContainer::refreshAll( bool _display_mode_changed )
   refresh();
 }
 
-void KIconContainer::insert( const QPixmap& _pixmap, const QString& _txt, int _x, int _y, bool _refresh )
+void KIconContainer::insert( const QPixmap& _pixmap, const QString& _txt,
+                             const QString& _name, int _x, int _y, bool _refresh )
 {
-  KIconContainerItem *item = new KIconContainerItem( this, _pixmap, _txt );
-  m_lstItems.append( item );
-
-  // Make shure that both or no coordinate is >= 0
-  if ( _x >= 0 && _y >= 0 )
-  {
-    int x = _x + contentsX();
-    int y = _y + contentsY();
-    item->setFixedPos( QPoint( x, y ), false );
-  }
-
-  if ( _refresh )
-    refresh();
+  KIconContainerItem *item = new KIconContainerItem( this, _pixmap, _txt, _name );
+  insert(item, _x, _y, _refresh); // see just below
 }
 
 void KIconContainer::insert( KIconContainerItem* _item, int _x, int _y, bool _refresh )
 {
   m_lstItems.append( _item );
 
-  // Make shure that both or no coordinate is >= 0
-  if ( _x >= 01 && _y >= 0 )
-    _item->setFixedPos( QPoint( _x, _y ), false );
+  // Make sure that both or no coordinate is >= 0
+  if ( _x >= 0 && _y >= 0 )
+  {
+    int x = _x + contentsX(); // is this right ? it wasn't in both equivalent methods (David)
+    int y = _y + contentsY();
+    _item->setFixedPos( QPoint( x, y ), false );
+  }
   
   if ( _refresh )
     refresh();
@@ -663,10 +666,7 @@ void KIconContainer::dragLeaveEvent( QDragLeaveEvent * )
 void KIconContainer::dropEvent( QDropEvent * e )
 {
   if ( !m_dragIcons.isEmpty() )
-  {
     clearDragShadow();
-    m_dragIcons.clear();
-  }
 
   // Unhighlight the icon that got the drop ( if any )
   if ( m_dragOverItem  )
@@ -674,18 +674,41 @@ void KIconContainer::dropEvent( QDropEvent * e )
   m_dragOverItem = 0;
   
 
-  KIconContainerItem* it = itemAt( e->pos() );
+  KIconContainerItem* item = itemAt( e->pos() );
   
-  // Background drop
-  if ( !it || ( !it->acceptsDrops( m_lstDropFormats ) && e->source() == viewport() ) )
+  // Background drop (if drop on no item OR moving icons)
+  if ( !item || ( !item->acceptsDrops( m_lstDropFormats ) && e->source() == viewport() ) )
   {
-    emit drop( e, 0L, m_lstDropFormats );
+    // Test whether this is our drag (moving icons around)
+    if ( e->source() == viewport() )
+    {
+      kdebug(KDEBUG_INFO, 1205, "Moving icons around");
+      // we already have the list of icons, no need to decode it
+      KIconDrag::IconList::Iterator it = m_dragIcons.begin();
+      for( ; it != m_dragIcons.end(); ++it )
+      {
+        // for each icon we need to find the item related to it
+        KIconContainerItem* movedItem = find( it->url );
+        if ( movedItem )
+          movedItem->setFixedPos( e->pos() + it->pos );
+        else
+          kdebug(KDEBUG_ERROR, 1205, "Item moved is not on the desktop !");
+      }
+    } else // It's not : emit event
+    {
+      kdebug(KDEBUG_INFO, 1205, "Dropping to desktop from other app");
+      emit drop( e, 0L, m_lstDropFormats );
+    }
   }
   // Drop on item
   else
   {
-    emit drop( e, it, m_lstDropFormats );
+    kdebug(KDEBUG_INFO, 1205, "Dropping to desktop icon from other app");
+    emit drop( e, item, m_lstDropFormats );
   }
+
+  if ( !m_dragIcons.isEmpty() )
+    m_dragIcons.clear();
 }
 
 void KIconContainer::viewportMousePressEvent( QMouseEvent *_ev )
@@ -874,18 +897,18 @@ void KIconContainer::viewportMouseMoveEvent( QMouseEvent *_mouse )
 
     // kdebug( KDEBUG_INFO, 1205, "Starting drag");
     
-    // Multiple URLs ?
+    QPoint hotspot;
+    QPixmap pix;
+    // Multiple icons ?
     if ( lst.count() > 1 )
     {
-      QPixmap pixmap2 = ICON("kmultiple.xpm");
-      QPoint hotspot;
-      hotspot.setX( pixmap2.width() / 2 );
-      hotspot.setY( pixmap2.height() / 2 );
-      emit dragStart( _mouse->pos(), hotspot, lst, pixmap2 );
+      pix.load( locate("icon", "kmultiple.xpm") );
+      hotspot.setX( pix.width() / 2 );
+      hotspot.setY( pix.height() / 2 );
     }
     else
     {
-      QPixmap pix( m_pressedItem->width(), m_pressedItem->height() );
+      pix = QPixmap( m_pressedItem->width(), m_pressedItem->height() );
       pix.fill();
       kdebug( KDEBUG_INFO, 1205, "==== w=%i h=%i ======", m_pressedItem->width(), m_pressedItem->height() );
       QPainter painter;
@@ -893,13 +916,27 @@ void KIconContainer::viewportMouseMoveEvent( QMouseEvent *_mouse )
       m_pressedItem->paint( &painter, true );
       painter.end();
       pix.setMask( pix.createHeuristicMask() );
-      QPoint hotspot( _mouse->pos().x() - ( m_pressedItem->x() - contentsX() ),
-		      _mouse->pos().y() - ( m_pressedItem->y() - contentsY() ) );
-      emit dragStart( _mouse->pos(), hotspot, lst, pix );
-      // hotspot.setX( m_pressedItem->pixmap().width() / 2 );
-      // hotspot.setY( m_pressedItem->pixmap().height() / 2 );
-      // emit dragStart( _mouse->pos(), hotspot, lst, m_pressedItem->pixmap() );
+
+      // This is wrong I think, because of the way it looks when trying it ! (David)
+      hotspot.setX( _mouse->pos().x() - ( m_pressedItem->x() - contentsX() ) );
+      hotspot.setY( _mouse->pos().y() - ( m_pressedItem->y() - contentsY() ) );
+      // Not good either... :(
+      //hotspot.setX( m_pressedItem->pixmap().width() / 2 );
+      //hotspot.setY( m_pressedItem->pixmap().height() / 2 );
+      //pix = m_pressedItem->pixmap();
     }
+
+    KIconDrag* drag = new KIconDrag( viewport() );
+    
+    // Pack the icons in the drag
+    QListIterator<KIconContainerItem> icit( lst );
+    for( ; *icit; ++icit )
+    {
+      drag->append( KIconDrag::Icon( (*icit)->name(), (*icit)->position() - _mouse->pos() ) );
+    }
+    
+    drag->setPixmap( pix, hotspot );
+    drag->drag();
   }
 }
 
@@ -1351,24 +1388,26 @@ void KIconContainer::clearDragShadow()
  *
  *******************************************************/
 
-KIconContainerItem::KIconContainerItem( KIconContainer* _container, const QPixmap& _pixmap, const QString& _text )
+KIconContainerItem::KIconContainerItem( KIconContainer* _container, const QPixmap& _pixmap,
+                                        const QString& _text, const QString &_name ) :
+  m_pContainer ( _container ),
+  m_pixmap ( _pixmap ),
+  m_strText ( _text ),
+  m_strName ( _name ),
+  m_bFixedPos ( false ),
+  m_flags ( NoFlags )
 {
-  m_pContainer = _container;
-  m_bFixedPos = false;
-  m_flags = NoFlags;
-  m_pixmap = _pixmap;
-  m_strText = _text;
-
   breakText();
 }
 
-KIconContainerItem::KIconContainerItem( KIconContainer* _container )
+KIconContainerItem::KIconContainerItem( KIconContainer* _container ) :
+  m_pContainer ( _container ),
+  m_strText ( "" ),
+  m_strBrokenText ( "" ),
+  m_strName ( "" ),
+  m_bFixedPos ( false ),
+  m_flags ( NoFlags )
 {
-  m_pContainer = _container;
-  m_bFixedPos = false;
-  m_flags = NoFlags;
-  m_strText = "";
-  m_strBrokenText = "";
 }
 
 void KIconContainerItem::refresh( bool /* _display_mode_changed */ )

@@ -56,10 +56,6 @@ public:
    */
   virtual QString url() const { return m_url.url(); }
   /**
-   * @return the name of the file icon (i.e. the filename)
-   */
-  virtual QString name() const { return m_name; }
-  /**
    * @return the mode of the file
    */
   virtual mode_t mode() const { return m_mode; }
@@ -81,6 +77,11 @@ public:
    * getPixmap() should only be called it might have changed (e.g. m_bMini changed)
    */
   virtual QPixmap* getPixmap() const;
+  /**
+   * @return the text of the file icon (i.e. the filename)
+   * Named "getText" instead of "text" for the same reason as above.
+   */
+  virtual QString getText() const { return m_strText; }
 
   // TODO : probably setMini is needed
 
@@ -100,7 +101,7 @@ public:
 
 protected:
   /**
-   * Computes the name, mode, and mimetype from the UDSEntry
+   * Computes the text, mode, and mimetype from the UDSEntry
    * Called by constructor, but can be called again later
    */
   void init();
@@ -127,9 +128,9 @@ protected:
   bool m_bIsLocalURL;
 
   /**
-   * The file name (without path)
+   * The text for this icon, i.e. the file name without path
    */
-  QString m_name;
+  QString m_strText;
   /**
    * The mimetype of the file
    */

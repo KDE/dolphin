@@ -30,11 +30,15 @@
 #include <qcolor.h>
 #include <qsortedlist.h>
 #include <qdropsite.h>
-#include <qstrlist.h>
+#include <qstringlist.h>
 
 class KIconContainer;
 class QPainter;
 
+/**
+ * This class holds one icon, i.e. one item in the icon container
+ * The icon can be anything, not necessarily the representation of a file
+ */
 class KIconContainerItem
 {
   friend KIconContainer;
@@ -42,8 +46,21 @@ class KIconContainerItem
 public:
   enum Flags { NoFlags = 0, Selected = 1, Invisible = 2 };
 
-  KIconContainerItem( KIconContainer* _container, const QPixmap& _pixmap, const QString& _txt );
+  /** Construct a "full" icon (we know all about it)
+   * @param _container the parent container
+   * @param _pixmap the pixmap drawn as the icon
+   * @param _text the text displayed for the icon
+   * @param _name a unique name to identify the icon (e.g. url)
+   */
+  KIconContainerItem( KIconContainer* _container, const QPixmap& _pixmap,
+                      const QString& _text, const QString& _name );
+  /**
+   * Construct an "empty" icon, with empty pixmap, text and name
+   */
   KIconContainerItem( KIconContainer* _container );
+  /**
+   * Destroy the item 
+   */
   virtual ~KIconContainerItem() { }
   
   KIconContainer* container() { return m_pContainer; }
@@ -56,10 +73,15 @@ public:
   virtual bool isSelected() const { return ( m_flags & Selected ) != 0; }
   virtual bool isVisible() const { return ( m_flags & Invisible ) == 0; }
   
+  // Pixmap
   void setPixmap( const QPixmap& _pixmap ) { m_pixmap = _pixmap; }
   QPixmap pixmap() const { return m_pixmap; }
+  // Text displayed
   virtual QString text() const { return m_strText; }
   virtual void setText( const QString& _text );
+  // Unique identifier for the icon (e.g. url)
+  virtual QString name() const { return m_strName; }
+  virtual void setName( const QString& _name ) { m_strName = _name; }
   
   virtual bool hasFixedPos() const { return m_bFixedPos; }
   /**
@@ -75,7 +97,7 @@ public:
   /**
    * Bu default no drops are accepted.
    */
-  virtual bool acceptsDrops( QStrList& /* _formats */ ) { return false; }
+  virtual bool acceptsDrops( QStringList& /* _formats */ ) { return false; }
 
   bool operator< ( const KIconContainerItem& _c ) { return isSmallerThen( _c ); }
   bool operator== ( const KIconContainerItem& _c ) { return isEqual( _c ); }
@@ -110,6 +132,7 @@ protected:
   
   void setPos( int _x, int _y ) { m_x = _x; m_y = _y; }
   
+  KIconContainer* m_pContainer;
   QPixmap m_pixmap;
   int m_x;
   int m_y;
@@ -117,9 +140,9 @@ protected:
   QRect m_textBoundingRect;
   QString m_strText;
   QString m_strBrokenText;
+  QString m_strName;
   bool m_bFixedPos;
   Flags m_flags;
-  KIconContainer* m_pContainer;
 
   bool m_bMarked;
 };
@@ -166,19 +189,20 @@ public:
   virtual bool isShowingDotFiles() const { return m_isShowingDotFiles; }
 
   /**
-   * A convenience function.
+   * A convenience function. Creates an item and inserts it into the container
    */
-  virtual void insert( const QPixmap& _pixmap, const QString& _txt,
+  virtual void insert( const QPixmap& _pixmap, const QString& _txt, const QString& _name,
 		       int _x = -1, int _y = -1, bool _refresh = true );
   /**
-   * @param _refresh tells wether the display should be updated after inserting. If you want to
+   * Insert an existing item into the container
+   * @param _refresh tells whether the display should be updated after inserting. If you want to
    *                 do many insertions then avoid the refresh until the last item is inserted.
    */
   virtual void insert( KIconContainerItem* _item, int _x = -1, int _y = -1, bool _refresh = true );
   /**
    * Deletes the item.
    *
-   * @param _refresh tells wether all icons should be rearranged or wether the
+   * @param _refresh tells whether all icons should be rearranged or whether the
    *                 place of the removed icon is just going to be empty.
    *                 The default tells to rearrange the icons.
    */
@@ -192,6 +216,11 @@ public:
 
   virtual iterator begin() { QListIterator<KIconContainerItem> it( m_lstItems ); return it; }
   virtual iterator end() { QListIterator<KIconContainerItem> it( m_lstItems ); it.toLast(); return it; }
+  /**
+   * Locates the item with a given name in the container
+   * @return the item, or 0L if not found
+   */
+  virtual KIconContainerItem * find( const QString& _name );
 
   virtual int itemWidth() const { return m_iItemWidth; }
   virtual int minItemWidth() const { return m_iMinItemWidth; }
@@ -230,8 +259,6 @@ public:
   virtual void unselectAll();
   
 signals:
-  void dragStart( const QPoint& _pos, const QPoint& _hotspot,
-		  QList<KIconContainerItem>& _selected, QPixmap _pixmap );
   void mousePressed( KIconContainerItem* _item, const QPoint& _global, int _button );
   void mouseReleased( KIconContainerItem* _item, const QPoint& _global, int _button );
   void doubleClicked( KIconContainerItem* _item, const QPoint& _global, int _button );
@@ -243,7 +270,7 @@ signals:
   /**
    * @param _item may be 0L. This indicates that the drop occured on the background of the window
    */
-  void drop( QDropEvent *_ev, KIconContainerItem* _item, QStrList& m_lstFormats );
+  void drop( QDropEvent *_ev, KIconContainerItem* _item, QStringList& m_lstFormats );
   
 protected:
   /**
@@ -286,8 +313,8 @@ protected:
    */
   virtual void refreshAll( bool _display_mode_changed = false );
   /**
-   * @param _erase tells wether the background should be repainted, too, or
-   *               wether the icon should just be drawn ontop of the current stuff.
+   * @param _erase tells whether the background should be repainted, too, or
+   *               whether the icon should just be drawn ontop of the current stuff.
    */
   virtual void repaintItem( KIconContainerItem* _item, bool _erase = true );
 
@@ -320,7 +347,7 @@ protected:
   QSize m_pixmapSize;
 
   KIconContainerItem* m_dragOverItem;
-  QStrList m_lstDropFormats;
+  QStringList m_lstDropFormats;
   KIconDrag::IconList m_dragIcons;
   QPoint m_dragIconsOffset;
 
