@@ -191,6 +191,9 @@ public slots:
   void slotPopupBookmarks();
   void slotPopup( int id );
   void slotPopupProperties();
+
+  void slotIdChanged( KonqChildView * childView, OpenParts::Id oldId, OpenParts::Id newId );
+  void slotSetUpEnabled( QString url, OpenParts::Id id );
   
 protected:
 

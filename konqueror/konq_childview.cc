@@ -55,12 +55,11 @@ KonqChildView::KonqChildView( Konqueror::View_ptr view,
                               )
 {
   m_pFrame = new KonqFrame( row );
-  m_bCompleted = false;
   m_row = row;
   m_strLocationBarURL = "";
   m_bBack = false;
   m_bForward = false;
-  m_iHistoryLock = 0;
+  m_bHistoryLock = false;
   m_vParent = OpenParts::Part::_duplicate( parent );
   m_vMainWindow = OpenParts::MainWindow::_duplicate( mainWindow );
   m_mainView = mainView;
@@ -90,8 +89,8 @@ void KonqChildView::attach( Konqueror::View_ptr view )
 
 void KonqChildView::detach()
 {
-  m_pFrame->detach();
   m_pFrame->hide();
+  m_pFrame->detach();
   m_vView->disconnectObject( m_mainView );
   m_vView->decRef(); //die view, die ... (cruel world, isn't it?) ;)
   VeryBadHackToFixCORBARefCntBug( m_vView );
@@ -106,7 +105,7 @@ void KonqChildView::repaint()
 
 void KonqChildView::openURL( QString url )
 {
-  m_mainView->setUpEnabled( url, m_vView->id() );
+  emit sigSetUpEnabled( url, m_vView->id() );
   Konqueror::EventOpenURL eventURL;
   eventURL.url = CORBA::string_dup( url.data() );
   eventURL.reload = (CORBA::Boolean)false;
@@ -115,13 +114,40 @@ void KonqChildView::openURL( QString url )
   EMIT_EVENT( m_vView, Konqueror::eventOpenURL, eventURL );
 }
 
-OpenParts::Id KonqChildView::changeViewMode( const char *viewName )
+void KonqChildView::emitEventViewMenu( OpenPartsUI::Menu_ptr menu, bool create )
 {
-  detach();
-  Konqueror::View_var vView = KonqChildView::createViewByName( viewName );
-  attach( vView );
+  Konqueror::View::EventCreateViewMenu EventViewMenu;
+  EventViewMenu.menu = OpenPartsUI::Menu::_duplicate( menu );
+  EventViewMenu.create = create;
+  EMIT_EVENT( m_vView, Konqueror::View::eventCreateViewMenu, EventViewMenu );
+}
 
-  return vView->id();
+void KonqChildView::switchView( Konqueror::View_ptr _vView )
+{
+  m_vMainWindow->setActivePart( m_vParent->id() );
+  OpenParts::Id oldId = m_vView->id();
+    
+  detach();
+  Konqueror::View_var vView = Konqueror::View::_duplicate( _vView );
+  attach( vView );
+    
+  m_vMainWindow->setActivePart( vView->id() );
+  emit sigIdChanged( this, oldId, vView->id() );
+}
+
+void KonqChildView::changeViewMode( const char *viewName )
+{
+  QString vn = m_vView->viewName();
+  cerr << "current view is a " << vn << endl;
+  QString sViewURL = m_vView->url();
+  
+  // check the current view name against the asked one
+  if ( strcmp( viewName, vn ) != 0L )
+  {
+    Konqueror::View_var vView = createViewByName( viewName ); 
+    switchView( vView );
+    openURL( sViewURL );
+  }
 }
 
 Konqueror::View_ptr KonqChildView::createViewByName( const char *viewName )
@@ -238,13 +264,13 @@ void KonqChildView::connectView(  )
 
 }
 
-void KonqChildView::makeHistory()
+void KonqChildView::makeHistory( bool bCompleted, QString url )
 {
   InternalHistoryEntry h;
 
-  if ( !m_bCompleted )
+  if ( !bCompleted )
   {
-    if ( m_iHistoryLock == 0 ) // no lock
+    if ( !m_bHistoryLock ) // no lock
     {
       if ( m_bBack )
       {
@@ -263,13 +289,14 @@ void KonqChildView::makeHistory()
       }	
     }
     else
-      m_iHistoryLock--;
+      m_bHistoryLock = false;
   
     h.bHasHistoryEntry = false;
-    h.strURL = m_strLastURL;
+    h.strURL = m_strLastURL; // use url from last call
     h.strViewName = m_vView->viewName();
     
     m_tmpInternalHistoryEntry = h;
+    m_strLastURL = url; // remember for next call
   }
   else
   {
@@ -281,7 +308,64 @@ void KonqChildView::makeHistory()
 
     m_tmpInternalHistoryEntry = h;
   }
+}
+
+void KonqChildView::goBack()
+{
+  assert( m_lstBack.size() != 0 );
+
+  InternalHistoryEntry h = m_lstBack.back();
+  m_lstBack.pop_back();
+  m_bBack = true;
+  cerr << "restoring " << h.entry.url << endl;      
+
+  changeViewMode( h.strViewName );
+
+  if ( h.bHasHistoryEntry )  
+    m_vView->restoreState( h.entry );
+  else
+    openURL( h.strURL );
+}
+
+void KonqChildView::goForward()
+{
+  assert( m_lstForward.size() != 0 );
+
+  InternalHistoryEntry h = m_lstForward.front();
+  m_lstForward.pop_front();
+  m_bForward = true;
+
+  changeViewMode( h.strViewName );
+    
+  if ( h.bHasHistoryEntry )  
+    m_vView->restoreState( h.entry );
+  else
+    openURL( h.strURL );
+}
+
+void KonqChildView::reload()
+{
+  m_bForward = false;
+  m_bBack = false;
+  lockHistory();
   
+// TODO (trivial)
+// hm...perhaps I was wrong ;)
+// I'll do it now like this:
+  Konqueror::EventOpenURL eventURL;
+  eventURL.url = m_vView->url();
+  eventURL.reload = (CORBA::Boolean)true;
+  eventURL.xOffset = 0;
+  eventURL.yOffset = 0;
+  EMIT_EVENT( m_vView, Konqueror::eventOpenURL, eventURL );
+//but perhaps this would be better:
+//(1) remove the reload/xOffset/yOffset stuff out of the event structure
+//(2) add general methods like reload(), moveTo( xofs, yofs) to the view interface
+// What do you think, David?
+//(Simon)
+
+  // Hmm, if we need the current structure, we need to be able to _get_ the 
+  // xofs and yofs, in order to fill the above. Can we do that ? (David)
 }
 
 #include "konq_childview.moc"

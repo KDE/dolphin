@@ -48,7 +48,7 @@
 #include <klineeditdlg.h>
 
 #include <kio_cache.h>
-#include <kio_manager.h>
+#include <kprotocolmanager.h>
 #include <kio_openwith.h>
 #include <kio_paste.h>
 #include <kpixmapcache.h>
@@ -484,6 +484,10 @@ void KonqMainView::insertView( Konqueror::View_ptr view,
 
   KonqChildView *v = new KonqChildView( view, currentRow, newViewPosition,
                                         this, m_vMainWindow, this );
+  QObject::connect( v, SIGNAL(sigIdChanged( KonqChildView *, OpenParts::Id, OpenParts::Id )), 
+                    this, SLOT(slotIdChanged( KonqChildView * , OpenParts::Id, OpenParts::Id ) ));
+  QObject::connect( v, SIGNAL(sigSetUpEnabled( QString, OpenParts::Id )),
+                    this, SLOT(slotSetUpEnabled( QString, OpenParts::Id )) );
 
   m_mapViews[ view->id() ] = v;
 
@@ -493,39 +497,24 @@ void KonqMainView::insertView( Konqueror::View_ptr view,
 void KonqMainView::setActiveView( OpenParts::Id id )
 {
   // clean view-specific part of the view menu
-  Konqueror::View::EventCreateViewMenu EventViewMenu;
-  EventViewMenu.menu = OpenPartsUI::Menu::_duplicate( m_vMenuView );
   if ( m_currentView != 0L )
-  {
-    EventViewMenu.create = false;
-    EMIT_EVENT( m_currentView->m_vView, Konqueror::View::eventCreateViewMenu, EventViewMenu );
-  }
+    m_currentView->emitEventViewMenu( m_vMenuView, false );
 
   map<OpenParts::Id,KonqChildView*>::iterator it = m_mapViews.find( id );
-
   assert( it != m_mapViews.end() );
   
   m_currentView = it->second;
   assert( m_currentView );
   m_currentId = id;
 
-  CORBA::String_var vn = m_currentView->m_vView->viewName();
-  cerr << "current view is a " << vn.in() << endl;
-  CORBA::String_var sViewURL = m_currentView->m_vView->url();
-  cerr << "its url is " << sViewURL.in() << endl;
-
-  if ( !CORBA::is_nil( m_vToolBar ) )
-  {
-    setUpEnabled( sViewURL.in(), id );
-    setItemEnabled( m_vMenuGo, MGO_BACK_ID, m_currentView->m_lstBack.size() != 0 );
-    setItemEnabled( m_vMenuGo, MGO_FORWARD_ID, m_currentView->m_lstForward.size() != 0 );
-  }
+  slotSetUpEnabled( m_currentView->url(), id );
+  setItemEnabled( m_vMenuGo, MGO_BACK_ID, m_currentView->m_lstBack.size() != 0 );
+  setItemEnabled( m_vMenuGo, MGO_FORWARD_ID, m_currentView->m_lstForward.size() != 0 );
 
   if ( !CORBA::is_nil( m_vLocationBar ) )
     m_vLocationBar->setLinedText( TOOLBAR_URL_ID, m_currentView->m_strLocationBarURL.ascii() );
-  
-  EventViewMenu.create = true;
-  EMIT_EVENT( m_currentView->m_vView, Konqueror::View::eventCreateViewMenu, EventViewMenu );
+
+  m_currentView->emitEventViewMenu( m_vMenuView, true );
 }
 
 Konqueror::View_ptr KonqMainView::activeView()
@@ -569,29 +558,15 @@ void KonqMainView::removeView( OpenParts::Id id )
   }
 }
 
-void KonqMainView::changeViewMode( const char *viewName )
+void KonqMainView::slotIdChanged( KonqChildView * childView, OpenParts::Id oldId, OpenParts::Id newId )
 {
-  CORBA::String_var vn = m_currentView->m_vView->viewName();
-  cerr << "current view is a " << vn.in() << endl;
-  CORBA::String_var sViewURL = m_currentView->m_vView->url();
-  
-  // check the current view name against the asked one
-  if ( strcmp( viewName, vn.in() ) != 0L )
+  m_mapViews.erase( oldId );
+  m_mapViews[ newId ] = childView;
+  if ( oldId == m_currentId)
   {
-    m_mapViews.erase( m_currentView->m_vView->id() );
-    
-    m_vMainWindow->setActivePart( id() );
-    // clean view-specific part of the view menu
-    Konqueror::View::EventCreateViewMenu EventViewMenu;
-    EventViewMenu.menu = OpenPartsUI::Menu::_duplicate( m_vMenuView );
-    EventViewMenu.create = false;
-    EMIT_EVENT( m_currentView->m_vView, Konqueror::View::eventCreateViewMenu, EventViewMenu );
-    
-    m_currentId = m_currentView->changeViewMode( viewName );
-    m_mapViews[ m_currentId ] = m_currentView;
-    
-    m_vMainWindow->setActivePart( m_currentId );
-    m_currentView->openURL( sViewURL.in() );
+    m_currentId = newId;
+    createViewMenu(); // erase old view-specific entries
+    childView->emitEventViewMenu( m_vMenuView, true ); // add the new ones
   }
 }
 
@@ -667,7 +642,7 @@ void KonqMainView::setLocationBarURL( OpenParts::Id id, const char *_url )
   if ( ( id == m_currentId ) && (!CORBA::is_nil( m_vLocationBar ) ) )
     m_vLocationBar->setLinedText( TOOLBAR_URL_ID, _url );
 
-  setUpEnabled( _url, id ); // new url -> check if up is possible
+  slotSetUpEnabled( _url, id ); // new url -> check if up is possible
 }
 
 void KonqMainView::setItemEnabled( OpenPartsUI::Menu_ptr menu, int id, bool enable )
@@ -681,7 +656,7 @@ void KonqMainView::setItemEnabled( OpenPartsUI::Menu_ptr menu, int id, bool enab
     m_vToolBar->setItemEnabled( id, enable );
 } 
 
-void KonqMainView::setUpEnabled( const char * _url, OpenParts::Id _id )
+void KonqMainView::slotSetUpEnabled( QString _url, OpenParts::Id _id )
 {
   if ( _id != m_currentId )
     return;
@@ -689,12 +664,12 @@ void KonqMainView::setUpEnabled( const char * _url, OpenParts::Id _id )
   KURL u;
   bool bHasUpURL = false;
   
-  if ( _url )
+  if ( !_url.isNull() )
   {
     u = _url;
     if ( u.hasPath() )
     {
-      debug("u.path() = '%s'",u.path());
+      debug("u.path() = '%s'",u.path().data());
       bHasUpURL = ( strcmp( u.path(), "/") != 0 );
     }
   }
@@ -725,14 +700,14 @@ void KonqMainView::popupMenu( const Konqueror::View::MenuPopupRequest &popup )
   int id;
   KNewMenu *m_menuNew = 0L;
 
-  ProtocolManager* pManager = ProtocolManager::self();
+  KProtocolManager pManager = KProtocolManager::self();
   
   KURL url;
   CORBA::ULong i;
-  // Check wether all URLs are correct
+  // Check whether all URLs are correct
   for ( i = 0; i < popup.urls.length(); i++ )
   {
-    url = KURL( popup.urls[i] );
+    url = KURL( popup.urls[i].in() );
     const char* protocol = url.protocol();
 
     if ( url.isMalformed() )
@@ -756,22 +731,22 @@ void KonqMainView::popupMenu( const Konqueror::View::MenuPopupRequest &popup )
     }
 
     if ( sReading )
-      sReading = pManager->supportsReading( protocol );
+      sReading = pManager.supportsReading( protocol );
 
     if ( sWriting )
-      sWriting = pManager->supportsWriting( protocol );
+      sWriting = pManager.supportsWriting( protocol );
     
     if ( sDeleting )
-      sDeleting = pManager->supportsDeleting( protocol );
+      sDeleting = pManager.supportsDeleting( protocol );
 
     if ( sMoving )
-      sMoving = pManager->supportsMoving( protocol );
+      sMoving = pManager.supportsMoving( protocol );
   }
 
-  CORBA::String_var viewURL = m_currentView->m_vView->url();
+  QString viewURL = m_currentView->url();
   
   //check if current url is trash
-  url = KURL( viewURL.in() );
+  url = KURL( viewURL );
   QString path = url.path();
   if ( path.right(1) != "/" )
     path += "/";
@@ -782,7 +757,7 @@ void KonqMainView::popupMenu( const Konqueror::View::MenuPopupRequest &popup )
 
   //check if url is current directory
   if ( popup.urls.length() == 1 )
-    if ( strcmp( viewURL.in(), ((popup.urls)[0]) ) == 0 )
+    if ( strcmp( viewURL, ((popup.urls)[0]) ) == 0 )
       currentDir = true;
 
   QObject::disconnect( m_popupMenu, SIGNAL( activated( int ) ), this, SLOT( slotPopup( int ) ) );
@@ -968,7 +943,7 @@ void KonqMainView::openDirectory( const char *url )
 {
   m_pRun = 0L;
 
-  changeViewMode( "KonquerorKfmIconView" );  
+  m_currentView->changeViewMode( "KonquerorKfmIconView" );  
 
   //createViewMenu();
 
@@ -986,7 +961,7 @@ void KonqMainView::openHTML( const char *url )
 {
   m_pRun = 0L;
   
-  changeViewMode( "KonquerorHTMLView" );
+  m_currentView->changeViewMode( "KonquerorHTMLView" );
   // createViewMenu();
   m_currentView->openURL( url );
 }
@@ -997,38 +972,23 @@ void KonqMainView::openPluginView( const char *url, const QString serviceType, K
 
   Konqueror::View_var vView = Konqueror::View::_duplicate( view );
 
-  CORBA::String_var viewName = vView->viewName();
+  QString viewName = vView->viewName();
   if ( m_dctServiceTypes[ viewName ] )
     m_dctServiceTypes.remove( viewName );
 
   m_dctServiceTypes.insert( viewName, new QString( serviceType ) );
 
-  m_mapViews.erase( m_currentView->m_vView->id() );
+  m_currentView->switchView( vView );
 
-  m_vMainWindow->setActivePart( id() );
-  // clean view-specific part of the view menu
-  Konqueror::View::EventCreateViewMenu EventViewMenu;
-  EventViewMenu.menu = OpenPartsUI::Menu::_duplicate( m_vMenuView );
-  EventViewMenu.create = false;
-  EMIT_EVENT( m_currentView->m_vView, Konqueror::View::eventCreateViewMenu, EventViewMenu );
-    
-  m_currentView->detach();
-  m_currentView->attach( vView );
-
-  m_currentId = vView->id();
-
-  m_mapViews[ vView->id() ] = m_currentView;
-  m_vMainWindow->setActivePart( m_currentId );
-  
   m_currentView->openURL( url );
-  setUpEnabled( 0, m_currentId ); // This is a hack. How can we really know if a plugin supports 'up' ?
+  slotSetUpEnabled( QString::null, m_currentId ); // This is a hack. How can we really know if a plugin supports 'up' ?
 }
 
 void KonqMainView::openText( const char *url )
 {
   m_pRun = 0L;
   
-  changeViewMode( "KonquerorTxtView" );
+  m_currentView->changeViewMode( "KonquerorTxtView" );
 
   // createViewMenu();
 
@@ -1038,13 +998,13 @@ void KonqMainView::openText( const char *url )
 // protected
 void KonqMainView::splitView ( Konqueror::NewViewPosition newViewPosition )
 {
-  CORBA::String_var url = m_currentView->m_vView->url();
-  CORBA::String_var viewName = m_currentView->m_vView->viewName();
+  QString url = m_currentView->url();
+  QString viewName = m_currentView->viewName();
 
-  Konqueror::View_var vView = m_currentView->createViewByName( viewName.in() );
+  Konqueror::View_var vView = m_currentView->createViewByName( viewName );
   insertView( vView, newViewPosition );
   map<OpenParts::Id,KonqChildView*>::iterator it = m_mapViews.find( vView->id() );
-  it->second->openURL( url.in() );
+  it->second->openURL( url );
 
   //hack to fix slotRowAbove()
   resize( width()+1, height()+1 );
@@ -1120,7 +1080,7 @@ void KonqMainView::slotShowDot()
 
 void KonqMainView::slotLargeIcons()
 {
-  changeViewMode( "KonquerorKfmIconView" );
+  m_currentView->changeViewMode( "KonquerorKfmIconView" );
   
   //this must never fail... 
   //(but it's quite sure that doesn't fail ;) 
@@ -1132,7 +1092,7 @@ void KonqMainView::slotLargeIcons()
 
 void KonqMainView::slotSmallIcons()
 {
-  changeViewMode( "KonquerorKfmIconView" );
+  m_currentView->changeViewMode( "KonquerorKfmIconView" );
   
   Konqueror::KfmIconView_var iv = Konqueror::KfmIconView::_narrow( m_currentView->m_vView );
   
@@ -1141,12 +1101,12 @@ void KonqMainView::slotSmallIcons()
 
 void KonqMainView::slotTreeView()
 {
-  changeViewMode( "KonquerorKfmTreeView" );
+  m_currentView->changeViewMode( "KonquerorKfmTreeView" );
 }
 
 void KonqMainView::slotHTMLView()
 {
-  changeViewMode( "KonquerorHTMLView" );
+  m_currentView->changeViewMode( "KonquerorHTMLView" );
 /*
   m_vMenuView->setItemChecked( MVIEW_LARGEICONS_ID, false );
   m_vMenuView->setItemChecked( MVIEW_SMALLICONS_ID, false );
@@ -1205,8 +1165,9 @@ void KonqMainView::slotEditApplications()
 
 void KonqMainView::slotOpenLocation()
 {
-  CORBA::String_var url = m_currentView->m_vView->url();
-  QString u = url.in();
+  QString u;
+  if (m_currentView)
+    u = m_currentView->url();
 
   KLineEditDlg l( i18n("Open Location:"), u, this, true );
   int x = l.exec();
@@ -1296,14 +1257,14 @@ void KonqMainView::slotStop()
 
 void KonqMainView::slotNewWindow()
 {
-  CORBA::String_var url = m_currentView->m_vView->url();
-  KonqMainWindow *m_pShell = new KonqMainWindow( url.in() );
+  QString url = m_currentView->url();
+  KonqMainWindow *m_pShell = new KonqMainWindow( url );
   m_pShell->show();
 }
 
 void KonqMainView::slotUp()
 {
-  CORBA::String_var url = m_currentView->m_vView->url();
+  QString url = m_currentView->url();
   KURL u( url );
   u.cd(".."); // KURL does it for us
   
@@ -1319,70 +1280,22 @@ void KonqMainView::slotHome()
 
 void KonqMainView::slotBack()
 { 
-  assert( m_currentView->m_lstBack.size() != 0 );
+  m_currentView->goBack();
 
-  KonqChildView::InternalHistoryEntry h = m_currentView->m_lstBack.back();
-  m_currentView->m_lstBack.pop_back();
-
-  if( m_currentView->m_lstBack.size() == 0 && ( !CORBA::is_nil( m_vToolBar ) ) )
+  if( m_currentView->m_lstBack.size() == 0 )
     setItemEnabled( m_vMenuGo, MGO_BACK_ID, false );
-
-  m_currentView->m_bBack = true;
-
-  cerr << "restoring " << h.entry.url << endl;      
-
-  changeViewMode( h.strViewName );
-
-  if ( h.bHasHistoryEntry )  
-    m_currentView->m_vView->restoreState( h.entry );
-  else
-  {
-    m_currentView->openURL( h.strURL );
-  }
 }
 
 void KonqMainView::slotForward()
 {
-  assert( m_currentView->m_lstForward.size() != 0 );
-
-  KonqChildView::InternalHistoryEntry h = m_currentView->m_lstForward.front();
-  m_currentView->m_lstForward.pop_front();
-
-  if( m_currentView->m_lstForward.size() == 0 && ( !CORBA::is_nil( m_vToolBar ) ) )
+  m_currentView->goForward();
+  if( m_currentView->m_lstForward.size() == 0 )
     setItemEnabled( m_vMenuGo, MGO_FORWARD_ID, false );
-
-  m_currentView->m_bForward = true;
-
-  changeViewMode( h.strViewName );
-    
-  if ( h.bHasHistoryEntry )  
-    m_currentView->m_vView->restoreState( h.entry );
-  else
-  {
-    m_currentView->openURL( h.strURL );
-  }
 }
 
 void KonqMainView::slotReload()
 {
-  m_currentView->m_bForward = false;
-  m_currentView->m_bBack = false;
-
-//  m_currentView->m_pView->reload();
-// TODO (trivial)
-// hm...perhaps I was wrong ;)
-// I'll do it now like this:
-  Konqueror::EventOpenURL eventURL;
-  eventURL.url = m_currentView->m_vView->url();
-  eventURL.reload = (CORBA::Boolean)true;
-  eventURL.xOffset = 0;
-  eventURL.yOffset = 0;
-  EMIT_EVENT( m_currentView->m_vView, Konqueror::eventOpenURL, eventURL );
-//but perhaps this would be better:
-//(1) remove the reload/xOffset/yOffset stuff out of the event structure
-//(2) add general methods like reload(), moveTo( xofs, yofs) to the view interface
-// What do you think, David?
-//(Simon)
+  m_currentView->reload();
 }
 
 void KonqMainView::slotFileNewActivated( CORBA::Long id )
@@ -1390,8 +1303,8 @@ void KonqMainView::slotFileNewActivated( CORBA::Long id )
   if ( m_pMenuNew )
      {
        QStrList urls;
-       CORBA::String_var url = m_currentView->m_vView->url();
-       urls.append( url.in() );
+       QString url = m_currentView->url();
+       urls.append( url );
 
        m_pMenuNew->setPopupFiles( urls );
 
@@ -1428,14 +1341,12 @@ void KonqMainView::slotURLStarted( OpenParts::Id id, const char *url )
   if ( id == m_currentId )
     slotStartAnimation();
 
-  it->second->m_bCompleted = false;    
-  it->second->makeHistory();
+  it->second->makeHistory( false /* not completed */, url );
   if ( id == m_currentId )
   {
     setItemEnabled( m_vMenuGo, MGO_BACK_ID, m_currentView->m_lstBack.size() != 0 );
     setItemEnabled( m_vMenuGo, MGO_FORWARD_ID, m_currentView->m_lstForward.size() != 0 );
   }
-  it->second->m_strLastURL = url;
 }
 
 void KonqMainView::slotURLCompleted( OpenParts::Id id )
@@ -1449,9 +1360,7 @@ void KonqMainView::slotURLCompleted( OpenParts::Id id )
   if ( id == m_currentId )
     slotStopAnimation();
 
-  it->second->m_bCompleted = true;
-
-  it->second->makeHistory();
+  it->second->makeHistory( true /* completed */, QString::null /* not used */);
   if ( id == m_currentId )
   {
     setItemEnabled( m_vMenuGo, MGO_BACK_ID, m_currentView->m_lstBack.size() != 0 );
@@ -1667,11 +1576,11 @@ void KonqMainView::initView()
   insertView( vView2, Konqueror::right );
 
   map<OpenParts::Id,KonqChildView*>::iterator it = m_mapViews.find( vView1->id() );
-  it->second->m_iHistoryLock = 1; // first URL won't go into history
+  it->second->lockHistory(); // first URL won't go into history
   it->second->openURL( m_strTempURL.c_str() );
 
   it = m_mapViews.find( vView2->id() );
-  it->second->m_iHistoryLock = 1; // first URL won't go into history
+  it->second->lockHistory(); // first URL won't go into history
   it->second->openURL( m_strTempURL.c_str() );
 
   setActiveView( vView1->id() );
@@ -1692,9 +1601,7 @@ QString KonqMainView::currentTitle()
  
 QString KonqMainView::currentURL()
 {
-  CORBA::String_var u = m_currentView->m_vView->url();
-  QString url = u.in();
-  return url;
+  return m_currentView->url();
 }
 
 #include "konq_mainview.moc"

@@ -69,17 +69,26 @@ public:
   /* */
   void repaint();
 
+  void reload();
+
   /**
    * Displays another URL, but without changing the view mode (caller has to 
    * ensure that the call makes sense)
    */
   void openURL( QString url );
+  /**
+   * Builds or destroys view-specific part of the view menu.
+   */
+  void emitEventViewMenu( OpenPartsUI::Menu_ptr menu, bool create );
 
   /**
    * Changes the view mode of the current view, if different from viewName
-   * @returns the new openparts 'id'
    */
-  OpenParts::Id changeViewMode( const char *viewName );
+  void changeViewMode( const char *viewName );
+  /**
+   * Replace the current view vith _vView
+   */
+  void switchView( Konqueror::View_ptr _vView );
 
   /**
    * Create a view
@@ -87,28 +96,64 @@ public:
    */
   Konqueror::View_ptr createViewByName( const char *viewName );
   
-  /*
-   * Fills m_lstBack and m_lstForward - better comment needed, I'm clueless here (David)
+  /**
+   * Call this to prevent next makeHistory() call from changing history lists
+   * This must be called before the first call to makeHistory().
    */
-  void makeHistory();
-
-  //  bool mappingGotFocus( OpenParts::Part_ptr child );
-  //  bool mappingOpenURL( Konqueror::EventOpenURL eventURL );
-
-  //  virtual void openURL( const Konqueror::URLRequest &url );
-  //  virtual void openURL( const char * _url, CORBA::Boolean _reload );
-
-  // void makeHistory( View *v );
+  void lockHistory() { m_bHistoryLock = true; }
   
-//public slots:  
+  /**
+   * Fills m_lstBack and m_lstForward - better comment needed, I'm clueless here (David)
+   * @param bCompleted true if view has finished loading - hum.
+   * @param url the current url. Will be used on NEXT call to makeHistory. @see m_strLastURL
+   */
+  void makeHistory( bool bCompleted, QString url );
+    
+  /**
+   * Go back
+   */
+  void goBack();
   
+  /**
+   * Go forward
+   */
+  void goForward();
+
+  /**
+   * Get view's URL
+   */
+  QString url() { return m_vView->url(); } // FIXME:  string_dup ?
+  /**
+   * Get view's name
+   */
+  QString viewName() { return m_vView->viewName(); } // FIXME:  string_dup ?
+  /**
+   * Get view's id
+   */
+  OpenParts::Id id() { return m_vView->id(); }
+  /**
+   * Get view's location bar URL (difference with url() ? to be explained)
+   */
+  // void locationBarURL() { return m_sLocationBarURL; }
+
+signals:
+
+  /**
+   * Signal the main view that our id changed (e.g. because of changeViewMode)
+   */
+  void sigIdChanged( KonqChildView * childView, OpenParts::Id oldId, OpenParts::Id newId );
+  /**
+   * Signal the main view that our URL changed, so it may have to change the state of the 'up' button
+   */
+  void sigSetUpEnabled( QString url, OpenParts::Id id );
+
 protected:
   /**
    * Connects the internal View to the mainview. Do this after creating it and before inserting it
    */
   void connectView();
 
-public: // temporary !!
+////////////////// protected members ///////////////
 
   struct InternalHistoryEntry
   {
@@ -117,27 +162,29 @@ public: // temporary !!
     Konqueror::View::HistoryEntry entry;
     CORBA::String_var strViewName;
   };
-    
-  bool m_bCompleted;
-    
-  Konqueror::View_var m_vView;
-    
+
   /* Used by makeHistory, to store the URL _previously_ opened in this view */
   QString m_strLastURL;
+    
+public: // temporary !!
+
+  Konqueror::View_var m_vView;
     
   /* ? */
   QString m_strLocationBarURL;
 
   bool m_bBack;
   bool m_bForward;
-  int m_iHistoryLock;
   
-  InternalHistoryEntry m_tmpInternalHistoryEntry;
-    
   list<InternalHistoryEntry> m_lstBack;
   list<InternalHistoryEntry> m_lstForward;
 
 protected:
+  /** Used by makeHistory, to store an history entry between calls */
+  InternalHistoryEntry m_tmpInternalHistoryEntry;
+  /** If true, next call to makeHistory won't change the history */
+  bool m_bHistoryLock;
+    
   KonqMainView * m_mainView;
   OpenParts::Part_var m_vParent;
   OpenParts::MainWindow_var m_vMainWindow;
