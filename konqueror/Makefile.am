@@ -56,7 +56,7 @@ data2dir = $(kde_appsdir)
 profiledir = $(kde_datadir)/konqueror/profiles
 install-data-local:
 	$(mkinstalldirs) $(profiledir)
-	$(INSTALL_DATA) $(srcdir)/profile_webbrowsing $(profiledir)/webbrowsing
+	$(INSTALL_DATA) $(srcdir)/profile_webbrowsing.desktop $(profiledir)/webbrowsing
 uninstall-local:
 	-rm -f $(profiledir)/webbrowsing
 
