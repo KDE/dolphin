@@ -51,6 +51,14 @@ KonqIconViewWidget::KonqIconViewWidget( QWidget * parent, const char * name, WFl
     QObject::connect( this, SIGNAL( selectionChanged() ),
                       this, SLOT( slotSelectionChanged() ) );
 
+    QObject::connect(
+      horizontalScrollBar(),  SIGNAL(valueChanged(int)),
+      this,                   SLOT(slotViewportScrolled(int)));
+      
+    QObject::connect(
+      verticalScrollBar(),  SIGNAL(valueChanged(int)),
+      this,                 SLOT(slotViewportScrolled(int)));
+
     // hardcoded settings
     setSelectionMode( QIconView::Extended );
     setItemTextPos( QIconView::Bottom );
@@ -283,5 +291,18 @@ void KonqIconViewWidget::slotResult( KIO::Job * job )
   if (job->error())
     job->showErrorDialog();
 }
+
+void KonqIconViewWidget::slotViewportScrolled(int)
+{
+  emit(viewportAdjusted());
+}
+
+void KonqIconViewWidget::viewportResizeEvent(QResizeEvent * e)
+{
+  KIconView::viewportResizeEvent(e);
+  emit(viewportAdjusted());
+}
+
+
 
 #include "konqiconviewwidget.moc"

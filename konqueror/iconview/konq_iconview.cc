@@ -174,6 +174,12 @@ KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const 
 
     m_pIconView = new KonqIconViewWidget( parentWidget, "qiconview" );
 
+    // When our viewport is adjusted (resized or scrolled) we need
+    // to get the mime types for any newly visible icons. (Rikkus)
+    connect(
+      m_pIconView,  SIGNAL(viewportAdjusted()),
+      this,         SLOT(slotProcessMimeIcons()));
+
     // pass signals to the extension
     connect( m_pIconView, SIGNAL( enableAction( const char *, bool ) ),
              m_extension, SIGNAL( enableAction( const char *, bool ) ) );
@@ -874,7 +880,34 @@ void KonqKfmIconView::slotProcessMimeIcons()
 	return;
     }
 
-    KFileIVI *item = m_lstPendingMimeIconItems.first();
+    // Find an icon that's visible.
+    // We only find mimetypes for icons that are visible. When more
+    // of our viewport is exposed, we'll get a signal and then get
+    // the mimetypes for the newly visible icons. (Rikkus)
+    KFileIVI * item = 0L;
+
+    QListIterator<KFileIVI> it(m_lstPendingMimeIconItems);
+
+    QRect visibleContentsRect
+    (
+      m_pIconView->viewportToContents(QPoint(0, 0)),
+      m_pIconView->viewportToContents
+      (
+        QPoint(m_pIconView->visibleWidth(), m_pIconView->visibleHeight())
+      )
+    );
+
+    for (; it.current(); ++it)
+      if (visibleContentsRect.intersects(it.current()->rect())) {
+        kdDebug(1202) << "Found a visible item" << endl;
+        item = it.current();
+        break;
+      }
+
+    if (0 == item) {
+      kdDebug(1202) << "KonqKfmIconView: No new items visible" << endl;
+      return;
+    }
 
     QPixmap *currentIcon = item->pixmap();
 
@@ -891,7 +924,7 @@ void KonqKfmIconView::slotProcessMimeIcons()
 	    m_bNeedAlign = true;
     }
 
-    m_lstPendingMimeIconItems.removeFirst();
+    m_lstPendingMimeIconItems.remove(item);
     QTimer::singleShot( 0, this, SLOT( slotProcessMimeIcons() ) );
 }
 

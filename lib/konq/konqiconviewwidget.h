@@ -96,8 +96,11 @@ signals:
      * For cut/copy/paste/move/delete (see kparts/browserextension.h)
      */
     void enableAction( const char * name, bool enabled );
+    void viewportAdjusted();
 
 protected slots:
+
+    virtual void slotViewportScrolled(int);
 
     virtual void slotDropped( QDropEvent *e, const QValueList<QIconDragItem> & );
     /** connect each item to this */
@@ -107,6 +110,7 @@ protected slots:
 
 protected:
     virtual void drawBackground( QPainter *p, const QRect &r );
+    virtual void viewportResizeEvent(QResizeEvent *);
 
     KURL m_url;
     const KonqFileItem * m_rootItem;
