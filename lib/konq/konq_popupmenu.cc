@@ -162,8 +162,6 @@ KonqPopupMenu::KonqPopupMenu( const KFileItemList &items,
     currentDir = firstPopupURL.cmp( url, true /* ignore_trailing */ );
   }
 
-  QObject::disconnect( this, SIGNAL( activated( int ) ), this, SLOT( slotPopup( int ) ) );
-
   clear();
 
   //////////////////////////////////////////////////////////////////////////
@@ -422,7 +420,6 @@ KonqPopupMenu::KonqPopupMenu( const KFileItemList &items,
     {
       bLastSepInserted = true;
 
-      //  or "File Type Properties" ?
       act = new KAction( i18n( "Edit File Type..." ), 0, this, SLOT( slotPopupMimeType() ),
                        &m_ownActions, "editfiletype" );
       addAction( act );
@@ -525,7 +522,21 @@ void KonqPopupMenu::slotPopupMimeType()
 
 void KonqPopupMenu::slotPopupProperties()
 {
-  (void) new KPropertiesDialog( m_lstItems );
+    // It may be that the kfileitem was created by hand
+    // (see KonqKfmIconView::slotMouseButtonPressed)
+    // In that case, we can get more precise info in the properties
+    // (like permissions) if we stat the URL.
+    if ( m_lstItems.count() == 1 )
+    {
+        KFileItem * item = m_lstItems.first();
+        if (item->entry().count() == 0) // this item wasn't listed by a slave
+        {
+            // KPropertiesDialog will use stat to get more info on the file
+            (void) new KPropertiesDialog( item->url() );
+            return;
+        }
+    }
+    (void) new KPropertiesDialog( m_lstItems );
 }
 
 KAction *KonqPopupMenu::action( const QDomElement &element ) const
