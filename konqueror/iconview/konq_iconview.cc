@@ -370,6 +370,7 @@ void KonqKfmIconView::slotShowDot()
     m_dirLister->setShowingDotFiles( m_pProps->isShowingDotFiles() );
     //we don't want the non-dot files to remain where they are
     m_bNeedAlign = true;
+    slotCompleted();
 }
 
 void KonqKfmIconView::slotSelect()
@@ -764,11 +765,16 @@ void KonqKfmIconView::determineIcon( KFileIVI * item )
 void KonqKfmIconView::mimeTypeDeterminationFinished()
 {
     if ( m_pProps->isShowingPreview() )
-        // We can do this only when the mimetypes are fully determined,
-        // since we only do image preview... on images :-)
-        m_pIconView->startImagePreview( m_pProps->previewSettings(), false );
-    else
-        slotRenderingFinished();
+    {
+        // TODO if ( m_url.isLocalFile() || m_bAutoPreviewRemote )
+        {
+            // We can do this only when the mimetypes are fully determined,
+            // since we only do image preview... on images :-)
+            m_pIconView->startImagePreview( m_pProps->previewSettings(), false );
+            return;
+        }
+    }
+    slotRenderingFinished();
 }
 
 void KonqKfmIconView::slotRenderingFinished()
@@ -784,6 +790,7 @@ void KonqKfmIconView::slotRenderingFinished()
     if ( m_bNeedAlign )
     {
         m_bNeedAlign = false;
+	kdDebug(1202) << "arrangeItemsInGrid" << endl;
         m_pIconView->arrangeItemsInGrid();
     }
 }
