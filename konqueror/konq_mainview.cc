@@ -641,9 +641,9 @@ debug(" KonqMainView::openView %s %s", serviceType.ascii(), url.ascii());
         return true; // fake everything was ok, we don't want to propagate the error
       }
 
-      enableAllActions( true );
-
       setActiveView( view );
+
+      enableAllActions( true );
 
       return true;
     }
@@ -1452,7 +1452,12 @@ void KonqMainView::enableAllActions( bool enable )
     actionCollection()->action( i )->setEnabled( enable );
 
   if ( enable )
-    updateExtensionDependendActions( m_currentView->view() );
+  {
+    if ( ! m_currentView )
+      qDebug("No current view !");
+    else
+      updateExtensionDependendActions( m_currentView->view() );
+  }
 }
 
 void KonqMainView::openBookmarkURL( const QString & url )
