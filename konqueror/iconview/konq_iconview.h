@@ -119,6 +119,8 @@ protected slots:
 
   void slotTotalFiles( int, unsigned long files );
 
+  void slotDisplayFileSelectionInfo();
+
 protected:
 
   void setupSorting( SortCriterion criterion );

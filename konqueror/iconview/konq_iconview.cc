@@ -303,6 +303,9 @@ KonqKfmIconView::KonqKfmIconView()
   m_lDirSize = 0;
   m_lFileCount = 0;
   m_lDirCount = 0;
+  
+  connect( m_pIconView, SIGNAL( selectionChanged() ),
+	   this, SLOT( slotDisplayFileSelectionInfo() ) );
 }
 
 KonqKfmIconView::~KonqKfmIconView()
@@ -707,6 +710,31 @@ void KonqKfmIconView::slotTotalFiles( int, unsigned long files )
   m_ulTotalFiles = files;
 }
 
+void KonqKfmIconView::slotDisplayFileSelectionInfo()
+{
+  long fileSizeSum = 0;
+  long fileCount = 0;
+  long dirCount = 0;
+  
+  KFileItemList lst = m_pIconView->selectedFileItems();
+  KFileItemListIterator it( lst );
+
+  for (; it.current(); ++it )
+    if ( S_ISDIR( it.current()->mode() ) )
+      dirCount++;
+    else
+    {
+      fileSizeSum += it.current()->size();
+      fileCount++;
+    }
+  
+  if ( lst.count() > 0 )
+    emit setStatusBarText( i18n( "%1 Item(s) Selected - %2 File(s) (%3 Total) - %4 Directories" )
+       		           .arg( lst.count() ).arg( fileCount ).arg( KIOJob::convertSize( fileSizeSum ) ).arg( dirCount ) );
+  else
+    slotOnViewport();
+}
+
 void KonqKfmIconView::openURL( const QString &_url, bool /*reload*/, int xOffset, int yOffset )
 {
   if ( !m_dirLister )
@@ -769,7 +797,15 @@ void KonqKfmIconView::slotOnItem( QIconViewItem *item )
 
 void KonqKfmIconView::slotOnViewport()
 {
-  emit setStatusBarText( i18n( "%1 Item(s) - %2 File(s) (%3 total) - %4 Directories" ).arg( m_pIconView->count() ).arg( m_lFileCount ).arg( KIOJob::convertSize( m_lDirSize ) ).arg( m_lDirCount ) );
+   QIconViewItem *it = m_pIconView->firstItem();
+   for (; it; it = it->nextItem() )
+     if ( it->isSelected() )
+     {
+       slotDisplayFileSelectionInfo();
+       return;
+     }
+
+  emit setStatusBarText( i18n( "%1 Item(s) - %2 File(s) (%3 Total) - %4 Directories" ).arg( m_pIconView->count() ).arg( m_lFileCount ).arg( KIOJob::convertSize( m_lDirSize ) ).arg( m_lDirCount ) );
 }
 
 void KonqKfmIconView::setupSortKeys()
