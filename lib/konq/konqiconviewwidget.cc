@@ -119,6 +119,13 @@ void KonqIconViewWidget::clear()
     m_pActiveItem = 0L;
 }
 
+void KonqIconViewWidget::takeItem( QIconViewItem *item )
+{
+    if ( m_pActiveItem == static_cast<KFileIVI *>(item) )
+        m_pActiveItem = 0L;
+    KIconView::takeItem( item );
+}
+
 void KonqIconViewWidget::initConfig()
 {
     m_pSettings = KonqFMSettings::settings();

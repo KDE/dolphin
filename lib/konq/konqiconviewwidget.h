@@ -95,6 +95,11 @@ public:
      */
     virtual void clear();
 
+    /**
+     * Reimplemented from QIconView
+     */
+    virtual void takeItem( QIconViewItem *item );
+
 public slots:
     /**
      * Checks the new selection and emits enableAction() signals
