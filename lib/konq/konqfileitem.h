@@ -133,7 +133,7 @@ public:
    * with the image, loaded from the xvpics dir (created if necessary)
    * @return the pixmap
    */
-  QPixmap pixmap( KIconLoader::Size _size, bool bImagePreviewAllowed ) const;
+  QPixmap pixmap( int _size, bool bImagePreviewAllowed ) const;
 
   /**
    * @return the text of the file item

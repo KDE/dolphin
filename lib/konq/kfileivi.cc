@@ -24,7 +24,7 @@
 
 #undef Bool
 
-KFileIVI::KFileIVI( QIconView *iconview, KonqFileItem* fileitem, KIconLoader::Size size, bool bImagePreviewAllowed )
+KFileIVI::KFileIVI( QIconView *iconview, KonqFileItem* fileitem, int size, bool bImagePreviewAllowed )
     : QIconViewItem( iconview, fileitem->text(),
 		     fileitem->pixmap( size, bImagePreviewAllowed ) ),
       m_fileitem( fileitem )
@@ -32,7 +32,7 @@ KFileIVI::KFileIVI( QIconView *iconview, KonqFileItem* fileitem, KIconLoader::Si
     setDropEnabled( S_ISDIR( m_fileitem->mode() ) );
 }
 
-void KFileIVI::setIcon( KIconLoader::Size size, bool bImagePreviewAllowed )
+void KFileIVI::setIcon( int size, bool bImagePreviewAllowed )
 {
     QIconViewItem::setPixmap( m_fileitem->pixmap( size, bImagePreviewAllowed ) );
 }

@@ -43,7 +43,7 @@ public:
      * @param size the icon size
      * @param bImagePreviewAllowed whether image preview is allowed, see KonqFileItem
      */
-    KFileIVI( QIconView *iconview, KonqFileItem* fileitem, KIconLoader::Size size, bool bImagePreviewAllowed );
+    KFileIVI( QIconView *iconview, KonqFileItem* fileitem, int size, bool bImagePreviewAllowed );
     virtual ~KFileIVI() { }
 
     /**
@@ -60,7 +60,7 @@ public:
     virtual bool acceptDrop( const QMimeSource *mime ) const;
 
     /** */
-    virtual void setIcon( KIconLoader::Size size, bool bImagePreviewAllowed );
+    virtual void setIcon( int size, bool bImagePreviewAllowed );
 
     virtual void setKey( const QString &key );
     virtual void paintItem( QPainter *p, const QColorGroup &cg );

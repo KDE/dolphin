@@ -355,7 +355,7 @@ KonqPopupMenu::KonqPopupMenu( const KonqFileItemList &items,
 			
           if ( !(*it2).m_strIcon.isEmpty() )
           {
-            QPixmap pix = KGlobal::iconLoader()->loadIcon( (*it2).m_strIcon, KIconLoader::Small );
+            QPixmap pix = SmallIcon( (*it2).m_strIcon );
 	    act->setIconSet( pix );
           }
 	
@@ -380,7 +380,7 @@ KonqPopupMenu::KonqPopupMenu( const KonqFileItemList &items,
 	
         if ( !(*it2).m_strIcon.isEmpty() )
         {
-          QPixmap pix = KGlobal::iconLoader()->loadIcon( (*it2).m_strIcon, KIconLoader::Small );
+          QPixmap pix = SmallIcon( (*it2).m_strIcon );
 	  act->setIconSet( pix );
         }
 	

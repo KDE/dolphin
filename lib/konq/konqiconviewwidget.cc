@@ -98,7 +98,7 @@ void KonqIconViewWidget::initConfig()
     setWordWrapIconText( m_pSettings->wordWrapText() );
 }
 
-void KonqIconViewWidget::setIcons( KIconLoader::Size size )
+void KonqIconViewWidget::setIcons( int size )
 {
     m_size = size;
     for ( QIconViewItem *it = firstItem(); it; it = it->nextItem() ) {

@@ -50,14 +50,14 @@ public:
     /**
      * Sets the icons of all items, and stores the @p size
      */
-    void setIcons( KIconLoader::Size size );
+    void setIcons( int size );
 
     /**
      * Called on databaseChanged
      */
     void refreshMimeTypes();
 
-    KIconLoader::Size size() { return m_size; }
+    int size() { return m_size; }
 
     void setImagePreviewAllowed( bool b );
 
@@ -127,7 +127,7 @@ protected:
 
     KURL::List m_lstDragURLs;
 
-    KIconLoader::Size m_size;
+    int m_size;
     bool m_bImagePreviewAllowed;
 
     /** Konqueror settings */

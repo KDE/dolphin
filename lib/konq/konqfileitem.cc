@@ -165,14 +165,14 @@ void KonqFileItem::refreshMimeType()
   init( false ); // Will determine the mimetype
 }
 
-QPixmap KonqFileItem::pixmap( KIconLoader::Size _size, bool bImagePreviewAllowed ) const
+QPixmap KonqFileItem::pixmap( int _size, bool bImagePreviewAllowed ) const
 {
   if ( !m_pMimeType )
   {
     if ( S_ISDIR( m_fileMode ) )
-     return KGlobal::iconLoader()->loadIcon( "folder", _size );
+     return DesktopIcon( "folder", _size );
 
-    return KGlobal::iconLoader()->loadIcon( "unknown", _size );
+    return DesktopIcon( "unknown", _size );
   }
 
   if ( m_pMimeType->name().left(6) == "image/" && m_bIsLocalURL && bImagePreviewAllowed )

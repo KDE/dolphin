@@ -236,7 +236,7 @@ KonqDirTree::KonqDirTree( KonqDirTreePart *parent, QWidget *parentWidget )
   : KListView( parentWidget )
 {
 
-  m_folderPixmap = KonqFactory::instance()->iconLoader()->loadIcon( "folder", KIconLoader::Small );
+  m_folderPixmap = SmallIcon("folder");
 
   setAcceptDrops( true );
   viewport()->setAcceptDrops( true );
@@ -261,7 +261,7 @@ KonqDirTree::KonqDirTree( KonqDirTreePart *parent, QWidget *parentWidget )
 	   this, SLOT( slotAutoOpenFolder() ) );
 
   m_root = new QListViewItem( this, i18n( "Desktop" ) );
-  m_root->setPixmap( 0, KonqFactory::instance()->iconLoader()->loadIcon( "desktop", KIconLoader::Small ) );
+  m_root->setPixmap( 0, SmallIcon("desktop") );
   m_root->setSelectable( false );
 
   connect( this, SIGNAL( doubleClicked( QListViewItem * ) ),
@@ -732,7 +732,7 @@ void KonqDirTree::scanDir2( QListViewItem *parent, const QString &path )
   KonqDirTreeItem *item = new KonqDirTreeItem( this, parent, 0, fileItem );
   //  QListViewItem *item = new QListViewItem( parent );
   item->setText( 0, name );
-  item->setPixmap( 0, KonqFactory::instance()->iconLoader()->loadIcon( icon, KIconLoader::Small ) );
+  item->setPixmap( 0, SmallIcon( icon ) );
   item->setListable( false );
   //  item->setSelectable( false );
 
@@ -793,7 +793,7 @@ void KonqDirTree::loadTopLevelItem( QListViewItem *parent,  const QString &filen
 
   //  item->setSelectable( false );
 
-  item->setPixmap( 0, KonqFactory::instance()->iconLoader()->loadIcon( icon, KIconLoader::Small ) );
+  item->setPixmap( 0, SmallIcon( icon ) );
   item->setText( 0, name );
 
   KDirLister *dirLister = 0;
