@@ -204,7 +204,6 @@ signals:
      */
     void enableAction( const char * name, bool enabled );
 
-    void viewportAdjusted();
     void dropped();
     void imagePreviewFinished();
 
@@ -236,7 +235,6 @@ protected:
      */
     virtual void drawBackground( QPainter *p, const QRect &r,
 		 			const QPoint &pt );
-    virtual void viewportResizeEvent(QResizeEvent *);
     virtual void contentsDragEnterEvent( QDragEnterEvent *e );
     virtual void contentsDropEvent( QDropEvent *e );
     virtual void contentsMousePressEvent( QMouseEvent *e );

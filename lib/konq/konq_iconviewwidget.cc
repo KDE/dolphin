@@ -134,12 +134,6 @@ KonqIconViewWidget::KonqIconViewWidget( QWidget * parent, const char * name, WFl
     connect( this, SIGNAL( selectionChanged() ),
              this, SLOT( slotSelectionChanged() ) );
 
-    connect( horizontalScrollBar(),  SIGNAL(valueChanged(int)),
-             this,                   SIGNAL(viewportAdjusted()));
-
-    connect( verticalScrollBar(),  SIGNAL(valueChanged(int)),
-             this,                 SIGNAL(viewportAdjusted()));
-
     kapp->addKipcEventMask( KIPC::IconChanged );
     connect( kapp, SIGNAL(iconChanged(int)), SLOT(slotIconChanged(int)) );
     connect( this, SIGNAL(onItem(QIconViewItem *)), SLOT(slotOnItem(QIconViewItem *)) );
@@ -883,12 +877,6 @@ bool KonqIconViewWidget::sortDirectoriesFirst() const
 void KonqIconViewWidget::setSortDirectoriesFirst( bool b )
 {
   m_bSortDirsFirst = b;
-}
-
-void KonqIconViewWidget::viewportResizeEvent(QResizeEvent * e)
-{
-  KIconView::viewportResizeEvent(e);
-  emit viewportAdjusted();
 }
 
 void KonqIconViewWidget::contentsDropEvent( QDropEvent * ev )
