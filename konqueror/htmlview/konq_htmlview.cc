@@ -146,11 +146,11 @@ KonqHTMLView::KonqHTMLView( QWidget *parent, const char *name )
   connect( m_pWidget, SIGNAL( onURL( const QString & ) ),
            this, SLOT( slotShowURL( const QString & ) ) );
 
-  m_paViewDocument = new KAction( i18n( "View Document Source" ), 0, this, SLOT( viewDocumentSource() ), this, "viewDocumentSource" );
-  m_paViewFrame = new KAction( i18n( "View Frame Source" ), 0, this, SLOT( viewFrameSource() ), this, "viewFrameSource" );
-  m_paSaveBackground = new KAction( i18n( "Save &Background Image As.." ), 0, this, SLOT( saveBackground() ), this, "saveBackground" );
-  m_paSaveDocument = new KAction( i18n( "&Save As.." ), 0, this, SLOT( saveDocument() ), this, "saveDocument" );
-  m_paSaveFrame = new KAction( i18n( "Save &Frame As.." ), 0, this, SLOT( saveFrame() ), this, "saveFrame" );
+  m_paViewDocument = new KAction( i18n( "View Document Source" ), 0, this, SLOT( viewDocumentSource() ), actionCollection(), "viewDocumentSource" );
+  m_paViewFrame = new KAction( i18n( "View Frame Source" ), 0, this, SLOT( viewFrameSource() ), actionCollection(), "viewFrameSource" );
+  m_paSaveBackground = new KAction( i18n( "Save &Background Image As.." ), 0, this, SLOT( saveBackground() ), actionCollection(), "saveBackground" );
+  m_paSaveDocument = new KAction( i18n( "&Save As.." ), 0, this, SLOT( saveDocument() ), actionCollection(), "saveDocument" );
+  m_paSaveFrame = new KAction( i18n( "Save &Frame As.." ), 0, this, SLOT( saveFrame() ), actionCollection(), "saveFrame" );
 
   // basically, it's inserted into itself :)
   m_pWidget->slotFrameInserted( m_pWidget );
