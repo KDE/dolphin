@@ -105,7 +105,7 @@ void KEBListViewItem::init( const KBookmark & bk )
     modUpdate();
 }
 
-// AK - move all this netscapeinfo crap to kbookmark
+// AK - move all this netscapeinfo stuff to kbookmark
 
 void internal_nsGet(QString nsinfo, QString & nCreate, QString & nAccess, QString & nModify) {
   QStringList sl = QStringList::split(' ', nsinfo);
@@ -171,7 +171,7 @@ void KEBListViewItem::nsPut( QString nm )
    setText(2, nm);
 }
 
-// */ of nsinfo crap
+// */ of nsinfo stuff
 
 void KEBListViewItem::modUpdate( )
 {
@@ -317,14 +317,8 @@ QDragObject *KEBListView::dragObject()
     return drag;
 }
 
-KEBTopLevel * KEBTopLevel::s_topLevel = 0L;
 
-/*
-void KEBTopLevel::activateWindow()
-{
-    KWin::setActiveWindow( winId() );
-}
-*/
+KEBTopLevel * KEBTopLevel::s_topLevel = 0L;
 
 KEBTopLevel::KEBTopLevel( const QString & bookmarksFile )
     : KMainWindow(), DCOPObject("KBookmarkListener"), m_commandHistory( actionCollection() )
