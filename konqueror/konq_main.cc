@@ -116,6 +116,16 @@ int main( int argc, char **argv )
                         I18N_NOOP("Web browser, file manager, ..."),
                         KAboutData::License_GPL, 
                         "(c) 1999-2000, The Konqueror developers" );
+  aboutData->addAuthor( "Torben Weis", I18N_NOOP("kfm author"), "weis@kde.org" );
+  aboutData->addAuthor( "David Faure", I18N_NOOP("developer (parts, I/O lib) and maintainer"), "faure@kde.org" );
+  aboutData->addAuthor( "Simon Hausmann", I18N_NOOP("developer (framework, parts)"), "hausmann@kde.org" );
+  aboutData->addAuthor( "Michael Reiher", I18N_NOOP("developer (framework)"), "michael.reiher@gmx.de" );
+  aboutData->addAuthor( "Matthias Welk", I18N_NOOP("developer"), "welk@fokus.gmd.de" );
+  aboutData->addAuthor( "Lars Knoll", I18N_NOOP("developer (HTML rendering engine)"), "knoll@kde.org" );
+  aboutData->addAuthor( "Antti Koivisto", I18N_NOOP("developer (HTML rendering engine)"), "koivisto@kde.org" );
+  aboutData->addAuthor( "Matt Koss", I18N_NOOP("developer (I/O lib)"), "koss@napri.sk" );
+  aboutData->addAuthor( "Alex Zepeda", I18N_NOOP("developer (I/O lib)"), "garbanzo@hooked.net" );
+  aboutData->addAuthor( "Stephan Kulow", I18N_NOOP("developer (I/O lib)"), "coolo@kde.org" );
 
   KCmdLineArgs::init( argc, argv, &aboutData );
 
