@@ -5,6 +5,9 @@
 #include <unistd.h>
 
 #include <qdragobject.h>
+#include <qprinter.h>
+#include <qpainter.h>
+#include <qpaintdevicemetrics.h>
 
 #include <kio_job.h>
 #include <kio_cache.h>
@@ -19,6 +22,7 @@ KonqTxtView::KonqTxtView()
 {
   kdebug(KDEBUG_INFO, 1202, "+KonqTxtView");
   ADD_INTERFACE( "IDL:Konqueror/TxtView:1.0" );
+  ADD_INTERFACE( "IDL:Konqueror/PrintingExtension:1.0" );
   
   setWidget( this );
   
@@ -131,6 +135,53 @@ void KonqTxtView::restoreState( const Konqueror::View::HistoryEntry &history )
 void KonqTxtView::slotSelectAll()
 {
   QMultiLineEdit::selectAll();
+}
+
+void KonqTxtView::print()
+{
+  QPrinter printer;
+  CORBA::WString_var text;
+
+  text = Q2C( i18n( "Printing..." ) );
+  SIGNAL_CALL1( "setStatusBarText", CORBA::Any::from_wstring( text.out(), 0 ) );
+  
+  if ( printer.setup( this ) )
+  {
+    QPainter painter;
+    painter.begin( &printer );
+    
+    painter.setFont( font() );
+    int lineSpacing = painter.fontMetrics().lineSpacing();
+    QPaintDeviceMetrics paintDevMetrics( &printer );
+    
+    int y = 0, i = 0, page = 1;
+    const int Margin = 10;
+    
+    text = Q2C( i18n( "Printing page %1 ..." ).arg( page ) );
+    SIGNAL_CALL1( "setStatusBarText" , CORBA::Any::from_wstring( text.out(), 0 ) );
+    
+    for (; i < numLines(); i++ )
+    {
+      if ( Margin + y > paintDevMetrics.height() - Margin )
+      {
+        text = Q2C( i18n( "Printing page %1 ..." ).arg( ++page ) );
+	SIGNAL_CALL1( "setStatusBarText" , CORBA::Any::from_wstring( text.out(), 0 ) );
+	printer.newPage();
+	y = 0;
+      }
+    
+      painter.drawText( Margin, Margin + y, paintDevMetrics.width(),
+                        lineSpacing, ExpandTabs | DontClip,
+			textLine( i ) );
+			
+      y += lineSpacing;
+    }
+    
+    painter.end();
+    
+  }
+
+  SIGNAL_CALL1( "setStatusBarText", CORBA::Any::from_wstring( (CORBA::WChar*)0L, 0 ) );
 }
 
 void KonqTxtView::slotFinished( int )

@@ -45,6 +45,8 @@ public:
 
   virtual void slotSelectAll();
 
+  virtual void print();
+
 protected slots:
   void slotFinished( int );
   void slotRedirection( int, const char * );

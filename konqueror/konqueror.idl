@@ -210,7 +210,7 @@ module Konqueror
     slot void detachPart();
   };
 
-  interface TxtView : View
+  interface TxtView : View, PrintingExtension
   {
     slot void slotSelectAll();
   };
