@@ -409,7 +409,12 @@ void KonqMainView::openURL( const KURL &url, const KParts::URLArgs &args )
   if ( !args.reload && urlcmp( url.url(), part->url().url(), true, true ) )
   {
     view->browserExtension()->setURLArgs( args );
-    openView( view->serviceType(), url, view );
+    
+    QString serviceType = args.serviceType;
+    if ( serviceType.isEmpty() )
+      serviceType = view->serviceType();
+    
+    openView( serviceType, url, view );
     return;
   }
 
@@ -1737,7 +1742,7 @@ void KonqMainView::slotPopupMenu( KXMLGUIClient *client, const QPoint &_global, 
 
   if ( _items.count() == 1 )
     // Can't use X-KDE-BrowserView-Builtin directly in the query because '-' is a substraction !!!
-    m_popupEmbeddingServices = KTrader::self()->query( _items.getFirst()->mimetype(), 
+    m_popupEmbeddingServices = KTrader::self()->query( _items.getFirst()->mimetype(),
 						  "('Browser/View' in ServiceTypes) or "
 						  "('KParts/ReadOnlyPart' in ServiceTypes)" );
 
@@ -1751,7 +1756,7 @@ void KonqMainView::slotPopupMenu( KXMLGUIClient *client, const QPoint &_global, 
     m_popupURL = KURL();
     m_popupServiceType = QString::null;
   }
-  
+
   PopupMenuGUIClient *konqyMenuClient = new PopupMenuGUIClient( this, m_popupEmbeddingServices );
 
   KonqPopupMenu pPopupMenu ( _items,
@@ -1775,17 +1780,17 @@ void KonqMainView::slotPopupMenu( KXMLGUIClient *client, const QPoint &_global, 
 void KonqMainView::slotOpenEmbedded()
 {
   QCString name = sender()->name();
-  
+
   m_popupService = m_popupEmbeddingServices[ name.toInt() ]->name();
-  
+
   m_popupEmbeddingServices.clear();
 
-  QTimer::singleShot( 0, this, SLOT( slotOpenEmbeddedDoIt() ) );  
+  QTimer::singleShot( 0, this, SLOT( slotOpenEmbeddedDoIt() ) );
 }
 
 void KonqMainView::slotOpenEmbeddedDoIt()
 {
-  (void) m_currentView->changeViewMode( m_popupServiceType, 
+  (void) m_currentView->changeViewMode( m_popupServiceType,
 					m_popupService,
                                         m_popupURL, false );
 }
@@ -1970,7 +1975,7 @@ void OpenWithGUIClient::update( const KTrader::OfferList &services )
 PopupMenuGUIClient::PopupMenuGUIClient( KonqMainView *mainView, const KTrader::OfferList &embeddingServices )
 {
   m_mainView = mainView;
-  
+
   m_doc = QDomDocument( "kpartgui" );
   QDomElement root = m_doc.createElement( "kpartgui" );
   root.setAttribute( "name", "konqueror" );
@@ -1999,16 +2004,16 @@ PopupMenuGUIClient::PopupMenuGUIClient( KonqMainView *mainView, const KTrader::O
   }
 
   QString currentServiceName = mainView->currentChildView()->service()->name();
-  
+
   KTrader::OfferList::ConstIterator it = embeddingServices.begin();
   KTrader::OfferList::ConstIterator end = embeddingServices.end();
-  
+
   QVariant builtin;
   if ( embeddingServices.count() == 1 )
   {
     KService::Ptr service = *embeddingServices.begin();
     builtin = service->property( "X-KDE-BrowserView-Builtin" );
-    if ( ( !builtin.isValid() || !builtin.toBool() ) && 
+    if ( ( !builtin.isValid() || !builtin.toBool() ) &&
 	 service->name() != currentServiceName )
       addEmbeddingService( menu, 0, i18n( "Preview in %1" ).arg( service->comment() ), service );
   }
@@ -2021,24 +2026,24 @@ PopupMenuGUIClient::PopupMenuGUIClient( KonqMainView *mainView, const KTrader::O
     subMenu.appendChild( text );
     text.appendChild( m_doc.createTextNode( i18n( "Preview in ..." ) ) );
     subMenu.setAttribute( "group", "preview" );
-    
+
     bool inserted = false;
-    
+
     for (; it != end; ++it )
     {
       builtin = (*it)->property( "X-KDE-BrowserView-Builtin" );
-      if ( ( !builtin.isValid() || !builtin.toBool() ) && 
+      if ( ( !builtin.isValid() || !builtin.toBool() ) &&
        (*it)->name() != currentServiceName )
       {
         addEmbeddingService( subMenu, idx++, (*it)->comment(), *it );
 	inserted = true;
       }
     }
-    
+
     if ( !inserted ) // oops, if empty then remove the menu :-]
       menu.removeChild( menu.namedItem( "menu" ) );
-  } 
-  
+  }
+
   setDocument( m_doc );
 }
 
@@ -2048,26 +2053,26 @@ PopupMenuGUIClient::~PopupMenuGUIClient()
 
 KAction *PopupMenuGUIClient::action( const QDomElement &element ) const
 {
-  KAction *res = KXMLGUIClient::action( element );  
-  
+  KAction *res = KXMLGUIClient::action( element );
+
   if ( !res )
     res = m_mainView->action( element );
-  
+
   return res;
 }
 
 void PopupMenuGUIClient::addEmbeddingService( QDomElement &menu, int idx, const QString &name, const KService::Ptr &service )
-{   
+{
   QDomElement action = m_doc.createElement( "action" );
   menu.appendChild( action );
-  
+
   QCString actName;
   actName.setNum( idx );
-  
+
   action.setAttribute( "name", QString::number( idx ) );
-  
+
   action.setAttribute( "group", "preview" );
-  
+
   (void)new KAction( name, service->pixmap( KIconLoader::Small ), 0,
 		     m_mainView, SLOT( slotOpenEmbedded() ), actionCollection(), actName );
 }
