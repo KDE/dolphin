@@ -560,7 +560,7 @@ void KonqOperations::doFileCopy()
     {
         if ( (*it).path(1) == KGlobalSettings::trashPath())
             newTrashPath=m_destURL.path()+(*it).path().right((*it).path().length()-(*it).directory().length());
-        if ( KProtocolInfo::supportsDeleting( *it ) && (!(*it).isLocalFile() || QFileInfo((*it).fileName()).isWritable() ))
+        if ( KProtocolInfo::supportsDeleting( *it ) && (!(*it).isLocalFile() || QFileInfo((*it).path()).isWritable() ))
             mlst.append(*it);
     }
 
