@@ -242,7 +242,7 @@ KBookmark::KBookmark( KBookmarkManager *_bm, KBookmark *_parent, QString _text,
   else
     _cfg.setDesktopGroup();
 
-  m_url = _cfg.readEntry( "URL", "ERROR ! No URL !" );
+  m_url = _cfg.readEntry( "URL" );
   m_sPixmap = _cfg.readEntry( "Icon", QString::null );
   if (m_sPixmap.right( 4 ) == ".xpm" ) // prevent warnings
   {
