@@ -3259,6 +3259,9 @@ void KonqMainWindow::initActions()
   m_pViewManager->setProfiles( m_pamLoadViewProfile );
 
   m_ptaFullScreen = KStdAction::fullScreen( 0, 0, actionCollection(), this );
+  KShortcut fullScreenShortcut = m_ptaFullScreen->shortcut();
+  fullScreenShortcut.append( KKey( Key_F11 ) );
+  m_ptaFullScreen->setShortcut( fullScreenShortcut );
   connect( m_ptaFullScreen, SIGNAL( toggled( bool )), this, SLOT( slotUpdateFullScreen( bool )));
 
   KShortcut reloadShortcut = KStdAccel::shortcut(KStdAccel::Reload);
