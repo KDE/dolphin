@@ -23,7 +23,7 @@
 #define __konq_childview_h__ "$Id$"
 
 #include "konq_mainview.h"
-#include "browser.h"
+#include "kbrowser.h"
 
 #include <qlist.h>
 #include <qstring.h>

@@ -19,7 +19,7 @@
 #ifndef __konq_iconview_h__
 #define __konq_iconview_h__
 
-#include "browser.h"
+#include <kbrowser.h>
 
 #include <qiconview.h>
 #include <qtimer.h>

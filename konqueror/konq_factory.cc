@@ -19,11 +19,11 @@
 
 */
 
+#include <kbrowser.h>
 #include "konq_factory.h"
 #include "konq_part.h"
 #include "konq_misc.h"
 #include "konq_run.h"
-#include "browser.h"
 
 #include <kdebug.h>
 #include <kinstance.h>

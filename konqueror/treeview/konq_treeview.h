@@ -20,7 +20,7 @@
 #ifndef __konq_treeview_h__
 #define __konq_treeview_h__
 
-#include "browser.h"
+#include <kbrowser.h>
 
 #include <qvaluelist.h>
 #include <qlistview.h>

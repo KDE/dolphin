@@ -19,7 +19,7 @@
 #ifndef __konq_htmlview_h__
 #define __konq_htmlview_h__
 
-#include "browser.h"
+#include <kbrowser.h>
 
 #include <khtml.h>
 

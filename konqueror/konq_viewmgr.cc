@@ -17,13 +17,13 @@
  
 */ 
 
+#include <kbrowser.h>
 #include "konq_viewmgr.h"
 #include "konq_mainview.h"
 #include "konq_childview.h"
 #include "konq_factory.h"
 #include "konq_frame.h"
 #include "konq_profiledlg.h"
-#include "browser.h"
 
 #include <qstringlist.h>
 #include <qdir.h>

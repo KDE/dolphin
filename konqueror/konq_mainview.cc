@@ -19,12 +19,12 @@
 
 #include <qdir.h>
 
+#include <kbrowser.h>
 #include "konq_mainview.h"
 #include "konq_shell.h"
 #include "konq_part.h"
 #include "konq_childview.h"
 #include "konq_run.h"
-#include "browser.h"
 #include "konq_factory.h"
 #include "konq_viewmgr.h"
 #include "konq_frame.h"

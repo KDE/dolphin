@@ -30,9 +30,9 @@
 #include <kiconloader.h>
 #include <kpixmap.h>
 
+#include <kbrowser.h>
 #include "konq_frame.h"
 #include "konq_childview.h"
-#include "browser.h"
 
 #include <assert.h>
 

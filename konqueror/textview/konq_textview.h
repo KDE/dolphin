@@ -20,7 +20,7 @@
 #ifndef __konq_textview_h__
 #define __konq_textview_h__
 
-#include "browser.h"
+#include <kbrowser.h>
 
 #include <qmultilineedit.h>
 
