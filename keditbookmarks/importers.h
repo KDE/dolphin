@@ -121,10 +121,6 @@ public:
    virtual void init3(const QString &fileName, bool folder) = 0;
    virtual QString visibleName() const = 0;
    virtual QString requestFilename() const = 0;
-protected:
-   void init2(const QString &fileName, bool folder, const QString &icon) {
-      init(fileName, folder, icon, false);
-   }
 private:
    virtual void doCreateHoldingFolder(KBookmarkGroup &bkGroup);
    virtual void doExecuteWrapper(const KBookmarkGroup bkGroup);
@@ -136,7 +132,7 @@ class GaleonImportCommand : public XBELImportCommand
 public:
    GaleonImportCommand() : XBELImportCommand() { ; }
    virtual void init3(const QString &fileName, bool folder) {
-      init2(fileName, folder, "");
+      init(fileName, folder, icon, false);
    }
    virtual QString visibleName() const;
    virtual QString requestFilename() const;
@@ -148,7 +144,7 @@ class KDE2ImportCommand : public XBELImportCommand
 public:
    KDE2ImportCommand() : XBELImportCommand() { ; }
    virtual void init3(const QString &fileName, bool folder) {
-      init2(fileName, folder, "");
+      init(fileName, folder, icon, false);
    }
    virtual QString visibleName() const;
    virtual QString requestFilename() const;
@@ -163,10 +159,6 @@ public:
    virtual void init3(const QString &fileName, bool folder) = 0;
    virtual QString visibleName() const = 0;
    virtual QString requestFilename() const = 0;
-protected:
-   void init2(const QString &fileName, bool folder, const QString &icon, bool utf8) {
-      init(fileName, folder, icon, utf8);
-   }
 private:
    virtual void doExecute();
 };
@@ -176,7 +168,7 @@ class NSImportCommand : public HTMLImportCommand
 public:
    NSImportCommand() : HTMLImportCommand() { ; }
    virtual void init3(const QString &fileName, bool folder) {
-      init2(fileName, folder, "netscape", false);
+      init(fileName, folder, "netscape", false);
    }
    virtual QString visibleName() const;
    virtual QString requestFilename() const;
@@ -188,7 +180,7 @@ class MozImportCommand : public HTMLImportCommand
 public:
    MozImportCommand() : HTMLImportCommand() { ; }
    virtual void init3(const QString &fileName, bool folder) {
-      init2(fileName, folder, "mozilla", true);
+      init(fileName, folder, "mozilla", true);
    }
    virtual QString visibleName() const;
    virtual QString requestFilename() const;
