@@ -381,7 +381,7 @@ void KonqKfmIconView::slotDrop( QDropEvent *_ev, KIconContainerItem* _item, QStr
       pasteData( m_dirLister->url(), _ev->data( _formats.first() ) );
     else
     {
-      kdebug(0,1204,"Pasting to %s", (_item->name().data() /* item's url */));
+      kdebug(0,1202,"Pasting to %s", (_item->name().data() /* item's url */));
       pasteData( _item->name() /* item's url */, _ev->data( _formats.first() ) );
     }
   }
@@ -404,27 +404,27 @@ void KonqKfmIconView::slotCanceled()
 
 void KonqKfmIconView::slotUpdate()
 {
-  kdebug( KDEBUG_INFO, 1204, "KonqKfmIconView::slotUpdate()");
+  kdebug( KDEBUG_INFO, 1202, "KonqKfmIconView::slotUpdate()");
   setup();
   viewport()->update();
 }
   
 void KonqKfmIconView::slotClear()
 {
-  //kdebug( KDEBUG_INFO, 1204, "KonqKfmIconView::slotClear()");
+  //kdebug( KDEBUG_INFO, 1202, "KonqKfmIconView::slotClear()");
   clear();
 }
 
 void KonqKfmIconView::slotNewItem( KFileItem * _fileitem )
 {
-  //kdebug( KDEBUG_INFO, 1204, "KonqKfmIconView::slotNewItem(...)");
+  //kdebug( KDEBUG_INFO, 1202, "KonqKfmIconView::slotNewItem(...)");
   KonqKfmIconViewItem* item = new KonqKfmIconViewItem( this, _fileitem );
   insert( item, -1, -1, false );
 }
 
 void KonqKfmIconView::slotDeleteItem( KFileItem * _fileitem )
 {
-  //kdebug( KDEBUG_INFO, 1204, "KonqKfmIconView::slotDeleteItem(...)");
+  //kdebug( KDEBUG_INFO, 1202, "KonqKfmIconView::slotDeleteItem(...)");
   // we need to find out the iconcontainer item containing the fileitem
   iterator it = KIconContainer::begin();
   for( ; *it; ++it )
