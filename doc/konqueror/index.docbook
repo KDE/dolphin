@@ -194,7 +194,7 @@ that icon does will appear when you hover the pointer over it.</para>
 
 <para>Some icons, for example the Up and Back icons in the previous screenshot, 
 have a small black triangle at their bottom right corner. If you hold the 
-<mousebutton>left</mousebutton> mouse button pressed while the cursor is over 
+&LMB; pressed while the cursor is over 
 this type of icon a small dropdown menu will appear.</para> 
 <para><mousebutton>Right</mousebutton> clicking on the <interface>Toolbar
 </interface> will bring up the <link linkend="rmb-menus"><guilabel>Toolbar 
@@ -230,8 +230,8 @@ over. If you have split the main window into a number of views you will get an
 Status Bar for each view, and it will include a small green light at the left 
 hand end to show which is the <quote>active</quote>
 view. <mousebutton>Right</mousebutton> clicking on the Status Bar brings up the
-Status Bar <link linkend="rmb-menus"><mousebutton>Right </mousebutton> Mouse
- Button Menu</link>.</para>
+Status Bar <link linkend="rmb-menus"><mousebutton>Right</mousebutton> Mouse 
+Button Menu</link>.</para>
 
 <note><para>Don't worry if your &konqueror; doesn't look exactly like this
 screenshot, it is highly configurable. In particular:</para>
@@ -2266,7 +2266,7 @@ images rather than text.</para>
 a <mousebutton>right</mousebutton> click on a view will be interpreted as 
 <menuchoice><guimenu>Go</guimenu><guimenuitem>Back</guimenuitem></menuchoice>.
 In this case you can get the traditional context menu by moving the mouse
-with the <mousebutton>right</mousebutton> held down.</para>
+with the &RMB; held down.</para>
 
 <para>If the <guilabel>Automatically load images</guilabel> box is checked
 &konqueror; will automatically load any images that are embedded in the web
