@@ -29,6 +29,7 @@
 #include <kglobalsettings.h>
 #include <kdialog.h>
 #include <kconfig.h>
+#include <kdebug.h>
 #include <kcolorbutton.h>
 #include <X11/Xlib.h>
 
@@ -251,7 +252,7 @@ void KonqFontOptions::load()
 
     m_stdFont = g_pConfig->readFontEntry( "StandardFont" );
     stdName = m_stdFont.family();
-    fSize = 0;
+    fSize = 4;
     if (m_stdFont.pointSizeFloat() == 10.0)
        fSize = 3;
     else if (m_stdFont.pointSizeFloat() == 12.0)
@@ -336,6 +337,8 @@ void KonqFontOptions::save()
        m_stdFont.setPointSize(12);
     else if ( fSize == 5 )
        m_stdFont.setPointSize(14);
+    else
+       kdWarning() << "Unhandled size : " << fSize << endl;
 
     m_stdFont.setFamily( stdName );
     g_pConfig->writeEntry( "StandardFont", m_stdFont );
