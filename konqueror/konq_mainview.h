@@ -279,8 +279,6 @@ private:
   void initActions();
   void initPlugins();
 
-  QString konqFilteredURL( const QString &url );
-
   /**
    * Tries to find a index.html (.kde.html) file in the specified directory
    */

@@ -19,6 +19,9 @@
 
 #include "konq_misc.h"
 #include "konq_mainview.h"
+#include <kmessagebox.h>
+#include <kurifilter.h>
+#include <klocale.h>
 #include <qdir.h>
 
 /**********************************************
@@ -51,6 +54,29 @@ bool KonqFileManager::openFileManagerWindow( const KURL & _url, const QString &n
   win->show();
 
   return true; // why would it fail ? :)
+}
+
+QString konqFilteredURL( QWidget * parent, const QString &_url )
+{
+  KURIFilterData data = _url;
+  KURIFilter::self()->filterURI( data );
+  if( data.hasBeenFiltered() )
+  {
+    KURIFilterData::URITypes type = data.uriType();
+    if( type == KURIFilterData::UNKNOWN )
+    {
+      KMessageBox::sorry( parent, i18n( "The url \"%1\" is of unknown type" ).arg( _url ) );
+      return QString::null;  // should never happen unless the search filter is unavailable.
+    }
+    else if( type == KURIFilterData::ERROR )
+    {
+      KMessageBox::sorry( parent, i18n( data.errorMsg() ) );
+      return QString::null;
+    }
+    else
+      return data.uri().url();
+  }
+  return _url;  // return the original url if it cannot be filtered.
 }
 
 /**********************************************

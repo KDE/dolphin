@@ -46,4 +46,6 @@ public:
   bool openFileManagerWindow( const KURL &url, const QString &name );
 };
 
+QString konqFilteredURL( QWidget * parent, const QString &url );
+
 #endif

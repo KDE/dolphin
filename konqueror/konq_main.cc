@@ -136,7 +136,16 @@ int main( int argc, char **argv )
   else
   {
      for ( int i = 0; i < args->count(); i++ )
-        fm.openFileManagerWindow( args->url(i) );
+     {
+         // konqFilteredURL doesn't cope with local files... A bit of hackery below
+         KURL url = args->url(i);
+         KURL urlToOpen;
+         if (url.isLocalFile() && QFile::exists(url.path())) // "konqueror index.html"
+             urlToOpen = url;
+         else
+             urlToOpen = KURL( konqFilteredURL(0L, args->arg(i)) ); // "konqueror slashdot.org"
+         fm.openFileManagerWindow( urlToOpen );
+     }
   }
   args->clear();
 

@@ -79,7 +79,6 @@
 #include <kstddirs.h>
 #include <ksycoca.h>
 #include <ktrader.h>
-#include <kurifilter.h>
 #include <kurl.h>
 #include <kurlrequesterdlg.h>
 #include <kuserprofile.h>
@@ -242,32 +241,9 @@ QWidget *KonqMainView::createContainer( QWidget *parent, int index, const QDomEl
   return res;
 }
 
-QString KonqMainView::konqFilteredURL( const QString &_url )
-{
-  KURIFilterData data = _url;
-  KURIFilter::self()->filterURI( data );
-  if( data.hasBeenFiltered() )
-  {
-    KURIFilterData::URITypes type = data.uriType();
-    if( type == KURIFilterData::UNKNOWN )
-    {
-      KMessageBox::sorry( this, i18n( "The url \"%1\" is of unknown type" ).arg( _url ) );
-      return QString::null;  // should never happen unless the search filter is unavailable.
-    }
-    else if( type == KURIFilterData::ERROR )
-    {
-      KMessageBox::sorry( this, i18n( data.errorMsg() ) );
-      return QString::null;
-    }
-    else
-      return data.uri().url();
-  }
-  return _url;  // return the original url if it cannot be filtered.
-}
-
 void KonqMainView::openFilteredURL( KonqChildView * /*_view*/, const QString &_url )
 {
-  KonqURLEnterEvent ev( konqFilteredURL( _url ) );
+  KonqURLEnterEvent ev( konqFilteredURL( this, _url ) );
   QApplication::sendEvent( this, &ev );
 }
 
@@ -586,7 +562,7 @@ void KonqMainView::slotReload()
 
 void KonqMainView::slotHome()
 {
-  openURL( 0L, KURL( konqFilteredURL( KonqFMSettings::settings()->homeURL() ) ) );
+  openURL( 0L, KURL( konqFilteredURL( this, KonqFMSettings::settings()->homeURL() ) ) );
 }
 
 void KonqMainView::slotGoApplications()
