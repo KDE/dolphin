@@ -36,7 +36,10 @@
  * A job that determines the thumbnails for the images in the current directory
  * of the icon view (KonqIconViewWidget)
  */
-KonqImagePreviewJob::KonqImagePreviewJob( KonqIconViewWidget * iconView, bool force, KPixmapSplitter *splitter, const bool * previewSettings )
+KonqImagePreviewJob::KonqImagePreviewJob( KonqIconViewWidget * iconView,
+					  bool force, int transparency,
+					  KPixmapSplitter *splitter,
+					  const bool * previewSettings )
   : KIO::Job( false /* no GUI */ ), m_bCanSave( true ), m_iconView( iconView )
 {
   m_extent = 0;
@@ -44,7 +47,10 @@ KonqImagePreviewJob::KonqImagePreviewJob( KonqIconViewWidget * iconView, bool fo
   m_splitter = splitter;
   m_bDirsCreated = true; // if no images, no need for dirs
   m_iconDict.setAutoDelete( true );
-  
+  // shift into the upper 8 bits, so we can use it as alpha-channel in QImage
+  m_transparency = (transparency << 24) | 0x00ffffff;
+
+
   // Look for images and store the items in our todo list :)
   for (QIconViewItem * it = m_iconView->firstItem(); it; it = it->nextItem() )
   {
@@ -501,12 +507,12 @@ void KonqImagePreviewJob::createThumbnail( QString pixPath )
 	      p.drawRect( 0, 0, pix.width(), pix.height() );
 	      p.end();
 
-	      
+	
 	      // blending the mimetype icon in
 	      if ( blendIcon ) {
 		  img = pix.convertToImage();
 		  QImage icon = getIcon( m_currentItem->item()->mimetype() );
-	      
+	
 		  // reusing x and y variables
 		  x = pix.width() - icon.width() - xOffset;
 		  x = QMAX( x, 0 );
@@ -515,7 +521,7 @@ void KonqImagePreviewJob::createThumbnail( QString pixPath )
 		  KImageEffect::blendOnLower( x, y, icon, img );
 		  pix.convertFromImage( img );
 	      }
-	      
+	
   	      if ( saveImage && !blendIcon )
   		  img = pix.convertToImage();
 	  }
@@ -601,12 +607,12 @@ const QImage& KonqImagePreviewJob::getIcon( const QString& mimeType )
 	for ( int y = 0; y < h; y++ ) {
 	    QRgb *line = (QRgb *) icon->scanLine( y );
 	    for ( int x = 0; x < w; x++ )
-		line[x] &= 0x35ffffff; // transparency
+		line[x] &= m_transparency; // transparency
 	}
 	
 	m_iconDict.insert( mimeType, icon );
     }
-    
+
     return *icon;
 }
 

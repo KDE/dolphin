@@ -284,12 +284,13 @@ void KonqIconViewWidget::startImagePreview( const bool * previewSettings, bool f
 	if ( !pixmap.isEmpty() ) {
 	    // FIXME: make configurable...
             // DF: What, the size ? You can determine it from m_size.
+	    // CP: no, I meant the font-pixmap and the glyph-size
 	    m_splitter->setPixmap( QPixmap( pixmap ));
 	    m_splitter->setItemSize( QSize( 4, 7 ));
 	}
     }
 
-    m_pImagePreviewJob = new KonqImagePreviewJob( this, force, m_splitter, previewSettings );
+    m_pImagePreviewJob = new KonqImagePreviewJob( this, force, m_pSettings->textPreviewIconTransparency(), m_splitter, previewSettings );
     connect( m_pImagePreviewJob, SIGNAL( result( KIO::Job * ) ),
              this, SIGNAL( imagePreviewFinished() ) );
     m_pImagePreviewJob->startImagePreview();

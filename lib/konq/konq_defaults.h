@@ -51,6 +51,9 @@
 // root window icon text transparency default -- stefan@space.twc.de
 //#define DEFAULT_TRANSPARENT_ICON_TEXT true
 
+// transparency of blended mimetype icons in textpreview
+#define DEFAULT_TEXTPREVIEW_ICONTRANSPARENCY 70
+
 // show hidden files on desktop default
 #define DEFAULT_SHOW_HIDDEN_ROOT_ICONS false
 #define DEFAULT_VERT_ALIGN true

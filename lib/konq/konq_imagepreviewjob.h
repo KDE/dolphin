@@ -43,9 +43,13 @@ public:
 
     /**
      * Create a job for determining the pixmaps of the images in the @p iconView
+     * @p transparency is a value from 0..255 determining the transparency of
+     * an icon blended into the text-preview. 0 means the icon is completely
+     * transparent (invisible), while 255 means it is completely opaque.
      */
     KonqImagePreviewJob( KonqIconViewWidget * iconView, bool force,
-			 KPixmapSplitter *splitter = 0L, const bool * previewSettings = 0L );
+			 int transparency = 55, KPixmapSplitter *splitter = 0L,
+			 const bool * previewSettings = 0L );
     virtual ~KonqImagePreviewJob();
 
     // Call this to get started
@@ -96,6 +100,9 @@ private:
     KPixmapSplitter *m_splitter;
     // cache for transparent icons
     QDict<QImage> m_iconDict;
+    // the transparency of the blended mimetype icon
+    // {0..255}, shifted into the upper 8 bits
+    int m_transparency;
 };
 
 #endif

@@ -85,6 +85,8 @@ public:
   const QColor& highlightedTextColor() const { return m_highlightedTextColor; }
   const QColor& itemTextBackground() const { return m_itemTextBackground; }
 
+  int textPreviewIconTransparency() const { return m_iconTransparency; }
+    
 private:
 
   static KonqFMSettings * s_pSettings;
@@ -105,6 +107,9 @@ private:
 
   QString m_homeURL;
 
+  // used for the textpreview
+  int m_iconTransparency;
+    
   /** Called by constructor and reparseConfiguration */
   void init( KConfig * config );
 
