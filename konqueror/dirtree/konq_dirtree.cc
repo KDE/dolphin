@@ -19,14 +19,12 @@
 #include <kfileitem.h>
 #include <kdirlister.h>
 #include <klocale.h>
-#include <kpopmenu.h>
 #include <kio_job.h>
-#include <klineeditdlg.h>
-#include <kpropsdlg.h>
 #include <kuserpaths.h>
 #include <kdebug.h>
 #include <kio_paste.h>
 #include <kglobal.h>
+#include <kdesktopfile.h>
 
 #include <assert.h>
 
@@ -200,6 +198,7 @@ KonqDirTreeItem::KonqDirTreeItem( KonqDirTree *parent, QListViewItem *parentItem
   m_item = item;
   m_topLevelItem = topLevelItem;
   m_tree = parent;
+  m_bListable = true;
 
   if ( m_topLevelItem )
     m_tree->addSubDir( this, m_topLevelItem, m_item->url() );
@@ -216,10 +215,15 @@ KonqDirTreeItem::~KonqDirTreeItem()
 void KonqDirTreeItem::setOpen( bool open )
 {
 
-  if ( open && !childCount() )
+  if ( open && !childCount() && m_bListable )
     m_tree->openSubFolder( this, m_topLevelItem );
 
   QListViewItem::setOpen( open );
+}
+
+void KonqDirTreeItem::setListable( bool b )
+{
+  m_bListable = b;
 }
 
 //TODO: make it configurable via viewprops
@@ -253,7 +257,8 @@ KonqDirTree::KonqDirTree( KonqDirTreeBrowserView *parent )
   connect( m_autoOpenTimer, SIGNAL( timeout() ),
 	   this, SLOT( slotAutoOpenFolder() ) );
 
-  m_root = new QListViewItem( this, i18n( "Computer" ) );
+  m_root = new QListViewItem( this, i18n( "Desktop" ) );
+  m_root->setPixmap( 0, KonqFactory::instance()->iconLoader()->loadApplicationIcon( "desktop", KIconLoader::Small ) );
   m_root->setSelectable( false );
 
   connect( this, SIGNAL( doubleClicked( QListViewItem * ) ),
@@ -267,6 +272,8 @@ KonqDirTree::KonqDirTree( KonqDirTreeBrowserView *parent )
 
   m_unselectableItems.append( m_root );
 
+  m_lastItem = 0L;
+  
   init();
 
   m_root->setOpen( true );
@@ -514,7 +521,12 @@ void KonqDirTree::slotDoubleClicked( QListViewItem *item )
   if ( m_groupItems.find( item ) != m_groupItems.end() )
     return;
 
+  if ( item == m_lastItem )
+    return;
+  
   emit m_view->openURLRequest( ((KonqDirTreeItem *)item)->fileItem()->url().url(), false, 0, 0 );
+  
+  m_lastItem = item;
 }
 
 void KonqDirTree::slotRightButtonPressed( QListViewItem *item )
@@ -524,10 +536,7 @@ void KonqDirTree::slotRightButtonPressed( QListViewItem *item )
 
   QMap<QListViewItem *,QString>::ConstIterator groupItem = m_groupItems.find( item );
   if ( groupItem != m_groupItems.end() )
-  {
-    groupPopupMenu( *groupItem, item );
     return;
-  }
 
   if ( m_unselectableItems.findRef( item ) != -1 )
     return;
@@ -549,7 +558,12 @@ void KonqDirTree::slotClicked( QListViewItem *item )
   if ( m_unselectableItems.findRef( item ) != -1 )
     return;
 
+  if ( item == m_lastItem )
+    return;
+  
   emit m_view->openURLRequest( ((KonqDirTreeItem *)item)->fileItem()->url().url(), false, 0, 0 );
+  
+  m_lastItem = item;
 }
 
 void KonqDirTree::slotListingStopped()
@@ -608,16 +622,10 @@ void KonqDirTree::slotAutoOpenFolder()
 
 void KonqDirTree::init()
 {
-
-  QStringList dirs = KonqFactory::instance()->dirs()->findDirs( "data", "konqueror/dirtree/" );
-  QStringList::ConstIterator dIt = dirs.begin();
-  QStringList::ConstIterator dEnd = dirs.end();
-
-  for (; dIt != dEnd; ++dIt )
-    scanDir( m_root, *dIt );
+  scanDir( m_root, KonqFactory::instance()->dirs()->saveLocation( "data", "konqueror/dirtree/" ), true );
 }
 
-void KonqDirTree::scanDir( QListViewItem *parent, const QString &path )
+void KonqDirTree::scanDir( QListViewItem *parent, const QString &path, bool isRoot )
 {
   QDir dir( path );
 
@@ -625,11 +633,28 @@ void KonqDirTree::scanDir( QListViewItem *parent, const QString &path )
     return;
 
   QStringList entries = dir.entryList( QDir::Files );
+  
+  if ( isRoot && entries.count() == 0 )
+  {
+    QString homeLnk = locate( "data", "konqueror/dirtree/home.desktop", KonqFactory::instance() );
+
+    if ( !homeLnk.isEmpty() )
+    {
+      QCString cp;
+      cp.sprintf( "cp %s %s", homeLnk.local8Bit().data(), path.local8Bit().data() );
+      system( cp.data() );
+      
+      dir.setPath( path ); //hack to make QDir to consider the dir to be dirty and re-read it
+      entries = dir.entryList( QDir::Files );
+    }
+  }
+  
   QStringList::ConstIterator eIt = entries.begin();
   QStringList::ConstIterator eEnd = entries.end();
 
   for (; eIt != eEnd; eIt++ )
-    loadTopLevelItem( parent, QString( *eIt ).prepend( path ) );
+    if ( KDesktopFile::isDesktopFile( *eIt ) )
+      loadTopLevelItem( parent, QString( *eIt ).prepend( path ) );
 
   entries = dir.entryList( QDir::Dirs );
   eIt = entries.begin();
@@ -637,10 +662,12 @@ void KonqDirTree::scanDir( QListViewItem *parent, const QString &path )
 
   for (; eIt != eEnd; eIt++ )
   {
-    if ( *eIt == "." || *eIt == ".." )
+    QString newPath = QString( path ).append( *eIt ).append( '/' );
+
+    if ( *eIt == "." || *eIt == ".." || newPath == KUserPaths::templatesPath() || newPath == KUserPaths::autostartPath() )
       continue;
 
-    scanDir2( parent, QString( path ).append( *eIt ) );
+    scanDir2( parent, newPath );
   }
 }
 
@@ -662,32 +689,55 @@ void KonqDirTree::scanDir2( QListViewItem *parent, const QString &path )
     icon = cfg.readEntry( "Icon" );
   }
 
-  QListViewItem *item = new QListViewItem( parent );
+  QString url = QString( path ).prepend( "file:" );
+
+  KFileItem *fileItem = new KFileItem( 0, KURL( url ) );
+  KonqDirTreeItem *item = new KonqDirTreeItem( this, parent, 0, fileItem );
+  //  QListViewItem *item = new QListViewItem( parent );
   item->setText( 0, name );
   item->setPixmap( 0, KonqFactory::instance()->iconLoader()->loadApplicationIcon( icon, KIconLoader::Small ) );
-  item->setSelectable( false );
+  item->setListable( false );
+  //  item->setSelectable( false );
 
-  m_unselectableItems.append( item );
+  //  m_unselectableItems.append( item );
 
   QString groupPath = QString( path ).append( "/" );
 
   m_groupItems.insert( item, groupPath );
+
+  item->setOpen( true );
 
   scanDir( item, groupPath );
 }
 
 void KonqDirTree::loadTopLevelItem( QListViewItem *parent,  const QString &filename )
 {
-  KSimpleConfig cfg( filename, true );
+  KDesktopFile cfg( filename, true );
 
-  cfg.setDesktopGroup();
+  QString url, icon, name;
 
-  QString url = cfg.readEntry( "URL" );
-  QString icon = cfg.readEntry( "Icon" );
-  QString name = cfg.readEntry( "Name" );
+  if ( cfg.hasLinkType() )
+  {
+    url = cfg.readURL();
+    icon = cfg.readIcon();
+    name = cfg.readName();
 
-  if ( url == "file:$HOME" ) //HACK
-    url = QDir::homeDirPath().prepend( "file:" );
+    if ( url == "file:$HOME" ) //HACK
+      url = QDir::homeDirPath().prepend( "file:" );
+  }
+  else if ( cfg.hasDeviceType() )
+  {
+    QString mountPoint = KIOJob::findDeviceMountPoint( cfg.readEntry( "Dev" ) );
+
+    if ( mountPoint.isNull() )
+      return;
+
+    url = mountPoint.prepend( "file:" );
+    icon = cfg.readIcon();
+    name = cfg.readName();
+  }
+  else
+    return;
 
   KFileItem *fileItem = new KFileItem( 0, KURL( url ) );
   KonqDirTreeItem *item = new KonqDirTreeItem( this, parent, 0, fileItem );
@@ -712,66 +762,12 @@ void KonqDirTree::loadTopLevelItem( QListViewItem *parent,  const QString &filen
 	   this, SLOT( slotListingStopped() ) );
 
   m_topLevelItems.append( TopLevelItem( item, dirLister, new QMap<KURL, KonqDirTreeItem *>, new KURL::List ) );
-  addSubDir( item, item, fileItem->url().url( 0 ) );
 
-  if ( cfg.readBoolEntry( "Open", true ) )
+  addSubDir( item, item, fileItem->url() );
+
+  if ( fileItem->url().isLocalFile() )
     item->setOpen( true );
 
-}
-
-void KonqDirTree::groupPopupMenu( const QString &path, QListViewItem *item )
-{
-  return; //disabled for now (because it's not really that functional ;(
-
-  KPopupMenu *popup = new KPopupMenu;
-
-  popup->insertTitle( i18n( "Tree Options for \"%1\"" ).arg( item->text( 0 ) ) );
-
-  popup->insertSeparator();
-
-  popup->insertItem( i18n( "Add Group" ), 1);
-  popup->insertItem( i18n( "Add Link" ), 2 );
-  popup->insertSeparator();
-  popup->insertItem( i18n( "Remove Group" ), 3 );
-
-  int result = popup->exec( QCursor::pos() );
-
-  switch ( result ) {
-  case 1: addGroup( path, item ); break;
-  case 2: addLink( path, item ); break;
-  case 3: removeGroup( path, item ); break;
-  default: return;
-  }
-}
-
-void KonqDirTree::addGroup( const QString &path, QListViewItem *item )
-{
-  KLineEditDlg l( i18n( "New Group" ), QString::null, this );
-
-  if ( !l.exec() || l.text().isEmpty() )
-    return;
-
-  QString newGroupPath = path;
-  newGroupPath.append( '/' );
-  newGroupPath.append( l.text() );
-
-  QDir dir;
-  dir.mkdir( newGroupPath );
-
-  scanDir2( item, newGroupPath );
-}
-
-void KonqDirTree::addLink( const QString &path, QListViewItem *item )
-{
-  //TODO
-}
-
-void KonqDirTree::removeGroup( const QString &path, QListViewItem *item )
-{
-  delete item;
-  // we're lazy ;-) let kio_file do the work of removing all the recursive stuff ;-)
-  KIOJob *job = new KIOJob;
-  job->del( QString( path ).prepend( "file:" ) );
 }
 
 KonqDirTree::TopLevelItem KonqDirTree::findTopLevelByItem( KonqDirTreeItem *item )

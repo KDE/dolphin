@@ -488,12 +488,17 @@ void KonqMainView::slotShowHistory()
 
 void KonqMainView::slotEditMimeTypes()
 {
-    openURL( (KonqChildView *)m_currentView, KonqFactory::instance()->dirs()->saveLocation("mime").prepend( "file:" ) );
+  openURL( (KonqChildView *)m_currentView, KonqFactory::instance()->dirs()->saveLocation("mime").prepend( "file:" ) );
 }
 
 void KonqMainView::slotEditApplications()
 {
-    openURL( (KonqChildView *)m_currentView, KonqFactory::instance()->dirs()->saveLocation("apps").prepend( "file:" ) );
+  openURL( (KonqChildView *)m_currentView, KonqFactory::instance()->dirs()->saveLocation("apps").prepend( "file:" ) );
+}
+
+void KonqMainView::slotEditDirTree()
+{
+  KonqFileManager::getFileManager()->openFileManagerWindow( locateLocal( "data", "konqueror/dirtree/" ) );
 }
 
 void KonqMainView::slotSaveSettings()
@@ -1345,7 +1350,8 @@ void KonqMainView::initActions()
   m_paHistory = new KAction( i18n( "&History" ), 0, this, SLOT( slotShowHistory() ), actionCollection(), "history" );
   m_paMimeTypes = new KAction( i18n( "File &Types" ), 0, this, SLOT( slotEditMimeTypes() ), actionCollection(), "mimetypes" );
   m_paApplications = new KAction( i18n( "App&lications" ), 0, this, SLOT( slotEditApplications() ), actionCollection(), "applications" );
-
+  m_paDirTree = new KAction( i18n( "Directory Tree" ), 0, this, SLOT( slotEditDirTree() ), actionCollection(), "dirtree" );
+  
   // Options menu
   m_paSaveSettings = new KAction( i18n( "Sa&ve Settings" ), 0, this, SLOT( slotSaveSettings() ), actionCollection(), "savesettings" );
   m_paSaveSettingsPerURL = new KAction( i18n( "Save Settings for this &URL" ), 0, this, SLOT( slotSaveSettingsPerURL() ), actionCollection(), "savesettingsperurl" );

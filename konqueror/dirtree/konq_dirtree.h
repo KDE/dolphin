@@ -68,10 +68,13 @@ public:
 
   KFileItem *fileItem() const { return m_item; }
 
+  void setListable( bool b );
+
 private:
   KonqDirTree *m_tree;
   KFileItem *m_item;
   KonqDirTreeItem *m_topLevelItem;
+  bool m_bListable;
 };
 
 class KonqDirTree : public QListView
@@ -112,15 +115,9 @@ private slots:
 
 private:
   void init();
-  void scanDir( QListViewItem *parent, const QString &path );
+  void scanDir( QListViewItem *parent, const QString &path, bool isRoot = false );
   void scanDir2( QListViewItem *parent, const QString &path );
   void loadTopLevelItem( QListViewItem *parent, const QString &filename );
-
-  void groupPopupMenu( const QString &path, QListViewItem *item );
-
-  void addGroup( const QString &path, QListViewItem *item );
-  void addLink( const QString &path, QListViewItem *item );
-  void removeGroup( const QString &path, QListViewItem *item );
 
   struct TopLevelItem
   {
@@ -161,6 +158,8 @@ private:
   QPixmap m_folderPixmap;
 
   QTimer *m_autoOpenTimer;
+
+  QListViewItem *m_lastItem;
 };
 
 #endif

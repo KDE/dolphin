@@ -23,6 +23,7 @@
   <Action name="history"/>
   <Action name="mimetypes"/>
   <Action name="applications"/>
+  <Action name="dirtree"/>
  </Menu>
  <Action name="bookmarks_menu"/>
  <Menu name="Options"><text>&amp;Options</text>

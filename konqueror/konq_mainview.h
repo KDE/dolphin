@@ -94,6 +94,7 @@ public slots:
   void slotShowHistory();
   void slotEditMimeTypes();
   void slotEditApplications();
+  void slotEditDirTree();
 
   void slotSaveSettings();
   void slotSaveSettingsPerURL();
@@ -244,6 +245,7 @@ private:
   KAction *m_paHistory;
   KAction *m_paMimeTypes;
   KAction *m_paApplications;
+  KAction *m_paDirTree;
 
   KAction *m_paSaveSettings;
   KAction *m_paSaveSettingsPerURL;
