@@ -5,6 +5,7 @@
  **********************************************************************/
 
 #include <qlayout.h>
+#include <qpushbutton.h>
 
 #include <klocale.h>
 #include <kglobal.h>
@@ -40,6 +41,7 @@ KfindDlg::KfindDlg(const KURL & url, QWidget *parent, const char *name)
   // remove misleading default help
   setButtonWhatsThis(Apply,QString::null);
   setButtonTip(Apply,QString::null);
+  actionButton(Apply)->setIconSet(QIconSet());
 
   isResultReported = false;
 
