@@ -220,7 +220,7 @@ KProxyOptions::KProxyOptions(QWidget *parent, const char *name)
   l->addWidget(le_no_prx);
 
   layout->addWidget(sep);
- 
+
   QVBoxLayout * l1 = new QVBoxLayout(layout);
   l1->addWidget(cb_useCache);
   l1->addWidget(rb_verify);
@@ -284,6 +284,7 @@ void KProxyOptions::defaults() {
   le_no_prx->setText("");
   setProxy();
   cb_useCache->setChecked(true);
+  setCache();
   rb_verify->setChecked(true);
 }
 
