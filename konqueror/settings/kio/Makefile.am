@@ -9,7 +9,7 @@ libkcm_kio_la_SOURCES = policydlg.cpp kcookiesmain.cpp kcookiespolicies.cpp kcoo
 			main.cpp ksmboptdlg.cpp useragentdlg.cpp kproxydlg.cpp
 
 libkcm_kio_la_LDFLAGS  = $(all_libraries) -module -avoid-version -no-undefined
-libkcm_kio_la_LIBADD = -lkdeui
+libkcm_kio_la_LIBADD = $(LIB_KIO)
 
 messages:
 	$(XGETTEXT) $(libkcm_kio_la_SOURCES) -o $(podir)/kcmkio.pot
