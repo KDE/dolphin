@@ -4,7 +4,6 @@ Icon=launch
 Type=Application
 DocPath=kcontrol/kcmperformance/index.html
 Exec=kcmshell kcmkonqyperformance
-NoDisplay=true
 
 X-KDE-ModuleType=Library
 X-KDE-Library=performance
