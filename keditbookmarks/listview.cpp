@@ -55,12 +55,12 @@ ListView::ListView() {
    ;
 }
 
-void ListView::createListView(QWidget *parent) {
+void ListView::createListViews(QWidget *parent) {
    s_self = new ListView();
    self()->m_listView = new KEBListView(parent);
 }
 
-void ListView::initListView() {
+void ListView::initListViews() {
    self()->m_listView->init();
 }
 

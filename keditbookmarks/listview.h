@@ -95,7 +95,7 @@ class ListView : public QObject
    Q_OBJECT
 public:
    // init stuff
-   void initListView();
+   void initListViews();
 
    void updateListViewSetup(bool readOnly);
 
@@ -138,8 +138,8 @@ public:
    KEBListViewItem* findOpenParent(KEBListViewItem *item);
    void openParents(KEBListViewItem *item);
 
-   static ListView* self() { assert(s_self); return s_self; }
-   static void createListView(QWidget *parent);
+   static ListView* self() { if (!s_self) { s_self = new ListView(); } return s_self; }
+   static void createListViews(QWidget *parent);
    QWidget *widget() const { return m_listView; }
    void rename(int);
    void clearSelection();
