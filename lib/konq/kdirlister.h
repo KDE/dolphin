@@ -179,6 +179,8 @@ protected:
 
   QValueList<UDSEntry> m_buffer;
   QTimer m_bufferTimer;
+  
+  QStringList m_lstPendingUpdates;
 };
 
 #endif

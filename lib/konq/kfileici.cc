@@ -47,6 +47,13 @@ void KFileICI::refresh( bool _display_mode_changed )
   
   KIconContainerItem::refresh( _display_mode_changed );
 }
+bool KFileICI::acceptsDrops( QStringList &_formats )
+{
+  if ( m_fileitem->mimetype() == "inode/directory" )
+    return true;
+  else
+    return KIconContainerItem::acceptsDrops( _formats );
+}
 
 void KFileICI::paint( QPainter* _painter, bool _drag )
 {

@@ -211,7 +211,10 @@ void KDirLister::updateDirectory( const QString& _dir )
 {
   kdebug( KDEBUG_INFO, 1203, "KDirLister::updateDirectory( %s )", _dir.ascii() );
   if ( !m_bComplete )
+  {
+    m_lstPendingUpdates.append( _dir );
     return;
+  }
   
   // Stop running jobs
   if ( m_jobId )
@@ -257,6 +260,10 @@ void KDirLister::slotUpdateFinished( int /*_id*/ )
   
   m_jobId = 0;
   m_bComplete = true;
+  
+  QStringList::Iterator pendingIt = m_lstPendingUpdates.find( m_url.path( 0 ) );
+  if ( pendingIt != m_lstPendingUpdates.end() )
+    m_lstPendingUpdates.remove( pendingIt );
   
   // Unmark all items whose path is m_sURL
   QString sPath = m_url.path( 1 ); // with trailing slash
@@ -338,6 +345,13 @@ void KDirLister::slotUpdateFinished( int /*_id*/ )
 
   emit update();
   emit completed();
+  
+  // continue with pending updates
+  // as this will result in a recursive loop it's sufficient to only
+  // take the first entry
+  pendingIt = m_lstPendingUpdates.begin();
+  if ( pendingIt != m_lstPendingUpdates.end() )
+    updateDirectory( *pendingIt );
 }
 
 void KDirLister::slotUpdateListEntry( int /*_id*/, const UDSEntry& _entry )

@@ -49,6 +49,8 @@ public:
   /** @return the file item held by this instance */
   KFileItem * item() { return m_fileitem; }
 
+  virtual bool acceptsDrops( QStringList& _formats );
+
 protected:
   virtual void paint( QPainter* _painter, bool _drag );
   virtual void refresh( bool _display_mode_changed );
