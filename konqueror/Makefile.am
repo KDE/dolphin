@@ -28,7 +28,6 @@ konqueror_la_SOURCES = konq_main.cc KonquerorIface.skel konq_mainview.skel \
 		    konq_frame.cc \
 		    konq_actions.cc \
 		    konq_profiledlg.cc \
-		    konq_propsmainview.cc \
 		    konq_factory.cc
 
 konqueror_la_LDFLAGS = $(all_libraries) -module -avoid-version
