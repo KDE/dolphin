@@ -39,7 +39,7 @@
 #define ENV_FTP_PROXY     "FTP_PROXY,ftp_proxy,FTPPROXY,ftpproxy,PROXY,proxy"
 #define ENV_HTTP_PROXY    "HTTP_PROXY,http_proxy,HTTPPROXY,httpproxy,PROXY,proxy"
 #define ENV_HTTPS_PROXY   "HTTPS_PROXY,https_proxy,HTTPSPROXY,httpsproxy,PROXY,proxy"
-#define NO_PROXY          "NO_PROXY, no_proxy"
+#define NO_PROXY          "NO_PROXY,no_proxy"
 
 
 KEnvVarProxyDlg::KEnvVarProxyDlg( QWidget* parent, const char* name )
