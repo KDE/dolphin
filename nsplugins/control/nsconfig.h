@@ -44,8 +44,7 @@ protected slots:
   void configChanged();
 
   void changeDirs();
-  void scan();
-  void pluginInfo();
+  void scan();  
   void fillPluginList();
       
 private:

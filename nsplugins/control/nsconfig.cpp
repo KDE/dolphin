@@ -76,9 +76,7 @@ NSPluginConfig::NSPluginConfig(QWidget *parent, const char *name)
   m_pluginList->addColumn( i18n("Information") );
   m_pluginList->addColumn( i18n("Value") );
  
-  load();
-
-  fillPluginList();
+  load();  
 }
 
 NSPluginConfig::~NSPluginConfig() {}
@@ -95,6 +93,8 @@ void NSPluginConfig::load()
   config->setGroup("Misc");
   m_startkdeScan->setChecked( config->readBoolEntry( "startkdeScan", true ) );
   delete config;
+
+  fillPluginList();
 
   emit changed(false);
 }
@@ -115,6 +115,7 @@ void NSPluginConfig::save()
 void NSPluginConfig::defaults()
 {
   m_startkdeScan->setChecked( true );
+  fillPluginList();
   emit changed(true);
 }
 
@@ -201,10 +202,7 @@ void NSPluginConfig::changeDirs()
 
 void NSPluginConfig::scan()
 {
-}
-
-void NSPluginConfig::pluginInfo()
-{
+   fillPluginList();
 }
 
 extern "C"
