@@ -609,11 +609,12 @@ void KonqViewManager::loadViewProfile( KConfig &cfg, const QString & filename,
   }
 
   // Window size
-
-  QSize size = readConfigSize( cfg );
-
-  if ( size.isValid() )
-    m_pMainWindow->resize( size );
+ if ( !m_pMainWindow->initialGeometrySet() )
+ {
+     QSize size = readConfigSize( cfg );
+     if ( size.isValid() )
+         m_pMainWindow->resize( size );
+ }
 
 #ifndef NDEBUG
   printFullHierarchy( m_pMainContainer );

@@ -235,7 +235,8 @@ KonqMainWindow::KonqMainWindow( const KURL &initialURL, bool openInitialURL, con
   connect( KonqUndoManager::self(), SIGNAL( undoAvailable( bool ) ),
            this, SLOT( slotUndoAvailable( bool ) ) );
 
-  resize( 700, 480 );
+  if ( !initialGeometrySet() )
+      resize( 700, 480 );
   //kdDebug(1202) << "KonqMainWindow::KonqMainWindow " << this << " done" << endl;
 }
 
