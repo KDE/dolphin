@@ -2189,6 +2189,11 @@ void KonqMainWindow::slotRemoveOtherTabsPopup()
       updateViewActions();
 }
 
+void KonqMainWindow::slotReloadAllTab()
+{
+    m_pViewManager->reloadAllTab();
+    updateViewActions();
+}
 
 void KonqMainWindow::slotActivateNextTab()
 {
@@ -3077,7 +3082,7 @@ void KonqMainWindow::initActions()
   connectActionCollection( m_bookmarksActionCollection );
 
   m_pBookmarkMenu = new KBookmarkMenu( KonqBookmarkManager::self(), this, m_pamBookmarks->popupMenu(), m_bookmarksActionCollection, true );
-  
+
   m_paShowMenuBar = KStdAction::showMenubar( this, SLOT( slotShowMenuBar() ), actionCollection() );
 
   (void) new KAction( i18n( "Kon&queror Introduction" ), 0, this, SLOT( slotIntro() ), actionCollection(), "konqintro" );

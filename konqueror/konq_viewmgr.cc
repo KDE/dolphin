@@ -552,6 +552,24 @@ void KonqViewManager::removeTab( KonqFrameBase* tab )
 #endif
 }
 
+void KonqViewManager::reloadAllTab( )
+{
+  if (m_pDocContainer == 0L) return;
+  if (m_pDocContainer->frameType() != "Tabs") return;
+
+  KonqFrameTabs* tabContainer = static_cast<KonqFrameTabs*>(m_pDocContainer);
+
+  QPtrList<KonqFrameBase> frameList = *tabContainer->childFrameList();
+  QPtrListIterator<KonqFrameBase> it( frameList );
+
+  for ( it.toFirst(); it != 0L; ++it )
+  {
+      if ( it.current()->activeChildView())
+      {
+          it.current()->activeChildView()->openURL( it.current()->activeChildView()->url(),it.current()->activeChildView()->locationBarURL());
+      }
+  }
+}
 
 void KonqViewManager::removeOtherTabs( KonqFrameBase* tab )
 {
