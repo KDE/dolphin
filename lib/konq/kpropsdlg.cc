@@ -63,10 +63,10 @@
 #include <kmimetype.h>
 #include <kmessagebox.h>
 #include <kservice.h>
-#include <kfileitem.h> // for encodeFileName
+#include <kfileitem.h>
+#include <kuserpaths.h>
 
 #include "kpropsdlg.h"
-#include "kuserpaths.h"
 
 #include <X11/Xlib.h> // for XSetTransientForHint
 
@@ -123,7 +123,7 @@ void PropertiesDialog::init()
   connect( tab, SIGNAL( applyButtonPressed() ), this, SLOT( slotApply() ) );
   connect( tab, SIGNAL( cancelButtonPressed() ), this, SLOT( slotCancel() ) );
 
-  // tab->show();
+  tab->show();
 }
 
 
