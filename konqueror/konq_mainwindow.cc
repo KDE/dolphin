@@ -263,6 +263,13 @@ KonqMainWindow::~KonqMainWindow()
       s_comboConfig = 0L;
   }
 
+  QByteArray params;
+  QDataStream stream(params, IO_WriteOnly);
+  stream << winId();
+  if( !kapp->dcopClient()->send( "kcookiejar", "kcookiejar",
+                    "deleteSessionCookies(long int)", params ) )
+      kdDebug(1202) << "Could not delete session based cookies!" << endl;
+
   kdDebug(1202) << "KonqMainWindow::~KonqMainWindow " << this << " done" << endl;
 }
 
