@@ -177,18 +177,20 @@ QDomElement KBookmarkGroup::findToolbar() const
 {
     if ( element.attribute("toolbar") == "yes" )
         return element;
-    // Search among the "folder" children only
-    QDomNodeList list = element.elementsByTagName("folder");
-    for ( uint i = 0 ; i < list.count() ; ++i )
+    QDomElement e = element.firstChild().toElement();
+    for ( ; !e.isNull() ; e = e.nextSibling().toElement() )
     {
-        QDomElement e = list.item(i).toElement();
-        if ( e.attribute("toolbar") == "yes" )
-            return e;
-        else
+        // Search among the "folder" children only
+        if ( e.tagName() == "folder" )
         {
-            QDomElement result = KBookmarkGroup(e).findToolbar();
-            if (!result.isNull())
-                return result;
+            if ( e.attribute("toolbar") == "yes" )
+                return e;
+            else
+            {
+                QDomElement result = KBookmarkGroup(e).findToolbar();
+                if (!result.isNull())
+                    return result;
+            }
         }
     }
     return QDomElement();
