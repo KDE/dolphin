@@ -732,8 +732,8 @@ KonqFrameTabs::~KonqFrameTabs()
 }
 
 void KonqFrameTabs::listViews( ChildViewList *viewList ) {
-  int childFrameCount = m_pChildFrameList->count();
-  for( int i=0 ; i<childFrameCount ; i++) m_pChildFrameList->at(i)->listViews(viewList);
+  for( QPtrListIterator<KonqFrameBase> it( *m_pChildFrameList ); *it; ++it )
+    it.current()->listViews(viewList);
 }
 
 void KonqFrameTabs::saveConfig( KConfig* config, const QString &prefix, bool saveURLs, KonqFrameBase* docContainer, int id, int depth )

@@ -836,12 +836,12 @@ void KonqViewManager::clear()
   if (m_pMainWindow->childFrame() == 0L) return;
 
   QPtrList<KonqView> viewList;
-  QPtrListIterator<KonqView> it( viewList );
 
   m_pMainWindow->listViews( &viewList );
 
   kdDebug(1202) << viewList.count() << " items" << endl;
 
+  QPtrListIterator<KonqView> it( viewList );
   for ( it.toFirst(); it.current(); ++it ) {
     m_pMainWindow->removeChildView( it.current() );
     kdDebug(1202) << "Deleting " << it.current() << endl;
