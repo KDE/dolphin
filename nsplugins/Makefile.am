@@ -1,4 +1,4 @@
-SUBDIRS = viewer test control
+SUBDIRS = viewer test
 INCLUDES = -I$(top_srcdir)/libltdl $(all_includes)
 METASOURCES = AUTO
 noinst_HEADERS = nspluginloader.h
@@ -21,5 +21,5 @@ nspluginscan_LDADD = $(MOTIF_LIBS) $(LIB_KDEUI) $(LIB_KSYCOCA) -lXt
 messages:
 	$(EXTRACTRC) `find . -name *.ui` > rc.cpp
 	$(EXTRACTRC) `find . -name *.rc` >> rc.cpp
-	$(XGETTEXT) *.cpp control/*.cpp viewer/*.cpp -o $(podir)/nsplugin.pot
+	$(XGETTEXT) *.cpp viewer/*.cpp -o $(podir)/nsplugin.pot
 
