@@ -36,7 +36,7 @@
 KonqBgndDialog::KonqBgndDialog( const QString & pixmapFile,
 				KInstance *instance )
   : KDialogBase( Plain,
-		 i18n("Select background image"),
+		 i18n("Select Background Image"),
                  Ok|Cancel,
                  Ok,
 		 0L, // no parent,
