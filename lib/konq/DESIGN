@@ -17,11 +17,18 @@ knewmenu.*      : implements the 'new' menu (file templates)
 
 2) files
 kfileitem.*     : item representing a file and all the information associated
-kdirlister.*    : directory lister (handles kiojob and the kfileitems for you)
+kdirlister.*    : directory lister (handles the job and kfileitems for any view)
+konqoperations.*: common operations to all views, like deleting files, and
+                  dropping files.
 
 3) icons
 kfileivi.*      : icon representing a file (inherits QListViewItem and 
                   uses KFileItem for holding file information)
+konqiconviewwidget.* : the specialisation of QIconView that knows about files.
+                  Basic widget for icon views in konqueror and kdesktop.
+konqdrag.*      : the drag object for konqiconviewwidget (adds text/uri-list
+                  support to QIconView's drag object).
+
 
 4) dialog boxes
 kpropsdlg.*     : the properties dialog box (for any URL)
