@@ -211,7 +211,8 @@ void testDir( const char *_name, bool showMsg = FALSE )
     
     if (showMsg)
       QMessageBox::information( 0, i18n("Information"),
-                                i18n("Creating directory:\n") + m );
+                                i18n("Creating directory:\n") + m,
+				i18n("OK") );
     ::mkdir( m, S_IRWXU );
   }
   else
