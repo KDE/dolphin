@@ -19,12 +19,12 @@ KDateCombo::KDateCombo(QWidget *parent, const char *name ) : QComboBox(FALSE, pa
   initObject(date, parent, name);
 }
 
-KDateCombo::KDateCombo(const QDate & date, QWidget *parent=0, const char *name=0) : QComboBox(FALSE, parent,name)
+KDateCombo::KDateCombo(const QDate & date, QWidget *parent, const char *name) : QComboBox(FALSE, parent,name)
 {
   initObject(date, parent, name);
 }
 
-void KDateCombo::initObject(const QDate & date, QWidget *parent=0, const char *name=0)
+void KDateCombo::initObject(const QDate & date, QWidget *parent, const char *name)
 {
   clearValidator();
   popupFrame = new KPopupFrame(this, "popupFrame");
