@@ -1362,6 +1362,7 @@ void KonqMainView::slotShowCache()
 
   QString f = file;
   KURL::encode( f );
+  f.prepend( "file:" );
   openURL( f );
 }
 
@@ -1372,12 +1373,12 @@ void KonqMainView::slotShowHistory()
 
 void KonqMainView::slotEditMimeTypes()
 {
-    openURL( KGlobal::dirs()->getSaveLocation("mime") );
+    openURL( KGlobal::dirs()->getSaveLocation("mime").prepend( "file:" ) );
 }
 
 void KonqMainView::slotEditApplications()
 {
-    openURL( KGlobal::dirs()->getSaveLocation("apps") );
+    openURL( KGlobal::dirs()->getSaveLocation("apps").prepend( "file:" ) );
 }
 
 void KonqMainView::slotShowMenubar()
