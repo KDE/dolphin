@@ -8,7 +8,7 @@
 // (c) David Faure <faure@kde.org> 1998
 
 #ifndef __KPROXYDLG_H
-#define __KPROXYDLG_H
+#define __KPROXYDLG_H "$Id"
 
 #include <qdialog.h>
 #include <qpushbutton.h>

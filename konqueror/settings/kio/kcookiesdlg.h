@@ -4,7 +4,7 @@
 // This dialog box created by David Faure <faure@kde.org>
 
 #ifndef __KCOOKIESDLG_H
-#define __KCOOKIESDLG_H
+#define __KCOOKIESDLG_H "$Id$"
 
 #include <qdialog.h>
 #include <qpushbutton.h>

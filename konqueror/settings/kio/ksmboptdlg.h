@@ -1,7 +1,8 @@
 // ksmboptdlg.h - SMB configuration by Nicolas Brodu <brodu@kde.org>
 // code adapted from other option dialogs
+
 #ifndef __KSMBOPTDLG_H
-#define __KSMBOPTDLG_H
+#define __KSMBOPTDLG_H "$Id$"
 
 #include <qwidget.h>
 #include <qlabel.h>

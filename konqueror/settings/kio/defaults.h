@@ -1,5 +1,5 @@
 #ifndef DEFAULTS_H
-#define DEFAULTS_H
+#define DEFAULTS_H "$Id$"
 
 // browser/tree window color defaults -- Bernd
 #define HTML_DEFAULT_BG_COLOR white

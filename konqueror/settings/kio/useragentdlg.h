@@ -7,7 +7,7 @@
 // (c) David Faure <faure@kde.org> 1998
 
 #ifndef _USERAGENTDLG_H
-#define _USERAGENTDLG_H
+#define _USERAGENTDLG_H "$Id$"
 
 #include <qdialog.h>
 #include <qstring.h>
