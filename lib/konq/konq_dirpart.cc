@@ -187,6 +187,17 @@ void KonqDirPart::saveState( QDataStream &stream )
         //kdDebug(1203) << "KonqDirPart::saveState -> saving TRUE" << endl;
         stream << true;
         // TODO save the kfindpart in there
+        KParts::BrowserExtension * ext = KParts::BrowserExtension::childObject( m_findPart );
+        if(m_findPart==NULL) {
+                kdDebug() << "m_findpart is null\n";
+                return;
+        }
+        if(ext==NULL) {
+                kdDebug() << "ext is null\n";
+                return;
+        }
+        else
+                ext->saveState( stream );
     }
 }
 
@@ -205,8 +216,16 @@ void KonqDirPart::restoreState( QDataStream &stream )
     //kdDebug(1203) << "KonqDirPart::restoreState " << bFindPart << endl;
     if ( bFindPart )
     {
-        // TODO restore the kfindpart data
         emit findOpen( this );
+        // TODO restore the kfindpart data
+        KParts::BrowserExtension * ext = KParts::BrowserExtension::childObject( m_findPart );
+        slotClear();
+        if(m_findPart==NULL)
+                kdDebug() << "\n*************\nrestore m_findpart is null\n";
+        if(ext==NULL)
+                kdDebug() << "\n*************\nrestore ext is null\n";
+        else
+                ext->restoreState( stream );
     }
 }
 
@@ -402,14 +421,21 @@ void KonqDirPart::setFindPart( KParts::ReadOnlyPart * part )
     m_findPart = part;
     connect( m_findPart, SIGNAL( started() ),
              this, SLOT( slotStarted() ) );
+    connect( m_findPart, SIGNAL( started() ),
+             this, SLOT( slotStartAnimationSearching() ) );
     connect( m_findPart, SIGNAL( clear() ),
              this, SLOT( slotClear() ) );
     connect( m_findPart, SIGNAL( newItems( const KFileItemList & ) ),
              this, SLOT( slotNewItems( const KFileItemList & ) ) );
     connect( m_findPart, SIGNAL( finished() ), // can't name it completed, it conflicts with a KROP signal
              this, SLOT( slotCompleted() ) );
+    connect( m_findPart, SIGNAL( finished() ),
+             this, SLOT( slotStopAnimationSearching() ) );
     connect( m_findPart, SIGNAL( canceled() ),
              this, SLOT( slotCanceled() ) );
+    connect( m_findPart, SIGNAL( canceled() ),
+             this, SLOT( slotStopAnimationSearching() ) );
+
     connect( m_findPart, SIGNAL( findClosed() ),
              this, SLOT( slotFindClosed() ) );
 
@@ -425,6 +451,16 @@ void KonqDirPart::slotFindClosed()
     emit findClosed( this );
     // reload where we were before
     openURL( url() );
+}
+
+void KonqDirPart::slotStartAnimationSearching()
+{
+  started(0);
+}
+
+void KonqDirPart::slotStopAnimationSearching()
+{
+  completed();
 }
 
 

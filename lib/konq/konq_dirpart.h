@@ -184,6 +184,11 @@ public slots:
      * itself, if entering a directory. It deletes the find part !
      */
     void slotFindClosed();
+    /* Start and stop the animated "K" during
+        kfindpart's file search
+    */
+    void slotStartAnimationSearching();
+    void slotStopAnimationSearching();
 
     void slotBackgroundColor();
     void slotBackgroundImage();
