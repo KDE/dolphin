@@ -345,20 +345,20 @@ KEBTopLevel::KEBTopLevel( const QString & bookmarksFile )
 
     if (!kapp->dcopClient()->isApplicationRegistered(kapp->name())) {
        kapp->dcopClient()->registerAs(kapp->name(),false);
-       m_bReadOnly = false; m_bUnique = true;
+       m_bUnique = true;
     } else {
        int answer = KMessageBox::warningYesNo( this, i18n("Another instance of KEditBookmarks is already running, do you really want to open another instance or continue work in the same instance?.\nPlease note that, unfortunately, duplicate views are read-only."), i18n("Warning"), i18n("Run another"), i18n("Quit") );
        if (0) {
           i18n("Continue in same");
        }
-       m_bReadOnly = true; m_bUnique = false;
+       m_bUnique = false;
        bool oldWindow = (answer==KMessageBox::No);
        if (oldWindow) {
           // kapp->dcopClient()->send( "keditbookmarks", "KEditBookmarks", "activateWindow()", data );
           close();
        }
     }
-
+    m_bReadOnly = !m_bUnique;
     m_pListView->setRootIsDecorated( true );
     m_pListView->setRenameable( 0 );
     m_pListView->setRenameable( 1 );
@@ -454,13 +454,30 @@ KEBTopLevel::KEBTopLevel( const QString & bookmarksFile )
        actionCollection()->action("settings_showNS")->setEnabled(false);
     }
 
+    // AK - refactor
+    actionCollection()->action("edit_cut")       ->setEnabled(false);
+    actionCollection()->action("edit_copy")      ->setEnabled(false);
+    actionCollection()->action("edit_paste")     ->setEnabled(false);
+    actionCollection()->action("rename")         ->setEnabled(false);
+    actionCollection()->action("changeurl")      ->setEnabled(false);
+    actionCollection()->action("delete")         ->setEnabled(false);
+    actionCollection()->action("newfolder")      ->setEnabled(false);
+    actionCollection()->action("changeicon")     ->setEnabled(false);
+    actionCollection()->action("insertseparator")->setEnabled(false);
+    actionCollection()->action("newbookmark")    ->setEnabled(false);
+    actionCollection()->action("sort")           ->setEnabled(false);
+    actionCollection()->action("setastoolbar")   ->setEnabled(false);
+    actionCollection()->action("openlink")       ->setEnabled(false);
+    actionCollection()->action("testlink")       ->setEnabled(false);
+    actionCollection()->action("testall")        ->setEnabled(false);
+
     slotSelectionChanged();
     slotClipboardDataChanged();
 
     createGUI();
 
     setAutoSaveSettings();
-    setModified(false); // for a nice caption
+    setModified(false); // for a very nice caption
     m_commandHistory.documentSaved();
 
     KGlobal::locale()->insertCatalogue("libkonq");
@@ -503,7 +520,7 @@ void KEBTopLevel::slotSelectionChanged()
     bool root = false;
     bool separator = false;
     bool urlIsEmpty = false;
-    if (m_bReadOnly) root = false;
+
     if ( itemSelected )
     {
         KEBListViewItem * kebItem = static_cast<KEBListViewItem *>(item);
@@ -515,22 +532,24 @@ void KEBTopLevel::slotSelectionChanged()
 
     KActionCollection * coll = actionCollection();
 
-    // AK - this is a bit ugly but needed, maybe just hack the readonly thing by never setting?
-    coll->action("edit_cut")       ->setEnabled(!m_bReadOnly && itemSelected && !root);
-    coll->action("edit_copy")      ->setEnabled(!m_bReadOnly && itemSelected && !root);
-    coll->action("edit_paste")     ->setEnabled(!m_bReadOnly && itemSelected && !root && m_bCanPaste);
-    coll->action("rename")         ->setEnabled(!m_bReadOnly && itemSelected && !separator && !root);
-    coll->action("changeurl")      ->setEnabled(!m_bReadOnly && itemSelected && !group && !separator && !root);
-    coll->action("delete")         ->setEnabled(!m_bReadOnly && itemSelected && !root);
-    coll->action("newfolder")      ->setEnabled(!m_bReadOnly && itemSelected);
-    coll->action("changeicon")     ->setEnabled(!m_bReadOnly && itemSelected && !root && !separator);
-    coll->action("insertseparator")->setEnabled(!m_bReadOnly && itemSelected); // AK - rename to shorten tab space?
-    coll->action("newbookmark")    ->setEnabled(!m_bReadOnly && itemSelected);
-    coll->action("sort")           ->setEnabled(!m_bReadOnly && group);
-    coll->action("setastoolbar")   ->setEnabled(!m_bReadOnly && group);
+    // AK - refactor
+    if (!m_bReadOnly) {
+        coll->action("edit_cut")       ->setEnabled(itemSelected && !root);
+        coll->action("edit_copy")      ->setEnabled(itemSelected && !root);
+        coll->action("edit_paste")     ->setEnabled(itemSelected && !root && m_bCanPaste);
+        coll->action("rename")         ->setEnabled(itemSelected && !separator && !root);
+        coll->action("changeurl")      ->setEnabled(itemSelected && !group && !separator && !root);
+        coll->action("delete")         ->setEnabled(itemSelected && !root);
+        coll->action("newfolder")      ->setEnabled(itemSelected);
+        coll->action("changeicon")     ->setEnabled(itemSelected && !root && !separator);
+        coll->action("insertseparator")->setEnabled(itemSelected); // AK - rename to shorten tab space?
+        coll->action("newbookmark")    ->setEnabled(itemSelected);
+        coll->action("sort")           ->setEnabled(group);
+        coll->action("setastoolbar")   ->setEnabled(group);
+        coll->action("testlink")       ->setEnabled(!root && itemSelected && !separator);
+        coll->action("testall")        ->setEnabled(itemSelected && !(root && m_pListView->childCount()==1));
+    }
     coll->action("openlink")       ->setEnabled(itemSelected && !group && !separator && !urlIsEmpty);
-    coll->action("testlink")       ->setEnabled(!m_bReadOnly && !root && itemSelected && !separator);
-    coll->action("testall")        ->setEnabled(!m_bReadOnly && itemSelected && !(root && m_pListView->childCount()==1));
 }
 
 void KEBTopLevel::slotClipboardDataChanged()
@@ -868,14 +887,14 @@ void KEBTopLevel::slotShowNS()
 void KEBTopLevel::setModified( bool modified )
 {
     if (!m_bReadOnly) {
-       // kdDebug() << "OOPPPSS!!!" << endl;
        m_bModified = modified;
        setCaption( i18n("Bookmark Editor"), m_bModified );
-       actionCollection()->action("file_save")->setEnabled( m_bModified );
-       KBookmarkManager::self()->setUpdate( !m_bModified ); // only update when non-modified
     } else {
+       m_bModified = false;
        setCaption( QString("%1 [%2]").arg(i18n("Bookmark Editor")).arg(i18n("Read Only")) );
     }
+    actionCollection()->action("file_save")->setEnabled( m_bModified );
+    KBookmarkManager::self()->setUpdate( !m_bModified ); // only update when non-modified
 }
 
 void KEBTopLevel::slotDocumentRestored()
