@@ -161,8 +161,8 @@ QString KonqAboutPageFactory::specs()
           .arg( i18n("JavaScript disabled (globally). Enable JavaScript <A HREF=\"%1\">here</A>.").arg("exec:/kcmshell konqhtml") )
           .arg( i18n("JavaScript enabled (globally). Configure JavaScript <A HREF=\\\"%1\\\">here</A>.").arg("exec:/kcmshell konqhtml") ) // leave the double backslashes here, they are necessary for javascript !
           .arg( i18n("Secure <A HREF=\"%1\">Java</A><SUP>&reg;</SUP> support").arg("http://java.sun.com") )
-          .arg( i18n("JDK 1.2.0 (Java 2) compatible VM (<A HREF=\"%1\">Blackdown</A>, <A HREF=\"%2\">IBM</A>, <A HREF=\"%3\">Kaffe</A> or <A HREF=\"%4\">Sun</A>)")
-                      .arg("http://www.blackdown.org").arg("http://www.ibm.com").arg("http://www.kaffe.org").arg("http://java.sun.com") )
+          .arg( i18n("JDK 1.2.0 (Java 2) compatible VM (<A HREF=\"%1\">Blackdown</A>, <A HREF=\"%2\">IBM</A> or <A HREF=\"%4\">Sun</A>)")
+                      .arg("http://www.blackdown.org").arg("http://www.ibm.com").arg("http://java.sun.com") )
           .arg( i18n("Enable Java (globally) <A HREF=\"%1\">here</A>.").arg("exec:/kcmshell konqhtml") ) // TODO Maybe test if Java is enabled ?
           .arg( i18n("Netscape Communicator<SUP>&reg;</SUP> plugins (for viewing <A HREF=\"%1\">Flash</A>, <A HREF=\"%2\">Real</A>Audio, <A HREF=\"%3\">Real</A>Video, etc.)")
                       .arg("http://www.macromedia.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash")
