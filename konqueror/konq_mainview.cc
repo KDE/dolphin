@@ -1715,6 +1715,8 @@ static const char *viewModeGUI = ""
 "<viewmodexml name=\"viewmode\">"
 "<MenuBar>"
 " <Menu name=\"view\">"
+"  <Menu name=\"viewmodes\"><text>View Mode...</text>"
+"  </Menu>"
 " </Menu>"
 "</MenuBar>"
 "</viewmodexml>";
@@ -1724,7 +1726,7 @@ ViewModeGUIClient::ViewModeGUIClient( KonqMainView *mainView )
 {
   m_mainView = mainView;
   m_doc.setContent( QString::fromLatin1( viewModeGUI ) );
-  m_menuElement = m_doc.documentElement().namedItem( "MenuBar" ).namedItem( "Menu" ).toElement();
+  m_menuElement = m_doc.documentElement().namedItem( "MenuBar" ).namedItem( "Menu" ).namedItem( "Menu" ).toElement();
   m_actions = 0L;
 }
 

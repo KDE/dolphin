@@ -30,6 +30,7 @@
 #include <kdebug.h>
 #include <konq_propsview.h>
 #include <kaction.h>
+#include <kstdaction.h>
 #include <kparts/mainwindow.h>
 #include <kparts/partmanager.h>
 #include <kparts/factory.h>
@@ -191,7 +192,7 @@ KonqListView::KonqListView( QWidget *parentWidget, QObject *parent, const char *
 
   setWidget( m_pListView );
 
-  m_paShowDot = new KToggleAction( i18n( "Show &Dot Files" ), 0, this, SLOT( slotShowDot() ), actionCollection(), "show_dot" );
+  setupActions();
 
   QObject::connect( m_pListView, SIGNAL( selectionChanged() ),
                     m_browser, SLOT( updateActions() ) );
@@ -225,14 +226,110 @@ void KonqListView::guiActivateEvent( KParts::GUIActivateEvent *event )
     m_browser->updateActions();
 }
 
-void KonqListView::slotReloadTree()
+void KonqListView::slotSelect()
 {
-//  m_pListView->openURL( url(), m_pListView->contentsX(), m_pListView->contentsY() );
+  //TODO
+}
+
+void KonqListView::slotUnselect()
+{
+  //TODO
+}
+
+void KonqListView::slotSelectAll()
+{
+  //TODO
+}
+
+void KonqListView::slotUnselectAll()
+{
+  //TODO
+}
+
+void KonqListView::slotInvertSelection()
+{
+  //TODO
+}
+
+void KonqListView::slotViewLarge( bool b )
+{
+  //TODO
+}
+
+void KonqListView::slotViewMedium( bool b )
+{
+  //TODO
+}
+
+void KonqListView::slotViewSmall( bool b )
+{
+  //TODO
+}
+
+void KonqListView::slotViewNone( bool b )
+{
+  //TODO
 }
 
 void KonqListView::slotShowDot()
 {
   m_pListView->dirLister()->setShowingDotFiles( m_paShowDot->isChecked() );
+}
+
+void KonqListView::slotCheckMimeTypes()
+{
+  //TODO
+}
+
+void KonqListView::slotBackgroundColor()
+{
+  //TODO
+}
+
+void KonqListView::slotBackgroundImage()
+{
+  //TODO
+}
+
+void KonqListView::slotReloadTree()
+{
+//  m_pListView->openURL( url(), m_pListView->contentsX(), m_pListView->contentsY() );
+}
+
+void KonqListView::setupActions()
+{
+  m_paSelect = new KAction( i18n( "&Select..." ), CTRL+Key_Slash, this, SLOT( slotSelect() ), actionCollection(), "select" );
+  m_paUnselect = new KAction( i18n( "&Unselect..." ), CTRL+Key_Backslash, this, SLOT( slotUnselect() ), actionCollection(), "unselect" );
+  m_paSelectAll = KStdAction::selectAll( this, SLOT( slotSelectAll() ), this, "selectall" );
+  m_paUnselectAll = new KAction( i18n( "U&nselect All" ), CTRL+Key_U, this, SLOT( slotUnselectAll() ), actionCollection(), "unselectall" );
+  m_paInvertSelection = new KAction( i18n( "&Invert Selection" ), CTRL+Key_I, this, SLOT( slotInvertSelection() ), actionCollection(), "invertselection" );
+
+  m_paLargeIcons = new KToggleAction( i18n( "&Large" ), 0, actionCollection(), "modelarge" );
+  m_paMediumIcons = new KToggleAction( i18n( "&Medium" ), 0, actionCollection(), "modemedium" );
+  m_paSmallIcons = new KToggleAction( i18n( "&Small" ), 0, actionCollection(), "modesmall" );
+  m_paNoIcons = new KToggleAction( i18n( "&Disabled" ), 0, actionCollection(), "modenone" );
+
+  m_paShowDot = new KToggleAction( i18n( "Show &Dot Files" ), 0, this, SLOT( slotShowDot() ), actionCollection(), "show_dot" );
+  m_paCheckMimeTypes = new KToggleAction( i18n( "Determine &File Types" ), 0, this, SLOT( slotCheckMimeTypes() ), actionCollection(), "ckeck_mimetypes" );
+  /*KAction * m_paBackgroundColor =*/ new KAction( i18n( "Background Color..." ), 0, this, SLOT( slotBackgroundColor() ), actionCollection(), "bgcolor" );
+  /*KAction * m_paBackgroundImage =*/ new KAction( i18n( "Background Image..." ), 0, this, SLOT( slotBackgroundImage() ), actionCollection(), "bgimage" );
+
+  m_paLargeIcons->setExclusiveGroup( "ViewMode" );
+  m_paMediumIcons->setExclusiveGroup( "ViewMode" );
+  m_paSmallIcons->setExclusiveGroup( "ViewMode" );
+  m_paNoIcons->setExclusiveGroup( "ViewMode" );
+
+  m_paLargeIcons->setChecked( false );
+  m_paMediumIcons->setChecked( true );
+  m_paSmallIcons->setChecked( false );
+  m_paNoIcons->setChecked( false );
+  
+  m_paCheckMimeTypes->setChecked( true );
+
+  connect( m_paLargeIcons, SIGNAL( toggled( bool ) ), this, SLOT( slotViewLarge( bool ) ) );
+  connect( m_paMediumIcons, SIGNAL( toggled( bool ) ), this, SLOT( slotViewMedium( bool ) ) );
+  connect( m_paSmallIcons, SIGNAL( toggled( bool ) ), this, SLOT( slotViewSmall( bool ) ) );
+  connect( m_paNoIcons, SIGNAL( toggled( bool ) ), this, SLOT( slotViewNone( bool ) ) );
 }
 
 #include "konq_listview.moc"

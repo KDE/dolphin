@@ -78,6 +78,7 @@ public slots:
   void slotViewLarge( bool b );
   void slotViewNormal( bool b );
   void slotViewSmall( bool b );
+  void slotViewNone( bool b );
 
   void slotTextBottom( bool b );
   void slotTextRight( bool b );
@@ -151,8 +152,9 @@ protected:
   KActionMenu *m_pamSort;
 
   KToggleAction *m_paLargeIcons;
-  KToggleAction *m_paNormalIcons;
+  KToggleAction *m_paMediumIcons;
   KToggleAction *m_paSmallIcons;
+  KToggleAction *m_paNoIcons;
 
   KToggleAction *m_paBottomText;
   KToggleAction *m_paRightText;

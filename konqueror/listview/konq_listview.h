@@ -29,6 +29,7 @@
 #include <qlistview.h>
 #include <qstringlist.h>
 
+class KAction;
 class KToggleAction;
 class ListViewBrowserExtension;
 
@@ -57,15 +58,44 @@ public:
 
 protected:
   virtual void guiActivateEvent( KParts::GUIActivateEvent *event );
+  void setupActions();
 
 protected slots:
-  void slotReloadTree();
+  void slotSelect();
+  void slotUnselect();
+  void slotSelectAll();
+  void slotUnselectAll();
+  void slotInvertSelection();
+
+  void slotViewLarge( bool b );
+  void slotViewMedium( bool b );
+  void slotViewSmall( bool b );
+  void slotViewNone( bool b );
+
   void slotShowDot();
+  void slotCheckMimeTypes();
+  void slotBackgroundColor();
+  void slotBackgroundImage();
+
+  void slotReloadTree();
 
 private:
   KonqListViewWidget *m_pListView;
-  KToggleAction *m_paShowDot;
   ListViewBrowserExtension *m_browser;
+
+  KAction *m_paSelect;
+  KAction *m_paUnselect;
+  KAction *m_paSelectAll;
+  KAction *m_paUnselectAll;
+  KAction *m_paInvertSelection;
+
+  KToggleAction *m_paLargeIcons;
+  KToggleAction *m_paMediumIcons;
+  KToggleAction *m_paSmallIcons;
+  KToggleAction *m_paNoIcons;
+
+  KToggleAction *m_paShowDot;
+  KToggleAction *m_paCheckMimeTypes;
 };
 
 class ListViewBrowserExtension : public KParts::BrowserExtension

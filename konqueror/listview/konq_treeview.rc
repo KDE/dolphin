@@ -1,8 +1,36 @@
 <!DOCTYPE kpartgui>
 <kpartgui name="KonqTreeView">
 <MenuBar>
+ <Menu name="edit">
+  <Action name="select"/>
+  <Action name="unselect"/>
+  <Action name="selectall"/>
+  <Action name="unselectall"/>
+  <Action name="invertselection"/>
+ </Menu>
  <Menu name="view">
-  <Action name="show_dot" />
+  <Menu name="iconview_mode"><text>Icon Mode...</text>
+   <Action name="modelarge"/>
+   <Action name="modemedium"/>
+   <Action name="modesmall"/>
+   <Separator/>
+   <Action name="modenone"/>
+  </Menu>
+  <Menu name="iconview_sort"><text>Sort...</text>
+   <Action name="sort_nc"/>
+   <Action name="sort_nci"/>
+   <Action name="sort_size"/>
+   <Separator/>
+   <Action name="sort_descend"/>
+   <Separator/>
+   <Action name="sort_directoriesfirst" />
+  </Menu>
+  <Separator/>
+  <Action name="show_dot"/>
+  <Action name="ckeck_mimetypes"/>
+  <Separator/>
+  <Action name="bgcolor"/>
+  <Action name="bgimage"/>
  </Menu>
 </MenuBar>
 </kpartgui>

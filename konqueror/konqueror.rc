@@ -24,13 +24,13 @@
   <Merge/>
  </Menu>
  <Menu name="view"><text>&amp;View</text>
-  <Merge name="viewmode"/>
-  <Separator/>
   <Action name="usehtml"/>
   <Action name="showdirtree"/>
   <Separator/>
   <Action name="reload"/>
   <Action name="stop" />
+  <Separator/>
+  <Merge name="viewmode"/>
   <Separator/>
   <Merge/>
  </Menu>

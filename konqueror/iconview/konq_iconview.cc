@@ -194,7 +194,7 @@ KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const 
 
     KToggleAction *aSortByNameCS = new KRadioAction( i18n( "by Name (Case Sensitive)" ), 0, actionCollection(), "sort_nc" );
     KToggleAction *aSortByNameCI = new KRadioAction( i18n( "by Name (Case Insensitive)" ), 0, actionCollection(), "sort_nci" );
-    KToggleAction *aSortBySize = new KRadioAction( i18n( "By Size" ), 0, actionCollection(), "sort_size" );
+    KToggleAction *aSortBySize = new KRadioAction( i18n( "by Size" ), 0, actionCollection(), "sort_size" );
 
     aSortByNameCS->setExclusiveGroup( "sorting" );
     aSortByNameCI->setExclusiveGroup( "sorting" );
@@ -230,19 +230,22 @@ KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const 
     m_paUnselectAll = new KAction( i18n( "U&nselect All" ), CTRL+Key_U, this, SLOT( slotUnselectAll() ), actionCollection(), "unselectall" );
     m_paInvertSelection = new KAction( i18n( "&Invert Selection" ), CTRL+Key_I, this, SLOT( slotInvertSelection() ), actionCollection(), "invertselection" );
 
-    m_paLargeIcons = new KToggleAction( i18n( "&Large View" ), 0, actionCollection(), "largeview" );
-    m_paNormalIcons = new KToggleAction( i18n( "&Normal View" ), 0, actionCollection(), "normalview" );
-    m_paSmallIcons = new KToggleAction( i18n( "&Small View" ), 0, actionCollection(), "smallview" );
+    m_paLargeIcons = new KToggleAction( i18n( "&Large" ), 0, actionCollection(), "modelarge" );
+    m_paMediumIcons = new KToggleAction( i18n( "&Medium" ), 0, actionCollection(), "modemedium" );
+    m_paSmallIcons = new KToggleAction( i18n( "&Small" ), 0, actionCollection(), "modesmall" );
+    m_paNoIcons = new KToggleAction( i18n( "&Disabled" ), 0, actionCollection(), "modenone" );
     //m_paKOfficeMode = new KToggleAction( i18n( "&KOffice mode" ), 0, this );
 
     m_paLargeIcons->setExclusiveGroup( "ViewMode" );
-    m_paNormalIcons->setExclusiveGroup( "ViewMode" );
+    m_paMediumIcons->setExclusiveGroup( "ViewMode" );
     m_paSmallIcons->setExclusiveGroup( "ViewMode" );
+    m_paNoIcons->setExclusiveGroup( "ViewMode" );
     //m_paKOfficeMode->setExclusiveGroup( "ViewMode" );
 
     m_paLargeIcons->setChecked( false );
-    m_paNormalIcons->setChecked( true );
+    m_paMediumIcons->setChecked( true );
     m_paSmallIcons->setChecked( false );
+    m_paNoIcons->setChecked( false );
     //m_paKOfficeMode->setChecked( false );
     //m_paKOfficeMode->setEnabled( false );
 
@@ -261,9 +264,10 @@ KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const 
     //
 
     connect( m_paLargeIcons, SIGNAL( toggled( bool ) ), this, SLOT( slotViewLarge( bool ) ) );
-    connect( m_paNormalIcons, SIGNAL( toggled( bool ) ), this, SLOT( slotViewNormal( bool ) ) );
+    connect( m_paMediumIcons, SIGNAL( toggled( bool ) ), this, SLOT( slotViewMedium( bool ) ) );
     connect( m_paSmallIcons, SIGNAL( toggled( bool ) ), this, SLOT( slotViewSmall( bool ) ) );
     //connect( m_paKOfficeMode, SIGNAL( toggled( bool ) ), this, SLOT( slotKofficeMode( bool ) ) );
+    connect( m_paNoIcons, SIGNAL( toggled( bool ) ), this, SLOT( slotViewNone( bool ) ) );
 
     connect( m_paBottomText, SIGNAL( toggled( bool ) ), this, SLOT( slotTextBottom( bool ) ) );
     connect( m_paRightText, SIGNAL( toggled( bool ) ), this, SLOT( slotTextRight( bool ) ) );
@@ -287,7 +291,7 @@ KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const 
     actions()->append( BrowserView::ViewAction( new QActionSeparator( this ), BrowserView::MenuView ) );
 
     actions()->append( BrowserView::ViewAction( m_paLargeIcons, BrowserView::MenuView ) );
-    actions()->append( BrowserView::ViewAction( m_paNormalIcons, BrowserView::MenuView ) );
+    actions()->append( BrowserView::ViewAction( m_paMediumIcons, BrowserView::MenuView ) );
     actions()->append( BrowserView::ViewAction( m_paSmallIcons, BrowserView::MenuView ) );
     //actions()->append( BrowserView::ViewAction( m_paKOfficeMode, BrowserView::MenuView ) );
 
@@ -548,6 +552,11 @@ void KonqKfmIconView::slotViewNormal( bool b )
     }
 }
 
+void KonqKfmIconView::slotViewNone( bool b )
+{
+  //TODO: Disable Icons
+}
+
 void KonqKfmIconView::slotViewSmall( bool b )
 {
     if ( b )
@@ -629,7 +638,7 @@ void KonqKfmIconView::restoreState( QDataStream &stream )
     switch ( iconSize )
     {
     case KIconLoader::Large: m_paLargeIcons->setChecked( true ); break;
-    case KIconLoader::Medium: m_paNormalIcons->setChecked( true ); break;
+    case KIconLoader::Medium: m_paMediumIcons->setChecked( true ); break;
     case KIconLoader::Small: m_paSmallIcons->setChecked( true ); break;
     }
 
