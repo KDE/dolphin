@@ -243,12 +243,25 @@ int main( int argc, char *argv[] )
 
     // set up the paths used to look for plugins
     QStringList searchPaths, mimeInfoList;
-    searchPaths.append(QString("%1/.netscape/plugins").arg(getenv("HOME")));
-    searchPaths.append("/usr/local/netscape/plugins");
-    searchPaths.append("/opt/netscape/plugins");
-    searchPaths.append("/opt/netscape/communicator/plugins");
-    searchPaths.append("/usr/lib/netscape/plugins");
-    searchPaths.append(QString("%1/plugins").arg(getenv("MOZILLA_HOME")));
+    KConfig *config = new KConfig("kcmnspluginrc", false);
+    config->setGroup("Misc");
+
+    // setup default paths
+    if ( !config->hasKey("scanPaths") ) {
+        QStringList paths;
+        paths.append("$HOME/.netscape/plugins");
+        paths.append("/usr/local/netscape/plugins");
+        paths.append("/opt/netscape/plugins");
+        paths.append("/opt/netscape/communicator/plugins");
+        paths.append("/usr/lib/netscape/plugins");
+        paths.append("$MOZILLA_HOME/plugins");
+        config->writeEntry( "scanPaths", paths );
+    }
+
+    // read paths
+    config->setDollarExpansion( true );
+    searchPaths = config->readListEntry( "scanPaths" );
+    delete config;
 
     // append environment variable NPX_PLUGIN_PATH
     QStringList envs = QStringList::split(':', getenv("NPX_PLUGIN_PATH"));

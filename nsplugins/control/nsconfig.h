@@ -22,16 +22,14 @@
 #define __nsconfig_h__
 
 #include <kcmodule.h>
+#include "configwidget.h"
 
-class QCheckBox;
-class QListView;
-class KProcess;
 
 class NSPluginConfig : public KCModule
 {
   Q_OBJECT
 
-public:
+ public:
   NSPluginConfig(QWidget *parent = 0L, const char *name = 0L);
   virtual ~NSPluginConfig();
 
@@ -40,18 +38,37 @@ public:
   void defaults();
   QString quickHelp() const;
 
-  int buttons();
+ protected slots:
+  void change() { change( true ); };
+  void change( bool c ) { emit changed(c); m_changed = c; }; 
 
-protected slots:
-  void configChanged();
-
-  void changeDirs();
   void scan();
-  void fillPluginList();
 
-private:
-  QCheckBox *m_startkdeScan;
-  QListView *m_pluginList;
+ private:
+  ConfigWidget *m_widget;
+  bool m_changed;
+
+/******************************************************************************/
+ protected:
+  void dirInit();
+  void dirLoad( KConfig *config );
+  void dirSave( KConfig *config );
+
+ protected slots:
+  void dirBrowse();
+  void dirNew();
+  void dirRemove();
+  void dirUp();
+  void dirDown();
+  void dirEdited(const QString &);
+  void dirSelect( QListBoxItem * ); 
+
+/******************************************************************************/
+ protected:
+  void pluginInit();
+  void pluginLoad( KConfig *config );
+  void pluginSave( KConfig *config );
+
 };
 
 #endif

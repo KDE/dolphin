@@ -163,9 +163,19 @@ void NSPluginLoader::scanPlugins()
 
           // insert the suffix -> mimetype mapping
           QStringList::Iterator suffix;
-          for (suffix = suffixes.begin(); suffix != suffixes.end(); ++suffix)
-            if (!_filetype.find((*suffix).stripWhiteSpace()))
-              _filetype.insert((*suffix).stripWhiteSpace(), new QString(mime));
+          for (suffix = suffixes.begin(); suffix != suffixes.end(); ++suffix) {
+
+              // strip whitspaces and any preceeding '.'
+              QString stripped = (*suffix).stripWhiteSpace();
+
+              unsigned p=0;
+              for ( ; p<stripped.length() && stripped[p]=='.'; p++ );
+              stripped = stripped.right( stripped.length()-p );
+
+              // add filetype to list
+              if ( !stripped.isEmpty() && !_filetype.find(stripped) )
+                  _filetype.insert( stripped, new QString(mime));
+          }
         }
     }
 }

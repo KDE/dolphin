@@ -287,7 +287,7 @@ NSPluginInstance::NSPluginInstance(NPP privateData, NPPluginFuncs *pluginFuncs,
 {
    _npp = privateData;
    _npp->ndata = this;
-   _src = src;
+   _src = KURL(src).path();
    _destroyed = false,
    _callback = 0;
    _handle = handle;

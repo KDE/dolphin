@@ -587,16 +587,54 @@ NPError NP_Initialize(NPNetscapeFuncs* nsTable, NPPluginFuncs* pluginFuncs)
 	
 	DEB(ef, "nsTable->size = %d\n", nsTable->size);
 	DEB(ef, "nsTable->version = 0x%x\n", nsTable->version);
+	DEB(ef, "nsTable->geturl = 0x%x\n", nsTable->geturl);
+	DEB(ef, "nsTable->posturl = 0x%x\n", nsTable->posturl);
+	DEB(ef, "nsTable->requestread = 0x%x\n", nsTable->requestread);
+	DEB(ef, "nsTable->newstream = 0x%x\n", nsTable->newstream);
+	DEB(ef, "nsTable->write = 0x%x\n", nsTable->write);
+	DEB(ef, "nsTable->destroystream = 0x%x\n", nsTable->destroystream);
+	DEB(ef, "nsTable->status = 0x%x\n", nsTable->status);
+	DEB(ef, "nsTable->uagent = 0x%x\n", nsTable->uagent);
+	DEB(ef, "nsTable->memalloc = 0x%x\n", nsTable->memalloc);
+	DEB(ef, "nsTable->memfree = 0x%x\n", nsTable->memfree);
+	DEB(ef, "nsTable->memflush = 0x%x\n", nsTable->memflush);
+	DEB(ef, "nsTable->reloadplugins = 0x%x\n", nsTable->reloadplugins);
+	DEB(ef, "nsTable->getJavaEnv = 0x%x\n", nsTable->getJavaEnv);
+	DEB(ef, "nsTable->getJavaPeer = 0x%x\n", nsTable->getJavaPeer);
+	DEB(ef, "nsTable->geturlnotify = 0x%x\n", nsTable->geturlnotify);
+	DEB(ef, "nsTable->posturlnotify = 0x%x\n", nsTable->posturlnotify);
+	DEB(ef, "nsTable->getvalue = 0x%x\n", nsTable->getvalue);
+	DEB(ef, "nsTable->setvalue = 0x%x\n", nsTable->setvalue);
+	DEB(ef, "nsTable->invalidaterect = 0x%x\n", nsTable->invalidaterect);
+	DEB(ef, "nsTable->invalidateregion = 0x%x\n", nsTable->invalidateregion);
+	DEB(ef, "nsTable->forceredraw = 0x%x\n", nsTable->forceredraw);
+
+	DEB(ef, "pluginFuncs->size = %d\n", pluginFuncs->size);
+	DEB(ef, "pluginFuncs->version = 0x%x\n", pluginFuncs->version);
+	DEB(ef, "pluginFuncs->newp = 0x%x\n", pluginFuncs->newp);
+	DEB(ef, "pluginFuncs->destroy = 0x%x\n", pluginFuncs->destroy);
+	DEB(ef, "pluginFuncs->setwindow = 0x%x\n", pluginFuncs->setwindow);
+	DEB(ef, "pluginFuncs->newstream = 0x%x\n", pluginFuncs->newstream);
+	DEB(ef, "pluginFuncs->destroystream = 0x%x\n", pluginFuncs->destroystream);
+	DEB(ef, "pluginFuncs->asfile = 0x%x\n", pluginFuncs->asfile);
+	DEB(ef, "pluginFuncs->writeready = 0x%x\n", pluginFuncs->writeready);
+	DEB(ef, "pluginFuncs->write = 0x%x\n", pluginFuncs->write);
+	DEB(ef, "pluginFuncs->print = 0x%x\n", pluginFuncs->print);
+	DEB(ef, "pluginFuncs->event = 0x%x\n", pluginFuncs->event);
+	DEB(ef, "pluginFuncs->urlnotify = 0x%x\n", pluginFuncs->urlnotify);
+	DEB(ef, "pluginFuncs->javaClass = 0x%x\n", pluginFuncs->javaClass);
+	DEB(ef, "pluginFuncs->getvalue = 0x%x\n", pluginFuncs->getvalue);
+	DEB(ef, "pluginFuncs->setvalue = 0x%x\n", pluginFuncs->setvalue);
 	
 	if ( pluginFuncs->size>sizeof(gPluginFuncs) )
 	{
-		DEB(ef, "Plugin function table to big\n");
+		DEB(ef, "Plugin function table too big\n");
 		return NPERR_GENERIC_ERROR;
 	}
 	
 	if ( nsTable->size>sizeof(gNetscapeFuncs) )
 	{
-		DEB(ef, "Netscape function table to big\n");
+		DEB(ef, "Netscape function table too big\n");
 		return NPERR_GENERIC_ERROR;
 	}
 	
@@ -627,6 +665,8 @@ NPError NP_Initialize(NPNetscapeFuncs* nsTable, NPPluginFuncs* pluginFuncs)
 	
 	gPluginFuncs.size = sizeof( gPluginFuncs );
 
+	DEB(ef, "call\n");
+
 	err = gNP_Initialize( &gExtNetscapeFuncs, &gPluginFuncs );
 	
 	if (!err) {	
@@ -649,8 +689,46 @@ NPError NP_Initialize(NPNetscapeFuncs* nsTable, NPPluginFuncs* pluginFuncs)
 		pluginFuncs->getvalue = (NPP_GetValueUPP)MyNPP_GetValue;
 		pluginFuncs->setvalue = (NPP_SetValueUPP)MyNPP_SetValue;
 	
+		DEB(ef, "nsTable->size = %d\n", gExtNetscapeFuncs.size);
+		DEB(ef, "nsTable->version = 0x%x\n", gExtNetscapeFuncs.version);
+		DEB(ef, "nsTable->geturl = 0x%x\n", gExtNetscapeFuncs.geturl);
+		DEB(ef, "nsTable->posturl = 0x%x\n", gExtNetscapeFuncs.posturl);
+		DEB(ef, "nsTable->requestread = 0x%x\n", gExtNetscapeFuncs.requestread);
+		DEB(ef, "nsTable->newstream = 0x%x\n", gExtNetscapeFuncs.newstream);
+		DEB(ef, "nsTable->write = 0x%x\n", gExtNetscapeFuncs.write);
+		DEB(ef, "nsTable->destroystream = 0x%x\n", gExtNetscapeFuncs.destroystream);
+		DEB(ef, "nsTable->status = 0x%x\n", gExtNetscapeFuncs.status);
+		DEB(ef, "nsTable->uagent = 0x%x\n", gExtNetscapeFuncs.uagent);
+		DEB(ef, "nsTable->memalloc = 0x%x\n", gExtNetscapeFuncs.memalloc);
+		DEB(ef, "nsTable->memfree = 0x%x\n", gExtNetscapeFuncs.memfree);
+		DEB(ef, "nsTable->memflush = 0x%x\n", gExtNetscapeFuncs.memflush);
+		DEB(ef, "nsTable->reloadplugins = 0x%x\n", gExtNetscapeFuncs.reloadplugins);
+		DEB(ef, "nsTable->getJavaEnv = 0x%x\n", gExtNetscapeFuncs.getJavaEnv);
+		DEB(ef, "nsTable->getJavaPeer = 0x%x\n", gExtNetscapeFuncs.getJavaPeer);
+		DEB(ef, "nsTable->geturlnotify = 0x%x\n", gExtNetscapeFuncs.geturlnotify);
+		DEB(ef, "nsTable->posturlnotify = 0x%x\n", gExtNetscapeFuncs.posturlnotify);
+		DEB(ef, "nsTable->getvalue = 0x%x\n", gExtNetscapeFuncs.getvalue);
+		DEB(ef, "nsTable->setvalue = 0x%x\n", gExtNetscapeFuncs.setvalue);
+		DEB(ef, "nsTable->invalidaterect = 0x%x\n", gExtNetscapeFuncs.invalidaterect);
+		DEB(ef, "nsTable->invalidateregion = 0x%x\n", gExtNetscapeFuncs.invalidateregion);
+		DEB(ef, "nsTable->forceredraw = 0x%x\n", gExtNetscapeFuncs.forceredraw);
+
 		DEB(ef, "pluginFuncs->size = %d\n", pluginFuncs->size);
 		DEB(ef, "pluginFuncs->version = 0x%x\n", pluginFuncs->version);
+		DEB(ef, "pluginFuncs->newp = 0x%x\n", pluginFuncs->newp);
+		DEB(ef, "pluginFuncs->destroy = 0x%x\n", pluginFuncs->destroy);
+		DEB(ef, "pluginFuncs->setwindow = 0x%x\n", pluginFuncs->setwindow);
+		DEB(ef, "pluginFuncs->newstream = 0x%x\n", pluginFuncs->newstream);
+		DEB(ef, "pluginFuncs->destroystream = 0x%x\n", pluginFuncs->destroystream);
+		DEB(ef, "pluginFuncs->asfile = 0x%x\n", pluginFuncs->asfile);
+		DEB(ef, "pluginFuncs->writeready = 0x%x\n", pluginFuncs->writeready);
+		DEB(ef, "pluginFuncs->write = 0x%x\n", pluginFuncs->write);
+		DEB(ef, "pluginFuncs->print = 0x%x\n", pluginFuncs->print);
+		DEB(ef, "pluginFuncs->event = 0x%x\n", pluginFuncs->event);
+		DEB(ef, "pluginFuncs->urlnotify = 0x%x\n", pluginFuncs->urlnotify);
+		DEB(ef, "pluginFuncs->javaClass = 0x%x\n", pluginFuncs->javaClass);
+		DEB(ef, "pluginFuncs->getvalue = 0x%x\n", pluginFuncs->getvalue);
+		DEB(ef, "pluginFuncs->setvalue = 0x%x\n", pluginFuncs->setvalue);
 	}
 		
 	DEB(ef, "<- NP_Initialize = %d\n", err );
