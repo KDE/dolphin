@@ -774,9 +774,12 @@ void KonqKfmIconView::slotDisplayFileSelectionInfo()
 
 void KonqKfmIconView::slotProcessMimeIcons()
 {
-  if ( m_lstPendingMimeIconItems.count() == 0 )
-    return;
-
+    if ( m_lstPendingMimeIconItems.count() == 0 ) {
+	if ( m_pProps->m_bImagePreview )
+	    m_pIconView->alignItemsInGrid();
+	return;
+    }
+    
   KFileIVI *item = m_lstPendingMimeIconItems.first();
 
   QPixmap currentIcon = item->icon();
