@@ -3250,6 +3250,10 @@ void KonqMainWindow::initActions()
   connect( m_pBookmarkMenu,
            SIGNAL( aboutToShowContextMenu(const KBookmark &, QPopupMenu*) ),
            this, SLOT( slotFillContextMenu(const KBookmark &, QPopupMenu*) ));
+           
+  KAction *addBookmark = actionCollection()->action("add_bookmark");
+  if (addBookmark)
+     addBookmark->setText(i18n("Bookmark This Location"));
 
   m_paShowMenuBar = KStdAction::showMenubar( this, SLOT( slotShowMenuBar() ), actionCollection() );
 

@@ -112,6 +112,10 @@ PopupMenuGUIClient::PopupMenuGUIClient( KonqMainWindow *mainWindow,
     openInTabElement.setAttribute( "name", "openintab" );
     openInTabElement.setAttribute( "group", "tabhandling" );
     menu.appendChild( openInTabElement );
+    
+    QDomElement separatorElement = m_doc.createElement( "separator" );
+    separatorElement.setAttribute( "group", "tabhandling" );
+    menu.appendChild( separatorElement );
 
     setDOMDocument( m_doc );
 }
