@@ -93,6 +93,13 @@
 #include <kprocess.h>
 #include <kio/scheduler.h>
 
+#ifdef KDE_MALLINFO_STDLIB
+#include <stdlib.h>
+#endif
+#ifdef KDE_MALLINFO_MALLOC
+#include <malloc.h>
+#endif
+
 template class QPtrList<QPixmap>;
 template class QPtrList<KToggleAction>;
 
@@ -102,6 +109,11 @@ KCompletion * KonqMainWindow::s_pCompletion = 0;
 QFile * KonqMainWindow::s_crashlog_file = 0;
 bool KonqMainWindow::s_preloaded = false;
 KonqMainWindow* KonqMainWindow::s_preloadedWindow = 0;
+int KonqMainWindow::s_initialMemoryUsage = -1;
+time_t KonqMainWindow::s_startupTime;
+int KonqMainWindow::s_preloadUsageCount;
+
+static int current_memory_usage();
 
 KonqMainWindow::KonqMainWindow( const KURL &initialURL, bool openInitialURL, const char *name )
  : KParts::MainWindow( name, WDestructiveClose | WStyle_ContextHelp )
@@ -230,6 +242,13 @@ KonqMainWindow::KonqMainWindow( const KURL &initialURL, bool openInitialURL, con
   if ( !initialGeometrySet() )
       resize( 700, 480 );
   //kdDebug(1202) << "KonqMainWindow::KonqMainWindow " << this << " done" << endl;
+  
+  if( s_initialMemoryUsage == -1 )
+  {
+      s_initialMemoryUsage = current_memory_usage();
+      s_startupTime = time( NULL );
+      s_preloadUsageCount = 0;
+  }
 }
 
 KonqMainWindow::~KonqMainWindow()
@@ -4557,6 +4576,12 @@ bool KonqMainWindow::stayPreloaded()
         kapp->deref(); // for the extra ref() done in main()
         return false;
     }
+    viewManager()->clear(); // reduce resource usage before checking it
+    if( !checkPreloadResourceUsage())
+    {
+        kapp->deref(); // for the extra ref() done in main()
+        return false;
+    }
     DCOPRef ref( "kded", "konqy_preloader" );
     if( !ref.callExt( "registerPreloadedKonqy", DCOPRef::NoEventLoop, 5000, kapp->dcopClient()->appId()))
     {
@@ -4568,6 +4593,65 @@ bool KonqMainWindow::stayPreloaded()
     kapp->ref(); // closeEvent() did deref()
     KonqMainWindow::setPreloadedWindow( this );
     return true;
+}
+
+// try to avoid staying running when leaking too much memory
+// this is checked by using mallinfo() and comparing
+// memory usage during konqy startup and now, if the difference
+// is too large -> leaks -> quit
+// also, if this process is running for too long, or has been
+// already reused too many times -> quit, just in case
+bool KonqMainWindow::checkPreloadResourceUsage()
+{	
+    int usage = current_memory_usage();
+    kdDebug(1202) << "Memory usage: " << usage << "(startup=" << s_initialMemoryUsage << ")" << endl;
+    int max_allowed_usage = s_initialMemoryUsage + 16 * 1024 * 1024;
+    if( usage > max_allowed_usage ) // too much memory used?
+    {
+	kdDebug(1202) << "Not keeping for preloading due to high memory usage" << endl;
+	return false;
+    }
+    // working memory usage test ( usage != 0 ) makes others less strict
+    if( s_preloadUsageCount > ( usage != 0 ? 100 : 10 )) // reused too many times?
+    {
+	kdDebug(1202) << "Not keeping for preloading due to high usage count" << endl;
+	return false;
+    }
+    if( time( NULL ) > s_startupTime + 60 * 60 * ( usage != 0 ? 4 : 1 )) // running for too long?
+    {
+	kdDebug(1202) << "Not keeping for preloading due to long usage time" << endl;
+	return false;
+    }
+    return true;
+}
+
+static int current_memory_usage()
+{
+    int usage_sum = 0;
+#if defined(KDE_MALLINFO_STDLIB) || defined(KDE_MALLINFO_MALLOC)
+    // ugly hack for kdecore/malloc
+    extern int kde_malloc_is_used;
+    free( calloc( 4, 4 )); // trigger setting kde_malloc_is_used
+    if( kde_malloc_is_used )
+    {
+	struct mallinfo m = mallinfo();
+	usage_sum = m.hblkhd + m.uordblks;
+    }
+    else
+    {
+        struct mallinfo m = mallinfo();
+#ifdef KDE_MALLINFO_FIELD_hblkhd
+        usage_sum += m.hblkhd;
+#endif
+#ifdef KDE_MALLINFO_FIELD_uordblks
+        usage_sum += m.uordblks;
+#endif
+#ifdef KDE_MALLINFO_FIELD_usmblks
+        usage_sum += m.usmblks;
+#endif
+    }
+#endif
+    return usage_sum;
 }
 
 #include "konq_mainwindow.moc"

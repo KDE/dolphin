@@ -294,7 +294,6 @@ public:
   static bool isPreloaded() { return s_preloaded; }
   static void setPreloadedWindow( KonqMainWindow* );
   static KonqMainWindow* preloadedWindow() { return s_preloadedWindow; }
-  bool stayPreloaded();
 
 signals:
   void viewAdded( KonqView *view );
@@ -544,6 +543,9 @@ private:
   void connectActionCollection( KActionCollection *coll );
   void disconnectActionCollection( KActionCollection *coll );
 
+  bool stayPreloaded();
+  bool checkPreloadResourceUsage();
+  
   KNewMenu * m_pMenuNew;
 
   KAction *m_paFileType;
@@ -688,6 +690,9 @@ private:
 
   static bool s_preloaded;
   static KonqMainWindow* s_preloadedWindow;
+  static int s_initialMemoryUsage;
+  static time_t s_startupTime;
+  static int s_preloadUsageCount;
 
 public:
 

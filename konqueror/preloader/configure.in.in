@@ -1,0 +1,144 @@
+dnl check whether mallinfo() is available and which fields to use to find out memory usage
+dnl it's used in konq_mainwindow.cc
+dnl warning, ugly code ahead
+dnl some implementations have mallinfo() in stdlib.h, others in malloc.h
+dnl fields showing memory usage should be hblkhd, uordblks and usmblks,
+dnl different implementations use different combinations of these (which is ok),
+dnl but some of them "reuse" fields they don't use for other purposes
+
+AC_DEFUN(KDE_MALLINFO_CHECK,
+[
+AC_MSG_CHECKING([for mallinfo() in $1])
+AC_CACHE_VAL(kde_cv_func_mallinfo_$2,
+    [
+    AC_LANG_SAVE
+    AC_LANG_CPLUSPLUS
+    AC_TRY_COMPILE([#include $1],
+	[
+	struct mallinfo m;
+	int dummy;
+	m = mallinfo();
+	dummy = m.hblkhd;
+	dummy = m.uordblks;
+	dummy = m.usmblks;
+	dummy = dummy;
+        ],
+    kde_cv_func_mallinfo_$2=yes,
+    kde_cv_func_mallinfo_$2=no)
+    AC_LANG_RESTORE
+    ])
+if test "$kde_cv_func_mallinfo_$2" = "yes"; then
+    kde_mallinfo_type=$2
+fi
+AC_MSG_RESULT($kde_cv_func_mallinfo_$2)
+])
+
+
+AC_DEFUN(KDE_MALLINFO_CHECK_FIELD,
+[
+AC_MSG_CHECKING([whether to use mallinfo field $1])
+AC_CACHE_VAL(kde_cv_func_mallinfo_field_$1,
+    [
+    AC_LANG_SAVE
+    AC_LANG_CPLUSPLUS
+    AC_TRY_RUN(
+	[
+
+#include <$kde_mallinfo_type.h>
+enum use_type { No, Yes, Never };
+use_type use_field = No;
+const int SIZE = 4 * 1024 * 1024;
+const int SMALL_SIZE = 4 * 1024;
+
+void dif( struct mallinfo& m1, struct mallinfo& m2, bool alloc )
+    {
+    int difval = m2.$1 - m1.$1;
+    if( alloc )
+	{
+	if( difval >= SIZE && difval < 2 * SIZE && use_field != Never )
+	    use_field = Yes;
+	}
+    else // !alloc
+	{
+	difval = -difval;
+	if( difval > SMALL_SIZE && ( difval < SIZE || difval >= 2 * SIZE ) && use_field == Yes )
+	    use_field = Never;
+	}
+    }
+
+int main()
+    {
+    free( malloc( SIZE * 2 )); // avoid Doug Lea's malloc feature of having total_max in usmblks
+    struct mallinfo m1 = mallinfo();
+    void* mem1 = malloc( SIZE );
+    struct mallinfo m2 = mallinfo();
+    free( mem1 );
+    struct mallinfo m3 = mallinfo();
+    void* mem2[ SIZE / 32 ];
+    for( int i = 0;
+	 i < SIZE / 32;
+	 ++i )
+	mem2[ i ] = malloc( 32 );
+    struct mallinfo m4 = mallinfo();
+    for( int i = 0;
+	 i < SIZE / 32;
+	 ++i )
+	free( mem2[ i ] );
+    struct mallinfo m5 = mallinfo();
+    void* mem3[ SIZE / 1024 ];
+    for( int i = 0;
+	 i < SIZE / 1024;
+	 ++i )
+	mem3[ i ] = malloc( 1024 );
+    struct mallinfo m6 = mallinfo();
+    for( int i = 0;
+	 i < SIZE / 1024;
+	 ++i )
+	free( mem3[ i ] );
+    struct mallinfo m7 = mallinfo();
+    dif( m1, m2, true );
+    dif( m2, m3, false );
+    dif( m3, m4, true );
+    dif( m4, m5, false );
+    dif( m5, m6, true );
+    dif( m6, m7, false );
+    return use_field == Yes ? 0 : 1;
+    }
+
+        ],
+	[kde_cv_func_mallinfo_field_$1=yes],
+	[kde_cv_func_mallinfo_field_$1=no],
+	[kde_cv_func_mallinfo_field_$1=no])
+    AC_LANG_RESTORE
+    ])
+AC_MSG_RESULT($kde_cv_func_mallinfo_field_$1)        
+kde_mallinfo_$1=$kde_cv_func_mallinfo_field_$1
+if test "$kde_mallinfo_$1" = "yes"; then
+    AC_DEFINE( KDE_MALLINFO_FIELD_$1, 1, [Use mallinfo field $1])
+fi
+])
+
+
+kde_mallinfo_type=
+KDE_MALLINFO_CHECK([<stdlib.h>],stdlib)
+if test -z "$kde_mallinfo_type"; then
+    KDE_MALLINFO_CHECK([<malloc.h>],malloc)
+fi
+
+if test -n "$kde_mallinfo_type"; then
+    KDE_MALLINFO_CHECK_FIELD(hblkhd)
+    KDE_MALLINFO_CHECK_FIELD(uordblks)
+    KDE_MALLINFO_CHECK_FIELD(usmblks)
+    if test -z "$kde_mallinfo_hblkhd" -a \
+	-z "$kde_mallinfo_uordblks" -a \
+	-z "$kde_mallinfo_usmblks"; then
+	kde_mallinfo_type=
+    fi
+fi
+
+
+if test "$kde_mallinfo_type" = "stdlib"; then
+    AC_DEFINE(KDE_MALLINFO_STDLIB, 1, [mallinfo() is available in <stdlib.h>])
+elif test "$kde_mallinfo_type" = "malloc"; then
+    AC_DEFINE(KDE_MALLINFO_MALLOC, 1, [mallinfo() is available in <malloc.h>])
+fi
