@@ -110,7 +110,7 @@ HistorySidebarConfig::HistorySidebarConfig( QWidget *parent, const char* name, c
 
 void HistorySidebarConfig::configChanged()
 {
-    emit changed(true);
+    setChanged(true);
 }
 
 void HistorySidebarConfig::load()
@@ -139,7 +139,7 @@ void HistorySidebarConfig::load()
     slotNewerChanged( dialog->spinNewer->value() );
     slotOlderChanged( dialog->spinOlder->value() );
 
-    emit changed(false);
+    setChanged(false);
 }
 
 void HistorySidebarConfig::save()
@@ -177,7 +177,7 @@ void HistorySidebarConfig::save()
 
     m_settings->applySettings();
 
-    emit changed(false);
+    setChanged(false);
 }
 
 void HistorySidebarConfig::defaults()
@@ -198,7 +198,7 @@ void HistorySidebarConfig::defaults()
     m_fontNewer.setItalic( true );
     m_fontOlder = QFont();
 
-    emit changed(true);
+    setChanged(true);
 }
 
 QString HistorySidebarConfig::quickHelp() const
