@@ -809,9 +809,11 @@ void KEBTopLevel::pasteData( const QString & cmdName,  QMimeSource * data, const
 {
     if ( KBookmarkDrag::canDecode( data ) )
     {
-        KBookmark bk = KBookmarkDrag::decode( data );
-        kdDebug() << "KEBTopLevel::slotPaste url=" << bk.url().prettyURL() << endl;
-        CreateCommand * cmd = new CreateCommand( cmdName, insertionAddress, bk );
+        QValueList<KBookmark> bks = KBookmarkDrag::decode( data );
+        if (bks.size() > 1)
+           kdWarning() << "Sadly, pasteData is currently limited to only one url." << endl;
+        kdDebug() << "KEBTopLevel::slotPaste url=" << bks.first().url().prettyURL() << endl;
+        CreateCommand * cmd = new CreateCommand( cmdName, insertionAddress, bks.first() );
         m_commandHistory.addCommand( cmd );
     }
 }
