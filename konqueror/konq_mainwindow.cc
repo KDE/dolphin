@@ -2071,6 +2071,16 @@ void KonqMainWindow::slotRemoveOtherTabsPopup()
 }
 
 
+void KonqMainWindow::slotActivateNextTab()
+{
+  m_pViewManager->activateNextTab();
+}
+
+void KonqMainWindow::slotActivatePrevTab()
+{
+  m_pViewManager->activatePrevTab();
+}
+
 void KonqMainWindow::slotDumpDebugInfo()
 {
 #ifndef NDEBUG
@@ -2886,6 +2896,9 @@ void KonqMainWindow::initActions()
   m_paBreakOffTab = new KAction( i18n( "Detach Current Tab" ), "tab_breakoff", CTRL+SHIFT+Key_B, this, SLOT( slotBreakOffTab() ), actionCollection(), "breakoffcurrenttab" );
   m_paRemoveView = new KAction( i18n( "&Remove Active View" ),"view_remove", CTRL+SHIFT+Key_R, this, SLOT( slotRemoveView() ), actionCollection(), "removeview" );
   m_paRemoveTab = new KAction( i18n( "Close Current Tab" ), "tab_remove", CTRL+SHIFT+Key_W, this, SLOT( slotRemoveTab() ), actionCollection(), "removecurrenttab" );
+
+  m_paActivateNextTab = new KAction( i18n( "Activate Next Tab" ), "tab_next", CTRL+Key_BracketRight, this, SLOT( slotActivateNextTab() ), actionCollection(), "activatenexttab" );
+  m_paActivatePrevTab = new KAction( i18n( "Activate Previous Tab" ), "tab_previous", CTRL+Key_BracketLeft, this, SLOT( slotActivatePrevTab() ), actionCollection(), "activateprevtab" );
 #ifndef NDEBUG
   m_paDumpDebugInfo = new KAction( i18n( "Dump Debug Info" ), "view_dump_debug_info", 0, this, SLOT( slotDumpDebugInfo() ), actionCollection(), "dumpdebuginfo" );
 #endif
@@ -3053,6 +3066,8 @@ void KonqMainWindow::updateViewActions()
     m_paDuplicateTab->setEnabled( false );
     m_paRemoveTab->setEnabled( false );
     m_paBreakOffTab->setEnabled( false );
+    m_paActivateNextTab->setEnabled( false );
+    m_paActivatePrevTab->setEnabled( false );
   }
   else
   {
@@ -3062,11 +3077,15 @@ void KonqMainWindow::updateViewActions()
     {
       m_paRemoveTab->setEnabled( true );
       m_paBreakOffTab->setEnabled( true );
+      m_paActivateNextTab->setEnabled( true );
+      m_paActivatePrevTab->setEnabled( true );
     }
     else
     {
       m_paRemoveTab->setEnabled( false );
       m_paBreakOffTab->setEnabled( false );
+      m_paActivateNextTab->setEnabled( false );
+      m_paActivatePrevTab->setEnabled( false );
     }
   }
 

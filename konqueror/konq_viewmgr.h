@@ -132,6 +132,18 @@ public:
   void removeOtherTabs( KonqFrameBase* tab = 0L );
 
   /**
+   * Locates and activates the next tab
+   *
+   */
+  void activateNextTab();
+
+  /**
+   * Locates and activates the previous tab
+   *
+   */
+  void activatePrevTab();
+
+  /**
    * Brings the tab specified by @p view to the front of the stack
    *
    */

@@ -577,6 +577,42 @@ void KonqViewManager::removeOtherTabs( KonqFrameBase* tab )
 
 }
 
+void KonqViewManager::activateNextTab()
+{
+  if (m_pDocContainer == 0L) return;
+  if (m_pDocContainer->frameType() != "Tabs") return;
+
+  KonqFrameTabs* tabContainer = static_cast<KonqFrameTabs*>(m_pDocContainer);
+  if( tabContainer->count() == 1 ) return;
+  
+  int iTab = tabContainer->currentPageIndex();
+
+  iTab++;
+
+  if( iTab == tabContainer->count() )
+    iTab = 0;
+
+  tabContainer->setCurrentPage( iTab );
+}
+
+void KonqViewManager::activatePrevTab()
+{
+  if (m_pDocContainer == 0L) return;
+  if (m_pDocContainer->frameType() != "Tabs") return;
+
+  KonqFrameTabs* tabContainer = static_cast<KonqFrameTabs*>(m_pDocContainer);
+  if( tabContainer->count() == 1 ) return;
+  
+  int iTab = tabContainer->currentPageIndex();
+
+  iTab--;
+
+  if( iTab == -1 )
+    iTab = tabContainer->count() - 1;
+
+  tabContainer->setCurrentPage( iTab );
+}
+
 void KonqViewManager::showTab( KonqView *view )
 {
   static_cast<KonqFrameTabs*>( docContainer() )->showPage( view->frame() );
