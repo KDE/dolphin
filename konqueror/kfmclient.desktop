@@ -1,6 +1,6 @@
 [Desktop Entry]
 Type=Application
-Exec=kfmclient openURL %u
+Exec=kfmclient openProfile filemanagement
 Icon=kfm
 DocPath=konqueror/index.html
 MimeType=text/html;inode/directory
@@ -25,7 +25,8 @@ Name[ja]=ファイルマネージャ
 Name[mk]=Менаџер на датотеки
 Name[nl]=Bestandsbeheerder
 Name[no]=Filbehandler
-Name[no_NY]=Filbehandsamar
+Name[no_NY]=Filhandsamar
+Name[pl]=Menedżer plików
 Name[pt]=Gestor de Ficheiros
 Name[ro]=Manager de fişiere
 Name[ru]=Файл менеджер
@@ -34,4 +35,5 @@ Name[sr]=Fajl MenadĹžer
 Name[sv]=Filhanterare
 Name[ta]=ேகாபஂபு ேமலாளரஂ
 Name[tr]=Dosya Yöneticisi
+Name[uk]=Менеджер файлів
 XClassHintResName=konqueror
