@@ -25,8 +25,6 @@ Otherwise, relative links are broken if we abort loading early.
 libkonq:
 ========
 
-- KDirLister::refreshItem
-
 - Bookmarks : DCOP call to notify changes (when 'add bookmark'), like in KDE 1.1
 
 - When you are adding to the selection (eg. by shift + LMB)
@@ -44,9 +42,13 @@ even in this box the cursor icon is "forbidden" (_sometimes_). And add Cancel.
 konqueror framework:
 ====================
 
+- implement "cutting" icons using semi-transparent icon effect
+(or more generally "disabled" setting).
+
 - the 'shared lib' or interface problem for plugins.
 
-- DCOP interfaces
+- Allow for profiles without URL - and have two "default" ones (i.e. provided),
+one for $HOME and one for web browsing.
 
 - What about a "clear" button at the right of the location bar, to clear the URL
 before pasting another one ?
@@ -111,6 +113,9 @@ files (example: see eject action in the CDROM template) ?
 
 And more:
 =========
+
+- Show caitoo in the RMB on links - this is different from usual services,
+since it's not associated to a mimetype, but to non-local protocols...
 
 - see grep TODO *.cc *.h
 
