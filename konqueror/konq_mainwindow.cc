@@ -102,7 +102,7 @@ QList<KonqMainWindow> *KonqMainWindow::s_lstViews = 0;
 KonqMainWindow::ActionSlotMap *KonqMainWindow::s_actionSlotMap = 0;
 
 KonqMainWindow::KonqMainWindow( const KURL &initialURL, bool openInitialURL, const char *name )
- : KParts::MainWindow( name, WStyle_ContextHelp )
+ : KParts::MainWindow( name, WDestructiveClose | WStyle_ContextHelp )
 {
   if ( !s_lstViews )
     s_lstViews = new QList<KonqMainWindow>;

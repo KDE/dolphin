@@ -76,7 +76,7 @@ this directory" too... ?
 
 - select files to be shown using shell globs (file:/home/dfaure/*.txt)
 
-- Undo functionality
+- Undo functionality (in progress)
 
 - Link symbol (see post "Links" on kfm-devel)
 
@@ -87,11 +87,6 @@ listviews:
 - textview: dragging from there and dropping in another view crashes, I'm told.
 
 - crash in double-click mode when double-clicking. #3356 (already fixed?)
-
-dirtree:
-========
-
-- KDirWatch on subdirs of the configuration dir
 
 kpropsdlg (kfile):
 ======
