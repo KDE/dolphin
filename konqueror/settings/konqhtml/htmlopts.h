@@ -54,6 +54,7 @@ private:
     QCheckBox* m_cbCursor;
     QCheckBox* m_pAutoLoadImagesCheckBox;
     QCheckBox* m_pAutoRedirectCheckBox;
+    QCheckBox* m_pOpenMiddleClick;
     QCheckBox* m_pBackRightClick;
     QCheckBox* m_pShowMMBInTabs;
     QCheckBox* m_pFormCompletionCheckBox;

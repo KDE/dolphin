@@ -96,24 +96,31 @@ KMiscHTMLOptions::KMiscHTMLOptions(KConfig *config, QString group, QWidget *pare
     lay->addMultiCellWidget( bgTabbedBrowsing, row, row, 0, 1 );
     row++;
 
-    // Misc
+    // Mouse behavior
 
-    m_cbCursor = new QCheckBox(i18n("Chan&ge cursor over links"), this);
-    lay->addMultiCellWidget(m_cbCursor, row, row, 0, 1);
-    row++;
+    QVGroupBox *bgMouse = new QVGroupBox( i18n("Mouse Beha&vior"), this );
 
+    m_cbCursor = new QCheckBox(i18n("Chan&ge cursor over links"), bgMouse );
     QWhatsThis::add( m_cbCursor, i18n("If this option is set, the shape of the cursor will change "
        "(usually to a hand) if it is moved over a hyperlink.") );
-
     connect(m_cbCursor, SIGNAL(clicked()), this, SLOT(slotChanged()));
 
-    m_pBackRightClick = new QCheckBox( i18n( "Right click goes &back in history" ), this );
+    m_pOpenMiddleClick = new QCheckBox( i18n ("M&iddle click opens URL in selection" ), bgMouse );
+    QWhatsThis::add( m_pOpenMiddleClick, i18n (
+      "If this box is checked, you can open the URL in the selection by middle clicking on a "
+      "Konqueror view." ) );
+    connect(m_pOpenMiddleClick, SIGNAL(clicked()), this, SLOT(slotChanged()));
+
+    m_pBackRightClick = new QCheckBox( i18n( "Right click goes &back in history" ), bgMouse );
     QWhatsThis::add( m_pBackRightClick, i18n(
       "If this box is checked, you can go back in history by right clicking on a Konqueror view. "
       "To access the context menu, press the right mouse button and move." ) );
-    lay->addMultiCellWidget( m_pBackRightClick, row, row, 0, 1);
-    row++;
     connect(m_pBackRightClick, SIGNAL(clicked()), this, SLOT(slotChanged()));
+
+    lay->addMultiCellWidget( bgMouse, row, row, 0, 1 );
+    row++;
+
+    // Misc
 
     m_pAutoLoadImagesCheckBox = new QCheckBox( i18n( "A&utomatically load images"), this );
     QWhatsThis::add( m_pAutoLoadImagesCheckBox, i18n( "If this box is checked, Konqueror will automatically load any images that are embedded in a web page. Otherwise, it will display placeholders for the images, and you can then manually load the images by clicking on the image button.<br>Unless you have a very slow network connection, you will probably want to check this box to enhance your browsing experience." ) );
@@ -193,6 +200,7 @@ void KMiscHTMLOptions::load()
 
     // *** load ***
     SET_GROUP( "MainView Settings" );
+    bool bOpenMiddleClick = READ_BOOL( "OpenMiddleClick", true );
     bool bBackRightClick = READ_BOOL( "BackRightClick", false );
     SET_GROUP( "HTML Settings" );
     bool changeCursor = READ_BOOL("ChangeCursor", KDE_DEFAULT_CHANGECURSOR);
@@ -207,6 +215,7 @@ void KMiscHTMLOptions::load()
     m_cbCursor->setChecked( changeCursor );
     m_pAutoLoadImagesCheckBox->setChecked( bAutoLoadImages );
     m_pAutoRedirectCheckBox->setChecked( bAutoRedirect );
+    m_pOpenMiddleClick->setChecked( bOpenMiddleClick );
     m_pBackRightClick->setChecked( bBackRightClick );
 
     // we use two keys for link underlining so that this config file
@@ -257,6 +266,7 @@ void KMiscHTMLOptions::defaults()
 void KMiscHTMLOptions::save()
 {
     m_pConfig->setGroup( "MainView Settings" );
+    m_pConfig->writeEntry( "OpenMiddleClick", m_pOpenMiddleClick->isChecked() );
     m_pConfig->writeEntry( "BackRightClick", m_pBackRightClick->isChecked() );
     m_pConfig->setGroup( "HTML Settings" );
     m_pConfig->writeEntry( "ChangeCursor", m_cbCursor->isChecked() );
