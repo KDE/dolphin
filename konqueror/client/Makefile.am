@@ -9,16 +9,16 @@ kfmclient_SOURCES = kfmclient.cc KonquerorIface_stub.cpp KDesktopIface_stub.cpp
 noinst_HEADERS = kfmclient.h
 
 KonquerorIface.kidl: $(srcdir)/../KonquerorIface.h
-	kidl $(srcdir)/../KonquerorIface.h > KonquerorIface.kidl 
+	dcopidl $(srcdir)/../KonquerorIface.h > KonquerorIface.kidl 
 
 KonquerorIface_stub.cpp: KonquerorIface.kidl
-	kidl2cpp --no-skel KonquerorIface.kidl
+	dcopidl2cpp --no-skel KonquerorIface.kidl
 
 KDesktopIface.kidl: $(top_srcdir)/kdesktop/KDesktopIface.h
-	kidl $(top_srcdir)/kdesktop/KDesktopIface.h > KDesktopIface.kidl 
+	dcopidl $(top_srcdir)/kdesktop/KDesktopIface.h > KDesktopIface.kidl 
 	
 KDesktopIface_stub.cpp: KDesktopIface.kidl
-	kidl2cpp --no-skel KDesktopIface.kidl
+	dcopidl2cpp --no-skel KDesktopIface.kidl
 
 kfmclient.cc: KonquerorIface_stub.cpp KDesktopIface_stub.cpp
 
