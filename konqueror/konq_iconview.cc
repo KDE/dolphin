@@ -221,7 +221,7 @@ void KonqKfmIconView::initConfig()
   else
     viewport()->setBackgroundMode( NoBackground );
 
-  m_mouseMode = settings->mouseMode();
+  m_mouseMode = (KIconContainer::MouseMode) settings->mouseMode();
 
   m_underlineLink = settings->underlineLink();
   m_changeCursor = settings->changeCursor();
