@@ -354,7 +354,7 @@ QDragObject * KfindWindow::dragObject()
   if ( uris.count() <= 0 )
      return 0;
 
-  QUriDrag *ud = KURLDrag::newDrag( uris, (QWidget *) this, "kfind uridrag" );
+  QUriDrag *ud = new KURLDrag( uris, (QWidget *) this, "kfind uridrag" );
 
   const QPixmap *pix = currentItem()->pixmap(0);
   if ( pix && !pix->isNull() )
