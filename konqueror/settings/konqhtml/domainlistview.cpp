@@ -183,7 +183,7 @@ void DomainListView::initialize(const QStringList &domainList)
 
       QString policy;
       if (pol->isFeatureEnabledPolicyInherited())
-        policy = i18n("Use global");
+        policy = i18n("Use Global");
       else if (pol->isFeatureEnabled())
         policy = i18n("Accept");
       else

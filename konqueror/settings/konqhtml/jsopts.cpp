@@ -201,8 +201,8 @@ void JSDomainListView::setupPolicyDlg(PushButton trigger,PolicyDialog &pDlg,
   pDlg.setFeatureEnabledLabel(i18n("JavaScript policy:"));
   pDlg.setFeatureEnabledWhatsThis(i18n("Select a JavaScript policy for "
                                           "the above host or domain."));
-  JSPoliciesFrame *panel = new JSPoliciesFrame(jspol,i18n("Domain-specific "
-  				"JavaScript policies"),&pDlg);
+  JSPoliciesFrame *panel = new JSPoliciesFrame(jspol,i18n("Domain-Specific "
+  				"JavaScript Policies"),&pDlg);
   panel->refresh();
   pDlg.addPolicyPanel(panel);
   pDlg.refresh();

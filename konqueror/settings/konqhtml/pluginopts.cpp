@@ -70,13 +70,13 @@ KPluginOptions::KPluginOptions( KConfig* config, QString group, QWidget *parent,
     /***************************************************************************
      ********************* Domain-specific Settings ****************************
      **************************************************************************/
-    QPushButton *domainSpecPB = new QPushButton(i18n("Domain-specific Settin&gs..."),
+    QPushButton *domainSpecPB = new QPushButton(i18n("Domain-Specific Settin&gs..."),
     						globalGB);
     domainSpecPB->setSizePolicy(QSizePolicy::Fixed,QSizePolicy::Fixed);
     connect(domainSpecPB,SIGNAL(clicked()),SLOT(slotShowDomainDlg()));
 
     domainSpecificDlg = new KDialogBase(KDialogBase::Swallow,
-    			i18n("Domain-specific Policies"),KDialogBase::Close,
+    			i18n("Domain-Specific Policies"),KDialogBase::Close,
 			KDialogBase::Close,this,"domainSpecificDlg",
 			true,true);
     domainSpecificDlg->setEscapeButton(KDialogBase::Close);
@@ -558,7 +558,7 @@ void KPluginOptions::pluginSave( KConfig */*config*/ )
 
 PluginDomainDialog::PluginDomainDialog(QWidget *parent) :
 	QWidget(parent,"PluginDomainDialog") {
-  setCaption(i18n("Domain-specific Policies"));
+  setCaption(i18n("Domain-Specific Policies"));
 
   thisLayout = new QVBoxLayout(this);
   thisLayout->addSpacing(6);

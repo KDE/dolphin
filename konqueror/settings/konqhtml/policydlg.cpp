@@ -69,7 +69,7 @@ PolicyDialog::PolicyDialog( Policies *policies, QWidget *parent, const char *nam
 
   cb_feature_policy = new QComboBox(this);
   l_feature_policy->setBuddy( cb_feature_policy );
-  policy_values << i18n("Use global") << i18n("Accept") << i18n("Reject");
+  policy_values << i18n("Use Global") << i18n("Accept") << i18n("Reject");
   cb_feature_policy->insertStringList(policy_values);
   grid->addWidget(cb_feature_policy, 1, 1);
 
