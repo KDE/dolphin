@@ -4,181 +4,29 @@
 // This dialog box created by David Faure <faure@kde.org>
 
 #include <qlayout.h>
-#include <qradiobutton.h>
 #include <qwhatsthis.h>
+
+#include <kkeydialog.h> // for ksplitlist
+#include <kbuttonbox.h>
+#include <kmessagebox.h>
 
 #include <klocale.h>
 #include <kapp.h>
-#include <kbuttonbox.h>
-#include <kmessagebox.h>
+#include <kconfig.h>
 #include <kprocess.h>
 #include <kdebug.h>
 #include <ksimpleconfig.h>
 #include <dcopclient.h>
 
 #include "kcookiespolicies.h"
+#include "policydlg.h"
 
-#define ROW_ENABLE_COOKIES 1
-#define ROW_DEFAULT_ACCEPT 3
-#define ROW_CHANGE_DOMAIN 5
-#define ROW_BOTTOM 7
-
-KCookiesPolicies::KCookiesPolicies(QWidget *parent, const char *name)
-  : KCModule(parent, name)
-{
-  QGridLayout *lay = new QGridLayout(this,ROW_BOTTOM,5,10,5);
-  lay->addRowSpacing(0,10);
-  lay->addRowSpacing(2,10);
-  lay->addRowSpacing(3,10);
-  lay->addRowSpacing(4,10);
-  lay->addRowSpacing(6,10);
-  lay->addColSpacing(0,10);
-  lay->addColSpacing(2,10);
-  lay->addColSpacing(4,10);
-
-  lay->setRowStretch(0,0);
-  lay->setRowStretch(1,0); // ROW_ENABLE_COOKIES
-  lay->setRowStretch(2,0);
-  lay->setRowStretch(3,1); // ROW_DEFAULT_ACCEPT
-  lay->setRowStretch(4,0);
-  lay->setRowStretch(5,1); // ROW_CHANGE_DOMAIN
-  lay->setRowStretch(6,10);
-
-  lay->setColStretch(0,0);
-  lay->setColStretch(1,1);
-  lay->setColStretch(2,0);
-  lay->setColStretch(3,1);
-  lay->setColStretch(4,0);
-
-  cb_enableCookies = new QCheckBox( i18n("&Enable Cookies"), this );
-  connect( cb_enableCookies, SIGNAL( clicked() ), this, SLOT( changeCookiesEnabled() ) );
-  connect( cb_enableCookies, SIGNAL( clicked() ), this, SLOT( changed() ) );
-  lay->addWidget(cb_enableCookies,ROW_ENABLE_COOKIES,1);
-  QWhatsThis::add( cb_enableCookies, i18n("This option turns on cookie support. Normally"
-    " you will want to have cookie support enabled and customize it to suit your need of privacy.") );
-
-  {
-    QButtonGroup *bg = new QButtonGroup( i18n("Default policy"), this );
-    bg1 = bg;
-    bg->setExclusive( TRUE );
-    QGridLayout *bgLay = new QGridLayout(bg,3,3,10,5);
-    bgLay->addRowSpacing(0,10);
-    bgLay->addRowSpacing(2,5);
-    bgLay->setRowStretch(0,0);
-    bgLay->setRowStretch(1,0);
-    connect(bg, SIGNAL(clicked(int)), this, SLOT(changed()));
-
-    rb_gbPolicyAccept = new QRadioButton( i18n("Accept"), bg );
-    bgLay->addWidget(rb_gbPolicyAccept, 1, 0);
-
-    rb_gbPolicyAsk = new QRadioButton( i18n("Ask"), bg );
-    bgLay->addWidget(rb_gbPolicyAsk, 1, 1);
-
-    rb_gbPolicyReject = new QRadioButton( i18n("Reject"), bg );
-    bgLay->addWidget(rb_gbPolicyReject, 1, 2);
-
-    bgLay->activate();
-    lay->addWidget(bg, ROW_ENABLE_COOKIES, 3);
-
-    QWhatsThis::add( bg, i18n("The default policy determines the way KDE will"
-      " handle cookies sent from a server that does not belong to a domain for which"
-      " you have set a specific policy. <ul><li><em>Accept</em> will cause KDE to silently"
-      " accept all cookies</li><li><em>Ask</em> will cause KDE to ask you for your confirmation"
-      " everytime a server wants to set a cookie</li><li><em>Reject</em> will cause KDE"
-      " not to set cookies</li></ul>") );
-  }
-
-  // Create Group Box for specific settings
-  wSpecificGroupBox = new QGroupBox(i18n("Domain specific policy settings"), this);
-  lay->addMultiCellWidget(wSpecificGroupBox, ROW_DEFAULT_ACCEPT, ROW_BOTTOM+1, 0, 4);
-  
-  // CREATE SPLIT LIST BOX
-  wList = new KSplitList( this );
-  wList->setMinimumHeight(80);
-  lay->addMultiCellWidget( wList, ROW_DEFAULT_ACCEPT+1, ROW_BOTTOM, 1, 1 );
-
-  QString wtstr = i18n("This box contains the domains and hosts you have set"
-    " a specific cookie policy for. This policy will be used instead of the"
-    " default policy for any cookie sent by those domains or hosts. <p>"
-    " Select a policy to change or delete it using the controls on the right.");
-  QWhatsThis::add( wList, wtstr );
-  QWhatsThis::add( wSpecificGroupBox, wtstr );
-
-  connect( wList, SIGNAL( highlighted( int ) ), SLOT( updateDomain( int ) ) );
-  connect( wList, SIGNAL( selected( int ) ), SLOT( updateDomain( int ) ) );
-  connect( wList, SIGNAL( selected( int ) ), this, SLOT(changed() ) );
-  {
-    QButtonGroup *bg = new QButtonGroup( i18n("Change domain policy"), this );
-    bg2 = bg;
-    bg->setExclusive( TRUE );
-    QGridLayout *bgLay = new QGridLayout(bg,6,3,10,5);
-    bgLay->addRowSpacing(0,10);
-    bgLay->addRowSpacing(2,10);
-    bgLay->setRowStretch(0,0);
-    bgLay->setRowStretch(1,0);
-    bgLay->setRowStretch(2,1);
-    bgLay->setRowStretch(3,0);
-    bgLay->setRowStretch(4,1);
-    bgLay->setRowStretch(5,0);
-    connect(bg, SIGNAL(clicked(int)), this, SLOT(changed()));
-
-    le_domain = new QLineEdit(bg);
-    bgLay->addMultiCellWidget(le_domain,1,1,0,2);
-
-    rb_domPolicyAccept = new QRadioButton( i18n("Accept"), bg );
-    bgLay->addWidget(rb_domPolicyAccept, 3, 0);
-    connect(rb_domPolicyAccept, SIGNAL(clicked()), this, SLOT(changed()));
-
-    rb_domPolicyAsk = new QRadioButton( i18n("Ask"), bg );
-    bgLay->addWidget(rb_domPolicyAsk, 3, 1);
-    connect(rb_domPolicyAsk, SIGNAL(clicked()), this, SLOT(changed()));
-
-    rb_domPolicyReject = new QRadioButton( i18n("Reject"), bg );
-    rb_domPolicyAsk->setChecked( true );
-    bgLay->addWidget(rb_domPolicyReject, 3, 2);
-    connect(rb_domPolicyReject, SIGNAL(clicked()), this, SLOT(changed()));
-
-    KButtonBox *bbox = new KButtonBox( bg );
-    bbox->addStretch( 20 );
-
-    pb_domPolicyChange = bbox->addButton( i18n("Change") );
-    connect( pb_domPolicyChange, SIGNAL( clicked() ), this, SLOT( changePressed() ) );
-    connect( pb_domPolicyChange, SIGNAL( clicked() ), this, SLOT( changed() ) );
-
-    bbox->addStretch( 10 );
-
-    pb_domPolicyDelete = bbox->addButton( i18n("Delete") );
-    connect( pb_domPolicyDelete, SIGNAL( clicked() ), this, SLOT( deletePressed() ) );
-    connect( pb_domPolicyDelete, SIGNAL( clicked() ), this, SLOT( changed() ) );
-
-    bbox->addStretch( 20 );
-
-    bbox->layout();
-    bgLay->addMultiCellWidget( bbox, 5,5,0,2);
-
-    lay->addWidget(bg,ROW_CHANGE_DOMAIN-1,3);
-
-    QWhatsThis::add( bg, i18n("Here you can set speficic policies for certain"
-      " domains or hosts. To add a new policy, enter the domain or the host"
-      " into the text field, choose one of the policies and click the 'Change'"
-      " button. To change a policy, select the name of the domain or host in the"
-      " box in the left, select the new policy and click 'Change'. To delete a"
-      " policy, select it and click 'Delete'. The policies are:"
-      " <ul><li><em>Accept</em> will cause KDE to silently"
-      " accept all cookies</li><li><em>Ask</em> will cause KDE to ask you for your confirmation"
-      " everytime a server wants to set a cookie</li><li><em>Reject</em> will cause KDE"
-      " not to set cookies</li></ul>") );
-  }
-
-  lay->activate();
-
-  // finally read the options
-  load();
-}
-
-KCookiesPolicies::~KCookiesPolicies()
-{
-}
+/*
+* The functions below are utility functions used to
+* properly split and change a cookie policy information
+* from a string format to one appropriate  
+*
+*/
 
 enum KCookieAdvice {
     KCookieDunno=0,
@@ -191,10 +39,10 @@ static const char *adviceToStr(KCookieAdvice _advice)
 {
     switch( _advice )
     {
-    case KCookieAccept: return "Accept";
-    case KCookieReject: return "Reject";
-    case KCookieAsk: return "Ask";
-    default: return "Dunno";
+        case KCookieAccept: return "Accept";
+        case KCookieReject: return "Reject";
+        case KCookieAsk: return "Ask";
+        default: return "Dunno";
     }
 }
 
@@ -213,9 +61,7 @@ static KCookieAdvice strToAdvice(const QString& _str)
     return KCookieDunno;	
 }
 
-static void splitDomainAdvice(const char *configStr,
-                              QString &domain,
-                              KCookieAdvice &advice)
+static void splitDomainAdvice(const char *configStr, QString &domain, KCookieAdvice &advice)
 {
     QString tmp(configStr);
     int splitIndex = tmp.find(':');
@@ -231,153 +77,277 @@ static void splitDomainAdvice(const char *configStr,
     }
 }
 
-void KCookiesPolicies::removeDomain(const QString& domain)
-{
-    QString searchFor(domain);
-    searchFor += ":";
+/************************************ KCookiesPolicies **********************************/
 
-    for (QStringList::Iterator it = domainConfig.begin();
-	 it != domainConfig.end(); ++it)
+KCookiesPolicies::KCookiesPolicies(QWidget *parent, const char *name)
+                 :KCModule(parent, name)
+{
+    // This is the layout for the "Policy" tab.
+    QGridLayout *lay = new QGridLayout( this, 5, 3, 10, 5);
+    lay->addRowSpacing(0,5);
+    lay->addRowSpacing(2,5);
+    lay->addRowSpacing(4,5);
+        
+    lay->setRowStretch(0,0);
+    lay->setRowStretch(1,0);
+    lay->setRowStretch(2,0);  
+    lay->setRowStretch(3,1);
+    lay->setRowStretch(4,0);
+            
+    lay->addColSpacing(0,10);
+    lay->addColSpacing(2,10);
+    
+    lay->setColStretch(0,0);
+    lay->setColStretch(1,1);
+    lay->setColStretch(2,0);
+    
+    // Global Policy group box
+    gb_global = new QGroupBox( i18n( "Global"), this );
+    QGridLayout *gp_lay = new QGridLayout( gb_global, 5, 3, 10, 5 );
+    gp_lay->addRowSpacing(0,5);
+    gp_lay->addRowSpacing(2,3);
+    gp_lay->addRowSpacing(4,5);
+    
+    gp_lay->addColSpacing(0,5);
+    gp_lay->addColSpacing(2,5);
+    
+    gp_lay->setColStretch(0,0);
+    gp_lay->setColStretch(1,1);
+    gp_lay->setColStretch(2,0);    
+    lay->addWidget( gb_global, 1, 1 );  // Add it to the policy tab
+    
+    cb_enableCookies = new QCheckBox( i18n("&Enable Cookies"), gb_global );
+    QWhatsThis::add( cb_enableCookies, i18n("This option turns on cookie support. Normally "
+                                            "you will want to have cookie support enabled and "
+                                            "customize it to suit your need of privacy.") );
+    connect( cb_enableCookies, SIGNAL( clicked() ), this, SLOT( changeCookiesEnabled() ) );
+    connect( cb_enableCookies, SIGNAL( clicked() ), this, SLOT( changed() ) );
+    gp_lay->addWidget( cb_enableCookies, 1, 1 ); // Add it to the global group box
+  
+    bg_default = new QButtonGroup( i18n("Default Policy"), gb_global );
+    QWhatsThis::add( bg_default, i18n("The default policy determines the way KDE will "
+                                      "handle cookies sent from a server that does not "
+                                      "belong to a domain for which you have set a specific "
+                                      "policy. Note that this default policy is overriden for "
+                                      " any server which has a domain specific policy. <ul><li>"
+                                      "<em>Accept</em> will cause KDE to silently accept all cookies "
+                                      "</li><li><em>Ask</em> will cause KDE to ask you for your confirmation "
+                                      "everytime a server wants to set a cookie</li><li><em>Reject</em> will "
+                                      "cause KDE not to set cookies</li></ul>") );    
+    connect(bg_default, SIGNAL(clicked(int)), this, SLOT(changed()));
+    bg_default->setExclusive( true );    
+    
+    QGridLayout *df_lay = new QGridLayout( bg_default, 7, 1, 10, 5 );
+    df_lay->addRowSpacing(0,5);
+    df_lay->addRowSpacing(2,1);
+    df_lay->addRowSpacing(4,1);
+    df_lay->addRowSpacing(6,5);
+    
+    df_lay->setRowStretch(0,0);
+    df_lay->setRowStretch(1,1);
+    df_lay->setRowStretch(2,0);
+
+    rb_gbPolicyAsk = new QRadioButton( i18n("Ask for confirmation before accepting cookies."), bg_default );
+    df_lay->addWidget( rb_gbPolicyAsk, 1, 0);
+
+    rb_gbPolicyAccept = new QRadioButton( i18n("Accept all cookies by default"), bg_default );
+    df_lay->addWidget(rb_gbPolicyAccept, 3, 0);
+
+    rb_gbPolicyReject = new QRadioButton( i18n("Reject all cookies by default"), bg_default );
+    df_lay->addWidget(rb_gbPolicyReject, 5, 0);
+    
+    gp_lay->addWidget( bg_default, 3, 1 ); // Add it to the Global group box
+    
+    // Create Group Box for specific settings
+    gb_domainSpecific = new QGroupBox( i18n("Domain Specific"), this);
+    QGridLayout *ds_lay = new QGridLayout( gb_domainSpecific, 11, 5, 10, 5 );
+    ds_lay->addRowSpacing(0,10);
+    ds_lay->addRowSpacing(2,1);
+    ds_lay->addRowSpacing(4,1);
+    ds_lay->addRowSpacing(6,1);
+    ds_lay->addRowSpacing(8,1);
+    ds_lay->addRowSpacing(10,7);
+    
+    ds_lay->addColSpacing(0,5);
+    ds_lay->addColSpacing(2,3);
+    ds_lay->addColSpacing(4,5);
+  
+    // CREATE SPLIT LIST BOX
+    lb_domainPolicy = new KSplitList( gb_domainSpecific );
+    lb_domainPolicy->setMinimumHeight( 0.10 * sizeHint().height() );
+    ds_lay->addMultiCellWidget( lb_domainPolicy, 1, 9, 1, 1 );
+    QString wtstr = i18n("This box contains the domains and hosts you have set "
+                         "a specific cookie policy for. This policy will be used "
+                         "instead of the default policy for any cookie sent by these "
+                         "domains or hosts. <p>Select a policy and use the controls on "
+                         "the right to modify it.");
+    QWhatsThis::add( lb_domainPolicy, wtstr );
+    QWhatsThis::add( gb_domainSpecific, wtstr );  
+    
+    pb_domPolicyAdd = new QPushButton( i18n("Add..."), gb_domainSpecific );
+    QWhatsThis::add( pb_domPolicyAdd, i18n("Click on this button to manually add a domain "
+                                           "specific policy.") );
+    connect( pb_domPolicyAdd, SIGNAL(clicked()), SLOT( addPressed() ) );
+    ds_lay->addWidget( pb_domPolicyAdd, 1, 3);
+  
+    pb_domPolicyChange = new QPushButton( i18n("Change..."), gb_domainSpecific );
+    QWhatsThis::add( pb_domPolicyChange, i18n("Click on this button to change the policy for the "
+                                              "domain selected in the list box.") );        
+    connect( pb_domPolicyChange, SIGNAL( clicked() ), this, SLOT( changePressed() ) );
+    ds_lay->addWidget( pb_domPolicyChange, 3, 3);
+    
+    pb_domPolicyDelete = new QPushButton( i18n("Delete"), gb_domainSpecific );
+    QWhatsThis::add( pb_domPolicyDelete, i18n("Click on this button to change the policy for the "
+                                              "domain selected in the list box.") );   
+    connect( pb_domPolicyDelete, SIGNAL( clicked() ), this, SLOT( deletePressed() ) );
+    ds_lay->addWidget( pb_domPolicyDelete, 5, 3);
+    
+    pb_domPolicyImport = new QPushButton( i18n("Import..."), gb_domainSpecific );
+    QWhatsThis::add( pb_domPolicyImport, i18n("Click this button to choose the file that contains "
+                                              "the cookie policies.  These policies will be merged "
+                                              "with the exisiting ones.  Duplicate enteries are ignored.") );   
+    connect( pb_domPolicyDelete, SIGNAL( clicked() ), this, SLOT( importPressed() ) );
+    ds_lay->addWidget( pb_domPolicyImport, 7, 3);
+    pb_domPolicyImport->setEnabled( false );
+
+    pb_domPolicyExport = new QPushButton( i18n("Export..."), gb_domainSpecific );
+    QWhatsThis::add( pb_domPolicyExport, i18n("Click this button to save the cookie policy to a zipped "
+                                              "file.  The file, named <b>cookie_policy.tgz</b>, will be "
+                                              "saved to a location of your choice." ) );   
+    
+    connect( pb_domPolicyDelete, SIGNAL( clicked() ), this, SLOT( exportPressed() ) );
+    ds_lay->addWidget( pb_domPolicyExport, 9, 3);   
+    pb_domPolicyExport->setEnabled( false );
+
+    QWhatsThis::add( gb_domainSpecific, i18n("Here you can set specific cookie policies for any particular "
+                                             "domain. To add a new policy, simply click the <i>Add...</i> "
+                                             "button and supply the necessary information requested by the "
+                                             "dialog box. To change an exisiting policy, click on the <i>Change...</i> "
+                                             "button and choose the new policy from the policy dialog box.  Clicking "
+                                             "on the <i>Delete</i> will remove the selected policy causing the default "
+                                             "policy setting to be used for that domain. The <i>Import</i> and <i>Export</i> "
+                                             "button allows you to easily share your policies with other people by allowing "
+                                             "you to save and retrive them from a zipped file.") );
+    lay->addWidget( gb_domainSpecific, 3, 1 );                                             
+  
+    // Pheweee!! Finally read the options
+    load();
+}
+
+KCookiesPolicies::~KCookiesPolicies()
+{
+}
+
+void KCookiesPolicies::addPressed()
+{
+    PolicyDialog pDlg( this, 0L );
+    // We subtract one from the enum value because
+    // KCookieDunno is not part of the choice list.
+    int def_policy = KCookieAsk - 1;
+    pDlg.setDefaultPolicy( def_policy );
+    pDlg.setCaption( i18n( "New Cookie Policy" ) );
+    if( pDlg.exec() )
     {
-       if (strncasecmp((*it).latin1(), searchFor.latin1(), searchFor.length()) == 0)
-       {
-           domainConfig.remove(it);
-           return;
-       }
+        QString domain = pDlg.domain();
+        const char* new_advice = adviceToStr( (KCookieAdvice) pDlg.policyAdvice() );
+        domain.append( ":" ).append( new_advice );
+        domainConfig.append( domain );
+        updateDomainList();        
+        changed();        
     }
 }
 
 void KCookiesPolicies::changePressed()
 {
-    QString domain = le_domain->text();
-    const char *advice;
-
-    if (domain.isEmpty())
+    int index = lb_domainPolicy->currentItem();
+    if ( index == -1 )
     {
-    	KMessageBox::information( 0, i18n("You must enter a domain first !"));
+        KMessageBox::information( 0, i18n("You must first select a policy to be changed!" ) );
         return;
     }
-
-    if (rb_domPolicyAccept->isChecked())
-        advice = adviceToStr(KCookieAccept);
-    else if (rb_domPolicyReject->isChecked())
-        advice = adviceToStr(KCookieReject);
-    else
-        advice = adviceToStr(KCookieAsk);
-
-    QString configStr(domain);
-
-    if (configStr[0] != '.')
-        configStr = "." + configStr;
-
-    removeDomain(configStr);
-
-    configStr += ":";
-    configStr += advice;
-
-    domainConfig.append(configStr);
-
-    updateDomainList();
+       
+    QString configStr = *domainConfig.at( index );
     
-    int index = domainConfig.findIndex(configStr);
+    // Should never happen!!
+    if (configStr.isNull())
+        return;
+      
+    QString domain;
+    KCookieAdvice advice;
+    splitDomainAdvice( configStr, domain, advice );
 
-    wList->setCurrentItem(index);
+    PolicyDialog pDlg( this );
+    pDlg.setDisableEdit( false, domain );
+    pDlg.setCaption( i18n( "Change Cookie Policy" ) );
+    // We subtract one from the enum value because
+    // KCookieDunno is not part of the choice list.    
+    pDlg.setDefaultPolicy( advice - 1 );        
+    if( pDlg.exec() )
+    {
+        const char* new_advice = adviceToStr( (KCookieAdvice) pDlg.policyAdvice() );
+        domain.append( ":" ).append( new_advice );
+        domainConfig.insert( domainConfig.remove( domainConfig.at( index ) ), domain );
+        updateDomainList();
+        changed();
+    }
 }
 
 void KCookiesPolicies::deletePressed()
 {
-    QString domain(le_domain->text());
-
-    if (domain[0] != '.')
-        domain = "." + domain;
-
-    removeDomain(domain);
+    int index = lb_domainPolicy->currentItem();
+    if ( index == -1 )
+    {
+        KMessageBox::information( 0, i18n("You must first select a policy to delete!" ) );
+        return;
+    }    
+    domainConfig.remove( domainConfig.at( index ) );
     updateDomainList();
-
-    le_domain->setText("");
-    rb_domPolicyAccept->setChecked( false );
-    rb_domPolicyReject->setChecked( false );
-    rb_domPolicyAsk->setChecked( true );
-
-    if (wList->count() > 0)
-        wList->setCurrentItem(0);
+    changed();
+    lb_domainPolicy->setCurrentItem( index );
 }
 
-void KCookiesPolicies::updateDomain(int index)
+void KCookiesPolicies::importPressed()
 {
-  QString domain;
-  KCookieAdvice advice;
+}
 
-  if ((index < 0) || (index >= (int) domainConfig.count()))
-      return;
-
-  QString configStr = *domainConfig.at(index);
-  if (configStr.isNull())
-      return;
-
-  splitDomainAdvice(configStr, domain, advice);
-
-  le_domain->setText(domain);
-  rb_domPolicyAccept->setChecked( advice == KCookieAccept );
-  rb_domPolicyReject->setChecked( advice == KCookieReject );
-  rb_domPolicyAsk->setChecked( (advice != KCookieAccept) &&
-                              (advice != KCookieReject) );
+void KCookiesPolicies::exportPressed()
+{
 }
 
 void KCookiesPolicies::changeCookiesEnabled()
 {
-  bool enabled = cb_enableCookies->isChecked();
-
-  rb_gbPolicyAccept->setEnabled( enabled);
-  rb_gbPolicyReject->setEnabled( enabled);
-  rb_gbPolicyAsk->setEnabled( enabled );
-
-  rb_domPolicyAccept->setEnabled( enabled);
-  rb_domPolicyReject->setEnabled( enabled);
-  rb_domPolicyAsk->setEnabled( enabled );
-  bg1->setEnabled( enabled );
-  bg2->setEnabled( enabled );
-
-  pb_domPolicyChange->setEnabled( enabled );
-  pb_domPolicyDelete->setEnabled( enabled );
-
-  wSpecificGroupBox->setEnabled( enabled );
-  wList->setEnabled( enabled );
-  le_domain->setEnabled( enabled );
+    bool enabled = cb_enableCookies->isChecked();
+    bg_default->setEnabled( enabled );  
+    gb_domainSpecific->setEnabled( enabled );  
 }
 
 void KCookiesPolicies::updateDomainList()
 {
-  wList->clear();
-
-  int id = 0;
-
-  for (QStringList::ConstIterator domain = domainConfig.begin();
-       domain != domainConfig.end(); ++domain)
-  {
-       KSplitListItem *sli = new KSplitListItem( *domain, id);
-       connect( wList, SIGNAL( newWidth( int ) ),
-	       sli, SLOT( setWidth( int ) ) );
-       sli->setWidth(wList->width());
-       wList->inSort( sli );
-       ++id;
-  }
-  
-  domainConfig.sort();
+    lb_domainPolicy->clear();
+    int id = 0;
+    for (QStringList::ConstIterator domain = domainConfig.begin();
+         domain != domainConfig.end(); ++domain)
+    {
+        KSplitListItem *sli = new KSplitListItem( *domain, id);
+        connect( lb_domainPolicy, SIGNAL( newWidth( int ) ), sli, SLOT( setWidth( int ) ) );
+        sli->setWidth( lb_domainPolicy->width() );
+        lb_domainPolicy->insertItem( sli );
+        ++id;
+    }
 }
 
 void KCookiesPolicies::load()
 {
   KSimpleConfig *g_pConfig = new KSimpleConfig( "kcookiejarrc" );
 
-  QString tmp;
   // Backwards compatiable reading of domain specific settings
   if( g_pConfig->hasGroup( "Browser Settings/HTTP" ) &&
       !g_pConfig->hasGroup( "Cookie Policy" ) )
      g_pConfig->setGroup( "Browser Settings/HTTP" );
   else
      g_pConfig->setGroup( "Cookie Policy" );
-  tmp = g_pConfig->readEntry("CookieGlobalAdvice", "Ask");
+
+  QString tmp = g_pConfig->readEntry("CookieGlobalAdvice", "Ask");
   KCookieAdvice globalAdvice = strToAdvice(tmp);
   cb_enableCookies->setChecked( g_pConfig->readBoolEntry( "Cookies", true ));
 
@@ -401,9 +371,6 @@ void KCookiesPolicies::load()
 void KCookiesPolicies::save()
 {
   KSimpleConfig *g_pConfig = new KSimpleConfig( "kcookiejarrc" );
-  // Create a dcop client object to communicate with the
-  // cookiejar if it is alive :)
-  DCOPClient *m_dcopClient = new DCOPClient();
   const char *advice;
 
   g_pConfig->setGroup( "Cookie Policy" );
@@ -422,6 +389,10 @@ void KCookiesPolicies::save()
 
   delete g_pConfig;
 
+  // Create a dcop client object to communicate with the
+  // cookiejar if it is alive, if not who cares.  It will
+  // read the config info from file the next time...
+  DCOPClient *m_dcopClient = new DCOPClient();
   if( m_dcopClient->attach() )
   {
      if( !m_dcopClient->send( "kcookiejar", "kcookiejar", "reloadPolicy", QString::null ) )
@@ -437,36 +408,34 @@ void KCookiesPolicies::save()
 void KCookiesPolicies::defaults()
 {
   cb_enableCookies->setChecked( true );
-
+  rb_gbPolicyAsk->setChecked( true );
   rb_gbPolicyAccept->setChecked( false );
   rb_gbPolicyReject->setChecked( false );
-  rb_gbPolicyAsk->setChecked( true );
   domainConfig.clear();
   updateDomainList();
-  le_domain->setText("");
-  rb_domPolicyAccept->setChecked( false );
-  rb_domPolicyReject->setChecked( false );
-  rb_domPolicyAsk->setChecked( true );
-
   changeCookiesEnabled();
 }
 
 QString KCookiesPolicies::quickHelp()
 {
-  return i18n("<h1>Cookies</h1> Cookies contain information that Konqueror "
-    " (or other KDE applications using the http protocol) stores on your "
-    " computer, initiiated by a remote internet server. This means, that "
-    " a web server can store information about you and your browsing activities "
-    " on your machine for later use. You might consider this an attack on your "
-    " privacy. <p> However, cookies are useful in certain situations. For example, they "
-    " are often used by internet shops, so you can 'put things into a shopping basket'. "
-    " Some sites require you have a browser that supports cookies. <p>"
-    " Because most people want a compromise between privacy and the benefits cookies offer,"
-    " KDE offers you to customize the way it handles cookies. So you might want "
-    " to set KDE's default policy to ask you when a server wants to set a cookie,"
-    " so you can decide. For your favourite shopping web sites you trust in you might want to"
-    " set the policy to accept, so you can use the web sites without being asked"
-    " everytime KDE receives a cookie." );
+    return i18n("<h1>Cookies</h1> Cookies contain information that Konqueror "
+                " (or other KDE applications using the http protocol) stores on your "
+                " computer from a remote internet server. This means, that a web server "
+                " can store information about you and your browsing activities "
+                " on your machine for later use. You might consider this an attack on your "
+                " privacy. <p> However, cookies are useful in certain situations. For example, they "
+                " are often used by internet shops, so you can 'put things into a shopping basket'. "
+                " Some sites require you have a browser that supports cookies. <p>"
+                " Because most people want a compromise between privacy and the benefits cookies offer,"
+                " KDE offers you the ability to customize the way it handles cookies. You might, for "
+                " example want to set KDE's default policy to ask you whenever a server wants to set "
+                " a cookie or simply reject or accept everything.  For example, you might choose to "
+                " accept all cookies from your favoriate shopping web site.  For this all you have to "
+                " do is either browse to that particular site and when you are presented with the cookie "
+                " dialog box, click on <i> This domain </i> under the apply to tab and choose accept or "
+                " simply specify the name of the site in the <i> Domain Specific Policy </i> tab and set it "
+                " to accept. This allows you to receive cookies from trusted web sites without being asked "
+                " everytime KDE receives a cookie." );
 }
 
 void KCookiesPolicies::changed()

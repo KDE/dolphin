@@ -27,12 +27,14 @@ KCookiesMain::KCookiesMain(QWidget *parent, const char *name)
     layout->addWidget(tab);
     
     policies = new KCookiesPolicies(this);
-    tab->addTab(policies, i18n("&Policies"));
+    tab->addTab(policies, i18n("&Policy"));
     connect(policies, SIGNAL(changed(bool)), this, SLOT(moduleChanged()));
-
+    
+    /*  TODO: Finish the management dialog.
     management = new KCookiesManagement(this, "Management");
     tab->addTab(management, i18n("&Management"));
     connect(management, SIGNAL(changed(bool)), this, SLOT(moduleChanged()));
+    */
 }
 
 KCookiesMain::~KCookiesMain()
@@ -42,19 +44,19 @@ KCookiesMain::~KCookiesMain()
 void KCookiesMain::load()
 {
   policies->load();
-  management->load();
+  // management->load();
 }
 
 void KCookiesMain::save()
 {
   policies->save();
-  management->save();
+  // management->save();
 }
 
 void KCookiesMain::defaults()
 {
   policies->defaults();
-  management->defaults();
+  // management->defaults();
 }
 
 void KCookiesMain::moduleChanged()

@@ -7,16 +7,16 @@
 #define __KCOOKIESMAIN_H
 
 #include <kcmodule.h>
-#include "kcookiespolicies.h"
-#include "kcookiesmanagement.h"
 
 class QTabWidget;
 class DCOPClient;
+class KCookiesPolicies;
+class KCookiesManagement;
 
 class KCookiesMain : public KCModule
 {
-Q_OBJECT
-  public:
+    Q_OBJECT
+public:
     KCookiesMain(QWidget *parent = 0L, const char *name = 0L);
     ~KCookiesMain();
 
@@ -25,13 +25,12 @@ Q_OBJECT
     virtual void defaults();
     virtual QString quickHelp();
     
-  private slots:
+private slots:
     void moduleChanged();
     
-  private:
+private:
   
-    QTabWidget *tab;
-    
+    QTabWidget* tab;    
     KCookiesPolicies* policies;
     KCookiesManagement* management;
 };

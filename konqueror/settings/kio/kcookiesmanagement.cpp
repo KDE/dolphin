@@ -5,7 +5,7 @@
 #include "kcookiesmanagement.h"
 
 KCookiesManagement::KCookiesManagement(QWidget *parent, const char *name)
-  : KCModule(parent, name)
+                   :KCModule(parent, name)
 {
 }
 
