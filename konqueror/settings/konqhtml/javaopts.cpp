@@ -79,18 +79,22 @@ KJavaOptions::KJavaOptions( KConfig* config, QString group,
     QVGroupBox* javartGB = new QVGroupBox( i18n( "Java Runtime Settings" ), this );
     toplevel->addWidget( javartGB );
 
-    QHBox* hbox = new QHBox( javartGB );
-    QHBox* hbox2 = new QHBox( javartGB );
-    javaConsoleCB = new QCheckBox( i18n( "Sho&w Java console" ), hbox );
+    QWidget* checkboxes = new QWidget( javartGB );
+    QGridLayout* grid = new QGridLayout( checkboxes, 2, 2 );
+    javaConsoleCB = new QCheckBox( i18n( "Sho&w Java console" ), checkboxes );
+    grid->addWidget( javaConsoleCB, 0, 0 );
     connect( javaConsoleCB, SIGNAL(toggled( bool )), this, SLOT(slotChanged()) );
 
-    javaSecurityManagerCB = new QCheckBox( i18n("&Use security manager" ), hbox );
+    javaSecurityManagerCB = new QCheckBox( i18n("&Use security manager" ), checkboxes );
+    grid->addWidget( javaSecurityManagerCB, 0, 1 );
     connect( javaSecurityManagerCB, SIGNAL(toggled( bool )), this, SLOT(slotChanged()) );
 
-    useKioCB = new QCheckBox( i18n("Use &KIO"), hbox2 );
+    useKioCB = new QCheckBox( i18n("Use &KIO"), checkboxes );
+    grid->addWidget( useKioCB, 1, 0 );
     connect( useKioCB, SIGNAL(toggled( bool )), this, SLOT(slotChanged()) );
 
-    enableShutdownCB = new QCheckBox( i18n("Shu&tdown applet server when inactive"), hbox2 );
+    enableShutdownCB = new QCheckBox( i18n("Shu&tdown applet server when inactive"), checkboxes );
+    grid->addWidget( enableShutdownCB, 1, 1 );
     connect( enableShutdownCB, SIGNAL(toggled( bool )), this, SLOT(slotChanged()) );
     connect( enableShutdownCB, SIGNAL(clicked()), this, SLOT(toggleJavaControls()) );
 
