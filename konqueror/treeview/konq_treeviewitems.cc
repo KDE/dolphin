@@ -108,7 +108,8 @@ QString KonqTreeViewItem::makeTimeString( const KUDSAtom &_atom ) const
 {
   QDateTime dt; dt.setTime_t((time_t) _atom.m_long);
 
-  return KGlobal::locale()->formatDateTime(dt);
+  return KGlobal::locale()->formatDate(dt.date(), true) + " " + 
+    KGlobal::locale()->formatTime(dt.time());
 }
 
 QString KonqTreeViewItem::makeTypeString( const KUDSAtom &_atom ) const
