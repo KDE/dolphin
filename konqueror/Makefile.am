@@ -3,6 +3,8 @@ LDFLAGS   = $(all_libraries) $(MICO_LDFLAGS) $(KDE_RPATH)
 LDADD = -lkparts -lkpartsui -lkom $(LIB_KIO) $(LIB_KHTML) $(LIB_KDEUI) \
 	$(LIBMICO)
 
+SUBDIRS = pics
+
 ####### Files
 
 bin_PROGRAMS = konqueror
