@@ -125,11 +125,20 @@ bool KBookmarkGroup::moveItem( const KBookmark & item, const KBookmark & after )
     QDomNode n;
     if ( !after.isNull() )
         n = element.insertAfter( item.element, after.element );
-    else // the dom is quite strange. I need insertBefore to set a first child.
+    else // first child
     {
-        // in addition to that, we have to skip everything up to the first node
+        if ( element.firstChild().isNull() ) // Empty element -> set as real first child
+            n = element.insertBefore( item.element, QDomElement() );
+
+        // we have to skip everything up to the first valid child
         QDomElement firstChild = nextKnownTag(element.firstChild().toElement(), true);
-        n = element.insertBefore( item.element, firstChild /*can be null*/ );
+        if ( !firstChild.isNull() )
+            n = element.insertBefore( item.element, firstChild );
+        else
+        {
+            // No real first child -> append after the <title> etc.
+            n = element.appendChild( item.element );
+        }
     }
     return (!n.isNull());
 }
