@@ -56,7 +56,6 @@ class KonqInfoListViewItem : public KonqBaseListViewItem
 
       virtual ~KonqInfoListViewItem() { }
 
-      virtual QString key( int _column, bool ) const;
       virtual void paintCell( QPainter *_painter, const QColorGroup & cg,
                               int column, int width, int alignment );
       virtual void updateContents();

@@ -27,8 +27,7 @@
 QString KonqTextViewItem::key( int _column, bool asc) const
 {
    if (_column==1) return key(0,asc);
-   QString tmp=sortChar;
-   if (!asc && (sortChar=='0')) tmp=QChar('2');
+   QString tmp = QString::number( sortChar );
    //check if it is a time column
    if (_column>1)
    {

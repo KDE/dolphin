@@ -55,8 +55,11 @@ void KonqListViewItem::updateContents()
    // Set the text of each column
    setText(0,m_fileitem->text());
 
-   if (S_ISDIR(m_fileitem->mode()))
-       sortChar='0';
+   // The order is: .dir (0), dir (1), .file (2), file (3)
+   sortChar = S_ISDIR( m_fileitem->mode() ) ? 1 : 3;
+   if ( m_fileitem->text()[0] == '.' )
+       --sortChar;
+
    //now we have the first column, so let's do the rest
 
    int numExtra = 1;
@@ -215,39 +218,11 @@ const QPixmap* KonqListViewItem::pixmap( int column ) const
    return pm;
 }
 
-QString KonqListViewItem::key( int _column, bool asc ) const
-{
-   QString tmp=sortChar;
-   if (!asc && (sortChar=='0')) tmp=QChar('2');
-   //check if it is a time or size column
-   for (unsigned int i=0; i<m_pListViewWidget->NumberOfAtoms; i++)
-   {
-     ColumnInfo* cInfo = &m_pListViewWidget->columnConfigInfo()[i];
-     if (_column==cInfo->displayInColumn)
-     {
-       switch (cInfo->udsId)
-       {
-         case KIO::UDS_MODIFICATION_TIME:
-         case KIO::UDS_ACCESS_TIME:
-         case KIO::UDS_CREATION_TIME:
-           return tmp + QString::number( m_fileitem->time(cInfo->udsId) ).rightJustify( 20, '0' );
-         case KIO::UDS_SIZE:
-           return tmp + KIO::number( m_fileitem->size() ).rightJustify( 20, '0' );
-         default:
-           break;
-       }
-       break;
-     }
-   }
-   tmp += m_pListViewWidget->caseInsensitiveSort() ? text(_column).lower() : text(_column);
-   return tmp;
-}
-
-int KonqListViewItem::compare( QListViewItem* item, int col, bool ascending ) const
+int KonqListViewItem::compare( QListViewItem* item, int col, bool ) const
 {
    KonqListViewItem* k = static_cast<KonqListViewItem*>( item );
-   if ( sortChar != k->sortChar ) // KDE 4: make sortChar a bool
-	return !ascending ? k->sortChar - sortChar : sortChar - k->sortChar;
+   if ( sortChar != k->sortChar )
+      return sortChar - k->sortChar;
 
    for ( unsigned int i=0; i<m_pListViewWidget->NumberOfAtoms; i++ )
    {
@@ -347,7 +322,7 @@ const char* KonqBaseListViewItem::makeAccessString( const mode_t mode)
 
 KonqBaseListViewItem::KonqBaseListViewItem(KonqBaseListViewWidget *_listViewWidget, KFileItem* _fileitem)
 :KListViewItem(_listViewWidget)
-,sortChar('1')
+,sortChar(0)
 ,m_bDisabled(false)
 ,m_bActive(false)
 ,m_fileitem(_fileitem)
@@ -356,7 +331,7 @@ KonqBaseListViewItem::KonqBaseListViewItem(KonqBaseListViewWidget *_listViewWidg
 
 KonqBaseListViewItem::KonqBaseListViewItem(KonqBaseListViewWidget *_listViewWidget, KonqBaseListViewItem *_parent, KFileItem* _fileitem)
 :KListViewItem(_parent)
-,sortChar('1')
+,sortChar(0)
 ,m_bDisabled(false)
 ,m_bActive(false)
 ,m_fileitem(_fileitem)

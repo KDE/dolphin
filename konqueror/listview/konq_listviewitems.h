@@ -62,7 +62,7 @@ class KonqBaseListViewItem : public KListViewItem
       QRect rect() const;
       
    protected:
-      QChar sortChar;
+      short int sortChar;
       bool m_bDisabled;
       bool m_bActive; 
       
@@ -96,7 +96,6 @@ class KonqListViewItem : public KonqBaseListViewItem
 
       virtual ~KonqListViewItem() {}
 
-      virtual QString key( int _column, bool ) const;
       virtual int compare( QListViewItem* i, int col, bool ascending ) const;
       virtual void paintCell( QPainter *_painter, const QColorGroup & cg,
                               int column, int width, int alignment );

@@ -151,7 +151,7 @@ int KonqInfoListViewItem::compare( QListViewItem *item, int col, bool ascending 
 
     bool ok1;
     int value1 = text(col).toInt(&ok1);
-    
+
     bool ok2;
     int value2 = i->text(col).toInt(&ok2);
 
@@ -174,38 +174,6 @@ void KonqInfoListViewItem::setDisabled( bool disabled )
     int iconSize = static_cast<KonqBaseListViewWidget *>(listView())->iconSize();
     iconSize = iconSize ? iconSize : KGlobal::iconLoader()->currentSize( KIcon::Small ); // Default = small
     setPixmap( 0, m_fileitem->pixmap( iconSize, state() ) );
-}
-
-QString KonqInfoListViewItem::key( int _column, bool asc ) const
-{
-   return text(_column);
-   
-   QString tmp=sortChar;
-   if (!asc && (sortChar=='0')) tmp=QChar('2');
-
-   KonqBaseListViewWidget* lv = static_cast<KonqBaseListViewWidget *>( listView() );
-   //check if it is a time or size column
-   for (int i = 0; i < lv->NumberOfAtoms; i++)
-   {
-     ColumnInfo *cInfo=&lv->columnConfigInfo()[i];
-     if (_column==cInfo->displayInColumn)
-     {
-       switch (cInfo->udsId)
-       {
-         case KIO::UDS_MODIFICATION_TIME:
-         case KIO::UDS_ACCESS_TIME:
-         case KIO::UDS_CREATION_TIME:
-           return tmp + QString::number( m_fileitem->time(cInfo->udsId) ).rightJustify( 20, '0' );
-         case KIO::UDS_SIZE:
-           return tmp + KIO::number( m_fileitem->size() ).rightJustify( 20, '0' );
-         default:
-           break;
-       }
-       break;
-     }
-   }
-   tmp += lv->caseInsensitiveSort() ? text(_column).lower() : text(_column);
-   return tmp;
 }
 
 void KonqInfoListViewItem::paintCell( QPainter *_painter, const QColorGroup & _cg, int _column, int _width, int _alignment )
