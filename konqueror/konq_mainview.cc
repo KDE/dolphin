@@ -894,7 +894,11 @@ void KonqMainView::insertChildView( KonqChildView *childView )
 
 void KonqMainView::removeChildView( KonqChildView *childView )
 {
-  MapViews::Iterator it = m_mapViews.find( childView->view() );
+  MapViews::Iterator it = m_mapViews.begin();
+  MapViews::Iterator end = m_mapViews.end();
+  // find it in the map - can't use the key since childView->view() might be 0L
+  while ( it != end && it.data() != childView )
+      ++it;
   if ( it == m_mapViews.end() )
   {
       kdWarning(1202) << "KonqMainView::removeChildView childView " << childView << " not in map !" << endl;
@@ -1104,12 +1108,14 @@ void KonqMainView::slotRemoveView()
   m_paLockView->setEnabled(m_pViewManager->chooseNextView(m_currentView) != 0L );
 }
 
+/*
 void KonqMainView::slotSaveDefaultProfile()
 {
   KConfig *config = KonqFactory::instance()->config();
   config->setGroup( "Default View Profile" );
   m_pViewManager->saveViewProfile( *config );
 }
+*/
 
 void KonqMainView::callExtensionMethod( KonqChildView * childView, const char * methodName )
 {

@@ -220,7 +220,7 @@ protected slots:
   void slotSplitWindowVertical();
   void slotRemoveView();
 
-  void slotSaveDefaultProfile();
+  //void slotSaveDefaultProfile();
 
   void slotOpenEmbedded();
   void slotOpenEmbeddedDoIt();
