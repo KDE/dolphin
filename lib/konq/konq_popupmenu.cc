@@ -325,10 +325,6 @@ void KonqPopupMenu::setup(bool showPropertiesAndFileType)
             addAction( "pasteto" );
     }
 
-    // The actions in this group are defined in PopupMenuGUIClient
-    // When defined, it includes a separator before the 'find' action
-    addGroup( "find" );
-
     if (!currentDir)
     {
         if ( sReading || sWriting ) // only if we added an action above

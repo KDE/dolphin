@@ -28,7 +28,7 @@
 
 PopupMenuGUIClient::PopupMenuGUIClient( KonqMainWindow *mainWindow,
                                         const KTrader::OfferList &embeddingServices,
-                                        bool dirsSelected )
+                                        bool /* dirsSelected */ )
 {
   m_mainWindow = mainWindow;
 
@@ -99,18 +99,6 @@ PopupMenuGUIClient::PopupMenuGUIClient( KonqMainWindow *mainWindow,
 
     if ( !inserted ) // oops, if empty then remove the menu :-]
       menu.removeChild( menu.namedItem( "menu" ) );
-  }
-
-  KonqView *v = mainWindow->currentView();
-  if ( v && v->part() && v->part()->inherits( "KonqDirPart" ) && dirsSelected )
-  {
-      QDomElement separator = m_doc.createElement( "separator" );
-      separator.setAttribute( "group", "find" );
-      menu.appendChild( separator );
-      QDomElement findAction = m_doc.createElement( "action" );
-      findAction.setAttribute( "name", "findfile" );
-      findAction.setAttribute( "group", "find" );
-      menu.appendChild( findAction );
   }
 
   QDomElement openInTabElement = m_doc.createElement( "action" );
