@@ -77,6 +77,7 @@ static KCmdLineOptions options[] =
     { "separate-output", I18N_NOOP("Return list items on separate lines (for checklist option)"), 0 },
     { "print-winid", I18N_NOOP("Outputs the winId of each dialog"), 0 },
     { "embed <winid>", I18N_NOOP("Makes the dialog transient for an X app specified by winid"), 0 },
+    { "dontagain <file:entry>", I18N_NOOP("Config file and option name for saving the dont-show/ask-again state."), 0 },
 
     { "+[arg]", I18N_NOOP("Arguments - depending on main option"), 0 },
     KCmdLineLastOption
@@ -195,6 +196,22 @@ int directCommand(KCmdLineArgs *args)
 
     if ( !option.isEmpty() )
     {
+        KConfig* dontagaincfg = NULL;
+        // --dontagain
+        QString dontagain; // QString::null
+        if (args->isSet("dontagain"))
+        {
+          QString value = args->getOption("dontagain");
+          QStringList values = QStringList::split( ':', value );
+          if( values.count() == 2 )
+          {
+            dontagaincfg = new KConfig( values[ 0 ] );
+            KMessageBox::setDontShowAskAgainConfig( dontagaincfg );
+            dontagain = values[ 1 ];
+          }
+          else
+            qDebug( "Incorrect --dontagain!" );
+        }
         int ret;
 
         QString text = QString::fromLocal8Bit(args->getOption( option ));
@@ -206,10 +223,13 @@ int directCommand(KCmdLineArgs *args)
 
         if ( type == KMessageBox::WarningContinueCancel ) {
             /* TODO configurable button texts*/
-            ret = KMessageBox::messageBox( 0, type, text, title, KStdGuiItem::cont() ); 
+            ret = KMessageBox::messageBox( 0, type, text, title, KStdGuiItem::cont(),
+                KStdGuiItem::no(), dontagain ); 
         } else {
-            ret = KMessageBox::messageBox( 0, type, text, title /*, TODO configurable button texts*/ );
+            ret = KMessageBox::messageBox( 0, type, text, title /*, TODO configurable button texts*/,
+                KStdGuiItem::yes(), KStdGuiItem::no(), dontagain );
         }
+        delete dontagaincfg;
         // ret is 1 for Ok, 2 for Cancel, 3 for Yes, 4 for No and 5 for Continue.
         // We want to return 0 for ok, yes and continue, 1 for no and 2 for cancel
         return (ret == KMessageBox::Ok || ret == KMessageBox::Yes || ret == KMessageBox::Continue) ? 0
