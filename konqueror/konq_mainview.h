@@ -205,8 +205,6 @@ protected:
     QString m_strUpURL;
     list<History> m_lstBack;
     list<History> m_lstForward;
-    // QWidget* m_pPannerChild; the widget is the view
-    QGridLayout* m_pPannerChildGM; // do we need that ?
   };
 
   /* A row of views */
