@@ -20,7 +20,7 @@ KQuery::KQuery(QObject *parent, const char * name)
 {
   m_regexps.setAutoDelete(true);
   m_fileItems.setAutoDelete(true);
-  processLocate = new KProcess;
+  processLocate = new KProcess(this);
   connect(processLocate,SIGNAL(receivedStdout(KProcess*, char*, int)),this,SLOT(slotreceivedSdtout(KProcess*,char*,int)));
   connect(processLocate,SIGNAL(receivedStderr(KProcess*, char*, int)),this,SLOT(slotreceivedSdterr(KProcess*,char*,int)));
   connect(processLocate,SIGNAL(processExited(KProcess*)),this,SLOT(slotendProcessLocate(KProcess*)));
@@ -28,7 +28,6 @@ KQuery::KQuery(QObject *parent, const char * name)
 
 KQuery::~KQuery()
 {
-		delete processLocate;
 }
 
 void KQuery::kill()
