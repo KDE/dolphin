@@ -1554,7 +1554,10 @@ void KonqMainWindow::slotViewModeToggle( bool toggle )
                       KonqViewModeAction *action = static_cast<KonqViewModeAction *>( it.current() );
 
                       action->setChecked( true );
-                      action->setText( service->name() );
+		      QString servicename = service->genericName();
+		      if (servicename.isEmpty())
+		          servicename = service->name();
+                      action->setText( servicename );
                       action->setIcon( service->icon() );
                       action->setName( service->desktopEntryName().ascii() );
 
@@ -2072,7 +2075,10 @@ void KonqMainWindow::slotPartActivated( KParts::Part *part )
           if ( serv && serv->library() == currentServiceLibrary ) {
               KToggleAction* ta = static_cast<KToggleAction*>( ittb.current() );
               ta->setChecked( true );
-              ta->setText( m_currentView->service()->name() );
+	      QString servicename = m_currentView->service()->genericName();
+	      if (servicename.isEmpty())
+	          servicename = m_currentView->service()->name();
+              ta->setText( servicename );
               ta->setIcon( m_currentView->service()->icon() );
               ta->setName( m_currentView->service()->desktopEntryName().ascii() ) ;
               break;
@@ -4639,12 +4645,16 @@ void KonqMainWindow::updateViewModeActions()
 
       KRadioAction *action;
 
+      QString itname = (*it)->genericName();
+      if (itname.isEmpty())
+          itname = (*it)->name();
+      
       QString icon = (*it)->icon();
       if ( icon != QString::fromLatin1( "unknown" ) )
           // we *have* to specify a parent qobject, otherwise the exclusive group stuff doesn't work!(Simon)
-          action = new KRadioAction( (*it)->name(), icon, 0, this, (*it)->desktopEntryName().ascii() );
+          action = new KRadioAction( itname, icon, 0, this, (*it)->desktopEntryName().ascii() );
       else
-          action = new KRadioAction( (*it)->name(), 0, this, (*it)->desktopEntryName().ascii() );
+          action = new KRadioAction( itname, 0, this, (*it)->desktopEntryName().ascii() );
 
       action->setExclusiveGroup( "KonqMainWindow_ViewModes" );
 
@@ -4662,10 +4672,10 @@ void KonqMainWindow::updateViewModeActions()
       if ( mapIt == groupedServiceMap.end() )
       {
           // default service on this action: the current one (i.e. the first one)
-          QString text = (*it)->name();
+          QString text = itname;
           QString icon = (*it)->icon();
           QCString name = (*it)->desktopEntryName().latin1();
-          //kdDebug(1202) << " Creating action for " << (*it)->library() << ". Default service " << (*it)->name() << endl;
+          //kdDebug(1202) << " Creating action for " << (*it)->library() << ". Default service " << itname << endl;
 
           // if we previously changed the viewmode (see slotViewModeToggle!)
           // then we will want to use the previously used settings (previous as
@@ -4674,6 +4684,8 @@ void KonqMainWindow::updateViewModeActions()
           if ( serviceIt != m_viewModeToolBarServices.end() )
           {
               //kdDebug(1202) << " Setting action for " << (*it)->library() << " to " << (*serviceIt)->name() << endl;
+              text = (*serviceIt)->genericName();
+              if (text.isEmpty())
               text = (*serviceIt)->name();
               icon = (*serviceIt)->icon();
               name = (*serviceIt)->desktopEntryName().ascii();
@@ -4722,7 +4734,10 @@ void KonqMainWindow::updateViewModeActions()
       {
           //kdDebug(1202) << " Changing action for " << (*it)->library() << " into service " << (*it)->name() << endl;
 
-          (*mapIt)->setText( (*it)->name() );
+          QString mapitname = (*it)->genericName();
+          if (mapitname.isEmpty())
+              mapitname = (*it)->name();
+          (*mapIt)->setText( mapitname );
           (*mapIt)->setIcon( (*it)->icon() );
           (*mapIt)->setName( (*it)->desktopEntryName().ascii() ); // tricky...
           preferredServiceMap.remove( (*it)->library() ); // The current view has priority over the saved settings
