@@ -27,17 +27,6 @@
 
 class QPushButton;
 
-class DomainLineEdit : public KLineEdit
-{
-  Q_OBJECT
-
-public:
-  DomainLineEdit( QWidget *parent, const char *name=0 );
-
-protected:
-  virtual void keyPressEvent( QKeyEvent * );
-};
-
 class PolicyDialog : public KDialog
 {
     Q_OBJECT
@@ -62,7 +51,7 @@ protected:
     virtual void keyPressEvent( QKeyEvent* );
 
 private:
-    DomainLineEdit*  m_leDomain;
+    KLineEdit*  m_leDomain;
     KComboBox*       m_cbPolicy;
 
     QPushButton*     m_btnOK;

@@ -20,33 +20,32 @@
 #include <qwhatsthis.h>
 #include <qlayout.h>
 #include <qlabel.h>
+#include <qvalidator.h>
 
 #include <klocale.h>
 
 #include "policydlg.h"
 
-DomainLineEdit::DomainLineEdit( QWidget *parent, const char *name )
-           :KLineEdit( parent, name )
+class DomainLineValidator : public QValidator
 {
-  // For now do not accept any drops since they might contain
-  // characters we do not accept.
-  // TODO: Re-implement ::dropEvent to allow acceptable formats...
-  setAcceptDrops( false );
-}
+public:
+  DomainLineValidator(QObject *parent) : QValidator(parent, "domainLineValidator")
+  { }
 
-void DomainLineEdit::keyPressEvent( QKeyEvent* e )
-{
-  int key = e->key();
-  QString keycode = e->text();
-  if ( (key >= Qt::Key_Escape && key <= Qt::Key_Help) || key == Qt::Key_Period ||
-       (cursorPosition() > 0 && key == Qt::Key_Minus) ||
-       (!keycode.isEmpty() && keycode.unicode()->isLetterOrNumber()) )
+  State validate(QString &input, int &pos) const
   {
-    KLineEdit::keyPressEvent(e);
-    return;
+    if (input.isEmpty() || (input == ".")) return Intermediate;
+  
+    int l = input.length();
+    for(int i = 0 ; i < l; i++)
+    {
+      if (!input[i].isLetterOrNumber() && (input[i] != '.') && (input[i] != '-'))
+        return Invalid;
+    }
+    return Acceptable;
   }
-  e->accept();
-}
+
+};
 
 
 PolicyDialog::PolicyDialog( const QString& caption, QWidget *parent,
@@ -58,11 +57,13 @@ PolicyDialog::PolicyDialog( const QString& caption, QWidget *parent,
   QVBoxLayout *topl = new QVBoxLayout(this, marginHint(), spacingHint());
   topl->setAutoAdd( true );
 
-  QLabel *l = new QLabel(i18n("Site/domain name:"), this);
-  m_leDomain = new DomainLineEdit(this);
+  QLabel *l = new QLabel(i18n("Host/Domain name:"), this);
+  m_leDomain = new KLineEdit(this);
+  m_leDomain->setValidator(new DomainLineValidator(m_leDomain));
   connect(m_leDomain, SIGNAL(textChanged(const QString&)), SLOT(slotTextChanged(const QString&)));
-  QString wstr = i18n("Enter the name of the site or domain to "
-                      "which this policy applies.");
+  QString wstr = i18n("Enter the host or domain to "
+                      "which this policy applies. "
+                      "E.g. <i>www.kde.org</i> or <i>.kde.org</i>");
   QWhatsThis::add( l, wstr );
   QWhatsThis::add( m_leDomain, wstr );
 
@@ -128,6 +129,6 @@ void PolicyDialog::keyPressEvent( QKeyEvent* e )
 
 void PolicyDialog::slotTextChanged( const QString& text )
 {
-  m_btnOK->setEnabled( !text.isEmpty() );
+  m_btnOK->setEnabled( text.length() > 1 );
 }
 #include "policydlg.moc"

@@ -132,7 +132,7 @@ KCookiesPolicies::KCookiesPolicies(QWidget *parent, const char *name)
     rb_gbPolicyReject = new QRadioButton( i18n("Re&ject all cookies by default"), bg_default );
 
     // Create Group Box for specific settings
-    gb_domainSpecific = new QGroupBox( i18n("Site/domain specific policy"), this);
+    gb_domainSpecific = new QGroupBox( i18n("Site specific policy"), this);
     lay->setStretchFactor( gb_domainSpecific, 10 );
     QGridLayout *ds_lay = new QGridLayout( gb_domainSpecific, 3, 2,
                                            KDialog::marginHint(),
@@ -143,15 +143,15 @@ KCookiesPolicies::KCookiesPolicies(QWidget *parent, const char *name)
 
     // CREATE SPLIT LIST BOX
     lv_domainPolicy = new KListView( gb_domainSpecific );
-    lv_domainPolicy->addColumn(i18n("Hostname"));
+    lv_domainPolicy->addColumn(i18n("Host/Domain"));
     lv_domainPolicy->addColumn(i18n("Policy"), 100);
     ds_lay->addMultiCellWidget( lv_domainPolicy, 1, 2, 0, 0 );
     connect( lv_domainPolicy, SIGNAL(selectionChanged()), SLOT(updateButtons()) );
     connect( lv_domainPolicy, SIGNAL(doubleClicked ( QListViewItem * )),SLOT(changePressed() ) );
-    QString wtstr = i18n("This box contains the domains and hosts you have set "
+    QString wtstr = i18n("This box contains the hosts and domains you have set "
                          "a specific cookie policy for. This policy will be used "
                          "instead of the default policy for any cookie sent by these "
-                         "domains or hosts. <p>Select a policy and use the controls on "
+                         "domains. <p>Select a policy and use the controls on "
                          "the right to modify it.");
     QWhatsThis::add( lv_domainPolicy, wtstr );
     QWhatsThis::add( gb_domainSpecific, wtstr );
@@ -229,9 +229,10 @@ void KCookiesPolicies::addPressed()
     // KCookieDunno is not part of the choice list.
     int def_policy = KCookieAsk - 1;
     dlg->setDefaultPolicy( def_policy );
-    if( dlg->exec() )
+    if( dlg->exec() && !dlg->domain().isEmpty())
     {
       QString domain = dlg->domain();
+
       int advice = dlg->policyAdvice();
 
       if ( !handleDuplicate(domain, advice) )
@@ -257,9 +258,10 @@ void KCookiesPolicies::changePressed()
     QString old_domain = index->text(0);
     dlg->setEnableHostEdit( true, old_domain );
     dlg->setDefaultPolicy( advice - 1 );
-    if( dlg->exec() )
+    if( dlg->exec() && !dlg->domain().isEmpty())
     {
       QString new_domain = dlg->domain();
+
       int advice = dlg->policyAdvice();
       if ( new_domain == old_domain || !handleDuplicate(new_domain, advice) )
       {
