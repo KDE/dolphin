@@ -60,8 +60,9 @@ public:
   /**
    * Run the directory lister on the given url
    * @param _url the directory URL
+   * @param _showDotFiles whether to return the "hidden" files
    */
-  virtual void openURL( const KURL& _url );
+  virtual void openURL( const KURL& _url, bool _showDotFiles );
   
   /**
    * @return the url used by this instance to list the files
@@ -78,10 +79,17 @@ public:
   /** 
    * Update the currently displayed directory
    * The current implementation calls it automatically for
-   * local files, using KDirWatch.
+   * local files, using KDirWatch, but it might be useful to force an
+   * update manually.
    */
   virtual void updateDirectory();
 
+  /**
+   * Changes the "is viewing dot files" setting.
+   * Calls updateDirectory() if setting changed
+   */
+  virtual void setShowingDotFiles( bool _showDotFiles );
+  
   /**
    * Find an item
    * @param _url the item URL
@@ -146,6 +154,7 @@ protected:
   /** The internal storage of file items */
   QList<KFileItem> m_lstFileItems;
 
+  bool m_isShowingDotFiles;
   bool m_bComplete;
   /** Used internally between starting-of-listing and first timeout */
   QString m_sWorkingURL;

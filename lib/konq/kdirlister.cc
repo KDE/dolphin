@@ -69,7 +69,7 @@ void KDirLister::slotDirectoryDirty( const QString& _dir )
   updateDirectory();
 }
 
-void KDirLister::openURL( const KURL& _url )
+void KDirLister::openURL( const KURL& _url, bool _showDotFiles )
 {
   if ( _url.isMalformed() )
   {
@@ -78,6 +78,8 @@ void KDirLister::openURL( const KURL& _url )
     return;
   }
     
+  m_isShowingDotFiles = _showDotFiles;
+
   // TODO: Check whether the URL is really a directory
 
   // Stop running jobs
@@ -120,6 +122,7 @@ void KDirLister::openURL( const KURL& _url )
 void KDirLister::slotError( int /*_id*/, int _errid, const char *_errortext )
 {
   kioErrorDialog( _errid, _errortext );
+  m_bComplete = true;
 
   emit canceled();
 }
@@ -169,7 +172,6 @@ void KDirLister::slotBufferTimeout()
       if ( (*it2).m_uds == UDS_NAME )
 	name = (*it2).m_str;
 
-    bool m_isShowingDotFiles = true; // TODO
     assert( !name.isEmpty() );
     if ( m_isShowingDotFiles || name[0] != '.' ) {
       KURL u( m_url );
@@ -275,9 +277,6 @@ void KDirLister::slotUpdateFinished( int /*_id*/ )
     
     if ( !done )
     {
-      // HACK
-      bool m_isShowingDotFiles = true;
-
       if ( m_isShowingDotFiles || name[0]!='.' )
       {
         kdebug(KDEBUG_INFO, 1203,"slotUpdateFinished : inserting %s", name.ascii());
@@ -316,6 +315,15 @@ void KDirLister::slotUpdateFinished( int /*_id*/ )
 void KDirLister::slotUpdateListEntry( int /*_id*/, const UDSEntry& _entry )
 {
   m_buffer.append( _entry ); // Keep a copy of _entry
+}
+
+void KDirLister::setShowingDotFiles( bool _showDotFiles )
+{
+  if ( m_isShowingDotFiles != _showDotFiles )
+  {
+    m_isShowingDotFiles = _showDotFiles;
+    updateDirectory();
+  }
 }
 
 KFileItem* KDirLister::item( const QString& _url )
