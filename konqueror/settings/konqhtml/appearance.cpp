@@ -27,6 +27,7 @@
 #include <klineedit.h>
 #include <qspinbox.h>
 #include <kfontcombo.h>
+#include <knuminput.h>
 
 #include "htmlopts.h"
 #include "policydlg.h"
