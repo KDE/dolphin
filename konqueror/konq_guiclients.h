@@ -32,7 +32,8 @@ class KonqView;
 class PopupMenuGUIClient : public KXMLGUIClient
 {
 public:
-  PopupMenuGUIClient( KonqMainWindow *mainWindow, const KTrader::OfferList &embeddingServices );
+  PopupMenuGUIClient( KonqMainWindow *mainWindow, const KTrader::OfferList &embeddingServices,
+                      bool currentDir );
   virtual ~PopupMenuGUIClient();
 
   virtual KAction *action( const QDomElement &element ) const;

@@ -29,7 +29,9 @@
 #include <konq_mainwindow.h>
 #include <konq_viewmgr.h>
 
-PopupMenuGUIClient::PopupMenuGUIClient( KonqMainWindow *mainWindow, const KTrader::OfferList &embeddingServices )
+PopupMenuGUIClient::PopupMenuGUIClient( KonqMainWindow *mainWindow,
+                                        const KTrader::OfferList &embeddingServices,
+                                        bool currentDir )
 {
   m_mainWindow = mainWindow;
 
@@ -99,6 +101,19 @@ PopupMenuGUIClient::PopupMenuGUIClient( KonqMainWindow *mainWindow, const KTrade
 
     if ( !inserted ) // oops, if empty then remove the menu :-]
       menu.removeChild( menu.namedItem( "menu" ) );
+  }
+
+  KonqView *v = mainWindow->currentView();
+  if ( v && v->part() && v->part()->inherits( "KonqDirPart" ) &&
+      !currentDir )
+  {
+      QDomElement separator = m_doc.createElement( "separator" );
+      separator.setAttribute( "group", "find" );
+      menu.appendChild( separator );
+      QDomElement findAction = m_doc.createElement( "action" );
+      findAction.setAttribute( "name", "findfile" );
+      findAction.setAttribute( "group", "find" );
+      menu.appendChild( findAction );
   }
 
   setDOMDocument( m_doc );

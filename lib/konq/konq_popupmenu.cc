@@ -233,8 +233,7 @@ KonqPopupMenu::KonqPopupMenu( const KFileItemList &items,
 
     if (!currentDir)
     {
-       addSeparator();
-		addAction("findfile");
+        addGroup( "find" );
 
         if ( sReading || sWriting ) // only if we added an action above
             addSeparator();
