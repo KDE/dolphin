@@ -333,6 +333,8 @@ KEBApp::KEBApp(const QString & bookmarksFile, bool readonly, const QString &addr
    m_iSearchLineEdit->setMaximumHeight(h);
    m_iSearchLineEdit->setGrayedText(i18n("Type here to search..."));
 
+   readConfig();
+
    QSplitter *splitter = new QSplitter(vsplitter);
    ListView::createListViews(splitter);
    ListView::self()->initListViews();
@@ -366,8 +368,6 @@ KEBApp::KEBApp(const QString & bookmarksFile, bool readonly, const QString &addr
 }
 
 void KEBApp::construct() {
-   readConfig();
-
    CurrentMgr::self()->createManager(m_bookmarksFilename);
 
    ListView::self()->updateListViewSetup(m_readOnly);
