@@ -281,12 +281,13 @@ void KonqHistoryManager::addToHistory( bool pending, const KURL& _url,
 	return;
 
     KURL url( _url );
+    bool hasPass = url.hasPass();
     url.setPass( QString::null ); // No password in the history, especially not in the completion!
     url.setHost( url.host().lower() ); // All host parts lower case
     KonqHistoryEntry entry;
     QString u = url.prettyURL();
     entry.url = url;
-    if ( u != typedURL )
+    if ( (u != typedURL) && !hasPass )
 	entry.typedURL = typedURL;
 
     // we only keep the title if we are confirming an entry. Otherwise,
