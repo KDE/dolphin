@@ -31,8 +31,6 @@ public:
   
   virtual void timerEvent(QTimerEvent *);
 
-  void updateResults(const char * );
-
   void beginSearch();
   void endSearch();
 
@@ -50,14 +48,13 @@ private slots:
   void fileProperties();
   void openFolder();
   void saveResults();
-  void changeItem(const char*);
   void addToArchive();
   void openBinding();
 
 protected:
-  void resizeEvent(QResizeEvent *e);
-  void contentsMouseReleaseEvent(QMouseEvent *e);
-  void contentsMousePressEvent(QMouseEvent *e);
+  virtual void resizeEvent(QResizeEvent *e);
+  virtual void contentsMouseReleaseEvent(QMouseEvent *e);
+  virtual void contentsMousePressEvent(QMouseEvent *e);
 
 signals:
   void resultSelected(bool);

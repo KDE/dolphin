@@ -163,59 +163,6 @@ void KfindWindow::timerEvent(QTimerEvent *)
   }
 }
 
-#ifndef PATH_MAX
-#define PATH_MAX 1024
-#endif
-
-void KfindWindow::updateResults(const char *file )
-{
-    kdebug(KDEBUG_INFO, 1902, "UPDATERESULTs\n");
-
-    printf("UPDATE\n");
-
-    char str[PATH_MAX];
-    int count;
-    
-    QStrList *strl= new QStrList (TRUE);
-    FILE *f = fopen(file,"rb");
-    if (f==0)
-      {
-	QString statusmsg =i18n("%1 file(s) found").arg(0);
-	emit statusChanged(statusmsg.ascii());
-	return;
-      };
-    
-    clear();
-    
-    count=0;
-    while ( !feof( f ) )
-      {
-        str[0] = 0;
-        fgets( str, 1023, f );
-        if ( str[0] != 0 )
-          {
-            // Delete trailing '\n'
-            str[ strlen( str ) - 1 ] = 0;
- 	    strl->append (str);
-            //insertItem( str );
-            count++;
-          }
-      };
-
-    QFileInfo *filename = new QFileInfo(strl->last());
-    if (!(filename->exists()))
-      strl->removeLast();
-
-    //    insertStrList(strl,-1);
-    QString statusmsg = i18n("%1 file(s) found").arg(childCount());
-    emit statusChanged(statusmsg.ascii());
-
-	unlink( file );
-    fclose(f);    
-    delete filename;
-    delete strl;
-  };
-
 void KfindWindow::insertItem(QString file) {
   new KfFileLVI(this, file);
 }
@@ -238,12 +185,6 @@ void KfindWindow::copySelection()
     cb->clear();
     cb->setText(s);
   }
-}
-
-void KfindWindow::changeItem(const char */*itemName*/)
-{
-  debug("CXHANGE ITEM CALLED\n");
-  //    changeItem(itemName,currentItem());    
 }
 
 void KfindWindow::selectAll() 
@@ -610,11 +551,13 @@ void KfindWindow::contentsMousePressEvent(QMouseEvent *e) {
 
   // Shift
   if(e->state() & ShiftButton) {
-    bool down = itemPos(currentItem()) < itemPos(item);
-    
-    // Selects area from the current item to our item
-    QListViewItem *i = currentItem();
-    if(down) {
+   QListViewItem *i = currentItem();
+   if(i == NULL)
+     return;
+
+   // Selects area from the current item to our item
+   bool down = itemPos(i) < itemPos(item);
+   if(down) {
       while(i != item) {
 	setSelected(i, TRUE);
 	i = i->itemBelow();
