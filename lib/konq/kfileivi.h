@@ -63,7 +63,7 @@ public:
     virtual void setIcon( KIconLoader::Size size, bool bImagePreviewAllowed );
 
     virtual void setKey( const QString &key );
-    virtual void paintItem( QPainter *p, const QColorGroup &cg, const QFont &font );
+    virtual void paintItem( QPainter *p, const QColorGroup &cg );
 
 signals:
     void dropMe( KFileIVI *item, QDropEvent *e );
