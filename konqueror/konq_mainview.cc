@@ -43,7 +43,7 @@
 
 #include <kaction.h>
 #include <kdebug.h>
-#include <kdebug2.h>
+// #include <kdebug2.h>
 #include <kstatusbar.h>
 #include <klocale.h>
 #include <kiconloader.h>
