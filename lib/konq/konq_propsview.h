@@ -122,7 +122,8 @@ protected:
   KConfigBase * currentColorConfig();
 
   QString currentGroup() const {
-      return isDefaultProperties() ? "Settings" : "URL properties";
+      return isDefaultProperties() ? 
+          QString::fromLatin1("Settings") : QString::fromLatin1("URL properties");
   }
 
 private:

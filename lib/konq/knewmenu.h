@@ -24,6 +24,7 @@
 
 #include <kaction.h>
 #include <kdialogbase.h>
+#include <kurl.h>
 
 namespace KIO { class Job; }
 
