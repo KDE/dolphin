@@ -367,7 +367,7 @@
                     </property>
                     <widget class="QCheckBox">
                         <property name="name">
-                            <cstring>enableDevicesBox</cstring>
+                            <cstring>enableMediaBox</cstring>
                         </property>
                         <property name="text">
                             <string>&amp;Show device icons:</string>
@@ -386,7 +386,7 @@
                             </property>
                         </column>
                         <property name="name">
-                            <cstring>devicesListView</cstring>
+                            <cstring>mediaListView</cstring>
                         </property>
                         <property name="enabled">
                             <bool>false</bool>
@@ -405,9 +405,9 @@
 </widget>
 <connections>
     <connection>
-        <sender>enableDevicesBox</sender>
+        <sender>enableMediaBox</sender>
         <signal>toggled(bool)</signal>
-        <receiver>devicesListView</receiver>
+        <receiver>mediaListView</receiver>
         <slot>setEnabled(bool)</slot>
     </connection>
 </connections>
@@ -415,8 +415,8 @@
     <tabstop>autoLineupIconsBox</tabstop>
     <tabstop>showHiddenBox</tabstop>
     <tabstop>previewListView</tabstop>
-    <tabstop>enableDevicesBox</tabstop>
-    <tabstop>devicesListView</tabstop>
+    <tabstop>enableMediaBox</tabstop>
+    <tabstop>mediaListView</tabstop>
 </tabstops>
 <layoutdefaults spacing="6" margin="11"/>
 <includehints>
