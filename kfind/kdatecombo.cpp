@@ -98,7 +98,7 @@ bool KDateCombo::eventFilter (QObject* o, QEvent* e)
       //Press return == pick selected date and close the combo
       if((k->key()==Qt::Key_Return)||(k->key()==Qt::Key_Enter))
       {
-        dateEnteredEvent(datePicker->getDate());
+        dateEnteredEvent(datePicker->date());
         return true;
       }
       else
