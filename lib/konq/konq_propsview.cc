@@ -99,8 +99,6 @@ KonqPropsView::KonqPropsView( KInstance * instance, KonqPropsView * defaultProps
 
   KGlobal::dirs()->addResourceType("tiles",
                                    KGlobal::dirs()->kde_default("data") + "konqueror/tiles/");
-
-  loadPixmap();
 }
 
 KConfigBase * KonqPropsView::currentConfig()
@@ -154,7 +152,6 @@ bool KonqPropsView::enterDir( const KURL & dir )
     m_bImagePreview = m_defaultProps->isShowingImagePreview();
     m_textColor = m_defaultProps->m_textColor;
     m_bgColor = m_defaultProps->m_bgColor;
-    m_bgPixmap = m_defaultProps->bgPixmap();
     m_bgPixmapFile = m_defaultProps->bgPixmapFile();
   }
 
@@ -173,7 +170,6 @@ bool KonqPropsView::enterDir( const KURL & dir )
     m_bgColor = config->readColorEntry( "BgColor", &m_bgColor );
     m_bgPixmapFile = config->readEntry( "BgImage", m_bgPixmapFile );
     kdDebug() << "KonqPropsView::enterDir m_bgPixmapFile=" << m_bgPixmapFile << endl;
-    loadPixmap();
     delete config;
   }
   //if there is or was a .directory then the settings probably have changed
@@ -274,10 +270,10 @@ void KonqPropsView::setBgColor( const QColor & color )
 
 const QColor & KonqPropsView::bgColor( QWidget * widget ) const
 {
-  if ( !m_bgColor.isValid() )
-    return widget->colorGroup().base();
-  else
-    return m_bgColor;
+    if ( !m_bgColor.isValid() )
+        return widget->colorGroup().base();
+    else
+        return m_bgColor;
 }
 
 void KonqPropsView::setTextColor( const QColor & color )
@@ -301,16 +297,15 @@ void KonqPropsView::setTextColor( const QColor & color )
 
 const QColor & KonqPropsView::textColor( QWidget * widget ) const
 {
-  if ( !m_textColor.isValid() )
-    return widget->colorGroup().text();
-  else
-    return m_textColor;
+    if ( !m_textColor.isValid() )
+        return widget->colorGroup().text();
+    else
+        return m_textColor;
 }
 
 void KonqPropsView::setBgPixmapFile( const QString & file )
 {
     m_bgPixmapFile = file;
-    loadPixmap();
 
     if ( m_defaultProps && !m_bSaveViewPropertiesLocally )
     {
@@ -328,36 +323,37 @@ void KonqPropsView::setBgPixmapFile( const QString & file )
     }
 }
 
-void KonqPropsView::loadPixmap()
+QPixmap KonqPropsView::loadPixmap() const
 {
-  m_bgPixmap.resize(0,0);
-  if ( !m_bgPixmapFile.isEmpty() )
-  {
-    QPixmap p = wallpaperPixmap( m_bgPixmapFile );
-    if ( !p.isNull() )
-      m_bgPixmap = p;
-  }
+    kdDebug() << "KonqPropsView::loadPixmap " << m_bgPixmapFile << endl;
+    QPixmap bgPixmap;
+    if ( !m_bgPixmapFile.isEmpty() )
+        bgPixmap = wallpaperPixmap( m_bgPixmapFile );
+    return bgPixmap;
 }
 
 void KonqPropsView::applyColors(QWidget * widget) const
 {
-   QColorGroup a = widget->palette().active();
-   QColorGroup d = widget->palette().disabled(); // is this one ever used ?
-   QColorGroup i = widget->palette().inactive(); // is this one ever used ?
+    kdDebug() << "KonqPropsView::applyColors " << (void*)this << endl;
+    QColorGroup a = widget->palette().active();
+    QColorGroup d = widget->palette().disabled(); // is this one ever used ?
+    QColorGroup i = widget->palette().inactive(); // is this one ever used ?
 
-   if ( m_bgPixmapFile.isEmpty() )
-   {
-     a.setColor( QColorGroup::Base, bgColor(widget) );
-     d.setColor( QColorGroup::Base, bgColor(widget) );
-     i.setColor( QColorGroup::Base, bgColor(widget) );
-     widget->setBackgroundColor( bgColor(widget) );
-   }
-   else
-     widget->setBackgroundPixmap( m_bgPixmap );
+    if ( m_bgPixmapFile.isEmpty() )
+    {
+        a.setColor( QColorGroup::Base, bgColor(widget) );
+        d.setColor( QColorGroup::Base, bgColor(widget) );
+        i.setColor( QColorGroup::Base, bgColor(widget) );
+        widget->setBackgroundColor( bgColor(widget) );
+    }
+    else
+    {
+        widget->setBackgroundPixmap( loadPixmap() );
+    }
 
-   a.setColor( QColorGroup::Text, textColor(widget) );
-   d.setColor( QColorGroup::Text, textColor(widget) );
-   i.setColor( QColorGroup::Text, textColor(widget) );
+    a.setColor( QColorGroup::Text, textColor(widget) );
+    d.setColor( QColorGroup::Text, textColor(widget) );
+    i.setColor( QColorGroup::Text, textColor(widget) );
 
-   widget->setPalette( QPalette( a, d, i ) );
+    widget->setPalette( QPalette( a, d, i ) );
 }

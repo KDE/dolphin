@@ -80,10 +80,10 @@ public:
   ///
 
   void setIconSize( int size ); // in pixel, 0 for default
-  int iconSize() { return m_iIconSize; }
+  int iconSize() const { return m_iIconSize; }
 
   void setItemTextPos( int pos ); // QIconView::Bottom or QIconView::Right, currently
-  int itemTextPos() { return m_iItemTextPos; }
+  int itemTextPos() const { return m_iItemTextPos; }
 
   void setShowingDotFiles( bool show );
   bool isShowingDotFiles() const { return m_bShowDot; }
@@ -97,14 +97,13 @@ public:
   const QColor& textColor(QWidget * widget) const;
   void setBgPixmapFile( const QString & file );
   const QString& bgPixmapFile() const { return m_bgPixmapFile; }
-  const QPixmap& bgPixmap() const { return m_bgPixmap; } // A helper for the above
 
   // Applies bgcolor, textcolor, pixmap to the @p widget
   void applyColors( QWidget * widget ) const;
 
 protected:
 
-  void loadPixmap();
+  QPixmap loadPixmap() const;
 
   // The actual properties
 
@@ -115,7 +114,6 @@ protected:
   QColor m_textColor;
   QColor m_bgColor;
   QString m_bgPixmapFile;
-  QPixmap m_bgPixmap;
 
   // Path to .directory file, whether it exists or not
   QString dotDirectory;
