@@ -109,7 +109,7 @@ void CurrentMgr::setUpdate(bool update) { mgr()->setUpdate(update); }
 QString CurrentMgr::path() { return mgr()->path(); }
 bool CurrentMgr::showNSBookmarks() { return mgr()->showNSBookmarks(); }
 
-void CurrentMgr::createManager(QObject *top, const QString &filename) {
+void CurrentMgr::createManager(const QString &filename) {
    if (m_mgr) {
       disconnect(m_mgr, 0, 0, 0);
       // still todo - delete old m_mgr
@@ -122,10 +122,11 @@ void CurrentMgr::createManager(QObject *top, const QString &filename) {
 }
 
 void CurrentMgr::slotBookmarksChanged(const QString &, const QString &caller) {
-   // TODO umm.. what happens if a readonly gets a update for a non-readonly???
-   // the non-readonly maybe has a pretty much random kapp->name() ??? umm...
+   // kdDebug() << "CurrentMgr::slotBookmarksChanged" << endl;
    if ((caller.latin1() != kapp->dcopClient()->appId()) && !KEBApp::self()->modified()) {
-      kdDebug() << "CurrentMgr::slotBookmarksChanged" << endl;
+      // TODO 
+      // umm.. what happens if a readonly gets a update for a non-readonly???
+      // the non-readonly maybe has a pretty much random kapp->name() ??? umm...
       CmdHistory::self()->clearHistory();
       ListView::self()->updateTree();
       KEBApp::self()->updateActions();
@@ -193,7 +194,7 @@ KEBApp::KEBApp(const QString & bookmarksFile, bool readonly, const QString &addr
 }
 
 void KEBApp::construct() {
-   CurrentMgr::self()->createManager(this, m_bookmarksFilename);
+   CurrentMgr::self()->createManager(m_bookmarksFilename);
 
    ListView::self()->updateListViewSetup(m_readOnly);
    ListView::self()->updateTree();
@@ -328,36 +329,60 @@ void KEBApp::updateActions() {
 void KEBApp::setActionsEnabled(SelcAbilities sa) {
    KActionCollection * coll = actionCollection();
 
-   coll->action("nexthit")          ->setEnabled(true);
+#define ENABLE(a) coll->action(a)->setEnabled(true);
 
-   coll->action("search")           ->setEnabled(!sa.multiSelect);
+   ENABLE("nexthit");
 
-   coll->action("edit_copy")        ->setEnabled(sa.itemSelected);
-   coll->action("openlink")         ->setEnabled(sa.itemSelected && !sa.urlIsEmpty
-                                              && !sa.group && !sa.separator);
+   if (!sa.multiSelect) {
+      ENABLE("search");
+   }
 
-   coll->action("testall")          ->setEnabled(!m_readOnly && sa.notEmpty);
-   coll->action("updateallfavicons")->setEnabled(!m_readOnly && sa.notEmpty);
+   if (sa.itemSelected) {
+      ENABLE("edit_copy");
+      if (!sa.urlIsEmpty && !sa.group && !sa.separator) {
+         ENABLE("openlink");
+      }
+   }
 
-   bool t2 = !m_readOnly && sa.itemSelected;
-   coll->action("delete")           ->setEnabled(t2 && !sa.root);
-   coll->action("edit_cut")         ->setEnabled(t2 && !sa.root);
-   coll->action("edit_paste")       ->setEnabled(t2 && m_canPaste);
-   coll->action("testlink")         ->setEnabled(t2 && !sa.separator);
-   coll->action("updatefavicon")    ->setEnabled(t2 && !sa.separator);
+   if (!m_readOnly) {
+      if (sa.notEmpty) {
+         ENABLE("testall");
+         ENABLE("updateallfavicons");
+      }
 
-   bool t4 = !m_readOnly && sa.singleSelect && !sa.root && !sa.separator;
-   coll->action("rename")           ->setEnabled(t4);
-   coll->action("changeicon")       ->setEnabled(t4);
-   coll->action("changecomment")    ->setEnabled(t4);
-   coll->action("changeurl")        ->setEnabled(t4 && !sa.group);
+      if (sa.itemSelected) {
+         if (!sa.root) {
+            ENABLE("delete");
+            ENABLE("edit_cut");
+         }
+         if (m_canPaste) {
+            ENABLE("edit_paste");
+         }
+         if (!sa.separator) {
+            ENABLE("testlink");
+            ENABLE("updatefavicon");
+         }
+      }
 
-   bool t5 = !m_readOnly && !sa.multiSelect;
-   coll->action("newfolder")        ->setEnabled(t5);
-   coll->action("newbookmark")      ->setEnabled(t5);
-   coll->action("insertseparator")  ->setEnabled(t5);
-   coll->action("sort")             ->setEnabled(t5 && sa.group);
-   coll->action("setastoolbar")     ->setEnabled(t5 && sa.group);
+      if (sa.singleSelect && !sa.root && !sa.separator) {
+         ENABLE("rename");
+         ENABLE("changeicon");
+         ENABLE("changecomment");
+         if (!sa.group) {
+            ENABLE("changeurl");
+         }
+      }
+
+      if (!sa.multiSelect) {
+         ENABLE("newfolder");
+         ENABLE("newbookmark");
+         ENABLE("insertseparator");
+         if (sa.group) {
+            ENABLE("sort");
+            ENABLE("setastoolbar");
+         }
+      }
+   }
 }
 
 void KEBApp::setCancelFavIconUpdatesEnabled(bool enabled) {
@@ -397,7 +422,7 @@ void KEBApp::setModifiedFlag(bool modified) {
 }
 
 void KEBApp::slotClipboardDataChanged() {
-   kdDebug() << "KEBApp::slotClipboardDataChanged" << endl;
+   // kdDebug() << "KEBApp::slotClipboardDataChanged" << endl;
    if (!m_readOnly) {
       m_canPaste = KBookmarkDrag::canDecode(kapp->clipboard()->data(QClipboard::Clipboard));
       ListView::self()->emitSlotSelectionChanged();
@@ -407,8 +432,8 @@ void KEBApp::slotClipboardDataChanged() {
 /* -------------------------- */
 
 void KEBApp::notifyCommandExecuted() {
+   // kdDebug() << "KEBApp::notifyCommandExecuted()" << endl;
    if (!m_readOnly) {
-      kdDebug() << "KEBApp::slotCommandExecuted" << endl;
       setModifiedFlag(true);
       ListView::self()->updateListView();
       ListView::self()->emitSlotSelectionChanged();

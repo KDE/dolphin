@@ -63,9 +63,8 @@ class KBookmarkManager;
 class CurrentMgr : public QObject {
    Q_OBJECT
 public:
-   static CurrentMgr* self() 
-      { if (!s_mgr) { s_mgr = new CurrentMgr(); } return s_mgr; }
-   void createManager(QObject *top, const QString &filename);
+   static CurrentMgr* self() { if (!s_mgr) { s_mgr = new CurrentMgr(); } return s_mgr; }
+   void createManager(const QString &filename);
    void doExport(bool moz);
    void notifyManagers();
    QString correctAddress(const QString &address);
