@@ -27,8 +27,8 @@ xdg_apps_DATA = khtml_plugins.desktop
 partrcdir = $(kde_datadir)/plugin
 partrc_DATA = nspluginpart.rc
 
-messages:
-	$(EXTRACTRC) `find . -name *.ui` > rc.cpp
-	$(EXTRACTRC) `find . -name *.rc` >> rc.cpp
+messages: rc.cpp
+	$(EXTRACTRC) `find . -name "*.ui"` >> rc.cpp
+	$(EXTRACTRC) `find . -name "*.rc"` >> rc.cpp
 	$(XGETTEXT) *.cpp viewer/*.cpp -o $(podir)/nsplugin.pot
 
