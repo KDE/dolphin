@@ -93,6 +93,9 @@
   <Separator/>
   <Action name="fullscreen"/>
  </Menu>
+ <Menu name="help" append="about_merge"><text>&amp;Help</text>
+  <Action name="konqintro"/>
+ </Menu>
  <Merge/>
 </MenuBar>
 <ToolBar fullWidth="true" name="mainToolBar" newline="true"><text>Main Toolbar</text>

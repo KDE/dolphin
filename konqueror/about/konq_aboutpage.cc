@@ -7,14 +7,16 @@
 #include <qtextcodec.h>
 #include <qtextstream.h>
 
-#include <kapp.h>
-#include <kinstance.h>
-#include <khtml_part.h>
-#include <klocale.h>
-#include <kstddirs.h>
-#include <kdebug.h>
 #include <kaboutdata.h>
+#include <kapp.h>
+#include <kdebug.h>
 #include <kglobal.h>
+#include <khtml_part.h>
+#include <kinstance.h>
+#include <klocale.h>
+#include <kmessagebox.h>
+#include <ksavefile.h>
+#include <kstddirs.h>
 
 #include <assert.h>
 
@@ -114,10 +116,10 @@ QString KonqAboutPageFactory::intro()
                       "<IMG WIDTH=16 HEIGHT=16 SRC=\"%1\"> &nbsp; (\"Home\"). " ).arg("gohome.png") )
           .arg( i18n( "For more detailed documentation on Konqueror click <A HREF=\"%1\">here</A>" )
                       .arg("exec:/khelpcenter") )
-          .arg( i18n( "<I>Tuning Tip:</I> If you want the Konqueror web browser to start faster," 
+          .arg( i18n( "<I>Tuning Tip:</I> If you want the Konqueror web browser to start faster,"
 			" you can turn off this information screen by clicking <A HREF=\"%1\">here</A>. You can re-enable it"
-			" by choosing the Help -> QuickSurvey menu option, and then pressing " 
-			"Window -> Save View Profile \"Web Browsing\".").arg("exec:/qsurveyoff") )
+			" by choosing the Help -> Konqueror Introduction menu option, and then pressing "
+			"Window -> Save View Profile \"Web Browsing\".").arg("config:/disable_overview") )
           .arg( i18n( "Continue" ) )
           ;
 
@@ -251,9 +253,9 @@ KonqAboutPage::KonqAboutPage( //KonqMainWindow *
 {
     //m_mainWindow = mainWindow;
     QTextCodec *codec = QTextCodec::codecForName(KGlobal::locale()->charset().latin1());
-    if (codec) 
+    if (codec)
 	setCharset(codec->name(), true);
-    else 
+    else
 	setCharset(KGlobal::locale()->charset(), true);
 }
 
@@ -322,6 +324,26 @@ void KonqAboutPage::urlSelected( const QString &url, int button, int state, cons
         return;
     }
 
+    else if ( url == QString::fromLatin1("config:/disable_overview") )
+    {
+	if ( KMessageBox::questionYesNo( widget(), 
+					 i18n("Do you want to disable showing\n"
+					      "the Introduction in the webbrowsing profile?"),
+					 i18n("Faster startup?") )
+	     == KMessageBox::Yes ) 
+	{
+	    QString profile = locateLocal("data", "konqueror/profiles/webbrowsing");
+	    KSaveFile file( profile );
+	    if ( file.status() == 0 ) {
+		QCString content = "[Profile]\n"
+			           "Name=Web-Browser";
+		fputs( content.data(), file.fstream() );
+		file.close();
+	    }
+	}
+	return;
+    }
+    
     KHTMLPart::urlSelected( url, button, state, target );
 }
 

@@ -379,6 +379,7 @@ protected:
 
 private slots:
   void slotRequesterClicked( KURLRequester * );
+  void slotIntro();
 
 private:
   /**

@@ -2648,6 +2648,8 @@ void KonqMainWindow::initActions()
   m_paShowLocationBar = new KToggleAction( i18n( "Show &Location Toolbar" ), 0, this, SLOT( slotShowLocationBar() ), actionCollection(), "showlocationbar" );
   m_paShowBookmarkBar = new KToggleAction( i18n( "Show &Bookmark Toolbar" ), 0, this, SLOT( slotShowBookmarkBar() ),actionCollection(), "showbookmarkbar" );
 
+  (void) new KAction( i18n( "Kon&queror Introduction" ), 0, this, SLOT( slotIntro() ), actionCollection(), "konqintro" );
+  
   enableAllActions( false );
 
   // help stuff
@@ -3462,12 +3464,16 @@ void KonqMainWindow::setIcon( const QPixmap& pix )
 
   QString url = m_combo ? m_combo->currentText() : m_currentView ?
 		m_currentView->url().url() : QString::null;
-  
+
   if ( !url.isEmpty() )
     big = KonqPixmapProvider::self()->pixmapFor( url, KIcon::SizeMedium );
 
   KWin::setIcons( winId(), big, pix );
 }
 
+void KonqMainWindow::slotIntro()
+{
+  openURL( 0L, KURL("about:konqueror") );
+}
 
 #include "konq_mainwindow.moc"
