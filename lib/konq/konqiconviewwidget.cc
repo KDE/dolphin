@@ -84,6 +84,7 @@ KonqIconViewWidget::KonqIconViewWidget( QWidget * parent, const char * name, WFl
     m_bSortDirsFirst = true;
     m_size = 0; // default is DesktopIcon size
     m_pActiveItem = 0;
+    m_bMousePressed = false;
     m_LineupMode = LineupBoth;
     // configurable settings
     initConfig();
@@ -112,10 +113,17 @@ void KonqIconViewWidget::slotIconChanged( int group )
 
 void KonqIconViewWidget::slotOnItem( QIconViewItem *item )
 {
+    // Reset icon of previous item
     if (m_pActiveItem != 0L)
 	m_pActiveItem->setIcon( m_size, KIcon::DefaultState, m_bImagePreviewAllowed, false, true );
-    m_pActiveItem = static_cast<KFileIVI *>(item);
-    m_pActiveItem->setIcon( m_size, KIcon::ActiveState, m_bImagePreviewAllowed, false, true );
+
+    if ( !m_bMousePressed )
+    {
+      m_pActiveItem = static_cast<KFileIVI *>(item);
+      m_pActiveItem->setIcon( m_size, KIcon::ActiveState, m_bImagePreviewAllowed, false, true );
+    } else
+      // Feature deactivated during mouse clicking, e.g. rectangular selection
+      m_pActiveItem = 0L;
 }
 
 void KonqIconViewWidget::slotOnViewport()
@@ -472,6 +480,18 @@ void KonqIconViewWidget::contentsDropEvent( QDropEvent *e )
 {
   KIconView::contentsDropEvent( e );
   emit dropped();
+}
+
+void KonqIconViewWidget::contentsMousePressEvent( QMouseEvent *e )
+{
+  m_bMousePressed = true;
+  KIconView::contentsMousePressEvent( e );
+}
+
+void KonqIconViewWidget::contentsMouseReleaseEvent( QMouseEvent *e )
+{
+  m_bMousePressed = false;
+  KIconView::contentsMouseReleaseEvent( e );
 }
 
 void KonqIconViewWidget::slotSaveIconPositions()

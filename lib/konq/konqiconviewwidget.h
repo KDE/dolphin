@@ -186,6 +186,8 @@ protected:
     virtual void viewportResizeEvent(QResizeEvent *);
     virtual void contentsDragEnterEvent( QDragEnterEvent *e );
     virtual void contentsDropEvent( QDropEvent *e );
+    virtual void contentsMousePressEvent( QMouseEvent *e );
+    virtual void contentsMouseReleaseEvent ( QMouseEvent * e );
 
     KURL m_url;
     const KonqFileItem * m_rootItem;
@@ -197,7 +199,9 @@ protected:
 
     /** Konqueror settings */
     KonqFMSettings * m_pSettings;
+
     KFileIVI * m_pActiveItem;
+    bool m_bMousePressed;
 
     QColor iColor;
 
