@@ -66,6 +66,7 @@ KBehaviourOptions::KBehaviourOptions(KConfig *config, QString group, bool showFi
 
       homeURL = new QLineEdit(this);
       lay->addWidget(homeURL, row, 1);
+      connect(homeURL, SIGNAL(textChanged()), this, SLOT(changed()));
 
       QString homestr = i18n("This is the URL (e.g. a directory or a web page) where "
          "konqueror will jump to when the \"Home\" button is pressed.");

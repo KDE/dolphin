@@ -23,10 +23,8 @@
 #include <qcombobox.h>
 #include <qlabel.h>
 #include <qlayout.h>//CT - 12Nov1998
-#include <qpushbutton.h>
 #include <qradiobutton.h>
 #include <qwhatsthis.h>
-#include <qlineedit.h>
 #include <kglobal.h>
 #include <kdialog.h>
 #include <kconfig.h>

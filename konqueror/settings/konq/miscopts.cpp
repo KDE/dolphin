@@ -1,9 +1,9 @@
 //
 //
-// "Misc Options" Tab for KFM configuration
+// "Misc Options" Tab for Konqueror configuration
 //
 // (c) Sven Radej 1998
-// (c) David Faure 1998
+// (c) David Faure 1998-2000
 
 #include <qlabel.h>
 #include <qgroupbox.h>
