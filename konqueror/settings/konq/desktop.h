@@ -28,7 +28,7 @@ class KLineEdit;
 class KIntNumInput;
 
 // if you change this, update also the number of keyboard shortcuts in kwin/kwinbindings.cpp
-static const int maxDesktops = 16;
+static const int maxDesktops = 20;
 
 class KDesktopConfig : public KCModule
 {
