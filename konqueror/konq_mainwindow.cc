@@ -2252,6 +2252,11 @@ void KonqMainWindow::slotToggleFullScreen()
     showFullScreen();
     setCaption( m_oldTitle );
 
+    // Qt bug (see below)
+    setAcceptDrops( FALSE );
+    topData()->dnd = 0;
+    setAcceptDrops( TRUE );
+
     m_ptaFullScreen->setText( i18n( "Stop Fullscreen Mode" ) );
     m_ptaFullScreen->setIcon( "window_nofullscreen" );
   }
@@ -2272,6 +2277,10 @@ void KonqMainWindow::slotToggleFullScreen()
 
     // Qt bug, the flags aren't restored. They know about it.
     setWFlags( WType_TopLevel | WDestructiveClose );
+    // Other Qt bug
+    setAcceptDrops( FALSE );
+    topData()->dnd = 0;
+    setAcceptDrops( TRUE );
 
     m_ptaFullScreen->setText( i18n( "Fullscreen Mode" ) );
     m_ptaFullScreen->setIcon( "window_fullscreen" );
