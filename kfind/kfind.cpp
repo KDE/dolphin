@@ -30,6 +30,7 @@
 #include "kfoptions.h"
 #include "kfind.h"
 
+#include "version.h"
 
 Kfind::Kfind( QWidget *parent, const char *name, const char *searchPath = 0 )
     : QWidget( parent, name )
