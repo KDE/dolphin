@@ -60,6 +60,8 @@ public:
 	     QObject* receiver, const char* slot, QObject* parent, const char* name = 0 );
     KonqHistoryAction( const QString& text, const QIconSet& pix, int accel = 0,
 	     QObject* parent = 0, const char* name = 0 );
+    KonqHistoryAction( const QString& text, const QString& icon, int accel = 0,
+	     QObject* parent = 0, const char* name = 0 );
     KonqHistoryAction( const QString& text, const QIconSet& pix, int accel,
 	     QObject* receiver, const char* slot, QObject* parent, const char* name = 0 );
     KonqHistoryAction( QObject* parent = 0, const char* name = 0 );

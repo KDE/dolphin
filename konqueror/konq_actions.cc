@@ -105,6 +105,14 @@ KonqHistoryAction::KonqHistoryAction( const QString& text, const QIconSet& pix, 
   m_goMenuDone = false;
 }
 
+KonqHistoryAction::KonqHistoryAction( const QString& text, const QString& icon, int accel, QObject* parent, const char* name )
+  : KAction( text, icon, accel, parent, name )
+{
+  m_popup = 0;
+  m_firstIndex = 0;
+  m_goMenuDone = false;
+}
+
 KonqHistoryAction::KonqHistoryAction( const QString& text, const QIconSet& pix,int accel, QObject* receiver, const char* slot, QObject* parent, const char* name )
   : KAction( text, pix, accel, receiver, slot, parent, name )
 {
@@ -342,27 +350,20 @@ void KonqLogoAction::setIconSet( const QIconSet& iconSet )
   int len = containerCount();
 
   for ( int i = 0; i < len; i++ )
-  {
-    QWidget *w = container( i );
-
-    if ( w->inherits( "KTMainWindow" ) )
       m_logoLabel->setPixmap(iconSet.pixmap());
-
-    if ( w->inherits( "KToolBar" ) )
-      ((KToolBar *)w)->setButtonPixmap( menuId( i ), iconSet.pixmap() );
-  }
 
   KAction::setIconSet( iconSet );
 }
 
 int KonqLogoAction::plug( QWidget *widget, int index )
 {
+  if (!m_logoLabel)
+    m_logoLabel = new QLabel(widget);
+  m_logoLabel->setPixmap(iconSet().pixmap());
+  m_logoLabel->adjustSize();
+
   if ( widget->inherits( "KTMainWindow" ) )
   {
-    if (!m_logoLabel)
-      m_logoLabel = new QLabel(widget);
-    m_logoLabel->setPixmap(iconSet().pixmap());
-    m_logoLabel->adjustSize();
     ((KTMainWindow*)widget)->setIndicatorWidget(m_logoLabel);
 
     addContainer( widget, -1 );
@@ -370,13 +371,27 @@ int KonqLogoAction::plug( QWidget *widget, int index )
     return containerCount() - 1;
   }
 
-  int containerId = KAction::plug( widget, index );
-
   if ( widget->inherits( "KToolBar" ) )
   {
-    ((KToolBar *)widget)->alignItemRight( menuId( containerId ) );
-    ((KToolBar *)widget)->setItemNoStyle( menuId( containerId ) );
+    KToolBar *bar = (KToolBar *)widget;
+
+    int id_ = getToolButtonID();
+
+    bar->insertWidget( id_, m_logoLabel->width(), m_logoLabel, index );
+
+    bar->alignItemRight( id_ );
+    bar->setItemNoStyle( id_ );
+
+    addContainer( bar, id_ );
+
+    connect( bar, SIGNAL( destroyed() ), this, SLOT( slotDestroyed() ) );
+
+    return containerCount() - 1;
   }
+
+  int containerId = KAction::plug( widget, index );
+
+  return containerId;
 }
 
 KonqLabelAction::KonqLabelAction( const QString &text, QObject *parent, const char *name )
