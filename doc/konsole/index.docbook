@@ -203,7 +203,7 @@ You often have open an <application>ssh</application> session to the machine
 <replaceable>administration</replaceable> ready for generic administration
 tasks.
 
-You may have noticed the <guibutton>New</guibutton> button on &konsole;'s tab
+You may have noticed the <guibutton>New Session</guibutton> button on &konsole;'s tab
 bar contains a menu if you click and hold on it, and you can choose new session
 types here. We are going to add new entries to this menu.
 
@@ -237,7 +237,7 @@ Press <guibutton>OK</guibutton>.
 </orderedlist>
 </para>
 <para>
-You should now be able to press and hold the <guibutton>New</guibutton> button
+You should now be able to press and hold the <guibutton>New Session</guibutton> button
 on the tab bar, and select your new session type from the list.  A new shell
 session will open within the &konsole; window, with the result of your executed
 command.  In our example, you will be at an <application>ssh</application>
@@ -267,6 +267,10 @@ when you start a new &kde; session.  Simply have them open as you like
 when you exit &kde;, and they will be saved with your &kde; session, and
 restored just like any other application when you restart &kde;.
 </para>
+
+<note><para>
+With &kde; 3.4, you can assign shortcuts to any Session.
+</para></note>
 
 </sect1>
 
