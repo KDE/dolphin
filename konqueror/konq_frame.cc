@@ -185,8 +185,7 @@ void KonqFrameStatusBar::slotClear()
 
 void KonqFrameStatusBar::slotLoadingProgress( int percent )
 {
-  //m_iProgress = percent;
-  if ( percent != -1 )
+  if ( percent != -1 && percent != 100 ) // hide on 100 too
   {
     if ( !m_progressBar->isVisible() )
       m_progressBar->show();
