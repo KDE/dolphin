@@ -1424,9 +1424,9 @@ DevicePropsPage::DevicePropsPage( PropertiesDialog *_props ) : PropsPage( _props
   // QString mountedStr = config.readEntry( "Icon" );
   QString unmountedStr = config.readEntry( "UnmountIcon" );
 
+  device->setEditText( deviceStr );
   if ( !deviceStr.isEmpty() )
   {
-    device->setEditText( deviceStr );
     // Set default options for this device (first matching entry)
     int index = 0;
     //debug(QString("looking for %1").arg(deviceStr));
