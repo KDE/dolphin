@@ -27,8 +27,6 @@
 
 #include <ktoolbar.h>
 
-extern int get_toolbutton_id();
-
 KonqComboAction::KonqComboAction( const QString& text, int accel, const QObject *receiver, const char *member,
 			          QObject* parent, const char* name )
     : QAction( text, accel, parent, name )
@@ -44,7 +42,7 @@ int KonqComboAction::plug( QWidget *w, int index )
 
   KToolBar *toolBar = (KToolBar *)w;
 
-  int id = get_toolbutton_id();
+  int id = KAction::getToolButtonID();
 
   toolBar->insertCombo( m_items, id, true, SIGNAL( activated( const QString & ) ),m_receiver, m_member, true, QString::null, 70, index );
 
@@ -124,7 +122,7 @@ int KonqHistoryAction::plug( QWidget *widget, int index )
   {
     KToolBar *bar = (KToolBar *)widget;
 
-    int id_ = get_toolbutton_id();
+    int id_ = KAction::getToolButtonID();
     bar->insertButton( iconSet().pixmap(), id_, SIGNAL( clicked() ), this, SLOT( slotActivated() ),
 		       isEnabled(), plainText(), index );
 
@@ -236,14 +234,14 @@ int KonqLogoAction::plug( QWidget *widget, int index )
     ((KToolBar *)widget)->alignItemRight( menuId( containerId ) );
     ((KToolBar *)widget)->setItemNoStyle( menuId( containerId ) );
   }
-  
+
   return containerId;
 }
 
 KonqLabelAction::KonqLabelAction( const QString &text, QObject *parent, const char *name )
 : QAction( text, 0, parent, name )
 {
-} 
+}
 
 int KonqLabelAction::plug( QWidget *widget, int index )
 {
@@ -252,22 +250,22 @@ int KonqLabelAction::plug( QWidget *widget, int index )
   if ( widget->inherits( "KToolBar" ) )
   {
     KToolBar *tb = (KToolBar *)widget;
-    
-    int id = get_toolbutton_id();
-    
+
+    int id = KAction::getToolButtonID();
+
     QLabel *label = new QLabel( plainText(), widget );
     label->adjustSize();
     tb->insertWidget( id, label->width(), label, index );
-    
+
     addContainer( tb, id );
-    
+
     connect( tb, SIGNAL( destroyed() ), this, SLOT( slotDestroyed() ) );
-    
+
     return containerCount() - 1;
   }
-  
+
   return -1;
-} 
+}
 
 void KonqLabelAction::unplug( QWidget *widget )
 {
@@ -285,6 +283,6 @@ void KonqLabelAction::unplug( QWidget *widget )
 
     return;
   }
-} 
+}
 
 #include "konq_actions.moc"

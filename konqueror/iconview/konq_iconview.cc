@@ -873,7 +873,6 @@ void KonqKfmIconView::slotProcessMimeIcons()
 
     QPixmap newIcon = item->item()->pixmap( m_pIconView->size(), m_pProps->m_bImagePreview );
 
-    bool recalc = !m_pProps->m_bImagePreview;
     if ( currentIcon->serialNumber() != newIcon.serialNumber() )
     {
 	item->QIconViewItem::setPixmap( newIcon );
