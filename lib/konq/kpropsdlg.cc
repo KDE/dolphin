@@ -1238,7 +1238,7 @@ void DirPropsPage::slotApplyGlobal()
 {
     KConfig *config = KApplication::getKApplication()->getConfig();
     
-    config->setGroup( "KFM HTML Defaults" );
+    config->setDesktopGroup();
 
     int i = wallBox->currentItem();
     if ( i != -1 )

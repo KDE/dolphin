@@ -25,14 +25,16 @@ class KConfig;
 #include <qcolor.h>
 #include <qstring.h>
 
-/** The class KonqSettings holds the general settings for konqueror/kdesktop.
+/** 
+ * The class KonqSettings holds the general settings for konqueror/kdesktop.
  * There is no 'local' (per-URL) instance of it.
  * All those settings can only be changed in kcmkonq.
  *
- * For further customization, we could have one instance for
+ * For advanced customization, there can be one instance
  * all HTML views, one for all FileManager views, and one for the desktop.
- * (TODO in kcmkonq/kcmkdesktop, using different groups/files : 
- *  currently KFM HTML Defaults, KFM FM Defaults)
+ *
+ * Current limitation : html and fm views use the same group in konquerorrc
+ * since kcmkonq doesn't allow to set those separately at the moment.
  *
  * <vapor>
  * Or even one for icon view and one for tree view, ...

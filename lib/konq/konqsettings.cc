@@ -26,8 +26,10 @@
 
 KonqSettings * KonqSettings::s_pSettings[] = { 0L, 0L, 0L };
 
-static char * s_sGroupName[] = { "KFM HTML Defaults", "KFM HTML Defaults", "KFM HTML Defaults" };
-// TODO : update group names to html / fm / desktop when kcmkonq supports it
+static char * s_sGroupName[] = { "HTML Settings", "HTML Settings", "Desktop Settings" };
+// TODO : update second group name to FM Settings if we decide to have
+// a separate icon/html config
+// (but then has to be done in kcmkonq of course)
 
 #define KS_HTML 0
 #define KS_FM 1
