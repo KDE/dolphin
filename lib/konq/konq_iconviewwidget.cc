@@ -168,7 +168,7 @@ void KFileTip::setItem( KFileIVI *ivi )
                     m_view, SLOT( slotToolTipPreviewResult() ) );
         }
 
-        startTimer( 300 );
+        startTimer( 700 );
     }
     else {
         killTimers();
@@ -345,7 +345,6 @@ struct KonqIconViewWidgetPrivate
         m_movie = 0L;
         m_movieBlocked = 0;
         pFileTip = 0;
-        pFileTipTimer = 0;
         pActivateDoubleClick = 0L;
         bCaseInsensitive = true;
         pPreviewMimeTypes = 0L;
@@ -355,7 +354,6 @@ struct KonqIconViewWidgetPrivate
         delete pSoundTimer;
         delete m_movie;
         delete pFileTip;
-        delete pFileTipTimer;
         delete pActivateDoubleClick;
         delete pPreviewMimeTypes;
         //delete pPreviewJob; done by stopImagePreview
@@ -381,7 +379,6 @@ struct KonqIconViewWidgetPrivate
 
     KIO::PreviewJob *pPreviewJob;
     KFileTip* pFileTip;
-    QTimer *pFileTipTimer;
     QStringList previewSettings;
     bool renameItem;
     bool firstClick;
@@ -437,8 +434,6 @@ KonqIconViewWidget::KonqIconViewWidget( QWidget * parent, const char * name, WFl
     setItemTextPos( QIconView::Bottom );
     d->releaseMouseEvent = false;
     d->pFileTip = new KFileTip(this);
-    d->pFileTipTimer = new QTimer( this );
-    connect( d->pFileTipTimer, SIGNAL(timeout()), SLOT(slotStartTooltip()) );
     d->firstClick = false;
     calculateGridX();
     setAutoArrange( true );
@@ -538,7 +533,6 @@ void KonqIconViewWidget::slotOnItem( QIconViewItem *_item )
             d->pActiveItem->setActive( false );
         }
         d->pActiveItem = 0L;
-        d->pFileTipTimer->stop();
         d->pFileTip->setItem( 0L );
     }
 
@@ -558,7 +552,7 @@ void KonqIconViewWidget::slotOnItem( QIconViewItem *_item )
         {
             d->pActiveItem = item;
             if ( topLevelWidget() == kapp->activeWindow() )
-                d->pFileTipTimer->start( 400, true );
+                d->pFileTip->setItem( d->pActiveItem );
 
             if ( d->doAnimations && d->pActiveItem && d->pActiveItem->hasAnimation() )
             {
@@ -624,7 +618,6 @@ void KonqIconViewWidget::slotOnItem( QIconViewItem *_item )
             // No effect. If we want to underline on hover, we should
             // force the IVI to repaint here, though!
             d->pActiveItem = 0L;
-            d->pFileTipTimer->stop();
             d->pFileTip->setItem( 0L );
         }
     } // bMousePressed
@@ -633,7 +626,6 @@ void KonqIconViewWidget::slotOnItem( QIconViewItem *_item )
         // All features disabled during mouse clicking, e.g. rectangular
         // selection
         d->pActiveItem = 0L;
-        d->pFileTipTimer->stop();
         d->pFileTip->setItem( 0L );
     }
 
@@ -667,7 +659,6 @@ void KonqIconViewWidget::slotOnItem( QIconViewItem *_item )
 
 void KonqIconViewWidget::slotOnViewport()
 {
-    d->pFileTipTimer->stop();
     d->pFileTip->setItem( 0L );
 
     if (d->pSoundPlayer)
@@ -740,20 +731,14 @@ void KonqIconViewWidget::slotPreviewResult()
     emit imagePreviewFinished();
 }
 
-void KonqIconViewWidget::slotStartTooltip()
-{
-    if ( d->pActiveItem )
-        d->pFileTip->setItem( d->pActiveItem );
-}
-
 void KonqIconViewWidget::slotToolTipPreview(const KFileItem* item, const QPixmap &pix)
 {
-    d->pFileTip->gotPreview( item, pix );
+    if (d->pFileTip) d->pFileTip->gotPreview( item, pix );
 }
 
 void KonqIconViewWidget::slotToolTipPreviewResult()
 {
-    d->pFileTip->gotPreviewResult();
+    if (d->pFileTip) d->pFileTip->gotPreviewResult();
 }
 
 void KonqIconViewWidget::slotMovieUpdate( const QRect& rect )
@@ -807,7 +792,6 @@ void KonqIconViewWidget::slotReenableAnimation()
 
 void KonqIconViewWidget::clear()
 {
-    d->pFileTipTimer->stop();
     d->pFileTip->setItem( 0L );
     stopImagePreview(); // Just in case
     KIconView::clear();
@@ -818,7 +802,6 @@ void KonqIconViewWidget::takeItem( QIconViewItem *item )
 {
     if ( d->pActiveItem == static_cast<KFileIVI *>(item) )
     {
-        d->pFileTipTimer->stop();
         d->pFileTip->setItem( 0L );
         d->pActiveItem = 0L;
     }
@@ -836,7 +819,6 @@ void KonqIconViewWidget::setThumbnailPixmap( KFileIVI * item, const QPixmap & pi
     {
         if ( d->pActiveItem == item )
         {
-            d->pFileTipTimer->stop();
             d->pFileTip->setItem( 0L );
             d->pActiveItem = 0L;
         }
