@@ -36,6 +36,7 @@ namespace KIO { class Job; }
 class KonqIconViewWidget : public KIconView
 {
     Q_OBJECT
+    Q_PROPERTY( bool sortDirectoriesFirst READ sortDirectoriesFirst WRITE setSortDirectoriesFirst );
 public:
     /**
      * Constructor
@@ -81,6 +82,9 @@ public:
     virtual void pasteSelection( bool move );
     virtual KURL::List selectedUrls();
 
+    bool sortDirectoriesFirst() const;
+    void setSortDirectoriesFirst( bool b );
+
 public slots:
     /**
      * Checks the new selection and emits enableAction() signals
@@ -112,6 +116,8 @@ protected:
     KonqFMSettings * m_pSettings;
 
     QColor iColor;
+
+    bool m_bSortDirsFirst;
 };
 
 #endif

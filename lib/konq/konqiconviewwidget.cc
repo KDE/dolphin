@@ -57,6 +57,7 @@ KonqIconViewWidget::KonqIconViewWidget( QWidget * parent, const char * name, WFl
     setGridX( 70 );
     setAutoArrange( true );
     setSorting( true, sortDirection() );
+    m_bSortDirsFirst = true;
     // configurable settings
     initConfig();
     // emit our signals
@@ -264,6 +265,16 @@ KURL::List KonqIconViewWidget::selectedUrls()
 	if ( it->isSelected() )
 	    lstURLs.append( ( (KFileIVI *)it )->item()->url() );
     return lstURLs;
+}
+
+bool KonqIconViewWidget::sortDirectoriesFirst() const
+{
+  return m_bSortDirsFirst; 
+}
+
+void KonqIconViewWidget::setSortDirectoriesFirst( bool b )
+{
+  m_bSortDirsFirst = b;
 }
 
 #include "konqiconviewwidget.moc"

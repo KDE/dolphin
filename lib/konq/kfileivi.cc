@@ -61,10 +61,12 @@ void KFileIVI::setKey( const QString &key )
 {
     QString theKey = key;
 
-    if ( S_ISDIR( m_fileitem->mode() ) )
-	theKey.prepend( '0' );
+    QVariant sortDirProp = iconView()->property( "sortDirectoriesFirst" );
+
+    if ( S_ISDIR( m_fileitem->mode() ) && ( !sortDirProp.isValid() || ( sortDirProp.type() == QVariant::Bool && sortDirProp.toBool() ) ) )
+      theKey.prepend( '0' );
     else
-	theKey.prepend( '1' );
+      theKey.prepend( '1' );
 
     QIconViewItem::setKey( theKey );
 }

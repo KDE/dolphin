@@ -72,6 +72,7 @@ public slots:
   void slotSortByNameCaseInsensitive( bool toggle );
   void slotSortBySize( bool toggle );
   void slotSortDescending();
+  void slotSortDirsFirst();
 
   void slotKofficeMode( bool b );
   void slotViewLarge( bool b );
@@ -160,6 +161,8 @@ protected:
   KAction *m_paSelectAll;
   KAction *m_paUnselectAll;
   KAction *m_paInvertSelection;
+
+  KToggleAction *m_paSortDirsFirst;
 
   long m_lDirSize;
   long m_lFileCount;

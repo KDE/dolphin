@@ -16,6 +16,7 @@
    <Action name="sort_nci"/>
    <Action name="sort_size"/>
    <Separator/>
+   <Action name="sort_directoriesfirst" />
    <Action name="sort_descend"/>
   </Menu>
   <Separator/>

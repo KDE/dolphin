@@ -208,9 +208,13 @@ KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const 
     connect( aSortByNameCS, SIGNAL( toggled( bool ) ), this, SLOT( slotSortByNameCaseInsensitive( bool ) ) );
     connect( aSortBySize, SIGNAL( toggled( bool ) ), this, SLOT( slotSortBySize( bool ) ) );
 
+    m_paSortDirsFirst = new KToggleAction( i18n( "Directories first" ), 0, actionCollection(), "sort_directoriesfirst" );
     KToggleAction *aSortDescending = new KToggleAction( i18n( "Descending" ), 0, actionCollection(), "sort_descend" );
 
+    m_paSortDirsFirst->setChecked( true );
+    
     connect( aSortDescending, SIGNAL( toggled( bool ) ), this, SLOT( slotSortDescending() ) );
+    connect( m_paSortDirsFirst, SIGNAL( toggled( bool ) ), this, SLOT( slotSortDirsFirst() ) );
     /*
     m_pamSort->insert( aSortByNameCS );
     m_pamSort->insert( aSortByNameCI );
@@ -329,7 +333,7 @@ KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const 
     m_lDirSize = 0;
     m_lFileCount = 0;
     m_lDirCount = 0;
-
+    
     connect( m_pIconView, SIGNAL( selectionChanged() ),
 	     this, SLOT( slotDisplayFileSelectionInfo() ) );
 }
@@ -474,6 +478,15 @@ void KonqKfmIconView::slotSortDescending()
 
     m_pIconView->sort( m_pIconView->sortDirection() );
 }
+
+void KonqKfmIconView::slotSortDirsFirst()
+{
+  m_pIconView->setSortDirectoriesFirst( m_paSortDirsFirst->isChecked() );
+ 
+  setupSortKeys();
+  
+  m_pIconView->sort( m_pIconView->sortDirection() );
+} 
 
 void KonqKfmIconView::guiActivateEvent( KParts::GUIActivateEvent *event )
 {
