@@ -147,6 +147,7 @@ void SMBRoOptions::defaults()
    m_userLe->setText("");
    m_passwordLe->setText("");
    m_workgroupLe->setText("");
+   m_showHiddenShares->setChecked(false);
 }
 
 void SMBRoOptions::changed()
