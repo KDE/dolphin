@@ -74,69 +74,16 @@ KonqTextViewWidget::~KonqTextViewWidget()
 
 void KonqTextViewWidget::createColumns()
 {
-   //the textview has fixed size columns
-   //these both columns are always required, so add them
    if (columns()<2)
    {
-      addColumn(i18n("Name"),fontMetrics().width("_a_quite_long_filename_"));
-      addColumn(" ",fontMetrics().width("@")+2);
-      setColumnAlignment(1,AlignRight);
+      addColumn( i18n("Name"), m_filenameColumnWidth );
+      addColumn( " ", fontMetrics().width("@") + 2 );
+      setColumnAlignment( 1, AlignRight );
       //this way the column with the name has the index 0 and
       //so the "jump to filename beginning with this character" works
-      header()->moveSection(0,2);
-   };
-   setSorting(0,TRUE);
-
-   //remove all but the first two columns
-   for (int i=columns()-1; i>1; i--)
-      removeColumn(i);
-
-   int currentColumn(m_filenameColumn+1);
-   //now add the checked columns
-   for (int i=0; i<NumberOfAtoms; i++)
-   {
-      if ((confColumns[i].displayThisOne) && (confColumns[i].displayInColumn==currentColumn))
-      {
-         if (sortedByColumn==confColumns[i].desktopFileName)
-            setSorting(currentColumn,m_bAscending);
-         ColumnInfo *tmpColumn=&confColumns[i];
-         QCString tmpName=tmpColumn->name.utf8();
-         if (tmpColumn->udsId==KIO::UDS_SIZE)
-         {
-            addColumn(i18n(tmpName),fontMetrics().width(KGlobal::locale()->formatNumber(888888888, 0)+"  "));
-            setColumnAlignment(currentColumn,AlignRight);
-         }
-         else if ((tmpColumn->udsId==KIO::UDS_MODIFICATION_TIME)
-                  || (tmpColumn->udsId==KIO::UDS_ACCESS_TIME)
-                  || (tmpColumn->udsId==KIO::UDS_CREATION_TIME))
-         {
-            QDateTime dt(QDate(2000,10,10),QTime(20,20,20));
-            //addColumn(i18n(tmpName),fontMetrics().width(KGlobal::locale()->formatDateTime(dt)+"--"));
-            addColumn(i18n(tmpName),fontMetrics().width(KGlobal::locale()->formatDate(dt.date(),TRUE)+KGlobal::locale()->formatTime(dt.time())+"----"));
-            setColumnAlignment(currentColumn,AlignCenter);
-         }
-         else if (tmpColumn->udsId==KIO::UDS_ACCESS)
-            addColumn(i18n(tmpName),fontMetrics().width("--Permissions--"));
-         else if (tmpColumn->udsId==KIO::UDS_USER)
-            addColumn(i18n(tmpName),fontMetrics().width("a_long_username"));
-         else if (tmpColumn->udsId==KIO::UDS_GROUP)
-            addColumn(i18n(tmpName),fontMetrics().width("a_groupname"));
-         else if (tmpColumn->udsId==KIO::UDS_LINK_DEST)
-            addColumn(i18n(tmpName),fontMetrics().width("_a_quite_long_filename_"));
-         else if (tmpColumn->udsId==KIO::UDS_FILE_TYPE)
-            addColumn(i18n(tmpName),fontMetrics().width("a_comment_for_mimetype_"));
-         else if (tmpColumn->udsId==KIO::UDS_MIME_TYPE)
-            addColumn(i18n(tmpName),fontMetrics().width("_a_long_/_mimetype_"));
-         else if (tmpColumn->udsId==KIO::UDS_URL)
-            addColumn(i18n(tmpName),fontMetrics().width("_a_long_lonq_long_url_"));
-
-         i=-1;
-         currentColumn++;
-      };
-   };
-   if (sortedByColumn=="FileName")
-      setSorting(0,m_bAscending);
-
+      header()->moveSection( 0, 2 );
+   }
+   KonqBaseListViewWidget::createColumns();
 }
 
 void KonqTextViewWidget::slotNewItems( const KFileItemList & entries )

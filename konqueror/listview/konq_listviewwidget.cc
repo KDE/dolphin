@@ -199,7 +199,7 @@ void KonqBaseListViewWidget::readProtocolConfig( const QString & protocol )
    
    bool defaultColumns = false;
    QStringList lstColumns = config->readListEntry( "Columns" );
-   QValueList<int> lstColumnWidths;
+   QValueList<int> lstColumnWidths = config->readIntListEntry( "ColumnWidths" );
    if (lstColumns.isEmpty())
    {
       // Default column selection
@@ -212,8 +212,6 @@ void KonqBaseListViewWidget::readProtocolConfig( const QString & protocol )
       lstColumns.append( "Group" );
       lstColumns.append( "Link" );
    }
-   else
-       lstColumnWidths = config->readIntListEntry( "ColumnWidths" );
    
    // Default number of columns
    NumberOfAtoms = 11;
@@ -269,18 +267,38 @@ void KonqBaseListViewWidget::readProtocolConfig( const QString & protocol )
             if (i < lstColumnWidths.count())
                 confColumns[j].width = *lstColumnWidths.at(i);
             else {
-                QString colName = confColumns[j].name;
-                int colWidth = fontMetrics().width( "a shorter string" );
-                
                 // Default Column widths
-                if ( colName == "Filename" || colName == "Link" )
-                    colWidth = fontMetrics().width( "the default width for filenames is long enough" );
-                else if (colName == "Size" )
-                    colWidth = fontMetrics().width( "0 000 000 000" );
-                else if (colName == "Modified" )
-                    colWidth = fontMetrics().width( "00/00/0000 00:00   " );
+                ColumnInfo *tmpColumn = &confColumns[i];
+                QString str;
+
+                if (tmpColumn->udsId==KIO::UDS_SIZE)
+                    str = KGlobal::locale()->formatNumber(888888888, 0) + "  ";
+                else if (tmpColumn->udsId==KIO::UDS_ACCESS)
+                    str = "--Permissions--";
+                else if (tmpColumn->udsId==KIO::UDS_USER)
+                    str = "a_long_username";
+                else if (tmpColumn->udsId==KIO::UDS_GROUP)
+                    str = "a_groupname";
+                else if (tmpColumn->udsId==KIO::UDS_LINK_DEST)
+                    str = "a_quite_long_filename_for_link_dest";
+                else if (tmpColumn->udsId==KIO::UDS_FILE_TYPE)
+                    str = "a_long_comment_for_mimetype";
+                else if (tmpColumn->udsId==KIO::UDS_MIME_TYPE)
+                    str = "_a_long_/_mimetype_";
+                else if (tmpColumn->udsId==KIO::UDS_URL)
+                    str = "a_long_lonq_long_very_long_url";
+                else if ((tmpColumn->udsId==KIO::UDS_MODIFICATION_TIME)
+                         || (tmpColumn->udsId==KIO::UDS_ACCESS_TIME)
+                         || (tmpColumn->udsId==KIO::UDS_CREATION_TIME))
+                {
+                    QDateTime dt(QDate(2000,10,10),QTime(20,20,20));
+                    str = KGlobal::locale()->formatDate(dt.date(),TRUE) +
+                          KGlobal::locale()->formatTime(dt.time()) + "----";
+                }
+                else
+                    str = "it_is_the_default_width";
                 
-                confColumns[j].width = colWidth;
+                confColumns[j].width = fontMetrics().width(str);
             }
             break;
          }
@@ -321,11 +339,25 @@ void KonqBaseListViewWidget::createColumns()
        addColumn( i18n("Name"), m_filenameColumnWidth );
    setSorting(0,TRUE);
 
-   //remove all but the first column
-   for (int i=columns()-1; i>0; i--)
-      removeColumn(i);
+   //remove all columns that will be re-added
+   int i, j;
+   for ( i=0; i < columns(); i++ )
+   {
+      int section = header()->mapToSection( i );
+      
+      // look for section
+      for ( j=0; j < NumberOfAtoms; j++ )
+      {
+         if ( confColumns[j].displayInColumn == section )
+         {
+            removeColumn(i);
+            break;
+         }
+      }
+   }
+   
    //now add the checked columns
-   int currentColumn(1);
+   int currentColumn = columns();
    for (int i=0; i<NumberOfAtoms; i++)
    {
       if ((confColumns[i].displayThisOne) && (confColumns[i].displayInColumn==currentColumn))
@@ -341,8 +373,6 @@ void KonqBaseListViewWidget::createColumns()
    }
    if (sortedByColumn=="FileName")
       setSorting(0,m_bAscending);
-   //for (unsigned int i=0; i<NumberOfAtoms; i++)
-   //  kdDebug(1202)<<"i: "<<i<<" name: "<<confColumns[i].name<<" disp: "<<confColumns[i].displayInColumn<<" on: "<<confColumns[i].displayThisOne<<endl;
 }
 
 void KonqBaseListViewWidget::stop()
@@ -1239,10 +1269,7 @@ void KonqBaseListViewWidget::slotSaveColumnWidths()
 {
    QString protocol = url().protocol();
    KConfig * config = KGlobal::config();
-   if ( config->hasGroup( "ListView_" + protocol ) )
-      config->setGroup( "ListView_" + protocol );
-   else
-      config->setGroup( "ListView_default" );
+   config->setGroup( "ListView_" + protocol );
 
    QValueList<int> lstColumnWidths;
    
@@ -1265,9 +1292,7 @@ void KonqBaseListViewWidget::slotSaveColumnWidths()
    config->writeEntry( "ColumnWidths", lstColumnWidths );
    
    // size of current filename column
-   if ( m_filenameColumn >= 0 )
-      config->writeEntry( "FileNameColumnWidth",
-                          columnWidth(m_filenameColumn) );
+   config->writeEntry( "FileNameColumnWidth", columnWidth(0) );
    
    config->sync();
 }
