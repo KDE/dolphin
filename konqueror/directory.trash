@@ -2,6 +2,7 @@
 Icon=kfm_fulltrash.png
 EmptyIcon=kfm_trash.png
 Name=Trash
+Name[ca]=Paperera
 Name[cs]=Koπ
 Name[da]=Skraldespand
 Name[de]=Papierkorb
@@ -21,6 +22,7 @@ Name[pt_BR]=Lixo
 Name[ro]=Gunoi
 Name[ru]=Îœ“⁄…Œ¡
 Name[sk]=KÙπ
+Name[sr]=Djubre
 Name[sv]=Papperskorg
 Comment=Contains removed files 
 
