@@ -415,9 +415,11 @@ bool KonqMainWindow::openView( QString serviceType, const KURL &_url, KonqView *
   kdDebug(1202) << "req.nameFilter= " << req.nameFilter << endl;
   kdDebug(1202) << "req.typedURL= " << req.typedURL << endl;
 
+
+  bool bOthersFollowed = false;
   // If linked view and if we are not already following another view
   if ( childView && childView->isLinkedView() && !req.followMode )
-    makeViewsFollow( _url, serviceType, childView );
+    bOthersFollowed = makeViewsFollow( _url, serviceType, childView );
 
   if ( childView && childView->isLockedLocation() )
     return false;
@@ -522,7 +524,7 @@ bool KonqMainWindow::openView( QString serviceType, const KURL &_url, KonqView *
       childView->setTypedURL( req.typedURL );
       childView->openURL( url, originalURL, req.nameFilter );
     }
-  return ok;
+  return ok || bOthersFollowed;
 }
 
 void KonqMainWindow::slotOpenURLRequest( const KURL &url, const KParts::URLArgs &args )
@@ -609,8 +611,10 @@ void KonqMainWindow::openURL( KonqView *childView, const KURL &url, const KParts
 }
 
 // Linked-views feature
-void KonqMainWindow::makeViewsFollow( const KURL & url, const QString & serviceType, KonqView * senderView )
+bool KonqMainWindow::makeViewsFollow( const KURL & url, const QString & serviceType, KonqView * senderView )
 {
+  bool res = false;
+
   kdDebug(1202) << "makeViewsFollow " << senderView->className() << " url=" << url.url() << " serviceType=" << serviceType << endl;
   KonqOpenURLRequest req;
   req.followMode = true;
@@ -629,9 +633,21 @@ void KonqMainWindow::makeViewsFollow( const KURL & url, const QString & serviceT
     if ( (view != senderView) && view->isLinkedView() )
     {
       kdDebug(1202) << "Sending openURL to view " << view->part()->className() << " url=" << url.url() << endl;
-      openURL( view, url, serviceType, req );
+
+      // XXX duplicate code from ::openURL
+      if ( view == m_currentView )
+      {
+          abortLoading();
+          setLocationBarURL( url.prettyURL() );
+      }
+      else
+          view->stop();
+
+      res = res || openView( serviceType, url, view, req );
     }
   }
+
+  return res;
 }
 
 void KonqMainWindow::abortLoading()
