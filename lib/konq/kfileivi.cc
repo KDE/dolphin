@@ -130,3 +130,17 @@ void KFileIVI::paintItem( QPainter *p, const QColorGroup &cg )
     QIconViewItem::paintItem( p, c );
 }
 
+void KFileIVI::move( int x, int y )
+{
+    if ( ( (KonqIconViewWidget*)iconView() )->isDesktop() ) {
+	if ( x < 5 ) 
+	    x = 5;
+	if ( x > iconView()->viewport()->width() - ( width() + 5 ) )
+	    x = iconView()->viewport()->width() - ( width() + 5 );
+	if ( y < 5 ) 
+	    y = 5;
+	if ( y > iconView()->viewport()->height() - ( height() + 5 ) )
+	    y = iconView()->viewport()->height() - ( height() + 5 );
+    }
+    QIconViewItem::move( x, y );
+}

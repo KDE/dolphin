@@ -48,9 +48,9 @@
 #include <assert.h>
 #include <unistd.h>
 
-KonqIconViewWidget::KonqIconViewWidget( QWidget * parent, const char * name, WFlags f )
+KonqIconViewWidget::KonqIconViewWidget( QWidget * parent, const char * name, WFlags f, bool kdesktop )
     : KIconView( parent, name, f ),
-      m_rootItem( 0L )
+      m_rootItem( 0L ), m_bDesktop( kdesktop )
 {
     QObject::connect( this, SIGNAL( dropped( QDropEvent *, const QValueList<QIconDragItem> & ) ),
 		      this, SLOT( slotDropped( QDropEvent*, const QValueList<QIconDragItem> & ) ) );

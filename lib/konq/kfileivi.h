@@ -17,7 +17,7 @@
    Boston, MA 02111-1307, USA.
 */
 
-// $Id: kfileivi.h,v 1.23 2000/06/29 19:45:34 faure Exp 
+// $Id: kfileivi.h,v 1.23 2000/06/29 19:45:34 faure Exp
 
 #ifndef __kfileivi_h__
 #define __kfileivi_h__
@@ -104,6 +104,8 @@ public:
 
     virtual void setKey( const QString &key );
     virtual void paintItem( QPainter *p, const QColorGroup &cg );
+
+    void move( int x, int y );
 
 protected:
     virtual void dropped( QDropEvent *e, const QValueList<QIconDragItem> &  );

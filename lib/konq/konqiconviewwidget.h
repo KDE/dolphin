@@ -51,7 +51,7 @@ public:
      * Constructor
      * @param settings An instance of KonqFMSettings, see static methods in konqsettings.h
      */
-    KonqIconViewWidget( QWidget *parent = 0L, const char *name = 0L, WFlags f = 0 );
+    KonqIconViewWidget( QWidget *parent = 0L, const char *name = 0L, WFlags f = 0, bool kdesktop = FALSE );
     virtual ~KonqIconViewWidget();
 
     void initConfig();
@@ -152,6 +152,8 @@ public:
      */
     virtual void visualActivate(QIconViewItem *);
 
+    bool isDesktop() const { return m_bDesktop; }
+    
 public slots:
     /**
      * Called when the clipboard's data changes, to update the 'cut' icons
@@ -221,6 +223,8 @@ protected:
 
     int m_LineupMode;
     QRect m_IconRect;
+
+    bool m_bDesktop;
 };
 
 #endif
