@@ -414,5 +414,9 @@ void KonqCombo::setConfig( KConfig *kc )
     s_config = kc;
 }
 
+void KonqCombo::mouseDoubleClickEvent( QMouseEvent * )
+{
+    selectAll();
+}
 
 #include "konq_combo.moc"
