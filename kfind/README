@@ -25,6 +25,9 @@ simply do ./configure, make and make install. Copy
 $KDEDIR/lib/kfind/config/kfindrc to file ~/.kfindrc (this will enable
 you to store files to tar archives).
 
+[Maintainer's note: the aforementioned patch has been included in
+kdelibs-0.8, so you do not need it any longer. -kalle] 
+
 TODO
 ----
 
