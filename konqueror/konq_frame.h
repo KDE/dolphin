@@ -91,6 +91,7 @@ class KonqFrameStatusBar : public QWidget
       void slotConnectToNewView(KonqChildView *, KParts::ReadOnlyPart *oldOne,KParts::ReadOnlyPart *newOne);
       void slotLoadingProgress( int percent );
       void slotSpeedProgress( int bytesPerSecond );
+      void slotDisplayStatusText(const QString& text);
 
    signals:
       /**
@@ -102,9 +103,6 @@ class KonqFrameStatusBar : public QWidget
        * The "linked view" checkbox was clicked
        */
       void linkedViewClicked( bool mode );
-
-   protected slots:
-      void slotDisplayStatusText(const QString& text);
 
    protected:
       virtual bool eventFilter(QObject*,QEvent *);

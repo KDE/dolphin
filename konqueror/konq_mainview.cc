@@ -1334,7 +1334,7 @@ void KonqMainView::slotFullScreenStart()
   widget->resize( QApplication::desktop()->size() );
 
   m_tempContainer->removeChildFrame( widget );
-  
+
   attachToolbars( widget );
 
   widget->setFocusPolicy( QWidget::StrongFocus );
@@ -1575,6 +1575,10 @@ void KonqMainView::initActions()
   connect( m_paShowBookmarkBar, SIGNAL( activated() ), this, SLOT( slotShowBookmarkBar() ) );
 
   enableAllActions( false );
+  
+  actionCollection()->setHighlightingEnabled( true );
+  connect( actionCollection(), SIGNAL( actionHighlighted( KAction * ) ),
+	   this, SLOT( slotActionHighlighted( KAction * ) ) );
 }
 
 void KonqMainView::initPlugins()
@@ -1901,5 +1905,20 @@ void KonqMainView::setInitialFrameName( const QString &name )
 {
   m_initialFrameName = name;
 }
+
+void KonqMainView::slotActionHighlighted( KAction *action )
+{
+  if ( !m_currentView )
+    return;
+  
+  KonqFrameStatusBar *statusBar = m_currentView->frame()->statusbar();
+  
+  if ( !statusBar )
+    return;
+  
+  QString text = action->shortText();
+  if ( !text.isEmpty() )
+    statusBar->slotDisplayStatusText( text );
+} 
 
 #include "konq_mainview.moc"

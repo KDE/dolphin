@@ -256,6 +256,8 @@ protected slots:
   void slotShowLocationBar();
   void slotShowBookmarkBar();
 
+  void slotActionHighlighted( KAction *action );
+
 protected:
 
   void toggleBar( const char *name, const char *className );
