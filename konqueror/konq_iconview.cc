@@ -174,6 +174,7 @@ void KonqKfmIconView::slotShowDot()
   kdebug(0, 1202, "KonqKfmIconView::slotShowDot()");
   m_pProps->m_bShowDot = !m_pProps->m_bShowDot;
   m_dirLister->setShowingDotFiles( m_pProps->m_bShowDot );
+  bSetupNeeded = true; // we don't want the non-dot files to remain where they are !
 
   m_vViewMenu->setItemChecked( MVIEW_SHOWDOT_ID_ICONVIEW, m_pProps->m_bShowDot );
 }
