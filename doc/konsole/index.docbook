@@ -401,7 +401,7 @@ to you, you almost certainly don't need to worry about it.</para></note>
 Commander</guimenuitem></menuchoice></term>
 <listitem><para><action>Open a new session</action> with the
  <application>Midnight
-Commander</application> graphical file browser.</para></listitem>
+Commander</application> file browser.</para></listitem>
 </varlistentry>
 
 <varlistentry>
@@ -434,7 +434,7 @@ care should be taken to avoid accidental damage.
 <listitem>
 <para>
 <action>Open a new session</action> with the <application>Midnight
-Commander</application> graphical file browser, as the <systemitem
+Commander</application> file browser, as the <systemitem
 class="username">root</systemitem> user.
 </para>
 <para>

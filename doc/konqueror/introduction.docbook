@@ -24,7 +24,7 @@ examined and changed and applications launched with a simple click of the
 <para><emphasis>&konqueror;</emphasis> is an <acronym>HTML</acronym> 4.01
 compliant <link linkend="browser">web browser</link> with built in support for
 JavaScript (ECMA-262), <acronym>CSS</acronym> (Cascading Style Sheets) and
-bidirectional scripts (arabic and hebrew). It provides support for the secure
+bidirectional scripts (such as Arabic and Hebrew). It provides support for the secure
 running of &Java; applets, &Netscape; plugins for viewing &Flash;, &RealAudio; and &RealVideo; and <acronym>SSL</acronym> for secure
 communications. Advanced features include automatic &URL; and form completion,
 the ability to import bookmarks from other browsers and tabbed browsing.
