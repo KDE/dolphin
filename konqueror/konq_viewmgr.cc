@@ -496,6 +496,7 @@ void KonqViewManager::breakOffTab( KonqFrameBase* tab )
   QString prefix = QString::fromLatin1( currentFrame->frameType() ) + QString::number(0);
   config.writeEntry( "RootItem", prefix );
   prefix.append( '_' );
+  config.writeEntry( QString::fromLatin1( "docContainer" ).prepend( prefix ), true );
   currentFrame->saveConfig( &config, prefix, true, 0L, 0, 1);
 
   KonqMainWindow *mainWindow = new KonqMainWindow( KURL(), false );
@@ -503,10 +504,12 @@ void KonqViewManager::breakOffTab( KonqFrameBase* tab )
 
   mainWindow->viewManager()->loadViewProfile( config, "" );
 
-  mainWindow->viewManager()->setDocContainer( mainWindow->childFrame() );
-
-  if (mainWindow->currentView())
-    mainWindow->copyHistory( currentFrame );
+  if( mainWindow->childFrame() &&  mainWindow->childFrame()->frameType() == "Tabs")
+  {
+    KonqFrameTabs *kft = dynamic_cast<KonqFrameTabs *>(mainWindow->childFrame());
+    if(kft->childFrameList()->count())
+      kft->childFrameList()->at(0)->copyHistory( currentFrame );
+  }
 
   removeTab( currentFrame );
 
