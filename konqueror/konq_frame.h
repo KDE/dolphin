@@ -96,7 +96,7 @@ class KonqFrameHeader : public QWidget
       /**
        * Brings up the context menu for this frame
        */
-      virtual void mouseReleaseEvent(QMouseEvent*);
+      virtual void splitFrameMenu();
       
       virtual void paintEvent(QPaintEvent *e);
       KonqFrame* m_pParentKonqFrame;

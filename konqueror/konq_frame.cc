@@ -91,17 +91,12 @@ void KonqFrameHeader::mousePressEvent( QMouseEvent* event )
       emit headerClicked();
       update();
    }
+   if (event->button()==RightButton)
+      splitFrameMenu();
 }
 
-void KonqFrameHeader::mouseReleaseEvent(QMouseEvent *event)
+void KonqFrameHeader::splitFrameMenu()
 {
-   if (event->button()!=RightButton)
-      return;
-   
-   // select this frame
-   emit headerClicked();
-   update();
-   
    for (  // Find the REAL MainView for Konq.  It has no parent.
       KonqMainView *mainview=(KonqMainView*)m_pParentKonqFrame;
       mainview->parent();
@@ -125,6 +120,8 @@ bool KonqFrameHeader::eventFilter(QObject*,QEvent *e)
    {
       emit headerClicked();
       update();
+      if (((QMouseEvent*)e)->type()==RightButton)
+         splitFrameMenu();
       return TRUE;
    };
    return FALSE;
