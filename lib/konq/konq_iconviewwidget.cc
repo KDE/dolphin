@@ -277,7 +277,7 @@ void KonqIconViewWidget::setURL( const KURL &kurl )
         m_dotDirectoryPath = QString::null;
 }
 
-void KonqIconViewWidget::startImagePreview( const bool * previewSettings, bool force )
+void KonqIconViewWidget::startImagePreview( const QString &previewSettings, bool force )
 {
     stopImagePreview(); // just in case
 

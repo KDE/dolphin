@@ -21,6 +21,7 @@
 #define __konq_viewprops_h__
 
 #include <qpixmap.h>
+#include <qstringlist.h>
 
 #include <kurl.h>
 
@@ -88,12 +89,10 @@ public:
   void setShowingDotFiles( bool show );
   bool isShowingDotFiles() const { return m_bShowDot; }
 
-  typedef enum { IMAGEPREVIEW, TEXTPREVIEW, HTMLPREVIEW } Preview;
-  static const int LASTPREVIEW = HTMLPREVIEW;
-  void setShowingPreview( Preview preview, bool show );
-  bool isShowingPreview( Preview preview ) const { return m_bPreview[preview]; }
-  bool isShowingPreview() const { return m_bPreview[IMAGEPREVIEW] || m_bPreview[TEXTPREVIEW] || m_bPreview[HTMLPREVIEW]; }
-  const bool * previewSettings() const { return m_bPreview; }
+  void setShowingPreview( const QString &preview, bool show );
+  bool isShowingPreview( const QString &preview ) const { return m_preview.contains(preview); }
+  bool isShowingPreview() const { return m_preview.count() > 0; }
+  const QString previewSettings() const { return m_preview.join(","); }
 
   void setBgColor( const QColor & color );
   const QColor& bgColor(QWidget * widget) const;
@@ -114,7 +113,7 @@ protected:
   int m_iIconSize;
   int m_iItemTextPos;
   bool m_bShowDot;
-  bool m_bPreview[LASTPREVIEW+1];
+  QStringList m_preview;
   QColor m_textColor;
   QColor m_bgColor;
   QString m_bgPixmapFile;

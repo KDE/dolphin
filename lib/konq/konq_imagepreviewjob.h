@@ -45,7 +45,7 @@ public:
      * transparent (invisible), while 255 means it is completely opaque.
      */
     KonqImagePreviewJob( KonqIconViewWidget * iconView, bool force,
-			 int transparency = 55, const bool * previewSettings = 0L );
+			 int transparency = 55, const QString &previewSettings = QString::null );
     virtual ~KonqImagePreviewJob();
 
     // Call this to get started
@@ -104,8 +104,8 @@ private:
     // the transparency of the blended mimetype icon
     // {0..255}, shifted into the upper 8 bits
     int m_transparency;
-    // Render HTML? (as text otherwise)
-    bool m_renderHTML;
+    // Enabled preview plugins
+    QString m_previewSettings;
 };
 
 #endif

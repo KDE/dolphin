@@ -27,6 +27,7 @@
 #include <konq_propsview.h>
 #include <kapp.h>
 #include <ktempfile.h>
+#include <ktrader.h>
 #include <assert.h>
 
 /**
@@ -35,16 +36,24 @@
  */
 KonqImagePreviewJob::KonqImagePreviewJob( KonqIconViewWidget * iconView,
 					  bool force, int transparency,
-					  const bool * previewSettings )
-  : KIO::Job( false /* no GUI */ ), m_bCanSave( true ), m_iconView( iconView )
+					  const QString &previewSettings )
+  : KIO::Job( false /* no GUI */ ), m_bCanSave( true ), m_iconView( iconView ),
+    m_previewSettings( previewSettings )
 {
   m_extent = 0;
   kdDebug(1203) << "KonqImagePreviewJob::KonqImagePreviewJob()" << endl;
-  m_bDirsCreated = true; // if no images, no need for dirs
   // shift into the upper 8 bits, so we can use it as alpha-channel in QImage
   m_transparency = (transparency << 24) | 0x00ffffff;
 
-  m_renderHTML = !previewSettings || previewSettings[KonqPropsView::HTMLPREVIEW];
+  // Load the list of plugins to determine which mimetypes are supported
+  KTrader::OfferList plugins = KTrader::self()->query("ThumbCreator");
+  QStringList mimeTypes;
+  for (KTrader::OfferList::ConstIterator it = plugins.begin(); it != plugins.end(); ++it)
+  {
+      if (m_previewSettings.isNull() || m_previewSettings.contains((*it)->desktopEntryName()))
+        mimeTypes += (*it)->property("MimeTypes").toStringList();
+  }
+  
   // Look for images and store the items in our todo list :)
   for (QIconViewItem * it = m_iconView->firstItem(); it; it = it->nextItem() )
   {
@@ -52,21 +61,15 @@ KonqImagePreviewJob::KonqImagePreviewJob( KonqIconViewWidget * iconView,
     if ( force || !ivi->isThumbnail() )
     {
         QString mimeType = ivi->item()->mimetype();
-        bool bText = false;
-        bool bHTML = false;
-        bool bImage = mimeType.startsWith( "image/" ) && (!previewSettings || previewSettings[KonqPropsView::IMAGEPREVIEW]);
-        if ( bImage )
-            m_bDirsCreated = false; // We'll need dirs
-        else
-        {
-            bText = mimeType.startsWith( "text/") && (!previewSettings || previewSettings[KonqPropsView::TEXTPREVIEW]);
-            if ((bHTML = mimeType == "text/html" && m_renderHTML))
-                m_bDirsCreated = false;
-        }
-        if ( bImage || bText || bHTML)
-            m_items.append( ivi );
+        for (QStringList::ConstIterator mt = mimeTypes.begin(); mt != mimeTypes.end(); ++mt)
+            if (mimeType.find(QRegExp(*mt, false, true)) == 0)
+            {
+                m_items.append( ivi );
+                break;
+            }
     }
   }
+  m_bDirsCreated = m_items.count() == 0; // if no images, no need for dirs
   // Read configuration value for the maximum allowed size
   KConfig * config = KGlobal::config();
   KConfigGroupSaver cgs( config, "FMSettings" );
@@ -174,15 +177,6 @@ void KonqImagePreviewJob::slotResult( KIO::Job *job )
       determineThumbnailURL();
 
       QString mimeType = m_currentItem->item()->mimetype();
-      if ( mimeType.startsWith( "text/") &&
-           ! (mimeType == "text/html" && m_renderHTML))
-      {
-          // This is a text preview, no need to look for a saved thumbnail
-          // Just create it, and be done
-          getOrCreateThumbnail();
-          return;
-      }
-
 
       m_state = STATE_STATTHUMB;
       KIO::Job * job = KIO::stat( m_thumbURL, false );
@@ -442,19 +436,17 @@ void KonqImagePreviewJob::createThumbnail( QString pixPath )
         m_iconView->iconSize() : KGlobal::iconLoader()->currentSize(KIcon::Desktop)));
     job->addMetaData("extent", QString().setNum(m_extent));
     job->addMetaData("transparency", QString().setNum(m_transparency));
-    // FIXME: This needs to be generalized once the thumbnail creator
-    // is pluginified (malte)
-    job->addMetaData("renderHTML", m_renderHTML ? "true" : "false");
+    if (!m_previewSettings.isNull())
+        job->addMetaData("enabled", m_previewSettings);
     addSubjob(job);
 }
 
-void KonqImagePreviewJob::slotThumbData(KIO::Job *job, const QByteArray &data)
+void KonqImagePreviewJob::slotThumbData(KIO::Job *, const QByteArray &data)
 {
     kdDebug(1203) << "KonqImagePreviewJob::slotThumbData" << endl;
     QPixmap pix(data);
-    bool save = static_cast<KIO::TransferJob *>(job)->queryMetaData("save") == "true";
     m_iconView->setThumbnailPixmap(m_currentItem, pix);
-    if (save && m_bCanSave)
+    if (m_bCanSave)
         saveThumbnail(data);
 }
 
