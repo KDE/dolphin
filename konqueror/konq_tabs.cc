@@ -74,6 +74,7 @@ KonqFrameTabs::KonqFrameTabs(QWidget* parent, KonqFrameContainerBase* parentCont
   KConfigGroupSaver cs( config, QString::fromLatin1("FMSettings") );
   setHoverCloseButton( config->readBoolEntry( "HoverCloseButton", true ) );
   connect( this, SIGNAL( closeRequest( QWidget * )), SLOT(slotCloseRequest( QWidget * )));
+  connect( this, SIGNAL( removeTabPopup() ), m_pViewManager->mainWindow(), SLOT( slotRemoveTabPopup() ) );
 
 #if QT_VERSION >= 0x030200
   if ( config->readBoolEntry( "AddTabButton", true ) ) {
@@ -341,7 +342,8 @@ void KonqFrameTabs::slotContextMenu( QWidget *w, const QPoint &p )
 
 void KonqFrameTabs::slotCloseRequest( QWidget *w )
 {
-  m_pViewManager->removeTab( dynamic_cast<KonqFrameBase*>(w) );
+  m_pViewManager->mainWindow()->setWorkingTab( dynamic_cast<KonqFrameBase*>(w) );
+  emit ( removeTabPopup() );
 }
 
 void KonqFrameTabs::slotMouseMiddleClick( QWidget *w )

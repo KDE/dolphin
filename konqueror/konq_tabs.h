@@ -89,6 +89,7 @@ public slots:
 
 signals:
   void ctrlTabPressed();
+  void removeTabPopup();
 
 protected:
   void resizeEvent( QResizeEvent * );
