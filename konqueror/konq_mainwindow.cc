@@ -2066,13 +2066,7 @@ void KonqMainWindow::slotUpAboutToShow()
 
 void KonqMainWindow::slotUp()
 {
-  KURL currentURL;
-  if ( m_currentView->run() )
-      currentURL = m_currentView->run()->url();
-  else
-      currentURL = m_currentView->locationBarURL();
-  kdDebug(1202) << "slotUp. Start URL is " << currentURL.prettyURL() << endl;
-  openURL( 0L, currentURL.upURL() );
+  openURL( 0L, m_currentView->upURL() );
 }
 
 void KonqMainWindow::slotUpActivated( int id )

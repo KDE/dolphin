@@ -158,6 +158,8 @@ public:
    */
   KURL url() const;
 
+  KURL upURL() const;
+
   /**
    * Get view's location bar URL, i.e. the one that the view signals
    * It can be different from url(), for instance if we display a index.html

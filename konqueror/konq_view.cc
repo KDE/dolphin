@@ -618,6 +618,16 @@ KURL KonqView::url() const
   return m_pPart->url();
 }
 
+KURL KonqView::upURL() const
+{
+    KURL currentURL;
+    if ( m_pRun )
+	currentURL = m_pRun->url();
+    else
+	currentURL = m_sLocationBarURL;
+    return currentURL.upURL();
+}
+
 void KonqView::setRun( KonqRun * run )
 {
   if ( m_pRun )
