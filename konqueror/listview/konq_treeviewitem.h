@@ -76,7 +76,6 @@ public:
 
 protected:
   bool m_bComplete;
-  KonqTreeViewWidget *m_treeViewWidget;
 };
 
 #endif

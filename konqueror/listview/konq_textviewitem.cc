@@ -35,7 +35,7 @@ QString KonqTextViewItem::key( int _column, bool asc) const
    {
       for (unsigned int i=0; i<KonqBaseListViewWidget::NumberOfAtoms; i++)
       {
-         ColumnInfo *cInfo=&m_pTextView->columnConfigInfo()[i];
+         ColumnInfo *cInfo=&static_cast<KonqTextViewWidget *>(listView())->columnConfigInfo()[i];
          if (_column==cInfo->displayInColumn)
          {
             if ((cInfo->udsId==KIO::UDS_MODIFICATION_TIME)
@@ -137,7 +137,7 @@ void KonqTextViewItem::updateContents()
 
    for (unsigned int i=0; i<KonqBaseListViewWidget::NumberOfAtoms; i++)
    {
-      ColumnInfo *tmpColumn=&m_pTextView->confColumns[i];
+      ColumnInfo *tmpColumn=&static_cast<KonqTextViewWidget *>(listView())->confColumns[i];
       if (tmpColumn->displayThisOne)
       {
          switch (tmpColumn->udsId)
@@ -194,23 +194,24 @@ void KonqTextViewItem::updateContents()
 void KonqTextViewItem::paintCell( QPainter *_painter, const QColorGroup & _cg, int _column, int _width, int _alignment )
 {
    QColorGroup cg( _cg );
-   cg.setColor(QColorGroup::Text, m_pTextView->colors[type]);
-   cg.setColor(QColorGroup::HighlightedText, m_pTextView->highlight[type]);
+   cg.setColor(QColorGroup::Text, static_cast<KonqTextViewWidget *>(listView())->colors[type]);
+   cg.setColor(QColorGroup::HighlightedText, static_cast<KonqTextViewWidget *>(listView())->highlight[type]);
    cg.setColor(QColorGroup::Highlight, Qt::darkGray);
 
-   // Don't set a brush, we draw the background ourselves
-   cg.setBrush( QColorGroup::Base, NoBrush );
-
-   // Gosh this is ugly. We need to paint the background, but for this we need
-   // to translate the painter back to the viewport coordinates.
-   QPoint offset = listView()->itemRect(this).topLeft();
-   _painter->translate( -offset.x(), -offset.y() );
-   static_cast<KonqBaseListViewWidget *>(listView())->paintEmptyArea( _painter,
-                                                                      QRect( offset.x(), offset.y(), _width, height() ) );
-   _painter->translate( offset.x(), offset.y() );
+   // --- from here, keep in sync with konqlistviewitem !
+   QBrush brush;
+   const QPixmap * pm = listView()->viewport()->backgroundPixmap();
+   if ( !pm || pm->isNull() )
+   {
+       brush.setColor( listView()->viewport()->backgroundColor() );
+       brush.setStyle( SolidPattern );
+   }
+   else
+       brush.setPixmap( *pm );
+   cg.setBrush( QColorGroup::Base, brush );
 
    QListViewItem::paintCell( _painter, cg, _column, _width, _alignment );
-};
+}
 
 void KonqTextViewItem::setup()
 {

@@ -36,9 +36,8 @@
 
 KonqListViewDir::KonqListViewDir( KonqTreeViewWidget *_parent, KonqFileItem* _fileitem )
 :KonqListViewItem( _parent, _fileitem )
-,m_treeViewWidget(_parent)
 {
-  m_treeViewWidget->addSubDir( _fileitem->url(), this );
+  _parent->addSubDir( _fileitem->url(), this );
   setExpandable (TRUE);
 
   m_bComplete = false;
@@ -46,29 +45,21 @@ KonqListViewDir::KonqListViewDir( KonqTreeViewWidget *_parent, KonqFileItem* _fi
 
 KonqListViewDir::KonqListViewDir( KonqTreeViewWidget *_treeview, KonqListViewDir * _parent, KonqFileItem* _fileitem )
 :KonqListViewItem(_treeview,_parent,_fileitem)
-,m_treeViewWidget(_treeview)
 {
-  m_treeViewWidget->addSubDir( _fileitem->url(), this );
+  _treeview->addSubDir( _fileitem->url(), this );
   setExpandable (TRUE);
   m_bComplete = false;
 }
 
 KonqListViewDir::~KonqListViewDir()
 {
-  if ( m_treeViewWidget )
-    m_treeViewWidget->removeSubDir( m_fileitem->url() );
+  static_cast<KonqTreeViewWidget *>(listView())->removeSubDir( m_fileitem->url() );
 }
-
-/*void KonqListViewDir::setup()
-{
-  setExpandable( true );
-  QListViewItem::setup();
-}*/
 
 void KonqListViewDir::setOpen( bool _open )
 {
   if ( _open && !m_bComplete ) // complete it before opening
-    m_treeViewWidget->openSubFolder( m_fileitem->url(), this );
+    static_cast<KonqTreeViewWidget *>(listView())->openSubFolder( m_fileitem->url(), this );
 
   QListViewItem::setOpen( _open );
 }

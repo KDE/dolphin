@@ -61,15 +61,11 @@ class KonqTextViewItem : public KonqBaseListViewItem
 
    protected:
       virtual void setup();
-
-      /** Parent text view */
-      KonqTextViewWidget* m_pTextView;
       int type;
 };
 
 inline KonqTextViewItem::KonqTextViewItem( KonqTextViewWidget *_parent, KonqFileItem* _fileitem)
 :KonqBaseListViewItem( _parent,_fileitem )
-,m_pTextView (_parent)
 {
    updateContents();
 }

@@ -37,14 +37,12 @@
 KonqListViewItem::KonqListViewItem( KonqBaseListViewWidget *_listViewWidget, KonqListViewItem * _parent, KonqFileItem* _fileitem )
 :KonqBaseListViewItem( _parent,_fileitem )
 {
-   m_pListViewWidget = _listViewWidget;
    updateContents();
 }
 
 KonqListViewItem::KonqListViewItem( KonqBaseListViewWidget *_listViewWidget, KonqFileItem* _fileitem )
 :KonqBaseListViewItem(_listViewWidget,_fileitem)
 {
-   m_pListViewWidget = _listViewWidget;
    updateContents();
 }
 
@@ -68,7 +66,7 @@ void KonqListViewItem::updateContents()
 
    for (unsigned int i=0; i<KonqBaseListViewWidget::NumberOfAtoms; i++)
    {
-      ColumnInfo *tmpColumn=&m_pListViewWidget->columnConfigInfo()[i];
+      ColumnInfo *tmpColumn=&static_cast<KonqBaseListViewWidget *>(listView())->columnConfigInfo()[i];
       if (tmpColumn->displayThisOne)
       {
          switch (tmpColumn->udsId)
@@ -124,7 +122,7 @@ void KonqListViewItem::updateContents()
 void KonqListViewItem::setDisabled( bool disabled )
 {
     KonqBaseListViewItem::setDisabled( disabled );
-    int iconSize = m_pListViewWidget->iconSize();
+    int iconSize = static_cast<KonqBaseListViewWidget *>(listView())->iconSize();
     iconSize = iconSize ? iconSize : KGlobal::iconLoader()->currentSize( KIcon::Small ); // Default = small
     setPixmap( 0, m_fileitem->pixmap( iconSize, state() ) );
 }
@@ -136,7 +134,7 @@ QString KonqListViewItem::key( int _column, bool asc ) const
    //check if it is a time or size column
    for (unsigned int i=0; i<KonqBaseListViewWidget::NumberOfAtoms; i++)
    {
-     ColumnInfo *cInfo=&m_pListViewWidget->columnConfigInfo()[i];
+     ColumnInfo *cInfo=&static_cast<KonqBaseListViewWidget *>(listView())->columnConfigInfo()[i];
      if (_column==cInfo->displayInColumn)
      {
        switch (cInfo->udsId)
@@ -153,7 +151,7 @@ QString KonqListViewItem::key( int _column, bool asc ) const
        break;
      }
    }
-   tmp += m_pListViewWidget->caseInsensitiveSort() ? text(_column).lower() : text(_column);
+   tmp += static_cast<KonqBaseListViewWidget *>(listView())->caseInsensitiveSort() ? text(_column).lower() : text(_column);
    return tmp;
 }
 
@@ -163,20 +161,20 @@ void KonqListViewItem::paintCell( QPainter *_painter, const QColorGroup & _cg, i
 
   if ( _column == 0 )
   {
-     _painter->setFont( m_pListViewWidget->itemFont() );
+     _painter->setFont( static_cast<KonqBaseListViewWidget *>(listView())->itemFont() );
   }
   //else
-  //   _painter->setPen( m_pListViewWidget->color() );
+  //   _painter->setPen( static_cast<KonqBaseListViewWidget *>(listView())->color() );
 
-  cg.setColor( QColorGroup::Text, m_pListViewWidget->itemColor() );
+  cg.setColor( QColorGroup::Text, static_cast<KonqBaseListViewWidget *>(listView())->itemColor() );
 
   // --- from here, keep in sync with konqtextviewitem !
 
   QBrush brush;
-  const QPixmap * pm = m_pListViewWidget->viewport()->backgroundPixmap();
+  const QPixmap * pm = listView()->viewport()->backgroundPixmap();
   if ( !pm || pm->isNull() )
   {
-      brush.setColor( m_pListViewWidget->viewport()->backgroundColor() );
+      brush.setColor( listView()->viewport()->backgroundColor() );
       brush.setStyle( SolidPattern );
   }
   else
