@@ -1,5 +1,6 @@
-/* This file is part of the KDE project
-   Copyright (C) 1998, 1999 David Faure <faure@kde.org>
+/* -*- c-basic-offset: 2 -*-
+   This file is part of the KDE project
+   Copyright (C) 1998-2005 David Faure <faure@kde.org>
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public
@@ -427,6 +428,9 @@ void KonqView::connectPart(  )
       connect( ext, SIGNAL( enableAction( const char *, bool ) ),
                this, SLOT( slotEnableAction( const char *, bool ) ) );
 
+      connect( ext, SIGNAL( setActionText( const char *, const QString& ) ),
+               this, SLOT( slotSetActionText( const char *, const QString& ) ) );
+
       connect( ext, SIGNAL( moveTopLevelWidget( int, int ) ),
                this, SLOT( slotMoveTopLevelWidget( int, int ) ) );
 
@@ -482,6 +486,14 @@ void KonqView::slotEnableAction( const char * name, bool enabled )
 {
     if ( m_pMainWindow->currentView() == this )
         m_pMainWindow->enableAction( name, enabled );
+    // Otherwise, we don't have to do anything, the state of the action is
+    // stored inside the browser-extension.
+}
+
+void KonqView::slotSetActionText( const char* name, const QString& text )
+{
+    if ( m_pMainWindow->currentView() == this )
+        m_pMainWindow->setActionText( name, text );
     // Otherwise, we don't have to do anything, the state of the action is
     // stored inside the browser-extension.
 }
@@ -852,7 +864,7 @@ const HistoryEntry * KonqView::historyAt(const int pos)
 {
     if(pos<0 || pos>=(int)m_lstHistory.count())
 	return 0L;
-    int oldpos = m_lstHistory.at();     
+    int oldpos = m_lstHistory.at();
     const HistoryEntry* h = m_lstHistory.at(pos);
     m_lstHistory.at( oldpos );
     return h;

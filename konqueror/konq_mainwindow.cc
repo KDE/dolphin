@@ -4143,6 +4143,9 @@ void KonqMainWindow::connectExtension( KParts::BrowserExtension *ext )
           if ( it.key() != "trash" )
               connect( act, SIGNAL( activated() ), ext, it.data() /* SLOT(slot name) */ );
           act->setEnabled( ext->isActionEnabled( it.key() ) );
+          const QString text = ext->actionText( it.key() );
+          if ( !text.isEmpty() )
+              act->setText( text );
       } else
           act->setEnabled(false);
 
@@ -4205,6 +4208,18 @@ void KonqMainWindow::enableAction( const char * name, bool enabled )
   else if (m_paMoveFiles && !strcmp( name, "cut" ))
   {
     m_paMoveFiles->setEnabled( enabled );
+  }
+}
+
+void KonqMainWindow::setActionText( const char * name, const QString& text )
+{
+  KAction * act = actionCollection()->action( name );
+  if (!act)
+    kdWarning(1202) << "Unknown action " << name << " - can't enable" << endl;
+  else
+  {
+    kdDebug(1202) << "KonqMainWindow::setActionText " << name << " " << text << endl;
+    act->setText( text );
   }
 }
 
@@ -4949,6 +4964,8 @@ void KonqMainWindow::updateViewModeActions()
   }
 
 #ifndef NDEBUG
+  // Note that this can happen (map not empty) when a inode/directory view is removed,
+  // and remains in the KConfig file.
   Q_ASSERT( preferredServiceMap.isEmpty() );
   QMap<QString,QString>::Iterator debugIt = preferredServiceMap.begin();
   QMap<QString,QString>::Iterator debugEnd = preferredServiceMap.end();

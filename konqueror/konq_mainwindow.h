@@ -1,4 +1,5 @@
-/* This file is part of the KDE project
+/* -*- c-basic-offset:2 -*-
+   This file is part of the KDE project
    Copyright (C) 1998, 1999 Simon Hausmann <hausmann@kde.org>
    Copyright (C) 2000-2004 David Faure <faure@kde.org>
 
@@ -175,7 +176,7 @@ public:
   const MapViews & viewMap() const { return m_mapViews; }
 
   KonqView *currentView() const { return m_currentView; }
-  
+
   KParts::ReadOnlyPart *currentPart() const;
 
   /** URL of current part, or URLs of selected items for directory views */
@@ -236,6 +237,7 @@ public:
   KToggleAction * linkViewAction()const { return m_paLinkView; }
 
   void enableAction( const char * name, bool enabled );
+  void setActionText( const char * name, const QString& text );
 
   /**
    * The default settings "allow HTML" - the one used when creating a new view

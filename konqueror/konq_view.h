@@ -1,6 +1,6 @@
-/*
+/* -*- c-basic-offset: 2 -*-
  *  This file is part of the KDE project
- *  Copyright (C) 1998, 1999 David Faure <faure@kde.org>
+ *  Copyright (C) 1998-2005 David Faure <faure@kde.org>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -204,7 +204,7 @@ public:
    * Return the security state of page in view
    */
   KonqMainWindow::PageSecurity pageSecurity() const { return m_pageSecurity; }
-  
+
   /**
    * @return the part embedded into this view
    */
@@ -354,7 +354,7 @@ public slots:
   void setCaption( const QString & caption );
 
   void setPageSecurity( int );
-  
+
   // connected to the KROP's KIO::Job
   // but also to KonqRun's job
   void slotInfoMessage( KIO::Job *, const QString &msg );
@@ -375,6 +375,7 @@ protected slots:
   void slotMouseOverInfo( const KFileItem* item );
   void slotOpenURLNotify();
   void slotEnableAction( const char * name, bool enabled );
+  void slotSetActionText( const char* name, const QString& text );
   void slotMoveTopLevelWidget( int x, int y );
   void slotResizeTopLevelWidget( int w, int h );
   void slotRequestFocus(KParts::ReadOnlyPart*);
