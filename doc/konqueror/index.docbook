@@ -140,7 +140,7 @@ Konqueror Web Browser</guimenuitem></menuchoice> to start it as a browser, or
 </para></listitem>
 
 <listitem><para><keycombo
-action="simul"><keycap>Alt</keycap><keycap>F2</keycap></keycombo> will open a
+action="simul">&Alt;<keycap>F2</keycap></keycombo> will open a
 <guilabel>Run Command</guilabel> dialog box, type
 <userinput><command>konqueror</command></userinput> (lower case) and press
 <keycap>Enter</keycap> or the <guibutton>Run</guibutton> button to start in
@@ -179,9 +179,9 @@ bring up the neat Titlebar menu.</para>
 <para>The <interface>Menubar</interface> is the strip containing the names of
 the drop-down menus, <mousebutton>left</mousebutton> click on a name to 
 alternately show and hide that menu, or you can use <keycombo 
-action="simul"><keycap>Alt</keycap><keycap>the underlined 
+action="simul">&Alt;<keycap>the underlined 
 letter</keycap></keycombo> in the name as a hot key, for example <keycombo 
-action="simul"><keycap>Alt</keycap><keycap>E</keycap></keycombo> to show the 
+action="simul">&Alt;<keycap>E</keycap></keycombo> to show the 
 <guimenu>Edit</guimenu> menu. The various menus are described in the <link 
 linkend="menubar">Menubar</link> section of this document.</para>
 
@@ -273,12 +273,10 @@ button it should bring up a terse description of what that button does.</para>
 <para><guimenuitem>What's This?</guimenuitem> is invoked by the Menubar
 <menuchoice><guimenu>Help</guimenu><guimenuitem>What's This
 ?</guimenuitem></menuchoice> item, by
-<keycombo action="simul"><keycap>Shift</keycap><keycap>F1</keycap></keycombo>,
- or by
-just &LMB; clicking on the question mark near the top right hand corner of
- &konqueror;'s
-window. It changes the cursor to show a question mark alongside the
-arrow.</para>
+<keycombo action="simul">&Shift;<keycap>F1</keycap></keycombo>, or by 
+just &LMB; clicking on the question mark near the top right hand corner of 
+&konqueror;'s window. It changes the cursor to show a question mark alongside 
+the arrow.</para>
 
 <para>When this question mark is visible, a &LMB; click won't actually do
 anything until you have clicked on a control (or the text alongside it) that
@@ -628,7 +626,7 @@ find your way around the file system.</para>
 <para>You can go directly to any directory by typing its path into the
 Location Toolbar window or into the dialog box invoked by the Menubar
 <menuchoice><guimenu>Location</guimenu><guimenuitem>Open Location</guimenuitem>
-</menuchoice> item or by <keycombo action="simul"><keycap>Ctrl</keycap><keycap>
+</menuchoice> item or by <keycombo action="simul">&Ctrl;<keycap>
 O</keycap></keycombo>. &konqueror;'s <link linkend="path-complete">
 Text Completion</link> feature may be useful when you do this. Don't forget
 that in &Linux; / &UNIX; file and directory names are case sensitive.</para>
@@ -637,14 +635,14 @@ that in &Linux; / &UNIX; file and directory names are case sensitive.</para>
 previous choice by using the Toolbar <guiicon>Back</guiicon> button, the
 Menubar
 <menuchoice><guimenu>Go</guimenu> <guimenuitem>Back</guimenuitem></menuchoice>
-item, or <keycombo action="simul"><keycap>Alt</keycap><keysym>Left
+item, or <keycombo action="simul">&Alt;<keysym>Left
 Arrow</keysym></keycombo>.</para>
 
 <para>Once you have gone back you can go forward. Use the Toolbar
 <guiicon>Forward</guiicon> button, the Menubar
 <menuchoice><guimenu>Go</guimenu>
 <guimenuitem>Forward</guimenuitem></menuchoice> item or <keycombo
-action="simul"><keycap>Alt</keycap><keysym>Right
+action="simul">&Alt;<keysym>Right
 Arrow</keysym></keycombo>.</para>
 
 <tip><para>Holding the &LMB; pressed while the mouse pointer is
@@ -739,7 +737,7 @@ on separate lines
 </command> or <command>umount</command> commands, you may prefer to use
 &konqueror;'s <menuchoice><guimenu> Tools</guimenu><guimenuitem>Execute Shell
 Command</guimenuitem></menuchoice>
-(<keycombo action="simul"><keycap>Ctrl</keycap><keycap>E</keycap></keycombo>)
+(<keycombo action="simul">&Ctrl;<keycap>E</keycap></keycombo>)
  feature.
 </para></note>
 
@@ -788,10 +786,10 @@ Trash</guimenuitem>,
 <para><keycap>Del</keycap> will move a selected item or items to Trash.</para>
 
 <para><keycombo
-action="simul"><keycap>Shift</keycap><keycap>Del</keycap></keycombo> will
+action="simul">&Shift;<keycap>Del</keycap></keycombo> will
 really, truly and irrevocably delete the selected item or items.</para>
 
-<para><keycombo action="simul"><keycap>Ctrl</keycap><keycap>Shift</keycap>
+<para><keycombo action="simul">&Ctrl;&Shift;
 <keycap>Del</keycap></keycombo> will shred the selected item or items.</para>
 
 <note><para>You won't be able to remove a file or directory if you don't have
@@ -815,7 +813,7 @@ the &RMB;, which will bring up a menu containing the
 <menuchoice><guimenu>Edit</guimenu>
 <guimenuitem>Copy</guimenuitem></menuchoice>
 item, or the <keycombo
-action="simul"><keycap>Ctrl</keycap><keycap>C</keycap></keycombo> 
+action="simul">&Ctrl;<keycap>C</keycap></keycombo> 
 shortcut key combination.</para></listitem>
 
 <listitem><para>Navigate to the directory you want to copy the item into then
@@ -823,7 +821,7 @@ Paste the item into the new directory by using the Toolbar
 <guiicon>Paste</guiicon> button or the Menubar
 <menuchoice><guimenu>Edit</guimenu>
 <guimenuitem>Paste</guimenuitem></menuchoice> option or the <keycombo
-action="simul"><keycap>Ctrl</keycap><keycap>V</keycap></keycombo> shortcut, or by
+action="simul">&Ctrl;<keycap>V</keycap></keycombo> shortcut, or by
 moving the mouse pointer to a clear area of the window and holding the &RMB;
 down to bring up a menu containing the <guimenuitem>Paste</guimenuitem> option.
 </para></listitem>
@@ -833,7 +831,7 @@ down to bring up a menu containing the <guimenuitem>Paste</guimenuitem> option.
 same
 way as copying, except that you choose the <guimenuitem>Cut</guimenuitem>
 option
-or <keycombo action="simul"><keycap>Ctrl</keycap><keycap>X</keycap></keycombo>
+or <keycombo action="simul">&Ctrl;<keycap>X</keycap></keycombo>
 instead of <guimenuitem>Copy</guimenuitem>. The item that you have
 <guimenuitem>Cut</guimenuitem> will be removed from the original directory when
 you do the <guimenuitem>Paste</guimenuitem> into the new directory.</para>
@@ -886,7 +884,7 @@ its window and drag &amp; drop between them.</para>
 <menuchoice><guimenu>Window</guimenu> <guimenuitem>Split View
 Left/Right</guimenuitem></menuchoice> option, also available with the shortcut 
 <keycombo
-action="simul"><keycap>Ctrl</keycap><keycap>Shift</keycap><keycap>L</keycap>
+action="simul">&Ctrl;&Shift;<keycap>L</keycap>
 </keycombo>,
 to split the main &konqueror; window into two views, each showing the contents
 of a different directory.</para>
@@ -902,7 +900,7 @@ the little green light in the bottom left corner. To make a view active &LMB;
 click on an empty area of the view or on its Status Bar.</para>
 
 <para>To remove an active view from &konqueror;'s window use the <keycombo
-action="simul"><keycap>Ctrl</keycap><keycap>Shift</keycap><keycap>R</keycap>
+action="simul">&Ctrl;&Shift;<keycap>R</keycap>
 </keycombo> shortcut, or the Menubar <menuchoice><guimenu>Window</guimenu>
 <guimenuitem>Remove
 Active View</guimenuitem></menuchoice> option, or &RMB; click on the Status Bar
@@ -942,7 +940,7 @@ select multiple files based on similarities in their file names.</para>
 
 <para>Use the Menubar <menuchoice><guimenu>Edit</guimenu>
 <guimenuitem>Select...</guimenuitem></menuchoice> item or the shortcut <keycombo
-action="simul"><keycap>Ctrl</keycap><keycap>+</keycap></keycombo>. This brings 
+action="simul">&Ctrl;<keycap>+</keycap></keycombo>. This brings 
 up a little dialog box in which you enter a filename containing the wildcard
 characters <keycap>*</keycap>, which matches any number of characters, and
 <keycap>?</keycap> which matches a single character. Press
@@ -963,11 +961,11 @@ not <filename>memo99.txt</filename>.</para></listitem>
 selection
 by uing the Menubar <menuchoice><guimenu>Edit</guimenu>
 <guimenuitem>Unselect...</guimenuitem></menuchoice> option or <keycombo
-action="simul"><keycap>Ctrl</keycap><keycap>-</keycap></keycombo> to specify
+action="simul">&Ctrl;<keycap>-</keycap></keycombo> to specify
 which of the selected files should be removed from the selection.</para>
 
 <para>Use <keycombo
-action="simul"><keycap>Ctrl</keycap><keycap>U</keycap></keycombo> or the
+action="simul">&Ctrl;<keycap>U</keycap></keycombo> or the
 Menubar
 <menuchoice><guimenu>Edit</guimenu> <guimenuitem>Unselect
 All</guimenuitem></menuchoice> option or just &LMB; click on a clear area of
@@ -979,7 +977,7 @@ and
 select those that were previously unselected. Use the Menubar
 <menuchoice><guimenu>Edit</guimenu><guimenuitem>Invert
 Selection</guimenuitem></menuchoice> option or <keycombo
-action="simul"><keycap>Ctrl</keycap><keycap>*</keycap></keycombo> to do
+action="simul">&Ctrl;<keycap>*</keycap></keycombo> to do
 this.</para>
 
 <para>Once you have selected the right files then the normal delete, copy or
@@ -987,9 +985,9 @@ move commands will act on all of the selected files at once. </para>
 
 <note><para>Depending on your keyboard type and locale, you will probably find
 that the <keycombo
-action="simul"><keycap>Ctrl</keycap><keycap>+</keycap></keycombo>, <keycombo
-action="simul"><keycap>Ctrl</keycap><keycap>-</keycap></keycombo> and <keycombo
-action="simul"><keycap>Ctrl</keycap><keycap>*</keycap></keycombo> shorctuts 
+action="simul">&Ctrl;<keycap>+</keycap></keycombo>, <keycombo
+action="simul">&Ctrl;<keycap>-</keycap></keycombo> and <keycombo
+action="simul">&Ctrl;<keycap>*</keycap></keycombo> shorctuts 
 only work with the Numeric keypad <keycap>+</keycap>, <keycap>-</keycap> and
 <keycap>*</keycap> keys.</para></note>
 
@@ -1216,13 +1214,13 @@ command line level.</para>
 <para>She could, of course, open an instance of &konsole;, perhaps with
 &konqueror;'s Menubar <menuchoice><guimenu>Tools</guimenu><guimenuitem>Open
 Terminal</guimenuitem></menuchoice> option or with <keycombo
-action="simul"><keycap>Ctrl</keycap><keycap>T</keycap></keycombo>.</para>
+action="simul">&Ctrl;<keycap>T</keycap></keycombo>.</para>
 <para>If she only needs to execute a single shell command, then the 
 <menuchoice><guimenu>Tools</guimenu><guimenuitem>Execute Shell Command...
-</guimenuitem></menuchoice> (<keycombo action="simul"><keycap>Ctrl</keycap>
+</guimenuitem></menuchoice> (<keycombo action="simul">&Ctrl;
 <keycap>E</keycap></keycombo>) or the <menuchoice><guimenu>Tools</guimenu>
 <guimenuitem>Run Command</guimenuitem></menuchoice> (<keycombo action="simul">
-<keysym>Alt</keysym><keysym>F2</keysym></keycombo>) options may be easier.
+&Alt;<keysym>F2</keysym></keycombo>) options may be easier.
 </para>
 <para>For more complex operations, &konqueror; has another nice feature; the 
 Menubar <menuchoice><guimenu>Window</guimenu><guimenuitem>Show Terminal
@@ -1256,12 +1254,10 @@ you make in the normal file manager view.</para>
 
 <para>Once you are connected to the Internet you can use &konqueror; to browse
 the Web just as easily as you can use it to handle your local files. Just type
-a
-<acronym>URL</acronym> into the Location Toolbar window, press
+a <acronym>URL</acronym> into the Location Toolbar window, press
 <keycap>Enter</keycap>, and you are away!</para>
 
 <itemizedlist>
-
 <listitem><para>If you use a dial-up modem connection, then you will be using
 &kppp; or a similar dialer program to make the connection.</para></listitem>
 
@@ -1285,75 +1281,68 @@ user group mailing list for help.</para></listitem>
 </itemizedlist>
 
 <note><para>An error message such as <errorname>Unknown Host</errorname>
-usually
-means that &konqueror; cannot find a connection to the Internet or that you
-have
-entered an incorrect <acronym>URL</acronym>.</para></note>
+usually means that &konqueror; cannot find a connection to the Internet or that 
+you have entered an incorrect &URL;.</para></note>
 
 </sect1>
 
 <sect1 id="surf">
 <title>Surfing and Searching</title>
 
-<para>Once you have a connection to the Internet, then you can surf with
+<para>Once you have a connection to the Internet, you can surf with
 &konqueror; just as you can with any other browser.</para>
 
-<itemizedlist>
-<listitem><para>Type a &URL; into the Location Toolbar window, press
-<keycap>Enter</keycap>, and &konqueror; will download and display that
-page. You can use the auto &URL; completion feature to help
-you type, this is similar to the <link linkend="path-complete">auto Path
-completion</link> feature but bases its choices on your browsing
-history instead of your system file directories.</para></listitem>
+<para>Type a &URL; into the Location Toolbar window, press
+<keycap>Enter</keycap> or <mousebutton>left</mousebutton> click on the 
+<guibutton>Go</guibutton> button at the right hand end of the Location 
+Toolbar, and &konqueror; will download and display that page. 
+If you have visited the page before, &konqueror;'s 
+<link linkend="path-complete">Automatic Text Completion</link> feature can help 
+you type the &URL; a second time, or you could look through the 
+<guilabel>History</guilabel> page in the 
+<link linkend="sidebar">Navigation Panel</link>.</para>
 
-<listitem><para><mousebutton>Left</mousebutton> click on a link in the page to
- go there.</para></listitem>
+<para><mousebutton>Left</mousebutton> click on a link in the page to
+ go there.</para>
 
-<listitem><para>To open a link in a new instance of &konqueror;, leaving the
-old
-page still visible, then &RMB; click on the link and select the
-<guimenuitem>New
-Window</guimenuitem> option.</para>
+<para>To open a link in a new instance of &konqueror;, leaving the
+old page still visible, &RMB; click on the link and select the
+<guimenuitem>Open in New Window</guimenuitem> option.</para>
 
-<para>You can also select the multiple view mode with <keycombo
-action="simul"><keycap>Ctrl</keycap><keycap>Shift</keycap><keycap>L</keycap></keycombo>
-
-
-
-
-
+<para>You could also select the multiple view mode with <keycombo
+action="simul">&Ctrl;&Shift;<keycap>L</keycap>
+</keycombo>
 or the Menubar <menuchoice><guimenu>Window</guimenu> <guimenuitem>Split View
 Left/Right</guimenuitem></menuchoice> option which will let you see different
 pages at the same time. This can be useful if you are looking through a
 complicated set of <acronym>HTML</acronym> pages, but make sure the little link
 box at the bottom right hand corner is empty when you are doing
-this.</para></listitem>
-
-
-<listitem><para>To go back to the previous page use the <keycombo
-action="simul"><keycap>Alt</keycap><keysym>Left Arrow</keysym></keycombo>
-shortcut, the <guiicon>Back</guiicon> button on the Toolbar, or the Menubar
+this.</para>
+<para><link linkend="tabbrowse">Tabbed Browsing</link> will let 
+you hold a number of pages in one &konqueror; window and quickly switch 
+between them with a single mouse click.</para>
+<para>To go back to the previous page use the <keycombo
+action="simul">&Alt;<keysym>Left Arrow</keysym></keycombo>
+shortcut, the <guibutton>Back</guibutton> button on the Toolbar, or the Menubar
 <menuchoice><guimenu>Go</guimenu> <guimenuitem>Back</guimenuitem></menuchoice>
-option, just as you do when navigating through your own
-files.</para></listitem>
-<listitem><para>Similarly, once you have gone back you can go forward by using
-<keycombo action="simul"><keycap>Alt</keycap><keysym>Right
-Arrow</keysym></keycombo>, the <guiicon>Forward</guiicon> button, or the
+option.</para>
+<para>Similarly, once you have gone back you can go forward by using
+<keycombo action="simul">&Alt;<keysym>Right
+Arrow</keysym></keycombo>, the <guibutton>Forward</guibutton> button, or the
 Menubar
 <menuchoice><guimenu>Go</guimenu>
-<guimenuitem>Forward</guimenuitem></menuchoice> option.</para></listitem>
-</itemizedlist>
+<guimenuitem>Forward</guimenuitem></menuchoice> option.</para>
 
 <para>If you want to stop the download for any reason then use the
-<keycap>Esc</keycap> key, the Toolbar <guiicon>Stop</guiicon> button or the
+<keycap>Esc</keycap> key, the Toolbar <guibutton>Stop</guibutton> button or the
 Menubar <menuchoice><guimenu>View</guimenu>
 <guimenuitem>Stop</guimenuitem></menuchoice> item.</para>
 
 <para>When you are viewing a web page you should see two new icons in the
-Toolbar, looking like magnifying glasses with small <guiicon>+</guiicon> and
-<guiicon>-</guiicon> symbols. Use these to adjust the size of the text in the
-page if you find it difficult to read, although whether this works or not will
-depend on how the <acronym>HTML</acronym> page has been constructed.</para>
+Toolbar, looking like magnifying glasses with small <keysym>+</keysym> and
+<keysym>-</keysym> symbols. Use these to adjust the size of the text in the
+page if you find it difficult to read, how well this works will
+depend on how the web page has been constructed.</para>
 
 <para>Some people seem to spend more time searching for a web page than
 actually
@@ -1368,6 +1357,58 @@ entering
 more details about &konqueror;'s advanced search features see the <link
 linkend="configure-enhanced-browsing">Enhanced Browsing</link> section.</para>
 
+<sect2 id="tabbrowse">
+<title>Tabbed Browsing</title>
+<para>By using this feature you can make &konqueror; save downloaded web pages 
+so that you can then switch the view rapidly between them without having to 
+download the pages again.</para>
+<para>To use tabbed browsing, <mousebutton>right</mousebutton> click on a 
+link and choose <guimenuitem>Open in New Tab</guimenuitem> from the drop down 
+menu. The page will be downloaded and displayed as normal, but with tabs 
+across the top of the view, one tab for each page. <mousebutton>Left
+</mousebutton> click on a tab to view that page.</para>
+<para>The <guimenuitem>Open in Background Tab</guimenuitem> option in the 
+&RMB; menu also downloads the page and shows a new tab for it, but the new 
+page will not be displayed until you <mousebutton>left</mousebutton> click 
+on the tab.</para>
+<para><mousebutton>Right</mousebutton> clicking on a tab will bring up a 
+menu with the following options:</para>
+<variablelist>
+
+<varlistentry>
+<term><guimenuitem>New Tab</guimenuitem></term>
+<listitem><para>This opens a new, blank, tabbed page view. 
+You can then download a web page into it by typing the &URL; into the 
+Location Bar or by making a selection from the Bookmark Toolbar or the 
+<link linkend="sidebar">Navigation Panel</link> history page.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><guimenuitem>Duplicate Tab</guimenuitem></term>
+<listitem><para>To create a duplicate tabbed page.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><guimenuitem>Detach Tab</guimenuitem></term>
+<listitem><para>This option removes the selected tabbed 
+page from the current &konqueror; window and opens it in a new instance of 
+&konqueror;.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><guimenuitem>Close Tab</guimenuitem></term>
+<listitem><para>To close the selected tab page.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><guimenuitem>Close Other Tabs</guimenuitem></term>
+<listitem><para>To close all but the selected tab page.</para>
+</listitem>
+</varlistentry>
+
+</variablelist>
+
+</sect2>
 
 </sect1>
 
@@ -1375,7 +1416,7 @@ linkend="configure-enhanced-browsing">Enhanced Browsing</link> section.</para>
 <title>Saving and Printing Web Items</title>
 
 <para>When you are viewing a web page you can save it (or at least the basic
-<acronym>HTML</acronym> or similar source text) to your local disk with 
+<acronym>HTML</acronym> or similar source text) to your local disc with 
 <menuchoice><guimenu>Location</guimenu><guimenuitem>Save
 As...</guimenuitem></menuchoice>. If the page
 you are viewing uses frames, then you will also be given the
@@ -1388,18 +1429,33 @@ Menubar <menuchoice><guimenu>Location</guimenu><guimenuitem>Save Background
 Image As...</guimenuitem></menuchoice> option.</para>
 
 <para>But if what you really want is that glorious picture of the latest
-Ferrari, then &RMB; clicking on the image will give you a drop-down menu with a
-<guimenuitem>Save Image As...</guimenuitem> option. If you choose
-<guimenuitem>Copy Image Location</guimenuitem> instead then the
-<acronym>URL</acronym> will be copied into the clipboard so you can then paste
-it anywhere you wish. Be sure to respect the owners copyright, and ask for
-permission before using any pictures saved this way for anything other than
-your own viewing pleasure.</para>
+Ferrari, then <mousebutton>right</mousebutton> clicking on the image will 
+give you a drop-down menu with a
+<guimenuitem>Save Image As...</guimenuitem> option. Be sure to respect the 
+owner's copyright, and ask for permission before using any pictures saved this 
+way for anything other than your own viewing pleasure.</para>
 
-<para><mousebutton>Right</mousebutton> click on a link (which may be an image)
-and choose <guimenuitem>Copy Link Location</guimenuitem>. This copies the
-<acronym>URL</acronym> to the clipboard so you can then paste it into, say, an
+<para>If you <mousebutton>right</mousebutton> click on a link (which may be a 
+picture) and select <guimenuitem>Save Link As...</guimenuitem> from the pop 
+up menu the basic <acronym>HTML</acronym> or similar source text will be 
+downloaded and saved on your local disc.</para>
+
+<para><mousebutton>Right</mousebutton> clicking on a link (which may be a 
+picture) and choosing <guimenuitem>Copy Link Location</guimenuitem> will copy 
+the &URL; of the link to the clipboard so you can then paste it into, say, an
 e-mail to a friend telling her about this wonderful new site.</para>
+
+<para><mousebutton>Right</mousebutton> clicking on a picture and choosing 
+<guimenuitem>Copy Image Location</guimenuitem> copies the &URL; of the picture 
+to the clipboard.</para>
+
+<para>To save a complete web page, including images, select <guimenuitem>
+Archive Web Page...</guimenuitem> from the <guimenu>Tools</guimenu> menu. 
+Note that this feature is provided by a <link linkend="konq-plugin"> plugin 
+</link> and may not have been installed on your system. The web page will be 
+saved as a single file with a <literal role="extension">.war</literal> 
+extension and can be opened by <mousebutton>left</mousebutton> clicking 
+on the filename in &konqueror; running in File Manager mode.</para>
 
 <para>Printing a copy of the page you are viewing is easily done with the
 Menubar <menuchoice><guimenu>Location</guimenu>
@@ -1421,7 +1477,7 @@ as if they were on your own system, download them onto your computer using
 &konqueror;'s normal <guimenuitem>Copy</guimenuitem> and
 <guimenuitem>Paste</guimenuitem> or Drag 'n Drop methods and, if allowed,
 upload files from your machine to the other computer's filesystem. To try it, 
-type the <acronym>URL</acronym></para>
+type the &URL;</para>
 
 <screen>
 <userinput>ftp://ftp.kde.org/pub/kde</userinput>
@@ -1432,9 +1488,9 @@ connected to the Internet, and as long as the &kde;'s &FTP; site is not too
 busy, you should end up seeing the <filename
 class="directory">/pub/kde</filename> directory at ftp.kde.org</para>
 
-<note><para>Although, strictly speaking, &FTP; <acronym>URL</acronym>'s should
+<note><para>Although, strictly speaking, &FTP; &URL;s should
 be entered starting with <userinput>ftp://</userinput> and <abbrev>WWW</abbrev>
-<acronym>URL</acronym>s starting with <userinput>http://</userinput>
+&URL;s starting with <userinput>http://</userinput>
 &konqueror;
 is usually smart enough to figure out what is meant, and insert these
 characters
@@ -1456,12 +1512,12 @@ supply them.</para></note>
 <para>Sites that are more concerned with security will need a proper username
 and password, in which case &konqueror; will ask you for them or you can
 include
-the username in the <acronym>URL</acronym> you type into the Location Toolbar, as
-for
-example</para>
+the username in the &URL; you type into the Location Toolbar, as
+forexample</para>
 
 <screen>
-<userinput>ftp://<replaceable>username</replaceable>@ftp.cia.org</userinput></screen>
+<userinput>ftp://<replaceable>username</replaceable>@ftp.cia.org</userinput>
+</screen>
 
 <para>&konqueror; will then prompt you for the password.</para>
 
@@ -1469,54 +1525,62 @@ example</para>
 </chapter>
 
 <chapter id="path-complete">
-<title>Automatic Path Completion</title> 
+<title>Automatic Text Completion</title> 
 
-<para>You can get &konqueror; to help you when you are typing a path into the
+<para>You can get &konqueror; to help you enter a path or &URL; into the
 Location Toolbar by enabling one of the <guimenuitem>Text Completion</guimenuitem>
-features. To select how &konqueror; does this <mousebutton>right</mousebutton>
- click on a clear part of the Location Toolbar text entry box and select
-<guisubmenu>Text Completion</guisubmenu>. This will let you choose between the
-following possibilities:</para>
+features. To do this <mousebutton>right</mousebutton>
+ click on a clear part of the Location Toolbar text entry box and select 
+<guisubmenu>Text Completion</guisubmenu> from the pop up menu. This will let you 
+choose between the following options:</para>
 
 <variablelist>
 
 <varlistentry>
-<term>None</term>
+<term><guimenuitem>None</guimenuitem></term>
 <listitem><para>What you get is what you type.</para></listitem>
 </varlistentry>
 
 <varlistentry>
-<term>Manual</term>
-<listitem><para>Seems to be the same as None.</para></listitem> 
+<term><guimenuitem>Manual</guimenuitem></term>
+<listitem><para>When you have typed part of a path or &URL;, pressing 
+<keycombo>&Ctrl;<keycap>E</keycap></keycombo> will complete the entry if it is 
+possible to do so unambiguously.</para></listitem> 
 </varlistentry>
 
 <varlistentry>
-<term>Automatic</term>
-<listitem><para>As you type into the Location Toolbar window &konqueror; will
-automatically extend what you type to complete one possible name,  highlighting 
-the characters it has added. Continue typing if that's not what you 
-wanted or press <keycap>Enter</keycap> to accept it.</para></listitem>
+<term><guimenuitem>Automatic</guimenuitem></term>
+<listitem><para>As you type into the Location Toolbar window &konqueror; will 
+automatically extend what you type to complete one possible path or &URL;,  
+highlighting the characters it has added. Continue typing if that's not what 
+you wanted or press <keycap>Enter</keycap> to accept it.</para></listitem>
  </varlistentry>
 
 <varlistentry>
-<term>Drop-down List</term>
+<term><guimenuitem>Dropdown List</guimenuitem></term>
 <listitem><para>A drop-down window will appear as you type, showing the
-possible
-matches to what you have typed so far. When the path that you want appears in
-the window then double click on it with the &LMB;. Or you can use the
- <keysym>Down Arrow</keysym> and <keysym>Up Arrow</keysym>
+possible matches to what you have typed so far. When the path or &URL; that 
+you want appears in the window double click on it with the &LMB;. 
+You can also use the 
+<keysym>Down Arrow</keysym> and <keysym>Up Arrow</keysym>
 keys to select it then press <keycap>Enter</keycap>.</para></listitem>
 </varlistentry>
 
 <varlistentry>
-<term>Short Automatic</term>
-<listitem><para>This is like the Automatic mode except that it 
-restricts itself to more sensible suggestions.</para></listitem>
+<term><guimenuitem>Short Automatic</guimenuitem></term>
+<listitem><para>This is like Automatic mode except that it only extends 
+what you have typed as far as the next <keysym>/</keysym> symbol in the path 
+or &URL;. Press <keycombo>&Ctrl;<keycap>E</keycap></keycombo> to accept the 
+suggestion, <keycap>Enter</keycap> when the complete path or &URL; is 
+shown.</para></listitem>
 </varlistentry>
 
 </variablelist>
 <para>You should try out these different modes and pick the one that suits you
  best.</para>
+<para>The history of recently visited &URL;s that &konqueror; uses for the 
+Text Completion function can be viewed and edited in the <guilabel>History
+</guilabel> page of the <link linkend="sidebar">Navigation Panel</link>.</para>
 </chapter>
 
 <chapter id="bookmarks">
@@ -1528,101 +1592,108 @@ Web, letting you build up a list of useful sites.</para>
 
 <para>To open the <guimenu>Bookmarks</guimenu> drop-down list you may either
 <mousebutton>left</mousebutton> click on the Menubar
-<guimenu>Bookmarks</guimenu> item, or use the <keycombo
-action="simul"><keycap>Alt</keycap><keycap>B</keycap></keycombo> shortcut. Once
+<guimenu>Bookmarks</guimenu> item or use the <keycombo
+action="simul">&Alt;<keycap>B</keycap></keycombo> shortcut. Once
 the list is visible, you can navigate through it with the arrow keys or with
 your mouse, then press <keycap>Enter</keycap> or
 <mousebutton>left</mousebutton> click to visit the selected location.</para>
 
-<para>To add a new item to the list use
-<menuchoice><guimenu>Bookmarks</guimenu>
-<guimenuitem>Add Bookmark</guimenuitem></menuchoice> or <keycombo
-action="simul"><keycap>Ctrl</keycap><keycap>B</keycap></keycombo> or
-<mousebutton>right</mousebutton> click and select <guimenuitem>Add To
-Bookmarks</guimenuitem> when you are viewing the desired directory or web
-page.</para>
+<para>To add a new item to the list use <menuchoice><guimenu>Bookmarks
+</guimenu> <guimenuitem>Add Bookmark</guimenuitem></menuchoice> or 
+<keycombo action="simul">&Ctrl;<keycap>B</keycap></keycombo> or
+<mousebutton>right</mousebutton> click on a clear space in the web page or 
+directory view and select <guimenuitem>Add To Bookmarks</guimenuitem> from 
+the pop up menu.</para>
 
-<para>The <guimenu>Bookmarks</guimenu> list can contain folders containing
-other bookmarks.</para>
+<para>The <guimenu>Bookmarks</guimenu> list can contain sub folders containing 
+other bookmarks, you can create these with <menuchoice><guimenu>Bookmarks 
+</guimenu><guimenuitem>New Bookmark Folder...</guimenuitem></menuchoice> . 
+To add a bookmark into a sub folder rather than into the main Bookmark list, 
+select the folder from within the <guimenu>Bookmarks</guimenu> list and use 
+the <guimenuitem>Add Bookmark</guimenuitem> item in that folder.</para>
 
-<itemizedlist>
-<listitem><para>If you are also using &Netscape;, then a &Netscape; Bookmarks
-folder can be added to &konqueror;'s bookmark list so you can use
-your current &Netscape; bookmarks in &konqueror;.  </para></listitem>
-<listitem><para>Items in your Bookmark Toolbar will usually appear in a 
-Bookmark folder 
-called <quote>Toolbar</quote> although this can be changed 
-with the <guilabel>Bookmark Editor</guilabel>.</para></listitem> 
-<listitem><para>To add a bookmark into a sub-folder rather than into the main 
-Bookmark list, select the folder from the <guimenu>Bookmarks</guimenu> menu and
- 
-use the <guimenuitem>Add Bookmark</guimenuitem> item in that 
-folder.</para></listitem></itemizedlist>
+<para>The items that appear in your Bookmark Toolbar are held in a sub folder, 
+usually called <quote>Toolbar</quote> although this can be changed 
+with the <guilabel>Bookmark Editor</guilabel>.</para>
 
-<para>If you have a dual-boot &Linux;/&Windows; system, then
-<application>Internet Explorer</application>'s
-<menuchoice><guimenu>File</guimenu><guisubmenu>Import and
-Export</guisubmenu><guimenuitem>Export Favorites</guimenuitem></menuchoice>
-option will create a <literal role="extension">.htm</literal> file containing links to your
-<application>IE</application> favourites. From within &konqueror; you can then,
-as long as you have access to the <application>Windows</application> partition,
-find that file and add it to your bookmarks. In this way you can access all of
-your old <application>IE</application> favourites.</para>
+<para>You can also access your bookmarks from the <link linkend="sidebar">
+<guilabel>Navigation Panel</guilabel></link>.</para>
+
 <sect1 id="orgbmark">
-<title>Organising Your Bookmarks</title>
+<title>The Bookmark Editor</title>
 
 <para>The <menuchoice><guimenu>Bookmarks</guimenu> <guimenuitem>Edit
 Bookmarks</guimenuitem> </menuchoice> option opens the <guilabel>Bookmark
-Editor</guilabel> in a new window. Here is where you can:</para>
+Editor</guilabel>.</para>
+<para>This shows a tree view of your bookmarks and bookmark sub folders. 
+As is usual for tree views in &kde; sub folders are shown with a small square 
+at the left of the folder name; if the square contains a <keysym>+</keysym> 
+sign <mousebutton>left</mousebutton> clicking on it will expand the view to 
+show the contents of that sub folder and the <keysym>+</keysym> sign will 
+change to <keysym>-</keysym>, <mousebutton>left</mousebutton> clicking on the 
+<keysym>-</keysym> sign will collapse the sub folder view.</para>
 
-<itemizedlist>
-<listitem><para>Move items around, with Drag 'n Drop or by using
-<guimenuitem>Cut</guimenuitem> and <guimenuitem>Paste</guimenuitem>, or
-<guimenuitem>Delete</guimenuitem> unwanted bookmarks and folders. The order in
-the <guilabel>Bookmark Editor</guilabel> is the order they will appear in the
-<guimenu>Bookmarks</guimenu> drop down list. You can make the list look even
-neater by including the occasional separator with the
-<menuchoice><guimenu>Insert</guimenu><guimenuitem>Insert
-Separator</guimenuitem></menuchoice> option.</para></listitem>
+<para>To select an item in the list you can <mousebutton>left</mousebutton> 
+click on it, or you can navigate through the list by using the <keysym>
+Up arrow</keysym> and <keysym>Down arrow</keysym> keys to move around, 
+<keysym>Right arrow</keysym> to expand a sub folder and <keysym>
+Left arrow</keysym> to collapse it.</para>
 
-<listitem><para>Create new folders and sub folders using the
-<guimenuitem>Create
-New Folder</guimenuitem> option in the <guimenu>Insert</guimenu> menu or from
-the
-drop down menu you get when you <mousebutton>right</mousebutton> click on the
-main part of the window, or with <keycombo
-action="simul"><keycap>Ctrl</keycap><keycap>N</keycap></keycombo></para></listitem>
+<para>You can move an item to a different place in the list by using the 
+normal Drag and Drop or <guimenuitem>Cut</guimenuitem> and <guimenuitem>
+Paste</guimenuitem> methods. The order in which the items appear in 
+the <guilabel>Bookmark Editor</guilabel> is the order they will appear in the 
+<guimenu>Bookmarks</guimenu> drop down list. The <menuchoice><guimenu>Insert
+</guimenu><guimenuitem>Insert Separator</guimenuitem></menuchoice> option can 
+be used to insert separating lines into the list wherever you wish.</para>
 
-<listitem><para>Change a bookmark's name by selecting an item and using
-<keycap>F2</keycap> or the
-<menuchoice><guimenu>Edit</guimenu><guimenuitem>Rename</guimenuitem></menuchoice>
-option or by <mousebutton>right</mousebutton> clicking on the item and
-selecting <guimenuitem>Rename</guimenuitem>. Or change the
-<acronym>URL</acronym> with 
-<menuchoice><guimenu>Edit</guimenu><guimenuitem>Change
-URL</guimenuitem></menuchoice> 
-or <keycap>F3</keycap></para></listitem>
+<para>A new sub folder can be created at the selected point in the list by 
+using the <guimenuitem>Create New Folder...</guimenuitem> option in the 
+<guimenu>Insert</guimenu> menu or from the drop down menu you get when you 
+<mousebutton>right</mousebutton> click on an item in the main part of the 
+window, or with <keycombo action="simul">&Ctrl;<keycap>N</keycap></keycombo>
+</para>
 
-<listitem><para>Change the folder used to hold the Bookmark Toolbar 
-items by selecting that folder then <mousebutton>left</mousebutton> click on
-the
- 
-<guimenuitem>Set As Toolbar Folder</guimenuitem> in the 
-<guimenu>Edit</guimenu> menu.</para></listitem> 
+<para>To change the name of a bookmark or folder select it then press 
+<keysym>F2</keysym> or choose the <guimenuitem>Rename</guimenuitem> item from 
+the <guimenu>Edit</guimenu> menu or the pop up menu that appears when you 
+<mousebutton>right</mousebutton> click on the item. Similarly, you can edit 
+the &URL; by pressing <keysym>F3</keysym> or choosing the <guimenuitem>
+Rename URL</guimenuitem> menu item.</para>
 
-<listitem><para>Import or export &Netscape; and 
-Mozilla bookmarks.</para></listitem> 
+<para>The <guilabel>Bookmark Editor</guilabel> lets you import bookmarks from 
+a range of other browsers into &konqueror;'s bookmark list, putting them into 
+ a new folder or replacing all current bookmarks. To do this select 
+<guisubmenu>Import</guisubmenu> from the <guimenu>File</guimenu> menu. The 
+<menuchoice><guimenu>File</guimenu><guisubmenu>Export</guisubmenu>
+</menuchoice> option can be used to export &konqueror;'s bookmarks to a 
+&Netscape; or Mozilla browser.</para>
 
-</itemizedlist>
+<para>If you often use the &Netscape; browser as well as &konqueror;, then 
+rather than importing your &Netscape; bookmarks into &konqueror; it is 
+better to select the <guimenuitem>Show Netscape Bookmarks in Konqueror 
+Windows</guimenuitem> item in the <guimenu>Settings</guimenu> menu. If you 
+do this any updates to &Netscape;'s bookmarks are automatically seen by 
+&konqueror;.</para>
 
-<note><para>If you can't get the Bookmark Toolbar to appear when 
-you check the <guimenuitem>Show Bookmark Toolbar</guimenuitem> box in 
-&konqueror;'s <guimenu>Settings</guimenu> menu then select a suitable folder in 
-the <guilabel>Bookmark Editor</guilabel> and <mousebutton>left</mousebutton> 
-click on the <guimenuitem>Set As Toolbar Folder</guimenuitem> in the 
-<guimenu>Edit</guimenu> menu.</para></note>
+<para>To select which bookmark sub folder is used to hold the Bookmark 
+Toolbar items select the sub folder then choose <guimenuitem>Set as Toolbar 
+Folder</guimenuitem> from the <guimenu>Edit</guimenu> menu.</para>
 
+<para>If you are tidying up your bookmarks and have forgotten what a 
+particular web page is, you can easily open it from within the <guilabel>
+Bookmark Editor</guilabel> by <mousebutton>right</mousebutton> clicking 
+on the item and selecting <guimenuitem>Open in Konqueror</guimenuitem> from 
+the pop up menu. If you just want to check that the &URL; is still valid 
+select <guimenuitem>Check Status</guimenuitem> instead.</para>
+
+<important><para>Don't forget to save your changes with <menuchoice>
+<guimenu>File</guimenu><guimenuitem>Save</guimenuitem></menuchoice> or 
+<keycombo action="simul">&Ctrl;<keycap>S</keycap></keycombo> before you leave 
+the <guilabel>Bookmark Editor</guilabel>.
+</para></important>
 </sect1> 
+
 </chapter>
 
 
@@ -1684,7 +1755,7 @@ sub-directory. Once you have reached the wanted item then
 <para>The Bookmarks tree contains your bookmarks, just as displayed by the
  <guimenu>Bookmarks</guimenu> menu.</para>
 
-<para>The History tree contains <acronym>URL</acronym>s for
+<para>The History tree contains &URL;s for
 the most recently visited web sites.</para>
 
 <para>The Home Directory tree shown in the <interface>Navigation
@@ -1748,7 +1819,7 @@ one
 of two profiles, depending on whether you start it as a File Manager or as a
 Browser. These control the window size, whether the window is split into two or
 more views, whether the Sidebar or Terminal Emulator are shown, and the
-starting directory or <acronym>URL</acronym>.</para>
+starting directory or &URL;.</para>
 
 <para>To change this start up behaviour, simply set &konqueror; to whatever you
 want, then in the <guimenu>Window</guimenu> menu select <guimenuitem>Save View
@@ -2825,7 +2896,7 @@ folders.</action></para></listitem>
 <varlistentry>
 <term><menuchoice>
 <shortcut>
-<keycombo action="simul"><keycap>Ctrl</keycap><keycap>U</keycap></keycombo>
+<keycombo action="simul">&Ctrl;<keycap>U</keycap></keycombo>
 </shortcut><guimenu>Edit</guimenu>
 <guimenuitem>Select All</guimenuitem>
 </menuchoice></term>
@@ -2837,7 +2908,7 @@ a text editor.</para></listitem> </varlistentry>
 <varlistentry>
 <term><menuchoice>
 <shortcut>
-<keycombo action="simul"><keycap>Ctrl</keycap><keycap>F</keycap></keycombo>
+<keycombo action="simul">&Ctrl;<keycap>F</keycap></keycombo>
 </shortcut><guimenu>Edit</guimenu>
 <guimenuitem>Find</guimenuitem>
 </menuchoice></term>
@@ -2849,7 +2920,7 @@ page.</para></listitem>
 <varlistentry>
 <term><menuchoice>
 <shortcut>
-<keycombo action="simul"><keycap>Ctrl</keycap><keycap>F</keycap></keycombo>
+<keycombo action="simul">&Ctrl;<keycap>F</keycap></keycombo>
 </shortcut>
 <guimenu>Edit</guimenu>
 <guimenuitem>Find in Frame</guimenuitem>
@@ -3316,7 +3387,7 @@ Toolbar.</action></para></listitem> </varlistentry>
 see and change &konqueror;'s shortcut key bindings</action>, i.e. the
 associations between actions such as <guimenuitem>Copy</guimenuitem> and keys
 or combinations of keys such a <keycombo
-action="simul"><keycap>Ctrl</keycap><keycap>V</keycap></keycombo>. If you do 
+action="simul">&Ctrl;<keycap>V</keycap></keycombo>. If you do 
 this take care not to duplicate an existing shortcut.</para>
 </listitem></varlistentry>
 
