@@ -270,8 +270,6 @@ KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const 
     //connect( m_paBottomText, SIGNAL( toggled( bool ) ), this, SLOT( slotTextBottom( bool ) ) );
     //connect( m_paRightText, SIGNAL( toggled( bool ) ), this, SLOT( slotTextRight( bool ) ) );
 
-    //
-
     connect( m_pIconView, SIGNAL( executed( QIconViewItem * ) ),
              this, SLOT( slotReturnPressed( QIconViewItem * ) ) );
     connect( m_pIconView, SIGNAL( returnPressed( QIconViewItem * ) ),
@@ -288,11 +286,37 @@ KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const 
     connect( m_pIconView, SIGNAL( mouseButtonClicked(int, QIconViewItem*, const QPoint&)),
              this, SLOT( slotMouseButtonClicked(int, QIconViewItem*, const QPoint&)) );
 
+    // Create the directory lister
+    m_dirLister = new KDirLister( true );
+
+    connect( m_dirLister, SIGNAL( started( const KURL & ) ),
+             this, SLOT( slotStarted() ) );
+    connect( m_dirLister, SIGNAL( completed() ), this, SLOT( slotCompleted() ) );
+    connect( m_dirLister, SIGNAL( canceled() ), this, SLOT( slotCanceled() ) );
+    connect( m_dirLister, SIGNAL( clear() ), this, SLOT( slotClear() ) );
+    connect( m_dirLister, SIGNAL( newItems( const KFileItemList& ) ),
+             this, SLOT( slotNewItems( const KFileItemList& ) ) );
+    connect( m_dirLister, SIGNAL( deleteItem( KFileItem * ) ),
+             this, SLOT( slotDeleteItem( KFileItem * ) ) );
+    connect( m_dirLister, SIGNAL( refreshItems( const KFileItemList& ) ),
+             this, SLOT( slotRefreshItems( const KFileItemList& ) ) );
+    connect( m_dirLister, SIGNAL( redirection( const KURL & ) ),
+             this, SLOT( slotRedirection( const KURL & ) ) );
+    connect( m_dirLister, SIGNAL( closeView() ),
+             this, SLOT( slotCloseView() ) );
+    connect( m_dirLister, SIGNAL( itemsFilteredByMime(const KFileItemList& ) ),
+             SIGNAL( itemsFilteredByMime(const KFileItemList& ) ) );
+    connect( m_dirLister, SIGNAL( infoMessage( const QString& ) ),
+             extension(), SIGNAL( infoMessage( const QString& ) ) );
+    connect( m_dirLister, SIGNAL( percent( int ) ),
+             extension(), SIGNAL( loadingProgress( int ) ) );
+    connect( m_dirLister, SIGNAL( speed( int ) ),
+             extension(), SIGNAL( speedProgress( int ) ) );
+
     // Now we may react to configuration changes
     m_bInit = false;
 
-    m_dirLister = 0L;
-    m_bLoading = false;
+    m_bLoading = true;
     m_bNeedAlign = false;
     m_bNeedEmitCompleted = false;
     m_pIconView->setResizeMode( QIconView::Adjust );
@@ -315,7 +339,7 @@ KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const 
 KonqKfmIconView::~KonqKfmIconView()
 {
     kdDebug(1202) << "-KonqKfmIconView" << endl;
-    if ( m_dirLister ) m_dirLister->disconnect( this );
+    m_dirLister->disconnect( this );
     delete m_dirLister;
     delete m_mimeTypeResolver;
     delete m_pProps;
@@ -518,8 +542,7 @@ void KonqKfmIconView::newIconSize( int size )
 
 bool KonqKfmIconView::doCloseURL()
 {
-    if ( m_dirLister )
-      m_dirLister->stop();
+    m_dirLister->stop();
     
     m_mimeTypeResolver->m_lstPendingMimeIconItems.clear();
     m_pIconView->stopImagePreview();
@@ -567,7 +590,6 @@ void KonqKfmIconView::slotMouseButtonPressed(int _button, QIconViewItem* _item, 
         }
         else
         {
-            if (!m_dirLister) return;
             // Right click on viewport
             KFileItem * item = m_dirLister->rootItem();
             bool delRootItem = false;
@@ -799,38 +821,6 @@ void KonqKfmIconView::slotRenderingFinished()
 
 bool KonqKfmIconView::doOpenURL( const KURL & url )
 {
-    if ( !m_dirLister )
-    {
-        // Create the directory lister
-        m_dirLister = new KDirLister( true );
-
-        connect( m_dirLister, SIGNAL( started( const KURL & ) ),
-                 this, SLOT( slotStarted() ) );
-        connect( m_dirLister, SIGNAL( completed() ), this, SLOT( slotCompleted() ) );
-        connect( m_dirLister, SIGNAL( canceled() ), this, SLOT( slotCanceled() ) );
-        connect( m_dirLister, SIGNAL( clear() ), this, SLOT( slotClear() ) );
-        connect( m_dirLister, SIGNAL( newItems( const KFileItemList& ) ),
-                 this, SLOT( slotNewItems( const KFileItemList& ) ) );
-        connect( m_dirLister, SIGNAL( deleteItem( KFileItem * ) ),
-                 this, SLOT( slotDeleteItem( KFileItem * ) ) );
-        connect( m_dirLister, SIGNAL( refreshItems( const KFileItemList& ) ),
-                 this, SLOT( slotRefreshItems( const KFileItemList& ) ) );
-        connect( m_dirLister, SIGNAL( redirection( const KURL & ) ),
-                 this, SLOT( slotRedirection( const KURL & ) ) );
-        connect( m_dirLister, SIGNAL( closeView() ),
-                 this, SLOT( slotCloseView() ) );
-        connect( m_dirLister, SIGNAL( itemsFilteredByMime(const KFileItemList& ) ),
-                 SIGNAL( itemsFilteredByMime(const KFileItemList& ) ) );
-
-        connect( m_dirLister, SIGNAL( infoMessage( const QString& ) ),
-                 extension(), SIGNAL( infoMessage( const QString& ) ) );
-        connect( m_dirLister, SIGNAL( percent( int ) ),
-                 extension(), SIGNAL( loadingProgress( int ) ) );
-        connect( m_dirLister, SIGNAL( speed( int ) ),
-                 extension(), SIGNAL( speedProgress( int ) ) );
-
-    }
-
     // Store url in the icon view
     m_pIconView->setURL( url );
 
@@ -845,7 +835,7 @@ bool KonqKfmIconView::doOpenURL( const KURL & url )
 
     m_dirLister->setMimeFilter( mimeFilter() );
 
-    // This *must* happen before m_dirlister->openURL because it emits
+    // This *must* happen before m_dirLister->openURL because it emits
     // clear() and QIconView::clear() calls setContentsPos(0,0)!
     if ( m_extension->urlArgs().reload )
     {
@@ -884,14 +874,12 @@ bool KonqKfmIconView::doOpenURL( const KURL & url )
 
 void KonqKfmIconView::slotKFindOpened()
 {
-    if ( m_dirLister )
-        m_dirLister->setAutoUpdate( false );
+    m_dirLister->setAutoUpdate( false );
 }
 
 void KonqKfmIconView::slotKFindClosed()
 {
-    if ( m_dirLister )
-        m_dirLister->setAutoUpdate( true );
+    m_dirLister->setAutoUpdate( true );
 }
 
 void KonqKfmIconView::slotOnItem( QIconViewItem *item )
