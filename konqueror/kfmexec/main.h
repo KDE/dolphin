@@ -24,7 +24,7 @@ protected:
     int counter;
     int expectedCounter;
     QString command;
-    QString files;
+    QStringList params;
     QStringList fileList;
     KURL::List urlList;
 };

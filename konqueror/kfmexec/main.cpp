@@ -79,11 +79,7 @@ KFMExec::KFMExec()
         if ( url.isLocalFile() )
         {
             QString tmp( shellQuote( url.path() ) );
-            if ( !files.isEmpty() )
-                files += " ";
-            files += "\"";
-            files += tmp;
-            files += "\"";
+            params.append(tmp);
         }
         // It is an URL
         else
@@ -100,12 +96,7 @@ KFMExec::KFMExec()
                 // (Some programs rely on it)
                 QString tmp = locateLocal( "appdata", "tmp/" ) +
                               QString("%1.%2.%3").arg(getpid()).arg(jobCounter++).arg(url.fileName());
-                if ( !files.isEmpty() )
-                    files += " ";
-                files += "\"";
-                files += tmp;
-                files += "\"";
-                kdDebug() << "files= " << files << endl;
+                params.append(tmp);
                 fileList.append( tmp );
                 urlList.append( url );
 
@@ -128,7 +119,14 @@ KFMExec::KFMExec()
 void KFMExec::slotResult( KIO::Job * job )
 {
     if (job && job->error())
+    {
         job->showErrorDialog();
+        QStringList::Iterator it = params.find( static_cast<KIO::FileCopyJob*>(job)->destURL().path() );
+        if ( it != params.end() )
+           params.remove( it );
+        else
+           kdDebug() <<  static_cast<KIO::FileCopyJob*>(job)->destURL().path() << " not found in list" << endl;
+    }
 
     counter++;
 
@@ -143,6 +141,9 @@ void KFMExec::slotResult( KIO::Job * job )
 
 void KFMExec::slotRunApp()
 {
+    if ( params.isEmpty() )
+      exit(1);
+
     int pos;
     while ( ( pos = command.find( "%f" )) != -1 )
       command.replace( pos, 2, "" );
@@ -150,6 +151,17 @@ void KFMExec::slotRunApp()
       command.replace( pos, 2, "" );
 
     command.append( " " );
+    QString files;
+    QStringList::ConstIterator cmdit = params.begin();
+    for ( ; cmdit != params.end() ; ++cmdit ) 
+    {
+        if ( !files.isEmpty() )
+            files += " ";
+        files += "\"";
+        files += *cmdit;
+        files += "\"";
+    }
+    kdDebug() << "files= " << files << endl;
     command.append( files );
 
     // Store modification times
@@ -198,11 +210,8 @@ void KFMExec::slotRunApp()
         }
     }
 
-    kdDebug() << "Finished, quitting." << endl;
-    kapp->quit();
-    kdDebug() << "Still here..." << endl;
+    //kapp->quit(); not efficient enough
     exit(0);
-    kdDebug() << "Not here..." << endl;
 }
 
 QString KFMExec::shellQuote( const QString & data )
