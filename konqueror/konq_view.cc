@@ -124,7 +124,7 @@ void KonqView::openURL( const KURL &url, const QString & locationBarURL, const Q
   //             & in destructor & in the importer
   if (KonqMainWindow::s_crashlog_file) {
      QString part_url = (m_pPart)?(m_pPart->url().url()):(QString(""));
-     QCString lines = ( QString("opened(%1):%2\nclosed(%3):%4\n")
+     QCString lines = ( QString("closed(%1):%2\nopened(%3):%4\n")
                            .arg(m_randID,0,16).arg(part_url)
                            .arg(m_randID,0,16).arg(url.url()) ).utf8();
      KonqMainWindow::s_crashlog_file->writeBlock(lines,lines.length());
