@@ -18,7 +18,7 @@ KDEpasswd1Dialog::KDEpasswd1Dialog(QCString user)
 {
     m_User = user;
 
-    setCaption(i18n("Change password"));
+    setCaption(i18n("Change Password"));
     setPrompt(i18n("Please enter your current password."));
 }
 
@@ -78,7 +78,7 @@ KDEpasswd2Dialog::KDEpasswd2Dialog(const char *oldpass, QCString user)
     m_Pass = oldpass;
     m_User = user;
 
-    setCaption(i18n("Change password"));
+    setCaption(i18n("Change Password"));
     setPrompt(i18n("Please enter your new password."));
 }
 
