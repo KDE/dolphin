@@ -249,13 +249,16 @@ void KCookiesPolicies::updateDomainList(const QStringList &domainConfig)
   for (; it != domainConfig.end(); ++it)
   {
     QString domain;
-    KCookieAdvice::Value advice;
-    QListViewItem *index;
+    KCookieAdvice::Value advice = KCookieAdvice::Dunno;
 
     splitDomainAdvice(*it, domain, advice);
-    index = new QListViewItem( dlg->lvDomainPolicy, KIDNA::toUnicode(domain),
-                                i18n(KCookieAdvice::adviceToStr(advice)) );
-    m_pDomainPolicy[index] = KCookieAdvice::adviceToStr(advice);
+
+    if (!domain.isEmpty())
+    {
+        QListViewItem* index = new QListViewItem( dlg->lvDomainPolicy, KIDNA::toUnicode(domain),
+                                                  i18n(KCookieAdvice::adviceToStr(advice)) );
+        m_pDomainPolicy[index] = KCookieAdvice::adviceToStr(advice);
+    }
   }
 }
 
