@@ -262,6 +262,7 @@ void KUserInfoConfig::slotChangePassword()
 
   if (dlg->result() == KDEpasswd2Dialog::Accepted)
     KMessageBox::information(0L, i18n("Your password has been changed."));
+  delete dlg;
 }
 
 void KUserInfoConfig::defaults()
