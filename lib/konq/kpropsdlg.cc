@@ -65,6 +65,7 @@
 #include <kglobal.h>
 #include <kstddirs.h>
 #include <kio/job.h>
+#include <kio/renamedlg.h>
 #include <kfiledialog.h>
 #include <kmimetype.h>
 #include <kmessagebox.h>
@@ -510,12 +511,49 @@ void FilePropsPage::applyChanges()
     properties->rename( n );
 
     // Don't remove the template !!
-    if ( !m_bFromTemplate ) {
+    if ( !m_bFromTemplate ) { // (normal renaming)
         job = KIO::move( oldurl, properties->kurl() );
         connect( job, SIGNAL( sigFinished( KIO::Job * ) ),
                  SLOT( slotRenameFinished( KIO::Job * ) ) );
         kDebugInfo(1202,"oldpath = %s",oldurl.url().ascii());
         kDebugInfo(1202,"newpath = %s",properties->kurl().url().ascii());
+    } else // (writing stuff from a template)
+    {
+        bool bOk;
+        do {
+            // No support for remote urls
+            // We could, but first I'd like to see WHO needs that.
+            if ( !properties->kurl().isLocalFile() )
+            {
+                KMessageBox::error( 0, i18n( "Can't generate a remote file from a template (not implemented)" ) );
+                return;
+            }
+            // We need to check that the destination doesn't exist
+            QString path = properties->kurl().path();
+            bOk = true;
+            if ( QFile::exists( path ) )
+            {
+                QString newDest;
+                KIO::RenameDlg_Result res = KIO::open_RenameDlg(
+                    oldurl.decodedURL(),
+                    path,
+                    (KIO::RenameDlg_Mode) (KIO::M_OVERWRITE | KIO::M_SINGLE),
+                    true, // well we assume that src is newer
+                    newDest
+                    );
+                switch (res) {
+                    case KIO::R_RENAME:
+                        properties->updateUrl( newDest );
+                        bOk = false; // we need to check this new dest...
+                        break;
+                    case KIO::R_OVERWRITE:
+                        break; //just do it
+                    case KIO::R_CANCEL:
+                    default:
+                        return;
+                }
+            }
+        } while (!bOk);
     }
   }
 
@@ -552,8 +590,9 @@ void FilePropsPage::slotRenameFinished( KIO::Job * job )
     properties->updateUrl( KURL( path ) );
   }
 
-  // handle icon changes
-  if (!iconArea->isA("QLabel")) {
+  // handle icon changes - only local files for now
+  // TODO: Use KTempFile and KIO::file_copy with resume = true
+  if (!iconArea->isA("QLabel") && properties->kurl().isLocalFile()) {
     KIconLoaderButton *iconButton = (KIconLoaderButton *) iconArea;
     QString path;
 
