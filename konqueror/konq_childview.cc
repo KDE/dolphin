@@ -169,13 +169,12 @@ bool KonqChildView::changeViewMode( const QString &serviceType,
 void KonqChildView::connectView(  )
 {
 
-  connect( m_pView, SIGNAL( started() ),
-           m_pMainView, SLOT( slotStarted() ) );
+  connect( m_pView, SIGNAL( started( int ) ),
+           m_pMainView, SLOT( slotStarted( int ) ) );
   connect( m_pView, SIGNAL( completed() ),
            m_pMainView, SLOT( slotCompleted() ) );
-  #warning "FIXME: obey errormsg!"
   connect( m_pView, SIGNAL( canceled( const QString & ) ),
-           m_pMainView, SLOT( slotCanceled() ) );
+           m_pMainView, SLOT( slotCanceled( const QString & ) ) );
 
   KParts::BrowserExtension *ext = browserExtension();
 

@@ -674,7 +674,8 @@ void KonqMainView::slotViewChanged( KParts::ReadOnlyPart *oldView, KParts::ReadO
   m_pViewManager->addPart( newView, true );
 }
 
-void KonqMainView::slotStarted()
+
+void KonqMainView::slotStarted( int jobId )
 {
   KParts::ReadOnlyPart *view = (KParts::ReadOnlyPart *)sender();
 
@@ -693,6 +694,33 @@ void KonqMainView::slotStarted()
     updateToolBarActions();
   }
 
+  if ( jobId )
+  {
+    KIOJob *job = KIOJob::find( jobId );
+    if (job)
+    {
+      connect( job, SIGNAL( sigTotalSize( int, unsigned long ) ), this, SLOT( slotTotalSize( int, unsigned long ) ) );
+      connect( job, SIGNAL( sigProcessedSize( int, unsigned long ) ), this, SLOT( slotProcessedSize( int, unsigned long ) ) );
+      connect( job, SIGNAL( sigSpeed( int, unsigned long ) ), this, SLOT( slotSpeed( int, unsigned long ) ) );
+    }
+  }
+  m_ulTotalDocumentSize = 0;
+}
+ 
+void KonqMainView::slotTotalSize( int, unsigned long size )
+{
+  m_ulTotalDocumentSize = size;
+}
+ 
+void KonqMainView::slotProcessedSize( int, unsigned long size )
+{
+  if ( m_ulTotalDocumentSize > (unsigned long)0 )
+    slotLoadingProgress( size * 100 / m_ulTotalDocumentSize );
+}
+ 
+void KonqMainView::slotSpeed( int, unsigned long bytesPerSecond )
+{
+  slotSpeedProgress( (long int)bytesPerSecond );
 }
 
 void KonqMainView::slotCompleted()
@@ -721,8 +749,9 @@ void KonqMainView::slotCompleted()
 
 }
 
-void KonqMainView::slotCanceled()
+void KonqMainView::slotCanceled( const QString & )
 {
+  #warning TODO obey errMsg
   slotCompleted();
 }
 

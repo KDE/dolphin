@@ -662,7 +662,7 @@ void KonqKfmIconView::slotStarted( const QString & /*url*/ )
 {
     m_pIconView->selectAll( false );
     if ( m_bLoading )
-	emit started();
+	emit started( 0 /* no iojob */ );
     m_lstPendingMimeIconItems.clear();
 }
 

@@ -115,9 +115,9 @@ public slots:
 
   void slotViewChanged( KParts::ReadOnlyPart *oldView, KParts::ReadOnlyPart *newView );
 
-  void slotStarted();
+  void slotStarted( int jobId );
   void slotCompleted();
-  void slotCanceled();
+  void slotCanceled( const QString & errMsg );
   void slotRunFinished();
 
   void slotSetStatusBarText( const QString &text );
@@ -175,6 +175,12 @@ protected slots:
 
   void slotSaveDefaultProfile();
 
+ // connected to the KROP's KIOJob
+  void slotTotalSize( int, unsigned long size );
+  void slotProcessedSize( int, unsigned long size );
+  void slotSpeed( int, unsigned long bytesPerSecond );
+
+ // connected to the BrowserExtension
   void slotLoadingProgress( int percent );
   void slotSpeedProgress( int bytesPerSecond );
 
@@ -348,6 +354,8 @@ private:
   QGuardedPtr<QComboBox> m_combo;
 
   ViewModeGUIServant *m_viewModeGUIServant;
+
+  unsigned long m_ulTotalDocumentSize;
 
   static QList<QPixmap> *s_plstAnimatedLogo;
 
