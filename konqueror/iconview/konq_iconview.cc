@@ -645,7 +645,7 @@ void KonqKfmIconView::slotBackgroundColor()
     {
 	m_pProps->setBgColor( bgndColor );
 	m_pProps->setBgPixmapFile( "" );
-        m_pProps->applyColors( m_pIconView->viewport() );
+        m_pProps->applyColors( m_pIconView );
 	m_pIconView->updateContents();
     }
 }
@@ -656,7 +656,7 @@ void KonqKfmIconView::slotBackgroundImage()
     if ( dlg.exec() == KonqBgndDialog::Accepted )
     {
 	m_pProps->setBgPixmapFile( dlg.pixmapFile() );
-        m_pProps->applyColors( m_pIconView->viewport() );
+        m_pProps->applyColors( m_pIconView );
 	m_pIconView->updateContents();
     }
 }
@@ -1119,7 +1119,7 @@ bool KonqKfmIconView::openURL( const KURL & url )
       m_paImagePreview->setChecked( m_pProps->isShowingImagePreview() );
       m_pIconView->setImagePreviewAllowed ( m_pProps->isShowingImagePreview() );
 
-      m_pProps->applyColors( m_pIconView->viewport() );
+      m_pProps->applyColors( m_pIconView );
 
       calculateGridX();
     }
