@@ -1014,7 +1014,7 @@ bool KonqMainWindow::makeViewsFollow( const KURL & url, const KParts::URLArgs &a
       QObject *viewFrame = lastFrame( view );
 
       // Only views in the same tab of the sender will follow
-      if ( senderFrame && viewFrame && (uint)viewFrame != (uint)senderFrame )
+      if ( senderFrame && viewFrame && viewFrame != senderFrame )
         continue;
 
       kdDebug(1202) << "makeViewsFollow: Sending openURL to view " << view->part()->className() << " url=" << url.url() << endl;
@@ -5208,16 +5208,16 @@ static void hp_checkCommonPrefixes( KCompletionMatches& matches, const QString& 
 
 QStringList KonqMainWindow::historyPopupCompletionItems( const QString& s)
 {
-    QString http = "http://";
-    QString https = "https://";
-    QString www = "http://www.";
-    QString wwws = "https://www.";
-    QString ftp = "ftp://";
-    QString ftpftp = "ftp://ftp.";
-    QString file = "file:"; // without /, because people enter /usr etc.
-    QString file2 = "file://";
+    const QString http = "http://";
+    const QString https = "https://";
+    const QString www = "http://www.";
+    const QString wwws = "https://www.";
+    const QString ftp = "ftp://";
+    const QString ftpftp = "ftp://ftp.";
+    const QString file = "file:"; // without /, because people enter /usr etc.
+    const QString file2 = "file://";
     if( s.isEmpty())
-	return QStringList();
+	    return QStringList();
     KCompletionMatches matches= s_pCompletion->allWeightedMatches( s );
     hp_checkCommonPrefixes( matches, s );
     bool checkDuplicates = false;
