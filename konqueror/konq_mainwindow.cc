@@ -1934,11 +1934,7 @@ void KonqMainWindow::slotPartActivated( KParts::Part *part )
 
   updateToolBarActions();
 
-  // Set active instance - but take care of builtin views
-  if ( m_currentView->isBuiltinView() || !part->instance() /*never!*/)
-      KGlobal::_activeInstance = KGlobal::instance();
-  else
-      KGlobal::_activeInstance = part->instance();
+  m_currentView->setActiveInstance();
 }
 
 void KonqMainWindow::insertChildView( KonqView *childView )

@@ -96,6 +96,7 @@ KonqView::KonqView( KonqViewFactory &viewFactory,
   m_bBackRightClick = m_pMainWindow->isBackRightClickEnabled();
   m_bFollowActive = false;
   m_bBuiltinView = false;
+  m_bURLDropHandling = false;
 
   switchView( viewFactory );
 }
@@ -433,13 +434,15 @@ void KonqView::connectPart(  )
   else
       urlDropHandling = QVariant( true, 0 );
 
-  // install the event filter when
+  // Handle url drops if
   //  a) either the property says "ok"
   //  or
   //  b) the part is a plain krop (no BE)
-  if ( urlDropHandling.type() == QVariant::Bool &&
-       urlDropHandling.toBool() )
-      m_pPart->widget()->installEventFilter( this );
+  m_bURLDropHandling = ( urlDropHandling.type() == QVariant::Bool &&
+                         urlDropHandling.toBool() );
+
+  m_pPart->widget()->installEventFilter( this );
+
   if (m_bBackRightClick && m_pPart->widget()->inherits("QScrollView") )
   {
     (static_cast<QScrollView *>(m_pPart->widget()))->viewport()->installEventFilter( this );
@@ -1108,7 +1111,7 @@ bool KonqView::eventFilter( QObject *obj, QEvent *e )
     if ( !m_pPart )
         return false;
 //  kdDebug() << "--" << obj->className() << "--" << e->type() << "--"  << endl;
-    if ( e->type() == QEvent::DragEnter && obj == m_pPart->widget() )
+    if ( e->type() == QEvent::DragEnter && m_bURLDropHandling && obj == m_pPart->widget() )
     {
         QDragEnterEvent *ev = static_cast<QDragEnterEvent *>( e );
 
@@ -1129,7 +1132,7 @@ bool KonqView::eventFilter( QObject *obj, QEvent *e )
             delete children;
         }
     }
-    else if ( e->type() == QEvent::Drop && obj == m_pPart->widget() )
+    else if ( e->type() == QEvent::Drop && m_bURLDropHandling && obj == m_pPart->widget() )
     {
         QDropEvent *ev = static_cast<QDropEvent *>( e );
 
@@ -1140,6 +1143,7 @@ bool KonqView::eventFilter( QObject *obj, QEvent *e )
         if ( ok && ext && lstDragURLs.first().isValid() )
             emit ext->openURLRequest( lstDragURLs.first() ); // this will call m_pMainWindow::slotOpenURLRequest delayed
     }
+
     if ( m_bBackRightClick )
     {
         if ( e->type() == QEvent::ContextMenu )
@@ -1178,7 +1182,20 @@ bool KonqView::eventFilter( QObject *obj, QEvent *e )
             }
         }
     }
+
+    if ( e->type() == QEvent::FocusIn )
+    {
+        setActiveInstance();
+    }
     return false;
+}
+
+void KonqView::setActiveInstance()
+{
+  if ( m_bBuiltinView || !m_pPart->instance() /*never!*/)
+      KGlobal::_activeInstance = KGlobal::instance();
+  else
+      KGlobal::_activeInstance = m_pPart->instance();
 }
 
 bool KonqView::prepareReload( KParts::URLArgs& args )

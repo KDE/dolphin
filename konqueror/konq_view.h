@@ -281,6 +281,9 @@ public:
 
   void goHistory( int steps );
 
+  // Set the KGlobal active instance (the one used by KBugReport)
+  void setActiveInstance();
+
   // Called before reloading this view. Sets args.reload to true, and offers to repost form data.
   // Returns false in case the reload must be cancelled.
   bool prepareReload( KParts::URLArgs& args );
@@ -419,6 +422,7 @@ protected:
   uint m_bFollowActive:1;
   uint m_bPendingRedirection:1;
   uint m_bBuiltinView:1;
+  uint m_bURLDropHandling:1;
   KTrader::OfferList m_partServiceOffers;
   KTrader::OfferList m_appServiceOffers;
   KService::Ptr m_service;
