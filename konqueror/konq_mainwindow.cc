@@ -3246,9 +3246,30 @@ void KonqMainWindow::slotUpdateFullScreen( bool set )
   {
     showFullScreen();
     // Create toolbar button for exiting from full-screen mode
-    QPtrList<KAction> lst;
-    lst.append( m_ptaFullScreen );
-    plugActionList( "fullscreen", lst );
+    // ...but only if there isn't one already...
+ 
+    bool haveFullScreenButton = false;
+    
+    //Walk over the toolbars and check whether there is a show fullscreen button in any of them
+    QPtrListIterator<KToolBar> barIt = toolBarIterator();
+    for (; barIt.current(); ++barIt )
+    {
+        //Are we plugged here, in a visible toolbar?
+        if (barIt.current()->isVisible() &&
+            action( "fullscreen" )->isPlugged(barIt.current()))
+        {
+            haveFullScreenButton = true;
+            break;
+        }
+    }
+    
+    if (!haveFullScreenButton)
+    {
+        QPtrList<KAction> lst;
+        lst.append( m_ptaFullScreen );
+        plugActionList( "fullscreen", lst );
+    }
+    
 
     menuBar()->hide();
 
