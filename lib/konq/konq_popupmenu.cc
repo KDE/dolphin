@@ -625,7 +625,7 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
                 const QString priority = cfg.readEntry("X-KDE-Priority");
                 const QString submenuName = cfg.readEntry( "X-KDE-Submenu" );
                 ServiceList* list = s.selectList( priority, submenuName );
-                (*list) += KDEDesktopMimeType::userDefinedServices( dotDirectoryFile, true );
+                (*list) += KDEDesktopMimeType::userDefinedServices( dotDirectoryFile, cfg, true );
             }
         }
 
@@ -735,7 +735,7 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
                         const QString priority = cfg.readEntry("X-KDE-Priority");
                         const QString submenuName = cfg.readEntry( "X-KDE-Submenu" );
                         ServiceList* list = s.selectList( priority, submenuName );
-                        (*list) += KDEDesktopMimeType::userDefinedServices( *dIt + *eIt, url.isLocalFile() );
+                        (*list) += KDEDesktopMimeType::userDefinedServices( *dIt + *eIt, cfg, url.isLocalFile() );
                     }
                 }
             }
