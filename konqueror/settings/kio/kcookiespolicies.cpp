@@ -85,8 +85,8 @@ KCookiesPolicies::KCookiesPolicies(QWidget *parent, const char *name)
                           "cookies meant to expire at the end of the current "
                           "session. Such cookie will not be stored in hard "
                           "drive or local storage device.  Instead, they are "
-                          "deleted when you close all applications (eg. your "
-                          "browser) that use them. NOTE: checking this option "
+                          "deleted when you close all applications (e.g. your "
+                          "browser) that use them. NOTE: Checking this option "
                           "along with the next one will override your default "
                           "as well as site specific cookie policies.") );
     m_bgPreferences->insert( m_cbAutoAcceptSessionCookies );
@@ -97,12 +97,12 @@ KCookiesPolicies::KCookiesPolicies(QWidget *parent, const char *name)
     QWhatsThis::add( m_cbIgnoreCookieExpirationDate, 
                      i18n("Check this option to automatically accept <b>all "
                           "cookies</b> as session based. This means all "
-                          "cookies sent by any site you visit will be "
-                          "automatically accepted, but will never get stored "
+                          "cookies sent by any site you visit will "
+                          "automatically be accepted, but will never get stored "
                           "on your hard drive or local storage device. "
                           "Instead they only reside in memory until you close "
-                          "all applications (eg: your browser) that use them. "
-                          "NOTE: checking this this option along with the "
+                          "all applications (e.g. your browser) that use them. "
+                          "NOTE: Checking this option along with the "
                           "previous one will override your default as well as "
                           "site specific cookie policies.") );
     m_bgPreferences->insert( m_cbAutoAcceptSessionCookies );
