@@ -217,7 +217,7 @@ void KonqIconViewWidget::slotDrop( QDropEvent *e )
 void KonqIconViewWidget::slotDropItem( KFileIVI *item, QDropEvent *e )
 {
 
-  // Use either the root url or the item url (we stored it as the icon "name")
+  // Use either the root url or the item url
   KURL dest( ( item == 0L ) ? m_url /*m_dirLister->url()*/ : item->item()->url().url() );
 
   // Check the state of the modifiers key at the time of the drop
@@ -269,7 +269,7 @@ void KonqIconViewWidget::dropStuff( KFileIVI *item, QDropEvent *ev )
     }
     KIOJob* job = new KIOJob;
 
-    // Use either the root url or the item url (we stored it as the icon "name")
+    // Use either the root url or the item url
     KURL dest( ( item == 0L ) ? m_url /*m_dirLister->url()*/ : item->item()->url().url() );
 
     switch ( ev->action() ) {
