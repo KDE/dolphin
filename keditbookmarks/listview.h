@@ -151,6 +151,7 @@ public:
    void emitSlotSelectionChanged() { emit handleSelectionChanged(m_listView); }
    void setOpen(bool open); // DESIGN -rename to setAllOpenFlag
    void setCurrent(KEBListViewItem *item);
+   void renameNextCell(bool dir);
 
    KEBListViewItem* findOpenParent(KEBListViewItem *item) const;
    void openParents(KEBListViewItem *item);
@@ -169,6 +170,8 @@ public:
    void handleContextMenu(KEBListView *, KListView *, QListViewItem *, const QPoint &);
    void handleDoubleClicked(KEBListView *, QListViewItem *, const QPoint &, int);
    void handleItemRenamed(KEBListView *, QListViewItem *, const QString &, int);
+
+   static void startRename(int column, KEBListViewItem *item);
 
 private:
    void updateTree(bool updateSplitView = true);
