@@ -75,7 +75,7 @@ KonqBrowser::KonqBrowser( KonqHTMLView *htmlView, const char *name )
   m_pHTMLView = htmlView;
 }
 
-void KonqBrowser::openURL( QString url, bool reload, int xOffset, int yOffset, const char * )
+void KonqBrowser::openURL( const QString &url, bool reload, int xOffset, int yOffset, const char * )
 {
   emit m_pHTMLView->openURLRequest( url, reload, xOffset, yOffset );
 }

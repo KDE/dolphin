@@ -52,7 +52,7 @@ class KonqBrowser : public KHTMLWidget
 public:
   KonqBrowser( KonqHTMLView *htmlView, const char *name );
 
-  virtual void openURL( QString url, bool reload, int xOffset = 0, int yOffset = 0, const char *post_data = 0L );
+  virtual void openURL( const QString &url, bool reload = false, int xOffset = 0, int yOffset = 0, const char *post_data = 0L );
 
 private:
   KonqHTMLView *m_pHTMLView;
