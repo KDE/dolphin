@@ -143,10 +143,10 @@ public:
   void insertChildView( KonqView *childView );
   void removeChildView( KonqView *childView );
   KonqView *childView( KParts::ReadOnlyPart *view );
-  KonqView *childView( const QString &name, KParts::BrowserHostExtension **hostExtension, KParts::ReadOnlyPart **part );
+  KonqView *childView( KParts::ReadOnlyPart *callingPart, const QString &name, KParts::BrowserHostExtension **hostExtension, KParts::ReadOnlyPart **part );
 
   // dcop idl bug! it can't handle KonqMainWindow *&mainWindow
-  static KonqView *findChildView( const QString &name, KonqMainWindow **mainWindow, KParts::BrowserHostExtension **hostExtension, KParts::ReadOnlyPart **part );
+  static KonqView *findChildView( KParts::ReadOnlyPart *callingPart, const QString &name, KonqMainWindow **mainWindow, KParts::BrowserHostExtension **hostExtension, KParts::ReadOnlyPart **part );
 
   // Total number of views
   int viewCount() const { return m_mapViews.count(); }
