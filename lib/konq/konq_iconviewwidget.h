@@ -120,7 +120,6 @@ public:
     void setItemColor( const QColor &c );
     QColor itemColor() const;
 
-    void renameSelectedItem();
     virtual void cutSelection();
     virtual void copySelection();
     virtual void pasteSelection();
@@ -175,6 +174,8 @@ public slots:
     virtual void slotSelectionChanged();
 
     void slotSaveIconPositions();
+
+    void renameSelectedItem();
 
 signals:
     /**
