@@ -223,6 +223,7 @@ void KonqOperations::_del( int method, const KURL::List & _selectedURLs, int con
 
 void KonqOperations::_restoreTrashedItems( const KURL::List& urls )
 {
+    m_method = RESTORE;
     KonqMultiRestoreJob* job = new KonqMultiRestoreJob( urls, true );
     connect( job, SIGNAL( result( KIO::Job * ) ),
              SLOT( slotResult( KIO::Job * ) ) );
@@ -539,6 +540,7 @@ void KonqOperations::doFileCopy()
             return;
         }
 
+        m_method = TRASH;
         if ( askDeleteConfirmation( mlst, DEFAULT_CONFIRMATION ) )
             action = QDropEvent::Move;
         else

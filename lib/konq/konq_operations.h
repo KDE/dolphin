@@ -45,7 +45,7 @@ public:
      */
     static void editMimeType( const QString & mimeType );
 
-    enum { TRASH, DEL, SHRED, COPY, MOVE, LINK, EMPTYTRASH, STAT, MKDIR };
+    enum { TRASH, DEL, SHRED, COPY, MOVE, LINK, EMPTYTRASH, STAT, MKDIR, RESTORE };
     /**
      * @param method should be TRASH, DEL or SHRED
      */
