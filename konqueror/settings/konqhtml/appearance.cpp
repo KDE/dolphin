@@ -209,9 +209,20 @@ KAppearanceOptions::KAppearanceOptions(KConfig *config, QString group, QWidget *
   connect( m_pEncoding, SIGNAL( activated(const QString& ) ),
 	   SLOT(changed() ) );
 
-//  connect( bg, SIGNAL( clicked( int ) ), SLOT( slotFontSize( int ) ) );
+  m_pEnforceCharset = new QCheckBox( i18n( "Enforce default Encoding charset" ), this );
+  connect( m_pEnforceCharset, SIGNAL( toggled( bool ) ), this, SLOT( slotEnforceDefault( bool ) ) );
+  connect( m_pEnforceCharset, SIGNAL( toggled( bool ) ), this, SLOT( changed() ) );
+  QWhatsThis::add( m_pEnforceCharset ,
+                   i18n( "Select this to enforce that the default locale encoding"
+                         "is always used as charset. This is useful when you don't"
+                         "have unicode fonts installed and some webpages show ugly"
+                         "fixed size fonts for you. You won't be able to view pages"
+                         "that require foreign charsets properly any more. " ) );
+  ++r;
+  lay->addMultiCellWidget( m_pEnforceCharset, r, r, M, W );
 
-  r++; lay->setRowStretch(r, 8);
+
+  ++r; lay->setRowStretch(r, 8);
 
 
   load();
@@ -280,6 +291,11 @@ void KAppearanceOptions::slotFontSizeAdjust( int value )
 void KAppearanceOptions::slotEncoding(const QString& n)
 {
     encodingName = n;
+}
+
+void KAppearanceOptions::slotEnforceDefault( bool n )
+{
+    enforceCharset = n;
 }
 
 void KAppearanceOptions::slotCharset( const QString &n )
@@ -385,6 +401,7 @@ void KAppearanceOptions::updateGUI()
             m_pEncoding->setCurrentItem( i );
 
     m_pFontSizeAdjust->setValue( fonts[6].toInt() );
+    m_pEnforceCharset->setChecked( enforceCharset );
     m_MedSize->setValue( fSize );
     m_minSize->setValue( fMinSize );
 }

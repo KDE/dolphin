@@ -39,6 +39,7 @@ public slots:
   void slotEncoding( const QString& n);
   void slotCharset( const QString &n );
   void slotFontSizeAdjust( int value );
+  void slotEnforceDefault( bool );
     
 private slots:
   void changed();
@@ -58,6 +59,7 @@ private:
   KFontCombo* m_pFonts[6];
   QComboBox* m_pEncoding;
   QComboBox* m_pChset;
+  QCheckBox* m_pEnforceCharset;
 
   QSpinBox *m_pFontSizeAdjust;
 
