@@ -1047,7 +1047,7 @@ void FavIconUpdater::getIcon(const KBookmark &bk) {
    if (favicon == QString::null) {
       KonqFavIconMgr::setIconForURL(KURL("http://www.mozilla.org/"),
                                     KURL("http://www.mozilla.org/images/mozilla-16.png"));
-      s_bk = bk;
+      // s_bk = bk;
    }
 }
 
