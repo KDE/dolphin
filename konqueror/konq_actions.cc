@@ -61,7 +61,7 @@ void KonqBidiHistoryAction::fillHistoryPopup( const QPtrList<HistoryEntry> &hist
   while ( it.current() )
   {
       QString text = it.current()->title;
-      text = KStringHandler::csqueeze(text, 50); //CT: squeeze
+      text = KStringHandler::cEmSqueeze(text, popup->fontMetrics(), 30); //CT: squeeze
       text.replace( "&", "&&" );
       if ( checkCurrentItem && it.current() == current )
       {
