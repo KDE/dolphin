@@ -646,29 +646,26 @@ void KonqOperations::doFileCopy()
     delete this;
 }
 
-void KonqOperations::rename( QWidget * parent, const KURL & oldurl, const QString & name )
+void KonqOperations::rename( QWidget * parent, const KURL & oldurl, const KURL& newurl )
 {
-    QString newPath = oldurl.directory(false,true) + name;
-    kdDebug(1203) << "KonqOperations::rename " << oldurl.prettyURL() << " newPath=" << newPath << endl;
-    KURL newurl(oldurl);
-    newurl.setPath(newPath);
-    if ( oldurl != newurl )
-    {
-        KURL::List lst;
-        lst.append(oldurl);
-        KIO::Job * job = KIO::moveAs( oldurl, newurl, !oldurl.isLocalFile() );
-        KonqOperations * op = new KonqOperations( parent );
-        op->setOperation( job, MOVE, lst, newurl );
-        (void) new KonqCommandRecorder( KonqCommand::MOVE, lst, newurl, job );
-        // if old trash then update config file and emit
-        if(oldurl.isLocalFile() && oldurl.path(1) == KGlobalSettings::trashPath() ) {
-            kdDebug(1203) << "That rename was the Trashcan, updating config files" << endl;
-            KConfig *globalConfig = KGlobal::config();
-            KConfigGroupSaver cgs( globalConfig, "Paths" );
-            globalConfig->writeEntry("Trash" , newurl.path(), true, true );
-            globalConfig->sync();
-            KIPC::sendMessageAll(KIPC::SettingsChanged, KApplication::SETTINGS_PATHS);
-        }
+    kdDebug(1203) << "KonqOperations::rename oldurl=" << oldurl.prettyURL() << " newurl=" << newurl.prettyURL() << endl;
+    if ( oldurl == newurl )
+        return;
+
+    KURL::List lst;
+    lst.append(oldurl);
+    KIO::Job * job = KIO::moveAs( oldurl, newurl, !oldurl.isLocalFile() );
+    KonqOperations * op = new KonqOperations( parent );
+    op->setOperation( job, MOVE, lst, newurl );
+    (void) new KonqCommandRecorder( KonqCommand::MOVE, lst, newurl, job );
+    // if old trash then update config file and emit
+    if(oldurl.isLocalFile() && oldurl.path(1) == KGlobalSettings::trashPath() ) {
+        kdDebug(1203) << "That rename was the Trashcan, updating config files" << endl;
+        KConfig *globalConfig = KGlobal::config();
+        KConfigGroupSaver cgs( globalConfig, "Paths" );
+        globalConfig->writeEntry("Trash" , newurl.path(), true, true );
+        globalConfig->sync();
+        KIPC::sendMessageAll(KIPC::SettingsChanged, KApplication::SETTINGS_PATHS);
     }
 }
 
@@ -741,6 +738,14 @@ void KonqOperations::slotResult( KIO::Job * job )
         allDirNotify.FilesChanged( lst );
     }
     delete this;
+}
+
+void KonqOperations::rename( QWidget * parent, const KURL & oldurl, const QString & name )
+{
+    KURL newurl( oldurl );
+    newurl.setPath( oldurl.directory(false, true) + name );
+    kdDebug(1203) << "KonqOperations::rename("<<name<<") called. newurl=" << newurl.prettyURL() << endl;
+    rename( parent, oldurl, newurl );
 }
 
 #include <konq_operations.moc>

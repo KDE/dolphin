@@ -414,7 +414,7 @@ void KonqIconViewWidget::slotItemRenamed(QIconViewItem *item, const QString &nam
     kdDebug(1203) << "KonqIconViewWidget::slotItemRenamed" << endl;
     KFileIVI *viewItem = static_cast<KFileIVI *>(item);
     KFileItem *fileItem = viewItem->item();
-    
+
     // The correct behavior is to show the old name until the rename has successfully
     // completed. Unfortunately, KIconView forces us to allow the text to be changed
     // before we try the rename, so set it back to the pre-rename state.
@@ -424,7 +424,11 @@ void KonqIconViewWidget::slotItemRenamed(QIconViewItem *item, const QString &nam
     if( !name.isEmpty() )
     {
         // Actually attempt the rename. If it succeeds, KDirLister will update the name.
-        KonqOperations::rename( this, fileItem->url(), name );
+        KURL oldurl( fileItem->url() );
+        KURL newurl( url() );
+        newurl.setPath( url().path(1) + name );
+        // We use url()+name so that it also works if the name is a relative path (#51176)
+        KonqOperations::rename( this, oldurl, newurl );
     }
 }
 

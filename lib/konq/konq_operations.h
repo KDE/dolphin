@@ -86,7 +86,23 @@ public:
      */
     static void statURL( const KURL & url, const QObject *receiver, const char *member );
 
+    /**
+     * Do a renaming.
+     * @param parent the parent widget, passed to KonqOperations ctor
+     * @param oldurl the current url of the file to be renamed
+     * @param name the new name for the file. Shouldn't include '/'.
+     */
     static void rename( QWidget * parent, const KURL & oldurl, const QString & name );
+
+    /**
+     * Do a renaming.
+     * @param parent the parent widget, passed to KonqOperations ctor
+     * @param oldurl the current url of the file to be renamed
+     * @param newurl the new url for the file
+     * Use this version if the other one wouldn't work :)  (e.g. because name could
+     * be a relative path, including a '/').
+     */
+    static void rename( QWidget * parent, const KURL & oldurl, const KURL & newurl );
 
 signals:
     void statFinished( const KFileItem * item );
