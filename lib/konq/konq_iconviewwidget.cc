@@ -1235,6 +1235,7 @@ void KonqIconViewWidget::contentsDragEnterEvent( QDragEnterEvent *e )
 #ifdef KFILEITEM_HAS_ISWRITABLE
     if ( m_rootItem && !m_rootItem->isWritable() ) {
         e->ignore();
+        emit dragEntered( false );
         return;
     }
 #endif
@@ -1250,7 +1251,7 @@ void KonqIconViewWidget::contentsDragEnterEvent( QDragEnterEvent *e )
             kdError() << "Couldn't decode urls dragged !" << endl;
     }
     KIconView::contentsDragEnterEvent( e );
-    emit dragEntered();
+    emit dragEntered( true /*accepted*/ );
 }
 
 void KonqIconViewWidget::contentsDragMoveEvent( QDragMoveEvent *e )

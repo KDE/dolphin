@@ -265,7 +265,7 @@ signals:
     /**
      * We need to track drag in icon views for the spring loading folders
      */
-    void dragEntered();
+    void dragEntered( bool accepted );
     void dragLeft();
     /**
      * Emited after the dropped() event. This way we know when the

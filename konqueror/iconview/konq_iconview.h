@@ -103,7 +103,7 @@ protected slots:
 
   // Slot used for spring loading folders
   void slotDragHeld( QIconViewItem *item );
-  void slotDragEntered();
+  void slotDragEntered( bool accepted );
   void slotDragLeft();
   void slotDragFinished();
 

@@ -343,8 +343,8 @@ KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const 
     // Signals needed to implement the spring loading folders behavior
     connect( m_pIconView, SIGNAL( held( QIconViewItem * ) ),
              this, SLOT( slotDragHeld( QIconViewItem * ) ) );
-    connect( m_pIconView, SIGNAL( dragEntered() ),
-             this, SLOT( slotDragEntered() ) );
+    connect( m_pIconView, SIGNAL( dragEntered( bool ) ),
+             this, SLOT( slotDragEntered( bool ) ) );
     connect( m_pIconView, SIGNAL( dragLeft() ),
              this, SLOT( slotDragLeft() ) );
     connect( m_pIconView, SIGNAL( dragFinished() ),
@@ -739,9 +739,13 @@ void KonqKfmIconView::slotDragHeld( QIconViewItem *item )
     SpringLoadingManager::self().springLoadTrigger(this, fileItem, item);
 }
 
-void KonqKfmIconView::slotDragEntered()
+void KonqKfmIconView::slotDragEntered( bool accepted )
 {
     kdDebug() << "KonqKfmIconView::slotDragEntered()" << endl;
+    if ( !accepted ) {
+        emit setStatusBarText( i18n( "You cannot drop any items in a directory in which you don't have write permission" ) );
+        return;
+    }
 
     if ( SpringLoadingManager::exists() )
         SpringLoadingManager::self().dragEntered(this);
