@@ -20,6 +20,7 @@
 #include <konq_operations.h>
 #include <klocale.h>
 #include <kmessagebox.h>
+#include <kautomount.h>
 #include <krun.h>
 
 #include <kdirnotify_stub.h>
@@ -183,7 +184,7 @@ void KonqOperations::copy( QWidget * parent, int method, const KURL::List & sele
   else
      job= KIO::copy( selectedURLs, destUrl);
 
-  op->setOperation( job, method,selectedURLs ,destUrl );
+  op->setOperation( job, method, selectedURLs, destUrl );
 
   if (method==COPY)
      (void) new KonqCommandRecorder( KonqCommand::COPY, selectedURLs, destUrl, job );
@@ -330,6 +331,7 @@ bool KonqOperations::askDeleteConfirmation( const KURL::List & selectedURLs, int
 void KonqOperations::doDrop( const KFileItem * destItem, const KURL & dest, QDropEvent * ev, QWidget * parent )
 {
     kdDebug(1203) << "dest : " << dest.url() << endl;
+    kdDebug() << kdBacktrace() << endl;
     KURL::List lst;
     QMap<QString, QString> metaData;
     if ( KURLDrag::decode( ev, lst, metaData ) ) // Are they urls ?
@@ -419,7 +421,7 @@ void KonqOperations::doDrop( const KFileItem * destItem, const KURL & dest, QDro
             else
                 data = ev->data( formats.first() );
 
-            // Delay the call to asyncDrop so that the event filters can return. See #38688.
+            // Delay the call to KIO::pasteData so that the event filters can return. See #38688.
             KonqOperations * op = new KonqOperations(parent);
             KIOPasteInfo * pi = new KIOPasteInfo;
             pi->data = data;
@@ -441,132 +443,168 @@ void KonqOperations::slotKIOPaste()
 void KonqOperations::asyncDrop( const KFileItem * destItem )
 {
     assert(m_info); // setDropInfo should have been called before asyncDrop
-    KURL dest = destItem->url();
-    KURL::List lst = m_info->lst;
-    kdDebug(1203) << "KonqOperations::asyncDrop destItem->mode=" << destItem->mode() << endl;
+    m_destURL = destItem->url();
+
+    //kdDebug(1203) << "KonqOperations::asyncDrop destItem->mode=" << destItem->mode() << endl;
     // Check what the destination is
-    if ( S_ISDIR(destItem->mode()) )
+    if ( destItem->isDir() )
     {
-        QDropEvent::Action action = m_info->action;
-        if ( dest.path( 1 ) == KGlobalSettings::trashPath() )
-        {
-            if ( askDeleteConfirmation( lst, DEFAULT_CONFIRMATION ) )
-                action = QDropEvent::Move;
-            else
-            {
-                delete this;
-                return;
-            }
-        }
-        else if ( ((m_info->keybstate & ControlMask) == 0) && ((m_info->keybstate & ShiftMask) == 0) )
-        {
-            KonqIconViewWidget *iconView = dynamic_cast<KonqIconViewWidget*>(parent());
-            bool bSetWallpaper = false;
-            if (iconView && iconView->maySetWallpaper() &&
-                (lst.count() == 1) &&
-                (!KImageIO::type(lst.first().path()).isEmpty()))
-            {
-                bSetWallpaper = true;
-            }
-
-            // Check what the source can do
-            KURL url = lst.first(); // we'll assume it's the same for all URLs (hack)
-            bool sReading = KProtocolInfo::supportsReading( url );
-            bool sDeleting = KProtocolInfo::supportsDeleting( url );
-            bool sMoving = KProtocolInfo::supportsMoving( url );
-            // Check what the destination can do
-            bool dWriting = KProtocolInfo::supportsWriting( dest );
-            if ( !dWriting )
-            {
-                delete this;
-                return;
-            }
-
-            // Nor control nor shift are pressed => show popup menu
-            QPopupMenu popup;
-            if ( sReading )
-              popup.insertItem(SmallIconSet("editcopy"), i18n( "&Copy Here" ), 1 );
-            if ( (sMoving || (sReading && sDeleting)) )
-              popup.insertItem( i18n( "&Move Here" ), 2 );
-            popup.insertItem(SmallIconSet("www"), i18n( "&Link Here" ), 3 );
-            if (bSetWallpaper)
-                popup.insertItem(SmallIconSet("background"), i18n( "Set as &Wallpaper"), 4 );
-
-            int result = popup.exec( m_info->mousePos );
-            switch (result) {
-                case 1 : action = QDropEvent::Copy; break;
-                case 2 : action = QDropEvent::Move; break;
-                case 3 : action = QDropEvent::Link; break;
-                case 4 :
-                {
-                    kdDebug(1203) << "setWallpaper iconView=" << iconView << " url=" << lst.first().url() << endl;
-                    if (iconView && iconView->isDesktop() ) iconView->setWallpaper(lst.first());
-                    delete this;
-                    return;
-                }
-                default : delete this; return;
-            }
-        }
-
-        KIO::Job * job = 0;
-        switch ( action ) {
-            case QDropEvent::Move :
-                job = KIO::move( lst, dest );
-                job->setMetaData( m_info->metaData );
-                setOperation( job, MOVE, lst, dest );
-                (void) new KonqCommandRecorder( KonqCommand::MOVE, lst, dest, job );
-                return; // we still have stuff to do -> don't delete ourselves
-            case QDropEvent::Copy :
-                job = KIO::copy( lst, dest );
-                job->setMetaData( m_info->metaData );
-                setOperation( job, COPY, lst, dest );
-                (void) new KonqCommandRecorder( KonqCommand::COPY, lst, dest, job );
-                return;
-            case QDropEvent::Link :
-                kdDebug(1203) << "KonqOperations::asyncDrop lst.count=" << lst.count() << endl;
-                job = KIO::link( lst, dest );
-                job->setMetaData( m_info->metaData );
-                setOperation( job, LINK, lst, dest );
-                (void) new KonqCommandRecorder( KonqCommand::LINK, lst, dest, job );
-                return;
-            default : kdError(1203) << "Unknown action " << (int)action << endl;
-        }
-    } else
+        doFileCopy();
+        return;
+    }
+    // (If this fails, there is a bug in KFileItem::acceptsDrops)
+    assert( m_destURL.isLocalFile() );
+    if ( destItem->mimetype() == "application/x-desktop")
     {
-        // (If this fails, there is a bug in KFileItem::acceptsDrops)
-        assert( dest.isLocalFile() );
-        if ( destItem->mimetype() == "application/x-desktop")
+        // Local .desktop file. What type ?
+        KDesktopFile desktopFile( m_destURL.path() );
+        if ( desktopFile.hasApplicationType() )
         {
-            // Local .desktop file. What type ?
-            KDesktopFile desktopFile( dest.path() );
-            if ( desktopFile.hasApplicationType() )
-            {
-                QString error;
-                QStringList stringList;
-                KURL::List::Iterator it = lst.begin();
-                for ( ; it != lst.end() ; it++ )
-                {
-                    stringList.append((*it).url());
-                }
-                if ( KApplication::startServiceByDesktopPath( dest.path(), stringList, &error ) > 0 )
-                    KMessageBox::error( 0L, error );
-            }
-            // else, well: mimetype, link, .directory, device. Can't really drop anything on those.
-        } else
-        {
-            // Should be a local executable
-            // (If this fails, there is a bug in KFileItem::acceptsDrops)
-            kdDebug(1203) << "KonqOperations::doDrop " << dest.path() << "should be an executable" << endl;
-            Q_ASSERT ( access( QFile::encodeName(dest.path()), X_OK ) == 0 );
-            KProcess proc;
-            proc << dest.path() ;
-            // Launch executable for each of the files
+            QString error;
+            QStringList stringList;
+            KURL::List lst = m_info->lst;
             KURL::List::Iterator it = lst.begin();
             for ( ; it != lst.end() ; it++ )
-                proc << (*it).path(); // assume local files
-            kdDebug(1203) << "starting " << dest.path() << " with " << lst.count() << " arguments" << endl;
-            proc.start( KProcess::DontCare );
+            {
+                stringList.append((*it).url());
+            }
+            if ( KApplication::startServiceByDesktopPath( m_destURL.path(), stringList, &error ) > 0 )
+                KMessageBox::error( 0L, error );
         }
+        else
+        {
+            // Device or Link -> adjust dest
+            if ( desktopFile.hasDeviceType() && desktopFile.hasKey("MountPoint") ) {
+                QString point = desktopFile.readEntry( "MountPoint" );
+                m_destURL.setPath( point );
+                QString dev = desktopFile.readDevice();
+                QString mp = KIO::findDeviceMountPoint( dev );
+                // Is the device already mounted ?
+                if ( !mp.isNull() )
+                    doFileCopy();
+                else
+                {
+                    bool ro = desktopFile.readBoolEntry( "ReadOnly", false );
+                    QString fstype = desktopFile.readEntry( "FSType" );
+                    KAutoMount* am = new KAutoMount( ro, fstype, dev, point, m_destURL.path(), false );
+                    connect( am, SIGNAL( finished() ), this, SLOT( doFileCopy() ) );
+                }
+                return;
+            }
+            else if ( desktopFile.hasLinkType() && desktopFile.hasKey("URL") ) {
+                m_destURL = desktopFile.readEntry("URL");
+                doFileCopy();
+                return;
+            }
+            // else, well: mimetype, service, servicetype or .directory. Can't really drop anything on those.
+        }
+    }
+    else
+    {
+        // Should be a local executable
+        // (If this fails, there is a bug in KFileItem::acceptsDrops)
+        kdDebug(1203) << "KonqOperations::doDrop " << m_destURL.path() << "should be an executable" << endl;
+        Q_ASSERT ( access( QFile::encodeName(m_destURL.path()), X_OK ) == 0 );
+        KProcess proc;
+        proc << m_destURL.path() ;
+        // Launch executable for each of the files
+        KURL::List lst = m_info->lst;
+        KURL::List::Iterator it = lst.begin();
+        for ( ; it != lst.end() ; it++ )
+            proc << (*it).path(); // assume local files
+        kdDebug(1203) << "starting " << m_destURL.path() << " with " << lst.count() << " arguments" << endl;
+        proc.start( KProcess::DontCare );
+    }
+    delete this;
+}
+
+void KonqOperations::doFileCopy()
+{
+    assert(m_info); // setDropInfo - and asyncDrop - should have been called before asyncDrop
+    KURL::List lst = m_info->lst;
+    QDropEvent::Action action = m_info->action;
+    if ( m_destURL.path( 1 ) == KGlobalSettings::trashPath() )
+    {
+        if ( askDeleteConfirmation( lst, DEFAULT_CONFIRMATION ) )
+            action = QDropEvent::Move;
+        else
+        {
+            delete this;
+            return;
+        }
+    }
+    else if ( ((m_info->keybstate & ControlMask) == 0) && ((m_info->keybstate & ShiftMask) == 0) )
+    {
+        KonqIconViewWidget *iconView = dynamic_cast<KonqIconViewWidget*>(parent());
+        bool bSetWallpaper = false;
+        if (iconView && iconView->maySetWallpaper() &&
+            (lst.count() == 1) &&
+            (!KImageIO::type(lst.first().path()).isEmpty()))
+        {
+            bSetWallpaper = true;
+        }
+
+        // Check what the source can do
+        KURL url = lst.first(); // we'll assume it's the same for all URLs (hack)
+        bool sReading = KProtocolInfo::supportsReading( url );
+        bool sDeleting = KProtocolInfo::supportsDeleting( url );
+        bool sMoving = KProtocolInfo::supportsMoving( url );
+        // Check what the destination can do
+        bool dWriting = KProtocolInfo::supportsWriting( m_destURL );
+        if ( !dWriting )
+        {
+            delete this;
+            return;
+        }
+
+        // Nor control nor shift are pressed => show popup menu
+        QPopupMenu popup;
+        if ( sReading )
+            popup.insertItem(SmallIconSet("editcopy"), i18n( "&Copy Here" ), 1 );
+        if ( (sMoving || (sReading && sDeleting)) )
+            popup.insertItem( i18n( "&Move Here" ), 2 );
+        popup.insertItem(SmallIconSet("www"), i18n( "&Link Here" ), 3 );
+        if (bSetWallpaper)
+            popup.insertItem(SmallIconSet("background"), i18n( "Set as &Wallpaper"), 4 );
+
+        int result = popup.exec( m_info->mousePos );
+        switch (result) {
+        case 1 : action = QDropEvent::Copy; break;
+        case 2 : action = QDropEvent::Move; break;
+        case 3 : action = QDropEvent::Link; break;
+        case 4 :
+        {
+            kdDebug(1203) << "setWallpaper iconView=" << iconView << " url=" << lst.first().url() << endl;
+            if (iconView && iconView->isDesktop() ) iconView->setWallpaper(lst.first());
+            delete this;
+            return;
+        }
+        default : delete this; return;
+        }
+    }
+
+    KIO::Job * job = 0;
+    switch ( action ) {
+    case QDropEvent::Move :
+        job = KIO::move( lst, m_destURL );
+        job->setMetaData( m_info->metaData );
+        setOperation( job, MOVE, lst, m_destURL );
+        (void) new KonqCommandRecorder( KonqCommand::MOVE, lst, m_destURL, job );
+        return; // we still have stuff to do -> don't delete ourselves
+    case QDropEvent::Copy :
+        job = KIO::copy( lst, m_destURL );
+        job->setMetaData( m_info->metaData );
+        setOperation( job, COPY, lst, m_destURL );
+        (void) new KonqCommandRecorder( KonqCommand::COPY, lst, m_destURL, job );
+        return;
+    case QDropEvent::Link :
+        kdDebug(1203) << "KonqOperations::asyncDrop lst.count=" << lst.count() << endl;
+        job = KIO::link( lst, m_destURL );
+        job->setMetaData( m_info->metaData );
+        setOperation( job, LINK, lst, m_destURL );
+        (void) new KonqCommandRecorder( KonqCommand::LINK, lst, m_destURL, job );
+        return;
+    default : kdError(1203) << "Unknown action " << (int)action << endl;
     }
     delete this;
 }

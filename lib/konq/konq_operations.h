@@ -127,6 +127,7 @@ protected slots:
     void slotStatResult( KIO::Job * job );
     void asyncDrop( const KFileItem * item );
     void slotKIOPaste();
+    void doFileCopy();
 
 private:
     int m_method;
