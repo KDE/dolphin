@@ -45,6 +45,7 @@ class KProgress;
 class KonqPart;
 class KonqComboAction;
 class KonqHistoryAction;
+class KonqBookmarkBar;
 struct HistoryEntry;
 class KonqFrameBase;
 class KBookmarkMenu;
@@ -285,6 +286,7 @@ private:
   KAction *m_paAnimatedLogo;
 
   KonqComboAction *m_paURLCombo;
+  KonqBookmarkBar *m_paBookmarkBar;
 
   KToggleAction *m_ptaUseHTML;
   KToggleAction *m_ptaShowDirTree;

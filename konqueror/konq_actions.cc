@@ -23,6 +23,8 @@
 
 #include <qlabel.h>
 #include <qcombobox.h>
+#include <kbookmark.h>
+#include <kbookmarkbar.h>
 
 #include <ktoolbar.h>
 
@@ -211,6 +213,38 @@ QPopupMenu *KonqHistoryAction::popupMenu()
   return m_popup;
 }
 
+KonqBookmarkBar::KonqBookmarkBar( const QString& text, int accel,
+                                  KBookmarkOwner* owner, QObject *parent,
+                                  const char* name )
+    : QAction( text, accel, parent, name ), m_pOwner(owner)
+{
+}
 
+int KonqBookmarkBar::plug( QWidget *w )
+{
+  KToolBar *toolBar = (KToolBar *)w;
+
+  new KBookmarkBar(m_pOwner, toolBar, (QActionCollection*)parent());
+
+  int id = get_toolbutton_id();
+
+  addContainer( toolBar, id );
+
+  connect( toolBar, SIGNAL( destroyed() ), this, SLOT( slotDestroyed() ) );
+
+  return containerCount() - 1;
+}
+
+void KonqBookmarkBar::unplug( QWidget *w )
+{
+  KToolBar *toolBar = (KToolBar *)w;
+
+  int idx = findContainer( w );
+  int id = menuId( idx ) + 1;
+
+  toolBar->removeItem( menuId( idx ) );
+
+  removeContainer( idx );
+}
 
 #include "konq_actions.moc"

@@ -11,6 +11,7 @@
   <Action name="showstatusbar"/>
   <Action name="showtoolbar"/>
   <Action name="showlocationbar"/>
+  <Action name="showbookmarkbar"/>
   <Part/>
  </Menu>
  <Menu name="Window"><text>&amp;Window</text>

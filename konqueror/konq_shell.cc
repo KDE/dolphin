@@ -44,17 +44,19 @@ KonqShell::KonqShell()
   m_paShowStatusBar = KStdAction::showStatusbar( 0L, 0L, actionCollection(), "showstatusbar" );
   m_paShowToolBar = KStdAction::showToolbar( 0L, 0L, actionCollection(), "showtoolbar" );
   m_paShowLocationBar = new KToggleAction( i18n( "Show &Locationbar" ), 0, actionCollection(), "showlocationbar" );
+  m_paShowBookmarkBar = new KToggleAction( i18n( "Show &Bookmarkbar" ), 0, actionCollection(), "showbookmarkbar" );
 
   m_paShowMenuBar->setChecked( true );
   m_paShowStatusBar->setChecked( true );
   m_paShowToolBar->setChecked( true );
   m_paShowLocationBar->setChecked( true );
+  m_paShowBookmarkBar->setChecked( true );
 
   connect( m_paShowMenuBar, SIGNAL( activated() ), this, SLOT( slotShowMenuBar() ) );
   connect( m_paShowStatusBar, SIGNAL( activated() ), this, SLOT( slotShowStatusBar() ) );
   connect( m_paShowToolBar, SIGNAL( activated() ), this, SLOT( slotShowToolBar() ) );
   connect( m_paShowLocationBar, SIGNAL( activated() ), this, SLOT( slotShowLocationBar() ) );
-
+  connect( m_paShowBookmarkBar, SIGNAL( activated() ), this, SLOT( slotShowBookmarkBar() ) );
 }
 
 KonqShell::~KonqShell()
@@ -91,6 +93,16 @@ void KonqShell::slotShowToolBar()
 void KonqShell::slotShowLocationBar()
 {
   KToolBar * bar = viewToolBar( "locationToolBar" );
+  if (!bar) return;
+  if (bar->isVisible())
+    bar->enable( KToolBar::Hide );
+  else
+    bar->enable( KToolBar::Show );
+}
+
+void KonqShell::slotShowBookmarkBar()
+{
+  KToolBar * bar = viewToolBar( "bookmarkToolBar" );
   if (!bar) return;
   if (bar->isVisible())
     bar->enable( KToolBar::Hide );

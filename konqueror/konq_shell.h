@@ -41,6 +41,7 @@ public slots:
   void slotShowStatusBar();
   void slotShowToolBar();
   void slotShowLocationBar();
+  void slotShowBookmarkBar();
   void slotQuit();
   
 protected:
@@ -56,6 +57,7 @@ private:
   KToggleAction *m_paShowStatusBar;
   KToggleAction *m_paShowToolBar;
   KToggleAction *m_paShowLocationBar;
+  KToggleAction *m_paShowBookmarkBar;
   
 };
 

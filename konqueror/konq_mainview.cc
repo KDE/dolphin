@@ -70,6 +70,7 @@
 #include <dcopclient.h>
 #include <klibloader.h>
 #include <part.h>
+#include <kbookmarkbar.h>
 #include <kbookmarkmenu.h>
 #include <kstdaction.h>
 
@@ -1495,6 +1496,8 @@ void KonqMainView::initActions()
   m_paURLCombo = new KonqComboAction( i18n( "Location " ), 0, this, SLOT( slotURLEntered( const QString & ) ), actionCollection(), "toolbar_url_combo" );
   connect( m_paURLCombo, SIGNAL( plugged() ),
            this, SLOT( slotComboPlugged() ) );
+
+  m_paBookmarkBar = new KonqBookmarkBar( "BookmarkBar", 0, this, actionCollection(), "toolbar_bookmark" );
 
   m_paReload->plug( popup );
   m_paStop->plug( popup );

@@ -24,6 +24,8 @@
 
 #include <kaction.h>
 
+class KBookmarkOwner;
+class KBookmarkBar;
 class QComboBox;
 
 class KonqComboAction : public QAction
@@ -74,6 +76,21 @@ public:
 
 private:
     QPopupMenu *m_popup;
+};
+
+class KonqBookmarkBar : public QAction
+{
+  Q_OBJECT
+public:
+    KonqBookmarkBar( const QString& text, int accel, KBookmarkOwner *owner, QObject* parent, const char* name );
+
+    virtual int plug( QWidget *w );
+
+    virtual void unplug( QWidget *w );
+
+private:
+    KBookmarkOwner *m_pOwner;
+    KBookmarkBar *m_bookmarkBar;
 };
 
 #endif
