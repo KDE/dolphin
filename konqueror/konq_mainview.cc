@@ -518,7 +518,8 @@ void KonqMainView::insertView( Konqueror::View_ptr view,
 
     v->m_pFrame = new OPFrame( m_pCurrentRow->pRowSplitter );
 
-    if ((n>0) && newViewPosition == Konqueror::left) {
+    if (newViewPosition == Konqueror::left) {
+      // this is broken !
       m_pCurrentRow->lstViews.insert( 0, v );
       m_pCurrentRow->pRowSplitter->moveToFirst( v->m_pFrame );
     }
@@ -1774,12 +1775,12 @@ void KonqMainView::initView()
 {
   Konqueror::View_var vView = Konqueror::View::_duplicate( new KonqKfmIconView );
 
-  insertView( vView, Konqueror::left );
+  insertView( vView, Konqueror::right );
   setActiveView( vView->id() );
 
 
   vView = Konqueror::View::_duplicate( new KonqKfmTreeView );
-  insertView( vView, Konqueror::left );
+  insertView( vView, Konqueror::right );
 
   //temporary...
   vView->show( true );
