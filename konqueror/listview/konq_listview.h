@@ -72,6 +72,7 @@ public:
   virtual bool closeURL();
   virtual bool openFile() { return true; }
   virtual const KFileItem * currentItem();
+  virtual KFileItemList selectedFileItems() {return m_pListView->selectedFileItems();};
 
   KonqBaseListViewWidget *listViewWidget() const { return m_pListView; }
 

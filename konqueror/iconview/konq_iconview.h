@@ -59,6 +59,8 @@ public:
   virtual bool openFile() { return true; }
 
   virtual const KFileItem * currentItem();
+  virtual KFileItemList selectedFileItems() {return m_pIconView->selectedFileItems();};
+
 
   KonqIconViewWidget *iconViewWidget() const { return m_pIconView; }
 
