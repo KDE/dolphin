@@ -1,21 +1,21 @@
 /* This file is part of the KDE project
    Copyright (C) 1998, 1999 Torben Weis <weis@kde.org>
- 
+
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Library General Public
    License as published by the Free Software Foundation; either
    version 2 of the License, or (at your option) any later version.
- 
+
    This library is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
    Library General Public License for more details.
- 
+
    You should have received a copy of the GNU Library General Public License
    along with this library; see the file COPYING.LIB.  If not, write to
    the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
    Boston, MA 02111-1307, USA.
-*/     
+*/
 
 #include "kdirlister.h"
 
@@ -87,7 +87,7 @@ void KDirLister::openURL( const KURL& _url, bool _showDotFiles, bool _keep )
     KMessageBox::error( (QWidget*)0L, tmp);
     return;
   }
-    
+
   m_isShowingDotFiles = _showDotFiles;
 
   // TODO: Check whether the URL is really a directory
@@ -112,9 +112,9 @@ void KDirLister::openURL( const KURL& _url, bool _showDotFiles, bool _keep )
     kdirwatch->addDir( _url.path() );
     if ( !_keep ) // already done if keep == true
     {
-      connect( kdirwatch, SIGNAL( dirty( const QString& ) ), 
+      connect( kdirwatch, SIGNAL( dirty( const QString& ) ),
                this, SLOT( slotDirectoryDirty( const QString& ) ) );
-      connect( kdirwatch, SIGNAL( fileDirty( const QString& ) ), 
+      connect( kdirwatch, SIGNAL( fileDirty( const QString& ) ),
                this, SLOT( slotFileDirty( const QString& ) ) );
     }
   }
@@ -123,7 +123,7 @@ void KDirLister::openURL( const KURL& _url, bool _showDotFiles, bool _keep )
   m_bComplete = false;
 
   KIOJob* job = new KIOJob;
-  connect( job, SIGNAL( sigListEntry( int, const UDSEntry& ) ), this, SLOT( slotListEntry( int, const UDSEntry& ) ) );
+  connect( job, SIGNAL( sigListEntry( int, const KUDSEntry& ) ), this, SLOT( slotListEntry( int, const KUDSEntry& ) ) );
   connect( job, SIGNAL( sigFinished( int ) ), this, SLOT( slotCloseURL( int ) ) );
   connect( job, SIGNAL( sigError( int, int, const char* ) ),
 	   this, SLOT( slotError( int, int, const char* ) ) );
@@ -136,7 +136,7 @@ void KDirLister::openURL( const KURL& _url, bool _showDotFiles, bool _keep )
   m_bFoundOne = _keep;
 
   m_buffer.clear();
-  
+
   m_jobId = job->id();
   job->listDir( m_sURL );
 
@@ -161,7 +161,7 @@ void KDirLister::slotCloseURL( int /*_id*/ )
 
   if ( m_bComplete )
     return;
-  
+
   slotBufferTimeout();
   m_jobId = 0;
   m_bComplete = true;
@@ -169,7 +169,7 @@ void KDirLister::slotCloseURL( int /*_id*/ )
   emit completed();
 }
 
-void KDirLister::slotListEntry( int /*_id*/, const UDSEntry& _entry )
+void KDirLister::slotListEntry( int /*_id*/, const KUDSEntry& _entry )
 {
   m_buffer.append( _entry ); // Copies _entry, since m_buffer is a QValueList
   if ( !m_bufferTimer.isActive() )
@@ -182,7 +182,7 @@ void KDirLister::slotBufferTimeout()
 
   //The first entry ?
   if ( !m_bFoundOne )
-  { 
+  {
     emit clear();
     m_lstFileItems.clear(); // clear our internal list
     // TODO : update m_url in case of redirection
@@ -190,14 +190,14 @@ void KDirLister::slotBufferTimeout()
     m_bFoundOne = true; // remember not to go here again
     m_bIsLocalURL = m_url.isLocalFile();
   }
-  
-  QValueListIterator<UDSEntry> it = m_buffer.begin();
+
+  QValueListIterator<KUDSEntry> it = m_buffer.begin();
   for( ; it != m_buffer.end(); ++it )
-  {    
+  {
     QString name;
-    
+
     // Find out about the name
-    UDSEntry::Iterator it2 = (*it).begin();
+    KUDSEntry::Iterator it2 = (*it).begin();
     for( ; it2 != (*it).end(); it2++ )
       if ( (*it2).m_uds == KIO::UDS_NAME )
 	name = (*it2).m_str;
@@ -229,7 +229,7 @@ void KDirLister::updateDirectory( const QString& _dir )
     m_lstPendingUpdates.append( _dir );
     return;
   }
-  
+
   // Stop running jobs
   if ( m_jobId )
   {
@@ -238,16 +238,16 @@ void KDirLister::updateDirectory( const QString& _dir )
       job->kill();
     m_jobId = 0;
   }
-  
+
   m_bComplete = false;
   m_buffer.clear();
-  
+
   KIOJob* job = new KIOJob;
-  connect( job, SIGNAL( sigListEntry( int, const UDSEntry& ) ), this, SLOT( slotUpdateListEntry( int, const UDSEntry& ) ) );
+  connect( job, SIGNAL( sigListEntry( int, const KUDSEntry& ) ), this, SLOT( slotUpdateListEntry( int, const KUDSEntry& ) ) );
   connect( job, SIGNAL( sigFinished( int ) ), this, SLOT( slotUpdateFinished( int ) ) );
   connect( job, SIGNAL( sigError( int, int, const char* ) ),
 	   this, SLOT( slotUpdateError( int, int, const char* ) ) );
-  
+
   m_url = KURL( _dir );
   m_sURL = m_url.url();
 
@@ -263,7 +263,7 @@ void KDirLister::slotUpdateError( int /*_id*/, int _errid, const char *_errortex
   kioErrorDialog( _errid, _errortext );
 
   m_bComplete = true;
-  
+
   emit canceled();
 }
 
@@ -271,14 +271,14 @@ void KDirLister::slotUpdateFinished( int /*_id*/ )
 {
   if ( m_bufferTimer.isActive() )
     m_bufferTimer.stop();
-  
+
   m_jobId = 0;
   m_bComplete = true;
-  
+
   QStringList::Iterator pendingIt = m_lstPendingUpdates.find( m_url.path( 0 ) );
   if ( pendingIt != m_lstPendingUpdates.end() )
     m_lstPendingUpdates.remove( pendingIt );
-  
+
   // Unmark all items whose path is m_sURL
   QString sPath = m_url.path( 1 ); // with trailing slash
   QListIterator<KFileItem> kit ( m_lstFileItems );
@@ -292,17 +292,17 @@ void KDirLister::slotUpdateFinished( int /*_id*/ )
       (*kit)->mark(); // keep the other items
   }
 
-  QValueListIterator<UDSEntry> it = m_buffer.begin();
+  QValueListIterator<KUDSEntry> it = m_buffer.begin();
   for( ; it != m_buffer.end(); ++it )
-  {    
+  {
     QString name;
-    
+
     // Find out about the name
-    UDSEntry::Iterator it2 = (*it).begin();
+    KUDSEntry::Iterator it2 = (*it).begin();
     for( ; it2 != (*it).end(); it2++ )
       if ( (*it2).m_uds == KIO::UDS_NAME )
 	name = (*it2).m_str;
-  
+
     assert( !name.isEmpty() );
 
     if ( m_isShowingDotFiles || name[0]!='.' )
@@ -318,13 +318,13 @@ void KDirLister::slotUpdateFinished( int /*_id*/ )
       for( ; kit.current() && !done; ++kit )
       {
         if ( u == (*kit)->url() )
-        {  
+        {
           kdebug(KDEBUG_INFO, 1203, "slotUpdateFinished : keeping %s",name.ascii() );
           (*kit)->mark();
           done = true;
         }
       }
-      
+
       if ( !done )
       {
         kdebug(KDEBUG_INFO, 1203,"slotUpdateFinished : inserting %s", name.ascii());
@@ -347,19 +347,19 @@ void KDirLister::slotUpdateFinished( int /*_id*/ )
       lst.append( *kit );
     }
   }
-  
+
   KFileItem* kci;
   for( kci = lst.first(); kci != 0L; kci = lst.next() )
   {
     m_lstFileItems.remove( kci );
     emit deleteItem( kci );
   }
-  
+
   m_buffer.clear();
 
   //emit update();
   emit completed();
-  
+
   // continue with pending updates
   // as this will result in a recursive loop it's sufficient to only
   // take the first entry
@@ -368,7 +368,7 @@ void KDirLister::slotUpdateFinished( int /*_id*/ )
     updateDirectory( *pendingIt );
 }
 
-void KDirLister::slotUpdateListEntry( int /*_id*/, const UDSEntry& _entry )
+void KDirLister::slotUpdateListEntry( int /*_id*/, const KUDSEntry& _entry )
 {
   m_buffer.append( _entry ); // Keep a copy of _entry
 }

@@ -1,21 +1,21 @@
 /* This file is part of the KDE project
    Copyright (C) 1999 David Faure <faure@kde.org>
- 
+
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Library General Public
    License as published by the Free Software Foundation; either
    version 2 of the License, or (at your option) any later version.
- 
+
    This library is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
    Library General Public License for more details.
- 
+
    You should have received a copy of the GNU Library General Public License
    along with this library; see the file COPYING.LIB.  If not, write to
    the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
    Boston, MA 02111-1307, USA.
-*/     
+*/
 
 #ifndef __kdirlister_h__
 #define __kdirlister_h__
@@ -58,7 +58,7 @@ public:
    * Destroy the directory lister
    */
   ~KDirLister();
-  
+
   /**
    * Run the directory lister on the given url
    * @param _url the directory URL
@@ -87,7 +87,7 @@ public:
    */
   virtual const KURL & kurl() const { return m_url; }
 
-  /** 
+  /**
    * Update the currently displayed directory
    * The current implementation calls it automatically for
    * local files, using KDirWatch, but it might be useful to force an
@@ -100,7 +100,7 @@ public:
    * Calls updateDirectory() if setting changed
    */
   virtual void setShowingDotFiles( bool _showDotFiles );
-  
+
   /**
    * Find an item
    * @param _url the item URL
@@ -112,11 +112,11 @@ public:
    * @return the list of file items currently displayed
    */
   QList<KFileItem> & items() { return m_lstFileItems; }
-  
+
 signals:
   /**
    * Tell the view that we started to list _url.
-   * The view knows that openURL should start it, so it might seem useless, 
+   * The view knows that openURL should start it, so it might seem useless,
    * but the view also needs to know when an automatic update happens.
    */
   void started( const QString& _url );
@@ -136,18 +136,18 @@ signals:
 protected slots:
   // internal slots used by the directory lister (connected to the job)
   virtual void slotCloseURL( int _id );
-  virtual void slotListEntry( int _id, const UDSEntry& _entry );
+  virtual void slotListEntry( int _id, const KUDSEntry& _entry );
   virtual void slotError( int _id, int _errid, const char *_errortext );
   virtual void slotBufferTimeout();
   virtual void slotUpdateError( int _id, int _errid, const char *_errortext );
   virtual void slotUpdateFinished( int _id );
-  virtual void slotUpdateListEntry( int _id, const UDSEntry& _entry );
+  virtual void slotUpdateListEntry( int _id, const KUDSEntry& _entry );
 
   // internal slots connected to KDirWatch
   virtual void slotDirectoryDirty( const QString& _dir );
   virtual void slotFileDirty( const QString& _file );
 
-protected:  
+protected:
   /** Unregister dirs from kdirwatch and clear m_lstDirs */
   virtual void forgetDirs();
 
@@ -159,7 +159,7 @@ protected:
       Set to false by openURL and to true by slotBufferTimeout */
   bool m_bFoundOne;
   bool m_bIsLocalURL;
-  
+
   int m_jobId;
 
   /** The internal storage of file items */
@@ -179,7 +179,7 @@ protected:
 
   QValueList<UDSEntry> m_buffer;
   QTimer m_bufferTimer;
-  
+
   QStringList m_lstPendingUpdates;
 };
 
