@@ -1778,7 +1778,8 @@ void KonqMainView::slotOpenEmbeddedDoIt()
 {
   (void) m_currentView->changeViewMode( m_popupServiceType,
 					m_popupService,
-                                        m_popupURL );
+                                        m_popupURL,
+					m_popupURL.url() );
 }
 
 void KonqMainView::slotDatabaseChanged()
