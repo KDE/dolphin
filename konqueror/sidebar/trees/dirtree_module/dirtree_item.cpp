@@ -114,7 +114,10 @@ KURL KonqSidebarDirTreeItem::externalURL() const
 
 QString KonqSidebarDirTreeItem::externalMimeType() const
 {
-    return m_fileItem->mimetype();
+    if (m_fileItem->isMimeTypeKnown())
+        return m_fileItem->mimetype();
+    else
+        return QString::null;
 }
 
 bool KonqSidebarDirTreeItem::acceptsDrops( const QStrList & formats )
