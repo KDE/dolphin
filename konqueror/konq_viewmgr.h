@@ -274,7 +274,10 @@ public:
 #endif
 
   void setLoading( KonqView *view, bool loading );
-    void showHTML(bool b);
+  
+  void showHTML(bool b);
+
+  QString profileHomeURL() const { return m_profileHomeURL; }
 
 protected slots:
   void emitActivePartChanged();
@@ -347,6 +350,7 @@ private:
   bool m_bLoadingProfile;
   QString m_currentProfile;
   QString m_currentProfileText;
+  QString m_profileHomeURL;
 
   QMap<QString, QString> m_mapProfileNames;
 };

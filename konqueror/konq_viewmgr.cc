@@ -1143,6 +1143,8 @@ void KonqViewManager::loadViewProfile( KConfig &cfg, const QString & filename,
 
   m_currentProfile = filename;
   m_currentProfileText = cfg.readPathEntry("Name",filename);
+  m_profileHomeURL = cfg.readEntry("HomeURL", QString::null);
+  
   m_pMainWindow->currentProfileChanged();
   KURL defaultURL;
   if ( m_pMainWindow->currentView() )
@@ -1667,7 +1669,6 @@ void KonqViewManager::slotProfileActivated( int id )
       break;
     }
   }
-
 }
 
 void KonqViewManager::slotProfileListAboutToShow()

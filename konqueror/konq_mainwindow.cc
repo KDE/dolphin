@@ -433,6 +433,7 @@ void KonqMainWindow::openFilteredURL( const QString & _url, bool inNewTab )
 
     KURL filteredURL ( KonqMisc::konqFilteredURL( this, url, m_currentDir ) );
     kdDebug(1202) << "_url " << _url << " filtered into " << filteredURL.prettyURL() << endl;
+    
     if ( filteredURL.isEmpty() ) // initially empty, or error (e.g. ~unknown_user)
         return;
 
@@ -547,7 +548,8 @@ void KonqMainWindow::openURL( KonqView *_view, const KURL &_url,
   }
 
   kdDebug(1202) << "trying openView for " << url << " (serviceType " << serviceType << ")" << endl;
-  if ( ( !serviceType.isEmpty() && serviceType != "application/octet-stream") || url.url() == "about:konqueror" || url.url() == "about:plugins")
+  if ( ( !serviceType.isEmpty() && serviceType != "application/octet-stream") ||
+         url.url() == "about:konqueror" || url.url() == "about:plugins" )
   {
     KService::Ptr offer = KServiceTypeProfile::preferredService(serviceType, "Application");
     // If the associated app is konqueror itself, then make sure we try to embed before bailing out.
@@ -1729,7 +1731,12 @@ void KonqMainWindow::slotReloadPopup()
 
 void KonqMainWindow::slotHome()
 {
-  openURL( 0L, KURL( KonqMisc::konqFilteredURL( this, KonqFMSettings::settings()->homeURL() ) ) );
+  QString homeURL = m_pViewManager->profileHomeURL();
+  
+  if (homeURL.isEmpty())
+    homeURL = KonqFMSettings::settings()->homeURL();
+  
+  openURL( 0L, KURL( KonqMisc::konqFilteredURL( this, homeURL ) ) );
 }
 
 void KonqMainWindow::slotGoApplications()
