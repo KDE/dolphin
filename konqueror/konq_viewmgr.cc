@@ -427,6 +427,10 @@ void KonqViewManager::duplicateTab( KonqFrameBase* tab )
   else
     currentFrame = tab;
 
+  if (!currentFrame) {
+    return;
+  }
+
   KTempFile tempFile;
   tempFile.setAutoDelete( true );
   KConfig config( tempFile.name() );
@@ -482,6 +486,10 @@ void KonqViewManager::breakOffTab( KonqFrameBase* tab )
     currentFrame = dynamic_cast<KonqFrameBase*>(tabContainer->currentPage());
   else
     currentFrame = tab;
+
+  if (!currentFrame) {
+    return;
+  }
 
   KTempFile tempFile;
   tempFile.setAutoDelete( true );
@@ -620,6 +628,9 @@ void KonqViewManager::removeOtherTabs( KonqFrameBase* tab )
   else
     currentFrame = tab;
 
+  if (!currentFrame) {
+    return;
+  }
 
   QPtrList<KonqFrameBase> frameList = *tabContainer->childFrameList();
   QPtrListIterator<KonqFrameBase> it( frameList );
