@@ -98,7 +98,8 @@ private:
   QColor textBackgroundColor;
 
   QCheckBox* m_pWordWrap;
-  QCheckBox *cbUnderline;
+  QCheckBox* cbUnderline;
+  QCheckBox* m_pSizeInBytes;
 };
 
 #endif

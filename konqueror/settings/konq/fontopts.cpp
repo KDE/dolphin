@@ -49,7 +49,7 @@ KonqFontOptions::KonqFontOptions(KConfig *config, QString group, bool desktop, Q
     QString wtstr;
     int row = 0;
 
-    int LASTLINE = m_bDesktop ? 7 : 7; // this can be different :)
+    int LASTLINE = m_bDesktop ? 7 : 8; // this can be different :)
 #define LASTCOLUMN 2
     QGridLayout *lay = new QGridLayout(this,LASTLINE+1,LASTCOLUMN+1,KDialog::marginHint(),
                                        KDialog::spacingHint());
@@ -177,6 +177,19 @@ KonqFontOptions::KonqFontOptions(KConfig *config, QString group, bool desktop, Q
                                        " to complete the analogy, make sure that single click activation is"
                                        " enabled in the mouse control module.") );
 
+    if ( !m_bDesktop )
+    {
+        row++;
+
+        m_pSizeInBytes = new QCheckBox(i18n("Display the filesizes in b&ytes"), this);
+        lay->addMultiCellWidget( m_pSizeInBytes,row,row,0,LASTCOLUMN,Qt::AlignLeft );
+        connect( m_pSizeInBytes, SIGNAL(clicked()), this, SLOT(changed()) );
+
+        QWhatsThis::add( m_pSizeInBytes, i18n("Checking this option will result in filesizes"
+                                              " being displayed in bytes. Otherwise filesizes are"
+                                              " converted to kilobytes or megabytes if appropriate.") );
+    }
+
     assert( row == LASTLINE-1 );
     // The last line is empty and grows if resized
 
@@ -237,6 +250,7 @@ void KonqFontOptions::load()
     else
     {
         m_pWordWrap->setChecked( g_pConfig->readBoolEntry( "WordWrapText", DEFAULT_WORDWRAPTEXT ) );
+        m_pSizeInBytes->setChecked( g_pConfig->readBoolEntry( "DisplayFileSizeInBytes", DEFAULT_FILESIZEINBYTES ) );
     }
     cbUnderline->setChecked( g_pConfig->readBoolEntry("UnderlineLinks", DEFAULT_UNDERLINELINKS ) );
 
@@ -262,8 +276,9 @@ void KonqFontOptions::defaults()
     else
     {
         m_pWordWrap->setChecked( DEFAULT_WORDWRAPTEXT );
+        m_pSizeInBytes->setChecked( DEFAULT_FILESIZEINBYTES );
     }
-    cbUnderline->setChecked( true );
+    cbUnderline->setChecked( DEFAULT_UNDERLINELINKS );
 
     updateGUI();
 }
@@ -306,7 +321,10 @@ void KonqFontOptions::save()
     if ( m_bDesktop )
         g_pConfig->writeEntry( "ItemTextBackground", m_cbTextBackground->isChecked() ? textBackgroundColor : QColor());
     else
+    {
         g_pConfig->writeEntry( "WordWrapText", m_pWordWrap->isChecked() );
+        g_pConfig->writeEntry( "DisplayFileSizeInBytes", m_pSizeInBytes->isChecked() );
+    }
     g_pConfig->writeEntry( "UnderlineLinks", cbUnderline->isChecked() );
     g_pConfig->sync();
 }
