@@ -1704,6 +1704,8 @@ void KonqMainView::enableAllActions( bool enable )
       m_paForward->setEnabled( false );
       // no locked views either
       m_paUnlockAll->setEnabled( false );
+      // removeview only if more than one
+      m_paRemoveView->setEnabled( m_mapViews.count() > 1 );
   }
   actionCollection()->action( "close" )->setEnabled( true );
 }
