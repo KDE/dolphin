@@ -23,18 +23,9 @@
 // This file can hold every global class for konqueror that used to pollute
 // konq_main.cc
 
-#include <kbookmark.h>
 #include <krun.h>
 #include <kparts/browserextension.h>
 class KonqMainWindow;
-
-class KonqBookmarkManager : public KBookmarkManager
-{
-public:
-  KonqBookmarkManager( QString path ) : KBookmarkManager ( path ) {}
-  ~KonqBookmarkManager() {}
-  virtual void editBookmarks( const KURL & url );
-};
 
 class KonqMisc
 {

@@ -121,14 +121,3 @@ QString KonqMisc::konqFilteredURL( QWidget* parent, const QString& _url, const Q
   return _url;  // return the original url if it cannot be filtered.
 }
 
-/**********************************************
- *
- * KonqBookmarkManager
- *
- **********************************************/
-
-void KonqBookmarkManager::editBookmarks( const KURL & _url )
-{
-  KonqMisc::createSimpleWindow( _url );
-}
-

@@ -59,8 +59,6 @@ int main( int argc, char **argv )
   KGlobal::locale()->insertCatalogue("libkonq"); // needed for apps using libkonq
   KImageIO::registerFormats();
 
-  QString path = KGlobal::dirs()->saveLocation("data", "kfm/bookmarks", true);
-  KonqBookmarkManager bm ( path );
   KFileOpenWithHandler fowh;
 
   KCmdLineArgs *args = KCmdLineArgs::parsedArgs();

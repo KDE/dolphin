@@ -29,7 +29,7 @@
 #include <konq_openurlrequest.h>
 
 #include <kparts/mainwindow.h>
-#include <kbookmark.h>
+#include <kbookmarkmanager.h>
 #include <kcompletion.h>
 #include <kurlcompletion.h>
 #include <kglobalsettings.h>

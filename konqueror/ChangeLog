@@ -1,5 +1,11 @@
 2000-10-26  David Faure  <faure@kde.org>
 
+	* keditbookmarks/*: Finally, a bookmark editor for konqueror.
+	
+	* kbookmarkmanager.*: Separated from kbookmark.* after dcopidl dying on
+	"mutable" :). Implemented DCOP notifications between processes.
+	Implemented "internal bookmark address". KonqBookmarkManager is no more.
+
 	* kbookmarkbar.*: Update for XML bookmarks, fill in aboutToShow, update
 	sub-menus upon changed() signal, enabled "Add Bookmark" and "New Folder"
 

@@ -60,6 +60,7 @@
 #include <kapp.h>
 #include <kbookmarkbar.h>
 #include <kbookmarkmenu.h>
+#include <kbookmarkmanager.h>
 #include <kcombobox.h>
 #include <kdebug.h>
 #include <kedittoolbar.h>
