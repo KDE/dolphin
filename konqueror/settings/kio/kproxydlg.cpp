@@ -244,6 +244,7 @@ void KProxyOptions::defaults() {
   setCache();
   ui->rb_verify->setChecked(true);
   ui->sb_max_cache_size->setValue(DEFAULT_MAX_CACHE_SIZE);
+  ui->cb_autoProxy->setChecked(false);
 }
 
 void KProxyOptions::updateGUI(QString httpProxy, QString httpsProxy, QString ftpProxy,
