@@ -234,7 +234,7 @@ KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const 
     aSortByDate->setExclusiveGroup( "sorting" );
 
     aSortByNameCS->setChecked( false );
-    aSortByNameCI->setChecked( true );
+    aSortByNameCI->setChecked( false );
     aSortBySize->setChecked( false );
     aSortByType->setChecked( false );
     aSortByDate->setChecked( false );
@@ -244,6 +244,11 @@ KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const 
     connect( aSortBySize, SIGNAL( toggled( bool ) ), this, SLOT( slotSortBySize( bool ) ) );
     connect( aSortByType, SIGNAL( toggled( bool ) ), this, SLOT( slotSortByType( bool ) ) );
     connect( aSortByDate, SIGNAL( toggled( bool ) ), this, SLOT( slotSortByDate( bool ) ) );
+
+    //enable menu item representing the saved sorting criterion
+    QString sortcrit=KonqIconViewFactory::defaultViewProps()->getSortCriterion();
+    KRadioAction *sort_action = dynamic_cast<KRadioAction *>(actionCollection()->action(sortcrit.latin1()));
+    if(sort_action!=NULL) sort_action->activate();
 
     m_paSortDirsFirst = new KToggleAction( i18n( "Directories First" ), 0, actionCollection(), "sort_directoriesfirst" );
     KToggleAction *aSortDescending = new KToggleAction( i18n( "Descending" ), 0, actionCollection(), "sort_descend" );
@@ -334,8 +339,6 @@ KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const 
     m_bNeedAlign = false;
     m_bNeedEmitCompleted = false;
     m_pIconView->setResizeMode( QIconView::Adjust );
-
-    m_eSortCriterion = NameCaseInsensitive;
 
     connect( m_pIconView, SIGNAL( selectionChanged() ),
              this, SLOT( slotSelectionChanged() ) );
@@ -530,6 +533,7 @@ void KonqKfmIconView::slotSortByNameCaseSensitive( bool toggle )
     if ( !toggle )
         return;
 
+    KonqIconViewFactory::defaultViewProps()->setSortCriterion("sort_nc");
     setupSorting( NameCaseSensitive );
 }
 
@@ -538,6 +542,7 @@ void KonqKfmIconView::slotSortByNameCaseInsensitive( bool toggle )
     if ( !toggle )
         return;
 
+    KonqIconViewFactory::defaultViewProps()->setSortCriterion("sort_nci");
     setupSorting( NameCaseInsensitive );
 }
 
@@ -546,6 +551,7 @@ void KonqKfmIconView::slotSortBySize( bool toggle )
     if ( !toggle )
         return;
 
+    KonqIconViewFactory::defaultViewProps()->setSortCriterion("sort_size");
     setupSorting( Size );
 }
 
@@ -554,6 +560,7 @@ void KonqKfmIconView::slotSortByType( bool toggle )
   if ( !toggle )
     return;
 
+  KonqIconViewFactory::defaultViewProps()->setSortCriterion("sort_type");
   setupSorting( Type );
 }
 
@@ -562,6 +569,7 @@ void KonqKfmIconView::slotSortByDate( bool toggle )
   if( !toggle)
     return;
     
+  KonqIconViewFactory::defaultViewProps()->setSortCriterion("sort_date");
   setupSorting( Date );
 }
 
@@ -1096,7 +1104,7 @@ void KonqKfmIconView::setupSortKeys()
         for ( QIconViewItem *it = m_pIconView->firstItem(); it; it = it->nextItem() )
             it->setKey( makeSizeKey( (KFileIVI *)it ) );
         break;
-     case Type:
+    case Type:
         // Sort by Type + Name (#17014)
         for ( QIconViewItem *it = m_pIconView->firstItem(); it; it = it->nextItem() )
             it->setKey( static_cast<KFileIVI *>( it )->item()->mimetype() + '~' + it->text().lower() );

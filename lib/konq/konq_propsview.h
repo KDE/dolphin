@@ -86,6 +86,9 @@ public:
   void setItemTextPos( int pos ); // QIconView::Bottom or QIconView::Right, currently
   int itemTextPos() const { return m_iItemTextPos; }
 
+  void setSortCriterion( const QString &criterion );
+  const QString getSortCriterion() const { return m_sortcriterion; }
+
   void setShowingDotFiles( bool show );
   bool isShowingDotFiles() const { return m_bShowDot; }
 
@@ -137,6 +140,7 @@ private:
   QColor m_textColor;
   QColor m_bgColor;
   QString m_bgPixmapFile;
+  QString m_sortcriterion;
 
   // Path to .directory file, whether it exists or not
   QString dotDirectory;
