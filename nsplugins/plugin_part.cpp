@@ -69,6 +69,7 @@ QString PluginLiveConnectExtension::evalJavaScript( const QString & script )
     ArgList args;
     QString jscode;
     jscode.sprintf("this.__nsplugin=eval(\"%s\")",  QString(script).replace('\\', "\\\\").replace('"', "\\\"").latin1());
+    //kdDebug(1432) << "String is [" << jscode << "]" << endl;
     args.push_back(qMakePair(KParts::LiveConnectExtension::TypeString, jscode));
     emit partEvent(0, "eval", args);
     return __nsplugin;
@@ -148,8 +149,9 @@ PluginFactory::~PluginFactory()
 
 KParts::Part * PluginFactory::createPartObject(QWidget *parentWidget, const char *widgetName,
                                          QObject *parent, const char *name,
-                                         const char */*classname*/, const QStringList &args)
+                                         const char *classname, const QStringList &args)
 {
+    Q_UNUSED(classname)
     kdDebug(1432) << "PluginFactory::create" << endl;
     KParts::Part *obj = new PluginPart(parentWidget, widgetName, parent, name, args);
     return obj;
@@ -334,8 +336,11 @@ void PluginPart::requestURL(const QString& url, const QString& target)
 
 void PluginPart::evalJavaScript(int id, const QString & script)
 {
+    kdDebug(1432) <<"evalJavascript: before widget check"<<endl;
     if (_widget) {
+	kdDebug(1432) <<"evalJavascript: there is a widget" <<endl;	
         QString rc = _liveconnect->evalJavaScript(script);
+        kdDebug(1432) << "Liveconnect: script [" << script << "] evaluated to [" << rc << "]" << endl;
         static_cast<NSPluginInstance*>((QWidget*)_widget)->javascriptResult(id, rc);
     }
 }

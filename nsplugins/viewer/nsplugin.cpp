@@ -709,23 +709,14 @@ void NSPluginInstance::timer()
 
                     emitStatus( i18n("Submitting data to %1").arg(url) );
                     s->post( url, req.data, req.mime, req.notify, req.args );
-                } else if (url.lower().startsWith("javascript:document.location") ||
-                     url.lower().startsWith("javascript:window.location.href")) {
-                    // hack to get java vm and HyperCosm 3d working
-                    NSPluginBufStream *s = new NSPluginBufStream( this );
-                    connect( s, SIGNAL(finished(NSPluginStreamBase*)),
-                             SLOT(streamFinished(NSPluginStreamBase*)) );
-                    _streams.append( s );
-
-                    QByteArray buf;
-                    buf.setRawData( _baseURL.latin1(), _baseURL.length()+1 );
-                    s->get( url, "text/html", buf, req.notify, true );
                 } else if (url.lower().startsWith("javascript:")){
                     if (_callback) {
                         static int _jsrequestid = 0;
                         _callback->evalJavaScript( _jsrequestid, url.mid(11) );
                         if ( req.notify )
                             _jsrequests.insert(_jsrequestid++, new Request( req ));
+                    } else {
+                        kdDebug() << "No callback for javascript: url!" << endl;
                     }
                 } else {
                     // create stream
