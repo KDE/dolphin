@@ -6,8 +6,8 @@
 <!-- TRANS:ROLES_OF_TRANSLATORS -->
 </authorgroup> 
 
-<date>2002-09-22</date>
-<releaseinfo>3.1</releaseinfo>
+<date>2003-11-05</date>
+<releaseinfo>3.2</releaseinfo>
 </chapterinfo>
 
 
@@ -30,7 +30,7 @@ choose between the following options:</para>
 <varlistentry>
 <term><guimenuitem>Manual</guimenuitem></term>
 <listitem><para>When you have typed part of a path or &URL;, pressing 
-<keycombo>&Ctrl;<keycap>E</keycap></keycombo> will complete the entry if it is 
+<keycombo action="simul">&Ctrl;<keycap>E</keycap></keycombo> will complete the entry if it is 
 possible to do so unambiguously.</para></listitem> 
 </varlistentry>
 
@@ -39,7 +39,7 @@ possible to do so unambiguously.</para></listitem>
 <listitem><para>As you type into the Location Toolbar window &konqueror; will 
 automatically extend what you type to complete one possible path or &URL;,  
 highlighting the characters it has added. Continue typing if that's not what 
-you wanted or press <keycap>Enter</keycap> to accept it.</para></listitem>
+you wanted or press &Enter; to accept it.</para></listitem>
  </varlistentry>
 
 <varlistentry>
@@ -49,15 +49,15 @@ possible matches to what you have typed so far. When the path or &URL; that
 you want appears in the window double click on it with the &LMB;. 
 You can also use the 
 <keysym>Down Arrow</keysym> and <keysym>Up Arrow</keysym>
-keys to select it then press <keycap>Enter</keycap>.</para></listitem>
+keys to select it then press &Enter;.</para></listitem>
 </varlistentry>
 
 <varlistentry>
 <term><guimenuitem>Short Automatic</guimenuitem></term>
 <listitem><para>This is like Automatic mode except that it only extends 
 what you have typed as far as the next <keycap>/</keycap> symbol in the path 
-or &URL;. Press <keycombo>&Ctrl;<keycap>E</keycap></keycombo> to accept the 
-suggestion, <keycap>Enter</keycap> when the complete path or &URL; is 
+or &URL;. Press <keycombo action="simul">&Ctrl;<keycap>E</keycap></keycombo> to accept the 
+suggestion, &Enter; when the complete path or &URL; is 
 shown.</para></listitem>
 </varlistentry>
 

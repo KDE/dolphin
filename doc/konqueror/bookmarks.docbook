@@ -5,8 +5,8 @@
 <!-- TRANS:ROLES_OF_TRANSLATORS -->
 </authorgroup>
 
-<date>2002-09-22</date>
-<releaseinfo>3.1</releaseinfo>
+<date>2003-11-05</date>
+<releaseinfo>3.2</releaseinfo>
 </chapterinfo>
 
 <title>Using Bookmarks</title>
@@ -15,19 +15,19 @@
 your own files and folders, they are most useful when you are surfing the
 Web, letting you build up a list of useful sites.</para>
 
-<para>To open the <guimenu>Bookmarks</guimenu> drop-down list you may either
-<mousebutton>left</mousebutton> click on the Menubar
-<guimenu>Bookmarks</guimenu> item or use the <keycombo
+<para>To open the <guimenu>Bookmarks</guimenu> menu you may either
+<mousebutton>left</mousebutton> click on the
+<guimenu>Bookmarks</guimenu> menu or use the <keycombo
 action="simul">&Alt;<keycap>B</keycap></keycombo> shortcut. Once
 the list is visible, you can navigate through it with the arrow keys or with
-your mouse, then press <keycap>Enter</keycap> or
+your mouse, then press &Enter; or
 <mousebutton>left</mousebutton> click to visit the selected location.</para>
 
 <para>To add a new item to the list use <menuchoice><guimenu>Bookmarks
-</guimenu> <guimenuitem>Add Bookmark</guimenuitem></menuchoice> or 
+</guimenu><guimenuitem>Add Bookmark</guimenuitem></menuchoice> or 
 <keycombo action="simul">&Ctrl;<keycap>B</keycap></keycombo> or
 <mousebutton>right</mousebutton> click on a clear space in the web page or 
-folder view and select <guimenuitem>Add To Bookmarks</guimenuitem> from 
+folder view and select <guimenuitem>Bookmark this Location</guimenuitem> from 
 the pop up menu.</para>
 
 <para>The <guimenu>Bookmarks</guimenu> list can contain subfolders containing 
@@ -37,21 +37,17 @@ To add a bookmark into a subfolder rather than into the main Bookmark list,
 select the folder from within the <guimenu>Bookmarks</guimenu> list and use 
 the <guimenuitem>Add Bookmark</guimenuitem> item in that folder.</para>
 
-<para>The items that appear in your Bookmark Toolbar are held in a subfolder, 
-usually called <quote>Toolbar</quote> although this can be changed 
-with the <guilabel>Bookmark Editor</guilabel>.</para>
-
 <para>You can also access your bookmarks from the <link linkend="sidebar">
 <guilabel>Navigation Panel</guilabel></link>.</para>
 
 <sect1 id="orgbmark">
 <title>The Bookmark Editor</title>
 
-<para>The <menuchoice><guimenu>Bookmarks</guimenu> <guimenuitem>Edit
+<para>The <menuchoice><guimenu>Bookmarks</guimenu><guimenuitem>Edit
 Bookmarks</guimenuitem> </menuchoice> option opens the <guilabel>Bookmark
 Editor</guilabel>.</para>
 <para>This shows a tree view of your bookmarks and bookmark subfolders. 
-As is usual for tree views in &kde; subfolders are shown with a small square 
+As is usual for tree views in &kde;, subfolders are shown with a small square 
 at the left of the folder name; if the square contains a <keycap>+</keycap> 
 sign <mousebutton>left</mousebutton> clicking on it will expand the view to 
 show the contents of that subfolder and the <keycap>+</keycap> sign will 
@@ -84,7 +80,7 @@ window, or with <keycombo action="simul">&Ctrl;<keycap>N</keycap></keycombo>
 the <guimenu>Edit</guimenu> menu or the pop up menu that appears when you 
 <mousebutton>right</mousebutton> click on the item. Similarly, you can edit 
 the &URL; by pressing <keycap>F3</keycap> or choosing the <guimenuitem>
-Rename URL</guimenuitem> menu item.</para>
+Change URL</guimenuitem> menu item.</para>
 
 <para>The <guilabel>Bookmark Editor</guilabel> lets you import bookmarks from 
 a range of other browsers into &konqueror;'s bookmark list, putting them into 

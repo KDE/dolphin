@@ -5,27 +5,29 @@
 <!-- TRANS:ROLES_OF_TRANSLATORS -->
 </authorgroup>
 
-<date>2002-09-22</date>
-<releaseinfo>3.1</releaseinfo>
+<date>2003-11-06</date>
+<releaseinfo>3.2</releaseinfo>
 </chapterinfo>
 
 <title>Questions and Answers</title>
 
 <qandaset>
 
+<!-- Link is dead, unfortunately. I suppose this is a more general thing anyway
 <qandaentry>
 <question><para>How can I browse web sites using non latin
  scripts?</para></question>
 <answer><para>Detailed instructions can be found at <ulink
 url="http://www.konqueror.org/i18n.html">http://www.konqueror.org/i18n.html</ulink></para></answer>
 </qandaentry>
+-->
 
 <qandaentry>
 <question><para>Can I run &konqueror; from another window
 manager?</para></question>
 
 <answer><para>Just install &Qt;, kdelibs and kdebase, and from your favorite
-window manager, just launch &konqueror;. It should work just fine, but if it
+window manager, launch &konqueror;. It should work just fine, but if it
 doesn't (&kde; developers don't test that case often), report it to <ulink
 url="http://bugs.kde.org">http://bugs.kde.org</ulink> and try running
 <application>kdeinit</application> before running &konqueror;, it usually
@@ -80,8 +82,9 @@ folders.</para></answer>
 <itemizedlist>
 <listitem><para>One is used for text completion in the Location Toolbar text entry
 box. To clear this <mousebutton>right</mousebutton> click on the text entry
-box and select <guimenuitem>Empty Contents
-</guimenuitem>.</para></listitem>
+box and select <guimenuitem>Clear History
+</guimenuitem>.</para>
+</listitem>
 <listitem><para>The other is the log of visited locations. Select the History
 page in the Navigation Panel, 
 <mousebutton>right</mousebutton> click on an entry and choose
@@ -97,9 +100,10 @@ entries.</para></listitem>
 <qandaentry>
 <question><para>How do I enable, disable or clear the browser
 cache?</para></question> <answer>
-<para>If you select <guimenuitem>Cache</guimenuitem> dialog launched by 
-<menuchoice><guimenu>Settings</guimenu><guimenuitem>Configure Konqueror
-</guimenuitem></menuchoice> you will be presented with a dialog box that lets 
+<para>If you select <guimenuitem>Cache</guimenuitem> in the dialog launched by
+selecting  
+<menuchoice><guimenu>Settings</guimenu><guimenuitem>Configure Konqueror...
+</guimenuitem></menuchoice>, you will be presented with a dialog box that lets 
 you disable the cache, clear it or set its size, and change the caching 
 policy.</para>
 </answer>
@@ -108,7 +112,7 @@ policy.</para>
 <qandaentry>
 <question><para>How can I change the timeout values used by &konqueror; 
 when web browsing?</para></question> <answer>
-<para>In the Control Center <menuchoice><guimenu>Network</guimenu>
+<para>In the Control Center <menuchoice><guimenu>Internet &amp; Network</guimenu>
 <guimenuitem>Preferences</guimenuitem></menuchoice> page.</para>
 </answer>
 </qandaentry>

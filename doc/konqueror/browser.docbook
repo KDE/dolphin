@@ -6,8 +6,8 @@
 <!-- TRANS:ROLES_OF_TRANSLATORS -->
 </authorgroup>
 
-<date>2002-09-22</date>
-<releaseinfo>3.1</releaseinfo>
+<date>2003-11-05</date>
+<releaseinfo>3.2</releaseinfo>
 </chapterinfo>
 
 
@@ -25,8 +25,8 @@
 
 <para>Once you are connected to the Internet you can use &konqueror; to browse
 the Web just as easily as you can use it to handle your local files. Just type
-a <acronym>URL</acronym> into the Location Toolbar window, press
-<keycap>Enter</keycap>, and you are away!</para>
+a &URL; into the <guilabel>Location</guilabel> Toolbar window, press
+&Enter;, and you are away!</para>
 
 <itemizedlist>
 <listitem><para>If you use a dial-up modem connection, then you will be using
@@ -39,15 +39,15 @@ done with the <guilabel>Proxy</guilabel> page of the <menuchoice><guimenu>
 Settings</guimenu><guimenuitem>Configure Konqueror...</guimenuitem>
 </menuchoice> dialog.</para></listitem>
 
-<listitem><para>If you are lucky enough to have a high speed cable connection, 
-then the service provider will probably give you an external cable modem which 
-needs an ethernet connection to your machine. Unfortunately the details of how 
+<listitem><para>If you are lucky enough to have a high speed cable connection,
+then the service provider will probably give you an external cable modem which
+needs an ethernet connection to your machine. Unfortunately the details of how
 to establish the connection depend on the service provider and to some extent
-on which Linux distribution you are using.  Some <acronym>ISP</acronym>s 
-connect their customers to the Internet through a proxy server, in which case 
-you will have to set up &konqueror; to use it.  You may find it useful to 
-search the archives of your distribution's user group mailing list for help.
-</para>
+on which Linux/&UNIX; distribution you are using.  Some <acronym>ISP</acronym>s
+connect their customers to the Internet through a proxy server, in which case
+you will have to set up &konqueror; to use it.  You may find it useful to
+search the archives of your distribution's user group mailing list for
+help.</para>
 </listitem>
 </itemizedlist>
 
@@ -64,7 +64,7 @@ you have entered an incorrect &URL;.</para></note>
 &konqueror; just as you can with any other browser.</para>
 
 <para>Type a &URL; into the Location Toolbar window, press
-<keycap>Enter</keycap> or <mousebutton>left</mousebutton> click on the 
+&Enter; or <mousebutton>left</mousebutton> click on the 
 <guibutton>Go</guibutton> button at the right hand end of the Location 
 Toolbar, and &konqueror; will download and display that page. 
 If you have visited the page before, &konqueror;'s 
@@ -115,16 +115,16 @@ Menubar <menuchoice><guimenu>View</guimenu>
 <para>When you are viewing a web page you should see two new icons in the
 Toolbar, looking like magnifying glasses with small <keycap>+</keycap> and
 <keycap>-</keycap> symbols. Use these to adjust the size of the text in the
-page if you find it difficult to read, how well this works will
+page if you find it difficult to read. How well this works will
 depend on how the web page has been constructed.</para>
 </sect1>
 
 <sect1 id="tabbrowse">
 <title>Tabbed Browsing</title>
-<para>By using this feature you can make &konqueror; save downloaded web pages 
-so that you can then switch the view rapidly between them without having to 
-download the pages again or having to open them in new instances of 
-&konqueror;.</para>
+<para>By using this feature you can make &konqueror; load multiple web pages in
+the same window, and switch between them using tabbed pages. This way, you can
+preload a page <quote>in the background</quote> while you carry on reading another.</para>
+
 <para>To use tabbed browsing, <mousebutton>right</mousebutton> click on a 
 link and choose <guimenuitem>Open in New Tab</guimenuitem> from the drop down 
 menu. The page will be downloaded and displayed as normal, but with tabs 
@@ -140,7 +140,7 @@ page will not be displayed until you <mousebutton>left</mousebutton> click
 on the tab.</para>
 
 <para>If you check the <guilabel>Open links in new tab instead of in new window
-</guilabel> box in the <guimenuitem>Behavior</guimenuitem> page of the 
+</guilabel> box in the <guimenuitem>Web Behavior</guimenuitem> page of the 
 <menuchoice><guimenu>Settings</guimenu><guimenuitem>Configure Konqueror...
 </guimenuitem></menuchoice> dialog, &MMB; clicking on a link will open it 
 in a new tab page and if you hold the &Shift; key down while clicking the 
@@ -176,6 +176,22 @@ page from the current &konqueror; window and opens it in a new instance of
 </listitem>
 </varlistentry>
 <varlistentry>
+<term><guimenuitem>Reload</guimenuitem></term>
+<listitem><para>Reloads the content of the current tab.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><guimenuitem>Reload all Tabs</guimenuitem></term>
+<listitem><para>Reloads the content of every tab.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><guimenuitem>Switch to Tab</guimenuitem></term>
+<listitem><para>Displays a submenu showing all other tabs. Choosing a tab from
+this list makes it the active tab.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
 <term><guimenuitem>Close Other Tabs</guimenuitem></term>
 <listitem><para>To close all but the selected tab page.</para>
 </listitem>
@@ -184,22 +200,20 @@ page from the current &konqueror; window and opens it in a new instance of
 </sect1>
 
 <sect1 id="enhanced-browsing">
-<title>Web Shortcuts</title>
-<para>If enabled, &konqueror;'s Web Shortcuts feature lets you submit a 
-query directly to a search engine or similar web site without having to 
-visit the site first.</para>
-<para>For example, entering <userinput>gg:konqueror</userinput> into the 
-Location Bar and pressing <keycap>Enter</keycap> will ask Google to search 
-for items related to &konqueror;.</para>
-<para>To see what Web Shortcuts are available, and perhaps add your own, 
-use <menuchoice><guimenu>Settings</guimenu><guimenuitem>Configure 
+<title>Web Shortcuts</title> <para>If enabled, &konqueror;'s Web Shortcuts
+feature lets you submit a query directly to a search engine or similar web site
+without having to visit the site first.</para> <para>For example, entering
+<userinput>gg:konqueror</userinput> into the Location Bar and pressing &Enter;
+will ask <trademark>Google</trademark> to search for items related to
+&konqueror;.</para> <para>To see what Web Shortcuts are available, and perhaps
+add your own, use <menuchoice><guimenu>Settings</guimenu><guimenuitem>Configure
 Konqueror...</guimenuitem></menuchoice> to open the <guilabel>Settings
 </guilabel> dialog box and click on the <guiicon>Web Shortcuts</guiicon>
 icon.</para>
 </sect1>
 
 <sect1 id="useragent">
-<title>User Agents</title>
+<title>Browser Identification</title>
 <para>When &konqueror; connects to a web site it sends some brief browser 
 identification information, known as the <quote>User Agent</quote> string. 
 Many web sites use this information to customize the pages that they send 
@@ -212,7 +226,7 @@ work satisfactorily with the vast majority of web pages.</para>
 information that &konqueror; sends for specific sites or domains by 
 selecting <menuchoice><guimenu>Settings</guimenu><guimenuitem>
 Configure Konqueror...</guimenuitem></menuchoice> to bring up the <guilabel>
-Settings</guilabel> dialog box and clicking the <guiicon>User Agent</guiicon> 
+Settings</guilabel> dialog box and clicking the <guiicon>Browser Identification</guiicon> 
 icon.</para>
 <note><para>Problems with getting a web page to work properly may also be due 
 to its use of &Java; or JavaScript. If you suspect that this may be the case 
@@ -225,16 +239,16 @@ check that they have been enabled in the <guiicon>Java &amp; JavaScript
 <title>Saving and Printing Web Items</title>
 
 <para>When you are viewing a web page you can save it (or at least the basic
-<acronym>HTML</acronym> or similar source text) to your local disc with 
+<acronym>HTML</acronym> or similar source text) to your local disk with 
 <menuchoice><guimenu>Location</guimenu><guimenuitem>Save
 As...</guimenuitem></menuchoice>. If the page
 you are viewing uses frames, then you will also be given the
 <menuchoice><guimenu>Location</guimenu><guimenuitem>Save Frame
-As...</guimenuitem></menuchoice> option, <mousebutton>left</mousebutton> click
+As...</guimenuitem></menuchoice> option. <mousebutton>Left</mousebutton> click
  in the frame you want to save first.</para>
 
 <para>If the page uses a background image, you can get and save that with the
-Menubar <menuchoice><guimenu>Location</guimenu><guimenuitem>Save Background
+<menuchoice><guimenu>Location</guimenu><guimenuitem>Save Background
 Image As...</guimenuitem></menuchoice> option.</para>
 
 <para>But if what you really want is that glorious picture of the latest
@@ -247,7 +261,7 @@ way for anything other than your own viewing pleasure.</para>
 <para>If you <mousebutton>right</mousebutton> click on a link (which may be a 
 picture) and select <guimenuitem>Save Link As...</guimenuitem> from the pop 
 up menu the basic <acronym>HTML</acronym> or similar source text will be 
-downloaded and saved on your local disc.</para>
+downloaded and saved on your local disk.</para>
 
 <para><mousebutton>Right</mousebutton> clicking on a link (which may be a 
 picture) and choosing <guimenuitem>Copy Link Location</guimenuitem> will copy 
@@ -260,7 +274,7 @@ to the clipboard.</para>
 
 <para>To save a complete web page, including images, select <guimenuitem>
 Archive Web Page...</guimenuitem> from the <guimenu>Tools</guimenu> menu. 
-Note that this feature is provided by a <link linkend="konq-plugin"> plugin 
+Note that this feature is provided by a <link linkend="konq-plugin">plugin 
 </link> and may not have been installed on your system. The web page will be 
 saved as a single file with a <literal role="extension">.war</literal> 
 extension and can be opened by <mousebutton>left</mousebutton> clicking 
@@ -292,7 +306,7 @@ type the &URL;</para>
 <userinput>ftp://ftp.kde.org/pub/kde</userinput>
 </screen>
 
-<para>into the Location Toolbar and press <keycap>Enter</keycap>. As long as 
+<para>into the Location Toolbar and press &Enter;. As long as 
 you are connected to the Internet, and as long as the &kde;'s &FTP; site is 
 not too busy, you should end up seeing the <filename
 class="directory">/pub/kde</filename> folder at &kde-ftp;</para>
@@ -310,7 +324,7 @@ anonymous</systemitem> as a username and your email
 address as a password, and to make your life even easier &konqueror; will
 automatically supply these without troubling you. </para>
 
-<note><para>If you try to access a &FTP; site that does not need a proper
+<note><para>If you try to access an &FTP; site that does not need a proper
 username or password but which is too busy to accept any more connections,
 &konqueror; often interprets the <quote>busy</quote> message as a request for
 a name and password and will therefore pop up a dialog box asking you to
@@ -337,13 +351,13 @@ http://www.konqueror.org/faq.html#netrc</ulink></para>
 
 <sect1 id="portnumbers">
 <title>&URL;s with Port Numbers</title>
-<para>If you specify a port number in your &URL;, as for example 
-<userinput>http://intranet.corp.com:1080</userinput> you might get the error 
+<para>If you specify a port number in your &URL;, as in for example 
+<userinput>http://intranet.corp.com:1080</userinput>, you might get the error 
 message <quote>Access to restricted port in POST denied</quote>. This is done 
 for security reasons. If you nevertheless need to access a server on this port, 
 just add a key line
 <screen><userinput>
-OverrridePorts=CommaSeperatedListOfAllowedPorts
+OverridePorts=CommaSeparatedListOfAllowedPorts
 </userinput></screen>
 to <filename>$KDEDIR/share/config/kio_httprc
 </filename> or 

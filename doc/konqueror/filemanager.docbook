@@ -5,7 +5,7 @@
 <!-- TRANS:ROLES_OF_TRANSLATORS -->
 </authorgroup> 
 
-<date>2003-10-20</date>
+<date>2003-10-28</date>
 <releaseinfo>3.2</releaseinfo>
 </chapterinfo>
 
@@ -43,7 +43,7 @@ folder to hold their personal files and settings, for example
 symbol <keycap>~</keycap> is often used to represent the user's home 
 folder, so that <filename>~/letter.txt</filename> refers to the file 
 <filename>letter.txt</filename> in my home folder.</para>
-<para>Note that the term <quote>folder</quote> is often used instead of 
+<para>Note that the term <quote>directory</quote> is often used instead of 
 <quote>folder</quote>.</para>
 </sect1>
 
@@ -125,7 +125,7 @@ File Previews</link> of this handbook for more details.</para>
 <sect2 id="filetipinfo">
 <title>File Tip Info</title>
 <para>Checking the <guilabel>Show file tips</guilabel> box in the <guilabel>
-Behavior</guilabel> page of the File Manager Configuration dialog causes a 
+Behavior</guilabel> page of the &konqueror; Configuration dialog causes a 
 small pop up information 
 window to appear when the mouse pointer is hovered over a file or folder name 
 or icon in <guimenuitem>Icon View</guimenuitem> or <guimenuitem>
@@ -161,8 +161,8 @@ long.</para>
 
 <sect1 id="navigation">
 <title>Navigation</title>
-<para>To get to a wanted file with &konqueror; you first need to navigate 
-through the folder tree to find the folder (folder) containing that 
+<para>To get to a file with &konqueror; you first need to navigate 
+through the folder tree to find the folder containing that 
 file.</para>
 
 <para>To move between folders you can simply step up and down the
@@ -174,8 +174,7 @@ tree:</para>
 icon, or if you have <quote>selected</quote> it (see below) then just press
 <keycap>Enter</keycap>.</para></listitem> 
 <listitem><para>To go up the folder tree, click on the <guiicon>Up
-</guiicon> button in the Toolbar, or use<keycombo action="simul"><keycap>Alt
-</keycap><keysym>Up Arrow</keysym></keycombo>, or use the Menubar
+</guiicon> button in the Toolbar, or use<keycombo action="simul">&Alt;<keysym>Up Arrow</keysym></keycombo>, or use the Menubar
 <menuchoice><guimenu>Go</guimenu><guimenuitem>Up</guimenuitem></menuchoice>
 option.</para></listitem>
 </itemizedlist>
@@ -189,12 +188,12 @@ will be displayed in the Status Bar.</para>
 <para>Setting the <link linkend="viewmode">View Mode</link> to <guimenuitem>
 Tree View</guimenuitem> can help you locate folders in the tree below the 
 current folder. In this mode each folder is shown with a small box at 
-the left. If the box contains a <keycap>+</keycap> sign <mousebutton>left
+the left. If the box contains a <keycap>+</keycap> sign, <mousebutton>left
 </mousebutton> clicking on the box (not on the folder name or icon) will 
-display a sub tree showing any subfolders (but not ordinary files). 
-The small box will then change to show a <keycap>-</keycap> sign, 
-<mousebutton>left</mousebutton> click on that to collapse the sub tree. Once 
-you have found the folder you are looking for <mousebutton>left
+display a sub tree showing files and subfolders contained in that folder. 
+The small box will then change to show a <keycap>-</keycap> sign. 
+<mousebutton>Left</mousebutton> click on that to collapse the sub tree. Once 
+you have found the folder you are looking for, <mousebutton>left
 </mousebutton> click on the folder name or icon to open it.</para>
 
 <para>The <link linkend="sidebar">Navigation Panel</link> can also help you 
@@ -208,7 +207,7 @@ O</keycap></keycombo>. &konqueror;'s <link linkend="path-complete">
 Text Completion</link> feature may be useful when you do this. Don't forget
 that in &Linux; / &UNIX; file and folder names are case sensitive.</para>
 
-<para>Once you have moved to a new folder then you can go back to your
+<para>Once you have moved to a new folder you can go back to your
 previous choice by using the Toolbar <guiicon>Back</guiicon> button, the
 Menubar
 <menuchoice><guimenu>Go</guimenu> <guimenuitem>Back</guimenuitem></menuchoice>
@@ -240,10 +239,10 @@ for help in using &kfind;.
 
 <note><para>If the name of a file or folder begins with a period (dot), then
 it is a <quote>hidden</quote> file or folder, and will not normally be shown
-by &konqueror;. To see hidden files or folder use the Menubar <menuchoice>
+by &konqueror;. To see hidden files or folders use the Menubar <menuchoice>
 <guimenu>View</guimenu><guimenuitem>Show Hidden Files</guimenuitem>
 </menuchoice> option.</para>
-<para>Another reason why &konqueror; may not show the file or folder you are 
+<para>Another reason &konqueror; may not show the file or folder you are 
 looking for is that you may have the <link linkend="konq-plugin"><guisubmenu>
 View Filter</guisubmenu></link> plugin set to display only certain types of 
 file.</para></note>
@@ -258,7 +257,7 @@ on your system will usually appear in the <filename class="directory">/
 </filename>,  <filename class="directory">/mnt</filename> or 
 <filename class="directory">/auto</filename> folder, having a path something 
 like <filename class="directory">/mnt/floppy</filename> or
-<filename class="directory">/cdrom</filename>, the details will depend on
+<filename class="directory">/cdrom</filename>. The details will depend on
 how your system was set up.</para>
 
 <para>&UNIX; / &Linux; requires that you <command>mount</command> a floppy disk 
@@ -279,7 +278,7 @@ apparent reason.</para></listitem>
 <listitem><para>You may have <guiicon>Floppy</guiicon>, &CD-ROM; and hard disk 
 icons on your desktop, in which case &LMB; click on the icon to mount it. 
 Doing this should also bring up a &konqueror; window showing the contents of 
-the floppy, &CD-ROM; or partition. To unmount <mousebutton>right</mousebutton> 
+the floppy, &CD-ROM; or partition. To unmount, <mousebutton>right</mousebutton> 
 click on the icon and choose the <guimenuitem>Unmount</guimenuitem> item.  
 Visit the section <link linkend="making">Create New...</link> in this Handbook 
 to see how to create such an icon.</para></listitem>
@@ -328,30 +327,31 @@ Command</guimenuitem></menuchoice>
 <sect1 id="deleting">
 <title>Deleting Files and Folders</title>
 
-<para>&konqueror; gives you three ways to dispose of an unwanted file or
+<para>&konqueror; gives you two ways to dispose of an unwanted file or
 folder:</para>
 
 <itemizedlist>
-<listitem><para>You can move it to the <filename>Trash</filename> folder,
-which is the safest method as you can get it back when you realize that you
-have
-made a mistake.</para></listitem>
-<listitem><para>You can just plain Delete it, which removes the entry from
-the folder and adds the disk area occupied by the file(s) to the system's
-list of free disk areas.</para></listitem>
+<listitem><para>You can move it to the <filename>Trash</filename> folder, which
+is the safest method as you can get it back if you realize that you have made a
+mistake.</para></listitem> 
+
+<listitem><para>You can just plain Delete it, which
+removes the entry from the folder and adds the disk area occupied by the
+file(s) to the system's list of free disk areas, in the same way as the
+<command>rm</command> command.</para></listitem>
 </itemizedlist>
 
-<para>The simplest way of removing a file or folder is to position
+<para>The simplest way to remove a file or folder is to position
 the mouse pointer over its name or icon and press the &RMB;, which
 will bring up a menu containing the options <guimenuitem>Move to
-Trash</guimenuitem> and <guimenuitem>Delete</guimenuitem></para>
+Trash</guimenuitem> and <guimenuitem>Delete</guimenuitem>.</para>
 
 <para>Or, if you have <quote>selected</quote> the item, the Menubar
 <guimenu>Edit</guimenu> menu will give you the choice of
 <quote><guimenuitem>Move to Trash</guimenuitem></quote> and
 <quote><guimenuitem>Delete</guimenuitem></quote> options.</para>
 
-<para><keycap>Del</keycap> will move a selected item or items to Trash.</para>
+<para><keycap>Del</keycap> will move the selected item or items to Trash.</para>
 
 <para><keycombo action="simul">&Shift;<keycap>Del</keycap></keycombo>
 will really, truly and irrevocably delete the selected item or
@@ -423,7 +423,7 @@ folders.</para>
 
 <para>You can do this by having two instances of &konqueror;, one showing the 
 folder you want to copy from, the other showing the target folder. 
-Position the mouse pointer over the item you wish to copy or move then, 
+Position the mouse pointer over the item you wish to copy or move, then, 
 holding the &LMB; pressed, <quote>drag</quote> it to a clear space in the
 target
  
@@ -458,10 +458,10 @@ linked; the little boxes at the bottom right of each view should be empty.
 </para>
 
 <para>The <quote>active</quote> view, that is the one whose path is shown in
-the Location Toolbar and which responds to navigation and Menubar commands, is 
-shown by
-the little green light in the bottom left corner. To make a view active &LMB;
-click on an empty area of the view or on its Status Bar.</para>
+the Location Toolbar and which responds to navigation and Menubar commands, is
+shown by the little green light in the bottom left corner. To make a view
+active, <mousebutton>left</mousebutton> click on an empty area of the view or
+on its Status Bar.</para>
 
 <para>To remove an active view from &konqueror;'s window use the <keycombo
 action="simul">&Ctrl;&Shift;<keycap>R</keycap>
@@ -480,7 +480,7 @@ dragging and then drop the file.</para>
 
 <sect2 id="dups">
 <title>Duplicate File Names</title>
-<para>If you try to paste a copied file file into a folder that already 
+<para>If you try to paste a file into a folder that already 
 contains a file with the same name, &konqueror; will pop up a dialog box warning 
 you that the file already exists. You can then choose to:
 </para>
@@ -537,9 +537,9 @@ which of the selected files should be removed from the selection.</para>
 or the Menubar <menuchoice><guimenu>Edit</guimenu>
 <guimenuitem>Unselect All</guimenuitem></menuchoice> option or just
 &LMB; click on a clear area of the view to cancel the
-selection(s).</para>
+selection.</para>
 
-<para>You can even invert the selection, that is deselect all selected
+<para>You can even invert the selection: that is, deselect all selected
 files and select those that were previously unselected. Use the
 Menubar <menuchoice><guimenu>Edit</guimenu><guimenuitem>Invert
 Selection</guimenuitem></menuchoice> option or <keycombo
@@ -598,7 +598,7 @@ the way.
 <para>Once you have selected the right files then the normal delete, copy or
 move commands will act on all of the selected files at once. </para>
 
-<note><para>Depending on your keyboard type and locale, you will probably find
+<note><para>Depending on your keyboard type and locale, you may find
 that the <keycombo
 action="simul">&Ctrl;<keycap>+</keycap></keycombo>, <keycombo
 action="simul">&Ctrl;<keycap>-</keycap></keycombo> and <keycombo
@@ -611,32 +611,34 @@ only work with the Numeric keypad <keycap>+</keycap>, <keycap>-</keycap> and
 <sect1 id="making">
 <title>Create New</title>
 
-<para>When &konqueror; is in File Manager mode picking
-<guisubmenu>Create New </guisubmenu> from the <guimenu>Edit</guimenu>
-menu or from the drop-down menu you get by &RMB; clicking on a free
-area in a folder view gives you a sub-menu letting you create any
+<para>When &konqueror; is in File Manager mode, picking
+<guisubmenu>Create New</guisubmenu> from the <guimenu>Edit</guimenu>
+menu or from the context menu you get by &RMB; clicking on a free
+area in a folder view gives you a submenu letting you create any
 of the following in the current folder:</para>
 
 <variablelist>
 
 <varlistentry>
-<term><guimenuitem>Link To Application...</guimenuitem></term>
+<term><menuchoice><guisubmenu>File</guisubmenu><guimenuitem>Link To Application...</guimenuitem>
+		  </menuchoice></term>
 <listitem><para>This option is most useful if you want to create an icon that
-will open a particular application. It opens a dialog box with four tabbed
-pages. The first, <guilabel>General</guilabel>, is where you choose an Icon and
+will open a particular application. It opens a dialog box with three tabbed
+pages. The first, <guilabel>General</guilabel>, is where you choose an icon and
 the text that will appear with it. The second page,
 <guilabel>Permissions</guilabel>, lets you select who can use or modify the
-icon. In the <guilabel>Execute</guilabel> page you must enter the command that
-will run the application, for example <userinput>kedit</userinput> to start up
+icon. In the <guilabel>Application</guilabel> page you must enter the <guilabel>Command</guilabel> that
+will run the application, for example, <userinput>kedit</userinput> to start up
 the &kedit; text editor. <userinput>kedit /home/pam/todo.txt</userinput> would
-open the file <filename>/home/pam/todo.txt</filename> in &kedit;. You can
-generally leave the <guilabel>Application</guilabel> page blank. </para>
+open the file <filename>/home/pam/todo.txt</filename> in &kedit;. Advanced
+options such as the file types which the application can open are also
+available from this page.</para>
 
 <para>To make the application icon appear on your desktop, create the link in
 your <filename class="directory">~/Desktop</filename> folder (this may be 
 called something slightly different depending on how &kde; was installed on 
 your system) or get to the
-<guisubmenu>Create New...  </guisubmenu> sub menu by
+<guisubmenu>Create New...</guisubmenu> sub menu by
 <mousebutton>right</mousebutton> clicking on a free area of the desktop 
 instead of within &konqueror;'s window.</para>
 
@@ -646,7 +648,7 @@ folder. You can get there in &konqueror; by choosing
 <menuchoice><guimenu>Go</guimenu>
 <guimenuitem>Applications</guimenuitem></menuchoice>. Then create a single icon
 on your desktop to open your Applications folder, which is usually in
-<filename class="directory">~/.kde/share/applink</filename>.</para>
+<filename class="directory">~/.kde/share/applnk</filename>.</para>
 
 <para>To put an application link icon into the panel, first create it in the
 Applications folder then drag the icon onto a clear area of the
@@ -656,7 +658,7 @@ panel.</para>
 </varlistentry>
 
 <varlistentry>
-<term><guimenuitem>Link To Location (URL)...</guimenuitem></term>
+<term><menuchoice><guisubmenu>File</guisubmenu><guimenuitem>Link To Location (URL)...</guimenuitem></menuchoice></term>
 <listitem><para>This lets you create an icon to open &konqueror; at a
 particular
 folder or web page. As with <guimenuitem>Link To
@@ -667,22 +669,22 @@ your <filename>~/Desktop</filename> folder or going to the
 <guisubmenu>Create
 New...</guisubmenu> sub menu by right clicking on a free area of the
 desktop. When you first create it the text shown with the icon will be the full
-path or &URL;, you can change it by right clicking on the icon, selecting
-<guimenuitem>Properties... </guimenuitem> and entering the preferred text in
+path or &URL;. You can change it by right clicking on the icon, selecting
+<guimenuitem>Properties...</guimenuitem> and entering the preferred text in
 the
-<guilabel>General </guilabel> tab page.</para></listitem>
+<guilabel>General</guilabel> tab page.</para></listitem>
 </varlistentry>
 
 <varlistentry>
-<term><guimenuitem>Floppy Device...</guimenuitem></term>
+<term><menuchoice><guisubmenu>Device</guisubmenu><guimenuitem>Floppy Device...</guimenuitem></menuchoice></term>
 <listitem><para>Use this option to create an icon that will mount a floppy disk
 and open an instance of &konqueror; showing the disk's contents. To unmount the
 disk when you have finished with it <mousebutton>right</mousebutton> click on
-the icon and select <guimenuitem> Unmount</guimenuitem>. In practice it doesn't
+the icon and select <guimenuitem>Unmount</guimenuitem>. In practice it doesn't
 have to be a floppy disk but can be any hard disk or partition on your system
 that is not normally mounted.  In most cases you will want to create the icon
-in
-your Desktop.</para></listitem>
+on
+your desktop.</para></listitem>
 </varlistentry>
 
 <varlistentry>
@@ -706,7 +708,7 @@ drive.</para></listitem>
 
 <varlistentry>
 <term><guimenuitem>Text File...</guimenuitem></term>
-<listitem><para>Use this to create an ordinary, empty, text file. A little
+<listitem><para>Use this to create an ordinary, empty, text file. A
 dialog box will be opened for you to enter the name of your new
 file.</para></listitem>
 </varlistentry>
@@ -715,14 +717,14 @@ file.</para></listitem>
 <term><guimenuitem>HTML File...</guimenuitem></term>
 <listitem><para>Creates a skeleton <acronym>HTML</acronym> source file. When
 you
-type the new file's name into the little dialog box is is probably best to give
+type the new file's name into the dialog box is is probably best to give
 it a <literal role="extension">.html </literal> extension to avoid
 confusion.</para></listitem>
 </varlistentry>
 
 <varlistentry>
 <term><guimenuitem>Presentation Document...</guimenuitem></term>
-<listitem><para>Creates a skeleton <application>Koffice</application>
+<listitem><para>Creates a skeleton &koffice; 
 &kpresenter; document. Give its name a <literal role="extension">.kpr</literal>
 extension.</para></listitem>
 </varlistentry>
@@ -766,8 +768,8 @@ role="extension">.kil</literal>.</para></listitem>
 <menuchoice><guimenu>Edit</guimenu> 
 <guimenuitem>Properties</guimenuitem></menuchoice> option.</para>
 
-<para>This will bring up the Properties dialog box with several tabbed 
-pages, the important ones being:</para>
+<para>This will bring up the Properties dialog box with two tabbed 
+pages:</para>
 
 <itemizedlist>
 <listitem><para><guilabel>General</guilabel>, which gives you some
@@ -797,21 +799,21 @@ your own home folder you will often be prevented from doing so and get an
 error message such as <errorname>Access Denied</errorname>. </para>
 
 <para>To access these files you need to be logged in as the system
-administrator, often known as the Super User or <quote>root</quote>. </para>
+administrator, often known as the Super User or <systemitem class="username">root</systemitem>. </para>
 
 <para>Rather than logging out then in again, you can launch &konqueror; from
 the
 <guimenu>K</guimenu> Menu in Super User mode by selecting
 <menuchoice><guisubmenu>System</guisubmenu><guimenuitem>File Manager - Super
  User Mode
-</guimenuitem></menuchoice>. You will be asked for the <quote>root</quote>
+</guimenuitem></menuchoice>. You will be asked for the <systemitem class="username">root</systemitem>
 login password but as long as you can provide that &konqueror; will be started
 up with full access privileges to all files on your system.</para>
 
-<warning><para>Take care.  As Super User (root), you have complete control of
+<warning><para>Take care.  As Super User (<systemitem class="username">root</systemitem>), you have complete control of
 your system, and a wrong command can easily do irrevocable damage.</para>
-<para>Also, connecting to the internet as root is an extremely bad idea, as it
-seriously increases your vulnerability to hacking.</para></warning>
+<para>Also, connecting to the internet as <systemitem class="username">root</systemitem> is an extremely bad idea, as it
+seriously increases your vulnerability to malicious hacking.</para></warning>
 
 </sect2>
 </sect1>

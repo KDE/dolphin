@@ -39,15 +39,14 @@ or desktop, then <mousebutton>left</mousebutton> click on it to open
 </guiicon> shaped icon on the panel or desktop to open &konqueror; in browser 
 mode.</para></listitem>
 
-<listitem><para>From the <guimenu>K</guimenu> menu, 
-select <menuchoice><guisubmenu>Internet</guisubmenu><guimenuitem>
-Konqueror Web Browser</guimenuitem></menuchoice> to start it as a browser, or 
+<listitem><para>From the <guimenu>K</guimenu> menu, select
+<menuchoice><guisubmenu>Internet</guisubmenu><guimenuitem>Konqueror Web
+Browser</guimenuitem></menuchoice> to start it as a browser, or
 <guimenuitem>Home</guimenuitem> to launch &konqueror; in file manager mode.
 </para></listitem>
 
-<listitem><para><keycombo
-action="simul">&Alt;<keycap>F2</keycap></keycombo> will open a
-<guilabel>Run Command</guilabel> dialog box, type
+<listitem><para><keycombo action="simul">&Alt;<keycap>F2</keycap></keycombo>
+will open a <guilabel>Run Command</guilabel> dialog box, type
 <userinput><command>konqueror</command></userinput> (lower case) and press
 <keycap>Enter</keycap> or the <guibutton>Run</guibutton> button to start in
 file
@@ -83,8 +82,8 @@ applications. <mousebutton>Right</mousebutton> click on the central portion to
 bring up the neat Titlebar menu.</para>
 
 <para>The <interface>Menubar</interface> is the strip containing the names of
-the drop-down menus, <mousebutton>left</mousebutton> click on a name to 
-alternately show and hide that menu, or you can use <keycombo 
+the drop-down menus. <mousebutton>Left</mousebutton> click on a name to 
+alternately show and hide that menu, or use <keycombo 
 action="simul">&Alt;<keycap>the underlined 
 letter</keycap></keycombo> in the name as a hot key, for example <keycombo 
 action="simul">&Alt;<keycap>E</keycap></keycombo> to show the 
@@ -92,37 +91,36 @@ action="simul">&Alt;<keycap>E</keycap></keycombo> to show the
 linkend="menubar">Menubar</link> section of this document.</para>
 
 <para>The <interface>Toolbar</interface> contains icons for commonly used
-operations. <mousebutton>Left</mousebutton> clicking on an icon will activate 
+operations. <mousebutton>Left</mousebutton> clicking on an icon will activate
 it. If you have enabled tooltips in the Control Center <menuchoice><guimenu>
-Look &amp; Feel</guimenu><guisubmenu>Style</guisubmenu><guimenuitem>
-Miscellaneous</guimenuitem></menuchoice> dialog a brief description of what 
-that icon does will appear when you hover the pointer over it.</para>
+Appearance &amp;
+Themes</guimenu><guisubmenu>Style</guisubmenu></menuchoice>
+dialog a brief description of what that icon does will appear when you hover
+the pointer over it.</para>
 
-<para>Some icons, for example the Up and Back icons in the previous screenshot, 
-have a small black triangle at their bottom right corner. If you hold the 
-&LMB; pressed while the cursor is over 
-this type of icon a small dropdown menu will appear.</para> 
-<para><mousebutton>Right</mousebutton> clicking on the <interface>Toolbar
-</interface> will bring up the <link linkend="rmb-menus"><guilabel>Toolbar 
-Menu</guilabel></link> which you can use to change the <interface>Toolbar
-</interface>'s appearance and position.</para>
+<para>Some icons, for example the Up and Back icons in the previous screenshot,
+have a small black triangle at their bottom right corner. If you hold the &LMB;
+pressed while the cursor is over this type of icon a small dropdown menu will
+appear.</para> <para><mousebutton>Right</mousebutton> clicking on the
+<interface>Toolbar </interface> will bring up the <link
+linkend="rmb-menus"><guilabel>Toolbar Menu</guilabel></link> which you can use
+to change the <interface>Toolbar</interface>'s appearance and position.</para>
 
-<para>The <interface>Location Toolbar</interface> shows the path to the folder,
-&URL; or file being viewed. You can type a path or
-&URL; here and press <keycap>Enter</keycap> or
- <mousebutton>left</mousebutton> click on the <guiicon>Go</guiicon> icon at the
- right hand end of the <interface>Location Toolbar</interface> to go to it. The
-black icon at the left hand end of the <interface>Location Toolbar</interface> 
-clears the text entry box.</para>
+<para>The <interface>Location Toolbar</interface> shows the path to the
+directory, &URL; or file being viewed. You can type a path or &URL; here and
+press &Enter; or <mousebutton>left</mousebutton> click on the
+<guiicon>Go</guiicon> icon at the right hand end of the <interface>Location
+Toolbar</interface> to go to it. The black icon at the left hand end of the
+<interface>Location Toolbar</interface> clears the text entry box.</para>
 
-<para>The <interface>Bookmark Toolbar</interface> is the area under the
-<interface> Location Toolbar</interface> in the previous screenshot. You can add
+<para>The <interface>Bookmark Toolbar</interface> is the area under the 
+<interface>Location Toolbar</interface> in the previous screenshot. You can add
 frequently used bookmarks here, see the <link linkend="orgbmark">Organizing
 Your
 Bookmarks</link> section of this document.</para>
 
 <para>The <interface>Window</interface> is the main area of &konqueror; and 
-can show you the contents of a folder, a web page, document or image. Using 
+can show you the contents of a directory, web page, document or image. Using 
 the <link linkend="menu-window"><guimenu>Window</guimenu></link> menu you can 
 split &konqueror;'s main window into one or more separate views, useful for 
 drag and drop operations, or set it to contain two or more tabbed views.
@@ -161,7 +159,7 @@ linkend="config">Configuring &konqueror;</link> section</para></note>
 </sect1>
 
 <sect1 id="bubble">
-<title>Tooltips and What's This ?</title>
+<title>Tooltips and What's This?</title>
 
 <para>You can find out a lot about how &konqueror; works without needing to
 read
@@ -170,15 +168,14 @@ this entire document if you take advantage of <guilabel>Tooltips</guilabel> and
 <guimenuitem>What's This?</guimenuitem> feature.</para>
 
 <para>If <guilabel>Tooltips</guilabel> have been enabled in &kde; (K menu
- <menuchoice><guimenu>Control Center</guimenu><guisubmenu>Look &amp;
- Feel</guisubmenu><guisubmenu>Style</guisubmenu></menuchoice>,
- <guilabel>Miscellaneous</guilabel> dialog) then when you hover the mouse pointer
+ <menuchoice><guimenu>Control Center</guimenu><guisubmenu>Appearance &amp;
+ Themes</guisubmenu><guisubmenu>Style</guisubmenu></menuchoice>,
+ <guilabel>Style</guilabel> dialog) then when you hover the mouse pointer
  over a Toolbar or Navigation Panel 
 button it should bring up a terse description of what that button does.</para>
 
 <para><guimenuitem>What's This?</guimenuitem> is invoked by the Menubar
-<menuchoice><guimenu>Help</guimenu><guimenuitem>What's This
-?</guimenuitem></menuchoice> item, by
+<menuchoice><guimenu>Help</guimenu><guimenuitem>What's This?</guimenuitem></menuchoice> item, by
 <keycombo action="simul">&Shift;<keycap>F1</keycap></keycombo>, or by 
 just &LMB; clicking on the question mark near the top right hand corner of 
 &konqueror;'s window. It changes the cursor to show a question mark alongside 
@@ -186,7 +183,7 @@ the arrow.</para>
 
 <para>When this question mark is visible, a &LMB; click won't actually do
 anything until you have clicked on a control (or the text alongside it) that
-supports <guimenuitem>What's This ?</guimenuitem>, in which case it will
+supports <guimenuitem>What's This?</guimenuitem>, in which case it will
 display
 a reasonably comprehensive description of what the control is supposed to do.
 Most of the dialog boxes that &konqueror; brings up support the
@@ -236,13 +233,14 @@ the <menuchoice><guimenu>Settings</guimenu><guimenuitem>Configure Konqueror...
 
 </itemizedlist>
 
-<para>Clicking the &MMB; on a file or folder name or icon does essentially 
-the same as <mousebutton>left</mousebutton> clicking except that it usually 
-does it in a new &konqueror; window, unless the <guilabel>Open links in 
-new tab instead of in new window</guilabel> box has been checked in the 
-<guimenuitem>Behavior</guimenuitem> page of the <menuchoice><guimenu>Settings
-</guimenu><guimenuitem>Configure Konqueror...</guimenuitem></menuchoice> 
-dialog.</para>
+<para>Clicking the &MMB; on a file or folder name or icon does essentially the
+same as <mousebutton>left</mousebutton> clicking except that it usually does it
+in a new &konqueror; window, unless the <guilabel>Open links in new tab instead
+of in new window</guilabel> box has been checked in the
+<guimenuitem>Behavior</guimenuitem> page of the
+<menuchoice><guimenu>Settings</guimenu><guimenuitem>Configure
+Konqueror...</guimenuitem></menuchoice> dialog.</para>
+
 <para>Holding the &Shift; key down while pressing the &MMB; will open the link 
 in the background.</para>
 <important><para>If you click the &MMB; when the mouse cursor is over a blank 
@@ -308,9 +306,7 @@ shown as text, icons, or both. </para></listitem>
 of a view then you will get a menu that contains, among other options, the
  <guiicon>Up</guiicon>,
 <guiicon>Back</guiicon>, <guiicon>Forward</guiicon> and
-<guiicon>Reload</guiicon> navigation commands as well as the
-<guimenuitem>Create
-new</guimenuitem> option from the <guimenu>Edit</guimenu> menu.
+<guiicon>Reload</guiicon> navigation commands.
  </para></listitem>
 </varlistentry>
 
@@ -342,29 +338,32 @@ window.</para></listitem>
 &konqueror;, without having to start up <application>KHelpCenter</application>.
 </para>
 
-<para>To view a &kde; Help page, enter 
-<userinput>help:/&lt;application name&gt;</userinput> (for example 
-<userinput>help:/kmail</userinput>) into &konqueror;'s Location Toolbar window.
+<para>To view a &kde; Help page, enter
+<userinput>help:/<replaceable>application name</replaceable></userinput> (for
+example <userinput>help:/kmail</userinput> to view the &kmail; documentation.)
+into &konqueror;'s Location Toolbar window.
 </para>
 
 <para>
-If you want to read &UNIX; Man pages &konqueror; makes it easy, for 
+If you want to read &UNIX; Man pages &konqueror; makes it easy. For 
 example type <userinput>man:/touch</userinput> or 
 <userinput>#touch</userinput> into the Location Toolbar to see the page for 
-the touch command.</para> 
+the <command>touch</command> command.</para> 
 
-<para>To browse through &UNIX; Info pages, entering  
-<userinput>info:/dir</userinput> takes you to Info's top level folder 
-then it's just a matter of clicking on the right links to find the page 
-you want.</para> 
+<para>To browse through &UNIX; Info pages, entering
+<userinput>info:/dir</userinput> takes you to Info's top level directory, then
+it's just a matter of clicking on the right links to find the page you
+want. Alternatively, use <userinput>info:/<replaceable>command
+name</replaceable></userinput> to go straight to the Info page you want.</para>
 
 <note><para>Unfortunately, &kde; Help pages are stored in such a way that they 
-can not be viewed in other browsers. If you really need to do this your only 
+cannot be viewed in other browsers. If you really need to do this your only 
 recourse is to go online and visit <ulink url="http://docs.kde.org">
 http://docs.kde.org</ulink>.</para></note>
 </sect1>
 
 </chapter>
+
 <!--
 Local Variables:
 mode: sgml

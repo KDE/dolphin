@@ -6,8 +6,8 @@
 <!-- TRANS:ROLES_OF_TRANSLATORS -->
 </authorgroup>
 
-<date>2002-09-22</date>
-<releaseinfo>3.1</releaseinfo>
+<date>2003-11-06</date>
+<releaseinfo>3.2</releaseinfo>
 </chapterinfo>
 
 <title>Command Reference</title>
@@ -48,8 +48,12 @@ default ones. They can of course be <link linkend="configshort">changed</link>.
 </sect1>
 
 <sect1 id="menubar">
-<title>The Menubar</title>
-
+<title>The Menubar</title> <para>Note that some menu entries only appear when
+they are applicable to the file you currently have open in &konqueror;. For
+example, the
+<menuchoice><guimenu>Edit</guimenu><guimenuitem>Find...</guimenuitem>
+</menuchoice>
+item will not appear when you are viewing the contents of a directory.</para>
 <sect2 id="menu-location">
 <title>The <guimenu>Location</guimenu> Menu</title>
 
@@ -64,6 +68,17 @@ default ones. They can of course be <link linkend="configshort">changed</link>.
 </menuchoice></term>
 <listitem><para>Open another &konqueror;
 window.</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<shortcut>
+<keycombo action="simul">&Ctrl;&Shift;<keycap>N</keycap></keycombo>
+</shortcut>
+<guimenu>Location</guimenu> <guimenuitem>New Tab</guimenuitem>
+</menuchoice></term> 
+<listitem><para>Open another &konqueror; tab, containing a
+blank page.</para></listitem>
 </varlistentry>
 
 <varlistentry>
@@ -95,9 +110,6 @@ box.</para></listitem>
 
 <varlistentry>
 <term><menuchoice>
-<shortcut>
-<keycombo action="simul">&Ctrl;<keycap>L</keycap></keycombo>
-</shortcut>
 <guimenu>Location</guimenu>
 <guimenuitem>Send Link</guimenuitem>
 </menuchoice></term>
@@ -173,10 +185,10 @@ page.</para></listitem>
 <varlistentry>
 <term><menuchoice>
 <guimenu>Location</guimenu>
-<guimenuitem>Open With Netscape</guimenuitem>
+<guimenuitem>Open With Netscape/Mozilla</guimenuitem>
 </menuchoice></term>
 <listitem><para>Open the web page you are 
-viewing in &konqueror; with Netscape as well.</para></listitem> 
+viewing in &konqueror; with &Netscape;/<application>Mozilla</application> as well.</para></listitem> 
 </varlistentry>
 
 <varlistentry>
@@ -288,17 +300,6 @@ folder.</para></listitem>
 
 <varlistentry>
 <term><menuchoice>
-<shortcut>
-<keycombo action="simul">&Ctrl;&Shift;<keycap>Delete</keycap></keycombo>
-</shortcut>
-<guimenu>Edit</guimenu>
-<guimenuitem>Shred</guimenuitem>
-</menuchoice></term>
-<listitem><para>Shred the selected item(s).</para></listitem>
-</varlistentry>
-
-<varlistentry>
-<term><menuchoice>
 <shortcut><keycap>F7</keycap></shortcut>
 <guimenu>Edit</guimenu>
 <guimenuitem>Copy Files</guimenuitem>
@@ -309,21 +310,11 @@ folder.</para></listitem>
 
 <varlistentry>
 <term><menuchoice>
-<shortcut><keycap>F8</keycap></shortcut>
 <guimenu>Edit</guimenu>
 <guimenuitem>Move Files</guimenuitem>
 </menuchoice></term>
 <listitem><para>Move the selected item(s) to another
 folder.</para></listitem>
-</varlistentry>
-
-<varlistentry>
-<term><menuchoice>
-<shortcut><keycap>F10</keycap></shortcut>
-<guimenu>Edit</guimenu>
-<guimenuitem>New Folder...</guimenuitem>
-</menuchoice></term>
-<listitem><para>Create a new subfolder.</para></listitem>
 </varlistentry>
 
 <varlistentry>
@@ -356,11 +347,19 @@ dialog box</para></listitem>
 </varlistentry>
 
 <varlistentry>
+<term><menuchoice><guimenu>Edit</guimenu><guisubmenu>Selection</guisubmenu>
+</menuchoice></term>
+<listitem><para>Contains a number of options for changing the items selected in
+the &konqueror; window:
+<!-- DANGER: Nested variablelist! Be careful... -->
+<variablelist>
+<varlistentry>
 <term><menuchoice>
 <shortcut>
 <keycombo action="simul">&Ctrl;<keycap>+</keycap></keycombo>
 </shortcut>
 <guimenu>Edit</guimenu>
+<guisubmenu>Selection</guisubmenu>
 <guimenuitem>Select...</guimenuitem>
 </menuchoice></term>
 <listitem><para>Together with the <guimenuitem>Unselect...</guimenuitem>,
@@ -382,9 +381,11 @@ filename.</para></listitem>
 <keycombo action="simul">&Ctrl;<keycap>-</keycap></keycombo>
 </shortcut>
 <guimenu>Edit</guimenu>
+<guisubmenu>Selection</guisubmenu>
 <guimenuitem>Unselect...</guimenuitem>
 </menuchoice></term>
-<listitem><para>Unselect file or folder.</para></listitem>
+<listitem><para>Unselect files or folders via a dialog similar to the one used
+by <guimenuitem>Select...</guimenuitem>.</para></listitem>
 </varlistentry>
 
 <varlistentry>
@@ -393,6 +394,7 @@ filename.</para></listitem>
 <keycombo action="simul">&Ctrl;<keycap>U</keycap></keycombo>
 </shortcut>
 <guimenu>Edit</guimenu>
+<guisubmenu>Selection</guisubmenu>
 <guimenuitem>Unselect All</guimenuitem>
 </menuchoice></term>
 <listitem><para>Unselect all selected files or
@@ -404,6 +406,7 @@ folders.</para></listitem>
 <shortcut>
 <keycombo action="simul">&Ctrl;<keycap>*</keycap></keycombo>
 </shortcut><guimenu>Edit</guimenu>
+<guisubmenu>Selection</guisubmenu>
 <guimenuitem>Invert Selection</guimenuitem>
 </menuchoice></term>
 <listitem><para>Invert current selection.</para></listitem>
@@ -412,37 +415,30 @@ folders.</para></listitem>
 <varlistentry>
 <term><menuchoice>
 <shortcut>
-<keycombo action="simul">&Ctrl;<keycap>U</keycap></keycombo>
+<keycombo action="simul">&Ctrl;<keycap>A</keycap></keycombo>
 </shortcut><guimenu>Edit</guimenu>
+<guisubmenu>Selection</guisubmenu>
 <guimenuitem>Select All</guimenuitem>
 </menuchoice></term>
 <listitem><para>Selects all text in a HTML 
 page or in a text page being previewed, you can then 
 <guimenuitem>Copy</guimenuitem> it and <guimenuitem>Paste</guimenuitem> it into 
 a text editor.</para></listitem> </varlistentry>
-
-<varlistentry>
-<term><menuchoice>
-<shortcut>
-<keycombo action="simul">&Ctrl;<keycap>F</keycap></keycombo>
-</shortcut><guimenu>Edit</guimenu>
-<guimenuitem>Find</guimenuitem>
-</menuchoice></term>
-<listitem><para>Find a text string in a text
-page you are previewing or in an <acronym>HTML</acronym>
-page.</para></listitem>
+</variablelist>
+</para>
+</listitem>
 </varlistentry>
 
 <varlistentry>
 <term><menuchoice>
 <shortcut>
 <keycombo action="simul">&Ctrl;<keycap>F</keycap></keycombo>
-</shortcut>
-<guimenu>Edit</guimenu>
-<guimenuitem>Find in Frame</guimenuitem>
+</shortcut><guimenu>Edit</guimenu>
+<guimenuitem>Find...</guimenuitem>
 </menuchoice></term>
-<listitem><para>Find a text string in an
-<acronym>HTML</acronym> frame.</para></listitem> 
+<listitem><para>Find a text string in a text
+page you are previewing or in an <acronym>HTML</acronym>
+page.</para></listitem>
 </varlistentry>
 
 <varlistentry>
@@ -547,13 +543,13 @@ browsing).</para></listitem>
 <guimenuitem>Icon Size</guimenuitem>
 </menuchoice></term>
 <listitem><para>Select size of icons used when
-wiewing a folder in Icon Mode.</para></listitem>
+viewing a folder in Icon Mode.</para></listitem>
 </varlistentry>
 
 <varlistentry>
 <term><menuchoice>
 <guimenu>View</guimenu>
-<guimenuitem>Sort...</guimenuitem>
+<guisubmenu>Sort</guisubmenu>
 </menuchoice></term>
 <listitem><para>Choose order in which items are presented in the
 window when in Icon or MultiColumn View mode.</para></listitem>
@@ -570,6 +566,9 @@ or Text View modes is case sensitive.</para></listitem>
 
 <varlistentry>
 <term><menuchoice>
+<shortcut><keycombo action="simul">&Ctrl;<keycap>U</keycap>
+</keycombo>
+</shortcut>
 <guimenu>View</guimenu>
 <guimenuitem>View Document Source</guimenuitem>
 </menuchoice></term>
@@ -587,6 +586,21 @@ page.</para>
 <listitem><para>View frame source text</para>
 <para>Only applies if you are viewing a web site that uses frames. Similar to 
 <guimenuitem>View Document Source</guimenuitem>. </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<shortcut><keycombo action="simul">&Ctrl;<keycap>I</keycap>
+</keycombo>
+</shortcut>
+<guimenu>View</guimenu>
+<guimenuitem>View Document Information</guimenuitem>
+</menuchoice></term>
+<listitem><para>View document information, such as title, &URL;, and &HTTP;
+headers used in retrieving the document.</para>
+<para>Only available if you are viewing an <acronym>HTML</acronym>
+page.</para>
 </listitem>
 </varlistentry>
 
@@ -751,6 +765,17 @@ class="directory">Autostart</filename> folder in a separate
 window.</para></listitem>
 </varlistentry>
 
+<varlistentry>
+<term><menuchoice>
+<guimenu>Go</guimenu>
+<guisubmenu>Most Often Visited</guisubmenu>
+</menuchoice></term>
+<listitem>
+<para>Displays a submenu showing the &URL;s you visit most often. Selecting one
+of these will make &konqueror; open that &URL;.</para>
+</listitem>
+</varlistentry>
+
 </variablelist>
 
 </sect2>
@@ -778,6 +803,17 @@ bookmarks.</para></listitem>
 <varlistentry>
 <term><menuchoice>
 <guimenu>Bookmarks</guimenu>
+<guimenuitem>Bookmark Tabs as Folder...</guimenuitem>
+</menuchoice></term>
+<listitem>
+<para>Create a bookmark folder containing links to all of the &URL;s currently
+open in &konqueror; tabs. </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>Bookmarks</guimenu>
 <guimenuitem>Edit Bookmarks...</guimenuitem>
 </menuchoice></term>
 <listitem><para>Open the <link linkend="bookmarks">Bookmark Editor</link>.
@@ -787,7 +823,7 @@ bookmarks.</para></listitem>
 <varlistentry>
 <term><menuchoice>
 <guimenu>Bookmarks</guimenu>
-<guimenuitem>New Folder</guimenuitem>
+<guimenuitem>New Bookmark Folder...</guimenuitem>
 </menuchoice></term>
 <listitem><para>Create a new folder in your Bookmarks
 folder.</para></listitem>
@@ -817,7 +853,7 @@ simple dialog box.</para></listitem>
 <shortcut>
 <keycombo action="simul">&Ctrl;<keycap>T</keycap></keycombo></shortcut>
 <guimenu>Tools</guimenu>
-<guimenuitem>Open Terminal...</guimenuitem>
+<guimenuitem>Open Terminal</guimenuitem>
 </menuchoice></term>
 <listitem><para>Open a &konsole; terminal
  window.</para></listitem>
@@ -865,6 +901,24 @@ and Profiles</link>.</para></note>
 the various Toolbars.</para></listitem>
 </varlistentry>
 
+<varlistentry>
+<term><menuchoice>
+<shortcut>
+<keycombo action="simul">&Ctrl;&Shift;
+<keycap>F</keycap></keycombo>
+</shortcut>
+<guimenu>Settings</guimenu>
+<guimenuitem>Full Screen Mode</guimenuitem>
+</menuchoice></term>
+<listitem>
+<para>Changes &konqueror; to full screen mode, in which the &konqueror; window
+takes up the whole screen, and does not have the usual window decorations. To
+exit full screen mode, click on the <guiicon>Exit Full Screen Mode</guiicon>
+icon on the toolbar, or press <keycombo action="simul">&Ctrl;&Shift;
+<keycap>F</keycap></keycombo>.</para>
+</listitem>
+</varlistentry>
+
 
 <varlistentry>
 <term><menuchoice>
@@ -872,7 +926,9 @@ the various Toolbars.</para></listitem>
 <guimenuitem>View Properties Saved in Folder</guimenuitem>
 </menuchoice></term>
 <listitem><para>Save View properties to current
- folder.</para></listitem>
+ folder. If this is selected, a <filename>.directory</filename> file will be
+written in the current directory storing the settings you last used to view the
+directory. These settings are then loaded when you open the directory in &konqueror;.</para></listitem>
 </varlistentry>
 
 <varlistentry>
@@ -880,25 +936,24 @@ the various Toolbars.</para></listitem>
 <guimenu>Settings</guimenu>
 <guimenuitem>Remove Folder Properties</guimenuitem>
 </menuchoice></term>
-<listitem><para>Remove folder properties.</para></listitem>
+<listitem><para>Remove settings stored in folder by <guimenuitem>View
+Properties Saved in Folder</guimenuitem>.</para></listitem>
 </varlistentry>
 
 <varlistentry>
 <term><menuchoice>
 <guimenu>Settings</guimenu>
-<guimenuitem>Save View Profile "File Management"</guimenuitem>
+<guisubmenu>Load View Profile</guisubmenu>
 </menuchoice></term>
-<listitem><para>Save the current view profile as the default one for
- File Management mode.</para></listitem>
+<listitem><para>Load the settings associated with a particular view profile.</para></listitem>
 </varlistentry>
 
 <varlistentry>
 <term><menuchoice>
 <guimenu>Settings</guimenu>
-<guimenuitem>Save View Profile "Web Browsing"</guimenuitem>
+<guimenuitem>Save View Profile "<replaceable>ProfileName</replaceable>"...</guimenuitem>
 </menuchoice></term>
-<listitem><para>Save the current view profile as the default one for
-Web Browsing mode.</para></listitem>
+<listitem><para>Save the current settings to the current view profile.</para></listitem>
 </varlistentry>
 
 <varlistentry>
@@ -908,15 +963,6 @@ Web Browsing mode.</para></listitem>
 </menuchoice></term>
 <listitem><para>Lets you change an existing view profile or create a
 new one.</para></listitem>
-</varlistentry>
-
-
-<varlistentry>
-<term><menuchoice>
-<guimenu>Settings</guimenu>
-<guimenuitem>Load View Profile</guimenuitem>
-</menuchoice></term>
-<listitem><para>Load a View Profile.</para></listitem>
 </varlistentry>
 
 <varlistentry>
@@ -944,6 +990,15 @@ section <link linkend="configure-bars">Changing Bars</link>.
 <listitem><para>Lets you configure the File manager, File Associations,
 Browser, Internet Keywords, Cookies, Proxies, Cryptography, User Agent, or
 Toolbars by bringing up the appropriate dialog box.</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice> <guimenu>Settings</guimenu>
+<guimenuitem>Configure Spell Checking...</guimenuitem> </menuchoice></term>
+<listitem>
+<para>Displays the spell checking configuration dialog box, in which you can
+change settings associated with spell checking in &konqueror;.</para>
+</listitem>
 </varlistentry>
 
 
@@ -990,16 +1045,6 @@ action="simul">&Ctrl;&Shift;<keycap>R</keycap></keycombo></shortcut>
 
 <varlistentry>
 <term><menuchoice>
-<guimenu>Window</guimenu>
-<guimenuitem>Show Terminal Emulator</guimenuitem>
-</menuchoice></term>
-<listitem><para>Open a small text terminal view at the bottom of the
- main 
-window.</para></listitem>
-</varlistentry>
-
-<varlistentry>
-<term><menuchoice>
 <shortcut>
 <keycombo action="simul">&Ctrl;&Shift;<keycap>N</keycap></keycombo></shortcut>
 <guimenu>Window</guimenu>
@@ -1013,7 +1058,7 @@ window.</para></listitem>
 <shortcut>
 <keycombo action="simul">&Ctrl;&Shift;<keycap>D</keycap></keycombo></shortcut>
 <guimenu>Window</guimenu>
-<guimenuitem>Duplicate Tab</guimenuitem>
+<guimenuitem>Duplicate Current Tab</guimenuitem>
 </menuchoice></term>
 <listitem><para>Open a duplicate tab page.</para></listitem>
 </varlistentry>
@@ -1042,11 +1087,42 @@ window.</para></listitem>
 <varlistentry>
 <term><menuchoice>
 <shortcut>
-<keycombo action="simul">&Ctrl;&Shift;<keycap>F</keycap></keycombo></shortcut>
+<keycombo action="simul">&Ctrl;&Shift;<keycap>Left</keycap></keycombo></shortcut>
 <guimenu>Window</guimenu>
-<guimenuitem>Fullscreen Mode</guimenuitem>
+<guimenuitem>Move Tab Left</guimenuitem>
 </menuchoice></term>
-<listitem><para>Fullscreen Mode.</para></listitem>
+<listitem><para>Move the current tab one place left in the list of tabs.</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<shortcut>
+<keycombo action="simul">&Ctrl;&Shift;<keycap>Left</keycap></keycombo></shortcut>
+<guimenu>Window</guimenu>
+<guimenuitem>Move Tab Right</guimenuitem>
+</menuchoice></term>
+<listitem><para>Move the current tab one place right in the list of tabs.</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>Window</guimenu>
+<guimenuitem>Show Terminal Emulator</guimenuitem>
+</menuchoice></term>
+<listitem><para>Open a small text terminal view at the bottom of the
+ main 
+window.</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<shortcut>
+<keycombo action="simul"><keycap>F9</keycap></keycombo></shortcut>
+<guimenu>Window</guimenu>
+<guimenuitem>Show Navigation Panel</guimenuitem>
+</menuchoice></term>
+<listitem><para>Toggles the display of the &konqueror; navigation panel. See
+<xref linkend="sidebar"/>.</para></listitem>
 </varlistentry>
 
 </variablelist>
@@ -1077,7 +1153,7 @@ window.</para></listitem>
 <listitem><para>Draws a question mark (?) beside the mouse
 pointer, clicking on a window item such as the
 <guiicon>Stop</guiicon> button will then display a brief explanation. See
-<link linkend="bubble">Tooltips and What's This ?</link> .</para></listitem>
+<link linkend="bubble">Tooltips and What's This?</link> .</para></listitem>
 </varlistentry>
 
 <varlistentry>

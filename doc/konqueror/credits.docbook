@@ -6,14 +6,14 @@
 <!-- TRANS:ROLES_OF_TRANSLATORS -->
 </authorgroup>
 
-<date>2002-09-22</date>
-<releaseinfo>3.1</releaseinfo>
+<date>2003-11-06</date>
+<releaseinfo>3.2</releaseinfo>
 </chapterinfo>
 
 
 <title>Credits and License</title>
 
-<para>&konqueror;. Program copyright 1999-2002, the &konqueror;
+<para>&konqueror;. Program copyright 1999-2003, the &konqueror;
  developers:</para>
 
 <variablelist>
@@ -151,12 +151,14 @@ to applet support)</para></listitem>
 
 </variablelist>
 
-<para>Documentation copyright 2000-2002</para>
+<para>Documentation copyright 2000-2003</para>
 
 <itemizedlist>
 <listitem><para>&Erwan.Loisant; &Erwan.Loisant.mail;</para></listitem>
 <listitem><para>&Pamela.Roberts; &Pamela.Roberts.mail;</para></listitem>
 </itemizedlist>
+
+<para>Documentation updated for &kde; 3.2 by &Philip.Rodrigues; &Philip.Rodrigues.mail;.</para>
 <!-- TRANS:CREDIT_FOR_TRANSLATORS -->
 
 &underFDL;

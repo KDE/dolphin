@@ -6,8 +6,8 @@
 <!-- TRANS:ROLES_OF_TRANSLATORS -->
 </authorgroup>
 
-<date>2002-09-22</date>
-<releaseinfo>3.1</releaseinfo>
+<date>2003-11-06</date>
+<releaseinfo>3.2</releaseinfo>
 </chapterinfo>
 
 
@@ -32,6 +32,7 @@ the box.</para>
 combination <keycombo action="simul">&Ctrl;<keycap>M</keycap></keycombo>.
 </para>
 
+<!-- FIXME -->
 <para>On the left hand end of each bar you can see some vertical 
 lines. By &LMB; clicking on them, you <quote>flatten</quote> the bar, meaning 
 that it is hidden but can be quickly restored by clicking on the now 

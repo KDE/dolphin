@@ -11,8 +11,8 @@
 
 <title>Overview</title>
 
-<para><emphasis>&konqueror;</emphasis> is an advanced 
-<link linkend="filemanager"> file manager</link> for the 
+<para><emphasis>&konqueror;</emphasis> is an advanced  
+<link linkend="filemanager">file manager</link> for the 
 K Desktop Environment, providing file management functions ranging from simple 
 cut/copy and paste operations to advanced local and remote network file 
 browsing. Folder contents can be displayed in a variety of text and icon 
@@ -21,15 +21,14 @@ preview images of file contents. File and folder properties can easily be
 examined and changed and applications launched with a simple click of the 
 &LMB;.</para>
 
-<para><emphasis>&konqueror;</emphasis> is an <acronym>HTML</acronym>
-4.01 compliant <link linkend="browser">web browser</link> with built
-in support for JavaScript (ECMA-262), &CSS; (Cascading Style Sheets)
-and bidirectional scripts (arabic and hebrew). It provides support for
-the secure running of &Java; applets, &Netscape; plugins for viewing
-Flash, RealAudio and RealVideo and <acronym>SSL</acronym> for secure
-communications. Advanced features include automatic
-<acronym>URL</acronym> and form completion, the ability to import
-bookmarks from other browsers and tabbed browsing.</para>
+<para><emphasis>&konqueror;</emphasis> is an <acronym>HTML</acronym> 4.01
+compliant <link linkend="browser">web browser</link> with built in support for
+JavaScript (ECMA-262), <acronym>CSS</acronym> (Cascading Style Sheets) and
+bidirectional scripts (arabic and hebrew). It provides support for the secure
+running of &Java; applets, &Netscape; plugins for viewing &Flash;, &RealAudio; and &RealVideo; and <acronym>SSL</acronym> for secure
+communications. Advanced features include automatic &URL; and form completion,
+the ability to import bookmarks from other browsers and tabbed browsing.
+</para>
 
 <para><emphasis>&konqueror;</emphasis> is also an excellent full featured 
 <link linkend="ftp">FTP</link> client.</para>
@@ -52,6 +51,7 @@ saved for easy recall as needed.
 </para>
 
 </chapter>
+
 <!--
 Local Variables:
 mode: sgml
