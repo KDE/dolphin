@@ -17,7 +17,7 @@
    Boston, MA 02111-1307, USA.
 */     
 
-#include "kfmviewprops.h"
+#include "konq_propsview.h"
 #include "konq_defaults.h"
 
 #include <kapp.h>
@@ -31,7 +31,7 @@ KonqPropsView * KonqPropsView::defaultProps()
 {
   if (!m_pDefaultProps)
   {
-    kdebug(0,1202,"Reading global config for kfmviewprops");
+    kdebug(0,1202,"Reading global config for konq_propsview");
     KConfig *config = kapp->getConfig();
     KConfigGroupSaver cgs(config, "Settings");
     m_pDefaultProps = new KonqPropsView(config);

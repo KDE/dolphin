@@ -18,7 +18,7 @@
 */
 
 #include "konq_iconview.h"
-#include "kfmviewprops.h"
+#include "konq_propsview.h"
 
 #include <assert.h>
 #include <string.h>

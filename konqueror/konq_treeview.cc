@@ -18,7 +18,7 @@
 */
 
 #include "konq_treeview.h"
-#include "kfmviewprops.h"
+#include "konq_propsview.h"
 
 #include <kio_job.h>
 #include <kio_error.h>

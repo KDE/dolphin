@@ -18,7 +18,7 @@ bin_PROGRAMS = konqueror
 
 # Source files, please keep sorted.
 konqueror_SOURCES =  kbookmarkmenu.cc kbrowser.cc \
-	konq_propsmainview.cc kfmrun.cc kfmviewprops.cc \
+	konq_propsmainview.cc kfmrun.cc konq_propsview.cc \
 	kiconcontainer.cc \
 	konq_baseview.cc konq_childview.cc konq_frame.cc \
 	konq_htmlview.cc konq_iconview.cc konq_kfmview.cc \

@@ -21,7 +21,7 @@
 
 #include "kbrowser.h"
 #include "krun.h"
-#include "kfmviewprops.h"
+#include "konq_propsview.h"
 #include "kmimetypes.h"
 
 #include <sys/stat.h>

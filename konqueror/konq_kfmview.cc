@@ -20,7 +20,7 @@
 #include <unistd.h>
 
 #include "konq_kfmview.h"
-#include "kfmviewprops.h"
+#include "konq_propsview.h"
 
 #include <kmimetypes.h>
 #include <kpixmapcache.h>
