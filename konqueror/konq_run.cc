@@ -48,13 +48,13 @@ KonqRun::KonqRun( KonqMainWindow* mainWindow, KonqView *_childView,
 KonqRun::~KonqRun()
 {
   //kdDebug(1202) << "KonqRun::~KonqRun() " << this << endl;
-  if (m_pView)
+  if (m_pView && m_pView->run() == this)
     m_pView->setRun(0L);
 }
 
 void KonqRun::foundMimeType( const QString & _type )
 {
-  kdDebug(1202) << "KonqRun::foundMimeType " << _type << endl;
+  kdDebug(1202) << "KonqRun::foundMimeType " << _type << " m_req=" << m_req.debug() << endl;
 
   QString mimeType = _type; // this ref comes from the job, we lose it when using KIO again
 
@@ -62,9 +62,6 @@ void KonqRun::foundMimeType( const QString & _type )
 
   if (m_pView)
     m_pView->setLoading(false); // first phase finished, don't confuse KonqView
-
-  //kdDebug(1202) << "m_req.nameFilter= " << m_req.nameFilter << endl;
-  //kdDebug(1202) << "m_req.typedURL= " << m_req.typedURL << endl;
 
   // Check if the main window wasn't deleted meanwhile
   if( !m_pMainWindow )
