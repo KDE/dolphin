@@ -100,6 +100,7 @@ class Sidebar_Widget: public QWidget, public KonqSidebar_PluginInterface
 	//ButtonInfo* getActiveModule();
 	bool singleWidgetMode;
 	bool showTabsRight;
+	bool showExtraButtons;
 	void readConfig();
 	QHBoxLayout *myLayout;
 	class QStringList visibleViews;

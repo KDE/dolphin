@@ -180,13 +180,15 @@ Sidebar_Widget::Sidebar_Widget(QWidget *parent, KParts::ReadOnlyPart *par, const
 
 	connect(Area,SIGNAL(docked()),this,SLOT(updateDock()));
    	ButtonBar=new KMultiVertTabBar(this);
-
 	Menu=new QPopupMenu(this,"Sidebar_Widget::Menu");
 	QPopupMenu *addMenu=new QPopupMenu(this,"Sidebar_Widget::addPopup");
 	Menu->insertItem(i18n("Add New"),addMenu,0);
 	Menu->insertSeparator();
 	Menu->insertItem(i18n("Multiple Views"),1);
 	Menu->insertItem(i18n("Show Tabs Left"),2);
+	Menu->insertItem(i18n("Show Extra Buttons"),3);
+	Menu->insertSeparator();
+	Menu->insertItem(SmallIconSet("remove"),i18n("Close Navigation Panel"),par,SLOT(deleteLater()));
         connect(Menu,SIGNAL(aboutToShow()),this,SLOT(aboutToShowConfigMenu()));
 	connect(Menu,SIGNAL(activated(int)),this,SLOT(activatedMenu(int)));
 
@@ -195,13 +197,12 @@ Sidebar_Widget::Sidebar_Widget(QWidget *parent, KParts::ReadOnlyPart *par, const
 	buttonPopup->insertItem(SmallIconSet("image"),i18n("Icon"),1);
 	buttonPopup->insertSeparator();
 	buttonPopup->insertItem(SmallIconSet("remove"),i18n("Remove"),3);
+	buttonPopup->insertSeparator();
+	buttonPopup->insertItem(SmallIconSet("configure"),i18n("Configure Navigation Panel"), Menu, 4);
 	connect(buttonPopup,SIGNAL(activated(int)),this,SLOT(buttonPopupActivate(int)));
-	ButtonBar->insertButton(SmallIcon("configure"), -1, Menu,
-    	    				i18n("Configure Sidebar"));
-	ButtonBar->insertButton(SmallIcon("remove"),-2);
-	connect(ButtonBar->getButton(-2),SIGNAL(clicked(int)),par,SLOT(deleteLater()));
 	connect(new addBackEnd(this,addMenu,"Sidebar_Widget-addBackEnd"),SIGNAL(updateNeeded()),this,SLOT(createButtons()));
-	//	ButtonBar->setMinimumHeight(10);
+
+//	ButtonBar->setMinimumHeight(10);
 //	ButtonBar=new QButtonGroup(this);
 //	ButtonBar->setSizePolicy(QSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding));
 //	ButtonBar->setFixedWidth(25);
@@ -211,6 +212,7 @@ Sidebar_Widget::Sidebar_Widget(QWidget *parent, KParts::ReadOnlyPart *par, const
 	QTimer::singleShot(0,this,SLOT(createButtons()));
 //	connect(ButtonBar,SIGNAL(toggled(int)),this,SLOT(showHidePage(int)));
 	connect(Area,SIGNAL(dockWidgetHasUndocked(KDockWidget*)),this,SLOT(dockWidgetHasUndocked(KDockWidget*)));
+	
 }
 
 void Sidebar_Widget::doLayout()
@@ -239,6 +241,7 @@ void Sidebar_Widget::aboutToShowConfigMenu()
 {
 	Menu->setItemChecked(1,!singleWidgetMode);
 	Menu->setItemChecked(2,!showTabsRight);
+	Menu->setItemChecked(3,showExtraButtons);
 }
 
 
@@ -383,6 +386,22 @@ void Sidebar_Widget::activatedMenu(int id)
 			doLayout();
 			break;
 		}
+		case 3:
+		{
+			showExtraButtons = ! showExtraButtons;
+			if(showExtraButtons)
+			{
+				ButtonBar->insertButton(SmallIcon("configure"), -1, Menu, i18n("Configure Sidebar"));
+				ButtonBar->insertButton(SmallIcon("remove"),-2);
+				connect(ButtonBar->getButton(-2),SIGNAL(clicked(int)),partParent,SLOT(deleteLater()));
+			}
+			else
+			{
+				ButtonBar->removeButton(-1);
+				ButtonBar->removeButton(-2);
+			}
+			break;
+		}
 	}
 }
 
@@ -390,6 +409,7 @@ void Sidebar_Widget::readConfig()
 {
 	KConfig conf("konqsidebartng.rc");
 	singleWidgetMode=(conf.readEntry("SingleWidgetMode","true")=="true");
+	showExtraButtons=(conf.readEntry("ShowExtraButtons","true")=="true");
 	showTabsRight=(conf.readEntry("ShowTabsLeft","false")=="false");
 	QStringList list=conf.readListEntry("OpenViews");
 	kdDebug()<<"readConfig: "<<conf.readEntry("OpenViews")<<endl;
@@ -467,6 +487,14 @@ void Sidebar_Widget::createButtons()
 //	if (list.count()==0) kdDebug()<<"*** No Modules found"<<endl;
 //  	for ( QStringList::Iterator it = list.begin(); it != list.end(); ++it ) addButton(*it);
 	readConfig();
+	
+	if(showExtraButtons)
+	{
+		ButtonBar->insertButton(SmallIcon("configure"), -1, Menu, i18n("Configure Sidebar"));
+		ButtonBar->insertButton(SmallIcon("remove"),-2);
+		connect(ButtonBar->getButton(-2),SIGNAL(clicked(int)),partParent,SLOT(deleteLater()));
+	}
+	
 }
 
 void Sidebar_Widget::openURL(const class KURL &url)
@@ -521,29 +549,25 @@ bool Sidebar_Widget::addButton(const QString &desktoppath,int pos)
 
 bool Sidebar_Widget::eventFilter(QObject *obj, QEvent *ev)
 {
-	KMultiVertTabBarTab *bt=dynamic_cast<KMultiVertTabBarTab*>(obj);
-	if (bt)
-		{
-			if (ev->type()==QEvent::MouseButtonPress)
-				{
-					if (((QMouseEvent *)ev)->button()==QMouseEvent::RightButton)
-						{
-							kdDebug()<<"Request for popup"<<endl;
-							popupFor=-1;
-							for (int i=0;i<Buttons.count();i++)
-							{
-								if (bt==ButtonBar->getTab(i))
-									{popupFor=i; break;}
-							}
 
-							buttonPopup->setItemEnabled(2,!Buttons.at(popupFor)->URL.isEmpty());
-							if (popupFor!=-1)
-								buttonPopup->exec(QCursor::pos());
-							return true;
-						}
-					return false;
+	if (ev->type()==QEvent::MouseButtonPress && ((QMouseEvent *)ev)->button()==QMouseEvent::RightButton)
+	{
+			KMultiVertTabBarTab *bt=dynamic_cast<KMultiVertTabBarTab*>(obj);
+			if (bt)
+			{
+				kdDebug()<<"Request for popup"<<endl;
+				popupFor=-1;
+				for (int i=0;i<Buttons.count();i++)
+				{
+					if (bt==ButtonBar->getTab(i))
+						{popupFor=i; break;}
 				}
-		}
+				buttonPopup->setItemEnabled(2,!Buttons.at(popupFor)->URL.isEmpty());
+				if (popupFor!=-1)
+					buttonPopup->exec(QCursor::pos());
+				return true;
+			}
+	}
 	return false;
 }
 
@@ -877,6 +901,8 @@ Sidebar_Widget::~Sidebar_Widget()
 {
 	KConfig conf("konqsidebartng.rc");
 	conf.writeEntry("SingleWidgetMode",singleWidgetMode?"true":"false");
+	conf.writeEntry("ShowExtraButtons",showExtraButtons?"true":"false");
+	conf.writeEntry("ShowTabsLeft",showTabsRight?"false":"true");
         conf.writeEntry("OpenViews", visibleViews);
 	conf.sync();
 	for (uint i=0;i<Buttons.count();i++)
