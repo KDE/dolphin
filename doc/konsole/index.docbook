@@ -20,10 +20,12 @@
 </author>
 
 <othercredit role="developer">
-<firstname>Lars</firstname><surname>D&ouml;lle</surname><contrib>Developer</contrib>
+<firstname>Chris</firstname>
+<surname>Machemer</surname>
 <affiliation>
-<address><email>lars.doelle@on-line.de</email></address>
+<address><email>machey@ptd.net</email></address>
 </affiliation>
+<contrib>Maintainer</contrib>
 </othercredit>
 
 <othercredit role="reviewer">
@@ -38,13 +40,13 @@
 </authorgroup>
 
 <copyright>
-<year>2000</year>
+<year>2000</year><year>2001</year>
 <holder>Jonathan Singer</holder>
 </copyright>
 
 <legalnotice>&FDLNotice;</legalnotice>
 
-<date>08/02/2001</date>
+<date>19/02/2001</date>
 <releaseinfo>1.00.10</releaseinfo>
 
 <abstract><para>This document is the user handbook for the &konsole application.</para>
@@ -625,6 +627,10 @@ shell</action></para></listitem>
 
 <chapter id="credits">
 <title>Credits and Copyright</title>
+
+
+<para>&konsole; is maintained by Chris Machemer
+<email>machey@ptd.net</email></para>
 
 <para>The application &konsole; <trademark class="copyright">copyright 1997-2000
 Lars Doelle</trademark> <email>lars.doelle@on-line.de</email></para>
