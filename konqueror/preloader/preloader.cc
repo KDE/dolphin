@@ -54,13 +54,14 @@ QCString KonqyPreloader::getPreloadedKonqy( int screen )
     {
     if( instances.count() == 0 )
         return "";
-    for( InstancesList::ConstIterator it = instances.begin();
+    for( InstancesList::Iterator it = instances.begin();
          it != instances.end();
          ++it )
         {
         if( (*it).screen == screen )
             {
             QCString ret = (*it).id;
+            instances.remove( it );
             check_always_preloaded_timer.start( 5000, true );
             return ret;
             }
