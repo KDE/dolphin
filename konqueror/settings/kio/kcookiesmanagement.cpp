@@ -211,9 +211,10 @@ void KCookiesManagement::defaults()
   emit changed (false);
 }
 
-void KCookiesManagement::reset()
+void KCookiesManagement::reset(bool deleteAll)
 {
-  m_bDeleteAll = false;
+    if ( !deleteAll )
+        m_bDeleteAll = false;
   clearCookieDetails();
   dlg->lvCookies->clear();
   deletedDomains.clear();
@@ -448,8 +449,7 @@ void KCookiesManagement::deleteCookie()
 void KCookiesManagement::deleteAllCookies()
 {
   m_bDeleteAll = true;
-  save();
-  reset();
+  reset(true);
 
   emit changed( true );
 }

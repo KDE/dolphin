@@ -81,7 +81,7 @@ private slots:
     void doPolicy();
 
 private:
-    void reset ();
+    void reset (bool deleteAll = false);
     bool cookieDetails(CookieProp *cookie);
     void clearCookieDetails();
     bool policyenabled();
