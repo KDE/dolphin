@@ -1,4 +1,5 @@
-<?xml version="1.0" ?><!DOCTYPE book PUBLIC "-//KDE//DTD DocBook XML V4.1-Based Variant V1.0//EN" "dtd/kdex.dtd" [
+<?xml version="1.0" ?>
+<!DOCTYPE book PUBLIC "-//KDE//DTD DocBook XML V4.1-Based Variant V1.0//EN" "dtd/kdex.dtd" [
  <!ENTITY kappname "&konsole;">
  <!ENTITY % English "INCLUDE">
  <!ENTITY % addindex "IGNORE">
@@ -49,7 +50,7 @@
 
 <legalnotice>&FDLNotice;</legalnotice>
 
-<date>15/03/2001</date>
+<date>2001-03-15</date>
 <releaseinfo>1.00.10</releaseinfo>
 
 <abstract><para>This document is the user handbook for the &konsole; application.</para>
