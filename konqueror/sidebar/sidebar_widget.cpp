@@ -1222,6 +1222,7 @@ void Sidebar_Widget::resizeEvent(QResizeEvent* ev)
 
 QSplitter *Sidebar_Widget::splitter() const
 {
+	if (m_universalMode) return 0;
 	QObject *p = parent();
 	if (!p) return 0;
 	p = p->parent();
