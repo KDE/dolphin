@@ -42,7 +42,7 @@ public:
 
   /// Returns the name of this binding
   /**
-     The file type in the file '$KDEDIR/filetypes/Spreadsheet.kdelnk' for
+     The file type in the file '$KDEDIR/filetypes/Spreadsheet.desktop' for
      example is called 'Spreadsheet'.
   */
   const char* getName() { return name.data(); }
@@ -84,7 +84,7 @@ public:
 
   /// Finds a file type by its name
   /**
-     The file type in the file '$KDEDIR/filetypes/Spreadsheet.kdelnk' for
+     The file type in the file '$KDEDIR/filetypes/Spreadsheet.desktop' for
      example is called 'Spreadsheet'.
   */
   static KfFileType *findByName( const char *_name );
@@ -133,7 +133,7 @@ protected:
 
   /// Holds the name of the file type
   /**
-     The file type in the file '$KDEDIR/filetypes/Spreadsheet.kdelnk' for
+     The file type in the file '$KDEDIR/filetypes/Spreadsheet.desktop' for
      example is called 'Spreadsheet'.
   */
   QString name;

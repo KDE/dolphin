@@ -39,8 +39,7 @@ void KfFileType::initFileTypes( const char* _path )
             stat( file.data(), &buff );
             if ( S_ISDIR( buff.st_mode ) )
                 initFileTypes( file.data() );
-#warning FIXME: .kdelnk deprecated (Harri)
-            else if ( tmp.right( 7 ) == ".kdelnk" )
+            else if ( tmp.right( 8 ) == ".desktop" )
             {
                 QFile f( file.data() );
                 if ( !f.open( IO_ReadOnly ) )
@@ -53,9 +52,8 @@ void KfFileType::initFileTypes( const char* _path )
 
                 // Read a new extension group
                 QString ext = ep->d_name;
-#warning FIXME: .kdelnk deprecated (Harri)
-                if ( ext.right(7) == ".kdelnk" )
-                    ext = ext.left( ext.length() - 7 );
+                if ( ext.right( 8 ) == ".desktop" )
+                    ext = ext.left( ext.length() - 8 );
 
                 // Get a ';' separated list of all pattern
                 QString pats = config.readEntry( "Patterns" );
