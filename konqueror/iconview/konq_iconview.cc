@@ -684,7 +684,7 @@ void KonqKfmIconView::slotViewportRightClicked()
   // This is a directory. Always.
   mode_t mode = S_IFDIR;
 
-  KFileItem item( "viewURL" /*whatever*/, mode, bgUrl );
+  KFileItem item( mode, bgUrl );
   KFileItemList items;
   items.append( &item );
   emit popupMenu( QCursor::pos(), items );

@@ -37,7 +37,6 @@
 #include <time.h>
 #include <unistd.h>
 
-#include <qpixmap.h>
 #include <qkeycode.h>
 #include <qlist.h>
 #include <qdragobject.h>

@@ -503,7 +503,7 @@ void KonqTreeViewWidget::popupMenu( const QPoint& _global )
     mode_t mode = S_IFDIR;
     KURL url( m_dirLister->url() );
 
-    KFileItem item( "foobarbazzboom", mode, url );
+    KFileItem item( mode, url );
     lstItems.append( &item );
   }
 

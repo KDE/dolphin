@@ -305,7 +305,7 @@ bool KonqTextView::eventFilter( QObject *o, QEvent *e )
       mode = buff.st_mode;
     }
     
-    KFileItem item( "textURL" /*whatever*/ , mode, u );
+    KFileItem item( mode, u );
     KFileItemList items;
     items.append( &item );
     emit popupMenu( QCursor::pos(), items );
@@ -535,7 +535,7 @@ void KonqTextView::mousePressEvent( QMouseEvent *e )
       mode = buff.st_mode;
     }
     
-    KFileItem item( "textURL" *//*whatever*/ /*, mode, u );
+    KFileItem item( mode, u );
     KFileItemList items;
     items.append( &item );
     m_pMainView->popupMenu( QPoint( e->globalX(), e->globalY() ), items );
