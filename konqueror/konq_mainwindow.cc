@@ -205,7 +205,7 @@ KonqMainWindow::KonqMainWindow( const KURL &initialURL, bool openInitialURL, con
       m_bNeedApplyKonqMainWindowSettings = false;
 
   // Read basic main-view settings, and set to autosave
-  setAutoSaveSettings( QString::null, false );
+  setAutoSaveSettings( "KonqMainWindow", false );
 
   m_paShowMenuBar->setChecked( !menuBar()->isHidden() );
   KToolBar *tb = toolBarByName("mainToolBar");
@@ -2303,7 +2303,7 @@ void KonqMainWindow::toggleBar( const char *name )
   else
     bar->show();
 
-  saveMainWindowSettings( KGlobal::config() );
+  saveMainWindowSettings( KGlobal::config(), "KonqMainWindow" );
   KGlobal::config()->sync();
   // otherwise changing toolbar style in kcontrol will lose our changes
 }
