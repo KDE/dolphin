@@ -86,6 +86,7 @@ KCookiesPolicies::KCookiesPolicies(QWidget *parent, const char *name)
     QVBoxLayout *lay = new QVBoxLayout( this, KDialog::marginHint(), KDialog::spacingHint() );
     lay->setAutoAdd( true );
 
+
     cb_enableCookies = new QCheckBox( i18n("&Enable Cookies"), this );
     QWhatsThis::add( cb_enableCookies, i18n("This option turns on cookie support. Normally "
                                             "you will want to have cookie support enabled and "
@@ -112,7 +113,7 @@ KCookiesPolicies::KCookiesPolicies(QWidget *parent, const char *name)
     rb_gbPolicyReject = new QRadioButton( i18n("&Reject all cookies by default"), bg_default );
 
     // Create Group Box for specific settings
-    gb_domainSpecific = new QGroupBox( i18n("Domain Specific"), this);
+    gb_domainSpecific = new QGroupBox( i18n("Domain Specific Policies"), this);
     lay->setStretchFactor( gb_domainSpecific, 10 );
     QGridLayout *ds_lay = new QGridLayout( gb_domainSpecific, 6, 2,
                        KDialog::marginHint(), KDialog::spacingHint() );
@@ -126,17 +127,17 @@ KCookiesPolicies::KCookiesPolicies(QWidget *parent, const char *name)
     ds_lay->setRowStretch( 5, 1 );
 
     // CREATE SPLIT LIST BOX
-    lb_domainPolicy = new KListView( gb_domainSpecific );
-    //    lb_domainPolicy->setMinimumHeight( 0.10 * sizeHint().height() );
-    lb_domainPolicy->addColumn(i18n("Hostname"));
-    lb_domainPolicy->addColumn(i18n("Policy"), 100);
-    ds_lay->addMultiCellWidget( lb_domainPolicy, 1, 5, 0, 0 );
+    lv_domainPolicy = new KListView( gb_domainSpecific );
+    //    lv_domainPolicy->setMinimumHeight( 0.10 * sizeHint().height() );
+    lv_domainPolicy->addColumn(i18n("Hostname"));
+    lv_domainPolicy->addColumn(i18n("Policy"), 100);
+    ds_lay->addMultiCellWidget( lv_domainPolicy, 1, 5, 0, 0 );
     QString wtstr = i18n("This box contains the domains and hosts you have set "
                          "a specific cookie policy for. This policy will be used "
                          "instead of the default policy for any cookie sent by these "
                          "domains or hosts. <p>Select a policy and use the controls on "
                          "the right to modify it.");
-    QWhatsThis::add( lb_domainPolicy, wtstr );
+    QWhatsThis::add( lv_domainPolicy, wtstr );
     QWhatsThis::add( gb_domainSpecific, wtstr );
 
     pb_domPolicyAdd = new QPushButton( i18n("Add..."), gb_domainSpecific );
@@ -202,20 +203,21 @@ void KCookiesPolicies::addPressed()
     pDlg.setDefaultPolicy( def_policy );
     pDlg.setCaption( i18n( "New Cookie Policy" ) );
     if( pDlg.exec() ) {
-        QListViewItem* index = new QListViewItem(lb_domainPolicy, pDlg.domain(),
+
+        QListViewItem* index = new QListViewItem(lv_domainPolicy, pDlg.domain(),
                                                  adviceToStr( (KCookieAdvice) pDlg.policyAdvice()));
         domainPolicy.insert( index, adviceToStr( (KCookieAdvice)pDlg.policyAdvice() ) );
-        lb_domainPolicy->setCurrentItem( index );
+        lv_domainPolicy->setCurrentItem( index );
         changed();
     }
 }
 
 void KCookiesPolicies::changePressed()
 {
-    QListViewItem *index = lb_domainPolicy->currentItem();
+    QListViewItem *index = lv_domainPolicy->currentItem();
     if ( index == 0 )
     {
-        KMessageBox::information( 0, i18n("You must first select a policy to be changed!" ) );
+        KMessageBox::information( 0, i18n("<qt>No policy selected!\nPlease choose a policy to <i>modify</i> first.</qt>") );
         return;
     }
 
@@ -237,10 +239,10 @@ void KCookiesPolicies::changePressed()
 
 void KCookiesPolicies::deletePressed()
 {
-    QListViewItem *index = lb_domainPolicy->currentItem();
+    QListViewItem *index = lv_domainPolicy->currentItem();
     if ( index == 0 )
     {
-        KMessageBox::information( 0, i18n("You must first select a policy to delete!" ) );
+        KMessageBox::information( 0, i18n("<qt>No policy selected!\nPlease choose a policy to <i>delete</i> first.</qt>") );
         return;
     }
     domainPolicy.remove(index);
@@ -272,7 +274,7 @@ void KCookiesPolicies::updateDomainList(const QStringList &domainConfig)
       splitDomainAdvice(*it, domain, advice);
       QCString advStr = adviceToStr(advice);
       QListViewItem *index =
-        new QListViewItem( lb_domainPolicy, domain, i18n(advStr) );
+        new QListViewItem( lv_domainPolicy, domain, i18n(advStr) );
       domainPolicy[index] = advStr;
     }
 }
@@ -323,7 +325,7 @@ void KCookiesPolicies::save()
       advice = adviceToStr(KCookieAsk);
   g_pConfig->writeEntry("CookieGlobalAdvice", advice);
   QStringList domainConfig;
-  QListViewItem *at = lb_domainPolicy->firstChild();
+  QListViewItem *at = lv_domainPolicy->firstChild();
   while (at) {
     domainConfig.append(QString::fromLatin1("%1:%2").arg(at->text(0)).arg(domainPolicy[at]));
     at = at->nextSibling();
@@ -356,7 +358,7 @@ void KCookiesPolicies::defaults()
   rb_gbPolicyAsk->setChecked( true );
   rb_gbPolicyAccept->setChecked( false );
   rb_gbPolicyReject->setChecked( false );
-  lb_domainPolicy->clear();
+  lv_domainPolicy->clear();
   changeCookiesEnabled();
 }
 

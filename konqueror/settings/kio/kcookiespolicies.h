@@ -59,7 +59,7 @@ private:
 
     // Domain specific cookie policies
     QGroupBox*    gb_domainSpecific;
-    KListView*   lb_domainPolicy;
+    KListView*    lv_domainPolicy;
     QPushButton*  pb_domPolicyAdd;
     QPushButton*  pb_domPolicyDelete;
     QPushButton*  pb_domPolicyChange;
