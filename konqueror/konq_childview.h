@@ -225,14 +225,10 @@ protected slots:
   void slotSpeed( KIO::Job *, unsigned long bytesPerSecond );
 
   /**
-   * Creates a new entry in the history.
-   */
-  void createHistoryEntry();
-
-  /**
    * Connected to the BrowserExtension
    */
   void slotSelectionInfo( const KFileItemList &items );
+  void slotOpenURLNotify();
 
 protected:
   /**
@@ -240,6 +236,11 @@ protected:
    * Do this after creating it and before inserting it.
    */
   void connectView();
+
+  /**
+   * Creates a new entry in the history.
+   */
+  void createHistoryEntry();
 
   /**
    * Updates the current entry in the history.

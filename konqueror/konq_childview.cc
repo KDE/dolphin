@@ -99,17 +99,15 @@ void KonqChildView::openURL( const KURL &url )
 {
   setServiceTypeInExtension();
 
-  // this is needed for apps which emit started()/completed() right in KParts::Part::openURL
-  // (as in slotCompleted we call updateHistory entry, which would update the latest history
-  // entry (of the previous view for example) , which is wrong! (Simon)
-  bool oldLock = m_bLockHistory;
-  m_bLockHistory = true;
-  
-  m_pView->openURL( url );
-  
-  m_bLockHistory = oldLock;
+  if ( !m_bLockHistory )
+  {
+    // Store this new URL in the history, removing any existing forward history.
+    // We do this first so that everything is ready if a part calls completed().
+    createHistoryEntry();
+  } else
+      m_bLockHistory = false;
 
-  // Shouldn't be necessary (David) setLocationBarURL( url.url() );
+  m_pView->openURL( url );
 
   sendOpenURLEvent( url );
 
@@ -117,17 +115,8 @@ void KonqChildView::openURL( const KURL &url )
   if ( m_metaView )
     m_metaView->openURL( url );
 
-  if ( !m_bLockHistory )
-  {
-      // Store this new URL in the history, removing any existing forward history
-      createHistoryEntry();
-  } else
-  {
-      kdDebug(1202) << " HISTORY LOCKED. Just updating " << endl;
-      m_bLockHistory = false;
-      // History was locked, just update the current record with the new URL
-      updateHistoryEntry();
-  }
+  updateHistoryEntry();
+
   kdDebug(1202) << "Current position : " << m_lstHistory.at() << endl;
 }
 
@@ -273,7 +262,7 @@ void KonqChildView::connectView(  )
 	   this, SLOT( slotSelectionInfo( const KFileItemList & ) ) );
 
   connect( ext, SIGNAL( openURLNotify() ),
-	   this, SLOT( createHistoryEntry() ) );
+	   this, SLOT( slotOpenURLNotify() ) );
 }
 
 void KonqChildView::slotStarted( KIO::Job * job )
@@ -347,6 +336,12 @@ void KonqChildView::setLocationBarURL( const QString & locationBarURL )
   }
 }
 
+void KonqChildView::slotOpenURLNotify()
+{
+  createHistoryEntry();
+  updateHistoryEntry();
+}
+
 void KonqChildView::createHistoryEntry()
 {
     // First, remove any forward history
@@ -365,14 +360,11 @@ void KonqChildView::createHistoryEntry()
     // Append a new entry
     kdDebug(1202) << "Append a new entry" << endl;
     m_lstHistory.append( new HistoryEntry ); // made current
-    // Fill it
-    updateHistoryEntry();
 }
 
 void KonqChildView::updateHistoryEntry()
 {
-  if ( m_bLockHistory )
-    return;
+  ASSERT( !m_bLockHistory ); // should never happen
  
   HistoryEntry * current = m_lstHistory.current();
   assert( current ); // let's see if this happens
@@ -443,7 +435,6 @@ void KonqChildView::go( int steps )
   if ( m_metaView )
     m_metaView->openURL( h->url );
 
-  //updateHistoryEntry(); // do we really need that here ?
   kdDebug(1202) << "New position (2) " << m_lstHistory.at() << endl;
 }
 
