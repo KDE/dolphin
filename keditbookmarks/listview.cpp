@@ -394,9 +394,13 @@ void ListView::updateListView() {
    }
 }
 
-void ListView::updateTree() {
-   fillWithGroup(m_listView, CurrentMgr::self()->mgr()->root());
+void ListView::updateTree(bool updateSplitView) {
+   KBookmarkGroup root = CurrentMgr::self()->mgr()->root();
    if (m_splitView) {
+      root = CurrentMgr::bookmarkAt(m_currentSelectedRootAddress).toGroup();
+   }
+   fillWithGroup(m_listView, root);
+   if (m_splitView && updateSplitView) {
       fillWithGroup(m_folderListView, CurrentMgr::self()->mgr()->root());
    }
 }
@@ -452,11 +456,19 @@ void ListView::fillWithGroup(KEBListView *lv, KBookmarkGroup group, KEBListViewI
    }
 }
 
-void ListView::handleCurrentChanged(KEBListView *, QListViewItem *item) {
-   KEBListViewItem *currentItem = static_cast<KEBListViewItem *>(item);
+void ListView::handleCurrentChanged(KEBListView *lv, QListViewItem *item) {
    // hasParent is paranoid, after some thinking remove it
+   KEBListViewItem *currentItem = static_cast<KEBListViewItem *>(item);
    if (currentItem && currentItem->bookmark().hasParent()) {
       m_last_selection_address = currentItem->bookmark().address();
+   }
+   if (item && m_splitView && lv == m_folderListView) {
+      m_folderListView->setSelected(item, true);
+      QString addr = currentItem->bookmark().address();
+      if (addr != m_currentSelectedRootAddress) {
+         m_currentSelectedRootAddress = addr;
+         updateTree(false);
+      }
    }
 }
 

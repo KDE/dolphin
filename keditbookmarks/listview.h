@@ -177,9 +177,9 @@ public:
    static void startRename(int column, KEBListViewItem *item);
 
 private:
-   void updateTree();
+   void updateTree(bool updateSplitView = true);
    void fillWithGroup(KEBListView *, KBookmarkGroup, KEBListViewItem * = 0);
-
+ 
    ListView();
 
    enum Which { None, Some, All };
@@ -188,8 +188,10 @@ private:
    static void deselectAllButParent(KEBListViewItem *item);
 
    QString m_last_selection_address;
+   QString m_currentSelectedRootAddress;
    KEBListView *m_listView;
    KEBListView *m_folderListView;
+
    bool m_splitView;
    // statics
    static ListView *s_self;
