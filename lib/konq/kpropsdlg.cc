@@ -391,7 +391,7 @@ void FilePropsPage::applyChanges()
 	if ( rename( path, s ) != 0 ) {
             QString tmp;
             tmp.sprintf(i18n("Could not rename the file or directory\n%s\n"), strerror(errno));
-            QMessageBox::warning( this, i18n( "KFM Error" ), tmp );
+            QMessageBox::warning( this, i18n( "KFM Error" ), tmp, i18n("OK"));
         }
 	properties->emitPropertiesChanged( n );
     }
@@ -654,14 +654,16 @@ void FilePermissionsPropsPage::applyChanges()
 	}
 	if ( chown( path, pw->pw_uid, g->gr_gid ) != 0 )
 	    QMessageBox::warning( 0, i18n( "KFM Error" ),
-				  i18n( "Could not change owner/group\nPerhaps access denied." ) );
+				  i18n( "Could not change owner/group\nPerhaps access denied." ),
+				  i18n( "OK") );
     }    
 
     if ( p != permissions )
     {
 	if ( chmod( path, p ) != 0 )
 	    QMessageBox::warning( 0, i18n( "KFM Error" ),
-				  i18n( "Could not change permissions\nPerhaps access denied." ) );	    
+				  i18n( "Could not change permissions\nPerhaps access denied." ),
+				  i18n( "OK") );
     }
 
 }
@@ -935,7 +937,8 @@ void ExecPropsPage::applyChanges()
 #endif
       
 	QMessageBox::warning( 0, i18n("KFM Error"),
-			      i18n("Could not save properties\nPerhaps permissions denied") );
+			      i18n("Could not save properties\nPerhaps permissions denied"),
+			      i18n("OK") );
 	return;
 #ifdef SVEN
       }
@@ -1071,7 +1074,8 @@ void URLPropsPage::applyChanges()
     if ( !f.open( IO_ReadWrite ) )
     {
 	QMessageBox::warning( 0, i18n("KFM Error"), 
-			        i18n("Could not save properties\nPerhaps permissions denied") );
+			        i18n("Could not save properties\nPerhaps permissions denied"),
+				i18n("OK") );
 	return;
     }
     f.close();
@@ -1185,7 +1189,8 @@ void DirPropsPage::applyChanges()
     if ( !f.open( IO_ReadWrite ) )
     {
       QMessageBox::warning( 0, i18n("KFM Error"), 
-			     i18n("Could not write to\n") + tmp );
+			     i18n("Could not write to\n") + tmp,
+			     i18n("OK") );
 	return;
     }
     f.close();
@@ -1683,7 +1688,8 @@ void ApplicationPropsPage::applyChanges()
 #endif
 
 	QMessageBox::warning( 0, i18n("KFM Error"),
-			        i18n("Could not save properties\nPerhaps permissions denied") );
+			        i18n("Could not save properties\nPerhaps permissions denied"),
+				i18n("OK") );
 	return;
 #ifdef SVEN
       }
@@ -2043,7 +2049,8 @@ void BindingPropsPage::applyChanges()
       {
 #endif
 	QMessageBox::warning( 0, i18n("KFM Error"),
-			        i18n("Could not save properties\nPerhaps permissions denied") );
+			        i18n("Could not save properties\nPerhaps permissions denied"),
+				i18n("OK") );
 	return;
 #ifdef SVEN
       }
@@ -2219,7 +2226,8 @@ void DevicePropsPage::applyChanges()
     if ( !f.open( IO_ReadWrite ) )
     {
 	QMessageBox::warning( 0, i18n("KFM Error"), 
-			        i18n("Could not save properties\nPerhaps permissions denied") );
+			        i18n("Could not save properties\nPerhaps permissions denied"),
+				i18n("OK") );
 	return;
     }
     f.close();

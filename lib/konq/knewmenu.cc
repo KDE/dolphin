@@ -181,7 +181,8 @@ void KNewMenu::slotNewFile( int _id )
           kdebug(KDEBUG_WARN, 1203, "%s doesn't exist", x.ascii());
           QMessageBox::critical( 0L, i18n( "Error" ), i18n(
               "Source file doesn't exist anymore ! \n"
-              "Use \"Rescan Bindings\" in View menu to update the menu"));
+              "Use \"Rescan Bindings\" in View menu to update the menu"),
+         i18n("OK"));
           return;
       }
       KSimpleConfig config(x, true);
