@@ -693,19 +693,11 @@ void KonqBaseListViewWidget::setComplete()
     if ( m_bUpdateContentsPosAfterListing )
     {
         kdDebug() << "KonqBaseListViewWidget::setComplete m_bUpdateContentsPosAfterListing=true" << endl;
-        // We should use the history for the item-found thing, instead of this
-        //setContentsPos( m_pBrowserView->extension()->urlArgs().xOffset,
-        //                m_pBrowserView->extension()->urlArgs().yOffset );
         m_bUpdateContentsPosAfterListing = false;
-        /*
-        if ((firstChild()!=0) && (m_pBrowserView->extension()->urlArgs().yOffset==0))
-        {
-           //the call above saves the two following calls, aleXXX
-           setCurrentItem(firstChild());
-           ensureItemVisible(currentItem());
-        }
-        emit selectionChanged();
-        }*/
+
+        setContentsPos( m_pBrowserView->extension()->urlArgs().xOffset,
+                        m_pBrowserView->extension()->urlArgs().yOffset );
+
         if ((m_goToFirstItem==true) || (m_itemFound==false))
         {
             kdDebug() << "going to first item" << endl;
@@ -919,6 +911,25 @@ void KonqBaseListViewWidget::disableIcons( const KURL::List & lst )
       }
       (*kit).setDisabled( bFound );
   }
+}
+
+void KonqBaseListViewWidget::saveState( QDataStream & ds )
+{
+    QString str;
+    if ( currentItem() )
+        str = static_cast<KonqBaseListViewItem*>(currentItem())->item()->url().fileName(true);
+    ds << str;
+}
+
+void KonqBaseListViewWidget::restoreState( QDataStream & ds )
+{
+    QString str;
+    ds >> str;
+    if ( !str.isEmpty() )
+    {
+        m_itemToGoTo = str;
+        m_goToFirstItem = false;
+    }
 }
 
 #include "konq_listviewwidget.moc"

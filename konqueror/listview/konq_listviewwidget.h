@@ -123,8 +123,8 @@ class KonqBaseListViewWidget : public KListView
 
       virtual void paintEmptyArea( QPainter *p, const QRect &r );
 
-      virtual void saveState( QDataStream & ) {}
-      virtual void restoreState( QDataStream & ) {}
+      virtual void saveState( QDataStream & );
+      virtual void restoreState( QDataStream & );
 
       virtual void disableIcons( const KURL::List & lst );
 
