@@ -1,6 +1,6 @@
 (from kfm)
 - Nice ftp dialog for users who do not know how to put their
-  use name in a URL.
+  user name in a URL.
 - Sorting by date, ... 
 
 - (Following to discussion with Sven) : Update kpropsdlg so that it can show
@@ -9,14 +9,34 @@ filename but would only use it to write, not read at startup.
 This involves making New/Mimetype and New/Application built-in
 templates, just like New/Folder, since the file would be not used at all.
 
+- The ability to edit the binding for a mime type by
+  selecting a file of that type.
+
 - drop events on an icon / URL should be handled in a central place
   (e.g. konq_kfmviewitem). In any case it should be moved out
   of kiconcontainer !!
   + take code from kfm, for special cases (trash, ....)
-  
+
+- implement search functionality in KonqHTMLView -> wait until khtml catched
+  up :-)
+
+- select files using shell globs.
+
+- Better handling of multiple selections (eg. try selecting
+  several images then invoking kview - you get loads of kview 
+  processes rather than just one).
+
+- When you are adding to the selction (eg. by shift + LMB)
+  then change the mouse cursor to indicate this. Several drawing programs do
+  this by adding a '+' to the normal mouse cursor and it makes them a lot more usable.
+
+- More key bindings. Lots of things are missing key bindings,
+  Ctrl+A for select all for instance. => partially done.
+  Needs disconnecting/reconnecting on view switching.
+
+- Configurable toplevel items in the treeview
+
 - see grep TODO *.cc *.h *.idl
 
 - see http://bugs.kde.org/db/pa/lkfm.html !
 
-- implement search functionality in KonqHTMLView -> wait until khtml catched
-  up :-)
