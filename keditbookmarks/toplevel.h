@@ -191,6 +191,9 @@ protected:
     void initListView();
     void resetActions();
 
+    void disconnectSignals();
+    void connectSignals();
+
     void fillGroup( KEBListViewItem * parentItem, KBookmarkGroup group );
     virtual bool queryClose();
     void fillListView();

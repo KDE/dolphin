@@ -353,6 +353,7 @@ KEBTopLevel::KEBTopLevel( const QString & bookmarksFile, bool readonly )
     }
 
     initListView();
+    connectSignals();
 
     s_topLevel = this;
     fillListView();
@@ -470,33 +471,58 @@ void KEBTopLevel::initListView()
     m_pListView->setAllColumnsShowFocus( true );
     m_pListView->setSorting(-1, false);
 
-    connect( m_pListView, SIGNAL(selectionChanged() ),
-             SLOT(slotSelectionChanged() ) );
-    connect( m_pListView, SIGNAL(contextMenu( KListView *, QListViewItem *, const QPoint & )),
+}
 
-             SLOT(slotContextMenu( KListView *, QListViewItem *, const QPoint & )) );
+
+void KEBTopLevel::disconnectSignals() {
+
+    disconnect( m_pListView, SIGNAL( selectionChanged()), 0, 0 );
+    disconnect( m_pListView, SIGNAL( contextMenu( KListView *, QListViewItem *, const QPoint & )), 0, 0 );
+
+    disconnect( s_pManager, SIGNAL( changed(const QString &, const QString &) ), 0, 0 );
+
+    if (!m_bReadOnly) {
+
+        disconnect( m_pListView, SIGNAL( itemRenamed(QListViewItem *, const QString &, int) ), 0, 0 );
+        disconnect( m_pListView, SIGNAL( dropped(QDropEvent* , QListViewItem* , QListViewItem* ) ), 0, 0 );
+        disconnect( m_pListView, SIGNAL( dataChanged() ), 0, 0 );
+       
+        disconnect( &m_commandHistory, SIGNAL( commandExecuted() ), 0, 0 );
+        disconnect( &m_commandHistory, SIGNAL( documentRestored() ), 0, 0 );
+       
+        disconnect( m_dcopIface, SIGNAL( addedBookmark(QString,QString,QString,QString) ), 0, 0 );
+        disconnect( m_dcopIface, SIGNAL( createdNewFolder(QString,QString) ), 0, 0 );
+    }
+}
+
+void KEBTopLevel::connectSignals() {
+
+    connect( m_pListView, SIGNAL( selectionChanged() ),
+             SLOT( slotSelectionChanged() ) );
+    connect( m_pListView, SIGNAL( contextMenu( KListView *, QListViewItem*, const QPoint & ) ),
+             SLOT( slotContextMenu( KListView *, QListViewItem *, const QPoint & ) ) );
+
+    // If someone plays with konq's bookmarks while we're open, update. (when applicable)
+    connect( s_pManager, SIGNAL( changed(const QString &, const QString &) ),
+             SLOT( slotBookmarksChanged(const QString &, const QString &) ) );
 
 
     if (!m_bReadOnly) {
-       connect( m_pListView, SIGNAL(itemRenamed(QListViewItem *, const QString &, int)),
-                SLOT(slotItemRenamed(QListViewItem *, const QString &, int)) );
-       connect( m_pListView, SIGNAL(dropped (QDropEvent* , QListViewItem* , QListViewItem* )),
-                SLOT(slotDropped(QDropEvent* , QListViewItem* , QListViewItem* )) );
-       connect( kapp->clipboard(), SIGNAL(dataChanged()),
-                SLOT(slotClipboardDataChanged() ) );
-
-       // If someone plays with konq's bookmarks while we're open, update. (when applicable)
-       connect( s_pManager, SIGNAL( changed(const QString &, const QString &) ),
-                SLOT( slotBookmarksChanged(const QString &, const QString &) ) );
+       connect( m_pListView, SIGNAL( itemRenamed(QListViewItem *, const QString &, int) ),
+                SLOT( slotItemRenamed(QListViewItem *, const QString &, int) ) );
+       connect( m_pListView, SIGNAL( dropped (QDropEvent* , QListViewItem* , QListViewItem* ) ),
+                SLOT( slotDropped(QDropEvent* , QListViewItem* , QListViewItem* ) ) );
+       connect( kapp->clipboard(), SIGNAL( dataChanged() ),
+                SLOT( slotClipboardDataChanged() ) );
 
        // Update GUI after executing command
        connect( &m_commandHistory, SIGNAL( commandExecuted() ), SLOT( slotCommandExecuted() ) );
        connect( &m_commandHistory, SIGNAL( documentRestored() ), SLOT( slotDocumentRestored() ) );
 
-       connect(m_dcopIface, SIGNAL(addedBookmark(QString,QString,QString,QString)),
-               SLOT(slotAddedBookmark(QString,QString,QString,QString)));
-       connect(m_dcopIface, SIGNAL(createdNewFolder(QString,QString)),
-               SLOT(slotCreatedNewFolder(QString,QString)));
+       connect(m_dcopIface, SIGNAL( addedBookmark(QString,QString,QString,QString) ),
+               SLOT( slotAddedBookmark(QString,QString,QString,QString) ));
+       connect(m_dcopIface, SIGNAL( createdNewFolder(QString,QString) ),
+               SLOT( slotCreatedNewFolder(QString,QString) ));
     }
 }
 
