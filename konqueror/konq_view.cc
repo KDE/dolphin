@@ -97,11 +97,15 @@ KonqView::~KonqView()
 {
   kdDebug(1202) << "KonqView::~KonqView : part = " << m_pPart << endl;
 
-  // AK - stupid code duplication, see below comment
   if (KonqMainWindow::s_crashlog_file) {
-     QString part_url = (m_pPart)?(m_pPart->url().url()):(QString(""));
-     QCString lines = ( QString("close(%1):%2\n").arg(m_randID,0,16).arg(part_url) ).utf8();
-     KonqMainWindow::s_crashlog_file->writeBlock(lines,lines.length());
+     QString part_url;
+     if (m_pPart)
+        part_url = m_pPart->url().url();
+     if (part_url.isNull())
+        part_url = "";
+     QCString line;
+     line = ( QString("close(%1):%2\n").arg(m_randID,0,16).arg(part_url) ).utf8();
+     KonqMainWindow::s_crashlog_file->writeBlock(line, line.length());
      KonqMainWindow::s_crashlog_file->flush();
   }
 
@@ -123,17 +127,23 @@ void KonqView::openURL( const KURL &url, const QString & locationBarURL, const Q
   kdDebug(1202) << "KonqView::openURL url=" << url.url() << " locationBarURL=" << locationBarURL << endl;
   setServiceTypeInExtension();
 
-  // TODO - AK - could be abstracted to prevent duplication here
-  //             & in destructor & in the importer
   if (KonqMainWindow::s_crashlog_file) {
-     QString part_url = m_pPart ? ( m_pPart->url().url() ) : QString::null;
+     QString part_url;
+     if (m_pPart)
+        part_url = m_pPart->url().url();
+     if (part_url.isNull())
+        part_url = "";
+
      QString url_url = url.url();
-     if (part_url == QString::null) part_url = QString("");
-     if (url_url == QString::null) url_url = QString("");
-     QCString lines = ( QString("closed(%1):%2\nopened(%3):%4\n")
-                           .arg(m_randID,0,16).arg(part_url)
-                           .arg(m_randID,0,16).arg(url_url) ).utf8();
-     KonqMainWindow::s_crashlog_file->writeBlock(lines,lines.length());
+     if (url_url.isNull()) 
+        url_url = QString("");
+
+     QCString line;
+
+     line = ( QString("closed(%1):%2\n").arg(m_randID,0,16).arg(part_url) ).utf8();
+     KonqMainWindow::s_crashlog_file->writeBlock(line,line.length());
+     line = ( QString("opened(%3):%4\n").arg(m_randID,0,16).arg(url_url)  ).utf8();
+     KonqMainWindow::s_crashlog_file->writeBlock(line,line.length());
      KonqMainWindow::s_crashlog_file->flush();
   }
 
