@@ -21,7 +21,7 @@
 #define __kfm_mainwindow_h__
 
 class KfmMainWindow;
-class KfmPart;
+class KfmGui;
 
 #include <opMainWindow.h>
 #include <opMainWindowIf.h>
@@ -45,7 +45,7 @@ class KfmMainWindow : public OPMainWindow
   Q_OBJECT
 public:
   // C++
-  KfmMainWindow();
+  KfmMainWindow( const char *url );
   ~KfmMainWindow();
 
   virtual OPMainWindowIf* interface();
@@ -68,7 +68,7 @@ protected:
   OPMenu* m_pHelpMenu;
   CORBA::Long m_idMenuHelp_About;
 
-  KfmPart* m_pPart;
+  KfmGui* m_pPart;
 };
 
 #endif

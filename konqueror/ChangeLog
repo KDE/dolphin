@@ -21,3 +21,9 @@ Wed Feb 10 11:03:40 1999 Simon Hausmann <tronical@gmx.net>
 
         * kfm_mainwindow.cc, kfm_main.cc : added option "--opshell"
           to use KfmMainWindow as mainwindow (shell) for kfm_part.
+
+Thu Feb 11 16:32:26 1999 Simon Hausmann <tronical@gmx.net>
+
+        * Makefile.am, kfm.idl, kfm_main.cc, kfm_mainwindow.*, kfm_gui.* :
+          removed KfmPart and started making KfmGui a full featured          
+          part (KfmMainWindow is now the default shell for Konqueror)

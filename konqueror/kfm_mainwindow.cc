@@ -19,7 +19,7 @@
 
 #include <qprinter.h>
 #include "kfm_mainwindow.h"
-#include "kfm_part.h"
+#include "kfmgui.h"
 
 #include <qkeycode.h>
 
@@ -32,7 +32,7 @@
 
 enum ids { TOOLBAR_OPEN, TOOLBAR_SAVE, TOOLBAR_PRINT, TOOLBAR_RELOAD };
 
-KfmMainWindow::KfmMainWindow()
+KfmMainWindow::KfmMainWindow( const char *url )
 {
   cout << "+KfmMainWindow" << endl;
 
@@ -48,20 +48,20 @@ KfmMainWindow::KfmMainWindow()
   (void)statusBarManager();
 
   // build a toolbar and insert some buttons
-  opToolBar()->insertButton(Icon("fileopen.xpm"),TOOLBAR_OPEN, SIGNAL( clicked() ),
-			    this, SLOT( slotFileOpen() ), true, i18n("Open File"));
-  opToolBar()->insertButton(Icon("filefloppy.xpm"), TOOLBAR_SAVE,
-			    SIGNAL( clicked() ), this, SLOT( slotFileSave() ),
-			    true, i18n("Save File") );
-  opToolBar()->setItemEnabled( TOOLBAR_SAVE, false );
-  opToolBar()->insertButton(Icon("fileprint.xpm"), TOOLBAR_PRINT,
-			    SIGNAL( clicked() ), this, SLOT( slotFilePrint() ),
-			    true, i18n("Print") );
-  opToolBar()->setItemEnabled( TOOLBAR_PRINT, false );
-  opToolBar()->insertButton(Icon("reload.xpm"),TOOLBAR_RELOAD, SIGNAL( clicked() ),
-			    this, SLOT( slotReload() ), true, i18n("Reload"));
+//  opToolBar()->insertButton(Icon("fileopen.xpm"),TOOLBAR_OPEN, SIGNAL( clicked() ),
+//			    this, SLOT( slotFileOpen() ), true, i18n("Open File"));
+//  opToolBar()->insertButton(Icon("filefloppy.xpm"), TOOLBAR_SAVE,
+//			    SIGNAL( clicked() ), this, SLOT( slotFileSave() ),
+//			    true, i18n("Save File") );
+//  opToolBar()->setItemEnabled( TOOLBAR_SAVE, false );
+//  opToolBar()->insertButton(Icon("fileprint.xpm"), TOOLBAR_PRINT,
+//			    SIGNAL( clicked() ), this, SLOT( slotFilePrint() ),
+//			    true, i18n("Print") );
+//  opToolBar()->setItemEnabled( TOOLBAR_PRINT, false );
+//  opToolBar()->insertButton(Icon("reload.xpm"),TOOLBAR_RELOAD, SIGNAL( clicked() ),
+//			    this, SLOT( slotReload() ), true, i18n("Reload"));
 
-  m_pPart = new KfmPart( this );
+  m_pPart = new KfmGui( url, this );
   m_pPart->setMainWindow( interface() );
   setView( m_pPart );
 
@@ -73,6 +73,7 @@ KfmMainWindow::KfmMainWindow()
 KfmMainWindow::~KfmMainWindow()
 { 
   cerr << "KfmMainWindow::~KfmMainWindow()" << endl;
+  interface()->cleanUp();
 }
 
 OPMainWindowIf* KfmMainWindow::interface()
@@ -112,6 +113,26 @@ void KfmMainWindow::createFileMenu( OPMenuBar* _menubar )
   // in the same process.
   m_pFileMenu = new OPMenu( _menubar );
 
+  QPopupMenu *go = new QPopupMenu;
+  go->insertItem( i18n("&Cache"), m_pPart, SLOT(slotShowCache()) );
+  go->insertItem( i18n("&History"), m_pPart, SLOT(slotShowHistory()) );
+  
+  m_pFileMenu->insertSeparator();
+  m_pFileMenu->insertItem( i18n("New &Window"), m_pPart, SLOT(slotNewWindow()) );
+  m_pFileMenu->insertSeparator();
+  m_pFileMenu->insertItem( i18n("&Run..."), m_pPart, SLOT(slotRun()) );
+  m_pFileMenu->insertItem( i18n("Open &Terminal"), m_pPart, SLOT(slotTerminal()), CTRL+Key_T );
+  m_pFileMenu->insertSeparator();
+  m_pFileMenu->insertItem( i18n("&Goto"), go );
+  m_pFileMenu->insertItem( i18n("&Open Location..."), m_pPart, SLOT(slotOpenLocation()), CTRL+Key_L );
+  m_pFileMenu->insertItem( i18n("&Find"), m_pPart, SLOT(slotToolFind()) );
+  m_pFileMenu->insertSeparator();
+  m_pFileMenu->insertItem( i18n("&Print..."), m_pPart, SLOT(slotPrint()) );
+  m_pFileMenu->insertSeparator();
+  m_pFileMenu->insertItem( i18n("&Close"), m_pPart, SLOT(slotClose()), CTRL+Key_W );
+  m_pFileMenu->insertItem( i18n("&Quit..."), this, SLOT(slotQuit()), CTRL+Key_Q );
+  
+/*  
   m_idMenuFile_OpenURL = m_pFileMenu->insertItem( Icon( "filenew.xpm" ),
 						 i18n( "&Open Location" ), this,
 						 SLOT( slotUpdate() ),
@@ -121,6 +142,7 @@ void KfmMainWindow::createFileMenu( OPMenuBar* _menubar )
   m_idMenuFile_Quit = m_pFileMenu->insertItem( i18n( "&Quit" ), this,
 					       SLOT( slotQuit() ),
 					       CTRL + Key_Q );
+*/
 
   _menubar->insertItem( i18n( "&File" ), m_pFileMenu );
 }
@@ -151,6 +173,7 @@ void KfmMainWindow::createHelpMenu( OPMenuBar* _menubar )
   // Insert our item
   m_idMenuHelp_About = m_pHelpMenu->insertItem( i18n( "&About Konqueror" ),
 						this, SLOT( slotHelpAbout() ) );
+  m_pHelpMenu->insertItem( i18n("About &KDE..."), kapp, SLOT(aboutKDE()) );
 }
 
 void KfmMainWindow::slotHelpAbout()

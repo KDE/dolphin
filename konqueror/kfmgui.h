@@ -27,10 +27,19 @@
 #include <kpanner.h>
 #include <kaccel.h>
 
+#include "kfm.h"
 #include "kfmview.h"
 #include "kfmpopup.h"
 #include "kfm_abstract_gui.h"
 #include "kfmguiprops.h"
+
+#include <opPart.h>
+#include <opMainWindow.h>
+#include <opFrame.h>
+#include <openparts_ui.h>
+#include <opMenu.h>
+#include <opToolBar.h>
+#include <opStatusBar.h>
 
 #include <qpixmap.h>
 #include <qlist.h>
@@ -45,12 +54,22 @@
 class KBookmarkMenu;
 class KURLCompletion;
 
-class KfmGui : public KTopLevelWidget, public KfmAbstractGui
+class KfmGui : public QWidget,
+		public KfmAbstractGui,
+		virtual public OPPartIf,
+		virtual public KFM::Part_skel
 {
   Q_OBJECT
 public:
-  KfmGui( const char *_url );
+  KfmGui( const char *_url, QWidget *_parent = 0L );
   ~KfmGui();
+  
+  virtual void init();
+  virtual void cleanUp();
+
+  virtual bool event( const char* event, const CORBA::Any& value );
+  bool mappingCreateMenubar( OpenPartsUI::MenuBar_ptr menuBar );
+  bool mappingCreateToolbar( OpenPartsUI::ToolBarFactory_ptr factory );
   
   /////////////////////////
   // Overloaded functions from @ref KfmAbstractGUI
@@ -68,21 +87,37 @@ public:
   bool hasBackHistory() { return m_currentView.m_lstBack.size() > 0; }
   bool hasForwardHistory() { return m_currentView.m_lstForward.size() > 0; }
 
-protected slots:
+public slots:  
   /////////////////////////
   // MenuBar
   /////////////////////////
-  void slotLargeIcons();
-  void slotSmallIcons();
-  void slotTreeView();
-  void slotHTMLView();
-  void slotSaveGeometry();
-  void slotShowCache();
-  void slotShowHistory();
-  void slotOpenLocation();
-  void slotSplitView();
-  void slotConfigureKeys();
-  void slotAboutApp();
+  virtual void slotLargeIcons();
+  virtual void slotSmallIcons();
+  virtual void slotTreeView();
+  virtual void slotHTMLView();
+  virtual void slotSaveGeometry();
+  virtual void slotShowCache();
+  virtual void slotShowHistory();
+  virtual void slotOpenLocation();
+  virtual void slotSplitView();
+  virtual void slotConfigureKeys();
+  virtual void slotAboutApp();
+
+  /////////////////////////
+  // Location Bar
+  /////////////////////////
+  virtual void slotURLEntered();
+  
+  /////////////////////////
+  // ToolBar
+  /////////////////////////
+  virtual void slotStop();
+  virtual void slotNewWindow();
+  virtual void slotUp();
+  virtual void slotHome();
+  virtual void slotBack();
+  virtual void slotForward();
+  virtual void slotReload();
   
   /////////////////////////
   // Accel
@@ -91,31 +126,17 @@ protected slots:
   void slotFocusRightView();
   
   /////////////////////////
-  // Location Bar
-  /////////////////////////
-  void slotURLEntered();
-
-  /////////////////////////
   // Animated Logo
   /////////////////////////
   void slotAnimatedLogoTimeout();
   void slotStartAnimation();
   void slotStopAnimation();
   
-  /////////////////////////
-  // ToolBar
-  /////////////////////////
-  void slotStop();
-  void slotNewWindow();
-  void slotUp();
-  void slotHome();
-  void slotBack();
-  void slotForward();
-  void slotReload();
-  
   void slotGotFocus( KfmView* _view );
 
 protected:
+  virtual void resizeEvent( QResizeEvent *e );
+  
   struct History
   {
     QString m_strURL;
@@ -147,6 +168,18 @@ protected:
   //fills the properties of the specified view with the current ones
   void saveCurrentView( View _view );
 
+//  OpenPartsUI::Menu_var m_vMenuFile;
+//  OpenPartsUI::Menu_var m_vMenuFileNew;
+  OpenPartsUI::Menu_var m_vMenuEdit;
+  OpenPartsUI::Menu_var m_vMenuView;
+  OpenPartsUI::Menu_var m_vMenuBookmarks;
+  OpenPartsUI::Menu_var m_vMenuOptions;
+
+  OpenPartsUI::ToolBar_var m_vToolBar;
+  OpenPartsUI::ToolBar_var m_vLocationBar;
+  
+  OpenPartsUI::StatusBar_var m_vStatusBar;
+/*  
   KMenuBar *m_pMenu;
   KStatusBar *m_pStatusBar;
   KToolBar* m_pToolbar;
@@ -154,6 +187,7 @@ protected:
   KBookmarkMenu* m_pBookmarkMenu;
   QPopupMenu* m_pViewMenu;
   KURLCompletion* m_pCompletion;
+*/  
   KPanner* m_pPanner;
   QWidget* m_pPannerChild0;
   QWidget* m_pPannerChild1;
@@ -166,7 +200,7 @@ protected:
    * we need a pointer to this menu to get information about the
    * selected menu item.
    */
-  KNewMenu *m_pMenuNew;
+//  KNewMenu *m_pMenuNew;
 
   View m_leftView;
   View m_rightView;
@@ -185,8 +219,10 @@ protected:
   bool m_bForward;
 
   KAccel* m_pAccel;
-  
-  static QList<QPixmap>* s_lstAnimatedLogo;
+
+  QString m_strTmpURL;
+    
+  static QList<OpenPartsUI::Pixmap>* s_lstAnimatedLogo;
   static QList<KfmGui>* s_lstWindows;
 };
 

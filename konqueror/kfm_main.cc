@@ -47,7 +47,7 @@
 #include "kfmpaths.h"
 #include "xview.h"
 #include "kfmgui.h"
-#include "kfm_part.h"
+//#include "kfm_part.h"
 
 // DEBUG
 #include <iostream>
@@ -57,7 +57,6 @@ void sig_term_handler( int signum );
 void sig_pipe_handler( int signum );
 
 bool g_bWithGUI = true;
-bool g_bWithKfmShell = false;
 
 /**********************************************
  *
@@ -83,12 +82,20 @@ KfmApplicationIf::KfmApplicationIf( CORBA::Object_ptr _obj ) :
 
 OpenParts::Part_ptr KfmApplicationIf::createPart()
 {
-  return OpenParts::Part::_duplicate( new KfmPart );
+  QString home = "file:";
+  home.detach();
+  home += QDir::homeDirPath().data();
+
+  return OpenParts::Part::_duplicate( new KfmGui( home.data() ) );
 }
 
 OpenParts::MainWindow_ptr KfmApplicationIf::createWindow()
 {
-  return OpenParts::MainWindow::_duplicate( (new KfmMainWindow)->interface() );
+  QString home = "file:";
+  home.detach();
+  home += QDir::homeDirPath().data();
+  
+  return OpenParts::MainWindow::_duplicate( (new KfmMainWindow( home.data() ))->interface() );
 }
 
 /**********************************************
@@ -113,12 +120,7 @@ void KfmApp::start()
     QString home = "file:";
     home.detach();
     home += QDir::homeDirPath().data();
-    KfmGui *m = new KfmGui( home.data() );
-    m->show();
-  }
-  else if ( g_bWithKfmShell )
-  {
-    KfmMainWindow *m_pShell = new KfmMainWindow;
+    KfmMainWindow *m_pShell = new KfmMainWindow( home.data() );
     m_pShell->show();
   }
 }
@@ -132,8 +134,8 @@ void KfmApp::start()
 
 void KfmBookmarkManager::editBookmarks( const char *_url )
 {
-  KfmGui* gui = new KfmGui( _url );
-  gui->show();
+  KfmMainWindow *m_pShell = new KfmMainWindow( _url );
+  m_pShell->show();
 }
 
 
@@ -156,13 +158,6 @@ int main( int argc, char **argv )
     g_bWithGUI = false;
   }
   
-  for ( int j = 1; j < argc; j++ )  
-    if ( strcmp( argv[j], "--opshell" ) == 0 )
-      {
-        g_bWithKfmShell = true;
-	g_bWithGUI = false;
-      }
-
   signal(SIGCHLD,sig_handler);
   signal(SIGTERM,sig_term_handler);
   signal(SIGPIPE,sig_pipe_handler);

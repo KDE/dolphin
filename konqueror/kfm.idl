@@ -28,37 +28,28 @@ module KFM
 {
 	interface Part : OpenParts::Part
 	{
+          slot void slotLargeIcons();
+          slot void slotSmallIcons();
+          slot void slotTreeView();
+          slot void slotHTMLView();
+          slot void slotSaveGeometry();
+          slot void slotShowCache();
+          slot void slotShowHistory();
+          slot void slotOpenLocation();
+          slot void slotSplitView();
+          slot void slotConfigureKeys();
+          slot void slotAboutApp();
+
+          slot void slotURLEntered();
+  
+          slot void slotStop();
+          slot void slotNewWindow();
+          slot void slotUp();
+          slot void slotHome();
+          slot void slotBack();
+          slot void slotForward();
+          slot void slotReload();
 	
-	        slot void slotCopy();
-		slot void slotPaste();
-		slot void slotTrash();
-		slot void slotDelete();
-		slot void slotSelect();
-		slot void slotEditMimeTypes();
-		slot void slotEditApplications();
-		slot void slotSaveGeometry();
-		slot void slotShowTree();
-		slot void slotSplitView();
-		slot void slotShowDot();
-		slot void slotShowSchnauzer();
-		slot void slotShowHTML();
-		slot void slotLargeIcons();
-		slot void slotSmallIcons();
-		slot void slotTreeView();
-		slot void slotHTMLView();
-		slot void slotReloadTree();
-		slot void slotReload();
-		slot void slotConfigureKeys();
-		
-		slot void slotUp();
-		slot void slotBack();
-		slot void slotForward();
-		slot void slotHome();
-		slot void slotHelp();
-		slot void slotStop();
-	
-	        slot void slotURLEntered();
-		slot void bookmarkSelected( in long ID );
 	};
 	
 	interface MainWindow : OpenParts::MainWindow
