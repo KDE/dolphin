@@ -33,7 +33,7 @@
 #include "konq_frame.h"
 #include "konq_events.h"
 #include "konq_actions.h"
-#include "konq_pixmapprovider.h"
+#include <konq_pixmapprovider.h>
 #include <konq_faviconmgr.h>
 #include <konq_operations.h>
 

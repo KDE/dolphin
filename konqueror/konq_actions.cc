@@ -35,7 +35,7 @@
 #include <kdebug.h>
 #include <kstringhandler.h>
 
-#include "konq_pixmapprovider.h"
+#include <konq_pixmapprovider.h>
 #include "konq_view.h" // HistoryEntry
 
 KonqComboAction::KonqComboAction( const QString& text, int accel, const QObject *receiver, const char *member,
