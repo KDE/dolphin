@@ -90,7 +90,7 @@ void ListView::connectSignals() {
    }
 }
 
-QValueList<KBookmark> ListView::itemsToBookmarks(QPtrList<KEBListViewItem>* items) {
+QValueList<KBookmark> ListView::itemsToBookmarks(QPtrList<KEBListViewItem>* items) const {
    QValueList<KBookmark> bookmarks;
    for (QPtrListIterator<KEBListViewItem> it(*items); it.current() != 0; ++it) {
       bookmarks.append(KBookmark(it.current()->bookmark()));
@@ -98,7 +98,7 @@ QValueList<KBookmark> ListView::itemsToBookmarks(QPtrList<KEBListViewItem>* item
    return bookmarks;
 }
 
-QPtrList<KEBListViewItem>* ListView::selectedItems() {
+QPtrList<KEBListViewItem>* ListView::selectedItems() const {
    static QPtrList<KEBListViewItem>* s_selected_items_cache = 0;
    if (!s_selected_items_cache || s_listview_is_dirty) {
       QPtrList<KEBListViewItem> *items = new QPtrList<KEBListViewItem>();
@@ -113,11 +113,11 @@ QPtrList<KEBListViewItem>* ListView::selectedItems() {
    return s_selected_items_cache;
 }
 
-KEBListViewItem* ListView::firstSelected() {
+KEBListViewItem* ListView::firstSelected() const {
    return selectedItems()->first();
 }
 
-KEBListViewItem* ListView::findOpenParent(KEBListViewItem *item) {
+KEBListViewItem* ListView::findOpenParent(KEBListViewItem *item) const {
    QListViewItem *c = item;
    while(true) {
       if (c = c->parent(), !c) {
@@ -168,7 +168,7 @@ ListView::Which ListView::whichChildrenSelected(KEBListViewItem *item) {
          }
       }
    }
-   return all ? All : (some ? Some : None);
+   return all ? AllChildren : (some ? SomeChildren : NoChildren);
 }
 
 void ListView::deselectAllButParent(KEBListViewItem *item) {
@@ -202,10 +202,10 @@ void ListView::updateSelectedItems() {
          continue;
       }
       Which which = whichChildrenSelected(it.current());
-      if (which == All) { 
+      if (which == AllChildren) { 
          // select outer folder
          deselectAllButParent(it.current());
-      } else if (which == Some) { 
+      } else if (which == SomeChildren) { 
          // don't select outer folder
          it.current()->setSelected(false);
       }
@@ -223,7 +223,7 @@ void ListView::updateSelectedItems() {
    }
 }
 
-QValueList<KBookmark> ListView::selectedBookmarksExpanded() {
+QValueList<KBookmark> ListView::selectedBookmarksExpanded() const {
    QValueList<KBookmark> bookmarks;
    for (QPtrListIterator<KEBListViewItem> it(*(m_listView->itemList())); it.current() != 0; ++it) {
       if (!it.current()->isSelected() 
@@ -250,7 +250,7 @@ QValueList<KBookmark> ListView::selectedBookmarksExpanded() {
    return bookmarks;
 }
 
-QValueList<KBookmark> ListView::allBookmarks() {
+QValueList<KBookmark> ListView::allBookmarks() const {
    QValueList<KBookmark> bookmarks;
    for (QPtrListIterator<KEBListViewItem> it(*(m_listView->itemList())); it.current() != 0; ++it) {
       if ((it.current()->childCount() == 0) && !it.current()->isEmptyFolderPadder()) {
@@ -262,7 +262,7 @@ QValueList<KBookmark> ListView::allBookmarks() {
 
 // DESIGN - make + "/0" a kbookmark:: thing?
 
-QString ListView::userAddress() {
+QString ListView::userAddress() const {
    if(selectedItems()->count() == 0) {
       // FIXME - maybe a in view one?
       //       - else we could get /0
@@ -292,7 +292,7 @@ void ListView::setCurrent(KEBListViewItem *item) {
    m_listView->ensureItemVisible(item);
 }
 
-KEBListViewItem* ListView::getItemAtAddress(const QString &address) {
+KEBListViewItem* ListView::getItemAtAddress(const QString &address) const {
    QListViewItem *item = m_listView->rootItem();
 
    QStringList addresses = QStringList::split('/',address); // e.g /5/10/2
@@ -318,7 +318,7 @@ void ListView::setOpen(bool open) {
    }
 }
 
-SelcAbilities ListView::getSelectionAbilities() {
+SelcAbilities ListView::getSelectionAbilities() const {
    KEBListViewItem *item = firstSelected();
 
    static SelcAbilities sa = { false, false, false, false, false, false, false, false };
@@ -622,7 +622,7 @@ void KEBListView::rename(QListViewItem *qitem, int column) {
    KListView::rename(item, column);
 }
 
-KEBListViewItem* KEBListView::rootItem() {
+KEBListViewItem* KEBListView::rootItem() const {
    return static_cast<KEBListViewItem *>(firstChild());
 }
 

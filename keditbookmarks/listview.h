@@ -93,10 +93,10 @@ public:
    void makeConnections();
    void readonlyFlagInit(bool);
 
-   bool isFolderList() { return m_folderList; }
+   bool isFolderList() const { return m_folderList; }
 
-   KEBListViewItem* rootItem();
-   QPtrList<KEBListViewItem>* itemList();
+   KEBListViewItem* rootItem() const;
+   QPtrList<KEBListViewItem>* itemList(); // TODO - make const!!!
 
 public slots:
    virtual void rename(QListViewItem *item, int c);
@@ -123,47 +123,46 @@ class ListView : public QObject
 public:
    // init stuff
    void initListViews();
-
    void setInitialAddress(QString address);
-
    void updateListViewSetup(bool readOnly);
-
    void connectSignals();
 
    // selected item stuff
-   int numSelected();
-   KEBListViewItem* selectedItem();
-   QPtrList<KEBListViewItem>* selectedItems();
-   KEBListViewItem* firstSelected();
+   int numSelected() const;
+   KEBListViewItem* selectedItem() const;
+   QPtrList<KEBListViewItem>* selectedItems() const;
+   KEBListViewItem* firstSelected() const;
 
    // bookmark helpers
-   QValueList<KBookmark> itemsToBookmarks(QPtrList<KEBListViewItem>* items);
+   QValueList<KBookmark> itemsToBookmarks(QPtrList<KEBListViewItem>* items) const;
 
    // bookmark stuff
-   QValueList<KBookmark> getBookmarkSelection();
-   QValueList<KBookmark> allBookmarks();
-   QValueList<KBookmark> selectedBookmarksExpanded();
+   QValueList<KBookmark> getBookmarkSelection() const;
+   QValueList<KBookmark> allBookmarks() const;
+   QValueList<KBookmark> selectedBookmarksExpanded() const;
 
    // address stuff
-   KEBListViewItem* getItemAtAddress(const QString &address);
-   QString userAddress();
+   KEBListViewItem* getItemAtAddress(const QString &address) const;
+   QString userAddress() const;
 
    // gui stuff - DESIGN - all of it???
+   SelcAbilities getSelectionAbilities() const;
+
    void updateSelectedItems(); // DESIGN - rename?
    void updateListView();
-   SelcAbilities getSelectionAbilities();
    void emitSlotSelectionChanged() { emit handleSelectionChanged(m_listView); }
    void setOpen(bool open); // DESIGN -rename to setAllOpenFlag
    void setCurrent(KEBListViewItem *item);
 
-   KEBListViewItem* findOpenParent(KEBListViewItem *item);
+   KEBListViewItem* findOpenParent(KEBListViewItem *item) const;
    void openParents(KEBListViewItem *item);
 
-   static ListView* self() { if (!s_self) { s_self = new ListView(); } return s_self; }
-   static void createListViews(QSplitter *parent);
    QWidget *widget() const { return m_listView; }
    void rename(int);
    void clearSelection();
+
+   static ListView* self() { if (!s_self) { s_self = new ListView(); } return s_self; }
+   static void createListViews(QSplitter *parent);
 
    void handleMoved(KEBListView *);
    void handleDropped(KEBListView *, QDropEvent *, QListViewItem *, QListViewItem *);
@@ -179,17 +178,19 @@ private:
  
    ListView();
 
-   enum Which { None, Some, All };
+   enum Which { NoChildren, SomeChildren, AllChildren };
    static Which whichChildrenSelected(KEBListViewItem *item);
    static void deselectParents(KEBListViewItem *item);
    static void deselectAllButParent(KEBListViewItem *item);
 
-   QString m_last_selection_address;
-   QString m_currentSelectedRootAddress;
    KEBListView *m_listView;
    KEBListView *m_folderListView;
 
+   QString m_last_selection_address;
+   QString m_currentSelectedRootAddress;
+
    bool m_splitView;
+
    // statics
    static ListView *s_self;
    static bool s_listview_is_dirty;
