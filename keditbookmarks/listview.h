@@ -38,13 +38,13 @@ private:
    void normalConstruct(const KBookmark &);
 
 public:
-   KEBListViewItem(QListView *, const KBookmark &);
+   KEBListViewItem(QListView *, const KBookmarkGroup &);
    KEBListViewItem(KEBListViewItem *, QListViewItem *);
    KEBListViewItem(KEBListViewItem *, QListViewItem *, const KBookmarkGroup &);
    KEBListViewItem(KEBListViewItem *, const KBookmark &);
    KEBListViewItem(KEBListViewItem *, QListViewItem *, const KBookmark &);
 
-   KEBListViewItem(QListView *, const KBookmark &, bool);
+   KEBListViewItem(QListView *, const KBookmark &);
    KEBListViewItem(QListView *, QListViewItem *, const KBookmark &);
 
    void nsPut(const QString &nm);

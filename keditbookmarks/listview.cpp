@@ -658,8 +658,8 @@ void KEBListViewItem::normalConstruct(const KBookmark &bk) {
 }
 
 // toplevel item (there should be only one!)
-KEBListViewItem::KEBListViewItem(QListView *parent, const KBookmark &group)
-   : QListViewItem(parent, i18n("Bookmarks")), m_bookmark(group), m_emptyFolder(false) {
+KEBListViewItem::KEBListViewItem(QListView *parent, const KBookmarkGroup &gp)
+   : QListViewItem(parent, i18n("Bookmarks")), m_bookmark(gp), m_emptyFolder(false) {
 
    setPixmap(0, SmallIcon("bookmark"));
    setExpandable(true);
@@ -694,7 +694,7 @@ KEBListViewItem::KEBListViewItem(KEBListViewItem *parent, QListViewItem *after, 
 }
 
 // root bookmark (first of its group)
-KEBListViewItem::KEBListViewItem(QListView *parent, const KBookmark & bk, bool)
+KEBListViewItem::KEBListViewItem(QListView *parent, const KBookmark & bk)
    : QListViewItem(parent, bk.fullText(), bk.url().prettyURL()), m_bookmark(bk), m_emptyFolder(false) {
 
    normalConstruct(bk);
