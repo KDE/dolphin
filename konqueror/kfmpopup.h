@@ -23,7 +23,7 @@
 #define KFMPOPUP_H
 
 #include <qpopmenu.h>
-#include <qstrlist.h>
+#include <qstringlist.h>
 
 #include <openparts_ui.h>
 
@@ -43,7 +43,7 @@ public:
     /**
      * Set the files the popup is shown for
      */
-    void setPopupFiles(QStrList & _files);
+    void setPopupFiles(QStringList & _files);
     void setPopupFiles(const char * _file) {
         popupFiles.clear();
         popupFiles.append( _file );
@@ -84,7 +84,7 @@ private:
      * List of all template files. It is important that they are in
      * the same order as the 'New' menu.
      */
-    static QStrList * templatesList;
+    static QStringList * templatesList;
 
     /**
      * Is increased when templatesList has been updated and
@@ -99,7 +99,7 @@ private:
      * When the user pressed the right mouse button over an URL a popup menu
      * is displayed. The URL belonging to this popup menu is stored here.
      */
-    QStrList popupFiles; 
+    QStringList popupFiles; 
 
     /*
      * The destination of the copy, for each job being run (job id is the dict key).

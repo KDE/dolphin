@@ -37,7 +37,7 @@
 // --- Sven's check if this is global apps/mime end ---
 #include "kfmpopup.h"
 
-QStrList * KNewMenu::templatesList = 0L;
+QStringList * KNewMenu::templatesList = 0L;
 int KNewMenu::templatesVersion = 0;
 
 KNewMenu::KNewMenu( OpenPartsUI::Menu_ptr menu) : menuItemsVersion(0)
@@ -63,12 +63,15 @@ KNewMenu::KNewMenu( OpenPartsUI::Menu_ptr menu) : menuItemsVersion(0)
     fillMenu();
 }
 
-void KNewMenu::setPopupFiles(QStrList & _files)
+void KNewMenu::setPopupFiles(QStringList & _files)
 {
+  popupFiles = _files;
+  /*
   popupFiles.clear();
   const char *s;
   for ( s = _files.first(); s != 0L; s = _files.next() )
     popupFiles.append( s );
+  */
 }
 
 void KNewMenu::slotCheckUpToDate( )
@@ -86,7 +89,7 @@ void KNewMenu::fillMenu()
       return;
 
     if (!templatesList) { // No templates list up to now
-        templatesList = new QStrList();
+        templatesList = new QStringList();
         fillTemplates();
         menuItemsVersion = templatesVersion;
     }
@@ -102,20 +105,19 @@ void KNewMenu::fillMenu()
       m_pMenu->insertItem( i18n( "Folder" ) );
     }
 
-    char * templ = templatesList->first(); // skip 'Folder'
-    for ( templ = templatesList->next(); (templ); templ = templatesList->next())
+    QStringList::Iterator templ = templatesList->begin(); // skip 'Folder'
+    for ( ++templ; templ != templatesList->end(); ++templ)
     {
-        QString tmp = templ;
-        KSimpleConfig config(UserPaths::templatesPath() + tmp, true);
+        KSimpleConfig config(UserPaths::templatesPath() + *templ, true);
         config.setGroup( "KDE Desktop Entry" );
-        if ( tmp.right(7) == ".kdelnk" )
-            tmp.truncate( tmp.length() - 7 );
+        if ( templ->right(7) == ".kdelnk" )
+            templ->truncate( templ->length() - 7 );
         if ( m_bUseOPMenu )
 	  {
-	    m_vMenu->insertItem( config.readEntry("Name", tmp ).data(), CORBA::Object::_nil(), 0L, 0 );
+	    m_vMenu->insertItem( config.readEntry("Name", *templ ).data(), CORBA::Object::_nil(), 0L, 0 );
 	  }    
 	else
-	  m_pMenu->insertItem( config.readEntry("Name", tmp ) );
+	  m_pMenu->insertItem( config.readEntry("Name", *templ ) );
     }
 }
 
@@ -124,7 +126,7 @@ void KNewMenu::fillTemplates()
     templatesVersion++;
 
     templatesList->clear();
-    templatesList->append( QString( "Folder") );
+    templatesList->append( "Folder" );
 
     QDir d( UserPaths::templatesPath() );
     const QFileInfoList *list = d.entryInfoList();
@@ -142,8 +144,7 @@ void KNewMenu::fillTemplates()
 		 strcmp( fi->fileName(), ".." ) != 0 &&
                  !fi->isDir() && fi->isReadable())
 	    {
-		QString tmp = fi->fileName();
-		templatesList->append( tmp );
+		templatesList->append( fi->fileName() );
 	    }
 	    ++it;                               // goto next list element
 	}
@@ -169,9 +170,9 @@ void KNewMenu::slotNewFile( int _id )
     QString p;
     
     if ( m_bUseOPMenu )
-      p = templatesList->at( m_vMenu->indexOf( _id ) );
+      p = *(templatesList->at( m_vMenu->indexOf( _id ) ));
     else
-      p = templatesList->at( m_pMenu->indexOf( _id ) );
+      p = *(templatesList->at( m_pMenu->indexOf( _id ) ));
       
     QString tmp = p;
 
@@ -208,15 +209,13 @@ void KNewMenu::slotNewFile( int _id )
 	if ( name.length() == 0 )
 	    return;
 
-        QStrList urls = popupFiles;
-        char *s;
+        QStringList::Iterator it = popupFiles.begin();
 	if ( strcmp( p, "Folder" ) == 0 )
 	{
-            for ( s = urls.first(); s != 0L; s = urls.next() )
+            for ( ; it != popupFiles.end(); ++it )
 	    {
      	      KIOJob * job = new KIOJob;
-              QString u = s;
-	      KURL url( u );
+	      KURL url( *it );
 	      url.addPath( name );
 	      QString u2 = url.url();
 	      // --- Sven's check if this is global apps/mime start ---
@@ -232,10 +231,10 @@ void KNewMenu::slotNewFile( int _id )
 	else
 	{
 	    QString src = UserPaths::templatesPath() + p;
-            for ( s = urls.first(); s != 0L; s = urls.next() )
+            for ( ; it != popupFiles.end(); ++it )
             {
                 KIOJob * job = new KIOJob( );
-		KURL dest( s );
+		KURL dest( *it );
 		dest.addPath( name );
 
 		//QString u2 = url.url();
