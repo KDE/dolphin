@@ -310,7 +310,7 @@ static int directCommand(KCmdLineArgs *args)
         return Widgets::textBox(0, w, h, title, QString::fromLocal8Bit(args->getOption("textbox")));
     }
 
-    // --textbox file [width] [height]
+    // --textinputbox file [width] [height]
     if (args->isSet("textinputbox"))
     {
       int w = 400;
@@ -335,7 +335,7 @@ static int directCommand(KCmdLineArgs *args)
       return ret;
     }
 
-    // --menu text [tag item] [tag item] ...
+    // --combobox <text> [tag item] [tag item] ..."
     if (args->isSet("combobox")) {
         QStringList list;
         if (args->count() >= 2) {
