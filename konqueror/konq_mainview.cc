@@ -354,37 +354,82 @@ void KonqMainView::openURL( KonqChildView *_view, const KURL &url, const QString
 
 void KonqMainView::openURL( const KURL &url, const KParts::URLArgs &args )
 {
-  //TODO: handle post data!
+  QString frameName = args.frameName; 
+  
+  if ( !frameName.isEmpty() )
+  {
+    static QString _top = QString::fromLatin1( "_top" );
+    static QString _self = QString::fromLatin1( "_self" );
+    static QString _parent = QString::fromLatin1( "_parent" );
+    static QString _blank = QString::fromLatin1( "_blank" );
+    
+    if ( frameName == _blank )
+    {
+      slotCreateNewWindow( url, args );
+      return;
+    }
+    
+    if ( frameName != _top &&
+	 frameName != _self &&
+	 frameName != _parent )
+    {
+      KonqChildView *view = childView( frameName );
+      if ( !view )
+      {
+        KonqMainView *mainView = 0;
+        view = findChildView( frameName, &mainView );
+	
+	if ( !view || !mainView )
+	{
+	  slotCreateNewWindow( url, args );
+	  return;
+	}
 
+	mainView->openURL( view, url, args );
+        return;
+      }
+      
+      openURL( view, url, args );
+      return;
+    }
+  }
+  
   KParts::ReadOnlyPart *part = static_cast<KParts::ReadOnlyPart *>( sender()->parent() );
   KonqChildView *view = childView( part );
+  openURL( view, url, args );
+}
 
-  view->browserExtension()->setURLArgs( args );
+void KonqMainView::openURL( KonqChildView *childView, const KURL &url, const KParts::URLArgs &args )
+{
+  //TODO: handle post data!
+
+  if ( childView->browserExtension() ) 
+    childView->browserExtension()->setURLArgs( args );
 
   //  ### HACK !!
   if ( args.postData.size() > 0 )
   {
-    openURL( view, url, QString::fromLatin1( "text/html" ) );
+    openURL( childView, url, QString::fromLatin1( "text/html" ) );
     return;
   }
 
-  if ( !args.reload && urlcmp( url.url(), part->url().url(), true, true ) )
+  if ( !args.reload && urlcmp( url.url(), childView->view()->url().url(), true, true ) )
   {
     QString serviceType = args.serviceType;
     if ( serviceType.isEmpty() )
-      serviceType = view->serviceType();
+      serviceType = childView->serviceType();
 
-    openView( serviceType, url, view );
+    openView( serviceType, url, childView );
     return;
   }
 
-  openURL( view, url, args.serviceType );
+  openURL( childView, url, args.serviceType );
 }
 
 void KonqMainView::slotCreateNewWindow( const KURL &url, const KParts::URLArgs &args )
 {
   //FIXME: obey args (like passing post-data (to KRun), etc.)
-  KonqFileManager::getFileManager()->openFileManagerWindow( url.url() );
+  static_cast<KonqFileManager *>( KonqFileManager::getFileManager() )->openFileManagerWindow( url.url(), args.frameName );
 }
 
 void KonqMainView::slotNewWindow()
@@ -684,6 +729,8 @@ bool KonqMainView::openView( QString serviceType, const KURL &_url, KonqChildVie
       //m_pViewManager->setActivePart( view );
 
       this->childView( view )->setLocationBarURL( url.url() );
+      this->childView( view )->setViewName( m_initialFrameName );
+      m_initialFrameName = QString::null;
 
       return true;
     }
@@ -821,6 +868,40 @@ KonqChildView *KonqMainView::childView( KParts::ReadOnlyPart *view )
     return it.data();
   else
     return 0L;
+}
+
+KonqChildView *KonqMainView::childView( const QString &name )
+{
+  MapViews::ConstIterator it = m_mapViews.begin();
+  MapViews::ConstIterator end = m_mapViews.end();
+  for (; it != end; ++it )
+  {
+    QString viewName = it.data()->viewName();
+    if ( !viewName.isEmpty() && viewName == name )
+      return it.data();
+  }
+
+  return 0;
+}
+
+KonqChildView *KonqMainView::findChildView( const QString &name, KonqMainView **mainView )
+{
+  if ( !s_lstViews )
+    return 0;
+
+  QListIterator<KonqMainView> it( *s_lstViews );
+  for (; it.current(); ++it )
+  {
+    KonqChildView *res = it.current()->childView( name );
+    if ( res )
+    {
+      if ( mainView )
+        *mainView = it.current();
+      return res;
+    }
+  }
+
+  return 0;
 }
 
 QValueList<KParts::ReadOnlyPart *> KonqMainView::viewList()
@@ -2067,5 +2148,10 @@ void ToggleViewGUIClient::slotViewAdded( KonqChildView *view )
     action->blockSignals( false );
   }
 }
+
+void KonqMainView::setInitialFrameName( const QString &name )
+{
+  m_initialFrameName = name; 
+} 
 
 #include "konq_mainview.moc"

@@ -29,7 +29,12 @@
 
 bool KonqFileManager::openFileManagerWindow( const KURL & _url )
 {
-  QList<KonqMainView> *mainViews = KonqMainView::mainViewList(); 
+  openFileManagerWindow( _url, QString::null ); 
+} 
+
+bool KonqFileManager::openFileManagerWindow( const KURL & _url, const QString &name )
+{
+  QList<KonqMainView> *mainViews = KonqMainView::mainViewList();
   if ( mainViews )
   {
     QListIterator<KonqMainView> it( *mainViews );
@@ -37,11 +42,12 @@ bool KonqFileManager::openFileManagerWindow( const KURL & _url )
       if ( it.current()->fullScreenMode() )
         it.current()->slotFullScreenStop();
   }
- 
+
   // If _url is 0L, open $HOME
   KURL url = !_url.isEmpty() ? _url : KURL(QDir::homeDirPath().prepend( "file:" ));
 
   KonqMainView *win = new KonqMainView( url );
+  win->setInitialFrameName( name );
   win->show();
 
   return true; // why would it fail ? :)

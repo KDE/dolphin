@@ -86,6 +86,8 @@ public:
   virtual void saveProperties( KConfig *config );
   virtual void readProperties( KConfig *config );
 
+  void setInitialFrameName( const QString &name );
+
 public slots:
 
   void slotPopupMenu( const QPoint &_global, const KFileItemList &_items );
@@ -93,7 +95,12 @@ public slots:
   void slotPopupMenu( KXMLGUIClient *client, const QPoint &_global, const KFileItemList &_items );
   void slotPopupMenu( KXMLGUIClient *client, const QPoint &_global, const KURL &_url, const QString &_mimeType, mode_t mode );
 
+  /**
+   * __NEEEEVER__ call this method directly. It relies on sender()
+   */
   void openURL( const KURL &url, const KParts::URLArgs &args );
+
+  void openURL( KonqChildView *childView, const KURL &url, const KParts::URLArgs &args );
 
   void slotCreateNewWindow( const KURL &url, const KParts::URLArgs &args );
 
@@ -148,6 +155,10 @@ public:
   void insertChildView( KonqChildView *childView );
   void removeChildView( KonqChildView *childView );
   KonqChildView *childView( KParts::ReadOnlyPart *view );
+  KonqChildView *childView( const QString &name );
+
+  // dcop idl bug! it can't handle KonqMainView *&mainView
+  static KonqChildView *findChildView( const QString &name, KonqMainView **mainView );
 
   int viewCount() const { return m_mapViews.count(); }
   QValueList<KParts::ReadOnlyPart *> viewList();
@@ -359,6 +370,8 @@ private:
   QString m_popupService;
   QString m_popupServiceType;
   KURL m_popupURL;
+
+  QString m_initialFrameName;
 
   static QStringList *s_plstAnimatedLogo;
 

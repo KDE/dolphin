@@ -202,6 +202,9 @@ public:
   void initMetaView();
   void closeMetaView();
 
+  void setViewName( const QString &name ) { m_name = name; }
+  QString viewName() const { return m_name; }
+
 signals:
 
   /**
@@ -276,6 +279,7 @@ protected:
   QString m_serviceType;
   QGuardedPtr<KParts::ReadOnlyPart> m_metaView;
   bool m_bLockHistory;
+  QString m_name;
 };
 
 #endif

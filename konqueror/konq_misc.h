@@ -42,6 +42,8 @@ public:
   virtual ~KonqFileManager() {} ;
 
   virtual bool openFileManagerWindow( const KURL & url );
+
+  bool openFileManagerWindow( const KURL &url, const QString &name );
 };
 
 #endif
