@@ -1207,9 +1207,17 @@ void KonqMainWindow::slotOpenLocation()
 void KonqMainWindow::slotToolFind()
 {
   kdDebug() << "KonqMainWindow::slotToolFind sender:" << sender()->className() << endl;
+
   if ( m_currentView && m_currentView->part()->inherits("KonqDirPart") )
   {
-    KonqDirPart * dirPart = static_cast<KonqDirPart *>(m_currentView->part());
+    KonqDirPart* dirPart = static_cast<KonqDirPart *>(m_currentView->part());
+
+    if (!m_paFindFiles->isChecked())
+    {
+        dirPart->slotFindClosed();
+        return;
+    }
+
 
     //KonqView * findView = m_pViewManager->splitView( Vertical, "Konqueror/FindPart", QString::null, true /*make it on top*/ );
 
@@ -1217,10 +1225,11 @@ void KonqMainWindow::slotToolFind()
     if ( factory.isNull() )
     {
         KMessageBox::error( this, i18n("Can't create the find part, check your installation.") );
+        m_paFindFiles->setChecked(false);
         return;
     }
 
-    KParts::ReadOnlyPart * findPart = factory.create( m_currentView->frame(), "findPartWidget", dirPart, "findPart" );
+    KParts::ReadOnlyPart* findPart = factory.create( m_currentView->frame(), "findPartWidget", dirPart, "findPart" );
     dirPart->setFindPart( findPart );
 
     m_currentView->frame()->insertTopWidget( findPart->widget() );
@@ -1229,9 +1238,8 @@ void KonqMainWindow::slotToolFind()
 
     connect( dirPart, SIGNAL( findClosed(KonqDirPart *) ),
              this, SLOT( slotFindClosed(KonqDirPart *) ) );
-
     // Don't allow to do this twice for this view :-)
-    m_paFindFiles->setEnabled(false);
+    //m_paFindFiles->setEnabled(false);
   }
   else if ( sender()->inherits( "KAction" ) ) // don't go there if called by the singleShot below
   {
@@ -1243,8 +1251,10 @@ void KonqMainWindow::slotToolFind()
       KonqMainWindow * mw = KonqMisc::createBrowserWindowFromProfile(
           locate( "data", QString::fromLatin1("konqueror/profiles/filemanagement") ),
           "filemanagement", url, KParts::URLArgs(), true /* forbid "use html"*/ );
+      mw->m_paFindFiles->setChecked(true);
       // Delay it after the openURL call (hacky!)
       QTimer::singleShot( 1, mw, SLOT(slotToolFind()));
+      m_paFindFiles->setChecked(false);
   }
 
   /* Old version
@@ -3064,7 +3074,7 @@ void KonqMainWindow::initActions()
   }
   (void) new KAction( i18n( "&Open Location..." ), "fileopen", KStdAccel::key(KStdAccel::Open), this, SLOT( slotOpenLocation() ), actionCollection(), "open_location" );
 
-  m_paFindFiles = new KAction( i18n( "&Find File..." ), "filefind", 0 /*not KStdAccel::find!*/, this, SLOT( slotToolFind() ), actionCollection(), "findfile" );
+  m_paFindFiles = new KToggleAction( i18n( "&Find File..." ), "filefind", 0 /*not KStdAccel::find!*/, this, SLOT( slotToolFind() ), actionCollection(), "findfile" );
 
   m_paPrint = KStdAction::print( 0, 0, actionCollection(), "print" );
   (void) KStdAction::quit( this, SLOT( close() ), actionCollection(), "quit" );

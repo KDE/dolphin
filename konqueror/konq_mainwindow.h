@@ -623,7 +623,7 @@ private:
 
   KBookmarkBar *m_paBookmarkBar;
 
-  KAction * m_paFindFiles;
+  KToggleAction * m_paFindFiles;
   KToggleAction *m_ptaUseHTML;
 
   KToggleAction *m_paShowMenuBar;
