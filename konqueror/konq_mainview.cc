@@ -152,7 +152,7 @@ KonqMainView::KonqMainView( const KURL &initialURL, bool openInitialURL, const c
   }
 
   // hide if empty
-  KToolBar * bar = (KToolBar *)child( "bookmarkToolBar", "KToolBar" );
+  KToolBar * bar = static_cast<KToolBar *>( child( "bookmarkToolBar", "KToolBar" ) );
   if ( bar && bar->count() <= 1 ) // there is always a separator
   {
     m_paShowBookmarkBar->setChecked( false );
@@ -244,7 +244,7 @@ QWidget *KonqMainView::createContainer( QWidget *parent, int index, const QDomEl
   {
     assert( res->inherits( "KToolBar" ) );
 
-    (void)new KBookmarkBar( this, (KToolBar *)res, actionCollection(), this );
+    (void)new KBookmarkBar( this, static_cast<KToolBar *>( res ), actionCollection(), this );
   }
 
   return res;
@@ -715,7 +715,7 @@ void KonqMainView::slotViewChanged( KonqChildView *childView, KParts::ReadOnlyPa
 
 void KonqMainView::slotRunFinished()
 {
-  KonqRun *run = (KonqRun *)sender();
+  const KonqRun *run = static_cast<const KonqRun *>( sender() );
 
   if ( run->foundMimeType() )
   {
@@ -872,7 +872,7 @@ void KonqMainView::slotPartActivated( KParts::Part *part )
     return;
   }
 
-  KonqChildView *newView = m_mapViews.find( (KParts::ReadOnlyPart *)part ).data();
+  KonqChildView *newView = m_mapViews.find( static_cast<KParts::ReadOnlyPart *>( part ) ).data();
 
   if ( newView->passiveMode() )
   {
@@ -1069,7 +1069,7 @@ void KonqMainView::customEvent( QCustomEvent *event )
 
   if ( KonqURLEnterEvent::test( event ) )
   {
-    QString url = ((KonqURLEnterEvent *)event)->url();
+    QString url = static_cast<KonqURLEnterEvent *>( event )->url();
 
     openURL( 0L, KURL( url ) );
 
@@ -1317,7 +1317,7 @@ void KonqMainView::slotUpAboutToShow()
 void KonqMainView::slotUp()
 {
   kdDebug(1202) << "slotUp. Start URL is " << m_currentView->locationBarURL() << endl;
-  openURL( (KonqChildView *)m_currentView, KURL(m_currentView->locationBarURL()).upURL() );
+  openURL( m_currentView, KURL(m_currentView->locationBarURL()).upURL() );
 }
 
 void KonqMainView::slotUpActivated( int id )
@@ -1426,7 +1426,7 @@ void KonqMainView::slotShowBookmarkBar()
 
 void KonqMainView::toggleBar( const char *name, const char *className )
 {
-  KToolBar *bar = (KToolBar *)child( name, className );
+  KToolBar *bar = static_cast<KToolBar *>( child( name, className ) );
   if ( !bar )
     return;
   if ( bar->isVisible() )
@@ -1488,8 +1488,8 @@ void KonqMainView::slotFullScreenStart()
 
 void KonqMainView::attachToolbars( KonqFrame *frame )
 {
-  QWidget *toolbar = guiFactory()->container( "locationToolBar", this );
-  ((KToolBar*)toolbar)->setEnableContextMenu(false);
+  KToolBar *toolbar = static_cast<KToolBar *>( guiFactory()->container( "locationToolBar", this ) );
+  toolbar->setEnableContextMenu(false);
   if ( toolbar->parentWidget() != frame )
   {
     toolbar->reparent( frame, 0, QPoint( 0,0 ) );
@@ -1497,8 +1497,8 @@ void KonqMainView::attachToolbars( KonqFrame *frame )
   }
   frame->layout()->insertWidget( 0, toolbar );
 
-  toolbar = guiFactory()->container( "mainToolBar", this );
-  ((KToolBar*)toolbar)->setEnableContextMenu(false);
+  toolbar = static_cast<KToolBar *>( guiFactory()->container( "mainToolBar", this ) );
+  toolbar->setEnableContextMenu(false);
   if ( toolbar->parentWidget() != frame )
   {
     toolbar->reparent( frame, 0, QPoint( 0, 0 ) );
@@ -1510,11 +1510,11 @@ void KonqMainView::attachToolbars( KonqFrame *frame )
 void KonqMainView::slotFullScreenStop()
 {
   unplugActionList( "fullscreen" );
-  QWidget *toolbar1 = guiFactory()->container( "mainToolBar", this );
-  QWidget *toolbar2 = guiFactory()->container( "locationToolBar", this );
+  KToolBar *toolbar1 = static_cast<KToolBar *>( guiFactory()->container( "mainToolBar", this ) );
+  KToolBar *toolbar2 = static_cast<KToolBar *>( guiFactory()->container( "locationToolBar", this ) );
 
-  ((KToolBar*)toolbar1)->setEnableContextMenu(true);
-  ((KToolBar*)toolbar2)->setEnableContextMenu(true);
+  toolbar1->setEnableContextMenu(true);
+  toolbar2->setEnableContextMenu(true);
 
   KonqFrame *widget = m_currentView->frame();
   widget->close( false );
@@ -1946,7 +1946,7 @@ void KonqMainView::slotPopupMenu( KXMLGUIClient *client, const QPoint &_global, 
   KonqChildView * m_oldView = m_currentView;
 
   // Make this view active temporarily, if not the current one (e.g. because it's passive)
-  m_currentView = childView( (KParts::ReadOnlyPart *)sender()->parent() );
+  m_currentView = childView( static_cast<KParts::ReadOnlyPart *>( sender()->parent() ) );
 
   if ( m_oldView && m_oldView != m_currentView )
   {

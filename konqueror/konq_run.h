@@ -43,7 +43,7 @@ public:
   /**
    * Returns true if we found the servicetype for the given url.
    */
-  bool foundMimeType() { return m_bFoundMimeType; }
+  bool foundMimeType() const { return m_bFoundMimeType; }
 
   KonqChildView *childView() const { return m_pChildView; }
 
