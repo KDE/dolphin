@@ -401,14 +401,15 @@ void ListView::fillWithGroup(KEBListView *lv, KBookmarkGroup group, KEBListViewI
 }
 
 void ListView::handleCurrentChanged(KEBListView *lv, QListViewItem *item) {
-    // hasParent is paranoid, after some thinking remove it
+    if (!item)
+        return;
     KEBListViewItem *currentItem = static_cast<KEBListViewItem *>(item);
-    if (currentItem && !currentItem->isEmptyFolderPadder() && currentItem->bookmark().hasParent())
+    if (!currentItem->isEmptyFolderPadder() && currentItem->bookmark().hasParent())
         m_last_selection_address = 
               VALID_FIRST(selectedItems())
             ? selectedItems()->first()->bookmark().address()
             : currentItem->bookmark().address();
-    if (item && currentItem && m_splitView && lv == m_folderListView) {
+    if (m_splitView && lv == m_folderListView) {
         m_folderListView->setSelected(item, true);
         QString addr = currentItem->bookmark().address();
         if (addr != m_currentSelectedRootAddress) {
