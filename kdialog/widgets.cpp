@@ -72,6 +72,8 @@ int Widgets::textBox(QWidget *parent, int width, int height, const QString& titl
   while (!s.eof())
     edit->append(s.readLine());
 
+  edit->moveCursor(QTextEdit::MoveHome, false);
+
   f.close();
 
   if ( width > 0 && height > 0 )
