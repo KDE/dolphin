@@ -50,6 +50,10 @@
 #include <kbookmarkdrag.h>
 #include <kbookmarkmanager.h>
 
+bool KEBApp::queryClose() {
+   return ActionsImpl::self()->queryClose();
+}
+
 CmdHistory* CmdHistory::s_self = 0;
 
 CmdHistory::CmdHistory(KActionCollection *collection) : m_commandHistory(collection) {

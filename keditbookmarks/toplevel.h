@@ -134,18 +134,17 @@ public:
    bool readonly() const { return m_readOnly; }
    bool modified() const { return m_modified; }
    bool splitView() const { return m_splitView; } 
+   bool browser() const { return m_browser; } 
    bool nsShown() const;
 
    BookmarkInfoWidget *bkInfo() { return m_bkinfo; }
 
 public slots:
-   void slotLoad();
-   void slotSave();
-   void slotSaveAs();
    void slotSaveOnClose();
    void slotAdvancedAddBookmark();
    void slotFilteredToolbar();
    void slotSplitView();
+
    void slotConfigureKeyBindings();
    void slotConfigureToolbars();
 
@@ -159,28 +158,31 @@ private:
    virtual bool queryClose();
 
    void readConfig();
-   void construct();
    void resetActions();
    void createActions();
 
-   bool save();
    void updateListView();
 
    static KEBApp *s_topLevel;
-
    KBookmarkEditorIface *m_dcopIface;
-   CmdHistory *m_cmdHistory;
-   MagicKLineEdit *m_iSearchLineEdit;
-   BookmarkInfoWidget *m_bkinfo;
 
+public: // only temporary
+   CmdHistory *m_cmdHistory;
    QString m_bookmarksFilename;
    QString m_caption;
 
    bool m_modified:1;
+   bool m_saveOnClose:1;
+
+   void construct();
+
+private:
+   MagicKLineEdit *m_iSearchLineEdit;
+   BookmarkInfoWidget *m_bkinfo;
+
    bool m_canPaste:1;
    bool m_readOnly:1;
 
-   bool m_saveOnClose:1;
    bool m_advancedAddBookmark:1;
    bool m_splitView:1;
    bool m_browser:1;

@@ -183,24 +183,24 @@ void KEBApp::createActions() {
                       actn, SLOT( slotExportMoz() ), actionCollection(), "exportMoz");
 }
 
-bool KEBApp::save() {
+bool ActionsImpl::save() {
    if (!CurrentMgr::self()->managerSave())
       return false;
    CurrentMgr::self()->notifyManagers();
-   setModifiedFlag(false);
-   m_cmdHistory->notifyDocSaved();
+   KEBApp::self()->setModifiedFlag(false);
+   KEBApp::self()->m_cmdHistory->notifyDocSaved();
    return true;
 }
 
-bool KEBApp::queryClose() {
-   if (!m_modified)
+bool ActionsImpl::queryClose() {
+   if (!KEBApp::self()->m_modified)
       return true;
-   if (m_saveOnClose)
+   if (KEBApp::self()->m_saveOnClose)
       return save();
 
    switch (
       KMessageBox::warningYesNoCancel(
-         this, i18n("The bookmarks have been modified.\nSave changes?"))
+         KEBApp::self(), i18n("The bookmarks have been modified.\nSave changes?"))
    ) {
       case KMessageBox::Yes:
          return save();
@@ -211,23 +211,23 @@ bool KEBApp::queryClose() {
    }
 }
 
-void KEBApp::slotLoad() {
+void ActionsImpl::slotLoad() {
    if (!queryClose())
       return;
-   QString bookmarksFile = KFileDialog::getOpenFileName(QString::null, "*.xml", this);
+   QString bookmarksFile = KFileDialog::getOpenFileName(QString::null, "*.xml", KEBApp::self());
    if (bookmarksFile.isNull())
       return;
-   m_caption = QString::null;
-   m_bookmarksFilename = bookmarksFile;
-   construct();
+   KEBApp::self()->m_caption = QString::null;
+   KEBApp::self()->m_bookmarksFilename = bookmarksFile;
+   KEBApp::self()->construct();
 }
 
-void KEBApp::slotSave() {
+void ActionsImpl::slotSave() {
    (void)save();
 }
 
-void KEBApp::slotSaveAs() {
-   QString saveFilename = KFileDialog::getSaveFileName(QString::null, "*.xml", this);
+void ActionsImpl::slotSaveAs() {
+   QString saveFilename = KFileDialog::getSaveFileName(QString::null, "*.xml", KEBApp::self());
    if (!saveFilename.isEmpty())
       CurrentMgr::self()->saveAs(saveFilename);
 }

@@ -25,7 +25,14 @@ class ActionsImpl : public QObject
 {
    Q_OBJECT
 
+public:
+   bool save();
+   bool queryClose();
+
 public slots:
+   void slotLoad();
+   void slotSave();
+   void slotSaveAs();
    void slotCut();
    void slotCopy();
    void slotPaste();
@@ -59,6 +66,7 @@ public slots:
    void slotExportNS();
    void slotExportMoz();
 
+   // ugly hack really...
    void slotDelayedPrint();
 
    static ActionsImpl* self() { if (!s_self) { s_self = new ActionsImpl(); }; return s_self; }
