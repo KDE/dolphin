@@ -6,7 +6,7 @@ dnl fields showing memory usage should be hblkhd, uordblks and usmblks,
 dnl different implementations use different combinations of these (which is ok),
 dnl but some of them "reuse" fields they don't use for other purposes
 
-AC_DEFUN(KDE_MALLINFO_CHECK,
+AC_DEFUN([KDE_MALLINFO_CHECK],
 [
 AC_MSG_CHECKING([for mallinfo() in $1])
 AC_CACHE_VAL(kde_cv_func_mallinfo_$2,
@@ -34,7 +34,7 @@ AC_MSG_RESULT($kde_cv_func_mallinfo_$2)
 ])
 
 
-AC_DEFUN(KDE_MALLINFO_CHECK_FIELD,
+AC_DEFUN([KDE_MALLINFO_CHECK_FIELD],
 [
 AC_MSG_CHECKING([whether to use mallinfo field $1])
 AC_CACHE_VAL(kde_cv_func_mallinfo_field_$1,
