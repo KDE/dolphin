@@ -264,6 +264,7 @@ KonqMainWindow::~KonqMainWindow()
   //  createShellGUI( false );
 
   delete m_pBookmarkMenu;
+  delete m_bookmarksActionCollection;
   delete m_pURLCompletion;
 
   m_viewModeActions.clear();
@@ -1916,7 +1917,7 @@ void KonqMainWindow::slotUpAboutToShow()
   u = u.upURL();
   while ( u.hasPath() )
   {
-    popup->insertItem( KonqPixmapProvider::self()->pixmapFor( u.url() ), 
+    popup->insertItem( KonqPixmapProvider::self()->pixmapFor( u.url() ),
 		       u.prettyURL() );
 
     if ( u.path() == "/" )
@@ -2586,7 +2587,16 @@ void KonqMainWindow::initActions()
 
   // Bookmarks menu
   m_pamBookmarks = new KActionMenu( i18n( "&Bookmarks" ), actionCollection(), "bookmarks" );
-  m_pBookmarkMenu = new KBookmarkMenu( this, m_pamBookmarks->popupMenu(), actionCollection(), true );
+  // The actual menu needs a different action collection, so that the bookmarks
+  // don't appear in kedittoolbar
+  m_bookmarksActionCollection = new KActionCollection;
+  m_bookmarksActionCollection->setHighlightingEnabled( true );
+  connect( m_bookmarksActionCollection, SIGNAL( actionStatusText( const QString &) ),
+           this, SLOT( slotActionStatusText( const QString & ) ) );
+  connect( m_bookmarksActionCollection, SIGNAL( clearStatusText() ),
+           this, SLOT( slotClearStatusText() ) );
+
+  m_pBookmarkMenu = new KBookmarkMenu( this, m_pamBookmarks->popupMenu(), m_bookmarksActionCollection, true );
 
   m_paShowMenuBar = KStdAction::showMenubar( this, SLOT( slotShowMenuBar() ), actionCollection(), "showmenubar" );
   m_paShowToolBar = KStdAction::showToolbar( this, SLOT( slotShowToolBar() ), actionCollection(), "showtoolbar" );

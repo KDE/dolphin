@@ -41,6 +41,7 @@
 #include "konq_combo.h"
 
 class KAction;
+class KActionCollection;
 class KAccel;
 class KActionMenu;
 class KBookmarkMenu;
@@ -484,6 +485,7 @@ private:
   KonqView *m_currentView;
 
   KBookmarkMenu* m_pBookmarkMenu;
+  KActionCollection*  m_bookmarksActionCollection;
 
   KonqViewManager *m_pViewManager;
 
