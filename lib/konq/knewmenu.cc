@@ -40,7 +40,7 @@ QStringList * KNewMenu::templatesList = 0L;
 int KNewMenu::templatesVersion = 0;
 
 KNewMenu::KNewMenu( QActionCollection * _collec, const char *name ) : 
-  QActionMenu( i18n( "&New" ), _collec, name ), m_actionCollection( _collec ), menuItemsVersion(0)
+  KActionMenu( i18n( "&New" ), _collec, name ), m_actionCollection( _collec ), menuItemsVersion(0)
 {
     fillMenu();
 }

@@ -116,7 +116,7 @@ void KBookmarkMenu::fillBookmarkMenu( KBookmark *parent )
     }
     else
     {	
-      QActionMenu * actionMenu = new QActionMenu( bm->text(), QIconSet( BarIcon( bm->pixmapFile() ) ),
+      KActionMenu * actionMenu = new KActionMenu( bm->text(), QIconSet( BarIcon( bm->pixmapFile() ) ),
                                                   m_actionCollection, 0L );
       actionMenu->plug( m_parentMenu );
       KBookmarkMenu *subMenu = new KBookmarkMenu( m_pOwner, actionMenu->popupMenu(), 

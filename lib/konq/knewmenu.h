@@ -22,7 +22,8 @@
 
 #include <qintdict.h>
 #include <qstringlist.h>
-#include <qaction.h>
+
+#include <kaction.h>
 
 /**
  * The manager for the 'New' submenu
@@ -33,7 +34,7 @@
  * The New menu can be a standalone popupmenu or a
  * popupmenu in a menubar
  */
-class KNewMenu : public QActionMenu
+class KNewMenu : public KActionMenu
 {
   Q_OBJECT
 public:
