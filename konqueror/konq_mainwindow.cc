@@ -951,6 +951,18 @@ void KonqMainWindow::openURL( KonqView *childView, const KURL &url, const KParts
   openURL( childView, url, args.serviceType, req, args.trustedSource );
 }
 
+QObject *KonqMainWindow::lastFrame( KonqView *view )
+{
+  QObject *nextFrame, *viewFrame;
+  nextFrame = view->frame();
+  viewFrame = 0;
+  while ( nextFrame != 0 && ! nextFrame->inherits( "QWidgetStack" ) ) {
+    viewFrame = nextFrame;
+    nextFrame = nextFrame->parent();
+  }
+  return nextFrame ? viewFrame : 0L;
+}
+
 // Linked-views feature, plus "sidebar follows URL opened in the active view" feature
 bool KonqMainWindow::makeViewsFollow( const KURL & url, const KParts::URLArgs &args,
                                       const QString & serviceType, KonqView * senderView )
@@ -971,12 +983,20 @@ bool KonqMainWindow::makeViewsFollow( const KURL & url, const KParts::URLArgs &a
   for (; it != end; ++it )
     listViews.append( it.data() );
 
-  for ( KonqView * view = listViews.first() ; view ; view = listViews.next() )
+  QObject *senderFrame = lastFrame( senderView );
+
+  for ( KonqView * view = listViews.first() ; view ; view = listViews.next())
   {
     bool followed = false;
     // Views that should follow this URL as both views are linked
-    if ( (view != senderView) && view->isLinkedView() && senderView->isLinkedView())
+    if ( (view != senderView) && view->isLinkedView() && senderView->isLinkedView() ) 
     {
+      QObject *viewFrame = lastFrame( view );
+
+      // Only views in the same tab of the sender will follow
+      if ( senderFrame && viewFrame && (uint)viewFrame != (uint)senderFrame )
+        continue;
+
       kdDebug(1202) << "makeViewsFollow: Sending openURL to view " << view->part()->className() << " url=" << url.url() << endl;
 
       // XXX duplicate code from ::openURL

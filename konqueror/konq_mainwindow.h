@@ -567,6 +567,8 @@ private:
 
   bool stayPreloaded();
   bool checkPreloadResourceUsage();
+  
+  QObject* lastFrame( KonqView *view );
 
   KNewMenu * m_pMenuNew;
 
