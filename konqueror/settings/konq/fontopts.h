@@ -43,7 +43,6 @@
 #include <qfont.h>
 #include <kconfig.h>
 #include <kcmodule.h>
-#include <kwm.h>
 
 
 //-----------------------------------------------------------------------------

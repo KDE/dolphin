@@ -85,7 +85,6 @@
 #include <kurl.h>
 #include <kurlrequesterdlg.h>
 #include <kuserprofile.h>
-#include <kwm.h>
 
 #include "version.h"
 
