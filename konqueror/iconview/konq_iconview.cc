@@ -251,15 +251,12 @@ KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const 
     m_paLargeIcons = new KRadioAction( i18n( "&Large" ), 0, actionCollection(), "modelarge" );
     m_paMediumIcons = new KRadioAction( i18n( "&Medium" ), 0, actionCollection(), "modemedium" );
     m_paSmallIcons = new KRadioAction( i18n( "&Small" ), 0, actionCollection(), "modesmall" );
-    // I don't see how QIconView could cope with a no-icon mode. (David)
-    //m_paNoIcons = new KToggleAction( i18n( "&Disabled" ), 0, actionCollection(), "modenone" );
     //m_paKOfficeMode = new KToggleAction( i18n( "&KOffice mode" ), 0, this );
 
     m_paDefaultIcons->setExclusiveGroup( "ViewMode" );
     m_paLargeIcons->setExclusiveGroup( "ViewMode" );
     m_paMediumIcons->setExclusiveGroup( "ViewMode" );
     m_paSmallIcons->setExclusiveGroup( "ViewMode" );
-    //m_paNoIcons->setExclusiveGroup( "ViewMode" );
     //m_paKOfficeMode->setExclusiveGroup( "ViewMode" );
 
     //m_paKOfficeMode->setChecked( false );
@@ -281,7 +278,6 @@ KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const 
     connect( m_paMediumIcons, SIGNAL( toggled( bool ) ), this, SLOT( slotViewMedium( bool ) ) );
     connect( m_paSmallIcons, SIGNAL( toggled( bool ) ), this, SLOT( slotViewSmall( bool ) ) );
     //connect( m_paKOfficeMode, SIGNAL( toggled( bool ) ), this, SLOT( slotKofficeMode( bool ) ) );
-    //connect( m_paNoIcons, SIGNAL( toggled( bool ) ), this, SLOT( slotViewNone( bool ) ) );
 
     //connect( m_paBottomText, SIGNAL( toggled( bool ) ), this, SLOT( slotTextBottom( bool ) ) );
     //connect( m_paRightText, SIGNAL( toggled( bool ) ), this, SLOT( slotTextRight( bool ) ) );
@@ -308,7 +304,7 @@ KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const 
     int i;
     m_iIconSize[0] = KIcon::SizeSmall; // 16
     m_iIconSize[1] = KIcon::SizeMedium; // 32
-    m_iIconSize[2] = KIcon:::SizeLarge; // 48
+    m_iIconSize[2] = KIcon::SizeLarge; // 48
     KIconTheme *root = KGlobal::instance()->iconLoader()->theme();
     QValueList<int> avSizes = root->querySizes(KIcon::Desktop);
     QValueList<int>::Iterator it;
@@ -403,7 +399,6 @@ void KonqKfmIconView::calculateGridX()
 
 void KonqKfmIconView::slotShowDot()
 {
-    kdDebug(1202) << "KonqKfmIconView::slotShowDot()" << endl;
     m_pProps->setShowingDotFiles( !m_pProps->isShowingDotFiles() );
     m_dirLister->setShowingDotFiles( m_pProps->isShowingDotFiles() );
     //we don't want the non-dot files to remain where they are
@@ -644,8 +639,7 @@ void KonqKfmIconView::slotBackgroundColor()
     {
 	m_pProps->setBgColor( bgndColor );
 	m_pProps->setBgPixmapFile( "" );
-	m_pIconView->viewport()->setBackgroundColor( m_pProps->bgColor(m_pIconView) );
-	m_pIconView->viewport()->setBackgroundPixmap( m_pProps->bgPixmap() );
+        m_pProps->applyColors( m_pIconView->viewport() );
 	m_pIconView->updateContents();
     }
 }
@@ -656,8 +650,7 @@ void KonqKfmIconView::slotBackgroundImage()
     if ( dlg.exec() == KonqBgndDialog::Accepted )
     {
 	m_pProps->setBgPixmapFile( dlg.pixmapFile() );
-	m_pIconView->viewport()->setBackgroundColor( m_pProps->bgColor(m_pIconView) );
-	m_pIconView->viewport()->setBackgroundPixmap( m_pProps->bgPixmap() );
+        m_pProps->applyColors( m_pIconView->viewport() );
 	m_pIconView->updateContents();
     }
 }
@@ -1110,7 +1103,6 @@ bool KonqKfmIconView::openURL( const KURL &_url )
       m_paLargeIcons->setChecked( size == m_iIconSize[2] );
       m_paMediumIcons->setChecked( size == m_iIconSize[1] );
       m_paSmallIcons->setChecked( size == m_iIconSize[0] );
-      //m_paNoIcons->setChecked( false );
 
       /*QIconView::ItemTextPos textPos = (QIconView::ItemTextPos) m_pProps->itemTextPos();
         m_pIconView->setItemTextPos( textPos );
@@ -1121,13 +1113,10 @@ bool KonqKfmIconView::openURL( const KURL &_url )
       m_paImagePreview->setChecked( m_pProps->isShowingImagePreview() );
       m_pIconView->setImagePreviewAllowed ( m_pProps->isShowingImagePreview() );
 
-      m_pIconView->viewport()->setBackgroundColor( m_pProps->bgColor(m_pIconView) );
-      m_pIconView->viewport()->setBackgroundPixmap( m_pProps->bgPixmap() );
+      m_pProps->applyColors( m_pIconView->viewport() );
 
       calculateGridX();
     }
-
-    emit setWindowCaption( _url.prettyURL() );
 
     return true;
 }
