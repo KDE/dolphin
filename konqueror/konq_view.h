@@ -339,6 +339,8 @@ protected slots:
   void slotMouseOverInfo( const KFileItem* item );
   void slotOpenURLNotify();
   void slotEnableAction( const char * name, bool enabled );
+  void slotMoveTopLevelWidget( int x, int y );
+  void slotResizeTopLevelWidget( int w, int h );
 
 protected:
   /**

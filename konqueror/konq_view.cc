@@ -401,6 +401,12 @@ void KonqView::connectPart(  )
       connect( ext, SIGNAL( enableAction( const char *, bool ) ),
                this, SLOT( slotEnableAction( const char *, bool ) ) );
 
+      connect( ext, SIGNAL( moveTopLevelWidget( int, int ) ),
+               this, SLOT( slotMoveTopLevelWidget( int, int ) ) );
+
+      connect( ext, SIGNAL( resizeTopLevelWidget( int, int ) ),
+               this, SLOT( slotResizeTopLevelWidget( int, int ) ) );
+
       if (service()->desktopEntryName() != "konq_sidebartng") {
           connect( ext, SIGNAL( infoMessage( const QString & ) ),
                m_pKonqFrame->statusbar(), SLOT( message( const QString & ) ) );
@@ -447,6 +453,18 @@ void KonqView::slotEnableAction( const char * name, bool enabled )
         m_pMainWindow->enableAction( name, enabled );
     // Otherwise, we don't have to do anything, the state of the action is
     // stored inside the browser-extension.
+}
+
+void KonqView::slotMoveTopLevelWidget( int x, int y )
+{
+  if ( m_pMainWindow->currentView()->frame()->parentContainer()->frameType() != "Tabs" )
+    m_pMainWindow->move( x, y );
+}
+
+void KonqView::slotResizeTopLevelWidget( int w, int h )
+{
+  if ( m_pMainWindow->currentView()->frame()->parentContainer()->frameType() != "Tabs" )
+    m_pMainWindow->resize( w, h );
 }
 
 void KonqView::slotStarted( KIO::Job * job )
