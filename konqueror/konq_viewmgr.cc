@@ -167,7 +167,7 @@ KonqView* KonqViewManager::split (KonqFrameBase* splitFrame,
   {
     m_pMainContainer = new KonqFrameContainer( orientation, m_pMainWindow );
     kdDebug(1202) << "Created main container " << m_pMainContainer << endl;
-    m_pMainWindow->setView( m_pMainContainer );
+    m_pMainWindow->setCentralWidget( m_pMainContainer );
     m_pMainContainer->setOpaqueResize();
     m_pMainContainer->setGeometry( 0, 0, m_pMainWindow->width(), m_pMainWindow->height() );
 
@@ -497,7 +497,7 @@ void KonqViewManager::loadViewProfile( KConfig &cfg, const QString & filename, c
   if ( rootItem != "empty" )
   {
       m_pMainContainer = new KonqFrameContainer( Qt::Horizontal, m_pMainWindow );
-      m_pMainWindow->setView( m_pMainContainer );
+      m_pMainWindow->setCentralWidget( m_pMainContainer );
       m_pMainContainer->setOpaqueResize();
       m_pMainContainer->setGeometry( 0, 0, m_pMainWindow->width(), m_pMainWindow->height() );
       m_pMainContainer->show();
