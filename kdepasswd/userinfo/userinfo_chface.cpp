@@ -68,7 +68,6 @@ KUserInfoChFaceDlg::KUserInfoChFaceDlg(const QString& picsdir, QWidget *parent, 
 #endif
   morePics->addStretch();
   top->addLayout( morePics );
-  top->addStretch();
 
   // Filling the icon view
   QDir facesDir( picsdir );
