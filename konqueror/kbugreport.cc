@@ -27,6 +27,7 @@
 #include <qradiobutton.h>
 
 #include <kapp.h>
+#include <kaboutdata.h>
 #include <kconfig.h>
 #include <kstddirs.h>
 #include <klocale.h>
@@ -40,8 +41,6 @@
 #include <stdio.h>
 #include <pwd.h>
 #include <unistd.h>
-
-#include <version.h> // konqueror specific !
 
 KBugReport::KBugReport( QWidget * parentw )
   : KDialogBase( Plain,
@@ -78,7 +77,10 @@ KBugReport::KBugReport( QWidget * parentw )
   // Version : TODO : take it from the future kdelibs class containing it
   tmpLabel = new QLabel( i18n("Version : "), parent );
   glay->addWidget( tmpLabel, 2, 0 );
-  m_strVersion = QString(KONQUEROR_VERSION) +" (KDE "+KDE_VERSION_STRING+")";
+  KAboutData * aboutData = KGlobal::instance()->aboutData(); // TODO : use the "active" instance
+  if (aboutData) m_strVersion = aboutData->version();
+   else m_strVersion = "no version set (programmer error!)";
+  m_strVersion += " (KDE " KDE_VERSION_STRING ")";
   m_version = new QLabel( m_strVersion, parent );
   glay->addWidget( m_version, 2, 1 );
 

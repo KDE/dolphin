@@ -24,12 +24,15 @@
 #include "konq_mainview.h"
 #include "konq_viewmgr.h"
 #include "KonquerorIface.h"
+#include "version.h"
 
 #include <ktrader.h>
 #include <klocale.h>
 #include <kglobal.h>
 #include <kstddirs.h>
 #include <kapp.h>
+#include <kcmdlineargs.h>
+#include <kaboutdata.h>
 #include <dcopclient.h>
 #include <kimgio.h>
 #include <ksimpleconfig.h>
@@ -100,7 +103,11 @@ void KonquerorIfaceImpl::setMoveSelection( int move )
 
 int main( int argc, char **argv )
 {
-  KApplication app( argc, argv, "konqueror" );
+  KAboutData aboutData( "Konqueror", KONQUEROR_VERSION, I18N_NOOP("Web browser, file manager, ..."),
+              KAboutData::GPL, "(c) 1999-2000, The Konqueror developers" );
+  KCmdLineArgs::init( argc, argv, "konqueror", "this description isn't necessary anymore !", "this neither" );
+  KApplication::addCmdLineOptions(); // ?
+  KApplication app( &aboutData );
 
   app.dcopClient()->registerAs( "konqueror" );
 
