@@ -1,0 +1,558 @@
+<!DOCTYPE book PUBLIC "-//KDE//DTD DocBook V3.1-Based Variant V1.0//EN" [
+ <!ENTITY konsole "<application>Konsole</application>">
+ <!ENTITY % addindex "IGNORE">
+ <![ %addindex; [ <!ENTITY kdedocindex SYSTEM "docindex.docbook"> ]]>
+]>
+
+<book lang="en">
+<bookinfo>
+<title>The &konsole; Handbook</title>
+<author>
+<firstname>Lars</firstname>
+<surname>D&ouml;lle</surname>
+<affiliation>
+<address><email>lars.doelle@on-line.de</email></address>
+</affiliation>
+</author>
+<date>06/06/1998</date>
+<releaseinfo>0.08.06</releaseinfo>
+<abstract>
+<para>This document describes &konsole; version 0.8.6 Please be
+aware of the fact that this document is under construction.</para>
+</abstract>
+</bookinfo>
+
+<chapter id="Introduction">
+<title>Introduction</title>
+
+<para>&konsole; is a X terminal emulation for the K Desktop
+Environment.</para>
+
+<para>In the context of a graphical user interface being a terminal
+emulation means, that it's task is to provide a display to an
+application that is originally designed to run on a computer with a
+character terminal attached.</para>
+
+<para>To give a short taxonomy of free X terminals, there' two other
+of this kind: <application>xterm</application>, which is the
+original, written even before X itself (a month or two), and
+<application>xvt</application>, a light-wight xterm clone, on which
+most other currently available derivates (notably
+<application>eterm</application>) base. After a decade, &konsole; is
+the first rewrite from ground up.  While
+<application>xterm</application> has definitely been hacked to death
+meanwhile (its <filename>README</filename> starts with the words
+"Abandon All Hope, Ye Who Enter Here"), &konsole; offers a fresh
+start using contemporary technologies and understanding of X.</para>
+
+</chapter>
+
+<chapter id="Overview">
+<title>Overview</title>
+
+<para>When invoked, &konsole; starts this client application (which is
+the shell by default) and displays all the clients output in it's
+window while forwarding key presses and mouse clicks to the
+client.</para>
+
+<para>By this most of &konsole;'s behavior is really controlled by the
+application that actually runs in it. There are only a few special
+features that &konsole; adds to this. These additional features are
+not uncommon, so much of the following description applies to any
+decent terminal emulation.</para>
+
+<para>
+<variablelist>
+<varlistentry>
+<term>History Buffer</term>
+<listitem>
+<para>Text that is scrolled out of the screen is kept in a history buffer
+for later review. Currently a maximum of 100 lines are kept in this
+buffer. While it is not possible to change text that has ended up
+in the buffer, one can look at it and copy it partially or entirely
+to the clipboard.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>Keyboard</term>
+<listitem>
+<para>The
+<keycombo><keycap>Shift</keycap><keycap>PageUp</keycap></keycombo>,
+<keycombo><keycap>Shift</keycap><keycap>PageDown</keycap></keycombo>,
+<keycombo><keycap>Shift</keycap><keycap>Up</keycap></keycombo> and
+<keycombo><keycap>Shift</keycap><keycap>Down</keycap></keycombo> keys
+are used to scroll through the history buffer. All other keystrokes
+are passed on to the application run within the emulation. Note that
+their might be some dead keys.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>Mouse</term>
+<listitem>
+<para>You need a three button mouse to make full use of the terminal.
+The buttons have different functions:</para>
+<para><variablelist>
+<varlistentry>
+<term>Left button</term>
+<listitem>
+<para>Clicking the left button is passed as an event to the application
+running in the emulation if it is mouse aware. If a program will
+react on mouse clicks &konsole; indicates this by showing an arrow
+cursor. If not an ibeam (bar) cursor is shown.</para>
+<para>Holding the left button down and dragging the mouse over the screen
+with a mouse unaware application running, will mark a region of the
+text. While dragging, the marked text is displayed reverse for visual
+feedback. As soon as the button is released, the marked text copied
+to the clipboard for further use within &konsole; or another application.</para>
+<para>Normally, new-line characters are inserted at the end of each line
+selected.  This is normally best for cut and paste of source code
+or the output of a particular command.  For ordinary text, the 
+line breaks are often not important.  One would prefer for the
+text to be a stream of characters that will be automatically 
+re-formatted when pasted another application.  To select in 
+text-stream mode, hold-down the Ctrl key while selecting
+normally.</para>
+<para>It the upper or lower edge of the text area is touched while marking,
+&konsole; scrolls up or down, thereby eventually exposing text within the
+history buffer. The scrolling stops as soon as you stop moving the
+mouse.</para>
+<para>After releasing the mouse, &konsole; attempts to keep the text in the
+clipboard visible by holding the marked area reversed. The marked
+area reverts back to normal as soon as either the contents of the
+clipboard is changed, the text within the marked area is altered
+or you've clicked the left mouse button.</para>
+<para>To mark text on a mouse aware application the shift key has to
+be pressed when clicking.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>Middle Button</term>
+<listitem>
+<para>Pressing the middle button copies text currently in the clipboard.
+This works just as if clipboard contents is typed on the keyboard,
+so the application running in the emulation will react by it's own
+way on it.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>Right Button</term>
+<listitem>
+<para>The right button brings up the configuration menu. Additionally,
+the shift and the control key may be uses with this button to
+get access to other parts of the menu.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>Sessions</term>
+<listitem>
+<para>&konsole; offers to run several sessions (programs) at once. New
+sessions can be started using the "New"-menu. One can switch between
+sessions with the "Sessions"-menu. Both menus are available as right
+mouse button menus, too, when pression the shift or the control key as
+modifiers.</para> <para>The session menu can be freely configured due
+to the local needs.  (A section explaining how is missing, see
+<filename>/opt/kde/share/apps/konsole</filename> for some
+examples.)</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</para>
+</chapter>
+
+<chapter id="Configuration">
+<title>Configuration</title>
+
+<para>Using the option menu one can control much of &konsole;'s appearance.
+The configuration is both available using the menu bar or clicking
+on &konsole;'s window with the right mouse button.
+<variablelist>
+<varlistentry>
+<term>Menu Bar</term>
+<listitem>
+<para>Having this option checked provides a menu bar in the top of the
+window. Different from the regular behavior, the menu bar does not
+accept "hot keys" to prevent making some <keycap>ALT</keycap>-key
+combinations unusable for the client applications.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>Frame</term>
+<listitem>
+<para>Selects whether a decorating border is to be drawn.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>Scrollbar</term>
+<listitem>
+<para>Having a scrollbar provides another way to control the history
+buffer. Do not confuse this feature with scrolling inside the
+client application, although it often may (and shall) look like.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>Font</term>
+<listitem>
+<para>The font menu offers two completely different adjustments.
+First, a collection of fonts of different sizes given, so
+that a font that matches both the resolution and the prefered
+window size can be chosen. Second, there is one additional
+"Linux" font, that is different from all the above by it's
+encoding. One needs to have this font set when running a
+linux console emulation.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>Size</term>
+<listitem>
+<para>While the size of the window is freely adjustable by the regular
+means, it may sometimes be desireable to set the size of &konsole;
+window to match the requierements of old, size unaware programs.
+The size menu offeres the most often used sizes. If non of them
+match, resize the screen due to your needs. When the size is
+changed, &konsole; displays it in the title to help with the
+adjustment.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>Color Schema</term>
+<listitem>
+<para>This option allows one to select a color schema.  (A section
+explaining how is missing, see
+<filename>/opt/kde/share/apps/konsole</filename> for some
+examples.)</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</para>
+
+<para>For more historical reasons, the backspace key shall not emit
+CTRL-H when running with Linux. (The only application that i
+know which really depends on this special behavior is "emacs",
+where CTRL-H means "Help"). Although every application is
+properly configurable, so one could have configured emacs to
+accept F1 as the help key, an uncommon use of the keyboard
+codes has been traditionalized. Don't worry about it, just
+make sure that the option
+<itemizedlist>
+<listitem>
+<para>BS sends DEL</para>
+</listitem>
+</itemizedlist>
+
+is checked.</para>
+
+<para>In this case, &konsole; send a DEL character (hex 7F) when pressing
+the backspace key instead of the regular BS character (hex 08).
+The delete key is also sending something different from the DEL
+character in this case.</para>
+
+<para>All the above options take effect immediately but only for the
+current invocation. To make the adjustments permanent, click the
+option:
+<itemizedlist>
+<listitem>
+<para>Save options</para>
+</listitem>
+</itemizedlist>
+</para>
+</chapter>
+
+<chapter id="Installation">
+<title>Installation</title>
+
+<para>&konsole; is currently part of the kdenonbeta package and should be
+compiled and installed as indicated in the package's main directory.</para>
+
+<para>If you experience problems with that, please refer to 
+<link linkend="probPack">installation problems</link> below.</para>
+</chapter>
+
+<chapter id="Bugs-and-FAQ">
+<title>Bugs and FAQ</title>
+
+<para>Before sending bug reports, please check the problem with another
+X terminal to find out whether it is `&konsole;' specific or not.</para>
+
+<sect1 id="probPack">
+<title>Installation Related Problems</title>
+
+<para>
+&konsole; requieres some specific fonts that come along with it's
+distribution but are not installed due to the authors preference not
+claim root privileges during the installation process. You'll have to
+do this manually. See <filename>README.linux.console</filename> for
+details.</para>
+</sect1>
+
+<sect1 id="application-related-problems">
+<title>Application Related Problems</title>
+
+<para>Some programs have flaws when run under a X console.</para>
+
+<sect2 id="midnight-commander">
+<title>MC (midnight commander 4.1.21)</title>
+
+<para><itemizedlist>
+<listitem>
+<para> only when the emulation is called 'xterm' mc reacts on resize events
+(before any key is pressed) and on (xterm) mouse events. Note that
+xterm mouse events aren't specific at all, e.g. the Linux console
+produces them also.
+</para>
+</listitem>
+<listitem>
+<para> After &circ;O (showing the secondary screen) mc does not propagate resize
+events at all to it's sub shell. Try this with xterm, or whatever else
+terminal emulation.
+</para>
+</listitem>
+<listitem>
+<para> Apparently it does more strange things with the sub shell.
+When resizing the window with the mc panels shown, the secondary
+screen gets somehow affected (by real or faked prompts). This gets
+even worse when an application program is running while doing so.
+</para>
+</listitem>
+<listitem>
+<para> sends out at least newlines but often more stuff when resizing while
+the panels are shown.
+</para>
+</listitem>
+<listitem>
+<para> Under high traffic, some parts of the text is known to get
+lost.  Try `ripple' in the test directory until you notice a
+drop. Since i've been able to reproduce this bug with
+<application>kvt</application>, <application>rxvt</application> and
+<application>xterm</application>, and i validated also that the data
+is already lost at read(3), i may well have stumbled into something
+different here. Because i was also only able to produce this effect
+while running mc, i feel pretty certain that mc's sub shell handling
+causes this effect.
+</para>
+</listitem>
+<listitem>
+<para> Resizing does not work well when running under linux console emulation.
+Especially, mc does not forward the resize information to the subshell.
+It is not mouse aware then any longer, too.
+</para>
+</listitem>
+</itemizedlist>
+</para>
+</sect2>
+
+<sect2 id="vim">
+<title>Vim 4.6</title>
+
+<para><itemizedlist>
+<listitem>
+<para> emits a newline at exit, thereby producing a strange image on the
+secondary screen when run together with mc as default editor.</para>
+</listitem>
+</itemizedlist>
+</para>
+</sect2>
+
+<sect2 id="dselect">
+<title>dselect (Debian package manager front end):</title>
+
+<para><itemizedlist>
+<listitem>
+<para> assumes black background. So turn to white-on-black color scheme
+when using it. When run under the linux console emulation, it does
+not cope well with resize events (segfault).</para>
+</listitem>
+</itemizedlist>
+</para>
+</sect2>
+</sect1>
+
+<sect1 id="broken-termacap-and-terminfo">
+<title>Broken Termcap and Terminfo Databases</title>
+
+<para>Please be aware of the fact that most applications (those using ncurses)
+base their knowledge on how to talk to a terminal emulation on the 
+information within a database. This might well be wrong. Again, you
+should experience likely problems then with other emulations.</para>
+
+<para>So, for example:
+<itemizedlist>
+<listitem>
+<para>debian 1.3.1 (Bo) omits the kdch1 entry, thus the DELETE key does
+appear not to work properly. Other keys might be missing as well.
+</para>
+</listitem>
+<listitem>
+<para>the mc 4.1.21 distribution contains a xterm.ti with faulty hpa, vpa
+entries (with <literal remap="tt">[</literal> omitted after <literal remap="tt">ESC</literal>). Even stranger, xterm runs
+happily with them, because of a feature, that allows to accept errorness
+sequences under some circumstances (<literal remap="tt">ESC Pn C</literal> is treated like 
+<literal remap="tt">ESC [ Pn C</literal>, where <literal remap="tt">C</literal> is a non-digit.).
+</para>
+</listitem>
+<listitem>
+<para>I've included a xterm.ti for this reason. (Compile using tic.)</para>
+</listitem>
+</itemizedlist>
+</para>
+</sect1>
+
+<sect1 id="problems-with-backspace-delete">
+<title>Problems with BACKSPACE, DELETE and Likely Keyboard Issues.</title>
+
+<para>Once upon a time there was a terminal without a delete key.
+This problem has been perpetuated in Linux and is still a 
+never ending nightmare. It has been worked around separately
+in all programs that have to deal with these keys and they
+have now ended up to be configurable and therefore are likely
+to come in configured wrong. And so is &konsole;.</para>
+
+<para>&konsole; emits DEL (0x7f) for the BS key and ESC&lsqb;3  for the
+DEL key if the `BS sends DEL' option is activated, and then
+behaves like a typically configured Linux console. Ctrl-H (0x08)
+is then left for the use of the application programs, e.g. 
+typically configured emacs help.</para>
+
+<para>When this options is not set, the BS key sends BS (0x08) and
+the DEL key sends DEL (0x7f), as regular VT100s and IBM PCs do.</para>
+
+<para>&lsqb; Since every program can be configured BS=BS, DEL=DEL, and
+the poor terminal without delete key mentioned above exists
+today only in legends, the author wonders why this BS hack
+is still around. ]</para>
+
+<para>ctrl-&circ; == ctrl-  == ctrl-` == RS == 0x1e cannot be typed with
+an european keyboard map loaded, since all three base characters
+are prefixes (i.e. are eventually to be continued with a second 
+character). X11 is known to have these dead keys.</para>
+</sect1>
+
+<sect1 id="color-scheme">
+<title>Color Scheme</title>
+
+<para>Because of a storm of complaints about the color scheme,
+&konsole; offers configurable color schemes in it's latest
+versions. A proper document on them is still missing.</para>
+</sect1>
+
+<sect1 id="fonts">
+<title>Fonts</title>
+
+      <para>(Slightly outdated, check
+      <filename>README.linux.console</filename>)</para>
+
+<para><itemizedlist>
+<listitem>
+<para> the VGA font uses a different encoding then the other ones,
+and will therefore not display graphic and national characters
+when run with TERM=xterm. It is best suited to dos(1) and
+also work somewhat with TERM=linux. Note that the inclusion
+of this font is experimental.
+</para>
+</listitem>
+<listitem>
+<para> other fonts but the ones included appear not to be usable for
+terminal applications. This is not that much due to their
+variable pitch (which i'd implemented experimentally), but
+because they miss the graphical subset. Try xfd(1x) to check
+this.
+</para>
+</listitem>
+<listitem>
+<para> In general a proper font family for terminals seems to be 
+missing at all. If you know about a scalable terminal font
+family, please drop me a line.</para>
+</listitem>
+</itemizedlist>
+</para>
+</sect1>
+
+<sect1 id="security">
+<title>Security</title>
+
+<para>Although &konsole; is prepared to be installed root-suid, it is not
+intented to be used so. Don't do it. &konsole; drops privileges
+immediately after being started. Secure keyboard (X11) is not
+implemented which means that other X11 applications can get the
+keyevents from &konsole;, if they want. Beware of trojan horses.</para>
+
+<para>&konsole; does not fchown(2) the pseudo tty. This means, that in a
+multiuser environment someone may eavesdrop your (root) session.
+For newer Linux kernels (2.1/2.2), &konsole; will deny such attempts.
+To validate whether this is possible or not, try the following within
+&konsole;:
+<screen>
+<prompt>$</prompt> <userinput>tty</userinput>
+<computeroutput>/dev/ttyp3</computeroutput></screen>
+</para>
+
+<para>As another (non-root) user, try:
+<screen>
+<prompt>$</prompt> <userinput>echo 'test' &gt; /dev/ttyp3</userinput></screen>
+</para>
+
+<para>If you receive the string within the &konsole;'s session, the
+session is insecure.</para>
+
+<para>For other UNIXes, this hole will be closed in a bit, but the
+solution will require &konsole; being installed root/suid.  I'm aware,
+that this might not be possible in every installation, but i cannot
+help that.</para>
+</sect1>
+
+<sect1 id="known-bugs">
+<title>Known Bugs (&konsole;-0.8.6)</title>
+
+<para><itemizedlist>
+<listitem>
+<para> keys on the keypad does not cause any effect when numlock is not
+set. This truly reflects, what i receive from Qt. All the keys
+come in as &num;ffff. Think this comes from the eventFilter i had to
+install to get the key-presses.
+</para>
+</listitem>
+<listitem>
+<para> check TODO for "bugs" due to missing features, also.</para>
+</listitem>
+</itemizedlist>
+</para>
+</sect1>
+
+<sect1 id="not-to-implement">
+<title>Features That Will Not Be Implemented.</title>
+
+<para><variablelist>
+<varlistentry>
+<term>utmp entries.</term>
+<listitem>
+<para>The utmp is a database that reports who is currently logged on.
+This is used by programs like who, finger, wall, talk, etc. to
+list the users of a system and to contact them.</para>
+
+<para>It does not make sense when used with an X terminal, since there
+is nothing like <emphasis>the</emphasis> terminal then, to which one
+can send notices.</para>
+
+<para>The proper solution would be, to stamp the utmp with the xdm/kdm
+session manager. Further, a proper notification/chat program should
+be run automatically when the X session starts (ktalk?), so that
+a communication channel is available to the one at the console.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</para>
+</sect1>
+</chapter>
+<![ %addindex; [ &kdedocindex; ]]>
+</book>
+<!--
+Local Variables:
+mode: sgml
+sgml-omittag: nil
+sgml-general-insert-case: lower
+sgml-shorttag: t
+End:
+-->
