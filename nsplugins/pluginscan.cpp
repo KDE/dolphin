@@ -138,7 +138,10 @@ int main(int argc, char *argv[])
 	  KLibrary *_handle = KLibLoader::self()->library(*it+"/"+files[i]);
 
 	  if (!_handle)
+	  {
+	    kdDebug() << "skipping plugin " << files[i] << endl;
 	    continue;
+	  }
 
 	  func_GetMIMEDescription = _handle->symbol("NP_GetMIMEDescription");
 	  
