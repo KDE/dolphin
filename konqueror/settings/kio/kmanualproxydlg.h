@@ -1,7 +1,7 @@
 /*
    kmanualproxydlg.h - Base dialog box for proxy configuration
 
-   Copyright (C) 2001- Dawit Alemayehu <adawit@kde.org>
+   Copyright (C) 2001, 2002,2003 - Dawit Alemayehu <adawit@kde.org>
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public
@@ -22,15 +22,22 @@
 #ifndef KMANUAL_PROXY_DIALOG_H
 #define KMANUAL_PROXY_DIALOG_H
 
+#include <klineeditdlg.h>
 #include "kproxydlgbase.h"
 
-class QSpinBox;
-class QGroupBox;
-class QCheckBox;
-class QPushButton;
+class ManualProxyDlgUI;
 
-class KLineEdit;
-class KExceptionBox;
+class KProxyExceptionDlg : public KLineEditDlg
+{
+  Q_OBJECT
+
+public:
+    KProxyExceptionDlg( QWidget* parent = 0, const QString &msg = QString::null,
+                        const QString &value = QString::null,
+                        const QString &caption = QString::null );
+    ~KProxyExceptionDlg();
+};
+
 
 class KManualProxyDlg : public KProxyDialogBase
 {
@@ -52,31 +59,23 @@ protected slots:
 
   void copyDown();
   void sameProxy( bool );
-  void textChanged (const QString&);
   void valueChanged (int value);
-  
+  void textChanged (const QString&);
+
+  void newPressed();
+  void updateButtons();
+  void changePressed();
+  void deletePressed();
+  void deleteAllPressed();
+
 private:
-  QSpinBox* m_sbFtp;
-  QSpinBox* m_sbHttp;
-  QSpinBox* m_sbHttps;
-  
-  QLabel * m_lbFtp;
-  QLabel * m_lbHttp;
-  QLabel * m_lbHttps;  
-  
-  QCheckBox* m_cbSameProxy;
+  bool handleDuplicate( const QString& );
 
-  KLineEdit* m_leFtp;
-  KLineEdit* m_leHttp;
-  KLineEdit* m_leHttps;
+private:
+  ManualProxyDlgUI* dlg;
 
-  QGroupBox* m_gbHostnames;
-  KExceptionBox* m_gbExceptions;
-
-  QPushButton* m_pbCopyDown;
-  
   int m_oldFtpPort;
-  int m_oldHttpsPort;  
+  int m_oldHttpsPort;
   QString m_oldFtpText;
   QString m_oldHttpsText;
 };

@@ -1,7 +1,7 @@
 /*
    kmanualproxydlg.cpp - Proxy configuration dialog
 
-   Copyright (C) 2001- Dawit Alemayehu <adawit@kde.org>
+   Copyright (C) 2001,2002,2003 - Dawit Alemayehu <adawit@kde.org>
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public
@@ -28,168 +28,52 @@
 
 #include <kdebug.h>
 #include <klocale.h>
+#include <knuminput.h>
+#include <klistview.h>
 #include <klineedit.h>
-#include <kiconloader.h>
+#include <kicontheme.h>
+#include <kurifilter.h>
 #include <kmessagebox.h>
+#include <kiconloader.h>
 #include <kio/ioslave_defaults.h>
 
-#include "kproxyexceptiondlg.h"
+#include "manualproxy_ui.h"
 #include "kmanualproxydlg.h"
+
+KProxyExceptionDlg::KProxyExceptionDlg( QWidget* parent, const QString &msg,
+                                        const QString &value, const QString &caption)
+                   :KLineEditDlg( msg, value, parent )
+{
+    setCaption( caption );
+
+    QWhatsThis::add( edit, i18n("<qt>Enter the site name(s) that "
+                                "should be exempted from using the "
+                                "proxy server(s) specified above.<p>"
+                                "Note that the reverse is true if "
+                                "the \"<code>Only use proxy for "
+                                "entries in this list</code>\" "
+                                "box is checked. That is the proxy "
+                                "server will only be used for "
+                                "addresses that match one of the "
+                                "items in this list.</qt>") );
+}
+
+KProxyExceptionDlg::~KProxyExceptionDlg()
+{
+}
 
 
 KManualProxyDlg::KManualProxyDlg( QWidget* parent, const char* name )
                 :KProxyDialogBase( parent, name, true,
                                    i18n("Manual Proxy Configuration") )
 {
-    QWidget *page = new QWidget( this );
-    setMainWidget (page);
-    QVBoxLayout* mainLayout = new QVBoxLayout( page, 0,
-                                               KDialog::spacingHint() );
-    m_gbHostnames = new QGroupBox( i18n("Servers"), page, "m_gbHostnames" );
-    m_gbHostnames->setSizePolicy( QSizePolicy(QSizePolicy::Expanding,
-                                           QSizePolicy::Fixed,
-                                           m_gbHostnames->sizePolicy().hasHeightForWidth()) );
-    m_gbHostnames->setColumnLayout(0, Qt::Vertical );
-    m_gbHostnames->layout()->setSpacing( 0 );
-    m_gbHostnames->layout()->setMargin( 0 );
+    dlg = new ManualProxyDlgUI (this);
+    setMainWidget (dlg);
 
-    QGridLayout* serversLayout = new QGridLayout( m_gbHostnames->layout() );
-    serversLayout->setAlignment( Qt::AlignTop );
-    serversLayout->setSpacing( KDialog::spacingHint() );
-    serversLayout->setMargin( KDialog::marginHint() );
-
-    QGridLayout* glay = new QGridLayout;
-    glay->setSpacing( 6 );
-    glay->setMargin( 0 );
-
-    m_lbHttp = new QLabel( i18n("H&TTP:"), m_gbHostnames, "lbl_http" );
-    glay->addWidget( m_lbHttp, 0, 0 );
-    
-    m_leHttp = new KLineEdit( m_gbHostnames, "m_leHttp" );
-    m_leHttp->setMinimumWidth( m_leHttp->fontMetrics().width('W') * 20 );
-    m_leHttp->setSizePolicy( QSizePolicy(QSizePolicy::MinimumExpanding,
-                                         QSizePolicy::Fixed,
-                                         m_leHttp->sizePolicy().hasHeightForWidth()) );
-    QWhatsThis::add( m_leHttp, i18n("Enter the address of the HTTP proxy "
-                                    "server.") );
-    m_lbHttp->setBuddy( m_leHttp );
-    glay->addWidget( m_leHttp, 0, 1 );                                    
-    
-    QLabel *label = new QLabel( i18n("Port"), m_gbHostnames, "lbl_httpport");
-    label->setSizePolicy( QSizePolicy(QSizePolicy::Minimum,
-                                      QSizePolicy::Fixed,
-                                      label->sizePolicy().hasHeightForWidth()) );
-    glay->addWidget( label, 0, 2 );                                      
-    m_sbHttp = new QSpinBox( m_gbHostnames, "m_sbHttp" );
-    QWhatsThis::add( m_sbHttp, i18n("Enter the port number of the HTTP "
-                                    "proxy server. Default is 8080. "
-                                    "Another common value is 3128.") );
-    glay->addWidget( m_sbHttp, 0, 3 );
-
-    m_lbHttps = new QLabel ( i18n("HTTP&S:"), m_gbHostnames, "lbl_https" );
-    glay->addWidget( m_lbHttps, 1, 0 );
-        
-    m_leHttps = new KLineEdit( m_gbHostnames, "m_leHttps" );
-    m_leHttps->setSizePolicy( QSizePolicy(QSizePolicy::MinimumExpanding,
-                                            QSizePolicy::Fixed,
-                                            m_leHttps->sizePolicy().hasHeightForWidth()) );
-    
-    QWhatsThis::add( m_leHttps, i18n("Enter the address of the HTTPS proxy "
-                                     "server.") );
-    m_lbHttps->setBuddy( m_leHttps );
-    glay->addWidget( m_leHttps, 1, 1 );
-        
-    label = new QLabel( i18n("Port"), m_gbHostnames, "lbl_secureport" );
-    label->setSizePolicy( QSizePolicy(QSizePolicy::Minimum,
-                                      QSizePolicy::Fixed,
-                                      label->sizePolicy().hasHeightForWidth()) );
-    glay->addWidget( label, 1, 2 );
-                                          
-    m_sbHttps = new QSpinBox( m_gbHostnames, "sb_secport" );
-    QWhatsThis::add( m_sbHttps, i18n("Enter the port number of the secure "
-                                     "proxy server. Default is 8080. "
-                                     "Another common value is 3128.") );
-    glay->addWidget( m_sbHttps, 1, 3 );
-
-    m_lbFtp = new QLabel( i18n("&FTP:"), m_gbHostnames, "lbl_ftp" );
-    glay->addWidget( m_lbFtp, 2, 0 );
-    
-    m_leFtp = new KLineEdit( m_gbHostnames, "m_leFtp" );
-    m_leFtp->setSizePolicy( QSizePolicy(QSizePolicy::MinimumExpanding,
-                                            QSizePolicy::Fixed,
-                                            m_leFtp->sizePolicy().hasHeightForWidth()) );                                            
-    QWhatsThis::add( m_leFtp, i18n("Enter the address of the FTP proxy "
-                                   "server") );
-    m_lbFtp->setBuddy( m_leFtp );
-    glay->addWidget( m_leFtp, 2, 1 );
-        
-    label = new QLabel( i18n("Port"), m_gbHostnames, "lbl_ftpport" );
-    label->setSizePolicy( QSizePolicy(QSizePolicy::Minimum,
-                                      QSizePolicy::Fixed,
-                                      label->sizePolicy().hasHeightForWidth()) );
-    glay->addWidget( label, 2, 2 );
-                                          
-    m_sbFtp = new QSpinBox( m_gbHostnames, "sb_ftpport" );
-    QWhatsThis::add( m_sbFtp, i18n("Enter the port number of the FTP proxy "
-                                   "server. Default 8080. Another common value "
-                                   "is 3128.") );
-    glay->addWidget( m_sbFtp, 2, 3 );
-
-    serversLayout->addLayout( glay, 0, 0 );
-    
-    QHBoxLayout *hlay = new QHBoxLayout;
-    hlay->setSpacing( KDialog::spacingHint() );
-    hlay->setMargin( 0 );
-  
-    QSpacerItem *spacer = new QSpacerItem( 75, 16, QSizePolicy::Fixed,
-                                           QSizePolicy::Minimum );
-    hlay->addItem( spacer );
-
-    m_cbSameProxy = new QCheckBox( i18n("Use same proxy server for all protocols"), 
-                                   m_gbHostnames, "m_cbSameProxy" );
-    hlay->addWidget( m_cbSameProxy );
-    spacer = new QSpacerItem( 20, 20, QSizePolicy::MinimumExpanding,
-                              QSizePolicy::Minimum );
-    hlay->addItem( spacer );
-    serversLayout->addLayout( hlay, 1, 0 );    
-
-    QVBoxLayout* vlay = new QVBoxLayout;
-    vlay->setSpacing( KDialog::spacingHint() );
-    vlay->setMargin( 0 );
-
-    m_pbCopyDown = new QPushButton( m_gbHostnames, "m_pbCopyDown" );
-    m_pbCopyDown->setPixmap( BarIcon("down", KIcon::SizeSmall) );
-    m_pbCopyDown->setSizePolicy( QSizePolicy( QSizePolicy::Fixed,
-                                             QSizePolicy::Fixed,
-                                             m_pbCopyDown->sizePolicy().hasHeightForWidth()) );
-
-    QWhatsThis::add( m_pbCopyDown, i18n("<qt>This button allows you to copy "
-                                        "the entry of one input field into all "
-                                        "the others underneath it. For "
-                                        "example, if you fill out the "
-                                        "information for <tt>HTTP</tt> and "
-                                        "press this button, whatever you "
-                                        "entered will be copied to all the "
-                                        "fields below that are enabled!") );
-    vlay->addWidget( m_pbCopyDown );
-    spacer = new QSpacerItem( 1, 1 );
-    vlay->addItem( spacer );
-
-    serversLayout->addLayout( vlay, 0, 1 );
-    mainLayout->addWidget( m_gbHostnames );
-
-    m_gbExceptions = new KExceptionBox( page, "m_gbExceptions" );
-    m_gbExceptions->setSizePolicy( QSizePolicy(QSizePolicy::Expanding,
-                                              QSizePolicy::Preferred,
-                                              m_gbExceptions->sizePolicy().hasHeightForWidth()) );
-    mainLayout->addWidget( m_gbExceptions );
-
-    hlay = new QHBoxLayout;
-    hlay->setSpacing( KDialog::spacingHint() );
-    hlay->setMargin( 0 );
-    spacer = new QSpacerItem( 20, 20, QSizePolicy::Minimum,
-                              QSizePolicy::Minimum );
-    hlay->addItem( spacer );
+    dlg->pbCopyDown->setPixmap( BarIcon("down", KIcon::SizeSmall) );
+    QSizePolicy sizePolicy( QSizePolicy::Fixed, QSizePolicy::Fixed,
+                            dlg->pbCopyDown->sizePolicy().hasHeightForWidth() );
+    dlg->pbCopyDown->setSizePolicy( sizePolicy );
 
     init();
 }
@@ -200,92 +84,107 @@ KManualProxyDlg::~KManualProxyDlg()
 
 void KManualProxyDlg::init()
 {
-    m_bHasValidData = false;
-        
-    m_sbHttp->setRange( 0, MAX_PORT_VALUE );
-    m_sbHttps->setRange( 0, MAX_PORT_VALUE );
-    m_sbFtp->setRange( 0, MAX_PORT_VALUE );   
+    dlg->sbHttp->setRange( 0, MAX_PORT_VALUE );
+    dlg->sbHttps->setRange( 0, MAX_PORT_VALUE );
+    dlg->sbFtp->setRange( 0, MAX_PORT_VALUE );
 
-    connect( m_cbSameProxy, SIGNAL( toggled(bool) ), SLOT( sameProxy(bool) ) );
-    connect( m_pbCopyDown, SIGNAL( clicked() ), SLOT( copyDown() ) );
-    connect( m_leHttp, SIGNAL(textChanged(const QString&)), SLOT(textChanged(const QString&)) );
-    connect( m_sbHttp, SIGNAL(valueChanged(int)), SLOT(valueChanged (int)) );    
+    connect( dlg->pbNew, SIGNAL( clicked() ), SLOT( newPressed() ) );
+    connect( dlg->pbChange, SIGNAL( clicked() ), SLOT( changePressed() ) );
+    connect( dlg->pbDelete, SIGNAL( clicked() ), SLOT( deletePressed() ) );
+    connect( dlg->pbDeleteAll, SIGNAL( clicked() ), SLOT( deleteAllPressed() ) );
+
+    connect( dlg->lvExceptions, SIGNAL(selectionChanged()), SLOT(updateButtons()) );
+    connect( dlg->lvExceptions, SIGNAL(doubleClicked (QListViewItem *)), SLOT(changePressed()));
+
+    connect( dlg->cbSameProxy, SIGNAL( toggled(bool) ), SLOT( sameProxy(bool) ) );
+    connect( dlg->pbCopyDown, SIGNAL( clicked() ), SLOT( copyDown() ) );
+
+    connect( dlg->leHttp, SIGNAL(textChanged(const QString&)), SLOT(textChanged(const QString&)) );
+    connect( dlg->sbHttp, SIGNAL(valueChanged(int)), SLOT(valueChanged (int)) );
 }
 
 void KManualProxyDlg::setProxyData( const KProxyData &data )
 {
     KURL u;
-    
+
     QString host;
     int port = DEFAULT_PROXY_PORT;
 
     // Set the HTTP proxy...
-    u = data.httpProxy;    
+    u = data.proxyList["http"];
     if (!u.isValid())
-        m_sbHttp->setValue(port);
+        dlg->sbHttp->setValue(port);
     else
     {
         int p = u.port();
         if ( p > 0 )
             port = p;
-            
+
         u.setPort( 0 );
         host = u.url();
-        m_leHttp->setText( host );
-        m_sbHttp->setValue( port );
+        dlg->leHttp->setText( host );
+        dlg->sbHttp->setValue( port );
     }
 
-    bool useSameProxy = (!m_leHttp->text().isEmpty () &&
-                         data.httpProxy == data.httpsProxy &&
-                         data.httpProxy == data.ftpProxy);
-    
-    m_cbSameProxy->setChecked ( useSameProxy );
+    bool useSameProxy = (!dlg->leHttp->text().isEmpty () &&
+                         data.proxyList["http"] == data.proxyList["https"] &&
+                         data.proxyList["http"] == data.proxyList["ftp"]);
 
+    dlg->cbSameProxy->setChecked ( useSameProxy );
 
     if ( useSameProxy )
     {
-      m_leHttps->setText ( host );
-      m_leFtp->setText ( host );
-      m_sbHttps->setValue( port );
-      m_sbFtp->setValue( port );
+      dlg->leHttps->setText ( host );
+      dlg->leFtp->setText ( host );
+      dlg->sbHttps->setValue( port );
+      dlg->sbFtp->setValue( port );
       sameProxy ( true );
     }
     else
     {
       // Set the HTTPS proxy...
-      u = data.httpsProxy;
+      u = data.proxyList["https"];
       if (!u.isValid())
-          m_sbHttps->setValue( DEFAULT_PROXY_PORT );
+          dlg->sbHttps->setValue( DEFAULT_PROXY_PORT );
       else
       {
           int p = u.port();
           if ( p > 0 )
-              port = p;      
-          
+              port = p;
+
           u.setPort( 0 );
-          m_leHttps->setText( u.url() );
-          m_sbHttps->setValue( port );
+          dlg->leHttps->setText( u.url() );
+          dlg->sbHttps->setValue( port );
       }
 
       // Set the FTP proxy...
-      u = data.ftpProxy;
+      u = data.proxyList["ftp"];
       if (!u.isValid())
-          m_sbFtp->setValue( DEFAULT_PROXY_PORT );
+          dlg->sbFtp->setValue( DEFAULT_PROXY_PORT );
       else
       {
           int p = u.port();
           if ( p > 0 )
-              port = p;      
-          
+              port = p;
+
           u.setPort( 0 );
-          
-          m_leFtp->setText( u.url() );
-          m_sbFtp->setValue( port );
+
+          dlg->leFtp->setText( u.url() );
+          dlg->sbFtp->setValue( port );
       }
     }
-    
-    m_gbExceptions->fillExceptions( data.noProxyFor );
-    m_gbExceptions->setCheckReverseProxy( data.useReverseProxy );
+
+
+    QStringList::ConstIterator it = data.noProxyFor.begin();
+    for( ; it != data.noProxyFor.end(); ++it )
+    {
+      // "no_proxy" is a keyword used by the environment variable
+      // based configuration. We ignore it here as it is not applicable...
+      if ((*it).lower() != "no_proxy")
+        (void) new QListViewItem( dlg->lvExceptions, (*it) );
+    }
+
+    dlg->cbReverseProxy->setChecked( data.useReverseProxy );
 }
 
 const KProxyData KManualProxyDlg::data() const
@@ -296,189 +195,311 @@ const KProxyData KManualProxyDlg::data() const
     if (!m_bHasValidData)
       return data;
 
-    u = m_leHttp->text();
+    u = dlg->leHttp->text();
     if ( u.isValid() )
     {
-        u.setPort( m_sbHttp->value() );
-        data.httpProxy = u.url();        
+        u.setPort( dlg->sbHttp->value() );
+        data.proxyList["http"] = u.url();
     }
-    
-    if ( m_cbSameProxy->isChecked () )
+
+    if ( dlg->cbSameProxy->isChecked () )
     {
-        data.httpsProxy = data.httpProxy;
-        data.ftpProxy = data.httpProxy;
+        data.proxyList["https"] = data.proxyList["http"];
+        data.proxyList["ftp"] = data.proxyList["http"];
     }
     else
     {
-        u = m_leHttps->text();
+        u = dlg->leHttps->text();
         if ( u.isValid() )
         {
-            u.setPort( m_sbHttps->value() );
-            data.httpsProxy = u.url();          
+            u.setPort( dlg->sbHttps->value() );
+            data.proxyList["https"] = u.url();
         }
-        
-        u = m_leFtp->text();
+
+        u = dlg->leFtp->text();
         if ( u.isValid() )
         {
-            u.setPort( m_sbFtp->value() );
-            data.ftpProxy = u.url();
+            u.setPort( dlg->sbFtp->value() );
+            data.proxyList["ftp"] = u.url();
         }
     }
 
-    QStringList list = m_gbExceptions->exceptions();
-    if ( !list.isEmpty() )
-        data.noProxyFor = list;
+    if ( dlg->lvExceptions->childCount() )
+    {
+        QListViewItem* item = dlg->lvExceptions->firstChild();
+        for( ; item != 0L; item = item->nextSibling() )
+            data.noProxyFor << item->text(0);
+    }
 
     data.type = KProtocolManager::ManualProxy;
-    data.useReverseProxy = m_gbExceptions->isReverseProxyChecked();
+    data.useReverseProxy = dlg->cbReverseProxy->isChecked();
 
     return data;
 }
 
 void KManualProxyDlg::sameProxy( bool enable )
 {
-    m_leHttps->setEnabled (!enable );
-    m_leFtp->setEnabled (!enable );
-    m_sbHttps->setEnabled (!enable );
-    m_sbFtp->setEnabled (!enable );  
-    m_pbCopyDown->setEnabled( !enable );
-    
+    dlg->leHttps->setEnabled (!enable );
+    dlg->leFtp->setEnabled (!enable );
+    dlg->sbHttps->setEnabled (!enable );
+    dlg->sbFtp->setEnabled (!enable );
+    dlg->pbCopyDown->setEnabled( !enable );
+
     if (enable)
     {
-      m_oldFtpText = m_leFtp->text();
-      m_oldHttpsText = m_leHttps->text();
-            
-      m_oldFtpPort = m_sbFtp->value();
-      m_oldHttpsPort = m_sbHttps->value();
-      
-      int port = m_sbHttp->value();            
-      QString text = m_leHttp->text();
-            
-      m_leFtp->setText (text);
-      m_leHttps->setText (text);
-          
-      m_sbFtp->setValue (port);
-      m_sbHttps->setValue (port);
+      m_oldFtpText = dlg->leFtp->text();
+      m_oldHttpsText = dlg->leHttps->text();
+
+      m_oldFtpPort = dlg->sbFtp->value();
+      m_oldHttpsPort = dlg->sbHttps->value();
+
+      int port = dlg->sbHttp->value();
+      QString text = dlg->leHttp->text();
+
+      dlg->leFtp->setText (text);
+      dlg->leHttps->setText (text);
+
+      dlg->sbFtp->setValue (port);
+      dlg->sbHttps->setValue (port);
     }
     else
-    {      
-      m_leFtp->setText (m_oldFtpText);
-      m_leHttps->setText (m_oldHttpsText);
-    
-      m_sbFtp->setValue (m_oldFtpPort);
-      m_sbHttps->setValue (m_oldHttpsPort);
-    }    
+    {
+      dlg->leFtp->setText (m_oldFtpText);
+      dlg->leHttps->setText (m_oldHttpsText);
+
+      dlg->sbFtp->setValue (m_oldFtpPort);
+      dlg->sbHttps->setValue (m_oldHttpsPort);
+    }
 }
+
+
 
 bool KManualProxyDlg::validate()
 {
-    KURL u;
     QFont f;
-    
-    m_bHasValidData = false;
+    QStringList filters;
 
-    u = m_leHttp->text();
-    if ( u.isValid() )
-        m_bHasValidData |= true;
+    unsigned short count = 0;
+    filters << "kshorturifilter" << "localdomainfilter";
+
+    KURL url = dlg->leHttp->text();
+
+    if (url.isValid() || KURIFilter::self()->filterURI (url, filters))
+    {
+        dlg->leHttp->setText (url.url());
+        count++;
+    }
     else
     {
-        f = m_lbHttp->font();
+        f = dlg->lbHttp->font();
         f.setBold( true );
-        m_lbHttp->setFont( f );
+        dlg->lbHttp->setFont( f );
     }
-    
-    if ( !m_cbSameProxy->isChecked () )
+
+    if ( !dlg->cbSameProxy->isChecked () )
     {
-        u = m_leHttps->text();
-        if ( u.isValid() )
-            m_bHasValidData |= true;
-        else
+        url = dlg->leHttps->text();
+
+        if (url.isValid() || KURIFilter::self()->filterURI (url, filters))
         {
-            f = m_lbHttps->font();
-            f.setBold( true );
-            m_lbHttps->setFont( f );
+            dlg->leHttps->setText (url.url());
+            count++;
         }
-    
-        u = m_leFtp->text();
-        if ( u.isValid() )
-            m_bHasValidData |= true;
         else
         {
-            f = m_lbFtp->font();
+            f = dlg->lbHttps->font();
             f.setBold( true );
-            m_lbFtp->setFont( f );
+            dlg->lbHttps->setFont( f );
+        }
+
+        url = dlg->leFtp->text();
+
+        if (url.isValid() || KURIFilter::self()->filterURI (url, filters))
+        {
+            dlg->leFtp->setText (url.url());
+            count++;
+        }
+        else
+        {
+            f = dlg->lbFtp->font();
+            f.setBold( true );
+            dlg->lbFtp->setFont( f );
         }
     }
 
-    if ( !m_bHasValidData )
+    if ( count == 0 )
     {
-        QString msg = i18n("You must specify at least one proxy address.");
+        QString msg = i18n("You must specify at least one valid proxy address.");
 
         QString details = i18n("<qt>Make sure that you have specified at least one "
-                               "or more valid proxy addresses. Note that you <b>must"
-                               "</b> supply a fully qualified address such as "
-                               "<b>http://192.168.20.1</b> or <b>http://proxy.foo."
-                               "com</b>. All addresses that do not start with a "
-                               "protocol (eg: http://) will be rejected as invalid "
-                               "proxy addresses.</qt>");
+                               "valid proxy address, eg. <b>http://192.168.1.20</b>."
+                               "</qt>");
 
         KMessageBox::detailedError( this, msg, details,
                                     i18n("Invalid Proxy Setup") );
     }
 
-    return m_bHasValidData;
+    return (count > 0);
 }
 
 void KManualProxyDlg::textChanged(const QString& text)
 {
-    if (!m_cbSameProxy->isChecked())
+    if (!dlg->cbSameProxy->isChecked())
         return;
 
-    m_leFtp->setText (text);
-    m_leHttps->setText (text);
+    dlg->leFtp->setText (text);
+    dlg->leHttps->setText (text);
 }
 
 void KManualProxyDlg::valueChanged(int value)
 {
-    if (!m_cbSameProxy->isChecked())
+    if (!dlg->cbSameProxy->isChecked())
         return;
 
-    m_sbFtp->setValue (value);
-    m_sbHttps->setValue (value);
+    dlg->sbFtp->setValue (value);
+    dlg->sbHttps->setValue (value);
  }
 
 void KManualProxyDlg::copyDown()
 {
     int action = -1;
 
-    if ( !m_leHttp->text().isEmpty() )
+    if ( !dlg->leHttp->text().isEmpty() )
         action += 4;
-    else if ( !m_leHttps->text().isEmpty() )
+    else if ( !dlg->leHttps->text().isEmpty() )
         action += 3;
 
     switch ( action )
     {
-    case 3:
-      m_leHttps->setText( m_leHttp->text() );
-      m_sbHttps->setValue( m_sbHttp->value() );
-      m_leFtp->setText( m_leHttp->text() );
-      m_sbFtp->setValue( m_sbHttp->value() );
-      break;
-    case 2:
-      m_leFtp->setText( m_leHttps->text() );
-      m_sbFtp->setValue( m_sbHttps->value() );
-      break;
-    case 1:
-    case 0:
-    default:
+      case 3:
+        dlg->leHttps->setText( dlg->leHttp->text() );
+        dlg->sbHttps->setValue( dlg->sbHttp->value() );
+        dlg->leFtp->setText( dlg->leHttp->text() );
+        dlg->sbFtp->setValue( dlg->sbHttp->value() );
+        break;
+      case 2:
+        dlg->leFtp->setText( dlg->leHttps->text() );
+        dlg->sbFtp->setValue( dlg->sbHttps->value() );
+        break;
+      case 1:
+      case 0:
+      default:
         break;
     }
 }
 
 void KManualProxyDlg::slotOk()
 {
-    if ( validate() )
+    if ( m_bHasValidData || validate() )
+    {
       KDialogBase::slotOk();
+      m_bHasValidData = true;
+    }
 }
+
+bool KManualProxyDlg::handleDuplicate( const QString& site )
+{
+    QListViewItem* item = dlg->lvExceptions->firstChild();
+    while ( item != 0 )
+    {
+        if ( item->text(0).findRev( site ) != -1 &&
+             item != dlg->lvExceptions->currentItem() )
+        {
+            QString msg = i18n("<qt><center><b>%1</b><br/>"
+                               "already exists!").arg(site);
+            KMessageBox::error( this, msg, i18n("Duplicate Exception") );
+            return true;
+        }
+        item = item->nextSibling();
+    }
+    return false;
+}
+
+
+void KManualProxyDlg::newPressed()
+{
+    QString msg;
+
+    // Specify the appropriate message...
+    if ( dlg->cbReverseProxy->isChecked() )
+        msg = i18n("Enter the address or URL for which the above proxy server "
+                   "should be used:");
+    else
+        msg = i18n("Enter the address or URL that should be excluded from using "
+                   "the above proxy server:");
+
+    KProxyExceptionDlg expDlg ( this, msg, QString::null, i18n("New Exception") );
+    if ( expDlg.exec() )
+    {
+        QString exception = expDlg.text();
+        if ( !handleDuplicate( exception ) )
+        {
+            QListViewItem* index = new QListViewItem( dlg->lvExceptions,
+                                                      exception );
+            dlg->lvExceptions->setCurrentItem( index );
+        }
+    }
+}
+
+void KManualProxyDlg::changePressed()
+{
+    if( !dlg->lvExceptions->currentItem() )
+        return;
+
+    QString msg;
+
+    // Specify the appropriate message...
+    if ( dlg->cbReverseProxy->isChecked() )
+        msg = i18n("<qt>Enter the address that should be sent through "
+                   "the proxy servers:</qt>");
+    else
+        msg = i18n("<qt>Enter the address that is exempt from "
+                   "using the proxy servers:</qt>");
+
+    QString currentItem = dlg->lvExceptions->currentItem()->text(0);
+    KProxyExceptionDlg expDlg( this, msg, currentItem, i18n("Change Exception") );
+    if ( expDlg.exec() )
+    {
+        QString exception = expDlg.text();
+        if ( !handleDuplicate( exception ) )
+        {
+            QListViewItem* index = dlg->lvExceptions->currentItem();
+            index->setText( 0, exception );
+            dlg->lvExceptions->setCurrentItem( index );
+        }
+    }
+}
+
+void KManualProxyDlg::deletePressed()
+{
+    QListViewItem* item = dlg->lvExceptions->selectedItem()->itemBelow();
+
+    if ( !item )
+        item = dlg->lvExceptions->selectedItem()->itemAbove();
+
+    delete dlg->lvExceptions->selectedItem();
+
+    if ( item )
+        dlg->lvExceptions->setSelected( item, true );
+
+    updateButtons();
+}
+
+void KManualProxyDlg::deleteAllPressed()
+{
+    dlg->lvExceptions->clear();
+    updateButtons();
+}
+
+void KManualProxyDlg::updateButtons()
+{
+    bool hasItems = dlg->lvExceptions->childCount() > 0;
+    bool itemSelected = ( hasItems && dlg->lvExceptions->selectedItem()!=0 );
+    dlg->pbDelete->setEnabled( itemSelected );
+    dlg->pbDeleteAll->setEnabled( hasItems );
+    dlg->pbChange->setEnabled( itemSelected );
+}
+
+
 
 #include "kmanualproxydlg.moc"

@@ -28,40 +28,18 @@ KProxyData::KProxyData()
 
 KProxyData::KProxyData(const KProxyData &data)
 {
-  type = data.type;
-  noProxyFor = data.noProxyFor;
-  useReverseProxy = data.useReverseProxy;
-
-  ftpProxy = data.ftpProxy;
-  httpProxy = data.httpProxy;
-  httpsProxy = data.httpsProxy;
-  scriptProxy = data.scriptProxy;
-}
-
-KProxyData::~KProxyData()
-{
+  (*this) = data;
 }
 
 KProxyData& KProxyData::operator=( const KProxyData &data )
 {
-  type = data.type;
-  noProxyFor = data.noProxyFor;
   useReverseProxy = data.useReverseProxy;
-
-  ftpProxy = data.ftpProxy;
-  httpProxy = data.httpProxy;
-  httpsProxy = data.httpsProxy;
-  scriptProxy = data.scriptProxy;
+  showEnvVarValue = data.showEnvVarValue;
+  noProxyFor = data.noProxyFor;
+  proxyList = data.proxyList;
+  type = data.type;
 
   return (*this);
-}
-
-bool KProxyData::operator==(const KProxyData &data)
-{
-  return (useReverseProxy == data.useReverseProxy && type == data.type &&
-          noProxyFor == data.noProxyFor && ftpProxy == data.ftpProxy &&
-          httpProxy == data.httpProxy && httpsProxy == data.httpsProxy &&
-          scriptProxy == data.scriptProxy);
 }
 
 void KProxyData::reset()
@@ -71,13 +49,10 @@ void KProxyData::reset()
 
 void KProxyData::init()
 {
+  proxyList.clear();
   noProxyFor.clear();
   useReverseProxy = false;
-
-  ftpProxy = QString::null;
-  httpProxy = QString::null;
-  httpsProxy = QString::null;
-  scriptProxy = QString::null;
+  showEnvVarValue = false;
 }
 
 
@@ -86,8 +61,4 @@ KProxyDialogBase::KProxyDialogBase( QWidget* parent, const char* name,
                  :KDialogBase( parent, name, modal, caption, Ok|Cancel )
 {
   m_bHasValidData = false;
-}
-
-KProxyDialogBase::~KProxyDialogBase()
-{
 }

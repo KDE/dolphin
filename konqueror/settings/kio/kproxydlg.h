@@ -43,7 +43,7 @@ public:
   virtual void save();
   virtual void defaults();
   virtual QString quickHelp() const;
-  
+
 private:
   KCModule *proxy;
   KCModule *socks;
@@ -72,7 +72,8 @@ protected slots:
 
 private:
   KProxyDialogUI* dlg;
-  KProxyData* m_data;
+  KProxyData* _data;
+  bool _defaultData;
 };
 
 #endif

@@ -22,6 +22,7 @@
 #ifndef KPROXY_DIALOG_BASE_H
 #define KPROXY_DIALOG_BASE_H
 
+#include <qmap.h>
 #include <qstring.h>
 #include <qstringlist.h>
 
@@ -34,21 +35,15 @@ class KProxyData
 public:
   KProxyData();
   KProxyData( const KProxyData &data );
-  ~KProxyData();
 
   void reset ();
-  bool operator==( const KProxyData &data );
   KProxyData& operator=( const KProxyData &data );
 
-public:
-  QString ftpProxy;
-  QString httpProxy;
-  QString httpsProxy;
-  QString scriptProxy;
-
   bool useReverseProxy;
+  bool showEnvVarValue;
   QStringList noProxyFor;
   KProtocolManager::ProxyType type;
+  QMap<QString, QString> proxyList;
 
 private:
   void init();
@@ -61,7 +56,7 @@ public:
   KProxyDialogBase( QWidget* parent = 0, const char* name = 0,
                     bool modal = false, const QString &caption = QString::null);
 
-  virtual ~KProxyDialogBase();
+  virtual ~KProxyDialogBase() {};
 
   virtual const KProxyData data() const=0;
 

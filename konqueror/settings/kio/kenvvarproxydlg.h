@@ -25,13 +25,7 @@
 
 #include "kproxydlgbase.h"
 
-class QLabel;
-class QCheckBox;
-class QGroupBox;
-class QPushButton;
-
-class KLineEdit;
-class KExceptionBox;
+class EnvVarProxyDlgUI;
 
 class KEnvVarProxyDlg : public KProxyDialogBase
 {
@@ -45,10 +39,9 @@ public:
     virtual void setProxyData( const KProxyData &data );
 
 protected slots:
-    virtual void slotOk();    
-    
-    void showValue( bool );
+    virtual void slotOk();
 
+    void showValue();
     void verifyPressed();
     void autoDetectPressed();
 
@@ -58,21 +51,7 @@ protected:
     void setHighLight (bool highlight = false, QWidget* widget = 0);
 
 private:
-    QLabel *m_lbEnvFtp;
-    QLabel *m_lbEnvHttp;
-    QLabel *m_lbEnvHttps;
-    QLabel *m_lbEnvNoProxy;
-
-    KLineEdit *m_leEnvFtp;
-    KLineEdit *m_leEnvHttp;
-    KLineEdit *m_leEnvHttps;
-    KLineEdit *m_leEnvNoProxy;
-
-    QPushButton *m_pbVerify;
-    QPushButton *m_pbDetect;
-    QPushButton *m_pbShowValue;
-
-    QGroupBox *m_gbHostnames;
+    EnvVarProxyDlgUI* dlg;
 
     struct EnvVarPair {
       QString name;
