@@ -72,6 +72,17 @@ void KonqSidebarDirTreeModule::addTopLevelItem( KonqSidebarTreeTopLevelItem * it
     if ( cfg.hasLinkType() )
     {
         targetURL = cfg.readURL();
+		// some sevices might whant to make their URL confgurable in kcontol
+		QString configured = cfg.readEntry("X-KDE-ConfiguredURL","");
+		if (!configured.isEmpty()) {
+			QStringList list = QStringList::split(':', configured);
+			KConfig config(list[0]);
+			if (list[1] != "noGroup") config.setGroup(list[1]);
+			QString conf_url = config.readEntry(list[2]);
+			if (!conf_url.isEmpty()) {
+				targetURL = conf_url;
+			}
+		}
     }
     else if ( cfg.hasDeviceType() )
     {
