@@ -20,6 +20,7 @@
 #include "passwd.h"
 #include "passwddlg.h"
 
+#define VERSION "0.1"
 
 static KCmdLineOptions options[] = 
 {
