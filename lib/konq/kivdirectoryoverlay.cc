@@ -89,8 +89,6 @@ void KIVDirectoryOverlay::slotCompleted()
             m_bestIcon = currentIcon.currentKey();
         }
     }
-    delete m_popularIcons;
-    m_popularIcons = 0;
 
     // Only show folder if there's no other candidate. Most folders contain
     // folders. We know this.
@@ -98,10 +96,17 @@ void KIVDirectoryOverlay::slotCompleted()
         m_bestIcon = "folder";
     }
 
+    if ( best * 2 < m_popularIcons -> count() ) {
+        m_bestIcon = "kmultiple";
+    }
+
     if (!m_bestIcon.isNull()) {
         m_directory->setOverlay(m_bestIcon);
     }
-    
+
+    delete m_popularIcons;
+    m_popularIcons = 0;
+
     emit finished();
 }
 
