@@ -121,12 +121,9 @@ bool clientApp::openFileManagerWindow(const KURL & url)
   }
   else
   {
-    QCString dcopService;
     QString error;
-    // We rely on services/konqueror.desktop since the normal konqueror.desktop
-    // uses kfmclient (!!)
     if ( KApplication::startServiceByDesktopPath( "konqueror.desktop",
-               url.url(), dcopService, error ) > 0 )
+               url.url(), &error ) > 0 )
     {
       kdError() << "Couldn't start konqueror from services/konqueror.desktop: " << error << endl;
       KProcess proc;

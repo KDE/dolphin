@@ -32,7 +32,7 @@ konqueror_la_SOURCES = konq_main.cc KonquerorIface.skel konq_mainview.skel \
 		    konq_factory.cc
 
 konqueror_la_LDFLAGS = $(all_libraries) -module -avoid-version
-konqueror_la_LIBADD = ../libkonq/libkonq.la $(LIB_KIMGIO)
+konqueror_la_LIBADD = ../libkonq/libkonq.la
 
 konqueror_SOURCES = dummy.cc
 konqueror_LDADD = konqueror.la

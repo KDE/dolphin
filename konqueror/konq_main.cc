@@ -34,7 +34,7 @@
 #include <kcmdlineargs.h>
 #include <kaboutdata.h>
 #include <dcopclient.h>
-#include <kimgio.h>
+#include <kimageio.h>
 #include <ksimpleconfig.h>
 #include <kopenwith.h>
 
@@ -106,7 +106,7 @@ int main( int argc, char **argv )
   (void)new KonquerorIfaceImpl();
 
   KGlobal::locale()->insertCatalogue("libkonq"); // needed for apps using libkonq
-  kimgioRegister();
+  KImageIO::registerFormats();
 
   QString path = KGlobal::dirs()->saveLocation("data", "kfm/bookmarks", true);
   KonqBookmarkManager bm ( path );

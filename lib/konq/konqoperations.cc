@@ -31,6 +31,7 @@
 #include <klocale.h>
 #include <kdebug.h>
 #include <kprocess.h>
+#include <kapp.h>
 #include <kstddirs.h>
 #include <konqfileitem.h>
 #include <konqdrag.h>
@@ -216,17 +217,15 @@ void KonqOperations::doDrop( const KonqFileItem * destItem, QDropEvent * ev, QOb
             if ( destItem->mimetype() == "application/x-desktop")
             {
                 // Local .desktop file
-                KDesktopFile desktopFile( dest.path() );
-                // Launch .desktop file for each dropped URL
-                // (TODO honour multiple urls for the same process, needs
-                //  extension of KService::startService)
-                KService service( &desktopFile );
-                QCString dcopService;
                 QString error;
+                QStringList stringList;
                 KURL::List::Iterator it = lst.begin();
                 for ( ; it != lst.end() ; it++ )
-                    if ( service.startService( (*it).url(), dcopService, error ) > 0 )
-                        KMessageBox::error( 0L, error );
+                {
+                    stringList.append((*it).url());
+                }
+                if ( KApplication::startServiceByDesktopPath( dest.path(), stringList, &error ) > 0 )
+                    KMessageBox::error( 0L, error );
             } else
             {
                 // Should be a local executable
