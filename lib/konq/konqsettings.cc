@@ -93,12 +93,12 @@ void KonqFMSettings::init( KConfig * config )
   m_bgColor = config->readColorEntry( "BgColor", &FM_DEFAULT_BG_COLOR );
   m_normalTextColor = config->readColorEntry( "NormalTextColor", &FM_DEFAULT_TXT_COLOR );
   m_highlightedTextColor = config->readColorEntry( "HighlightedTextColor", &FM_DEFAULT_HIGHLIGHTED_TXT_COLOR );
+  m_bWordWrapText = config->readBoolEntry( "WordWrapText", DEFAULT_WORDWRAPTEXT );
 
   // Behaviour
   m_bSingleClick = config->readBoolEntry("SingleClick", DEFAULT_SINGLECLICK);
   m_iAutoSelect = config->readNumEntry("AutoSelect", DEFAULT_AUTOSELECT);
   m_bChangeCursor = config->readBoolEntry( "ChangeCursor", DEFAULT_CHANGECURSOR );
   m_underlineLink = config->readBoolEntry( "UnderlineLinks", DEFAULT_UNDERLINELINKS );
-  m_bWordWrapText = config->readBoolEntry( "WordWrapText", DEFAULT_WORDWRAPTEXT );
 
 }

@@ -74,7 +74,6 @@ public:
   int autoSelect() { return m_iAutoSelect; }
   bool changeCursor() { return m_bChangeCursor; }
   bool underlineLink() { return m_underlineLink; }
-  bool wordWrapText() { return m_bWordWrapText; }
 
   // Font settings
   const QString& stdFontName() { return m_strStdFontName; }
@@ -85,6 +84,8 @@ public:
   const QColor& normalTextColor() { return m_normalTextColor; }
   const QColor& highlightedTextColor() { return m_highlightedTextColor; }
 
+  // Other appearance settings
+  bool wordWrapText() { return m_bWordWrapText; }
     
 protected:
   // The two instances
@@ -95,7 +96,6 @@ protected:
   int m_iAutoSelect;
   bool m_bChangeCursor;
   bool m_underlineLink;
-  bool m_bWordWrapText;
 
   QString m_strStdFontName;
   QString m_strFixedFontName;
@@ -104,6 +104,8 @@ protected:
   QColor m_bgColor;
   QColor m_normalTextColor;
   QColor m_highlightedTextColor;
+
+  bool m_bWordWrapText;
 
 private:
   // There is no default constructor. Use the provided ones.
