@@ -85,7 +85,7 @@ public:
    * Displays another URL, but without changing the view mode (caller has to
    * ensure that the call makes sense)
    */
-  void openURL( const KURL &url, bool useMiscURLData = false );
+  void openURL( const KURL &url );
 
   /**
    * Replace the current view vith _vView
@@ -98,11 +98,10 @@ public:
    * @param serviceName allows to enforce a particular service to be chosen,
    *        @see KonqFactory.
    * @param url the URL to open in the view. If not set, no URL is opened.
-   * @param useMiscURLData if true, passed to @ref openURL with @p url (if not empty)
    */
   bool changeViewMode( const QString &serviceType,
                        const QString &serviceName = QString::null,
-                       const KURL &url = KURL(), bool useMiscURLData = true );
+                       const KURL &url = KURL() );
 
   /**
    * Call this to prevent next openURL() call from changing history lists
@@ -182,16 +181,6 @@ public:
 
   bool supportsServiceType( const QString &serviceType ) { return serviceTypes().contains( serviceType ); }
 
-  void setMiscURLData( bool reload, int xOffset, int yOffset )
-  {
-    m_bReloadURL = reload;
-    m_iXOffset = xOffset;
-    m_iYOffset = yOffset;
-  }
-  bool reloadURL() const { return m_bReloadURL; }
-  int xOffset() const { return m_iXOffset; }
-  int yOffset() const { return m_iYOffset; }
-
   void setLoading( bool b ) { m_bLoading = b; }
   bool isLoading() const { return m_bLoading; }
 
@@ -264,9 +253,6 @@ protected:
   KonqMainView *m_pMainView;
   bool m_bAllowHTML;
   QGuardedPtr<KonqRun> m_pRun;
-  bool m_bReloadURL;
-  int m_iXOffset;
-  int m_iYOffset;
   KonqFrame *m_pKonqFrame;
   bool m_bLoading;
   bool m_bViewStarted;

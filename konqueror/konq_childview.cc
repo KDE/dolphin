@@ -27,7 +27,6 @@
 #include <kio/job.h>
 
 #include <assert.h>
-
 #include <kdebug.h>
 
 #include <qapplication.h>
@@ -61,9 +60,6 @@ KonqChildView::KonqChildView( KonqViewFactory &viewFactory,
 
   m_bAllowHTML = KonqPropsView::defaultProps( KonqFactory::instance() )->isHTMLAllowed();
   m_lstHistory.setAutoDelete( true );
-  m_bReloadURL = false;
-  m_iXOffset = 0;
-  m_iYOffset = 0;
   m_bLoading = false;
   m_bViewStarted = false;
   m_bPassiveMode = false;
@@ -97,13 +93,8 @@ void KonqChildView::show()
     m_pKonqFrame->show();
 }
 
-void KonqChildView::openURL( const KURL &url, bool useMiscURLData  )
+void KonqChildView::openURL( const KURL &url )
 {
-  if ( useMiscURLData && browserExtension() )
-  {
-    KParts::URLArgs args(false, m_iXOffset, m_iYOffset);
-    browserExtension()->setURLArgs( args );
-  }
   m_pView->openURL( url );
 
   m_pMainView->setLocationBarURL( this, url.url() );
@@ -160,10 +151,12 @@ void KonqChildView::switchView( KonqViewFactory &viewFactory )
 
 bool KonqChildView::changeViewMode( const QString &serviceType,
                                     const QString &serviceName,
-                                    const KURL &url, bool useMiscURLData )
+                                    const KURL &url )
 {
   if ( m_bViewStarted )
+  {
     stop();
+  }
 
   // Since we only set URL to empty URL when calling this from go(), it
   // means we are going back or forward in the history and we already shifted
@@ -196,7 +189,7 @@ bool KonqChildView::changeViewMode( const QString &serviceType,
 
   if ( !url.isEmpty() )
   {
-    openURL( url, useMiscURLData );
+    openURL( url );
 
     show();
     // Give focus to the view

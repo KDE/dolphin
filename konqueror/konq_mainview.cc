@@ -312,8 +312,7 @@ void KonqMainView::openFilteredURL( KonqChildView * /*_view*/, const QString &_u
   QApplication::sendEvent( this, &ev );
 }
 
-void KonqMainView::openURL( KonqChildView *_view, const KURL &url, bool reload, int xOffset,
-                            int yOffset, const QString &serviceType )
+void KonqMainView::openURL( KonqChildView *_view, const KURL &url, const QString &serviceType )
 {
   kdDebug(1202) << "KonqMainView::openURL : _url = '" << url.url() << "'\n";
 
@@ -337,7 +336,6 @@ void KonqMainView::openURL( KonqChildView *_view, const KURL &url, bool reload, 
       view->stop();
 
     setLocationBarURL( view, url.decodedURL() );
-    view->setMiscURLData( reload, xOffset, yOffset );
   }
   else
   {
@@ -380,36 +378,24 @@ void KonqMainView::openURL( KonqChildView *_view, const KURL &url, bool reload, 
   }
 }
 
-void KonqMainView::openURL( const KURL &url, bool reload, int xOffset,
-                            int yOffset, const QString &serviceType )
-{
-  KonqChildView *childV = 0L;
-
-  if ( sender() )
-    childV = childView( (KParts::ReadOnlyPart *)sender()->parent() );
-
-  openURL( childV, url, reload, xOffset, yOffset, serviceType );
-}
-
 void KonqMainView::openURL( const KURL &url, const KParts::URLArgs &args )
 {
   //TODO: handle post data!
 
- KParts::ReadOnlyPart *part = static_cast<KParts::ReadOnlyPart *>( sender()->parent() );
- KonqChildView *view = childView( part );
+  KParts::ReadOnlyPart *part = static_cast<KParts::ReadOnlyPart *>( sender()->parent() );
+  KonqChildView *view = childView( part );
+
+  view->browserExtension()->setURLArgs( args );
 
   //  ### HACK !!
   if ( args.postData.size() > 0 )
   {
-    view->browserExtension()->setURLArgs( args );
-    openURL( view, url, args.reload, args.xOffset, args.yOffset, QString::fromLatin1( "text/html" ) );
+    openURL( view, url, QString::fromLatin1( "text/html" ) );
     return;
   }
 
   if ( !args.reload && urlcmp( url.url(), part->url().url(), true, true ) )
   {
-    view->browserExtension()->setURLArgs( args );
-    
     QString serviceType = args.serviceType;
     if ( serviceType.isEmpty() )
       serviceType = view->serviceType();
@@ -418,7 +404,7 @@ void KonqMainView::openURL( const KURL &url, const KParts::URLArgs &args )
     return;
   }
 
-  openURL( url, args.reload, args.xOffset, args.yOffset, args.serviceType );
+  openURL( view, url, args.serviceType );
 }
 
 void KonqMainView::slotCreateNewWindow( const KURL &url, const KParts::URLArgs &args )
@@ -502,7 +488,7 @@ void KonqMainView::slotViewModeToggle( bool toggle )
     return;
 
   m_currentView->changeViewMode( m_currentView->serviceType(), modeName,
-                                 m_currentView->url(), false );
+                                 m_currentView->url() );
 }
 
 void KonqMainView::slotOpenWith()
@@ -1793,7 +1779,7 @@ void KonqMainView::slotOpenEmbeddedDoIt()
 {
   (void) m_currentView->changeViewMode( m_popupServiceType,
 					m_popupService,
-                                        m_popupURL, false );
+                                        m_popupURL );
 }
 
 void KonqMainView::slotDatabaseChanged()
