@@ -215,6 +215,8 @@ void KonqDirPart::newItems( const KFileItemList & entries )
         else
             m_lDirCount++;
     }
+    if ( m_findPart )
+        emitTotalCount();
 }
 
 void KonqDirPart::deleteItem( KFileItem * fileItem )
@@ -231,12 +233,20 @@ void KonqDirPart::deleteItem( KFileItem * fileItem )
 
 void KonqDirPart::emitTotalCount()
 {
-    emit setStatusBarText(
+    QString summary =
         KIO::itemsSummaryString(m_lFileCount + m_lDirCount,
                                 m_lFileCount,
                                 m_lDirCount,
                                 m_lDirSize,
-                                true));
+                                true);
+    bool bShowsResult = false;
+    if (m_findPart)
+    {
+        QVariant prop = m_findPart->property( "showsResult" );
+        bShowsResult = prop.isValid() && prop.toBool();
+    }
+    kdDebug(1203) << "KonqDirPart::emitTotalCount bShowsResult=" << bShowsResult << endl;
+    emit setStatusBarText( bShowsResult ? i18n("Search result: %1").arg(summary) : summary );
 }
 
 void KonqDirPart::emitCounts( const KFileItemList & lst, bool selectionChanged )

@@ -66,7 +66,7 @@ public:
 
     /**
      * This class takes care of the counting of items, size etc. in the
-     * current directory. Call this in openURL.
+     * current directory. Call this in slotClear.
      */
     void resetCount()
     {
