@@ -63,8 +63,8 @@ KonqChildView::KonqChildView( KonqViewFactory &viewFactory,
   m_bAllowHTML = KonqFactory::defaultViewProps()->isHTMLAllowed();
   m_lstHistory.setAutoDelete( true );
   m_bLoading = false;
-  m_bViewStarted = false;
   m_bPassiveMode = false;
+  m_bLinkedView = false;
 
   switchView( viewFactory );
 
@@ -147,7 +147,17 @@ void KonqChildView::switchView( KonqViewFactory &viewFactory )
   if ( prop.isValid() && prop.toBool() )
   {
     setPassiveMode( true ); // set as passive
-    frame()->statusbar()->hideStuff(); // prevent user from removing passive mode
+    //TODO, perhaps: don't allow "Unlock all views" to unlock this view ?
+    //frame()->statusbar()->hideStuff(); // prevent user from removing passive mode
+  }
+
+  // Honour "linked view"
+  prop = m_service->property( "X-KDE-BrowserView-LinkedView");
+  if ( prop.isValid() && prop.toBool() )
+  {
+    setLinkedView( true ); // set as linked
+    // TODO make sure the link symbol appears
+    //frame()->statusbar()->hideStuff(); // prevent user from removing passive mode
   }
 }
 
@@ -156,7 +166,7 @@ bool KonqChildView::changeViewMode( const QString &serviceType,
                                     const KURL &url,
                                     const QString &locationBarURL)
 {
-  if ( m_bViewStarted )
+  if ( m_bLoading )
   {
     stop();
   }
@@ -269,7 +279,6 @@ void KonqChildView::slotStarted( KIO::Job * job )
 {
   kdDebug(1202) << "KonqChildView::slotStarted"  << job << endl;
   m_bLoading = true;
-  setViewStarted( true );
 
   if ( m_pMainView->currentChildView() == this )
   {
@@ -298,7 +307,6 @@ void KonqChildView::slotCompleted()
 {
   kdDebug() << "KonqChildView::slotCompleted" << endl;
   m_bLoading = false;
-  setViewStarted( false );
   m_pKonqFrame->statusbar()->slotLoadingProgress( -1 );
 
   // Success... update history entry (mostly for location bar URL)
@@ -408,7 +416,7 @@ void KonqChildView::go( int steps )
 
   HistoryEntry h( *currentHistoryEntry ); // make a copy of the current history entry, as the data
                                           // the pointer points to will change with the following calls
-  
+
   if ( ! changeViewMode( h.strServiceType, h.strServiceName ) )
   {
     kdWarning(1202) << "Couldn't change view mode to " << h.strServiceType
@@ -454,10 +462,9 @@ void KonqChildView::setRun( KonqRun * run )
 
 void KonqChildView::stop()
 {
-  if ( m_bViewStarted )
+  if ( m_bLoading )
   {
     m_pView->closeURL();
-    m_bViewStarted = false;
   }
   else if ( m_pRun )
     delete static_cast<KonqRun *>(m_pRun); // should set m_pRun to 0L
@@ -493,6 +500,7 @@ void KonqChildView::setPassiveMode( bool mode )
 
   // Hide the mode button for the last active view
   //
+  /*
   KonqChildView *current = m_pMainView->currentChildView();
 
   if (current != 0L) {
@@ -502,16 +510,17 @@ void KonqChildView::setPassiveMode( bool mode )
       current->frame()->statusbar()->passiveModeCheckBox()->show();
     }
   }
+  */
+}
+
+void KonqChildView::setLinkedView( bool mode )
+{
+  m_bLinkedView = mode;
 }
 
 void KonqChildView::sendOpenURLEvent( const KURL &url )
 {
   KParts::OpenURLEvent ev( m_pView, url );
-  QMap<KParts::ReadOnlyPart *, KonqChildView *> views = m_pMainView->viewMap();
-  QMap<KParts::ReadOnlyPart *, KonqChildView *>::ConstIterator it = views.begin();
-  QMap<KParts::ReadOnlyPart *, KonqChildView *>::ConstIterator end = views.end();
-  for (; it != end; ++it )
-    QApplication::sendEvent( it.key(), &ev );
   QApplication::sendEvent( m_pMainView, &ev );
 }
 

@@ -165,7 +165,10 @@ public:
   int viewCount() const { return m_mapViews.count(); }
   QValueList<KParts::ReadOnlyPart *> viewList();
 
-  QMap<KParts::ReadOnlyPart *, KonqChildView *> viewMap() const { return m_mapViews; }
+  typedef QMap<KParts::ReadOnlyPart *, KonqChildView *> MapViews;
+
+  // for KonqFrame::slotLinkedViewClicked only...
+  const MapViews & viewMap() const { return m_mapViews; }
 
   KonqChildView *currentChildView() const { return m_currentView; }
   KParts::ReadOnlyPart *currentView();
@@ -343,8 +346,6 @@ private:
   bool m_bFullScreen;
   KonqFrameContainer *m_tempContainer;
   QWidget::FocusPolicy m_tempFocusPolicy;
-
-  typedef QMap<KParts::ReadOnlyPart *, KonqChildView *> MapViews;
 
   MapViews m_mapViews;
 

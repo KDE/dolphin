@@ -300,6 +300,7 @@ void KonqViewManager::loadViewProfile( KConfig &cfg )
 
   loadItem( cfg, m_pMainContainer, rootItem );
 
+  // Why not use m_pMainView->viewMap() ? viewList is built by hand... (David)
   QValueList<KParts::ReadOnlyPart *> lst = m_pMainView->viewList();
 
   KParts::ReadOnlyPart *view = *lst.begin();
@@ -309,14 +310,14 @@ void KonqViewManager::loadViewProfile( KConfig &cfg )
   {
     KonqChildView *nextChildView = chooseNextView( childView );
     setActivePart( nextChildView->view() );
-    if ( lst.count() == 2 )
-      nextChildView->frame()->statusbar()->hideStuff();
+    //if ( lst.count() == 2 )
+    //  nextChildView->frame()->statusbar()->hideStuff();
   }
   else
     setActivePart( view );
 
-  if ( lst.count() == 1 && !childView->passiveMode() )
-    childView->frame()->statusbar()->hideStuff();
+  //if ( lst.count() == 1 && !childView->passiveMode() )
+  //  childView->frame()->statusbar()->hideStuff();
 }
 
 void KonqViewManager::loadItem( KConfig &cfg, KonqFrameContainer *parent,
@@ -343,6 +344,7 @@ void KonqViewManager::loadItem( KConfig &cfg, KonqFrameContainer *parent,
     QString serviceName = cfg.readEntry( QString::fromLatin1( "ServiceName" ).prepend( prefix ) );
 
     bool passiveMode = cfg.readBoolEntry( QString::fromLatin1( "PassiveMode" ).prepend( prefix ), false );
+    bool linkedView = cfg.readBoolEntry( QString::fromLatin1( "LinkedView" ).prepend( prefix ), false );
 
     KService::Ptr service;
     KTrader::OfferList partServiceOffers, appServiceOffers;
@@ -358,10 +360,10 @@ void KonqViewManager::loadItem( KConfig &cfg, KonqFrameContainer *parent,
     KonqChildView *childView = setupView( parent, viewFactory, service, partServiceOffers, appServiceOffers, serviceType );
 
     childView->setPassiveMode( passiveMode );
+    childView->setLinkedView( linkedView );
 
-    QCheckBox *checkBox = childView->frame()->statusbar()->passiveModeCheckBox();
-
-    checkBox->setChecked( passiveMode );
+    //QCheckBox *checkBox = childView->frame()->statusbar()->passiveModeCheckBox();
+    //checkBox->setChecked( passiveMode );
 
     childView->openURL( KURL( url ) );
     childView->setLocationBarURL( url );

@@ -186,11 +186,11 @@ public:
   void setLoading( bool b ) { m_bLoading = b; }
   bool isLoading() const { return m_bLoading; }
 
-  void setViewStarted( bool b ) { m_bViewStarted = b; }
-  bool viewStarted() const { return m_bViewStarted; }
-
   bool passiveMode() const { return m_bPassiveMode; }
   void setPassiveMode( bool mode );
+
+  bool linkedView() const { return m_bLinkedView; }
+  void setLinkedView( bool mode );
 
   KService::Ptr service() { return m_service; }
 
@@ -271,8 +271,8 @@ protected:
   QGuardedPtr<KonqRun> m_pRun;
   KonqFrame *m_pKonqFrame;
   bool m_bLoading;
-  bool m_bViewStarted;
   bool m_bPassiveMode;
+  bool m_bLinkedView;
   KTrader::OfferList m_partServiceOffers;
   KTrader::OfferList m_appServiceOffers;
   KService::Ptr m_service;

@@ -73,13 +73,13 @@ class KonqFrameStatusBar : public QWidget
    public:
       KonqFrameStatusBar( KonqFrame *_parent = 0L, const char *_name = 0L );
       ~KonqFrameStatusBar() {}
-      QCheckBox *passiveModeCheckBox() const { return m_pPassiveModeCheckBox; }
+      //QCheckBox *passiveModeCheckBox() const { return m_pPassiveModeCheckBox; }
       /**
-       * Shows the passiveModeCheckBox and the little green led
+       * Shows the statusbar buttons
        */
       void showStuff();
       /**
-       * Hides the passiveModeCheckBox and the little green led
+       * Hides the statusbar buttons
        */
       void hideStuff();
 
@@ -94,7 +94,11 @@ class KonqFrameStatusBar : public QWidget
        */
       void clicked();
 
-      void passiveModeChange( bool mode );
+      /**
+       * The "linked view" checkbox was clicked
+       */
+      void linkedViewClicked( bool mode );
+
    protected slots:
       void slotDisplayStatusText(const QString& text);
 
@@ -109,7 +113,7 @@ class KonqFrameStatusBar : public QWidget
 
       virtual void paintEvent(QPaintEvent *e);
       KonqFrame* m_pParentKonqFrame;
-      QCheckBox *m_pPassiveModeCheckBox;
+      QCheckBox *m_pLinkedViewCheckBox;
       KProgress *m_progressBar;
       QLabel statusLabel;
       int m_yOffset;
@@ -203,7 +207,7 @@ public slots:
    */
   void slotStatusBarClicked();
 
-  void slotPassiveModeChange( bool mode );
+  void slotLinkedViewClicked( bool mode );
 
 protected:
   virtual void paintEvent( QPaintEvent* );

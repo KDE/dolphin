@@ -74,8 +74,8 @@ KonqFrameStatusBar::KonqFrameStatusBar( KonqFrame *_parent, const char *_name )
 ,m_yOffset(0)
 ,m_showLed(true)
 {
-   m_pPassiveModeCheckBox = new KonqCheckBox( this );
-   m_pPassiveModeCheckBox->show();
+   m_pLinkedViewCheckBox = new KonqCheckBox( this );
+   m_pLinkedViewCheckBox->show();
    statusLabel.show();
    statusLabel.installEventFilter(this);
 
@@ -84,11 +84,11 @@ KonqFrameStatusBar::KonqFrameStatusBar( KonqFrame *_parent, const char *_name )
    setFixedHeight(h);
    m_yOffset=(h-13)/2;
 
-   m_pPassiveModeCheckBox->setGeometry(20,m_yOffset,13,13);
-   m_pPassiveModeCheckBox->setFocusPolicy(NoFocus);
+   m_pLinkedViewCheckBox->setGeometry(20,m_yOffset,13,13);
+   m_pLinkedViewCheckBox->setFocusPolicy(NoFocus);
    statusLabel.setGeometry(40,0,50,h);
 
-   connect(m_pPassiveModeCheckBox,SIGNAL(toggled(bool)),this,SIGNAL(passiveModeChange(bool)));
+   connect(m_pLinkedViewCheckBox,SIGNAL(toggled(bool)),this,SIGNAL(linkedViewClicked(bool)));
 
    m_progressBar = new KProgress( 0, 100, 0, KProgress::Horizontal, this );
    m_progressBar->hide();
@@ -185,14 +185,14 @@ void KonqFrameStatusBar::slotConnectToNewView(KParts::ReadOnlyPart *,KParts::Rea
 
 void KonqFrameStatusBar::showStuff()
 {
-    m_pPassiveModeCheckBox->show();
+    m_pLinkedViewCheckBox->show();
     m_showLed = true;
     repaint();
 }
 
 void KonqFrameStatusBar::hideStuff()
 {
-    m_pPassiveModeCheckBox->hide();
+    m_pLinkedViewCheckBox->hide();
     m_showLed = false;
     repaint();
 }
@@ -228,7 +228,7 @@ KonqFrame::KonqFrame( KonqFrameContainer *_parentContainer, const char *_name )
    // add the frame statusbar to the layout
    m_pStatusBar = new KonqFrameStatusBar( this, "KonquerorFrameStatusBar");
    QObject::connect(m_pStatusBar, SIGNAL(clicked()), this, SLOT(slotStatusBarClicked()));
-   connect( m_pStatusBar, SIGNAL( passiveModeChange( bool ) ), this, SLOT( slotPassiveModeChange( bool ) ) );
+   connect( m_pStatusBar, SIGNAL( linkedViewClicked( bool ) ), this, SLOT( slotLinkedViewClicked( bool ) ) );
    m_separator = 0;
 
    m_metaViewLayout = 0;
@@ -262,6 +262,7 @@ void KonqFrame::saveConfig( KConfig* config, const QString &prefix, int /*id*/, 
   config->writeEntry( QString::fromLatin1( "ServiceType" ).prepend( prefix ), childView()->serviceType() );
   config->writeEntry( QString::fromLatin1( "ServiceName" ).prepend( prefix ), childView()->service()->name() );
   config->writeEntry( QString::fromLatin1( "PassiveMode" ).prepend( prefix ), childView()->passiveMode() );
+  config->writeEntry( QString::fromLatin1( "LinkedView" ).prepend( prefix ), childView()->linkedView() );
 }
 
 KParts::ReadOnlyPart *KonqFrame::attach( const KonqViewFactory &viewFactory )
@@ -339,9 +340,19 @@ void KonqFrame::slotStatusBarClicked()
      m_pChildView->mainView()->viewManager()->setActivePart( m_pView );
 }
 
-void KonqFrame::slotPassiveModeChange( bool mode )
+void KonqFrame::slotLinkedViewClicked( bool mode )
 {
-   m_pChildView->setPassiveMode( mode );
+  if (mode && m_pChildView->mainView()->viewCount() == 2)
+  {
+    // Two views : link both
+    KonqMainView::MapViews mapViews = m_pChildView->mainView()->viewMap();
+    KonqMainView::MapViews::Iterator it = mapViews.begin();
+    (*it)->setLinkedView( mode );
+    ++it;
+    (*it)->setLinkedView( mode );
+  }
+  else // Normal case : just this view
+    m_pChildView->setLinkedView( mode );
 }
 
 void

@@ -333,22 +333,23 @@ void KonqMainView::openURL( KonqChildView *_view, const KURL &url, const QString
       }
     }
   }
-  else
+  else // no known serviceType, use KonqRun
   {
     kdDebug(1202) << QString("Creating new konqrun for %1").arg(url.url()) << endl;
     KonqRun * run = new KonqRun( this, view /* can be 0L */, url, 0, false, true );
     if ( view )
+    {
       view->setRun( run );
+      if ( view == m_currentView )
+      {
+        startAnimation();
+        view->setLoading( true );
+      }
+    }
     connect( run, SIGNAL( finished() ),
              this, SLOT( slotRunFinished() ) );
     connect( run, SIGNAL( error() ),
              this, SLOT( slotRunFinished() ) );
-  }
-
-  if ( view && view == m_currentView && serviceType.isEmpty() )
-  {
-    view->setLoading( true );
-    startAnimation();
   }
 }
 
@@ -961,6 +962,30 @@ void KonqMainView::customEvent( QCustomEvent *event )
     MapViews::ConstIterator end = m_mapViews.end();
     for (; it != end; ++it )
       QApplication::sendEvent( (*it)->view(), event );
+    return;
+  }
+  if ( KParts::OpenURLEvent::test( event ) )
+  {
+    KParts::OpenURLEvent * ev = static_cast<KParts::OpenURLEvent*>(event);
+    KonqChildView * senderChildView = childView(ev->part());
+    // Check if sender is linked
+    bool bLinked = senderChildView->linkedView();
+    // Forward the event to all views
+    MapViews::ConstIterator it = m_mapViews.begin();
+    MapViews::ConstIterator end = m_mapViews.end();
+    for (; it != end; ++it )
+    {
+      // Don't resend to sender
+      if (it.key() != ev->part())
+      {
+       QApplication::sendEvent( it.key(), event );
+       // Linked-views feature
+       if ( bLinked && (*it)->linkedView()
+            && !(*it)->passiveMode() // not passive views
+            && !(*it)->isLoading() && (*it)->url() != ev->url() ) // avoid loops !
+         openURL( (*it), ev->url() );
+      }
+    }
   }
 }
 
