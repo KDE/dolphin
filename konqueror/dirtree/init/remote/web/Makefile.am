@@ -1,2 +1,2 @@
-data_DATA = .directory kde_apps.desktop kde_dot.desktop kde_web.desktop
+data_DATA = .directory apps_web.desktop dot_web.desktop kde_web.desktop
 datadir = $(kde_datadir)/konqueror/dirtree/remote/web
