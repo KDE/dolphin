@@ -38,6 +38,7 @@ KFileItem::KFileItem( UDSEntry& _entry, KURL& _url ) :
 {
   // extract the mode and the filename from the UDS Entry
   m_mode = 0;
+  m_pMimeType = 0;
   m_strText = QString::null;
   UDSEntry::Iterator it = m_entry.begin();
   for( ; it != m_entry.end(); it++ ) {
@@ -47,6 +48,8 @@ KFileItem::KFileItem( UDSEntry& _entry, KURL& _url ) :
       m_strText = decodeFileName( (*it).m_str );
     else if ( (*it).m_uds == UDS_URL )
       m_url = KURL((*it).m_str);
+    else if ( (*it).m_uds == UDS_MIME_TYPE )
+      m_pMimeType = KMimeType::find((*it).m_str);
   }
   KFileItem::init(); // don't call derived methods !
 }
@@ -67,7 +70,8 @@ void KFileItem::init()
   assert(!m_strText.isNull());
 
   // determine the mimetype
-  m_pMimeType = KMimeType::findByURL( m_url, m_mode, m_bIsLocalURL );
+  if (!m_pMimeType)
+    m_pMimeType = KMimeType::findByURL( m_url, m_mode, m_bIsLocalURL );
   assert (m_pMimeType);
 }
 
