@@ -385,8 +385,7 @@ bool KonqMainWindow::openView( QString serviceType, const KURL &_url, KonqView *
   // changeViewMode will take care of setting and storing that url.
   QString originalURL = url.prettyURL();
   if ( !req.nameFilter.isEmpty() ) // keep filter in location bar
-    // Bug: The URI filter shouldn't remove the trailing slash...
-    originalURL += '/' + req.nameFilter;
+    originalURL += req.nameFilter;
 
   QString serviceName; // default: none provided
 
