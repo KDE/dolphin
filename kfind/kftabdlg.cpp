@@ -455,7 +455,8 @@ void KfindTabWidget::setQuery(KQuery *query)
   if (!itemAlreadyContained)
      dirBox->insertItem(dirBox->currentText().stripWhiteSpace(),0);
 
-  query->setRegExp(nameBox->currentText(), caseSensCb->isChecked());
+  QString regex = nameBox->currentText().isEmpty() ? "*" : nameBox->currentText();
+  query->setRegExp(regex, caseSensCb->isChecked());
   itemAlreadyContained=false;
   for (int idx=0; idx<nameBox->count(); idx++)
      if (nameBox->text(idx)==nameBox->currentText())
