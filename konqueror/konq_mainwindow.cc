@@ -1075,7 +1075,8 @@ void KonqMainWindow::slotToolFind()
   }
 
   /* Old version
-  KShellProcess proc;
+  KProcess proc;
+  proc.setUseShell(true);
   proc << "kfind";
 
   if ( m_currentView ) // play safe
@@ -1092,7 +1093,7 @@ void KonqMainWindow::slotToolFind()
     }
   }
 
-  proc.start(KShellProcess::DontCare);
+  proc.start(KProcess::DontCare);
   */
 }
 

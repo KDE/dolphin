@@ -56,18 +56,18 @@ void KShellCmdPlugin::slotExecuteShellCommand()
      // Putting the complete path to the selected file isn't really necessary, since
      // we'll cd to the directory first. But we do need to get the complete relative path.
      QString path = part->currentItem()->url().path();
-     defaultValue = KShellProcess::quote( "." + path.remove( 0, url.path().length() ) );
+     defaultValue = KProcess::quote( "." + path.remove( 0, url.path().length() ) );
    }
    else
    {
-      defaultValue = KShellProcess::quote( url.path() );
+      defaultValue = KProcess::quote( url.path() );
    }
    KLineEditDlg l(i18n("Execute shell command in current directory:"), defaultValue, part->widget() );
    if ( l.exec() )
    {
       QString chDir;
       chDir="cd ";
-      chDir+=KShellProcess::quote(part->url().path());
+      chDir+=KProcess::quote(part->url().path());
       chDir+="; ";
       chDir+=l.text();
 
