@@ -1,9 +1,11 @@
 [Desktop Entry]
 Encoding=UTF-8
 Type=Application
-Exec=kdesu konqueror
+Exec=konqueror
 DocPath=konqueror/index.html
 Icon=kfm
+X-KDE-SubstituteUID=true
+X-KDE-Username=root
 
 Name=File Manager - Super User Mode
 Name[ar]=مدير الملفات - وضعية المستخدم الجذري
@@ -44,4 +46,5 @@ Name[xh]=Umphathi Wefayile - Indlela ephezulu yomsebenzisi
 Name[xx]=xx
 Name[zh_CN]=文件管理器 - 超级用户模式
 Name[zu]=Umphathi Wefayela (Imodi Ephezulu Yomsebenzisi)
+
 
