@@ -662,9 +662,9 @@ QString KfindTabDialog::createQuery()
           {
             switch(sizeBox->currentItem())
               {
-	        case 1: {type=(atoi(sizeEdit->text())==0?"":"+");break;} 
-	        case 2: {type=(atoi(sizeEdit->text())==0?"":"-");break;} 
-	        default: {type=(atoi(sizeEdit->text())==0?"":" ");} 
+	        case 1: {type=(char *)(atoi(sizeEdit->text())==0?"":"+");break;}
+	        case 2: {type=(char *)(atoi(sizeEdit->text())==0?"":"-"); break;}
+	        default: {type=(char *)(atoi(sizeEdit->text())==0?"":" ");} 
               };
             str.append(pom.sprintf(" -size  %s%sk ",type,sizeEdit->text()));
           };
