@@ -1,7 +1,7 @@
 [Desktop Entry]
 Encoding=UTF-8
 Type=Application
-DocPath=kcontrol/khtml/index.html
+DocPath=kcontrol/khtml/index.html#kbrowse-html
 Icon=konqueror
 Exec=kcmshell khtml_behavior
 
@@ -15,13 +15,18 @@ Name[be]=Паводзіны
 Name[bs]=Ponašanje
 Name[cs]=Chování
 Name[da]=Opførsel
+Name[de]=Verhalten
+Name[el]=Συμπεριφορά
 Name[en_GB]=Behaviour
 Name[es]=Comportamiento
 Name[fi]=Käytös
-Name[he]=תפקוד
+Name[he]=התנהגות
 Name[hu]=Ablakbeállítások
 Name[ja]=動作
+Name[mt]=Imġieba
+Name[nb]=Oppførsel
 Name[pt_BR]=Comportamento
+Name[sk]=Chovanie
 Name[sv]=Beteende
 Name[tr]=Davranış
 Comment=Configure the look and feel of the Internet Browser called Konqueror
@@ -84,7 +89,7 @@ Keywords[az]=konqueror,kfm,səyyah,html,şəbəkə,www,yazı növləri,rənglər
 Keywords[cs]=Konqueror,Kfm,Prohlížeč,HTML,Web,WWW,Písma,Barvy,Java,JavaScript,Kurzor,Odkazy,Obrázky,Znakové sady,Kódování
 Keywords[da]=konqueror,kfm,netsøger,HTML,net,skrifttyper,farver,java,javascript,markør,henvisninger,billeder,tegnsæt,indkodning
 Keywords[de]=Konqueror,Kfm,Browser,HTML,Web,WWW,Schriften,Farben,Java,JavaScript,Cursor,Links,Verknüpfungen,Bilder,Zeichensätze,Encoding
-Keywords[el]=konqueror,kfm,φυλλομετρητής,html,web,www,γραμματοσειρές,χρώματα,χρώματα,java,javascript,δρομέας,δεσμοί,εικόνες,charsets,σύνολα χαρακτήρων,κωδικοποίηση
+Keywords[el]=konqueror,kfm,περιηγητής,html,web,www,γραμματοσειρές,χρώματα,χρώματα,java,javascript,δρομέας,δεσμοί,εικόνες,charsets,σύνολα χαρακτήρων,κωδικοποίηση
 Keywords[en_GB]=konqueror,kfm,browser,html,web,www,fonts,colours,java,javascript,cursor,links,images,charsets,character sets,encoding
 Keywords[eo]=Konkeranto,Kfm,TTT,HTML,WWW,tiparo,koloro,Javo,Javoskripto,kursoro,kursilo,ligo,referenco,bildo,signaro,kodo
 Keywords[es]=konqueror,kfm,navegador,html,web,www,fuentes,colores,java,javascript,cursor,enlaces,imágenes,mapas de caracteres,codificación

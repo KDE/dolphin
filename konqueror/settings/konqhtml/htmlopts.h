@@ -36,6 +36,7 @@ class KMiscHTMLOptions : public KCModule
 public:
     KMiscHTMLOptions(KConfig *config, QString group, QWidget *parent = 0L, const char *name = 0L );
 	~KMiscHTMLOptions();
+    QString quickHelp() const;
     virtual void load();
     virtual void save();
     virtual void defaults();

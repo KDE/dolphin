@@ -372,3 +372,9 @@ void KAppearanceOptions::changed()
   emit changed(true);
 }
 
+QString KAppearanceOptions::quickHelp() const
+{
+  return i18n("<h1>Konqueror Fonts</h1>On this page, you can configure "
+              "which fonts Konqueror should use to display the web "
+              "pages you view.");
+}

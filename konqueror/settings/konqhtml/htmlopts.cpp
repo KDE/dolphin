@@ -84,7 +84,7 @@ KMiscHTMLOptions::KMiscHTMLOptions(KConfig *config, QString group, QWidget *pare
     lay->addMultiCellWidget( m_pTabConfirm, row, row, 0, 1);
     row++;
     connect(m_pTabConfirm, SIGNAL(clicked()), this, SLOT(changed()));
-    
+
     m_pBackRightClick = new QCheckBox( i18n( "Right click goes &back in history" ), this );
     QWhatsThis::add( m_pBackRightClick, i18n(
       "If this box is checked, you can go back in history by right clicking on a Konqueror view. "
@@ -203,7 +203,7 @@ void KMiscHTMLOptions::load()
     m_pFormCompletionCheckBox->setChecked( m_pConfig->readBoolEntry( "FormCompletion", true ) );
     m_pMaxFormCompletionItems->setValue( m_pConfig->readNumEntry( "MaxFormCompletionItems", 10 ) );
     m_pMaxFormCompletionItems->setEnabled( m_pFormCompletionCheckBox->isChecked() );
-    
+
     m_pConfig->setGroup("FMSettings");
     m_pShowMMBInTabs->setChecked( m_pConfig->readBoolEntry( "MMBOpensTab", false ) );
     m_pNewTabsInFront->setChecked( m_pConfig->readBoolEntry( "NewTabsInFront", true ) );
@@ -270,7 +270,7 @@ void KMiscHTMLOptions::save()
     m_pConfig->setGroup("FMSettings");
     m_pConfig->writeEntry( "MMBOpensTab", m_pShowMMBInTabs->isChecked() );
     m_pConfig->writeEntry( "NewTabsInFront", m_pNewTabsInFront->isChecked() );
-    
+
     // It only matters wether the key is present, its value has no meaning
     m_pConfig->setGroup("Notification Messages");
     if ( m_pTabConfirm->isChecked() ) m_pConfig->deleteEntry( "MultipleTabConfirm" );
@@ -290,4 +290,15 @@ void KMiscHTMLOptions::changed()
 {
     m_pMaxFormCompletionItems->setEnabled( m_pFormCompletionCheckBox->isChecked() );
     emit changed(true);
+}
+
+QString KMiscHTMLOptions::quickHelp() const
+{
+  return i18n("<h1>Konqueror Browser</h1> Here you can configure Konqueror's browser "
+              "functionality. Please note that the file manager "
+              "functionality has to be configured using the \"File Manager\" "
+              "configuration module. You can make some "
+              "settings how Konqueror should handle the HTML code in "
+              "the web pages it loads. It is usually not necessary to "
+              "change anything here.");
 }

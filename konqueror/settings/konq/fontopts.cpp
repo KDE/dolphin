@@ -367,4 +367,9 @@ void KonqFontOptions::slotConfigureIconSize()
     proc.start(KProcess::DontCare);
 }
 
+QString KonqFontOptions::quickHelp() const
+{
+    return i18n("<h1>Konqueror Appearance</h1> You can configure how Konqueror looks as a file manager here.");
+};
+
 #include "fontopts.moc"

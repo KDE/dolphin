@@ -1,7 +1,7 @@
 [Desktop Entry]
 Encoding=UTF-8
 Type=Application
-DocPath=kcontrol/khtml/index.html
+DocPath=kcontrol/khtml/index.html#kbrowse-java
 Icon=konqueror
 Exec=kcmshell khtml_java_js
 
@@ -10,26 +10,43 @@ X-KDE-Library=konqhtml
 X-KDE-FactoryName=khtml_java_js
 
 Name=Java & JavaScript
-Name[hu]=Java és Javascript
+Name[af]=java & javaskrip
+Name[be]=Java і JavaScript
+Name[bs]=JavaScript i Java
+Name[cs]=Java a JavaScript
+Name[es]=Java y JavaScript
+Name[hu]=Java/Javascript
 Name[ja]=JavaScript / Java
+Name[mt]=Java u JavaScript
 Name[sv]=Java och Javaskript
 Name[tr]=Java & JavaScriptı
 Comment=Configure how the JavaScript and Java on web sites behave
 Comment[af]=konfigureer hoe die javaskrip en java op web tuistes gedra
 Comment[bs]=Podesite kako se ponašaju JavaScript i Java na web stranicama
+Comment[cs]=Zde je možné nastavit chování Javy a Javascriptu na webových stránkách
 Comment[da]=Indstil hvordan JavaScript og Java på netsider fungerer
+Comment[de]=Hier können Sie Einstellungen zu Java und JavaScript für Webseiten vornehmen
+Comment[el]=Ρυθμίστε τη συμπεριφορά της JavaScript και της Java στις ιστοσελίδες
 Comment[es]=Configuración del comportamiento de Java y JavaScript en sitios web
 Comment[fi]=Aseta JavaScript ja Java käytöstä eri www-sivustoilla
 Comment[hu]=Java/Javascript-beállítások
 Comment[ja]=ここでウェブサイトにおけるJavaScriptとJavaの動作を設定します
+Comment[mt]=Hawn tista' tissettja l-funzjonalità ta' JavaScript u Java fuq websites
+Comment[nb]=Sett opp hvordan JavaScript og Java oppfører seg
 Comment[pt_BR]=Configure como o Java e o JavaScript  se comportam em sites web
+Comment[sk]=Nastavenie chovania jazykov JavaScript a Java pre webové stránky
 Comment[sv]=Anpassa hur Javaskript och Java beter sig på webbplatser
 Keywords=konqueror,kfm,browser,html,web,www,java,javascript
 Keywords[da]=konqueror,kfm,netsøger,HTML,net,www,java,javascript
+Keywords[de]=Konqueror,kfm,Browser,HTML,Web,WWW,Java,JavaScript
+Keywords[el]=konqueror,kfm,περιηγητής,html,web,www,java,javascript
 Keywords[es]=konqueror,kfm,navegador,html,web,wwwjava,javascript
 Keywords[fi]=konqueror,kfm,selain,html,web,www,java,javascript
+Keywords[hu]=Konqueror,kfm,böngésző,HTML,web,WWW,Java,Javascript
 Keywords[ja]=konqueror,kfm,ブラウザ,html,web,www,java,javascript
+Keywords[nb]=konqueror,kfm,browser,html,web,www,java,javascript,nettleser,nett
 Keywords[pt_BR]=konqueror,kfm,navegador,html,web,WWW,java,javascript
+Keywords[sk]=konqueror,kfm,prehliadač,html,web,www,java,javascript
 Keywords[sv]=konqueror,kfm,webbläsare,html,webb,www,teckensnitt,färger,java,javaskript,länkar,bilder,kodning,teckenuppsättningar
 Keywords[tr]=konqueror,kfm,tarayıcı,html,web,www,java,javascript
 

@@ -124,18 +124,7 @@ void KJSParts::defaults()
 
 QString KJSParts::quickHelp() const
 {
-  return i18n("<h1>Konqueror Browser</h1> Here you can configure Konqueror's browser "
-              "functionality. Please note that the file manager "
-              "functionality has to be configured using the \"File Manager\" "
-              "configuration module."
-              "<h2>HTML</h2>On the HTML page, you can make some "
-              "settings how Konqueror should handle the HTML code in "
-              "the web pages it loads. It is usually not necessary to "
-              "change anything here."
-              "<h2>Appearance</h2>On this page, you can configure "
-              "which fonts Konqueror should use to display the web "
-              "pages you view."
-              "<h2>JavaScript</h2>On this page, you can configure "
+  return i18n("<h2>JavaScript</h2>On this page, you can configure "
               "whether JavaScript programs embedded in web pages should "
               "be allowed to be executed by Konqueror."
               "<h2>Java</h2>On this page, you can configure "

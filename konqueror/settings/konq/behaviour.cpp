@@ -204,7 +204,7 @@ void KBehaviourOptions::slotShowTips(bool b)
 //    sbToolTip->setEnabled( b );
     cbShowPreviewsInTips->setEnabled( b );
 //    fileTips->setEnabled( b );
-	
+
 }
 
 void KBehaviourOptions::load()
@@ -245,7 +245,7 @@ void KBehaviourOptions::load()
     config.setGroup( "UIServer" );
 
     cbListProgress->setChecked( config.readBoolEntry( "ShowList", false ) );
-    
+
     g_pConfig->setGroup( "Trash" );
     cbMoveToTrash->setChecked( g_pConfig->readBoolEntry("ConfirmTrash", DEFAULT_CONFIRMTRASH) );
     cbDelete->setChecked( g_pConfig->readBoolEntry("ConfirmDelete", DEFAULT_CONFIRMDELETE) );
@@ -298,7 +298,7 @@ void KBehaviourOptions::save()
     g_pConfig->writeEntry( "ConfirmDelete", cbDelete->isChecked());
     g_pConfig->writeEntry( "ConfirmShred", cbShred->isChecked());
     g_pConfig->sync();
-    
+
     kfmclientConfig->writeEntry(QString::fromLatin1("StartNewKonqueror"), val);
     kfmclientConfig->sync();
 
@@ -334,19 +334,9 @@ void KBehaviourOptions::updateWinPixmap(bool b)
 
 QString KBehaviourOptions::quickHelp() const
 {
-    return i18n("<h1>Trash Options</h1> Here you can modify the behavior "
-                "of Konqueror when you want to delete a file."
-                "<h2>On delete:</h2>This option determines what Konqueror "
-                "will do with a file you chose to delete (e.g. in a context menu).<ul>"
-                "<li><em>Move To Trash</em> will move the file to the trash directory, "
-                "instead of deleting it, so you can easily recover it.</li>"
-                "<li><em>Delete</em> will simply delete the file.</li>"
-                "<li><em>Shred</em> will not only delete the file, but will first "
-                "overwrite it with different bit patterns. This makes recovery impossible. "
-                "Use it, if you're keeping very sensitive data."
-                "<h2>Confirm destructive actions</h2>Check this box if you want Konqueror "
-                "to ask \"Are you sure?\" before doing any destructive action (e.g. delete or shred).");
-}
+    return i18n("<h1>Konqueror Behavior</h1> You can configure how Konqueror behaves as a file manager here.");
+};
+
 
 void KBehaviourOptions::changed()
 {
