@@ -10,7 +10,7 @@ libkonqiconview_la_LDFLAGS = $(all_libraries) $(KDE_PLUGIN)
 libkonqiconview_la_LIBADD = $(top_builddir)/libkonq/libkonq.la
 
 servicedir = $(kde_servicesdir)
-service_DATA = konq_iconview.desktop
+service_DATA = konq_iconview.desktop konq_multicolumnview.desktop
 
 rcdir = $(kde_datadir)/konqiconview
-rc_DATA = konq_iconview.rc
+rc_DATA = konq_iconview.rc konq_multicolumnview.rc

@@ -66,48 +66,53 @@ template class QList<KFileIVI>;
 class KonqIconViewFactory : public KParts::Factory
 {
 public:
-    KonqIconViewFactory()
-    {
+   KonqIconViewFactory()
+   {
       s_defaultViewProps = 0;
       s_instance = 0;
-    }
-    virtual ~KonqIconViewFactory()
-    {
+   }
+
+   virtual ~KonqIconViewFactory()
+   {
       if ( s_instance )
-        delete s_instance;
+         delete s_instance;
 
       if ( s_defaultViewProps )
-        delete s_defaultViewProps;
+         delete s_defaultViewProps;
 
       s_instance = 0;
       s_defaultViewProps = 0;
-    }
+   }
 
-    virtual KParts::Part* createPart( QWidget *parentWidget, const char *, QObject *parent, const char *name, const char*, const QStringList &/*&args*/ )
-    {
-	KonqKfmIconView *obj = new KonqKfmIconView( parentWidget, parent, name );
-	emit objectCreated( obj );
-	return obj;
-    }
+    virtual KParts::Part* createPart( QWidget *parentWidget, const char *, 
+                                      QObject *parent, const char *name, const char*, const QStringList &args )
+   {
+      if( args.count() < 1 )
+         kdWarning() << "KonqKfmIconView: Missing Parameter" << endl;
 
-    static KInstance *instance()
-    {
+      KonqKfmIconView *obj = new KonqKfmIconView( parentWidget, parent, name,args.first() );
+      emit objectCreated( obj );
+      return obj;
+   }
+
+   static KInstance *instance()
+   {
       if ( !s_instance )
-        s_instance = new KInstance( "konqiconview" );
+         s_instance = new KInstance( "konqiconview" );
       return s_instance;
-    }
+   }
 
    static KonqPropsView *defaultViewProps()
    {
-     if ( !s_defaultViewProps )
-       s_defaultViewProps = new KonqPropsView( instance(), 0L );
+      if ( !s_defaultViewProps )
+         s_defaultViewProps = new KonqPropsView( instance(), 0L );
 
-     return s_defaultViewProps;
+      return s_defaultViewProps;
    }
 
-private:
-  static KInstance *s_instance;
-  static KonqPropsView *s_defaultViewProps;
+   private:
+      static KInstance *s_instance;
+      static KonqPropsView *s_defaultViewProps;
 };
 
 KInstance *KonqIconViewFactory::s_instance = 0;
@@ -164,7 +169,7 @@ void IconViewBrowserExtension::setSaveViewPropertiesLocally( bool value )
 }
 
 
-KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const char *name )
+KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const char *name, const QString& mode  )
     : KParts::ReadOnlyPart( parent, name )
 {
     kdDebug(1202) << "+KonqKfmIconView" << endl;
@@ -258,11 +263,11 @@ KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const 
     //m_paKOfficeMode->setChecked( false );
     //m_paKOfficeMode->setEnabled( false );
 
-    m_paBottomText = new KToggleAction( i18n( "Text at the &bottom" ), 0, actionCollection(), "textbottom" );
-    m_paRightText = new KToggleAction( i18n( "Text at the &right" ), 0, actionCollection(), "textright" );
+    //m_paBottomText = new KToggleAction( i18n( "Text at the &bottom" ), 0, actionCollection(), "textbottom" );
+    //m_paRightText = new KToggleAction( i18n( "Text at the &right" ), 0, actionCollection(), "textright" );
 
-    m_paBottomText->setExclusiveGroup( "TextPos" );
-    m_paRightText->setExclusiveGroup( "TextPos" );
+    //m_paBottomText->setExclusiveGroup( "TextPos" );
+    //m_paRightText->setExclusiveGroup( "TextPos" );
 
     new KAction( i18n( "Background Color..." ), 0, this, SLOT( slotBackgroundColor() ), actionCollection(), "bgcolor" );
     new KAction( i18n( "Background Image..." ), 0, this, SLOT( slotBackgroundImage() ), actionCollection(), "bgimage" );
@@ -276,8 +281,8 @@ KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const 
     //connect( m_paKOfficeMode, SIGNAL( toggled( bool ) ), this, SLOT( slotKofficeMode( bool ) ) );
     //connect( m_paNoIcons, SIGNAL( toggled( bool ) ), this, SLOT( slotViewNone( bool ) ) );
 
-    connect( m_paBottomText, SIGNAL( toggled( bool ) ), this, SLOT( slotTextBottom( bool ) ) );
-    connect( m_paRightText, SIGNAL( toggled( bool ) ), this, SLOT( slotTextRight( bool ) ) );
+    //connect( m_paBottomText, SIGNAL( toggled( bool ) ), this, SLOT( slotTextBottom( bool ) ) );
+    //connect( m_paRightText, SIGNAL( toggled( bool ) ), this, SLOT( slotTextRight( bool ) ) );
 
     //
 
@@ -329,6 +334,20 @@ KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const 
 
     connect( m_pIconView, SIGNAL( selectionChanged() ),
 	     this, SLOT( slotDisplayFileSelectionInfo() ) );
+
+    if (mode=="MultiColumnView")
+    {
+       m_pIconView->setArrangement(QIconView::TopToBottom);
+       m_pIconView->setWordWrapIconText(FALSE);
+       m_pIconView->setItemTextPos(QIconView::Right);
+    }
+    else
+    {
+       m_pIconView->setWordWrapIconText(TRUE);
+       m_pIconView->setItemTextPos(QIconView::Bottom);
+       m_pIconView->setArrangement(QIconView::LeftToRight);
+    };
+
 }
 
 KonqKfmIconView::~KonqKfmIconView()
@@ -588,7 +607,7 @@ void KonqKfmIconView::slotViewDefault( bool b)
   //TODO: Disable Icons
 }*/
 
-void KonqKfmIconView::slotTextBottom( bool b )
+/*void KonqKfmIconView::slotTextBottom( bool b )
 {
     if ( b ) {
         m_pProps->setItemTextPos( QIconView::Bottom );
@@ -606,7 +625,7 @@ void KonqKfmIconView::slotTextRight( bool b )
         calculateGridX();
 	m_pIconView->arrangeItemsInGrid( true );
     }
-}
+}*/
 
 void KonqKfmIconView::slotBackgroundColor()
 {
@@ -1076,10 +1095,10 @@ bool KonqKfmIconView::openURL( const KURL &_url )
     m_paSmallIcons->setChecked( size == m_iIconSize[0] );
     //m_paNoIcons->setChecked( false );
 
-    QIconView::ItemTextPos textPos = (QIconView::ItemTextPos) m_pProps->itemTextPos();
+    /*QIconView::ItemTextPos textPos = (QIconView::ItemTextPos) m_pProps->itemTextPos();
     m_pIconView->setItemTextPos( textPos );
     m_paBottomText->setChecked( textPos == QIconView::Bottom );
-    m_paRightText->setChecked( textPos == QIconView::Right );
+    m_paRightText->setChecked( textPos == QIconView::Right );*/
 
     m_paDotFiles->setChecked( m_pProps->isShowingDotFiles() );
     m_paImagePreview->setChecked( m_pProps->isShowingImagePreview() );

@@ -49,7 +49,7 @@ public:
 
   enum SortCriterion { NameCaseSensitive, NameCaseInsensitive, Size };
 
-  KonqKfmIconView( QWidget *parentWidget, QObject *parent, const char *name );
+  KonqKfmIconView( QWidget *parentWidget, QObject *parent, const char *name, const QString& mode );
   virtual ~KonqKfmIconView();
 
   virtual bool openURL( const KURL &_url );
@@ -90,8 +90,8 @@ public slots:
   void slotViewSmall( bool b );
   //void slotViewNone( bool b );
 
-  void slotTextBottom( bool b );
-  void slotTextRight( bool b );
+  //void slotTextBottom( bool b );
+  //void slotTextRight( bool b );
 
   void slotBackgroundColor();
   void slotBackgroundImage();
@@ -177,10 +177,10 @@ protected:
   KToggleAction *m_paLargeIcons;
   KToggleAction *m_paMediumIcons;
   KToggleAction *m_paSmallIcons;
-  KToggleAction *m_paNoIcons;
+  //KToggleAction *m_paNoIcons;
 
-  KToggleAction *m_paBottomText;
-  KToggleAction *m_paRightText;
+  //KToggleAction *m_paBottomText;
+  //KToggleAction *m_paRightText;
 
   KToggleAction *m_paKOfficeMode;
   KAction *m_paSelect;
