@@ -86,7 +86,7 @@ KfindTop::KfindTop(const char *searchPath) : KTopLevelWidget()
 
     //_width=(440>_toolBar->width())?440:_toolBar->width();
     _width=520;
-    int _height=(_kfind->sizeHint()).height();
+    //_height=(_kfind->sizeHint()).height(); // Unused as far as I can tell
 
 // Fixed and Y-fixed guys:  Please, please, please stop setting fixed size
 // on KTW! Fix it on your main view!

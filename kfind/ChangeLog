@@ -1,9 +1,15 @@
-1998-11-30 Miroslav Flídr <flidr@kky.zcu.cz>
+1998-12-07  Alex Zepeda  <garbanzo@hooked.net>
+
+	* kfindtop.cpp: Commented out _height, as it's not used.
+
+1998-11-30  Miroslav Flídr  <flidr@kky.zcu.cz>
+
 	* Dissabled multiple selection in view because it was not fully
 	handled
 	* Fixed problem in nameBox, dirBox combos which caused improper
 	find query generation (it is still neccesary to fix multiplication of
 	list entries)
+
 1998-10-23  Alex Zepeda  <garbanzo@hooked.net>
 
 	* LICENSE: remove it, it's redundant.
