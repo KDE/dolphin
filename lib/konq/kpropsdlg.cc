@@ -1325,6 +1325,7 @@ DevicePropsPage::DevicePropsPage( PropertiesDialog *_props ) : PropsPage( _props
     indexMountPoint++;
     indexFSType++;
   }
+
   // insert your favorite location for fstab here
   if ( !fstabFile.isEmpty() )
   {
@@ -1336,14 +1337,11 @@ DevicePropsPage::DevicePropsPage( PropertiesDialog *_props ) : PropsPage( _props
       QString line = stream.readLine();
       line = line.simplifyWhiteSpace();
       if (!line.isEmpty() && line[0] == '/') // skip comments but also
-        // anything else (nfs mounts, 'none', ...)
       {
-        //debug(QString("'%1'").arg(line));
         QStringList lst = QStringList::split( ' ', line );
         if ( lst.count() > 2 && lst[indexDevice] != "/proc"
             && lst[indexMountPoint] != "none" && lst[indexMountPoint] != "-" )
         {
-          //debug(QString("******** '%1'  '%2'").arg(lst[indexDevice]).arg(lst[indexMountPoint]));
           devices.append( lst[indexDevice]+" ("+lst[indexMountPoint]+")" );
           m_devicelist.append( line );
         }
@@ -1353,72 +1351,55 @@ DevicePropsPage::DevicePropsPage( PropertiesDialog *_props ) : PropsPage( _props
   }
 
 
-  QLabel* tmpQLabel;
-  tmpQLabel = new QLabel( this );
-  tmpQLabel->move( 10, 10 );
-  tmpQLabel->setText( devices.count()==0 ?
-                      i18n("Device ( /dev/fd0 )") : // old style
-                      i18n("Device") ); // new style (combobox)
-  tmpQLabel->adjustSize();
+  QGridLayout *layout = new QGridLayout(this, 0, 3, KDialog::marginHint(),
+					KDialog::spacingHint());
+  layout->setColStretch(1, 1);
 
-  /*
-  device = new KLineEdit( this, "LineEdit_1" );
-  device->setGeometry( 10, 40, 180, 30 );
-  device->setText( "" );
-  */
+  QLabel* label;
+  label = new QLabel( this );
+  label->setText( devices.count() == 0 ?
+                      i18n("Device (/dev/fd0):") : // old style
+                      i18n("Device:") ); // new style (combobox)
+  layout->addWidget(label, 0, 0);
+
   device = new QComboBox( true, this, "ComboBox_device" );
-  device->setGeometry( 10, 40, 180, 30 );
   device->insertStringList( devices );
+  layout->addWidget(device, 0, 1);
   connect( device, SIGNAL( activated( int ) ),
            this, SLOT( slotActivated( int ) ) );
 
-  tmpQLabel = new QLabel( this );
-  tmpQLabel->move( 10, 80 );
-  tmpQLabel->setText( devices.count()==0 ?
-                      i18n("Mount Point ( /floppy )") : // old style
-                      i18n("Mount Point")); // new style (combobox)
-  tmpQLabel->adjustSize();
-
-  mountpoint = new KLineEdit( this, "LineEdit_mountpoint" );
-  mountpoint->setGeometry( 10, 110, 180, 30 );
-  mountpoint->setText( "" );
-  if ( !IamRoot )
-    mountpoint->setEnabled( false );
-
   readonly = new QCheckBox( this, "CheckBox_readonly" );
-  readonly->setGeometry( 220, 40, 130, 30 );
-  readonly->setText(  i18n("Readonly") );
+  readonly->setText(  i18n("Read Only") );
+  layout->addWidget(readonly, 0, 2);
   if ( !IamRoot )
     readonly->setEnabled( false );
 
-  tmpQLabel = new QLabel( this );
-  tmpQLabel->move( 10, 150 );
-  tmpQLabel->setText(  i18n("File system") );
-  tmpQLabel->adjustSize();
+  label = new QLabel( this );
+  label->setText( devices.count()==0 ?
+                      i18n("Mount Point (/mnt/floppy):") : // old style
+                      i18n("Mount Point:")); // new style (combobox)
+  layout->addWidget(label, 1, 0);
+
+  mountpoint = new KLineEdit( this, "LineEdit_mountpoint" );
+  layout->addWidget(mountPoint, 1, 1);
+  if ( !IamRoot )
+    mountpoint->setEnabled( false );
+
+  label = new QLabel( this );
+  label->setText(  i18n("File System Type:") );
+  layout->addWidget(label, 2, 0);
 
   fstype = new KLineEdit( this, "LineEdit_fstype" );
-  fstype->setGeometry( 10, 180, 280, 30 );
-  fstype->setText( "" );
+  layout->addWidget(fstype, 2, 1);
   if ( !IamRoot )
     fstype->setEnabled( false );
 
-  //tmpQLabel = new QLabel( this );
-  //tmpQLabel->move( 10, 220 );
-  //tmpQLabel->setText(  i18n("Mounted Icon") );
-  //tmpQLabel->adjustSize();
-
-  tmpQLabel = new QLabel( this );
-  tmpQLabel->move( 10 /*170*/, 220 );
-  tmpQLabel->setText(  i18n("Unmounted Icon") );
-  tmpQLabel->adjustSize();
-
-  //mounted = new KIconLoaderButton( KGlobal::iconLoader(), this );
-  //mounted->setIconType("icon"); // Choose from app icons
-  //mounted->setGeometry( 10, 250, 50, 50 );
+  label = new QLabel( i18n("Unmounted Icon"),  this );
+  layout->addWidget(label, 3, 0);
 
   unmounted = new KIconLoaderButton( KGlobal::iconLoader(), this );
   unmounted->setIconType("icon"); // Choose from app icons
-  unmounted->setGeometry( 10 /*170*/, 250, 50, 50 );
+  layout->addWidget(unmounted, 3, 1);
 
   QString path( _props->kurl().path() );
 
@@ -1431,43 +1412,36 @@ DevicePropsPage::DevicePropsPage( PropertiesDialog *_props ) : PropsPage( _props
   config.setDesktopGroup();
   QString deviceStr = config.readEntry( "Dev" );
   QString mountPointStr = config.readEntry( "MountPoint" );
-  QString readonlyStr = config.readEntry( "ReadOnly" );
+  bool readonly = config.readEntry( "ReadOnly" );
   QString fstypeStr = config.readEntry( "FSType" );
-  // QString mountedStr = config.readEntry( "Icon" );
   QString unmountedStr = config.readEntry( "UnmountIcon" );
 
   device->setEditText( deviceStr );
-  if ( !deviceStr.isEmpty() )
-  {
+  if ( !deviceStr.isEmpty() ) {
     // Set default options for this device (first matching entry)
     int index = 0;
-    //debug(QString("looking for %1").arg(deviceStr));
     for ( QStringList::Iterator it = m_devicelist.begin();
-          it != m_devicelist.end(); ++it, ++index )
-    {
+          it != m_devicelist.end(); ++it, ++index ) {
       // WARNING : this works only if indexDevice == 0
-      if ( (*it).left( deviceStr.length() ) == deviceStr )
-      {
+      if ( (*it).left( deviceStr.length() ) == deviceStr ) {
         //qDebug( "found it %d", index );
         slotActivated( index );
         break;
       }
     }
   }
+
   if ( !mountPointStr.isEmpty() )
     mountpoint->setText( mountPointStr );
+
   if ( !fstypeStr.isEmpty() )
     fstype->setText( fstypeStr );
-  if ( readonlyStr == "0" )
-    readonly->setChecked( false );
-  else
-    readonly->setChecked( true );
-  //if ( mountedStr.isEmpty() )
-  //  mountedStr = KMimeType::mimeType("")->KServiceType::icon(); // default icon
+
+  readonly->setChecked( readonlyfalse );
+
   if ( unmountedStr.isEmpty() )
     unmountedStr = KMimeType::mimeType("")->KServiceType::icon(); // default icon
 
-  //mounted->setIcon( mountedStr );
   unmounted->setIcon( unmountedStr );
 }
 
@@ -1512,13 +1486,9 @@ void DevicePropsPage::applyChanges()
     config.writeEntry( "FSType", fstype->text() );
   }
 
-  //config.writeEntry( "Icon", mounted->icon() );
   config.writeEntry( "UnmountIcon", unmounted->icon() );
 
-  if ( readonly->isChecked() )
-    config.writeEntry( "ReadOnly", "1" );
-  else
-    config.writeEntry( "ReadOnly", "0" );
+  config.writeEntry( "ReadOnly", readonly->isChecked() );
 
   config.sync();
 }
