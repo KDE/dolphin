@@ -688,7 +688,14 @@ void KonqMainView::slotConfigureToolbars()
   QValueList<KXMLGUIClient*> clients = factory()->clients();
 
   KEditToolbar edit(factory());
-  edit.exec();
+  if ( edit.exec() )
+  {
+    if ( m_toggleViewGUIClient )
+      plugActionList( QString::fromLatin1( "toggleview" ), m_toggleViewGUIClient->actions() );
+    if ( m_currentView->appServiceOffers().count() > 0 )
+      plugActionList( "openwith", m_openWithGUIClient->actions() );
+
+  }
 }
 
 void KonqMainView::slotViewChanged( KonqChildView *childView, KParts::ReadOnlyPart *oldView, KParts::ReadOnlyPart *newView )
