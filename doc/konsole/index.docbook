@@ -1061,9 +1061,21 @@ lines</action></para></listitem>
 </varlistentry>
 
 <varlistentry>
+<term><option>--noresize</option></term>
+<listitem><para><action>Disable the resizing of the terminal window.
+</action></para></listitem>
+</varlistentry>
+
+<varlistentry>
 <term><option>--type</option> <parameter>type</parameter></term>
 <listitem><para><action>Start a session of the given type rather than the
 default.</action></para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><option>--types</option></term>
+<listitem><para><action>List all of the available session types.
+</action></para></listitem>
 </varlistentry>
 
 <varlistentry>
@@ -1073,13 +1085,31 @@ file</action> to customize key bindings.</para></listitem>
 </varlistentry>
 
 <varlistentry>
+<term><option>--keytabs</option></term>
+<listitem><para><action>List all of the available keytabs.
+</action></para></listitem>
+</varlistentry>
+
+<varlistentry>
 <term><option>--profile</option> <parameter>file</parameter></term>
 <listitem><para><action>Start &konsole; using a saved set of sessions.</action></para></listitem>
 </varlistentry>
 
 <varlistentry>
+<term><option>--profiles</option></term>
+<listitem><para><action>List all of the available profiles.
+</action></para></listitem>
+</varlistentry>
+
+<varlistentry>
 <term><option>--schema</option> <parameter>file</parameter></term>
 <listitem><para><action>Start &konsole; using a specified .schema file</action> to customize appearance.</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><option>--schemas</option></term>
+<listitem><para><action>List all of the available schemas.
+</action></para></listitem>
 </varlistentry>
 
 <varlistentry>
@@ -1103,9 +1133,7 @@ file</action> to customize key bindings.</para></listitem>
 <para>For instance:</para>
 
 <informalexample>
-<screen><prompt>bash$</prompt>
- <userinput><command>konsole</command><option> --vt_sz</option>
- <parameter> 90x25</parameter><option> --nohist</option></userinput></screen>
+<screen><prompt>&percnt; </prompt><userinput><command>konsole</command><option> --vt_sz</option><parameter> 90x25</parameter><option> --nohist</option></userinput></screen>
 
 <para> starts a &konsole; window with 90 columns and 25 rows, with no
 history</para>
@@ -1118,6 +1146,41 @@ history</para>
 <term><option>--help-qt</option></term>
 <listitem><para><action>List Qt-specific options</action></para></listitem>
 </varlistentry>
+</variablelist>
+
+<caution><para>
+The following &Qt; options have no effect on &konsole;:
+<variablelist>
+
+<varlistentry>
+<term><option>--fn</option>,<option> --font </option>
+<parameter>fontname</parameter></term>
+<listitem><para><action>Defines the application font</action></para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><option>--bg</option>,<option> --background </option>
+<parameter>color</parameter></term>
+<listitem><para><action>Sets the default background color</action></para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><option>--fg</option>,<option> --foreground </option>
+<parameter>color</parameter></term>
+<listitem><para><action>Sets the default foreground color</action></para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><option>--btn</option>,<option> --button </option>
+<parameter>color</parameter></term>
+<listitem><para><action>Sets the default button color</action></para></listitem>
+</varlistentry>
+
+</variablelist>
+
+</para></caution>
+
+<variablelist>
 <varlistentry>
 <term><option>--help-kde</option></term>
 <listitem><para><action>List KDE-specific options</action></para></listitem>
