@@ -199,6 +199,8 @@ void KonqIconViewWidget::setURL( const KURL &kurl )
 
 void KonqIconViewWidget::setImagePreviewAllowed( bool b )
 {
+    if ( m_bImagePreviewAllowed == b )
+        return;
     m_bImagePreviewAllowed = b;
     for ( QIconViewItem *it = firstItem(); it; it = it->nextItem() ) {
 	(static_cast<KFileIVI *>( it ))->setIcon( m_size,
