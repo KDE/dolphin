@@ -56,6 +56,7 @@ NSPluginInstance::NSPluginInstance(QWidget *parent, const QCString& app, const Q
     shown = false;
     _loader = NSPluginLoader::instance();
     setBackgroundMode(QWidget::NoBackground);
+    setProtocol(QXEmbed::XPLAIN);
     embed( NSPluginInstanceIface_stub::winId() );
     displayPlugin();
     shown = true;

@@ -98,7 +98,7 @@ void *g_NPN_MemAlloc(uint32 size)
 {
    void *mem = ::malloc(size);
 
-   kdDebug(1431) << "g_NPN_MemAlloc(), size=" << size << " allocated at " << mem << endl;
+   //kdDebug(1431) << "g_NPN_MemAlloc(), size=" << size << " allocated at " << mem << endl;
 
    return mem;
 }
@@ -107,14 +107,14 @@ void *g_NPN_MemAlloc(uint32 size)
 // free memory
 void g_NPN_MemFree(void *ptr)
 {
-   kdDebug(1431) << "g_NPN_MemFree() at " << ptr << endl;
+   //kdDebug(1431) << "g_NPN_MemFree() at " << ptr << endl;
    if (ptr)
      ::free(ptr);
 }
 
 uint32 g_NPN_MemFlush(uint32 /*size*/)
 {
-   kdDebug(1431) << "g_NPN_MemFlush()" << endl;
+   //kdDebug(1431) << "g_NPN_MemFlush()" << endl;
    return 0;
 }
 
@@ -322,6 +322,20 @@ NPError g_NPN_SetValue(NPP /*instance*/, NPPVariable /*variable*/, void* /*value
 
 /******************************************************************/
 
+void
+NSPluginInstance::forwarder(Widget w, XtPointer cl_data, XEvent * event, Boolean * cont)
+{
+  NSPluginInstance *inst = (NSPluginInstance*)cl_data;
+  *cont = True;
+  if (inst->_area == 0 || event->xkey.window == XtWindow(inst->_area))
+    return;
+  *cont = False;
+  event->xkey.window = XtWindow(inst->_area);
+  event->xkey.subwindow = None;
+  XtDispatchEvent(event);
+}
+
+
 NSPluginInstance::NSPluginInstance(NPP privateData, NPPluginFuncs *pluginFuncs,
                                    KLibrary *handle, int width, int height,
                                    QString src, QString /*mime*/,
@@ -381,6 +395,12 @@ NSPluginInstance::NSPluginInstance(NPP privateData, NPPluginFuncs *pluginFuncs,
    _area = XmCreateDrawingArea( _form, (char*)("drawingArea"), args, nargs);
    XtRealizeWidget(_area);
    XtMapWidget(_area);
+   
+   // Register forwarder
+   XtAddEventHandler(_toplevel, (KeyPressMask|KeyReleaseMask), 
+                     False, forwarder, (XtPointer)this );
+   XtAddEventHandler(_form, (KeyPressMask|KeyReleaseMask), 
+                     False, forwarder, (XtPointer)this );
 }
 
 NSPluginInstance::~NSPluginInstance()
@@ -429,6 +449,10 @@ void NSPluginInstance::destroy()
         if (saved)
           g_NPN_MemFree(saved);
 
+        XtRemoveEventHandler(_form, (KeyPressMask|KeyReleaseMask), 
+                             False, forwarder, (XtPointer)this);
+        XtRemoveEventHandler(_toplevel, (KeyPressMask|KeyReleaseMask), 
+                             False, forwarder, (XtPointer)this);
         XtDestroyWidget(_area);
         XtDestroyWidget(_form);
         XtDestroyWidget(_toplevel);

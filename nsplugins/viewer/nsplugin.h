@@ -201,6 +201,8 @@ private slots:
 private:
   friend class NSPluginStreamBase;
 
+  static void forwarder(Widget, XtPointer, XEvent *, Boolean*);
+
   void destroy();
 
   bool _destroyed;
