@@ -417,8 +417,10 @@ void KonqDirPart::slotDecIconSize()
 // Only updates the GUI (that's the one that is reimplemented by the views, too)
 void KonqDirPart::newIconSize( int size /*0=default, or 16,32,48....*/ )
 {
-    m_paDecIconSize->setEnabled(size > m_iIconSize[1]);
-    m_paIncIconSize->setEnabled(size < m_iIconSize[3]);
+    int realSize = (size==0) ? KGlobal::iconLoader()->currentSize( KIcon::Desktop ) : size;
+    m_paDecIconSize->setEnabled(realSize > m_iIconSize[1]);
+    m_paIncIconSize->setEnabled(realSize < m_iIconSize[3]);
+
     m_paDefaultIcons->setChecked( size == 0 );
     m_paLargeIcons->setChecked( size == m_iIconSize[3] );
     m_paMediumIcons->setChecked( size == m_iIconSize[2] );
