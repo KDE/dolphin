@@ -3,7 +3,7 @@
 #include <dlfcn.h>
 
 #define XP_UNIX 1
-#include "npupp.h"
+#include "sdk/npupp.h"
 
 NPNetscapeFuncs gNetscapeFuncs;	/* Netscape Function table */
 NPNetscapeFuncs gExtNetscapeFuncs;	/* table that is passed to the plugin*/
