@@ -315,11 +315,11 @@ void KonqDirPart::deleteItem( KFileItem * fileItem )
 void KonqDirPart::emitTotalCount()
 {
     QString summary =
-        KIO::itemsSummaryString(m_lFileCount + m_lDirCount,
-                                m_lFileCount,
-                                m_lDirCount,
-                                m_lDirSize,
-                                true);
+        KIO::itemsSummaryString64(m_lFileCount + m_lDirCount,
+                                  m_lFileCount,
+                                  m_lDirCount,
+                                  m_lDirSize,
+                                  true);
     bool bShowsResult = false;
     if (m_findPart)
     {
@@ -346,7 +346,7 @@ void KonqDirPart::emitCounts( const KFileItemList & lst, bool selectionChanged )
     }
     else if ( lst.count()>1)
     {
-        unsigned long fileSizeSum = 0;
+        long long fileSizeSum = 0;
         uint fileCount = 0;
         uint dirCount = 0;
 
@@ -360,11 +360,11 @@ void KonqDirPart::emitCounts( const KFileItemList & lst, bool selectionChanged )
                 fileCount++;
             }
 
-        emit setStatusBarText( KIO::itemsSummaryString(fileCount + dirCount,
-                                                       fileCount,
-                                                       dirCount,
-                                                       fileSizeSum,
-                                                       true));
+        emit setStatusBarText( KIO::itemsSummaryString64(fileCount + dirCount,
+                                                         fileCount,
+                                                         dirCount,
+                                                         fileSizeSum,
+                                                         true));
     }
     else
         emitTotalCount();
