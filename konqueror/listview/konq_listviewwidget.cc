@@ -307,8 +307,7 @@ void KonqBaseListViewWidget::initConfig()
    setItemFont( itemFont );
    setItemColor( m_pSettings->normalTextColor() );
 
-   for( iterator it = begin(); it != end(); it++ )
-     it->updateContents();
+   updateListContents();
 }
 
 void KonqBaseListViewWidget::viewportResizeEvent(QResizeEvent * e)
@@ -697,32 +696,39 @@ bool KonqBaseListViewWidget::openURL( const KURL &url )
 
 void KonqBaseListViewWidget::setComplete()
 {
-    m_bTopLevelComplete = true;
+   m_bTopLevelComplete = true;
 
-    // Alex: this flag is set when we are just finishing a voluntary listing,
-    // so do the go-to-item thing only under here. When we update the
-    // current directory automatically (e.g. after a file has been deleted),
-    // we don't want to go to the first item ! (David)
-    if ( m_bUpdateContentsPosAfterListing )
-    {
-        kdDebug() << "KonqBaseListViewWidget::setComplete m_bUpdateContentsPosAfterListing=true" << endl;
-        m_bUpdateContentsPosAfterListing = false;
+   // Alex: this flag is set when we are just finishing a voluntary listing,
+   // so do the go-to-item thing only under here. When we update the
+   // current directory automatically (e.g. after a file has been deleted),
+   // we don't want to go to the first item ! (David)
+   if ( m_bUpdateContentsPosAfterListing )
+   {
+      kdDebug() << "KonqBaseListViewWidget::setComplete m_bUpdateContentsPosAfterListing=true" << endl;
+      m_bUpdateContentsPosAfterListing = false;
 
-        setContentsPos( m_pBrowserView->extension()->urlArgs().xOffset,
-                        m_pBrowserView->extension()->urlArgs().yOffset );
+      setContentsPos( m_pBrowserView->extension()->urlArgs().xOffset,
+                      m_pBrowserView->extension()->urlArgs().yOffset );
 
-        if ((m_goToFirstItem==true) || (m_itemFound==false))
-        {
-            kdDebug() << "going to first item" << endl;
-            setCurrentItem(firstChild());
-            //selectCurrentItemAndEnableSelectedBySimpleMoveMode();
-        }
-        ensureItemVisible(currentItem());
-    }
-    // Show "cut" icons as such
-    m_pBrowserView->slotClipboardDataChanged();
-    // Show totals
-    slotOnViewport();
+      if ((m_goToFirstItem==true) || (m_itemFound==false))
+      {
+          kdDebug() << "going to first item" << endl;
+          setCurrentItem(firstChild());
+          //selectCurrentItemAndEnableSelectedBySimpleMoveMode();
+      }
+      ensureItemVisible(currentItem());
+   }
+   // Show "cut" icons as such
+   m_pBrowserView->slotClipboardDataChanged();
+   // Show totals
+   slotOnViewport();
+
+   if ( !isUpdatesEnabled() || !viewport()->isUpdatesEnabled() )
+   {
+      viewport()->setUpdatesEnabled( true );
+      setUpdatesEnabled( true );
+      triggerUpdate();
+   }
 }
 
 void KonqBaseListViewWidget::slotStarted()
@@ -751,6 +757,9 @@ void KonqBaseListViewWidget::slotClear()
    m_pBrowserView->resetCount();
    kdDebug(1202) << "KonqBaseListViewWidget::slotClear()" << endl;
    m_pBrowserView->lstPendingMimeIconItems().clear();
+
+   viewport()->setUpdatesEnabled( false );
+   setUpdatesEnabled( false );
    clear();
 }
 
@@ -774,6 +783,13 @@ void KonqBaseListViewWidget::slotNewItems( const KFileItemList & entries )
           m_pBrowserView->lstPendingMimeIconItems().append( tmp );
    }
    m_pBrowserView->newItems( entries );
+
+   if ( !viewport()->isUpdatesEnabled() )
+   {
+      viewport()->setUpdatesEnabled( true );
+      setUpdatesEnabled( true );
+      triggerUpdate();
+   }
 }
 
 void KonqBaseListViewWidget::slotDeleteItem( KFileItem * _fileitem )
@@ -792,7 +808,6 @@ void KonqBaseListViewWidget::slotDeleteItem( KFileItem * _fileitem )
       emit selectionChanged();
       return;
     }
-
 }
 
 void KonqBaseListViewWidget::slotRefreshItems( const KFileItemList & entries )

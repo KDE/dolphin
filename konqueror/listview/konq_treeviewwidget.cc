@@ -80,11 +80,7 @@ void KonqTreeViewWidget::removeSubDir( const KURL & _url )
 
 void KonqTreeViewWidget::setComplete()
 {
-   if ( m_dirLister->isFinished() )
-   {
-      m_bTopLevelComplete = true;
-      KonqBaseListViewWidget::setComplete();
-   }
+   KonqBaseListViewWidget::setComplete();
 
    if ( m_itemsToOpen.count() > 0 )
    {
