@@ -92,6 +92,8 @@ private:
     bool m_bCanSave;
     // Set to true if we created the dirs - caching
     bool m_bDirsCreated;
+    // If the file to create a thumb for was a temp file, this is its name
+    QString m_tempName;
 
     // Dad :)
     KonqIconViewWidget * m_iconView;
