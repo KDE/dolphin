@@ -232,6 +232,9 @@ KonqPopupMenu::KonqPopupMenu( const KFileItemList &items,
 
     if (!currentDir)
     {
+       addSeparator();
+		addAction("findfile");
+
         if ( sReading || sWriting ) // only if we added an action above
             addSeparator();
 
@@ -597,5 +600,6 @@ void KonqPopupMenu::prepareXMLGUIStuff()
   m_builder = new KonqPopupMenuGUIBuilder( this );
   m_factory = new KXMLGUIFactory( m_builder );
 }
+
 
 #include "konq_popupmenu.moc"

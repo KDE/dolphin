@@ -264,8 +264,7 @@ bool KonqOperations::askDeleteConfirmation( const KURL::List & selectedURLs, int
 		i18n( "Move to Trash" ),
 		i18n( "Trash" ),
 		keyName, false);
-	     break;
-	     
+	     break;	
         }
       }
       else
@@ -299,7 +298,6 @@ bool KonqOperations::askDeleteConfirmation( const KURL::List & selectedURLs, int
 		i18n( "Trash" ),
 		keyName);
 	     break;
-	     
         }
       }
       if (!keyName.isEmpty())
