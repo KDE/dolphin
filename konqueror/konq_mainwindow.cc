@@ -35,6 +35,8 @@
 #include "konq_actions.h"
 #include "konq_pixmapprovider.h"
 #include <konq_faviconmgr.h>
+#include <konq_operations.h>
+
 
 #include <pwd.h>
 // we define STRICT_ANSI to get rid of some warnings in glibc
@@ -55,6 +57,7 @@
 #include <qclipboard.h>
 #include <qmetaobject.h>
 #include <qlayout.h>
+#include <qhbox.h>
 
 #include <dcopclient.h>
 #include <kaboutdata.h>
@@ -92,7 +95,10 @@
 #include <ktrader.h>
 #include <kurl.h>
 #include <kurlrequesterdlg.h>
+#include <kurlrequester.h>
 #include <kuserprofile.h>
+#include <kfile.h>
+#include <kfiledialog.h>
 
 #include "version.h"
 
@@ -1880,35 +1886,75 @@ void KonqMainWindow::slotRemoveLocalProperties()
   }
 }
 
+bool KonqMainWindow::askForTarget(const QString& text, KURL& url)
+{
+   KDialog *dlg=new KDialog(this,"blah",true);
+   QVBoxLayout *layout=new QVBoxLayout(dlg,dlg->marginHint(),dlg->spacingHint());
+   QLabel *label=new QLabel(text,dlg);
+   layout->addWidget(label);
+   label=new QLabel(m_currentView->url().prettyURL(),dlg);
+   layout->addWidget(label);
+   label=new QLabel(i18n("to"),dlg);
+   layout->addWidget(label);
+   KURLRequester *urlReq=new KURLRequester(viewCount()==2?otherView(m_currentView)->url().prettyURL():m_currentView->url().prettyURL(),dlg);
+   urlReq->fileDialog()->setMode(KFile::Mode(KFile::Directory|KFile::ExistingOnly));
+
+   layout->addWidget(urlReq);
+   QHBox *hbox=new QHBox(dlg);
+   layout->addWidget(hbox);
+   hbox->setSpacing(dlg->spacingHint());
+   QPushButton *ok=new QPushButton(i18n("Ok"),hbox);
+   QPushButton *cancel=new QPushButton(i18n("Cancel"),hbox);
+   connect(ok,SIGNAL(clicked()),dlg,SLOT(accept()));
+   connect(cancel,SIGNAL(clicked()),dlg,SLOT(reject()));
+   ok->setDefault(true);
+   if (dlg->exec()==QDialog::Rejected)
+   {
+      delete dlg;
+      return false;
+   };
+   url=urlReq->url();
+   delete dlg;
+   return true;
+};
+
 void KonqMainWindow::slotCopyFiles()
 {
-  kdDebug(1202) << "KonqMainWindow::slotCopyFiles()" << endl;
-  assert( viewCount() == 2 );
-  QString msg=i18n("Copy selected files from \n %1 \n to \n %2 ?").arg(m_currentView->url().prettyURL()).arg(otherView(m_currentView)->url().prettyURL());
-  if ( KMessageBox::questionYesNo( 0, msg ) != KMessageBox::Yes )
+  //kdDebug(1202) << "KonqMainWindow::slotCopyFiles()" << endl;
+  KURL dest;
+  if (!askForTarget(i18n("Copy selected files from"),dest))
      return;
 
-  // Copy files is copy + paste. I'm sooo lazy :)
-  bool  success=m_currentView->callExtensionMethod( "copy()" );
-  success=success && otherView( m_currentView )->callExtensionMethod( "paste()" );
-  if (!success)
-     KMessageBox::sorry( this, i18n("Could not copy between the views."));
+  KonqDirPart * part = dynamic_cast<KonqDirPart *>(m_currentView->part());
+  KURL::List lst;
+  KFileItemList tmpList=part->selectedFileItems();
+  for (KFileItem *item=tmpList.first(); item!=0; item=tmpList.next())
+     lst.append(item->url());
+
+  KonqOperations * op = new KonqOperations( this );
+  KIO::Job * job = KIO::copy( lst, dest );
+  op->setOperation( job, KonqOperations::COPY, lst,dest );
+  (void) new KonqCommandRecorder( KonqCommand::COPY, lst, dest, job );
 }
 
 void KonqMainWindow::slotMoveFiles()
 {
-  kdDebug(1202) << "KonqMainWindow::slotMoveFiles()" << endl;
-  assert( viewCount() == 2 );
-  QString msg=i18n("Move selected files from \n %1 \n to \n %2 ?").arg(m_currentView->url().prettyURL()).arg(otherView(m_currentView)->url().prettyURL());
-  if ( KMessageBox::questionYesNo( 0, msg ) != KMessageBox::Yes )
+  //kdDebug(1202) << "KonqMainWindow::slotMoveFiles()" << endl;
+  KURL dest;
+  if (!askForTarget(i18n("Move selected files from"),dest))
      return;
 
-  // Copy files is cut + paste. I'm sooo lazy :)
-  bool success=m_currentView->callExtensionMethod( "cut()" );
-  success=success && otherView( m_currentView )->callExtensionMethod( "paste()" );
+   KonqDirPart * part = dynamic_cast<KonqDirPart *>(m_currentView->part());
+   KURL::List lst;
+   KFileItemList tmpList=part->selectedFileItems();
 
-  if (!success)
-     KMessageBox::sorry( this, i18n("Could not move between the views."));
+  for (KFileItem *item=tmpList.first(); item!=0; item=tmpList.next())
+     lst.append(item->url());
+
+  KonqOperations * op = new KonqOperations( this );
+  KIO::Job * job = KIO::move( lst, dest );
+  op->setOperation( job, KonqOperations::MOVE, lst,dest );
+  (void) new KonqCommandRecorder( KonqCommand::MOVE, lst, dest, job );
 }
 
 // Only valid if there are one or two views

@@ -360,6 +360,7 @@ protected:
 
   virtual void closeEvent( QCloseEvent * );
 
+  bool askForTarget(const QString& text, KURL& url);
 private:
   /**
    * takes care of hiding the bookmarkbar and calling setChecked( false ) on the
