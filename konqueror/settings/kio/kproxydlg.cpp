@@ -220,10 +220,10 @@ void KProxyDialog::save()
       if ( !u.isValid() )
       {
         QString msg = i18n("<qt>The address of the automatic proxy "
-                           "configuration script is invalid! Please "
-                           "correct this problem before proceeding. "
-                           "Otherwise the changes you made will be "
-                           "ignored!</qt>");
+                           "configuration script is invalid: please "
+                           "correct this problem before proceeding; "
+                           "otherwise, the changes you have made will be "
+                           "ignored.</qt>");
         KMessageBox::error( this, msg, i18n("Invalid Proxy Setup") );
         return;
       }
@@ -250,10 +250,10 @@ void KProxyDialog::save()
         if (!validProxy)
         {
           QString msg = i18n("<qt>Proxy information was not setup "
-                             "properly! Please click on the <em>"
+                             "properly: please click on the <em>"
                              "Setup...</em> button to correct this "
-                             "problem before proceeding. Otherwise "
-                             "the changes you made will be ignored!"
+                             "problem before proceeding; otherwise, "
+                             "the changes you have made will be ignored."
                              "</qt>");
           KMessageBox::error( this, msg, i18n("Invalid Proxy Setup") );
           return;
@@ -269,10 +269,10 @@ void KProxyDialog::save()
       if ( _data->type != KProtocolManager::EnvVarProxy )
       {
         QString msg = i18n("<qt>Proxy information was not setup "
-                           "properly! Please click on the <em>"
+                           "properly: please click on the <em>"
                            "Setup...</em> button to correct this "
-                           "problem before proceeding. Otherwise "
-                           "the changes you made will be ignored!"
+                           "problem before proceeding; otherwise. "
+                           "the changes you have made will be ignored."
                            "</qt>");
         KMessageBox::error( this, msg, i18n("Invalid Proxy Setup") );
         return;

@@ -207,7 +207,7 @@ KSMBOptions::KSMBOptions(QWidget *parent, const char *)
     connect(radioPolicyAdd, SIGNAL(clicked()), this, SLOT(changed()));
     QWhatsThis::add( radioPolicyAdd, i18n( "Select this option if you want a new entry in the above list to be created when a password is requested while browsing." ) );
 
-    radioPolicyNoStore = new QRadioButton( i18n("Don't s&tore new bindings"), groupPassword );
+    radioPolicyNoStore = new QRadioButton( i18n("Do not s&tore new bindings"), groupPassword );
     connect(radioPolicyNoStore, SIGNAL(clicked()), this, SLOT(changed()));
     radioPolicyAdd->setChecked(true);
     QWhatsThis::add( radioPolicyNoStore, i18n( "If this option is selected, no new entries are created in the above list while browsing." ) );

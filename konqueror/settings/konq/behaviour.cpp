@@ -134,7 +134,7 @@ KBehaviourOptions::KBehaviourOptions(KConfig *config, QString group, QWidget *pa
     lay->addWidget( cbShowDeleteCommand );
     connect(cbShowDeleteCommand, SIGNAL(clicked()), this, SLOT(changed()));
 
-    QWhatsThis::add( cbShowDeleteCommand, i18n("Uncheck this if you don't want 'Delete' menu commands to be displayed "
+    QWhatsThis::add( cbShowDeleteCommand, i18n("Uncheck this if you do not want 'Delete' menu commands to be displayed "
                                                 "on the desktop and in the file manager's menus and context menus."));
 
     QButtonGroup *bg = new QVButtonGroup( i18n("Ask Confirmation For"), this );

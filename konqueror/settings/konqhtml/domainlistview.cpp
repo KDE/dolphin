@@ -130,7 +130,7 @@ void DomainListView::changePressed()
     QListViewItem *index = domainSpecificLV->currentItem();
     if ( index == 0 )
     {
-        KMessageBox::information( 0, i18n("You must first select a policy to be changed!" ) );
+        KMessageBox::information( 0, i18n("You must first select a policy to be changed." ) );
         return;
     }
 
@@ -159,7 +159,7 @@ void DomainListView::deletePressed()
     QListViewItem *index = domainSpecificLV->currentItem();
     if ( index == 0 )
     {
-        KMessageBox::information( 0, i18n("You must first select a policy to delete!" ) );
+        KMessageBox::information( 0, i18n("You must first select a policy to delete." ) );
         return;
     }
 

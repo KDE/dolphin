@@ -307,7 +307,7 @@ bool DesktopPathConfig::moveDir( const KURL & src, const KURL & dest, const QStr
         return true;
     m_ok = true;
     // Ask for confirmation before moving the files
-    if ( KMessageBox::questionYesNo( this, i18n("The path for '%1' has been changed.\nDo you want me to move the files from '%2' to '%3'?").
+    if ( KMessageBox::questionYesNo( this, i18n("The path for '%1' has been changed;\ndo you want the files to be moved from '%2' to '%3'?").
                               arg(type).arg(src.path()).arg(dest.path()), i18n("Confirmation required") )
             == KMessageBox::Yes )
     {

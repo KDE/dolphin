@@ -195,7 +195,7 @@ JSPoliciesFrame::JSPoliciesFrame(JSPolicies *policies, const QString &title,
                "<br><b>Note:</b> Disabling this option might "
                "also break certain sites that require <i>"
                "window.open()</i> for proper operation. Use "
-               "this feature carefully!");
+               "this feature carefully.");
   QWhatsThis::add(label, wtstr);
   connect(js_popup, SIGNAL(clicked(int)), SLOT(setWindowOpenPolicy(int)));
 

@@ -210,7 +210,7 @@ KAppearanceOptions::KAppearanceOptions(KConfig *config, QString group, QWidget *
   m_pEncoding->insertStringList( encodings );
   lay->addMultiCellWidget(m_pEncoding,r, r, M, W);
 
-  wtstr = i18n( "Select the default encoding to be used. Normally, you'll be fine with 'Use language encoding' "
+  wtstr = i18n( "Select the default encoding to be used; normally, you will be fine with 'Use language encoding' "
 	       "and should not have to change this.");
   QWhatsThis::add( label, wtstr );
   QWhatsThis::add( m_pEncoding, wtstr );

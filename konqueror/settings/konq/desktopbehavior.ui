@@ -146,7 +146,7 @@
                                     <string>&amp;Current application's menu bar (Mac OS-style)</string>
                                 </property>
                                 <property name="whatsThis" stdset="0">
-                                    <string>If this option is selected, applications won't have their menu bar attached to their own window anymore. Instead, there is one menu bar at the top of the screen which shows the menus of the currently active application. You might recognize this behavior from Mac OS.</string>
+                                    <string>If this option is selected, applications will not have their menu bar attached to their own window anymore. Instead, there is one menu bar at the top of the screen which shows the menus of the currently active application. You might recognize this behavior from Mac OS.</string>
                                 </property>
                             </widget>
                         </vbox>
@@ -327,7 +327,7 @@
                         </property>
                         <property name="whatsThis" stdset="0">
                             <string>&lt;p&gt;If you check this option, any files in your desktop directory that begin with a period (.) will be shown. Usually, such files contain configuration information, and remain hidden from view.&lt;/p&gt;
-&lt;p&gt;For example, files which are named ".directory" are plain text files which contain information for Konqueror, such as the icon to use in displaying a directory, the order in which files should be sorted, etc. You should not change or delete these files unless you know what you are doing!&lt;/p&gt;</string>
+&lt;p&gt;For example, files which are named ".directory" are plain text files which contain information for Konqueror, such as the icon to use in displaying a directory, the order in which files should be sorted, etc. You should not change or delete these files unless you know what you are doing.&lt;/p&gt;</string>
                         </property>
                     </widget>
                     <widget class="KListView" row="2" column="0">

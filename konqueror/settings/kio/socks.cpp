@@ -113,7 +113,7 @@ void KSocksConfig::testClicked()
 
   if (KSocks::self()->hasSocks()) {
      KMessageBox::information(NULL,
-                              i18n("Success! SOCKS was found and initialized."),
+                              i18n("Success: SOCKS was found and initialized."),
                               i18n("SOCKS Support"));
      // Eventually we could actually attempt to connect to a site here.
   } else {
@@ -260,7 +260,7 @@ QString KSocksConfig::quickHelp() const
   return i18n("<h1>SOCKS</h1><p>This module allows you to configure KDE support"
      " for a SOCKS server or proxy.</p><p>SOCKS is a protocol to traverse firewalls"
      " as described in <a href=\"http://rfc.net/rfc1928.html\">RFC 1928</a>."
-     " <p>If you have no idea what this is and if your system administrator doesn't"
+     " <p>If you have no idea what this is and if your system administrator does not"
      " tell you to use it, leave it disabled.</p>");
 }
 
