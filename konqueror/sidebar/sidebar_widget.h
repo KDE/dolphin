@@ -16,24 +16,29 @@
  ***************************************************************************/
 #ifndef _SIDEBAR_WIDGET_
 #define _SIDEBAR_WIDGET_
-#include <kdockwidget.h>
+
 #include <qptrvector.h>
+#include <qtimer.h>
+#include <qstring.h>
+#include <qguardedptr.h>
+
+#include <kdockwidget.h>
 #include <kurl.h>
 #include <ktoolbar.h>
 #include <kparts/part.h>
-#include <qstring.h>
-#include "konqsidebarplugin.h"
 #include <kmultitabbar.h>
-#include <qguardedptr.h>
+
+#include "konqsidebarplugin.h"
 
 class KDockWidget;
 class QHBoxLayout;
 class QSplitter;
+class QStringList;
 
 class ButtonInfo: public QObject
 {
 	Q_OBJECT
-	public:
+public:
 	ButtonInfo(const QString& file_, class KDockWidget *dock_,
 			const QString &url_,const QString &lib,
 			const QString &dispName_, const QString &iconName_,
@@ -46,13 +51,13 @@ class ButtonInfo: public QObject
 
 	~ButtonInfo() {}
 
-	class QString file;
-	class KDockWidget *dock;
-	class KonqSidebarPlugin *module;
-	class QString URL;
-	class QString libName;
-	class QString displayName;
-	class QString iconName;
+	QString file;
+	KDockWidget *dock;
+	KonqSidebarPlugin *module;
+	QString URL;
+	QString libName;
+	QString displayName;
+	QString iconName;
 	bool copy;
 	bool cut;
 	bool paste;
@@ -66,26 +71,28 @@ class ButtonInfo: public QObject
 class addBackEnd: public QObject
 {
 	Q_OBJECT
-	public:
-		addBackEnd(QObject *parent,class QPopupMenu *addmenu, const char *name=0);
-		~addBackEnd(){;}
-	private:
-		QGuardedPtr<class QPopupMenu> menu;
-		QPtrVector<QString> libNames;
-		QPtrVector<QString> libParam;
-		void doRollBack();
-	protected slots:
-		void aboutToShowAddMenu();
-		void activatedAddMenu(int);
-	signals:
-		void updateNeeded();
-		void initialCopyNeeded();
+public:
+	addBackEnd(QObject *parent,class QPopupMenu *addmenu, const char *name=0);
+	~addBackEnd(){;}
+protected slots:
+	void aboutToShowAddMenu();
+	void activatedAddMenu(int);
+signals:
+	void updateNeeded();
+	void initialCopyNeeded();
+private:
+	QGuardedPtr<class QPopupMenu> menu;
+	QPtrVector<QString> libNames;
+	QPtrVector<QString> libParam;
+	void doRollBack();
 };
 
 class Sidebar_Widget: public QWidget
 {
-  Q_OBJECT
-  public:
+	Q_OBJECT
+public:
+	friend class ButtonInfo;
+public:
 	Sidebar_Widget(QWidget *parent, KParts::ReadOnlyPart *par,
 						const char * name);
 	~Sidebar_Widget();
@@ -93,67 +100,36 @@ class Sidebar_Widget: public QWidget
 	void stdAction(const char *handlestd);
 	//virtual KParts::ReadOnlyPart *getPart();
 	KParts::BrowserExtension *getExtension();
-	
+        virtual QSize sizeHint() const;	
 
-  static QString PATH;
-
-  public slots:
+public slots:
 	void addWebSideBar(const KURL& url, const QString& name);
 
-  private:
-	class KDockArea *Area;
-	class KMultiTabBar *ButtonBar;
-        QPtrVector<ButtonInfo> Buttons;
-	bool addButton(const QString &desktoppath,int pos=-1);
-	bool createView(ButtonInfo *data);
-	//class KDockWidget *mainW;
-	int latestViewed;
-	class KonqSidebarPlugin *loadModule(QWidget *par,QString &desktopName,QString lib_name,ButtonInfo *bi);
-	KURL storedUrl;
-	bool stored_url;
-	KParts::ReadOnlyPart *partParent;
-	//ButtonInfo* getActiveModule();
-	bool singleWidgetMode;
-	bool showTabsRight;
-	bool showExtraButtons;
-	void readConfig();
-	QHBoxLayout *myLayout;
-	class QStringList visibleViews;
-	class KPopupMenu *buttonPopup;
-	class QPopupMenu *Menu;
-	int popupFor;
-	void initialCopy();
-	void doLayout();
-	void connectModule(QObject *mod);
-	int savedWidth;
-	bool somethingVisible;
-	void collapseExpandSidebar();
-	KDockWidget *dummyMainW;
-	bool doEnableActions();
-	bool noUpdate;
-	bool deleting;
-	bool m_initial;
-  protected:
+protected:
+	void customEvent(QCustomEvent* ev);
+	void resizeEvent(QResizeEvent* ev);
 	virtual bool eventFilter(QObject*,QEvent*);
 	virtual void mousePressEvent(QMouseEvent*);
-	friend class ButtonInfo;
-	QGuardedPtr<ButtonInfo>activeModule;
-  protected slots:
+
+protected slots:
 	void showHidePage(int value);
 	void createButtons();
+	void updateButtons();
 	void finishRollBack();
 	void activatedMenu(int id);
 	void buttonPopupActivate(int);
   	void dockWidgetHasUndocked(KDockWidget*);
 	void aboutToShowConfigMenu();
-	void slotDeleted();
 	void saveOpenViews();
-  signals:
+	void saveConfig();
+
+signals:
 	void started(KIO::Job *);
 	void completed();
 	void fileSelection(const KFileItemList& iems);
 	void fileMouseOver(const KFileItem& item);
-  public:
+
+public:
 	/* interface KonqSidebar_PluginInterface*/
 	KInstance  *getInstance();
 //        virtual void showError(QString &);      for later extension
@@ -162,7 +138,7 @@ class Sidebar_Widget: public QWidget
 
 
  /* The following public slots are wrappers for browserextension fields */
- public slots:
+public slots:
 	void openURLRequest( const KURL &url, const KParts::URLArgs &args = KParts::URLArgs() );
   	void createNewWindow( const KURL &url, const KParts::URLArgs &args = KParts::URLArgs() );
 	void createNewWindow( const KURL &url, const KParts::URLArgs &args,
@@ -177,9 +153,49 @@ class Sidebar_Widget: public QWidget
 		const QString &mimeType, mode_t mode = (mode_t)-1 );
 	void enableAction( const char * name, bool enabled );
 
-protected:
-	void customEvent(QCustomEvent* ev);
+private:
 	QSplitter *splitter() const;
+	bool addButton(const QString &desktoppath,int pos=-1);
+	bool createView(ButtonInfo *data);
+	KonqSidebarPlugin *loadModule(QWidget *par,QString &desktopName,QString lib_name,ButtonInfo *bi);
+	void readConfig();
+	void initialCopy();
+	void doLayout();
+	void connectModule(QObject *mod);
+	void collapseExpandSidebar();
+	bool doEnableActions();
+
+private:
+	KParts::ReadOnlyPart *m_partParent;
+	KDockArea *m_area;
+	KDockWidget *m_mainDockWidget;
+
+	KMultiTabBar *m_buttonBar;
+        QPtrVector<ButtonInfo> m_buttons;
+	QHBoxLayout *m_layout;
+	KPopupMenu *m_buttonPopup;
+	QPopupMenu *m_menu;
+	QGuardedPtr<ButtonInfo> m_activeModule;
+	QGuardedPtr<ButtonInfo> m_currentButton;
+	
+	KConfig *m_config;
+	QTimer m_configTimer;
+	
+	KURL m_storedUrl;
+	int m_savedWidth;
+	int m_latestViewed;
+
+	bool m_hasStoredUrl;
+	bool m_singleWidgetMode;
+	bool m_showTabsLeft;
+	bool m_showExtraButtons;
+	bool m_somethingVisible;
+	bool m_noUpdate;
+	bool m_initial;
+
+	QString m_path;
+	QStringList m_visibleViews; // The views that are actually open
+	QStringList m_openViews; // The views that should be opened
 };
 
 #endif
