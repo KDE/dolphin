@@ -18,9 +18,11 @@ servicetype_DATA = konq_plugin.desktop
 
 METASOURCES = AUTO
 
-KonquerorIface.kidl: KonquerorIface.h
-	( kidl KonquerorIface.h > KonquerorIface.kidl; kidl2cpp --no-stub KonquerorIface.kidl )
+KonquerorIface.kidl: $(srcdir)/KonquerorIface.h
+	kidl $(srcdir)/KonquerorIface.h > KonquerorIface.kidl 
+
 KonquerorIface_skel.cpp: KonquerorIface.kidl
+	kidl2cpp --no-stub KonquerorIface.kidl
 
 libkonqhtmlview_la_SOURCES = konq_htmlview.cc
 libkonqhtmlview_la_LDFLAGS = $(all_libraries) -version-info 1:0:0 -module
