@@ -595,7 +595,7 @@ void KEBTopLevel::slotNewFolder()
     QDomElement elem = doc.createElement("xbel");
     doc.appendChild( elem );
     KBookmarkGroup grp( elem ); // Dummy group
-    KBookmark bk = grp.createNewFolder( QString::null ); // Asks for the name
+    KBookmark bk = grp.createNewFolder( QString::null, false ); // Asks for the name
     if ( !bk.fullText().isEmpty() ) // Not canceled
     {
         CreateCommand * cmd = new CreateCommand( i18n("Create Folder"), insertionAddress(), bk.fullText(),bk.icon() , true /*open*/ );
