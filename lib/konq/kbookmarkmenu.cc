@@ -103,7 +103,7 @@ void KBookmarkMenu::fillBookmarkMenu( KBookmark *parent )
   {
     // create the first item, add bookmark, with the parent's ID (as a name)
     KAction * m_paAddBookmarks = new KAction( i18n( "&Add Bookmark" ),
-                                              CTRL+Key_B,
+                                              m_bIsRoot ? CTRL+Key_B : 0,
                                               this,
                                               SLOT( slotBookmarkSelected() ),
                                               m_actionCollection,
