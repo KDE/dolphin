@@ -435,7 +435,8 @@ void KNewMenu::slotNewFile()
         KURL uSrc;
         uSrc.setPath( src );
         //kdDebug(1203) << "KNewMenu : KIO::copyAs( " << uSrc.url() << ", " << dest.url() << ")" << endl;
-        KIO::Job * job = KIO::copyAs( uSrc, dest );
+        KIO::CopyJob * job = KIO::copyAs( uSrc, dest );
+        job->setDefaultPermissions( true );
         connect( job, SIGNAL( result( KIO::Job * ) ),
                 SLOT( slotResult( KIO::Job * ) ) );
         if ( m_isURLDesktopFile )
