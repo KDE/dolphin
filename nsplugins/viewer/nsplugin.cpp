@@ -927,8 +927,7 @@ bool NSPluginStreamBase::create( QString url, QString mimeType, void *notify )
         if ( KURL(url).isLocalFile() )  {
             kdDebug(1431) << "local file" << endl;
             // local file can be passed directly
-            KURL u( url );
-            _fileURL = u.directory( false ) + u.fileName();
+            _fileURL = KURL(url).path();
 
             // without streaming stream is finished already
             if ( _onlyAsFile ) {
