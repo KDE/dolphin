@@ -271,7 +271,7 @@ void KonqHistoryManager::addToHistory( bool pending, const KURL& _url,
 				       const QString& typedURL,
 				       const QString& title )
 {
-    kdDebug(1203) << "## addToHistory: " << _url.prettyURL() << "Typed URL: " << typedURL << ", Title: " << title << endl;
+    kdDebug(1203) << "## addToHistory: " << _url.prettyURL() << " Typed URL: " << typedURL << ", Title: " << title << endl;
 
     if ( filterOut( _url ) ) // we only want remote URLs
 	return;
