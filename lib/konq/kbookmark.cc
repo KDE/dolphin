@@ -31,7 +31,6 @@
 #include <kurl.h>
 #include <kapp.h>
 #include <klocale.h>
-#include <kwm.h>
 #include <kdirwatch.h>
 #include <kdebug.h>
 #include <kmessagebox.h>
@@ -239,7 +238,7 @@ void KBookmarkManager::scanIntern( KBookmark *_bm, const QString & _path )
 
 void KBookmarkManager::editBookmarks( const QString & _url )
 {
-  KRun::runURL( _url, "inode/directory" ); 
+  KRun::runURL( _url, "inode/directory" );
 }
 
 void KBookmarkManager::slotEditBookmarks()
