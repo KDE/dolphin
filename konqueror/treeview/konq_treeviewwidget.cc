@@ -32,6 +32,7 @@
 #include <kio_job.h>
 #include <kio_paste.h>
 #include <klocale.h>
+#include <stdlib.h>
 #include <kmessagebox.h>
 #include <kprotocolmanager.h>
 

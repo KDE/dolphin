@@ -853,7 +853,9 @@ void KonqKfmIconView::openURL( const QString &_url, bool /*reload*/, int xOffset
     m_pIconView->viewport()->setBackgroundPixmap( m_pProps->m_bgPixmap );
   }
 
+#ifdef __GNUC__
 #warning FIXME (Simon)
+#endif
 //  setCaptionFromURL( _url );
   m_pIconView->show(); // ?
 }

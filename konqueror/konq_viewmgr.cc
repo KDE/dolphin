@@ -37,6 +37,8 @@
 
 #include <assert.h>
 
+template class QList<KonqChildView>;
+
 KonqViewManager::KonqViewManager( KonqMainView *mainView )
 {
   m_pMainView = mainView;
@@ -434,7 +436,9 @@ KonqChildView *KonqViewManager::chooseNextView( KonqChildView *view )
 
 }
 
+#ifdef __GNUC__
 #warning FIXME (Simon)
+#endif
 /*
 unsigned long KonqViewManager::viewIdByNumber( int number )
 {

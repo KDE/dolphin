@@ -43,12 +43,12 @@
 
 #include <version.h> // konqueror specific !
 
-KBugReport::KBugReport( QWidget * parent )
+KBugReport::KBugReport( QWidget * parentw )
   : KDialogBase( Plain,
                  i18n("Submit a KDE bug report"),
                  Ok | Cancel,
                  Ok,
-                 parent,
+                 parentw,
                  "KBugReport",
                  true, // modal
                  true // separator

@@ -81,6 +81,9 @@
 #define STATUSBAR_SPEED_ID 2
 #define STATUSBAR_MSG_ID 3
 
+template class QList<QPixmap>;
+template class QList<KToggleAction>;
+
 QList<QPixmap> *KonqMainView::s_plstAnimatedLogo = 0L;
 bool KonqMainView::s_bMoveSelection = false;
 
@@ -1655,7 +1658,9 @@ QString KonqMainView::currentTitle()
 
   return title;
 */
+#ifdef __GNUC__
 #warning FIXME
+#endif
   return m_currentView->view()->url();
 }
 

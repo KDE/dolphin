@@ -225,7 +225,9 @@ int KonqBookmarkBar::plug( QWidget *w, int index )
 {
   KToolBar *toolBar = (KToolBar *)w;
 
+#ifdef __GNUC__
 #warning "FIXME: obey index"
+#endif
   new KBookmarkBar(m_pOwner, toolBar, (QActionCollection*)parent());
 
   int id = get_toolbutton_id();

@@ -110,7 +110,10 @@ KonqBrowser::KonqBrowser( KonqHTMLView *htmlView, const char *name )
 
 void KonqBrowser::openURL( const QString &url, bool reload, int xOffset, int yOffset, const char *post_data )
 {
+#ifdef __GNUC__
 #warning remove this hack after krash (lars)
+#endif
+
     if(post_data)
     {
 	KHTMLWidget::openURL(url, reload, xOffset, yOffset, post_data);
@@ -353,7 +356,9 @@ void KonqHTMLView::slotFrameInserted( KHTMLWidget *frame )
   QObject::connect( frame, SIGNAL( newWindow( const QString & ) ),
                     this, SLOT( slotNewWindow( const QString & ) ) );
 
+#ifdef __GNUC__
 #warning TODO (extension!) (Simon)
+#endif
 //  QObject::connect( frame, SIGNAL( textSelected( KHTMLView *, bool ) ),
 //                    this, SIGNAL( selectionChanged() ) );
 
@@ -486,7 +491,9 @@ void KonqHTMLView::slotShowURL( const QString &_url )
 
 void KonqHTMLView::slotSetTitle( QString )
 {
+#ifdef __GNUC__
 #warning TODO (in the Canossa framework) (Simon)
+#endif
 /*
   QString decodedTitle = title;
   KURL::decode( decodedTitle );

@@ -29,6 +29,8 @@
 
 #include <kdebug.h>
 
+template class QList<HistoryEntry>;
+
 KonqChildView::KonqChildView( KonqViewFactory &viewFactory,
 			      KonqFrame* viewFrame,
 			      KonqMainView *mainView,

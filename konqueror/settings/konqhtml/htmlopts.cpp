@@ -79,7 +79,9 @@ KAppearanceOptions::KAppearanceOptions(KConfig *config, QString group, QWidget *
     lay->addWidget(new QLabel( i18n( "Default Charset"), this ), ++r, E);
 
     m_pCharset = new QComboBox( false, this );
+#ifdef __GNUC__
 #warning FIXME, this seems to be broken in kcharsets (Simon)
+#endif
 //    charsets = KGlobal::charsets()->availableCharsetNames();
     charsets.prepend(i18n("Use language charset"));
     m_pCharset->insertStringList( charsets );
@@ -345,7 +347,9 @@ KAdvancedOptions::KAdvancedOptions(KConfig *config, QString group, QWidget *pare
     cb_enableJavaScript = new QCheckBox(i18n("Enable Java&Script"), this);
     lay->addWidget(cb_enableJavaScript);
     // ### don't add JavaScript for KRASH.
+#ifdef __GNUC__
 #warning remove this line after KRASH (Lars)
+#endif
     cb_enableJavaScript->setEnabled(false);
     connect(cb_enableJavaScript, SIGNAL(clicked()), this, SLOT(changed()));
 
