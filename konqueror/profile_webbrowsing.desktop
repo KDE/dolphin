@@ -42,5 +42,5 @@ RootItem=View0
 View0_ServiceName=konq_aboutpage
 View0_ServiceType=KonqAboutPage
 View0_URL=about:konqueror
-Width=90%
-Height=85%
+Width=80%
+Height=80%
