@@ -27,31 +27,23 @@ class clientApp : public KApplication
 {
   Q_OBJECT
 public:
-
-  clientApp( )
-    : KApplication()
-    { }
-
-  ~clientApp() {}
-
   /** Parse command-line arguments and "do it" */
-  bool doIt();
+  static bool doIt();
 
   /** Make konqueror open a window for @p url */
-  bool createNewWindow(const KURL & url, const QString & mimetype = QString::null);
+  static bool createNewWindow(const KURL & url, const QString & mimetype = QString::null);
 
   /** Make konqueror open a window for @p profile, @p url and @p mimetype */
-  bool openProfile(const QString & profile, const QString & url, const QString & mimetype = QString::null);
+  static bool openProfile(const QString & profile, const QString & url, const QString & mimetype = QString::null);
 
 protected slots:
   void slotResult( KIO::Job * );
   void delayedQuit();
 
 private:
-  QString m_profileName;
-  QString m_url;
-  QString m_mimetype;
-  bool m_ok;
+  static bool m_ok;
+  static QCString startup_id_str;
+  
 };
 
 #endif

@@ -45,11 +45,14 @@
 #include "KonquerorIface_stub.h"
 #include "KDesktopIface_stub.h"
 
-static const char *appName = "kfmclient";
+static const char appName[] = "kfmclient";
 
-static const char *description = I18N_NOOP("KDE tool for opening URLs from the command line");
+static const char description[] = I18N_NOOP("KDE tool for opening URLs from the command line");
 
-static const char *version = "2.0";
+static const char version[] = "2.0";
+
+QCString clientApp::startup_id_str;
+bool clientApp::m_ok;
 
 static const KCmdLineOptions options[] =
 {
@@ -133,9 +136,7 @@ int main( int argc, char **argv )
     return 0;
   }
 
-  clientApp a;
-
-  return a.doIt() ? 0 /*no error*/ : 1 /*error*/;
+  return clientApp::doIt() ? 0 /*no error*/ : 1 /*error*/;
 }
 
 /** Whether to start a new konqueror or reuse an existing process */
@@ -212,9 +213,9 @@ bool clientApp::createNewWindow(const KURL & url, const QString & mimetype)
     {
         kdDebug() << "clientApp::createNewWindow using existing konqueror" << endl;
         KonquerorIface_stub konqy( appId, "KonquerorIface" );
-        konqy.createNewWindowASN( url.url(), mimetype, kapp->startupId());
+        konqy.createNewWindowASN( url.url(), mimetype, startup_id_str );
         KStartupInfoId id;
-        id.initId( kapp->startupId());
+        id.initId( startup_id_str );
         KStartupInfoData data;
         data.addPid( 0 );   // say there's another process for this ASN with unknown PID
         data.setHostname(); // ( no need to bother to get this konqy's PID )
@@ -231,7 +232,7 @@ bool clientApp::createNewWindow(const KURL & url, const QString & mimetype)
             */
             // pass kfmclient's startup id to konqueror using kshell
             KStartupInfoId id; 
-            id.initId( kapp->startupId());
+            id.initId( startup_id_str );
             id.setupStartupEnv();
             KProcess proc;
             if ( mimetype.isEmpty() )
@@ -246,17 +247,14 @@ bool clientApp::createNewWindow(const KURL & url, const QString & mimetype)
     return true;
 }
 
-bool clientApp::openProfile( const QString & filename, const QString & url, const QString & mimetype )
+bool clientApp::openProfile( const QString & profileName, const QString & url, const QString & mimetype )
 {
-  m_profileName = filename;
-  m_url = url;
-  m_mimetype = mimetype;
   QCString appId = konqyToReuse();
   if( appId.isEmpty())
   {
     QString error;
     if ( KApplication::startServiceByDesktopPath( QString::fromLatin1("konqueror.desktop"),
-        QString::fromLatin1("--silent"), &error, &appId, NULL, kapp->startupId()) > 0 )
+        QString::fromLatin1("--silent"), &error, &appId, NULL, startup_id_str ) > 0 )
     {
       kdError() << "Couldn't start konqueror from konqueror.desktop: " << error << endl;
       return false;
@@ -265,22 +263,22 @@ bool clientApp::openProfile( const QString & filename, const QString & url, cons
       // so when we arrive here, konq is up and running already, and appId contains the identification
   }
 
-  QString profile = locate( "data", QString::fromLatin1("konqueror/profiles/") + m_profileName );
+  QString profile = locate( "data", QString::fromLatin1("konqueror/profiles/") + profileName );
   if ( profile.isEmpty() )
   {
-      fprintf( stderr, i18n("Profile %1 not found\n").arg(m_profileName).local8Bit() );
+      fprintf( stderr, i18n("Profile %1 not found\n").arg(profileName).local8Bit() );
       ::exit( 0 );
   }
   KonquerorIface_stub konqy( appId, "KonquerorIface" );
-  if ( m_url.isEmpty() )
-      konqy.createBrowserWindowFromProfileASN( profile, m_profileName, kapp->startupId());
-  else if ( m_mimetype.isEmpty() )
-      konqy.createBrowserWindowFromProfileAndURLASN( profile, m_profileName, m_url, kapp->startupId());
+  if ( url.isEmpty() )
+      konqy.createBrowserWindowFromProfileASN( profile, profileName, startup_id_str );
+  else if ( mimetype.isEmpty() )
+      konqy.createBrowserWindowFromProfileAndURLASN( profile, profileName, url, startup_id_str );
   else
-      konqy.createBrowserWindowFromProfileAndURLASN( profile, m_profileName, m_url, m_mimetype, kapp->startupId());
+      konqy.createBrowserWindowFromProfileAndURLASN( profile, profileName, url, mimetype, startup_id_str );
   sleep(2); // Martin Schenk <martin@schenk.com> says this is necessary to let the server read from the socket
   KStartupInfoId id;
-  id.initId( kapp->startupId());
+  id.initId( startup_id_str );
   KStartupInfoData sidata;
   sidata.addPid( 0 );   // say there's another process for this ASN with unknown PID
   sidata.setHostname(); // ( no need to bother to get this konqy's PID )
@@ -317,8 +315,13 @@ bool clientApp::doIt()
 
   QCString command = args->arg(0);
 
+  // read ASN env. variable for non-KApp cases  
+  startup_id_str = KStartupInfo::currentStartupIdEnv().id();
+
   if ( command == "openURL" )
   {
+    KInstance inst(appName);
+    KApplication::dcopClient()->attach();
     checkArgumentCount(argc, 1, 3);
     if ( argc == 1 )
     {
@@ -337,18 +340,24 @@ bool clientApp::doIt()
   }
   else if ( command == "openProfile" )
   {
+    KInstance inst(appName);
+    KApplication::dcopClient()->attach();
     checkArgumentCount(argc, 2, 3);
     QString url;
     if ( argc == 3 )
       url = args->url(2).url();
     return openProfile( QString::fromLocal8Bit(args->arg(1)), url );
   }
-  else if ( command == "openProperties" )
+  
+  // the following commands need KApplication
+  clientApp app;
+  
+  if ( command == "openProperties" )
   {
     checkArgumentCount(argc, 2, 2);
     KPropertiesDialog * p = new KPropertiesDialog( args->url(1) );
-    QObject::connect( p, SIGNAL( destroyed() ), this, SLOT( quit() ));
-    exec();
+    QObject::connect( p, SIGNAL( destroyed() ), &app, SLOT( quit() ));
+    app.exec();
     return m_ok;
   }
   else if ( command == "exec" )
@@ -363,9 +372,9 @@ bool clientApp::doIt()
     {
       KFileOpenWithHandler fowh;
       KRun * run = new KRun( args->url(1) );
-      QObject::connect( run, SIGNAL( finished() ), this, SLOT( delayedQuit() ));
-      QObject::connect( run, SIGNAL( error() ), this, SLOT( delayedQuit() ));
-      exec();
+      QObject::connect( run, SIGNAL( finished() ), &app, SLOT( delayedQuit() ));
+      QObject::connect( run, SIGNAL( error() ), &app, SLOT( delayedQuit() ));
+      app.exec();
       return m_ok;
     }
     else if ( argc == 3 )
@@ -386,8 +395,8 @@ bool clientApp::doIt()
       srcLst.append( args->url(i) );
 
     KIO::Job * job = KIO::move( srcLst, args->url(argc - 1) );
-    connect( job, SIGNAL( result( KIO::Job * ) ), this, SLOT( slotResult( KIO::Job * ) ) );
-    exec();
+    connect( job, SIGNAL( result( KIO::Job * ) ), &app, SLOT( slotResult( KIO::Job * ) ) );
+    app.exec();
     return m_ok;
   }
   else if ( command == "download" )
@@ -417,8 +426,8 @@ bool clientApp::doIt()
     if (dst == QString::null)
        return m_ok; // AK - really okay?
     KIO::Job * job = KIO::copy( srcLst, dst );
-    connect( job, SIGNAL( result( KIO::Job * ) ), this, SLOT( slotResult( KIO::Job * ) ) );
-    exec();
+    connect( job, SIGNAL( result( KIO::Job * ) ), &app, SLOT( slotResult( KIO::Job * ) ) );
+    app.exec();
     return m_ok;
   }
   else if ( command == "copy" )
@@ -429,8 +438,8 @@ bool clientApp::doIt()
       srcLst.append( args->url(i) );
 
     KIO::Job * job = KIO::copy( srcLst, args->url(argc - 1) );
-    connect( job, SIGNAL( result( KIO::Job * ) ), this, SLOT( slotResult( KIO::Job * ) ) );
-    exec();
+    connect( job, SIGNAL( result( KIO::Job * ) ), &app, SLOT( slotResult( KIO::Job * ) ) );
+    app.exec();
     return m_ok;
   }
   else if ( command == "sortDesktop" )
