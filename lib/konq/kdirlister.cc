@@ -138,6 +138,9 @@ void KDirLister::openURL( const KURL& _url, bool _showDotFiles )
 
 void KDirLister::slotError( int /*_id*/, int _errid, const char *_errortext )
 {
+  if ( m_bufferTimer.isActive() )
+    m_bufferTimer.stop();
+
   kioErrorDialog( _errid, _errortext );
   m_bComplete = true;
 
@@ -148,8 +151,11 @@ void KDirLister::slotCloseURL( int /*_id*/ )
 {
   if ( m_bufferTimer.isActive() )
     m_bufferTimer.stop();
+
+  if ( m_bComplete )
+    return;
   
-  slotBufferTimeout(); // out of the above test, since the dir might be empty (David)
+  slotBufferTimeout();
   m_jobId = 0;
   m_bComplete = true;
 
@@ -252,7 +258,6 @@ void KDirLister::slotUpdateFinished( int /*_id*/ )
   if ( m_bufferTimer.isActive() )
     m_bufferTimer.stop();
   
-  // slotBufferTimeout(); //  ??
   m_jobId = 0;
   m_bComplete = true;
   
