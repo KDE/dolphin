@@ -198,7 +198,11 @@
         </widget>
     </vbox>
 </widget>
+<includes>
+    <include location="global" impldecl="in implementation">kdialog.h</include>
+</includes>
 <layoutdefaults spacing="6" margin="11"/>
+<layoutfunctions spacing="KDialog::spacingHint" margin="KDialog::marginHint"/>
 <includehints>
     <includehint>qwidget.h</includehint>
     <includehint>klistview.h</includehint>

@@ -1,17 +1,11 @@
-<!DOCTYPE UI><UI>
+<!DOCTYPE UI><UI version="3.1" stdsetdef="1">
 <class>NSConfigWidget</class>
 <author>Stefan Schimanski &lt;1Stein@gmx.de&gt;</author>
-<include location="global">klocale.h</include>
-<include location="global">kurlrequester.h</include>
-<include location="global">klistbox.h</include>
-<widget>
-    <class>QWidget</class>
-    <property stdset="1">
-        <name>name</name>
+<widget class="QWidget">
+    <property name="name">
         <cstring>NSConfigWidget</cstring>
     </property>
-    <property stdset="1">
-        <name>geometry</name>
+    <property name="geometry">
         <rect>
             <x>0</x>
             <y>0</y>
@@ -19,92 +13,66 @@
             <height>373</height>
         </rect>
     </property>
-    <property stdset="1">
-        <name>caption</name>
+    <property name="caption">
         <string>Netscape Plugin Config</string>
     </property>
-    <property>
-        <name>layoutMargin</name>
+    <property name="layoutMargin" stdset="0">
     </property>
     <vbox>
-        <property stdset="1">
-            <name>margin</name>
+        <property name="name">
+            <cstring>unnamed</cstring>
+        </property>
+        <property name="margin">
             <number>0</number>
         </property>
-        <property stdset="1">
-            <name>spacing</name>
+        <property name="spacing">
             <number>6</number>
         </property>
-        <widget>
-            <class>QTabWidget</class>
-            <property stdset="1">
-                <name>name</name>
+        <widget class="QTabWidget">
+            <property name="name">
                 <cstring>TabWidget2</cstring>
             </property>
-            <widget>
-                <class>QWidget</class>
-                <property stdset="1">
-                    <name>name</name>
+            <widget class="QWidget">
+                <property name="name">
                     <cstring>tab</cstring>
                 </property>
-                <attribute>
-                    <name>title</name>
+                <attribute name="title">
                     <string>Scan</string>
                 </attribute>
                 <vbox>
-                    <property stdset="1">
-                        <name>margin</name>
-                        <number>11</number>
+                    <property name="name">
+                        <cstring>unnamed</cstring>
                     </property>
-                    <property stdset="1">
-                        <name>spacing</name>
-                        <number>6</number>
-                    </property>
-                    <widget>
-                        <class>QLayoutWidget</class>
-                        <property stdset="1">
-                            <name>name</name>
+                    <widget class="QLayoutWidget">
+                        <property name="name">
                             <cstring>Layout1</cstring>
                         </property>
                         <hbox>
-                            <property stdset="1">
-                                <name>margin</name>
-                                <number>0</number>
+                            <property name="name">
+                                <cstring>unnamed</cstring>
                             </property>
-                            <property stdset="1">
-                                <name>spacing</name>
-                                <number>6</number>
-                            </property>
-                            <widget>
-                                <class>QPushButton</class>
-                                <property stdset="1">
-                                    <name>name</name>
+                            <widget class="QPushButton">
+                                <property name="name">
                                     <cstring>scanButton</cstring>
                                 </property>
-                                <property stdset="1">
-                                    <name>text</name>
+                                <property name="text">
                                     <string>&amp;Scan for New Plugins</string>
                                 </property>
-                                <property>
-                                    <name>whatsThis</name>
+                                <property name="whatsThis" stdset="0">
                                     <string>Click here to scan for newly installed Netscape plugins now.</string>
                                 </property>
                             </widget>
                             <spacer>
-                                <property>
-                                    <name>name</name>
+                                <property name="name">
                                     <cstring>Spacer1_2</cstring>
                                 </property>
-                                <property stdset="1">
-                                    <name>orientation</name>
+                                <property name="orientation">
                                     <enum>Horizontal</enum>
                                 </property>
-                                <property stdset="1">
-                                    <name>sizeType</name>
+                                <property name="sizeType">
                                     <enum>Expanding</enum>
                                 </property>
-                                <property>
-                                    <name>sizeHint</name>
+                                <property name="sizeHint">
                                     <size>
                                         <width>20</width>
                                         <height>20</height>
@@ -113,147 +81,110 @@
                             </spacer>
                         </hbox>
                     </widget>
-                    <widget>
-                        <class>QCheckBox</class>
-                        <property stdset="1">
-                            <name>name</name>
+                    <widget class="QCheckBox">
+                        <property name="name">
                             <cstring>scanAtStartup</cstring>
                         </property>
-                        <property stdset="1">
-                            <name>text</name>
+                        <property name="text">
                             <string>Scan for new plugins at &amp;KDE startup</string>
                         </property>
-                        <property>
-                            <name>whatsThis</name>
+                        <property name="whatsThis" stdset="0">
                             <string>If this option is enabled, KDE will look for new Netscape plugins every time it starts up. This makes it easier for you if you often install new plugins, but it may also slow down KDE startup. You might want to disable this option, especially if you seldom install plugins.</string>
                         </property>
                     </widget>
-                    <widget>
-                        <class>QGroupBox</class>
-                        <property stdset="1">
-                            <name>name</name>
+                    <widget class="QGroupBox">
+                        <property name="name">
                             <cstring>GroupBox1</cstring>
                         </property>
-                        <property stdset="1">
-                            <name>minimumSize</name>
+                        <property name="minimumSize">
                             <size>
                                 <width>300</width>
                                 <height>0</height>
                             </size>
                         </property>
-                        <property stdset="1">
-                            <name>title</name>
+                        <property name="title">
                             <string>Scan Directories</string>
                         </property>
                         <grid>
-                            <property stdset="1">
-                                <name>margin</name>
-                                <number>11</number>
+                            <property name="name">
+                                <cstring>unnamed</cstring>
                             </property>
-                            <property stdset="1">
-                                <name>spacing</name>
-                                <number>6</number>
-                            </property>
-                            <widget row="1"  column="2" >
-                                <class>QPushButton</class>
-                                <property stdset="1">
-                                    <name>name</name>
+                            <widget class="QPushButton" row="1" column="2">
+                                <property name="name">
                                     <cstring>dirRemove</cstring>
                                 </property>
-                                <property stdset="1">
-                                    <name>enabled</name>
+                                <property name="enabled">
                                     <bool>false</bool>
                                 </property>
-                                <property stdset="1">
-                                    <name>text</name>
+                                <property name="text">
                                     <string>&amp;Remove</string>
                                 </property>
                             </widget>
-                            <widget row="0"  column="2" >
-                                <class>QPushButton</class>
-                                <property stdset="1">
-                                    <name>name</name>
+                            <widget class="QPushButton" row="0" column="2">
+                                <property name="name">
                                     <cstring>dirNew</cstring>
                                 </property>
-                                <property stdset="1">
-                                    <name>text</name>
+                                <property name="text">
                                     <string>&amp;New</string>
                                 </property>
                             </widget>
-                            <widget row="0"  column="0" colspan="2">
-                                <class>KURLRequester</class>
-                                <property stdset="1">
-                                    <name>name</name>
+                            <widget class="KURLRequester" row="0" column="0" rowspan="1" colspan="2">
+                                <property name="name">
                                     <cstring>dirEdit</cstring>
                                 </property>
-                                <property stdset="1">
-                                    <name>enabled</name>
+                                <property name="enabled">
                                     <bool>false</bool>
                                 </property>
-                                <property stdset="1">
-                                    <name>mode</name>
+                                <property name="mode" stdset="0">
                                     <number>18</number>
                                 </property>
                             </widget>
-                            <widget row="3"  column="2" >
-                                <class>QPushButton</class>
-                                <property stdset="1">
-                                    <name>name</name>
+                            <widget class="QPushButton" row="3" column="2">
+                                <property name="name">
                                     <cstring>dirDown</cstring>
                                 </property>
-                                <property stdset="1">
-                                    <name>enabled</name>
+                                <property name="enabled">
                                     <bool>false</bool>
                                 </property>
-                                <property stdset="1">
-                                    <name>text</name>
+                                <property name="text">
                                     <string>Do&amp;wn</string>
                                 </property>
                             </widget>
-                            <widget row="2"  column="2" >
-                                <class>QPushButton</class>
-                                <property stdset="1">
-                                    <name>name</name>
+                            <widget class="QPushButton" row="2" column="2">
+                                <property name="name">
                                     <cstring>dirUp</cstring>
                                 </property>
-                                <property stdset="1">
-                                    <name>enabled</name>
+                                <property name="enabled">
                                     <bool>false</bool>
                                 </property>
-                                <property stdset="1">
-                                    <name>text</name>
+                                <property name="text">
                                     <string>&amp;Up</string>
                                 </property>
                             </widget>
-                            <widget row="1"  column="0"  rowspan="4"  colspan="2" >
-                                <class>KListBox</class>
-                                <property stdset="1">
-                                    <name>name</name>
+                            <widget class="KListBox" row="1" column="0" rowspan="4" colspan="2">
+                                <property name="name">
                                     <cstring>dirList</cstring>
                                 </property>
-                                <property stdset="1">
-                                    <name>sizePolicy</name>
+                                <property name="sizePolicy">
                                     <sizepolicy>
                                         <hsizetype>7</hsizetype>
                                         <vsizetype>3</vsizetype>
+                                        <horstretch>0</horstretch>
+                                        <verstretch>0</verstretch>
                                     </sizepolicy>
                                 </property>
                             </widget>
-                            <spacer row="4"  column="2" >
-                                <property>
-                                    <name>name</name>
+                            <spacer row="4" column="2">
+                                <property name="name">
                                     <cstring>Spacer3</cstring>
                                 </property>
-                                <property stdset="1">
-                                    <name>orientation</name>
+                                <property name="orientation">
                                     <enum>Vertical</enum>
                                 </property>
-                                <property stdset="1">
-                                    <name>sizeType</name>
+                                <property name="sizeType">
                                     <enum>Expanding</enum>
                                 </property>
-                                <property>
-                                    <name>sizeHint</name>
+                                <property name="sizeHint">
                                     <size>
                                         <width>20</width>
                                         <height>20</height>
@@ -264,76 +195,55 @@
                     </widget>
                 </vbox>
             </widget>
-            <widget>
-                <class>QWidget</class>
-                <property stdset="1">
-                    <name>name</name>
+            <widget class="QWidget">
+                <property name="name">
                     <cstring>tab</cstring>
                 </property>
-                <attribute>
-                    <name>title</name>
+                <attribute name="title">
                     <string>Plugins</string>
                 </attribute>
                 <grid>
-                    <property stdset="1">
-                        <name>margin</name>
-                        <number>11</number>
+                    <property name="name">
+                        <cstring>unnamed</cstring>
                     </property>
-                    <property stdset="1">
-                        <name>spacing</name>
-                        <number>6</number>
-                    </property>
-                    <widget row="1"  column="0" >
-                        <class>QListView</class>
+                    <widget class="QListView" row="1" column="0">
                         <column>
-                            <property>
-                                <name>text</name>
+                            <property name="text">
                                 <string>Information</string>
                             </property>
-                            <property>
-                                <name>clickable</name>
+                            <property name="clickable">
                                 <bool>true</bool>
                             </property>
-                            <property>
-                                <name>resizeable</name>
+                            <property name="resizable">
                                 <bool>true</bool>
                             </property>
                         </column>
                         <column>
-                            <property>
-                                <name>text</name>
+                            <property name="text">
                                 <string>Value</string>
                             </property>
-                            <property>
-                                <name>clickable</name>
+                            <property name="clickable">
                                 <bool>true</bool>
                             </property>
-                            <property>
-                                <name>resizeable</name>
+                            <property name="resizable">
                                 <bool>true</bool>
                             </property>
                         </column>
-                        <property stdset="1">
-                            <name>name</name>
+                        <property name="name">
                             <cstring>pluginList</cstring>
                         </property>
-                        <property>
-                            <name>whatsThis</name>
+                        <property name="whatsThis" stdset="0">
                             <string>Here you can see a list of the Netscape plugins KDE has found.</string>
                         </property>
                     </widget>
-                    <widget row="0"  column="0" >
-                        <class>QCheckBox</class>
-                        <property stdset="1">
-                            <name>name</name>
+                    <widget class="QCheckBox" row="0" column="0">
+                        <property name="name">
                             <cstring>useArtsdsp</cstring>
                         </property>
-                        <property stdset="1">
-                            <name>enabled</name>
+                        <property name="enabled">
                             <bool>true</bool>
                         </property>
-                        <property stdset="1">
-                            <name>text</name>
+                        <property name="text">
                             <string>Use a&amp;rtsdsp to pipe plugin sound through aRts</string>
                         </property>
                     </widget>
@@ -342,4 +252,19 @@
         </widget>
     </vbox>
 </widget>
+<includes>
+    <include location="global" impldecl="in declaration">klocale.h</include>
+    <include location="global" impldecl="in declaration">kurlrequester.h</include>
+    <include location="global" impldecl="in declaration">klistbox.h</include>
+    <include location="local" impldecl="in implementation">kdialog.h</include>
+</includes>
+<layoutdefaults spacing="3" margin="6"/>
+<layoutfunctions spacing="KDialog::spacingHint" margin="KDialog::marginHint"/>
+<includehints>
+    <includehint>qwidget.h</includehint>
+    <includehint>kurlrequester.h</includehint>
+    <includehint>klineedit.h</includehint>
+    <includehint>kpushbutton.h</includehint>
+    <includehint>klistbox.h</includehint>
+</includehints>
 </UI>
