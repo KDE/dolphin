@@ -41,7 +41,7 @@ public:
   virtual bool event( const char *event, const CORBA::Any &value );
   virtual bool mappingFillMenuView( Browser::View::EventFillMenu_ptr viewMenu );
   virtual bool mappingFillMenuEdit( Browser::View::EventFillMenu_ptr viewMenu );
-  virtual bool mappingFillToolBar( Browser::View::EventFillToolBar_ptr viewToolBar );
+  virtual bool mappingFillToolBar( Browser::View::EventFillToolBar viewToolBar );
   virtual bool mappingOpenURL( Browser::EventOpenURL eventURL );
 
   /**

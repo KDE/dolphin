@@ -557,9 +557,16 @@ bool KonqMainView::mappingCreateToolbar( OpenPartsUI::ToolBarFactory_ptr factory
                              this, "slotStop", false, toolTip, -1);
 
   pix = OPUIUtils::convertPixmap( *KPixmapCache::toolbarPixmap( "kde1.xpm" ) );
-  m_vToolBar->insertButton2( pix, TOOLBAR_GEAR_ID, SIGNAL(clicked()),
-                             this, "slotNewWindow", true, 0L, -1 );
+  CORBA::Long gearIndex = m_vToolBar->insertButton2( pix, TOOLBAR_GEAR_ID, SIGNAL(clicked()),
+                                                     this, "slotNewWindow", true, 0L, -1 );
   m_vToolBar->alignItemRight( TOOLBAR_GEAR_ID, true );
+
+  //all items of the views should be inserted between the second-last and the
+  //last item.
+  m_lToolBarViewStartIndex = gearIndex;
+  
+  if ( m_currentView )
+    createViewToolBar( m_currentView );
 
   /* will KTM do it for us ?
   m_vToolBar->enable( m_Props->m_bShowToolBar ? OpenPartsUI::Show : OpenPartsUI::Hide );
@@ -616,8 +623,7 @@ bool KonqMainView::mappingParentGotFocus( OpenParts::Part_ptr  )
   // removing view-specific menu entries (view will probably be destroyed !)
   if (m_currentView)
   {
-    EMIT_EVENT( m_currentView->view(), Browser::View::eventFillMenuEdit, 0L );
-    EMIT_EVENT( m_currentView->view(), Browser::View::eventFillMenuView, 0L );
+    clearViewGUIElements( m_currentView );
     
     m_currentView->repaint();
   }
@@ -652,11 +658,7 @@ void KonqMainView::setActiveView( OpenParts::Id id )
   KonqChildView* previousView = m_currentView;
   // clean view-specific part of the view/edit menus
   if ( previousView != 0L )
-  {
-    Browser::View_ptr v = previousView->view();
-    EMIT_EVENT( v, Browser::View::eventFillMenuEdit, 0L );
-    EMIT_EVENT( v, Browser::View::eventFillMenuView, 0L );
-  }    
+    clearViewGUIElements( previousView );
 
   MapViews::Iterator it = m_mapViews.find( id );
   assert( it != m_mapViews.end() );
@@ -679,6 +681,7 @@ void KonqMainView::setActiveView( OpenParts::Id id )
 
   createEditMenu();
   createViewMenu();
+  createViewToolBar( m_currentView );
   if ( isVisible() )
   {
     if (previousView != 0L) // might be 0L e.g. if we just removed the current view
@@ -864,6 +867,30 @@ void KonqMainView::setUpEnabled( QString _url, OpenParts::Id _id )
   }
 
   setItemEnabled( m_vMenuGo, MGO_UP_ID, bHasUpURL );
+}
+
+void KonqMainView::clearViewGUIElements( KonqChildView *childView )
+{
+  Browser::View_ptr view = childView->view();
+  EMIT_EVENT( view, Browser::View::eventFillMenuEdit, 0L );
+  EMIT_EVENT( view, Browser::View::eventFillMenuView, 0L );
+    
+  Browser::View::EventFillToolBar ev;
+  ev.create = (CORBA::Boolean)false;
+  ev.toolBar = OpenPartsUI::ToolBar::_duplicate( m_vToolBar );
+  EMIT_EVENT( view, Browser::View::eventFillToolBar, ev );
+}
+
+void KonqMainView::createViewToolBar( KonqChildView *childView )
+{
+  if ( CORBA::is_nil( m_vToolBar ) )
+    return;
+
+  Browser::View::EventFillToolBar ev;
+  ev.create = (CORBA::Boolean)true;
+  ev.startIndex = m_lToolBarViewStartIndex;
+  ev.toolBar = OpenPartsUI::ToolBar::_duplicate( m_vToolBar );
+  EMIT_EVENT( childView->view(), Browser::View::eventFillToolBar, ev );
 }
 
 void KonqMainView::createNewWindow( const char *url )

@@ -59,6 +59,7 @@ public:
   virtual bool mappingOpenURL( Browser::EventOpenURL eventURL );
   virtual bool mappingFillMenuView( Browser::View::EventFillMenu_ptr viewMenu );
   virtual bool mappingFillMenuEdit( Browser::View::EventFillMenu_ptr editMenu );
+  virtual bool mappingFillToolBar( Browser::View::EventFillToolBar viewToolBar );
   virtual bool mappingRequestDocument( Konqueror::HTMLView::HTMLDocumentRequest docRequest );
 
   virtual void stop();
@@ -78,6 +79,8 @@ public:
   virtual void viewDocumentSource();
   virtual void viewFrameSource();
   void openTxtView( const QString &url );
+  
+  virtual void slotLoadImages();
   
   virtual void beginDoc( const CORBA::WChar *url, CORBA::Long dx, CORBA::Long dy );
   virtual void writeDoc( const char *data );

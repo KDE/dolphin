@@ -258,6 +258,10 @@ private:
    */
   void setUpEnabled( QString _url, OpenParts::Id _id );
 
+  void clearViewGUIElements( KonqChildView *childView );
+
+  void createViewToolBar( KonqChildView *childView );
+
   /**
    * Fills the view menu with the entries of the mainview, merged with the
    * ones of the current view.
@@ -332,6 +336,8 @@ private:
   KfmRun *m_pRun;
 
   QString m_sInitialURL;
+  
+  CORBA::Long m_lToolBarViewStartIndex;
 
   static QList<OpenPartsUI::Pixmap>* s_lstAnimatedLogo;
   static QList<KonqMainView>* s_lstWindows;

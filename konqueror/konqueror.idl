@@ -72,6 +72,8 @@ module Konqueror
     slot void saveBackground();
     slot void viewDocumentSource();
     slot void viewFrameSource();
+
+    slot void slotLoadImages();
     
     void beginDoc( in wstring url, in long dx, in long dy );
     void writeDoc( in string data );

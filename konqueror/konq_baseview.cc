@@ -64,7 +64,7 @@ bool KonqBaseView::event( const char *event, const CORBA::Any &value )
   
   MAPPING( Browser::View::eventFillMenuEdit, Browser::View::EventFillMenu_ptr, mappingFillMenuEdit );
   MAPPING( Browser::View::eventFillMenuView, Browser::View::EventFillMenu_ptr, mappingFillMenuView );
-  MAPPING( Browser::View::eventFillToolBar, Browser::View::EventFillToolBar_ptr, mappingFillToolBar );
+  MAPPING( Browser::View::eventFillToolBar, Browser::View::EventFillToolBar, mappingFillToolBar );
   MAPPING( Browser::eventOpenURL, Browser::EventOpenURL, mappingOpenURL );
     
   END_EVENT_MAPPER;
@@ -82,7 +82,7 @@ bool KonqBaseView::mappingFillMenuEdit( Browser::View::EventFillMenu_ptr )
   return false;
 }
 
-bool KonqBaseView::mappingFillToolBar( Browser::View::EventFillToolBar_ptr )
+bool KonqBaseView::mappingFillToolBar( Browser::View::EventFillToolBar )
 {
   return false;
 }

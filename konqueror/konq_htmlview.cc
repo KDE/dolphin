@@ -35,15 +35,17 @@
 #include <kcursor.h>
 #include <khtml.h>
 #include <khtmlsavedpage.h>
-#include <kbrowser.h>
 #include <klocale.h>
 #include <kfiledialog.h>
 #include <kurl.h>
 #include <kio_error.h>
 #include <kmimetypes.h>
 #include <kapp.h>
+#include <kpixmapcache.h>
 
 #include <opUIUtils.h>
+
+#define TOOLBAR_LOADIMAGES_ID Browser::View::TOOLBAR_ITEM_ID_BEGIN
 
 KonqHTMLView::KonqHTMLView( KonqMainView *mainView )
 {
@@ -68,7 +70,9 @@ KonqHTMLView::KonqHTMLView( KonqMainView *mainView )
   m_vViewMenu = 0L;
   
   m_pMainView = mainView;
-		    
+
+  m_bAutoLoadImages = KfmViewSettings::defaultHTMLSettings()->autoLoadImages();
+
   slotFrameInserted( this );
 }
 
@@ -109,6 +113,7 @@ bool KonqHTMLView::event( const char *event, const CORBA::Any &value )
   
   MAPPING( Browser::View::eventFillMenuEdit, Browser::View::EventFillMenu_ptr, mappingFillMenuEdit );
   MAPPING( Browser::View::eventFillMenuView, Browser::View::EventFillMenu_ptr, mappingFillMenuView );
+  MAPPING( Browser::View::eventFillToolBar, Browser::View::EventFillToolBar, mappingFillToolBar );
   MAPPING( Browser::eventOpenURL, Browser::EventOpenURL, mappingOpenURL );
   MAPPING( Konqueror::HTMLView::eventRequestDocument, Konqueror::HTMLView::EventRequestDocument, mappingRequestDocument );
     
@@ -121,6 +126,10 @@ bool KonqHTMLView::event( const char *event, const CORBA::Any &value )
 bool KonqHTMLView::mappingOpenURL( Browser::EventOpenURL eventURL )
 {
   KonqBaseView::mappingOpenURL(eventURL);
+  
+  m_bAutoLoadImages = KfmViewSettings::defaultHTMLSettings()->autoLoadImages();
+  enableImages( m_bAutoLoadImages );  
+  
   KonqHTMLView::openURL( QString( eventURL.url ), (bool)eventURL.reload, (int)eventURL.xOffset, (int)eventURL.yOffset );
   SIGNAL_CALL2( "started", id(), CORBA::Any::from_string( (char *)eventURL.url, 0 ) );
   checkViewMenu();
@@ -154,6 +163,28 @@ bool KonqHTMLView::mappingFillMenuEdit( Browser::View::EventFillMenu_ptr )
 {
   // todo : add "Select All"
   return false;
+}
+
+bool KonqHTMLView::mappingFillToolBar( Browser::View::EventFillToolBar viewToolBar )
+{
+  if ( KfmViewSettings::defaultHTMLSettings()->autoLoadImages() )
+    return false;
+
+  if ( CORBA::is_nil( viewToolBar.toolBar ) )
+    return true;
+    
+  if ( viewToolBar.create )
+  {
+    CORBA::WString_var toolTip = Q2C( i18n( "Load Images" ) );
+    OpenPartsUI::Pixmap_var pix = OPUIUtils::convertPixmap( *KPixmapCache::toolbarPixmap( "image.xpm" ) );
+    viewToolBar.toolBar->insertButton2( pix, TOOLBAR_LOADIMAGES_ID, 
+                                        SIGNAL(clicked()), this, "slotLoadImages", 
+					true, toolTip, viewToolBar.startIndex++ );
+  }
+  else
+    viewToolBar.toolBar->removeItem( TOOLBAR_LOADIMAGES_ID );
+
+  return true;
 }
 
 bool KonqHTMLView::mappingRequestDocument( Konqueror::HTMLView::HTMLDocumentRequest docRequest )
@@ -230,7 +261,7 @@ void KonqHTMLView::slotFrameInserted( KBrowser *frame )
     htmlWidget->setURLCursor( KCursor().arrowCursor() );		    
     checkViewMenu();
     
-  frame->enableImages( settings->autoLoadImages() );
+  frame->enableImages( m_bAutoLoadImages );
 }
 
 void KonqHTMLView::slotURLClicked( QString url )
@@ -514,6 +545,19 @@ void KonqHTMLView::viewFrameSource()
   KHTMLView *v = getSelectedView();
   if ( v )
     openTxtView( v->getKHTMLWidget()->getDocumentURL().url() );
+}
+
+void KonqHTMLView::slotLoadImages()
+{
+  m_bAutoLoadImages = true;
+  enableImages( m_bAutoLoadImages );  
+  
+  Browser::EventOpenURL ev;
+  ev.url = url();
+  ev.reload = true;
+  ev.xOffset = xOffset();
+  ev.yOffset = yOffset();
+  EMIT_EVENT( this, Browser::eventOpenURL, ev );
 }
 
 void KonqHTMLView::openTxtView( const QString &url )
