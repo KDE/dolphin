@@ -227,7 +227,7 @@ void KonqInfoListViewItem::paintCell( QPainter *_painter, const QColorGroup & _c
             newWidth = _width;
         if ( pm && !pm->isNull() )
         {
-            cg.setBrush( QColorGroup::Base, QBrush( backgroundColor(), *pm ) );
+            cg.setBrush( QColorGroup::Base, QBrush( backgroundColor(_column), *pm ) );
             QPoint o = _painter->brushOrigin();
             _painter->setBrushOrigin( o.x() - lv->contentsX(), o.y() - lv->contentsY() );
             const QColorGroup::ColorRole crole = 
@@ -235,19 +235,9 @@ void KonqInfoListViewItem::paintCell( QPainter *_painter, const QColorGroup & _c
             _painter->fillRect( newWidth, 0, _width - newWidth, height(), cg.brush( crole ) );
             _painter->setBrushOrigin( o );
         }
-        else if ( isAlternate() )
-        {
-            _painter->fillRect( newWidth, 0, _width - newWidth, height(), 
-                lv->alternateBackground() );
-        }
         else
         {
-            const QColorGroup::ColorRole crole = 
-                QPalette::backgroundRoleFromMode( lv->viewport()->backgroundMode() );
-            if ( cg.brush( crole ) != lv->colorGroup().brush( crole ) )
-                _painter->fillRect( newWidth, 0, _width - newWidth, height(), cg.brush( crole ) );
-            else
-                m_pListViewWidget->paintEmptyArea( _painter, QRect( newWidth, 0, _width - newWidth, height() ) );
+            _painter->fillRect( newWidth, 0, _width - newWidth, height(), backgroundColor(_column) );
         }
 
         _width = newWidth;
