@@ -262,8 +262,8 @@ int clientApp::doIt( int argc, char **argv )
       fprintf( stderr, i18n("Syntax Error: Too many arguments\n") );
       return 1;
     }
-    KonquerorIface_stub konqy( "konqueror", "KonquerorIface" );
-    konqy.configure();
+    QByteArray data;
+    kapp->dcopClient()->send( "*", "KonqMainViewIface", "configure()", data );
   }
   else if ( strcmp( argv[1], "configureDesktop" ) == 0 )
   {
