@@ -215,7 +215,7 @@ void KMultiVertTabBarTab::drawButton(QPainter *paint)
 
 KMultiVertTabBar::KMultiVertTabBar(QWidget *parent):QWidget(parent)
 {
-	buttons.setAutoDelete(true);
+	buttons.setAutoDelete(false);
 	setFixedWidth(24);
 	l=new QVBoxLayout(this);
 	l->setMargin(0);
@@ -277,7 +277,7 @@ void KMultiVertTabBar::removeButton(int id)
 	{
 		if (buttons.at(pos)->id()==id)
 		{
-			buttons.remove(pos);
+			buttons.take(pos)->deleteLater();
 			break;
 		}
 	}
