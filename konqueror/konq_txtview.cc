@@ -11,6 +11,36 @@
 #include <kio_error.h>
 #include <kurl.h>
 
+#include <mico/util.h>
+
+CORBA::WChar *Q2C( const QString &s )
+{
+  const QChar *u = s.unicode();
+  CORBA::WChar *res = CORBA::wstring_alloc( s.length() );
+  CORBA::WChar *tmp = res;
+
+  for ( uint i = 0; i < s.length(); i++ )
+    *(tmp++) = (u++)->unicode();
+
+  *tmp = 0;
+      
+  return res;
+}
+
+QString C2Q( const CORBA::WChar *s )
+{
+  size_t i, len = xwcslen( s );
+  QChar *q = new QChar[ len ];
+  QChar *tmp = q;
+  
+  for ( i = 0; i < len; i++ )
+    *(tmp++) = QChar( *(s++) );
+  
+  QString res( q, len );
+  delete [] q;
+  return res;
+}
+
 KonqTxtView::KonqTxtView()
 {
   ADD_INTERFACE( "IDL:Konqueror/TxtView:1.0" );
@@ -79,19 +109,26 @@ Konqueror::View::HistoryEntry *KonqTxtView::saveState()
   
   entry->url = CORBA::string_dup( m_strURL.ascii() );
 
-  //TODO: save text into data
+  CORBA::WString_var txt = Q2C( text() );
+  
+  entry->data <<= CORBA::Any::from_wstring( txt, 0 );
   
   return entry;
 }
 
 void KonqTxtView::restoreState( const Konqueror::View::HistoryEntry &history )
 {
-  Konqueror::EventOpenURL eventURL;
-  eventURL.url = CORBA::string_dup( history.url );
-  eventURL.reload = (CORBA::Boolean)false;
-  eventURL.xOffset = 0;
-  eventURL.yOffset = 0;
-  EMIT_EVENT( this, Konqueror::eventOpenURL, eventURL  );
+  m_strURL = history.url.in();
+  
+  CORBA::WString_var txt;
+  history.data >>= CORBA::Any::to_wstring( txt, 0 );
+  
+  QString s = C2Q( txt.in() );
+  setText( s );
+  
+  SIGNAL_CALL2( "started", id(), history.url );
+  SIGNAL_CALL2( "setLocationBarURL", id(), CORBA::Any::from_string( (char*)history.url.in(), 0 ) );
+  SIGNAL_CALL1( "completed", id() );
 }
 
 void KonqTxtView::slotFinished( int )
