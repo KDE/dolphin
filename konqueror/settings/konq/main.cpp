@@ -130,7 +130,7 @@ KDesktopModule::KDesktopModule(QWidget *parent, const char *name)
   connect(behaviour, SIGNAL(changed(bool)), this, SLOT(moduleChanged(bool)));
 
   font = new KonqFontOptions(config, "Icon Settings", this);
-  tab->addTab(font, i18n("&Fonts"));
+  tab->addTab(font, i18n("&Appearance"));
   connect(font, SIGNAL(changed(bool)), this, SLOT(moduleChanged(bool)));
 
   //should we add Trash also here ?
