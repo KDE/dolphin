@@ -677,14 +677,14 @@ void KonqBaseListViewWidget::slotItemRenamed(QListViewItem* item, const QString 
    if (col != 0) return;
    assert(item);
    KFileItem * fileItem = static_cast<KonqBaseListViewItem*>(item)->item();
-   KonqOperations::rename( this, fileItem->url(), name, this, SLOT(renamingFailed()));
+   KonqOperations::rename( this, fileItem->url(), name, this, SLOT(renamingFinished(bool)));
    m_renamedItem=static_cast<KonqBaseListViewItem*>(item);
    setFocus(); // When the KListViewLineEdit loses focus, focus tends to go to the location bar...
 }
 
-void KonqBaseListViewWidget::renamingFailed()
+void KonqBaseListViewWidget::renamingFinished(bool success)
 {
-   if (m_renamedItem!=0)
+   if ((m_renamedItem!=0) && (!success))
       m_renamedItem->updateContents();
    m_renamedItem=0;
 };
