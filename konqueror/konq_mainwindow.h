@@ -298,7 +298,6 @@ public:
 signals:
   void viewAdded( KonqView *view );
   void viewRemoved( KonqView *view );
-  QVariant executeScript( const QString & );
 
 public slots:
   void slotCtrlTabPressed();
@@ -527,8 +526,6 @@ private:
 
   void popupNewTab(bool infront, bool openAfterCurrentPage);
 
-  void executePendingBookmarklet( KonqView * view );
-
   /**
    * Tries to find a index.html (.kde.html) file in the specified directory
    */
@@ -685,8 +682,6 @@ private:
   bool m_urlCompletionStarted;
 
   bool m_bBackRightClick;
-
-  KURL m_pendingBookmarklet;
 
   static bool s_preloaded;
   static KonqMainWindow* s_preloadedWindow;
