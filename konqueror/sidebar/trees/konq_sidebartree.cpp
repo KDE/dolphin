@@ -189,6 +189,8 @@ KonqSidebarTree::KonqSidebarTree( KonqSidebar_Tree *parent, QWidget *parentWidge
       firstChild()->setOpen(true);
       m_bOpeningFirstChild = false;
     }
+
+    setFrameStyle( QFrame::ToolBarPanel | QFrame::Raised );
 }
 
 KonqSidebarTree::~KonqSidebarTree()
