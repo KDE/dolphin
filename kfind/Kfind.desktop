@@ -1,6 +1,6 @@
 [Desktop Entry]
 Encoding=UTF-8
-Exec=kfind -caption "%c" %i %m %f
+Exec=kfind %f
 Icon=kfind
 DocPath=kfind/index.html
 TerminalOptions=
