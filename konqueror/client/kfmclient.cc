@@ -52,12 +52,11 @@ int main( int argc, char **argv )
   if ( argc == 1 )
   {
     printf(i18n("\nSyntax:\n"));
-    printf(i18n("  kfmclient openURL\n"
-                "            # Opens a dialog to ask you for the URL\n\n"));
     printf(i18n("  kfmclient openURL 'url'\n"
-                "            # Opens a window showing 'url'. If such a window\n"));
-    printf(i18n("            #   exists, it is shown. 'url' may be a relative path\n"
-                "            #   or file name, such as . or subdir/\n\n"));
+                "            # Opens a window showing 'url'.\n"
+                "            #  'url' may be a relative path\n"
+                "            #   or file name, such as . or subdir/\n"
+                "            #   If 'url' is omitted, $HOME is used instead.\n\n"));
     printf(i18n("  kfmclient openProperties 'url'\n"
                 "            # Opens a properties menu\n\n"));
     printf(i18n("  kfmclient exec ['url' ['binding']]\n"
