@@ -60,7 +60,7 @@ KInstance *PluginFactory::s_instance = 0L;
 
 PluginFactory::PluginFactory()
 {
-  kdDebug() << "PluginFactory::PluginFactory" << endl;
+  kdDebug(1432) << "PluginFactory::PluginFactory" << endl;
   s_instance = 0;
 
   // preload plugin loader
@@ -70,7 +70,7 @@ PluginFactory::PluginFactory()
 
 PluginFactory::~PluginFactory()
 {
-   kdDebug() << "PluginFactory::~PluginFactory" << endl;
+   kdDebug(1432) << "PluginFactory::~PluginFactory" << endl;
 
   _loader->release();
 
@@ -86,7 +86,7 @@ KParts::Part * PluginFactory::createPart(QWidget *parentWidget, const char *widg
                                          QObject *parent, const char *name,
                                          const char */*classname*/, const QStringList &args)
 {
-  kdDebug() << "PluginFactory::create" << endl;
+  kdDebug(1432) << "PluginFactory::create" << endl;
   KParts::Part *obj = new PluginPart(parentWidget, widgetName, parent, name, args);
   emit objectCreated(obj);
   return obj;
@@ -95,7 +95,7 @@ KParts::Part * PluginFactory::createPart(QWidget *parentWidget, const char *widg
 
 KInstance *PluginFactory::instance()
 {
-  kdDebug() << "PluginFactory::instance" << endl;
+  kdDebug(1432) << "PluginFactory::instance" << endl;
 
   if ( !s_instance )
       s_instance = new KInstance( aboutData() );
@@ -113,7 +113,7 @@ PluginPart::PluginPart(QWidget *parentWidget, const char *widgetName, QObject *p
     : KParts::ReadOnlyPart(parent, name), _widget(0), _errorLabel(0), _callback(0), _args(args)
 {
   setInstance(PluginFactory::instance());
-  kdDebug() << "PluginPart::PluginPart" << endl;
+  kdDebug(1432) << "PluginPart::PluginPart" << endl;
 
   // we have to keep the class name of KParts::PluginBrowserExtension to let khtml find it
   _extension = (PluginBrowserExtension *)new KParts::BrowserExtension(this);
@@ -132,21 +132,20 @@ PluginPart::PluginPart(QWidget *parentWidget, const char *widgetName, QObject *p
 
 PluginPart::~PluginPart()
 {
-  kdDebug() << "PluginPart::~PluginPart" << endl;
+  kdDebug(1432) << "PluginPart::~PluginPart" << endl;
   closeURL();
 
   _loader->release();
-  kdDebug() << "----------------------------------------------------" << endl;
+  kdDebug(1432) << "----------------------------------------------------" << endl;
 }
 
 
 bool PluginPart::openURL(const KURL &url)
 {
-   kdDebug() << "-> PluginPart::openURL" << endl;
+   kdDebug(1432) << "-> PluginPart::openURL" << endl;
 
    m_url = url;
    emit setWindowCaption( url.prettyURL() );
-
    QString surl = url.url();
    QString smime = _extension->urlArgs().serviceType;
    bool embed = false;
@@ -157,8 +156,6 @@ bool PluginPart::openURL(const KURL &url)
    QStringList::Iterator it = _args.begin();
    for ( ; it != _args.end(); )
    {
-      kdDebug() << "arg=" << *it << endl;
-
       int equalPos = (*it).find("=");
       if (equalPos>0)
       {
@@ -167,7 +164,7 @@ bool PluginPart::openURL(const KURL &url)
          if (value.at(0)=='\"') value = value.right(value.length()-1);
          if (value.at(value.length()-1)=='\"') value = value.left(value.length()-1);
 
-         kdDebug() << "name=" << name << " value=" << value << endl;
+         kdDebug(1432) << "name=" << name << " value=" << value << endl;
 
          if (!name.isEmpty())
          {
@@ -175,18 +172,12 @@ bool PluginPart::openURL(const KURL &url)
              if ( name=="NSPLUGINEMBED" )
              {
                  embed = true;
-                 kdDebug() << "********************************* NSPLUGINEMBED ************************" << endl;
+                 kdDebug(1432) << "NSPLUGINEMBED found" << endl;
              } else
              {
                  argn << name;
                  argv << value;
              }
-         }
-
-         if (surl.isEmpty() && (name=="SRC" || name=="DATA" || name=="MOVIE"))
-         {
-            kdDebug() << "found src=" << value << endl;
-            surl = value;
          }
       }
 
@@ -195,22 +186,8 @@ bool PluginPart::openURL(const KURL &url)
 
    if (surl.isEmpty())
    {
-      kdDebug() << "<- PluginPart::openURL - false (no url passed to nsplugin)" << endl;
+      kdDebug(1432) << "<- PluginPart::openURL - false (no url passed to nsplugin)" << endl;
       return false;
-   }
-
-   if (argn.contains("SRC")==0)
-   {
-      kdDebug() << "adding SRC=" << surl << endl;
-      argn << "SRC";
-      argv << surl;
-   }
-
-   if (!smime.isEmpty() && argn.contains("TYPE")==0)
-   {
-      kdDebug() << "adding TYPE=" << smime << endl;
-      argn << "TYPE";
-      argv << smime;
    }
 
    // create plugin widget
@@ -219,8 +196,6 @@ bool PluginPart::openURL(const KURL &url)
    {
       _widget->resize( _canvas->width(), _canvas->height() );
       _widget->show();
-      connect( _widget, SIGNAL(destroyed(NSPluginInstance *)),
-               this, SLOT(widgetDestroyed(NSPluginInstance *)) );
 
       // create plugin callback
       delete _callback;
@@ -234,20 +209,17 @@ bool PluginPart::openURL(const KURL &url)
        _errorLabel->show();
    }
 
-   kdDebug() << "<- PluginPart::openURL = " << (int)(_widget!=0) << endl;
-   return _widget!=0;
+   kdDebug(1432) << "<- PluginPart::openURL = " << !_widget.isNull() << endl;
+   return _widget.isNull();
 }
 
 
 bool PluginPart::closeURL()
 {
-  kdDebug() << "PluginPart::closeURL" << endl;
-  delete _widget;
-  delete _callback;
-  delete _errorLabel;
-  _widget = 0;
-  _callback = 0;
-  _errorLabel = 0;
+  kdDebug(1432) << "PluginPart::closeURL" << endl;
+  if ( _widget ) delete _widget;
+  if ( _callback ) delete _callback;
+  if ( _errorLabel ) delete _errorLabel;
 
   return true;
 }
@@ -255,20 +227,12 @@ bool PluginPart::closeURL()
 
 void PluginPart::requestURL(QCString url, QCString target)
 {
-  kdDebug() << "PluginPart::requestURL( url=" << url << ", target=" << target << endl;
+  kdDebug(1432) << "PluginPart::requestURL( url=" << url << ", target=" << target << endl;
   KURL new_url(this->url(), url);
   KParts::URLArgs args;
   args.frameName = target;
+
   emit _extension->openURLRequest( new_url, args );
-}
-
-
-void PluginPart::widgetDestroyed( NSPluginInstance *inst )
-{
-   kdDebug() << "PluginPart::widgetDestroyed" << endl;
-   _widget = 0;
-   _errorLabel = 0;
-   closeURL();
 }
 
 
@@ -277,7 +241,7 @@ void PluginPart::pluginResized(int w, int h)
   if ( _widget ) _widget->resize( w, h );
   if ( _errorLabel ) _errorLabel->resize( w, h );
 
-  kdDebug() << "PluginPart::pluginResized()" << endl;
+  kdDebug(1432) << "PluginPart::pluginResized()" << endl;
 }
 
 

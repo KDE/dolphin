@@ -34,9 +34,10 @@
 #include <qobject.h>
 #include <qstring.h>
 #include <qstringlist.h>
+#include <qqueue.h>
 #include <qdict.h>
 #include <qintdict.h>
-
+#include <qguardedptr.h>
 
 #include <kio/job.h>
 
@@ -58,44 +59,80 @@ class KLibrary;
 class QTimer;
 
 
-class NSPluginStream : public QObject
+class NSPluginStreamBase : public QObject
+{
+Q_OBJECT
+
+public:
+  NSPluginStreamBase( class NSPluginInstance *instance );
+  ~NSPluginStreamBase();
+
+  KURL url() { return _url; };
+  int pos() { return _pos; };
+
+signals:
+  void finished( NSPluginStreamBase *strm );
+
+protected:  
+  void finish( bool err );
+  bool pump();
+  bool error() { return _error; };
+  void queue( const QByteArray &data );  
+  bool create( QString url, QString mimeType, void *notify );
+
+  class NSPluginInstance *_instance;
+  uint16 _streamType;
+  NPStream *_stream;
+  void *_notifyData;
+  QString _url;
+  class KTempFile *_tempFile;
+ 
+private:
+  int process( const QByteArray &data, int start );
+  
+  unsigned int _pos;  
+  QByteArray _queue;
+  unsigned int _queuePos;
+  bool _error;
+};
+
+
+class NSPluginStream : public NSPluginStreamBase
 {
   Q_OBJECT
 
 public:
-
   NSPluginStream( class NSPluginInstance *instance );
   ~NSPluginStream();
 
-  void get(QString url, QString mimeType, void *notifyData);
+  bool get(QString url, QString mimeType, void *notifyData);
 
-signals:
-  void finished( NSPluginStream *strm );
-
-private slots:
-
+protected slots:
   void data(KIO::Job *job, const QByteArray &data);
   void result(KIO::Job *job);
-
   void resume();
 
-private:
+protected: 
+  QGuardedPtr<KIO::TransferJob> _job; 
+  QTimer *_resumeTimer;
+};
 
-  int process( const QByteArray &data, int start );
 
-  class NSPluginInstance *_instance;
-  KIO::TransferJob *_job;
-  NPStream         *_stream;
-  uint16           _streamType;
-  void             *_notifyData;
-  QString          _url;
+class NSPluginBufStream : public NSPluginStreamBase
+{
+  Q_OBJECT
 
-  class KTempFile  *_tempFile;
+public:
+  NSPluginBufStream( class NSPluginInstance *instance );
+  ~NSPluginBufStream();
 
-  unsigned int	   _pos;
-  QTimer	   *_resumeTimer;
-  const QByteArray *_queue;
-  unsigned int	   _queuePos;
+  bool get( QString url, QString mimeType, const QByteArray &buf, void *notifyData);
+
+protected slots:
+  void timer();
+
+protected: 
+  QTimer *_timer;
 };
 
 
@@ -149,19 +186,19 @@ signals:
   void status(const char *message);
 
 public slots:
-  void streamFinished( NSPluginStream *strm );
+  void streamFinished( NSPluginStreamBase *strm );
 
 private slots:
   void timer();
   
 private:
-  friend class NSPluginStream;
+  friend class NSPluginStreamBase;
 
   bool _destroyed;
   void addTempFile(KTempFile *tmpFile);
   QList<KTempFile> _tempFiles;
   NSPluginCallbackIface_stub *_callback;
-  QList<NSPluginStream> _streams;  
+  QList<NSPluginStreamBase> _streams;  
   KLibrary *_handle;
   QTimer *_timer;
 
@@ -174,12 +211,15 @@ private:
 
   struct Request
   {
+      Request( const QString &_url, const QString &_target, void *_notify) 
+	  { url=_url; target=_target; notify=_notify; };
+
       QString url;
       QString target;
       void *notify;
   };
 
-  QList<Request> _waitingRequests;
+  QQueue<Request> _waitingRequests;
 };
 
 

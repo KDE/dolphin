@@ -6,6 +6,7 @@
 #include <kparts/part.h>
 #include <klibloader.h>
 #include <qwidget.h>
+#include <qguardedptr.h>
 
 class KAboutData;
 class KInstance;
@@ -90,11 +91,10 @@ protected:
 
 protected slots:
   void pluginResized(int,int);
-  void widgetDestroyed( NSPluginInstance *inst );
 
 private:
-  NSPluginInstance *_widget;
-  QLabel *_errorLabel;
+  QGuardedPtr<NSPluginInstance> _widget;
+  QGuardedPtr<QLabel> _errorLabel;
   PluginCanvasWidget *_canvas;
   PluginBrowserExtension *_extension;
   NSPluginCallback *_callback;

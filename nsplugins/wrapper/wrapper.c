@@ -1,6 +1,9 @@
 #include <stdio.h>
 #include <string.h>
 
+#include <X11/Xlib.h>
+#include <X11/Xlibint.h>
+
 #ifdef __hpux
 #include <dl.h>
 #else
@@ -138,8 +141,13 @@ NPError MyNPP_New(NPMIMEType pluginType, NPP instance,
                 char* argv[], NPSavedData* saved)
 {
 	NPError err;	
+	int n;
 	DEB(ef, "-> NPP_New( %s, 0x%x, %d, %d, .., .., 0x%x )\n", pluginType, instance, mode, argc, saved);
-	
+
+	for ( n=0; n<argc; n++ ) {
+	    DEB(ef, "%s=%s\n", argn[n], argv[n] );
+	}
+
 	err = gPluginFuncs.newp( pluginType, instance, mode, argc, argn, argv, saved );
 	DEB(ef, "<- NPP_New = %d\n", err);
 	return err;
@@ -507,9 +515,8 @@ NPError MyNPN_GetValue(NPP instance, NPNVariable variable,
                void *value)
 {
 	NPError ret;
-	DEB(ef, "-> NPN_GetValue( %x, %d, 0x%x)\n", instance, variable, value);	
-
-	ret = gNetscapeFuncs.getvalue( instance, variable, value );		
+	DEB(ef, "-> NPN_GetValue( %x, %d, 0x%x)\n", instance, variable, value);		
+	ret = gNetscapeFuncs.getvalue( instance, variable, value );
 	DEB(ef, "<- NPN_GetValue = %d\n", ret);
 	return ret;
 }

@@ -54,7 +54,7 @@ static int x_errhandler(Display *dpy, XErrorEvent *error)
 {
   char errstr[256];
   XGetErrorText(dpy, error->error_code, errstr, 256);
-  kdDebug() << "Detected X Error: " << errstr << endl;
+  kdDebug(1430) << "Detected X Error: " << errstr << endl;
   return 1;
 }
 
@@ -113,14 +113,14 @@ QIntDict<SocketNot> _except_notifiers;
  */
 void socketCallback(void *client_data, int */*source*/, XtInputId */*id*/)
 {
-  kdDebug() << "-> socketCallback( client_data=" << client_data << " )" << endl;
+  kdDebug(1430) << "-> socketCallback( client_data=" << client_data << " )" << endl;
 
   QEvent event( QEvent::SockAct );
   SocketNot *socknot = (SocketNot *)client_data;
-  kdDebug() << "obj=" << (void*)socknot->obj << endl;
+  kdDebug(1430) << "obj=" << (void*)socknot->obj << endl;
   QApplication::sendEvent( socknot->obj, &event );
 
-  kdDebug() << "<- socketCallback" << endl;
+  kdDebug(1430) << "<- socketCallback" << endl;
 }
 
 
@@ -133,7 +133,7 @@ void socketCallback(void *client_data, int */*source*/, XtInputId */*id*/)
 extern bool qt_set_socket_handler( int, int, QObject *, bool );
 bool qt_set_socket_handler( int sockfd, int type, QObject *obj, bool enable )
 {
-  kdDebug() << "-> qt_set_socket_handler( sockfd=" << sockfd << ", type=" << type << ", obj=" << obj << ", enable=" << enable << " )" << endl;
+  kdDebug(1430) << "-> qt_set_socket_handler( sockfd=" << sockfd << ", type=" << type << ", obj=" << obj << ", enable=" << enable << " )" << endl;
 
   if ( sockfd < 0 || type < 0 || type > 2 || obj == 0 )
   {
@@ -186,7 +186,7 @@ bool qt_set_socket_handler( int sockfd, int type, QObject *obj, bool enable )
         delete socknot;
       }
 
-  kdDebug() << "<- qt_set_socket_handler" << endl;
+  kdDebug(1430) << "<- qt_set_socket_handler" << endl;
   return TRUE;
 }
 
@@ -197,23 +197,23 @@ int main(int argc, char** argv)
     setenv( "SESSION_MANAGER", "", 1 );
 
    // trap X errors
-   kdDebug() << "1 - XSetErrorHandler" << endl;
+   kdDebug(1430) << "1 - XSetErrorHandler" << endl;
    XSetErrorHandler(x_errhandler);
    setvbuf( stderr, NULL, _IONBF, 0 );
 
    // Create application
-   kdDebug() << "2 - XtToolkitInitialize" << endl;
+   kdDebug(1430) << "2 - XtToolkitInitialize" << endl;
    XtToolkitInitialize();
    g_appcon = XtCreateApplicationContext();
    Display *dpy = XtOpenDisplay(g_appcon, NULL, "nspluginviewer", "nspluginviewer", 0, 0, &argc, argv);
 
-   kdDebug() << "3 - parseCommandLine" << endl;
+   kdDebug(1430) << "3 - parseCommandLine" << endl;
    parseCommandLine(argc, argv);
-   kdDebug() << "4 - KXtApplication app" << endl;
+   kdDebug(1430) << "4 - KXtApplication app" << endl;
    KXtApplication app(dpy, argc, argv, "nspluginviewer");
 
    // initialize the dcop client
-   kdDebug() << "5 - app.dcopClient" << endl;
+   kdDebug(1430) << "5 - app.dcopClient" << endl;
    DCOPClient *dcop = app.dcopClient();
    if (!dcop->attach())
    {
@@ -226,18 +226,18 @@ int main(int argc, char** argv)
       exit(1);
    }
 
-   kdDebug() << "6 - dcop->registerAs" << endl;
+   kdDebug(1430) << "6 - dcop->registerAs" << endl;
    if (g_dcopId)
       g_dcopId = dcop->registerAs( g_dcopId, false );
    else
       g_dcopId = dcop->registerAs("nspluginviewer");
 
    // create dcop interface
-   kdDebug() << "7 - new NSPluginViewer" << endl;
+   kdDebug(1430) << "7 - new NSPluginViewer" << endl;
    NSPluginViewer *viewer = new NSPluginViewer( "viewer", 0 );
 
    // start main loop
-   kdDebug() << "8 - XtAppNextEvent" << endl;
+   kdDebug(1430) << "8 - XtAppNextEvent" << endl;
    XEvent xe;
    while (!g_quit)
    {
