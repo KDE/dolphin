@@ -477,7 +477,7 @@ void KonqMainWindow::openURL( KonqView *_view, const KURL &_url,
                               const QString &_serviceType, KonqOpenURLRequest& req,
                               bool trustedSource )
 {
-  kdDebug(1202) << "KonqMainWindow::openURL : url = '" << _url.url() << "'  "
+  kdDebug(1202) << "KonqMainWindow::openURL : url = '" << _url << "'  "
                 << "serviceType='" << _serviceType << "' view=" << _view << endl;
 
   KURL url( _url );
@@ -610,7 +610,7 @@ void KonqMainWindow::openURL( KonqView *_view, const KURL &_url,
           setLocationBarURL( url );
       }
 
-      kdDebug(1202) << "Creating new konqrun for " << url.url() << " req.typedURL=" << req.typedURL << endl;
+      kdDebug(1202) << "Creating new konqrun for " << url << " req.typedURL=" << req.typedURL << endl;
 
       KonqRun * run = new KonqRun( this, view /* can be 0L */, url, req, trustedSource );
 
@@ -648,7 +648,7 @@ bool KonqMainWindow::openView( QString serviceType, const KURL &_url, KonqView *
   // Contract: the caller of this method should ensure the view is stopped first.
 
 #ifndef NDEBUG
-  kdDebug(1202) << "KonqMainWindow::openView " << serviceType << " " << _url.url() << " " << childView << " req:" << req.debug() << endl;
+  kdDebug(1202) << "KonqMainWindow::openView " << serviceType << " " << _url << " " << childView << " req:" << req.debug() << endl;
 #endif
   bool bOthersFollowed = false;
 
@@ -742,7 +742,7 @@ bool KonqMainWindow::openView( QString serviceType, const KURL &_url, KonqView *
       // Set view mode if necessary (current view doesn't support directories)
       if ( !childView || !childView->supportsServiceType( serviceType ) )
         serviceName = m_sViewModeForDirectory;
-      kdDebug(1202) << "serviceName=" << serviceName << " m_sViewModeForDirectory=" << m_sViewModeForDirectory << endl;
+      //kdDebug(1202) << "serviceName=" << serviceName << " m_sViewModeForDirectory=" << m_sViewModeForDirectory << endl;
 
       if ( url.isLocalFile() ) // local, we can do better (.directory)
         {
@@ -984,7 +984,7 @@ bool KonqMainWindow::makeViewsFollow( const KURL & url, const KParts::URLArgs &a
     return false; // none of those features apply -> return
 
   bool res = false;
-  kdDebug(1202) << "makeViewsFollow " << senderView->className() << " url=" << url.url() << " serviceType=" << serviceType << endl;
+  //kdDebug(1202) << "makeViewsFollow " << senderView->className() << " url=" << url << " serviceType=" << serviceType << endl;
   KonqOpenURLRequest req;
   req.followMode = true;
   req.args = args;
@@ -1010,7 +1010,7 @@ bool KonqMainWindow::makeViewsFollow( const KURL & url, const KParts::URLArgs &a
       if ( senderFrame && viewFrame && viewFrame != senderFrame )
         continue;
 
-      kdDebug(1202) << "makeViewsFollow: Sending openURL to view " << view->part()->className() << " url=" << url.url() << endl;
+      kdDebug(1202) << "makeViewsFollow: Sending openURL to view " << view->part()->className() << " url=" << url << endl;
 
       // XXX duplicate code from ::openURL
       if ( view == m_currentView )
@@ -1051,7 +1051,7 @@ bool KonqMainWindow::makeViewsFollow( const KURL & url, const KParts::URLArgs &a
 
 void KonqMainWindow::abortLoading()
 {
-  kdDebug(1202) << "KonqMainWindow::abortLoading()" << endl;
+  //kdDebug(1202) << "KonqMainWindow::abortLoading()" << endl;
   if ( m_currentView )
   {
     m_currentView->stop(); // will take care of the statusbar
@@ -2932,7 +2932,7 @@ void KonqMainWindow::slotUpDelayed()
 void KonqMainWindow::slotUpActivated( int id )
 {
   KURL u( m_currentView->locationBarURL() );
-  kdDebug(1202) << "slotUpActivated. Start URL is " << u.url() << endl;
+  kdDebug(1202) << "slotUpActivated. Start URL is " << u << endl;
   for ( int i = 0 ; i < m_paUp->popupMenu()->indexOf( id ) + 1 ; i ++ )
       u = u.upURL();
   openURL( 0L, u );
@@ -3496,7 +3496,7 @@ void KonqMainWindow::stopAnimation()
 
 void KonqMainWindow::setUpEnabled( const KURL &url )
 {
-  //kdDebug(1202) << "KonqMainWindow::setUpEnabled(" << url.url() << ")" << endl;
+  //kdDebug(1202) << "KonqMainWindow::setUpEnabled(" << url << ")" << endl;
   //kdDebug(1202) << "hasPath=" << url.hasPath() << endl;
   bool bHasUpURL = false;
 
@@ -5020,7 +5020,7 @@ void KonqMainWindow::slotAddWebSideBar(const KURL& url, const QString& name)
     if (url.url().isEmpty() && name.isEmpty())
         return;
 
-    kdDebug(1202) << "Requested to add URL " << url.url() << " [" << name << "] to the sidebar!" << endl;
+    kdDebug(1202) << "Requested to add URL " << url << " [" << name << "] to the sidebar!" << endl;
 
     KAction *a = m_toggleViewGUIClient->action("konq_sidebartng");
     if (!a) {

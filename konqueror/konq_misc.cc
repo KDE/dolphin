@@ -99,7 +99,7 @@ KonqMainWindow * KonqMisc::createSimpleWindow( const KURL & url, const KParts::U
 
 KonqMainWindow * KonqMisc::createNewWindow( const KURL &url, const KParts::URLArgs &args, bool forbidUseHTML, QStringList filesToSelect, bool tempFile )
 {
-  kdDebug() << "KonqMisc::createNewWindow url=" << url.url() << endl;
+  kdDebug() << "KonqMisc::createNewWindow url=" << url << endl;
 
   // For HTTP or html files, use the web browsing profile, otherwise use filemanager profile
   QString profileName = (!(KProtocolInfo::supportsListing(url)) ||

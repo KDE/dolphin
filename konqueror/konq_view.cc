@@ -135,7 +135,7 @@ KonqView::~KonqView()
 void KonqView::openURL( const KURL &url, const QString & locationBarURL,
                         const QString & nameFilter, bool tempFile )
 {
-  kdDebug(1202) << "KonqView::openURL url=" << url.url() << " locationBarURL=" << locationBarURL << endl;
+  kdDebug(1202) << "KonqView::openURL url=" << url << " locationBarURL=" << locationBarURL << endl;
   setServiceTypeInExtension();
 
   if (KonqMainWindow::s_crashlog_file) {
@@ -718,7 +718,7 @@ void KonqView::updateHistoryEntry( bool saveLocationBarURL )
   }
 
 #ifdef DEBUG_HISTORY
-  kdDebug(1202) << "Saving part URL : " << m_pPart->url().url() << " in history position " << m_lstHistory.at() << endl;
+  kdDebug(1202) << "Saving part URL : " << m_pPart->url() << " in history position " << m_lstHistory.at() << endl;
 #endif
   current->url = m_pPart->url();
 
@@ -876,7 +876,7 @@ void KonqView::setRun( KonqRun * run )
 
 void KonqView::stop()
 {
-  kdDebug(1202) << "KonqView::stop()" << endl;
+  //kdDebug(1202) << "KonqView::stop()" << endl;
   m_bAborted = false;
   finishedWithCurrentURL();
   if ( m_bLoading || m_bPendingRedirection )
