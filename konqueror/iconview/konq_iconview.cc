@@ -47,6 +47,7 @@
 #include <krun.h>
 #include <kstdaction.h>
 #include <kurl.h>
+#include <kpartsmainwindow.h>
 
 #include <qmessagebox.h>
 #include <qfile.h>
@@ -78,6 +79,7 @@ public:
 	for (; it != end; ++it, ++i )
 	    // This is not used anymore - do we still need something like this ?
 	    // (David)
+    	    // Hmmm, don't think so (Simon)
 	    if ( *it == "-viewMode" && i <= args.count() )
 	    {
 		++it;
@@ -471,6 +473,12 @@ void KonqKfmIconView::slotSortDescending()
 
     m_pIconView->sort( m_pIconView->sortDirection() );
 }
+
+void KonqKfmIconView::guiActivateEvent( KParts::GUIActivateEvent *event )
+{
+  if ( event->activated() )
+    m_pIconView->slotSelectionChanged();
+} 
 
 void KonqKfmIconView::slotKofficeMode( bool b )
 {

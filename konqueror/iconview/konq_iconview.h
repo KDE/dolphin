@@ -111,6 +111,8 @@ protected slots:
 
 protected:
 
+  virtual void guiActivateEvent( KParts::GUIActivateEvent *event );
+
   void setupSorting( SortCriterion criterion );
 
   /** */

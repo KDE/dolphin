@@ -174,8 +174,8 @@ KonqMainView::KonqMainView( const QString &initialURL, bool openInitialURL, cons
     if ( config->hasGroup( "Default View Profile" ) )
     {
       config->setGroup( "Default View Profile" );
-      m_pViewManager->loadViewProfile( *config );
       enableAllActions( true );
+      m_pViewManager->loadViewProfile( *config );
     }
     else
       openURL( 0L, KURL( QDir::homeDirPath().prepend( "file:" ) ) );
@@ -710,18 +710,18 @@ void KonqMainView::slotStarted( int jobId )
   }
   m_ulTotalDocumentSize = 0;
 }
- 
+
 void KonqMainView::slotTotalSize( int, unsigned long size )
 {
   m_ulTotalDocumentSize = size;
 }
- 
+
 void KonqMainView::slotProcessedSize( int, unsigned long size )
 {
   if ( m_ulTotalDocumentSize > (unsigned long)0 )
     slotLoadingProgress( size * 100 / m_ulTotalDocumentSize );
 }
- 
+
 void KonqMainView::slotSpeed( int, unsigned long bytesPerSecond )
 {
   slotSpeedProgress( (long int)bytesPerSecond );
@@ -805,10 +805,10 @@ bool KonqMainView::openView( QString serviceType, const KURL &_url, KonqChildVie
         return true; // fake everything was ok, we don't want to propagate the error
       }
 
-      //      setActiveView( view );
-      m_pViewManager->setActivePart( view );
-
       enableAllActions( true ); // can't we rely on setActiveView to do the right thing ? (David)
+      
+      m_pViewManager->setActivePart( view );
+      
       // we surely don't have any history buffers at this time
       m_paBack->setEnabled( false );
       m_paForward->setEnabled( false );
@@ -862,22 +862,24 @@ void KonqMainView::slotPartActivated( KParts::Part *part )
   if ( newView->passiveMode() )
     return;
 
-  guiFactory()->removeServant( m_viewModeGUIServant );
-  createGUI( part );
+  //  guiFactory()->removeServant( m_viewModeGUIServant );
 
   KonqChildView *oldView = m_currentView;
 
-  //  if ( m_currentView )
-  //    unPlugViewGUI( m_currentView->view() );
   if ( m_currentView && m_currentView->browserExtension() )
     disconnectExtension( m_currentView->browserExtension() );
 
   m_currentView = newView;
 
   if ( m_currentView->browserExtension() )
+  {
     connectExtension( m_currentView->browserExtension() );
+    createGUI( part );
+  }
+  else
+    createGUI( 0L );
 
-  //guiFactory()->removeServant( m_viewModeGUIServant );
+  guiFactory()->removeServant( m_viewModeGUIServant );
   m_viewModeGUIServant->update( m_currentView->serviceOffers() );
   guiFactory()->addServant( m_viewModeGUIServant );
 
@@ -885,8 +887,6 @@ void KonqMainView::slotPartActivated( KParts::Part *part )
 
   if ( oldView )
     oldView->frame()->header()->repaint();
-
-  //  plugInViewGUI( view );
 
   if ( m_combo )
     m_combo->setEditText( m_currentView->locationBarURL() );
@@ -1809,14 +1809,16 @@ void KonqMainView::connectExtension( KParts::BrowserExtension *ext )
   for ( unsigned int i = 0 ; i < sizeof(s_actionnames)/sizeof(char*) ; i++ )
   {
     kDebugInfo( 1202, s_actionnames[i] );
+    QAction * act = actionCollection()->action( s_actionnames[i] );
     if ( slotNames.contains( s_actionnames[i] ) )
     {
       // Find the corresponding action
-      QAction * act = actionCollection()->action( s_actionnames[i] );
       assert(act);
       ext->connect( act, SIGNAL( activated() ), s_actionnames[i] );
       kDebugInfo( 1202, "Connecting to %s", s_actionnames[i] );
     }
+    if ( act )
+      act->setEnabled( false );
   }
   connect( ext, SIGNAL( enableAction( const char *, bool ) ),
            this, SLOT( slotEnableAction( const char *, bool ) ) );
