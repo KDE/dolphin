@@ -1286,7 +1286,7 @@ void DirPropsPage::drawWallPaper()
 	return;
     }
 
-    QString file = KGlobal::locate("wallpaper", text);
+    QString file = locate("wallpaper", text);
 
     if ( file != wallFile )
     {
