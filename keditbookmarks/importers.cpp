@@ -295,28 +295,32 @@ void XBELImportCommand::doExecute() {
 }
 
 template <class TheImporter>
-static TheImporter* callImporter(QWidget *parent)
+static TheImporter* callImporter(QWidget *)
 {
-   TheImporter* importer = new TheImporter();
+   return new TheImporter();
+}
+
+ImportCommand* ImportCommandFactory::call(const QCString &type, QWidget *top) {
+   ImportCommand *importer;
+
+   if (type == "Galeon") importer =  callImporter<GaleonImportCommand>(top);
+   if (type == "IE")     importer =  callImporter<IEImportCommand>    (top);
+   if (type == "KDE2")   importer =  callImporter<KDE2ImportCommand>  (top);
+   if (type == "Opera")  importer =  callImporter<OperaImportCommand> (top);
+   if (type == "Moz")    importer =  callImporter<MozImportCommand>   (top);
+   if (type == "NS")     importer =  callImporter<NSImportCommand>    (top);
+
    QString mydirname = importer->requestFilename();
    if (mydirname.isEmpty()) {
       return 0;
    }
-   int ret = TheImporter::doImport(parent, importer->visibleName());
+   int ret = ImportCommand::doImport(top, importer->visibleName());
    if (ret == 0) {
       return 0;
    }
+
    importer->init3(mydirname, (ret == 2));
    return importer;
-}
-
-ImportCommand* ImportCommandFactory::call(const QCString &type, QWidget *top) {
-   if (type == "Galeon") return callImporter<GaleonImportCommand>(top);
-   if (type == "IE")     return callImporter<IEImportCommand>    (top);
-   if (type == "KDE2")   return callImporter<KDE2ImportCommand>  (top);
-   if (type == "Opera")  return callImporter<OperaImportCommand> (top);
-   if (type == "Moz")    return callImporter<MozImportCommand>   (top);
-   if (type == "NS")     return callImporter<NSImportCommand>    (top);
 }
 
 #include "importers.moc"
