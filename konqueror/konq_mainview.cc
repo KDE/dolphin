@@ -246,8 +246,8 @@ void KonqMainView::openURL( KonqChildView *_view, const QString &_url, bool relo
     kapp->invokeMailer( addr, subj );
 
     return;
-  }  
-  
+  }
+
   /////////// First, modify the URL if necessary (adding protocol, ...) //////
 
   QString url = konqFilteredURL(_url);
@@ -696,7 +696,10 @@ debug(" KonqMainView::openView %s %s", serviceType.ascii(), url.ascii());
 
   childView->setLoading( false );
   if ( childView == m_currentView )
+  {
     stopAnimation();
+    setLocationBarURL( childView, childView->view()->url() );
+  }
 
   return false;
 }
