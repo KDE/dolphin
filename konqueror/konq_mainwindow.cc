@@ -4509,7 +4509,7 @@ bool KonqMainWindow::stayPreloaded()
         return false;
     }
     DCOPRef ref( "kded", "konqy_preloader" );
-    if( !ref.call( "registerPreloadedKonqy", kapp->dcopClient()->appId(), DCOPRef::NoEventLoop, 5000 ))
+    if( !ref.call<QCString>( "registerPreloadedKonqy", kapp->dcopClient()->appId(), DCOPRef::NoEventLoop, 5000 ))
     {
         kapp->deref();
         return false;
