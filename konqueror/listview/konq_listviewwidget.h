@@ -175,9 +175,6 @@ class KonqBaseListViewWidget : public KListView
       void slotUpdateBackground();
 
    protected:
-      //calls KListView::focusInEvent(), otherrwise this is never called,
-      //I have no idea why, AleXXX
-      virtual void focusInEvent( QFocusEvent *fe );
       //creates the listview columns according to confColumns
       virtual void createColumns();
       //reads the configuration for the columns of the current

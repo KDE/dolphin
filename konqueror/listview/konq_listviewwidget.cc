@@ -176,12 +176,6 @@ KonqBaseListViewWidget::~KonqBaseListViewWidget()
    delete m_dirLister;
 }
 
-//otherwise it doesn't work, I don't knwo why, AleXXX
-void KonqBaseListViewWidget::focusInEvent( QFocusEvent *fe )
-{
-   KListView::focusInEvent(fe);
-}
-
 void KonqBaseListViewWidget::readProtocolConfig( const QString & protocol )
 {
    KConfig * config = KGlobal::config();
@@ -625,16 +619,6 @@ void KonqBaseListViewWidget::viewportDragMoveEvent( QDragMoveEvent *_ev )
 void KonqBaseListViewWidget::viewportDragEnterEvent( QDragEnterEvent *_ev )
 {
    m_dragOverItem = 0L;
-/*
-   // Save the available formats
-   m_lstDropFormats.clear();
-
-   for( int i = 0; _ev->format( i ); i++ )
-   {
-      if ( *( _ev->format( i ) ) )
-         m_lstDropFormats.append( _ev->format( i ) );
-   }
-   */
 
    // By default we accept any format
    _ev->accept();
