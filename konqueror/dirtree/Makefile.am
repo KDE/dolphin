@@ -1,4 +1,4 @@
-SUBDIRS = init
+SUBDIRS = init dirtree_module
 
 INCLUDES = -I$(top_srcdir)/libkonq -I$(top_srcdir)/konqueror $(all_includes)
 
@@ -12,7 +12,7 @@ libkonqdirtree_la_LIBADD = $(top_builddir)/libkonq/libkonq.la
 
 libkonqtree_la_SOURCES = konq_tree.cpp konq_treepart.cpp konq_treeitem.cpp konq_treetoplevelitem.cpp
 libkonqtree_la_LDFLAGS = $(all_libraries) $(KDE_PLUGIN)
-libkonqtree_la_LIBADD = $(top_builddir)/libkonq/libkonq.la # add dirtree/blah.la here soon
+libkonqtree_la_LIBADD = $(top_builddir)/libkonq/libkonq.la dirtree_module/libkonqdirtreemodule.la # temporary hack
 
 servicedir = $(kde_servicesdir)
 service_DATA = konq_dirtree.desktop

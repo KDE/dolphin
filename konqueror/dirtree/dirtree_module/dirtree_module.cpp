@@ -32,20 +32,20 @@
 #include <assert.h>
 
 KonqDirTreeModule::KonqDirTreeModule( KonqTree * parentTree )
-    : KonqTreeModule( parentTree ), m_dirLister( 0L )
+    : KonqTreeModule( parentTree ), /*m_lasttvd(0L), */m_dirLister(0L), m_topLevelItem(0L), m_pProps(0L)
 {
     // Used to be static...
     s_defaultViewProps = new KonqPropsView( KonqTreeFactory::instance(), 0L );
-    // Create a properties instance for this view
-    m_pProps = new KonqPropsView( KonqTreeFactory::instance(), s_defaultViewProps );
+
+    m_folderPixmap = KMimeType::mimeType( "inode/directory" )->pixmap( KIcon::Desktop, KIcon::SizeSmall );
+
 }
 
 void KonqDirTreeModule::clearAll()
 {
     delete m_pProps;
     delete s_defaultViewProps;
-
-    delete m_dirLister;
+    //### TODO iterate over the map and kill the listers
 }
 
 QDragObject * KonqDirTreeModule::dragObject( QWidget * parent, bool move )
@@ -118,6 +118,8 @@ void KonqDirTreeModule::shred()
 
 void KonqDirTreeModule::addTopLevelItem( KonqTreeTopLevelItem * item )
 {
+    assert(!m_topLevelItem); // We can handle only one at a time !
+
     KDesktopFile cfg( item->path(), true );
     cfg.setDollarExpansion(true);
     QString icon;
@@ -147,7 +149,40 @@ void KonqDirTreeModule::addTopLevelItem( KonqTreeTopLevelItem * item )
     bool bListable = KProtocolInfo::supportsListing( targetURL.protocol() );
     kdDebug() << targetURL.prettyURL() << " listable : " << bListable << endl;
 
-    if ( bListable )
+    if ( !bListable )
+    {
+        item->setExpandable( false );
+        item->setListable( false );
+    }
+
+    item->setPixmap( 0, SmallIcon( icon ) );
+    item->setExternalURL( targetURL );
+    addSubDir( item );
+
+    m_topLevelItem = item;
+}
+
+
+void KonqDirTreeModule::addSubDir( KonqTreeItem *item )
+{
+    m_dictSubDirs.insert( item->externalURL().url(0), item );
+}
+
+void KonqDirTreeModule::removeSubDir( KonqTreeItem *item )
+{
+    //m_lasttvd = 0L; // drop cache, to avoid segfaults
+    m_dictSubDirs.remove( item->externalURL().url(0) );
+}
+
+
+void KonqDirTreeModule::openSubFolder( KonqTreeItem *item )
+{
+    // This causes a reparsing, but gets rid of the trailing slash
+    KURL url( item->externalURL().url(0) );
+
+    kdDebug(1202) << "openSubFolder( " << url.url() << " )" << endl;
+
+    if ( !m_dirLister ) // created on demand
     {
         m_dirLister = new KonqDirLister( true );
         m_dirLister->setDirOnlyMode( true );
@@ -160,43 +195,33 @@ void KonqDirTreeModule::addTopLevelItem( KonqTreeTopLevelItem * item )
                  this, SLOT( slotListingStopped() ) );
         connect( m_dirLister, SIGNAL( canceled() ),
                  this, SLOT( slotListingStopped() ) );
-        connect( m_dirLister, SIGNAL( redirection( const KURL &) ),
-                 this, SLOT( slotRedirection( const KURL &) ) );
+        connect( m_dirLister, SIGNAL( redirection( const KURL & oldUrl, const KURL & newUrl ) ),
+                 this, SLOT( slotRedirection( const KURL & oldUrl, const KURL & newUrl ) ) );
     }
-    else
+
+    if ( !m_pProps ) // created on demand
     {
-        item->setExpandable( false );
-        item->setListable( false );
+        // Create a properties instance for this view
+        m_pProps = new KonqPropsView( KonqTreeFactory::instance(), s_defaultViewProps );
     }
 
-    item->setPixmap( 0, SmallIcon( icon ) );
-    item->setExternalURL( targetURL );
-    addSubDir( item, targetURL );
-}
+    // Check for new properties in the new dir
+    // newProps returns true the first time, and any time something might
+    // have changed.
+    /*bool newProps = */m_pProps->enterDir( url );
 
+    m_dirLister->openURL( url, m_pProps->isShowingDotFiles(), item->isTopLevelItem() /*keep*/ );
 
-void KonqDirTreeModule::openSubFolder( KonqDirTreeItem *item )
-{
-    KURL u = item->externalURL();
-
-    kdDebug(1202) << "openSubFolder( " << u.url() << " )  topLevel=" << topLevel << endl;
-
-    if ( m_dirLister->job() == 0 )
+#if 0
+    if ( newProps )
     {
-        //kdDebug() << "KonqDirTreeModule::openSubFolder m_currentlyListedURL=" << m_currentlyListedURL.prettyURL() << endl;
-        //kdDebug() << "KonqDirTreeModule::openSubFolder dirlister=" << m_dirLister << endl;
-        openDirectory( u, topLevel ? true : false );
+        // See the other parts
+        m_pProps->applyColors( viewport() );
     }
-    else  if ( !m_lstPendingURLs->contains( u ) )
-        m_lstPendingURLs->append( u );
+#endif
 
     if ( item->isTopLevelItem() ) // No animation for toplevel items (breaks the icon)
         return;
-
-#if 0
-    kdDebug(1202) << "m_mapCurrentOpeningFolders.insert( " << u.prettyURL() << " )" << endl;
-    m_mapCurrentOpeningFolders.insert( u, item );
-#endif
 
     //startAnimation( item, "kde" );
 }
@@ -205,99 +230,65 @@ void KonqDirTreeModule::slotNewItems( const KFileItemList& entries )
 {
     kdDebug(1202) << "KonqDirTreeModule::slotNewItems " << entries.count() << endl;
 
-    const KonqDirLister *lister = static_cast<const KonqDirLister *>( sender() );
-
     QListIterator<KFileItem> kit ( entries );
     for( ; kit.current(); ++kit )
     {
-        KonqFileItem * item = static_cast<KonqFileItem *>(*kit);
+        KonqFileItem * fileItem = static_cast<KonqFileItem *>(*kit);
 
-        assert( S_ISDIR( item->mode() ) );
+        assert( fileItem->isDir() );
 
-        KURL dir( item->url() );
+        // Find parent item
+        KURL dir( fileItem->url() );
         dir.setFileName( "" );
-        //KURL dir( item->url().directory() );
+        KonqTreeItem * parentItem = m_dictSubDirs[ dir.url(0) ];
+        ASSERT( parentItem );
 
-        //  KonqDirTreeItem *parentDir = findDir( m_mapSubDirs, dir.url( 0 ) );
-        //  QMap<KURL, KonqDirTreeItem *>::ConstIterator dirIt = m_mapSubDirs.find( dir );
-        // *mumble* can't use QMap::find() because the cmp doesn't ignore the trailing slash :-(
-        QMap<KURL, KonqDirTreeItem *>::ConstIterator dirIt = m_mapSubDirs.begin();
-        QMap<KURL, KonqDirTreeItem *>::ConstIterator dirEnd = m_mapSubDirs.end();
-        for (; dirIt != dirEnd; ++dirIt )
-        {
-            if ( dir.cmp( dirIt.key(), true ) )
-                break;
-        }
-
-        if( dirIt == m_mapSubDirs.end() )
-        {
-            // ### TODO Make this a message box
-            kdError(1202) << "THIS SHOULD NOT HAPPEN. INTERNAL ERROR" << endl;
-            kdError(1202) << "KonqDirTree:slotNewItems got item " << item->url().url() << endl;
-            kdError(1202) << "Couldn't find directory " << dir.url() << " in dirtree's m_mapSubDirs" << endl;
-            ASSERT( 0 );
-            return;
-        }
-
-        KonqDirTreeItem *parentDir = dirIt.data();
-
-        assert( parentDir );
-
-        KonqDirTreeItem *dirTreeItem = new KonqDirTreeItem( this, parentDir, m_item, item );
+        KonqDirTreeItem *dirTreeItem = new KonqDirTreeItem( m_pTree, parentItem, m_topLevelItem, fileItem );
         dirTreeItem->setPixmap( 0, m_folderPixmap );
-        dirTreeItem->setText( 0, KIO::decodeFileName( item->url().fileName() ) );
+        dirTreeItem->setText( 0, KIO::decodeFileName( fileItem->url().fileName() ) );
     }
 }
 
-void KonqDirTreeModule::slotDeleteItem( KFileItem *item )
+void KonqDirTreeModule::slotDeleteItem( KFileItem *fileItem )
 {
-    assert( S_ISDIR( item->mode() ) );
+    assert( fileItem->isDir() );
 
-    //  kdDebug(1202) << "slotDeleteItem( " << item->url().url() << " )" << endl;
+    kdDebug() << "KonqDirTreeModule::slotDeleteItem( " << fileItem->url().url(0) << " )" << endl;
 
-    const KonqDirLister *lister = static_cast<const KonqDirLister *>( sender() );
-
-    if ( item == m_item->fileItem() )
-    {
-        assert( 0 ); //TODO ;)
-    }
-
+    /* No, thanks the slow method isn't what we want ;)
     QListViewItemIterator it( m_item );
     for (; it.current(); ++it )
     {
-        if ( static_cast<KonqDirTreeItem *>( it.current() )->fileItem() == item )
+        if ( static_cast<KonqDirTreeItem *>( it.current() )->fileItem() == fileItem )
         {
             //      kdDebug(1202) << "removing " << item->url().url() << endl;
             delete it.current();
             return;
         }
-    }
+    }*/
 
+    // All items are in m_dictSubDirs, so look it up fast
+    KonqTreeItem * item = m_dictSubDirs[ fileItem->url().url(0) ];
+    ASSERT(item);
+    if (item)
+        delete item;
 }
 
-void KonqDirTreeModule::slotRedirection( const KURL & url )
+void KonqDirTreeModule::slotRedirection( const KURL & oldUrl, const KURL & newUrl )
 {
-    kdDebug(1202) << "KonqDirTree::slotRedirection(" << url.prettyURL() << ")" << endl;
-    const KonqDirLister *lister = static_cast<const KonqDirLister *>( sender() );
+    kdDebug(1202) << "KonqDirTreeModule::slotRedirection(" << newUrl.prettyURL() << ")" << endl;
 
-    KURL dir = m_currentlyListedURL;
-    QMap<KURL, KonqDirTreeItem *>::Iterator dirIt = m_mapSubDirs.begin();
-    QMap<KURL, KonqDirTreeItem *>::Iterator dirEnd = m_mapSubDirs.end();
-    for (; dirIt != dirEnd; ++dirIt )
-    {
-        if ( dir.cmp( dirIt.key(), true ) )
-            break;
-    }
+    KonqTreeItem * item = m_dictSubDirs[ oldUrl.url(0) ];
+    ASSERT( item );
 
-    if (dirIt==dirEnd)
-        kdWarning() << "NOT FOUND   dir=" << dir.prettyURL() << endl;
+    if (!item)
+        kdWarning() << "NOT FOUND   oldUrl=" << oldUrl.prettyURL() << endl;
     else
     {
-        // We need to update the URL in m_mapSubDirs
-        KonqDirTreeItem * item = dirIt.data();
-        m_mapSubDirs.remove( dirIt );
-        m_mapSubDirs.insert( url, item );
-        kdDebug() << "Updating url to " << url.prettyURL() << endl;
+        // We need to update the URL in m_dictSubDirs
+        m_dictSubDirs.remove( oldUrl.url(0) );
+        m_dictSubDirs.insert( newUrl.url(0), item );
+        kdDebug() << "Updating url to " << newUrl.prettyURL() << endl;
     }
 }
 
@@ -305,40 +296,35 @@ void KonqDirTreeModule::slotListingStopped()
 {
     const KonqDirLister *lister = static_cast<const KonqDirLister *>( sender() );
     KURL url = lister->url();
+    KonqTreeItem * item = m_dictSubDirs[ url.url(0) ];
+
+    ASSERT(item);
 
     kdDebug() << "KonqDirTree::slotListingStopped " << url.prettyURL() << endl;
 
-    QMap<KURL, KonqDirTreeItem *>::ConstIterator dirIt = m_mapSubDirs.begin();
-    QMap<KURL, KonqDirTreeItem *>::ConstIterator dirEnd = m_mapSubDirs.end();
-    for (; dirIt != dirEnd; ++dirIt )
+    if ( item && item->childCount() == 0 )
     {
-        if ( url.cmp( dirIt.key(), true ) )
-            break;
+        item->setExpandable( false );
+        item->repaint();
     }
 
-    if ( dirIt != m_mapSubDirs.end() && dirIt.data()->childCount() == 0 )
-    {
-        dirIt.data()->setExpandable( false );
-        dirIt.data()->repaint();
-    }
-
+#if 0
     KURL::List::Iterator it = m_lstPendingURLs.find( url );
     if ( it != m_lstPendingURLs.end() )
-    {
         m_lstPendingURLs.remove( it );
-    }
 
     if ( m_lstPendingURLs.count() > 0 )
     {
         kdDebug(1202) << "opening (was pending) " << m_lstPendingURLs.first().prettyURL() << endl;
         openDirectory( m_lstPendingURLs.first(), true );
     }
+#endif
 
     kdDebug(1202) << "m_selectAfterOpening " << m_selectAfterOpening.prettyURL() << endl;
     if ( !m_selectAfterOpening.isEmpty() && m_selectAfterOpening.upURL() == url )
     {
         kdDebug(1202) << "Selecting m_selectAfterOpening " << m_selectAfterOpening.prettyURL() << endl;
-        followURL( m_selectAfterOpening );
+        /// ### TODO followURL( m_selectAfterOpening );
         m_selectAfterOpening = KURL();
     }
 #if 0
@@ -355,22 +341,25 @@ void KonqDirTreeModule::slotListingStopped()
 #endif
 }
 
-void KonqDirTreeModule::openDirectory( const KURL & url, bool keep )
+/*
+KonqTreeItem * KonqDirTreeModule::findDir( const KURL &_url )
 {
-    m_currentlyListedURL = url;
+    // Heavily copied from KonqTreeViewWidget
+    QString url = _url.url(0);
+    if ( m_lasttvd && urlcmp( m_lasttvd->url(0), url, true, true ) )
+        return m_lasttvd;
 
-    // Check for new properties in the new dir
-    // newProps returns true the first time, and any time something might
-    // have changed.
-    bool newProps = m_pProps->enterDir( url );
-
-    m_dirLister->openURL( url, m_view->m_pProps->isShowingDotFiles(), keep );
-
-    if ( newProps )
+    QDictIterator<KonqTreeItem> it( m_dictSubDirs );
+    for( ; it.current(); ++it )
     {
-        // See the other parts
-        m_pProps->applyColors( viewport() );
+        kdDebug(1202) << it.current()->externalURL().url(0) << endl;
+        if ( urlcmp( it.current()->externalURL().url(0), url, true, true ) )
+        {
+            m_lasttvd = it.current();
+            return it.current();
+        }
     }
-}
+    return 0L;
+}*/
 
 #include "dirtree_module.moc"

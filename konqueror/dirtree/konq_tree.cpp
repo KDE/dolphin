@@ -33,6 +33,8 @@
 #include <kurldrag.h>
 #include <assert.h>
 
+#include <dirtree_module/dirtree_module.h> // TEMPORARY HACK
+
 static const int autoOpenTimeout = 750;
 
 KonqTreeModule * KonqTree::currentModule() const
@@ -45,8 +47,6 @@ KonqTreeModule * KonqTree::currentModule() const
 KonqTree::KonqTree( KonqTreePart *parent, QWidget *parentWidget )
     : KListView( parentWidget )
 {
-    m_folderPixmap = KMimeType::mimeType( "inode/directory" )->pixmap( KIcon::Desktop, KIcon::SizeSmall );
-
     setAcceptDrops( true );
     viewport()->setAcceptDrops( true );
 
@@ -494,6 +494,8 @@ void KonqTree::loadTopLevelItem( KonqTreeItem *parent,  const QString &filename 
     KonqTreeModule * module = 0L;
     /////////// ####### !!!!!!!!! @@@@@@@@ here's where we need to create the right module...
 #warning TODO
+
+    module = new KonqDirTreeModule( this );
 
     KonqTreeTopLevelItem *item;
     if ( parent )

@@ -21,6 +21,7 @@
 
 #include <konq_treemodule.h>
 #include <kfileitem.h>
+#include <qpixmap.h>
 
 class KonqTree;
 class KonqTreeItem;
@@ -46,27 +47,38 @@ public:
     virtual void shred();
 
     // Called by KonqDirTreeItem
-    void openSubFolder( KonqDirTreeItem *item );
-    void addSubDir( KonqDirTreeItem *item, const KURL &url );
-    void removeSubDir( KonqDirTreeItem *item, const KURL &url );
+    void openSubFolder( KonqTreeItem *item );
+    void addSubDir( KonqTreeItem *item );
+    void removeSubDir( KonqTreeItem *item );
 
 private slots:
     void slotNewItems( const KFileItemList & );
     void slotDeleteItem( KFileItem *item );
-    void slotRedirection( const KURL & );
+    void slotRedirection( const KURL & oldUrl, const KURL & newUrl );
     void slotListingStopped();
 
 private:
-    void openDirectory( const KURL & url, bool keep );
+    //KonqTreeItem * findDir( const KURL &_url );
     KURL::List selectedUrls();
 
-    KonqDirLister *m_dirLister;
-    QMap<KURL,KonqDirTreeItem *> m_mapSubDirs;
-    KURL::List m_lstPendingURLs;
-    KURL m_currentlyListedURL; // always the same as m_dirLister->url(), but used for redirections
+    // URL -> item
+    QDict<KonqTreeItem> m_dictSubDirs;
+
+    QPixmap m_folderPixmap;
+
+    // Cache, for findDir
+    //KonqTreeItem* m_lasttvd;
+
+    // The dirlister - having only one prevents opening two subdirs at the same time,
+    // but it's necessary for the update feature.... if we want two openings on the
+    // same tree, it requires a major kdirlister improvement (rather as a subclass).
+    KonqDirLister * m_dirLister;
+
+    //KURL::List m_lstPendingURLs;
 
     KURL m_selectAfterOpening;
-    //KonqTreeTopLevelItem * m_topLevelItem;
+
+    KonqTreeTopLevelItem * m_topLevelItem;
 
     KonqPropsView * s_defaultViewProps;
     KonqPropsView * m_pProps;

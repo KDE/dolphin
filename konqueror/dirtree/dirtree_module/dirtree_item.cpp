@@ -34,20 +34,20 @@ KonqDirTreeItem::KonqDirTreeItem( KonqTree *parent, KonqTreeItem *parentItem, Ko
     : KonqTreeItem( parent, parentItem, topLevelItem ), m_fileItem( fileItem )
 {
     if ( m_topLevelItem )
-        MYMODULE->addSubDir( this, m_fileItem->url() );
+        MYMODULE->addSubDir( this );
 }
 
 KonqDirTreeItem::KonqDirTreeItem( KonqTree *parent, KonqTreeTopLevelItem *topLevelItem, KonqFileItem *fileItem )
     : KonqTreeItem( parent, topLevelItem ), m_fileItem( fileItem )
 {
     if ( m_topLevelItem )
-        MYMODULE->addSubDir( this, m_fileItem->url() );
+        MYMODULE->addSubDir( this );
 }
 
 KonqDirTreeItem::~KonqDirTreeItem()
 {
     if ( m_topLevelItem )
-        MYMODULE->removeSubDir( this, m_fileItem->url() );
+        MYMODULE->removeSubDir( this );
 }
 
 void KonqDirTreeItem::setOpen( bool open )

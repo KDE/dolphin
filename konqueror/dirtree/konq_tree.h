@@ -24,7 +24,6 @@
 #include <kdirnotify.h>
 #include <qmap.h>
 #include <qstrlist.h>
-#include <qpixmap.h>
 class KonqTreeModule;
 class KonqTreeItem;
 class KonqTreePart;
@@ -108,8 +107,6 @@ private:
 
     QListViewItem *m_dropItem;
     QStrList m_lstDropFormats;
-
-    QPixmap m_folderPixmap;
 
     QTimer *m_autoOpenTimer;
 

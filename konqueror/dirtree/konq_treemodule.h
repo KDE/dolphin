@@ -50,9 +50,6 @@ public:
     virtual void del() {}
     virtual void shred() {}
 
-    // Called when an item in this module is selected
-    virtual void slotSelectionChanged() = 0;
-
 protected:
     KonqTree * m_pTree;
 };
