@@ -31,8 +31,7 @@
 #include <kwin.h>
 
 #include <kbookmarkmanager.h>
-
-#include "kebbookmarkexporter.h"
+#include <kbookmarkexporter.h>
 
 #include "toplevel.h"
 
@@ -130,7 +129,7 @@ int main(int argc, char **argv) {
          KCmdLineArgs::usage("You may only choose one of the --export options.");
       }
       QString path = QString::fromLocal8Bit(args->getOption(mozFlag ? "exportmoz" : "exportns"));
-      KEBNSBookmarkExporter exporter(mgr, path);
+      KNSBookmarkExporter exporter(mgr, path);
       exporter.write(mozFlag);
       return 0; // error flag on exit?, 1?
    }

@@ -27,8 +27,8 @@
 
 #include <kbookmarkmanager.h>
 #include <kbookmarkimporter.h>
+#include <kbookmarkexporter.h>
 
-#include "kebbookmarkexporter.h"
 #include "toplevel.h"
 
 #include "mymanager.h"
@@ -63,7 +63,7 @@ void CurrentMgr::doExport(bool moz) {
         ? KNSBookmarkImporter::mozillaBookmarksFile(true)
         : KNSBookmarkImporter::netscapeBookmarksFile(true);
    if (!path.isEmpty()) {
-      KEBNSBookmarkExporter exporter(mgr(), path);
+      KNSBookmarkExporter exporter(mgr(), path);
       exporter.write(moz);
    }
 }
