@@ -92,6 +92,23 @@ enum _ids {
 QList<KonqMainView>* KonqMainView::s_lstWindows = 0L;
 QList<OpenPartsUI::Pixmap>* KonqMainView::s_lstAnimatedLogo = 0L;
 
+/*
+ The award for the worst hack (aka Bug Oscar) goes to..... ah no, 
+ it's not Microsoft, it's me :-(
+ Well, there's somewhere in there a bug in regard to freeing references
+ of a view. As a quick/bad hack we "force" the destruction of the object 
+ (in case of a local view, for a remote view this doesn't matter) by
+ simply "deref'ing" .... (ask me for further details about this)
+ In contrary to the Microsoft way of hacking this hack should increase the
+ stability of the product ;-) . Anyway, the problem remains and this is not
+ meant to be a solution.
+ Simon
+ */
+void VeryBadHackToFixCORBARefCntBug( CORBA::Object_ptr obj )
+{
+  while ( obj->_refcnt() > 1 ) obj->_deref();
+}
+
 KonqMainView::KonqMainView( const char *url = 0L, QWidget *_parent = 0L ) : QWidget( _parent )
 {
   ADD_INTERFACE( "IDL:Konqueror/MainView:1.0" );
@@ -210,12 +227,17 @@ void KonqMainView::cleanUp()
   if ( m_pRun )
     delete m_pRun;
   
+  if ( m_vMainWindow->activePartId() == m_currentId )
+    m_vMainWindow->setActivePart( 0 );
+    
   map<OpenParts::Id,View*>::iterator it = m_mapViews.begin();
   for (; it != m_mapViews.end(); it++ )
       {
         it->second->m_vView->disconnectObject( this );
+	OPPartIf::removeChild( it->second->m_vView );
 	it->second->m_vView = 0L;
 	it->second->m_pFrame->detach();
+	it->second->m_pFrame->hide();
         delete it->second->m_pFrame;
 	delete it->second;
       }	
@@ -573,9 +595,14 @@ void KonqMainView::removeView( OpenParts::Id id )
   map<OpenParts::Id,View*>::iterator it = m_mapViews.find( id );
   if ( it != m_mapViews.end() )
   {
+    if ( id == m_currentId )
+      m_vMainWindow->setActivePart( this->id() );
+      
     it->second->m_vView->disconnectObject( this );
+    OPPartIf::removeChild( it->second->m_vView );
     it->second->m_vView = 0L;
     it->second->m_pFrame->detach();
+    it->second->m_pFrame->hide();
     delete it->second->m_pFrame;
     m_mapViews.erase( it );
   }
@@ -596,13 +623,29 @@ void KonqMainView::changeViewMode( const char *viewName )
 
     m_mapViews.erase( m_currentView->m_vView->id() );
     
+    m_vMainWindow->setActivePart( id() );
+    // clean view-specific part of the view menu
+    Konqueror::View::EventCreateViewMenu EventViewMenu;
+    EventViewMenu.menu = OpenPartsUI::Menu::_duplicate( m_vMenuView );
+    EventViewMenu.create = false;
+    EMIT_EVENT( m_currentView->m_vView, Konqueror::View::eventCreateViewMenu, EventViewMenu );
+    
     m_currentView->m_vView->disconnectObject( this );
+    OPPartIf::removeChild( m_currentView->m_vView );
+    m_currentView->m_pFrame->detach();
+    m_currentView->m_pFrame->hide();
+    m_currentView->m_vView->decRef();
+    VeryBadHackToFixCORBARefCntBug( m_currentView->m_vView );
+    m_currentView->m_vView = 0L;
+    
     m_currentView->m_vView = Konqueror::View::_duplicate( vView );
     m_currentView->m_pFrame->attach( vView );
     m_currentView->m_pFrame->show();
     m_currentId = vView->id();
 
     m_mapViews[ vView->id() ] = m_currentView;
+    
+    m_vMainWindow->setActivePart( m_currentId );
   }
 }
 
@@ -643,10 +686,9 @@ Konqueror::View_ptr KonqMainView::createViewByName( const char *viewName )
     assert( !CORBA::is_nil( obj ) );
     
     vView = Konqueror::View::_duplicate( factory->create() );
+    assert( !CORBA::is_nil( vView ) );
   }
-    
-  connectView( vView );
-
+  
   return Konqueror::View::_duplicate( vView );
 }
 
@@ -787,16 +829,19 @@ void KonqMainView::setLocationBarURL( OpenParts::Id id, const char *_url )
 
 void KonqMainView::setUpEnabled( const char * _url )
 {
-  KURL u( _url );
-  bool bHasUpURL;
-  if ( !u.hasPath() ) // _url == 0, is empty, or has no path
-    bHasUpURL = false;
-  else
+  KURL u;
+  bool bHasUpURL = false;
+  
+  if ( _url )
   {
-    debug("u.path() = '%s'",u.path());
-    bHasUpURL = ( strcmp( u.path(), "/") != 0 );
+    u = _url;
+    if ( u.hasPath() )
+    {
+      debug("u.path() = '%s'",u.path());
+      bHasUpURL = ( strcmp( u.path(), "/") != 0 );
+    }
   }
-
+  
   if ( !CORBA::is_nil( m_vToolBar ) )
     m_vToolBar->setItemEnabled( TOOLBAR_UP_ID, bHasUpURL );
   //TODO same in "go" menu
@@ -1103,6 +1148,8 @@ void KonqMainView::openHTML( const char *url )
   if ( strcmp( viewName.in(), "KonquerorHTMLView" ) != 0 )
     changeViewMode( "KonquerorHTMLView" );
 
+  // createViewMenu();
+
   setUpEnabled( url );
   
   Konqueror::EventOpenURL eventURL;
@@ -1127,16 +1174,30 @@ void KonqMainView::openPluginView( const char *url, const QString serviceType, K
 
   m_mapViews.erase( m_currentView->m_vView->id() );
 
-  connectView( vView );
-  
+  m_vMainWindow->setActivePart( id() );
+  // clean view-specific part of the view menu
+  Konqueror::View::EventCreateViewMenu EventViewMenu;
+  EventViewMenu.menu = OpenPartsUI::Menu::_duplicate( m_vMenuView );
+  EventViewMenu.create = false;
+  EMIT_EVENT( m_currentView->m_vView, Konqueror::View::eventCreateViewMenu, EventViewMenu );
+    
   m_currentView->m_vView->disconnectObject( this );
+  OPPartIf::removeChild( m_currentView->m_vView );
+  m_currentView->m_pFrame->detach();
+  m_currentView->m_pFrame->hide();
+  m_currentView->m_vView->decRef();
+  VeryBadHackToFixCORBARefCntBug( m_currentView->m_vView );
+  m_currentView->m_vView = 0L;
+
+  connectView( vView );
   m_currentView->m_vView = Konqueror::View::_duplicate( vView );
   m_currentView->m_pFrame->attach( vView );
   m_currentView->m_pFrame->show();
   m_currentId = vView->id();
-  
+
   m_mapViews[ vView->id() ] = m_currentView;
-        
+  m_vMainWindow->setActivePart( m_currentId );
+  
   setUpEnabled( 0 /* was url */ );
   
   Konqueror::EventOpenURL eventURL;
@@ -1151,6 +1212,7 @@ void KonqMainView::connectView( Konqueror::View_ptr view )
 {
   Konqueror::View_var vView = Konqueror::View::_duplicate( view );
 
+  vView->incRef();
   vView->setMainWindow( m_vMainWindow );
   vView->setParent( this );
 
@@ -1212,7 +1274,6 @@ void KonqMainView::connectView( Konqueror::View_ptr view )
   }
 
 }
-
 
 // protected
 void KonqMainView::splitView ( Konqueror::NewViewPosition newViewPosition )
