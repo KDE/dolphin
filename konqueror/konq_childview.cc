@@ -601,4 +601,50 @@ void KonqChildView::setServiceTypeInExtension()
   ext->setURLArgs( args );
 }
 
+QStringList KonqChildView::frameNames() const
+{
+  return childFrameNames( m_pView );
+} 
+
+QStringList KonqChildView::childFrameNames( KParts::ReadOnlyPart *part )
+{
+  QStringList res;
+ 
+  KParts::BrowserHostExtension *hostExtension = static_cast<KParts::BrowserHostExtension *>( part->child( 0L, "KParts::BrowserHostExtension" ) );
+  
+  if ( !hostExtension )
+    return res;
+  
+  res += hostExtension->frameNames();
+  
+  const QList<KParts::ReadOnlyPart> children = hostExtension->frames();
+  QListIterator<KParts::ReadOnlyPart> it( children );
+  for (; it.current(); ++it )
+    res += childFrameNames( it.current() );
+  
+  return res;
+} 
+
+KParts::BrowserHostExtension *KonqChildView::hostExtension( KParts::ReadOnlyPart *part, const QString &name )
+{
+  KParts::BrowserHostExtension *ext = static_cast<KParts::BrowserHostExtension *>( part->child( 0L, "KParts::BrowserHostExtension" ) );
+  
+  if ( !ext )
+    return 0;
+    
+  if ( ext->frameNames().contains( name ) )
+    return ext;
+  
+  const QList<KParts::ReadOnlyPart> children = ext->frames();
+  QListIterator<KParts::ReadOnlyPart> it( children );
+  for (; it.current(); ++it )
+  {
+    KParts::BrowserHostExtension *childHost = hostExtension( it.current(), name );
+    if ( childHost )
+      return childHost;
+  }
+
+  return 0;
+}
+
 #include "konq_childview.moc"

@@ -376,11 +376,12 @@ void KonqMainView::openURL( const KURL &url, const KParts::URLArgs &args )
 	 frameName != _self &&
 	 frameName != _parent )
     {
-      KonqChildView *view = childView( frameName );
+      KParts::BrowserHostExtension *hostExtension = 0;
+      KonqChildView *view = childView( frameName, &hostExtension );
       if ( !view )
       {
         KonqMainView *mainView = 0;
-        view = findChildView( frameName, &mainView );
+        view = findChildView( frameName, &mainView, &hostExtension );
 	
 	if ( !view || !mainView )
 	{
@@ -388,11 +389,17 @@ void KonqMainView::openURL( const KURL &url, const KParts::URLArgs &args )
 	  return;
 	}
 
-	mainView->openURL( view, url, args );
+	if ( hostExtension )
+	  hostExtension->openURLInFrame( url, args );
+	else
+  	   mainView->openURL( view, url, args );
         return;
       }
 
-      openURL( view, url, args );
+      if ( hostExtension )
+        hostExtension->openURLInFrame( url, args );
+      else
+        openURL( view, url, args );
       return;
     }
   }
@@ -891,7 +898,7 @@ KonqChildView *KonqMainView::childView( KParts::ReadOnlyPart *view )
     return 0L;
 }
 
-KonqChildView *KonqMainView::childView( const QString &name )
+KonqChildView *KonqMainView::childView( const QString &name, KParts::BrowserHostExtension **hostExtension )
 {
   MapViews::ConstIterator it = m_mapViews.begin();
   MapViews::ConstIterator end = m_mapViews.end();
@@ -899,13 +906,24 @@ KonqChildView *KonqMainView::childView( const QString &name )
   {
     QString viewName = it.data()->viewName();
     if ( !viewName.isEmpty() && viewName == name )
+    {
+      if ( hostExtension )
+        *hostExtension = 0;
       return it.data();
+    }
+ 
+    if ( it.data()->frameNames().contains( name ) )
+    {
+      if ( hostExtension )
+        *hostExtension = KonqChildView::hostExtension( it.data()->view(), name );
+      return it.data();
+    }
   }
 
   return 0;
 }
 
-KonqChildView *KonqMainView::findChildView( const QString &name, KonqMainView **mainView )
+KonqChildView *KonqMainView::findChildView( const QString &name, KonqMainView **mainView, KParts::BrowserHostExtension **hostExtension )
 {
   if ( !s_lstViews )
     return 0;
@@ -913,7 +931,7 @@ KonqChildView *KonqMainView::findChildView( const QString &name, KonqMainView **
   QListIterator<KonqMainView> it( *s_lstViews );
   for (; it.current(); ++it )
   {
-    KonqChildView *res = it.current()->childView( name );
+    KonqChildView *res = it.current()->childView( name, hostExtension );
     if ( res )
     {
       if ( mainView )

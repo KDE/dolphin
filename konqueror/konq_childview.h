@@ -205,6 +205,12 @@ public:
   void setViewName( const QString &name ) { m_name = name; }
   QString viewName() const { return m_name; }
 
+  QStringList frameNames() const;
+
+  static QStringList childFrameNames( KParts::ReadOnlyPart *part );
+
+  static KParts::BrowserHostExtension *hostExtension( KParts::ReadOnlyPart *part, const QString &name );
+
 signals:
 
   /**

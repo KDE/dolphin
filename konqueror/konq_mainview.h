@@ -59,6 +59,7 @@ class ToggleViewGUIClient;
 
 namespace KParts {
  class BrowserExtension;
+ class BrowserHostExtension;
  class ReadOnlyPart;
  struct URLArgs;
 };
@@ -157,10 +158,10 @@ public:
   void insertChildView( KonqChildView *childView );
   void removeChildView( KonqChildView *childView );
   KonqChildView *childView( KParts::ReadOnlyPart *view );
-  KonqChildView *childView( const QString &name );
+  KonqChildView *childView( const QString &name, KParts::BrowserHostExtension **hostExtension );
 
   // dcop idl bug! it can't handle KonqMainView *&mainView
-  static KonqChildView *findChildView( const QString &name, KonqMainView **mainView );
+  static KonqChildView *findChildView( const QString &name, KonqMainView **mainView, KParts::BrowserHostExtension **hostExtension );
 
   int viewCount() const { return m_mapViews.count(); }
   QValueList<KParts::ReadOnlyPart *> viewList();
