@@ -19,15 +19,64 @@
 
 #include "konqdirlister.h"
 #include "konqfileitem.h"
+#include <kdebug.h>
 
 KonqDirLister::KonqDirLister( bool _delayedMimeTypes )
-    : KDirLister( _delayedMimeTypes )
-{ 
+    : KDirLister( _delayedMimeTypes ), DCOPObject( "KonqDirLister" )
+{
   //m_bKofficeDocs = false;
 }
 
 KonqDirLister::~KonqDirLister()
 {
+}
+
+void KonqDirLister::FilesAdded( const KURL & directory )
+{
+  kdDebug(1203) << "FilesAdded " << directory.url() << endl;
+  slotURLDirty( directory );
+}
+
+void KonqDirLister::FilesRemoved( const KURL::List & fileList )
+{
+  kdDebug(1203) << "FilesRemoved" << endl;
+  // Mark all items
+  QListIterator<KFileItem> kit ( m_lstFileItems );
+  for( ; kit.current(); ++kit )
+    (*kit)->mark();
+
+  KURL::List::ConstIterator it = fileList.begin();
+  for ( ; it != fileList.end() ; ++it )
+  {
+    // For each file removed: look in m_lstFileItems to see if we know it,
+    // and if found, unmark it (for deletion)
+    kit.toFirst();
+    for( ; kit.current(); ++kit )
+    {
+      if ( (*kit)->url().cmp( (*it), true /* ignore trailing slash */ ) )
+      {
+        kdDebug(1203) << "FilesRemoved : unmarking " << (*kit)->url().url() << endl;
+        (*kit)->unmark();
+        break;
+      }
+    }
+
+    if ( !kit.current() ) // we didn't find it
+    {
+      // maybe it's the dir we're listing ?
+      // Check for dir in d->lstDirs
+      // BCI: wait for KDirLister to change lstDirs() into m_lstDirs
+      for ( KURL::List::ConstIterator dit = lstDirs().begin(); dit != lstDirs().end(); ++dit )
+        if ( (*dit).cmp( (*it), true /* ignore trailing slash */ ) )
+        {
+          emit closeView( (*dit) );
+          break;
+        }
+    }
+  }
+
+  // Implemented by our beloved father, KDirListerk
+  deleteUnmarkedItems();
 }
 
 KFileItem * KonqDirLister::createFileItem( const KIO::UDSEntry& entry,

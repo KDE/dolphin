@@ -16,12 +16,15 @@
     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 */
 
+#include <qwidget.h>
 #include <konqoperations.h>
 #include <kconfig.h>
 #include <klocale.h>
 #include <kmessagebox.h>
 
 #include <kpropsdlg.h>
+
+#include <dcopclient.h>
 
 // For doDrop
 #include <qpopupmenu.h>
@@ -102,6 +105,8 @@ void KonqOperations::_del( int method, const KURL::List & selectedURLs )
 {
   if ( m_bSkipConfirmation || askDeleteConfirmation( selectedURLs ) )
   {
+    m_method = method;
+    m_URLs = selectedURLs;
     switch( method )
     {
       case TRASH:
@@ -202,11 +207,13 @@ void KonqOperations::doDrop( const KonqFileItem * destItem, QDropEvent * ev, QOb
 
             KIO::Job * job = 0L;
             switch ( ev->action() ) {
-                case QDropEvent::Move : job = KIO::move( lst, dest ); break;
-                case QDropEvent::Copy : job = KIO::copy( lst, dest ); break;
-                case QDropEvent::Link : KIO::link( lst, dest ); break;
+                case QDropEvent::Move : /*m_method = MOVE; */job = KIO::move( lst, dest ); break;
+                case QDropEvent::Copy : /*m_method = COPY; */job = KIO::copy( lst, dest ); break;
+                case QDropEvent::Link : /*m_method = LINK; */KIO::link( lst, dest ); break;
                 default : kdError(1203) << "Unknown action " << ev->action() << endl; return;
             }
+            // TODO : use m_method to send dcop signal to KonqDirLister.
+            // Maybe use this class's slotResult.
             if ( job )
                 connect( job, SIGNAL( result( KIO::Job * ) ),
                          receiver, SLOT( slotResult( KIO::Job * ) ) );
@@ -263,8 +270,16 @@ void KonqOperations::doDrop( const KonqFileItem * destItem, QDropEvent * ev, QOb
 
 void KonqOperations::slotResult( KIO::Job * job )
 {
-    if (job->error())
+    if (job && job->error())
         job->showErrorDialog( (QWidget*)parent() );
+
+    QByteArray data;
+    QDataStream arg(data, IO_WriteOnly);
+    arg << m_URLs;
+    kapp->dcopClient()->send( "*", "KonqDirLister", "FilesRemoved(const KURL::List &)", data );
+    kdDebug(1203) << "Sent fileremoved to KonqDirLister " << endl;
+    if ( m_method == TRASH )
+      ;// TODO send FilesAdded( KGlobalSettings::trashPath() );
     delete this;
 }
 

@@ -21,10 +21,10 @@
 
 #include <kurl.h>
 #include <qobject.h>
-#include <qwidget.h>
 
 namespace KIO { class Job; }
 class KonqFileItem;
+class QWidget;
 
 /**
  * Implements file operations (move,del,trash,shred,paste...)
@@ -43,7 +43,10 @@ public:
      */
     static void editMimeType( const QString & mimeType );
 
-    enum { TRASH, DEL, SHRED };
+    enum { TRASH, DEL, SHRED, COPY, MOVE, LINK };
+    /**
+     * @param method should be TRASH, DEL or SHRED
+     */
     static void del( QWidget * parent, int method, const KURL::List & selectedURLs );
     /**
      * Drop
@@ -66,6 +69,8 @@ protected slots:
 
 private:
     bool m_bSkipConfirmation;
+    int m_method;
+    KURL::List m_URLs;
 };
 
 #endif

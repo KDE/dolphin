@@ -21,14 +21,17 @@
 #define __konqdirlister_h__
 
 #include <kdirlister.h>
+#include <dcopobject.h>
 
 /**
  * A custom directory lister (KDirLister) to create KonqFileItems
  * instead of KFileItems.
  */
-class KonqDirLister : public KDirLister
+class KonqDirLister : public KDirLister, public DCOPObject
 {
   Q_OBJECT
+  K_DCOP
+
 public:
   /**
    * Create a directory lister
@@ -43,6 +46,29 @@ public:
    * @return true if koffice documents were listed since the last clear()
    */
   //bool kofficeDocsFound() { return m_bKofficeDocs; }
+
+k_dcop:
+  /**
+   * Notify that files have been added in @p directory
+   * The receiver will list that directory again to find
+   * the new items (since it needs more than just the names anyway).
+   */
+  void FilesAdded( const KURL & directory );
+
+  /**
+   * Notify that files have been deleted.
+   * This call passes the exact urls of the deleted files
+   * so that any view showing them can simply remove them
+   * or be closed (if its current dir was deleted)
+   */
+  void FilesRemoved( const KURL::List & fileList );
+
+signals:
+  /**
+   * Instruct the view to close itself, since the dir was just deleted
+   * The directory is passed along for views that show multiple dirs (tree views)
+   */
+  void closeView( const KURL & directory );
 
 protected:
   /**
