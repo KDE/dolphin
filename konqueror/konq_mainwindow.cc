@@ -3859,7 +3859,7 @@ void KonqMainWindow::updateBookmarkBar()
   if (!bar) return;
   
   // hide if empty
-  if (bar->count() == 0 )
+  if (m_paBookmarkBar && bar->count() == 0 )
         bar->hide();
 
 }
