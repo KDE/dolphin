@@ -14,14 +14,17 @@
 #include <qwidget.h>
 #include <qmap.h>
 
+#include <kcmodule.h>
+
 class QSpinBox;
 class KFontCombo;
 
-class KAppearanceOptions : public QWidget
+class KAppearanceOptions : public KCModule
 {
   Q_OBJECT
 public:
   KAppearanceOptions(KConfig *config, QString group, QWidget *parent=0, const char *name=0);
+  ~KAppearanceOptions();
 
   virtual void load();
   virtual void save();

@@ -18,10 +18,13 @@
 #include <klocale.h>
 #include <khtmldefaults.h>
 
+#include <kapplication.h>
+#include <dcopclient.h>
+
 #include "appearance.moc"
 
 KAppearanceOptions::KAppearanceOptions(KConfig *config, QString group, QWidget *parent, const char *name)
-    : QWidget( parent, name ), m_pConfig(config), m_groupname(group),
+    : KCModule( parent, name ), m_pConfig(config), m_groupname(group),
       fSize( 10 ), fMinSize( HTML_DEFAULT_MIN_FONT_SIZE )
 
 {
@@ -207,6 +210,11 @@ KAppearanceOptions::KAppearanceOptions(KConfig *config, QString group, QWidget *
   load();
 }
 
+KAppearanceOptions::~KAppearanceOptions()
+{
+delete m_pConfig;
+}
+
 void KAppearanceOptions::slotFontSize( int i )
 {
     fSize = i;
@@ -350,6 +358,12 @@ void KAppearanceOptions::save()
         encodingName = "";
     m_pConfig->writeEntry( "DefaultEncoding", encodingName );
     m_pConfig->sync();
+
+  QByteArray data;
+  if ( !kapp->dcopClient()->isAttached() )
+    kapp->dcopClient()->attach();
+  kapp->dcopClient()->send( "konqueror*", "KonquerorIface", "reparseConfiguration()", data );
+
 }
 
 

@@ -7,6 +7,9 @@
 #include <kdebug.h>
 #include <X11/Xlib.h>
 
+#include <kapplication.h>
+#include <dcopclient.h>
+
 #include "htmlopts.h"
 #include "pluginopts.h"
 
@@ -17,7 +20,7 @@
 
 KPluginOptions::KPluginOptions( KConfig* config, QString group, QWidget *parent,
                             const char *name )
-    : QWidget( parent, name ),
+    : KCModule( parent, name ),
       m_pConfig( config ),
       m_groupname( group )
 {
@@ -44,6 +47,10 @@ KPluginOptions::KPluginOptions( KConfig* config, QString group, QWidget *parent,
     load();
 }
 
+KPluginOptions::~KPluginOptions()
+{
+delete m_pConfig;
+}
 
 void KPluginOptions::load()
 {
@@ -64,6 +71,11 @@ void KPluginOptions::save()
 {
     m_pConfig->setGroup(m_groupname);
     m_pConfig->writeEntry( "EnablePlugins", enablePluginsGloballyCB->isChecked() );
+
+  QByteArray data;
+  if ( !kapp->dcopClient()->isAttached() )
+    kapp->dcopClient()->attach();
+  kapp->dcopClient()->send( "konqueror*", "KonquerorIface", "reparseConfiguration()", data );
 }
 
 void KPluginOptions::changed()

@@ -25,15 +25,17 @@
 
 #include <qstring.h>
 #include <kconfig.h>
+#include <kcmodule.h>
 class QRadioButton;
 class KIntNumInput;
 
-class KMiscHTMLOptions : public QWidget
+class KMiscHTMLOptions : public KCModule
 {
     Q_OBJECT
 
 public:
     KMiscHTMLOptions(KConfig *config, QString group, QWidget *parent = 0L, const char *name = 0L );
+	~KMiscHTMLOptions();
     virtual void load();
     virtual void save();
     virtual void defaults();

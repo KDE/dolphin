@@ -44,64 +44,68 @@
 #include <kaboutdata.h>
 #include "main.moc"
 
-typedef KGenericFactory<KonqHTMLModule, QWidget> KonqHTMLFactory;
-K_EXPORT_COMPONENT_FACTORY( kcm_konqhtml, KonqHTMLFactory("kcmkonqhtml") );
-
-KonqHTMLModule::KonqHTMLModule(QWidget *parent, const char *name, const QStringList &)
-  : KCModule(KonqHTMLFactory::instance(), parent, name)
+extern "C"
 {
-  m_globalConfig = new KConfig("khtmlrc", false, false);
-  m_localConfig = new KConfig( "konquerorrc", false, false );
+	KCModule *create_khtml_appearance(QWidget *parent, const char *name)
+	{
+		KConfig *c = new KConfig( "konquerorrc", false, false );
+		return new KMiscHTMLOptions(c, "HTML Settings", parent, name);
+	}
 
+	KCModule *create_khtml_fonts(QWidget *parent, const char *name)
+	{
+		KConfig *c = new KConfig( "konquerorrc", false, false );
+		return new KAppearanceOptions(c, "HTML Settings", parent, name);
+	}
+
+	KCModule *create_khtml_java_js(QWidget *parent, const char *name)
+	{
+		KConfig *c = new KConfig( "konquerorrc", false, false );
+		return new KJSParts(c, parent, name);
+	}
+
+	KCModule *create_khtml_plugins(QWidget *parent, const char *name)
+	{
+		KConfig *c = new KConfig( "konquerorrc", false, false );
+		return new KPluginOptions(c, "Java/JavaScript Settings", parent, name);
+	}
+
+
+}
+
+
+KJSParts::KJSParts(KConfig *config, QWidget *parent, const char *name)
+	: KCModule(parent, name)
+{
   QVBoxLayout *layout = new QVBoxLayout(this);
   tab = new QTabWidget(this);
   layout->addWidget(tab);
 
-  misc = new KMiscHTMLOptions(m_localConfig, "HTML Settings", this);
-  tab->addTab( misc, i18n("&HTML") );
-  connect(misc, SIGNAL( changed( bool ) ), this, SLOT(moduleChanged(bool) ) );
-
-  appearance = new KAppearanceOptions(m_localConfig, "HTML Settings", this);
-  tab->addTab(appearance, i18n( "App&earance" ) );
-  connect(appearance, SIGNAL( changed(bool) ), this, SLOT(moduleChanged(bool) ) );
-
-  java = new KJavaOptions( m_localConfig, "Java/JavaScript Settings", this );
+  java = new KJavaOptions( config, "Java/JavaScript Settings", this, name );
   tab->addTab( java, i18n( "&Java" ) );
-  connect( java, SIGNAL( changed( bool ) ), this, SLOT( moduleChanged( bool ) ) );
+  connect( java, SIGNAL( changed( bool ) ), SLOT( changed( bool ) ) );
 
-  javascript = new KJavaScriptOptions( m_localConfig, "Java/JavaScript Settings", this );
+  javascript = new KJavaScriptOptions( config, "Java/JavaScript Settings", this, name );
   tab->addTab( javascript, i18n( "Java&Script" ) );
-  connect( javascript, SIGNAL( changed( bool ) ), this, SLOT( moduleChanged( bool ) ) );
-
-  plugin = new KPluginOptions( m_localConfig, "Java/JavaScript Settings", this );
-  tab->addTab( plugin, i18n( "&Plugins" ) );
-  connect( plugin, SIGNAL( changed( bool ) ), this, SLOT( moduleChanged( bool ) ) );
-
+  connect( javascript, SIGNAL( changed( bool ) ), SLOT( changed( bool ) ) );
 }
 
-KonqHTMLModule::~KonqHTMLModule()
+KJSParts::~KJSParts()
 {
-  delete m_localConfig;
-  delete m_globalConfig;
+  delete mConfig;
 }
 
-void KonqHTMLModule::load()
+void KJSParts::load()
 {
-  appearance->load();
   javascript->load();
   java->load();
-  plugin->load();
-  misc->load();
 }
 
 
-void KonqHTMLModule::save()
+void KJSParts::save()
 {
-  appearance->save();
   javascript->save();
   java->save();
-  plugin->save();
-  misc->save();
 
   // Send signal to konqueror
   // Warning. In case something is added/changed here, keep kfmclient in sync
@@ -112,16 +116,13 @@ void KonqHTMLModule::save()
 }
 
 
-void KonqHTMLModule::defaults()
+void KJSParts::defaults()
 {
-  appearance->defaults();
   javascript->defaults();
   java->defaults();
-  plugin->defaults();
-  misc->defaults();
 }
 
-QString KonqHTMLModule::quickHelp() const
+QString KJSParts::quickHelp() const
 {
   return i18n("<h1>Konqueror Browser</h1> Here you can configure Konqueror's browser "
               "functionality. Please note that the file manager "
@@ -146,7 +147,7 @@ QString KonqHTMLModule::quickHelp() const
               "JavaScript programs." );
 }
 
-const KAboutData* KonqHTMLModule::aboutData() const
+const KAboutData* KJSParts::aboutData() const
 {
     KAboutData *about =
     new KAboutData(I18N_NOOP("kcmkonqhtml"), I18N_NOOP("Konqueror Browsing Control Module"),
@@ -163,10 +164,5 @@ const KAboutData* KonqHTMLModule::aboutData() const
 
 
     return about;
-}
-
-void KonqHTMLModule::moduleChanged(bool state)
-{
-  emit changed(state);
 }
 

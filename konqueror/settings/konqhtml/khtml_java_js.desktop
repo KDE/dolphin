@@ -1,0 +1,15 @@
+[Desktop Entry]
+Encoding=UTF-8
+Type=Application
+DocPath=kcontrol/konq-browsing.html
+Icon=konqueror
+Exec=kcmshell khtml_java_js
+
+X-KDE-ModuleType=Library
+X-KDE-Library=konqhtml
+X-KDE-FactoryName=khtml_java_js
+
+Name=JavaScript and Java
+Comment=Configure how the JavaScript and Java on web sites behave
+Keywords=konqueror,kfm,browser,html,web,www,java,javascript
+

@@ -19,6 +19,10 @@
 #include <knuminput.h>
 #include <kseparator.h>
 
+#include <kapplication.h>
+#include <dcopclient.h>
+
+
 #include "htmlopts.moc"
 
 enum UnderlineLinkType { UnderlineAlways=0, UnderlineNever=1, UnderlineHover=2 };
@@ -26,7 +30,7 @@ enum AnimationsType { AnimationsAlways=0, AnimationsNever=1, AnimationsLoopOnce=
 //-----------------------------------------------------------------------------
 
 KMiscHTMLOptions::KMiscHTMLOptions(KConfig *config, QString group, QWidget *parent, const char *name )
-    : QWidget( parent, name ), m_pConfig(config), m_groupname(group)
+    : KCModule( parent, name ), m_pConfig(config), m_groupname(group)
 {
     int row = 0;
     QGridLayout *lay = new QGridLayout(this, 10, 2, KDialog::marginHint(), KDialog::spacingHint());
@@ -131,6 +135,11 @@ KMiscHTMLOptions::KMiscHTMLOptions(KConfig *config, QString group, QWidget *pare
     load();
 }
 
+KMiscHTMLOptions::~KMiscHTMLOptions()
+{
+    delete m_pConfig;
+}
+
 void KMiscHTMLOptions::load()
 {
     // *** load ***
@@ -229,6 +238,12 @@ void KMiscHTMLOptions::save()
     m_pConfig->writeEntry( "MaxFormCompletionItems", m_pMaxFormCompletionItems->value() );
 
     m_pConfig->sync();
+
+  QByteArray data;
+  if ( !kapp->dcopClient()->isAttached() )
+    kapp->dcopClient()->attach();
+  kapp->dcopClient()->send( "konqueror*", "KonquerorIface", "reparseConfiguration()", data );
+
 }
 
 

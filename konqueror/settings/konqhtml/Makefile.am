@@ -12,7 +12,7 @@ kcm_konqhtml_la_SOURCES = htmlopts.cpp jsopts.cpp \
 kcm_konqhtml_la_LDFLAGS  = $(all_libraries) -module -avoid-version -no-undefined
 kcm_konqhtml_la_LIBADD = -lkhtml -lkdeui
 
-data_DATA = konqhtml.desktop
+data_DATA = khtml_appearance.desktop khtml_java_js.desktop khtml_fonts.desktop khtml_plugins.desktop
 datadir = $(kde_appsdir)/Settings/WebBrowsing
 
 EXTRA_DIST = $(data_DATA)

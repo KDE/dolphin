@@ -28,24 +28,19 @@
 
 #include <kcmodule.h>
 
-class KAppearanceOptions;
 class KJavaOptions;
 class KJavaScriptOptions;
-class KPluginOptions;
-class KHTTPOptions;
-class KMiscHTMLOptions;
-class KRootOptions;
 
 class QTabWidget;
 
-class KonqHTMLModule : public KCModule
+class KJSParts : public KCModule
 {
   Q_OBJECT
 
 public:
 
-  KonqHTMLModule(QWidget *parent, const char *name, const QStringList &);
-  virtual ~KonqHTMLModule();
+  KJSParts(KConfig *config,QWidget *parent, const char *name);
+  virtual ~KJSParts();
 
   void load();
   void save();
@@ -54,25 +49,13 @@ public:
   const KAboutData* aboutData() const;
 
 
-protected:
-
-protected slots:
-
-  void moduleChanged(bool state);
-
-
 private:
-
   QTabWidget   *tab;
 
-  KMiscHTMLOptions   *misc;
-  KAppearanceOptions *appearance;
   KJavaScriptOptions *javascript;
   KJavaOptions       *java;
-  KPluginOptions     *plugin;
 
-  KConfig *m_globalConfig;
-  KConfig *m_localConfig;
+  KConfig *mConfig;
 };
 
 #endif

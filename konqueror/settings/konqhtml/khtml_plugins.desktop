@@ -1,0 +1,14 @@
+[Desktop Entry]
+Encoding=UTF-8
+Type=Application
+DocPath=kcontrol/konq-browsing.html
+Icon=konqueror
+Exec=kcmshell khtml_plugins
+
+X-KDE-ModuleType=Library
+X-KDE-Library=konqhtml
+X-KDE-FactoryName=khtml_plugins
+
+Name=Plugins
+Comment=Configure the plugins loaded in Konqueror
+Keywords=konqueror,kfm,browser,html,web,www,fonts,plugins

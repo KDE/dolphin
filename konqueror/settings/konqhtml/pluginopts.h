@@ -15,12 +15,15 @@
 class KConfig;
 class QCheckBox;
 
-class KPluginOptions : public QWidget
+#include <kcmodule.h>
+
+class KPluginOptions : public KCModule
 {
     Q_OBJECT
 
 public:
     KPluginOptions( KConfig* config, QString group, QWidget* parent = 0, const char* name = 0 );
+	~KPluginOptions();
 
     virtual void load();
     virtual void save();

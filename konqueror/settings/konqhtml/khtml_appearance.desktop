@@ -1,0 +1,15 @@
+[Desktop Entry]
+Encoding=UTF-8
+Type=Application
+DocPath=kcontrol/konq-browsing.html
+Icon=konqueror
+Exec=kcmshell khtml_appearance
+
+X-KDE-ModuleType=Library
+X-KDE-Library=konqhtml
+X-KDE-FactoryName=khtml_appearance
+
+Name=Appearance
+Comment=Configure the look and feel of the Internet Browser called Konqueror
+Keywords=konqueror,kfm,browser,html,web,www,fonts,colours,colors,java,javascript,cursor,links,images,charsets,character sets,encoding
+

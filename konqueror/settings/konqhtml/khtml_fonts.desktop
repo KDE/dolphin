@@ -1,0 +1,15 @@
+[Desktop Entry]
+Encoding=UTF-8
+Type=Application
+DocPath=kcontrol/konq-browsing.html
+Icon=konqueror
+Exec=kcmshell khtml_appearance
+
+X-KDE-ModuleType=Library
+X-KDE-Library=konqhtml
+X-KDE-FactoryName=khtml_fonts
+
+Name=Fonts
+Comment=Configure the fonts of the Konqueror Web Browser
+Keywords=konqueror,kfm,browser,html,web,www,fonts,charsets,character sets,encoding
+
