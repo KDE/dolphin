@@ -82,8 +82,6 @@ BrowserView *KonqFactory::createView( const QString &serviceType,
     return new KonqTxtView;
   }
 
-  return 0L;
-/*
   //now let's query the Trader for view plugins
   KTrader *trader = KdedInstance::self()->ktrader();
   KActivator *activator = KdedInstance::self()->kactivator();
@@ -91,34 +89,19 @@ BrowserView *KonqFactory::createView( const QString &serviceType,
   KTrader::OfferList offers = trader->query( serviceType, "'Browser/View' in ServiceTypes" );
 
   if ( offers.count() == 0 ) //no results?
-    return Browser::View::_nil();
+    return 0L;
 
   //activate the view plugin
   KService::Ptr service = offers.first();
 
-  if ( service->repoIds().count() == 0 )  //uh...is it a CORBA service at all??
-    return Browser::View::_nil();
+  Factory *factory = Loader::self()->factory( service->library(), service->libraryMajor(),
+                                              service->libraryMinor(),
+					      service->libraryDependencies() );
 
-  QString repoId = service->repoIds().first();
-  QString tag = service->name(); //use service name as default tag
-  int tagPos = repoId.find( "#" );
-  if ( tagPos != -1 )
-  {
-    tag = repoId.mid( tagPos + 1 );
-    repoId.truncate( tagPos );
-  }
+  if ( !factory )
+    return 0L;
 
-  CORBA::Object_var obj = activator->activateService( service->name().latin1(), repoId.latin1(), tag.latin1() );
-
-  Browser::ViewFactory_var factory = Browser::ViewFactory::_narrow( obj );
-
-  if ( CORBA::is_nil( factory ) )
-    return Browser::View::_nil();
-
-  serviceTypes = service->serviceTypes();
-
-  return factory->create();
-*/
+  return (BrowserView *)factory->create();
 }
 
 QObject* KonqFactory::create( QObject* parent = 0, const char* name = 0 )
