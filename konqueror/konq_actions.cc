@@ -134,8 +134,8 @@ void KonqBidiHistoryAction::fillHistoryPopup( const QList<HistoryEntry> &history
 
 ///////////////////////////////
 
-KonqBidiHistoryAction::KonqBidiHistoryAction ( QObject* parent, const char* name )
-  : KAction( QString::null, 0, parent, name )
+KonqBidiHistoryAction::KonqBidiHistoryAction ( const QString & text, QObject* parent, const char* name )
+  : KAction( text, 0, parent, name )
 {
   m_firstIndex = 0;
   m_goMenu = 0L;
@@ -237,20 +237,9 @@ KonqLogoAction::KonqLogoAction( const QString& text, const QIconSet& pix,int acc
 KonqLogoAction::KonqLogoAction( const QStringList& icons, QObject* receiver,
                                 const char* slot, QObject* parent,
                                 const char* name )
-  : KAction( 0L, 0L, receiver, slot, parent, name )
+    : KAction( 0L, 0L, receiver, slot, parent, name ) // text missing !
 {
   iconList = icons;
-}
-
-KonqLogoAction::KonqLogoAction( QObject* receiver, const char* slot,
-                                QObject* parent, const char* name )
-  : KAction( 0L, 0L, receiver, slot, parent, name )
-{
-}
-
-KonqLogoAction::KonqLogoAction( QObject* parent, const char* name )
-  : KAction( parent, name )
-{
 }
 
 void KonqLogoAction::start()

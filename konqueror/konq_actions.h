@@ -60,11 +60,7 @@ class KonqBidiHistoryAction : public KAction
 {
   Q_OBJECT
 public:
-    /**
-     * Only constructor - because we need an icon, since this action only makes
-     * sense in a toolbar (as well as menubar)
-     */
-    KonqBidiHistoryAction( QObject* parent = 0, const char* name = 0 );
+    KonqBidiHistoryAction( const QString & text, QObject* parent = 0, const char* name = 0 );
 
     virtual ~KonqBidiHistoryAction() {};
 
@@ -108,12 +104,9 @@ public:
 	            QObject* parent = 0, const char* name = 0 );
     KonqLogoAction( const QString& text, const QIconSet& pix, int accel,
 	            QObject* receiver, const char* slot, QObject* parent, const char* name = 0 );
+    // text missing !
     KonqLogoAction( const QStringList& icons, QObject* receiver,
                     const char* slot, QObject* parent, const char* name = 0 );
-    KonqLogoAction( QObject* receiver, const char* slot, QObject* parent,
-                    const char* name = 0 );
-
-    KonqLogoAction( QObject* parent = 0, const char* name = 0 );
 
     virtual int plug( QWidget *widget, int index = -1 );
 

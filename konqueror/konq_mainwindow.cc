@@ -2376,7 +2376,7 @@ void KonqMainWindow::initActions()
   connect( m_paForward->popupMenu(), SIGNAL( aboutToShow() ), this, SLOT( slotForwardAboutToShow() ) );
   connect( m_paForward->popupMenu(), SIGNAL( activated( int ) ), this, SLOT( slotForwardActivated( int ) ) );
 
-  m_paHistory = new KonqBidiHistoryAction( actionCollection(), "history" );
+  m_paHistory = new KonqBidiHistoryAction( i18n("History"), actionCollection(), "history" );
   connect( m_paHistory, SIGNAL( menuAboutToShow() ), this, SLOT( slotGoMenuAboutToShow() ) );
   connect( m_paHistory, SIGNAL( activated( int ) ), this, SLOT( slotGoHistoryActivated( int ) ) );
 
@@ -2442,7 +2442,7 @@ void KonqMainWindow::initActions()
   m_paDelete = new KAction( i18n( "&Delete" ), "editdelete", SHIFT+Key_Delete, actionCollection(), "del" );
   m_paShred = new KAction( i18n( "&Shred" ), "editshred", CTRL+SHIFT+Key_Delete, actionCollection(), "shred" );
 
-  m_paAnimatedLogo = new KonqLogoAction( this, SLOT( slotDuplicateWindow() ), actionCollection(), "animated_logo" );
+  m_paAnimatedLogo = new KonqLogoAction( i18n("Animated Logo"), 0, this, SLOT( slotDuplicateWindow() ), actionCollection(), "animated_logo" );
 
   // Location bar
   (void)new KonqLabelAction( i18n( "Location " ), actionCollection(), "location_label" );
