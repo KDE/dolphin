@@ -176,7 +176,9 @@ public:
 KonqUndoManager::KonqUndoManager()
 : DCOPObject( "KonqUndoManager" )
 {
-  assert( kapp->dcopClient()->isRegistered() );
+  if ( !kapp->dcopClient()->isAttached() )
+      kapp->dcopClient()->attach();
+
   d = new KonqUndoManagerPrivate;
   d->m_syncronized = initializeFromKDesky();
   d->m_lock = false;
