@@ -35,7 +35,7 @@
 #include <kapp.h>
 #include <kconfig.h>
 #include <kdebug.h>
-#include <ksimpleconfig.h>
+#include <kiconloader.h>
 #include <dcopclient.h>
 
 #include "kcookiespolicies.h"
@@ -140,7 +140,6 @@ KCookiesPolicies::KCookiesPolicies(QWidget *parent, const char *name)
                                            KDialog::spacingHint() );
     ds_lay->addRowSpacing( 0, fontMetrics().lineSpacing() );
     ds_lay->setColStretch( 0, 2 ); // only resize the listbox horizontally, not the buttons
-    //ds_lay->setRowStretch( 1, 2 );
     ds_lay->setRowStretch( 2, 2 );
 
     // CREATE SPLIT LIST BOX
@@ -179,7 +178,7 @@ KCookiesPolicies::KCookiesPolicies(QWidget *parent, const char *name)
                                               "domain selected in the list box.") );
     connect( pb_domPolicyDelete, SIGNAL( clicked() ), this, SLOT( deletePressed() ) );
 
-    pb_domPolicyDeleteAll = new QPushButton( i18n("Clear &All"), vbox );
+    pb_domPolicyDeleteAll = new QPushButton( i18n("Delete A&ll"), vbox );
     pb_domPolicyDeleteAll->setEnabled( false );
     QWhatsThis::add( pb_domPolicyDeleteAll, i18n("Click on this button to remove all domain policies.") );
     connect( pb_domPolicyDeleteAll, SIGNAL( clicked() ), this, SLOT( deleteAllPressed() ) );
@@ -208,10 +207,9 @@ KCookiesPolicies::KCookiesPolicies(QWidget *parent, const char *name)
                                              "dialog box. To change an existing policy, click on the <i>Change...</i> "
                                              "button and choose the new policy from the policy dialog box.  Clicking "
                                              "on the <i>Delete</i> will remove the selected policy causing the default "
-                                             "policy setting to be used for that domain. "
-						) );
+                                             "policy setting to be used for that domain. ") );
 #if 0
-					     "The <i>Import</i> and <i>Export</i> "
+                                             "The <i>Import</i> and <i>Export</i> "
                                              "button allows you to easily share your policies with other people by allowing "
                                              "you to save and retrive them from a zipped file."
 #endif
@@ -321,14 +319,8 @@ void KCookiesPolicies::updateDomainList(const QStringList &domainConfig)
 
 void KCookiesPolicies::load()
 {
-  KSimpleConfig* cfg = new KSimpleConfig( "kcookiejarrc" );
-
-  // Backwards compatiable reading of domain specific settings
-  if( cfg->hasGroup( "Browser Settings/HTTP" ) &&
-     !cfg->hasGroup( "Cookie Policy" ) )
-     cfg->setGroup( "Browser Settings/HTTP" );
-  else
-    cfg->setGroup( "Cookie Policy" );
+  KConfig* cfg = new KConfig( "kcookiejarrc" );
+  cfg->setGroup( "Cookie Policy" );
 
   KCookieAdvice globalAdvice = strToAdvice( cfg->readEntry("CookieGlobalAdvice", "Ask") );
   cb_enableCookies->setChecked( cfg->readBoolEntry( "Cookies", true ) );
@@ -340,10 +332,6 @@ void KCookiesPolicies::load()
 
   updateDomainList( cfg->readListEntry("CookieDomainAdvice") );
   changeCookiesEnabled();
-
-  // Remove the old group - R.I.P
-  if( cfg->hasGroup( "Browser Settings/HTTP" ) )
-     cfg->deleteGroup( "Browser Settings/HTTP" );
 
   delete cfg;
   updateButtons();

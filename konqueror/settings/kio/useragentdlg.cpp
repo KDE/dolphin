@@ -443,17 +443,17 @@ QString UserAgentOptions::quickHelp() const
                "The browser-identification control screen allows you to have "
                "full control over what konqueror will report itself as to web "
                "sites."
-               "<P>This ability to fake identity is necessary because some web "
-               "sites do not display properly when they detect that  they are "
-               "not talking to current versions of Netscape Navigator or Internet "
-               "Explorer even if the \"unsupported browser\" actually supports "
-               "all the necessary features to render those pages properly. Hence "
-               "for such sites, you may want to override the default identification "
-               "by adding a site or domain specific entry."
-               "<P><u>NOTE:</u> To obtain specific help on a particular section of "
-               "the dialog box, simply click on the little <b>?</b> button on the "
-               "top right corner of this window and then click on that section for "
-               "which you are seeking help." );
+               "<P>This ability to spoof or fake identity is necessary because "
+               "some web sites do not display properly when they detect that "
+               "they are not talking to current versions of Netscape Navigator "
+               "or Internet Explorer even if the \"unsupported browser\" actually "
+               "supports all the necessary features to render those pages properly. "
+               "Hence for such sites, you may want to override the default "
+               "identification by adding a site or domain specific entry."
+               "<P><u>NOTE:</u> To obtain specific help on a particular section "
+               "of the dialog box, simply click on the little <b>?</b> button on "
+               "the top right corner of this window and then click on that section "
+               "for which you are seeking help." );
 }
 
 #include "useragentdlg.moc"

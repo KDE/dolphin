@@ -70,7 +70,7 @@ PolicyDialog::PolicyDialog( const QString& caption, QWidget *parent,
   m_leDomain = new DomainLineEdit(this);
   connect(m_leDomain, SIGNAL(textChanged(const QString&)), SLOT(slotTextChanged(const QString&)));
   QString wstr = i18n("Enter the name of the site or domain to "
-                      "whom this policy applies.");
+                      "which this policy applies.");
   QWhatsThis::add( l, wstr );
   QWhatsThis::add( m_leDomain, wstr );
 
@@ -81,10 +81,10 @@ PolicyDialog::PolicyDialog( const QString& caption, QWidget *parent,
   policies << i18n( "Accept" ) << i18n( "Reject" ) << i18n( "Ask" );
   m_cbPolicy->insertStringList( policies );
   wstr = i18n("Select the desired policy:"
-              "<ul><li><b>Accept</b> - Accepts all cookies from site/"
-              "domain stated above.</li><li><b>Reject</b> - Rejects all "
-              "cookies from site/domain stated above<li><b>Ask - Prompts "
-              "you when cookies are received from remote site</li></ul>");
+              "<ul><li><b>Accept</b> - Allows this site to set "
+              "cookie</li><li><b>Reject</b> - Refuse all cookies "
+              "sent from the this site</li><li><b>Ask</b> - Prompt "
+              "when cookies are received from this site</li></ul>");
   QWhatsThis::add( l, wstr );
   QWhatsThis::add( m_cbPolicy, wstr );
 
