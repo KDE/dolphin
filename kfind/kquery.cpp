@@ -6,6 +6,7 @@
 #include <kmessagebox.h>
 #include <klocale.h>
 #include <kstandarddirs.h>
+#include <kzip.h>
 
 #include "kquery.h"
 
@@ -232,35 +233,52 @@ void KQuery::processQuery( KFileItem* file)
        // FIXME: doesn't work with non local files
        
        QString filename;
-       KProcess proc;
+       QTextStream* stream;
+       QFile qf;
+       QString strzippedXmlFileContent;
+       QRegExp xmlTags;
 
        //KWord's files are compressed...
        if((file->mimetype()=="application/x-kword")||(file->mimetype()=="application/vnd.sun.xml.writer"))
        {
-         proc.clearArguments();
-         proc << "unzip" << "-o" << file->url().path() << "-d" << tmpdir;
-         proc.start(KProcess::Block);
+         KZip zipfile(file->url().path());
+         const KArchiveDirectory *zipfileContent = zipfile.directory();
+         const KZipFileEntry *zipfileEntry;
+         QByteArray zippedXmlFileContent;
+
+         if(!zipfile.open(IO_ReadOnly))
+           return;
+         zipfileContent = zipfile.directory();
 
          if(file->mimetype()=="application/x-kword")
-           filename=tmpdir+"/maindoc.xml";
+           zipfileEntry=(const KZipFileEntry*)zipfileContent->entry("maindoc.xml");
          else
-           filename=tmpdir+"/content.xml";
-           
-         if(!QFile::exists(filename))
-           filename=file->url().path();
+           zipfileEntry=(const KZipFileEntry*)zipfileContent->entry("content.xml"); //for oOo
+
+         if(!zipfileEntry)
+           return;
+             
+         zippedXmlFileContent=zipfileEntry->data();
+         strzippedXmlFileContent=QString::fromUtf8(zippedXmlFileContent);
+         xmlTags.setPattern("<.*>");
+         xmlTags.setMinimal(true);
+         strzippedXmlFileContent.replace(xmlTags, "");
+         stream = new QTextStream(strzippedXmlFileContent, IO_ReadOnly);
        }
        else
-         filename = file->url().path();
-         
-       if(filename.startsWith("/dev/"))
-          return;
-       QFile qf(filename);
-       qf.open(IO_ReadOnly);
-       QTextStream stream(&qf);
-       stream.setEncoding(QTextStream::Locale);
-       while ( ! stream.atEnd() )
        {
-          QString str = stream.readLine();
+         filename = file->url().path();
+         if(filename.startsWith("/dev/"))
+            return;
+         qf.setName(filename);
+         qf.open(IO_ReadOnly);
+         stream=new QTextStream(&qf);
+       }
+       
+       stream->setEncoding(QTextStream::Locale);
+       while ( ! stream->atEnd() )
+       {
+          QString str = stream->readLine();
           matchingLineNumber++;
 
           if (str.isNull()) break;
@@ -283,7 +301,8 @@ void KQuery::processQuery( KFileItem* file)
              }
           };
        }
-
+       delete stream;
+       
        if (!found)
           return;
     }
