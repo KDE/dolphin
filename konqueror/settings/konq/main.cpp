@@ -140,7 +140,7 @@ KDesktopModule::KDesktopModule(QWidget *parent, const char *name)
 
 void KDesktopModule::load()
 {
-  behaviour->load();
+  //behaviour->load();
   root->load();
   font->load();
 }
@@ -148,7 +148,7 @@ void KDesktopModule::load()
 
 void KDesktopModule::save()
 {
-  behaviour->save();
+  //behaviour->save();
   root->save();
   font->save();
 
@@ -162,7 +162,7 @@ void KDesktopModule::save()
 
 void KDesktopModule::defaults()
 {
-  behaviour->defaults();
+  //behaviour->defaults();
   root->defaults();
   font->defaults();
 }
