@@ -36,7 +36,7 @@ void KEBNSBookmarkExporter::write(bool utf8) {
 
 // for compat
 void KEBNSBookmarkExporter::writeFolder(QTextStream &, KBookmarkGroup) {
-   kdFatal(7043) << "Sorry, BIC compatibility for KEBNSBookmarkExporter does allow for subclassing!, email me (lypanov) if you need this!" << endl;
+   kdFatal(7043) << "Sorry, current BIC compatibility for KEBNSBookmarkExporter does not allow for subclassing!, email me (lypanov) if you need this!" << endl;
 }
 
 void KEBNSBookmarkExporterImpl::write(bool utf8, KBookmarkGroup parent) {
