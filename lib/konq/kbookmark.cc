@@ -86,6 +86,7 @@ KBookmarkManager* KBookmarkManager::self()
 KBookmarkManager::KBookmarkManager( QString _path ) : m_sPath( _path )
 {
   m_Toolbar = 0;
+  m_bAllowSignalChanged = true;
   m_Root = new KBookmark( this, 0L, QString::null );
   if ( s_pSelf )
     delete s_pSelf;
@@ -93,7 +94,6 @@ KBookmarkManager::KBookmarkManager( QString _path ) : m_sPath( _path )
 
   m_lstParsedDirs.setAutoDelete( true );
 
-  m_bAllowSignalChanged = true;
   m_bNotify = true;
 
   scan( m_sPath );
