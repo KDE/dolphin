@@ -121,7 +121,9 @@ KonqView* KonqViewManager::split (KonqFrameBase* splitFrame,
     KonqFrameContainer* parentContainer = splitFrame->parentContainer();
     bool moveNewContainer = (parentContainer->idAfter( splitFrame->widget() ) != 0);
 
+#ifndef NDEBUG
     printSizeInfo( splitFrame, parentContainer, "before split");
+#endif
 
     splitFrame->widget()->setUpdatesEnabled( false );
     parentContainer->setUpdatesEnabled( false );
@@ -148,12 +150,16 @@ KonqView* KonqViewManager::split (KonqFrameBase* splitFrame,
     splitFrame->widget()->reparent( newContainer, pos, true /*showIt*/ );
     newContainer->insertChildFrame( splitFrame );
 
+#ifndef NDEBUG
     printSizeInfo( splitFrame, parentContainer, "after reparent" );
+#endif
 
     //kdDebug(1202) << "Create new child" << endl;
     childView = setupView( newContainer, newViewFactory, service, partServiceOffers, appServiceOffers, serviceType, passiveMode );
 
+#ifndef DEBUG
     printSizeInfo( splitFrame, parentContainer, "after child insert" );
+#endif
 
     splitFrame->widget()->setUpdatesEnabled( true );
     newContainer->setUpdatesEnabled( true );
@@ -181,7 +187,9 @@ KonqView* KonqViewManager::split (KonqFrameBase* splitFrame,
       *newFrameContainer = m_pMainContainer;
   }
 
+#ifndef NDEBUG
   printFullHierarchy( m_pMainContainer );
+#endif
 
   return childView;
 }
@@ -243,7 +251,9 @@ void KonqViewManager::removeView( KonqView *view )
     grandParentContainer->moveToFirst( otherFrame->widget() );
 
   //kdDebug(1202) << "------------- removeView done " << view << endl;
+#ifndef NDEBUG
   printFullHierarchy( m_pMainContainer );
+#endif
 }
 
 // reimplemented from PartManager
@@ -530,7 +540,9 @@ void KonqViewManager::loadViewProfile( KConfig &cfg, const QString & filename, c
   if ( size.isValid() )
     m_pMainWindow->resize( size );
 
+#ifndef NDEBUG
   printFullHierarchy( m_pMainContainer );
+#endif
 
   kdDebug(1202) << "KonqViewManager::loadViewProfile done" << endl;
 }
