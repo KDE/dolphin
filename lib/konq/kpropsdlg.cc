@@ -311,6 +311,7 @@ FilePropsPage::FilePropsPage( PropertiesDialog *_props )
   // Make it human-readable (%2F => '/', ...)
   filename = KIO::decodeFileName( filename );
 
+  KFileItem * item = properties->item();
   bool isTrash = false;
   QString path, directory;
 
@@ -364,8 +365,8 @@ FilePropsPage::FilePropsPage( PropertiesDialog *_props )
   vbl->addLayout(grid);
   int curRow = 0;
 
-  bool bDesktopFile = isDesktopFile(properties->item());
-  if (bDesktopFile || S_ISDIR( properties->item()->mode())) {
+  bool bDesktopFile = isDesktopFile(item);
+  if (bDesktopFile || S_ISDIR( item->mode())) {
 
     KIconLoaderButton *iconButton = new KIconLoaderButton(KGlobal::iconLoader(), this);
     iconButton->setFixedSize(50, 50);
@@ -373,7 +374,7 @@ FilePropsPage::FilePropsPage( PropertiesDialog *_props )
     // This works for everything except Device icons on unmounted devices
     // So we have to really open .desktop files
     QString iconStr = KMimeType::findByURL( properties->kurl(),
-					properties->item()->mode(),
+					item->mode(),
 					true )->icon( properties->kurl(),
                                                       properties->kurl().isLocalFile() );
     if ( bDesktopFile )
@@ -388,7 +389,7 @@ FilePropsPage::FilePropsPage( PropertiesDialog *_props )
     QLabel *iconLabel = new QLabel(this);
     iconLabel->setFixedSize(50, 50);
     iconLabel->setPixmap(KMimeType::pixmapForURL(properties->kurl(),
-                                                 properties->item()->mode(),
+                                                 item->mode(),
                                                  KIconLoader::Medium));
     iconArea = iconLabel;
   }
@@ -414,8 +415,8 @@ FilePropsPage::FilePropsPage( PropertiesDialog *_props )
   l = new QLabel(i18n("Type:"), this);
   grid->addWidget(l, curRow, 0);
 
-  QString tempstr = properties->item()->mimeComment();
-  l = new QLabel(properties->item()->mimeComment(), this);
+  QString tempstr = item->mimeComment();
+  l = new QLabel(tempstr, this);
   grid->addWidget(l, curRow++, 2);
 
   l = new QLabel( i18n("Location:"), this);
@@ -425,11 +426,12 @@ FilePropsPage::FilePropsPage( PropertiesDialog *_props )
   l->setText( directory );
   grid->addWidget(l, curRow++, 2);
 
-  if (S_ISREG(properties->item()->mode())) {
+  if (S_ISREG(item->mode())) {
     l = new QLabel(i18n("Size:"), this);
     grid->addWidget(l, curRow, 0);
 
-    int size = properties->item()->size();
+    // Should we use KIO::convertSize ? Seems less accurate...
+    int size = item->size();
     if (size > 1024*1024) {
       tempstr = i18n("%1MB ").arg(KGlobal::locale()->formatNumber(ROUND(size/(1024*1024.0)), 0));
       tempstr += i18n("(%1 bytes)").arg(KGlobal::locale()->formatNumber(size, 0));
@@ -443,11 +445,11 @@ FilePropsPage::FilePropsPage( PropertiesDialog *_props )
     grid->addWidget(l, curRow++, 2);
   }
 
-  if (S_ISLNK(properties->item()->mode())) {
+  if (item->isLink()) {
     l = new QLabel(i18n("Points to:"), this);
     grid->addWidget(l, curRow, 0);
 
-    l = new QLabel(properties->item()->linkDest(), this);
+    l = new QLabel(item->linkDest(), this);
     grid->addWidget(l, curRow++, 2);
   }
 
@@ -465,21 +467,21 @@ FilePropsPage::FilePropsPage( PropertiesDialog *_props )
   l = new QLabel(i18n("Created:"), this);
   grid->addWidget(l, curRow, 0);
 
-  tempstr = properties->item()->time(KIO::UDS_CREATION_TIME);
+  tempstr = item->time(KIO::UDS_CREATION_TIME);
   l = new QLabel(tempstr, this);
   grid->addWidget(l, curRow++, 2);
 
   l = new QLabel(i18n("Modified:"), this);
   grid->addWidget(l, curRow, 0);
 
-  tempstr = properties->item()->time(KIO::UDS_MODIFICATION_TIME);
+  tempstr = item->time(KIO::UDS_MODIFICATION_TIME);
   l = new QLabel(tempstr, this);
   grid->addWidget(l, curRow++, 2);
 
   l = new QLabel(i18n("Accessed:"), this);
   grid->addWidget(l, curRow, 0);
 
-  tempstr = properties->item()->time(KIO::UDS_ACCESS_TIME);
+  tempstr = item->time(KIO::UDS_ACCESS_TIME);
   l = new QLabel(tempstr, this);
   grid->addWidget(l, curRow++, 2);
 
