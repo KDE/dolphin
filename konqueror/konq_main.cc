@@ -101,7 +101,6 @@ int main( int argc, char **argv )
 {
   KApplication app( argc, argv, "konqueror" );
 
-  app.dcopClient()->attach();
   app.dcopClient()->registerAs( "konqueror" );
 
   (void)new KonquerorIfaceImpl();
