@@ -25,7 +25,7 @@
 #include "listview.h"
 #include "bookmarkiterator.h"
 
-BookmarkIterator::BookmarkIterator(QValueList<KBookmark> bks) : m_bks(bks) {
+BookmarkIterator::BookmarkIterator(QValueList<KBookmark> bks) : m_bklist(bks) {
    connect(this, SIGNAL( deleteSelf(BookmarkIterator *) ), 
                  SLOT( slotCancelTest(BookmarkIterator *) ));
    delayedEmitNextOne();
@@ -42,34 +42,34 @@ void BookmarkIterator::slotCancelTest(BookmarkIterator *test) {
    holder()->removeItr(test);
 }
 
-KEBListViewItem* BookmarkIterator::curItem() {
-   return ListView::self()->getItemAtAddress(m_book.address());
+KEBListViewItem* BookmarkIterator::curItem() const {
+   return ListView::self()->getItemAtAddress(m_bk.address());
+}
+
+const KBookmark BookmarkIterator::curBk() const {
+   return m_bk;
 }
 
 void BookmarkIterator::nextOne() {
    // kdDebug() << "BookmarkIterator::nextOne" << endl;
 
-   if (m_bks.count() == 0) {
+   if (m_bklist.count() == 0) {
       emit deleteSelf(this);
       return;
    }
 
-   QValueListIterator<KBookmark> head = m_bks.begin();
+   QValueListIterator<KBookmark> head = m_bklist.begin();
    KBookmark bk = (*head);
 
    if (bk.hasParent() && isApplicable(bk)) {
-      m_url = bk.url().url();
-
-      // kdDebug() << "BookmarkIterator::nextOne " << m_url << " : " << bk.address() << "\n";
-
-      m_book = bk;
-
+      // kdDebug() << "BookmarkIterator::nextOne " << bk.url().url() 
+      //           << " : " << bk.address() << "\n";
+      m_bk = bk;
       doAction();
-
-      m_bks.remove(head);
-
+      // maybe the remove should be in nextOne()?
+      m_bklist.remove(head);
    } else {
-      m_bks.remove(head);
+      m_bklist.remove(head);
       emit nextOne();
    }
 }

@@ -45,14 +45,12 @@ signals:
 protected:
    virtual void doAction() = 0;
    virtual bool isApplicable(const KBookmark &bk) const = 0;
+   KEBListViewItem* curItem() const;
+   const KBookmark curBk() const;
 
-   KEBListViewItem* curItem();
-
-// private:
-   KBookmark m_book;
-   KEBListViewItem *m_cur_item;
-   QValueList<KBookmark> m_bks;
-   QString m_url;
+private:
+   KBookmark m_bk;
+   QValueList<KBookmark> m_bklist;
 };
 
 class BookmarkIteratorHolder
@@ -65,7 +63,8 @@ protected:
    BookmarkIteratorHolder();
    virtual ~BookmarkIteratorHolder() {};
    virtual void doItrListChanged() = 0;
-// private:
+   int count() const { return m_itrs.count(); }
+private:
    QPtrList<BookmarkIterator> m_itrs;
 };
 

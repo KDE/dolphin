@@ -35,7 +35,7 @@ FavIconsItrHolder::FavIconsItrHolder()
 }
 
 void FavIconsItrHolder::doItrListChanged() {
-   KEBApp::self()->setCancelFavIconUpdatesEnabled(m_itrs.count() > 0);
+   KEBApp::self()->setCancelFavIconUpdatesEnabled(count() > 0);
 }
 
 /* -------------------------- */
@@ -75,7 +75,7 @@ void FavIconsItr::doAction() {
       connect(m_updater, SIGNAL( done(bool) ),
               this,      SLOT( slotDone(bool) ) );
    }
-   m_updater->downloadIcon(m_book);
+   m_updater->downloadIcon(curBk());
    // TODO - a single shot timeout?
 }
 

@@ -42,7 +42,7 @@ TestLinkItrHolder::TestLinkItrHolder()
 }
 
 void TestLinkItrHolder::doItrListChanged() {
-   KEBApp::self()->setCancelTestsEnabled(m_itrs.count() > 0);
+   KEBApp::self()->setCancelTestsEnabled(count() > 0);
 }
 
 /* -------------------------- */
@@ -68,7 +68,7 @@ bool TestLinkItr::isApplicable(const KBookmark &bk) const {
 
 void TestLinkItr::doAction() {
    m_errSet = false;
-   m_job = KIO::get(m_book.url(), true, false);
+   m_job = KIO::get(curBk().url(), true, false);
    connect(m_job, SIGNAL( result( KIO::Job *)),
            this, SLOT( slotJobResult(KIO::Job *)));
    connect(m_job, SIGNAL( data( KIO::Job *,  const QByteArray &)),

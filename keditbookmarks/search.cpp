@@ -38,7 +38,7 @@ SearchItrHolder::SearchItrHolder()
 }
 
 void SearchItrHolder::doItrListChanged() {
-   KEBApp::self()->setCancelSearchEnabled(m_itrs.count() > 0);
+   KEBApp::self()->setCancelSearchEnabled(count() > 0);
 }
 
 void SearchItrHolder::slotFindNext() {
@@ -165,9 +165,9 @@ void SearchItr::doAction() {
       m_statusitem->setTmpStatus(i18n("Searching..."));
    }
 
-   QString text = m_book.url().url() + m_book.fullText();
+   QString text = curBk().url().url() + curBk().fullText();
    if (text.find(m_text, 0, FALSE) != -1) {
-      // kdDebug() << m_book.url().url() << endl;
+      // kdDebug() << curBk().url().url() << endl;
       SearchItrHolder::self()->addFind(curItem());
       // curItem()->setSelected(true); // only if no current selection?
       ListView::self()->openParents(curItem());
