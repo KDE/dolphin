@@ -129,7 +129,7 @@ KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name)
     findCreated =  new QCheckBox(i18n("Find all files created or &modified:"), pages[1]);
     bg  = new QButtonGroup();
     rb[0] = new QRadioButton(i18n("&between"), pages[1] );
-    rb[1] = new QRadioButton(i18n("during the previou&s"), pages[1] );
+    rb[1] = new QRadioButton(i18n("&during the previous"), pages[1] );
     QLabel * andL   = new QLabel(i18n("and"), pages[1], "and");
     betweenType = new KComboBox(FALSE, pages[1], "comboBetweenType");
     betweenType->insertItem(i18n("minute(s)"));
@@ -228,9 +228,9 @@ KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name)
     typeBox =new KComboBox(FALSE, pages[2], "typeBox");
     QLabel * typeL   =new QLabel(typeBox, i18n("File &type:"), pages[2], "type");
     textEdit=new KLineEdit(pages[2], "textEdit" );
-    QLabel * textL   =new QLabel(textEdit, i18n("&Containing text:"), pages[2], "text");
+    QLabel * textL   =new QLabel(textEdit, i18n("C&ontaining text:"), pages[2], "text");
 
-    caseContextCb  =new QCheckBox(i18n("Case s&ensitive"), pages[2]);
+    caseContextCb  =new QCheckBox(i18n("C&ase sensitive"), pages[2]);
     regexpContentCb  =new QCheckBox(i18n("Regular e&xpression"), pages[2]);
 
     QPushButton* editRegExp = 0;
