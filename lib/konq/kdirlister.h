@@ -156,9 +156,6 @@ protected:
   KURL m_url;
   QString m_sURL;
 
-  /** Did we found the first file in the dir ?
-      Set to false by openURL and to true by slotListEntry */
-  bool m_bFoundOne;
   bool m_bIsLocalURL;
 
   int m_jobId;

@@ -128,14 +128,16 @@ void KDirLister::openURL( const KURL& _url, bool _showDotFiles, bool _keep )
   m_url = _url; // keep a copy
   m_sURL = _url.url(); // filled in now, in case somebody calls url(). Will be updated later in case of redirection
 
-  // Complete switch (keep == false) => none found (foundone == false) => will clear items
-  // Keep dirs (keep == true) => don't clear items
-  m_bFoundOne = _keep;
-
   m_jobId = job->id();
   job->listDir( m_sURL );
 
   emit started( m_sURL );
+  if ( !_keep )
+  {
+    emit clear();
+    m_lstFileItems.clear(); // clear our internal list
+  }
+  m_bIsLocalURL = m_url.isLocalFile();
 }
 
 void KDirLister::slotError( int /*_id*/, int _errid, const char *_errortext )
@@ -159,17 +161,6 @@ void KDirLister::slotCloseURL( int /*_id*/ )
 
 void KDirLister::slotListEntry( int /*_id*/, const KUDSEntry& _entry )
 {
-  //The first entry ?
-  if ( !m_bFoundOne )
-  {
-    emit clear();
-    m_lstFileItems.clear(); // clear our internal list
-    // TODO : update m_url in case of redirection
-    // m_sURL = m_url.url();
-    m_bFoundOne = true; // remember not to go here again
-    m_bIsLocalURL = m_url.isLocalFile();
-  }
-
   QString name;
 
   // Find out about the name
