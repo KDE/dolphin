@@ -8,6 +8,7 @@
 #include "kfarch.h"
 #include "kfindtop.h"
 #include "kfsave.h"
+#include <kglobal.h>
 
 KfSaveOptions *saving;
 

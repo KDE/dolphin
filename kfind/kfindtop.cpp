@@ -28,7 +28,8 @@
 #include <klocale.h>
 #include <kstdaccel.h>
 
-#include "version.h" 
+#include "version.h"
+#include <kglobal.h> 
 
 KfindTop::KfindTop(const char *searchPath) : KTopLevelWidget()
   {
