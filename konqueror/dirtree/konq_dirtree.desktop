@@ -25,3 +25,4 @@ X-KDE-BrowserView-AllowAsDefault=false
 X-KDE-BrowserView-HideFromMenus=true
 X-KDE-BrowserView-PassiveMode=true
 X-KDE-BrowserView-Toggable=true
+X-KDE-BrowserView-ToggableView-Orientation=vertical
