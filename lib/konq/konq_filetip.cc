@@ -33,6 +33,7 @@
 #include <qscrollview.h>
 #include <qtimer.h>
 
+#include <fixx11h.h>
 //--------------------------------------------------------------------------------
 
 KonqFileTip::KonqFileTip( QScrollView* parent )
