@@ -419,7 +419,7 @@ void KonqOperations::doDrop( const KFileItem * destItem, const KURL & dest, QDro
             pi->data = data;
             pi->destURL = dest;
             pi->mousePos = ev->pos();
-            pi->dialogText = i18n( "Filename for dropped contents:" );
+            pi->dialogText = i18n( "File name for dropped contents:" );
             op->setPasteInfo( pi );
             QTimer::singleShot( 0, op, SLOT( slotKIOPaste() ) );
         }
