@@ -18,6 +18,9 @@
 */     
 
 #include <qdir.h>
+#include <qclipboard.h>
+#include <qapplication.h>
+#include <qdragobject.h>
 
 #include <opMenu.h>
 
@@ -308,13 +311,17 @@ void KonqPopupMenu::slotPopupNewView()
 
 void KonqPopupMenu::slotPopupEmptyTrashBin()
 {
-  //TODO
+  QDir trashDir( UserPaths::trashPath() );
+  QStringList files = trashDir.entryList();
+  KIOJob *job = new KIOJob;
+  job->del( files );
 }
 
 void KonqPopupMenu::slotPopupCopy()
 {
-  // TODO (kclipboard.h will probably have to be ported to QStringList)
-  //  KClipboard::self()->setURLList( m_lstPopupURLs ); 
+  QUriDrag *urlData = new QUriDrag;
+  urlData->setUnicodeUris( m_lstPopupURLs );
+  QApplication::clipboard()->setData( urlData );
 }
 
 void KonqPopupMenu::slotPopupPaste()
@@ -325,7 +332,8 @@ void KonqPopupMenu::slotPopupPaste()
 
 void KonqPopupMenu::slotPopupTrash()
 {
-  //TODO
+  KIOJob *job = new KIOJob;
+  job->move( m_lstPopupURLs, UserPaths::trashPath() );
 }
 
 void KonqPopupMenu::slotPopupDelete()
