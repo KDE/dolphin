@@ -256,7 +256,7 @@ public:
   /**
    * Returns the view that is currently connected to the Frame.
    */
-  KonqView* childView() { return m_pView; }
+  KonqView* childView()const { return m_pView; }
 
   bool isActivePart();
 
@@ -278,7 +278,7 @@ public:
   virtual QWidget* widget() { return this; }
   virtual QCString frameType() { return QCString("View"); }
 
-  QVBoxLayout *layout() { return m_pLayout; }
+  QVBoxLayout *layout()const { return m_pLayout; }
 
   KonqFrameStatusBar *statusbar() const { return m_pStatusBar; }
   KonqFrameHeader    *header() const { return m_pHeader; }
