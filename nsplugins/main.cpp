@@ -28,8 +28,8 @@ int main(int argc, char *argv[])
 
   QStringList _argn, _argv;
   _argn << "SRC" << "TYPE" << "WIDTH" << "HEIGHT";
-  _argv << "file:/home/mhk/nsplugin/nsplugin/caldera.xpm" << "image/x-xpixmap" << "400" << "250";
-  win = loader->NewInstance(0, "file:/home/mhk/nsplugin/nsplugin/caldera.xpm", "image/x-xpixmap", 1, _argn, _argv);
+  _argv << "file:/home/sschimanski/autsch.swf" << "application/x-shockwave-flash" << "400" << "250";
+  win = loader->NewInstance(0, "file:/home/sschimanski/autsch.swf", "application/x-shockwave-flash", 1, _argn, _argv);
   
   if (win)
     {

@@ -66,6 +66,7 @@ NSPluginLoader::NSPluginLoader()
   _searchPaths.append("/usr/local/netscape/plugins");
   _searchPaths.append("/opt/netscape/plugins");
   _searchPaths.append("/opt/netscape/communicator/plugins");
+  _searchPaths.append("/usr/lib/netscape/plugins");
   _searchPaths.append(QString("%1/.netscape/plugins").arg(getenv("HOME")));
   
   // append environment variable NPX_PLUGIN_PATH
@@ -122,7 +123,7 @@ void NSPluginLoader::rescanPlugins()
 	  if (!_handle)
 	    continue;
 
-	  func_GetMIMEDescription = _handle->symbol("NPP_GetMIMEDescription");
+	  func_GetMIMEDescription = _handle->symbol("NP_GetMIMEDescription");
 	  
 	  if (!func_GetMIMEDescription)                        
 	    continue;
@@ -136,7 +137,8 @@ void NSPluginLoader::rescanPlugins()
 	  if (!mimeInfo)
 	    {
 	      kDebugInfo("  not a plugin");
-	      KLibLoader::self()->unloadLibrary(*it+"/"+files[i]);
+	      //KLibLoader::self()->unloadLibrary(*it+"/"+files[i]);
+	      delete _handle;
 	      continue;
 	    }
 
@@ -168,7 +170,8 @@ void NSPluginLoader::rescanPlugins()
 	  
 	  kDebugInfo("  is a plugin");
 
-	  KLibLoader::self()->unloadLibrary(*it+"/"+files[i]);		  
+	  //KLibLoader::self()->unloadLibrary(*it+"/"+files[i]);		
+	  delete _handle;
 	}
     }
 
@@ -226,6 +229,7 @@ NSPluginLoader *NSPluginLoader::instance()
 
 bool NSPluginLoader::loadPlugin(const QString &plugin)
 {
+  kDebugInfo("NSPluginLoader::loadPlugin");
   PluginPrivateData *data = _private[plugin];
 
   if (!data)
@@ -242,7 +246,10 @@ bool NSPluginLoader::loadPlugin(const QString &plugin)
       // find the external viewer process
       QString viewer = KGlobal::dirs()->findExe("nspluginviewer");
       if (!viewer)
+      {
+      	kDebugError("Can't find nspluginviewer");
 	return false;
+      }
       *data->process << viewer;
 
       // tell the process it's parameters
@@ -375,6 +382,6 @@ QWidget *NSPluginLoader::NewInstance(QWidget *parent, QString url, QString mimeT
       win->embed(winid);
       return win;
     }
-  
+
   return 0;
 }
