@@ -335,11 +335,27 @@ const KFileItem * KonqKfmIconView::currentItem()
 
 void KonqKfmIconView::slotPreview( bool toggle )
 {
-    m_pProps->setShowingPreview( sender()->name(), toggle );
+    QCString name = sender()->name(); // e.g. clipartthumbnail (or audio/, special case)
+    m_pProps->setShowingPreview( name, toggle );
     if ( !toggle )
     {
-        m_pIconView->stopImagePreview();
-        m_pIconView->setIcons( m_pIconView->iconSize(), sender()->name() );
+        kdDebug() << "KonqKfmIconView::slotPreview stopping image preview for " << name << endl;
+        if ( name == "sound/" )
+            m_pIconView->disableSoundPreviews();
+        else
+        {
+            KService::Ptr serv = KService::serviceByDesktopName( name );
+            Q_ASSERT( serv != 0L );
+            if ( serv ) {
+                bool previewRunning = m_pIconView->isPreviewRunning();
+                if ( previewRunning )
+                    m_pIconView->stopImagePreview();
+                QStringList mimeTypes = serv->property("MimeTypes").toStringList();
+                m_pIconView->setIcons( m_pIconView->iconSize(), mimeTypes );
+                if ( previewRunning )
+                    m_pIconView->startImagePreview( m_pProps->previewSettings(), false );
+            }
+        }
     }
     else
     {
@@ -690,7 +706,7 @@ void KonqKfmIconView::slotRefreshItems( const KFileItemList& entries )
     {
         KFileIVI * ivi = m_itemDict[ rit.current() ];
         Q_ASSERT(ivi);
-        kdDebug() << "KonqKfmIconView::slotRefreshItems ivi=" << ivi << endl;
+        kdDebug() << "KonqKfmIconView::slotRefreshItems " << rit.current()->name() << " ivi=" << ivi << endl;
         if (ivi)
         {
             ivi->refreshIcon( true );
@@ -737,7 +753,7 @@ void KonqKfmIconView::slotSelectionChanged()
 void KonqKfmIconView::determineIcon( KFileIVI * item )
 {
   // kdDebug() << "KonqKfmIconView::determineIcon " << item->item()->name() << endl;
-  int oldSerial = item->pixmap()->serialNumber();
+  //int oldSerial = item->pixmap()->serialNumber();
 
   (void) item->item()->determineMimeType();
 
