@@ -100,9 +100,9 @@ KonqKfmIconView::KonqKfmIconView( KonqMainView *mainView )
   // TODO
   //  connect( m_pView->gui(), SIGNAL( configChanged() ), SLOT( initConfig() ) );
 
-  QObject::connect( this, SIGNAL( itemRightClicked( QIconViewItem * ) ),
+  QObject::connect( this, SIGNAL( itemRightPressed( QIconViewItem * ) ),
                     this, SLOT( slotItemRightClicked( QIconViewItem * ) ) );
-  QObject::connect( this, SIGNAL( viewportRightClicked() ),
+  QObject::connect( this, SIGNAL( viewportRightPressed() ),
                     this, SLOT( slotViewportRightClicked() ) );
 
   // Now we may react to configuration changes
