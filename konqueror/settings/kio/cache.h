@@ -45,6 +45,9 @@ public:
     virtual void defaults();
     QString quickHelp() const;
 
+protected slots:
+  void configChanged() { emit changed( true ); };
+
 private:
     QCheckBox* cb_useCache;
 

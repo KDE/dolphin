@@ -175,6 +175,8 @@ KCacheConfigDialog::KCacheConfigDialog( QWidget* parent, const char* name )
     // signals and slots connections
     connect( cb_useCache, SIGNAL( toggled(bool) ), gb_Cache_policy,
              SLOT( setEnabled(bool) ) );
+    connect( cb_useCache, SIGNAL( toggled(bool) ), this,
+             SLOT(configChanged()));
     connect( cb_useCache, SIGNAL( toggled(bool) ), lb_size,
              SLOT( setEnabled(bool) ) );
     connect( cb_useCache, SIGNAL( toggled(bool) ), lb_max_cache_size,
@@ -184,6 +186,10 @@ KCacheConfigDialog::KCacheConfigDialog( QWidget* parent, const char* name )
     connect( cb_useCache, SIGNAL( toggled(bool) ), pb_clearCache,
              SLOT( setEnabled(bool) ) );
 
+    connect( gb_Cache_policy, SIGNAL(clicked ( int )), this,
+             SLOT(configChanged()));
+    connect( sb_max_cache_size, SIGNAL(valueChanged ( int )),this,
+             SLOT(configChanged()));
     // buddies
     lb_max_cache_size->setBuddy( sb_max_cache_size );
     load();
