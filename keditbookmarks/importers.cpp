@@ -153,11 +153,6 @@ void ImportCommand::connectImporter(const QObject *importer) {
 
 // importer subclasses
 
-OperaImportCommand::OperaImportCommand(const QString &fileName, bool folder)
-   : ImportCommand(fileName, folder, "opera", false) {
-   ;
-}
-
 QString OperaImportCommand::requestFilename() const {
    return KOperaBookmarkImporter::operaBookmarksFile();
 }
@@ -170,11 +165,6 @@ void OperaImportCommand::doExecute() {
    KOperaBookmarkImporter importer(m_fileName);
    connectImporter(&importer);
    importer.parseOperaBookmarks();
-}
-
-IEImportCommand::IEImportCommand(const QString &fileName, bool folder)
-   : ImportCommand(fileName, folder, "", false) {
-   ;
 }
 
 QString IEImportCommand::requestFilename() const {
@@ -197,22 +187,12 @@ void HTMLImportCommand::doExecute() {
    importer.parseNSBookmarks(m_utf8);
 }
 
-MozImportCommand::MozImportCommand(const QString &fileName, bool folder)
-   : HTMLImportCommand(fileName, folder, "mozilla", true) {
-   ;
-}
-
 QString MozImportCommand::requestFilename() const {
    return KNSBookmarkImporter::mozillaBookmarksFile();
 }
 
 QString MozImportCommand::visibleName() const {
    return i18n("Mozilla");
-}
-
-NSImportCommand::NSImportCommand(const QString &fileName, bool folder)
-   : HTMLImportCommand(fileName, folder, "netscape", false) {
-   ;
 }
 
 QString NSImportCommand::requestFilename() const {
@@ -223,22 +203,6 @@ QString NSImportCommand::visibleName() const {
    return i18n("Netscape");
 }
 
-HTMLImportCommand::HTMLImportCommand(const QString &fileName, bool folder,
-      const QString &icon, bool utf8)
-   : ImportCommand(fileName, folder, icon, utf8) {
-   ;
-}
-
-XBELImportCommand::XBELImportCommand(const QString &fileName, bool folder, const QString &icon)
-   : ImportCommand(fileName, folder, icon, false) {
-   ;
-}
-
-GaleonImportCommand::GaleonImportCommand(const QString &fileName, bool folder)
-   : XBELImportCommand(fileName, folder, "") {
-   ;
-}
-
 QString GaleonImportCommand::requestFilename() const {
    return KFileDialog::getOpenFileName(
                QDir::homeDirPath() + "/.galeon",
@@ -247,11 +211,6 @@ QString GaleonImportCommand::requestFilename() const {
 
 QString GaleonImportCommand::visibleName() const {
    return i18n("Galeon");
-}
-
-KDE2ImportCommand::KDE2ImportCommand(const QString &fileName, bool folder)
-   : XBELImportCommand(fileName, folder, "") {
-   ;
 }
 
 QString KDE2ImportCommand::requestFilename() const {
