@@ -603,22 +603,41 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
                         if (*it == "all/all" ||
                             *it == "allfiles" /*compat with KDE up to 3.0.3*/)
                         {
-                            if ( !excludeTypes.contains( m_sMimeType))
-                            {
-                                ok = true;
-                                break;
-                            }
+			  ok = true;
+			  for (QStringList::iterator itex = excludeTypes.begin(); itex != excludeTypes.end(); ++itex)
+			    {
+			      if( (*itex).right(1) == "*" &&(*itex).left((*itex).find('/'))== mimeGroup )
+				{
+				  ok = false;
+				  break;
+				}
+			      else if ( (*itex).contains( m_sMimeType))
+				{
+				  ok = false;
+				  break;
+				}
+			    }
                         }
 
                         // next, do we match all files?
                         if (*it == "all/allfiles" &&
                             !isDirectory) // ## or inherits from it
                         {
-                            if ( !excludeTypes.contains( m_sMimeType))
-                            {
-                                ok = true;
-                                break;
-                            }
+			  ok = true;
+			  for (QStringList::iterator itex = excludeTypes.begin(); itex != excludeTypes.end(); ++itex)
+			    {
+			      if( (*itex).right(1) == "*" &&(*itex).left((*itex).find('/'))== mimeGroup )
+				{
+				  ok = false;
+				  break;
+				}
+			      else if ( (*itex).contains( m_sMimeType))
+				{
+				  ok = false;
+				  break;
+				}
+			    }
+
                         }
 
                         // if we have a mimetype, see if we have an exact or type
@@ -628,11 +647,20 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
                              ((*it).right(1) == "*" &&
                               (*it).left((*it).find('/')) == mimeGroup)))
                         {
-                            if (!excludeTypes.contains( m_sMimeType))
-                            {
-                                ok = true;
-                                break;
-                            }
+			  ok = true;
+			  for (QStringList::iterator itex = excludeTypes.begin(); itex != excludeTypes.end(); ++itex)
+			    {
+			      if( (*itex).right(1) == "*" &&(*itex).left((*itex).find('/'))== mimeGroup )
+				{
+				  ok = false;
+				  break;
+				}
+			      else if ( (*itex).contains( m_sMimeType))
+				{
+				  ok = false;
+				  break;
+				}
+			    }
                         }
                     }
 
