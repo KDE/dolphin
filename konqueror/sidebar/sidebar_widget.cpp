@@ -312,7 +312,7 @@ void Sidebar_Widget::readConfig()
 	{
 		if (list.contains(Buttons.at(i)->file))
 			{
-				showHidePage(i);				
+				ButtonBar->setButton(i,true); //showHidePage(i);				
 				if (singleWidgetMode) return;
 			} 
 	}
@@ -579,23 +579,26 @@ void Sidebar_Widget::showHidePage(int page)
 	ButtonInfo *info=Buttons.at(page);
 	if (!info->dock)
 		{
-			//SingleWidgetMode
-			if (singleWidgetMode) if (latestViewed!=-1) showHidePage(latestViewed);
-			if (!createView(info))
+			if(ButtonBar->isButtonOn(page))
 				{
-					ButtonBar->setButton(page,false);
-					return;
+					//SingleWidgetMode
+					if (singleWidgetMode) if (latestViewed!=-1) showHidePage(latestViewed);
+					if (!createView(info))
+						{
+							ButtonBar->setButton(page,false);
+							return;
+						}
+						ButtonBar->setButton(page,true);			
+						info->dock->manualDock(mainW,KDockWidget::DockTop,100);
+						info->dock->show();
+						if (stored_url) info->module->openURL(storedUrl);
+						visibleViews<<info->file;
+						latestViewed=page;
 				}
-			ButtonBar->setButton(page,true);			
-			info->dock->manualDock(mainW,KDockWidget::DockTop,100);
-			info->dock->show();
-			if (stored_url) info->module->openURL(storedUrl);
-			visibleViews<<info->file;
-			latestViewed=page;
-		}
+		 }
 	else
 		{
-			if (!info->dock->isVisible())
+			if ((!info->dock->isVisible()) && (ButtonBar->isButtonOn(page)))
 				{
 					//SingleWidgetMode
 					if (singleWidgetMode) if (latestViewed!=-1) showHidePage(latestViewed);			
@@ -607,6 +610,7 @@ void Sidebar_Widget::showHidePage(int page)
 					ButtonBar->setButton(page,true);
 				} else
 				{
+//					if (ButtonBar->
 					ButtonBar->setButton(page,false);
 					info->dock->undock();
 					latestViewed=-1;
@@ -624,7 +628,7 @@ void Sidebar_Widget::dockWidgetHasUndocked(KDockWidget* wid)
 	{
 		if (Buttons.at(i)->dock==wid)
 			{
-				ButtonBar->setButton(i,false);
+				if (ButtonBar->isButtonOn(i)) ButtonBar->setButton(i,false);
 //				latestViewed=-1;
 //				visibleViews.remove(Buttons.at(i)->file);
 //				break;
@@ -639,5 +643,11 @@ Sidebar_Widget::~Sidebar_Widget()
 	conf.writeEntry("SingleWidgetMode",singleWidgetMode?"true":"false");
         conf.writeEntry("OpenViews", visibleViews);
 	conf.sync();
+	for (int i=0;i<Buttons.count();i++)
+	{
+		if (Buttons.at(i)->dock!=0)
+			Buttons.at(i)->dock->undock();
+	}
+
 }
 

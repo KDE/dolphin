@@ -93,7 +93,7 @@ KInstance* KonqSidebarFactory::instance()
 {
     if( !s_instance )
     {
-        s_about = new KAboutData("konqsidebartng", I18N_NOOP("KonqSidebarTNG"), "0.1");
+        s_about = new KAboutData("konqsidebartng", I18N_NOOP("Extended Sidebar"), "0.1");
         s_about->addAuthor("Joseph WENNINGER", 0, "jowenn@bigfoot.com");
         s_instance = new KInstance(s_about);
     }
