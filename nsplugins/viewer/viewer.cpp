@@ -101,7 +101,7 @@ struct SocketNot
   XtInputId id;
 };
 
-QList<SocketNot> _notifiers[3];
+QPtrList<SocketNot> _notifiers[3];
 
 /**
  * socketCallback - send event to the socket notifier

@@ -34,7 +34,7 @@
 #include <qobject.h>
 #include <qstring.h>
 #include <qstringlist.h>
-#include <qqueue.h>
+#include <qptrqueue.h>
 #include <qdict.h>
 #include <qintdict.h>
 #include <qguardedptr.h>
@@ -204,9 +204,9 @@ private:
 
   bool _destroyed;
   void addTempFile(KTempFile *tmpFile);
-  QList<KTempFile> _tempFiles;
+  QPtrList<KTempFile> _tempFiles;
   NSPluginCallbackIface_stub *_callback;
-  QList<NSPluginStreamBase> _streams;
+  QPtrList<NSPluginStreamBase> _streams;
   KLibrary *_handle;
   QTimer *_timer;
 
@@ -229,7 +229,7 @@ private:
       void *notify;
   };
 
-  QQueue<Request> _waitingRequests;
+  QPtrQueue<Request> _waitingRequests;
 };
 
 
@@ -268,8 +268,8 @@ private:
   NPPluginFuncs _pluginFuncs;
   NPNetscapeFuncs _nsFuncs;
 
-  QList<NSPluginInstance> _instances;
-  QList<NSPluginInstance> _trash;
+  QPtrList<NSPluginInstance> _instances;
+  QPtrList<NSPluginInstance> _trash;
 };
 
 
