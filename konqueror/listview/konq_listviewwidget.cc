@@ -675,21 +675,36 @@ void KonqBaseListViewWidget::slotOnItem( QListViewItem* _item)
 
 void KonqBaseListViewWidget::slotItemRenamed(QListViewItem* item, const QString &name, int col)
 {
-   Q_ASSERT(col==0);
-   if (col != 0) return;
-   assert(item);
-   KFileItem * fileItem = static_cast<KonqBaseListViewItem*>(item)->item();
-   KonqOperations::rename( this, fileItem->url(), name, this, SLOT(renamingFinished(bool)));
-   m_renamedItem=static_cast<KonqBaseListViewItem*>(item);
-   setFocus(); // When the KListViewLineEdit loses focus, focus tends to go to the location bar...
+   Q_ASSERT( col == 0 );
+   Q_ASSERT( item != 0 );
+   
+   m_renamedItem = static_cast<KonqBaseListViewItem*>(item);
+   
+   // The correct behavior is to show the old name until the rename has successfully
+   // completed. Unfortunately, KListView forces us to allow the text to be changed
+   // before we try the rename, so set it back to the pre-rename state.
+   m_renamedItem->updateContents();
+   
+   // Don't do anything if the user renamed to a blank name.
+   if( name.isEmpty() )
+       return;
+   
+   // Actually attempt the rename. If it succeeds, we'll update the name.
+   KonqOperations::rename( this, m_renamedItem->item()->url(), name, this, SLOT(renamingFinished(bool)) );
+   
+   // When the KListViewLineEdit loses focus, focus tends to go to the location bar...
+   setFocus();
 }
 
 void KonqBaseListViewWidget::renamingFinished(bool success)
 {
-   if ((m_renamedItem!=0) && (!success))
-      m_renamedItem->updateContents();
-   m_renamedItem=0;
-};
+   Q_ASSERT( m_renamedItem != 0 );
+   
+   if( success )
+       m_renamedItem->updateContents();
+   
+   m_renamedItem = 0;
+}
 
 void KonqBaseListViewWidget::slotOnViewport()
 {
