@@ -123,7 +123,7 @@ bool KIconDrag::decode( QMimeSource* e, KIconDrag::IconList& _list )
 	s = tmp;
       }
       Icon icon;
-      icon.pos.setX( s.toInt() );
+      icon.pos.setX( atoi( s.ascii() ) ); // s.toInt() does not work here
       int pos = s.find( ':' );
       if ( pos == -1 )
 	return false;
