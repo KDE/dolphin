@@ -90,6 +90,7 @@ class KQuery : public QObject
   bool m_insideCheckEntries;
   QPtrQueue<KFileItem> m_fileItems;
   QRegExp* metaKeyRx;
+  int m_result;
 };
 
 #endif

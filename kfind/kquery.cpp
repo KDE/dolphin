@@ -16,7 +16,7 @@ KQuery::KQuery(QObject *parent, const char * name)
   : QObject(parent, name),
     m_minsize(-1), m_maxsize(-1),
     m_timeFrom(0), m_timeTo(0),
-    job(0), m_insideCheckEntries(false)
+    job(0), m_insideCheckEntries(false), m_result(0)
 {
   m_regexps.setAutoDelete(true);
   m_fileItems.setAutoDelete(true);
@@ -67,7 +67,8 @@ void KQuery::slotResult( KIO::Job * _job )
   if (job != _job) return;
   job = 0;
 
-  emit result(_job->error());
+  m_result=_job->error();
+  checkEntries();
 }
 
 void KQuery::slotCanceled( KIO::Job * _job )
@@ -76,7 +77,8 @@ void KQuery::slotCanceled( KIO::Job * _job )
   job = 0;
 
   m_fileItems.clear();
-  emit result(KIO::ERR_USER_CANCELED);
+  m_result=KIO::ERR_USER_CANCELED;
+  checkEntries();
 }
 
 void KQuery::slotListEntries(KIO::Job*, const KIO::UDSEntryList& list)
@@ -88,12 +90,13 @@ void KQuery::slotListEntries(KIO::Job*, const KIO::UDSEntryList& list)
     file = new KFileItem(*it, m_url, true, true);
     m_fileItems.enqueue(file);
   }
-  if (!m_insideCheckEntries)
-     checkEntries();
+  checkEntries();
 }
 
 void KQuery::checkEntries()
 {
+  if (m_insideCheckEntries)
+     return;
   m_insideCheckEntries=true;
   metaKeyRx=new QRegExp(m_metainfokey,true,true);
   KFileItem * file = 0;
@@ -104,6 +107,8 @@ void KQuery::checkEntries()
   }
   delete metaKeyRx;
   m_insideCheckEntries=false;
+  if (job==0)
+     emit result(m_result);
 }
 
 /* List of files found using slocate */
