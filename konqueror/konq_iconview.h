@@ -1,20 +1,20 @@
 /*  This file is part of the KDE project
     Copyright (C) 1998, 1999 Torben Weis <weis@kde.org>
- 
+
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation; either version 2 of the License, or
     (at your option) any later version.
- 
+
     This program is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
- 
+
     You should have received a copy of the GNU General Public License
     along with this program; if not, write to the Free Software
     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
-*/     
+*/
 
 #ifndef __konq_iconview_h__
 #define __konq_iconview_h__
@@ -33,6 +33,54 @@ class KFileItem;
 class Qt2CORBAProxy;
 class KFileIVI;
 class KonqSettings;
+
+class KonqDragItem : public QIconDragItem
+{
+public:
+    KonqDragItem();
+    KonqDragItem( const QRect &ir, const QRect &tr, const QString &u );
+    ~KonqDragItem();
+	
+    QString url() const;
+    void setURL( const QString &u );
+
+protected:
+    void makeKey();
+
+    QString url_;
+
+};
+
+/*****************************************************************************
+ *
+ * Class KonqDrag
+ *
+ *****************************************************************************/
+
+class KonqDrag : public QIconDrag
+{
+    Q_OBJECT
+
+public:
+    typedef QValueList<KonqDragItem> KonqList;
+
+    KonqDrag( QWidget * dragSource, const char* name = 0 );
+    ~KonqDrag();
+
+    const char* format( int i ) const;
+    QByteArray encodedData( const char* mime ) const;
+
+    void append( const KonqDragItem &icon_ );
+
+    static bool canDecode( QMimeSource* e );
+
+    static bool decode( QMimeSource *e, QValueList<KonqDragItem> &list_ );
+    static bool decode( QMimeSource *e, QStringList &uris );
+
+protected:
+    KonqList icons;
+
+};
 
 /**
  * The Icon View for konqueror. Handles big icons (Horizontal mode) and
@@ -59,7 +107,7 @@ public:
 
   // IDL
   virtual void stop();
-  
+
   virtual QCString url();
   virtual long int xOffset();
   virtual long int yOffset();
@@ -67,11 +115,11 @@ public:
   virtual void openURL( const char* _url, int xOffset, int yOffset );
 
   virtual void can( bool &copy, bool &paste, bool &move );
-  
+
   virtual void copySelection();
   virtual void pasteSelection();
-  virtual void moveSelection( const QCString &destinationURL );  
-  
+  virtual void moveSelection( const QCString &destinationURL );
+
 public slots:
   // IDL
   virtual void slotShowDot();
@@ -93,12 +141,12 @@ protected slots:
   virtual void slotMousePressed( QIconViewItem *item );
   virtual void slotDrop( QDropEvent *e );
   void slotDropItem( KFileIVI *item, QDropEvent *e );
- 
+
   void slotSelectionChanged();
-  
+
   void slotItemRightClicked( QIconViewItem *item );
   void slotViewportRightClicked();
- 
+
   void slotOnItem( QIconViewItem *item );
   void slotOnViewport();
 
@@ -110,7 +158,8 @@ protected slots:
   virtual void slotNewItem( KFileItem * );
   virtual void slotDeleteItem( KFileItem * );
 
-protected:  
+protected:
+    void initDrag( QDropEvent *e );
   /** Common to slotDrop and slotDropItem */
   void dropStuff( QDropEvent *e, KFileIVI *item = 0L );
 
@@ -147,7 +196,7 @@ protected:
   bool m_bInit;
 
   bool m_bLoading;
-  
+
   /** The view menu */
   OpenPartsUI::Menu_var m_vViewMenu;
 
@@ -155,13 +204,13 @@ protected:
 
   /** Set to true if the next slotUpdate needs to call setup() */
   //bool bSetupNeeded;
-  
+
   int m_iXOffset;
   int m_iYOffset;
-  
+
   /** Proxies for each CORBA slot that has to be invoked from a Qt signal */
   Qt2CORBAProxy * m_proxySelectAll;
-  
+
   long int m_idShowDotFiles;
   long int m_idSortByNameCaseSensitive;
   long int m_idSortByNameCaseInsensitive;
@@ -169,7 +218,7 @@ protected:
   long int m_idSortDescending;
 
   SortCriterion m_eSortCriterion;
-  
+
   KonqMainView *m_pMainView;
 };
 
