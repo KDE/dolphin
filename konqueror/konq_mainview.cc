@@ -44,8 +44,9 @@
 #include <kclipboard.h>
 #include <kconfig.h>
 #include <kkeydialog.h>
+#include <klineeditdlg.h>
+
 #include <kio_cache.h>
-#include <kio_linedit_dlg.h>
 #include <kio_manager.h>
 #include <kio_openwith.h>
 #include <kio_paste.h>

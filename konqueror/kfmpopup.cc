@@ -26,7 +26,8 @@
 #include <kapp.h>
 #include <kurl.h>
 #include <ksimpleconfig.h>
-#include <kio_linedit_dlg.h>
+#include <klineeditdlg.h>
+
 #include <kio_interface.h>
 #include <kio_job.h>
 

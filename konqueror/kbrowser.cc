@@ -178,7 +178,7 @@ void KBrowser::openURL( const char *_url, bool _reload, int _xoffset, int _yoffs
   
   CachedKIOJob* job = new CachedKIOJob;
   
-  job->enableGUI( false );
+  job->setGUImode( KIOJob::NONE );
   
   connect( job, SIGNAL( sigFinished( int ) ), this, SLOT( slotFinished( int ) ) );
   connect( job, SIGNAL( sigRedirection( int, const char* ) ), this, SLOT( slotRedirection( int, const char* ) ) );
@@ -877,7 +877,7 @@ void KBrowserURLRequestJob::run( const char *_url, const char *_simple_url, bool
   m_strURL = _url;
 
   CachedKIOJob* job = new CachedKIOJob;
-  job->enableGUI( false );
+  job->setGUImode( KIOJob::NONE );
   
   connect( job, SIGNAL( sigFinished( int ) ), this, SLOT( slotFinished( int ) ) );
   connect( job, SIGNAL( sigData( int, const char*, int ) ), this, SLOT( slotData( int, const char*, int ) ) );
