@@ -1097,6 +1097,7 @@ KonqIconDrag * KonqIconViewWidget::konqDragObject( QWidget * dragSource )
 {
     //kdDebug(1203) << "KonqIconViewWidget::konqDragObject" << endl;
 
+    QPoint offset(-10,-10);
     KonqIconDrag * drag = new KonqIconDrag( dragSource );
     QIconViewItem *primaryItem = currentItem();
     // Append all items to the drag object
@@ -1110,20 +1111,18 @@ KonqIconDrag * KonqIconViewWidget::konqDragObject( QWidget * dragSource )
           QIconDragItem id;
           id.setData( QCString(itemURL.latin1()) );
           drag->append( id,
-                        QRect( it->pixmapRect( FALSE ).topLeft() - m_mousePos,
-                               it->pixmapRect( FALSE ).size() ),
-                        QRect( it->textRect( FALSE ).topLeft() - m_mousePos,
-                               it->textRect( FALSE ).size() ),
+                        QRect( it->pixmapRect().topLeft() - offset,
+                               it->pixmapRect().size() ),
+                        QRect( it->textRect().topLeft() - offset,
+                               it->textRect().size() ),
                         itemURL );
         }
     }
 
     if (primaryItem)
     {
-       // Position of the item clicked in the view
-       QPoint itempos = primaryItem->pixmapRect( FALSE ).topLeft();
        // Set pixmap, with the correct offset
-       drag->setPixmap( *primaryItem->pixmap(), m_mousePos - itempos );
+       drag->setPixmap( *primaryItem->pixmap(), offset );
     }
 
     return drag;
@@ -1328,7 +1327,6 @@ void KonqIconViewWidget::contentsMousePressEvent( QMouseEvent *e )
 {
     d->renameItem= true;
   //kdDebug(1203) << "KonqIconViewWidget::contentsMousePressEvent" << endl;
-  m_mousePos = e->pos();
   m_bMousePressed = true;
   if (d->pSoundPlayer)
     d->pSoundPlayer->stop();
