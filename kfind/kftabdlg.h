@@ -67,9 +67,12 @@ public:
   // for third page
   QComboBox *typeBox;
   QLineEdit * textEdit;
-  QCheckBox   *caseSensCb;
+  QCheckBox *caseSensCb;
   QComboBox *m_usernameBox;
   QComboBox *m_groupBox;
+  //for fourth page
+  QLineEdit *metainfoEdit;
+  QLineEdit *metainfokeyEdit;
 
 private:
   bool isDateValid();

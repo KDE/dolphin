@@ -283,6 +283,49 @@ KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name)
     
     addTab( pages[2], i18n(" Ad&vanced ") );
 
+
+    // ************ Page Four
+
+    pages[3] = new QWidget( this, "page4" );
+
+    metainfoEdit=new KLineEdit(pages[3], "textEdit" );
+    metainfokeyEdit=new KLineEdit(pages[3], "textEdit" );
+    QLabel * textMetaInfo = new QLabel(textEdit, i18n("Search in files' metainfo:"), pages[3], "text");
+    QLabel * textMetaKey = new QLabel(textEdit, i18n("But only in this section:"), pages[3], "text");
+
+    // Setup
+    const QString whatsmetainfo
+      = i18n("<qt>Search within files' specific comments/metainfo<br>"
+	     "These are some commentaries or informations, for example:<br>"
+	     "<ul>"
+	     "<li><b>Audio files (mp3...)</b> Search in id3 tag for a title, an album</li>"
+	     "<li><b>Images (png...)</b> Search images with a special resolution, comment...</li>"
+	     "</ul>"
+	     "</qt>");
+    const QString whatsmetainfokey
+      = i18n("<qt>If specified, search only in this field<br>"
+	     "<ul>"
+	     "<li><b>Audio files (mp3...)</b>This can be Title, Album...</li>"
+	     "<li><b>Images (png...)</b>Search only in Resolution, Bitdepht...</li>"
+	     "</ul>"
+	     "</qt>");
+    QWhatsThis::add(textMetaInfo,whatsmetainfo);
+    QToolTip::add(metainfoEdit,whatsmetainfo);
+    QWhatsThis::add(textMetaKey,whatsmetainfokey);
+    QToolTip::add(metainfokeyEdit,whatsmetainfokey);
+
+    // Layout
+    QGridLayout *grid3 = new QGridLayout( pages[3], 5, 4,
+					  KDialog::marginHint(),
+					  KDialog::spacingHint() );
+    grid3->addWidget( textMetaInfo, 0, 0 );
+    grid3->addWidget( textMetaKey, 1, 0 );
+    grid3->addMultiCellWidget( metainfoEdit, 0, 0, 1, 3 );
+    grid3->addMultiCellWidget( metainfokeyEdit, 1, 1, 1, 3 );
+
+    addTab( pages[3], i18n(" Metainfo (files' tags) ") );
+
+
     fixLayout();
     loadHistory();
 }
@@ -589,6 +632,9 @@ void KfindTabWidget::setQuery(KQuery *query)
   {
      query->setMimeType( QString::null );
   }
+
+  //Metainfo
+  query->setMetaInfo(metainfoEdit->text(), metainfokeyEdit->text());
 
   query->setContext(textEdit->text(), caseContextCb->isChecked(), regexpContentCb->isChecked());
 }
