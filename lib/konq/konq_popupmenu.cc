@@ -368,6 +368,27 @@ void KonqPopupMenu::setup(bool showPropertiesAndFileType)
 
           cfg.setDesktopGroup();
 
+          if ( cfg.hasKey( "X-KDE-AuthorizeAction") )
+          {
+              bool ok = true;
+              QStringList list = cfg.readListEntry("X-KDE-AuthorizeAction");
+              if (kapp && !list.isEmpty())
+              {
+                  for(QStringList::ConstIterator it = list.begin();
+                      it != list.end();
+                      ++it)
+                  {
+                      if (!kapp->authorize((*it).stripWhiteSpace()))
+                      {
+                          ok = false;
+                          break;
+                      }
+                  }
+              }
+              if (!ok)
+                continue;
+          }
+
           if ( cfg.hasKey( "Actions" ) && cfg.hasKey( "ServiceTypes" ) )
           {
               QStringList types = cfg.readListEntry( "ServiceTypes" );
