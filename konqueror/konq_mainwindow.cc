@@ -1920,6 +1920,10 @@ void KonqMainWindow::slotGoHistoryDelayed()
   int steps = m_goBuffer;
   m_goBuffer = 0;
   m_currentView->go( steps );
+  if ( m_currentView->isLinkedView() )
+      // make other views follow
+      /*bOthersFollowed = */makeViewsFollow( m_currentView->url(), KParts::URLArgs(),
+                                             m_currentView->serviceType(), m_currentView );
 }
 
 void KonqMainWindow::slotBackAboutToShow()
