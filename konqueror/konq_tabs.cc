@@ -383,8 +383,10 @@ void KonqFrameTabs::slotContextMenu( QWidget *w, const QPoint &p )
 
 void KonqFrameTabs::slotCloseRequest( QWidget *w )
 {
-  m_pViewManager->mainWindow()->setWorkingTab( dynamic_cast<KonqFrameBase*>(w) );
-  emit ( removeTabPopup() );
+  if ( m_pChildFrameList->count()>1 ) {
+    m_pViewManager->mainWindow()->setWorkingTab( dynamic_cast<KonqFrameBase*>(w) );
+    emit ( removeTabPopup() );
+  }
 }
 
 void KonqFrameTabs::slotMouseMiddleClick()
