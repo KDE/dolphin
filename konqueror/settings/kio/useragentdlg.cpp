@@ -43,7 +43,7 @@
 #include "fakeuaprovider.h"
 #include "uagentproviderdlg.h"
 
-UserAgentOptions::UserAgentOptions( QWidget * parent )
+UserAgentDlg::UserAgentDlg( QWidget * parent )
                  :KCModule( parent, "kcmkio" )
 {
   QVBoxLayout *mainLayout = new QVBoxLayout( this, KDialog::marginHint(),
@@ -55,15 +55,14 @@ UserAgentOptions::UserAgentOptions( QWidget * parent )
   cb_sendUAString = new QCheckBox( i18n("Send browser &identification"), this );
   cb_sendUAString->setSizePolicy (cb_sendUAString->sizePolicy().verData(),
                                   QSizePolicy::Minimum);
-  QString wtstr = i18n("<qt>If unchecked, no identification information about "
-                       "your browser will be sent to sites you visit while "
-                       "browsing."
+  QString wtstr = i18n("<qt>Enable/disable the sending of the browser "
+                       "identification while browsing sites."
                        "<P><u>NOTE:</u> Many sites rely on this information to "
                        "display pages properly, hence, it is highly recommended "
                        "that you do not totally disable this feature but rather "
                        "customize it."
-                       "<P>Only minimal identification information is sent to "
-                       "remote sites as shown below in <b>bold</b>.</qt>");
+                       "<P>By default only minimal identification information is "
+                       "sent to remote sites. You can see this string below.</qt>");
   QWhatsThis::add( cb_sendUAString, wtstr );
 
   mainLayout->addWidget (cb_sendUAString);
@@ -143,7 +142,7 @@ UserAgentOptions::UserAgentOptions( QWidget * parent )
   mainLayout->addWidget( bg_default );
 
   // Site/Domain specific settings
-  gb_siteSpecific = new QGroupBox( i18n("Site/Domain Specific Identification"), this );
+  gb_siteSpecific = new QGroupBox( i18n("Domain Specific Identification"), this );
   QGridLayout* s_grid = new QGridLayout( gb_siteSpecific, 3, 2,
                                          KDialog::marginHint(),
                                          KDialog::spacingHint() );
@@ -252,14 +251,14 @@ UserAgentOptions::UserAgentOptions( QWidget * parent )
   load();
 }
 
-UserAgentOptions::~UserAgentOptions()
+UserAgentDlg::~UserAgentDlg()
 {
   if ( m_provider )
     delete m_provider;
   delete m_config;
 }
 
-void UserAgentOptions::load()
+void UserAgentDlg::load()
 {
   d_itemsSelected = 0;
   lv_siteUABindings->clear();
@@ -299,7 +298,7 @@ void UserAgentOptions::load()
   updateButtons();
 }
 
-void UserAgentOptions::updateButtons()
+void UserAgentDlg::updateButtons()
 {
   bool hasItems = lv_siteUABindings->childCount() > 0;
 
@@ -308,7 +307,7 @@ void UserAgentOptions::updateButtons()
   pb_deleteAll->setEnabled ( hasItems );
 }
 
-void UserAgentOptions::defaults()
+void UserAgentDlg::defaults()
 {
   lv_siteUABindings->clear();
   m_ua_keys = DEFAULT_USER_AGENT_KEYS;
@@ -324,7 +323,7 @@ void UserAgentOptions::defaults()
   changeSendUAString();
 }
 
-void UserAgentOptions::save()
+void UserAgentDlg::save()
 {
   QStringList deleteList;
 
@@ -391,7 +390,7 @@ void UserAgentOptions::save()
   emit changed( false );  
 }
 
-bool UserAgentOptions::handleDuplicate( const QString& site,
+bool UserAgentDlg::handleDuplicate( const QString& site,
                                         const QString& identity,
                                         const QString& alias )
 {
@@ -421,7 +420,7 @@ bool UserAgentOptions::handleDuplicate( const QString& site,
   return false;
 }
 
-void UserAgentOptions::addPressed()
+void UserAgentDlg::addPressed()
 {
   UAProviderDlg* dlg = new UAProviderDlg( i18n("Add Identification"),
                                           this, 0L, m_provider );
@@ -441,7 +440,7 @@ void UserAgentOptions::addPressed()
   delete dlg;
 }
 
-void UserAgentOptions::changePressed()
+void UserAgentDlg::changePressed()
 {
   UAProviderDlg* dlg = new UAProviderDlg( i18n("Modify Identification"),
                                           this, 0L, m_provider );
@@ -467,7 +466,7 @@ void UserAgentOptions::changePressed()
   delete dlg;
 }
 
-void UserAgentOptions::deletePressed()
+void UserAgentDlg::deletePressed()
 {
   QListViewItem* item;
   QListViewItem* nextItem = 0;
@@ -498,25 +497,25 @@ void UserAgentOptions::deletePressed()
   changed( true );
 }
 
-void UserAgentOptions::deleteAllPressed()
+void UserAgentDlg::deleteAllPressed()
 {
   lv_siteUABindings->clear();
   updateButtons();
   changed( true );
 }
 
-void UserAgentOptions::changeSendUAString()
+void UserAgentDlg::changeSendUAString()
 {
   emit changed ( true );
 }
 
-void UserAgentOptions::changeSendUAString(bool enabled)
+void UserAgentDlg::changeSendUAString(bool enabled)
 { 
   bg_default->setEnabled( enabled );
   gb_siteSpecific->setEnabled( enabled );
 }
 
-void UserAgentOptions::changeDefaultUAModifiers( int )
+void UserAgentDlg::changeDefaultUAModifiers( int )
 {
   m_ua_keys = ":"; // Make sure it's not empty
 
@@ -545,7 +544,7 @@ void UserAgentOptions::changeDefaultUAModifiers( int )
   }
 }
 
-QString UserAgentOptions::quickHelp() const
+QString UserAgentDlg::quickHelp() const
 {
   return i18n( "<h1>Browser Identification</h1> "
                "The browser-identification control screen allows you to have "
@@ -564,7 +563,7 @@ QString UserAgentOptions::quickHelp() const
                "for which you are seeking help." );
 }
 
-void UserAgentOptions::selectionChanged ()
+void UserAgentDlg::selectionChanged ()
 {
   QListViewItem* item;
 

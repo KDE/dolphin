@@ -49,7 +49,7 @@ extern "C"
 
   KCModule *create_useragent(QWidget *parent, const char /**name*/)
   {
-    return new UserAgentOptions(parent);
+    return new UserAgentDlg(parent);
   };
 
   KCModule *create_proxy(QWidget *parent, const char /**name*/)

@@ -38,13 +38,13 @@ class KListView;
 class KLineEdit;
 class FakeUASProvider;
 
-class UserAgentOptions : public KCModule
+class UserAgentDlg : public KCModule
 {
   Q_OBJECT
 
 public:
-  UserAgentOptions ( QWidget * parent = 0) ;
-  ~UserAgentOptions();
+  UserAgentDlg ( QWidget * parent = 0) ;
+  ~UserAgentDlg();
 
   virtual void load();
   virtual void save();
