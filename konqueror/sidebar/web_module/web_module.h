@@ -75,6 +75,11 @@ class KHTMLSideBar : public KHTMLPart
 				emit openURLNewWindow(url, args);
 				return;
 			}
+				// A refresh
+			if (button == 0 && _target.lower() == "_self") {
+				openURL(url);
+				return;
+			}
 			KHTMLPart::urlSelected(url,button,state,_target,args);
 		}
 
