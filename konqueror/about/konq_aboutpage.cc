@@ -148,7 +148,6 @@ QString KonqAboutPageFactory::launch()
       .arg( i18n( "Next: An Introduction to Konqueror" ) )
       ;
   i18n("Search the Web");//i18n for possible future use
-  kdDebug() << res << endl;
 
   s_launch_html = new QString( res );
 
