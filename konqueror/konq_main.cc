@@ -356,6 +356,8 @@ int main( int argc, char **argv )
   path += "/share/apps/kfm/bookmarks";
   KonqBookmarkManager bm ( path );
 
+  app.connect( &app, SIGNAL( lastWindowClosed() ), &app, SLOT( quit() ) ); 
+  
   app.exec();
 
   cerr << "============ BACK from event loop ===========" << endl;
