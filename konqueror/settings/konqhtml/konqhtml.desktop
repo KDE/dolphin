@@ -1,6 +1,6 @@
 [Desktop Entry]
 Type=Application
-DocPath=kcontrol/kcmkonq/konq-1.html
+DocPath=kcontrol/konq-browsing.html
 Icon=konqueror
 Exec=kcmshell WebBrowsing/konqhtml
 
@@ -9,6 +9,7 @@ X-KDE-Library=konqhtml
 X-KDE-FactoryName=html
 
 Name=Konqueror Browser
+Name[bg]=Konqueror Ìåíàæåð
 Name[ca]=Fullejador Konqueror
 Name[cs]=Prohlížeč Konqueror
 Name[da]=Konqueror netsøger
@@ -19,6 +20,7 @@ Name[es]=Novegador Konqueror
 Name[et]=Brauser Konqueror
 Name[fi]=Konqueror Selain
 Name[fr]=Navigateur Konqueror
+Name[gl]=Navegador Konqueror
 Name[he]=Konqueror ןפדפד
 Name[hr]=Konquerer preglednik
 Name[hu]=Konqueror böngésző
@@ -43,6 +45,7 @@ Name[uk]=Переглядач Konqueror
 Name[zh_CN.GB2312]=Konqueror 浏览器
 
 Comment=Configure the look and feel of the Internet Browser called Konqueror
+Comment[bg]=Êîíôèãóðàöèÿ íà Èíòåðíåò Áðîóçåð Konqueror
 Comment[ca]=Configura l'aspecte i efecte del fullejador Internet anomenat Konqueror
 Comment[cs]=Zde můžete nastavit vzhled a chování internetového prohlížeče zvaného Konqueror
 Comment[da]=Man kan indstille konquerors udseende her
@@ -53,6 +56,7 @@ Comment[es]=Configurar la apariencia del navegador de internet llamado Konqueror
 Comment[et]=Interneti brauseri Konqueror tööilme konfigureerimine
 Comment[fi]=Muokkaa Konqueror Internet-selaimen ulkonäköä ja toimintoja
 Comment[fr]=Configuration du comportement du navigateur internet Konqueror
+Comment[gl]=Configura-la aparencia e o comportamento do Navegador de Internet Konqueror
 Comment[he]=Konqueror ארקנה טנרטניאה ןפדפד לש השוחתהו הארמה תרדגה
 Comment[hr]=Ovdje možete podesiti izgled i ponašanje Web preglednika zvanog Konqueror
 Comment[hu]=Itt lehet megváltoztatni a Konqueror internetböngésző beállításait
@@ -78,7 +82,7 @@ Comment[zh_CN.GB2312]=配置名为 Konqueror 的浏览器的外观
 
 Keywords=konqueror,kfm,browser,html,web,www,fonts,colours,colors,java,javascript
 Keywords[ca]=konqueror,kfm,fullejador,html,web,www,fonts,colors,java,javascript
-Keywords[cs]=konqueror,kfm,Prohlížeč,html,web,www,Písma,Barvy,Java,Javascript
+Keywords[cs]=konqueror,kfm,prohlížeč,html,web,www,písma,barvy,java,javascript
 Keywords[da]=konqueror,kfm,netsøger,html,net,skrifttyper,farver,java,javaskript
 Keywords[de]=Konqueror,kfm,Browser,HTML,Web,WWW,Schriften,Farben,Java,JavaScript
 Keywords[el]=konqueror,kfm,φυλλομετρητής,html,web,www,γραμματοσειρές,χρώματα,χρώματα,java,javascript
@@ -87,7 +91,8 @@ Keywords[es]=konqueror,kfm,navegador,html,web,www,fuentes,colores,java,javascrip
 Keywords[et]=konqueror,kfm,brauser,html,veeb,www,fondid,värvid,java,javaskript
 Keywords[fi]=konqueror,kfm,selain,html,web,www,kirjasimet,värit,java,javascript
 Keywords[fr]=konqueror,kfm,navigateur,html,web,www,polices,couleurs,java,javascript
-Keywords[he]=Java,JavaScript,םיעבצ,םינפוג,WWW,תשר,HTML,ןפדפד,KFM,Konqueror
+Keywords[gl]=konqueror,kfm,navegador,html,web,www,fontes,cores,java,javascript
+Keywords[he]=הווא'ג,הווא'ג יטירסת,םיעבצ,םינפוג,WWW,תשר,HTML,ןפדפד,KFM,Konqueror
 Keywords[hr]=konqueror,kfm,browser,html,web,www,fonts,colours,colors,java,javascript,boje,pisma
 Keywords[hu]=konqueror,kfm,böngésző,html,web,www,betűtípusok,színek,java,javascript
 Keywords[it]=konqueror,kfm,browser,html,web,www,caratteri,colori,java,javascript

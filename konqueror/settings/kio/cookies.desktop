@@ -1,6 +1,6 @@
 [Desktop Entry]
 Type=Application
-DocPath=kcontrol/kcmkio/kio-5.html
+DocPath=kcontrol/cookie.html
 Icon=cookie
 Exec=kcmshell WebBrowsing/cookies
 
@@ -38,7 +38,8 @@ Comment[es]=Aquí puede configurar sus cookies
 Comment[et]=Küpsiste konfiguratsioon
 Comment[fi]=Muokkaa selaimen evästeiden asetuksia
 Comment[fr]=Configuration des cookies
-Comment[he]=תויגועה תורדגה תרדגה
+Comment[gl]=Pode configurar aquí as propiedades das Cookies
+Comment[he]=ךלש תויגועה תורדגה תא עובקל ךתורשפאב ןאכ
 Comment[hr]=Postavke za primanje/slanje kolačića u kfm web pregledniku
 Comment[hu]=Itt lehet beállítani a cookie-kat
 Comment[it]=Qui puoi configurare le impostazioni dei cookie
@@ -48,7 +49,7 @@ Comment[nl]=Hier kunt u uw cookie-instellingen bepalen
 Comment[no]=Her kan du konfigurere 'cookie'-konfigurasjonen din
 Comment[no_NY]=Her kan du setja opp innstillingane for informasjonskapslar
 Comment[pl]=Można tu skonfigurować obsługę ciasteczek
-Comment[pt]=Configuração das propriedades dos "cookies"
+Comment[pt]=Configuração das propriedades dos 'cookies'
 Comment[pt_BR]=Você pode configurar aqui os Cookies
 Comment[ro]=Configurează <cookies> pentru navigatorul de web
 Comment[ru]=Здесь вы можете настроить Cookie
@@ -72,6 +73,7 @@ Keywords[es]=Cookies,Navegación,Internet,WWW,Red
 Keywords[et]=Küpsised,brausimine,Internet,WWW,Võrk
 Keywords[fi]=Evästeet,Selailu,Internet,WWW,Verkko
 Keywords[fr]=Cookies,navigation,internet,WWW,Web,réseau
+Keywords[gl]=Cookies,Navegación,Internet,WWW,Rede
 Keywords[he]=תשר,WWW,טנרטניא,השילג,תויגוע
 Keywords[hr]=Cookies,Browsing,Internet,WWW,Network,Kolačići
 Keywords[hu]=Cookie-k,böngészés,internet,WWW,hálózat
