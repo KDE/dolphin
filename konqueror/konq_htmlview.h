@@ -47,7 +47,8 @@ protected:
 class KonqHTMLView : public KBrowser,
                      public KonqBaseView,
                      virtual public Konqueror::HTMLView_skel,
-		     virtual public Browser::PrintingExtension
+		     virtual public Browser::PrintingExtension_skel,
+		     virtual public Browser::ClipboardExtension_skel
 {
   Q_OBJECT  
 
@@ -84,6 +85,12 @@ public:
   virtual void parseDoc();
 
   virtual void openURL( QString _url, bool _reload, int _xoffset = 0, int _yoffset = 0, const char *_post_data = 0L);
+  
+  virtual CORBA::Boolean canCopy();
+  virtual CORBA::Boolean canPaste();
+  
+  virtual void copySelection();
+  virtual void pasteSelection();
       
 public slots:
   virtual void slotMousePressed( const QString &, const QPoint&, int );

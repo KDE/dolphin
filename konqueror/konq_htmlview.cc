@@ -31,6 +31,7 @@
 #include <string.h>
 #include <qstringlist.h>
 #include <qdir.h>
+#include <qclipboard.h>
 
 #include <kcursor.h>
 #include <khtml.h>
@@ -53,6 +54,7 @@ KonqHTMLView::KonqHTMLView( KonqMainView *mainView )
 {
   ADD_INTERFACE( "IDL:Konqueror/HTMLView:1.0" );
   ADD_INTERFACE( "IDL:Browser/PrintingExtension:1.0" );
+  ADD_INTERFACE( "IDL:Browser/ClipboardExtension:1.0" );
 
   SIGNAL_IMPL( "loadingProgress" );
   SIGNAL_IMPL( "speedProgress" );
@@ -106,7 +108,6 @@ bool KonqHTMLView::mappingOpenURL( Browser::EventOpenURL eventURL )
   enableImages( m_bAutoLoadImages );  
   
   KBrowser::openURL( QString( eventURL.url.in() ), (bool)eventURL.reload, (int)eventURL.xOffset, (int)eventURL.yOffset );
-  
   
   if ( m_jobId )
   {
@@ -600,6 +601,37 @@ void KonqHTMLView::openURL( QString _url, bool _reload, int _xoffset, int _yoffs
 
 
   SIGNAL_CALL1( "openURL", req );
+}
+
+CORBA::Boolean KonqHTMLView::canCopy()
+{
+  KHTMLView *selectedView = getSelectedView();
+  if ( selectedView )
+    return (CORBA::Boolean)selectedView->isTextSelected();
+  else
+    return (CORBA::Boolean)isTextSelected();
+}
+
+CORBA::Boolean KonqHTMLView::canPaste()
+{
+  return (CORBA::Boolean)false;
+}
+
+void KonqHTMLView::copySelection()
+{
+  QString text;
+  KHTMLView *selectedView = getSelectedView();
+  if ( selectedView )
+    selectedView->getSelectedText( text );
+  else
+    getSelectedText( text );
+    
+  QApplication::clipboard()->setText( text );
+}
+
+void KonqHTMLView::pasteSelection()
+{
+  assert( 0 );
 }
 
 void KonqHTMLView::checkViewMenu()

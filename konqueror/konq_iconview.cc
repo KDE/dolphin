@@ -1,4 +1,4 @@
-/* This file is part of the KDE project
+/* This file is part of the KDE projects
    Copyright (C) 1998, 1999 Torben Weis <weis@kde.org>
 
    This program is free software; you can redistribute it and/or
@@ -45,6 +45,7 @@
 #include <qpalette.h>
 #include <qdragobject.h>
 #include <klocale.h>
+#include <qclipboard.h>
 
 #include <opUIUtils.h>
 
@@ -52,6 +53,7 @@ KonqKfmIconView::KonqKfmIconView( KonqMainView *mainView )
 {
   kdebug(0, 1202, "+KonqKfmIconView");
   ADD_INTERFACE( "IDL:Konqueror/KfmIconView:1.0" );
+  ADD_INTERFACE( "IDL:Browser/ClipboardExtension:1.0" );
 
   m_pMainView = mainView;
   m_vViewMenu = 0L;
@@ -430,6 +432,43 @@ void KonqKfmIconView::openURL( const char *_url, int xOffset, int yOffset )
 
   CORBA::WString_var caption = Q2C( _url );
   m_vMainWindow->setPartCaption( id(), caption );
+}
+
+CORBA::Boolean KonqKfmIconView::canCopy()
+{
+  QList<KIconContainerItem> selection;
+  selectedItems( selection );
+  return (CORBA::Boolean) ( selection.count() != 0 );
+}
+
+CORBA::Boolean KonqKfmIconView::canPaste()
+{
+  bool bKIOClipboard = !isClipboardEmpty();
+  
+  QMimeSource *data = QApplication::clipboard()->data();
+  
+  return (CORBA::Boolean) ( bKIOClipboard || data->encodedData( data->format() ).size() != 0 );
+}
+
+void KonqKfmIconView::copySelection()
+{
+  QList<KIconContainerItem> selection;
+  selectedItems( selection );
+  
+  QStringList lstURLs;
+ 
+  QListIterator<KIconContainerItem> it( selection );
+  for (; it.current(); ++it )
+    lstURLs.append( ( (KFileICI *)it.current() )->item()->url().url() );
+  
+  QUriDrag *urlData = new QUriDrag;
+  urlData->setUnicodeUris( lstURLs );
+  QApplication::clipboard()->setData( urlData );
+}
+
+void KonqKfmIconView::pasteSelection()
+{
+  pasteClipboard( m_dirLister->url() );
 }
 
 void KonqKfmIconView::slotOnItem( KIconContainerItem *_item )

@@ -50,6 +50,7 @@ KonqTxtView::KonqTxtView( KonqMainView *mainView )
   kdebug(KDEBUG_INFO, 1202, "+KonqTxtView");
   ADD_INTERFACE( "IDL:Konqueror/TxtView:1.0" );
   ADD_INTERFACE( "IDL:Browser/PrintingExtension:1.0" );
+  ADD_INTERFACE( "IDL:Browser/ClipboardExtension:1.0" );
 
   SIGNAL_IMPL( "loadingProgress" );
   SIGNAL_IMPL( "speedProgress" );
@@ -268,6 +269,26 @@ void KonqTxtView::print()
   }
 
   SIGNAL_CALL1( "setStatusBarText", CORBA::Any::from_wstring( (CORBA::WChar*)0L, 0 ) );
+}
+
+CORBA::Boolean KonqTxtView::canCopy()
+{
+  return (CORBA::Boolean)hasMarkedText();
+}
+
+CORBA::Boolean KonqTxtView::canPaste()
+{
+  return (CORBA::Boolean)false;
+}
+
+void KonqTxtView::copySelection()
+{
+  copy();
+}
+
+void KonqTxtView::pasteSelection()
+{
+  assert( 0 );
 }
 
 void KonqTxtView::slotFinished( int )

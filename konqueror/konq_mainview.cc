@@ -44,6 +44,7 @@
 #include <qpixmap.h>
 #include <qpoint.h>
 #include <qregexp.h>
+#include <qclipboard.h>
 
 #include <kaccel.h>
 #include <kapp.h>
@@ -182,6 +183,9 @@ KonqMainView::KonqMainView( const char *url, QWidget *parent ) : QWidget( parent
   m_pProgressBar = 0L;
 
   initConfig();
+  
+  QObject::connect( QApplication::clipboard(), SIGNAL( dataChanged() ),
+                    this, SLOT( checkClipboardExtension() ) );
 }
 
 KonqMainView::~KonqMainView()
@@ -756,6 +760,7 @@ void KonqMainView::setActiveView( OpenParts::Id id )
   setItemEnabled( m_vMenuView, MVIEW_STOP_ID, m_currentView->isLoading() );
 
   setItemEnabled( m_vMenuFile, MFILE_PRINT_ID, m_currentView->view()->supportsInterface( "IDL:Browser/PrintingExtension:1.0" ) );
+  checkClipboardExtension();
 
   if ( !CORBA::is_nil( m_vLocationBar ) )
   {
@@ -956,7 +961,7 @@ bool KonqMainView::openView( const QString &serviceType, const QString &url, Kon
 	 ( ( indexFile = findIndexFile( u.path() ) ) != QString::null ) )
     {
       vView = KonqChildView::createView( "text/html", serviceTypes, this );
-      m_sInitialURL = indexFile;
+      m_sInitialURL = indexFile.prepend( "file:" );
     }
     else if ( CORBA::is_nil( ( vView = KonqChildView::createView( serviceType, serviceTypes, this ) ) ) )
       return false;
@@ -966,9 +971,10 @@ bool KonqMainView::openView( const QString &serviceType, const QString &url, Kon
     MapViews::Iterator it = m_mapViews.find( vView->id() );
     it.data()->openURL( m_sInitialURL );
   
-    setActiveView( vView->id() );
+    m_vMainWindow->setActivePart( vView->id() );
     
     m_sInitialURL = QString::null;
+    
     return true;
   }
   
@@ -981,7 +987,7 @@ bool KonqMainView::openView( const QString &serviceType, const QString &url, Kon
          ( childView->allowHTML() ) &&
          ( u.isLocalFile() ) &&
 	 ( ( indexFile = findIndexFile( u.path() ) ) != QString::null ) )
-      childView->changeViewMode( "text/html", indexFile );
+      childView->changeViewMode( "text/html", indexFile.prepend( "file:" ) );
     else
     {
       childView->makeHistory( false );
@@ -1143,12 +1149,16 @@ void KonqMainView::slotPrint()
 
 void KonqMainView::slotCopy()
 {
-  // TODO
+  CORBA::Object_var obj = m_currentView->view()->getInterface( "IDL:Browser/ClipboardExtension:1.0" );
+  Browser::ClipboardExtension_var clipboardExtension = Browser::ClipboardExtension::_narrow( obj );
+  clipboardExtension->copySelection();
 }
 
 void KonqMainView::slotPaste()
 {
-  // TODO
+  CORBA::Object_var obj = m_currentView->view()->getInterface( "IDL:Browser/ClipboardExtension:1.0" );
+  Browser::ClipboardExtension_var clipboardExtension = Browser::ClipboardExtension::_narrow( obj );
+  clipboardExtension->pasteSelection();
 }
 
 void KonqMainView::slotTrash()
@@ -1778,6 +1788,24 @@ void KonqMainView::slotIdChanged( KonqChildView * childView, OpenParts::Id oldId
     m_currentId = newId;
 }
 
+void KonqMainView::checkClipboardExtension()
+{
+  bool bCopy = false;
+  bool bPaste = false;
+  
+  if ( m_currentView &&
+       m_currentView->view()->supportsInterface( "IDL:Browser/ClipboardExtension:1.0" ) )
+  {
+    CORBA::Object_var obj = m_currentView->view()->getInterface( "IDL:Browser/ClipboardExtension:1.0" );
+    Browser::ClipboardExtension_var clipboardExtension = Browser::ClipboardExtension::_narrow( obj );
+    bCopy = (bool)clipboardExtension->canCopy();
+    bPaste = (bool)clipboardExtension->canPaste();
+  }
+  
+  setItemEnabled( m_vMenuEdit, MEDIT_COPY_ID, bCopy );
+  setItemEnabled( m_vMenuEdit, MEDIT_PASTE_ID, bPaste );
+}
+
 void KonqMainView::slotSelectView1()
 {
   OpenParts::Id viewId = m_pViewManager->viewIdByNumber( 1 );
@@ -2091,6 +2119,8 @@ void KonqMainView::createEditMenu()
     text = Q2C( i18n("&Delete") );
     m_vMenuEdit->insertItem4( text, this, "slotDelete", CTRL+Key_Delete, MEDIT_DELETE_ID, -1 );
     m_vMenuEdit->insertSeparator( -1 );
+
+    checkClipboardExtension();
 
     if ( m_currentView )
       EMIT_EVENT( m_currentView->view(), Browser::View::eventFillMenuEdit, m_vMenuEdit );

@@ -30,7 +30,8 @@ class KonqSearchDialog;
 
 class KonqTxtView : public QMultiLineEdit,
                     public KonqBaseView,
-		    virtual public Konqueror::TxtView_skel
+		    virtual public Konqueror::TxtView_skel,
+		    virtual public Browser::ClipboardExtension_skel
 {
   Q_OBJECT
   
@@ -54,6 +55,12 @@ public:
   virtual void slotSearch();
 
   virtual void print();
+
+  virtual CORBA::Boolean canCopy();
+  virtual CORBA::Boolean canPaste();
+  
+  virtual void copySelection();
+  virtual void pasteSelection();
 
 protected slots:
   void slotFinished( int );

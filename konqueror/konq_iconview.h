@@ -38,7 +38,8 @@ class KFileItem;
  */
 class KonqKfmIconView : public KIconContainer,
                         public KonqBaseView,
-                        virtual public Konqueror::KfmIconView_skel
+                        virtual public Konqueror::KfmIconView_skel,
+			virtual public Browser::ClipboardExtension_skel
 {
   Q_OBJECT
 public:
@@ -58,6 +59,12 @@ public:
   virtual CORBA::Long yOffset();
 
   virtual void openURL( const char* _url, int xOffset, int yOffset );
+
+  virtual CORBA::Boolean canCopy();
+  virtual CORBA::Boolean canPaste();
+  
+  virtual void copySelection();
+  virtual void pasteSelection();
   
   //virtual void updateDirectory();
 

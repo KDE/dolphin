@@ -214,6 +214,8 @@ public slots:  // IDL
   //  
   void slotIdChanged( KonqChildView * childView, OpenParts::Id oldId, OpenParts::Id newId );
 
+  void checkClipboardExtension();
+
   void slotSelectView1();
   void slotSelectView2();
   void slotSelectView3();
