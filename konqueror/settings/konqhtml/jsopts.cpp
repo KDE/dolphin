@@ -120,16 +120,20 @@ KJavaScriptOptions::KJavaScriptOptions( KConfig* config, QString group, QWidget 
                                           "button allows you to easily share your policies with other people by allowing "
                                           "you to save and retrive them from a zipped file.") );
 
-  QVGroupBox* miscSettingsGB = new QVGroupBox( i18n( "Miscellaneous JavaScript Settings" ), this );
-  toplevel->addWidget( miscSettingsGB );
+  js_popup      = new QButtonGroup(3, Horizontal, i18n( "Javascript web popups policy" ), this);
+  js_popup->setExclusive(TRUE);
+  js_popupAllow = new QRadioButton(i18n( "Allow" ), js_popup);
+  js_popupAsk   = new QRadioButton(i18n( "Ask" ), js_popup);
+  js_popupDeny  = new QRadioButton(i18n( "Deny" ), js_popup);
+  toplevel->addWidget(js_popup);
+  QWhatsThis::add( js_popup,
+                   i18n("If you disable this, Konqueror will stop interpreting the <i>window.open()</i> "
+                        "JavaScript command. This is useful if you regulary visit sites that make extensive use of this "
+                        "command to pop up ad banners.<br><br><b>Note:</b> Disabling this option might also "
+                        "break certain sites that require <i>window.open()</i> for proper operation. Use this "
+                        "feature carefully!") );
+  connect( js_popup, SIGNAL( clicked( int ) ), this, SLOT( changed() ) );
 
-  disableWindowOpenCB = new QCheckBox( i18n( "Disable &web popups (\"window.open()\")" ), miscSettingsGB );
-  QWhatsThis::add( disableWindowOpenCB, i18n("If you disable this option, Konqueror will stop interpreting the <i>window.open()</i> "
-                                             "JavaScript command. This is useful if you regulary visit sites that make extensive use of this "
-                                             "command to pop up ad banners.<br><br><b>Note:</b> Disabling this option might also "
-                                             "break certain sites that require <i>window.open()</i> for proper operation. Use this "
-                                             "feature carefully!") );
-  connect( disableWindowOpenCB, SIGNAL( clicked() ), this, SLOT( changed() ) );
 /*
   kdDebug() << "\"Show debugger window\" says: make me useful!" << endl;
   enableDebugOutputCB = new QCheckBox( i18n( "&Show debugger window" ), miscSettingsGB);
@@ -158,14 +162,15 @@ void KJavaScriptOptions::load()
 
     // *** apply to GUI ***
     enableJavaScriptGloballyCB->setChecked( m_pConfig->readBoolEntry("EnableJavaScript") );
-    disableWindowOpenCB->setChecked( m_pConfig->readBoolEntry("DisableWindowOpen") );
+    js_popup->setButton( m_pConfig->readUnsignedNumEntry("WindowOpenPolicy", 0) );
+
   // enableDebugOutputCB->setChecked( m_pConfig->readBoolEntry("EnableJSDebugOutput") );
 }
 
 void KJavaScriptOptions::defaults()
 {
   enableJavaScriptGloballyCB->setChecked( false );
-  disableWindowOpenCB->setChecked( false );
+  js_popup->setButton(0);
  // enableDebugOutputCB->setChecked( false );
 }
 
@@ -173,7 +178,13 @@ void KJavaScriptOptions::save()
 {
     m_pConfig->setGroup(m_groupname);
     m_pConfig->writeEntry( "EnableJavaScript", enableJavaScriptGloballyCB->isChecked() );
-    m_pConfig->writeEntry( "DisableWindowOpen", disableWindowOpenCB->isChecked() );
+
+    int js_policy = 0;
+    if ( js_popup->selected() )
+        js_policy = js_popup->id( js_popup->selected() );
+
+    m_pConfig->writeEntry( "WindowOpenPolicy", js_policy);
+
 //    m_pConfig->writeEntry( "EnableJSDebugOutput", enableDebugOutputCB->isChecked() );
 
     QStringList domainConfig;

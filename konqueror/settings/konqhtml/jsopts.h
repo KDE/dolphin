@@ -49,11 +49,10 @@ private:
   KConfig *m_pConfig;
   QString m_groupname;
   QCheckBox *enableJavaScriptGloballyCB;
-  QCheckBox *disableWindowOpenCB;
-//  QCheckBox *enableDebugOutputCB;
-
-  //bool bJavaScriptGlobal;
-
+  QButtonGroup *js_popup;
+  QRadioButton *js_popupAllow;
+  QRadioButton *js_popupAsk;
+  QRadioButton *js_popupDeny;
   KListView* domainSpecificLV;
   QMap<QListViewItem*, int> javaScriptDomainPolicy;
 };
