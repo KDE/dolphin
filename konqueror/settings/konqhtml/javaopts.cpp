@@ -260,7 +260,7 @@ void KJavaOptions::slotChanged()
 
 void KJavaOptions::toggleJavaControls()
 {
-    bool isEnabled = enableJavaGloballyCB->isChecked();
+    bool isEnabled = true; //enableJavaGloballyCB->isChecked();
 
     java_global_policies.setFeatureEnabled(isEnabled);
     javaConsoleCB->setEnabled( isEnabled );
