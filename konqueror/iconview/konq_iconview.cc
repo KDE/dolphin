@@ -85,14 +85,13 @@ public:
       s_defaultViewProps = 0;
    }
 
-    virtual KParts::Part* createPart( QWidget *parentWidget, const char *,
+    virtual KParts::Part* createPartObject( QWidget *parentWidget, const char *,
                                       QObject *parent, const char *name, const char*, const QStringList &args )
    {
       if( args.count() < 1 )
          kdWarning() << "KonqKfmIconView: Missing Parameter" << endl;
 
       KonqKfmIconView *obj = new KonqKfmIconView( parentWidget, parent, name,args.first() );
-      emit objectCreated( obj );
       return obj;
    }
 

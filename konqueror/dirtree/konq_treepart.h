@@ -38,7 +38,7 @@ class KonqTreeFactory : public KParts::Factory
 public:
     KonqTreeFactory() {}
     virtual ~KonqTreeFactory();
-    virtual KParts::Part* createPart( QWidget *parentWidget, const char *, QObject *parent, const char *name, const char*, const QStringList & );
+    virtual KParts::Part* createPartObject( QWidget *parentWidget, const char *, QObject *parent, const char *name, const char*, const QStringList & );
 
     static KInstance *instance();
 private:

@@ -39,10 +39,9 @@ KonqTreeFactory::~KonqTreeFactory()
     }
 }
 
-KParts::Part* KonqTreeFactory::createPart( QWidget *parentWidget, const char *, QObject *parent, const char *name, const char*, const QStringList & )
+KParts::Part* KonqTreeFactory::createPartObject( QWidget *parentWidget, const char *, QObject *parent, const char *name, const char*, const QStringList & )
 {
     KParts::Part *obj = new KonqTreePart( parentWidget, parent, name );
-    emit objectCreated( obj );
     return obj;
 }
 

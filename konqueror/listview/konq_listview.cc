@@ -73,13 +73,12 @@ KonqListViewFactory::~KonqListViewFactory()
   s_defaultViewProps = 0;
 }
 
-KParts::Part* KonqListViewFactory::createPart( QWidget *parentWidget, const char *, QObject *parent, const char *name, const char*, const QStringList &args )
+KParts::Part* KonqListViewFactory::createPartObject( QWidget *parentWidget, const char *, QObject *parent, const char *name, const char*, const QStringList &args )
 {
   if( args.count() < 1 )
     kdWarning() << "KonqListView: Missing Parameter" << endl;
 
   KParts::Part *obj = new KonqListView( parentWidget, parent, name, args.first() );
-  emit objectCreated( obj );
   return obj;
 }
 
