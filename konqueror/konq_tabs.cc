@@ -64,7 +64,7 @@ KonqFrameTabs::KonqFrameTabs(QWidget* parent, KonqFrameContainerBase* parentCont
   m_pPopupMenu->insertItem( SmallIcon( "tab_breakoff" ), i18n("D&etach Tab"), m_pViewManager->mainWindow(), SLOT( slotBreakOffTabPopup() ), QKeySequence("Ctrl+Shift+B"), BREAKOFF_ID );
   m_pPopupMenu->insertItem( SmallIcon( "tab_remove" ), i18n("&Close Tab"), m_pViewManager->mainWindow(), SLOT( slotRemoveTabPopup() ), QKeySequence("Ctrl+W") );
   m_pPopupMenu->insertSeparator();
-  m_pPopupMenu->insertItem( SmallIcon( "reload" ), i18n( "&Reload" ), m_pViewManager->mainWindow(), SLOT( slotReload() ), KStdAccel::key(KStdAccel::Reload) );
+  m_pPopupMenu->insertItem( SmallIcon( "reload" ), i18n( "&Reload" ), m_pViewManager->mainWindow(), SLOT( slotReloadPopup() ), KStdAccel::key(KStdAccel::Reload) );
   m_pPopupMenu->insertItem( SmallIcon( "reload_all_tab" ), i18n( "&Reload All Tabs" ), m_pViewManager->mainWindow(), SLOT( slotReloadAllTabs() ));
   m_pPopupMenu->insertSeparator();
   m_pPopupMenu->insertItem( SmallIcon( "tab_remove" ), i18n("Close &Other Tabs"), m_pViewManager->mainWindow(), SLOT( slotRemoveOtherTabsPopup() ) );

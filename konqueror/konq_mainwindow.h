@@ -345,7 +345,7 @@ public slots:
   void slotLockView();
   void slotUnlockView();
   void slotLinkView();
-  void slotReload();
+  void slotReload( KonqView* view = 0L );
   void slotStop();
 
   // Go menu
@@ -409,6 +409,7 @@ protected slots:
   void slotRemoveOtherTabsPopup();
   void slotRemoveOtherTabsPopupDelayed();
 
+  void slotReloadPopup();
   void slotReloadAllTabs();
   void slotRemoveTab();
   void slotRemoveTabPopup();

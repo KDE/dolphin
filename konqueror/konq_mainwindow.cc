@@ -1511,18 +1511,25 @@ void KonqMainWindow::slotLinkView()
   m_currentView->setLinkedView( link ); // takes care of the statusbar and the action
 }
 
-void KonqMainWindow::slotReload()
+void KonqMainWindow::slotReload( KonqView* reloadView )
 {
-  if ( !m_currentView || m_currentView->url().isEmpty() )
+  if ( !reloadView )
+    reloadView = m_currentView;
+  if ( !reloadView || reloadView->url().isEmpty() )
     return;
-  KonqOpenURLRequest req( m_currentView->typedURL() );
-  if ( m_currentView->prepareReload( req.args ) )
+  KonqOpenURLRequest req( reloadView->typedURL() );
+  if ( reloadView->prepareReload( req.args ) )
   {
-      m_currentView->lockHistory();
+      reloadView->lockHistory();
       // Reuse current servicetype for local files, but not for remote files (it could have changed, e.g. over HTTP)
-      QString serviceType = m_currentView->url().isLocalFile() ? m_currentView->serviceType() : QString::null;
-      openURL( m_currentView, m_currentView->url(), serviceType, req );
+      QString serviceType = reloadView->url().isLocalFile() ? reloadView->serviceType() : QString::null;
+      openURL( reloadView, reloadView->url(), serviceType, req );
   }
+}
+
+void KonqMainWindow::slotReloadPopup()
+{
+  slotReload( m_pWorkingTab->activeChildView() );
 }
 
 void KonqMainWindow::slotHome()
