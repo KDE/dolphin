@@ -286,7 +286,13 @@ KBookmark::KBookmark( KBookmarkManager *_bm, KBookmark *_parent, QString _text )
   {
     KSimpleConfig cfg( directory_file, true );
     cfg.setDesktopGroup();
-    m_text = cfg.readEntry( "Name", m_text );
+
+    //CT having all directories named "Bookmark entries" is completely useless
+    QString name_text = cfg.readEntry( "Name", m_text );
+    if (name_text == "Bookmark entries")
+      cfg.writeEntry("Name", m_text);
+    else
+      m_text = name_text;
   }
 
   if ( _parent )
