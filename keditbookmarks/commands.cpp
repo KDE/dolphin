@@ -294,7 +294,7 @@ class SortByName
 {
 public:
     static QString key( const SortItem &item )
-    { return item.bookmark().fullText().lower(); }
+    { return (item.bookmark().isGroup() ? "a" : "b") + item.bookmark().fullText().lower(); }
 };
 
 void SortCommand::execute()
