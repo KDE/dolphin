@@ -15,7 +15,7 @@
 <author>&Jonathan.Singer; &Jonathan.Singer.mail;</author>
 
 <othercredit role="developer">
-&Stephan.Binner; &Stephan.Binner.mail;
+&Waldo.Bastian; &Waldo.Bastian.mail;
 <!-- <contrib>Maintainer</contrib> -->
 </othercredit>
 
@@ -1067,7 +1067,7 @@ history</para>
 <chapter id="credits">
 <title>Credits and Copyright</title>
 
-<para>&konsole; is maintained by &Stephan.Binner; &Stephan.Binner.mail;</para>
+<para>&konsole; is maintained by &Waldo.Bastian; &Waldo.Bastian.mail;</para>
 
 <para>The application &konsole; Copyright &copy; 1997-2002
 &Lars.Doelle; &Lars.Doelle.mail;</para>
