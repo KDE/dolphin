@@ -36,7 +36,10 @@ KonqSideBarWebModule::KonqSideBarWebModule(KInstance *instance, QObject *parent,
 		this, SLOT(setTitle(const QString&)));
 	connect(_htmlPart, SIGNAL(openURLRequest(const QString&, KParts::URLArgs)),
 		       	this, SLOT(urlClicked(const QString&, KParts::URLArgs)));
-	KSimpleConfig ksc(desktopName);
+
+	_desktopName = desktopName;
+
+	KSimpleConfig ksc(_desktopName);
 	ksc.setGroup("Desktop Entry");
 
 	_url = ksc.readEntry("URL");
@@ -73,14 +76,28 @@ void KonqSideBarWebModule::urlClicked(const QString& url, KParts::URLArgs args) 
 
 void KonqSideBarWebModule::loadFavicon() {
 	QString icon = KonqPixmapProvider::iconForURL(_url);
-	if (!icon.isEmpty())
+	if (!icon.isEmpty()) {
 		emit setIcon(icon);
+
+		KSimpleConfig ksc(_desktopName);
+		ksc.setGroup("Desktop Entry");
+		if (icon != ksc.readEntry("Icon")) {
+			ksc.writeEntry("Icon", icon);
+		}
+	}
 }
 
 
 void KonqSideBarWebModule::setTitle(const QString& title) {
-	if (!title.isEmpty())
+	if (!title.isEmpty()) {
 		emit setCaption(title);
+
+		KSimpleConfig ksc(_desktopName);
+		ksc.setGroup("Desktop Entry");
+		if (title != ksc.readEntry("Name")) {
+			ksc.writeEntry("Name", title);
+		}
+	}
 }
 
 

@@ -79,6 +79,7 @@ class KonqSideBarWebModule : public KonqSidebarPlugin
 	private:
 		KHTMLSideBar *_htmlPart;
 		QString _url;
+		QString _desktopName;
 };
 
 #endif
