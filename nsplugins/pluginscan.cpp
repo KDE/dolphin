@@ -23,10 +23,13 @@
 
 */
 
+#include <unistd.h>
+              
 #include <qdir.h>
 #include <qfile.h>
 #include <qtextstream.h>
 #include <qregexp.h>
+#include <qbuffer.h>
 
 #include <kapp.h>
 #include <kdebug.h>
@@ -161,6 +164,77 @@ void registerPlugin( const QString &name, const QString &description,
     infoConfig->writeEntry( "mime", mimeInfo );
 }
 
+int tryCheck(int write_fd, const QString &absFile)
+{
+    KLibrary *_handle = KLibLoader::self()->library( absFile.latin1() );
+    if (!_handle) {
+        kdDebug(1433) << " - open failed, skipping " << endl;
+        return 1;
+    }
+
+    // ask for name and description
+    QString name = i18n("Unnamed plugin");
+    QString description;
+
+    NPError (*func_GetValue)(void *, NPPVariable, void *) =
+        (NPError(*)(void *, NPPVariable, void *))
+        _handle->symbol("NP_GetValue");
+    if ( func_GetValue ) {
+
+        // get name
+        char *buf = 0;
+        NPError err = func_GetValue( 0, NPPVpluginNameString,
+                                     (void*)&buf );
+        if ( err==NPERR_NO_ERROR )
+            name = QString::fromLatin1( buf );
+        kdDebug() << "name = " << name << endl;
+
+        // get name
+        NPError nperr = func_GetValue( 0, NPPVpluginDescriptionString,
+                                     (void*)&buf );
+        if ( nperr==NPERR_NO_ERROR )
+            description = QString::fromLatin1( buf );
+        kdDebug() << "description = " << description << endl;
+    }
+
+    // get mime description function pointer
+    char* (*func_GetMIMEDescription)() =
+        (char *(*)())_handle->symbol("NP_GetMIMEDescription");
+    if ( !func_GetMIMEDescription ) {
+        kdDebug(1433) << " - no GetMIMEDescription, skipping" << endl;
+        KLibLoader::self()->unloadLibrary( absFile.latin1() );
+        return 1;
+    }
+
+    // ask for mime information
+    QString mimeInfo = func_GetMIMEDescription();
+    if ( mimeInfo.isEmpty() ) {
+        kdDebug(1433) << " - no mime info returned, skipping" << endl;
+        KLibLoader::self()->unloadLibrary( absFile.latin1() );
+        return 1;
+    }
+
+    // remove version info, as it is not used at the moment
+    QRegExp versionRegExp(";version=[^:]*:");
+    mimeInfo.replace( versionRegExp, ":");
+    
+    // unload plugin lib
+    kdDebug(1433) << " - unloading plugin" << endl;
+    KLibLoader::self()->unloadLibrary( absFile.latin1() );
+
+    // create a QDataStream for our IPC pipe (to send plugin info back to the parent)
+    FILE *write_pipe = fdopen(write_fd, "w");
+    QFile stream_file;
+    stream_file.open(IO_WriteOnly, write_pipe);
+    QDataStream stream(&stream_file);
+
+    // return the gathered info to the parent
+    stream << name;
+    stream << description;
+    stream << mimeInfo;
+    
+    return 0;
+}
 
 void scanDirectory( QString dir, QStringList &mimeInfoList,
                     QTextStream &cache )
@@ -188,94 +262,95 @@ void scanDirectory( QString dir, QStringList &mimeInfoList,
         kdDebug(1433) << "Checking library " << absFile << endl;
 
         // open the library and ask for the mimetype
-        kdDebug(1433) << " - opening" << absFile << endl;
-        KLibrary *_handle = KLibLoader::self()->library( absFile.latin1() );
+        kdDebug(1433) << " - opening " << absFile << endl;
+        
+        // fork, so that a crash in the plugin won't stop the scanning of other plugins
+        int pipes[2];
+        if (pipe(pipes) != 0) continue;
+        int loader_pid = fork();
 
-        if (!_handle) {
-            kdDebug(1433) << " - open failed, skipping " << endl;
+        if (loader_pid == -1) {
+
+            // unable to fork
             continue;
+
+        } else if (loader_pid == 0) {
+
+           // inside the child
+           close(pipes[0]);
+           _exit(tryCheck(pipes[1], absFile));
+
+        } else {
+
+           close(pipes[1]);
+
+           QBuffer m_buffer;
+           m_buffer.open(IO_WriteOnly);
+    	
+           FILE *read_pipe = fdopen(pipes[0], "r");
+           QFile q_read_pipe;
+           q_read_pipe.open(IO_ReadOnly, read_pipe);
+           
+           char *data = (char *)malloc(4096);
+           if (!data) continue;
+
+           // when the child closes, we'll get an EOF (size == 0)
+           while (int size = q_read_pipe.readBlock(data, 4096)) {
+               if (size > 0)
+                   m_buffer.writeBlock(data, size);
+           }
+           free(data);
+           
+           close(pipes[0]); // we no longer need the pipe's reading end
+           
+           // close the buffer and open for reading (from the start)
+           m_buffer.close();
+           m_buffer.open(IO_ReadOnly);
+           
+           // create a QDataStream for our buffer
+           QDataStream stream(&m_buffer);
+           
+           if (stream.atEnd()) continue;
+
+           QString name, description, mimeInfo;
+           stream >> name;
+           stream >> description;
+           stream >> mimeInfo;
+
+           // note the plugin name
+           cache << "[" << absFile << "]" << endl;
+
+           // get mime types from string
+           QStringList types = QStringList::split( ';', mimeInfo );
+           QStringList::Iterator type;
+           for ( type=types.begin(); type!=types.end(); ++type ) {
+
+              kdDebug(1433) << " - type=" << *type << endl;
+
+              // write into type cache
+              QStringList tokens = QStringList::split(':', *type, TRUE);
+              QStringList::Iterator token;
+              token = tokens.begin();
+              cache << (*token).lower();
+              ++token;
+              for ( ; token!=tokens.end(); ++token )
+                  cache << ":" << *token;
+              cache << endl;
+
+              // append type to MIME type list
+              if ( !mimeInfoList.contains( *type ) )
+                  mimeInfoList.append( name + ":" + *type );
+           }
+
+           // register plugin for javascript
+           registerPlugin( name, description, files[i], mimeInfo );
+
         }
-
-        // ask for name and description
-        QString name = i18n("Unnamed plugin");
-        QString description;
-
-        NPError (*func_GetValue)(void *, NPPVariable, void *) =
-            (NPError(*)(void *, NPPVariable, void *))
-            _handle->symbol("NP_GetValue");
-        if ( func_GetValue ) {
-
-            // get name
-            char *buf = 0;
-            NPError err = func_GetValue( 0, NPPVpluginNameString,
-                                         (void*)&buf );
-            if ( err==NPERR_NO_ERROR )
-                name = QString::fromLatin1( buf );
-            kdDebug() << "name = " << name << endl;
-
-            // get name
-            NPError nperr = func_GetValue( 0, NPPVpluginDescriptionString,
-                                         (void*)&buf );
-            if ( nperr==NPERR_NO_ERROR )
-                description = QString::fromLatin1( buf );
-            kdDebug() << "description = " << description << endl;
-        }
-
-        // get mime description function pointer
-        char* (*func_GetMIMEDescription)() =
-            (char *(*)())_handle->symbol("NP_GetMIMEDescription");
-        if ( !func_GetMIMEDescription ) {
-            kdDebug(1433) << " - no GetMIMEDescription, skipping" << endl;
-            KLibLoader::self()->unloadLibrary( absFile.latin1() );
-            continue;
-        }
-
-        // ask for mime information
-        QString mimeInfo = func_GetMIMEDescription();
-        if ( mimeInfo.isEmpty() ) {
-            kdDebug(1433) << " - no mime info returned, skipping" << endl;
-            KLibLoader::self()->unloadLibrary( absFile.latin1() );
-            continue;
-        }
-
-        // remove version info, as it is not used at the moment
-        QRegExp versionRegExp(";version=[^:]*:");
-        mimeInfo.replace( versionRegExp, ":");
-
-        // note the plugin name
-        cache << "[" << absFile << "]" << endl;
-
-        // get mime types from string
-        QStringList types = QStringList::split( ';', mimeInfo );
-        QStringList::Iterator type;
-        for ( type=types.begin(); type!=types.end(); ++type ) {
-
-            kdDebug(1433) << " - type=" << *type << endl;
-
-            // write into type cache
-            QStringList tokens = QStringList::split(':', *type, TRUE);
-            QStringList::Iterator token;
-            token = tokens.begin();
-            cache << (*token).lower();
-            ++token;
-            for ( ; token!=tokens.end(); ++token )
-                cache << ":" << *token;
-            cache << endl;
-
-            // append type to MIME type list
-            if ( !mimeInfoList.contains( *type ) )
-                mimeInfoList.append( name + ":" + *type );
-        }
-
-        // register plugin for javascript
-        registerPlugin( name, description, files[i], mimeInfo );
-
-        // unload plugin lib
-        kdDebug(1433) << " - unloading  plugin" << endl;
-        KLibLoader::self()->unloadLibrary( absFile.latin1() );
     }
 
     // iterate over all sub directories
+    // NOTE: Mozilla doesn't iterate over subdirectories of the plugin dir.
+    // We still do (as Netscape 4 did).
     QDir dirs( dir, QString::null, QDir::Name|QDir::IgnoreCase, QDir::Dirs );
     if ( !dirs.exists() )
       return;
