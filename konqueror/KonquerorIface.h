@@ -65,6 +65,10 @@ k_dcop:
    */
   QValueList<DCOPRef> getWindows();
 
+  /**
+   *  Called internally as broadcast when the user adds/removes/renames a view profile
+    */
+  ASYNC updateProfileList();
 };
 
 #endif

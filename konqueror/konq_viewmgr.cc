@@ -38,6 +38,8 @@
 #include <kstddirs.h>
 #include <kdebug.h>
 #include <kpopupmenu.h>
+#include <kapp.h>
+#include <dcopclient.h>
 
 #include <assert.h>
 
@@ -627,16 +629,22 @@ void KonqViewManager::slotProfileDlg()
   profileListDirty();
 }
 
-void KonqViewManager::profileListDirty()
+void KonqViewManager::profileListDirty( bool broadcast )
 {
   kdDebug(1202) << "KonqViewManager::profileListDirty()" << endl;
-  m_bProfileListDirty = true;
+  if ( !broadcast )
+  {
+    m_bProfileListDirty = true;
 #if 0
   // There's always one profile at least, now...
   QStringList profiles = KonqFactory::instance()->dirs()->findAllResources( "data", "konqueror/profiles/*", false, true );
   if ( m_pamProfiles )
       m_pamProfiles->setEnabled( profiles.count() > 0 );
 #endif
+    return;
+  }
+  
+  kapp->dcopClient()->send( "konqueror*", "KonquerorIface", "updateProfileList()", QByteArray() );
 }
 
 void KonqViewManager::slotProfileActivated( int id )

@@ -80,6 +80,17 @@ void KonquerorIface::reparseConfiguration()
   }
 }
 
+void KonquerorIface::updateProfileList()
+{
+  QList<KonqMainWindow> *mainWindows = KonqMainWindow::mainWindowList();
+  if ( !mainWindows )
+    return;
+    
+  QListIterator<KonqMainWindow> it( *mainWindows );
+  for (; it.current(); ++it )
+    it.current()->viewManager()->profileListDirty( false );
+}
+
 QValueList<DCOPRef> KonquerorIface::getWindows()
 {
     QValueList<DCOPRef> lst;

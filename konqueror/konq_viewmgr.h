@@ -134,7 +134,7 @@ public:
 
   void setProfiles( KActionMenu *profiles );
 
-  void profileListDirty();
+  void profileListDirty( bool broadcast = true );
 
   KonqFrameContainer *mainContainer() const { return m_pMainContainer; }
 
