@@ -44,6 +44,7 @@
 #include <konqiconviewwidget.h>
 #include <konqsettings.h>
 #include <krun.h>
+#include <kstdaction.h>
 #include <kurl.h>
 
 #include <qmessagebox.h>
@@ -203,7 +204,7 @@ KonqKfmIconView::KonqKfmIconView( QWidget *parent, const char *name )
 
     m_paSelect = new KAction( i18n( "&Select..." ), CTRL+Key_Slash, this, SLOT( slotSelect() ), this );
     m_paUnselect = new KAction( i18n( "&Unselect..." ), CTRL+Key_Backslash, this, SLOT( slotUnselect() ), this );
-    m_paSelectAll = new KAction( i18n( "Select &All" ), CTRL+Key_A, this, SLOT( slotSelectAll() ), this );
+    m_paSelectAll = KStdAction::selectAll( this, SLOT( slotSelectAll() ), this );
     m_paUnselectAll = new KAction( i18n( "U&nselect All" ), CTRL+Key_U, this, SLOT( slotUnselectAll() ), this );
     m_paInvertSelection = new KAction( i18n( "&Invert Selection" ), CTRL+Key_I, this, SLOT( slotInvertSelection() ), this );
 
