@@ -238,7 +238,7 @@ QString ListView::userAddress() {
 
    KEBListViewItem *item = firstSelected();
    if (item->isEmptyFolder()) {
-      item = item->parent();
+      item = static_cast<KEBListViewItem*>(item->parent());
    }
 
    KBookmark current = item->bookmark();
@@ -491,8 +491,8 @@ void ListView::renameNextCell(bool fwd) {
                            fwd ? myrenameitem->itemBelow()
                                : myrenameitem->itemAbove());
          if (!myrenameitem) {
-            myrenameitem = fwd ? m_listView->firstChild()
-                               : m_listView->lastItem();
+            myrenameitem = fwd ? static_cast<KEBListViewItem*>(m_listView->firstChild())
+                               : static_cast<KEBListViewItem*>(m_listView->lastItem());
          }
          myrenamecolumn  = fwd ? KEBListView::NameColumn 
                                : KEBListView::CommentColumn;
