@@ -65,11 +65,9 @@ namespace KParts {
 };
 
 class KonqMainView : public KParts::MainWindow,
-                     virtual public KBookmarkOwner,
-                     public DCOPObject
+                     virtual public KBookmarkOwner
 {
   Q_OBJECT
-  K_DCOP
 public:
   KonqMainView( const KURL &initialURL = KURL(), bool openInitialURL = true, const char *name = 0 );
   ~KonqMainView();
@@ -151,11 +149,11 @@ signals:
   void viewRemoved( KonqChildView *view );
 
 public:
-k_dcop:
 
-  virtual ASYNC reparseConfiguration();
+  DCOPObject * dcopObject();
 
-public:
+  void reparseConfiguration();
+
   bool openView( QString serviceType, const KURL &_url, KonqChildView *childView );
 
   void insertChildView( KonqChildView *childView );
@@ -395,6 +393,8 @@ private:
   KActionMenu *m_viewModeMenu;
   QList<KAction> m_viewModeActions;
 
+  DCOPObject * m_dcopObject;
+
   static QStringList *s_plstAnimatedLogo;
 
   static bool s_bMoveSelection;
@@ -403,6 +403,7 @@ private:
 
   typedef QMap<QCString,QCString> ActionSlotMap;
   static ActionSlotMap *s_actionSlotMap;
+
 };
 
 #endif

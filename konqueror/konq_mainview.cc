@@ -99,7 +99,7 @@ QList<KonqMainView> *KonqMainView::s_lstViews = 0;
 KonqMainView::ActionSlotMap *KonqMainView::s_actionSlotMap = 0;
 
 KonqMainView::KonqMainView( const KURL &initialURL, bool openInitialURL, const char *name )
- : KParts::MainWindow( name ),  DCOPObject( "KonqMainViewIface" )
+ : KParts::MainWindow( name )
 {
   if ( !s_lstViews )
     s_lstViews = new QList<KonqMainView>;
@@ -111,6 +111,7 @@ KonqMainView::KonqMainView( const KURL &initialURL, bool openInitialURL, const c
 
   m_currentView = 0L;
   m_pBookmarkMenu = 0L;
+  m_dcopObject = 0L;
   m_bURLEnterLock = false;
 
   if ( !s_plstAnimatedLogo )
@@ -2199,6 +2200,14 @@ void KonqMainView::updateViewModeActions( const KTrader::OfferList &services )
 	  action->plug( m_viewModeMenu->popupMenu() );
       }
   }
+}
+
+DCOPObject* KonqMainView::dcopObject()
+{
+  //if ( !m_dcopObject )
+  //      m_dcopObject = new KonqMainViewIface( this );
+
+    return m_dcopObject;
 }
 
 #include "konq_mainview.moc"

@@ -24,6 +24,8 @@
 #include "konq_viewmgr.h"
 #include <konqsettings.h>
 #include <ksimpleconfig.h>
+#include <kapp.h>
+#include <dcopclient.h>
 #include <kdebug.h>
 
 KonquerorIface::KonquerorIface()
@@ -77,7 +79,13 @@ void KonquerorIface::reparseConfiguration()
 
 QValueList<DCOPRef> KonquerorIface::getWindows()
 {
-    QValueList<DCOPRef> list;
-    // TODO !!!
-    return list;
+    QValueList<DCOPRef> lst;
+    QList<KonqMainView> *mainViews = KonqMainView::mainViewList();
+    if ( mainViews )
+    {
+      QListIterator<KonqMainView> it( *mainViews );
+      for (; it.current(); ++it )
+        lst.append( DCOPRef( kapp->dcopClient()->appId(), it.current()->dcopObject()->objId() ) );
+    }
+    return lst;
 }
