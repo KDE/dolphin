@@ -963,9 +963,12 @@ void KonqMainView::checkEditExtension()
   bool bPaste = false;
   bool bMove = false;
 
-  QObject *obj = m_currentView->view()->child( 0L, "EditExtension" );
-  if ( obj )
-    ((EditExtension *)obj)->can( bCut, bCopy, bPaste, bMove );
+  if ( m_currentView && m_currentView->view() )
+  {
+    QObject *obj = m_currentView->view()->child( 0L, "EditExtension" );
+    if ( obj )
+      ((EditExtension *)obj)->can( bCut, bCopy, bPaste, bMove );
+  }
 
   m_paCut->setEnabled( bCut );
   m_paCopy->setEnabled( bCopy );
