@@ -1,9 +1,9 @@
 [Desktop Entry]
-# This desktop file is the one used by KApplication::invokeBrowser
 Type=Application
-Exec=kfmclient openURL %u
+Exec=kfmclient openURL %u inode/directory
 Icon=konqueror
 Terminal=0
+MimeType=inode/directory
 InitialPreference=9
 NoDisplay=true
 Name=Konqueror

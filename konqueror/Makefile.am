@@ -58,7 +58,7 @@ messages: rc.cpp
 	$(XGETTEXT) -kaliasLocal -o $(podir)/konqueror.pot rc.cpp *.h *.cc *view/*h *view/*cc \
 	dirtree/*.cc dirtree/*.cpp dirtree/*h dirtree/*/*.cpp dirtree/*/*.h
 
-data_DATA = konquerorsu.desktop kfmclient.desktop kfmclient2.desktop Arrange.desktop
+data_DATA = konquerorsu.desktop kfmclient.desktop kfmclient_dir.desktop kfmclient_html.desktop Arrange.desktop
 datadir = $(kde_appsdir)/System
 
 data2_DATA = Home.desktop
