@@ -724,7 +724,9 @@ void KonqKfmIconView::slotNewItems( const KFileItemList& entries )
         KFileItem* fileItem = item->item();
 
         if ( fileItem->isDir() && m_pProps->isShowingDirectoryOverlays() ) {
-            item->setShowDirectoryOverlay( true );
+            KConfigGroup group( KGlobal::config(), "PreviewSettings" );
+            if ( group.readBoolEntry( fileItem->url().protocol(), true /*default*/ ) )
+                item->setShowDirectoryOverlay( true );
         }
 
         QString key;
