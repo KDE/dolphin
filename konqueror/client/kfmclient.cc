@@ -108,15 +108,17 @@ int main( int argc, char **argv )
 bool clientApp::openFileManagerWindow(const char* _url)
 {
 
+  KURL url( QDir::currentDirPath()+"/", _url );
+
   if ( dcopClient()->isApplicationRegistered( "konqueror" ) )
   {
     KonquerorIface_stub konqy( "konqueror", "KonquerorIface" );
-    konqy.openBrowserWindow( QString( _url ) );
+    konqy.openBrowserWindow( url.url() );
   }
   else
   {
     KProcess proc;
-    proc << "konqueror" << QString( _url );
+    proc << "konqueror" << url.url();
     proc.start( KProcess::DontCare );
   }
 
@@ -151,7 +153,7 @@ int clientApp::doIt( int argc, char **argv )
   {
     if ( argc == 3 )
     {
-      KURL u( QString::fromLatin1(argv[2]) );
+      KURL u( QDir::currentDirPath()+"/", QString::fromLatin1(argv[2]) );
       PropertiesDialog * p = new PropertiesDialog( u );
       QObject::connect( p, SIGNAL( propertiesClosed() ), this, SLOT( quit() ));
       exec();
@@ -171,7 +173,7 @@ int clientApp::doIt( int argc, char **argv )
     }
     else if ( argc == 3 )
     {
-      KURL u( QString::fromLatin1(argv[2]) );
+      KURL u( QDir::currentDirPath()+"/", QString::fromLatin1(argv[2]) );
       KRun * run = new KRun( u );
       QObject::connect( run, SIGNAL( finished() ), this, SLOT( quit() ));
       QObject::connect( run, SIGNAL( error() ), this, SLOT( quit() ));
