@@ -21,6 +21,7 @@
 #include "konq_bgnddlg.h"
 #include "konq_propsview.h"
 #include "konq_settings.h"
+#include "kfind/kfind.h"
 
 #include <kaction.h>
 #include <kcolordlg.h>
@@ -37,7 +38,8 @@
 
 KonqDirPart::KonqDirPart( QObject *parent, const char *name )
   : KParts::ReadOnlyPart( parent, name ),
-    m_pProps( 0L )
+    m_pProps( 0L ),
+    m_findPart( 0L )
 {
     m_lDirSize = 0;
     m_lFileCount = 0;
@@ -84,6 +86,9 @@ KonqDirPart::KonqDirPart( QObject *parent, const char *name )
 
 KonqDirPart::~KonqDirPart()
 {
+    // Close the find part with us
+    if ( m_findPart )
+        delete m_findPart;
 }
 
 QScrollView * KonqDirPart::scrollWidget()
@@ -275,5 +280,27 @@ void KonqDirPart::newIconSize( int size /*0=default, or 16,32,48....*/ )
     m_paMediumIcons->setChecked( size == m_iIconSize[2] );
     m_paSmallIcons->setChecked( size == m_iIconSize[1] );
 }
+
+void KonqDirPart::beforeOpenURL()
+{
+    if ( m_findPart )
+    {
+        emit findClosed( this );
+    }
+}
+
+void KonqDirPart::setFindPart( KParts::ReadOnlyPart * part )
+{
+    m_findPart = part;
+}
+
+void KonqDirPart::slotFindClosed()
+{
+    kdDebug() << "KonqDirPart::slotFindClosed" << endl;
+    emit findClosed( this );
+    // reload where we were before
+    openURL( url() );
+}
+
 
 #include "konq_dirpart.moc"

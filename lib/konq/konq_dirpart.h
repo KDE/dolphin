@@ -98,7 +98,27 @@ public:
      */
     virtual void newIconSize( int size );
 
+    /**
+     * This is called by konqueror itself, when the "find" functionality is activated
+     */
+    void setFindPart( KParts::ReadOnlyPart * part );
+
+    KParts::ReadOnlyPart * findPart() const { return m_findPart; }
+
+signals:
+    /**
+     * We emit this to ask konq to close the find part
+     */
+    void findClosed( KonqDirPart * );
+
 public slots:
+
+    /**
+     * This is called either by the part's close button, or by the dir part
+     * itself, if entering a directory. It deletes the find part !
+     */
+    void slotFindClosed();
+
     void slotBackgroundColor();
     void slotBackgroundImage();
     /**
@@ -112,7 +132,23 @@ public slots:
 
     void slotIconSizeToggled( bool );
 
+    // slots connected to the directory lister - or to the kfind interface
+    virtual void slotStarted() = 0;
+    virtual void slotCanceled() = 0;
+    virtual void slotCompleted() = 0;
+    virtual void slotNewItems( const KFileItemList& ) = 0;
+    virtual void slotDeleteItem( KFileItem * ) = 0;
+    virtual void slotRefreshItems( const KFileItemList& ) = 0;
+    virtual void slotClear() = 0;
+    virtual void slotRedirection( const KURL & ) = 0;
+
 protected:
+
+    /**
+     * Call this at the beginning of openURL
+     */
+    void beforeOpenURL();
+
     QString m_nameFilter;
 
     KParts::BrowserExtension * m_extension;
@@ -127,6 +163,8 @@ protected:
     KToggleAction *m_paLargeIcons;
     KToggleAction *m_paMediumIcons;
     KToggleAction *m_paSmallIcons;
+
+    KParts::ReadOnlyPart * m_findPart;
 
     int m_iIconSize[4];
 
