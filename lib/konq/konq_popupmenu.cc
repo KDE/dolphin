@@ -73,7 +73,7 @@ public:
 class KonqPopupMenu::KonqPopupMenuPrivate
 {
 public:
-  KonqPopupMenuPrivate() : m_parentWidget(0) 
+  KonqPopupMenuPrivate() : m_parentWidget(0)
   {
     m_hierarchicalDirectoryView=false;
   }
@@ -115,7 +115,7 @@ KonqPopupMenu::KonqPopupMenu( KBookmarkManager *mgr, const KFileItemList &items,
                               KURL viewURL,
                               KActionCollection & actions,
                               KNewMenu * newMenu,
-                              bool showPropertiesAndFileType ) 
+                              bool showPropertiesAndFileType )
   : QPopupMenu( 0L, "konq_popupmenu" ), m_actions( actions ), m_ownActions( static_cast<QObject *>( 0 ), "KonqPopupMenu::m_ownActions" ),
     m_pMenuNew( newMenu ), m_sViewURL(viewURL), m_lstItems(items), m_pManager(mgr)
 
@@ -128,7 +128,7 @@ KonqPopupMenu::KonqPopupMenu( KBookmarkManager *mgr, const KFileItemList &items,
                               KActionCollection & actions,
                               KNewMenu * newMenu,
 			      QWidget * parentWidget,
-                              bool showPropertiesAndFileType )  
+                              bool showPropertiesAndFileType )
   : QPopupMenu( 0L, "konq_popupmenu" ), m_actions( actions ), m_ownActions( static_cast<QObject *>( 0 ), "KonqPopupMenu::m_ownActions" ), m_pMenuNew( newMenu ), m_sViewURL(viewURL), m_lstItems(items), m_pManager(mgr)
 {
   init(parentWidget, showPropertiesAndFileType, false);
@@ -151,7 +151,7 @@ void KonqPopupMenu::init (QWidget * parentWidget, bool showPropertiesAndFileType
   d = new KonqPopupMenuPrivate;
   d->m_parentWidget = parentWidget;
   d->m_hierarchicalDirectoryView = isHierView;
-  setup(showPropertiesAndFileType); 
+  setup(showPropertiesAndFileType);
 }
 
 
@@ -428,6 +428,9 @@ void KonqPopupMenu::setup(bool showPropertiesAndFileType)
       user = KDEDesktopMimeType::userDefinedServices( m_lstItems.first()->url().path(), url.isLocalFile() );
   }
 
+  if ( !isCurrentTrash )
+  {
+
   // 2 - Look for "servicesmenus" bindings (konqueror-specific user-defined services)
   QStringList dirs = KGlobal::dirs()->findDirs( "data", "konqueror/servicemenus/" );
   QStringList::ConstIterator dIt = dirs.begin();
@@ -526,7 +529,7 @@ void KonqPopupMenu::setup(bool showPropertiesAndFileType)
           }
       }
   }
-
+  }
   KTrader::OfferList offers;
 
   if (kapp->authorizeKAction("openwith"))
