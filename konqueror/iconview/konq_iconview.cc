@@ -43,6 +43,7 @@
 #include <klineeditdlg.h>
 #include <kmimetype.h>
 #include <konqiconviewwidget.h>
+#include <krun.h>
 #include <kurl.h>
 
 #include <qmessagebox.h>
@@ -322,9 +323,9 @@ KonqKfmIconView::KonqKfmIconView()
   m_pIconView->initConfig();
 
   QObject::connect( m_pIconView, SIGNAL( doubleClicked( QIconViewItem * ) ),
-                    this, SLOT( slotMousePressed( QIconViewItem * ) ) );
+                    this, SLOT( slotReturnPressed( QIconViewItem * ) ) );
   QObject::connect( m_pIconView, SIGNAL( returnPressed( QIconViewItem * ) ),
-                    this, SLOT( slotMousePressed( QIconViewItem * ) ) );
+                    this, SLOT( slotReturnPressed( QIconViewItem * ) ) );
 		
   QObject::connect( m_pIconView, SIGNAL( onItem( QIconViewItem * ) ),
                     this, SLOT( slotOnItem( QIconViewItem * ) ) );
@@ -335,8 +336,8 @@ KonqKfmIconView::KonqKfmIconView()
   QObject::connect( m_pIconView, SIGNAL( selectionChanged() ),
                     m_extension, SIGNAL( selectionChanged() ) );
 
-  QObject::connect( m_pIconView, SIGNAL( itemRightPressed( QIconViewItem * ) ),
-                    this, SLOT( slotItemRightClicked( QIconViewItem * ) ) );
+  QObject::connect( m_pIconView, SIGNAL( mouseButtonPressed(int, QIconViewItem*, const QPoint&)),
+                    this, SLOT( slotMouseButtonPressed(int, QIconViewItem*, const QPoint&)) );
   QObject::connect( m_pIconView, SIGNAL( viewportRightPressed() ),
                     this, SLOT( slotViewportRightClicked() ) );
 
@@ -347,6 +348,7 @@ KonqKfmIconView::KonqKfmIconView()
   m_bLoading = false;
   m_bNeedAlign = false;
 
+  m_pIconView->setResizeMode( QIconView::Adjust );
   // KDE extension : KIconLoader size
   m_pIconView->setSize( KIconLoader::Medium ); // TODO : part of KonqPropsView
 
@@ -611,27 +613,26 @@ int KonqKfmIconView::yOffset()
   return m_pIconView->contentsY();
 }
 
-void KonqKfmIconView::slotMousePressed( QIconViewItem *item )
+void KonqKfmIconView::slotReturnPressed( QIconViewItem *item )
 {
   KFileItem *fileItem = ((KFileIVI*)item)->item();
   emit openURLRequest( fileItem->url().url(), false, 0, 0 );
 }
 
-void KonqKfmIconView::slotItemRightClicked( QIconViewItem */*item*/ )
+void KonqKfmIconView::slotMouseButtonPressed(int _button, QIconViewItem* _item, const QPoint& _global)
 {
-  // Which one is clicked is unimportant, we apply the popupmenu to the
-  // selection
-  KFileItemList lstItems;
-
-  QIconViewItem *it = m_pIconView->firstItem();
-  for (; it; it = it->nextItem() )
-    if ( it->isSelected() )
-    {
-      KFileItem *fItem = ((KFileIVI *)it)->item();
-      lstItems.append( fItem );
+  if(_item) {
+    switch(_button) {
+      case RightButton:
+        ((KFileIVI*)_item)->setSelected( true );
+        emit popupMenu( _global, m_pIconView->selectedFileItems() );
+        break;
+      case MidButton:
+        // New view
+        ((KFileIVI*)_item)->item()->run();
+        break;
     }
-
-  emit popupMenu( QCursor::pos(), lstItems );
+  }
 }
 
 void KonqKfmIconView::slotViewportRightClicked()

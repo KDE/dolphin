@@ -118,11 +118,9 @@ public slots:
 
 protected slots:
   // slots connected to QIconView
-  virtual void slotMousePressed( QIconViewItem *item );
-
-  void slotItemRightClicked( QIconViewItem *item );
+  void slotReturnPressed( QIconViewItem *item );
+  void slotMouseButtonPressed(int, QIconViewItem*, const QPoint&);
   void slotViewportRightClicked();
-
   void slotOnItem( QIconViewItem *item );
   void slotOnViewport();
 
