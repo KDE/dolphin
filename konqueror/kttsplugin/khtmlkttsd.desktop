@@ -11,9 +11,5 @@ X-KDE-PluginInfo-Depends=
 X-KDE-PluginInfo-License=GPL
 X-KDE-PluginInfo-EnabledByDefault=true
 Name=Text-to-Speech Plugin
-Name[is]=Texti-í-tal íforrit
-Name[nl]=Tekst-tot-spraak-plugin
-Name[pt]='Plugin' de Texto para Voz
-Name[pt_BR]=Plug-in de Conversão de Fala
-Name[ru]=Модуль проговаривания текста
-Name[sv]=Text till tal-insticksprogram
+Icon=kttsd
+
