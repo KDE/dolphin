@@ -22,10 +22,10 @@
 #define __kcmhistory_h__
 
 #include <kcmodule.h>
-#include "history_dlg.h"
 
 class KonqHistoryManager;
 class KonqSidebarHistorySettings;
+class KonqSidebarHistoryDlg;
 
 class HistorySidebarConfig : public KCModule
 {
