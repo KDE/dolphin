@@ -123,6 +123,7 @@ KPluginOptions::KPluginOptions( KConfig* config, QString group, QWidget *parent,
 
     // create Designer made widget
     m_widget = new NSConfigWidget( netscapeGB, "configwidget" );
+	m_widget->dirEdit->setMode(KFile::ExistingOnly | KFile::LocalOnly | KFile::Directory);
 
     // setup widgets
     connect( m_widget->scanAtStartup, SIGNAL(clicked()), SLOT(change()) );
