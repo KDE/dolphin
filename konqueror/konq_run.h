@@ -21,6 +21,7 @@
 #define __kfm_run_h__
 
 #include <krun.h>
+#include <kservice.h>
 #include <sys/types.h>
 #include <konq_openurlrequest.h>
 
@@ -37,7 +38,7 @@ public:
    */
   KonqRun( KonqMainWindow* mainWindow, KonqView *childView,
                  const KURL &url, const KonqOpenURLRequest & req = KonqOpenURLRequest(),
-	   bool trustedSource = false );
+           bool trustedSource = false );
 
   virtual ~KonqRun();
 
@@ -51,7 +52,9 @@ public:
   const QString & typedURL() const { return m_req.typedURL; }
 
   static bool allowExecution( const QString &serviceType, const KURL &url );
-    
+  static bool askSave( const KURL & url, KService::Ptr offer );
+  static void save( const KURL & url );
+
 protected:
   /**
    * Called if the mimetype has been detected. The function checks wether the document

@@ -357,13 +357,17 @@ void KonqMainWindow::openURL( KonqView *_view, const KURL &url,
     {
         // We know the servicetype, let's try its preferred service
         KService::Ptr offer = KServiceTypeProfile::preferredService(serviceType, true);
-        KURL::List lst;
-        lst.append(url);
-        //kdDebug(1202) << "Got offer " << (offer ? offer->name().latin1() : "0") << endl;
-        if ( ( trustedSource || KonqRun::allowExecution( serviceType, url ) ) &&
-             ( !offer || !KRun::run( *offer, lst ) ) )
+        // Remote URL: save or open ?
+        if ( url.isLocalFile() || !KonqRun::askSave( url, offer ) )
         {
-          (void)new KRun( url );
+            KURL::List lst;
+            lst.append(url);
+            //kdDebug(1202) << "Got offer " << (offer ? offer->name().latin1() : "0") << endl;
+            if ( ( trustedSource || KonqRun::allowExecution( serviceType, url ) ) &&
+                 ( !offer || !KRun::run( *offer, lst ) ) )
+            {
+                (void)new KRun( url );
+            }
         }
     }
   }

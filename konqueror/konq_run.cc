@@ -22,6 +22,8 @@
 #include "konq_run.h"
 #include "konq_view.h"
 #include "konq_mainwindow.h"
+#include <kfiledialog.h>
+#include <kuserprofile.h>
 #include <kio/job.h>
 #include <kmessagebox.h>
 #include <klocale.h>
@@ -61,11 +63,27 @@ void KonqRun::foundMimeType( const QString & _type )
   //kdDebug(1202) << "m_req.nameFilter= " << m_req.nameFilter << endl;
   //kdDebug(1202) << "m_req.typedURL= " << m_req.typedURL << endl;
 
+  // Try to open in a view
   assert( m_pMainWindow );
   m_bFinished = m_pMainWindow->openView( mimeType, m_strURL, m_pView, m_req );
-  if ( !m_bFinished &&  // .... if not embedddable ...
+
+  // Support for saving remote files.
+  if ( !m_bFinished && // couldn't embed
+       mimeType != "inode/directory" && // dirs can't be saved
+       !m_strURL.isLocalFile() ) // ... and remote URL
+  {
+      KService::Ptr offer = KServiceTypeProfile::preferredService(mimeType, true);
+      if ( askSave( m_strURL, offer ) ) // ... -> ask whether to save
+      { // true: saving done or canceled
+          m_bFinished = true;
+          m_bFault = true; // make Konqueror think there was an error, in order to stop the spinning wheel
+      }
+  }
+
+  // Check if running is allowed
+  if ( !m_bFinished &&  //     If not embedddable ...
        !m_bTrustedSource && // ... and untrusted source...
-       !allowExecution( mimeType, m_strURL ) ) // ...and the user *really* wants to execute ...
+       !allowExecution( mimeType, m_strURL ) ) // ...and the user said no (for executables etc.)
     {
       m_bFinished = true;
       m_bFault = true; // make Konqueror think there was an error (even if we really execute it) , in order to stop the spinning wheel
@@ -74,14 +92,15 @@ void KonqRun::foundMimeType( const QString & _type )
   if ( m_bFinished )
     {
       m_pMainWindow = 0L;
-      m_bFinished = true;
       m_timer.start( 0, true );
       return;
     }
   KIO::SimpleJob::removeOnHold(); // Kill any slave that was put on hold.
   kdDebug(1202) << "Nothing special to do in KonqRun, falling back to KRun" << endl;
 
+  // ??????????????? (David)
   m_bFault = true; // make Konqueror believe that there was an error, in order to stop the spinning wheel...
+
   KRun::foundMimeType( mimeType );
 }
 
@@ -149,4 +168,39 @@ bool KonqRun::allowExecution( const QString &serviceType, const KURL &url )
     return ( KMessageBox::warningYesNo( 0, i18n( "Do you really want to execute '%1' ? " ).arg( url.prettyURL() ) ) == KMessageBox::Yes );
 }
 
+bool KonqRun::askSave( const KURL & url, KService::Ptr offer )
+{
+    // Inspired from kmail
+    QString question = offer ? i18n("Open '%1' using '%2'?").
+                               arg( url.prettyURL() ).arg(offer->name())
+                       : i18n("Open '%1' ?").arg( url.prettyURL() );
+    int choice = KMessageBox::warningYesNoCancel(0L, question, QString::null,
+                                                 i18n("Save to disk"), i18n("Open"));
+    if ( choice == KMessageBox::Yes ) // Save
+        save( url );
+
+    return choice != KMessageBox::No; // saved or canceled -> don't open
+}
+
+void KonqRun::save( const KURL & url )
+{
+    // Inspired from khtml_part :-)
+    KFileDialog *dlg = new KFileDialog( QString::null, QString::null /*all files*/,
+                                        0L , "filedialog", true );
+    dlg->setCaption(i18n("Save as"));
+
+    dlg->setSelection( url.fileName() );
+    if ( dlg->exec() )
+    {
+        KURL destURL( dlg->selectedURL() );
+        if ( !destURL.isMalformed() )
+        {
+            /*KIO::Job *job =*/ KIO::file_copy( url, destURL );
+            // TODO connect job result, to display errors
+            // Hmm, no object to connect to, here.
+            // -> to move to konqoperations
+        }
+    }
+    delete dlg;
+}
 #include "konq_run.moc"
