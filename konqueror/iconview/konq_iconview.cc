@@ -176,7 +176,8 @@ void IconViewBrowserExtension::setNameFilter( QString nameFilter )
 }
 
 KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const char *name, const QString& mode  )
-    : KonqDirPart( parent, name ), m_itemDict( 43 )
+    : KonqDirPart( parent, name ), m_itemDict( 43 ),
+      m_xOffset( 0 ), m_yOffset( 0 )
 {
     kdDebug(1202) << "+KonqKfmIconView" << endl;
 
@@ -347,6 +348,12 @@ KonqKfmIconView::~KonqKfmIconView()
     delete m_pProps;
     //no need for that, KParts deletes our widget already ;-)
     //    delete m_pIconView;
+}
+
+void KonqKfmIconView::restoreState( QDataStream & )
+{
+    m_xOffset = m_extension->urlArgs().xOffset;
+    m_yOffset = m_extension->urlArgs().yOffset;
 }
 
 const KFileItem * KonqKfmIconView::currentItem()
@@ -631,7 +638,7 @@ void KonqKfmIconView::slotCompleted()
     m_pIconView->setRootItem( static_cast<KonqFileItem *>(m_dirLister->rootItem()) );
 
     if ( m_bUpdateContentsPosAfterListing )
-      m_pIconView->setContentsPos( m_extension->urlArgs().xOffset, m_extension->urlArgs().yOffset );
+        m_pIconView->setContentsPos( m_xOffset, m_yOffset );
 
     m_bUpdateContentsPosAfterListing = false;
 
@@ -653,7 +660,6 @@ void KonqKfmIconView::slotCompleted()
 
     // Disable cut icons if any
     slotClipboardDataChanged();
-
 }
 
 void KonqKfmIconView::slotNewItems( const KFileItemList& entries )
@@ -843,6 +849,14 @@ bool KonqKfmIconView::openURL( const KURL & url )
     m_dirLister->setNameFilter( m_nameFilter );
 
     m_dirLister->setMimeFilter( mimeFilter() );
+
+    // This *must* happen before m_dirlister->openURL because it emits
+    // clear() and QIconView::clear() calls setContentsPos(0,0)!
+    if ( m_extension->urlArgs().reload )
+    {
+        m_xOffset = m_pIconView->contentsX();
+        m_yOffset = m_pIconView->contentsY();
+    }
 
     // Start the directory lister !
     m_dirLister->openURL( url, m_pProps->isShowingDotFiles() );

@@ -58,6 +58,8 @@ public:
 
   virtual bool openFile() { return true; }
 
+  virtual void restoreState( QDataStream &stream );
+
   virtual const KFileItem * currentItem();
   virtual KFileItemList selectedFileItems() {return m_pIconView->selectedFileItems();};
 
@@ -187,6 +189,8 @@ protected:
   KonqIconViewWidget *m_pIconView;
 
   QPtrDict<KFileIVI> m_itemDict; // maps KFileItem * -> KFileIVI *
+
+  int m_xOffset, m_yOffset;
 
   KonqMimeTypeResolver<KFileIVI,KonqKfmIconView> * m_mimeTypeResolver;
 
