@@ -55,6 +55,7 @@ NSPluginInstance::NSPluginInstance(QWidget *parent, const QCString& app, const Q
     _loader = NSPluginLoader::instance();
     setBackgroundMode(QWidget::NoBackground);
     embed( NSPluginInstanceIface_stub::winId() );
+    displayPlugin();
 }
 
 
@@ -408,6 +409,7 @@ NSPluginInstance *NSPluginLoader::newInstance(QWidget *parent, QString url,
                                                     inst_ref.object() );
 
    kdDebug() << "<- NSPluginLoader::NewInstance = " << (void*)plugin << endl;
+
    return plugin;
 }
 

@@ -315,7 +315,7 @@ NPError g_NPN_SetValue(NPP /*instance*/, NPPVariable /*variable*/, void* /*value
 
 NSPluginInstance::NSPluginInstance(NPP privateData, NPPluginFuncs *pluginFuncs,
                                    KLibrary *handle, int width, int height,
-                                   QString src, QString /*mime*/,
+                                   QString src, QString mime,
                                    QString appId, QString callbackId,
                                    bool embed,
                                    QObject *parent, const char* name )
@@ -332,6 +332,8 @@ NSPluginInstance::NSPluginInstance(NPP privateData, NPPluginFuncs *pluginFuncs,
    _waitingRequests.setAutoDelete( true );
    _callback = new NSPluginCallbackIface_stub( appId.latin1(), callbackId.latin1() );
 
+   _url = src;
+   _mimetype = mime;
    KURL base(src);
    base.setFileName( QString::null );
    _baseURL = base.url();
@@ -748,6 +750,24 @@ void NSPluginInstance::addTempFile(KTempFile *tmpFile)
    _tempFiles.append(tmpFile);
 }
 
+/*
+ *   We have to call this after we reparent the widget otherwise some plugins
+ *   like the ones based on WINE get very confused. (their coordinates are not
+ *   adjusted for the mouse at best)
+ */
+void NSPluginInstance::displayPlugin()
+{
+   // display plugin
+   setWindow();
+
+   // create source stream
+   if ( !_url.isEmpty() )
+      requestURL( _url, _mimetype, QString::null, 0 );
+
+   kdDebug(1431) << "<- NSPluginInstance::displayPlugin = " << (void*)this << endl;
+}
+
+
 /***************************************************************************/
 
 NSPluginViewer::NSPluginViewer( QCString dcopId,
@@ -989,13 +1009,6 @@ DCOPRef NSPluginClass::newInstance( QString url, QString mimeType, bool embed,
       return DCOPRef();
    }
 
-   // display plugin
-   inst->setWindow();
-
-   // create source stream
-   if ( !src.isEmpty() ) inst->requestURL( src, mimeType, QString::null, 0 );
-
-   kdDebug(1431) << "<- NSPluginClass::NewInstance = " << (void*)inst << endl;
    _instances.append( inst );
    return DCOPRef(kapp->dcopClient()->appId(), inst->objId());
 }

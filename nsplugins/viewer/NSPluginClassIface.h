@@ -69,6 +69,7 @@ k_dcop:
 
   virtual void resizePlugin(int w, int h) = 0;
 
+  virtual void displayPlugin() = 0;
 };
 
 

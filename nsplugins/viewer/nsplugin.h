@@ -165,6 +165,7 @@ public:
   int winId() { return XtWindow(_toplevel); };
   int setWindow(int remove=0);
   void resizePlugin(int w, int h);
+  void displayPlugin();
 
   // value handling
   NPError NPGetValue(NPPVariable variable, void *value);
@@ -216,6 +217,8 @@ private:
   Widget _area, _form, _toplevel;
   QString _baseURL;
   int _width, _height;
+  QString _url, _mimetype;  // used for the first request since the initial
+                            // loading of the plugin is delayed
 
   struct Request
   {
