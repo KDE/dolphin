@@ -166,7 +166,7 @@ void KonqView::switchView( KonqViewFactory &viewFactory )
     QVariant prop = m_service->property( "X-KDE-BrowserView-PassiveMode");
     if ( prop.isValid() && prop.toBool() )
     {
-      kdDebug() << "KonqView::switchView X-KDE-BrowserView-PassiveMode -> setPassiveMode" << endl;
+      kdDebug(1202) << "KonqView::switchView X-KDE-BrowserView-PassiveMode -> setPassiveMode" << endl;
       setPassiveMode( true ); // set as passive
     }
 
@@ -237,7 +237,7 @@ bool KonqView::changeViewMode( const QString &serviceType,
   else
   {
       m_serviceType = serviceType;
-      kdDebug() << "KonqView::changeViewMode service type set to " << m_serviceType << endl;
+      kdDebug(1202) << "KonqView::changeViewMode service type set to " << m_serviceType << endl;
       // Re-query the trader
       KonqFactory::getOffers( m_serviceType, &m_partServiceOffers, &m_appServiceOffers );
       if ( m_pMainWindow->currentView() == this )
