@@ -89,7 +89,7 @@ void KonqDirTreeBrowserExtension::slotSelectionChanged()
   cutcopy = move = selection;
   move = move && !bInTrash;
 
-  bool bKIOClipboard = !isClipboardEmpty();
+  bool bKIOClipboard = !KIO::isClipboardEmpty();
   QMimeSource *data = QApplication::clipboard()->data();
   bool paste = ( bKIOClipboard || data->encodedData( data->format() ).size() != 0 ) &&
 	       ( selection );
@@ -130,7 +130,7 @@ void KonqDirTreeBrowserExtension::pasteSelection( bool move )
 
   assert( selection );
 
-  pasteClipboard( selection->fileItem()->url().url(), move );
+  KIO::pasteClipboard( selection->fileItem()->url().url(), move );
 }
 
 void KonqDirTreeBrowserExtension::moveSelection( const QString &destinationURL )
@@ -140,12 +140,21 @@ void KonqDirTreeBrowserExtension::moveSelection( const QString &destinationURL )
   if ( !selection )
     return;
 
-  KIOJob *job = new KIOJob;
+  KIO::Job * job = 0L;
 
   if ( !destinationURL.isEmpty() )
-    job->move( selection->fileItem()->url().url(), destinationURL );
+    job = KIO::move( selection->fileItem()->url(), destinationURL );
   else
-    job->del( selection->fileItem()->url().url() );
+    job = KIO::del( selection->fileItem()->url() );
+
+  connect( job, SIGNAL( result( KIO::Job * ) ),
+           SLOT( slotResult( KIO::Job * ) ) );
+}
+
+void KonqDirTreeBrowserExtension::slotResult( KIO::Job * job )
+{
+    if (job->error())
+        job->showErrorDialog();
 }
 
 KonqDirTreePart::KonqDirTreePart( QWidget *parentWidget, QObject *parent, const char *name )
@@ -302,7 +311,7 @@ void KonqDirTree::openSubFolder( KonqDirTreeItem *item, KonqDirTreeItem *topLeve
 
   KURL u = item->fileItem()->url();
 
-  if ( topLevelItem.m_dirLister->jobId() == 0 )
+  if ( topLevelItem.m_dirLister->job() == 0 )
     topLevelItem.m_dirLister->openURL( u, false, topLevel ? true : false );
   else  if ( !topLevelItem.m_lstPendingURLs->contains( u ) )
     topLevelItem.m_lstPendingURLs->append( u );
@@ -411,27 +420,28 @@ void KonqDirTree::contentsDropEvent( QDropEvent *ev )
   {
     if( lst.count() == 0 )
     {
-      kdebug(KDEBUG_WARN,1202,"Oooops, no data ....");
+      kDebugWarning(1202,"Oooops, no data ....");
       return;
     }
-    KIOJob* job = new KIOJob;
+    KIO::Job* job = 0L;
 
     KURL dest( selection->fileItem()->url() );
 
     switch ( ev->action() ) {
-      case QDropEvent::Move : job->move( lst, dest.url( 1 ) ); break;
-      case QDropEvent::Copy : job->copy( lst, dest.url( 1 ) ); break;
-      //      case QDropEvent::Link : {
-      //        link( lst, dest );
-      //        break;
-      //      }
-      default : kdebug( KDEBUG_ERROR, 1202, "Unknown action %d", ev->action() ); return;
+        case QDropEvent::Move : job = KIO::move( lst, dest.url( 1 ) ); break;
+        case QDropEvent::Copy : job = KIO::copy( lst, dest.url( 1 ) ); break;
+        case QDropEvent::Link : KIO::link( lst, dest ); break;
+        default : kDebugError( 1202, "Unknown action %d", ev->action() ); return;
     }
+    connect( job, SIGNAL( result( KIO::Job * ) ),
+             SLOT( slotResult( KIO::Job * ) ) );
+    ev->acceptAction(TRUE);
+    ev->accept();
   }
   else if ( formats.count() >= 1 )
   {
-    kdebug(0,1202,"Pasting to %s", selection->fileItem()->url().url().ascii() /* item's url */);
-    pasteData( selection->fileItem()->url().url()/* item's url */, ev->data( formats.first() ) );
+    kDebugInfo(1202,"Pasting to %s", selection->fileItem()->url().url().ascii() /* item's url */);
+    KIO::pasteData( selection->fileItem()->url().url()/* item's url */, ev->data( formats.first() ) );
   }
 
 }
@@ -765,7 +775,7 @@ void KonqDirTree::loadTopLevelItem( QListViewItem *parent,  const QString &filen
   }
   else if ( cfg.hasDeviceType() )
   {
-    QString mountPoint = KIOJob::findDeviceMountPoint( cfg.readEntry( "Dev" ) );
+    QString mountPoint = KIO::findDeviceMountPoint( cfg.readEntry( "Dev" ) );
 
     if ( mountPoint.isNull() )
       return;

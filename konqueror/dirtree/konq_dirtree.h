@@ -30,6 +30,7 @@ protected slots:
   void trash() { moveSelection( KUserPaths::trashPath() ); }
 
   void slotSelectionChanged();
+  void slotResult( KIO::Job * );
 private:
   void pasteSelection( bool move );
   void moveSelection( const QString &destinationURL );
