@@ -100,7 +100,11 @@ void KonqIconViewWidget::slotIconChanged( int group )
 	KFileIVI *ivi = static_cast<KFileIVI *>(it);
 	ivi->setIcon( m_size, KIcon::DefaultState, m_bImagePreviewAllowed );
     }
-    arrangeItemsInGrid();
+
+    int sz = KGlobal::iconLoader()->currentSize( KIcon::Desktop );
+    setGridX( sz + 20 );
+    setGridY( sz + 20 );
+    updateContents();
 }
 
 void KonqIconViewWidget::slotOnItem( QIconViewItem *item )
@@ -789,7 +793,6 @@ void KonqIconViewWidget::lineupIcons()
     // Perform the actual moving
     n = 0;
     int x, y;
-    QRegion r;  // Build the region we need to update
     for (j=0; j<ny; j++)
     {
 	for (i=0; i<nx; i++)
@@ -801,9 +804,7 @@ void KonqIconViewWidget::lineupIcons()
 	    x = x1 + i*dx + spacing(); y = y1 + j*dy + spacing();
 	    if (item->pos() != QPoint(x, y))
 	    {
-		update(item->rect());
 		item->move(x, y);
-		update(item->rect());
 	    }
 	    if (bins[j][i]->count())
 	    {
@@ -814,9 +815,7 @@ void KonqIconViewWidget::lineupIcons()
 		    x = x1 + i*dx + spacing() + 10*k; y = y1 + j*dy + spacing() + 5*k;
 		    if (item->pos() != QPoint(x, y))
 		    {
-			r |= item->rect();
 			item->move(x, y);
-			r |= item->rect();
 		    }
 		    item = bins[j][i]->top();
 		}
@@ -825,7 +824,6 @@ void KonqIconViewWidget::lineupIcons()
 	    n++;
 	}
     }
-    //repaint(r);
 
     delete[] bins;
     kdDebug(1203) << n << " icons successfully moved.\n";
