@@ -55,6 +55,33 @@
 
 #include "sdk/npupp.h"
 
+// provide these symbols when compiling with gcc 3.x
+#if defined(__GNUC__) && __GNUC_PREREQ(3,0)
+extern "C" void* __builtin_new(size_t s)
+{
+   return operator new(s);
+}
+
+extern "C" void __builtin_delete(void* p)
+{
+   operator delete(p);
+}
+
+extern "C" void* __builtin_vec_new(size_t s)
+{
+   return operator new[](s);
+}
+
+extern "C" void __builtin_vec_delete(void* p)
+{
+   operator delete[](p);
+}
+
+extern "C" void __pure_virtual()
+{
+   abort();
+}
+#endif
 
 KConfig *infoConfig = 0;
 
