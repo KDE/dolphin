@@ -28,6 +28,7 @@
 #include <qcombobox.h>
 #include <qpushbutton.h>
 #include <qbuttongroup.h>
+#include <qtabwidget.h>
 #include <qwhatsthis.h>
 #include <klistview.h>
 #include <kservice.h>
@@ -408,14 +409,13 @@ void DesktopBehavior::save()
 void DesktopBehavior::enableChanged()
 {
     bool enabled = iconsEnabledBox->isChecked();
-    showHiddenBox->setEnabled(enabled);
-    previewListView->setEnabled(enabled);
+    behaviorTab->setTabEnabled(behaviorTab->page(1), enabled);
     vrootBox->setEnabled(enabled);
-    autoLineupIconsBox->setEnabled(enabled);
 
 #if defined(Q_OS_LINUX) || defined (Q_OS_FREEBSD)
+    behaviorTab->setTabEnabled(behaviorTab->page(2), enabled);
     enableDevicesBox->setEnabled(enabled);
-    devicesListView->setEnabled(enableDevicesBox->isChecked() && iconsEnabledBox->isChecked());
+    devicesListView->setEnabled(enableDevicesBox->isChecked());
 #endif
 
     changed();
