@@ -1155,7 +1155,11 @@ bool KonqView::eventFilter( QObject *obj, QEvent *e )
     {
         if ( e->type() == QEvent::ContextMenu )
         {
-            return true;
+            QContextMenuEvent *ev = static_cast<QContextMenuEvent *>( e );
+            if (  ev->reason() == QContextMenuEvent::Mouse )
+            {
+                return true;
+            }
         }
         else if ( e->type() == QEvent::MouseButtonPress )
         {
@@ -1182,8 +1186,8 @@ bool KonqView::eventFilter( QObject *obj, QEvent *e )
                 obj->removeEventFilter( this );
                 QMouseEvent me( QEvent::MouseButtonPress, ev->pos(), 2, 2 );
                 QApplication::sendEvent( obj, &me );
-//              QContextMenuEvent ce( QContextMenuEvent::Mouse, ev->pos(), 2 );
-//              QApplication::sendEvent( obj, &ce );
+                QContextMenuEvent ce( QContextMenuEvent::Mouse, ev->pos(), 2 );
+                QApplication::sendEvent( obj, &ce );
                 obj->installEventFilter( this );
                 return true;
             }
