@@ -36,7 +36,6 @@
 
 #include <kcursor.h>
 #include <khtml.h>
-#include <khtmlsavedpage.h>
 #include <klocale.h>
 #include <kfiledialog.h>
 #include <kurl.h>
