@@ -300,9 +300,10 @@ void ToggleViewGUIClient::slotViewAdded( KonqView *view )
   KAction *action = m_actions[ name ];
 
   if ( action )
+  {
     static_cast<KToggleAction *>( action )->setChecked( true );
-
-  saveConfig( true, name );
+    saveConfig( true, name );
+  }
 }
 
 void ToggleViewGUIClient::slotViewRemoved( KonqView *view )
@@ -312,9 +313,10 @@ void ToggleViewGUIClient::slotViewRemoved( KonqView *view )
   KAction *action = m_actions[ name ];
 
   if ( action )
+  {
     static_cast<KToggleAction *>( action )->setChecked( false );
-
-  saveConfig( false, name );
+    saveConfig( false, name );
+  }
 }
 
 #include "konq_guiclients.moc"
