@@ -27,8 +27,11 @@
 
 #define DEFAULT_HEADER_HEIGHT 9
 
-KonqFrameHeader::KonqFrameHeader( KonqFrame *_parent, const char *_name ) : QWidget( _parent, _name ), m_pParentKonqFrame( _parent )
+KonqFrameHeader::KonqFrameHeader( OpenParts::Part_ptr part, 
+                                  QWidget *_parent, 
+                                  const char *_name ) : QWidget( _parent, _name )
 {
+  m_vPart = OpenParts::Part::_duplicate( part );
   QString key;
 
   //killTimers();
@@ -121,12 +124,13 @@ KonqFrameHeader::KonqFrameHeader( KonqFrame *_parent, const char *_name ) : QWid
   if (options.TitleAnimation)
       startTimer(options.TitleAnimation);
   */
+  setFixedHeight( DEFAULT_HEADER_HEIGHT );
 }
 
 void
 KonqFrameHeader::paintEvent( QPaintEvent* )
 {
-  bool hasFocus = m_pParentKonqFrame->part()->hasFocus();
+  bool hasFocus = m_vPart->hasFocus();
   kdebug(0, 1202, "KonqFrameHeader::paintEvent( QPaintEvent* ) : part()->hasFocus()=%d",hasFocus);
   if (!isVisible())
   {
@@ -375,6 +379,7 @@ KonqFrameHeader::gradientFill(KPixmap &pm, QColor ca, QColor cb,bool vertShaded)
     pm.gradientFill(ca, cb, vertShaded);
 }
 
+#if 0
 KonqFrame::KonqFrame( QWidget *_parent, const char *_name )
                     : OPFrame( _parent, _name)
 {
@@ -415,5 +420,6 @@ KonqFrame::resizeEvent( QResizeEvent* )
   if ( win != 0)
     XMoveResizeWindow(qt_xdisplay(), win, 0, m_pHeader->height() , width(), height() - m_pHeader->height() );
 }
+#endif
 
 #include "konq_frame.moc"

@@ -27,6 +27,7 @@
 #include "konq_plugins.h"
 
 #include <qsplitter.h>
+#include <qlayout.h>
 
 /*
  This is a _very_ bad hack to fix some buggy reference count handling somewhere
@@ -46,14 +47,26 @@ void VeryBadHackToFixCORBARefCntBug( CORBA::Object_ptr obj )
 }
 
 KonqChildView::KonqChildView( Konqueror::View_ptr view, 
+                              QWidget * builtinView,
                               Row * row, 
                               Konqueror::NewViewPosition newViewPosition,
                               OpenParts::Part_ptr parent,
+                              QWidget * parentWidget,
                               OpenParts::MainWindow_ptr mainWindow
                               )
+  : m_row( row )
 {
-  m_pFrame = new KonqFrame( row );
-  m_row = row;
+  // Hmmm, we need to add a QWidget in the splitter, not a simple layout
+  // (moveToFirst needs a widget, and a layout can't be a splitter child I think)
+  m_pWidget = new QWidget( row );
+  m_pLayout = new QVBoxLayout( m_pWidget );
+
+  // add the frame header to the layout
+  m_pHeader = new KonqFrameHeader( view, m_pWidget, "KonquerorFrameHeader");
+  m_pLayout->addWidget( m_pHeader );
+  QObject::connect(m_pHeader, SIGNAL(headerClicked()), this, SLOT(slotHeaderClicked()));
+
+  m_pFrame = 0L;
   m_sLocationBarURL = "";
   m_bBack = false;
   m_bForward = false;
@@ -62,32 +75,57 @@ KonqChildView::KonqChildView( Konqueror::View_ptr view,
   m_vMainWindow = OpenParts::MainWindow::_duplicate( mainWindow );
 
   if (newViewPosition == Konqueror::left)
-    m_row->moveToFirst( m_pFrame );
+    m_row->moveToFirst( m_pWidget );
   
-  attach( view );
+  attach( view, builtinView );
+
   m_sLastViewName = viewName();
 }
 
 KonqChildView::~KonqChildView()
 {
   detach();
-  delete m_pFrame;
+  delete m_pWidget;
 }
 
-void KonqChildView::attach( Konqueror::View_ptr view )
+void KonqChildView::attach( Konqueror::View_ptr view, QWidget * builtinView )
 {
+  m_bBuiltin = (builtinView != 0L);
   m_vView = Konqueror::View::_duplicate( view );
   m_vView->setMainWindow( m_vMainWindow );
   m_vView->setParent( m_vParent );
   connectView( );
-  m_pFrame->attach( view );
+  if (m_pFrame) delete m_pFrame;
+  m_pFrame = 0L;
+
+  if ( m_bBuiltin )
+  {
+    kdebug(0, 1202, "KonqChildView::attach, builtinView=%p", builtinView );
+    builtinView->reparent( m_pWidget, 0, QPoint(0, 0) );
+    kdebug(0, 1202, "reparent ok, now addwidget()");
+    m_pLayout->addWidget( builtinView );
+  }
+  else 
+  {
+    kdebug(0, 1202, "********** KonqChildView::attach, NOT builtin *******");
+    m_pFrame = new OPFrame( m_pWidget );
+    m_pLayout->addWidget( m_pFrame );
+    m_pFrame->attach( view );
+  }
   KonqPlugins::installKOMPlugins( view );
+  m_pLayout->activate();
+  kdebug(0, 1202, "m_pFrame is %p", m_pFrame);
 }
 
 void KonqChildView::detach()
 {
-  m_pFrame->hide();
-  m_pFrame->detach();
+  if ( !m_bBuiltin )
+  {
+    m_pFrame->hide();
+    m_pFrame->detach();
+    delete m_pFrame;
+    m_pFrame = 0L;
+  }
   m_vView->disconnectObject( m_vParent );
   m_vView->decRef(); //die view, die ... (cruel world, isn't it?) ;)
   VeryBadHackToFixCORBARefCntBug( m_vView );
@@ -97,15 +135,15 @@ void KonqChildView::detach()
 void KonqChildView::repaint()
 {
   kdebug(0,1202,"KonqChildView::repaint()");
-  assert(m_pFrame);
-  m_pFrame->repaint();
+  kdebug(0, 1202, "m_pFrame is %p", m_pFrame);
+  if (m_pFrame != 0L) m_pFrame->repaint();
+  m_pHeader->repaint();
 }
 
 void KonqChildView::show()
 {
   kdebug(0,1202,"KonqChildView::show()");
-  assert(m_pFrame);
-  m_pFrame->show();
+  m_pWidget->show();
   m_vView->show(true);
 }
 
@@ -127,22 +165,24 @@ void KonqChildView::emitEventViewMenu( OpenPartsUI::Menu_ptr menu, bool create )
   EMIT_EVENT( m_vView, Konqueror::View::eventCreateViewMenu, EventViewMenu );
 }
 
-void KonqChildView::switchView( Konqueror::View_ptr _vView )
+void KonqChildView::switchView( Konqueror::View_ptr _vView, QWidget * builtinView )
 {
   kdebug(0,1202,"switchView : part->inactive");
   m_vMainWindow->setActivePart( m_vParent->id() );
-  kdebug(0,1202,"switchView : oldId=");
   OpenParts::Id oldId = m_vView->id();
+  kdebug(0,1202,"switchView : oldId=%d", oldId);
     
   detach();
   Konqueror::View_var vView = Konqueror::View::_duplicate( _vView );
   kdebug(0,1202,"switchView : attaching new one");
-  attach( vView );
+  attach( vView, builtinView );
     
   kdebug(0,1202,"switchView : emitting sigIdChanged");
   emit sigIdChanged( this, oldId, vView->id() );
   kdebug(0,1202,"switchView : setActivePart");
   m_vMainWindow->setActivePart( vView->id() ); 
+
+  show(); // switchView is never called on startup. We can always show() the view.
 }
 
 void KonqChildView::changeViewMode( const char *viewName )
@@ -151,38 +191,51 @@ void KonqChildView::changeViewMode( const char *viewName )
   if ( strcmp( viewName, this->viewName() ) != 0L )
   {
     QString sViewURL = url(); // store current URL
-    Konqueror::View_var vView = createViewByName( viewName ); 
-    switchView( vView );
+    QWidget * builtinView;
+    Konqueror::View_var vView = createViewByName( viewName, builtinView ); 
+    switchView( vView, builtinView );
     openURL( sViewURL );
   }
 }
 
-Konqueror::View_ptr KonqChildView::createViewByName( const char *viewName )
+Konqueror::View_ptr KonqChildView::createViewByName( const char *viewName, QWidget * & builtinView )
 {
   Konqueror::View_var vView;
 
   kdebug(0,1202,"void KonqChildView::createViewByName( %s )", viewName);
 
+  builtinView = 0L;
+
   //check for builtin views
   if ( strcmp( viewName, "KonquerorKfmIconView" ) == 0 )
   {
-    vView = Konqueror::View::_duplicate( new KonqKfmIconView );
+    KonqKfmIconView * v = new KonqKfmIconView;
+    builtinView = (QWidget*) v;
+    vView = Konqueror::View::_duplicate( v );
   }
   else if ( strcmp( viewName, "KonquerorKfmTreeView" ) == 0 )
   {
-    vView = Konqueror::View::_duplicate( new KonqKfmTreeView );
+    KonqKfmTreeView * v = new KonqKfmTreeView;
+    builtinView = (QWidget*) v;
+    vView = Konqueror::View::_duplicate( v );
   }
   else if ( strcmp( viewName, "KonquerorHTMLView" ) == 0 )
   {
-    vView = Konqueror::View::_duplicate( new KonqHTMLView );
+    KonqHTMLView * v = new KonqHTMLView;
+    builtinView = (QWidget*) v;
+    vView = Konqueror::View::_duplicate( v );
   }
   else if ( strcmp( viewName, "KonquerorPartView" ) == 0 )
   {
-    vView = Konqueror::View::_duplicate( new KonqPartView );
+    KonqPartView * v = new KonqPartView;
+    builtinView = (QWidget*) v;
+    vView = Konqueror::View::_duplicate( v );
   }
   else if ( strcmp( viewName, "KonquerorTxtView" ) == 0 )
   {
-    vView = Konqueror::View::_duplicate( new KonqTxtView );
+    KonqTxtView * v = new KonqTxtView;
+    builtinView = (QWidget*) v;
+    vView = Konqueror::View::_duplicate( v );
   }
   else
   {
@@ -395,6 +448,11 @@ void KonqChildView::reload()
   // the back button I want the previous view to be at the previous x/y offset
   // Hm....
   // (Simon)
+}
+
+void KonqChildView::slotHeaderClicked()
+{
+  m_vMainWindow->setActivePart( m_vView->id() );
 }
 
 #include "konq_childview.moc"

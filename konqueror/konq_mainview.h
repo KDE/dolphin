@@ -194,6 +194,10 @@ protected:
   void initPanner();
   void initView();
 
+  void insertViewInternal( Konqueror::View_ptr view, 
+                           QWidget * builtinView, 
+                           Konqueror::NewViewPosition newViewPosition);
+
   /**
    * Create a new view from the current view (same URL, same view type) 
    */

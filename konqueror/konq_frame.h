@@ -24,6 +24,7 @@
 #include <qwidget.h>
 #include <kpixmap.h>
 #include <opFrame.h>
+#include "openparts.h"
 
 class QPixmap;
 
@@ -41,7 +42,7 @@ class KonqFrameHeader : public QWidget
   Q_OBJECT
 
 public:
-  KonqFrameHeader( KonqFrame *_parent = 0L, const char *_name = 0L );
+  KonqFrameHeader( OpenParts::Part_ptr view, QWidget *_parent = 0L, const char *_name = 0L );
   ~KonqFrameHeader() {}
 
 signals:
@@ -53,7 +54,8 @@ protected:
 
   void gradientFill(KPixmap &pm, QColor ca, QColor cb,bool vertShaded);
 
-  KonqFrame* m_pParentKonqFrame;
+  //  KonqFrame* m_pParentKonqFrame;
+  OpenParts::Part_ptr m_vPart;
 
 private:
   KonqFrameHeaderLook frameHeaderLook;
@@ -69,6 +71,7 @@ private:
 
 };
 
+/*
 class KonqFrame : public OPFrame
 {
   Q_OBJECT
@@ -80,10 +83,11 @@ public:
   virtual bool attach( OpenParts::Part_ptr _part );
 
 public slots:  
-
+*/
   /**
    * Is called when the frame header has been clicked
    */
+/*
   void slotHeaderClicked();
 
 protected:
@@ -92,5 +96,6 @@ protected:
 
   KonqFrameHeader* m_pHeader;
 };
+*/
 
 #endif

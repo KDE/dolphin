@@ -28,14 +28,22 @@
 
 #include <list>
 
+class QVBoxLayout;
 class QSplitter;
-class KonqFrame;
+class KonqBaseView;
+class OPFrame;
+class KonqFrameHeader;
 
 typedef QSplitter Row;
 
 /* This class represents a child of the main view. The main view maintains
  * the list of children. A KonqChildView contains a Konqueror::View and
  * handles it. 
+ *
+ * KonqChildView makes the difference between built-in views and remote ones.
+ * We create a widget, and a layout in it (with the FrameHeader as top item in the layout)
+ * For builtin views we have the view as direct child widget of the layout
+ * For remote views we have an OPFrame, having the view attached, as child widget of the layout
  */
 class KonqChildView : public QObject
 {
@@ -44,22 +52,33 @@ public:
   /**
    * Create a child view
    * @param view the IDL View to be added in the child view
+   * @param builtinView the widget if the view is built-in, 0L otherwise
    * @param row the row (i.e. splitter) where to add the frame
    * @param newViewPosition only valid if Left or Right
    * @param parent the mainview, parent of this view
+   * @param parentWidget the mainview as a widget
    * @param mainWindow the KonqMainWindow hosting the view
    */
-  KonqChildView( Konqueror::View_ptr view, Row * row,
+  KonqChildView( Konqueror::View_ptr view,
+                 QWidget * builtinView,
+                 Row * row,
                  Konqueror::NewViewPosition newViewPosition,
                  OpenParts::Part_ptr parent,
+                 QWidget * parentWidget,
                  OpenParts::MainWindow_ptr mainWindow
                );
+
   ~KonqChildView();
 
+  /** Return true if the view is a built-in one (icon, tree, html, text, ...) */
+  bool isBuiltin() { return m_bBuiltin; }
   /** Get view's row */
   Row * row() { return m_row; }
-  /** Attach a view */
-  void attach( Konqueror::View_ptr view );
+  /** Attach a view
+   * @param view the view to attach (instead of the current one, if any)
+   * @param builtin if the view is a builtin one, the widget pointer
+   */
+  void attach( Konqueror::View_ptr view, QWidget * builtinView );
   /** Detach attached view, before deleting myself, or attaching another one */
   void detach();
 
@@ -86,13 +105,14 @@ public:
   /**
    * Replace the current view vith _vView
    */
-  void switchView( Konqueror::View_ptr _vView );
+  void switchView( Konqueror::View_ptr _vView, QWidget * builtinView );
 
   /**
    * Create a view
    * @param viewName the type of view to be created (e.g. "KonqKfmIconView") 
+   * @param builtinView will return the widget pointer if the view is a builtin one
    */
-  Konqueror::View_ptr createViewByName( const char *viewName );
+  Konqueror::View_ptr createViewByName( const char *viewName, QWidget * & builtinView );
   
   /**
    * Call this to prevent next makeHistory() call from changing history lists
@@ -171,6 +191,12 @@ signals:
    */
   void sigIdChanged( KonqChildView * childView, OpenParts::Id oldId, OpenParts::Id newId );
 
+public slots:
+  /**
+   * Called when the view header is clicked
+   */
+  void slotHeaderClicked();
+
 protected:
   /**
    * Connects the internal View to the mainview. Do this after creating it and before inserting it
@@ -209,8 +235,12 @@ protected:
     
   OpenParts::Part_var m_vParent;
   OpenParts::MainWindow_var m_vMainWindow;
-  KonqFrame *m_pFrame;
+  OPFrame *m_pFrame;
+  QWidget *m_pWidget;
+  KonqFrameHeader * m_pHeader;
   Row * m_row;
+  QVBoxLayout * m_pLayout;
+  bool m_bBuiltin;
 };
 
 #endif

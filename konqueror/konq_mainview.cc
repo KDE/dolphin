@@ -318,22 +318,15 @@ void KonqMainView::initPanner()
 
 void KonqMainView::initView()
 {
-  Konqueror::View_var vView1 = Konqueror::View::_duplicate( new KonqKfmIconView );
-  insertView( vView1, Konqueror::left );
+  KonqKfmIconView * pView = new KonqKfmIconView ;
+  kdebug(0, 1202, "pView is %p", pView);
+  insertViewInternal( pView, pView, Konqueror::left );
 
-  MapViews::Iterator it = m_mapViews.find( vView1->id() );
+  MapViews::Iterator it = m_mapViews.find( pView->id() );
   it.data()->lockHistory(); // first URL won't go into history
   it.data()->openURL( m_sInitialURL );
   
-  // kdebug(0, 1202, "initView : setting current View");
-  // m_currentView = it.data();
-  kdebug(0, 1202, "initView : setting active View");
-  setActiveView( vView1->id() );
-  // kdebug(0, 1202, "initView : setting Active Part");
-  // m_vMainWindow->setActivePart( vView1->id() );
-  // kdebug(0, 1202, "initView : setting Focus");
-  // vView1->setFocus(true);
-  kdebug(0, 1202, "initView : done");
+  setActiveView( pView->id() );
 }
 
 bool KonqMainView::event( const char* event, const CORBA::Any& value )
@@ -642,8 +635,9 @@ bool KonqMainView::mappingNewTransfer( Konqueror::EventNewTransfer transfer )
   return true;
 }
 
-void KonqMainView::insertView( Konqueror::View_ptr view,
-                               Konqueror::NewViewPosition newViewPosition )
+void KonqMainView::insertViewInternal( Konqueror::View_ptr view,
+                                       QWidget * builtinView,
+                                       Konqueror::NewViewPosition newViewPosition )
 {
   Row * currentRow;
   if ( m_currentView )
@@ -660,8 +654,8 @@ void KonqMainView::insertView( Konqueror::View_ptr view,
     newViewPosition = Konqueror::right;
   }
 
-  KonqChildView *v = new KonqChildView( view, currentRow, newViewPosition,
-                                        this, m_vMainWindow );
+  KonqChildView *v = new KonqChildView( view, builtinView, currentRow, newViewPosition,
+                                        this, this, m_vMainWindow );
   QObject::connect( v, SIGNAL(sigIdChanged( KonqChildView *, OpenParts::Id, OpenParts::Id )), 
                     this, SLOT(slotIdChanged( KonqChildView * , OpenParts::Id, OpenParts::Id ) ));
 
@@ -670,6 +664,12 @@ void KonqMainView::insertView( Konqueror::View_ptr view,
   if (isVisible()) v->show();
   
   setItemEnabled( m_vMenuView, MVIEW_REMOVEVIEW_ID, true );
+}
+                                       
+void KonqMainView::insertView( Konqueror::View_ptr view,
+                               Konqueror::NewViewPosition newViewPosition )
+{
+  insertViewInternal( view, 0L, newViewPosition );
 }
 
 void KonqMainView::setActiveView( OpenParts::Id id )
@@ -703,7 +703,7 @@ void KonqMainView::setActiveView( OpenParts::Id id )
     if (previousView != 0L) // might be 0L e.g. if we just removed the current view
       previousView->repaint();
     m_currentView->repaint();
-  } else kdebug(0, 1202, "It WORKS ! We detected that the main view is NOT visible");
+  }
 }
 
 Konqueror::View_ptr KonqMainView::activeView()
@@ -900,7 +900,7 @@ void KonqMainView::openPluginView( const char *url, Konqueror::View_ptr view )
   m_pRun = 0L;
   Konqueror::View_var vView = Konqueror::View::_duplicate( view );
 
-  m_currentView->switchView( vView );
+  m_currentView->switchView( vView, 0L );
   m_currentView->openURL( url );
 
   setUpEnabled( QString::null, m_currentId ); // HACK.
@@ -921,8 +921,9 @@ void KonqMainView::splitView ( Konqueror::NewViewPosition newViewPosition )
   QString url = m_currentView->url();
   QString viewName = m_currentView->viewName();
 
-  Konqueror::View_var vView = m_currentView->createViewByName( viewName );
-  insertView( vView, newViewPosition );
+  QWidget * builtinView;
+  Konqueror::View_var vView = m_currentView->createViewByName( viewName, builtinView );
+  insertViewInternal( vView, builtinView, newViewPosition );
   MapViews::Iterator it = m_mapViews.find( vView->id() );
   it.data()->openURL( url );
 }
