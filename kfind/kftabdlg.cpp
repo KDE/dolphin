@@ -234,8 +234,8 @@ KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name)
     grid1->setRowStretch(6,1);
 
     // Connect
-    connect( findCreated,  SIGNAL(toggled(bool)), this,   SLOT(fixLayout()) );
-    connect( bg,  SIGNAL(clicked(int)), this,   SLOT(fixLayout()) );
+    connect( findCreated,  SIGNAL(toggled(bool)), SLOT(fixLayout()) );
+    connect( bg,  SIGNAL(clicked(int)), SLOT(fixLayout()) );
 
     // ************ Page Three
 
@@ -285,7 +285,7 @@ KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name)
           it != m_types.end(); ++it )
     {
       KMimeType::Ptr typ = *it;
-      typeBox->insertItem(typ->comment());
+      typeBox->insertItem(typ->pixmap( KIcon::Small ), typ->comment());
     }
 
     if ( editRegExp ) {
