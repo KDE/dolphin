@@ -58,6 +58,7 @@ struct KonqIconViewWidgetPrivate
     KFileIVI *pActiveItem;
     bool bSoundPreviews;
     KFileIVI *pSoundItem;
+    bool bSoundItemClicked;
     QObject *pSoundPlayer;
     QTimer *pSoundTimer;
     KIO::PreviewJob *pPreviewJob;
@@ -99,6 +100,7 @@ KonqIconViewWidget::KonqIconViewWidget( QWidget * parent, const char * name, WFl
     d->pActiveItem = 0;
     d->bSoundPreviews = false;
     d->pSoundItem = 0;
+    d->bSoundItemClicked = false;
     d->pSoundPlayer = 0;
     d->pSoundTimer = 0;
     d->pPreviewJob = 0;
@@ -114,8 +116,7 @@ KonqIconViewWidget::~KonqIconViewWidget()
 {
     stopImagePreview();
     KonqUndoManager::decRef();
-    if (d->pSoundPlayer)
-        delete d->pSoundPlayer;
+    delete d->pSoundPlayer;
     delete d;
 }
 
@@ -198,6 +199,7 @@ void KonqIconViewWidget::slotOnItem( QIconViewItem *item )
     if (d->bSoundPreviews && static_cast<KFileIVI *>(item)->item()->mimetype().startsWith("audio/"))
     {
       d->pSoundItem = static_cast<KFileIVI *>(item);
+      d->bSoundItemClicked = false;
       if (!d->pSoundTimer)
       {
         d->pSoundTimer = new QTimer(this);
@@ -209,11 +211,8 @@ void KonqIconViewWidget::slotOnItem( QIconViewItem *item )
     }
     else
     {
-      if (d->pSoundPlayer)
-      {
-        delete d->pSoundPlayer;
-        d->pSoundPlayer = 0;
-      }
+      delete d->pSoundPlayer;
+      d->pSoundPlayer = 0;
       d->pSoundItem = 0;
       if (d->pSoundTimer && d->pSoundTimer->isActive())
         d->pSoundTimer->stop();
@@ -222,11 +221,8 @@ void KonqIconViewWidget::slotOnItem( QIconViewItem *item )
 
 void KonqIconViewWidget::slotOnViewport()
 {
-    if (d->pSoundPlayer)
-    {
-      delete d->pSoundPlayer;
-      d->pSoundPlayer = 0;
-    }
+    delete d->pSoundPlayer;
+    d->pSoundPlayer = 0;
     d->pSoundItem = 0;
     if (d->pSoundTimer && d->pSoundTimer->isActive())
       d->pSoundTimer->stop();
@@ -240,7 +236,7 @@ void KonqIconViewWidget::slotOnViewport()
 
 void KonqIconViewWidget::slotStartSoundPreview()
 {
-  if (!d->pSoundItem)
+  if (!d->pSoundItem || d->bSoundItemClicked)
     return;
   KLibFactory *factory = KLibLoader::self()->factory("libkonqsound");
   if (factory)
@@ -735,6 +731,9 @@ void KonqIconViewWidget::contentsMousePressEvent( QMouseEvent *e )
   //kdDebug(1203) << "KonqIconViewWidget::contentsMousePressEvent" << endl;
   m_mousePos = QCursor::pos();
   m_bMousePressed = true;
+  delete d->pSoundPlayer;
+  d->pSoundPlayer = 0;
+  d->bSoundItemClicked = true;
   KIconView::contentsMousePressEvent( e );
 }
 
