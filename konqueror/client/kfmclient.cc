@@ -256,6 +256,7 @@ bool clientApp::openProfile( const QString & filename, const QString & url, cons
   sidata.addPid( 0 );   // say there's another process for this ASN with unknown PID
   sidata.setHostname(); // ( no need to bother to get this konqy's PID )
   KStartupInfo::sendChange( id, sidata );
+  return true;
 }
 
 void clientApp::delayedQuit()
