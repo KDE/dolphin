@@ -71,8 +71,16 @@ KonqView* KonqViewManager::splitView ( Qt::Orientation orientation,
   kdDebug(1202) << "KonqViewManager::splitView(ServiceType)" << endl;
 
   KonqFrame* viewFrame = 0L;
-  if( m_pMainContainer && m_pMainWindow->currentView() )
-    viewFrame = m_pMainWindow->currentView()->frame();
+  if( m_pMainContainer )
+  {
+    if ( m_pMainWindow->currentView() )
+      viewFrame = m_pMainWindow->currentView()->frame();
+    else
+    {
+      kdWarning(1202) << "splitView called, but no current view!" << endl;
+      return 0L; // if we go on, we'll hit the assert in split()
+    }
+  }
 
   KonqFrameContainer *newContainer;
   KonqView* childView = split( viewFrame, orientation, serviceType, serviceName, &newContainer );
@@ -101,6 +109,11 @@ KonqView* KonqViewManager::splitWindow( Qt::Orientation orientation,
   {
     splitFrame = m_pMainContainer->firstChild();
     locationBarURL = m_pMainWindow->currentView()->locationBarURL();
+    if ( !splitFrame )
+    {
+      kdWarning(1202) << "splitFrame called, but no view in m_pMainContainer!" << endl;
+      return 0L; // if we go on, we'll hit the assert in split()
+    }
   }
 
   KonqFrameContainer *newContainer;

@@ -32,6 +32,7 @@
 #include <kuserprofile.h>
 #include <kaboutdata.h>
 #include <klocale.h>
+#include <kmessagebox.h>
 
 #include <qwidget.h>
 #include <qfile.h>
@@ -122,6 +123,10 @@ KonqViewFactory KonqFactory::createView( const QString &serviceType,
   {
     kdDebug(1202) << "Trying to open lib for requested service " << service->desktopEntryName() << endl;
     factory = KLibLoader::self()->factory( QFile::encodeName(service->library()) );
+    if ( !factory )
+        KMessageBox::error(0,
+                           i18n("There was an error loading the module %1.\nThe diagnostics is:\n%2")
+                           .arg(service->name()).arg(KLibLoader::self()->lastErrorMessage()));
   }
 
   KTrader::OfferList::Iterator it = offers.begin();
@@ -136,6 +141,10 @@ KonqViewFactory KonqFactory::createView( const QString &serviceType,
       //kdDebug(1202) << "Trying to open lib for service " << service->name() << endl;
       // Try loading factory
       factory = KLibLoader::self()->factory( QFile::encodeName(service->library()) );
+      if ( !factory )
+        KMessageBox::error(0,
+                           i18n("There was an error loading the module %1.\nThe diagnostics is:\n%2")
+                           .arg(service->name()).arg(KLibLoader::self()->lastErrorMessage()));
       // If this works, we exit the loop.
     } else
       kdDebug(1202) << "Not allowed as default " << service->desktopEntryName() << endl;
