@@ -592,7 +592,7 @@ void KfindTabWidget::setQuery(KQuery *query)
 
       // do not generate negative numbers .. find doesn't handle that
       time_t time1 = epoch.secsTo(q1);
-      time_t time2 = epoch.secsTo(q2);
+      time_t time2 = epoch.secsTo(q2.addDays(1)) - 1; // Include the last day
 
       query->setTimeRange(time1, time2);
     }
