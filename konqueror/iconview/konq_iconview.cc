@@ -275,6 +275,8 @@ KonqKfmIconView::KonqKfmIconView()
 
   QObject::connect( m_pIconView, SIGNAL( doubleClicked( QIconViewItem * ) ),
                     this, SLOT( slotMousePressed( QIconViewItem * ) ) );
+  QObject::connect( m_pIconView, SIGNAL( returnPressed( QIconViewItem * ) ),
+                    this, SLOT( slotMousePressed( QIconViewItem * ) ) );
 		
   QObject::connect( m_pIconView, SIGNAL( dropped( QDropEvent * ) ),
 	            this, SLOT( slotDrop( QDropEvent* ) ) );
@@ -857,7 +859,7 @@ void KonqIconViewWidget::drawBackground( QPainter *p, const QRect &r )
     p->setClipRegion( rg );
     p->drawTiledPixmap( 0, 0, viewport()->width(), viewport()->height(),
                         m_pProps->bgPixmap(),
-                        contentsX(), contentsY() ); 
+                        contentsX(), contentsY() );
   }
 }
 
