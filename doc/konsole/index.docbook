@@ -47,9 +47,8 @@
 <date>15/11/2000</date>
 <releaseinfo>1.00.10</releaseinfo>
 
-<abstract><para>This document is the user handbook for the &konsole
-application.</para><para>&konsole is an X terminal emulator for KDE
-2.0</para></abstract>
+<abstract><para>This document is the user handbook for the &konsole application.</para>
+<para>&konsole is an X terminal emulator for KDE 2.0</para></abstract>
 
 <keywordset>
 <keyword>KDE</keyword>
@@ -66,11 +65,11 @@ application.</para><para>&konsole is an X terminal emulator for KDE
 
 <para>&konsole; is an X terminal emulator which provides a command-line
 interface (<acronym>CLI</acronym>) while using the graphical K Desktop
-Environment. &konsole; helps to better organize user's desktop by containing
+Environment. &konsole; helps to better organize the user's desktop by containing
 multiple sessions in a single window (a less cluttered desktop). </para>
 
 <para>Its advanced features include a simple configuration and the ability to
-use multiple terminal shells in a single window</para>
+use multiple terminal shells in a single window.</para>
 
 <para>Using &konsole, a user can open:</para>
 <itemizedlist>	
@@ -351,7 +350,7 @@ process</entry>
 
 <para>Refer to your system manual pages for further details by giving the
 command <userinput><command>man</command> <option>7
-signal</option></userinput></para></listitem>
+signal</option></userinput>.</para></listitem>
 </varlistentry>
 
 <varlistentry>
@@ -470,7 +469,7 @@ files to match your needs.</para></listitem>
 <varlistentry>
 <term><menuchoice><guimenu>Options</guimenu><guimenuitem>Save
 <accel>O</accel>ptions</guimenuitem></menuchoice></term>
-<listitem><para><action>Save the current settings as the new
+<listitem><para><action>Saves the current settings as the new
 defaults</action></para></listitem>
 </varlistentry>
 </variablelist>
@@ -499,7 +498,7 @@ Reference</guimenuitem></menuchoice></term>
 <varlistentry>
 <term><menuchoice><guimenu>Help</guimenu><guimenuitem><accel>R</accel>eport
 Bug...</guimenuitem></menuchoice></term>
-<listitem><para><action>submit a bug report or a feature request</action> for
+<listitem><para><action>Submit a bug report or a feature request</action> for
 &konsole;</para></listitem>
 </varlistentry>
 
@@ -543,7 +542,7 @@ the textured <quote>handle</quote> at the side of the bar. The bar contains a
 <sect1 id="command-line-options">
 <title>Command-line options</title>
 
-<para>When &konsole; is started from the command-line, various options can be specified to modify it's behavior</para>
+<para>When &konsole; is started from the command-line, various options can be specified to modify its behavior.</para>
 
 <variablelist>
 <varlistentry>
@@ -619,7 +618,7 @@ shell</action></para></listitem>
 </varlistentry>
 <varlistentry>
 <term><option>--help-all</option></term>
-<listitem><para><action>Lists all option</action></para></listitem>
+<listitem><para><action>List all options</action></para></listitem>
 </varlistentry>
 </variablelist>
 
