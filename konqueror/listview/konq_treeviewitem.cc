@@ -57,10 +57,43 @@ KonqListViewDir::~KonqListViewDir()
 
 void KonqListViewDir::setOpen( bool _open )
 {
-  if ( _open && !m_bComplete ) // complete it before opening
-    static_cast<KonqTreeViewWidget *>(listView())->openSubFolder( m_fileitem->url(), this );
+  KonqTreeViewWidget* treeView = static_cast<KonqTreeViewWidget *>(listView());
+
+  if ( _open ) {
+    if ( !m_bComplete ) // complete it before opening
+      treeView->openSubFolder( m_fileitem->url(), this );
+    else
+    {
+      KFileItemList lst;
+      lst.setAutoDelete( false );
+
+      QListViewItem* it = firstChild();
+      while ( it )
+      {
+        lst.append( static_cast<KonqListViewItem*>(it)->item() );
+        it = it->nextSibling();
+      }
+
+      // add the items to the counts for the statusbar
+      treeView->m_pBrowserView->newItems( lst );
+    }
+  }
+  else if ( m_bComplete )  // only close if it is completed
+  {
+    QListViewItem* it = firstChild();
+    while ( it )
+    {
+      // unselect the items in the closed folder
+      treeView->setSelected( it, false );
+      // delete the item from the counts for the statusbar
+      KonqFileItem* item = static_cast<KonqListViewItem*>(it)->item();
+      treeView->m_pBrowserView->deleteItem( item );
+      it = it->nextSibling();
+    }
+  }
 
   QListViewItem::setOpen( _open );
+  treeView->slotOnViewport();
 }
 
 QString KonqListViewDir::url( int _trailing )

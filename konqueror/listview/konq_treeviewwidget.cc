@@ -106,6 +106,8 @@ void KonqTreeViewWidget::setComplete()
        KonqListViewDir *dir = m_itemsToOpen.take( 0 );
        dir->setOpen( true );
    }
+
+   slotOnViewport();
 }
 
 void KonqTreeViewWidget::slotClear()
@@ -190,6 +192,7 @@ void KonqTreeViewWidget::slotNewItems( const KFileItemList & entries )
             m_urlsToOpen.remove( u );
         }
     }
+    m_pBrowserView->newItems( entries );
 }
 
 void KonqTreeViewWidget::slotDeleteItem( KFileItem *_fileItem )
