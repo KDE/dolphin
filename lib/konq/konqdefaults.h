@@ -90,3 +90,7 @@
 #define DEFAULT_USERAGENT_STRING QString("Konqueror/")+KDE_VERSION_STRING
 
 #define DEFAULT_TREEFOLLOW true
+
+// Default action on delete :
+// 1 = move to trash, 2 = simple delete, 3 = shred
+#define DEFAULT_DELETEACTION 1

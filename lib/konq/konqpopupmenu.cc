@@ -251,6 +251,8 @@ KonqPopupMenu::KonqPopupMenu( const KFileItemList &items,
 
     if ( ( act = m_actions.action("del") ) )
       act->plug( this );
+    if ( ( act = m_actions.action("shred") ) )
+      act->plug( this );
     /*
       if ( sDeleting && !currentDir && m_bHandleEditOperations )
       id = insertItem( i18n( "Delete" ), this, SLOT( slotPopupDelete() ) );

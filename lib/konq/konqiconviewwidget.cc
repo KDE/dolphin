@@ -251,7 +251,7 @@ void KonqIconViewWidget::deleteSelection()
     KURL::List urls = selectedUrls();
 
     KConfig *config = KGlobal::config();
-    config->setGroup( "Misc Defaults" );
+    config->setGroup( "Trash" );
     if ( config->readBoolEntry( "ConfirmDestructive", true ) )
     {
       KURL::List::Iterator it = urls.begin();
@@ -264,9 +264,15 @@ void KonqIconViewWidget::deleteSelection()
         return;
     }
 
-    KIO::Job *job = KIO::del( urls );
-    connect( job, SIGNAL( result( KIO::Job * ) ),
-             SLOT( slotResult( KIO::Job * ) ) );
+    int deleteAction = config->readNumEntry("DeleteAction", DEFAULT_DELETEACTION);
+    if (deleteAction == 1) // move to trash
+        trashSelection();
+    else // shred or delete
+    {
+        KIO::Job *job = KIO::del( urls, (deleteAction == 3) );
+        connect( job, SIGNAL( result( KIO::Job * ) ),
+                 SLOT( slotResult( KIO::Job * ) ) );
+    }
 }
 
 void KonqIconViewWidget::trashSelection()
