@@ -162,7 +162,7 @@ void HistorySidebarConfig::save()
     QDataStream streamCount( dataCount, IO_WriteOnly );
     streamCount << count << "foo";
     kapp->dcopClient()->send( "konqueror*", "KonqHistoryManager",
-			      "notifyMaxAge(Q_UINT32, QCString)", dataCount );
+			      "notifyMaxCount(Q_UINT32, QCString)", dataCount );
 
     m_settings->m_valueYoungerThan = dialog->spinNewer->value();
     m_settings->m_valueOlderThan   = dialog->spinOlder->value();
