@@ -472,7 +472,7 @@ void KonqMainWindow::openURL( KonqView *_view, const KURL &_url,
 
     if ( req.newTabInFront )
       m_pViewManager->showTab( view );
-   
+
     updateViewActions(); //A new tab created -- we may need to enable the "remove tab" button (#56318)
   }
 
@@ -2558,8 +2558,9 @@ void KonqMainWindow::initCombo()
   connect( m_combo, SIGNAL(activated(const QString&,ButtonState)),
            this, SLOT(slotURLEntered(const QString&,ButtonState)) );
 
-  m_pURLCompletion = new KURLCompletion( KURLCompletion::FileCompletion );
+  m_pURLCompletion = new KURLCompletion();
   m_pURLCompletion->setCompletionMode( s_pCompletion->completionMode() );
+
   // This only turns completion off. ~ is still there in the result
   // We do want completion of user names, right?
   //m_pURLCompletion->setReplaceHome( false );  // Leave ~ alone! Will be taken care of by filters!!
@@ -2572,10 +2573,11 @@ void KonqMainWindow::initCombo()
            SLOT( slotSubstringcompletion( const QString& )));
   connect( m_combo, SIGNAL( textRotation( KCompletionBase::KeyBindingType) ),
            SLOT( slotRotation( KCompletionBase::KeyBindingType )));
-  connect( m_combo, SIGNAL( cleared() ), 
+  connect( m_combo, SIGNAL( cleared() ),
            SLOT ( slotClearHistory() ) );
   connect( m_pURLCompletion, SIGNAL( match(const QString&) ),
            SLOT( slotMatch(const QString&) ));
+  connect( m_combo, SIGNAL( cleared() ), SLOT ( slotClearHistory() ) );
 
   m_combo->lineEdit()->installEventFilter(this);
 
