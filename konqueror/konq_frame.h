@@ -150,9 +150,12 @@ class KonqFrameHeader : public QWidget
        * @param text the text to display.
        */
       virtual void setText(const QString& text);
-
+    /**
+     * Used to pop up close menu on RMB click.
+     */
+      virtual bool eventFilter(QObject *obj, QEvent *ev);
    protected:
-
+      virtual void showCloseMenu();
       KonqFrame* m_pParentKonqFrame;
       QLabel *m_pHeaderLabel;
       QPushButton *m_pCloseButton;

@@ -109,6 +109,8 @@ void KonqFrameStatusBar::resizeEvent( QResizeEvent* )
    m_pLinkedViewCheckBox->move( width()-15, m_yOffset ); // right justify
 }
 
+// I don't think this code _ever_ gets called!
+// I don't want to remove it, though.  :-)
 void KonqFrameStatusBar::mousePressEvent( QMouseEvent* event )
 {
    QWidget::mousePressEvent( event );
@@ -288,13 +290,29 @@ KonqFrameHeader::KonqFrameHeader( KonqFrame *_parent, const char *_name )
 :QWidget( _parent, _name )
 ,m_pParentKonqFrame( _parent )
 {
+   // this is the best font i could think of to use.
+   QFont f = KGlobalSettings::generalFont();
+
+   // do I have to worry about negative font sizes? (bc of the -2)
+   f.setPixelSize(f.pixelSize() - 2);
+   f.setBold(true);
+
 
    m_pLayout = new QHBoxLayout( this, 0, -1, "KonqFrame's QVBoxLayout" );
    m_pHeaderLabel = new QLabel( this, "KonqFrameHeader label" );
    m_pHeaderLabel->setAlignment(AlignCenter);
    m_pHeaderLabel->setFrameStyle( QFrame::StyledPanel );
-
+   m_pHeaderLabel->installEventFilter(this);
    m_pCloseButton = new QPushButton( this );
+
+   // button is square -- figure out the len of an edge
+   int edge = m_pCloseButton->fontMetrics().height() + 2;
+
+   m_pCloseButton->setMaximumHeight(edge);
+   m_pCloseButton->setMaximumWidth(edge);
+
+   m_pCloseButton->setFont(f);
+   m_pHeaderLabel->setFont(f);
 
    m_pLayout->addWidget( m_pHeaderLabel );
    m_pLayout->addWidget( m_pCloseButton );
@@ -303,6 +321,8 @@ KonqFrameHeader::KonqFrameHeader( KonqFrame *_parent, const char *_name )
    m_pLayout->setStretchFactor( m_pCloseButton, 0 );
 
    m_pCloseButton->setText("x");
+
+
    m_pCloseButton->setFlat(true);
    m_pCloseButton->setFocusPolicy(NoFocus);
 }
@@ -323,6 +343,24 @@ void KonqFrameHeader::setAction( KAction *inAction )
 }
 
 
+bool KonqFrameHeader::eventFilter(QObject*,QEvent *e)
+{
+   if (e->type()==QEvent::MouseButtonPress)
+   {
+      if ( ((QMouseEvent*)e)->button()==RightButton)
+         showCloseMenu();
+      return true;
+   }
+   return false;
+}
+
+void KonqFrameHeader::showCloseMenu()
+{
+    QPopupMenu menu;
+
+    menu.insertItem(i18n("Close"), m_pCloseButton, SLOT(animateClick()));
+    menu.exec(QCursor::pos());
+}
 
 //###################################################################
 
