@@ -148,9 +148,7 @@ KonqBaseListViewWidget::KonqBaseListViewWidget( KonqListView *parent, QWidget *p
    setAcceptDrops( true );
 
    //looks better with the statusbar
-   setFrameStyle( QFrame::WinPanel | QFrame::Sunken );
-   setLineWidth(1);
-   //setFrameStyle( QFrame::NoFrame | QFrame::Plain );
+   setFrameStyle( QFrame::StyledPanel | QFrame::Sunken );
    setShowSortIndicator(TRUE);
 
    //confColumns.setAutoDelete(TRUE);
