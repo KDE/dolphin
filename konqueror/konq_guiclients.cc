@@ -80,19 +80,23 @@ void ViewModeGUIClient::update( const KTrader::OfferList &services )
   KTrader::OfferList::ConstIterator end = services.end();
   for (; it != end; ++it )
   {
-    KRadioAction *action = new KRadioAction( (*it)->comment(), 0, m_actions, (*it)->name() );
+      QVariant prop = (*it)->property( "X-KDE-BrowserView-Toggable" );
+      if ( !prop.isValid() || !prop.toBool() ) // No toggable views in view mode
+      {
+          KRadioAction *action = new KRadioAction( (*it)->comment(), 0, m_actions, (*it)->name() );
 
-    QDomElement e = m_doc.createElement( "Action" );
-    m_menuElement.appendChild( e );
-    e.setAttribute( "name", (*it)->name() );
+          QDomElement e = m_doc.createElement( "Action" );
+          m_menuElement.appendChild( e );
+          e.setAttribute( "name", (*it)->name() );
 
-    if ( (*it)->name() == m_mainView->currentChildView()->service()->name() )
-      action->setChecked( true );
+          if ( (*it)->name() == m_mainView->currentChildView()->service()->name() )
+              action->setChecked( true );
 
-    action->setExclusiveGroup( "KonqMainView_ViewModes" );
+          action->setExclusiveGroup( "KonqMainView_ViewModes" );
 
-    connect( action, SIGNAL( toggled( bool ) ),
-	     m_mainView, SLOT( slotViewModeToggle( bool ) ) );
+          connect( action, SIGNAL( toggled( bool ) ),
+                   m_mainView, SLOT( slotViewModeToggle( bool ) ) );
+      }
   }
 }
 
