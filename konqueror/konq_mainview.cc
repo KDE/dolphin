@@ -377,6 +377,16 @@ void KonqMainView::openURL( const KURL &url, bool reload, int xOffset,
 void KonqMainView::openURL( const KURL &url, const KParts::URLArgs &args )
 {
   //TODO: handle post data!
+ 
+  //  ### HACK !!
+  if ( args.postData.size() > 0 )
+  {
+    KonqChildView *view = childView( (KParts::ReadOnlyPart *)sender()->parent() );
+    view->browserExtension()->setURLArgs( args );
+    openURL( view, url, args.reload, args.xOffset, args.yOffset, QString::fromLatin1( "text/html" ) );
+    return;
+  }
+  
   openURL( url, args.reload, args.xOffset, args.yOffset, args.serviceType );
 }
 
