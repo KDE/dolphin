@@ -321,7 +321,7 @@ QString KonqAboutPageFactory::tips()
 		      "simply drag the \"Location\" label that is to the left of the Location toolbar, drop it on to "
 		      "the desktop, and choose \"Link\"." ) )
 	  .arg( i18n( "You can also find <img width='16' height='16' src=\"%1\"> &nbsp; \"Full-Screen Mode\" "
-		      "in the Window menu. This feature is very useful for \"Talk\" "
+		      "in the Settings menu. This feature is very useful for \"Talk\" "
 		      "sessions.").arg(window_fullscreen_icon_path) )
 	  .arg( i18n( "Divide et impera (lat. \"Divide and conquer\") - by splitting a window "
 		      "into two parts (e.g. Window -> <img width='16' height='16' src=\"%1\"> &nbsp; Split View "
