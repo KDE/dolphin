@@ -203,12 +203,17 @@ public:
   void setPassiveMode( bool mode );
 
   // True if locked to current view mode (usually temporarily)
-  bool lockedViewMode() const { return m_bLockedViewMode; }
+  // Toggle views are always locked.
+  bool lockedViewMode() const { return m_bLockedViewMode || m_bToggleView; }
   void setLockedViewMode( bool mode ) { m_bLockedViewMode = mode; }
 
   // True if 'link' symbol set
   bool linkedView() const { return m_bLinkedView; }
   void setLinkedView( bool mode );
+
+  // True if toggle view
+  void setToggleView( bool b ) { m_bToggleView = b; }
+  bool isToggleView() const { return m_bToggleView; }
 
   KService::Ptr service() { return m_service; }
 
@@ -309,6 +314,7 @@ protected:
   bool m_bPassiveMode;
   bool m_bLockedViewMode;;
   bool m_bLinkedView;
+  bool m_bToggleView;
   KTrader::OfferList m_partServiceOffers;
   KTrader::OfferList m_appServiceOffers;
   KService::Ptr m_service;

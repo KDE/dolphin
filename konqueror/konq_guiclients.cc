@@ -259,6 +259,8 @@ void ToggleViewGUIClient::slotToggleView( bool toggle )
       //viewManager->setActivePart( view );
       childView->part()->widget()->setFocus();
 
+    childView->setToggleView( true );
+
   }
   else
   {

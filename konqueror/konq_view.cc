@@ -69,6 +69,7 @@ KonqView::KonqView( KonqViewFactory &viewFactory,
   m_bLockedViewMode = false;
   m_bLinkedView = false;
   m_bAborted = false;
+  m_bToggleView = false;
 
   switchView( viewFactory );
 
