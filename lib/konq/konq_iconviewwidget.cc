@@ -809,8 +809,8 @@ void KonqIconViewWidget::insertInGrid(QIconViewItem *item)
         y = QMAX(y, i->y() + i->height());
     }
 
-    QArray<QRect> rects = r.rects();
-    QArray<QRect>::Iterator it = rects.begin();
+    QMemArray<QRect> rects = r.rects();
+    QMemArray<QRect>::Iterator it = rects.begin();
     bool foundPlace = FALSE;
     for (; it != rects.end(); ++it)
     {
@@ -855,7 +855,7 @@ public:
     QIconViewItem *right();
 
 private:
-    QList<QIconViewItem> mData;
+    QPtrList<QIconViewItem> mData;
 };
 
 QIconViewItem *QIVItemBin::top()

@@ -31,7 +31,7 @@
  * It determines the mimetypes of the icons in the background, but giving
  * preferrence to the visible icons.
  *
- * It is implemented as a template, so that it can work with both QListViewItem
+ * It is implemented as a template, so that it can work with both QPtrListViewItem
  * and QIconViewItem, without requiring hacks such as void * or QPtrDict lookups.
  *
  * Here's what the parent must implement :
@@ -65,7 +65,7 @@ public:
      * The list of items to process. The view is free to
      * clear it, insert new items into it, remove items, etc.
      */
-    QList<IconItem> m_lstPendingMimeIconItems;
+    QPtrList<IconItem> m_lstPendingMimeIconItems;
 
     /**
      * "Connected" to the viewportAdjusted signal of the scrollview
@@ -147,7 +147,7 @@ inline IconItem * KonqMimeTypeResolver<IconItem, Parent>::findVisibleIcon()
 {
     // Find an icon that's visible and whose mimetype we don't know.
 
-    QListIterator<IconItem> it(m_lstPendingMimeIconItems);
+    QPtrListIterator<IconItem> it(m_lstPendingMimeIconItems);
     if ( m_lstPendingMimeIconItems.count()<20) // for few items, it's faster to not bother
         return m_lstPendingMimeIconItems.first();
 

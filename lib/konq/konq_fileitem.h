@@ -31,11 +31,11 @@
 /**
  * List of KonqFileItems
  */
-typedef QList<KonqFileItem> KonqFileItemList;
+typedef QPtrList<KonqFileItem> KonqFileItemList;
 
 /**
  * Iterator for KonqFileItemList
  */
-typedef QListIterator<KonqFileItem> KonqFileItemListIterator;
+typedef QPtrListIterator<KonqFileItem> KonqFileItemListIterator;
 
 #endif

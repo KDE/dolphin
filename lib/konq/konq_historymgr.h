@@ -37,8 +37,8 @@
 class KCompletion;
 
 
-typedef QList<KonqHistoryEntry> KonqBaseHistoryList;
-typedef QListIterator<KonqHistoryEntry> KonqHistoryIterator;
+typedef QPtrList<KonqHistoryEntry> KonqBaseHistoryList;
+typedef QPtrListIterator<KonqHistoryEntry> KonqHistoryIterator;
 
 class KonqHistoryList : public KonqBaseHistoryList
 {
@@ -54,7 +54,7 @@ protected:
     /**
      * Ensures that the items are sorted by the lastVisited date
      */
-    virtual int compareItems( QCollection::Item, QCollection::Item );
+    virtual int compareItems( QPtrCollection::Item, QPtrCollection::Item );
 };
 
 

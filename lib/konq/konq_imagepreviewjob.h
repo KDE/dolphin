@@ -81,7 +81,7 @@ private:
     } m_state;
 
     // Our todo list :)
-    QList<KFileIVI> m_items;
+    QPtrList<KFileIVI> m_items;
 
     // The current item
     KFileIVI *m_currentItem;

@@ -12,7 +12,7 @@ namespace KParts
 };
 
 class KFileItem;
-typedef QList<KFileItem> KFileItemList;
+typedef QPtrList<KFileItem> KFileItemList;
 
 class KonqFileSelectionEvent : public KParts::Event
 {

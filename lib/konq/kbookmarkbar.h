@@ -65,8 +65,8 @@ private:
     KBookmarkOwner    *m_pOwner;
     QGuardedPtr<KToolBar> m_toolBar;
     KActionCollection *m_actionCollection;
-    QList<KAction>     m_actions;
-    QList<KBookmarkMenu> m_lstSubMenus;
+    QPtrList<KAction>     m_actions;
+    QPtrList<KBookmarkMenu> m_lstSubMenus;
 };
 
 #endif // KBOOKMARKBAR_H

@@ -55,7 +55,7 @@
 #include <kpopupmenu.h>
 #include <kstdaccel.h>
 
-template class QList<KBookmarkMenu>;
+template class QPtrList<KBookmarkMenu>;
 
 /********************************************************************
  *
@@ -103,7 +103,7 @@ KBookmarkMenu::KBookmarkMenu( KBookmarkOwner * _owner, QPopupMenu * _parentMenu,
 
 KBookmarkMenu::~KBookmarkMenu()
 {
-  QListIterator<KAction> it( m_actions );
+  QPtrListIterator<KAction> it( m_actions );
   for (; it.current(); ++it )
     it.current()->unplugAll();
 
@@ -140,7 +140,7 @@ void KBookmarkMenu::slotBookmarksChanged( const QString & groupAddress )
   else
   {
     // Iterate recursively into child menus
-    QListIterator<KBookmarkMenu> it( m_lstSubMenus );
+    QPtrListIterator<KBookmarkMenu> it( m_lstSubMenus );
     for (; it.current(); ++it )
     {
       it.current()->slotBookmarksChanged( groupAddress );
@@ -153,7 +153,7 @@ void KBookmarkMenu::refill()
   //kdDebug(1203) << "KBookmarkMenu::refill()" << endl;
   m_lstSubMenus.clear();
 
-  QListIterator<KAction> it( m_actions );
+  QPtrListIterator<KAction> it( m_actions );
   for (; it.current(); ++it )
     it.current()->unplug( m_parentMenu );
 

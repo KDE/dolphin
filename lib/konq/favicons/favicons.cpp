@@ -49,7 +49,7 @@ struct FaviconsModulePrivate
     QMap<KIO::Job *, DownloadInfo> downloads;
     QStringList failedDownloads;
     KSimpleConfig *config;
-	QList<KIO::Job> killJobs;
+	QPtrList<KIO::Job> killJobs;
 };
 
 FaviconsModule::FaviconsModule(const QCString &obj)

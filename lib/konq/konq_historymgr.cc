@@ -179,7 +179,7 @@ bool KonqHistoryManager::saveHistory()
     stream << m_maxCount;   // not saved in history anymore, just a dummy here
     stream << m_maxAgeDays; // not saved in history anymore, just a dummy here
 
-    QListIterator<KonqHistoryEntry> it( m_history );
+    QPtrListIterator<KonqHistoryEntry> it( m_history );
     KonqHistoryEntry *entry;
     while ( (entry = it.current()) ) {
         stream << *entry;
@@ -615,8 +615,8 @@ KonqHistoryEntry * KonqHistoryList::findEntry( const KURL& url )
 }
 
 // sort by lastVisited date (oldest go first)
-int KonqHistoryList::compareItems( QCollection::Item item1,
-				   QCollection::Item item2 )
+int KonqHistoryList::compareItems( QPtrCollection::Item item1,
+				   QPtrCollection::Item item2 )
 {
     KonqHistoryEntry *entry1 = static_cast<KonqHistoryEntry *>( item1 );
     KonqHistoryEntry *entry2 = static_cast<KonqHistoryEntry *>( item2 );

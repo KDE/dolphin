@@ -136,12 +136,12 @@ protected:
   /**
    * List of our sub menus
    */
-  QList<KBookmarkMenu> m_lstSubMenus;
+  QPtrList<KBookmarkMenu> m_lstSubMenus;
   KActionCollection * m_actionCollection;
   /**
    * List of our actions.
    */
-  QList<KAction> m_actions;
+  QPtrList<KAction> m_actions;
   /**
    * Parent bookmark for this menu.
    */

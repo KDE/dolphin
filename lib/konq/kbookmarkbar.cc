@@ -60,7 +60,7 @@ void KBookmarkBar::clear()
 {
     m_lstSubMenus.clear();
 
-    QListIterator<KAction> it( m_actions );
+    QPtrListIterator<KAction> it( m_actions );
     for (; it.current(); ++it )
     {
         it.current()->unplugAll();
@@ -88,7 +88,7 @@ void KBookmarkBar::slotBookmarksChanged( const QString & group )
     } else
     {
         // Iterate recursively into child menus
-        QListIterator<KBookmarkMenu> it( m_lstSubMenus );
+        QPtrListIterator<KBookmarkMenu> it( m_lstSubMenus );
         for (; it.current(); ++it )
         {
             it.current()->slotBookmarksChanged( group );
