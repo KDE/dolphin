@@ -284,9 +284,9 @@ KBookmark::KBookmark( KBookmarkManager *_bm, KBookmark *_parent, QString _text, 
     icon = KMimeType::findByURL( u, buff.st_mode, true )->icon( u.path(), true );
   }
   else if ( strcmp( u.protocol(), "ftp" ) == 0 )
-    icon = "ftp.xpm";
+    icon = "ftp.png";
   else
-    icon = "www.xpm";
+    icon = "www.png";
 
   m_id = g_id++;
   m_pManager = _bm;

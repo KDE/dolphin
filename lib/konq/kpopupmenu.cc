@@ -185,13 +185,13 @@ KonqPopupMenu::KonqPopupMenu( KFileItemList items,
     m_popupMenu->insertSeparator();
 
     if ( currentDir ) {
-      id = m_popupMenu->insertItem( *KPixmapCache::toolbarPixmap( "up.xpm" ), i18n( "Up" ), KPOPUPMENU_UP_ID );
+      id = m_popupMenu->insertItem( *KPixmapCache::toolbarPixmap( "up.png" ), i18n( "Up" ), KPOPUPMENU_UP_ID );
       m_popupMenu->setItemEnabled( id, hasUpURL );
 
-      id = m_popupMenu->insertItem( *KPixmapCache::toolbarPixmap( "back.xpm" ), i18n( "Back" ), KPOPUPMENU_BACK_ID );
+      id = m_popupMenu->insertItem( *KPixmapCache::toolbarPixmap( "back.png" ), i18n( "Back" ), KPOPUPMENU_BACK_ID );
       m_popupMenu->setItemEnabled( id, canGoBack );
 
-      id = m_popupMenu->insertItem( *KPixmapCache::toolbarPixmap( "forward.xpm" ), i18n( "Forward" ), KPOPUPMENU_FORWARD_ID );
+      id = m_popupMenu->insertItem( *KPixmapCache::toolbarPixmap( "forward.png" ), i18n( "Forward" ), KPOPUPMENU_FORWARD_ID );
       m_popupMenu->setItemEnabled( id, canGoForward );
 
       m_popupMenu->insertSeparator();  
@@ -201,18 +201,18 @@ KonqPopupMenu::KonqPopupMenu( KFileItemList items,
     m_popupMenu->insertSeparator();    
 
     if ( sReading && m_bHandleEditOperations )
-      id = m_popupMenu->insertItem( *KPixmapCache::toolbarPixmap( "editcopy.xpm" ), i18n( "Copy" ), this, SLOT( slotPopupCopy() ) );
+      id = m_popupMenu->insertItem( *KPixmapCache::toolbarPixmap( "editcopy.png" ), i18n( "Copy" ), this, SLOT( slotPopupCopy() ) );
     else if ( !m_bHandleEditOperations )
     {
-      id = m_popupMenu->insertItem( *KPixmapCache::toolbarPixmap( "editcopy.xpm" ), i18n( "Copy" ), KPOPUPMENU_COPY_ID );
+      id = m_popupMenu->insertItem( *KPixmapCache::toolbarPixmap( "editcopy.png" ), i18n( "Copy" ), KPOPUPMENU_COPY_ID );
       m_popupMenu->setItemEnabled( id, canCopy );
     }      
       
     if ( sWriting && m_bHandleEditOperations )
-      id = m_popupMenu->insertItem( *KPixmapCache::toolbarPixmap( "editpaste.xpm" ), i18n( "Paste" ), this, SLOT( slotPopupPaste() ) );
+      id = m_popupMenu->insertItem( *KPixmapCache::toolbarPixmap( "editpaste.png" ), i18n( "Paste" ), this, SLOT( slotPopupPaste() ) );
     else if ( !m_bHandleEditOperations )
     {
-      id = m_popupMenu->insertItem( *KPixmapCache::pixmap( "editpaste.xpm", true ), i18n( "Paste" ), KPOPUPMENU_PASTE_ID );
+      id = m_popupMenu->insertItem( *KPixmapCache::toolbarPixmap( "editpaste.png" ), i18n( "Paste" ), KPOPUPMENU_PASTE_ID );
       m_popupMenu->setItemEnabled( id, canPaste );
     }      
     
@@ -220,10 +220,10 @@ KonqPopupMenu::KonqPopupMenu( KFileItemList items,
       m_popupMenu->setItemEnabled( id, false );
       
     if ( sMoving && !isCurrentTrash && !currentDir && m_bHandleEditOperations )
-      id = m_popupMenu->insertItem( *KPixmapCache::pixmap( "kfm_trash.xpm", true ), i18n( "Move to trash" ), this, SLOT( slotPopupTrash() ) );
+      id = m_popupMenu->insertItem( *KPixmapCache::pixmap( "kfm_trash.png", true ), i18n( "Move to trash" ), this, SLOT( slotPopupTrash() ) );
     else if ( !m_bHandleEditOperations )
     {
-      id = m_popupMenu->insertItem( *KPixmapCache::pixmap( "kfm_trash.xpm", true ), i18n( "Move to trash" ), KPOPUPMENU_TRASH_ID );
+      id = m_popupMenu->insertItem( *KPixmapCache::pixmap( "kfm_trash.png", true ), i18n( "Move to trash" ), KPOPUPMENU_TRASH_ID );
       m_popupMenu->setItemEnabled( id, canMove );
     }      
       
@@ -247,24 +247,24 @@ KonqPopupMenu::KonqPopupMenu( KFileItemList items,
     m_popupMenu->insertSeparator();
 
     if ( sReading && m_bHandleEditOperations )
-      id = m_popupMenu->insertItem( *KPixmapCache::toolbarPixmap( "editcopy.xpm" ), i18n( "Copy" ), this, SLOT( slotPopupCopy() ) );
+      id = m_popupMenu->insertItem( *KPixmapCache::toolbarPixmap( "editcopy.png" ), i18n( "Copy" ), this, SLOT( slotPopupCopy() ) );
     else if ( !m_bHandleEditOperations )
     {
-      id = m_popupMenu->insertItem( *KPixmapCache::toolbarPixmap( "editcopy.xpm" ), i18n( "Copy" ), KPOPUPMENU_COPY_ID );
+      id = m_popupMenu->insertItem( *KPixmapCache::toolbarPixmap( "editcopy.png" ), i18n( "Copy" ), KPOPUPMENU_COPY_ID );
       m_popupMenu->setItemEnabled( id, canCopy );
     }      
 
     if ( !m_bHandleEditOperations )
     {
-      id = m_popupMenu->insertItem( *KPixmapCache::pixmap( "editpaste.xpm", true ), i18n( "Paste" ), KPOPUPMENU_PASTE_ID );
+      id = m_popupMenu->insertItem( *KPixmapCache::toolbarPixmap( "editpaste.png" ), i18n( "Paste" ), KPOPUPMENU_PASTE_ID );
       m_popupMenu->setItemEnabled( id, canPaste );
     }      
       
     if ( sMoving && !isCurrentTrash && !currentDir && m_bHandleEditOperations )
-      id = m_popupMenu->insertItem( *KPixmapCache::pixmap( "kfm_trash.xpm", true ), i18n( "Move to trash" ), this, SLOT( slotPopupTrash() ) );
+      id = m_popupMenu->insertItem( *KPixmapCache::pixmap( "kfm_trash.png", true ), i18n( "Move to trash" ), this, SLOT( slotPopupTrash() ) );
     else if ( !m_bHandleEditOperations )
     {
-      id = m_popupMenu->insertItem( *KPixmapCache::pixmap( "kfm_trash.xpm", true ), i18n( "Move to trash" ), KPOPUPMENU_TRASH_ID );
+      id = m_popupMenu->insertItem( *KPixmapCache::pixmap( "kfm_trash.png", true ), i18n( "Move to trash" ), KPOPUPMENU_TRASH_ID );
       m_popupMenu->setItemEnabled( id, canMove );
     }      
       
