@@ -8,7 +8,7 @@
 
    This library is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.	 See the GNU
    Library General Public License for more details.
 
    You should have received a copy of the GNU Library General Public License
@@ -34,44 +34,45 @@ class KFileItem;
  */
 class KFileIVI : public QIconViewItem
 {
-  Q_OBJECT
+    Q_OBJECT
 public:
-  /**
-   * Create an icon, within a qlistview, representing a file
-   * @param parent the parent widget
-   * @param fileitem the file item created by KDirLister
-   * @param size the icon size
-   * @param bImagePreviewAllowed whether image preview is allowed, see KFileItem
-   */
-  KFileIVI( QIconView *iconview, KFileItem* fileitem, KIconLoader::Size size, bool bImagePreviewAllowed );
-  virtual ~KFileIVI() { }
+    /**
+     * Create an icon, within a qlistview, representing a file
+     * @param parent the parent widget
+     * @param fileitem the file item created by KDirLister
+     * @param size the icon size
+     * @param bImagePreviewAllowed whether image preview is allowed, see KFileItem
+     */
+    KFileIVI( QIconView *iconview, KFileItem* fileitem, KIconLoader::Size size, bool bImagePreviewAllowed );
+    virtual ~KFileIVI() { }
 
-  /**
-   * Handler for return (or single/double click) on ONE icon.
-   * Runs the file through KRun.
-   */
-  virtual void returnPressed();
+    /**
+     * Handler for return (or single/double click) on ONE icon.
+     * Runs the file through KRun.
+     */
+    virtual void returnPressed();
 
-  /** @return the file item held by this instance */
-  KFileItem * item() { return m_fileitem; }
+    /** @return the file item held by this instance */
+    KFileItem * item() { return m_fileitem; }
 
-  /** @return true if dropping on this file is allowed
-   * Overloads QIconView::acceptDrop() */
-  virtual bool acceptDrop( const QMimeSource *mime ) const;
+    /** @return true if dropping on this file is allowed
+     * Overloads QIconView::acceptDrop() */
+    virtual bool acceptDrop( const QMimeSource *mime ) const;
 
-  /** */
-  virtual void setIcon( KIconLoader::Size size, bool bImagePreviewAllowed );
+    /** */
+    virtual void setIcon( KIconLoader::Size size, bool bImagePreviewAllowed );
 
-  virtual void setKey( const QString &key );
+    virtual void setKey( const QString &key );
+    virtual void paintItem( QPainter *p, const QColorGroup &cg, const QFont &font );
 
 signals:
-  void dropMe( KFileIVI *item, QDropEvent *e );
+    void dropMe( KFileIVI *item, QDropEvent *e );
 
 protected:
-  virtual void dropped( QDropEvent *e );
+    virtual void dropped( QDropEvent *e );
 
-  /** Pointer to the file item in KDirLister's list */
-  KFileItem* m_fileitem;
+    /** Pointer to the file item in KDirLister's list */
+    KFileItem* m_fileitem;
 };
 
 #endif

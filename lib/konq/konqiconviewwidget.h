@@ -21,7 +21,7 @@
 
 #include <kbrowser.h>
 #include <kiconloader.h>
-#include <qiconview.h>
+#include <kiconview.h>
 #include <kurl.h>
 #include <kfileitem.h>
 
@@ -33,65 +33,71 @@ class KFileIVI;
  * user settings, ...
  * Used by kdesktop and konq_iconview
  */
-class KonqIconViewWidget : public QIconView
+class KonqIconViewWidget : public KIconView
 {
-  Q_OBJECT
+    Q_OBJECT
 public:
-  /**
-   * Constructor
-   * @param settings An instance of KonqFMSettings, see static methods in konqsettings.h
-   */
-  KonqIconViewWidget( QWidget *parent = 0L, const char *name = 0L, WFlags f = 0 );
-  virtual ~KonqIconViewWidget() {}
+    /**
+     * Constructor
+     * @param settings An instance of KonqFMSettings, see static methods in konqsettings.h
+     */
+    KonqIconViewWidget( QWidget *parent = 0L, const char *name = 0L, WFlags f = 0 );
+    virtual ~KonqIconViewWidget() {}
 
-  void initConfig();
+    void initConfig();
 
-  /**
-   * Sets the icons of all items, and stores the @p size
-   */
-  void setIcons( KIconLoader::Size size );
+    /**
+     * Sets the icons of all items, and stores the @p size
+     */
+    void setIcons( KIconLoader::Size size );
 
-  /**
-   * Called on databaseChanged
-   */
-  void refreshMimeTypes();
+    /**
+     * Called on databaseChanged
+     */
+    void refreshMimeTypes();
 
-  KIconLoader::Size size() { return m_size; }
+    KIconLoader::Size size() { return m_size; }
 
-  void setImagePreviewAllowed( bool b );
+    void setImagePreviewAllowed( bool b );
 
-  void setURL ( const QString & kurl ) { m_url = kurl; }
-  const QString & url() { return m_url; }
+    void setURL ( const QString & kurl ) { m_url = kurl; }
+    const QString & url() { return m_url; }
 
-  /** Made public for konq_iconview (copy) */
-  virtual QDragObject *dragObject();
+    /** Made public for konq_iconview (copy) */
+    virtual QDragObject *dragObject();
 
-  /**
-   * Get list of selected KFileItems
-   */
-  KFileItemList selectedFileItems();
+    /**
+     * Get list of selected KFileItems
+     */
+    KFileItemList selectedFileItems();
 
+    void setItemFont( const QFont &f );
+    void setItemColor( const QColor &c );
+    QColor itemColor() const;
+    
 protected slots:
 
-  virtual void slotDrop( QDropEvent *e );
-  /** connect each item to this */
-  virtual void slotDropItem( KFileIVI *item, QDropEvent *e );
+    virtual void slotDrop( QDropEvent *e );
+    /** connect each item to this */
+    virtual void slotDropItem( KFileIVI *item, QDropEvent *e );
 
 protected:
-  /** Common to slotDrop and slotDropItem */
-  virtual void dropStuff( KFileIVI *item, QDropEvent *ev );
+    /** Common to slotDrop and slotDropItem */
+    virtual void dropStuff( KFileIVI *item, QDropEvent *ev );
 
-  virtual void drawBackground( QPainter *p, const QRect &r );
+    virtual void drawBackground( QPainter *p, const QRect &r );
 
-  void initDragEnter( QDropEvent *e );
+    void initDragEnter( QDropEvent *e );
 
-  QString m_url;
+    QString m_url;
 
-  KIconLoader::Size m_size;
-  bool m_bImagePreviewAllowed;
+    KIconLoader::Size m_size;
+    bool m_bImagePreviewAllowed;
 
-  /** Konqueror settings */
-  KonqFMSettings * m_pSettings;
+    /** Konqueror settings */
+    KonqFMSettings * m_pSettings;
+
+    QColor iColor;
 };
 
 /**
@@ -100,21 +106,21 @@ protected:
  */
 class IconEditExtension : public EditExtension
 {
-  friend class KonqKfmIconView; //HACK
-  Q_OBJECT
+    friend class KonqKfmIconView; //HACK
+    Q_OBJECT
 public:
-  IconEditExtension( KonqIconViewWidget *iconView );
+    IconEditExtension( KonqIconViewWidget *iconView );
 
-  virtual void can( bool &cut, bool &copy, bool &paste, bool &move );
+    virtual void can( bool &cut, bool &copy, bool &paste, bool &move );
 
-  virtual void cutSelection();
-  virtual void copySelection();
-  virtual void pasteSelection( bool move = false );
-  virtual void moveSelection( const QString &destinationURL = QString::null );
-  virtual QStringList selectedUrls();
+    virtual void cutSelection();
+    virtual void copySelection();
+    virtual void pasteSelection( bool move = false );
+    virtual void moveSelection( const QString &destinationURL = QString::null );
+    virtual QStringList selectedUrls();
 
 private:
-  KonqIconViewWidget *m_iconView;
+    KonqIconViewWidget *m_iconView;
 };
 
 #endif
