@@ -48,6 +48,7 @@ class KonqBaseListViewItem : public KListViewItem
       virtual void updateContents() = 0;
       virtual void setDisabled( bool disabled ) { m_bDisabled = disabled; }
       virtual void setActive  ( bool active   ) { m_bActive   = active;   }
+      virtual int compare( QListViewItem* i, int col, bool ascending ) const;
       
       int state() const 
       {
@@ -96,7 +97,6 @@ class KonqListViewItem : public KonqBaseListViewItem
 
       virtual ~KonqListViewItem() {}
 
-      virtual int compare( QListViewItem* i, int col, bool ascending ) const;
       virtual void paintCell( QPainter *_painter, const QColorGroup & cg,
                               int column, int width, int alignment );
       virtual void updateContents();

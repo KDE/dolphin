@@ -53,7 +53,8 @@ class KonqTextViewItem : public KonqBaseListViewItem
        */
       KonqTextViewItem( KonqTextViewWidget *_parent, KFileItem* _fileitem );
       virtual ~KonqTextViewItem() {/*cerr<<"~KonqTextViewItem: "<<text(1)<<endl;*/ };
-      virtual QString key( int _column, bool asc) const;
+      virtual int compare( QListViewItem* i, int col, bool ascending ) const;
+//      virtual QString key( int _column, bool asc) const;
       /** Call this before destroying the text view (decreases reference count
        * on the view)*/
       virtual void paintCell( QPainter *_painter, const QColorGroup & _cg, int _column, int _width, int _alignment );

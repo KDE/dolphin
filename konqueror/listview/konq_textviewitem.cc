@@ -24,7 +24,14 @@
 #include <stdio.h>
 #include <kglobal.h>
 
-QString KonqTextViewItem::key( int _column, bool asc) const
+int KonqTextViewItem::compare( QListViewItem *item, int col, bool ascending ) const
+{
+   if (col==1)
+      return KonqBaseListViewItem::compare(item, 0, ascending);
+   return KonqBaseListViewItem::compare(item, col, ascending);
+}
+
+/*QString KonqTextViewItem::key( int _column, bool asc) const
 {
    if (_column==1) return key(0,asc);
    QString tmp = QString::number( sortChar );
@@ -56,7 +63,7 @@ QString KonqTextViewItem::key( int _column, bool asc) const
    };
    tmp+=text(_column);
    return tmp;
-}
+}*/
 
 void KonqTextViewItem::updateContents()
 {

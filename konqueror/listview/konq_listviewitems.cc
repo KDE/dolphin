@@ -218,7 +218,7 @@ const QPixmap* KonqListViewItem::pixmap( int column ) const
    return pm;
 }
 
-int KonqListViewItem::compare( QListViewItem* item, int col, bool ) const
+int KonqBaseListViewItem::compare( QListViewItem* item, int col, bool ) const
 {
    KonqListViewItem* k = static_cast<KonqListViewItem*>( item );
    if ( sortChar != k->sortChar )
