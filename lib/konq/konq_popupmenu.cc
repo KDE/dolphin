@@ -447,10 +447,17 @@ KonqPopupMenu::KonqPopupMenu( const KFileItemList &items,
 
 KonqPopupMenu::~KonqPopupMenu()
 {
-  m_pluginList.clear( );
+  if(!m_pluginList.isEmpty() ){
+    KonqPopupMenuPlugin *plugin;
+    for( plugin= m_pluginList.first(); plugin != 0; plugin = m_pluginList.next() ){
+      removeChildClient( plugin );
+    }
+    m_pluginList.clear( ); // crash source?
+  }
   delete m_factory;
   delete m_builder;
   delete d;
+  kdDebug(1203) << "~KonqPopupMenu leave" << endl;
 }
 
 void KonqPopupMenu::slotPopupNewView()
@@ -573,8 +580,10 @@ void KonqPopupMenu::addPlugins( ){
 	plugin_offers = KTrader::self()->query( m_sMimeType.isNull() ? QString::fromLatin1( "all/all" ) : m_sMimeType , "'KonqPopupMenu/Plugin' in ServiceTypes");
 	KTrader::OfferList::ConstIterator iterator = plugin_offers.begin( );
 	KTrader::OfferList::ConstIterator end = plugin_offers.end( );
-        if ( !plugin_offers.isEmpty() )
-            addGroup( "plugins" );
+        if ( plugin_offers.isEmpty() ) 
+	  return; // no plugins installed do not bother about it
+
+	addGroup( "plugins" );
 	// travers the offerlist
 	for(; iterator != end; ++iterator, ++pluginCount ){
 		KonqPopupMenuPlugin *plugin =
@@ -591,11 +600,8 @@ void KonqPopupMenu::addPlugins( ){
 		insertChildClient( plugin );
 	}
 
-        if ( !plugin_offers.isEmpty() )
-        {
-            addMerge( "plugins" );
-            addSeparator();
-        }
+	addMerge( "plugins" );
+	addSeparator();
 }
 KURL KonqPopupMenu::url( ) const {
   return m_sViewURL;
