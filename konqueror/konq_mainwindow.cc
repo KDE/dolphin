@@ -1004,7 +1004,7 @@ void KonqMainWindow::slotIconsChanged()
 {
     if ( !m_combo )
 	return;
-	
+
     m_combo->updatePixmaps();
     setIcon( KonqPixmapProvider::self()->pixmapFor( m_combo->currentText() ));
 }
@@ -2336,6 +2336,9 @@ void KonqMainWindow::slotShowMenuBar()
     menuBar()->hide();
   else
     menuBar()->show();
+
+  saveMainWindowSettings( KGlobal::config(), "KonqMainWindow" );
+  KGlobal::config()->sync();
 }
 
 /*
