@@ -96,7 +96,7 @@ void addBackEnd::activatedAddMenu(int id)
                         QString *tmp=new QString("");
                         if (func(tmp,libParam.at(id),&map))
                                 {
-					KStandardDirs *dirs = KGlobal::dirs(); 
+					KStandardDirs *dirs = KGlobal::dirs();
 				        dirs->saveLocation("data","konqsidebartng/entries/",true);
 					tmp->prepend("/konqsidebartng/entries/");
 					QString myFile;
@@ -145,7 +145,7 @@ void addBackEnd::activatedAddMenu(int id)
 Sidebar_Widget::Sidebar_Widget(QWidget *parent, KParts::ReadOnlyPart *par, const char *name):QHBox(parent,name),KonqSidebar_PluginInterface()
 {
         kdDebug()<<"**** Sidebar_Widget:SidebarWidget()"<<endl;
-        PATH=KGlobal::dirs()->saveLocation("data","konqsidebartng/entries/",true);    
+        PATH=KGlobal::dirs()->saveLocation("data","konqsidebartng/entries/",true);
 	Buttons.resize(0);
 	Buttons.setAutoDelete(true);
 	stored_url=false;
@@ -167,17 +167,17 @@ Sidebar_Widget::Sidebar_Widget(QWidget *parent, KParts::ReadOnlyPart *par, const
 	ButtonBar->setIconSize(16);
    	ButtonBar->enableMoving(false);
 	ButtonBar->setOrientation(Qt::Vertical);
-	
+
 	Menu=new QPopupMenu(this,"Sidebar_Widget::Menu");
 	QPopupMenu *addMenu=new QPopupMenu(this,"Sidebar_Widget::addPopup");
 	Menu->insertItem(i18n("Add new"),addMenu,0);
 	Menu->insertSeparator();
 	Menu->insertItem(i18n("Multiple views"),1);
-        connect(Menu,SIGNAL(aboutToShow()),this,SLOT(aboutToShowConfigMenu()));     
+        connect(Menu,SIGNAL(aboutToShow()),this,SLOT(aboutToShowConfigMenu()));
 	connect(Menu,SIGNAL(activated(int)),this,SLOT(activatedMenu(int)));
 
 	buttonPopup=new QPopupMenu(this,"Sidebar_Widget::ButtonPopup");
-	buttonPopup->insertItem(SmallIconSet("www"),i18n("Url"),2);
+	buttonPopup->insertItem(SmallIconSet("www"),i18n("URL"),2);
 	buttonPopup->insertItem(SmallIconSet("image"),i18n("Icon"),1);
 	buttonPopup->insertSeparator();
 	buttonPopup->insertItem(SmallIconSet("remove"),i18n("Remove"),3);
@@ -188,7 +188,7 @@ Sidebar_Widget::Sidebar_Widget(QWidget *parent, KParts::ReadOnlyPart *par, const
 	ButtonBar->insertLineSeparator();
 #warning replace SmallIcon with BarIcon when 22x22 icons are all available
 	ButtonBar->insertButton(SmallIcon("configure"), -1, Menu,true,
-    	    				i18n("Configure sidebar"));
+    	    				i18n("Configure Sidebar"));
 	connect(new addBackEnd(this,addMenu,"Sidebar_Widget-addBackEnd"),SIGNAL(updateNeeded()),this,SLOT(createButtons()));
 	ButtonBar->setMinimumHeight(10);
 //	ButtonBar=new QButtonGroup(this);
@@ -270,7 +270,7 @@ void Sidebar_Widget::buttonPopupActivate(int id)
 		case 2:
 		{
 			  bool okval;
-			  QString newurl=KLineEditDlg::getText(i18n("Enter an url"), Buttons.at(popupFor)->URL,&okval,this);
+			  QString newurl=KLineEditDlg::getText(i18n("Enter a URL"), Buttons.at(popupFor)->URL,&okval,this);
 			  if ((okval) && (!newurl.isEmpty()))
 				{
                                         KSimpleConfig ksc(PATH+Buttons.at(popupFor)->file);
