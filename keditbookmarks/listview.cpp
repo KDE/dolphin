@@ -677,8 +677,11 @@ void KEBListViewItem::normalConstruct(const KBookmark &bk) {
 #endif
    setText(KEBListView::CommentColumn, NodeEditCommand::getNodeText(bk, "desc"));
    setPixmap(0, SmallIcon(bk.icon()));
+   // DESIGN - modUpdate badly needs a redesign
    modUpdate();
 }
+
+// DESIGN - following constructors should be names classes or else just explicit
 
 // toplevel item (there should be only one!)
 KEBListViewItem::KEBListViewItem(QListView *parent, const KBookmarkGroup &gp)
@@ -729,6 +732,7 @@ KEBListViewItem::KEBListViewItem(QListView *parent, QListViewItem *after, const 
    normalConstruct(bk);
 }
 
+// DESIGN - move this into kbookmark or into a helper
 void KEBListViewItem::setOpen(bool open) {
    m_bookmark.internalElement().setAttribute("folded", open ? "no" : "yes");
    QListViewItem::setOpen(open);
@@ -737,6 +741,7 @@ void KEBListViewItem::setOpen(bool open) {
 void KEBListViewItem::paintCell(QPainter *p, const QColorGroup &ocg, int col, int w, int a) {
    QColorGroup cg(ocg);
 
+   // DESIGN - ugly as sin, some pattern must answer this problem
    if (col == KEBListView::StatusColumn) {
       TestLinkItr::paintCellHelper(p, cg, m_paintstyle);
    }
