@@ -4207,6 +4207,7 @@ void KonqMainWindow::reparseConfiguration()
     {
       unplugActionList( "delactions" );
       m_paDelete = new KAction( i18n( "&Delete" ), "editdelete", SHIFT+Key_Delete, actionCollection(), "del" );
+      m_paDelete->setEnabled( actionCollection()->action("trash")->isEnabled() );
       m_deleteActions.clear();
       m_deleteActions.append( m_paDelete );
       plugActionList( "delactions", m_deleteActions );
