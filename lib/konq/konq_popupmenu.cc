@@ -43,6 +43,7 @@
 #include "knewmenu.h"
 #include "konq_popupmenu.h"
 #include "konq_operations.h"
+#include <dcopclient.h>
 
 
 class KonqPopupMenuGUIBuilder : public KXMLGUIBuilder
@@ -514,6 +515,13 @@ void KonqPopupMenu::setup(bool showPropertiesAndFileType)
                 if (!KIOSKAuthorizedAction(cfg))
                 {
                     continue;
+                }
+
+                if ( cfg.hasKey( "X-KDE-ShowIfRunning" ) )
+                {
+                    QString app = cfg.readEntry( "X-KDE-ShowIfRunning" );
+                    if ( !kapp->dcopClient()->isApplicationRegistered( app.utf8() ) )
+                        continue;
                 }
 
                 if ( cfg.hasKey( "Actions" ) && cfg.hasKey( "ServiceTypes" ) )
