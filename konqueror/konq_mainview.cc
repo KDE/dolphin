@@ -600,7 +600,11 @@ debug(" KonqMainView::openView %s %s", serviceType.ascii(), url.ascii());
       KTrader::OfferList serviceOffers;
       BrowserView *view = KonqFactory::createView( serviceType, QString::null,
                                                    &service, &serviceOffers );
-      assert(view != 0);
+      if ( !view )
+      {
+        KMessageBox::sorry( 0L, i18n( "Could not create view for %1\nCheck your installation").arg(serviceType) );
+        return true; // fake everything was ok, we don't want to propagate the error
+      }
       m_pViewManager->splitView( Qt::Horizontal, view, service, serviceOffers );
 
       MapViews::Iterator it = m_mapViews.find( view );
