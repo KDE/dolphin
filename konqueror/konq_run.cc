@@ -177,7 +177,7 @@ void KonqRun::scanFile()
       job->addMetaData("content-type", m_req.args.contentType() );
   }
   else
-      job = KIO::get(m_strURL, false, false);
+      job = KIO::get(m_strURL, m_req.args.reload, false);
 
   //set referrer if request not manual.
   // ### TODO: turn this off optionally.
