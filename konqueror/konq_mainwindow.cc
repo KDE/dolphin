@@ -3132,6 +3132,9 @@ void KonqMainWindow::initActions()
   connectActionCollection( m_bookmarksActionCollection );
 
   m_pBookmarkMenu = new KBookmarkMenu( KonqBookmarkManager::self(), this, m_pamBookmarks->popupMenu(), m_bookmarksActionCollection, true );
+  connect( m_pBookmarkMenu, 
+           SIGNAL( aboutToShowContextMenu(const KBookmark &, QPopupMenu*) ),
+           this, SLOT( slotFillContextMenu(const KBookmark &, QPopupMenu*) ));
 
   m_paShowMenuBar = KStdAction::showMenubar( this, SLOT( slotShowMenuBar() ), actionCollection() );
 
@@ -3203,6 +3206,24 @@ void KonqMainWindow::initActions()
   m_paLockView->setStatusText( i18n("A locked view can't change directories. Use in combination with 'link view' to explore many files from one directory") );
   m_paUnlockView->setStatusText( i18n("Unlocks the current view, so that it becomes normal again.") );
   m_paLinkView->setStatusText( i18n("Sets the view as 'linked'. A linked view follows directory changes made in other linked views.") );
+}
+
+void KonqMainWindow::slotFillContextMenu( const KBookmark &bm, QPopupMenu * pm )
+{
+  kdDebug() << "KonqMainWindow::slotFillContextMenu(bm, pm == " << pm << ")" << endl;
+  if ( bm.isGroup() )
+  {
+    // insert actions for a bookmark group into pm
+  } 
+  else 
+  {
+    // popupItems is used by slotPopupNewTab
+    popupItems.clear();
+    popupItems.append( new KFileItem( bm.url(), QString::null, 
+                                      KFileItem::Unknown) );
+
+    pm->insertItem( i18n( "Open in New Tab" ), this, SLOT( slotPopupNewTab() ) );
+  }
 }
 
 void KonqMainWindow::slotMoveTabLeft()

@@ -189,6 +189,7 @@ public:
   virtual QString currentTitle() const;
   virtual QString currentURL() const;
 
+
   /**
    * Change URL displayed in the location bar
    */
@@ -306,6 +307,8 @@ public slots:
   void slotCtrlTabPressed();
 
   void slotToggleFullScreen();
+
+  void slotFillContextMenu( const KBookmark &, QPopupMenu * );
 
   void slotPopupMenu( const QPoint &_global, const KURL &_url, const QString &_mimeType, mode_t mode );
   void slotPopupMenu( KXMLGUIClient *client, const QPoint &_global, const KURL &_url, const QString &_mimeType, mode_t mode );
