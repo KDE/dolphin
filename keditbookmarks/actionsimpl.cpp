@@ -119,12 +119,16 @@ void ActionsImpl::slotImport() {
    CmdHistory::self()->addCommand(import);
 }
 
+void ActionsImpl::slotExportIE() {
+   CurrentMgr::self()->doExport(CurrentMgr::IEExport);
+}
+
 void ActionsImpl::slotExportNS() {
-   CurrentMgr::self()->doExport(false);
+   CurrentMgr::self()->doExport(CurrentMgr::NetscapeExport);
 }
 
 void ActionsImpl::slotExportMoz() {
-   CurrentMgr::self()->doExport(true);
+   CurrentMgr::self()->doExport(CurrentMgr::MozillaExport);
 }
 
 /* -------------------------------------- */

@@ -51,6 +51,7 @@ public slots:
    void slotExpandAll();
    void slotCollapseAll();
    void slotImport();
+   void slotExportIE();
    void slotExportNS();
    void slotExportMoz();
 

@@ -40,6 +40,7 @@
 #include <kbookmarkdrag.h>
 #include <kbookmarkmanager.h>
 #include <kbookmarkimporter.h>
+#include <kbookmarkimporter_ie.h>
 #include <kbookmarkexporter.h>
 
 #include "listview.h"
@@ -144,7 +145,14 @@ void CurrentMgr::notifyManagers() {
    DCOPRef("*", objId).send("notifyCompleteChange", QString::fromLatin1(kapp->dcopClient()->appId()));
 }
 
-void CurrentMgr::doExport(bool moz) {
+void CurrentMgr::doExport(ExportType type) {
+   if (type == IEExport) {
+      QString path = KIEBookmarkImporterImpl().findDefaultLocation(true);
+      KIEBookmarkExporterImpl exporter(mgr(), path);
+      exporter.write(mgr()->root());
+      return;
+   }
+   bool moz = (type == MozillaExport);
    QString path = 
           (moz)
         ? KNSBookmarkImporter::mozillaBookmarksFile(true)
@@ -314,6 +322,8 @@ void KEBApp::createActions() {
                       actn, SLOT( slotImport() ), actionCollection(), "importMoz");
    (void) new KAction(i18n("&Export to Netscape Bookmarks"), "netscape", 0,
                       actn, SLOT( slotExportNS() ), actionCollection(), "exportNS");
+   (void) new KAction(i18n("&Export to IE Bookmarks"), "ie", 0,
+                      actn, SLOT( slotExportIE() ), actionCollection(), "exportIE");
    (void) new KAction(i18n("Export to &Mozilla Bookmarks..."), "mozilla", 0,
                       actn, SLOT( slotExportMoz() ), actionCollection(), "exportMoz");
 }
