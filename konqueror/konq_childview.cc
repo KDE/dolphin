@@ -90,6 +90,13 @@ KonqChildView::~KonqChildView()
 
 void KonqChildView::attach( Konqueror::View_ptr view )
 {
+  OPPartIf* localView = 0L;
+  // Local or remote ? (Simon's trick ;)
+  list<OPPartIf*>::iterator it = OPPartIf::begin();
+  for (; it != OPPartIf::end(); ++it )
+    if ( (*it)->window() == view->window() )
+      localView = *it;
+
   m_pHeader->setPart( view );
   m_vView = Konqueror::View::_duplicate( view );
   m_vView->setMainWindow( m_vMainWindow );
@@ -99,7 +106,16 @@ void KonqChildView::attach( Konqueror::View_ptr view )
 
   m_pFrame = new OPFrame( m_pWidget );
   m_pLayout->addWidget( m_pFrame );
-  m_pFrame->attach( view );
+  if ( localView )
+{
+kdebug(0, 1202, " ************* LOCAL VIEW ! *************");
+    m_pFrame->attachLocal( localView );
+}
+  else
+{
+kdebug(0, 1202, " ************* NOT LOCAL :( *************");
+    m_pFrame->attach( view );
+}
 
   KonqPlugins::installKOMPlugins( view );
   m_pLayout->activate();
