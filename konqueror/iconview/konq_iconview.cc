@@ -306,7 +306,7 @@ KonqKfmIconView::KonqKfmIconView()
   m_pIconView->setItemTextPos( QIconView::Bottom );
   m_pIconView->setResizeMode( QIconView::Adjust );
   m_pIconView->setGridX( 70 );
-  m_pIconView->setWordWrapIconText( FALSE );
+  m_pIconView->setWordWrapIconText( true );
   m_pIconView->setAlignItemsWhenInsert( true );
   m_pIconView->setSortItemsWhenInsert( true, m_pIconView->sortDirection() );
 
@@ -326,8 +326,7 @@ void KonqKfmIconView::slotShowDot()
   kdebug(0, 1202, "KonqKfmIconView::slotShowDot()");
   m_pProps->m_bShowDot = !m_pProps->m_bShowDot;
   m_dirLister->setShowingDotFiles( m_pProps->m_bShowDot );
-  // TODO : reArrange() [asked Reggie already]
-  //we don't want the non-dot files to remain where they are !
+  //we don't want the non-dot files to remain where they are
   m_pIconView->alignItemsInGrid();
   m_pIconView->repaintContents( m_pIconView->contentsX(), m_pIconView->contentsY(),
 				m_pIconView->viewport()->width(), m_pIconView->viewport()->height(),
