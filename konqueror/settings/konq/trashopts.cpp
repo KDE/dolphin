@@ -60,7 +60,7 @@ KTrashOptions::KTrashOptions(KConfig *config, QString group, QWidget *parent, co
     connect(bg, SIGNAL( clicked( int ) ), SLOT( changed() ));
     connect(bg, SIGNAL( clicked( int ) ), SLOT( slotDeleteBehaviourChanged( int ) ));
 
-    cbMoveToTrash = new QCheckBox( i18n("Move To Trash"), bg );
+    cbMoveToTrash = new QCheckBox( i18n("Move to trash"), bg );
 
     cbDelete = new QCheckBox( i18n("Delete"), bg );
 

@@ -151,7 +151,7 @@ KBehaviourOptions::KBehaviourOptions(KConfig *config, QString group, QWidget *pa
                           "<p>Be aware that this also means that, if something goes wrong, "
                           "all your web browsing windows will be closed simultaneously");
 
-    bgOneProcess = new QVButtonGroup(i18n("Minimize memory usage"), this);
+    bgOneProcess = new QVButtonGroup(i18n("Minimize Memory Usage"), this);
     bgOneProcess->setExclusive( true );
     connect(bgOneProcess, SIGNAL(clicked(int)), this, SLOT(changed()));
     {
