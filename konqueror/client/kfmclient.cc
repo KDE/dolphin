@@ -173,6 +173,21 @@ extern "C" int kdemain( int argc, char **argv )
 */
 static bool startNewKonqueror( QString url, QString mimetype, const QString& profile )
 {
+    KConfig cfg( QString::fromLatin1( "konquerorrc" ), true );
+    cfg.setGroup( "Reusing" );
+    QStringList allowed_parts;
+    // is duplicated in ../KonquerorIface.cc
+    allowed_parts << QString::fromLatin1( "konq_iconview.desktop" )
+                  << QString::fromLatin1( "konq_multicolumnview.desktop" )
+                  << QString::fromLatin1( "konq_sidebartng.desktop" )
+                  << QString::fromLatin1( "konq_infolistview.desktop" )
+                  << QString::fromLatin1( "konq_treeview.desktop" )
+                  << QString::fromLatin1( "konq_detailedlistview.desktop" );
+    if( cfg.hasKey( "SafeParts" )
+        && cfg.readEntry( "SafeParts" ) != QString::fromLatin1( "SAFE" ))
+        allowed_parts = cfg.readListEntry( "SafeParts" );
+    if( allowed_parts.count() == 1 && allowed_parts.first() == QString::fromLatin1( "ALL" ))
+	return false; // all parts allowed
     if( url.isEmpty())
     {
         if( profile.isEmpty())
@@ -200,21 +215,6 @@ static bool startNewKonqueror( QString url, QString mimetype, const QString& pro
 	url = urls.first();
 	mimetype = QString::fromLatin1( "" );
     }
-    KConfig cfg( QString::fromLatin1( "konquerorrc" ), true );
-    cfg.setGroup( "Reusing" );
-    QStringList allowed_parts;
-    // is duplicated in ../KonquerorIface.cc
-    allowed_parts << QString::fromLatin1( "konq_iconview.desktop" )
-                  << QString::fromLatin1( "konq_multicolumnview.desktop" )
-                  << QString::fromLatin1( "konq_sidebartng.desktop" )
-                  << QString::fromLatin1( "konq_infolistview.desktop" )
-                  << QString::fromLatin1( "konq_treeview.desktop" )
-                  << QString::fromLatin1( "konq_detailedlistview.desktop" );
-    if( cfg.hasKey( "SafeParts" )
-        && cfg.readEntry( "SafeParts" ) != QString::fromLatin1( "SAFE" ))
-        allowed_parts = cfg.readListEntry( "SafeParts" );
-    if( allowed_parts.count() == 1 && allowed_parts.first() == QString::fromLatin1( "ALL" ))
-	return false; // all parts allowed
     if( mimetype.isEmpty())
 	mimetype = KMimeType::findByURL( KURL( url ) )->name();
     KTrader::OfferList offers = KTrader::self()->query( mimetype, QString::fromLatin1( "KParts/ReadOnlyPart" ),
