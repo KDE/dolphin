@@ -2365,7 +2365,7 @@ void KonqMainWindow::updateViewModeActions( const KTrader::OfferList &services )
   if ( services.count() <= 1 )
     return;
 
-  m_viewModeMenu = new KActionMenu( i18n( "View Mode..." ), this );
+  m_viewModeMenu = new KActionMenu( i18n( "View Mode" ), this );
 
   KTrader::OfferList::ConstIterator it = services.begin();
   KTrader::OfferList::ConstIterator end = services.end();
