@@ -813,8 +813,8 @@ void KIconContainer::viewportMousePressEvent( QMouseEvent *_ev )
 
       // Rectangular selection ?
       int x, y, dx, dy;
-      x = globalPos.x();
-      y = globalPos.y();
+      x = _ev->pos().x();
+      y = _ev->pos().y();
       dx = dy = 0;
       int cx, cy, rx, ry;
       int ox, oy;
@@ -829,8 +829,9 @@ void KIconContainer::viewportMousePressEvent( QMouseEvent *_ev )
                    PointerMotionMask, &ev);
     
         if (ev.type == MotionNotify){
-          rx = ev.xmotion.x_root;
-          ry = ev.xmotion.y_root;
+          QPoint r = mapFromGlobal( QPoint(ev.xmotion.x_root, ev.xmotion.y_root) );
+          rx = r.x();
+          ry = r.y();
         }
         else
           break; // mouse button released -> exit
@@ -919,8 +920,8 @@ void KIconContainer::drawSelectionRectangle( int x, int y, int dx, int dy )
 {
   QPainter p;
   p.begin( viewport() );
-  p.setRasterOp( NotROP );
-  p.setPen( QPen( Qt::black /*, 1, Qt::DashDotLine */ ) ); // solid line looks better, no ?
+  p.setRasterOp( Qt::NotROP );
+  p.setPen( QPen( Qt::black ) );
   p.setBrush( Qt::NoBrush );
   p.drawRect( x, y, dx, dy );
   p.end();
@@ -1017,9 +1018,12 @@ void KIconContainer::viewportMouseMoveEvent( QMouseEvent *_mouse )
     // Multiple icons ?
     if ( lst.count() > 1 )
     {
-      pix.load( locate("icon", "kmultiple.xpm") );
-      hotspot.setX( pix.width() / 2 );
-      hotspot.setY( pix.height() / 2 );
+      // we want no cursor while moving icons, we'll draw ourselves in slotDragMoveEvent
+      // but if we do a setPixmap with a null pixmap, Qt will use the default one
+      // so we have to provide a 1x1 one, empty.
+      pix = QPixmap( 1, 1 );  // HACK
+      pix.fill();
+      // the hotspot doesn't matter at all
     }
     else
     {
@@ -1039,6 +1043,9 @@ void KIconContainer::viewportMouseMoveEvent( QMouseEvent *_mouse )
       //hotspot.setX( m_pressedItem->pixmap().width() / 2 );
       //hotspot.setY( m_pressedItem->pixmap().height() / 2 );
       //pix = m_pressedItem->pixmap();
+
+      // Ok got it. The relevant code is commented out in Qt ! (qdnd_x11.cpp)
+      // Well that will be for later then :))
     }
 
     KIconDrag* drag = new KIconDrag( viewport() );
@@ -1473,15 +1480,16 @@ KIconContainerItem* KIconContainer::itemAt( const QPoint& _point )
 
 void KIconContainer::drawDragShadow( const QPoint& _offset )
 {
+  // draw the shadow of the dragged icons, if moving several icons
   if ( m_dragIcons.count() < 2 )
-    return;
+    return; // not enough icons
 
   m_dragIconsOffset = _offset;
 
   QPainter painter;
   painter.begin( viewport() );
 
-  painter.setRasterOp( Qt::XorROP );
+  painter.setRasterOp( Qt::NotROP );
   KIconDrag::IconList::Iterator it = m_dragIcons.begin();
   while( it != m_dragIcons.end() )
   {
