@@ -372,7 +372,6 @@ void KManualProxyDlg::setChecked( bool )
                    cb_secproxy->isChecked() ||
                    cb_ftpproxy->isChecked());
     pb_copyDown->setEnabled( checked );
-    pb_ok->setEnabled( checked );
 }
 
 
