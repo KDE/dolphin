@@ -21,7 +21,7 @@
 
 #include "konq_mainview.h"
 #include "kfmguiprops.h"
-#include "kfmpaths.h"
+#include "userpaths.h"
 #include "kbookmarkmenu.h"
 #include "konq_defaults.h"
 #include "konq_mainwindow.h"
@@ -814,7 +814,7 @@ void KonqMainView::popupMenu( const Konqueror::View::MenuPopupRequest &popup )
 	path += "/";
     
       if ( strcmp( protocol, "file" ) != 0L ||
-	   path != KfmPaths::trashPath() )
+	   path != UserPaths::trashPath() )
 	isTrash = false;
     }
 
@@ -840,7 +840,7 @@ void KonqMainView::popupMenu( const Konqueror::View::MenuPopupRequest &popup )
     path += "/";
     
   if ( strcmp( url.protocol(), "file" ) == 0L &&
-       path == KfmPaths::trashPath() )
+       path == UserPaths::trashPath() )
     isTrash = true;
 
   //check if url is current directory

@@ -31,7 +31,7 @@
 #include <kio_interface.h>
 #include <kio_job.h>
 
-#include "kfmpaths.h"
+#include "userpaths.h"
 // --- Sven's check if this is global apps/mime start ---
 //#include "kfm.h"
 // --- Sven's check if this is global apps/mime end ---
@@ -106,7 +106,7 @@ void KNewMenu::fillMenu()
     for ( templ = templatesList->next(); (templ); templ = templatesList->next())
     {
         QString tmp = templ;
-        KSimpleConfig config(KfmPaths::templatesPath() + tmp, true);
+        KSimpleConfig config(UserPaths::templatesPath() + tmp, true);
         config.setGroup( "KDE Desktop Entry" );
         if ( tmp.right(7) == ".kdelnk" )
             tmp.truncate( tmp.length() - 7 );
@@ -126,11 +126,11 @@ void KNewMenu::fillTemplates()
     templatesList->clear();
     templatesList->append( QString( "Folder") );
 
-    QDir d( KfmPaths::templatesPath() );
+    QDir d( UserPaths::templatesPath() );
     const QFileInfoList *list = d.entryInfoList();
     if ( list == 0L )
         warning(i18n("ERROR: Template does not exist '%s'"),
-		KfmPaths::templatesPath().data());
+		UserPaths::templatesPath().data());
     else
     {
 	QFileInfoListIterator it( *list );      // create list iterator
@@ -176,7 +176,7 @@ void KNewMenu::slotNewFile( int _id )
     QString tmp = p;
 
     if ( strcmp( tmp, "Folder" ) != 0 ) {
-      QString x = KfmPaths::templatesPath() + p;
+      QString x = UserPaths::templatesPath() + p;
       if (!QFile::exists(x)) {
           QMessageBox::critical( 0L, i18n( "Error" ), i18n(
               "Source file doesn't exist anymore ! \n"
@@ -231,7 +231,7 @@ void KNewMenu::slotNewFile( int _id )
 	}
 	else
 	{
-	    QString src = KfmPaths::templatesPath() + p;
+	    QString src = UserPaths::templatesPath() + p;
             for ( s = urls.first(); s != 0L; s = urls.next() )
             {
                 KIOJob * job = new KIOJob( );

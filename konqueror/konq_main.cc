@@ -46,7 +46,7 @@
 
 #include "konq_main.h"
 #include "konq_mainwindow.h"
-#include "kfmpaths.h"
+#include "userpaths.h"
 #include "konq_mainview.h"
 #include "konq_iconview.h"
 #include "konq_htmlview.h"
@@ -182,18 +182,6 @@ void KonqBookmarkManager::editBookmarks( const char *_url )
 
 /************* Functions called by main ****************/
 
-void testLocalDir( const char *_name )
-{
-  DIR *dp;
-  QString c = kapp->localkdedir().copy();
-  c += _name;
-  dp = opendir( c.data() );
-  if ( dp == NULL )
-    ::mkdir( c.data(), S_IRWXU );
-  else
-    closedir( dp );
-}
-
 void testDir( const char *_name, bool showMsg = FALSE )
 {
   DIR *dp;
@@ -233,7 +221,7 @@ bool checkTemplates()
     // Test for existing Templates
     bool bTemplates = true;
  
-    DIR* dp = opendir( KfmPaths::templatesPath() );
+    DIR* dp = opendir( UserPaths::templatesPath() );
     if ( dp == NULL )
         bTemplates = false;
     else
@@ -281,31 +269,31 @@ bool checkTemplates()
 void testLocalInstallation()
 {
   // share and share/config already checked by KApplication
-  testLocalDir( "/share/apps/kfm" ); // don't rename this to konqueror !
-  testLocalDir( "/share/apps/kfm/bookmarks" ); // we want to keep user's bookmarks !
-  testLocalDir( "/share/apps/konqueror" ); // for kfmclient
-  testLocalDir( "/share/icons" );
-  testLocalDir( "/share/icons/mini" );
-  testLocalDir( "/share/applnk" );
-  testLocalDir( "/share/mimelnk" );
+  UserPaths::testLocalDir( "/share/apps/kfm" ); // don't rename this to konqueror !
+  UserPaths::testLocalDir( "/share/apps/kfm/bookmarks" ); // we want to keep user's bookmarks !
+  UserPaths::testLocalDir( "/share/apps/konqueror" ); // for kfmclient
+  UserPaths::testLocalDir( "/share/icons" );
+  UserPaths::testLocalDir( "/share/icons/mini" );
+  UserPaths::testLocalDir( "/share/applnk" );
+  UserPaths::testLocalDir( "/share/mimelnk" );
 
   bool copyTemplates = checkTemplates();
 
-  testDir( KfmPaths::desktopPath(), TRUE );
-  copyDirectoryFile("directory.desktop", KfmPaths::desktopPath());
-  testDir( KfmPaths::trashPath() );
-  copyDirectoryFile("directory.trash", KfmPaths::trashPath());
-  testDir( KfmPaths::templatesPath() );
-  copyDirectoryFile("directory.templates", KfmPaths::templatesPath());
-  testDir( KfmPaths::autostartPath() );
-  copyDirectoryFile("directory.autostart", KfmPaths::autostartPath());
+  testDir( UserPaths::desktopPath(), TRUE );
+  copyDirectoryFile("directory.desktop", UserPaths::desktopPath());
+  testDir( UserPaths::trashPath() );
+  copyDirectoryFile("directory.trash", UserPaths::trashPath());
+  testDir( UserPaths::templatesPath() );
+  copyDirectoryFile("directory.templates", UserPaths::templatesPath());
+  testDir( UserPaths::autostartPath() );
+  copyDirectoryFile("directory.autostart", UserPaths::autostartPath());
 
   if (copyTemplates)
   {
     QString cmd;
     cmd.sprintf("cp %s/kfm/Desktop/Templates/* %s",
                 kapp->kde_datadir().data(),
-                KfmPaths::templatesPath().data() );
+                UserPaths::templatesPath().data() );
     system( cmd.data() );
     KWM::sendKWMCommand("krootwm:refreshNew");
   }
