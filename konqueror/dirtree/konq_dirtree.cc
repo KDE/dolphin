@@ -673,21 +673,15 @@ void KonqDirTree::scanDir( QListViewItem *parent, const QString &path, bool isRo
 
   if ( isRoot && entries.count() == 0 )
   {
-    QString homeLnk = locate( "data", "konqueror/dirtree/home.desktop", KonqDirTreeFactory::instance() );
+    // we will copy over the entire contents of the dirtree directory.
+    // to do this, we assume that home.desktop exists..
+    QString dirtree_dir = KonqDirTreeFactory::instance()->dirs()->findResourceDir( "data", "konqueror/dirtree/home.desktop" );
 
-    if ( !homeLnk.isEmpty() )
+    if ( !dirtree_dir.isEmpty() )
     {
       QCString cp;
-      cp.sprintf( "cp %s %s", homeLnk.local8Bit().data(), path.local8Bit().data() );
-      system( cp.data() );
-    }
-
-    QString rootLnk = locate( "data", "konqueror/dirtree/root.desktop", KonqDirTreeFactory::instance() );
-
-    if ( !rootLnk.isEmpty() )
-    {
-      QCString cp;
-      cp.sprintf( "cp %s %s", rootLnk.local8Bit().data(), path.local8Bit().data() );
+      cp.sprintf( "cp -R %skonqueror/dirtree/* %s", dirtree_dir.local8Bit().data(),
+                                                    path.local8Bit().data() );
       system( cp.data() );
     }
 
@@ -722,6 +716,7 @@ void KonqDirTree::scanDir2( QListViewItem *parent, const QString &path )
   QDir dir( path );
   QString name = dir.dirName();
   QString icon = "folder";
+  bool    open = false;
 
   qDebug( "Scanning %s",  path.ascii() );
 
@@ -732,8 +727,9 @@ void KonqDirTree::scanDir2( QListViewItem *parent, const QString &path )
     KSimpleConfig cfg( dotDirectoryFile, true );
     cfg.setDesktopGroup();
     name = cfg.readEntry( "Name", name );
-    icon = cfg.readEntry( "Icon" );
+    icon = cfg.readEntry( "Icon", icon );
     stripIcon( icon );
+    open = cfg.readBoolEntry( "Open", open );
   }
 
   QString url = QString( path ).prepend( "file:" );
@@ -752,7 +748,7 @@ void KonqDirTree::scanDir2( QListViewItem *parent, const QString &path )
 
   m_groupItems.insert( item, groupPath );
 
-  item->setOpen( true );
+  item->setOpen( open );
 
   scanDir( item, groupPath );
 }
