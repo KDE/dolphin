@@ -464,6 +464,14 @@ void KonqIconViewWidget::focusOutEvent( QFocusEvent * ev )
     // Well, we can, but when we regain focus we should assume the mouse is
     // not down anymore or the slotOnItem code will break with highlighting!
     m_bMousePressed = false;
+    
+    // This will ensure that tooltips don't pop up and the mouseover icon
+    // effect will go away if the mouse goes out of the view without
+    // first moving into an empty portion of the view
+    // Fixes part of #86968, and #85204
+    // Matt Newell 2004-09-24
+    slotOnViewport();
+    
     KIconView::focusOutEvent( ev );
 }
 
@@ -1546,6 +1554,10 @@ void KonqIconViewWidget::mousePressChangeValue()
     d->pSoundPlayer->stop();
   d->bSoundItemClicked = true;
   d->firstClick = false;
+  
+  // Once we click on the item, we don't want a tooltip
+  // Fixes part of #86968
+  d->pFileTip->setItem( 0 );
 }
 
 void KonqIconViewWidget::contentsMousePressEvent( QMouseEvent *e )
