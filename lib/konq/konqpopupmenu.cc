@@ -159,7 +159,7 @@ KonqPopupMenu::KonqPopupMenu( const KFileItemList &items,
 
   addMerge( "konqueror" );
 
-  m_paNewView = new KAction( i18n( "New View" ), 0, this, SLOT( slotPopupNewView() ), &m_ownActions, "newview" );
+  m_paNewView = new KAction( i18n( "New Window" ), 0, this, SLOT( slotPopupNewView() ), &m_ownActions, "newview" );
 
   if ( ( isCurrentTrash && currentDir ) ||
        ( m_lstItems.count() == 1 && m_lstItems.first()->url().isLocalFile() &&
