@@ -14,22 +14,15 @@
 #include <sys/stat.h>
 #include <time.h>
 
-#include <qapplication.h>
-#include <qstrlist.h>
-#include <qstringlist.h>
-#include <qfiledefs.h>
-#include <qfiledialog.h>
 #include <qfileinfo.h>
 #include <qdir.h>
 #include <qclipboard.h>
-#include <qevent.h>
 #include <qpixmap.h>
 #include <qdragobject.h>
 
 #include <kfiledialog.h>
 #include <klocale.h>
 #include <kapp.h>
-#include <kdebug.h>
 #include <krun.h>
 #include <kprocess.h>
 #include <kpropsdlg.h>
@@ -162,11 +155,6 @@ KfindWindow::KfindWindow( QWidget *parent, const char *name )
     setColumnWidthMode(i, Manual);
 
   resetColumns(TRUE);
-
-  /* TODO
-     connect(this, SIGNAL(rightButtonPressed(QListViewItem *, const QPoint &, int)),
-     this, SLOT(rightButtonPressed(QListViewItem *, const QPoint &, int)));
-  */
 
   connect(this, SIGNAL(doubleClicked(QListViewItem *)),
 	  this, SLOT(openBinding()));
@@ -305,87 +293,71 @@ void KfindWindow::selectionChanged(bool selectionMade)
   }
 }
 
-// Currently disabled
-void KfindWindow::rightButtonPressed(QListViewItem */*ci*/,
-				     const QPoint &/*pos*/, int) {
-  /*
-  QStringList urls;
-  QListViewItem *item = firstChild();
-  while(item != NULL) {
-    if(isSelected(item)) {
-      urls.append("file:" + ((KfFileLVI*)item)->fileInfo->absFilePath());
-    }
-    item = item->nextSibling();
-  }
-  KonqPopupMenu popup(urls,
-		      0,
-		      "file:" + ((KfFileLVI*)ci)->fileInfo->absFilePath(),
-		      FALSE,
-		      FALSE,
-		      FALSE);
-  popup.exec(pos);
-  */
-}
-
-// Currently disables. Should work using  KonqPopupMenu().
 void KfindWindow::deleteFiles()
-  {
-    /*    QString tmp = i18n("Do you really want to delete file:\n%1")
-                .arg(text(currentItem()));
-    if (!KMessageBox::questionYesNo(parentWidget(), tmp);
-      {
-        QFileInfo *file = new QFileInfo(text(currentItem()));
-	if (file->isFile()||file->isSymLink())
-            {
-              if (remove(file->filePath().ascii())==-1)
-                  switch(errno)
-                    {
-    	              case EACCES:
-			KMessageBox::error(parentWidget(),
-					   i18n("You have no permission\n to delete this file"));
-                                   break;
-                      default:
-			KMessageBox::error(parentWidget(),
-					     i18n("It isn't possible to delete\nselected file"));
-                    }
-                else
-                  {
-                   // KFM *kfm= new KFM();
+{
+  QString tmp = i18n("Do you really want to delete selected file(s)?");
+  if(KMessageBox::questionYesNo(parentWidget(), tmp) == KMessageBox::No)
+    return;
+  
+  // Iterate on all selected elements
+  QList<KfFileLVI> *selected = selectedItems();
+  for ( uint i = 0; i < selected->count(); i++ ) {
+    KfFileLVI *item = selected->at(i);
+    QFileInfo *file = item->fileInfo;
+    
+    // Regular file
+    
+    if (file->isFile() || 
+	file->isSymLink()) {
+      if (remove(file->filePath().ascii()) == -1)
+	switch(errno) {
+	case EACCES:
+	  KMessageBox::error(parentWidget(),
+			     i18n("You have no permission\nto delete this file(s)"));
+	  break;
+	default:
+	  KMessageBox::error(parentWidget(),
+			     i18n("It is not possible to delete\nselected file(s)"));
+	}
+      else {
 #warning "TODO : implement a replacement for kfm->refreshDirectory(url)"
-                   // and replace the one below as well
-                   // kfm->refreshDirectory(text(currentItem()));
-                   removeItem(currentItem());
-		   // delete kfm;
- 		  };
-            }
-          else
-            {
-              if (rmdir(file->filePath().ascii())==-1)
-		  switch(errno)
-                    {
-		    case EACCES: KMessageBox::error(parentWidget(),
-		                              i18n("You have no permission\n to delete this directory"));
-                                  break;
-      	             case ENOTEMPTY: KMessageBox::error(parentWidget(),
-					    i18n("Specified directory\nis not empty!"),
-                                     break;
-     	             default: KMessageBox::error(parentWidget(),
-                                         i18n("It isn't possible to delete\nselected directory"));
-                   }
-                 else
-                  {
-		    // KFM *kfm= new KFM();
-		    // kfm->refreshDirectory(text(currentItem()));
-		    removeItem(currentItem());
-		    // delete kfm;
-                  };
-            };
-
-	  delete file;
-      };
-    */
-  };
-
+	// KFM *kfm= new KFM();
+	// and replace the one below as well
+	// kfm->refreshDirectory(text(currentItem()));
+	// delete kfm;
+	
+	removeItem(item);
+      }
+    }
+    
+    // Directory
+    
+    else {
+      if (rmdir(file->filePath().ascii()) == -1) {
+	switch(errno) {
+	case EACCES: 
+	  KMessageBox::error(parentWidget(),
+			     i18n("You have no permission\nto delete this directory"));
+	  break;
+	case ENOTEMPTY: 
+	  KMessageBox::error(parentWidget(),
+			     i18n("Specified directory\nis not empty"));
+	  break;
+	default: 
+	  KMessageBox::error(parentWidget(),
+			     i18n("It is not possible to delete\nselected directory"));
+	}
+      }
+      else {
+	// KFM *kfm= new KFM();
+	// kfm->refreshDirectory(text(currentItem()));
+	// delete kfm;
+	removeItem(item);
+      }
+    }
+  }
+}
+  
 void KfindWindow::fileProperties()
 {
   QString tmp= "file:";
@@ -647,7 +619,6 @@ void KfindWindow::contentsMouseMoveEvent(QMouseEvent *e)
   }
 }
 
-
 void KfindWindow::resetColumns(bool init)
 {
   if(init) {
@@ -672,17 +643,17 @@ void KfindWindow::resetColumns(bool init)
 QList<KfFileLVI> * KfindWindow::selectedItems()
 {
   mySelectedItems.clear();
-
+  
   if ( haveSelection ) {
     QListViewItem *item = firstChild();
-
+    
     while ( item != 0L ) {
       if ( isSelected( item ) )
 	mySelectedItems.append( (KfFileLVI *) item );
-	
+      
       item = item->nextSibling();
     }
   }
-
+  
   return &mySelectedItems;
-}	
+}

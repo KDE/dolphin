@@ -45,7 +45,6 @@ public slots:
   void unselectAll();
 
 private slots:
-  void rightButtonPressed(QListViewItem *, const QPoint &, int);
   void deleteFiles();
   void fileProperties();
   void openFolder();
