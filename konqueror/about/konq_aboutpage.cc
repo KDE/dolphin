@@ -103,7 +103,11 @@ QString KonqAboutPageFactory::launch()
   QString home_folder = QDir::homeDirPath();
   QString continue_icon_path = QApplication::reverseLayout()?iconloader->iconPath("1leftarrow", KIcon::Small ):iconloader->iconPath("1rightarrow", KIcon::Small );
 
-  res = res.arg( kapp->reverseLayout() ? "@import \"konq_about_rtl.css\";" : "" );
+  res = res.arg( locate( "data", "kdeui/about/kde_infopage.css" ) );
+  if ( kapp->reverseLayout() )
+    res = res.arg( "@import \"%1\";" ).arg( locate( "data", "kdeui/about/kde_infopage_rtl.css" ) );
+  else
+    res = res.arg( "" );
 
   res = res.arg( i18n("Conquer your Desktop!") )
       .arg( i18n( "Konqueror" ) )
@@ -144,6 +148,7 @@ QString KonqAboutPageFactory::launch()
       .arg( i18n( "Next: An Introduction to Konqueror" ) )
       ;
   i18n("Search the Web");//i18n for possible future use
+  kdDebug() << res << endl;
 
   s_launch_html = new QString( res );
 
@@ -164,7 +169,11 @@ QString KonqAboutPageFactory::intro()
     QString gohome_icon_path = iconloader->iconPath("gohome", KIcon::Small );
     QString continue_icon_path = QApplication::reverseLayout()?iconloader->iconPath("1leftarrow", KIcon::Small ):iconloader->iconPath("1rightarrow", KIcon::Small );
 
-    res = res.arg( kapp->reverseLayout() ? "@import \"konq_about_rtl.css\";" : "" );
+    res = res.arg( locate( "data", "kdeui/about/kde_infopage.css" ) );
+    if ( kapp->reverseLayout() )
+	res = res.arg( "@import \"%1\";" ).arg( locate( "data", "kdeui/about/kde_infopage_rtl.css" ) );
+    else
+	res = res.arg( "" );
 
     res = res.arg( i18n("Conquer your Desktop!") )
 	.arg( i18n( "Konqueror" ) )
@@ -215,7 +224,11 @@ QString KonqAboutPageFactory::specs()
     if ( res.isEmpty() )
 	return res;
 
-    res = res.arg( kapp->reverseLayout() ? "@import \"konq_about_rtl.css\";" : "" );
+    res = res.arg( locate( "data", "kdeui/about/kde_infopage.css" ) );
+    if ( kapp->reverseLayout() )
+	res = res.arg( "@import \"%1\";" ).arg( locate( "data", "kdeui/about/kde_infopage_rtl.css" ) );
+    else
+	res = res.arg( "" );
 
     res = res.arg( i18n("Conquer your Desktop!") )
 	.arg( i18n( "Konqueror" ) )
@@ -308,7 +321,11 @@ QString KonqAboutPageFactory::tips()
 	    iconloader->iconPath("view_left_right", KIcon::Small );
     QString continue_icon_path = QApplication::reverseLayout()?iconloader->iconPath("1leftarrow", KIcon::Small ):iconloader->iconPath("1rightarrow", KIcon::Small );
 
-    res = res.arg( kapp->reverseLayout() ? "@import \"konq_about_rtl.css\";" : "" );
+    res = res.arg( locate( "data", "kdeui/about/kde_infopage.css" ) );
+    if ( kapp->reverseLayout() )
+	res = res.arg( "@import \"%1\";" ).arg( locate( "data", "kdeui/about/kde_infopage_rtl.css" ) );
+    else
+	res = res.arg( "" );
 
     res = res.arg( i18n("Conquer your Desktop!") )
 	.arg( i18n( "Konqueror" ) )

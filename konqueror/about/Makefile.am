@@ -12,13 +12,6 @@ METASOURCES = AUTO
 
 konq_aboutpage_datadir = $(kde_datadir)/konqueror/about
 konq_aboutpage_data_DATA = \
-	bar-bottom-left.png    bar-top-right.png      box-centre-konqueror.png  more.png \
-	bar-bottom-middle.png  bottom-left.png        box-middle-left.png       top-left.png \
-	bar-bottom-right.png   bottom-middle.png      box-middle-right.png      top-middle.png \
-	bar-middle-left.png    bottom-right.png       box-top-left.png          top-right-konqueror.png \
-	bar-middle-right.png   box-bottom-left.png    box-top-middle.png \
-	bar-top-left.png       box-bottom-middle.png  box-top-right.png \
-	bar-top-middle.png     box-bottom-right.png   lightning.png \
-	launch.html intro.html specs.html tips.html plugins.html \
-	plugins_rtl.html \
-	konq_about.css konq_about_rtl.css
+	box-centre-konqueror.png  more.png          top-right-konqueror.png  lightning.png \
+	launch.html               intro.html        specs.html               tips.html \
+	plugins.html              plugins_rtl.html  konq.css
