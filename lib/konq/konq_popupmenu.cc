@@ -334,9 +334,9 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
     bool bIsLink        = (kpf & IsLink);
     bool currentDir     = false;
     bool sReading       = true;
-    bool sWriting       = true;
     bool sDeleting      = ( d->m_itemFlags & KParts::BrowserExtension::NoDeletion ) == 0;
     bool sMoving        = sDeleting;
+    bool sWriting       = sDeleting && m_lstItems.first()->isWritable();
     m_sMimeType         = m_lstItems.first()->mimetype();
     QString mimeGroup   = m_sMimeType.left(m_sMimeType.find('/'));
     mode_t mode         = m_lstItems.first()->mode();
@@ -391,7 +391,7 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
             sReading = KProtocolInfo::supportsReading( url );
 
         if ( sWriting )
-            sWriting = KProtocolInfo::supportsWriting( url );
+            sWriting = KProtocolInfo::supportsWriting( url ) && (*it)->isWritable();
 
         if ( sDeleting )
             sDeleting = KProtocolInfo::supportsDeleting( url );
@@ -661,7 +661,6 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
                 if ( cfg.hasKey( "X-KDE-Require" ) )
                 {
                     const QStringList capabilities = cfg.readListEntry( "X-KDE-Require" );
-                    // TODO we should also check for writing permissions in the current directory
                     if ( capabilities.contains( "Write" ) && !sWriting )
                         continue;
                 }
