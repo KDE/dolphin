@@ -27,10 +27,14 @@
 #include <kapplication.h>
 #include <kdcopactionproxy.h>
 #include <kdcoppropertyproxy.h>
+#include <kdebug.h>
 #include <kwin.h>
 
 KonqMainWindowIface::KonqMainWindowIface( KonqMainWindow * mainWindow )
-    : DCOPObject( mainWindow->name() ), m_pMainWindow( mainWindow )
+    :
+    // ARGL I hate this "virtual public DCOPObject" stuff!
+    DCOPObject( mainWindow->name() ),
+    KMainWindowInterface( mainWindow ), m_pMainWindow( mainWindow )
 {
   m_dcopActionProxy = new KDCOPActionProxy( mainWindow->actionCollection(), this );
 }

@@ -131,7 +131,7 @@ KonqExtendedBookmarkOwner::KonqExtendedBookmarkOwner(KonqMainWindow *w)
 }
 
 KonqMainWindow::KonqMainWindow( const KURL &initialURL, bool openInitialURL, const char *name )
- : KParts::MainWindow( name, WDestructiveClose | WStyle_ContextHelp )
+ : KParts::MainWindow( NoDCOPObject, 0L, name, WDestructiveClose | WStyle_ContextHelp )
 {
   setPreloadedFlag( false );
 

@@ -24,6 +24,7 @@
 #include <dcopobject.h>
 #include <qvaluelist.h>
 #include <dcopref.h>
+#include <kmainwindowiface.h>
 
 class KonqMainWindow;
 class KDCOPActionProxy;
@@ -31,7 +32,7 @@ class KDCOPActionProxy;
 /**
  * DCOP interface for a konqueror main window
  */
-class KonqMainWindowIface : virtual public DCOPObject
+class KonqMainWindowIface : public KMainWindowInterface
 {
   K_DCOP
 public:
