@@ -26,7 +26,6 @@
 #include <kurlrequester.h>
 #include <X11/Xlib.h>
 #include <klineedit.h>
-#include <qspinbox.h>
 #include <kfontcombo.h>
 #include <knuminput.h>
 

@@ -43,7 +43,6 @@
 #include <kimageio.h>
 #include <kio/job.h>
 #include <kio/paste.h>
-#include <klocale.h>
 #include <konq_drag.h>
 #include <konq_fileitem.h>
 #include <konq_iconviewwidget.h>

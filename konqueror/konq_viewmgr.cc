@@ -31,7 +31,6 @@
 #include <qevent.h>
 #include <qapplication.h>
 #include <qfileinfo.h>
-#include <qapplication.h>
 
 #include <kaccelgen.h>
 #include <kaction.h>
