@@ -28,7 +28,7 @@
 class KonqSoundPlayer : public QObject
 {
 public:
-	virtual const QStringList &mimeTypes() const = 0;
+	virtual const QStringList &mimeTypes() = 0;
 	virtual void play(const QString &fileName) = 0;
 	virtual void stop() = 0;
 };

@@ -19,6 +19,7 @@
 // $Id$
 
 #include <kartsdispatcher.h>
+#include <kdebug.h>
 #include <kplayobjectfactory.h>
 #include <kurl.h>
 #include <soundserver.h>
@@ -31,12 +32,12 @@ public:
 	KonqSoundPlayerImpl();
 	virtual ~KonqSoundPlayerImpl();
 
-	virtual const QStringList &mimeTypes() const;
+	virtual const QStringList &mimeTypes();
 	virtual void play(const QString &fileName);
 	virtual void stop();
 
 private:
-	static QStringList s_mimeTypes;
+	QStringList m_mimeTypes;
 
 	KArtsDispatcher     m_dispatcher;
 	Arts::SoundServerV2 m_soundServer;
@@ -44,9 +45,8 @@ private:
 	KPlayObject        *m_player;
 };
 
-QStringList KonqSoundPlayerImpl::s_mimeTypes;
-
 KonqSoundPlayerImpl::KonqSoundPlayerImpl()
+	: m_player(0)
 {
 	m_soundServer = Arts::Reference("global:Arts_SoundServerV2");
 	m_factory = new KPlayObjectFactory(m_soundServer);
@@ -54,12 +54,13 @@ KonqSoundPlayerImpl::KonqSoundPlayerImpl()
 
 KonqSoundPlayerImpl::~KonqSoundPlayerImpl()
 {
+	delete m_player;
 	delete m_factory;
 }
 
-const QStringList &KonqSoundPlayerImpl::mimeTypes() const
+const QStringList &KonqSoundPlayerImpl::mimeTypes()
 {
-	if (s_mimeTypes.isEmpty())
+	if (m_mimeTypes.isEmpty())
 	{
 		Arts::TraderQuery query;
 		vector<Arts::TraderOffer> *offers = query.query();
@@ -71,12 +72,12 @@ const QStringList &KonqSoundPlayerImpl::mimeTypes() const
 			for (vector<string>::iterator mt = prop->begin();
 				mt != prop->end(); ++mt)
 				if ((*mt).length())
-					s_mimeTypes << (*mt).c_str();
+					m_mimeTypes << (*mt).c_str();
 			delete prop;
 		}
 		delete offers;
 	}
-	return s_mimeTypes;
+	return m_mimeTypes;
 }
 
 void KonqSoundPlayerImpl::play(const QString &fileName)
@@ -108,7 +109,6 @@ KonqSoundFactory::KonqSoundFactory(QObject *parent, const char *name)
 
 KonqSoundFactory::~KonqSoundFactory()
 {
-	delete m_player;
 }
 
 QObject *KonqSoundFactory::createObject(QObject *, const char *,
