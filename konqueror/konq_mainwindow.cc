@@ -5007,6 +5007,8 @@ void KonqMainWindow::resetWindow()
     XChangeProperty(qt_xdisplay(), winId(), atom2, XA_CARDINAL,
                     32, PropModeReplace, (unsigned char *)&now, 1);
 #endif
+    static Atom atom3 = XInternAtom( qt_xdisplay(), "_NET_WM_USER_TIME", False );
+    XDeleteProperty( qt_xdisplay(), winId(), atom3 );
 // Qt remembers the iconic state if the window was withdrawn while on another virtual desktop
     clearWState( WState_Minimized );
     ignoreInitialGeometry();
