@@ -31,6 +31,7 @@
 KonqImagePreviewJob::KonqImagePreviewJob( KonqIconViewWidget * iconView, bool force )
   : KIO::Job( false /* no GUI */ ), m_bCanSave( true ), m_iconView( iconView )
 {
+  m_extent = 0;
   kdDebug(1203) << "KonqImagePreviewJob::KonqImagePreviewJob()" << endl;
   // Look for images and store the items in our todo list :)
   for (QIconViewItem * it = m_iconView->firstItem(); it; it = it->nextItem() )
@@ -359,16 +360,16 @@ void KonqImagePreviewJob::createThumbnail( QString pixPath )
   {
     int w = pix.width(), h = pix.height();
     // scale to pixie size
-    if(pix.width() > m_extent || pix.height() > m_extent){
-        if(pix.width() > pix.height()){
-            float percent = (((float)m_extent)/pix.width());
-            h = (int)(pix.height()*percent);
+    if(w > m_extent || h > m_extent){
+        if(w > h){
+            h = (int)( (double)( h * m_extent ) / w );
             w = m_extent;
+            ASSERT( h <= m_extent );
         }
         else{
-            float percent = (((float)m_extent)/pix.height());
-            w = (int)(pix.width()*percent);
+            w = (int)( (double)( w * m_extent ) / h );
             h = m_extent;
+            ASSERT( w <= m_extent );
         }
         img = pix.convertToImage().smoothScale( w, h );
         pix.convertFromImage( img );
