@@ -198,10 +198,8 @@ bool qt_set_socket_handler( int sockfd, int type, QObject *obj, bool enable )
 
 int main(int argc, char** argv)
 {
-#if QT_VERSION < 0x030100
-    // hack to avoid segfault in qapp's session manager routines
-    setenv( "SESSION_MANAGER", "", 1 );
-#endif
+    // nspluginviewer is a helper app, it shouldn't do session management at all
+   setenv( "SESSION_MANAGER", "", 1 );
 
    // trap X errors
    kdDebug(1430) << "1 - XSetErrorHandler" << endl;
