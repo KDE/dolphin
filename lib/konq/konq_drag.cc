@@ -19,6 +19,7 @@
 
 #include "konq_drag.h"
 #include <kdebug.h>
+#include <kurldrag.h>
 
 KonqIconDrag::KonqIconDrag( QWidget * dragSource, const char* name )
   : QIconDrag( dragSource, name ),
@@ -52,9 +53,9 @@ QByteArray KonqIconDrag::encodedData( const char* mime ) const
     if ( mimetype == "application/x-qiconlist" )
         a = QIconDrag::encodedData( mime );
     else if ( mimetype == "text/uri-list" ) {
-        QCString s = urls.join( "\r\n" ).latin1();
-        a.resize( s.length() + 1 ); // trailing zero
-        memcpy( a.data(), s.data(), s.length() + 1 );
+        QUriDrag tmp;
+        tmp.setUnicodeUris( urls );
+        return tmp.encodedData( mime );
     }
     else if ( mimetype == "application/x-kde-cutselection" ) {
         QCString s ( m_bCutSelection ? "1" : "0" );
@@ -66,8 +67,10 @@ QByteArray KonqIconDrag::encodedData( const char* mime ) const
         {
             QStringList uris;
             for (QStringList::ConstIterator it = urls.begin(); it != urls.end(); ++it)
-                uris.append(KURL((*it).latin1(), 106).prettyURL()); // 106 is mib enum for utf8 codec
+                uris.append(KURLDrag::checkFilenameURL(KURL((*it).latin1(), 106).prettyURL())); // 106 is mib enum for utf8 codec
             QCString s = uris.join( "\n" ).local8Bit();
+            if( uris.count() > 1 )
+                s.append( "\n" );
             a.resize( s.length()); // no trailing zero in clipboard text
             memcpy( a.data(), s.data(), s.length());
         }
@@ -79,9 +82,11 @@ QByteArray KonqIconDrag::encodedData( const char* mime ) const
             QStringList uris;
 
             for (QStringList::ConstIterator it = urls.begin(); it != urls.end(); ++it) 
-               uris.append(KURL(*it, 106).url(0, 4)); // 106 is mib enum for utf8 codec; 4 for latin1
+               uris.append(KURLDrag::checkFilenameURL(KURL(*it, 106).url(0, 4))); // 106 is mib enum for utf8 codec; 4 for latin1
 
             QCString s = uris.join( "\n" ).latin1();
+            if( uris.count() > 1 )
+                s.append( "\n" );
             a.resize( s.length());
             memcpy( a.data(), s.data(), s.length());
         }
@@ -92,8 +97,10 @@ QByteArray KonqIconDrag::encodedData( const char* mime ) const
         {
             QStringList uris;
             for (QStringList::ConstIterator it = urls.begin(); it != urls.end(); ++it) 
-                uris.append(KURL(*it, 106).prettyURL()); // 106 is mib enum for utf8 codec
+                uris.append(KURLDrag::checkFilenameURL(KURL(*it, 106).prettyURL())); // 106 is mib enum for utf8 codec
             QCString s = uris.join( "\n" ).utf8();
+            if( uris.count() > 1 )
+                s.append( "\n" );
             a.resize( s.length());
             memcpy( a.data(), s.data(), s.length());
         }
@@ -112,7 +119,7 @@ void KonqIconDrag::append( const QIconDragItem &item, const QRect &pr,
                              const QRect &tr, const QString &url )
 {
     QIconDrag::append( item, pr, tr );
-    urls.append(url);
+    urls.append( KURLDrag::checkFilenameURL(url));
 }
 
 //
@@ -126,10 +133,15 @@ KonqDrag * KonqDrag::newDrag( const KURL::List & urls, bool move, QWidget * drag
     // Get each URL encoded in utf8 - and since we get it in escaped
     // form on top of that, .latin1() is fine.
     for ( ; uit != uEnd ; ++uit )
-        uris.append( (*uit).url(0, 106).latin1() ); // 106 is mib enum for utf8 codec
+        {
+        QString url = (*uit).url(0,106); // 106 is mib enum for utf8 codec
+        url = KURLDrag::checkFilenameURL( url );
+        uris.append( url.latin1() ); 
+        }
     return new KonqDrag( uris, move, dragSource, name );
 }
 
+// urls must be already checked to have hostname in file URLs
 KonqDrag::KonqDrag( const QStrList & urls, bool move, QWidget * dragSource, const char* name )
   : QUriDrag( urls, dragSource, name ),
     m_bCutSelection( move ), m_urls( urls )
@@ -163,6 +175,8 @@ QByteArray KonqDrag::encodedData( const char* mime ) const
         for (QStrListIterator it(m_urls); *it; ++it)
             uris.append(KURL(*it, 106).prettyURL()); // 106 is mib enum for utf8 codec
         QCString s = uris.join( "\n" ).local8Bit();
+        if( uris.count() > 1 )
+            s.append( "\n" );
         a.resize( s.length() + 1 ); // trailing zero
         memcpy( a.data(), s.data(), s.length() + 1 );
     }
