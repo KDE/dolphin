@@ -194,10 +194,13 @@ void KonqCombo::updatePixmaps()
 {
     saveState();
 
+    setUpdatesEnabled( false );
     KonqPixmapProvider *prov = KonqPixmapProvider::self();
     for ( int i = 1; i < count(); i++ ) {
 	updateItem( prov->pixmapFor( text( i ) ), text( i ), i );
     }
+    setUpdatesEnabled( true );
+    repaint();
 
     restoreState();
 }
