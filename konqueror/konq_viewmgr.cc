@@ -776,8 +776,8 @@ void KonqViewManager::removeView( KonqView *view )
 
     if( otherFrame == 0L )
     {
-    kdWarning(1202) << "KonqViewManager::removeView: This shouldn't happen!" << endl;
-    return;
+        kdWarning(1202) << "KonqViewManager::removeView: This shouldn't happen!" << endl;
+        return;
     }
 
     if (m_pDocContainer == parentContainer) m_pDocContainer = otherFrame;
@@ -795,10 +795,10 @@ void KonqViewManager::removeView( KonqView *view )
     //kdDebug(1202) << "--- Removing parentContainer from grandParentContainer" << endl;
     grandParentContainer->removeChildFrame( parentContainer );
 
-    //kdDebug(1202) << "--- Removing view from view list, and deleting view " << view << endl;
+    //kdDebug(1202) << "--- Removing view from view list" << endl;
     m_pMainWindow->removeChildView(view);
-    view->partDeleted();
-    delete view;
+    //kdDebug(1202) << "--- Deleting view " << view << endl;
+    delete view; // This deletes the view, which deletes the part, which deletes its widget
 
     //kdDebug(1202) << "--- Deleting parentContainer " << parentContainer
     //              << ". Its parent is " << parentContainer->widget()->parent() << endl;
@@ -984,7 +984,7 @@ KonqViewFactory KonqViewManager::createView( const QString &serviceType,
                                           KService::Ptr &service,
                                           KTrader::OfferList &partServiceOffers,
                                           KTrader::OfferList &appServiceOffers,
-					  bool forceAutoEmbed )
+                                          bool forceAutoEmbed )
 {
   kdDebug(1202) << "KonqViewManager::createView" << endl;
   KonqViewFactory viewFactory;
