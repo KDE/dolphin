@@ -140,14 +140,6 @@ KWrite::~KWrite()
 
 void KWrite::setupActions()
 {
-  KAction *a;
-
-  if (Kate::document (view()->document()))
-  {
-    m_view->actionCollection()->remove (m_view->actionCollection()->action( "set_confdlg" ));
-    KStdAction::preferences(this, SLOT(slotConfigure()), actionCollection(), "settings_configure");
-  }
-  
   KStdAction::close( this, SLOT(slotFlush()), actionCollection(), "file_close" )->setWhatsThis(i18n("Use this to close the current document"));
 
   // setup File menu
@@ -159,7 +151,7 @@ void KWrite::setupActions()
                                          actionCollection());
   m_recentFiles->setWhatsThis(i18n("This lists files which you have opened recently, and allows you to easily open them again."));
 
-  a=new KAction(i18n("&New Window"), "window_new", 0, this, SLOT(newView()),
+  KAction *a=new KAction(i18n("&New Window"), "window_new", 0, this, SLOT(newView()),
               actionCollection(), "view_new_view");
   a->setWhatsThis(i18n("Create another view containing the current document"));
 
@@ -188,18 +180,6 @@ void KWrite::setupActions()
 void KWrite::setupStatusBar()
 {
   statusBar()->insertItem("", KWRITE_ID_GEN);
-}
-
-// if we use KatePart, sync config after configDialog is closed
-void KWrite::slotConfigure()
-{
-  Kate::Document *doc = Kate::document (view()->document());
-
-  if (doc)
-  {
-    doc->configDialog ();
-    writeConfig ();
-  }
 }
 
 // load on url
