@@ -259,11 +259,12 @@ void KProxyOptions::load()
               KProtocolManager::noProxyFor());
 
   cb_useCache->setChecked(KProtocolManager::useCache());
-  if (KProtocolManager::defaultCacheControl()==KIO::CC_Verify)
+  KIO::CacheControl cc = KProtocolManager::cacheControl();
+  if (cc==KIO::CC_Verify)
       rb_verify->setChecked(true);
-  else if (KProtocolManager::defaultCacheControl()==KIO::CC_CacheOnly)
+  else if (cc==KIO::CC_CacheOnly)
       rb_offlineMode->setChecked(true);
-  else if (KProtocolManager::defaultCacheControl()==KIO::CC_Cache)
+  else if (cc==KIO::CC_Cache)
       rb_cacheIfPossible->setChecked(true);
 
   sb_max_cache_size->setValue(KProtocolManager::maxCacheSize());
@@ -286,6 +287,10 @@ void KProxyOptions::defaults() {
   cb_useCache->setChecked(true);
   setCache();
   rb_verify->setChecked(true);
+  sb_max_cache_size->setValue(KProtocolManager::defaultMaxCacheSize());
+#ifdef MAX_CACHE_AGE
+  sb_max_cache_age->setText( "Not yet implemented."); // MaxCacheAge
+#endif
 }
 
 void KProxyOptions::updateGUI(QString httpProxy, QString ftpProxy,
@@ -363,13 +368,13 @@ void KProxyOptions::save()
     KProtocolManager::setMaxCacheSize(sb_max_cache_size->value());
 
     if (!cb_useCache->isChecked())
-	KProtocolManager::setDefaultCacheControl(KIO::CC_Reload);
+	KProtocolManager::setCacheControl(KIO::CC_Reload);
     else if (rb_verify->isChecked())
-	KProtocolManager::setDefaultCacheControl(KIO::CC_Verify);
+	KProtocolManager::setCacheControl(KIO::CC_Verify);
     else if (rb_offlineMode->isChecked())
-	KProtocolManager::setDefaultCacheControl(KIO::CC_CacheOnly);
+	KProtocolManager::setCacheControl(KIO::CC_CacheOnly);
     else if (rb_cacheIfPossible->isChecked())
-	KProtocolManager::setDefaultCacheControl(KIO::CC_Cache);
+	KProtocolManager::setCacheControl(KIO::CC_Cache);
 
     // Update everyone...
     QByteArray data;
