@@ -91,8 +91,9 @@ PolicyDialog::PolicyDialog( const QString& caption, QWidget *parent,
   QHBox* hbox = new QHBox( this );
   hbox->setSpacing( KDialog::spacingHint() );
   m_btnOK = new QPushButton( i18n("&OK"), hbox );
-  m_btnOK->setDefault(true);
   connect(m_btnOK, SIGNAL(clicked()), this, SLOT(accept()));
+  m_btnOK->setDefault( true );
+  m_btnOK->setEnabled( false );
 
   m_btnCancel = new QPushButton( i18n("&Cancel"), hbox );
   connect(m_btnCancel, SIGNAL(clicked()), this, SLOT(reject()));

@@ -129,7 +129,7 @@ UserAgentOptions::UserAgentOptions( QWidget * parent, const char * name )
                                             "identifier, change and/or delete an exisiting one.</qt>" ) );
   QVBox* vbox = new QVBox( gb_siteSpecific );
   vbox->setSpacing( KDialog::spacingHint() );
-  pb_add = new QPushButton( i18n("&Add..."), vbox );
+  pb_add = new QPushButton( i18n("&New..."), vbox );
   QWhatsThis::add( pb_add, i18n("Add a new site/domain specific identifier") );
   connect( pb_add, SIGNAL(clicked()), SLOT( addPressed() ) );
 

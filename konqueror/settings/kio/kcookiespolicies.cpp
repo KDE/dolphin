@@ -129,8 +129,8 @@ KCookiesPolicies::KCookiesPolicies(QWidget *parent, const char *name)
     bg_default->setExclusive( true );
 
     rb_gbPolicyAsk = new QRadioButton( i18n("A&sk for confirmation before accepting cookies."), bg_default);
-    rb_gbPolicyAccept = new QRadioButton( i18n("Acce&pt all cookies by default"), bg_default );
-    rb_gbPolicyReject = new QRadioButton( i18n("&Reject all cookies by default"), bg_default );
+    rb_gbPolicyAccept = new QRadioButton( i18n("Acc&ept all cookies by default"), bg_default );
+    rb_gbPolicyReject = new QRadioButton( i18n("Re&ject all cookies by default"), bg_default );
 
     // Create Group Box for specific settings
     gb_domainSpecific = new QGroupBox( i18n("Site/domain specific policy"), this);
@@ -160,7 +160,7 @@ KCookiesPolicies::KCookiesPolicies(QWidget *parent, const char *name)
 
     QVBox* vbox = new QVBox( gb_domainSpecific );
     vbox->setSpacing( KDialog::spacingHint() );
-    pb_domPolicyAdd = new QPushButton( i18n("&Add..."), vbox );
+    pb_domPolicyAdd = new QPushButton( i18n("&New..."), vbox );
     QWhatsThis::add( pb_domPolicyAdd, i18n("Click on this button to manually add a domain "
                                            "specific policy.") );
     connect( pb_domPolicyAdd, SIGNAL(clicked()), SLOT( addPressed() ) );
