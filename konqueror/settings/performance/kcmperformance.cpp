@@ -121,7 +121,7 @@ QString KonquerorConfig::quickHelp() const
     {
     return i18n( "<h1>Konqueror Performance</h1>"
         " You can configure several settings that improve Konqueror performance here."
-        " These include options for reusing already running instances "
+        " These include options for reusing already running instances"
         " and for keeping instances preloaded." );
     }
 
