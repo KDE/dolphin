@@ -126,6 +126,8 @@ KonqHTMLView::KonqHTMLView()
   (void)new HTMLViewPropertiesExtension( this );
 
   m_pBrowser = new KonqBrowser( this, "konqbrowser" );
+  setFocusProxy( m_pBrowser );
+  setFocusPolicy( m_pBrowser->focusPolicy() );
 
   QObject::connect( m_pBrowser, SIGNAL( setTitle( QString ) ),
                     this, SLOT( slotSetTitle( QString ) ) );

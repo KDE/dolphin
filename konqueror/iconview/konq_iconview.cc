@@ -152,6 +152,8 @@ KonqKfmIconView::KonqKfmIconView()
   m_pProps = new KonqPropsView( * KonqPropsView::defaultProps() );
 
   m_pIconView = new KonqIconViewWidget( this, "qiconview" );
+  setFocusProxy( m_pIconView );
+  setFocusPolicy( m_pIconView->focusPolicy() );
 
   m_extension = new IconEditExtension( m_pIconView );
 
@@ -346,7 +348,7 @@ void KonqKfmIconView::slotSelect()
     QRegExp re( pattern, true, true );
 
     m_pIconView->blockSignals( true );
-    
+
     QIconViewItem *it = m_pIconView->firstItem();
     while ( it )
     {
@@ -356,7 +358,7 @@ void KonqKfmIconView::slotSelect()
     }
 
     m_pIconView->blockSignals( false );
-    
+
     // Why this ? Doesn't QIconView emit it on setSelected ?
     // (Simon) sure it does, but it's a lot faster to emit the signal once and not for each item when
     // selecting multiple files :-)
@@ -376,7 +378,7 @@ void KonqKfmIconView::slotUnselect()
     QRegExp re( pattern, true, true );
 
     m_pIconView->blockSignals( true );
-    
+
     QIconViewItem *it = m_pIconView->firstItem();
     while ( it )
     {
@@ -386,7 +388,7 @@ void KonqKfmIconView::slotUnselect()
     }
 
     m_pIconView->blockSignals( false );
-    
+
     // Why this ? Doesn't QIconView emit it on setSelected ?
     // (Simon) see above :)
     emit m_extension->selectionChanged();

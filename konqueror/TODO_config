@@ -1,7 +1,7 @@
 Date:   Thu, 1 Apr 1999 11:51:03 +0200
 From: David Faure <faure@kde.org>
 To: kfm-devel@kde.org
-Subject: How to choose between builtin and external application : proposal 
+Subject: How to choose between builtin and external application : proposal
 
 How to configure between builtin and external viewers ?
 I discussed this with a friend, and here is what we come up with :
@@ -10,17 +10,15 @@ I discussed this with a friend, and here is what we come up with :
 
 text : use builtin viewer (yes/no)  [checkbox]
 image : use builtin viewer (yes/no)  [checkbox]
-
-(and perhaps audio/video in the future?) :-D
+other : use builtin viewer (yes/no)  [checkbox] (i.e. application/, like dvi, ps...)
 
 * then, for all text and images mimetypes, in the properties dialog for them
 we would add the choice between    [e.g. 3 radiobuttons]
 - use default
-- use builtin viewer 
+- use builtin viewer
 - use external application
 
-(BTW, properties dialogs taken from kfm now work in konqy, and I just moved 
-them to libkio)
+(=> needs a X-KDE-Allow-Embedding=unset/true/false)
 
 This way, one can set choose between builtin and external for all text /
 images files, and set individual values too (e.g. an icon-team artist would
@@ -35,13 +33,13 @@ mimetype text/html - this is the way to keep the exact (though
 inconsistent) behaviour of 1.1-kfm.
 
 I suggest that factory defaults (i.e. configuration for first-time users)
-would be set to 'yes' for the two global defaults (-> use builtin) 
+would be set to 'yes' for the two global defaults (-> use builtin)
 and would be 'use default' for mimetypes.
 This for speed reasons (embedded viewers are really fast) and also to show
 the new features ;)
 
--- 
+--
 David FAURE
 david.faure@insa-lyon.fr, faure@kde.org
-http://www.insa-lyon.fr/People/AEDI/dfaure/index.html 
+http://www.insa-lyon.fr/People/AEDI/dfaure/index.html
 KDE, Making The Future of Computing Available Today

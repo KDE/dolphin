@@ -159,6 +159,8 @@ KonqTextView::KonqTextView()
   (void)new KonqTextEditExtension( this );
 
   m_pEdit = new KMultiLineEdit( this );
+  setFocusProxy( m_pEdit );
+  setFocusPolicy( m_pEdit->focusPolicy() );
 
   m_pEdit->setReadOnly( true );
 

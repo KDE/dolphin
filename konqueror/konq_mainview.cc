@@ -274,7 +274,6 @@ void KonqMainView::openURL( KonqChildView *_view, const QString &_url, bool relo
     view->setLoading( true );
     startAnimation();
   }
-
 }
 
 void KonqMainView::openURL( const QString &url, bool reload, int xOffset,
@@ -685,27 +684,24 @@ debug(" KonqMainView::openView %s %s", serviceType.ascii(), url.ascii());
   }
   debug("%s", QString("(2) KonqMainView::openView : url = '%1'").arg(url).latin1());
 
-  //first check whether the current view can display this type directly, then
-  //try to change the view mode. if this fails, too, then Konqueror cannot
-  //display the data addressed by the URL
-  if ( childView->supportsServiceType( serviceType ) )
-  {
-    KURL u( url );
-    if ( ( serviceType == "inode/directory" ) &&
-         ( childView->allowHTML() ) &&
+  KURL u( url );
+  if ( ( serviceType == "inode/directory" ) &&
+       ( childView->allowHTML() ) &&
          ( u.isLocalFile() ) &&
 	 ( ( indexFile = findIndexFile( u.path() ) ) != QString::null ) )
-      childView->changeViewMode( "text/html", indexFile.prepend( "file:" ) );
-    else
-      childView->openURL( url, true );
-
-    childView->makeHistory( false );
-    return true;
+  {
+    serviceType = "text/html";
+    url = indexFile.prepend( "file:" );
   }
 
   if ( childView->changeViewMode( serviceType, url ) )
+  {
+    // Give focus to the view
+    childView->view()->setFocus();
     return true;
+  }
 
+  // Didn't work, abort
   childView->setLoading( false );
   if ( childView == m_currentView )
   {
