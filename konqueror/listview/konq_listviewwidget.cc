@@ -562,7 +562,7 @@ KURL::List KonqBaseListViewWidget::selectedUrls()
 
 KonqPropsView * KonqBaseListViewWidget::props() const
 {
-  return m_pBrowserView->m_pProps;
+   return m_pBrowserView->m_pProps;
 }
 
 void KonqBaseListViewWidget::emitOpenURLRequest(const KURL& url, const QString & mimeType)
@@ -582,13 +582,18 @@ void KonqBaseListViewWidget::slotReturnPressed( QListViewItem *_item )
       return;
 
    KURL u( fileItem->url() );
+   if ( !fileItem->isReadable() )
+   {
+      KMessageBox::error( this, i18n("You do not have enough permissions to read <b>%1</b>").arg(u.prettyURL()) );
+      return;
+   }
 
-    if (KonqFMSettings::settings()->alwaysNewWin() && fileItem->mode() & S_IFDIR) {
-        KParts::URLArgs args;
-        args.serviceType = fileItem->mimetype(); // inode/directory
-        emit m_pBrowserView->extension()->createNewWindow( u, args );
-    } else
-        emitOpenURLRequest( u, fileItem->mimetype() );
+   if (KonqFMSettings::settings()->alwaysNewWin() && fileItem->isDir()) {
+      KParts::URLArgs args;
+      args.serviceType = fileItem->mimetype(); // inode/directory
+      emit m_pBrowserView->extension()->createNewWindow( u, args );
+   } else
+      emitOpenURLRequest( u, fileItem->mimetype() );
 }
 
 void KonqBaseListViewWidget::slotRightButtonPressed( QListViewItem *, const QPoint &_global, int )

@@ -35,6 +35,7 @@
 #include <kio/job.h>
 #include <klibloader.h>
 #include <klineeditdlg.h>
+#include <kmessagebox.h>
 #include <kmimetype.h>
 #include <konq_iconviewwidget.h>
 #include <konq_settings.h>
@@ -608,7 +609,12 @@ void KonqKfmIconView::slotReturnPressed( QIconViewItem *item )
     KonqFileItem *fileItem = (static_cast<KFileIVI*>(item))->item();
     if ( !fileItem )
         return;
-    if (KonqFMSettings::settings()->alwaysNewWin() && fileItem->mode() & S_IFDIR) {
+    if ( !fileItem->isReadable() )
+    {
+        KMessageBox::error( m_pIconView, i18n("You do not have enough permissions to read <b>%1</b>").arg(fileItem->url().prettyURL()) );
+        return;
+    }
+    if (KonqFMSettings::settings()->alwaysNewWin() && fileItem->isDir()) {
         fileItem->run();
     } else {
         KParts::URLArgs args;
