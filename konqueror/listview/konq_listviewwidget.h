@@ -119,6 +119,9 @@ class KonqBaseListViewWidget : public KListView
     // QColor color() const { return m_color; }
       int iconSize() const {return props()->iconSize(); }
 
+    virtual void saveState( QDataStream & ) {}
+    virtual void restoreState( QDataStream & ) {}
+
    public slots:
       //virtual void slotOnItem( KonqBaseListViewItem* _item );
       virtual void updateSelectedFilesInfo();

@@ -75,6 +75,9 @@ public:
 
   bool supportsUndo() const { return true; }
 
+  virtual void saveState( QDataStream &stream );
+  virtual void restoreState( QDataStream &stream );
+
 protected:
   virtual void guiActivateEvent( KParts::GUIActivateEvent *event );
   void setupActions();

@@ -60,6 +60,23 @@ KonqTreeViewWidget::~KonqTreeViewWidget()
    kdDebug(1202) << "-KonqTreeViewWidget" << endl;
 }
 
+void KonqTreeViewWidget::saveState( QDataStream &stream )
+{
+    QStringList openDirList;
+
+    QDictIterator<KonqListViewDir> it( m_mapSubDirs );
+    for (; it.current(); ++it )
+        if ( it.current()->isOpen() )
+            openDirList.append( it.current()->url( 0 ) );
+
+    stream << openDirList;
+}
+
+void KonqTreeViewWidget::restoreState( QDataStream &stream )
+{
+    stream >> m_urlsToOpen;
+}
+
 void KonqTreeViewWidget::addSubDir(const KURL & _url, KonqListViewDir* _dir)
 {
    m_mapSubDirs.insert( _url.url(), _dir );
@@ -107,6 +124,12 @@ void KonqTreeViewWidget::setComplete()
           setContentsPos( m_pBrowserView->extension()->urlArgs().xOffset, m_pBrowserView->extension()->urlArgs().yOffset );
       m_bUpdateContentsPosAfterListing = false;
    }
+
+   if ( m_itemsToOpen.count() > 0 )
+   {
+       KonqListViewDir *dir = m_itemsToOpen.take( 0 );
+       dir->setOpen( true );
+   }
 }
 
 void KonqTreeViewWidget::slotClear()
@@ -133,21 +156,46 @@ void KonqTreeViewWidget::slotNewItems( const KFileItemList & entries )
          kdDebug(1202) << "findDir returned " << parentDir << endl;
       }
 
+      KonqListViewDir *dirItem = 0;
+
       if ( parentDir )
       { // adding under a directory item
          if ( isdir )
-            new KonqListViewDir( this, parentDir, static_cast<KonqFileItem*>(*kit) );
+            dirItem = new KonqListViewDir( this, parentDir, static_cast<KonqFileItem*>(*kit) );
          else
             new KonqListViewItem( this, parentDir, static_cast<KonqFileItem*>(*kit) );
       }
       else
       { // adding on the toplevel
          if ( isdir )
-            new KonqListViewDir( this, static_cast<KonqFileItem*>(*kit) );
+            dirItem = new KonqListViewDir( this, static_cast<KonqFileItem*>(*kit) );
          else
             new KonqListViewItem( this,static_cast<KonqFileItem*> (*kit) );
       }
+
+      QString u = (*kit)->url().url( 0 );
+
+      if ( dirItem && m_urlsToOpen.contains( u ) )
+      {
+          m_itemsToOpen.append( dirItem );
+          m_urlsToOpen.remove( u );
+      }
    }
+}
+
+void KonqTreeViewWidget::slotDeleteItem( KFileItem *_fileItem )
+{
+    QString url = _fileItem->url().url( 0 );
+    m_urlsToOpen.remove( url );
+    QListIterator<KonqListViewDir> it( m_itemsToOpen );
+    for (; it.current(); ++it )
+        if ( it.current()->url( 0 ) == url )
+        {
+            m_itemsToOpen.removeRef( it.current() );
+            break;
+        }
+
+    KonqBaseListViewWidget::slotDeleteItem( _fileItem );
 }
 
 void KonqTreeViewWidget::openSubFolder(const KURL &_url, KonqListViewDir* _dir)

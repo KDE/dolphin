@@ -320,6 +320,19 @@ bool KonqListView::closeURL()
   return true;
 }
 
+void KonqListView::saveState( QDataStream &stream )
+{
+    kdDebug() << "KonqListView::saveState" << endl;
+    KonqDirPart::saveState( stream );
+    m_pListView->saveState( stream );
+}
+
+void KonqListView::restoreState( QDataStream &stream )
+{
+    KonqDirPart::restoreState( stream );
+    m_pListView->restoreState( stream );
+}
+
 void KonqListView::guiActivateEvent( KParts::GUIActivateEvent *event )
 {
   KParts::ReadOnlyPart::guiActivateEvent( event );

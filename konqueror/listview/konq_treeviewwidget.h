@@ -36,6 +36,9 @@ class KonqTreeViewWidget : public KonqBaseListViewWidget
       KonqTreeViewWidget( KonqListView *parent, QWidget *parentWidget);
       virtual ~KonqTreeViewWidget();
 
+    virtual void saveState( QDataStream &stream );
+    virtual void restoreState( QDataStream &stream );
+
    protected slots:
       // from QListView
       virtual void slotReturnPressed( QListViewItem *_item );
@@ -43,6 +46,7 @@ class KonqTreeViewWidget : public KonqBaseListViewWidget
       // slots connected to the directory lister
       virtual void slotClear();
       virtual void slotNewItems( const KFileItemList & );
+      virtual void slotDeleteItem( KFileItem *_fileTtem );
 
    protected:
       KonqListViewDir * findDir( const QString &_url );
@@ -63,6 +67,9 @@ class KonqTreeViewWidget : public KonqBaseListViewWidget
       bool m_bSubFolderComplete;
 
       QDict<KonqListViewDir> m_mapSubDirs;
+
+      QStringList m_urlsToOpen;
+      QList<KonqListViewDir> m_itemsToOpen;
 };
 
 #endif
