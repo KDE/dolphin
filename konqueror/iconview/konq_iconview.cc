@@ -661,7 +661,7 @@ void KonqKfmIconView::slotViewportRightClicked( QIconViewItem *i )
         // We didn't get a root item (e.g. over FTP)
         // TODO Use KIO::stat (or NetAccess::stat ?) here !
         item = new KFileItem( S_IFDIR, (mode_t)-1, url() );
-	delRootItem = true;
+        delRootItem = true;
       }
     }
 
@@ -1089,28 +1089,27 @@ uint KonqKfmIconView::fileCount() const
 
 void KonqKfmIconView::setViewMode( const QString &mode )
 {
+    if ( mode == m_mode )
+        return;
+    // note: this should be moved to KonqIconViewWidget. It would make the code
+    // more readable :)
     m_pIconView->setUpdatesEnabled( false );
 
-    bool ww = m_pIconView->wordWrapIconText();
-    // workaround for QIconView problem
-    m_pIconView->setWordWrapIconText( false );
     m_mode = mode;
     if (mode=="MultiColumnView")
     {
+       m_pIconView->setGridX( m_pIconView->gridX() + 50 ); // see KonqIconViewWidget::calculateGridX
        m_pIconView->setArrangement(QIconView::TopToBottom);
-       //m_pIconView->setWordWrapIconText(false);
        m_pIconView->setItemTextPos(QIconView::Right);
     }
     else
     {
-       //m_pIconView->setWordWrapIconText(true);
+       m_pIconView->setGridX( m_pIconView->gridX() - 50 ); // see KonqIconViewWidget::calculateGridX
        m_pIconView->setArrangement(QIconView::LeftToRight);
        m_pIconView->setItemTextPos(QIconView::Bottom);
     }
 
     m_pIconView->setUpdatesEnabled( true );
-    m_pIconView->calculateGridX();
-    m_pIconView->setWordWrapIconText( ww );
 }
 
 void KonqKfmIconView::setupSortKeys()
