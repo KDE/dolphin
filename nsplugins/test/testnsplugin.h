@@ -23,17 +23,16 @@
 #ifndef __TESTNSPLUGIN_H__
 #define __TESTNSPLUGIN_H__
 
-
 #include <qstring.h>
 #include <qwidget.h>
-#include <ktmainwindow.h>
+#include <kmainwindow.h>
 #include <qlayout.h>
 #include <qptrlist.h>
 
 class NSPluginLoader;
 class NSPluginInstance;
 
-class TestNSPlugin : public KTMainWindow
+class TestNSPlugin : public KMainWindow
 {
   Q_OBJECT
 
@@ -48,7 +47,7 @@ public slots:
 
 protected:
   NSPluginLoader *m_loader;
-  QList<QWidget> m_plugins;
+  QPtrList<QWidget> m_plugins;
   QWidget *m_client;
   QBoxLayout *m_layout;
 };

@@ -39,7 +39,7 @@ TestNSPlugin::TestNSPlugin()
 
    // client area
    m_client = new QWidget( this, "m_client" );
-   setView( m_client );
+   setCentralWidget( m_client );
    m_client->show();
    m_layout = new QHBoxLayout( m_client );
 
