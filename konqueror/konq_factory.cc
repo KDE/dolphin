@@ -24,6 +24,7 @@
 #include "konq_misc.h"
 #include "konq_run.h"
 #include "version.h"
+#include "konq_propsview.h"
 
 #include <konqsettings.h>
 #include <kdebug.h>
@@ -36,8 +37,9 @@
 #include <assert.h>
 
 unsigned long KonqFactory::m_instanceRefCnt = 0;
-KInstance *KonqFactory::s_instance = 0L;
-KAboutData *KonqFactory::s_aboutData = 0L;
+KInstance *KonqFactory::s_instance = 0;
+KAboutData *KonqFactory::s_aboutData = 0;
+KonqPropsView *KonqFactory::s_defaultViewProps = 0;
 
 KParts::ReadOnlyPart *KonqViewFactory::create( QWidget *parent, const char *name )
 {
@@ -56,8 +58,9 @@ KParts::ReadOnlyPart *KonqViewFactory::create( QWidget *parent, const char *name
 
 KonqFactory::KonqFactory()
 {
-  s_instance = 0L;
+  s_instance = 0;
   /*QString path = */instance()->dirs()->saveLocation("data", "kfm/bookmarks", true);
+  s_defaultViewProps = 0;
 }
 
 KonqFactory::~KonqFactory()
@@ -66,6 +69,11 @@ KonqFactory::~KonqFactory()
     delete s_instance;
 
   s_instance = 0L;
+  
+  if ( s_defaultViewProps )
+    delete s_defaultViewProps;
+  
+  s_defaultViewProps = 0;
 }
 
 KonqViewFactory KonqFactory::createView( const QString &serviceType,
@@ -228,3 +236,10 @@ const KAboutData *KonqFactory::aboutData()
   return s_aboutData;
 }
 
+KonqPropsView *KonqFactory::defaultViewProps()
+{
+  if ( !s_defaultViewProps )
+    s_defaultViewProps = KonqPropsView::defaultProps( instance() );
+  
+  return s_defaultViewProps;
+}

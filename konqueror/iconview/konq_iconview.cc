@@ -61,14 +61,22 @@ class KonqIconViewFactory : public KParts::Factory
 public:
     KonqIconViewFactory()
     {
+      s_defaultViewProps = 0;
+      s_instance = 0;
     }
     virtual ~KonqIconViewFactory()
     {
       if ( s_instance )
         delete s_instance;
+      
+      if ( s_defaultViewProps )
+        delete s_defaultViewProps;
+      
+      s_instance = 0;
+      s_defaultViewProps = 0;
     }
 
-    virtual KParts::Part* createPart( QWidget *parentWidget, const char *, QObject *parent, const char *name, const char*, const QStringList &args )
+    virtual KParts::Part* createPart( QWidget *parentWidget, const char *, QObject *parent, const char *name, const char*, const QStringList &/*&args*/ )
     {
 	KonqKfmIconView *obj = new KonqKfmIconView( parentWidget, parent, name );
 	emit objectCreated( obj );
@@ -82,11 +90,21 @@ public:
       return s_instance;
     }
 
+   static KonqPropsView *defaultViewProps()
+   {
+     if ( !s_defaultViewProps )
+       s_defaultViewProps = KonqPropsView::defaultProps( instance() );
+     
+     return s_defaultViewProps;
+   }
+
 private:
   static KInstance *s_instance;
+  static KonqPropsView *s_defaultViewProps;
 };
 
 KInstance *KonqIconViewFactory::s_instance = 0;
+KonqPropsView *KonqIconViewFactory::s_defaultViewProps = 0;
 
 extern "C"
 {
@@ -142,11 +160,10 @@ KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const 
 
     setXMLFile( "konq_iconview.rc" );
 
-    KonqPropsView::incRef();
-    
     // Create a properties instance for this view
     // (copying the default values)
-    m_pProps = new KonqPropsView( * KonqPropsView::defaultProps( KonqIconViewFactory::instance() ) );
+    //    m_pProps = new KonqPropsView( * KonqPropsView::defaultProps( KonqIconViewFactory::instance() ) );
+    m_pProps = new KonqPropsView( * KonqIconViewFactory::defaultViewProps() );
 
     m_pIconView = new KonqIconViewWidget( parentWidget, "qiconview" );
 
@@ -331,7 +348,6 @@ KonqKfmIconView::~KonqKfmIconView()
     delete m_pProps;
     //no need for that, KParts deletes our widget already ;-)
     //    delete m_pIconView;
-    KonqPropsView::decRef();
 }
 
 void KonqKfmIconView::slotImagePreview( bool toggle )
@@ -535,7 +551,7 @@ void KonqKfmIconView::slotViewMedium( bool b )
     }
 }
 
-void KonqKfmIconView::slotViewNone( bool b )
+void KonqKfmIconView::slotViewNone( bool /*b*/ )
 {
   //TODO: Disable Icons
 }
@@ -964,7 +980,7 @@ bool KonqKfmIconView::openURL( const KURL &_url )
 
     // do it after starting the dir lister to avoid changing bgcolor of the
     // old view
-    if ( m_pProps->enterDir( _url ) )
+    if ( m_pProps->enterDir( _url, KonqIconViewFactory::defaultViewProps() ) )
     {
 	m_pIconView->viewport()->setBackgroundColor( m_pProps->m_bgColor );
 	m_pIconView->viewport()->setBackgroundPixmap( m_pProps->m_bgPixmap );

@@ -35,6 +35,7 @@
 class KAction;
 class KToggleAction;
 class ListViewBrowserExtension;
+class KonqPropsView;
 
 class KonqListViewFactory : public KParts::Factory
 {
@@ -45,9 +46,11 @@ public:
   virtual KParts::Part* createPart( QWidget *parentWidget, const char *, QObject *parent, const char *name, const char*, const QStringList &args );
 
   static KInstance *instance();
+  static KonqPropsView *defaultViewProps();
 
 private:
   static KInstance *s_instance;
+  static KonqPropsView *s_defaultViewProps;
 };
 
 /**

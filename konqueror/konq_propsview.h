@@ -47,9 +47,6 @@ class KonqPropsView
 
   // This is not a QObject because we need a copy constructor.
 public:
-  static void incRef();
-  static void decRef();
-
   /**
    * The static instance of KonqPropsView, holding the default values
    * from the config file
@@ -74,7 +71,7 @@ public:
    * Checks for a .directory, read it, and
    * @return true if found it
    */
-  bool enterDir( const KURL & dir );
+  bool enterDir( const KURL & dir, KonqPropsView *defaultProps );
 
   /**
    * Save in local .directory if possible
@@ -111,7 +108,7 @@ public:
 //protected:
 
   /** The static instance. */
-  static KonqPropsView * m_pDefaultProps;
+  //  static KonqPropsView * m_pDefaultProps;
 
   bool m_bShowDot;
   bool m_bImagePreview;
@@ -124,8 +121,6 @@ private:
 
   /** There is no default constructor. Use the provided one or copy constructor */
   KonqPropsView();
-
-  static unsigned long s_ulRefCnt;
 };
 
 

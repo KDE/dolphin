@@ -65,10 +65,10 @@ KonqBaseListViewWidget::KonqBaseListViewWidget( KonqListView *parent, QWidget *p
 
    m_bTopLevelComplete  = true;
 
-   KonqPropsView::incRef();
    // Create a properties instance for this view
    // (copying the default values)
-   m_pProps = new KonqPropsView( * KonqPropsView::defaultProps( KonqListViewFactory::instance() ) );
+   //   m_pProps = new KonqPropsView( * KonqPropsView::defaultProps( KonqListViewFactory::instance() ) );
+   m_pProps = new KonqPropsView( * KonqListViewFactory::defaultViewProps() );
 
    //Adjust QListView behaviour
    setSelectionMode( Extended );
@@ -106,8 +106,6 @@ KonqBaseListViewWidget::~KonqBaseListViewWidget()
   iterator it = begin();
   for( ; it != end(); ++it )
     it->prepareToDie();
-  
-  KonqPropsView::decRef();
 }
 
 void KonqBaseListViewWidget::stop()
@@ -642,7 +640,7 @@ bool KonqBaseListViewWidget::openURL( const KURL &url )
 
   m_url = url;
 
-  if ( m_pProps->enterDir( url ) )
+  if ( m_pProps->enterDir( url, KonqListViewFactory::defaultViewProps() ) )
   {
     // nothing to do yet
   }

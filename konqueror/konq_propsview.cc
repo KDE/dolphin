@@ -56,36 +56,20 @@ QPixmap wallpaperPixmap( const char *_wallpaper )
     return QPixmap();
 }
 
-KonqPropsView * KonqPropsView::m_pDefaultProps = 0L;
-unsigned long int KonqPropsView::s_ulRefCnt = 0;
-
-void KonqPropsView::incRef()
-{
-  s_ulRefCnt++; 
-} 
-
-void KonqPropsView::decRef()
-{
-  s_ulRefCnt--;
-  
-  if ( s_ulRefCnt == 0 && m_pDefaultProps )
-  {
-    delete m_pDefaultProps;
-    m_pDefaultProps = 0;
-  }
-} 
+//KonqPropsView * KonqPropsView::m_pDefaultProps = 0L;
 
 // static
 KonqPropsView * KonqPropsView::defaultProps( KInstance *instance )
 {
-  if (!m_pDefaultProps)
-  {
+//  if (!m_pDefaultProps)
+//  {
     kdDebug(1202) << "Reading global config for konq_propsview" << endl;
     KConfig *config = instance->config();
     KConfigGroupSaver cgs(config, "Settings");
-    m_pDefaultProps = new KonqPropsView(config);
-  }
-  return m_pDefaultProps;
+    return new KonqPropsView( config );
+    //    m_pDefaultProps = new KonqPropsView(config);
+    //  }
+    //  return m_pDefaultProps;
 }
 
 KonqPropsView::KonqPropsView( KConfig * config )
@@ -130,10 +114,11 @@ KonqPropsView::~KonqPropsView()
 {
 }
 
-bool KonqPropsView::enterDir( const KURL & dir )
+bool KonqPropsView::enterDir( const KURL & dir, KonqPropsView *defaultProps )
 {
   // Revert to default setting first
-  m_bgPixmap = m_pDefaultProps->m_bgPixmap;
+//  m_bgPixmap = m_pDefaultProps->m_bgPixmap;
+  m_bgPixmap = defaultProps->m_bgPixmap; 
   m_bgColor = KonqFMSettings::settings()->bgColor();
   // Check for .directory
   KURL u ( dir );

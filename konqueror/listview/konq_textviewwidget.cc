@@ -143,7 +143,7 @@ bool KonqTextViewWidget::openURL( const KURL &url )
 
    m_url=url;
 
-   if ( m_pProps->enterDir( url ) )
+   if ( m_pProps->enterDir( url, KonqListViewFactory::defaultViewProps() ) )
    {
       // nothing to do yet
    }

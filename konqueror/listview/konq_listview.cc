@@ -54,12 +54,19 @@
 
 KonqListViewFactory::KonqListViewFactory()
 {
+  s_instance = 0;
+  s_defaultViewProps = 0;
 }
 
 KonqListViewFactory::~KonqListViewFactory()
 {
   if ( s_instance )
     delete s_instance;
+  if ( s_defaultViewProps )
+    delete s_defaultViewProps;
+  
+  s_instance = 0;
+  s_defaultViewProps = 0;
 }
 
 KParts::Part* KonqListViewFactory::createPart( QWidget *parentWidget, const char *, QObject *parent, const char *name, const char*, const QStringList &args )
@@ -79,7 +86,16 @@ KInstance *KonqListViewFactory::instance()
   return s_instance;
 }
 
+KonqPropsView *KonqListViewFactory::defaultViewProps()
+{
+  if ( !s_defaultViewProps )
+    s_defaultViewProps = KonqPropsView::defaultProps( instance() );
+  
+  return s_defaultViewProps;
+} 
+
 KInstance *KonqListViewFactory::s_instance = 0;
+KonqPropsView *KonqListViewFactory::s_defaultViewProps = 0;
 
 extern "C"
 {
