@@ -1,10 +1,11 @@
-<!DOCTYPE kpartgui SYSTEM "kpartgui.dtd"><kpartgui name="Konqueror" version="20">
+<!DOCTYPE kpartgui SYSTEM "kpartgui.dtd"><kpartgui name="Konqueror" version="21">
 <MenuBar>
  <Menu name="file" noMerge="1"><text>&amp;Location</text>
   <Action name="new_window"/>
   <Action name="duplicate_window"/>
   <Action name="open_location"/>
   <Separator/>
+  <ActionList name="openwith" /> <!--Includes termination separator-->
   <Action name="quit"/>
  </Menu>
  <Menu name="edit" noMerge="1"><text>&amp;Edit</text>  <!--Here is what applies to a selection-->
@@ -21,9 +22,7 @@
   <Separator/>
   <Action name="editMimeType"/>
   <Action name="properties"/>
-  <WeakSeparator/> <!-- hmm, this one is removed even when there are items on openwith. Bug ? -->
-  <ActionList name="openwith" />
-  <Separator />
+  <WeakSeparator/>
   <Merge/>
  </Menu>
  <Menu name="view" noMerge="1"><text>&amp;View</text> <!--Here is what applies to the active view-->

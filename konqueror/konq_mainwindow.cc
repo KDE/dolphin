@@ -2997,7 +2997,10 @@ void KonqMainWindow::updateOpenWithActions()
     m_openWithActions.append( action );
   }
   if ( services.count() > 0 )
-    plugActionList( "openwith", m_openWithActions );
+  {
+      m_openWithActions.append( new KActionSeparator );
+      plugActionList( "openwith", m_openWithActions );
+  }
 }
 
 void KonqMainWindow::updateViewModeActions()

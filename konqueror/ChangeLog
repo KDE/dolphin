@@ -1,5 +1,8 @@
 2000-11-05  David Faure  <faure@kde.org>
 
+	* konqueror.rc: Moved the "open with" actions to the Location menu,
+	and added a separator to the action list.
+
 	* konq_view.cc (connectPart): moved call to setSaveViewPropertiesLocally
 	(used to be in various places in KonqMW) so that the flag is
 	also correct when switching views.
