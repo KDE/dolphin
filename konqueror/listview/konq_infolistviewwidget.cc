@@ -37,7 +37,7 @@ KonqInfoListViewWidget::KonqInfoListViewWidget( KonqListView* parent,
 {
     m_metaInfoJob = 0;
 
-    m_mtSelector = new KSelectAction(i18n("View &as"), 0, this,
+    m_mtSelector = new KSelectAction(i18n("View &As"), 0, this,
                                      SLOT(slotSelectMimeType()),
                                      parent->actionCollection(), "view_as" );
 
@@ -199,7 +199,7 @@ void KonqInfoListViewWidget::slotNewItems( const KFileItemList& list)
             setCurrentItem(tmp);
             m_itemFound=true;
         }
-        
+
         if ( !m_itemsToSelect.isEmpty() ) {
            QStringList::Iterator tsit = m_itemsToSelect.find( (*kit)->name() );
            if ( tsit != m_itemsToSelect.end() ) {
