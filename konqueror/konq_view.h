@@ -120,7 +120,7 @@ public:
   /**
    * @return true if view can go back
    */
-  bool canGoBack() { return m_lstHistory.at() != 0; }
+  bool canGoBack() { return m_lstHistory.at() > 0; }
 
   /**
    * @return true if view can go forward
