@@ -44,12 +44,12 @@
 KonqHTMLModule::KonqHTMLModule(QWidget *parent, const char *name)
   : KCModule(parent, name)
 {
-  KConfig *config = new KConfig("konquerorrc", false, false);
+  KConfig *config = new KConfig("khtmlrc", false, false);
 
   QVBoxLayout *layout = new QVBoxLayout(this);
   tab = new QTabWidget(this);
   layout->addWidget(tab);
-  
+
   misc = new KMiscHTMLOptions(config, "HTML Settings", this);
   tab->addTab(misc, i18n("&HTML"));
   connect(misc, SIGNAL(changed(bool)), this, SLOT(moduleChanged(bool)));
@@ -84,11 +84,11 @@ void KonqHTMLModule::save()
   advanced->save();
   http->save();
   misc->save();
-  
+
   // Send signal to konqueror
   // Warning. In case something is added/changed here, keep kfmclient in sync
   QByteArray data;
-  kapp->dcopClient()->send( "*", "KonqMainViewIface", "reparseConfiguration()", data ); 
+  kapp->dcopClient()->send( "*", "KonqMainViewIface", "reparseConfiguration()", data );
 }
 
 
@@ -116,8 +116,8 @@ void KonqHTMLModule::moduleChanged(bool state)
 extern "C"
 {
 
-  KCModule *create_html(QWidget *parent, const char *name) 
-  { 
+  KCModule *create_html(QWidget *parent, const char *name)
+  {
     KGlobal::locale()->insertCatalogue("kcmkonqhtml");
     return new KonqHTMLModule(parent, name);
   }

@@ -37,7 +37,7 @@ KAppearanceOptions::KAppearanceOptions(KConfig *config, QString group, QWidget *
     : KCModule( parent, name ), g_pConfig(config), groupname(group)
 {
     QString wtstr;
-    
+
     QGridLayout *lay = new QGridLayout(this, 1 ,1 , 10, 5);
     int r = 0;
     int E = 0, M = 1, W = 3; //CT 3 (instead 2) allows smaller color buttons
@@ -45,7 +45,7 @@ KAppearanceOptions::KAppearanceOptions(KConfig *config, QString group, QWidget *
     QButtonGroup *bg = new QButtonGroup( 1, QGroupBox::Vertical,
 					 i18n("Font Size"), this );
     lay->addMultiCellWidget(bg, r, r, E, W);
-    
+
     QWhatsThis::add( bg, i18n("This is the relative font size konqueror uses to display web sites.") );
 
     bg->setExclusive( TRUE );
@@ -55,12 +55,12 @@ KAppearanceOptions::KAppearanceOptions(KConfig *config, QString group, QWidget *
     m_pMedium = new QRadioButton( i18n("Medium"), bg );
     m_pLarge = new QRadioButton( i18n("Large"), bg );
 
-    QLabel* label = new QLabel( i18n("Standard Font"), this ); 
+    QLabel* label = new QLabel( i18n("Standard Font"), this );
     lay->addWidget( label , ++r, E);
 
     m_pStandard = new QComboBox( false, this );
     lay->addMultiCellWidget(m_pStandard, r, r, M, W);
-    
+
     wtstr = i18n("This is the font used to display normal text in a web page.");
     QWhatsThis::add( label, wtstr );
     QWhatsThis::add( m_pStandard, wtstr );
@@ -77,11 +77,11 @@ KAppearanceOptions::KAppearanceOptions(KConfig *config, QString group, QWidget *
 
     m_pFixed = new QComboBox( false, this );
     lay->addMultiCellWidget(m_pFixed, r, r, M, W);
-    
+
     wtstr = i18n("This is the font used to display fixed-width (i.e. non-proportional) text.");
     QWhatsThis::add( label, wtstr );
     QWhatsThis::add( m_pFixed, wtstr );
-    
+
     getFontList( fixedFonts, "-*-*-*-*-*-*-*-*-*-*-m-*-*-*" );
     m_pFixed->insertStrList( &fixedFonts );
 
@@ -95,19 +95,16 @@ KAppearanceOptions::KAppearanceOptions(KConfig *config, QString group, QWidget *
     lay->addWidget( label, ++r, E);
 
     m_pCharset = new QComboBox( false, this );
-#ifdef __GNUC__
-#warning FIXME, this seems to be broken in kcharsets (Simon)
-#endif
-//    charsets = KGlobal::charsets()->availableCharsetNames();
+    charsets = KGlobal::charsets()->availableCharsetNames();
     charsets.prepend(i18n("Use language charset"));
     m_pCharset->insertStringList( charsets );
     lay->addMultiCellWidget(m_pCharset,r, r, M, W);
-    
+
     wtstr = i18n("Select the default charset to be used. Normally, you'll be fine with 'Use language charset' "
        "and should not have to change this.");
     QWhatsThis::add( label, wtstr );
     QWhatsThis::add( m_pCharset, wtstr );
-    
+
     connect( m_pCharset, SIGNAL( activated(const QString& ) ),
              SLOT( slotCharset(const QString&) ) );
     connect( m_pCharset, SIGNAL( activated(const QString& ) ),
@@ -120,12 +117,12 @@ KAppearanceOptions::KAppearanceOptions(KConfig *config, QString group, QWidget *
 
     m_pBg = new KColorButton( bgColor, this );
     lay->addWidget(m_pBg, r, M);
-    
+
     wtstr = i18n("This is the default background color for web pages. Note that if 'Always use my colors' "
        "is not selected, this value can be overridden by a differing web page.");
     QWhatsThis::add( label, wtstr );
     QWhatsThis::add( m_pBg, wtstr );
-    
+
     connect( m_pBg, SIGNAL( changed( const QColor & ) ),
              SLOT( slotBgColorChanged( const QColor & ) ) );
     connect( m_pBg, SIGNAL( changed( const QColor & ) ),
@@ -136,12 +133,12 @@ KAppearanceOptions::KAppearanceOptions(KConfig *config, QString group, QWidget *
 
     m_pText = new KColorButton( textColor, this );
     lay->addWidget(m_pText, r, M);
-    
+
     wtstr = i18n("This is the default text color for web pages. Note that if 'Always use my colors' "
        "is not selected, this value can be overridden by a differing web page.");
     QWhatsThis::add( label, wtstr );
-    QWhatsThis::add( m_pText, wtstr );    
-    
+    QWhatsThis::add( m_pText, wtstr );
+
     connect( m_pText, SIGNAL( changed( const QColor & ) ),
              SLOT( slotTextColorChanged( const QColor & ) ) );
     connect( m_pText, SIGNAL( changed( const QColor & ) ),
@@ -152,12 +149,12 @@ KAppearanceOptions::KAppearanceOptions(KConfig *config, QString group, QWidget *
 
     m_pLink = new KColorButton( linkColor, this );
     lay->addWidget(m_pLink, r, M);
-    
+
     wtstr = i18n("This is the default color used to display links. Note that if 'Always use my colors' "
        "is not selected, this value can be overridden by a differing web page.");
     QWhatsThis::add( label, wtstr );
-    QWhatsThis::add( m_pLink, wtstr );    
-   
+    QWhatsThis::add( m_pLink, wtstr );
+
     connect( m_pLink, SIGNAL( changed( const QColor & ) ),
              SLOT( slotLinkColorChanged( const QColor & ) ) );
     connect( m_pLink, SIGNAL( changed( const QColor & ) ),
@@ -168,13 +165,13 @@ KAppearanceOptions::KAppearanceOptions(KConfig *config, QString group, QWidget *
 
     m_pVLink = new KColorButton( vLinkColor, this );
     lay->addWidget(m_pVLink, r, M);
-    
+
     wtstr = i18n("This is the color used to display links that you've already visited, i.e. are cached. "
        "Note that if 'Always use my colors' is not selected, this value can be overridden by a differing "
        "web page.");
     QWhatsThis::add( label, wtstr );
-    QWhatsThis::add( m_pVLink, wtstr );    
-    
+    QWhatsThis::add( m_pVLink, wtstr );
+
     connect( m_pVLink, SIGNAL( changed( const QColor & ) ),
              SLOT( slotVLinkColorChanged( const QColor & ) ) );
     connect( m_pVLink, SIGNAL( changed( const QColor & ) ),
@@ -398,12 +395,12 @@ KAdvancedOptions::KAdvancedOptions(KConfig *config, QString group, QWidget *pare
     : KCModule( parent, name ), g_pConfig(config), groupname(group)
 {
     QVBoxLayout *lay = new QVBoxLayout(this, 10, 5);
-    
+
     QGroupBox *javaScript = new QGroupBox(i18n("Java Script"), this);
     cb_enableJavaScript = new QCheckBox(i18n("Enable Java&Script"), javaScript);
-    
+
     QVBoxLayout *vbox = new QVBoxLayout(javaScript, 5, 5);
-    vbox->addSpacing(10);    
+    vbox->addSpacing(10);
     vbox->addWidget(cb_enableJavaScript);
 
     QWhatsThis::add( cb_enableJavaScript, i18n("Enables the execution of scripts written in ECMA-Script "
@@ -479,13 +476,13 @@ KAdvancedOptions::KAdvancedOptions(KConfig *config, QString group, QWidget *pare
     connect(cb_showJavaConsole, SIGNAL(clicked()), this, SLOT(changed()));
     connect(le_JavaPath, SIGNAL(textChanged(const QString&)), this, SLOT(changed()));
     connect(le_JavaArgs, SIGNAL(textChanged(const QString&)), this, SLOT(changed()));
-    
+
     connect(cb_enableJava, SIGNAL(clicked()), this, SLOT(toggleJavaControls()));
     connect(bg, SIGNAL(clicked(int)), this, SLOT(toggleJavaControls()));
-   
+
     lay->addStretch(10);
     lay->activate();
-    
+
     load();
 }
 
@@ -505,12 +502,12 @@ void KAdvancedOptions::load()
     cb_enableJavaScript->setChecked(bJavaScript);
     cb_enableJava->setChecked(bJava);
     cb_showJavaConsole->setChecked(bJavaConsole);
-    
+
     if(bJavaAutoDetect)
       rb_autoDetect->setChecked(true);
     else
       rb_userDetect->setChecked(true);
-    
+
     le_JavaArgs->setText(sJDKArgs);
     le_JavaPath->setText(sJDK);
 
