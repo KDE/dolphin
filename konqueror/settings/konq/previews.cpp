@@ -76,7 +76,7 @@ KPreviewOptions::KPreviewOptions( QWidget *parent, const char *name )
     QWhatsThis::add( scrollView,
                      i18n("This option makes it possible to choose when the file previews"
                           " in the File Manager should be activated.\n"
-                          " In the list of protocols that appear, select which ones are fast "
+                          " In the list of protocols that appear, select which ones are fast"
                           " enough for you to allow previews to be generated.") );
 
     lay->addWidget( new QLabel( i18n( "Maximum file size:" ), this ) );
@@ -136,13 +136,13 @@ QString KPreviewOptions::quickHelp() const
     return i18n("<h1>Preview Options</h1> Here you can modify the behavior "
                 "of Konqueror when it shows the files in a directory."
                 "<h2>The list of protocols:</h2> check the protocols over which "
-                " previews should be shown, uncheck those over which they shouldn't."
-                " For instance you might want to show previews over SMB if the local "
-                " network is fast enough, but you might disable it for FTP if you often "
-                " visit very slow FTP sites with large images."
+                "previews should be shown, uncheck those over which they shouldn't. "
+                "For instance, you might want to show previews over SMB if the local "
+                "network is fast enough, but you might disable it for FTP if you often "
+                "visit very slow FTP sites with large images."
                 "<h2>Maximum File Size:</h2> select the maximum file size for which "
-                " previews should be generated. For instance if set to 1 MB (the default), "
-                " no preview will be generated for files bigger than 1 MB, for speed reasons.");
+                "previews should be generated. For instance, if set to 1 MB (the default), "
+                "no preview will be generated for files bigger than 1 MB, for speed reasons.");
 }
 
 void KPreviewOptions::changed()
