@@ -39,6 +39,8 @@
 #include <kurl.h>
 #include <kuserprofile.h>
 #include <userpaths.h>
+#include <kglobal.h>
+#include <kstddirs.h>
 
 #include "kpropsdlg.h"
 #include "knewmenu.h"
@@ -239,6 +241,35 @@ KonqPopupMenu::KonqPopupMenu( KFileItemList items,
     {
       builtin = KDEDesktopMimeType::builtinServices( m_lstItems.first()->url() );
       user = KDEDesktopMimeType::userDefinedServices( m_lstItems.first()->url() );
+    }
+
+    QStringList dirs = KGlobal::dirs()->findDirs( "data", "konqueror/servicemenus/" );
+    QStringList::ConstIterator dIt = dirs.begin();
+    QStringList::ConstIterator dEnd = dirs.end();
+      
+    for (; dIt != dEnd; ++dIt )
+    {
+      QDir dir( *dIt );
+ 
+      QStringList entries = dir.entryList( QDir::Files );
+      QStringList::ConstIterator eIt = entries.begin();
+      QStringList::ConstIterator eEnd = entries.end();
+	
+      for (; eIt != eEnd; ++eIt )
+      {
+        KSimpleConfig cfg( *dIt + *eIt, true );
+	  
+        cfg.setGroup( "Menu" );
+	
+        if ( cfg.hasGroup( "Menu" ) && cfg.hasKey( "ServiceTypes" ) &&
+             cfg.readListEntry( "ServiceTypes" ).contains( mime ) )
+        {
+          KURL u( *dIt + *eIt );
+          user += KDEDesktopMimeType::userDefinedServices( u );
+        }
+	  
+      }
+	
     }
   
     if ( !offers.isEmpty() || !user.isEmpty() || !builtin.isEmpty() )
