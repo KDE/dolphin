@@ -141,7 +141,7 @@ KonqMainView::~KonqMainView()
 
 QString KonqMainView::konqFilteredURL( const QString &_url )
 {
-  QString url = _url;
+  QString url = _url.stripWhiteSpace();
 
   // Root directory?
   if ( url[0] == '/' )
@@ -1402,7 +1402,7 @@ QString KonqMainView::currentURL()
 
 void KonqMainView::slotPopupMenu( const QPoint &_global, const KFileItemList &_items )
 {
-  kdebug(KDEBUG_INFO, 1202, "KonqMainView::slotPopupMenu(...)");
+  //kdebug(KDEBUG_INFO, 1202, "KonqMainView::slotPopupMenu(...)");
   QString url = m_currentView->url();
   // TODO enable "back" if m_currentView->canGoBack();
   // TODO enable "forward" if m_currentView->canGoForward();
