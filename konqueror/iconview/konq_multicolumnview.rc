@@ -9,7 +9,7 @@
   <Action name="invertselection"/>
  </Menu>
  <Menu name="view">
-  <Menu name="iconview_mode"><text>Icon Mode</text>
+  <Menu name="iconview_mode"><text>Icon Size</text>
    <Action name="modedefault"/>
    <Separator/>
    <Action name="modelarge"/>
