@@ -66,7 +66,7 @@ private:
     QString m_pluginName;
 };
 
-static const char * s_choices[4] = { "", "WindowListMenu", "DesktopMenu", "AppMenu" };
+static const char * s_choices[6] = { "", "WindowListMenu", "DesktopMenu", "AppMenu", "CustomMenu1", "CustomMenu2" };
 
 KRootOptions::KRootOptions(KConfig *config, QWidget *parent, const char *name )
     : KCModule( parent, name ), g_pConfig(config)
@@ -311,6 +311,8 @@ void KRootOptions::fillMenuCombo( QComboBox * combo )
   combo->insertItem( i18n("Window List Menu") );
   combo->insertItem( i18n("Desktop Menu") );
   combo->insertItem( i18n("Application Menu") );
+  combo->insertItem( i18n("Custom Menu 1") );
+  combo->insertItem( i18n("Custom Menu 2") );
 }
 
 void KRootOptions::load()
@@ -333,15 +335,15 @@ void KRootOptions::load()
     g_pConfig->setGroup( "Mouse Buttons" );
     QString s;
     s = g_pConfig->readEntry( "Left", "" );
-    for ( int c = 0 ; c < 4 ; c ++ )
+    for ( int c = 0 ; c < 6 ; c ++ )
     if (s == s_choices[c])
       { leftComboBox->setCurrentItem( c ); break; }
     s = g_pConfig->readEntry( "Middle", "WindowListMenu" );
-    for ( int c = 0 ; c < 4 ; c ++ )
+    for ( int c = 0 ; c < 6 ; c ++ )
       if (s == s_choices[c])
       { middleComboBox->setCurrentItem( c ); break; }
     s = g_pConfig->readEntry( "Right", "DesktopMenu" );
-    for ( int c = 0 ; c < 4 ; c ++ )
+    for ( int c = 0 ; c < 6 ; c ++ )
       if (s == s_choices[c])
       { rightComboBox->setCurrentItem( c ); break; }
 
