@@ -801,7 +801,12 @@ void KonqView::go( int steps )
   kdDebug(1202) << "New position " << m_lstHistory.at() << endl;
 #endif
 
-  HistoryEntry h( *currentHistoryEntry ); // make a copy of the current history entry, as the data
+  restoreHistory();
+}
+
+void KonqView::restoreHistory()
+{
+  HistoryEntry h( *(m_lstHistory.current()) ); // make a copy of the current history entry, as the data
                                           // the pointer points to will change with the following calls
 
 #ifdef DEBUG_HISTORY
@@ -845,6 +850,16 @@ void KonqView::go( int steps )
 #endif
 }
 
+const HistoryEntry * KonqView::historyAt(const int pos)
+{
+    if(pos<0 || pos>=(int)m_lstHistory.count())
+	return 0L;
+    int oldpos = m_lstHistory.at();     
+    const HistoryEntry* h = m_lstHistory.at(pos);
+    m_lstHistory.at( oldpos );
+    return h;
+}
+
 void KonqView::copyHistory( KonqView *other )
 {
     m_lstHistory.clear();
@@ -852,6 +867,7 @@ void KonqView::copyHistory( KonqView *other )
     QPtrListIterator<HistoryEntry> it( other->m_lstHistory );
     for (; it.current(); ++it )
         m_lstHistory.append( new HistoryEntry( *it.current() ) );
+    m_lstHistory.at(other->m_lstHistory.at());
 }
 
 KURL KonqView::url() const

@@ -429,7 +429,7 @@ QString KonqMainWindow::detectNameFilter( QString & url )
     return nameFilter;
 }
 
-void KonqMainWindow::openFilteredURL( const QString & _url, bool inNewTab, bool tempFile )
+void KonqMainWindow::openFilteredURL( const QString & _url, const KonqOpenURLRequest & _req)
 {
     QString url = _url;
     QString nameFilter = detectNameFilter( url );
@@ -456,14 +456,8 @@ void KonqMainWindow::openFilteredURL( const QString & _url, bool inNewTab, bool 
     }
     m_currentDir = QString::null;
 
-    // Remember the initial (typed) URL
-    KonqOpenURLRequest req( _url );
+    KonqOpenURLRequest req( _req  );
     req.nameFilter = nameFilter;
-    req.newTab = inNewTab;
-    req.newTabInFront = true;
-    req.tempFile = tempFile;
-
-    req.openAfterCurrentPage = false;
     openURL( 0L, filteredURL, QString::null, req );
 
     // #4070: Give focus to view after URL was entered manually
@@ -472,6 +466,16 @@ void KonqMainWindow::openFilteredURL( const QString & _url, bool inNewTab, bool 
     if ( m_currentView && m_currentView->part() )
       m_currentView->part()->widget()->setFocus();
 
+}
+
+void KonqMainWindow::openFilteredURL( const QString & _url, bool inNewTab, bool tempFile )
+{
+    KonqOpenURLRequest req( _url );
+    req.newTab = inNewTab;
+    req.newTabInFront = true;
+    req.tempFile = tempFile;
+    
+    openFilteredURL( _url, req );
 }
 
 void KonqMainWindow::openURL( KonqView *_view, const KURL &_url,
@@ -1769,14 +1773,44 @@ void KonqMainWindow::slotReloadPopup()
     slotReload( m_pWorkingTab->activeChildView() );
 }
 
+void KonqMainWindow::slotHome(KAction::ActivationReason, Qt::ButtonState state)
+{
+    QString homeURL = m_pViewManager->profileHomeURL();
+
+    if (homeURL.isEmpty())
+	homeURL = KonqFMSettings::settings()->homeURL();
+
+    KConfig *config = KGlobal::config();
+    KConfigGroupSaver cs( config, QString::fromLatin1("FMSettings") );
+    bool mmbOpensTab = config->readBoolEntry( "MMBOpensTab", false );
+
+    KonqOpenURLRequest req;
+    req.newTab = true;
+    req.newTabInFront = config->readBoolEntry( "NewTabsInFront", false ) ;
+
+    if (state & Qt::ShiftButton)
+        req.newTabInFront = !req.newTabInFront;
+
+    if( state & Qt::ControlButton ) // Ctrl Left/MMB    
+	openFilteredURL( homeURL, req);    
+    else if( state & Qt::MidButton )
+    {
+	if(mmbOpensTab)	
+	    openFilteredURL( homeURL, req);	
+	else
+	{
+	    KURL finalURL = KonqMisc::konqFilteredURL( this, homeURL );
+	    KonqMisc::createNewWindow( finalURL.url() );
+	}
+    }
+    else
+	openFilteredURL( homeURL, false );
+}
+
+
 void KonqMainWindow::slotHome()
 {
-  QString homeURL = m_pViewManager->profileHomeURL();
-
-  if (homeURL.isEmpty())
-    homeURL = KonqFMSettings::settings()->homeURL();
-
-  openURL( 0L, KURL( KonqMisc::konqFilteredURL( this, homeURL ) ) );
+    slotHome(KAction::UnknownActivation, Qt::LeftButton);
 }
 
 void KonqMainWindow::slotGoApplications()
@@ -2949,14 +2983,46 @@ void KonqMainWindow::slotUpAboutToShow()
   }
 }
 
+void KonqMainWindow::slotUp(KAction::ActivationReason, Qt::ButtonState state)
+{
+    m_goState = state;
+    QTimer::singleShot( 0, this, SLOT( slotUpDelayed() ) );
+}
+
 void KonqMainWindow::slotUp()
 {
-  QTimer::singleShot( 0, this, SLOT( slotUpDelayed() ) );
+    m_goState = Qt::LeftButton;
+    QTimer::singleShot( 0, this, SLOT( slotUpDelayed() ) );
 }
 
 void KonqMainWindow::slotUpDelayed()
 {
-  openURL( 0L, m_currentView->upURL() );
+    KConfig *config = KGlobal::config();
+    KConfigGroupSaver cs( config, QString::fromLatin1("FMSettings") );
+    bool mmbOpensTab = config->readBoolEntry( "MMBOpensTab", false );
+
+    KonqOpenURLRequest req;
+    req.newTab = true;
+
+    req.openAfterCurrentPage = config->readBoolEntry( "OpenAfterCurrentPage", false );
+    req.newTabInFront = config->readBoolEntry( "NewTabsInFront", false ) ;
+
+    if (m_goState & Qt::ShiftButton)
+        req.newTabInFront = !req.newTabInFront;
+
+    const QString& url = m_currentView->upURL().url();
+    if(m_goState & Qt::ControlButton)    
+	openFilteredURL(url, req );    
+    else if(m_goState & Qt::MidButton)
+    {
+	if(mmbOpensTab)	
+	    openFilteredURL( url, req);	
+	else
+	    KonqMisc::createNewWindow( url );
+    }
+    else
+	openFilteredURL( url, false );
+    m_goState = Qt::LeftButton;
 }
 
 void KonqMainWindow::slotUpActivated( int id )
@@ -2977,10 +3043,17 @@ void KonqMainWindow::slotGoMenuAboutToShow()
 
 void KonqMainWindow::slotGoHistoryActivated( int steps )
 {
+    slotGoHistoryActivated( steps, Qt::LeftButton );
+}
+
+void KonqMainWindow::slotGoHistoryActivated( int steps, Qt::ButtonState state )
+{
+  kdDebug() <<"slotGoHistoryActivated( "<<steps<<", "<<state<<" )"<<endl;
   if (!m_goBuffer)
   {
     // Only start 1 timer.
     m_goBuffer = steps;
+    m_goState = state;
     QTimer::singleShot( 0, this, SLOT(slotGoHistoryDelayed()));
   }
 }
@@ -2988,11 +3061,42 @@ void KonqMainWindow::slotGoHistoryActivated( int steps )
 void KonqMainWindow::slotGoHistoryDelayed()
 {
   if (!m_currentView) return;
-  int steps = m_goBuffer;
+
+  KConfig *config = KGlobal::config();
+  KConfigGroupSaver cs( config, QString::fromLatin1("FMSettings") );
+  bool openAfterCurrentPage = config->readBoolEntry( "OpenAfterCurrentPage", false );
+  bool mmbOpensTab = config->readBoolEntry( "MMBOpensTab", false );
+  bool inFront = config->readBoolEntry( "NewTabsInFront", false );
+  if(m_goState & Qt::ShiftButton)
+      inFront = !inFront;
+
+  if(m_goState & Qt::ControlButton)
+  {
+      KonqView * newView = m_pViewManager->addTabFromHistory( m_goBuffer, openAfterCurrentPage );
+      if (newView && inFront)
+	  m_pViewManager->showTab( newView );
+  }
+  else if(m_goState & Qt::MidButton)
+  {
+      if(mmbOpensTab)
+      {
+	  KonqView * newView = m_pViewManager->addTabFromHistory( m_goBuffer, openAfterCurrentPage );
+	  if (newView && inFront)
+	      m_pViewManager->showTab( newView );
+      }
+      else      
+	  KonqMisc::newWindowFromHistory(this->currentView(), m_goBuffer);      
+  }
+  else
+  {
+      m_currentView->go( m_goBuffer );
+      makeViewsFollow(m_currentView->url(), KParts::URLArgs(),m_currentView->serviceType(),m_currentView);
+  }
+
   m_goBuffer = 0;
-  m_currentView->go( steps );
-  makeViewsFollow(m_currentView->url(), KParts::URLArgs(),m_currentView->serviceType(),m_currentView);
+  m_goState = Qt::LeftButton;
 }
+
 
 void KonqMainWindow::slotBackAboutToShow()
 {
@@ -3006,9 +3110,14 @@ void KonqMainWindow::slotBack()
   slotGoHistoryActivated(-1);
 }
 
+void KonqMainWindow::slotBack(KAction::ActivationReason, Qt::ButtonState state)
+{
+  slotGoHistoryActivated( -1, state );
+}
+
 void KonqMainWindow::slotBackActivated( int id )
 {
-  slotGoHistoryActivated( -(m_paBack->popupMenu()->indexOf( id ) + 1) );
+    slotGoHistoryActivated( -(m_paBack->popupMenu()->indexOf( id ) + 1), m_paBack->popupMenu()->state());
 }
 
 void KonqMainWindow::slotForwardAboutToShow()
@@ -3023,9 +3132,14 @@ void KonqMainWindow::slotForward()
   slotGoHistoryActivated( 1 );
 }
 
+void KonqMainWindow::slotForward(KAction::ActivationReason, Qt::ButtonState state)
+{
+    slotGoHistoryActivated( 1, state );
+}
+
 void KonqMainWindow::slotForwardActivated( int id )
 {
-  slotGoHistoryActivated( m_paForward->popupMenu()->indexOf( id ) + 1 );
+    slotGoHistoryActivated( m_paForward->popupMenu()->indexOf( id ) + 1, m_paForward->popupMenu()->state() );
 }
 
 void KonqMainWindow::initCombo()
@@ -3578,16 +3692,22 @@ void KonqMainWindow::initActions()
   m_paLinkView = new KToggleAction( i18n( "Lin&k View"), 0, this, SLOT( slotLinkView() ), actionCollection(), "link" );
 
   // Go menu
-  m_paUp = new KToolBarPopupAction( i18n( "&Up" ), "up", KStdAccel::shortcut(KStdAccel::Up), this, SLOT( slotUp() ), actionCollection(), "up" );
+  m_paUp = new KToolBarPopupAction( i18n( "&Up" ), "up", KStdAccel::shortcut(KStdAccel::Up), actionCollection(), "up" );
+  connect( m_paUp, SIGNAL( activated( KAction::ActivationReason, Qt::ButtonState) ), this, 
+	   SLOT( slotUp(KAction::ActivationReason, Qt::ButtonState) ) );
   connect( m_paUp->popupMenu(), SIGNAL( aboutToShow() ), this, SLOT( slotUpAboutToShow() ) );
   connect( m_paUp->popupMenu(), SIGNAL( activated( int ) ), this, SLOT( slotUpActivated( int ) ) );
 
   QPair< KGuiItem, KGuiItem > backForward = KStdGuiItem::backAndForward();
-  m_paBack = new KToolBarPopupAction( backForward.first, KStdAccel::shortcut(KStdAccel::Back), this, SLOT( slotBack() ), actionCollection(), "back" );
+  m_paBack = new KToolBarPopupAction( backForward.first, KStdAccel::shortcut(KStdAccel::Back), 0, "", actionCollection(), "back" );
+  connect( m_paBack, SIGNAL( activated( KAction::ActivationReason, Qt::ButtonState) ), this, 
+	   SLOT( slotBack(KAction::ActivationReason, Qt::ButtonState) ) );
   connect( m_paBack->popupMenu(), SIGNAL( aboutToShow() ), this, SLOT( slotBackAboutToShow() ) );
   connect( m_paBack->popupMenu(), SIGNAL( activated( int ) ), this, SLOT( slotBackActivated( int ) ) );
 
-  m_paForward = new KToolBarPopupAction( backForward.second, KStdAccel::shortcut(KStdAccel::Forward), this, SLOT( slotForward() ), actionCollection(), "forward" );
+  m_paForward = new KToolBarPopupAction( backForward.second, KStdAccel::shortcut(KStdAccel::Forward), 0, "", actionCollection(), "forward" );
+  connect( m_paForward, SIGNAL( activated( KAction::ActivationReason, Qt::ButtonState) ), this, 
+	   SLOT( slotForward(KAction::ActivationReason, Qt::ButtonState) ) );
   connect( m_paForward->popupMenu(), SIGNAL( aboutToShow() ), this, SLOT( slotForwardAboutToShow() ) );
   connect( m_paForward->popupMenu(), SIGNAL( activated( int ) ), this, SLOT( slotForwardActivated( int ) ) );
 
@@ -3595,7 +3715,9 @@ void KonqMainWindow::initActions()
   connect( m_paHistory, SIGNAL( menuAboutToShow() ), this, SLOT( slotGoMenuAboutToShow() ) );
   connect( m_paHistory, SIGNAL( activated( int ) ), this, SLOT( slotGoHistoryActivated( int ) ) );
 
-  m_paHome = new KAction( i18n( "Home URL" ), "gohome", KStdAccel::shortcut(KStdAccel::Home), this, SLOT( slotHome() ), actionCollection(), "home" );
+  m_paHome = new KAction( i18n( "Home URL" ), "gohome", KStdAccel::shortcut(KStdAccel::Home), actionCollection(), "home" );
+  connect( m_paHome, SIGNAL( activated( KAction::ActivationReason, Qt::ButtonState) ), this, 
+	   SLOT( slotHome(KAction::ActivationReason, Qt::ButtonState) ) );
 
   (void) new KAction( i18n( "App&lications" ), 0, this, SLOT( slotGoApplications() ), actionCollection(), "go_applications" );
   (void) new KAction( i18n( "&Storage Media" ), 0, this, SLOT( slotGoMedia() ), actionCollection(), "go_media" );

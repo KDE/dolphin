@@ -131,6 +131,11 @@ public:
    */
   bool canGoForward()const { return m_lstHistory.at() != ((int)m_lstHistory.count())-1; }
 
+  /**
+   * @return the position in the history
+   */
+  int historyPos() const { return m_lstHistory.at(); }
+
   uint historyLength() { return m_lstHistory.count(); }
 
   /**
@@ -139,9 +144,21 @@ public:
   void go( int steps );
 
   /**
+   * Helper function for go() and KonqViewManager
+   */
+  void restoreHistory();
+
+  void setHistoryPos(int newPos) { m_lstHistory.at( newPos ); }
+
+  /**
    * @return the history of this view
    */
   const QPtrList<HistoryEntry> & history() { return m_lstHistory; }
+
+  /**
+   * @return the HistoryEntry at postion @p pos
+   */
+  const HistoryEntry* historyAt(const int pos);
 
   /**
    * Creates a deep copy of the @p other view's history buffers.

@@ -103,6 +103,12 @@ public:
   KonqMainWindow( const KURL &initialURL = KURL(), bool openInitialURL = true, const char *name = 0, const QString& xmluiFile="konqueror.rc");
   ~KonqMainWindow();
 
+
+  /**
+   * Filters the URL and calls the main openURL method.
+   */
+  void openFilteredURL( const QString & _url, const KonqOpenURLRequest& _req);
+
   /**
    * Filters the URL and calls the main openURL method.
    */
@@ -169,7 +175,7 @@ public:
   const MapViews & viewMap() const { return m_mapViews; }
 
   KonqView *currentView() const { return m_currentView; }
-
+  
   KParts::ReadOnlyPart *currentPart() const;
 
   /** URL of current part, or URLs of selected items for directory views */
@@ -369,10 +375,14 @@ public slots:
 
   // Go menu
   void slotUp();
+  void slotUp(KAction::ActivationReason, Qt::ButtonState state);
   void slotUpDelayed();
   void slotBack();
+  void slotBack(KAction::ActivationReason, Qt::ButtonState state);
   void slotForward();
+  void slotForward(KAction::ActivationReason, Qt::ButtonState state);
   void slotHome();
+  void slotHome(KAction::ActivationReason, Qt::ButtonState state);
   void slotGoApplications();
   void slotGoMedia();
   void slotGoSettings();
@@ -402,6 +412,7 @@ public slots:
 
   virtual void setIcon( const QPixmap& );
   void slotGoHistoryActivated( int steps );
+  void slotGoHistoryActivated( int steps, Qt::ButtonState state );
 
   void slotAddTab();
 
@@ -672,6 +683,7 @@ private:
   uint m_bViewModeToggled:1;
 
   int m_goBuffer;
+  Qt::ButtonState m_goState;
 
   MapViews m_mapViews;
 

@@ -97,7 +97,7 @@ KonqMainWindow * KonqMisc::createSimpleWindow( const KURL & url, const KParts::U
   return win;
 }
 
-KonqMainWindow * KonqMisc::createNewWindow( const KURL &url, const KParts::URLArgs &args, bool forbidUseHTML, QStringList filesToSelect, bool tempFile )
+KonqMainWindow * KonqMisc::createNewWindow( const KURL &url, const KParts::URLArgs &args, bool forbidUseHTML, QStringList filesToSelect, bool tempFile, bool openURL )
 {
   kdDebug() << "KonqMisc::createNewWindow url=" << url << endl;
 
@@ -107,10 +107,12 @@ KonqMainWindow * KonqMisc::createNewWindow( const KURL &url, const KParts::URLAr
           ? "webbrowsing" : "filemanagement";
 
   QString profile = locate( "data", QString::fromLatin1("konqueror/profiles/") + profileName );
-  return createBrowserWindowFromProfile( profile, profileName, url, args, forbidUseHTML, filesToSelect, tempFile );
+  return createBrowserWindowFromProfile(profile, profileName, 
+					url, args, 
+					forbidUseHTML, filesToSelect, tempFile, openURL );
 }
 
-KonqMainWindow * KonqMisc::createBrowserWindowFromProfile( const QString &path, const QString &filename, const KURL &url, const KParts::URLArgs &args, bool forbidUseHTML, const QStringList& filesToSelect, bool tempFile )
+KonqMainWindow * KonqMisc::createBrowserWindowFromProfile( const QString &path, const QString &filename, const KURL &url, const KParts::URLArgs &args, bool forbidUseHTML, const QStringList& filesToSelect, bool tempFile, bool openURL )
 {
   kdDebug(1202) << "void KonqMisc::createBrowserWindowFromProfile() " << endl;
   kdDebug(1202) << "path=" << path << ",filename=" << filename << ",url=" << url.prettyURL() << endl;
@@ -154,11 +156,35 @@ KonqMainWindow * KonqMisc::createBrowserWindowFromProfile( const QString &path, 
       req.args = args;
       req.filesToSelect = filesToSelect;
       req.tempFile = tempFile;
-      mainWindow->viewManager()->loadViewProfile( cfg, filename, url, req );
+      mainWindow->viewManager()->loadViewProfile( cfg, filename, url, req, false, openURL );
   }
   mainWindow->setInitialFrameName( args.frameName );
   mainWindow->show();
   return mainWindow;
+}
+
+KonqMainWindow * KonqMisc::newWindowFromHistory( KonqView* view, int steps )
+{
+  int oldPos = view->historyPos();
+  int newPos = oldPos + steps;
+
+  const HistoryEntry * he = view->historyAt(newPos);  
+  if(!he)
+      return 0L;
+
+  KonqMainWindow* mainwindow = createNewWindow(he->url, KParts::URLArgs(), 
+					       false, QStringList(), false, /*openURL*/false);
+  if(!mainwindow)
+      return 0L;
+  KonqView* newView = mainwindow->currentView();  
+     
+  if(!newView)
+      return 0L;
+
+  newView->copyHistory(view);
+  newView->setHistoryPos(newPos);
+  newView->restoreHistory();
+  return mainwindow;
 }
 
 QString KonqMisc::konqFilteredURL( QWidget* parent, const QString& _url, const QString& _path )

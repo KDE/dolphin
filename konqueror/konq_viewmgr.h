@@ -106,6 +106,12 @@ public:
   void duplicateTab( KonqFrameBase* tab = 0L, bool openAfterCurrentPage = false );
 
   /**
+   * creates a new tab from a history entry  
+   * used for MMB on back/forward
+   */
+  KonqView* addTabFromHistory( int steps, bool openAfterCurrentPage );
+
+  /**
    * Break the current tab off into a new window,
    * if none is specified, the current one is used
    */
@@ -197,7 +203,7 @@ public:
   void loadViewProfile( KConfig &cfg, const QString & filename,
                         const KURL & forcedURL = KURL(),
                         const KonqOpenURLRequest &req = KonqOpenURLRequest(),
-                        bool resetWindow = false );
+                        bool resetWindow = false, bool openURL = true );
 
   /**
    * Loads a view layout from a config file. Removes all views before loading.
@@ -212,7 +218,7 @@ public:
   void loadViewProfile( const QString & path, const QString & filename,
                         const KURL & forcedURL = KURL(),
                         const KonqOpenURLRequest &req = KonqOpenURLRequest(),
-                        bool resetWindow = false );
+                        bool resetWindow = false, bool openURL = true );
   /**
    * Return the filename of the last profile that was loaded
    * by the view manager. For "save settings".

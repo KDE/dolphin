@@ -26,6 +26,7 @@
 #include <krun.h>
 #include <kparts/browserextension.h>
 class KonqMainWindow;
+class KonqView;
 
 class KonqMisc
 {
@@ -58,22 +59,26 @@ public:
     /**
      * Create a new window with a single view, showing @p url, using @p args
      */
-    static KonqMainWindow * createSimpleWindow( const KURL &url, const KParts::URLArgs &args, bool tempFile = false );
+    static KonqMainWindow * createSimpleWindow( const KURL &url, const KParts::URLArgs &args, 
+						bool tempFile = false);
 
     /**
      * Create a new window for @p url using @p args and the appropriate profile for this URL.
      * @param forbidUseHTML internal. True when called by "Find Files"
+     * @param openURL If it is false, no url is openend in the new window. The url is used to guess the profile
      */
     static KonqMainWindow * createNewWindow( const KURL &url,
                                              const KParts::URLArgs &args = KParts::URLArgs(),
                                              bool forbidUseHTML = false,
                                              QStringList filesToSelect = QStringList(),
-                                             bool tempFile = false );
+                                             bool tempFile = false,
+					     bool openURL = true);
 
     /**
      * Create a new window from the profile defined by @p filename and @p path.
      * @param url an optionnal URL to open in this profile.
      * @param forbidUseHTML internal. True when called by "Find Files"
+     * @param openURL If false no url is opened
      */
     static KonqMainWindow * createBrowserWindowFromProfile( const QString &path,
                                                             const QString &filename,
@@ -81,7 +86,16 @@ public:
                                                             const KParts::URLArgs &args = KParts::URLArgs(),
                                                             bool forbidUseHTML = false,
                                                             const QStringList& filesToSelect = QStringList(),
-                                                            bool tempFile = false );
+                                                            bool tempFile = false,
+							    bool openURL = true);
+
+    /**
+     * Creates a new window from the history of a view, copies the history
+     * @param view the History is copied from this view
+     * @param steps Restore currentPos() + steps
+     */
+    static KonqMainWindow * newWindowFromHistory( KonqView* view, int steps );
+
     /**
      * Applies the URI filters to @p url.
      *

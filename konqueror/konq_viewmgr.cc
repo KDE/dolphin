@@ -348,6 +348,42 @@ KonqView* KonqViewManager::addTab(const QString &serviceType, const QString &ser
   return childView;
 }
 
+KonqView* KonqViewManager::addTabFromHistory( int steps, bool openAfterCurrentPage )
+{
+  if (m_pDocContainer == 0L)
+  {
+      if (m_pMainWindow &&
+	  m_pMainWindow->currentView() &&
+	  m_pMainWindow->currentView()->frame()) {
+	  m_pDocContainer = m_pMainWindow->currentView()->frame();
+      } else {
+	  kdDebug(1202) << "This view profile does not support tabs." << endl;
+	  return 0L;
+      }
+  }
+  if (m_pDocContainer->frameType() != "Tabs") convertDocContainer();
+
+  int oldPos = m_pMainWindow->currentView()->historyPos();
+  int newPos = oldPos + steps;
+
+  const HistoryEntry * he = m_pMainWindow->currentView()->historyAt(newPos);  
+  if(!he)
+      return 0L;
+
+  KonqView* newView = 0L;
+  newView  = addTab( he->strServiceType, he->strServiceName, false, openAfterCurrentPage );
+    
+  if(!newView)
+      return 0L;
+
+  newView->copyHistory(m_pMainWindow->currentView());
+  newView->setHistoryPos(newPos);
+  newView->restoreHistory();
+
+  return newView;
+}
+
+
 void KonqViewManager::duplicateTab( KonqFrameBase* tab, bool openAfterCurrentPage )
 {
 #ifdef DEBUG_VIEWMGR
@@ -1079,17 +1115,17 @@ void KonqViewManager::saveViewProfile( KConfig & cfg, bool saveURLs, bool saveWi
 
 void KonqViewManager::loadViewProfile( const QString & path, const QString & filename,
                                        const KURL & forcedURL, const KonqOpenURLRequest &req,
-                                       bool resetWindow )
+                                       bool resetWindow, bool openURL )
 {
   KConfig cfg( path, true );
   cfg.setDollarExpansion( true );
   cfg.setGroup( "Profile" );
-  loadViewProfile( cfg, filename, forcedURL, req, resetWindow );
+  loadViewProfile( cfg, filename, forcedURL, req, resetWindow, openURL );
 }
 
 void KonqViewManager::loadViewProfile( KConfig &cfg, const QString & filename,
                                        const KURL & forcedURL, const KonqOpenURLRequest &req,
-                                       bool resetWindow )
+                                       bool resetWindow, bool openURL )
 {
   if ( docContainer() && docContainer()->frameType()=="Tabs" )
   {
@@ -1165,7 +1201,7 @@ void KonqViewManager::loadViewProfile( KConfig &cfg, const QString & filename,
     // from profile loading (e.g. in switchView)
     m_bLoadingProfile = true;
 
-    loadItem( cfg, m_pMainWindow, rootItem, defaultURL, forcedURL.isEmpty() );
+    loadItem( cfg, m_pMainWindow, rootItem, defaultURL, openURL && forcedURL.isEmpty() );
 
     m_bLoadingProfile = false;
 
@@ -1211,7 +1247,7 @@ void KonqViewManager::loadViewProfile( KConfig &cfg, const QString & filename,
       nextChildView->setViewName( req.args.frameName );
   }
 
-  if ( !forcedURL.isEmpty())
+  if ( openURL && !forcedURL.isEmpty())
   {
       KonqOpenURLRequest _req(req);
       KConfig *config = KGlobal::config();
