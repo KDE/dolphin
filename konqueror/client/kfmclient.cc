@@ -248,7 +248,7 @@ static QCString konqyToReuse( const QString& url, const QString& mimetype, const
 
 bool clientApp::createNewWindow(const KURL & url, const QString & mimetype)
 {
-    kdDebug() << "clientApp::createNewWindow " << url.url() << " mimetype=" << mimetype << endl;
+    kdDebug( 1202 ) << "clientApp::createNewWindow " << url.url() << " mimetype=" << mimetype << endl;
 
 	// check if user wants to use external browser
 	KConfig config( QString::fromLatin1("kfmclientrc"));
@@ -265,7 +265,7 @@ bool clientApp::createNewWindow(const KURL & url, const QString & mimetype)
     QCString appId = konqyToReuse( url.url(), mimetype, QString::null );
     if( !appId.isEmpty())
     {
-        kdDebug() << "clientApp::createNewWindow using existing konqueror" << endl;
+        kdDebug( 1202 ) << "clientApp::createNewWindow using existing konqueror" << endl;
         KonquerorIface_stub konqy( appId, "KonquerorIface" );
         konqy.createNewWindowASN( url.url(), mimetype, startup_id_str );
         KStartupInfoId id;
@@ -301,7 +301,7 @@ bool clientApp::createNewWindow(const KURL & url, const QString & mimetype)
                 proc << QString::fromLatin1("kshell") << QString::fromLatin1("konqueror") << QString::fromLatin1("-mimetype") << mimetype << url.url();
             proc.start( KProcess::DontCare );
             KStartupInfo::resetStartupEnv();
-            kdDebug() << "clientApp::createNewWindow KProcess started" << endl;
+            kdDebug( 1202 ) << "clientApp::createNewWindow KProcess started" << endl;
         //}
     }
     return true;
