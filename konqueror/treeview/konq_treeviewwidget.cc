@@ -238,7 +238,11 @@ void KonqTreeViewWidget::viewportDropEvent( QDropEvent *_ev  )
       return;
 
     KIOJob *job = new KIOJob;
-    job->copy( lst, dest );
+    
+    if ( _ev->action() == QDropEvent::Move )
+      job->move( lst, dest );
+    else
+      job->copy( lst, dest );
   }
   else if ( m_lstDropFormats.count() >= 1 )
     pasteData( dest, _ev->data( m_lstDropFormats.first() ) );

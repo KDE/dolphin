@@ -571,7 +571,10 @@ void KonqKfmIconView::dropStuff( QDropEvent *ev, KFileIVI *item )
     // Use either the root url or the item url (we stored it as the icon "name")
     KURL dest( ( item == 0L ) ? m_dirLister->url() : item->item()->url().url() );
 
-    job->copy( lst, dest.url( 1 ) );
+    if ( ev->action() == QDropEvent::Move )
+      job->move( lst, dest.url( 1 ) );
+    else
+      job->copy( lst, dest.url( 1 ) );
   }
   else if ( formats.count() >= 1 )
   {
