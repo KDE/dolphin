@@ -108,7 +108,7 @@ void generateMimeType( QString mime, QString extensions, QString description )
         ts << "[Desktop Entry]" << endl;
         ts << "Type=MimeType" << endl;
         ts << "MimeType=" << mime << endl;
-        ts << "Icon=netscape" << endl;
+        ts << "Icon=netscape_doc" << endl;
         ts << "Comment=Supported by Netscape plugin" << endl;
         ts << "X-KDE-AutoEmbed=true" << endl;
         ts << "X-KDE-nsplugin=true" << endl;
@@ -169,7 +169,7 @@ void scanDirectory( QString dir, QStringList &mimeInfoList,
         // get mime description function pointer
         char* (*func_GetMIMEDescription)() =
             (char *(*)())_handle->symbol("NP_GetMIMEDescription");
-        if (!func_GetMIMEDescription) {
+        if ( !func_GetMIMEDescription ) {
             kdDebug(1433) << " - no GetMIMEDescription, skipping" << endl;
             KLibLoader::self()->unloadLibrary( absFile.latin1() );
             continue;
