@@ -131,7 +131,7 @@ private slots:
   void rescanConfiguration();
 
 private:
-  void clear();
+  void clearTree();
   void scanDir( QListViewItem *parent, const QString &path, bool isRoot = false );
   void scanDir2( QListViewItem *parent, const QString &path );
   void loadTopLevelItem( QListViewItem *parent, const QString &filename );

@@ -312,11 +312,12 @@ KonqDirTree::KonqDirTree( KonqDirTreePart *parent, QWidget *parentWidget )
 
 KonqDirTree::~KonqDirTree()
 {
-  clear();
+  clearTree();
 }
 
-void KonqDirTree::clear()
+void KonqDirTree::clearTree()
 {
+  m_unselectableItems.clear();
   QValueList<TopLevelItem>::Iterator it = m_topLevelItems.begin();
   QValueList<TopLevelItem>::Iterator end = m_topLevelItems.end();
   for (; it != end; ++it )
@@ -326,13 +327,12 @@ void KonqDirTree::clear()
     delete (*it).m_mapSubDirs;
     delete (*it).m_lstPendingURLs;
   }
-  QMap<QListViewItem *,QString>::ConstIterator groupItem = m_groupItems.begin();
-  for (; groupItem != m_groupItems.end(); ++groupItem )
-    delete groupItem.key();
+  //  QMap<QListViewItem *,QString>::ConstIterator groupItem = m_groupItems.begin();
+  //  for (; groupItem != m_groupItems.end(); ++groupItem )
+  //    delete groupItem.key();
   m_topLevelItems.clear();
   m_groupItems.clear();
   m_mapCurrentOpeningFolders.clear();
-  m_unselectableItems.clear();
 }
 
 void KonqDirTree::openSubFolder( KonqDirTreeItem *item, KonqDirTreeItem *topLevel )
@@ -731,7 +731,7 @@ void KonqDirTree::rescanConfiguration()
 {
   kdDebug() << "KonqDirTree::rescanConfiguration()" << endl;
   m_autoOpenTimer->stop();
-  clear();
+  clearTree();
   m_unselectableItems.append( m_root );
   scanDir( m_root, m_dirtreeDir.path(), true);
   m_root->setOpen( true );
