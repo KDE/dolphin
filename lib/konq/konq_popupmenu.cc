@@ -331,7 +331,7 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
 
     m_ownActions.setWidget( this );
 
-    bool bIsLink        = (kpf & IsLink);
+    const bool bIsLink  = (kpf & IsLink);
     bool currentDir     = false;
     bool sReading       = true;
     bool sDeleting      = ( d->m_itemFlags & KParts::BrowserExtension::NoDeletion ) == 0;
@@ -342,8 +342,9 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
     mode_t mode         = m_lstItems.first()->mode();
     bool isDirectory    = S_ISDIR(mode);
     bool bTrashIncluded = false;
-    bool mediaFiles = false;
-    bool isLocal = m_lstItems.first()->isLocalFile();
+    bool mediaFiles     = false;
+    bool isLocal        = m_lstItems.first()->isLocalFile();
+    bool isTrashLink     = false;
     m_lstPopupURLs.clear();
     int id = 0;
     setFont(KGlobalSettings::menuFont());
@@ -405,9 +406,27 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
         if ( (*it)->mimetype().startsWith("media/") )
             mediaFiles = true;
     }
-    //check if current url is trash
     url = m_sViewURL;
     url.cleanPath();
+
+    //check if url is current directory
+    if ( m_lstItems.count() == 1 )
+    {
+        KURL firstPopupURL( m_lstItems.first()->url() );
+        firstPopupURL.cleanPath();
+        //kdDebug(1203) << "View path is " << url.url() << endl;
+        //kdDebug(1203) << "First popup path is " << firstPopupURL.url() << endl;
+        currentDir = firstPopupURL.equals( url, true /* ignore_trailing */ );
+        if ( isLocal && m_sMimeType == "application/x-desktop" ) {
+            KSimpleConfig cfg( firstPopupURL.path(), true );
+            cfg.setDesktopGroup();
+            isTrashLink = ( cfg.readEntry("Type") == "Link" && cfg.readEntry("URL") == "trash:/" );
+            if ( isTrashLink ) {
+                sDeleting = false;
+            }
+        }
+    }
+    const bool isSingleLocal = m_lstItems.count() == 1 && isLocal;
 
     m_info.m_Reading = sReading;
     m_info.m_Writing = sWriting;
@@ -415,17 +434,8 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
     m_info.m_Moving = sMoving;
     m_info.m_TrashIncluded = bTrashIncluded;
 
-    //check if url is current directory
-    if ( m_lstItems.count() == 1 )
-    {
-        KURL firstPopupURL ( m_lstItems.first()->url() );
-        firstPopupURL.cleanPath();
-        //kdDebug(1203) << "View path is " << url.url() << endl;
-        //kdDebug(1203) << "First popup path is " << firstPopupURL.url() << endl;
-        currentDir = firstPopupURL.equals( url, true /* ignore_trailing */ );
-    }
-
-    bool isCurrentTrash = m_lstItems.count() == 1 && bTrashIncluded; // popup on trash:/ itself
+    // isCurrentTrash: popup on trash:/ itself, or on the trash.desktop link
+    bool isCurrentTrash = ( m_lstItems.count() == 1 && bTrashIncluded ) || isTrashLink;
     bool isIntoTrash = url.protocol() == "trash" && !isCurrentTrash; // trashed file, not trash:/ itself
     bool isSingleMedium = m_lstItems.count() == 1 && mediaFiles;
     clear();
@@ -437,7 +447,7 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
     if (!isCurrentTrash)
         addMerge( "konqueror" );
 
-    bool isKDesktop = QCString(  kapp->name() ) == "kdesktop";
+    bool isKDesktop = QCString( kapp->name() ) == "kdesktop";
     KAction *actNewWindow = 0;
 
     if (( kpf & ShowProperties ) && isKDesktop &&
@@ -527,10 +537,10 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
         }
         if ( !currentDir )
         {
-            if ( m_lstItems.count() == 1 && sWriting && sDeleting )
+            if ( m_lstItems.count() == 1 && sMoving )
                 addAction( "rename" );
 
-            if ( sMoving && !isIntoTrash )
+            if ( sMoving && !isIntoTrash && !isTrashLink )
                 addAction( "trash" );
 
             if ( sDeleting ) {
@@ -583,7 +593,6 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
 
     PopupServices s;
 
-    bool isSingleLocal = m_lstItems.count() == 1 && isLocal;
     // 1 - Look for builtin and user-defined services
     if ( m_sMimeType == "application/x-desktop" && isSingleLocal ) // .desktop file
     {
@@ -643,7 +652,7 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
 
                 if ( cfg.hasKey( "X-KDE-ShowIfRunning" ) )
                 {
-                    QString app = cfg.readEntry( "X-KDE-ShowIfRunning" );
+                    const QString app = cfg.readEntry( "X-KDE-ShowIfRunning" );
                     if ( !kapp->dcopClient()->isApplicationRegistered( app.utf8() ) )
                         continue;
                 }
@@ -664,22 +673,15 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
 
                 if ( cfg.hasKey( "Actions" ) && cfg.hasKey( "ServiceTypes" ) )
                 {
-                    QStringList types = cfg.readListEntry( "ServiceTypes" );
-                    QStringList excludeTypes = cfg.readListEntry( "ExcludeServiceTypes" );
+                    const QStringList types = cfg.readListEntry( "ServiceTypes" );
+                    const QStringList excludeTypes = cfg.readListEntry( "ExcludeServiceTypes" );
                     bool ok = false;
 
                     // check for exact matches or a typeglob'd mimetype if we have a mimetype
-                    for (QStringList::iterator it = types.begin();
+                    for (QStringList::ConstIterator it = types.begin();
                          it != types.end() && !ok;
                          ++it)
                     {
-                        // we could cram the following three if statements into
-                        // one gigantic boolean statement but that would be a
-                        // horror show for readability
-                        // DF: ok, but every if() could set a bool, and then the code to actually
-                        // run in there (excludeTypes etc.) could be done only in one place.
-                        // AJS: fair enough, let thy will be done =)
-
                         // first check if we have an all mimetype
                         bool checkTheMimetypes = false;
                         if (*it == "all/all" ||
@@ -710,7 +712,7 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
                         if (checkTheMimetypes)
                         {
                             ok = true;
-                            for (QStringList::iterator itex = excludeTypes.begin(); itex != excludeTypes.end(); ++itex)
+                            for (QStringList::ConstIterator itex = excludeTypes.begin(); itex != excludeTypes.end(); ++itex)
                             {
                                 if( ((*itex).right(1) == "*" && (*itex).left((*itex).find('/')) == mimeGroup) ||
                                     ((*itex) == m_sMimeType) )
