@@ -61,6 +61,11 @@ QMap<QString,QString> KonqProfileDlg::readAllProfiles()
   return mapProfiles;
 }
 
+KonqProfileItem::KonqProfileItem( KListView *parent, const QString & text )
+    : QListViewItem( parent, text ), m_profileName( text )
+{
+}
+
 KonqProfileDlg::KonqProfileDlg( KonqViewManager *manager, const QString & preselectProfile, QWidget *parent )
 : KDialog( parent, 0L, true )
 {
@@ -87,16 +92,20 @@ KonqProfileDlg::KonqProfileDlg( KonqViewManager *manager, const QString & presel
   m_pListView->setAllColumnsShowFocus(true);
   m_pListView->header()->hide();
   m_pListView->addColumn("");
+  m_pListView->setRenameable( 0 );
 
   m_pGrid->addMultiCellWidget( m_pListView, 2, 6, 0, N_BUTTONS-1 );
+
+  connect( m_pListView, SIGNAL( itemRenamed( QListViewItem * ) ),
+            SLOT( slotItemRenamed( QListViewItem * ) ) );
 
   QMap<QString,QString>::ConstIterator eIt = m_mapEntries.begin();
   QMap<QString,QString>::ConstIterator eEnd = m_mapEntries.end();
   for (; eIt != eEnd; ++eIt )
   {
-    QListViewItem *item = new QListViewItem( m_pListView, eIt.key() );
+    QListViewItem *item = new KonqProfileItem( m_pListView, eIt.key() );
     QString filename = eIt.data().mid( eIt.data().findRev( '/' ) + 1 );
-    kdDebug() << filename << endl;
+    kdDebug(1202) << filename << endl;
     if ( filename == preselectProfile )
     {
       m_pProfileNameLineEdit->setText( eIt.key() );
@@ -204,31 +213,35 @@ void KonqProfileDlg::slotDelete()
 
 void KonqProfileDlg::slotRename()
 {
- if(!m_pListView->selectedItem())
-        return;
-    QString currentText = m_pListView->selectedItem()->text(0);
-  QMap<QString, QString>::Iterator it = m_mapEntries.find( currentText );
+  QListViewItem *item = m_pListView->selectedItem();
 
-  if ( it != m_mapEntries.end() )
+  if ( item )
+    m_pListView->rename( item, 0 );
+}
+
+void KonqProfileDlg::slotItemRenamed( QListViewItem * item ) 
+{
+  KonqProfileItem * profileItem = static_cast<KonqProfileItem *>( item );
+
+  QString newName = profileItem->text(0);
+  QString oldName = profileItem->m_profileName;
+
+  if (!newName.isEmpty())
   {
-    KLineEditDlg dlg( i18n("Rename profile '%1':").arg(currentText), currentText, this );
-    dlg.setCaption( i18n("Rename Profile") );
-    if ( dlg.exec() )
+    QMap<QString, QString>::ConstIterator it = m_mapEntries.find( oldName );
+
+    if ( it != m_mapEntries.end() )
     {
-      QString newName = dlg.text();
-      if (!newName.isEmpty())
-      {
-        QString fileName = it.data();
-        KSimpleConfig cfg( fileName );
-        cfg.setGroup( "Profile" );
-        cfg.writeEntry( "Name", newName );
-        cfg.sync();
-        // Didn't find how to change a key...
-        m_mapEntries.remove( it );
-        m_mapEntries.insert( newName, fileName );
-        m_pListView->selectedItem()->setText(0, newName);
-        m_pProfileNameLineEdit->setText( newName );
-      }
+      QString fileName = it.data();
+      KSimpleConfig cfg( fileName );
+      cfg.setGroup( "Profile" );
+      cfg.writeEntry( "Name", newName );
+      cfg.sync();
+      // Didn't find how to change a key...
+      m_mapEntries.remove( oldName );
+      m_mapEntries.insert( newName, fileName );
+      m_pProfileNameLineEdit->setText( newName );
+      profileItem->m_profileName = newName;
     }
   }
 }
@@ -245,7 +258,9 @@ void KonqProfileDlg::slotTextChanged( const QString & text )
   // If we type the name of a profile, select it in the list
 
   bool itemSelected = false;
-  for ( QListViewItem * item = m_pListView->firstChild() ; item ; item = item->nextSibling() )
+  QListViewItem * item;
+
+  for ( item = m_pListView->firstChild() ; item ; item = item->nextSibling() )
       if ( item->text(0) == text /*only full text, not partial*/ )
       {
           itemSelected = true;
@@ -255,6 +270,12 @@ void KonqProfileDlg::slotTextChanged( const QString & text )
 
   if ( !itemSelected ) // otherwise, clear selection
     m_pListView->clearSelection();
+
+  if ( itemSelected )
+  {
+    QFileInfo fi( m_mapEntries[ item->text( 0 ) ] );
+    itemSelected = itemSelected && fi.isWritable();
+  }
 
   m_pDeleteProfileButton->setEnabled( itemSelected );
   m_pRenameProfileButton->setEnabled( itemSelected );

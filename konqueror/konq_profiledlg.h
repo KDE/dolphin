@@ -21,15 +21,26 @@
 #define __konq_profiledlg_h__
 
 #include <kdialog.h>
+
+#include <qlistview.h>
 #include <qmap.h>
 
 class KonqViewManager;
-class QListView;
 class QListViewItem;
 class QGridLayout;
 class QCheckBox;
 class QLineEdit;
 class KPushButton;
+class KListView;
+
+class KonqProfileItem : public QListViewItem
+{
+public:
+  KonqProfileItem( KListView *, const QString & );
+  ~KonqProfileItem() {}
+
+  QString m_profileName;
+};
 
 class KonqProfileDlg : public KDialog
 {
@@ -51,6 +62,8 @@ protected slots:
   void slotTextChanged( const QString & );
   void slotSelectionChanged( QListViewItem * item );
 
+  void slotItemRenamed( QListViewItem * );
+
 private:
   KonqViewManager *m_pViewManager;
 
@@ -67,7 +80,7 @@ private:
   QCheckBox *m_cbSaveURLs;
   QCheckBox *m_cbSaveSize;
 
-  QListView *m_pListView;
+  KListView *m_pListView;
 };
 
 #endif
