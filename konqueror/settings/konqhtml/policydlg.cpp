@@ -100,7 +100,7 @@ void PolicyDialog::slotTextChanged( const QString &text)
 
 void PolicyDialog::setDisableEdit( bool state, const QString& text )
 {
-    if( text.isNull() );
+    if( text.isNull() )
         le_domain->setText( text );
 
     le_domain->setEnabled( state );
