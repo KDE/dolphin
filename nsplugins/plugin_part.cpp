@@ -191,7 +191,7 @@ bool PluginPart::openURL(const KURL &url)
    }
 
    // create plugin widget
-   _widget = _loader->NewInstance( _canvas, surl, smime, embed, argn, argv );
+   _widget = _loader->newInstance( _canvas, surl, smime, embed, argn, argv );
    if ( _widget )
    {
       _widget->resize( _canvas->width(), _canvas->height() );

@@ -66,7 +66,7 @@ public:
   NSPluginLoader();
   ~NSPluginLoader();
 
-  NSPluginInstance *NewInstance(QWidget *parent, 
+  NSPluginInstance *newInstance(QWidget *parent, 
 				QString url, QString mimeType, bool embed, 
 				QStringList argn, QStringList argv);
 

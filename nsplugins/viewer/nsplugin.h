@@ -79,12 +79,14 @@ protected:
   bool error() { return _error; };
   void queue( const QByteArray &data );  
   bool create( QString url, QString mimeType, void *notify );
+  int tries() { return _tries; };
 
   class NSPluginInstance *_instance;
   uint16 _streamType;
   NPStream *_stream;
   void *_notifyData;
   QString _url;
+  QString _fileURL;
   class KTempFile *_tempFile;
  
 private:
@@ -93,6 +95,8 @@ private:
   unsigned int _pos;  
   QByteArray _queue;
   unsigned int _queuePos;
+  int _tries;
+  bool _onlyAsFile;
   bool _error;
 };
 
@@ -126,13 +130,14 @@ public:
   NSPluginBufStream( class NSPluginInstance *instance );
   ~NSPluginBufStream();
 
-  bool get( QString url, QString mimeType, const QByteArray &buf, void *notifyData);
+  bool get( QString url, QString mimeType, const QByteArray &buf, void *notifyData, bool singleShot=false );
 
 protected slots:
   void timer();
 
 protected: 
   QTimer *_timer;
+  bool _singleShot;
 };
 
 
@@ -145,8 +150,15 @@ public:
   // constructor, destructor
   NSPluginInstance( NPP privateData, NPPluginFuncs *pluginFuncs, KLibrary *handle, 
 		    int width, int height, QString src, QString mime,
-		    QObject *parent );
+		    QObject *parent, const char* name=0 );
   ~NSPluginInstance();
+
+  // DCOP functions
+  void shutdown();
+  int winId() { return XtWindow(_toplevel); };
+  int setWindow(int remove=0);
+  void resizePlugin(int w, int h);
+  void setCallback( QCString app, QCString obj );
 
   // value handling
   NPError NPGetValue(NPPVariable variable, void *value);
@@ -171,18 +183,10 @@ public:
   // signal emitters
   void emitStatus(const char *message) { emit status(message); };
 
-  // window handling
-  int winId() { return XtWindow(_toplevel); };
-  int setWindow(int remove=0);
-  void resizePlugin(int w, int h);
-
-  void setCallback( QCString app, QCString obj );
-  void requestURL( const QString &url, const QString &target, void *notify );
-
-  void destroyPlugin();
+  void requestURL( const QString &url, const QString &mime, 
+		   const QString &target, void *notify );  
  
 signals:
-
   void status(const char *message);
 
 public slots:
@@ -193,6 +197,8 @@ private slots:
   
 private:
   friend class NSPluginStreamBase;
+
+  void destroy();
 
   bool _destroyed;
   void addTempFile(KTempFile *tmpFile);
@@ -211,12 +217,14 @@ private:
 
   struct Request
   {
-      Request( const QString &_url, const QString &_target, void *_notify) 
-	  { url=_url; target=_target; notify=_notify; };
+      Request( const QString &_url, const QString &_mime, 
+	       const QString &_target, void *_notify) 
+	  { url=_url; mime=_mime; target=_target; notify=_notify; };
 
       QString url;
+      QString mime;
       QString target;
-      void *notify;
+      void *notify;	
   };
 
   QQueue<Request> _waitingRequests;
@@ -225,28 +233,30 @@ private:
 
 class NSPluginClass : public QObject, virtual public NSPluginClassIface
 {
+  Q_OBJECT
 public:
 
-  // constructor, destructor
-  NSPluginClass( const QString &library, QObject *parent );
+  NSPluginClass( const QString &library, QObject *parent, const char *name=0 );
   ~NSPluginClass();
-
-  // initialization method
-  int Initialize();
-
-  // inquire supported MIME types
-  QString GetMIMEDescription();
-
-  // shutdown method
-  void Shutdown();
-
-  DCOPRef NewInstance(QString url, QString mimeType, bool embed, 
-		      QStringList argn, QStringList argv);
   
+  QString getMIMEDescription();  
+  DCOPRef newInstance(QString url, QString mimeType, bool embed, 
+		      QStringList argn, QStringList argv);
+  void destroyInstance( NSPluginInstance* inst );
+  bool error() { return _error; };  
+
+protected slots:
+  void timer();
+
 private:
+  int initialize();
+  void shutdown();
+
   KLibrary *_handle;
   QString  _libname;
-  bool _constructed, _initialized;
+  bool _constructed;
+  bool _error;
+  QTimer *_timer;
 
   NP_GetMIMEDescriptionUPP *_NP_GetMIMEDescription;
   NP_InitializeUPP *_NP_Initialize;
@@ -254,17 +264,21 @@ private:
 
   NPPluginFuncs _pluginFuncs;
   NPNetscapeFuncs _nsFuncs;
+
+  QList<NSPluginInstance> _instances;
+  QList<NSPluginInstance> _trash;
 };
 
 
 class NSPluginViewer : public QObject, virtual public NSPluginViewerIface
 {
+    Q_OBJECT
 public:
-   NSPluginViewer( QCString dcopId, QObject *parent );
+   NSPluginViewer( QCString dcopId, QObject *parent, const char *name=0 );
    virtual ~NSPluginViewer();
 
-   void Shutdown();
-   DCOPRef NewClass( QString plugin );
+   void shutdown();
+   DCOPRef newClass( QString plugin );
 
 private:
    QDict<NSPluginClass> _classes;

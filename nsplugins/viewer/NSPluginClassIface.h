@@ -36,9 +36,8 @@ class NSPluginViewerIface : virtual public DCOPObject
   K_DCOP
 
 k_dcop:
-
-  virtual void Shutdown() = 0;
-  virtual DCOPRef NewClass(QString plugin) = 0;
+  virtual void shutdown() = 0;
+  virtual DCOPRef newClass(QString plugin) = 0;
 };
 
 
@@ -48,9 +47,9 @@ class NSPluginClassIface : virtual public DCOPObject
 
 k_dcop:
 
-  virtual DCOPRef NewInstance(QString url, QString mimeType, bool embed, 
+  virtual DCOPRef newInstance(QString url, QString mimeType, bool embed, 
 			      QStringList argn, QStringList argv) = 0;
-  virtual QString GetMIMEDescription() = 0;
+  virtual QString getMIMEDescription() = 0;
 
 };
 
@@ -61,7 +60,7 @@ class NSPluginInstanceIface : virtual public DCOPObject
 
 k_dcop:
 
-  virtual void destroyPlugin() = 0;
+  virtual void shutdown() = 0;
 
   virtual int winId() = 0;
 

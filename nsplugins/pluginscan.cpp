@@ -117,7 +117,7 @@ void generateMimeType( QString mime, QString extensions, QString description )
             ts << "Patterns=";
             QStringList exts = QStringList::split(",", extensions);
             for (QStringList::Iterator it=exts.begin(); it != exts.end(); ++it)
-                ts << " *." << *it << ";";
+                ts << "*." << (*it).stripWhiteSpace() << ";";
             ts << endl;
         }
 

@@ -197,7 +197,14 @@ NPError MyNPP_NewStream(NPP instance, NPMIMEType type,
           	          uint16* stype)
 {
 	NPError err;	
-	DEB(ef, "-> NPP_NewStream( %x, %s, 0x%x, %d, 0x%x )\n", instance, type, stream, seekable, stype);	
+	DEB(ef, "-> NPP_NewStream( %x, %s, 0x%x, %d, 0x%x )\n", instance, type, stream, seekable, stype);
+
+	DEB(ef, "stream->ndata = 0x%x\n", stream->ndata);
+	DEB(ef, "stream->url = %s\n", stream->url );
+        DEB(ef, "stream->end = %d\n", stream->end );
+	DEB(ef, "stream->pdata = 0x%x\n", stream->pdata );
+	DEB(ef, "stream->lastmodified = %d\n", stream->lastmodified );
+	DEB(ef, "stream->notifyData = 0x%x\n", stream->notifyData );
 	
 	err = gPluginFuncs.newstream( instance, type, stream, seekable, stype );		
 	DEB(ef, "<- NPP_NewStream = %d\n", err);
@@ -400,7 +407,7 @@ NPError MyNPN_NewStream(NPP instance, NPMIMEType type,
                 const char* target, NPStream** stream)
 {
 	NPError err;	
-	DEB(ef, "-> NPN_NewStream( %x, %s, %s, 0x%x )\n", instance, type, target, stream);	
+	DEB(ef, "-> NPN_NewStream( %x, %s, %s, 0x%x )\n", instance, type, target, stream);
 	
 	err = gNetscapeFuncs.newstream( instance, type, target, stream );		
 	DEB(ef, "<- NPN_NewStream = %d\n", err);

@@ -60,7 +60,7 @@ NSPluginInstance::NSPluginInstance(QWidget *parent, const QCString& app, const Q
 NSPluginInstance::~NSPluginInstance()
 {
    kdDebug() << "-> NSPluginInstance::~NSPluginInstance" << endl;
-   destroyPlugin();
+   shutdown();
    emit destroyed( this );
    kdDebug() << "<- NSPluginInstance::~NSPluginInstance" << endl;
 }
@@ -275,7 +275,7 @@ void NSPluginLoader::unloadViewer()
 
    if ( _viewer )
    {
-      _viewer->Shutdown();
+      _viewer->shutdown();
       kdDebug() << "Shutdown viewer" << endl;
       delete _viewer;
       delete _process;
@@ -313,7 +313,7 @@ void NSPluginLoader::processTerminated(KProcess *proc)
 }
 
 
-NSPluginInstance *NSPluginLoader::NewInstance(QWidget *parent, QString url,
+NSPluginInstance *NSPluginLoader::newInstance(QWidget *parent, QString url,
                                               QString mimeType, bool embed,
                                               QStringList argn, QStringList argv)
 {
@@ -364,7 +364,7 @@ NSPluginInstance *NSPluginLoader::NewInstance(QWidget *parent, QString url,
    }
 
    // get plugin class object
-   DCOPRef cls_ref = _viewer->NewClass( plugin_name );
+   DCOPRef cls_ref = _viewer->newClass( plugin_name );
    if ( cls_ref.isNull() )
    {
       kdDebug() << "Couldn't create plugin class" << endl;
@@ -378,7 +378,7 @@ NSPluginInstance *NSPluginLoader::NewInstance(QWidget *parent, QString url,
 
 
    // get plugin instance
-   DCOPRef inst_ref = cls->NewInstance( url, mime, embed, argn, argv );
+   DCOPRef inst_ref = cls->newInstance( url, mime, embed, argn, argv );
    if ( inst_ref.isNull() )
    {
       kdDebug() << "Couldn't create plugin instance" << endl;
