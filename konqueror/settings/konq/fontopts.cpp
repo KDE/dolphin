@@ -246,6 +246,9 @@ void KonqFontOptions::load()
         m_cbTextBackground->setChecked(textBackgroundColor.isValid());
         m_pTextBackground->setEnabled(textBackgroundColor.isValid());
         m_pTextBackground->setColor( textBackgroundColor );
+	// Don't keep an invalid color around, otherwise checking the checkbox still gives invalid.
+	if ( !textBackgroundColor.isValid() )
+            textBackgroundColor = Qt::black;
     }
     else
     {
