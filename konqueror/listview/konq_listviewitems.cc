@@ -163,20 +163,7 @@ void KonqListViewItem::paintCell( QPainter *_painter, const QColorGroup & _cg, i
 
   cg.setColor( QColorGroup::Text, static_cast<KonqBaseListViewWidget *>(listView())->itemColor() );
 
-  // --- from here, keep in sync with konqtextviewitem !
-
-  QBrush brush;
-  const QPixmap * pm = listView()->viewport()->backgroundPixmap();
-  if ( !pm || pm->isNull() )
-  {
-      brush.setColor( listView()->viewport()->backgroundColor() );
-      brush.setStyle( SolidPattern );
-  }
-  else
-      brush.setPixmap( *pm );
-  cg.setBrush( QColorGroup::Base, brush );
-
-  QListViewItem::paintCell( _painter, cg, _column, _width, _alignment );
+  KListViewItem::paintCell( _painter, cg, _column, _width, _alignment );
 }
 
 const char* KonqBaseListViewItem::makeAccessString( const mode_t mode)
@@ -228,14 +215,14 @@ const char* KonqBaseListViewItem::makeAccessString( const mode_t mode)
 
 
 KonqBaseListViewItem::KonqBaseListViewItem(KonqBaseListViewWidget *_listViewWidget,KonqFileItem* _fileitem)
-:QListViewItem(_listViewWidget)
+:KListViewItem(_listViewWidget)
 ,sortChar('1')
 ,m_bDisabled(false)
 ,m_fileitem(_fileitem)
 {}
 
 KonqBaseListViewItem::KonqBaseListViewItem(KonqBaseListViewItem *_parent,KonqFileItem* _fileitem)
-:QListViewItem(_parent)
+:KListViewItem(_parent)
 ,sortChar('1')
 ,m_bDisabled(false)
 ,m_fileitem(_fileitem)

@@ -20,7 +20,7 @@
 #ifndef __konq_listviewitems_h__
 #define __konq_listviewitems_h__
 
-#include <qlistview.h>
+#include <klistview.h>
 #include <qstring.h>
 #include <kicontheme.h>
 #include <konq_fileitem.h>
@@ -31,7 +31,7 @@ class QPainter;
 class KonqBaseListViewItem;
 class KonqListViewItem;
 
-class KonqBaseListViewItem : public QListViewItem
+class KonqBaseListViewItem : public KListViewItem
 {
    public:
       KonqBaseListViewItem(KonqBaseListViewWidget *_listViewWidget,KonqFileItem* _fileitem);

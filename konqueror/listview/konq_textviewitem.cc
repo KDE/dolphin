@@ -200,19 +200,7 @@ void KonqTextViewItem::paintCell( QPainter *_painter, const QColorGroup & _cg, i
    cg.setColor(QColorGroup::HighlightedText, static_cast<KonqTextViewWidget *>(listView())->highlight[type]);
    cg.setColor(QColorGroup::Highlight, Qt::darkGray);
 
-   // --- from here, keep in sync with konqlistviewitem !
-   QBrush brush;
-   const QPixmap * pm = listView()->viewport()->backgroundPixmap();
-   if ( !pm || pm->isNull() )
-   {
-       brush.setColor( listView()->viewport()->backgroundColor() );
-       brush.setStyle( SolidPattern );
-   }
-   else
-       brush.setPixmap( *pm );
-   cg.setBrush( QColorGroup::Base, brush );
-
-   QListViewItem::paintCell( _painter, cg, _column, _width, _alignment );
+   KListViewItem::paintCell( _painter, cg, _column, _width, _alignment );
 }
 
 void KonqTextViewItem::setup()
