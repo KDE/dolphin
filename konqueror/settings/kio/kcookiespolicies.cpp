@@ -185,7 +185,7 @@ KCookiesPolicies::KCookiesPolicies(QWidget *parent, const char *name)
                                               "the cookie policies.  These policies will be merged "
                                               "with the exisiting ones.  Duplicate enteries are ignored.") );
     connect( pb_domPolicyDelete, SIGNAL( clicked() ), this, SLOT( importPressed() ) );
-    pb_domPolicyImport->setEnabled( false );
+    pb_domPolicyImport->hide();
 
     pb_domPolicyExport = new QPushButton( i18n("Export..."), vbox );
     QWhatsThis::add( pb_domPolicyExport, i18n("Click this button to save the cookie policy to a zipped "
@@ -194,7 +194,7 @@ KCookiesPolicies::KCookiesPolicies(QWidget *parent, const char *name)
 
     connect( pb_domPolicyDelete, SIGNAL( clicked() ), this, SLOT( exportPressed() ) );
     ds_lay->addWidget( vbox, 1, 1 );
-    pb_domPolicyExport->setEnabled( false );
+    pb_domPolicyExport->hide();
 
     QWhatsThis::add( gb_domainSpecific, i18n("Here you can set specific cookie policies for any particular "
                                              "domain. To add a new policy, simply click the <i>Add...</i> "

@@ -62,20 +62,20 @@ private:
   // Default User-agent settings
   QLabel*         lb_default;
   QButtonGroup*   bg_default;
-  QCheckBox*      cb_showOS;
-  QCheckBox*      cb_showOSV;
   QCheckBox*      cb_showPlatform;
-  QCheckBox*      cb_showMachine;
   QCheckBox*      cb_showLanguage;
+  QCheckBox*      cb_showMachine;
+  QCheckBox*      cb_showOSV;
+  QCheckBox*      cb_showOS;
 
   // Site specific settings
-  QPushButton*    pb_add;
+  KListView*      lv_siteUABindings;
+  QGroupBox*      gb_siteSpecific;
   QPushButton*    pb_delete;
   QPushButton*    pb_change;
   QPushButton*    pb_import;
   QPushButton*    pb_export;
-  QGroupBox*      gb_siteSpecific;
-  KListView*      lv_siteUABindings;
+  QPushButton*    pb_add;
 
   // Useragent modifiers
   KProtocolManager::UAMODIFIERS m_iMods;

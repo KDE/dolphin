@@ -45,7 +45,7 @@ class UAProviderDlg : public KDialog
   Q_OBJECT
 
 public:
-  UAProviderDlg( const QString& caption, int itemCount, QWidget *parent = 0,
+  UAProviderDlg( const QString& caption, QWidget *parent = 0,
                  const char *name = 0 );
   ~UAProviderDlg();
 
@@ -60,7 +60,7 @@ public:
 protected slots:
   void slotActivated( const QString& );
   void slotTextChanged( const QString& );
-  void slotImport();
+  void loadInfo();
 
 private:
   FakeUASProvider* m_provider;

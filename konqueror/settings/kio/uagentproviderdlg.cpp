@@ -62,9 +62,9 @@ void UALineEdit::keyPressEvent( QKeyEvent* e )
   e->accept();
 }
 
-UAProviderDlg::UAProviderDlg( const QString& caption, int itemCount,
-                              QWidget *parent, const char *name )
-                 :KDialog(parent, name, true)
+UAProviderDlg::UAProviderDlg( const QString& caption, QWidget *parent,
+                              const char *name )
+              :KDialog(parent, name, true)
 {
   setIcon( SmallIcon("agent") );
   QVBoxLayout *lay = new QVBoxLayout( this, KDialog::marginHint(), KDialog::spacingHint() );
@@ -83,27 +83,11 @@ UAProviderDlg::UAProviderDlg( const QString& caption, int itemCount,
   QWhatsThis::add( label, wtstr );
   QWhatsThis::add( m_leSite, wtstr );
 
-  QHBox* hbox = new QHBox( this );
-  hbox->setSpacing( 2*KDialog::spacingHint() );
-  label = new QLabel( i18n("Use the following &identity:"), hbox );
-  KURLLabel* ul = new KURLLabel( QString::null, i18n("[&Import]"), hbox );
-  ul->setAlignment ( Qt::ShowPrefix );
-  connect( ul, SIGNAL(leftClickedURL()), SLOT(slotImport()) );
-  ul->setTipText( i18n("Import custom identification strings from config file") );
-  ul->setUnderline( false );
-  ul->setGlow( false );
-  ul->setFloat( true );
-  ul->setEnabled( itemCount!=0 );
-  QWhatsThis::add( ul, i18n("Click here to import of any custom identification "
-                            "strings you might have defined in the previous version "
-                            "of this config dialog.") );
-  QAccel* a = new QAccel( this );
-  a->connectItem ( a->insertItem(Qt::Key_I+Qt::ALT), this, SLOT(slotImport()) );
-
+  label = new QLabel( i18n("Use the following &identity:"), this );
   m_cbIdentity = new KComboBox( false, this );
   m_cbIdentity->setInsertionPolicy( QComboBox::AtBottom );
   label->setBuddy( m_cbIdentity );
-  m_cbIdentity->setMaximumWidth( m_cbIdentity->fontMetrics().width('W') * 25 );
+  m_cbIdentity->setMinimumWidth( m_cbIdentity->fontMetrics().width('W') * 30 );
   connect ( m_cbIdentity, SIGNAL(activated(const QString&)), SLOT(slotActivated(const QString&)) );
   wtstr = i18n( "<qt>Select the identity used whenever contacting the site given "
                 "above.  Upon selection a friendlier description, if one was "
@@ -120,7 +104,7 @@ UAProviderDlg::UAProviderDlg( const QString& caption, int itemCount,
   QWhatsThis::add( label, wtstr );
   QWhatsThis::add( m_leAlias, wtstr );
 
-  hbox = new QHBox( this );
+  QHBox* hbox = new QHBox( this );
   hbox->setSpacing( KDialog::spacingHint() );
   m_btnOK = new QPushButton( i18n("&OK"), hbox );
   m_btnCancel = new QPushButton( i18n("&Cancel"), hbox );
@@ -128,16 +112,15 @@ UAProviderDlg::UAProviderDlg( const QString& caption, int itemCount,
   m_btnOK->setEnabled( false );
 
   m_provider = new FakeUASProvider();
-  m_cbIdentity->insertStringList( m_provider->userAgentStringList() );
-  m_cbIdentity->insertItem( "", 0 );
 
   connect( m_btnOK, SIGNAL(clicked()), SLOT(accept()) );
   connect( m_btnCancel, SIGNAL(clicked()), SLOT(reject()) );
-  a = new QAccel( this );
+  QAccel* a = new QAccel( this );
   a->connectItem( a->insertItem(Qt::Key_Escape), m_btnCancel, SLOT(animateClick()) );
 
   lay->addSpacing( KDialog::spacingHint() );
   setFixedSize( minimumSizeHint() );
+  loadInfo();
   m_leSite->setFocus();
 }
 
@@ -166,28 +149,16 @@ void UAProviderDlg::slotTextChanged( const QString& text )
   m_btnOK->setEnabled( !(text.isEmpty() || m_cbIdentity->currentText().isEmpty()) );
 }
 
-void UAProviderDlg::slotImport()
+void UAProviderDlg::loadInfo()
 {
-  QString msg;
+  m_cbIdentity->insertStringList( m_provider->userAgentStringList() );
+  m_cbIdentity->insertItem( "", 0 );
   QStringList list = KProtocolManager::userAgentList();
   if ( list.count() )
   {
-    int count = 0;
     QStringList::ConstIterator it = list.begin();
-    FakeUASProvider::StatusCode code;
-    for( ; it != list.end(); ++it)
-    {
-      code = m_provider->createNewUAProvider( (*it) );
-      if ( code == FakeUASProvider::SUCCEEDED )
-        count++;
-    }
-
-    if ( count  )
-      msg = i18n( "Imported %1 custom identification string(s) and\n"
-                  "added them into listbox!" ).arg(count);
-    else
-      msg = i18n( "No custom browser identification string(s) found!" );
-    KMessageBox::information( this, msg, i18n("Importing Identification") );
+    for( ; it != list.end(); ++it )
+      m_provider->createNewUAProvider( (*it) );
   }
 }
 

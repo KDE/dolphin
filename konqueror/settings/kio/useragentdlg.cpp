@@ -69,7 +69,7 @@ UserAgentOptions::UserAgentOptions( QWidget * parent, const char * name )
                                     "sites when you browse the internet.  You can modify it "
                                     "using the checkboxes below.") );
 
-  cb_showOS = new QCheckBox( i18n("Add operating system &name"), bg_default);
+  cb_showOS = new QCheckBox( i18n("Add operating s&ystem &name"), bg_default);
   bg_grid->addMultiCellWidget( cb_showOS, 2, 2, 0, 1 );
   QWhatsThis::add( cb_showOS, i18n("Check this box to add your <em>operating system name</em> "
                                    "to the default identification string.") );
@@ -142,12 +142,12 @@ UserAgentOptions::UserAgentOptions( QWidget * parent, const char * name )
   connect( pb_delete, SIGNAL( clicked() ), this, SLOT( deletePressed() ) );
 
   pb_import = new QPushButton( i18n("Import..."), vbox );
-  pb_import->setEnabled( false );
+  pb_import->hide();
   QWhatsThis::add( pb_import, i18n("Import pre-packaged site/domain specific identifiers") );
   connect( pb_import, SIGNAL( clicked() ), this, SLOT( importPressed() ) );
 
   pb_export = new QPushButton( i18n("Export..."), vbox );
-  pb_export->setEnabled( false );
+  pb_export->hide();
   QWhatsThis::add( pb_export, i18n("Export pre-packaged site/domain specific identifiers" ) );
   connect( pb_export, SIGNAL( clicked() ), this, SLOT( exportPressed() ) );
 
@@ -257,9 +257,7 @@ void UserAgentOptions::save()
 
 void UserAgentOptions::addPressed()
 {
-  UAProviderDlg* dlg = new UAProviderDlg( i18n("Add Identification"),
-                                          lv_siteUABindings->childCount(),
-                                          this );
+  UAProviderDlg* dlg = new UAProviderDlg( i18n("Add Identification"), this );
   if ( dlg->exec() == QDialog::Accepted )
   {
     bool found = false;
@@ -286,9 +284,7 @@ void UserAgentOptions::addPressed()
 
 void UserAgentOptions::changePressed()
 {
-  UAProviderDlg* dlg = new UAProviderDlg( i18n("Modify Identification"),
-                                          lv_siteUABindings->childCount(),
-                                          this );
+  UAProviderDlg* dlg = new UAProviderDlg( i18n("Modify Identification"), this );
   dlg->setEnableHostEdit( false );
   dlg->setSiteName( lv_siteUABindings->currentItem()->text(0) );
   dlg->setIdentity( lv_siteUABindings->currentItem()->text(1) );
