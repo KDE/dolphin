@@ -63,7 +63,7 @@ CORBA::Boolean KonqSearcher::eventFilter( KOM::Base_ptr obj, const char *name, c
       QString query = EngineCfg::self()->query( key );
       if ( query != QString::null )
       {
-        QString qnewurl = query.replace( QRegExp( "|" ), qurl.mid( pos+1 ) );
+        QString qnewurl = query.replace( QRegExp( "|" ), qurl.mid( pos+1 ).replace( QRegExp( " " ), "+" ) );
 	CORBA::WString_var wnewurl = Q2C( qnewurl );
 	
 	EMIT_EVENT_WSTRING( obj, name, wnewurl );
