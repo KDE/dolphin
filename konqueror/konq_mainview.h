@@ -31,6 +31,7 @@
 #include <kbookmark.h>
 #include <dcopobject.h>
 #include <kxmlgui.h>
+#include <kxmlguibase.h>
 #include <ktrader.h>
 
 class QAction;
@@ -49,7 +50,7 @@ class KonqBookmarkBar;
 struct HistoryEntry;
 class KonqFrameBase;
 class KBookmarkMenu;
-class ViewModeGUIServant;
+class ViewModeGUIClient;
 
 namespace KParts {
  class BrowserExtension;
@@ -328,18 +329,18 @@ private:
 
   QGuardedPtr<QComboBox> m_combo;
 
-  ViewModeGUIServant *m_viewModeGUIServant;
+  ViewModeGUIClient *m_viewModeGUIClient;
 
   static QList<QPixmap> *s_plstAnimatedLogo;
 
   static bool s_bMoveSelection;
 };
 
-class ViewModeGUIServant : public QObject, public KXMLGUIServant
+class ViewModeGUIClient : public QObject, public KXMLGUIClient
 {
   Q_OBJECT
 public:
-  ViewModeGUIServant( KonqMainView *mainView );
+  ViewModeGUIClient( KonqMainView *mainView );
 
   virtual QAction *action( const QDomElement &element );
   virtual QDomDocument document() const;

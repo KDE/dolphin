@@ -117,7 +117,7 @@ KonqMainView::KonqMainView( const KURL &initialURL, bool openInitialURL, const c
   connect( m_pViewManager, SIGNAL( activePartChanged( KParts::Part * ) ),
 	   this, SLOT( slotPartActivated( KParts::Part * ) ) );
 
-  m_viewModeGUIServant = new ViewModeGUIServant( this );
+  m_viewModeGUIClient = new ViewModeGUIClient( this );
 
   initActions();
   initPlugins();
@@ -806,9 +806,9 @@ void KonqMainView::slotPartActivated( KParts::Part *part )
     createGUI( 0L );
   }
 
-  guiFactory()->removeServant( m_viewModeGUIServant );
-  m_viewModeGUIServant->update( m_currentView->serviceOffers() );
-  guiFactory()->addServant( m_viewModeGUIServant );
+  guiFactory()->removeClient( m_viewModeGUIClient );
+  m_viewModeGUIClient->update( m_currentView->serviceOffers() );
+  guiFactory()->addClient( m_viewModeGUIClient );
 
   m_currentView->frame()->header()->repaint();
 
@@ -1635,7 +1635,7 @@ static const char *viewModeGUI = ""
 "</MenuBar>"
 "</viewmodexml>";
 
-ViewModeGUIServant::ViewModeGUIServant( KonqMainView *mainView )
+ViewModeGUIClient::ViewModeGUIClient( KonqMainView *mainView )
  : QObject( mainView )
 {
   m_mainView = mainView;
@@ -1644,7 +1644,7 @@ ViewModeGUIServant::ViewModeGUIServant( KonqMainView *mainView )
   m_actions = 0L;
 }
 
-QAction *ViewModeGUIServant::action( const QDomElement &element )
+QAction *ViewModeGUIClient::action( const QDomElement &element )
 {
   if ( !m_actions )
     return 0L;
@@ -1652,12 +1652,12 @@ QAction *ViewModeGUIServant::action( const QDomElement &element )
   return m_actions->action( element.attribute( "name" ) );
 }
 
-QDomDocument ViewModeGUIServant::document() const
+QDomDocument ViewModeGUIClient::document() const
 {
   return m_doc;
 }
 
-void ViewModeGUIServant::update( const KTrader::OfferList &services )
+void ViewModeGUIClient::update( const KTrader::OfferList &services )
 {
   if ( m_actions )
     delete m_actions;
