@@ -347,6 +347,48 @@ void KNewMenu::slotNewDir()
     KonqOperations::newDir(d->m_parentWidget, popupFiles.first());
 }
 
+// copied from kdelibs/kio/kio/renamedlg.cpp
+static QString suggestName(const KURL& baseURL, const QString& oldName)
+{
+  QString dotSuffix, suggestedName;
+  QString basename = oldName;
+
+  int index = basename.find( '.' );
+  if ( index != -1 ) {
+    dotSuffix = basename.mid( index );
+    basename.truncate( index );
+  }
+
+  int pos = basename.findRev( '_' );
+  if(pos != -1 ){
+    QString tmp = basename.mid( pos+1 );
+    bool ok;
+    int number = tmp.toInt( &ok );
+    if ( !ok ) {// ok there is no number
+      suggestedName = basename + "1" + dotSuffix;
+    }
+    else {
+     // yes there's already a number behind the _ so increment it by one
+      basename.replace( pos+1, tmp.length(), QString::number(number+1) );
+      suggestedName = basename + dotSuffix;
+    }
+  }
+  else // no underscore yet
+    suggestedName = basename + "_1" + dotSuffix ;
+
+  // Check if suggested name already exists
+  bool exists = false;
+  // TODO: network transparency. However, using NetAccess from a modal dialog
+  // could be a problem, no? (given that it uses a modal widget itself....)
+  if ( baseURL.isLocalFile() )
+     exists = QFileInfo( baseURL.path(+1) + suggestedName ).exists();
+
+  if ( !exists )
+    return suggestedName;
+  else // already exists -> recurse
+    return suggestName( baseURL, suggestedName );
+}
+
 void KNewMenu::slotNewFile()
 {
     int id = QString( sender()->name() + 7 ).toInt(); // skip "newmenu"
@@ -401,6 +443,12 @@ void KNewMenu::slotNewFile()
                 //kdDebug(1203) << "third arg=" << entry.text << endl;
                 QString text = entry.text;
                 text.replace( "...", QString::null ); // the ... is fine for the menu item but not for the default filename
+                
+		KURL defaultFile( *it );
+		defaultFile.addPath( KIO::encodeFileName( text ) );
+		if ( defaultFile.isLocalFile() && QFile::exists( defaultFile.path() ) )
+		    text = suggestName( *it, text);
+
                 KURL templateURL;
                 templateURL.setPath( entry.templatePath );
                 (void) new KPropertiesDialog( templateURL, *it, text, d->m_parentWidget );
@@ -415,6 +463,12 @@ void KNewMenu::slotNewFile()
         bool ok;
         QString text = entry.text;
         text.replace( "...", QString::null ); // the ... is fine for the menu item but not for the default filename
+        
+	KURL defaultFile( *(popupFiles.begin()) );
+	defaultFile.addPath( KIO::encodeFileName( text ) );
+	if ( defaultFile.isLocalFile() && QFile::exists( defaultFile.path() ) )
+	    text = suggestName( *(popupFiles.begin()), text);
+
         name = KInputDialog::getText( QString::null, entry.comment,
     	text, &ok, d->m_parentWidget );
         if ( !ok )
