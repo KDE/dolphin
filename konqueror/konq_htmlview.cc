@@ -115,23 +115,8 @@ void KonqHTMLView::openURL( const QString &url, bool reload,
   m_bAutoLoadImages = KonqSettings::defaultHTMLSettings()->autoLoadImages();
   m_pBrowser->enableImages( m_bAutoLoadImages );
 
-  if ( !reload && urlcmp( url, m_strURL, TRUE, TRUE ) )
-  {
-    KURL u( url );
-    m_strURL = url;
-    emit started();
-    if ( !u.htmlRef().isEmpty() )
-      m_pBrowser->gotoAnchor( u.htmlRef() );
-    else
-      m_pBrowser->setContentsPos( 0, 0 );
-    emit completed();
-    return;
-  }
-  else
-  { 
-    m_strURL = url;
-    m_pBrowser->KHTMLWidget::openURL( url, reload, xOffset, yOffset );
-  }    
+  m_strURL = url;
+  m_pBrowser->KHTMLWidget::openURL( url, reload, xOffset, yOffset );
 
   if ( m_pBrowser->jobId() )
   {
