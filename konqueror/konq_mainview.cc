@@ -281,7 +281,7 @@ void KonqMainView::openURL( KonqChildView *_view, const KURL &url, const QString
       slotStop();
       // Show it for now in the location bar, but we'll need to store it in the view
       // later on (can't do it yet since either view == 0 or updateHistoryEntry will be called).
-      //kdDebug(1202) << "setLocationBarURL : url = " << url.prettyURL() << endl;
+      kdDebug(1202) << "setLocationBarURL : url = " << url.prettyURL() << endl;
       setLocationBarURL( url.prettyURL() );
     }
     else
@@ -815,7 +815,7 @@ bool KonqMainView::openView( QString serviceType, const KURL &_url, KonqChildVie
   // to still display the original URL (so that 'up' uses that URL,
   // and since that's what the user entered).
   // changeViewMode will take care of setting and storing that url.
-  QString originalURL = url.url();
+  QString originalURL = url.prettyURL();
 
   QString serviceName; // default: none provided
   m_paRemoveLocalProperties->setEnabled( false ); // default: no local props
