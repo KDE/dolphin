@@ -22,12 +22,12 @@
 
 KUserInfoChFnDlg::KUserInfoChFnDlg(QString *userName, QString *userFullName,
                                    QWidget *parent, const char *name, bool modal)
-  : KDialogBase( parent, name, modal, i18n("Change your Real Name"), Ok|Cancel, Ok )
+  : KDialogBase( parent, name, modal, i18n("Change your Real Name"), Ok|Cancel, Ok, true )
 {
   QWidget *page = new QWidget(this);
   setMainWidget( page );
 
-  QVBoxLayout *top = new QVBoxLayout(page, 10);
+  QVBoxLayout *top = new QVBoxLayout(page, 0, spacingHint());
   top->setAlignment( Qt::AlignTop );
 
   QLabel *header = new QLabel( i18n("Changing Real Name for User '%1'").arg( *userName ), page );
@@ -52,7 +52,7 @@ KUserInfoChFnDlg::KUserInfoChFnDlg(QString *userName, QString *userFullName,
 
   top->addWidget( m_PsEdit );
 
-  this->enableButtonOK( false );
+  enableButtonOK( false );
 }
 
 void KUserInfoChFnDlg::slotTextChanged( const QString &newps )
