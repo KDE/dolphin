@@ -43,12 +43,12 @@
 
 <legalnotice>&FDLNotice;</legalnotice>
 
-<date>2002-09-15</date>
-<releaseinfo>3.00.07</releaseinfo>
+<date>2002-09-22</date>
+<releaseinfo>3.01.00</releaseinfo>
 
 <abstract><para>&konqueror; is &kde;'s advanced File Manager, Web Browser and
  Universal Viewing Application.</para>
-<para>This document describes &konqueror; version 3.0.7</para></abstract>
+</abstract>
 
 <keywordset>
 <keyword>KDE</keyword>
@@ -308,18 +308,15 @@ thing.</para></listitem>
 Bookmark
  Toolbar
 to open that <acronym>URL</acronym>.</para></listitem>
-<listitem><para><mousebutton>Left</mousebutton> click on a link in a web page
-to
-make &konqueror; follow that link.</para></listitem>
-<listitem><para><mousebutton>Left</mousebutton> click on a directory icon or
- name
-and &konqueror; will descend into (show the contents of) that
-directory.</para></listitem>
-<listitem><para><mousebutton>Left</mousebutton> click on a file name or icon
-and
-&konqueror; will do whatever it thinks appropriate, based on the file type. In
-general this means opening <acronym>HTML</acronym> pages, or previewing text,
- image or
+<listitem><para><mousebutton>Left</mousebutton> click on a link in a web page 
+to make &konqueror; follow that link.</para></listitem>
+<listitem><para><mousebutton>Left</mousebutton> click on a directory icon or 
+name and &konqueror; will descend into (show the contents of) that directory.
+</para></listitem>
+<listitem><para><mousebutton>Left</mousebutton> click on a file name or icon 
+and &konqueror; will do whatever it thinks appropriate, based on the file type. 
+In general this means opening <acronym>HTML</acronym> pages, or previewing 
+text, image or 
 <application>KOffice</application> files, showing them within &konqueror;'s
 window (<quote>Preview</quote> means that you can see the file but not change
 it).</para> 
@@ -327,9 +324,9 @@ it).</para>
 <para>&konqueror; decides what the file type is by matching the filename
 extension against a list of known types. If that fails it tries to guess
 the type from the file contents. You can change the list of known file types
-and
-associated actions and add new types, see the section <link
-linkend="file-associations">File Associations</link>.</para></listitem>
+and associated actions with the <guilabel>File Associations</guilabel> page of 
+the <menuchoice><guimenu>Settings</guimenu><guimenuitem>Configure Konqueror...
+</guimenuitem></menuchoice> dialog.</para></listitem>
 
 </itemizedlist>
 
@@ -340,7 +337,12 @@ new tab instead of in new window</guilabel> box has been checked in the
 <guimenuitem>Behavior</guimenuitem> page of the <menuchoice><guimenu>Settings
 </guimenu><guimenuitem>Configure Konqueror...</guimenuitem></menuchoice> 
 dialog.</para>
-
+<para>Holding the &Shift; key down while pressing the &MMB; will open the link 
+in the background.</para>
+<important><para>If you click the &MMB; when the mouse cursor is over a blank 
+part of the main view (not over a link or file name or icon) &konqueror; will 
+copy the contents of the clipboard into the Location Toolbar and try to use 
+that as a &URL;.</para></important>
 </sect1>
 
 <sect1 id="rmb-menus">
@@ -349,12 +351,12 @@ dialog.</para>
 <para>Clicking the &RMB; on almost any part of &konqueror;'s window
 will bring up an appropriate context menu.</para>
 
-<note><para>If you have enabled the <guilabel>Right click goes back in
-history</guilabel> option in the <link linkend="configure-browser">&konqueror;
-Browser</link> configuration settings a
-simple <mousebutton>right</mousebutton> click is equivalent to clicking on the
-<guibutton>Back</guibutton> button. In this case you can access the context
-menu by moving the mouse with the <mousebutton>right</mousebutton> button held
+<note><para>If you have enabled the <guilabel>Right click goes back in 
+history</guilabel> option in &konqueror;'s <link linkend="othersettings">
+configuration</link> settings a
+simple <mousebutton>right</mousebutton> click is equivalent to clicking on the 
+<guibutton>Back</guibutton> button. In this case you can access the context 
+menu by moving the mouse with the <mousebutton>right</mousebutton> button held 
 down.</para></note>
 
 <variablelist>
@@ -546,8 +548,8 @@ File Previews</link> of this handbook for more details.</para>
 <sect2 id="filetipinfo">
 <title>File Tip Info</title>
 <para>Checking the <guilabel>Show file tips</guilabel> box in the <guilabel>
-Behavior</guilabel> page of the <link linkend="configfm">
-File Manager Configuration</link> dialog causes a small pop up information 
+Behavior</guilabel> page of the File Manager Configuration dialog causes a 
+small pop up information 
 window to appear when the mouse pointer is hovered over a file or folder name 
 or icon in <guimenuitem>Icon View</guimenuitem> or <guimenuitem>
 MultiColumn View</guimenuitem> mode. The <guilabel>Number of file tip entries:
@@ -565,10 +567,7 @@ for that type of file.</para>
 </guisubmenu></menuchoice> from the Menubar will bring up a sub menu 
 that lets you enable file previews for certain types of file.</para>
 <para>Generally this means that the file's icon will be replaced by a small 
-image showing the file contents. The size of these images can be controlled to 
-some extent by the <guilabel>Increase size of previews relative to icons
-</guilabel> checkbox in the <guilabel>Previews</guilabel> page of the 
-<link linkend="configfm">File Manager Configuration</link> dialog.</para>
+image showing the file contents.</para>
 <para>If file preview is enabled for <guimenuitem>Sound Files</guimenuitem> 
 the file will be played whenever the mouse cursor is hovering over the file 
 name or icon.</para>
@@ -577,8 +576,8 @@ name or icon.</para>
 <para>Because &konqueror; has to read much more data than just the file name 
 details to generate a preview, file previews may not be appropriate 
 when viewing files on a floppy or from a remote system. The <guilabel>Previews
-</guilabel> page of the <link linkend="configfm">File Manager Configuration
-</link> dialog alows you to disable file previews for protocols such as 
+</guilabel> page of the File Manager Configuration 
+dialog alows you to disable file previews for protocols such as 
 <link linkend="ftp">ftp</link> where reading the extra data would take too 
 long.</para>
 </sect2>
@@ -1323,22 +1322,22 @@ a <acronym>URL</acronym> into the Location Toolbar window, press
 &kppp; or a similar dialer program to make the connection.</para></listitem>
 
 <listitem><para>If your machine is connected to a local area network
-(<acronym>LAN</acronym>) that gives you a proxy connection to the Internet then
-you will have to set &konqueror; up for the proxy connection as described in
-the
-<link linkend="configure-proxy">Proxy Configuration</link>
-section. </para></listitem>
+(<acronym>LAN</acronym>) that gives you a proxy connection to the Internet 
+then you will have to set &konqueror; up for the proxy connection. This can be 
+done with the <guilabel>Proxy</guilabel> page of the <menuchoice><guimenu>
+Settings</guimenu><guimenuitem>Configure Konqueror...</guimenuitem>
+</menuchoice> dialog.</para></listitem>
 
-<listitem><para>If you are lucky enough to have a high speed cable connection,
-then the service provider will probably give you an external cable modem which
-needs an ethernet connection to your machine. Unfortunately the details of how
+<listitem><para>If you are lucky enough to have a high speed cable connection, 
+then the service provider will probably give you an external cable modem which 
+needs an ethernet connection to your machine. Unfortunately the details of how 
 to establish the connection depend on the service provider and to some extent
-on
-which Linux distribution you are using.  Some <acronym>ISP</acronym>s connect
-their customers to the Internet through a proxy server, in which case see the
-<link linkend="configure-proxy">Proxy Configuration</link> section of this
-document.  You may find it useful to search the archives of your distribution's
-user group mailing list for help.</para></listitem>
+on which Linux distribution you are using.  Some <acronym>ISP</acronym>s 
+connect their customers to the Internet through a proxy server, in which case 
+you will have to set up &konqueror; to use it.  You may find it useful to 
+search the archives of your distribution's user group mailing list for help.
+</para>
+</listitem>
 </itemizedlist>
 
 <note><para>An error message such as <errorname>Unknown Host</errorname>
@@ -1361,13 +1360,16 @@ If you have visited the page before, &konqueror;'s
 <link linkend="path-complete">Automatic Text Completion</link> feature can help 
 you type the &URL; a second time, or you could look through the 
 <guilabel>History</guilabel> page in the 
-<link linkend="sidebar">Navigation Panel</link>.</para>
+<link linkend="sidebar">Navigation Panel</link>. If you want to use one of 
+the web's search engines, &konqueror;'s <link linkend="enhanced-browsing">
+Web Shortcuts</link> feature can make this easier.</para>
 
 <para><mousebutton>Left</mousebutton> click on a link in the page to
  go there.</para>
 
 <para>To open a link in a new instance of &konqueror;, leaving the
-old page still visible, &RMB; click on the link and select the
+old page still visible, &MMB; click on the link or <mousebutton> right 
+</mousebutton> click on it and select the
 <guimenuitem>Open in New Window</guimenuitem> option.</para>
 
 <para>You could also select the multiple view mode with <keycombo
@@ -1404,34 +1406,35 @@ Toolbar, looking like magnifying glasses with small <keycap>+</keycap> and
 <keycap>-</keycap> symbols. Use these to adjust the size of the text in the
 page if you find it difficult to read, how well this works will
 depend on how the web page has been constructed.</para>
+</sect1>
 
-<para>Some people seem to spend more time searching for a web page than
-actually
-reading it. Do you know that you can just type the subject you are looking for
-into the Location Toolbar window, and &konqueror; will automatically submit it to a
-Web search engine? Try it by entering the name of your home town.</para>
-
-<para>Or you can tell it to use a particular search engine. For example
-entering
-<userinput>altavista:konqueror</userinput> or just
-<userinput>av:konqueror</userinput> will use Altavista to do the search. For
-more details about &konqueror;'s advanced search features see the <link
-linkend="configure-enhanced-browsing">Enhanced Browsing</link> section.</para>
-
-<sect2 id="tabbrowse">
+<sect1 id="tabbrowse">
 <title>Tabbed Browsing</title>
 <para>By using this feature you can make &konqueror; save downloaded web pages 
 so that you can then switch the view rapidly between them without having to 
-download the pages again.</para>
+download the pages again or having to open them in new instances of 
+&konqueror;.</para>
 <para>To use tabbed browsing, <mousebutton>right</mousebutton> click on a 
 link and choose <guimenuitem>Open in New Tab</guimenuitem> from the drop down 
 menu. The page will be downloaded and displayed as normal, but with tabs 
 across the top of the view, one tab for each page. <mousebutton>Left
-</mousebutton> click on a tab to view that page.</para>
+</mousebutton> click on a tab to view that page, or you can use the shortcuts 
+<keycombo action="simul">&Ctrl;<keycap>[</keycap></keycombo> and 
+<keycombo action="simul">&Ctrl;<keycap>]</keycap></keycombo> to cycle through 
+the tab pages.</para>
+
 <para>The <guimenuitem>Open in Background Tab</guimenuitem> option in the 
 &RMB; menu also downloads the page and shows a new tab for it, but the new 
 page will not be displayed until you <mousebutton>left</mousebutton> click 
 on the tab.</para>
+
+<para>If you check the <guilabel>Open links in new tab instead of in new window
+</guilabel> box in the <guimenuitem>Behavior</guimenuitem> page of the 
+<menuchoice><guimenu>Settings</guimenu><guimenuitem>Configure Konqueror...
+</guimenuitem></menuchoice> dialog, &MMB; clicking on a link will open it 
+in a new tab page and if you hold the &Shift; key down while clicking the 
+&MMB; the link will be opened in a background tab page.</para>
+
 <para><mousebutton>Right</mousebutton> clicking on a tab will bring up a 
 menu with the following options:</para>
 <variablelist>
@@ -1466,10 +1469,44 @@ page from the current &konqueror; window and opens it in a new instance of
 <listitem><para>To close all but the selected tab page.</para>
 </listitem>
 </varlistentry>
-
 </variablelist>
+</sect1>
 
-</sect2>
+<sect1 id="enhanced-browsing">
+<title>Web Shortcuts</title>
+<para>If enabled, &konqueror;'s Web Shortcuts feature lets you submit a 
+query directly to a search engine or similar web site without having to 
+visit the site first.</para>
+<para>For example, entering <userinput>gg:konqueror</userinput> into the 
+Location Bar and pressing <keycap>Enter</keycap> will ask Google to search 
+for items related to &konqueror;.</para>
+<para>To see what Web Shortcuts are available, and perhaps add your own, 
+use <menuchoice><guimenu>Settings</guimenu><guimenuitem>Configure 
+Konqueror...</guimenuitem></menuchoice> to open the <guilabel>Settings
+</guilabel> dialog box and click on the <guiicon>Web Shortcuts</guiicon>
+icon.</para>
+</sect1>
+
+<sect1 id="useragent">
+<title>User Agents</title>
+<para>When &konqueror; connects to a web site it sends some brief browser 
+identification information, known as the <quote>User Agent</quote> string. 
+Many web sites use this information to customize the pages that they send 
+back, based on the strengths and weaknesses of different browsers.</para>
+<para>Unfortunately, some badly designed sites refuse to work properly 
+unless you are using a browser that the site recognises as a 
+<quote>valid</quote> one, even though if given a chance, &konqueror; will 
+work satisfactorily with the vast majority of web pages.</para>
+<para>To overcome this problem, you can change the browser identification 
+information that &konqueror; sends for specific sites or domains by 
+selecting <menuchoice><guimenu>Settings</guimenu><guimenuitem>
+Configure Konqueror...</guimenuitem></menuchoice> to bring up the <guilabel>
+Settings</guilabel> dialog box and clicking the <guiicon>User Agent</guiicon> 
+icon.</para>
+<note><para>Problems with getting a web page to work properly may also be due 
+to its use of &Java; or JavaScript. If you suspect that this may be the case 
+check that they have been enabled in the <guiicon>Java &amp; JavaScript
+</guiicon> section of the <guilabel>Settings</guilabel> dialog box.</para></note>
 
 </sect1>
 
@@ -2045,17 +2082,17 @@ suitable icon.</para></note>
 &konqueror;, without having to start up <application>KHelpCenter</application>.
 </para>
 <para>To view a &kde; Help page, enter 
-<userinput>help:&lt;application name&gt;</userinput> (for example 
-<userinput>help:kmail</userinput>) into &konqueror;'s Location Toolbar window.
+<userinput>help:/&lt;application name&gt;</userinput> (for example 
+<userinput>help:/kmail</userinput>) into &konqueror;'s Location Toolbar window.
 </para>
 <para>
 If you want to read &UNIX; Man pages &konqueror; makes it easy, for 
-example type <userinput>man:touch</userinput> or 
+example type <userinput>man:/touch</userinput> or 
 <userinput>#touch</userinput> into the Location Toolbar to see the page for 
 the touch command.</para> 
 
 <para>To browse through &UNIX; Info pages, entering  
-<userinput>info:dir</userinput> takes you to Info's top level directory 
+<userinput>info:/dir</userinput> takes you to Info's top level directory 
 then it's just a matter of clicking on the right links to find the page 
 you want.</para> 
 
@@ -2173,9 +2210,8 @@ new <filename>thumbs</filename> directory.
 <term>User Agent Changer</term>
 <listitem><para>Select <menuchoice><guimenu>Tools</guimenu><guisubmenu>Change
 Browser Indentification</guisubmenu></menuchoice> to get a menu that allows
-you to change the <link linkend="configure-user-agent">User Agent
-string</link> without going through the <guimenu>Settings</guimenu> dialog
-procedure.
+you to change the User Agent string without going through the <guimenu>Settings
+</guimenu> dialog procedure.
 </para></listitem>
 </varlistentry>
 
@@ -2297,513 +2333,18 @@ press the key that will choose that item from the menu.</para>
 </sect2>
 </sect1>
 
-
-<sect1 id="configfm">
-<title>File Manager Configuration</title>
-
-<para>Choosing <menuchoice><guimenu>Settings</guimenu><guisubmenu>
-Configure Konqueror...</guisubmenu><guimenuitem>File Manager</guimenuitem>
-</menuchoice>
-or from the <guimenu>K</guimenu> menu select 
-<menuchoice><guimenu>Preferences</guimenu><guisubmenu>File 
-Browsing</guisubmenu><guimenuitem>File Manager</guimenuitem></menuchoice>. 
-This will bring up a dialog box with four tabbed pages; 
-<guilabel>Behavior</guilabel> <guilabel>Appearance</guilabel>,
-<guilabel>Trash</guilabel>, and <guilabel>Previews</guilabel>. </para>
-
-<sect2 >
-<title>Behavior</title> 
-
-<para>The <guilabel>Open directories in separate windows</guilabel> option lets
-you choose whether Konqueror will open up a new window when you
-open a directory, or show that directory's contents in the current view.</para>
-
-<para>If you check the <guilabel>Show network operations in a single
-window</guilabel> box progress information for all network file transfers will
-be shown in a single window, otherwise separate windows will be opened for
-each transfer.</para>
-
-<para>If the <guilabel>Show file tips</guilabel> box is checked a small popup
-window containing additional information will appear when you move the mouse
-over a file name in Icon View mode. The <guilabel>Number of file tip
-entries</guilabel> value determines how much additional information is
-shown.</para>
-
-<para>The <guilabel>Home URL</guilabel> lets you choose where &konqueror; jumps
-to when you press the Toolbar <guiicon>Home</guiicon> button (this is usually
-your home directory <filename>~</filename>). It does not affect the first
-directory shown when &konqueror; is started from a desktop or panel
-icon.</para>
-
-<para>The <guilabel>Minimize memory usage</guilabel> area is interesting as it
-lets you trade off memory usage against the consequences of &konqueror;
-crashing.</para>
-<para>Select <guilabel>Never</guilabel> if you have plenty of
-<acronym>RAM</acronym>. A separate instance of &konqueror; will exist in
-memory for each &konqueror; window that you have opened so that a problem with
-one is unlikely to affect the others.</para>
-<para>If you select <guilabel>For local browsing only</guilabel> a single 
-instance of &konqueror; will exist in memory for all of the local browsing
-windows you have open, although separate instances will exist for each web
-browsing window. This means that a problem with any of the local browsing
-windows can cause all of them to close.</para>
-<para>The <guilabel>For web browsing only</guilabel> option is the opposite to
-<guilabel>For local browsing only</guilabel> so that local browsing windows
-are isolated from one another but a problem with a web browsing window may
-cause all web browsing windows to close.</para>
-<para>The <guilabel>Always</guilabel> option can be picked if you are short of
-<acronym>RAM</acronym> but means that a problem with any &konqueror; window
-can cause all open &konqueror; windows to close down.</para>
-
-</sect2>
-
-<sect2>
-<title>Appearance</title>
-
-<para>This page lets you set the font size and color used by &konqueror; in
-File Manager mode and how text associated with icons is displayed.  </para>
-
-</sect2>
-
-<sect2>
-<title>Trash</title>
-
-<para>Here you can choose whether or not &konqueror; asks for confirmation
-before deleting items.</para>
-
-</sect2>
-
-<sect2>
-<title>Previews</title>
-<para>This page lets you control whether file previews are allowed for
-different protocols. Uncheck the boxes for those protocols which are too slow
-for comfortable previewing.</para>
-
-</sect2>
-
-</sect1>
-
-
-<sect1 id="file-associations">
-<title>File Associations</title>
-
-<para>What &konqueror; does when you click on a file name or icon is determined
-by the file type and the list of actions that &konqueror; keeps for the various
-file types and can be changed to suit your taste or to add a new file
-type.</para>
-
-<para>For example <mousebutton>Right</mousebutton> click on a text
-(<literal role="extension">.txt</literal>) file and select the <guimenuitem>Edit File
-Type</guimenuitem> item. This will bring up a dialog box as shown
-below.</para>
-
-<mediaobject>
-<imageobject><imagedata format="PNG" fileref="filetype1.png"/></imageobject>
-<textobject>
-<phrase><guimenuitem>Edit File Type</guimenuitem> dialog,
-<guimenu>General</guimenu> tab</phrase>
-</textobject>
-</mediaobject>
-
-<para>Under the <guilabel>General</guilabel> tab, the <guilabel>Application
-Preference Order</guilabel> section defines what appears in the
-<guimenuitem>Open With</guimenuitem> menu for this type of file. You can change
-these applications and their order. You can also change the icon that
-&konqueror; uses for this file type by &LMB; clicking on the icon, and you can
-add the extensions (<guilabel>Filename Patterns</guilabel>) for any other types
-of file that you want to be handled in the same way.</para>
-
-<note><para>&konqueror; is clever enough to recognise most plain text files and
-treat them as such even though they don't have the <literal role="extension">
-.txt</literal> extension.</para></note>
-
-<para>The <guimenuitem>Embedding</guimenuitem> (which actually refers to the
-Preview) tab page controls what happens when you &LMB; click on a
-filename. </para>
-
-<note><para>File types are divided into several groups;
-<guimenuitem>application</guimenuitem>, <guimenuitem>audio</guimenuitem>,
-<guimenuitem>image</guimenuitem>, <guimenuitem>inode</guimenuitem>,
-<guimenuitem>message</guimenuitem>, <guimenuitem>text</guimenuitem> and
-<guimenuitem>video</guimenuitem>.</para></note>
-
-<para>&konqueror; can be configured to associate any file type with an
-installed
-application.</para>
-
-<para>For example, the Targa image type doesn't exist in &konqueror;. If you
-have such a file on your disk, it will have a question mark as an icon. If you
-&LMB; click on it, &konqueror; will ask you which application you want to
-use. You could just type in the name of a suitable application each time you
-select a Targa file, but the best approach is to tell &konqueror; what to do
-with a Targa image.</para>
-
-<para>Let's add the Targa mime type to &konqueror;.</para>
-
-<para>Open the <menuchoice><guimenu>Settings</guimenu>
-<guisubmenu>Configure Konqueror...</guisubmenu> <guimenuitem>File
-Associations</guimenuitem></menuchoice> dialog box and click on the
-<guibutton>Add...</guibutton> button at the lower left, this will bring up a
-little dialog box. Select <guimenuitem>Image</guimenuitem> in the
-<guilabel>Group</guilabel> drop down box, type <userinput>Targa</userinput> in
-the <guilabel>Type name</guilabel> Text Box, and press
-<guibutton>OK</guibutton>.</para>
-
-<mediaobject>
-<imageobject><imagedata format="PNG" fileref="filetype3.png"/></imageobject>
-<textobject>
-<phrase>Adding the Targa type, step 2</phrase>
-</textobject>
-</mediaobject>
-
-<para>Now have a look at the upper right hand corner of the File
-Associations Dialog Box. Click on the icon and choose a nice one, here the
-best seems to be the <guiicon>image</guiicon> icon. In the <guilabel>Filename
-Patterns</guilabel> Text Box, add the patterns <userinput>*.tga</userinput> and
-<userinput>*.TGA</userinput> by clicking on the upper right
-<guibutton>Add...</guibutton> button. This means that every file with the
-<literal role="extension">.tga</literal> or <literal
-role="extension">.TGA</literal> (case is important) extension will now be
-considered as a Targa image.</para>
-
-<para>&konqueror; now knows what a Targa file is, but it doesn't know what
-to do with it. We need to tell &konqueror; which application to launch to view
-a Targa file. At the lower right hand corner in the <guilabel>Application
-Preference Order</guilabel> area, click on the <guibutton>Add...</guibutton>
-button bring up the following Dialog Box.</para>
-
-<mediaobject>
-<imageobject><imagedata format="PNG" fileref="filetype4.png"/></imageobject>
-<textobject>
-<phrase>Adding the Targa type, step 3</phrase>
-</textobject>
-</mediaobject>
-
-<para>You can choose an application from the <guilabel>Known
-Applications</guilabel> List Box, but as we want to use
-<application>Gimp</application> which is not listed, type
-<userinput>gimp</userinput> into the <guilabel>Add Application</guilabel>
+<sect1 id="othersettings">
+<title>Other Settings</title>
+<para>Selecting <menuchoice><guimenu>Settings</guimenu><guimenuitem>
+Configure Konqueror...</guimenuitem></menuchoice> brings up a dialog box 
+which you can use to control most aspects of &konqueror;'s behavior. 
+It contains several sections which are selected by <mousebutton>left
+</mousebutton> clicking on one of the icons at the left of the dialog 
 box.</para>
-
-<para><application>Gimp</application> is really nice but it is big and not
-designed for quick viewing. Click once more on the
-<guibutton>Add...</guibutton>
-button at the lower right hand corner of the File Associations Dialog Box to
-bring up the little Application Dialog Box, and in the <guilabel>Add
-Application</guilabel> Text Box, type
-<userinput><application>xv</application></userinput> or the name of any other
-suitable application you can have on your system.</para>
-
-<para>Now you have two application in the list. The first one will be the
-default application, you can arrange them as you prefer with the
-<guibutton>Move Up</guibutton> and <guibutton>Move Down</guibutton>
-buttons.</para>
-
-<para>All Targa files will now be recognized by &konqueror;.</para>
-
+<para>Pressing the <guibutton>Help</guibutton> button will give you 
+detailed instructions about how to use each of these sections, or you can 
+use the <link linkend="bubble">What's This?</link> feature.</para>
 </sect1>
-
-<sect1 id="configure-browser">
-<title>Konqueror Browser Configuration</title>
-
-<para>Choose
-<menuchoice><guimenu>Settings</guimenu><guisubmenu>Configure 
-Konqueror...</guisubmenu> <guimenuitem>Konqueror 
-Browser</guimenuitem></menuchoice> or from the K menu select 
-<menuchoice><guimenu>Preferences</guimenu><guisubmenu>Web 
-Browsing</guisubmenu><guimenuitem>Konqueror Browser</guimenuitem></menuchoice>. 
-This will bring up a dialog box with five tabbed pages; 
-<guilabel>HTML</guilabel>, <guilabel>Appearance</guilabel>, 
-<guilabel>Java</guilabel>, <guilabel>JavaScript</guilabel> and 
-<guilabel>Plugins</guilabel>.</para>
-
-<sect2>
-<title>HTML</title>
-<para>If you check the <guilabel>Enable completion of forms</guilabel> box in
-the <guilabel>Form Completion</guilabel> section of this page &konqueror; will
-remember the data you enter in web forms and suggest it in similar fields for
-all forms. The <guilabel>Maximum completions</guilabel> value is the number of
-values &konqueror; will remember for a form field. Note that letting
-&konqueror; remember this type of data could be considered a security
-risk.</para>
-
-<para>Checking the <guilabel>Change cursor over links</guilabel> box causes the
-cursor to change from a pointer to a hand when it is over a link in a web
-page. This is advisable as otherwise you may miss links which are shown as
-images rather than text.</para>
-
-<para>If you select <guilabel>Right click goes back in history</guilabel> then
-a <mousebutton>right</mousebutton> click on a view will be interpreted as 
-<menuchoice><guimenu>Go</guimenu><guimenuitem>Back</guimenuitem></menuchoice>.
-In this case you can get the traditional context menu by moving the mouse
-with the &RMB; held down.</para>
-
-<para>If the <guilabel>Automatically load images</guilabel> box is checked
-&konqueror; will automatically load any images that are embedded in the web
-page. Otherwise it will display placeholders for the images and you can then
-manually load them by clicking on the image buttons in the
-placeholders.</para>
-
-<para>Some web pages request an automatic reload or redirection after a period
-of time. You can disable this action by unchecking the <guilabel>Allow
-automatic delayed reloading / redirecting</guilabel> box.</para> 
-<para>The <guilabel>Underline links</guilabel> section lets you choose whether
-links are never underlined, always underlined, or underlined only when the
-mouse tip is over them.</para>
-<para>The <guilabel>Animations</guilabel> section controls how animated images
-are displayed.</para>
-</sect2>
-
-<sect2>
-
-<title>Appearance</title>
-
-<para>This page lets you set the font type, size, character set and default
-encoding to be used when browsing.</para>
-
-</sect2>
-
-<sect2>
-<title>Java</title>
-
-<para>&Java; is not JavaScript but a full featured language.
-<acronym>HTML</acronym> pages using &Java; can cause &Java; programs,
-usually called <quote>applets</quote>, to be downloaded and run on your
-machine.</para>
-
-<para>The <guilabel>Java</guilabel> tab page lets you set &konqueror;'s
-global and domain-specific policies for &Java;.</para>
-
-<para>The <guilabel>Enable Java globally</guilabel> check box controls
-whether &konqueror; will generally accept or ignore Java applets, but this can 
-be modified by adding Domain-specific Accept or Reject policies. The full
-domain
-name must be entered here, for example to enable (or disable) Java for the
-site http://news.bbc.co.uk you have to enter
-<userinput>news.bbc.co.uk</userinput> in the Host/Domain field, just putting
-<userinput>bbc.co.uk</userinput> or <userinput>*.bbc.co.uk</userinput> will not
-work.</para>
-
-<para>To run &Java; applets, you need a Java Virtual Machine
-(<acronym>JVM</acronym>) installed on your machine and &konqueror; needs to
-know
-where it is. You can usually just enter <userinput>java</userinput> into the 
-<guilabel>Path to java executable</guilabel> text box, but if that doesn't work 
-or if you have several virtual machines installed and you want &konqueror; to 
-use a particular one then enter the full path to your &Java; installation, such
- as 
-<filename>/usr/java/bin</filename>.</para>
-
-<warning><para>As with any browser, enabling active content (Java or
-JavaScript)
-can weaken your system's security. It is recommended that the <guilabel>Use
-Security Manager</guilabel> option in the <guilabel>Java</guilabel> tab page is 
-selected if you are enabling &Java;. This requires that the &Java; installation 
-on your machine is Java2 compliant. </para></warning>
-
-<note><para>
-Visit <ulink url="http://www.konqueror.org">http://www.konqueror.org</ulink>
-for
- 
-up to date information about how well various &Java; <acronym>JVM</acronym>'s 
-work with &konqueror;. </para></note>
-
-</sect2>
-
-<sect2>
-<title>JavaScript</title>
-
-<para>Javascript is a small scripting language often used to add animation or
-other features to <acronym>HTML</acronym> pages. &konqueror; includes an
-ECMAScript compatible interpreter to handle scripting languages such as
-&Netscape;'s JavaScript and &Microsoft;'s JScript.</para>
-		
-<para>The <guilabel>Enable JavaScript globally</guilabel> check box controls
-whether &konqueror; will generally accept or ignore Javascript, but this can be
-modified by adding Domain-specific Accept or Reject policies as for 
-&Java;.</para>
-
-<para>In the <guilabel>JavaScript web popups policy</guilabel> area of the
-dialog box you can define how &konqueror; handles JavaScript 
-<quote>window.open()</quote> commands. Some web sites make annoying use of
-this command to pop up advertizing banners, but be aware that certain sites
-require the window.open() function for proper operation.</para>
-</sect2>
-
-<sect2>
-<title>Plugins</title>
-<para>This tab page lets you globally enable or disable the excution of
-plugins, such as Flash, that can be contained in web pages. Note that, as with
-any browser, enabling active content can be a security problem.
- 
-For more information about plugins see the section <link 
-linkend="netscape-plugin">Netscape Plugins</link>. </para> 
-</sect2>
-
-</sect1>
-
-<sect1 id="configure-enhanced-browsing">
-<title>Enhanced Browsing</title>
-
-<para>Use the Menubar
-<menuchoice><guimenu>Settings</guimenu><guisubmenu>Configure 
-Konqueror...</guisubmenu> <guimenuitem>Enhanced 
-Browsing</guimenuitem></menuchoice> or the K menu 
-<menuchoice><guimenu>Preferences</guimenu><guisubmenu>Web Browsing</guisubmenu> 
-<guimenuitem>Enhanced Browsing</guimenuitem></menuchoice> selection to bring up 
-the <guilabel>KDE Control Module</guilabel> <guilabel>Enhanced 
-Browsing</guilabel> dialog box.</para>
-
-<para>If the <guilabel>Enable Internet Keywords</guilabel> box is checked you
-can simply type normal words and phrases such as linux into the Location Toolbar and
-you will either be redirected to the appropriate site or presented with a list
-of possible links. To do this &konqueror; submits the word(s) to
-<filename>www.internetkeywords.org</filename> which will redirect you if it
-finds a matching Internet Keyword.</para>
-
-<para>The <guilabel>Search Fallback</guilabel> drop down box lets you pick a
-search engine that will be used if an exact Internet Keyword match isn't
-found. If you select <guilabel>None</guilabel> then
-<filename>www.internetkeywords.org</filename> will be used.</para>
-
-<para>If you check the <guilabel>Enable Search Shortcuts</guilabel> box
-&konqueror; will let you use the <guilabel>Shortcuts</guilabel> defined in the
-selection box to choose a particular search engine. For example you can type
-<userinput>av:linux</userinput> into the Location Toolbar to search for
-<quote>linux</quote> using Altavista.</para>
-</sect1>
-
-<sect1 id="cookies">
-<title>Cookie Configuration</title>
-
-<para>Use the Menubar
-<menuchoice><guimenu>Settings</guimenu><guisubmenu>Configure 
-Konqueror...</guisubmenu> <guimenuitem>Cookies...</guimenuitem></menuchoice> or 
-the K menu <menuchoice><guimenu>Preferences</guimenu><guisubmenu>Web 
-Browsing</guisubmenu> <guimenuitem>Cookies</guimenuitem></menuchoice> selection 
-to bring up a dialog box with two tabbed pages; <guilabel>Policy</guilabel> and
-<guilabel>Management</guilabel>.</para>
-
-<sect2>
-<title>Policy</title>
-
-<para>This page allows you to decide whether &konqueror; will handle cookies at
-all, and whether it should ask you for confirmation before accepting
-them.</para>
-<para>You can also set domain specific cookie policies and even share 
-them with other people by using the <guibutton>Import</guibutton> and 
-<guibutton>Export</guibutton> options.</para> 
-</sect2>
-
-<sect2>
-<title>Management</title>
-
-<para>This tab page is interesting because it lets you see what
-cookies have been placed on your machine and allows you to delete
-any or all of them.</para>
-
-</sect2>
-
-</sect1>
-
-<sect1 id="configure-proxy">
-<title>Proxy Configuration</title>
-
-<para>The <guilabel>Proxy</guilabel> configuration dialog box is invoked with
-the Menubar
-<menuchoice><guimenu>Settings</guimenu> <guisubmenu>Configure 
-Konqueror...</guisubmenu> <guimenuitem>Proxy </guimenuitem></menuchoice> 
-option, or with the K menu 
-<menuchoice><guimenu>Preferences</guimenu><guisubmenu>Web Browsing 
-</guisubmenu><guimenuitem>Proxy</guimenuitem></menuchoice> choice.</para>
-
-<para>A <quote>proxy</quote> connection to the Internet is one that is made
-through another machine, usually a <acronym>LAN</acronym> (Local Area Network)
-server, and can give you improved security by separating the computers
-connected
-to the local network from the wide open world of the Internet itself. A proxy
-server can also cache downloaded files to give you faster access to recent
-downloads.</para>
-
-<para>Proxy servers are traditionally associated with a local intranet within
-an
-organisation, but are now also used by some Cable Network
-<acronym>ISP</acronym>s who connect their customers living near to each other
-onto a local area network to improve the overall average performance of the
-cable network. </para>
-
-<para>If you are on a <acronym>LAN</acronym>, the proxy is perhaps the only way
-you can connect to the web, in which case you need to ask your system
-administrator or <acronym>ISP</acronym> for connection details.</para>
-
-<para>To configure &konqueror; to work with your proxy server, open the
-Proxies Configuration dialog box, check <guilabel>Use Proxy</guilabel> and fill
-the fields according what your system administrator or <acronym>ISP</acronym>
-has told you.</para>
-<para>Of course, the proxy shouldn't be used to access a machine on your
-local network. So, in the <guilabel>No Proxy for:</guilabel> field, type the
-names of local machines on your network separated by commas. This is usually
-the
-domain name of your <acronym>ISP</acronym> or your company. For example, if
-you're on the Ireste school network, you would type <userinput>ireste.fr,
-intranet</userinput>, <quote>intranet</quote> being the machine where the
-intranet web server is located. This is important if you are on a
-<acronym>LAN</acronym> because the proxy won't find the internal
-machines.</para>
-
-<note><para>The <guilabel>Use Cache</guilabel> option in the dialog box is not
-really a proxy option. It allows you to choose to store (cache) downloaded
-pages
-on your local disk so they need not be downloaded again the next time you
-access
-them. We advise you to use this option (whether you use a proxy or not) unless
-you are short of disk space in your home directory. </para></note>
-
-</sect1>
-
-<sect1 id="crypto">
-<title>Cryptography</title>
-
-<para>Choosing the Menubar
-<menuchoice><guimenu>Settings</guimenu><guisubmenu>Configure 
-Konqueror...</guisubmenu> <guimenuitem>Crypto</guimenuitem></menuchoice> or the 
-K menu <menuchoice><guimenu>Preferences</guimenu><guisubmenu>Personalization
-</guisubmenu><guimenuitem>Crypto</guimenuitem></menuchoice> option brings up a
-dialog box that lets you configure <acronym>SSL</acronym>, certificates and
-other cryptography settings. Use the Default settings unless you
-really know what you are doing.</para> </sect1>
-
-<sect1 id="configure-user-agent">
-<title>User Agent</title>
-
-<para>Some web sites tailor their <acronym>HTML</acronym> pages according to
-the
-browser you are using to view them. This is done to cope with differences
-between browsers and is done by the web server asking for the browser's
-<quote>User Agent</quote> and then comparing it against a list of known
-browsers. Unfortunately very few web sites recognise
-<quote>&konqueror;</quote>.</para>
-
-<para>To overcome this problem, you can control what &konqueror; reports as
-it's
-User Agent. Selecting
-<menuchoice><guimenu>Settings</guimenu><guisubmenu>Configure 
-Konqueror...</guisubmenu> <guimenuitem>User Agent</guimenuitem></menuchoice> or 
-the K menu <menuchoice><guimenu>Preferences</guimenu><guisubmenu>Web
-Browsing</guisubmenu><guimenuitem>User Agent</guimenuitem></menuchoice> will
-bring up a dialog box allowing you to set the User Agent string for selected
-sites (for example www.kde.org) or domains (kde.org).</para>
-
-<para>To add a new site or domain specific browser-identification string press
-the <guibutton>New</guibutton> button, fill in the details in the pop up
-dialog then press the <guibutton>Update List</guibutton> button. A list of
-suitable alternative identities is given in the drop down selection box. Note
-that wildcard characters such as * are not allowed in the site or domain name.
-Do not forget to press the <guibutton>Apply</guibutton> before closing the
-User Agent configuration dialog.</para>
-
-</sect1>
-
 
 
 </chapter>
