@@ -265,7 +265,7 @@ void KonqBaseListViewWidget::readProtocolConfig( const QString & protocol )
                 confColumns[j].width = *lstColumnWidths.at(i);
             else {
                 // Default Column widths
-                ColumnInfo *tmpColumn = &confColumns[i];
+                ColumnInfo *tmpColumn = &confColumns[j];
                 QString str;
 
                 if (tmpColumn->udsId==KIO::UDS_SIZE)
