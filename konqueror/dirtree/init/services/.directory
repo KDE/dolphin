@@ -1,11 +1,13 @@
 [Desktop Entry]
 Icon=pipe
 Name=Services
+Name[cs]=Služby
 Name[da]=Tjenester
 Name[es]=Servicios
 Name[he]=םיתוריש
 Name[hu]=Szolgáltatások
 Name[lv]=Servisi
+Name[no_NY]=Tenester
 Name[ro]=Servicii
 Name[ru]=Сервисы
 Name[sl]=Storitve
