@@ -588,6 +588,7 @@ void KonqMainView::slotToggleCmdLine( bool toggle )
 
   if ( toggle ) // show it
   {
+    KURL url = m_currentView->url();
     KonqFrameBase *splitFrame = mainContainer->firstChild();
 
     KonqFrameContainer *newContainer;
@@ -595,6 +596,9 @@ void KonqMainView::slotToggleCmdLine( bool toggle )
     KParts::ReadOnlyPart *view = m_pViewManager->split( splitFrame, Qt::Vertical,
          QString::fromLatin1( "application/x-konsole" ), QString::fromLatin1( "Konsole" ),
                                                         &newContainer );
+
+    KonqChildView *cv = childView( view );
+    cv->openURL( url );
 
     QValueList<int> newSplitterSizes;
     newSplitterSizes << 100 << 30;
