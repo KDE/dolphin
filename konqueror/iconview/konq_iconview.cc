@@ -539,9 +539,15 @@ void KonqKfmIconView::slotReturnPressed( QIconViewItem *item )
         fileItem->run();
     } else {
         KParts::URLArgs args;
-        args.serviceType = fileItem->mimetype();
+        fileItem->determineMimeType();
+        if ( fileItem->isMimeTypeKnown() )
+            args.serviceType = fileItem->mimetype();
         args.trustedSource = true;
-        emit m_extension->openURLRequest( fileItem->url(), args );
+        KURL url = fileItem->url();
+        if ( fileItem->isLink() )
+            url = KURL( url, fileItem->linkDest() );
+        kdDebug() << "emit m_extension->openURLRequest( " << url.url() << "," << args.serviceType << ")" << endl;
+        emit m_extension->openURLRequest( url, args );
     }
 }
 
