@@ -25,6 +25,10 @@ void KonqPlugins::init()
 
 bool KonqPlugins::isPluginServiceType( const QString serviceType, bool *isView, bool *isPart, bool *isEventFilter )
 {
+#warning "KonqPlugins::isPluginServiceType totally disabled because of KIO API"
+#if 1
+ return false;
+#else
   list<KService::Offer> lstOffers;
   bool b1, b2, b3;
 
@@ -84,6 +88,7 @@ bool KonqPlugins::isPluginServiceType( const QString serviceType, bool *isView, 
   }
 
   return res;    
+#endif
 }
 
 CORBA::Object_ptr KonqPlugins::lookupServer( const QString serviceType, ServerType sType )

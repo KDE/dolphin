@@ -217,10 +217,10 @@ void KonqMainView::cleanUp()
   if ( m_vMainWindow->activePartId() == m_currentId )
     m_vMainWindow->setActivePart( 0 );
     
-  map<OpenParts::Id,KonqChildView*>::iterator it = m_mapViews.begin();
+  MapViews::Iterator it = m_mapViews.begin();
   for (; it != m_mapViews.end(); it++ )
       {
-	delete it->second;
+	delete it.data();
       }	
 
   m_mapViews.clear();
@@ -317,9 +317,9 @@ void KonqMainView::initView()
   Konqueror::View_var vView1 = Konqueror::View::_duplicate( new KonqKfmIconView );
   insertView( vView1, Konqueror::left );
 
-  map<OpenParts::Id,KonqChildView*>::iterator it = m_mapViews.find( vView1->id() );
-  it->second->lockHistory(); // first URL won't go into history
-  it->second->openURL( m_sInitialURL );
+  MapViews::Iterator it = m_mapViews.find( vView1->id() );
+  it.data()->lockHistory(); // first URL won't go into history
+  it.data()->openURL( m_sInitialURL );
 
   setActiveView( vView1->id() );
 }
@@ -599,10 +599,10 @@ void KonqMainView::setActiveView( OpenParts::Id id )
   if ( previousView != 0L )
     previousView->emitEventViewMenu( m_vMenuView, false );
   
-  map<OpenParts::Id,KonqChildView*>::iterator it = m_mapViews.find( id );
+  MapViews::Iterator it = m_mapViews.find( id );
   assert( it != m_mapViews.end() );
   
-  m_currentView = it->second;
+  m_currentView = it.data();
   assert( m_currentView );
   m_currentId = id;
 
@@ -633,12 +633,12 @@ Konqueror::ViewList *KonqMainView::viewList()
   int i = 0;
   seq->length( i );
 
-  map<OpenParts::Id,KonqChildView*>::iterator it = m_mapViews.begin();
+  MapViews::Iterator it = m_mapViews.begin();
 
   for (; it != m_mapViews.end(); it++ )
   {
     seq->length( i++ );
-    (*seq)[ i ] = it->second->view(); // no duplicate here ?
+    (*seq)[ i ] = it.data()->view(); // no duplicate here ?
   }
 
   return seq;
@@ -646,7 +646,7 @@ Konqueror::ViewList *KonqMainView::viewList()
 
 void KonqMainView::removeView( OpenParts::Id id )
 {
-  map<OpenParts::Id,KonqChildView*>::iterator it = m_mapViews.find( id );
+  MapViews::Iterator it = m_mapViews.find( id );
   if ( it != m_mapViews.end() )
   {
     if ( id == m_currentId )
@@ -657,16 +657,16 @@ void KonqMainView::removeView( OpenParts::Id id )
       m_currentView = 0L;
     }
       
-    delete it->second;
-    m_mapViews.erase( it );
+    delete it.data();
+    m_mapViews.remove( it );
   }
-  if ( m_mapViews.size() == 1 )
+  if ( m_mapViews.count() == 1 )
     setItemEnabled( m_vMenuView, MVIEW_REMOVEVIEW_ID, false );
 }
 
 void KonqMainView::slotIdChanged( KonqChildView * childView, OpenParts::Id oldId, OpenParts::Id newId )
 {
-  m_mapViews.erase( oldId );
+  m_mapViews.remove( oldId );
   m_mapViews[ newId ] = childView;
   if ( oldId == m_currentId)
     m_currentId = newId;
@@ -736,10 +736,10 @@ void KonqMainView::setStatusBarText( const char *_text )
 
 void KonqMainView::setLocationBarURL( OpenParts::Id id, const char *_url )
 {
-  map<OpenParts::Id,KonqChildView*>::iterator it = m_mapViews.find( id );
+  MapViews::Iterator it = m_mapViews.find( id );
   assert( it != m_mapViews.end() );
   
-  it->second->setLocationBarURL( _url );
+  it.data()->setLocationBarURL( _url );
   
   if ( ( id == m_currentId ) && (!CORBA::is_nil( m_vLocationBar ) ) )
     m_vLocationBar->setLinedText( TOOLBAR_URL_ID, _url );
@@ -946,16 +946,17 @@ void KonqMainView::popupMenu( const Konqueror::View::MenuPopupRequest &popup )
 
   id = m_popupMenu->insertItem( i18n( "Add To Bookmarks" ), this, SLOT( slotPopupBookmarks() ) );
 
-  m_lstPopupURLs.setAutoDelete( true );
   m_lstPopupURLs.clear();
   for ( i = 0; i < popup.urls.length(); i++ )
-    m_lstPopupURLs.append( (popup.urls)[i] );
+    m_lstPopupURLs.append( (popup.urls)[i].in() );
 
   if ( m_menuNew ) m_menuNew->setPopupFiles( m_lstPopupURLs );
 
   // Do all URLs have the same mimetype ?
-  url = KURL( m_lstPopupURLs.first() );
+  url = KURL( m_lstPopupURLs.getFirst() );
 
+#warning "some code in KonqMainView::popupMenu disabled by David because of new libkio API"
+/*
   KMimeType* mime = KMimeType::findByURL( url, (mode_t)popup.mode, (bool)popup.isLocalFile );
   assert( mime );
   const char *s;
@@ -1020,6 +1021,7 @@ void KonqMainView::popupMenu( const Konqueror::View::MenuPopupRequest &popup )
       m_mapPopup2[ id ] = *it2;
     }
   }
+*/
   
   if ( m_lstPopupURLs.count() == 1 )
   {
@@ -1093,8 +1095,8 @@ void KonqMainView::splitView ( Konqueror::NewViewPosition newViewPosition )
 
   Konqueror::View_var vView = m_currentView->createViewByName( viewName );
   insertView( vView, newViewPosition );
-  map<OpenParts::Id,KonqChildView*>::iterator it = m_mapViews.find( vView->id() );
-  it->second->openURL( url );
+  MapViews::Iterator it = m_mapViews.find( vView->id() );
+  it.data()->openURL( url );
 
   //hack to fix slotRowAbove()
   resize( width()+1, height()+1 );
@@ -1446,9 +1448,8 @@ void KonqMainView::slotFileNewActivated( CORBA::Long id )
 {
   if ( m_pMenuNew )
      {
-       QStrList urls;
-       QString url = m_currentView->url();
-       urls.append( url );
+       QStringList urls;
+       urls.append( m_currentView->url() );
 
        m_pMenuNew->setPopupFiles( urls );
 
@@ -1478,14 +1479,14 @@ void KonqMainView::slotURLStarted( OpenParts::Id id, const char *url )
   if ( !url )
     return;
 
-  map<OpenParts::Id,KonqChildView*>::iterator it = m_mapViews.find( id );
+  MapViews::Iterator it = m_mapViews.find( id );
   
   assert( it != m_mapViews.end() );
   
   if ( id == m_currentId )
     slotStartAnimation();
 
-  it->second->makeHistory( false /* not completed */, url );
+  it.data()->makeHistory( false /* not completed */, url );
   if ( id == m_currentId )
   {
     setItemEnabled( m_vMenuGo, MGO_BACK_ID, m_currentView->canGoBack() );
@@ -1497,14 +1498,14 @@ void KonqMainView::slotURLCompleted( OpenParts::Id id )
 {
   kdebug(0, 1202, "void KonqMainView::slotURLCompleted( OpenParts::Id id )");
 
-  map<OpenParts::Id,KonqChildView*>::iterator it = m_mapViews.find( id );
+  MapViews::Iterator it = m_mapViews.find( id );
   
   assert( it != m_mapViews.end() );
   
   if ( id == m_currentId )
     slotStopAnimation();
 
-  it->second->makeHistory( true /* completed */, QString::null /* not used */);
+  it.data()->makeHistory( true /* completed */, QString::null /* not used */);
   if ( id == m_currentId )
   {
     setItemEnabled( m_vMenuGo, MGO_BACK_ID, m_currentView->canGoBack() );
@@ -1556,7 +1557,8 @@ void KonqMainView::slotPopupEmptyTrashBin()
 
 void KonqMainView::slotPopupCopy()
 {
-  KClipboard::self()->setURLList( m_lstPopupURLs );
+  // TODO (kclipboard.h will probably have to be ported to QStringList)
+  //  KClipboard::self()->setURLList( m_lstPopupURLs ); 
 }
 
 void KonqMainView::slotPopupPaste()
@@ -1574,9 +1576,9 @@ void KonqMainView::slotPopupDelete()
 {
   KIOJob *job = new KIOJob;
   list<string> lst;
-  const char *s;
-  for ( s = m_lstPopupURLs.first(); s != 0L; s = m_lstPopupURLs.next() )
-    lst.push_back( s );
+  QStringList::Iterator it = m_lstPopupURLs.begin();
+  for ( ; it != m_lstPopupURLs.end(); ++it )
+    lst.push_back( it->data() );
   job->del( lst );
 }
 
@@ -1588,7 +1590,7 @@ void KonqMainView::slotPopupOpenWith()
     KService *service = l.service();
     if ( service )
     {
-      KfmRun::run( service, m_lstPopupURLs );
+      KfmRun::run( *service, m_lstPopupURLs );
       return;
     }
     else
@@ -1608,13 +1610,15 @@ void KonqMainView::slotPopupBookmarks()
 void KonqMainView::slotPopup( int id )
 {
   // Is it a usual service
-  map<int,KService*>::iterator it = m_mapPopup.find( id );
+  QMap<int,KService *>::Iterator it = m_mapPopup.find( id );
   if ( it != m_mapPopup.end() )
   {
-    KRun::run( it->second, m_lstPopupURLs );
+    KRun::run( *(it.data()), m_lstPopupURLs );
     return;
   }
   
+#warning "code disabled in KonqMainView::slotPopup"
+  /*
   // Is it a service specific to kdelnk files ?
   map<int,KDELnkMimeType::Service>::iterator it2 = m_mapPopup2.find( id );
   if ( it2 == m_mapPopup2.end() )
@@ -1623,7 +1627,7 @@ void KonqMainView::slotPopup( int id )
   const char *u;
   for( u = m_lstPopupURLs.first(); u != 0L; u = m_lstPopupURLs.next() )
     KDELnkMimeType::executeService( u, it2->second );
-
+  */
   return;
 }
 

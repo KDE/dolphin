@@ -26,13 +26,12 @@
 #include <opPart.h>
 #include <openparts_ui.h>
 
+#include <qmap.h>
 #include <qstring.h>
 #include <qtimer.h>
 #include <qwidget.h>
 
 #include <kmimetypes.h>
-
-#include <map>
 
 class KAccel;
 class KBookmarkMenu;
@@ -258,7 +257,8 @@ protected:
   QSplitter* m_pMainSplitter;
 
   /* Storage of View * instances : mapped by Id */
-  map<OpenParts::Id,KonqChildView*> m_mapViews;
+  typedef QMap<OpenParts::Id,KonqChildView *> MapViews;
+  MapViews m_mapViews;
 
   KonqChildView *m_currentView;
   OpenParts::Id m_currentId;
@@ -289,10 +289,10 @@ protected:
 
   KfmGuiProps *m_Props;
 
-  QStrList m_lstPopupURLs;
+  QStringList m_lstPopupURLs;
   CORBA::Long m_popupMode; // mode_t of first URL in m_lstPopupURLs
-  map<int,KService*> m_mapPopup;
-  map<int,KDELnkMimeType::Service> m_mapPopup2;
+  QMap<int,KService *> m_mapPopup;
+  //  QMap<int,KDELnkMimeType::Service> m_mapPopup2;
 
   KfmRun *m_pRun;
 
