@@ -70,6 +70,8 @@ UserAgentOptions::UserAgentOptions( QWidget * parent, const char * name ) :
   lay->addWidget(loginasED,2,2);
   loginasLA->setBuddy( loginasED );
   loginasED->insertItem( "Mozilla/4.74 (X11; U; Linux 2.2.14 i686)" );
+  loginasED->insertItem( "Mozilla/4.0 (compatible; MSIE 4.01; Windows NT)" );
+  loginasED->insertItem( "Mozilla/5.0 (X11; U; Linux 2.2.14 i686; en-US; m18) Gecko/20000816" );
   loginasED->setEditText( "" );
 
   wtstr = i18n( "Here you can enter the identification Konqueror should use for the given server."
