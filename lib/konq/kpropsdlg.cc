@@ -514,7 +514,7 @@ void FilePropsPage::applyChanges()
     // Don't remove the template !!
     if ( !m_bFromTemplate ) { // (normal renaming)
         job = KIO::move( oldurl, properties->kurl() );
-        connect( job, SIGNAL( sigFinished( KIO::Job * ) ),
+        connect( job, SIGNAL( result( KIO::Job * ) ),
                  SLOT( slotRenameFinished( KIO::Job * ) ) );
         kDebugInfo(1202,"oldpath = %s",oldurl.url().ascii());
         kDebugInfo(1202,"newpath = %s",properties->kurl().url().ascii());
