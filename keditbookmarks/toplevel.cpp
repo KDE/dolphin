@@ -41,7 +41,7 @@
 #include <klocale.h>
 #include <kiconloader.h>
 
-//#define DEBUG_ADDRESSES
+#define DEBUG_ADDRESSES
 
 // toplevel item (there should be only one!)
 KEBListViewItem::KEBListViewItem(QListView *parent, const KBookmark & group )
@@ -105,20 +105,13 @@ void KEBListViewItem::init( const KBookmark & bk )
     modUpdate();
 }
 
-void KEBListViewItem::nsGet(QString & nModify )
-{
-  QString c, a;
-  nsGet(c, a, nModify);
-}
+// AK - move all this netscapeinfo crap to kbookmark
 
-void KEBListViewItem::nsGet(QString & nCreate, QString & nAccess, QString & nModify )
-{
-  QString nsinfo = m_bookmark.internalElement().attribute("netscapeinfo");
-
+void internal_nsGet(QString nsinfo, QString & nCreate, QString & nAccess, QString & nModify) {
   QStringList sl = QStringList::split(' ', nsinfo);
   for ( QStringList::Iterator it = sl.begin(); it != sl.end(); ++it ) {
     QStringList spl = QStringList::split('"', *it);
-    //      kdDebug() << spl[0] << "+" << spl[1] << "\n";
+    // kdDebug() << spl[0] << "+" << spl[1] << "\n";
     if (spl[0] == "LAST_MODIFIED=") {
       nModify = spl[1];
     } else if (spl[0] == "ADD_DATE=") {
@@ -128,6 +121,57 @@ void KEBListViewItem::nsGet(QString & nCreate, QString & nAccess, QString & nMod
     }
   }
 }
+
+void KEBListViewItem::nsGet(QString & nCreate, QString & nAccess, QString & nModify )
+{
+  QString nsinfo = m_bookmark.internalElement().attribute("netscapeinfo");
+  internal_nsGet(nsinfo, nCreate, nAccess, nModify);
+}
+
+void KEBListViewItem::nsGet(QString & nModify )
+{
+  QString c, a;
+  nsGet(c, a, nModify);
+}
+
+QString internal_nsPut(QString _nsinfo, QString nm) {
+
+  QString nCreate, nAccess, nModify;
+
+  internal_nsGet(_nsinfo, nCreate, nAccess, nModify);
+
+  QString nsinfo;
+  
+  nsinfo  = "ADD_DATE=\"";
+  nsinfo += (nCreate.isEmpty()) ? QString::number(time(0)) : nCreate;
+
+  nsinfo += "\" LAST_VISIT=\"";
+  nsinfo += (nAccess.isEmpty()) ? "0" : nAccess;
+
+  nsinfo += "\" LAST_MODIFIED=\"";
+
+  bool okNum = false;
+  nm.toInt(&okNum);
+  nsinfo += (okNum) ? nm : "1";
+
+  nsinfo += "\"";
+
+  return nsinfo;
+
+}
+
+void KEBListViewItem::nsPut( QString nm )
+{
+   // AK - move into kbookmark
+   QString _nsinfo = m_bookmark.internalElement().attribute("netscapeinfo");
+   QString nsinfo = internal_nsPut(_nsinfo,nm);
+   m_bookmark.internalElement().setAttribute("netscapeinfo",nsinfo);
+   KEBTopLevel::self()->setModified(true);
+   KEBTopLevel::self()->Modify[m_bookmark.url().url()] = nm;
+   setText(2, nm);
+}
+
+// */ of nsinfo crap
 
 void KEBListViewItem::modUpdate( )
 {
@@ -243,47 +287,9 @@ void KEBListViewItem::restoreStatus( QString oldStatus)
   modUpdate();
 }
 
-void KEBListViewItem::nsPut (QString nm)
-{
-  QString nCreate, nAccess, nModify;
-
-  bool okNum = false;
-  nm.toInt(&okNum);
-
-  nsGet(nCreate, nAccess, nModify);
-
-  QString nsinfo = "ADD_DATE=\"";
-
-  if (!nCreate.isEmpty()) {
-    nsinfo += nCreate;
-  } else {
-    QString ct;
-    ct.setNum(time(0));
-    nsinfo += ct;
-  }
-
-  nsinfo += "\" LAST_VISIT=\"";
-  if (!nAccess.isEmpty()) {
-    nsinfo += nAccess;
-  } else {
-    nsinfo += "0";
-  }
-
-  nsinfo += "\" LAST_MODIFIED=\"";
-  if (okNum)
-    nsinfo += nm;
-  else
-    nsinfo += "1";
-  nsinfo += "\"";
-  m_bookmark.internalElement().setAttribute("netscapeinfo",nsinfo);
-
-  KEBTopLevel::self()->setModified(true);
-  KEBTopLevel::self()->Modify[m_bookmark.url().url()] = nm;
-  setText(2, nm);
-}
-
 void KEBListViewItem::setOpen( bool open )
 {
+    // AK - move into kbookmark
     m_bookmark.internalElement().setAttribute( "folded", open ? "no" : "yes" );
     QListViewItem::setOpen( open );
 }
@@ -581,6 +587,7 @@ void KEBTopLevel::slotNewFolder()
         kdWarning() << "KEBTopLevel::slotNewFolder no selected item !" << endl;
         return;
     }
+    // AK - fix this
     // EVIL HACK
     // We need to ask for the folder name before creating the command, in case of "Cancel".
     // But in message-freeze time, impossible to add i18n()s. So... we have to call the existing code :
@@ -598,13 +605,14 @@ void KEBTopLevel::slotNewFolder()
 
 QString KEBTopLevel::correctAddress(QString address)
 {
+   // AK - move to kbookmark
    return KBookmarkManager::self()->findByAddress(address,true).address();
 }
 
 void KEBTopLevel::createNewFolder(QString text, QString address) // DCOP call
 {
    //kdWarning() << "createNewFolder - " << text << "," << address << endl;
-   if (!m_bModified) return; // see comment below
+   if (!m_bModified) return;
    CreateCommand * cmd = new CreateCommand( i18n("Create Folder in Konqueror"), correctAddress(address), text, QString :: null, true );
    m_commandHistory.addCommand( cmd );
 }
@@ -612,13 +620,7 @@ void KEBTopLevel::createNewFolder(QString text, QString address) // DCOP call
 void KEBTopLevel::addBookmark(QString url, QString text, QString address, QString icon) // DCOP call
 {
    //kdWarning() << "addBookmark - " << url << "," << text << "," << address << endl;
-
-   /* this check is needed as otherwise we get duplicates as updates are
-    * enabled for a non-modified document... maybe updates should only come
-    * through to keditbookmarks to remove this hack ...  */
-
    if (!m_bModified) return;
-
    CreateCommand * cmd = new CreateCommand( i18n("Add Bookmark in Konqueror"), correctAddress(address), text, icon, KURL(url) );
    m_commandHistory.addCommand( cmd );
 }
@@ -741,6 +743,8 @@ void KEBTopLevel::slotSort()
 
 void KEBTopLevel::slotSetAsToolbar()
 {
+    // AK - possibly rethink
+
     KMacroCommand * cmd = new KMacroCommand(i18n("Set as Bookmark Toolbar"));
 
     KBookmarkGroup oldToolbar = KBookmarkManager::self()->toolbar();
@@ -809,6 +813,7 @@ void KEBTopLevel::slotCancelTest(TestLink *t)
 
 void KEBTopLevel::slotShowNS()
 {
+    // AK - move to kbookmark
     QDomElement rootElem = KBookmarkManager::self()->root().internalElement();
     QString attr = "hide_nsbk";
     rootElem.setAttribute(attr, rootElem.attribute(attr) == "yes" ? "no" : "yes");
@@ -826,6 +831,7 @@ void KEBTopLevel::setModified( bool modified )
 
 void KEBTopLevel::slotDocumentRestored()
 {
+    // AK - whats the logic behing this?
     setModified( false );
 }
 
@@ -1004,8 +1010,8 @@ void KEBTopLevel::update()
 void KEBTopLevel::fillListView()
 {
     m_pListView->clear();
+    // (re)create root item
     KBookmarkGroup root = KBookmarkManager::self()->root();
-    // Create root item
     KEBListViewItem * rootItem = new KEBListViewItem( m_pListView, root );
     fillGroup( rootItem, root );
     rootItem->QListViewItem::setOpen(true);
