@@ -529,15 +529,12 @@ void KonqListView::headerDragged(int sec, int from, int to)
    QTimer::singleShot(200,this,SLOT(slotSaveAfterHeaderDrag()));
 }
 
-QString KonqListView::currentItem()
+const KFileItem * KonqListView::currentItem()
 {
-   QString s;
-   if (m_pListView==0)
-      return s;
-   if (m_pListView->currentItem()==0)
-      return s;
-   return m_url.path()+"/"+m_pListView->currentItem()->text(0);
-};
+   if (m_pListView==0 || m_pListView->currentItem()==0)
+      return 0L;
+   return static_cast<KonqListViewItem *>(m_pListView->currentItem())->item();
+}
 
 void KonqListView::slotSaveAfterHeaderDrag()
 {

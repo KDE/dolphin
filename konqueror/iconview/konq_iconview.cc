@@ -324,6 +324,11 @@ KonqKfmIconView::~KonqKfmIconView()
     //    delete m_pIconView;
 }
 
+const KFileItem * KonqKfmIconView::currentItem()
+{
+    return m_pIconView->currentItem() ? static_cast<KFileIVI *>(m_pIconView->currentItem())->item() : 0L;
+}
+
 void KonqKfmIconView::slotImagePreview( bool toggle )
 {
     m_pProps->setShowingPreview( KonqPropsView::IMAGEPREVIEW, toggle );

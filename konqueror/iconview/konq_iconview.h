@@ -58,6 +58,8 @@ public:
 
   virtual bool openFile() { return true; }
 
+  virtual const KFileItem * currentItem();
+
   KonqIconViewWidget *iconViewWidget() const { return m_pIconView; }
 
   bool supportsUndo() const { return true; }

@@ -71,7 +71,7 @@ public:
   virtual bool openURL( const KURL &url );
   virtual bool closeURL();
   virtual bool openFile() { return true; }
-  virtual QString currentItem();
+  virtual const KFileItem * currentItem();
 
   KonqBaseListViewWidget *listViewWidget() const { return m_pListView; }
 
