@@ -475,6 +475,12 @@ void KonqMainWindow::openURL( KonqView *_view, const KURL &_url,
   }
 
   KonqView *view = _view;
+     
+  // When clicking a 'follow active' view (e.g. view is the sidebar),
+  // open the URL in the active view
+  if ( view && view->isFollowActive() )
+    view = m_currentView;
+  
   if ( !view  && !req.newTab )
     view = m_currentView; /* Note, this can be 0L, e.g. on startup */
   else if ( !view && req.newTab ) {
