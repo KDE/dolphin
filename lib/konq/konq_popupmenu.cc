@@ -318,7 +318,6 @@ void KonqPopupMenu::setup(bool showPropertiesAndFileType)
                             url.path(1) == KGlobalSettings::trashPath() &&
                             currentDir) ||
                           ( m_lstItems.count() == 1 && bTrashIncluded );
-    kdDebug()<<"url.path(1) ********************************************************:"<<url.path(1)<<endl;
     bool isIntoTrash =  url.isLocalFile() && url.path(1).startsWith(KGlobalSettings::trashPath());
     clear();
 
@@ -535,7 +534,7 @@ void KonqPopupMenu::setup(bool showPropertiesAndFileType)
                         if (*it == "all/all" ||
                             *it == "allfiles" /*compat with KDE up to 3.0.3*/)
                         {
-                            if ( (excludeTypes.isEmpty()) || !excludeTypes.contains( m_sMimeType))
+                            if ( !excludeTypes.contains( m_sMimeType))
                             {
                                 ok = true;
                                 break;
@@ -546,7 +545,7 @@ void KonqPopupMenu::setup(bool showPropertiesAndFileType)
                         if (*it == "all/allfiles" &&
                             !isDirectory) // ## or inherits from it
                         {
-                            if ( (excludeTypes.isEmpty()) || !excludeTypes.contains( m_sMimeType))
+                            if ( !excludeTypes.contains( m_sMimeType))
                             {
                                 ok = true;
                                 break;
@@ -560,7 +559,7 @@ void KonqPopupMenu::setup(bool showPropertiesAndFileType)
                              ((*it).right(1) == "*" &&
                               (*it).left((*it).find('/')) == mimeGroup)))
                         {
-                            if ( (excludeTypes.isEmpty()) || !excludeTypes.contains( m_sMimeType))
+                            if (!excludeTypes.contains( m_sMimeType))
                             {
                                 ok = true;
                                 break;
