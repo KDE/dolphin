@@ -301,8 +301,9 @@ KonqFrameHeader::KonqFrameHeader( KonqFrame *_parent, const char *_name )
 
    m_pLayout->setStretchFactor( m_pHeaderLabel, 1 );
    m_pLayout->setStretchFactor( m_pCloseButton, 0 );
-   m_pCloseButton->setText("X");
 
+   m_pCloseButton->setText("x");
+   m_pCloseButton->setFlat(true);
    m_pCloseButton->setFocusPolicy(NoFocus);
 }
 
