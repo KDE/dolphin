@@ -1,4 +1,9 @@
+[Desktop Action Format]
+Exec=kfloppy
+Name=Format
+
 [Desktop Entry]
+Actions=Format
 Encoding=UTF-8
 MountPoint=
 Dev=
