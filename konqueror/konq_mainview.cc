@@ -929,7 +929,7 @@ bool KonqMainView::openView( const QString &serviceType, const QString &url )
 void KonqMainView::splitView ( NewViewPosition newViewPosition )
 {
   QString url = m_currentView->url();
-  const QString serviceType = m_currentView->serviceTypes().getFirst();
+  const QString serviceType = m_currentView->serviceTypes().first();
 
   Konqueror::View_var vView;
   QStringList serviceTypes;

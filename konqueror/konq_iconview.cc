@@ -378,11 +378,11 @@ void KonqKfmIconView::slotDrop( QDropEvent *_ev, KIconContainerItem* _item, QStr
   else if ( _formats.count() >= 1 )
   {
     if ( _item == 0L )
-      pasteData( m_dirLister->url(), _ev->data( _formats.getFirst() ) );
+      pasteData( m_dirLister->url(), _ev->data( _formats.first() ) );
     else
     {
       kdebug(0,1204,"Pasting to %s", (_item->name().data() /* item's url */));
-      pasteData( _item->name() /* item's url */, _ev->data( _formats.getFirst() ) );
+      pasteData( _item->name() /* item's url */, _ev->data( _formats.first() ) );
     }
   }
 }

@@ -284,7 +284,7 @@ void KBrowser::servePendingURLRequests()
   
   KBrowserURLRequestJob* j = new KBrowserURLRequestJob( this );
   m_lstURLRequestJobs.append( j );
-  QString url = m_lstPendingURLRequests.getFirst();
+  QString url = m_lstPendingURLRequests.first();
   QString tmp = completeURL( url );
   m_lstPendingURLRequests.remove(m_lstPendingURLRequests.begin());
 

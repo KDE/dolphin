@@ -117,7 +117,7 @@ KonqPopupMenu::KonqPopupMenu( QStringList urls,
   //check if url is current directory
   if ( m_lstPopupURLs.count() == 1 )
   {
-    KURL firstPopupURL = KURL(m_lstPopupURLs.getFirst());
+    KURL firstPopupURL = KURL(m_lstPopupURLs.first());
     firstPopupURL.cleanPath();
     kdebug(0, 1203, "View path is %s",url.path(1).ascii());
     kdebug(0, 1203, "First popup path is %s",firstPopupURL.path(1).ascii());
@@ -209,7 +209,7 @@ KonqPopupMenu::KonqPopupMenu( QStringList urls,
   if ( m_pMenuNew ) m_pMenuNew->setPopupFiles( m_lstPopupURLs );
 
   // Do all URLs have the same mimetype ?
-  url = KURL( m_lstPopupURLs.getFirst() );
+  url = KURL( m_lstPopupURLs.first() );
 
   KMimeType* mime = KMimeType::findByURL( url, m_popupMode );
   ASSERT( mime );
@@ -320,7 +320,7 @@ void KonqPopupMenu::slotPopupCopy()
 void KonqPopupMenu::slotPopupPaste()
 {
   assert( m_lstPopupURLs.count() == 1 );
-  pasteClipboard( m_lstPopupURLs.getFirst() );
+  pasteClipboard( m_lstPopupURLs.first() );
 }
 
 void KonqPopupMenu::slotPopupTrash()
@@ -388,7 +388,7 @@ void KonqPopupMenu::slotPopup( int id )
 void KonqPopupMenu::slotPopupProperties()
 {
   assert ( m_lstPopupURLs.count() == 1 );
-  (void) new PropertiesDialog( m_lstPopupURLs.getFirst(), m_popupMode );
+  (void) new PropertiesDialog( m_lstPopupURLs.first(), m_popupMode );
 }
 
 #include "kpopupmenu.moc"

@@ -352,7 +352,7 @@ bool clientApp::getKonqy()
     return false;
   }
 
-  CORBA::Object_var obj = activator->activateService( offers.getFirst()->name(), "IDL:Konqueror/Application:1.0", "App" );
+  CORBA::Object_var obj = activator->activateService( offers.first()->name(), "IDL:Konqueror/Application:1.0", "App" );
 
   if ( CORBA::is_nil( obj ) )
   {

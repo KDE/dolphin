@@ -86,7 +86,7 @@ KonqChildView::KonqChildView( Konqueror::View_ptr view,
   
   attach( view );
 
-  m_sLastServiceType = serviceTypes.getFirst();
+  m_sLastServiceType = serviceTypes.first();
   m_lstServiceTypes = serviceTypes;
 }
 
@@ -352,7 +352,7 @@ void KonqChildView::makeHistory( bool bCompleted, QString url )
     
     m_tmpInternalHistoryEntry = h;
     m_sLastURL = url; // remember for next call
-    m_sLastServiceType = m_lstServiceTypes.getFirst();
+    m_sLastServiceType = m_lstServiceTypes.first();
   }
   else
   {
@@ -522,12 +522,12 @@ bool KonqChildView::createView( const QString &serviceType, Konqueror::View_var 
     return false;
     
   //activate the view plugin
-  KTrader::ServicePtr service = offers.getFirst();
+  KTrader::ServicePtr service = offers.first();
   
   if ( service->repoIds().count() == 0 )  //uh...is it a CORBA service at all??
     return false;
   
-  QString repoId = service->repoIds().getFirst();
+  QString repoId = service->repoIds().first();
   QString tag = service->name(); //use service name as default tag
   int tagPos = repoId.find( "#" );
   if ( tagPos != -1 )
