@@ -3715,7 +3715,7 @@ void KonqMainWindow::initActions()
   connect( m_paHistory, SIGNAL( menuAboutToShow() ), this, SLOT( slotGoMenuAboutToShow() ) );
   connect( m_paHistory, SIGNAL( activated( int ) ), this, SLOT( slotGoHistoryActivated( int ) ) );
 
-  m_paHome = new KAction( i18n( "Home URL" ), "gohome", KStdAccel::shortcut(KStdAccel::Home), actionCollection(), "home" );
+  m_paHome = new KAction( i18n( "Home" ), "gohome", KStdAccel::shortcut(KStdAccel::Home), actionCollection(), "home" );
   connect( m_paHome, SIGNAL( activated( KAction::ActivationReason, Qt::ButtonState) ), this, 
 	   SLOT( slotHome(KAction::ActivationReason, Qt::ButtonState) ) );
 
@@ -3890,10 +3890,10 @@ void KonqMainWindow::initActions()
   m_paForward->setWhatsThis( i18n( "Move forward one step in the browsing history<p>" ) );
   m_paForward->setStatusText( i18n( "Move forward one step in the browsing history" ) );
 
-  m_paHome->setWhatsThis( i18n( "Navigate to your 'Home URL'<p>"
+  m_paHome->setWhatsThis( i18n( "Navigate to your 'Home Location'<p>"
                                 "You can configure the location this button takes you to in the "
                                 "<b>KDE Control Center</b>, under <b>File Manager</b>/<b>Behavior</b>." ) );
-  m_paHome->setStatusText( i18n( "Navigate to your 'Home URL'" ) );
+  m_paHome->setStatusText( i18n( "Navigate to your 'Home Location'" ) );
 
   m_paReload->setWhatsThis( i18n( "Reload the currently displayed document<p>"
                                   "This may, for example, be needed to refresh webpages that have been "
