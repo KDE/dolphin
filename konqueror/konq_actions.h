@@ -29,6 +29,7 @@ class KBookmarkOwner;
 class KComboBox;
 class HistoryEntry;
 class QLabel;
+class QPopupMenu;
 
 class KonqComboAction : public KAction
 {
