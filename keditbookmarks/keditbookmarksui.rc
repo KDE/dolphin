@@ -32,8 +32,9 @@
   <Action name="changeicon"/>
   <Action name="delete"/>
   <Separator/><!-- Stuff for folders -->
-  <Action name="sort"/>
   <Action name="setastoolbar"/>
+  <Action name="sort"/>
+  <Action name="recursivesort"/>
   <Separator/><!-- Expand/collapse -->
   <Action name="expandall"/>
   <Action name="collapseall"/>
@@ -72,8 +73,9 @@
 </ToolBar>
 
 <Menu name="popup_folder">
-  <Action name="sort"/>
   <Action name="setastoolbar"/>
+  <Action name="sort"/>
+  <Action name="recursivesort"/>
   <Separator/><!-- Clipboard -->
   <Action name="edit_undo"/>
   <Action name="edit_redo"/>
@@ -175,6 +177,7 @@
     <Action name="settings_saveonclose"/>
     <Action name="settings_advancedaddbookmark"/>
     <Action name="sort"/>
+    <Action name="recursivesort"/>
     <Action name="testall"/>
     <Action name="testlink"/>
     <Action name="updateallfavicons"/>

@@ -268,6 +268,8 @@ void KEBApp::createActions() {
                       actn, SLOT( slotChangeIcon() ), actionCollection(), "changeicon");
    (void) new KAction(i18n("Update Favicon"), 0,
                       actn, SLOT( slotUpdateFavIcon() ), actionCollection(), "updatefavicon");
+   (void) new KAction(i18n("Recursive Sort"), 0,
+                      actn, SLOT( slotRecursiveSort() ), actionCollection(), "recursivesort");
    (void) new KAction(i18n("&Create New Folder..."), "folder_new", CTRL+Key_N,
                       actn, SLOT( slotNewFolder() ), actionCollection(), "newfolder");
    (void) new KAction(i18n("Create &New Bookmark"), "www", 0,
@@ -410,6 +412,7 @@ void KEBApp::setActionsEnabled(SelcAbilities sa) {
          ENABLE("insertseparator");
          if (sa.group) {
             ENABLE("sort");
+            ENABLE("recursivesort");
             ENABLE("setastoolbar");
          }
       }

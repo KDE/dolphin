@@ -45,6 +45,7 @@ public slots:
    void slotTestAll();
    void slotCancelAllTests();
    void slotUpdateFavIcon();
+   void slotRecursiveSort();
    void slotUpdateAllFavIcons();
    void slotCancelFavIconUpdates();
    void slotExpandAll();

@@ -1,7 +1,6 @@
 basic plan:       cleanup importing:
                      make all importers do a file selection dlg
                   recursive 404 finder
-                  recursive dirs sort
                   duplicate finder
                   metadata removal at root
 
