@@ -40,7 +40,12 @@ KonquerorIface::~KonquerorIface()
 
 void KonquerorIface::openBrowserWindow( const QString &url )
 {
-  KonqMisc::createSimpleWindow( url );
+  KonqMisc::createSimpleWindow( KURL(url) );
+}
+
+void KonquerorIface::createNewWindow( const QString &url )
+{
+  KonqMisc::createNewWindow( KURL(url) );
 }
 
 void KonquerorIface::createBrowserWindowFromProfile( const QString &path )

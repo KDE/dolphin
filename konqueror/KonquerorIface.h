@@ -38,9 +38,14 @@ public:
 
 k_dcop:
   /**
-   * Opens a new window for the given @p url
+   * Opens a new window for the given @p url (using createSimpleWindow, i.e. a single view)
    */
   void openBrowserWindow( const QString &url );
+
+  /**
+   * Opens a new window for the given @p url (using createNewWindow, i.e. with an appropriate profile)
+   */
+  void createNewWindow( const QString &url );
 
   /**
    * As the name says, this creates a window from a profile.

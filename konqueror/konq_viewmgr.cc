@@ -503,7 +503,7 @@ void KonqViewManager::loadViewProfile( KConfig &cfg, const QString & filename, c
       m_pMainContainer->setGeometry( 0, 0, m_pMainWindow->width(), m_pMainWindow->height() );
       m_pMainContainer->show();
 
-      loadItem( cfg, m_pMainContainer, rootItem, defaultURL, !forcedURL.isEmpty() );
+      loadItem( cfg, m_pMainContainer, rootItem, defaultURL, forcedURL.isEmpty() );
   }
   else
   {
