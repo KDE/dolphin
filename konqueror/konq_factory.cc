@@ -130,7 +130,10 @@ QObject* KonqFactory::create( QObject* parent, const char* name, const char* /*c
 //  if ( !parent || !parent->inherits( "Part" ) )
 //    return 0L;
 
-  return new KonqPart( parent, name );
+  KonqPart *part = new KonqPart( parent, name );
+  emit objectCreated( part );
+
+  return part;
 }
 
 void KonqFactory::instanceRef()
