@@ -26,7 +26,7 @@ class KonqIconViewWidget;
 class KonqPropsView;
 class KDirLister;
 class KFileItem;
-class KonqSettings;
+class KonqFMSettings;
 class KFileIVI;
 class KAction;
 class QActionMenu;

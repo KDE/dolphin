@@ -63,7 +63,7 @@ KonqTreeViewWidget::KonqTreeViewWidget( KonqTreeView *parent )
   // Create a properties instance for this view
   // (copying the default values)
   m_pProps = new KonqPropsView( * KonqPropsView::defaultProps() );
-  m_pSettings = KonqSettings::defaultFMSettings();
+  m_pSettings = KonqFMSettings::defaultTreeSettings();
 
   setRootIsDecorated( true );
   setTreeStepSize( 20 );
@@ -120,12 +120,10 @@ QString KonqTreeViewWidget::url()
 void KonqTreeViewWidget::initConfig()
 {
   QColor bgColor           = m_pSettings->bgColor();
-  QColor textColor         = m_pSettings->textColor();
-  // unused ???? QColor linkColor         = m_pSettings->linkColor();
-  // unused QColor vLinkColor        = m_pSettings->vLinkColor();
+  // TODO QColor textColor         = m_pSettings->normalTextColor();
+   // TODO highlightedTextColor
 
   QString stdFontName      = m_pSettings->stdFontName();
-  QString fixedFontName    = m_pSettings->fixedFontName();
   int fontSize             = m_pSettings->fontSize();
 
   m_bgPixmap         = m_pProps->bgPixmap();

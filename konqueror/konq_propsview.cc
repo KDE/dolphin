@@ -87,7 +87,8 @@ KonqPropsView::KonqPropsView( KConfig * config )
   // m_bCache = false; // What is it ???
 
   // Default background color is the one from the settings, i.e. configured in kcmkonq
-  m_bgColor = KonqSettings::defaultFMSettings()->bgColor();
+  // OUCH how do we know if this is icon view or tree view ????
+  m_bgColor = KonqFMSettings::defaultIconSettings()->bgColor();
 
   m_bgPixmap = 0L;
   QString pix = config->readEntry( "BackgroundPixmap", "" );

@@ -41,8 +41,8 @@
 #include <klibloader.h>
 #include <klineeditdlg.h>
 #include <kmimetype.h>
-#include <konqsettings.h>
 #include <konqiconviewwidget.h>
+#include <konqsettings.h>
 #include <krun.h>
 #include <kurl.h>
 
@@ -121,6 +121,7 @@ IconViewPropertiesExtension::IconViewPropertiesExtension( KonqKfmIconView *iconV
 
 void IconViewPropertiesExtension::reparseConfiguration()
 {
+ KonqFMSettings::reparseConfiguration();
   // m_pProps is a problem here (what is local, what is global ?)
   // but settings is easy : 
   m_iconView->iconViewWidget()->initConfig();
@@ -144,7 +145,7 @@ KonqKfmIconView::KonqKfmIconView()
   // (copying the default values)
   m_pProps = new KonqPropsView( * KonqPropsView::defaultProps() );
 
-  m_pIconView = new KonqIconViewWidget( KonqSettings::defaultFMSettings(), this, "qiconview" );
+  m_pIconView = new KonqIconViewWidget( this, "qiconview" );
 
   m_extension = new IconEditExtension( m_pIconView );
 

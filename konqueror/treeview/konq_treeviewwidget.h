@@ -34,7 +34,7 @@ class KonqTreeViewDir;
 class KonqTreeView;
 class KFileItem;
 class KonqPropsView;
-class KonqSettings;
+class KonqFMSettings;
 class TreeViewPropertiesExtension;
 
 /**
@@ -141,7 +141,7 @@ protected:
   KDirLister* m_dirLister;
 
   /** Konqueror settings */
-  KonqSettings * m_pSettings;
+  KonqFMSettings * m_pSettings;
 
   /** View properties */
   KonqPropsView * m_pProps;
@@ -171,7 +171,7 @@ protected:
   QCursor m_handCursor;
   QPixmap m_bgPixmap;
 
-  // TODO remove this and use KonqSettings
+  // TODO remove this and use KonqFMSettings
   bool m_bSingleClick;
   bool m_bUnderlineLink;
   bool m_bChangeCursor;

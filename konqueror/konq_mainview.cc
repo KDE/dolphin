@@ -1508,7 +1508,9 @@ void KonqMainView::slotDatabaseChanged()
 void KonqMainView::reparseConfiguration()
 {
   debug("KonqMainView::reparseConfiguration() !");
-  KonqSettings::reparseConfiguration();
+  // TODO : split this in two methods, so that changing one doesn't reparse the other
+  KonqFMSettings::reparseConfiguration();
+  KonqHTMLSettings::reparseConfiguration();
   MapViews::ConstIterator it = m_mapViews.begin();
   MapViews::ConstIterator end = m_mapViews.end();
   for (; it != end; ++it )

@@ -98,6 +98,7 @@ public:
   bool isShowingImagePreview() { return m_bImagePreview; }
   bool isHTMLAllowed() { return m_bHTMLAllowed; }
   // Cache ?
+  // TODO : window size
 
   const QColor& bgColor() { return m_bgColor; }
   const QPixmap& bgPixmap() { return m_bgPixmap; }

@@ -156,9 +156,9 @@ KonqHTMLView::~KonqHTMLView()
 
 void KonqHTMLView::initConfig()
 {
-  m_bAutoLoadImages = KonqSettings::defaultHTMLSettings()->autoLoadImages();
-  bool enableJava = KonqSettings::defaultHTMLSettings()->enableJava();
-  QString javaPath = KonqSettings::defaultHTMLSettings()->javaPath();
+  m_bAutoLoadImages = KonqHTMLSettings::defaultHTMLSettings()->autoLoadImages();
+  bool enableJava = KonqHTMLSettings::defaultHTMLSettings()->enableJava();
+  QString javaPath = KonqHTMLSettings::defaultHTMLSettings()->javaPath();
   // ### hack... fix this
   QString path = getenv("PATH");
   //  if(path.find(javaPath) == -1)
@@ -166,7 +166,7 @@ void KonqHTMLView::initConfig()
   javaPath = QString("/share/apps/kjava/kjava-classes.zip:")+javaPath;
   javaPath += "/lib";
   javaPath = getenv("KDEDIR") + javaPath;
-  bool enableJavaScript = KonqSettings::defaultHTMLSettings()->enableJavaScript();
+  bool enableJavaScript = KonqHTMLSettings::defaultHTMLSettings()->enableJavaScript();
 
   m_pBrowser->enableJava(enableJava);
   printf("PATH = %s\n", path.latin1());
@@ -179,7 +179,7 @@ void KonqHTMLView::initConfig()
 void KonqHTMLView::openURL( const QString &url, bool reload,
                             int xOffset, int yOffset )
 {
-  m_bAutoLoadImages = KonqSettings::defaultHTMLSettings()->autoLoadImages();
+  m_bAutoLoadImages = KonqHTMLSettings::defaultHTMLSettings()->autoLoadImages();
   m_pBrowser->enableImages( m_bAutoLoadImages );
 
   m_strURL = url;
@@ -262,7 +262,7 @@ bool KonqHTMLView::mappingFillMenuEdit( Browser::View::EventFillMenu_ptr )
 
 bool KonqHTMLView::mappingFillToolBar( Browser::View::EventFillToolBar viewToolBar )
 {
-  if ( KonqSettings::defaultHTMLSettings()->autoLoadImages() )
+  if ( KonqHTMLSettings::defaultHTMLSettings()->autoLoadImages() )
     return false;
 
   if ( CORBA::is_nil( viewToolBar.toolBar ) )
@@ -339,7 +339,7 @@ void KonqHTMLView::slotFrameInserted( KHTMLWidget *frame )
 //  QObject::connect( frame, SIGNAL( textSelected( KHTMLView *, bool ) ),
 //                    this, SIGNAL( selectionChanged() ) );
 
-  KonqSettings *settings = KonqSettings::defaultHTMLSettings();
+  KonqHTMLSettings *settings = KonqHTMLSettings::defaultHTMLSettings();
 
   frame->setDefaultBGColor( settings->bgColor() );
   frame->setDefaultTextColors( settings->textColor(),
