@@ -48,7 +48,7 @@ KRemoteEncodingPlugin::KRemoteEncodingPlugin(QObject * parent,
 					     const QStringList &)
   : KParts::Plugin(parent, name), m_loaded(false), m_idDefault(0)
 {
-  m_menu = new KActionMenu(i18n("Select remote charset"), "charset",
+  m_menu = new KActionMenu(i18n("Select Remote Charset"), "charset",
 			   actionCollection(), "changeremoteencoding");
   connect(m_menu->popupMenu(), SIGNAL(aboutToShow()),
 	  this, SLOT(slotAboutToShow()));
@@ -58,7 +58,7 @@ KRemoteEncodingPlugin::KRemoteEncodingPlugin(QObject * parent,
   m_part = dynamic_cast<KonqDirPart*>(parent);
   if (m_part)
     // if parent is not a KonqDirPart, our menu will never show
-    QObject::connect(m_part, SIGNAL(aboutToOpenURL()), 
+    QObject::connect(m_part, SIGNAL(aboutToOpenURL()),
 		     this, SLOT(slotAboutToOpenURL()));
 }
 
@@ -173,7 +173,7 @@ KRemoteEncodingPlugin::slotItemSelected(int id)
   if (!m_menu->popupMenu()->isItemChecked(id))
     {
       QString charset = KGlobal::charsets()->encodingForName(m_encodingDescriptions[id - 1]);
-      
+
       config.setGroup(host);
       config.writeEntry(DATA_KEY, charset);
       config.sync();
