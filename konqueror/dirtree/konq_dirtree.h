@@ -159,7 +159,6 @@ private:
   QListViewItem *m_dropItem;
 
   QPixmap m_folderPixmap;
-  QPixmap m_folderOpenPixmap;
 
   QTimer *m_autoOpenTimer;
 };

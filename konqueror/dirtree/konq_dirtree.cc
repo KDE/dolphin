@@ -80,7 +80,7 @@ void KonqDirTreeEditExtension::can( bool &cut, bool &copy, bool &paste, bool &mo
   bool bInTrash = false;
 
   KonqDirTreeItem *selection = (KonqDirTreeItem *)m_tree->selectedItem();
-  
+
   if ( selection && selection->fileItem()->url().directory(false) == KUserPaths::trashPath() )
     bInTrash = true;
 
@@ -130,7 +130,7 @@ void KonqDirTreeEditExtension::moveSelection( const QString &destinationURL )
 
   if ( lst.count() == 0 )
     return;
-  
+
   KIOJob *job = new KIOJob;
 
   if ( !destinationURL.isEmpty() )
@@ -166,6 +166,8 @@ KonqDirTreeBrowserView::~KonqDirTreeBrowserView()
 
 void KonqDirTreeBrowserView::openURL( const QString &, bool, int, int )
 {
+  emit started();
+  emit completed();
 }
 
 QString KonqDirTreeBrowserView::url()
@@ -233,7 +235,7 @@ KonqDirTree::KonqDirTree( KonqDirTreeBrowserView *parent )
   viewport()->setAcceptDrops( true );
 
   setSelectionMode( QListView::Single );
-  
+
   m_view = parent;
 
   m_animationCounter = 1;
@@ -314,10 +316,6 @@ void KonqDirTree::addSubDir( KonqDirTreeItem *item, KonqDirTreeItem *topLevel, c
   assert( topLevelItem.m_item );
 
   topLevelItem.m_mapSubDirs->insert( url, item );
-  
-  QMap<KURL, KonqDirTreeItem *>::ConstIterator it = topLevelItem.m_mapSubDirs->begin();
-  for (; it != topLevelItem.m_mapSubDirs->end(); ++it )
-    qDebug( "new map %s", it.key().url().ascii() );
 }
 
 void KonqDirTree::removeSubDir( KonqDirTreeItem *item, KonqDirTreeItem *topLevel, const KURL &url )
@@ -465,10 +463,10 @@ void KonqDirTree::slotNewItem( KFileItem *item )
   //    qDebug( "comparing %s with %s", dirIt.key().url().ascii(), dir.url().ascii() );
     if ( dir.cmp( dirIt.key(), true ) )
       break;
-  }    
-  
+  }
+
   assert( dirIt != topLevelItem.m_mapSubDirs->end() );
-  
+
   KonqDirTreeItem *parentDir = dirIt.data();
 
   assert( parentDir );
@@ -668,7 +666,7 @@ void KonqDirTree::scanDir2( QListViewItem *parent, const QString &path )
   item->setText( 0, name );
   item->setPixmap( 0, KonqFactory::instance()->iconLoader()->loadApplicationIcon( icon, KIconLoader::Small ) );
   item->setSelectable( false );
-  
+
   m_unselectableItems.append( item );
 
   QString groupPath = QString( path ).append( "/" );

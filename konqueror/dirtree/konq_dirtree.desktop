@@ -2,7 +2,6 @@
 Type=Service
 Exec=blahfoo
 Comment=Directory Tree
-MimeType=inode/directory
 Name=KonqDirTree
 ServiceTypes=Browser/View
 X-KDE-Library=libkonqdirtree

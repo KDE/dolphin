@@ -1,12 +1,17 @@
 [Profile]
 Name=A Directory Tree and an Icon View
+Name[da]=Et mappetræ og ikon overblik
+Name[de]=Verzeichnisbaum und Symbolansicht
+Name[eo]=Dosierujoarbo kaj piktogramoj
+Name[hu]=Könyvtár fa és ikon nézet
+Name[ja]=¥Ç¥£¥ì¥¯¥È¥ê¥Ä¥ê¡¼¤È¥¢¥¤¥³¥ó¥Ó¥å¡¼
 Container0_Children=View1,View2
 Container0_Orientation=Horizontal
 Container0_SplitterSizes=30,70
 RootItem=Container0
 View1_PassiveMode=true
 View1_ServiceName=KonqDirTree
-View1_ServiceType=inode/directory
+View1_ServiceType=Browser/View
 View1_URL=
 View2_PassiveMode=false
 View2_ServiceName=KonqKfmIconView
