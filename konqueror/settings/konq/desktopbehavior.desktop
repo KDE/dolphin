@@ -1,7 +1,7 @@
 [Desktop Entry]
 Encoding=UTF-8
 Type=Application
-DocPath=kcontrol/desktop/index.html
+DocPath=kcontrol/desktopbehavior/index.html
 Icon=desktop
 Exec=kcmshell desktopbehavior
 
@@ -26,9 +26,10 @@ Name[es]=Comportamiento
 Name[et]=Käitumine
 Name[eu]=Portamoldea
 Name[fa]=رفتار
-Name[fi]=Käytös
+Name[fi]=Käyttäytyminen
 Name[fr]=Comportement
 Name[he]=פעולה
+Name[hr]=Ponašanje
 Name[hu]=Működés
 Name[it]=Comportamento
 Name[ja]=動作
@@ -78,6 +79,7 @@ Comment[fa]=اینجا می‌توانید رفتار میزکارتان را ت
 Comment[fi]=Voit asettaa tässä työpöydän käytöstä
 Comment[fr]=Vous pouvez configurer ici comment le bureau se comporte
 Comment[he]=שינוי הגדרות הפעולה של שולחן העבודה
+Comment[hr]=Ovdje možete podesiti kako se radne površine ponašaju
 Comment[hu]=A munkaasztal viselkedésének beállítása
 Comment[it]=Qui puoi configurare il comportamento del desktop
 Comment[ja]=ここでデスクトップの挙動の設定をします
@@ -86,7 +88,7 @@ Comment[lt]=Čia galite suderinti darbastalio elgseną
 Comment[mn]=Энд та ажлын талбарын байдлыг тогтооно
 Comment[mt]=Hawn tista' tissettja l-imġieba tad-desktop minn hawn
 Comment[nb]=Sett opp skrivebordets oppførsel her
-Comment[nl]=U kunt hier instellen hoe uw desktop zich gedraagt
+Comment[nl]=Hier kunt u het gedrag van uw desktop configureren
 Comment[nn]=Vel korleis skrivebordet skal oppføra seg
 Comment[nso]=Oka beakanya ka mokgwa wo desktop e phelago ka gona mo
 Comment[pl]=Konfiguracja zachowania biurka
