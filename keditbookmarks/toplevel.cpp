@@ -172,19 +172,21 @@ KEBApp::KEBApp(const QString & bookmarksFile, bool readonly, const QString &addr
 
    s_topLevel = this;
 
+   int h = 20;
+
    QSplitter *vsplitter = new QSplitter(this);
    m_iSearchLineEdit = new KLineEdit(vsplitter);
-   m_iSearchLineEdit->setMinimumHeight(20);
-   m_iSearchLineEdit->setMaximumHeight(20);
+   m_iSearchLineEdit->setMinimumHeight(h);
+   m_iSearchLineEdit->setMaximumHeight(h);
 
    QSplitter *splitter = new QSplitter(vsplitter);
    ListView::createListViews(splitter);
    ListView::self()->initListViews();
    ListView::self()->setInitialAddress(address);
 
-   BookmarkInfoWidget *bkinfo = new BookmarkInfoWidget(vsplitter);
+   // BookmarkInfoWidget *bkinfo = new BookmarkInfoWidget(vsplitter);
    vsplitter->setOrientation(QSplitter::Vertical);
-   vsplitter->setSizes(QValueList<int>() << bkinfo->sizeHint().height() << 380 << bkinfo->sizeHint().height() );
+   vsplitter->setSizes(QValueList<int>() << h << 380 /*<< bkinfo->sizeHint().height()*/ );
 
    setCentralWidget(vsplitter);
    resize(ListView::self()->widget()->sizeHint().width(), vsplitter->sizeHint().height());
