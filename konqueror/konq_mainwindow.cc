@@ -1672,45 +1672,45 @@ void KonqMainWindow::slotHome()
 
 void KonqMainWindow::slotGoApplications()
 {
-  KonqMisc::createSimpleWindow( KURL( "programs:/" ) );
+  openURL( 0L, KURL( "programs:/" ) );
 }
 
 void KonqMainWindow::slotGoDevices()
 {
-  KonqMisc::createSimpleWindow( KURL( "devices:/" ) );
+  openURL( 0L, KURL( "devices:/" ) );
 }
 
 void KonqMainWindow::slotGoSettings()
 {
-  KonqMisc::createSimpleWindow( KURL( "settings:/" ) );
+  openURL( 0L, KURL( "settings:/" ) );
 }
 
 void KonqMainWindow::slotGoDirTree()
 {
   KURL u;
   u.setPath( locateLocal( "data", "konqueror/dirtree/" ) );
-  KonqMisc::createSimpleWindow( u );
+  openURL( 0L, u );
 }
 
 void KonqMainWindow::slotGoTrash()
 {
   KURL u;
   u.setPath( KGlobalSettings::trashPath() );
-  KonqMisc::createSimpleWindow( u );
+  openURL( 0L, u );
 }
 
 void KonqMainWindow::slotGoTemplates()
 {
   KURL u;
   u.setPath( KGlobal::dirs()->resourceDirs( "templates" ).last() );
-  KonqMisc::createSimpleWindow( u );
+  openURL( 0L, u );
 }
 
 void KonqMainWindow::slotGoAutostart()
 {
   KURL u;
   u.setPath( KGlobalSettings::autostartPath() );
-  KonqMisc::createSimpleWindow( u );
+  openURL( 0L, u );
 }
 
 void KonqMainWindow::slotConfigure()
