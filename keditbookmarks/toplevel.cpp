@@ -47,20 +47,20 @@
 #include <favicons.h>
 
 #define COL_NAME 0
-#define COL_URL  1 
+#define COL_URL  1
 
 KEBTopLevel * KEBTopLevel::s_topLevel = 0;
 KBookmarkManager * KEBTopLevel::s_pManager = 0;
 
 KEBTopLevel::KEBTopLevel(const QString & bookmarksFile, bool readonly)
-   : KMainWindow(), m_commandHistory(actionCollection()), m_dcopIface(0) 
+   : KMainWindow(), m_commandHistory(actionCollection()), m_dcopIface(0)
 {
    m_bookmarksFilename = bookmarksFile;
    m_bReadOnly = readonly;
    construct();
 }
 
-void KEBTopLevel::construct(bool firstTime) 
+void KEBTopLevel::construct(bool firstTime)
 {
    s_pManager = KBookmarkManager::managerForFile(m_bookmarksFilename, false);
 
@@ -103,7 +103,7 @@ void KEBTopLevel::construct(bool firstTime)
 
 }
 
-void KEBTopLevel::createActions() 
+void KEBTopLevel::createActions()
 {
    KAction * act = new KAction( i18n( "Import &Netscape Bookmarks" ), "netscape", 0, this, SLOT( slotImportNS() ), actionCollection(), "importNS" );
    (void) new KAction( i18n( "Import &Opera Bookmarks..." ), "opera", 0, this, SLOT( slotImportOpera() ), actionCollection(), "importOpera" );
@@ -227,8 +227,8 @@ void KEBTopLevel::initListView(bool firstTime)
 }
 
 void KEBTopLevel::disconnectSignals() {
-   kdWarning() 
-      << "disconnectSignals()'s returned " 
+   kdWarning()
+      << "disconnectSignals()'s returned "
       << disconnect( m_pListView,       0, 0, 0 ) << ", "
       << disconnect( s_pManager,        0, 0, 0 ) << ", "
       << disconnect( &m_commandHistory, 0, 0, 0 ) << ", "
@@ -334,8 +334,8 @@ KBookmark KEBTopLevel::selectedBookmark() const
 // pruning should be a layer of processing
 // done after the selectedItems call, the
 // selected items should be cached based
-// on use of slotSelectionChanged, 
-// 
+// on use of slotSelectionChanged,
+//
 // simple motivation for this:
 // currently you can't ctrl-v paste onto
 // a empty folder item!!!
@@ -380,7 +380,7 @@ QValueList<KBookmark> KEBTopLevel::selectedBookmarksExpanded() const
    QStringList addresses;
    for(QListViewItemIterator it(m_pListView); it.current(); it++) {
       if (IS_REAL_SEL(it)) {
-         // is not an empty folder && childCount() == 0 
+         // is not an empty folder && childCount() == 0
          // therefore MUST be a single bookmark. good logic???
          // no!, this is what you would think, but actually
          // the "empty folder" is only the empty folder item
@@ -395,7 +395,7 @@ QValueList<KBookmark> KEBTopLevel::selectedBookmarksExpanded() const
                      addresses.append(bk.address());
                   }
                }
-               if (it.current()->nextSibling() 
+               if (it.current()->nextSibling()
                 && it2.current() == it.current()->nextSibling()->itemAbove()) {
                   break;
                }
@@ -509,7 +509,7 @@ void KEBTopLevel::slotSelectionChanged()
       coll->action("sort")           ->setEnabled(!multiSelect && group);
       coll->action("setastoolbar")   ->setEnabled(!multiSelect && group);
       // AK - root should work.. does it?, FIXME TEST!
-      coll->action("testlink")       ->setEnabled(!root && itemSelected && !separator); 
+      coll->action("testlink")       ->setEnabled(!root && itemSelected && !separator);
       coll->action("testall")        ->setEnabled(!multiSelect && !(root && m_pListView->childCount()==1));
    }
 }
@@ -648,8 +648,8 @@ void KEBTopLevel::slotNewFolder()
    KBookmark bk = grp.createNewFolder( s_pManager, QString::null, false ); // Asks for the name
    if (!bk.fullText().isEmpty()) {
       // not canceled
-      CreateCommand * cmd 
-         = new CreateCommand(i18n("Create Folder"), insertionAddress(), 
+      CreateCommand * cmd
+         = new CreateCommand(i18n("Create Folder"), insertionAddress(),
                              bk.fullText(),bk.icon(), true /*open*/ );
       m_commandHistory.addCommand( cmd );
    }
@@ -687,12 +687,12 @@ void KBookmarkEditorIface::slotCreatedNewFolder( QString filename, QString text,
 void KEBTopLevel::slotCreatedNewFolder(QString text, QString address)
 {
    kdWarning() << "slotCreatedNewFolder(" << text << "," << address << ")" << endl;
-   if (!m_bModified) { 
+   if (!m_bModified) {
       return;
    }
-   CreateCommand * cmd = new CreateCommand( 
-                                 i18n("Create Folder in Konqueror"), 
-                                 correctAddress(address), 
+   CreateCommand * cmd = new CreateCommand(
+                                 i18n("Create Folder in Konqueror"),
+                                 correctAddress(address),
                                  text, QString::null, true );
    m_commandHistory.addCommand( cmd );
 }
@@ -704,8 +704,8 @@ void KEBTopLevel::slotAddedBookmark(QString url, QString text, QString address, 
       return;
    }
    CreateCommand * cmd = new CreateCommand(
-                                 i18n("Add Bookmark in Konqueror"), 
-                                 correctAddress(address), 
+                                 i18n("Add Bookmark in Konqueror"),
+                                 correctAddress(address),
                                  text, icon, KURL(url) );
    m_commandHistory.addCommand(cmd);
 }
@@ -713,9 +713,9 @@ void KEBTopLevel::slotAddedBookmark(QString url, QString text, QString address, 
 
 void KEBTopLevel::slotNewBookmark()
 {
-   CreateCommand * cmd = new CreateCommand( 
-                                i18n("Create Bookmark" ), 
-                                insertionAddress(), 
+   CreateCommand * cmd = new CreateCommand(
+                                i18n("Create Bookmark" ),
+                                insertionAddress(),
                                 QString::null, QString::null, KURL()
                              );
    m_commandHistory.addCommand(cmd);
@@ -723,9 +723,9 @@ void KEBTopLevel::slotNewBookmark()
 
 void KEBTopLevel::slotInsertSeparator()
 {
-   CreateCommand * cmd = new CreateCommand( 
-                                i18n("Insert Separator"), 
-                                insertionAddress() 
+   CreateCommand * cmd = new CreateCommand(
+                                i18n("Insert Separator"),
+                                insertionAddress()
                              );
    m_commandHistory.addCommand(cmd);
 }
@@ -743,20 +743,20 @@ void KEBTopLevel::selectImport(ImportCommand *cmd)
 
 QString kdeBookmarksFile() {
    // locateLocal on the bookmarks file and get dir?
-   return KFileDialog::getOpenFileName( 
+   return KFileDialog::getOpenFileName(
                QDir::homeDirPath() + "/.kde",
                i18n("*.xml|KDE bookmark files (*.xml)") );
 }
 
 QString galeonBookmarksFile() {
-   return KFileDialog::getOpenFileName( 
+   return KFileDialog::getOpenFileName(
                QDir::homeDirPath() + "/.galeon",
                i18n("*.xbel|Galeon bookmark files (*.xbel)") );
 }
 
 // TODO - THIS IS INSANELY UGLY!
 void KEBTopLevel::doImport(
-   QString imp, QString imp_bks, QString bks, 
+   QString imp, QString imp_bks, QString bks,
    QString dirname, QString icon, bool dabool, int type
 ) {
    if (!dirname.isEmpty()) {
@@ -764,7 +764,7 @@ void KEBTopLevel::doImport(
                      this, i18n("Import as a new subfolder or replace all the current bookmarks?"),
                      imp, i18n("As New Folder"), i18n("Replace"));
 
-      if (answer == KMessageBox::Cancel) { 
+      if (answer == KMessageBox::Cancel) {
          return;
       }
 
@@ -784,7 +784,7 @@ void KEBTopLevel::doImport(
       // for a cancel from the file dialog it should
       // do nothing, yet for a import without "..."
       // it shouldn't even be called + thus should be
-      // a assert, or possible not... 
+      // a assert, or possible not...
       // need to think more about this...
    }
 }
@@ -861,8 +861,8 @@ void KEBTopLevel::slotCopy()
    clipboard->setSelectionMode(oldMode);
 
    // AK - TODO - research this
-   // slotClipboardDataChanged(); 
-   // dfaure: don't ask 
+   // slotClipboardDataChanged();
+   // dfaure: don't ask
    // ak: umm.. okay - but i'm commenting out for 3.1 :)
 }
 
@@ -947,6 +947,8 @@ void KEBTopLevel::slotTestLink()
 
 void KEBTopLevel::testBookmarks(QValueList<KBookmark> bks)
 {
+    if ( bks.count() == 0 )
+        return;
    tests.insert(0, new TestLink(bks));
    actionCollection()->action("canceltests")->setEnabled(true);
 }
@@ -967,7 +969,7 @@ void KEBTopLevel::slotCancelAllTests()
    for (test = tests.first(); test != 0; test=nextTest) {
       nextTest = tests.next();
       slotCancelTest(test);
-   }
+  }
 }
 
 void KEBTopLevel::setAllOpen(bool open) {
@@ -1131,7 +1133,7 @@ void KEBTopLevel::itemMoved(QPtrList<QListViewItem> *_items, const QString & new
       } else {
          QString oldAddress = item->bookmark().address();
          if ( oldAddress == destAddress
-               || destAddress.startsWith(oldAddress) 
+               || destAddress.startsWith(oldAddress)
             ) {
             // AK - old comment "duplicate code???", whats that mean?
             continue;
