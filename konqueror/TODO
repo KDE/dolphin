@@ -56,7 +56,11 @@ In konqueror/treeview: for the current protocol, create in memory
 the dicts    UDS number -> column number (reversing the config file)
                   This allows sorting the UDSEntryList in one go.
 
-+ QStringList of headers (i18n'ed).
+  + QStringList of headers (i18n'ed).
+
+- Another config thingy: moving the user-paths (mv + updating konquerorrc)
+or should we detect moving of the actual folders themselves ? Gee that
+would rock no ?
 
 - HTMLView (if local dir) : drop should copy to parent dir (for Antonio :)
 
