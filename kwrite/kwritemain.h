@@ -39,7 +39,7 @@ class KWrite : public KParts::MainWindow
 
     void loadURL(const KURL &url);
 
-  protected:
+  private:
     virtual bool queryClose();
     virtual bool queryExit();
 
@@ -97,7 +97,7 @@ class KWrite : public KParts::MainWindow
   public:
     void restore(KConfig *,int);
 
-  protected:
+  private:
     virtual void readProperties(KConfig *);
     virtual void saveProperties(KConfig *);
     virtual void saveGlobalProperties(KConfig *);
