@@ -45,9 +45,11 @@
 #include <qdragobject.h>
 #include <qheader.h>
 #include <klocale.h>
-#include <drag.h>
 
 #include <opUIUtils.h>
+
+#define Dnd_X_Precision 2
+#define Dnd_Y_Precision 2
 
 KonqKfmTreeView::KonqKfmTreeView( KonqMainView *mainView )
 {
@@ -633,7 +635,7 @@ void KonqKfmTreeView::mouseMoveEvent( QMouseEvent *_mouse )
     // Do not handle and more mouse move or mouse release events
     m_pressed = false;
 
-    QUrlDrag *d = new QUrlDrag( urls, viewport() );
+    QUriDrag *d = new QUriDrag( urls, viewport() );
     if ( pixmap2.isNull() )
     {
       hotspot.setX( m_pressedItem->pixmap( 0 )->width() / 2 );
