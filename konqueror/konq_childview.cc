@@ -516,6 +516,7 @@ void KonqChildView::setPassiveMode( bool mode )
 void KonqChildView::setLinkedView( bool mode )
 {
   m_bLinkedView = mode;
+  frame()->statusbar()->setLinkedView( mode );
 }
 
 void KonqChildView::sendOpenURLEvent( const KURL &url )

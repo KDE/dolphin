@@ -73,7 +73,8 @@ class KonqFrameStatusBar : public QWidget
    public:
       KonqFrameStatusBar( KonqFrame *_parent = 0L, const char *_name = 0L );
       ~KonqFrameStatusBar() {}
-      //QCheckBox *passiveModeCheckBox() const { return m_pPassiveModeCheckBox; }
+
+      void setLinkedView( bool b );
       /**
        * Shows the statusbar buttons
        */

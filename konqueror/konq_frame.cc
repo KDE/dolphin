@@ -197,6 +197,11 @@ void KonqFrameStatusBar::hideStuff()
     repaint();
 }
 
+void KonqFrameStatusBar::setLinkedView( bool b )
+{
+  m_pLinkedViewCheckBox->setChecked( b );
+}
+
 void KonqFrameStatusBar::paintEvent(QPaintEvent* e)
 {
     static QPixmap green(green_xpm);
