@@ -154,7 +154,7 @@ void KBrowser::openURL( const char *_url, bool _reload, int _xoffset, int _yoffs
     emit error( ERR_MALFORMED_URL, _url );
     return;
   }
-  
+
   if ( m_jobId )
   {
     KIOJob* job = KIOJob::find( m_jobId );
