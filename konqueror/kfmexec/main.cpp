@@ -34,6 +34,7 @@
 #include <klocale.h>
 #include <kcmdlineargs.h>
 #include <kaboutdata.h>
+#include <kstartupinfo.h>
 
 #include <qlist.h>
 #include <qstring.h>
@@ -177,7 +178,14 @@ void KFMExec::slotRunApp()
 
     kdDebug() << "EXEC '" << command << "'" << endl;
 
+    // propagate the startup indentification to the started process
+    KStartupInfoId id;
+    id.initId( kapp->startupId());
+    id.setupStartupEnv();
+
     system( QFile::encodeName(command) );
+
+    KStartupInfo::resetStartupEnv();
 
     kdDebug() << "EXEC done" << endl;
 
