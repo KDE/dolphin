@@ -113,7 +113,7 @@ void addBackEnd::doRollBack()
 		dirEntries.remove("..");
 		for ( QStringList::Iterator it = dirEntries.begin(); it != dirEntries.end(); ++it ) {
 			if ((*it)!="add")
-				 KIO::NetAccess::del(loc+(*it));
+				 KIO::NetAccess::del(KURL( loc+(*it) ));
 		}
 		emit initialCopyNeeded();
 	}
@@ -1019,7 +1019,7 @@ KParts::URLArgs args;
 	args.postData = formData;
 	args.setDoPost(QCString(action).lower() == "post");
 	// boundary?
-	emit getExtension()->openURLRequest(url, args);
+	emit getExtension()->openURLRequest(KURL( url ), args);
 }
 
 void Sidebar_Widget::openURLRequest( const KURL &url, const KParts::URLArgs &args)
