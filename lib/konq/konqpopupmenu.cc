@@ -188,6 +188,7 @@ KonqPopupMenu::KonqPopupMenu( const KonqFileItemList &items,
         addAction( "back" );
         addAction( "forward" );
 	addAction( "reload" );
+        addGroup( "reload" );
         addSeparator();
       }
 
@@ -317,7 +318,7 @@ KonqPopupMenu::KonqPopupMenu( const KonqFileItemList &items,
       }
 
       addGroup( "preview" );
-      
+
       // KServiceTypeProfile::OfferList::Iterator it = offers.begin();
       KTrader::OfferList::ConstIterator it = offers.begin();
       for( ; it != offers.end(); it++ )
@@ -597,7 +598,7 @@ void KonqPopupMenu::addGroup( const QString &grp )
   QDomElement group = m_doc.createElement( "definegroup" );
   m_menuElement.appendChild( group );
   group.setAttribute( "name", grp );
-} 
+}
 
 void KonqPopupMenu::prepareXMLGUIStuff()
 {
