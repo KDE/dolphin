@@ -139,6 +139,51 @@ void KQuery::slotListEntries( KIO::Job *, const KIO::UDSEntryList & list)
 	  continue;
       }
 
+    // match datas in metainfo...
+    if (!m_metainfo.isEmpty())
+      {
+	matchingLineNumber=0;
+		bool foundmeta=false;
+
+	QString filename = file->url().path();
+	if(filename.startsWith("/dev/"))
+	  continue;
+	
+	KFileMetaInfo metadatas(filename);
+	KFileMetaInfoItem metaitem;
+	QStringList metakeys;
+	QString strmetakeycontent;
+
+	if(metadatas.isEmpty())
+		continue;
+
+	if(m_metainfokey.isEmpty())
+  {
+     metakeys=metadatas.supportedKeys();
+    for ( QStringList::Iterator it = metakeys.begin(); it != metakeys.end(); ++it ) {
+        metaitem=metadatas.item(*it);
+        strmetakeycontent=metaitem.string();
+        if(strmetakeycontent.find(m_metainfo)!=-1)
+        {
+          foundmeta=true;
+          break;
+        }
+    }
+   }
+   else
+   {
+      metaitem=metadatas.item(m_metainfokey);
+      strmetakeycontent=metaitem.string();
+      if(strmetakeycontent.find(m_metainfo)!=-1)
+      {
+        foundmeta=true;
+        break;
+      }
+   }
+   if(!foundmeta)
+   	continue;
+	}
+
     // match contents...
     if (!m_context.isEmpty())
       {
@@ -180,51 +225,13 @@ void KQuery::slotListEntries( KIO::Job *, const KIO::UDSEntryList & list)
 //            kapp->processEvents();
 	  }
 
-    // match datas in metainfo...
-    if (!m_metainfo.isEmpty())
-      {
-	bool found = false;
-	matchingLineNumber=0;
-
-	QString filename = file->url().path();
-	if(filename.startsWith("/dev/"))
-	  continue;
-
-	KFileMetaInfo metadatas(filename);
-	KFileMetaInfoItem metaitem;
-	QStringList metakeys;
-	QString strmetakeycontent;
-
-	if(m_metainfokey.isEmpty())
-  {
-     metakeys=metadatas.supportedKeys();
-    for ( QStringList::Iterator it = metakeys.begin(); it != metakeys.end(); ++it ) {
-        metaitem=metadatas.item(*it);
-        strmetakeycontent=metaitem.string();
-        if(strmetakeycontent.find(m_metainfo)!=-1)
-        {
-          found=true;
-          break;
-        }
-    }
-   }
-   else
-   {
-      metaitem=metadatas.item(m_metainfokey);
-      strmetakeycontent=metaitem.string();
-      if(strmetakeycontent.find(m_metainfo)!=-1)
-      {
-        found=true;
-        break;
-      }
-   }
-	}
 
 	if (!found)
 	  continue;
       }
     emit addFile(file,matchingLine);
   }
+
   delete file;
 }
 
