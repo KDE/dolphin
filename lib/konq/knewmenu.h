@@ -79,7 +79,7 @@ public slots:
     /*
      * Called when the templates has been copied
      */
-    void slotCopyFinished( int id );
+    //    void slotCopyFinished( int id );
      
 private:
 

@@ -19,13 +19,14 @@
 
 /*
  * kpropsdlg.cpp
- * View/Edit Properties of files (later : URLs)
+ * View/Edit Properties of files, locally or remotely
  *
  * some FilePermissionsPropsPage-changes by 
  *  Henner Zeller <zeller@think.de>
  * some layout management by 
  *  Bertrand Leconte <B.Leconte@mail.dotcom.fr>
- * the rest of the layout management, bug fixes, adaptation to libkio by
+ * the rest of the layout management, bug fixes, adaptation to libkio,
+ * template feature by
  *  David Faure <faure@kde.org>
  */
 
@@ -87,7 +88,20 @@ PropertiesDialog::PropertiesDialog( const QString& _url, mode_t _mode ) :
 {
   // Create a KFileItem from the information we have
   KURL u( _url );
-  m_item = new KFileItem( "unknown", _mode, u );
+  m_item = new KFileItem( "unknown" /*whatever*/, _mode, u );
+  m_items.append( m_item );
+  init();
+}
+
+PropertiesDialog::PropertiesDialog( const QString& _tempUrl, const QString& 
+                                    _currentDir, const QString& _defaultName )
+ : m_bMustDestroyItem( true ), m_defaultName( _defaultName ), m_currentDir( _currentDir )
+{
+  if ( m_currentDir.right(1) != "/" )
+    m_currentDir.append( "/" );
+  // Create the KFileItem for the _template_ file, in order to read from it.
+  KURL u( _tempUrl );
+  m_item = new KFileItem( "unknown" /*whatever*/, -1, u );
   m_items.append( m_item );
   init();
 }
@@ -136,7 +150,11 @@ bool PropertiesDialog::canDisplay( KFileItemList _items )
 void PropertiesDialog::slotApply()
 {
   PropsPage *page;
-  for ( page = pageList.last(); page != 0L; page = pageList.prev() )
+  // Apply the changes in the _normal_ order of the tabs now
+  // This is because in case of renaming a file, FilePropsPage will call
+  // PropertiesDialog::rename, so other tab will be ok with whatever order
+  // BUT for file copied from templates, we need to do the renaming first !
+  for ( page = pageList.first(); page != 0L; page = pageList.next() )
     page->applyChanges();
 
   emit propertiesClosed();
@@ -208,6 +226,26 @@ void PropertiesDialog::insertPages()
     }
 }
 
+void PropertiesDialog::rename( const QString& _name )
+{
+    KURL newUrl;
+    // if we're creating from a template : use currentdir
+    if ( !m_currentDir.isEmpty() )
+      newUrl = m_currentDir + _name;
+    else
+    {
+      QString tmpurl = m_item->url().url();
+      if ( tmpurl.at(tmpurl.length() - 1) == '/') 
+	  // It's a directory, so strip the trailing slash first
+	  tmpurl.truncate( tmpurl.length() - 1);
+      newUrl = tmpurl;
+      newUrl.setFileName( _name );
+    }
+    m_items.remove( m_item );
+    delete m_item;
+    m_item = new KFileItem( "unknown" /*whatever*/, -1, newUrl );
+    m_items.append( m_item );
+}
 
 PropsPage::PropsPage( PropertiesDialog *_props ) : QWidget( _props->tabDialog(), 0L )
 {
@@ -238,30 +276,35 @@ bool PropsPage::isDesktopFile( KFileItem * _item )
 
 FilePropsPage::FilePropsPage( PropertiesDialog *_props ) : PropsPage( _props )
 {
-    // Extract the directories name without path
-    QString filename = properties->kurl().filename();
-    /*
-    QString tmp2 = properties->kurl().path();
-    if ( tmp2.at(tmp2.length() - 1) == '/' )
-	tmp2.truncate( tmp2.length() - 1 );
-    int i = tmp2.findRev( "/" );
-    // Is is not the root directory ?
-    if ( i != -1 )
-	filename = tmp2.mid( i + 1, tmp2.length() );
+    m_bFromTemplate = false;
+    // Extract the file name only
+    QString filename = properties->defaultName();
+    if ( filename.isEmpty() ) // no template
+      filename = properties->kurl().filename();
     else
-	filename = '/';
-    */
+      m_bFromTemplate = true;
     
     // Make it human-readable (%2F => '/', ...)
     filename = KFileItem::decodeFileName( filename );
 
-    QString tmp = properties->kurl().path( 1 );
     bool isTrash = false;
-    // is it the trash bin ?
-    if ( properties->kurl().isLocalFile() && tmp == UserPaths::trashPath())
-      isTrash = true;
+    QString path;
+    if ( !m_bFromTemplate )
+    {
+      QString tmp = properties->kurl().path( 1 );
+      // is it the trash bin ?
+      if ( properties->kurl().isLocalFile() && tmp == UserPaths::trashPath())
+        isTrash = true;
     
-    QString path = properties->kurl().path();
+      // Extract the full name, but without file: for local files
+      if ( properties->kurl().isLocalFile() )
+        path = properties->kurl().path();
+      else
+        path = properties->kurl().url();
+    }
+    else
+      path = properties->currentDir() + properties->defaultName();
+
     QLabel *l;
  
     layout = new QBoxLayout(this, QBoxLayout::TopToBottom, SEPARATION); 
@@ -345,27 +388,12 @@ FilePropsPage::FilePropsPage( PropertiesDialog *_props ) : PropsPage( _props )
     l->setFixedSize(l->sizeHint());
     layout->addWidget(l, 0, AlignLeft);
 
-    /*
-    char buffer[1024];
-    struct tm *t = localtime( &lbuff.st_atime );
-    sprintf( buffer, "%s: %02i:%02i %02i.%02i.%04i", 
-	     (const char*)i18n("Last Access"),
-	     t->tm_hour,t->tm_min,
-	     t->tm_mday,t->tm_mon + 1,t->tm_year + 1900 );             
-    */
     QString buffer = i18n("Last Access: %1").arg(
       properties->item()->time( UDS_ACCESS_TIME ) );
     l = new QLabel( buffer, this );
     l->setFixedSize(l->sizeHint());
     layout->addWidget(l, 0, AlignLeft);
 
-    /*
-    t = localtime( &lbuff.st_mtime );
-    sprintf( buffer, "%s: %02i:%02i %02i.%02i.%04i", 
-	     (const char*)i18n("Last Modified"),
-	     t->tm_hour,t->tm_min,
-	     t->tm_mday,t->tm_mon + 1,t->tm_year + 1900 );          
-    */
     buffer = i18n("Last Modified: %1").arg(
       properties->item()->time( UDS_MODIFICATION_TIME ) );
     l = new QLabel( buffer, this );
@@ -378,40 +406,33 @@ FilePropsPage::FilePropsPage( PropertiesDialog *_props ) : PropsPage( _props )
 
 bool FilePropsPage::supports( KFileItemList /*_items*/ )
 {
-  return true; /* was _kurl.isLocalFile(); */
+  return true;
 }
 
 void FilePropsPage::applyChanges()
 {
-    QString path = properties->kurl().path();
+    QString oldpath = properties->kurl().path();
     QString fname = properties->kurl().filename();
     QString n = KFileItem::encodeFileName( name->text() );
 
     // Do we need to rename the file ?
-    if ( oldName != n )
+    if ( oldName != n || m_bFromTemplate ) // true for any from-template file
     {
-	QString s = path;
-	if ( s.at(s.length() - 1) == '/') 
-	  // It's a directory, so strip the trailing slash first
-	  s.truncate( s.length() - 1);
+        // Tell properties. Warning, this changes the result of properties->kurl() !
+        properties->rename( n );
 
-	int i = s.findRev( "/" );
-	// Should never happen
-	if ( i == -1 )
-	    return;
-	s.truncate( i );
-	s += '/';
-	s += n;
-	if ( path.at(path.length() - 1) == '/') 
-	  // It's a directory, so strip the trailing slash (in case it's a
-          // symlink)
-	  path.truncate( path.length() - 1);
-	if ( rename( path, s ) != 0 ) {
+        // Don't remove the template !!
+        if ( !m_bFromTemplate ) 
+        {
+          if ( oldpath.at(oldpath.length() - 1) == '/') 
+            // It's a directory, so strip the trailing slash (in case it's a symlink)
+            oldpath.truncate( oldpath.length() - 1);
+          if ( rename( oldpath, properties->kurl().path() ) != 0 ) {
             QString tmp;
             tmp.sprintf(i18n("Could not rename the file or directory\n%s\n"), strerror(errno));
             KMessageBox::sorry( this, tmp);
+          }
         }
-	// properties->emitPropertiesChanged( n );
     }
 }
 
@@ -934,6 +955,7 @@ void ExecPropsPage::applyChanges()
 
     KConfig config( path );
     config.setDesktopGroup();
+    config.writeEntry( "Type", "Application");
     config.writeEntry( "Exec", execEdit->text() );
     config.writeEntry( "Icon", iconBox->icon() );
     config.writeEntry( "SwallowExec", swallowExecEdit->text() );
@@ -991,7 +1013,7 @@ URLPropsPage::URLPropsPage( PropertiesDialog *_props ) : PropsPage( _props )
 
     KConfig config( path );
     config.setDesktopGroup();
-   URLStr = config.readEntry(  "URL" );
+    URLStr = config.readEntry(  "URL" );
     iconStr = config.readEntry( "Icon" );
 
     if ( !URLStr.isNull() )
@@ -1009,13 +1031,17 @@ URLPropsPage::URLPropsPage( PropertiesDialog *_props ) : PropsPage( _props )
 bool URLPropsPage::supports( KFileItemList _items )
 {
   KFileItem * item = _items.first();
+  debug("URLPropsPage : checking for %s",item->url().url().latin1());
   // check if desktop file
   if ( !PropsPage::isDesktopFile( item ) )
     return false;
+  debug("URLPropsPage : %s is a desktop file",item->url().url().latin1());
 
   // open file and check type
   KDesktopFile config( item->url().path(), true /* readonly */ );
-  return config.hasURLType();
+  debug("URLPropsPage : %s opened",item->url().path().latin1());
+  debug("URLPropsPage : hasLinkType : %d", config.hasLinkType());
+  return config.hasLinkType();
 }
 
 void URLPropsPage::applyChanges()
@@ -1030,8 +1056,10 @@ void URLPropsPage::applyChanges()
     }
     f.close();
 
+    debug("URLPropsPage : creating %s",path.latin1());
     KConfig config( path );
     config.setDesktopGroup();
+    config.writeEntry( "Type", "URL");
     config.writeEntry( "URL", URLEdit->text() );
     config.writeEntry( "Icon", iconBox->icon() );
     config.writeEntry( "MiniIcon", iconBox->icon() );
@@ -1162,20 +1190,6 @@ void DirPropsPage::applyChanges()
     config.writeEntry( "MiniIcon", sIcon );
     
     config.sync();
-
-    // Send a notify to the parent directory since the
-    // icon may have changed
-
-    tmp = properties->kurl().url();
-    
-    if ( tmp.at( tmp.length() - 1) == '/' )
-	tmp.truncate( tmp.length() - 1 );
-    
-    i = tmp.findRev( "/" );
-    // Should never happen
-    if ( i == -1 )
-	return;
-    tmp.truncate ( i + 1 );
 }
 
 void DirPropsPage::showSettings( QString filename )
@@ -1586,6 +1600,7 @@ void ApplicationPropsPage::applyChanges()
     f.close(); // kalle
     KConfig config( path ); // kalle
     config.setDesktopGroup();
+    config.writeEntry( "Type", "Application");
     config.writeEntry( "Comment", commentEdit->text(), true, false, true );
 
     QString tmp = binaryPatternEdit->text();
@@ -1605,17 +1620,6 @@ void ApplicationPropsPage::applyChanges()
     
     config.sync();
     f.close();
-
-    /*
-    KMimeType::clearAll();
-    KMimeType::init();
-    if ( KRootWidget::getKRootWidget() )
-	KRootWidget::getKRootWidget()->update();
-
-    KfmGui *win;
-    for ( win = KfmGui::getWindowList().first(); win != 0L; win = KfmGui::getWindowList().next() )
-	win->updateView();
-    */
 }
 
 void ApplicationPropsPage::slotAddExtension()
@@ -1917,6 +1921,7 @@ void BindingPropsPage::applyChanges()
 
     KConfig config( path );
     config.setDesktopGroup();
+    config.writeEntry( "Type", "MimeType" );
     
     QString tmp = patternEdit->text();
     if ( tmp.length() > 1 )
@@ -2066,6 +2071,7 @@ void DevicePropsPage::applyChanges()
 
     KConfig config( path );
     config.setDesktopGroup();
+    config.writeEntry( "Type", "FSDev" );
     
     config.writeEntry( "Dev", device->text() );
     config.writeEntry( "MountPoint", mountpoint->text() );

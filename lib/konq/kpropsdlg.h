@@ -82,6 +82,21 @@ public:
    * @param _mode the mode, as returned by stat(). Don't set if unknown.
    */
   PropertiesDialog( const QString& _url, mode_t _mode = (mode_t) -1 );
+
+  /**
+   * Create a properties dialog for a new .desktop file (whose name is not known
+   * yet), based on a template. Special constructor for "File / New" in file-manager
+   * applications
+   * @param _templUrl template used for reading only
+   * @param _currentDir directory where the file will be written to
+   * @param _defaultName something to put in the name field, like mimetype.desktop
+   */
+  PropertiesDialog( const QString& _tempUrl, const QString& _currentDir,
+                    const QString& _defaultName );
+
+  /**
+   * This looks very much like a destructor :)
+   */
   ~PropertiesDialog();
   
   /**
@@ -96,6 +111,23 @@ public:
    * @return a pointer to the dialog
    */
   QTabDialog* tabDialog() { return tab; }
+  /**
+   * If we are building this dialog from a template, 
+   * @return the current directory
+   * QString::null means no template used
+   */
+  const QString& currentDir() const { return m_currentDir; }
+  /**
+   * If we are building this dialog from a template, 
+   * @return the default name (see 3rd constructor)
+   * QString::null means no template used
+   */
+  const QString& defaultName() const { return m_defaultName; }
+  /**
+   * #see FilePropsPage::applyChanges
+   * @param _name new filename, encoded.
+   */
+  void rename( const QString& _name );
   
 public slots:
   /**
@@ -113,7 +145,7 @@ signals:
 protected:
 
   /**
-   * Common initialization for both constructors
+   * Common initialization for all constructors
    */
   void init();
   /**
@@ -128,6 +160,10 @@ protected:
   KFileItem * m_item;
   KFileItemList m_items;
   bool m_bMustDestroyItem;
+
+  /** For templates */
+  QString m_defaultName;
+  QString m_currentDir;
   /**
    * List of all pages inserted ( first one first )
    */
@@ -212,6 +248,7 @@ protected:
 
   QBoxLayout *layout;
 
+  bool m_bFromTemplate;
   /**
    * The initial filename
    */

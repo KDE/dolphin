@@ -25,6 +25,7 @@
 #include <klineeditdlg.h>
 #include <kmessagebox.h>
 #include <kdebug.h>
+#include <kdesktopfile.h>
 
 #include <kio_interface.h>
 #include <kio_job.h>
@@ -179,11 +180,20 @@ void KNewMenu::slotNewFile( int _id )
       QString x = UserPaths::templatesPath() + sFile;
       if (!QFile::exists(x)) {
           kdebug(KDEBUG_WARN, 1203, "%s doesn't exist", x.ascii());
-          KMessageBox::sorry( 0L, i18n(
-              "Source file doesn't exist anymore ! \n"
-              "Use \"Rescan Bindings\" in View menu to update the menu"));
+          KMessageBox::sorry( 0L, i18n("Source file doesn't exist anymore !"));
           return;
       }
+      if ( KDesktopFile::isDesktopFile( x ) )
+      {
+          QStringList::Iterator it = popupFiles.begin();
+          for ( ; it != popupFiles.end(); ++it )
+          {
+              (void) new PropertiesDialog( x, *it, sFile );
+          }
+          return; // done, exit.
+      }
+
+        /*
       KSimpleConfig config(x, true);
       config.setDesktopGroup();
       if ( sName.right(8) == ".desktop" )
@@ -191,7 +201,9 @@ void KNewMenu::slotNewFile( int _id )
       if ( sName.right(7) == ".kdelnk" )
 	sName.truncate( sName.length() - 7 );
       sName = config.readEntry("Name", sName);
+        */
 
+      // Not a desktop file, nor a folder.
       text = i18n("New ") + sName + ":";
       value = sFile;
     } else {
@@ -244,12 +256,14 @@ void KNewMenu::slotNewFile( int _id )
 		//		Kfm::setUpDest(&u2);
 		// --- Sven's check if global apps/mime end ---
 
+                /*
                 if ( ( sFile.right(7) == ".kdelnk" ) ||
 		     ( sFile.right(8) == ".desktop" ) )
                 {
                   m_sDest.insert( job->id(), new QString( dest.url() ) );
                   connect(job, SIGNAL( finished( int ) ), this, SLOT( slotCopyFinished( int ) ) );
                 }
+                */
 
                 job->copy( src, dest.url() );
             }
@@ -257,6 +271,7 @@ void KNewMenu::slotNewFile( int _id )
     }
 }
 
+    /*
 void KNewMenu::slotCopyFinished( int id )
 {
   // Now open the properties dialog on the file, as it was a 
@@ -264,5 +279,6 @@ void KNewMenu::slotCopyFinished( int id )
   (void) new PropertiesDialog( m_sDest.find( id )->ascii() );
   m_sDest.remove( id );
 }
+*/
 
 #include "knewmenu.moc"
