@@ -222,11 +222,6 @@ public:
   bool isPassiveMode() const { return m_bPassiveMode; }
   void setPassiveMode( bool mode );
 
-  // True if locked to current view mode
-  // Toggle views and passive views are always locked.
-  bool isLockedViewMode() const { return m_bLockedViewMode || m_bToggleView || m_bPassiveMode; }
-  void setLockedViewMode( bool mode ) { m_bLockedViewMode = mode; } // currently unused
-
   // True if 'link' symbol set
   bool isLinkedView() const { return m_bLinkedView; }
   void setLinkedView( bool mode );
@@ -234,6 +229,10 @@ public:
   // True if toggle view
   void setToggleView( bool b ) { m_bToggleView = b; }
   bool isToggleView() const { return m_bToggleView; }
+
+  // True if locked to current view mode
+  // Toggle views and passive views are locked to their view mode.
+  bool isLockedViewMode() const { return m_bToggleView || m_bPassiveMode; }
 
   void setService( const KService::Ptr &s ) { m_service = s; }
   KService::Ptr service() { return m_service; }
@@ -345,7 +344,6 @@ protected:
   uint m_bLoading:1;
   uint m_bLockedLocation:1;
   uint m_bPassiveMode:1;
-  uint m_bLockedViewMode:1;
   uint m_bLinkedView:1;
   uint m_bToggleView:1;
   uint m_bLockHistory:1;

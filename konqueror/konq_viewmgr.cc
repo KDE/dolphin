@@ -699,10 +699,6 @@ void KonqViewManager::loadItem( KConfig &cfg, KonqFrameContainer *parent,
 
     QString serviceName = cfg.readEntry( QString::fromLatin1( "ServiceName" ).prepend( prefix ) );
 
-    bool passiveMode = cfg.readBoolEntry( QString::fromLatin1( "PassiveMode" ).prepend( prefix ), false );
-    bool linkedView = cfg.readBoolEntry( QString::fromLatin1( "LinkedView" ).prepend( prefix ), false );
-    bool toggleView = cfg.readBoolEntry( QString::fromLatin1( "ToggleView" ).prepend( prefix ), false );
-
     KService::Ptr service;
     KTrader::OfferList partServiceOffers, appServiceOffers;
 
@@ -713,14 +709,14 @@ void KonqViewManager::loadItem( KConfig &cfg, KonqFrameContainer *parent,
       return; //ugh..
     }
 
+    bool passiveMode = cfg.readBoolEntry( QString::fromLatin1( "PassiveMode" ).prepend( prefix ), false );
+
     //kdDebug(1202) << "Creating View Stuff" << endl;
     KonqView *childView = setupView( parent, viewFactory, service, partServiceOffers, appServiceOffers, serviceType, passiveMode );
 
-    childView->setLinkedView( linkedView );
-    childView->setToggleView( toggleView );
-
-    //QCheckBox *checkBox = childView->frame()->statusbar()->passiveModeCheckBox();
-    //checkBox->setChecked( passiveMode );
+    childView->setLinkedView( cfg.readBoolEntry( QString::fromLatin1( "LinkedView" ).prepend( prefix ), false ) );
+    childView->setLockedLocation( cfg.readBoolEntry( QString::fromLatin1( "LockedLocation" ).prepend( prefix ), false ) );
+    childView->setToggleView( cfg.readBoolEntry( QString::fromLatin1( "ToggleView" ).prepend( prefix ), false ) );
 
     QString key = QString::fromLatin1( "URL" ).prepend( prefix );
     if ( openURL )

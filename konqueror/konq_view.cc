@@ -74,7 +74,6 @@ KonqView::KonqView( KonqViewFactory &viewFactory,
   m_lstHistory.setAutoDelete( true );
   m_bLoading = false;
   m_bPassiveMode = passiveMode;
-  m_bLockedViewMode = false;
   m_bLockedLocation = false;
   m_bLinkedView = false;
   m_bAborted = false;

@@ -1,5 +1,9 @@
 2000-12-12  David Faure  <faure@kde.org>
 
+	* konq_viewmgr.cc: Fixed saving of profiles containing views
+	"locked to their current location". The attribute was missing from 
+	the profile.
+
 	* konq_mainwindow.cc: Save and restore the preferred service in for 
 	each toolbar 'viewmode' button.
 
