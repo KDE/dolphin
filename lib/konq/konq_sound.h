@@ -1,5 +1,5 @@
 /* This file is part of the KDE Project
-   Copyright (c) 2001 Malte Starostik <malte.starostik@t-online.de>
+   Copyright (c) 2001 Malte Starostik <malte@kde.org>
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Library General Public
