@@ -816,10 +816,27 @@ void KonqBaseListViewWidget::slotReturnPressed( QListViewItem *_item )
     if (KonqFMSettings::settings()->alwaysNewWin() && fileItem->mode() & S_IFDIR) {
 	fileItem->run();
     } else {
-        KParts::URLArgs args;
-        args.serviceType = fileItem->mimetype();
-        emitOpenURLRequest( fileItem->url(), args );
+        // We want to emit openURLRequest, but not right now, because
+        // the listview is going to emit other signals (mouse release).
+        // Let's not destroy it while it isn't finished emitting.
+        openURLRequestFileItem = fileItem;
+        QTimer::singleShot( 0, this, SLOT(slotOpenURLRequest()) );
     }
+}
+
+void KonqBaseListViewWidget::slotOpenURLRequest()
+{
+  if ( !openURLRequestFileItem )
+    // This shouldn't happen. Well, it can, if one double-clicks on an icon
+    // or for any other reason, two singleshots get fired before we get here.
+    kdWarning(1202) << "Null openURLRequestFileItem in KonqBaseListViewWidget !" << endl;
+  else
+  {
+    KParts::URLArgs args;
+    args.serviceType = openURLRequestFileItem->mimetype();
+    emit m_pBrowserView->extension()->openURLRequest( openURLRequestFileItem->url(), args );
+    openURLRequestFileItem = 0L;
+  }
 }
 
 /*void KonqBaseListViewWidget::slotReturnPressed( QListViewItem *_item )

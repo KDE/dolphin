@@ -132,6 +132,8 @@ class KonqBaseListViewWidget : public KListView
 
       virtual void slotCurrentChanged( QListViewItem* _item ) { slotOnItem( _item ); }
 
+      void slotOpenURLRequest();
+
       // slots connected to the directory lister
       virtual void slotStarted( const QString & );
       virtual void slotCompleted();
@@ -226,6 +228,7 @@ class KonqBaseListViewWidget : public KListView
       //maybe I can do some speedup...
       //ColumnInfo* orderOfColumns[NumberOfAtoms];
 
+      KonqFileItem * openURLRequestFileItem;
       KonqBaseListViewItem* m_dragOverItem;
       QStringList m_lstDropFormats;
 
