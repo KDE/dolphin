@@ -52,16 +52,10 @@ void KonqListViewItem::updateContents()
    setDisabled( m_bDisabled );
 
    // Set the text of each column
-
-   QString defaultType;
-   if (S_ISDIR(m_fileitem->mode()))
-   {
-      sortChar='0';
-      defaultType=i18n("Directory");
-   } else
-       defaultType=i18n("File");
-
    setText(0,m_fileitem->text());
+
+   if (S_ISDIR(m_fileitem->mode()))
+       sortChar='0';
    //now we have the first column, so let's do the rest
 
    for (unsigned int i=0; i<KonqBaseListViewWidget::NumberOfAtoms; i++)
@@ -78,12 +72,10 @@ void KonqListViewItem::updateContents()
             setText(tmpColumn->displayInColumn,m_fileitem->group());
             break;
          case KIO::UDS_FILE_TYPE:
-            setText(tmpColumn->displayInColumn,
-                    m_fileitem->isMimeTypeKnown() ? m_fileitem->mimeComment() : defaultType);
+            setText(tmpColumn->displayInColumn,m_fileitem->mimeComment());
             break;
          case KIO::UDS_MIME_TYPE:
-            setText(tmpColumn->displayInColumn,
-                    m_fileitem->isMimeTypeKnown() ? m_fileitem->mimetype() : defaultType);
+            setText(tmpColumn->displayInColumn,m_fileitem->mimetype());
             break;
          case KIO::UDS_URL:
             setText(tmpColumn->displayInColumn,m_fileitem->url().prettyURL());
