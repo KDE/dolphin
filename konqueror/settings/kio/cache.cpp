@@ -247,7 +247,7 @@ void KCacheConfigDialog::save()
 
     KSaveIOConfig::updateRunningIOSlaves (this);
 
-    emit changed( false );
+    setChanged( false );
 }
 
 void KCacheConfigDialog::defaults()
@@ -256,7 +256,7 @@ void KCacheConfigDialog::defaults()
   rb_verify->setChecked( true );
   sb_max_cache_size->setValue( DEFAULT_MAX_CACHE_SIZE );
 
-  emit changed( true );
+  setChanged( true );
 }
 
 QString KCacheConfigDialog::quickHelp() const

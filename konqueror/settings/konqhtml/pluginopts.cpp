@@ -237,7 +237,7 @@ QString KPluginOptions::quickHelp() const
 
 void KPluginOptions::slotChanged()
 {
-    emit changed(true);
+    setChanged(true);
 }
 
 void KPluginOptions::slotTogglePluginsEnabled() {

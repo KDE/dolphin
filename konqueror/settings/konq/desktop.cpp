@@ -160,7 +160,7 @@ void KDesktopConfig::load()
 
   for(int i = 1; i <= maxDesktops; i++)
     _nameInput[i-1]->setEnabled(i <= n);
-  emit changed(false);
+  setChanged(false);
 
   KConfig *config = new KConfig("kdesktoprc", false, false);
   config->setGroup("Mouse Buttons");
@@ -208,7 +208,7 @@ void KDesktopConfig::save()
       appname.sprintf("kdesktop-screen-%d", konq_screen_number);
   kapp->dcopClient()->send( appname, "KDesktopIface", "configure()", data );
 
-  emit changed(false);
+  setChanged(false);
 }
 
 void KDesktopConfig::defaults()
@@ -224,7 +224,7 @@ void KDesktopConfig::defaults()
 
   _wheelOption->setChecked(false);
 
-  emit changed(false);
+  setChanged(false);
 }
 
 QString KDesktopConfig::quickHelp() const
@@ -240,10 +240,10 @@ void KDesktopConfig::slotValueChanged(int n)
     if(i<n && _nameInput[i]->text().isEmpty())
       _nameInput[i]->setText(i18n("Desktop %1").arg(i+1));
   }
-  emit changed(true);
+  setChanged(true);
 }
 
 void KDesktopConfig::slotOptionChanged()
 {
-  emit changed(true);
+  setChanged(true);
 }

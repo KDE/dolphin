@@ -282,7 +282,7 @@ void UserAgentDlg::save()
 
   KSaveIOConfig::updateRunningIOSlaves (this);
 
-  emit changed( false );
+  setChanged( false );
 }
 
 bool UserAgentDlg::handleDuplicate( const QString& site,
@@ -401,7 +401,7 @@ void UserAgentDlg::deleteAllPressed()
 
 void UserAgentDlg::changeSendUAString()
 {
-  emit changed ( true );
+  setChanged ( true );
 }
 
 void UserAgentDlg::changeSendUAString(bool enabled)

@@ -112,7 +112,7 @@ LanBrowser::LanBrowser(QWidget *parent)
 
 void LanBrowser::slotEmitChanged()
 {
-   emit changed(true);
+   setChanged(true);
 }
 
 void LanBrowser::load()

@@ -55,25 +55,25 @@ Config::Config( QWidget* parent_P, const char* )
 
 void Config::configChanged()
     {
-    emit changed( true );
+    setChanged( true );
     }
 
 void Config::load()
     {
     konqueror_widget->load();
-    emit changed( false );
+    setChanged( false );
     }
 
 void Config::save()
     {
     konqueror_widget->save();
-    emit changed( false );
+    setChanged( false );
     }
 
 void Config::defaults()
     {
     konqueror_widget->defaults();
-    emit changed( true );
+    setChanged( true );
     }
 
 QString Config::quickHelp() const
@@ -96,25 +96,25 @@ KonquerorConfig::KonquerorConfig( QWidget* parent_P, const char* )
 
 void KonquerorConfig::configChanged()
     {
-    emit changed( true );
+    setChanged( true );
     }
 
 void KonquerorConfig::load()
     {
     widget->load();
-    emit changed( false );
+    setChanged( false );
     }
 
 void KonquerorConfig::save()
     {
     widget->save();
-    emit changed( false );
+    setChanged( false );
     }
 
 void KonquerorConfig::defaults()
     {
     widget->defaults();
-    emit changed( true );
+    setChanged( true );
     }
 
 QString KonquerorConfig::quickHelp() const

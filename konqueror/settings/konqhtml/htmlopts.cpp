@@ -303,7 +303,7 @@ void KMiscHTMLOptions::save()
 void KMiscHTMLOptions::slotChanged()
 {
     m_pMaxFormCompletionItems->setEnabled( m_pFormCompletionCheckBox->isChecked() );
-    emit changed(true);
+    setChanged(true);
 }
 
 QString KMiscHTMLOptions::quickHelp() const

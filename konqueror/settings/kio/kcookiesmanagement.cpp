@@ -236,7 +236,7 @@ QString KCookiesManagement::quickHelp() const
 
 void KCookiesManagement::slotChanged()
 {
-  emit changed(true);
+  setChanged(true);
 }
 
 void KCookiesManagement::getDomains()

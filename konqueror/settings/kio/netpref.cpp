@@ -109,7 +109,7 @@ void KIOPreferences::save()
 
   KSaveIOConfig::updateRunningIOSlaves (this);
 
-  emit changed( false );
+  setChanged( false );
 }
 
 void KIOPreferences::defaults()
@@ -122,7 +122,7 @@ void KIOPreferences::defaults()
   cb_ftpEnablePasv->setChecked( true );
   cb_ftpMarkPartial->setChecked( true );
 
-  emit changed(true);
+  setChanged(true);
 }
 
 QString KIOPreferences::quickHelp() const

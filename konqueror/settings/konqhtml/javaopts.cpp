@@ -264,7 +264,7 @@ void KJavaOptions::save()
 
 void KJavaOptions::slotChanged()
 {
-    emit changed(true);
+    setChanged(true);
 }
 
 

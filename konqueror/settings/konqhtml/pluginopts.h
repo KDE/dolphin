@@ -115,7 +115,7 @@ private:
  protected slots:
   void progress(KProcIO *);
   void change() { change( true ); };
-  void change( bool c ) { emit changed(c); m_changed = c; };
+  void change( bool c ) { setChanged(c); m_changed = c; };
 
   void scan();
   void scanDone();

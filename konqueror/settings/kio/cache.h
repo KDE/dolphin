@@ -46,7 +46,7 @@ public:
     QString quickHelp() const;
 
 protected slots:
-  void configChanged() { emit changed( true ); };
+  void configChanged() { setChanged( true ); };
   void slotClearCache();
 
 private:

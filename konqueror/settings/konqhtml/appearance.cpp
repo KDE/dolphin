@@ -393,7 +393,7 @@ void KAppearanceOptions::save()
 
 void KAppearanceOptions::slotChanged()
 {
-  emit changed(true);
+  setChanged(true);
 }
 
 QString KAppearanceOptions::quickHelp() const

@@ -28,7 +28,7 @@ public:
 
 protected slots:
     void timeoutChanged(int) { configChanged(); }
-    void configChanged() { emit changed(true); }
+    void configChanged() { setChanged(true); }
 
 private:
     QVGroupBox* gb_Ftp;

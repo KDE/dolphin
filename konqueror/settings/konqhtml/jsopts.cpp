@@ -147,7 +147,7 @@ void KJavaScriptOptions::save()
 
 void KJavaScriptOptions::slotChanged()
 {
-  emit changed(true);
+  setChanged(true);
 }
 
 void KJavaScriptOptions::slotChangeJSEnabled() {

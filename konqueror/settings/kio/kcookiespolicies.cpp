@@ -140,7 +140,7 @@ KCookiesPolicies::~KCookiesPolicies()
 
 void KCookiesPolicies::emitChanged ()
 {
-    emit changed ( true );
+    setChanged ( true );
 }
 
 void KCookiesPolicies::cookiesEnabled( bool enable )
@@ -475,7 +475,7 @@ void KCookiesPolicies::save()
 
   KSaveIOConfig::updateRunningIOSlaves (this);
 
-  emit changed( false );
+  setChanged( false );
 }
 
 

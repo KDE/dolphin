@@ -73,7 +73,7 @@ KSocksConfig::~KSocksConfig()
 
 void KSocksConfig::configChanged()
 {
-    emit changed(true);
+    setChanged(true);
 }
 
 void KSocksConfig::enableChanged()
@@ -83,7 +83,7 @@ void KSocksConfig::enableChanged()
                                 "started applications."),
                            i18n("SOCKS Support"),
                            "SOCKSdontshowagain");
-  emit changed(true);
+  setChanged(true);
 }
 
 
@@ -96,13 +96,13 @@ void KSocksConfig::methodChanged(int id)
     base->_c_customLabel->setEnabled(false);
     base->_c_customPath->setEnabled(false);
   }
-  emit changed(true);
+  setChanged(true);
 }
 
 
 void KSocksConfig::customPathChanged(const QString&)
 {
-  emit changed(true);
+  setChanged(true);
 }
 
 
@@ -133,7 +133,7 @@ void KSocksConfig::chooseCustomLib(KURLRequester * url)
 /*  QString newFile = KFileDialog::getOpenFileName();
   if (newFile.length() > 0) {
     base->_c_customPath->setURL(newFile);
-    emit changed(true);
+    setChanged(true);
   }*/
 }
 
@@ -154,7 +154,7 @@ void KSocksConfig::addThisLibrary(const QString& lib)
       base->_c_newPath->clear();
       base->_c_add->setEnabled(false);
       base->_c_newPath->setFocus();
-      emit changed(true);
+      setChanged(true);
    }
 }
 
@@ -172,7 +172,7 @@ void KSocksConfig::removeLibrary()
    delete thisitem;
    base->_c_libs->clearSelection();
    base->_c_remove->setEnabled(false);
-   emit changed(true);
+   setChanged(true);
 }
 
 
@@ -213,7 +213,7 @@ void KSocksConfig::load()
   base->_c_remove->setEnabled(false);
   base->_c_add->setEnabled(false);
   base->_c_newPath->clear();
-  emit changed(false);
+  setChanged(false);
 }
 
 void KSocksConfig::save()
@@ -233,7 +233,7 @@ void KSocksConfig::save()
 
   kapp->config()->sync();
 
-  emit changed(false);
+  setChanged(false);
 }
 
 void KSocksConfig::defaults()
@@ -252,7 +252,7 @@ void KSocksConfig::defaults()
   base->_c_newPath->clear();
   base->_c_add->setEnabled(false);
   base->_c_remove->setEnabled(false);
-  emit changed(true);
+  setChanged(true);
 }
 
 QString KSocksConfig::quickHelp() const
