@@ -13,6 +13,7 @@
 #include <kstddirs.h>
 #include <kdebug.h>
 #include <kaboutdata.h>
+#include <kglobal.h>
 
 #include <assert.h>
 
@@ -244,6 +245,9 @@ KonqAboutPage::KonqAboutPage( //KonqMainWindow *
     : KHTMLPart( parentWidget, widgetName, parent, name, BrowserViewGUI )
 {
     //m_mainWindow = mainWindow;
+    //QString myCharset = KGlobal::locale()->charset();
+    setCharset(KGlobal::locale()->charset(), true);
+    //kdDebug() << "Setting charset to" << myCharset << endl;
 }
 
 KonqAboutPage::~KonqAboutPage()
