@@ -34,6 +34,7 @@
 #include <kprotocolmanager.h>
 #include <kdebug.h>
 #include <konqsettings.h>
+#include <kglobal.h>
 
 #include <assert.h>
 #include <string.h>
@@ -553,7 +554,7 @@ void KfmTreeView::viewportMouseMoveEvent( QMouseEvent *_mouse )
   int x = _mouse->pos().x();
   int y = _mouse->pos().y();
 
-  if ( abs( x - m_pressedPos.x() ) > KonqFactory::instance()->dndEventDelay() || abs( y - m_pressedPos.y() ) > KonqFactory::instance()->dndEventDelay() )
+  if ( abs( x - m_pressedPos.x() ) > KGlobal::dndEventDelay() || abs( y - m_pressedPos.y() ) > KGlobal::dndEventDelay() )
   {
     // Collect all selected items
     QStrList urls;

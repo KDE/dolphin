@@ -45,6 +45,7 @@
 #include <konqdefaults.h>
 #include <kfileitem.h>
 #include <klibloader.h>
+#include <kglobal.h>
 
 class KonqTxtViewFactory : public KLibFactory
 {
@@ -158,7 +159,7 @@ KonqTxtView::KonqTxtView()
   
   m_jobId = 0;
   m_bFixedFont = false;
-  m_pEdit->setFont( KonqFactory::instance()->generalFont() );
+  m_pEdit->setFont( KGlobal::generalFont() );
   
   m_paSelectAll = new KAction( i18n( "Select &All" ), 0, this, SLOT( slotSelectAll() ), this );
   m_paEdit = new KAction( i18n( "Launch &Editor" ), QIconSet( BarIcon( "pencil", KonqFactory::instance() ) ), 0, this, SLOT( slotEdit() ), this );
@@ -339,9 +340,9 @@ void KonqTxtView::slotFixedFont()
 //    m_vMenuView->setItemChecked( m_idFixedFont, m_bFixedFont );
     
   if ( m_bFixedFont )
-    m_pEdit->setFont( KonqFactory::instance()->fixedFont() );
+    m_pEdit->setFont( KGlobal::fixedFont() );
   else
-    m_pEdit->setFont( KonqFactory::instance()->generalFont() );
+    m_pEdit->setFont( KGlobal::generalFont() );
 }
 
 void KonqTxtView::slotSearch()
