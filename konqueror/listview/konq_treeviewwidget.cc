@@ -26,7 +26,6 @@
 
 #include <kdebug.h>
 #include <konq_dirlister.h>
-#include <kdirwatch.h>
 #include <kglobal.h>
 #include <klocale.h>
 #include <stdlib.h>
@@ -80,17 +79,12 @@ void KonqTreeViewWidget::restoreState( QDataStream &stream )
 void KonqTreeViewWidget::addSubDir(const KURL & _url, KonqListViewDir* _dir)
 {
    m_mapSubDirs.insert( _url.url(), _dir );
-   if ( _url.isLocalFile() )
-      kdirwatch->addDir( _url.path(0) );
 }
 
 void KonqTreeViewWidget::removeSubDir( const KURL & _url )
 {
    m_lasttvd = 0L; // drop cache, to avoid segfaults
    m_mapSubDirs.remove( _url.url() );
-
-   if ( _url.isLocalFile() )
-      kdirwatch->removeDir( _url.path(0) );
 }
 
 void KonqTreeViewWidget::slotReturnPressed( QListViewItem *_item )
