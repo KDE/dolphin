@@ -876,12 +876,14 @@ void KonqMainWindow::slotDuplicateWindow()
 
 void KonqMainWindow::slotSendURL()
 {
-  kapp->invokeMailer("mailto:?body=" + KURL::encode_string(m_currentView->url().url()));
+  kapp->invokeMailer("mailto:?subject=" + m_currentView->caption() +
+                     "&body=" + KURL::encode_string(m_currentView->url().url()));
 }
 
 void KonqMainWindow::slotSendFile()
 {
-  kapp->invokeMailer("mailto:?attach=" + m_currentView->url().url());
+  kapp->invokeMailer("mailto:?subject=" + m_currentView->caption() +
+                     "&attach=" + m_currentView->url().url());
 }
 
 void KonqMainWindow::slotRun()
