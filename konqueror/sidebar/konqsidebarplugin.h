@@ -53,6 +53,7 @@ class KonqSidebarPlugin : public QObject
 		void requestURL(KURL&);
 		void started(KIO::Job *);
 		void completed();
+		void setIcon(const QString& icon);
 
 	public slots:
 	  void openURL(const KURL& url);

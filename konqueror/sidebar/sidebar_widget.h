@@ -33,11 +33,17 @@ class ButtonInfo: public QObject
 {
 	Q_OBJECT
 	public:
-	ButtonInfo(const QString& file_,class KDockWidget *dock_, const QString &url_,const QString &lib,
-		const QString &dispName_, const QString &iconName_,QObject *parent):
-		QObject(parent),file(file_),dock(dock_),URL(url_),libName(lib),displayName(dispName_),iconName(iconName_)
-		{copy=cut=paste=trash=del=shred=rename=false;}
-	~ButtonInfo(){;}
+	ButtonInfo(const QString& file_, class KDockWidget *dock_,
+			const QString &url_,const QString &lib,
+			const QString &dispName_, const QString &iconName_,
+			QObject *parent)
+		: QObject(parent), file(file_), dock(dock_), URL(url_),
+		libName(lib), displayName(dispName_), iconName(iconName_)
+		{
+		copy = cut = paste = trash = del = shred = rename =false;
+		}
+
+	~ButtonInfo() {}
 
 	class QString file;
 	class KDockWidget *dock;

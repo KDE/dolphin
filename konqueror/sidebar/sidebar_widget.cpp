@@ -67,23 +67,24 @@ void addBackEnd::aboutToShowAddMenu()
 	{
 		KSimpleConfig *confFile;
 
-		confFile = new KSimpleConfig(*it,true);
+		confFile = new KSimpleConfig(*it, true);
 		confFile->setGroup("Desktop Entry");
 		QString icon = confFile->readEntry("Icon","");
 		if (!icon.isEmpty())
 		{
-			menu->insertItem(SmallIcon(icon),confFile->readEntry("Name",""),i);
+			menu->insertItem(SmallIcon(icon),
+					 confFile->readEntry("Name",""), i);
 		} else {
-			menu->insertItem(confFile->readEntry("Name",""),i);
+			menu->insertItem(confFile->readEntry("Name",""), i);
 		}
 		libNames.resize(libNames.size()+1);
-		libNames.insert(libNames.count(),new QString(confFile->readEntry("X-KDE-KonqSidebarAddModule","")));
+		libNames.insert(libNames.count(), new QString(confFile->readEntry("X-KDE-KonqSidebarAddModule","")));
 		libParam.resize(libParam.size()+1);
-		libParam.insert(libParam.count(),new QString(confFile->readEntry("X-KDE-KonqSidebarAddParam","")));
+		libParam.insert(libParam.count(), new QString(confFile->readEntry("X-KDE-KonqSidebarAddParam","")));
 		delete confFile;
 	}
 	menu->insertSeparator();
-	menu->insertItem(i18n("Rollback to System Default"),i);
+	menu->insertItem(i18n("Rollback to System Default"), i);
 }
 
 
@@ -658,7 +659,6 @@ bool Sidebar_Widget::openURL(const class KURL &url)
 
 bool Sidebar_Widget::addButton(const QString &desktoppath,int pos)
 {
-
 	int lastbtn = Buttons.count();
 	Buttons.resize(Buttons.size()+1);
 
@@ -677,11 +677,13 @@ bool Sidebar_Widget::addButton(const QString &desktoppath,int pos)
 
         delete confFile;
 
-	if (pos==-1)
+	if (pos == -1)
 	{
-	  	ButtonBar->appendTab(SmallIcon(icon), lastbtn,name);
-		/*int id=*/Buttons.insert(lastbtn,new ButtonInfo(desktoppath,0,url,lib,name,icon,this));
-		KMultiTabBarTab *tab=ButtonBar->getTab(lastbtn);
+	  	ButtonBar->appendTab(SmallIcon(icon), lastbtn, name);
+		ButtonInfo *bi = new ButtonInfo(desktoppath, 0, url, lib, name,
+						icon, this);
+		/*int id=*/Buttons.insert(lastbtn, bi);
+		KMultiTabBarTab *tab = ButtonBar->getTab(lastbtn);
 		tab->installEventFilter(this);
 		connect(tab,SIGNAL(clicked(int)),this,SLOT(showHidePage(int)));
 
@@ -829,6 +831,11 @@ void Sidebar_Widget::showHidePage(int page)
 			}
 
 			ButtonBar->setTab(page,true);
+
+			connect(info->module,
+				SIGNAL(setIcon(const QString&)),
+				ButtonBar->getTab(page),
+				SLOT(setIcon(const QString&)));
 
 			if (singleWidgetMode)
 			{
