@@ -307,6 +307,8 @@ KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const 
              this, SLOT( slotMouseButtonPressed(int, QIconViewItem*, const QPoint&)) );
     connect( m_pIconView, SIGNAL( mouseButtonClicked(int, QIconViewItem*, const QPoint&)),
              this, SLOT( slotMouseButtonClicked(int, QIconViewItem*, const QPoint&)) );
+    connect( m_pIconView, SIGNAL( contextMenuRequested(QIconViewItem*, const QPoint&)),
+             this, SLOT( slotContextMenuRequested(QIconViewItem*, const QPoint&)) );
 
     // Create the directory lister
     m_dirLister = new KDirLister( true );
@@ -659,14 +661,16 @@ void KonqKfmIconView::slotReturnPressed( QIconViewItem *item )
     }
 }
 
-void KonqKfmIconView::slotMouseButtonPressed(int _button, QIconViewItem* _item, const QPoint& _global)
+void KonqKfmIconView::slotContextMenuRequested(QIconViewItem* _item, const QPoint& _global)
+{
+    (static_cast<KFileIVI*>(_item))->setSelected( true, true /* don't touch other items */ );
+    emit m_extension->popupMenu( _global, m_pIconView->selectedFileItems() );
+}
+
+void KonqKfmIconView::slotMouseButtonPressed(int _button, QIconViewItem* _item, const QPoint&)
 {
     if ( _button == RightButton )
-        if(_item) {
-            (static_cast<KFileIVI*>(_item))->setSelected( true, true /* don't touch other items */ );
-            emit m_extension->popupMenu( _global, m_pIconView->selectedFileItems() );
-        }
-        else
+        if(!_item)
         {
             // Right click on viewport
             KFileItem * item = m_dirLister->rootItem();

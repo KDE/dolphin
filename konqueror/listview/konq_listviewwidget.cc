@@ -123,8 +123,8 @@ KonqBaseListViewWidget::KonqBaseListViewWidget( KonqListView *parent, QWidget *p
             this, SLOT(slotItemRenamed(QListViewItem*, const QString &, int)));
    connect( this, SIGNAL(onViewport()),
             this, SLOT(slotOnViewport()));
-   connect( this, SIGNAL(menuShortCutPressed (KListView* , QListViewItem* )),
-            this, SLOT(slotPopupMenu(KListView*,QListViewItem*)));
+   connect( this, SIGNAL(contextMenuRequested(QListViewItem*, const QPoint&, int)),
+            this, SLOT(slotPopupMenu(QListViewItem*, const QPoint&, int)));
    connect( this, SIGNAL(selectionChanged()),
             this, SLOT(updateSelectedFilesInfo()));
 
@@ -789,16 +789,10 @@ void KonqBaseListViewWidget::slotReturnPressed( QListViewItem *_item )
     }
 }
 
-void KonqBaseListViewWidget::slotRightButtonPressed( QListViewItem *, const QPoint &_global, int )
-{
-   kdDebug(1202) << "KonqBaseListViewWidget::slotRightButtonPressed" << endl;
-   popupMenu( _global );
-}
-
-void KonqBaseListViewWidget::slotPopupMenu(KListView*, QListViewItem * )
+void KonqBaseListViewWidget::slotPopupMenu(QListViewItem*, const QPoint &point, int )
 {
    kdDebug() << "KonqBaseListViewWidget::slotPopupMenu" << endl;
-   popupMenu( QCursor::pos(),true );
+   popupMenu( point,true );
 }
 
 void KonqBaseListViewWidget::popupMenu( const QPoint& _global, bool alwaysForSelectedFiles )

@@ -161,8 +161,6 @@ class KonqBaseListViewWidget : public KListView
 
       // from QListView
       virtual void slotReturnPressed( QListViewItem *_item );
-      virtual void slotRightButtonPressed( QListViewItem *_item, const QPoint &_global, int _column );
-
       virtual void slotCurrentChanged( QListViewItem* _item ) { slotOnItem( _item ); }
 
       // slots connected to the directory lister
@@ -174,7 +172,7 @@ class KonqBaseListViewWidget : public KListView
       virtual void slotDeleteItem( KFileItem * );
       virtual void slotRefreshItems( const KFileItemList & );
       virtual void slotRedirection( const KURL & );
-      void slotPopupMenu(KListView* , QListViewItem* );
+      void slotPopupMenu(QListViewItem*, const QPoint&, int);
 
       // forces a repaint on column size changes / branch expansion
       // when there is a background pixmap

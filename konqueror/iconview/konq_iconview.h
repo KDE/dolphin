@@ -95,6 +95,7 @@ protected slots:
   void slotReturnPressed( QIconViewItem *item );
   void slotMouseButtonPressed(int, QIconViewItem*, const QPoint&);
   void slotMouseButtonClicked(int, QIconViewItem*, const QPoint&);
+  void slotContextMenuRequested(QIconViewItem*, const QPoint&);
   void slotOnItem( QIconViewItem *item );
   void slotOnViewport();
   void slotSelectionChanged();
