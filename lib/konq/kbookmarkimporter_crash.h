@@ -69,7 +69,7 @@ signals:
 protected:
     QString m_fileName;
 
-    void parse_crash_file( QString filename );
+    void parse_crash_file( QString filename, bool del = true );
 };
 
 #endif

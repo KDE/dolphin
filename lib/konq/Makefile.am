@@ -32,7 +32,8 @@ libkonq_la_SOURCES = konq_popupmenu.cc knewmenu.cc \
    konq_historymgr.cc konq_historycomm.cc konq_historycomm.skel \
    konq_pixmapprovider.cc \
    kivdirectoryoverlay.cc \
-   konq_faviconmgr.cc konq_faviconmgr.skel
+   konq_faviconmgr.cc konq_faviconmgr.skel \
+   kbookmarkimporter_crash.cc kbookmarkimporter_opera.cc kbookmarkimporter_ie.cc 
 
 kdirnotify_DIR = $(kde_includes)
 
@@ -52,7 +53,8 @@ include_HEADERS = konq_popupmenu.h knewmenu.h \
     konq_undo.h konq_historymgr.h konq_historycomm.h \
     konq_pixmapprovider.h \
     kivdirectoryoverlay.h \
-    konq_faviconmgr.h konq_xmlguiclient.h konqbookmarkmanager.h
+    konq_faviconmgr.h konq_xmlguiclient.h konqbookmarkmanager.h \
+    kbookmarkimporter_crash.h kbookmarkimporter_opera.h kbookmarkimporter_ie.h 
 
 kde_module_LTLIBRARIES = konq_sound.la
 konq_sound_la_SOURCES = konq_sound.cc

@@ -93,7 +93,7 @@ crashxbel.close
 
 #define LINELIMIT 4096
 
-void KCrashBookmarkImporter::parse_crash_file( QString filename )
+void KCrashBookmarkImporter::parse_crash_file( QString filename, bool del )
 {
     QFile f(filename);
 
@@ -141,6 +141,8 @@ void KCrashBookmarkImporter::parse_crash_file( QString filename )
         emit endFolder();
 
         f.close();
+
+        if (del) f.remove();
     }
 }
 
@@ -148,12 +150,6 @@ void KCrashBookmarkImporter::parseCrashBookmarks( )
 {
    typedef QMap<QString, bool> FileMap;
    FileMap activeLogs;
-
-   // for n in `dcop  | grep konqueror`; do dcop $n KonquerorIface 'crashLogFile()'; done
-   /*
-   for (each konqi instance) {
-   }
-   */
 
    DCOPClient* dcop = kapp->dcopClient();
 
@@ -200,7 +196,7 @@ void KCrashBookmarkImporter::parseCrashBookmarks( )
       bool stillActive = activeLogs.contains(fi->absFilePath());
 
       if (!stillActive) {
-         parse_crash_file(fi->absFilePath());
+         parse_crash_file(fi->absFilePath(), true);
       }
    }
 }
