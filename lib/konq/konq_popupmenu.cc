@@ -76,8 +76,8 @@ KonqPopupMenu::KonqPopupMenu( const KFileItemList &items,
                               KActionCollection & actions,
                               KNewMenu * newMenu,
                   bool showPropertiesAndFileType )
-  : QPopupMenu( 0L, "konq_popupmenu" ), m_actions( actions ), m_pMenuNew( newMenu ),
-    m_sViewURL(viewURL), m_lstItems(items)
+  : QPopupMenu( 0L, "konq_popupmenu" ), m_actions( actions ), m_ownActions( this, "KonqPopupMenu::m_ownActions" ),
+    m_pMenuNew( newMenu ), m_sViewURL(viewURL), m_lstItems(items)
 {
   d = 0; // make it new KonqPopupMenuPrivate when necessary
   assert( m_lstItems.count() >= 1 );
