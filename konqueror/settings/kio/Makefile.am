@@ -1,7 +1,7 @@
 SUBDIRS = uasproviders
 
 INCLUDES = $(all_includes)
-LDFLAGS =  $(all_libraries)
+AM_LDFLAGS =  $(all_libraries)
 
 METASOURCES = AUTO
 
