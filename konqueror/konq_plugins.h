@@ -30,12 +30,15 @@ class KonqEventFilterProxy: public KOMBase
 {
 public:
   KonqEventFilterProxy( CORBA::Object_ptr factory, const QStringList &events, KOM::Base_ptr obj );
+  
+  virtual void cleanUp();
 
   virtual CORBA::Boolean eventFilter( KOM::Base_ptr obj, const char *name, const CORBA::Any &value );
   
   virtual void disconnectFilterNotify( KOM::Base_ptr obj );
   
 private:
+  KOM::Base_var m_vObj;
   KOMVar<KOM::Plugin> m_rRef;
   CORBA::Object_var m_vVirtualFactoryRef;
 };

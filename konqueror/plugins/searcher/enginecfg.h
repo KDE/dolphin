@@ -20,7 +20,7 @@
 #ifndef __enginecfg_h__
 #define __enginecfg_h__ $Id$
 
-#include <qmap.h>
+#include <qvaluelist.h>
 #include <qstring.h>
 #include <qstringlist.h>
 
