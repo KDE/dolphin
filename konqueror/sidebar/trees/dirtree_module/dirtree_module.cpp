@@ -368,7 +368,7 @@ void KonqSidebarDirTreeModule::listDirectory( KonqSidebarTreeItem *item )
 
 void KonqSidebarDirTreeModule::slotNewItems( const KFileItemList& entries )
 {
-    //kdDebug(1201) << this << " KonqSidebarDirTreeModule::slotNewItems " << entries.count() << endl;
+    kdDebug(1201) << this << " KonqSidebarDirTreeModule::slotNewItems " << entries.count() << endl;
 
     Q_ASSERT(entries.count());
     KFileItem * firstItem = const_cast<KFileItemList&>(entries).first(); // qlist sucks for constness
@@ -452,7 +452,10 @@ void KonqSidebarDirTreeModule::slotRefreshItems( const KFileItemList &entries )
                 dirTreeItem->setPixmap( 0, fileItem->pixmap( size ) );
                 dirTreeItem->setText( 0, KIO::decodeFileName( fileItem->name() ) );
 
-                m_dictSubDirs.insert(dirTreeItem->id, item);
+                // Make sure the item doesn't get inserted twice!
+                // dirTreeItem->id points to the new name
+                remove(m_dictSubDirs, dirTreeItem->id, dirTreeItem);
+                m_dictSubDirs.insert(dirTreeItem->id, dirTreeItem);
             }
 
         } while ((item = itemList ? itemList->take(0) : 0));
@@ -484,23 +487,26 @@ void KonqSidebarDirTreeModule::slotRedirection( const KURL & oldUrl, const KURL 
 {
     kdDebug(1201) << "******************************KonqSidebarDirTreeModule::slotRedirection(" << newUrl.prettyURL() << ")" << endl;
 
+    QString oldUrlStr = oldUrl.url(-1);
+    QString newUrlStr = newUrl.url(-1);
+
     QPtrList<KonqSidebarTreeItem> *itemList;
     KonqSidebarTreeItem * item;
-    lookupItems(m_dictSubDirs, oldUrl.url(-1), item, itemList);
+    lookupItems(m_dictSubDirs, oldUrlStr, item, itemList);
 
     if (!item)
     {
-        kdWarning(1201) << "NOT FOUND   oldUrl=" << oldUrl.url(-1) << endl;
+        kdWarning(1201) << "NOT FOUND   oldUrl=" << oldUrlStr << endl;
         return;
     }
 
     do 
     {
         // We need to update the URL in m_dictSubDirs
-        m_dictSubDirs.insert( newUrl.url(-1), item );
-        item->alias << newUrl.url(-1);
+        m_dictSubDirs.insert( newUrlStr, item );
+        item->alias << newUrlStr;
 
-        kdDebug(1201) << "Updating url of " << item << " to " << newUrl.url(-1) << endl;
+        kdDebug(1201) << "Updating url of " << item << " to " << newUrlStr << endl;
         
     } while ((item = itemList ? itemList->take(0) : 0));
     delete itemList;
