@@ -44,6 +44,7 @@
 #include <kmessagebox.h>
 #include <kurl.h>
 #include <kwm.h>
+#include <kstdaction.h>
 
 #include <kmimetype.h>
 
@@ -78,18 +79,18 @@ void KBookmarkMenu::slotBookmarksChanged()
   if ( !m_bIsRoot )
   {
     //  m_vMenu->disconnect( "highlighted", m_vPart, "slotBookmarkHighlighted" );
-  }    
+  }
 
   m_parentMenu->clear();
 
   if ( m_bIsRoot )
   {
-    KAction * m_paEditBookmarks = new KAction( i18n( "&Edit Bookmarks..." ), 0, KBookmarkManager::self(), SLOT( slotEditBookmarks() ), m_actionCollection, "edit_bookmarks" ); 
+    KAction * m_paEditBookmarks = KStdAction::editBookmarks( KBookmarkManager::self(), SLOT( slotEditBookmarks() ), m_actionCollection, "edit_bookmarks" );
     m_paEditBookmarks->plug( m_parentMenu );
 
     if ( !m_bAddBookmark )
       m_parentMenu->insertSeparator();
-  }    
+  }
 
   KGlobal::iconLoader()->setIconType( "icon" );
   fillBookmarkMenu( KBookmarkManager::self()->root() );
@@ -128,7 +129,7 @@ void KBookmarkMenu::fillBookmarkMenu( KBookmark *parent )
       KActionMenu * actionMenu = new KActionMenu( bm->text(), QIconSet( BarIcon( bm->pixmapFile() ) ),
                                                   m_actionCollection, 0L );
       actionMenu->plug( m_parentMenu );
-      KBookmarkMenu *subMenu = new KBookmarkMenu( m_pOwner, actionMenu->popupMenu(), 
+      KBookmarkMenu *subMenu = new KBookmarkMenu( m_pOwner, actionMenu->popupMenu(),
                                                   m_actionCollection, false,
                                                   m_bAddBookmark );
       m_lstSubMenus.append( subMenu );
@@ -142,7 +143,7 @@ void KBookmarkMenu::slotBookmarkSelected()
   debug("KBookmarkMenu::slotBookmarkSelected()");
   if ( !m_pOwner ) return; // this view doesn't handle bookmarks...
   debug( sender()->name() );
-  
+
   int id = QString( sender()->name() + 8 ).toInt(); // skip "bookmark"
   KBookmark *bm = KBookmarkManager::self()->findBookmark( id );
 
