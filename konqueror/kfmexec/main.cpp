@@ -92,7 +92,7 @@ KFMExec::KFMExec()
         // It is an URL
         else
         {
-            if ( url.isMalformed() )
+            if ( !url.isValid() )
                 KMessageBox::error( 0L, i18n( "The URL %1\nis malformed" ).arg( url.url() ) );
             else if ( tempfiles )
                 KMessageBox::error( 0L, i18n( "Remote URL %1\nnot allowed with --tempfiles switch" ).arg( url.url() ) );

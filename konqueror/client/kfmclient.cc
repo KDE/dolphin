@@ -516,7 +516,7 @@ bool clientApp::doIt()
        while(true) {
           KURL src = KURLRequesterDlg::getURL();
           if (!src.isEmpty()) {
-             if (src.isMalformed()) {
+             if (!src.isValid()) {
                 KMessageBox::error(0, i18n("Unable to download from an invalid URL."));
                 continue;
              }
