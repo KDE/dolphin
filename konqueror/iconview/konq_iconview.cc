@@ -58,12 +58,12 @@ class KonqIconViewFactory : public KLibFactory
 {
 public:
   KonqIconViewFactory() {}
-  
+
   virtual QObject* create( QObject*, const char*, const char*, const QStringList &args )
   {
     KonqKfmIconView *obj = new KonqKfmIconView;
     emit objectCreated( obj );
-    
+
     QStringList::ConstIterator it = args.begin();
     QStringList::ConstIterator end = args.end();
     uint i = 1;
@@ -92,7 +92,7 @@ public:
 
         break;
       }
-    
+
     return obj;
   }
 
@@ -396,27 +396,27 @@ KonqKfmIconView::KonqKfmIconView()
   KToggleAction *aNormalIcons = new KToggleAction( i18n( "&Normal View" ), 0, this );
   KToggleAction *aSmallIcons = new KToggleAction( i18n( "&Small View" ), 0, this );
   m_paKOfficeMode = new KToggleAction( i18n( "&KOffice mode" ), 0, this );
- 
+
   aLargeIcons->setExclusiveGroup( "ViewMode" );
   aNormalIcons->setExclusiveGroup( "ViewMode" );
   aSmallIcons->setExclusiveGroup( "ViewMode" );
   m_paKOfficeMode->setExclusiveGroup( "ViewMode" );
-  
+
   aLargeIcons->setChecked( true );
   aNormalIcons->setChecked( false );
   aSmallIcons->setChecked( false );
   m_paKOfficeMode->setChecked( false );
   m_paKOfficeMode->setEnabled( false );
-  
+
   KToggleAction *aBottomText = new KToggleAction( i18n( "Text at the &bottom" ), 0, this );
   KToggleAction *aRightText = new KToggleAction( i18n( "Text at the &right" ), 0, this );
 
   aBottomText->setExclusiveGroup( "TextPos" );
   aRightText->setExclusiveGroup( "TextPos" );
-  
+
   aBottomText->setChecked( true );
   aRightText->setChecked( false );
-  
+
   connect( aLargeIcons, SIGNAL( toggled( bool ) ), this, SLOT( slotViewLarge( bool ) ) );
   connect( aNormalIcons, SIGNAL( toggled( bool ) ), this, SLOT( slotViewNormal( bool ) ) );
   connect( aSmallIcons, SIGNAL( toggled( bool ) ), this, SLOT( slotViewSmall( bool ) ) );
@@ -427,7 +427,7 @@ KonqKfmIconView::KonqKfmIconView()
 
   actions()->append( BrowserView::ViewAction( m_paDotFiles, BrowserView::MenuView ) );
   actions()->append( BrowserView::ViewAction( m_pamSort, BrowserView::MenuView ) );
-  
+
   actions()->append( BrowserView::ViewAction( new QActionSeparator( this ), BrowserView::MenuView ) );
 
   actions()->append( BrowserView::ViewAction( aBottomText, BrowserView::MenuView ) );
@@ -465,9 +465,9 @@ KonqKfmIconView::KonqKfmIconView()
 
   //  connect( m_pView->gui(), SIGNAL( configChanged() ), SLOT( initConfig() ) );
 
-  QObject::connect( m_pIconView, SIGNAL( itemRightClicked( QIconViewItem * ) ),
+  QObject::connect( m_pIconView, SIGNAL( itemRightPressed( QIconViewItem * ) ),
                     this, SLOT( slotItemRightClicked( QIconViewItem * ) ) );
-  QObject::connect( m_pIconView, SIGNAL( viewportRightClicked() ),
+  QObject::connect( m_pIconView, SIGNAL( viewportRightPressed() ),
                     this, SLOT( slotViewportRightClicked() ) );
 
   // Now we may react to configuration changes
@@ -672,7 +672,7 @@ void KonqKfmIconView::slotKofficeMode( bool b )
         break;
       obj = obj->parent();
     }
-    
+
     if ( obj && obj->inherits( "KonqFrame" ) )
     {
       KonqChildView *childView = ((KonqFrame *)obj)->childView();
@@ -699,7 +699,7 @@ void KonqKfmIconView::slotViewSmall( bool b )
   if ( b )
     m_pIconView->setViewMode( QIconSet::Small );
 }
-  
+
 void KonqKfmIconView::slotTextBottom( bool b )
 {
   if ( b )
@@ -721,21 +721,21 @@ void KonqKfmIconView::stop()
 void KonqKfmIconView::saveState( QDataStream &stream )
 {
   BrowserView::saveState( stream );
-  
+
   stream << (Q_INT32)m_pIconView->viewMode() << (Q_INT32)m_pIconView->itemTextPos();
 }
 
 void KonqKfmIconView::restoreState( QDataStream &stream )
 {
   BrowserView::restoreState( stream );
-  
+
   Q_INT32 iIconSize, iTextPos;
-  
+
   stream >> iIconSize >> iTextPos;
 
   QIconSet::Size iconSize = (QIconSet::Size)iIconSize;
   QIconView::ItemTextPos textPos = (QIconView::ItemTextPos)iTextPos;
-  
+
   m_pIconView->setViewMode( iconSize );
   m_pIconView->setItemTextPos( textPos );
 }
@@ -882,7 +882,7 @@ void KonqKfmIconView::slotNewItem( KFileItem * _fileitem )
     emit loadingProgress( ( m_pIconView->count() * 100 ) / m_ulTotalFiles );
 
   //bSetupNeeded = true;
-  
+
 }
 
 void KonqKfmIconView::slotDeleteItem( KFileItem * _fileitem )
