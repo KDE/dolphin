@@ -211,7 +211,7 @@ const KAboutData *KonqFactory::aboutData()
                         I18N_NOOP("(c) 1999-2004, The Konqueror developers"),
                         0,
                         I18N_NOOP("http://konqueror.kde.org") );
-    s_aboutData->addAuthor( "David Faure", I18N_NOOP("developer (framework, parts, Javascript, I/O lib) and maintainer"), "faure@kde.org" );
+    s_aboutData->addAuthor( "David Faure", I18N_NOOP("developer (framework, parts, JavaScript, I/O lib) and maintainer"), "faure@kde.org" );
     s_aboutData->addAuthor( "Simon Hausmann", I18N_NOOP("developer (framework, parts)"), "hausmann@kde.org" );
     s_aboutData->addAuthor( "Michael Reiher", I18N_NOOP("developer (framework)"), "michael.reiher@gmx.de" );
     s_aboutData->addAuthor( "Matthias Welk", I18N_NOOP("developer"), "welk@fokus.gmd.de" );
@@ -225,7 +225,7 @@ const KAboutData *KonqFactory::aboutData()
     s_aboutData->addAuthor( "Leo Savernik", I18N_NOOP("developer (HTML rendering engine)"), "l.savernik@aon.at" );
     s_aboutData->addAuthor( "Stephan Kulow", I18N_NOOP("developer (HTML rendering engine, I/O lib, regression test framework)"), "coolo@kde.org" );
     s_aboutData->addAuthor( "Antti Koivisto", I18N_NOOP("developer (HTML rendering engine)"), "koivisto@kde.org" );
-    s_aboutData->addAuthor( "Apple Safari Developers", I18N_NOOP("developer (HTML rendering engine, Javascript)"), "" );
+    s_aboutData->addAuthor( "Apple Safari Developers", I18N_NOOP("developer (HTML rendering engine, JavaScript)"), "" );
     s_aboutData->addAuthor( "Harri Porten", I18N_NOOP("developer (JavaScript)"), "porten@kde.org" );
     s_aboutData->addAuthor( "Koos Vriezen", I18N_NOOP("developer (Java applets and other embedded objects)"), "koos.vriezen@xs4all.nl" );
     s_aboutData->addAuthor( "Matt Koss", I18N_NOOP("developer (I/O lib)"), "koss@miesto.sk" );
