@@ -42,6 +42,7 @@ public:
 k_dcop:
 
   void openURL( QString url );
+  void newTab( QString url );
 
   /**
    * @return reference to the current KonqView

@@ -44,6 +44,11 @@ void KonqMainWindowIface::openURL( QString url )
   m_pMainWindow->openFilteredURL( url );
 }
 
+void KonqMainWindowIface::newTab( QString url )
+{
+  m_pMainWindow->openFilteredURL( url, true );
+}
+
 DCOPRef KonqMainWindowIface::currentView()
 {
   DCOPRef res;
