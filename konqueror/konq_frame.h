@@ -64,6 +64,8 @@ protected:
     void paintEvent(QPaintEvent *ev);
 };
 
+
+
 /**
  * The KonqFrameHeader indicates wether a view is active or not. It uses the
  * same colors and shading a KWM does.
@@ -91,6 +93,11 @@ class KonqFrameHeader : public QWidget
    protected:
       virtual bool eventFilter(QObject*,QEvent *);
       virtual void mousePressEvent( QMouseEvent* );
+      /**
+       * Brings up the context menu for this frame
+       */
+      virtual void mouseReleaseEvent(QMouseEvent*);
+      
       virtual void paintEvent(QPaintEvent *e);
       KonqFrame* m_pParentKonqFrame;
       QCheckBox *m_pPassiveModeCheckBox;

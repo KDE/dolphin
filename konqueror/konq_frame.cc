@@ -29,11 +29,13 @@
 #include <kconfig.h>
 #include <kiconloader.h>
 #include <kpixmap.h>
+#include <klocale.h>
 
 #include <kparts/browserextension.h>
 #include "konq_frame.h"
 #include "konq_childview.h"
 #include "konq_viewmgr.h"
+#include "konq_mainview.h"
 
 #include <assert.h>
 
@@ -89,6 +91,32 @@ void KonqFrameHeader::mousePressEvent( QMouseEvent* event )
       emit headerClicked();
       update();
    }
+}
+
+void KonqFrameHeader::mouseReleaseEvent(QMouseEvent *event)
+{
+   if (event->button()!=RightButton)
+      return;
+   
+   // select this frame
+   emit headerClicked();
+   update();
+   
+   for (  // Find the REAL MainView for Konq.  It has no parent.
+      KonqMainView *mainview=(KonqMainView*)m_pParentKonqFrame;
+      mainview->parent();
+      mainview=(KonqMainView*)mainview->parent()
+      );
+   // Assemble a menu, and display it
+      
+   QPopupMenu menu;
+   menu.insertItem(i18n("Split View &Horizontally"), mainview, SLOT(slotSplitViewHorizontal()));
+   menu.insertItem(i18n("Split View &Vertically"),  mainview, SLOT(slotSplitViewVertical()) );
+   menu.insertItem(i18n("Split Window Horizontally"),  mainview, SLOT( slotSplitWindowHorizontal() ));
+   menu.insertItem(i18n("Split Window Vertically"), mainview, SLOT( slotSplitWindowVertical() ));
+   menu.insertItem(i18n("Remove Active View"),  mainview, SLOT( slotRemoveView() ));
+   
+   menu.exec(QCursor::pos());
 }
 
 bool KonqFrameHeader::eventFilter(QObject*,QEvent *e)
