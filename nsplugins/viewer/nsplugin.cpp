@@ -289,6 +289,7 @@ NSPluginInstance::NSPluginInstance(NPP privateData, NPPluginFuncs *pluginFuncs,
                                    KLibrary *handle, int width, int height,
                                    QString src, QString /*mime*/,
                                    QString appId, QString callbackId,
+                                   bool embed,
                                    QObject *parent, const char* name )
    : QObject( parent, name ), DCOPObject()
 {
@@ -330,7 +331,8 @@ NSPluginInstance::NSPluginInstance(NPP privateData, NPPluginFuncs *pluginFuncs,
 
    // What exactly does widget mapping mean? Without this call the widget isn't
    // embedded correctly. With it the viewer doesn't show anything in standalone mode.
-   XtSetMappedWhenManaged(_toplevel, False);
+   //if (embed) 
+      XtSetMappedWhenManaged(_toplevel, False);
    XtRealizeWidget(_toplevel);
 
    // Create form window that is searched for by flash plugin
@@ -908,8 +910,8 @@ DCOPRef NSPluginClass::newInstance( QString url, QString mimeType, bool embed,
    char **_argn = new char*[argc];
    char **_argv = new char*[argc];
    QString src = url;
-   int width = 300;
-   int height = 300;
+   int width = 1600;
+   int height = 1200;
    QString baseURL = url;
 
    for (unsigned int i=0; i<argc; i++)
@@ -936,7 +938,7 @@ DCOPRef NSPluginClass::newInstance( QString url, QString mimeType, bool embed,
    // Create plugin instance object
    NSPluginInstance *inst = new NSPluginInstance( npp, &_pluginFuncs, _handle,
                                                   width, height, baseURL, mimeType,
-                                                  appId, callbackId, this );
+                                                  appId, callbackId, embed, this );
 
    // create plugin instance
    NPError error = _pluginFuncs.newp(mime, npp, embed ? NP_EMBED : NP_FULL,

@@ -156,7 +156,7 @@ public:
   // constructor, destructor
   NSPluginInstance( NPP privateData, NPPluginFuncs *pluginFuncs, KLibrary *handle,
 		    int width, int height, QString src, QString mime,
-                    QString appId, QString callbackId,
+                    QString appId, QString callbackId, bool embed,
 		    QObject *parent, const char* name=0 );
   ~NSPluginInstance();
 
