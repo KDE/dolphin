@@ -509,10 +509,19 @@ void KonqBaseListViewWidget::contentsMouseMoveEvent( QMouseEvent *e )
    KListView::contentsMouseMoveEvent( e );
 }
 
-void KonqBaseListViewWidget::contentsWheelEvent( QWheelEvent * e )
+void KonqBaseListViewWidget::contentsWheelEvent( QWheelEvent *e )
 {
    // when scrolling with mousewheel, stop possible pending filetip
    m_fileTip->setItem( 0 );
+
+   if ( m_activeItem != 0 )
+   {
+      m_activeItem->setActive( false );
+      m_activeItem = 0;
+   }
+
+   reportItemCounts();
+   m_pBrowserView->emitMouseOver( 0 );
    KListView::contentsWheelEvent( e );
 }
 
