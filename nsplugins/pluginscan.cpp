@@ -241,11 +241,11 @@ int main( int argc, char *argv[] )
 
     // set up the paths used to look for plugins
     QStringList searchPaths, mimeInfoList;
+    searchPaths.append(QString("%1/.netscape/plugins").arg(getenv("HOME")));
     searchPaths.append("/usr/local/netscape/plugins");
     searchPaths.append("/opt/netscape/plugins");
     searchPaths.append("/opt/netscape/communicator/plugins");
     searchPaths.append("/usr/lib/netscape/plugins");
-    searchPaths.append(QString("%1/.netscape/plugins").arg(getenv("HOME")));
     searchPaths.append(QString("%1/plugins").arg(getenv("MOZILLA_HOME")));
 
     // append environment variable NPX_PLUGIN_PATH
