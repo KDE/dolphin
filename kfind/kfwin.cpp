@@ -111,7 +111,7 @@ KfindWindow::KfindWindow( QWidget *parent, const char *name )
   setShowSortIndicator( TRUE );
 
   addColumn(i18n("Name"));
-  addColumn(i18n("In subdirectory"));
+  addColumn(i18n("In Subdirectory"));
   addColumn(i18n("Size"));
   setColumnAlignment(2, AlignRight);
   addColumn(i18n("Modified"));
@@ -119,7 +119,7 @@ KfindWindow::KfindWindow( QWidget *parent, const char *name )
   addColumn(i18n("Permissions"));
   setColumnAlignment(4, AlignRight);
 
-  addColumn(i18n("First matching line"));
+  addColumn(i18n("First Matching Line"));
   setColumnAlignment(5, AlignLeft);
 
   // Disable autoresize for all columns
