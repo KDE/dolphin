@@ -852,7 +852,7 @@ void KonqMainWindow::slotShowHTML()
   // This has to be done before calling openView since it relies on it
   if ( m_bSaveViewPropertiesLocally )
   {
-      KURL u ( b ? m_currentView->url() : m_currentView->url().directory() );
+      KURL u ( b ? m_currentView->url() : KURL( m_currentView->url().directory() ) );
       u.addPath(".directory");
       if ( u.isLocalFile() )
       {
