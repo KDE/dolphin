@@ -38,3 +38,4 @@ X-KDE-BrowserView-AllowAsDefault=true
 X-KDE-BrowserView-HideFromMenus=true
 X-KDE-BrowserView-Args=IconView
 Icon=view_icon
+InitialPreference=10

@@ -37,3 +37,4 @@ X-KDE-Library=libkonqlistview
 X-KDE-BrowserView-Args=DetailedList
 X-KDE-BrowserView-HideFromMenus=true
 Icon=view_detailed
+InitialPreference=7

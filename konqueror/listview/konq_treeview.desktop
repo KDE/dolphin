@@ -37,4 +37,4 @@ X-KDE-Library=libkonqlistview
 X-KDE-BrowserView-Args=MixedTree
 X-KDE-BrowserView-HideFromMenus=true
 Icon=view_tree
-
+InitialPreference=8

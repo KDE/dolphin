@@ -37,3 +37,4 @@ X-KDE-Library=libkonqlistview
 X-KDE-BrowserView-Args=TextView
 X-KDE-BrowserView-HideFromMenus=true
 Icon=view_text
+InitialPreference=6
