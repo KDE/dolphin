@@ -29,6 +29,7 @@
   <Separator/>
   <Action name="image_preview"/>
   <Action name="text_preview"/>
+  <Action name="html_preview"/>
   <Action name="show_dot"/>
   <Separator/>
   <Action name="bgcolor"/>

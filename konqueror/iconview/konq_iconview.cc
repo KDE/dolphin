@@ -215,9 +215,11 @@ KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const 
     m_paDotFiles = new KToggleAction( i18n( "Show &Hidden Files" ), 0, this, SLOT( slotShowDot() ), actionCollection(), "show_dot" );
     m_paImagePreview = new KToggleAction( i18n( "&Image Preview" ), 0, actionCollection(), "image_preview" );
     m_paTextPreview = new KToggleAction( i18n( "&Text Preview" ), 0, actionCollection(), "text_preview" );
+    m_paHTMLPreview = new KToggleAction( i18n( "HTML &Preview" ), 0, actionCollection(), "html_preview" );
 
     connect( m_paImagePreview, SIGNAL( toggled( bool ) ), this, SLOT( slotImagePreview( bool ) ) );
     connect( m_paTextPreview, SIGNAL( toggled( bool ) ), this, SLOT( slotTextPreview( bool ) ) );
+    connect( m_paHTMLPreview, SIGNAL( toggled( bool ) ), this, SLOT( slotHTMLPreview( bool ) ) );
 
     //    m_pamSort = new KActionMenu( i18n( "Sort..." ), actionCollection(), "sort" );
 
@@ -350,6 +352,20 @@ void KonqKfmIconView::slotTextPreview( bool toggle )
     {
         m_pIconView->stopImagePreview();
         m_pIconView->setIcons( m_pIconView->iconSize(),  "text/" /* make those normal again */);
+    }
+    else
+    {
+        m_pIconView->startImagePreview( m_pProps->previewSettings(), true );
+    }
+}
+
+void KonqKfmIconView::slotHTMLPreview( bool toggle )
+{
+    m_pProps->setShowingPreview( KonqPropsView::HTMLPREVIEW, toggle );
+    if ( !toggle )
+    {
+        m_pIconView->stopImagePreview();
+        m_pIconView->setIcons( m_pIconView->iconSize(),  "text/html" /* make those normal again */);
     }
     else
     {
@@ -835,6 +851,7 @@ bool KonqKfmIconView::openURL( const KURL & url )
       m_paDotFiles->setChecked( m_pProps->isShowingDotFiles() );
       m_paImagePreview->setChecked( m_pProps->isShowingPreview(KonqPropsView::IMAGEPREVIEW) );
       m_paTextPreview->setChecked( m_pProps->isShowingPreview(KonqPropsView::TEXTPREVIEW) );
+      m_paHTMLPreview->setChecked( m_pProps->isShowingPreview(KonqPropsView::HTMLPREVIEW) );
 
       // It has to be "viewport()" - this is what KonqDirPart's slots act upon,
       // and otherwise we get a color/pixmap in the square between the scrollbars.
