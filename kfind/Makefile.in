@@ -48,6 +48,9 @@ DISTDIR   =  kfind-$(KFIND_VERSION)
 
 all: $(TARGET)
 
+Makefile: Makefile.in
+	cd .. && CONFIG_FILES=kfind/$@ CONFIG_HEADERS= $(SHELL) ./config.status
+
 $(TARGET): $(OBJECTS) $(OBJMETA)
 	$(CXX) $(OBJECTS) $(OBJMETA) -o $(TARGET) $(LDFLAGS)
 
@@ -61,7 +64,7 @@ clean:
 	-rm -f *.o *.bak *~ *% *.tar.gz #*
 	-rm -f $(SRCMETA) $(TARGET)
 
-install:
+install: all
 	$(INSTALL_DIR) $(BINDIR)
 	$(INSTALL) $(TARGET) $(BINDIR)
 	$(INSTALL_DIR) $(PICSDIR)
