@@ -40,7 +40,7 @@ KParts::ReadOnlyPart *KonqViewFactory::create( QWidget *parent, const char *name
     return 0L;
 
   KParts::ReadOnlyPart *obj = 0L;
-  
+
   if ( !m_createKROP )
     obj = (KParts::ReadOnlyPart *)m_factory->create( parent, name, "Browser/View", m_args );
 
@@ -77,7 +77,7 @@ KonqViewFactory KonqFactory::createView( const QString &serviceType,
       return KonqViewFactory();
 
   bool createKROP = false;
-  
+
   // Then query the trader
   static QString browserViewConstraint = QString::fromLatin1( "('Browser/View' in ServiceTypes)" );
 
@@ -86,12 +86,12 @@ KonqViewFactory KonqFactory::createView( const QString &serviceType,
   if ( offers.count() == 0 ) //no results? try with KROP
   {
     static QString kropContstraint = QString::fromLatin1( "('KParts/ReadOnlyPart' in ServiceTypes)" );
-    
+
     offers = KTrader::self()->query( serviceType, kropContstraint );
-    
+
     if ( offers.count() == 0 )
       return KonqViewFactory();
-    
+
     createKROP = true;
   }
 
@@ -125,8 +125,8 @@ KonqViewFactory KonqFactory::createView( const QString &serviceType,
 
   KLibFactory *factory = KLibLoader::self()->factory( service->library() );
 
-  //  if ( !factory )
-  //    return 0L;
+  if ( !factory )
+    return KonqViewFactory();
 
   if ( serviceOffers )
     (*serviceOffers) = offers;
