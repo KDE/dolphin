@@ -13,3 +13,6 @@ KonquerorIface_DIR =  $(srcdir)/..
 
 servicesdir = $(kde_servicesdir)/kded
 services_DATA = konqy_preloader.desktop
+
+autostartdir = $(prefix)/share/autostart
+autostart_DATA = konqy_preload.desktop

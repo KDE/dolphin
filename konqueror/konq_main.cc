@@ -103,7 +103,14 @@ int main( int argc, char **argv )
                      DCOPRef ref( "kded", "konqy_preloader" );
                      if( !ref.callExt( "registerPreloadedKonqy", DCOPRef::NoEventLoop, 5000, app.dcopClient()->appId()))
                          return 0; // too many preloaded or failed
+#if 0 // enable when it doesn't make kwin do strange things
+		     KonqMainWindow* win = new KonqMainWindow( KURL(), false ); // prepare an empty window too
+#endif
+		     // KonqMainWindow ctor sets always the preloaded flag to false, so create the window before this
                      KonqMainWindow::setPreloadedFlag( true );
+#if 0
+		     KonqMainWindow::setPreloadedWindow( win );
+#endif
                      kdDebug(1202) << "Konqy preloaded :" << app.dcopClient()->appId() << endl;
                  }
                  else

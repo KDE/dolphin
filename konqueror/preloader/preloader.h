@@ -21,6 +21,7 @@
 #define _KONQUEROR_PRELOADER_H
 
 #include <kdedmodule.h>
+#include <qtimer.h>
 
 class KonqyPreloader
     : public KDEDModule
@@ -38,8 +39,11 @@ class KonqyPreloader
         void unloadAllPreloaded();
     private slots:
         void appRemoved( const QCString& id );
+	void checkAlwaysPreloaded();
     private:
+        void updateCount();
         unsigned int max_count;
+	bool always_have_preloaded;
         struct KonqyData
             {
             KonqyData() {}; // for QValueList
@@ -49,7 +53,7 @@ class KonqyPreloader
             };
         typedef QValueList< KonqyData > InstancesList;
         InstancesList instances;
-        void reduceCount();
+	QTimer check_always_preloaded_timer;
     };
 
 #endif

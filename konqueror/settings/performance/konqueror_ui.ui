@@ -110,6 +110,22 @@
                         </spacer>
                     </hbox>
                 </widget>
+                <widget class="QCheckBox">
+                    <property name="name">
+                        <cstring>cb_preload_on_startup</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Load one instance after KDE startup</string>
+                    </property>
+                </widget>
+                <widget class="QCheckBox">
+                    <property name="name">
+                        <cstring>cb_always_have_preloaded</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Try to have always at least one preloaded instance</string>
+                    </property>
+                </widget>
             </vbox>
         </widget>
         <spacer>
@@ -125,7 +141,7 @@
             <property name="sizeHint">
                 <size>
                     <width>20</width>
-                    <height>40</height>
+                    <height>160</height>
                 </size>
             </property>
         </spacer>

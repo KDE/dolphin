@@ -23,6 +23,7 @@
 #include <dcopref.h>
 #include <kapplication.h>
 #include <dcopclient.h>
+#include <kdebug.h>
 
 KonqyPreloader::KonqyPreloader( const QCString& obj )
     : KDEDModule( obj )
@@ -30,12 +31,15 @@ KonqyPreloader::KonqyPreloader( const QCString& obj )
     reconfigure();
     connect( kapp->dcopClient(), SIGNAL( applicationRemoved( const QCString& )),
         SLOT( appRemoved( const QCString& )));
+    connect( &check_always_preloaded_timer, SIGNAL( timeout()),
+	SLOT( checkAlwaysPreloaded()));
     }
 
 KonqyPreloader::~KonqyPreloader()
     {
     max_count = 0;
-    reduceCount();
+    always_have_preloaded = false;
+    updateCount();
     }
 
 bool KonqyPreloader::registerPreloadedKonqy( QCString id )
@@ -52,6 +56,7 @@ QCString KonqyPreloader::getPreloadedKonqy()
         return "";
     KonqyData konqy = instances.first();
     instances.pop_front();
+    check_always_preloaded_timer.start( 5000, true );
     return konqy.id;
     }
     
@@ -77,10 +82,15 @@ void KonqyPreloader::reconfigure()
     KConfig cfg( QString::fromLatin1( "konquerorrc" ), true );
     KConfigGroupSaver group( &cfg, "Reusing" );
     max_count = cfg.readNumEntry( "MaxPreloadCount", 1 );
-    reduceCount();
+    always_have_preloaded = cfg.readBoolEntry( "AlwaysHavePreloaded", false )
+	&& max_count > 0;
+    updateCount();
+    // Ignore "PreloadOnStartup" here, it's used by the .desktop file
+    // in the autostart folder, which will do 'konqueror --preload' in autostart
+    // phase 2. This will also cause activation of this kded module.
     }
 
-void KonqyPreloader::reduceCount()
+void KonqyPreloader::updateCount()
     {
     while( instances.count() > max_count )
         {
@@ -89,8 +99,29 @@ void KonqyPreloader::reduceCount()
         DCOPRef ref( konqy.id, "KonquerorIface" );
         ref.send( "terminatePreloaded" );
         }
+    if( always_have_preloaded && instances.count() == 0 )
+	{
+	if( !check_always_preloaded_timer.isActive())
+	    {
+	    // preload new konqy, without startup notification and without waiting for it
+	    kapp->startServiceByDesktopName( QString::fromLatin1( "konqueror" ),
+		QString::fromLatin1( "--preload" ), NULL, NULL, NULL, "0", true );
+	    kdDebug( 1202 ) << "Preloading Konqueror instance" << endl;
+	    check_always_preloaded_timer.start( 5000, true );
+	    }
+	}
     }
 
+// have 5s interval between attempts to preload a new konqy
+// in order not to start many of them at the same time
+void KonqyPreloader::checkAlwaysPreloaded()
+    {
+    // TODO here should be detection whether the system is too busy,
+    // and delaying preloading another konqy in such case
+    // but I have no idea how to do it
+    updateCount();
+    }
+    
 void KonqyPreloader::unloadAllPreloaded()
     {
     while( instances.count() > 0 )
@@ -100,6 +131,7 @@ void KonqyPreloader::unloadAllPreloaded()
         DCOPRef ref( konqy.id, "KonquerorIface" );
         ref.send( "terminatePreloaded" );
         }
+    // ignore 'always_have_preloaded' here
     }
     
 extern "C"
