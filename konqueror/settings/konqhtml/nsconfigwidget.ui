@@ -103,7 +103,7 @@
                             </size>
                         </property>
                         <property name="title">
-                            <string>Scan Directories</string>
+                            <string>Scan Folders</string>
                         </property>
                         <grid>
                             <property name="name">

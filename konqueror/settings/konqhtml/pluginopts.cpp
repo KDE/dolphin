@@ -347,7 +347,7 @@ extern "C"
 
 void KPluginOptions::dirInit()
 {
-    m_widget->dirEdit->setCaption(i18n("Select Plugin Scan Directory"));
+    m_widget->dirEdit->setCaption(i18n("Select Plugin Scan Folder"));
     connect( m_widget->dirNew, SIGNAL(clicked()), SLOT(dirNew()));
     connect( m_widget->dirRemove, SIGNAL(clicked()), SLOT(dirRemove()));
     connect( m_widget->dirUp, SIGNAL(clicked()), SLOT(dirUp()));

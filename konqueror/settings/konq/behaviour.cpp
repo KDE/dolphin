@@ -59,9 +59,9 @@ KBehaviourOptions::KBehaviourOptions(KConfig *config, QString group, QWidget *pa
 
    // ----
 
-    cbNewWin = new QCheckBox(i18n("Open directories in separate &windows"), vbox);
+    cbNewWin = new QCheckBox(i18n("Open folders in separate &windows"), vbox);
     QWhatsThis::add( cbNewWin, i18n("If this option is checked, Konqueror will open a new window when "
-                                    "you open a directory, rather than showing that directory's contents in the current window."));
+                                    "you open a folder, rather than showing that folders's contents in the current window."));
     connect(cbNewWin, SIGNAL(clicked()), this, SLOT(changed()));
     connect(cbNewWin, SIGNAL(toggled(bool)), SLOT(updateWinPixmap(bool)));
 
@@ -119,14 +119,14 @@ KBehaviourOptions::KBehaviourOptions(KConfig *config, QString group, QWidget *pa
 
 	homeURL = new KURLRequester(this);
 	homeURL->setMode(KFile::Directory);
-	homeURL->setCaption(i18n("Select Home Directory"));
+	homeURL->setCaption(i18n("Select Home Folder"));
 	hlay->addWidget( homeURL );
     connect(homeURL, SIGNAL(textChanged(const QString &)), this, SLOT(changed()));
     label->setBuddy(homeURL);
 
-    QString homestr = i18n("This is the URL (e.g. a directory or a web page) where "
+    QString homestr = i18n("This is the URL (e.g. a folder or a web page) where "
                            "Konqueror will jump to when the \"Home\" button is pressed. "
-						   "This usually is your home directory, symbolized by a 'tilde' (~).");
+						   "This usually is your home folder, symbolized by a 'tilde' (~).");
     QWhatsThis::add( label, homestr );
     QWhatsThis::add( homeURL, homestr );
 
@@ -135,7 +135,7 @@ KBehaviourOptions::KBehaviourOptions(KConfig *config, QString group, QWidget *pa
     bg->layout()->setSpacing( KDialog::spacingHint() );
     QWhatsThis::add( bg, i18n("This option tells Konqueror whether to ask"
        " for a confirmation when you \"delete\" a file."
-       " <ul><li><em>Move To Trash:</em> moves the file to your trash directory,"
+       " <ul><li><em>Move To Trash:</em> moves the file to your trash folder,"
        " from where it can be recovered very easily.</li>"
        " <li><em>Delete:</em> simply deletes the file.</li>"
        " <li><em>Shred:</em> not only deletes the file, but overwrites"
