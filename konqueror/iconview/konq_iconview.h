@@ -20,8 +20,8 @@
 #define __konq_iconview_h__
 
 #include <kparts/browserextension.h>
-#include <konqiconviewwidget.h>
-#include <konqoperations.h>
+#include <konq_iconviewwidget.h>
+#include <konq_operations.h>
 #include <konq_dirpart.h>
 
 class KonqPropsView;

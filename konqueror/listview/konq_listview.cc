@@ -34,9 +34,9 @@
 #include <klineeditdlg.h>
 #include <klocale.h>
 #include <konq_bgnddlg.h>
-#include <konqdirlister.h>
-#include <konqdrag.h>
-#include <konqfileitem.h>
+#include <konq_dirlister.h>
+#include <konq_drag.h>
+#include <konq_fileitem.h>
 #include <kpropsdlg.h>
 #include <kprotocolmanager.h>
 #include <kstdaction.h>

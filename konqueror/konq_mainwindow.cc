@@ -69,9 +69,9 @@
 #include <kmenubar.h>
 #include <kmessagebox.h>
 #include <knewmenu.h>
-#include <konqdefaults.h>
-#include <konqpopupmenu.h>
-#include <konqsettings.h>
+#include <konq_defaults.h>
+#include <konq_popupmenu.h>
+#include <konq_settings.h>
 #include <konq_undo.h>
 #include <kparts/part.h>
 #include <kpopupmenu.h>

@@ -23,7 +23,7 @@
 
 #include <qtimer.h>
 #include <kurl.h>
-#include <konqfileitem.h>
+#include <konq_fileitem.h>
 
 class KonqListView;
 class KonqTextViewItem;

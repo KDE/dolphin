@@ -24,8 +24,8 @@
 #include <kdirnotify.h>
 #include <kurl.h>
 #include <kglobalsettings.h>
-#include <konqoperations.h>
-#include <konqfileitem.h>
+#include <konq_operations.h>
+#include <konq_fileitem.h>
 
 #include <klistview.h>
 #include <qdict.h>

@@ -23,7 +23,7 @@
 #include "KonqMainWindowIface.h"
 #include "konq_mainwindow.h"
 #include "konq_viewmgr.h"
-#include <konqsettings.h>
+#include <konq_settings.h>
 #include <ksimpleconfig.h>
 #include <kapp.h>
 #include <dcopclient.h>

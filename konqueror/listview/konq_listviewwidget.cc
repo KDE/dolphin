@@ -28,15 +28,15 @@
 
 #include <kcursor.h>
 #include <kdebug.h>
-#include <konqdirlister.h>
+#include <konq_dirlister.h>
 #include <kglobal.h>
 #include <kglobalsettings.h>
 #include <kio/job.h>
-#include <konqoperations.h>
+#include <konq_operations.h>
 #include <klocale.h>
 #include <kmessagebox.h>
 #include <kprotocolinfo.h>
-#include <konqsettings.h>
+#include <konq_settings.h>
 #include <kaction.h>
 
 #include <stdlib.h>

@@ -22,7 +22,7 @@
 
 #include <kparts/browserextension.h>
 #include <kglobalsettings.h>
-#include <konqoperations.h>
+#include <konq_operations.h>
 #include <kparts/factory.h>
 #include <konq_dirpart.h>
 

@@ -24,7 +24,7 @@
 #include <qintdict.h>
 #include <qtimer.h>
 #include <kurl.h>
-#include <konqfileitem.h>
+#include <konq_fileitem.h>
 #include <klistview.h>
 #include <kparts/browserextension.h>
 

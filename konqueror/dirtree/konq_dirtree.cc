@@ -30,7 +30,7 @@
 
 #include <kdebug.h>
 #include <kdesktopfile.h>
-#include <konqdirlister.h>
+#include <konq_dirlister.h>
 #include <kdirnotify.h>
 #include <kglobalsettings.h>
 #include <kiconloader.h>
@@ -39,10 +39,10 @@
 #include <kio/paste.h>
 #include <klibloader.h>
 #include <klocale.h>
-#include <konqdrag.h>
-#include <konqfileitem.h>
-#include <konqoperations.h>
-#include <konqsettings.h>
+#include <konq_drag.h>
+#include <konq_fileitem.h>
+#include <konq_operations.h>
+#include <konq_settings.h>
 #include <kparts/factory.h>
 #include <kprotocolinfo.h>
 #include <ksimpleconfig.h>

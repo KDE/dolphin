@@ -21,7 +21,7 @@
 #include "konq_listviewitems.h"
 #include "konq_listviewwidget.h"
 #include "konq_listview.h"
-#include <konqfileitem.h>
+#include <konq_fileitem.h>
 #include <kdebug.h>
 #include <kio/job.h>
 #include <kio/global.h>

@@ -25,7 +25,7 @@
 #include <qheader.h>
 
 #include <kdebug.h>
-#include <konqdirlister.h>
+#include <konq_dirlister.h>
 #include <kdirwatch.h>
 #include <kglobal.h>
 #include <klocale.h>
@@ -33,7 +33,7 @@
 #include <kmessagebox.h>
 #include <kprotocolmanager.h>
 
-#include <konqsettings.h>
+#include <konq_settings.h>
 #include "konq_propsview.h"
 
 #include <assert.h>
