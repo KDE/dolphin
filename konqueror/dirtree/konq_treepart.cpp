@@ -84,22 +84,26 @@ void KonqTreeBrowserExtension::copy()
 
 void KonqTreeBrowserExtension::paste()
 {
-    m_pTree->currentModule()->paste();
+    if (m_pTree->currentItem())
+        m_pTree->currentItem()->paste();
 }
 
 void KonqTreeBrowserExtension::trash()
 {
-    m_pTree->currentModule()->trash();
+    if (m_pTree->currentItem())
+        m_pTree->currentItem()->trash();
 }
 
 void KonqTreeBrowserExtension::del()
 {
-    m_pTree->currentModule()->del();
+    if (m_pTree->currentItem())
+        m_pTree->currentItem()->del();
 }
 
 void KonqTreeBrowserExtension::shred()
 {
-    m_pTree->currentModule()->shred();
+    if (m_pTree->currentItem())
+        m_pTree->currentItem()->shred();
 }
 
 ////////////////////

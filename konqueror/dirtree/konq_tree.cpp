@@ -38,13 +38,6 @@
 
 static const int autoOpenTimeout = 750;
 
-KonqTreeModule * KonqTree::currentModule() const
-{
-    KonqTreeItem * item = static_cast<KonqTreeItem *>( selectedItem() );
-    ASSERT(item);
-    return item ? item->topLevelItem()->module() : 0;
-}
-
 KonqTree::KonqTree( KonqTreePart *parent, QWidget *parentWidget )
     : KListView( parentWidget )
 {
@@ -508,6 +501,11 @@ void KonqTree::stopAnimation( KonqTreeItem * item )
     }
     if (m_mapCurrentOpeningFolders.isEmpty())
         m_animationTimer->stop();
+}
+
+KonqTreeItem * KonqTree::currentItem() const
+{
+    return static_cast<KonqTreeItem *>( selectedItem() );
 }
 
 #include "konq_tree.moc"

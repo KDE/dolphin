@@ -43,11 +43,6 @@ public:
 
     virtual void followURL( const KURL & url );
 
-    virtual void paste();
-    virtual void trash();
-    virtual void del();
-    virtual void shred();
-
     // Called by KonqDirTreeItem
     void openSubFolder( KonqTreeItem *item );
     void addSubDir( KonqTreeItem *item );

@@ -57,6 +57,11 @@ public:
     virtual void middleButtonPressed() {}
     virtual void rightButtonPressed() = 0;
 
+    virtual void paste() {}
+    virtual void trash() {}
+    virtual void del() {}
+    virtual void shred() {}
+
     // The URL to open when this link is clicked
     virtual KURL externalURL() const = 0;
 

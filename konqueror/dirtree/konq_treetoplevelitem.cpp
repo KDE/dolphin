@@ -24,6 +24,7 @@
 #include <kdirnotify_stub.h>
 #include <kglobal.h>
 #include <kio/global.h>
+#include <kio/paste.h>
 #include <konq_operations.h>
 #include <kparts/browserextension.h>
 #include <kprotocolinfo.h>
@@ -129,4 +130,43 @@ void KonqTreeTopLevelItem::rightButtonPressed()
     url.setPath( m_path );
     emit tree()->part()->extension()->popupMenu( QCursor::pos(), url,
                                                  isTopLevelGroup() ? "inode/directory" : "application/x-desktop" );
+}
+
+
+void KonqTreeTopLevelItem::trash()
+{
+    delOperation( KonqOperations::TRASH );
+}
+
+void KonqTreeTopLevelItem::del()
+{
+    delOperation( KonqOperations::DEL );
+}
+
+void KonqTreeTopLevelItem::shred()
+{
+    delOperation( KonqOperations::SHRED );
+}
+
+void KonqTreeTopLevelItem::delOperation( int method )
+{
+    KURL url;
+    url.setPath( m_path );
+    KURL::List lst;
+    lst.append(url);
+
+    KonqOperations::del(tree(), method, lst);
+}
+
+void KonqTreeTopLevelItem::paste()
+{
+    // move or not move ?
+    bool move = false;
+    QMimeSource *data = QApplication::clipboard()->data();
+    if ( data->provides( "application/x-kde-cutselection" ) ) {
+        move = KonqDrag::decodeIsCutSelection( data );
+        kdDebug(1201) << "move (from clipboard data) = " << move << endl;
+    }
+
+    KIO::pasteClipboard( externalURL(), move );
 }

@@ -52,12 +52,6 @@ public:
     // has anything to do with URLs
     virtual void followURL( const KURL & ) {}
 
-    // Used by copy() and cut()
-    virtual void paste() {}
-    virtual void trash() {}
-    virtual void del() {}
-    virtual void shred() {}
-
     KonqTree *tree() const { return m_pTree; }
 
 protected:

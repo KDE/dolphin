@@ -28,6 +28,7 @@
 #include <kuserprofile.h>
 #include <qapplication.h>
 #include <qclipboard.h>
+#include <kio/paste.h>
 
 #define MYMODULE static_cast<KonqDirTreeModule*>(module())
 
@@ -154,4 +155,40 @@ void KonqDirTreeItem::rightButtonPressed()
     KFileItemList lstItems;
     lstItems.append( m_fileItem );
     emit tree()->part()->extension()->popupMenu( QCursor::pos(), lstItems );
+}
+
+void KonqDirTreeItem::paste()
+{
+    // move or not move ?
+    bool move = false;
+    QMimeSource *data = QApplication::clipboard()->data();
+    if ( data->provides( "application/x-kde-cutselection" ) ) {
+        move = KonqDrag::decodeIsCutSelection( data );
+        kdDebug(1201) << "move (from clipboard data) = " << move << endl;
+    }
+
+    KIO::pasteClipboard( m_fileItem->url(), move );
+}
+
+void KonqDirTreeItem::trash()
+{
+    delOperation( KonqOperations::TRASH );
+}
+
+void KonqDirTreeItem::del()
+{
+    delOperation( KonqOperations::DEL );
+}
+
+void KonqDirTreeItem::shred()
+{
+    delOperation( KonqOperations::SHRED );
+}
+
+void KonqDirTreeItem::delOperation( int method )
+{
+    KURL::List lst;
+    lst.append(m_fileItem->url());
+
+    KonqOperations::del(tree(), method, lst);
 }

@@ -45,9 +45,9 @@ public:
     void followURL( const KURL &url );
 
     /**
-     * This returns the module associated with the current (i.e. selected) item
+     * @return the current (i.e. selected) item
      */
-    KonqTreeModule * currentModule() const;
+    KonqTreeItem * currentItem() const;
 
     void startAnimation( KonqTreeItem * item, const char * iconBaseName = "kde", uint iconCount = 6 );
     void stopAnimation( KonqTreeItem * item );

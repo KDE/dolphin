@@ -53,6 +53,11 @@ public:
     virtual void middleButtonPressed();
     virtual void rightButtonPressed();
 
+    virtual void paste();
+    virtual void trash();
+    virtual void del();
+    virtual void shred();
+
     virtual void setOpen( bool open );
 
     // Whether the item is a toplevel item - true
@@ -70,10 +75,14 @@ public:
     void setTopLevelGroup( bool b ) { m_bTopLevelGroup = b; }
     bool isTopLevelGroup() const { return m_bTopLevelGroup; }
 
+    // The module that handles the subtree below this toplevel item
     KonqTreeModule *module() const { return m_module; }
+
+    // The path to the desktop file responsible for this toplevel item
     QString path() const { return m_path; }
 
 protected:
+    void delOperation( int method );
     KonqTreeModule *m_module;
     QString m_path;
     KURL m_externalURL;

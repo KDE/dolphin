@@ -20,15 +20,11 @@
 #include "dirtree_module.h"
 #include "dirtree_item.h"
 #include <kdebug.h>
-#include <konq_operations.h>
 #include <konq_propsview.h>
 #include <konq_drag.h>
 #include <kglobalsettings.h>
 #include <kprotocolinfo.h>
 #include <kdesktopfile.h>
-#include <kio/paste.h>
-#include <qapplication.h>
-#include <qclipboard.h>
 #include <assert.h>
 
 KonqDirTreeModule::KonqDirTreeModule( KonqTree * parentTree )
@@ -48,22 +44,6 @@ void KonqDirTreeModule::clearAll()
     delete m_dirLister;
 }
 
-void KonqDirTreeModule::paste()
-{
-    // move or not move ?
-    bool move = false;
-    QMimeSource *data = QApplication::clipboard()->data();
-    if ( data->provides( "application/x-kde-cutselection" ) ) {
-        move = KonqDrag::decodeIsCutSelection( data );
-        kdDebug(1201) << "move (from clipboard data) = " << move << endl;
-    }
-
-    KonqDirTreeItem *selection = static_cast<KonqDirTreeItem *>( m_pTree->selectedItem() );
-    assert( selection );
-    KIO::pasteClipboard( selection->fileItem()->url(), move );
-}
-
-
 KURL::List KonqDirTreeModule::selectedUrls()
 {
     KonqDirTreeItem *selection = static_cast<KonqDirTreeItem *>( m_pTree->selectedItem() );
@@ -72,28 +52,6 @@ KURL::List KonqDirTreeModule::selectedUrls()
     lst.append(selection->fileItem()->url());
     return lst;
 }
-
-void KonqDirTreeModule::trash()
-{
-    KonqOperations::del(m_pTree,
-                        KonqOperations::TRASH,
-                        selectedUrls());
-}
-
-void KonqDirTreeModule::del()
-{
-    KonqOperations::del(m_pTree,
-                        KonqOperations::DEL,
-                        selectedUrls());
-}
-
-void KonqDirTreeModule::shred()
-{
-    KonqOperations::del(m_pTree,
-                        KonqOperations::SHRED,
-                        selectedUrls());
-}
-
 
 void KonqDirTreeModule::addTopLevelItem( KonqTreeTopLevelItem * item )
 {
