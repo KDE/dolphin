@@ -567,7 +567,7 @@ void KonqMainView::insertView( Konqueror::View_ptr view,
 {
   Row * currentRow;
   if ( m_currentView )
-    currentRow = m_currentView->getRow();
+    currentRow = m_currentView->row();
   else // complete beginning, we don't even have a view
     currentRow = m_lstRows.first();
 
@@ -622,7 +622,7 @@ void KonqMainView::setActiveView( OpenParts::Id id )
 Konqueror::View_ptr KonqMainView::activeView()
 {
   if ( m_currentView )
-    return Konqueror::View::_duplicate( m_currentView->getView() );
+    return Konqueror::View::_duplicate( m_currentView->view() );
   else
     return Konqueror::View::_nil();
 }
@@ -638,7 +638,7 @@ Konqueror::ViewList *KonqMainView::viewList()
   for (; it != m_mapViews.end(); it++ )
   {
     seq->length( i++ );
-    (*seq)[ i ] = it->second->getView(); // no duplicate here ?
+    (*seq)[ i ] = it->second->view(); // no duplicate here ?
   }
 
   return seq;
@@ -1277,7 +1277,7 @@ void KonqMainView::slotLargeIcons()
   //this must never fail... 
   //(but it's quite sure that doesn't fail ;) 
   //(we could also ask via supportsInterface() ...anyway)
-  Konqueror::KfmIconView_var iv = Konqueror::KfmIconView::_narrow( m_currentView->getView() );
+  Konqueror::KfmIconView_var iv = Konqueror::KfmIconView::_narrow( m_currentView->view() );
   
   iv->slotLargeIcons();
 }
@@ -1286,7 +1286,7 @@ void KonqMainView::slotSmallIcons()
 {
   m_currentView->changeViewMode( "KonquerorKfmIconView" );
   
-  Konqueror::KfmIconView_var iv = Konqueror::KfmIconView::_narrow( m_currentView->getView() );
+  Konqueror::KfmIconView_var iv = Konqueror::KfmIconView::_narrow( m_currentView->view() );
   
   iv->slotSmallIcons();
 }

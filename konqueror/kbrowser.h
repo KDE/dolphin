@@ -180,7 +180,7 @@ protected:
    *         Use this function only with the topmost KBrowser.
    *         This function will never return 0L.
    */
-  KBrowser* getActiveView();
+  KBrowser* activeView();
 
   /**
    * This function is hooked into the event processing of the @ref KHTMLWidget.

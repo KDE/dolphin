@@ -21,7 +21,6 @@
 #define __konq_childview_h__
 
 #include "konqueror.h"
-#include "konq_mainwindow.h"
 
 #include <qlist.h>
 #include <qstring.h>
@@ -49,7 +48,6 @@ public:
    * @param newViewPosition only valid if Left or Right
    * @param parent the mainview, parent of this view
    * @param mainWindow the KonqMainWindow hosting the view
-   * @param mainView the KonqMainView owning the child view
    */
   KonqChildView( Konqueror::View_ptr view, Row * row,
                  Konqueror::NewViewPosition newViewPosition,
@@ -59,7 +57,7 @@ public:
   ~KonqChildView();
 
   /** Get view's row */
-  Row * getRow() { return m_row; }
+  Row * row() { return m_row; }
   /** Attach a view */
   void attach( Konqueror::View_ptr view );
   /** Detach attached view, before deleting myself, or attaching another one */
@@ -155,7 +153,7 @@ public:
    * Get view object (should never be needed, except for IDL methods 
    * like activeView() and viewList())
    */
-  Konqueror::View_ptr getView() { return Konqueror::View::_duplicate(m_vView); }
+  Konqueror::View_ptr view() { return Konqueror::View::_duplicate(m_vView); }
   // FIXME : is duplicated needed ? activeView will do it too !
 
   /**
@@ -190,7 +188,7 @@ protected:
     QString strViewName;
   };
 
-  /* Used by makeHistory, to store the URL and ViewName 
+  /** Used by makeHistory, to store the URL and ViewName 
    * _previously_ opened in this view */
   QString m_sLastURL;
   QString m_sLastViewName;
