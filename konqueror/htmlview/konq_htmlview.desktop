@@ -1,8 +1,0 @@
-[Desktop Entry]
-Type=Service
-Exec=blahfoo
-Comment=HTMLView
-MimeType=text/html
-Name=KonqHTMLView
-ServiceTypes=Browser/View
-X-KDE-Library=libkonqhtmlview
