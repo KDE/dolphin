@@ -99,9 +99,9 @@ QString KfFileLVI::key(int column, bool) const
 KfindWindow::KfindWindow( QWidget *parent, const char *name )
   : QListView( parent, name )
 {
-  //    topLevelWidget()->installEventFilter(lbx);
   setSelectionMode( QListView::Extended );
-
+  setShowSortIndicator( TRUE );
+    
   addColumn(i18n("Name"));
   addColumn(i18n("In directory"));
   addColumn(i18n("Size"));
@@ -510,8 +510,8 @@ void KfindWindow::resetColumns(bool init)
   int free_space = visibleWidth() -
     columnWidth(2) - columnWidth(3) - columnWidth(4);
 
-  int name_w = (int)(free_space*0.3); // 30%
-  int dir_w = free_space - name_w;    // 70%
+  int name_w = QMIN((int)(free_space*0.5), 150);
+  int dir_w = free_space - name_w;    
 
   setColumnWidth(0, name_w);
   setColumnWidth(1, dir_w);
