@@ -6,7 +6,7 @@
 
 #include <kglobal.h>
 #include <klocale.h>
-#include <kdatepik.h>
+#include <kdatepicker.h>
 #include <kdatetbl.h>
 
 #include "kdatecombo.h"
