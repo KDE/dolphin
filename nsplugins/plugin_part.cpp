@@ -223,11 +223,9 @@ bool PluginPart::openURL(const KURL &url)
         if (equalPos>0) {
 
             QString name = (*it).left(equalPos).upper();
-            QString value = (*it).right((*it).length()-equalPos-1);
-            if (value.at(0)=='\"')
-                value = value.right(value.length()-1);
-            if (value.at(value.length()-1)=='\"')
-                value = value.left(value.length()-1);
+            QString value = (*it).mid(equalPos+1);
+            if (value[0] == '"' && value[value.length()-1] == '"')
+                value = value.mid(1, value.length()-2);
 
             kdDebug(1432) << "name=" << name << " value=" << value << endl;
 
