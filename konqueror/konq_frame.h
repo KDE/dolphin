@@ -140,7 +140,15 @@ class KonqFrameHeader : public QWidget
    public:
       KonqFrameHeader( KonqFrame *_parent = 0L, const char *_name = 0L );
       virtual ~KonqFrameHeader();
+      /**
+       * Connects an action to the button.
+       * @param inAction the KAction to connect.
+       */
       virtual void setAction( KAction *inAction );
+      /**
+       * Sets the text on the header.
+       * @param text the text to display.
+       */
       virtual void setText(const QString& text);
 
    protected:
@@ -196,7 +204,7 @@ public:
 
   /**
    * Attach a view to the KonqFrame.
-   * @param view the view to attach (instead of the current one, if any)
+   * @param viewFactory the view to attach (instead of the current one, if any)
    */
   KParts::ReadOnlyPart *attach( const KonqViewFactory &viewFactory );
 
