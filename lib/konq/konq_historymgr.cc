@@ -100,6 +100,9 @@ bool KonqHistoryManager::loadHistory()
 	stream >> m_maxCount;
 	stream >> m_maxAgeDays;
 
+	// Don't emit all the inserted() signals in insert() on startup!
+	blockSignals( true );
+	
 	while ( !stream.atEnd() ) {
 	    KonqHistoryEntry *entry = new KonqHistoryEntry;
 	    CHECK_PTR( entry );
@@ -114,11 +117,12 @@ bool KonqHistoryManager::loadHistory()
  	    m_pCompletion->addItem( entry->typedURL,
 				    entry->numberOfTimesVisited );
 	
-	    // and fill our baseclass
+	    // and fill our baseclass. 
 	    KParts::HistoryProvider::insert( entry->url.url() );
 	}
 	
 	kdDebug(1203) << "## loaded: " << m_history.count() << " entries." << endl;
+	blockSignals( false );
 	
 	m_history.sort();
 	adjustSize();
@@ -462,6 +466,10 @@ bool KonqHistoryManager::loadFallback()
     config.setGroup("History");
     QStringList items = config.readListEntry( "CompletionItems" );
     QStringList::Iterator it = items.begin();
+    
+    // Don't emit all the inserted() signals in insert() on startup!
+    blockSignals( true );
+
     while ( it != items.end() ) {
 	entry = createFallbackEntry( *it );
 	if ( entry ) {
@@ -474,6 +482,8 @@ bool KonqHistoryManager::loadFallback()
 	++it;
     }
 
+    blockSignals( false );
+    
     m_history.sort();
     adjustSize();
     saveHistory();
