@@ -15,4 +15,4 @@ data_DATA = back.png locationbar_erase.png background.png viewmag.png \
 	bgtable.png gohome.png window_fullscreen.png history.png \
 	view_left_right.png openterm.png \
 	intro.html konq.css konqueror.png lines.png pointers.png shadow1.png \
-	specs.html tips.html
+	specs.html tips.html lines2.png kdelogo2.png

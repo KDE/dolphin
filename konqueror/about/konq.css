@@ -10,6 +10,8 @@ body {background-color: #3679AD;
 
 td.trans {background-image: url(bgtable.png);
       background-repeat: no-repeat;}
+td.end {background-image: url(lines2.png);
+      background-repeat: x-repeat;}
 td.shadow1 {background-image: url(shadow1.png);
       background-repeat: x-repeat;}
 
