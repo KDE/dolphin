@@ -30,6 +30,8 @@
 #include <kapplication.h>
 #include <dcopclient.h>
 #include <qfile.h>
+#include <qfileinfo.h>
+#include <qtextstream.h>
 
 KBookmarkManager* KBookmarkManager::s_pSelf = 0L;
 
@@ -42,7 +44,7 @@ KBookmarkManager* KBookmarkManager::self()
 }
 
 KBookmarkManager::KBookmarkManager( const QString & bookmarksFile, bool bImportDesktopFiles )
-    : DCOPObject("KBookmarkManager"), m_doc("xbel")
+    : DCOPObject("KBookmarkManager"), m_docIsLoaded(false), m_doc("xbel")
 {
     if ( s_pSelf )
         delete s_pSelf;
@@ -62,10 +64,7 @@ KBookmarkManager::KBookmarkManager( const QString & bookmarksFile, bool bImportD
         m_doc.appendChild( topLevel );
         if ( bImportDesktopFiles )
             importDesktopFiles();
-    }
-    else
-    {
-        parse();
+        m_docIsLoaded = true;
     }
 }
 
@@ -79,8 +78,19 @@ void KBookmarkManager::setUpdate(bool update)
     m_update = update;
 }
 
-void KBookmarkManager::parse()
+const QDomDocument &KBookmarkManager::internalDocument() const
 {
+    if(!m_docIsLoaded)
+    {
+        parse();
+        m_toolbarDoc = QDomDocument();
+    }
+    return m_doc;
+}
+
+void KBookmarkManager::parse() const
+{
+    m_docIsLoaded = true;
     //kdDebug(1203) << "KBookmarkManager::parse " << m_bookmarksFile << endl;
     QFile file( m_bookmarksFile );
     if ( !file.open( IO_ReadOnly ) )
@@ -179,22 +189,44 @@ void KBookmarkManager::convertAttribute( QDomElement elem, const QString & oldNa
 
 void KBookmarkManager::importDesktopFiles()
 {
-    KBookmarkImporter importer( &m_doc );
+    KBookmarkImporter importer( const_cast<QDomDocument *>(&internalDocument()) );
     QString path(KGlobal::dirs()->saveLocation("data", "kfm/bookmarks", true));
     importer.import( path );
-    //kdDebug(1203) << m_doc.toCString() << endl;
+    //kdDebug(1203) << internalDocument().toCString() << endl;
 
     save();
 }
 
-bool KBookmarkManager::save()
+bool KBookmarkManager::save( bool toolbarCache ) const
 {
-    return saveAs( m_bookmarksFile );
+    return saveAs( m_bookmarksFile, toolbarCache );
 }
 
-bool KBookmarkManager::saveAs( const QString & filename )
+bool KBookmarkManager::saveAs( const QString & filename, bool toolbarCache ) const
 {
     //kdDebug(1203) << "KBookmarkManager::save " << filename << endl;
+
+    // Save the bookmark toolbar folder for quick loading
+    // but only when it will actually make things quicker
+    const QString cacheFilename = filename + QString::fromLatin1(".tbcache");
+    if(toolbarCache && !root().isToolbarGroup())
+    {
+        KSaveFile cacheFile( cacheFilename );
+        if ( cacheFile.status() == 0 )
+        {
+            QString str;
+            QTextStream stream(&str, IO_WriteOnly);
+            stream << root().findToolbar();
+            QCString cstr = str.utf8();
+            cacheFile.file()->writeBlock( cstr.data(), cstr.length() );
+            cacheFile.close();
+        }
+    }
+    else // remove any (now) stale cache
+    {
+        QFile::remove( cacheFilename );
+    }
+
     KSaveFile file( filename );
 
     if ( file.status() != 0 )
@@ -202,7 +234,7 @@ bool KBookmarkManager::saveAs( const QString & filename )
         KMessageBox::error( 0L, i18n("Couldn't save bookmarks in %1. %2").arg(filename).arg(strerror(file.status())) );
         return false;
     }
-    QCString cstr = m_doc.toCString(); // is in UTF8
+    QCString cstr = internalDocument().toCString(); // is in UTF8
     file.file()->writeBlock( cstr.data(), cstr.length() );
     if (!file.close())
     {
@@ -214,11 +246,37 @@ bool KBookmarkManager::saveAs( const QString & filename )
 
 KBookmarkGroup KBookmarkManager::root() const
 {
-    return KBookmarkGroup(m_doc.documentElement());
+    return KBookmarkGroup(internalDocument().documentElement());
 }
 
 KBookmarkGroup KBookmarkManager::toolbar()
 {
+    // Only try to read from a toolbar cache if the full document isn't loaded
+    if(!m_docIsLoaded)
+    {
+        const QString cacheFilename = m_bookmarksFile + QString::fromLatin1(".tbcache");
+        QFileInfo bmInfo(m_bookmarksFile);
+        QFileInfo cacheInfo(cacheFilename);
+        if (m_toolbarDoc.isNull() &&
+            QFile::exists(cacheFilename) &&
+            bmInfo.lastModified() < cacheInfo.lastModified())
+        {
+            QFile file( m_bookmarksFile );
+
+            if ( file.open( IO_ReadOnly ) )
+            {
+                m_toolbarDoc = QDomDocument("cache");
+                m_toolbarDoc.setContent( &file );
+            }
+        }
+        if (!m_toolbarDoc.isNull())
+        {
+            return KBookmarkGroup(m_toolbarDoc.documentElement());
+        }
+    }
+
+    // Fallback to the normal way if there is no cache or if the bookmark file
+    // is already loaded
     QDomElement elem = root().findToolbar();
     if (elem.isNull())
         return root(); // Root is the bookmark toolbar if none has been set.

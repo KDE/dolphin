@@ -76,15 +76,18 @@ public:
 
     /**
      * Save the bookmarks to the default konqueror XML file on disk.
+     * @param toolbarCache iff true save a cache of the toolbar folder, too
      * @return true if saving was successful
      */
-    bool save();
+    bool save( bool toolbarCache = true ) const;
 
     /**
      * Save the bookmarks to the given XML file on disk.
+     * @param filename full path to the desired bookmarks file location
+     * @param toolbarCache iff true save a cache of the toolbar folder, too
      * @return true if saving was successful
      */
-    bool saveAs( const QString & filename );
+    bool saveAs( const QString & filename, bool toolbarCache = true ) const;
 
     /**
      * This will return the path that this manager is using to read
@@ -143,7 +146,7 @@ public:
     /**
      * @internal
      */
-    const QDomDocument & internalDocument() const { return m_doc; }
+    const QDomDocument & internalDocument() const;
 
 public slots:
     void slotEditBookmarks();
@@ -172,12 +175,15 @@ signals:
     void changed( const QString & groupAddress, const QString & caller );
 
 protected:
-    void parse();
+    // consts added to avoid a copy-and-paste of internalDocument
+    void parse() const;
     void importDesktopFiles();
-    void convertToXBEL( QDomElement & group );
-    void convertAttribute( QDomElement elem, const QString & oldName, const QString & newName );
+    static void convertToXBEL( QDomElement & group );
+    static void convertAttribute( QDomElement elem, const QString & oldName, const QString & newName );
     QString m_bookmarksFile;
-    QDomDocument m_doc;
+    mutable bool m_docIsLoaded;
+    mutable QDomDocument m_doc;
+    mutable QDomDocument m_toolbarDoc;
     bool m_update;
     static KBookmarkManager* s_pSelf;
 };
