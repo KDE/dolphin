@@ -358,10 +358,18 @@ void DesktopBehavior::save()
     g_pConfig->setGroup( "FMSettings" );
     g_pConfig->writeEntry( "ShowFileTips", toolTipBox->isChecked() );
     g_pConfig->setGroup( "Menubar" );
+#if QT_VERSION >= 0x030200
     g_pConfig->writeEntry("ShowMenubar", desktopMenuGroup->selectedId() > 0);
+#else
+    g_pConfig->writeEntry("ShowMenubar", desktopMenuGroup->id(desktopMenuGroup->selected()) > 0);
+#endif
     KConfig config( "kdeglobals" );
     config.setGroup("KDE");
+#if QT_VERSION >= 0x030200
     bool globalMenuBar = desktopMenuGroup->selectedId() == 2;
+#else
+    bool globalMenuBar = desktopMenuGroup->id(desktopMenuGroup->selected()) == 2;
+#endif
     if ( globalMenuBar != config.readBoolEntry("macStyle", false) )
     {
         config.writeEntry( "macStyle", globalMenuBar, true, true );
