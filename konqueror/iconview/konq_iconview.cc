@@ -60,6 +60,8 @@
 #include <qpainter.h>
 #include <qpen.h>
 
+#include <config.h>
+
 template class QList<KFileIVI>;
 //template class QValueList<int>;
 
