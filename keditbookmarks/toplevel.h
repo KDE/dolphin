@@ -27,6 +27,7 @@
 #include <kcommand.h>
 #include <dcopobject.h>
 #include <commands.h>
+#include <konq_faviconmgr.h>
 
 class KToggleAction;
 class TestLink;
@@ -100,6 +101,9 @@ signals:
 class KEBTopLevel : public KMainWindow
 {
     Q_OBJECT
+
+    friend class FavIconUpdater;
+
 public:
     static KEBTopLevel * self() { return s_topLevel; }
     static KBookmarkManager * bookmarkManager() { return s_pManager; }
@@ -234,6 +238,20 @@ protected:
     static KBookmarkManager * s_pManager;
 
     QString m_last_selection_address;
+};
+
+class FavIconUpdater : public KonqFavIconMgr {
+
+public:   
+   static FavIconUpdater * self();
+   FavIconUpdater( QObject *parent, const char *name );
+   ~FavIconUpdater();
+   void getIcon(const KBookmark &bk);
+   virtual void notifyChange( bool isHost, QString hostOrURL, QString iconName );
+
+private:
+   static FavIconUpdater * s_self;
+
 };
 
 

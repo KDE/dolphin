@@ -45,8 +45,6 @@
 #include <klocale.h>
 #include <kiconloader.h>
 
-#include <konq_faviconmgr.h>
-
 //#define DEBUG_ADDRESSES
 void KEBListView::rename( QListViewItem *_item, int c )
 {
@@ -1021,19 +1019,6 @@ void KEBTopLevel::slotItemRenamed(QListViewItem * item, const QString & newText,
     }
 }
 
-class FavIconUpdater : public KonqFavIconMgr {
-
-public:   
-   static FavIconUpdater * self();
-   FavIconUpdater( QObject *parent, const char *name );
-   ~FavIconUpdater();
-   virtual void notifyChange( bool isHost, QString hostOrURL, QString iconName );
-
-private:
-   static FavIconUpdater * s_self;
-
-};
-
 FavIconUpdater * FavIconUpdater::self() {
    if ( !s_self )
       s_self = new FavIconUpdater( kapp, "FavIconUpdater" );
@@ -1050,15 +1035,21 @@ FavIconUpdater::~FavIconUpdater()
    s_self = 0L;
 }
 
-/*
-   void FavIconUpdater::getIcon() {
+void FavIconUpdater::getIcon(const KBookmark &bk) {
    QString favicon = KonqFavIconMgr::iconForURL(bk.url().url());
    if (favicon == QString::null) {
-   KonqFavIconMgr::downloadHostIcon(bk.url());
-   favicon = KonqFavIconMgr::iconForURL(bk.url().url());
+      KonqFavIconMgr::downloadHostIcon(bk.url());
+      favicon = KonqFavIconMgr::iconForURL(bk.url().url());
+   } else {
+      bk.internalElement().setAttribute("icon",favicon);
+      KEBTopLevel::self()->slotCommandExecuted();
    }
+   if (favicon == QString::null) {
+      KonqFavIconMgr::setIconForURL(KURL("http://www.mozilla.org/"),
+                                    KURL("http://www.mozilla.org/images/mozilla-16.png"));
+      s_bk = bk;
    }
- */
+}
 
 void FavIconUpdater::notifyChange( bool isHost, QString hostOrURL, QString iconName ) 
 {
@@ -1068,6 +1059,8 @@ void FavIconUpdater::notifyChange( bool isHost, QString hostOrURL, QString iconN
 // 4. make a khtml part for each url with a browserextensions part thingy...
 
    kdDebug(26000) << "blah blah!" << endl;
+   KEBTopLevel::self()->slotCommandExecuted();
+
    /*
       bks = list[url];
       for (bk.first(); bk != bk.end; bk.next) {
@@ -1083,9 +1076,11 @@ void KEBTopLevel::slotUpdateFavicon()
 {
     // if folder then recursive
     KBookmark bk = selectedBookmark();
-    FavIconUpdater::self()->notifyChange(false,"cds","mozilla");
+    FavIconUpdater::self()->getIcon(bk);
 
     /*
+    // AK - really not sure if should do favicon updates via commands... 
+
     if (favicon != QString::null) {
         EditCommand * cmd = new EditCommand( i18n("Update Favicon"), bk.address(),
                                              EditCommand::Edition("icon", favicon) );
