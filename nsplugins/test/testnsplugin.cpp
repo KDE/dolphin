@@ -56,7 +56,6 @@ TestNSPlugin::~TestNSPlugin()
 {
    kdDebug() << "-> TestNSPlugin::~TestNSPlugin" << endl;
    m_loader->release();
-   delete m_client;
    kdDebug() << "<- TestNSPlugin::~TestNSPlugin" << endl;
 }
 
@@ -127,18 +126,18 @@ int main(int argc, char *argv[])
    setvbuf( stderr, NULL, _IONBF, 0 );
    KCmdLineArgs::init(argc, argv, "nsplugin", "A Netscape Plugin test program", "0.1");
 
-   KApplication *app = new KApplication(argc, argv, "nsplugin");
+   KApplication app("nsplugin");
 
-   app->dcopClient()->attach();
-   app->dcopClient()->registerAs(app->name());
-   app->dcopClient()->setNotifications(true);
+   app.dcopClient()->attach();
+   app.dcopClient()->registerAs(app.name());
+   app.dcopClient()->setNotifications(true);
 
    TestNSPlugin *win = new TestNSPlugin;
-   app->setMainWidget( win );
+   app.setMainWidget( win );
    win->show();
-   app->exec();
+   app.exec();
 
-   delete app;
+   delete win;
 }
 
 #include "testnsplugin.moc"
