@@ -16,7 +16,7 @@
         <string>&lt;qt&gt;
 Setup proxy configuration.
 &lt;p&gt;
-A proxy server is an intermediate machine that sits between your internal network or the Internet and caches the pages you visit. This gives you faster access to sites you have already visited as they are stored locally on your proxy server.
+A proxy server is an intermediate machine that sits between your internal network and the Internet and caches the pages you visit. This gives you faster access to sites you have already visited as they are stored locally on your proxy server.
 &lt;p&gt;
 If you are uncertain whether or not you need to use a proxy server to connect to the Internet, consult your Internet service provider's setup guide or your system administrator.
 &lt;p&gt;
