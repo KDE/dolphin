@@ -203,7 +203,7 @@ void KonqFrameTabs::saveConfig( KConfig* config, const QString &prefix, bool sav
       newPrefix = QString::fromLatin1( it->frameType() ) + "T" + QString::number(i);
       strlst.append( newPrefix );
       newPrefix.append( '_' );
-      it->saveConfig( config, newPrefix, saveURLs, docContainer, id, depth);
+      it->saveConfig( config, newPrefix, saveURLs, docContainer, id, depth + i );
       i++;
     }
 
