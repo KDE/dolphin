@@ -31,7 +31,7 @@ libkonq:
 - #3350 when moving a file to a directory the box with copy/move/link pops up
 even in this box the cursor icon is "forbidden" (_sometimes_). And add Cancel.
 
-- Image Preview : make size configurable for tackat :)
+- delete file : if image, remove from .xvpics and .mospics/*/
 
 konqueror framework:
 ====================

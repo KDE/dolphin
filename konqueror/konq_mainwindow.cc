@@ -136,7 +136,6 @@ KonqMainWindow::KonqMainWindow( const KURL &initialURL, bool openInitialURL, con
   m_viewModeMenu = 0;
 
   initActions();
-  initPlugins();
 
   setInstance( KonqFactory::instance() );
 
@@ -1872,26 +1871,6 @@ void KonqMainWindow::initActions()
 				"You can also select the <b>Stop Command</b> from the View menu." ) );
   m_paStop->setShortText( i18n( "Stop loading the document" ) );
 
-}
-
-void KonqMainWindow::initPlugins()
-{
-  KTrader::OfferList offers = KTrader::self()->query( "Konqueror/Plugin" );
-  KTrader::OfferList::ConstIterator it = offers.begin();
-  KTrader::OfferList::ConstIterator end = offers.end();
-
-  for (; it != end; ++it )
-  {
-    if ( (*it)->library().isEmpty() )
-      continue;
-
-    KLibFactory *factory = KLibLoader::self()->factory( (*it)->library() );
-						
-    if ( !factory )
-      continue;
-
-    (void)factory->create( this );
-  }
 }
 
 void KonqMainWindow::updateToolBarActions()

@@ -273,8 +273,11 @@ protected:
   void applyMainWindowSettings();
 
 private:
-  void updateBookmarkBar(); //takes care of hiding the bookmarkbar and calling setChecked( false ) on the
-                            // corresponding action
+  /**
+   * takes care of hiding the bookmarkbar and calling setChecked( false ) on the
+   * corresponding action
+   */
+  void updateBookmarkBar();
 
   void startAnimation();
   void stopAnimation();
@@ -282,7 +285,6 @@ private:
   void setUpEnabled( const KURL &url );
 
   void initActions();
-  void initPlugins();
 
   /**
    * Tries to find a index.html (.kde.html) file in the specified directory
@@ -365,8 +367,6 @@ private:
   KBookmarkMenu* m_pBookmarkMenu;
 
   KonqViewManager *m_pViewManager;
-
-  //KStatusBar * m_statusBar;
 
   QString m_title;
 

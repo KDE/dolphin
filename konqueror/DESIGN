@@ -3,54 +3,43 @@ Konqueror Design Document
 Author:
   David Faure, faure@kde.org
  
-Last modified: 8 May 1999  
+Last modified: 16 June 2000
 
 Overall design of konqueror :
 =============================
 
 The design of konqueror is based on the KParts part/mainwindow mechanism
-(basically, konqueror can embed several views (parts) :
+(basically, konqueror can embed several parts, putting each one inside a view :
 icon views, tree views, html views...)
 
 The main(), including all the startup mechanism is in konq_main.*
 
-The main view contains several "child views", in order to view several URLs 
-at once, possibly using several modes. Each child view is a KonqChildView
- - this class implements the view-mode switching, adds the
-frame header on top of the view (KonqFrameHeader), ...
-The KonqChildView contains the child part, which can be :
+The main window contains several "views", in order to show several URLs 
+at once, possibly using several modes. Each view is a KonqView.
+The KonqView contains the child part, which can be :
 - an icon view (KonqIconView)
 - a list view / tree view (KonqListView/KonqTreeView)
 - an HTML view (KHTMLPart)
-- any ReadOnlyPart with or without Browserextension
-
-Additionnally, the icon and tree view define items (one per file) :
-KonqIconViewItem and KonqTreeViewItem, which both use KonqFileItem
-(defines common functionality such as url, mimetype, statusbar info, dnd...).
+- any other ReadOnlyPart with or without Browserextension
 
 Where to find those classes
 ===========================
 
-konq_run.* : Re-implementation of KRun (see libkio) for konqueror. Treats
-           HTML and directory in a special way compared to KRun and is also
-	   responsible for finding appropriate view<->mimetype bindings with
-	   the help of KonqPlugins.
-konq_view.* : KonqChildView, class used by KonqMainView to handle child views
+konq_run.* : Re-implementation of KRun (see libkio) for konqueror. 
+	   Responsible for finding appropriate view<->mimetype bindings.
+konq_view.* : KonqView, class used by KonqMainView to handle child views
 konq_frame.* : KonqFrame and KonqFrameHeader (handles view-statusbar).
-iconview/* : KonqIconView and KonqKfmIconViewItem, for icon views
 konq_main.* : The main()
-konq_mainwindow.* : KonqMainView, main view, one per main window
-konq_plugins.* : KonqPlugins, used to parse .desktop files looking for plugins,
-                 creating the approriate entries in the IMR and forcing the
-		 activation of the plugin servers if they're requested.
-konq_propsmainwindow.* : -- main view properties stuff, not sure it will remain as is --
-konq_propsview.* : -- view properties stuff, not sure it will remain as is --
+konq_mainwindow.* : KonqMainWindow, the main window :)
+konq_viewmgr.*: View manager. Handles view creation, activation, splitters etc.
+iconview/* : KonqIconView, for icon views
 listview/* : KonqTreeView, KonqListView...
+dirtree/*  : KonqDirTree, the directory tree
 
 Libs used by konqueror
 ======================
 
 kdecore, kdeui, kfile, khtml, kparts - usual stuff :)
-libkio - I/O stuff, mimetypes, services, registry
+libkio - I/O stuff, mimetypes, services
 libkonq - bookmarks, properties dialog, templates ("new") menu, icon view widget
 
