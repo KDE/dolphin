@@ -905,12 +905,12 @@ void KonqIconViewWidget::setIcons( int size, const QStringList& stopImagePreview
     bool sizeChanged = (m_size != size);
     int oldGridX = gridX();
     m_size = size;
-    
+
     // boost preview option has changed?
     bool boost = boostPreview();
     bool previewSizeChanged = ( d->bBoostPreview != boost );
     d->bBoostPreview = boost;
-    
+
     if ( sizeChanged || previewSizeChanged )
     {
         int realSize = size ? size : KGlobal::iconLoader()->currentSize( KIcon::Desktop );
@@ -1232,6 +1232,12 @@ KonqIconDrag * KonqIconViewWidget::konqDragObject( QWidget * dragSource )
 
 void KonqIconViewWidget::contentsDragEnterEvent( QDragEnterEvent *e )
 {
+#ifdef KFILEITEM_HAS_ISWRITABLE
+    if ( m_rootItem && !m_rootItem->isWritable() ) {
+        e->ignore();
+        return;
+    }
+#endif
     if ( e->provides( "text/uri-list" ) )
     {
         QByteArray payload = e->encodedData( "text/uri-list" );
@@ -1245,6 +1251,17 @@ void KonqIconViewWidget::contentsDragEnterEvent( QDragEnterEvent *e )
     }
     KIconView::contentsDragEnterEvent( e );
     emit dragEntered();
+}
+
+void KonqIconViewWidget::contentsDragMoveEvent( QDragMoveEvent *e )
+{
+#ifdef KFILEITEM_HAS_ISWRITABLE
+    if ( m_rootItem && !m_rootItem->isWritable() ) {
+        e->ignore();
+        return;
+    }
+#endif
+    KIconView::contentsDragMoveEvent( e );
 }
 
 void KonqIconViewWidget::contentsDragLeaveEvent( QDragLeaveEvent *e )
@@ -1410,7 +1427,7 @@ void KonqIconViewWidget::contentsMouseMoveEvent( QMouseEvent *e )
     if ( (d->pSoundPlayer && d->pSoundPlayer->isPlaying()) || (d->pSoundTimer && d->pSoundTimer->isActive()))
     {
         // The following call is SO expensive (the ::widgetAt call eats up to 80%
-        // of the mouse move cpucycles!), so it's mandatory to place that function 
+        // of the mouse move cpucycles!), so it's mandatory to place that function
         // under strict checks, such as d->pSoundPlayer->isPlaying()
         if ( QApplication::widgetAt( QCursor::pos() ) != topLevelWidget() )
         {
@@ -1427,6 +1444,12 @@ void KonqIconViewWidget::contentsMouseMoveEvent( QMouseEvent *e )
 
 void KonqIconViewWidget::contentsDropEvent( QDropEvent * ev )
 {
+#ifdef KFILEITEM_HAS_ISWRITABLE
+    if ( m_rootItem && !m_rootItem->isWritable() ) {
+        ev->accept( false );
+        return;
+    }
+#endif
   QIconViewItem *i = findItem( ev->pos() );
   // Short-circuit QIconView if Ctrl is pressed, so that it's possible
   // to drop a file into its own parent widget to copy it.
@@ -2017,7 +2040,7 @@ void KonqIconViewWidget::setPreviewSettings( const QStringList& settings )
 {
     d->previewSettings = settings;
     updatePreviewMimeTypes();
-    
+
     int size = m_size;
     m_size = -1; // little trick to force grid change in setIcons
     setIcons( size ); // force re-determining all icons
