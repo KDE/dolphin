@@ -50,7 +50,7 @@ void KShellCmdPlugin::slotExecuteShellCommand()
    if ( part->currentItem() )
       // Putting the complete path to the selected file isn't really necessary, since
       // we'll cd to the directory first (if isLocal).
-      defaultValue = isLocal ? part->currentItem()->name() : part->currentItem()->url().prettyURL();
+      defaultValue = isLocal ? "./"+part->currentItem()->name() : part->currentItem()->url().prettyURL();
    else
       defaultValue = isLocal ? part->url().path() : part->url().prettyURL();
    KLineEditDlg l(i18n("Execute shell command:"), defaultValue, part->widget() );
