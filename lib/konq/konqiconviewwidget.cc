@@ -34,6 +34,7 @@
 #include <konqdrag.h>
 #include <kuserpaths.h>
 
+#include <assert.h>
 #include <X11/Xlib.h>
 
 // for the link method only (to move with it)
@@ -357,29 +358,26 @@ IconEditExtension::IconEditExtension( KonqIconViewWidget *iconView )
 
 void IconEditExtension::can( bool &cut, bool &copy, bool &paste, bool &move )
 {
-  bool bItemSelected = false;
   bool bInTrash = false;
+  int iCount = 0;
 
   for ( QIconViewItem *it = m_iconView->firstItem(); it; it = it->nextItem() )
   {
     if ( it->isSelected() )
-    {
-      bItemSelected = true;
-    }
+      iCount++;
+
     if ( ((KFileIVI *)it)->item()->url().directory(false) == KUserPaths::trashPath() )
-    {
       bInTrash = true;
-    }
   }
 
-  cut = move = copy = bItemSelected;
+  cut = move = copy = iCount > 0;
   move = move && !bInTrash;
 
   bool bKIOClipboard = !isClipboardEmpty();
-
   QMimeSource *data = QApplication::clipboard()->data();
-
-  paste = ( bKIOClipboard || data->encodedData( data->format() ).size() != 0 );
+  paste = ( bKIOClipboard || data->encodedData( data->format() ).size() != 0 ) &&
+    (iCount <= 1); // We can't paste to more than one destination, can we ?
+  // TODO : if only one url, check that it's a dir
 }
 
 void IconEditExtension::cutSelection()
@@ -396,7 +394,12 @@ void IconEditExtension::copySelection()
 
 void IconEditExtension::pasteSelection( bool move )
 {
-  pasteClipboard( m_iconView->url(), move );
+  KFileItemList lstItems = m_iconView->selectedFileItems();
+  assert ( lstItems.count() <= 1 );
+  if ( lstItems.count() == 1 )
+    pasteClipboard( lstItems.first()->url().url(), move );
+  else
+    pasteClipboard( m_iconView->url(), move );
 }
 
 void IconEditExtension::moveSelection( const QString &destinationURL )
