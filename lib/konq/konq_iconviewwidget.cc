@@ -583,7 +583,7 @@ void KonqIconViewWidget::slotOnItem( QIconViewItem *_item )
                 }
             } // animations
             // Only do the normal "mouseover" effect if no animation is in use
-            if (!d->pActiveItem->isAnimated())
+            if (d->pActiveItem && !d->pActiveItem->isAnimated())
             {
                 d->pActiveItem->setActive( true );
             }
