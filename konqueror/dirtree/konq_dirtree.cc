@@ -605,12 +605,25 @@ void KonqDirTree::slotDoubleClicked( QListViewItem *item )
   if ( m_groupItems.find( item ) != m_groupItems.end() )
     return;
 
+  slotClicked( item );
+  item->setOpen( !item->isOpen() );
+}
+
+void KonqDirTree::slotClicked( QListViewItem *item )
+{
+  if ( !item )
+    return;
+
+  if ( m_unselectableItems.findRef( item ) != -1 )
+    return;
+
   if ( item == m_lastItem )
     return;
 
   KonqDirTreeItem *dItem = static_cast<KonqDirTreeItem *>( item );
 
   KParts::URLArgs args;
+
   if ( dItem->isListable() )
     args.serviceType = QString::fromLatin1( "inode/directory" );
 
@@ -635,29 +648,6 @@ void KonqDirTree::slotRightButtonPressed( QListViewItem *item )
   lstItems.append( (static_cast<KonqDirTreeItem *>(item))->fileItem() );
 
   emit m_view->extension()->popupMenu( QCursor::pos(), lstItems );
-}
-
-void KonqDirTree::slotClicked( QListViewItem *item )
-{
-  if ( !item )
-    return;
-
-  if ( m_unselectableItems.findRef( item ) != -1 )
-    return;
-
-  if ( item == m_lastItem )
-    return;
-
-  KonqDirTreeItem *dItem = static_cast<KonqDirTreeItem *>( item );
-
-  KParts::URLArgs args;
-
-  if ( dItem->isListable() )
-    args.serviceType = QString::fromLatin1( "inode/directory" );
-
-  emit m_view->extension()->openURLRequest( dItem->fileItem()->url(), args );
-
-  m_lastItem = item;
 }
 
 void KonqDirTree::slotListingStopped()
