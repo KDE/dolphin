@@ -25,6 +25,7 @@
 #include <kpropsdlg.h>
 
 #include <dcopclient.h>
+#include <konqdirlister_stub.h>
 
 // For doDrop
 #include <qpopupmenu.h>
@@ -106,31 +107,26 @@ void KonqOperations::_del( int method, const KURL::List & selectedURLs )
   if ( m_bSkipConfirmation || askDeleteConfirmation( selectedURLs ) )
   {
     m_method = method;
-    m_URLs = selectedURLs;
+    m_srcURLs = selectedURLs;
+    KIO::Job *job;
     switch( method )
     {
       case TRASH:
-      {
-        KIO::Job *job = KIO::move( selectedURLs, KGlobalSettings::trashPath() );
-        connect( job, SIGNAL( result( KIO::Job * ) ),
-                 SLOT( slotResult( KIO::Job * ) ) );
+        job = KIO::move( selectedURLs, KGlobalSettings::trashPath() );
         break;
-      }
       case DEL:
-      {
-        KIO::Job *job = KIO::del( selectedURLs );
-        connect( job, SIGNAL( result( KIO::Job * ) ),
-                 SLOT( slotResult( KIO::Job * ) ) );
+        job = KIO::del( selectedURLs );
         break;
-      }
       case SHRED:
-      {
-        KIO::Job *job = KIO::del( selectedURLs, true );
-        connect( job, SIGNAL( result( KIO::Job * ) ),
-                 SLOT( slotResult( KIO::Job * ) ) );
+        job = KIO::del( selectedURLs, true );
         break;
-      }
+      default:
+        ASSERT(0);
+        delete this;
+        return;
     }
+    connect( job, SIGNAL( result( KIO::Job * ) ),
+             SLOT( slotResult( KIO::Job * ) ) );
   } else
     delete this;
 }
@@ -154,7 +150,7 @@ bool KonqOperations::askDeleteConfirmation( const KURL::List & selectedURLs )
 }
 
 //static
-void KonqOperations::doDrop( const KonqFileItem * destItem, QDropEvent * ev, QObject * receiver )
+void KonqOperations::doDrop( const KonqFileItem * destItem, QDropEvent * ev, QWidget * parent )
 {
     KURL dest = destItem->url();
     //kdDebug() << "dest : " << dest.url() << endl;
@@ -205,18 +201,23 @@ void KonqOperations::doDrop( const KonqFileItem * destItem, QDropEvent * ev, QOb
                 }
             }
 
-            KIO::Job * job = 0L;
+            KonqOperations * op = new KonqOperations( parent );
+            KIO::Job * job;
             switch ( ev->action() ) {
-                case QDropEvent::Move : /*m_method = MOVE; */job = KIO::move( lst, dest ); break;
-                case QDropEvent::Copy : /*m_method = COPY; */job = KIO::copy( lst, dest ); break;
-                case QDropEvent::Link : /*m_method = LINK; */KIO::link( lst, dest ); break;
-                default : kdError(1203) << "Unknown action " << ev->action() << endl; return;
+                case QDropEvent::Move :
+                  job = KIO::move( lst, dest );
+                  op->setOperation( job, MOVE, lst, dest );
+                  break;
+                case QDropEvent::Copy :
+                  job = KIO::copy( lst, dest );
+                  op->setOperation( job, COPY, lst, dest );
+                  break;
+                case QDropEvent::Link :
+                  KIO::link( lst, dest );
+                  op->setOperation( 0L, LINK, lst, dest ); // triggers slotResult at once
+                  break;
+                default : kdError(1203) << "Unknown action " << ev->action() << endl; delete op; return;
             }
-            // TODO : use m_method to send dcop signal to KonqDirLister.
-            // Maybe use this class's slotResult.
-            if ( job )
-                connect( job, SIGNAL( result( KIO::Job * ) ),
-                         receiver, SLOT( slotResult( KIO::Job * ) ) );
         } else
         {
             // (If this fails, there is a bug in KonqFileItem::acceptsDrops)
@@ -268,18 +269,47 @@ void KonqOperations::doDrop( const KonqFileItem * destItem, QDropEvent * ev, QOb
     }
 }
 
+void KonqOperations::setOperation( KIO::Job * job, int method, const KURL::List & src, const KURL & dest )
+{
+  m_method = method;
+  m_srcURLs = src;
+  m_destURL = dest;
+  if ( job )
+    connect( job, SIGNAL( result( KIO::Job * ) ),
+             SLOT( slotResult( KIO::Job * ) ) );
+  else // for link
+    slotResult( 0L );
+}
+
 void KonqOperations::slotResult( KIO::Job * job )
 {
     if (job && job->error())
         job->showErrorDialog( (QWidget*)parent() );
-
-    QByteArray data;
-    QDataStream arg(data, IO_WriteOnly);
-    arg << m_URLs;
-    kapp->dcopClient()->send( "*", "KonqDirLister", "FilesRemoved(const KURL::List &)", data );
-    kdDebug(1203) << "Sent fileremoved to KonqDirLister " << endl;
-    if ( m_method == TRASH )
-      ;// TODO send FilesAdded( KGlobalSettings::trashPath() );
+    else
+    {
+      kdDebug() << "KonqOperations::slotResult : notifying the KonqDirListers" << endl;
+      KonqDirLister_stub allDirListers("*", "KonqDirLister");
+      switch (m_method) {
+        case TRASH:
+            // Notify the listers showing the trash that new files are there
+            allDirListers.FilesAdded( KGlobalSettings::trashPath() );
+            // fall through
+        case SHRED:
+        case DEL:
+            // Notify about the deletions
+            allDirListers.FilesRemoved( m_srcURLs );
+            break;
+        case MOVE:
+            allDirListers.FilesRemoved( m_srcURLs );
+            // fall through
+        case COPY:
+        case LINK:
+            allDirListers.FilesAdded( m_destURL );
+            break;
+        default:
+            ASSERT(0);
+      }
+    }
     delete this;
 }
 

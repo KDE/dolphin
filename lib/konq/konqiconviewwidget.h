@@ -114,7 +114,6 @@ protected slots:
     /** connect each item to this */
     virtual void slotDropItem( KFileIVI *item, QDropEvent *e );
 
-    void slotResult( KIO::Job * job );
     void slotIconChanged(int);
 
 protected:

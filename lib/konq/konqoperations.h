@@ -27,7 +27,7 @@ class KonqFileItem;
 class QWidget;
 
 /**
- * Implements file operations (move,del,trash,shred,paste...)
+ * Implements file operations (move,del,trash,shred,paste,copy,move,link...)
  * for konqueror and kdesktop whatever the view mode is (icon, tree, ...)
  */
 class KonqOperations : public QObject
@@ -52,16 +52,18 @@ public:
      * Drop
      * @param destItem destination KonqFileItem for the drop (background or item)
      * @param ev the drop event
-     * @param receiver an object that has to have a slotResult( KIO::Job* ) method
-     * All views should have that for other jobs they use anyway. Let's re-use !
+     * @param parent parent widget (for error dialog box if any)
      */
-    static void doDrop( const KonqFileItem * destItem, QDropEvent * ev, QObject * receiver );
+    static void doDrop( const KonqFileItem * destItem, QDropEvent * ev, QWidget * parent );
 
     static void emptyTrash();
 
 protected:
     bool askDeleteConfirmation( const KURL::List & selectedURLs );
     void _del( int method, const KURL::List & selectedURLs );
+
+    // internal, for COPY/MOVE/LINK
+    void setOperation( KIO::Job * job, int method, const KURL::List & src, const KURL & dest );
 
 protected slots:
 
@@ -70,7 +72,8 @@ protected slots:
 private:
     bool m_bSkipConfirmation;
     int m_method;
-    KURL::List m_URLs;
+    KURL::List m_srcURLs;
+    KURL m_destURL;
 };
 
 #endif

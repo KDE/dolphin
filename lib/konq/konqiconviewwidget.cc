@@ -339,13 +339,6 @@ void KonqIconViewWidget::setSortDirectoriesFirst( bool b )
   m_bSortDirsFirst = b;
 }
 
-// For KonqOperations
-void KonqIconViewWidget::slotResult( KIO::Job * job )
-{
-  if (job->error())
-    job->showErrorDialog(this);
-}
-
 void KonqIconViewWidget::slotViewportScrolled(int)
 {
   emit(viewportAdjusted());

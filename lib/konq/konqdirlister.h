@@ -52,16 +52,20 @@ k_dcop:
    * Notify that files have been added in @p directory
    * The receiver will list that directory again to find
    * the new items (since it needs more than just the names anyway).
+   *
+   * Note: this is ASYNC since it is supposed to be used with a broadcast
    */
-  void FilesAdded( const KURL & directory );
+  ASYNC FilesAdded( const KURL & directory );
 
   /**
    * Notify that files have been deleted.
    * This call passes the exact urls of the deleted files
    * so that any view showing them can simply remove them
    * or be closed (if its current dir was deleted)
+   *
+   * Note: this is ASYNC since it is supposed to be used with a broadcast
    */
-  void FilesRemoved( const KURL::List & fileList );
+  ASYNC FilesRemoved( const KURL::List & fileList );
 
 signals:
   /**

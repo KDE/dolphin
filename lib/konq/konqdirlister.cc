@@ -66,16 +66,18 @@ void KonqDirLister::FilesRemoved( const KURL::List & fileList )
       // maybe it's the dir we're listing ?
       // Check for dir in d->lstDirs
       // BCI: wait for KDirLister to change lstDirs() into m_lstDirs
-      for ( KURL::List::ConstIterator dit = lstDirs().begin(); dit != lstDirs().end(); ++dit )
+      KURL::List m_lstDirs = lstDirs(); // BCI
+      for ( KURL::List::ConstIterator dit = m_lstDirs.begin(); dit != m_lstDirs.end(); ++dit )
         if ( (*dit).cmp( (*it), true /* ignore trailing slash */ ) )
         {
+          kdDebug(1203) << "emit closeView for " << (*dit).url() << endl;
           emit closeView( (*dit) );
           break;
         }
     }
   }
 
-  // Implemented by our beloved father, KDirListerk
+  // Implemented by our beloved father, KDirLister
   deleteUnmarkedItems();
 }
 

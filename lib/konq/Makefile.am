@@ -27,7 +27,7 @@ libkonq_la_SOURCES = kbookmarkmenu.cc kbookmark.cc knewmenu.cc konqpopupmenu.cc 
 	konqsettings.cc konqdrag.cc konqiconviewwidget.cc \
 	konqoperations.cc kbookmarkbar.cc \
         konq_propsview.cc konq_events.cc konq_bgnddlg.cc \
-        konqdirlister.skel
+        konqdirlister.skel konqdirlister.stub
 
 METASOURCES = AUTO
 
