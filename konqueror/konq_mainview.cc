@@ -353,7 +353,7 @@ void KonqMainView::openURL( KonqChildView *_view, const KURL &url, bool reload, 
       KService::Ptr offer = KServiceTypeProfile::preferredService(serviceType);
       KURL::List lst;
       lst.append(url);
-      if ( !KRun::run( *offer, lst ) )
+      if ( !offer || !KRun::run( *offer, lst ) )
       {
         (void)new KRun( url );
       }
@@ -1168,6 +1168,7 @@ void KonqMainView::slotUpActivated( int id )
 {
   // Strip any filename
   KURL u( m_currentView->view()->url().directory(false,false) );
+  kdDebug(1202) << "slotUpActivated. Start URL is " << u.url() << endl;
   for ( int i = 0 ; i < m_paUp->popupMenu()->indexOf( id ) + 1 ; i ++ )
       u.cd( ".." );
   openURL( 0L, u );
