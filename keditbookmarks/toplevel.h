@@ -66,7 +66,7 @@ class CurrentMgr : public QObject {
 public:
    static CurrentMgr* self() { if (!s_mgr) { s_mgr = new CurrentMgr(); } return s_mgr; }
    void createManager(const QString &filename);
-   typedef enum {OperaExport, IEExport, MozillaExport, NetscapeExport} ExportType;
+   typedef enum {HTMLExport, OperaExport, IEExport, MozillaExport, NetscapeExport} ExportType;
    void doExport(ExportType type);
    void notifyManagers();
    QString correctAddress(const QString &address);

@@ -123,6 +123,8 @@ void ActionsImpl::slotImport() {
 
 void ActionsImpl::slotExportOpera() {
    CurrentMgr::self()->doExport(CurrentMgr::OperaExport); }
+void ActionsImpl::slotExportHTML() {
+   CurrentMgr::self()->doExport(CurrentMgr::HTMLExport); }
 void ActionsImpl::slotExportIE() {
    CurrentMgr::self()->doExport(CurrentMgr::IEExport); }
 void ActionsImpl::slotExportNS() {

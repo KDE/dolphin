@@ -146,16 +146,74 @@ void CurrentMgr::notifyManagers() {
    DCOPRef("*", objId).send("notifyCompleteChange", QString::fromLatin1(kapp->dcopClient()->appId()));
 }
 
+class HTMLExporter : private KBookmarkGroupTraverser {
+public:
+    HTMLExporter();
+    void write( const KBookmarkGroup &, QString );
+private:
+    virtual void visit( const KBookmark & );
+    virtual void visitEnter( const KBookmarkGroup & );
+    virtual void visitLeave( const KBookmarkGroup & );
+private:
+    QString m_string;
+    QTextStream m_out;
+};
+
+HTMLExporter::HTMLExporter() : m_out(&m_string, IO_WriteOnly) {
+    ;
+}
+
+void HTMLExporter::write( const KBookmarkGroup &grp, QString filename ) {
+    HTMLExporter exporter;
+    QFile file(filename);
+    if (!file.open(IO_WriteOnly)) {
+       kdError(7043) << "Can't write to file " << filename << endl;
+       return;
+    }
+    QTextStream fstream(&file);
+    fstream.setEncoding(QTextStream::UnicodeUTF8);
+    traverse(grp);
+    fstream << m_string;
+}
+
+void HTMLExporter::visit( const KBookmark &bk ) {
+    kdDebug() << "visit(" << bk.text() << ")" << endl;
+    m_out << "#URL" << endl;
+    m_out << "\tNAME=" << bk.fullText() << endl;
+    m_out << "\tURL=" << bk.url().url().utf8() << endl;
+    m_out << endl;
+}
+
+void HTMLExporter::visitEnter( const KBookmarkGroup &grp ) {
+    kdDebug() << "visitEnter(" << grp.text() << ")" << endl;
+    m_out << "#FOLDER" << endl;
+    m_out << "\tNAME="<< grp.fullText() << endl;
+    m_out << endl;
+}
+
+void HTMLExporter::visitLeave( const KBookmarkGroup & ) {
+    kdDebug() << "visitLeave()" << endl;
+    m_out << endl;
+    m_out << "-" << endl;
+    m_out << endl;
+}
+
 void CurrentMgr::doExport(ExportType type) {
    // TODO - add a factory and make all this use the base class
-   if (type == IEExport) {
-      QString path = KIEBookmarkImporterImpl().findDefaultLocation(true);
-      KIEBookmarkExporterImpl exporter(mgr(), path);
-      exporter.write(mgr()->root());
-      return;
-   } else if (type == OperaExport) {
+   if (type == OperaExport) {
       QString path = KOperaBookmarkImporterImpl().findDefaultLocation(true);
       KOperaBookmarkExporterImpl exporter(mgr(), path);
+      exporter.write(mgr()->root());
+      return;
+   } else if (type == HTMLExport) {
+      QString path = KFileDialog::getSaveFileName( QDir::homeDirPath(),
+                                                   i18n("*.html|HTML Bookmark Listing") );
+      HTMLExporter exporter;
+      exporter.write(mgr()->root(), path);
+      return;
+   } else if (type == IEExport) {
+      QString path = KIEBookmarkImporterImpl().findDefaultLocation(true);
+      KIEBookmarkExporterImpl exporter(mgr(), path);
       exporter.write(mgr()->root());
       return;
    }
@@ -331,6 +389,8 @@ void KEBApp::createActions() {
                       actn, SLOT( slotExportNS() ), actionCollection(), "exportNS");
    (void) new KAction(i18n("&Export to Opera Bookmarks"), "opera", 0,
                       actn, SLOT( slotExportOpera() ), actionCollection(), "exportOpera");
+   (void) new KAction(i18n("&Export to HTML Bookmarks"), "opera", 0,
+                      actn, SLOT( slotExportHTML() ), actionCollection(), "exportHTML");
    (void) new KAction(i18n("&Export to IE Bookmarks"), "ie", 0,
                       actn, SLOT( slotExportIE() ), actionCollection(), "exportIE");
    (void) new KAction(i18n("Export to &Mozilla Bookmarks..."), "mozilla", 0,
