@@ -36,6 +36,7 @@
 
 <abstract><para>This document is the user handbook for the
 &konsole
+ 
 application.</para><para>&konsole is an X terminal
 emulator for KDE 2.0</para></abstract>
 
@@ -378,7 +379,7 @@ makes that session active.</para></listitem>
 <listitem><para><action>submit a bug report or a feature request for &konsole;</action></para></listitem>
 </varlistentry>
 <varlistentry>
-<term><menuchoice><guimenu>Help</guimenu><guimenuitem>About &konsole</guimenuitem></menuchoice></term>
+<term><menuchoice><guimenu>Help</guimenu><guimenuitem>About Konsole</guimenuitem></menuchoice></term>
 <listitem><para><action>Information about &konsole;'s author</action></para></listitem>
 </varlistentry>
 <varlistentry>
