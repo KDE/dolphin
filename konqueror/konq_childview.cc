@@ -157,7 +157,7 @@ void KonqChildView::switchView( KonqViewFactory &viewFactory )
   if ( prop.isValid() && prop.toBool() )
   {
     setLinkedView( true ); // set as linked
-    if (m_pMainView->viewCount() == 2)
+    if (m_pMainView->viewCount() < 2)
     {
         // Two views : link both
         KonqMainView::MapViews mapViews = m_pMainView->viewMap();
