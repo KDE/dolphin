@@ -291,29 +291,29 @@ void KonqIconViewWidget::dropStuff( KFileIVI *item, QDropEvent *ev )
 	    kDebugWarning(1202,"Oooops, no data ....");
 	    return;
 	}
-	KIO::Job* job = new KIO::Job;
-
 	// Use either the root url or the item url
 	KURL dest( ( item == 0L ) ? m_url /*m_dirLister->url()*/ : item->item()->url().url() );
 
+        KIO::Job * job;
 	switch ( ev->action() ) {
-	case QDropEvent::Move : job->move( lst, dest.url( 1 ) );
+	case QDropEvent::Move : job = KIO::move( lst, dest.url( 1 ) );
 	    ev->acceptAction(TRUE); ev->accept(); break;
-	case QDropEvent::Copy : job->copy( lst, dest.url( 1 ) );
+	case QDropEvent::Copy : job = KIO::copy( lst, dest.url( 1 ) );
 	    ev->acceptAction(TRUE); ev->accept(); break;
 	case QDropEvent::Link : link( lst, dest );
 	    ev->acceptAction(TRUE); ev->accept(); break;
 	default : kDebugError( 1202, "Unknown action %d", ev->action() ); return;
 	}
+        // TODO connect job result
     }
     else if ( formats.count() >= 1 )
     {
 	if ( item == 0L )
-	    pasteData( m_url /*m_dirLister->url()*/, ev->data( formats.first() ) );
+	    KIO::pasteData( m_url /*m_dirLister->url()*/, ev->data( formats.first() ) );
 	else
 	{
 	    kDebugInfo(1202,"Pasting to %s", item->item()->url().url().ascii() /* item's url */);
-	    pasteData( item->item()->url().url()/* item's url */, ev->data( formats.first() ) );
+	    KIO::pasteData( item->item()->url().url()/* item's url */, ev->data( formats.first() ) );
 	}
     }
 }
@@ -412,7 +412,7 @@ void KonqIconViewWidget::slotSelectionChanged()
     emit enableAction( "del", iCount > 0 && !bInTrash );
     emit enableAction( "trash", iCount > 0 && !bInTrash );
 
-    bool bKIOClipboard = !isClipboardEmpty();
+    bool bKIOClipboard = !KIO::isClipboardEmpty();
     QMimeSource *data = QApplication::clipboard()->data();
     bool bPaste = ( bKIOClipboard || data->encodedData( data->format() ).size() != 0 ) &&
 	(iCount <= 1); // We can't paste to more than one destination, can we ?

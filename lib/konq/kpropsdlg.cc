@@ -244,6 +244,7 @@ void PropertiesDialog::rename( const QString& _name )
   {
     newUrl = m_currentDir;
     newUrl.addPath( _name );
+  }
   else
   {
     QString tmpurl = m_singleUrl.url();
@@ -300,7 +301,7 @@ FilePropsPage::FilePropsPage( PropertiesDialog *_props )
   filename = KFileItem::decodeFileName( filename );
 
   bool isTrash = false;
-  QString path;
+  QString path, directory;
 
   if ( !m_bFromTemplate ) {
     QString tmp = properties->kurl().path( 1 );
@@ -313,8 +314,10 @@ FilePropsPage::FilePropsPage( PropertiesDialog *_props )
       path = properties->kurl().path();
     else
       path = properties->kurl().url();
+    directory = properties->kurl().directory();
   } else {
     path = properties->currentDir().path(1) + properties->defaultName();
+    directory = properties->currentDir().url();
   }
 
   if (ExecPropsPage::supports(properties->items()) ||
