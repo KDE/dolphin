@@ -1,11 +1,11 @@
 #ifndef _POLICYDLG_H
 #define _POLICYDLG_H
 
-#include <qstring.h>
 #include <kdialog.h>
 
 class QLineEdit;
 class QComboBox;
+class QString;
 
 class PolicyDialog : public KDialog
 {

@@ -10,6 +10,22 @@
 // (c) Daniel Molkentin 2000
 
 #include <kfiledialog.h>
+#include <kglobal.h>
+#include <kglobalsettings.h>
+#include <kconfig.h>
+#include <klistview.h>
+#include <kmessagebox.h>
+#include <kcolorbutton.h>
+#include <kcharsets.h>
+#include <kurlrequester.h>
+#include <kdebug.h>
+#include <klineedit.h>
+#include <konq_defaults.h> // include default values directly from konqueror
+#include <klocale.h>
+#include <khtml_settings.h>
+#include <khtmldefaults.h>
+#include <knuminput.h>
+
 #include <qbuttongroup.h>
 #include <qcheckbox.h>
 #include <qcolor.h>
@@ -23,33 +39,15 @@
 #include <qvgroupbox.h>
 #include <qhbox.h>
 #include <qvbox.h>
-#include <kglobal.h>
-#include <kglobalsettings.h>
-#include <kconfig.h>
-#include <klistview.h>
-#include <kmessagebox.h>
 #include <qlabel.h>
-#include <kcolorbutton.h>
-#include <kcharsets.h>
-#include <qspinbox.h>
-#include <kdebug.h>
-#include <kurlrequester.h>
-#include <X11/Xlib.h>
-#include <klineedit.h>
 
 #include "htmlopts.h"
 #include "policydlg.h"
 #include "javaopts.h"
 
-#include <konq_defaults.h> // include default values directly from konqueror
-#include <klocale.h>
-#include <khtml_settings.h>
-#include <khtmldefaults.h>
 
-#include "javaopts.moc"
-
-KJavaOptions::KJavaOptions( KConfig* config, QString group, QWidget *parent,
-                            const char *name )
+KJavaOptions::KJavaOptions( KConfig* config, QString group,
+                            QWidget *parent, const char *name )
     : KCModule( parent, name ),
       m_pConfig( config ),
       m_groupname( group )
@@ -109,26 +107,21 @@ KJavaOptions::KJavaOptions( KConfig* config, QString group, QWidget *parent,
   		
     javaSecurityManagerCB = new QCheckBox( i18n("Use Security Manager" ), hbox );
     connect( javaSecurityManagerCB, SIGNAL(toggled( bool )), this, SLOT(changed()) );
-  		
-    QHBox* findJavaHB = new QHBox( javartGB );
-    QButtonGroup* dummy = new QButtonGroup( javartGB );
-    dummy->hide();
-    findJavaHB->setSpacing( 10 );
-    autoDetectRB = new QRadioButton( i18n( "&Automatically detect Java" ),
-                                     findJavaHB );
-    connect( autoDetectRB, SIGNAL(toggled( bool )), this, SLOT(changed()) );
-    connect( autoDetectRB, SIGNAL(toggled( bool )), this, SLOT(toggleJavaControls()) );
-    dummy->insert( autoDetectRB );
-    userSpecifiedRB = new QRadioButton( i18n( "Use user-specified Java" ),
-                                        findJavaHB );
-    connect( userSpecifiedRB, SIGNAL(toggled( bool )), this, SLOT(changed()) );
-    connect( userSpecifiedRB, SIGNAL(toggled( bool )), this, SLOT(toggleJavaControls()) );
-    dummy->insert( userSpecifiedRB );
+
+    enableShutdownCB = new QCheckBox( i18n("Shutdown Applet Server when inactive"), javartGB );
+    connect( enableShutdownCB, SIGNAL(toggled( bool )), this, SLOT(changed()) );
+    connect( enableShutdownCB, SIGNAL(clicked()), this, SLOT(toggleJavaControls()) );
+
+    QHBox* secondsHB = new QHBox( javartGB );
+    serverTimeoutSB = new KIntNumInput( secondsHB );
+    serverTimeoutSB->setRange( 0, 1000, 5 );
+    serverTimeoutSB->setLabel( i18n("Applet Server Timeout (seconds)"), AlignLeft );
 
     QHBox* pathHB = new QHBox( javartGB );
     pathHB->setSpacing( 10 );
-    QLabel* pathLA = new QLabel( i18n( "&Java Home or path to java" ), pathHB );
-    pathED=new  KURLRequester( pathHB);
+    QLabel* pathLA = new QLabel( i18n( "&Path to java executable, or 'java'" ),
+                                 pathHB );
+    pathED = new  KURLRequester( pathHB );
     connect( pathED, SIGNAL(textChanged( const QString& )), this, SLOT(changed()) );
     pathED->fileDialog()->setMode(KFile::Directory);
     pathLA->setBuddy( pathED );
@@ -139,7 +132,6 @@ KJavaOptions::KJavaOptions( KConfig* config, QString group, QWidget *parent,
     addArgED = new QLineEdit( addArgHB );
     connect( addArgED, SIGNAL(textChanged( const QString& )), this, SLOT(changed()) );
     addArgLA->setBuddy( addArgED );
-
 
     /***************************************************************************
      ********************** WhatsThis? items ***********************************
@@ -175,38 +167,48 @@ KJavaOptions::KJavaOptions( KConfig* config, QString group, QWidget *parent,
                                             "policy setting to be used for that domain. The <i>Import</i> and <i>Export</i> "
                                             "button allows you to easily share your policies with other people by allowing "
                                             "you to save and retrieve them from a zipped file.") );
+
     QWhatsThis::add( javaConsoleCB, i18n( "If this box is checked, Konqueror will open a console window that Java programs "
                                           "can use for character-based input/output. Well-written Java applets do not need "
                                           "this, but the console can help to find problems with Java applets.") );
-    wtstr = i18n("If 'Automatically detect Java' is selected, konqueror will try to find "
-                 "your java installation on its own (this should normally work, if java is somewhere in your path). "
-                 "Select 'Use user-specified Java' if konqueror can't find your Java installation or if you have "
-                 "several virtual machines installed and want to use a special one. In this case, enter the full path "
-                 "to your java installation in the edit field below.");
-    QWhatsThis::add( autoDetectRB, wtstr );
-    QWhatsThis::add( userSpecifiedRB, wtstr );
-    wtstr = i18n("If 'Use user-specified Java' is selected, you'll need to enter the path to "
-                 "your Java installation here (i.e. /usr/lib/jdk ).");
-    QWhatsThis::add( pathED, wtstr );
-    wtstr = i18n("If you want special arguments to be passed to the virtual machine, enter them here.");
-    QWhatsThis::add( addArgED, wtstr );
 
+    QWhatsThis::add( javaSecurityManagerCB, i18n( "Enabling the security manager will cause the jvm to run with a Security "
+                                                  "Manager in place. This will keep applets from being able to read and "
+                                                  "write to your file system, creating arbitrary sockets, and other actions "
+                                                  "which could be used to compromise your system.  Disable this option at your "
+                                                  "own risk.  You can modify your $HOME/.java.policy file with the Java "
+                                                  "policytool utility to give code downloaded from certain sites more "
+                                                  "permissions." ) );
+
+    QWhatsThis::add( pathED, i18n("Enter the path to the java executable.  If you want to use the jre in "
+                                  "your path, simply leave it as 'java'.  If you need to use a different "
+                                  "or the path the directory that contains 'bin/java'.") );
+
+    QWhatsThis::add( addArgED, i18n("If you want special arguments to be passed to the virtual machine, enter them here.") );
+
+    QWhatsThis::add( serverTimeoutSB, i18n("When all the applets have been destroyed, the applet server should shut down.  "
+                                           "However, starting the jvm takes a lot of time.  If you would like to "
+                                           "keep the java process running while you are "
+                                           "browsing, you can set the timeout value to what you would like.  To keep "
+                                           "the java process running for the whole time the konqueror process is, "
+                                           "leave the Shutdown Applet Server checkbox unchecked.") );
 
     // Finally do the loading
     load();
 }
 
-
 void KJavaOptions::load()
 {
     // *** load ***
     m_pConfig->setGroup(m_groupname);
-    bool bJavaGlobal = m_pConfig->readBoolEntry( "EnableJava", false);
-    bool bJavaConsole = m_pConfig->readBoolEntry( "ShowJavaConsole", false );
-    bool bJavaAutoDetect = m_pConfig->readBoolEntry( "JavaAutoDetect", true );
+    bool bJavaGlobal      = m_pConfig->readBoolEntry( "EnableJava", false);
+    bool bJavaConsole     = m_pConfig->readBoolEntry( "ShowJavaConsole", false );
     bool bSecurityManager = m_pConfig->readBoolEntry( "UseSecurityManager", true );
-    QString sJDKArgs = m_pConfig->readEntry( "JavaArgs", "" );
-    QString sJDK = m_pConfig->readEntry( "JavaPath", "/usr/bin/java" );
+    bool bServerShutdown  = m_pConfig->readBoolEntry( "ShutdownAppletServer", true );
+    int  serverTimeout    = m_pConfig->readNumEntry( "AppletServerTimeout", 60 );
+    QString sJavaPath     = m_pConfig->readEntry( "JavaPath", "java" );
+    if( sJavaPath == "/usr/lib/jdk" )
+        sJavaPath = "java";
 
     if( m_pConfig->hasKey( "JavaDomainSettings" ) )
         updateDomainList( m_pConfig->readListEntry("JavaDomainSettings") );
@@ -218,13 +220,11 @@ void KJavaOptions::load()
     javaConsoleCB->setChecked( bJavaConsole );
     javaSecurityManagerCB->setChecked( bSecurityManager );
 
-    if( bJavaAutoDetect )
-        autoDetectRB->setChecked( true );
-    else
-        userSpecifiedRB->setChecked( true );
+    addArgED->setText( m_pConfig->readEntry( "JavaArgs", "" ) );
+    pathED->lineEdit()->setText( sJavaPath );
 
-    addArgED->setText( sJDKArgs );
-    pathED->lineEdit()->setText( sJDK );
+    enableShutdownCB->setChecked( bServerShutdown );
+    serverTimeoutSB->setValue( serverTimeout );
 
     toggleJavaControls();
 }
@@ -234,8 +234,7 @@ void KJavaOptions::defaults()
     enableJavaGloballyCB->setChecked( false );
     javaConsoleCB->setChecked( false );
     javaSecurityManagerCB->setChecked( true );
-    autoDetectRB->setChecked( true );
-    pathED->lineEdit()->setText( "/usr/bin/java" );
+    pathED->lineEdit()->setText( "java" );
     addArgED->setText( "" );
 
     toggleJavaControls();
@@ -246,10 +245,11 @@ void KJavaOptions::save()
     m_pConfig->setGroup(m_groupname);
     m_pConfig->writeEntry( "EnableJava", enableJavaGloballyCB->isChecked());
     m_pConfig->writeEntry( "ShowJavaConsole", javaConsoleCB->isChecked() );
-    m_pConfig->writeEntry( "JavaAutoDetect", autoDetectRB->isChecked() );
     m_pConfig->writeEntry( "JavaArgs", addArgED->text() );
     m_pConfig->writeEntry( "JavaPath", pathED->lineEdit()->text() );
     m_pConfig->writeEntry( "UseSecurityManager", javaSecurityManagerCB->isChecked() );
+    m_pConfig->writeEntry( "ShutdownAppletServer", enableShutdownCB->isChecked() );
+    m_pConfig->writeEntry( "AppletServerTimeout", serverTimeoutSB->value() );
 
     QStringList domainConfig;
     QListViewItemIterator it( domainSpecificLV );
@@ -278,12 +278,12 @@ void KJavaOptions::toggleJavaControls()
 {
     bool isEnabled = enableJavaGloballyCB->isChecked();
 
-    javaConsoleCB->setEnabled(isEnabled);
-    javaSecurityManagerCB->setEnabled(isEnabled);
-    addArgED->setEnabled(isEnabled);
-    autoDetectRB->setEnabled(isEnabled);
-    userSpecifiedRB->setEnabled(isEnabled);
-    pathED->setEnabled(isEnabled && userSpecifiedRB->isChecked());
+    javaConsoleCB->setEnabled( isEnabled );
+    javaSecurityManagerCB->setEnabled( isEnabled );
+    addArgED->setEnabled( isEnabled );
+    pathED->setEnabled( isEnabled );
+
+    serverTimeoutSB->setEnabled( enableShutdownCB->isChecked() );
 }
 
 void KJavaOptions::addPressed()
@@ -295,10 +295,12 @@ void KJavaOptions::addPressed()
     pDlg.setCaption( i18n( "New Java Policy" ) );
     if( pDlg.exec() )
     {
+        KHTMLSettings::KJavaScriptAdvice int_advice = (KHTMLSettings::KJavaScriptAdvice)
+                                                      pDlg.javaPolicyAdvice();
+        QString advice = KHTMLSettings::adviceToStr( int_advice );
         QListViewItem* index = new QListViewItem( domainSpecificLV, pDlg.domain(),
-                                                  KHTMLSettings::adviceToStr( (KHTMLSettings::KJavaScriptAdvice)
-                                                                                                      pDlg.javaPolicyAdvice() ) );
-        javaDomainPolicy.insert( index, (KHTMLSettings::KJavaScriptAdvice)pDlg.javaPolicyAdvice());
+                                                  advice );
+        javaDomainPolicy.insert( index, int_advice );
         domainSpecificLV->setCurrentItem( index );
         changed();
     }
@@ -355,15 +357,17 @@ void KJavaOptions::exportPressed()
 void KJavaOptions::updateDomainList(const QStringList &domainConfig)
 {
     for ( QStringList::ConstIterator it = domainConfig.begin();
-             it != domainConfig.end(); ++it)
+          it != domainConfig.end(); ++it)
     {
         QString domain;
         KHTMLSettings::KJavaScriptAdvice javaAdvice;
         KHTMLSettings::KJavaScriptAdvice javaScriptAdvice;
         KHTMLSettings::splitDomainAdvice(*it, domain, javaAdvice, javaScriptAdvice);
-        QListViewItem* index =	new QListViewItem( domainSpecificLV, domain,
-                                                   i18n(KHTMLSettings::adviceToStr(javaAdvice))  );
+        QListViewItem* index = new QListViewItem( domainSpecificLV, domain,
+                                                  i18n(KHTMLSettings::adviceToStr(javaAdvice))  );
 
         javaDomainPolicy[index] = javaAdvice;
     }
 }
+
+#include "javaopts.moc"

@@ -22,12 +22,13 @@ class KColorButton;
 class KConfig;
 class KListView;
 class KURLRequester;
+class KIntNumInput;
+
 class QCheckBox;
 class QComboBox;
 class QLineEdit;
 class QListViewItem;
 class QRadioButton;
-class QSpinBox;
 
 class KJavaOptions : public KCModule
 {
@@ -56,15 +57,15 @@ private:
     QString  m_groupname;
 
     KListView*     domainSpecificLV;
-
-    QCheckBox*    enableJavaGloballyCB;
-    QCheckBox*    javaConsoleCB;
-    QCheckBox*    javaSecurityManagerCB;
-    QRadioButton* autoDetectRB;
-    QRadioButton* userSpecifiedRB;
-    QLineEdit*    addArgED;
-
+    QCheckBox*     enableJavaGloballyCB;
+    QCheckBox*     javaConsoleCB;
+    QCheckBox*     javaSecurityManagerCB;
+    QCheckBox*     enableShutdownCB;
+    KIntNumInput*  serverTimeoutSB;
+    QLineEdit*     addArgED;
     KURLRequester* pathED;
+
+
     QMap<QListViewItem*, int> javaDomainPolicy;
 };
 
