@@ -285,6 +285,7 @@ bool KFileTip::eventFilter( QObject *, QEvent *e )
         case QEvent::KeyRelease:
         case QEvent::FocusIn:
         case QEvent::FocusOut:
+        case QEvent::Wheel:
             killTimers();
             setFilter( false );
             hide();
@@ -882,7 +883,7 @@ void KonqIconViewWidget::setURL( const KURL &kurl )
         m_dotDirectoryPath = QString::null;
 }
 
-void KonqIconViewWidget::startImagePreview( const QStringList &ignored, bool force )
+void KonqIconViewWidget::startImagePreview( const QStringList &, bool force )
 {
     stopImagePreview(); // just in case
 
