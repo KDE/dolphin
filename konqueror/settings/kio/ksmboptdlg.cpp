@@ -191,11 +191,11 @@ QString KSMBOptions::quickHelp()
 		"available shares from your entire LAN, use the "
 		"<em>Broadcast</em> field.<p>"
 		"If you must access windows shares with a different username "
-		"than your login name, fill in the <em>Default use name</em> "
-		"field.  You may also choose whether you want your password "
-		"to be remembered, or if you want to be prompted each time "
-		"you connect to a new shared drive.  This may be preferable "
-		"for security reasons.");
+		"than your login name, fill in the <em>Default user "
+		"name</em> field.  You may also choose whether you want "
+		"your password to be remembered, or if you want to be "
+		"prompted each time you connect to a new shared drive. "
+		"This may be preferable for security reasons.");
 }
 
 #include "ksmboptdlg.moc"
