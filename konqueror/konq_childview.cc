@@ -363,8 +363,8 @@ void KonqChildView::reload()
 void KonqChildView::setPassiveMode( bool mode )
 {
   m_bPassiveMode = mode;
-  
-  if ( mode && m_pMainView->viewCount() > 1 )
+
+  if ( mode && m_pMainView->viewCount() > 1 && m_pMainView->currentChildView() == this )
     m_pMainView->setActiveView( m_pMainView->viewManager()->chooseNextView( this )->view() );
 }
   
