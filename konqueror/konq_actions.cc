@@ -478,21 +478,6 @@ KonqMostOftenURLSAction::KonqMostOftenURLSAction( const QString& text,
     : KActionMenu( text, "goto", parent, name )
 {
     setDelayed( false );
-    if ( !s_mostEntries ) {
-	s_mostEntries = new MostOftenList; // exit() will clean this up for now
-	KConfig *kc = KGlobal::config();
-	KConfigGroupSaver cs( kc, "Settings" );
-	s_maxEntries = kc->readNumEntry( "Number of most visited URLs", 10 );
-	
-	parseHistory();
-	
-	KonqHistoryManager *mgr = KonqHistoryManager::kself();
-	connect( mgr, SIGNAL( entryAdded( const KonqHistoryEntry * )),
-		 SLOT( slotEntryAdded( const KonqHistoryEntry * )));
-	connect( mgr, SIGNAL( entryRemoved( const KonqHistoryEntry * )),
-		 SLOT( slotEntryRemoved( const KonqHistoryEntry * )));
-	connect( mgr, SIGNAL( cleared() ), SLOT( slotHistoryCleared() ));
-    }
 
     connect( popupMenu(), SIGNAL( aboutToShow() ), SLOT( slotFillMenu() ));
     connect( popupMenu(), SIGNAL( aboutToHide() ), SLOT( slotClearMenu() ));
@@ -506,7 +491,18 @@ KonqMostOftenURLSAction::~KonqMostOftenURLSAction()
 
 void KonqMostOftenURLSAction::parseHistory()
 {
-    KonqHistoryIterator it( KonqHistoryManager::kself()->entries() );
+    bool didInit = false;
+    if ( !s_mostEntries ) {
+	KConfig *kc = KGlobal::config();
+	KConfigGroupSaver cs( kc, "Settings" );
+	s_maxEntries = kc->readNumEntry( "Number of most visited URLs", 10 );
+	
+	s_mostEntries = new MostOftenList; // exit() will clean this up for now
+	didInit = true;
+    }
+    
+    KonqHistoryManager *mgr = KonqHistoryManager::kself();
+    KonqHistoryIterator it( mgr->entries() );
 
     for ( uint i = 0; it.current() && i < s_maxEntries; i++ ) {
 	s_mostEntries->append( it.current() );
@@ -524,6 +520,14 @@ void KonqMostOftenURLSAction::parseHistory()
 	
 	++it;
     }
+    
+    if ( didInit ) {
+	connect( mgr, SIGNAL( entryAdded( const KonqHistoryEntry * )),
+		 SLOT( slotEntryAdded( const KonqHistoryEntry * )));
+	connect( mgr, SIGNAL( entryRemoved( const KonqHistoryEntry * )),
+		 SLOT( slotEntryRemoved( const KonqHistoryEntry * )));
+	connect( mgr, SIGNAL( cleared() ), SLOT( slotHistoryCleared() ));
+    }
 }
 
 void KonqMostOftenURLSAction::slotEntryAdded( const KonqHistoryEntry *entry )
@@ -534,7 +538,7 @@ void KonqMostOftenURLSAction::slotEntryAdded( const KonqHistoryEntry *entry )
 
     // if it's already present, remove it, and inSort it
     s_mostEntries->removeRef( entry );
-    
+
     if ( s_mostEntries->count() >= s_maxEntries ) {
 	KonqHistoryEntry *leastOften = s_mostEntries->first();
 	if ( leastOften->numberOfTimesVisited < entry->numberOfTimesVisited ) {
@@ -567,6 +571,9 @@ void KonqMostOftenURLSAction::slotHistoryCleared()
 
 void KonqMostOftenURLSAction::slotFillMenu()
 {
+    if ( !s_mostEntries )
+	parseHistory();
+    
     s_bLocked = true;
     popupMenu()->clear();
 
@@ -579,8 +586,8 @@ void KonqMostOftenURLSAction::slotFillMenu()
 						 entry->typedURL) :
 		       entry->title;
 	
-	popupMenu()->insertItem( 
-		    KonqPixmapProvider::self()->pixmapFor( entry->url.url() ), 
+	popupMenu()->insertItem(
+		    KonqPixmapProvider::self()->pixmapFor( entry->url.url() ),
 		    text, id );
 
 	entry = (id > 0) ? s_mostEntries->at( --id ) : 0L;
@@ -594,6 +601,8 @@ void KonqMostOftenURLSAction::slotClearMenu()
 
 void KonqMostOftenURLSAction::slotActivated( int id )
 {
+    ASSERT( s_mostEntries ); // can basically not happen
+    
     const KonqHistoryEntry *entry = s_mostEntries->at( id );
     KURL url = entry ? entry->url : KURL();
     if ( url.isValid() )
