@@ -46,8 +46,8 @@ KonqSidebarHistoryModule::KonqSidebarHistoryModule( KonqSidebarTree * parentTree
       m_initialized( false )
 {
     if ( !s_settings ) {
-	s_settings = sd.setObject(
-			 new KonqSidebarHistorySettings( 0, "history settings" ));
+	sd.setObject( s_settings,
+                      new KonqSidebarHistorySettings( 0, "history settings" ));
 	s_settings->readSettings( true );
     }
 
@@ -210,7 +210,7 @@ void KonqSidebarHistoryModule::addTopLevelItem( KonqSidebarTreeTopLevelItem * it
     m_topLevelItem = item;
 }
 
-bool KonqSidebarHistoryModule::handleTopLevelContextMenu( KonqSidebarTreeTopLevelItem *, 
+bool KonqSidebarHistoryModule::handleTopLevelContextMenu( KonqSidebarTreeTopLevelItem *,
                                                           const QPoint& pos )
 {
     showPopupMenu( ModuleContextMenu, pos );
