@@ -23,6 +23,7 @@
 class KConfig;
 #include <qcolor.h>
 #include <qstring.h>
+#include <qfont.h>
 
 /**
  * The class KonqFMSettings holds the general settings for the
@@ -79,8 +80,7 @@ public:
   bool treeFollow() { return m_bTreeFollow; }
 
   // Font settings
-  const QString& stdFontName() { return m_strStdFontName; }
-  int fontSize() { return m_iFontSize; }
+  const QFont& standardFont() { return m_standardFont; }
 
   // Color settings
   const QColor& bgColor() { return m_bgColor; }
@@ -98,9 +98,7 @@ protected:
   bool m_embedImage;
   bool m_embedOther;
 
-  QString m_strStdFontName;
-  QString m_strFixedFontName;
-  int m_iFontSize;
+  QFont m_standardFont;
 
   QColor m_bgColor;
   QColor m_normalTextColor;

@@ -69,11 +69,6 @@
 #define DEFAULT_SHOW_HIDDEN_ROOT_ICONS false
 #define DEFAULT_VERT_ALIGN true
 
-// lets be modern .. -- Bernd
-#define DEFAULT_VIEW_FONT "helvetica"
-#define DEFAULT_VIEW_FIXED_FONT "courier"
-#define DEFAULT_VIEW_FONT_SIZE 12
-
 // the default size of the main window
 #define MAINWINDOW_HEIGHT 360
 #define MAINWINDOW_WIDTH 540

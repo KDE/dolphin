@@ -92,7 +92,7 @@ void KonqIconViewWidget::initConfig()
     */
 
     // Font settings
-    QFont font( m_pSettings->stdFontName(), m_pSettings->fontSize() );
+    QFont font( m_pSettings->standardFont() );
     font.setUnderline( m_pSettings->underlineLink() );
     setItemFont( font );
 

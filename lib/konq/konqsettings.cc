@@ -61,15 +61,7 @@ KonqFMSettings::KonqFMSettings( KConfig * config )
 void KonqFMSettings::init( KConfig * config )
 {
   // Fonts and colors
-  m_iFontSize = config->readNumEntry( "FontSize", DEFAULT_VIEW_FONT_SIZE );
-  if ( m_iFontSize < 8 )
-    m_iFontSize = 8;
-  else if ( m_iFontSize > 24 )
-    m_iFontSize = 24;
-
-  m_strStdFontName = config->readEntry( "StandardFont" );
-  if ( m_strStdFontName.isEmpty() )
-    m_strStdFontName = DEFAULT_VIEW_FONT;
+  m_standardFont = config->readFontEntry( "StandardFont" );
 
   m_bgColor = config->readColorEntry( "BgColor", &FM_DEFAULT_BG_COLOR );
   m_normalTextColor = config->readColorEntry( "NormalTextColor", &FM_DEFAULT_TXT_COLOR );
