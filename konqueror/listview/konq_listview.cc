@@ -22,7 +22,6 @@
 #include "konq_listviewwidget.h"
 #include "konq_textviewwidget.h"
 #include "konq_treeviewwidget.h"
-#include "konq_factory.h"
 
 #include <kcursor.h>
 #include <kdirlister.h>
@@ -59,11 +58,11 @@ class KonqListViewFactory : public KParts::Factory
 public:
   KonqListViewFactory()
   {
-    KonqFactory::instanceRef();
   }
   virtual ~KonqListViewFactory()
   {
-    KonqFactory::instanceUnref();
+    if ( s_instance )
+      delete s_instance;
   }
 
   virtual KParts::Part* createPart( QWidget *parentWidget, const char *, QObject *parent, const char *name, const char*, const QStringList &args )
@@ -76,7 +75,18 @@ public:
     return obj;
   }
 
+  static KInstance *instance()
+  {
+    if ( !s_instance )
+      s_instance = new KInstance( "konqueror" );
+    delete s_instance;
+  }
+
+private:
+  static KInstance *s_instance;
 };
+
+static KInstance *KonqListViewFactory::s_instance = 0;
 
 extern "C"
 {
@@ -187,7 +197,7 @@ void ListViewBrowserExtension::savePropertiesAsDefault()
 KonqListView::KonqListView( QWidget *parentWidget, QObject *parent, const char *name, const QString& mode )
  : KParts::ReadOnlyPart( parent, name )
 {
-  setInstance( KonqFactory::instance() );
+  setInstance( KonqListViewFactory::instance() );
 
   m_browser = new ListViewBrowserExtension( this );
 
@@ -291,7 +301,7 @@ void KonqListView::slotUnselect()
 
       m_pListView->blockSignals(FALSE);
       m_pListView->repaintContents(0,0,m_pListView->width(),m_pListView->height());
-      
+
       // do this once, not for each item
       //m_pListView.slotSelectionChanged();
       //slotDisplayFileSelectionInfo();
@@ -432,7 +442,7 @@ void KonqListView::setupActions()
   m_paMediumIcons->setChecked( true );
   m_paSmallIcons->setChecked( false );
   m_paNoIcons->setChecked( false );
-  
+
   m_paCheckMimeTypes->setChecked( true );
 
   connect( m_paLargeIcons, SIGNAL( toggled( bool ) ), this, SLOT( slotViewLarge( bool ) ) );

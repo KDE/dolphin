@@ -20,9 +20,6 @@
 #include "konq_iconview.h"
 #include "konq_bgnddlg.h"
 #include "konq_propsview.h"
-#include "konq_childview.h"
-#include "konq_frame.h"
-#include "konq_factory.h"
 
 #include <assert.h>
 #include <string.h>
@@ -64,54 +61,32 @@ class KonqIconViewFactory : public KParts::Factory
 public:
     KonqIconViewFactory()
     {
-	KonqFactory::instanceRef();
     }
     virtual ~KonqIconViewFactory()
     {
-	KonqFactory::instanceUnref();
+      if ( s_instance )
+        delete s_instance;
     }
 
     virtual KParts::Part* createPart( QWidget *parentWidget, const char *, QObject *parent, const char *name, const char*, const QStringList &args )
     {
 	KonqKfmIconView *obj = new KonqKfmIconView( parentWidget, parent, name );
 	emit objectCreated( obj );
-
-	QStringList::ConstIterator it = args.begin();
-	QStringList::ConstIterator end = args.end();
-	uint i = 1;
-	for (; it != end; ++it, ++i )
-	    // This is not used anymore - do we still need something like this ?
-	    // (David)
-    	    // Hmmm, don't think so (Simon)
-	    if ( *it == "-viewMode" && i <= args.count() )
-	    {
-		++it;
-	
-		QIconView *iconView = obj->iconViewWidget();
-	
-		if ( *it == "LargeIcons" )
-		{
-		    //iconView->setViewMode( QIconSet::Large );
-		    iconView->setItemTextPos( QIconView::Bottom );
-		}
-		else if ( *it == "SmallIcons" )
-		{
-		    //iconView->setViewMode( QIconSet::Small );
-		    iconView->setItemTextPos( QIconView::Bottom );
-		}
-		else if ( *it == "SmallVerticalIcons" )
-		{
-		    //iconView->setViewMode( QIconSet::Small );
-		    iconView->setItemTextPos( QIconView::Right );
-		}
-
-		break;
-	    }
-
 	return obj;
     }
 
+    static KInstance *instance()
+    {
+      if ( !s_instance )
+        s_instance = new KInstance( "konqueror" );
+      return s_instance;
+    }
+
+private:
+  static KInstance *s_instance;
 };
+
+static KInstance *KonqIconViewFactory::s_instance = 0;
 
 extern "C"
 {
@@ -161,7 +136,7 @@ KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const 
 {
     kdDebug(1202) << "+KonqKfmIconView" << endl;
 
-    setInstance( KonqFactory::instance() );
+    setInstance( KonqIconViewFactory::instance() );
 
     m_extension = new IconViewBrowserExtension( this );
 

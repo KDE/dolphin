@@ -1,6 +1,5 @@
 
 #include "konq_dirtree.h"
-#include "konq_factory.h"
 
 #include <qdir.h>
 #include <qheader.h>
@@ -47,11 +46,11 @@ class KonqDirTreeFactory : public KParts::Factory
 public:
   KonqDirTreeFactory()
   {
-    KonqFactory::instanceRef();
   }
   virtual ~KonqDirTreeFactory()
   {
-    KonqFactory::instanceUnref();
+    if ( s_instance )
+      delete s_instance;
   }
 
   virtual KParts::Part* createPart( QWidget *parentWidget, const char *, QObject *parent, const char *name, const char*, const QStringList & )
@@ -61,7 +60,18 @@ public:
     return obj;
   }
 
+  static KInstance *instance()
+  {
+    if ( !s_instance )
+      s_instance = new KInstance( "konqueror" );
+    return s_instance;
+  }
+
+private:
+  static KInstance *s_instance;
 };
+
+static KInstance *KonqDirTreeFactory::s_instance = 0;
 
 extern "C"
 {
@@ -159,7 +169,7 @@ KonqDirTreePart::KonqDirTreePart( QWidget *parentWidget, QObject *parent, const 
   m_extension = new KonqDirTreeBrowserExtension( this, m_pTree );
 
   setWidget( m_pTree );
-  setInstance( KonqFactory::instance(), false );
+  setInstance( KonqDirTreeFactory::instance(), false );
   m_url = KURL( QDir::homeDirPath().prepend( "file:" ) );
 }
 
@@ -573,7 +583,7 @@ void KonqDirTree::slotClicked( QListViewItem *item )
 
   if ( dItem->isListable() )
     args.serviceType = QString::fromLatin1( "inode/directory" );
-  
+
   emit m_view->extension()->openURLRequest( dItem->fileItem()->url(), args );
 
   m_lastItem = item;
@@ -624,7 +634,7 @@ void KonqDirTree::slotListingStopped()
 
 void KonqDirTree::slotAnimation()
 {
-  QPixmap gearPixmap = BarIcon( QString::fromLatin1( "kde" ).append( QString::number( m_animationCounter ) ), KonqFactory::instance() );
+  QPixmap gearPixmap = BarIcon( QString::fromLatin1( "kde" ).append( QString::number( m_animationCounter ) ), KonqDirTreeFactory::instance() );
 
   QMap<KURL, QListViewItem *>::ConstIterator it = m_mapCurrentOpeningFolders.begin();
   QMap<KURL, QListViewItem *>::ConstIterator end = m_mapCurrentOpeningFolders.end();
@@ -649,7 +659,7 @@ void KonqDirTree::slotAutoOpenFolder()
 
 void KonqDirTree::init()
 {
-  scanDir( m_root, KonqFactory::instance()->dirs()->saveLocation( "data", "konqueror/dirtree/" ), true );
+  scanDir( m_root, KonqDirTreeFactory::instance()->dirs()->saveLocation( "data", "konqueror/dirtree/" ), true );
 }
 
 void KonqDirTree::scanDir( QListViewItem *parent, const QString &path, bool isRoot )
@@ -663,7 +673,7 @@ void KonqDirTree::scanDir( QListViewItem *parent, const QString &path, bool isRo
 
   if ( isRoot && entries.count() == 0 )
   {
-    QString homeLnk = locate( "data", "konqueror/dirtree/home.desktop", KonqFactory::instance() );
+    QString homeLnk = locate( "data", "konqueror/dirtree/home.desktop", KonqDirTreeFactory::instance() );
 
     if ( !homeLnk.isEmpty() )
     {
@@ -672,7 +682,7 @@ void KonqDirTree::scanDir( QListViewItem *parent, const QString &path, bool isRo
       system( cp.data() );
     }
 
-    QString rootLnk = locate( "data", "konqueror/dirtree/root.desktop", KonqFactory::instance() );
+    QString rootLnk = locate( "data", "konqueror/dirtree/root.desktop", KonqDirTreeFactory::instance() );
 
     if ( !rootLnk.isEmpty() )
     {
