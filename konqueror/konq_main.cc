@@ -64,7 +64,7 @@ int main( int argc, char **argv )
 
   KTempFile crashlog_file(locateLocal("tmp", "konqueror-crash-"), ".log");
 
-  KonqMainWindow::s_crashlog_file = new QFile( crashlog_file.name() );
+  KonqMainWindow::s_crashlog_file = crashlog_file.file();
   KonqMainWindow::s_crashlog_file->open( IO_WriteOnly );
 
   if ( kapp->isRestored() )
@@ -158,7 +158,7 @@ int main( int argc, char **argv )
       delete KonqMainWindow::mainWindowList()->first();
   }
 
-  KonqMainWindow::s_crashlog_file->remove();
+  crashlog_file.unlink();
 
   return 0;
 }
