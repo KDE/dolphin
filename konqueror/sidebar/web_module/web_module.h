@@ -24,6 +24,7 @@
 #include <khtml_part.h>
 #include <kpopupmenu.h>
 #include <klocale.h>
+#include <kiconloader.h>
 
 
 // A wrapper for KHTMLPart to make it behave the way we want it to.
@@ -45,7 +46,7 @@ class KHTMLSideBar : public KHTMLPart
 					this, SLOT(loadNewWindow()));
 
 			_menu = new KPopupMenu(widget(), "context menu");
-			_menu->insertItem(i18n("&Reload"),
+			_menu->insertItem(SmallIcon("reload"), i18n("&Reload"),
 					this, SIGNAL(reload()));
 
 			connect(this,
