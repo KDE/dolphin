@@ -19,6 +19,7 @@
 
 #include "toplevel.h"
 
+#include "bookmarkinfo.h"
 #include "listview.h"
 #include "actionsimpl.h"
 #include "dcop.h"
@@ -152,8 +153,6 @@ QString CurrentMgr::correctAddress(const QString &address) const {
 }
 
 /* -------------------------- */
-
-#include "bookmarkinfo.cpp"
 
 KEBApp *KEBApp::s_topLevel = 0;
 

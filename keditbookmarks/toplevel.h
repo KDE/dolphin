@@ -29,6 +29,7 @@ class KToggleAction;
 class KBookmarkEditorIface;
 class ImportCommand;
 class MagicKLineEdit;
+class BookmarkInfoWidget;
 
 struct SelcAbilities {
    bool itemSelected:1;
@@ -95,15 +96,6 @@ private:
    CurrentMgr() : m_mgr(0) { ; }
    KBookmarkManager *m_mgr;
    static CurrentMgr *s_mgr;
-};
-
-class BookmarkInfoWidget : public QWidget {
-public:
-   BookmarkInfoWidget(QWidget * = 0, const char * = 0);
-   void showBookmark(const KBookmark &bk);
-private:
-   KLineEdit *m_title_le, *m_url_le, *m_comment_le, *m_moddate_le, *m_credate_le;
-   KBookmark m_bk;
 };
 
 class KEBApp : public KMainWindow {

@@ -20,6 +20,7 @@
 #include "listview.h"
 
 #include "toplevel.h"
+#include "bookmarkinfo.h"
 #include "commands.h"
 #include "testlink.h" // paintCellHelper
 
