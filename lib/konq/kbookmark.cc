@@ -17,6 +17,8 @@
 */
 
 #include "kbookmark.h"
+#include "kbookmarklistener.h"
+#include "kbookmarklistener_signals.h"
 #include <kdebug.h>
 #include <kmimetype.h>
 #include <kstringhandler.h>
@@ -24,6 +26,8 @@
 #include <kglobal.h>
 #include <klocale.h>
 #include <assert.h>
+#include <kapp.h>
+#include <dcopclient.h>
 
 #include "konq_faviconmgr.h"
 
@@ -83,7 +87,7 @@ QDomElement KBookmarkGroup::nextKnownTag( QDomElement start, bool goNext ) const
     return elem;
 }
 
-KBookmarkGroup KBookmarkGroup::createNewFolder( const QString & text )
+KBookmarkGroup KBookmarkGroup::createNewFolder( const QString & text, bool emitSignal )
 {
     QString txt( text );
     if ( text.isEmpty() )
@@ -105,7 +109,13 @@ KBookmarkGroup KBookmarkGroup::createNewFolder( const QString & text )
     QDomElement textElem = doc.createElement( "title" );
     groupElem.appendChild( textElem );
     textElem.appendChild( doc.createTextNode( txt ) );
-    return KBookmarkGroup(groupElem);
+
+    KBookmarkGroup grp(groupElem);
+
+    if (emitSignal) emit KBookmarkListener_signals::createNewFolder_signal( grp.fullText(), grp.address() );
+
+    return grp;
+
 }
 
 KBookmark KBookmarkGroup::createNewSeparator()
@@ -141,7 +151,7 @@ bool KBookmarkGroup::moveItem( const KBookmark & item, const KBookmark & after )
     return (!n.isNull());
 }
 
-KBookmark KBookmarkGroup::addBookmark( const QString & text, const KURL & url, const QString & icon )
+KBookmark KBookmarkGroup::addBookmark( const QString & text, const KURL & url, const QString & icon, bool emitSignal )
 {
     //kdDebug(1203) << "KBookmarkGroup::addBookmark " << text << " into " << m_address << endl;
     QDomDocument doc = element.ownerDocument();
@@ -159,7 +169,11 @@ KBookmark KBookmarkGroup::addBookmark( const QString & text, const KURL & url, c
     elem.appendChild( textElem );
     textElem.appendChild( doc.createTextNode( text ) );
 
-    return KBookmark(elem);
+    KBookmark bk(elem);
+
+    if (emitSignal) emit KBookmarkListener_signals::addBookmark_signal( url.url(), text, bk.address(), icon );
+
+    return bk;
 }
 
 void KBookmarkGroup::deleteBookmark( KBookmark bk )
