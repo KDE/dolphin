@@ -1,4 +1,4 @@
-<!DOCTYPE kpartgui SYSTEM "kpartgui.dtd"><kpartgui name="Konqueror" version="16">
+<!DOCTYPE kpartgui SYSTEM "kpartgui.dtd"><kpartgui name="Konqueror" version="17">
 <MenuBar>
  <Menu name="file" noMerge="1"><text>&amp;Location</text>
   <Action name="new_window"/>
@@ -7,7 +7,7 @@
   <Separator/>
   <Action name="quit"/>
  </Menu>
- <Menu name="edit"><text>&amp;Edit</text>  <!--Here is what applies to a selection-->
+ <Menu name="edit" noMerge="1"><text>&amp;Edit</text>  <!--Here is what applies to a selection-->
   <Action name="undo" />
   <Action name="cut"/>
   <Action name="copy"/>
@@ -26,7 +26,7 @@
   <Separator />
   <Merge/>
  </Menu>
- <Menu name="view"><text>&amp;View</text> <!--Here is what applies to the active view-->
+ <Menu name="view" noMerge="1"><text>&amp;View</text> <!--Here is what applies to the active view-->
   <ActionList name="viewmode" />
   <Action name="usehtml"/>
   <Action name="lock"/>
@@ -62,7 +62,7 @@
   <WeakSeparator/>
   <Merge/>
  </Menu>
- <Menu name="settings"><text>&amp;Settings</text>
+ <Menu name="settings" noMerge="1"><text>&amp;Settings</text>
   <Action name="showmenubar"/>
   <Action name="showtoolbar"/>
   <Action name="showlocationbar"/>
