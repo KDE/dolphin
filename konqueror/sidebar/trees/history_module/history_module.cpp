@@ -270,7 +270,7 @@ void KonqSidebarHistoryModule::slotPreferences()
 	return;
     }
 
-    m_dlg = new KDialogBase( KDialogBase::Plain, i18n("History settings"),
+    m_dlg = new KDialogBase( KDialogBase::Plain, i18n("History Settings"),
 			     KDialogBase::Ok | KDialogBase::Cancel,
 			     KDialogBase::Ok,
 			     tree(), "history dialog", false );
