@@ -94,11 +94,14 @@ KonqProfileDlg::KonqProfileDlg( KonqViewManager *manager, const QString & presel
   QMap<QString,QString>::ConstIterator eEnd = m_mapEntries.end();
   for (; eIt != eEnd; ++eIt )
   {
-    new QListViewItem( m_pListView, eIt.key() );
+    QListViewItem *item = new QListViewItem( m_pListView, eIt.key() );
     QString filename = eIt.data().mid( eIt.data().findRev( '/' ) + 1 );
     kdDebug() << filename << endl;
     if ( filename == preselectProfile )
+    {
       m_pProfileNameLineEdit->setText( eIt.key() );
+      m_pListView->setSelected( item, true );
+    }
   }
 
   m_pListView->setMinimumSize( m_pListView->sizeHint() );
