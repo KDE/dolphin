@@ -694,11 +694,18 @@ void KonqBaseListViewWidget::setComplete()
 {
     m_bTopLevelComplete = true;
 
-/*    if ( m_bUpdateContentsPosAfterListing )
+    // Alex: this flag is set when we are just finishing a voluntary listing,
+    // so do the go-to-item thing only under here. When we update the
+    // current directory automatically (e.g. after a file has been deleted),
+    // we don't want to go to the first item ! (David)
+    if ( m_bUpdateContentsPosAfterListing )
     {
-        setContentsPos( m_pBrowserView->extension()->urlArgs().xOffset,
-                        m_pBrowserView->extension()->urlArgs().yOffset );
+        kdDebug() << "KonqBaseListViewWidget::setComplete m_bUpdateContentsPosAfterListing=true" << endl;
+        // We should use the history for the item-found thing, instead of this
+        //setContentsPos( m_pBrowserView->extension()->urlArgs().xOffset,
+        //                m_pBrowserView->extension()->urlArgs().yOffset );
         m_bUpdateContentsPosAfterListing = false;
+        /*
         if ((firstChild()!=0) && (m_pBrowserView->extension()->urlArgs().yOffset==0))
         {
            //the call above saves the two following calls, aleXXX
@@ -706,19 +713,19 @@ void KonqBaseListViewWidget::setComplete()
            ensureItemVisible(currentItem());
         }
         emit selectionChanged();
-    }*/
-    if ((m_goToFirstItem==true) || (m_itemFound==false))
-    {
-       setCurrentItem(firstChild());
-       //ugghh, hack, to set the selectedBySimpleMove in KListview->d, aleXXX
-       QKeyEvent tmpEvent(QEvent::KeyPress,0,0,0,"MajorHack");
-       keyPressEvent(&tmpEvent);
-    };
-
-    ensureItemVisible(currentItem());
+        }*/
+        if ((m_goToFirstItem==true) || (m_itemFound==false))
+        {
+            kdDebug() << "going to first item" << endl;
+            setCurrentItem(firstChild());
+            //ugghh, hack, to set the selectedBySimpleMove in KListview->d, aleXXX
+            QKeyEvent tmpEvent(QEvent::KeyPress,0,0,0,"MajorHack");
+            keyPressEvent(&tmpEvent);
+        }
+        ensureItemVisible(currentItem());
+    }
     // Show "cut" icons as such
     m_pBrowserView->slotClipboardDataChanged();
-
 }
 
 void KonqBaseListViewWidget::slotStarted()
