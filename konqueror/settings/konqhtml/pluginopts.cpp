@@ -161,6 +161,12 @@ void KPluginOptions::load()
   config->setGroup("Misc");
   m_widget->scanAtStartup->setChecked( config->readBoolEntry( "startkdeScan", false ) );
 
+  m_widget->dirEdit->setURL("");
+  m_widget->dirEdit->setEnabled( false );
+  m_widget->dirRemove->setEnabled( false );
+  m_widget->dirUp->setEnabled( false );
+  m_widget->dirDown->setEnabled( false );
+
   dirLoad( config );
   pluginLoad( config );
 
@@ -337,11 +343,11 @@ extern "C"
 void KPluginOptions::dirInit()
 {
     m_widget->dirEdit->setCaption(i18n("Select Plugin Scan Directory"));
-    connect( m_widget->dirNew, SIGNAL(clicked()), SLOT(dirNew()) );
-    connect( m_widget->dirRemove, SIGNAL(clicked()), SLOT(dirRemove()) );
-    connect( m_widget->dirUp, SIGNAL(clicked()), SLOT(dirUp()) );
+    connect( m_widget->dirNew, SIGNAL(clicked()), SLOT(dirNew()));
+    connect( m_widget->dirRemove, SIGNAL(clicked()), SLOT(dirRemove()));
+    connect( m_widget->dirUp, SIGNAL(clicked()), SLOT(dirUp()));
     connect( m_widget->dirDown, SIGNAL(clicked()), SLOT(dirDown()) );
-    connect( m_widget->useArtsdsp, SIGNAL(clicked ()),SLOT(change()));
+    connect( m_widget->useArtsdsp, SIGNAL(clicked()),SLOT(change()));
     connect( m_widget->dirEdit,
              SIGNAL(textChanged(const QString&)),
              SLOT(dirEdited(const QString &)) );
@@ -470,8 +476,10 @@ void KPluginOptions::dirDown()
 
 void KPluginOptions::dirEdited(const QString &txt )
 {
-    if ( m_widget->dirList->currentText()!=txt ) {
+    if ( m_widget->dirList->currentText() != txt ) {
+        m_widget->dirList->blockSignals(true);
         m_widget->dirList->changeItem( txt, m_widget->dirList->currentItem() );
+        m_widget->dirList->blockSignals(false);
         change();
     }
 }
