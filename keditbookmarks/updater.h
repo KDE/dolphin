@@ -1,3 +1,5 @@
+// -*- mode:cperl; cperl-indent-level:4; cperl-continued-statement-offset:4; indent-tabs-mode:nil -*-
+// vim: set ts=4 sts=4 sw=4 et:
 /* This file is part of the KDE project
    Copyright (C) 2003 Alexander Kellett <lypanov@kde.org>
 
@@ -27,56 +29,57 @@
 
 class FavIconWebGrabber : public QObject
 {
-   Q_OBJECT
+Q_OBJECT
 public:
-   FavIconWebGrabber(KParts::ReadOnlyPart *part, const KURL &url);
-   ~FavIconWebGrabber() {}
+    FavIconWebGrabber(KParts::ReadOnlyPart *part, const KURL &url);
+    ~FavIconWebGrabber() {}
 
 protected slots:
-   void slotMimetype(KIO::Job *job, const QString &_type);
-   void slotFinished(KIO::Job *job);
+    void slotMimetype(KIO::Job *job, const QString &_type);
+    void slotFinished(KIO::Job *job);
 
 private:
-   KParts::ReadOnlyPart *m_part;
-   KURL m_url;
+    KParts::ReadOnlyPart *m_part;
+    KURL m_url;
 };
 
 class FavIconBrowserInterface;
 
 class FavIconUpdater : public KonqFavIconMgr 
 {
-   Q_OBJECT
+    Q_OBJECT
 
 public:   
-   FavIconUpdater(QObject *parent, const char *name);
-   void downloadIcon(const KBookmark &bk);
-   void downloadIconActual(const KBookmark &bk);
+    FavIconUpdater(QObject *parent, const char *name);
+    void downloadIcon(const KBookmark &bk);
+    void downloadIconActual(const KBookmark &bk);
 
-   virtual void notifyChange(bool isHost, QString hostOrURL, QString iconName);
+    virtual void notifyChange(bool isHost, QString hostOrURL, 
+                              QString iconName);
 
 protected slots:
-   void setIconURL(const KURL &iconURL);
-   void slotCompleted();
+    void setIconURL(const KURL &iconURL);
+    void slotCompleted();
 
 signals:
-   void done(bool succeeded);
+    void done(bool succeeded);
 
 private:
-   KParts::ReadOnlyPart *m_part;
-   FavIconBrowserInterface *m_browserIface;
-   KBookmark m_bk;
+    KParts::ReadOnlyPart *m_part;
+    FavIconBrowserInterface *m_browserIface;
+    KBookmark m_bk;
 };
 
 class FavIconBrowserInterface : public KParts::BrowserInterface
 {
-   Q_OBJECT
+    Q_OBJECT
 public:
-   FavIconBrowserInterface(FavIconUpdater *view, const char *name)
-      : KParts::BrowserInterface(view, name), m_view(view) {
-      ;
-   }
+    FavIconBrowserInterface(FavIconUpdater *view, const char *name)
+        : KParts::BrowserInterface(view, name), m_view(view) {
+        ;
+    }
 private:
-   FavIconUpdater *m_view;
+    FavIconUpdater *m_view;
 };
 
 #endif
