@@ -1637,7 +1637,7 @@ void KonqViewManager::setLoading( KonqView *view, bool loading )
     QColor color;
     KonqFrameTabs* konqframetabs = static_cast<KonqFrameTabs*>( parentContainer );
     if ( loading )
-      color = KGlobalSettings::inactiveTitleColor();
+      color = KGlobalSettings::inactiveTextColor();
     else
     {
       if ( konqframetabs->currentPage() != view->frame() )
