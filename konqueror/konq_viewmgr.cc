@@ -515,7 +515,13 @@ void KonqViewManager::loadViewProfile( KConfig &cfg, const QString & filename, c
       m_pMainContainer->setGeometry( 0, 0, m_pMainWindow->width(), m_pMainWindow->height() );
       m_pMainContainer->show();
 
+      // This flag is used by KonqView, to distinguish manual view creation
+      // from profile loading (e.g. in switchView)
+      m_bLoadingProfile = true;
+
       loadItem( cfg, m_pMainContainer, rootItem, defaultURL, forcedURL.isEmpty() );
+
+      m_bLoadingProfile = false;
   }
   else
   {
@@ -546,7 +552,7 @@ void KonqViewManager::loadViewProfile( KConfig &cfg, const QString & filename, c
   printFullHierarchy( m_pMainContainer );
 #endif
 
-  kdDebug(1202) << "KonqViewManager::loadViewProfile done" << endl;
+  //kdDebug(1202) << "KonqViewManager::loadViewProfile done" << endl;
 }
 
 void KonqViewManager::setActivePart( KParts::Part *part, bool immediate )
@@ -649,7 +655,7 @@ void KonqViewManager::loadItem( KConfig &cfg, KonqFrameContainer *parent,
       return; //ugh..
     }
 
-    kdDebug(1202) << "Creating View Stuff" << endl;
+    //kdDebug(1202) << "Creating View Stuff" << endl;
     KonqView *childView = setupView( parent, viewFactory, service, partServiceOffers, appServiceOffers, serviceType, passiveMode );
 
     childView->setLinkedView( linkedView );
@@ -667,7 +673,7 @@ void KonqViewManager::loadItem( KConfig &cfg, KonqFrameContainer *parent,
 
       if ( !url.isEmpty() )
       {
-        kdDebug(1202) << "loadItem: calling openURL " << url.prettyURL() << endl;
+        //kdDebug(1202) << "loadItem: calling openURL " << url.prettyURL() << endl;
         childView->openURL( url, url.prettyURL() );
       }
     }

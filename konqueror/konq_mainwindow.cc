@@ -607,12 +607,13 @@ void KonqMainWindow::slotOpenURLRequest( const KURL &url, const KParts::URLArgs 
 //Called by slotOpenURLRequest
 void KonqMainWindow::openURL( KonqView *childView, const KURL &url, const KParts::URLArgs &args )
 {
+  kdDebug(1202) << "KonqMainWindow::openURL (from slotOpenURLRequest) url=" << url.prettyURL() << endl;
   KonqOpenURLRequest req;
   req.args = args;
 
   if ( args.postData.size() > 0 ) // todo merge in if statement below
   {
-    kdDebug() << "KonqMainWindow::openURL - with postData. serviceType=" << args.serviceType << endl;
+    kdDebug(1202) << "KonqMainWindow::openURL - with postData. serviceType=" << args.serviceType << endl;
     openURL( childView, url, args.serviceType, req, args.trustedSource );
     return;
   }
@@ -684,15 +685,17 @@ void KonqMainWindow::abortLoading()
 
 void KonqMainWindow::slotCreateNewWindow( const KURL &url, const KParts::URLArgs &args )
 {
+    kdDebug(1202) << "KonqMainWindow::slotCreateNewWindow url=" << url.prettyURL() << endl;
     KonqMisc::createNewWindow( url, args );
 }
 
 void KonqMainWindow::slotCreateNewWindow( const KURL &url, const KParts::URLArgs &args,
                                           const KParts::WindowArgs &windowArgs, KParts::ReadOnlyPart *&part )
 {
+    kdDebug(1202) << "KonqMainWindow::slotCreateNewWindow(4 args) url=" << url.prettyURL()
+                  << " args.serviceType=" << args.serviceType << endl;
     KonqMainWindow *mainWindow = new KonqMainWindow( KURL(), false );
     mainWindow->setInitialFrameName( args.frameName );
-    //FIXME: obey args (like passing post-data (to KRun), etc.)
 
     KonqOpenURLRequest req;
     req.args = args;
@@ -763,7 +766,7 @@ void KonqMainWindow::slotCreateNewWindow( const KURL &url, const KParts::URLArgs
         view->frame()->statusbar()->hide();
 
     if ( !windowArgs.resizable )
-        // ### this doesn't seem to work either :-(
+        // ### this doesn't seem to work :-(
         mainWindow->setSizePolicy( QSizePolicy( QSizePolicy::Fixed, QSizePolicy::Fixed ) );
 
     if ( windowArgs.fullscreen )
@@ -772,6 +775,7 @@ void KonqMainWindow::slotCreateNewWindow( const KURL &url, const KParts::URLArgs
 
 void KonqMainWindow::slotNewWindow()
 {
+  // ### Maybe use profile from current window, if set ?
   if ( m_currentView && m_currentView->url().protocol() == QString::fromLatin1( "http" ) )
       KonqMisc::createBrowserWindowFromProfile(
           locate( "data", QString::fromLatin1("konqueror/profiles/webbrowsing") ),

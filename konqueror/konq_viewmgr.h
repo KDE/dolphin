@@ -139,15 +139,9 @@ public:
   QString currentProfileText() const { return m_currentProfileText; }
 
   /**
-   * Load the config entries for a view.
-   * @param cfg the config file
-   * ...
-   * @param defaultURL the URL to use if the profile doesn't contain urls
-   * @param openURL whether to open urls at all (from the profile or using @p defaultURL).
-   *  (this is set to false when we have a forcedURL to open)
+   * Whether we are currently loading a profile
    */
-  void loadItem( KConfig &cfg, KonqFrameContainer *parent,
-                 const QString &name, const KURL & defaultURL, bool openURL );
+  bool isLoadingProfile() const { return m_bLoadingProfile; }
 
   void clear();
 
@@ -194,6 +188,17 @@ protected slots:
 
 protected:
 
+  /**
+   * Load the config entries for a view.
+   * @param cfg the config file
+   * ...
+   * @param defaultURL the URL to use if the profile doesn't contain urls
+   * @param openURL whether to open urls at all (from the profile or using @p defaultURL).
+   *  (this is set to false when we have a forcedURL to open)
+   */
+  void loadItem( KConfig &cfg, KonqFrameContainer *parent,
+                 const QString &name, const KURL & defaultURL, bool openURL );
+
   // Disabled - we do it ourselves
   virtual void setActiveInstance( KInstance * ) {}
 
@@ -234,6 +239,7 @@ private:
 
   QGuardedPtr<KActionMenu> m_pamProfiles;
   bool m_bProfileListDirty;
+  bool m_bLoadingProfile;
   QString m_currentProfile;
   QString m_currentProfileText;
 

@@ -161,24 +161,27 @@ void KonqView::switchView( KonqViewFactory &viewFactory )
 
   connectPart();
 
-  // Honour "non-removeable passive mode" (like the dirtree)
-  QVariant prop = m_service->property( "X-KDE-BrowserView-PassiveMode");
-  if ( prop.isValid() && prop.toBool() )
+  if ( !m_pMainWindow->viewManager()->isLoadingProfile() )
   {
-    setPassiveMode( true ); // set as passive
-  }
-
-  // Honour "linked view"
-  prop = m_service->property( "X-KDE-BrowserView-LinkedView");
-  if ( prop.isValid() && prop.toBool() )
-  {
-    setLinkedView( true ); // set as linked
-    // Two views : link both
-    if (m_pMainWindow->viewCount() <= 2) // '1' can happen if this view is not yet in the map
+    // Honour "non-removeable passive mode" (like the dirtree)
+    QVariant prop = m_service->property( "X-KDE-BrowserView-PassiveMode");
+    if ( prop.isValid() && prop.toBool() )
     {
-      KonqView * otherView = m_pMainWindow->otherView( this );
-      if (otherView)
-        otherView->setLinkedView( true );
+      setPassiveMode( true ); // set as passive
+    }
+
+    // Honour "linked view"
+    prop = m_service->property( "X-KDE-BrowserView-LinkedView");
+    if ( prop.isValid() && prop.toBool() )
+    {
+      setLinkedView( true ); // set as linked
+      // Two views : link both
+      if (m_pMainWindow->viewCount() <= 2) // '1' can happen if this view is not yet in the map
+      {
+        KonqView * otherView = m_pMainWindow->otherView( this );
+        if (otherView)
+          otherView->setLinkedView( true );
+      }
     }
   }
 }
