@@ -36,7 +36,7 @@ class KonqSidebarPlugin : public QObject
 		~KonqSidebarPlugin(){;}
 		virtual QWidget *getWidget()=0;
 		virtual void *provides(const QString &)=0;
-                KonqSidebar_PluginInterface *getInterfaces();   
+		QObject *getInterfaces();
 	protected:
 		virtual void handleURL(const KURL &url)=0;
 		QString desktopName;
@@ -44,19 +44,40 @@ class KonqSidebarPlugin : public QObject
 		void requestURL(KURL&);
 		void started(KIO::Job *);
 		void completed();
-		
+
 	public slots:
 		void openURL(const KURL& url){handleURL(url);}
+	
+	/* signals, which could be, but need not to be added 
+
+		void openURLRequest( const KURL &url, const KParts::URLArgs &args = KParts::URLArgs() );
+  		void createNewWindow( const KURL &url, const KParts::URLArgs &args = KParts::URLArgs() );
+
+	!!!!!!!!!!!!! IMPORTANT, if you want to implement and call the following signal,
+		   don't use emit(createNewWindow(....)), but call it direclty createNewWindow(.....);
+
+	!!!!!!!!!!!!! IMPORTANT, if you want to implement and call the following signal,
+		   don't use emit enableAction(....), but call it direclty enableAction(.....);
+		void enableAction( const char * name, bool enabled );
+
+		void popupMenu( const QPoint &global, const KFileItemList &items );
+  		void popupMenu( KXMLGUIClient *client, const QPoint &global, const KFileItemList &items );
+		void popupMenu( const QPoint &global, const KURL &url,
+			const QString &mimeType, mode_t mode = (mode_t)-1 );
+		void popupMenu( KXMLGUIClient *client,
+			const QPoint &global, const KURL &url,
+			const QString &mimeType, mode_t mode = (mode_t)-1 );
+	*/
+
 };
 
 class KonqSidebar_PluginInterface
 	{
 		public:
-		KonqSidebar_PluginInterface(){;}
+		KonqSidebar_PluginInterface(){}
 		virtual ~KonqSidebar_PluginInterface(){;}
-		virtual KParts::ReadOnlyPart *getPart()=0;
-		virtual KParts::BrowserExtension *getExtension()=0;
-  		virtual KInstance *getInstance()=0; 
+
+		virtual KInstance *getInstance()=0;
 	};
 
 #endif

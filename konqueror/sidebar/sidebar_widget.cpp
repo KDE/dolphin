@@ -34,7 +34,7 @@
 #include <qpopupmenu.h>
 
 
-QString  Sidebar_Widget::PATH=QString(""); 
+QString  Sidebar_Widget::PATH=QString("");
 
 addBackEnd::addBackEnd(QObject *parent,class QPopupMenu *addmenu,const char *name):QObject(parent,name)
 {
@@ -46,10 +46,10 @@ addBackEnd::addBackEnd(QObject *parent,class QPopupMenu *addmenu,const char *nam
 void addBackEnd::aboutToShowAddMenu()
 {
   if (!menu) return;
-  KStandardDirs *dirs = KGlobal::dirs(); 
+  KStandardDirs *dirs = KGlobal::dirs();
   QStringList list=dirs->findAllResources("data","konqsidebartng/add/*.desktop",true,true);
   libNames.setAutoDelete(true);
-  libNames.resize(0); 	
+  libNames.resize(0);
   libParam.setAutoDelete(true);
   libParam.resize(0);
   menu->clear();
@@ -70,7 +70,7 @@ void addBackEnd::aboutToShowAddMenu()
 	libParam.resize(libParam.size()+1);
 	libParam.insert(libParam.count(),new QString(confFile->readEntry("X-KDE-KonqSidebarAddParam","")));
 	delete confFile;
-	
+
   }
 }
 
@@ -148,7 +148,12 @@ void addBackEnd::activatedAddMenu(int id)
 }
 
 
-Sidebar_Widget::Sidebar_Widget(QWidget *parent, KParts::ReadOnlyPart *par, const char *name):QWidget(parent,name),KonqSidebar_PluginInterface()
+/**************************************************************/
+/*                      Sidebar_Widget                        */
+/**************************************************************/
+
+Sidebar_Widget::Sidebar_Widget(QWidget *parent, KParts::ReadOnlyPart *par, const char *name)
+	:QWidget(parent,name),KonqSidebar_PluginInterface()
 {
 	myLayout=0;
         kdDebug()<<"**** Sidebar_Widget:SidebarWidget()"<<endl;
@@ -366,40 +371,20 @@ void Sidebar_Widget::updateDock()
 	kdDebug()<<"updateDock"<<endl;
 }
 
-ButtonInfo* Sidebar_Widget::getActiveModule()
-{
-#ifdef __GNUC__
-#warning implement correctly for multiple views
-#endif
-        ButtonInfo *info;
-        for (unsigned int i=0;i<Buttons.count();i++)
-                if ((info=Buttons.at(i))->dock!=0)
-                      if ((info->dock->isVisible()) && (info->module)) return info;
-	return 0;
-}
-
 void Sidebar_Widget::stdAction(const char *handlestd)
 {
-	ButtonInfo* mod=getActiveModule();
+	ButtonInfo* mod=activeModule;
 	if (!mod) return;
-	KParts::BrowserExtension *ext;
-	if ((ext=(KParts::BrowserExtension*)mod->module->provides("KParts::BrowserExtension")))
-		{
-#if QT_VERSION < 300
-			QMetaData *md=ext->metaObject()->slot(handlestd);
-			if (md)
-			{
-				(ext->*((void(QObject::*)())md->ptr))();
-			}
-#else
-            QMetaObject *mo = ext->metaObject();
-            int idx = mo->findSlot( handlestd, TRUE );
-            if (idx >= 0) {
-                QUObject o[1];
-                ext->qt_invoke(idx, o);
-            }
-#endif
-		}
+	if (!(mod->module)) return;
+
+	kdDebug()<<"Try calling >active< module's action"<<handlestd<<endl;	
+
+	int id = mod->module->metaObject()->findSlot( handlestd );
+  	if ( id == -1 )return;
+	kdDebug()<<"Action slot was found, it will be called now"<<endl;
+  	QUObject o[ 1 ];
+	mod->module->qt_invoke( id, o );
+  	return;
 }
 
 
@@ -478,7 +463,7 @@ bool Sidebar_Widget::addButton(const QString &desktoppath,int pos)
 	if (pos==-1)
 	{
 	  	ButtonBar->insertTab(SmallIcon(icon), lastbtn,name);
-		int id=Buttons.insert(lastbtn,new ButtonInfo(desktoppath,0,url,lib));
+		int id=Buttons.insert(lastbtn,new ButtonInfo(desktoppath,0,url,lib,this));
 		KMultiVertTabBarTab *tab=ButtonBar->getTab(lastbtn);
 		tab->installEventFilter(this);
 		connect(tab,SIGNAL(clicked(int)),this,SLOT(showHidePage(int)));
@@ -505,7 +490,7 @@ bool Sidebar_Widget::eventFilter(QObject *obj, QEvent *ev)
 								if (bt==ButtonBar->getTab(i))
 									{popupFor=i; break;}
 							}
-							
+
 							buttonPopup->setItemEnabled(2,!Buttons.at(popupFor)->URL.isEmpty());
 							if (popupFor!=-1)
 								buttonPopup->exec(QCursor::pos());
@@ -517,7 +502,7 @@ bool Sidebar_Widget::eventFilter(QObject *obj, QEvent *ev)
 	return false;
 }
 
-KonqSidebarPlugin *Sidebar_Widget::loadModule(QWidget *par,QString &desktopName,QString lib_name)
+KonqSidebarPlugin *Sidebar_Widget::loadModule(QWidget *par,QString &desktopName,QString lib_name,ButtonInfo* bi)
 	{
 
  				KLibLoader *loader = KLibLoader::self();
@@ -538,7 +523,7 @@ KonqSidebarPlugin *Sidebar_Widget::loadModule(QWidget *par,QString &desktopName,
 					              	KonqSidebarPlugin* (*func)(QObject *, QWidget*, QString&, const char *);
 					              	func = (KonqSidebarPlugin* (*)(QObject *, QWidget *, QString&, const char *)) create;
 							QString fullPath(PATH+desktopName);
-					              	return  (KonqSidebarPlugin*)func(this,par,fullPath,0);
+					              	return  (KonqSidebarPlugin*)func(bi,par,fullPath,0);
 					            }
 			        }
 			    	else
@@ -546,23 +531,17 @@ KonqSidebarPlugin *Sidebar_Widget::loadModule(QWidget *par,QString &desktopName,
 			return 0;
 	}
 
-KParts::ReadOnlyPart *Sidebar_Widget::getPart()
+/*KParts::ReadOnlyPart *Sidebar_Widget::getPart()
 	{
 		return partParent;
 
 	}
-
+*/
 
 KParts::BrowserExtension *Sidebar_Widget::getExtension()
 	{
 		return KParts::BrowserExtension::childObject(partParent);
 
-	}
-
-KInstance  *Sidebar_Widget::getInstance()
-	{
-		kdDebug()<<"Sidebar_Widget::getInstance()"<<endl;
-		return ((KonqSidebar*)partParent)->getInstance();
 	}
 
 bool Sidebar_Widget::createView( ButtonInfo *data)
@@ -573,53 +552,22 @@ bool Sidebar_Widget::createView( ButtonInfo *data)
 			confFile->setGroup("Desktop Entry");
 
 			data->dock=Area->createDockWidget(confFile->readEntry("Name",i18n("Unknown")),0);
-			data->module=loadModule(data->dock,data->file,data->libName);
+			data->module=loadModule(data->dock,data->file,data->libName,data);
 			if (data->module==0)
 			{
 				delete data->dock;
 				data->dock=0;
 				ret=false;
-				
+
 			}
 			else
 			{
 				data->dock->setWidget(data->module->getWidget());
 				data->dock->setEnableDocking(KDockWidget::DockTop|
 				KDockWidget::DockBottom|KDockWidget::DockDesktop);
-				data->dock->setDockSite(KDockWidget::DockTop|KDockWidget::DockBottom);	
-				KParts::BrowserExtension *browserExtCli;
-				KParts::BrowserExtension *browserExtMst=KParts::BrowserExtension::childObject(partParent);
-				connect(data->module,SIGNAL(started(KIO::Job *)),
-					this, SIGNAL(started(KIO::Job*)));
-		                connect(data->module,SIGNAL(completed()),this,SIGNAL(completed()));
-				if ((browserExtCli=(KParts::BrowserExtension*)data->module->provides("KParts::BrowserExtension"))!=0)
-					{
-					connect(browserExtCli,SIGNAL(popupMenu( const QPoint &, const KURL &,
-				                  const QString &, mode_t)),browserExtMst,SIGNAL(popupMenu( const 
-							QPoint &, const KURL&, const QString &, mode_t)));
+				data->dock->setDockSite(KDockWidget::DockTop|KDockWidget::DockBottom);
+				connectModule(data->module);
 
-					connect(browserExtCli,SIGNAL(popupMenu( KXMLGUIClient *, const QPoint &, 
-						const KURL &,const QString &, mode_t)),browserExtMst,
-						SIGNAL(popupMenu( KXMLGUIClient *, const QPoint &, 
-						const KURL &,const QString &, mode_t)));
-
-					connect(browserExtCli,SIGNAL(popupMenu( const QPoint &, const KFileItemList & )),
-					browserExtMst,SIGNAL(popupMenu( const QPoint &, const KFileItemList & )));
-
-					connect(browserExtCli,SIGNAL(openURLRequest( const KURL &, const KParts::URLArgs &)),
-					browserExtMst,SIGNAL(openURLRequest( const KURL &, const KParts::URLArgs &))); 
-
-
-/*?????*/
-					connect(browserExtCli,SIGNAL(setLocationBarURL( const QString &)),
-					browserExtMst,SIGNAL(setLocationBarURL( const QString &)));
-					connect(browserExtCli,SIGNAL(setIconURL( const KURL &)),
-					browserExtMst,SIGNAL(setIconURL( const KURL &)));
-/*?????*/
-					connect(browserExtCli,SIGNAL(infoMessage( const QString & )),
-					browserExtMst,SIGNAL(infoMessage( const QString & )));
- 
-					}
 
 			}
 
@@ -643,7 +591,7 @@ void Sidebar_Widget::showHidePage(int page)
 							ButtonBar->setTab(page,false);
 							return;
 						}
-						ButtonBar->setTab(page,true);			
+						ButtonBar->setTab(page,true);
 						info->dock->manualDock(mainW,KDockWidget::DockTop,100);
 						info->dock->show();
 						if (stored_url) info->module->openURL(storedUrl);
@@ -656,7 +604,7 @@ void Sidebar_Widget::showHidePage(int page)
 			if ((!info->dock->isVisible()) && (ButtonBar->isTabRaised(page)))
 				{
 					//SingleWidgetMode
-					if (singleWidgetMode) if (latestViewed!=-1) showHidePage(latestViewed);			
+					if (singleWidgetMode) if (latestViewed!=-1) showHidePage(latestViewed);
 					info->dock->manualDock(mainW,KDockWidget::DockTop,100);
 					info->dock->show();
 					latestViewed=page;
@@ -689,6 +637,153 @@ void Sidebar_Widget::dockWidgetHasUndocked(KDockWidget* wid)
 //				break;
 			}
 	}
+}
+
+KInstance  *Sidebar_Widget::getInstance()
+{
+	return ((KonqSidebar*)partParent)->getInstance();
+}
+
+void Sidebar_Widget::openURLRequest( const KURL &url, const KParts::URLArgs &args)
+{getExtension()->openURLRequest(url,args);}
+
+void Sidebar_Widget::createNewWindow( const KURL &url, const KParts::URLArgs &args)
+{getExtension()->createNewWindow(url,args);}
+
+void Sidebar_Widget::createNewWindow( const KURL &url, const KParts::URLArgs &args,
+	const KParts::WindowArgs &windowArgs, KParts::ReadOnlyPart *&part )
+{getExtension()->createNewWindow(url,args,windowArgs,part);}
+
+void Sidebar_Widget::enableAction( const char * name, bool enabled )
+{
+	ButtonInfo *btninfo=dynamic_cast<ButtonInfo*>(sender()->parent());
+	if (btninfo)
+	{
+		if (QString(name)=="copy") btninfo->copy=enabled;
+		if (QString(name)=="cut") btninfo->cut=enabled;
+		if (QString(name)=="paste") btninfo->paste=enabled;
+		if (QString(name)=="trash") btninfo->trash=enabled;
+		if (QString(name)=="del") btninfo->del=enabled;
+		if (QString(name)=="shred") btninfo->shred=enabled;
+		if (QString(name)=="rename") btninfo->rename=enabled;
+	}
+}
+
+void Sidebar_Widget::popupMenu( const QPoint &global, const KFileItemList &items )
+{
+	activeModule=dynamic_cast<ButtonInfo*>(sender()->parent());
+	if (activeModule==0)
+	{
+		kdDebug()<<"Couldn't set active module, aborting"<<endl;
+	}
+	else
+	{
+		getExtension()->enableAction( "copy", activeModule->copy );
+		getExtension()->enableAction( "cut", activeModule->cut );
+		getExtension()->enableAction( "paste", activeModule->paste );
+		getExtension()->enableAction( "trash", activeModule->trash );
+		getExtension()->enableAction( "del", activeModule->del );
+		getExtension()->enableAction( "shred", activeModule->shred );
+		getExtension()->enableAction( "rename", activeModule->rename );
+		getExtension()->popupMenu(global,items);
+	}
+}
+
+
+void Sidebar_Widget::popupMenu( KXMLGUIClient *client, const QPoint &global, const KFileItemList &items )
+{
+	activeModule=dynamic_cast<ButtonInfo*>(sender()->parent());
+	if (activeModule==0)
+	{
+		kdDebug()<<"Couldn't set active module, aborting"<<endl;
+	}
+	else
+	{
+		getExtension()->enableAction( "copy", activeModule->copy );
+		getExtension()->enableAction( "cut", activeModule->cut );
+		getExtension()->enableAction( "paste", activeModule->paste );
+		getExtension()->enableAction( "trash", activeModule->trash );
+		getExtension()->enableAction( "del", activeModule->del );
+		getExtension()->enableAction( "shred", activeModule->shred );
+		getExtension()->enableAction( "rename", activeModule->rename );
+		getExtension()->popupMenu(client,global,items);
+	}
+}
+
+void Sidebar_Widget::popupMenu( const QPoint &global, const KURL &url,
+	const QString &mimeType, mode_t mode)
+{
+	activeModule=dynamic_cast<ButtonInfo*>(sender()->parent());
+	if (activeModule==0)
+	{
+		kdDebug()<<"Couldn't set active module, aborting"<<endl;
+	}
+	else
+	{
+		getExtension()->enableAction( "copy", activeModule->copy );
+		getExtension()->enableAction( "cut", activeModule->cut );
+		getExtension()->enableAction( "paste", activeModule->paste );
+		getExtension()->enableAction( "trash", activeModule->trash );
+		getExtension()->enableAction( "del", activeModule->del );
+		getExtension()->enableAction( "shred", activeModule->shred );
+		getExtension()->enableAction( "rename", activeModule->rename );
+		getExtension()->popupMenu(global,url,mimeType,mode);
+	}
+}
+
+void Sidebar_Widget::popupMenu( KXMLGUIClient *client,
+	const QPoint &global, const KURL &url,
+	const QString &mimeType, mode_t mode )
+{
+	activeModule=dynamic_cast<ButtonInfo*>(sender()->parent());
+	if (activeModule==0)
+	{
+		kdDebug()<<"Couldn't set active module, aborting"<<endl;
+	}
+	else
+	{
+		getExtension()->enableAction( "copy", activeModule->copy );
+		getExtension()->enableAction( "cut", activeModule->cut );
+		getExtension()->enableAction( "paste", activeModule->paste );
+		getExtension()->enableAction( "trash", activeModule->trash );
+		getExtension()->enableAction( "del", activeModule->del );
+		getExtension()->enableAction( "shred", activeModule->shred );
+		getExtension()->enableAction( "rename", activeModule->rename );
+		getExtension()->popupMenu(client,global,url,mimeType,mode);
+	}
+}
+
+void Sidebar_Widget::connectModule(QObject *mod)
+{
+	connect(mod,SIGNAL(started(KIO::Job *)),this, SIGNAL(started(KIO::Job*)));
+	connect(mod,SIGNAL(completed()),this,SIGNAL(completed()));
+	connect(mod,SIGNAL(popupMenu( const QPoint &, const KURL &,
+		const QString &, mode_t)),this,SLOT(popupMenu( const
+		QPoint &, const KURL&, const QString &, mode_t)));
+	connect(mod,SIGNAL(popupMenu( KXMLGUIClient *, const QPoint &,
+		const KURL &,const QString &, mode_t)),this,
+		SLOT(popupMenu( KXMLGUIClient *, const QPoint &,
+		const KURL &,const QString &, mode_t)));
+
+	connect(mod,SIGNAL(popupMenu( const QPoint &, const KFileItemList & )),
+		this,SLOT(popupMenu( const QPoint &, const KFileItemList & )));
+
+	connect(mod,SIGNAL(openURLRequest( const KURL &, const KParts::URLArgs &)),
+		this,SLOT(openURLRequest( const KURL &, const KParts::URLArgs &)));
+
+	connect(mod,SIGNAL(enableAction( const char *, bool)),
+		this,SLOT(enableAction(const char *, bool)));
+
+#if 0
+/*?????*/
+					connect(browserExtCli,SIGNAL(setLocationBarURL( const QString &)),
+					browserExtMst,SIGNAL(setLocationBarURL( const QString &)));
+					connect(browserExtCli,SIGNAL(setIconURL( const KURL &)),
+					browserExtMst,SIGNAL(setIconURL( const KURL &)));
+/*?????*/
+					connect(browserExtCli,SIGNAL(infoMessage( const QString & )),
+					browserExtMst,SIGNAL(infoMessage( const QString & )));
+#endif
 }
 
 

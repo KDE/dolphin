@@ -240,7 +240,7 @@ void KonqSidebarHistoryModule::slotNewWindow()
     QListViewItem *item = tree()->selectedItem();
     KonqSidebarHistoryItem *hi = dynamic_cast<KonqSidebarHistoryItem*>( item );
     if ( hi )
-	emit tree()->part()->getInterfaces()->getExtension()->createNewWindow( hi->url() );
+	emit tree()->part()->createNewWindow( hi->url() );
 }
 
 void KonqSidebarHistoryModule::slotRemoveEntry()

@@ -32,15 +32,23 @@ class ButtonInfo: public QObject
 {
 	Q_OBJECT
 	public:
-	ButtonInfo(const QString& file_,class KDockWidget *dock_, const QString &url_,const QString &lib):
-		file(file_),dock(dock_),URL(url_),libName(lib)
-		{;}
+	ButtonInfo(const QString& file_,class KDockWidget *dock_, const QString &url_,const QString &lib, QObject *parent):
+		QObject(parent),file(file_),dock(dock_),URL(url_),libName(lib)
+		{copy=cut=paste=trash=del=shred=rename=false;}
 	~ButtonInfo(){;}
+
 	class QString file;
 	class KDockWidget *dock;
-	class KonqSidebarPlugin *module;	
+	class KonqSidebarPlugin *module;
 	class QString URL;
 	class QString libName;
+	bool copy;
+	bool cut;
+	bool paste;
+	bool trash;
+	bool del;
+	bool shred;
+        bool rename;
 };
 
 
@@ -70,9 +78,9 @@ class Sidebar_Widget: public QWidget, public KonqSidebar_PluginInterface
   ~Sidebar_Widget();
   void openURL(const class KURL &url);
   void stdAction(const char *handlestd);
-  virtual KParts::ReadOnlyPart *getPart();
-  virtual KParts::BrowserExtension *getExtension();
-  virtual KInstance *getInstance();
+  //virtual KParts::ReadOnlyPart *getPart();
+  KParts::BrowserExtension *getExtension();
+
   static QString PATH;
   private:
 	class KDockArea *Area;
@@ -82,11 +90,11 @@ class Sidebar_Widget: public QWidget, public KonqSidebar_PluginInterface
 	bool createView(ButtonInfo *data);
 	class KDockWidget *mainW;
 	int latestViewed;
-	class KonqSidebarPlugin *loadModule(QWidget *par,QString &desktopName,QString lib_name);
+	class KonqSidebarPlugin *loadModule(QWidget *par,QString &desktopName,QString lib_name,ButtonInfo *bi);
 	KURL storedUrl;
 	bool stored_url;
 	KParts::ReadOnlyPart *partParent;
-	ButtonInfo* getActiveModule();
+	//ButtonInfo* getActiveModule();
 	bool singleWidgetMode;
 	bool showTabsRight;
 	void readConfig();
@@ -97,8 +105,11 @@ class Sidebar_Widget: public QWidget, public KonqSidebar_PluginInterface
 	int popupFor;
 	void initialCopy();
 	void doLayout();
+	void connectModule(QObject *mod);
   protected:
 	virtual bool eventFilter(QObject*,QEvent*);
+	friend class ButtonInfo;
+	ButtonInfo *activeModule;
   protected slots:
 	void showHidePage(int value);
 	void updateDock();
@@ -110,6 +121,27 @@ class Sidebar_Widget: public QWidget, public KonqSidebar_PluginInterface
   signals:
 		void started(KIO::Job *);
                 void completed();
+  public:
+	/* interface KonqSidebar_PluginInterface*/
+	virtual KInstance  *getInstance();
+	/* end of interface implementation */
+	
+ /* The following public slots are wrappers for browserextension fields */
+ public slots:
+	void openURLRequest( const KURL &url, const KParts::URLArgs &args = KParts::URLArgs() );
+  	void createNewWindow( const KURL &url, const KParts::URLArgs &args = KParts::URLArgs() );
+	void createNewWindow( const KURL &url, const KParts::URLArgs &args,
+             const KParts::WindowArgs &windowArgs, KParts::ReadOnlyPart *&part );
+
+	void popupMenu( const QPoint &global, const KFileItemList &items );
+  	void popupMenu( KXMLGUIClient *client, const QPoint &global, const KFileItemList &items );
+	void popupMenu( const QPoint &global, const KURL &url,
+		const QString &mimeType, mode_t mode = (mode_t)-1 );
+	void popupMenu( KXMLGUIClient *client,
+		const QPoint &global, const KURL &url,
+		const QString &mimeType, mode_t mode = (mode_t)-1 );
+	void enableAction( const char * name, bool enabled );
+
 };
 
 #endif

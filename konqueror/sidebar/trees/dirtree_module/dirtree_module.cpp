@@ -30,7 +30,7 @@ KonqSidebarDirTreeModule::KonqSidebarDirTreeModule( KonqSidebarTree * parentTree
 {
     // Used to be static...
     s_defaultViewProps = new KonqPropsView(
-	((KonqSidebarPlugin*) (parentTree->part() ) ) -> getInterfaces()->getInstance(),0);
+	(dynamic_cast<KonqSidebar_PluginInterface*>(((KonqSidebarPlugin*) (parentTree->part() ) ) -> getInterfaces()))->getInstance(),0);
     //KonqSidebarTreeFactory::instance(), 0L );
 }
 
@@ -159,7 +159,7 @@ void KonqSidebarDirTreeModule::openSubFolder( KonqSidebarTreeItem *item )
     {
         // Create a properties instance for this view
 //        m_pProps = new KonqPropsView( KonqSidebarTreeFactory::instance(), s_defaultViewProps );
-          m_pProps = new KonqPropsView( ((KonqSidebar_Tree*)(tree()->part()))->getInterfaces()->getInstance(), s_defaultViewProps
+          m_pProps = new KonqPropsView( (dynamic_cast<KonqSidebar_PluginInterface*>(((KonqSidebar_Tree*)(tree()->part()))->getInterfaces()))->getInstance(), s_defaultViewProps
 );
     }
 

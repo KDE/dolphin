@@ -3,6 +3,8 @@
 #include "konq_sidebartree.h"
 #include <kdebug.h>
 #include <kstandarddirs.h>
+#include <qclipboard.h>
+#include <qdragobject.h>
 
 KonqSidebar_Tree::KonqSidebar_Tree(QObject *parent,QWidget *widgetParent, QString &desktopName_, const char* name):
                    KonqSidebarPlugin(parent,widgetParent,desktopName_,name)
@@ -27,14 +29,13 @@ void KonqSidebar_Tree::enableActions( bool copy, bool cut, bool paste,
                         bool trash, bool del, bool shred,
                         bool rename)
 {
-    KParts::BrowserExtension *ext = getInterfaces()->getExtension();
-    emit ext->enableAction( "copy", copy );
-    emit ext->enableAction( "cut", cut );
-    emit ext->enableAction( "paste", paste );
-    emit ext->enableAction( "trash", trash );
-    emit ext->enableAction( "del", del );
-    emit ext->enableAction( "shred", shred );
-    emit ext->enableAction( "rename", rename );
+    enableAction( "copy", copy );
+    enableAction( "cut", cut );
+    enableAction( "paste", paste );
+    enableAction( "trash", trash );
+    enableAction( "del", del );
+    enableAction( "shred", shred );
+    enableAction( "rename", rename );
 }
 
 void KonqSidebar_Tree::handleURL(const KURL &url)
@@ -43,6 +44,52 @@ void KonqSidebar_Tree::handleURL(const KURL &url)
         tree->followURL( url );
         emit completed();
     }
+
+void KonqSidebar_Tree::cut()
+{
+    QDragObject * drag = static_cast<KonqSidebarTreeItem*>(tree->selectedItem())->dragObject( 0L, true );
+    if (drag)
+        QApplication::clipboard()->setData( drag );
+}
+
+void KonqSidebar_Tree::copy()
+{
+    QDragObject * drag = static_cast<KonqSidebarTreeItem*>(tree->selectedItem())->dragObject( 0L );
+    if (drag)
+        QApplication::clipboard()->setData( drag );
+}
+
+void KonqSidebar_Tree::paste()
+{
+    if (tree->currentItem())
+        tree->currentItem()->paste();
+}
+
+void KonqSidebar_Tree::trash()
+{
+    if (tree->currentItem())
+        tree->currentItem()->trash();
+}
+
+void KonqSidebar_Tree::del()
+{
+    if (tree->currentItem())
+        tree->currentItem()->del();
+}
+
+void KonqSidebar_Tree::shred()
+{
+    if (tree->currentItem())
+        tree->currentItem()->shred();
+}
+
+void KonqSidebar_Tree::rename()
+{
+    if (tree->currentItem())
+        tree->currentItem()->rename();
+}
+
+
 
 
 

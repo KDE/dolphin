@@ -28,6 +28,25 @@ class KonqSidebar_Tree: public KonqSidebarPlugin
                 protected:
                         class KonqSidebarTree *tree;
                         virtual void handleURL(const KURL &url);
+		protected slots:
+			void copy();
+			void cut();
+			void paste();
+			void trash();
+			void del();
+			void shred();
+			void rename();
+#undef signals
+#define signals public
+signals:
+#undef signals
+#define signals protected
+			void openURLRequest( const KURL &url, const KParts::URLArgs &args = KParts::URLArgs() );
+  			void createNewWindow( const KURL &url, const KParts::URLArgs &args = KParts::URLArgs() );
+			void popupMenu( const QPoint &global, const KURL &url,
+					const QString &mimeType, mode_t mode = (mode_t)-1 );
+			void popupMenu( const QPoint &global, const KFileItemList &items );
+			void enableAction( const char * name, bool enabled );
         };
 
 

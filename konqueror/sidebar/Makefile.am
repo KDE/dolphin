@@ -2,6 +2,7 @@
 # there are none, comment this out
 #SUBDIRS = . sidebar_classic trees
 
+#SUBDIRS = .
 SUBDIRS = . trees
 
 # set the include path for X, qt and KDE

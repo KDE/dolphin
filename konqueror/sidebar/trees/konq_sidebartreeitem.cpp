@@ -43,7 +43,7 @@ void KonqSidebarTreeItem::initItem( KonqSidebarTreeTopLevelItem *topLevelItem )
 
 void KonqSidebarTreeItem::middleButtonPressed()
 {
-    emit tree()->part()->getInterfaces()->getExtension()->createNewWindow( externalURL() );
+    emit tree()->part()->createNewWindow( externalURL() );
 }
 
 KonqSidebarTreeModule * KonqSidebarTreeItem::module() const

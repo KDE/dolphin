@@ -168,7 +168,7 @@ void KonqSidebarDirTreeItem::middleButtonPressed()
     {
         KParts::URLArgs args;
         args.serviceType = m_fileItem->mimetype();
-        emit tree()->part()->getInterfaces()->getExtension()->createNewWindow( m_fileItem->url(), args );
+        emit tree()->part()->createNewWindow( m_fileItem->url(), args );
     }
     else
         m_fileItem->run();
@@ -178,7 +178,7 @@ void KonqSidebarDirTreeItem::rightButtonPressed()
 {
     KFileItemList lstItems;
     lstItems.append( m_fileItem );
-    emit tree()->part()->getInterfaces()->getExtension()->popupMenu( QCursor::pos(), lstItems );
+    emit tree()->part()->popupMenu( QCursor::pos(), lstItems );
 }
 
 void KonqSidebarDirTreeItem::paste()
