@@ -187,7 +187,7 @@ void KonqTreeViewWidget::slotNewItems( const KFileItemList & entries )
                 {
                     ensureItemVisible(currentItem());
                     emit selectionChanged();
-                    selectCurrentItemAndEnableSelectedBySimpleMoveMode();
+                    //selectCurrentItemAndEnableSelectedBySimpleMoveMode();
                 };
             };
 

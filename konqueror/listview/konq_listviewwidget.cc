@@ -704,7 +704,7 @@ void KonqBaseListViewWidget::setComplete()
         {
             kdDebug() << "going to first item" << endl;
             setCurrentItem(firstChild());
-            selectCurrentItemAndEnableSelectedBySimpleMoveMode();
+            //selectCurrentItemAndEnableSelectedBySimpleMoveMode();
         }
         ensureItemVisible(currentItem());
     }
@@ -756,7 +756,7 @@ void KonqBaseListViewWidget::slotNewItems( const KFileItemList & entries )
                setCurrentItem(tmp);
                ensureItemVisible(tmp);
                emit selectionChanged();
-               selectCurrentItemAndEnableSelectedBySimpleMoveMode();
+               //selectCurrentItemAndEnableSelectedBySimpleMoveMode();
                m_itemFound=true;
             };
       if ( !(*kit)->isMimeTypeKnown() )
