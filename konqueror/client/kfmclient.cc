@@ -158,6 +158,7 @@ bool clientApp::createNewWindow(const KURL & url, const QString & mimetype)
          dcopClient()->findObject( "konqueror*", "KonquerorIface", "", data,
                                    appId, appObj ) )
     {
+        kdDebug() << "clientApp::createNewWindow using existing konqueror" << endl;
         KonquerorIface_stub konqy( appId, appObj );
         konqy.createNewWindow( url.url(), mimetype );
     }
@@ -172,10 +173,11 @@ bool clientApp::createNewWindow(const KURL & url, const QString & mimetype)
             */
             KProcess proc;
             if ( mimetype.isEmpty() )
-                proc << QString::fromLatin1("kdeinit_wrapper") << QString::fromLatin1("konqueror") << url.url();
+                proc << /*QString::fromLatin1("kdeinit_wrapper") << */QString::fromLatin1("konqueror") << url.url();
             else
-                proc << QString::fromLatin1("kdeinit_wrapper") << QString::fromLatin1("konqueror") << QString::fromLatin1("-mimetype") << mimetype << url.url();
+                proc << /*QString::fromLatin1("kdeinit_wrapper") << */QString::fromLatin1("konqueror") << QString::fromLatin1("-mimetype") << mimetype << url.url();
             proc.start( KProcess::DontCare );
+            kdDebug() << "clientApp::createNewWindow KProcess started" << endl;
         //}
     }
     return true;
