@@ -300,7 +300,6 @@ KEBListViewItem * KEBTopLevel::findByAddress( const QString & address ) const
 void KEBTopLevel::slotRename()
 {
     ASSERT( m_pListView->selectedItem() );
-    kdDebug() << "KEBTopLevel::slotRename(), Item: " << (static_cast<KEBListViewItem *>(m_pListView->selectedItem()))->bookmark().address() << endl;
     m_pListView->rename( m_pListView->selectedItem(), 0 );
 }
 
@@ -507,13 +506,6 @@ void KEBTopLevel::slotItemRenamed(QListViewItem * item, const QString & newText,
     ASSERT(item);
     KEBListViewItem * kebItem = static_cast<KEBListViewItem *>(item);
     KBookmark bk = kebItem->bookmark();
-
-    kdDebug() << endl;
-    kdDebug() << "KEBTopLevel::slotItemRenamed(), Item == Group: " << bk.isGroup() << endl;
-    kdDebug() << "KEBTopLevel::slotItemRenamed(), Item's address: " << bk.address() << endl;
-    kdDebug() << "KEBTopLevel::slotItemRenamed(), Itemtext: " << bk.fullText() << ", new text: " << newText << endl;
-    kdDebug() << endl;
-
     switch (column) {
         case 0:
             if ( bk.fullText() != newText )
