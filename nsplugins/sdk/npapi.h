@@ -68,11 +68,11 @@ typedef unsigned long uint32;
 typedef short int16;
 #endif
 #ifndef _INT32
-#if defined(__alpha)
+#if defined(__alpha) || defined(_AIX)
 typedef int int32;
-#else /* __alpha */
+#else /* __alpha || _AIX */
 typedef long int32;
-#endif /* __alpha */
+#endif /* __alpha || _AIX */
 #endif
 
 #ifndef FALSE
