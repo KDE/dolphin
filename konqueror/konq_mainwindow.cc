@@ -3162,13 +3162,11 @@ void KonqMainWindow::initActions()
 
 void KonqMainWindow::slotMoveTabLeft()
 {
-    kdDebug()<<" KonqMainWindow::slotMoveTabLeft() \n";
     m_pViewManager->moveTabLeft();
 }
 
 void KonqMainWindow::slotMoveTabRight()
 {
-    kdDebug()<<" KonqMainWindow::slotMoveTabRight() \n";
     m_pViewManager->moveTabRight();
 }
 
@@ -3223,10 +3221,12 @@ void KonqMainWindow::updateViewActions()
     m_paDuplicateTab->setEnabled( true );
     if ( docContainer && docContainer->frameType() == "Tabs" )
     {
-      m_paRemoveTab->setEnabled( true );
-      m_paBreakOffTab->setEnabled( true );
-      m_paActivateNextTab->setEnabled( true );
-      m_paActivatePrevTab->setEnabled( true );
+        KonqFrameTabs* tabContainer = static_cast<KonqFrameTabs*>(docContainer);
+        bool state = (tabContainer->count()>1);
+        m_paRemoveTab->setEnabled( state );
+        m_paBreakOffTab->setEnabled( state );
+        m_paActivateNextTab->setEnabled( state );
+        m_paActivatePrevTab->setEnabled( state );
     }
     else
     {
