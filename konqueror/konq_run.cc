@@ -75,6 +75,11 @@ void KonqRun::foundMimeType( const QString & _type )
 
   m_bFinished = m_pMainWindow->openView( mimeType, m_strURL, m_pView, m_req );
 
+  // If we were following another view, let's just stop here,
+  // whether it worked or not.
+  if ( m_req.followMode )
+      m_bFinished = true;
+
   // Support for saving remote files.
   if ( !m_bFinished && // couldn't embed
        mimeType != "inode/directory" && // dirs can't be saved

@@ -366,18 +366,22 @@ void KonqMainWindow::openURL( KonqView *_view, const KURL &url,
     // Built-in view ?
     if ( !openView( serviceType, url, view /* can be 0L */, req ) )
     {
-        // We know the servicetype, let's try its preferred service
-        KService::Ptr offer = KServiceTypeProfile::preferredService(serviceType, true);
-        // Remote URL: save or open ?
-        if ( url.isLocalFile() || !KonqRun::askSave( url, offer ) )
+        // Are we following another view ? Then forget about this URL. Otherwise fire app.
+        if ( !req.followMode )
         {
-            KURL::List lst;
-            lst.append(url);
-            //kdDebug(1202) << "Got offer " << (offer ? offer->name().latin1() : "0") << endl;
-            if ( ( trustedSource || KonqRun::allowExecution( serviceType, url ) ) &&
-                 ( KonqRun::isExecutable( serviceType ) || !offer || !KRun::run( *offer, lst ) ) )
+            // We know the servicetype, let's try its preferred service
+            KService::Ptr offer = KServiceTypeProfile::preferredService(serviceType, true);
+            // Remote URL: save or open ?
+            if ( url.isLocalFile() || !KonqRun::askSave( url, offer ) )
             {
-                (void)new KRun( url );
+                KURL::List lst;
+                lst.append(url);
+                //kdDebug(1202) << "Got offer " << (offer ? offer->name().latin1() : "0") << endl;
+                if ( ( trustedSource || KonqRun::allowExecution( serviceType, url ) ) &&
+                     ( KonqRun::isExecutable( serviceType ) || !offer || !KRun::run( *offer, lst ) ) )
+                {
+                    (void)new KRun( url );
+                }
             }
         }
     }
@@ -413,7 +417,7 @@ bool KonqMainWindow::openView( QString serviceType, const KURL &_url, KonqView *
     makeViewsFollow( _url, serviceType, childView );
 
   if ( childView && childView->isLockedLocation() )
-    return true;
+    return false;
 
   QString indexFile;
 
@@ -619,8 +623,7 @@ void KonqMainWindow::makeViewsFollow( const KURL & url, const QString & serviceT
   {
     // Views that should follow this URL as views that are linked
     // (we are here only if the view opening a URL initially is linked)
-    // and that are not toggle views (dirtree/konsole).
-    if ( (view != senderView) && view->isLinkedView() && !view->isToggleView() )
+    if ( (view != senderView) && view->isLinkedView() )
     {
       kdDebug(1202) << "Sending openURL to view " << view->part()->className() << " url=" << url.url() << endl;
       openURL( view, url, serviceType, req );
