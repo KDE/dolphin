@@ -1069,24 +1069,23 @@ void KonqMainWindow::compressDirectory( KZip &zip, const QString & path )
 {
     QDir dir( path );
     QStringList files = dir.entryList();
+    files.remove("..");
+    files.remove(".");
     for ( QStringList::Iterator it = files.begin(); it != files.end(); ++it )
     {
-        if ( *it !="." && *it !="..")
-        {
-            QString fileName = path + "/" + *it;
-            QFileInfo fileInfo( fileName );
-            //kdDebug() << "file :"<<(path + "/" +*it) <<endl;
+        QString fileName = path + "/" + *it;
+        QFileInfo fileInfo( fileName );
+        //kdDebug() << "file :"<<(path + "/" +*it) <<endl;
 
-            if ( fileInfo.isDir() )
-                compressDirectory( zip, fileName );
-            else if ( fileInfo.isFile())
-            {
-                QFile tmp( fileName );
-                tmp.open(IO_ReadOnly);
-                QByteArray buf = tmp.readAll();
-                tmp.close();
-                zip.writeFile( fileName, fileInfo.owner(), fileInfo.group(), buf.size(), buf.data());
-            }
+        if ( fileInfo.isDir() )
+            compressDirectory( zip, fileName );
+        else if ( fileInfo.isFile())
+        {
+            QFile tmp( fileName );
+            tmp.open(IO_ReadOnly);
+            QByteArray buf = tmp.readAll();
+            tmp.close();
+            zip.writeFile( fileName, fileInfo.owner(), fileInfo.group(), buf.size(), buf.data());
         }
     }
 }
