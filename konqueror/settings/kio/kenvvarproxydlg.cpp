@@ -409,18 +409,18 @@ void KEnvVarProxyDlg::showValue( bool enable )
   if ( enable )
   {
     QString txt, env;
-    
+
     m_lstEnvVars.clear();
     txt = m_leEnvHttp->text();
-    m_pbShowValue->setText ( i18n ("Hide &Values") );
-        
+    m_pbShowValue->setText ( i18n ("Hide &Values  ") ); // ## remove the spaces after 3.1
+
     if (!txt.isEmpty())
     {
       env = QString::fromLocal8Bit( getenv( txt.local8Bit() ) );
       m_leEnvHttp->setText( env );
       m_lstEnvVars << txt;
     }
-    
+
     txt = m_leEnvHttps->text();
     if (!txt.isEmpty())
     {
@@ -428,7 +428,7 @@ void KEnvVarProxyDlg::showValue( bool enable )
       m_leEnvHttps->setText( env );
       m_lstEnvVars << txt;
     }
-    
+
     txt = m_leEnvFtp->text();
     if (!txt.isEmpty());
     {
