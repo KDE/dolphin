@@ -268,9 +268,11 @@ KonqPopupMenu::KonqPopupMenu( KBookmarkManager *mgr, const KFileItemList &items,
     // "open in new window" always available
     addAction( actNewView );
     addGroup( "tabhandling" );
-    addSeparator();
+    bool separatorAdded = false;
 
     if ( !currentDir && sReading ) {
+        addSeparator();
+        separatorAdded = true;
       if ( sDeleting ) {
         addAction( "undo" );
         addAction( "cut" );
@@ -279,6 +281,8 @@ KonqPopupMenu::KonqPopupMenu( KBookmarkManager *mgr, const KFileItemList &items,
     }
 
     if ( S_ISDIR(mode) && sWriting ) {
+        if ( !separatorAdded )
+            addSeparator();
         if ( currentDir )
             addAction( "paste" );
         else
@@ -348,9 +352,9 @@ KonqPopupMenu::KonqPopupMenu( KBookmarkManager *mgr, const KFileItemList &items,
               QStringList types = cfg.readListEntry( "ServiceTypes" );
               bool ok = !m_sMimeType.isNull() && types.contains( m_sMimeType );
               if ( !ok ) {
-                  ok = (types[0] == "all/all" || 
+                  ok = (types[0] == "all/all" ||
                         types[0] == "allfiles" /*compat with KDE up to 3.0.3*/);
-                  if ( !ok && types[0] == "all/allfiles" ) 
+                  if ( !ok && types[0] == "all/allfiles" )
                   {
                       ok = (m_sMimeType != "inode/directory"); // ## or inherits from it
                   }
