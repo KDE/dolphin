@@ -87,7 +87,7 @@ public:
                  QWidget * parentWidget,
                  bool showPropertiesAndFileType = true,
                  bool isHierView = false );
-  
+
   /**
    * Don't forget to destroy the object
    */
@@ -147,6 +147,8 @@ private:
   void setup(bool showPropertiesAndFileType);
   void addPlugins( );
   void insertServices(const ServiceList& list, QDomElement& menu, bool isBuiltin);
+  bool KonqPopupMenu::KIOSKAuthorizedAction(KConfig& cfg);
+
   class KonqPopupMenuPrivate;
   KonqPopupMenuPrivate *d;
   KNewMenu *m_pMenuNew;

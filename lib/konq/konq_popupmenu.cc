@@ -165,6 +165,17 @@ void KonqPopupMenu::insertServices(const ServiceList& list,
     ServiceList::const_iterator it = list.begin();
     for( ; it != list.end(); ++it )
     {
+        if ((*it).isEmpty())
+        {
+            if (!menu.firstChild().isNull() &&
+                menu.lastChild().toElement().tagName().lower() != "separator")
+            {
+                QDomElement separator = m_doc.createElement( "separator" );
+                menu.appendChild(separator);
+            }
+            continue;
+        }
+
         if (isBuiltin || (*it).m_display == true)
         {
             QCString name;
@@ -187,6 +198,31 @@ void KonqPopupMenu::insertServices(const ServiceList& list,
     }
 }
 
+bool KonqPopupMenu::KIOSKAuthorizedAction(KConfig& cfg)
+{
+    if ( !cfg.hasKey( "X-KDE-AuthorizeAction") )
+    {
+        return true;
+    }
+
+    QStringList list = cfg.readListEntry("X-KDE-AuthorizeAction");
+    if (kapp && !list.isEmpty())
+    {
+        for(QStringList::ConstIterator it = list.begin();
+            it != list.end();
+            ++it)
+        {
+            if (!kapp->authorize((*it).stripWhiteSpace()))
+            {
+                return false;
+            }
+        }
+    }
+
+    return true;
+}
+
+
 void KonqPopupMenu::setup(bool showPropertiesAndFileType)
 {
   assert( m_lstItems.count() >= 1 );
@@ -200,11 +236,12 @@ void KonqPopupMenu::setup(bool showPropertiesAndFileType)
   bool sMoving        = true;
   m_sMimeType         = m_lstItems.first()->mimetype();
   mode_t mode         = m_lstItems.first()->mode();
+  bool isDirectory    = m_sMimeType == "inode/directory";
   bool bTrashIncluded = false;
   bool bCanChangeSharing = false;
   m_lstPopupURLs.clear();
   int id = 0;
-  if( m_sMimeType=="inode/directory" && m_lstItems.first()->isLocalFile())
+  if( isDirectory && m_lstItems.first()->isLocalFile())
     bCanChangeSharing=true;
   setFont(KGlobalSettings::menuFont());
   m_pluginList.setAutoDelete( true );
@@ -356,12 +393,12 @@ void KonqPopupMenu::setup(bool showPropertiesAndFileType)
 
     if ( currentDir || httpPage ) // rmb on background or html frame
     {
-      addAction( "up" );
+      if (currentDir)
+          addAction( "up" ); // don't show when viewing html
       addAction( "back" );
       addAction( "forward" );
-      if ( currentDir ) // khtml adds a different "reload frame" for frames
-        addAction( "reload" );
-      addGroup( "reload" );
+      if (httpPage)
+          addGroup( "reload" ); // only show when viewing html
       addSeparator();
     }
 
@@ -418,8 +455,9 @@ void KonqPopupMenu::setup(bool showPropertiesAndFileType)
   ServiceList user;
   QMap<QString, ServiceList> userSubmenus;
 
+  bool isSingleLocal = (m_lstItems.count() == 1 && m_lstItems.first()->url().isLocalFile());
   // 1 - Look for builtin and user-defined services
-  if ( m_sMimeType == "application/x-desktop" && m_lstItems.count() == 1 && m_lstItems.first()->url().isLocalFile() ) // .desktop file
+  if ( m_sMimeType == "application/x-desktop" && isSingleLocal ) // .desktop file
   {
       // get builtin services, like mount/unmount
       builtin = KDEDesktopMimeType::builtinServices( m_lstItems.first()->url() );
@@ -430,6 +468,28 @@ void KonqPopupMenu::setup(bool showPropertiesAndFileType)
   {
 
   // 2 - Look for "servicesmenus" bindings (konqueror-specific user-defined services)
+
+  // first check the .directory if this is a directory
+  if (isDirectory && isSingleLocal)
+  {
+    QString dotDirectoryFile = m_lstItems.first()->url().path(1).append(".directory");
+    KSimpleConfig cfg( dotDirectoryFile, true );
+    cfg.setDesktopGroup();
+
+    if (KIOSKAuthorizedAction(cfg))
+    {
+        QString submenuName = cfg.readEntry( "X-KDE-Submenu" );
+        if (submenuName.isEmpty())
+        {
+            user += KDEDesktopMimeType::userDefinedServices( dotDirectoryFile, true );
+        }
+        else
+        {
+            userSubmenus[submenuName] += KDEDesktopMimeType::userDefinedServices( dotDirectoryFile, true );
+        }
+    }
+  }
+
   QStringList dirs = KGlobal::dirs()->findDirs( "data", "konqueror/servicemenus/" );
   QStringList::ConstIterator dIt = dirs.begin();
   QStringList::ConstIterator dEnd = dirs.end();
@@ -445,28 +505,11 @@ void KonqPopupMenu::setup(bool showPropertiesAndFileType)
       for (; eIt != eEnd; ++eIt )
       {
           KSimpleConfig cfg( *dIt + *eIt, true );
-
           cfg.setDesktopGroup();
 
-          if ( cfg.hasKey( "X-KDE-AuthorizeAction") )
+          if (!KIOSKAuthorizedAction(cfg))
           {
-              bool ok = true;
-              QStringList list = cfg.readListEntry("X-KDE-AuthorizeAction");
-              if (kapp && !list.isEmpty())
-              {
-                  for(QStringList::ConstIterator it = list.begin();
-                      it != list.end();
-                      ++it)
-                  {
-                      if (!kapp->authorize((*it).stripWhiteSpace()))
-                      {
-                          ok = false;
-                          break;
-                      }
-                  }
-              }
-              if (!ok)
-                continue;
+              continue;
           }
 
           if ( cfg.hasKey( "Actions" ) && cfg.hasKey( "ServiceTypes" ) )
@@ -492,7 +535,7 @@ void KonqPopupMenu::setup(bool showPropertiesAndFileType)
 
                   // next, do we match all files?
                   if (*it == "all/allfiles" &&
-                      m_sMimeType != "inode/directory") // ## or inherits from it
+                      !isDirectory) // ## or inherits from it
                   {
                       ok = true;
                       break;
