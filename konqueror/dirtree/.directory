@@ -1,5 +1,6 @@
 [Desktop Entry]
 Name=FTP Servers
+Name[ca]=Servidors FTP
 Name[cs]=FTP servery
 Name[de]=FTP-Server
 Name[eo]=FTP-serviloj
@@ -8,7 +9,7 @@ Name[fr]=Serveurs FTP
 Name[hu]=FTP Kiszolgálók
 Name[ja]=FTPサーバー
 Name[no]=FTP-tjenere
-Name[no_NY]=FTP-tjenere
+Name[no_NY]=FTP-tenar
 Name[ro]=Server-e FTP
 Name[sl]=Strežniki FTP
 Name[sv]=FTP-servrar
