@@ -34,6 +34,23 @@
 // MAX_CACHE_AGE needs a proper "age" input widget.
 #undef MAX_CACHE_AGE
 
+class KMySpinBox : public QSpinBox
+{
+public:
+   KMySpinBox( int minValue, int maxValue, int step, QWidget* parent)
+    : QSpinBox(minValue, maxValue, step, parent) { }
+   QLineEdit *editor() const { return QSpinBox::editor(); }
+   int value() const
+   {
+      #ifdef __GNUC__
+      #warning workaround for a bug of QSpinBox in >= Qt 2.2.0
+      #endif
+      if ( editor()->edited() )
+          const_cast<KMySpinBox*>(this)->interpretText();
+      return QSpinBox::value();
+   }
+};
+
 KProxyOptions::KProxyOptions(QWidget *parent, const char *name)
   : KCModule(parent, name)
 {
@@ -52,8 +69,9 @@ KProxyOptions::KProxyOptions(QWidget *parent, const char *name)
   lb_http_url = new QLabel( le_http_url, i18n("&HTTP Proxy:"), this);
   lb_http_url->setAlignment(AlignVCenter);
 
-  sb_http_port = new QSpinBox(1, 1000000, 1, this);
+  sb_http_port = new KMySpinBox(1, 1000000, 1, this);
   connect(sb_http_port, SIGNAL(valueChanged(int)), this, SLOT(changed()));
+  connect(sb_http_port->editor(), SIGNAL(textChanged(const QString &)), this, SLOT(changed()));
 
   QLabel * sep = new QLabel(this);
   sep->setFrameStyle(QFrame::HLine|QFrame::Sunken);
@@ -74,8 +92,9 @@ KProxyOptions::KProxyOptions(QWidget *parent, const char *name)
   lb_ftp_url = new QLabel(le_ftp_url, i18n("&FTP Proxy:"), this);
   lb_ftp_url->setAlignment(AlignVCenter);
 
-  sb_ftp_port = new QSpinBox(1, 1000000, 1, this);
+  sb_ftp_port = new KMySpinBox(1, 1000000, 1, this);
   connect(sb_ftp_port, SIGNAL(valueChanged(int)), this, SLOT(changed()));
+  connect(sb_ftp_port->editor(), SIGNAL(textChanged(const QString&)), this, SLOT(changed()));
 
   lb_ftp_port = new QLabel(sb_ftp_port, i18n("Po&rt:"), this);
   lb_ftp_port->setAlignment(AlignVCenter);

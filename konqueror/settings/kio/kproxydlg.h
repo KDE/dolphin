@@ -18,6 +18,7 @@ class QSpinBox;
 
 #include <kcmodule.h>
 
+class KMySpinBox;
 
 class KProxyOptions : public KCModule
 {
@@ -40,13 +41,13 @@ Q_OBJECT
     QLabel *lb_ftp_url;		// label ftp url
     QLineEdit *le_ftp_url;	// lineedit ftp url
     QLabel *lb_ftp_port;	// and so on :)
-    QSpinBox *sb_ftp_port;
+    KMySpinBox *sb_ftp_port;
 
     // http proxy fields
     QLabel *lb_http_url;
     QLineEdit *le_http_url;
     QLabel *lb_http_port;
-    QSpinBox *sb_http_port;
+    KMySpinBox *sb_http_port;
 
     // "no proxy for" fields
     QLabel *lb_no_prx;
