@@ -360,9 +360,10 @@ int KonqLabelAction::plug( QWidget *widget, int index )
 
     int id = KAction::getToolButtonID();
 
-    QLabel * label = new KonqDraggableLabel( static_cast<KonqMainWindow *>(tb->mainWindow()), plainText(), widget );
-    label->adjustSize();
-    tb->insertWidget( id, label->width(), label, index );
+    m_label = new KonqDraggableLabel( static_cast<KonqMainWindow *>(tb->mainWindow()), text(), widget );
+    m_label->setAlignment( Qt::AlignLeft | Qt::AlignVCenter | Qt::ShowPrefix );
+    m_label->adjustSize();
+    tb->insertWidget( id, m_label->width(), m_label, index );
 
     addContainer( tb, id );
 

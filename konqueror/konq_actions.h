@@ -125,6 +125,9 @@ public:
 
   virtual int plug( QWidget *widget, int index = -1 );
   virtual void unplug( QWidget *widget );
+  QLabel * label() { return m_label; }
+private:
+  QLabel * m_label;
 };
 
 #endif

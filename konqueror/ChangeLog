@@ -1,3 +1,10 @@
+2000-11-28  David Faure  <faure@kde.org>
+
+	* konq_actions.cc: Accel (Alt+O in English) to give focus to location bar,
+	shown by the label.
+
+	* konq_profiledlg.cc: Ported to KListView to fix problems with selection.
+
 2000-11-26  David Faure  <faure@kde.org>
 
 	* konq_misc.cc, kfmclient.cc, KonquerorIface.cc: Speed up for URLs opened

@@ -18,13 +18,14 @@
 */
 
 #ifndef __konq_profiledlg_h__
-#define __konq_profiledlg_h__ $Id$
+#define __konq_profiledlg_h__
 
 #include <kdialog.h>
 #include <qmap.h>
 
 class KonqViewManager;
-class QListBox;
+class QListView;
+class QListViewItem;
 class QGridLayout;
 class QCheckBox;
 class QLineEdit;
@@ -48,6 +49,7 @@ protected slots:
   void slotDelete();
   void slotRename();
   void slotTextChanged( const QString & );
+  void slotSelectionChanged( QListViewItem * item );
 
 private:
   KonqViewManager *m_pViewManager;
@@ -65,7 +67,7 @@ private:
   QCheckBox *m_cbSaveURLs;
   QCheckBox *m_cbSaveSize;
 
-  QListBox *m_pListBox;
+  QListView *m_pListView;
 };
 
 #endif

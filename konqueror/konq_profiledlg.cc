@@ -25,11 +25,12 @@
 #include <qcheckbox.h>
 #include <qdir.h>
 #include <qlayout.h>
-#include <qlistbox.h>
 #include <qlineedit.h>
 #include <qlabel.h>
 #include <qpushbutton.h>
+#include <qheader.h>
 
+#include <klistview.h>
 #include <kglobal.h>
 #include <kdebug.h>
 #include <klineeditdlg.h>
@@ -82,16 +83,19 @@ KonqProfileDlg::KonqProfileDlg( KonqViewManager *manager, QWidget *parent )
 
   m_pGrid->addMultiCellWidget( m_pProfileNameLineEdit, 1, 1, 0, N_BUTTONS-1 );
 
-  m_pListBox = new QListBox( this );
+  m_pListView = new KListView( this );
+  m_pListView->setAllColumnsShowFocus(true);
+  m_pListView->header()->hide();
+  m_pListView->addColumn("");
 
-  m_pGrid->addMultiCellWidget( m_pListBox, 2, 6, 0, N_BUTTONS-1 );
+  m_pGrid->addMultiCellWidget( m_pListView, 2, 6, 0, N_BUTTONS-1 );
 
   QMap<QString,QString>::ConstIterator eIt = m_mapEntries.begin();
   QMap<QString,QString>::ConstIterator eEnd = m_mapEntries.end();
   for (; eIt != eEnd; ++eIt )
-    m_pListBox->insertItem( eIt.key() );
+    new QListViewItem( m_pListView, eIt.key() );
 
-  m_pListBox->setMinimumSize( m_pListBox->sizeHint() );
+  m_pListView->setMinimumSize( m_pListView->sizeHint() );
 
   KGlobal::config()->setGroup("Settings");
   m_cbSaveURLs = new QCheckBox( i18n("Save URLs in profile"), this );
@@ -120,8 +124,8 @@ KonqProfileDlg::KonqProfileDlg( KonqViewManager *manager, QWidget *parent )
 
   m_pGrid->addWidget( m_pCloseButton, 9, 3 );
 
-  connect( m_pListBox, SIGNAL( highlighted( const QString & ) ),
-           m_pProfileNameLineEdit, SLOT( setText( const QString & ) ) );
+  connect( m_pListView, SIGNAL( selectionChanged( QListViewItem * ) ),
+           this, SLOT( slotSelectionChanged( QListViewItem * ) ) );
 
   connect( m_pProfileNameLineEdit, SIGNAL( textChanged( const QString & ) ),
            this, SLOT( slotTextChanged( const QString & ) ) );
@@ -154,9 +158,9 @@ void KonqProfileDlg::slotSave()
   QString name = KIO::encodeFileName( m_pProfileNameLineEdit->text() ); // in case of '/'
 
   // Reuse filename of existing item, if any
-  if ( m_pListBox->currentItem() != -1 && m_pListBox->isSelected(m_pListBox->currentItem()) )
+  if ( m_pListView->selectedItem() )
   {
-    QMap<QString, QString>::Iterator it = m_mapEntries.find( m_pListBox->currentText() );
+    QMap<QString, QString>::Iterator it = m_mapEntries.find( m_pListView->selectedItem()->text(0) );
     if ( it != m_mapEntries.end() )
     {
       QFileInfo info( it.data() );
@@ -173,22 +177,23 @@ void KonqProfileDlg::slotSave()
 
 void KonqProfileDlg::slotDelete()
 {
-  QMap<QString, QString>::Iterator it = m_mapEntries.find( m_pListBox->currentText() );
+  QMap<QString, QString>::Iterator it = m_mapEntries.find( m_pListView->selectedItem()->text(0) );
 
   if ( it != m_mapEntries.end() && QFile::remove( it.data() ) )
   {
-    m_pListBox->removeItem( m_pListBox->currentItem() );
+    m_pListView->removeItem( m_pListView->currentItem() );
     m_mapEntries.remove( it );
   }
 }
 
 void KonqProfileDlg::slotRename()
 {
-  QMap<QString, QString>::Iterator it = m_mapEntries.find( m_pListBox->currentText() );
+  QString currentText = m_pListView->selectedItem()->text(0);
+  QMap<QString, QString>::Iterator it = m_mapEntries.find( currentText );
 
   if ( it != m_mapEntries.end() )
   {
-    KLineEditDlg dlg( i18n("Rename profile '%1'").arg(m_pListBox->currentText()), m_pListBox->currentText(), this );
+    KLineEditDlg dlg( i18n("Rename profile '%1'").arg(currentText), currentText, this );
     dlg.setCaption( i18n("Rename profile") );
     if ( dlg.exec() )
     {
@@ -203,11 +208,16 @@ void KonqProfileDlg::slotRename()
         // Didn't find how to change a key...
         m_mapEntries.remove( it );
         m_mapEntries.insert( newName, fileName );
-        m_pListBox->changeItem( newName, m_pListBox->currentItem() );
+        m_pListView->selectedItem()->setText(0, newName);
         m_pProfileNameLineEdit->setText( newName );
       }
     }
   }
+}
+
+void KonqProfileDlg::slotSelectionChanged( QListViewItem * item )
+{
+    m_pProfileNameLineEdit->setText( item ? item->text(0) : QString::null );
 }
 
 void KonqProfileDlg::slotTextChanged( const QString & text )
@@ -215,16 +225,19 @@ void KonqProfileDlg::slotTextChanged( const QString & text )
   m_pSaveButton->setEnabled( !text.isEmpty() );
 
   // If we type the name of a profile, select it in the list
-  QListBoxItem * item = m_pListBox->findItem( text );
-  bool itemSelected = true;
-  if ( item && item->text() == text /*only full text, not partial*/ )
-    m_pListBox->setSelected( item, true );
-  else
-  {
-    // otherwise, clear selection
-    m_pListBox->clearSelection();
-    itemSelected = false;
-  }
+
+  bool itemSelected = false;
+  for ( QListViewItem * item = m_pListView->firstChild() ; item ; item = item->nextSibling() )
+      if ( item->text(0) == text /*only full text, not partial*/ )
+      {
+          itemSelected = true;
+          m_pListView->setSelected( item, true );
+          break;
+      }
+
+  if ( !itemSelected ) // otherwise, clear selection
+    m_pListView->clearSelection();
+
   m_pDeleteProfileButton->setEnabled( itemSelected );
   m_pRenameProfileButton->setEnabled( itemSelected );
 }

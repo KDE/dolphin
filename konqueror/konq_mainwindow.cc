@@ -1898,6 +1898,19 @@ void KonqMainWindow::slotForwardActivated( int id )
 void KonqMainWindow::slotComboPlugged()
 {
   m_combo = m_paURLCombo->combo();
+  KAction * act = actionCollection()->action("location_label");
+  if (act && act->inherits("KonqLabelAction") )
+  {
+      QLabel * label = static_cast<KonqLabelAction *>(act)->label();
+      if (label)
+      {
+          kdDebug() << "KonqMainWindow::slotComboPlugged setBuddy !" << endl;
+          label->setBuddy( m_combo );
+      }
+      else
+          kdError() << "Label not constructed yet!" << endl;;
+  } else kdError() << "Not a KonqLabelAction !" << endl;;
+
   m_combo->clearHistory();
 
   m_combo->setCompletionObject( s_pCompletion, false ); //we handle the signals
@@ -2445,7 +2458,7 @@ void KonqMainWindow::initActions()
   m_paAnimatedLogo = new KonqLogoAction( i18n("Animated Logo"), 0, this, SLOT( slotDuplicateWindow() ), actionCollection(), "animated_logo" );
 
   // Location bar
-  (void)new KonqLabelAction( i18n( "Location " ), actionCollection(), "location_label" );
+  (void)new KonqLabelAction( i18n( "L&ocation " ), actionCollection(), "location_label" );
 
   m_paURLCombo = new KonqComboAction( i18n( "Location Bar" ), 0, this, SLOT( slotURLEntered( const QString & ) ), actionCollection(), "toolbar_url_combo" );
   connect( m_paURLCombo, SIGNAL( plugged() ),
