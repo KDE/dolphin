@@ -150,9 +150,9 @@ void KEBTopLevel::createActions() {
    (void) new KAction(i18n("Cancel &Checks"), 0, this, SLOT( slotCancelAllTests() ), actionCollection(), "canceltests" );
    (void) new KAction(i18n("Cancel &Favicon Updates"), 0, this, SLOT( slotCancelFavIconUpdates() ), actionCollection(), "cancelfaviconupdates" );
    (void) new KAction(i18n("Cancel &Search"), 0, this, SLOT( slotCancelSearch() ), actionCollection(), "cancelsearch" );
-   (void) new KToggleAction(i18n("&Auto-Save On Program Close"), 0, this, SLOT( slotSaveOnClose() ), actionCollection(), "settings_saveonclose");
+   (void) new KToggleAction(i18n("&Auto-Save on Program Close"), 0, this, SLOT( slotSaveOnClose() ), actionCollection(), "settings_saveonclose");
    (void) new KToggleAction(i18n("&Show Netscape Bookmarks in Konqueror Windows"), 0, this, SLOT( slotShowNS() ), actionCollection(), "settings_showNS");
-   (void) new KAction(i18n("Import &Netscape Bookmarks"), "netscape", 0, this, SLOT( slotImportNS() ), actionCollection(), "importNS");
+   (void) new KAction(i18n("Import &Netscape Bookmarks..."), "netscape", 0, this, SLOT( slotImportNS() ), actionCollection(), "importNS");
    (void) new KAction(i18n("Import &Opera Bookmarks..."), "opera", 0, this, SLOT( slotImportOpera() ), actionCollection(), "importOpera");
    (void) new KAction(i18n("Import &Galeon Bookmarks..."), 0, this, SLOT( slotImportGaleon() ), actionCollection(), "importGaleon");
    (void) new KAction(i18n("Import &KDE Bookmarks..."), 0, this, SLOT( slotImportKDE() ), actionCollection(), "importKDE");

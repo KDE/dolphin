@@ -75,7 +75,7 @@ void KEBTopLevel::slotClipboardDataChanged() {
 
 void KEBTopLevel::slotCut() {
    slotCopy();
-   KMacroCommand *mcmd = CmdGen::self()->deleteItems(i18n("Cut items"), listview->selectedItems());
+   KMacroCommand *mcmd = CmdGen::self()->deleteItems(i18n("Cut Items"), listview->selectedItems());
    didCommand(mcmd);
 }
 
@@ -195,7 +195,7 @@ void KEBTopLevel::slotSearch() {
    // also, need to think about limiting size of itr list to <= 1
    // or, generically. itr's shouldn't overlap. difficult problem...
    bool ok;
-   QString text = KLineEditDlg::getText("Find string in bookmarks...", "", &ok, this);
+   QString text = KLineEditDlg::getText("Find string in bookmarks:", "", &ok, this);
    SearchItr* itr = new SearchItr(listview->allBookmarks());
    itr->setText(text);
    SearchItrHolder::self()->insertItr(itr);
