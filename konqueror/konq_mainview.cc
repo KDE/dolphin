@@ -434,9 +434,8 @@ void KonqMainView::slotUp()
 {
   QString url = m_currentView->url();
   KURL u( url );
-  u.cd( ".." );
 
-  openURL( (KonqChildView *)m_currentView, u.url() );
+  openURL( (KonqChildView *)m_currentView, u.upURL(true).url() );
 }
 
 void KonqMainView::slotBack()
@@ -1240,6 +1239,8 @@ void KonqMainView::setUpEnabled( const QString &url )
   KURL u( url );
   if ( u.hasPath() )
     bHasUpURL = ( u.path() != "/" );
+  if ( !bHasUpURL )
+    bHasUpURL = u.hasSubURL();
 
   m_paUp->setEnabled( bHasUpURL );
 }
