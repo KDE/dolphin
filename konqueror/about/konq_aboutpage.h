@@ -20,11 +20,14 @@ public:
 
     static KInstance *instance() { return s_instance; }
 
-    static QString aboutPage();
+    static QString intro();
+    static QString aboutKonq();
+    static QString specs();
+    static QString tips();
 
 private:
     static KInstance *s_instance;
-    static QString *s_page;
+    static QString *s_intro_html, *s_aboutkonq_html, *s_specs_html, *s_tips_html;
 };
 
 class KonqAboutPage : public KHTMLPart
@@ -46,7 +49,7 @@ public:
     virtual void urlSelected( const QString &url, int button, int state, const QString &target );
 
 private:
-    static QString generateAboutPage();
+    void serve( const QString& );
 
     KHTMLPart *m_doc;
     //KonqMainWindow *m_mainWindow;

@@ -27,21 +27,29 @@ extern "C"
 }
 
 KInstance *KonqAboutPageFactory::s_instance = 0;
-QString *KonqAboutPageFactory::s_page = 0;
+QString *KonqAboutPageFactory::s_intro_html = 0;
+QString *KonqAboutPageFactory::s_aboutkonq_html = 0;
+QString *KonqAboutPageFactory::s_specs_html = 0;
+QString *KonqAboutPageFactory::s_tips_html = 0;
 
 KonqAboutPageFactory::KonqAboutPageFactory( QObject *parent, const char *name )
     : KParts::Factory( parent, name )
 {
     s_instance = new KInstance( "konqaboutpage" );
-    s_page = 0;
 }
 
 KonqAboutPageFactory::~KonqAboutPageFactory()
 {
     delete s_instance;
     s_instance = 0;
-    delete s_page;
-    s_page = 0;
+    delete s_intro_html;
+    s_intro_html = 0;
+    delete s_aboutkonq_html;
+    s_aboutkonq_html = 0;
+    delete s_specs_html;
+    s_specs_html = 0;
+    delete s_tips_html;
+    s_tips_html = 0;
 }
 
 KParts::Part *KonqAboutPageFactory::createPartObject( QWidget *parentWidget, const char *widgetName,
@@ -57,10 +65,10 @@ KParts::Part *KonqAboutPageFactory::createPartObject( QWidget *parentWidget, con
                               parentWidget, widgetName, parent, name );
 }
 
-QString KonqAboutPageFactory::aboutPage()
+QString KonqAboutPageFactory::intro()
 {
-    if ( s_page )
-        return *s_page;
+    if ( s_intro_html )
+        return *s_intro_html;
 
     QString res;
 
@@ -82,19 +90,86 @@ QString KonqAboutPageFactory::aboutPage()
     data[ data.size() - 1 ] = 0;
 
     res = QString::fromLatin1( data.data() );
-    
+
     // otherwise all relative URLs are referenced as about:/...
-    QString basehref = QString::fromLatin1("<BASE HREF=\"file:") + 
-		       path.left( path.findRev( '/' )) + 
+    QString basehref = QString::fromLatin1("<BASE HREF=\"file:") +
+		       path.left( path.findRev( '/' )) +
 		       QString::fromLatin1("/\">\n");
     res.prepend( basehref );
 
-    
+
+    QString kcmshell_konqhtml = QString::fromLatin1("exec:/kcmshell konqhtml");
+    QString kcmshell_ioslaveinfo = QString::fromLatin1("exec:/kcmshell ioslaveinfo");
+
+//     return res; // testing
+
+    res = res.arg( i18n( "Please enter an internet address here." ) )
+          .arg( i18n( "Introduction" ) )
+          .arg( i18n( "Tips" ) )
+          .arg( i18n( "Specifications" ) )
+          .arg( i18n( "Introduction" ) )
+          .arg( i18n( "Welcome to Konqueror." ) )
+          .arg( i18n( "With Konqueror you have your filesystem at your command, browsing "
+		      "local or networked drives with equal ease. Thanks to the component "
+		      "technology used throughout KDE 2, Konqueror is also a full featured, "
+		      "easy to use, and comfortable Web Browser, which you can use to explore "
+		      "the internet." ) )
+          .arg( i18n( "Simply enter the internet address (e.g. " ) )
+          .arg( i18n( ") of the webpage you want and press enter. Or choose one of the "
+		      "entries in your bookmark-menu. If you want to go back to the previous "
+		      "webpage, press the button " ) )
+          .arg( i18n( "(\"back\") in the toolbar. To go back to the home-directory of your "
+		      "local filesystem press " ) )
+          .arg( i18n( "(\"Home\"). For more detailed documentation on Konqueror click " ) )
+          .arg( i18n( "here" ) )
+          .arg( i18n( "Continue" ) )
+//           .arg( i18n( "" ) )
+          ;
+
+
+    s_intro_html = new QString( res );
+
+    return res;
+}
+
+QString KonqAboutPageFactory::aboutKonq()
+{
+    if ( s_aboutkonq_html )
+        return *s_aboutkonq_html;
+
+    QString res;
+
+    QString path = locate( "data", "konqueror/about/aboutkonq.html" );
+
+    if ( path.isEmpty() )
+        return res; // ugh
+
+    QFile f( path );
+
+    if ( !f.open( IO_ReadOnly ) )
+        return res;
+
+    QByteArray data = f.readAll();
+
+    f.close();
+
+    data.resize( data.size() + 1 );
+    data[ data.size() - 1 ] = 0;
+
+    res = QString::fromLatin1( data.data() );
+
+    // otherwise all relative URLs are referenced as about:/...
+    QString basehref = QString::fromLatin1("<BASE HREF=\"file:") +
+		       path.left( path.findRev( '/' )) +
+		       QString::fromLatin1("/\">\n");
+    res.prepend( basehref );
+
+
     QString kcmshell_konqhtml = QString::fromLatin1("exec:/kcmshell konqhtml");
     QString kcmshell_ioslaveinfo = QString::fromLatin1("exec:/kcmshell ioslaveinfo");
 
     return res; // testing
-    
+
     res = res.arg( i18n( "Insert the URL you want to browse in the above edit-field." ) )
           .arg( "" ) // TODO Konqueror-Logo
           .arg( i18n( "Konqueror supports:" ) )
@@ -136,10 +211,179 @@ QString KonqAboutPageFactory::aboutPage()
           ;
 
 
-    s_page = new QString( res );
+    s_aboutkonq_html = new QString( res );
 
     return res;
 }
+
+QString KonqAboutPageFactory::specs()
+{
+    if ( s_specs_html )
+        return *s_specs_html;
+
+    QString res;
+
+    QString path = locate( "data", "konqueror/about/specs.html" );
+
+    if ( path.isEmpty() )
+        return res; // ugh
+
+    QFile f( path );
+
+    if ( !f.open( IO_ReadOnly ) )
+        return res;
+
+    QByteArray data = f.readAll();
+
+    f.close();
+
+    data.resize( data.size() + 1 );
+    data[ data.size() - 1 ] = 0;
+
+    res = QString::fromLatin1( data.data() );
+
+    // otherwise all relative URLs are referenced as about:/...
+    QString basehref = QString::fromLatin1("<BASE HREF=\"file:") +
+		       path.left( path.findRev( '/' )) +
+		       QString::fromLatin1("/\">\n");
+    res.prepend( basehref );
+
+
+    QString kcmshell_konqhtml = QString::fromLatin1("exec:/kcmshell konqhtml");
+    QString kcmshell_ioslaveinfo = QString::fromLatin1("exec:/kcmshell ioslaveinfo");
+
+    return res; // testing
+
+    res = res.arg( i18n( "Insert the URL you want to browse in the above edit-field." ) )
+          .arg( "" ) // TODO Konqueror-Logo
+          .arg( i18n( "Konqueror supports:" ) )
+          .arg( i18n( "Specifications" ) )
+          .arg( i18n( "Supported standards" ) )
+          .arg( i18n( "Additional requirements" ) )
+          .arg( i18n( "<a href=\"%1\">DOM</a> (Level 1, partially Level 2) based "
+                      "<a href=\"%2\">HTML 4.01</a>" ).arg("http://www.w3.org/DOM/").arg("http://www.w3.org/TR/html4/") )
+          .arg( i18n( "built-in" ) )
+          .arg( i18n( "<a href=\"%1\">Cascading Style Sheets</a> (CSS 1, partially CSS2)" ).arg("http://www.w3.org/Style/CSS/") )
+          .arg( i18n( "built-in" ) )
+          .arg( i18n( "<a href=\"%1\">ECMA-262</a> "
+                      "Edition 3 (equals roughly Javascript<sup>TM</sup> 1.5)" ).arg("http://www.ecma.ch/ecma1/STAND/ECMA-262.HTM") )
+          .arg( i18n( "Javascript disabled (globally). Enable Javascript <a href=\"%1\">here</a>" ).arg(kcmshell_konqhtml) )
+          .arg( i18n( "Javascript enabled (globally). Javascript configuration <a href=\\\"%1\\\">here</a>" ).arg(kcmshell_konqhtml) )
+          .arg( i18n( "Secure <a href=\"%1\">Java</a><sup>&reg;</sup> support" ).arg("http://java.sun.com") )
+	  .arg( i18n( "JDK 1.2.0 (Java 2) compatible VM (<A HREF=\"%1\">Blackdown</A>, <A HREF=\"%2\">IBM</A>, <A HREF=\"%3\">Kaffe</A> or <A HREF=\"%4\">Sun</A>)" ).arg("http://www.blackdown.org").arg("http://www.ibm.com").arg("http://www.kaffe.org").arg("http://java.sun.com") )
+	  .arg( i18n( "Enable Java (globally) <A HREF=\"%1\">here</A>" ).arg(kcmshell_konqhtml) )
+	  .arg( i18n( "Netscape Communicator<SUP>&reg;</SUP> plugins (for viewing <A HREF=\"%1\">Flash</A><SUP>TM</SUP>, <A HREF=\"%2\">Real</A>Audio<SUP>TM</SUP>, <A HREF=\"%2\">Real</A>Video<SUP>TM</SUP> etc.)" ).arg("TODO").arg("http://www.real.com").arg("http://www.real.com") )
+	  .arg( i18n( "OSF/Motif<SUP>&reg;</SUP>-compatible library (<A HREF=\"%1\">Open Motif</A> or <A HREF=\"%2\">LessTif</A>)" ).arg("http://www.openmotif.com").arg("http://www.lesstif.org") )
+	  .arg( i18n( "<A HREF=\"%1\">Secure Sockets Layer</A> (TLS/SSL v2/3) for secure communications up to 168bit" ).arg("http://www.netscape.com/eng/ssl3/") )
+	  .arg( i18n( "<A HREF=\"%1\">OpenSSL</A>" ).arg("http://www.openssl.org") )
+	  .arg( i18n( "Bidirectional 16bit unicode support" ) )
+	  .arg( i18n( "built-in" ) )
+ 	  .arg( i18n( "Image formats:" ) )
+ 	  .arg( "<LI>PNG</LI><LI>MNG</LI><LI>JPG</LI><LI>GIF</LI>" ) // TODO better than that
+	  .arg( i18n( "built-in" ) )
+	  .arg( i18n( "Transfer protocols:") )
+	  .arg( i18n( "HTTP 1.1 (including gzip/bzip2 compression)" ) )
+	  .arg( i18n( "FTP" ) )
+          .arg( i18n( "<a href=\"%1\">and many more</a>" ).arg(kcmshell_ioslaveinfo) )
+	  .arg( i18n( "built-in" ) )
+ 	  .arg( i18n( "<a href=\"%1\">XBEL bookmarks</a>" ).arg("http://pyxml.sourceforge.net/topics/xbel/") )
+	  .arg( i18n( "built-in" ) )
+ 	  .arg( i18n( "Favourite icon support" ) )
+	  .arg( i18n( "built-in" ) )
+ 	  .arg( i18n( "Internet Keywords" ) )
+	  .arg( i18n( "built-in" ) )
+          ;
+
+
+    s_specs_html = new QString( res );
+
+    return res;
+}
+
+QString KonqAboutPageFactory::tips()
+{
+    if ( s_tips_html )
+        return *s_tips_html;
+
+    QString res;
+
+    QString path = locate( "data", "konqueror/about/tips.html" );
+
+    if ( path.isEmpty() )
+        return res; // ugh
+
+    QFile f( path );
+
+    if ( !f.open( IO_ReadOnly ) )
+        return res;
+
+    QByteArray data = f.readAll();
+
+    f.close();
+
+    data.resize( data.size() + 1 );
+    data[ data.size() - 1 ] = 0;
+
+    res = QString::fromLatin1( data.data() );
+
+    // otherwise all relative URLs are referenced as about:/...
+    QString basehref = QString::fromLatin1("<BASE HREF=\"file:") +
+		       path.left( path.findRev( '/' )) +
+		       QString::fromLatin1("/\">\n");
+    res.prepend( basehref );
+
+
+    QString kcmshell_konqhtml = QString::fromLatin1("exec:/kcmshell konqhtml");
+    QString kcmshell_ioslaveinfo = QString::fromLatin1("exec:/kcmshell ioslaveinfo");
+
+    return res; // testing
+
+    res = res.arg( i18n( "Insert the URL you want to browse in the above edit-field." ) )
+          .arg( "" ) // TODO Konqueror-Logo
+          .arg( i18n( "Konqueror supports:" ) )
+          .arg( i18n( "Specifications" ) )
+          .arg( i18n( "Supported standards" ) )
+          .arg( i18n( "Additional requirements" ) )
+          .arg( i18n( "<a href=\"%1\">DOM</a> (Level 1, partially Level 2) based "
+                      "<a href=\"%2\">HTML 4.01</a>" ).arg("http://www.w3.org/DOM/").arg("http://www.w3.org/TR/html4/") )
+          .arg( i18n( "built-in" ) )
+          .arg( i18n( "<a href=\"%1\">Cascading Style Sheets</a> (CSS 1, partially CSS2)" ).arg("http://www.w3.org/Style/CSS/") )
+          .arg( i18n( "built-in" ) )
+          .arg( i18n( "<a href=\"%1\">ECMA-262</a> "
+                      "Edition 3 (equals roughly Javascript<sup>TM</sup> 1.5)" ).arg("http://www.ecma.ch/ecma1/STAND/ECMA-262.HTM") )
+          .arg( i18n( "Javascript disabled (globally). Enable Javascript <a href=\"%1\">here</a>" ).arg(kcmshell_konqhtml) )
+          .arg( i18n( "Javascript enabled (globally). Javascript configuration <a href=\\\"%1\\\">here</a>" ).arg(kcmshell_konqhtml) )
+          .arg( i18n( "Secure <a href=\"%1\">Java</a><sup>&reg;</sup> support" ).arg("http://java.sun.com") )
+	  .arg( i18n( "JDK 1.2.0 (Java 2) compatible VM (<A HREF=\"%1\">Blackdown</A>, <A HREF=\"%2\">IBM</A>, <A HREF=\"%3\">Kaffe</A> or <A HREF=\"%4\">Sun</A>)" ).arg("http://www.blackdown.org").arg("http://www.ibm.com").arg("http://www.kaffe.org").arg("http://java.sun.com") )
+	  .arg( i18n( "Enable Java (globally) <A HREF=\"%1\">here</A>" ).arg(kcmshell_konqhtml) )
+	  .arg( i18n( "Netscape Communicator<SUP>&reg;</SUP> plugins (for viewing <A HREF=\"%1\">Flash</A><SUP>TM</SUP>, <A HREF=\"%2\">Real</A>Audio<SUP>TM</SUP>, <A HREF=\"%2\">Real</A>Video<SUP>TM</SUP> etc.)" ).arg("TODO").arg("http://www.real.com").arg("http://www.real.com") )
+	  .arg( i18n( "OSF/Motif<SUP>&reg;</SUP>-compatible library (<A HREF=\"%1\">Open Motif</A> or <A HREF=\"%2\">LessTif</A>)" ).arg("http://www.openmotif.com").arg("http://www.lesstif.org") )
+	  .arg( i18n( "<A HREF=\"%1\">Secure Sockets Layer</A> (TLS/SSL v2/3) for secure communications up to 168bit" ).arg("http://www.netscape.com/eng/ssl3/") )
+	  .arg( i18n( "<A HREF=\"%1\">OpenSSL</A>" ).arg("http://www.openssl.org") )
+	  .arg( i18n( "Bidirectional 16bit unicode support" ) )
+	  .arg( i18n( "built-in" ) )
+ 	  .arg( i18n( "Image formats:" ) )
+ 	  .arg( "<LI>PNG</LI><LI>MNG</LI><LI>JPG</LI><LI>GIF</LI>" ) // TODO better than that
+	  .arg( i18n( "built-in" ) )
+	  .arg( i18n( "Transfer protocols:") )
+	  .arg( i18n( "HTTP 1.1 (including gzip/bzip2 compression)" ) )
+	  .arg( i18n( "FTP" ) )
+          .arg( i18n( "<a href=\"%1\">and many more</a>" ).arg(kcmshell_ioslaveinfo) )
+	  .arg( i18n( "built-in" ) )
+ 	  .arg( i18n( "<a href=\"%1\">XBEL bookmarks</a>" ).arg("http://pyxml.sourceforge.net/topics/xbel/") )
+	  .arg( i18n( "built-in" ) )
+ 	  .arg( i18n( "Favourite icon support" ) )
+	  .arg( i18n( "built-in" ) )
+ 	  .arg( i18n( "Internet Keywords" ) )
+	  .arg( i18n( "built-in" ) )
+          ;
+
+
+    s_tips_html = new QString( res );
+
+    return res;
+}
+
 
 KonqAboutPage::KonqAboutPage( KonqMainWindow *, // TODO get rid of this
                               QWidget *parentWidget, const char *widgetName,
@@ -155,9 +399,7 @@ KonqAboutPage::~KonqAboutPage()
 
 bool KonqAboutPage::openURL( const KURL & )
 {
-    begin( "about:konqueror" );
-    write( KonqAboutPageFactory::aboutPage() );
-    end();
+    serve( KonqAboutPageFactory::intro() );
     return true;
 }
 
@@ -176,6 +418,13 @@ void KonqAboutPage::restoreState( QDataStream &stream )
     browserExtension()->KParts::BrowserExtension::restoreState( stream );
 }
 
+void KonqAboutPage::serve( const QString& html )
+{
+    begin( "about:konqueror" );
+    write( html );
+    end();
+}
+
 void KonqAboutPage::urlSelected( const QString &url, int button, int state, const QString &target )
 {
     KURL u( url );
@@ -187,6 +436,15 @@ void KonqAboutPage::urlSelected( const QString &url, int button, int state, cons
         KApplication::kdeinitExec( executable, args );
         return;
     }
+    
+    if ( url == QString::fromLatin1("intro.html") )
+	return serve( KonqAboutPageFactory::intro() );
+    else if ( url == QString::fromLatin1("aboutkonq.html") )
+	return serve( KonqAboutPageFactory::aboutKonq() );
+    else if ( url == QString::fromLatin1("specs.html") )
+	return serve( KonqAboutPageFactory::specs() );
+    else if ( url == QString::fromLatin1("tips.html") )
+	return serve( KonqAboutPageFactory::tips() );
 
     KHTMLPart::urlSelected( url, button, state, target );
 }
