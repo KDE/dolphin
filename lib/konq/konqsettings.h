@@ -61,9 +61,10 @@ public:
 
   /**
    * Reparse the configuration to update the already-created instances
-   * Warning : you need to call kapp->config()->reparseConfiguration() first
-   * (This is not done here so that the caller can avoid too much reparsing
-   *  if having several classes from the same config file)
+   *
+   * Warning : you need to call KGlobal::config()->reparseConfiguration()
+   * first (This is not done here so that the caller can avoid too much
+   * reparsing if having several classes from the same config file)
    */
   static void reparseConfiguration();
 

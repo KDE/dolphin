@@ -1960,7 +1960,7 @@ void KonqMainView::slotReconfigure()
 void KonqMainView::reparseConfiguration()
 {
   kdDebug(1202) << "KonqMainView::reparseConfiguration() !" << endl;
-  kapp->config()->reparseConfiguration();
+  KGlobal::config()->reparseConfiguration();
   KonqFMSettings::reparseConfiguration();
 
   MapViews::ConstIterator it = m_mapViews.begin();
