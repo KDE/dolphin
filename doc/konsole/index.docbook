@@ -105,6 +105,7 @@ sessions</para></listitem>
  sessions</para></listitem>
 <listitem><para><systemitem class="username">Root</systemitem>
  <application>Midnight Commander</application> sessions</para></listitem>
+<listitem><para>User created sessions</para></listitem>
 </itemizedlist>
 
 <para>These sessions can be renamed to help you keep track of all your shells,
@@ -114,12 +115,14 @@ or signaled (<errorcode>STOP</errorcode>, <errorcode>CONT</errorcode>,
 
 <para>For more control over &konsole;, a user can:</para>
 <itemizedlist>
-<listitem><para>hide/show the menubar, tabbar, scrollbar and/or
+<listitem><para>hide/show the menubar and/or
 frame</para></listitem>
 <listitem><para>select the size of a &konsole; window, fonts, color
 schemes, and key mapping</para></listitem>
 <listitem><para>change location of the scrollbar or hide the
 scrollbar</para></listitem>
+<listitem><para>change location of the tabbar or hide the
+tabbar</para></listitem>
 </itemizedlist>
 
 <para>All chosen settings can be made the default for forthcoming sessions by
@@ -193,6 +196,31 @@ ordinary in- and output from the shell is suspended, and you can
 scroll through the history with <keycap>Page Up</keycap>, <keycap>Page
 down</keycap>, and <keycap>Up Arrow</keycap> and <keycap>Down
 Arrow</keycap>.</para>
+
+<para>&konsole; provides a number of history related actions located in the 
+<link linkend="edit-menu">Edit</link> menu.
+</para>
+
+<itemizedlist>
+<listitem>
+<para><guimenuitem>Find in History...</guimenuitem></para>
+</listitem>
+<listitem>
+<para><guimenuitem>Find Next</guimenuitem></para>
+</listitem>
+<listitem>
+<para><guimenuitem>Find Prev</guimenuitem></para>
+</listitem>
+<listitem>
+<para><guimenuitem>Save History As...</guimenuitem></para>
+</listitem>
+<listitem>
+<para><guimenuitem>Clear History</guimenuitem></para>
+</listitem>
+<listitem>
+<para><guimenuitem>Clear All Histories</guimenuitem></para>
+</listitem>
+</itemizedlist>
 
 </sect1>
 
