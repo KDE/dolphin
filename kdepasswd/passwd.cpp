@@ -255,8 +255,8 @@ int PasswdProcess::ConversePasswd(const char *oldpass, const char *newpass,
 bool PasswdProcess::isPrompt(QCString line, const char *word)
 {
     unsigned i, j, colon;
-
-    for (i=0,j=0,colon=0; i<line.length(); i++) 
+    unsigned int lineLength(line.length());
+    for (i=0,j=0,colon=0; i<lineLength; i++) 
     {
 	if (line[i] == ':') 
 	{
