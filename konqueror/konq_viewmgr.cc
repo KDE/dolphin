@@ -80,36 +80,38 @@ void KonqViewManager::splitView ( Qt::Orientation orientation )
 }
 
 void KonqViewManager::splitView ( Qt::Orientation orientation, 
-			       Browser::View_ptr newView,
-			       const QStringList &newViewServiceTypes )
+				  Browser::View_ptr newView,
+				  const QStringList &newViewServiceTypes)
 {
   kdebug(0, 1202, "KonqViewManager::splitview" );
   
   if( m_pMainContainer )
   {
+    KonqFrame* splitFrame;
     KonqChildView* currentChildView = m_pMainView->currentChildView();
-    KonqFrame* viewFrame = currentChildView->frame();
-    KonqFrameContainer* parentContainer = viewFrame->parentContainer();
-    bool moveNewContainer = (parentContainer->idAfter( viewFrame ) != 0);
+    splitFrame = currentChildView->frame();
+    
+    KonqFrameContainer* parentContainer = splitFrame->parentContainer();
+    bool moveNewContainer = (parentContainer->idAfter( splitFrame ) != 0);
 
     if( moveNewContainer )       
-      kdebug(0, 1202, "Move new splitter: Yes %d",parentContainer->idAfter( viewFrame ) );
+      kdebug(0, 1202, "Move new splitter: Yes %d",parentContainer->idAfter( splitFrame ) );
     else
-      kdebug(0, 1202, "Move new splitter: No %d",parentContainer->idAfter( viewFrame ) );
+      kdebug(0, 1202, "Move new splitter: No %d",parentContainer->idAfter( splitFrame ) );
     
     QValueList<int> sizes;
     sizes = parentContainer->sizes();
 
-    QPoint pos = viewFrame->pos();
+    QPoint pos = splitFrame->pos();
 
-    viewFrame->hide();
-    viewFrame->reparent( m_pMainView, 0, pos );
+    splitFrame->hide();
+    splitFrame->reparent( m_pMainView, 0, pos );
     
     KonqFrameContainer *newContainer = new KonqFrameContainer( orientation, parentContainer );
     if( moveNewContainer )
       parentContainer->moveToFirst( newContainer );
 
-    viewFrame->reparent( newContainer, 0, pos, true );
+    splitFrame->reparent( newContainer, 0, pos, true );
 
     setupView( newContainer, newView, newViewServiceTypes );
 
