@@ -35,6 +35,11 @@
 #include <klibloader.h>
 #include <kconfig.h>
 #include <kdesktopfile.h>
+#include <kservicetype.h>
+#include <kmimetype.h>
+#include <kcmdlineargs.h>
+#include <kaboutdata.h>
+#include <klocale.h>
 
 #include "sdk/npupp.h"
 
@@ -87,7 +92,7 @@ void deletePluginMimeTypes()
 }
 
 
-void generateMimeType( QString mime, QString extensions, QString description )
+void generateMimeType( QString mime, QString extensions, QString pluginName, QString description )
 {
     kdDebug(1433) << "-> generateMimeType mime=" << mime << " ext="<< extensions << endl;
 
@@ -114,17 +119,18 @@ void generateMimeType( QString mime, QString extensions, QString description )
         ts << "Type=MimeType" << endl;
         ts << "MimeType=" << mime << endl;
         ts << "Icon=netscape_doc" << endl;
-        ts << "Comment=Supported by Netscape plugin" << endl;
+        ts << "Comment=Netscape " << pluginName << endl;
         ts << "X-KDE-AutoEmbed=true" << endl;
         ts << "X-KDE-nsplugin=true" << endl;
         ts << "InitialPreference=0" << endl;
 
         if (!extensions.isEmpty()) {
-            ts << "Patterns=";
             QStringList exts = QStringList::split(",", extensions);
+            QStringList patterns;
             for (QStringList::Iterator it=exts.begin(); it != exts.end(); ++it)
-                ts << "*." << (*it).stripWhiteSpace() << ";";
-            ts << endl;
+                patterns.append( "*." + (*it).stripWhiteSpace() );
+
+            ts << "Patterns=" << patterns.join( ";" ) << endl;
         }
 
         if (!description.isEmpty())
@@ -258,7 +264,7 @@ void scanDirectory( QString dir, QStringList &mimeInfoList,
 
             // append type to MIME type list
             if ( !mimeInfoList.contains( *type ) )
-                mimeInfoList.append( *type );
+                mimeInfoList.append( name + ":" + *type );
         }
 
         // register plugin for javascript
@@ -342,13 +348,8 @@ void writeServicesFile( QStringList mimeTypes )
         ts << "InitialPreference=0" << endl;
         ts << "ServiceTypes=KParts/ReadOnlyPart,Browser/View" << endl;
 
-        if (mimeTypes.count() > 0) {
-            ts << "MimeType=";
-            for ( QStringList::Iterator it=mimeTypes.begin();
-                  it != mimeTypes.end(); ++it)
-                ts << *it << ";";
-            ts << endl;
-        }
+        if (mimeTypes.count() > 0)
+            ts << "MimeType=" << mimeTypes.join(";") << endl;
 
         f.close();
     } else
@@ -356,15 +357,44 @@ void writeServicesFile( QStringList mimeTypes )
 }
 
 
-int main( int argc, char *argv[] )
+void removeExistingExtensions( QString &extension )
 {
-    KApplication app(argc, argv, "pluginscan");
+    kdDebug() << "========> extension = " << extension << endl;
+    QStringList filtered;
+    QStringList exts = QStringList::split( ",", extension );
+    for ( QStringList::Iterator it=exts.begin(); it!=exts.end(); ++it ) {
+        QString ext = (*it).stripWhiteSpace();
+
+        KMimeType::Ptr mime = KMimeType::findByURL( KURL("file:///foo."+ext ),
+                                                    0, true, true );
+        kdDebug() << "mime=" << mime->name() << " " << endl;
+        kdDebug() << "kde=" << mime->property( "X-KDE-nsplugin" ).toString() << endl;
+        if( mime->name()=="application/octet-stream" ||
+            mime->comment().left(8)=="Netscape" ) {
+            kdDebug() << "accepted" << endl;
+            filtered.append( ext );
+        }
+    }
+
+    extension = filtered.join( "," );
+}
+
+
+int main( int argc, char **argv )
+{
+    KAboutData aboutData( "nspluginscan", I18N_NOOP("nspluginscan"),
+                          "0.3", "nspluginscan", KAboutData::License_GPL,
+                          I18N_NOOP("(c) 2000,2001 by Stefan Schimanski") );
+
+    KCmdLineArgs::init( argc, argv, &aboutData );
+    KApplication app;
 
     // set up the paths used to look for plugins
     QStringList searchPaths = getSearchPaths();
     QStringList mimeInfoList;
 
-    infoConfig = new KConfig( KGlobal::dirs()->saveLocation("data", "nsplugins")+"/pluginsinfo" );
+    infoConfig = new KConfig( KGlobal::dirs()->saveLocation("data", "nsplugins") +
+                              "/pluginsinfo" );
 
     // open the cache file for the mime information
     QString cacheName = KGlobal::dirs()->saveLocation("data", "nsplugins")+"/cache";
@@ -393,10 +423,11 @@ int main( int argc, char *argv[] )
       kdDebug(1433) << "Handling MIME type " << *it << endl;
 
       QStringList info = QStringList::split(":", *it, true);
-      if ( info.count()==3 ) {
-          QString type = info[0].lower();
-          QString extension = info[1];
-          QString desc = info[2];
+      if ( info.count()==4 ) {
+          QString pluginName = info[0];
+          QString type = info[1].lower();
+          QString extension = info[2];
+          QString desc = info[3];
 
           // append to global mime type list
           if ( !mimeTypes.contains(type) ) {
@@ -408,7 +439,8 @@ int main( int argc, char *argv[] )
           QString fname = KGlobal::dirs()->findResource("mime", type+".desktop");
           if ( fname.isEmpty() || isPluginMimeType(fname) ) {
               kdDebug(1433) << " - creating MIME type description" << endl;
-              generateMimeType( type, extension, desc );
+              removeExistingExtensions( extension );
+              generateMimeType( type, extension, pluginName, desc );
           } else
               kdDebug(1433) << " - already existant" << endl;
         }

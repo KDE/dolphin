@@ -21,4 +21,4 @@ libnsplugin_la_LIBADD  = -lkparts
 bin_PROGRAMS = nspluginscan
 nspluginscan_SOURCES = pluginscan.cpp
 nspluginscan_LDFLAGS =  $(KDE_RPATH) $(all_libraries)
-nspluginscan_LDADD = $(MOTIF_LIBS) $(LIB_KDEUI) -lXt
+nspluginscan_LDADD = $(MOTIF_LIBS) $(LIB_KDEUI) $(LIB_KSYCOCA) -lXt
