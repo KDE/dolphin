@@ -4216,7 +4216,7 @@ void KonqMainWindow::reparseConfiguration()
   else
   {
     unplugActionList( "delactions" );
-    delete m_paDelete;
+    m_deleteActions.clear();  // deletes m_paDelete
     m_paDelete = 0;
   }
 
