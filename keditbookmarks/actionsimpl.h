@@ -59,6 +59,8 @@ public slots:
    void slotExportNS();
    void slotExportMoz();
 
+   void slotDelayedPrint();
+
    static ActionsImpl* self() { if (!s_self) { s_self = new ActionsImpl(); }; return s_self; }
 private:
    ActionsImpl() { ; }

@@ -38,15 +38,19 @@
 #include <kinputdialog.h>
 #include <krun.h>
 
+#include <kdatastream.h>
+#include <ktempfile.h>
+#include <kstddirs.h>
+
+#include <kparts/part.h>
+#include <kparts/componentfactory.h>
+
 #include <kicondialog.h>
 #include <kiconloader.h>
 
 #include <kbookmarkdrag.h>
 #include <kbookmarkmanager.h>
 #include <kbookmarkimporter.h>
-
-#include <kparts/part.h>
-#include <kparts/componentfactory.h>
 
 #include "toplevel.h"
 #include "commands.h"
@@ -136,13 +140,15 @@ void ActionsImpl::slotExportMoz() {
    
 /* -------------------------------------- */
 
-#include <ktempfile.h>
-#include <kstddirs.h>
+static QCString s_appId, s_objId;
+static KParts::ReadOnlyPart *s_part;
 
 void ActionsImpl::slotPrint() {
-   KParts::ReadOnlyPart *part 
-      = KParts::ComponentFactory
-              ::createPartInstanceFromQuery<KParts::ReadOnlyPart>("text/html", QString::null);
+   s_part = KParts::ComponentFactory
+                  ::createPartInstanceFromQuery<KParts::ReadOnlyPart>("text/html", QString::null);
+   s_part->setProperty("pluginsEnabled", QVariant(false, 1));
+   s_part->setProperty("javaScriptEnabled", QVariant(false, 1));
+   s_part->setProperty("javaEnabled", QVariant(false, 1));
 
    HTMLExporter exporter;
    KTempFile tmpf(locateLocal("tmp", "print_bookmarks"), ".html");
@@ -151,12 +157,18 @@ void ActionsImpl::slotPrint() {
    (*tstream) << exporter.toString(CurrentMgr::self()->mgr()->root());
    tmpf.close();
 
-   // openStream, writeStream, closeStream are b0rked for khtml
-   part->openURL(tmpf.name());
+   s_appId = kapp->dcopClient()->appId();
+   s_objId = s_part->property("dcopObjectId").toString().latin1();
+   connect(s_part, SIGNAL(completed()), this, SLOT(slotDelayedPrint()));
 
-   QCString appId = kapp->dcopClient()->appId();
-   QCString objId = part->property("dcopObjectId").toString().latin1();
-   DCOPRef(appId, objId).send("print", false); 
+   s_part->openURL(tmpf.name());
+}
+
+void ActionsImpl::slotDelayedPrint() {
+   Q_ASSERT(s_part);
+   DCOPRef(s_appId, s_objId).send("print", false); 
+   // delete s_part;  -- dies horribly atm
+   s_part = 0;
 }
 
 /* -------------------------------------- */
