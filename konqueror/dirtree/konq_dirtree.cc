@@ -806,8 +806,8 @@ void KonqDirTree::loadTopLevelItem( QListViewItem *parent,  const QString &filen
   KDirLister *dirLister = new KDirLister( true );
   dirLister->setDirOnlyMode( true );
 
-  connect( dirLister, SIGNAL( newItem( const KFileItemList & ) ),
-	   this, SLOT( slotNewItem( const KFileItemList & ) ) );
+  connect( dirLister, SIGNAL( newItems( const KFileItemList & ) ),
+	   this, SLOT( slotNewItems( const KFileItemList & ) ) );
   connect( dirLister, SIGNAL( deleteItem( KFileItem * ) ),
 	   this, SLOT( slotDeleteItem( KFileItem * ) ) );
   connect( dirLister, SIGNAL( completed() ),
