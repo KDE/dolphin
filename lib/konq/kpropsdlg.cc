@@ -123,7 +123,7 @@ void PropertiesDialog::init()
 
   insertPages();
 
-  tab->setOKButton(i18n("OK"));
+  tab->setOkButton(i18n("OK"));
   tab->setCancelButton(i18n("Cancel"));
 
   connect( tab, SIGNAL( applyButtonPressed() ), this, SLOT( slotApply() ) );
