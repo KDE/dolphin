@@ -93,7 +93,7 @@ KfFileLVI::KfFileLVI(QListView* lv, QString file)
 
   // Fill the item with data
   setText(0, fileInfo->fileName());
-  setText(1, fileInfo->dir().path());
+  setText(1, fileInfo->dir().path() + "/");
   setText(2, size);
   setText(3, date);
   setText(4, perm[perm_index]);
@@ -535,8 +535,10 @@ void KfindWindow::resizeEvent(QResizeEvent *e)
 void KfindWindow::contentsMousePressEvent(QMouseEvent *e)
 {
   QListViewItem *item = itemAt(contentsToViewport(e->pos()));
-  if(item == NULL) { // Just in case. Should not happen
+  if(item == NULL) { // someone clicked where no listview item is (below items)
     QListView::contentsMousePressEvent(e);
+    clearSelection();
+    selectionChanged( false );
     return;
   }
 
@@ -605,7 +607,7 @@ void KfindWindow::contentsMousePressEvent(QMouseEvent *e)
 void KfindWindow::contentsMouseReleaseEvent(QMouseEvent *e)
 {
   QListViewItem *item = itemAt(contentsToViewport(e->pos()));
-  if(item == NULL) { // Just in case. Should not happen
+  if(item == NULL) { // someone clicked where no listview item is (below items)
     QListView::contentsMouseReleaseEvent(e);
     return;
   }
@@ -629,8 +631,11 @@ void KfindWindow::contentsMouseMoveEvent(QMouseEvent *e)
 {
   QListView::contentsMouseMoveEvent(e);
 
+  KfFileLVI *item = (KfFileLVI *) itemAt(contentsToViewport(e->pos()));
+  if ( !item )
+    return;
+
   QStringList uris;
-  KfFileLVI *item = 0L;
   QList<KfFileLVI> *selected = selectedItems();
 
   // create a list of URIs from selection
@@ -641,7 +646,7 @@ void KfindWindow::contentsMouseMoveEvent(QMouseEvent *e)
   }
 
   if ( uris.count() > 0 ) {
-    QUriDrag *ud = new QUriDrag( this, "kfind uridrag" );;
+    QUriDrag *ud = new QUriDrag( this, "kfind uridrag" );
     ud->setFilenames( uris );
 
     if ( uris.count() == 1 ) {
