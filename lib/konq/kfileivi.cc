@@ -28,9 +28,9 @@
 
 KFileIVI::KFileIVI( QIconView *iconview, KonqFileItem* fileitem, int size, bool bImagePreviewAllowed )
     : QIconViewItem( iconview, fileitem->text(),
-		     fileitem->pixmap( size, bImagePreviewAllowed ) ),
-      m_size(size), m_bpreview(bImagePreviewAllowed),
-      m_fileitem( fileitem )
+		     fileitem->pixmap( size, KIcon::DefaultState, bImagePreviewAllowed ) ),
+    m_size(size), m_state( KIcon::DefaultState ), m_bpreview(bImagePreviewAllowed),
+    m_fileitem( fileitem )
 {
     setDropEnabled( S_ISDIR( m_fileitem->mode() ) );
 }
