@@ -1,3 +1,3 @@
 #ifndef _VERSION_H
-#define KONQUEROR_VERSION "1.9.3b"
+#define KONQUEROR_VERSION "1.9.8"
 #endif
