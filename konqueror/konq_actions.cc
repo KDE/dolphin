@@ -143,6 +143,7 @@ void KonqBidiHistoryAction::fillHistoryPopup( const QPtrList<HistoryEntry> &hist
 KonqBidiHistoryAction::KonqBidiHistoryAction ( const QString & text, QObject* parent, const char* name )
   : KAction( text, 0, parent, name )
 {
+  setShortcutConfigurable(false);
   m_firstIndex = 0;
   m_goMenu = 0L;
 }
