@@ -144,7 +144,7 @@ bool clientApp::openFileManagerWindow(const KURL & url)
     {
         KConfig config( QString::fromLatin1("kfmclientrc") );
         config.setGroup( QString::fromLatin1("Settings") );
-        bool startNewKonqueror = config.readBoolEntry( QString::fromLatin1("StartNewKonqueror"), true ); 
+        bool startNewKonqueror = config.readBoolEntry( QString::fromLatin1("StartNewKonqueror"), true );
         QByteArray data;
         QCString appId, appObj;
         if ( !startNewKonqueror &&
@@ -180,7 +180,7 @@ bool clientApp::openProfile( const QString & filename, const QString & url )
   }
   KConfig config( QString::fromLatin1("kfmclientrc") );
   config.setGroup( QString::fromLatin1("Settings") );
-  bool startNewKonqueror = config.readBoolEntry( QString::fromLatin1("StartNewKonqueror"), true ); 
+  bool startNewKonqueror = config.readBoolEntry( QString::fromLatin1("StartNewKonqueror"), true );
   QByteArray data;
   QCString appId, appObj;
   if ( !startNewKonqueror &&
@@ -275,7 +275,7 @@ int clientApp::doIt()
   {
     checkArgumentCount(argc, 2, 2);
     KPropertiesDialog * p = new KPropertiesDialog( args->url(1) );
-    QObject::connect( p, SIGNAL( propertiesClosed() ), this, SLOT( quit() ));
+    QObject::connect( p, SIGNAL( destroyed() ), this, SLOT( quit() ));
     exec();
   }
   else if ( command == "exec" )
