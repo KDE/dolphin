@@ -181,7 +181,7 @@ void KWrite::setupActions()
 
   m_recentFiles = KStdAction::openRecent(this, SLOT(slotOpen(const KURL&)),
                                          actionCollection());
-  m_recentFiles->setWhatsThis(i18n("This lists files you have opened recently, and allows you to easily open them again."));
+  m_recentFiles->setWhatsThis(i18n("This lists files which you have opened recently, and allows you to easily open them again."));
 
   a=new KAction(i18n("New &View"), 0, this, SLOT(newView()),
               actionCollection(), "file_newView");
