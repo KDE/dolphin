@@ -29,8 +29,8 @@
 <refsynopsisdiv>
 <cmdsynopsis>
 	&kbookmarkmerger;
-	<arg choice="opt" rep="repeat">KDE Generic Options</arg>
-	<arg choice="opt" rep="repeat">Qt Generic Options</arg>
+	<arg choice="opt" rep="repeat">Qt Options</arg>
+	<arg choice="opt" rep="repeat">KDE Options</arg>
 	<arg choice="req">directory</arg>
 </cmdsynopsis>
 </refsynopsisdiv>
@@ -108,6 +108,11 @@ will not trigger merging it once again.</para>
 
 <para>Also note that in case a user modifies a bookmark which was merged into
 his setup, the original bookmark file will be left unmodified.</para>
+</refsect1>
+
+<refsect1>
+<title>Author</title>
+<para>&Frerich.Raabe; &Frerich.Raabe.mail;</para>
 </refsect1>
 </refentry>
 
