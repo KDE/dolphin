@@ -417,7 +417,8 @@ void KonqChildView::go( int steps )
   HistoryEntry h( *currentHistoryEntry ); // make a copy of the current history entry, as the data
                                           // the pointer points to will change with the following calls
 
-  if ( ! changeViewMode( h.strServiceType, h.strServiceName ) )
+  kdDebug(1202) << "Restoring servicetype/name, and location bar URL from history : " << h.locationBarURL << endl;
+  if ( ! changeViewMode( h.strServiceType, h.strServiceName, QString::null, h.locationBarURL ) )
   {
     kdWarning(1202) << "Couldn't change view mode to " << h.strServiceType
                     << " " << h.strServiceName << endl;
@@ -428,6 +429,7 @@ void KonqChildView::go( int steps )
 
   if ( browserExtension() )
   {
+    kdDebug(1202) << "Restoring view from stream" << endl;
     QDataStream stream( h.buffer, IO_ReadOnly );
 
     browserExtension()->restoreState( stream );
@@ -436,9 +438,6 @@ void KonqChildView::go( int steps )
     m_pView->openURL( h.url );
 
   sendOpenURLEvent( h.url );
-
-  kdDebug(1202) << "Restoring location bar URL from history : " << h.locationBarURL << endl;
-  setLocationBarURL( h.locationBarURL );
 
   if ( m_pMainView->currentChildView() == this )
     m_pMainView->updateToolBarActions();
