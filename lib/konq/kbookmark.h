@@ -1,10 +1,9 @@
-/* This file is part of the KDE project
-   Copyright (C) 1998, 1999 Torben Weis <weis@kde.org>
+/* This file is part of the KDE libraries
+   Copyright (C) 2000 David Faure <faure@kde.org>
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Library General Public
-   License as published by the Free Software Foundation; either
-   version 2 of the License, or (at your option) any later version.
+   License version 2 as published by the Free Software Foundation.
 
    This library is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -16,294 +15,186 @@
    the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
    Boston, MA 02111-1307, USA.
 */
+#ifndef __kbookmark_h
+#define __kbookmark_h
 
-#ifndef __kbookmark_h__
-#define __kbookmark_h__
-
-#include <qlist.h>
 #include <qstring.h>
-#include <qpixmap.h>
-
-#include <ksimpleconfig.h>
-#include <kurl.h>
-#include <kglobal.h>
-#include <kstddirs.h>
-
-#include <kdirnotify.h>
+#include <qobject.h>
+#include <qdom.h>
 
 class KBookmarkManager;
-class KBookmark;
 
-/**
- * This class is an abstraction of a "real" bookmark.  It has
- * knowledge of properties like its name (possibly squeezed for size)
- * and URL and pixmap and type.. etc.  It also contains a pointer to
- * other bookmarks.
- *
- * For the most part, though, you should never use this class
- * directly.  KBookmarkManager is responsible for managing the
- * bookmarks.  Use that instead.
- *
- * @internal
- */
 class KBookmark
 {
-  friend KBookmarkManager;
-
+    friend class KBookmarkGroup;
 public:
-  enum { URL, Folder };
+    KBookmark( QDomElement elem ) : element(elem) {}
 
-  /**
-   * Given a name and a URL, this will create a Folder bookmark.  It
-   * will further save this to disk!
-   */
-  KBookmark( KBookmarkManager *, KBookmark *_parent, QString _text,
-             const KURL & _url );
+    /**
+     * Whether the bookmark is a group or a normal bookmark
+     */
+    bool isGroup() const;
 
-  /**
-   * Text shown for the bookmark
-   */
-  QString text() const;
-  /**
-   * URL contained by the bookmark
-   */
-  QString url() const { return m_url; }
-  /**
-   * URL or Folder
-   */
-  int type() const { return m_type; }
-  /**
-   * @internal id
-   */
-  int id() const { return m_id; }
-  /**
-   * Path to the local desktop file that defines this bookmark.
-   * For submenus, this is the path to the directory.
-   * For an HTML bookmark, this is empty.
-   */
-  QString file() const { return m_file; }
-  /**
-   * @return the pixmap file for this bookmark
-   * (i.e. the name of the icon)
-   */
-  QString pixmapFile();
-  /**
-   * @return the pixmap for this bookmark
-   */
-  QPixmap pixmap();
+    bool isNull() const {return element.isNull();}
 
-  /**
-   * Append a new bookmark to the list.
-   */
-  void append( const QString& _name, KBookmark *_bm );
+    /**
+     * Text shown for the bookmark
+     */
+    QString text() const;
+    /**
+     * URL contained by the bookmark
+     */
+    QString url() const;
+    /**
+     * @return the pixmap file for this bookmark
+     * (i.e. the name of the icon)
+     */
+    QString pixmapFile() const;
 
-  /**
-   * Don't iterate on this anymore.  Use @ref first and @ref next
-   * instead
-   */
-    //QList<KBookmark> *children() { return &m_lstChildren; }
+    // TODO move up, move down, etc.
 
-  KBookmark* findBookmark( int _id );
-
-  // NOTE: these should probably be const.. but that caused problems
-  // with the ConstInterator.  Dunno why
-
-  /**
-   * Returns a pointer to the first bookmark with optional sorting.
-   * Use this and @ref next instead of @ref children.
-   */
-  KBookmark *first();
-
-  /**
-   * Returns a pointer to the next bookmark with optional sorting.
-   * Use this and @ref first instead of @ref children.
-   */
-  KBookmark *next();
+    KBookmarkGroup toGroup( KBookmarkManager * manager ) const;
 
 protected:
-  /**
-   * Creates a folder.
-   */
-  KBookmark( KBookmarkManager *, KBookmark *_parent, QString _text );
-  /**
-   * Creates a bookmark from a file.
-   */
-  KBookmark( KBookmarkManager *, KBookmark *_parent, QString _text,
-             KSimpleConfig& _cfg, const QString &_group );
-
-  void clear();
-
-  QString m_text;
-  QString m_url;
-  QString m_file;
-
-  QString m_sPixmap;
-
-  int m_type;
-  int m_id;
-
-  KBookmarkManager *m_pManager;
-
-  QDict<KBookmark> m_bookmarkMap;
-  QStringList m_sortOrder;
-  QStringList::Iterator m_sortIt;
+    QDomElement element;
+    // Note: you can't add new member variables here.
+    // The KBookmarks are created on the fly, as wrappers
+    // around internal QDomElements. Any additional information
+    // has to be implemented as an attribute of the QDomElement.
 };
 
 /**
- * This class holds the data structures for the bookmarks and does
- * most of the work behind the scenes.  You may not have to do
- * anything with this class directly if you will accept certain
- * defaults.
- *
- * Specifically, the bookmark classes will use two defaults with this
- * class:
- *
- * 1) The bookmark path is <kde_path>/share/apps/kfm/bookmarks
- * 2) @ref editBookmarks will use the default bookmark editor to edit
- *    the bookmarks
- *
- * If you need to modify either behavior, you must derive your own
- * class from this one and specify your own path and overload
- * @ref editBookmarks
+ * A group of bookmarks
  */
-class KBookmarkManager : public QObject, public KDirNotify
+class KBookmarkGroup : public KBookmark
 {
-  friend KBookmark;
-
-  Q_OBJECT
 public:
-  /**
-   * Creates a bookmark manager with a path to the bookmarks.  By
-   * default, it will use the KDE standard dirs to find and create the
-   * correct location.  If you are using your own app-specific
-   * bookmarks directory, you must instantiate this class with your
-   * own path <em>before</em> KBookmarkManager::self() is every
-   * called.
-   */
-  KBookmarkManager( QString _path = KGlobal::dirs()->saveLocation("data", "kfm/bookmarks", true) );
+    KBookmarkGroup( KBookmarkManager * manager, QDomElement elem ) : KBookmark(elem)
+    {
+        m_manager = manager;
+    }
+    bool operator == ( const KBookmarkGroup & g ) const { return element == g.element; }
 
-  /**
-   * Destructor
-   */
-  virtual ~KBookmarkManager();
+    KBookmark first() const;
+    KBookmark next( KBookmark & current ) const;
 
-  /**
-   * This static function will return an instance of the
-   * KBookmarkManager.  If you do not instantiate this class either
-   * natively or in a derived class, then it will return an object
-   * with the default behaviors.  If you wish to use different
-   * behaviors, you <em>must</em> derive your own class and
-   * instantiate it before this method is ever called.
-   *
-   * @return a pointer to an instance of the KBookmarkManager.
-   */
-  static KBookmarkManager* self();
+    KBookmarkManager * manager() const { return m_manager; }
 
-  /**
-   * Called if the user wants to edit the bookmarks.  It will use the
-   * default bookmarks editor unless you overload it.
-   */
-  virtual void editBookmarks( const QString & _url );
+    void createNewFolder( const QString & text );
+    void addBookmark( const QString & text, const QString & url );
 
-  /**
-   * This will return the path that this manager is using to search
-   * for bookmarks.  It is mostly used internally -- if you think you
-   * need to use it, you are probably using KBookmarkManager wrong.
-   *
-   * @return the path containing the bookmarks
-   */
-  QString path() { return m_sPath; }
+    bool isToolbarGroup() const;
+    /**
+     * @internal
+     */
+    QDomElement findToolbar() const;
 
-  /**
-   * This will return the root bookmark.  It is used to iterate
-   * through the bookmarks manually.  It is mostly used internally --
-   * if you think you need to use it, you are probably using
-   * KBookmarkManager wrong.
-   *
-   * @return the root (top-level) bookmark
-   */
-  KBookmark* root() { return m_Root; }
+    static KBookmarkGroup null() { return KBookmarkGroup(0,QDomElement()); }
 
-  /**
-   * This will return the root bookmark of the toolbar menu.  It is
-   * used in a manner similar to @ref root
-   *
-   * @return the root bookmark of the toolbar subdir
-   */
-  KBookmark* toolbar() { return m_Toolbar; }
+private:
+    KBookmarkManager * m_manager;
+    // Note: you can't add new member variables here.
+    // The KBookmarks are created on the fly, as wrappers
+    // around internal QDomElements. Any additional information
+    // has to be implemented as an attribute of the QDomElement.
+};
 
-  /**
-   * @internal
-   * Used by KBookmarkManager when a bookmark is selected
-   */
-  KBookmark* findBookmark( int _id ) { return m_Root->findBookmark( _id ); }
-
-  /**
-   * @internal
-   * For internal use only
-   */
-  virtual void emitChanged();
-
-
-
-signals:
-  /**
-   * For internal use only
-   */
-  void changed();
-
+/**
+ * This class implements the reading/writing of bookmarks in XML.
+ * The bookmarks file is defined this way :
+ * <BOOKMARKS>
+ *   <BOOKMARK URL="http://developer.kde.org">Developer Web Site</BOOKMARK>
+ *   <GROUP>
+ *     <BOOKMARK URL="http://www.kde.org">KDE Web Site</BOOKMARK>
+ *     <GROUP>
+ *       <TEXT>My own bookmarks</TEXT>
+ *       <BOOKMARK URL="http://www.koffice.org">KOffice Web Site</BOOKMARK>
+ *       <BOOKMARK URL="http://www.kdevelop.org">KDevelop Web Site</BOOKMARK>
+ *     </GROUP>
+ *   </GROUP>
+ * </BOOKMARKS>
+ */
+class KBookmarkManager : public QObject
+{
+    Q_OBJECT
 public:
-  /**
-   * This function is automatically called via DCOP when a bookmark manager notices
-   * a change, in order to update all other bookmark managers that display the same
-   * bookmarks.
-   * Reimplemented from KDirNotify.
-   */
-  virtual void FilesAdded( const KURL & directory );
+    /**
+     * Creates a bookmark manager with a path to the bookmarks.  By
+     * default, it will use the KDE standard dirs to find and create the
+     * correct location.  If you are using your own app-specific
+     * bookmarks directory, you must instantiate this class with your
+     * own path <em>before</em> KBookmarkManager::self() is every
+     * called.
+     *
+     * @param bookmarksFile full path to the bookmarks file,
+     * defaults to ~/.kde/share/apps/konqueror/bookmarks.xml
+     *
+     * @param bImportDesktopFiles if true, and if the bookmarksFile
+     * doesn't already exist, import bookmarks from desktop files
+     */
+    KBookmarkManager( const QString & bookmarksFile = QString::null,
+                         bool bImportDesktopFiles = true );
 
-  /**
-   * This function is automatically called via DCOP when a bookmark manager notices
-   * a change, in order to update all other bookmark managers that display the same
-   * bookmarks.
-   * Reimplemented from KDirNotify.
-   */
-  virtual void FilesRemoved( const KURL::List & fileList );
+    ~KBookmarkManager();
 
-  virtual void FilesChanged( const KURL::List & fileList );
+    void parse();
+
+    void save();
+
+    /**
+     * This will return the path that this manager is using to read
+     * the bookmarks.
+     * @internal
+     * @return the path containing the bookmarks
+     */
+    QString path() { return m_bookmarksFile; }
+
+    /**
+     * This will return the root bookmark.  It is used to iterate
+     * through the bookmarks manually.  It is mostly used internally.
+     *
+     * @return the root (top-level) bookmark
+     */
+    KBookmarkGroup root();
+
+    /**
+     * This returns the root of the toolbar menu.
+     * In the XML, this is the group with the attribute TOOLBAR=1
+     *
+     * @return the toolbar group
+     */
+    KBookmarkGroup toolbar();
+
+    /**
+     * @internal (for KBookmarkGroup)
+     */
+    void emitChanged( KBookmarkGroup & group );
+
+    /**
+     * This static function will return an instance of the
+     * KBookmarkManager.  If you do not instantiate this class either
+     * natively or in a derived class, then it will return an object
+     * with the default behaviors.  If you wish to use different
+     * behaviors, you <em>must</em> derive your own class and
+     * instantiate it before this method is ever called.
+     *
+     * @return a pointer to an instance of the KBookmarkManager.
+     */
+    static KBookmarkManager* self();
 
 public slots:
-  /**
-   * If you know that something in the bookmarks directory tree changed, call this
-   * function to update the bookmark menus. If the given URL is not of interest for
-   * the bookmarks then nothing will happen.
-   */
-  void slotNotify( const QString & path );
+    void slotEditBookmarks();
 
-  /**
-   * Connect this slot directly to the menu item "edit bookmarks"
-   */
-  void slotEditBookmarks();
+signals:
+    void changed( KBookmarkGroup & group );
 
 protected:
-  virtual void scan( const QString & path);
-  virtual void scanIntern( KBookmark*, const QString & path );
 
-  void disableNotify() { m_bNotify = false; }
-  void enableNotify() { m_bNotify = true; }
-
-  bool m_bAllowSignalChanged;
-  bool m_bNotify;
-  QString m_sPath;
-  KBookmark * m_Root;
-  KBookmark * m_Toolbar;
-
-  /**
-   * This list is to prevent infinite looping while
-   * scanning directories with ugly symbolic links
-   */
-  QList<QString> m_lstParsedDirs;
-
-  static KBookmarkManager* s_pSelf;
+    void importDesktopFiles();
+    //void printGroup( QDomElement & group, int indent = 0 );
+    QString m_bookmarksFile;
+    QDomDocument m_doc;
+    static KBookmarkManager* s_pSelf;
 };
 
 /**
@@ -358,4 +249,3 @@ public:
 };
 
 #endif
-

@@ -1,10 +1,9 @@
-/* This file is part of the KDE project
-   Copyright (C) 1998, 1999 Torben Weis <weis@kde.org>
+/* This file is part of the KDE libraries
+   Copyright (C) 2000 David Faure <faure@kde.org>
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Library General Public
-   License as published by the Free Software Foundation; either
-   version 2 of the License, or (at your option) any later version.
+   License version 2 as published by the Free Software Foundation.
 
    This library is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -17,495 +16,262 @@
    Boston, MA 02111-1307, USA.
 */
 
-#include <qdir.h>
-
 #include "kbookmark.h"
-
-#include <sys/types.h>
-#include <stddef.h>
-#include <dirent.h>
-#include <sys/stat.h>
-#include <errno.h>
-#include <assert.h>
-
-#include <kurl.h>
-#include <kapp.h>
-#include <klocale.h>
-//#include <kdirwatch.h>
+#include "kbookmarkimporter.h"
 #include <kdebug.h>
-#include <kmessagebox.h>
-#include <krun.h>
-#include <kstringhandler.h>
-#include <kprotocolinfo.h>
-
+#include <kglobal.h>
 #include <kmimetype.h>
-#include <kio/global.h>
-
-#include <qstringlist.h>
-
-template class QDict<KBookmark>;
-template class QList<KBookmark>;
-
-/**
- * Global ID for bookmarks.
- */
-int g_id = 0;
-
-/********************************************************************
- *
- * KBookmarkManager
- *
- ********************************************************************/
+#include <krun.h>
+#include <kstddirs.h>
+#include <kstringhandler.h>
+#include <kurl.h>
+#include <qdom.h>
+#include <qfile.h>
+#include <qtextstream.h>
+#include <kmessagebox.h>
 
 KBookmarkManager* KBookmarkManager::s_pSelf = 0L;
 
 KBookmarkManager* KBookmarkManager::self()
 {
   if ( !s_pSelf )
-  {
-    QString path(KGlobal::dirs()->saveLocation("data", "kfm/bookmarks", true));
-    QString bookmark_path(KGlobal::dirs()->saveLocation("data", "kfm/bookmarks/Toolbar", true));
-    // copy over the .directory file if it's not there
-    if (!KStandardDirs::exists(bookmark_path + "/.directory"))
-    {
-      QCString cmd;
-      cmd.sprintf( "cp %s %s/.directory",
-          QFile::encodeName(locate("data", "kbookmark/directory_bookmarkbar.desktop")).data(),
-          QFile::encodeName(bookmark_path).data() );
-      system( cmd );
-    }
-
-    s_pSelf = new KBookmarkManager( path );
-  }
-
-  assert ( s_pSelf );
+    s_pSelf = new KBookmarkManager;
 
   return s_pSelf;
 }
 
-KBookmarkManager::KBookmarkManager( QString _path ) : m_sPath( _path )
+KBookmarkManager::KBookmarkManager( const QString & bookmarksFile, bool bImportDesktopFiles )
+    : m_doc("BOOKMARKS")
 {
-  m_Toolbar = 0;
-  m_bAllowSignalChanged = true;
-  m_Root = new KBookmark( this, 0L, QString::null );
-  if ( s_pSelf )
-    delete s_pSelf;
-  s_pSelf = this;
+    if ( s_pSelf )
+        delete s_pSelf;
+    s_pSelf = this;
 
-  m_lstParsedDirs.setAutoDelete( true );
+    if (m_bookmarksFile.isEmpty())
+        m_bookmarksFile = locateLocal("data", QString::fromLatin1("konqueror/bookmarks.xml"));
+    else
+        m_bookmarksFile = bookmarksFile;
 
-  m_bNotify = true;
-
-  scan( m_sPath );
-
-  //connect( KDirWatch::self(), SIGNAL( dirty( const QString & ) ),
-  //         this, SLOT( slotNotify( const QString & ) ) );
-  //KDirWatch::self()->addDir( m_sPath );
+    if ( !QFile::exists(m_bookmarksFile) )
+    {
+        // First time we use this class
+        if ( m_doc.documentElement().isNull() )
+        {
+            QDomElement topLevel = m_doc.createElement("BOOKMARKS");
+            m_doc.appendChild( topLevel );
+        }
+        if ( bImportDesktopFiles )
+            importDesktopFiles();
+    }
+    else
+    {
+        parse();
+    }
 }
 
 KBookmarkManager::~KBookmarkManager()
 {
-  //KDirWatch::self()->removeDir( m_sPath );
-  delete m_Root;
-  s_pSelf = 0L;
+    s_pSelf = 0L;
 }
 
-void KBookmarkManager::FilesAdded( const KURL & directory )
+void KBookmarkManager::parse()
 {
-  if (directory.isLocalFile())
-    slotNotify( directory.path() );
-}
-
-void KBookmarkManager::FilesRemoved( const KURL::List & fileList )
-{
-  KURL::List::ConstIterator it = fileList.begin();
-  for ( ; it != fileList.end() ; ++it )
-  {
-    if ((*it).isLocalFile())
-      slotNotify( (*it).directory() );
-  }
-}
-
-void KBookmarkManager::FilesChanged( const KURL::List & fileList )
-{
-  KURL::List::ConstIterator it = fileList.begin();
-  for ( ; it != fileList.end() ; ++it )
-  {
-    // TODO: make this smarter (if we show the file, reparse it and update the kbookmark)
-    if ((*it).isLocalFile())
-      slotNotify( (*it).directory() );
-  }
-}
-
-void KBookmarkManager::slotNotify( const QString &_url )
-{
-  //kdDebug(1203) << "KBookmarkManager::slotNotify( " << _url << ")" << endl;
-  if ( !m_bNotify )
-    return;
-
-  KURL u( _url );
-  if ( !u.isLocalFile() )
-    return;
-
-  QDir dir2( m_sPath );
-  QDir dir1( u.path() );
-
-  QString p1( dir1.canonicalPath() );
-  QString p2( dir2.canonicalPath() );
-  if ( p1.isEmpty() )
-    p1 = u.path();
-  if ( p2.isEmpty() )
-    p2 = m_sPath;
-
-  if ( p1.left(p2.length()) == p2 )
-  {
-    scan( m_sPath );
-  }
-}
-
-void KBookmarkManager::emitChanged()
-{
-  // Scanning right now ?
-  if ( m_bAllowSignalChanged )
-  {
-    // ... no => emit signal
-    emit changed();
-  }
-}
-
-void KBookmarkManager::scan( const QString & _path )
-{
-  //kdDebug(1203) << "KBookmarkManager::scan" << endl;
-  if (m_Toolbar)
-    m_Toolbar->clear();
-  m_Toolbar = 0L;
-
-  m_Root->clear();
-
-  // Do not emit 'changed' signals here.
-  m_bAllowSignalChanged = false;
-  scanIntern( m_Root, _path );
-  m_lstParsedDirs.clear();
-  m_bAllowSignalChanged = true;
-
-  emitChanged();
-}
-
-void KBookmarkManager::scanIntern( KBookmark *_bm, const QString & _path )
-{
-  //kdDebug(1203) << "KBookmarkManager::scanIntern" << endl;
-  // Substitute all symbolic links in the path
-  QDir dir( _path );
-  QString canonical = dir.canonicalPath();
-  QString *s;
-  // Did we scan this one already ?
-  for( s = m_lstParsedDirs.first(); s != 0L; s = m_lstParsedDirs.next() )
-  {
-    if ( *s == canonical )
+    QFile file( m_bookmarksFile );
+    if ( !file.open( IO_ReadOnly ) )
     {
-      kdWarning() << "Directory " << s << " already parsed" << endl;
-      return;
+        kdWarning() << "Can't open " << m_bookmarksFile << endl;
+        return;
     }
-  }
-  m_lstParsedDirs.append( new QString( canonical ) );
+    m_doc.setContent( &file );
 
-  DIR *dp;
-  struct dirent *ep;
-  dp = opendir( QFile::encodeName(_path) );
-  if ( dp == 0L )
-    return;
+    QDomElement docElem = m_doc.documentElement(); // <BOOKMARKS>
+    if ( docElem.isNull() )
+        kdWarning() << "KBookmarkManager::parse : can't parse " << m_bookmarksFile << endl;
 
-  // Loop thru all directory entries
-  while ( ( ep = readdir( dp ) ) != 0L )
-  {
-    if ( strcmp( ep->d_name, "." ) != 0 && strcmp( ep->d_name, ".." ) != 0 )
-    {
-      KURL file;
-      file.setPath( QString( _path ) + '/' + ep->d_name );
-
-      KMimeType::Ptr res = KMimeType::findByURL( file, 0, true );
-      //kdDebug(1203) << " - " << file.url() << "  ->  " << res->name() << endl;
-
-      if ( res->name() == "inode/directory" )
-      {
-        KBookmark* bm = new KBookmark( this, _bm, KIO::decodeFileName( ep->d_name ) );
-        if ( KIO::decodeFileName( ep->d_name ) == "Toolbar" )
-            m_Toolbar = bm;
-        scanIntern( bm, file.path() );
-      }
-      else if ( res->name() == "application/x-desktop" )
-      {
-        KSimpleConfig cfg( file.path(), true );
-        cfg.setDesktopGroup();
-        QString type = cfg.readEntry( "Type" );
-        // Is it really a bookmark file ?
-        if ( type == "Link" )
-          (void) new KBookmark( this, _bm, ep->d_name, cfg, 0 /* desktop group */ );
-         else
-           kdWarning(1203) << "  Not a link ? Type=" << type << endl;
-      }
-      else if ( res->name() == "text/plain")
-      {
-        // maybe its an IE Favourite..
-        KSimpleConfig cfg( file.path(), true );
-        QStringList grp = cfg.groupList().grep( "internetshortcut", false );
-        if ( grp.count() == 0 )
-            continue;
-
-        cfg.setGroup( *grp.begin() );
-
-        QString url = cfg.readEntry("URL");
-        if (!url.isEmpty() )
-          (void) new KBookmark( this, _bm, ep->d_name, cfg, *grp.begin() );
-      } else kdWarning(1203) << "Invalid bookmark : found mimetype='" << res->name() << "' for file='" << file.path() << "'!" << endl;
-    }
-  }
-
-  closedir( dp );
+    file.close();
 }
 
-void KBookmarkManager::editBookmarks( const QString & _url )
+/* for debugging only
+void KBookmarkManager::printGroup( QDomElement & group, int indent )
 {
-  KRun::runURL( _url, "inode/directory" );
+    QDomNode n = group.firstChild();
+    while( !n.isNull() )
+    {
+        QDomElement e = n.toElement();
+        if ( !e.isNull() )
+            if ( e.tagName() == "TEXT" )
+            {
+                kdDebug() << "KBookmarkManager::printGroup text=" << e.text() << endl;
+            }
+            else if ( e.tagName() == "GROUP" )
+                printGroup( e, indent+1 );
+            else
+                if ( e.tagName() == "BOOKMARK" )
+                {
+                    QString spaces;
+                    for ( int i = 0 ; i < indent ; i++ )
+                        spaces += " ";
+                    kdDebug() << "URL=" << e.attribute("URL") << endl;
+                    kdDebug() << spaces << e.text() << endl;
+                }
+                else
+                    kdDebug() << "Unknown tag " << e.tagName() << endl;
+        n = n.nextSibling();
+    }
+}
+*/
+
+void KBookmarkManager::importDesktopFiles()
+{
+    KBookmarkImporter importer( &m_doc );
+    QString path(KGlobal::dirs()->saveLocation("data", "kfm/bookmarks", true));
+    importer.import( path );
+    //kdDebug() << m_doc.toCString() << endl;
+
+    save();
+}
+
+void KBookmarkManager::save()
+{
+    QFile file( m_bookmarksFile );
+
+    if ( !file.open( IO_WriteOnly ) )
+    {
+        kdWarning() << "KBookmarkManager::save : can't open for writing " << m_bookmarksFile << endl;
+        return;
+    }
+    QTextStream ts( &file );
+    ts << m_doc;
+    //m_doc.save( ts, 0 );
+    file.close();
+}
+
+KBookmarkGroup KBookmarkManager::root()
+{
+    return KBookmarkGroup(this,m_doc.documentElement());
+}
+
+KBookmarkGroup KBookmarkManager::toolbar()
+{
+    return KBookmarkGroup(this,root().findToolbar());
+}
+
+void KBookmarkManager::emitChanged( KBookmarkGroup & group )
+{
+    save(); // The best time to save to disk is probably after each change.....
+
+    // ######## TODO: tell the other processes too !
+    emit changed( group );
 }
 
 void KBookmarkManager::slotEditBookmarks()
 {
-  editBookmarks( m_sPath );
+    // TODO : call keditbookmarks from here
+    // Oh, and TODO : write keditbookmarks :-)
+    KMessageBox::sorry( 0L, QString("Not implemented yet - edit %1").arg(m_bookmarksFile) );
 }
 
-/********************************************************************
- *
- * KBookmark
- *
- ********************************************************************/
+///////
 
-KBookmark::KBookmark( KBookmarkManager *_bm, KBookmark *_parent, QString _text,
-                      KSimpleConfig& _cfg, const QString &_group )
+KBookmark KBookmarkGroup::first() const
 {
-  assert( _bm != 0L );
-  assert( _parent != 0L );
-
-  if ( !_group.isEmpty() )
-    _cfg.setGroup( _group );
-  else
-    _cfg.setDesktopGroup();
-
-  m_url = _cfg.readEntry( "URL" );
-  m_sPixmap = _cfg.readEntry( "Icon", QString::null );
-  if (m_sPixmap.right( 4 ) == ".xpm" ) // prevent warnings
-  {
-    m_sPixmap.truncate( m_sPixmap.length() - 4 );
-    // Should we update the config file ?
-  }
-
-  m_id = g_id++;
-  m_pManager = _bm;
-  m_bookmarkMap.setAutoDelete( true );
-
-  m_text = KIO::decodeFileName( _text );
-  if ( m_text.length() > 8 && m_text.right( 8 ) == ".desktop" )
-    m_text.truncate( m_text.length() - 8 );
-  if ( m_text.length() > 7 && m_text.right( 7 ) == ".kdelnk" )
-    m_text.truncate( m_text.length() - 7 );
-
-
-  m_type = URL;
-
-  m_file = _parent->file();
-  m_file += '/';
-  m_file += _text;
-
-  _parent->append( _text, this );
-
-  m_pManager->emitChanged();
+    return KBookmark(element.firstChild().toElement());
 }
 
-KBookmark::KBookmark( KBookmarkManager *_bm, KBookmark *_parent, QString _text )
+KBookmark KBookmarkGroup::next( KBookmark & current ) const
 {
-  m_id = g_id++;
-  m_pManager = _bm;
-  m_bookmarkMap.setAutoDelete( true );
-  m_type = Folder;
-  m_text = _text;
-
-  QString dir = _bm->path();
-  if ( _parent )
-    dir = _parent->file();
-  m_file = dir;
-  if ( !_text.isEmpty() )
-  {
-    m_file += '/';
-    m_file += KIO::encodeFileName( _text );
-  }
-
-  // test for the .directory file
-  QString directory_file( m_file + "/.directory" );
-  if ( QFile::exists( directory_file ) )
-  {
-    KSimpleConfig cfg( directory_file );
-    cfg.setDesktopGroup();
-
-    m_sortOrder = cfg.readListEntry( "SortOrder" );
-
-    //CT having all directories named "Bookmark entries" is completely useless
-    QString name_text = cfg.readEntry( "Name", m_text );
-    if (name_text == "Bookmark entries")
-      cfg.writeEntry("Name", m_text);
-    else
-      m_text = name_text;
-  }
-
-  if ( _parent )
-    _parent->append( _text, this );
-
-  if ( m_pManager )
-    m_pManager->emitChanged();
+    return KBookmark(current.element.nextSibling().toElement());
 }
 
-KBookmark::KBookmark( KBookmarkManager *_bm, KBookmark *_parent, QString _text, const KURL & url )
+void KBookmarkGroup::createNewFolder( const QString & text )
 {
-  assert( _bm != 0L );
-  assert( _parent != 0L );
-  assert( !_text.isEmpty() && !url.isEmpty() );
-
-  QString icon;
-
-  // TODO: replace all this with one call to KMimeType::iconForURL !
-  if ( url.isLocalFile() )
-  {
-    struct stat buff;
-    QCString path = QFile::encodeName( url.path());
-    stat( path.data(), &buff );
-    icon = KMimeType::findByURL( url, buff.st_mode, true )->icon( url, true );
-  }
-  else
-  {
-    icon = KMimeType::findByURL( url )->icon( url, false );
-    static const QString& unknown = KGlobal::staticQString("unknown");
-    if ( icon == unknown )
-        icon = KProtocolInfo::icon( url.protocol() );
-  }
-
-  m_id = g_id++;
-  m_pManager = _bm;
-  m_bookmarkMap.setAutoDelete( true );
-  m_text = _text;
-  m_url = url.url();
-  m_type = URL;
-
-  m_file = _parent->file();
-  m_file += '/';
-  m_file += KIO::encodeFileName( _text );
-  m_file += ".desktop"; // We need the extension, otherwise saving a URL will
-  // create a file named ".html", which will give us a wrong mimetype.
-
-  FILE *f = fopen( QFile::encodeName(m_file), "w" );
-  if ( f == 0L )
-  {
-    KMessageBox::sorry( 0, i18n("Could not write bookmark" ) );
-    return;
-  }
-
-  fprintf( f, "[Desktop Entry]\n" );
-  fprintf( f, "URL=%s\n", m_url.utf8().data() );
-  fprintf( f, "Icon=%s\n", icon.utf8().data() );
-  fprintf( f, "Type=Link\n" );
-  fclose( f );
-
-  _parent->append( _text, this );
-
-  m_pManager->emitChanged();
+    QDomDocument doc = element.ownerDocument();
+    QDomElement groupElem = doc.createElement( "GROUP" );
+    element.appendChild( groupElem );
+    QDomElement textElem = doc.createElement( "TEXT ");
+    groupElem.appendChild( textElem );
+    textElem.appendChild( doc.createTextNode( text ) );
+    ASSERT( m_manager );
+    m_manager->emitChanged( *this );
 }
 
-KBookmark *KBookmark::first()
+void KBookmarkGroup::addBookmark( const QString & text, const QString & url )
 {
-    m_sortIt = m_sortOrder.begin();
-    if ( m_sortIt == m_sortOrder.end() )
-        return 0L;
-    KBookmark * valid = m_bookmarkMap.find(*m_sortIt);
-    if ( valid )
-        return valid;
-    else
-        return next(); // first one was no good, keep looking
+    QDomDocument doc = element.ownerDocument();
+    QDomElement elem = doc.createElement( "BOOKMARK" );
+    element.appendChild( elem );
+    elem.setAttribute( "URL", url );
+    QString icon = KMimeType::iconForURL( KURL(url) );
+    elem.setAttribute( "ICON", icon );
+    elem.appendChild( doc.createTextNode( text ) );
+    ASSERT( m_manager );
+    m_manager->emitChanged( *this );
 }
 
-KBookmark *KBookmark::next()
+bool KBookmarkGroup::isToolbarGroup() const
 {
-    // try to skip invalid entries in the sort list
-    KBookmark *valid = 0;
-    while (!valid)
+    return ( element.attribute("TOOLBAR") == "1" );
+}
+
+QDomElement KBookmarkGroup::findToolbar() const
+{
+    // Search among the "GROUP" children only
+    QDomNodeList list = element.elementsByTagName("GROUP");
+    for ( uint i = 0 ; i < list.count() ; ++i )
     {
-        m_sortIt++;
-        if ( m_sortIt == m_sortOrder.end() )
-            return 0L;
-
-        valid = m_bookmarkMap.find(*m_sortIt);
+        QDomElement e = list.item(i).toElement();
+        if ( e.attribute("TOOLBAR") == "1" )
+            return e;
+        else
+        {
+            QDomElement result = KBookmarkGroup(0 /*m_manager*/,e).findToolbar();
+            if (!result.isNull())
+                return result;
+        }
     }
-    return valid;
+    return QDomElement();
 }
 
-void KBookmark::append( const QString& _name, KBookmark *_bm )
+//////
+
+bool KBookmark::isGroup() const
 {
-  m_bookmarkMap.insert( _name, _bm );
-  if ( !m_sortOrder.contains( _name ) )
-    m_sortOrder.append( _name );
-}
-
-void KBookmark::clear()
-{
-  kdDebug(1203) << "KBookmark::clear" << endl;
-
-  QDictIterator<KBookmark> it ( m_bookmarkMap );
-  for ( ; it.current() ; ++it )
-  {
-    it.current()->clear();
-  }
-
-  m_bookmarkMap.clear();
-}
-
-KBookmark* KBookmark::findBookmark( int _id )
-{
-  if ( _id == id() )
-    return this;
-
-  KBookmark *bm;
-
-  QDictIterator<KBookmark> it ( m_bookmarkMap );
-  for ( ; it.current() ; ++it )
-  {
-    bm = it.current();
-
-    if ( bm->id() == _id )
-      return bm;
-
-    if ( bm->type() == Folder )
-    {
-      KBookmark *b = bm->findBookmark( _id );
-      if ( b )
-        return b;
-    }
-  }
-
-  return 0L;
+    return (element.tagName() == "GROUP");
 }
 
 QString KBookmark::text() const
 {
-  return KStringHandler::csqueeze(m_text);
+    QString txt;
+    // This small hack allows to avoid virtual tables in
+    // KBookmark and KBookmarkGroup :)
+    if (isGroup())
+        txt = element.namedItem("TEXT").toElement().text();
+    else
+        txt = element.text();
+
+    return KStringHandler::csqueeze( txt );
 }
 
-QString KBookmark::pixmapFile()
+QString KBookmark::url() const
 {
-  if ( m_sPixmap.isEmpty() )
-  {
-    KURL url;
-    url.setPath( m_file );
-    m_sPixmap = KMimeType::iconForURL( url );
-  }
-  return m_sPixmap;
+    return element.attribute("URL");
 }
+
+QString KBookmark::pixmapFile() const
+{
+    QString icon = element.attribute("ICON");
+    if ( icon.isEmpty() )
+        icon = KMimeType::iconForURL( url() );
+    return icon;
+}
+
+KBookmarkGroup KBookmark::toGroup( KBookmarkManager * manager ) const
+{
+    ASSERT( isGroup() );
+    return KBookmarkGroup(manager, element);
+}
+
+//////////////
 
 void KBookmarkOwner::openBookmarkURL(const QString& url)
 {

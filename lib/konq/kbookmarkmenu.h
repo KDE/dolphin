@@ -62,19 +62,21 @@ class KBookmarkMenu : public QObject
   Q_OBJECT
 public:
   /**
-   * Fills a bookmark menu (one instance of KBookmarkMenu is created
-   * for the toplevel menu, but also one per submenu).
+   * Fills a bookmark menu
+   * (one instance of KBookmarkMenu is created for the toplevel menu,
+   *  but also one per submenu).
    *
-   * @param _owner implementation of the KBookmarkOwner interface (callbacks)
-   * @param _parentMenu menu to be filled
-   * @param _collec parent for the KActions
-   * @param _root true for the toplevel menu
-   * @param _add true to show the "Add Bookmark" entry
-   * @param _parent a root bookmark for this menu
+   * @param owner implementation of the KBookmarkOwner interface (callbacks)
+   * @param parentMenu menu to be filled
+   * @param collec parent for the KActions
+   * @param root true for the toplevel menu
+   * @param add true to show the "Add Bookmark" and "New Folder" entries
+   * @param parentBookmark the group containing the items we want to show
    */
-  KBookmarkMenu( KBookmarkOwner * _owner, QPopupMenu * _parentMenu,
-                 KActionCollection * _collec,  bool _root, bool _add = true,
-                 KBookmark * _parentBookmark = KBookmarkManager::self()->root() );
+  KBookmarkMenu( KBookmarkOwner * owner, QPopupMenu * parentMenu,
+                 KActionCollection * collec, bool root, bool add = true,
+                 KBookmarkGroup parentBookmark = KBookmarkManager::self()->root() );
+
   ~KBookmarkMenu();
 
   /**
@@ -86,13 +88,17 @@ public:
 
 protected slots:
   void slotAboutToShow();
-  void slotBookmarksChanged();
+  void slotBookmarksChanged(KBookmarkGroup &);
   void slotBookmarkSelected();
+  void slotAddBookmark();
+  void slotNewFolder();
   void slotNSBookmarkSelected();
   void slotNSLoad();
-  void slotResult( KIO::Job * );
 
 protected:
+
+  void refill();
+
   /**
    * function that loads Netscape's bookmarks
    */
@@ -100,6 +106,7 @@ protected:
 
   bool m_bIsRoot;
   bool m_bAddBookmark;
+  bool m_bDirty;
   KBookmarkOwner *m_pOwner;
   /**
    * The menu in which we plug our actions.
@@ -118,12 +125,7 @@ protected:
   /**
    * Parent bookmark for this menu.
    */
-  KBookmark * m_parentBookmark;
-  /**
-   * Modification time of the directory we're showing the contents of.
-   * Checked in aboutToShow and updated when parsing the dir.
-   */
-  time_t m_mtime;
+  KBookmarkGroup m_parentBookmark;
 };
 
 #endif

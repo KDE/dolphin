@@ -36,7 +36,8 @@
 #include <qiconset.h>
 
 KBookmarkBar::KBookmarkBar( KBookmarkOwner *_owner, KToolBar *_toolBar,
-                            KActionCollection *_collec, QObject *parent, const char *name )
+                            KActionCollection *_collec,
+                            QObject *parent, const char *name )
     : QObject( parent, name ), m_pOwner(_owner), m_toolBar(_toolBar), m_actionCollection(_collec)
 {
     // force the "icon to the left of the text" look
@@ -44,9 +45,11 @@ KBookmarkBar::KBookmarkBar( KBookmarkOwner *_owner, KToolBar *_toolBar,
 
     m_lstSubMenus.setAutoDelete( true );
 
-    connect(KBookmarkManager::self(), SIGNAL(changed()),
-            this,                     SLOT(slotBookmarksChanged()));
-    slotBookmarksChanged();
+    connect( KBookmarkManager::self(), SIGNAL( changed(KBookmarkGroup &) ),
+             SLOT( slotBookmarksChanged(KBookmarkGroup &) ) );
+
+    KBookmarkGroup toolbar = KBookmarkManager::self()->toolbar();
+    fillBookmarkBar( toolbar );
 }
 
 KBookmarkBar::~KBookmarkBar()
@@ -71,43 +74,46 @@ void KBookmarkBar::clear()
 
 }
 
-void KBookmarkBar::slotBookmarksChanged()
+void KBookmarkBar::slotBookmarksChanged( KBookmarkGroup & group )
 {
-    clear();
+    if ( group.isToolbarGroup() )
+    {
+        clear();
 
-    fillBookmarkBar(KBookmarkManager::self()->toolbar());
+        fillBookmarkBar( group );
+    }
 }
 
-void KBookmarkBar::fillBookmarkBar(KBookmark *parent)
+void KBookmarkBar::fillBookmarkBar(KBookmarkGroup & parent)
 {
-    if (!parent)
+    if (parent.isNull())
         return;
 
-    KBookmark *bm;
-    for (bm = parent->first(); bm; bm = parent->next())
+    for (KBookmark bm = parent.first(); !bm.isNull(); bm = parent.next(bm))
     {
-        QString pix = bm->pixmapFile();
+        QString pix = bm.pixmapFile();
 
-        if (bm->type() == KBookmark::URL)
+        if (!bm.isGroup())
         {
             KAction *action;
             // create a normal URL item, with ID as a name
-            action = new KAction(bm->text(), pix, 0,
+            action = new KAction(bm.text(), pix, 0,
                                  this, SLOT(slotBookmarkSelected()),
                                  m_actionCollection,
-                                 QCString().sprintf("bookmark%d", bm->id()));
+                                 bm.url().utf8());
             action->plug(m_toolBar);
             m_actions.append( action );
         }
         else
         {
             KActionMenu *action;
-            action = new KActionMenu(bm->text(), pix, this);
+            action = new KActionMenu(bm.text(), pix, this);
             action->setDelayed(false);
 
             KBookmarkMenu *menu;
             menu = new KBookmarkMenu(m_pOwner, action->popupMenu(),
-                                     m_actionCollection, false, false, bm);
+                                     m_actionCollection, false, false,
+                                     bm.toGroup( parent.manager() ));
             menu->fillBookmarkMenu();
             action->plug(m_toolBar);
             m_actions.append( action );
@@ -120,21 +126,7 @@ void KBookmarkBar::slotBookmarkSelected()
 {
     if (!m_pOwner) return; // this view doesn't handle bookmarks...
 
-    int id = QCString(sender()->name() + 8).toInt(); // skip "bookmark"
-    KBookmark *bm = KBookmarkManager::self()->findBookmark(id);
-
-    if (bm)
-    {
-        KURL u(bm->url());
-        if (u.isMalformed())
-        {
-            QString tmp = i18n("Malformed URL\n%1").arg(bm->url());
-            KMessageBox::error(0L, tmp);
-            return;
-        }
-
-        m_pOwner->openBookmarkURL(bm->url());
-    }
+    m_pOwner->openBookmarkURL(QString::fromUtf8(sender()->name()));
 }
 
 #include "kbookmarkbar.moc"

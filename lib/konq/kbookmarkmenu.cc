@@ -65,24 +65,27 @@ template class QList<KBookmarkMenu>;
  ********************************************************************/
 
 KBookmarkMenu::KBookmarkMenu( KBookmarkOwner * _owner, QPopupMenu * _parentMenu,
-                              KActionCollection * _collec, bool _root, bool _add,
-                              KBookmark * _parentBookmark )
-  : m_bIsRoot(_root), m_bAddBookmark(_add), m_pOwner(_owner),
+                              KActionCollection * _collec, bool _isRoot, bool _add,
+                              KBookmarkGroup _parentBookmark )
+  : m_bIsRoot(_isRoot), m_bAddBookmark(_add), m_pOwner(_owner),
     m_parentMenu( _parentMenu ), m_actionCollection( _collec ),
-    m_parentBookmark( _parentBookmark ), m_mtime((time_t)0)
+    m_parentBookmark( _parentBookmark )
 {
   m_lstSubMenus.setAutoDelete( true );
   m_actions.setAutoDelete( true );
 
-  if ( m_bIsRoot )
-    {
-      connect( KBookmarkManager::self(), SIGNAL( changed() ), this,
-	       SLOT( slotBookmarksChanged() ) );
-      slotBookmarksChanged();
-    }
-  if ( m_parentBookmark ) // not for the netscape bookmark
+  if ( !m_parentBookmark.isNull() ) // not for the netscape bookmark
+  {
     connect( _parentMenu, SIGNAL( aboutToShow() ),
              SLOT( slotAboutToShow() ) );
+
+    if ( m_bIsRoot )
+    {
+      connect( _parentBookmark.manager(), SIGNAL( changed(KBookmarkGroup &) ),
+               SLOT( slotBookmarksChanged(KBookmarkGroup &) ) );
+    }
+  }
+  m_bDirty = true;
 }
 
 KBookmarkMenu::~KBookmarkMenu()
@@ -96,20 +99,33 @@ KBookmarkMenu::~KBookmarkMenu()
 
 void KBookmarkMenu::slotAboutToShow()
 {
-  struct stat statbuf;
-  kdDebug(1203) << "KBookmarkMenu::slotAboutToShow " << m_parentBookmark->file() << endl;
-  if ( stat( QFile::encodeName(m_parentBookmark->file()), &statbuf ) == 0 )
+  // Did the bookmarks change since the last time we showed them ?
+  if ( m_bDirty )
   {
-    if ( statbuf.st_mtime > m_mtime )
+    m_bDirty = false;
+    refill();
+  }
+}
+
+void KBookmarkMenu::slotBookmarksChanged( KBookmarkGroup & group )
+{
+  if ( group == m_parentBookmark )
+  {
+    kdDebug() << "KBookmarkMenu::slotBookmarksChanged -> setting m_bDirty " << endl;
+    m_bDirty = true;
+  }
+  else
+  {
+    // Iterate recursively into child menus
+    QListIterator<KBookmarkMenu> it( m_lstSubMenus );
+    for (; it.current(); ++it )
     {
-      m_mtime = statbuf.st_mtime;
-      kdDebug() << "Updating mtime" << endl;
-      slotBookmarksChanged();
+      it.current()->slotBookmarksChanged( group );
     }
   }
 }
 
-void KBookmarkMenu::slotBookmarksChanged()
+void KBookmarkMenu::refill()
 {
   kdDebug(1203) << "KBookmarkMenu::slotBookmarksChanged()" << endl;
   m_lstSubMenus.clear();
@@ -126,7 +142,6 @@ void KBookmarkMenu::slotBookmarksChanged()
 
 void KBookmarkMenu::fillBookmarkMenu()
 {
-  kdDebug() << "KBookmarkMenu::fillBookmarkMenu " << m_parentBookmark->file() << endl;
   if ( m_bAddBookmark )
   {
     // create the first item, add bookmark, with the parent's ID (as a name)
@@ -134,9 +149,8 @@ void KBookmarkMenu::fillBookmarkMenu()
                                               "bookmark_add",
                                               m_bIsRoot ? KStdAccel::addBookmark() : 0,
                                               this,
-                                              SLOT( slotBookmarkSelected() ),
-                                              m_actionCollection,
-                                              QCString().sprintf("bookmark%d", m_parentBookmark->id()) );
+                                              SLOT( slotAddBookmark() ),
+                                              m_actionCollection );
 
     paAddBookmarks->setStatusText( i18n( "Add a bookmark for the current document" ) );
 
@@ -146,7 +160,8 @@ void KBookmarkMenu::fillBookmarkMenu()
 
   if ( m_bIsRoot )
   {
-    KAction * m_paEditBookmarks = KStdAction::editBookmarks( KBookmarkManager::self(), SLOT( slotEditBookmarks() ), m_actionCollection, "edit_bookmarks" );
+    KAction * m_paEditBookmarks = KStdAction::editBookmarks( m_parentBookmark.manager(), SLOT( slotEditBookmarks() ),
+                                                             m_actionCollection, "edit_bookmarks" );
     m_paEditBookmarks->plug( m_parentMenu );
     m_paEditBookmarks->setStatusText( i18n( "Edit your bookmark collection in a separate window" ) );
     m_actions.append( m_paEditBookmarks );
@@ -159,11 +174,10 @@ void KBookmarkMenu::fillBookmarkMenu()
   {
     KAction * paNewFolder = new KAction( i18n( "&New Folder..." ),
                                          "folder_new", //"folder",
-                                              0,
-                                              this,
-                                              SLOT( slotBookmarkSelected() ),
-                                              m_actionCollection,
-                                              QCString().sprintf("newfolder%d", m_parentBookmark->id()) );
+                                         0,
+                                         this,
+                                         SLOT( slotNewFolder() ),
+                                         m_actionCollection );
 
     paNewFolder->setStatusText( i18n( "Create a new bookmark folder in this menu" ) );
 
@@ -181,41 +195,110 @@ void KBookmarkMenu::fillBookmarkMenu()
       m_actions.append( actionMenu );
       KBookmarkMenu *subMenu = new KBookmarkMenu( m_pOwner, actionMenu->popupMenu(),
                                                   m_actionCollection, false,
-                                                  m_bAddBookmark, 0 );
+                                                  m_bAddBookmark, KBookmarkGroup::null() );
       m_lstSubMenus.append(subMenu);
       connect(actionMenu->popupMenu(), SIGNAL(aboutToShow()), subMenu, SLOT(slotNSLoad()));
       m_parentMenu->insertSeparator();
     }
 
-  for ( KBookmark * bm = m_parentBookmark->first(); bm != 0L;  bm = m_parentBookmark->next() )
+  for ( KBookmark bm = m_parentBookmark.first(); !bm.isNull();  bm = m_parentBookmark.next(bm) )
   {
-    if ( bm->type() == KBookmark::URL )
+    if ( !bm.isGroup() )
     {
-      //kdDebug(1203) << "Creating URL bookmark menu item for " << bm->text() << endl;
+      kdDebug(1203) << "Creating URL bookmark menu item for " << bm.text() << endl;
       // create a normal URL item, with ID as a name
-      KAction * action = new KAction( bm->text(), bm->pixmapFile(), 0,
+      KAction * action = new KAction( bm.text(), bm.pixmapFile(), 0,
                                       this, SLOT( slotBookmarkSelected() ),
-                                      m_actionCollection, QCString().sprintf("bookmark%d", bm->id()) );
+                                      m_actionCollection, bm.url().utf8() );
 
-      action->setStatusText( bm->url() );
+      action->setStatusText( bm.url() );
 
       action->plug( m_parentMenu );
       m_actions.append( action );
     }
     else
     {
-      KActionMenu * actionMenu = new KActionMenu( bm->text(), bm->pixmapFile(),
+      kdDebug(1203) << "Creating bookmark submenu named " << bm.text() << endl;
+      KActionMenu * actionMenu = new KActionMenu( bm.text(), bm.pixmapFile(),
                                                   m_actionCollection, 0L );
       actionMenu->plug( m_parentMenu );
       m_actions.append( actionMenu );
       KBookmarkMenu *subMenu = new KBookmarkMenu( m_pOwner, actionMenu->popupMenu(),
                                                   m_actionCollection, false,
-                                                  m_bAddBookmark, bm );
+                                                  m_bAddBookmark,
+                                                  bm.toGroup( m_parentBookmark.manager() ) );
       m_lstSubMenus.append( subMenu );
       // let's delay this. subMenu->fillBookmarkMenu( bm );
     }
   }
 }
+
+void KBookmarkMenu::slotAddBookmark()
+{
+  QString url = m_pOwner->currentURL();
+  if (url.isEmpty())
+  {
+    KMessageBox::error( 0L, i18n("Can't add bookmark with empty url"));
+    return;
+  }
+  QString title = m_pOwner->currentTitle();
+  if (title.isEmpty())
+    title = url;
+
+  // If this title is already used, we'll try to find something
+  // unused.
+  KBookmark ch = m_parentBookmark.first();
+  int count = 1;
+  QString uniqueTitle = title;
+  do
+  {
+    while ( !ch.isNull() )
+    {
+      if ( uniqueTitle == ch.text() )
+      {
+        // Title already used !
+        if ( url != ch.url() )
+        {
+          uniqueTitle = title + QString(" (%1)").arg(++count);
+          // New title -> restart search from the beginning
+          ch = m_parentBookmark.first();
+          break;
+        }
+        else
+        {
+          // this exact URL already exists
+          return;
+        }
+      }
+      ch = m_parentBookmark.next( ch );
+    }
+  } while ( !ch.isNull() );
+
+  m_parentBookmark.addBookmark( uniqueTitle, url );
+}
+
+void KBookmarkMenu::slotNewFolder()
+{
+  if ( !m_pOwner ) return; // this view doesn't handle bookmarks...
+  KLineEditDlg l( i18n("New Folder:"), "", 0L );
+  l.setCaption( i18n("Create new bookmark folder in %1").arg( m_parentBookmark.text() ) );
+  if ( l.exec() )
+  {
+    m_parentBookmark.createNewFolder( l.text() );
+  }
+}
+
+void KBookmarkMenu::slotBookmarkSelected()
+{
+  //kdDebug(1203) << "KBookmarkMenu::slotBookmarkSelected()" << endl;
+  if ( !m_pOwner ) return; // this view doesn't handle bookmarks...
+  kdDebug(1203) << sender()->name() << endl;
+
+  // The name of the action is the URL to open
+  m_pOwner->openBookmarkURL( QString::fromUtf8(sender()->name()) );
+}
+
+// -----------------------------------------------------------------------------
 
 void KBookmarkMenu::slotNSBookmarkSelected()
 {
@@ -229,111 +312,6 @@ void KBookmarkMenu::slotNSLoad()
   m_parentMenu->disconnect(SIGNAL(aboutToShow()));
   openNSBookmarks();
 }
-
-void KBookmarkMenu::slotBookmarkSelected()
-{
-  //kdDebug(1203) << "KBookmarkMenu::slotBookmarkSelected()" << endl;
-  if ( !m_pOwner ) return; // this view doesn't handle bookmarks...
-  kdDebug(1203) << sender()->name() << endl;
-
-  if (QCString(sender()->name()).left(9) == "newfolder" )
-  {
-    int id = QString( sender()->name() + 9 ).toInt(); // skip "newfolder"
-    KBookmark *bm = KBookmarkManager::self()->findBookmark( id );
-    if ( bm )
-    {
-      KLineEditDlg l( i18n("New Folder:"), "", 0L );
-      l.setCaption( i18n("Create new folder in %1").arg(bm->file()) );
-      if ( l.exec() )
-      {
-        KURL url;
-        url.setPath( bm->file() + "/" + KIO::encodeFileName(l.text()) );
-        KIO::Job * job = KIO::mkdir( url );
-        connect( job, SIGNAL( result( KIO::Job * ) ),
-                 SLOT( slotResult( KIO::Job * ) ) );
-      }
-    }
-    else
-      kdError(1203) << "Bookmark " << id << " not found !" << endl;
-  }
-  else
-  {
-    int id = QString( sender()->name() + 8 ).toInt(); // skip "bookmark"
-    KBookmark *bm = KBookmarkManager::self()->findBookmark( id );
-
-    if ( bm )
-    {
-      if ( bm->type() == KBookmark::Folder ) // "Add bookmark"
-      {
-        QString url = m_pOwner->currentURL();
-        if (url.isEmpty())
-        {
-          KMessageBox::error( 0L, i18n("Can't add bookmark with empty url"));
-          return;
-        }
-        QString title = m_pOwner->currentTitle();
-        if (title.isEmpty())
-          title = url;
-
-        // If this title is already used, we'll try to find something
-        // unused.
-        KBookmark *ch = bm->first();
-        int count = 1;
-        QString uniqueTitle = title;
-        do
-        {
-          while ( ch )
-          {
-            if ( uniqueTitle == ch->text() )
-            {
-              if ( url != ch->url() )
-              {
-                uniqueTitle = title + QString(" (%1)").arg(++count);
-                ch = bm->first();
-                break;
-              }
-              else
-              {
-                // this exact URL already exists
-                return;
-              }
-            }
-            ch = bm->next();
-          }
-        } while ( ch );
-
-        (void)new KBookmark( KBookmarkManager::self(), bm, uniqueTitle, url );
-        // DCOP broadcast to notify about this new bookmark
-        KURL uChanged;
-        uChanged.setPath( bm->file() );
-        KDirNotify_stub allDirNotify("*", "KDirNotify*");
-        allDirNotify.FilesAdded( uChanged );
-        kdDebug(1203) << "KDirNotify notified for " << uChanged.url() << endl;
-        return;
-      }
-
-      KURL u( bm->url() );
-      if ( u.isMalformed() || u.isEmpty() )
-      {
-        QString tmp = i18n("Malformed URL\n%1").arg(bm->url());
-        KMessageBox::error( 0L, tmp);
-        return;
-      }
-
-      m_pOwner->openBookmarkURL( bm->url() );
-    }
-    else
-      kdError(1203) << "Bookmark not found !" << endl;
-  }
-}
-
-void KBookmarkMenu::slotResult( KIO::Job * job )
-{
-  if (job->error())
-    job->showErrorDialog();
-}
-
-// -----------------------------------------------------------------------------
 
 void KBookmarkMenu::openNSBookmarks()
 {
@@ -382,7 +360,7 @@ void KBookmarkMenu::openNSBookmarks()
         mstack.top()->m_actions.append( actionMenu );
         KBookmarkMenu *subMenu = new KBookmarkMenu( m_pOwner, actionMenu->popupMenu(),
                                                     m_actionCollection, false,
-                                                    m_bAddBookmark, 0 );
+                                                    m_bAddBookmark, KBookmarkGroup::null() );
         mstack.top()->m_lstSubMenus.append( subMenu );
 
         mstack.push(subMenu);

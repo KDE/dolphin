@@ -22,10 +22,9 @@
 #include <qobject.h>
 #include <qguardedptr.h>
 #include <qlist.h>
+#include <kbookmark.h>
 
 class KToolBar;
-class KBookmark;
-class KBookmarkOwner;
 class KBookmarkMenu;
 class KActionCollection;
 class KAction;
@@ -42,21 +41,24 @@ public:
     /**
      * Fills a bookmark toolbar
      *
-     * @param _owner implementation of the KBookmarkOwner interface (callbacks)
-     * @param _toolBar toolbar to fill
-     * @param _collec parent for the KActions
+     * @param owner implementation of the KBookmarkOwner interface (callbacks)
+     * @param toolBar toolbar to fill
+     * @param collec parent for the KActions
+     * @param manager the bookmark manager
      */
-        KBookmarkBar( KBookmarkOwner *_owner, KToolBar *_toolBar,
-                  KActionCollection *_collec, QObject *parent = 0L, const char *name = 0L);
-        virtual ~KBookmarkBar();
+    KBookmarkBar( KBookmarkOwner *owner, KToolBar *toolBar,
+                  KActionCollection *collec,
+                  QObject *parent = 0L, const char *name = 0L);
+
+    virtual ~KBookmarkBar();
 
 public slots:
-    void slotBookmarksChanged();
+    void slotBookmarksChanged( KBookmarkGroup & );
     void slotBookmarkSelected();
     void clear();
 
 protected:
-    void fillBookmarkBar( KBookmark *parent );
+    void fillBookmarkBar( KBookmarkGroup & parent );
 
     KBookmarkOwner    *m_pOwner;
     QGuardedPtr<KToolBar> m_toolBar;
