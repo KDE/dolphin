@@ -33,6 +33,9 @@ even in this box the cursor icon is "forbidden" (_sometimes_). And add Cancel.
 
 - delete file : if image, remove from .xvpics and .mospics/*/
 
+- ordering templates: I'll wait for a kicker solution (.directory, .order...)
+  and borrow it. This is not called stealing, it's called consistency :)
+
 konqueror framework:
 ====================
 

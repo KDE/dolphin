@@ -442,15 +442,15 @@ void KonqViewManager::saveViewProfile( KConfig &cfg, bool saveURLs )
   cfg.sync();
 }
 
-void KonqViewManager::loadViewProfile( const QString & filename )
+void KonqViewManager::loadViewProfile( const QString & filename, const KURL & forcedURL )
 {
   KConfig cfg( filename, true );
   cfg.setDollarExpansion( true );
   cfg.setGroup( "Profile" );
-  loadViewProfile( cfg );
+  loadViewProfile( cfg, forcedURL );
 }
 
-void KonqViewManager::loadViewProfile( KConfig &cfg )
+void KonqViewManager::loadViewProfile( KConfig &cfg, const KURL & forcedURL )
 {
   KURL defaultURL;
   if ( m_pMainWindow->currentView() )
@@ -472,7 +472,7 @@ void KonqViewManager::loadViewProfile( KConfig &cfg )
   m_pMainContainer->setGeometry( 0, 0, m_pMainWindow->width(), m_pMainWindow->height() );
   m_pMainContainer->show();
 
-  loadItem( cfg, m_pMainContainer, rootItem, defaultURL );
+  loadItem( cfg, m_pMainContainer, rootItem, defaultURL, forcedURL );
 
   KonqView *nextChildView = chooseNextView( 0L );
   setActivePart( nextChildView ? nextChildView->part() : 0L );
@@ -525,7 +525,7 @@ void KonqViewManager::loadViewProfile( KConfig &cfg )
 }
 
 void KonqViewManager::loadItem( KConfig &cfg, KonqFrameContainer *parent,
-                                const QString &name, const KURL & defaultURL )
+                                const QString &name, const KURL & defaultURL, const KURL & forcedURL )
 {
   QString prefix;
   if( name != "InitialView" )
@@ -564,9 +564,13 @@ void KonqViewManager::loadItem( KConfig &cfg, KonqFrameContainer *parent,
     //checkBox->setChecked( passiveMode );
 
     QString key = QString::fromLatin1( "URL" ).prepend( prefix );
-    KURL url( defaultURL );
-    if ( cfg.hasKey( key ) ) // if it has it, we load it, even if empty
-      url = KURL( cfg.readEntry( key ) );
+    KURL url( forcedURL );
+    if ( url.isEmpty() )
+    {
+      url = defaultURL;
+      if ( cfg.hasKey( key ) ) // if it has it, we load it, even if empty
+        url = KURL( cfg.readEntry( key ) );
+    }
 
     if ( !url.isEmpty() )
     {
@@ -599,7 +603,7 @@ void KonqViewManager::loadItem( KConfig &cfg, KonqFrameContainer *parent,
     {
       kdWarning() << "Profile Loading Error: Less than two children in " << name << endl;
       // fallback to defaults
-      loadItem( cfg, parent, "InitialView", defaultURL );
+      loadItem( cfg, parent, "InitialView", defaultURL, forcedURL );
     }
     else
     {
@@ -607,8 +611,8 @@ void KonqViewManager::loadItem( KConfig &cfg, KonqFrameContainer *parent,
       newContainer->setOpaqueResize();
       newContainer->show();
 
-      loadItem( cfg, newContainer, childList.at(0), defaultURL );
-      loadItem( cfg, newContainer, childList.at(1), defaultURL );
+      loadItem( cfg, newContainer, childList.at(0), defaultURL, forcedURL );
+      loadItem( cfg, newContainer, childList.at(1), defaultURL, forcedURL );
 
       newContainer->setSizes( sizes );
     }

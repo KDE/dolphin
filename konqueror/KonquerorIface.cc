@@ -54,6 +54,18 @@ void KonquerorIface::createBrowserWindowFromProfile( const QString &filename )
   mainWindow->show();
 }
 
+void KonquerorIface::createBrowserWindowFromProfileAndURL( const QString &filename, const QString &url )
+{
+  kdDebug(1202) << "void KonquerorIface::createBrowserWindowFromProfileAndURL() " << endl;
+  kdDebug(1202) << filename << "," << url << endl;
+
+  KonqMainWindow *mainWindow = new KonqMainWindow( QString::null, false );
+  mainWindow->viewManager()->loadViewProfile( filename, KURL(url) );
+  mainWindow->enableAllActions( true );
+  mainWindow->show();
+
+}
+
 void KonquerorIface::reparseConfiguration()
 {
   KGlobal::config()->reparseConfiguration();

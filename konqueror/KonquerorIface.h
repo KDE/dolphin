@@ -49,6 +49,13 @@ k_dcop:
   ASYNC createBrowserWindowFromProfile( const QString &filename );
 
   /**
+   * Creates a window from a profile and a URL.
+   * Used by kfmclient to open http URLs with the webbrowsing profile
+   * and others with the filemanagement profile.
+   */
+  ASYNC createBrowserWindowFromProfileAndURL( const QString &filename, const QString &url );
+
+  /**
    * Called by kcontrol when the global configuration changes
    */
   ASYNC reparseConfiguration();

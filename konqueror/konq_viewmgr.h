@@ -100,23 +100,26 @@ public:
   /**
    * Loads a view layout from a config file. Removes all views before loading.
    * @param cfg the config file
+   * @param forcedURL if set, the URL to open, whatever the profile says
    */
-  void loadViewProfile( KConfig &cfg );
+  void loadViewProfile( KConfig &cfg, const KURL & forcedURL = KURL() );
 
   /**
    * Loads a view layout from a config file. Removes all views before loading.
    * @param filename the name of the config file (under the profiles dir, if relative)
+   * @param forcedURL if set, the URL to open, whatever the profile says
    */
-  void loadViewProfile( const QString & filename );
+  void loadViewProfile( const QString & filename, const KURL & forcedURL = KURL() );
 
   /**
    * Load the config entries for a view.
    * @param cfg the config file
    * ...
    * @param defaultURL the URL to use if the profile doesn't contain urls
+   * @param forcedURL if set, the URL to open, whatever the profile says
    */
   void loadItem( KConfig &cfg, KonqFrameContainer *parent,
-                 const QString &name, const KURL & defaultURL );
+                 const QString &name, const KURL & defaultURL, const KURL & forcedURL );
 
   void clear();
 
