@@ -34,6 +34,7 @@
 #include <kurldrag.h>
 #include <kuserprofile.h>
 #include <kurifilter.h>
+#include <kglobalsettings.h>
 
 #include <qapplication.h>
 #include <qclipboard.h>
@@ -146,9 +147,13 @@ QScrollView * KonqDirPart::scrollWidget()
 void KonqDirPart::slotBackgroundColor()
 {
     QColor bgndColor = m_pProps->bgColor( widget() );
-    if ( KColorDialog::getColor( bgndColor ) == KColorDialog::Accepted )
+    QColor defaultColor = KGlobalSettings::baseColor();
+    if ( KColorDialog::getColor( bgndColor,defaultColor ) == KColorDialog::Accepted )
     {
-        m_pProps->setBgColor( bgndColor );
+        if ( bgndColor.isValid() )
+            m_pProps->setBgColor( bgndColor );
+        else
+            m_pProps->setBgColor( defaultColor );
         m_pProps->setBgPixmapFile( "" );
         m_pProps->applyColors( scrollWidget()->viewport() );
         scrollWidget()->viewport()->repaint();
@@ -263,9 +268,9 @@ void KonqDirPart::saveFindState( QDataStream& stream )
         stream << false;
         return;
     }
-        
+
     stream << true;
-       
+
     KParts::BrowserExtension* ext = KParts::BrowserExtension::childObject( m_findPart );
     if( !ext )
         return;
@@ -277,18 +282,18 @@ void KonqDirPart::restoreFindState( QDataStream& stream )
 {
     bool bFindPart;
     stream >> bFindPart;
-    
+
     if ( !bFindPart )
         return;
-        
+
     emit findOpen( this );
-        
+
     KParts::BrowserExtension* ext = KParts::BrowserExtension::childObject( m_findPart );
     slotClear();
-    
+
     if( !ext )
         return;
-                
+
     ext->restoreState( stream );
 }
 
