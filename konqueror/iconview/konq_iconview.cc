@@ -18,6 +18,7 @@
 */
 
 #include "konq_iconview.h"
+#include "konq_bgnddlg.h"
 #include "konq_propsview.h"
 #include "konq_childview.h"
 #include "konq_frame.h"
@@ -544,13 +545,19 @@ void KonqKfmIconView::slotBackgroundColor()
     m_pProps->m_bgColor = bgndColor;
     m_pProps->m_bgPixmap = QPixmap();
     m_pProps->saveLocal( m_dirLister->url() );
-    m_pIconView->repaintContents( m_pIconView->contentsX(), m_pIconView->contentsY(), m_pIconView->viewport()->width(), m_pIconView->viewport()->height(), FALSE );
+    m_pIconView->updateContents();
   }
 }
 
 void KonqKfmIconView::slotBackgroundImage()
 {
-  // TODO 
+  KonqBgndDialog dlg( m_dirLister->url() );
+  if ( dlg.exec() == KonqBgndDialog::Accepted )
+  {
+    m_pProps->m_bgPixmap = dlg.pixmap();
+    // no need to savelocal, the dialog does it
+    m_pIconView->updateContents();
+  }
 }
 
 void KonqKfmIconView::stop()
@@ -662,8 +669,10 @@ void KonqKfmIconView::slotDropItem( KFileIVI *item, QDropEvent *e )
   dropStuff( e, item );
 }
 
-void KonqKfmIconView::slotItemRightClicked( QIconViewItem *item )
+void KonqKfmIconView::slotItemRightClicked( QIconViewItem */*item*/ )
 {
+  // Which one is clicked is unimportant, we apply the popupmenu to the
+  // selection
   KFileItemList lstItems;
 
   QIconViewItem *it = m_pIconView->firstItem();
