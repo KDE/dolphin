@@ -25,11 +25,11 @@
 
 //-----------------------------------------------------------------------------
 
-class KFontOptions : public KCModule
+class KAppearanceOptions : public KCModule
 {
   Q_OBJECT
 public:
-  KFontOptions(KConfig *config, QString group, QWidget *parent=0, const char *name=0);
+  KAppearanceOptions(KConfig *config, QString group, QWidget *parent=0, const char *name=0);
 
   virtual void load();
   virtual void save();
@@ -40,6 +40,10 @@ public slots:
   void slotStandardFont(const QString& n);
   void slotFixedFont(const QString& n);
   void slotCharset( const QString& n);
+  void slotBgColorChanged( const QColor &col );
+  void slotTextColorChanged( const QColor &col );
+  void slotLinkColorChanged( const QColor &col );
+  void slotVLinkColorChanged( const QColor &col );
 
 
 private slots:
@@ -72,37 +76,6 @@ private:
   QStrList fixedFonts;
   QStringList charsets;
 
-};
-
-//-----------------------------------------------------------------------------
-
-class KColorOptions : public KCModule
-{
-  Q_OBJECT
-public:
-  KColorOptions(KConfig *config, QString group, QWidget *parent=0, const char *name=0);
-
-  virtual void load();
-  virtual void save();
-  virtual void defaults();
-
-protected slots:
-  void slotBgColorChanged( const QColor &col );
-  void slotTextColorChanged( const QColor &col );
-  void slotLinkColorChanged( const QColor &col );
-  void slotVLinkColorChanged( const QColor &col );
-
-
-private slots:
-
-  void changed();
-
-
-private:
-
-  KConfig *g_pConfig;
-  QString groupname;
-
   KColorButton* m_pBg;
   KColorButton* m_pText;
   KColorButton* m_pLink;
@@ -114,6 +87,7 @@ private:
   QColor vLinkColor;
 
 };
+
 
 class KAdvancedOptions : public KCModule
 {

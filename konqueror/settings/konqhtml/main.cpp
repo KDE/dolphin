@@ -52,13 +52,9 @@ KonqHTMLModule::KonqHTMLModule(QWidget *parent, const char *name)
   tab->addTab(misc, i18n("&HTML"));
   connect(misc, SIGNAL(changed(bool)), this, SLOT(moduleChanged(bool)));
 
-  font = new KFontOptions(config, "HTML Settings", this);
-  tab->addTab(font, i18n("&Fonts"));
-  connect(font, SIGNAL(changed(bool)), this, SLOT(moduleChanged(bool)));
-
-  color = new KColorOptions(config, "HTML Settings", this);
-  tab->addTab(color, i18n("&Colors"));
-  connect(color, SIGNAL(changed(bool)), this, SLOT(moduleChanged(bool)));
+  appearance = new KAppearanceOptions(config, "HTML Settings", this);
+  tab->addTab(appearance, i18n("&Appearance"));
+  connect(appearance, SIGNAL(changed(bool)), this, SLOT(moduleChanged(bool)));
 
   advanced = new KAdvancedOptions(config, "HTML Settings", this);
   tab->addTab(advanced, i18n("&Advanced"));
@@ -73,8 +69,7 @@ KonqHTMLModule::KonqHTMLModule(QWidget *parent, const char *name)
 
 void KonqHTMLModule::load()
 {
-  font->load();
-  color->load();
+  appearance->load();
   advanced->load();
   http->load();
   misc->load();
@@ -83,8 +78,7 @@ void KonqHTMLModule::load()
 
 void KonqHTMLModule::save()
 {
-  font->save();
-  color->save();
+  appearance->save();
   advanced->save();
   http->save();
   misc->save();
@@ -98,8 +92,7 @@ void KonqHTMLModule::save()
 
 void KonqHTMLModule::defaults()
 {
-  font->defaults();
-  color->defaults();
+  appearance->defaults();
   advanced->defaults();
   http->defaults();
   misc->defaults();

@@ -25,7 +25,7 @@ extern QString g_groupname;
 KMiscHTMLOptions::KMiscHTMLOptions(KConfig *config, QString group, QWidget *parent, const char *name )
     : KCModule( parent, name ), g_pConfig(config), groupname(group)
 {
-    QVBoxLayout *lay = new QVBoxLayout(this, 40 /* big border */, 20);
+    QVBoxLayout *lay = new QVBoxLayout(this, 10, 5);
 
     cbCursor = new QCheckBox(i18n("&Change cursor over links"), this);
     lay->addWidget(cbCursor);
@@ -37,7 +37,7 @@ KMiscHTMLOptions::KMiscHTMLOptions(KConfig *config, QString group, QWidget *pare
 
     QHBoxLayout * hlay = new QHBoxLayout(10);
     lay->addLayout(hlay);
-    QLabel * label = new QLabel(i18n("Editor used for viewing HTML source"),this);
+    QLabel * label = new QLabel(i18n("View HTML source with:"),this);
     hlay->addWidget(label, 1);
 
     leEditor = new QLineEdit(this);

@@ -32,8 +32,7 @@
 #include <kcmodule.h>
 
 
-class KFontOptions;
-class KColorOptions;
+class KAppearanceOptions;
 class KAdvancedOptions;
 class KHTTPOptions;
 class KMiscHTMLOptions;
@@ -67,11 +66,10 @@ private:
 
   QTabWidget   *tab;
 
-  KFontOptions      *font;
-  KColorOptions     *color;
-  KAdvancedOptions  *advanced;
-  KHTTPOptions      *http;
-  KMiscHTMLOptions  *misc;
+  KAppearanceOptions *appearance;
+  KAdvancedOptions   *advanced;
+  KHTTPOptions       *http;
+  KMiscHTMLOptions   *misc;
 
 };
 

@@ -14,7 +14,7 @@
 #include <qcolor.h>
 #include <qcombobox.h>
 #include <qlabel.h>
-#include <qlayout.h>//CT - 12Nov1998
+#include <qlayout.h>
 #include <qpushbutton.h>
 #include <qradiobutton.h>
 #include <qlineedit.h>
@@ -33,57 +33,29 @@ extern QString g_groupname;
 
 //-----------------------------------------------------------------------------
 
-KFontOptions::KFontOptions(KConfig *config, QString group, QWidget *parent, const char *name)
+KAppearanceOptions::KAppearanceOptions(KConfig *config, QString group, QWidget *parent, const char *name)
     : KCModule( parent, name ), g_pConfig(config), groupname(group)
 {
-    QLabel *label;
 
-    QGridLayout *lay = new QGridLayout(this,8,5,10,5);
-    lay->addRowSpacing(0,10);
-    lay->addRowSpacing(4,10);
-    lay->addRowSpacing(0,10);
-    lay->addRowSpacing(3,10);
+    QGridLayout *lay = new QGridLayout(this, 1 ,1 , 10, 5);
+    int r = 0;
+    int E = 0, M = 1, W = 3; //CT 3 (instead 2) allows smaller color buttons
 
-    lay->setRowStretch(0,0);
-    lay->setRowStretch(1,1);
-    lay->setRowStretch(2,1);
-    lay->setRowStretch(3,0);
-    lay->setRowStretch(4,0);
-    lay->setRowStretch(5,0);
-    lay->setRowStretch(6,0);
-    lay->setRowStretch(7,10);
+    QButtonGroup *bg = new QButtonGroup( 1, QGroupBox::Vertical,
+					 i18n("Font Size"), this );
+    lay->addMultiCellWidget(bg, r, r, E, W);
 
-    lay->setColStretch(0,0);
-    lay->setColStretch(1,1);
-    lay->setColStretch(2,2);
-    lay->setColStretch(3,0);
-
-    QButtonGroup *bg = new QButtonGroup( i18n("Font Size"), this );
-    QGridLayout *bgLay = new QGridLayout(bg,2,3,10,5);
-    bgLay->addRowSpacing(0,10);
-    bgLay->setRowStretch(0,0);
-    bgLay->setRowStretch(1,1);
     bg->setExclusive( TRUE );
     connect(bg, SIGNAL(clicked(int)), this, SLOT(changed()));
 
     m_pSmall = new QRadioButton( i18n("Small"), bg );
-    bgLay->addWidget(m_pSmall,1,0);
-
     m_pMedium = new QRadioButton( i18n("Medium"), bg );
-    bgLay->addWidget(m_pMedium,1,1);
-
     m_pLarge = new QRadioButton( i18n("Large"), bg );
-    bgLay->addWidget(m_pLarge,1,2);
 
-    bgLay->activate();
-    lay->addMultiCellWidget(bg,1,1,1,2);
-
-
-    label = new QLabel( i18n("Standard Font"), this );    label->adjustSize();
-    lay->addWidget(label,3,1);
+    lay->addWidget(new QLabel( i18n("Standard Font"), this ), ++r, E);
 
     m_pStandard = new QComboBox( false, this );
-    lay->addWidget(m_pStandard,3,2);
+    lay->addMultiCellWidget(m_pStandard, r, r, M, W);
 
     getFontList( standardFonts, "-*-*-*-*-*-*-*-*-*-*-p-*-*-*" );
     m_pStandard->insertStrList( &standardFonts );
@@ -92,12 +64,10 @@ KFontOptions::KFontOptions(KConfig *config, QString group, QWidget *parent, cons
     connect( m_pStandard, SIGNAL( activated(const QString&) ),
              SLOT(changed() ) );
 
-    label = new QLabel( i18n( "Fixed Font"), this );
-    lay->addWidget(label,4,1);
+    lay->addWidget(new QLabel( i18n( "Fixed Font"), this ), ++r, E);
 
     m_pFixed = new QComboBox( false, this );
-    lay->addWidget(m_pFixed,4,2);
-    m_pFixed->setGeometry( 120, 130, 180, 25 );
+    lay->addMultiCellWidget(m_pFixed, r, r, M, W);
     getFontList( fixedFonts, "-*-*-*-*-*-*-*-*-*-*-m-*-*-*" );
     m_pFixed->insertStrList( &fixedFonts );
 
@@ -107,17 +77,15 @@ KFontOptions::KFontOptions(KConfig *config, QString group, QWidget *parent, cons
              SLOT(changed() ) );
 
     // default charset Lars Knoll 17Nov98 (moved by David)
-    label = new QLabel( i18n( "Default Charset"), this );
-    lay->addWidget(label,5,1);
-    lay->activate();
+    lay->addWidget(new QLabel( i18n( "Default Charset"), this ), ++r, E);
 
     m_pCharset = new QComboBox( false, this );
 #warning FIXME, this seems to be broken in kcharsets (Simon)
 //    charsets = KGlobal::charsets()->availableCharsetNames();
     charsets.prepend(i18n("Use language charset"));
     m_pCharset->insertStringList( charsets );
-    lay->addWidget(m_pCharset,5,2);
-
+    lay->addMultiCellWidget(m_pCharset,r, r, M, W);
+    
     connect( m_pCharset, SIGNAL( activated(const QString& ) ),
              SLOT( slotCharset(const QString&) ) );
     connect( m_pCharset, SIGNAL( activated(const QString& ) ),
@@ -125,10 +93,51 @@ KFontOptions::KFontOptions(KConfig *config, QString group, QWidget *parent, cons
 
     connect( bg, SIGNAL( clicked( int ) ), SLOT( slotFontSize( int ) ) );
 
+    lay->addWidget(new QLabel( i18n("Background Color:"), this ), ++r, E);
+
+    m_pBg = new KColorButton( bgColor, this );
+    lay->addWidget(m_pBg, r, M);
+    connect( m_pBg, SIGNAL( changed( const QColor & ) ),
+             SLOT( slotBgColorChanged( const QColor & ) ) );
+    connect( m_pBg, SIGNAL( changed( const QColor & ) ),
+             SLOT( changed() ) );
+
+    lay->addWidget(new QLabel( i18n("Normal Text Color:"), this ), ++r, E);
+
+    m_pText = new KColorButton( textColor, this );
+    lay->addWidget(m_pText, r, M);
+    connect( m_pText, SIGNAL( changed( const QColor & ) ),
+             SLOT( slotTextColorChanged( const QColor & ) ) );
+    connect( m_pText, SIGNAL( changed( const QColor & ) ),
+             SLOT( changed() ) );
+
+    lay->addWidget(new QLabel( i18n("URL Link Color:"), this ), ++r, E);
+
+    m_pLink = new KColorButton( linkColor, this );
+    lay->addWidget(m_pLink, r, M);
+    connect( m_pLink, SIGNAL( changed( const QColor & ) ),
+             SLOT( slotLinkColorChanged( const QColor & ) ) );
+    connect( m_pLink, SIGNAL( changed( const QColor & ) ),
+             SLOT( changed() ) );
+
+    lay->addWidget(new QLabel( i18n("Followed Link Color:"), this ), ++r, E);
+
+    m_pVLink = new KColorButton( vLinkColor, this );
+    lay->addWidget(m_pVLink, r, M);
+    connect( m_pVLink, SIGNAL( changed( const QColor & ) ),
+             SLOT( slotVLinkColorChanged( const QColor & ) ) );
+    connect( m_pVLink, SIGNAL( changed( const QColor & ) ),
+             SLOT( changed() ) );
+
+    forceDefaultsbox = new QCheckBox(i18n("Always use my colors"), this);
+    r++; lay->addMultiCellWidget(forceDefaultsbox, r, r, E, W);
+    connect(forceDefaultsbox, SIGNAL(clicked()), this, SLOT(changed()));
+
+    r++; lay->setRowStretch(r, 10);
     load();
 }
 
-void KFontOptions::getFontList( QStrList &list, const char *pattern )
+void KAppearanceOptions::getFontList( QStrList &list, const char *pattern )
 {
     int num;
 
@@ -142,7 +151,7 @@ void KFontOptions::getFontList( QStrList &list, const char *pattern )
     XFreeFontNames( xFonts );
 }
 
-void KFontOptions::addFont( QStrList &list, const char *xfont )
+void KAppearanceOptions::addFont( QStrList &list, const char *xfont )
 {
     const char *ptr = strchr( xfont, '-' );
     if ( !ptr )
@@ -172,27 +181,27 @@ void KFontOptions::addFont( QStrList &list, const char *xfont )
     }
 }
 
-void KFontOptions::slotFontSize( int i )
+void KAppearanceOptions::slotFontSize( int i )
 {
     fSize = i+3;
 }
 
-void KFontOptions::slotStandardFont(const QString& n )
+void KAppearanceOptions::slotStandardFont(const QString& n )
 {
     stdName = n;
 }
 
-void KFontOptions::slotFixedFont(const QString& n )
+void KAppearanceOptions::slotFixedFont(const QString& n )
 {
     fixedName = n;
 }
 
-void KFontOptions::slotCharset(const QString& n)
+void KAppearanceOptions::slotCharset(const QString& n)
 {
     charsetName = n;
 }
 
-void KFontOptions::load()
+void KAppearanceOptions::load()
 {
     g_pConfig->setGroup(groupname);
     QString fs = g_pConfig->readEntry( "BaseFontSize" );
@@ -211,20 +220,43 @@ void KFontOptions::load()
     fixedName = g_pConfig->readEntry( "FixedFont" );
     charsetName = g_pConfig->readEntry( "DefaultCharset" );
 
+    bgColor = g_pConfig->readColorEntry( "BgColor", &HTML_DEFAULT_BG_COLOR );
+    textColor = g_pConfig->readColorEntry( "TextColor", &HTML_DEFAULT_TXT_COLOR );
+    linkColor = g_pConfig->readColorEntry( "LinkColor", &HTML_DEFAULT_LNK_COLOR );
+    vLinkColor = g_pConfig->readColorEntry( "VLinkColor", &HTML_DEFAULT_VLNK_COLOR);
+    bool forceDefaults = g_pConfig->readBoolEntry("ForceDefaultColors", false);
+
+    m_pBg->setColor( bgColor );
+    m_pText->setColor( textColor );
+    m_pLink->setColor( linkColor );
+    m_pVLink->setColor( vLinkColor );
+    forceDefaultsbox->setChecked( forceDefaults );
+
     updateGUI();
 }
 
-void KFontOptions::defaults()
+void KAppearanceOptions::defaults()
 {
     fSize=4;
     stdName = KGlobal::generalFont().family();
     fixedName = KGlobal::fixedFont().family();
     charsetName = "";
 
+    bgColor = HTML_DEFAULT_BG_COLOR;
+    textColor = HTML_DEFAULT_TXT_COLOR;
+    linkColor = HTML_DEFAULT_LNK_COLOR;
+    vLinkColor = HTML_DEFAULT_VLNK_COLOR;
+
+    m_pBg->setColor( bgColor );
+    m_pText->setColor( textColor );
+    m_pLink->setColor( linkColor );
+    m_pVLink->setColor( vLinkColor );
+    forceDefaultsbox->setChecked( false );
+
     updateGUI();
 }
 
-void KFontOptions::updateGUI()
+void KAppearanceOptions::updateGUI()
 {
     if ( stdName.isEmpty() )
         stdName = KGlobal::generalFont().family();
@@ -257,7 +289,7 @@ void KFontOptions::updateGUI()
     m_pLarge->setChecked( fSize == 5 );
 }
 
-void KFontOptions::save()
+void KAppearanceOptions::save()
 {
     g_pConfig->setGroup(groupname);			
     g_pConfig->writeEntry( "BaseFontSize", fSize );
@@ -267,172 +299,6 @@ void KFontOptions::save()
     if (charsetName == i18n("Use language charset"))
         charsetName = "";
     g_pConfig->writeEntry( "DefaultCharset", charsetName );
-    g_pConfig->sync();
-}
-
-
-void KFontOptions::changed()
-{
-  emit KCModule::changed(true);
-}
-
-
-//-----------------------------------------------------------------------------
-
-KColorOptions::KColorOptions(KConfig *config, QString group, QWidget *parent, const char *name)
-    : KCModule( parent, name ), g_pConfig(config), groupname(group)
-{
-    QLabel *label;
-
-    QGridLayout *lay = new QGridLayout(this,12,5,10,5);
-    lay->addRowSpacing(0,10);
-    lay->addRowSpacing(1,30);
-    lay->addRowSpacing(2, 5);
-    lay->addRowSpacing(3,30);
-    lay->addRowSpacing(4, 5);
-    lay->addRowSpacing(5,30);
-    lay->addRowSpacing(6, 5);
-    lay->addRowSpacing(7,30);
-    lay->addRowSpacing(11,10);
-    lay->addColSpacing(0,10);
-    lay->addColSpacing(2,20);
-    lay->addColSpacing(3,80);
-    lay->addColSpacing(4,10);
-
-    lay->setRowStretch(0,0);
-    lay->setRowStretch(1,0);
-    lay->setRowStretch(2,1);
-    lay->setRowStretch(3,0);
-    lay->setRowStretch(4,1);
-    lay->setRowStretch(5,0);
-    lay->setRowStretch(6,1);
-    lay->setRowStretch(7,0);
-    lay->setRowStretch(8,1);
-    lay->setRowStretch(9,1);
-    lay->setRowStretch(10,1);
-    lay->setRowStretch(11,0);
-
-    lay->setColStretch(0,0);
-    lay->setColStretch(1,0);
-    lay->setColStretch(2,1);
-    lay->setColStretch(3,0);
-    lay->setColStretch(4,1);
-
-    label = new QLabel( i18n("Background Color:"), this );
-    lay->addWidget(label,1,1);
-
-    m_pBg = new KColorButton( bgColor, this );
-    lay->addWidget(m_pBg,1,3);
-    connect( m_pBg, SIGNAL( changed( const QColor & ) ),
-             SLOT( slotBgColorChanged( const QColor & ) ) );
-    connect( m_pBg, SIGNAL( changed( const QColor & ) ),
-             SLOT( changed() ) );
-
-    label = new QLabel( i18n("Normal Text Color:"), this );
-    lay->addWidget(label,3,1);
-
-    m_pText = new KColorButton( textColor, this );
-    lay->addWidget(m_pText,3,3);
-    connect( m_pText, SIGNAL( changed( const QColor & ) ),
-             SLOT( slotTextColorChanged( const QColor & ) ) );
-    connect( m_pText, SIGNAL( changed( const QColor & ) ),
-             SLOT( changed() ) );
-
-    label = new QLabel( i18n("URL Link Color:"), this );
-    lay->addWidget(label,5,1);
-
-    m_pLink = new KColorButton( linkColor, this );
-    lay->addWidget(m_pLink,5,3);
-    connect( m_pLink, SIGNAL( changed( const QColor & ) ),
-             SLOT( slotLinkColorChanged( const QColor & ) ) );
-    connect( m_pLink, SIGNAL( changed( const QColor & ) ),
-             SLOT( changed() ) );
-
-    label = new QLabel( i18n("Followed Link Color:"), this );
-    lay->addWidget(label,7,1);
-
-    m_pVLink = new KColorButton( vLinkColor, this );
-    lay->addWidget(m_pVLink,7,3);
-    connect( m_pVLink, SIGNAL( changed( const QColor & ) ),
-             SLOT( slotVLinkColorChanged( const QColor & ) ) );
-    connect( m_pVLink, SIGNAL( changed( const QColor & ) ),
-             SLOT( changed() ) );
-
-    /*
-    cursorbox = new QCheckBox(i18n("Change cursor over link."),
-                              this);
-    lay->addMultiCellWidget(cursorbox,8,8,1,3);
-
-    underlinebox = new QCheckBox(i18n("Underline links"),
-                                 this);
-    lay->addMultiCellWidget(underlinebox,9,9,1,3);
-    */
-
-    forceDefaultsbox = new QCheckBox(i18n("Always use my colors"),
-                                 this);
-    lay->addMultiCellWidget(forceDefaultsbox,10,10,1,3);
-    connect(forceDefaultsbox, SIGNAL(clicked()), this, SLOT(changed()));
-
-    load();
-}
-
-void KColorOptions::slotBgColorChanged( const QColor &col )
-{
-    if ( bgColor != col )
-        bgColor = col;
-}
-
-void KColorOptions::slotTextColorChanged( const QColor &col )
-{
-    if ( textColor != col )
-        textColor = col;
-}
-
-void KColorOptions::slotLinkColorChanged( const QColor &col )
-{
-    if ( linkColor != col )
-        linkColor = col;
-}
-
-void KColorOptions::slotVLinkColorChanged( const QColor &col )
-{
-    if ( vLinkColor != col )
-        vLinkColor = col;
-}
-
-void KColorOptions::load()
-{
-    g_pConfig->setGroup(groupname);	
-    bgColor = g_pConfig->readColorEntry( "BgColor", &HTML_DEFAULT_BG_COLOR );
-    textColor = g_pConfig->readColorEntry( "TextColor", &HTML_DEFAULT_TXT_COLOR );
-    linkColor = g_pConfig->readColorEntry( "LinkColor", &HTML_DEFAULT_LNK_COLOR );
-    vLinkColor = g_pConfig->readColorEntry( "VLinkColor", &HTML_DEFAULT_VLNK_COLOR);
-    bool forceDefaults = g_pConfig->readBoolEntry("ForceDefaultColors", false);
-
-    m_pBg->setColor( bgColor );
-    m_pText->setColor( textColor );
-    m_pLink->setColor( linkColor );
-    m_pVLink->setColor( vLinkColor );
-    forceDefaultsbox->setChecked( forceDefaults );
-}
-
-void KColorOptions::defaults()
-{
-    bgColor = HTML_DEFAULT_BG_COLOR;
-    textColor = HTML_DEFAULT_TXT_COLOR;
-    linkColor = HTML_DEFAULT_LNK_COLOR;
-    vLinkColor = HTML_DEFAULT_VLNK_COLOR;
-
-    m_pBg->setColor( bgColor );
-    m_pText->setColor( textColor );
-    m_pLink->setColor( linkColor );
-    m_pVLink->setColor( vLinkColor );
-    forceDefaultsbox->setChecked( false );
-}
-
-void KColorOptions::save()
-{
-    g_pConfig->setGroup(groupname);			
     g_pConfig->writeEntry( "BgColor", bgColor );
     g_pConfig->writeEntry( "TextColor", textColor );
     g_pConfig->writeEntry( "LinkColor", linkColor);
@@ -442,16 +308,40 @@ void KColorOptions::save()
 }
 
 
-void KColorOptions::changed()
+void KAppearanceOptions::changed()
 {
   emit KCModule::changed(true);
+}
+
+void KAppearanceOptions::slotBgColorChanged( const QColor &col )
+{
+    if ( bgColor != col )
+        bgColor = col;
+}
+
+void KAppearanceOptions::slotTextColorChanged( const QColor &col )
+{
+    if ( textColor != col )
+        textColor = col;
+}
+
+void KAppearanceOptions::slotLinkColorChanged( const QColor &col )
+{
+    if ( linkColor != col )
+        linkColor = col;
+}
+
+void KAppearanceOptions::slotVLinkColorChanged( const QColor &col )
+{
+    if ( vLinkColor != col )
+        vLinkColor = col;
 }
 
 
 KAdvancedOptions::KAdvancedOptions(KConfig *config, QString group, QWidget *parent, const char *name )
     : KCModule( parent, name ), g_pConfig(config), groupname(group)
 {
-    QVBoxLayout *lay = new QVBoxLayout(this, 40 /* big border */, 20);
+    QVBoxLayout *lay = new QVBoxLayout(this, 10, 5);
 
     cb_enableJavaScript = new QCheckBox(i18n("Enable Java&Script"), this);
     lay->addWidget(cb_enableJavaScript);
