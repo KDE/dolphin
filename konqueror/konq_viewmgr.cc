@@ -342,7 +342,7 @@ void KonqViewManager::loadItem( KConfig &cfg, KonqFrameContainer *parent,
 
     QValueList<int> sizes =
       QVariant( cfg.readPropertyEntry( QString::fromLatin1( "SplitterSizes" ).prepend( prefix ),
-				       QVariant::IntList ) ).intListValue();
+				       QVariant::IntList ) ).toIntList();
 
     QStrList childList;
     if( cfg.readListEntry( QString::fromLatin1( "Children" ).prepend( prefix ), childList ) < 2 )

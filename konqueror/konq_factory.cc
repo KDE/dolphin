@@ -109,7 +109,7 @@ KonqViewFactory KonqFactory::createView( const QString &serviceType,
     for (; it != end; ++it )
     {
       KService::PropertyPtr prop = (*it)->property( "X-KDE-BrowserView-AllowAsDefault" );
-      if ( !!prop && prop->boolValue() )
+      if ( !!prop && prop->toBool() )
       {
         service = *it;
         break;
@@ -134,7 +134,7 @@ KonqViewFactory KonqFactory::createView( const QString &serviceType,
 
   if ( prop )
   {
-    QString argStr = prop->stringValue();
+    QString argStr = prop->toString();
     args = QStringList::split( " ", argStr );
   }
 
