@@ -109,9 +109,8 @@ void ActionsImpl::slotInsertSeparator() {
 void ActionsImpl::slotImport() { 
    kdDebug() << "ActionsImpl::slotImport() where sender()->name() == " << sender()->name() << endl;
    ImportCommand* import = ImportCommand::performImport(sender()->name()+6, KEBApp::self());
-   if (!import) {
+   if (!import)
       return;
-   }
    // TODO - following line doesn't work, fixme
    ListView::self()->setInitialAddress(import->groupAddress());
    CmdHistory::self()->addCommand(import);
@@ -225,9 +224,8 @@ void ActionsImpl::slotOpenLink() {
    QValueList<KBookmark> bks = ListView::self()->itemsToBookmarks(ListView::self()->selectedItems());
    QValueListIterator<KBookmark> it;
    for (it = bks.begin(); it != bks.end(); ++it) {
-      if ((*it).isGroup() || (*it).isSeparator()) {
+      if ((*it).isGroup() || (*it).isSeparator())
          continue;
-      }
       (void)new KRun((*it).url());
    }
 }
@@ -264,9 +262,8 @@ void ActionsImpl::slotChangeIcon() {
    KBookmark bk = ListView::self()->firstSelected()->bookmark();
    KIconDialog dlg(KEBApp::self());
    QString newIcon = dlg.selectIcon(KIcon::Small, KIcon::FileSystem);
-   if (newIcon.isEmpty()) {
+   if (newIcon.isEmpty())
       return;
-   }
    EditCommand *cmd = new EditCommand(
                             bk.address(),
                             EditCommand::Edition("icon", newIcon),
