@@ -639,7 +639,15 @@ void KonqIconViewWidget::slotPreview(const KFileItem *item, const QPixmap &pix)
     {
         if (static_cast<KFileIVI *>(it)->item() == item)
         {
-            static_cast<KFileIVI *>(it)->setThumbnailPixmap(pix);
+            if(item->overlays() & KIcon::HiddenOverlay)
+            {
+                QPixmap p(pix);
+
+                KIconEffect::semiTransparent(p);
+                static_cast<KFileIVI *>(it)->setThumbnailPixmap(p);
+            }
+            else
+                static_cast<KFileIVI *>(it)->setThumbnailPixmap(pix);
             d->updateAfterPreview = true;
         }
     }
