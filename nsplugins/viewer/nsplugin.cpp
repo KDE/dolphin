@@ -884,10 +884,11 @@ void NSPluginInstance::emitStatus(const QString &message)
 }
 
 
-void NSPluginInstance::streamFinished( NSPluginStreamBase* /*strm*/ )
+void NSPluginInstance::streamFinished( NSPluginStreamBase* strm )
 {
    kdDebug(1431) << "-> NSPluginInstance::streamFinished" << endl;
    emitStatus( QString::null );
+   _streams.remove(strm); // deletes automatically
    _timer->start( 100, true );
 }
 
