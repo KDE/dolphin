@@ -1473,8 +1473,8 @@ void KonqMainWindow::slotViewModeToggle( bool toggle )
          ++it;
      }
   }
-      
-  
+
+
   bool bQuickViewModeChange = false;
 
   // iterate over all services, update the toolbar service map
@@ -2791,12 +2791,12 @@ void KonqMainWindow::slotCompletionModeChanged( KGlobalSettings::Completion m )
   s_pCompletion->setCompletionMode( m );
   KConfig *config = KGlobal::config();
   config->setGroup( "Settings" );
-  
+
   if (m_combo->completionMode() == KGlobalSettings::completionMode())
     config->deleteEntry("CompletionMode");
   else
   config->writeEntry( "CompletionMode", (int)m_combo->completionMode() );
-    
+
   config->sync();
 
   // tell the other windows too (only this instance currently)
@@ -2992,8 +2992,8 @@ bool KonqMainWindow::eventFilter(QObject*obj,QEvent *ev)
 
       slotClipboardDataChanged();
 
-    } 
-    else if ( ev->type()==QEvent::FocusOut) 
+    }
+    else if ( ev->type()==QEvent::FocusOut)
     {
       //kdDebug(1202) << "ComboBox lost focus..." << endl;
       if (!m_bLocationBarConnected)
@@ -3028,7 +3028,7 @@ bool KonqMainWindow::eventFilter(QObject*obj,QEvent *ev)
       disconnect( m_combo->lineEdit(), SIGNAL(textChanged(const QString &)), this, SLOT(slotCheckComboSelection()) );
       disconnect( m_combo->lineEdit(), SIGNAL(selectionChanged()), this, SLOT(slotCheckComboSelection()) );
 
-      if ( ext ) 
+      if ( ext )
       {
           m_paCut->setEnabled( ext->isActionEnabled( "cut" ) );
           m_paCopy->setEnabled( ext->isActionEnabled( "copy" ) );
@@ -3036,8 +3036,8 @@ bool KonqMainWindow::eventFilter(QObject*obj,QEvent *ev)
           if (m_paDelete)
               m_paDelete->setEnabled( ext->isActionEnabled( "delete" ) );
           m_paTrash->setEnabled( ext->isActionEnabled( "trash" ) );
-      } 
-      else 
+      }
+      else
       {
           m_paCut->setEnabled( false );
           m_paCopy->setEnabled( false );
@@ -3162,7 +3162,7 @@ void KonqMainWindow::comboAction( int action, const QString& url, const QCString
     while ( window ) {
         if ( window->m_combo ) {
             combo = window->m_combo;
-        
+
             switch ( action ) {
             case ComboAdd:
               combo->insertPermanent( url );
@@ -4553,7 +4553,7 @@ void KonqMainWindow::closeEvent( QCloseEvent *e )
               KMessageBox::warningYesNoCancel(
                   this,
                   i18n("You have multiple tabs open in this window, "
-                        "are you sure you wish to close it?"),
+                        "are you sure you wish to quit it?"),
                   i18n("Confirmation"),
                   KStdGuiItem::quit(),
                   KGuiItem(i18n( "C&lose Current Tab" ), "tab_remove"),
