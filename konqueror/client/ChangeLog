@@ -1,0 +1,4 @@
+1999-04-28  Christophe Prud'homme  <Christophe.Prudhomme@ann.jussieu.fr>
+
+	* Makefile.am: $(top_srcdir) to $(top_builddir)
+

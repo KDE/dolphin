@@ -1,6 +1,6 @@
 
 INCLUDES= -I.. -I$(top_srcdir)/libkonq $(all_includes) $(MICO_INCLUDES) -I$(idldir)
-LDFLAGS = $(KDE_RPATH) -L$(top_srcdir)/libkonq $(all_libraries)
+LDFLAGS = $(KDE_RPATH) -L$(top_builddir)/libkonq $(all_libraries)
 LDADD   = -lkparts $(LIB_KIO) -lkonq
 
 # this gives better compile-time warnings.

@@ -1,3 +1,7 @@
+1999-04-28  Christophe Prud'homme  <Christophe.Prudhomme@ann.jussieu.fr>
+
+	* Makefile.am: $(top_srcdir) to $(top_builddir)
+
 1999-03-15  Michael Reiher <michael.reiher@gmx.de>
 
 	* Implemented an ActiveViewIndicator : KonqFrame
