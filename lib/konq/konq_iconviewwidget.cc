@@ -823,7 +823,7 @@ void KonqIconViewWidget::startImagePreview( const QStringList &previewSettings, 
     int iconSize = m_size ? m_size : KGlobal::iconLoader()->currentSize( KIcon::Desktop );
     int size;
     
-    if ( group.readBoolEntry("BoostSize") ) {
+    if ( group.readBoolEntry("BoostSize", true) ) {
         if (iconSize < 28)
             size = 48;
         else if (iconSize < 40)
