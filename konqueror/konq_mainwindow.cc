@@ -627,7 +627,9 @@ void KonqMainWindow::slotCreateNewWindow( const KURL &url, const KParts::URLArgs
     mainWindow->setInitialFrameName( args.frameName );
     //FIXME: obey args (like passing post-data (to KRun), etc.)
   }
-  //KonqFileManager::self()->openFileManagerWindow( url, args.frameName );
+  else
+    KonqFileManager::self()->openFileManagerWindow( url, args.frameName );
+    //FIXME: obey args (like passing post-data (to KRun), etc.)
 }
 
 void KonqMainWindow::slotNewWindow()
