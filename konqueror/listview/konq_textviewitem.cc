@@ -74,7 +74,7 @@ void KonqTextViewItem::updateContents()
          type=KTVI_DIRLINK;
          tmp="~";
       }
-      else if (S_ISREG(m))
+      else if ((S_ISREG(m)) || (S_ISCHR(m)) || (S_ISBLK(m)) || (S_ISSOCK(m)) || (S_ISFIFO(m)))
       {
          tmp="@";
          type=KTVI_REGULARLINK;
@@ -161,7 +161,7 @@ void KonqTextViewItem::updateContents()
             setText(tmpColumn->displayInColumn,m_fileitem->url().prettyURL());
             break;
          case KIO::UDS_SIZE:
-            setText(tmpColumn->displayInColumn,KGlobal::locale()->formatNumber(size,0)+" ");
+            setText(tmpColumn->displayInColumn,KGlobal::locale()->formatNumber(size, 0)+" ");
             break;
          case KIO::UDS_ACCESS:
             setText(tmpColumn->displayInColumn,makeAccessString(m_fileitem->permissions()));

@@ -823,6 +823,13 @@ void KonqBaseListViewWidget::setComplete()
 {
    m_bTopLevelComplete = true;
    setContentsPos( m_pBrowserView->extension()->urlArgs().xOffset, m_pBrowserView->extension()->urlArgs().yOffset );
+   if ((firstChild()!=0) && (m_pBrowserView->extension()->urlArgs().yOffset==0))
+   {
+      setCurrentItem(firstChild());
+      ensureItemVisible(currentItem());
+   };
+   emit selectionChanged();
+
 }
 
 void KonqBaseListViewWidget::slotStarted( const QString & /*url*/ )
