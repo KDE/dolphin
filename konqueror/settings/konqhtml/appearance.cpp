@@ -74,6 +74,10 @@ KAppearanceOptions::KAppearanceOptions(KConfig *config, QString group, QWidget *
 	   SLOT( slotStandardFont(const QString&) ) );
   connect( m_pFonts[0], SIGNAL( activated(const QString&) ),
 	   SLOT(slotChanged() ) );
+  connect( m_pFonts[0]->lineEdit(), SIGNAL( textChanged(const QString&) ),
+	   SLOT( slotStandardFont(const QString&) ) );
+  connect( m_pFonts[0], SIGNAL( textChanged(const QString&) ),
+	   SLOT(slotChanged() ) );
 
   label = new QLabel( i18n( "&Fixed font:"), this );
   lay->addWidget( label, ++r, E );
@@ -90,6 +94,10 @@ KAppearanceOptions::KAppearanceOptions(KConfig *config, QString group, QWidget *
   connect( m_pFonts[1], SIGNAL( activated(const QString&) ),
 	   SLOT( slotFixedFont(const QString&) ) );
   connect( m_pFonts[1], SIGNAL( activated(const QString&) ),
+	   SLOT(slotChanged() ) );
+  connect( m_pFonts[1]->lineEdit(), SIGNAL( textChanged(const QString&) ),
+	   SLOT( slotStandardFont(const QString&) ) );
+  connect( m_pFonts[1], SIGNAL( textChanged(const QString&) ),
 	   SLOT(slotChanged() ) );
 
   label = new QLabel( i18n( "S&erif font:" ), this );
@@ -108,6 +116,10 @@ KAppearanceOptions::KAppearanceOptions(KConfig *config, QString group, QWidget *
 	   SLOT( slotSerifFont( const QString& ) ) );
   connect( m_pFonts[2], SIGNAL( activated( const QString& ) ),
 	   SLOT( slotChanged() ) );
+  connect( m_pFonts[2]->lineEdit(), SIGNAL( textChanged(const QString&) ),
+	   SLOT( slotStandardFont(const QString&) ) );
+  connect( m_pFonts[2], SIGNAL( textChanged(const QString&) ),
+	   SLOT(slotChanged() ) );
 
   label = new QLabel( i18n( "Sa&ns serif font:" ), this );
   lay->addWidget( label, ++r, E );
@@ -125,6 +137,11 @@ KAppearanceOptions::KAppearanceOptions(KConfig *config, QString group, QWidget *
 	   SLOT( slotSansSerifFont( const QString& ) ) );
   connect( m_pFonts[3], SIGNAL( activated( const QString& ) ),
 	   SLOT( slotChanged() ) );
+  connect( m_pFonts[3]->lineEdit(), SIGNAL( textChanged(const QString&) ),
+	   SLOT( slotStandardFont(const QString&) ) );
+  connect( m_pFonts[3], SIGNAL( textChanged(const QString&) ),
+	   SLOT(slotChanged() ) );
+
 
   label = new QLabel( i18n( "C&ursive font:" ), this );
   lay->addWidget( label, ++r, E );
@@ -142,6 +159,11 @@ KAppearanceOptions::KAppearanceOptions(KConfig *config, QString group, QWidget *
 	   SLOT( slotCursiveFont( const QString& ) ) );
   connect( m_pFonts[4], SIGNAL( activated( const QString& ) ),
 	   SLOT( slotChanged() ) );
+  connect( m_pFonts[4]->lineEdit(), SIGNAL( textChanged(const QString&) ),
+	   SLOT( slotStandardFont(const QString&) ) );
+  connect( m_pFonts[4], SIGNAL( textChanged(const QString&) ),
+	   SLOT(slotChanged() ) );
+
 
   label = new QLabel( i18n( "Fantas&y font:" ), this );
   lay->addWidget( label, ++r, E );
@@ -159,6 +181,11 @@ KAppearanceOptions::KAppearanceOptions(KConfig *config, QString group, QWidget *
 	   SLOT( slotFantasyFont( const QString& ) ) );
   connect( m_pFonts[5], SIGNAL( activated( const QString& ) ),
 	   SLOT( slotChanged() ) );
+  connect( m_pFonts[5]->lineEdit(), SIGNAL( textChanged(const QString&) ),
+	   SLOT( slotStandardFont(const QString&) ) );
+  connect( m_pFonts[5], SIGNAL( textChanged(const QString&) ),
+	   SLOT(slotChanged() ) );
+
 
   label = new QLabel( i18n( "Font &size adjustment for this encoding:" ), this );
   lay->addWidget( label, ++r, M );
