@@ -49,4 +49,4 @@ Keywords[sv]=Lösenord,Ändra lösenord,Ikon,ansikte,kdm,användarnamn,namn,kont
 Keywords[wa]=Sicrets,Screts,Sicret,Scret,Mot d' passe,Candjî di scret,Imådjete,vizaedje,kdm, No di l' uzeu,No d' elodjaedje,Conte
 Keywords[xx]=xxPasswords,Password,Change Password,Icon,face,kdm,User Name,Name,Accountxx
 
-Categories=Qt;KDE;Settings;X-KDE-settings-system
+Categories=Qt;KDE;X-KDE-settings-system
