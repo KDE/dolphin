@@ -45,6 +45,7 @@ public:
 
 protected slots:
     void showValue( bool );
+    void sameProxy( bool );
     void setChecked( bool );
 
     void verifyPressed();
@@ -57,21 +58,22 @@ protected:
     bool validate();
 
 private:
-    QCheckBox* m_cbEnvFtp;
-    QCheckBox* m_cbEnvHttp;
-    QCheckBox* m_cbEnvHttps;
-    QCheckBox* m_cbEnvGopher;
-    QCheckBox* m_cbShowValue;
+    QCheckBox *m_cbEnvFtp;
+    QCheckBox *m_cbEnvHttp;
+    QCheckBox *m_cbEnvHttps;
+    QCheckBox *m_cbEnvGopher;
+    QCheckBox *m_cbSameProxy;
 
-    KLineEdit* m_leEnvHttp;
-    KLineEdit* m_leEnvHttps;
-    KLineEdit* m_leEnvFtp;
+    KLineEdit *m_leEnvHttp;
+    KLineEdit *m_leEnvHttps;
+    KLineEdit *m_leEnvFtp;
 
-    QPushButton* m_pbVerify;
-    QPushButton* m_pbDetect;
+    QPushButton *m_pbVerify;
+    QPushButton *m_pbDetect;
+    QPushButton *m_pbShowValue;
 
-    QGroupBox* m_gbHostnames;
-    KExceptionBox* m_gbExceptions;
+    QGroupBox *m_gbHostnames;
+    KExceptionBox *m_gbExceptions;
 
     QStringList m_lstEnvVars;
 };

@@ -64,7 +64,7 @@ KManualProxyDlg::KManualProxyDlg( QWidget* parent, const char* name )
     glay->setSpacing( 6 );
     glay->setMargin( 0 );
 
-    m_cbHttp = new QCheckBox( i18n("&HTTP:"), m_gbHostnames, "m_cbHttp" );
+    m_cbHttp = new QCheckBox( i18n("H&TTP:"), m_gbHostnames, "m_cbHttp" );
     
     QWhatsThis::add( m_cbHttp, i18n("Check this box to enable manual proxy "
                                         "setup for HTTP connections.") );
@@ -166,6 +166,22 @@ KManualProxyDlg::KManualProxyDlg( QWidget* parent, const char* name )
     glay->addWidget( m_sbFtp, 2, 3 );
 
     serversLayout->addLayout( glay, 0, 0 );
+    
+    QHBoxLayout *hlay = new QHBoxLayout;
+    hlay->setSpacing( KDialog::spacingHint() );
+    hlay->setMargin( 0 );
+  
+    QSpacerItem *spacer = new QSpacerItem( 75, 16, QSizePolicy::Fixed,
+                                           QSizePolicy::Minimum );
+    hlay->addItem( spacer );
+
+    m_cbSameProxy = new QCheckBox( i18n("Use same proxy server for all protocols"), 
+                                 m_gbHostnames, "m_cbSameProxy" );
+    hlay->addWidget( m_cbSameProxy );
+    spacer = new QSpacerItem( 20, 20, QSizePolicy::MinimumExpanding,
+                              QSizePolicy::Minimum );
+    hlay->addItem( spacer );
+    serversLayout->addLayout( hlay, 1, 0 );    
 
     QVBoxLayout* vlay = new QVBoxLayout;
     vlay->setSpacing( KDialog::spacingHint() );
@@ -186,7 +202,7 @@ KManualProxyDlg::KManualProxyDlg( QWidget* parent, const char* name )
                                        "entered will be copied to all the "
                                        "fields below that are enabled!") );
     vlay->addWidget( m_pbCopyDown );
-    QSpacerItem* spacer = new QSpacerItem( 1, 1 );
+    spacer = new QSpacerItem( 1, 1 );
     vlay->addItem( spacer );
 
     serversLayout->addLayout( vlay, 0, 1 );
@@ -198,7 +214,7 @@ KManualProxyDlg::KManualProxyDlg( QWidget* parent, const char* name )
                                               m_gbExceptions->sizePolicy().hasHeightForWidth()) );
     mainLayout->addWidget( m_gbExceptions );
 
-    QHBoxLayout* hlay = new QHBoxLayout;
+    hlay = new QHBoxLayout;
     hlay->setSpacing( KDialog::spacingHint() );
     hlay->setMargin( 0 );
     spacer = new QSpacerItem( 20, 20, QSizePolicy::Minimum,
@@ -217,7 +233,12 @@ void KManualProxyDlg::init()
     m_sbHttp->setRange( 0, MAX_PORT_VALUE );
     m_sbHttps->setRange( 0, MAX_PORT_VALUE );
     m_sbFtp->setRange( 0, MAX_PORT_VALUE );
-
+    
+    // Set the focus proxy widgets...
+    m_cbHttp->setFocusProxy ( m_leHttp );
+    m_cbHttps->setFocusProxy ( m_leHttps );
+    m_cbFtp->setFocusProxy ( m_leFtp );
+    
     // Enable entries
     connect( m_cbHttp, SIGNAL( toggled(bool) ), m_leHttp,
              SLOT( setEnabled(bool) ) );
@@ -234,9 +255,11 @@ void KManualProxyDlg::init()
     connect( m_cbFtp, SIGNAL( toggled(bool) ), m_sbFtp,
              SLOT( setEnabled(bool) ) );
 
-    connect( m_cbHttp, SIGNAL( toggled(bool) ), SLOT( setChecked(bool) ) );
-    connect( m_cbHttps, SIGNAL( toggled(bool) ), SLOT( setChecked(bool) ) );
-    connect( m_cbFtp, SIGNAL( toggled(bool) ), SLOT( setChecked(bool) ) );
+    connect( m_cbHttp, SIGNAL( toggled(bool) ), SLOT( setHttpChecked(bool) ) );
+    connect( m_cbHttps, SIGNAL( toggled(bool) ), SLOT( setHttpsChecked(bool) ) );
+    connect( m_cbFtp, SIGNAL( toggled(bool) ), SLOT( setFtpChecked(bool) ) );
+    
+    connect( m_cbSameProxy, SIGNAL( toggled(bool) ), SLOT( sameProxy(bool) ) );
 
     connect( m_pbCopyDown, SIGNAL( clicked() ), SLOT( copyDown() ) );
 
@@ -249,61 +272,80 @@ void KManualProxyDlg::setProxyData( const KProxyData &data )
          data.type == KProtocolManager::ManualProxy )
     {
         KURL u;
-        int port;
 
+        int port;
+        QString host;
+        
         // Set the HTTP proxy
         u = data.httpProxy;
         m_cbHttp->setChecked( !data.httpProxy.isEmpty() &&
-                                  u.isValid() );
+                              u.isValid() );
         port = u.port();
         if ( port < 1 )
             port = DEFAULT_PROXY_PORT;
 
         u.setPort( 0 );
-
+        host = u.url();
+        
         if(m_cbHttp->isChecked())
-            m_leHttp->setText( u.url() );
+            m_leHttp->setText( host );
 
         m_sbHttp->setValue( port );
+        
+        bool useSameProxy = (m_cbHttp->isChecked() &&
+                             data.httpProxy == data.httpsProxy &&
+                             data.httpProxy == data.ftpProxy);
+    
+        m_cbSameProxy->setChecked ( useSameProxy );
+        
+        
+        if ( useSameProxy )
+        {
+          m_leHttps->setText ( host );
+          m_leFtp->setText ( host );
+          m_sbHttps->setValue( port );
+          m_sbFtp->setValue( port );
+          sameProxy ( true );
+        }
+        else
+        {
+            // Set the HTTPS proxy
+            u = data.httpsProxy;
+            m_cbHttps->setChecked( !data.httpsProxy.isEmpty() && u.isValid() );          
+            port = u.port();
+            if ( port < 1 )
+                port = DEFAULT_PROXY_PORT;
+          
+            u.setPort( 0 );
+          
+            if(m_cbHttps->isChecked())
+                m_leHttps->setText( u.url() );
+            
+            m_sbHttps->setValue( port );
+          
+            // Set the FTP proxy...
+            u = data.ftpProxy;
+            m_cbFtp->setChecked( !data.ftpProxy.isEmpty() && u.isValid() );
+            port = u.port();
+            if ( port < 1 )
+                port = DEFAULT_PROXY_PORT;
+          
+            u.setPort( 0 );
+          
+            if(m_cbFtp->isChecked())
+                m_leFtp->setText( u.url() );
 
-        // Set the HTTPS proxy
-        u = data.httpsProxy;
-        m_cbHttps->setChecked( !data.httpsProxy.isEmpty() &&
-                                 u.isValid() );
-        port = u.port();
-        if ( port < 1 )
-            port = DEFAULT_PROXY_PORT;
-
-        u.setPort( 0 );
-
-        if(m_cbHttps->isChecked())
-            m_leHttps->setText( u.url() );
-
-        m_sbHttps->setValue( port );
-
-        // Set the FTP proxy...
-        u = data.ftpProxy;
-        m_cbFtp->setChecked( !data.ftpProxy.isEmpty() &&
-                                 u.isValid() );
-        port = u.port();
-        if ( port < 1 )
-            port = DEFAULT_PROXY_PORT;
-
-        u.setPort( 0 );
-
-        if(m_cbFtp->isChecked())
-            m_leFtp->setText( u.url() );
-
-        m_sbFtp->setValue( port );
-
+            m_sbFtp->setValue( port );
+        }
+  
         m_gbExceptions->fillExceptions( data.noProxyFor );
         m_gbExceptions->setCheckReverseProxy( data.useReverseProxy );
     }
     else
     {
+       m_sbFtp->setValue( DEFAULT_PROXY_PORT );    
        m_sbHttp->setValue( DEFAULT_PROXY_PORT );
        m_sbHttps->setValue( DEFAULT_PROXY_PORT );
-       m_sbFtp->setValue( DEFAULT_PROXY_PORT );
     }
 }
 
@@ -324,22 +366,31 @@ const KProxyData KManualProxyDlg::data() const
             data.httpProxy = u.url();
         }
     }
-    if ( m_cbHttps->isChecked() )
+    
+    if ( m_cbSameProxy->isChecked () )
     {
-        u = m_leHttps->text();
-        if ( u.isValid() )
-        {
-            u.setPort( m_sbHttps->value() );
-            data.httpsProxy = u.url();
-        }
+        data.httpsProxy = data.httpProxy;
+        data.ftpProxy = data.httpProxy;
     }
-    if ( m_cbFtp->isChecked() )
-    {
-        u = m_leFtp->text();
-        if ( u.isValid() )
+    else
+    {    
+        if ( m_cbHttps->isChecked() )
         {
-            u.setPort( m_sbFtp->value() );
-            data.ftpProxy = u.url();
+            u = m_leHttps->text();
+            if ( u.isValid() )
+            {
+                u.setPort( m_sbHttps->value() );
+                data.httpsProxy = u.url();
+            }
+        }
+        if ( m_cbFtp->isChecked() )
+        {
+            u = m_leFtp->text();
+            if ( u.isValid() )
+            {
+                u.setPort( m_sbFtp->value() );
+                data.ftpProxy = u.url();
+            }
         }
     }
 
@@ -353,12 +404,32 @@ const KProxyData KManualProxyDlg::data() const
     return data;
 }
 
+void KManualProxyDlg::sameProxy( bool enable )
+{
+  m_cbHttps->setEnabled (!enable);
+  m_cbFtp->setEnabled (!enable);
+  m_pbCopyDown->setEnabled( !enable );      
+}
+
 void KManualProxyDlg::setChecked( bool )
 {
     bool checked = (m_cbHttp->isChecked() || m_cbHttps->isChecked() ||
                     m_cbFtp->isChecked());
+    
+    m_pbCopyDown->setEnabled( checked && !m_cbSameProxy->isChecked() );
+}
 
-    m_pbCopyDown->setEnabled( checked );
+void KManualProxyDlg::setFtpChecked( bool on )
+{
+  
+}
+
+void KManualProxyDlg::setHttpChecked( bool on )
+{
+}
+
+void KManualProxyDlg::setHttpsChecked( bool on )
+{
 }
 
 

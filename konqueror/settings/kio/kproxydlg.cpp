@@ -446,22 +446,25 @@ void KProxyDialog::save()
   KSaveIOConfig::setProxyConfigScript( m_data->scriptProxy );
   KSaveIOConfig::setUseReverseProxy( m_data->useReverseProxy );
   KSaveIOConfig::setNoProxyFor( m_data->noProxyFor.join(",") );
-
-  // Update all running and applicable io-slaves
-  if ( !kapp->dcopClient()->isAttached() )
-    kapp->dcopClient()->attach();
+ 
+ 
+  // Update all running io-slaves...
+  // If we cannot update, let the user know that they need to
+  // restart all running application that need this info.
+  if ( !kapp->dcopClient()->isAttached() && !kapp->dcopClient()->attach() )
+  { 
+    QString caption = i18n("Proxy Configuration Update");
+    
+    QString message = i18n("You have to restart the running applications "
+                           "for these changes to take effect.");
+                           
+    KMessageBox::information (this, message, caption);
+    return;
+  }
 
   QByteArray data;
   QDataStream stream( data, IO_WriteOnly );
-  stream << QString("http");
-  kapp->dcopClient()->send( "*", "KIO::Scheduler", "reparseSlaveConfiguration(QString)", data );
-
-  QDataStream stream2( data, IO_WriteOnly );
-  stream2 << QString("https");
-  kapp->dcopClient()->send( "*", "KIO::Scheduler", "reparseSlaveConfiguration(QString)", data );
-
-  QDataStream stream3( data, IO_WriteOnly );
-  stream3 << QString("ftp");
+  stream << QString();
   kapp->dcopClient()->send( "*", "KIO::Scheduler", "reparseSlaveConfiguration(QString)", data );
 
   emit changed( false );
@@ -493,8 +496,7 @@ void KProxyDialog::setupManProxy()
 
   if ( dlg->exec() == QDialog::Accepted )
   {
-    KProxyData data = dlg->data();
-    *m_data = data;
+    *m_data = dlg->data();
     emit changed( true );
   }
 
@@ -510,9 +512,8 @@ void KProxyDialog::setupEnvProxy()
   dlg->setProxyData( *m_data );
 
   if ( dlg->exec() == QDialog::Accepted )
-  {
-    KProxyData data = dlg->data();
-    *m_data = data;
+  {    
+    *m_data = dlg->data();
     emit changed( true );
   }
 

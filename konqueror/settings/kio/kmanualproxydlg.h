@@ -51,7 +51,12 @@ protected slots:
   virtual void slotOk();
 
   void copyDown();
+  void sameProxy( bool );
   void setChecked( bool );
+    
+  void setFtpChecked( bool );  
+  void setHttpChecked( bool );
+  void setHttpsChecked( bool );  
 
 private:
   QSpinBox* m_sbFtp;
@@ -61,6 +66,7 @@ private:
   QCheckBox* m_cbFtp;
   QCheckBox* m_cbHttp;
   QCheckBox* m_cbHttps;
+  QCheckBox* m_cbSameProxy;  
 
   KLineEdit* m_leFtp;
   KLineEdit* m_leHttp;
