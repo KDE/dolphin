@@ -170,8 +170,8 @@ shell) runs in the window. Simply type at the prompt.</para>
 <textobject>
 <phrase>&konsole; Screen</phrase>
 </textobject>
-<caption><para>A 60 column by 9 row Konsole with 4 
-terminal sessions running.</para></caption>
+<caption><para>Konsole with 4 
+terminal sessions open.</para></caption>
 </mediaobject>
 </screenshot>
 <para>A <quote>Tip of the Day</quote> window may also appear on
@@ -1069,7 +1069,7 @@ project</action></para></listitem>
 <textobject>
 <phrase>Tabbar Image</phrase>
 </textobject>
-<caption><para>Konsole with 4 terminal sessions running with the tabbar on top.</para></caption>
+<caption><para>Konsole with 4 terminal sessions open with the tabbar on the bottom.</para></caption>
 </mediaobject>
 </screenshot>
 
