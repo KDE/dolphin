@@ -144,6 +144,7 @@ protected:
         QByteArray data;
         KURL destURL;
         QPoint mousePos;
+        QString dialogText;
     };
     void setPasteInfo( KIOPasteInfo * info ) { m_pasteInfo = info; }
 
