@@ -12,10 +12,13 @@
 # kde_toolbardir    Where general toolbar icons should go to.
 # kde_wallpaperdir  Where general wallpapers should go to.
 
-doc_DATA = konsole-1.html konsole-2.html konsole-3.html \
-	konsole-4.html konsole-5.html konsole.html logotp3.gif
+doc_DATA = index-1.html index-2.html index-3.html \
+	index-4.html index-5.html index.html logotp3.gif
 
 docdir = $(kde_htmldir)/en/konsole
 
-EXTRA_DIST = $(doc_DATA) konsole.nif konsole.sgml 
+EXTRA_DIST = $(doc_DATA) index.nif index.sgml 
+
+doc: index.sgml index.nif
+	ksgml2html index en
 
