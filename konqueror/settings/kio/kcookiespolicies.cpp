@@ -244,7 +244,6 @@ void KCookiesPolicies::cookiesEnabled( bool enable )
 
 void KCookiesPolicies::ignoreCookieExpirationDate ( bool enable )
 {
-    kdDebug () << "IgnoreCookieExpiration: " << enable << endl;
     bool isAutoAcceptChecked = m_cbAutoAcceptSessionCookies->isChecked();
     enable = (enable && isAutoAcceptChecked);
     
@@ -254,7 +253,6 @@ void KCookiesPolicies::ignoreCookieExpirationDate ( bool enable )
 
 void KCookiesPolicies::autoAcceptSessionCookies ( bool enable )
 {
-    kdDebug () << "AutoAcceptSessionCookies: " << enable << endl;
     bool isIgnoreExpirationChecked = m_cbIgnoreCookieExpirationDate->isChecked();
     enable = (enable && isIgnoreExpirationChecked);
     
