@@ -36,7 +36,7 @@ KonqRun::KonqRun( KonqMainView* _view, KonqChildView *_childView, const QString 
 
 KonqRun::~KonqRun()
 {
-  cerr << "KonqRun::~KonqRun()" << endl;
+  kDebugInfo( 1202, "KonqRun::~KonqRun()" );
 }
 
 void KonqRun::foundMimeType( const QString & _type )
