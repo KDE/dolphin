@@ -53,7 +53,8 @@ KfindTop::KfindTop(const char *searchPath)
   
   _statusBar = new KStatusBar( this, "_statusBar");
   _statusBar->insertItem("0 file(s) found", 0);
-  _statusBar->enable(KStatusBar::Hide);
+  //_statusBar->enable(KStatusBar::Hide);
+  _statusBar->hide();
   setStatusBar(_statusBar);
   enableStatusBar(false);
   
