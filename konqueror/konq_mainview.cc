@@ -132,6 +132,7 @@ KonqMainView::KonqMainView( const char *url, QWidget *parent ) : QWidget( parent
   m_pAccel->insertItem( i18n("Directory up"), "DirUp", ALT+Key_Up );
   m_pAccel->insertItem( i18n("History Back"), "Back", ALT+Key_Left );
   m_pAccel->insertItem( i18n("History Forward"), "Forward", ALT+Key_Right );
+  m_pAccel->insertItem( i18n("Stop Loading"), "Stop", Key_Escape );
   
   m_pAccel->insertItem( "Select View 1", CTRL+Key_1, false );
   m_pAccel->insertItem( "Select View 2", CTRL+Key_2, false );
@@ -147,6 +148,7 @@ KonqMainView::KonqMainView( const char *url, QWidget *parent ) : QWidget( parent
   m_pAccel->connectItem( "DirUp", this, SLOT( slotUp() ) );
   m_pAccel->connectItem( "Back", this, SLOT( slotBack() ) );
   m_pAccel->connectItem( "Forward", this, SLOT( slotForward() ) );
+  m_pAccel->connectItem( "Stop", this, SLOT( slotStop2() ) );
 
   m_pAccel->connectItem( "Select View 1", this, SLOT( slotSelectView1() ) );
   m_pAccel->connectItem( "Select View 2", this, SLOT( slotSelectView2() ) );
@@ -1200,6 +1202,10 @@ void KonqMainView::slotLargeIcons()
   Konqueror::KfmIconView_var iv = Konqueror::KfmIconView::_narrow( v );
   
   iv->slotLargeIcons();
+
+  m_vMenuView->setItemChecked( MVIEW_LARGEICONS_ID, true );
+  m_vMenuView->setItemChecked( MVIEW_SMALLICONS_ID, false );
+  m_vMenuView->setItemChecked( MVIEW_TREEVIEW_ID, false );
 }
 
 void KonqMainView::slotSmallIcons()
@@ -1219,6 +1225,10 @@ void KonqMainView::slotSmallIcons()
   Konqueror::KfmIconView_var iv = Konqueror::KfmIconView::_narrow( v );
   
   iv->slotSmallIcons();
+
+  m_vMenuView->setItemChecked( MVIEW_LARGEICONS_ID, false );
+  m_vMenuView->setItemChecked( MVIEW_SMALLICONS_ID, true );
+  m_vMenuView->setItemChecked( MVIEW_TREEVIEW_ID, false );
 }
 
 void KonqMainView::slotTreeView()
@@ -1231,6 +1241,10 @@ void KonqMainView::slotTreeView()
     m_currentView->lockHistory();
     m_currentView->changeView( v, serviceTypes );
   }
+
+  m_vMenuView->setItemChecked( MVIEW_LARGEICONS_ID, false );
+  m_vMenuView->setItemChecked( MVIEW_SMALLICONS_ID, false );
+  m_vMenuView->setItemChecked( MVIEW_TREEVIEW_ID, true );
 }
 
 void KonqMainView::slotReload()
@@ -1240,13 +1254,18 @@ void KonqMainView::slotReload()
 
 void KonqMainView::slotStop()
 {
-  if ( m_currentView )
+  if ( m_currentView && m_currentView->isLoading() )
   {
     m_currentView->stop();
     if ( m_currentView->kfmRun() )
       delete m_currentView->kfmRun();
     m_currentView->setKfmRun( 0L );
   }    
+}
+
+void KonqMainView::slotStop2()
+{
+  slotStop();
 }
 
 void KonqMainView::slotUp()
@@ -1943,6 +1962,23 @@ void KonqMainView::createViewMenu()
     text = Q2C( i18n("&Tree View") );
     m_vMenuView->insertItem4( text, this, "slotTreeView" , 0, MVIEW_TREEVIEW_ID, -1 );
     m_vMenuView->insertSeparator( -1 );
+
+    if ( m_currentView )
+    {
+      Browser::View_ptr pView = m_currentView->view();
+      if ( pView->supportsInterface( "IDL:Konqueror/KfmIconView:1.0" ) )
+      {
+        Konqueror::KfmIconView_var iconView = Konqueror::KfmIconView::_narrow( pView );
+	
+	if ( iconView->viewState() == Konqueror::KfmIconView::LargeIcons )
+	  m_vMenuView->setItemChecked( MVIEW_LARGEICONS_ID, true );
+	else
+	  m_vMenuView->setItemChecked( MVIEW_SMALLICONS_ID, true );
+
+      }
+      else if ( pView->supportsInterface( "IDL:Konqueror/KfmTreeView:1.0" ) )
+        m_vMenuView->setItemChecked( MVIEW_TREEVIEW_ID, true );
+    }
 
     text = Q2C( i18n("&Reload Document") );
     m_vMenuView->insertItem4( text, this, "slotReload" , Key_F5, MVIEW_RELOAD_ID, -1 );

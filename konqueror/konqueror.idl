@@ -29,11 +29,15 @@ module Konqueror
  
   interface KfmIconView : Browser::View
   {
+    enum IconViewState { LargeIcons, SmallIcons };
+  
     slot void slotShowDot();
     slot void slotLargeIcons();
     slot void slotSmallIcons();
     slot void slotSelect();
     slot void slotSelectAll();
+    
+    IconViewState viewState();
   };
 
   interface KfmTreeView : Browser::View

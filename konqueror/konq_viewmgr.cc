@@ -319,10 +319,10 @@ unsigned long KonqViewManager::viewIdByNumber( int num )
     {
       if ( --num == 0 )
         return childIt.current()->id();
-      childIt++;
+      ++childIt;
     }
       
-    rowIt++;
+    ++rowIt;
   }
   
   return 0;

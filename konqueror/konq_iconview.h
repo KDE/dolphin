@@ -70,6 +70,8 @@ public slots:
   virtual void slotSelect();
   virtual void slotSelectAll();
 
+  virtual Konqueror::KfmIconView::IconViewState viewState();
+
 protected slots:
   // slots connected to the icon container
   virtual void slotMousePressed( KIconContainerItem* _item, const QPoint& _global, int _button );

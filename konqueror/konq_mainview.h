@@ -134,6 +134,8 @@ public slots:  // IDL
   virtual void slotTreeView();
   virtual void slotReload();
   virtual void slotStop();
+  
+  void slotStop2();
 
   // Go menu
   virtual void slotUp();

@@ -175,6 +175,14 @@ void KonqKfmIconView::slotSelectAll()
   selectAll();
 }
 
+Konqueror::KfmIconView::IconViewState KonqKfmIconView::viewState()
+{
+  if ( m_displayMode == Horizontal || m_displayMode == Vertical )
+    return Konqueror::KfmIconView::LargeIcons;
+  else
+    return Konqueror::KfmIconView::SmallIcons;
+}
+
 void KonqKfmIconView::stop()
 {
   m_dirLister->stop();
