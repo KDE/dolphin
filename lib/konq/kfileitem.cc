@@ -288,7 +288,7 @@ QString KFileItem::getStatusBarInfo()
   else if ( S_ISREG( m_fileMode ) )
   {
       if (mySize < 1024)
-        text = i18n("%1 (%2 bytes)").arg(text2).arg((long) mySize));
+        text = i18n("%1 (%2 bytes)").arg(text2).arg((long) mySize);
       else
       {
 	float d = (float) mySize/1024.0;
