@@ -40,8 +40,6 @@ extern QList<KfArchiver> *archivers;
 
 template class QList<KfFileLVI>;
 
-#define I18N_NOOP(x) x
-
 // Permission strings
 static const char* perm[4] = {
   I18N_NOOP( "Read-write" ),
