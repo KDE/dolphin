@@ -40,12 +40,12 @@ public:
     virtual void defaults();
 
 private slots:
-
-	void changed();
+    void slotOpenFileDialog( KURLRequester * );
+    void changed();
 
 private:
     KConfig* m_pConfig;
-	QString  m_groupname;
+    QString  m_groupname;
 
     QRadioButton *m_pUnderlineRadio[3];
     QCheckBox* cbCursor;
