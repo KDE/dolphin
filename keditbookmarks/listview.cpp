@@ -483,6 +483,14 @@ QDragObject *KEBListView::dragObject() {
 
 /* -------------------------------------- */
 
+void KEBListViewItem::normalConstruct(const KBookmark &bk) {
+#ifdef DEBUG_ADDRESSES
+   setText(KEBListView::AddressColumn, bk.address());
+#endif
+   setPixmap(0, SmallIcon(bk.icon()));
+   modUpdate();
+}
+
 // toplevel item (there should be only one!)
 KEBListViewItem::KEBListViewItem(QListView *parent, const KBookmark &group)
    : QListViewItem(parent, i18n("Bookmarks")), m_bookmark(group), m_emptyFolder(false) {

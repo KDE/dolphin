@@ -51,13 +51,7 @@ protected:
 class KEBListViewItem : public QListViewItem
 {
 private:
-   void normalConstruct(const KBookmark &bk) {
-#ifdef DEBUG_ADDRESSES
-      setText(KEBListView::AddressColumn, bk.address());
-#endif
-      setPixmap(0, SmallIcon(bk.icon()));
-      modUpdate();
-   }
+   void normalConstruct(const KBookmark &);
 
 public:
    KEBListViewItem(QListView *, const KBookmark &);
