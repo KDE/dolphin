@@ -35,74 +35,6 @@
 
 CmdGen* CmdGen::s_self = 0;
 
-QString MoveCommand::name() const {
-   return i18n("Move %1").arg(m_mytext);
-}
-
-void MoveCommand::execute() {
-   // kdDebug() << "MoveCommand::execute moving from=" << m_from << " to=" << m_to << endl;
-
-   KBookmark bk = CurrentMgr::bookmarkAt(m_from);
-   Q_ASSERT(!bk.isNull());
-
-   // look for m_from in the QDom tree
-   KBookmark oldParent = CurrentMgr::bookmarkAt(KBookmark::parentAddress(m_from));
-
-   bool wasFirstChild = (KBookmark::positionInParent(m_from) == 0);
-   KBookmark oldPreviousSibling = 
-                 (wasFirstChild)
-               ? KBookmark(QDomElement())
-               : CurrentMgr::bookmarkAt(KBookmark::previousAddress(m_from));
-
-   // look for m_to in the QDom tree
-   QString parentAddress = KBookmark::parentAddress(m_to);
-
-   KBookmark newParent = CurrentMgr::bookmarkAt(parentAddress);
-   Q_ASSERT(!newParent.isNull());
-   Q_ASSERT(newParent.isGroup());
-
-   bool isFirstChild = (KBookmark::positionInParent(m_to) == 0);
-
-   if (isFirstChild) {
-      newParent.toGroup().moveItem(bk, QDomElement());
-
-   } else {
-      QString afterAddress = KBookmark::previousAddress(m_to);
-
-      // kdDebug() << "MoveCommand::execute afterAddress=" << afterAddress << endl;
-      KBookmark afterNow = CurrentMgr::bookmarkAt(afterAddress);
-      Q_ASSERT(!afterNow.isNull());
-
-      bool movedOkay = newParent.toGroup().moveItem(bk, afterNow);
-      Q_ASSERT(movedOkay);
-
-      // kdDebug() << "MoveCommand::execute after moving in the dom tree : item=" << bk.address() << endl;
-   }
-
-   // because we moved stuff around, the addresses from/to can have changed, update
-   m_to = bk.address();
-   m_from = (wasFirstChild)
-          ? (oldParent.address() + "/0")
-          : KBookmark::nextAddress(oldPreviousSibling.address());
-   // kdDebug() << "MoveCommand::execute : new addresses from=" << m_from << " to=" << m_to << endl;
-}
-
-QString MoveCommand::finalAddress() {
-   Q_ASSERT((m_to != ""));
-   return m_to;
-}
-
-void MoveCommand::unexecute() {
-   // let's not duplicate code.
-   MoveCommand undoCmd(m_to, m_from);
-   undoCmd.execute();
-   // get the addresses back from that command, in case they changed
-   m_from = undoCmd.m_to;
-   m_to = undoCmd.m_from;
-}
-
-/* -------------------------------------- */
-
 QString CreateCommand::name() const {
    if (m_separator) {
       return i18n("Insert Separator");
@@ -197,53 +129,6 @@ void CreateCommand::unexecute() {
 
 /* -------------------------------------- */
 
-void DeleteCommand::execute() {
-   // kdDebug() << "DeleteCommand::execute " << m_from << endl;
-
-   KBookmark bk = CurrentMgr::bookmarkAt(m_from);
-   Q_ASSERT(!bk.isNull());
-
-   if (!m_cmd) {
-      if (bk.isGroup()) {
-         m_cmd = new CreateCommand(
-                        m_from, bk.fullText(), bk.icon(),
-                        bk.internalElement().attribute("folded") == "no");
-         m_subCmd = deleteAll(bk.toGroup());
-         m_subCmd->execute();
-
-      } else {
-         m_cmd = (bk.isSeparator())
-               ? new CreateCommand(m_from)
-               : new CreateCommand(m_from, bk.fullText(), bk.icon(), bk.url());
-      }
-   }
-
-   m_cmd->unexecute();
-}
-
-void DeleteCommand::unexecute() {
-   m_cmd->execute();
-
-   if (m_subCmd) {
-      m_subCmd->unexecute();
-   }
-}
-
-KMacroCommand* DeleteCommand::deleteAll(const KBookmarkGroup & parentGroup) {
-   KMacroCommand *cmd = new KMacroCommand(QString::null);
-   QStringList lstToDelete;
-   // we need to delete from the end, to avoid index shifting
-   for (KBookmark bk = parentGroup.first(); !bk.isNull(); bk = parentGroup.next(bk)) {
-      lstToDelete.prepend(bk.address());
-   }
-   for (QStringList::Iterator it = lstToDelete.begin(); it != lstToDelete.end(); ++it) {
-      cmd->addCommand(new DeleteCommand((*it)));
-   }
-   return cmd;
-}
-
-/* -------------------------------------- */
-
 QString EditCommand::name() const {
    return i18n("%1 Change").arg(m_mytext);
 }
@@ -303,6 +188,121 @@ void RenameCommand::unexecute() {
    cmd.execute();
    // get the old text back from it, in case they changed (hmm, shouldn't happen)
    m_newText = cmd.m_oldText;
+}
+
+/* -------------------------------------- */
+
+void DeleteCommand::execute() {
+   // kdDebug() << "DeleteCommand::execute " << m_from << endl;
+
+   KBookmark bk = CurrentMgr::bookmarkAt(m_from);
+   Q_ASSERT(!bk.isNull());
+
+   if (!m_cmd) {
+      if (bk.isGroup()) {
+         m_cmd = new CreateCommand(
+                        m_from, bk.fullText(), bk.icon(),
+                        bk.internalElement().attribute("folded") == "no");
+         m_subCmd = deleteAll(bk.toGroup());
+         m_subCmd->execute();
+
+      } else {
+         m_cmd = (bk.isSeparator())
+               ? new CreateCommand(m_from)
+               : new CreateCommand(m_from, bk.fullText(), bk.icon(), bk.url());
+      }
+   }
+
+   m_cmd->unexecute();
+}
+
+void DeleteCommand::unexecute() {
+   m_cmd->execute();
+
+   if (m_subCmd) {
+      m_subCmd->unexecute();
+   }
+}
+
+KMacroCommand* DeleteCommand::deleteAll(const KBookmarkGroup & parentGroup) {
+   KMacroCommand *cmd = new KMacroCommand(QString::null);
+   QStringList lstToDelete;
+   // we need to delete from the end, to avoid index shifting
+   for (KBookmark bk = parentGroup.first(); !bk.isNull(); bk = parentGroup.next(bk)) {
+      lstToDelete.prepend(bk.address());
+   }
+   for (QStringList::Iterator it = lstToDelete.begin(); it != lstToDelete.end(); ++it) {
+      cmd->addCommand(new DeleteCommand((*it)));
+   }
+   return cmd;
+}
+
+/* -------------------------------------- */
+
+QString MoveCommand::name() const {
+   return i18n("Move %1").arg(m_mytext);
+}
+
+void MoveCommand::execute() {
+   // kdDebug() << "MoveCommand::execute moving from=" << m_from << " to=" << m_to << endl;
+
+   KBookmark bk = CurrentMgr::bookmarkAt(m_from);
+   Q_ASSERT(!bk.isNull());
+
+   // look for m_from in the QDom tree
+   KBookmark oldParent = CurrentMgr::bookmarkAt(KBookmark::parentAddress(m_from));
+
+   bool wasFirstChild = (KBookmark::positionInParent(m_from) == 0);
+   KBookmark oldPreviousSibling = 
+                 (wasFirstChild)
+               ? KBookmark(QDomElement())
+               : CurrentMgr::bookmarkAt(KBookmark::previousAddress(m_from));
+
+   // look for m_to in the QDom tree
+   QString parentAddress = KBookmark::parentAddress(m_to);
+
+   KBookmark newParent = CurrentMgr::bookmarkAt(parentAddress);
+   Q_ASSERT(!newParent.isNull());
+   Q_ASSERT(newParent.isGroup());
+
+   bool isFirstChild = (KBookmark::positionInParent(m_to) == 0);
+
+   if (isFirstChild) {
+      newParent.toGroup().moveItem(bk, QDomElement());
+
+   } else {
+      QString afterAddress = KBookmark::previousAddress(m_to);
+
+      // kdDebug() << "MoveCommand::execute afterAddress=" << afterAddress << endl;
+      KBookmark afterNow = CurrentMgr::bookmarkAt(afterAddress);
+      Q_ASSERT(!afterNow.isNull());
+
+      bool movedOkay = newParent.toGroup().moveItem(bk, afterNow);
+      Q_ASSERT(movedOkay);
+
+      // kdDebug() << "MoveCommand::execute after moving in the dom tree : item=" << bk.address() << endl;
+   }
+
+   // because we moved stuff around, the addresses from/to can have changed, update
+   m_to = bk.address();
+   m_from = (wasFirstChild)
+          ? (oldParent.address() + "/0")
+          : KBookmark::nextAddress(oldPreviousSibling.address());
+   // kdDebug() << "MoveCommand::execute : new addresses from=" << m_from << " to=" << m_to << endl;
+}
+
+QString MoveCommand::finalAddress() {
+   Q_ASSERT((m_to != ""));
+   return m_to;
+}
+
+void MoveCommand::unexecute() {
+   // let's not duplicate code.
+   MoveCommand undoCmd(m_to, m_from);
+   undoCmd.execute();
+   // get the addresses back from that command, in case they changed
+   m_from = undoCmd.m_to;
+   m_to = undoCmd.m_from;
 }
 
 /* -------------------------------------- */
