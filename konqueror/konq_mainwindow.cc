@@ -550,7 +550,8 @@ bool KonqMainWindow::openView( QString serviceType, const KURL &_url, KonqView *
 
       if ( !childView )
         {
-          KMessageBox::sorry( 0L, i18n( "Could not create view for %1\nCheck your installation").arg(serviceType) );
+          KMessageBox::sorry( 0L, i18n( "Could not create view for %1\nThe diagnostics is:\n%2").arg(serviceType)
+              .arg(KLibLoader::self()->lastErrorMessage()) );
           return true; // fake everything was ok, we don't want to propagate the error
         }
 
@@ -2502,6 +2503,7 @@ void KonqMainWindow::initActions()
   (void) new KAction( i18n( "&Duplicate Window" ), "window_new", CTRL+Key_D,
                       this, SLOT( slotDuplicateWindow() ), actionCollection(), "duplicate_window" );
 
+
   (void) new KAction( i18n( "&Run Command..." ), "run", 0/*kdesktop has a binding for it*/, this, SLOT( slotRun() ), actionCollection(), "run" );
   (void) new KAction( i18n( "Open &Terminal..." ), "openterm", CTRL+Key_T, this, SLOT( slotOpenTerminal() ), actionCollection(), "open_terminal" );
   (void) new KAction( i18n( "&Open Location..." ), "fileopen", KStdAccel::key(KStdAccel::Open), this, SLOT( slotOpenLocation() ), actionCollection(), "open_location" );
@@ -2569,7 +2571,7 @@ void KonqMainWindow::initActions()
   m_paReload = new KAction( i18n( "&Reload" ), "reload", KStdAccel::key(KStdAccel::Reload), this, SLOT( slotReload() ), actionCollection(), "reload" );
 
   m_paUndo = KStdAction::undo( KonqUndoManager::self(), SLOT( undo() ), actionCollection(), "undo" );
-  m_paUndo->setEnabled( KonqUndoManager::self()->undoAvailable() );
+  //m_paUndo->setEnabled( KonqUndoManager::self()->undoAvailable() );
   connect( KonqUndoManager::self(), SIGNAL( undoTextChanged( const QString & ) ),
            m_paUndo, SLOT( setText( const QString & ) ) );
 
