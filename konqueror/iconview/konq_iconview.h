@@ -35,6 +35,19 @@ class KFileIVI;
 class KAction;
 class QActionMenu;
 
+class IconViewPropertiesExtension : public ViewPropertiesExtension
+{
+  Q_OBJECT
+public:
+  IconViewPropertiesExtension( KonqKfmIconView *iconView );
+
+  virtual void saveLocalProperties();
+  virtual void savePropertiesAsDefault();
+
+private:
+  KonqKfmIconView *m_iconView;  
+};
+
 class IconEditExtension : public EditExtension
 {
   friend class KonqKfmIconView;
@@ -60,6 +73,7 @@ private:
  */
 class KonqKfmIconView : public BrowserView
 {
+  friend class IconViewPropertiesExtension;
   Q_OBJECT
 public:
 

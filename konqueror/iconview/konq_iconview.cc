@@ -106,6 +106,22 @@ extern "C"
   }
 };
 
+IconViewPropertiesExtension::IconViewPropertiesExtension( KonqKfmIconView *iconView )
+  : ViewPropertiesExtension( iconView, "IconViewPropertiesExtension" )
+{
+  m_iconView = iconView;
+}
+
+void IconViewPropertiesExtension::saveLocalProperties()
+{
+  m_iconView->m_pProps->saveLocal( KURL( m_iconView->url() ) );
+}
+
+void IconViewPropertiesExtension::savePropertiesAsDefault()
+{
+  m_iconView->m_pProps->saveAsDefault();
+}
+
 IconEditExtension::IconEditExtension( KonqKfmIconView *iconView )
  : EditExtension( iconView, "IconEditExtension" )
 {
@@ -176,6 +192,8 @@ KonqKfmIconView::KonqKfmIconView()
   m_pIconView = new KonqIconViewWidget( m_pProps, this, "qiconview" );
 
   m_extension = new IconEditExtension( this );
+
+  (void)new IconViewPropertiesExtension( this );
 
   m_ulTotalFiles = 0;
 

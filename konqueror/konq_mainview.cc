@@ -463,17 +463,16 @@ void KonqMainView::slotEditApplications()
 
 void KonqMainView::slotSaveSettings()
 {
-  // Ouch this will need saveSettingsAsDefault in kbrowser.h   ...
-  // In the views it would call m_pProps->saveAsDefault()
-  KMessageBox::sorry( 0L, i18n( "Not implemented" ) );
+  QObject *obj = m_currentView->view()->child( 0L, "ViewPropertiesExtension" );
+  if ( obj )
+    ((ViewPropertiesExtension *)obj)->savePropertiesAsDefault();
 }
 
 void KonqMainView::slotSaveSettingsPerURL()
 {
-  // Ouch this will need saveSettings in kbrowser.h   ...
-  // In the views it would call m_pProps->save( KConfig * )
-  // with the .directory file open as the config file
-  KMessageBox::sorry( 0L, i18n( "Not implemented" ) );
+  QObject *obj = m_currentView->view()->child( 0L, "ViewPropertiesExtension" );
+  if ( obj )
+    ((ViewPropertiesExtension *)obj)->saveLocalProperties();
 }
 
 void KonqMainView::slotConfigureFileManager()
