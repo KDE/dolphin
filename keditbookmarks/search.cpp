@@ -156,6 +156,7 @@ void Searcher::slotSearchNext()
     ListView::self()->clearSelection();
     ListView::self()->setCurrent(item);
     item->setSelected(true);
+    ListView::self()->emitSlotSelectionChanged();
 }
 
 void Searcher::slotSearchTextChanged(const QString & text)
