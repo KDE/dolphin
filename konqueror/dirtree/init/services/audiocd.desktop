@@ -1,0 +1,6 @@
+[Desktop Entry]
+Type=Link
+URL=audiocd:/
+Icon=cdrom_unmount
+Name=Audio CD Browser
+Open=false
