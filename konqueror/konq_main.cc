@@ -40,6 +40,7 @@ static KCmdLineOptions options[] =
   { "silent", I18N_NOOP("Start without a default window."), 0 },
   { "preload", I18N_NOOP("Preload for later use."), 0 },
   { "profile <profile>",   I18N_NOOP("Profile to open."), 0 },
+  { "profiles", I18N_NOOP("List available profiles."), 0 },
   { "mimetype <mimetype>",   I18N_NOOP("Mimetype to use for this URL, (e.g. text/html or inode/directory)."), 0 },
   { "+[URL]",   I18N_NOOP("Location to open."), 0 },
   KCmdLineLastOption
@@ -81,6 +82,20 @@ extern "C" int kdemain( int argc, char **argv )
   }
   else
   {
+     if (args->isSet("profiles"))
+     {
+       QStringList profiles = KGlobal::dirs()->findAllResources("data", "konqueror/profiles/*", false, true);
+       profiles.sort();
+       for(QStringList::ConstIterator it = profiles.begin(); 
+           it != profiles.end(); ++it)
+       {
+         QString file = *it;
+         file = file.mid(file.findRev('/')+1);
+         printf("%s\n", QFile::encodeName(file).data());
+       }
+       
+       return 0;
+     }
      if (args->isSet("profile"))
      {
        QString profile = QString::fromLocal8Bit(args->getOption("profile"));
