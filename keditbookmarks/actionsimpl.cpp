@@ -469,6 +469,10 @@ void ActionsImpl::slotPrint() {
     s_part->setProperty("javaScriptEnabled", QVariant(false, 1));
     s_part->setProperty("javaEnabled", QVariant(false, 1));
 
+    // doc->openStream( "text/html", KURL() );
+    // doc->writeStream( QCString( "<HTML><BODY>FOO</BODY></HTML>" ) );
+    // doc->closeStream();
+
     HTMLExporter exporter;
     KTempFile tmpf(locateLocal("tmp", "print_bookmarks"), ".html");
     QTextStream *tstream = tmpf.textStream();
