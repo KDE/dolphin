@@ -38,7 +38,6 @@
 
 #include <kfileshare.h>
 #include <kprocess.h>
-#include <libintl.h>
 
 #include "kpropertiesdialog.h"
 #include "knewmenu.h"
