@@ -84,7 +84,7 @@ private:
     QPoint m_dragStart;
 
     static KConfig *s_config;
-    static const int temporary = 0; // the index of our temporary item
+    static const int temporary; // the index of our temporary item
 
 };
 

@@ -31,6 +31,7 @@
 #include "konq_combo.h"
 
 KConfig * KonqCombo::s_config = 0L;
+const int KonqCombo::temporary = 0;
 
 KonqCombo::KonqCombo( QWidget *parent, const char *name )
     : KHistoryCombo( parent, name ),
