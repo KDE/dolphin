@@ -55,6 +55,7 @@ public:
 
   static bool allowExecution( const QString &serviceType, const KURL &url );
   static bool isExecutable( const QString &serviceType );
+  static bool isTextExecutable( const QString &serviceType );
   static bool askSave( const KURL & url, KService::Ptr offer, const QString& mimeType, const QString & suggestedFilename = QString::null );
   static void save( const KURL & url, const QString & suggestedFilename );
 

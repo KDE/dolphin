@@ -334,11 +334,11 @@ void KonqMainWindow::openFilteredURL( const QString & _url )
 }
 
 void KonqMainWindow::openURL( KonqView *_view, const KURL &url,
-                              const QString &serviceType, const KonqOpenURLRequest & req,
+                              const QString &_serviceType, const KonqOpenURLRequest & req,
                               bool trustedSource )
 {
   kdDebug(1202) << "KonqMainWindow::openURL : url = '" << url.url() << "'  "
-                << "serviceType='" << serviceType << "' view=" << _view << endl;
+                << "serviceType='" << _serviceType << "' view=" << _view << endl;
 
   if ( url.url() == "about:blank" )
   {
@@ -358,6 +358,7 @@ void KonqMainWindow::openURL( KonqView *_view, const KURL &url,
       return;
   }
 
+  QString serviceType( _serviceType );
   KonqView *view = _view;
   if ( !view )
     view = m_currentView; /* Note, this can be 0L, e.g. on startup */
@@ -392,6 +393,8 @@ void KonqMainWindow::openURL( KonqView *_view, const KURL &url,
         // Are we following another view ? Then forget about this URL. Otherwise fire app.
         if ( !req.followMode )
         {
+            if ( !url.isLocalFile() && KonqRun::isTextExecutable( serviceType ) )
+                serviceType = "text/plain"; // view, don't execute
             //kdDebug(1202) << "KonqMainWindow::openURL : we were not following. Fire app." << endl;
             // We know the servicetype, let's try its preferred service
             KService::Ptr offer = KServiceTypeProfile::preferredService(serviceType, "Application");

@@ -94,6 +94,8 @@ void KonqRun::foundMimeType( const QString & _type )
        mimeType != "inode/directory" && // dirs can't be saved
        !m_strURL.isLocalFile() ) // ... and remote URL
   {
+      if ( isTextExecutable(mimeType) )
+          mimeType = "text/plain"; // view, don't execute
       kdDebug(1203) << "KonqRun: ask for saving" << endl;
       KService::Ptr offer = KServiceTypeProfile::preferredService(mimeType, "Application");
       if ( askSave( m_strURL, offer, mimeType, m_suggestedFilename ) ) // ... -> ask whether to save
@@ -271,7 +273,16 @@ bool KonqRun::allowExecution( const QString &serviceType, const KURL &url )
     if ( !isExecutable( serviceType ) )
       return true;
 
+    if ( !url.isLocalFile() ) // Don't permit to execute remote files
+        return false;
+
     return ( KMessageBox::warningYesNo( 0, i18n( "Do you really want to execute '%1' ? " ).arg( url.prettyURL() ) ) == KMessageBox::Yes );
+}
+
+bool KonqRun::isTextExecutable( const QString &serviceType )
+{
+    return ( serviceType == "application/x-desktop" ||
+             serviceType == "application/x-shellscript" );
 }
 
 bool KonqRun::isExecutable( const QString &serviceType )
