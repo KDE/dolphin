@@ -464,7 +464,7 @@ void TestLink::Url(KBookmark  bk)
 	     this, SLOT( read(KIO::Job *, const QByteArray &)));
     job->addMetaData("errorPage", "true");
 
-    setTmpStatus(p, i18n("Checking....."));
+    setTmpStatus(p, i18n("Checking..."));
   }
 }
 

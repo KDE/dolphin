@@ -439,7 +439,7 @@ bool UserAgentOptions::handleDuplicate( const QString& site,
     {
       QString msg = i18n("<qt><center>Found an existing identification for"
                          "<br/><b>%1</b><br/>"
-                         "Do you want to replace it ?</center>"
+                         "Do you want to replace it?</center>"
                          "</qt>").arg(site);
       int res = KMessageBox::warningYesNo(this, msg,
                                           i18n("Duplicate Identification"),

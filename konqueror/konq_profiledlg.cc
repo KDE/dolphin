@@ -73,7 +73,7 @@ KonqProfileDlg::KonqProfileDlg( KonqViewManager *manager, const QString & presel
 #define N_BUTTONS 4
   m_pGrid = new QGridLayout( this, 10, N_BUTTONS, KDialog::marginHint(), KDialog::spacingHint() );
 
-  m_pGrid->addMultiCellWidget( new QLabel( i18n( "Enter Profile Name :" ), this ), 0, 0, 0, N_BUTTONS-1 );
+  m_pGrid->addMultiCellWidget( new QLabel( i18n( "Enter Profile Name:" ), this ), 0, 0, 0, N_BUTTONS-1 );
 
   m_pProfileNameLineEdit = new QLineEdit( this );
   m_pProfileNameLineEdit->setFocus();

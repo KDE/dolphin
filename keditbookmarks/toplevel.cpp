@@ -847,7 +847,7 @@ void KEBTopLevel::slotInsertSeparator()
 void KEBTopLevel::slotImportNS()
 {
     // Hmm, there's no questionYesNoCancel...
-    int answer = KMessageBox::questionYesNo( this, i18n("Import as a new subfolder or replace all the current bookmarks ?"),
+    int answer = KMessageBox::questionYesNo( this, i18n("Import as a new subfolder or replace all the current bookmarks?"),
                                              i18n("Netscape Import"), i18n("As New Folder"), i18n("Replace") );
     bool subFolder = (answer==KMessageBox::Yes);
     ImportCommand * cmd = new ImportCommand( i18n("Import Netscape Bookmarks"), KNSBookmarkImporter::netscapeBookmarksFile(),
@@ -862,7 +862,7 @@ void KEBTopLevel::slotImportNS()
 void KEBTopLevel::slotImportMoz()
 {
     // Hmm, there's no questionYesNoCancel...
-    int answer = KMessageBox::questionYesNo( this, i18n("Import as a new subfolder or replace all the current bookmarks ?"),
+    int answer = KMessageBox::questionYesNo( this, i18n("Import as a new subfolder or replace all the current bookmarks?"),
                                              i18n("Mozilla Import"), i18n("As New Folder"), i18n("Replace") );
     bool subFolder = (answer==KMessageBox::Yes);
     QString mozFile=KNSBookmarkImporter::mozillaBookmarksFile();
@@ -1308,7 +1308,7 @@ bool KEBTopLevel::queryClose()
     if (m_bModified)
     {
         switch ( KMessageBox::warningYesNoCancel( this,
-                                                  i18n("The bookmarks have been modified.\nSave changes ?")) ) {
+                                                  i18n("The bookmarks have been modified.\nSave changes?")) ) {
             case KMessageBox::Yes :
                 return save();
             case KMessageBox::No :

@@ -231,11 +231,11 @@ QString KonqUndoManager::undoText() const
 
   KonqCommand::Type t = d->m_commands.top().m_type;
   if ( t == KonqCommand::COPY )
-    return i18n( "Und&o : Copy" );
+    return i18n( "Und&o: Copy" );
   else if ( t == KonqCommand::LINK )
-    return i18n( "Und&o : Link" );
+    return i18n( "Und&o: Link" );
   else if ( t == KonqCommand::MOVE )
-    return i18n( "Und&o : Move" );
+    return i18n( "Und&o: Move" );
   else if ( t == KonqCommand::MKDIR )
     return i18n( "Und&o: Create Directory" );
   else

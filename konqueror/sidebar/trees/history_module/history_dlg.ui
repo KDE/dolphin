@@ -36,7 +36,7 @@
             </property>
             <property stdset="1">
                 <name>title</name>
-                <string>History settings</string>
+                <string>History Settings</string>
             </property>
             <vbox>
                 <property stdset="1">
@@ -162,7 +162,7 @@
                     </property>
                     <property stdset="1">
                         <name>title</name>
-                        <string>Custom fonts for...</string>
+                        <string>Custom Fonts For...</string>
                     </property>
                     <hbox>
                         <property stdset="1">
@@ -235,7 +235,7 @@
                                     </property>
                                     <property stdset="1">
                                         <name>text</name>
-                                        <string>Choose font...</string>
+                                        <string>Choose Font...</string>
                                     </property>
                                 </widget>
                                 <widget row="1"  column="0" >
@@ -257,7 +257,7 @@
                                     </property>
                                     <property stdset="1">
                                         <name>text</name>
-                                        <string>Choose font...</string>
+                                        <string>Choose Font...</string>
                                     </property>
                                 </widget>
                             </grid>
@@ -291,7 +291,7 @@
                             </property>
                             <property stdset="1">
                                 <name>text</name>
-                                <string>Detailed Tooltips</string>
+                                <string>Detailed tooltips</string>
                             </property>
                             <property>
                                 <name>toolTip</name>

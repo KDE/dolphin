@@ -359,7 +359,7 @@ void Sidebar_Widget::buttonPopupActivate(int id)
 		}
 		case 3:
 		{
-			if (KMessageBox::questionYesNo(this,i18n("Do you really want to delete this entry ?"))==KMessageBox::Yes)
+			if (KMessageBox::questionYesNo(this,i18n("Do you really want to delete this entry?"))==KMessageBox::Yes)
 				{
 					QFile f(PATH+Buttons.at(popupFor)->file);
 					if (!f.remove()) qDebug("Error, file not deleted");

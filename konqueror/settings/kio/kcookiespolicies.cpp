@@ -263,7 +263,7 @@ bool KCookiesPolicies::handleDuplicate( const QString& domain, int advice )
     {
       QString msg = i18n("<qt>A policy already exists for"
                          "<center><b>%1</b></center>"
-                         "Do you want to replace it ?</qt>").arg(domain);
+                         "Do you want to replace it?</qt>").arg(domain);
       int res = KMessageBox::warningYesNo(this, msg,
                                           i18n("Duplicate Policy"),
                                           QString::null);
