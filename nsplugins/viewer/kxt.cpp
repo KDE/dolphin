@@ -209,12 +209,10 @@ static bool filters_installed = FALSE;
 static KXtApplication* qxtapp = 0;
 static XtAppContext appcon;
 
-Widget KXtApplication::toplevel = 0;
-
 static
 Boolean qt_event_handler_wrapper( XEvent* event )
 {
-	return (Boolean)qt_event_handler( event );
+  return (Boolean)qt_event_handler( event );
 }
 
 static
@@ -223,8 +221,8 @@ void installXtEventFilters()
     if (filters_installed) return;
     // Get Xt out of our face - install filter on every event type
     for (int et=2; et < LASTEvent; et++) {
-	qt_np_cascade_event_handler[et] = XtSetEventDispatcher(
-	    qt_xdisplay(), et, qt_event_handler_wrapper );
+	qt_np_cascade_event_handler[et] =
+		XtSetEventDispatcher( qt_xdisplay(), et, qt_event_handler_wrapper );
     }
     filters_installed = TRUE;
 }
@@ -235,8 +233,7 @@ void removeXtEventFilters()
     if (!filters_installed) return;
     // We aren't needed any more... slink back into the shadows.
     for (int et=2; et < LASTEvent; et++) {
-	XtSetEventDispatcher(
-	    qt_xdisplay(), et, qt_np_cascade_event_handler[et] );
+	XtSetEventDispatcher( qt_xdisplay(), et, qt_np_cascade_event_handler[et] );
     }
     filters_installed = FALSE;
 }
@@ -309,21 +306,14 @@ KXtApplication::KXtApplication(int& argc, char** argv,
 {
     my_xt = TRUE;
 
-    /*toplevel = XtAppInitialize(&appcon, "nspluginviewer", options, num_options,
-	&argc, argv, resources, 0, 0);
-    XtRealizeWidget(toplevel);*/
-
     XtToolkitInitialize();
     appcon = XtCreateApplicationContext();
     if (resources) XtAppSetFallbackResources(appcon, (char**)resources);
     XtDisplayInitialize(appcon, qt_xdisplay(), name(), rAppName, options,
     	num_options, &argc, argv);
-    init();
+    //toplevel = XtAppInitialize( &appcon, "", options, num_options, &argc, argv, (char**)resources, 0, 0);
 
-    String n, c;
-    XtGetApplicationNameAndClass(qt_xdisplay(), &n, &c);
-    toplevel = XtAppCreateShell(n, c, topLevelShellWidgetClass, qt_xdisplay(), 0, 0);
-    XtRealizeWidget(toplevel);
+    init();
 }
 
 /*!
@@ -367,6 +357,16 @@ void KXtApplication::init()
     qt_np_add_timer_setter(np_set_timer);
     qt_np_add_event_proc(np_event_proc);
     qt_np_count++;
+}
+
+
+Widget KXtApplication::createToplevelWidget()
+{
+    String n, c;
+    XtGetApplicationNameAndClass(qt_xdisplay(), &n, &c);
+    Widget w = XtAppCreateShell(n, c, topLevelShellWidgetClass, qt_xdisplay(), 0, 0);
+    XtRealizeWidget(w);
+    return w;
 }
 
 
@@ -448,7 +448,8 @@ KXtWidget::KXtWidget(const char* name, Widget parent, bool managed) :
     init(name, qWidgetClass, parent, 0, 0, 0, managed);
     Arg reqargs[20];
     Cardinal nargs=0;
-    XtSetArg(reqargs[nargs], XtNborderWidth, 0);            nargs++;
+    XtSetArg(reqargs[nargs], XtNborderWidth, 0);
+    nargs++;
     XtSetValues(xtw, reqargs, nargs);
 }
 

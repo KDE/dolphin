@@ -33,7 +33,7 @@ public:
                    bool allowStyles=true, bool GUIenabled=true);
     ~KXtApplication();
 
-    static Widget toplevel;
+    static Widget createToplevelWidget();
 };
 
 class KXtWidget : public QWidget {
