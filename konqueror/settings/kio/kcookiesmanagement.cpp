@@ -174,7 +174,11 @@ KCookiesManagement::KCookiesManagement(QWidget *parent, const char *name)
   m_bDeleteAll = false;
 
   dcop = new DCOPClient();
-  if( !dcop->attach() )
+  if( dcop->attach() )
+  {
+    load();
+  }
+  else
   {
     //TODO: Do something here!!  Like disabling the whole
     // management tab after giving a nice feedback to user.
