@@ -185,6 +185,9 @@ public:
 
     void disableIcons( const KURL::List & lst );
 
+    QString iconPositionGroupPrefix() const { return m_iconPositionGroupPrefix; }
+    QString dotDirectoryPath() const { return m_dotDirectoryPath; }
+
 public slots:
     /**
      * Checks the new selection and emits enableAction() signals
