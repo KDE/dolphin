@@ -42,8 +42,6 @@
 
 #include "toplevel.h"
 
-#define cmdHistory this
-
 KEBTopLevel *KEBTopLevel::s_topLevel = 0;
 
 KEBTopLevel::KEBTopLevel(const QString & bookmarksFile, bool readonly, QString address)
@@ -66,6 +64,7 @@ KEBTopLevel::KEBTopLevel(const QString & bookmarksFile, bool readonly, QString a
    m_dcopIface = new KBookmarkEditorIface();
 
    connect(kapp->clipboard(), SIGNAL( dataChanged() ),      SLOT( slotClipboardDataChanged() ));
+
    connect(&m_commandHistory, SIGNAL( commandExecuted() ),  SLOT( slotCommandExecuted() ));
    connect(&m_commandHistory, SIGNAL( documentRestored() ), SLOT( slotDocumentRestored() ));
 
@@ -96,7 +95,7 @@ void KEBTopLevel::construct() {
 
    setAutoSaveSettings();
    setModifiedFlag(false);
-   cmdHistory->docSaved();
+   this->docSaved(); // CmdHistory
 }
 
 KEBTopLevel::~KEBTopLevel() {
@@ -108,9 +107,10 @@ KEBTopLevel::~KEBTopLevel() {
 //                             GUICORE
 /* ------------------------------------------------------------- */
 
-#define actn ActionsImpl::self()
-
 void KEBTopLevel::createActions() {
+
+   ActionsImpl *actn = ActionsImpl::self();
+
    (void) KStdAction::open(this, SLOT( slotLoad() ), actionCollection());
    (void) KStdAction::save(this, SLOT( slotSave() ), actionCollection());
    (void) KStdAction::saveAs(this, SLOT( slotSaveAs() ), actionCollection());
@@ -233,12 +233,11 @@ void KEBTopLevel::updateActions() {
 void KEBTopLevel::setActionsEnabled(SelcAbilities sa) {
    KActionCollection * coll = actionCollection();
 
-#define ea(a,b) coll->action(a)->setEnabled(b)
-
    bool t2 = !m_readOnly && sa.itemSelected;
    bool t4 = !m_readOnly && sa.singleSelect && !sa.root && !sa.separator;
    bool t5 = !m_readOnly && !sa.multiSelect;
 
+#define ea(a,b) coll->action(a)->setEnabled(b)
    ea("edit_copy",         sa.itemSelected);
    ea("delete",            t2 && !sa.root);
    ea("edit_cut",          t2 && !sa.root);
@@ -266,6 +265,7 @@ void KEBTopLevel::setActionsEnabled(SelcAbilities sa) {
 
    ea("sort",              t5 && sa.group);
    ea("setastoolbar",      t5 && sa.group);
+#undef ea
 }
 
 // DESIGN clean up this sh*t
@@ -426,7 +426,7 @@ bool KEBTopLevel::save() {
    }
    MyManager::self()->notifyManagers();
    setModifiedFlag(false);
-   cmdHistory->docSaved(); // PRIVATE
+   this->docSaved(); // CmdHistory
    return true;
 }
 
