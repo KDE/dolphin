@@ -56,7 +56,11 @@ public:
     virtual QString quickHelp() const;
 
 protected slots:
-    void changeCookiesEnabled();
+    void ignoreCookieExpirationDate ( bool );
+    void autoAcceptSessionCooikes ( bool );
+    void rejectCrossDomainCooikes ( bool );
+    void cookiesEnabled( bool );
+        
     void selectionChanged();
     void updateButtons();
 
@@ -75,22 +79,30 @@ private:
     int d_itemsSelected;
 
     // Global Policy Cookies enabled
-    QGroupBox*    gb_global;
-    QButtonGroup* bg_default;
-    QCheckBox*    cb_enableCookies;
-    QRadioButton* rb_gbPolicyAccept;
-    QRadioButton* rb_gbPolicyAsk;
-    QRadioButton* rb_gbPolicyReject;
+    QGroupBox*    m_gbGlobal;
+    QButtonGroup* m_bgDefault;
+    
+    QCheckBox*    m_cbEnableCookies;
+    QCheckBox*    m_cbRejectCrossDomainCookies;
+    QCheckBox*    m_cbAutoAcceptSessionCookies;
+    QCheckBox*    m_cbIgnoreCookieExpirationDate;
+    
+    QRadioButton* m_rbPolicyAccept;
+    QRadioButton* m_rbPolicyAsk;
+    QRadioButton* m_rbPolicyReject;
 
     // Domain specific cookie policies
-    QGroupBox*    gb_domainSpecific;
-    KListView*    lv_domainPolicy;
-    QPushButton*  pb_add;
-    QPushButton*  pb_delete;
-    QPushButton*  pb_deleteAll;
-    QPushButton*  pb_change;
+    QGroupBox*    m_gbDomainSpecific;
+    KListView*    m_lvDomainPolicy;
+    QPushButton*  m_pbAdd;
+    QPushButton*  m_pbDelete;
+    QPushButton*  m_pbDeleteAll;
+    QPushButton*  m_pbChange;
+    
+    // Generic settings group;
+    QButtonGroup* m_bgPreferences;
 
-    QMap<QListViewItem*, const char *> domainPolicy;
+    QMap<QListViewItem*, const char *> m_pDomainPolicy;
 };
 
 #endif // __KCOOKIESPOLICIES_H
