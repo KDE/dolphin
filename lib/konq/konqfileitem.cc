@@ -177,6 +177,7 @@ QPixmap KonqFileItem::pixmap( int _size, bool bImagePreviewAllowed ) const
               }
               int w = pix.width(), h = pix.height();
               // scale to pixie size
+              QImage img;
               if(pix.width() > extent || pix.height() > extent){
                   if(pix.width() > pix.height()){
                       float percent = (((float)extent)/pix.width());
@@ -188,9 +189,12 @@ QPixmap KonqFileItem::pixmap( int _size, bool bImagePreviewAllowed ) const
                       w = (int)(pix.width()*percent);
                       h = extent;
                   }
+                  img = pix.convertToImage().smoothScale( w, h );
+                  pix.convertFromImage( img );
               }
-              QImage img = pix.convertToImage().smoothScale( w, h );
-              pix.convertFromImage( img );
+              else if(bCanSave)
+                  img = pix.convertToImage();
+
               if (bCanSave)
               {
                   // write
