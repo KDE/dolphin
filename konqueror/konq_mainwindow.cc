@@ -3584,7 +3584,7 @@ void KonqMainWindow::slotPopupMenu( KXMLGUIClient *client, const QPoint &_global
   m_popupEmbeddingServices.clear();
 
   //kdDebug(1202) << "-------- KonqMainWindow::slotPopupMenu() - m_oldView = " << m_oldView << ", currentView = " << currentView
-                << ", m_currentView = " << m_currentView << endl;
+  //<< ", m_currentView = " << m_currentView << endl;
 
   if ( m_oldView && (m_oldView != currentView) && (currentView == m_currentView) )
   {
