@@ -107,6 +107,7 @@ template class QList<QPixmap>;
 template class QList<KToggleAction>;
 
 QList<KonqMainWindow> *KonqMainWindow::s_lstViews = 0;
+KConfig * KonqMainWindow::s_comboConfig = 0;
 KCompletion * KonqMainWindow::s_pCompletion = 0;
 
 KonqMainWindow::KonqMainWindow( const KURL &initialURL, bool openInitialURL, const char *name )
@@ -128,7 +129,6 @@ KonqMainWindow::KonqMainWindow( const KURL &initialURL, bool openInitialURL, con
   m_paBookmarkBar = 0L;
   m_pURLCompletion = 0L;
   m_bFullScreen = false;
-  m_qComboHack = false;
   m_goBuffer = 0;
 
   m_bViewModeToggled = false;
@@ -169,6 +169,15 @@ KonqMainWindow::KonqMainWindow( const KURL &initialURL, bool openInitialURL, con
 				     KGlobalSettings::completionMode() );
     s_pCompletion->setCompletionMode( (KGlobalSettings::Completion) mode );
   }
+
+  KonqPixmapProvider *prov = KonqPixmapProvider::self();
+  if ( !s_comboConfig ) {
+      s_comboConfig = new KConfig( "konq_history", false, false );
+      KonqCombo::setConfig( s_comboConfig );
+      s_comboConfig->setGroup( "Location Bar" );
+      prov->load( s_comboConfig, "ComboIconCache" );
+  }
+  connect( prov, SIGNAL( changed() ), SLOT( slotIconsChanged() ) );
 
   createGUI( 0L );
 
@@ -225,9 +234,6 @@ KonqMainWindow::KonqMainWindow( const KURL &initialURL, bool openInitialURL, con
   connect( KonqUndoManager::self(), SIGNAL( undoAvailable( bool ) ),
            this, SLOT( slotUndoAvailable( bool ) ) );
 
-  KonqPixmapProvider *prov = KonqPixmapProvider::self();
-  connect( prov, SIGNAL( changed() ), SLOT( slotIconsChanged() ) );
-
   resize( 700, 480 );
   //kdDebug(1202) << "KonqMainWindow::KonqMainWindow " << this << " done" << endl;
 }
@@ -249,22 +255,6 @@ KonqMainWindow::~KonqMainWindow()
               this, SLOT( slotActionStatusText( const QString & ) ) );
   disconnect( actionCollection(), SIGNAL( clearStatusText() ),
               this, SLOT( slotClearStatusText() ) );
-
-  if ( m_combo )
-  {
-    KConfig *config = KGlobal::config();
-    config->setGroup( "Settings" );
-    config->writeEntry( "Maximum of URLs in combo", m_combo->maxCount() );
-
-    QStringList histItems = m_combo->historyItems();
-    config->writeEntry( "ToolBarCombo", histItems );
-
-    KonqPixmapProvider *prov = KonqPixmapProvider::self();
-    prov->save( config, "ComboIconCache", histItems );
-    m_combo->setPixmapProvider( 0L );
-
-    // config->sync(); // saveToolBarServicesMap() below does this, too
-  }
 
   saveToolBarServicesMap();
 
@@ -594,7 +584,7 @@ bool KonqMainWindow::openView( QString serviceType, const KURL &_url, KonqView *
       if ( childView->browserExtension() )
           childView->browserExtension()->setURLArgs( req.args );
       if ( !url.isEmpty() )
-      childView->openURL( url, originalURL, req.nameFilter );
+	  childView->openURL( url, originalURL, req.nameFilter );
     }
   kdDebug(1202) << "KonqMainWindow::openView ok=" << ok << " bOthersFollowed=" << bOthersFollowed << " returning " << (ok || bOthersFollowed) << endl;
   return ok || bOthersFollowed;
@@ -988,14 +978,10 @@ void KonqMainWindow::slotFindClosed( KonqDirPart * dirPart )
 
 void KonqMainWindow::slotIconsChanged()
 {
-    if ( !m_combo )
-        return;
-    KonqPixmapProvider *prov = KonqPixmapProvider::self();
-    // FIXME: there is a smarter way, no? (malte)
-    QString currentURL = m_combo->currentText();
-    m_combo->setPixmapProvider(0);
-    m_combo->setPixmapProvider(prov);
-    setLocationBarURL( currentURL );
+    if ( m_combo )
+	m_combo->updatePixmaps();
+//  const QPixmap &pix = KonqPixmapProvider::self()->pixmapFor( currentText );
+//  topLevelWidget()->setIcon( pix );
 }
 
 void KonqMainWindow::slotOpenWith()
@@ -1264,7 +1250,7 @@ void KonqMainWindow::slotConfigureToolbars()
     updateBookmarkBar();
 
     if ( m_combo )
-      m_combo->setEditText(savedURL);
+      m_combo->setTemporary(savedURL);
   }
 }
 
@@ -1373,47 +1359,19 @@ void KonqMainWindow::slotViewCompleted( KonqView * view )
 {
   assert( view );
 
-  QString viewURL = view->locationBarURL();
-  bool isActiveView = currentView() == view;
-
   if (!m_combo) // happens if removed from .rc file :)
     return;
 
-  // we have to remember the current text because removeItem() would clear
-  // the location edit if we remove the current item. We set the url back,
-  // a bit below.
   QString currentText = m_combo->currentText();
   const QPixmap &pix = KonqPixmapProvider::self()->pixmapFor( currentText );
   topLevelWidget()->setIcon( pix );
-
-
-  // FIXME: workaround against Qt limitation: since we can't set the pixmap for
-  // the edit-field, we had to add a dummy item into the combobox with the
-  // right pixmap. Now we got to remove it.
-  if ( m_qComboHack ) {
-      m_combo->removeItem( m_combo->count() -1 );
-      m_qComboHack = false;
-  }
-
-
-  // put it into the combo and make it the current item
-  // ... _if_ the user didn't change the url while we were loading
-  m_combo->addToHistory( viewURL );
-  if ( isActiveView && currentText == viewURL )
-      m_combo->setCurrentItem( 0 );
-
-  // set the old url back, if it was cleared by addToHistory() or
-  // removeItem() above
-  if ( m_combo->currentText() != currentText )
-      m_combo->setEditText( currentText );
-
 
   // Need to update the current working directory
   // of the completion object everytime the user
   // changes the directory!! (DA)
   if( m_pURLCompletion )
   {
-    KURL u( viewURL );
+    KURL u( view->locationBarURL() );
     if( u.isLocalFile() )
       m_pURLCompletion->setDir( u.path() );
     else
@@ -1523,7 +1481,7 @@ void KonqMainWindow::slotPartActivated( KParts::Part *part )
     //kdDebug(1202) << "slotPartActivated: setting location bar url to "
     //              << m_currentView->locationBarURL() << " m_currentView=" << m_currentView << endl;
     if ( m_combo )
-      m_combo->setEditText( m_currentView->locationBarURL() );
+      setLocationBarURL( m_currentView->locationBarURL() );
   }
   else
     m_bLockLocationBarURL = false;
@@ -2033,45 +1991,33 @@ void KonqMainWindow::slotForwardActivated( int id )
 void KonqMainWindow::slotComboPlugged()
 {
   m_combo = m_paURLCombo->combo();
+
   KAction * act = actionCollection()->action("location_label");
   if (act && act->inherits("KonqLabelAction") )
   {
       QLabel * label = static_cast<KonqLabelAction *>(act)->label();
       if (label)
-      {
           label->setBuddy( m_combo );
-      }
       else
           kdError() << "Label not constructed yet!" << endl;;
   } else kdError() << "Not a KonqLabelAction !" << endl;;
-
-  m_combo->clearHistory();
 
   m_combo->setCompletionObject( s_pCompletion, false ); //we handle the signals
   m_combo->setAutoDeleteCompletionObject( false );
   m_combo->setCompletionMode( s_pCompletion->completionMode() );
 
-  KonqPixmapProvider *prov = KonqPixmapProvider::self();
-
-  KConfig *config = KGlobal::config();
-  KConfigGroupSaver cs( config, "Settings" );
-  prov->load( config, "ComboIconCache" );
-  m_combo->setMaxCount( config->readNumEntry("Maximum of URLs in combo", 10 ));
-  QStringList locationBarCombo = config->readListEntry( "ToolBarCombo" );
-
-  m_combo->setHistoryItems( locationBarCombo );
   m_pURLCompletion = new KURLCompletion( KURLCompletion::FileCompletion );
   m_pURLCompletion->setCompletionMode( s_pCompletion->completionMode() );
   // This only turns completion off. ~ is still there in the result
   // We do want completion of user names, right?
   //m_pURLCompletion->setReplaceHome( false );  // Leave ~ alone! Will be taken care of by filters!!
 
+  connect( m_combo,SIGNAL(completionModeChanged(KGlobalSettings::Completion)),
+	   SLOT( slotCompletionModeChanged( KGlobalSettings::Completion )));
   connect( m_combo, SIGNAL( completion( const QString& )),
            SLOT( slotMakeCompletion( const QString& )));
   connect( m_combo, SIGNAL( textRotation( KCompletionBase::KeyBindingType) ),
            SLOT( slotRotation( KCompletionBase::KeyBindingType )));
-  connect( m_combo, SIGNAL( completionModeChanged( KGlobalSettings::Completion )),
-           SLOT( slotCompletionModeChanged( KGlobalSettings::Completion )));
 
   m_combo->lineEdit()->installEventFilter(this);
 }
@@ -2299,7 +2245,7 @@ void KonqMainWindow::slotComboDelete()
 void KonqMainWindow::slotClearLocationBar()
 {
   kdDebug(1202) << "slotClearLocationBar" << endl;
-  m_combo->clearEdit();
+  m_combo->clearTemporary();
   m_combo->setFocus();
 }
 
@@ -2423,33 +2369,28 @@ void KonqMainWindow::slotToggleFullScreen()
 
 void KonqMainWindow::setLocationBarURL( const QString &url )
 {
-  kdDebug(1202) << "KonqMainWindow::setLocationBarURL : url = " << url << endl;
+  kdDebug(1202) << "KonqMainWindow::setLocationBarURL: url = " << url << endl;
 
-  // FIXME, change the current pixmap of the combo, using
-  // QComboBox::setCurrentPixmap() (in Qt 2.2 as Reggie promised :) (pfeiffer)
-  // grmbl, it's not in 2.2, so we have to hack around this limitation by
-  // adding a dummy item into combo
+  if ( m_combo )
+      m_combo->setURL( url );
+}
 
-  if ( m_combo ) {
-    if ( m_qComboHack ) {
-      m_combo->removeItem( m_combo->count() -1 );
-      m_qComboHack = false;
+// called via DCOP from KonquerorIface
+void KonqMainWindow::addToCombos( const QString& url, const QCString& objId )
+{
+    KonqCombo *combo = 0L;
+    KonqMainWindow *window = s_lstViews->first();
+    while ( window ) {
+	if ( window->m_combo ) {
+	    combo = window->m_combo;
+	    combo->insertPermanent( url );
+	}
+	window = s_lstViews->next();
     }
 
-    //    m_combo->setEditText( url );
-    for ( int i = 0; i < m_combo->count(); i++ ) {
-      if ( m_combo->text( i ) == url ) {
-        m_combo->setCurrentItem( i );
-        return;
-      }
-    }
-
-    // here's the hack
-    QPixmap pix = m_combo->pixmapProvider()->pixmapFor(url, KIcon::SizeSmall);
-    m_combo->insertItem( pix, url );
-    m_combo->setCurrentItem( m_combo->count() -1 );
-    m_qComboHack = true;
-  }
+    // only one instance should save...
+    if ( combo && objId == kapp->dcopClient()->defaultObject() )
+	combo->saveItems();
 }
 
 QString KonqMainWindow::locationBarURL() const
@@ -2926,7 +2867,7 @@ void KonqMainWindow::disableActionsNoView()
             act->setEnabled( true );
     }
     m_pamLoadViewProfile->setEnabled( true );
-    m_combo->clearEdit();
+    m_combo->clearTemporary();
     m_paShowMenuBar->setEnabled( true );
     m_paShowToolBar->setEnabled( true );
     m_paShowLocationBar->setEnabled( true );

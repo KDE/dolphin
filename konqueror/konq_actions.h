@@ -26,7 +26,7 @@
 #include <qlist.h>
 
 class KBookmarkOwner;
-class KHistoryCombo;
+class KonqCombo;
 class HistoryEntry;
 class QLabel;
 class QPopupMenu;
@@ -37,18 +37,18 @@ class KonqComboAction : public KAction
 public:
     KonqComboAction( const QString& text, int accel, const QObject *receiver, const char *member, QObject* parent, const char* name );
     ~KonqComboAction();
-    
+
     virtual int plug( QWidget *w, int index = -1 );
 
     virtual void unplug( QWidget *w );
 
-    QGuardedPtr<KHistoryCombo> combo() { return m_combo; }
+    QGuardedPtr<KonqCombo> combo() { return m_combo; }
 
 signals:
     void plugged();
 
 private:
-    QGuardedPtr<KHistoryCombo> m_combo;
+    QGuardedPtr<KonqCombo> m_combo;
     const QObject *m_receiver;
     const char *m_member;
 };

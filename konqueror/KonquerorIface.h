@@ -40,7 +40,7 @@ k_dcop:
  /**
    Note : it would be very nice to be able to return a DCOPRef in each of those
    DCOP calls which create a window. But Konqueror uses DCOP internally
-   (history broadcasts etc.), and DCOP doesn't support re-entrancy, so we can't 
+   (history broadcasts etc.), and DCOP doesn't support re-entrancy, so we can't
    do that. Sorry.
   */
 
@@ -108,6 +108,12 @@ k_dcop:
    *  Called internally as broadcast when the user adds/removes/renames a view profile
     */
   ASYNC updateProfileList();
+
+  /**
+   * Called internally as broadcast when a URL is to be added to the combobox.
+   */
+  ASYNC addToCombo( QString, QCString );
+
 };
 
 #endif

@@ -38,6 +38,8 @@
 #include <kxmlguiclient.h>
 #include <ktrader.h>
 
+#include "konq_combo.h"
+
 class KAction;
 class KActionMenu;
 class KBookmarkMenu;
@@ -73,7 +75,6 @@ namespace KParts {
  struct URLArgs;
 };
 
-class KonqFavIconMgr;
 
 class KonqMainWindow : public KParts::MainWindow,
 		       virtual public KBookmarkOwner
@@ -201,6 +202,9 @@ public:
 
   // for the view manager
   void currentProfileChanged();
+
+  // adds url to all combos of all mainwindows of this instance
+  static void addToCombos( const QString& url, const QCString& objId );
 
 signals:
   void viewAdded( KonqView *view );
@@ -465,7 +469,6 @@ private:
   uint m_bNeedApplyKonqMainWindowSettings:1;
   uint m_bViewModeToggled:1;
   uint m_bLockLocationBarURL:1;
-  bool m_qComboHack:1; // FIXME, remove when QComboBox is ready
 
   int m_goBuffer;
 
@@ -481,7 +484,8 @@ private:
 
   QString m_title;
 
-  QGuardedPtr<KHistoryCombo> m_combo;
+  QGuardedPtr<KonqCombo> m_combo;
+  static KConfig *s_comboConfig;
   KURLCompletion *m_pURLCompletion;
   // just a reference to KonqHistoryManager's completionObject
   static KCompletion *s_pCompletion;

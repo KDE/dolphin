@@ -48,9 +48,6 @@ KonqComboAction::KonqComboAction( const QString& text, int accel, const QObject 
 
 KonqComboAction::~KonqComboAction()
 {
-    // so that it won't be deleted by the combobox
-    if ( m_combo )
-	m_combo->setPixmapProvider( 0L );
 }
 
 int KonqComboAction::plug( QWidget *w, int index )
@@ -62,11 +59,7 @@ int KonqComboAction::plug( QWidget *w, int index )
 
   int id = KAction::getToolButtonID();
 
-  KHistoryCombo *comboBox = new KHistoryCombo( false, toolBar, "history combo" );
-  comboBox->setSizePolicy( QSizePolicy( QSizePolicy::Expanding,
-					QSizePolicy::Fixed ));
-  comboBox->setPixmapProvider( KonqPixmapProvider::self() );
-  comboBox->setDuplicatesEnabled( false );
+  KonqCombo *comboBox = new KonqCombo( toolBar, "history combo" );
   toolBar->insertWidget( id, 70, comboBox, index );
   connect( comboBox, SIGNAL( activated( const QString& )), m_receiver, m_member );
 
@@ -75,7 +68,6 @@ int KonqComboAction::plug( QWidget *w, int index )
   connect( toolBar, SIGNAL( destroyed() ), this, SLOT( slotDestroyed() ) );
 
   toolBar->setItemAutoSized( id, true );
-  comboBox->setMaxCount( 10 );
 
   m_combo = comboBox;
 
