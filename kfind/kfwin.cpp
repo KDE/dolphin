@@ -16,6 +16,7 @@
 
 #include <qapplication.h>
 #include <qstrlist.h>
+#include <qstringlist.h>
 #include <qfiledefs.h>
 #include <qfiledialog.h>
 #include <qfileinfo.h>
@@ -24,6 +25,7 @@
 #include <qclipboard.h>
 #include <qevent.h>
 #include <qpixmap.h>
+#include <qdragobject.h>
 
 #include <kfiledialog.h>
 #include <klocale.h>
@@ -95,14 +97,14 @@ KfFileLVI::KfFileLVI(QListView* lv, QString file)
   setText(2, size);
   setText(3, date);
   setText(4, perm[perm_index]);
-  
-  
+
+
   // load the icons (same as in KFileInfoContents)
   // maybe we should use the concrete icon associated with the mimetype
   // in the future, but for now, this must suffice
   if (!folderPixmap) // don't use IconLoader to always get the same icon
     folderPixmap = new QPixmap(locate("mini", "folder.xpm"));
-  
+
   if (!lockedFolderPixmap)
     lockedFolderPixmap = new QPixmap(locate("mini", "lockedfolder.xpm"));
 
@@ -111,8 +113,8 @@ KfFileLVI::KfFileLVI(QListView* lv, QString file)
 
   if (!lockedFilePixmap)
     lockedFilePixmap = new QPixmap(locate("mini", "locked.xpm"));
-  
-  int column = 0; // place the icons in leftmost column
+
+  const int column = 0; // place the icons in leftmost column
   if (fileInfo->isDir()) {
     if (fileInfo->isReadable())
       setPixmap(column, *folderPixmap);
@@ -423,7 +425,7 @@ void KfindWindow::openFolder()
     tmp += fileInfo->filePath();
   else
     tmp += fileInfo->dirPath();
-  (void) new KRun(tmp);
+  (void) new KRun(tmp, 0, true, true);
 }
 
 void KfindWindow::openBinding()
@@ -434,7 +436,7 @@ void KfindWindow::openBinding()
     tmp += fileInfo->filePath();
   else
     tmp += fileInfo->absFilePath();
-  (void) new KRun( tmp );
+  (void) new KRun( tmp, 0, true, true );
 }
 
 void KfindWindow::addToArchive()
@@ -527,7 +529,7 @@ void KfindWindow::resizeEvent(QResizeEvent *e)
   clipper()->repaint();
 }
 
-// The following to functions are an attemp to implement MS-like selection
+// The following to functions are an attempt to implement MS-like selection
 // (Control/Shift style). Not very elegant.
 
 void KfindWindow::contentsMousePressEvent(QMouseEvent *e)
@@ -537,6 +539,9 @@ void KfindWindow::contentsMousePressEvent(QMouseEvent *e)
     QListView::contentsMousePressEvent(e);
     return;
   }
+
+  bool itemWasSelected = isSelected(item);
+
 
   // We want to execute QListView::contentsMousePressEvent(e), but
   // we do not want it to change selection and current item.
@@ -553,14 +558,16 @@ void KfindWindow::contentsMousePressEvent(QMouseEvent *e)
   if(e->state() & ShiftButton)
     setCurrentItem(anchor);
 
-  // No analize what we got and make our selections
+  // Now analyze what we got and make our selections
 
   // No modifiers
   if(!(e->state() & ControlButton) &&
      !(e->state() & ShiftButton)) {
-    clearSelection();
-    setSelected(item, TRUE);
-    selectionChanged(TRUE);
+    if ( !itemWasSelected ) { // otherwise dragging wouldn't work
+      clearSelection();
+      setSelected(item, TRUE);
+      selectionChanged(TRUE);
+    }
     return;
   }
 
@@ -617,6 +624,46 @@ void KfindWindow::contentsMouseReleaseEvent(QMouseEvent *e)
     setCurrentItem(anchor);
 }
 
+// drag items from the list (pfeiffer)
+void KfindWindow::contentsMouseMoveEvent(QMouseEvent *e)
+{
+  QListView::contentsMouseMoveEvent(e);
+
+  QStringList uris;
+  KfFileLVI *item = 0L;
+  QList<KfFileLVI> *selected = selectedItems();
+
+  // create a list of URIs from selection
+  for ( uint i = 0; i < selected->count(); i++ ) {
+    if ( (item = selected->at( i )) ) {
+      uris.append( item->fileInfo->absFilePath() );;
+    }
+  }
+
+  if ( uris.count() > 0 ) {
+    QUriDrag *ud = new QUriDrag( this, "kfind uridrag" );;
+    ud->setFilenames( uris );
+
+    if ( uris.count() == 1 ) {
+      ud->setPixmap( *(currentItem()->pixmap(0)) );
+    }
+    else {
+      // do we have a pixmap symbolizing more than one file?
+      ud->setPixmap( *(KfFileLVI::filePixmap) );
+    }
+
+    // true => move operation, we need to update the list
+    if ( ud->drag() && false ) { // FIXME, why does drag() always return true??
+      for ( uint i = 0; i < selected->count(); i++ ) {
+	if ( (item = selected->at( i )) ) {
+	  removeItem( item );
+	}
+      }
+    }
+  }
+}
+
+
 void KfindWindow::resetColumns(bool init)
 {
   if(init) {
@@ -636,3 +683,22 @@ void KfindWindow::resetColumns(bool init)
   setColumnWidth(1, dir_w);
 }
 
+
+// returns a pointer to a list of all selected ListViewItems (pfeiffer)
+QList<KfFileLVI> * KfindWindow::selectedItems()
+{
+  mySelectedItems.clear();
+
+  if ( haveSelection ) {
+    QListViewItem *item = firstChild();
+
+    while ( item != 0L ) {
+      if ( isSelected( item ) )
+	mySelectedItems.append( (KfFileLVI *) item );
+	
+      item = item->nextSibling();
+    }
+  }
+
+  return &mySelectedItems;
+}	

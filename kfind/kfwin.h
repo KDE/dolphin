@@ -22,8 +22,7 @@ class KfFileLVI : public QListViewItem
   QString key(int column, bool) const;
 
   QFileInfo *fileInfo;
-  
- private:
+
   static QPixmap *folderPixmap, *lockedFolderPixmap;
   static QPixmap *filePixmap, *lockedFilePixmap;
 };
@@ -58,6 +57,9 @@ protected:
   virtual void resizeEvent(QResizeEvent *e);
   virtual void contentsMouseReleaseEvent(QMouseEvent *e);
   virtual void contentsMousePressEvent(QMouseEvent *e);
+  virtual void contentsMouseMoveEvent(QMouseEvent *e);
+
+  QList<KfFileLVI> * selectedItems();
 
 signals:
   void resultSelected(bool);
@@ -67,6 +69,8 @@ private:
   void execAddToArchive(KfArchiver *arch, QString filename);
   void resetColumns(bool init);
   void selectionChanged(bool selectionMade);
+
+  QList<KfFileLVI> mySelectedItems;
 };
 
 #endif
