@@ -36,6 +36,7 @@
 #include <klocale.h>
 #include <kwm.h>
 #include <kmimemagic.h>
+#include <kdebug.h>
 #include <qmsgbox.h>
 
 #include "kmimetypes.h"

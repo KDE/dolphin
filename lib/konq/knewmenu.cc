@@ -24,6 +24,7 @@
 #include <kurl.h>
 #include <ksimpleconfig.h>
 #include <klineeditdlg.h>
+#include <kdebug.h>
 
 #include <kio_interface.h>
 #include <kio_job.h>
