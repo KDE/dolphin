@@ -758,6 +758,8 @@ void KonqIconViewWidget::slotSaveIconPositions()
   //kdDebug(1203) << "KonqIconViewWidget::slotSaveIconPositions" << endl;
   KSimpleConfig dotDirectory( m_dotDirectoryPath );
   QIconViewItem *it = firstItem();
+  if ( !it )
+    return; // No more icons. Maybe we're closing and they've been removed already
   while ( it )
   {
     KFileIVI *ivi = static_cast<KFileIVI *>( it );
