@@ -29,7 +29,7 @@
 #include <kio/paste.h>
 #include <kopenwith.h>
 #include <kmessagebox.h>
-#include <kprotocolmanager.h>
+#include <kprotocolinfo.h>
 #include <kservice.h>
 #include <ktrader.h>
 #include <kurl.h>
@@ -97,8 +97,6 @@ KonqPopupMenu::KonqPopupMenu( const KFileItemList &items,
 
   prepareXMLGUIStuff();
 
-  KProtocolManager pManager = KProtocolManager::self();
-
   KURL url;
   KFileItemListIterator it ( m_lstItems );
   // Check whether all URLs are correct
@@ -120,16 +118,16 @@ KonqPopupMenu::KonqPopupMenu( const KFileItemList &items,
     QString protocol = url.protocol();
 
     if ( sReading )
-      sReading = pManager.supportsReading( protocol );
+      sReading = KProtocolInfo::supportsReading( protocol );
 
     if ( sWriting )
-      sWriting = pManager.supportsWriting( protocol );
+      sWriting = KProtocolInfo::supportsWriting( protocol );
 
     if ( sDeleting )
-      sDeleting = pManager.supportsDeleting( protocol );
+      sDeleting = KProtocolInfo::supportsDeleting( protocol );
 
     if ( sMoving )
-      sMoving = pManager.supportsMoving( protocol );
+      sMoving = KProtocolInfo::supportsMoving( protocol );
   }
 
   //check if current url is trash
