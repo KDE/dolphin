@@ -115,6 +115,7 @@ protected slots:
     virtual void slotDropItem( KFileIVI *item, QDropEvent *e );
 
     void slotResult( KIO::Job * job );
+    void slotIconChanged(int);
 
 protected:
     virtual void drawBackground( QPainter *p, const QRect &r );

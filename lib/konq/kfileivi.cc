@@ -22,19 +22,33 @@
 #include "konqdrag.h"
 #include "konqiconviewwidget.h"
 
+#include <kapp.h>
+#include <kipc.h>
 #undef Bool
 
 KFileIVI::KFileIVI( QIconView *iconview, KonqFileItem* fileitem, int size, bool bImagePreviewAllowed )
     : QIconViewItem( iconview, fileitem->text(),
 		     fileitem->pixmap( size, bImagePreviewAllowed ) ),
+      m_size(size), m_bpreview(bImagePreviewAllowed), 
       m_fileitem( fileitem )
 {
     setDropEnabled( S_ISDIR( m_fileitem->mode() ) );
+    kapp->addKipcEventMask(KIPC::IconChanged);
+    connect(kapp, SIGNAL(iconChanged(int)), SLOT(slotIconChanged(int)));
+}
+
+void KFileIVI::slotIconChanged(int group)
+{
+    if (group != KIcon::Desktop)
+	return;
+    QIconViewItem::setPixmap( m_fileitem->pixmap( m_size, m_bpreview ), true, false );
 }
 
 void KFileIVI::setIcon( int size, bool bImagePreviewAllowed )
 {
-    QIconViewItem::setPixmap( m_fileitem->pixmap( size, bImagePreviewAllowed ) );
+    m_size = size;
+    m_bpreview = bImagePreviewAllowed;
+    QIconViewItem::setPixmap( m_fileitem->pixmap( m_size, m_bpreview ) );
 }
 
 bool KFileIVI::acceptDrop( const QMimeSource *mime ) const

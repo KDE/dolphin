@@ -71,8 +71,14 @@ signals:
 protected:
     virtual void dropped( QDropEvent *e, const QValueList<QIconDragItem> &  );
 
+    int m_size;
+    bool m_bpreview;
     /** Pointer to the file item in KDirLister's list */
     KonqFileItem* m_fileitem;
+
+private slots:
+    void slotIconChanged(int);
+
 };
 
 #endif

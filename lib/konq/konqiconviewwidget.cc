@@ -23,6 +23,7 @@
 #include <qfile.h>
 #include <qdragobject.h>
 
+#include <kapp.h>
 #include <kcursor.h>
 #include <kdebug.h>
 #include <kio/job.h>
@@ -37,6 +38,7 @@
 #include <konqoperations.h>
 #include <kglobalsettings.h>
 #include <kpropsdlg.h>
+#include <kipc.h>
 
 #include <assert.h>
 #include <unistd.h>
@@ -60,6 +62,9 @@ KonqIconViewWidget::KonqIconViewWidget( QWidget * parent, const char * name, WFl
       verticalScrollBar(),  SIGNAL(valueChanged(int)),
       this,                 SLOT(slotViewportScrolled(int)));
 
+    kapp->addKipcEventMask( KIPC::IconChanged );
+    QObject::connect( kapp, SIGNAL(iconChanged(int)), SLOT(slotIconChanged(int)) );
+
     // hardcoded settings
     setSelectionMode( QIconView::Extended );
     setItemTextPos( QIconView::Bottom );
@@ -72,6 +77,17 @@ KonqIconViewWidget::KonqIconViewWidget( QWidget * parent, const char * name, WFl
     // emit our signals
     slotSelectionChanged();
     m_iconPositionGroupPrefix = QString::fromLatin1( "IconPosition::" );
+}
+
+void KonqIconViewWidget::slotIconChanged(int group)
+{
+    if (group == KIcon::LastGroup)
+    {
+	// This signal is the second part of an icon change notification.
+	// On the first signal, all the QIconViewItems have updated their
+	// pixmaps.
+	arrangeItemsInGrid(true);
+    }
 }
 
 void KonqIconViewWidget::initConfig()
