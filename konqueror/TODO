@@ -5,6 +5,12 @@
 
 - Sorting by date, ...
 
+- Fix dropping an icon on itself (Reggie says "Konqy's Iconviewitem
+has to check in acceptDrop if the drop which should be
+accepted (the QMimeSource you get in this method) is the same
+as the item itself by decoding it and comparing the files they point to,
+and refuse or accept the drop according to this result.")
+
 - Add support (in kpropsdlg probably) for user defined actions in .desktop
 files, like :
 ...

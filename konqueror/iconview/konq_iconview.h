@@ -20,56 +20,26 @@
 #define __konq_iconview_h__
 
 #include <kbrowser.h>
+#include <konqiconviewwidget.h>
 
-class KonqKfmIconView;
-class KonqIconViewWidget;
 class KonqPropsView;
 class KDirLister;
 class KFileItem;
 class KonqFMSettings;
 class KFileIVI;
 class KAction;
-class QActionMenu;
+class KToggleAction;
+class KActionMenu;
 class QIconViewItem;
-class IconEditExtension; // defined in libkonq/konqiconviewwidget.h
-
-class IconViewPropertiesExtension : public ViewPropertiesExtension
-{
-  Q_OBJECT
-public:
-  IconViewPropertiesExtension( KonqKfmIconView *iconView );
-
-  virtual void reparseConfiguration();
-  virtual void saveLocalProperties();
-  virtual void savePropertiesAsDefault();
-  virtual void refreshMimeTypes();
-
-private:
-  KonqKfmIconView *m_iconView;
-};
-
-class IconViewBrowserExtension : public BrowserView
-{
-  friend class KonqKfmIconView;
-public:
-  IconViewBrowserExtension( KonqKfmIconView *iconView );
-
-  virtual void setXYOffset( int x, int y );
-  virtual int xOffset();
-  virtual int yOffset();
-
-private:
-  KonqKfmIconView *m_iconView;
-};
+class IconViewBrowserExtension;
 
 /**
- * The Icon View for konqueror. Handles big icons (Horizontal mode) and
- * small icons (Vertical mode).
+ * The Icon View for konqueror.
  * The "Kfm" in the name stands for file management since it shows files :)
  */
 class KonqKfmIconView : public KParts::ReadOnlyPart
 {
-  friend class IconViewPropertiesExtension;
+  friend class IconViewBrowserExtension; // to access m_pProps
   Q_OBJECT
 public:
 
@@ -83,18 +53,6 @@ public:
 
   virtual bool openFile() { return true; }
 
-  /*
-  virtual void openURL( const QString &url, bool reload = false,
-                        int xOffset = 0, int yOffset = 0 );
-
-  virtual QString url();
-  virtual int xOffset();
-  virtual int yOffset();
-  virtual void stop();
-
-  virtual void saveState( QDataStream &stream );
-  virtual void restoreState( QDataStream &stream );
-  */
   KonqIconViewWidget *iconViewWidget() const { return m_pIconView; }
 
   void setXYOffset( int x, int y ) { m_iXOffset = x; m_iYOffset = y; }
@@ -134,6 +92,7 @@ protected slots:
 
   // slots connected to the directory lister
   void slotStarted( const QString & );
+  void slotCanceled();
   void slotCompleted();
   void slotNewItem( KFileItem * );
   void slotDeleteItem( KFileItem * );
@@ -205,13 +164,41 @@ protected:
   long m_lFileCount;
   long m_lDirCount;
 
-  IconEditExtension *m_extension;
-  IconViewBrowserExtension *m_browser;
+  IconViewBrowserExtension *m_extension;
 
   KonqIconViewWidget *m_pIconView;
 
   QList<KFileIVI> m_lstPendingMimeIconItems;
 };
 
+class IconViewBrowserExtension : public BrowserExtension
+{
+  Q_OBJECT
+    friend class KonqKfmIconView; // so that it can emit our signals
+public:
+  IconViewBrowserExtension( KonqKfmIconView *iconView );
+
+  virtual void setXYOffset( int x, int y );
+  virtual int xOffset();
+  virtual int yOffset();
+
+public slots:
+  // Those slots are automatically connected by the shell
+  void reparseConfiguration();
+  void saveLocalProperties();
+  void savePropertiesAsDefault();
+  void refreshMimeTypes() { m_iconView->iconViewWidget()->refreshMimeTypes(); }
+
+  void cut() { m_iconView->iconViewWidget()->cutSelection(); }
+  void copy() { m_iconView->iconViewWidget()->copySelection(); }
+  void pastecopy() { m_iconView->iconViewWidget()->pasteSelection(false); }
+  void pastecut() { m_iconView->iconViewWidget()->pasteSelection(true); }
+  void erase() { m_iconView->iconViewWidget()->deleteSelection(); }
+  void trash() { m_iconView->iconViewWidget()->trashSelection(); }
+  // void print();
+
+private:
+  KonqKfmIconView *m_iconView;
+};
 
 #endif

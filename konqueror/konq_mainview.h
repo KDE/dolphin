@@ -39,7 +39,7 @@ class KActionMenu;
 class KSelectAction;
 class KToggleAction;
 class KonqChildView;
-class BrowserView;
+class BrowserExtension;
 class KonqViewManager;
 class KStatusBar;
 class KNewMenu;
@@ -184,7 +184,7 @@ protected slots:
   void slotLoadingProgress( int percent );
   void slotSpeedProgress( int bytesPerSecond );
 
-  void checkEditExtension();
+  //void checkEditExtension();
   void slotDatabaseChanged(); // connect to KSycoca
 
   void slotCut();
@@ -218,7 +218,9 @@ protected:
 
   void fillHistoryPopup( QPopupMenu *menu, const QList<HistoryEntry> &history );
 
-  //  virtual void viewActivateEvent( ViewActivateEvent *e );
+  void callExtensionMethod( KonqChildView * childView, const char * methodName );
+
+//  virtual void viewActivateEvent( ViewActivateEvent *e );
 
 private:
 
@@ -235,7 +237,7 @@ private:
 
   void updateStatusBar();
   void updateToolBarActions();
-  void updateExtensionDependendActions( KonqChildView *childView );
+  // void updateExtensionDependendActions( KonqChildView *childView );
 
   QString konqFilteredURL( const QString &url );
 
@@ -243,6 +245,9 @@ private:
    * Tries to find a index.html (.kde.html) file in the specified directory
    */
   QString findIndexFile( const QString &directory );
+
+  void connectExtension( BrowserExtension *ext );
+  void disconnectExtension( BrowserExtension *ext );
 
   KNewMenu * m_pMenuNew;
   KAction *m_paNewWindow;

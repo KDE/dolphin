@@ -31,6 +31,7 @@
 #include <qapplication.h>
 #include <qfileinfo.h>
 
+#include <kaction.h>
 #include <kconfig.h>
 #include <kstddirs.h>
 #include <kdebug.h>
@@ -474,7 +475,7 @@ bool KonqViewManager::eventFilter( QObject *obj, QEvent *ev )
   return false;
 }
 */
-  
+
 void KonqViewManager::setProfiles( KActionMenu *profiles )
 {
   m_pamProfiles = profiles;
@@ -544,7 +545,7 @@ KonqChildView *KonqViewManager::setupView( KonqFrameContainer *parentContainer,
   newViewFrame->show();
 
   addPart( v->view(), false );
-  
+
   return v;
 }
 

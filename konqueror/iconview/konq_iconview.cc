@@ -31,6 +31,7 @@
 #include <unistd.h>
 
 #include <kaccel.h>
+#include <kaction.h>
 #include <kcolordlg.h>
 #include <kdebug.h>
 #include <kdirlister.h>
@@ -115,37 +116,8 @@ extern "C"
     }
 };
 
-IconViewPropertiesExtension::IconViewPropertiesExtension( KonqKfmIconView *iconView )
-    : ViewPropertiesExtension( iconView, "ViewPropertiesExtension" )
-{
-    m_iconView = iconView;
-}
-
-void IconViewPropertiesExtension::reparseConfiguration()
-{
-    KonqFMSettings::reparseConfiguration();
-    // m_pProps is a problem here (what is local, what is global ?)
-    // but settings is easy :
-    m_iconView->iconViewWidget()->initConfig();
-}
-
-void IconViewPropertiesExtension::saveLocalProperties()
-{
-    m_iconView->m_pProps->saveLocal( KURL( m_iconView->url() ) );
-}
-
-void IconViewPropertiesExtension::savePropertiesAsDefault()
-{
-    m_iconView->m_pProps->saveAsDefault();
-}
-
-void IconViewPropertiesExtension::refreshMimeTypes()
-{
-    m_iconView->iconViewWidget()->refreshMimeTypes();
-}
-
 IconViewBrowserExtension::IconViewBrowserExtension( KonqKfmIconView *iconView )
- : BrowserView( iconView )
+ : BrowserExtension( iconView )
 {
   m_iconView = iconView;
 }
@@ -165,6 +137,25 @@ int IconViewBrowserExtension::yOffset()
   return m_iconView->iconViewWidget()->contentsY();
 }
 
+void IconViewBrowserExtension::reparseConfiguration()
+{
+    KonqFMSettings::reparseConfiguration();
+    // m_pProps is a problem here (what is local, what is global ?)
+    // but settings is easy :
+    m_iconView->iconViewWidget()->initConfig();
+}
+
+void IconViewBrowserExtension::saveLocalProperties()
+{
+    m_iconView->m_pProps->saveLocal( KURL( m_iconView->url() ) );
+}
+
+void IconViewBrowserExtension::savePropertiesAsDefault()
+{
+    m_iconView->m_pProps->saveAsDefault();
+}
+
+
 KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const char *name )
     : KParts::ReadOnlyPart( parent, name )
 {
@@ -172,7 +163,7 @@ KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const 
 
     setInstance( KonqFactory::instance() );
 
-    m_browser = new IconViewBrowserExtension( this );
+    m_extension = new IconViewBrowserExtension( this );
 
     setXMLFile( "konq_iconview.rc" );
 
@@ -182,13 +173,14 @@ KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const 
     m_pSettings = KonqFMSettings::defaultIconSettings();
 
     m_pIconView = new KonqIconViewWidget( parentWidget, "qiconview" );
+
+    // pass signals to the extension
+    connect( m_pIconView, SIGNAL( enableAction( const char *, bool ) ),
+             m_extension, SIGNAL( enableAction( const char *, bool ) ) );
+
     setWidget( m_pIconView );
     //    setFocusProxy( m_pIconView );
     //    setFocusPolicy( m_pIconView->focusPolicy() );
-
-    m_extension = new IconEditExtension( this, m_pIconView );
-
-    (void)new IconViewPropertiesExtension( this );
 
     m_ulTotalFiles = 0;
 
@@ -261,8 +253,8 @@ KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const 
     m_paBottomText->setChecked( true );
     m_paRightText->setChecked( false );
 
-    KAction * paBackgroundColor = new KAction( i18n( "Background Color..." ), 0, this, SLOT( slotBackgroundColor() ), actionCollection(), "bgcolor" );
-    KAction * paBackgroundImage = new KAction( i18n( "Background Image..." ), 0, this, SLOT( slotBackgroundImage() ), actionCollection(), "bgimage" );
+    /*KAction * paBackgroundColor =*/ new KAction( i18n( "Background Color..." ), 0, this, SLOT( slotBackgroundColor() ), actionCollection(), "bgcolor" );
+    /*KAction * paBackgroundImage =*/ new KAction( i18n( "Background Image..." ), 0, this, SLOT( slotBackgroundImage() ), actionCollection(), "bgimage" );
 
     //
 
@@ -392,10 +384,9 @@ void KonqKfmIconView::slotSelect()
 
 	m_pIconView->blockSignals( false );
 
-	// Why this ? Doesn't QIconView emit it on setSelected ?
-	// (Simon) sure it does, but it's a lot faster to emit the signal once and not for each item when
-	// selecting multiple files :-)
-	emit m_extension->selectionChanged();
+        // do this once, not for each item
+	m_pIconView->slotSelectionChanged();
+        slotDisplayFileSelectionInfo();
     }
 }
 
@@ -422,9 +413,9 @@ void KonqKfmIconView::slotUnselect()
 
 	m_pIconView->blockSignals( false );
 
-	// Why this ? Doesn't QIconView emit it on setSelected ?
-	// (Simon) see above :)
-	emit m_extension->selectionChanged();
+        // do this once, not for each item
+	m_pIconView->slotSelectionChanged();
+        slotDisplayFileSelectionInfo();
     }
 }
 
@@ -656,7 +647,7 @@ void KonqKfmIconView::slotReturnPressed( QIconViewItem *item )
 	if ( u.isLocalFile() )
 	    serviceType = fileItem->mimetype();
 
-        emit m_browser->openURLRequest( u.url(), false, 0, 0, fileItem->mimetype() );
+        emit m_extension->openURLRequest( u.url(), false, 0, 0, fileItem->mimetype() );
     }
 }
 
@@ -666,7 +657,7 @@ void KonqKfmIconView::slotMouseButtonPressed(int _button, QIconViewItem* _item, 
 	switch(_button) {
 	case RightButton:
 	    ((KFileIVI*)_item)->setSelected( true );
-	    emit m_browser->popupMenu( _global, m_pIconView->selectedFileItems() );
+	    emit m_extension->popupMenu( _global, m_pIconView->selectedFileItems() );
 	    break;
 	case MidButton:
 	    // New view
@@ -688,7 +679,7 @@ void KonqKfmIconView::slotViewportRightClicked( QIconViewItem *i )
     KFileItem item( mode, bgUrl );
     KFileItemList items;
     items.append( &item );
-    emit m_browser->popupMenu( QCursor::pos(), items );
+    emit m_extension->popupMenu( QCursor::pos(), items );
 }
 
 void KonqKfmIconView::slotStarted( const QString & /*url*/ )
@@ -697,6 +688,15 @@ void KonqKfmIconView::slotStarted( const QString & /*url*/ )
     if ( m_bLoading )
 	emit started();
     m_lstPendingMimeIconItems.clear();
+}
+
+void KonqKfmIconView::slotCanceled()
+{
+    if ( m_bLoading )
+    {
+        emit canceled( QString::null );
+	m_bLoading = false;
+    }
 }
 
 void KonqKfmIconView::slotCompleted()
@@ -744,7 +744,7 @@ void KonqKfmIconView::slotNewItem( KFileItem * _fileitem )
     item->setKey( key );
 
     if ( m_ulTotalFiles > 0 )
-      emit m_browser->loadingProgress( ( m_pIconView->count() * 100 ) / m_ulTotalFiles );
+      emit m_extension->loadingProgress( ( m_pIconView->count() * 100 ) / m_ulTotalFiles );
 
     m_lstPendingMimeIconItems.append( item );
 }
@@ -803,7 +803,7 @@ void KonqKfmIconView::slotDisplayFileSelectionInfo()
 	}
 
     if ( lst.count() > 0 )
-      emit m_browser->setStatusBarText( i18n( "%1 Item(s) Selected - %2 File(s) (%3 Total) - %4 Directories" )
+      emit m_extension->setStatusBarText( i18n( "%1 Item(s) Selected - %2 File(s) (%3 Total) - %4 Directories" )
     				       .arg( lst.count() ).arg( fileCount ).arg( KIOJob::convertSize( fileSizeSum ) ).arg( dirCount ) );
     else
 	slotOnViewport();
@@ -848,7 +848,7 @@ bool KonqKfmIconView::openURL( const KURL &_url )
 	QObject::connect( m_dirLister, SIGNAL( started( const QString & ) ),
 			  this, SLOT( slotStarted( const QString & ) ) );
 	QObject::connect( m_dirLister, SIGNAL( completed() ), this, SLOT( slotCompleted() ) );
-	QObject::connect( m_dirLister, SIGNAL( canceled() ), this, SIGNAL( canceled() ) );
+	QObject::connect( m_dirLister, SIGNAL( canceled() ), this, SLOT( slotCanceled() ) );
 	QObject::connect( m_dirLister, SIGNAL( clear() ), this, SLOT( slotClear() ) );
 	QObject::connect( m_dirLister, SIGNAL( newItem( KFileItem * ) ),
 			  this, SLOT( slotNewItem( KFileItem * ) ) );
@@ -901,7 +901,7 @@ bool KonqKfmIconView::openURL( const KURL &_url )
 
 void KonqKfmIconView::slotOnItem( QIconViewItem *item )
 {
-  emit m_browser->setStatusBarText( ((KFileIVI *)item)->item()->getStatusBarInfo() );
+  emit m_extension->setStatusBarText( ((KFileIVI *)item)->item()->getStatusBarInfo() );
 }
 
 void KonqKfmIconView::slotOnViewport()
@@ -914,7 +914,7 @@ void KonqKfmIconView::slotOnViewport()
 	    return;
 	}
 
-    emit m_browser->setStatusBarText( i18n( "%1 Item(s) - %2 File(s) (%3 Total) - %4 Directories" ).arg( m_pIconView->count() ).arg( m_lFileCount ).arg( KIOJob::convertSize( m_lDirSize ) ).arg( m_lDirCount ) );
+    emit m_extension->setStatusBarText( i18n( "%1 Item(s) - %2 File(s) (%3 Total) - %4 Directories" ).arg( m_pIconView->count() ).arg( m_lFileCount ).arg( KIOJob::convertSize( m_lDirSize ) ).arg( m_lDirCount ) );
 }
 
 void KonqKfmIconView::setupSortKeys()

@@ -39,6 +39,7 @@
 #include <qaction.h>
 #include <qapplication.h>
 #include <qclipboard.h>
+#include <qmetaobject.h>
 
 #include <kaction.h>
 #include <kdebug.h>
@@ -134,8 +135,8 @@ KonqMainView::KonqMainView( const QString &initialURL, bool openInitialURL, cons
   m_bMenuEditDirty = true;
   m_bMenuViewDirty = true;
 
-  connect( QApplication::clipboard(), SIGNAL( dataChanged() ),
-           this, SLOT( checkEditExtension() ) );
+  //  connect( QApplication::clipboard(), SIGNAL( dataChanged() ),
+  //           this, SLOT( checkEditExtension() ) );
   connect( KSycoca::self(), SIGNAL( databaseChanged() ),
            this, SLOT( slotDatabaseChanged() ) );
 
@@ -439,9 +440,7 @@ void KonqMainView::slotToolFind()
 
 void KonqMainView::slotPrint()
 {
-  QObject *obj = m_currentView->view()->child( 0L, "PrintingExtension" );
-  if ( obj )
-    ((PrintingExtension *)obj)->print();
+  callExtensionMethod( m_currentView, "print()" );
 }
 
 void KonqMainView::slotViewModeToggle( bool toggle )
@@ -615,16 +614,12 @@ void KonqMainView::slotEditDirTree()
 
 void KonqMainView::slotSaveSettings()
 {
-  QObject *obj = m_currentView->view()->child( 0L, "ViewPropertiesExtension" );
-  if ( obj )
-    ((ViewPropertiesExtension *)obj)->savePropertiesAsDefault();
+  callExtensionMethod( m_currentView, "savePropertiesAsDefault()" );
 }
 
 void KonqMainView::slotSaveSettingsPerURL()
 {
-  QObject *obj = m_currentView->view()->child( 0L, "ViewPropertiesExtension" );
-  if ( obj )
-    ((ViewPropertiesExtension *)obj)->saveLocalProperties();
+  callExtensionMethod( m_currentView, "saveLocalProperties()" );
 }
 
 void KonqMainView::slotConfigureFileManager()
@@ -678,7 +673,7 @@ void KonqMainView::slotViewChanged( KParts::ReadOnlyPart *oldView, KParts::ReadO
   //    unPlugViewGUI( oldView );
   //   plugInViewGUI( newView );
     updateStatusBar();
-    checkEditExtension();
+    //checkEditExtension();
     m_bMenuViewDirty = true;
   }
 }
@@ -848,8 +843,13 @@ void KonqMainView::slotPartActivated( KParts::Part *part )
 
   //  if ( m_currentView )
   //    unPlugViewGUI( m_currentView->view() );
+  if ( m_currentView && m_currentView->browserExtension() )
+    disconnectExtension( m_currentView->browserExtension() );
 
   m_currentView = newView;
+
+  if ( m_currentView->browserExtension() )
+    connectExtension( m_currentView->browserExtension() );
 
   //  guiFactory()->removeServant( m_viewModeGUIServant );
   m_viewModeGUIServant->update( m_currentView->serviceOffers() );
@@ -1150,7 +1150,7 @@ void KonqMainView::slotSpeedProgress( int bytesPerSecond )
 
   m_statusBar->changeItem( sizeStr, STATUSBAR_SPEED_ID );
 }
-
+/*
 void KonqMainView::checkEditExtension()
 {
   bool bCut = false;
@@ -1171,14 +1171,23 @@ void KonqMainView::checkEditExtension()
   m_paTrash->setEnabled( bMove );
   m_paDelete->setEnabled( bMove ); // should we do this for the trash can?
 }
+*/
+void KonqMainView::callExtensionMethod( KonqChildView * childView, const char * methodName )
+{
+  QObject *obj = childView->view()->child( 0L, "BrowserExtension" );
+  assert(obj);
+  /*if ( !obj )
+    return;*/
+
+  QMetaData * mdata = obj->metaObject()->slot( methodName );
+  assert(mdata);
+  (obj->*(mdata->ptr))();
+}
 
 void KonqMainView::slotCut()
 {
-  QObject *obj = m_currentView->view()->child( 0L, "EditExtension" );
-  if ( !obj )
-    return;
-
-  ((EditExtension *)obj)->cutSelection();
+  // Call cut on the child object
+  callExtensionMethod( m_currentView, "cut()" );
 
   QByteArray data;
   QDataStream stream( data, IO_WriteOnly );
@@ -1190,9 +1199,8 @@ void KonqMainView::slotCut()
 
 void KonqMainView::slotCopy()
 {
-  QObject *obj = m_currentView->view()->child( 0L, "EditExtension" );
-  if ( obj )
-    ((EditExtension *)obj)->copySelection();
+  // Call copy on the child object
+  callExtensionMethod( m_currentView, "copy()" );
 
   QByteArray data;
   QDataStream stream( data, IO_WriteOnly );
@@ -1204,44 +1212,20 @@ void KonqMainView::slotCopy()
 
 void KonqMainView::slotPaste()
 {
-  QObject *obj = m_currentView->view()->child( 0L, "EditExtension" );
-  if ( obj )
-    ((EditExtension *)obj)->pasteSelection( s_bMoveSelection );
+  if ( s_bMoveSelection )
+    callExtensionMethod( m_currentView, "pastecut()" );
+  else
+    callExtensionMethod( m_currentView, "pastecopy()" );
 }
 
 void KonqMainView::slotTrash()
 {
-  QObject *obj = m_currentView->view()->child( 0L, "EditExtension" );
-  if ( obj )
-    ((EditExtension *)obj)->moveSelection( KUserPaths::trashPath() );
+  callExtensionMethod( m_currentView, "trash()" );
 }
 
 void KonqMainView::slotDelete()
 {
-  QObject *obj = m_currentView->view()->child( 0L, "EditExtension" );
-
-  if ( !obj )
-    return;
-
-  KConfig *config = KonqFactory::instance()->config();
-  config->setGroup( "Misc Defaults" );
-  bool confirm = config->readBoolEntry( "ConfirmDestructive", true );
-  if (confirm)
-  {
-    QStringList selectedUrls = ((EditExtension *)obj)->selectedUrls();
-
-    QStringList::Iterator it = selectedUrls.begin();
-    QStringList::Iterator end = selectedUrls.end();
-    for ( ; it != end; ++it )
-      KURL::decode( *it );
-
-    if ( KMessageBox::questionYesNoList(0, i18n( "Do you really want to delete the file(s) ?" ),
-         selectedUrls )
-	 == KMessageBox::No)
-      return;
-  }
-
-  ((EditExtension *)obj)->moveSelection();
+  callExtensionMethod( m_currentView, "delete()" );
 }
 
 void KonqMainView::slotSetLocationBarURL( const QString &url )
@@ -1728,14 +1712,14 @@ void KonqMainView::updateToolBarActions()
   m_paBack->setEnabled( m_currentView->canGoBack() );
   m_paForward->setEnabled( m_currentView->canGoForward() );
 
-  checkEditExtension();
+  //checkEditExtension();
 
   if ( m_currentView->isLoading() )
     startAnimation(); // takes care of m_paStop
   else
     stopAnimation(); // takes care of m_paStop
 }
-
+/*
 void KonqMainView::updateExtensionDependendActions( KonqChildView *childView )
 {
   bool printExt = false;
@@ -1754,7 +1738,7 @@ void KonqMainView::updateExtensionDependendActions( KonqChildView *childView )
   m_paSaveSettingsPerURL->setEnabled( bViewPropExt );
   checkEditExtension();
 }
-
+*/
 QString KonqMainView::findIndexFile( const QString &dir )
 {
   QDir d( dir );
@@ -1770,12 +1754,32 @@ QString KonqMainView::findIndexFile( const QString &dir )
   return QString::null;
 }
 
+void KonqMainView::connectExtension( BrowserExtension *ext )
+{
+  QStrList slotMethods = ext->metaObject()->slotNames();
+
+  if ( slotMethods.contains( "copy" ) )
+    ext->connect( m_paCopy, SIGNAL( activated() ), "copy" );
+
+  //add more
+}
+
+void KonqMainView::disconnectExtension( BrowserExtension *ext )
+{
+  QValueList<QAction *> actions = actionCollection()->actions();
+  QValueList<QAction *>::ConstIterator it = actions.begin();
+  QValueList<QAction *>::ConstIterator end = actions.end();
+  for (; it != end; ++it )
+    (*it)->disconnect( ext );
+}
+
 void KonqMainView::enableAllActions( bool enable )
 {
   int count = actionCollection()->count();
   for ( int i = 0; i < count; i++ )
     actionCollection()->action( i )->setEnabled( enable );
 
+  /*
   if ( enable )
   {
     if ( ! m_currentView )
@@ -1783,6 +1787,8 @@ void KonqMainView::enableAllActions( bool enable )
     else
       updateExtensionDependendActions( m_currentView );
   }
+  */
+  // Hmm...
 }
 
 void KonqMainView::openBookmarkURL( const QString & url )
@@ -1829,7 +1835,7 @@ void KonqMainView::slotPopupMenu( const QPoint &_global, const KFileItemList &_i
   popupMenuCollection.insert( m_paForward );
   popupMenuCollection.insert( m_paUp );
 
-  checkEditExtension();
+  //checkEditExtension();
 
   popupMenuCollection.insert( m_paCut );
   popupMenuCollection.insert( m_paCopy );
@@ -1847,7 +1853,7 @@ void KonqMainView::slotPopupMenu( const QPoint &_global, const KFileItemList &_i
   delete pPopupMenu;
 
   m_currentView = m_oldView;
-  checkEditExtension();
+  //checkEditExtension();
 }
 
 void KonqMainView::slotDatabaseChanged()
@@ -1855,11 +1861,7 @@ void KonqMainView::slotDatabaseChanged()
   MapViews::ConstIterator it = m_mapViews.begin();
   MapViews::ConstIterator end = m_mapViews.end();
   for (; it != end; ++it )
-  {
-    QObject *obj = (*it)->view()->child( 0L, "ViewPropertiesExtension" );
-    if ( obj )
-      ((ViewPropertiesExtension *)obj)->refreshMimeTypes();
-  }
+    callExtensionMethod( (*it), "refreshMimeTypes()" );
 }
 
 void KonqMainView::reparseConfiguration()
@@ -1871,11 +1873,7 @@ void KonqMainView::reparseConfiguration()
   MapViews::ConstIterator it = m_mapViews.begin();
   MapViews::ConstIterator end = m_mapViews.end();
   for (; it != end; ++it )
-  {
-    QObject *obj = (*it)->view()->child( 0L, "ViewPropertiesExtension" );
-    if ( obj )
-      ((ViewPropertiesExtension *)obj)->reparseConfiguration();
-  }
+    callExtensionMethod( (*it), "reparseConfiguration()" );
 }
 
 static const char *viewModeGUI = ""

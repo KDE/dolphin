@@ -108,8 +108,8 @@ void KonqChildView::openURL( const QString &url, bool useMiscURLData  )
 {
   m_pView->openURL( KURL( url ) );
 
-  if ( useMiscURLData && browserView() )
-    browserView()->setXYOffset( m_iXOffset, m_iYOffset );
+  if ( useMiscURLData && browserExtension() )
+    browserExtension()->setXYOffset( m_iXOffset, m_iYOffset );
 
   QString decodedURL = url;
   KURL::decode( decodedURL );
@@ -182,20 +182,21 @@ void KonqChildView::connectView(  )
   connect( m_pView, SIGNAL( canceled( const QString & ) ),
            m_pMainView, SLOT( slotCanceled() ) );
 
-  BrowserView *view = browserView();
+  BrowserExtension *ext = browserExtension();
 
-  if ( !view )
+  if ( !ext )
     return;
 
-  connect( view, SIGNAL( openURLRequest( const QString &, bool, int, int, const QString & ) ),
+  connect( ext, SIGNAL( openURLRequest( const QString &, bool, int, int, const QString & ) ),
            m_pMainView, SLOT( openURL( const QString &, bool, int, int, const QString & ) ) );
 
-  connect( view, SIGNAL( setStatusBarText( const QString & ) ),
+  connect( ext, SIGNAL( setStatusBarText( const QString & ) ),
            m_pMainView, SLOT( slotSetStatusBarText( const QString & ) ) );
 
-  connect( view, SIGNAL( popupMenu( const QPoint &, const KFileItemList & ) ),
+  connect( ext, SIGNAL( popupMenu( const QPoint &, const KFileItemList & ) ),
            m_pMainView, SLOT( slotPopupMenu( const QPoint &, const KFileItemList & ) ) );
 
+  /*
   QObject *obj = m_pView->child( 0L, "EditExtension" );
   if ( obj )
   {
@@ -203,17 +204,18 @@ void KonqChildView::connectView(  )
     connect( editExtension, SIGNAL( selectionChanged() ),
              m_pMainView, SLOT( checkEditExtension() ) );
   }
+  */
 
-  connect( view, SIGNAL( setLocationBarURL( const QString & ) ),
+  connect( ext, SIGNAL( setLocationBarURL( const QString & ) ),
            m_pMainView, SLOT( slotSetLocationBarURL( const QString & ) ) );
 
-  connect( view, SIGNAL( createNewWindow( const QString & ) ),
+  connect( ext, SIGNAL( createNewWindow( const QString & ) ),
            m_pMainView, SLOT( slotCreateNewWindow( const QString & ) ) );
 
-  connect( view, SIGNAL( loadingProgress( int ) ),
+  connect( ext, SIGNAL( loadingProgress( int ) ),
            m_pMainView, SLOT( slotLoadingProgress( int ) ) );
 
-  connect( view, SIGNAL( speedProgress( int ) ),
+  connect( ext, SIGNAL( speedProgress( int ) ),
            m_pMainView, SLOT( slotSpeedProgress( int ) ) );
 
 }
@@ -250,11 +252,11 @@ void KonqChildView::makeHistory( bool pushEntry )
   if ( pushEntry || !m_pCurrentHistoryEntry )
     m_pCurrentHistoryEntry = new HistoryEntry;
 
-  if ( browserView() )
+  if ( browserExtension() )
   {
     QDataStream stream( m_pCurrentHistoryEntry->buffer, IO_WriteOnly );
 
-    browserView()->saveState( stream );
+    browserExtension()->saveState( stream );
   }
 
   m_pCurrentHistoryEntry->strURL = m_pView->url().url();
@@ -300,11 +302,11 @@ void KonqChildView::go( QList<HistoryEntry> &stack, int steps )
     switchView( viewFactory );
   }
 
-  if ( browserView() )
+  if ( browserExtension() )
   {
     QDataStream stream( h->buffer, IO_ReadOnly );
 
-    browserView()->restoreState( stream );
+    browserExtension()->restoreState( stream );
   }
   else
     m_pView->openURL( KURL( h->strURL ) );
@@ -373,8 +375,8 @@ void KonqChildView::reload()
   //  m_pView->openURL( m_pView->url(), true, m_pView->xOffset(), m_pView->yOffset() );
   m_pView->openURL( m_pView->url() );
 
-  if ( browserView() )
-    browserView()->setXYOffset( browserView()->xOffset(), browserView()->yOffset() );
+  if ( browserExtension() )
+    browserExtension()->setXYOffset( browserExtension()->xOffset(), browserExtension()->yOffset() );
 }
 
 void KonqChildView::setPassiveMode( bool mode )
