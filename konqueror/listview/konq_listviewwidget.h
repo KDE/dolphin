@@ -160,8 +160,6 @@ public slots:
 protected slots:
    void slotAutoScroll();
 
-   virtual void slot2OnItem( QListViewItem *_item );
-   virtual void slot2OnViewport();
    // from QListView
    virtual void slotReturnPressed( QListViewItem *_item );
    virtual void slotCurrentChanged( QListViewItem *_item ) { slotOnItem( _item ); }
@@ -213,7 +211,7 @@ protected:
    virtual void contentsMouseMoveEvent( QMouseEvent *e );
    virtual void contentsWheelEvent( QWheelEvent * e );
 
-   virtual void leaveEvent( QEvent * );
+   virtual void leaveEvent( QEvent *e );
 
    /** Common method for slotCompleted and slotCanceled */
    virtual void setComplete();

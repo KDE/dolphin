@@ -136,9 +136,6 @@ KonqBaseListViewWidget::KonqBaseListViewWidget( KonqListView *parent, QWidget *p
             this, SLOT(slotPopupMenu( QListViewItem *, const QPoint&, int )) );
    connect( this, SIGNAL(selectionChanged()), this, SLOT(slotSelectionChanged()) );
 
-   connect( this, SIGNAL(onItem(QListViewItem *)), SLOT(slot2OnItem(QListViewItem *)) );
-   connect( this, SIGNAL(onViewport()), SLOT(slot2OnViewport()) );
-
    connect( horizontalScrollBar(), SIGNAL(valueChanged( int )),
             this, SIGNAL(viewportAdjusted()) );
    connect( verticalScrollBar(), SIGNAL(valueChanged( int )),
@@ -495,11 +492,17 @@ void KonqBaseListViewWidget::contentsMouseMoveEvent( QMouseEvent *e )
          item->setActive( true );
          emit m_pBrowserView->setStatusBarText( item->item()->getStatusBarInfo() );
          m_pBrowserView->emitMouseOver( item->item() );
+         
+         vp.setY( itemRect( item ).y() );
+         QRect rect( viewportToContents( vp ), QSize(20, item->height()) );
+         m_fileTip->setItem( item->item(), rect, item->pixmap( 0 ) );
       }
       else
       {
          reportItemCounts();
          m_pBrowserView->emitMouseOver( 0 );
+
+         m_fileTip->setItem( 0 );
       }
    }
 
@@ -511,6 +514,22 @@ void KonqBaseListViewWidget::contentsWheelEvent( QWheelEvent * e )
    // when scrolling with mousewheel, stop possible pending filetip
    m_fileTip->setItem( 0 );
    KListView::contentsWheelEvent( e );
+}
+
+void KonqBaseListViewWidget::leaveEvent( QEvent *e )
+{
+   if ( m_activeItem != 0 )
+   {
+      m_activeItem->setActive( false );
+      m_activeItem = 0;
+   }
+
+   reportItemCounts();
+   m_pBrowserView->emitMouseOver( 0 );
+   
+   m_fileTip->setItem( 0 );
+
+   KListView::leaveEvent( e );
 }
 
 void KonqBaseListViewWidget::drawRubber()
@@ -756,33 +775,6 @@ void KonqBaseListViewWidget::startDrag()
       d->setPixmap( *m_pressedItem->pixmap( 0 ) );
 
    d->drag();
-}
-
-void KonqBaseListViewWidget::slot2OnItem( QListViewItem *_item )
-{
-   if ( m_rubber ) return;  // don't show tooltip during rubber banding
-
-   KFileItem *fileItem = static_cast<KonqBaseListViewItem *>(_item)->item();
-   QPoint viewPos = viewport()->mapFromGlobal( QCursor::pos() );
-   viewPos.setY( itemRect(_item).y() );
-
-   QRect rect( viewportToContents(viewPos), QSize(20, _item->height()) );
-
-   m_fileTip->setItem( fileItem,
-                       rect,
-                       _item->pixmap(0) );
-}
-
-void KonqBaseListViewWidget::slot2OnViewport()
-{
-   m_fileTip->setItem( 0 );
-}
-
-void KonqBaseListViewWidget::leaveEvent( QEvent *e )
-{
-   m_fileTip->setItem( 0 );
-
-   KListView::leaveEvent( e );
 }
 
 void KonqBaseListViewWidget::slotItemRenamed( QListViewItem *item, const QString &name, int col )
