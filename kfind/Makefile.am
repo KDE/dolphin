@@ -20,12 +20,10 @@ noinst_HEADERS	  =  kfarch.h kfdird.h kfindtop.h kftabdlg.h kfwin.h kfind.h \
 install-data-local:
 	$(mkinstalldirs) $(PICSDIR)
 	$(INSTALL_DATA) kfind.xpm $(PICSDIR)
-	(cd doc && $(MAKE) install)
 	(cd pics && $(MAKE) install)
 
 uninstall-local:
 	rm -f $(PICSDIR)/$(TARGET).xpm
-	(cd doc && $(MAKE) uninstall)
 	(cd pics && $(MAKE) uninstall)
 
 
