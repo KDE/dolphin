@@ -222,7 +222,17 @@ void KonqRun::slotKonqScanFinished(KIO::Job *job)
       foundMimeType( "inode/directory" );
   }
   else
-      KRun::slotScanFinished(job);
+  {
+      if ( job->error() )
+      {
+          // Override KRun's default behaviour on error messages
+          // KHTMLPart will show an error message
+          m_job = 0;
+          foundMimeType( "text/html" );
+      }
+      else
+          KRun::slotScanFinished(job);
+  }
 }
 
 void KonqRun::slotKonqMimetype(KIO::Job *, const QString &type)
