@@ -779,7 +779,7 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
     QDomElement actionMenu = m_menuElement;
     int userItemCount = 0;
     if (user.count() + userSubmenus.count() +
-        userPriority.count() + userPrioritySubmenus.count())
+        userPriority.count() + userPrioritySubmenus.count() > 1)
     {
         // we have more than one item, so let's make a submenu
         actionMenu = m_doc.createElement( "menu" );
