@@ -260,7 +260,7 @@ void KWrite::slotOpen()
   if (KTextEditor::encodingInterface(m_kateView->document()))
   {
 	KEncodingFileDialog::Result r=KEncodingFileDialog::getOpenURLsAndEncoding(
-		KTextEditor::encodingInterface(m_kateView->document())->encoding(), 
+		KTextEditor::encodingInterface(m_kateView->document())->encoding(),
 	QString::null,QString::null,this,i18n("Open File"));
 
     for (KURL::List::Iterator i=r.URLs.begin(); i != r.URLs.end(); ++i)
@@ -564,6 +564,8 @@ static KCmdLineOptions options[] =
 
 extern "C" int kdemain(int argc, char **argv)
 {
+  Kate::Document::setFileChangedDialogsActivated (true);
+
   KLocale::setMainCatalogue("kate");         //lukas: set this to have the kwritepart translated using kate message catalog
 
   KAboutData *s_about = new KAboutData ( "kwrite", I18N_NOOP("KWrite"), "4.2",
