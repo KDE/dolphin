@@ -6,26 +6,26 @@
 #include <string.h>
 #include <stdlib.h>
 
-#include <qapp.h>
-#include <qtabdlg.h>
-#include <qmlined.h>
-#include <qbttngrp.h>
-#include <qradiobt.h>
+#include <qapplication.h>
+#include <qtabdialog.h>
+#include <qmultilinedit.h>
+#include <qbuttongroup.h>
+#include <qradiobutton.h>
 #include <qlabel.h>
-#include <qcombo.h>
+#include <qcombobox.h>
 #include <qlayout.h>
 #include <stdio.h>
 #include <qstring.h>
 #include <qfont.h>
 #include <qtooltip.h>
-#include <qlined.h>
-#include <qchkbox.h>
-#include <qpushbt.h>
-#include <qfiledlg.h>
+#include <qlineedit.h>
+#include <qcheckbox.h>
+#include <qpushbutton.h>
+#include <qfiledialog.h>
 #include <qdir.h>
 #include <qregexp.h>
-#include <qdatetm.h>
-#include <qmsgbox.h>
+#include <qdatetime.h>
+#include <qmessagebox.h>
 #include <qlist.h>
 #include <qsize.h>
 #include <qkeycode.h>
@@ -261,7 +261,7 @@ KfindTabDialog::KfindTabDialog( QWidget *parent, const char *name, const char *s
              this    ,  SLOT(checkSize()) );      
 
     addTab( pages[2], i18n(" Advanced ") );  
-    setOkButton(0L);
+    setOkButton(i18n("OK"));
   }
 
 KfindTabDialog::~KfindTabDialog()
@@ -661,7 +661,7 @@ QString KfindTabDialog::createQuery()
               };
 
             if (prevDay == TRUE)
-                str.append(pom.sprintf(" -daystart -mtime -%s",le[3]->text()));
+                str.append(pom.sprintf(" -daystart -mtime -%s",le[3]->text().ascii()));
           };
 
         if (sizeBox->currentItem() !=  0)
@@ -672,7 +672,7 @@ QString KfindTabDialog::createQuery()
 	        case 2: {type=(char *)(atoi(sizeEdit->text())==0?"":"-"); break;}
 	        default: {type=(char *)(atoi(sizeEdit->text())==0?"":" ");} 
               };
-            str.append(pom.sprintf(" -size  %s%sk ",type,sizeEdit->text()));
+            str.append(pom.sprintf(" -size  %s%sk ",type,sizeEdit->text().ascii()));
           };
       };
 

@@ -21,7 +21,7 @@ class QDate;
 class QTabDialog;
 class QListBox;
 
-#include <qtabdlg.h>
+#include <qtabdialog.h>
 
 class KfOptions: public QTabDialog
 {

@@ -13,9 +13,9 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 
-#include <qapp.h>
+#include <qapplication.h>
 #include <qwidget.h>
-#include <qpushbt.h>
+#include <qpushbutton.h>
 #include <qcolor.h>
 #include <stdio.h>
 #include <qevent.h>

@@ -5,13 +5,13 @@
  **********************************************************************/
 
 #include <qlistbox.h>
-#include <qlined.h>
+#include <qlineedit.h>
 #include <qstring.h>
-#include <qcombo.h>
+#include <qcombobox.h>
 #include <qlabel.h>
-#include <qpushbt.h>
-#include <qmsgbox.h>
-#include <qapp.h>
+#include <qpushbutton.h>
+#include <qmessagebox.h>
+#include <qapplication.h>
 
 #include "kfdird.h"
 
@@ -116,7 +116,8 @@ QString KfDirDialog::selectedDir() const
 
     if (dirs->currentItem()!=-1)
         {
-          tmp.sprintf("%s/%s",d.path(),dirs->text((dirs->currentItem())));
+          tmp.sprintf("%s/%s",d.path().ascii(),
+		 dirs->text((dirs->currentItem())).ascii());
           tmp= d.cleanDirPath(tmp); 
         }
       else
@@ -291,10 +292,10 @@ void KfDirDialog::updatePathBox( const char *s )
 {
     QStrList l;
     QString tmp;
-    QString safe = s;
+    char *safe = qstrdup(s);
 
     l.insert( 0, "/" );
-    tmp = strtok( safe.data(), "/" );
+    tmp = strtok( safe, "/" );
     while ( TRUE ) {
 	if ( tmp.isNull() )
 	    break;
@@ -308,6 +309,7 @@ void KfDirDialog::updatePathBox( const char *s )
     pathBox->move( (width() - pathBox->width()) / 2, pathBox->geometry().y() );
     pathBox->setUpdatesEnabled( TRUE );
     pathBox->repaint();
+    delete [] safe;
 }
 
 

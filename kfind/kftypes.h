@@ -67,7 +67,7 @@ public:
 
   /// Set the default bindings name
   virtual void setDefaultBinding( const char *_b ) 
-    { defaultBinding = _b; defaultBinding.detach(); }
+    { defaultBinding = _b;  }
  
   /*********************************************************
   * Tries to find a FileType for the file _url. If no special

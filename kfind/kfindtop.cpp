@@ -11,10 +11,10 @@
 #include <kmenubar.h>
 #include <ktoolbar.h>
 #include <kstatusbar.h>
-#include <qmsgbox.h>
+#include <qmessagebox.h>
 #include <qsize.h>
 
-#include <qpopmenu.h>
+#include <qpopupmenu.h>
 #include <qlayout.h>
 #include <qpixmap.h>
 #include <qkeycode.h>

@@ -10,8 +10,8 @@
 #include <dirent.h>
 #include <sys/stat.h>
 
-#include <qmsgbox.h>
-#include <qtstream.h>
+#include <qmessagebox.h>
+#include <qtextstream.h>
 
 #include "kftypes.h"
 

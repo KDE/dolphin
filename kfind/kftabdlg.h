@@ -7,7 +7,7 @@
 #ifndef KFTABDLG_H
 #define KFTABDLG_H
 
-#include <qtabdlg.h>  
+#include <qtabdialog.h>  
 
 class QButtonGroup;
 class QPushButton;

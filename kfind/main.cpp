@@ -3,7 +3,7 @@
 #include <qdir.h>
 #include <kapp.h>
 #include <kiconloader.h>
-#include <qfileinf.h>
+#include <qfileinfo.h>
 #include "kftypes.h"
 #include "kfarch.h"
 #include "kfindtop.h"

@@ -14,24 +14,24 @@
 #include <sys/stat.h>     
 #include <time.h>    
 
-#include <qapp.h>
+#include <qapplication.h>
 #include <qwidget.h>
 #include <qframe.h>
 #include <qlabel.h>
 #include <qlistbox.h>
 #include <qstrlist.h>
-#include <qfileinf.h> 
-#include <qpushbt.h> 
-#include <qlined.h> 
-#include <qgrpbox.h> 
-#include <qchkbox.h>
-#include <qfiledef.h>
-#include <qfiledlg.h> 
+#include <qfileinfo.h> 
+#include <qpushbutton.h> 
+#include <qlineedit.h> 
+#include <qgroupbox.h> 
+#include <qcheckbox.h>
+#include <qfiledefs.h>
+#include <qfiledialog.h> 
 #include <qlist.h>
-#include <qfileinf.h> 
-#include <qmsgbox.h>
+#include <qfileinfo.h> 
+#include <qmessagebox.h>
 #include <qdir.h>
-#include <qclipbrd.h>
+#include <qclipboard.h>
 #include <kfiledialog.h>
 
 #include <kdebug.h>
@@ -59,7 +59,7 @@ public:
   }
 
   virtual bool eventFilter(QObject *, QEvent *e) {
-    if(e->type() == Event_KeyPress || e->type() == Event_Accel) {
+    if(e->type() == QEvent::KeyPress || e->type() == QEvent::Accel) {
       QKeyEvent *k = (QKeyEvent *)e;
       if(k->key() == Key_PageUp ||
 	 k->key() == Key_PageDown) {
@@ -180,7 +180,7 @@ void KfindWindow::copySelection() {
   if(s.length() > 0) {
     QClipboard *cb = kapp->clipboard();
     cb->clear();
-    cb->setData("TEXT", s.data());
+    cb->setText(s);
   }
 }
 
@@ -251,18 +251,18 @@ void KfindWindow::saveResults()
 	  {
 	    fprintf(results,"<HTML><HEAD>\n");
 	    fprintf(results,"<!DOCTYPE %s>\n",
-		    i18n("KFind Results File"));
+		    i18n("KFind Results File").ascii());
 	    fprintf(results,"<TITLE>%sKFind Results File</TITLE></HEAD>\n",
-		    i18n("KFind Results File"));
+		    i18n("KFind Results File").ascii());
 	    fprintf(results,"<BODY><H1>%s</H1>\n",
-		    i18n("KFind Results File"));
+		    i18n("KFind Results File").ascii());
 	    fprintf(results,"<DL><p>\n"); 
 	
 	    item=0;  
 	    while(item!=items)
 	      {
 		fprintf(results,"<DT><A HREF=\"file:%s\">file:%s</A>\n",
-			lbx->text(item),lbx->text(item));
+			lbx->text(item).ascii(),lbx->text(item).ascii());
 		item++;
 	      };
 	    fprintf(results,"</DL><P></BODY></HTML>\n");
@@ -272,7 +272,7 @@ void KfindWindow::saveResults()
 	    item=0;  
 	    while(item!=items)
 	      {
-		fprintf(results,"%s\n", lbx->text(item));
+		fprintf(results,"%s\n", lbx->text(item).ascii());
 		item++;
 	      };
 	    
@@ -296,7 +296,7 @@ void KfindWindow::deleteFiles()
     QString tmp;
 
     tmp.sprintf(i18n("Do you really want to delete file:\n%s"),
-                lbx->text(lbx->currentItem()));
+                lbx->text(lbx->currentItem()).ascii());
     if(KMsgBox::yesNo(parentWidget(),i18n("Delete File"),
                       tmp, KMsgBox::QUESTION | KMsgBox::DB_SECOND) == 1)
       {
@@ -385,9 +385,9 @@ void KfindWindow::openFolder()
 
     QFileInfo *fileInfo = new QFileInfo(lbx->text(lbx->currentItem()));
     if (fileInfo->isDir())
-        tmp.sprintf("file:%s",fileInfo->filePath());
+        tmp.sprintf("file:%s",fileInfo->filePath().ascii());
       else
-	tmp.sprintf("file:%s",(fileInfo->dirPath()).data());
+	tmp.sprintf("file:%s",(fileInfo->dirPath()).ascii());
 
 
     kfm->openURL(tmp.data());
