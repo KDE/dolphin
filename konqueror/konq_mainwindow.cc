@@ -36,7 +36,6 @@
 #include <konq_operations.h>
 #include <konqbookmarkmanager.h>
 #include <kinputdialog.h>
-#include <kshortcut.h>
 #include <kzip.h>
 #include <config.h>
 #include <pwd.h>
@@ -175,7 +174,6 @@ KonqMainWindow::KonqMainWindow( const KURL &initialURL, bool openInitialURL, con
 
   m_openWithActions.setAutoDelete( true );
   m_viewModeActions.setAutoDelete( true );
-  m_deleteActions.setAutoDelete( true );
   m_toolBarViewModeActions.setAutoDelete( true );
   m_viewModeMenu = 0;
   m_paCopyFiles = 0;
@@ -233,12 +231,6 @@ KonqMainWindow::KonqMainWindow( const KURL &initialURL, bool openInitialURL, con
   createGUI( 0L );
 
   connect(toolBarMenuAction(),SIGNAL(activated()),this,SLOT(slotForceSaveMainWindowSettings()) );
-
-  if ( m_paDelete )
-  {
-    m_deleteActions.append( m_paDelete );
-    plugActionList( "delactions", m_deleteActions );
-  }
 
   if ( !m_toggleViewGUIClient->empty() )
     plugActionList( QString::fromLatin1( "toggleview" ), m_toggleViewGUIClient->actions() );
@@ -1080,7 +1072,7 @@ void KonqMainWindow::slotCreateNewWindow( const KURL &url, const KParts::URLArgs
       KonqOpenURLRequest req;
       req.newTab = true;
       req.newTabInFront = config->readBoolEntry( "NewTabsInFront", false );
-      
+
       req.openAfterCurrentPage = config->readBoolEntry( "OpenAfterCurrentPage", false );
       if (KApplication::keyboardMouseState() & Qt::ShiftButton)
         req.newTabInFront = !req.newTabInFront;
@@ -3284,8 +3276,7 @@ bool KonqMainWindow::eventFilter(QObject*obj,QEvent *ev)
       connect( m_combo->lineEdit(), SIGNAL(selectionChanged()), this, SLOT(slotCheckComboSelection()) );
 
       m_paTrash->setEnabled(false);
-      if (m_paDelete)
-        m_paDelete->setEnabled(false);
+      m_paDelete->setEnabled(false);
 
       slotClipboardDataChanged();
 
@@ -3330,8 +3321,7 @@ bool KonqMainWindow::eventFilter(QObject*obj,QEvent *ev)
           m_paCut->setEnabled( ext->isActionEnabled( "cut" ) );
           m_paCopy->setEnabled( ext->isActionEnabled( "copy" ) );
           m_paPaste->setEnabled( ext->isActionEnabled( "paste" ) );
-          if (m_paDelete)
-              m_paDelete->setEnabled( ext->isActionEnabled( "delete" ) );
+          m_paDelete->setEnabled( ext->isActionEnabled( "delete" ) );
           m_paTrash->setEnabled( ext->isActionEnabled( "trash" ) );
       }
       else
@@ -3339,8 +3329,7 @@ bool KonqMainWindow::eventFilter(QObject*obj,QEvent *ev)
           m_paCut->setEnabled( false );
           m_paCopy->setEnabled( false );
           m_paPaste->setEnabled( false );
-          if (m_paDelete)
-              m_paDelete->setEnabled( false );
+          m_paDelete->setEnabled( false );
           m_paTrash->setEnabled( false );
       }
     }
@@ -3695,6 +3684,10 @@ void KonqMainWindow::initActions()
 
   // Those are connected to the browserextension directly
   m_paCut = KStdAction::cut( 0, 0, actionCollection(), "cut" );
+  KShortcut cutShortCut = m_paCut->shortcut();
+  cutShortCut.remove( KKey( SHIFT + Key_Delete ) ); // used for deleting files
+  m_paCut->setShortcut( cutShortCut );
+
   m_paCopy = KStdAction::copy( 0, 0, actionCollection(), "copy" );
   m_paPaste = KStdAction::paste( 0, 0, actionCollection(), "paste" );
   m_paStop = new KAction( i18n( "&Stop" ), "stop", Key_Escape, this, SLOT( slotStop() ), actionCollection(), "stop" );
@@ -3704,10 +3697,10 @@ void KonqMainWindow::initActions()
   connect( m_paTrash, SIGNAL( activated( KAction::ActivationReason, Qt::ButtonState ) ),
            this, SLOT( slotTrashActivated( KAction::ActivationReason, Qt::ButtonState ) ) );
 
-  KConfig *config = KGlobal::config();
-  KConfigGroupSaver cgs( config, "FMSettings" );
-  if ( config->readBoolEntry( "ShowDeleteCommand", false ) )
-    m_paDelete = new KAction( i18n( "&Delete" ), "editdelete", SHIFT+Key_Delete, actionCollection(), "del" );
+  m_paDelete = new KAction( i18n( "&Delete" ), "editdelete", SHIFT+Key_Delete, actionCollection(), "del" );
+
+  KConfigGroup configSettings( KGlobal::config(), "FMSettings" );
+  m_bShowDelete = configSettings.readBoolEntry( "ShowDeleteCommand", false );
 
   m_paAnimatedLogo = new KonqLogoAction( i18n("Animated Logo"), 0, this, SLOT( slotDuplicateWindow() ), actionCollection(), "animated_logo" );
 
@@ -4228,7 +4221,7 @@ void KonqMainWindow::disableActionsNoView()
     updateLocalPropsActions();
 }
 
-void KonqExtendedBookmarkOwner::openBookmarkURL( const QString & url )
+void KonqExtendedBookmarkOwner::openBookmarkURL( const QString & /*url*/ )
 {
   // Do nothing, we catch the signal
 }
@@ -4399,8 +4392,6 @@ void KonqMainWindow::slotPopupMenu( KXMLGUIClient *client, const QPoint &_global
   popupMenuCollection.insert( m_paPaste );
   popupMenuCollection.insert( m_paTrash );
   popupMenuCollection.insert( m_paRename );
-  if (m_paDelete)
-      popupMenuCollection.insert( m_paDelete );
 
   // The pasteto action is used when clicking on a dir, to paste into it.
   KAction *actPaste = KStdAction::paste( this, SLOT( slotPopupPasteTo() ), &popupMenuCollection, "pasteto" );
@@ -4420,6 +4411,9 @@ void KonqMainWindow::slotPopupMenu( KXMLGUIClient *client, const QPoint &_global
     m_popupURL = KURL();
     m_popupServiceType = QString::null;
   }
+
+  if ( !m_popupURL.isLocalFile() || m_bShowDelete )
+      popupMenuCollection.insert( m_paDelete );
 
   if ( (_items.count() == 1) && !m_popupServiceType.isEmpty() ) {
       QString currentServiceName = currentView->service()->desktopEntryName();
@@ -4476,8 +4470,8 @@ void KonqMainWindow::slotPopupMenu( KXMLGUIClient *client, const QPoint &_global
   if( doTabHandling )
   {
       if (_args.forcesNewWindow()) {
-        actNewWindow = new KAction( i18n( "Open in T&his Window" ), 0, this, SLOT( slotPopupThisWindow() ), konqyMenuClient->actionCollection(), "sameview" );      
-        actNewWindow->setStatusText( i18n( "Open the document in current window" ) );    
+        actNewWindow = new KAction( i18n( "Open in T&his Window" ), 0, this, SLOT( slotPopupThisWindow() ), konqyMenuClient->actionCollection(), "sameview" );
+        actNewWindow->setStatusText( i18n( "Open the document in current window" ) );
       }
       actNewWindow = new KAction( i18n( "Open in New &Window" ), "window_new", 0, this, SLOT( slotPopupNewWindow() ), konqyMenuClient->actionCollection(), "newview" );
       actNewWindow->setStatusText( i18n( "Open the document in a new window" ) );
@@ -4627,31 +4621,7 @@ void KonqMainWindow::reparseConfiguration()
 
   // Update display of "Delete" command if necessary
   config->setGroup( "FMSettings" );  // cgs' destructor will reset
-  if ( config->readBoolEntry( "ShowDeleteCommand", false ) )
-  {
-    if ( !m_paDelete )
-    {
-      unplugActionList( "delactions" );
-      m_paDelete = new KAction( i18n( "&Delete" ), "editdelete", SHIFT+Key_Delete, actionCollection(), "del" );
-      m_paDelete->setEnabled( actionCollection()->action("trash")->isEnabled() );
-      m_deleteActions.clear();
-      m_deleteActions.append( m_paDelete );
-      plugActionList( "delactions", m_deleteActions );
-      if ( m_combo && !m_combo->lineEdit()->hasFocus() ) {
-        if ( m_currentView ) {
-          KParts::BrowserExtension * ext = m_currentView->browserExtension();
-          if ( ext && ext->metaObject()->slotNames().contains("del()") )
-            connect( m_paDelete, SIGNAL( activated() ), ext, SLOT( del() ) );
-        }
-      }
-    }
-  }
-  else
-  {
-    unplugActionList( "delactions" );
-    m_deleteActions.clear();  // deletes m_paDelete
-    m_paDelete = 0;
-  }
+  m_bShowDelete = config->readBoolEntry( "ShowDeleteCommand", false );
 
   MapViews::ConstIterator it = m_mapViews.begin();
   MapViews::ConstIterator end = m_mapViews.end();

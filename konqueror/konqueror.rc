@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE gui SYSTEM "kpartgui.dtd">
-<gui name="Konqueror" version="53">
+<gui name="Konqueror" version="54">
 <MenuBar>
  <Menu name="file" noMerge="1"><text>&amp;Location</text>
   <Action name="new_window"/>
@@ -25,7 +25,7 @@
   <Action name="paste"/>
   <Action name="rename"/>
   <Action name="trash"/>
-  <ActionList name="delactions" />
+  <Action name="del" />
   <ActionList name="operations" /><!-- copy files and move files, when two directory views -->
   <Separator/>
   <Action name="new_menu"/>

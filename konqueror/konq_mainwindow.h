@@ -201,12 +201,12 @@ public:
    */
   QString locationBarURL() const;
   void focusLocationBar();
-    
+
   /**
    * Set page security related to current view
    */
   void setPageSecurity( PageSecurity );
-  
+
   void enableAllActions( bool enable );
 
   void disableActionsNoView();
@@ -638,7 +638,6 @@ private:
 
   KAction *m_paTrash;
   KAction *m_paDelete;
-  QPtrList<KAction> m_deleteActions;
 
   KAction *m_paCopyFiles;
   KAction *m_paMoveFiles;
@@ -667,6 +666,7 @@ private:
   // Global settings
   uint m_bSaveViewPropertiesLocally:1;
   uint m_bHTMLAllowed:1;
+  uint m_bShowDelete:1;
   // Set in constructor, used in slotRunFinished
   uint m_bNeedApplyKonqMainWindowSettings:1;
   uint m_bViewModeToggled:1;
