@@ -130,7 +130,6 @@ KCookiesPolicies::KCookiesPolicies(QWidget *parent, const char *name)
 
     // CREATE SPLIT LIST BOX
     lv_domainPolicy = new KListView( gb_domainSpecific );
-    //    lv_domainPolicy->setMinimumHeight( 0.10 * sizeHint().height() );
     lv_domainPolicy->addColumn(i18n("Hostname"));
     lv_domainPolicy->addColumn(i18n("Policy"), 100);
     ds_lay->addMultiCellWidget( lv_domainPolicy, 1, 5, 0, 0 );

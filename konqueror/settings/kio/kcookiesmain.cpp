@@ -22,6 +22,19 @@
 KCookiesMain::KCookiesMain(QWidget *parent, const char *name)
   : KCModule(parent, name)
 {
+     /* Let's start the cookiejar even if cookies are disabled, for the sake
+        of the management widget
+     */
+     QString error;
+     bool managerOK = true;
+     if (KApplication::startServiceByDesktopName("kcookiejar", QStringList(), &error ))
+     {
+        kdDebug(7103) << "kcm_kio: error starting KCookiejar: " << error << "\n" << endl;
+        KMessageBox::sorry(0, i18n("This control module could not start the cookie server process\n"
+                                   "It will not be possible to manage received cookies"));
+        managerOK = false;
+     }
+
     QVBoxLayout *layout = new QVBoxLayout(this);
     tab = new QTabWidget(this);
     layout->addWidget(tab);
@@ -30,11 +43,12 @@ KCookiesMain::KCookiesMain(QWidget *parent, const char *name)
     tab->addTab(policies, i18n("&Policy"));
     connect(policies, SIGNAL(changed(bool)), this, SLOT(moduleChanged()));
 
-    /*  TODO: Finish the management dialog.
-    management = new KCookiesManagement(this, "Management");
-    tab->addTab(management, i18n("&Management"));
-    connect(management, SIGNAL(changed(bool)), this, SLOT(moduleChanged()));
-    */
+    if(managerOK)
+    {
+        management = new KCookiesManagement(this, "Management");
+        tab->addTab(management, i18n("&Management"));
+        connect(management, SIGNAL(changed(bool)), this, SLOT(moduleChanged()));
+    }
 }
 
 KCookiesMain::~KCookiesMain()
@@ -44,19 +58,22 @@ KCookiesMain::~KCookiesMain()
 void KCookiesMain::load()
 {
   policies->load();
-  // management->load();
+  if(management)
+      management->load();
 }
 
 void KCookiesMain::save()
 {
   policies->save();
-  // management->save();
+  if(management)
+      management->save();
 }
 
 void KCookiesMain::defaults()
 {
   policies->defaults();
-  // management->defaults();
+  if(management)
+      management->defaults();
 }
 
 void KCookiesMain::moduleChanged()
