@@ -317,7 +317,7 @@ KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const 
     for (i=0, it=avSizes.begin(); (it!=avSizes.end()) && (i<3); it++, i++)
     {
 	m_iIconSize[i] = *it;
-	kdDebug(1202) << "m_iIconSize[" << i << "] = " << *it << endl;
+	//kdDebug(1202) << "m_iIconSize[" << i << "] = " << *it << endl;
     }
 
     // Now we may react to configuration changes
@@ -393,7 +393,7 @@ void KonqKfmIconView::calculateGridX()
     realIconSize = root->defaultSize( KIcon::Desktop );
   }
   bool bSmall = (realIconSize == m_iIconSize[0]);
-  kdDebug(1202) << "realIconSize=" << realIconSize << " Smaller size=" << m_iIconSize[0] << endl;
+  //kdDebug(1202) << "realIconSize=" << realIconSize << " Smaller size=" << m_iIconSize[0] << endl;
 
   // This is the method that determines the GridX to use - but
   // when we are in image preview mode, it's not enough
