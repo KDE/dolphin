@@ -382,7 +382,7 @@ void KPluginOptions::dirLoad( KConfig *config )
     m_widget->dirList->insertStringList( paths );
 
     // setup other widgets
-    bool useArtsdsp = config->readBoolEntry( "useArtsdsp", true );
+    bool useArtsdsp = config->readBoolEntry( "useArtsdsp", false );
     m_widget->useArtsdsp->setChecked( useArtsdsp );
 }
 
