@@ -19,9 +19,10 @@
 
 */
 
-#ifndef __main_h__
-#define __main_h__ $Id$
+#ifndef __konq_searcher_h__
+#define __konq_searcher_h__ $Id$
 
+#include <dcopobject.h>
 #include <klibloader.h>
 
 class KInstance;
@@ -52,3 +53,4 @@ private:
 };
 
 #endif
+
