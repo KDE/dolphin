@@ -156,6 +156,45 @@ QString KonqListViewItem::key( int _column, bool asc ) const
    return tmp;
 }
 
+int KonqListViewItem::compare( QListViewItem* item, int col, bool ascending ) const
+{
+   KonqListViewItem* k = static_cast<KonqListViewItem*>( item );
+   if ( sortChar != k->sortChar ) // KDE 4: make sortChar a bool
+	return !ascending ? k->sortChar - sortChar : sortChar - k->sortChar;
+
+   for ( unsigned int i=0; i<KonqBaseListViewWidget::NumberOfAtoms; i++ )
+   {
+      ColumnInfo *cInfo = &m_pListViewWidget->columnConfigInfo()[i];
+      if ( col == cInfo->displayInColumn )
+      {
+         switch ( cInfo->udsId )
+         {
+            case KIO::UDS_MODIFICATION_TIME:
+            case KIO::UDS_ACCESS_TIME:
+            case KIO::UDS_CREATION_TIME:
+            {
+                time_t t1 = m_fileitem->time( cInfo->udsId );
+                time_t t2 = k->m_fileitem->time( cInfo->udsId );
+                return ( t1 > t2 ) ? 1 : ( t1 < t2 ) ? -1 : 0;
+            }
+            case KIO::UDS_SIZE:
+            {
+                KIO::filesize_t s1 = m_fileitem->size();
+                KIO::filesize_t s2 = k->m_fileitem->size();
+                return ( s1 > s2 ) ? 1 : ( s1 < s2 ) ? -1 : 0;
+            }	
+            default:
+                break;
+         }
+         break;
+      }
+   }
+   if ( m_pListViewWidget->caseInsensitiveSort() )
+      return text( col ).lower().localeAwareCompare( k->text( col ).lower() );
+   else
+      return text( col ).localeAwareCompare( k->text( col ) );
+}
+
 void KonqListViewItem::paintCell( QPainter *_painter, const QColorGroup & _cg, int _column, int _width, int _alignment )
 {
   QColorGroup cg( _cg );
