@@ -137,7 +137,7 @@ KonqMainView::~KonqMainView()
 void KonqMainView::openURL( KonqChildView *_view, const QString &_url, bool reload, int xOffset,
                             int yOffset )
 {
-  debug(QString("KonqMainView::openURL : _url = '%1'").arg(_url));
+  debug("%s", QString("KonqMainView::openURL : _url = '%1'").arg(_url).latin1());
 
   /////////// First, modify the URL if necessary (adding protocol, ...) //////
 
@@ -217,14 +217,14 @@ void KonqMainView::openURL( KonqChildView *_view, const QString &_url, bool relo
       view->stop();
     }	
 
-    kdebug( KDEBUG_INFO, 1202, QString("view->run for %1").arg(url) );
+    kdebug( KDEBUG_INFO, 1202, "%s", QString("view->run for %1").arg(url).latin1() );
     view->run( url );
     setLocationBarURL( view, url );
     view->setMiscURLData( reload, xOffset, yOffset );
   }
   else
   {
-    kdebug( KDEBUG_INFO, 1202, QString("Creating new konqrun for %1").arg(url) );
+    kdebug( KDEBUG_INFO, 1202, "%s", QString("Creating new konqrun for %1").arg(url).latin1() );
     (void) new KonqRun( this, 0L, url, 0, false, true );
   }
 }
@@ -586,10 +586,10 @@ bool KonqMainView::openView( const QString &serviceType, const QString &url, Kon
     }
   else
   {
-    debug(QString("(1) KonqMainView::openView : url = '%1'").arg(url));
+    debug("%s", QString("(1) KonqMainView::openView : url = '%1'").arg(url).latin1());
     childView->stop();
   }
-  debug(QString("(2) KonqMainView::openView : url = '%1'").arg(url));
+  debug("%s", QString("(2) KonqMainView::openView : url = '%1'").arg(url).latin1());
 
   //first check whether the current view can display this type directly, then
   //try to change the view mode. if this fails, too, then Konqueror cannot
@@ -1314,7 +1314,7 @@ QString KonqMainView::findIndexFile( const QString &dir )
 
 void KonqMainView::openBookmarkURL( const QString & url )
 {
-  kdebug(0,1202,QString("KonqMainView::openBookmarkURL(%1)").arg(url));
+  kdebug(0, 1202, "%s", QString("KonqMainView::openBookmarkURL(%1)").arg(url).latin1() );
   openURL( 0L, url );
 }
 
