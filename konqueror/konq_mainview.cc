@@ -1231,15 +1231,6 @@ void KonqMainView::slotLargeIcons()
     m_currentView->lockHistory();
     m_currentView->changeViewMode( "inode/directory", QString::null, false,
                                    Konqueror::LargeIcons );
-/*
-    QStringList serviceTypes;
-    v = KonqChildView::createView( "inode/directory", serviceTypes, this,
-                                   Konqueror::LargeIcons );
-    v = Browser::View::_duplicate( new KonqKfmIconView( this ) );
-    serviceTypes.append( "inode/directory" );
-    m_currentView->lockHistory();
-    m_currentView->changeView( v, serviceTypes );
-*/    
   }
   else
   {
@@ -1271,28 +1262,6 @@ void KonqMainView::slotSmallIcons()
   m_vMenuView->setItemChecked( MVIEW_SMALLICONS_ID, true );
   m_vMenuView->setItemChecked( MVIEW_SMALLVICONS_ID, false );
   m_vMenuView->setItemChecked( MVIEW_TREEVIEW_ID, false );
-/*
-  Browser::View_var v;
-  
-  if ( !m_currentView->view()->supportsInterface( "IDL:Konqueror/KfmIconView:1.0" ) )
-  {
-    v = Browser::View::_duplicate( new KonqKfmIconView( this ) );
-    QStringList serviceTypes;
-    serviceTypes.append( "inode/directory" );
-    m_currentView->lockHistory();
-    m_currentView->changeView( v, serviceTypes );
-  }
-  
-  v = Browser::View::_duplicate( m_currentView->view() );
-  Konqueror::KfmIconView_var iv = Konqueror::KfmIconView::_narrow( v );
-  
-  iv->slotSmallIcons();
-
-  m_vMenuView->setItemChecked( MVIEW_LARGEICONS_ID, false );
-  m_vMenuView->setItemChecked( MVIEW_SMALLICONS_ID, true );
-  m_vMenuView->setItemChecked( MVIEW_SMALLVICONS_ID, false );
-  m_vMenuView->setItemChecked( MVIEW_TREEVIEW_ID, false );
-*/  
 }
 
 void KonqMainView::slotSmallVerticalIcons()
@@ -1313,28 +1282,6 @@ void KonqMainView::slotSmallVerticalIcons()
   m_vMenuView->setItemChecked( MVIEW_SMALLICONS_ID, false );
   m_vMenuView->setItemChecked( MVIEW_SMALLVICONS_ID, true );
   m_vMenuView->setItemChecked( MVIEW_TREEVIEW_ID, false );
-/*
-  Browser::View_var v;
-  
-  if ( !m_currentView->view()->supportsInterface( "IDL:Konqueror/KfmIconView:1.0" ) )
-  {
-    v = Browser::View::_duplicate( new KonqKfmIconView( this ) );
-    QStringList serviceTypes;
-    serviceTypes.append( "inode/directory" );
-    m_currentView->lockHistory();
-    m_currentView->changeView( v, serviceTypes );
-  }
-  
-  v = Browser::View::_duplicate( m_currentView->view() );
-  Konqueror::KfmIconView_var iv = Konqueror::KfmIconView::_narrow( v );
-  
-  iv->slotSmallVerticalIcons();
-
-  m_vMenuView->setItemChecked( MVIEW_LARGEICONS_ID, false );
-  m_vMenuView->setItemChecked( MVIEW_SMALLICONS_ID, false );
-  m_vMenuView->setItemChecked( MVIEW_SMALLVICONS_ID, true );
-  m_vMenuView->setItemChecked( MVIEW_TREEVIEW_ID, false );
-*/  
 }
 
 void KonqMainView::slotTreeView()
@@ -1351,21 +1298,6 @@ void KonqMainView::slotTreeView()
   m_vMenuView->setItemChecked( MVIEW_SMALLICONS_ID, false );
   m_vMenuView->setItemChecked( MVIEW_SMALLVICONS_ID, false );
   m_vMenuView->setItemChecked( MVIEW_TREEVIEW_ID, true );
-/*
-  if ( !m_currentView->view()->supportsInterface( "IDL:Konqueror/KfmTreeView:1.0" ) )
-  {
-    Browser::View_var v = Browser::View::_duplicate( new KonqKfmTreeView( this ) );
-    QStringList serviceTypes;
-    serviceTypes.append( "inode/directory" );
-    m_currentView->lockHistory();
-    m_currentView->changeView( v, serviceTypes );
-  }
-
-  m_vMenuView->setItemChecked( MVIEW_LARGEICONS_ID, false );
-  m_vMenuView->setItemChecked( MVIEW_SMALLICONS_ID, false );
-  m_vMenuView->setItemChecked( MVIEW_SMALLVICONS_ID, false );
-  m_vMenuView->setItemChecked( MVIEW_TREEVIEW_ID, true );
-*/  
 }
 
 void KonqMainView::slotReload()
