@@ -39,3 +39,6 @@ partrc_DATA = konqsidebartng.rc
 versiondir = $(kde_datadir)/konqsidebartng/entries/
 version_DATA=.version
 
+updatedir = $(kde_datadir)/kconf_update
+update_DATA = konqsidebartng.upd
+update_SCRIPTS = move_konqsidebartng_entries.sh

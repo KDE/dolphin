@@ -74,7 +74,7 @@ class addBackEnd: public QObject
 {
 	Q_OBJECT
 public:
-	addBackEnd(QWidget *parent,class QPopupMenu *addmenu, bool univeral,const char *name=0);
+	addBackEnd(QWidget *parent,class QPopupMenu *addmenu, bool univeral, const QString &currentProfile, const char *name=0);
 	~addBackEnd(){;}
 protected slots:
 	void aboutToShowAddMenu();
@@ -87,6 +87,7 @@ private:
 	QPtrVector<QString> libNames;
 	QPtrVector<QString> libParam;
 	bool m_universal;
+	QString m_currentProfile;
 	void doRollBack();
 	QWidget *m_parent;
 };
@@ -98,7 +99,8 @@ public:
 	friend class ButtonInfo;
 public:
 	Sidebar_Widget(QWidget *parent, KParts::ReadOnlyPart *par,
-						const char * name,bool universalMode);
+						const char * name,bool universalMode, 
+						const QString &currentProfile);
 	~Sidebar_Widget();
 	bool openURL(const class KURL &url);
 	void stdAction(const char *handlestd);
@@ -205,10 +207,10 @@ private:
 	bool m_initial;
 
 	QString m_path;
+	QString m_relPath;
+	QString m_currentProfile;
 	QStringList m_visibleViews; // The views that are actually open
 	QStringList m_openViews; // The views that should be opened
-
-	static bool s_skipInitialCopy;
 
 signals:
 	void panelHasBeenExpanded(bool);

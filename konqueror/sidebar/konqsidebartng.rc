@@ -1,2 +1,7 @@
+[filemanagement]
 OpenViews=home.desktop
+SingleWidgetMode=true
+
+[webbrowsing]
+OpenViews=bookmarks.desktop
 SingleWidgetMode=true

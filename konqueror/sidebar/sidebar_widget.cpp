@@ -49,13 +49,12 @@
 #include "sidebar_widget.moc"
 
 
-bool Sidebar_Widget::s_skipInitialCopy=false;
-
-addBackEnd::addBackEnd(QWidget *parent,class QPopupMenu *addmenu,bool universal, const char *name)
+addBackEnd::addBackEnd(QWidget *parent,class QPopupMenu *addmenu,bool universal,const QString &currentProfile, const char *name)
  : QObject(parent,name),
    m_parent(parent)
 {
 	m_universal=universal;
+	m_currentProfile = currentProfile;
 	menu = addmenu;
 	connect(menu,SIGNAL(aboutToShow()),this,SLOT(aboutToShowAddMenu()));
 	connect(menu,SIGNAL(activated(int)),this,SLOT(activatedAddMenu(int)));
@@ -121,7 +120,7 @@ void addBackEnd::doRollBack()
 	if (KMessageBox::questionYesNo(m_parent, i18n("<qt>This removes all your entries from the sidebar and adds the system default ones.<BR><B>This procedure is irreversible</B><BR>Do you want to proceed?</qt>"))==KMessageBox::Yes)
 	{
 		KStandardDirs *dirs = KGlobal::dirs();
-		QString loc=dirs->saveLocation("data","konqsidebartng/",true);
+		QString loc=dirs->saveLocation("data","konqsidebartng/" + m_currentProfile + "/",true);
 		QDir dir(loc);
 		QStringList dirEntries = dir.entryList( QDir::Dirs | QDir::NoSymLinks );
 		dirEntries.remove(".");
@@ -135,7 +134,7 @@ void addBackEnd::doRollBack()
 }
 
 
-static QString findFileName(const QString* tmpl,bool universal) {
+static QString findFileName(const QString* tmpl,bool universal, const QString &profile) {
 	QString myFile, filename;
 	KStandardDirs *dirs = KGlobal::dirs();
 	QString tmp = *tmpl;
@@ -144,8 +143,8 @@ static QString findFileName(const QString* tmpl,bool universal) {
 		dirs->saveLocation("data", "konqsidebartng/kicker_entries/", true);
 		tmp.prepend("/konqsidebartng/kicker_entries/");
 	} else {
-		dirs->saveLocation("data", "konqsidebartng/entries/", true);
-		tmp.prepend("/konqsidebartng/entries/");
+		dirs->saveLocation("data", "konqsidebartng/" + profile + "/entries/", true);
+		tmp.prepend("/konqsidebartng/" + profile + "/entries/");
 	}
 	filename = tmp.arg("");
 	myFile = locateLocal("data", filename);
@@ -194,7 +193,7 @@ void addBackEnd::activatedAddMenu(int id)
 			QString *tmp = new QString("");
 			if (func(tmp,libParam.at(id),&map))
 			{
-				QString myFile = findFileName(tmp,m_universal);
+				QString myFile = findFileName(tmp,m_universal,m_currentProfile);
 
 				if (!myFile.isEmpty())
 				{
@@ -227,8 +226,8 @@ void addBackEnd::activatedAddMenu(int id)
 /*                      Sidebar_Widget                        */
 /**************************************************************/
 
-Sidebar_Widget::Sidebar_Widget(QWidget *parent, KParts::ReadOnlyPart *par, const char *name,bool universalMode)
-	:QWidget(parent,name),m_universalMode(universalMode),m_partParent(par)
+Sidebar_Widget::Sidebar_Widget(QWidget *parent, KParts::ReadOnlyPart *par, const char *name,bool universalMode, const QString &currentProfile)
+	:QWidget(parent,name),m_universalMode(universalMode),m_partParent(par),m_currentProfile(currentProfile)
 {
 	m_somethingVisible = false;
 	m_initial = true;
@@ -239,9 +238,14 @@ Sidebar_Widget::Sidebar_Widget(QWidget *parent, KParts::ReadOnlyPart *par, const
 	m_userMovedSplitter = false;
         //kdDebug() << "**** Sidebar_Widget:SidebarWidget()"<<endl;
 	if (universalMode)
-        	m_path = KGlobal::dirs()->saveLocation("data", "konqsidebartng/kicker_entries/", true);
+	{
+		m_relPath = "konqsidebartng/kicker_entries/";
+	}
 	else
-	        m_path = KGlobal::dirs()->saveLocation("data", "konqsidebartng/entries/", true);
+	{
+		m_relPath = "konqsidebartng/" + currentProfile + "/entries/";
+	}
+	m_path = KGlobal::dirs()->saveLocation("data", m_relPath, true);
 	m_buttons.setAutoDelete(true);
 	m_hasStoredUrl = false;
 	m_latestViewed = -1;
@@ -284,22 +288,21 @@ Sidebar_Widget::Sidebar_Widget(QWidget *parent, KParts::ReadOnlyPart *par, const
 		this, SLOT(activatedMenu(int)));
 
 	m_buttonPopup = 0;
-	addBackEnd *ab = new addBackEnd(this, addMenu,universalMode,"Sidebar_Widget-addBackEnd");
+	addBackEnd *ab = new addBackEnd(this, addMenu,universalMode,currentProfile,"Sidebar_Widget-addBackEnd");
 	connect(ab, SIGNAL(updateNeeded()),
 		this, SLOT(updateButtons()));
 	connect(ab, SIGNAL(initialCopyNeeded()),
 		this, SLOT(finishRollBack()));
 
-	if (!s_skipInitialCopy)
-		initialCopy();
-	else
-		kdDebug()<<"Initial copy skipped"<<endl;
-	s_skipInitialCopy=true;
+	initialCopy();
 
 	if (universalMode)
-	m_config = new KConfig("konqsidebartng_kicker.rc");
+		m_config = new KConfig("konqsidebartng_kicker.rc");
 	else
-	m_config = new KConfig("konqsidebartng.rc");
+	{
+		m_config = new KConfig("konqsidebartng.rc");
+		m_config->setGroup(currentProfile);
+	}
 	connect(&m_configTimer, SIGNAL(timeout()),
 		this, SLOT(saveConfig()));
         readConfig();
@@ -317,13 +320,8 @@ void Sidebar_Widget::addWebSideBar(const KURL& url, const QString& /*name*/) {
 	// Look for existing ones with this URL
 	KStandardDirs *dirs = KGlobal::dirs();
 	QString list;
-	if (m_universalMode) {
-		dirs->saveLocation("data", "konqsidebartng/kicker_entries/", true);
-		list = locateLocal("data", "/konqsidebartng/kicker_entries/");
-	} else {
-		dirs->saveLocation("data", "konqsidebartng/entries/", true);
-		list = locateLocal("data", "/konqsidebartng/entries/");
-	}
+	dirs->saveLocation("data", m_relPath, true);
+	list = locateLocal("data", m_relPath);
 
 	// Go through list to see which ones exist.  Check them for the URL
 	QStringList files = QDir(list).entryList("websidebarplugin*.desktop");
@@ -339,7 +337,7 @@ void Sidebar_Widget::addWebSideBar(const KURL& url, const QString& /*name*/) {
 	}
 
 	QString tmpl = "websidebarplugin%1.desktop";
-	QString myFile = findFileName(&tmpl,m_universalMode);
+	QString myFile = findFileName(&tmpl,m_universalMode,m_currentProfile);
 
 	if (!myFile.isEmpty()) {
 		KSimpleConfig scf(myFile, false);
@@ -359,10 +357,7 @@ void Sidebar_Widget::addWebSideBar(const KURL& url, const QString& /*name*/) {
 
 void Sidebar_Widget::finishRollBack()
 {
-	if (m_universalMode)
-	        m_path = KGlobal::dirs()->saveLocation("data","konqsidebartng/kicker_entries/",true);
-	else
-        	m_path = KGlobal::dirs()->saveLocation("data","konqsidebartng/entries/",true);
+	m_path = KGlobal::dirs()->saveLocation("data",m_relPath,true);
         initialCopy();
         QTimer::singleShot(0,this,SLOT(updateButtons()));
 }
@@ -1240,16 +1235,7 @@ void Sidebar_Widget::customEvent(QCustomEvent* ev)
 		} else {
 			emit fileMouseOver(*static_cast<KonqFileMouseOverEvent*>(ev)->item());
 		}
-	} else if (KonqConfigEvent::test(ev)) {
-		KonqConfigEvent *event = static_cast<KonqConfigEvent*>(ev);
-		if (event->save())
-			event->config()->writeEntry(event->prefix()+"OpenViews",m_visibleViews);
-		else
-		{
-			if (event->config()->hasKey(event->prefix()+"OpenViews"))
-				m_openViews = event->config()->readListEntry(event->prefix()+"OpenViews");
-		}
-	}
+	} 
 }
 
 void Sidebar_Widget::resizeEvent(QResizeEvent* ev)

@@ -93,6 +93,7 @@ class KonqMainWindow : public KParts::MainWindow, public KonqFrameContainerBase
   Q_PROPERTY( QString currentTitle READ currentTitle )
   Q_PROPERTY( QString currentURL READ currentURL )
   Q_PROPERTY( bool isHTMLAllowed READ isHTMLAllowed )
+  Q_PROPERTY( QString currentProfile READ currentProfile  )
 public:
   enum ComboAction { ComboClear, ComboAdd, ComboRemove };
 
@@ -297,6 +298,7 @@ public:
 
   QString currentTitle() const;
   QString currentURL() const;
+  QString currentProfile() const;
 
   QStringList configModules() const;
 

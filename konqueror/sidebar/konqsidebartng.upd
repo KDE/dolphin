@@ -1,0 +1,12 @@
+Id=konqsidebartng_rc
+File=konqsidebartng.rc
+Group=<default>,webbrowsing
+Options=Copy
+AllKeys
+Group=<default>,filemanagement
+Options=Copy
+AllKeys
+RemoveGroup=<default>
+
+Id=konqsidebartng_entries
+Script=move_konqsidebartng_entries.sh,sh

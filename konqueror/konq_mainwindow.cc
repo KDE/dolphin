@@ -4193,6 +4193,11 @@ QString KonqExtendedBookmarkOwner::currentURL() const
    return m_pKonqMainWindow->currentURL();
 }
 
+QString KonqMainWindow::currentProfile() const
+{
+   return m_pViewManager->currentProfile();
+}
+
 QString KonqMainWindow::currentURL() const
 {
   if ( !m_currentView )
