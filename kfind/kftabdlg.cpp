@@ -155,7 +155,13 @@ KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name)
 
     caseContextCb  =new QCheckBox(i18n("Case S&ensitive (content)"), pages[2]);
     regexpContentCb  =new QCheckBox(i18n("Use &Regular Expression Matching"), pages[2]);
-    QPushButton* editRegExp = new QPushButton(i18n("&Edit Regular Expression"), pages[2], "editRegExp");
+
+    QPushButton* editRegExp = 0;
+    regExpDialog = KParts::ComponentFactory::createInstanceFromQuery<QDialog>( "KRegExpEditor/KRegExpEditor", QString::null, this );
+    if ( regExpDialog ) {
+      // The editor was available, so lets use it.
+      editRegExp = new QPushButton(i18n("&Edit Regular Expression"), pages[2], "editRegExp");
+    }
 
     sizeBox =new QComboBox(FALSE, pages[2], "sizeBox");
     QLabel * sizeL   =new QLabel(sizeBox,i18n("&Size is:"), pages[2],"size");
@@ -198,9 +204,13 @@ KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name)
     // Connect
     connect( sizeBox, SIGNAL(highlighted(int)),
 	     this, SLOT(slotSizeBoxChanged(int)));
-    connect( regexpContentCb, SIGNAL(toggled(bool) ), editRegExp, SLOT(setEnabled(bool)) );
-    editRegExp->setEnabled(false);
-    connect( editRegExp, SIGNAL(clicked()), this, SLOT( slotEditRegExp() ) );
+
+    if ( regExpDialog ) {
+      // The editor was available, so lets use it.
+      connect( regexpContentCb, SIGNAL(toggled(bool) ), editRegExp, SLOT(setEnabled(bool)) );
+      editRegExp->setEnabled(false);
+      connect( editRegExp, SIGNAL(clicked()), this, SLOT( slotEditRegExp() ) );
+    }
 
     // Layout
     tmp = sizeEdit->fontMetrics().width(" 00000 ");
@@ -219,7 +229,12 @@ KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name)
     grid2->addWidget( sizeEdit, 2, 2 );
     grid2->addWidget( sizeUnitBox, 2, 3 );
     grid2->addMultiCellWidget( regexpContentCb, 3, 3, 1, 2);
-    grid2->addWidget( editRegExp, 3, 3 );
+
+    if ( regExpDialog ) {
+      // The editor was available, so lets use it.
+      grid2->addWidget( editRegExp, 3, 3 );
+    }
+    
     grid2->addColSpacing(4, KDialog::spacingHint());
     grid2->setColStretch(6,1);
 
