@@ -1473,6 +1473,13 @@ void KonqIconViewWidget::contentsMouseReleaseEvent( QMouseEvent *e )
 
 void KonqIconViewWidget::slotSaveIconPositions()
 {
+  // WARNING WARNING WARNING WARNING WARNING WARNING WARNING WARNING
+  // This code is currently not used but left in for compatibility reasons.
+  // It can be removed in KDE 4.0
+  // Saving of desktop icon positions is now done in KDIconView::saveIconPositions()
+  // in kdebase/kdesktop/kdiconview.cc
+  // WARNING WARNING WARNING WARNING WARNING WARNING WARNING WARNING
+
   if ( m_dotDirectoryPath.isEmpty() )
     return;
   if ( !m_bDesktop )
@@ -1513,6 +1520,13 @@ void KonqIconViewWidget::slotSaveIconPositions()
     }
 
   dotDirectory.sync();
+
+  // WARNING WARNING WARNING WARNING WARNING WARNING WARNING WARNING
+  // This code is currently not used but left in for compatibility reasons.
+  // It can be removed in KDE 4.0
+  // Saving of desktop icon positions is now done in KDIconView::saveIconPositions()
+  // in kdebase/kdesktop/kdiconview.cc
+  // WARNING WARNING WARNING WARNING WARNING WARNING WARNING WARNING
 }
 
 // Adapted version of QIconView::insertInGrid, that works relative to
