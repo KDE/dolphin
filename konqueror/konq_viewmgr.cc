@@ -53,7 +53,7 @@ KonqViewManager::KonqViewManager( KonqMainWindow *mainWindow )
 
 KonqView* KonqViewManager::Initialize( const QString &serviceType, const QString &serviceName )
 {
-  kdDebug(1202) << "KonqViewManager::Initialize()" << endl;
+  //kdDebug(1202) << "KonqViewManager::Initialize()" << endl;
   KService::Ptr service;
   KTrader::OfferList partServiceOffers, appServiceOffers;
   KonqViewFactory newViewFactory = createView( serviceType, serviceName, service, partServiceOffers, appServiceOffers, true );
@@ -66,7 +66,7 @@ KonqView* KonqViewManager::Initialize( const QString &serviceType, const QString
 
 KonqViewManager::~KonqViewManager()
 {
-  kdDebug(1202) << "KonqViewManager::~KonqViewManager()" << endl;
+  //kdDebug(1202) << "KonqViewManager::~KonqViewManager()" << endl;
   clear();
 }
 
@@ -891,7 +891,7 @@ KonqView *KonqViewManager::setupView( KonqFrameContainerBase *parentContainer,
                                       const QString &serviceType,
                                       bool passiveMode )
 {
-  kdDebug(1202) << "KonqViewManager::setupView passiveMode=" << passiveMode << endl;
+  //kdDebug(1202) << "KonqViewManager::setupView passiveMode=" << passiveMode << endl;
 
   QString sType = serviceType;
 
@@ -902,10 +902,10 @@ KonqView *KonqViewManager::setupView( KonqFrameContainerBase *parentContainer,
   KonqFrame* newViewFrame = new KonqFrame( parentContainer->widget(), parentContainer, "KonqFrame" );
   newViewFrame->setGeometry( 0, 0, m_pMainWindow->width(), m_pMainWindow->height() );
 
-  kdDebug(1202) << "Creating KonqView" << endl;
+  //kdDebug(1202) << "Creating KonqView" << endl;
   KonqView *v = new KonqView( viewFactory, newViewFrame,
                               m_pMainWindow, service, partServiceOffers, appServiceOffers, sType, passiveMode );
-  kdDebug(1202) << "KonqView created - v=" << v << " v->part()=" << v->part() << endl;
+  //kdDebug(1202) << "KonqView created - v=" << v << " v->part()=" << v->part() << endl;
 
   QObject::connect( v, SIGNAL( sigPartChanged( KonqView *, KParts::ReadOnlyPart *, KParts::ReadOnlyPart * ) ),
                     m_pMainWindow, SLOT( slotPartChanged( KonqView *, KParts::ReadOnlyPart *, KParts::ReadOnlyPart * ) ) );
@@ -925,7 +925,7 @@ KonqView *KonqViewManager::setupView( KonqFrameContainerBase *parentContainer,
     connect( v->part(), SIGNAL( destroyed() ), this, SLOT( slotPassiveModePartDeleted() ) );
   }
 
-  kdDebug(1202) << "KonqViewManager::setupView done" << endl;
+  //kdDebug(1202) << "KonqViewManager::setupView done" << endl;
   return v;
 }
 
@@ -951,7 +951,7 @@ void KonqViewManager::saveViewProfile( const QString & fileName, const QString &
 
 void KonqViewManager::saveViewProfile( KConfig & cfg, bool saveURLs, bool saveWindowSize )
 {
-  kdDebug(1202) << "KonqViewManager::saveViewProfile" << endl;
+  //kdDebug(1202) << "KonqViewManager::saveViewProfile" << endl;
   if( m_pMainWindow->childFrame() != 0L ) {
     QString prefix = QString::fromLatin1( m_pMainWindow->childFrame()->frameType() )
                      + QString::number(0);
@@ -1006,7 +1006,7 @@ void KonqViewManager::loadViewProfile( KConfig &cfg, const QString & filename,
     // Config file doesn't contain anything about view profiles, fallback to defaults
     rootItem = "InitialView";
   }
-  kdDebug(1202) << "KonqViewManager::loadViewProfile : loading RootItem " << rootItem << endl;
+  //kdDebug(1202) << "KonqViewManager::loadViewProfile : loading RootItem " << rootItem << endl;
 
   if ( rootItem != "empty" && forcedURL.url() != "about:blank" )
   {
@@ -1079,14 +1079,14 @@ void KonqViewManager::loadViewProfile( KConfig &cfg, const QString & filename,
 
 void KonqViewManager::setActivePart( KParts::Part *part, bool immediate )
 {
-    kdDebug(1202) << "KonqViewManager::setActivePart " << part << endl;
+    //kdDebug(1202) << "KonqViewManager::setActivePart " << part << endl;
     //if ( part )
     //    kdDebug(1202) << "    " << part->className() << " " << part->name() << endl;
 
     if (part == activePart())
     {
       if ( part )
-        kdDebug(1202) << "WARNING: Part is already active!" << endl;
+        kdDebug(1202) << "Part is already active!" << endl;
       return;
     }
 
@@ -1107,19 +1107,19 @@ void KonqViewManager::setActivePart( KParts::Part *part, bool immediate )
 
 void KonqViewManager::slotActivePartChanged ( KParts::Part *newPart )
 {
-    kdDebug(1202) << "KonqViewManager::slotActivePartChanged " << newPart << endl;
+    //kdDebug(1202) << "KonqViewManager::slotActivePartChanged " << newPart << endl;
     if (newPart == 0L) {
-      kdDebug(1202) << "newPart = 0L , returning" << endl;
+      //kdDebug(1202) << "newPart = 0L , returning" << endl;
       return;
     }
     KonqView * view = m_pMainWindow->childView( static_cast<KParts::ReadOnlyPart *>(newPart) );
     if (view == 0L) {
-      kdDebug(1202) << "No view associated with this part" << endl;
+      kdDebug(1202) << k_funcinfo << "No view associated with this part" << endl;
       return;
     }
     if (view->frame()->parentContainer() == 0L) return;
     if (!m_bLoadingProfile) view->frame()->parentContainer()->setActiveChild( view->frame() );
-    kdDebug(1202) << "KonqViewManager::slotActivePartChanged done" << endl;
+    //kdDebug(1202) << "KonqViewManager::slotActivePartChanged done" << endl;
 }
 
 void KonqViewManager::setActivePart( KParts::Part *part, QWidget * )
@@ -1187,13 +1187,13 @@ void KonqViewManager::loadItem( KConfig &cfg, KonqFrameContainerBase *parent,
   if( name != "InitialView" )
     prefix = name + '_';
 
-  kdDebug(1202) << "begin loadItem: " << name << endl;
+  //kdDebug(1202) << "begin loadItem: " << name << endl;
 
   if( name.startsWith("View") ) {
-    kdDebug(1202) << "Item is View" << endl;
+    //kdDebug(1202) << "Item is View" << endl;
     //load view config
     QString serviceType = cfg.readEntry( QString::fromLatin1( "ServiceType" ).prepend( prefix ), "inode/directory");
-    kdDebug(1202) << "ServiceType: " << serviceType << endl;
+    //kdDebug(1202) << "ServiceType: " << serviceType << endl;
 
     QString serviceName = cfg.readEntry( QString::fromLatin1( "ServiceName" ).prepend( prefix ) );
 
@@ -1283,11 +1283,11 @@ void KonqViewManager::loadItem( KConfig &cfg, KonqFrameContainerBase *parent,
     childView->setLockedLocation( cfg.readBoolEntry( QString::fromLatin1( "LockedLocation" ).prepend( prefix ), false ) );
   }
   else if( name.startsWith("Container") ) {
-    kdDebug(1202) << "Item is Container" << endl;
+    //kdDebug(1202) << "Item is Container" << endl;
 
     //load container config
     QString ostr = cfg.readEntry( QString::fromLatin1( "Orientation" ).prepend( prefix ) );
-    kdDebug(1202) << "Orientation: " << ostr << endl;
+    //kdDebug(1202) << "Orientation: " << ostr << endl;
     Qt::Orientation o;
     if( ostr == "Vertical" )
       o = Qt::Vertical;
@@ -1334,7 +1334,7 @@ void KonqViewManager::loadItem( KConfig &cfg, KonqFrameContainerBase *parent,
   }
   else if( name.startsWith("Tabs") )
   {
-    kdDebug(1202) << "Item is a Tabs" << endl;
+    //kdDebug(1202) << "Item is a Tabs" << endl;
 
     KonqFrameTabs *newContainer = new KonqFrameTabs( parent->widget(), parent, this );
     connect(newContainer,SIGNAL(ctrlTabPressed()),m_pMainWindow,SLOT(slotCtrlTabPressed()));
@@ -1365,7 +1365,7 @@ void KonqViewManager::loadItem( KConfig &cfg, KonqFrameContainerBase *parent,
   else
       kdWarning() << "Profile Loading Error: Unknown item " << name;
 
-  kdDebug(1202) << "end loadItem: " << name << endl;
+  //kdDebug(1202) << "end loadItem: " << name << endl;
 }
 
 void KonqViewManager::setProfiles( KActionMenu *profiles )
@@ -1397,7 +1397,7 @@ void KonqViewManager::slotProfileDlg()
 
 void KonqViewManager::profileListDirty( bool broadcast )
 {
-  kdDebug(1202) << "KonqViewManager::profileListDirty()" << endl;
+  //kdDebug(1202) << "KonqViewManager::profileListDirty()" << endl;
   if ( !broadcast )
   {
     m_bProfileListDirty = true;

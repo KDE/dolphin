@@ -281,9 +281,9 @@ QWidget * KonqMainWindow::createContainer( QWidget *parent, int index, const QDo
         m_bookmarkBarActionCollection = new KActionCollection( this );
         m_bookmarkBarActionCollection->setHighlightingEnabled( true );
         connectActionCollection( m_bookmarkBarActionCollection );
-        DelayedInitializer *initializer = new DelayedInitializer( QEvent::Show, res );   
-        connect( initializer, SIGNAL( initialize() ), this, SLOT(initBookmarkBar()) ); 
-    }    
+        DelayedInitializer *initializer = new DelayedInitializer( QEvent::Show, res );
+        connect( initializer, SIGNAL( initialize() ), this, SLOT(initBookmarkBar()) );
+    }
   }
 
   return res;
@@ -294,16 +294,16 @@ QWidget * KonqMainWindow::createContainer( QWidget *parent, int index, const QDo
 void KonqMainWindow::initBookmarkBar()
 {
   KToolBar * bar = static_cast<KToolBar *>( child( "bookmarkToolBar", "KToolBar" ) );
-  
+
   if (!bar) return;
   if (m_paBookmarkBar) return;
-  
+
   m_paBookmarkBar = new KBookmarkBar( KonqBookmarkManager::self(), this, bar, m_bookmarkBarActionCollection, this );
 
   // hide if empty
   if (bar->count() == 0 )
         bar->hide();
-  
+
 }
 
 void KonqMainWindow::removeContainer( QWidget *container, QWidget *parent, QDomElement &element, int id )
@@ -451,13 +451,13 @@ void KonqMainWindow::openURL( KonqView *_view, const KURL &_url,
             // We know the servicetype, let's try its preferred service
             KService::Ptr offer = KServiceTypeProfile::preferredService(serviceType, "Application");
             // Remote URL: save or open ?
-	    bool open = url.isLocalFile();
-	    if ( !open ) {
-		KParts::BrowserRun::AskSaveResult res = KonqRun::askSave( url, offer, serviceType );
-		if ( res == KParts::BrowserRun::Save )
+            bool open = url.isLocalFile();
+            if ( !open ) {
+                KParts::BrowserRun::AskSaveResult res = KonqRun::askSave( url, offer, serviceType );
+                if ( res == KParts::BrowserRun::Save )
                     KParts::BrowserRun::simpleSave( url, QString::null );
-		open = ( res == KParts::BrowserRun::Open );
-	    }
+                open = ( res == KParts::BrowserRun::Open );
+            }
             if ( open )
             {
                 KURL::List lst;
@@ -498,6 +498,7 @@ bool KonqMainWindow::openView( QString serviceType, const KURL &_url, KonqView *
   // Contract: the caller of this method should ensure the view is stopped first.
 
   //kdDebug(1202) << "KonqMainWindow::openView " << serviceType << " " << _url.url() << " " << childView << endl;
+  //kdDebug(1202) << "req.args.frameName= " << req.args.frameName << endl;
   //kdDebug(1202) << "req.followMode=" << req.followMode << endl;
   //kdDebug(1202) << "req.nameFilter= " << req.nameFilter << endl;
   //kdDebug(1202) << "req.typedURL= " << req.typedURL << endl;
@@ -656,7 +657,7 @@ bool KonqMainWindow::openView( QString serviceType, const KURL &_url, KonqView *
 
         m_pViewManager->setActivePart( childView->part() );
 
-        childView->setViewName( m_initialFrameName );
+        childView->setViewName( m_initialFrameName.isEmpty() ? req.args.frameName : m_initialFrameName );
         m_initialFrameName = QString::null;
       }
 
@@ -720,7 +721,14 @@ void KonqMainWindow::slotOpenURLRequest( const KURL &url, const KParts::URLArgs 
 
         if ( !view || !mainWindow )
         {
-          slotCreateNewWindow( url, args );
+            // not easy knowing whether to use a profile or not.
+            // But at least when the frame name is set (e.g. for JS window.open
+            // or for the 'always open new window, but reuse if dir already open'
+            // filemanager setting, we want a simple window.
+           if ( args.frameName.isEmpty() )
+                slotCreateNewWindow( url, args );
+            else
+                KonqMisc::createSimpleWindow( url, args );
           return;
         }
 
@@ -751,14 +759,8 @@ void KonqMainWindow::openURL( KonqView *childView, const KURL &url, const KParts
   KonqOpenURLRequest req;
   req.args = args;
 
-  if ( args.doPost() ) // todo merge in if statement below
-  {
-    kdDebug(1202) << "KonqMainWindow::openURL - with postData. serviceType=" << args.serviceType << endl;
-    openURL( childView, url, args.serviceType, req, args.trustedSource );
-    return;
-  }
-
-  if ( !args.reload && urlcmp( url.url(), childView->url().url(), true, true ) )
+  if ( !args.doPost() && !args.reload &&
+          childView && urlcmp( url.url(), childView->url().url(), true, true ) )
   {
     QString serviceType = args.serviceType;
     if ( serviceType.isEmpty() )
@@ -853,6 +855,7 @@ void KonqMainWindow::slotCreateNewWindow( const KURL &url, const KParts::URLArgs
       KonqMisc::createNewWindow( url, args );
 }
 
+// This is mostly for the JS window.open call
 void KonqMainWindow::slotCreateNewWindow( const KURL &url, const KParts::URLArgs &args,
                                           const KParts::WindowArgs &windowArgs, KParts::ReadOnlyPart *&part )
 {
@@ -886,10 +889,10 @@ void KonqMainWindow::slotCreateNewWindow( const KURL &url, const KParts::URLArgs
       mainWindow->openURL( 0L, url, QString::null, req );
     else if ( !mainWindow->openView( args.serviceType, url, 0L, req ) )
     {
-	// we have problems. abort.
-	delete mainWindow;
-	part = 0;
-	return;
+      // we have problems. abort.
+      delete mainWindow;
+      part = 0;
+      return;
     }
 
     // cannot use activePart/currentView, because the activation through the partmanager
@@ -1437,7 +1440,7 @@ void KonqMainWindow::slotGoAutostart()
 
 void KonqMainWindow::slotConfigure()
 {
-	KApplication::startServiceByDesktopName("konqueror_config");
+  KApplication::startServiceByDesktopName("konqueror_config");
 }
 
 void KonqMainWindow::slotConfigureKeys()
@@ -3567,7 +3570,7 @@ void KonqMainWindow::slotOpenEmbedded()
 void KonqMainWindow::slotOpenEmbeddedDoIt()
 {
   m_currentView->stop();
-  m_currentView->setLocationBarURL(m_popupURL.url());
+  m_currentView->setLocationBarURL(m_popupURL.prettyURL());
   m_currentView->setTypedURL(QString::null);
   if ( m_currentView->changeViewMode( m_popupServiceType,
                                       m_popupService ) )
@@ -3874,11 +3877,11 @@ KonqMainWindowIface* KonqMainWindow::dcopObject()
 }
 
 void KonqMainWindow::updateBookmarkBar()
-{ 
+{
   KToolBar * bar = static_cast<KToolBar *>( child( "bookmarkToolBar", "KToolBar" ) );
-  
+
   if (!bar) return;
-  
+
   // hide if empty
   if (m_paBookmarkBar && bar->count() == 0 )
         bar->hide();
@@ -3896,7 +3899,7 @@ void KonqMainWindow::closeEvent( QCloseEvent *e )
     {
       KConfig *config = KGlobal::config();
       KConfigGroupSaver cs( config, QString::fromLatin1("Notification Messages") );
-      
+
       if ( !config->hasKey( "MultipleTabConfirm" ) )
       {
         if ( KMessageBox::warningYesNo( 0L, "You have multiple tabs open in this window, are you sure you wish to close it?", "Confirmation",
@@ -3907,7 +3910,7 @@ void KonqMainWindow::closeEvent( QCloseEvent *e )
         }
       }
     }
-    
+
     hide();
     qApp->flushX();
   }

@@ -642,7 +642,6 @@ void KonqKfmIconView::slotReturnPressed( QIconViewItem *item )
         // This means both: open new window, and reuse existing window for that dir
         // if there is already one
         args.frameName = url.prettyURL(-1);
-        kdDebug() << k_funcinfo << " args.frameName=" << args.frameName << endl;
     }
     kdDebug() << "emit m_extension->openURLRequest( " << url.url() << "," << args.serviceType << ")" << endl;
     emit m_extension->openURLRequest( url, args );

@@ -56,6 +56,11 @@ public:
     static KonqMainWindow * createSimpleWindow( const KURL &url, const QString &frameName = QString::null );
 
     /**
+     * Create a new window with a single view, showing @p url, using @p args
+     */
+    static KonqMainWindow * createSimpleWindow( const KURL &url, const KParts::URLArgs &args );
+
+    /**
      * Create a new window for @p url using @p args and the appropriate profile for this URL.
      * @param forbidUseHTML internal. True when called by "Find Files"
      */
