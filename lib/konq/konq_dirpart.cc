@@ -145,10 +145,11 @@ void KonqDirPart::deleteItem( KFileItem * fileItem )
 void KonqDirPart::emitTotalCount()
 {
     emit setStatusBarText(
-        displayString(m_lFileCount + m_lDirCount,
-                      m_lFileCount,
-                      m_lDirSize,
-                      m_lDirCount));
+        KIO::itemsSummaryString(m_lFileCount + m_lDirCount,
+                                m_lFileCount,
+                                m_lDirCount,
+                                m_lDirSize,
+                                true));
 }
 
 void KonqDirPart::emitCounts( const KFileItemList & lst, bool selectionChanged )
@@ -168,10 +169,11 @@ void KonqDirPart::emitCounts( const KFileItemList & lst, bool selectionChanged )
                 fileCount++;
             }
 
-        emit setStatusBarText( displayString(fileCount + dirCount,
-                                             fileCount,
-                                             fileSizeSum,
-                                             dirCount));
+        emit setStatusBarText( KIO::itemsSummaryString(fileCount + dirCount,
+                                                       fileCount,
+                                                       dirCount,
+                                                       fileSizeSum,
+                                                       true));
     }
     else
         emitTotalCount();
@@ -182,31 +184,6 @@ void KonqDirPart::emitCounts( const KFileItemList & lst, bool selectionChanged )
     // Not sure it's worth it though.
     if ( selectionChanged )
         emit m_extension->selectionInfo( lst );
-}
-
-QString KonqDirPart::displayString(uint items, uint files, unsigned long size, uint dirs)
-{
-    QString text;
-    if (items == 1)
-        text = i18n("One Item");
-    else
-        text = i18n("%1 Items").arg(items);
-    text += " - ";
-    if (files == 1)
-        text += i18n("One File");
-    else
-        text += i18n("%1 Files").arg(files);
-    if ( files > 0 )
-    {
-        text += " ";
-        text += i18n("(%1 Total)").arg(KIO::convertSize( size ) );
-    }
-    text += " - ";
-    if (dirs == 1)
-        text += i18n("One Directory");
-    else
-        text += i18n("%1 Directories").arg(dirs);
-    return text;
 }
 
 #include "konq_dirpart.moc"

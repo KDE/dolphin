@@ -89,11 +89,6 @@ public:
      */
     void emitCounts( const KFileItemList & lst, bool selectionChanged );
 
-    /**
-     * Helper for statusbar information about selection
-     */
-    static QString displayString(uint items, uint files, unsigned long size, uint dirs);
-
 public slots:
     void slotBackgroundColor();
     void slotBackgroundImage();
