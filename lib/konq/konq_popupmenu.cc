@@ -129,7 +129,7 @@ KonqPopupMenu::KonqPopupMenu( KBookmarkManager *mgr, const KFileItemList &items,
                               KURL viewURL,
                               KActionCollection & actions,
                               KNewMenu * newMenu,
-			      QWidget * parentWidget,
+                              QWidget * parentWidget,
                               bool showProperties )
   : QPopupMenu( parentWidget, "konq_popupmenu" ), m_actions( actions ), m_ownActions( static_cast<QObject *>( 0 ), "KonqPopupMenu::m_ownActions" ), m_pMenuNew( newMenu ), m_sViewURL(viewURL), m_lstItems(items), m_pManager(mgr)
 {
@@ -269,6 +269,7 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
     bool sDeleting      = true;
     bool sMoving        = true;
     m_sMimeType         = m_lstItems.first()->mimetype();
+    QString mimeGroup   = m_sMimeType.left(m_sMimeType.find('/'));
     mode_t mode         = m_lstItems.first()->mode();
     bool isDirectory    = m_sMimeType == "inode/directory";
     bool bTrashIncluded = false;
@@ -304,7 +305,12 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
 
         // Determine if common mimetype among all URLs
         if ( m_sMimeType != (*it)->mimetype() )
+        {
             m_sMimeType = QString::null; // mimetypes are different => null
+
+            if ( mimeGroup != (*it)->mimetype().left((*it)->mimetype().find('/')))
+                mimeGroup = QString::null; // mimetype groups are different as well!
+        }
 
         if ( !bTrashIncluded &&
              (*it)->url().isLocalFile() &&
@@ -597,11 +603,10 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
                     QStringList types = cfg.readListEntry( "ServiceTypes" );
                     QStringList excludeTypes = cfg.readListEntry( "ExcludeServiceTypes" );
                     bool ok = false;
-                    QString mimeGroup = m_sMimeType.left(m_sMimeType.find('/'));
 
                     // check for exact matches or a typeglob'd mimetype if we have a mimetype
-                    for (QStringList::iterator it = types.begin(); 
-                         it != types.end() && !ok; 
+                    for (QStringList::iterator it = types.begin();
+                         it != types.end() && !ok;
                          ++it)
                     {
                         // we could cram the following three if statements into
@@ -642,11 +647,11 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
 
                         }
 
-                        // if we have a mimetype, see if we have an exact or type
-                        // globbed match
+                        // if we have a mimetype, see if we have an exact or a type globbed match
                         if (!ok &&
-                            !m_sMimeType.isNull() &&
-                            (*it == m_sMimeType ||
+                            (!m_sMimeType.isEmpty() &&
+                              *it == m_sMimeType) ||
+                            (!mimeGroup.isEmpty() &&
                              ((*it).right(1) == "*" &&
                               (*it).left((*it).find('/')) == mimeGroup)))
                         {
@@ -998,36 +1003,36 @@ KonqPopupMenu::ProtocolInfo KonqPopupMenu::protocolInfo() const
   return m_info;
 }
 void KonqPopupMenu::addPlugins( ){
-	// search for Konq_PopupMenuPlugins inspired by simons kpropsdlg
-	//search for a plugin with the right protocol
-	KTrader::OfferList plugin_offers;
+        // search for Konq_PopupMenuPlugins inspired by simons kpropsdlg
+        //search for a plugin with the right protocol
+        KTrader::OfferList plugin_offers;
         unsigned int pluginCount = 0;
-	plugin_offers = KTrader::self()->query( m_sMimeType.isNull() ? QString::fromLatin1( "all/all" ) : m_sMimeType , "'KonqPopupMenu/Plugin' in ServiceTypes");
+        plugin_offers = KTrader::self()->query( m_sMimeType.isNull() ? QString::fromLatin1( "all/all" ) : m_sMimeType , "'KonqPopupMenu/Plugin' in ServiceTypes");
         if ( plugin_offers.isEmpty() )
-	  return; // no plugins installed do not bother about it
+          return; // no plugins installed do not bother about it
 
-	KTrader::OfferList::ConstIterator iterator = plugin_offers.begin( );
-	KTrader::OfferList::ConstIterator end = plugin_offers.end( );
+        KTrader::OfferList::ConstIterator iterator = plugin_offers.begin( );
+        KTrader::OfferList::ConstIterator end = plugin_offers.end( );
 
-	addGroup( "plugins" );
-	// travers the offerlist
-	for(; iterator != end; ++iterator, ++pluginCount ){
-		KonqPopupMenuPlugin *plugin =
-			KParts::ComponentFactory::
-			createInstanceFromLibrary<KonqPopupMenuPlugin>( (*iterator)->library().local8Bit(),
-									this,
-									(*iterator)->name().latin1() );
-		if ( !plugin )
-			continue;
+        addGroup( "plugins" );
+        // travers the offerlist
+        for(; iterator != end; ++iterator, ++pluginCount ){
+                KonqPopupMenuPlugin *plugin =
+                        KParts::ComponentFactory::
+                        createInstanceFromLibrary<KonqPopupMenuPlugin>( (*iterator)->library().local8Bit(),
+                                                                        this,
+                                                                        (*iterator)->name().latin1() );
+                if ( !plugin )
+                        continue;
                 QString pluginClientName = QString::fromLatin1( "Plugin%1" ).arg( pluginCount );
                 addMerge( pluginClientName );
                 plugin->domDocument().documentElement().setAttribute( "name", pluginClientName );
-		m_pluginList.append( plugin );
-		insertChildClient( plugin );
-	}
+                m_pluginList.append( plugin );
+                insertChildClient( plugin );
+        }
 
-	addMerge( "plugins" );
-	addSeparator();
+        addMerge( "plugins" );
+        addSeparator();
 }
 KURL KonqPopupMenu::url( ) const {
   return m_sViewURL;
@@ -1039,7 +1044,7 @@ KURL::List KonqPopupMenu::popupURLList( ) const {
   return m_lstPopupURLs;
 }
 /**
-	Plugin
+        Plugin
 */
 
 KonqPopupMenuPlugin::KonqPopupMenuPlugin( KonqPopupMenu *parent, const char *name )
