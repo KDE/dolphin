@@ -143,6 +143,7 @@ public slots:
    void slotSaveAs();
    void slotSaveOnClose();
    void slotAdvancedAddBookmark();
+   void slotFilteredToolbar();
    void slotSplitView();
    void slotConfigureKeyBindings();
    void slotConfigureToolbars();
@@ -182,6 +183,7 @@ private:
    bool m_advancedAddBookmark:1;
    bool m_splitView:1;
    bool m_browser:1;
+   bool m_filteredToolbar:1;
 };
 
 #endif
