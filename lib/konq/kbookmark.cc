@@ -193,11 +193,11 @@ void KBookmarkManager::scanIntern( KBookmark *_bm, const char * _path )
 	if ( ok )
 	{
 	  KSimpleConfig cfg( file, true );
-	  cfg.setGroup( "KDE Desktop Entry" );
+	  cfg.setDesktopGroup();
 	  QString type = cfg.readEntry( "Type" );	
 	  // Is it really a bookmark file ?
 	  if ( type == "Link" )
-	    (void) new KBookmark( this, _bm, ep->d_name, cfg, "KDE Desktop Entry" );
+	    (void) new KBookmark( this, _bm, ep->d_name, cfg, "Desktop Entry" );
 	} else {
 	// maybe its an IE Favourite..
 	  KSimpleConfig cfg( file, true );
@@ -238,8 +238,11 @@ KBookmark::KBookmark( KBookmarkManager *_bm, KBookmark *_parent, QString _text,
   m_lstChildren.setAutoDelete( true );
 
   m_text = KBookmark::decode( _text );
+  if ( m_text.length() > 8 && m_text.right( 8 ) == ".desktop" )
+    m_text.truncate( m_text.length() - 8 );
   if ( m_text.length() > 7 && m_text.right( 7 ) == ".kdelnk" )
     m_text.truncate( m_text.length() - 7 );
+
 
   m_type = URL;
 
@@ -307,7 +310,7 @@ KBookmark::KBookmark( KBookmarkManager *_bm, KBookmark *_parent, QString _text, 
   m_file = _parent->file();
   m_file += "/";
   m_file += encode( _text );
-  // m_file += ".kdelnk"; // looks better to the user without extension
+  // m_file += ".desktop"; // looks better to the user without extension
 
   FILE *f = fopen( m_file, "w" );
   if ( f == 0L )
@@ -317,7 +320,7 @@ KBookmark::KBookmark( KBookmarkManager *_bm, KBookmark *_parent, QString _text, 
   }
 
   fprintf( f, "# KDE Config File\n" );
-  fprintf( f, "[KDE Desktop Entry]\n" );
+  fprintf( f, "[Desktop Entry]\n" );
   fprintf( f, "URL=%s\n", m_url.data() );
   fprintf( f, "Icon=%s\n", icon.data() );
   fprintf( f, "MiniIcon=%s\n", icon.data() );

@@ -783,7 +783,7 @@ ExecPropsPage::ExecPropsPage( PropertiesDialog *_props ) : PropsPage( _props )
 
     KConfig config( _props->kurl().path() );
     config.setDollarExpansion( false );
-    config.setGroup( "KDE Desktop Entry" );
+    config.setDesktopGroup();
     execStr = config.readEntry( "Exec" );
     iconStr = config.readEntry( "Icon" );
     swallowExecStr = config.readEntry( "SwallowExec" );
@@ -851,7 +851,7 @@ bool ExecPropsPage::supports( const KURL& _kurl, mode_t _mode )
       return false;
 
     KConfig config( t );
-    config.setGroup( "KDE Desktop Entry" );
+    config.setDesktopGroup();
 
     QString type = config.readEntry( "Type" );
     if ( type.isNull() )
@@ -943,7 +943,7 @@ void ExecPropsPage::applyChanges()
     f.close();
 
     KConfig config( path );
-    config.setGroup( "KDE Desktop Entry" );
+    config.setDesktopGroup();
     config.writeEntry( "Exec", execEdit->text() );
     config.writeEntry( "Icon", iconBox->icon() );
     config.writeEntry( "SwallowExec", swallowExecEdit->text() );
@@ -1000,7 +1000,7 @@ URLPropsPage::URLPropsPage( PropertiesDialog *_props ) : PropsPage( _props )
     f.close();
 
     KConfig config( path );
-    config.setGroup( "KDE Desktop Entry" );
+    config.setDesktopGroup();
     URLStr = config.readEntry(  "URL" );
     iconStr = config.readEntry( "Icon" );
 
@@ -1052,7 +1052,7 @@ bool URLPropsPage::supports( const KURL& _kurl, mode_t _mode )
       return false;
 
     KConfig config( path );
-    config.setGroup( "KDE Desktop Entry" );
+    config.setDesktopGroup();
 
     QString URL = config.readEntry( "URL" );
     if ( URL.isNull() )
@@ -1075,7 +1075,7 @@ void URLPropsPage::applyChanges()
     f.close();
 
     KConfig config( path );
-    config.setGroup( "KDE Desktop Entry" );
+    config.setDesktopGroup();
     config.writeEntry( "URL", URLEdit->text() );
     config.writeEntry( "Icon", iconBox->icon() );
     config.writeEntry( "MiniIcon", iconBox->icon() );
@@ -1118,7 +1118,7 @@ DirPropsPage::DirPropsPage( PropertiesDialog *_props ) : PropsPage( _props )
 	f.close();
 
 	KConfig config( tmp );
-	config.setGroup( "KDE Desktop Entry" );
+	config.setDesktopGroup();
 	wallStr = config.readEntry( "BgImage" );
 	iconStr = config.readEntry( "Icon" );
     }
@@ -1201,7 +1201,7 @@ void DirPropsPage::applyChanges()
     f.close();
 
     KConfig config( tmp );
-    config.setGroup( "KDE Desktop Entry" );
+    config.setDesktopGroup();
 
     int i = wallBox->currentItem();
     if ( i != -1 )
@@ -1462,7 +1462,7 @@ ApplicationPropsPage::ApplicationPropsPage( PropertiesDialog *_props ) : PropsPa
     f.close();
 
     KConfig config( path );
-    config.setGroup( "KDE Desktop Entry" );
+    config.setDesktopGroup();
     commentStr = config.readEntry( "Comment" );
     binaryPatternStr = config.readEntry( "BinaryPattern" );
     extensionsStr = config.readEntry( "MimeType" );
@@ -1471,6 +1471,8 @@ ApplicationPropsPage::ApplicationPropsPage( PropertiesDialog *_props ) : PropsPa
     if ( nameStr.isEmpty() )
     {
 	nameStr = _props->kurl().filename();
+	if ( nameStr.right(8) == ".desktop" )
+	    nameStr.truncate( nameStr.length() - 8 );
 	if ( nameStr.right(7) == ".kdelnk" )
 	    nameStr.truncate( nameStr.length() - 7 );
 	//KURL::decodeURL( nameStr );
@@ -1545,7 +1547,7 @@ bool ApplicationPropsPage::supports( const KURL& _kurl, mode_t _mode )
       return false;
 
     KConfig config( path );
-    config.setGroup( "KDE Desktop Entry" );
+    config.setDesktopGroup();
 
     QString type = config.readEntry( "Type" );
     if ( type.isNull() )
@@ -1705,7 +1707,7 @@ void ApplicationPropsPage::applyChanges()
     
     f.close(); // kalle
     KConfig config( path ); // kalle
-    config.setGroup( "KDE Desktop Entry" );
+    config.setDesktopGroup();
     config.writeEntry( "Comment", commentEdit->text(), true, false, true );
 
     QString tmp = binaryPatternEdit->text();
@@ -1838,7 +1840,7 @@ BindingPropsPage::BindingPropsPage( PropertiesDialog *_props ) : PropsPage( _pro
     f.close();
 
     KConfig config( _props->kurl().path() );
-    config.setGroup( "KDE Desktop Entry" );
+    config.setDesktopGroup();
     QString patternStr = config.readEntry( "Patterns" );
     QString appStr = config.readEntry( "DefaultApp" );
     QString iconStr = config.readEntry( "Icon" );
@@ -1911,7 +1913,7 @@ bool BindingPropsPage::supports( const KURL& _kurl, mode_t _mode )
       return false;
 
     KConfig config( path );
-    config.setGroup( "KDE Desktop Entry" );
+    config.setDesktopGroup();
 
     QString type = config.readEntry( "Type" );
     if ( type.isNull() )
@@ -2065,7 +2067,7 @@ void BindingPropsPage::applyChanges()
     f.close();
 
     KConfig config( path );
-    config.setGroup( "KDE Desktop Entry" );
+    config.setDesktopGroup();
     
     QString tmp = patternEdit->text();
     if ( tmp.length() > 1 )
@@ -2164,7 +2166,7 @@ DevicePropsPage::DevicePropsPage( PropertiesDialog *_props ) : PropsPage( _props
     f.close();
 
     KConfig config( path );
-    config.setGroup( "KDE Desktop Entry" );
+    config.setDesktopGroup();
     deviceStr = config.readEntry( "Dev" );
     mountPointStr = config.readEntry( "MountPoint" );
     readonlyStr = config.readEntry( "ReadOnly" );
@@ -2214,7 +2216,7 @@ bool DevicePropsPage::supports( const KURL& _kurl, mode_t _mode )
       return false;
 
     KConfig config( path );
-    config.setGroup( "KDE Desktop Entry" );
+    config.setDesktopGroup();
 
     QString type = config.readEntry( "Type" );
     if ( type.isNull() )
@@ -2238,7 +2240,7 @@ void DevicePropsPage::applyChanges()
     f.close();
 
     KConfig config( path );
-    config.setGroup( "KDE Desktop Entry" );
+    config.setDesktopGroup();
     
     config.writeEntry( "Dev", device->text() );
     config.writeEntry( "MountPoint", mountpoint->text() );

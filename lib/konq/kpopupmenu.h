@@ -69,7 +69,7 @@ protected:
   QStringList m_lstPopupURLs;
   mode_t m_popupMode;
   QMap<int,const KService *> m_mapPopup;
-  QMap<int,KDELnkMimeType::Service> m_mapPopup2;
+  QMap<int,KDEDesktopMimeType::Service> m_mapPopup2;
 };
 
 #endif

@@ -206,12 +206,12 @@ KonqPopupMenu::KonqPopupMenu( QStringList urls,
   {
     KServiceTypeProfile::OfferList offers = KServiceTypeProfile::offers( mime->name() );
 
-    QValueList<KDELnkMimeType::Service> builtin;
-    QValueList<KDELnkMimeType::Service> user;
-    if ( mime->name() == "application/x-kdelnk" )
+    QValueList<KDEDesktopMimeType::Service> builtin;
+    QValueList<KDEDesktopMimeType::Service> user;
+    if ( mime->name() == "application/x-desktop" )
     {
-      builtin = KDELnkMimeType::builtinServices( url );
-      user = KDELnkMimeType::userDefinedServices( url );
+      builtin = KDEDesktopMimeType::builtinServices( url );
+      user = KDEDesktopMimeType::userDefinedServices( url );
     }
   
     if ( !offers.isEmpty() || !user.isEmpty() || !builtin.isEmpty() )
@@ -231,7 +231,7 @@ KonqPopupMenu::KonqPopupMenu( QStringList urls,
       m_mapPopup[ id ] = it->service();
     }
     
-    QValueList<KDELnkMimeType::Service>::Iterator it2 = user.begin();
+    QValueList<KDEDesktopMimeType::Service>::Iterator it2 = user.begin();
     for( ; it2 != user.end(); ++it2 )
     {
       if ( !it2->m_strIcon.isEmpty() )
@@ -370,14 +370,14 @@ void KonqPopupMenu::slotPopup( int id )
     return;
   }
   
-  // Is it a service specific to kdelnk files ?
-  QMap<int,KDELnkMimeType::Service>::Iterator it2 = m_mapPopup2.find( id );
+  // Is it a service specific to desktop entry files ?
+  QMap<int,KDEDesktopMimeType::Service>::Iterator it2 = m_mapPopup2.find( id );
   if ( it2 == m_mapPopup2.end() )
     return;
 
   QStringList::Iterator it3 = m_lstPopupURLs.begin();
   for( ; it3 != m_lstPopupURLs.end(); ++it3 )
-    KDELnkMimeType::executeService( *it3, it2.data() );
+    KDEDesktopMimeType::executeService( *it3, it2.data() );
 
   return;
 }

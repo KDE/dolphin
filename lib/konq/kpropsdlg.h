@@ -267,7 +267,7 @@ protected:
 
 /**
  * Used to edit the files containing
- * [KDE Desktop Entry]
+ * [Desktop Entry]
  * Type=Application
  *
  * Such files are used to represent a program in kpanel and kfm.
@@ -312,7 +312,7 @@ protected:
 
 /**
  * Used to edit the files containing
- * [KDE Desktop Entry]
+ * [Desktop Entry]
  * URL=....
  *
  * Such files are used to represent a program in kpanel and kfm.
@@ -386,7 +386,7 @@ protected:
 
 /**
  * Used to edit the files containing
- * [KDE Desktop Entry]
+ * [Desktop Entry]
  * Type=Application
  *
  * Such files are used to represent a program in kpanel and kfm.
@@ -431,7 +431,7 @@ protected:
 
 /**
  * Used to edit the files containing
- * [KDE Desktop Entry]
+ * [Desktop Entry]
  * Type=MimeType
  */
 class BindingPropsPage : public PropsPage

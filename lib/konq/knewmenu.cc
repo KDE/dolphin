@@ -101,8 +101,10 @@ void KNewMenu::fillMenu()
     for ( ++templ; templ != templatesList->end(); ++templ)
     {
         KSimpleConfig config(UserPaths::templatesPath() + *templ, true);
-        config.setGroup( "KDE Desktop Entry" );
+        config.setDesktopGroup();
         QString name = *templ;
+        if ( name.right(8) == ".desktop" )
+            name.truncate( name.length() - 8 );
         if ( name.right(7) == ".kdelnk" )
             name.truncate( name.length() - 7 );
         if ( m_bUseOPMenu )
@@ -182,7 +184,9 @@ void KNewMenu::slotNewFile( int _id )
           return;
       }
       KSimpleConfig config(x, true);
-      config.setGroup( "KDE Desktop Entry" );
+      config.setDesktopGroup();
+      if ( sName.right(8) == ".desktop" )
+	sName.truncate( sName.length() - 8 );
       if ( sName.right(7) == ".kdelnk" )
 	sName.truncate( sName.length() - 7 );
       sName = config.readEntry("Name", sName);
@@ -239,7 +243,8 @@ void KNewMenu::slotNewFile( int _id )
 		//		Kfm::setUpDest(&u2);
 		// --- Sven's check if global apps/mime end ---
 
-                if ( sFile.right(7) ==".kdelnk" )
+                if ( ( sFile.right(7) == ".kdelnk" ) ||
+		     ( sFile.right(8) == ".desktop" ) )
                 {
                   m_sDest.insert( job->id(), new QString( dest.url() ) );
                   connect(job, SIGNAL( finished( int ) ), this, SLOT( slotCopyFinished( int ) ) );
@@ -253,7 +258,8 @@ void KNewMenu::slotNewFile( int _id )
 
 void KNewMenu::slotCopyFinished( int id )
 {
-  // Now open the properties dialog on the file, as it was a kdelnk
+  // Now open the properties dialog on the file, as it was a 
+  // desktop entry
   (void) new PropertiesDialog( m_sDest.find( id )->data() );
   m_sDest.remove( id );
 }
