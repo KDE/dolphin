@@ -232,7 +232,6 @@ KAppearanceOptions::KAppearanceOptions(KConfig *config, QString group, QWidget *
   m_pFonts[5]->setFonts( m_families );
 
   load();
-  setChanged(false);
 }
 
 KAppearanceOptions::~KAppearanceOptions()
@@ -328,6 +327,7 @@ void KAppearanceOptions::load()
     //kdDebug(0) << "encoding = " << encodingName << endl;
 
     updateGUI();
+    setChanged(false);
 }
 
 void KAppearanceOptions::defaults()

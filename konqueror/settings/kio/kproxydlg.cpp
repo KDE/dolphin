@@ -53,8 +53,8 @@ KProxyOptions::KProxyOptions (QWidget* parent )
   tab->addTab(proxy, i18n("&Proxy"));
   tab->addTab(socks, i18n("&SOCKS"));
 
-  connect(proxy, SIGNAL(changed(bool)), this, SIGNAL(changed(bool)));
-  connect(socks, SIGNAL(changed(bool)), this, SIGNAL(changed(bool)));
+  connect(proxy, SIGNAL(changed(bool)), this, SLOT(slotChanged()));
+  connect(socks, SIGNAL(changed(bool)), this, SLOT(slotChanged()));
 
   connect(tab, SIGNAL(currentChanged(QWidget *)),
           this, SIGNAL(quickHelpChanged()));
@@ -65,22 +65,30 @@ KProxyOptions::~KProxyOptions()
 {
 }
 
+void KProxyOptions::slotChanged()
+{
+  setChanged( proxy->changed() || socks->changed() );
+}
+
 void KProxyOptions::load()
 {
   proxy->load();
   socks->load();
+  // we don't need to call setChanged because the submodules handle it just fine
 }
 
 void KProxyOptions::save()
 {
   proxy->save();
   socks->save();
+  // we don't need to call setChanged because the submodules handle it just fine
 }
 
 void KProxyOptions::defaults()
 {
   proxy->defaults();
   socks->defaults();
+  // we don't need to call setChanged because the submodules handle it just fine
 }
 
 QString KProxyOptions::quickHelp() const
@@ -189,6 +197,7 @@ void KProxyDialog::load()
     default:
       break;
   }
+  setChanged( false );
 }
 
 void KProxyDialog::save()

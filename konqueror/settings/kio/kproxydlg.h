@@ -44,6 +44,9 @@ public:
   virtual void defaults();
   virtual QString quickHelp() const;
 
+protected slots:
+  void slotChanged();
+
 private:
   KCModule *proxy;
   KCModule *socks;

@@ -120,6 +120,7 @@ void UserAgentDlg::load()
   dlg->cbProcessorType->setChecked( m_ua_keys.contains('m') );
   dlg->cbLanguage->setChecked( m_ua_keys.contains('l') );
   updateButtons();
+  setChanged( false );
 }
 
 void UserAgentDlg::updateButtons()

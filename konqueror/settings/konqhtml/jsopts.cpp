@@ -118,6 +118,7 @@ void KJavaScriptOptions::load()
     		js_global_policies.isFeatureEnabled());
     reportErrorsCB->setChecked( m_pConfig->readBoolEntry("ReportJavaScriptErrors",false));
 //    js_popup->setButton( m_pConfig->readUnsignedNumEntry("WindowOpenPolicy", 0) );
+    setChanged(false);
 }
 
 void KJavaScriptOptions::defaults()
@@ -126,6 +127,7 @@ void KJavaScriptOptions::defaults()
   enableJavaScriptGloballyCB->setChecked(
     		js_global_policies.isFeatureEnabled());
   reportErrorsCB->setChecked( false );
+  setChanged(true);
 }
 
 void KJavaScriptOptions::save()
@@ -143,6 +145,7 @@ void KJavaScriptOptions::save()
 
     // sync moved to KJSParts::save
 //    m_pConfig->sync();
+    setChanged(false);
 }
 
 void KJavaScriptOptions::slotChanged()

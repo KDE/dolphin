@@ -69,6 +69,7 @@ void KCacheConfigDialog::load()
   connect ( m_dlg->bgCachePolicy, SIGNAL(clicked (int)), SLOT(configChanged()) );
   connect ( m_dlg->sbMaxCacheSize, SIGNAL(valueChanged(int)), SLOT(configChanged()) );
   connect ( m_dlg->pbClearCache, SIGNAL(clicked()), SLOT(slotClearCache()) );
+  setChanged( false );
 } 
 
 void KCacheConfigDialog::save()

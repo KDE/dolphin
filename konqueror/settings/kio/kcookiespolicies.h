@@ -73,7 +73,6 @@ private:
 
 private:
     int d_itemsSelected;
-    bool d_configChanged;
     KCookiesPolicyDlgUI* dlg;
     QMap<QListViewItem*, const char*> m_pDomainPolicy;
 };

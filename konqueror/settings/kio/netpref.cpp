@@ -70,8 +70,6 @@ KIOPreferences::KIOPreferences( QWidget* parent )
     mainLayout->addStretch();
 
     load();
-
-    setChanged(false);
 }
 
 KIOPreferences::~KIOPreferences()
@@ -95,6 +93,7 @@ void KIOPreferences::load()
   KConfig config( "kio_ftprc", true, false );
   cb_ftpEnablePasv->setChecked( !config.readBoolEntry( "DisablePassiveMode", false ) );
   cb_ftpMarkPartial->setChecked( config.readBoolEntry( "MarkPartial", true ) );
+  setChanged( false );
 }
 
 void KIOPreferences::save()

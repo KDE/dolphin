@@ -129,6 +129,7 @@ void KCookiesManagement::load()
 {
   defaults();
   getDomains();
+  setChanged( false );
 }
 
 void KCookiesManagement::save()
@@ -200,6 +201,7 @@ void KCookiesManagement::save()
     else
       break;
   }
+  setChanged( false );
 }
 
 void KCookiesManagement::defaults()
@@ -212,6 +214,7 @@ void KCookiesManagement::defaults()
   dlg->pbDelete->setEnabled(false);
   dlg->pbDeleteAll->setEnabled(false);
   dlg->pbPolicy->setEnabled(false);
+  setChanged( true );
 }
 
 void KCookiesManagement::clearCookieDetails()

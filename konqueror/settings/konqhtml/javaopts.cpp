@@ -228,6 +228,7 @@ void KJavaOptions::load()
     serverTimeoutSB->setValue( serverTimeout );
 
     toggleJavaControls();
+    setChanged( false );
 }
 
 void KJavaOptions::defaults()
@@ -242,6 +243,7 @@ void KJavaOptions::defaults()
     enableShutdownCB->setChecked(true);
     serverTimeoutSB->setValue( 60 );
     toggleJavaControls();
+    setChanged( true );
 }
 
 void KJavaOptions::save()
@@ -264,6 +266,7 @@ void KJavaOptions::save()
 
     // sync moved to KJSParts::save
 //    m_pConfig->sync();
+    setChanged( false );
 }
 
 void KJavaOptions::slotChanged()

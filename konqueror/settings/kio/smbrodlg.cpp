@@ -82,8 +82,6 @@ SMBRoOptions::SMBRoOptions(QWidget *parent)
 
    // finaly read the options
    load();
-
-   setChanged(false);
 }
 
 SMBRoOptions::~SMBRoOptions()
@@ -121,6 +119,7 @@ void SMBRoOptions::load()
    m_passwordLe->setText(password);
 
    delete cfg;
+   setChanged(false);
 }
 
 void SMBRoOptions::save()
@@ -166,7 +165,7 @@ void SMBRoOptions::defaults()
 
 void SMBRoOptions::changed()
 {
-   emit KCModule::changed(true);
+   setChanged(true);
 }
 
 QString SMBRoOptions::quickHelp() const

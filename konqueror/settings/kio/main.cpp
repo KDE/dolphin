@@ -124,6 +124,7 @@ void LanBrowser::load()
      resLisaPage->load();
    if (kioLanPage)
      kioLanPage->load();
+   setChanged(false);
 }
 
 void LanBrowser::save()
@@ -135,6 +136,7 @@ void LanBrowser::save()
      kioLanPage->save();
    if (lisaPage)
      lisaPage->save();
+   setChanged(false);
 }
 
 
