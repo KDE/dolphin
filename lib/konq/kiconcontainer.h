@@ -58,7 +58,7 @@ public:
   
   void setPixmap( const QPixmap& _pixmap ) { m_pixmap = _pixmap; }
   QPixmap pixmap() const { return m_pixmap; }
-  virtual QString  text() const { return m_strText; }
+  virtual QString text() const { return m_strText; }
   virtual void setText( const QString& _text );
   
   virtual bool hasFixedPos() const { return m_bFixedPos; }

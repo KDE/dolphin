@@ -29,14 +29,15 @@ KFileIcon::KFileIcon( UDSEntry& _entry, KURL& _url, bool _mini ) :
   m_entry( _entry ), 
   m_url( _url ), 
   m_bMini( _mini ),
-  m_bMarked( false ),
-  m_bIsLocalURL( _url.isLocalFile() )
+  m_bIsLocalURL( _url.isLocalFile() ),
+  m_bMarked( false )
 {
   KFileIcon::init(); // don't call derived methods !
 }
 
 void KFileIcon::init()
 {
+  // extract the mode and the name from the UDS Entry
   m_mode = 0;
   m_name = QString::null;
   UDSEntry::iterator it = m_entry.begin();
@@ -50,6 +51,7 @@ void KFileIcon::init()
 
   assert(!m_name.isNull());
 
+  // determine the mimetype
   m_pMimeType = KMimeType::findByURL( m_url, m_mode, m_bIsLocalURL );
   assert (m_pMimeType);
 }

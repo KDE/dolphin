@@ -95,6 +95,7 @@ public:
    */
   virtual QString getStatusBarInfo() const;
 
+  // TODO
   virtual bool acceptsDrops( QStringList& /* _formats */ ) const;
 
 protected:
@@ -104,16 +105,41 @@ protected:
    */
   void init();
   
+  /**
+   * We keep a copy of the UDSEntry since we need it for @ref #getStatusBarInfo
+   */
   UDSEntry m_entry;
+  /**
+   * The url of the file
+   */
   KURL m_url;
+  /**
+   * Mini icon or not mini icon
+   */
   bool m_bMini;
+  /**
+   * The mode (as given by stat()) for the file
+   */
   mode_t m_mode;
+  /**
+   * True if local file
+   */
+  bool m_bIsLocalURL;
 
+  /**
+   * The file name (without path)
+   */
   QString m_name;
+  /**
+   * The mimetype of the file
+   */
   KMimeType* m_pMimeType;
 
+private:
+  /**
+   * Marked : see @ref #mark()
+   */
   bool m_bMarked;
-  bool m_bIsLocalURL;
 };
 
 #endif
