@@ -28,6 +28,7 @@
 #include <qwhatsthis.h>
 #include <qvbuttongroup.h>
 #include <qvgroupbox.h>
+#include <qvbox.h>
 #include <qradiobutton.h>
 #include <kconfig.h>
 #include <kdialog.h>
@@ -55,17 +56,21 @@ KBehaviourOptions::KBehaviourOptions(KConfig *config, QString group, QWidget *pa
 
 	QVGroupBox * miscGb = new QVGroupBox(i18n("Misc Options"), this);
 	lay->addWidget( miscGb );
-	
 	QHBox *hbox = new QHBox(miscGb);
-    winPixmap = new QLabel(hbox);
+	QVBox *vbox = new QVBox(hbox);
+	
+	// ----
+	
+	winPixmap = new QLabel(hbox);
     winPixmap->setFrameStyle( QFrame::StyledPanel | QFrame::Sunken );
     winPixmap->setPixmap(QPixmap(locate("data",
                                         "kcontrol/pics/onlyone.png")));
     winPixmap->setFixedSize( winPixmap->sizeHint() );
-	( void ) new QWidget( hbox );
 	
-    // ----
-    cbNewWin = new QCheckBox(i18n("&Open directories in separate windows"), miscGb);
+ 
+   // ----
+
+    cbNewWin = new QCheckBox(i18n("&Open directories in separate windows"), vbox);
     QWhatsThis::add( cbNewWin, i18n("If this option is checked, Konqueror will open a new window when "
                                     "you open a directory, rather than showing that directory's contents in the current window."));
     connect(cbNewWin, SIGNAL(clicked()), this, SLOT(changed()));
@@ -73,7 +78,7 @@ KBehaviourOptions::KBehaviourOptions(KConfig *config, QString group, QWidget *pa
 
     // ----
 
-    cbListProgress = new QCheckBox( i18n( "&Show network operations in a single window" ), miscGb );
+    cbListProgress = new QCheckBox( i18n( "&Show network operations in a single window" ), vbox );
     connect(cbListProgress, SIGNAL(clicked()), this, SLOT(changed()));
 
     QWhatsThis::add( cbListProgress, i18n("Checking this option will group the"
@@ -84,7 +89,7 @@ KBehaviourOptions::KBehaviourOptions(KConfig *config, QString group, QWidget *pa
 
     // --
 
-    cbShowTips = new QCheckBox( i18n( "&Show file tips" ), miscGb );
+    cbShowTips = new QCheckBox( i18n( "&Show file tips" ), vbox );
     connect(cbShowTips, SIGNAL(clicked()), this, SLOT(changed()));
 
     QWhatsThis::add( cbShowTips, i18n("Here you can control if, when moving the mouse over a file, you want to see a "
@@ -101,13 +106,13 @@ KBehaviourOptions::KBehaviourOptions(KConfig *config, QString group, QWidget *pa
     QWhatsThis::add( fileTips, tipstr );
     QWhatsThis::add( sbToolTip, tipstr );
 */
-    cbShowPreviewsInTips = new QCheckBox( i18n( "&Show previews in file tips" ), miscGb );
+    cbShowPreviewsInTips = new QCheckBox( i18n( "&Show previews in file tips" ), vbox );
     connect(cbShowPreviewsInTips, SIGNAL(clicked()), this, SLOT(changed()));
     
     QWhatsThis::add( cbShowPreviewsInTips, i18n("Here you can control if you want the "
                           "popup window to contain a larger preview for the file, when moving the mouse over it."));
 
-    cbShowMMBInTabs = new QCheckBox( i18n( "Open &links in new tab instead of in new window" ), miscGb );
+    cbShowMMBInTabs = new QCheckBox( i18n( "Open &links in new tab instead of in new window" ), vbox );
     connect(cbShowMMBInTabs, SIGNAL(clicked()), this, SLOT(changed()));
 
     
