@@ -27,9 +27,6 @@ public:
     virtual void defaults();
     virtual QString quickHelp() const;
 
-private slots:
-    void moduleChanged();
-
 private:
 
     QTabWidget* tab;

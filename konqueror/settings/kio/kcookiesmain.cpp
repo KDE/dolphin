@@ -42,13 +42,13 @@ KCookiesMain::KCookiesMain(QWidget *parent)
 
     policies = new KCookiesPolicies(this);
     tab->addTab(policies, i18n("&Policy"));
-    connect(policies, SIGNAL(changed(bool)), this, SLOT(moduleChanged()));
+    connect(policies, SIGNAL(changed(bool)), SLOT(setChanged(bool)));
 
     if(managerOK)
     {
         management = new KCookiesManagement(this);
         tab->addTab(management, i18n("&Management"));
-        connect(management, SIGNAL(changed(bool)), this, SLOT(moduleChanged()));
+        connect(management, SIGNAL(changed(bool)), SLOT(setChanged(bool)));
     }
 }
 
@@ -75,11 +75,6 @@ void KCookiesMain::defaults()
   policies->defaults();
   if(management)
       management->defaults();
-}
-
-void KCookiesMain::moduleChanged()
-{
-  emit KCModule::changed(true);
 }
 
 QString KCookiesMain::quickHelp() const
