@@ -39,7 +39,7 @@ static KCmdLineOptions options[] = {
    {"exportmoz <filename>", I18N_NOOP("Export bookmarks to file in Mozilla format."), 0},
    {"exportns <filename>", I18N_NOOP("Export bookmarks to file in Netscape (4.x and earlier) format."), 0},
    {"address <address>", I18N_NOOP("Open at the given position in the bookmarks file"), 0},
-   {"caption <caption>", I18N_NOOP("Set the user readable caption for example \"Konsole\""), 0},
+   {"customcaption <caption>", I18N_NOOP("Set the user readable caption for example \"Konsole\""), 0},
    {"nobrowser", I18N_NOOP("Hide all browser related functions."), 0},
    {"+[file]", I18N_NOOP("File to edit"), 0},
    KCmdLineLastOption
@@ -141,8 +141,8 @@ int main(int argc, char **argv) {
                    ? QString::fromLocal8Bit(args->getOption("address"))
                    : "/0";
 
-   QString caption = args->isSet("caption")
-                   ? QString::fromLocal8Bit(args->getOption("caption"))
+   QString caption = args->isSet("customcaption")
+                   ? QString::fromLocal8Bit(args->getOption("customcaption"))
                    : QString::null;
 
    args->clear();

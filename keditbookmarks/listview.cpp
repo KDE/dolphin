@@ -669,7 +669,10 @@ void KEBListViewItem::normalConstruct(const KBookmark &bk) {
 
 // toplevel item (there should be only one!)
 KEBListViewItem::KEBListViewItem(QListView *parent, const KBookmarkGroup &gp)
-   : QListViewItem(parent, i18n("Bookmarks")), m_bookmark(gp), m_emptyFolderPadder(false) {
+   : QListViewItem(parent, KEBApp::self()->caption().isNull() 
+                         ? i18n("Bookmarks")
+                         : i18n("%1 Bookmarks").arg(KEBApp::self()->caption())), 
+     m_bookmark(gp), m_emptyFolderPadder(false) {
 
    setPixmap(0, SmallIcon("bookmark"));
    setExpandable(true);

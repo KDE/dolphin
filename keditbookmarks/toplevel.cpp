@@ -633,17 +633,13 @@ void KEBApp::setCancelTestsEnabled(bool enabled) {
 }
 
 void KEBApp::setModifiedFlag(bool modified) {
-   m_modified = modified;
+   m_modified = modified && !m_readOnly;
 
-   QString caption;
-
+   QString caption = m_caption.isNull() ? "" : (m_caption + " ");
    if (m_bookmarksFilename != KBookmarkManager::userBookmarksManager()->path())
-      caption += m_bookmarksFilename;
-
-   if (m_readOnly) {
-      m_modified = false;
+      caption += (caption.isEmpty()?"":" - ") + m_bookmarksFilename;
+   if (m_readOnly)
       caption += QString(" [%1]").arg(i18n("Read Only"));
-   }
 
    setCaption(caption, m_modified);
 
@@ -727,6 +723,7 @@ void KEBApp::slotLoad() {
    QString bookmarksFile = KFileDialog::getOpenFileName(QString::null, "*.xml", this);
    if (bookmarksFile.isNull())
       return;
+   m_caption = QString::null;
    m_bookmarksFilename = bookmarksFile;
    construct();
 }
