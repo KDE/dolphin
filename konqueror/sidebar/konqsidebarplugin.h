@@ -47,17 +47,12 @@ class KonqSidebarPlugin : public QObject
 
 	public slots:
 		void openURL(const KURL& url){handleURL(url);}
-	
-	/* signals, which could be, but need not to be added 
+
+	/* signals, which could be, but need not to be added
 
 		void openURLRequest( const KURL &url, const KParts::URLArgs &args = KParts::URLArgs() );
   		void createNewWindow( const KURL &url, const KParts::URLArgs &args = KParts::URLArgs() );
 
-	!!!!!!!!!!!!! IMPORTANT, if you want to implement and call the following signal,
-		   don't use emit(createNewWindow(....)), but call it direclty createNewWindow(.....);
-
-	!!!!!!!!!!!!! IMPORTANT, if you want to implement and call the following signal,
-		   don't use emit enableAction(....), but call it direclty enableAction(.....);
 		void enableAction( const char * name, bool enabled );
 
 		void popupMenu( const QPoint &global, const KFileItemList &items );

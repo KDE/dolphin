@@ -320,8 +320,8 @@ void Sidebar_Widget::buttonPopupActivate(int id)
 				{
 					QFile f(PATH+Buttons.at(popupFor)->file);
 					if (!f.remove()) qDebug("Error, file not deleted");
-				        QTimer::singleShot(0,this,SLOT(createButtons()));  
-				}	
+				        QTimer::singleShot(0,this,SLOT(createButtons()));
+				}
 			break;
 		}
 	}
@@ -353,7 +353,7 @@ void Sidebar_Widget::activatedMenu(int id)
 			else
 				if (!singleWidgetMode)
 				{
-					int tmpLatestViewed=latestViewed;					
+					int tmpLatestViewed=latestViewed;
 					Area->setMainDockWidget(dummyMainW);
 	        			dummyMainW->setDockSite(KDockWidget::DockTop);
 				        dummyMainW->setEnableDocking(KDockWidget::DockNone);
@@ -421,7 +421,7 @@ void Sidebar_Widget::stdAction(const char *handlestd)
 	if (!mod) return;
 	if (!(mod->module)) return;
 
-	kdDebug()<<"Try calling >active< module's action"<<handlestd<<endl;	
+	kdDebug()<<"Try calling >active< module's action"<<handlestd<<endl;
 
 	int id = mod->module->metaObject()->findSlot( handlestd );
   	if ( id == -1 )return;
@@ -465,7 +465,7 @@ void Sidebar_Widget::createButtons()
 //        QStringList list=dirs->findAllResources("data","konqsidebartng/entries/*.desktop",false,true);
 //	if (list.count()==0) kdDebug()<<"*** No Modules found"<<endl;
 //  	for ( QStringList::Iterator it = list.begin(); it != list.end(); ++it ) addButton(*it);
-	readConfig();	    	
+	readConfig();
 }
 
 void Sidebar_Widget::openURL(const class KURL &url)
@@ -688,7 +688,7 @@ void Sidebar_Widget::showHidePage(int page)
 
 		}
 
-	collapseExpandSidebar();	
+	collapseExpandSidebar();
 }
 
 void Sidebar_Widget::collapseExpandSidebar()
@@ -708,7 +708,7 @@ void Sidebar_Widget::collapseExpandSidebar()
 	if ((!somethingVisible) && (visibleViews.count()!=0))
 	{
 		somethingVisible=true;
-		
+
 		((QWidget*)parent())->setMaximumWidth(32767);
     		QValueList<int> list = ((QSplitter*)parent()->parent())->sizes();
 		QValueList<int>::Iterator it = list.begin();
@@ -817,10 +817,11 @@ void Sidebar_Widget::connectModule(QObject *mod)
 	connect(mod,SIGNAL(popupMenu( const QPoint &, const KURL &,
 		const QString &, mode_t)),this,SLOT(popupMenu( const
 		QPoint &, const KURL&, const QString &, mode_t)));
-	connect(mod,SIGNAL(popupMenu( KXMLGUIClient *, const QPoint &,
+        // No such signal defined
+	/*connect(mod,SIGNAL(popupMenu( KXMLGUIClient *, const QPoint &,
 		const KURL &,const QString &, mode_t)),this,
 		SLOT(popupMenu( KXMLGUIClient *, const QPoint &,
-		const KURL &,const QString &, mode_t)));
+		const KURL &,const QString &, mode_t)));*/
 
 	connect(mod,SIGNAL(popupMenu( const QPoint &, const KFileItemList & )),
 		this,SLOT(popupMenu( const QPoint &, const KFileItemList & )));
