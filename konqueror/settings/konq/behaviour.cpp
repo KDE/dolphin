@@ -184,7 +184,7 @@ KBehaviourOptions::KBehaviourOptions(KConfig *config, QString group, QWidget *pa
         rbOPLocal = new QRadioButton(i18n("For &local browsing only (recommended)"), bgOneProcess);
         QWhatsThis::add( rbOPLocal, opstrl);
 
-        rbOPWeb = new QRadioButton(i18n("For &web browsing only"), bgOneProcess);
+        rbOPWeb = new QRadioButton(i18n("For &Web browsing only"), bgOneProcess);
         QWhatsThis::add( rbOPWeb, opstrw);
 
         rbOPAlways = new QRadioButton(i18n("Alwa&ys (use with care)"), bgOneProcess);
