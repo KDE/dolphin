@@ -29,25 +29,6 @@ public:
    virtual QString finalAddress() = 0;
 };
 
-class MoveCommand : public KCommand, public FinalAddressCommand
-{
-public:
-   // "Create it with itemsAlreadyMoved=true since 
-   // "KListView moves the item before telling us about it."
-   MoveCommand(const QString &from, const QString &to, const QString &name = QString::null)
-      : KCommand(), m_from(from), m_to(to), m_mytext(name)
-   { ; }
-   virtual ~MoveCommand() { ; }
-   virtual void execute();
-   virtual void unexecute();
-   virtual QString name() const;
-   virtual QString finalAddress();
-private:
-   QString m_from;
-   QString m_to;
-   QString m_mytext;
-};
-
 class CreateCommand : public KCommand, public FinalAddressCommand
 {
 public:
@@ -98,26 +79,6 @@ private:
    QString m_mytext;
 };
 
-class DeleteCommand : public KCommand
-{
-public:
-   DeleteCommand(const QString &from)
-      : KCommand(), m_from(from), m_cmd(0L), m_subCmd(0L)
-   { ; }
-   virtual ~DeleteCommand() { delete m_cmd; }
-   virtual void execute();
-   virtual void unexecute();
-   virtual QString name() const { 
-      // NOTE - DeleteCommand needs no name, its always embedded in a macrocommand
-      return ""; 
-   };
-   static KMacroCommand* deleteAll(const KBookmarkGroup &parentGroup);
-private:
-   QString m_from;
-   KCommand *m_cmd;
-   KMacroCommand *m_subCmd;
-};
-
 class EditCommand : public KCommand
 {
 public:
@@ -166,6 +127,45 @@ private:
    QString m_address;
    QString m_newText;
    QString m_oldText;
+};
+
+class DeleteCommand : public KCommand
+{
+public:
+   DeleteCommand(const QString &from)
+      : KCommand(), m_from(from), m_cmd(0L), m_subCmd(0L)
+   { ; }
+   virtual ~DeleteCommand() { delete m_cmd; }
+   virtual void execute();
+   virtual void unexecute();
+   virtual QString name() const { 
+      // NOTE - DeleteCommand needs no name, its always embedded in a macrocommand
+      return ""; 
+   };
+   static KMacroCommand* deleteAll(const KBookmarkGroup &parentGroup);
+private:
+   QString m_from;
+   KCommand *m_cmd;
+   KMacroCommand *m_subCmd;
+};
+
+class MoveCommand : public KCommand, public FinalAddressCommand
+{
+public:
+   // "Create it with itemsAlreadyMoved=true since 
+   // "KListView moves the item before telling us about it."
+   MoveCommand(const QString &from, const QString &to, const QString &name = QString::null)
+      : KCommand(), m_from(from), m_to(to), m_mytext(name)
+   { ; }
+   virtual ~MoveCommand() { ; }
+   virtual void execute();
+   virtual void unexecute();
+   virtual QString name() const;
+   virtual QString finalAddress();
+private:
+   QString m_from;
+   QString m_to;
+   QString m_mytext;
 };
 
 class SortItem;
