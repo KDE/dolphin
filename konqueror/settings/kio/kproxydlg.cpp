@@ -373,8 +373,8 @@ void KProxyDialog::showInvalidMessage( const QString& _msg )
     msg = _msg;
   else
     msg = i18n( "<qt>The proxy settings you specified are invalid."
-                "<p>Please click on the <em>Setup...</em> "
-                "button and correct the problem before proceeding ; "
+                "<p>Please click on the <b>Setup...</b> "
+                "button and correct the problem before proceeding; "
                 "otherwise your changes will be ignored.</qt>" );
   
   KMessageBox::error( this, msg, i18n("Invalid Proxy Setup") );
