@@ -31,7 +31,8 @@ public:
   virtual void load();
   virtual void save();
   virtual void defaults();
-  
+
+  QString quickHelp();
 private slots:
   void textChanged(const QString&);
 //  void returnPressed();

@@ -74,7 +74,7 @@ UserAgentOptions::UserAgentOptions( QWidget * parent, const char * name ) :
   connect( deletePB, SIGNAL( clicked() ), SLOT( deleteClicked() ) );
   connect( deletePB, SIGNAL( clicked() ), SLOT( changed() ) );
 
-  bindingsLA = new QLabel( i18n( "Known bindings:" ), this );
+  bindingsLA = new QLabel( i18n( "Configured agent bindings:" ), this );
   lay->addMultiCellWidget(bindingsLA,4,4,2,3);
 
   bindingsLB = new QListBox( this );
@@ -203,5 +203,23 @@ void UserAgentOptions::changed()
   emit KCModule::changed(true);
 }
 
+QString UserAgentOptions::quickHelp()
+{
+    return i18n("<h1>User Agent</h1>The user agent control screen allows "
+		"you to have full control over what type of browser "
+		"konqueror will report itself to be to remote web sites.<p>"
+		"Some web sites will not function properly if they think "
+		"they are talking to browsers other than the latest "
+		"Netscape or Internet Explorer. For these sites, you may "
+		"want to override the default of reporting to be Konqueror "
+		"and instead substitute Netscape."
+		"<ul><li>In the <em>server</em> field, enter the server you "
+		"are interested in fooling, such as <em>my.yahoo.com</em>."
+		"You may specify a whole group of sites with wildcard "
+		"syntax, i.e. *.cnn.com."
+		"<li>In the <em>login</em> field, enter "
+		"<em>Mozilla/4.0 (compatible; MSIE 4.0)</em>"
+		"</ul>");
+}
 
 #include "useragentdlg.moc"
