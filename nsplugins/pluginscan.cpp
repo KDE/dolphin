@@ -71,7 +71,7 @@ void deletePluginMimeTypes()
                     kdDebug(1433) << "   - Checking " << files[i] << endl;
                     if ( isPluginMimeType(files.absFilePath(files[i])) ) {
                         kdDebug(1433) << "     - Removing " << files[i] << endl;
-                        //files.remove( files[i] );
+                        files.remove( files[i] );
                     }
 
                 }
@@ -150,7 +150,8 @@ void scanDirectory( QString dir, QStringList &mimeInfoList,
 
         // ignore crashing libs
         if ( files[i]=="librvplayer.so" ||      // RealPlayer 5
-             files[i]=="libnullplugin.so" )     // Netscape Default Plugin
+             files[i]=="libnullplugin.so" ||    // Netscape Default Plugin
+             files[i]=="cult3dplugin.so" )      // Cult 3d plugin
             continue;
 
         // get absolute file path
