@@ -1375,12 +1375,14 @@ void KonqMainWindow::slotPartActivated( KParts::Part *part )
     unplugViewModeActions();
     updateViewModeActions( m_currentView->partServiceOffers() );
 
-    KService::Ptr service = currentView()->service();
+    KService::Ptr service = m_currentView->service();
     QVariant prop = service->property( "X-KDE-BrowserView-Toggable" );
     if ( !prop.isValid() || !prop.toBool() ) // No view mode for toggable views
     // (The other way would be to enforce a better servicetype for them, than Browser/View)
       if ( m_currentView->partServiceOffers().count() > 1 && m_viewModeMenu )
         plugViewModeActions();
+
+    m_pMenuNew->popupMenu()->setEnabled( m_currentView->serviceType() == QString::fromLatin1( "inode/directory" ) );
   }
 
   m_bViewModeToggled = false;
