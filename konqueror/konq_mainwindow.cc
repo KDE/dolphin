@@ -3297,7 +3297,7 @@ void KonqMainWindow::initActions()
 
   KAction *clearLocation = new KAction( i18n( "Clear Location Bar" ),
 					QApplication::reverseLayout() ? "clear_left" : "locationbar_erase",
-					0, this, SLOT( slotClearLocationBar() ), actionCollection(), "clear_location" );
+					CTRL+Key_L, this, SLOT( slotClearLocationBar() ), actionCollection(), "clear_location" );
   clearLocation->setWhatsThis( i18n( "Clear Location bar<p>"
 				     "Clears the content of the location bar." ) );
 
