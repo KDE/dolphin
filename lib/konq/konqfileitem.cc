@@ -32,9 +32,11 @@
 #include <kdebug.h>
 #include <kmimetype.h>
 
-QPixmap KonqFileItem::pixmap( int _size, int _state, 
+QPixmap KonqFileItem::pixmap( int _size, int _state,
 	                      bool bImagePreviewAllowed ) const
 {
+  bThumbnail = false;
+
   if ( m_pMimeType && m_pMimeType->name().left(6) == "image/" &&
        bImagePreviewAllowed )
   {
@@ -44,7 +46,6 @@ QPixmap KonqFileItem::pixmap( int _size, int _state,
           KIconTheme *root = KGlobal::instance()->iconLoader()->theme();
           _size = root->defaultSize( KIcon::Desktop );
       }
-      bool bAvail = false;
       KURL thumbURL( m_url );
       QPixmap pix;
       KIO::UDSEntry entry;
@@ -53,38 +54,38 @@ QPixmap KonqFileItem::pixmap( int _size, int _state,
       // the pixie equivalent to the requested icon size
       if(_size < 28){
           thumbURL.setPath( m_url.directory() + "/.mospics/small/" + m_url.fileName() );
-          bAvail = KIO::NetAccess::stat(thumbURL, entry);
-          if(!bAvail){
+          bThumbnail = KIO::NetAccess::stat(thumbURL, entry);
+          if(!bThumbnail){
               thumbURL.setPath( m_url.directory() + "/.mospics/med/" + m_url.fileName() );
-              bAvail = KIO::NetAccess::stat(thumbURL, entry);
+              bThumbnail = KIO::NetAccess::stat(thumbURL, entry);
           }
-          if(!bAvail){
+          if(!bThumbnail){
               thumbURL.setPath( m_url.directory() + "/.mospics/large/" + m_url.fileName() );
-              bAvail = KIO::NetAccess::stat(thumbURL, entry);
+              bThumbnail = KIO::NetAccess::stat(thumbURL, entry);
           }
       }
       else if(_size < 40){
           thumbURL.setPath( m_url.directory() + "/.mospics/med/" + m_url.fileName() );
-          bAvail = KIO::NetAccess::stat(thumbURL, entry);
-          if(!bAvail){
+          bThumbnail = KIO::NetAccess::stat(thumbURL, entry);
+          if(!bThumbnail){
               thumbURL.setPath( m_url.directory() + "/.mospics/small/" + m_url.fileName() );
-              bAvail = KIO::NetAccess::stat(thumbURL, entry);
+              bThumbnail = KIO::NetAccess::stat(thumbURL, entry);
           }
-          if(!bAvail){
+          if(!bThumbnail){
               thumbURL.setPath( m_url.directory() + "/.mospics/large/" + m_url.fileName() );
-              bAvail = KIO::NetAccess::stat(thumbURL, entry);
+              bThumbnail = KIO::NetAccess::stat(thumbURL, entry);
           }
       }
       else{
           thumbURL.setPath( m_url.directory() + "/.mospics/large/" + m_url.fileName() );
-          bAvail = KIO::NetAccess::stat(thumbURL, entry);
-          if(!bAvail){
+          bThumbnail = KIO::NetAccess::stat(thumbURL, entry);
+          if(!bThumbnail){
               thumbURL.setPath( m_url.directory() + "/.mospics/med/" + m_url.fileName() );
-              bAvail = KIO::NetAccess::stat(thumbURL, entry);
+              bThumbnail = KIO::NetAccess::stat(thumbURL, entry);
           }
-          if(!bAvail){
+          if(!bThumbnail){
               thumbURL.setPath( m_url.directory() + "/.mospics/small/" + m_url.fileName() );
-              bAvail = KIO::NetAccess::stat(thumbURL, entry);
+              bThumbnail = KIO::NetAccess::stat(thumbURL, entry);
           }
       }
 
@@ -98,8 +99,8 @@ QPixmap KonqFileItem::pixmap( int _size, int _state,
           }
         }
       } // else... well we have a problem, Houston: no more orig file
-        
-      if(bAvail){
+
+      if(bThumbnail){
 
           // Get time of thumbnail file
           time_t t1 = 0L;
@@ -112,10 +113,10 @@ QPixmap KonqFileItem::pixmap( int _size, int _state,
 
           // Is the thumbnail outdated ?
           if ( t1 < tOrig )
-                bAvail = false;
+                bThumbnail = false;
       }
 
-      if (!bAvail) {
+      if (!bThumbnail) {
         // check to see if there is an existing Xv thumbnail
 
         thumbURL.setPath( m_url.directory() +    // base dir
@@ -126,7 +127,7 @@ QPixmap KonqFileItem::pixmap( int _size, int _state,
         // Is the xv pic available ?
         if ( KIO::NetAccess::stat( thumbURL, entry ) )
         {
-          bAvail = true;
+          bThumbnail = true;
           // Get time of thumbnail file
           time_t t1 = 0L;
           KIO::UDSEntry::ConstIterator it = entry.begin();
@@ -138,11 +139,11 @@ QPixmap KonqFileItem::pixmap( int _size, int _state,
 
           // Is the thumbnail outdated ?
           if ( t1 < tOrig )
-            bAvail = false;
+            bThumbnail = false;
         }
       }
 
-      if(bAvail) {
+      if(bThumbnail) {
           // Load thumbnail
           QString tmpFile;
           if ( KIO::NetAccess::download( thumbURL, tmpFile )
@@ -152,7 +153,7 @@ QPixmap KonqFileItem::pixmap( int _size, int _state,
               return pix;
           }
           else
-              bAvail = false;
+              bThumbnail = false;
       }
 
       // No thumbnail, or too old -> load the orig image and create Pixie pic

@@ -117,12 +117,14 @@ void KonqIconViewWidget::slotOnItem( QIconViewItem *item )
     if (m_pActiveItem != 0L)
 	m_pActiveItem->setIcon( m_size, KIcon::DefaultState, m_bImagePreviewAllowed, false, true );
 
-    if ( !m_bMousePressed )
+    if ( !m_bMousePressed &&
+         !static_cast<KFileIVI *>(item)->item()->isThumbnail() )
     {
       m_pActiveItem = static_cast<KFileIVI *>(item);
       m_pActiveItem->setIcon( m_size, KIcon::ActiveState, m_bImagePreviewAllowed, false, true );
     } else
-      // Feature deactivated during mouse clicking, e.g. rectangular selection
+      // Feature disabled during mouse clicking, e.g. rectangular selection
+      // also disabled if the item is a thumbnail
       m_pActiveItem = 0L;
 }
 

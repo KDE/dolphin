@@ -29,7 +29,7 @@ class KonqFileItem: public KFileItem
 {
 public:
   // Need to redeclare all constructors ! I want Java !!! :)
-  KonqFileItem( const KIO::UDSEntry& entry, const KURL& url, 
+  KonqFileItem( const KIO::UDSEntry& entry, const KURL& url,
 		bool determineMimeTypeOnDemand = false )
  : KFileItem( entry, url, determineMimeTypeOnDemand ) {}
 
@@ -49,6 +49,13 @@ public:
   QPixmap pixmap( int _size, int _state=KIcon::DefaultState,
                   bool bImagePreviewAllowed=false ) const;
 
+  /**
+   * @return true if this item has a thumbnail
+   */
+  bool isThumbnail() const { return bThumbnail; }
+
+protected:
+  mutable bool bThumbnail;
 };
 
 /**
