@@ -129,7 +129,7 @@ void KQuery::slotListEntries( KIO::Job *, const KIO::UDSEntryList & list)
 	  continue;
 	break;
       case 6: // suid
-	if ( (file->permissions() & 04000) != 04000 ) // fixme
+	if ( (file->permissions() & 04000) != 04000 ) // ### FIXME
 	  continue;
 	break;
       default:
