@@ -25,6 +25,7 @@
 #include <qlistview.h>
 #include <klistview.h>
 #include <kcommand.h>
+#include <dcopobject.h>
 
 class KToggleAction;
 class TestLink;
