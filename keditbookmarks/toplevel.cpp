@@ -279,7 +279,7 @@ void KEBApp::readConfig() {
         KConfig config("kbookmarkrc", false, false);
         config.setGroup("Bookmarks");
         m_advancedAddBookmark 
-            = config.readBoolEntry("AdvancedAddBookmarkDialog", true);
+            = config.readBoolEntry("AdvancedAddBookmarkDialog", false);
         m_filteredToolbar = config.readBoolEntry("FilteredToolbar", false);
     }
 
