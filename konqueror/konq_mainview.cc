@@ -2022,14 +2022,21 @@ PopupMenuGUIClient::PopupMenuGUIClient( KonqMainView *mainView, const KTrader::O
     text.appendChild( m_doc.createTextNode( i18n( "Preview in ..." ) ) );
     subMenu.setAttribute( "group", "preview" );
     
+    bool inserted = false;
+    
     for (; it != end; ++it )
     {
       builtin = (*it)->property( "X-KDE-BrowserView-Builtin" );
       if ( ( !builtin.isValid() || !builtin.toBool() ) && 
-	 (*it)->name() != currentServiceName )
+       (*it)->name() != currentServiceName )
+      {
         addEmbeddingService( subMenu, idx++, (*it)->comment(), *it );
+	inserted = true;
+      }
     }
     
+    if ( !inserted ) // oops, if empty then remove the menu :-]
+      menu.removeChild( menu.namedItem( "menu" ) );
   } 
   
   setDocument( m_doc );
