@@ -196,11 +196,11 @@ Sidebar_Widget::Sidebar_Widget(QWidget *parent, KParts::ReadOnlyPart *par, const
 	buttonPopup->insertSeparator();
 	buttonPopup->insertItem(SmallIconSet("remove"),i18n("Remove"),3);
 	connect(buttonPopup,SIGNAL(activated(int)),this,SLOT(buttonPopupActivate(int)));
-	ButtonBar->insertButton(SmallIcon("remove"),-2);
-	connect(ButtonBar->getButton(-2),SIGNAL(clicked(int)),par,SLOT(deleteLater()));
 	// ButtonBar->insertLineSeparator();
 	ButtonBar->insertButton(SmallIcon("configure"), -1, Menu,
     	    				i18n("Configure Sidebar"));
+	ButtonBar->insertButton(SmallIcon("remove"),-2);
+	connect(ButtonBar->getButton(-2),SIGNAL(clicked(int)),par,SLOT(deleteLater()));
 	connect(new addBackEnd(this,addMenu,"Sidebar_Widget-addBackEnd"),SIGNAL(updateNeeded()),this,SLOT(createButtons()));
 	//	ButtonBar->setMinimumHeight(10);
 //	ButtonBar=new QButtonGroup(this);
