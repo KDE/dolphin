@@ -65,6 +65,7 @@
 #define ID_GEN 1
 
 QPtrList<KTextEditor::Document> KWrite::docList;
+QPtrList<KWrite> KWrite::winList;
 
 KWrite::KWrite (KTextEditor::Document *doc)
     : m_kateView(0),
@@ -110,11 +111,15 @@ KWrite::KWrite (KTextEditor::Document *doc)
   init ();
   
   show ();
+  
+  winList.append (this);
 }
 
 
 KWrite::~KWrite()
 {
+  winList.remove (this);
+
   if (m_kateView->document()->views().count() == 1)
   {
     docList.remove(m_kateView->document()); 
@@ -476,9 +481,6 @@ void KWrite::writeConfig()
 // session management
 void KWrite::restore(KConfig *config, int n)
 {
-  if ((m_kateView->document()->views().count() == 1) && !m_kateView->document()->url().isEmpty())
-    loadURL(m_kateView->document()->url());
-
   readPropertiesInternal(config, n);
 
   init();
@@ -508,13 +510,21 @@ void KWrite::saveGlobalProperties(KConfig *config) //save documents
 
   for (uint z = 1; z <= docList.count(); z++)
   {
-     QString buf = QString("Document%1").arg(z);
+     QString buf = QString("Document %1").arg(z);
      config->setGroup(buf);
 
      KTextEditor::Document *doc = docList.at(z - 1);
 
      if (KTextEditor::configInterface(doc))
        KTextEditor::configInterface(doc)->writeSessionConfig(config);
+  }
+  
+  for (uint z = 1; z <= winList.count(); z++)
+  {
+     QString buf = QString("Window %1").arg(z);
+     config->setGroup(buf);
+
+     config->writeEntry("DocumentNumber",docList.find(winList.at(z-1)->kateView()->document()) + 1);
   }
 }
 
@@ -537,7 +547,7 @@ void KWrite::restore()
 
   for (int z = 1; z <= docs; z++)
   {
-     buf = QString("Document%1").arg(z);
+     buf = QString("Document %1").arg(z);
      config->setGroup(buf);
      doc = KTextEditor::createDocument ("libkatepart");
 
@@ -548,7 +558,7 @@ void KWrite::restore()
 
   for (int z = 1; z <= windows; z++)
   {
-    buf = QString("%1").arg(z);
+    buf = QString("Window %1").arg(z);
     config->setGroup(buf);
     t = new KWrite(docList.at(config->readNumEntry("DocumentNumber") - 1));
     t->restore(config,z);

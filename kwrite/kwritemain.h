@@ -111,6 +111,7 @@ class KWrite : public KParts::MainWindow
   private:
     QString encoding;
     static QPtrList<KTextEditor::Document> docList;
+    static QPtrList<KWrite> winList;
 };
 
 class KWriteEditorChooser: public KDialogBase
