@@ -168,6 +168,7 @@ void KonqTextViewWidget::slotNewItems( const KFileItemList & entries )
                m_itemFound=true;
             };
    };
+   m_pBrowserView->newItems( entries );
    //kdDebug(1202)<<"::slotNewItem: received: "<<entries.count()<<endl;
 }
 

@@ -714,6 +714,8 @@ void KonqBaseListViewWidget::setComplete()
     }
     // Show "cut" icons as such
     m_pBrowserView->slotClipboardDataChanged();
+    // Show totals
+    slotOnViewport();
 }
 
 void KonqBaseListViewWidget::slotStarted()
