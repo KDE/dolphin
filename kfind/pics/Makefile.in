@@ -1,0 +1,20 @@
+FILES = archive.xpm save.xpm delete.xpm info.xpm reload.xpm stop.xpm \
+          contents.xpm fileopen.xpm idea.xpm exit.xpm viewzoom.xpm
+
+PICSDIR = @prefix@/lib/pics
+INSTALL_DIR = @INSTALL@ -d -m 0755
+INSTALL_DATA = @INSTALL@ -m 644
+
+all:
+
+install:
+	$(INSTALL_DIR) $(PICSDIR)
+	@for i in $(FILES); do \
+	 echo "$(INSTALL_DATA) $$i $(PICSDIR)/toolbar"; \
+	 $(INSTALL_DATA) "$$i" $(PICSDIR)/toolbar; \
+	done
+
+uninstall:
+	for i in $(FILES); do \
+	 rm -f $(PICSDIR)/toolbar/$$i ; \
+	done
