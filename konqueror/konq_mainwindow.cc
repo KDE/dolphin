@@ -244,7 +244,7 @@ KonqMainWindow::KonqMainWindow( const KURL &initialURL, bool openInitialURL, con
   if ( !initialGeometrySet() )
       resize( 700, 480 );
   //kdDebug(1202) << "KonqMainWindow::KonqMainWindow " << this << " done" << endl;
-  
+
   if( s_initialMemoryUsage == -1 )
   {
       s_initialMemoryUsage = current_memory_usage();
@@ -3033,7 +3033,7 @@ void KonqMainWindow::initActions()
   KStdAction::keyBindings( this, SLOT( slotConfigureKeys() ), actionCollection() );
   KStdAction::configureToolbars( this, SLOT( slotConfigureToolbars() ), actionCollection() );
 
-  m_paConfigureSpellChecking = new KAction( i18n("Configure Spell Checking..."), 0, this, SLOT( slotConfigureSpellChecking()), actionCollection(), "configurespellcheck");
+  m_paConfigureSpellChecking = new KAction( i18n("Configure Spell Checking..."), "spellcheck", 0,this, SLOT( slotConfigureSpellChecking()), actionCollection(), "configurespellcheck");
 
   // Window menu
   m_paSplitViewHor = new KAction( i18n( "Split View &Left/Right" ), "view_left_right", CTRL+SHIFT+Key_L, this, SLOT( slotSplitViewHorizontal() ), actionCollection(), "splitviewh" );
@@ -3110,7 +3110,7 @@ void KonqMainWindow::initActions()
   connectActionCollection( m_bookmarksActionCollection );
 
   m_pBookmarkMenu = new KBookmarkMenu( KonqBookmarkManager::self(), this, m_pamBookmarks->popupMenu(), m_bookmarksActionCollection, true );
-  connect( m_pBookmarkMenu, 
+  connect( m_pBookmarkMenu,
            SIGNAL( aboutToShowContextMenu(const KBookmark &, QPopupMenu*) ),
            this, SLOT( slotFillContextMenu(const KBookmark &, QPopupMenu*) ));
 
@@ -3200,7 +3200,7 @@ void KonqMainWindow::slotFillContextMenu( const KBookmark &bm, QPopupMenu * pm )
     QValueList<KURL>::Iterator end = list.end();
     for (; it != end; ++it )
     {
-      popupItems.append( new KFileItem( (*it), QString::null, 
+      popupItems.append( new KFileItem( (*it), QString::null,
                                         KFileItem::Unknown) );
     }
 
@@ -3218,12 +3218,12 @@ void KonqMainWindow::slotFillContextMenu( const KBookmark &bm, QPopupMenu * pm )
        }
     TODO - use openfilteredurl in new code
     */
-  } 
-  else 
+  }
+  else
   {
     // popupItems is used by slotPopupNewTab
     popupItems.clear();
-    popupItems.append( new KFileItem( bm.url(), QString::null, 
+    popupItems.append( new KFileItem( bm.url(), QString::null,
                                       KFileItem::Unknown) );
 
     pm->insertItem( i18n( "Open in New Tab" ), this, SLOT( slotPopupNewTab() ) );
@@ -4578,7 +4578,7 @@ bool KonqMainWindow::stayPreloaded()
 // also, if this process is running for too long, or has been
 // already reused too many times -> quit, just in case
 bool KonqMainWindow::checkPreloadResourceUsage()
-{	
+{
     int usage = current_memory_usage();
     kdDebug(1202) << "Memory usage: " << usage << "(startup=" << s_initialMemoryUsage << ")" << endl;
     int max_allowed_usage = s_initialMemoryUsage + 16 * 1024 * 1024;
