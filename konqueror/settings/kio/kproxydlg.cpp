@@ -15,23 +15,23 @@
 #include <kiconloader.h>
 #include <kglobal.h>
 
-#define ROW_USEPROXY		1
-#define ROW_HTTP		2
-#define ROW_FTP			3
+#define ROW_USEPROXY            1
+#define ROW_HTTP                2
+#define ROW_FTP                 3
 //
-#define ROW_NOPROXY		5
+#define ROW_NOPROXY             5
 //
-#define ROW_USECACHE		7
-#define ROW_MAXCACHESIZE	8
-#define ROW_MAXCACHEAGE		9
+#define ROW_USECACHE            7
+#define ROW_MAXCACHESIZE        8
+#define ROW_MAXCACHEAGE         9
 
 KProxyOptions::KProxyOptions(QWidget *parent, const char *name)
   : KCModule(parent, name)
 {
 
   QGridLayout *lay = new QGridLayout(this,11,8,
-				     KDialog::marginHint(),
-				     KDialog::spacingHint());
+                                     KDialog::marginHint(),
+                                     KDialog::spacingHint());
   lay->addRowSpacing(4,KDialog::spacingHint()*2);
 
   lay->addColSpacing(0,KDialog::spacingHint());
@@ -163,7 +163,7 @@ KProxyOptions::KProxyOptions(QWidget *parent, const char *name)
   connect(le_max_cache_age, SIGNAL(textChanged(const QString&)), this, SLOT(changed()));
 
   lb_max_cache_age = new QLabel( le_max_cache_age,
-				i18n("Maximum Cache &Age:"), this);
+                                i18n("Maximum Cache &Age:"), this);
   lb_max_cache_age->setAlignment(AlignVCenter);
   lay->addWidget(lb_max_cache_age,ROW_MAXCACHEAGE,1);
   wtstr = i18n( "Pages that are older than the time entered here will be deleted from the cache automatically. This feature is not yet implemented." );
@@ -216,8 +216,8 @@ void KProxyOptions::load()
 
   g_pConfig->setGroup( "Proxy Settings" );
   updateGUI (
-      g_pConfig->readEntry( "HttpProxy" ),
-      g_pConfig->readEntry( "FtpProxy" ),
+      g_pConfig->readEntry( "httpProxy" ),
+      g_pConfig->readEntry( "ftpProxy" ),
       g_pConfig->readBoolEntry( "UseProxy" ),
       g_pConfig->readEntry( "NoProxyFor" )
       );
@@ -283,17 +283,17 @@ void KProxyOptions::save()
       url += ":";
       url += le_http_port->text();    // port
     }
-    g_pConfig->writeEntry( "HttpProxy", url );
+    g_pConfig->writeEntry( "httpProxy", url );
 
     url = le_ftp_url->text();
     if( !url.isEmpty() ) {
       if ( url.left( 6 ) != "ftp://" )
         url.prepend( "ftp://" );
-	
+
       url += ":";
       url += le_ftp_port->text();      // port
     }
-    g_pConfig->writeEntry( "FtpProxy", url );
+    g_pConfig->writeEntry( "ftpProxy", url );
 
     g_pConfig->writeEntry( "UseProxy", cb_useProxy->isChecked() );
     g_pConfig->writeEntry( "NoProxyFor", le_no_prx->text() );
