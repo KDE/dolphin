@@ -24,6 +24,8 @@
 #include <kmessagebox.h>
 #include <kurifilter.h>
 #include <klocale.h>
+#include <kstddirs.h>
+#include <kglobal.h>
 #include <qdir.h>
 
 /**********************************************
