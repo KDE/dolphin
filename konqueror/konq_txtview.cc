@@ -34,7 +34,7 @@ QString C2Q( const CORBA::WChar *s )
   QChar *tmp = q;
   
   for ( i = 0; i < len; i++ )
-    *(tmp++) = QChar( *(s++) );
+    *(tmp++) = QChar( (ushort) *(s++) );
   
   QString res( q, len );
   delete [] q;
