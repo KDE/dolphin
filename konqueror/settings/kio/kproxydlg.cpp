@@ -361,7 +361,7 @@ QString KProxyDialog::quickHelp() const
                "already visited by locally storing or caching the content of those "
                "pages; filtering proxy servers, on the other hand, provide the "
                "ability to block out requests for ads, spam, or anything else you "
-               "want block.</p>"
+               "want to block.</p>"
                "<p><u>Note:</u> Some proxy servers provide both services.</p>" );
 }
 
