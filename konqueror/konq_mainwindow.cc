@@ -55,6 +55,7 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <time.h>
+#include <unistd.h>
 
 #include <qfile.h>
 #include <qclipboard.h>
@@ -4974,6 +4975,11 @@ bool KonqMainWindow::stayPreloaded()
 // already reused too many times -> quit, just in case
 bool KonqMainWindow::checkPreloadResourceUsage()
 {
+    if( isatty( STDIN_FILENO ) || isatty( STDOUT_FILENO ) || isatty( STDERR_FILENO ))
+    {
+        kdDebug(1202) << "Running from tty, not keeping for preloading" << endl;
+        return false;
+    }
     int usage = current_memory_usage();
     kdDebug(1202) << "Memory usage: " << usage << "(startup=" << s_initialMemoryUsage << ")" << endl;
     int max_allowed_usage = s_initialMemoryUsage + 16 * 1024 * 1024;
