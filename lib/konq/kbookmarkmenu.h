@@ -21,6 +21,7 @@
 #define __kbookmarkmenu_h__
 
 #include <qlist.h>
+#include <qstack.h>
 #include <qobject.h>
 #include <sys/types.h>
 #include "kbookmark.h"
@@ -29,8 +30,10 @@
 class QString;
 class KBookmark;
 class KAction;
+class KActionMenu;
 class KActionCollection;
 class KBookmarkOwner;
+class KBookmarkMenu;
 class QPopupMenu;
 namespace KIO { class Job; }
 
@@ -61,6 +64,7 @@ namespace KIO { class Job; }
 class KBookmarkMenu : public QObject
 {
   Q_OBJECT
+  friend class KBookmarkMenuNSImporter;
 public:
   /**
    * Fills a bookmark menu
@@ -98,16 +102,14 @@ protected slots:
   void slotAddBookmark();
   void slotNewFolder();
   void slotNSBookmarkSelected();
+  /**
+   * load Netscape's bookmarks
+   */
   void slotNSLoad();
 
 protected:
 
   void refill();
-
-  /**
-   * function that loads Netscape's bookmarks
-   */
-  void openNSBookmarks();
 
   bool m_bIsRoot:1;
   bool m_bAddBookmark:1;
@@ -133,6 +135,30 @@ protected:
    * Parent bookmark for this menu.
    */
   QString m_parentAddress;
+};
+
+/**
+ * A class connected to KNSBookmarkImporter, to fill KActionMenus.
+ */
+class KBookmarkMenuNSImporter : public QObject
+{
+    Q_OBJECT
+public:
+    KBookmarkMenuNSImporter( KBookmarkMenu * menu, KActionCollection * act ) :
+        m_menu(menu), m_actionCollection(act) {}
+
+    void openNSBookmarks();
+
+protected slots:
+    void newBookmark( const QString & text, const QCString & url );
+    void newFolder( const QString & text );
+    void newSeparator();
+    void endMenu();
+
+protected:
+    QStack<KBookmarkMenu> mstack;
+    KBookmarkMenu * m_menu;
+    KActionCollection * m_actionCollection;
 };
 
 #endif

@@ -31,11 +31,11 @@
 #include <unistd.h>
 
 #include "kbookmarkmenu.h"
+#include "kbookmarkimporter.h"
 #include "kdirnotify_stub.h"
 
 #include <qdir.h>
 #include <qfile.h>
-#include <qstack.h>
 #include <qstring.h>
 #include <qpopupmenu.h>
 
@@ -50,7 +50,6 @@
 #include <kmessagebox.h>
 #include <kurl.h>
 #include <kmimetype.h>
-#include <kstringhandler.h>
 #include <kstdaction.h>
 #include <kpopupmenu.h>
 #include <kstdaccel.h>
@@ -326,70 +325,55 @@ void KBookmarkMenu::slotNSBookmarkSelected()
 void KBookmarkMenu::slotNSLoad()
 {
   m_parentMenu->disconnect(SIGNAL(aboutToShow()));
-  openNSBookmarks();
+
+  KBookmarkMenuNSImporter importer( this, m_actionCollection );
+  importer.openNSBookmarks();
 }
 
-void KBookmarkMenu::openNSBookmarks()
+void KBookmarkMenuNSImporter::openNSBookmarks()
 {
-  QFile f(QDir::homeDirPath() + "/.netscape/bookmarks.html");
-  QStack<KBookmarkMenu> mstack;
-  mstack.push(this);
-  QRegExp amp("&amp;");
-  QRegExp lt("&lt;");
-  QRegExp gt("&gt;");
-
-  if(f.open(IO_ReadOnly)) {
-
-    QCString s(1024);
-    // skip header
-    while(f.readLine(s.data(), 1024) >= 0 && !s.contains("<DL>"));
-
-    while(f.readLine(s.data(), 1024)>=0) {
-      QCString t = s.stripWhiteSpace();
-      if(t.left(12) == "<DT><A HREF=" ||
-         t.left(16) == "<DT><H3><A HREF=") {
-        int firstQuotes = t.find('"')+1;
-        QCString link = t.mid(firstQuotes, t.find('"', firstQuotes)-firstQuotes);
-        QCString name = t.mid(t.find('>', 15)+1);
-        QCString actionLink = "bookmark" + link;
-
-        name = name.left(name.findRev('<'));
-        if ( name.right(4) == "</A>" )
-           name = name.left( name.length() - 4 );
-        name.replace( amp, "&" ).replace( lt, "<" ).replace( gt, ">" );
-
-        KAction * action = new KAction( KStringHandler::csqueeze(QString::fromLocal8Bit(name)), "html", 0,
-                                        this, SLOT( slotNSBookmarkSelected() ),
-                                        m_actionCollection, actionLink.data());
-        action->setStatusText( link );
-        action->plug( mstack.top()->m_parentMenu );
-        mstack.top()->m_actions.append( action );
-      }
-      else if(t.left(7) == "<DT><H3") {
-        QCString name = t.mid(t.find('>', 7)+1);
-        name = name.left(name.findRev('<'));
-        name.replace( amp, "&" ).replace( lt, "<" ).replace( gt, ">" );
-
-        KActionMenu * actionMenu = new KActionMenu( KStringHandler::csqueeze(QString::fromLocal8Bit(name)), "folder",
-                                                    m_actionCollection, 0L );
-        actionMenu->plug( mstack.top()->m_parentMenu );
-        mstack.top()->m_actions.append( actionMenu );
-        KBookmarkMenu *subMenu = new KBookmarkMenu( m_pOwner, actionMenu->popupMenu(),
-                                                    m_actionCollection, false,
-                                                    m_bAddBookmark, QString::null );
-        mstack.top()->m_lstSubMenus.append( subMenu );
-
-        mstack.push(subMenu);
-      }
-      else if(t.left(4) == "<HR>")
-        mstack.top()->m_parentMenu->insertSeparator();
-      else if(t.left(8) == "</DL><p>")
-        mstack.pop();
-    }
-
-    f.close();
-  }
+  mstack.push(m_menu);
+  KNSBookmarkImporter importer;
+  connect( &importer, SIGNAL( newBookmark( const QString &, const QCString & ) ),
+           SLOT( newBookmark( const QString &, const QCString & ) ) );
+  connect( &importer, SIGNAL( newFolder( const QString & ) ),
+           SLOT( newFolder( const QString & ) ) );
+  connect( &importer, SIGNAL( newSeparator() ), SLOT( newSeparator() ) );
+  connect( &importer, SIGNAL( endMenu() ), SLOT( endMenu() ) );
+  importer.parseNSBookmarks();
 }
 
+void KBookmarkMenuNSImporter::newBookmark( const QString & text, const QCString & url )
+{
+  QCString actionLink = "bookmark" + url;
+  KAction * action = new KAction( text, "html", 0, m_menu, SLOT( slotNSBookmarkSelected() ),
+                                  m_actionCollection, actionLink.data());
+  action->setStatusText( url );
+  action->plug( mstack.top()->m_parentMenu );
+  mstack.top()->m_actions.append( action );
+}
+
+void KBookmarkMenuNSImporter::newFolder( const QString & text )
+{
+  KActionMenu * actionMenu = new KActionMenu( text, "folder", m_actionCollection, 0L );
+  actionMenu->plug( mstack.top()->m_parentMenu );
+  mstack.top()->m_actions.append( actionMenu );
+  KBookmarkMenu *subMenu = new KBookmarkMenu( m_menu->m_pOwner, actionMenu->popupMenu(),
+                                              m_actionCollection, false,
+                                              m_menu->m_bAddBookmark, QString::null );
+  mstack.top()->m_lstSubMenus.append( subMenu );
+
+  mstack.push(subMenu);
+}
+
+void KBookmarkMenuNSImporter::newSeparator()
+{
+  mstack.top()->m_parentMenu->insertSeparator();
+}
+
+void KBookmarkMenuNSImporter::endMenu()
+{
+  mstack.pop();
+}
 
 #include "kbookmarkmenu.moc"

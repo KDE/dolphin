@@ -43,4 +43,48 @@ private:
     QStringList m_lstParsedDirs;
 };
 
+/**
+ * A class for importing NS bookmarks
+ * KEditBookmarks uses it to insert bookmarks into its DOM tree,
+ * and KActionMenu uses it to create actions directly.
+ */
+class KNSBookmarkImporter : public QObject
+{
+    Q_OBJECT
+public:
+    KNSBookmarkImporter() {}
+    ~KNSBookmarkImporter() {}
+
+    // go for it
+    void parseNSBookmarks();
+
+signals:
+
+    /**
+     * Notify about a new bookmark
+     * Use "html" for the icon
+     */
+    void newBookmark( const QString & text, const QCString & url );
+
+    /**
+     * Notify about a new folder
+     * Use "folder" for the icon
+     */
+    void newFolder( const QString & text );
+
+    /**
+     * Notify about a new separator
+     */
+    void newSeparator();
+
+    /**
+     * Tell the outside world that we're going down
+     * one menu
+     */
+    void endMenu();
+
+};
+
+// TODO a NS bookmark export facility
+
 #endif

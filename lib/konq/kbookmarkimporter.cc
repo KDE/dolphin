@@ -19,6 +19,7 @@
 #include "kbookmarkimporter.h"
 #include <kstddirs.h>
 #include <kglobal.h>
+#include <kstringhandler.h>
 #include <kmimetype.h>
 #include <kdebug.h>
 #include <qdir.h>
@@ -143,3 +144,52 @@ void KBookmarkImporter::parseBookmark( QDomElement & parentElem, QCString _text,
     elem.appendChild( m_pDoc->createTextNode( text ) );
     kdDebug() << "KBookmarkImporter::parseBookmark text=" << text << endl;
 }
+
+////
+
+void KNSBookmarkImporter::parseNSBookmarks()
+{
+    QFile f(QDir::homeDirPath() + "/.netscape/bookmarks.html");
+    QRegExp amp("&amp;");
+    QRegExp lt("&lt;");
+    QRegExp gt("&gt;");
+
+    if(f.open(IO_ReadOnly)) {
+
+        QCString s(1024);
+        // skip header
+        while(f.readLine(s.data(), 1024) >= 0 && !s.contains("<DL>"));
+
+        while(f.readLine(s.data(), 1024)>=0) {
+            QCString t = s.stripWhiteSpace();
+            if(t.left(12) == "<DT><A HREF=" ||
+               t.left(16) == "<DT><H3><A HREF=") {
+                int firstQuotes = t.find('"')+1;
+                QCString link = t.mid(firstQuotes, t.find('"', firstQuotes)-firstQuotes);
+                QCString name = t.mid(t.find('>', 15)+1);
+                name = name.left(name.findRev('<'));
+                if ( name.right(4) == "</A>" )
+                    name = name.left( name.length() - 4 );
+                name.replace( amp, "&" ).replace( lt, "<" ).replace( gt, ">" );
+
+                emit newBookmark( KStringHandler::csqueeze(QString::fromLocal8Bit(name)),
+                                  link );
+            }
+            else if(t.left(7) == "<DT><H3") {
+                QCString name = t.mid(t.find('>', 7)+1);
+                name = name.left(name.findRev('<'));
+                name.replace( amp, "&" ).replace( lt, "<" ).replace( gt, ">" );
+
+                emit newFolder( KStringHandler::csqueeze(QString::fromLocal8Bit(name)) );
+            }
+            else if(t.left(4) == "<HR>")
+                emit newSeparator();
+            else if(t.left(8) == "</DL><p>")
+                emit endMenu();
+        }
+
+        f.close();
+    }
+}
+
+#include "kbookmarkimporter.moc"
