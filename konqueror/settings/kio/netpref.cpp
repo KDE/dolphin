@@ -30,28 +30,28 @@ KIOPreferences::KIOPreferences( QWidget* parent )
     sb_socketRead->setSuffix( i18n( " sec" ) );
     sb_socketRead->setLabel( i18n( "Soc&ket read:" ), AlignVCenter);
     connect(sb_socketRead, SIGNAL(valueChanged ( int )),
-            this, SLOT(timeoutChanged(int)));
+            this, SLOT(configChanged()));
 
     sb_proxyConnect = new KIntNumInput( sb_socketRead, 0, gb_Timeout,
             10, "sb_proxyConnect" );
     sb_proxyConnect->setSuffix( i18n( " sec" ) );
     sb_proxyConnect->setLabel( i18n( "Pro&xy connect:" ), AlignVCenter);
     connect(sb_proxyConnect, SIGNAL(valueChanged ( int )),
-            this, SLOT(timeoutChanged(int)));
+            this, SLOT(configChanged()));
 
     sb_serverConnect = new KIntNumInput( sb_proxyConnect, 0, gb_Timeout,
             10, "sb_serverConnect" );
     sb_serverConnect->setSuffix( i18n( " sec" ) );
     sb_serverConnect->setLabel( i18n("Server co&nnect:"), AlignVCenter);
     connect(sb_serverConnect, SIGNAL(valueChanged ( int )),
-            this, SLOT(timeoutChanged(int)));
+            this, SLOT(configChanged()));
 
     sb_serverResponse = new KIntNumInput( sb_serverConnect, 0, gb_Timeout,
             10, "sb_serverResponse" );
     sb_serverResponse->setSuffix( i18n( " sec" ) );
     sb_serverResponse->setLabel( i18n("&Server response:"), AlignVCenter);
     connect(sb_serverResponse, SIGNAL(valueChanged ( int )),
-            this, SLOT(timeoutChanged(int)));
+            this, SLOT(configChanged()));
 
     gb_Ftp = new QVGroupBox( i18n( "FTP Options" ), this, "gb_Ftp" );
     cb_ftpEnablePasv = new QCheckBox( i18n( "Enable passive &mode (PASV)" ), gb_Ftp );
@@ -64,8 +64,8 @@ KIOPreferences::KIOPreferences( QWidget* parent )
 
     mainLayout->addWidget( gb_Ftp );
 
-    connect(cb_ftpEnablePasv, SIGNAL(toggled ( bool  )),this,SLOT(configChanged()));
-    connect(cb_ftpMarkPartial, SIGNAL(toggled ( bool  )),this,SLOT(configChanged()));
+    connect(cb_ftpEnablePasv, SIGNAL(toggled(bool)), SLOT(configChanged()));
+    connect(cb_ftpMarkPartial, SIGNAL(toggled(bool)), SLOT(configChanged()));
 
     mainLayout->addStretch();
 
