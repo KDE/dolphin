@@ -110,13 +110,15 @@ QValueList<KBookmark> ListView::itemsToBookmarks(QPtrList<KEBListViewItem>* item
 QPtrList<KEBListViewItem>* ListView::selectedItems() const {
     static QPtrList<KEBListViewItem>* s_selected_items_cache = 0;
     if (!s_selected_items_cache || s_listview_is_dirty) {
-        QPtrList<KEBListViewItem> *items = new QPtrList<KEBListViewItem>();
+        if (!s_selected_items_cache)
+            s_selected_items_cache = new QPtrList<KEBListViewItem>();
+        else
+            s_selected_items_cache->clear();
         for (QPtrListIterator<KEBListViewItem> it(*(m_listView->itemList()));
                 it.current() != 0; ++it) {
             if (VALID_ITEM(it.current()) && it.current()->isSelected())
-                items->append(it.current());
+                s_selected_items_cache->append(it.current());
         }
-        s_selected_items_cache = items;
     }
     s_listview_is_dirty = false;
     return s_selected_items_cache;
@@ -340,6 +342,8 @@ void ListView::updateListView() {
             s_selected_addresses << it.current()->bookmark().address();
     int lastCurrentY = m_listView->contentsY();
     updateTree();
+    s_listview_is_dirty = true;
+    kdDebug() << "blah" << selectedItems()->isEmpty() << endl;
     if (selectedItems()->isEmpty())
         m_listView->setSelected(m_listView->currentItem(), true);
     m_listView->ensureVisible(0, lastCurrentY, 0, 0);
@@ -402,15 +406,26 @@ void ListView::fillWithGroup(KEBListView *lv, KBookmarkGroup group, KEBListViewI
     }
 }
 
+void ListView::handleMoved(KEBListView *) {
+    kdDebug() << "ListView::handleMoved()" << endl;  
+    /* TODO - neil's wishlist item - unfortunately handleMoved is not called sometimes...
+     * KMacroCommand *mcmd = CmdGen::self()->deleteItems( i18n("Moved Items"), 
+     * ListView::self()->selectedItems());
+     * CmdHistory::self()->didCommand(mcmd);
+     */
+}
+
 void ListView::handleCurrentChanged(KEBListView *lv, QListViewItem *item) {
     if (!item)
         return;
+
     KEBListViewItem *currentItem = static_cast<KEBListViewItem *>(item);
-    if (VALID_ITEM(currentItem))
-        m_last_selection_address = 
-              VALID_FIRST(selectedItems())
-            ? selectedItems()->first()->bookmark().address()
-            : currentItem->bookmark().address();
+
+    if (VALID_FIRST(selectedItems()))
+        m_last_selection_address = selectedItems()->first()->bookmark().address();
+    else if (VALID_ITEM(currentItem))
+        m_last_selection_address = currentItem->bookmark().address();
+
     if (m_splitView && lv == m_folderListView) {
         m_folderListView->setSelected(item, true);
         QString addr = currentItem->bookmark().address();
@@ -419,16 +434,6 @@ void ListView::handleCurrentChanged(KEBListView *lv, QListViewItem *item) {
             updateTree(false);
         }
     }
-}
-
-void ListView::handleMoved(KEBListView *) {
-    kdDebug() << "ListView::handleMoved()" << endl;  
-    // TODO ERM WTF TODO
-    /*
-       KMacroCommand *mcmd = CmdGen::self()->deleteItems( i18n("Moved Items"), 
-       ListView::self()->selectedItems());
-       CmdHistory::self()->didCommand(mcmd);
-    */
 }
 
 void ListView::handleSelectionChanged(KEBListView *) {
