@@ -88,6 +88,8 @@ KBookmarkManager::KBookmarkManager( QString _path ) : m_sPath( _path )
 
   connect( KDirWatch::self(), SIGNAL( dirty( const QString & ) ),
            this, SLOT( slotNotify( const QString & ) ) );
+  
+  KDirWatch::self()->addDir( m_sPath );
 }
 
 KBookmarkManager::~KBookmarkManager()
@@ -177,7 +179,7 @@ void KBookmarkManager::scanIntern( KBookmark *_bm, const char * _path )
     {
       KURL file;
       file.setPath( QString( _path ) + '/' + ep->d_name );
-      
+
       KMimeType::Ptr res = KMimeType::findByURL( file, 0, true );
 
       if ( res->name() == "inode/directory" )
