@@ -1,0 +1,17 @@
+[Desktop Entry]
+Encoding=UTF-8
+Icon=launch
+Type=Application
+DocPath=kcontrol/kcmperformance/index.html
+Exec=kcmshell kcmperformance
+
+X-KDE-ModuleType=Library
+X-KDE-Library=performance
+X-KDE-FactoryName=performance
+X-KDE-ParentApp=kcontrol
+
+Name=KDE Performance
+
+Comment=Configure settings improving KDE performance
+
+Keywords=performance,speed,memory,improve

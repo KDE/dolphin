@@ -1,0 +1,19 @@
+[Desktop Entry]
+Encoding=UTF-8
+Icon=launch
+Type=Application
+DocPath=kcontrol/kcmperformance/index.html
+Exec=kcmshell kcmkonqy_performance
+NoDisplay=true
+
+X-KDE-ModuleType=Library
+X-KDE-Library=performance
+X-KDE-FactoryName=konqueror
+X-KDE-ParentApp=kcontrol
+
+Name=Performance
+
+Comment=Configure settings improving Konqueror performance
+
+Keywords=konqueror,reuse,preloading
+

@@ -51,7 +51,6 @@ protected slots:
 private:
 
   KConfig *g_pConfig;
-  KConfig *kfmclientConfig;
   QString groupname;
 
   QCheckBox *cbNewWin;
@@ -62,11 +61,6 @@ private:
   KURLRequester *homeURL;
 
   QVButtonGroup *bgOneProcess;
-  QRadioButton  *rbOPNever,
-                *rbOPLocal,
-                *rbOPWeb,
-                *rbOPAlways;
-
   //QLabel *fileTips;
   //QSpinBox  *sbToolTip;
   QCheckBox *cbShowTips;

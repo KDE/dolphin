@@ -98,7 +98,7 @@ int main( int argc, char **argv )
              if (args->isSet("preload"))
              {
                  KConfigGroupSaver group( app.config(), "Reusing" );
-                 if( app.config()->readNumEntry( "MaxPreloadCount", 0 ) > 0 )
+                 if( app.config()->readNumEntry( "MaxPreloadCount", 1 ) > 0 )
                  {
                      DCOPRef ref( "kded", "konqy_preloader" );
                      if( !ref.call( "registerPreloadedKonqy", app.dcopClient()->appId()))

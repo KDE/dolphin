@@ -51,9 +51,6 @@ KBehaviourOptions::KBehaviourOptions(KConfig *config, QString group, QWidget *pa
 
     QVBoxLayout *lay = new QVBoxLayout( this, KDialog::marginHint(), KDialog::spacingHint() );
 
-    kfmclientConfig = new KConfig(QString::fromLatin1("kfmclientrc"), false, false);
-    kfmclientConfig->setGroup(QString::fromLatin1("Settings")); //use these to set the one-process option in kfmclient
-
 	QVGroupBox * miscGb = new QVGroupBox(i18n("Misc Options"), this);
 	lay->addWidget( miscGb );
 	QHBox *hbox = new QHBox(miscGb);
@@ -153,55 +150,13 @@ KBehaviourOptions::KBehaviourOptions(KConfig *config, QString group, QWidget *pa
 
     lay->addWidget(bg);
 
-
-    QString opstrg = i18n("With this option activated, only one instance of Konqueror "
-                          "will exist in the memory of your computer at any moment, "
-                          "no matter how many browsing windows you open, "
-                          "thus reducing resource requirements."
-                          "<p>Be aware that this also means that, if something goes wrong, "
-                          "all your browsing windows will be closed simultaneously.");
-    QString opstrl = i18n("With this option activated, only one instance of Konqueror "
-                          "will exist in the memory of your computer at any moment, "
-                          "no matter how many local browsing windows you open, "
-                          "thus reducing resource requirements."
-                          "<p>Be aware that this also means that, if something goes wrong, "
-                          "all your local browsing windows will be closed simultaneously");
-    QString opstrw = i18n("With this option activated, only one instance of Konqueror "
-                          "will exist in the memory of your computer at any moment, "
-                          "no matter how many web browsing windows you open, "
-                          "thus reducing resource requirements."
-                          "<p>Be aware that this also means that, if something goes wrong, "
-                          "all your web browsing windows will be closed simultaneously");
-
-    bgOneProcess = new QVButtonGroup(i18n("Minimize Memory Usage"), this);
-    bgOneProcess->setExclusive( true );
-    connect(bgOneProcess, SIGNAL(clicked(int)), this, SLOT(changed()));
-    {
-        rbOPNever = new QRadioButton(i18n("&Never"), bgOneProcess);
-        QWhatsThis::add( rbOPNever, i18n("Disables the minimization of memory usage and allows you "
-                                         "to make each browsing activity independent from the others"));
-
-        rbOPLocal = new QRadioButton(i18n("For &local browsing only (recommended)"), bgOneProcess);
-        QWhatsThis::add( rbOPLocal, opstrl);
-
-        rbOPWeb = new QRadioButton(i18n("For &Web browsing only"), bgOneProcess);
-        QWhatsThis::add( rbOPWeb, opstrw);
-
-        rbOPAlways = new QRadioButton(i18n("Alwa&ys (use with care)"), bgOneProcess);
-        QWhatsThis::add( rbOPAlways, opstrg);
-
-        rbOPLocal->setChecked(true);
-    }
-
-	lay->addWidget( bgOneProcess );
-	lay->addStretch();
+    lay->addStretch();
 
     load();
 }
 
 KBehaviourOptions::~KBehaviourOptions()
 {
-    delete kfmclientConfig;
 }
 
 void KBehaviourOptions::slotShowTips(bool b)
@@ -232,20 +187,6 @@ void KBehaviourOptions::load()
 
 //    sbToolTip->setValue( g_pConfig->readNumEntry( "FileTipItems", 6 ) );
 
-    QString val = kfmclientConfig->readEntry( QString::fromLatin1("StartNewKonqueror"),
-                                              QString::fromLatin1("Web only") );
-    if (val == QString::fromLatin1("Web only"))
-        rbOPLocal->setChecked(true);
-    else if (val == QString::fromLatin1("Local only"))
-        rbOPWeb->setChecked(true);
-    else if (val == QString::fromLatin1("Always") ||
-             val == QString::fromLatin1("true") ||
-             val == QString::fromLatin1("TRUE") ||
-             val == QString::fromLatin1("1"))
-        rbOPNever->setChecked(true);
-    else
-        rbOPAlways->setChecked(true);
-
     KConfig config("uiserverrc");
     config.setGroup( "UIServer" );
 
@@ -262,8 +203,6 @@ void KBehaviourOptions::defaults()
     cbNewWin->setChecked(false);
 
     homeURL->setURL("~");
-
-    rbOPLocal->setChecked(true);
 
     cbListProgress->setChecked( false );
 
@@ -290,22 +229,11 @@ void KBehaviourOptions::save()
     g_pConfig->writeEntry( "ShowPreviewsInFileTips", cbShowPreviewsInTips->isChecked() );
 //    g_pConfig->writeEntry( "FileTipsItems", sbToolTip->value() );
 
-    QString val = QString::fromLatin1("Web only");
-    if (rbOPWeb->isChecked())
-        val = QString::fromLatin1("Local only");
-    else if (rbOPNever->isChecked())
-        val = QString::fromLatin1("Always");
-    else if (rbOPAlways->isChecked())
-        val = QString::fromLatin1("Never");
-
     g_pConfig->setGroup( "Trash" );
     g_pConfig->writeEntry( "ConfirmTrash", cbMoveToTrash->isChecked());
     g_pConfig->writeEntry( "ConfirmDelete", cbDelete->isChecked());
     g_pConfig->writeEntry( "ConfirmShred", cbShred->isChecked());
     g_pConfig->sync();
-
-    kfmclientConfig->writeEntry(QString::fromLatin1("StartNewKonqueror"), val);
-    kfmclientConfig->sync();
 
     // UIServer setting
     KConfig config("uiserverrc");
@@ -320,7 +248,6 @@ void KBehaviourOptions::save()
     }
 
     // Send signal to konqueror
-    // Warning. In case something is added/changed here, keep kfmclient in sync
     QByteArray data;
     if ( !kapp->dcopClient()->isAttached() )
       kapp->dcopClient()->attach();

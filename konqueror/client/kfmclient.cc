@@ -147,24 +147,10 @@ static bool startNewKonqueror()
     KConfig cfg( QString::fromLatin1( "konquerorrc" ), true );
     cfg.setGroup( "Reusing" );
     QStringList allowed_parts;
-    if( cfg.hasKey( "SafeParts" ))
-    {
-        if( cfg.readListEntry( "SafeParts" ).isEmpty())
+    if( cfg.hasKey( "SafeParts" )
+        && cfg.readListEntry( "SafeParts" ).isEmpty())
             return true; // always start new konqy
-        return false; // will check safe parts using DCOP
-    }
-    else
-    {   // backwards comp.
-        KConfig cfg( QString::fromLatin1( "kfmclientrc" ), true );
-        cfg.setGroup( "Settings" );
-        QString value = cfg.readEntry( "StartNewKonqueror", QString::fromLatin1( "Web Only " ));
-        if( value == QString::fromLatin1("Always") ||
-            value == QString::fromLatin1("true") ||
-            value == QString::fromLatin1("TRUE") ||
-            value == QString::fromLatin1("1") )
-            return true; // always start new konqy
-        return false; // will check safe parts using DCOP
-    }
+    return false; // will check safe parts using DCOP
 }
 
 // when reusing a preloaded konqy, make sure your always use a DCOP call which opens a profile !
@@ -172,7 +158,7 @@ static QCString getPreloadedKonqy()
 {
     KConfig cfg( QString::fromLatin1( "konquerorrc" ), true );
     cfg.setGroup( "Reusing" );
-    if( cfg.readNumEntry( "MaxPreloadCount", 0 ) == 0 )
+    if( cfg.readNumEntry( "MaxPreloadCount", 1 ) == 0 )
         return "";
     DCOPRef ref( "kded", "konqy_preloader" );
     return ref.call( "getPreloadedKonqy" );

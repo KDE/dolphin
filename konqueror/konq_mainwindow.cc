@@ -4424,7 +4424,7 @@ bool KonqMainWindow::stayPreloaded()
         return false;
     // ok, last one
     KConfigGroupSaver group( KGlobal::config(), "Reusing" );
-    if( KGlobal::config()->readNumEntry( "MaxPreloadCount", 0 ) == 0 )
+    if( KGlobal::config()->readNumEntry( "MaxPreloadCount", 1 ) == 0 )
     {
         kapp->deref(); // for the extra ref() done in main()
         return false;

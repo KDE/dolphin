@@ -1,0 +1,4 @@
+Id=kfmclient_3_2
+File=kfmclientrc,konquerorrc
+Group=Settings,Reusing
+Script=kfmclient_3_2_update.sh,sh

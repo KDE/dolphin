@@ -76,7 +76,7 @@ void KonqyPreloader::reconfigure()
     {
     KConfig cfg( QString::fromLatin1( "konquerorrc" ), true );
     KConfigGroupSaver group( &cfg, "Reusing" );
-    max_count = cfg.readNumEntry( "MaxPreloadCount", 0 );
+    max_count = cfg.readNumEntry( "MaxPreloadCount", 1 );
     reduceCount();
     }
 

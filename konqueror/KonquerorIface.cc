@@ -219,6 +219,7 @@ bool KonquerorIface::processCanBeReused()
     KConfig* cfg = kapp->config();
     KConfigGroupSaver saver( cfg, "Reusing" );
     QStringList allowed_parts;
+    // when changing, update also the list in the update script in konqueror/client
     allowed_parts << QString::fromLatin1( "konq_iconview.desktop" )
                   << QString::fromLatin1( "konq_multicolumnview.desktop" )
                   << QString::fromLatin1( "konq_sidebartng.desktop" )
@@ -226,27 +227,14 @@ bool KonquerorIface::processCanBeReused()
                   << QString::fromLatin1( "konq_treeview.desktop" )
                   << QString::fromLatin1( "konq_detailedlistview.desktop" );
     bool all_parts_allowed = false;
-    if( cfg->hasKey( "SafeParts" ))
+    if( cfg->hasKey( "SafeParts" )
+        && cfg->readEntry( "SafeParts" ) != QString::fromLatin1( "SAFE" ))
         allowed_parts = cfg->readListEntry( "SafeParts" );
-    else
-    {   // backwards comp.
-        KConfig cfg( "kfmclientrc", true );
-        cfg.setGroup( "Settings" );
-        QString value = cfg.readEntry( "StartNewKonqueror", QString::fromLatin1( "Web Only " ));
-        if( value == QString::fromLatin1("Always") ||
-            value == QString::fromLatin1("true") ||
-            value == QString::fromLatin1("TRUE") ||
-            value == QString::fromLatin1("1") )
-            ; // no parts are allowed
-        else if( value == QString::fromLatin1( "Local Only" ))
-            allowed_parts << QString::fromLatin1( "KHTMLPart" );
-        else if( value == QString::fromLatin1( "Web only" ))
-            ; // use the defaults
-        else
-            all_parts_allowed = true;
-    }
     if( allowed_parts.count() == 1 && allowed_parts.first() == QString::fromLatin1( "ALL" ))
+    {
+        allowed_parts.clear();
         all_parts_allowed = true;
+    }
     if( all_parts_allowed )
         return true;
     for( QPtrListIterator<KonqMainWindow> it1( *windows );
