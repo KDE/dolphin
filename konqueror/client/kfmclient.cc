@@ -128,7 +128,7 @@ void clientApp::initRegistry()
 {
   // Register mimetypes and services, for kpropsdlg and krun
   KRegistry * registry = new KRegistry;
-  registry->addFactory( new KMimeTypeFactory );
+  registry->addFactory( new KServiceTypeFactory );
   registry->addFactory( new KServiceFactory );
   registry->load( );
 }
