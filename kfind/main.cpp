@@ -79,6 +79,7 @@ int main( int argc, char ** argv )
       kfind->show();
     }
     app.setMainWidget(kfind);
+    kfind->nameSetFocus();
     int ret =  app.exec();
 
     return ret;

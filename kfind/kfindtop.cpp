@@ -29,67 +29,69 @@
 #include "version.h"
 #include <kglobal.h>
 
-KfindTop::KfindTop(const char *searchPath) : KTMainWindow()
-  {
-//     setCaption(QString("KFind ")+KFIND_VERSION);
-	_accel = new KAccel(this);
+KfindTop::KfindTop(const char *searchPath) 
+  : KTMainWindow()
+{
+//   setCaption(QString("KFind ")+KFIND_VERSION);
+  _accel = new KAccel(this);
+  
+  _toolBar = new KToolBar( this, "_toolBar" );
+  _toolBar->setBarPos( KToolBar::Top );
+  _toolBar->show();
+  enableToolBar( KToolBar::Show, addToolBar( _toolBar ) );
+  
+  _kfind = new Kfind(this,"dialog",searchPath);
+  setView( _kfind, FALSE );
+  _kfind->show();
+  
+  menuInit();
+  toolBarInit();
+  
+  setMenu(_mainMenu);
+  _mainMenu->show();
+  
+  _statusBar = new KStatusBar( this, "_statusBar");
+  _statusBar->insertItem("0 file(s) found", 0);
+  _statusBar->enable(KStatusBar::Hide);
+  setStatusBar(_statusBar);
+  enableStatusBar(false);
+  
+  connect(_kfind,SIGNAL(haveResults(bool)),
+	  this,SLOT(enableSaveResults(bool)));
+  connect(_kfind,SIGNAL(resultSelected(bool)),
+	  this,SLOT(enableMenuItems(bool)));
+  connect(this,SIGNAL(deleteFile()),
+	  _kfind,SIGNAL(deleteFile()));
+  connect(this,SIGNAL(properties()),
+	  _kfind,SIGNAL(properties()));
+  connect(this,SIGNAL(openFolder()),
+	  _kfind,SIGNAL(openFolder()));
+  connect(this,SIGNAL(saveResults()),
+	  _kfind,SIGNAL(saveResults()));
+  connect(this,SIGNAL(addToArchive()),
+	  _kfind,SIGNAL(addToArchive()));
+  connect(this,SIGNAL(open()),
+	  _kfind,SIGNAL(open()));
+  connect(_kfind ,SIGNAL(statusChanged(const char *)),
+	  this,SLOT(statusChanged(const char *)));
+  connect(_kfind ,SIGNAL(enableSearchButton(bool)),
+	  this,SLOT(enableSearchButton(bool)));
+  connect(_kfind ,SIGNAL(enableStatusBar(bool)),
+	  this,SLOT(enableStatusBar(bool)));
+}
 
-    _toolBar = new KToolBar( this, "_toolBar" );
-    _toolBar->setBarPos( KToolBar::Top );
-    _toolBar->show();
-    enableToolBar( KToolBar::Show, addToolBar( _toolBar ) );
-
-    _kfind = new Kfind(this,"dialog",searchPath);
-    setView( _kfind, FALSE );
-    _kfind->show();
-
-    menuInit();
-    toolBarInit();
-
-    setMenu(_mainMenu);
-    _mainMenu->show();
-
-    _statusBar = new KStatusBar( this, "_statusBar");
-    _statusBar->insertItem("0 file(s) found", 0);
-    _statusBar->enable(KStatusBar::Hide);
-    setStatusBar(_statusBar);
-    enableStatusBar(false);
-
-    connect(_kfind,SIGNAL(haveResults(bool)),
-            this,SLOT(enableSaveResults(bool)));
-    connect(_kfind,SIGNAL(resultSelected(bool)),
-	    this,SLOT(enableMenuItems(bool)));
-    connect(this,SIGNAL(deleteFile()),
- 	    _kfind,SIGNAL(deleteFile()));
-    connect(this,SIGNAL(properties()),
- 	    _kfind,SIGNAL(properties()));
-    connect(this,SIGNAL(openFolder()),
- 	    _kfind,SIGNAL(openFolder()));
-    connect(this,SIGNAL(saveResults()),
- 	    _kfind,SIGNAL(saveResults()));
-    connect(this,SIGNAL(addToArchive()),
- 	    _kfind,SIGNAL(addToArchive()));
-    connect(this,SIGNAL(open()),
- 	    _kfind,SIGNAL(open()));
-    connect(_kfind ,SIGNAL(statusChanged(const char *)),
-	    this,SLOT(statusChanged(const char *)));
-    connect(_kfind ,SIGNAL(enableSearchButton(bool)),
-	    this,SLOT(enableSearchButton(bool)));
-    connect(_kfind ,SIGNAL(enableStatusBar(bool)),
-            this,SLOT(enableStatusBar(bool)));
-  }
 
 KfindTop::~KfindTop()
-  {
-    delete _fileMenu;
-    delete _editMenu;
-    delete _optionMenu;
-    delete _helpMenu;
-    delete _kfind;
-    delete _mainMenu;
-    delete _toolBar;
-    delete _statusBar;
-  };
+{
+  delete _fileMenu;
+  delete _editMenu;
+  delete _optionMenu;
+  delete _helpMenu;
+  delete _kfind;
+  delete _mainMenu;
+  delete _toolBar;
+  delete _statusBar;
+};
 
 void KfindTop::menuInit()
 {
@@ -132,7 +134,7 @@ void KfindTop::menuInit()
 				 this,SIGNAL(properties()));
   _fileMenu->insertSeparator();
 
-  openFldrM = _fileMenu->insertItem(i18n("Open Containing &Folder"),
+  openFldrM = _fileMenu->insertItem(i18n("&Browse Directory"),
 				    this,SIGNAL(openFolder()));
   _fileMenu->insertSeparator();
 
@@ -192,17 +194,17 @@ void KfindTop::toolBarInit()
   icon = BarIcon("search");
   _toolBar->insertButton( icon, 0, SIGNAL(clicked()),
 			  _kfind, SLOT(startSearch()),
-			  TRUE, i18n("Start Search"));
-
-  icon = BarIcon("reload");
-  _toolBar->insertButton( icon, 1, SIGNAL(clicked()),
-			  _kfind, SLOT(newSearch()),
-			  TRUE, i18n("New Search"));
+			  TRUE, i18n("Start"));
 
   icon = BarIcon("stop");
   _toolBar->insertButton( icon, 2, SIGNAL(clicked()),
 			  _kfind, SLOT(stopSearch()),
-			  FALSE, i18n("Stop Search"));
+			  FALSE, i18n("Stop"));
+
+  icon = BarIcon("reload");
+  _toolBar->insertButton( icon, 1, SIGNAL(clicked()),
+			  _kfind, SLOT(newSearch()),
+			  TRUE, i18n("New"));
 
   _toolBar->insertSeparator();
 
@@ -214,7 +216,7 @@ void KfindTop::toolBarInit()
   icon = BarIcon("archive");
   _toolBar->insertButton( icon, 4,SIGNAL(clicked()),
 			  _kfind,SIGNAL(addToArchive()),
-			  FALSE, i18n("Add to archive"));
+			  FALSE, i18n("Add To Archive"));
 
   icon = BarIcon("delete");
   _toolBar->insertButton( icon, 5,SIGNAL(clicked()),
@@ -229,12 +231,12 @@ void KfindTop::toolBarInit()
   icon = BarIcon("fileopen");
   _toolBar->insertButton( icon, 7,SIGNAL(clicked()),
 			  _kfind,SIGNAL(openFolder()),
-			  FALSE, i18n("Open Containing Folder"));
+			  FALSE, i18n("Browse"));
 
   icon = BarIcon("save");
   _toolBar->insertButton( icon, 8,SIGNAL(clicked()),
 			  _kfind,SIGNAL(saveResults()),
-			  FALSE, i18n("Save Search Results"));
+			  FALSE, i18n("Save Results"));
 
   _toolBar->insertSeparator();
 
@@ -247,6 +249,11 @@ void KfindTop::toolBarInit()
   _toolBar->insertButton( icon, 10, SIGNAL( clicked() ),
                           KApplication::kApplication(), SLOT( quit() ),
 			  TRUE, i18n("Quit"));
+}
+
+void KfindTop::nameSetFocus()
+{
+  _kfind->setFocus();
 }
 
 void KfindTop::enableSaveResults(bool enable)
@@ -274,7 +281,7 @@ void KfindTop::enableSearchButton(bool enable)
   _fileMenu->setItemEnabled(fileStop, !enable);
 
   _toolBar->setItemEnabled(0,enable);
-  _toolBar->setItemEnabled(2,!enable);
+  _toolBar->setItemEnabled(1,!enable);
 }
 
 void KfindTop::enableStatusBar(bool enable)

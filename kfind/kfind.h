@@ -28,6 +28,7 @@ public slots:
   void stopSearch();
   void newSearch();
   void handleStdout(KProcess *proc, char *buffer, int buflen);
+  void setFocus() { tabWidget->setFocus(); }
 
 signals:
   void  haveResults(bool);

@@ -28,6 +28,7 @@ public:
   virtual ~KfindTop();
   void menuInit();
   void toolBarInit();
+  void nameSetFocus();
 
 public slots:
   void enableSaveResults(bool enable);

@@ -120,6 +120,7 @@ void Kfind::stopSearch() {
 
   if(findProcess.isRunning())
     findProcess.kill();
+  setFocus();
 }
 
 void Kfind::newSearch() {
@@ -132,6 +133,7 @@ void Kfind::newSearch() {
   emit resultSelected(false);
 
   setExpanded(false);
+  setFocus();
 }
 
 void Kfind::handleStdout(KProcess *, char *buffer, int buflen) {

@@ -6,6 +6,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <unistd.h>
 
 #include <qobjectlist.h>
 #include <qapplication.h>
@@ -29,6 +30,7 @@
 #include <klocale.h>
 #include <kconfig.h>
 #include <kmessagebox.h>
+#include <kstddirs.h>
 
 #include "kfdird.h"
 #include "kftypes.h"
@@ -59,12 +61,13 @@ KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name,
     namedL     = new QLabel(nameBox, i18n("&Named:"), pages[0], "named");
     dirBox     = new KfComboBox(pages[0], "combo2");
     lookinL    = new QLabel(dirBox, i18n("&Look in:"), pages[0], "named");
-    subdirsCb  = new QCheckBox(i18n("Include &subfolders"), pages[0]);
-    browseB    = new QPushButton(i18n("&Browse ..."), pages[0]);
+    subdirsCb  = new QCheckBox(i18n("Include &subdirectories"), pages[0]);
+    browseB    = new QPushButton(i18n("&Browse..."), pages[0]);
 
     // Setup
 
-    subdirsCb->setChecked ( TRUE );
+    subdirsCb->setChecked(true);
+    
 
     // Layout
 
@@ -74,7 +77,7 @@ KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name,
     grid->addWidget( lookinL, 1, 0 );
     grid->addWidget( dirBox, 1, 1 );
     grid->addWidget( browseB, 1, 2);
-    grid->addWidget( subdirsCb, 2, 1);
+    grid->addWidget( subdirsCb, 3, 1);
     grid->setColStretch(1,1);
     grid->activate();
 
@@ -87,7 +90,7 @@ KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name,
     connect( dirBox, SIGNAL(returnPressed()),
     	     parent, SLOT(startSearch()) );
 
-    addTab( pages[0], i18n(" Name& Location ") );
+    addTab( pages[0], i18n(" Name/Location ") );
 
     // ************ Page Two
 
@@ -168,7 +171,7 @@ KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name,
       connect( le[i],  SIGNAL(returnPressed()),
 	       parent, SLOT(startSearch()) );
 
-    addTab( pages[1], i18n(" Date Modified ") );
+    addTab( pages[1], i18n(" Date Range ") );
 
     // ************ Page Three
 
@@ -188,9 +191,9 @@ KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name,
 
     KfFileType *typ;
 
-    typeBox->insertItem(i18n("All Files and Folders"));
+    typeBox->insertItem(i18n("All Files and Directories"));
     typeBox->insertItem(i18n("Files"));
-    typeBox->insertItem(i18n("Folders"));
+    typeBox->insertItem(i18n("Directories"));
     typeBox->insertItem(i18n("Symbolic links"));
     typeBox->insertItem(i18n("Special files (sockets, device files...)"));
     typeBox->insertItem(i18n("Executable files"));
@@ -339,6 +342,15 @@ QString KfindTabWidget::createQuery() {
   QString str, pom, type = "", name="";
   int month;
 
+  // is locate/slocate available?
+  QString locateBin = "";
+  bool okToUseLocate = true;
+  if (::access("/usr/bin/locate", X_OK) == 0)
+    locateBin = "locate ";
+  else if (::access("/usr/bin/slocate", X_OK) == 0)
+    locateBin = "slocate ";
+  else (locateBin = KStandardDirs::findExe("locate"));
+    
   // Add the directory we make search in
   str = "find ";
   str += quote(dirBox->currentText());
@@ -353,29 +365,36 @@ QString KfindTabWidget::createQuery() {
 
   case 1: // files
     type = " -type f";
+    okToUseLocate = false;
     break;
 
-  case 2: // folders
+  case 2: // directories
     type = " -type d";
+    okToUseLocate = false;
     break;
 
   case 3: // symlink
     type = " -type l";
+    okToUseLocate = false;
     break;
 
   case 4: // special file
     type += " -type p -or -type s -or -type b or -type c";
+    okToUseLocate = false;
     break;
 
   case 5: // executables
     type = " -perm +111 -type f";
+    okToUseLocate = false;
     break;
 
   case 6: // suid binaries
     type = " -perm +6000 -type f";
+    okToUseLocate = false;
     break;
 
   default:
+    okToUseLocate = false;
     KfFileType *typ = types->first();
     int i;
     QString pattern;
@@ -419,10 +438,13 @@ QString KfindTabWidget::createQuery() {
 
   str += name + type;
 
-  if (!subdirsCb->isChecked())
+  if (!subdirsCb->isChecked()) {
+    okToUseLocate = false;
     str.append(" -maxdepth 1 ");
+  }
 
   if (rb1[1]->isChecked()) { // Modified
+    okToUseLocate = false;
     if (rb2[0]->isChecked()) { // Between dates
       QDate q1, q2;
       str.append(pom.sprintf(" -daystart -mtime -%d -mtime +%d",
@@ -441,17 +463,29 @@ QString KfindTabWidget::createQuery() {
   }
 
   if (sizeBox->currentItem() !=  0) {
+    okToUseLocate = false;
     type = (sizeBox->currentItem() == 1) ? "+" : "-";
     str.append(pom = QString(" -size  %1%2k ").arg(type).arg(sizeEdit->text()));
   }
 
   if(!textEdit->text().isEmpty()) {
+    okToUseLocate = false;
     str += " | xargs egrep -l ";
     if(!caseCb->isChecked())
       str += " -i ";
     str += quote(textEdit->text());
   }
 
+  if (okToUseLocate) {
+    // ok they aren't using fancy options, they just want to do a simple
+    // search.  We can use the locate/slocate database.
+    str = locateBin + "-r ";
+    QString foo = dirBox->currentText();
+    if (foo[foo.length()-1] != '/')
+      foo += "/.*";
+    str += quote(foo + nameBox->currentText() + "[^/]*$");
+  }
+    
   kdebug(KDEBUG_INFO, 1903, "QUERY=%s\n", str.ascii());
 
   return(str);

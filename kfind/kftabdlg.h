@@ -32,11 +32,14 @@ public:
   virtual ~KfindTabWidget();
   QString createQuery();      
   void setDefaults();
-  
+
   void beginSearch();
   void endSearch();
   void loadHistory();
   void saveHistory();
+
+public slots:
+  void setFocus() { nameBox->setFocus(); }
 
 private slots:
   void getDirectory();
