@@ -1,0 +1,10 @@
+[Desktop Entry]
+Encoding=UTF-8
+Type=Application
+Exec=kfmclient openURL %u application/x-webarchive
+Icon=konqueror
+Terminal=0
+MimeType=application/x-webarchive
+InitialPreference=9
+NoDisplay=true
+Name=Konqueror
