@@ -36,30 +36,44 @@ static KCmdLineOptions options[] =
 #define ID_READONLY 2
 #define ID_NORMAL   1
 
-int prepare(KApplication &app, QString bookmarksFile = "") {
+int askUser(KApplication &app, QString extension) {
 
-  QCString appName = "keditbookmarks";
+  QCString requestedName;
+  
+  if (extension != "") {
+     requestedName = QCString("keditbookmarks-" + extension.utf8());
+  } else {
+     requestedName = QCString("keditbookmarks");
+  }
 
-  appName += (bookmarksFile == "") ? QCString("-" + bookmarksFile.utf8()) : QCString("");
+  QCString gotName = app.dcopClient()->registerAs(requestedName,false);
 
-  QCString givenName = app.dcopClient()->registerAs(appName,false);
+  if (gotName == requestedName) {
+     return ID_NORMAL;
 
-  bool unique = (givenName == appName);
+  } else {
 
-  if (!unique) {
-     int answer = KMessageBox::warningYesNo( 0, i18n("Another instance of KEditBookmarks is already running, do you really want to open another instance or continue work in the same instance?\nPlease note that, unfortunately, duplicate views are read-only."), i18n("Warning"), i18n("Run Another"), i18n("Quit") );
-     if (0) {
-        i18n("Continue in same");
-     }
-     bool quit = (answer==KMessageBox::No);
-     if (quit) {
+     int response = 
+        KMessageBox::warningYesNo( 0, 
+              i18n("Another instance of KEditBookmarks is already running, do you really "
+                   "want to open another instance or continue work in the same instance?\n"
+                   "Please note that, unfortunately, duplicate views are read-only."), 
+              i18n("Warning"),  // AK - surely this should change?
+              i18n("Run Another"), 
+              i18n("Quit") 
+           );
+
+     if (0) { i18n("Continue in same"); } // i18n hack
+
+     if (response==KMessageBox::No) {
+        // QUIT
         // app.dcopClient()->send( "keditbookmarks", "KEditBookmarks", "activateWindow()", data );
         // AK - implement "Continue in same", thus removing this awfull ID_ defines
         return ID_QUIT;
      }
-  }
 
-  return unique ? ID_NORMAL : ID_READONLY;
+     return ID_READONLY;
+  }
 }
 
 int main(int argc, char ** argv)
@@ -80,19 +94,17 @@ int main(int argc, char ** argv)
 
   KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
 
-  const char *arg = (args->count() == 0) ? NULL : args->arg(0);
+  bool gotArg = (args->count() == 1);
+
+  QString filename = (gotArg) ? QString::fromLatin1(args->arg(0))
+                              : locateLocal( "data", QString::fromLatin1("konqueror/bookmarks.xml") );
   args->clear();
 
-  QString bookmarksFile = (!arg)
-                          ? locateLocal("data", QString::fromLatin1("konqueror/bookmarks.xml") )
-                          : QString::fromLatin1(arg);
-
-
-  int ret = prepare(app, bookmarksFile);
+  int ret = askUser(app, (gotArg ? filename : "") );
   if (ret == ID_QUIT) 
      return 0;
 
-  KEBTopLevel * toplevel = new KEBTopLevel( bookmarksFile, (ret==ID_READONLY) );
+  KEBTopLevel * toplevel = new KEBTopLevel( filename, (ret==ID_READONLY) );
   toplevel->show();
   app.setMainWidget(toplevel);
 
