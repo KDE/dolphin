@@ -141,7 +141,9 @@ KBehaviourOptions::KBehaviourOptions(KConfig *config, QString group, QWidget *pa
     connect(cbShowDeleteCommand, SIGNAL(clicked()), this, SLOT(changed()));
 
     QWhatsThis::add( cbShowDeleteCommand, i18n("Uncheck this if you do not want 'Delete' menu commands to be displayed "
-                                                "on the desktop and in the file manager's menus and context menus."));
+                                                "on the desktop and in the file manager's menus and context menus. "
+						"You can still delete files when hidden by holding the Shift key "
+						"while calling 'Move to Trash'."));
 
     QButtonGroup *bg = new QVButtonGroup( i18n("Ask Confirmation For"), this );
     bg->layout()->setSpacing( KDialog::spacingHint() );
