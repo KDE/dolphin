@@ -65,7 +65,7 @@ public:
 protected:
   void init();
   
-  const char* makeNumericString( const KUDSAtom &_atom ) const;
+  QString makeNumericString( const KUDSAtom &_atom ) const;
   QString makeTimeString( const KUDSAtom &_atom ) const;
   const char* makeAccessString( const KUDSAtom &_atom ) const;
   QString makeTypeString( const KUDSAtom &_atom ) const;
