@@ -199,7 +199,7 @@ Arrow</keycap>.</para>
 
 <para>&konsole;'s history can be configured via
 <menuchoice><guimenu>Settings</guimenu><guimenuitem>History...</guimenuitem>
-</menuchoice>.
+</menuchoice>
 </para>
 
 <para>&konsole; provides a number of history related actions located in the 
@@ -1302,8 +1302,9 @@ Antialiasing of a small font may be difficult to read.</para></listitem>
 </varlistentry>
 
 <varlistentry>
-<term><option>--script</option> <parameter>file</parameter></term>
-<listitem><para><action>Allow the use of extended DCOP commands to paste text into sessions.</action></para></listitem>
+<term><option>--script</option></term>
+<listitem><para><action>Enable extended &DCOP; &Qt; functions.
+</action></para></listitem>
 </varlistentry>
 
 <varlistentry>
@@ -1344,12 +1345,11 @@ lines</action>.</para></listitem>
 
 </variablelist>
 
-<para>For instance:</para>
-
 <informalexample>
+<para>For instance:</para>
 <screen><prompt>&percnt; </prompt><userinput><command>konsole</command><option> --vt_sz</option><parameter> 90x25</parameter><option> --nohist</option></userinput></screen>
 
-<para> starts a &konsole; window with 90 columns and 25 rows, with no
+<para>Starts a &konsole; window with 90 columns and 25 rows, with no
 history</para>
 </informalexample>
 
@@ -1462,6 +1462,18 @@ is available in the <filename>README.ports</filename> file in the
 &konsole; source package. It provides a list of experts for certain
 platforms (Tru64, &Solaris;, OpenBSD) and requests volunteers from other
 &UNIX; platforms.</para>
+
+<para>
+For more infomation please visit these websites:
+</para>
+<itemizedlist>
+<listitem><para>
+<ulink url="http://freebsd.kde.org/">KDE on FreeBSD</ulink>
+</para></listitem>
+<listitem><para>
+<ulink url="http://solaris.kde.org/">KDE on Solaris</ulink>
+</para></listitem>
+</itemizedlist>
 
 </appendix>
 
