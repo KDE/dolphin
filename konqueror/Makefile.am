@@ -1,7 +1,7 @@
 
 INCLUDES = -I$(top_srcdir)/libkonq -I$(top_srcdir)/kcontrol/input $(all_includes)
 
-SUBDIRS = . kfmexec client iconview dirtree listview keditbookmarks kfindpart pics
+SUBDIRS = . kfmexec client iconview dirtree listview keditbookmarks kfindpart shellcmdplugin pics
 
 lib_LTLIBRARIES = konqueror.la
 
@@ -40,15 +40,17 @@ konqueror_SOURCES = dummy.cc
 konqueror_LDADD = konqueror.la
 konqueror_LDFLAGS = $(KDE_RPATH) $(all_libraries)
 
+# Hmm, this experiment of a static konq failed, don't trust it...
+# (but feel free to fix it :)
 
 # Note that you need to --enable-debug in kdelibs and kdebase,
 # then make clean ; make install in kdelibs and libkonq,
 # and make clean ; make konqueror_static in here.
-check_PROGRAMS = konqueror_static
-
-konqueror_static_SOURCES = dummy.cc
-konqueror_static_LDADD = konqueror.la *view/*.la dirtree/*.la $(libdir)/libkhtml.la
-konqueror_static_LDFLAGS = $(all_libraries)
+#check_PROGRAMS = konqueror_static
+#
+#konqueror_static_SOURCES = dummy.cc
+#konqueror_static_LDADD = konqueror.la *view/*.la dirtree/*.la $(libdir)/libkhtml.la
+#konqueror_static_LDFLAGS = $(all_libraries) -static
 
 dummy.cc:
 	echo > dummy.cc
