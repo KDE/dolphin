@@ -137,7 +137,23 @@ void CreateCommand::unexecute()
         lv->setSelected(item,false);
         // can't use itemBelow here, in case we're deleting a folder
         if ( item->nextSibling() )
-            lv->setSelected(item->nextSibling(),true);
+            lv->setSelected( item->nextSibling(), true );
+        else // No next sibling ? Go to previous one, then.
+        {
+            QString prevAddr = bk.parentGroup().previousAddress( bk.address() );
+            if ( !prevAddr.isEmpty() )
+            {
+                QListViewItem * prev = KEBTopLevel::self()->findByAddress( prevAddr );
+                if (prev)
+                    lv->setSelected( prev, true );
+            }
+            else // No previous sibling either ? Go up, then.
+            {
+                QListViewItem * par = KEBTopLevel::self()->findByAddress( KBookmark::parentAddress( bk.address() ) );
+                if (par)
+                    lv->setSelected( par, true );
+            }
+        }
     }
 
     bk.parentGroup().deleteBookmark( bk );
