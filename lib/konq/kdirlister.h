@@ -125,8 +125,6 @@ signals:
   void completed();
   /** Tell the view that user canceled the listing */
   void canceled();
-  /** Tell the view to update (redraw) its contents */
-  void update();
 
   /** Clear all items */
   void clear();
@@ -147,7 +145,7 @@ protected slots:
 
   // internal slots connected to KDirWatch
   virtual void slotDirectoryDirty( const QString& _dir );
-  virtual void slotDirectoryVeryDirty( const QString& _dir );
+  virtual void slotFileDirty( const QString& _file );
 
 protected:  
   /** Unregister dirs from kdirwatch and clear m_lstDirs */

@@ -56,16 +56,14 @@ KDirLister::~KDirLister()
   forgetDirs();
 }
 
-void KDirLister::slotDirectoryVeryDirty( const QString& _dir )
+void KDirLister::slotFileDirty( const QString& _file )
 {
-  kdebug( KDEBUG_INFO, 1203, "KDirLister::slotDirectoryVeryDirty( %s )", _dir.ascii() );
-  // if we watch this dir, pass the signal above
-  for ( QStringList::Iterator it = m_lstDirs.begin(); it != m_lstDirs.end(); ++it )
-    if ( _dir == (*it) )
-    {
-      emit update();
-      break;
-    }
+  kdebug( KDEBUG_INFO, 1203, "KDirLister::slotFileDirty( %s )", _file.ascii() );
+  KFileItem * item = find( _file );
+  if ( item ) {
+    emit deleteItem( item );
+    emit newItem( item );
+  }
 }
 
 void KDirLister::slotDirectoryDirty( const QString& _dir )
@@ -116,8 +114,8 @@ void KDirLister::openURL( const KURL& _url, bool _showDotFiles, bool _keep )
     {
       connect( kdirwatch, SIGNAL( dirty( const QString& ) ), 
                this, SLOT( slotDirectoryDirty( const QString& ) ) );
-      connect( kdirwatch, SIGNAL( veryDirty( const QString& ) ), 
-               this, SLOT( slotDirectoryVeryDirty( const QString& ) ) );
+      connect( kdirwatch, SIGNAL( fileDirty( const QString& ) ), 
+               this, SLOT( slotFileDirty( const QString& ) ) );
     }
   }
   m_lstDirs.append( _url.path( -1 ) ); // store path without trailing slash
