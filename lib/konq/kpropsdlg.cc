@@ -629,7 +629,9 @@ FilePermissionsPropsPage::FilePermissionsPropsPage( PropertiesDialog *_props )
     } else
       strGroup.sprintf("%d",buff.st_gid);
   } else {
-    isMyFile = false; // we have to assume remote files aren't ours.
+    //isMyFile = false; // we have to assume remote files aren't ours.
+    isMyFile = true; // how could we know?
+    //KIO::chmod will tell, if we had no right to change permissions
   }
 
   QBoxLayout *box = new QVBoxLayout( this, KDialog::spacingHint() );
@@ -837,15 +839,23 @@ void FilePermissionsPropsPage::applyChanges()
   debug("path : %s", path.ascii());
   if ( permissions != p )
   {
-    if ( chmod( path, p ) != 0 )
-      KMessageBox::sorry( 0, i18n("Could not change permissions. \nYou most likely do not have access to write to %1.").arg(path));
-    else
-    {
-      // Force refreshing information about that file if displayed.
-      KDirWatch::self()->setFileDirty( path );
-    }
+    KIO::Job * job = KIO::chmod( path, p );
+    connect( job, SIGNAL( result( KIO::Job * ) ),
+             SLOT( slotChmodResult( KIO::Job * ) ) );
   }
 
+}
+
+void FilePermissionsPropsPage::slotChmodResult( KIO::Job * job )
+{
+  if (job->error())
+    job->showErrorDialog();
+  // KMessageBox::sorry( 0, i18n("Could not change permissions. \nYou most likely do not have access to write to %1.").arg(path));
+  else
+  {
+    // Force refreshing information about that file if displayed.
+    KDirWatch::self()->setFileDirty( properties->kurl().path() );
+  }
 }
 
 ExecPropsPage::ExecPropsPage( PropertiesDialog *_props )

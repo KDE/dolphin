@@ -327,6 +327,10 @@ public:
    */
   static bool supports( KFileItemList _items );
 
+protected slots:
+
+  void slotChmodResult( KIO::Job * );
+
 protected:
   QCheckBox *permBox[3][4];
   QComboBox *grp;
