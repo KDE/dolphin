@@ -338,7 +338,7 @@ void KonqKfmIconView::slotPreview( bool toggle )
     if ( !toggle )
     {
         m_pIconView->stopImagePreview();
-        m_pIconView->setIcons( m_pIconView->iconSize(), 0 /*FIXME (malte)*/);
+        m_pIconView->setIcons( m_pIconView->iconSize(), sender()->name() );
     }
     else
     {
