@@ -148,7 +148,7 @@ void KonqDirTreeModule::openTopLevelItem( KonqTreeTopLevelItem * item )
 
 void KonqDirTreeModule::addSubDir( KonqTreeItem *item )
 {
-    kdDebug(1201) << this << "KonqDirTreeModule::addSubDir " << item->externalURL().url(-1) << endl;
+    kdDebug(1201) << this << " KonqDirTreeModule::addSubDir " << item->externalURL().url(-1) << endl;
     m_dictSubDirs.insert( item->externalURL().url(-1), item );
 }
 
@@ -161,10 +161,7 @@ void KonqDirTreeModule::removeSubDir( KonqTreeItem *item )
 
 void KonqDirTreeModule::openSubFolder( KonqTreeItem *item )
 {
-    // This causes a reparsing, but gets rid of the trailing slash
-    KURL url( item->externalURL().url(-1) );
-
-    kdDebug(1201) << this << " openSubFolder( " << url.url() << " )" << endl;
+    kdDebug(1201) << this << " openSubFolder( " << item->externalURL().prettyURL() << " )" << endl;
 
     if ( !m_dirLister ) // created on demand
     {
@@ -189,6 +186,22 @@ void KonqDirTreeModule::openSubFolder( KonqTreeItem *item )
         m_pProps = new KonqPropsView( KonqTreeFactory::instance(), s_defaultViewProps );
     }
 
+    if ( m_dirLister->job() == 0 )
+        listDirectory( item );
+    else if ( ! m_lstPendingOpenings.contains( item ) )
+        m_lstPendingOpenings.append( item );
+
+    if ( item->isTopLevelItem() ) // No animation for toplevel items (breaks the icon)
+        return;
+
+    //startAnimation( item, "kde" );
+}
+
+void KonqDirTreeModule::listDirectory( KonqTreeItem *item )
+{
+    // This causes a reparsing, but gets rid of the trailing slash
+    KURL url( item->externalURL().url(-1) );
+
     // Check for new properties in the new dir
     // newProps returns true the first time, and any time something might
     // have changed.
@@ -203,11 +216,6 @@ void KonqDirTreeModule::openSubFolder( KonqTreeItem *item )
         m_pProps->applyColors( viewport() );
     }
 #endif
-
-    if ( item->isTopLevelItem() ) // No animation for toplevel items (breaks the icon)
-        return;
-
-    //startAnimation( item, "kde" );
 }
 
 void KonqDirTreeModule::slotNewItems( const KFileItemList& entries )
@@ -295,17 +303,10 @@ void KonqDirTreeModule::slotListingStopped()
         item->repaint();
     }
 
-#if 0
-    KURL::List::Iterator it = m_lstPendingURLs.find( url );
-    if ( it != m_lstPendingURLs.end() )
-        m_lstPendingURLs.remove( it );
+    m_lstPendingOpenings.removeRef( item );
 
-    if ( m_lstPendingURLs.count() > 0 )
-    {
-        kdDebug(1201) << "opening (was pending) " << m_lstPendingURLs.first().prettyURL() << endl;
-        openDirectory( m_lstPendingURLs.first(), true );
-    }
-#endif
+    if ( m_lstPendingOpenings.count() > 0 )
+        listDirectory( m_lstPendingOpenings.first() );
 
     kdDebug(1201) << "m_selectAfterOpening " << m_selectAfterOpening.prettyURL() << endl;
     if ( !m_selectAfterOpening.isEmpty() && m_selectAfterOpening.upURL() == url )

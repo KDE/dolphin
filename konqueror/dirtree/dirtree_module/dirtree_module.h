@@ -60,6 +60,7 @@ private slots:
 
 private:
     //KonqTreeItem * findDir( const KURL &_url );
+    void listDirectory( KonqTreeItem *item );
     KURL::List selectedUrls();
 
     // URL -> item
@@ -75,7 +76,7 @@ private:
     // same tree, it requires a major kdirlister improvement (rather as a subclass).
     KonqDirLister * m_dirLister;
 
-    //KURL::List m_lstPendingURLs;
+    QList<KonqTreeItem> m_lstPendingOpenings;
 
     KURL m_selectAfterOpening;
 
