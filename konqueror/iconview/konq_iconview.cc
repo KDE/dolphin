@@ -350,8 +350,20 @@ KonqKfmIconView::~KonqKfmIconView()
 void KonqKfmIconView::slotImagePreview( bool toggle )
 {
     m_pProps->m_bImagePreview = toggle;
+    if ( !m_pProps->m_bImagePreview ) {
+	if ( m_pIconView->itemTextPos() == QIconView::Bottom )
+	    m_pIconView->setGridX( 70 );
+	else
+	    m_pIconView->setGridX( 120 );
+    }
     m_pIconView->setImagePreviewAllowed ( m_pProps->m_bImagePreview );
-    m_pIconView->arrangeItemsInGrid( true );
+    if ( m_pProps->m_bImagePreview ) {
+	QIconViewItem *i = m_pIconView->firstItem();
+	for ( ; i; i = i->nextItem() ) {
+	    m_pIconView->setGridX( QMAX( m_pIconView->gridX(), i->width() ) );
+	}
+    }
+    m_pIconView->arrangeItemsInGrid( TRUE );
 }
 
 void KonqKfmIconView::slotShowDot()
@@ -838,9 +850,9 @@ void KonqKfmIconView::slotDisplayFileSelectionInfo()
 
     if ( lst.count() > 0 ) {
         emit setStatusBarText( displayString(lst.count(),
-							  fileCount,
-							  fileSizeSum,
-							  dirCount));
+					     fileCount,
+					     fileSizeSum,
+					     dirCount));
     } else
 	slotOnViewport();
 }
@@ -865,6 +877,8 @@ void KonqKfmIconView::slotProcessMimeIcons()
     if ( currentIcon->serialNumber() != newIcon.serialNumber() )
     {
 	item->QIconViewItem::setPixmap( newIcon );
+	if ( item->width() > m_pIconView->gridX() )
+	    m_pIconView->setGridX( item->width() );
 	if ( m_pProps->m_bImagePreview )
 	    m_bNeedAlign = true;
     }
@@ -927,6 +941,10 @@ bool KonqKfmIconView::openURL( const KURL &_url )
     emit setWindowCaption( _url.decodedURL() );
 
     m_pIconView->show(); // ?
+    if ( m_pIconView->itemTextPos() == QIconView::Bottom )
+	m_pIconView->setGridX( 70 );
+    else
+	m_pIconView->setGridX( 120 );
     return true;
 }
 
