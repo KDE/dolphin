@@ -1008,9 +1008,7 @@ void KonqMainView::callExtensionMethod( KonqChildView * childView, const char * 
     return;*/
 
   QMetaData * mdata = obj->metaObject()->slot( methodName );
-  if( !mdata )
-    kDebugError("@@@@@@ No such method %s", methodName);
-  else
+  if( mdata )
     (obj->*(mdata->ptr))();
 }
 
