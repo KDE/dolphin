@@ -397,7 +397,6 @@ void KonqKfmIconView::slotDeleteItem( KFileItem * _fileitem )
   for( ; *it; ++it )
     if ( ((KFileICI*)*it)->item() == _fileitem ) // compare the pointers
     {
-cerr << "huuuuuuuuuuuuuu" << endl;    
       remove( (*it), false /* don't refresh yet */ );
       // bSetupNeeded not set to true, so that simply deleting a file leaves
       // a blank space. Well that's just my preference (David)
