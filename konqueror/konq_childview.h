@@ -138,10 +138,7 @@ public:
    * Get view's URL - slow method, avoid using it if possible
    */
   QString url();
-  /**
-   * Get view's name
-   */
-  QString viewName();
+  
   /**
    * Get view's id
    */

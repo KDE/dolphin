@@ -52,7 +52,6 @@ public:
 
   // IDL
   virtual void stop();
-  virtual char *viewName() { return CORBA::string_dup("KonquerorKfmIconView"); }
   
   virtual char *url();
   virtual CORBA::Long xOffset();

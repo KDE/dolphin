@@ -47,7 +47,6 @@ public:
   virtual CORBA::Long yOffset();
 
   virtual void stop();
-  virtual char *viewName() { return CORBA::string_dup( "KonquerorTxtView" ); }
   
   virtual void slotSelectAll();
   virtual void slotEdit();

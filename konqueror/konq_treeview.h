@@ -155,7 +155,6 @@ public:
   virtual bool mappingFillMenuEdit( Browser::View::EventFillMenu_ptr editMenu );
 
   virtual void stop();
-  virtual char *viewName() { return CORBA::string_dup("KonquerorKfmTreeView"); }
   
   virtual char *url();
   virtual CORBA::Long xOffset();

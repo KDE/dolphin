@@ -1192,7 +1192,7 @@ void KonqMainView::slotLargeIcons()
 {
   Browser::View_var v;
 
-  if ( m_currentView->viewName() != "KonquerorKfmIconView" )
+  if ( !m_currentView->view()->supportsInterface( "IDL:Konqueror/KfmIconView:1.0" ) )
   {
     v = Browser::View::_duplicate( new KonqKfmIconView( this ) );
     QStringList serviceTypes;
@@ -1215,7 +1215,7 @@ void KonqMainView::slotSmallIcons()
 {
   Browser::View_var v;
   
-  if ( m_currentView->viewName() != "KonquerorKfmIconView" )
+  if ( !m_currentView->view()->supportsInterface( "IDL:Konqueror/KfmIconView:1.0" ) )
   {
     v = Browser::View::_duplicate( new KonqKfmIconView( this ) );
     QStringList serviceTypes;
@@ -1236,7 +1236,7 @@ void KonqMainView::slotSmallIcons()
 
 void KonqMainView::slotTreeView()
 {
-  if ( m_currentView->viewName() != "KonquerorKfmTreeView" )
+  if ( !m_currentView->view()->supportsInterface( "IDL:Konqueror/KfmTreeView:1.0" ) )
   {
     Browser::View_var v = Browser::View::_duplicate( new KonqKfmTreeView( this ) );
     QStringList serviceTypes;
@@ -1870,7 +1870,7 @@ void KonqMainView::splitView ( Orientation orientation )
   QStringList serviceTypes;
   
   //HACK
-  if ( m_currentView->viewName() == "KonquerorKfmTreeView" )
+  if ( m_currentView->view()->supportsInterface( "IDL:Konqueror/KfmTreeView:1.0" ) )
   {
     serviceTypes.clear();
     serviceTypes.append( serviceType );
@@ -2082,7 +2082,7 @@ QStringList KonqMainView::locationBarCombo()
   
   CORBA::WString_var item;
   CORBA::Long count = m_vLocationBar->comboItemCount( TOOLBAR_URL_ID );
-  for ( CORBA::ULong i = 1; i < count; i++ )
+  for ( CORBA::ULong i = 0; i < count; i++ )
     entryList.append( C2Q( item = m_vLocationBar->comboItem( TOOLBAR_URL_ID, i ) ) );
 
   return entryList;
@@ -2090,7 +2090,6 @@ QStringList KonqMainView::locationBarCombo()
 
 void KonqMainView::setLocationBarCombo( const QStringList &entryList )
 {
-  cerr << "KonqMainView::setLocationBarCombo() -> " << entryList.count() << endl;
   m_vToolBar->clearCombo( TOOLBAR_URL_ID );
 
   CORBA::WString_var item;

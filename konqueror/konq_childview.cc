@@ -316,7 +316,7 @@ void KonqChildView::makeHistory( bool pushEntry )
   m_pCurrentHistoryEntry->xOffset = m_vView->xOffset();
   m_pCurrentHistoryEntry->yOffset = m_vView->yOffset();
   m_pCurrentHistoryEntry->strServiceType = m_lstServiceTypes.first();
-  m_pCurrentHistoryEntry->bIsTreeView = ( viewName() == "KonquerorKfmTreeView" );
+  m_pCurrentHistoryEntry->bIsTreeView = m_vView->supportsInterface( "IDL:Konqueror/KfmTreeView:1.0" );
 }
 
 void KonqChildView::go( QList<HistoryEntry> &stack, int steps )
@@ -378,13 +378,6 @@ QString KonqChildView::url()
   CORBA::String_var u = m_vView->url();
   QString url( u.in() );
   return url;
-}
-
-QString KonqChildView::viewName()
-{
-  CORBA::String_var v = m_vView->viewName();
-  QString viewName( v.in() );
-  return viewName;
 }
 
 void KonqChildView::reload()
@@ -469,7 +462,7 @@ Browser::View_ptr KonqChildView::createView( const QString &serviceType,
     return Browser::View::_nil();
 
   serviceTypes = service->serviceTypes();
-  
+
   return factory->create();
 }
 

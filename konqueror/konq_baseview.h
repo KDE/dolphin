@@ -57,7 +57,6 @@ public:
 
 protected:
   QString m_strURL;
-  CORBA::String_var debug_ViewName;
 };
 
 #endif

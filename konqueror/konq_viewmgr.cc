@@ -87,7 +87,7 @@ void KonqViewManager::saveViewProfile( KConfig &cfg )
     
     //HACK
     cfg.writeEntry( QString::fromLatin1( "IsBuiltinTreeView" ).prepend( viewStr ), 
-                    ( viewIt.current()->viewName() == "KonquerorKfmTreeView" ) );
+                    ( viewIt.current()->view()->supportsInterface( "IDL:Konqueror/KfmTreeView:1.0" ) ) );
   }
   
   cfg.sync();

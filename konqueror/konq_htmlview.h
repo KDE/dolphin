@@ -62,7 +62,6 @@ public:
   virtual bool mappingFillToolBar( Browser::View::EventFillToolBar viewToolBar );
 
   virtual void stop();
-  virtual char *viewName() { return CORBA::string_dup( "KonquerorHTMLView" ); }
 
   virtual char *url();
   virtual CORBA::Long xOffset();
