@@ -147,3 +147,4 @@ void FavIconWebGrabber::slotFinished(KIO::Job *job) {
    }
 }
 
+#include "updater.moc"
