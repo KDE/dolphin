@@ -743,7 +743,7 @@ void KonqKfmIconView::slotDragEntered( bool accepted )
 {
     kdDebug() << "KonqKfmIconView::slotDragEntered()" << endl;
     if ( !accepted ) {
-        emit setStatusBarText( i18n( "You cannot drop any items in a directory in which you don't have write permission" ) );
+        emit setStatusBarText( i18n( "You cannot drop any items in a directory in which you do not have write permission" ) );
         return;
     }
 
