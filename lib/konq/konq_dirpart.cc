@@ -34,6 +34,7 @@
 
 #include <qapplication.h>
 #include <qclipboard.h>
+#include <assert.h>
 
 KonqDirPart::KonqDirPart( QObject *parent, const char *name )
   : KParts::ReadOnlyPart( parent, name ),
@@ -91,7 +92,9 @@ KonqDirPart::~KonqDirPart()
 {
     // Close the find part with us
     if ( m_findPart )
+    {
         delete m_findPart;
+    }
 }
 
 QScrollView * KonqDirPart::scrollWidget()
@@ -310,18 +313,39 @@ void KonqDirPart::beforeOpenURL()
 {
     if ( m_findPart )
     {
+        kdDebug() << "KonqDirPart::beforeOpenURL -> emit findClosed " << this << endl;
+        delete m_findPart;
+        m_findPart = 0L;
         emit findClosed( this );
     }
 }
 
 void KonqDirPart::setFindPart( KParts::ReadOnlyPart * part )
 {
+    assert(part);
     m_findPart = part;
+    connect( m_findPart, SIGNAL( started() ),
+             this, SLOT( slotStarted() ) );
+    connect( m_findPart, SIGNAL( clear() ),
+             this, SLOT( slotClear() ) );
+    connect( m_findPart, SIGNAL( newItems( const KFileItemList & ) ),
+             this, SLOT( slotNewItems( const KFileItemList & ) ) );
+    connect( m_findPart, SIGNAL( finished() ), // can't name it completed, it conflicts with a KROP signal
+             this, SLOT( slotCompleted() ) );
+    connect( m_findPart, SIGNAL( canceled() ),
+             this, SLOT( slotCanceled() ) );
+    connect( m_findPart, SIGNAL( findClosed() ),
+             this, SLOT( slotFindClosed() ) );
+
+    // set the initial URL in the find part
+    m_findPart->openURL( url() );
 }
 
 void KonqDirPart::slotFindClosed()
 {
-    kdDebug(1203) << "KonqDirPart::slotFindClosed" << endl;
+    kdDebug(1203) << "KonqDirPart::slotFindClosed -> emit findClosed " << this << endl;
+    delete m_findPart;
+    m_findPart = 0L;
     emit findClosed( this );
     // reload where we were before
     openURL( url() );
