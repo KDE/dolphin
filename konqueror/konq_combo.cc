@@ -180,8 +180,8 @@ void KonqCombo::updateItem(const QPixmap& pix, const QString& t, int index)
         (pixmap(index) && pixmap(index)->serialNumber() == pix.serialNumber()))
         return;
         
-    kdDebug(1202) << "*** KonqCombo::updateItem: item='" << t << "', index='"
-                  << index << "'" << endl;        
+    // kdDebug(1202) << "*** KonqCombo::updateItem: item='" << t << "', index='"
+    //               << index << "'" << endl;
     
     // QComboBox::changeItem() doesn't honour the pixmap when
     // using an editable combobox, so we just remove and insert    
