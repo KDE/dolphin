@@ -16,7 +16,7 @@ METASOURCES = AUTO
 lib_LTLIBRARIES = libkonqsidebarplugin.la libkonqsidebar.la
 
 # the Part's source, library search path, and link libraries
-libkonqsidebar_la_SOURCES = konqsidebar.cpp sidebar_widget.cpp
+libkonqsidebar_la_SOURCES = konqsidebar.cpp sidebar_widget.cpp kmultiverttabbar.cpp
 libkonqsidebar_la_LDFLAGS = -module $(KDE_PLUGIN) $(all_libraries)
 libkonqsidebar_la_LIBADD  = $(LIB_KPARTS) $(LIB_KFILE) ./libkonqsidebarplugin.la
 

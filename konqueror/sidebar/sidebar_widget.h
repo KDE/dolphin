@@ -25,6 +25,8 @@
 #include <kparts/part.h>
 #include <qstring.h>
 #include "konqsidebarplugin.h"
+#include <qlayout.h>
+#include "kmultiverttabbar.h"
 
 class ButtonInfo: public QObject
 {
@@ -60,17 +62,6 @@ class addBackEnd: public QObject
 
 };
 
-class Sidebar_ButtonBar: public KToolBar
-{
-  Q_OBJECT
-  public:
-        Sidebar_ButtonBar(QWidget *parent):KToolBar(parent,"Konq::SidebarTNG",true){/*setAcceptDrops(true);*/}
-	~Sidebar_ButtonBar(){;}  
- protected:
-	virtual void dragEnterEvent ( QDragEnterEvent * e){e->accept();} 
-	virtual void dragMoveEvent ( QDragEnterEvent * e){e->accept();} 
-};
-
 class Sidebar_Widget: public QHBox, public KonqSidebar_PluginInterface
 {
   Q_OBJECT
@@ -85,7 +76,7 @@ class Sidebar_Widget: public QHBox, public KonqSidebar_PluginInterface
   static QString PATH;
   private:
 	class KDockArea *Area;
-	class KToolBar *ButtonBar;
+	class KMultiVertTabBar *ButtonBar;
         QPtrVector<ButtonInfo> Buttons;
 	bool addButton(const QString &desktoppath,int pos=-1);
 	bool createView(ButtonInfo *data);
