@@ -5,7 +5,8 @@ CLEANFILES = $(BUILT_SOURCES)
 bin_PROGRAMS = kfind
 LDADD += @all_libraries@ -lkfm -lkdeui -lkdecore -lqt -lXext -lX11 @LIBSOCKET@ 
 MOC 	= @MOC@
-ICONSDIR=$(prefix)/share/icons
+
+ICONSDIR=$(kde_icondir)
 
 ####### Files
 
