@@ -880,6 +880,8 @@ bool KonqBaseListViewWidget::openURL( const KURL &url )
                         this, SLOT( slotNewItems( const KFileItemList & ) ) );
       QObject::connect( m_dirLister, SIGNAL( deleteItem( KFileItem * ) ),
                         this, SLOT( slotDeleteItem( KFileItem * ) ) );
+      QObject::connect( m_dirLister, SIGNAL( redirection( const KURL & ) ),
+                        this, SLOT( slotRedirection( const KURL & ) ) );
    }
 
    // The first time or new protocol ? So create the columns first
@@ -955,6 +957,11 @@ void KonqBaseListViewWidget::slotDeleteItem( KFileItem * _fileitem )
       delete &(*it);
       return;
     }
+}
+
+void KonqBaseListViewWidget::slotRedirection( const KURL & url )
+{
+    emit m_pBrowserView->extension()->setLocationBarURL( url.url() );
 }
 
 KonqBaseListViewWidget::iterator& KonqBaseListViewWidget::iterator::operator++()

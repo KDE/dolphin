@@ -137,6 +137,7 @@ class KonqBaseListViewWidget : public KListView
       virtual void slotClear();
       virtual void slotNewItems( const KFileItemList & );
       virtual void slotDeleteItem( KFileItem * );
+      virtual void slotRedirection( const KURL & );
 
       virtual void slotResult( KIO::Job * );
 
@@ -166,7 +167,7 @@ class KonqBaseListViewWidget : public KListView
        This way e.g. SHIFT+up/PgUp then SHIFT+down/PgDn leaves no item selected
        */
       virtual void keyPressEvent( QKeyEvent *_ev );
-      
+
       //creates the listview columns according to confColumns
       virtual void createColumns();
       //reads the configuration for the columns of the current
@@ -217,7 +218,7 @@ class KonqBaseListViewWidget : public KListView
 
       //I think I could use a simple *array for this... (Alex)
       QList<ColumnInfo> confColumns;
-      
+
       KonqBaseListViewItem* m_dragOverItem;
       QStringList m_lstDropFormats;
 
