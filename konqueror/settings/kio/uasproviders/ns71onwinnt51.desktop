@@ -1,6 +1,25 @@
 [Desktop Entry]
 Encoding=UTF-8
 Name=UADescription (Netscape 7.1 on XP)
+Name[az]=İA İzahatı (XP üstündə Netscape 7.1)
+Name[br]=UADescription (Netscape 7.1 war XP)
+Name[da]=UADescription (Netscape 7.1 på XP)
+Name[eo]=UA-Priskribo (Netskapo 7.1 sub Vindozo XP)
+Name[et]=UADescription (Netscape 7.1 Win XP platvormil)
+Name[fr]=Identité du navigateur (Netscape 7.1 sous Windows XP)
+Name[ga]=UADescription (Netscape 7.1 ar XP)
+Name[hu]=Böngészőtípus (Netscape 7.1 Windows XP-n)
+Name[mk]=UADescription (Netscape 7.1 на XP)
+Name[mt]=UADescription (IE 6.0 fuq Win XP)
+Name[nl]=GA-beschrijving (Netscape 7.1 op XP)
+Name[pa]=UADescription (XP ਤੇ Netscape 7.1)
+Name[pt]=UADescription (Netscape 7.1 no XP)
+Name[pt_BR]=Descrição (Netscape 7.1 no XP)
+Name[sv]=AA-beskrivning (Netscape 7.1 på XP)
+Name[ta]=UAவிவரம் ( XPல் நெட்ஸ்கேப் 7.1 )
+Name[tr]=UA Tanımı (XP üzerinde Netscape 6.0)
+Name[xx]=xxUADescription (Netscape 7.1 on XP)xx
+Name[zh_CN]=用户代理描述 (运行于 Win XP 的 Netscape 7.1)
 Type=Service
 ServiceTypes=UserAgentStrings
 X-KDE-UA-TAG=NN

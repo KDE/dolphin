@@ -1,6 +1,24 @@
 [Desktop Entry]
 Encoding=UTF-8
 Name=UADescription (Netscape 7.1 on current)
+Name[az]=İA İzahatı (Netscape 7.1 on current)
+Name[da]=UADescription (Netscape 7.1 på nuværende)
+Name[eo]=UA-Priskribo (Netskapo 7.1 sub nuna)
+Name[et]=UADescription (Selles masinas töötav Netscape 7.1)
+Name[fr]=Identité du navigateur (Netscape 7.1 sous le système actuel)
+Name[ga]=UADescription (Netscape 7.1 ar an gcóras reatha)
+Name[hu]=Böngészőtípus (Netscape 7.1)
+Name[mk]=UADescription (Netscape 7.1 на тековно)
+Name[mt]=UADescription (NN 3.01 fuq kurrenti)
+Name[nl]=GA-beschrijving (Netscape 7.1 op current)
+Name[pa]=UADescription (ਮੌਜੂਦਾ ਤੇ Netscape 7.1)
+Name[pt]=UADescription (Netscape 7.1 no sistema actual)
+Name[pt_BR]=Descrição (Netscape 7.1 no sistema atual)
+Name[sv]=AA-beskrivning (Netscape 7.1 på aktuell)
+Name[ta]=UAவிவரம் (நடப்பில் 3.01 நெட்ஸ்கேப்)
+Name[tr]=UA Tanımı (Netscape 7.1)
+Name[xx]=xxUADescription (Netscape 7.1 on current)xx
+Name[zh_CN]=用户代理描述 (运行于本机的 Netscape 7.1)
 Type=Service
 ServiceTypes=UserAgentStrings
 X-KDE-UA-TAG=NN
