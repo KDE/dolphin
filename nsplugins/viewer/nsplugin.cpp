@@ -998,7 +998,7 @@ void NSPluginInstance::javascriptResult(int id, QString result) {
         _streams.append( s );
 
         int len = result.length();
-        s->create( req->url, QString("text/plain"), req->notify );
+        s->create( req->url, QString("text/plain"), req->notify, req->forceNotify );
         kdDebug(1431) << "javascriptResult has been called with: "<<result<<endl;
         if (len > 0) {
             QByteArray data(len + 1);
