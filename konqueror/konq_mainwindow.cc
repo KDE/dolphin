@@ -1679,7 +1679,7 @@ void KonqMainWindow::updateLocalPropsActions()
     {
         // Can we write ?
         QFileInfo info( m_currentView->url().path() );
-        canWrite = info.isWritable();
+        canWrite = info.isDir() && info.isWritable();
     }
     m_paSaveViewPropertiesLocally->setEnabled( canWrite );
     m_paRemoveLocalProperties->setEnabled( canWrite );
