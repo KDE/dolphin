@@ -58,9 +58,11 @@ class KonqMainView : public QWidget,
 {
   Q_OBJECT
 public:
+  //C++
   KonqMainView( QWidget *_parent = 0L );
   ~KonqMainView();
-  
+
+  //inherited
   virtual void init();
   virtual void cleanUp();
 
@@ -71,6 +73,7 @@ public:
   bool mappingParentGotFocus( OpenParts::Part_ptr child );
   bool mappingOpenURL( Konqueror::EventOpenURL eventURL );
 
+  //IDL
   // TODO : add arguments for position (left, right, above current, new row, ....)
   virtual void insertView( Konqueror::View_ptr view );  
   virtual void setActiveView( OpenParts::Id id );
@@ -78,7 +81,7 @@ public:
   virtual Konqueror::ViewList *viewList();
   virtual void removeView( OpenParts::Id id );
 
-  virtual void openURL( const Konqueror::URLRequest &url );
+  virtual void openURL( const char * _url, CORBA::Boolean _reload );
   
   virtual void setStatusBarText( const char *_text );
   virtual void setLocationBarURL( const char *_url );

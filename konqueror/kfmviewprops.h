@@ -47,7 +47,7 @@ public:
   
   // The static instance of KfmViewProps, holding the default values
   // from the config file
-  static KfmViewProps * defaultProps() { return m_pDefaultProps; }
+  static KfmViewProps * defaultProps();
   
   // To construct a new KfmViewProps instance with values taken
   // from defaultProps, use the copy constructor.
@@ -109,9 +109,9 @@ class KfmViewSettings
 public:
     
   // A static instance of KfmViewSettings, holding the values for FileManager
-  static KfmViewSettings * defaultFMSettings() { return m_pDefaultFMSettings; }
+  static KfmViewSettings * defaultFMSettings();
   // A static instance of KfmViewSettings, holding the values for HTML
-  static KfmViewSettings * defaultHTMLSettings() { return m_pDefaultHTMLSettings; }
+  static KfmViewSettings * defaultHTMLSettings();
 
   // Constructs a KfmViewSettings instance from a config file.
   // Set the group before calling.
@@ -143,9 +143,6 @@ public:
 
   bool underlineLink() { return m_underlineLink; }
 
-  friend class KonqBaseView; // should be used only for setting the two static instances,
-  // not for changing other member values.
-  
 protected:
   static KfmViewSettings * m_pDefaultFMSettings;
   static KfmViewSettings * m_pDefaultHTMLSettings;

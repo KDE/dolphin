@@ -148,7 +148,7 @@ module Konqueror
     ViewList viewList();
     void removeView( in OpenParts::Id id );
     
-    slot void openURL( in URLRequest url );
+    slot void openURL( in string url, in boolean reload );
     
     slot void setStatusBarText( in string text );
     slot void setLocationBarURL( in string url );

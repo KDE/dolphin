@@ -41,6 +41,12 @@
 KonqHTMLView::KonqHTMLView( QWidget *_parent, const char *_name, KBrowser *_parent_browser )
   : KBrowser( _parent, _name, _parent_browser )
 {
+  setWidget( this );
+
+  QWidget::show();
+      
+  QWidget::setFocusPolicy( StrongFocus );
+
   initConfig();
 
   QObject::connect( this, SIGNAL( mousePressed( const char*, const QPoint&, int ) ),

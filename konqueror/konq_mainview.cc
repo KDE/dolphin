@@ -27,6 +27,7 @@
 #include "konq_defaults.h"
 #include "konq_mainwindow.h"
 #include "konq_iconview.h"
+#include "konq_htmlview.h"
 
 #include <opUIUtils.h>
 
@@ -459,10 +460,7 @@ bool KonqMainView::mappingParentGotFocus( OpenParts::Part_ptr child )
 
 bool KonqMainView::mappingOpenURL( Konqueror::EventOpenURL eventURL )
 {
-/*  if ( m_currentView && !CORBA::is_nil( m_currentView->m_vView ) )
-    EMIT_EVENT( m_currentView->m_vView, Konqueror::eventOpenURL, eventURL );
-
-*/
+  openURL( eventURL.url, eventURL.reload );
 }
 
 void KonqMainView::insertView( Konqueror::View_ptr view )
@@ -619,17 +617,89 @@ void KonqMainView::removeView( OpenParts::Id id )
     m_mapViews.erase( it );
 }
 
-void KonqMainView::openURL( const Konqueror::URLRequest &url )
+void KonqMainView::openURL( const char * _url, CORBA::Boolean _reload )
 {
-  //TODO ... use KfmRun here
-  //meanwhile we use the current view (hackhack)
+  /////////// First, modify the URL if necessary (adding protocol, ...) //////
+  string url = _url;
+
+  // Root directory?
+  if ( url[0] == '/' )
+  {
+    K2URL::encode( url );
+  }
+  // Home directory?
+  else if ( url[0] == '~' )
+  {
+    QString tmp( QDir::homeDirPath().data() );
+    tmp += m_vLocationBar->linedText( TOOLBAR_URL_ID ) + 1;
+    K2URL u( tmp );
+    url = u.url();
+  }
+  else if ( strncmp( url.c_str(), "www.", 4 ) == 0 )
+  {
+    string tmp = "http://";
+    K2URL::encode( url );
+    tmp += url;
+    url = tmp;
+  }
+  else if ( strncmp( url.c_str(), "ftp.", 4 ) == 0 )
+  {
+    string tmp = "ftp://";
+    K2URL::encode( url );
+    tmp += url;
+    url = tmp;
+  }
+  
+  K2URL u( url.c_str() );
+  if ( u.isMalformed() )
+  {
+    string tmp = i18n("Malformed URL\n");
+    tmp += m_vLocationBar->linedText( TOOLBAR_URL_ID );
+    QMessageBox::critical( (QWidget*)0L, i18n( "KFM Error" ), tmp.c_str(), i18n( "OK" ) );
+    return;
+  }
+
+  /////////// Now find which view type will handle this URL ////////////
+
+ //TODO ... use KfmRun here (Simon) 
+  //            ..... why ? What is it supposed to do ? (David.)
+
+
+  Konqueror::EventOpenURL eventURL;
+  eventURL.url = CORBA::string_dup( url.c_str() );
+  eventURL.reload = _reload;
+
+  QString sViewName = "KonquerorIconView"; // default
+
+  // HACK -just testing- we'll need some filtering or registration instead
+  if ( strncmp( url.c_str(), "http:", 5 ) == 0 )
+    sViewName = "KonquerorHTMLView";
+
+  if (sViewName != m_currentView->m_vView->viewName())
+  {
+    Konqueror::View_var old_vView = m_currentView->m_vView;
+    removeView( old_vView->id() );
+    // CORBA::release(old_vView); ? what to we do with the old view ? (David)
+
+    Konqueror::View_var vView;
+    if (sViewName == "KonquerorHTMLView")
+      vView = Konqueror::View::_duplicate( new KonqHTMLView );
+    else
+      vView = Konqueror::View::_duplicate( new KonqKfmIconView );
+
+    insertView( vView );
+    setActiveView( vView->id() );
+    debug("KonqMainView : emitting EventOpenURL %s to new view",url.c_str());
+    EMIT_EVENT( m_currentView->m_vView, Konqueror::eventOpenURL, eventURL );
+  }
+
+  /////////// Now open the URL in the current view ////////////
   if ( m_currentView && !CORBA::is_nil( m_currentView->m_vView ) )
   {
-    Konqueror::EventOpenURL eventURL;
-    eventURL.url = CORBA::string_dup( url.url );
-    eventURL.reload = url.reload;
+    debug("KonqMainView : emitting EventOpenURL %s",url.c_str());
     EMIT_EVENT( m_currentView->m_vView, Konqueror::eventOpenURL, eventURL );
-  }    
+  }
+
 }
 
 void KonqMainView::setStatusBarText( const char *_text )
@@ -820,11 +890,7 @@ void KonqMainView::slotShowCache()
   
   string f = file.data();
   K2URL::encode( f );
-//  m_currentView->m_pView->openURL( f.c_str() );
-  Konqueror::EventOpenURL eventURL;
-  eventURL.url = f.c_str();
-  eventURL.reload = (CORBA::Boolean)false;
-  EMIT_EVENT( m_currentView->m_vView, Konqueror::eventOpenURL, eventURL );
+  openURL( f.c_str(), (CORBA::Boolean)false );
 }
 
 void KonqMainView::slotShowHistory()
@@ -846,54 +912,7 @@ void KonqMainView::slotOpenLocation()
     // Exit if the user did not enter an URL
     if ( url.data()[0] == 0 )
       return;
-    // Root directory?
-    if ( url.data()[0] == '/' )
-    {
-      url = "file:";
-      url += l.text();
-    }
-    // Home directory?
-    else if ( url.data()[0] == '~' )
-    {
-      url = "file:";
-      url += QDir::homeDirPath().data();
-      url += l.text() + 1;
-    }
-
-    // Some kludge to add protocol specifier on
-    // well known Locations
-    if ( url.left(4) == "www." )
-    {
-      url = "http://";
-      url += l.text();
-    }
-    if ( url.left(4) == "ftp." )
-    {
-      url = "ftp://";
-      url += l.text();
-    }
-    /**
-     * Something for fun :-)
-     */
-    if ( url == "about:kde" )
-    {
-      url = getenv( "KDEURL" );
-      if ( url.isEmpty() )
-	url = "http://www.kde.org";
-    }
-	
-    K2URL u( url.data() );
-    if ( u.isMalformed() )
-    {
-      warning(klocale->translate("ERROR: Malformed URL"));
-      return;
-    }
-	
-//    m_currentView->m_pView->openURL( url );
-    Konqueror::EventOpenURL eventURL;
-    eventURL.url = url.data();
-    eventURL.reload = (CORBA::Boolean)false;
-    EMIT_EVENT( m_currentView->m_vView, Konqueror::eventOpenURL, eventURL );
+    openURL( url, (CORBA::Boolean)false );
   }
 }
 
@@ -915,53 +934,7 @@ void KonqMainView::slotURLEntered()
   if ( url.empty() )
     return;
 
-  // Root directory?
-  if ( url[0] == '/' )
-  {
-    K2URL::encode( url );
-  }
-  // Home directory?
-  else if ( url[0] == '~' )
-  {
-    QString tmp( QDir::homeDirPath().data() );
-    tmp += m_vLocationBar->linedText( TOOLBAR_URL_ID ) + 1;
-    K2URL u( tmp );
-    url = u.url();
-  }
-  else if ( strncmp( url.c_str(), "www.", 4 ) == 0 )
-  {
-    string tmp = "http://";
-    K2URL::encode( url );
-    tmp += url;
-    url = tmp;
-  }
-  else if ( strncmp( url.c_str(), "ftp.", 4 ) == 0 )
-  {
-    string tmp = "ftp://";
-    K2URL::encode( url );
-    tmp += url;
-    url = tmp;
-  }
-  
-  K2URL u( url.c_str() );
-  if ( u.isMalformed() )
-  {
-    string tmp = i18n("Malformed URL\n");
-    tmp += m_vLocationBar->linedText( TOOLBAR_URL_ID );
-    QMessageBox::critical( (QWidget*)0L, i18n( "KFM Error" ), tmp.c_str(), i18n( "OK" ) );
-    return;
-  }
-	
-  m_bBack = false;
-  m_bForward = false;
-
-  Konqueror::EventOpenURL eventURL;
-  eventURL.url = url.c_str();
-  eventURL.reload = (CORBA::Boolean)false;
-  debug("KonqMainView : emitting EventOpenURL %s",url.c_str());
-  EMIT_EVENT( m_currentView->m_vView, Konqueror::eventOpenURL, eventURL );
-  
-//  m_currentView->m_pView->openURL( url.c_str() );
+  openURL( url.c_str(), (CORBA::Boolean)false );
 }
 
 void KonqMainView::slotStop()
@@ -1030,7 +1003,8 @@ void KonqMainView::slotForward()
   
 //  m_currentView->m_pView->openURL( h.m_strURL, 0, false, h.m_iXOffset, h.m_iYOffset );
   //TODO
-  //(extend the EventOpenURL structure!?)
+  //(extend the EventOpenURL structure!?) (Simon)
+  // or emit event, then set offsets... (David)
 }
 
 void KonqMainView::slotReload()

@@ -19,9 +19,24 @@
 
 #include "kfmviewprops.h"
 #include "konq_defaults.h"
+
 #include <kpixmapcache.h>
+#include <kapp.h>
 
 KfmViewProps * KfmViewProps::m_pDefaultProps = 0L;
+
+// static
+KfmViewProps * KfmViewProps::defaultProps()
+{
+  if (!m_pDefaultProps)
+  {
+    debug("Reading global config for kfmviewprops");
+    KConfig *config = kapp->getConfig();
+    KConfigGroupSaver cgs(config, "Settings");
+    m_pDefaultProps = new KfmViewProps(config);
+  }
+  return m_pDefaultProps;
+}
 
 KfmViewProps::KfmViewProps( const KConfig * config )
 {
@@ -79,6 +94,32 @@ void KfmViewProps::saveProps( KConfig * config )
 
 KfmViewSettings * KfmViewSettings::m_pDefaultFMSettings = 0L;
 KfmViewSettings * KfmViewSettings::m_pDefaultHTMLSettings = 0L;
+
+//static
+KfmViewSettings * KfmViewSettings::defaultFMSettings() 
+{
+  if (!m_pDefaultFMSettings)
+  {
+    debug("Reading config for defaultFMSettings");
+    KConfig *config = kapp->getConfig();
+    KConfigGroupSaver cgs(config, "KFM FM Defaults" );
+    m_pDefaultFMSettings = new KfmViewSettings(config);
+  }
+  return m_pDefaultFMSettings;
+}
+
+//static
+KfmViewSettings * KfmViewSettings::defaultHTMLSettings() 
+{
+  if (!m_pDefaultHTMLSettings)
+  {
+    debug("Reading config for defaultHTMLSettings");
+    KConfig *config = kapp->getConfig();
+    KConfigGroupSaver cgs(config, "KFM HTML Defaults" );
+    m_pDefaultHTMLSettings = new KfmViewSettings(config);
+  }
+  return m_pDefaultHTMLSettings;
+}
 
 KfmViewSettings::KfmViewSettings( const KConfig * config )
 {
