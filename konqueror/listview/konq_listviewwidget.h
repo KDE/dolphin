@@ -139,8 +139,6 @@ class KonqBaseListViewWidget : public KListView
       virtual void slotDeleteItem( KFileItem * );
       virtual void slotRedirection( const KURL & );
 
-      virtual void slotResult( KIO::Job * );
-
    protected:
       /* Completely custom keyboard selection style:
        home: move to the first

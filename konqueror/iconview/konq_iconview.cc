@@ -926,7 +926,7 @@ void KonqKfmIconView::slotDisplayFileSelectionInfo()
 
 void KonqKfmIconView::slotProcessMimeIcons()
 {
-    // kdDebug() << "KonqKfmIconView::slotProcessMimeIcons() "
+    // kdDebug(1202) << "KonqKfmIconView::slotProcessMimeIcons() "
     //             << m_lstPendingMimeIconItems.count() << endl;
     KFileIVI * item = 0L;
     int nextDelay = 0;
@@ -969,7 +969,7 @@ void KonqKfmIconView::slotProcessMimeIcons()
         {
             if ( m_bNeedEmitCompleted )
             {
-                kdDebug() << "KonqKfmIconView completed()" << endl;
+                kdDebug(1202) << "KonqKfmIconView completed()" << endl;
                 emit completed();
                 m_bNeedEmitCompleted = false;
             }

@@ -154,12 +154,6 @@ KURL::List KonqDirTreeBrowserExtension::selectedUrls()
   return lst;
 }
 
-void KonqDirTreeBrowserExtension::slotResult( KIO::Job * job )
-{
-    if (job->error())
-        job->showErrorDialog(m_tree);
-}
-
 KonqDirTreePart::KonqDirTreePart( QWidget *parentWidget, QObject *parent, const char *name )
  : KParts::ReadOnlyPart( parent, name )
 {
@@ -343,6 +337,7 @@ void KonqDirTree::removeSubDir( KonqDirTreeItem *item, KonqDirTreeItem *topLevel
 
 void KonqDirTree::followURL( const KURL &_url )
 {
+  kdDebug(1202) << "KonqDirTree::followURL: " << _url.url() << endl;
   KURL u( _url );
   QValueList<TopLevelItem>::ConstIterator it = m_topLevelItems.begin();
   QValueList<TopLevelItem>::ConstIterator end = m_topLevelItems.end();
@@ -353,12 +348,14 @@ void KonqDirTree::followURL( const KURL &_url )
     for (; dirIt != dirEnd; ++dirIt )
       if ( u.cmp( dirIt.key(), true ) )
       {
+        if ( !dirIt.data()->isOpen() )
+            dirIt.data()->setOpen( true );
 	ensureItemVisible( dirIt.data() );
         setSelected( dirIt.data(), true );
         return;
       }
   }
-  kdDebug() << "Not found" << endl;
+  kdDebug(1202) << "KonqDirTree::followURL: Not found" << endl;
 }
 
 void KonqDirTree::contentsDragEnterEvent( QDragEnterEvent * )

@@ -1043,10 +1043,4 @@ void KonqBaseListViewWidget::focusInEvent( QFocusEvent* _event )
   KListView::focusInEvent( _event );
 }
 
-void KonqBaseListViewWidget::slotResult( KIO::Job * job )
-{
-    if (job->error())
-        job->showErrorDialog(this);
-}
-
 #include "konq_listviewwidget.moc"

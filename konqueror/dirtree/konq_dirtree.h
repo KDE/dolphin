@@ -181,7 +181,6 @@ protected slots:
   KURL::List selectedUrls();
 
   void slotSelectionChanged();
-  void slotResult( KIO::Job * );
 private:
   void pasteSelection( bool move );
 
