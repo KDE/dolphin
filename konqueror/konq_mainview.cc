@@ -1331,11 +1331,13 @@ void KonqMainView::slotPopupMenu( const QPoint &_global, const KFileItemList &_i
   popupMenuCollection.insert( m_paBack );
   popupMenuCollection.insert( m_paForward );
   popupMenuCollection.insert( m_paUp );
-  // TODO : if support edit extension ...
+  
+  checkEditExtension();
+  
   popupMenuCollection.insert( m_paCopy );
   popupMenuCollection.insert( m_paPaste );
   popupMenuCollection.insert( m_paTrash );
-  // TODO : delete ...
+  popupMenuCollection.insert( m_paDelete );
 
   KonqPopupMenu * pPopupMenu;
   pPopupMenu = new KonqPopupMenu( _items,
