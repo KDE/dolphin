@@ -2876,6 +2876,7 @@ void KonqMainWindow::slotCheckComboSelection()
 void KonqMainWindow::slotClearLocationBar()
 {
   kdDebug(1202) << "slotClearLocationBar" << endl;
+  slotStop();
   m_combo->clearTemporary();
   m_combo->setFocus();
 }
