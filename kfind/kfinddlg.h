@@ -9,6 +9,7 @@
 
 #include <kdialogbase.h>
 #include <kdirlister.h>
+#include <kdirwatch.h>
 
 class QString;
 
@@ -46,8 +47,8 @@ public slots:
   void slotResult(int);
 //  void slotSearchDone();
   void  about ();
-  void slotDeleteItem(KFileItem*);
-  void slotNewItems( const KFileItemList&  );
+  void slotDeleteItem(const QString&);
+  void slotNewItems( const QString&  );
 
 signals:
   void haveResults(bool);
@@ -62,8 +63,8 @@ private:
   KQuery *query;
   KStatusBar *mStatusBar;
   KDirLister *dirlister;
+  KDirWatch *dirwatch;
   //If true, disable dirlister's newItems slot...
-  bool searching;
   int depth;
 };
 

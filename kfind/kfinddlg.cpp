@@ -87,10 +87,10 @@ KfindDlg::KfindDlg(const KURL & url, QWidget *parent, const char *name)
   connect(query, SIGNAL(result(int)), SLOT(slotResult(int)));
   aboutWin = new KAboutApplication(this, "about", true);
 
-  dirlister=new KDirLister();
-  connect(dirlister, SIGNAL( deleteItem ( KFileItem* )), this, SLOT(slotDeleteItem(KFileItem*)));
-  connect(dirlister, SIGNAL( newItems ( const KFileItemList& )), this, SLOT(slotNewItems( const KFileItemList& )));
-  searching=false;
+  //dirlister=new KDirLister();
+  //connect(dirlister, SIGNAL( deleteItem ( KFileItem* )), this, SLOT(slotDeleteItem(KFileItem*)));
+  //connect(dirlister, SIGNAL( newItems ( const KFileItemList& )), this, SLOT(slotNewItems( const KFileItemList& )));
+  dirwatch=NULL;
 }
 
 KfindDlg::~KfindDlg()
@@ -130,18 +130,25 @@ void KfindDlg::startSearch()
   enableButton(User2, true); // Enable "Stop"
   enableButton(User3, false); // Disable "Save..."
 
-  dirlister->openURL(query->url());
+//  dirlister->openURL(query->url());
 
+  if(dirwatch!=NULL)
+    delete dirwatch;
+  dirwatch=new KDirWatch();
+  connect(dirwatch, SIGNAL(created(const QString&)), this, SLOT(slotNewItems(const QString&)));
+  connect(dirwatch, SIGNAL(deleted(const QString&)), this, SLOT(slotDeleteItem(const QString&)));
+  dirwatch->addDir(query->url().path(),true);
+  
   //Getting a list of all subdirs
   if(tabWidget->isSearchRecursive())
   {
     depth=0;
     QStringList subdirs=getAllSubdirs(query->url().path());
     for(QStringList::Iterator it = subdirs.begin(); it != subdirs.end(); ++it)
-      dirlister->openURL(KURL(*it),true);
+    dirwatch->addDir(*it,true);
+//      dirlister->openURL(KURL(*it),true);
   }
   
-  searching=true;
   win->beginSearch(query->url());
   tabWidget->beginSearch();
 
@@ -152,7 +159,6 @@ void KfindDlg::startSearch()
 void KfindDlg::stopSearch()
 {
   query->kill();
-  searching=false;
 }
 
 void KfindDlg::newSearch()
@@ -198,7 +204,6 @@ void KfindDlg::slotResult(int errorCode)
   tabWidget->endSearch();
   setFocus();
 
-  searching=false;
 }
 
 void KfindDlg::addFile(const KFileItem* item, const QString& matchingLine)
@@ -232,9 +237,9 @@ void  KfindDlg::about ()
   //delete aboutWin;
 }
 
-void KfindDlg::slotDeleteItem(KFileItem* item)
+void KfindDlg::slotDeleteItem(const QString& file)
 {
-  kdDebug()<<QString("Will remove one item: %1").arg(item->url().path())<<endl;
+  kdDebug()<<QString("Will remove one item: %1").arg(file)<<endl;
   QListViewItem *iter;
   QString iterwithpath;
 
@@ -242,7 +247,7 @@ void KfindDlg::slotDeleteItem(KFileItem* item)
   while( iter ) {
     iterwithpath=query->url().path(+1)+iter->text(1)+iter->text(0);
 
-    if(iterwithpath==item->url().path())
+    if(iterwithpath==file)
     {
       win->takeItem(iter);
       break;
@@ -251,47 +256,24 @@ void KfindDlg::slotDeleteItem(KFileItem* item)
   }
 }
 
-void KfindDlg::slotNewItems( const KFileItemList& items )
+void KfindDlg::slotNewItems( const QString& file )
 {
-  if(searching)
-    return;
-    
-  kdDebug()<<QString("Will add some items")<<endl;
-  KFileItemListIterator iter(items);
-  QString iterwithpath;
+  kdDebug()<<QString("Will add this item")<<endl;
   QStringList newfiles;
   QListViewItem *checkiter;
   QString checkiterwithpath;
-  bool redundant=false;
   
-  while(iter.current()!=0)
+  if(file.find(query->url().path(+1))==0)
   {
-    iterwithpath=iter.current()->url().path(+1);
-    if(iterwithpath.find(query->url().path(+1))==0)
-    {
-      kdDebug()<<QString("Can be added, path OK")<<endl;
-      //New items appears twice ???
-
-      checkiter=win->firstChild();
-      while( checkiter ) {
-        checkiterwithpath=query->url().path(+1)+checkiter->text(1)+checkiter->text(0);
-        if(iterwithpath==checkiterwithpath)
-        {
-          redundant=true;
-          break;
-        }
-        checkiter = checkiter->nextSibling();
-      }
-      //
-      if(!redundant)
-        newfiles.append(iterwithpath);
+    kdDebug()<<QString("Can be added, path OK")<<endl;
+    checkiter=win->firstChild();
+    while( checkiter ) {
+      checkiterwithpath=query->url().path(+1)+checkiter->text(1)+checkiter->text(0);
+      if(file==checkiterwithpath)
+        return;
+      checkiter = checkiter->nextSibling();
     }
-    ++iter;
-  }
-  
-  if(!newfiles.isEmpty())
-  {
-    query->slotListEntries(newfiles);
+    query->slotListEntries(QStringList(file));
   }
 }
 
@@ -300,9 +282,6 @@ QStringList KfindDlg::getAllSubdirs(QDir d)
   QStringList dirs;
   QStringList subdirs;
 
-  if(depth>50)//otherwise, it's too slow
-    return NULL;
-    
   d.setFilter( QDir::Dirs );
   dirs = d.entryList();
 
