@@ -6,6 +6,7 @@ KonqBaseView::KonqBaseView()
   SIGNAL_IMPL( "openURL" );
   SIGNAL_IMPL( "started" );
   SIGNAL_IMPL( "completed" );
+  SIGNAL_IMPL( "canceled" );
   SIGNAL_IMPL( "setStatusBarText" );
   SIGNAL_IMPL( "setLocationBarURL" );
   SIGNAL_IMPL( "createNewWindow" );
@@ -31,7 +32,7 @@ void KonqBaseView::cleanUp()
 {
   if ( m_bIsClean )
     return;
-    
+
   OPPartIf::cleanUp();
 }
 

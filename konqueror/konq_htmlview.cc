@@ -49,6 +49,8 @@ KonqHTMLView::KonqHTMLView( QWidget *_parent, const char *_name, KBrowser *_pare
 
   initConfig();
 
+  QObject::connect( this, SIGNAL( onURL( KHTMLView*, const char* ) ), this, SLOT( slotOnURL( KHTMLView*, const char* ) ) );
+    
   QObject::connect( this, SIGNAL( mousePressed( const char*, const QPoint&, int ) ),
                     this, SLOT( slotMousePressed( const char*, const QPoint&, int ) ) );
 
@@ -87,13 +89,47 @@ void KonqHTMLView::slotNewWindow( const char *_url )
 
 KBrowser* KonqHTMLView::createFrame( QWidget *_parent, const char *_name )
 {
-  return ( new KonqHTMLView( _parent, _name, this ) );
+  KBrowser *m_pBrowser = new KBrowser( _parent, _name, this );  
+  
+  KConfig *config = kapp->getConfig();
+  config->setGroup("Settings");
+
+  KfmViewSettings *settings = KfmViewSettings::defaultHTMLSettings();
+
+  KHTMLWidget* htmlWidget = m_pBrowser->getKHTMLWidget();
+
+  htmlWidget->setDefaultBGColor( settings->bgColor() );
+  htmlWidget->setDefaultTextColors( settings->textColor(), 
+				    settings->linkColor(),
+				    settings->vLinkColor() );
+  htmlWidget->setStandardFont( settings->stdFontName() );
+  htmlWidget->setFixedFont( settings->fixedFontName() );
+
+  htmlWidget->setUnderlineLinks( settings->underlineLink() );
+
+  if ( settings->changeCursor() )
+    htmlWidget->setURLCursor( KCursor().handCursor() );
+  else
+    htmlWidget->setURLCursor( KCursor().arrowCursor() );
+    
+  QObject::connect( m_pBrowser, SIGNAL( onURL( KHTMLView*, const char* ) ), this, SLOT( slotOnURL( KHTMLView*, const char* ) ) );
+  QObject::connect( m_pBrowser, SIGNAL( mousePressed( const char*, const QPoint&, int ) ),
+	   this, SLOT( slotMousePressed( const char*, const QPoint&, int ) ) );
+	   
+  return m_pBrowser;
 }
 
 bool KonqHTMLView::mappingOpenURL( Konqueror::EventOpenURL eventURL )
 {
-  KonqBaseView::mappingOpenURL(eventURL);
-  openURL( eventURL.url ); // implemented by kbrowser
+  openURL( eventURL.url, (bool)eventURL.reload ); // implemented by kbrowser
+
+// Simon: here's what's left of merging conflicts:
+// comment: - obey the reload flag (I did so above)
+//          - there's no need to call KonqBaseView::mappingOpenURL since
+//            it's "empty" :-)
+//  KonqBaseView::mappingOpenURL(eventURL);
+//  openURL( eventURL.url ); // implemented by kbrowser
+
   return true;
 }
 
@@ -101,12 +137,12 @@ void KonqHTMLView::slotMousePressed( const char* _url, const QPoint &_global, in
 {
   QString url = _url;
 
-/*  if ( !_url )
-    if ( !m_strURL )
+  if ( !_url )
+    if ( !KBrowser::m_strURL )
       return;
     else
-      url = m_strURL;
-*/
+      url = KBrowser::m_strURL;
+
   if ( _button == RightButton )
   {
     K2URL u( url );
@@ -223,16 +259,9 @@ void KonqHTMLView::slotOnURL( const char *_url )
 
 bool KonqHTMLView::mousePressedHook( const char *_url, const char *_target, QMouseEvent *_mouse, bool _isselected )
 {
-  emit gotFocus();
+//  emit gotFocus();
 
   return KBrowser::mousePressedHook( _url, _target, _mouse, _isselected );
-}
-
-void KonqHTMLView::setFocus()
-{
-  emit gotFocus();
-
-  KBrowser::setFocus();
 }
 
 // #include "kfmicons.h"
@@ -260,9 +289,18 @@ KHTMLEmbededWidget* KonqHTMLView::newEmbededWidget( QWidget* _parent, const char
 
 void KonqHTMLView::stop()
 {
-  //TODO
+  KBrowser::slotStop();
 }
 
+char *KonqHTMLView::url()
+{
+  return CORBA::string_dup( KBrowser::m_strURL.data() );
+}
+
+char *KonqHTMLView::title()
+{
+  return CORBA::string_dup( "TODOOOOOOOOOOO" );
+}  
 
 /**********************************************
  *

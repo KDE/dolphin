@@ -28,6 +28,7 @@
 #include "konq_mainwindow.h"
 #include "konq_iconview.h"
 #include "konq_htmlview.h"
+#include "konq_treeview.h"
 
 #include <opUIUtils.h>
 
@@ -84,8 +85,6 @@ KonqMainView::KonqMainView( QWidget *_parent = 0L ) : QWidget( _parent )
   
   OPPartIf::setFocusPolicy( OpenParts::Part::ClickFocus );
 
-  // m_id = 0; request for member `m_id' is ambiguous in multiple inheritance lattice
-  
   m_vMenuFile = 0L;
   m_vMenuFileNew = 0L;
   m_vMenuEdit = 0L;
@@ -190,18 +189,34 @@ void KonqMainView::cleanUp()
         
   delete m_pAccel;
 
+//  removeView( m_vKfmIconView->id() );
+//  removeView( m_vHTMLView->id() );
+//  removeView( m_vKfmTreeView->id() );
+
   map<OpenParts::Id,View*>::iterator it = m_mapViews.begin();
   for (; it != m_mapViews.end(); it++ )
-    it->second->m_vView->disconnectObject( this );
-    
+      {
+        it->second->m_vView->disconnectObject( this );
+	it->second->m_pFrame->detach();
+        delete it->second->m_pFrame;
+	delete it->second->m_pPannerChildGM;
+	delete it->second;
+      }	
+  
   m_mapViews.clear();
+
+  m_vKfmIconView = 0L;
+  m_vKfmTreeView = 0L;
+  m_vHTMLView = 0L;  
   
   if ( m_pMenuNew )
     delete m_pMenuNew;
 
   if ( m_pBookmarkMenu )
     delete m_pBookmarkMenu;    
-      
+
+  delete m_pPanner;
+          
   m_animatedLogoTimer.stop();
   s_lstWindows->removeRef( this );
   
@@ -461,6 +476,7 @@ bool KonqMainView::mappingParentGotFocus( OpenParts::Part_ptr child )
 bool KonqMainView::mappingOpenURL( Konqueror::EventOpenURL eventURL )
 {
   openURL( eventURL.url, eventURL.reload );
+  return true;
 }
 
 void KonqMainView::insertView( Konqueror::View_ptr view )
@@ -471,16 +487,18 @@ void KonqMainView::insertView( Konqueror::View_ptr view )
   m_vView->setParent( this );
 
   View *v = new View;
+
+  m_mapViews[ view->id() ] = v;
+  
+  if ( m_mapViews.size() == 1 ) v->m_pPannerChild = m_pPanner->child1();
+  if ( m_mapViews.size() == 2 ) v->m_pPannerChild = m_pPanner->child0();
   
   v->m_vView = Konqueror::View::_duplicate( m_vView );
-  v->m_pPannerChild = m_pPanner->child1();
-  v->m_pPannerChildGM = new QGridLayout( m_pPanner->child1(), 1, 1 );
+  v->m_pPannerChildGM = new QGridLayout( v->m_pPannerChild, 1, 1 );
   v->m_pFrame = new OPFrame( v->m_pPannerChild );
   v->m_pPannerChildGM->addWidget( v->m_pFrame, 0, 0 );
   v->m_pFrame->attach( m_vView );
   v->m_pFrame->show();
-  
-  m_mapViews[ view->id() ] = v;
 
   try
   {
@@ -614,7 +632,19 @@ void KonqMainView::removeView( OpenParts::Id id )
 {
   map<OpenParts::Id,View*>::iterator it = m_mapViews.find( id );
   if ( it != m_mapViews.end() )
+  {
+    it->second->m_vView->disconnectObject( this );
+    it->second->m_pFrame->detach();
+    it->second->m_vView = 0L;
+    delete it->second->m_pFrame;
+    delete it->second->m_pPannerChildGM;
     m_mapViews.erase( it );
+  }    
+}
+
+void KonqMainView::openURL( const Konqueror::URLRequest &url )
+{
+  openURL( url.url, url.reload );
 }
 
 void KonqMainView::openURL( const char * _url, CORBA::Boolean _reload )
@@ -661,14 +691,23 @@ void KonqMainView::openURL( const char * _url, CORBA::Boolean _reload )
 
   /////////// Now find which view type will handle this URL ////////////
 
- //TODO ... use KfmRun here
-
-
+ //TODO ... use KfmRun here (Simon) 
+  //            ..... why ? What is it supposed to do ? (David.)
+  // Simon:
+  // well, where else should we "launch" apps?
+  // What I'm actually thinking of is a mechanism similar to the
+  // old way in KfmView::openURL. This is might be exactly the kind
+  // of filtering mechanisnm you're looking for, or?
+  // (and I thought of perhaps doing the filtering for plugged in views via the
+  // registry (kdelnk file), too -> let's discuss this on kfm-devel, ok? :-))
+  
   Konqueror::EventOpenURL eventURL;
   eventURL.url = CORBA::string_dup( url.c_str() );
   eventURL.reload = _reload;
+  eventURL.xOffset = 0;
+  eventURL.yOffset = 0;
 
-  QString sViewName = "KonquerorIconView"; // default
+  QString sViewName = "KonquerorKfmIconView"; // default
 
   // HACK -just testing- we'll need some filtering or registration instead
   if ( strncmp( url.c_str(), "http:", 5 ) == 0 )
@@ -676,26 +715,44 @@ void KonqMainView::openURL( const char * _url, CORBA::Boolean _reload )
 
   if (sViewName != m_currentView->m_vView->viewName())
   {
-    Konqueror::View_var old_vView = m_currentView->m_vView;
-    removeView( old_vView->id() );
-    // CORBA::release(old_vView); ? what to we do with the old view ? (David)
+// Simon:
+// Well, IMHO: do not really remove the view but instead:
+// 1) only replace the view variable
+// 2) attach it to the opFrame (the old one will be detached automatically)
+// I hope you don't mind me doing this change. We can still revert it, ok?
 
+//    Konqueror::View_var old_vView = Konqueror::View::_duplicate( m_currentView->m_vView );
+//    removeView( old_vView->id() );
+    // CORBA::release(old_vView); ? what to we do with the old view ? (David)
+    
     Konqueror::View_var vView;
     if (sViewName == "KonquerorHTMLView")
-      vView = Konqueror::View::_duplicate( new KonqHTMLView );
+//      vView = Konqueror::View::_duplicate( new KonqHTMLView );
+      vView = Konqueror::View::_duplicate( m_vHTMLView );
     else
-      vView = Konqueror::View::_duplicate( new KonqKfmIconView );
+//      vView = Konqueror::View::_duplicate( new KonqKfmIconView );
+      vView = Konqueror::View::_duplicate( m_vKfmIconView );
 
-    insertView( vView );
-    setActiveView( vView->id() );
-    debug("KonqMainView : emitting EventOpenURL %s to new view",url.c_str());
-    EMIT_EVENT( m_currentView->m_vView, Konqueror::eventOpenURL, eventURL );
+    m_mapViews.erase( m_currentView->m_vView->id() );
+    
+    m_currentView->m_vView = Konqueror::View::_duplicate( vView );
+    m_currentView->m_pFrame->attach( vView ); //detaches automatically the old part
+    m_currentView->m_pFrame->show();
+      
+    m_mapViews[ vView->id() ] = m_currentView;
+    
+//    insertView( vView );
+//    setActiveView( vView->id() );
+//
+//  Simon: emit twice?
+//    debug("KonqMainView : emitting EventOpenURL %s to new view",url.c_str());
+//    EMIT_EVENT( m_currentView->m_vView, Konqueror::eventOpenURL, eventURL );
   }
 
   /////////// Now open the URL in the current view ////////////
   if ( m_currentView && !CORBA::is_nil( m_currentView->m_vView ) )
   {
-    debug("KonqMainView : emitting EventOpenURL %s",url.c_str());
+    debug("KonqMainView : emitting EventOpenURL %s to %s",url.c_str(), m_currentView->m_vView->viewName() );
     EMIT_EVENT( m_currentView->m_vView, Konqueror::eventOpenURL, eventURL );
   }
 
@@ -933,6 +990,46 @@ void KonqMainView::slotURLEntered()
   if ( url.empty() )
     return;
 
+  // Root directory?
+  if ( url[0] == '/' )
+  {
+    K2URL::encode( url );
+  }
+  // Home directory?
+  else if ( url[0] == '~' )
+  {
+    QString tmp( QDir::homeDirPath().data() );
+    tmp += m_vLocationBar->linedText( TOOLBAR_URL_ID ) + 1;
+    K2URL u( tmp );
+    url = u.url();
+  }
+  else if ( strncmp( url.c_str(), "www.", 4 ) == 0 )
+  {
+    string tmp = "http://";
+    K2URL::encode( url );
+    tmp += url;
+    url = tmp;
+  }
+  else if ( strncmp( url.c_str(), "ftp.", 4 ) == 0 )
+  {
+    string tmp = "ftp://";
+    K2URL::encode( url );
+    tmp += url;
+    url = tmp;
+  }
+  
+  K2URL u( url.c_str() );
+  if ( u.isMalformed() )
+  {
+    string tmp = i18n("Malformed URL\n");
+    tmp += m_vLocationBar->linedText( TOOLBAR_URL_ID );
+    QMessageBox::critical( (QWidget*)0L, i18n( "KFM Error" ), tmp.c_str(), i18n( "OK" ) );
+    return;
+  }
+	
+  m_bBack = false;
+  m_bForward = false;
+
   openURL( url.c_str(), (CORBA::Boolean)false );
 }
 
@@ -962,8 +1059,9 @@ void KonqMainView::slotHome()
 {
   QString tmp( QDir::homeDirPath().data() );
 //  m_currentView->m_pView->openURL( tmp );
+  tmp.prepend( "file:" );
   Konqueror::EventOpenURL eventURL;
-  eventURL.url = QDir::homeDirPath().data();
+  eventURL.url = CORBA::string_dup( tmp.data() );
   eventURL.reload = (CORBA::Boolean)false;
   EMIT_EVENT( m_currentView->m_vView, Konqueror::eventOpenURL, eventURL );
 }
@@ -1101,13 +1199,6 @@ KonqMainView::View::View()
   m_pPannerChildGM = 0L;
 }
 
-KonqMainView::View::~View()
-{
-  m_pFrame->detach();
-  m_vView = 0L;
-  delete m_pFrame;
-}
-
 void KonqMainView::initConfig()
 {
   // Read application config file if not already done
@@ -1178,11 +1269,38 @@ void KonqMainView::initPanner()
 
 void KonqMainView::initView()
 {
-  cerr << "void KonqMainView::initView()" << endl;
-  Konqueror::View_var m_vIconView = Konqueror::View::_duplicate( new KonqKfmIconView );
+  m_vKfmIconView = Konqueror::View::_duplicate( new KonqKfmIconView );
 
-  insertView( m_vIconView );
-  setActiveView( m_vIconView->id() );
+  insertView( m_vKfmIconView );
+  setActiveView( m_vKfmIconView->id() );
+  
+  //Simon: KonqHTMLView seems to work more or less -> commented out until
+  //       panner stuff works  
+/*  
+  m_vHTMLView = Konqueror::View::_duplicate( new KonqHTMLView );
+  
+  insertView( m_vHTMLView );
+  
+  m_vHTMLView->show( false );
+*/
+
+  m_vKfmTreeView = Konqueror::View::_duplicate( new KonqKfmTreeView );
+  
+  insertView( m_vKfmTreeView );
+  
+  m_vKfmTreeView->show( true );
+  Konqueror::EventOpenURL eventURL;
+  eventURL.url = CORBA::string_dup( QDir::homeDirPath().data() );
+  eventURL.reload = (CORBA::Boolean)false;
+  eventURL.xOffset = 0;
+  eventURL.yOffset = 0;
+  
+//  EMIT_EVENT( m_vHTMLView, Konqueror::eventOpenURL, eventURL );
+  EMIT_EVENT( m_vKfmTreeView, Konqueror::eventOpenURL, eventURL );
+//  EMIT_EVENT( m_vKfmIconView, Konqueror::eventOpenURL, eventURL );
+  
+  m_pPanner->setSeparator( 50 );
+  
 /*  
   if ( m_Props->isSplitView() )
   {

@@ -23,13 +23,13 @@
 #include "krun.h"
 #include <sys/types.h>
 
-class KfmView;
+class KonqMainView;
 
 class KfmRun : public KRun
 {
   Q_OBJECT
 public:
-  KfmRun( KfmView* _view, const char *_url, mode_t _mode = 0, bool _is_local_file = false, bool _auto_delete = true );
+  KfmRun( KonqMainView* _view, const char *_url, mode_t _mode = 0, bool _is_local_file = false, bool _auto_delete = true );
   virtual ~KfmRun();
   
 protected:
@@ -40,7 +40,7 @@ protected:
    */
   virtual void foundMimeType( const char *_type );
 
-  KfmView* m_pView;  
+  KonqMainView* m_pView;  
 };
 
 #endif

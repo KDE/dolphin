@@ -17,8 +17,8 @@
    Boston, MA 02111-1307, USA.
 */     
 
-#ifndef __konq_icons_h__
-#define __konq_icons_h__
+#ifndef __konq_iconview_h__
+#define __konq_iconview_h__
 
 #include "kiconcontainer.h"
 #include "konq_baseview.h"
@@ -79,12 +79,12 @@ class KonqKfmIconView : public KIconContainer,
   Q_OBJECT
 public:
   KonqKfmIconView( QWidget *_parent = 0L );
-  ~KonqKfmIconView();
+  virtual ~KonqKfmIconView();
 
   virtual bool mappingOpenURL( Konqueror::EventOpenURL eventURL );
 
   virtual void stop();
-  virtual char *viewName() { return "KonquerorIconView"; }
+  virtual char *viewName() { return "KonquerorKfmIconView"; }
       
   virtual void openURL( const char* _url );
   

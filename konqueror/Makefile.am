@@ -13,6 +13,7 @@ konqueror_SOURCES =  kbookmark.cc kbrowser.cc \
 	kiconcontainer.cc \
 	konq_baseview.cc konq_htmlview.cc konq_iconview.cc \
 	konq_main.cc konq_mainview.cc konq_mainwindow.cc konqueror.cc \
+	konq_treeview.cc konq_partview.cc
 	xview.cc
 
 # noinst_HEADERS = ... to be completed
@@ -21,7 +22,8 @@ METASOURCES = kbookmark.moc kbrowser.moc \
 	kfmpopup.moc \
 	kiconcontainer.moc \
 	konq_htmlview.moc konq_iconview.moc \
-	konq_main.moc konq_mainview.moc konq_mainwindow.moc
+	konq_main.moc konq_mainview.moc konq_mainwindow.moc \
+	konq_partview.moc konq_treeview.moc
 
 kdelnk_DATA = konqueror_part.kdelnk
 kdelnkdir = $(kde_datadir)/../partlnk

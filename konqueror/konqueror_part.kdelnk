@@ -3,7 +3,7 @@
 Name=Konqueror
 Exec=konqueror --server
 Comment=KDE File Manager & Web Browser
-RepoID=IDL:KFM/Application:1.0,
+RepoID=IDL:Konqueror/Application:1.0,
 ActivationMode=shared
 Type=OpenPart
 Icon=unknown.xpm

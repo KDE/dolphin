@@ -48,8 +48,10 @@
 #include "kfmpaths.h"
 #include "xview.h"
 #include "konq_mainview.h"
-#include "konq_htmlview.h"
 #include "konq_iconview.h"
+#include "konq_htmlview.h"
+#include "konq_partview.h"
+#include "konq_treeview.h"
 
 // DEBUG
 #include <iostream>
@@ -137,12 +139,12 @@ Konqueror::HTMLView_ptr KonqApplicationIf::createHTMLView()
 
 Konqueror::KfmTreeView_ptr KonqApplicationIf::createKfmTreeView()
 {
-//  return Konqueror::KfmTreeView::_duplicate( new KonqKfmTreeView );
+  return Konqueror::KfmTreeView::_duplicate( new KonqKfmTreeView );
 }
 
 Konqueror::PartView_ptr KonqApplicationIf::createPartView()
 {
-//  return Konqueror::PartView::_duplicate( new KonqPartView );
+  return Konqueror::PartView::_duplicate( new KonqPartView );
 }
 
 /**********************************************

@@ -14,7 +14,9 @@ module Konqueror
   struct URLRequest
   {
     string url;
-    boolean reload;
+    boolean reload /* = false */ ;
+    long xOffset /* = 0 */ ;
+    long yOffset /* = 0 */ ;
   };
   
   /*
@@ -33,9 +35,10 @@ module Konqueror
      * has a structure EventOpenURL as parameter)
      *
      * In addition it may implement/emit the following signals:
-     *      - signal void openURL( in Konqueror::EventOpenURL eventURL );
+     *      - signal void openURL( in Konqueror::URLRequest url );
      *      - signal void started( in string url );
      *      - signal void completed();
+     *      - signal void canceled();
      *      - signal void setStatusBarText( in string text );
      *      - signal void setLocationBarURL( in string url );
      *      - signal void createNewWindow( in string url );
@@ -147,8 +150,8 @@ module Konqueror
     View activeView();
     ViewList viewList();
     void removeView( in OpenParts::Id id );
-    
-    slot void openURL( in string url, in boolean reload );
+
+    slot void openURL( in URLRequest url );    
     
     slot void setStatusBarText( in string text );
     slot void setLocationBarURL( in string url );

@@ -55,14 +55,13 @@ public:
   virtual ~KonqHTMLView();
 
   virtual bool mappingOpenURL( Konqueror::EventOpenURL eventURL );
-  virtual void setFocus();
 
   virtual void stop();
   virtual char *viewName() { return "KonquerorHTMLView"; }
 
-signals:
-  void gotFocus();
-
+  virtual char *url();
+  virtual char *title();
+  
 public slots:
   virtual void slotMousePressed( const char*, const QPoint&, int );
 

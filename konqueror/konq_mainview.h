@@ -81,6 +81,7 @@ public:
   virtual Konqueror::ViewList *viewList();
   virtual void removeView( OpenParts::Id id );
 
+  virtual void openURL( const Konqueror::URLRequest &url );
   virtual void openURL( const char * _url, CORBA::Boolean _reload );
   
   virtual void setStatusBarText( const char *_text );
@@ -158,7 +159,6 @@ protected:
   struct View
   {
     View();
-    ~View();
     Konqueror::View_var m_vView;
     OPFrame *m_pFrame;
     QString m_strUpURL;
@@ -201,7 +201,11 @@ protected:
 
   map<OpenParts::Id,View*> m_mapViews;
   View *m_currentView;
-  
+
+  Konqueror::View_var m_vKfmIconView;
+  Konqueror::View_var m_vHTMLView;
+  Konqueror::View_var m_vKfmTreeView;
+    
   /**
    * Set to true while the constructor is running.
    * @ref #initConfig needs to know about that.
