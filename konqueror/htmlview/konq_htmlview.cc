@@ -23,6 +23,7 @@
 #include "konq_childview.h"
 #include "konq_factory.h"
 #include "konq_progressproxy.h"
+//#include "konq_searchdia.h"
 
 #include <sys/stat.h>
 #include <unistd.h>
@@ -312,6 +313,23 @@ void KonqHTMLView::slotFrameInserted( KHTMLWidget *frame )
 
   frame->enableImages( m_bAutoLoadImages );
 }
+
+#if 0
+void KonqTextView::slotSearch()
+{
+  m_pSearchDialog = new KonqSearchDialog( this );
+
+  QObject::connect( m_pSearchDialog, SIGNAL( findFirst( const QString &, bool, bool ) ),
+                    this, SLOT( slotFindFirst( const QString &, bool, bool ) ) );
+  QObject::connect( m_pSearchDialog, SIGNAL( findNext( bool, bool ) ),
+                    this, SLOT( slotFindNext( bool, bool ) ) );
+
+  m_pSearchDialog->exec();
+
+  delete m_pSearchDialog;
+  m_pSearchDialog = 0L;
+}
+#endif
 
 void KonqHTMLView::slotShowURL( const QString &_url )
 {

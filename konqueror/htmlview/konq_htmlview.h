@@ -26,6 +26,7 @@
 #include <qpoint.h>
 
 class KonqHTMLView;
+class KonqSearchDialog;
 
 /* ### FIXME (Lars)
 class KonqEmbededFrame : public KHTMLEmbededWidget
@@ -105,8 +106,9 @@ protected slots:
   void viewFrameSource();
 
   void slotDocumentRedirection( int, const char *url );
-
   void slotNewWindow( const QString &url );
+
+    //void slotSearch();
 
 //  void slotSelectionChanged();
 
@@ -130,17 +132,14 @@ private:
 
   KonqBrowser *m_pBrowser;
 
+    // KonqSearchDialog *m_pSearchDialog;
+
   QString m_strURL;
 
   KAction *m_paViewDocument;
   KAction *m_paViewFrame;
+    //QAction *m_paSearch;
 
-/*  CORBA::Long m_idSaveDocument;
-  CORBA::Long m_idSaveFrame;
-  CORBA::Long m_idSaveBackground;
-  CORBA::Long m_idViewDocument;
-  CORBA::Long m_idViewFrame;
-  */
 };
 
 #endif
