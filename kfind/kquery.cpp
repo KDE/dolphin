@@ -163,9 +163,9 @@ void KQuery::processQuery( KFileItem* file)
       return;
 
     // username / group match
-    if ( (m_username != "") && (m_username != file->user()) )
+    if ( (!m_username.isEmpty()) && (m_username != file->user()) )
        return;
-    if ( (m_groupname != "") && (m_groupname != file->group()) )
+    if ( (!m_groupname.isEmpty()) && (m_groupname != file->group()) )
        return;
 
     // file type
