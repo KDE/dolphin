@@ -1,3 +1,22 @@
+/* This file is part of the KDE project
+   Copyright (C) 1998, 1999 David Faure <faure@kde.org>
+ 
+   This library is free software; you can redistribute it and/or
+   modify it under the terms of the GNU Library General Public
+   License as published by the Free Software Foundation; either
+   version 2 of the License, or (at your option) any later version.
+ 
+   This library is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+   Library General Public License for more details.
+ 
+   You should have received a copy of the GNU Library General Public License
+   along with this library; see the file COPYING.LIB.  If not, write to
+   the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
+   Boston, MA 02111-1307, USA.
+*/     
+
 #ifndef __kpopupmenu_h
 #define __kpopupmenu_h
 
@@ -7,14 +26,21 @@
 #include <qmap.h>
 #include <qstringlist.h>
 
-#include <kmimetypes.h>
+#include <kmimetypes.h> // for KDEDesktopMimeType
 
 class KService;
 class OPMenu;
 
-enum { KPOPUPMENU_BACK_ID, KPOPUPMENU_FORWARD_ID, KPOPUPMENU_UP_ID };
+enum { KPOPUPMENU_BACK_ID, KPOPUPMENU_FORWARD_ID, KPOPUPMENU_UP_ID, KPOPUPMENU_SHOWMENUBAR_ID };
 
-/** TODO : docu ! */
+/** This class implements the popup menu for URLs in konqueror and kdesktop
+ * It's usage is very simple : on right click, create the KonqPopupMenu instance
+ * with the correct arguments, then exec() to make it appear, then destroy it.
+ *
+ * No action need ot be taken, except testing the return code of exec() in konqueror,
+ * since it can tell that one of the actions defined in the enum above have 
+ * been chosen.
+ */
 class KonqPopupMenu : public QObject
 {
   Q_OBJECT
@@ -29,12 +55,14 @@ public:
    * @param canGoBack set to true if the view can go back
    * @param canGoForward set to true if the view can go forward
    * @param canGoUp set to true if the view can go up
+   * @param isMenubarHidden if true, additionnal entry : "show Menu"
    */
   KonqPopupMenu( QStringList urls,
                  mode_t mode,
                  QString viewURL,
                  bool canGoBack, 
-                 bool canGoForward );
+                 bool canGoForward,
+                 bool isMenubarHidden);
   /**
    * Don't forget to destroy the object
    */
@@ -44,7 +72,8 @@ public:
    * Execute this popup synchronously.
    * @param p menu position
    * @return ID of the selected item in the popup menu
-   * The up, back, and forward values should be tested, because they are NOT implemented here.
+   * The up, back, forward, and showmenubar values should be tested, 
+   * because they are NOT implemented here.
    */
   int exec( QPoint p );
 

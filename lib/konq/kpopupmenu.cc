@@ -1,3 +1,22 @@
+/* This file is part of the KDE project
+   Copyright (C) 1998, 1999 David Faure <faure@kde.org>
+ 
+   This library is free software; you can redistribute it and/or
+   modify it under the terms of the GNU Library General Public
+   License as published by the Free Software Foundation; either
+   version 2 of the License, or (at your option) any later version.
+ 
+   This library is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+   Library General Public License for more details.
+ 
+   You should have received a copy of the GNU Library General Public License
+   along with this library; see the file COPYING.LIB.  If not, write to
+   the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
+   Boston, MA 02111-1307, USA.
+*/     
+
 #include <qdir.h>
 
 #include <opMenu.h>
@@ -22,7 +41,8 @@ KonqPopupMenu::KonqPopupMenu( QStringList urls,
                               mode_t mode,
                               QString viewURL, 
                               bool canGoBack, 
-                              bool canGoForward )
+                              bool canGoForward,
+                              bool isMenubarHidden )
   : m_pMenuNew(0L), m_sViewURL(viewURL), m_lstPopupURLs(urls), m_popupMode(mode)
 {
   assert( m_lstPopupURLs.count() >= 1 );
@@ -112,16 +132,13 @@ KonqPopupMenu::KonqPopupMenu( QStringList urls,
 
   m_popupMenu->clear();
 
-//   //---------- Sven --------------
-//   // check if menubar is hidden and if yes add "Show Menubar"
-//   if (view->getGUI()->isMenuBarHidden())
-//   {
-    
-//     popupMenu->insertItem(klocale->getAlias(ID_STRING_SHOW_MENUBAR),
-// 			  view->getGUI(), SLOT(slotShowMenubar()));
-//     popupMenu->insertSeparator();
-//   }
-//   //------------------------------
+  // check if menubar is hidden and if yes add "Show Menubar"
+  if (isMenubarHidden)
+  {
+    m_popupMenu->insertItem( i18n("Show Menubar"), KPOPUPMENU_SHOWMENUBAR_ID );
+    m_popupMenu->insertSeparator();
+  }
+  //------------------------------
 
   if ( isTrash )
   {
