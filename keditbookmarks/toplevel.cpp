@@ -490,6 +490,8 @@ void KEBApp::createActions() {
                       actn, SLOT( slotImport() ), actionCollection(), "importNS");
    (void) new KAction(i18n("Import &Opera Bookmarks..."), "opera", 0,
                       actn, SLOT( slotImport() ), actionCollection(), "importOpera");
+   (void) new KAction(i18n("Import All &Crash Sessions as Bookmarks..."), "opera", 0,
+                      actn, SLOT( slotImport() ), actionCollection(), "importCrashes");
    (void) new KAction(i18n("Import &Galeon Bookmarks..."), 0,
                       actn, SLOT( slotImport() ), actionCollection(), "importGaleon");
    (void) new KAction(i18n("Import &KDE2 Bookmarks..."), 0,

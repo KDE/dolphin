@@ -29,6 +29,7 @@
 #include <kbookmarkimporter.h>
 #include <kbookmarkimporter_ie.h>
 #include <kbookmarkimporter_opera.h>
+#include <kbookmarkimporter_crash.h>
 #include <kbookmarkdombuilder.h>
 
 #include "commands.h"
@@ -50,6 +51,7 @@ ImportCommand* ImportCommand::importerFactory(const QCString &type) {
    else if (type == "IE") return new IEImportCommand();
    else if (type == "KDE2") return new KDE2ImportCommand();
    else if (type == "Opera") return new OperaImportCommand();
+   else if (type == "Crashes") return new CrashesImportCommand();
    else if (type == "Moz") return new MozImportCommand();
    else if (type == "NS") return new NSImportCommand();
    else {
@@ -150,6 +152,11 @@ QString OperaImportCommand::requestFilename() const {
    return importer.findDefaultLocation();
 }
 
+QString CrashesImportCommand::requestFilename() const {
+   static KCrashBookmarkImporterImpl importer;
+   return importer.findDefaultLocation();
+}
+
 QString IEImportCommand::requestFilename() const {
    static KIEBookmarkImporterImpl importer;
    return importer.findDefaultLocation();
@@ -180,6 +187,12 @@ static void parseInto(const KBookmarkGroup &bkGroup, KBookmarkImporterBase *impo
 
 void OperaImportCommand::doExecute(const KBookmarkGroup &bkGroup) {
    KOperaBookmarkImporterImpl importer;
+   importer.setFilename(m_fileName);
+   parseInto(bkGroup, &importer);
+}
+
+void CrashesImportCommand::doExecute(const KBookmarkGroup &bkGroup) {
+   KCrashBookmarkImporterImpl importer;
    importer.setFilename(m_fileName);
    parseInto(bkGroup, &importer);
 }

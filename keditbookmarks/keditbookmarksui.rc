@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="keditbookmarks" version="23">
+<kpartgui name="keditbookmarks" version="24">
 
 <MenuBar>
 
@@ -10,6 +10,7 @@
   <Menu name="import" noMerge="1"><text>&amp;Import</text>
     <Action name="importIE"/>
     <Action name="importOpera"/>
+    <Action name="importCrashes"/>
     <Action name="importGaleon"/>
     <Action name="importKDE2"/>
     <Action name="importMoz"/>
@@ -136,6 +137,7 @@
     <Action name="importGaleon"/>
     <Action name="importKDE2"/>
     <Action name="importOpera"/>
+    <Action name="importCrashes"/>
     <Action name="importIE"/>
     <Action name="importNS"/>
     <Action name="importMoz"/>
@@ -181,6 +183,7 @@
     <Action name="importMoz"/>
     <Action name="importNS"/>
     <Action name="importOpera"/>
+    <Action name="importCrashes"/>
     <Action name="insertseparator"/>
     <Action name="newbookmark"/>
     <Action name="newfolder"/>
