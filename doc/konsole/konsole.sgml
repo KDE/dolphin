@@ -83,6 +83,15 @@ The buttons have different functions:
     text. While dragging, the marked text is displayed reverse for visual
     feedback. As soon as the button is released, the marked text copied
     to the clipboard for further use within Konsole or another application.
+    <P>
+    Normally, new-line characters are inserted at the end of each line
+    selected.  This is normally best for cut and paste of source code
+    or the output of a particular command.  For ordinary text, the 
+    line breaks are often not important.  One would prefer for the
+    text to be a stream of characters that will be automatically 
+    re-formatted when pasted another application.  To select in 
+    text-stream mode, hold-down the Ctrl key while selecting
+    normally.
     <p>
     It the upper or lower edge of the text area is touched while marking,
     Konsole scrolls up or down, thereby eventually exposing text within the
@@ -131,7 +140,7 @@ Using the option menu one can control much of konsole's appearance.
 The configuration is both available using the menu bar or clicking
 on konsole's window with the right mouse button.
 <itemize>
-<item>Menu bar
+<item>Menu Bar
    <p>
   Having this option checked provides a menu bar in the top of the
   window. Different from the regular behavior, the menu bar does
@@ -214,14 +223,14 @@ If you experience problems with that, please refer to
 Before sending bug reports, please check the problem with another
 X terminal to find out whether it is `konsole' specific or not.
 
-<sect1>Installation related problems
+<sect1>Installation Related Problems
 <p>
 Konsole requieres some specific fonts that come along with it's
 distribution but are not installed due to the authors preference
 not claim root privileges during the installation process. You'll
 have to do this manually. See README.linux.console for details.
 
-<sect1>Application related problems
+<sect1>Application Related Problems
 <p>
 Some programs have flaws when run under a X console.
 
@@ -259,7 +268,7 @@ Some programs have flaws when run under a X console.
 
 </itemize>
    
-<sect2>vim 4.6
+<sect2>Vim 4.6
 <p>
 <itemize>
 <item> emits a newline at exit, thereby producing a strange image on the
@@ -276,7 +285,7 @@ Some programs have flaws when run under a X console.
 </itemize>
 
 
-<sect1>Broken termcap and terminfo databases
+<sect1>Broken Termcap and Terminfo Databases
 <p>
   Please be aware of the fact that most applications (those using ncurses)
   base their knowledge on how to talk to a terminal emulation on the 
@@ -298,7 +307,7 @@ Some programs have flaws when run under a X console.
 </itemize>
 
 
-<sect1>Problems with BACKSPACE, DELETE and likely keyboard issues.
+<sect1>Problems with BACKSPACE, DELETE and Likely Keyboard Issues.
 <p>
   Once upon a time there was a terminal without a delete key.
   This problem has been perpetuated in Linux and is still a 
@@ -364,7 +373,7 @@ Some programs have flaws when run under a X console.
   and konsole does not fchown(2) the pseudo tty.
 
 
-<sect1>Known bugs (konsole-0.8.6)
+<sect1>Known Bugs (konsole-0.8.6)
 <p>
 <itemize>
 <item> keys on the keypad does not cause any effect when numlock is not
@@ -376,7 +385,7 @@ Some programs have flaws when run under a X console.
 </itemize>
 
 
-<sect1>Features that will not be implemented.
+<sect1>Features That Will Not Be Implemented.
 <p>
 <itemize>
 <item> utmp entries.

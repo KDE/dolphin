@@ -40,7 +40,7 @@ to the clipboard.
 <P>
 </LI>
 <LI>Keyboard
-<P>The Cntl-PageUp and Cntl-PageDown keys are used to scroll through
+<P>The Shift-PageUp and Shift-PageDown keys are used to scroll through
 the history buffer. All other keystrokes are passed on to the 
 application run within the emulation. Note that their might be
 some dead keys.
@@ -61,6 +61,14 @@ with a mouse unaware application running, will mark a region of the
 text. While dragging, the marked text is displayed reverse for visual
 feedback. As soon as the button is released, the marked text copied
 to the clipboard for further use within Konsole or another application.
+<P>Normally, new-line characters are inserted at the end of each line
+selected.  This is normally best for cut and paste of source code
+or the output of a particular command.  For ordinary text, the 
+line breaks are often not important.  One would prefer for the
+text to be a stream of characters that will be automatically 
+re-formatted when pasted another application.  To select in 
+text-stream mode, hold-down the Ctrl key while selecting
+normally.
 <P>It the upper or lower edge of the text area is touched while marking,
 Konsole scrolls up or down, thereby eventually exposing text within the
 history buffer. The scrolling stops as soon as you stop moving the
