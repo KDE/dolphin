@@ -511,8 +511,7 @@ KMacroCommand* CmdGen::itemsMoved(QPtrList<KEBListViewItem> *items, const QStrin
       cmd->execute();
       mcmd->addCommand(cmd);
       
-      FinalAddressCommand *addrcmd = dynamic_cast<FinalAddressCommand*>(cmd);
-      assert(addrcmd);
+      FinalAddressCommand *addrcmd = reinterpret_cast<FinalAddressCommand*>(cmd);
       bkInsertAddr = KBookmark::nextAddress(addrcmd->finalAddress());
    }
 
