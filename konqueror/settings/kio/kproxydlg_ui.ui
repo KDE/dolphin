@@ -12,9 +12,6 @@
             <height>422</height>
         </rect>
     </property>
-    <property name="caption">
-        <string>ProxyDlgUI</string>
-    </property>
     <property name="whatsThis" stdset="0">
         <string>&lt;qt&gt;
 Setup proxy configuration.

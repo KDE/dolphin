@@ -12,9 +12,6 @@
             <height>184</height>
         </rect>
     </property>
-    <property name="caption">
-        <string>EnvVarProxyDlgUI</string>
-    </property>
     <vbox>
         <property name="name">
             <cstring>unnamed</cstring>
