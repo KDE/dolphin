@@ -66,25 +66,19 @@ DCOPRef KonquerorIface::openBrowserWindowASN( const QString &url, const QCString
 
 DCOPRef KonquerorIface::createNewWindow( const QString &url )
 {
-    qt_x_user_time = 0;
-    // Filter the URL, so that "kfmclient openURL gg:foo" works also when konq is already running
-    KURL finalURL = KonqMisc::konqFilteredURL( 0, url );
-    KonqMainWindow *res = KonqMisc::createNewWindow( finalURL );
-    if ( !res )
-        return DCOPRef();
-    return res->dcopObject();
+    return createNewWindow( url, QString::null, false );
 }
 
-DCOPRef KonquerorIface::createNewWindowASN( const QString &url, const QCString& startup_id )
+DCOPRef KonquerorIface::createNewWindowASN( const QString &url, const QCString& startup_id, bool tempFile )
 {
     kapp->setStartupId( startup_id );
-    return createNewWindow( url );
+    return createNewWindow( url, QString::null, tempFile );
 }
 
 DCOPRef KonquerorIface::createNewWindowWithSelection( const QString &url, QStringList filesToSelect )
 {
     qt_x_user_time = 0;
-    KonqMainWindow *res = KonqMisc::createNewWindow( KURL(url), KParts::URLArgs(), false, filesToSelect  );
+    KonqMainWindow *res = KonqMisc::createNewWindow( KURL(url), KParts::URLArgs(), false, filesToSelect );
     if ( !res )
         return DCOPRef();
     return res->dcopObject();
@@ -96,24 +90,24 @@ DCOPRef KonquerorIface::createNewWindowWithSelectionASN( const QString &url, QSt
     return createNewWindowWithSelection( url, filesToSelect );
 }
 
-DCOPRef KonquerorIface::createNewWindow( const QString &url, const QString &mimetype )
+DCOPRef KonquerorIface::createNewWindow( const QString &url, const QString &mimetype, bool tempFile )
 {
     qt_x_user_time = 0;
     KParts::URLArgs args;
     args.serviceType = mimetype;
     // Filter the URL, so that "kfmclient openURL gg:foo" works also when konq is already running
     KURL finalURL = KonqMisc::konqFilteredURL( 0, url );
-    KonqMainWindow *res = KonqMisc::createNewWindow( finalURL, args );
+    KonqMainWindow *res = KonqMisc::createNewWindow( finalURL, args, false, QStringList(), tempFile );
     if ( !res )
         return DCOPRef();
     return res->dcopObject();
 }
 
 DCOPRef KonquerorIface::createNewWindowASN( const QString &url, const QString &mimetype,
-    const QCString& startup_id )
+    const QCString& startup_id, bool tempFile )
 {
     kapp->setStartupId( startup_id );
-    return createNewWindow( url, mimetype );
+    return createNewWindow( url, mimetype, tempFile );
 }
 
 DCOPRef KonquerorIface::createBrowserWindowFromProfile( const QString &path )

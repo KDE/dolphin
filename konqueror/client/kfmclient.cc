@@ -71,6 +71,7 @@ extern "C" int kdemain( int argc, char **argv )
   KCmdLineArgs::init(argc, argv, appName, programName, description, version, false);
 
   KCmdLineArgs::addCmdLineOptions( options );
+  KCmdLineArgs::addTempFileOption();
 
   KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
 
@@ -272,16 +273,19 @@ static QCString konqyToReuse( const QString& url, const QString& mimetype, const
     return ret;
 }
 
-bool clientApp::createNewWindow(const KURL & url, bool newTab, const QString & mimetype)
+bool clientApp::createNewWindow(const KURL & url, bool newTab, const QString & mimetype, bool tempFile)
 {
     kdDebug( 1202 ) << "clientApp::createNewWindow " << url.url() << " mimetype=" << mimetype << endl;
-
     // check if user wants to use external browser
+    // ###### this option seems to have no GUI and to be redundant with BrowserApplication now.
+    // ###### KDE4: remove
     KConfig config( QString::fromLatin1("kfmclientrc"));
     config.setGroup( QString::fromLatin1("Settings"));
     QString strBrowser = config.readPathEntry("ExternalBrowser");
     if (!strBrowser.isEmpty())
     {
+        if ( tempFile )
+            kdWarning() << "kfmclient used with --tempfile but is passing to an external browser! Tempfile will never be deleted" << endl;
         KProcess proc;
         proc << strBrowser << url.url();
         proc.start( KProcess::DontCare );
@@ -295,8 +299,8 @@ bool clientApp::createNewWindow(const KURL & url, bool newTab, const QString & m
         {
             clientApp app;
             KStartupInfo::appStarted();
-            
-            KRun * run = new KRun( url );
+
+            KRun * run = new KRun( url ); // TODO pass tempFile [needs support in the KRun ctor]
             QObject::connect( run, SIGNAL( finished() ), &app, SLOT( delayedQuit() ));
             QObject::connect( run, SIGNAL( error() ), &app, SLOT( delayedQuit() ));
             app.exec();
@@ -315,7 +319,7 @@ bool clientApp::createNewWindow(const KURL & url, bool newTab, const QString & m
             "windowCanBeUsedForTab()", data, foundApp, foundObj, false, 3000 ) )
         {
             DCOPRef ref( foundApp, foundObj );
-            DCOPReply reply = ref.call( "newTab", url.url() );
+            DCOPReply reply = ref.call( "newTab", url.url(), tempFile );
             if ( reply.isValid() ) {
                 KStartupInfo::appStarted();
                 return true;
@@ -328,7 +332,7 @@ bool clientApp::createNewWindow(const KURL & url, bool newTab, const QString & m
     {
         kdDebug( 1202 ) << "clientApp::createNewWindow using existing konqueror" << endl;
         KonquerorIface_stub konqy( appId, "KonquerorIface" );
-        konqy.createNewWindowASN( url.url(), mimetype, startup_id_str );
+        konqy.createNewWindowASN( url.url(), mimetype, startup_id_str, tempFile );
         KStartupInfoId id;
         id.initId( startup_id_str );
         KStartupInfoData data;
@@ -356,10 +360,12 @@ bool clientApp::createNewWindow(const KURL & url, bool newTab, const QString & m
             id.initId( startup_id_str );
             id.setupStartupEnv();
             KProcess proc;
-            if ( mimetype.isEmpty() )
-                proc << QString::fromLatin1("kshell") << QString::fromLatin1("konqueror") << url.url();
-            else
-                proc << QString::fromLatin1("kshell") << QString::fromLatin1("konqueror") << QString::fromLatin1("-mimetype") << mimetype << url.url();
+            proc << "kshell" << "konqueror";
+            if ( !mimetype.isEmpty() )
+                proc << "-mimetype" << mimetype;
+            if ( tempFile )
+                proc << "-tempfile";
+            proc << url.url();
             proc.start( KProcess::DontCare );
             KStartupInfo::resetStartupEnv();
             kdDebug( 1202 ) << "clientApp::createNewWindow KProcess started" << endl;

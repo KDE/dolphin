@@ -45,6 +45,9 @@ k_dcop:
   void openURL( QString url );
   void newTab( QString url );
 
+  void openURL( QString url, bool tempFile );
+  void newTab( QString url, bool tempFile );
+
   /**
    * Reloads the current view.
    */

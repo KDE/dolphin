@@ -429,7 +429,7 @@ QString KonqMainWindow::detectNameFilter( QString & url )
     return nameFilter;
 }
 
-void KonqMainWindow::openFilteredURL( const QString & _url, bool inNewTab )
+void KonqMainWindow::openFilteredURL( const QString & _url, bool inNewTab, bool tempFile )
 {
     QString url = _url;
     QString nameFilter = detectNameFilter( url );
@@ -461,6 +461,7 @@ void KonqMainWindow::openFilteredURL( const QString & _url, bool inNewTab )
     req.nameFilter = nameFilter;
     req.newTab = inNewTab;
     req.newTabInFront = true;
+    req.tempFile = tempFile;
 
     openURL( 0L, filteredURL, QString::null, req );
 
@@ -685,7 +686,7 @@ bool KonqMainWindow::openView( QString serviceType, const KURL &_url, KonqView *
   if ( url.isLocalFile() )
   {
     KServiceType::Ptr ptr = KServiceType::serviceType( serviceType );
-    if ( ptr ) 
+    if ( ptr )
     {
       const QString protocol = ptr->property("X-KDE-LocalProtocol").toString();
       if ( !protocol.isEmpty() )
@@ -875,7 +876,7 @@ bool KonqMainWindow::openView( QString serviceType, const KURL &_url, KonqView *
       if ( childView->part()->inherits("KonqDirPart") )
           static_cast<KonqDirPart *>(childView->part())->setFilesToSelect( req.filesToSelect );
       if ( !url.isEmpty() )
-          childView->openURL( url, originalURL, req.nameFilter );
+          childView->openURL( url, originalURL, req.nameFilter, req.tempFile );
   }
   kdDebug(1202) << "KonqMainWindow::openView ok=" << ok << " bOthersFollowed=" << bOthersFollowed << " returning "
                 << (ok || bOthersFollowed)

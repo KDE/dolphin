@@ -103,7 +103,7 @@ public:
   /**
    * Filters the URL and calls the main openURL method.
    */
-  void openFilteredURL( const QString &_url, bool inNewTab = false );
+  void openFilteredURL( const QString &_url, bool inNewTab = false, bool tempFile = false );
 
   /**
    * The main openURL method.
@@ -569,7 +569,7 @@ private:
 
   bool stayPreloaded();
   bool checkPreloadResourceUsage();
-  
+
   QObject* lastFrame( KonqView *view );
 
   KNewMenu * m_pMenuNew;

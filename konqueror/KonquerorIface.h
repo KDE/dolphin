@@ -46,6 +46,7 @@ k_dcop:
   /**
    * Like @ref openBrowserWindow , with setting the application startup notification ( ASN )
    * property on the window.
+   * This DCOP call is internal to kfmclient, don't use.
    */
   DCOPRef openBrowserWindowASN( const QString &url, const QCString &startup_id );
 
@@ -56,8 +57,9 @@ k_dcop:
   /**
    * Like @ref createNewWindow , with setting the application startup notification ( ASN )
    * property on the window.
+   * This DCOP call is internal to kfmclient.
    */
-  DCOPRef createNewWindowASN( const QString &url, const QCString &startup_id );
+  DCOPRef createNewWindowASN( const QString &url, const QCString &startup_id, bool tempFile );
 
   /**
    * Opens a new window like @ref createNewWindow, then selects the given @p filesToSelect
@@ -66,20 +68,22 @@ k_dcop:
   /**
    * Like @ref createNewWindowWithSelection, with setting the application startup notification ( ASN )
    * property on the window.
+   * This DCOP call is internal to kfmclient.
    */
   DCOPRef createNewWindowWithSelectionASN( const QString &url, QStringList filesToSelect, const QCString &startup_id );
-  
+
   /**
    * Opens a new window for the given @p url (using createNewWindow, i.e. with an appropriate profile)
    * @param mimetype to speed it up.
    */
-  DCOPRef createNewWindow( const QString &url, const QString & mimetype );
+  DCOPRef createNewWindow( const QString &url, const QString & mimetype, bool tempFile );
   /**
    * Like @ref createNewWindow , with setting the application startup notification ( ASN )
    * property on the window.
+   * This DCOP call is internal to kfmclient.
    */
   DCOPRef createNewWindowASN( const QString &url, const QString & mimetype,
-      const QCString &startup_id );
+      const QCString &startup_id, bool tempFile );
 
   /**
    * As the name says, this creates a window from a profile.
@@ -89,6 +93,7 @@ k_dcop:
   /**
    * Like @ref createBrowserWindowFromProfile , with setting the application startup
    * notification ( ASN ) property on the window.
+   * This DCOP call is internal to kfmclient.
    */
   DCOPRef createBrowserWindowFromProfileASN( const QString &path, const QCString &startup_id );
 
@@ -102,6 +107,7 @@ k_dcop:
   /**
    * Like @ref createBrowserWindowFromProfile , with setting the application startup
    * notification ( ASN ) property on the window.
+   * This DCOP call is internal to kfmclient.
    */
   DCOPRef createBrowserWindowFromProfileASN( const QString &path, const QString &filename,
       const QCString &startup_id );
@@ -118,6 +124,7 @@ k_dcop:
   /**
    * Like @ref createBrowserWindowFromProfileAndURL , with setting the application startup
    * notification ( ASN ) property on the window.
+   * This DCOP call is internal to kfmclient.
    */
   DCOPRef createBrowserWindowFromProfileAndURLASN( const QString &path, const QString &filename, const QString &url,
       const QCString &startup_id );
@@ -134,6 +141,7 @@ k_dcop:
   /**
    * Like @ref createBrowserWindowFromProfileAndURL , with setting the application startup
    * notification ( ASN ) property on the window.
+   * This DCOP call is internal to kfmclient.
    */
   DCOPRef createBrowserWindowFromProfileAndURLASN( const QString &path, const QString &filename, const QString &url, const QString &mimetype,
       const QCString& startup_id );
@@ -167,7 +175,7 @@ k_dcop:
    * Called internall as broadcast when a URL has to be removed from the combo.
    */
   ASYNC removeFromCombo( QString, QCString );
-    
+
   /**
    * Called internally as a broadcast when the combobox was cleared.
    */

@@ -58,7 +58,7 @@ public:
     /**
      * Create a new window with a single view, showing @p url, using @p args
      */
-    static KonqMainWindow * createSimpleWindow( const KURL &url, const KParts::URLArgs &args );
+    static KonqMainWindow * createSimpleWindow( const KURL &url, const KParts::URLArgs &args, bool tempFile = false );
 
     /**
      * Create a new window for @p url using @p args and the appropriate profile for this URL.
@@ -67,7 +67,8 @@ public:
     static KonqMainWindow * createNewWindow( const KURL &url,
                                              const KParts::URLArgs &args = KParts::URLArgs(),
                                              bool forbidUseHTML = false,
-                                             QStringList filesToSelect = QStringList() );
+                                             QStringList filesToSelect = QStringList(),
+                                             bool tempFile = false );
 
     /**
      * Create a new window from the profile defined by @p filename and @p path.
@@ -79,7 +80,8 @@ public:
                                                             const KURL &url = KURL(),
                                                             const KParts::URLArgs &args = KParts::URLArgs(),
                                                             bool forbidUseHTML = false,
-                                                            QStringList filesToSelect = QStringList() );
+                                                            const QStringList& filesToSelect = QStringList(),
+                                                            bool tempFile = false );
     /**
      * Applies the URI filters to @p url.
      *

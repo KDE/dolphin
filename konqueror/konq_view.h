@@ -94,10 +94,12 @@ public:
    * @param url the URL to open
    * @param locationBarURL the URL to set in the location bar (see @ref setLocationBarURL)
    * @param nameFilter e.g. *.cpp
+   * @param tempFile whether to delete the file after use
    */
   void openURL( const KURL &url,
                 const QString & locationBarURL,
-                const QString &nameFilter = QString::null);
+                const QString &nameFilter = QString::null,
+                bool tempFile = false );
 
   /**
    * Change the type of view (i.e. loads a new konqueror view)
@@ -379,6 +381,8 @@ private:
 
   void setServiceTypeInExtension();
 
+  void finishedWithCurrentURL();
+
   virtual bool eventFilter( QObject *obj, QEvent *e );
 
 ////////////////// private members ///////////////
@@ -426,15 +430,16 @@ private:
   uint m_bPendingRedirection:1;
   uint m_bBuiltinView:1;
   uint m_bURLDropHandling:1;
+  uint m_bBackRightClick:1;
+  uint m_bHierarchicalView:1;
   KTrader::OfferList m_partServiceOffers;
   KTrader::OfferList m_appServiceOffers;
   KService::Ptr m_service;
   QString m_serviceType;
   QString m_caption;
+  QString m_tempFile;
   KonqViewIface * m_dcopObject;
   KonqBrowserInterface *m_browserIface;
-  bool m_bBackRightClick;
-  bool m_bHierarchicalView;
   int m_randID;
 };
 

@@ -35,7 +35,7 @@
 
 #include <qwidgetlist.h>
 
-static KCmdLineOptions options[] =
+static const KCmdLineOptions options[] =
 {
   { "silent", I18N_NOOP("Start without a default window"), 0 },
   { "preload", I18N_NOOP("Preload for later use"), 0 },
@@ -52,6 +52,7 @@ extern "C" int kdemain( int argc, char **argv )
   KCmdLineArgs::init( argc, argv, KonqFactory::aboutData() );
 
   KCmdLineArgs::addCmdLineOptions( options ); // Add our own options.
+  KCmdLineArgs::addTempFileOption();
 
   KonquerorApplication app;
 
@@ -87,14 +88,14 @@ extern "C" int kdemain( int argc, char **argv )
      {
        QStringList profiles = KGlobal::dirs()->findAllResources("data", "konqueror/profiles/*", false, true);
        profiles.sort();
-       for(QStringList::ConstIterator it = profiles.begin(); 
+       for(QStringList::ConstIterator it = profiles.begin();
            it != profiles.end(); ++it)
        {
          QString file = *it;
          file = file.mid(file.findRev('/')+1);
          printf("%s\n", QFile::encodeName(file).data());
        }
-       
+
        return 0;
      }
      if (args->isSet("profile"))
@@ -169,7 +170,7 @@ extern "C" int kdemain( int argc, char **argv )
                  KURL url = args->url(i);
                  KURL urlToOpen;
                  QStringList filesToSelect;
-                 
+
                  if (url.isLocalFile() && QFile::exists(url.path())) // "konqueror index.html"
                      urlToOpen = url;
                  else
@@ -190,7 +191,8 @@ extern "C" int kdemain( int argc, char **argv )
                            urlToOpen.setFileName("");
                         }
                      }
-                     mainwin = KonqMisc::createNewWindow( urlToOpen, urlargs, false, filesToSelect );
+                     const bool tempFile = KCmdLineArgs::isTempFileSet();
+                     mainwin = KonqMisc::createNewWindow( urlToOpen, urlargs, false, filesToSelect, tempFile );
                  } else
                      urlList += urlToOpen;
              }

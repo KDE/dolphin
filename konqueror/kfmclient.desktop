@@ -22,3 +22,4 @@ Name[th]=คอนเควอร์เรอร์
 Name[xx]=xxKonquerorxx
 X-DCOP-ServiceType=None
 Categories=Qt;KDE;System;
+X-KDE-HasTempFileOption=true

@@ -31,7 +31,7 @@ public:
   static bool doIt();
 
   /** Make konqueror open a window for @p url */
-  static bool createNewWindow(const KURL & url, bool newTab, const QString & mimetype = QString::null);
+  static bool createNewWindow(const KURL & url, bool newTab, const QString & mimetype = QString::null, bool tempfile = false);
 
   /** Make konqueror open a window for @p profile, @p url and @p mimetype */
   static bool openProfile(const QString & profile, const QString & url, const QString & mimetype = QString::null);
@@ -43,7 +43,7 @@ protected slots:
 private:
   static bool m_ok;
   static QCString startup_id_str;
-  
+
 };
 
 #endif

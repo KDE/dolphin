@@ -54,6 +54,16 @@ void KonqMainWindowIface::newTab( QString url )
   m_pMainWindow->openFilteredURL( url, true );
 }
 
+void KonqMainWindowIface::openURL( QString url, bool tempFile )
+{
+  m_pMainWindow->openFilteredURL( url, false, tempFile );
+}
+
+void KonqMainWindowIface::newTab( QString url, bool tempFile )
+{
+  m_pMainWindow->openFilteredURL( url, true, tempFile );
+}
+
 void KonqMainWindowIface::reload()
 {
   m_pMainWindow->slotReload();
@@ -129,3 +139,4 @@ bool KonqMainWindowIface::windowCanBeUsedForTab()
     m_pMainWindow->raise();
     return true;
 }
+

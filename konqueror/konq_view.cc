@@ -121,6 +121,7 @@ KonqView::~KonqView()
   // We did so ourselves for passive views
   if (m_pPart != 0L)
   {
+    finishedWithCurrentURL();
     if ( isPassiveMode() )
       disconnect( m_pPart, SIGNAL( destroyed() ), m_pMainWindow->viewManager(), SLOT( slotObjectDestroyed() ) );
 
@@ -131,7 +132,8 @@ KonqView::~KonqView()
   //kdDebug(1202) << "KonqView::~KonqView " << this << " done" << endl;
 }
 
-void KonqView::openURL( const KURL &url, const QString & locationBarURL, const QString & nameFilter )
+void KonqView::openURL( const KURL &url, const QString & locationBarURL,
+                        const QString & nameFilter, bool tempFile )
 {
   kdDebug(1202) << "KonqView::openURL url=" << url.url() << " locationBarURL=" << locationBarURL << endl;
   setServiceTypeInExtension();
@@ -199,6 +201,15 @@ void KonqView::openURL( const KURL &url, const QString & locationBarURL, const Q
   }
 
   m_bAborted = false;
+  if ( tempFile ) {
+      // Store the path to the tempfile. Yes, we could store a bool only,
+      // but this would be more dangerous. If anything goes wrong in the code,
+      // we might end up deleting a real file.
+      if ( url.isLocalFile() )
+          m_tempFile = url.path();
+      else
+          kdWarning(1202) << "Tempfile option is set, but URL is remote: " << url << endl;
+  }
 
   m_pPart->openURL( url );
 
@@ -862,7 +873,8 @@ void KonqView::stop()
 {
   kdDebug(1202) << "KonqView::stop()" << endl;
   m_bAborted = false;
-  if ( m_bLoading || m_bPendingRedirection)
+  finishedWithCurrentURL();
+  if ( m_bLoading || m_bPendingRedirection )
   {
     // aborted -> confirm the pending url. We might as well remove it, but
     // we decided to keep it :)
@@ -887,6 +899,16 @@ void KonqView::stop()
   }
   if ( !m_bLockHistory && m_lstHistory.count() > 0 )
     updateHistoryEntry(true);
+}
+
+void KonqView::finishedWithCurrentURL()
+{
+  if ( !m_tempFile.isEmpty() )
+  {
+    kdDebug(1202) << "######### Deleting tempfile after use:" << m_tempFile << endl;
+    QFile::remove( m_tempFile );
+    m_tempFile = QString::null;
+  }
 }
 
 void KonqView::setPassiveMode( bool mode )
