@@ -54,21 +54,21 @@ K_EXPORT_COMPONENT_FACTORY (kcm_userinfo, UserInfoFactory("userinfo") )
 KUserInfoConfig::KUserInfoConfig(QWidget *parent, const char *name, const QStringList &)
   : KCModule(UserInfoFactory::instance(), parent, name)
 {
-  QVBoxLayout *pTop = new QVBoxLayout(this, KDialog::spacingHint());
-  pTop->setAlignment( Qt::AlignTop );
+  QVBoxLayout *pTop = new QVBoxLayout(this, 0, KDialog::spacingHint());
 
   // The header (face and name)
-  QHBoxLayout *pHeaderLayout = new QHBoxLayout(this, KDialog::marginHint(), KDialog::spacingHint());
-  pHeaderLayout->setAlignment( Qt::AlignLeft );
+  QHBoxLayout *pHeaderLayout = new QHBoxLayout(0, 0, KDialog::spacingHint());
 
   m_pFaceButton = new QPushButton( this );
   m_pFaceButton->setAcceptDrops( true );
   m_pFaceButton->installEventFilter( this ); // for drag and drop
 
   QToolTip::add( m_pFaceButton, i18n("Click or drop an image here") );
-  QWhatsThis::add( m_pFaceButton, i18n("Here you can see the image that represents you in KDM."
-                                       " Click on the image button to select from a list"
-            " of images or drag and drop your own image on to the button (e.g. from Konqueror).") );
+  QWhatsThis::add( m_pFaceButton,
+          i18n("Here you can see the image that represents you in KDM."
+               " Click on the image button to select from a list"
+               " of images or drag and drop your own image on to the"
+               " button (e.g. from Konqueror).") );
 
   connect( m_pFaceButton, SIGNAL(clicked()), SLOT(slotFaceButtonClicked()) );
 
@@ -82,7 +82,7 @@ KUserInfoConfig::KUserInfoConfig(QWidget *parent, const char *name, const QStrin
   pHeaderLayout->addWidget(m_pHeader);
   pTop->addLayout( pHeaderLayout );
 
-  QHBoxLayout *pMainArea = new QHBoxLayout( this, KDialog::marginHint(), KDialog::spacingHint() );
+  QHBoxLayout *pMainArea = new QHBoxLayout( 0, 0, KDialog::spacingHint() );
 
   // The left-hand side information
   QGroupBox *pInfoGroup = new QGroupBox( 0, Qt::Vertical, i18n("Information"), this );
@@ -113,8 +113,9 @@ KUserInfoConfig::KUserInfoConfig(QWidget *parent, const char *name, const QStrin
   pMainArea->addWidget( pSettingsGroup );
 
   pTop->addLayout( pMainArea );
+  pTop->addStretch();
 
-  setButtons( Ok + Help );
+  setButtons( Ok|Help );
   load();// Load our settings
 }
 
