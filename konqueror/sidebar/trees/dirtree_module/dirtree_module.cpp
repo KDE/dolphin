@@ -335,8 +335,11 @@ void KonqSidebarDirTreeModule::slotRedirection( const KURL & oldUrl, const KURL 
         // We need to update the URL in m_dictSubDirs
         m_dictSubDirs.remove( oldUrl.url(-1) );
         m_dictSubDirs.insert( newUrl.url(-1), item );
-	((KonqSidebarDirTreeItem*) item)->alias<<oldUrl.url(-1);
-	((KonqSidebarDirTreeItem*) item)->alias<<newUrl.url(-1);
+        if (item->parent())
+        {
+            ((KonqSidebarDirTreeItem*) item)->alias<<oldUrl.url(-1);
+            ((KonqSidebarDirTreeItem*) item)->alias<<newUrl.url(-1);
+        }
         kdDebug(1201) << "Updating url to " << newUrl.prettyURL() << endl;
     }
 }
