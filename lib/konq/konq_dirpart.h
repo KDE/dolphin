@@ -22,11 +22,11 @@
 
 #include <qstring.h>
 #include <kparts/part.h>
+#include <kfileitem.h>
 
 namespace KParts { class BrowserExtension; }
 class KonqPropsView;
 class QScrollView;
-class KFileItem;
 
 class KonqDirPart: public KParts::ReadOnlyPart
 {
@@ -61,9 +61,38 @@ public:
     virtual void disableIcons( const KURL::List & lst ) = 0;
 
     /**
+     * This class takes care of the counting of items, size etc. in the
+     * current directory. Call this in openURL.
+     */
+    void resetCount()
+    {
+        m_lDirSize = 0;
+        m_lFileCount = 0;
+        m_lDirCount = 0;
+    }
+    /**
+     * Update the counts for those new items
+     */
+    void newItems( const KFileItemList & entries );
+    /**
+     * Update the counts with this item being deleted
+     */
+    void deleteItem( KFileItem * fileItem );
+    /**
+     * Show the counts for the directory in the status bar
+     */
+    void emitTotalCount();
+    /**
+     * Show the counts for the selected items in the status bar, if any
+     * otherwise show the info for the directory.
+     * @param selectionChanged if true, we'll emit selectionInfo.
+     */
+    void emitCounts( const KFileItemList & lst, bool selectionChanged );
+
+    /**
      * Helper for statusbar information about selection
      */
-    static QString displayString(int items, int files, long size, int dirs);
+    static QString displayString(uint items, uint files, unsigned long size, uint dirs);
 
 public slots:
     void slotBackgroundColor();
@@ -82,6 +111,10 @@ protected:
      * View properties
      */
     KonqPropsView * m_pProps;
+
+    unsigned long m_lDirSize;
+    uint m_lFileCount;
+    uint m_lDirCount;
 };
 
 #endif

@@ -38,6 +38,10 @@ KonqDirPart::KonqDirPart( QObject *parent, const char *name )
   : KParts::ReadOnlyPart( parent, name ),
     m_pProps( 0L )
 {
+    m_lDirSize = 0;
+    m_lFileCount = 0;
+    m_lDirCount = 0;
+
     connect( QApplication::clipboard(), SIGNAL(dataChanged()), this, SLOT(slotClipboardDataChanged()) );
 }
 
@@ -113,7 +117,74 @@ void KonqDirPart::slotClipboardDataChanged()
     disableIcons( lst );
 }
 
-QString KonqDirPart::displayString(int items, int files, long size, int dirs)
+void KonqDirPart::newItems( const KFileItemList & entries )
+{
+    for (KFileItemListIterator it(entries); it.current(); ++it)
+    {
+        if ( !S_ISDIR( it.current()->mode() ) )
+        {
+            m_lDirSize += it.current()->size();
+            m_lFileCount++;
+        }
+        else
+            m_lDirCount++;
+    }
+}
+
+void KonqDirPart::deleteItem( KFileItem * fileItem )
+{
+    if ( !S_ISDIR( fileItem->mode() ) )
+    {
+        m_lDirSize -= fileItem->size();
+        m_lFileCount--;
+    }
+    else
+        m_lDirCount--;
+}
+
+void KonqDirPart::emitTotalCount()
+{
+    emit setStatusBarText(
+        displayString(m_lFileCount + m_lDirCount,
+                      m_lFileCount,
+                      m_lDirSize,
+                      m_lDirCount));
+}
+
+void KonqDirPart::emitCounts( const KFileItemList & lst, bool selectionChanged )
+{
+    if ( !lst.isEmpty() )
+    {
+        unsigned long fileSizeSum = 0;
+        uint fileCount = 0;
+        uint dirCount = 0;
+
+        for (KFileItemListIterator it( lst ); it.current(); ++it )
+            if ( S_ISDIR( it.current()->mode() ) )
+                dirCount++;
+            else // what about symlinks ?
+            {
+                fileSizeSum += it.current()->size();
+                fileCount++;
+            }
+
+        emit setStatusBarText( displayString(fileCount + dirCount,
+                                             fileCount,
+                                             fileSizeSum,
+                                             dirCount));
+    }
+    else
+        emitTotalCount();
+
+    // Yes, the caller could do that too :)
+    // But this bool could also be used to cache the QString for the last
+    // selection, as long as selectionChanged is false.
+    // Not sure it's worth it though.
+    if ( selectionChanged )
+        emit m_extension->selectionInfo( lst );
+}
+
+QString KonqDirPart::displayString(uint items, uint files, unsigned long size, uint dirs)
 {
     QString text;
     if (items == 1)
