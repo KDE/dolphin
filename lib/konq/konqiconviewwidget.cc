@@ -21,7 +21,6 @@
 #include <qapplication.h>
 #include <qclipboard.h>
 #include <qfile.h>
-#include <qpopupmenu.h>
 #include <qdragobject.h>
 
 #include <kcursor.h>
@@ -37,10 +36,7 @@
 #include <kuserpaths.h>
 
 #include <assert.h>
-#include <X11/Xlib.h>
 #include <unistd.h>
-
-#include <errno.h>
 
 KonqIconViewWidget::KonqIconViewWidget( QWidget * parent, const char * name, WFlags f )
     : KIconView( parent, name, f ),
@@ -129,90 +125,16 @@ KFileItemList KonqIconViewWidget::selectedFileItems()
 }
 
 
-void KonqIconViewWidget::slotDrop( QDropEvent *e )
+void KonqIconViewWidget::slotDrop( QDropEvent *ev )
 {
-    slotDropItem( 0L, e );
+    // Drop on background
+    KonqDrag::doDrop( m_url, ev, this );
 }
 
 void KonqIconViewWidget::slotDropItem( KFileIVI *item, QDropEvent *ev )
 {
-    QStringList lst;
-
-    // URLs ?
-    if ( QUriDrag::decodeToUnicodeUris( ev, lst ) )
-    {
-	if( lst.count() == 0 )
-	{
-	    kDebugWarning(1202,"Oooops, no data ....");
-	    return;
-	}
-
-        // Destination is either the root url or the item url
-        KURL dest( ( item == 0L ) ? m_url : item->item()->url() );
-
-        // Check if we dropped something on itself
-        QStringList::Iterator it = lst.begin();
-        for ( ; it != lst.end() ; it++ )
-            if ( dest.cmp( KURL(*it), true /*ignore trailing slashes*/ ) )
-                return; // do nothing instead of diaplying kfm's annoying error box
-
-        // Check the state of the modifiers key at the time of the drop
-        Window root;
-        Window child;
-        int root_x, root_y, win_x, win_y;
-        uint keybstate;
-        XQueryPointer( qt_xdisplay(), qt_xrootwin(), &root, &child,
-                       &root_x, &root_y, &win_x, &win_y, &keybstate );
-
-        if ( dest.path( 1 ) == KUserPaths::trashPath() )
-            ev->setAction( QDropEvent::Move );
-        else if ( ((keybstate & ControlMask) == 0) && ((keybstate & ShiftMask) == 0) )
-        {
-            // Nor control nor shift are pressed => show popup menu
-            QPopupMenu popup;
-            popup.insertItem( i18n( "&Copy Here" ), 1 );
-            popup.insertItem( i18n( "&Move Here" ), 2 );
-            popup.insertItem( i18n( "&Link Here" ), 3 );
-
-            int result = popup.exec( QPoint( win_x, win_y ) );
-            switch (result) {
-                case 1 : ev->setAction( QDropEvent::Copy ); break;
-                case 2 : ev->setAction( QDropEvent::Move ); break;
-                case 3 : ev->setAction( QDropEvent::Link ); break;
-                default : return;
-            }
-        }
-
-        KIO::Job * job = 0L;
-	switch ( ev->action() ) {
-            case QDropEvent::Move : job = KIO::move( lst, dest ); break;
-            case QDropEvent::Copy : job = KIO::copy( lst, dest ); break;
-            case QDropEvent::Link : KIO::link( lst, dest ); break;
-            default : kDebugError( 1202, "Unknown action %d", ev->action() ); return;
-	}
-        connect( job, SIGNAL( result( KIO::Job * ) ),
-                 SLOT( slotResult( KIO::Job * ) ) );
-        ev->acceptAction(TRUE);
-        ev->accept();
-    }
-    else
-    {
-        QStringList formats;
-
-        for ( int i = 0; ev->format( i ); i++ )
-            if ( *( ev->format( i ) ) )
-                formats.append( ev->format( i ) );
-        if ( formats.count() >= 1 )
-        {
-            if ( item == 0L )
-                KIO::pasteData( m_url, ev->data( formats.first() ) );
-            else
-            {
-                kDebugInfo(1202,"Pasting to %s", item->item()->url().url().ascii() /* item's url */);
-                KIO::pasteData( item->item()->url()/* item's url */, ev->data( formats.first() ) );
-            }
-        }
-    }
+    assert( item );
+    KonqDrag::doDrop( item->item()->url(), ev, this );
 }
 
 void KonqIconViewWidget::drawBackground( QPainter *p, const QRect &r )
