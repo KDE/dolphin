@@ -81,7 +81,7 @@ KonqPropsView::KonqPropsView( KInstance * instance, KonqPropsView * defaultProps
 
   m_textColor = config->readColorEntry( "TextColor" ); // will be set to QColor() if not found
   m_bgColor = config->readColorEntry( "BgColor" ); // will be set to QColor() if not found
-  m_bgPixmapFile = config->readEntry( "BgImage", "" );
+  m_bgPixmapFile = config->readEntry( "BgImage" );
 
   KGlobal::dirs()->addResourceType("tiles",
                                     KGlobal::dirs()->kde_default("data") + "konqueror/tiles/");
