@@ -82,9 +82,23 @@ KonqPropsView::KonqPropsView( KInstance * instance, KonqPropsView * defaultProps
   m_textColor = config->readColorEntry( "TextColor" ); // will be set to QColor() if not found
   m_bgColor = config->readColorEntry( "BgColor" ); // will be set to QColor() if not found
   m_bgPixmapFile = config->readEntry( "BgImage" );
+  kdDebug() << "KonqPropsView::KonqPropsView from \"config\" : BgImage=" << m_bgPixmapFile << endl;
+
+  // colorsConfig is either the local file (.directory) or the application global file
+  // (we want the same colors for all types of view)
+  // The code above reads from the view's config file, for compatibility only.
+  // So now we read the settings from the app global file, if this is the default props
+  if (!defaultProps)
+  {
+      KConfigGroupSaver cgs2(KGlobal::config(), "Settings");
+      m_textColor = KGlobal::config()->readColorEntry( "TextColor", &m_textColor );
+      m_bgColor = KGlobal::config()->readColorEntry( "BgColor", &m_bgColor );
+      m_bgPixmapFile = KGlobal::config()->readEntry( "BgImage", m_bgPixmapFile );
+      kdDebug() << "KonqPropsView::KonqPropsView from KGlobal : BgImage=" << m_bgPixmapFile << endl;
+  }
 
   KGlobal::dirs()->addResourceType("tiles",
-                                    KGlobal::dirs()->kde_default("data") + "konqueror/tiles/");
+                                   KGlobal::dirs()->kde_default("data") + "konqueror/tiles/");
 
   loadPixmap();
 }
@@ -99,8 +113,19 @@ KConfigBase * KonqPropsView::currentConfig()
 
         if (!dotDirectory.isEmpty())
             m_currentConfig = new KSimpleConfig( dotDirectory );
+        // the "else" is when we want to save locally but this is a remote URL -> no save
     }
     return m_currentConfig;
+}
+
+KConfigBase * KonqPropsView::currentColorConfig()
+{
+    // Saving locally ?
+    if ( m_bSaveViewPropertiesLocally && !isDefaultProperties() )
+        return currentConfig(); // Will create it if necessary
+    else
+        // Save color settings in app's file, not in view's file
+        return KGlobal::config();
 }
 
 KonqPropsView::~KonqPropsView()
@@ -109,6 +134,7 @@ KonqPropsView::~KonqPropsView()
 
 bool KonqPropsView::enterDir( const KURL & dir )
 {
+    kdDebug(1203) << "enterDir " << dir.prettyURL() << endl;
   // Can't do that with default properties
   assert( !isDefaultProperties() );
 
@@ -134,7 +160,7 @@ bool KonqPropsView::enterDir( const KURL & dir )
 
   if (dotDirExists)
   {
-    //kdDebug(1203) << "Found .directory file" << endl;
+    kdDebug(1203) << "Found .directory file" << endl;
     KSimpleConfig * config = new KSimpleConfig( dotDirectory, true );
     config->setGroup("URL properties");
 
@@ -146,6 +172,7 @@ bool KonqPropsView::enterDir( const KURL & dir )
     m_textColor = config->readColorEntry( "TextColor", &m_textColor );
     m_bgColor = config->readColorEntry( "BgColor", &m_bgColor );
     m_bgPixmapFile = config->readEntry( "BgImage", m_bgPixmapFile );
+    kdDebug() << "KonqPropsView::enterDir m_bgPixmapFile=" << m_bgPixmapFile << endl;
     loadPixmap();
     delete config;
   }
@@ -153,6 +180,7 @@ bool KonqPropsView::enterDir( const KURL & dir )
   bool configChanged=(m_dotDirExists|| dotDirExists);
   m_dotDirExists = dotDirExists;
   m_currentConfig = 0L; // new dir, not current config for saving yet
+  kdDebug() << "KonqPropsView::enterDir returning " << configChanged << endl;
   return configChanged;
 }
 
@@ -232,11 +260,15 @@ void KonqPropsView::setBgColor( const QColor & color )
     {
         m_defaultProps->setBgColor( color );
     }
-    else if (currentConfig())
+    else
     {
-        KConfigGroupSaver cgs(currentConfig(), currentGroup());
-        currentConfig()->writeEntry( "BgColor", m_bgColor );
-        currentConfig()->sync();
+        KConfigBase * colorConfig = currentColorConfig();
+        if (colorConfig) // 0L when saving locally but remote URL
+        {
+            KConfigGroupSaver cgs(colorConfig, currentGroup());
+            colorConfig->writeEntry( "BgColor", m_bgColor );
+            colorConfig->sync();
+        }
     }
 }
 
@@ -255,11 +287,15 @@ void KonqPropsView::setTextColor( const QColor & color )
     {
         m_defaultProps->setTextColor( color );
     }
-    else if (currentConfig())
+    else
     {
-        KConfigGroupSaver cgs(currentConfig(), currentGroup());
-        currentConfig()->writeEntry( "TextColor", m_textColor );
-        currentConfig()->sync();
+        KConfigBase * colorConfig = currentColorConfig();
+        if (colorConfig) // 0L when saving locally but remote URL
+        {
+            KConfigGroupSaver cgs(colorConfig, currentGroup());
+            colorConfig->writeEntry( "TextColor", m_textColor );
+            colorConfig->sync();
+        }
     }
 }
 
@@ -280,11 +316,15 @@ void KonqPropsView::setBgPixmapFile( const QString & file )
     {
         m_defaultProps->setBgPixmapFile( file );
     }
-    else if (currentConfig())
+    else
     {
-        KConfigGroupSaver cgs(currentConfig(), currentGroup());
-        currentConfig()->writeEntry( "BgImage", file );
-        currentConfig()->sync();
+        KConfigBase * colorConfig = currentColorConfig();
+        if (colorConfig) // 0L when saving locally but remote URL
+        {
+            KConfigGroupSaver cgs(colorConfig, currentGroup());
+            colorConfig->writeEntry( "BgImage", file );
+            colorConfig->sync();
+        }
     }
 }
 

@@ -57,7 +57,7 @@ public:
   /**
    * Is this the instance representing default properties ?
    */
-  bool isDefaultProperties() {
+  bool isDefaultProperties() const {
       // No parent -> we are the default properties
       return m_defaultProps == 0L;
   }
@@ -123,7 +123,10 @@ protected:
   // Current config object for _saving_
   KConfigBase * currentConfig();
 
-  QString currentGroup() {
+  // Current config object for _saving_ settings related to colors
+  KConfigBase * currentColorConfig();
+
+  QString currentGroup() const {
       return isDefaultProperties() ? "Settings" : "URL properties";
   }
 
