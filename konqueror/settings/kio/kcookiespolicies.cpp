@@ -341,19 +341,19 @@ void KCookiesPolicies::save()
   DCOPClient *m_dcopClient = new DCOPClient();
   if( m_dcopClient->attach() )
   {
-     if( !m_dcopClient->send( "kcookiejar", "kcookiejar", "reloadPolicy", QString::null ) )
+     if( !m_dcopClient->send( "kcookiejar", "kcookiejar", "reloadPolicy()", QString::null ) )
         kdDebug(7104) << "Can't communicate with the cookiejar!" << endl;
 
      // Inform http and https slaves about change in cookie policy.
      {
         QByteArray data;
-        QDataStream stream( data, IO_WriteOnly ); 
+        QDataStream stream( data, IO_WriteOnly );
         stream << QString("http");
         m_dcopClient->send( "*", "KIO::Scheduler", "reparseSlaveConfiguration(QString)", data );
      }
      {
         QByteArray data;
-        QDataStream stream( data, IO_WriteOnly ); 
+        QDataStream stream( data, IO_WriteOnly );
         stream << QString("https");
         m_dcopClient->send( "*", "KIO::Scheduler", "reparseSlaveConfiguration(QString)", data );
      }
