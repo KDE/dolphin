@@ -223,6 +223,8 @@ void KonqInfoListViewItem::paintCell( QPainter *_painter, const QColorGroup & _c
     if ( _column == 0 && isSelected() && !lv->allColumnsShowFocus() )
     {
         int newWidth = width( lv->fontMetrics(), lv, _column );
+        if ( newWidth > _width )
+            newWidth = _width;
         if ( pm && !pm->isNull() )
         {
             cg.setBrush( QColorGroup::Base, QBrush( backgroundColor(), *pm ) );

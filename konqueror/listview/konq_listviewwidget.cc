@@ -410,10 +410,12 @@ void KonqBaseListViewWidget::contentsMousePressEvent( QMouseEvent *e )
    else {
       if ( e->button() == LeftButton )
       {
+         if ( !( e->state() & ControlButton ) )
+            setSelected( itemAt( vp ), false );
          m_rubber = new QRect( e->x(), e->y(), 0, 0 );
-	 clearSelection();
-	 emit selectionChanged();
       }
+      if ( e->button() != RightButton )
+         QListView::contentsMousePressEvent( e );
    }
    // Store list of selected items at mouse-press time.
    // This is used when autoscrolling (why?)
