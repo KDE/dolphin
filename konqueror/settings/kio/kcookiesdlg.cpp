@@ -3,13 +3,13 @@
 // First version of cookies configuration by Waldo Bastian <bastian@kde.org>
 // This dialog box created by David Faure <faure@kde.org>
 
-#include <qlayout.h> //CT
+#include <qlayout.h> 
 #include <qradiobutton.h>
-#include <qmessagebox.h>
 
 #include <klocale.h>
 #include <kapp.h>
 #include <kbuttonbox.h>
+#include <kmessagebox.h>
 
 #include "kcookiesdlg.h"
 
@@ -217,9 +217,7 @@ void KCookiesOptions::changePressed()
 
     if (domain.isEmpty())
     {
-    	QMessageBox::warning( 0, i18n("Error"),
-                              i18n("You must enter a domain first !"),
-                              i18n("OK") );
+    	KMessageBox::information( 0, i18n("You must enter a domain first !"));
         return;
     }
 
