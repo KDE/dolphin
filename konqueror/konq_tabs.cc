@@ -585,6 +585,8 @@ void KonqFrameTabs::hideTabBar()
     m_rightWidget->hide();
     tabBar()->hide();
   }
+  m_pPopupMenu->setItemEnabled( BREAKOFF_ID, false );
+  m_pPopupMenu->setItemEnabled( CLOSETAB_ID, false );
 }
 
 void KonqFrameTabs::showTabBar()
