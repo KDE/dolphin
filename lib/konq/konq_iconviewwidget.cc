@@ -628,7 +628,7 @@ void KonqIconViewWidget::startImagePreview( const QStringList &previewSettings, 
     if ((d->bSoundPreviews = previewSettings.contains( "audio/" )) &&
         !d->pSoundPlayer)
     {
-      KLibFactory *factory = KLibLoader::self()->factory("libkonqsound");
+      KLibFactory *factory = KLibLoader::self()->factory("konq_sound");
       if (factory)
         d->pSoundPlayer = static_cast<KonqSoundPlayer *>(
           factory->create(this, 0, "KonqSoundPlayer"));
@@ -660,7 +660,7 @@ void KonqIconViewWidget::startImagePreview( const QStringList &previewSettings, 
     else if (iconSize < 40)
         size = 60;
     else
-        size = 90;
+	size = 90;
 
     d->pPreviewJob = KIO::filePreview( items, size, size, iconSize,
         m_pSettings->textPreviewIconTransparency(), true /* scale */,

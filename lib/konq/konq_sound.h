@@ -21,7 +21,7 @@
 #ifndef __konq_sound_h__
 #define __konq_sound_h__
 
-#include <qobject.h>
+#include <qguardedptr.h>
 
 #include <klibloader.h>
 
@@ -47,7 +47,7 @@ protected:
 		const char *className = "QObject", const QStringList &args = QStringList());
 
 private:
-	KonqSoundPlayerImpl *m_player;
+	QGuardedPtr<KonqSoundPlayerImpl> m_player;
 };
 
 #endif

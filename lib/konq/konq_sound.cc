@@ -110,6 +110,7 @@ KonqSoundFactory::KonqSoundFactory(QObject *parent, const char *name)
 
 KonqSoundFactory::~KonqSoundFactory()
 {
+	delete m_player;
 }
 
 QObject *KonqSoundFactory::createObject(QObject *, const char *,
@@ -126,7 +127,7 @@ QObject *KonqSoundFactory::createObject(QObject *, const char *,
 
 extern "C"
 {
-	KLibFactory *init_libkonqsound()
+	KLibFactory *init_konq_sound()
 	{
 		return new KonqSoundFactory();
 	}
