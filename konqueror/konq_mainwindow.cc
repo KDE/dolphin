@@ -1,7 +1,7 @@
 /* This file is part of the KDE project
    Copyright (C) 1998, 1999 Simon Hausmann <hausmann@kde.org>
    Copyright (C) 2000 Carsten Pfeiffer <pfeiffer@kde.org>
-   Copyright (C) 2000-2004 David Faure <faure@kde.org>
+   Copyright (C) 2000-2005 David Faure <faure@kde.org>
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public
@@ -401,24 +401,34 @@ void KonqMainWindow::removeContainer( QWidget *container, QWidget *parent, QDomE
   KParts::MainWindow::removeContainer( container, parent, element, id );
 }
 
+// Detect a name filter (e.g. *.txt) in the url.
+// Note that KShortURIFilter does the same, but we have no way of getting it from there
+//
 // Note: this removes the filter from the URL.
-QString KonqMainWindow::detectNameFilter( QString & url )
+static QString detectNameFilter( KURL & url )
 {
+    if ( !KProtocolInfo::supportsListing(url) )
+        return QString::null;
+
     // Look for wildcard selection
     QString nameFilter;
-
-    int pos = url.findRev( '/' );
-
-    if ( pos > -1 )
+    QString path = url.path();
+    int lastSlash = path.findRev( '/' );
+    if ( lastSlash > -1 )
     {
-      QString lastbit = url.mid( pos + 1 );
-
-      if ( lastbit.find( '*' ) != -1 )
-      {
-        nameFilter = lastbit;
-        url = url.left( pos + 1 );
-        kdDebug(1202) << "Found wildcard. nameFilter=" << nameFilter << "  New url=" << url << endl;
-      }
+        if ( !url.query().isEmpty() && lastSlash == (int)path.length()-1 ) {  //  In /tmp/?foo, foo isn't a query
+            path += url.query(); // includes the '?'
+            url.setQuery( QString::null );
+        }
+        QString fileName = path.mid( lastSlash + 1 );
+        QString testPath = path.left( lastSlash + 1 );
+        if ( ( fileName.find( '*' ) != -1 || fileName.find( '[' ) != -1 || fileName.find( '?' ) != -1 )
+             && ( !url.isLocalFile() || QFile::exists( testPath ) ) )
+        {
+            nameFilter = fileName;
+            url.setFileName( QString::null );
+            kdDebug(1202) << "Found wildcard. nameFilter=" << nameFilter << "  New url=" << url << endl;
+        }
     }
 
     return nameFilter;
@@ -482,15 +492,11 @@ void KonqMainWindow::openURL( KonqView *_view, const KURL &_url,
       return;
   }
 
-  if ( KProtocolInfo::supportsListing(url) )
+  QString nameFilter = detectNameFilter( url );
+  if ( !nameFilter.isEmpty() )
   {
-    QString urlStr = url.url();
-    QString nameFilter = detectNameFilter( urlStr );
-    if ( !nameFilter.isEmpty() )
-    {
-      req.nameFilter = nameFilter;
-      url.setFileName( QString::null );
-    }
+    req.nameFilter = nameFilter;
+    url.setFileName( QString::null );
   }
 
   KonqView *view = _view;
@@ -1581,11 +1587,11 @@ void KonqMainWindow::slotViewModeToggle( bool toggle )
   if ( !bQuickViewModeChange )
   {
     m_currentView->changeViewMode( m_currentView->serviceType(), modeName );
-    QString locURL( locationBarURL );
+    KURL locURL( locationBarURL );
     QString nameFilter = detectNameFilter( locURL );
     if( m_currentView->part()->inherits( "KonqDirPart" ) )
        static_cast<KonqDirPart*>( m_currentView->part() )->setFilesToSelect( filesToSelect );
-    m_currentView->openURL( KURL( locURL ), locationBarURL, nameFilter );
+    m_currentView->openURL( locURL, locationBarURL, nameFilter );
   }
 
   // Now save this setting, either locally or globally (for directories only)
@@ -4889,7 +4895,7 @@ void KonqMainWindow::updateViewModeActions()
           QString text = itname;
           QString icon = (*it)->icon();
           QCString name = (*it)->desktopEntryName().latin1();
-          kdDebug(1202) << " Creating action for " << library << ". Default service " << itname << endl;
+          //kdDebug(1202) << " Creating action for " << library << ". Default service " << itname << endl;
 
           // if we previously changed the viewmode (see slotViewModeToggle!)
           // then we will want to use the previously used settings (previous as

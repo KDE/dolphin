@@ -514,8 +514,6 @@ protected slots:
   void slotUpdateFullScreen( bool set ); // do not call directly
 
 protected:
-  static QString detectNameFilter( QString & url );
-
   virtual bool eventFilter(QObject*obj,QEvent *ev);
 
   void fillHistoryPopup( QPopupMenu *menu, const QPtrList<HistoryEntry> &history );
