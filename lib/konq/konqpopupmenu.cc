@@ -249,7 +249,7 @@ KonqPopupMenu::KonqPopupMenu( const KFileItemList &items,
       }
     */
 
-    if ( ( act = m_actions.action("delete") ) )
+    if ( ( act = m_actions.action("del") ) )
       act->plug( this );
     /*
       if ( sDeleting && !currentDir && m_bHandleEditOperations )
