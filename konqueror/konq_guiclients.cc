@@ -257,7 +257,7 @@ void ToggleViewGUIClient::slotToggleView( bool toggle )
     QListIterator<KonqView> it( viewList );
     for (; it.current(); ++it )
       if ( it.current()->service()->desktopEntryName() == serviceName )
-        // takes care of choosing the new active view
+        // takes care of choosing the new active view, and also calls slotViewRemoved
         viewManager->removeView( it.current() );
   }
 
