@@ -1968,7 +1968,7 @@ static const char *toggleViewGUI = ""
 "<!DOCTYPE toggleviewxml>"
 "<toggleviewxml name=\"toggleview\">"
 "<MenuBar>"
-" <Menu name=\"view\">"
+" <Menu name=\"settings\">"
 " </Menu>"
 "</MenuBar>"
 "</toggleviewxml>";

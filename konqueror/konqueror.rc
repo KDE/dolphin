@@ -25,13 +25,11 @@
   <Merge/>
  </Menu>
  <Menu name="view"><text>&amp;View</text>
+  <Merge name="viewmode"/>
   <Action name="usehtml"/>
-  <Merge name="toggleview" />
   <Separator/>
   <Action name="reload"/>
   <Action name="stop" />
-  <WeakSeparator/>
-  <Merge name="viewmode"/>
   <WeakSeparator/>
   <Merge/>
  </Menu>
@@ -48,22 +46,26 @@
   <Separator/>
  </Menu>
  <Action name="bookmarks"/>
- <Menu name="options"><text>&amp;Options</text>
+ <Menu name="settings"><text>&amp;Settings</text>
   <Action name="showmenubar"/>
   <Action name="showtoolbar"/>
   <Action name="showlocationbar"/>
   <Action name="showbookmarkbar"/>
   <Separator/>
+  <Merge name="toggleview" />
+  <Separator/>
   <Action name="savePropertiesAsDefault"/>
   <Action name="saveLocalProperties"/>
   <Separator/>
-  <Action name="configurefilemanager"/>
-  <Action name="configurebrowser"/>
-  <Action name="configurefiletypes"/>
-  <Action name="configurenetwork"/>
-  <Separator/>
-  <Action name="configurekeys"/>
-  <Action name="configuretoolbars"/>
+  <Menu name="configure"><text>&amp;Configure</text>
+    <Action name="configurefilemanager"/>
+    <Action name="configurebrowser"/>
+    <Action name="configurefiletypes"/>
+    <Action name="configurenetwork"/>
+    <Separator/>
+    <Action name="configurekeys"/>
+    <Action name="configuretoolbars"/>
+  </Menu>
  </Menu>
  <Menu name="window"><text>&amp;Window</text>
   <Action name="splitviewh"/>
