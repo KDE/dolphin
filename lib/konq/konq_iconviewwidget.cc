@@ -1636,6 +1636,7 @@ void KonqIconViewWidget::lineupIcons()
         items.append(item);
 
     int size;
+    int iconSize = m_size ? m_size : KGlobal::iconLoader()->currentSize(  KIcon::Desktop );
 
     if ( d->bDesktopLargeGrid ) {
         // make a large preview fit into the grid
@@ -1645,7 +1646,7 @@ void KonqIconViewWidget::lineupIcons()
         d->bBoostPreview = boost;
     }
     else
-        size = m_size ? m_size : KGlobal::iconLoader()->currentSize( KIcon::Desktop );
+        size = iconSize;
 
     int dx = QMAX( size + 15, gridXValue() );
     int dy = 2 * fontMetrics().height() + size + spacing();
@@ -1671,10 +1672,6 @@ void KonqIconViewWidget::lineupIcons()
     kdDebug(1203) << "dx = " << dx << ", dy = " << dy << "\n";
 
     int itemWidth = dx - 2 * spacing();
-    if ( maxItemWidth() != itemWidth ) {
-        setMaxItemWidth( itemWidth );
-        setFont( font() );  // Force calcRect()
-    }
 
     // Create a grid of (ny x nx) bins.
     typedef QValueList<QIconViewItem*> Bin;
@@ -1691,7 +1688,7 @@ void KonqIconViewWidget::lineupIcons()
     for ( it = items.begin(); it != items.end(); it++ ) {
         QIconViewItem* item = *it;
         int x = item->x() + item->width() / 2 - x1;
-        int y = item->y() + item->height() / 2 - y1;
+        int y = item->pixmapRect( false ).bottom() - iconSize / 2 - y1;
         int posX = QMIN( nx-1, QMAX( 0, x / dx ) );
         int posY = QMIN( ny-1, QMAX( 0, y / dy ) );
 
@@ -1837,18 +1834,24 @@ void KonqIconViewWidget::lineupIcons()
     }
 
     // repaint
-    QMemArray<QRect> rects = repaintRegion.rects();
-    for ( uint l = 0; l < rects.count(); l++ ) {
-        kdDebug( 1203 ) << "Repainting (" << rects[l].x() << ","
-                        << rects[l].y() << ")\n";
-        repaintContents( rects[l], false );
+    if ( maxItemWidth() != itemWidth ) {
+        setMaxItemWidth( itemWidth );
+        setFont( font() );  // Force calcRect()
+        updateContents();
     }
-    while ( !movedItems.isEmpty() ) {
-        repaintItem( movedItems.first() );
-        movedItems.remove( movedItems.first() );
+    else {
+        // Repaint only repaintRegion...
+        QMemArray<QRect> rects = repaintRegion.rects();
+        for ( uint l = 0; l < rects.count(); l++ ) {
+            kdDebug( 1203 ) << "Repainting (" << rects[l].x() << ","
+                            << rects[l].y() << ")\n";
+            repaintContents( rects[l], false );
+        }
+        while ( !movedItems.isEmpty() ) {
+            repaintItem( movedItems.first() );
+            movedItems.remove( movedItems.first() );
+        }
     }
-
-    //updateContents();
 }
 
 int KonqIconViewWidget::previewIconSize( int size ) const
