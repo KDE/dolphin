@@ -171,6 +171,10 @@ protected:
   KAction *m_paSelectAll;
   KAction *m_paUnselectAll;
 
+  long m_lDirSize;
+  long m_lFileCount;
+  long m_lDirCount;
+
   IconEditExtension *m_extension;
 
   KonqIconViewWidget *m_pIconView;

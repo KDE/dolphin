@@ -294,6 +294,10 @@ KonqKfmIconView::KonqKfmIconView()
   m_eSortCriterion = NameCaseInsensitive;
 
   m_paImagePreview->setChecked( m_pProps->m_bImagePreview );
+
+  m_lDirSize = 0;
+  m_lFileCount = 0;
+  m_lDirCount = 0;
 }
 
 KonqKfmIconView::~KonqKfmIconView()
@@ -623,10 +627,20 @@ void KonqKfmIconView::slotCompleted()
   {
     m_pIconView->alignItemsInGrid();
   }
+
+  slotOnViewport();
 }
 
 void KonqKfmIconView::slotNewItem( KFileItem * _fileitem )
 {
+  if ( !S_ISDIR( _fileitem->mode() ) )
+  {
+    m_lDirSize += _fileitem->size();
+    m_lFileCount++;
+  }
+  else
+    m_lDirCount++;
+
 //  kdebug( KDEBUG_INFO, 1202, "KonqKfmIconView::slotNewItem(...)");
   KFileIVI* item = new KFileIVI( m_pIconView, _fileitem,
                                  m_pIconView->size(), m_pProps->m_bImagePreview );
@@ -652,6 +666,14 @@ void KonqKfmIconView::slotNewItem( KFileItem * _fileitem )
 
 void KonqKfmIconView::slotDeleteItem( KFileItem * _fileitem )
 {
+  if ( !S_ISDIR( _fileitem->mode() ) )
+  {
+    m_lDirSize -= _fileitem->size();
+    m_lFileCount--;
+  }
+  else
+    m_lDirCount--;
+
   //kdebug( KDEBUG_INFO, 1202, "KonqKfmIconView::slotDeleteItem(...)");
   // we need to find out the iconcontainer item containing the fileitem
   QIconViewItem *it = m_pIconView->firstItem();
@@ -697,6 +719,9 @@ void KonqKfmIconView::openURL( const QString &_url, bool /*reload*/, int xOffset
   m_iXOffset = xOffset;
   m_iYOffset = yOffset;
   m_bLoading = true;
+  m_lDirSize = 0;
+  m_lFileCount = 0;
+  m_lDirCount = 0;
 
   KURL u( _url );
   // Start the directory lister !
@@ -735,7 +760,7 @@ void KonqKfmIconView::slotOnItem( QIconViewItem *item )
 
 void KonqKfmIconView::slotOnViewport()
 {
-  emit setStatusBarText( QString::null );
+  emit setStatusBarText( i18n( "%1 Item(s) - %2 File(s) (%3 total) - %4 Directories" ).arg( m_pIconView->count() ).arg( m_lFileCount ).arg( KIOJob::convertSize( m_lDirSize ) ).arg( m_lDirCount ) );
 }
 
 void KonqKfmIconView::setupSortKeys()
