@@ -82,23 +82,21 @@ class KHTMLSideBar : public KHTMLPart
 				int state, const QString &_target,
 				KParts::URLArgs args = KParts::URLArgs()) {
 			if (button == LeftButton ){
-				if( _target.lower() == "_self" ) {
-					openURL( url );
-				} else if ( _target.lower() == "_blank" ) {
-					emit openURLNewWindow(completeURL(url).url(),
-								args);
-				} else {
-					emit openURLRequest(completeURL(url).url(),
-							args);
+				if (_target.lower() == "_self") {
+					openURL(url);
+				} else if (_target.lower() == "_blank") {
+					emit openURLNewWindow(completeURL(url).url(), args);
+				} else { // isEmpty goes here too
+					emit openURLRequest(completeURL(url).url(), args);
 				}
 				return;
 			}
 			if (button == MidButton) {
 				emit openURLNewWindow(completeURL(url).url(),
-							args);
+						args);
 				return;
 			}
-				// A refresh
+			// A refresh
 			if (button == 0 && _target.lower() == "_self") {
 				openURL(completeURL(url));
 				return;
@@ -146,10 +144,10 @@ class KHTMLSideBar : public KHTMLPart
 
 			// Some sites seem to use empty targets to send to the
 			// main frame.
-			if (t.isEmpty() || t == "_content") {
+			if (t == "_content") {
 				emit submitFormRequest(action, u, formData,
 						target, contentType, boundary);
-			} else if (t == "_self") {
+			} else if (t.isEmpty() || t == "_self") {
 				setFormNotification(KHTMLPart::NoNotification);
 				submitFormProxy(action, u, formData, target,
 						contentType, boundary);
