@@ -1230,14 +1230,6 @@ void KonqMainView::initActions()
 
   m_paPrint = KStdAction::print( 0L, 0, actionCollection(), "print" );
 
-  // Edit menu
-  m_pamEdit = new KActionMenu( i18n( "&Edit" ), actionCollection(), "edit" );
-
-  // View menu
-  m_pamView = new KActionMenu( i18n( "&View" ), actionCollection(), "view" );
-
-  QPopupMenu *popup = m_pamView->popupMenu();
-
   m_ptaUseHTML = new KToggleAction( i18n( "&Use HTML" ), 0, this, SLOT( slotShowHTML() ), actionCollection(), "usehtml" );
   m_ptaShowDirTree = new KToggleAction( i18n( "Show Directory Tree" ), 0, actionCollection(), "showdirtree" );
   connect( m_ptaShowDirTree, SIGNAL( toggled( bool ) ), this, SLOT( slotToggleDirTree( bool ) ) );
@@ -1310,14 +1302,6 @@ void KonqMainView::initActions()
   m_paTrash = new KAction( i18n( "&Move to Trash" ), QIconSet( BarIcon( "trash", KonqFactory::instance() ) ), 0, this, SLOT( slotTrash() ), actionCollection(), "trash" );
   m_paDelete = new KAction( i18n( "&Delete" ), CTRL+Key_Delete, this, SLOT( slotDelete() ), actionCollection(), "del" );
 
-  m_paCut->plug( m_pamEdit->popupMenu() );
-  m_paCopy->plug( m_pamEdit->popupMenu() );
-  m_paPaste->plug( m_pamEdit->popupMenu() );
-  m_paTrash->plug( m_pamEdit->popupMenu() );
-  m_paDelete->plug( m_pamEdit->popupMenu() );
-
-  m_pamEdit->popupMenu()->insertSeparator();
-
   m_paAnimatedLogo = new KonqLogoAction( QString::null, QIconSet( *s_plstAnimatedLogo->at( 0 ) ), 0, this, SLOT( slotNewWindow() ), actionCollection(), "animated_logo" );
 
   m_paURLCombo = new KonqComboAction( i18n( "Location " ), 0, this, SLOT( slotURLEntered( const QString & ) ), actionCollection(), "toolbar_url_combo" );
@@ -1325,9 +1309,6 @@ void KonqMainView::initActions()
            this, SLOT( slotComboPlugged() ) );
 
   m_paBookmarkBar = new KonqBookmarkBar( "BookmarkBar", 0, this, actionCollection(), "toolbar_bookmark" );
-
-  m_paReload->plug( popup );
-  m_paStop->plug( popup );
 
   // Bookmarks menu
   m_pamBookmarks = new KActionMenu( i18n( "&Bookmarks" ), actionCollection(), "bookmarks" );

@@ -242,8 +242,6 @@ private:
 
   KAction *m_paPrint;
 
-  KActionMenu *m_pamEdit;
-  KActionMenu *m_pamView;
   KActionMenu *m_pamBookmarks;
 
   KonqHistoryAction *m_paUp;

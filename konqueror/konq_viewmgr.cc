@@ -222,8 +222,6 @@ void KonqViewManager::removeView( KonqChildView *view )
   if( moveOtherChild )
     grandParentContainer->moveToFirst( otherFrame->widget() );
 
-//   m_pMainContainer->setGeometry( 0, 0, m_pMainContainer->width(), m_pMainContainer->height()+1 );
-//   m_pMainContainer->setGeometry( 0, 0, m_pMainContainer->width(), m_pMainContainer->height()-1 );
 }
 
 void KonqViewManager::saveViewProfile( KConfig &cfg )
@@ -231,7 +229,6 @@ void KonqViewManager::saveViewProfile( KConfig &cfg )
   kdebug(0, 1202, "KonqViewManager::saveViewProfile");
   if( m_pMainContainer->firstChild() ) {
     cfg.writeEntry( "RootItem", m_pMainContainer->firstChild()->frameType() + QString("%1").arg( 0 ) );
-//    cfg.setGroup(  m_pMainContainer->firstChild()->frameType() + QString("%1").arg( 0 ) );
     QString prefix = m_pMainContainer->firstChild()->frameType() + QString("%1").arg( 0 );
     prefix.append( '_' );
     m_pMainContainer->firstChild()->saveConfig( &cfg, prefix, 0, 1 );
@@ -270,13 +267,11 @@ void KonqViewManager::loadViewProfile( KConfig &cfg )
   if ( childView->passiveMode() )
   {
     KonqChildView *nextChildView = chooseNextView( childView );
-    //    m_pMainView->setActiveView( nextChildView->view() );
     setActivePart( nextChildView->view() );
     if ( lst.count() == 2 )
       nextChildView->frame()->header()->passiveModeCheckBox()->hide();
   }
   else
-  //    m_pMainView->setActiveView( view );
     setActivePart( view );
 
   if ( lst.count() == 1 && !childView->passiveMode() )
@@ -289,7 +284,6 @@ void KonqViewManager::loadItem( KConfig &cfg, KonqFrameContainer *parent,
   QString prefix;
   if( name != "InitialView" )
     prefix = name + '_';
-//    cfg.setGroup( name );
 
   kdebug(0, 1202, "begin loadItem: %s",name.data() );
 
@@ -436,46 +430,6 @@ KonqChildView *KonqViewManager::chooseNextView( KonqChildView *view )
 
 }
 
-/*
-bool KonqViewManager::eventFilter( QObject *obj, QEvent *ev )
-{
-  if ( ev->type() == QEvent::MouseButtonPress ||
-       ev->type() == QEvent::MouseButtonDblClick )
-  {
-    if ( !obj->isWidgetType() )
-      return false;
-
-    QWidget *w = (QWidget *)obj;
-
-    if ( ( w->testWFlags( WStyle_Dialog ) && w->isModal() ) ||
-           w->testWFlags( WType_Popup ) )
-      return false;
-
-    while ( w )
-    {
-
-      // check for the correct type and see if we "own" the view
-      if ( w->inherits( "BrowserView" ) && m_pMainView->childView( (BrowserView *)w ) &&
-           ((BrowserView *)w) != m_pMainView->currentView() )
-      {
-        m_pMainView->setActiveView( (BrowserView *)w );
-        return false;
-      }
-
-      w = w->parentWidget();
-
-      if ( w && ( ( w->testWFlags( WStyle_Dialog ) && w->isModal() ) ||
-                  w->testWFlags( WType_Popup ) ) )
-          return false;
-
-    }
-
-  }
-
-  return false;
-}
-*/
-
 void KonqViewManager::setProfiles( KActionMenu *profiles )
 {
   m_pamProfiles = profiles;
@@ -541,7 +495,6 @@ KonqChildView *KonqViewManager::setupView( KonqFrameContainer *parentContainer,
 
   v->lockHistory();
 
-  //if (isVisible()) v->show();
   newViewFrame->show();
 
   addPart( v->view(), false );

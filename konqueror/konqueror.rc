@@ -29,6 +29,7 @@
   <Action name="showdirtree"/>
   <Separator/>
   <Action name="reload"/>
+  <Action name="stop" />
   <Separator/>
   <Merge/>
  </Menu>
