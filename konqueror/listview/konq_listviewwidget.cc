@@ -781,6 +781,10 @@ void KonqBaseListViewWidget::slotDeleteItem( KFileItem * _fileitem )
     {
       m_pBrowserView->lstPendingMimeIconItems().remove( &(*it) );
       delete &(*it);
+      // HACK HACK HACK: QListViewItem/KonqBaseListViewItem should
+      // take care and the source looks like it does; till the
+      // real bug is found, this fixes some crashes (malte)
+      emit selectionChanged();
       return;
     }
 
