@@ -401,7 +401,7 @@ KMacroCommand* CmdGen::setAsToolbar(const KBookmark &bk) {
    return mcmd;
 }
 
-KMacroCommand* CmdGen::deleteItems(QString commandName, QPtrList<KEBListViewItem> *items) {
+KMacroCommand* CmdGen::deleteItems(const QString &commandName, QPtrList<KEBListViewItem> *items) {
    QPtrListIterator<KEBListViewItem> it(*items);
    KMacroCommand *mcmd = new KMacroCommand(commandName);
    for (; it.current() != 0; ++it) {

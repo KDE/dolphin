@@ -212,7 +212,7 @@ public slots:
   // Those slots are automatically connected by the shell
   void reparseConfiguration();
   void setSaveViewPropertiesLocally( bool value );
-  void setNameFilter( QString nameFilter );
+  void setNameFilter( const QString &nameFilter );
 
   void refreshMimeTypes() { m_iconView->iconViewWidget()->refreshMimeTypes(); }
 

@@ -268,8 +268,8 @@ public:
   KonqFrameContainerBase* parentContainer()const;
   void setParentContainer(KonqFrameContainerBase* parent);
 
-  void setTitle( QString title , QWidget* sender);
-  void setTabIcon( QString url, QWidget* sender );
+  void setTitle( const QString &title , QWidget* sender);
+  void setTabIcon( const QString &url, QWidget* sender );
 
   QWidget* widget();
 

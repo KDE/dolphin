@@ -53,8 +53,7 @@ class ImportCommand : public QObject, public KCommand
    Q_OBJECT
 public:
    ImportCommand()
-      : KCommand(), m_fileName(QString::null), m_folder(false),
-                    m_icon(QString::null), m_cleanUpCmd(0L), m_utf8(false)
+      : KCommand(), m_folder(false), m_cleanUpCmd(0L), m_utf8(false)
    { ; }
 
    virtual void import(const QString &fileName, bool folder) = 0;

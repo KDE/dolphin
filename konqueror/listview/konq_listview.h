@@ -195,7 +195,7 @@ class ListViewBrowserExtension : public KonqDirPartBrowserExtension
 
       void reparseConfiguration();
       void setSaveViewPropertiesLocally( bool value );
-      void setNameFilter( QString nameFilter );
+      void setNameFilter( const QString &nameFilter );
       // void refreshMimeTypes is missing
 
       void properties();

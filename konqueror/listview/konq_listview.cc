@@ -197,7 +197,7 @@ void ListViewBrowserExtension::setSaveViewPropertiesLocally(bool value)
    m_listView->props()->setSaveViewPropertiesLocally( value );
 }
 
-void ListViewBrowserExtension::setNameFilter( QString nameFilter )
+void ListViewBrowserExtension::setNameFilter( const QString &nameFilter )
 {
   m_listView->setNameFilter( nameFilter );
 }

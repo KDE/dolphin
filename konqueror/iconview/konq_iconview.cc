@@ -151,7 +151,7 @@ void IconViewBrowserExtension::setSaveViewPropertiesLocally( bool value )
   m_iconView->m_pProps->setSaveViewPropertiesLocally( value );
 }
 
-void IconViewBrowserExtension::setNameFilter( QString nameFilter )
+void IconViewBrowserExtension::setNameFilter( const QString &nameFilter )
 {
   //kdDebug(1202) << "IconViewBrowserExtension::setNameFilter " << nameFilter << endl;
   m_iconView->m_nameFilter = nameFilter;

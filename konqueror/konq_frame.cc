@@ -418,13 +418,13 @@ void KonqFrame::setView( KonqView* child )
    }
 };
 
-void KonqFrame::setTitle( QString title , QWidget* /*sender*/)
+void KonqFrame::setTitle( const QString &title , QWidget* /*sender*/)
 {
   //kdDebug(1202) << "KonqFrame::setTitle( " << title << " )" << endl;
   if (m_pParentContainer) m_pParentContainer->setTitle( title , this);
 }
 
-void KonqFrame::setTabIcon( QString url, QWidget* /*sender*/ )
+void KonqFrame::setTabIcon( const QString &url, QWidget* /*sender*/ )
 {
   //kdDebug(1202) << "KonqFrame::setTabIcon( " << url << " )" << endl;
   if (m_pParentContainer) m_pParentContainer->setTabIcon( url, this );
@@ -610,13 +610,13 @@ void KonqFrameContainer::swapChildren()
   m_pSecondChild = firstCh;
 }
 
-void KonqFrameContainer::setTitle( QString title , QWidget* sender)
+void KonqFrameContainer::setTitle( const QString &title , QWidget* sender)
 {
   //kdDebug(1202) << "KonqFrameContainer::setTitle( " << title << " , " << sender << " )" << endl;
   if (m_pParentContainer && activeChild() && (sender == activeChild()->widget())) m_pParentContainer->setTitle( title , this);
 }
 
-void KonqFrameContainer::setTabIcon( QString url, QWidget* sender )
+void KonqFrameContainer::setTabIcon( const QString &url, QWidget* sender )
 {
   //kdDebug(1202) << "KonqFrameContainer::setTabIcon( " << url << " , " << sender << " )" << endl;
   if (m_pParentContainer && activeChild() && (sender == activeChild()->widget())) m_pParentContainer->setTabIcon( url, this );
@@ -790,7 +790,7 @@ void KonqFrameTabs::reparentFrame( QWidget* parent, const QPoint & p, bool showI
   QWidget::reparent( parent, p, showIt );
 }
 
-void KonqFrameTabs::setTitle( QString title , QWidget* sender)
+void KonqFrameTabs::setTitle( const QString &title , QWidget* sender)
 {
   // kdDebug(1202) << "KonqFrameTabs::setTitle( " << title << " , " << sender << " )" << endl;
   QString newTitle = title;
@@ -806,7 +806,7 @@ void KonqFrameTabs::setTitle( QString title , QWidget* sender)
     changeTab( sender , newTitle );
 }
 
-void KonqFrameTabs::setTabIcon( QString url, QWidget* sender )
+void KonqFrameTabs::setTabIcon( const QString &url, QWidget* sender )
 {
   //kdDebug(1202) << "KonqFrameTabs::setTabIcon( " << url << " , " << sender << " )" << endl;
   QIconSet iconSet = QIconSet( KonqPixmapProvider::self()->pixmapFor( url ) );

@@ -21,9 +21,14 @@
 #include <kdebug.h>
 
 
-KonqSidebarPlugin::KonqSidebarPlugin(KInstance *instance,QObject *parent,QWidget * /*widgetParent*/,QString &desktopName_, const char* name):QObject(parent,name),desktopName(desktopName_){m_parentInstance=instance;}
+KonqSidebarPlugin::KonqSidebarPlugin(KInstance *instance,QObject *parent,
+	QWidget * /*widgetParent*/,const QString &desktopName_, const char* name)
+	: QObject(parent,name), desktopName(desktopName_)
+{
+  m_parentInstance=instance;
+}
 
-KonqSidebarPlugin::~KonqSidebarPlugin(){;}
+KonqSidebarPlugin::~KonqSidebarPlugin() { }
 
 KInstance *KonqSidebarPlugin::parentInstance(){return m_parentInstance;}
 

@@ -311,7 +311,7 @@ public slots:
    */
   void setIconURL( const KURL &iconURL );
 
-  void setTabIcon( QString url );
+  void setTabIcon( const QString &url );
 
   void setCaption( const QString & caption );
 

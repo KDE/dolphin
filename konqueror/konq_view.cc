@@ -553,7 +553,7 @@ void KonqView::setIconURL( const KURL & iconURL )
   m_bGotIconURL = true;
 }
 
-void KonqView::setTabIcon( QString url )
+void KonqView::setTabIcon( const  QString &url )
 {
   if (!m_bPassiveMode) frame()->setTabIcon( url, 0L );
 }
