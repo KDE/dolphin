@@ -366,7 +366,7 @@ void ListView::fillWithGroup(KBookmarkGroup group, KEBListViewItem *parentItem) 
       tree->QListViewItem::setOpen(true);
       return;
    }
-   KEBListViewItem *lastItem = parentItem;
+   KEBListViewItem *lastItem = 0;
    for (KBookmark bk = group.first(); !bk.isNull(); bk = group.next(bk)) {
       KEBListViewItem *item = 0;
       if (bk.isGroup()) {
@@ -383,7 +383,8 @@ void ListView::fillWithGroup(KBookmarkGroup group, KEBListViewItem *parentItem) 
          lastItem = item;
 
       } else {
-         item = new KEBListViewItem(parentItem, lastItem, bk);
+         item = lastItem ? new KEBListViewItem(parentItem, lastItem, bk)
+                         : new KEBListViewItem(parentItem, bk);
          lastItem = item;
       }
    }
@@ -481,6 +482,42 @@ QDragObject *KEBListView::dragObject() {
 }
 
 /* -------------------------------------- */
+
+// toplevel item (there should be only one!)
+KEBListViewItem::KEBListViewItem(QListView *parent, const KBookmark &group)
+   : QListViewItem(parent, i18n("Bookmarks")), m_bookmark(group), m_emptyFolder(false) {
+
+   setPixmap(0, SmallIcon("bookmark"));
+   setExpandable(true);
+}
+
+// empty folder item
+KEBListViewItem::KEBListViewItem(KEBListViewItem *parent, QListViewItem *after)
+    : QListViewItem(parent, after, i18n("Empty folder") ), m_emptyFolder(true) {
+
+   setPixmap(0, SmallIcon("bookmark"));
+}
+
+// group
+KEBListViewItem::KEBListViewItem(KEBListViewItem *parent, QListViewItem *after, const KBookmarkGroup &gp)
+   : QListViewItem(parent, after, gp.fullText()), m_bookmark(gp), m_emptyFolder(false) {
+
+   setExpandable(true);
+   normalConstruct(gp);
+}
+
+// bookmark (first of its group)
+KEBListViewItem::KEBListViewItem(KEBListViewItem *parent, const KBookmark & bk)
+   : QListViewItem(parent, bk.fullText(), bk.url().prettyURL()), m_bookmark(bk), m_emptyFolder(false) {
+
+   normalConstruct(bk);
+}
+
+// bookmark (after another)
+KEBListViewItem::KEBListViewItem(KEBListViewItem *parent, QListViewItem *after, const KBookmark &bk)
+   : QListViewItem(parent, after, bk.fullText(), bk.url().prettyURL()), m_bookmark(bk), m_emptyFolder(false) {
+   normalConstruct(bk);
+}
 
 void KEBListViewItem::setOpen(bool open) {
    m_bookmark.internalElement().setAttribute("folded", open ? "no" : "yes");

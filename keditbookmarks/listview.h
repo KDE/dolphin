@@ -60,42 +60,11 @@ private:
    }
 
 public:
-   // toplevel item (there should be only one!)
-   KEBListViewItem(QListView *parent, const KBookmark &group)
-      : QListViewItem(parent, i18n("Bookmarks")), m_bookmark(group), m_emptyFolder(false) {
-
-      setPixmap(0, SmallIcon("bookmark"));
-      setExpandable(true);
-   }
-
-   // empty folder item
-   KEBListViewItem(KEBListViewItem *parent, QListViewItem *after)
-       : QListViewItem(parent, after, i18n("Empty folder") ), m_emptyFolder(true) {
-
-      setPixmap(0, SmallIcon("bookmark"));
-   }
-
-   // group
-   KEBListViewItem(KEBListViewItem *parent, QListViewItem *after, const KBookmarkGroup &gp)
-      : QListViewItem(parent, after, gp.fullText()), m_bookmark(gp), m_emptyFolder(false) {
-
-      setExpandable(true);
-      normalConstruct(gp);
-   }
-
-   // bookmark (first of its group)
-   KEBListViewItem(KEBListViewItem *parent, const KBookmark & bk)
-      : QListViewItem(parent, bk.fullText(), bk.url().prettyURL()), m_bookmark(bk), m_emptyFolder(false) {
-
-      normalConstruct(bk);
-   }
-
-   // bookmark (after another)
-   KEBListViewItem(KEBListViewItem *parent, QListViewItem *after, const KBookmark &bk)
-      : QListViewItem(parent, after, bk.fullText(), bk.url().prettyURL()), m_bookmark(bk), m_emptyFolder(false) {
-
-      normalConstruct(bk);
-   }
+   KEBListViewItem(QListView *, const KBookmark &);
+   KEBListViewItem(KEBListViewItem *, QListViewItem *);
+   KEBListViewItem(KEBListViewItem *, QListViewItem *, const KBookmarkGroup &);
+   KEBListViewItem(KEBListViewItem *, const KBookmark &);
+   KEBListViewItem(KEBListViewItem *, QListViewItem *, const KBookmark &);
 
    void nsPut(QString nm);
 
