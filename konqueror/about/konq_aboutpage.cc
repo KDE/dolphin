@@ -257,9 +257,9 @@ QString KonqAboutPageFactory::tips()
 		      "Left/Right) you can make Konqueror appear the way you like. You"
 		      " can even load some example view-profiles (e.g. Midnight Commander)"
 		      ", or create your own ones." ).arg(view_left_right_icon_path))
-	  .arg( i18n( "Use the <A HREF=\"%1\">user-agent</A> feature if the website you're visiting "
+	  .arg( i18n( "Use the <A HREF=\"%1\">user-agent</A> feature if the website you are visiting "
                       "asks you to use a different browser "
-		      "(and don't forget to send a complaint to the webmaster!)" ).arg("exec:/kcmshell useragent") )
+		      "(and do not forget to send a complaint to the webmaster!)" ).arg("exec:/kcmshell useragent") )
 	  .arg( i18n( "The <IMG WIDTH=16 HEIGHT=16 SRC=\"%1\"> &nbsp; History in your SideBar ensures "
 		      "that you can keep track of the pages you have visited recently.").arg(history_icon_path) )
 	  .arg( i18n( "Use a caching <A HREF=\"%1\">proxy</A> to speed up your"

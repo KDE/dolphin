@@ -1370,7 +1370,7 @@ void KonqMainWindow::slotToolFind()
     KonqViewFactory factory = KonqFactory::createView( "Konqueror/FindPart" );
     if ( factory.isNull() )
     {
-        KMessageBox::error( this, i18n("Can't create the find part, check your installation.") );
+        KMessageBox::error( this, i18n("Cannot create the find part, check your installation.") );
         m_paFindFiles->setChecked(false);
         return;
     }
@@ -3489,7 +3489,7 @@ void KonqMainWindow::initActions()
   // Please proof-read those (David)
 
   m_ptaUseHTML->setStatusText( i18n("If present, open index.html when entering a folder.") );
-  m_paLockView->setStatusText( i18n("A locked view can't change folders. Use in combination with 'link view' to explore many files from one folder") );
+  m_paLockView->setStatusText( i18n("A locked view cannot change folders. Use in combination with 'link view' to explore many files from one folder") );
   m_paLinkView->setStatusText( i18n("Sets the view as 'linked'. A linked view follows folder changes made in other linked views.") );
 }
 
@@ -5014,7 +5014,7 @@ bool KonqMainWindow::isMimeTypeAssociatedWithSelf( const QString &mimeType, cons
                      !offer->exec().stripWhiteSpace().startsWith("kfmclient") ) )
         return false;
 
-    KMessageBox::error( this, i18n("There appears to be a configuration error. You have associated Konqueror with %1, but it can't handle this file type.").arg(mimeType));
+    KMessageBox::error( this, i18n("There appears to be a configuration error. You have associated Konqueror with %1, but it cannot handle this file type.").arg(mimeType));
     return true;
 }
 

@@ -214,7 +214,7 @@ void HistorySidebarConfig::slotExpireChanged( int value )
     else
         dialog->spinExpire->setSuffix(
             i18n("'URLs expire after XX days.' Unfortunately the plural "
-                 "handling of KLocale doesn't work here, as I only need "
+                 "handling of KLocale does not work here, as I only need "
                  "the word 'days' and not the entire sentence here. Sorry.",
                  " days") );
     configChanged();
