@@ -29,6 +29,7 @@
 #include <qlistview.h>
 #include <qpushbutton.h>
 #include <qwhatsthis.h>
+#include <qregexp.h>
 #include <kconfig.h>
 #include <kglobal.h>
 #include <kstddirs.h>
