@@ -101,7 +101,9 @@ public:
             return 0;
 
         KBookmark bk = KEBTopLevel::self()->selectedBookmark();
-        return KEBDrag::newDrag( bk, viewport() /*not sure why klistview does it this way*/ );
+        KEBDrag * drag = KEBDrag::newDrag( bk, viewport() /*not sure why klistview does it this way*/ );
+        drag->setPixmap( SmallIcon(bk.icon()) );
+        return drag;
     }
 };
 
