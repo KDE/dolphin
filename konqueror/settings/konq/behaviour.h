@@ -37,7 +37,7 @@ class KBehaviourOptions : public KCModule
   Q_OBJECT
 public:
   KBehaviourOptions(KConfig *config, QString group, QWidget *parent=0, const char *name=0);
-
+    ~KBehaviourOptions();
   virtual void load();
   virtual void save();
   virtual void defaults();

@@ -199,6 +199,11 @@ KBehaviourOptions::KBehaviourOptions(KConfig *config, QString group, QWidget *pa
     load();
 }
 
+KBehaviourOptions::~KBehaviourOptions()
+{
+    delete kfmclientConfig;
+}
+
 void KBehaviourOptions::slotShowTips(bool b)
 {
 //    sbToolTip->setEnabled( b );
