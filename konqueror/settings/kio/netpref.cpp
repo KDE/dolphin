@@ -180,8 +180,8 @@ void KIOPreferences::defaults()
 QString KIOPreferences::quickHelp() const
 {
   return i18n("<h1>Network Preferences</h1>Here you can define"
-	      " the behaviour of KDE Programms when using internet"
-	      " and network connections. If you expirience timeouts"
+	      " the behavior of KDE programs when using Internet"
+	      " and network connections. If you experience timeouts"
 	      " and problems or sit behind a modem, you might want"
 	      " to adjust these values." );
 }
