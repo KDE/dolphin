@@ -101,16 +101,18 @@ public:
   
   /**
    * @return a parsed URL.
+   * Valid only if dialog shown for one file/url.
    */
-  const KURL& kurl() const { return m_item->url(); }
+  const KURL& kurl() const { return m_singleUrl; }
   /**
    * @return the file item for which the dialog is shown
+   * HACK : returns the first item of the list
    */
-  KFileItem * item() const { return m_item; }
+  KFileItem * item() { return m_items.first(); }
   /**
    * @return a pointer to the dialog
    */
-  QTabDialog* tabDialog() { return tab; }
+  QTabDialog* tabDialog() const { return tab; }
   /**
    * If we are building this dialog from a template, 
    * @return the current directory
@@ -123,6 +125,12 @@ public:
    * QString::null means no template used
    */
   const QString& defaultName() const { return m_defaultName; }
+  /**
+   * Updates the item url (either called by rename or because
+   * a global apps/mimelnk desktop file is being saved)
+   * @param _name new URL
+   */
+  void updateUrl( const KURL& _newUrl ) { m_singleUrl = _newUrl; }
   /**
    * #see FilePropsPage::applyChanges
    * @param _name new filename, encoded.
@@ -154,12 +162,14 @@ protected:
   void insertPages();
 
   /**
-   * The KFileItem used for the props dialog (current limitation)
-   * TODO : handle a list of items here
+   * The URL of the props dialog (when shown for only one file)
    */
-  KFileItem * m_item;
+  KURL m_singleUrl;
+  /**
+   * List of items this props dialog is shown for
+   */
   KFileItemList m_items;
-  bool m_bMustDestroyItem;
+  bool m_bMustDestroyItems;
 
   /** For templates */
   QString m_defaultName;
@@ -337,6 +347,7 @@ protected:
     QLineEdit *swallowExecEdit;
     QLineEdit *swallowTitleEdit;
     QButton *execBrowse;
+    QString m_sRelativePath;
 
     QString execStr;
     QString iconStr;

@@ -49,6 +49,8 @@
 #include <qstringlist.h>
 #include <qpainter.h>
 
+#include <kdirwatch.h>
+#include <kdebug.h>
 #include <kdesktopfile.h>
 #include <kiconloaderdialog.h>
 #include <kiconloader.h>
@@ -76,33 +78,28 @@ mode_t FilePermissionsPropsPage::fperm[3][4] = {
     };
 
 PropertiesDialog::PropertiesDialog( KFileItemList _items ) :
-  // TODO : handle all items
-  // Current HACK : only use the first item
-  m_item( _items.first() ), m_items( _items ), m_bMustDestroyItem( false )
+  m_singleUrl( _items.first()->url() ), m_items( _items ), m_bMustDestroyItems( false )
 {
   init();
 }
 
 PropertiesDialog::PropertiesDialog( const QString& _url, mode_t _mode ) :
-  m_bMustDestroyItem( true )
+  m_singleUrl( _url ), m_bMustDestroyItems( true )
 {
   // Create a KFileItem from the information we have
-  KURL u( _url );
-  m_item = new KFileItem( "unknown" /*whatever*/, _mode, u );
-  m_items.append( m_item );
+  m_items.append( new KFileItem( "unknown" /*whatever*/, _mode, m_singleUrl ) );
   init();
 }
 
 PropertiesDialog::PropertiesDialog( const QString& _tempUrl, const QString& 
                                     _currentDir, const QString& _defaultName )
- : m_bMustDestroyItem( true ), m_defaultName( _defaultName ), m_currentDir( _currentDir )
+  : m_singleUrl( _tempUrl ), m_bMustDestroyItems( true ), 
+    m_defaultName( _defaultName ), m_currentDir( _currentDir )
 {
   if ( m_currentDir.right(1) != "/" )
     m_currentDir.append( "/" );
   // Create the KFileItem for the _template_ file, in order to read from it.
-  KURL u( _tempUrl );
-  m_item = new KFileItem( "unknown" /*whatever*/, -1, u );
-  m_items.append( m_item );
+  m_items.append( new KFileItem( "unknown" /*whatever*/, -1, m_singleUrl ) );
   init();
 }
 
@@ -132,7 +129,8 @@ void PropertiesDialog::init()
 PropertiesDialog::~PropertiesDialog()
 {
   pageList.clear();    
-  if ( m_bMustDestroyItem ) delete m_item;
+  // HACK
+  if ( m_bMustDestroyItems ) delete m_items.first();
 }
 
 bool PropertiesDialog::canDisplay( KFileItemList _items )
@@ -156,6 +154,14 @@ void PropertiesDialog::slotApply()
   // BUT for file copied from templates, we need to do the renaming first !
   for ( page = pageList.first(); page != 0L; page = pageList.next() )
     page->applyChanges();
+
+  if ( PropsPage::isDesktopFile( m_items.first() ) )
+  {
+    kdebug( KDEBUG_INFO, 1203, "emitting setFileDirty..." );
+    // Force updates if that file is displayed.
+    // This is useful especially when changing the icon of a .desktop file
+    KDirWatch::self()->setFileDirty( kurl().path() );
+  }
 
   emit propertiesClosed();
   delete this;
@@ -234,17 +240,14 @@ void PropertiesDialog::rename( const QString& _name )
       newUrl = m_currentDir + _name;
     else
     {
-      QString tmpurl = m_item->url().url();
+      QString tmpurl = m_singleUrl.url();
       if ( tmpurl.at(tmpurl.length() - 1) == '/') 
 	  // It's a directory, so strip the trailing slash first
 	  tmpurl.truncate( tmpurl.length() - 1);
       newUrl = tmpurl;
       newUrl.setFileName( _name );
     }
-    m_items.remove( m_item );
-    delete m_item;
-    m_item = new KFileItem( "unknown" /*whatever*/, -1, newUrl );
-    m_items.append( m_item );
+    updateUrl( newUrl );
 }
 
 PropsPage::PropsPage( PropertiesDialog *_props ) : QWidget( _props->tabDialog(), 0L )
@@ -817,12 +820,29 @@ ExecPropsPage::ExecPropsPage( PropertiesDialog *_props ) : PropsPage( _props )
 
     //
 
-    QFile f( _props->kurl().path() );
+    QString path = _props->kurl().path();
+    QFile f( path );
     if ( !f.open( IO_ReadOnly ) )
 	return;    
     f.close();
 
-    KConfig config( _props->kurl().path() );
+    m_sRelativePath = "";
+    // now let's make it relative
+    QStringList appsdirs = KGlobal::dirs()->getResourceDirs("apps");
+    QStringList::ConstIterator it = appsdirs.begin();
+    for ( ; it != appsdirs.end() && m_sRelativePath.isEmpty(); ++it )
+    {
+      // might need canonicalPath() ...
+      if ( path.find( *it ) == 0 ) // path is appsdirs + relativePath
+        m_sRelativePath = path.mid( (*it).length() ); // skip appsdirs
+    }
+    if ( m_sRelativePath.isEmpty() )
+      kdebug( KDEBUG_FATAL, 1203, QString("Couldn't find %1 in any apps dir !!!").arg( path ) );
+
+    while ( m_sRelativePath.left( 1 ) == '/' ) m_sRelativePath.remove( 0, 1 );
+    kdebug( KDEBUG_INFO, 1203, QString("m_sRelativePath = '%1' ").arg( m_sRelativePath ) );
+
+    KConfig config( path );
     config.setDollarExpansion( false );
     config.setDesktopGroup();
     execStr = config.readEntry( "Exec" );
@@ -876,79 +896,15 @@ bool ExecPropsPage::supports( KFileItemList _items )
 
 void ExecPropsPage::applyChanges()
 {
-#ifdef SVEN
-// --- Sven's editable global settings changes start ---
-    int i = 0;
-    bool err = false;
-// --- Sven's editable global settings changes end ---
-#endif
-    QString path = properties->kurl().path();
+    // Save the file where we can -> usually in ~/.kde/...
+    QString path = locateLocal( "apps", m_sRelativePath );
 
     QFile f( path );
 
-#ifdef SVEN
-    QDir lDir (kapp->localkdedir() + "/share/applnk/"); // I know it exists
-
-    //debug (path.ascii());
-    //debug (kapp->kde_appsdir().ascii());
-#endif
     if ( !f.open( IO_ReadWrite ) )
     {
-#ifdef SVEN
-      // path = /usr/local/kde/share/applnk/network/netscape.kdelnk
-
-      //Does path contain kde_appsdir?
-      if (path.find(kapp->kde_appsdir()) == 0) // kde_appsdir on start of path
-      {
-	path.remove(0, strlen(kapp->kde_appsdir())); //remove kde_appsdir
-
-	if (path[0] == '/')
-	  path.remove(0, 1); // remove /
-
-	while (path.contains('/'))
-	{
-	  i = path.find('/'); // find separator
-	  if (!lDir.cd(path.left(i)))  // exists?
-	  {
-	    lDir.mkdir((path.left(i)));  // no, create
-	    if (!lDir.cd((path.left(i)))) // can cd to?
-	    {
-	      err = true;                 // no flag it...
-	      // debug ("Can't cd to  %s in %s", path.left(i).ascii(),
-	      //	 lDir.absPath().ascii());
-	      break;                      // and exit while
-	    }
-	  }
-	  path.remove (0, i);           // cded to;
-	  if (path[0] == '/')
-	    path.remove(0, 1); // remove / from path
-	}
-      }
-      else // path didn't contain kde_appsdir - this is an error
-	err = true;
-
-      // we created all subdirs or failed
-      if (!err) // if we didn't fail try to make file just for check
-      {
-	path.prepend('/'); // be sure to have /netscape.kdelnk
-	path.prepend(lDir.absPath());
-	f.setName(path);
-	//debug("path = %s", path.ascii());
-
-	// we must not copy whole kdelnk to local dir
-	//  because it was done in ApplicationPropsPage
-	if (!f.open( IO_ReadWrite ) )
-	  err = true;
-      }
-      if (err)
-      {
-#endif
-      
 	KMessageBox::sorry( 0, i18n("Could not save properties\nPerhaps permissions denied"));
 	return;
-#ifdef SVEN
-      }
-#endif
     }
 
     f.close();
@@ -960,14 +916,8 @@ void ExecPropsPage::applyChanges()
     config.writeEntry( "Icon", iconBox->icon() );
     config.writeEntry( "SwallowExec", swallowExecEdit->text() );
     config.writeEntry( "SwallowTitle", swallowTitleEdit->text() );
-
-    if ( terminalCheck->isChecked() )
-    {
-        config.writeEntry( "Terminal", "1" );
-        config.writeEntry( "TerminalOptions", terminalEdit->text() );
-    }
-    else
-        config.writeEntry( "Terminal", "0" );
+    config.writeEntry( "Terminal", terminalCheck->isChecked() ? "1" : "0" );
+    config.writeEntry( "TerminalOptions", terminalEdit->text() );
 
     config.sync();
 }
@@ -1779,6 +1729,7 @@ bool BindingPropsPage::supports( KFileItemList _items )
 void BindingPropsPage::applyChanges()
 {
     QString path = locateLocal("mime", m_sMimeStr + ".desktop");
+    properties->updateUrl( KURL( path ) );
 
     QFile f( path );
 
