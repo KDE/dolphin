@@ -175,7 +175,7 @@ void KJavaScriptOptions::load()
         updateDomainList(m_pConfig->readListEntry("JavaScriptDomainAdvice") );
 
     // *** apply to GUI ***
-    enableJavaScriptGloballyCB->setChecked( m_pConfig->readBoolEntry("EnableJavaScript"), true );
+    enableJavaScriptGloballyCB->setChecked( m_pConfig->readBoolEntry("EnableJavaScript",true));
     js_popup->setButton( m_pConfig->readUnsignedNumEntry("WindowOpenPolicy", 0) );
 
   // enableDebugOutputCB->setChecked( m_pConfig->readBoolEntry("EnableJSDebugOutput") );
