@@ -22,10 +22,10 @@ messages: rc.cpp
 servicetypes_DATA = uasprovider.desktop
 servicetypesdir = $(kde_servicetypesdir)
 
-data_DATA = cookies.desktop proxy.desktop useragent.desktop cache.desktop
+data_DATA = cookies.desktop useragent.desktop cache.desktop
 datadir = $(kde_appsdir)/Settings/WebBrowsing
 
-smb_DATA = smb.desktop netpref.desktop
+smb_DATA = smb.desktop netpref.desktop proxy.desktop 
 smbdir = $(kde_appsdir)/Settings/Network
 
 install-data-local: uninstall.desktop
