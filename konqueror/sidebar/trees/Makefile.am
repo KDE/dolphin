@@ -1,7 +1,7 @@
 #SUBDIRS = init dirtree_module history_module bookmark_module .
 SUBDIRS = init . dirtree_module history_module bookmark_module
 
-INCLUDES = -I$(top_srcdir)/libkonq -I$(top_srcdir)/konqueror $(all_includes) -I..
+INCLUDES = -I$(top_srcdir)/libkonq -I$(top_srcdir)/konqueror $(all_includes) -I$(srcdir)/..
 
 kde_module_LTLIBRARIES = libkonqsidebar_tree.la
 
