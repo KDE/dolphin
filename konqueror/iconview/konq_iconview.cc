@@ -699,6 +699,7 @@ void KonqKfmIconView::slotCompleted()
 
     // Disable cut icons if any
     m_pIconView->slotClipboardDataChanged();
+    
 }
 
 void KonqKfmIconView::slotNewItems( const KFileItemList& entries )
@@ -944,6 +945,7 @@ void KonqKfmIconView::slotRenderingFinished()
     kdDebug(1202) << "KonqKfmIconView completed() after image preview" << endl;
     emit completed();
     m_bNeedEmitCompleted = false;
+    m_pIconView->setCurrentItem( m_pIconView->firstItem() ); // workaround for qiconview bug, says reggie ;-)
   }
   if ( m_bNeedAlign )
   {
