@@ -33,6 +33,7 @@
 #include <kcolorbutton.h>
 #include <kcharsets.h>
 #include <qspinbox.h>
+#include <kdebug.h>
 
 #include <X11/Xlib.h>
 
@@ -317,6 +318,7 @@ void KAppearanceOptions::load()
 	cursiveName = m_pConfig->readEntry( "CursiveFont", serifName );
 	fantasyName = m_pConfig->readEntry( "FantasyFont", serifName );
     encodingName = m_pConfig->readEntry( "DefaultEncoding", encodingName );
+    kdDebug(0) << "encoding = " << encodingName;
 
     updateGUI();
 }
@@ -395,9 +397,10 @@ void KAppearanceOptions::updateGUI()
             m_pFantasy->setCurrentItem( i );
     }
 
-    for ( QStringList::Iterator cit = encodings.begin(); cit != encodings.end(); ++cit )
+    i = 0;
+    for ( QStringList::Iterator it = encodings.begin(); it != encodings.end(); ++it, ++i )
     {
-        if ( encodingName == *cit )
+        if ( encodingName == *it )
             m_pEncoding->setCurrentItem( i );
     }
 

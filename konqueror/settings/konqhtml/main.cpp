@@ -53,7 +53,7 @@ KonqHTMLModule::KonqHTMLModule(QWidget *parent, const char *name)
   tab = new QTabWidget(this);
   layout->addWidget(tab);
 
-  misc = new KMiscHTMLOptions(m_globalConfig, "HTML Settings", this);
+  misc = new KMiscHTMLOptions(m_localConfig, "HTML Settings", this);
   tab->addTab(misc, i18n("&HTML"));
   connect(misc, SIGNAL(changed(bool)), this, SLOT(moduleChanged(bool)));
 
