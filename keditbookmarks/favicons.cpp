@@ -62,7 +62,9 @@ void FavIconsItr::slotDone(bool succeeded) {
 }
 
 bool FavIconsItr::isBlahable(const KBookmark &bk) {
-   return (!bk.isGroup() && !bk.isSeparator());
+   // quick hack. fix later on
+   return (!bk.isGroup() && !bk.isSeparator() 
+       && (bk.url().protocol().startsWith("http")) );
 }
 
 void FavIconsItr::doBlah() {
