@@ -317,7 +317,13 @@ void KonqDirPart::lmbClicked( KFileItem * fileItem )
         args.serviceType = fileItem->mimetype();
     args.trustedSource = true;
 
-    if ( fileItem->isLink() && fileItem->isLocalFile() ) // see KFileItem::run
+    bool is_local = fileItem->isLocalFile();
+    if (fileItem->mimeTypePtr()->is("application/x-desktop"))
+    {
+        url = fileItem->mostLocalURL(is_local);
+    }
+    
+    if ( fileItem->isLink() && is_local ) // see KFileItem::run
         url = KURL( url, KURL::encode_string( fileItem->linkDest() ) );
 
     if (KonqFMSettings::settings()->alwaysNewWin() && fileItem->isDir()) {
