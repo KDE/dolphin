@@ -1444,8 +1444,8 @@ BindingPropsPage::BindingPropsPage( PropertiesDialog *_props ) : PropsPage( _pro
   tmpQLabel->setMinimumSize(tmpQLabel->sizeHint());
   mainlayout->addWidget(tmpQLabel, 1);
 
-  patternEdit->setGeometry( 10, 40, 210, 30 );
-  patternEdit->setText( "" );
+  //patternEdit->setGeometry( 10, 40, 210, 30 );
+  //patternEdit->setText( "" );
   patternEdit->setMaxLength( 512 );
   patternEdit->setMinimumSize( patternEdit->sizeHint() );
   patternEdit->setFixedHeight( fontHeight );
@@ -1456,7 +1456,7 @@ BindingPropsPage::BindingPropsPage( PropertiesDialog *_props ) : PropsPage( _pro
   tmpQLabel->setMinimumSize(tmpQLabel->sizeHint());
   mainlayout->addWidget(tmpQLabel, 1);
 
-  mimeEdit->setGeometry( 10, 160, 210, 30 );
+  //mimeEdit->setGeometry( 10, 160, 210, 30 );
   mimeEdit->setMaxLength( 256 );
   mimeEdit->setMinimumSize( mimeEdit->sizeHint() );
   mimeEdit->setFixedHeight( fontHeight );
@@ -1467,18 +1467,14 @@ BindingPropsPage::BindingPropsPage( PropertiesDialog *_props ) : PropsPage( _pro
   tmpQLabel->setMinimumSize(tmpQLabel->sizeHint());
   mainlayout->addWidget(tmpQLabel, 1);
 
-  commentEdit->setGeometry( 10, 100, 210, 30 );
+  //commentEdit->setGeometry( 10, 100, 210, 30 );
   commentEdit->setMaxLength( 256 );
   commentEdit->setMinimumSize( commentEdit->sizeHint() );
   commentEdit->setFixedHeight( fontHeight );
   mainlayout->addWidget(commentEdit, 1);
 
-  QHBoxLayout * hlayout = new QHBoxLayout(KDialog::spacingHint());
-  mainlayout->addLayout(hlayout, 2); // double stretch, because two items
-
-  QVBoxLayout * vlayout; // a vertical layout for the two following items
-  vlayout = new QVBoxLayout(KDialog::spacingHint());
-  hlayout->addLayout(vlayout, 1);
+  cbAutoEmbed = new QCheckBox( i18n("Left click previews"), this, "cbAutoEmbed" );
+  mainlayout->addWidget(cbAutoEmbed, 1);
 
   mainlayout->addStretch (10);
   mainlayout->activate();
@@ -1501,7 +1497,11 @@ BindingPropsPage::BindingPropsPage( PropertiesDialog *_props ) : PropsPage( _pro
     commentEdit->setText( commentStr );
   if ( !m_sMimeStr.isEmpty() )
     mimeEdit->setText( m_sMimeStr );
-
+  cbAutoEmbed->setTristate();
+  if ( config.hasKey( "X-KDE-AutoEmbed" ) )
+      cbAutoEmbed->setChecked( config.readBoolEntry( "X-KDE-AutoEmbed" ) );
+  else
+      cbAutoEmbed->setNoChange();
 }
 
 bool BindingPropsPage::supports( KonqFileItemList _items )
@@ -1539,6 +1539,10 @@ void BindingPropsPage::applyChanges()
   config.writeEntry( "Patterns", tmp );
   config.writeEntry( "Comment", commentEdit->text(), true, false, true );
   config.writeEntry( "MimeType", mimeEdit->text() );
+  if ( cbAutoEmbed->state() == QButton::NoChange )
+      config.deleteEntry( "X-KDE-AutoEmbed", false );
+  else
+      config.writeEntry( "X-KDE-AutoEmbed", cbAutoEmbed->isChecked() );
   config.sync();
 }
 

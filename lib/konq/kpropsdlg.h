@@ -509,8 +509,7 @@ protected:
   QLineEdit *mimeEdit;
   QString m_sMimeStr;
 
-  QPixmap pixmap;
-  QString pixmapFile;
+  QCheckBox * cbAutoEmbed;
 };
 
 /**
