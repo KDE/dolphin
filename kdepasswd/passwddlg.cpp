@@ -94,9 +94,22 @@ bool KDEpasswd2Dialog::checkPassword(const char *password)
 
     if (strlen(password) > 8)
     {
-	KMessageBox::information(this, 
-		i18n("Your password will be truncated to 8 characters."));
-	const_cast<char *>(password)[8] = '\000';
+	switch(KMessageBox::questionYesNoCancel(this,
+		i18n("Your password is longer than 8 characters. On some "
+			"systems, this can cause problems. You can truncate "
+			"the password to 8 characters, or leave it as it is."),
+		i18n("Password too long"),
+		i18n("Truncate"),
+		i18n("Use as is"),
+		"truncatePassword"))
+	{
+	case KMessageBox::Yes : 
+		const_cast<char *>(password)[8] = '\000';
+		break;
+	case KMessageBox::No :
+		break;
+	default : return false;
+	}
     }
 
     int ret = proc.exec(m_Pass, password);
