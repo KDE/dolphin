@@ -48,6 +48,7 @@
 #include <kstdaction.h>
 #include <kurl.h>
 #include <kparts/mainwindow.h>
+#include <kparts/partmanager.h>
 
 #include <qmessagebox.h>
 #include <qfile.h>
@@ -896,10 +897,9 @@ bool KonqKfmIconView::openURL( const KURL &_url )
 	m_pIconView->viewport()->setBackgroundPixmap( m_pProps->m_bgPixmap );
     }
 
-#ifdef __GNUC__
-#warning FIXME (Simon)
-#endif
-//  setCaptionFromURL( _url );
+    if (manager())
+	manager()->setWindowCaption( u.decodedURL() );
+
     m_pIconView->show(); // ?
     return true;
 }
