@@ -44,6 +44,7 @@ public:
   void endSearch();
   void loadHistory();
   void saveHistory();
+  bool isSearchRecursive();
 
   void setURL( const KURL & url );
 

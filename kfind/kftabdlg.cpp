@@ -751,6 +751,12 @@ void KfindTabWidget::fixLayout()
   sizeUnitBox->setEnabled(sizeBox->currentItem() != 0);
 }
 
+bool KfindTabWidget::isSearchRecursive()
+{
+  return subdirsCb->isChecked();
+}
+
+  
 /**
    Digit validator. Allows only digits to be typed.
 **/

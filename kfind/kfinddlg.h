@@ -32,6 +32,9 @@ public:
   void setStatusMsg(const QString &);
   void setProgressMsg(const QString &);
 
+private:
+  QStringList getAllSubdirs(QDir d);
+
 public slots:
   void startSearch();
   void stopSearch();
@@ -59,6 +62,7 @@ private:
   KStatusBar *mStatusBar;
   KDirLister *dirlister;
   bool searching;
+//  QStringList directories;
 };
 
 #endif
