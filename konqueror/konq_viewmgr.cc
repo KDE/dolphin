@@ -708,8 +708,12 @@ void KonqViewManager::activateTab(int position)
 
 void KonqViewManager::showTab( KonqView *view )
 {
-  static_cast<KonqFrameTabs*>( docContainer() )->showPage( view->frame() );
-  emitActivePartChanged();
+  KonqFrameTabs *tabContainer = static_cast<KonqFrameTabs*>( docContainer() );
+  if (tabContainer->currentPage() != view->frame())
+  {
+    tabContainer->showPage( view->frame() );
+    emitActivePartChanged();
+  }
 }
 
 void KonqViewManager::updatePixmaps()
