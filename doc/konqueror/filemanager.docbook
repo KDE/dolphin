@@ -1,8 +1,9 @@
 <chapter id="filemanager">
 <chapterinfo>
-<!-- <authorgroup>
-TRANS:ROLES_OF_TRANSLATORS 
-</authorgroup> -->
+<authorgroup>
+<author>&Pamela.Roberts;</author>
+<!-- TRANS:ROLES_OF_TRANSLATORS -->
+</authorgroup> 
 
 <date>2002-09-22</date>
 <releaseinfo>3.1</releaseinfo>

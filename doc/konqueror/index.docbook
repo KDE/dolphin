@@ -26,32 +26,20 @@
 <title>The &konqueror; Handbook</title>
 
 <authorgroup>
-<author>
-<firstname>Pamela</firstname>
-<surname>Roberts</surname>
-<affiliation><jobtitle>Handbook maintainer</jobtitle>
-<address><email>pamroberts@blueyonder.co.uk</email></address>
-</affiliation>
-</author>
+<author>&Pamela.Roberts; &Pamela.Roberts.mail;</author>
 
 <othercredit role="developer">
 <othername>The KDE Team</othername>
 <contrib>Developers</contrib>
-</othercredit>
-
-<othercredit role="reviewer">
-<firstname>Lauri</firstname>
-<surname>Watts</surname>
-<affiliation><address><email>lauri@kde.org</email></address></affiliation>
-<contrib>Reviewer</contrib>
-</othercredit>
+</othercredit> 
 
 <!-- TRANS:ROLES_OF_TRANSLATORS -->
 </authorgroup>
 
 <copyright>
 <year>2000</year> <year>2002</year>
-<holder>Erwan Loisant, Pamela Roberts</holder>
+<holder>Erwan Loisant</holder>
+<holder>Pamela Roberts</holder>
 </copyright>
 
 <legalnotice>&FDLNotice;</legalnotice>

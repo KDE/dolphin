@@ -1,9 +1,14 @@
+<!-- <?xml version="1.0" ?>
+<!DOCTYPE chapter PUBLIC "-//KDE//DTD DocBook XML V4.2-Based Variant V1.1//EN"
+ "dtd/kdex.dtd"> -->
+
 <chapter id="credits">
 
 <chapterinfo>
-<!-- <authorgroup>
-TRANS:ROLES_OF_TRANSLATORS 
-</authorgroup> -->
+<authorgroup>
+<author>&Pamela.Roberts;</author>
+<!-- TRANS:ROLES_OF_TRANSLATORS -->
+</authorgroup>
 
 <date>2002-09-22</date>
 <releaseinfo>3.1</releaseinfo>
@@ -18,82 +23,82 @@ TRANS:ROLES_OF_TRANSLATORS
 <variablelist>
 
 <varlistentry>
-<term>David Faure <email>faure@kde.org</email></term>
+<term>&David.Faure; &David.Faure.mail;</term>
 <listitem><para>developer (parts, I/O lib) and maintainer</para></listitem>
 </varlistentry>
 
 <varlistentry>
-<term>Simon Hausmann <email>hausmann@kde.org</email></term>
+<term>&Simon.Hausmann; &Simon.Hausmann.mail;</term>
 <listitem><para>developer (framework, parts)</para></listitem>
 </varlistentry>
 
 <varlistentry>
-<term>Michael Reiher <email>michael.reiher@gmx.de</email></term>
+<term>&Michael.Reiher; &Michael.Reiher.mail;</term>
 <listitem><para>developer (framework)</para></listitem>
 </varlistentry>
 
 <varlistentry>
-<term>Mattias Welk <email>welk@fokus.gmd.de</email></term>
+<term>&Mattias.Welk; &Mattias.Welk.mail;</term>
 <listitem><para>developer</para></listitem>
 </varlistentry>
 
 <varlistentry>
-<term>Alexander Neundorf <email>neundorf@kde.org</email></term>
+<term>&Alexander.Neundorf; &Alexander.Neundorf.mail;</term>
 <listitem><para>developer (list views)</para></listitem>
 </varlistentry>
 
 <varlistentry>
-<term>Michael Brade <email>brade@kde.org</email></term>
+<term>&Michael.Brade; &Michael.Brade.mail;</term>
 <listitem><para>developer (list views, I/O lib)</para></listitem>
 </varlistentry>
 
 <varlistentry>
-<term>Lars Knoll <email>knoll@kde.org</email></term>
+<term>&Lars.Knoll; &Lars.Knoll.mail;</term>
 <listitem><para>developer (<acronym>HTML</acronym> rendering
 engine)</para></listitem>
 </varlistentry>
 
 <varlistentry>
-<term>Antti Koivisto <email>koivisto@kde.org</email></term>
+<term>&Antti.Koivisto; &Antti.Koivisto.mail;</term>
 <listitem><para>developer (<acronym>HTML</acronym> rendering
 engine)</para></listitem>
 </varlistentry>
 
 <varlistentry>
-<term>Dirk Mueller <email>mueller@kde.org</email></term>
+<term>&Dirk.Mueller; &Dirk.Mueller.mail;</term>
 <listitem><para>developer (<acronym>HTML</acronym> rendering
 engine)</para></listitem>
 </varlistentry>
 
 <varlistentry>
-<term>Peter Kelly <email>pmk@post.com</email></term>
+<term>&Peter.Kelly; &Peter.Kelly.mail;</term>
 <listitem><para>developer (<acronym>HTML</acronym> rendering engine,
 JavaScript)</para></listitem>
 </varlistentry>
 
 <varlistentry>
-<term>Waldo Bastian <email>bastian@kde.org</email></term>
+<term>&Waldo.Bastian; &Waldo.Bastian.mail;</term>
 <listitem><para>developer (<acronym>HTML</acronym> rendering engine, I/O
 lib)</para></listitem>
 </varlistentry>
 
 <varlistentry>
-<term>Matt Koss <email>koss@miesto.sk</email></term>
+<term>&Matt.Koss; &Matt.Koss.mail;</term>
 <listitem><para>developer (I/O lib)</para></listitem>
 </varlistentry>
 
 <varlistentry>
-<term>Alex Zepeda <email>jazepeda@pacbell.net</email></term>
+<term>&Alex.Zepeda; &Alex.Zepeda.mail;</term>
 <listitem><para>developer (I/O lib)</para></listitem>
 </varlistentry>
 
 <varlistentry>
-<term>Stephan Kulow <email>coolo@kde.org</email></term>
+<term>&Stephan.Kulow; &Stephan.Kulow.mail;</term>
 <listitem><para>developer (I/O lib)</para></listitem>
 </varlistentry>
 
 <varlistentry>
-<term>Richard Moore <email>rich@kde.org</email></term>
+<term>&Richard.J.Moore; &Richard.J.Moore.mail;</term>
 <listitem><para>developer (&Java; applet support)</para></listitem>
 </varlistentry>
 
@@ -109,7 +114,7 @@ to applet support)</para></listitem>
 </varlistentry>
 
 <varlistentry>
-<term>Harri Porten <email>porten@kde.org</email></term>
+<term>&Harri.Porten; &Harri.Porten.mail;</term>
 <listitem><para>developer (JavaScript)</para></listitem>
 </varlistentry>
 
@@ -119,12 +124,12 @@ to applet support)</para></listitem>
 </varlistentry>
 
 <varlistentry>
-<term>Carsten Pfeiffer <email>pfeiffer@kde.org</email></term>
+<term>&Carsten.Pfeiffer; &Carsten.Pfeiffer.mail;</term>
 <listitem><para>developer (framework)</para></listitem>
 </varlistentry>
 
 <varlistentry>
-<term>George Staikos <email>staikos@kde.org</email></term>
+<term>&George.Staikos; &George.Staikos.mail;</term>
 <listitem><para>developer (SSL support)</para></listitem>
 </varlistentry>
 
@@ -134,12 +139,7 @@ to applet support)</para></listitem>
 </varlistentry>
 
 <varlistentry>
-<term>Carsten Pfeiffer <email>pfeiffer@kde.org</email></term>
-<listitem><para>developer (Framework)</para></listitem>
-</varlistentry>
-
-<varlistentry>
-<term>Torsten Rahn <email>torsten@kde.org</email></term>
+<term>&Torsten.Rahn; &Torsten.Rahn.mail;</term>
 <listitem><para>Graphics / icons</para></listitem>
 </varlistentry>
 
@@ -149,7 +149,7 @@ to applet support)</para></listitem>
 </varlistentry>
 
 <varlistentry>
-<term>Joseph Wenninger <email>jowenn@kde.org</email></term>
+<term>&Joseph.Wenninger; &Joseph.Wenninger;</term>
 <listitem><para>developer (navigation panel framework)</para></listitem>
 </varlistentry>
 
@@ -158,10 +158,8 @@ to applet support)</para></listitem>
 <para>Documentation copyright 2000-2002</para>
 
 <itemizedlist>
-<listitem><para>Erwan Loisant
-<email>erwan@loisant.org</email></para></listitem>
-<listitem><para>Pamela Roberts
-<email>pamroberts@blueyonder.co.uk</email></para></listitem>
+<listitem><para>&Erwan.Loisant; &Erwan.Loisant.mail;</para></listitem>
+<listitem><para>&Pamela.Roberts; &Pamela.Roberts.mail;</para></listitem>
 </itemizedlist>
 <!-- TRANS:CREDIT_FOR_TRANSLATORS -->
 

@@ -1,8 +1,9 @@
 <chapter id="introduction">
 <chapterinfo>
-<!-- <authorgroup>
-TRANS:ROLES_OF_TRANSLATORS 
-</authorgroup> -->
+<authorgroup>
+<author>&Pamela.Roberts;</author>
+<!-- TRANS:ROLES_OF_TRANSLATORS -->
+</authorgroup>
 
 <date>2002-09-22</date>
 <releaseinfo>3.1</releaseinfo>
@@ -51,8 +52,5 @@ positions of the toolbars and even defining new shortcut key combinations.
 Different configuration <link linkend="save-settings">profiles</link> can be 
 saved for easy recall as needed.
 </para>
-
-
-<!-- TRANS:CREDIT_FOR_TRANSLATORS -->
 
 </chapter>

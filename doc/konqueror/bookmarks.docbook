@@ -1,13 +1,17 @@
+<!-- <?xml version="1.0" ?>
+<!DOCTYPE chapter PUBLIC "-//KDE//DTD DocBook XML V4.2-Based Variant V1.1//EN"
+ "dtd/kdex.dtd"> -->
+
 <chapter id="bookmarks">
 <chapterinfo>
-<!-- <authorgroup>
-TRANS:ROLES_OF_TRANSLATORS 
-</authorgroup> -->
+<authorgroup>
+<author>&Pamela.Roberts;</author>
+<!-- TRANS:ROLES_OF_TRANSLATORS -->
+</authorgroup>
 
 <date>2002-09-22</date>
 <releaseinfo>3.1</releaseinfo>
 </chapterinfo>
-
 
 <title>Using Bookmarks</title>
 
