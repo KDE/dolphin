@@ -360,7 +360,7 @@ void KonqIconViewWidget::slotSaveIconPositions()
 {
   if ( m_dotDirectoryPath.isEmpty() )
     return;
-  KDesktopFile dotDirectory( m_dotDirectoryPath );
+  KSimpleConfig dotDirectory( m_dotDirectoryPath );
   QIconViewItem *it = firstItem();
   while ( it )
   {
@@ -370,9 +370,24 @@ void KonqIconViewWidget::slotSaveIconPositions()
     dotDirectory.setGroup( QString( m_iconPositionGroupPrefix ).append( item->url().filename() ) );
     dotDirectory.writeEntry( "X", it->x() );
     dotDirectory.writeEntry( "Y", it->y() );
+    dotDirectory.writeEntry( "Exists", true );
 
     it = it->nextItem();
   }
+
+  QStringList groups = dotDirectory.groupList();
+  QStringList::ConstIterator gIt = groups.begin();
+  QStringList::ConstIterator gEnd = groups.end();
+  for (; gIt != gEnd; ++gIt )
+    if ( (*gIt).left( m_iconPositionGroupPrefix.length() ) == m_iconPositionGroupPrefix )
+    {
+      dotDirectory.setGroup( *gIt );
+      if ( dotDirectory.hasKey( "Exists" ) )
+        dotDirectory.deleteEntry( "Exists", false );
+      else
+        dotDirectory.deleteGroup( *gIt );
+    }
+
   dotDirectory.sync();
 }
 
