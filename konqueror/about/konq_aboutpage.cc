@@ -245,7 +245,7 @@ QString KonqAboutPageFactory::tips()
 KonqAboutPage::KonqAboutPage( //KonqMainWindow *
                               QWidget *parentWidget, const char *widgetName,
                               QObject *parent, const char *name )
-    : KHTMLPart( parentWidget, widgetName, parent, name )
+    : KHTMLPart( parentWidget, widgetName, parent, name, BrowserViewGUI )
 {
     //m_mainWindow = mainWindow;
 }
