@@ -171,61 +171,61 @@ void KfindTop::toolBarInit()
 {
   QPixmap icon;
   
-  icon = Icon("search.xpm");
+  icon = BarIcon("search");
   _toolBar->insertButton( icon, 0, SIGNAL(clicked()),
 			  _kfind, SLOT(startSearch()),
 			  TRUE, i18n("Start Search"));
 
-  icon = Icon("reload.xpm");
+  icon = BarIcon("reload");
   _toolBar->insertButton( icon, 1, SIGNAL(clicked()),
 			  _kfind, SLOT(newSearch()),
 			  TRUE, i18n("New Search"));
   
-  icon = Icon("stop.xpm");
+  icon = BarIcon("stop");
   _toolBar->insertButton( icon, 2, SIGNAL(clicked()),
 			  _kfind, SLOT(stopSearch()),
 			  FALSE, i18n("Stop Search"));
   
   _toolBar->insertSeparator();
   
-  icon = Icon("openfile.xpm");
+  icon = BarIcon("openfile");
   _toolBar->insertButton( icon, 3,SIGNAL(clicked()),
 			  _kfind,SIGNAL(open()),
 			  FALSE, i18n("Open"));
   
-  icon = Icon("archive.xpm");
+  icon = BarIcon("archive");
   _toolBar->insertButton( icon, 4,SIGNAL(clicked()),
 			  _kfind,SIGNAL(addToArchive()),
 			  FALSE, i18n("Add to archive"));
   
-  icon = Icon("delete.xpm");
+  icon = BarIcon("delete");
   _toolBar->insertButton( icon, 5,SIGNAL(clicked()),
 			  _kfind,SIGNAL(deleteFile()),
 			  FALSE, i18n("Delete"));
   
-  icon = Icon("info.xpm");
+  icon = BarIcon("info");
   _toolBar->insertButton( icon, 6,SIGNAL(clicked()),
 			  _kfind,SIGNAL(properties()),
 			  FALSE, i18n("Properties"));
   
-  icon = Icon("fileopen.xpm");
+  icon = BarIcon("fileopen");
   _toolBar->insertButton( icon, 7,SIGNAL(clicked()),
 			  _kfind,SIGNAL(openFolder()),
 			  FALSE, i18n("Open Containing Folder"));
   
-  icon = Icon("save.xpm");
+  icon = BarIcon("save");
   _toolBar->insertButton( icon, 8,SIGNAL(clicked()),
 			  _kfind,SIGNAL(saveResults()),
 			  FALSE, i18n("Save Search Results"));
 
   _toolBar->insertSeparator();
   
-  icon = Icon("contents.xpm");
+  icon = BarIcon("contents");
   _toolBar->insertButton( icon, 9, SIGNAL( clicked() ),
 			  kapp, SLOT( appHelpActivated() ),
 			  TRUE, i18n("Help"));
   
-  icon = Icon("exit.xpm");
+  icon = BarIcon("exit");
   _toolBar->insertButton( icon, 10, SIGNAL( clicked() ),
                           KApplication::getKApplication(), SLOT( quit() ),  
 			  TRUE, i18n("Quit"));

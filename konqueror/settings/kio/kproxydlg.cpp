@@ -88,7 +88,7 @@ KProxyOptions::KProxyOptions(QWidget *parent, const char *name)
 
   QString path;
   cp_down = new QPushButton( this );
-  cp_down->setPixmap( ICON("down.xpm") );
+  cp_down->setPixmap( BarIcon("down") );
   cp_down->setFixedSize(20,20);
   lay->addWidget(cp_down,ROW_HTTP,6);
 
