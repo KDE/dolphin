@@ -23,7 +23,7 @@
 #include <kcmodule.h>
 
 class KConfig;
-
+class QTabWidget;
 
 //-----------------------------------------------------------------------------
 
@@ -36,6 +36,7 @@ public:
   virtual void load();
   virtual void save();
   virtual void defaults();
+  virtual QString quickHelp() const;
 
 private:
    
@@ -43,6 +44,7 @@ private:
   KCModule *behavior;
   KCModule *previews;
   KCModule *kuick;
+  QTabWidget *m_tab;
 };
 
 #endif

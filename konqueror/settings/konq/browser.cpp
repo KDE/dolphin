@@ -117,6 +117,10 @@ KBrowserOptions::KBrowserOptions(KConfig *config, QString group, QWidget *parent
   connect(previews, SIGNAL(changed(bool)), this, SIGNAL(changed(bool)));
   if (kuick)
      connect(kuick, SIGNAL(changed(bool)), this, SIGNAL(changed(bool)));
+
+  connect(tab, SIGNAL(currentChanged(QWidget *)), 
+          this, SIGNAL(quickHelpChanged()));
+  m_tab = tab;
 }
 
 void KBrowserOptions::load()
@@ -144,6 +148,17 @@ void KBrowserOptions::save()
   previews->save();
   if (kuick)
      kuick->save();
+}
+
+QString KBrowserOptions::quickHelp() const
+{
+  QWidget *w = m_tab->currentPage();
+  if (w->inherits("KCModule"))
+  {
+     KCModule *m = static_cast<KCModule *>(w);
+     return m->quickHelp();
+  }
+  return QString::null;
 }
 
 #include "browser.moc"
