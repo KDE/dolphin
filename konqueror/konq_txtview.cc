@@ -29,6 +29,7 @@
 #include <qprinter.h>
 #include <qpainter.h>
 #include <qpaintdevicemetrics.h>
+#include <qmessagebox.h>
 
 #include <kio_job.h>
 #include <kio_cache.h>
@@ -202,9 +203,17 @@ void KonqTxtView::slotFixedFont()
 
 void KonqTxtView::slotSearch()
 {
-  KonqSearchDialog *searchDia = new KonqSearchDialog( this );
-  searchDia->exec();
-  delete searchDia;
+  m_pSearchDialog = new KonqSearchDialog( this );
+  
+  QObject::connect( m_pSearchDialog, SIGNAL( findFirst( const QString & ) ),
+                    this, SLOT( slotFindFirst( const QString & ) ) );
+  QObject::connect( m_pSearchDialog, SIGNAL( findNext() ),
+                    this, SLOT( slotFindNext() ) );
+  
+  m_pSearchDialog->exec();
+  
+  delete m_pSearchDialog;
+  m_pSearchDialog = 0L;
 }
 
 void KonqTxtView::print()
@@ -281,6 +290,44 @@ void KonqTxtView::slotData( int, const char *data, int len )
 void KonqTxtView::slotError( int, int err, const char *text )
 {
   kioErrorDialog( err, text );
+}
+
+void KonqTxtView::slotFindFirst( const QString &_text )
+{
+  m_strSearchText = _text;
+  m_iSearchPos = 0;
+  m_iSearchLine = 0;
+  m_bFound = false;
+  slotFindNext();
+}
+
+void KonqTxtView::slotFindNext()
+{
+  int index;
+  
+  while ( ( index = textLine( m_iSearchLine ).find( m_strSearchText, m_iSearchPos ) ) == -1 )
+  {
+    m_iSearchLine++;
+    m_iSearchPos = 0;
+    if ( m_iSearchLine >= numLines() )
+    {
+      if ( !m_bFound )
+      {
+        QMessageBox::information( m_pSearchDialog , i18n( "Konqueror: Error" ),
+                                  i18n( "Search string not found." ), i18n( "Ok" ) );
+        return;      
+      }
+      m_iSearchLine = 0;
+      m_iSearchPos = 0;
+      m_bFound = false;	
+    }
+  }
+
+  m_bFound = true;
+  setCursorPosition( m_iSearchLine, index, false );
+  setCursorPosition( m_iSearchLine, index + m_strSearchText.length(), true );
+  update();
+  m_iSearchPos = index+1;
 }
 
 void KonqTxtView::mousePressEvent( QMouseEvent *e )

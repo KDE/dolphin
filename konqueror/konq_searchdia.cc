@@ -39,6 +39,8 @@ KonqSearchDialog::KonqSearchDialog( QWidget *parent )
   QLabel *findLabel = new QLabel( i18n( "Find :"), hBox );
   
   m_pLineEdit = new QLineEdit( hBox );
+  connect( m_pLineEdit, SIGNAL( textChanged( const QString & ) ),
+           this, SLOT( slotTextChanged() ) );
   
   hBox->setSpacing( 5 );
   
@@ -67,12 +69,24 @@ KonqSearchDialog::KonqSearchDialog( QWidget *parent )
 
 void KonqSearchDialog::slotFind()
 {
+  if ( m_bFirstSearch )
+  {
+    emit findFirst( m_pLineEdit->text() );
+    m_bFirstSearch = false;
+  }
+  else
+    emit findNext();
 }
 
 void KonqSearchDialog::slotClear()
 {
   m_bFirstSearch = true;
-  emit clear();
+  m_pLineEdit->clear();
+}
+
+void KonqSearchDialog::slotTextChanged()
+{
+  m_bFirstSearch = true;
 }
 
 void KonqSearchDialog::resizeEvent( QResizeEvent * )

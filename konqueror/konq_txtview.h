@@ -26,6 +26,7 @@
 
 class KonqMainView;
 class QFont;
+class KonqSearchDialog;
 
 class KonqTxtView : public QMultiLineEdit,
                     public KonqBaseView,
@@ -60,6 +61,9 @@ protected slots:
   void slotData( int, const char *, int );
   void slotError( int, int, const char * );
 
+  void slotFindFirst( const QString &_text );
+  void slotFindNext();
+
 protected:
   virtual void mousePressEvent( QMouseEvent *e );
 
@@ -70,6 +74,12 @@ private:
   int m_iYOffset;
   bool m_bFixedFont;
   OpenPartsUI::Menu_var m_vMenuView;
+  
+  QString m_strSearchText;
+  int m_iSearchPos;
+  int m_iSearchLine;
+  KonqSearchDialog *m_pSearchDialog;
+  bool m_bFound;
 };
 
 #endif

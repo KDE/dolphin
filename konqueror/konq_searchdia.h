@@ -18,7 +18,7 @@
 */ 
 
 #ifndef __konq_searchdia_h__
-#define __konq_searchdia_h__
+#define __konq_searchdia_h__ $Id$
 
 #include <qdialog.h>
 #include <qregexp.h>
@@ -33,20 +33,18 @@ public:
   KonqSearchDialog( QWidget *parent = 0L );
   
 signals:
-  void findFirst( const QRegExp &expr );
+  void findFirst( const QString &text );
   void findNext();
-  void clear();
 
 protected slots:
   void slotFind();
   void slotClear();
+  void slotTextChanged();
 
 protected:
   virtual void resizeEvent( QResizeEvent * );
 
 private:
-  bool m_bFirstSearch;
-  
   QPushButton *m_pFindButton;
   QPushButton *m_pClearButton;
   QPushButton *m_pCloseButton;
@@ -54,6 +52,8 @@ private:
   QLineEdit *m_pLineEdit;
   
   QVBox *m_pVBox;
+  
+  bool m_bFirstSearch;
 };
 
 #endif
