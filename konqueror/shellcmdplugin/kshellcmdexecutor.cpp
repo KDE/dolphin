@@ -97,7 +97,6 @@ void KShellCommandExecutor::readDataFromShell()
    char buffer[16*1024];
    int bytesRead=::read(m_shellProcess->fd(), buffer, 16*1024-1);
    //0-terminate the buffer
-   buffer[bytesRead]='\0';
    //process exited
    if (bytesRead<=0)
    {
@@ -106,6 +105,7 @@ void KShellCommandExecutor::readDataFromShell()
    else if (bytesRead>0)
    {
       //kdDebug()<<"***********************\n"<<buffer<<"###################\n"<<endl;
+      buffer[bytesRead]='\0';
       this->append(QString(buffer));
       setTextFormat(PlainText);
    };
