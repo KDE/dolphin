@@ -24,6 +24,7 @@
 #include <assert.h>
 #include <stdio.h>
 #include <qpainter.h>
+#include <qheader.h>
 #include <kiconloader.h>
 
 /**************************************************************
@@ -32,13 +33,16 @@
  *
  **************************************************************/
 KonqListViewItem::KonqListViewItem( KonqBaseListViewWidget *_listViewWidget, KonqListViewItem * _parent, KFileItem* _fileitem )
-:KonqBaseListViewItem(_listViewWidget,_parent,_fileitem )
+   : KonqBaseListViewItem(_listViewWidget,_parent,_fileitem ),
+     m_pixmaps(listView()->columns(), 0)
 {
    updateContents();
 }
 
 KonqListViewItem::KonqListViewItem( KonqBaseListViewWidget *_listViewWidget, KFileItem* _fileitem )
-:KonqBaseListViewItem(_listViewWidget,_fileitem)
+   : KonqBaseListViewItem(_listViewWidget,_fileitem),
+     m_pixmaps(listView()->columns(), 0)
+   
 {
    updateContents();
 }
@@ -141,6 +145,9 @@ void KonqListViewItem::setDisabled( bool disabled )
 
 void KonqListViewItem::setActive( bool active )
 {
+    if ( m_bActive == active )
+        return;
+
     //#### Optimize away repaint if possible, like the iconview does?
     KonqBaseListViewItem::setActive( active );
     int iconSize = m_pListViewWidget->iconSize();
@@ -148,6 +155,62 @@ void KonqListViewItem::setActive( bool active )
     setPixmap( 0, m_fileitem->pixmap( iconSize, state() ) );
 }
 
+void KonqListViewItem::setPixmap( int column, const QPixmap& pm )
+{
+   if ( column < 0 )
+      return;
+
+   const QPixmap *current = pixmap( column );
+   
+   if ( ( pm.isNull() && !current ) ||
+        ( current && pm.serialNumber() == current->serialNumber() ) )
+      return;
+
+   int oldWidth = current ? current->width() : 0;
+   int oldHeight = current ? current->height() : 0;
+
+   if ( m_pixmaps.size() < column )
+      m_pixmaps.resize( column, 0 );
+
+   delete current;
+   m_pixmaps[column] = pm.isNull() ? 0 : new QPixmap( pm );
+
+   int newWidth = pm.isNull() ? 0 : pm.width();
+   int newHeight = pm.isNull() ? 0 : pm.height();
+
+   // If the height or width have changed then we're going to have to repaint
+   // this whole thing.  Fortunately since most of the calls are coming from
+   // setActive() this is the uncommon case.
+
+   if ( oldWidth != newWidth || oldHeight != newHeight )
+   {
+      setup();
+      widthChanged( column );
+      invalidateHeight();
+      return;
+   }
+
+   // If we're just replacing the icon with another one its size -- i.e. a 
+   // "highlighted" icon, don't bother repainting the whole widget.
+
+   QListView *lv = m_pListViewWidget;
+
+   int decorationWidth = lv->treeStepSize() * ( depth() + ( lv->rootIsDecorated() ? 1 : 0 ) );
+   int x = lv->header()->sectionPos( column ) + decorationWidth + lv->itemMargin();
+   int y = lv->itemPos( this );
+   int w = newWidth;
+   int h = height();
+   lv->repaintContents( x, y, w, h );
+}
+
+const QPixmap* KonqListViewItem::pixmap( int column ) const
+{
+   bool ok;
+   QPixmap *pm = m_pixmaps.at( column, &ok );
+   if( !ok )
+      return 0;
+   return pm;
+}
 
 QString KonqListViewItem::key( int _column, bool asc ) const
 {
@@ -222,10 +285,8 @@ void KonqListViewItem::paintCell( QPainter *_painter, const QColorGroup & _cg, i
 
   if ( _column == 0 )
   {
-     _painter->setFont( m_pListViewWidget->itemFont() );
+    _painter->setFont( m_pListViewWidget->itemFont() );
   }
-  //else
-  //   _painter->setPen( m_pListViewWidget->color() );
 
   cg.setColor( QColorGroup::Text, m_pListViewWidget->itemColor() );
 

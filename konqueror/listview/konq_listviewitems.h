@@ -24,6 +24,8 @@
 #include <qstring.h>
 #include <kicontheme.h>
 
+#include <qvaluevector.h>
+
 // for mode_t
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -101,6 +103,12 @@ class KonqListViewItem : public KonqBaseListViewItem
       virtual void updateContents();
       virtual void setDisabled( bool disabled );
       virtual void setActive  ( bool active   );
+
+      virtual void setPixmap( int column, const QPixmap & pm );
+      virtual const QPixmap * pixmap( int column ) const;
+
+private:
+      QValueVector<QPixmap *> m_pixmaps;
 };
 
 #endif
