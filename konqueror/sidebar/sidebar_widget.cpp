@@ -35,6 +35,8 @@
 #include <kio/netaccess.h>
 #include <kpopupmenu.h>
 
+#include <qwhatsthis.h>
+
 QString  Sidebar_Widget::PATH=QString("");
 
 addBackEnd::addBackEnd(QObject *parent,class QPopupMenu *addmenu,const char *name):QObject(parent,name)
@@ -593,6 +595,7 @@ bool Sidebar_Widget::addButton(const QString &desktoppath,int pos)
 
     	QString icon=confFile->readEntry("Icon","");
 	QString name=confFile->readEntry("Name","");
+	QString comment=confFile->readEntry("Comment","");
 	QString url=confFile->readEntry("URL","");
 	QString lib=confFile->readEntry("X-KDE-KonqSidebarModule","");
 
@@ -607,6 +610,10 @@ bool Sidebar_Widget::addButton(const QString &desktoppath,int pos)
 		KMultiTabBarTab *tab=ButtonBar->getTab(lastbtn);
 		tab->installEventFilter(this);
 		connect(tab,SIGNAL(clicked(int)),this,SLOT(showHidePage(int)));
+
+		// Set Whats This help
+		// This uses the comments in the .desktop files
+		QWhatsThis::add(tab, comment);
 	}
 
 	return true;
