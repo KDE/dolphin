@@ -93,18 +93,19 @@ void KonqHTMLWidget::openURL( const KURL &url, bool reload, int xOffset, int yOf
   m_bAutoLoadImages = KonqHTMLSettings::defaultHTMLSettings()->autoLoadImages();
   enableImages( m_bAutoLoadImages );
 
-#ifdef __GNUC__
-#warning remove this hack after krash (lars)
-#endif
+//warning remove this hack after krash (lars)
+//no idea why openURL should emit openURLRequest - this loops ! (David)
 
+/*
     if(post_data)
     {
+*/
       // IMO KHTMLWidget should take a KURL as argument (David)
 	KHTMLWidget::openURL(url.url(), reload, xOffset, yOffset, post_data);
 	return;
-    }
+ //   }
 
-  emit openURLRequest( url.url(), reload, xOffset, yOffset );
+/// Loop! (David)  emit openURLRequest( url.url(), reload, xOffset, yOffset );
 }
 
 
@@ -194,6 +195,7 @@ void KonqHTMLView::slotCompleted()
   // and : not if the user already moved the scrollbars
   // Ok, since I'm lazy it will simple to start with (David)
   m_pWidget->setContentsPos( m_iXOffset, m_iYOffset );
+  emit completed();
 }
 
 void KonqHTMLView::closeURL()

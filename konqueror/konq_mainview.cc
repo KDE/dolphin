@@ -36,7 +36,6 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-#include <qaction.h>
 #include <qapplication.h>
 #include <qclipboard.h>
 #include <qmetaobject.h>
@@ -61,10 +60,7 @@
 #include <konqsettings.h>
 #include <kprogress.h>
 #include <kio_job.h>
-#include <kuserpaths.h>
 #include <ktrader.h>
-#include <ksharedptr.h>
-#include <kservice.h>
 #include <kapp.h>
 #include <dcopclient.h>
 #include <klibloader.h>
@@ -91,8 +87,6 @@ bool KonqMainView::s_bMoveSelection = false;
 KonqMainView::KonqMainView( const QString &initialURL, bool openInitialURL, const char *name )
  : KParts::MainWindow( name ),  DCOPObject( "KonqMainViewIface" )
 {
-//  setFocusPolicy( NoFocus ); // don't give the focus to this dummy QWidget
-
   m_currentView = 0L;
   m_pBookmarkMenu = 0L;
   m_bViewModeLock = false;
@@ -135,6 +129,7 @@ KonqMainView::KonqMainView( const QString &initialURL, bool openInitialURL, cons
   m_bMenuEditDirty = true;
   m_bMenuViewDirty = true;
 
+  // (David) : should the views do that ?
   //  connect( QApplication::clipboard(), SIGNAL( dataChanged() ),
   //           this, SLOT( checkEditExtension() ) );
   connect( KSycoca::self(), SIGNAL( databaseChanged() ),
@@ -287,7 +282,7 @@ QString KonqMainView::konqFilteredURL( const QString &_url )
   return url;
 }
 
-void KonqMainView::openFilteredURL( KonqChildView */*_view*/, const QString &_url )
+void KonqMainView::openFilteredURL( KonqChildView * /*_view*/, const QString &_url )
 {
   KonqURLEnterEvent ev( konqFilteredURL( _url ) );
   QApplication::sendEvent( this, &ev );
@@ -324,31 +319,42 @@ void KonqMainView::openURL( KonqChildView *_view, const QString &_url, bool relo
       view->stop();
     }	
 
-    //kdebug( KDEBUG_INFO, 1202, "%s", QString("view->run for %1").arg(url).latin1() );
      setLocationBarURL( view, url );
      view->setMiscURLData( reload, xOffset, yOffset );
     if ( !serviceType.isEmpty() )
     {
+      kDebugInfo( 1202, "%s", QString("trying openView for %1 (servicetype %2)").arg(url).arg(serviceType).latin1() );
       if ( !openView( serviceType, url, view ) )
+      {
+        kDebugInfo( 1202, "%s", QString("Nope. Creating new KRun for %1").arg(url).latin1() );
         (void)new KRun( url );
+      }
     }
     else
+    {
+      kDebugInfo( 1202, "%s", QString("view->run for %1").arg(url).latin1() );
       view->run( url );
+    }
 
   }
   else
   {
-    //kdebug( KDEBUG_INFO, 1202, "%s", QString("Creating new konqrun for %1").arg(url).latin1() );
     if ( m_combo )
       m_combo->setEditText( url );
 
     if ( !serviceType.isEmpty() )
     {
       if ( !openView( serviceType, url, 0L ) )
+      {
+        kDebugInfo( 1202, "%s", QString("Creating new KRun for %1").arg(url).latin1() );
         (void)new KRun( url );
+      }
     }
     else
+    {
+      kDebugInfo( 1202, "%s", QString("Creating new konqrun for %1").arg(url).latin1() );
       (void) new KonqRun( this, 0L, url, 0, false, true );
+    }
   }
 
   if ( view && view == m_currentView && serviceType.isEmpty() )
@@ -1173,8 +1179,10 @@ void KonqMainView::callExtensionMethod( KonqChildView * childView, const char * 
     return;*/
 
   QMetaData * mdata = obj->metaObject()->slot( methodName );
-  assert(mdata);
-  (obj->*(mdata->ptr))();
+  if( !mdata )
+    kDebugFatal("No such method %s", methodName);
+  else
+    (obj->*(mdata->ptr))();
 }
 
 void KonqMainView::slotCut()
