@@ -74,8 +74,10 @@ KAppearanceOptions::KAppearanceOptions(KConfig *config, QString group, QWidget *
   lay->addMultiCellWidget( chsetLA , r, r, E, E+1 );
 
   m_pChset = new QComboBox( false, this );
+#if QT_VERSION < 300
   chSets = KGlobal::charsets()->availableCharsetNames();
   m_pChset->insertStringList( chSets );
+#endif
   lay->addMultiCellWidget(m_pChset,r, r, M, W);
   connect( m_pChset, SIGNAL( activated(const QString& ) ),
 	   SLOT( slotCharset(const QString&) ) );
@@ -370,8 +372,12 @@ void KAppearanceOptions::updateGUI()
 
 
     KCharsets *s = KGlobal::charsets();
+#if QT_VERSION < 300
     m_families = s->availableFamilies( s->xNameToID( charset ) );
     m_families.sort();
+#else 
+#warning port me! FIXME!
+#endif
 
     m_pFonts[0]->setFonts( m_families );
     m_pFonts[1]->setFonts( m_families );
