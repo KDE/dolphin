@@ -16,7 +16,7 @@ the different views shown : icon views, tree views, html views...)
 The parent part is called the "main view", implemented in KonqMainView,
 which derives from OPPartIf.
 
-The window that contains it, and handles the File and Help menu, is
+The win
 KonqMainWindow, which derives from OPMainWindowIf.
 
 The main(), including all the startup mechanism is in konq_main.*
@@ -42,9 +42,9 @@ the classes above, defining an interface for it.
 
 All of those classes inherit from KonqBaseView, the base class for the child views.
 
-Additionnally, the icon and tree view define items (one per file). KonqIconViewItem
-and KonqTreeViewItem, which both inherit KonqKfmIconViewItem (defines common
-functionality such as url, mimetype, status bar info, dnd drop...).
+Additionnally, the icon and tree view define items (one per file) :
+KonqIconViewItem and KonqTreeViewItem, which both inherit KFileIcon 
+(defines common functionality such as url, mimetype, statusbar info, dnd...).
 
 Where to find those classes
 ===========================
@@ -54,14 +54,11 @@ kfmrun.* : Re-implementation of KRun (see libkio) for konqueror. Treats
            HTML and directory in a special way compared to KRun and is also
 	   responsible for finding appropriate view<->mimetype bindings with
 	   the help of KonqPlugins.
-kiconcontainer.* : Widget containing icons, for KonqKfmIconView. Will
-                   probably be moved somewhere else (libkonq ? kdeui ?)
 konq_baseview.* : KonqBaseView, base class for all builtin views.
 konq_childview.* : KonqChildView, class used by KonqMainView to handle child views
 konq_frame.* : KonqFrame - not used anymore for now - and KonqFrameHeader.
 konq_htmlview.* : KonqHTMLView, html view
 konq_iconview.* : KonqKfmIconView and KonqKfmIconViewItem, for icon views
-konq_kfmview.* : KonqKfmViewItem, base class for items in the icon and tree view
 konq_main.* : The main() and the definition of KonqApp and KonqApplicationIf
 konq_mainview.* : KonqMainView, main view, one per main window
 konq_mainwindow.* : KonqMainWindow, konqueror window
@@ -76,14 +73,14 @@ konq_treeview.* : KonqKfmTreeView and KonqKfmTreeViewItem, for tree views
 konq_txtview.* : KonqTxtView, a builtin text viewer
 konqueror.cc, konqueror.h : Files generated from konqueror.idl
 
-konq_defaults.h : Default configuration values, used by konqueror and kcmkonq (todo!) 
+konq_defaults.h : Default configuration values, used by konqueror and kcmkonq (todo!)  - problem is to share or not to share those values with kdesktop
 mousemode.h : Needed by kiconcontainer, to choose between single and double 
-              click - do we want to keep this ?
+              click - we have a problem with it - it's needed everywhere
 
 Libs used by konqueror
 ======================
 
 kdecore, kdeui, kfile, khtml, kparts - usual stuff :)
 libkio - I/O stuff, mimetypes, services, registry
-libkonq - bookmarks, properties dialog, templates ("new") menu
+libkonq - bookmarks, properties dialog, templates ("new") menu, icon container
 
