@@ -23,7 +23,12 @@ class KUserInfoChFaceDlg : public KDialogBase
 public:
   KUserInfoChFaceDlg(const QString& picsdirs, QWidget *parent=0, const char *name=0, bool modal=true);
 
-  QPixmap getFaceImage() const { return *(m_FacesWidget->currentItem()->pixmap()); }
+  QPixmap getFaceImage() const { 
+    if(m_FacesWidget->currentItem())
+      return *(m_FacesWidget->currentItem()->pixmap());
+    else
+      return NULL;
+  }
 
 private slots:
   void slotFaceWidgetSelectionChanged( QIconViewItem *item ) { enableButtonOK( !item->pixmap()->isNull() ); }

@@ -152,8 +152,8 @@ void KUserInfoConfig::slotFaceButtonClicked()
 
   if ( pDlg->exec() == QDialog::Accepted )
   {
-    /*if ( !dlg->getFaceImage().isNull() ) */ // This check is redundant, the dialog does this itself.
-    changeFace( pDlg->getFaceImage() );
+    if ( !pDlg->getFaceImage().isNull() )
+      changeFace( pDlg->getFaceImage() );
   }
   delete pDlg;
 }
