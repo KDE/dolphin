@@ -85,7 +85,7 @@ void KonqListViewItem::init()
             setText(tmpColumn->displayInColumn,m_fileitem->linkDest());
             break;
          case KIO::UDS_SIZE:
-            setText(tmpColumn->displayInColumn,KGlobal::locale()->formatNumber( m_fileitem->size(), 0 ));
+            setText(tmpColumn->displayInColumn,KGlobal::locale()->formatNumber( m_fileitem->size(),0)+" ");
             break;
          case KIO::UDS_ACCESS:
             setText(tmpColumn->displayInColumn,makeAccessString(m_fileitem->permissions()));

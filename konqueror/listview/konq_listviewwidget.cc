@@ -189,6 +189,8 @@ void KonqBaseListViewWidget::readProtocolConfig( const QString & protocol )
    // using the mimetype comment, which for most users is a nicer alternative
    // than the raw mimetype name.
    listingList.append( "MimeType" );
+   for (unsigned int i=0; i<NumberOfAtoms; i++)
+      kdDebug(1202)<<"i: "<<i<<" name: "<<confColumns[i].name<<" disp: "<<confColumns[i].displayInColumn<<" on: "<<confColumns[i].displayThisOne<<endl;
 
    for (unsigned int i=0; i<NumberOfAtoms; i++)
    {
@@ -199,14 +201,47 @@ void KonqBaseListViewWidget::readProtocolConfig( const QString & protocol )
          if (*listingList.at(k)==confColumns[i].desktopFileName) break;
       if (*listingList.at(k)!=confColumns[i].desktopFileName)
       {
+         //move all columns behind one to the front
          for (unsigned int l=0; l<NumberOfAtoms; l++)
             if (confColumns[i].displayInColumn>confColumns[i].displayInColumn)
                confColumns[i].displayInColumn--;
+         //disable this column
          confColumns[i].displayThisOne=FALSE;
          confColumns[i].toggleThisOne->setEnabled(FALSE);
          confColumns[i].toggleThisOne->setChecked(FALSE);
       }
    }
+   for (unsigned int i=0; i<NumberOfAtoms; i++)
+      kdDebug(1202)<<"i: "<<i<<" name: "<<confColumns[i].name<<" disp: "<<confColumns[i].displayInColumn<<" on: "<<confColumns[i].displayThisOne<<endl;
+}
+
+void KonqBaseListViewWidget::createColumns()
+{
+   //this column is always required, so add it
+   if (columns()<1) addColumn(i18n("Name"));
+   setSorting(0,TRUE);
+
+   //remove all but the first column
+   for (int i=columns()-1; i>0; i--)
+      removeColumn(i);
+   //now add the checked columns
+   int currentColumn(1);
+   for (int i=0; i<NumberOfAtoms; i++)
+   {
+      if ((confColumns[i].displayThisOne) && (confColumns[i].displayInColumn==currentColumn))
+      {
+         addColumn(i18n(confColumns[i].name.utf8() ));
+         if (sortedByColumn==confColumns[i].desktopFileName)
+            setSorting(currentColumn,ascending);
+         if (confColumns[i].udsId==KIO::UDS_SIZE) setColumnAlignment(currentColumn,AlignRight);
+         i=-1;
+         currentColumn++;
+      }
+   }
+   if (sortedByColumn=="FileName")
+      setSorting(m_filenameColumn,ascending);
+   for (unsigned int i=0; i<NumberOfAtoms; i++)
+      kdDebug(1202)<<"i: "<<i<<" name: "<<confColumns[i].name<<" disp: "<<confColumns[i].displayInColumn<<" on: "<<confColumns[i].displayThisOne<<endl;
 }
 
 void KonqBaseListViewWidget::stop()
@@ -703,31 +738,6 @@ void KonqBaseListViewWidget::popupMenu( const QPoint& _global )
    if ( lstItems.count() == 0 )
     if ( ! m_dirLister->rootItem() )
       delete rootItem; // we just created it
-}
-
-void KonqBaseListViewWidget::createColumns()
-{
-   //this column is always required, so add it
-   if (columns()<1) addColumn(i18n("Name"));
-   setSorting(0,TRUE);
-
-   //remove all but the first column
-   for (int i=columns()-1; i>0; i--)
-      removeColumn(i);
-   //now add the checked columns
-   int currentColumn(1);
-   for (int i=0; i<NumberOfAtoms; i++)
-   {
-      if ((confColumns[i].displayThisOne) && (confColumns[i].displayInColumn==currentColumn))
-      {
-         addColumn(i18n(confColumns[i].name.utf8() ));
-         if (sortedByColumn==confColumns[i].desktopFileName)
-            setSorting(currentColumn,ascending);
-         if (confColumns[i].udsId==KIO::UDS_SIZE) setColumnAlignment(currentColumn,AlignRight);
-         i=-1;
-         currentColumn++;
-      }
-   }
 }
 
 void KonqBaseListViewWidget::updateListContents()

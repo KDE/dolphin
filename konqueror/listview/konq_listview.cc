@@ -476,22 +476,29 @@ void KonqListView::slotColumnToggled()
 void KonqListView::slotHeaderClicked(int sec)
 {
    kdDebug(1202)<<"section: "<<sec<<" clicked"<<endl;
-   int clickedColumn(0);
+   int clickedColumn(-1);
    for (int i=0; i<KonqBaseListViewWidget::NumberOfAtoms; i++)
       if (m_pListView->confColumns[i].displayInColumn==sec) clickedColumn=i;
-
-   if (m_pListView->confColumns[clickedColumn].desktopFileName!=m_pListView->sortedByColumn)
+   kdDebug(1202)<<"atom index "<<clickedColumn<<endl;
+   QString nameOfSortColumn;
+   //we clicked the file name column
+   if (clickedColumn==-1)
+      nameOfSortColumn="FileName";
+   else
+      nameOfSortColumn=m_pListView->confColumns[clickedColumn].desktopFileName;
+      
+   if (nameOfSortColumn!=m_pListView->sortedByColumn)
    {
-      m_pListView->sortedByColumn=m_pListView->confColumns[clickedColumn].desktopFileName;
+      m_pListView->sortedByColumn=nameOfSortColumn;
       m_pListView->ascending=TRUE;
    }
    else
       m_pListView->ascending=!m_pListView->ascending;
-
+   
    KConfig * config = KGlobal::config();
    QString groupName="ListView_" + m_pListView->url().protocol();
    config->setGroup( groupName );
-   config->writeEntry("SortBy",m_pListView->confColumns[clickedColumn].desktopFileName);
+   config->writeEntry("SortBy",nameOfSortColumn);
    config->writeEntry("SortOrder",m_pListView->ascending);
    config->sync();
 };
