@@ -28,7 +28,7 @@
 #include <kiconloader.h>
 #include <kglobalsettings.h>
 #include <kstandarddirs.h>
-#include <kxmlgui.h>
+#include <kxmlguifactory.h>
 #include <kxmlguibuilder.h>
 
 #include <assert.h>
