@@ -29,6 +29,8 @@
 
 #include <assert.h>
 
+#define HINT_UTF8	106
+
 KonqRun::KonqRun( KonqMainWindow* mainWindow, KonqView *_childView,
                   const KURL & _url, const KonqOpenURLRequest & req, bool trustedSource )
     : KParts::BrowserRun( _url, req.args, _childView ? _childView->part() : 0L, mainWindow,
@@ -141,8 +143,8 @@ void KonqRun::handleError( KIO::Job *job )
    * error = int kio error code, errText = QString error text from kio
    * The sub-url is the URL that we were trying to open.
    */
-  KURL newURL = QString("error:/?error=%1&errText=%2")
-                .arg( job->error() ).arg( job->errorText() );
+  KURL newURL(QString("error:/?error=%1&errText=%2")
+	      .arg( job->error() ).arg( job->errorText()), HINT_UTF8 );
 
   m_strURL.setPass( QString::null ); // don't put the password in the error URL
 
