@@ -20,6 +20,7 @@
 #define __commands_h
 
 #include <gcommand.h>
+#include <kbookmark.h>
 
 class MoveCommand : public KCommand
 {
@@ -58,9 +59,9 @@ public:
 
     // Create a folder
     CreateCommand( const QString & name, const QString & address,
-                   const QString & text )
+                   const QString & text, bool open )
         : KCommand(name), m_to(address), m_text(text),
-          m_group(true), m_separator(false)
+          m_group(true), m_separator(false), m_open(open)
     {}
 
     virtual ~CreateCommand() {}
@@ -70,23 +71,27 @@ private:
     QString m_to;
     QString m_text;
     QString m_url;
-    bool m_group;
-    bool m_separator;
+    bool m_group:1;
+    bool m_separator:1;
+    bool m_open:1;
 };
 
 class DeleteCommand : public KCommand
 {
 public:
     DeleteCommand( const QString & name, const QString & from )
-        : KCommand(name), m_from(from), m_cmd(0L)
+        : KCommand(name), m_from(from), m_cmd(0L), m_subCmd(0L)
     {}
     virtual ~DeleteCommand()
     { delete m_cmd; }
     virtual void execute();
     virtual void unexecute();
+
+    static KMacroCommand * deleteAll( const KBookmarkGroup & parentGroup );
 private:
     QString m_from;
     KCommand * m_cmd;
+    KMacroCommand * m_subCmd;
 };
 
 class EditCommand : public KCommand
@@ -140,37 +145,28 @@ private:
     QString m_oldText;
 };
 
-/*class SetAsToolbarCommand : public KMacroCommand
-{
-public:
-    SetAsToolbarCommand( const QString & name, const QString & from, const QString & to )
-        : KCommand(name), m_from(from), m_to(to)
-    {}
-    virtual ~SetAsToolbarCommand() {}
-    virtual void execute();
-    virtual void unexecute();
-private:
-    QString m_from;
-    QString m_to;
-};*/
-
 #include <qstack.h>
 #include <qobject.h>
-#include <kbookmark.h>
 class ImportCommand : public QObject, public KCommand
 {
     Q_OBJECT
 public:
+    /**
+     * @param name name of the command
+     * @param fileName HTML file to import
+     * @param folder name of the folder to create. Empty for no creation (root()).
+     * @param icon icon for the new folder, if @p folder isn't empty
+     */
     ImportCommand( const QString & name, const QString & fileName, const QString & folder, const QString & icon )
-        : KCommand(name), m_fileName(fileName), m_folder(folder), m_icon(icon)
+        : KCommand(name), m_fileName(fileName), m_folder(folder), m_icon(icon), m_cleanUpCmd(0L)
     {}
     virtual ~ImportCommand() {}
     virtual void execute();
     virtual void unexecute();
 
 protected slots:
-    void newBookmark( const QString & text, const QCString & url );
-    void newFolder( const QString & text );
+    void newBookmark( const QString & text, const QCString & url, const QString & additionnalInfo );
+    void newFolder( const QString & text, bool open, const QString & additionnalInfo );
     void newSeparator();
     void endMenu();
 
@@ -181,6 +177,7 @@ private:
     QString m_folder;
     QString m_icon;
     QString m_group;
+    KMacroCommand * m_cleanUpCmd;
 };
 
 #endif

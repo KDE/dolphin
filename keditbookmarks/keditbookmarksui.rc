@@ -6,6 +6,8 @@
 <Menu name="file" noMerge="1"><text>&amp;File</text>
  <Action name="file_importNS"/>
  <Action name="file_importMoz"/>
+ <Action name="file_exportNS"/>
+ <Action name="file_exportMoz"/>
  <Separator/>
  <Action name="file_save"/>
  <Action name="file_close"/>
@@ -14,9 +16,11 @@
 <Menu name="edit" noMerge="1"><text>&amp;Edit</text>
  <Action name="edit_undo"/>
  <Action name="edit_redo"/>
+ <Separator/><!-- Edition -->
  <Action name="edit_rename"/>
+ <Action name="edit_changeicon"/>
  <Action name="edit_delete"/>
- <Separator/>
+ <Separator/><!-- Creation -->
  <Action name="edit_newfolder"/>
  <Action name="edit_insertseparator"/>
  <Separator/><!-- Stuff for folders -->
@@ -42,8 +46,11 @@
 </ToolBar>
 
 <Menu name="popup_folder">
+             <!-- Edition -->
  <Action name="edit_rename"/>
+ <Action name="edit_changeicon"/>
  <Action name="edit_delete"/>
+ <Separator/><!-- Creation -->
  <Action name="edit_newfolder"/>
  <Action name="edit_insertseparator"/>
  <Separator/><!-- Stuff for folders -->
@@ -52,8 +59,11 @@
 </Menu>
 
 <Menu name="popup_bookmark">
+             <!-- Edition -->
  <Action name="edit_rename"/>
+ <Action name="edit_changeicon"/>
  <Action name="edit_delete"/>
+ <Separator/><!-- Creation -->
  <Action name="edit_newfolder"/>
  <Action name="edit_insertseparator"/>
  <Separator/><!-- Stuff for bookmarks -->

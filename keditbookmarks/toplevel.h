@@ -43,6 +43,7 @@ public:
 
     const KBookmark & bookmark() { return m_bookmark; }
 private:
+    void init( const KBookmark & bk );
     KBookmark m_bookmark;
 };
 
@@ -77,9 +78,12 @@ public:
 
 public slots:
     void slotImportNS();
+    void slotExportNS();
     void slotImportMoz();
+    void slotExportMoz();
     void slotSave();
     void slotRename();
+    void slotChangeIcon();
     void slotDelete();
     void slotNewFolder();
     void slotInsertSeparator();

@@ -74,7 +74,7 @@ void MoveCommand::execute()
 void MoveCommand::unexecute()
 {
     // Let's not duplicate code.
-    MoveCommand undoCmd( "dummy", m_to, m_from );
+    MoveCommand undoCmd( QString::null, m_to, m_from );
     undoCmd.execute();
     // Get the addresses back from that command, in case they changed
     m_from = undoCmd.m_to;
@@ -100,14 +100,20 @@ void CreateCommand::execute()
         {
             bk = parentGroup.createNewFolder( m_text );
             m_text = bk.fullText(); // remember it, we won't have to ask it again
+            kdDebug() << "CreateCommand::execute " << m_group << " open : " << m_open << endl;
+            bk.internalElement().setAttribute( "OPEN", m_open ? 1 : 0 );
         }
         else
             bk = parentGroup.addBookmark( m_text, m_url );
 
     // Move to right position
     parentGroup.moveItem( bk, prev );
-    // Open the parent (useful if it was empty)
-    parentGroup.internalElement().setAttribute( "OPEN", 1 );
+    if ( !name().isEmpty() )
+    {
+        kdDebug() << "Opening parent" << endl;
+        // Open the parent (useful if it was empty) - only for manual commands
+        parentGroup.internalElement().setAttribute( "OPEN", 1 );
+    }
     ASSERT( bk.address() == m_to );
 }
 
@@ -116,6 +122,7 @@ void CreateCommand::unexecute()
     kdDebug() << "CreateCommand::unexecute deleting " << m_to << endl;
     KBookmark bk = KBookmarkManager::self()->findByAddress( m_to );
     ASSERT( !bk.isNull() );
+    ASSERT( !bk.parentGroup().isNull() );
     // Update GUI
     // but first we need to select a valid item
     KListView * lv = KEBTopLevel::self()->listView();
@@ -135,14 +142,20 @@ void DeleteCommand::execute()
 {
     kdDebug() << "DeleteCommand::execute " << m_from << endl;
     KBookmark bk = KBookmarkManager::self()->findByAddress( m_from );
+    ASSERT(!bk.isNull());
     if ( !m_cmd )
         if ( bk.isGroup() )
-            m_cmd = new CreateCommand("dummy", m_from, bk.fullText());
+        {
+            m_cmd = new CreateCommand(QString::null, m_from, bk.fullText(),
+                                      bk.internalElement().attribute("OPEN")=="1");
+            m_subCmd = deleteAll( bk.toGroup() );
+            m_subCmd->execute();
+        }
         else
             if ( bk.isSeparator() )
-                m_cmd = new CreateCommand("dummy", m_from );
+                m_cmd = new CreateCommand(QString::null, m_from );
             else
-                m_cmd = new CreateCommand("dummy", m_from, bk.fullText(), bk.url());
+                m_cmd = new CreateCommand(QString::null, m_from, bk.fullText(), bk.url());
 
     m_cmd->unexecute();
 }
@@ -150,6 +163,23 @@ void DeleteCommand::execute()
 void DeleteCommand::unexecute()
 {
     m_cmd->execute();
+    if (m_subCmd)
+        m_subCmd->unexecute();
+}
+
+KMacroCommand * DeleteCommand::deleteAll( const KBookmarkGroup & parentGroup )
+{
+    KMacroCommand * cmd = new KMacroCommand( QString::null );
+    QStringList lstToDelete;
+    // We need to delete from the end, to avoid index shifting
+    for ( KBookmark bk = parentGroup.first() ; !bk.isNull() ; bk = parentGroup.next(bk) )
+        lstToDelete.prepend( bk.address() );
+    for ( QStringList::Iterator it = lstToDelete.begin(); it != lstToDelete.end() ; ++it )
+    {
+        kdDebug() << "ImportCommand::execute: deleting " << *it << endl;
+        cmd->addCommand( new DeleteCommand( QString::null, *it ) );
+    }
+    return cmd;
 }
 
 void EditCommand::execute()
@@ -170,7 +200,7 @@ void EditCommand::execute()
 void EditCommand::unexecute()
 {
     // Let's not duplicate code.
-    EditCommand cmd( "dummy", m_address, m_reverseEditions );
+    EditCommand cmd( QString::null, m_address, m_reverseEditions );
     cmd.execute();
     // Get the editions back from it, in case they changed (hmm, shouldn't happen)
     m_editions = cmd.m_reverseEditions;
@@ -194,7 +224,7 @@ void RenameCommand::execute()
 void RenameCommand::unexecute()
 {
     // Let's not duplicate code.
-    RenameCommand cmd( "dummy", m_address, m_oldText );
+    RenameCommand cmd( QString::null, m_address, m_oldText );
     cmd.execute();
     // Get the old text back from it, in case they changed (hmm, shouldn't happen)
     m_newText = cmd.m_oldText;
@@ -202,19 +232,32 @@ void RenameCommand::unexecute()
 
 void ImportCommand::execute()
 {
-    // Find or create "Netscape Bookmarks" toplevel item
-    // Hmm, let's just create it. The user will clean up if he imports twice.
-
-    KBookmarkGroup netscapeGroup = KBookmarkManager::self()->root().createNewFolder(m_folder);
-    netscapeGroup.internalElement().setAttribute("ICON", m_icon);
-    m_group = netscapeGroup.address();
+    KBookmarkGroup netscapeGroup;
+    if ( !m_folder.isEmpty() )
+    {
+        // Find or create "Netscape Bookmarks" toplevel item
+        // Hmm, let's just create it. The user will clean up if he imports twice.
+        netscapeGroup = KBookmarkManager::self()->root().createNewFolder(m_folder);
+        netscapeGroup.internalElement().setAttribute("ICON", m_icon);
+        m_group = netscapeGroup.address();
+    } else
+    {
+        // Import into the root, after cleaning it up
+        netscapeGroup = KBookmarkManager::self()->root();
+        delete m_cleanUpCmd;
+        m_cleanUpCmd = DeleteCommand::deleteAll( netscapeGroup );
+        // Unselect current item, it doesn't exist anymore
+        KEBTopLevel::self()->listView()->clearSelection();
+        m_cleanUpCmd->execute();
+        m_group = ""; // import at the root
+    }
 
     mstack.push( &netscapeGroup );
     KNSBookmarkImporter importer(m_fileName);
-    connect( &importer, SIGNAL( newBookmark( const QString &, const QCString & ) ),
-             SLOT( newBookmark( const QString &, const QCString & ) ) );
-    connect( &importer, SIGNAL( newFolder( const QString & ) ),
-             SLOT( newFolder( const QString & ) ) );
+    connect( &importer, SIGNAL( newBookmark( const QString &, const QCString &, const QString & ) ),
+             SLOT( newBookmark( const QString &, const QCString &, const QString & ) ) );
+    connect( &importer, SIGNAL( newFolder( const QString &, bool, const QString & ) ),
+             SLOT( newFolder( const QString &, bool, const QString & ) ) );
     connect( &importer, SIGNAL( newSeparator() ), SLOT( newSeparator() ) );
     connect( &importer, SIGNAL( endMenu() ), SLOT( endMenu() ) );
     importer.parseNSBookmarks();
@@ -225,21 +268,42 @@ void ImportCommand::execute()
 
 void ImportCommand::unexecute()
 {
-    // Just delete the whole imported group
-    CreateCommand cmd("dummy", m_group, "dummy");
-    cmd.unexecute();
+    if ( !m_folder.isEmpty() )
+    {
+        // We created a group -> just delete it
+        DeleteCommand cmd(QString::null, m_group);
+        cmd.execute();
+    }
+    else
+    {
+        // We imported at the root -> delete everything
+        KBookmarkGroup root = KBookmarkManager::self()->root();
+        KCommand * cmd = DeleteCommand::deleteAll( root );
+        // Unselect current item, it doesn't exist anymore
+        KEBTopLevel::self()->listView()->clearSelection();
+        cmd->execute();
+        delete cmd;
+        // And recreate what was there before
+        m_cleanUpCmd->unexecute();
+    }
 }
 
-void ImportCommand::newBookmark( const QString & text, const QCString & url )
+void ImportCommand::newBookmark( const QString & text, const QCString & url, const QString & additionnalInfo )
 {
-    mstack.top()->addBookmark( text, QString::fromUtf8(url) );
+    KBookmark bk = mstack.top()->addBookmark( text, QString::fromUtf8(url) );
+    // Store additionnal info
+    bk.internalElement().setAttribute("NETSCAPEINFO",additionnalInfo);
 }
 
-void ImportCommand::newFolder( const QString & text )
+void ImportCommand::newFolder( const QString & text, bool open, const QString & additionnalInfo )
 {
     // We use a qvaluelist so that we keep pointers to valid objects in the stack
     mlist.append( mstack.top()->createNewFolder( text ) );
     mstack.push( &(mlist.last()) );
+    // Store additionnal info
+    QDomElement element = mlist.last().internalElement();
+    element.setAttribute("NETSCAPEINFO",additionnalInfo);
+    element.setAttribute("OPEN",open?"1":"0");
 }
 
 void ImportCommand::newSeparator()

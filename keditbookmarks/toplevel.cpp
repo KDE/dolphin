@@ -21,6 +21,7 @@
 #include <kaction.h>
 #include <kbookmarkmanager.h>
 #include <kbookmarkimporter.h>
+#include <kbookmarkexporter.h>
 #include <kdebug.h>
 #include <kstdaction.h>
 #include <klocale.h>
@@ -28,13 +29,14 @@
 #include <klistview.h>
 #include <krun.h>
 #include <kiconloader.h>
+#include <kicondialog.h>
 #include <kapp.h>
 #include <qfile.h>
 #include <dcopclient.h>
 #include <assert.h>
 #include <stdlib.h>
 
-// #define DEBUG_ADDRESSES
+//#define DEBUG_ADDRESSES
 
 // toplevel item (there should be only one!)
 KEBListViewItem::KEBListViewItem(QListView *parent, const KBookmark & group )
@@ -42,39 +44,35 @@ KEBListViewItem::KEBListViewItem(QListView *parent, const KBookmark & group )
 {
     setPixmap(0, SmallIcon("bookmark"));
     setExpandable(true); // Didn't know this was necessary :)
-#ifdef DEBUG_ADDRESSES
-    setText(2, bk.address());
-#endif
 }
 
 // bookmark (first of its group)
 KEBListViewItem::KEBListViewItem(KEBListViewItem *parent, const KBookmark & bk )
     : QListViewItem(parent, bk.fullText(), bk.url()), m_bookmark(bk)
 {
-    setPixmap(0, SmallIcon( bk.icon() ) );
-#ifdef DEBUG_ADDRESSES
-    setText(2, bk.address());
-#endif
+    init(bk);
 }
 
 // bookmark (after another)
 KEBListViewItem::KEBListViewItem(KEBListViewItem *parent, QListViewItem *after, const KBookmark & bk )
     : QListViewItem(parent, after, bk.fullText(), bk.url()), m_bookmark(bk)
 {
-    setPixmap(0, SmallIcon( bk.icon() ) );
-#ifdef DEBUG_ADDRESSES
-    setText(2, bk.address());
-#endif
+    init(bk);
 }
 
 // group
 KEBListViewItem::KEBListViewItem(KEBListViewItem *parent, QListViewItem *after, const KBookmarkGroup & gp )
     : QListViewItem(parent, after, gp.fullText()), m_bookmark(gp)
 {
-    setPixmap(0, SmallIcon( gp.icon() ) );
+    init(gp);
     setExpandable(true);
+}
+
+void KEBListViewItem::init( const KBookmark & bk )
+{
+    setPixmap(0, SmallIcon( bk.icon() ) );
 #ifdef DEBUG_ADDRESSES
-    setText(2, gp.address());
+    setText(2, bk.address());
 #endif
 }
 
@@ -177,21 +175,23 @@ KEBTopLevel::KEBTopLevel( const QString & bookmarksFile )
     // Create the actions
 
     KAction * act = new KAction( i18n( "Import Netscape Bookmarks" ), "netscape", 0, this, SLOT( slotImportNS() ), actionCollection(), "file_importNS" );
-    act->setEnabled( QFile::exists( KBookmarkImporter::netscapeBookmarksFile() ) );
+    act->setEnabled( QFile::exists( KNSBookmarkImporter::netscapeBookmarksFile() ) );
+    (void) new KAction( i18n( "Export To Netscape Bookmarks" ), "netscape", 0, this, SLOT( slotExportNS() ), actionCollection(), "file_exportNS" );
     act = new KAction( i18n( "Import Mozilla Bookmarks" ), "mozilla", 0, this, SLOT( slotImportMoz() ), actionCollection(), "file_importMoz" );
-    act->setEnabled( QFile::exists( KBookmarkImporter::mozillaBookmarksFile() ) );
+    act->setEnabled( QFile::exists( KNSBookmarkImporter::mozillaBookmarksFile() ) );
+    (void) new KAction( i18n( "Export To Mozilla Bookmarks" ), "mozilla", 0, this, SLOT( slotExportMoz() ), actionCollection(), "file_exportMoz" );
     // TODO export to NS and Moz
     (void) KStdAction::save( this, SLOT( slotSave() ), actionCollection() );
     (void) KStdAction::close( this, SLOT( close() ), actionCollection() );
     (void) new KAction( i18n( "&Delete" ), "editdelete", SHIFT+Key_Delete, this, SLOT( slotDelete() ), actionCollection(), "edit_delete" );
     (void) new KAction( i18n( "&Rename" ), "text", Key_F2, this, SLOT( slotRename() ), actionCollection(), "edit_rename" );
+    (void) new KAction( i18n( "Chan&ge Icon" ), "www", 0, this, SLOT( slotChangeIcon() ), actionCollection(), "edit_changeicon" );
     (void) new KAction( i18n( "&Create New Folder" ), "folder_new", CTRL+Key_N, this, SLOT( slotNewFolder() ), actionCollection(), "edit_newfolder" );
     (void) new KAction( i18n( "&Insert separator" ), CTRL+Key_I, this, SLOT( slotInsertSeparator() ), actionCollection(), "edit_insertseparator" );
     (void) new KAction( i18n( "&Sort alphabetically" ), 0, this, SLOT( slotSort() ), actionCollection(), "edit_sort" );
-    (void) new KAction( i18n( "Set As &Toolbar Folder" ), 0, this, SLOT( slotSetAsToolbar() ), actionCollection(), "edit_setastoolbar" );
+    (void) new KAction( i18n( "Set As &Toolbar Folder" ), "bookmark_toolbar", 0, this, SLOT( slotSetAsToolbar() ), actionCollection(), "edit_setastoolbar" );
     (void) new KAction( i18n( "&Open Link" ), "fileopen", 0, this, SLOT( slotOpenLink() ), actionCollection(), "edit_openlink" );
     (void) new KAction( i18n( "Test &Link" ), "bookmark", 0, this, SLOT( slotTestLink() ), actionCollection(), "edit_testlink" );
-    // TODO change icon (calls KIconDialog) ?
     m_taShowNS = new KToggleAction( i18n( "Show Netscape Bookmarks in Konqueror windows" ), 0, this, SLOT( slotShowNS() ), actionCollection(), "settings_showNS" );
 
     m_taShowNS->setChecked( KBookmarkManager::self()->showNSBookmarks() );
@@ -281,6 +281,7 @@ void KEBTopLevel::slotDelete()
         return;
     }
     KBookmark bk = selectedBookmark();
+#if 0
     kdDebug() << "KEBTopLevel::slotDelete child count=" << bk.internalElement().childNodes().count() << endl;
     if ( bk.isGroup() && bk.internalElement().childNodes().count() > 1 /*there's always "TEXT"*/ )
     {
@@ -288,6 +289,7 @@ void KEBTopLevel::slotDelete()
                                          i18n("Confirmation required") ) == KMessageBox::No )
             return;
     }
+#endif
 
     DeleteCommand * cmd = new DeleteCommand( i18n("Delete item"), bk.address() );
     m_commandHistory.addCommand( cmd );
@@ -295,7 +297,7 @@ void KEBTopLevel::slotDelete()
 
 void KEBTopLevel::slotNewFolder()
 {
-    CreateCommand * cmd = new CreateCommand( i18n("Create Folder"), insertionAddress(), QString::null );
+    CreateCommand * cmd = new CreateCommand( i18n("Create Folder"), insertionAddress(), QString::null, true /*open*/ );
     m_commandHistory.addCommand( cmd );
 }
 
@@ -307,16 +309,40 @@ void KEBTopLevel::slotInsertSeparator()
 
 void KEBTopLevel::slotImportNS()
 {
-    ImportCommand * cmd = new ImportCommand( i18n("Import Netscape Bookmarks"), KBookmarkImporter::netscapeBookmarksFile(),
-                                             i18n("Netscape Bookmarks"), "netscape");
+    // Hmm, there's no questionYesNoCancel...
+    int answer = KMessageBox::questionYesNo( this, i18n("Import as a new subfolder or replace all the current bookmarks ?"),
+                                             i18n("Netscape Import"), i18n("As New Folder"), i18n("Replace") );
+    bool subFolder = (answer==KMessageBox::Yes);
+    ImportCommand * cmd = new ImportCommand( i18n("Import Netscape Bookmarks"), KNSBookmarkImporter::netscapeBookmarksFile(),
+                                             subFolder ? i18n("Netscape Bookmarks") : QString::null, "netscape");
     m_commandHistory.addCommand( cmd );
+
+    // Ok, we don't need the dynamic menu anymore
+    if ( m_taShowNS->isChecked() )
+        m_taShowNS->activate();
 }
 
 void KEBTopLevel::slotImportMoz()
 {
-    ImportCommand * cmd = new ImportCommand( i18n("Import Mozilla Bookmarks"), KBookmarkImporter::mozillaBookmarksFile(),
-                                             i18n("Mozilla Bookmarks"), "mozilla");
+    // Hmm, there's no questionYesNoCancel...
+    int answer = KMessageBox::questionYesNo( this, i18n("Import as a new subfolder or replace all the current bookmarks ?"),
+                                             i18n("Mozilla Import"), i18n("As New Folder"), i18n("Replace") );
+    bool subFolder = (answer==KMessageBox::Yes);
+    ImportCommand * cmd = new ImportCommand( i18n("Import Mozilla Bookmarks"), KNSBookmarkImporter::mozillaBookmarksFile(),
+                                             subFolder ? i18n("Mozilla Bookmarks") : QString::null, "mozilla");
     m_commandHistory.addCommand( cmd );
+}
+
+void KEBTopLevel::slotExportNS()
+{
+    KNSBookmarkExporter exporter( KNSBookmarkImporter::netscapeBookmarksFile() );
+    exporter.write();
+}
+
+void KEBTopLevel::slotExportMoz()
+{
+    KNSBookmarkExporter exporter( KNSBookmarkImporter::mozillaBookmarksFile() );
+    exporter.write();
 }
 
 void KEBTopLevel::slotSort()
@@ -363,6 +389,7 @@ void KEBTopLevel::slotTestLink()
 
 void KEBTopLevel::slotShowNS()
 {
+    kdDebug() << "KEBTopLevel::slotShowNS" << endl;
     QDomElement rootElem = KBookmarkManager::self()->root().internalElement();
     QString attr = "HIDE_NSBK";
     rootElem.setAttribute(attr, rootElem.attribute(attr) == "1" ? "0" : "1");
@@ -412,39 +439,27 @@ void KEBTopLevel::slotItemRenamed(QListViewItem * item, const QString & newText,
     }
 }
 
+void KEBTopLevel::slotChangeIcon()
+{
+    KBookmark bk = selectedBookmark();
+    ASSERT(!bk.isNull());
+    KIconDialog dlg(this);
+    QString newIcon = dlg.selectIcon(KIcon::Small, KIcon::FileSystem);
+    EditCommand * cmd = new EditCommand( i18n("Icon change"), bk.address(),
+                                         EditCommand::Edition("ICON", newIcon) );
+    m_commandHistory.addCommand( cmd );
+}
+
 void KEBTopLevel::slotMoved(QListViewItem *_item, QListViewItem * _newParent, QListViewItem *_afterNow)
 {
-    // The whole moving-items thing is screwed up in KListView
-    // Try moving something as the first item of a group -> will be inserted as
-    // the sibling instead.
-    // It should be like netscape, where you can drop between items or _on_ a
-    // group, which sets as first item of the group. I'm afraid it means a
-    // "new parent" item in the signal
-
     kdDebug() << "KEBTopLevel::slotMoved _item=" << _item << " _afterNow=" << _afterNow << endl;
     KEBListViewItem * item = static_cast<KEBListViewItem *>(_item);
     KEBListViewItem * newParent = static_cast<KEBListViewItem *>(_newParent);
     KEBListViewItem * afterNow = static_cast<KEBListViewItem *>(_afterNow);
     if (!_newParent) // Not allowed to drop something before the root item !
-    {
         return;
-    }
 
     QString newAddress;
-#if 0
-    if (newParent.isNull())
-    {
-        // newParent can be null, if afterNow is the root item. In this case, set as first child
-        // This is a very special case, in fact. The more generic solution would be to
-        // allow insertions into a group. See above.
-        /*m_pListView->takeItem( item );
-        m_pListView->firstChild()->insertItem( item );
-        afterNow->bookmark().internalElement().insertBefore( item->bookmark().internalElement(), QDomNode() );
-        */
-        newAddress="/0";
-    }
-    else
-#endif
 
     if ( afterNow )
         // We move as the next child of afterNow
@@ -485,6 +500,7 @@ void KEBTopLevel::slotSelectionChanged()
     coll->action("edit_rename")->setEnabled(itemSelected && !separator && !root);
     coll->action("edit_delete")->setEnabled(itemSelected && !root);
     coll->action("edit_newfolder")->setEnabled(itemSelected);
+    coll->action("edit_changeicon")->setEnabled(itemSelected);
     coll->action("edit_insertseparator")->setEnabled(itemSelected);
     //coll->action("edit_sort")->setEnabled(group); // not implemented
     coll->action("edit_setastoolbar")->setEnabled(group);
@@ -596,6 +612,7 @@ bool KEBTopLevel::queryClose()
 
 void KEBTopLevel::slotCommandExecuted()
 {
+    kdDebug() << "KEBTopLevel::slotCommandExecuted" << endl;
     KEBTopLevel::self()->setModified();
     KEBTopLevel::self()->update();     // Update GUI
 }
