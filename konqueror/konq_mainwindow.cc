@@ -1104,7 +1104,7 @@ void KonqMainWindow::slotRunFinished()
     if ( run->hasError() ) // Nothing to show ??
     {
       close(); // This window is useless
-      KMessageBox::sorry(0L, i18n("Could not display the requested URL, closing the window"));
+      //KMessageBox::sorry(0L, i18n("Could not display the requested URL, closing the window"));
       // or should we go back $HOME ?
     }
     // else : no error but no mimetype either... we just drop it.
