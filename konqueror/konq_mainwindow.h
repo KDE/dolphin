@@ -72,6 +72,8 @@ namespace KParts {
  struct URLArgs;
 };
 
+class KonqFavIconMgr;
+
 class KonqMainWindow : public KParts::MainWindow,
 		       virtual public KBookmarkOwner
 {
@@ -195,6 +197,9 @@ public:
 
   // for the view manager
   void currentProfileChanged();
+
+  // favicon manager
+  KonqFavIconMgr *favIconMgr() { return m_favIconMgr; }
 
 signals:
   void viewAdded( KonqView *view );
@@ -329,7 +334,7 @@ protected slots:
 
   void slotFindClosed( KonqDirPart * dirPart );
 
-  void slotIconChanged( const QString & );
+  void slotIconsChanged();
 
 protected:
   QString detectNameFilter( QString & url );
@@ -503,6 +508,7 @@ private:
   static QList<KonqMainWindow> *s_lstViews;
 
   QString m_currentDir; // stores current dir for relative URLs whenever applicable
+  KonqFavIconMgr *m_favIconMgr;
 };
 
 #endif

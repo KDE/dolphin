@@ -25,7 +25,7 @@
 #include <kconfig.h>
 #include <kpixmapprovider.h>
 
-class KonqPixmapProvider : public KPixmapProvider
+class KonqPixmapProvider : public QObject, public KPixmapProvider
 {
 public:
     virtual ~KonqPixmapProvider() {} // shut g++ up
@@ -46,9 +46,9 @@ public:
     void save( KConfig *, const QString& key, const QStringList& items );
 
     /**
-     * Forces the pixmap for @p url to be removed from the cache
+     * Clears the pixmap cache
      */
-    void remove( const QString& url );
+    void updateFavIcons();
 
 private:
     QMap<QString,QString> iconMap;

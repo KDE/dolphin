@@ -21,7 +21,6 @@
 #include <qdir.h>
 
 #include <kparts/browserextension.h>
-#include <konq_faviconmgr.h>
 
 #include "konq_guiclients.h"
 #include "KonqMainWindowIface.h"
@@ -35,6 +34,7 @@
 #include "konq_events.h"
 #include "konq_actions.h"
 #include "konq_pixmapprovider.h"
+#include <konq_faviconmgr.h>
 
 #include <pwd.h>
 // we define STRICT_ANSI to get rid of some warnings in glibc
@@ -160,7 +160,7 @@ KonqMainWindow::KonqMainWindow( const KURL &initialURL, bool openInitialURL, con
 				     KGlobalSettings::completionMode() );
     s_pCompletion->setCompletionMode( (KGlobalSettings::Completion) mode );
   }
-
+  
   createGUI( 0L );
 
   if ( !m_toggleViewGUIClient->empty() )
@@ -216,8 +216,9 @@ KonqMainWindow::KonqMainWindow( const KURL &initialURL, bool openInitialURL, con
   connect( KonqUndoManager::self(), SIGNAL( undoAvailable( bool ) ),
            this, SLOT( slotUndoAvailable( bool ) ) );
 
-  connect( KonqFavIconMgr::self(), SIGNAL( iconChanged( const QString & ) ),
-           this, SLOT( slotIconChanged( const QString & ) ) );
+  m_favIconMgr = new KonqFavIconMgr( this );
+  connect( m_favIconMgr, SIGNAL( changed() ),
+           this, SLOT( slotIconsChanged() ) );
 
   resize( 700, 480 );
   //kdDebug(1202) << "KonqMainWindow::KonqMainWindow " << this << " done" << endl;
@@ -968,12 +969,12 @@ void KonqMainWindow::slotFindClosed( KonqDirPart * dirPart )
     dirPart->setFindPart( 0 );
 }
 
-void KonqMainWindow::slotIconChanged( const QString & url )
+void KonqMainWindow::slotIconsChanged()
 {
     if ( !m_combo )
         return;
     KonqPixmapProvider *prov = static_cast<KonqPixmapProvider*> (m_combo->pixmapProvider());
-    prov->remove( url );
+    prov->updateFavIcons();
     // FIXME: there is a smarter way, no? (malte)
     QString currentURL = m_combo->currentText();
     m_combo->setPixmapProvider(0);

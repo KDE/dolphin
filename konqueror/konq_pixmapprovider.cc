@@ -24,6 +24,7 @@
 #include <kmimetype.h>
 #include <kprotocolinfo.h>
 #include <kurl.h>
+
 #include <konq_faviconmgr.h>
 
 #include "konq_pixmapprovider.h"
@@ -104,7 +105,7 @@ void KonqPixmapProvider::save( KConfig *kc, const QString& key,
     kc->writeEntry( key, list );
 }
 
-void KonqPixmapProvider::remove( const QString& )
+void KonqPixmapProvider::updateFavIcons()
 {
     for ( QMapIterator<QString,QString> it = iconMap.begin();
           it != iconMap.end();

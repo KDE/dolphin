@@ -412,7 +412,7 @@ void KonqView::setLocationBarURL( const QString & locationBarURL )
 
 void KonqView::setIconURL( const KURL & iconURL )
 {
-  KonqFavIconMgr::self()->setIconForURL(m_sLocationBarURL, iconURL);
+  m_pMainWindow->favIconMgr()->setIconForURL( m_sLocationBarURL, iconURL );
 }
 
 void KonqView::slotOpenURLNotify()
@@ -649,11 +649,7 @@ void KonqView::sendOpenURLEvent( const KURL &url, const KParts::URLArgs &args )
   {
     // Try to get /favicon.ico
     if ( m_serviceType == "text/html" && url.protocol().left(4) == "http" )
-    {
-      KURL iconURL( url );
-      iconURL.setEncodedPathAndQuery( "/favicon.ico" );
-      KonqFavIconMgr::self()->setIconForURL(m_sLocationBarURL, iconURL, true);
-    }
+      m_pMainWindow->favIconMgr()->downloadHostIcon( url );
   }
 }
 
