@@ -335,31 +335,19 @@ void KIconContainer::unselectAll()
       setSelected( *it, false );
 }
 
-void KIconContainer::selectIcons( const QRect& rect, bool /* b */ )
+void KIconContainer::selectIcons( const QRect& rect, bool _refresh )
 {
-  kdebug(KDEBUG_INFO, 1205, "Selecting icons in QRect ( x=%d, y=%d, w=%d, h=%d )", 
-         rect.x(), rect.y(), rect.width(), rect.height());
   iterator it = begin();
   for( ; *it; ++it )
   {
-    bool changed = false;
-    // remove any previous selection
-    if ( (*it)->isSelected() ) 
+    bool inRect = rect.contains( QRect((*it)->position(), (*it)->size()) );
+    // select the icon if contained by the rectangle [and not selected]
+    // deselect if not in rectangle [and selected]
+    if ( inRect != (*it)->isSelected() )
     {
-      (*it)->setSelected( false );
-      changed = true;
-    }
-    // select the icon if contained by the rectangle
-    if ( rect.contains( QRect((*it)->position(), (*it)->size()) )
-         &&  !(*it)->isSelected() )
-    {
-      kdebug(KDEBUG_INFO, 1205, "Selecting one icon");
-      (*it)->setSelected( true );
-      changed = true;
-    }
-    // if any of the above made the state of the item change, repaint it
-    if (changed)
+      (*it)->setSelected( inRect, _refresh /* whether to emit signals */);
       repaintItem( (*it) );
+    }
   }
 }
 

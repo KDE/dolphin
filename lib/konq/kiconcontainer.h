@@ -86,7 +86,7 @@ public:
   virtual bool hasFixedPos() const { return m_bFixedPos; }
   /**
    * @param _pos is relative to the upper left corner of the container.
-   * @param _refresh
+   * @param _refresh if set to true, will emit selectionChanged for each icon.
    */
   virtual void setFixedPos( const QPoint& _pos, bool _refresh = true );
   /** Call this to re-arrange icons */
@@ -273,10 +273,10 @@ public:
   virtual void unselectAll();
   /**
    * Select only the icons in a rectangle
-   * @param rect the rectangle containing the icons
-   * @param b ????
+   * @param _rect the rectangle containing the icons
+   * @param _refresh if true, emits selectionChanged for the icons
    */
-  virtual void selectIcons( const QRect& rect, bool b /* ?? Torben ? :) */ = true );
+  virtual void selectIcons( const QRect& _rect, bool _refresh = true );
 
   /**
    * Recomputes the icon arrangement, losing all fixed positions
