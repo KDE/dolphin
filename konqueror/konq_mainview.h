@@ -79,6 +79,7 @@ public:
 public slots:
 
   void slotPopupMenu( const QPoint &_global, const KFileItemList &_items );
+  void slotPopupMenu( const QPoint &_global, const KURL &_url, const QString &_mimeType, mode_t mode );
 
   void openURL( const KURL &url, bool reload, int xOffset, int yOffset, const QString &serviceType );
 
