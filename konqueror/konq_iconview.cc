@@ -39,6 +39,7 @@
 #include <qkeycode.h>
 #include <qpalette.h>
 #include <qdragobject.h>
+#include <klocale.h>
 
 KonqKfmIconView::KonqKfmIconView( QWidget* _parent ) : KIconContainer( _parent )
 {

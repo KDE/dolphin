@@ -30,6 +30,7 @@
 #include <khtml.h>
 
 #include <qmsgbox.h>
+#include <klocale.h>
 
 KBrowser::KBrowser( QWidget *parent, const char *name, KBrowser *_parent_browser )
     : KHTMLView( parent, name, 0, _parent_browser )

@@ -1,6 +1,7 @@
 
 #include "konq_partview.h"
 #include <opFrame.h>
+#include <klocale.h>
 
 /*
  * Simon's small TODO list :)

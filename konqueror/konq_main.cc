@@ -57,6 +57,7 @@
 #include "konq_treeview.h"
 #include "konq_txtview.h"
 #include "konq_plugins.h"
+#include <klocale.h>
 
 // DEBUG
 #include <iostream>

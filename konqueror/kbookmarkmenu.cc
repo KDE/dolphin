@@ -42,6 +42,7 @@
 #include "kpixmapcache.h"
 
 #include <opUIUtils.h>
+#include <klocale.h>
 
 /********************************************************************
  *

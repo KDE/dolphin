@@ -1,7 +1,6 @@
 INCLUDES  = $(MICO_INCLUDES) $(all_includes) -I$(idldir)
 LDFLAGS   = $(all_libraries) $(MICO_LDFLAGS) $(KDE_RPATH)
-LDADD = -lkparts -lkpartsui -lkom $(LIB_KFILE) $(LIB_KIO) $(LIB_KHTML) \
-	$(LIBMICO)
+LDADD = -lkparts $(LIB_KFILE) $(LIB_KHTML) 
 
 SUBDIRS = client pics Templates
 

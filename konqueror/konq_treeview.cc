@@ -43,6 +43,7 @@
 #include <qlist.h>
 #include <qdragobject.h>
 #include <qheader.h>
+#include <klocale.h>
 
 KonqKfmTreeView::KonqKfmTreeView()
 {
