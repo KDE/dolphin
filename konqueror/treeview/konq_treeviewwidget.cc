@@ -130,28 +130,55 @@ QStringList KonqTreeViewWidget::readProtocolConfig( const QString & protocol )
   else
     config->setGroup( "TreeView_default" );
 
-  // Default configuration for the columns (TODO get this from config file)
-  m_dctColumnForAtom.clear();
-  m_dctColumnForAtom.setAutoDelete( true );
-  m_dctColumnForAtom.insert( KIO::UDS_NAME, new int(0) );
-  m_dctColumnForAtom.insert( KIO::UDS_FILE_TYPE, new int(1) );
-  m_dctColumnForAtom.insert( KIO::UDS_SIZE, new int(2) );
-  m_dctColumnForAtom.insert( KIO::UDS_MODIFICATION_TIME, new int(3) );
-  m_dctColumnForAtom.insert( KIO::UDS_ACCESS, new int(4) );
-  m_dctColumnForAtom.insert( KIO::UDS_USER, new int(5) );
-  m_dctColumnForAtom.insert( KIO::UDS_GROUP, new int(6) );
-  m_dctColumnForAtom.insert( KIO::UDS_LINK_DEST, new int(7) );
-  QStringList lstColumns = config->readListEntry( "Headers" );
+  QStringList lstColumns = config->readListEntry( "Columns" );
   if (lstColumns.isEmpty())
   {
-    lstColumns.append( i18n("Name") );
-    lstColumns.append( i18n("Type") );
-    lstColumns.append( i18n("Size") );
-    lstColumns.append( i18n("Date") );
-    lstColumns.append( i18n("Permissions") );
-    lstColumns.append( i18n("Owner") );
-    lstColumns.append( i18n("Group") );
-    lstColumns.append( i18n("Link") );
+    // Default order and column selection
+    lstColumns.append( I18N_NOOP("Name") );
+    lstColumns.append( I18N_NOOP("Type") );
+    lstColumns.append( I18N_NOOP("Size") );
+    lstColumns.append( I18N_NOOP("Date") );
+    lstColumns.append( I18N_NOOP("Permissions") );
+    lstColumns.append( I18N_NOOP("Owner") );
+    lstColumns.append( I18N_NOOP("Group") );
+    lstColumns.append( I18N_NOOP("Link") );
+  }
+  // (Temporary) complete list of columns and associated m_uds constant
+  // It is just there to avoid tons of if(...) in the loop below
+  // Order has no importance of course - it matches global.h just for easier maintainance
+  QDict<int> completeDict;
+  completeDict.setAutoDelete( true );
+  completeDict.insert( "Size", new int(KIO::UDS_SIZE) );
+  completeDict.insert( "Owner", new int(KIO::UDS_USER) );
+  completeDict.insert( "Group", new int(KIO::UDS_GROUP) );
+  completeDict.insert( "Name", new int(KIO::UDS_NAME) );
+  completeDict.insert( "Permissions", new int(KIO::UDS_ACCESS) );
+  completeDict.insert( "Date", new int(KIO::UDS_MODIFICATION_TIME) );
+  // we can even have two possible titles for the same column
+  completeDict.insert( "Modification time", new int(KIO::UDS_MODIFICATION_TIME) );
+  completeDict.insert( "Access time", new int(KIO::UDS_ACCESS_TIME) );
+  completeDict.insert( "Creation time", new int(KIO::UDS_CREATION_TIME) );
+  completeDict.insert( "Type", new int(KIO::UDS_FILE_TYPE) );
+  completeDict.insert( "Link", new int(KIO::UDS_LINK_DEST) );
+  completeDict.insert( "URL", new int(KIO::UDS_URL) );
+  completeDict.insert( "MimeType", new int(KIO::UDS_MIME_TYPE) );
+
+  m_dctColumnForAtom.clear();
+  m_dctColumnForAtom.setAutoDelete( true );
+  QStringList::Iterator it = lstColumns.begin();
+  int currentColumn = 0;
+  for( ; it != lstColumns.end(); it++ )
+  {	
+    // Lookup the KIO::UDS_* for this column, by name
+    int * uds = completeDict[ *it ];
+    if (!uds)
+      kdError(1202) << "The column " << *it << ", specified in konqueror's config file, is unknown to konq_treeviewwidget !" << endl;
+    else
+    {
+      // Store result, in m_dctColumnForAtom
+      m_dctColumnForAtom.insert( *uds, new int(currentColumn) );
+      currentColumn++;
+    }
   }
   return lstColumns;
 }
@@ -568,11 +595,11 @@ bool KonqTreeViewWidget::openURL( const KURL &url )
     {	
       if ( currentColumn > m_iColumns - 1 )
       {
-	addColumn( *it );
+	addColumn( i18n(*it) );
 	m_iColumns++;
       }
       else
-	setColumnText( currentColumn, *it );
+	setColumnText( currentColumn, i18n(*it) );
     }
 
     // We had more columns than this. Should we delete them ?
