@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="keditbookmarks" version="20">
+<kpartgui name="keditbookmarks" version="21">
 
 <MenuBar>
 
@@ -85,6 +85,8 @@
   <Action name="changeicon"/>
   <Separator/><!-- Creation -->
   <Action name="newbookmark"/>
+  <Action name="newfolder"/>
+  <Action name="insertseparator"/>
   <Separator/><!-- Dangerous actions :/ -->
   <Action name="delete"/>
 </Menu>
@@ -105,6 +107,7 @@
   <Action name="changeurl"/>
   <Action name="changeicon"/>
   <Separator/><!-- Creation -->
+  <Action name="newbookmark"/>
   <Action name="newfolder"/>
   <Action name="insertseparator"/>
   <Separator/><!-- Dangerous actions :/ -->
