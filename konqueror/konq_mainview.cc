@@ -746,6 +746,8 @@ void KonqMainView::removeView( OpenParts::Id id )
       
     delete it.data();
     m_mapViews.remove( it );
+    // TODO : check if that was the last view in its row.
+    // If yes, remove the row itself
   }
   if ( m_mapViews.count() == 1 )
     setItemEnabled( m_vMenuView, MVIEW_REMOVEVIEW_ID, false );
