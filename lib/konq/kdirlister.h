@@ -122,12 +122,12 @@ signals:
   /** Tell the view to update (redraw) its contents */
   void update();
 
-  /** Clear all icons */
+  /** Clear all items */
   void clear();
-  /** Signal a new icon */
-  void newItem( KFileItem * _fileIcon );
-  /** Signal a icon to remove */
-  void deleteItem( KFileItem * _fileIcon );
+  /** Signal a new item */
+  void newItem( KFileItem * _fileItem );
+  /** Signal a item to remove */
+  void deleteItem( KFileItem * _fileItem );
 
 protected slots:
   // internal slots used by the directory lister (connected to the job)
