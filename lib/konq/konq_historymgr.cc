@@ -30,6 +30,8 @@
 
 #include <zlib.h>
 
+const Q_UINT32 KonqHistoryManager::s_historyVersion = 2;
+
 KonqHistoryManager::KonqHistoryManager( QObject *parent, const char *name )
     : KParts::HistoryProvider( parent, name ),
               KonqHistoryComm( "KonqHistoryManager" )

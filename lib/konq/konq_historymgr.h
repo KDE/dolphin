@@ -364,7 +364,6 @@ private:
 
     static const Q_UINT32 s_historyVersion;
 };
-const Q_UINT32 KonqHistoryManager::s_historyVersion = 2;
 
 
 #endif // KONQ_HISTORY_H
