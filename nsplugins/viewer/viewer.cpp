@@ -244,7 +244,7 @@ int main(int argc, char** argv)
                                  "communications server. Please make sure that "
                                  "the 'dcopserver' process has been started, and "
                                  "then try again."),
-                            i18n("Error connecting to DCOP server"));
+                            i18n("Error Connecting to DCOP Server"));
       exit(1);
    }
 

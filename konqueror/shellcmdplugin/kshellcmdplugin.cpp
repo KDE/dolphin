@@ -64,8 +64,8 @@ void KShellCmdPlugin::slotExecuteShellCommand()
       path = url.path();
    }
    bool ok;
-   QString cmd = KInputDialog::getText( QString::null,
-      i18n( "Execute shell command in current directory:" ), 
+   QString cmd = KInputDialog::getText( i18n("Execute Shell Command"),
+      i18n( "Execute shell command in current directory:" ),
       KProcess::quote( path ), &ok, part->widget() );
    if ( ok )
    {
