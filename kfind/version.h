@@ -1,3 +1,3 @@
-#ifndef VERSION
-#define VERSION "2.0"
+#ifndef KFIND_VERSION
+#define KFIND_VERSION "2.0"
 #endif
