@@ -1,6 +1,5 @@
 INCLUDES = $(all_includes)
-LDFLAGS =  $(all_libraries) $(KDE_RPATH)
-LDADD =    $(LIB_KIO) 
+LDFLAGS =  $(all_libraries)
 
 METASOURCES = AUTO
 
@@ -13,5 +12,5 @@ libkcm_kio_la_LDFLAGS  = $(all_libraries) -module -avoid-version
 libkcm_kio_la_LIBADD = -lkdeui
 
 messages:
-	$(XGETTEXT) -C -ki18n -x $(includedir)/kde.pot $(kcmkio_SOURCES) && mv messages.po ../../po/kcmkio.pot
+	$(XGETTEXT) -C -ki18n -x $(includedir)/kde.pot $(libkcm_kio_la_SOURCES) && mv messages.po ../../po/kcmkio.pot
 
