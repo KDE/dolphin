@@ -169,7 +169,7 @@ void KonqFrameStatusBar::message( const QString &msg )
 void KonqFrameStatusBar::slotDisplayStatusText(const QString& text)
 {
    //kdDebug(1202)<<"KongFrameHeader::slotDisplayStatusText("<<text<<")"<<endl;
-   m_pStatusLabel->resize(fontMetrics().width(text),13);
+   m_pStatusLabel->resize(fontMetrics().width(text),fontMetrics().height());
    m_pStatusLabel->setText(text);
    m_savedMessage = text;
 
