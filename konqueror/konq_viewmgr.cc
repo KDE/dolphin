@@ -713,6 +713,17 @@ void KonqViewManager::activatePrevTab()
   tabContainer->setCurrentPage( iTab );
 }
 
+void KonqViewManager::activateTab(int position)
+{
+  if (m_pDocContainer == 0L) return;
+  if (m_pDocContainer->frameType() != "Tabs") return;
+
+  KonqFrameTabs* tabContainer = static_cast<KonqFrameTabs*>(m_pDocContainer);
+  if (position<0 || tabContainer->count() == 1 || position>=tabContainer->count()) return;
+
+  tabContainer->setCurrentPage( position );
+}
+
 void KonqViewManager::showTab( KonqView *view )
 {
   static_cast<KonqFrameTabs*>( docContainer() )->showPage( view->frame() );

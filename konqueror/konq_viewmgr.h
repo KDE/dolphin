@@ -145,6 +145,12 @@ public:
    */
   void activatePrevTab();
 
+  /**
+   * Activate given tab
+   *
+   */
+  void activateTab(int position);
+
     void moveTabBackward();
     void moveTabForward();
 
@@ -161,7 +167,7 @@ public:
    *
    */
   void updatePixmaps();
-  
+
   /**
    * Saves the current view layout to a config file.
    * Remove config file before saving, especially if saveURLs is false.

@@ -2481,6 +2481,11 @@ void KonqMainWindow::slotActivatePrevTab()
   m_pViewManager->activatePrevTab();
 }
 
+void KonqMainWindow::activateTab(int position)
+{
+  m_pViewManager->activateTab(position);
+}
+
 void KonqMainWindow::slotDumpDebugInfo()
 {
 #ifndef NDEBUG
@@ -3316,6 +3321,19 @@ void KonqMainWindow::initActions()
 
   m_paActivateNextTab = new KAction( i18n( "Activate Next Tab" ), "tab_next", QApplication::reverseLayout() ? KStdAccel::tabPrev() : KStdAccel::tabNext(), this, SLOT( slotActivateNextTab() ), actionCollection(), "activatenexttab" );
   m_paActivatePrevTab = new KAction( i18n( "Activate Previous Tab" ), "tab_previous", QApplication::reverseLayout() ? KStdAccel::tabNext() : KStdAccel::tabPrev(), this, SLOT( slotActivatePrevTab() ), actionCollection(), "activateprevtab" );
+
+  new KAction(i18n("Activate Tab 1"), 0, this, SLOT(slotActivateTab1()), actionCollection(), "activate_tab_1");
+  new KAction(i18n("Activate Tab 2"), 0, this, SLOT(slotActivateTab2()), actionCollection(), "activate_tab_2");
+  new KAction(i18n("Activate Tab 3"), 0, this, SLOT(slotActivateTab3()), actionCollection(), "activate_tab_3");
+  new KAction(i18n("Activate Tab 4"), 0, this, SLOT(slotActivateTab4()), actionCollection(), "activate_tab_4");
+  new KAction(i18n("Activate Tab 5"), 0, this, SLOT(slotActivateTab5()), actionCollection(), "activate_tab_5");
+  new KAction(i18n("Activate Tab 6"), 0, this, SLOT(slotActivateTab6()), actionCollection(), "activate_tab_6");
+  new KAction(i18n("Activate Tab 7"), 0, this, SLOT(slotActivateTab7()), actionCollection(), "activate_tab_7");
+  new KAction(i18n("Activate Tab 8"), 0, this, SLOT(slotActivateTab8()), actionCollection(), "activate_tab_8");
+  new KAction(i18n("Activate Tab 9"), 0, this, SLOT(slotActivateTab9()), actionCollection(), "activate_tab_9");
+  new KAction(i18n("Activate Tab 10"), 0, this, SLOT(slotActivateTab10()), actionCollection(), "activate_tab_10");
+  new KAction(i18n("Activate Tab 11"), 0, this, SLOT(slotActivateTab11()), actionCollection(), "activate_tab_11");
+  new KAction(i18n("Activate Tab 12"), 0, this, SLOT(slotActivateTab12()), actionCollection(), "activate_tab_12");
 
   m_paMoveTabLeft = new KAction( i18n("Move Tab Left"), 0 , CTRL+SHIFT+Key_Left,this, SLOT( slotMoveTabLeft()),actionCollection(),"tab_move_left");
   m_paMoveTabRight = new KAction( i18n("Move Tab Right"), 0 , CTRL+SHIFT+Key_Right,this, SLOT( slotMoveTabRight()),actionCollection(),"tab_move_right");
