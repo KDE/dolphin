@@ -681,12 +681,12 @@ NPError NPN_DestroyStream(NPP instance, NPStream* stream,
 }
 
 
-NPError NPN_NewStream(NPP /*instance*/, NPMIMEType /*type*/, const char */*target*/, NPStream */*stream*/)
-{
-   kdDebug() << "NPN_NewStream() [unimplemented]" << endl;
-
-   return NPERR_GENERIC_ERROR;
-}
+//NPError NPN_NewStream(NPP /*instance*/, NPMIMEType /*type*/, const char */*target*/, NPStream */*stream*/)
+//{
+//   kdDebug() << "NPN_NewStream() [unimplemented]" << endl;
+//
+//   return NPERR_GENERIC_ERROR;
+//}
 
 
 NPError NPN_RequestRead(NPStream */*stream*/, NPByteRange */*rangeList*/)
@@ -881,7 +881,7 @@ void NSPluginStream::get( QString url, QString mimeType, void *notify )
    _stream->end = 0;
    _stream->pdata = 0;
    _stream->lastmodified = 0;
-   _stream->notifyData = 0;
+   _stream->notifyData = _notifyData;
 
    // inform the plugin
    _instance->NPNewStream((char*)mimeType.ascii(), _stream, false, &_streamType);
@@ -997,10 +997,14 @@ unsigned int NSPluginStream::process( const QByteArray &data, int start )
       if (sent==0) // interrupt the stream for a few ms
          break;
 
-      if (_tempFile)
+      if ( sent<0 ) // stream data rejected/error
       {
-         _tempFile->dataStream()->writeRawBytes( d, sent );
+          _job->kill();
+          break;
       }
+
+      if (_tempFile)
+          _tempFile->dataStream()->writeRawBytes( d, sent );
 
       to_sent -= sent;
       _pos += sent;
