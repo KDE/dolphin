@@ -3292,6 +3292,7 @@ void KonqMainWindow::initActions()
 
   // Bookmarks menu
   m_pamBookmarks = new KActionMenu( i18n( "&Bookmarks" ), "bookmark", actionCollection(), "bookmarks" );
+  m_pamBookmarks->setDelayed( false );
 
   // The actual menu needs a different action collection, so that the bookmarks
   // don't appear in kedittoolbar
