@@ -21,8 +21,6 @@
 #ifndef __konq_sound_h__
 #define __konq_sound_h__
 
-#include <qguardedptr.h>
-
 #include <klibloader.h>
 
 class KonqSoundPlayer : public QObject
@@ -31,23 +29,6 @@ public:
 	virtual const QStringList &mimeTypes() = 0;
 	virtual void play(const QString &fileName) = 0;
 	virtual void stop() = 0;
-};
-
-class KonqSoundPlayerImpl;
-
-class KonqSoundFactory : public KLibFactory
-{
-	Q_OBJECT
-public:
-	KonqSoundFactory(QObject *parent = 0, const char *name = 0);
-	virtual ~KonqSoundFactory();
-
-protected:
-	virtual QObject *createObject(QObject * = 0, const char * = 0,
-		const char *className = "QObject", const QStringList &args = QStringList());
-
-private:
-	QGuardedPtr<KonqSoundPlayerImpl> m_player;
 };
 
 #endif

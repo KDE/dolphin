@@ -23,7 +23,7 @@
 #include <kplayobjectfactory.h>
 #include <soundserver.h>
 
-#include "konq_sound.moc"
+#include "konq_sound.h"
 
 using namespace std;
 
@@ -102,26 +102,23 @@ void KonqSoundPlayerImpl::stop()
 	m_player = 0;
 }
 
-KonqSoundFactory::KonqSoundFactory(QObject *parent, const char *name)
-	: KLibFactory(parent, name),
-	  m_player(0)
+class KonqSoundFactory : public KLibFactory
 {
-}
+public:
+	KonqSoundFactory(QObject *parent = 0, const char *name = 0)
+		: KLibFactory(parent, name) {};
+	virtual ~KonqSoundFactory() {};
 
-KonqSoundFactory::~KonqSoundFactory()
-{
-	delete m_player;
-}
+protected:
+	virtual QObject *createObject(QObject * = 0, const char * = 0,
+		const char *className = "QObject", const QStringList &args = QStringList());
+};
 
 QObject *KonqSoundFactory::createObject(QObject *, const char *,
 	const char *className, const QStringList &)
 {
 	if (qstrcmp(className, "KonqSoundPlayer") == 0)
-	{
-		if (!m_player)
-			m_player = new KonqSoundPlayerImpl();
-		return m_player;
-	}
+		return new KonqSoundPlayerImpl();
 	return 0;
 }
 
