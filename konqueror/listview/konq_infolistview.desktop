@@ -1,7 +1,6 @@
 [Desktop Entry]
 Encoding=UTF-8
 Type=Service
-Exec=blahfoo
 Name=Info List View
 Name[af]=Inligting Lys Besigtig
 Name[bg]=Преглед на Списък Информация
@@ -37,7 +36,7 @@ Name[pt_BR]=Visão de Lista de Informações
 Name[ru]=В виде списка с описанием
 Name[sk]=Zoznam s informáciami
 Name[sl]=Pogled seznama z informacijami
-Name[sr]=Pogled info liste
+Name[sr]=Приказ инфо листе
 Name[sv]=Info-listvy
 Name[ta]=¾¸Åø ÀðÊÂø ¸¡ðº¢
 Name[th]=แบบไอคอน
@@ -46,6 +45,7 @@ Name[uk]=Вигляд з інформацією про зміст
 Name[ven]=Mbonalelo ya mutevhe wa mafhungo
 Name[wa]=Vey les informåcions en ene djivêye
 Name[xh]=Imboniselo Yoluhlu Lolwazi
+Name[xx]=xxInfo List Viewxx
 Name[zh_CN]=信息列表视图
 Name[zh_TW]=資訊清單檢視
 Name[zu]=Umbukiso wohlu lolwazi

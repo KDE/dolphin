@@ -1,7 +1,6 @@
 [Desktop Entry]
 Encoding=UTF-8
 Type=Service
-Exec=blahfoo
 Name=Tree View
 Name[af]=Boom Besigtig
 Name[az]=Ağaç Görünüşü
@@ -46,7 +45,7 @@ Name[ro]=Vizualizare arborescentă
 Name[ru]=В виде дерева
 Name[sk]=Stromová štruktúra
 Name[sl]=Drevesni pogled
-Name[sr]=Stablo direktorijuma
+Name[sr]=Стабло директоријума
 Name[sv]=Trädvy
 Name[ta]=ÁÃì ¸¡ðº¢
 Name[th]=แบบรายการต้นไม้
@@ -56,6 +55,7 @@ Name[ven]=Mbonalelo ya Muri
 Name[vi]=Xem dạng cây 
 Name[wa]=Vey come èn åbe
 Name[xh]=Imboniselo Yomthi
+Name[xx]=xxTree Viewxx
 Name[zh_CN]=树形视图
 Name[zh_TW]=樹狀瀏覽
 Name[zu]=Umbukiso Wesihlahla

@@ -1,7 +1,6 @@
 [Desktop Entry]
 Encoding=UTF-8
 Type=Service
-Exec=blahfoo
 Name=Text View
 Name[af]=Teks Besigtig
 Name[az]=Mətn Görünüşü
@@ -46,7 +45,7 @@ Name[ro]=Vizualizare text
 Name[ru]=В виде текста
 Name[sk]=Textový pohľad
 Name[sl]=Besedilni pogled
-Name[sr]=Tekstualni prikaz
+Name[sr]=Текстуални приказ
 Name[sv]=Textvy
 Name[ta]=¯¨Ãì ¸¡ðº¢
 Name[th]=แบบข้อความ
@@ -56,6 +55,7 @@ Name[ven]=Mbonalelo ya Manwalwa
 Name[vi]=Xem text 
 Name[wa]=Vey e môde tecse
 Name[xh]=Imboniselo Yombhalo
+Name[xx]=xxText Viewxx
 Name[zh_CN]=文字视图
 Name[zh_TW]=文字檢視
 Name[zu]=Umbukiso wombhalo

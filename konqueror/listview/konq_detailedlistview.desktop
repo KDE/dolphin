@@ -1,7 +1,6 @@
 [Desktop Entry]
 Encoding=UTF-8
 Type=Service
-Exec=blahfoo
 Name=Detailed List View
 Name[af]=Gedetaileerde Lys Besigtig
 Name[az]=Ətraflı Siyahı Görünüşü
@@ -44,7 +43,7 @@ Name[ro]=Vizualizare listă detaliată
 Name[ru]=В виде подробного списка
 Name[sk]=Detailný zoznam
 Name[sl]=Pogled podrobnega seznama
-Name[sr]=Detaljni prikaz (lista)
+Name[sr]=Детаљни приказ (листа)
 Name[sv]=Detaljerad listvy
 Name[ta]=Å¢Ã¢Å¡É ÀðÊÂü ¸¡ðº¢
 Name[th]=แบบรายละเอียด
@@ -54,6 +53,7 @@ Name[ven]=Mbonalelo ya mutevhe wo bviselwaho khagala
 Name[vi]=Xem danh sách đầy đủ 
 Name[wa]=Vey en ene sipepieuse djivêye
 Name[xh]=Imboniselo Yoluhlu Oluneenkcukacha
+Name[xx]=xxDetailed List Viewxx
 Name[zh_CN]=详细的列表视图
 Name[zh_TW]=詳細的清單檢視
 Name[zu]=Umbukiso Woluhlu Oluneminingwane
