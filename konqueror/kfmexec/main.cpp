@@ -121,7 +121,7 @@ void KFMExec::slotFinished()
 	times[i++] = buff.st_mtime;
     }
 
-    kDebugInfo("EXEC '%s'\n",command.data() );
+    kDebugInfo(0, "EXEC '%s'\n",command.data() );
 
     system( command );
 
