@@ -80,7 +80,10 @@ class FavIconBrowserInterface : public KParts::BrowserInterface
 {
    Q_OBJECT
 public:
-   FavIconBrowserInterface(FavIconUpdater *view, const char *name);
+   FavIconBrowserInterface(FavIconUpdater *view, const char *name)
+      : KParts::BrowserInterface(view, name), m_view = view {
+      ;
+   }
 private:
    FavIconUpdater *m_view;
 };

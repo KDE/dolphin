@@ -37,13 +37,13 @@
 
 TestLinkItrHolder *TestLinkItrHolder::s_self = 0;
 
-void TestLinkItrHolder::doItrListChanged() {
-   KEBTopLevel::self()->setCancelTestsEnabled(m_itrs.count() > 0);
-}
-
 TestLinkItrHolder::TestLinkItrHolder() 
    : BookmarkIteratorHolder() {
    // do stuff
+}
+
+void TestLinkItrHolder::doItrListChanged() {
+   KEBTopLevel::self()->setCancelTestsEnabled(m_itrs.count() > 0);
 }
 
 TestLinkItr::TestLinkItr(QValueList<KBookmark> bks)
@@ -51,6 +51,8 @@ TestLinkItr::TestLinkItr(QValueList<KBookmark> bks)
 
    m_job = 0;
 }
+
+// TODO - use m_done!!!
 
 TestLinkItr::~TestLinkItr() {
    if (m_job) {

@@ -36,8 +36,6 @@ SearchItrHolder::SearchItrHolder()
    ;
 }
 
-// DESIGN - also shuffle in other files
-
 void SearchItrHolder::doItrListChanged() {
    KEBTopLevel::self()->setCancelSearchEnabled(m_itrs.count() > 0);
 }
@@ -46,8 +44,6 @@ SearchItr::SearchItr(QValueList<KBookmark> bks)
    : BookmarkIterator(bks), m_showstatuscounter(0), m_statusitem(0)  {
    ;
 }
-
-// TODO - use m_done in testlink!!!
 
 SearchItr::~SearchItr() {
    if (m_statusitem) {

@@ -33,13 +33,13 @@
 
 FavIconsItrHolder *FavIconsItrHolder::s_self = 0;
 
-void FavIconsItrHolder::doItrListChanged() {
-   KEBTopLevel::self()->setCancelFavIconUpdatesEnabled(m_itrs.count() > 0);
-}
-
 FavIconsItrHolder::FavIconsItrHolder() 
    : BookmarkIteratorHolder() {
    // do stuff
+}
+
+void FavIconsItrHolder::doItrListChanged() {
+   KEBTopLevel::self()->setCancelFavIconUpdatesEnabled(m_itrs.count() > 0);
 }
 
 FavIconsItr::FavIconsItr(QValueList<KBookmark> bks)
@@ -57,7 +57,7 @@ FavIconsItr::~FavIconsItr() {
 }
 
 void FavIconsItr::slotDone(bool succeeded) {
-   kdDebug(26000) << "FavIconsItr::slotDone()" << endl;
+   kdDebug() << "FavIconsItr::slotDone()" << endl;
    m_done = true;
    curItem()->setTmpStatus(succeeded ? i18n("OK") : i18n("No favicon found"));
    delayedEmitNextOne();
@@ -68,7 +68,7 @@ bool FavIconsItr::isBlahable(const KBookmark &bk) {
 }
 
 void FavIconsItr::doBlah() {
-   kdDebug(26000) << "FavIconsItr::doBlah()" << endl;
+   kdDebug() << "FavIconsItr::doBlah()" << endl;
    m_done = false;
    curItem()->setTmpStatus(i18n("Updating favicon..."));
    if (!m_updater) {
@@ -82,63 +82,31 @@ void FavIconsItr::doBlah() {
 
 /* ---------------------------------------------------------------------------------- */
 
-// NB the whole point of all this (KIO rather than KHTML directly???) is to abort silently on error
-
-FavIconWebGrabber::FavIconWebGrabber(KParts::ReadOnlyPart *part, const KURL &url)
-  : m_part(part), m_url(url) {
-
-   kdDebug(26000) << "FavIconWebGrabber::FavIconWebGrabber starting get" << endl;
-   KIO::Job *job = KIO::get(m_url, false, false);
-   connect(job, SIGNAL( result( KIO::Job *)),
-           this, SLOT( slotFinished(KIO::Job *) ));
-   connect(job, SIGNAL( mimetype( KIO::Job *, const QString &) ),
-           this, SLOT( slotMimetype(KIO::Job *, const QString &) ));
-}
-
-void FavIconWebGrabber::slotMimetype(KIO::Job *job, const QString &typeUncopied) {
-   // update our URL in case of a redirection
-   KIO::SimpleJob *sjob = static_cast<KIO::SimpleJob *>(job);
-   m_url = sjob->url();
-   sjob->putOnHold();
-
-   QString type = typeUncopied; // necessary copy if we plan to use it
-   kdDebug(26000) << "slotMimetype : " << type << endl;
-   // FIXME - what to do if type is not text/html ??
-
-   m_part->openURL(m_url);
-}
-
-void FavIconWebGrabber::slotFinished(KIO::Job *job) {
-   if (job->error()) {
-      kdDebug(26000) << job->errorString() << endl;
-   }
-}
-
 FavIconUpdater::FavIconUpdater(QObject *parent, const char *name)
    : KonqFavIconMgr(parent, name) {
    ;
 }
 
 void FavIconUpdater::slotCompleted() {
-   kdDebug(26000) << "FavIconUpdater::slotCompleted" << endl;
-   kdDebug(26000) << "emit done(true)" << endl;
+   kdDebug() << "FavIconUpdater::slotCompleted" << endl;
+   // kdDebug() << "emit done(true)" << endl;
    emit done(true);
 }
 
 void FavIconUpdater::downloadIcon(const KBookmark &bk) {
    QString favicon = KonqFavIconMgr::iconForURL(bk.url().url());
    if (!favicon.isNull()) {
-      kdDebug(26000) << "downloadIcon() - favicon" << favicon << endl;
+      // kdDebug() << "downloadIcon() - favicon" << favicon << endl;
       bk.internalElement().setAttribute("icon", favicon);
-      kdDebug(26000) << "favicon - emitSlotCommandExecuted()" << favicon << endl;
+      // kdDebug() << "favicon - emitSlotCommandExecuted()" << favicon << endl;
       KEBTopLevel::self()->emitSlotCommandExecuted();
-      kdDebug(26000) << "emit done(true)" << endl;
+      // kdDebug() << "emit done(true)" << endl;
       emit done(true);
 
    } else {
       KonqFavIconMgr::downloadHostIcon(bk.url());
       favicon = KonqFavIconMgr::iconForURL(bk.url().url());
-      kdDebug(26000) << "favicon == " << favicon << endl;;
+      // kdDebug() << "favicon == " << favicon << endl;;
       if (favicon.isNull()) {
          downloadIconActual(bk);
       }
@@ -146,27 +114,16 @@ void FavIconUpdater::downloadIcon(const KBookmark &bk) {
 }
 
 void FavIconUpdater::downloadIconActual(const KBookmark &bk) {
-   kdDebug(26000) << "woop. umm.. whatever that means" << endl;
-
    m_bk = bk;
 
    KParts::ReadOnlyPart *part 
-      = KParts::ComponentFactory::createPartInstanceFromQuery<KParts::ReadOnlyPart>
-           ("text/html" /* mimetype */, QString::null /* constraint */);
-           // parentWidget, widgetName, parent, name);
+      = KParts::ComponentFactory
+              ::createPartInstanceFromQuery<KParts::ReadOnlyPart>("text/html", QString::null);
 
    part->setProperty("pluginsEnabled", QVariant(false, 1));
    part->setProperty("javaScriptEnabled", QVariant(false, 1));
    part->setProperty("javaEnabled", QVariant(false, 1));
    part->setProperty("autoloadImages", QVariant(false, 1));
-
-   /*
-   part->widget()->resize(1,1);
-   part->hide();
-
-   ((QScrollView *)part->widget())->setHScrollBarMode(QScrollView::AlwaysOff);
-   ((QScrollView *)part->widget())->setVScrollBarMode(QScrollView::AlwaysOff);
-   */
 
    m_part = part;
 
@@ -186,15 +143,7 @@ void FavIconUpdater::downloadIconActual(const KBookmark &bk) {
    connect(ext, SIGNAL( setIconURL(const KURL &) ),
            this, SLOT( setIconURL(const KURL &) ));
 
-   // why "new" ?
    new FavIconWebGrabber(part, bk.url());
-   // TODO return
-}
-
-FavIconBrowserInterface::FavIconBrowserInterface(FavIconUpdater *view, const char *name)
-   : KParts::BrowserInterface(view, name) {
-
-   m_view = view;
 }
 
 // khtml callback
@@ -203,14 +152,49 @@ void FavIconUpdater::setIconURL(const KURL &iconURL) {
 }
 
 void FavIconUpdater::notifyChange(bool isHost, QString hostOrURL, QString iconName) {
-   kdDebug(26000) << "notifyChange called" << endl;
+   kdDebug() << "FavIconUpdater::notifyChange() << endl;
+
+   // kdDebug() << isHost << endl;;
+   // kdDebug() << hostOrURL << "==" << m_bk.url().url() << "-> " << iconName << endl;
 
    m_bk.internalElement().setAttribute("icon", iconName);
-
-   kdDebug(26000) << "!!!- " << isHost << endl;;
-   kdDebug(26000) << "!!!- " << hostOrURL << "==" << m_bk.url().url() << "-> " << iconName << endl;
-
    KEBTopLevel::self()->emitSlotCommandExecuted();
+}
+
+/* ---------------------------------------------------------------------------------- */
+
+/* ---------------------------------------------------------------------------------- */
+
+// NB the whole point of all this (KIO rather than KHTML directly???) is to abort silently on error
+
+FavIconWebGrabber::FavIconWebGrabber(KParts::ReadOnlyPart *part, const KURL &url)
+  : m_part(part), m_url(url) {
+
+   kdDebug() << "FavIconWebGrabber::FavIconWebGrabber starting KIO::get()" << endl;
+
+   KIO::Job *job = KIO::get(m_url, false, false);
+   connect(job, SIGNAL( result( KIO::Job *)),
+           this, SLOT( slotFinished(KIO::Job *) ));
+   connect(job, SIGNAL( mimetype( KIO::Job *, const QString &) ),
+           this, SLOT( slotMimetype(KIO::Job *, const QString &) ));
+}
+
+void FavIconWebGrabber::slotMimetype(KIO::Job *job, const QString &typeUncopied) {
+   KIO::SimpleJob *sjob = static_cast<KIO::SimpleJob *>(job);
+   m_url = sjob->url(); // allow for redirection
+   sjob->putOnHold();
+
+   // QString type = typeUncopied; // local copy
+   // kdDebug() << "slotMimetype : " << type << endl;
+   // TODO - what to do if type is not text/html ??
+
+   m_part->openURL(m_url);
+}
+
+void FavIconWebGrabber::slotFinished(KIO::Job *job) {
+   if (job->error()) {
+      kdDebug() << "FavIconWebGrabber::slotFinished() " << job->errorString() << endl;
+   }
 }
 
 #include "favicons.moc"
