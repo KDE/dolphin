@@ -26,6 +26,7 @@
 
 namespace KIO { class Job; }
 class QWidget;
+class KonqMainWindow;
 
 /**
  * Implements file operations (move,del,trash,shred,paste,copy,move,link...)
@@ -33,6 +34,7 @@ class QWidget;
  */
 class KonqOperations : public QObject
 {
+   friend class KonqMainWindow;
     Q_OBJECT
 protected:
     KonqOperations( QWidget * parent );

@@ -112,6 +112,10 @@ public:
 
     KParts::ReadOnlyPart * findPart() const { return m_findPart; }
 
+    virtual const KFileItem * currentItem() = 0; // { return 0L; }
+
+    virtual KFileItemList selectedFileItems() {KFileItemList lst; return lst;};
+
 signals:
     /**
      * We emit this to ask konq to close the find part
@@ -148,7 +152,6 @@ public slots:
     virtual void slotRefreshItems( const KFileItemList& ) = 0;
     virtual void slotClear() = 0;
     virtual void slotRedirection( const KURL & ) = 0;
-    virtual const KFileItem * currentItem() = 0; // { return 0L; }
 
 protected:
 
