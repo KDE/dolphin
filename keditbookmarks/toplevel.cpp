@@ -332,8 +332,8 @@ void MagicKLineEdit::mousePressEvent(QMouseEvent *ev) {
 KEBApp::KEBApp(
    const QString &bookmarksFile, bool readonly, 
    const QString &address, bool browser, const QString &caption 
-) : KMainWindow(), m_dcopIface(0), m_browser(browser), 
-    m_caption(caption), m_readOnly(readonly), m_bookmarksFilename(bookmarksFile) {
+) : KMainWindow(), m_dcopIface(0), m_bookmarksFilename(bookmarksFile),
+    m_caption(caption), m_readOnly(readonly), m_browser(browser) {
 
    m_cmdHistory = new CmdHistory(actionCollection());
 
@@ -432,6 +432,11 @@ void KEBApp::createActions() {
                       i18n("Advanced Add Bookmark in Konqueror"), 0,
                       this, SLOT( slotAdvancedAddBookmark() ), actionCollection(), 
                       "settings_advancedaddbookmark");
+   // TODO - these options should be a in a kcontrol thing
+   (void) new KToggleAction(
+                      i18n("Display Only Marked Bookmarks in Konqueror Bookmark Toolbar"), 0,
+                      this, SLOT( slotFilteredToolbar() ), actionCollection(), 
+                      "settings_filteredtoolbar");
    (void) new KToggleAction(
                       i18n("&Split View"), 0,
                       this, SLOT( slotSplitView() ), actionCollection(), "settings_splitview");
@@ -518,6 +523,7 @@ void KEBApp::resetActions() {
 
    getToggleAction("settings_saveonclose")->setChecked(m_saveOnClose);
    getToggleAction("settings_advancedaddbookmark")->setChecked(m_advancedAddBookmark);
+   getToggleAction("settings_filteredtoolbar")->setChecked(m_filteredToolbar);
    getToggleAction("settings_splitview")->setChecked(m_splitView);
    getToggleAction("settings_showNS")->setChecked(CurrentMgr::self()->showNSBookmarks());
 }
@@ -527,6 +533,7 @@ void KEBApp::readConfig() {
       KConfig config("kbookmarkrc", false, false);
       config.setGroup("Bookmarks");
       m_advancedAddBookmark = config.readBoolEntry("AdvancedAddBookmark", false);
+      m_filteredToolbar = config.readBoolEntry("FilteredToolbar", false);
    }
 
    KConfig appconfig("keditbookmarksrc", false, false);
@@ -535,27 +542,34 @@ void KEBApp::readConfig() {
    m_splitView = appconfig.readBoolEntry("Split View", false);
 }
 
+static void writeConfigBool(
+   const QString &rcfile, const QString &group, 
+   const QString &entry, bool flag
+) {
+   KConfig config(rcfile, false, false);
+   config.setGroup(group);
+   config.writeEntry(entry, flag);
+}
+
 void KEBApp::slotAdvancedAddBookmark() {
-   if (m_browser) {
-      m_advancedAddBookmark = getToggleAction("settings_advancedaddbookmark")->isChecked();
-      KConfig config("kbookmarkrc", false, false);
-      config.setGroup("Bookmarks");
-      config.writeEntry("AdvancedAddBookmark", m_advancedAddBookmark);
-   }
+   Q_ASSERT(m_browser);
+   m_advancedAddBookmark = getToggleAction("settings_advancedaddbookmark")->isChecked();
+   writeConfigBool("kbookmarkrc", "Bookmarks", "AdvancedAddBookmark", m_advancedAddBookmark);
+}
+
+void KEBApp::slotFilteredToolbar() {
+   m_filteredToolbar = getToggleAction("settings_filteredtoolbar")->isChecked();
+   writeConfigBool("kbookmarkrc", "Bookmarks", "FilteredToolbar", m_filteredToolbar);
 }
 
 void KEBApp::slotSplitView() {
    m_splitView = getToggleAction("settings_splitview")->isChecked();
-   KConfig appconfig("keditbookmarksrc", false, false);
-   appconfig.setGroup("General");
-   appconfig.writeEntry("Split View", m_splitView);
+   writeConfigBool("keditbookmarksrc", "General", "Split View", m_splitView);
 }
 
 void KEBApp::slotSaveOnClose() {
    m_saveOnClose = getToggleAction("settings_saveonclose")->isChecked();
-   KConfig appconfig("keditbookmarksrc", false, false);
-   appconfig.setGroup("General");
-   appconfig.writeEntry("Save On Close", m_saveOnClose);
+   writeConfigBool("keditbookmarksrc", "General", "Save On Close", m_saveOnClose);
 }
 
 bool KEBApp::nsShown() const {
