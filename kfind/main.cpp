@@ -65,7 +65,6 @@ int main( int argc, char ** argv )
     KfindTop *kfind= NULL;
 
     // session management (Matthias)
-    app.setUnsavedData(false);
     if (kapp->isRestored()){
       int n = 1;
       while (KTopLevelWidget::canBeRestored(n)){
