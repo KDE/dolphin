@@ -234,7 +234,7 @@ class TestLink: public QObject
    Q_OBJECT
 
 public:
-   TestLink(QPtrList<KBookmark>* bks);
+   TestLink(QValueList<KBookmark> bks);
    ~TestLink();
 
 public slots:
@@ -251,7 +251,7 @@ private:
 private:
    KIO::TransferJob *m_job;
    KBookmark m_book;
-   QPtrList<KBookmark> *m_bks;
+   QValueList<KBookmark> m_bks;
    QString m_url;
    bool m_errSet;
    QString m_oldStatus;

@@ -129,16 +129,16 @@ public:
     void updateSelection();
     static int numSelected();
 
-    static QPtrList<QListViewItem> * selectedItems();
+    static QPtrList<QListViewItem>* selectedItems();
 
-    QPtrList<KBookmark>* allBookmarks() const;
-    QPtrList<KBookmark>* selectedBookmarks() const;
-    QPtrList<KBookmark>* selectedBookmarksExpanded() const;
+    QValueList<KBookmark> allBookmarks() const;
+    QValueList<KBookmark> selectedBookmarks() const;
+    QValueList<KBookmark> selectedBookmarksExpanded() const;
 
     QListViewItem* selectedItem();
     KBookmark selectedBookmark() const;
 
-    void testBookmarks(QPtrList<KBookmark>* bks);
+    void testBookmarks(QValueList<KBookmark> bks);
 
     // @return where to insert a new item - depending on the selected item
     QString insertionAddress() const;
@@ -156,7 +156,7 @@ public:
 
     StringMap Modify;
     StringMap oldModify;
-    QPtrList <TestLink> tests;
+    QPtrList<TestLink> tests;
 
    void doImport(QString, QString, QString, QString, QString, bool, int);
 

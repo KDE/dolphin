@@ -542,7 +542,7 @@ void ImportCommand::endFolder()
 // TestLink
 ////////////////////////////////////////////////////////////////////////////
 
-TestLink::TestLink(QPtrList<KBookmark> *bks) : m_bks(bks)
+TestLink::TestLink(QValueList<KBookmark> bks) : m_bks(bks)
 {
    connect( this, SIGNAL( deleteSelf(TestLink *)),
             KEBTopLevel::self(), SLOT(slotCancelTest(TestLink *)));
@@ -559,40 +559,40 @@ TestLink::~TestLink()
       m_job->disconnect();
       m_job->kill(false);
    }
-   delete m_bks;
 }
 
 void TestLink::doNext()
 {
    kdDebug() << "TestLink::doNext" << endl;
 
-   if (m_bks->count() == 0) {
+   if (m_bks.count() == 0) {
       emit deleteSelf(this);
       return;
    }
 
-   KBookmark *bk = m_bks->at(0);
+   QValueListIterator<KBookmark> head = m_bks.begin();
+   KBookmark bk = (*head);
 
-   if (!bk->isGroup() && !bk->isSeparator()) {
-      m_book = *bk;
-      m_url = m_book.url().url();
+   if (!bk.isGroup() && !bk.isSeparator()) {
+      m_url = bk.url().url();
 
-      kdDebug() << "TestLink::setCurrent " << m_url << " : " << m_book.address() << "\n";
+      kdDebug() << "TestLink::setCurrent " << m_url << " : " << bk.address() << "\n";
 
-      m_job = KIO::get(m_book.url(), true, false);
+      m_job = KIO::get(bk.url(), true, false);
       connect(m_job, SIGNAL( result( KIO::Job *)),
               this, SLOT( jobResult(KIO::Job *)));
       connect(m_job, SIGNAL( data( KIO::Job *,  const QByteArray &)),
               this, SLOT( jobData(KIO::Job *, const QByteArray &)));
       m_job->addMetaData("errorPage", "true");
 
-      KEBListViewItem *cur_item = KEBTopLevel::self()->findByAddress(m_book.address());
+      KEBListViewItem *cur_item = KEBTopLevel::self()->findByAddress(bk.address());
       cur_item->setTmpStatus(i18n("Checking..."), m_oldStatus);
 
-      // TODO - remove dup by using setAutoDelete(false)
-      m_bks->remove(bk);
+      m_book = bk;
+      m_bks.remove(head);
+
    } else {
-      m_bks->remove(bk);
+      m_bks.remove(head);
       doNext();
    }
 }

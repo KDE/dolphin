@@ -311,7 +311,7 @@ QListViewItem* KEBTopLevel::selectedItem()
 KBookmark KEBTopLevel::selectedBookmark() const
 {
    Q_ASSERT( (numSelected() == 1) );
-   return *(selectedBookmarks()->first());
+   return (selectedBookmarks().first());
 }
 
 // if ( (parent is selected) or (has no parent) )
@@ -337,36 +337,36 @@ QPtrList<QListViewItem> * KEBTopLevel::selectedItems()
    return items;
 }
 
-QPtrList<KBookmark>* KEBTopLevel::allBookmarks() const
+QValueList<KBookmark> KEBTopLevel::allBookmarks() const
 {
-   // selection helper
-   QPtrList<KBookmark> *bookmarks = new QPtrList<KBookmark>();
+   QValueList<KBookmark> bookmarks;
    for( QListViewItemIterator it(m_pListView); it.current(); it++ ) {
       if (IS_REAL(it) && (it.current()->childCount() == 0)) {
-         bookmarks->append(&ITEM_TO_BK(it.current()));
+         bookmarks.append(ITEM_TO_BK(it.current()));
       }
    }
    return bookmarks;
 }
 
-QPtrList<KBookmark>* KEBTopLevel::selectedBookmarksExpanded() const
+QValueList<KBookmark> KEBTopLevel::selectedBookmarksExpanded() const
 {
-   QPtrList<KBookmark> *bookmarks = new QPtrList<KBookmark>();
+   QValueList<KBookmark> bookmarks;
+   QStringList addresses;
    for(QListViewItemIterator it(m_pListView); it.current(); it++) {
       if (IS_REAL_SEL(it)) {
-         int childCount = it.current()->childCount();
          // is not an empty folder && childCount() == 0 
          // therefore MUST be a single bookmark. good logic???
          // no!, this is what you would think, but actually
          // the "empty folder" is only the empty folder item
          // itself and not the wrapping folder. therefore we
          // need yet another check in the childCount > 0 path!!!
-         if (childCount > 0) {
+         if (it.current()->childCount() > 0) {
             for(QListViewItemIterator it2(it.current()); it2.current(); it2++) {
                if (!static_cast<KEBListViewItem *>(it2.current())->m_emptyFolder) {
-                  const KBookmark *bk = &ITEM_TO_BK(it2.current());
-                  if (!bookmarks->contains(bk)) {
-                     bookmarks->append(bk);
+                  const KBookmark bk = ITEM_TO_BK(it2.current());
+                  if (!addresses.contains(bk.address())) {
+                     bookmarks.append(bk);
+                     addresses.append(bk.address());
                   }
                }
                if (it.current()->nextSibling() 
@@ -375,8 +375,9 @@ QPtrList<KBookmark>* KEBTopLevel::selectedBookmarksExpanded() const
                }
             }
          } else {
-            if (!bookmarks->contains(&ITEM_TO_BK(it.current()))) {
-               bookmarks->append(&ITEM_TO_BK(it.current()));
+            if (!addresses.contains(ITEM_TO_BK(it.current()).address())) {
+               bookmarks.append(ITEM_TO_BK(it.current()));
+               addresses.append(ITEM_TO_BK(it.current()).address());
             }
          }
       }
@@ -384,12 +385,12 @@ QPtrList<KBookmark>* KEBTopLevel::selectedBookmarksExpanded() const
    return bookmarks;
 }
 
-QPtrList<KBookmark>* KEBTopLevel::selectedBookmarks() const
+QValueList<KBookmark> KEBTopLevel::selectedBookmarks() const
 {
-   QPtrList<KBookmark> *bookmarks = new QPtrList<KBookmark>();
+   QValueList<KBookmark> bookmarks;
    for( QListViewItemIterator it(m_pListView); it.current(); it++ ) {
       if (IS_REAL_SEL(it)) {
-         bookmarks->append(&ITEM_TO_BK(it.current()));
+         bookmarks.append(ITEM_TO_BK(it.current()));
       }
    }
    return bookmarks;
@@ -521,7 +522,7 @@ QString KEBTopLevel::insertionAddress() const
       return "/0";
    }
 
-   KBookmark current = *(selectedBookmarks()->first());
+   KBookmark current = selectedBookmarks().first();
    if (current.isGroup()) {
       // in a group, we insert as first child
       return current.address() + "/0";
@@ -889,12 +890,11 @@ void KEBTopLevel::slotSetAsToolbar()
 
 void KEBTopLevel::slotOpenLink()
 {
-   QPtrList<KBookmark>* bks = selectedBookmarks();
-   QPtrListIterator<KBookmark> it(*bks);
-   for ( ; it.current() != 0; ++it ) {
-      KBookmark *bk = it.current();
-      Q_ASSERT( !bk->isGroup() );
-      (void) new KRun( bk->url() );
+   QValueList<KBookmark> bks = selectedBookmarks();
+   QValueListIterator<KBookmark> it;
+   for (it = bks.begin(); it != bks.end(); ++it) {
+      Q_ASSERT(!(*it).isGroup());
+      (void)new KRun((*it).url());
    }
 }
 
@@ -908,7 +908,7 @@ void KEBTopLevel::slotTestLink()
    testBookmarks(selectedBookmarksExpanded());
 }
 
-void KEBTopLevel::testBookmarks(QPtrList<KBookmark>* bks)
+void KEBTopLevel::testBookmarks(QValueList<KBookmark> bks)
 {
    tests.insert(0, new TestLink(bks));
    actionCollection()->action("canceltests")->setEnabled( true );
