@@ -154,10 +154,8 @@ void KBookmarkMenu::slotBookmarkSelected( int _id )
     KURL u( bm->url() );
     if ( u.isMalformed() )
     {
-      string tmp = i18n( "Malformed URL" ).ascii();
-      tmp += "\n";
-      tmp += bm->url();
-      QMessageBox::critical( 0L, i18n( "Error" ), tmp.c_str(), i18n( "OK" ) );
+      QString tmp = i18n("Malformed URL\n%1").arg(bm->url());
+      QMessageBox::critical( 0L, i18n( "Error" ), tmp, i18n( "OK" ) );
       return;
     }
 	

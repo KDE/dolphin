@@ -50,6 +50,7 @@
 
 KonqKfmTreeView::KonqKfmTreeView()
 {
+  kdebug(0, 1202, "+KonqKfmTreeView");
   ADD_INTERFACE( "IDL:Konqueror/KfmTreeView:1.0" );
 
   setWidget( this );
@@ -106,6 +107,7 @@ KonqKfmTreeView::KonqKfmTreeView()
 
 KonqKfmTreeView::~KonqKfmTreeView()
 {
+  kdebug(0, 1202, "-KonqKfmTreeView");
   /* viewport()->removeEventFilter( this );
   kdirwatch->disconnect( this ); */
 

@@ -292,7 +292,7 @@ void KonqMainView::initGui()
 Row * KonqMainView::newRow( bool append )
 {
   Row * row = new QSplitter ( QSplitter::Horizontal, m_pMainSplitter );
-  //row->setOpaqueResize( TRUE );
+  row->setOpaqueResize( TRUE ); // don't know whether this should be true or false (David)
   if ( append )
     m_lstRows.append( row );
   else
@@ -300,7 +300,7 @@ Row * KonqMainView::newRow( bool append )
     m_lstRows.insert( 0, row );
     m_pMainSplitter->moveToFirst( row );
   }
-  if (isVisible()) row->show();
+  if (isVisible()) { kdebug(0, 1202, "row->show!!!!"); row->show(); }
   kdebug(0,1202,"newRow() done");
   return row;
 }
@@ -803,9 +803,8 @@ void KonqMainView::openURL( const char * _url, CORBA::Boolean _reload )
   KURL u( url );
   if ( u.isMalformed() )
   {
-    string tmp = i18n("Malformed URL\n").ascii();
-    tmp += _url;
-    QMessageBox::critical( (QWidget*)0L, i18n( "Error" ), tmp.c_str(), i18n( "OK" ) );
+    QString tmp = i18n("Malformed URL\n%1").arg(_url);
+    QMessageBox::critical( (QWidget*)0L, i18n( "Error" ), tmp, i18n( "OK" ) );
     return;
   }
 
@@ -1207,7 +1206,7 @@ void KonqMainView::slotShowCache()
     return;
   }
 
-  QString f = file.data();
+  QString f = file;
   KURL::encode( f );
   openURL( f, (CORBA::Boolean)false );
 }
@@ -1281,9 +1280,8 @@ void KonqMainView::slotURLEntered()
   KURL u( url );
   if ( u.isMalformed() )
   {
-    string tmp = i18n("Malformed URL\n").ascii();
-    tmp += C2Q( _url.in() );
-    QMessageBox::critical( (QWidget*)0L, i18n( "Error" ), tmp.c_str(), i18n( "OK" ) );
+    QString tmp = i18n("Malformed URL\n%1").arg(C2Q(_url.in()));
+    QMessageBox::critical( (QWidget*)0L, i18n( "Error" ), tmp, i18n( "OK" ) );
     return;
   }
 	

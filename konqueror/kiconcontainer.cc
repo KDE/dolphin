@@ -677,8 +677,7 @@ void KIconContainer::dropEvent( QDropEvent * e )
       KURL u( s );
       if ( u.isMalformed() )
       {
-	QString tmp;
-	ksprintf( &tmp, i18n( "The URL\n%s\nis malformed" ), s );
+        QString tmp = i18n("Malformed URL\n%1").arg(s);
 	QMessageBox::critical( 0L, i18n("Error"), tmp, i18n("OK") );
 	return;
       }

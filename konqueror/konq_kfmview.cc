@@ -97,36 +97,33 @@ QString KonqKfmViewItem::getStatusBarInfo()
       if ( comment.isEmpty() )
 	tmp = i18n ( "Symbolic Link" );
       else
-	tmp.sprintf(i18n( "%s (Link)" ), comment.data() );
+        tmp = i18n("%1 (Link)").arg(comment);
       text += "->";
       text += linkDest;
       text += "  ";
-      text += tmp.data();
+      text += tmp;
     }
     else if ( S_ISREG( mode ) )
     {
-      text += " ";
       if (size < 1024)
-	text.sprintf( "%s (%ld %s)",
-		      text2.data(), (long) size,
-		      i18n( "bytes" ).ascii());
+        text = QString("%1 (%2 %3)").arg(text2).arg((long) size).arg(i18n("bytes"));
       else
       {
 	float d = (float) size/1024.0;
-	text.sprintf( "%s (%.2f K)", text2.data(), d);
+        text = QString("%1 (%2 K)").arg(text2).arg(d, 0, 'f', 2); // was %.2f
       }
       text += "  ";
-      text += comment.data();
+      text += comment;
     }
     else if ( S_ISDIR( mode ) )
     {
       text += "/  ";
-      text += comment.data();
+      text += comment;
     }
     else
     {
       text += "  ";
-      text += comment.data();
+      text += comment;
     }	
     return text;
   }

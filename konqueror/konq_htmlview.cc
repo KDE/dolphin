@@ -255,7 +255,7 @@ void KonqHTMLView::slotShowURL( KHTMLView *view, const char *_url )
       if ( com.isNull() )
 	tmp = i18n( "Symbolic Link");
       else
-	tmp.sprintf(i18n("%s (Link)"), com.data() );
+	tmp = i18n("%1 (Link)").arg(com);
       char buff_two[1024];
       text += "->";
       int n = readlink ( decodedPath, buff_two, 1022);
@@ -270,32 +270,29 @@ void KonqHTMLView::slotShowURL( KHTMLView *view, const char *_url )
       buff_two[n] = 0;
       text += buff_two;
       text += "  ";
-      text += tmp.data();
+      text += tmp;
     }
     else if ( S_ISREG( buff.st_mode ) )
     {
-      text += " ";
       if (buff.st_size < 1024)
-	text.sprintf( "%s (%ld %s)",
-		      text2.data(), (long) buff.st_size,
-		      i18n("bytes").ascii());
+	text = QString("%1 (%2 %3)").arg(text2).arg((long) buff.st_size).arg(i18n("bytes"));
       else
       {
 	float d = (float) buff.st_size/1024.0;
-	text.sprintf( "%s (%.2f K)", text2.data(), d);
+	text = QString("%1 (%2 K)").arg(text2).arg(d, 0, 'f', 2); // was %.2f
       }
       text += "  ";
-      text += com.data();
+      text += com;
     }
     else if ( S_ISDIR( buff.st_mode ) )
     {
       text += "/  ";
-      text += com.data();
+      text += com;
     }
     else
     {
       text += "  ";
-      text += com.data();
+      text += com;
     }
     CORBA::WString_var wtext = Q2C( text );
     SIGNAL_CALL1( "setStatusBarText", CORBA::Any::from_wstring( wtext.out(), 0 ) );

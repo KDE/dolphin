@@ -45,6 +45,7 @@
 
 KonqKfmIconView::KonqKfmIconView( QWidget* _parent ) : KIconContainer( _parent )
 {
+  kdebug(0, 1202, "+KonqKfmIconView");
   ADD_INTERFACE( "IDL:Konqueror/KfmIconView:1.0" );
   
   m_bInit = true;
@@ -79,6 +80,7 @@ KonqKfmIconView::KonqKfmIconView( QWidget* _parent ) : KIconContainer( _parent )
 
 KonqKfmIconView::~KonqKfmIconView()
 {
+  kdebug(0, 1202, "-KonqKfmIconView");
   // Stop running jobs
   if ( m_jobId )
   {
