@@ -142,9 +142,13 @@ bool clientApp::openFileManagerWindow(const KURL & url)
         return openProfile( QString::fromLatin1("filemanagement"), url.url() );
     else
     {
+        KConfig config( QString::fromLatin1("kfmclientrc") );
+        config.setGroup( QString::fromLatin1("Settings") );
+        bool startNewKonqueror = config.readBoolEntry( QString::fromLatin1("StartNewKonqueror"), true ); 
         QByteArray data;
         QCString appId, appObj;
-        if ( dcopClient()->findObject( "konqueror*", "KonquerorIface", "", data,
+        if ( !startNewKonqueror &&
+             dcopClient()->findObject( "konqueror*", "KonquerorIface", "", data,
                                        appId, appObj ) )
         {
             KonquerorIface_stub konqy( appId, appObj );
@@ -174,9 +178,13 @@ bool clientApp::openProfile( const QString & filename, const QString & url )
     fprintf( stderr, i18n("Profile %1 not found\n").arg(filename).local8Bit() );
     return 1;
   }
+  KConfig config( QString::fromLatin1("kfmclientrc") );
+  config.setGroup( QString::fromLatin1("Settings") );
+  bool startNewKonqueror = config.readBoolEntry( QString::fromLatin1("StartNewKonqueror"), true ); 
   QByteArray data;
   QCString appId, appObj;
-  if ( dcopClient()->findObject( "konqueror*", "KonquerorIface", "", data,
+  if ( !startNewKonqueror &&
+       dcopClient()->findObject( "konqueror*", "KonquerorIface", "", data,
                                  appId, appObj ) )
   {
     KonquerorIface_stub konqy( appId, appObj );
