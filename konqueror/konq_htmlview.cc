@@ -116,7 +116,12 @@ bool KonqHTMLView::mappingOpenURL( Browser::EventOpenURL eventURL )
   {
     KIOJob *job = KIOJob::find( m_jobId );
     if ( job )
+    {
       (void)new KonqProgressProxy( this, job );
+      
+      QObject::connect( job, SIGNAL( sigRedirection( int, const char * ) ),
+                        this, SLOT( slotDocumentRedirection( int, const char * ) ) );
+    }      
   }
 
   checkViewMenu();
@@ -378,6 +383,15 @@ void KonqHTMLView::slotCanceled()
   // (Simon)
   if ( !m_bIsClean )
     SIGNAL_CALL1( "canceled", id() );
+}
+
+void KonqHTMLView::slotDocumentRedirection( int, const char *url )
+{
+  //no need for special stuff, KBrowser does everything for us. Let's just make
+  //sure the url in the mainview gets updated
+  QString decodedURL = url;
+  KURL::decode( decodedURL );
+  SIGNAL_CALL2( "setLocationBarURL", id(), (char *)decodedURL.ascii() );
 }
 
 void KonqHTMLView::slotNewWindow( const QString &url )

@@ -103,6 +103,8 @@ protected slots:
   void slotCompleted();
   void slotCanceled();
   
+  void slotDocumentRedirection( int, const char *url );
+  
   void slotNewWindow( const QString &url );
   
   void slotSelectionChanged();

@@ -1385,6 +1385,12 @@ void KonqMainView::slotStop()
     if ( m_currentView->kfmRun() )
       delete m_currentView->kfmRun();
     m_currentView->setKfmRun( 0L );
+    slotStopAnimation();
+    if ( m_pProgressBar ) 
+      m_pProgressBar->reset();
+      
+    if ( !CORBA::is_nil( m_vStatusBar ) )
+      m_vStatusBar->changeItem( 0L, STATUSBAR_SPEED_ID );
   }    
 }
 
