@@ -285,15 +285,14 @@ void KEBTopLevel::slotConfigureToolbars()
    saveMainWindowSettings( KGlobal::config(), "MainWindow" );
    KEditToolbar dlg(actionCollection());
    connect(&dlg,SIGNAL( newToolbarConfig() ), this, SLOT( slotNewToolbarConfig() ));
-   if (dlg.exec()) {
-      createGUI();
-   }
+   dlg.exec();
 }
 
 // This is called when OK or Apply is clicked
 void KEBTopLevel::slotNewToolbarConfig()
 {
    applyMainWindowSettings( KGlobal::config(), "MainWindow" );
+   createGUI();
 }
 
 #define ITEM_TO_BK(item) static_cast<KEBListViewItem *>(item)->bookmark()
