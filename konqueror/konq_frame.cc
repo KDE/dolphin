@@ -24,6 +24,8 @@
 #include <qtoolbutton.h>
 #include <qtabbar.h>
 #include <qptrlist.h>
+#include <qpopupmenu.h>
+#include <qkeysequence.h>
 
 #include <kapplication.h>
 #include <kdebug.h>
@@ -39,7 +41,6 @@
 
 #include <assert.h>
 #include <kiconloader.h>
-#include <qpopupmenu.h>
 
 #define DEFAULT_HEADER_HEIGHT 13
 
@@ -761,18 +762,20 @@ void KonqFrameContainer::removeChildFrame( KonqFrameBase * frame )
 KonqTabBar::KonqTabBar(KonqViewManager* viewManager, KonqFrameTabs *parent, const char *name)
   : QTabBar(parent, name)
 {
-  m_pTabWidget = parent;
-  m_pViewManager = viewManager;
+    m_pTabWidget = parent;
+    m_pViewManager = viewManager;
 
-  m_pPopupMenu = new QPopupMenu( this );
+    m_pPopupMenu = new QPopupMenu( this );
 
-  m_pPopupMenu->insertItem( SmallIcon( "tab_new" ), "&New Tab", m_pViewManager->mainWindow(), SLOT( slotAddTab() ) );
-  m_pPopupMenu->insertItem( SmallIcon( "tab_duplicate" ), "&Duplicate Tab", m_pViewManager->mainWindow(), SLOT( slotDuplicateTabPopup() ) );
-  m_pPopupMenu->insertSeparator();
-  m_pPopupMenu->insertItem( SmallIcon( "tab_breakoff" ), "D&etach Tab", m_pViewManager->mainWindow(), SLOT( slotBreakOffTabPopup() ) );
-  m_pPopupMenu->insertSeparator();
-  m_pPopupMenu->insertItem( SmallIcon( "tab_remove" ), "&Close Tab", m_pViewManager->mainWindow(), SLOT( slotRemoveTabPopup() ) );
-  m_pPopupMenu->insertItem( SmallIcon( "tab_remove" ), "Close &Other Tabs", m_pViewManager->mainWindow(), SLOT( slotRemoveOtherTabsPopup() ) );
+    KActionCollection * col = m_pViewManager->mainWindow()->actionCollection();
+    col->action("newtab")->plug(m_pPopupMenu);
+    col->action("duplicatecurrenttab")->plug(m_pPopupMenu);
+    m_pPopupMenu->insertSeparator();
+    col->action("breakoffcurrenttab")->plug(m_pPopupMenu);
+    m_pPopupMenu->insertSeparator();
+    col->action("removecurrenttab")->plug(m_pPopupMenu);
+    m_pPopupMenu->insertItem( SmallIcon( "tab_remove" ), i18n("Close &Other Tabs"), m_pViewManager->mainWindow(),
+                              SLOT( slotRemoveOtherTabsPopup() ) );
 }
 
 KonqTabBar::~KonqTabBar()

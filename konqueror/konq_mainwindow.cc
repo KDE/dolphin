@@ -2917,7 +2917,7 @@ void KonqMainWindow::initActions()
   m_paDuplicateTab = new KAction( i18n( "&Duplicate Current Tab" ), "tab_duplicate", CTRL+SHIFT+Key_D, this, SLOT( slotDuplicateTab() ), actionCollection(), "duplicatecurrenttab" );
   m_paBreakOffTab = new KAction( i18n( "Detach Current Tab" ), "tab_breakoff", CTRL+SHIFT+Key_B, this, SLOT( slotBreakOffTab() ), actionCollection(), "breakoffcurrenttab" );
   m_paRemoveView = new KAction( i18n( "&Remove Active View" ),"view_remove", CTRL+SHIFT+Key_R, this, SLOT( slotRemoveView() ), actionCollection(), "removeview" );
-  m_paRemoveTab = new KAction( i18n( "Close Current Tab" ), "tab_remove", CTRL+SHIFT+Key_W, this, SLOT( slotRemoveTab() ), actionCollection(), "removecurrenttab" );
+  m_paRemoveTab = new KAction( i18n( "Close Current Tab" ), "tab_remove", CTRL+Key_W, this, SLOT( slotRemoveTab() ), actionCollection(), "removecurrenttab" );
 
   m_paActivateNextTab = new KAction( i18n( "Activate Next Tab" ), "tab_next", CTRL+Key_BracketRight, this, SLOT( slotActivateNextTab() ), actionCollection(), "activatenexttab" );
   m_paActivatePrevTab = new KAction( i18n( "Activate Previous Tab" ), "tab_previous", CTRL+Key_BracketLeft, this, SLOT( slotActivatePrevTab() ), actionCollection(), "activateprevtab" );
