@@ -117,6 +117,7 @@ KonqMainWindow::KonqMainWindow( const KURL &initialURL, bool openInitialURL, con
   m_paBookmarkBar = 0L;
   m_pCompletion = 0L;
   m_bFullScreen = false;
+  m_qComboHack = false;
 
   m_bViewModeToggled = false;
 
@@ -1235,6 +1236,13 @@ void KonqMainWindow::slotViewCompleted( KonqView * view )
   if (!m_combo) // happens if removed from .rc file :)
     return;
 
+  // FIXME: workaround against Qt limitation: since we can't set the pixmap for
+  // the edit-field, we had to add a dummy item into the combobox with the right
+  // pixmap. Now we got to remove it.
+  if ( m_qComboHack )
+      m_combo->removeItem( m_combo->count() -1 );
+
+      
   // Register this URL as a working one, in the completion object and the combo
   // Only register remote URLs, because local ones will be found by
   // KURLCompletion
@@ -1243,6 +1251,7 @@ void KonqMainWindow::slotViewCompleted( KonqView * view )
   if ( !m_combo->contains( view->locationBarURL() ) ) {
       // goes both into the combo and the completion object
        m_combo->addToHistory( view->locationBarURL() );
+       m_combo->setCurrentItem( 0 );
        if ( isLocal ) // but we only want remote urls in the completion object
 	   m_combo->completionObject()->removeItem( view->locationBarURL() );
   }
@@ -1253,11 +1262,13 @@ void KonqMainWindow::slotViewCompleted( KonqView * view )
 
       // it's already in the combo, so we better make it the current item
       // ... _if_ the user didn't change the url while we were loading
-      for ( int i = 0; i < m_combo->count(); i++ ) {
-          if ( m_combo->text( i ) == view->locationBarURL() &&
-               m_combo->text( i ) == m_combo->currentText() ) {
-              m_combo->setCurrentItem( i );
-          }
+      if ( m_combo->currentText() == view->locationBarURL() ) {
+	  for ( int i = 0; i < m_combo->count(); i++ ) {
+	      if ( m_combo->text( i ) == m_combo->currentText() ) {
+		  m_combo->setCurrentItem( i );
+		  break;
+	      }
+	  }
       }
   }
 
@@ -2184,8 +2195,24 @@ void KonqMainWindow::setLocationBarURL( const QString &url )
   ASSERT( !url.isEmpty());
   // FIXME, change the current pixmap of the combo, using
   // QComboBox::setCurrentPixmap() (in Qt 2.2 as Reggie promised :) (pfeiffer)
-  if ( m_combo )
-    m_combo->setEditText( url );
+  // grmbl, it's not in 2.2, so we have to hack around this limitation by adding a
+  // dummy item into combo
+
+  if ( m_combo ) {
+    //    m_combo->setEditText( url );
+    for ( int i = 0; i < m_combo->count(); i++ ) {
+      if ( m_combo->text( i ) == url ) {
+	m_combo->setCurrentItem( i );
+	return;
+      }
+    }
+
+    // here's the hack
+    QPixmap pix = m_combo->pixmapProvider()->pixmapFor( url, KIcon::SizeSmall );
+    m_combo->insertItem( pix, url );
+    m_combo->setCurrentItem( m_combo->count() -1 );
+    m_qComboHack = true;
+  }
 }
 
 void KonqMainWindow::startAnimation()

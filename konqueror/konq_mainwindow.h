@@ -476,6 +476,8 @@ private:
   QList<KAction> m_viewModeActions;
 
   KonqMainWindowIface * m_dcopObject;
+  
+  bool m_qComboHack; // FIXME, remove when QComboBox is ready
 
   static QStringList *s_plstAnimatedLogo;
 
