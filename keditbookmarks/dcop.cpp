@@ -28,13 +28,9 @@
 #include <kdebug.h>
 #include <kapplication.h>
 
+#include "mymanager.h"
 #include "toplevel.h"
 #include "commands.h"
-#include "importers.h"
-#include "favicons.h"
-#include "testlink.h"
-#include "listview.h"
-#include "mymanager.h"
 
 #include "dcop.h"
 
