@@ -20,22 +20,20 @@ KCookiesMain::KCookiesMain(QWidget *parent)
   : KCModule(parent, "kcmkio")
 {
     management = 0;
-
-    bool managerOK = false;
+    bool managerOK = true;
 
     DCOPReply reply = DCOPRef( "kded", "kded" ).call( "loadModule", 
         QCString( "kcookiejar" ) );
 
-    if ( reply.isValid() )
-        managerOK = reply;
-
-    if (!managerOK)
+    if( !reply.isValid() )
     {
+       managerOK = false;
        kdDebug(7103) << "kcm_kio: KDED could not load KCookiejar!" << endl;
        KMessageBox::sorry(0, i18n("Unable to start the cookie handler service.\n"
                              "You will not be able to manage the cookies that "
                              "are stored on your computer."));
     }
+    
     QVBoxLayout *layout = new QVBoxLayout(this);
     tab = new QTabWidget(this);
     layout->addWidget(tab);
@@ -44,7 +42,7 @@ KCookiesMain::KCookiesMain(QWidget *parent)
     tab->addTab(policies, i18n("&Policy"));
     connect(policies, SIGNAL(changed(bool)), SIGNAL(changed(bool)));
 
-    if(managerOK)
+    if( managerOK )
     {
         management = new KCookiesManagement(this);
         tab->addTab(management, i18n("&Management"));
@@ -59,22 +57,25 @@ KCookiesMain::~KCookiesMain()
 void KCookiesMain::load()
 {
   policies->load();
-  if(management)
+  if( management )
       management->load();
 }
 
 void KCookiesMain::save()
 {
   policies->save();
-  if(management)
+  if ( management )
       management->save();
 }
 
 void KCookiesMain::defaults()
 {
-  policies->defaults();
-  if(management)
-      management->defaults();
+  KCModule* module = static_cast<KCModule*>(tab->currentPage());
+  
+  if ( module == policies )
+    policies->defaults();
+  else if( management )
+    management->defaults();
 }
 
 QString KCookiesMain::quickHelp() const
