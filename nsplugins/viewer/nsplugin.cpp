@@ -61,7 +61,6 @@
 #include <X11/Constraint.h>
 #include <X11/Shell.h>
 #include <X11/StringDefs.h>
-#include <Xm/DrawingA.h>
 
 // provide these symbols when compiling with gcc 3.x
 
@@ -480,10 +479,10 @@ NSPluginInstance::forwarder(Widget w, XtPointer cl_data, XEvent * event, Boolean
   Q_UNUSED(w);
   NSPluginInstance *inst = (NSPluginInstance*)cl_data;
   *cont = True;
-  if (inst->_area == 0 || event->xkey.window == XtWindow(inst->_area))
+  if (inst->_form == 0 || event->xkey.window == XtWindow(inst->_form))
     return;
   *cont = False;
-  event->xkey.window = XtWindow(inst->_area);
+  event->xkey.window = XtWindow(inst->_form);
   event->xkey.subwindow = None;
   XtDispatchEvent(event);
 }
@@ -530,7 +529,7 @@ NSPluginInstance::NSPluginInstance(NPP privateData, NPPluginFuncs *pluginFuncs,
       height = 1200;
 
    // create drawing area
-   Arg args[5];
+   Arg args[7];
    Cardinal nargs=0;
    XtSetArg(args[nargs], XtNwidth, width); nargs++;
    XtSetArg(args[nargs], XtNheight, height); nargs++;
@@ -538,7 +537,7 @@ NSPluginInstance::NSPluginInstance(NPP privateData, NPPluginFuncs *pluginFuncs,
    String n, c;
    XtGetApplicationNameAndClass(qt_xdisplay(), &n, &c);
 
-   _toplevel = XtAppCreateShell("pane", c, topLevelShellWidgetClass,
+   _toplevel = XtAppCreateShell("drawingArea", c, applicationShellWidgetClass,
                                 qt_xdisplay(), args, nargs);
 
    // What exactly does widget mapping mean? Without this call the widget isn't
@@ -548,20 +547,32 @@ NSPluginInstance::NSPluginInstance(NPP privateData, NPPluginFuncs *pluginFuncs,
    XtRealizeWidget(_toplevel);
 
    // Create form window that is searched for by flash plugin
-   _form = XtCreateManagedWidget("form", compositeWidgetClass, _toplevel, args, nargs);
-   XtRealizeWidget(_form);
+   _form = XtVaCreateWidget("form", compositeWidgetClass, _toplevel, NULL);
+   XtSetArg(args[nargs], XtNvisual, QPaintDevice::x11AppVisual()); nargs++;
+   XtSetArg(args[nargs], XtNdepth, QPaintDevice::x11AppDepth()); nargs++;
+   XtSetArg(args[nargs], XtNcolormap, QPaintDevice::x11AppColormap()); nargs++;
+   XtSetArg(args[nargs], XtNborderWidth, 0); nargs++;
+   XtSetValues(_form, args, nargs);
+   XSync(qt_xdisplay(), false);
 
-   // Create widget that is passed to the plugin
-   XtInitializeWidgetClass(xmDrawingAreaWidgetClass);
-   _area = XmCreateDrawingArea( _form, (char*)("drawingArea"), args, nargs);
-   XtRealizeWidget(_area);
-   XtMapWidget(_area);
-   
+   // From mozilla - not sure if it's needed yet, nor what to use for embedder
+#if 0
+   /* this little trick seems to finish initializing the widget */
+#if XlibSpecificationRelease >= 6
+   XtRegisterDrawable(qt_xdisplay(), embedderid, _toplevel);
+#else
+   _XtRegisterWindow(embedderid, _toplevel);
+#endif
+#endif
+   XtRealizeWidget(_form);
+   XtManageChild(_form);
+
    // Register forwarder
    XtAddEventHandler(_toplevel, (KeyPressMask|KeyReleaseMask), 
                      False, forwarder, (XtPointer)this );
    XtAddEventHandler(_form, (KeyPressMask|KeyReleaseMask), 
                      False, forwarder, (XtPointer)this );
+   XSync(qt_xdisplay(), false);
 }
 
 NSPluginInstance::~NSPluginInstance()
@@ -616,8 +627,6 @@ void NSPluginInstance::destroy()
                              False, forwarder, (XtPointer)this);
         XtRemoveEventHandler(_toplevel, (KeyPressMask|KeyReleaseMask), 
                              False, forwarder, (XtPointer)this);
-        XtDestroyWidget(_area);
-	_area = 0;
         XtDestroyWidget(_form);
 	_form = 0;
         XtDestroyWidget(_toplevel);
@@ -831,14 +840,14 @@ int NSPluginInstance::setWindow(int remove)
    _win.clipRect.bottom = _height;
    _win.clipRect.right = _width;
 
-   _win.window = (void*) XtWindow(_area);
+   _win.window = (void*) XtWindow(_form);
    kdDebug(1431) << "Window ID = " << _win.window << endl;
 
    _win_info.type = NP_SETWINDOW;
-   _win_info.display = XtDisplay( _area );
-   _win_info.visual = DefaultVisualOfScreen( XtScreen(_area) );
-   _win_info.colormap = DefaultColormapOfScreen( XtScreen(_area) );
-   _win_info.depth = DefaultDepthOfScreen( XtScreen(_area) );
+   _win_info.display = XtDisplay(_form);
+   _win_info.visual = DefaultVisualOfScreen(XtScreen(_form));
+   _win_info.colormap = DefaultColormapOfScreen(XtScreen(_form));
+   _win_info.depth = DefaultDepthOfScreen(XtScreen(_form));
 
    _win.ws_info = &_win_info;
 
@@ -877,15 +886,18 @@ void NSPluginInstance::resizePlugin(int w, int h)
    _width = w;
    _height = h;
 
-   Arg args[5];
-   Cardinal nargs=0;
+   Arg args[7];
+   Cardinal nargs = 0;
    XtSetArg(args[nargs], XtNwidth, _width); nargs++;
    XtSetArg(args[nargs], XtNheight, _height); nargs++;
+   XtSetArg(args[nargs], XtNvisual, QPaintDevice::x11AppVisual()); nargs++;
+   XtSetArg(args[nargs], XtNdepth, QPaintDevice::x11AppDepth()); nargs++;
+   XtSetArg(args[nargs], XtNcolormap, QPaintDevice::x11AppColormap()); nargs++;
+   XtSetArg(args[nargs], XtNborderWidth, 0); nargs++;
 
    XtSetValues(_form, args, nargs);
-   XtSetValues(_area, args, nargs);
 
-   resizeWidgetTree(XtWindow(_area), _width, _height);
+   resizeWidgetTree(XtWindow(_form), _width, _height);
 
    setWindow();
 

@@ -16,7 +16,7 @@ libnsplugin_la_LIBADD  = -lkparts
 bin_PROGRAMS = nspluginscan
 nspluginscan_SOURCES = pluginscan.cpp
 nspluginscan_LDFLAGS =  $(KDE_RPATH) $(all_libraries) -export-dynamic
-nspluginscan_LDADD = $(MOTIF_LIBS) $(LIB_KDEUI) $(LIB_KSYCOCA) -lXt
+nspluginscan_LDADD = $(LIB_KDEUI) $(LIB_KSYCOCA) -lXt
 
 kcm_nsplugins_la_SOURCES = kcm_nsplugins.cpp
 kcm_nsplugins_la_LDFLAGS = $(all_libraries) -module -avoid-version -no-undefined
