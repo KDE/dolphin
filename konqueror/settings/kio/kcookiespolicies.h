@@ -13,7 +13,7 @@
 #include <qradiobutton.h>
 #include <qpushbutton.h>
 #include <qcheckbox.h>
-#include <qbuttongroup.h>
+#include <qvbuttongroup.h>
 #include <qgroupbox.h>
 #include <qmap.h>
 #include <kcmodule.h>

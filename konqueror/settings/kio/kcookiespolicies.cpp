@@ -83,48 +83,18 @@ KCookiesPolicies::KCookiesPolicies(QWidget *parent, const char *name)
                  :KCModule(parent, name)
 {
     // This is the layout for the "Policy" tab.
-    QGridLayout *lay = new QGridLayout( this, 5, 3, 10, 5);
-    lay->addRowSpacing(0,5);
-    lay->addRowSpacing(2,5);
-    lay->addRowSpacing(4,5);
+    QVBoxLayout *lay = new QVBoxLayout( this, KDialog::marginHint(), KDialog::spacingHint() );
+    lay->setAutoAdd( true );
 
-    lay->setRowStretch(0,0);
-    lay->setRowStretch(1,0);
-    lay->setRowStretch(2,0);
-    lay->setRowStretch(3,1);
-    lay->setRowStretch(4,0);
-
-    lay->addColSpacing(0,10);
-    lay->addColSpacing(2,10);
-
-    lay->setColStretch(0,0);
-    lay->setColStretch(1,1);
-    lay->setColStretch(2,0);
-
-    // Global Policy group box
-    gb_global = new QGroupBox( i18n( "Global"), this );
-    QGridLayout *gp_lay = new QGridLayout( gb_global, 5, 3, 10, 5 );
-    gp_lay->addRowSpacing(0,5);
-    gp_lay->addRowSpacing(2,3);
-    gp_lay->addRowSpacing(4,5);
-
-    gp_lay->addColSpacing(0,5);
-    gp_lay->addColSpacing(2,5);
-
-    gp_lay->setColStretch(0,0);
-    gp_lay->setColStretch(1,1);
-    gp_lay->setColStretch(2,0);
-    lay->addWidget( gb_global, 1, 1 );  // Add it to the policy tab
-
-    cb_enableCookies = new QCheckBox( i18n("&Enable Cookies"), gb_global );
+    cb_enableCookies = new QCheckBox( i18n("&Enable Cookies"), this );
     QWhatsThis::add( cb_enableCookies, i18n("This option turns on cookie support. Normally "
                                             "you will want to have cookie support enabled and "
                                             "customize it to suit your need of privacy.") );
     connect( cb_enableCookies, SIGNAL( clicked() ), this, SLOT( changeCookiesEnabled() ) );
     connect( cb_enableCookies, SIGNAL( clicked() ), this, SLOT( changed() ) );
-    gp_lay->addWidget( cb_enableCookies, 1, 1 ); // Add it to the global group box
 
-    bg_default = new QButtonGroup( i18n("Default Policy"), gb_global );
+    bg_default = new QVButtonGroup( i18n("Default Policy"), this );
+    lay->setStretchFactor( bg_default, 0 );
     QWhatsThis::add( bg_default, i18n("The default policy determines the way KDE will "
                                       "handle cookies sent from a server that does not "
                                       "belong to a domain for which you have set a specific "
@@ -137,47 +107,30 @@ KCookiesPolicies::KCookiesPolicies(QWidget *parent, const char *name)
     connect(bg_default, SIGNAL(clicked(int)), this, SLOT(changed()));
     bg_default->setExclusive( true );
 
-    QGridLayout *df_lay = new QGridLayout( bg_default, 7, 1, 10, 5 );
-    df_lay->addRowSpacing(0,5);
-    df_lay->addRowSpacing(2,1);
-    df_lay->addRowSpacing(4,1);
-    df_lay->addRowSpacing(6,5);
-
-    df_lay->setRowStretch(0,0);
-    df_lay->setRowStretch(1,1);
-    df_lay->setRowStretch(2,0);
-
-    rb_gbPolicyAsk = new QRadioButton( i18n("Ask for confirmation before accepting cookies."), bg_default );
-    df_lay->addWidget( rb_gbPolicyAsk, 1, 0);
-
+    rb_gbPolicyAsk = new QRadioButton( i18n("Ask for confirmation before accepting cookies."), bg_default);
     rb_gbPolicyAccept = new QRadioButton( i18n("Accept all cookies by default"), bg_default );
-    df_lay->addWidget(rb_gbPolicyAccept, 3, 0);
-
     rb_gbPolicyReject = new QRadioButton( i18n("Reject all cookies by default"), bg_default );
-    df_lay->addWidget(rb_gbPolicyReject, 5, 0);
-
-    gp_lay->addWidget( bg_default, 3, 1 ); // Add it to the Global group box
 
     // Create Group Box for specific settings
     gb_domainSpecific = new QGroupBox( i18n("Domain Specific"), this);
-    QGridLayout *ds_lay = new QGridLayout( gb_domainSpecific, 11, 5, 10, 5 );
-    ds_lay->addRowSpacing(0,10);
-    ds_lay->addRowSpacing(2,1);
-    ds_lay->addRowSpacing(4,1);
-    ds_lay->addRowSpacing(6,1);
-    ds_lay->addRowSpacing(8,1);
-    ds_lay->addRowSpacing(10,7);
-
-    ds_lay->addColSpacing(0,5);
-    ds_lay->addColSpacing(2,3);
-    ds_lay->addColSpacing(4,5);
-
+    lay->setStretchFactor( gb_domainSpecific, 10 );
+    QGridLayout *ds_lay = new QGridLayout( gb_domainSpecific, 6, 2, 
+					   KDialog::marginHint(), KDialog::spacingHint() );
+    ds_lay->setColStretch( 0, 2 ); // only resize the listbox horizontally, not the buttons
+    ds_lay->addRowSpacing( 0, 2 * KDialog::spacingHint() );
+    ds_lay->setRowStretch( 0, 0 );
+    ds_lay->setRowStretch( 1, 1 );
+    ds_lay->setRowStretch( 2, 1 );
+    ds_lay->setRowStretch( 3, 1 );
+    ds_lay->setRowStretch( 4, 1 );
+    ds_lay->setRowStretch( 5, 1 );
+    
     // CREATE SPLIT LIST BOX
     lb_domainPolicy = new KListView( gb_domainSpecific );
-    lb_domainPolicy->setMinimumHeight( 0.10 * sizeHint().height() );
+    //    lb_domainPolicy->setMinimumHeight( 0.10 * sizeHint().height() );
     lb_domainPolicy->addColumn(i18n("Hostname"));
     lb_domainPolicy->addColumn(i18n("Policy"), 100);
-    ds_lay->addMultiCellWidget( lb_domainPolicy, 1, 9, 1, 1 );
+    ds_lay->addMultiCellWidget( lb_domainPolicy, 1, 5, 0, 0 );
     QString wtstr = i18n("This box contains the domains and hosts you have set "
                          "a specific cookie policy for. This policy will be used "
                          "instead of the default policy for any cookie sent by these "
@@ -190,26 +143,26 @@ KCookiesPolicies::KCookiesPolicies(QWidget *parent, const char *name)
     QWhatsThis::add( pb_domPolicyAdd, i18n("Click on this button to manually add a domain "
                                            "specific policy.") );
     connect( pb_domPolicyAdd, SIGNAL(clicked()), SLOT( addPressed() ) );
-    ds_lay->addWidget( pb_domPolicyAdd, 1, 3);
+    ds_lay->addWidget( pb_domPolicyAdd, 1, 1);
 
     pb_domPolicyChange = new QPushButton( i18n("Change..."), gb_domainSpecific );
     QWhatsThis::add( pb_domPolicyChange, i18n("Click on this button to change the policy for the "
                                               "domain selected in the list box.") );
     connect( pb_domPolicyChange, SIGNAL( clicked() ), this, SLOT( changePressed() ) );
-    ds_lay->addWidget( pb_domPolicyChange, 3, 3);
+    ds_lay->addWidget( pb_domPolicyChange, 2, 1);
 
     pb_domPolicyDelete = new QPushButton( i18n("Delete"), gb_domainSpecific );
     QWhatsThis::add( pb_domPolicyDelete, i18n("Click on this button to change the policy for the "
                                               "domain selected in the list box.") );
     connect( pb_domPolicyDelete, SIGNAL( clicked() ), this, SLOT( deletePressed() ) );
-    ds_lay->addWidget( pb_domPolicyDelete, 5, 3);
+    ds_lay->addWidget( pb_domPolicyDelete, 3, 1);
 
     pb_domPolicyImport = new QPushButton( i18n("Import..."), gb_domainSpecific );
     QWhatsThis::add( pb_domPolicyImport, i18n("Click this button to choose the file that contains "
                                               "the cookie policies.  These policies will be merged "
                                               "with the exisiting ones.  Duplicate enteries are ignored.") );
     connect( pb_domPolicyDelete, SIGNAL( clicked() ), this, SLOT( importPressed() ) );
-    ds_lay->addWidget( pb_domPolicyImport, 7, 3);
+    ds_lay->addWidget( pb_domPolicyImport, 4, 1);
     pb_domPolicyImport->setEnabled( false );
 
     pb_domPolicyExport = new QPushButton( i18n("Export..."), gb_domainSpecific );
@@ -218,7 +171,7 @@ KCookiesPolicies::KCookiesPolicies(QWidget *parent, const char *name)
                                               "saved to a location of your choice." ) );
 
     connect( pb_domPolicyDelete, SIGNAL( clicked() ), this, SLOT( exportPressed() ) );
-    ds_lay->addWidget( pb_domPolicyExport, 9, 3);
+    ds_lay->addWidget( pb_domPolicyExport, 5, 1);
     pb_domPolicyExport->setEnabled( false );
 
     QWhatsThis::add( gb_domainSpecific, i18n("Here you can set specific cookie policies for any particular "
@@ -230,8 +183,8 @@ KCookiesPolicies::KCookiesPolicies(QWidget *parent, const char *name)
                                              "policy setting to be used for that domain. The <i>Import</i> and <i>Export</i> "
                                              "button allows you to easily share your policies with other people by allowing "
                                              "you to save and retrive them from a zipped file.") );
-    lay->addWidget( gb_domainSpecific, 3, 1 );
 
+    lay->addSpacing( KDialog::spacingHint());
     // Pheweee!! Finally read the options
     load();
 }
