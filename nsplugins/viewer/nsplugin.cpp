@@ -464,7 +464,7 @@ void NSPluginInstance::requestURL( const QString &url, const QString &mime,
 {
     kdDebug(1431) << "NSPluginInstance::requestURL url=" << url << " target=" <<
         target << " notify=" << notify << endl;
-    _waitingRequests.enqueue( new Request( url, mime.isEmpty()?"text/plain":mime, target, notify ) );
+    _waitingRequests.enqueue( new Request( url, mime.isEmpty()?QString::fromLatin1("text/plain"):mime, target, notify ) );
     if ( _streams.count()==0 )
         _timer->start( 0, true );
 }
