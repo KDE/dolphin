@@ -519,32 +519,15 @@ void KonqMainView::insertView( Konqueror::View_ptr view,
   {
     debug("Creating a new row");
     currentRow = newRow( (newViewPosition == Konqueror::below) ); // append if below
-    v->m_pFrame = new KonqFrame( currentRow->pRowSplitter );
-    if (newViewPosition == Konqueror::above) {
-      debug("Putting it ABOVE");
-      // WHY DOESN'T THIS WORK ?
-      currentRow->pRowSplitter->moveToFirst( v->m_pFrame );
-    }
-    // TODO : determine whether lstViews is really necessary
-    // A row knows its row, and all rows are in the dict
-    // I'll probably remove that lstViews, then. (David)
-    currentRow->lstViews.append( v );
+    // Now insert a view, say on the right
+    newViewPosition = Konqueror::right;
   }
-  else // left or right, in the current row
-  {
-    int n = currentRow->lstViews.count();
-    debug("insertView : I already have %d views",n);
 
-    v->m_pFrame = new KonqFrame( currentRow->pRowSplitter );
+  v->m_pFrame = new KonqFrame( currentRow );
 
-    if (newViewPosition == Konqueror::left) {
-      // FIXME this is TERRIBLY broken ! - but not called anymore, at the moment :)
-      currentRow->lstViews.insert( 0, v );
-      currentRow->pRowSplitter->moveToFirst( v->m_pFrame );
-    }
-    else {
-      currentRow->lstViews.append( v );
-    }
+  if (newViewPosition == Konqueror::left) {
+    // FIXME doesn't seem to work properly
+    currentRow->moveToFirst( v->m_pFrame );
   }
   
   v->m_pFrame->attach( m_vView );
@@ -1207,6 +1190,7 @@ void KonqMainView::splitView ( Konqueror::NewViewPosition newViewPosition )
   // - look this name up in a map, containing all available views
   // - if it is a builtin view just create a new view
   // - if it is not a builtin view just call the appropriate view factory
+  // Well, let's simply call createViewByName, then :) (David)
   insertView( new KonqKfmIconView, newViewPosition );
   
   Konqueror::EventOpenURL eventURL;
@@ -1797,8 +1781,9 @@ void KonqMainView::slotPopupProperties()
 
 void KonqMainView::resizeEvent( QResizeEvent *e )
 {
-//  m_pPanner->setGeometry( 0, 0, width(), height() );
-  m_pMainSplitter->setGeometry( 0, 0, width(), height() ); //is this ok as replacement for m_pPanner? (Simon)
+  m_pMainSplitter->setGeometry( 0, 0, width(), height() ); 
+  //is this ok as replacement for m_pPanner? (Simon)
+  //yes, it's ok, but then we don't need the layout, which I just removed (David)
 }
 
 KonqMainView::View::View()
@@ -1853,13 +1838,17 @@ void KonqMainView::initGui()
 
 KonqMainView::Row * KonqMainView::newRow( bool append )
 {
-  Row * row = new Row;
-  row->pRowSplitter = new QSplitter ( QSplitter::Horizontal, m_pMainSplitter );
-  //row->pRowSplitter->setOpaqueResize( TRUE );
-  if (append)
+  //Row * row = new Row;
+  Row * row = new QSplitter ( QSplitter::Horizontal, m_pMainSplitter );
+  //row->setOpaqueResize( TRUE );
+  if ( append )
     m_lstRows.append( row );
   else
+  {
     m_lstRows.insert( 0, row );
+    m_pMainSplitter->moveToFirst( row );
+  }
+  row->show();
   debug("newRow() done");
   return row;
 }
@@ -1869,8 +1858,6 @@ void KonqMainView::initPanner()
   // Create the main splitter
   m_pMainSplitter = new QSplitter ( QSplitter::Vertical, this, "mainsplitter" );
   //m_pMainSplitter->setOpaqueResize( TRUE ); 
-  QGridLayout * GM = new QGridLayout( this, 1, 1 );
-  GM->addWidget( m_pMainSplitter, 0, 0 );
 
   // Create a row, and its splitter
   m_lstRows.clear();
@@ -1882,15 +1869,10 @@ void KonqMainView::initView()
 {
  
   Konqueror::View_var vView1 = Konqueror::View::_duplicate( new KonqKfmIconView );
-
-  insertView( vView1, Konqueror::right );
-  setActiveView( vView1->id() );
-
   Konqueror::View_var vView2 = Konqueror::View::_duplicate( new KonqKfmTreeView );
-  insertView( vView2, Konqueror::left );
+  insertView( vView1, Konqueror::left );
+  insertView( vView2, Konqueror::right );
 
-  //fix because insertView makes the just inserted view the active view
-  //let's remove this, ok? (Simon)
   setActiveView( vView1->id() );
 
   //temporary...

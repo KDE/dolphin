@@ -207,7 +207,7 @@ protected:
 
   //////// View storage //////////////
 
-  struct Row;
+  typedef QSplitter Row;
 
   struct InternalHistoryEntry
   {
@@ -226,11 +226,6 @@ protected:
     Row * row;
   };
 
-  /* A row of views */
-  struct Row {
-    QList<View> lstViews;
-    QSplitter* pRowSplitter;
-  };
   /* The list of rows */
   QList<Row> m_lstRows;
   /* The main, vertical, QSplitter, which holds the rows */
