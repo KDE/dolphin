@@ -60,10 +60,10 @@ KParts::ReadOnlyPart *KonqViewFactory::create( QWidget *parentWidget, const char
   else
   {
     if ( m_createBrowser )
-      obj = m_factory->create( parent, name, "Browser/View", m_args );
+      obj = m_factory->create( parentWidget, name, "Browser/View", m_args );
 
     if ( !obj )
-      obj = m_factory->create( parent, name, "KParts::ReadOnlyPart", m_args );
+      obj = m_factory->create( parentWidget, name, "KParts::ReadOnlyPart", m_args );
   }
 
   if ( !obj->inherits( "KParts::ReadOnlyPart" ) )
