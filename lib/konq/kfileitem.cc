@@ -38,6 +38,7 @@ KFileItem::KFileItem( UDSEntry& _entry, KURL& _url ) :
 {
   // extract the mode and the filename from the UDS Entry
   m_mode = 0;
+  m_bLink = false;
   m_pMimeType = 0;
   m_strText = QString::null;
   UDSEntry::Iterator it = m_entry.begin();
@@ -50,6 +51,8 @@ KFileItem::KFileItem( UDSEntry& _entry, KURL& _url ) :
       m_url = KURL((*it).m_str);
     else if ( (*it).m_uds == UDS_MIME_TYPE )
       m_pMimeType = KMimeType::find((*it).m_str);
+    else if ( (*it).m_uds == UDS_LINK_DEST )
+      m_bLink = !(*it).m_str.isEmpty(); // we don't store the link dest
   }
   KFileItem::init(); // don't call derived methods !
 }
@@ -60,6 +63,7 @@ KFileItem::KFileItem( QString _text, mode_t _mode, KURL& _url ) :
   m_bIsLocalURL( _url.isLocalFile() ),
   m_strText( _text ),
   m_mode( _mode ),
+  m_bLink( false /* TODO : pass as argument */ ),
   m_bMarked( false )
 {
   KFileItem::init(); // don't call derived methods !
@@ -83,11 +87,6 @@ QPixmap* KFileItem::getPixmap( bool _mini ) const
   return p;
 }
 
-bool KFileItem::isLink() const
-{
-  return S_ISLNK( m_mode );
-}
-
 bool KFileItem::acceptsDrops( QStringList& /* _formats */ ) const
 {
   if ( strcmp( "inode/directory", m_pMimeType->mimeType() ) == 0 )
@@ -109,30 +108,25 @@ bool KFileItem::acceptsDrops( QStringList& /* _formats */ ) const
 QString KFileItem::getStatusBarInfo() const
 {
   QString comment = m_pMimeType->comment( m_url, false );
-  QString text;
+  QString text = m_strText;
   QString linkDest;
 
   long size   = 0;
   mode_t mode = 0;
 
+  // Extract from the UDSEntry the additionnal info we didn't get previously
   UDSEntry::ConstIterator it = m_entry.begin();
   for( ; it != m_entry.end(); it++ ) {
     if ( (*it).m_uds == UDS_SIZE )
       size = (*it).m_long;
-    else if ( (*it).m_uds == UDS_FILE_TYPE )
-      mode = (mode_t)((*it).m_long);
     else if ( (*it).m_uds == UDS_LINK_DEST )
       linkDest = (*it).m_str;
-    else if ( (*it).m_uds == UDS_NAME )
-      text = (*it).m_str;
   }
 
   QString text2 = text.copy();
 
-//  if ( m_url.isLocalFile() )
-//  {
-    if ( S_ISLNK( mode ) )
-    {
+  if ( m_bLink )
+  {
       QString tmp;
       if ( comment.isEmpty() )
 	tmp = i18n ( "Symbolic Link" );
@@ -142,9 +136,9 @@ QString KFileItem::getStatusBarInfo() const
       text += linkDest;
       text += "  ";
       text += tmp;
-    }
-    else if ( S_ISREG( mode ) )
-    {
+  }
+  else if ( S_ISREG( m_mode ) )
+  {
       if (size < 1024)
         text = QString("%1 (%2 %3)").arg(text2).arg((long) size).arg(i18n("bytes"));
       else
@@ -154,9 +148,9 @@ QString KFileItem::getStatusBarInfo() const
       }
       text += "  ";
       text += comment;
-    }
-    else if ( S_ISDIR( mode ) )
-    {
+  }
+  else if ( S_ISDIR ( m_mode ) )
+  {
       text += "/  ";
       text += comment;
     }
@@ -166,9 +160,6 @@ QString KFileItem::getStatusBarInfo() const
       text += comment;
     }	
     return text;
-//  }
-//  else
-//    return m_url.decodedURL();
 }
 
 void KFileItem::run()

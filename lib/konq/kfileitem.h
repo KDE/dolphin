@@ -66,7 +66,7 @@ public:
    * @return true if this icons represents a link in the UNIX sense of
    * a link. If yes, then we have to draw the label with an italic font.
    */
-  bool isLink() const;
+  bool isLink() const { return m_bLink; }
   /**
    * @return true if the file is a local file
    */
@@ -148,9 +148,13 @@ protected:
    */
   QString m_strText;
   /**
-   * The mode (as given by stat()) for the file
+   * The mode (as given by stat()) for the file - or the link-dest for a link
    */
   mode_t m_mode;
+  /**
+   * Whether the file is a link
+   */
+  bool m_bLink; 
   /**
    * The mimetype of the file
    */
