@@ -800,21 +800,6 @@ OpenParts::Id KonqMainView::activeViewId()
   return m_currentId;
 }
 
-Browser::ViewList *KonqMainView::viewList()
-{
-  Browser::ViewList *seq = new Browser::ViewList;
-
-  seq->length( m_mapViews.count() );
-
-  MapViews::ConstIterator it = m_mapViews.begin();
-  
-  int i = 0;
-  for (; it != m_mapViews.end(); it++ )
-    (*seq)[ i++ ] = Browser::View::_duplicate( it.data()->view() );
-
-  return seq;
-}
-
 void KonqMainView::openURL( const Browser::URLRequest &_urlreq )
 {
   openURL( _urlreq.url.in(), (bool)_urlreq.reload, (int)_urlreq.xOffset,

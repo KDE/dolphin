@@ -70,7 +70,6 @@ public:
   virtual void setActiveView( OpenParts::Id id );
   virtual Browser::View_ptr activeView();
   virtual OpenParts::Id activeViewId();
-  virtual Browser::ViewList *viewList();
 
   virtual void openURL( const Browser::URLRequest &_urlreq );
   virtual void openURL( const char * _url, bool _reload = false, int xOffset = 0,
