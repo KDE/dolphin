@@ -975,7 +975,7 @@ void KonqMainWindow::slotNewWindow()
   QString profile = m_pViewManager->currentProfile();
   if ( profile.isEmpty() )
   {
-    if ( m_currentView && m_currentView->url().protocol() == QString::fromLatin1( "http" ) )
+    if ( m_currentView && m_currentView->url().protocol().startsWith( "http" ) )
        profile = QString::fromLatin1("webbrowsing");
     else
        profile = QString::fromLatin1("filemanagement");
