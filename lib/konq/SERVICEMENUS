@@ -25,6 +25,13 @@ Actions=gzip;mail                 # those are ';' separated, per the standard !
 X-KDE-Submenu=Menuname            # this optional entry allows grouping the 
                                   # entries in this servicemenu file into a
                                   # common submenu, in this case "Menuname"
+TryExec=gzip			  # Find if executable exist, if it doesn't exist
+				  # menu entry is not displaying
+ExcludeServiceTypes=application/x-zip # This entry is used to avoid to display menu
+				      # when it's a specific servicetype
+				      # for exemple when we use all/allfiles and zip
+				      # them, we don't want to zip a zip file
+
 
 [Desktop Action gzip]            # One "Desktop Action <name>" group per Action
 Name=GZip this file

@@ -318,6 +318,7 @@ void KonqPopupMenu::setup(bool showPropertiesAndFileType)
                             url.path(1) == KGlobalSettings::trashPath() &&
                             currentDir) ||
                           ( m_lstItems.count() == 1 && bTrashIncluded );
+    kdDebug()<<"url.path(1) ********************************************************:"<<url.path(1)<<endl;
     bool isIntoTrash =  url.isLocalFile() && url.path(1).startsWith(KGlobalSettings::trashPath());
     clear();
 
@@ -519,6 +520,7 @@ void KonqPopupMenu::setup(bool showPropertiesAndFileType)
                 if ( cfg.hasKey( "Actions" ) && cfg.hasKey( "ServiceTypes" ) )
                 {
                     QStringList types = cfg.readListEntry( "ServiceTypes" );
+                    QStringList excludeTypes = cfg.readListEntry( "ExcludeServiceTypes" );
                     bool ok = false;
                     QString mimeGroup = m_sMimeType.left(m_sMimeType.find('/'));
 
@@ -533,16 +535,22 @@ void KonqPopupMenu::setup(bool showPropertiesAndFileType)
                         if (*it == "all/all" ||
                             *it == "allfiles" /*compat with KDE up to 3.0.3*/)
                         {
-                            ok = true;
-                            break;
+                            if ( (excludeTypes.count()==0) || !excludeTypes.contains( m_sMimeType))
+                            {
+                                ok = true;
+                                break;
+                            }
                         }
 
                         // next, do we match all files?
                         if (*it == "all/allfiles" &&
                             !isDirectory) // ## or inherits from it
                         {
-                            ok = true;
-                            break;
+                            if ( (excludeTypes.count()==0) || !excludeTypes.contains( m_sMimeType))
+                            {
+                                ok = true;
+                                break;
+                            }
                         }
 
                         // if we have a mimetype, see if we have an exact or type
@@ -552,8 +560,11 @@ void KonqPopupMenu::setup(bool showPropertiesAndFileType)
                              ((*it).right(1) == "*" &&
                               (*it).left((*it).find('/')) == mimeGroup)))
                         {
-                            ok = true;
-                            break;
+                            if ( (excludeTypes.count()==0) || !excludeTypes.contains( m_sMimeType))
+                            {
+                                ok = true;
+                                break;
+                            }
                         }
                     }
 
