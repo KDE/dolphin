@@ -40,7 +40,7 @@ public:
   PluginFactory();
   virtual ~PluginFactory();
 
-  virtual KParts::Part * createPart(QWidget *parentWidget = 0, const char *widgetName = 0,
+  virtual KParts::Part * createPartObject(QWidget *parentWidget = 0, const char *widgetName = 0,
   		            	    QObject *parent = 0, const char *name = 0,
   			            const char *classname = "KParts::Part",
    			            const QStringList &args = QStringList());

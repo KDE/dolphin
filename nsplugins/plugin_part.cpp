@@ -85,13 +85,12 @@ PluginFactory::~PluginFactory()
    s_instance = 0;
 }
 
-KParts::Part * PluginFactory::createPart(QWidget *parentWidget, const char *widgetName,
+KParts::Part * PluginFactory::createPartObject(QWidget *parentWidget, const char *widgetName,
                                          QObject *parent, const char *name,
                                          const char */*classname*/, const QStringList &args)
 {
     kdDebug(1432) << "PluginFactory::create" << endl;
     KParts::Part *obj = new PluginPart(parentWidget, widgetName, parent, name, args);
-    emit objectCreated(obj);
     return obj;
 }
 
