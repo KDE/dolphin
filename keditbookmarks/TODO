@@ -9,6 +9,7 @@ multi selection deletion then shift down selects roots
 clicking in the increm. search text field selects the root item in the list view
 tips dialog - fixes bugs - shortcuts for keyboard selection are wierd
 selecting a closed folder should selected all items inside - i.e, the outer parent
+show a partial highlight of items that are implicitly selected
 
 TODO
 ----
