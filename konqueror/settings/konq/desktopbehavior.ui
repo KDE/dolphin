@@ -8,8 +8,8 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>522</width>
-            <height>460</height>
+            <width>791</width>
+            <height>501</height>
         </rect>
     </property>
     <property name="caption">
@@ -36,11 +36,11 @@
                 <attribute name="title">
                     <string>General</string>
                 </attribute>
-                <vbox>
+                <grid>
                     <property name="name">
                         <cstring>unnamed</cstring>
                     </property>
-                    <widget class="QCheckBox">
+                    <widget class="QCheckBox" row="0" column="0">
                         <property name="name">
                             <cstring>iconsEnabledBox</cstring>
                         </property>
@@ -59,21 +59,48 @@
                             <string>Uncheck this option if you do not want to have icons on the desktop. Without icons the desktop will be somewhat faster but you will no longer be able to drag files to the desktop.</string>
                         </property>
                     </widget>
-                    <widget class="QCheckBox">
+                    <widget class="QLayoutWidget" row="1" column="0">
                         <property name="name">
-                            <cstring>vrootBox</cstring>
+                            <cstring>layout1</cstring>
                         </property>
-                        <property name="enabled">
-                            <bool>false</bool>
-                        </property>
-                        <property name="text">
-                            <string>Allow pro&amp;grams in desktop window</string>
-                        </property>
-                        <property name="whatsThis" stdset="0">
-                            <string>Check this option if you want to run X11 programs that draw into the desktop such as xsnow, xpenguin or xmountain. If you have problems with applications like netscape that check the root window for running instances, disable this option.</string>
-                        </property>
+                        <hbox>
+                            <property name="name">
+                                <cstring>unnamed</cstring>
+                            </property>
+                            <spacer>
+                                <property name="name">
+                                    <cstring>spacer3</cstring>
+                                </property>
+                                <property name="orientation">
+                                    <enum>Horizontal</enum>
+                                </property>
+                                <property name="sizeType">
+                                    <enum>Fixed</enum>
+                                </property>
+                                <property name="sizeHint">
+                                    <size>
+                                        <width>20</width>
+                                        <height>0</height>
+                                    </size>
+                                </property>
+                            </spacer>
+                            <widget class="QCheckBox">
+                                <property name="name">
+                                    <cstring>vrootBox</cstring>
+                                </property>
+                                <property name="enabled">
+                                    <bool>false</bool>
+                                </property>
+                                <property name="text">
+                                    <string>Allow pro&amp;grams in desktop window</string>
+                                </property>
+                                <property name="whatsThis" stdset="0">
+                                    <string>Check this option if you want to run X11 programs that draw into the desktop such as xsnow, xpenguin or xmountain. If you have problems with applications like netscape that check the root window for running instances, disable this option.</string>
+                                </property>
+                            </widget>
+                        </hbox>
                     </widget>
-                    <widget class="QCheckBox">
+                    <widget class="QCheckBox" row="2" column="0">
                         <property name="name">
                             <cstring>toolTipBox</cstring>
                         </property>
@@ -81,7 +108,7 @@
                             <string>Show &amp;tooltips</string>
                         </property>
                     </widget>
-                    <widget class="QButtonGroup">
+                    <widget class="QButtonGroup" row="3" column="0">
                         <property name="name">
                             <cstring>desktopMenuGroup</cstring>
                         </property>
@@ -127,7 +154,7 @@
                             </widget>
                         </vbox>
                     </widget>
-                    <widget class="QGroupBox">
+                    <widget class="QGroupBox" row="4" column="0">
                         <property name="name">
                             <cstring>groupBox3</cstring>
                         </property>
@@ -253,7 +280,7 @@
                             </spacer>
                         </grid>
                     </widget>
-                    <spacer>
+                    <spacer row="5" column="0">
                         <property name="name">
                             <cstring>spacer8</cstring>
                         </property>
@@ -266,11 +293,11 @@
                         <property name="sizeHint">
                             <size>
                                 <width>20</width>
-                                <height>206</height>
+                                <height>16</height>
                             </size>
                         </property>
                     </spacer>
-                </vbox>
+                </grid>
             </widget>
             <widget class="QWidget">
                 <property name="name">
@@ -279,11 +306,11 @@
                 <attribute name="title">
                     <string>File Icons</string>
                 </attribute>
-                <vbox>
+                <grid>
                     <property name="name">
                         <cstring>unnamed</cstring>
                     </property>
-                    <widget class="QCheckBox">
+                    <widget class="QCheckBox" row="0" column="0">
                         <property name="name">
                             <cstring>autoLineupIconsBox</cstring>
                         </property>
@@ -294,7 +321,7 @@
                             <string>Check this option if you want to see your icons automatically aligned to the grid when you move them.</string>
                         </property>
                     </widget>
-                    <widget class="QCheckBox">
+                    <widget class="QCheckBox" row="1" column="0">
                         <property name="name">
                             <cstring>showHiddenBox</cstring>
                         </property>
@@ -306,7 +333,7 @@
 &lt;p&gt;For example, files which are named ".directory" are plain text files which contain information for Konqueror, such as the icon to use in displaying a directory, the order in which files should be sorted, etc. You should not change or delete these files unless you know what you are doing!&lt;/p&gt;</string>
                         </property>
                     </widget>
-                    <widget class="KListView">
+                    <widget class="KListView" row="2" column="0">
                         <column>
                             <property name="text">
                                 <string>Show Icon Previews For</string>
@@ -328,7 +355,7 @@
                             <string>Select for which types of files you want to enable preview images.</string>
                         </property>
                     </widget>
-                </vbox>
+                </grid>
             </widget>
             <widget class="QWidget">
                 <property name="name">
