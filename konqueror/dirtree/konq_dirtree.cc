@@ -311,7 +311,15 @@ void KonqDirTree::slotRightButtonPressed( QListViewItem *item )
 void KonqDirTree::slotClicked( QListViewItem *item )
 {
   if ( !item )
+  {
     unselectAll();
+    return;
+  }
+
+  if ( m_unselectableItems.findRef( item ) != -1 )
+    return;
+  
+  emit m_view->openURLRequest( ((KonqDirTreeItem *)item)->fileItem()->url().url(), false, 0, 0 );
 }
 
 void KonqDirTree::slotListingStopped()
@@ -442,9 +450,9 @@ void KonqDirTree::loadTopLevelItem( QListViewItem *parent,  const QString &filen
   KFileItem *fileItem = new KFileItem( 0, KURL( url ) );
   KonqDirTreeItem *item = new KonqDirTreeItem( this, parent, 0, fileItem );
 
-  m_unselectableItems.append( item );
+  //  m_unselectableItems.append( item );
 
-  item->setSelectable( false );
+  //  item->setSelectable( false );
 
   item->setPixmap( 0, KonqFactory::instance()->iconLoader()->loadApplicationIcon( icon, KIconLoader::Small ) );
   item->setText( 0, name );
@@ -466,6 +474,7 @@ void KonqDirTree::loadTopLevelItem( QListViewItem *parent,  const QString &filen
 
   if ( cfg.readBoolEntry( "Open", true ) )
     item->setOpen( true );
+
 }
 
 void KonqDirTree::groupPopupMenu( const QString &path, QListViewItem *item )
