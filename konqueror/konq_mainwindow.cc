@@ -2682,7 +2682,7 @@ void KonqMainWindow::initActions()
 
   (void) new KAction( i18n( "Kon&queror Introduction" ), 0, this, SLOT( slotIntro() ), actionCollection(), "konqintro" );
 
-  (void) new KAction( i18n( "Go" ), "key_enter", 0, this, SLOT( goURL() ), actionCollection(), "go_url" );
+  (void) new KonqGoURLAction( i18n( "Go" ), "key_enter", 0, this, SLOT( goURL() ), actionCollection(), "go_url" );
 
   enableAllActions( false );
 

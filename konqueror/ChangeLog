@@ -1,3 +1,14 @@
+2001-04-28  Simon Hausmann  <simon@kde.org>
+
+	* konq_actions.h (class KonqGoURLAction): new class, derived
+	from KAction, used for the 'go url' action. when plugging the
+	action into a toolbar make sure to align the button right.
+	Otherwise the toolbar layout completely fucks up and QToolBar
+	starts flickering like mad, when the window width is getting
+	small than the lenght of the url in the combobox.
+	
+	* konq_mainwindow.cc (initActions): use KonqGoURLAction
+
 2001-04-27  Simon Hausmann  <simon@kde.org>
 
 	* konq_mainwindow.cc (goURL): new slot, sending a fake key

@@ -496,11 +496,11 @@ void KonqMostOftenURLSAction::parseHistory()
 	KConfig *kc = KGlobal::config();
 	KConfigGroupSaver cs( kc, "Settings" );
 	s_maxEntries = kc->readNumEntry( "Number of most visited URLs", 10 );
-	
+
 	s_mostEntries = new MostOftenList; // exit() will clean this up for now
 	didInit = true;
     }
-    
+
     KonqHistoryManager *mgr = KonqHistoryManager::kself();
     KonqHistoryIterator it( mgr->entries() );
 
@@ -517,10 +517,10 @@ void KonqMostOftenURLSAction::parseHistory()
 	    s_mostEntries->removeFirst();
 	    s_mostEntries->inSort( entry );
 	}
-	
+
 	++it;
     }
-    
+
     if ( didInit ) {
 	connect( mgr, SIGNAL( entryAdded( const KonqHistoryEntry * )),
 		 SLOT( slotEntryAdded( const KonqHistoryEntry * )));
@@ -573,7 +573,7 @@ void KonqMostOftenURLSAction::slotFillMenu()
 {
     if ( !s_mostEntries )
 	parseHistory();
-    
+
     s_bLocked = true;
     popupMenu()->clear();
 
@@ -585,7 +585,7 @@ void KonqMostOftenURLSAction::slotFillMenu()
 						 entry->url.prettyURL() :
 						 entry->typedURL) :
 		       entry->title;
-	
+
 	popupMenu()->insertItem(
 		    KonqPixmapProvider::self()->pixmapFor( entry->url.url() ),
 		    text, id );
@@ -602,7 +602,7 @@ void KonqMostOftenURLSAction::slotClearMenu()
 void KonqMostOftenURLSAction::slotActivated( int id )
 {
     ASSERT( s_mostEntries ); // can basically not happen
-    
+
     const KonqHistoryEntry *entry = s_mostEntries->at( id );
     KURL url = entry ? entry->url : KURL();
     if ( url.isValid() )
@@ -624,6 +624,27 @@ int MostOftenList::compareItems( QCollection::Item item1,
 	return -1;
     else
 	return 0;
+}
+
+KonqGoURLAction::KonqGoURLAction( const QString &text, const QString &pix,
+                                  int accel, const QObject *receiver,
+                                  const char *slot, QObject *parent,
+                                  const char *name )
+    : KAction( text, pix, accel, receiver, slot, parent, name )
+{
+}
+
+int KonqGoURLAction::plug( QWidget *widget, int index )
+{
+    int container = KAction::plug( widget, index );
+
+    if ( widget->inherits( "KToolBar" ) && container != -1 )
+    {
+        int toolButtonId = itemId( container );
+        static_cast<KToolBar *>( widget )->alignItemRight( toolButtonId, true );
+    }
+
+    return container;
 }
 
 #include "konq_actions.moc"
