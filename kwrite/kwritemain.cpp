@@ -24,6 +24,7 @@
 #include "kwritemain.moc"
 
 #include <kate/document.h>
+#include <kate/view.h>
 
 #include <ktexteditor/configinterface.h>
 #include <ktexteditor/sessionconfiginterface.h>
@@ -31,6 +32,7 @@
 #include <ktexteditor/printinterface.h>
 #include <ktexteditor/encodinginterface.h>
 #include <ktexteditor/editorchooser.h>
+#include <ktexteditor/popupmenuinterface.h>
 
 #include <kio/netaccess.h>
 
@@ -104,8 +106,10 @@ KWrite::KWrite (KTextEditor::Document *doc)
   setXMLFile( "kwriteui.rc" );
   createShellGUI( true );
   guiFactory()->addClient( m_view );
-  KParts::GUIActivateEvent ev( true );
-  QApplication::sendEvent( m_view, &ev );
+
+  // install a working kate part popup dialog thingy
+  if (static_cast<Kate::View*>(m_view->qt_cast("Kate::View")))
+    static_cast<Kate::View*>(m_view->qt_cast("Kate::View"))->installPopup ((QPopupMenu*)(factory()->container("ktexteditor_popup", this)) );
   
   // call it as last thing, must be sure everything is already set up ;)
   setAutoSaveSettings ("MainWindow Settings");
