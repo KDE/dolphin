@@ -41,16 +41,24 @@ void SearchItrHolder::doItrListChanged() {
 }
 
 void SearchItrHolder::nextOne() {
-   ListView::self()->setCurrent(m_foundlist.next());
+   KEBListViewItem *item = m_foundlist.next();
+   if (!item) {
+      return;
+   }
+   ListView::self()->clearSelection();
+   ListView::self()->setCurrent(item);
+   item->setSelected(true);
 }
 
 void SearchItrHolder::addFind(KEBListViewItem *item) {
    bool wasEmpty = m_foundlist.isEmpty();
    if (wasEmpty) {
-      m_foundlist.first();
+      ListView::self()->clearSelection();
       ListView::self()->setCurrent(item);
+      item->setSelected(true);
    };
    m_foundlist.append(item);
+   m_foundlist.first();
 }
 
 /* -------------------------------------- */
@@ -93,7 +101,7 @@ void SearchItr::doBlah() {
    if (text.find(m_text, 0, FALSE) != -1) {
       // kdDebug() << m_book.url().url() << endl;
       SearchItrHolder::self()->addFind(curItem());
-      curItem()->setSelected(true); // only if no current selection?
+      // curItem()->setSelected(true); // only if no current selection?
       ListView::self()->openParents(curItem());
       // ListView::self()->updateListView();
       // set paintstyle also, thats most important, but will require 

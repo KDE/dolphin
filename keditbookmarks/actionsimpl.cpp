@@ -193,6 +193,10 @@ void ActionsImpl::slotSearch() {
    SearchItrHolder::self()->insertItr(itr);
 }
 
+void ActionsImpl::slotNextHit() {
+   SearchItrHolder::self()->nextOne();
+}
+
 /* -------------------------------------- */
 
 void ActionsImpl::slotSort() {

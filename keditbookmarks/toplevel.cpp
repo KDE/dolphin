@@ -161,7 +161,9 @@ void KEBApp::createActions() {
    (void) new KAction(i18n("Check &Status"), "bookmark", 0, 
                       actn, SLOT( slotTestSelection() ), actionCollection(), "testlink" );
    (void) new KAction(i18n("&Find..."), 0, 
-                      actn, SLOT( slotSearch() ), actionCollection(), "search" ); // "find" ?
+                      actn, SLOT( slotSearch() ), actionCollection(), "search" );
+   (void) new KAction(i18n("Find &Next..."), 0,  // alt-f3, stdaction???
+                      actn, SLOT( slotNextHit() ), actionCollection(), "nexthit" );
    (void) new KAction(i18n("Check Status: &All"), 0, 
                       actn, SLOT( slotTestAll() ), actionCollection(), "testall" );
    (void) new KAction(i18n("Update All &Favicons"), 0, 
@@ -260,6 +262,9 @@ void KEBApp::setActionsEnabled(SelcAbilities sa) {
                                               && !sa.group && !sa.separator);
 
    coll->action("search")           ->setEnabled(!sa.multiSelect);
+
+   // fix and move into the class where it should be!
+   coll->action("nexthit")          ->setEnabled(true);
 
    coll->action("testall")          ->setEnabled(!m_readOnly && sa.notEmpty);
    coll->action("testlink")         ->setEnabled(t2 && !sa.separator);

@@ -35,6 +35,9 @@
   <Action name="sort"/>
   <Action name="setastoolbar"/>
   <Separator/><!-- Expand/collapse -->
+  <Action name="search"/>
+  <Action name="nexthit"/>
+  <Action name="cancelsearch"/>
   <Action name="expandall"/>
   <Action name="collapseall"/>
 </Menu>
@@ -48,13 +51,11 @@
 <Menu name="bookmark"><text>&amp;Bookmark</text>
   <Action name="openlink"/>
   <Action name="testlink"/>
-  <Action name="search"/>
   <Separator/>
   <Action name="testall"/>
   <Action name="canceltests"/>
   <Action name="updateallfavicons"/>
   <Action name="cancelfaviconupdates"/>
-  <Action name="cancelsearch"/>
 </Menu>
 
 <Menu name="settings"><text>&amp;Settings</text>
