@@ -1251,6 +1251,8 @@ void KonqMainWindow::slotConfigureKeys()
 
 void KonqMainWindow::slotConfigureToolbars()
 {
+  saveMainWindowSettings( KGlobal::config(), "KonqMainWindow" );
+
   QString savedURL = m_combo ? m_combo->currentText() : QString::null;
   KEditToolbar edit(factory());
   if ( edit.exec() )
