@@ -1101,6 +1101,8 @@ bool NSPluginBufStream::get( QString url, QString mimeType, const QByteArray &bu
         queue( buf );
         _timer->start( 100, true );
     }
+
+    return false;
 }
 
 
@@ -1147,6 +1149,8 @@ bool NSPluginStream::get( QString url, QString mimeType, void *notify )
                 SLOT(data(KIO::Job *, const QByteArray &)));
         connect(_job, SIGNAL(result(KIO::Job *)), SLOT(result(KIO::Job *)));
     }
+
+    return false;
 }
 
 
