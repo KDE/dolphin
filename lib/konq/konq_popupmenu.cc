@@ -110,7 +110,7 @@ KonqPopupMenu::KonqPopupMenu( KBookmarkManager *mgr, const KFileItemList &items,
                               KNewMenu * newMenu,
                   bool showPropertiesAndFileType )
   : QPopupMenu( 0L, "konq_popupmenu" ), m_actions( actions ), m_ownActions( static_cast<QObject *>( 0 ), "KonqPopupMenu::m_ownActions" ),
-    m_pMenuNew( newMenu ), m_sViewURL(viewURL), m_lstItems(items), m_pManager(mgr)
+    m_pMenuNew( newMenu ), m_sViewURL(viewURL), m_lstItems(items), m_pManager(mgr), m_newviewPos(0)
 {
   d = new KonqPopupMenuPrivate;
   assert( m_lstItems.count() >= 1 );
@@ -244,6 +244,7 @@ KonqPopupMenu::KonqPopupMenu( KBookmarkManager *mgr, const KFileItemList &items,
         addAction( actNewDir );
         addSeparator();
       }
+      m_newviewPos+=2;
     }
 
     // hack for khtml pages/frames
@@ -254,10 +255,13 @@ KonqPopupMenu::KonqPopupMenu( KBookmarkManager *mgr, const KFileItemList &items,
       addAction( "up" );
       addAction( "back" );
       addAction( "forward" );
-      if ( currentDir ) // khtml adds a different "reload frame" for frames
+      if ( currentDir ) { // khtml adds a different "reload frame" for frames
         addAction( "reload" );
+	m_newviewPos+=1;
+      }
       addGroup( "reload" );
       addSeparator();
+      m_newviewPos+=4;
     }
 
     // "open in new window" always available
