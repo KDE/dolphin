@@ -100,7 +100,7 @@ void KonqChildView::attach( Browser::View_ptr view )
 
 void KonqChildView::detach()
 {
-  m_pKonqFrame->hide();
+//  m_pKonqFrame->hide();
   m_pKonqFrame->detach();
 
   m_vView->disconnectObject( m_pMainView );
@@ -120,7 +120,7 @@ void KonqChildView::repaint()
 void KonqChildView::show()
 {
   kdebug(0,1202,"KonqChildView::show()");
-  m_vView->show( true );
+//  m_vView->show( true );
   if ( m_pKonqFrame ) 
     m_pKonqFrame->show();
 }

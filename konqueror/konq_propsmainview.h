@@ -73,6 +73,8 @@ public:
 
   bool isSplitView() const { return m_bSplitView; }
   
+  bool bigToolBar() const { return m_bHaveBigToolBar; }  
+  
   // No *bar access methods (all done from KonqMainView)
   // No width/height access methods either.
 
@@ -101,6 +103,8 @@ private:
   
   int m_width;
   int m_height;
+  
+  bool m_bHaveBigToolBar;
 
   /**
    * The static instance. Only KonqMainView can change its value.

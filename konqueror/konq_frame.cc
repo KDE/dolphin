@@ -421,6 +421,7 @@ KonqFrame::attach( Browser::View_ptr view )
     m_pLayout->addWidget( localWidget );
     localWidget->reparent( this, 0, QPoint(0, 0) );
     localWidget->setGeometry( 0, 0, width(), height() );
+    localWidget->show();
     m_pOPFrame = 0L;
   }
   else
@@ -430,6 +431,7 @@ KonqFrame::attach( Browser::View_ptr view )
     m_pLayout->activate();
     kdebug(0, 1202, " ************* NOT LOCAL :( *************");
     m_pOPFrame->attach( view );
+    m_pOPFrame->setGeometry( 0, 0, width(), height() );
   }
 }
 

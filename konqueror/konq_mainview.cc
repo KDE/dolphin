@@ -505,7 +505,14 @@ bool KonqMainView::mappingCreateToolbar( OpenPartsUI::ToolBarFactory_ptr factory
        return true;
      }
 
-  m_vToolBar = factory->create( OpenPartsUI::ToolBarFactory::Transient );
+  if ( m_Props->bigToolBar() )
+  {
+    m_vToolBar = factory->create2( OpenPartsUI::ToolBarFactory::Transient, 40 );
+
+    m_vToolBar->setIconText( 3 );
+  }
+  else
+    m_vToolBar = factory->create( OpenPartsUI::ToolBarFactory::Transient );
 
   m_vToolBar->setFullWidth( true ); // was false (why?). Changed by David so
                                     // that alignItemRight works
@@ -1282,7 +1289,7 @@ void KonqMainView::setupView( RowInfo *row, Browser::View_ptr view, const QStrin
 
   v->lockHistory();
 
-  if (isVisible()) v->show();
+//  if (isVisible()) v->show();
 
   setItemEnabled( m_vMenuView, MVIEW_REMOVEVIEW_ID, 
 	(m_mapViews.count() > 1) );

@@ -88,6 +88,8 @@ KonqPropsMainView::KonqPropsMainView( KConfig * config )
   m_width = config->readNumEntry("WindowWidth",  MAINWINDOW_WIDTH);
   m_height = config->readNumEntry("WindowHeight",MAINWINDOW_HEIGHT);
 
+  KConfigGroupSaver s( config, "Misc Defaults" );
+  m_bHaveBigToolBar = config->readBoolEntry( "HaveBigToolBar", false );
 }
 
 KonqPropsMainView::~KonqPropsMainView()
