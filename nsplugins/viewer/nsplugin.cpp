@@ -1612,6 +1612,8 @@ bool NSPluginStream::get( const QString& url, const QString& mimeType,
     if ( create( url, mimeType, notify ) ) {
         // start the kio job
         _job = KIO::get(url, false, false);
+        _job->addMetaData("errorPage", "false");
+        _job->addMetaData("AllowCompressedPage", "false");
         connect(_job, SIGNAL(data(KIO::Job *, const QByteArray &)),
                 SLOT(data(KIO::Job *, const QByteArray &)));
         connect(_job, SIGNAL(result(KIO::Job *)), SLOT(result(KIO::Job *)));
@@ -1633,6 +1635,8 @@ bool NSPluginStream::post( const QString& url, const QByteArray& data,
         // start the kio job
         _job = KIO::http_post(url, data, false);
         _job->addMetaData("content-type", args.contentType());
+        _job->addMetaData("errorPage", "false");
+        _job->addMetaData("AllowCompressedPage", "false");
         connect(_job, SIGNAL(data(KIO::Job *, const QByteArray &)),
                 SLOT(data(KIO::Job *, const QByteArray &)));
         connect(_job, SIGNAL(result(KIO::Job *)), SLOT(result(KIO::Job *)));
