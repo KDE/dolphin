@@ -44,8 +44,6 @@
 #include <kbookmarkmanager.h>
 #include <kbookmarkimporter.h>
 
-// DESIGN - shuffle, sort out includes in general
-
 #include "toplevel.h"
 #include "commands.h"
 #include "importers.h"
