@@ -96,7 +96,7 @@ void KonqPixmapProvider::load( KConfig *kc, const QString& key )
 	    break;
 	icon = (*it);
 	iconMap.insert( url, icon );
-	
+
 	++it;
     }
 }
@@ -154,15 +154,15 @@ QPixmap KonqPixmapProvider::loadIcon( const QString& url, const QString& icon,
 {
     if ( size <= KIcon::SizeSmall )
 	return SmallIcon( icon, size );
-    
+
     KURL u;
     if ( url.at(0) == '/' )
 	u.setPath( url );
     else
 	u = url;
-    
+
     QPixmap big;
-    
+
     // favicon? => blend the favicon in the large
     if ( url.startsWith( "http:/" ) && icon.startsWith("favicons/") ) {
 	QPixmap small = SmallIcon( icon, size );
@@ -171,18 +171,18 @@ QPixmap KonqPixmapProvider::loadIcon( const QString& url, const QString& icon,
 
 	int x = big.width()  - small.width();
 	int y = 0;
-      
+
  	if ( big.mask() ) {
  	    QBitmap mask = *big.mask();
- 	    bitBlt( &mask, x, y, small.mask(), 0, 0, 
- 		    small.width(), small.height(), 
+ 	    bitBlt( &mask, x, y, small.mask() ? small.mask() : &small, 0, 0,
+ 		    small.width(), small.height(),
  		    small.mask() ? OrROP : SetROP );
  	    big.setMask( mask );
  	}
 
 	bitBlt( &big, x, y, &small );
     }
-    
+
     else // not a favicon..
 	big = KGlobal::iconLoader()->loadIcon( icon, KIcon::Panel, size );
 
