@@ -835,10 +835,7 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
         if(KFileShare::authorization()==KFileShare::Authorized)
         {
             addSeparator();
-            QString label;
-            label=i18n("Share");
-
-            act = new KAction( label, 0, this, SLOT( slotOpenShareFileDialog() ),
+            act = new KAction( i18n("Share"), 0, this, SLOT( slotOpenShareFileDialog() ),
                                &m_ownActions, "sharefile" );
             addAction( act );
         }
