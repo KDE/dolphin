@@ -178,6 +178,7 @@ void KBookmarkManager::scan( const QString & _path )
   //kdDebug(1203) << "KBookmarkManager::scan" << endl;
   if (m_Toolbar)
     m_Toolbar->clear();
+  m_Toolbar = 0L;
 
   m_Root->clear();
 
