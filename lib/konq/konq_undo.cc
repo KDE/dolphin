@@ -234,8 +234,12 @@ QString KonqUndoManager::undoText() const
     return i18n( "Und&o : Copy" );
   else if ( t == KonqCommand::LINK )
     return i18n( "Und&o : Link" );
-  else
+  else if ( t == KonqCommand::MOVE )
     return i18n( "Und&o : Move" );
+  else if ( t == KonqCommand::MKDIR )
+    return i18n( "Und&o: Create Directory" );
+  else
+    assert( false );
 }
 
 void KonqUndoManager::undo()
@@ -269,16 +273,16 @@ void KonqUndoManager::undo()
     else if ( (*it).m_link )
     {
       if ( !d->m_fileCleanupStack.contains( (*it).m_dst ) )
-         d->m_fileCleanupStack.prepend( (*it).m_dst );
+        d->m_fileCleanupStack.prepend( (*it).m_dst );
 
       if ( d->m_current.m_type != KonqCommand::MOVE )
-          it = d->m_current.m_opStack.remove( it );
+        it = d->m_current.m_opStack.remove( it );
       else
-          ++it;
+        ++it;
     }
     else
       ++it;
-   }
+  }
 
   if ( d->m_undoState == MAKINGDIRS )
   {
@@ -401,7 +405,12 @@ void KonqUndoManager::undoStep()
       d->m_uiserver->deleting( d->m_uiserverJobId, file );
     }
     else
+    {
       d->m_undoState = REMOVINGDIRS;
+
+      if ( d->m_dirCleanupStack.isEmpty() && d->m_current.m_type == KonqCommand::MKDIR )
+        d->m_dirCleanupStack << d->m_current.m_dst;
+    }
   }
 
   if ( d->m_undoState == REMOVINGDIRS )

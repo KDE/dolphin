@@ -54,7 +54,7 @@ struct KonqCommand
 {
   typedef QValueStack<KonqCommand> Stack;
 
-  enum Type { COPY, MOVE, LINK };
+  enum Type { COPY, MOVE, LINK, MKDIR };
 
   KonqCommand()
   { m_valid = false; }
