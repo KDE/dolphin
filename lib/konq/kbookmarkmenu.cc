@@ -111,15 +111,19 @@ void KBookmarkMenu::fillBookmarkMenu( KBookmark *parent )
   CORBA::WString_var text;
 
   assert( !CORBA::is_nil( m_vMenu ) );
+  // kdebug(0, 1202, "KBookmarkMenu::fillBookmarkMenu( %p )", parent);
 
   text = Q2C( i18n("&Add Bookmark") );
   m_vMenu->insertItem7( text, (CORBA::Long)parent->id(), -1 );
+  // kdebug(0, 1202, "KBookmarkMenu::fillBookmarkMenu( %p ) : inserted item", parent);
   m_vMenu->insertSeparator( -1 );
 
   for ( bm = parent->children()->first(); bm != 0L;  bm = parent->children()->next() )
   {
     QPixmap * pixmap = bm->pixmap();
+    // kdebug(0, 1202, "Got pixmap = %p", pixmap);
     OpenPartsUI::Pixmap_var pix = OPUIUtils::convertPixmap( *pixmap );
+    // kdebug(0, 1202, "Adding bookmark with text = %s", bm->text().ascii());
     text = Q2C( bm->text() );
     if ( bm->type() == KBookmark::URL )
     {
