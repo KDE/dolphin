@@ -151,7 +151,7 @@ void KEBListView::startDrag() {
       return;
    }
 
-   bool moved = drag->drag();
+   /*bool moved = */ drag->drag();
 
    /*
    kdDebug() << "1" << endl;
