@@ -70,6 +70,7 @@ void KonqFMSettings::init( KConfig * config )
   m_itemTextBackground = config->readColorEntry( "ItemTextBackground" );
   m_bWordWrapText = config->readBoolEntry( "WordWrapText", DEFAULT_WORDWRAPTEXT );
   m_underlineLink = config->readBoolEntry( "UnderlineLinks", DEFAULT_UNDERLINELINKS );
+  m_fileSizeInBytes = config->readBoolEntry( "DisplayFileSizeInBytes", DEFAULT_FILESIZEINBYTES );
   m_iconTransparency = config->readNumEntry( "TextpreviewIconOpacity", DEFAULT_TEXTPREVIEW_ICONTRANSPARENCY );
   if ( m_iconTransparency < 0 || m_iconTransparency > 255 )
       m_iconTransparency = DEFAULT_TEXTPREVIEW_ICONTRANSPARENCY;

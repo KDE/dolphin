@@ -75,6 +75,7 @@ public:
   // Behaviour settings
   bool wordWrapText() const { return m_bWordWrapText; }
   bool underlineLink() const { return m_underlineLink; }
+  bool fileSizeInBytes() const { return m_fileSizeInBytes; }
   bool alwaysNewWin() const { return m_alwaysNewWin; }
   const QString & homeURL() const { return m_homeURL; }
 
@@ -93,6 +94,7 @@ private:
   static KonqFMSettings * s_pSettings;
 
   bool m_underlineLink;
+  bool m_fileSizeInBytes;
   bool m_alwaysNewWin;
   bool m_bTreeFollow;
 

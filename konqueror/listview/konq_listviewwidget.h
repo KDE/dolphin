@@ -129,6 +129,8 @@ class KonqBaseListViewWidget : public KListView
       virtual void disableIcons( const KURL::List & lst );
 
       KonqListView *m_pBrowserView;
+      KonqFMSettings *m_pSettings;
+
    signals:
       void viewportAdjusted();
 
@@ -213,8 +215,6 @@ class KonqBaseListViewWidget : public KListView
 
       QFont m_itemFont;
       QColor m_itemColor;
-
-      KonqFMSettings* m_pSettings;
 
       bool m_bTopLevelComplete:1;
       bool m_showIcons:1;

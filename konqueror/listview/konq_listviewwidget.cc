@@ -291,6 +291,9 @@ void KonqBaseListViewWidget::initConfig()
    itemFont.setUnderline( m_pSettings->underlineLink() );
    setItemFont( itemFont );
    setItemColor( m_pSettings->normalTextColor() );
+
+   for( iterator it = begin(); it != end(); it++ )
+     it->updateContents();
 }
 
 void KonqBaseListViewWidget::viewportResizeEvent(QResizeEvent * e)

@@ -22,6 +22,7 @@
 #include "konq_listviewwidget.h"
 #include "konq_listview.h"
 #include <konq_fileitem.h>
+#include <konq_settings.h>
 #include <kdebug.h>
 #include <kio/job.h>
 #include <kio/global.h>
@@ -84,8 +85,10 @@ void KonqListViewItem::updateContents()
             setText(tmpColumn->displayInColumn,m_fileitem->linkDest());
             break;
          case KIO::UDS_SIZE:
-             // setText(tmpColumn->displayInColumn,KGlobal::locale()->formatNumber( m_fileitem->size(),0)+" ");
-             setText(tmpColumn->displayInColumn,KIO::convertSize(m_fileitem->size())+" ");
+            if ( static_cast<KonqBaseListViewWidget *>(listView())->m_pSettings->fileSizeInBytes() )
+                setText(tmpColumn->displayInColumn,KGlobal::locale()->formatNumber( m_fileitem->size(),0)+" ");
+            else
+                setText(tmpColumn->displayInColumn,KIO::convertSize(m_fileitem->size())+" ");
             break;
          case KIO::UDS_ACCESS:
             setText(tmpColumn->displayInColumn,makeAccessString(m_fileitem->permissions()));

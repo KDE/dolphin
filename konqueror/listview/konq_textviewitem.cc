@@ -161,9 +161,10 @@ void KonqTextViewItem::updateContents()
             setText(tmpColumn->displayInColumn,m_fileitem->url().prettyURL());
             break;
          case KIO::UDS_SIZE:
-            //I want to have it this way in the TextView (aleXXX)
-            setText(tmpColumn->displayInColumn,KGlobal::locale()->formatNumber(size, 0)+" ");
-            //setText(tmpColumn->displayInColumn,KIO::convertSize(size)+" ");
+            if ( static_cast<KonqBaseListViewWidget *>(listView())->m_pSettings->fileSizeInBytes() )
+                setText(tmpColumn->displayInColumn,KGlobal::locale()->formatNumber(size, 0)+" ");
+            else
+                setText(tmpColumn->displayInColumn,KIO::convertSize(size)+" ");
             break;
          case KIO::UDS_ACCESS:
             setText(tmpColumn->displayInColumn,makeAccessString(m_fileitem->permissions()));
