@@ -25,6 +25,7 @@
 #include <kmessagebox.h>
 #include <krun.h>
 #include <kshell.h>
+#include <kshortcut.h>
 
 #include <kdirnotify_stub.h>
 
@@ -583,14 +584,14 @@ void KonqOperations::doFileCopy()
 
         QPopupMenu popup;
         if (!mlst.isEmpty() && (sMoving || (sReading && sDeleting)) && !linkOnly )
-            popup.insertItem(SmallIconSet("goto"), i18n( "&Move Here" ) + "\t" + i18n( "Shift" ), 2 );
+            popup.insertItem(SmallIconSet("goto"), i18n( "&Move Here" ) + "\t" + KKey::modFlagLabel( KKey::SHIFT ), 2 );
         if ( sReading && !linkOnly)
-            popup.insertItem(SmallIconSet("editcopy"), i18n( "&Copy Here" ) + "\t" + i18n( "Ctrl" ), 1 );
-        popup.insertItem(SmallIconSet("www"), i18n( "&Link Here" ) + "\t" + i18n( "Shift+Ctrl" ), 3 );
+            popup.insertItem(SmallIconSet("editcopy"), i18n( "&Copy Here" ) + "\t" + KKey::modFlagLabel( KKey::CTRL ), 1 );
+        popup.insertItem(SmallIconSet("www"), i18n( "&Link Here" ) + "\t" + KKey::modFlagLabel( (KKey::ModFlag)( KKey::CTRL|KKey::SHIFT ) ), 3 );
         if (bSetWallpaper)
             popup.insertItem(SmallIconSet("background"), i18n( "Set as &Wallpaper" ), 4 );
         popup.insertSeparator();
-        popup.insertItem(SmallIconSet("cancel"), i18n( "C&ancel" ) + "\t" + i18n( "Esc" ), 5);
+        popup.insertItem(SmallIconSet("cancel"), i18n( "C&ancel" ) + "\t" + KKey( Qt::Key_Escape ).toString(), 5);
 
         int result = popup.exec( m_info->mousePos );
 
