@@ -7,7 +7,6 @@
 #include <qlabel.h>
 #include <qlayout.h>
 #include <qlineedit.h>
-#include <qradiobutton.h>
 #include <kconfig.h>
 #include <kglobal.h>
 #include <kstddirs.h>
