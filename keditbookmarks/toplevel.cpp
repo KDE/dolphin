@@ -194,10 +194,10 @@ void KEBListViewItem::modUpdate( )
       } else {
 	sn =  KGlobal::locale()->formatDateTime(dt, false);
       }
-      if (nM == oM)
-	render = 1;
-      else {
+      if (nM > oM)
 	render = 2;
+      else {
+	render = 1;
       }
     } else if (ois) { // Error in previous check
       sn = i18n("...Error...");
