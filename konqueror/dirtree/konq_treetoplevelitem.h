@@ -37,7 +37,7 @@ public:
      * @param path the path to the desktop file that was the reason for creating this item
      */
     KonqTreeTopLevelItem( KonqTree *parent, KonqTreeModule * module, const QString & path )
-        : KonqTreeItem(parent, 0L), m_module(module), m_path(path), m_bTopLevelGroup(false) {}
+        : KonqTreeItem(parent, 0L), m_module(module), m_path(path), m_bTopLevelGroup(false) { init(); }
 
     /**
      * Create a toplevel-item under a toplevel group
@@ -45,7 +45,9 @@ public:
      * @param path the path to the desktop file that was the reason for creating this item
      */
     KonqTreeTopLevelItem( KonqTreeItem *parentItem, KonqTreeModule * module, const QString & path )
-        : KonqTreeItem( parentItem, 0L), m_module(module), m_path(path), m_bTopLevelGroup(false) {}
+        : KonqTreeItem( parentItem, 0L), m_module(module), m_path(path), m_bTopLevelGroup(false) { init(); }
+
+    void init();
 
     virtual bool acceptsDrops( const QStrList & formats );
     virtual void drop( QDropEvent * ev );
@@ -67,6 +69,8 @@ public:
 
     virtual KURL externalURL() const { return m_externalURL; }
 
+    virtual QString toolTipText() const;
+
     virtual void itemSelected();
 
     // The module should call this for each toplevel item that is passed to it
@@ -87,6 +91,7 @@ protected:
     void delOperation( int method );
     KonqTreeModule *m_module;
     QString m_path;
+    QString m_comment;
     KURL m_externalURL;
     bool m_bTopLevelGroup;
 };

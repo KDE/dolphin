@@ -34,6 +34,16 @@
 #include <qclipboard.h>
 #include <konq_drag.h>
 
+void KonqTreeTopLevelItem::init()
+{
+    QString desktopFile = m_path;
+    if ( isTopLevelGroup() )
+        desktopFile += "/.directory";
+    KSimpleConfig cfg( desktopFile, true );
+    cfg.setDesktopGroup();
+    m_comment = cfg.readEntry( "Comment" );
+}
+
 void KonqTreeTopLevelItem::setOpen( bool open )
 {
     if (open && module())
@@ -219,3 +229,9 @@ void KonqTreeTopLevelItem::rename( const QString & name )
     KDirNotify_stub allDirNotify("*", "KDirNotify*");
     allDirNotify.FilesChanged( lst );
 }
+
+QString KonqTreeTopLevelItem::toolTipText() const
+{
+    return m_comment;
+}
+
