@@ -164,7 +164,7 @@ void KfindWindow::clearList()
     clear();
   };
 
-void KfindWindow::changeItem(const char *itemName)
+void KfindWindow::changeItem(const char */*itemName*/)
   {
     debug("CXHANGE ITEM CALLED\n");
     //    changeItem(itemName,currentItem());    

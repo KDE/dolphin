@@ -14,6 +14,7 @@
 #include <qtextstream.h>
 
 #include "kftypes.h"
+#include <kstddirs.h>
 
 QList<KfFileType> *types; 
 
@@ -100,9 +101,9 @@ void KfFileType::init()
 {
   types = new QList<KfFileType>;
 
-  // Read the filetypes
-  QString path = KApplication::kde_mimedir();
-  initFileTypes( path );
+  QStringList list = KGlobal::dirs()->getResourceDirs("mime");
+  for (QStringList::ConstIterator it = list.begin(); it != list.end(); it++)
+    initFileTypes( *it );
 };
 
 KfFileType* KfFileType::findByName( const QString& _name )
