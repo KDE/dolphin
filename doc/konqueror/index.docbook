@@ -29,6 +29,16 @@
 <surname>Roberts</surname>
 </author>
 </authorgroup>
+
+<date>11/05/2000</date>
+<releaseinfo>0.00.01</releaseinfo>
+
+<abstract>
+<para>
+&konqueror; is KDE's advanced File Manager, Web Browser and Document Viewer.
+</para>
+</abstract>
+
 <keywordset>
 <keyword>KDE</keyword>
 <keyword>Konqueror</keyword>
@@ -37,13 +47,6 @@
 <keyword>Browser</keyword>
 <keyword>Viewer</keyword>
 </keywordset>
-<date>11/05/2000</date>
-<releaseinfo>0.0.01</releaseinfo>
-<abstract>
-<para>
-&konqueror; is KDE's advanced File Manager, Web Browser and Document Viewer.
-</para>
-</abstract>
 </bookinfo>
 
 <chapter id="introduction">
