@@ -74,6 +74,7 @@ public:
   
   virtual void saveDocument();
   virtual void saveFrame();
+  virtual void saveBackground();
   
   virtual void beginDoc( const CORBA::WChar *url, CORBA::Long dx, CORBA::Long dy );
   virtual void writeDoc( const char *data );

@@ -137,6 +137,8 @@ bool KonqHTMLView::mappingFillMenuView( Konqueror::View::EventFillMenu viewMenu 
       viewMenu.menu->insertItem4( text, this, "saveDocument", 0, ID_BASE+1, -1 );
       text = Q2C( i18n("Save &Frame As...") );
       viewMenu.menu->insertItem4( text, this, "saveFrame", 0, ID_BASE+2, -1 );
+      text = Q2C( i18n("Save &Background Image As...") );
+      viewMenu.menu->insertItem4( text, this, "saveBackground", 0, ID_BASE+3, -1 );
       m_vViewMenu = OpenPartsUI::Menu::_duplicate( viewMenu.menu );
       checkViewMenu();
     }
@@ -144,6 +146,7 @@ bool KonqHTMLView::mappingFillMenuView( Konqueror::View::EventFillMenu viewMenu 
     {
       viewMenu.menu->removeItem ( ID_BASE + 1 );
       viewMenu.menu->removeItem ( ID_BASE + 2 );
+      viewMenu.menu->removeItem ( ID_BASE + 3 );
       m_vViewMenu = 0L;
     }
   }
@@ -432,7 +435,7 @@ void KonqHTMLView::saveDocument()
     KFileDialog *dlg = new KFileDialog( QString::null, "*\n*.html\n*.htm",
 					this , "filedialog", true, false );
     dlg->setCaption(i18n("Save as"));
-    dlg->setSelection( dlg->dirPath() + "/" + srcURL.filename() );
+    dlg->setSelection( dlg->dirPath() + srcURL.filename() );
     if ( dlg->exec() )
       {
 	KURL destURL( dlg->selectedFileURL() );
@@ -459,7 +462,7 @@ void KonqHTMLView::saveFrame()
     KFileDialog *dlg = new KFileDialog( QString::null, "*\n*.html\n*.htm",
 					this , "filedialog", true, false );
     dlg->setCaption(i18n("Save frameset as"));
-    dlg->setSelection( dlg->dirPath() + "/" + srcURL.filename() );
+    dlg->setSelection( dlg->dirPath() + srcURL.filename() );
     if ( dlg->exec() )
     {
       KURL destURL( dlg->selectedFileURL() );
@@ -471,6 +474,36 @@ void KonqHTMLView::saveFrame()
 
     delete dlg;
   }
+}
+
+void KonqHTMLView::saveBackground()
+{
+  QString bURL;
+  
+  if ( isFrameSet() )
+    bURL = getSelectedView()->getKHTMLWidget()->getBackground();
+  else
+    bURL = getKHTMLWidget()->getBackground();
+
+  if ( bURL.isNull() || bURL.isEmpty() )
+    return;
+  
+  KURL srcURL( bURL );
+  
+  KFileDialog *dlg = new KFileDialog( QString::null, "*",
+				      this , "filedialog", true, false );
+  dlg->setCaption(i18n("Save background image as"));
+  dlg->setSelection( dlg->dirPath() + srcURL.filename() );
+  if ( dlg->exec() )
+    {
+      KURL destURL( dlg->selectedFileURL() );
+      Konqueror::EventNewTransfer transfer;
+      transfer.source = srcURL.url();
+      transfer.destination = destURL.url();
+      EMIT_EVENT( m_vParent, Konqueror::eventNewTransfer, transfer );
+    }
+  
+  delete dlg;
 }
 
 void KonqHTMLView::beginDoc( const CORBA::WChar *url, CORBA::Long dx, CORBA::Long dy )
@@ -521,7 +554,16 @@ void KonqHTMLView::checkViewMenu()
       text = Q2C( i18n("&Save As...") );
       m_vViewMenu->changeItemText( text, ID_BASE + 1 );
       m_vViewMenu->setItemEnabled( ID_BASE + 2, false );
-    }      
+    }
+
+    QString bURL;
+
+    if ( isFrameSet() )
+      bURL = getSelectedView()->getKHTMLWidget()->getBackground();
+    else
+      bURL = getKHTMLWidget()->getBackground();
+    
+    m_vViewMenu->setItemEnabled( ID_BASE + 3, !bURL.isNull() && !bURL.isEmpty() );
   }
 }
 

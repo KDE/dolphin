@@ -139,6 +139,7 @@ module Konqueror
   
     slot void saveDocument();
     slot void saveFrame();
+    slot void saveBackground();
     
     void beginDoc( in wstring url, in long dx, in long dy );
     void writeDoc( in string data );
