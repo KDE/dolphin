@@ -258,12 +258,12 @@ KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const 
 
     m_pamSort->insert( aSortDescending );
     */
-    m_paSelect = new KAction( i18n( "&Select..." ), CTRL+Key_Plus, this, SLOT( slotSelect() ),
+    m_paSelect = new KAction( i18n( "Se&lect..." ), CTRL+Key_Plus, this, SLOT( slotSelect() ),
                               actionCollection(), "select" );
-    m_paUnselect = new KAction( i18n( "&Unselect..." ), CTRL+Key_Minus, this, SLOT( slotUnselect() ),
+    m_paUnselect = new KAction( i18n( "Unselect..." ), CTRL+Key_Minus, this, SLOT( slotUnselect() ),
                                 actionCollection(), "unselect" );
     m_paSelectAll = KStdAction::selectAll( this, SLOT( slotSelectAll() ), actionCollection(), "selectall" );
-    m_paUnselectAll = new KAction( i18n( "U&nselect All" ), CTRL+Key_U, this, SLOT( slotUnselectAll() ),
+    m_paUnselectAll = new KAction( i18n( "Unselect All" ), CTRL+Key_U, this, SLOT( slotUnselectAll() ),
                                    actionCollection(), "unselectall" );
     m_paInvertSelection = new KAction( i18n( "&Invert Selection" ), CTRL+Key_Asterisk,
                                        this, SLOT( slotInvertSelection() ),
