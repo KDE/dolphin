@@ -89,27 +89,13 @@ void KonqyModule::save()
   font->save();
   color->save();
   html->save();
-  http->load();
-  misc->load();
+  http->save();
+  misc->save();
 
-#warning David: Shouldnt this do a DCOP call?
-
-  QString exeloc = locate("exe","kfmclient");
-  if ( exeloc.isEmpty() ) {
-  	  KMessageBox::error( 0L,
-	  i18n( "Can't find the kfmclient program - can't apply configuration dynamically" ), i18n( "Error" ) );
-	return;
-  }
-
-  QApplication::flushX();
-
-  if ( fork() == 0 )
-  {
-    // execute 'kfmclient configure'
-    execl(exeloc, "kfmclient", "configure", 0L);
-    warning("Error launching 'kfmclient configure' !");
-    exit(1);
-  }
+  // Send signal to konqueror
+  // Warning. In case something is added/changed here, keep kfmclient in sync
+  QByteArray data;
+  kapp->dcopClient()->send( "*", "KonqMainViewIface", "reparseConfiguration()", data ); 
 }
 
 
@@ -119,8 +105,8 @@ void KonqyModule::defaults()
   font->defaults();
   color->defaults();
   html->defaults();
-  http->load();
-  misc->load();
+  http->defaults();
+  misc->defaults();
 }
 
 
