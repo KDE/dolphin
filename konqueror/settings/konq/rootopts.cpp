@@ -284,26 +284,26 @@ KRootOptions::KRootOptions(KConfig *config, QWidget *parent, const char * )
   gridLayout->addWidget(rightLabel, 2, 0, AlignVCenter | AlignLeft);
   gridLayout->addWidget(rightComboBox, 2, 1, AlignCenter);
   gridLayout->addWidget(rightEditButton, 2, 2, AlignCenter);
-  
+
   //BEGIN devices configuration
   row++;
 #ifdef Q_OS_LINUX
   groupBox = new QVGroupBox( i18n("Display Devices"), this );
   lay->addMultiCellWidget( groupBox, row, row, 0, RO_LASTCOL );
-  
+
   enableDevicesBox = new QCheckBox(i18n("Enable"), groupBox);
   connect(enableDevicesBox, SIGNAL(clicked()), this, SLOT(changed()));
-  connect(enableDevicesBox, SIGNAL(clicked()), this, SLOT(enableDevicesBoxChanged()));  
+  connect(enableDevicesBox, SIGNAL(clicked()), this, SLOT(enableDevicesBoxChanged()));
   devicesListView = new KListView( groupBox );
   devicesListView->setFullWidth(true);
   devicesListView->addColumn( i18n("Types to Display") );
   QWhatsThis::add(devicesListView, i18n("Deselect the device types which you do not want to see on the desktop"));
   //END devices configuration
 #endif
-  
+
   // -- Bottom --
   Q_ASSERT( row == RO_LASTROW-1 ); // if it fails here, check the row++ and RO_LASTROW above
-  
+
   load();
 }
 
@@ -323,7 +323,7 @@ void KRootOptions::fillDevicesListView()
 	{
     	    bool ok=excludedDevices.contains((*it2)->name())==0;
 		new KRootOptDevicesItem (this, devicesListView, (*it2)->comment(), (*it2)->name(),ok);
-		
+
         }
     }
     devicesListView->setEnabled(enableDevicesBox->isChecked());
@@ -346,7 +346,7 @@ void KRootOptions::saveDevicesListView()
 		if (!it->isOn()) exclude << it->mimeType();
 	    }
      g_pConfig->writeEntry("exclude",exclude);
-#endif   
+#endif
 }
 
 
@@ -416,6 +416,11 @@ void KRootOptions::defaults()
     middleComboBox->setCurrentItem( WINDOWLISTMENU );
     rightComboBox->setCurrentItem( DESKTOPMENU );
     iconsEnabledBox->setChecked(true);
+#ifdef Q_OS_LINUX
+    fillDevicesListView();
+#endif
+
+    comboBoxChanged();
     enableChanged();
 }
 
@@ -499,19 +504,19 @@ void KRootOptions::editButtonPressed()
       i = middleComboBox->currentItem();
    if (sender() == rightEditButton)
       i = rightComboBox->currentItem();
-   
+
    QString cfgFile;
    if (i == 4) // CustomMenu1
       cfgFile = "kdesktop_custom_menu1";
    if (i == 5) // CustomMenu2
       cfgFile = "kdesktop_custom_menu2";
-   
+
    if (cfgFile.isEmpty())
       return;
-      
+
    KCustomMenuEditor editor(this);
    KConfig cfg(cfgFile);
-   
+
    editor.load(&cfg);
    if (editor.exec())
    {
