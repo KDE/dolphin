@@ -341,7 +341,8 @@ void KonqView::slotCompleted()
   kdDebug(1202) << "KonqView::slotCompleted" << endl;
   m_bLoading = false;
   m_pKonqFrame->statusbar()->slotLoadingProgress( -1 );
-  m_pKonqFrame->statusbar()->slotDisplayStatusText( i18n("Loading complete") );
+  // No, this sucks with directory views
+  //m_pKonqFrame->statusbar()->slotDisplayStatusText( i18n("Loading complete") );
 
   // Success... update history entry (mostly for location bar URL)
   updateHistoryEntry(true);
