@@ -46,11 +46,7 @@ public:
   NSPluginLoader();
   ~NSPluginLoader();
 
-  void clearPaths() { _searchPaths.clear(); };
-  void addPath(const QString &path) { _searchPaths.append(path); }; 
-  void rescanPlugins();
 
-  
   QWidget *NewInstance(QWidget *parent, QString url, QString mimeType, int type, 
 		       QStringList argn, QStringList argv);
 
@@ -59,6 +55,8 @@ public:
 
 
 protected:
+
+  void scanPlugins();
 
   QString lookup(const QString &mimeType);
   QString lookupMimeType(const QString &url);

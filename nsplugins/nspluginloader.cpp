@@ -31,11 +31,11 @@
 #include <kdebug.h>
 #include <kglobal.h>
 #include <kstddirs.h>
-#include <klibloader.h>
 #include <dcopclient.h>
 #include <qobject.h>
 #include <qxembed.h>
 #include <qtextstream.h>
+#include <qregexp.h>
 
 
 #include "nspluginloader.h"
@@ -62,25 +62,10 @@ NSPluginLoader *NSPluginLoader::_instance = 0;
 NSPluginLoader::NSPluginLoader()
   : QObject(), _mapping(7, false)
 {
-  // append default netscape paths
-  // FIXME: do this more intelligent!
-  // FIXME: Use MOZILLA_HOME
-  _searchPaths.append("/usr/local/netscape/plugins");
-  _searchPaths.append("/opt/netscape/plugins");
-  _searchPaths.append("/opt/netscape/communicator/plugins");
-  _searchPaths.append("/usr/lib/netscape/plugins");
-  _searchPaths.append(QString("%1/.netscape/plugins").arg(getenv("HOME")));
-  
-  // append environment variable NPX_PLUGIN_PATH
-  QStringList envs = QStringList::split(':', getenv("NPX_PLUGIN_PATH"));
-  QStringList::Iterator it;
-  for (it = envs.begin(); it != envs.end(); ++it)
-    _searchPaths.append(*it);
-
-  // do an initial scan
-  rescanPlugins();
+  scanPlugins();
 
   // trap dcop register events
+  kapp->dcopClient()->setNotifications(true);
   QObject::connect(kapp->dcopClient(), SIGNAL(applicationRegistered(const QCString&)),
 	  this, SLOT(applicationRegistered(const QCString&)));
 }
@@ -97,102 +82,49 @@ NSPluginLoader::~NSPluginLoader()
 }
 
 
-void NSPluginLoader::rescanPlugins()
+void NSPluginLoader::scanPlugins()
 {
-  // FIXME: This touches all plugins every time
-  //        This should really use a cache!
+  QRegExp version(";version=[^:]*:");
 
-  // iterate over all paths
-  QStringList::Iterator it;
-  for (it = _searchPaths.begin(); it != _searchPaths.end(); ++it)
+  // open the cache file
+  QFile cachef(locate("data", "nsplugins/cache"));
+  if (!cachef.open(IO_ReadOnly))
     {
-      kDebugInfo("Scanning %s", (*it).ascii());
+      kdDebug() << "Could not load plugin cache file!" << endl;
+      return;
+    }
 
-      // iterate over all files 
-      QDir files(*it, QString::null, QDir::Name|QDir::IgnoreCase, QDir::Files);
-      if (!files.exists(*it))
+  QTextStream cache(&cachef);
+
+  // read in cache
+  QString line, plugin;
+  while (!cache.atEnd())
+    {
+      line = cache.readLine();
+      if (line.isEmpty() || (line.left(1) == "#"))
 	continue;
 
-      for (unsigned int i=0; i<files.count(); i++)
+      if (line.left(1) == "[")
 	{
-	  kDebugInfo("  testing %s/%s", (*it).ascii(), files[i].ascii());
+	  plugin = line.mid(1,line.length()-2);
+	  continue;
+	}
 
-	  // open the library and ask for the mimetype
-
-	  void *func_GetMIMEDescription = 0; 
-	  KLibrary *_handle = KLibLoader::self()->library(*it+"/"+files[i]);
-
-	  if (!_handle)
-	    continue;
-
-	  func_GetMIMEDescription = _handle->symbol("NP_GetMIMEDescription");
+      QStringList desc = QStringList::split(':', line);
+      QString mime = desc[0].stripWhiteSpace();
+      QStringList suffixes = QStringList::split(',', desc[1].stripWhiteSpace());
+      if (!mime.isEmpty())
+	{
+	  // insert the mimetype -> plugin mapping
+	  _mapping.insert(mime, strdup(plugin));
 	  
-	  if (!func_GetMIMEDescription)                        
-	    continue;
-
-	  char *(*fp)();
-	  fp = (char *(*)()) func_GetMIMEDescription;
-	  
-	  char *mimeInfo = fp();
-
-	  // check the mimeInformation
-	  if (!mimeInfo)
-	    {
-	      kDebugInfo("  not a plugin");
-	      //KLibLoader::self()->unloadLibrary(*it+"/"+files[i]);
-	      delete _handle;
-	      continue;
-	    }
-
-	  // FIXME: Some plugins will not work, e.g. because they
-	  // use JAVA. These should be filtered out here!
-
-	  //	  kDebugInfo("Mime info: %s", mimeInfo);
-
-	  // parse mime info string
-	  QStringList entries = QStringList::split(';', mimeInfo);
-	  QStringList::Iterator entry;
-	  for (entry = entries.begin(); entry != entries.end(); ++entry)
-	    {
-	      QStringList desc = QStringList::split(':', *entry);
-	      QString mime = desc[0].stripWhiteSpace();
-	      QStringList suffixes = QStringList::split(',', desc[1].stripWhiteSpace());
-	      if (!mime.isEmpty())
-		{
-		  // insert the mimetype -> plugin mapping
-		  _mapping.insert(mime, strdup(*it+"/"+files[i]));
-		  
-		  // insert the suffix -> mimetype mapping
-		  QStringList::Iterator suffix;
-		  for (suffix = suffixes.begin(); suffix != suffixes.end(); ++suffix)
-		    if (!_filetype.find((*suffix).stripWhiteSpace()))
-		      _filetype.insert((*suffix).stripWhiteSpace(), mime);
-		}
-	    }
-	  
-	  kDebugInfo("  is a plugin");
-
-	  //KLibLoader::self()->unloadLibrary(*it+"/"+files[i]);		
-	  delete _handle;
+	  // insert the suffix -> mimetype mapping
+	  QStringList::Iterator suffix;
+	  for (suffix = suffixes.begin(); suffix != suffixes.end(); ++suffix)
+	    if (!_filetype.find((*suffix).stripWhiteSpace()))
+	      _filetype.insert((*suffix).stripWhiteSpace(), mime);
 	}
     }
-
-  /*
-#ifndef NDEBUG
-  QDictIterator<char> dit(_mapping);
-  while (dit.current())
-    {
-      kDebugInfo("Mapping mimetype %s to plugin %s", dit.currentKey().ascii(), dit.current());
-      ++dit;
-    }
-  QDictIterator<char> dit2(_filetype);
-  while (dit2.current())
-    {
-      kDebugInfo("Mapping file %s to mimetype %s", dit2.currentKey().ascii(), dit2.current());
-      ++dit2;
-    }
-#endif
-  */
 }
 
 

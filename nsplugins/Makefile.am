@@ -26,3 +26,9 @@ libplugin_la_LIBADD  = -lkparts -lXt
 
 kdelnkdir = $(kde_servicesdir)
 kdelnk_DATA = plugin.desktop
+
+
+bin_PROGRAMS = pluginscan
+pluginscan_SOURCES = pluginscan.cpp
+pluginscan_LDFLAGS = $(all_libraries)
+pluginscan_LDADD = $(LIB_KDEUI) -lXt

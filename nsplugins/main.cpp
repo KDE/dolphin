@@ -53,7 +53,7 @@ int main(int argc, char *argv[])
     {
       app.setMainWidget(win);
       win->show();
-    }
   
-  app.exec();
+      app.exec();
+    }
 }
