@@ -220,7 +220,7 @@ void KQuery::processQuery( KFileItem* file)
     if (!m_context.isEmpty())
     {
        bool found = false;
-       bool isKWordDocument=false;
+       bool isZippedOfficeDocument=false;
        int matchingLineNumber=0;
 
        // FIXME: doesn't work with non local files
@@ -232,7 +232,8 @@ void KQuery::processQuery( KFileItem* file)
        QByteArray zippedXmlFileContent;
     
        //KWord's files are compressed...
-       if((file->mimetype()=="application/x-kword")||(file->mimetype()=="application/vnd.sun.xml.writer"))
+       if( file->mimetype()=="application/x-kword" || file->mimetype()=="application/vnd.sun.xml.writer"
+           || file->mimetype()=="application/x-oowriter" )
        {
          KZip zipfile(file->url().path());
          KZipFileEntry *zipfileEntry;
@@ -244,7 +245,7 @@ void KQuery::processQuery( KFileItem* file)
            if(file->mimetype()=="application/x-kword")
              zipfileEntry=(KZipFileEntry*)zipfileContent->entry("maindoc.xml");
            else
-             zipfileEntry=(KZipFileEntry*)zipfileContent->entry("content.xml"); //for oOo
+             zipfileEntry=(KZipFileEntry*)zipfileContent->entry("content.xml"); //for OpenOffice.org
 
            if(!zipfileEntry)
              return;
@@ -253,10 +254,11 @@ void KQuery::processQuery( KFileItem* file)
            xmlTags.setPattern("<.*>");
            xmlTags.setMinimal(true);
            stream = new QTextStream(zippedXmlFileContent, IO_ReadOnly);
-           isKWordDocument=true;
+           stream->setEncoding(QTextStream::UnicodeUTF8);
+           isZippedOfficeDocument=true;
          }
        }
-       if(!isKWordDocument) //any other file or non-compressed KWord
+       if(!isZippedOfficeDocument) //any other file or non-compressed KWord
        {
          filename = file->url().path();
          if(filename.startsWith("/dev/"))
@@ -264,16 +266,16 @@ void KQuery::processQuery( KFileItem* file)
          qf.setName(filename);
          qf.open(IO_ReadOnly);
          stream=new QTextStream(&qf);
+         stream->setEncoding(QTextStream::Locale);
        }
        
-       stream->setEncoding(QTextStream::Locale);
        while ( ! stream->atEnd() )
        {
           QString str = stream->readLine();
           matchingLineNumber++;
 
           if (str.isNull()) break;
-          if(isKWordDocument)
+          if(isZippedOfficeDocument)
             str.replace(xmlTags, "");
             
           if (m_regexpForContent)
