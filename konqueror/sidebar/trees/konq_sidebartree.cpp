@@ -35,10 +35,6 @@
 #include <stdlib.h>
 #include <assert.h>
 
-//#include <dirtree_module/dirtree_module.h> // TEMPORARY HACK
-//#include <history_module/history_module.h> // TEMPORARY HACK
-//#include <bookmark_module/bookmark_module.h> // TEMPORARY HACK
-
 
 static const int autoOpenTimeout = 750;
 
@@ -135,12 +131,12 @@ KonqSidebarTree::KonqSidebarTree( KonqSidebar_Tree *parent, QWidget *parentWidge
 //    assert( KGlobal::dirs() );
 //    QString dirtreeDir = part->getInterfaces()->getInstance()->dirs()->saveLocation( "data", "konqueror/dirtree/" );
 
-    if (virt==VIRT_Folder) 
+    if (virt==VIRT_Folder)
 		{
 		  m_dirtreeDir.dir.setPath(KGlobal::dirs()->saveLocation("data","konqsidebartng/virtual_folders/"+path+"/"));
 		  m_dirtreeDir.relDir=path;
 		}
-	else	
+	else
 		m_dirtreeDir.dir.setPath( path );
     kdDebug(1201)<<m_dirtreeDir.dir.path()<<endl;
     m_dirtreeDir.type=virt;
@@ -387,7 +383,7 @@ void KonqSidebarTree::rescanConfiguration()
 	else
 		{
 			    kdDebug(1201)<<"KonqSidebarTree::rescanConfiguration()-->loadTopLevel"<<endl;
-		            loadTopLevelItem( 0, m_dirtreeDir.dir.path() ); 
+		            loadTopLevelItem( 0, m_dirtreeDir.dir.path() );
 		}
 }
 
