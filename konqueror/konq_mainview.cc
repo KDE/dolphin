@@ -684,7 +684,8 @@ void KonqMainView::insertView( Konqueror::View_ptr view,
 
   if (isVisible()) v->show();
   
-  setItemEnabled( m_vMenuView, MVIEW_REMOVEVIEW_ID, true );
+  setItemEnabled( m_vMenuView, MVIEW_REMOVEVIEW_ID, 
+	(m_mapViews.count() > 1) );
 }
                                        
 void KonqMainView::setActiveView( OpenParts::Id id )
@@ -765,8 +766,9 @@ void KonqMainView::removeView( OpenParts::Id id )
     // TODO : check if that was the last view in its row.
     // If yes, remove the row itself
   }
-  if ( m_mapViews.count() == 1 )
-    setItemEnabled( m_vMenuView, MVIEW_REMOVEVIEW_ID, false );
+
+  setItemEnabled( m_vMenuView, MVIEW_REMOVEVIEW_ID, 
+	(m_mapViews.count() > 1) );
 }
 
 void KonqMainView::slotIdChanged( KonqChildView * childView, OpenParts::Id oldId, OpenParts::Id newId )
@@ -993,6 +995,8 @@ void KonqMainView::createViewMenu()
     m_vMenuView->insertItem4( text, this, "slotStop" , 0, MVIEW_STOP_ID, -1 );
     //TODO: view frame source, view document source, document encoding
 
+    setItemEnabled( m_vMenuView, MVIEW_REMOVEVIEW_ID, 
+	(m_mapViews.count() > 1) );
   }
 }
 
