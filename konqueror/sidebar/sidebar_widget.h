@@ -6,6 +6,8 @@
 #include <qvector.h>
 #include <kurl.h>
 #include <ktoolbar.h>
+#include <kparts/part.h>
+#include <kparts/event.h>
 
 class ButtonInfo: public QObject
 {
@@ -32,9 +34,10 @@ class Sidebar_Widget: public QHBox
 {
   Q_OBJECT
   public:
-  Sidebar_Widget(QWidget *parent, const char * name);
+  Sidebar_Widget(QWidget *parent, KParts::ReadOnlyPart *par, const char * name);
   ~Sidebar_Widget();
   void openURL(const class KURL &url);
+  void guiActivateEvent(KParts::GUIActivateEvent *event);  
   private:
 	class KDockArea *Area;
 	class KToolBar *ButtonBar;
@@ -47,6 +50,7 @@ class Sidebar_Widget: public QHBox
 	class KonqSidebarPlugin *loadModule(QWidget *par,QString &desktopName,QString lib_name);
 	KURL storedUrl;
 	bool stored_url;
+	KParts::ReadOnlyPart *partParent;
   protected slots:
 	void showHidePage(int value);
 };

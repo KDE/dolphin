@@ -7,6 +7,7 @@
 #include <sidebar_widget.h>
 #include <qfile.h>
 #include <qtextstream.h>
+#include <kdebug.h>
 
 KPartAppPart::KPartAppPart( QWidget *parentWidget, const char *widgetName,
                                   QObject *parent, const char *name )
@@ -16,7 +17,7 @@ KPartAppPart::KPartAppPart( QWidget *parentWidget, const char *widgetName,
     setInstance( KPartAppPartFactory::instance() );
 
     // this should be your custom internal widget
-    m_widget = new Sidebar_Widget( parentWidget, widgetName );
+    m_widget = new Sidebar_Widget( parentWidget,this, widgetName );
     setWidget(m_widget);
 }
 
@@ -24,6 +25,11 @@ KPartAppPart::~KPartAppPart()
 {
 }
 
+void KPartAppPart::guiActivateEvent(KParts::GUIActivateEvent *event)
+{
+	kdDebug()<<"************************************ Sidebar::guiActivateEvent"<<endl;
+	m_widget->guiActivateEvent(event);  
+}
 
 bool KPartAppPart::openFile()
 {

@@ -6,6 +6,7 @@
 #include <kparts/part.h>
 #include <kparts/factory.h>
 #include <klibloader.h>
+#include <kxmlgui.h>
 class SidebarClassic : public KonqSidebarPlugin
 	{
 		Q_OBJECT
@@ -14,23 +15,19 @@ class SidebarClassic : public KonqSidebarPlugin
                    KonqSidebarPlugin(parent,widgetParent,desktopName_,name)
 		{
 
-		    KLibFactory *factory = KLibLoader::self()->factory("libkonqtree");
-		    if (factory)
+		    KLibFactory *lfactory = KLibLoader::self()->factory("libkonqtree");
+		    if (lfactory)
 		    {
 			dirtree = static_cast<KParts::ReadOnlyPart *>
-			(static_cast<KParts::Factory *>(factory)->createPart(widgetParent,"sidebar classic",parent));
-			
-//		        dirtree=static_cast<KParts::ReadOnlyPart *>(factory->create(widgetParent,
-//	                                "dirtree_classic", "KParts::ReadOnlyPart" ));
-//		        ((KParts::ReadOnlyPart*)parent)->createGUI(dirtree);
+			(static_cast<KParts::Factory *>(lfactory)->createPart(widgetParent,"sidebar classic",parent));
         	}
-//    	}
-
-
-
-//		widget=new QLabel("Init Value",widgetParent);			
-		}
+	}
 		~SidebarClassic(){;}
+		virtual void *provides(const QString &pro)
+		{
+			if (pro=="KParts::ReadOnlyPart") return dirtree;
+			return 0;
+		}
                 virtual QWidget *getWidget(){return dirtree->widget();}   
 		protected:
 			KParts::ReadOnlyPart *dirtree;

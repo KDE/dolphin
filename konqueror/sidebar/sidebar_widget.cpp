@@ -13,11 +13,13 @@
 #include "konqsidebarplugin.h"
 #include <qfile.h>
 #include <kdebug.h>
+#include <qstring.h>
 
-Sidebar_Widget::Sidebar_Widget(QWidget *parent, const char *name):QHBox(parent,name)
+Sidebar_Widget::Sidebar_Widget(QWidget *parent, KParts::ReadOnlyPart *par, const char *name):QHBox(parent,name)
 {
 	stored_url=false;
 	latestViewed=-1;
+	partParent=par;
 	setSizePolicy(QSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding));
 	Area=new KDockArea(this);
 	Area->setSizePolicy(QSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding));
@@ -41,6 +43,27 @@ Sidebar_Widget::Sidebar_Widget(QWidget *parent, const char *name):QHBox(parent,n
 	connect(ButtonBar,SIGNAL(toggled(int)),this,SLOT(showHidePage(int)));
 }
 
+void Sidebar_Widget::guiActivateEvent(KParts::GUIActivateEvent *event) 
+{
+	kdDebug()<<"In gui Activate"<<endl;
+        ButtonInfo *info;   
+	for (unsigned int i=0;i<Buttons.count();i++)
+        {
+        	if ((info=Buttons.at(i))->dock!=0)
+                	{
+                        	if ((info->dock->isVisible()) && (info->module))
+				{
+					kdDebug()<<"Found a visible Gui part"<<endl;
+					if (info->module->provides("KParts::ReadOnlyPart")!=0)
+						{
+							partParent->factory()->addClient(
+								(KParts::ReadOnlyPart*)info->module->provides(
+								QString("KParts::ReadOnlyPart")));
+						}
+				}
+                       	}
+        }
+}
 
 void Sidebar_Widget::createButtons()
 {

@@ -3,6 +3,7 @@
 
 #include <kparts/part.h>
 #include <kparts/factory.h>
+#include <kparts/event.h>
 
 class QWidget;
 class QPainter;
@@ -32,12 +33,12 @@ public:
     virtual ~KPartAppPart();
 
     virtual bool openURL(const KURL &url);
-
 protected:
     /**
      * This must be implemented by each part
      */
     virtual bool openFile();
+    virtual void guiActivateEvent(KParts::GUIActivateEvent *event);
 
 private:
      class Sidebar_Widget *m_widget;
