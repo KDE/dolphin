@@ -25,6 +25,7 @@
 #include <kdebug.h>
 #include <kiconloader.h>
 #include <kicontheme.h>
+#include <klineedit.h>
 #include <konq_pixmapprovider.h>
 #include <kstdaccel.h>
 #include <kurldrag.h>
@@ -38,9 +39,22 @@
 KConfig * KonqCombo::s_config = 0L;
 const int KonqCombo::temporary = 0;
 
+static QString titleOfURL( const KURL& url )
+{
+    KonqHistoryList historylist = KonqHistoryManager::kself()->entries();
+    KonqHistoryEntry *historyentry = historylist.findEntry( url );
+    if ( !historyentry && !url.url().endsWith( "/" ) ) {
+        KURL _url = url;
+        _url.setPath( url.path()+'/' );
+        historyentry = historylist.findEntry( _url );
+    }
+    return ( historyentry ? historyentry->title : QString::null );
+}
+
 class Q_EXPORT KonqComboListBoxPixmap : public QListBoxItem
 {
 public:
+    KonqComboListBoxPixmap( const QString& text );
     KonqComboListBoxPixmap( const QPixmap &, const QString& text, const QString& title );
 
     const QPixmap *pixmap() const { return &pm; }
@@ -51,12 +65,30 @@ public:
     int rtti() const;
     static int RTTI;
 
+    bool reuse( const QString& newText );
+
 protected:
     void paint( QPainter * );
 
 private:
+    bool lookup_pending;
     QPixmap pm;
     QString title;
+};
+
+class KonqComboLineEdit : public KLineEdit
+{
+public:
+    KonqComboLineEdit( QWidget *parent=0, const char *name=0 );
+    void setCompletedItems( const QStringList& items );
+};
+
+class KonqComboCompletionBox : public KCompletionBox
+{
+public:
+    KonqComboCompletionBox( QWidget *parent, const char *name = 0 );
+    void setItems( const QStringList& items );
+    void insertStringList( const QStringList & list, int index = -1 );
 };
 
 KonqCombo::KonqCombo( QWidget *parent, const char *name )
@@ -79,11 +111,17 @@ KonqCombo::KonqCombo( QWidget *parent, const char *name )
     // But we're lazy and let KCompletionBox do this and simply switch off
     // handling of signals later.
     setHandleSignals( true );
+
+    KonqComboLineEdit *edit = new KonqComboLineEdit( this, "combo lineedit" );
+    edit->setHandleSignals( true );
+    edit->setCompletionBox( new KonqComboCompletionBox( edit, "completion box" ) );
+    setLineEdit( edit );
+
     completionBox()->setTabHandling( true );
-    
+
     // Make the lineedit consume the Key_Enter event...
     setTrapReturnKey( true );
-    
+
     connect( this, SIGNAL(cleared() ), SLOT(slotCleared()) );
     connect( this, SIGNAL(highlighted( int )), SLOT(slotSetIcon( int )) );
     connect( this, SIGNAL(activated( const QString& )),
@@ -110,7 +148,7 @@ void KonqCombo::setURL( const QString& url )
 {
     //kdDebug(1202) << "KonqCombo::setURL: " << url << ", returnPressed ? " << m_returnPressed << endl;
     setTemporary( url );
-    
+
     if ( m_returnPressed ) { // Really insert...
         m_returnPressed = false;      
         QByteArray data;
@@ -129,36 +167,36 @@ void KonqCombo::setTemporary( const QString& text )
 void KonqCombo::setTemporary( const QString& url, const QPixmap& pix )
 {
     //kdDebug(1202) << "KonqCombo::setTemporary: " << url << ", temporary = " << temporary << endl;
-    
+
     // Insert a temporary item when we don't have one yet
     if ( count() == 0 )
-      insertItem( pix, url, temporary, historyTitle( url ) );
+      insertItem( pix, url, temporary, titleOfURL( url ) );
     else
     {
         if (url != temporaryItem())
           applyPermanent();
-        
-        updateItem( pix, url, temporary, historyTitle( url ) );
+
+        updateItem( pix, url, temporary, titleOfURL( url ) );
     }
-        
+
     setCurrentItem( temporary );
 }
 
 void KonqCombo::removeDuplicates( int index )
 {
     //kdDebug(1202) << "KonqCombo::removeDuplicates: Starting index =  " << index << endl;
-    
+
     QString url (temporaryItem());
     if (url.endsWith("/"))
       url.truncate(url.length()-1);
-    
+
     // Remove all dupes, if available...
     for ( int i = index; i < count(); i++ ) 
-    {        
+    {
         QString item (text(i));
         if (item.endsWith("/"))
           item.truncate(item.length()-1);
-                  
+
         if ( item == url )
             removeItem( i );
     }
@@ -177,18 +215,18 @@ void KonqCombo::insertPermanent( const QString& url )
 // called right before a new (different!) temporary item will be set. So we
 // insert an item that was marked permanent properly at position 1.
 void KonqCombo::applyPermanent()
-{    
+{
     if ( m_permanent && !temporaryItem().isEmpty() ) {
-        
+
         // Remove as many items as needed to honour maxCount()
         int index = count();
         while ( count() >= maxCount() )
             removeItem( --index );
-        
+
         QString url (temporaryItem());
-        insertItem( KonqPixmapProvider::self()->pixmapFor( url ), url, 1, historyTitle( url ) );
+        insertItem( KonqPixmapProvider::self()->pixmapFor( url ), url, 1, titleOfURL( url ) );
         //kdDebug(1202) << "KonqCombo::applyPermanent: " << url << endl;
-        
+
         // Remove all duplicates starting from index = 2
         removeDuplicates( 2 );       
         m_permanent = false;
@@ -213,10 +251,10 @@ void KonqCombo::updateItem( const QPixmap& pix, const QString& t, int index, con
     if (text( index ) == t &&
         (pixmap(index) && pixmap(index)->serialNumber() == pix.serialNumber()))
         return;
-        
+
     // kdDebug(1202) << "KonqCombo::updateItem: item='" << t << "', index='"
     //               << index << "'" << endl;
-    
+
     // QComboBox::changeItem() doesn't honour the pixmap when
     // using an editable combobox, so we just remove and insert    
     // ### use QComboBox::changeItem(), once that finally works
@@ -258,7 +296,7 @@ void KonqCombo::updatePixmaps()
     setUpdatesEnabled( false );
     KonqPixmapProvider *prov = KonqPixmapProvider::self();
     for ( int i = 1; i < count(); i++ ) {
-        updateItem( prov->pixmapFor( text( i ) ), text( i ), i, historyTitle( text( i ) ) );
+        updateItem( prov->pixmapFor( text( i ) ), text( i ), i, titleOfURL( text( i ) ) );
     }
     setUpdatesEnabled( true );
     repaint();
@@ -284,11 +322,11 @@ void KonqCombo::loadItems()
         if ( !item.isEmpty() ) { // only insert non-empty items
 	    if( first ) {
                 insertItem( KonqPixmapProvider::self()->pixmapFor( item, KIcon::SizeSmall ),
-                            item, i++, historyTitle( item ) );
+                            item, i++, titleOfURL( item ) );
 	    }
             else
                 // icons will be loaded on-demand
-                insertItem( item, i++, historyTitle( item ) );
+                insertItem( item, i++, titleOfURL( item ) );
             first = false;
         }
         ++it;
@@ -304,7 +342,7 @@ void KonqCombo::slotSetIcon( int index )
         // on-demand icon loading
         updateItem( KonqPixmapProvider::self()->pixmapFor( text( index ),
                     KIcon::SizeSmall ), text( index ), index, 
-                    historyTitle( text( index ) ) );
+                    titleOfURL( text( index ) ) );
     update();
 }
 
@@ -316,7 +354,7 @@ void KonqCombo::popup()
         {
             // on-demand icon loading
             updateItem( KonqPixmapProvider::self()->pixmapFor( text( i ),
-                        KIcon::SizeSmall), text( i ), i, historyTitle( text( i ) ) );
+                        KIcon::SizeSmall), text( i ), i, titleOfURL( text( i ) ) );
         }
     }
     KHistoryCombo::popup();
@@ -613,19 +651,14 @@ bool KonqCombo::hasSufficientContrast(const QColor &c1, const QColor &c2)
     return hdist + (kAbs(s1-s2)*128)/(160+kMin(s1,s2)) + kAbs(v1-v2) > CONTRAST_DISTANCE;
 }
 
-QString KonqCombo::historyTitle( const KURL& url )
-{
-    historylist = KonqHistoryManager::kself()->entries();
-    KonqHistoryEntry *historyentry = historylist.findEntry( url );
-    if ( !historyentry && !url.url().endsWith( "/" ) ) {
-        KURL _url = url;
-        _url.setPath( url.path()+'/' );
-        historyentry = historylist.findEntry( _url );
-    }
-    return ( historyentry ? historyentry->title : QString::null );
-}
-
 ///////////////////////////////////////////////////////////////////////////////
+
+KonqComboListBoxPixmap::KonqComboListBoxPixmap( const QString& text )
+    : QListBoxItem()
+{
+    setText( text );
+    lookup_pending = true;
+}
 
 KonqComboListBoxPixmap::KonqComboListBoxPixmap( const QPixmap & pix, const QString& text, const QString& _title )
   : QListBoxItem()
@@ -633,10 +666,17 @@ KonqComboListBoxPixmap::KonqComboListBoxPixmap( const QPixmap & pix, const QStri
     pm = pix;
     title = _title;
     setText( text );
+    lookup_pending = false;
 }
 
 void KonqComboListBoxPixmap::paint( QPainter *painter )
 {
+    if ( lookup_pending ) {
+        pm = KonqPixmapProvider::self()->pixmapFor( text(), KIcon::SizeSmall );
+        title = titleOfURL( text() );
+        lookup_pending = false;
+    }
+
     int itemHeight = height( listBox() );
     int yPos, pmWidth = 0;
     const QPixmap *pm = pixmap();
@@ -690,6 +730,135 @@ int KonqComboListBoxPixmap::RTTI = 1003;
 int KonqComboListBoxPixmap::rtti() const
 {
     return RTTI;
+}
+
+bool KonqComboListBoxPixmap::reuse( const QString& newText )
+{
+    if ( text() == newText )
+        return false;
+
+    lookup_pending = true;
+    setText( newText );
+    return true;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
+KonqComboLineEdit::KonqComboLineEdit( QWidget *parent, const char *name )
+                  :KLineEdit( parent, name ) {}
+
+void KonqComboLineEdit::setCompletedItems( const QStringList& items )
+{
+    QString txt;
+    KonqComboCompletionBox *completionbox = static_cast<KonqComboCompletionBox*>( completionBox() );
+
+    if ( completionbox && completionbox->isVisible() )
+        // The popup is visible already - do the matching on the initial string,
+        // not on the currently selected one.
+        txt = completionbox->cancelledText();
+    else
+        txt = text();
+
+    if ( !items.isEmpty() && !(items.count() == 1 && txt == items.first()) ) {
+        if ( !completionBox( false ) )
+            setCompletionBox( new KonqComboCompletionBox( this, "completion box" ) );
+
+        if ( completionbox->isVisible() ) {
+            bool wasSelected = completionbox->isSelected( completionbox->currentItem() );
+            const QString currentSelection = completionbox->currentText();
+            completionbox->setItems( items );
+            QListBoxItem* item = completionbox->findItem( currentSelection, Qt::ExactMatch );
+            if ( item ) {
+                completionbox->blockSignals( true );
+                completionbox->setCurrentItem( item );
+                completionbox->setSelected( item, wasSelected );
+                completionbox->blockSignals( false );
+            }
+        }
+        else { // completion box not visible yet -> show it
+            if ( !txt.isEmpty() )
+                completionbox->setCancelledText( txt );
+            completionbox->setItems( items );
+            completionbox->popup();
+        }
+
+        if ( autoSuggest() ) {
+            int index = items.first().find( txt );
+            QString newText = items.first().mid( index );
+            setUserSelection( false );
+            setCompletedText( newText, true );
+        }
+    }
+    else
+        if ( completionbox && completionbox->isVisible() )
+            completionbox->hide();
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
+KonqComboCompletionBox::KonqComboCompletionBox( QWidget *parent, const char *name )
+                       :KCompletionBox( parent, name ) {}
+
+void KonqComboCompletionBox::setItems( const QStringList& items )
+{
+    bool block = signalsBlocked();
+    blockSignals( true );
+
+    QListBoxItem* item = firstItem();
+    if ( !item )
+        insertStringList( items );
+    else {
+        //Keep track of whether we need to change anything,
+        //so we can avoid a repaint for identical updates,
+        //to reduce flicker
+        bool dirty = false;
+
+        QStringList::ConstIterator it = items.constBegin();
+        const QStringList::ConstIterator itEnd = items.constEnd();
+
+        for ( ; it != itEnd; ++it) {
+            if ( item ) {
+                const bool changed = ((KonqComboListBoxPixmap*)item)->reuse( *it );
+                dirty = dirty || changed;
+                item = item->next();
+            }
+            else {
+                dirty = true;
+                //Inserting an item is a way of making this dirty
+                insertItem( new KonqComboListBoxPixmap( *it ) );
+            }
+        }
+
+        //If there is an unused item, mark as dirty -> less items now
+        if ( item )
+            dirty = true;
+
+        QListBoxItem* tmp = item;
+        while ( (item = tmp ) ) {
+            tmp = item->next();
+            delete item;
+        }
+
+        if ( dirty )
+            triggerUpdate( false );
+    }
+
+    if ( isVisible() && size().height() != sizeHint().height() )
+        sizeAndPosition();
+
+    blockSignals( block );
+
+    // Trigger d->down_workaround = true within KCompletionBox
+    QStringList dummy;
+    KCompletionBox::insertItems( dummy, 1 );
+}
+
+void KonqComboCompletionBox::insertStringList( const QStringList & list, int index )
+{
+    if ( index < 0 )
+        index = count();
+    for ( QStringList::ConstIterator it = list.begin(); it != list.end(); ++it )
+        insertItem( new KonqComboListBoxPixmap( *it ), index++ );
 }
 
 #include "konq_combo.moc"
