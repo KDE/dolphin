@@ -144,6 +144,7 @@ class KonqBaseListViewWidget : public KListView
       virtual void slotRefreshItems( const KFileItemList & );
       virtual void slotRedirection( const KURL & );
       virtual void slotCloseView();
+      void slotPopupMenu(KListView* , QListViewItem* );
 
    protected:
       //creates the listview columns according to confColumns

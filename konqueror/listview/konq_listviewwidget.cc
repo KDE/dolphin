@@ -103,6 +103,7 @@ KonqBaseListViewWidget::KonqBaseListViewWidget( KonqListView *parent, QWidget *p
    connect(this,SIGNAL(currentChanged(QListViewItem*)),this,SLOT(slotCurrentChanged(QListViewItem*)));
    connect(this,SIGNAL(onItem(QListViewItem*)),this,SLOT(slotOnItem(QListViewItem*)));
    connect(this,SIGNAL(onViewport()),this,SLOT(slotOnViewport()));
+   connect(this,SIGNAL(menuShortCutPressed (KListView* , QListViewItem* )),this,SLOT(slotPopupMenu(KListView*,QListViewItem*)));
 
    viewport()->setAcceptDrops( true );
    viewport()->setMouseTracking( true );
@@ -666,6 +667,13 @@ void KonqBaseListViewWidget::slotRightButtonPressed( QListViewItem *, const QPoi
   kdDebug(1202) << "KonqBaseListViewWidget::slotRightButtonPressed" << endl;
   popupMenu( _global );
 }
+
+void KonqBaseListViewWidget::slotPopupMenu(KListView* , QListViewItem* )
+{
+   QPoint p (width() / 2, height() / 2 );
+   p = mapToGlobal( p );
+   popupMenu( p );
+};
 
 void KonqBaseListViewWidget::popupMenu( const QPoint& _global )
 {
