@@ -1345,7 +1345,7 @@ void KonqMainWindow::viewCountChanged()
 {
   // This is called when the number of views changes.
 
-  m_paRemoveView->setEnabled( activeViewsCount() > 1 );
+  m_paRemoveView->setEnabled( mainViewsCount() > 1 );
   m_paLinkView->setEnabled( viewCount() > 1 );
 
   viewsChanged();
@@ -1449,6 +1449,18 @@ int KonqMainWindow::activeViewsCount() const
   MapViews::ConstIterator end = m_mapViews.end();
   for (; it != end; ++it )
     if ( !it.data()->isPassiveMode() )
+      ++res;
+
+  return res;
+}
+
+int KonqMainWindow::mainViewsCount() const
+{
+  int res = 0;
+  MapViews::ConstIterator it = m_mapViews.begin();
+  MapViews::ConstIterator end = m_mapViews.end();
+  for (; it != end; ++it )
+    if ( !it.data()->isPassiveMode() && !it.data()->isToggleView() )
       ++res;
 
   return res;
@@ -2353,8 +2365,8 @@ void KonqMainWindow::enableAllActions( bool enable )
       m_paForward->setEnabled( false );
       // no locked views either
       m_paUnlockAll->setEnabled( false );
-      // removeview only if more than one active view
-      m_paRemoveView->setEnabled( activeViewsCount() > 1 );
+      // removeview only if more than one main view
+      m_paRemoveView->setEnabled( mainViewsCount() > 1 );
       // link view only if more than one view
       m_paLinkView->setEnabled( viewCount() > 1 );
       // Load profile submenu

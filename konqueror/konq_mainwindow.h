@@ -121,8 +121,14 @@ public:
   // dcop idl bug! it can't handle KonqMainWindow *&mainWindow
   static KonqView *findChildView( const QString &name, KonqMainWindow **mainWindow, KParts::BrowserHostExtension **hostExtension );
 
+  // Total number of views
   int viewCount() const { return m_mapViews.count(); }
+
+  // Number of views not in "passive" mode
   int activeViewsCount() const;
+
+  // Number of main views (non-toggle non-passive views)
+  int mainViewsCount() const;
 
   typedef QMap<KParts::ReadOnlyPart *, KonqView *> MapViews;
 
