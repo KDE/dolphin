@@ -30,6 +30,8 @@
 #include <qdir.h>
 #include <qstring.h>
 
+#include <kio/job.h>
+#include <kcmdlineargs.h>
 #include <kpropsdlg.h>
 #include <krun.h>
 #include <klocale.h>
@@ -54,8 +56,8 @@ int main( int argc, char **argv )
                 "            # Opens a dialog to ask you for the URL\n\n"));
     printf(i18n("  kfmclient openURL 'url'\n"
                 "            # Opens a window showing 'url'. If such a window\n"));
-    printf(i18n("            #   exists, it is shown. 'url' may be \"trash:/\"\n"
-                "            #   to open the trash bin.\n\n"));
+    printf(i18n("            #   exists, it is shown. 'url' may be a relative path\n"
+                "            #   or file name, such as . or subdir/\n\n"));
     printf(i18n("  kfmclient openProperties 'url'\n"
                 "            # Opens a properties menu\n\n"));
     printf(i18n("  kfmclient exec ['url' ['binding']]\n"
@@ -70,8 +72,8 @@ int main( int argc, char **argv )
     printf(i18n("  kfmclient move 'src' 'dest'\n"
                 "            # Moves the URL 'src' to 'dest'.\n"
                 "            #   'src' may be a list of URLs.\n"));
-    printf(i18n("            #   'dest' may be \"trash:/\" to move the files\n"
-                "            #   in the trash bin.\n\n"));
+    //printf(i18n("            #   'dest' may be \"trash:/\" to move the files\n"
+    //            "            #   in the trash bin.\n\n"));
     printf(i18n("  kfmclient copy 'src' 'dest'\n"
                 "            # Copies the URL 'src' to 'dest'.\n"
                 "            #   'src' may be a list of URLs.\n\n"));
@@ -98,6 +100,8 @@ int main( int argc, char **argv )
                 "             // Starts emacs\n\n"));
     printf(i18n("  kfmclient exec file:/root/Desktop/cdrom.desktop\n"
                 "             // Opens the CD-ROM's mount directory\n\n"));
+    printf(i18n("  kfmclient exec .\n"
+                "             // Opens the current directory. Very convenient.\n\n"));
     return 0;
   }
 
@@ -107,10 +111,8 @@ int main( int argc, char **argv )
   return a.doIt( argc, argv );
 }
 
-bool clientApp::openFileManagerWindow(const char* _url)
+bool clientApp::openFileManagerWindow(const KURL & url)
 {
-
-  KURL url( QDir::currentDirPath()+"/", _url );
 
   if ( dcopClient()->isApplicationRegistered( "konqueror" ) )
   {
@@ -155,6 +157,9 @@ int clientApp::doIt( int argc, char **argv )
     return 1;
   }
 
+  QCString currentDir = QDir::currentDirPath().local8Bit(); // keep on stack
+  KCmdLineArgs::setCwd( currentDir.data() ); // shallow copy
+
   if ( strcmp( argv[1], "openURL" ) == 0 )
   {
     if ( argc == 2 )
@@ -163,7 +168,7 @@ int clientApp::doIt( int argc, char **argv )
     }
     else if ( argc == 3 )
     {
-      return openFileManagerWindow( argv[2] );
+      return openFileManagerWindow( KCmdLineArgs::makeURL(argv[2]) );
     }
     else
     {
@@ -175,8 +180,7 @@ int clientApp::doIt( int argc, char **argv )
   {
     if ( argc == 3 )
     {
-      KURL u( QDir::currentDirPath()+"/", QString::fromLatin1(argv[2]) );
-      PropertiesDialog * p = new PropertiesDialog( u );
+      PropertiesDialog * p = new PropertiesDialog( KCmdLineArgs::makeURL(argv[2]) );
       QObject::connect( p, SIGNAL( propertiesClosed() ), this, SLOT( quit() ));
       exec();
     }
@@ -195,8 +199,7 @@ int clientApp::doIt( int argc, char **argv )
     }
     else if ( argc == 3 )
     {
-      KURL u( QDir::currentDirPath()+"/", QString::fromLatin1(argv[2]) );
-      KRun * run = new KRun( u );
+      KRun * run = new KRun( KCmdLineArgs::makeURL(argv[2]) );
       QObject::connect( run, SIGNAL( finished() ), this, SLOT( quit() ));
       QObject::connect( run, SIGNAL( error() ), this, SLOT( quit() ));
       exec();
@@ -204,7 +207,7 @@ int clientApp::doIt( int argc, char **argv )
     else if ( argc == 4 )
     {
       QStringList urls;
-      urls.append( argv[2] );
+      urls.append( KCmdLineArgs::makeURL(argv[2]).url() );
 //      KService::Ptr serv = KServiceProvider::getServiceProvider()->serviceByServiceType( argv[3] );
       KService::Ptr serv = (*KTrader::self()->query( argv[ 3 ] ).begin());
       if (!serv) return 1;
@@ -224,17 +227,13 @@ int clientApp::doIt( int argc, char **argv )
       fprintf( stderr, i18n("Syntax Error: Too few arguments\n") );
       return 1;
     }
-    QString src = "";
-    int i = 2;
-    while ( i <= argc - 2 )
-    {
-      src += argv[i];
-      if ( i < argc - 2 )
-        src += "\n";
-      i++;
-    }
-    // TODO	
-    // kfm.moveClient( src.data(), argv[ argc - 1 ] );
+    KURL::List srcLst;
+    for ( int i = 2; i <= argc - 2; i++ )
+      srcLst.append( KCmdLineArgs::makeURL(argv[i]) );
+
+    KIO::Job * job = KIO::move( srcLst, KCmdLineArgs::makeURL(argv[ argc - 1 ]) );
+    connect( job, SIGNAL( result( KIO::Job * ) ), this, SLOT( slotResult( KIO::Job * ) ) );
+    exec();
   }
   else if ( strcmp( argv[1], "copy" ) == 0 )
   {
@@ -243,17 +242,13 @@ int clientApp::doIt( int argc, char **argv )
       fprintf( stderr, i18n("Syntax Error: Too few arguments\n") );
       return 1;
     }
-    QString src = "";
-    int i = 2;
-    while ( i <= argc - 2 )
-    {
-      src += argv[i];
-      if ( i < argc - 2 )
-        src += "\n";
-      i++;
-    }
-    // TODO
-    // kfm.copy( src.data(), argv[ argc - 1 ] );
+    KURL::List srcLst;
+    for ( int i = 2; i <= argc - 2; i++ )
+      srcLst.append( KCmdLineArgs::makeURL(argv[i]) );
+
+    KIO::Job * job = KIO::copy( srcLst, KCmdLineArgs::makeURL(argv[ argc - 1 ]) );
+    connect( job, SIGNAL( result( KIO::Job * ) ), this, SLOT( slotResult( KIO::Job * ) ) );
+    exec();
   }
   else if ( strcmp( argv[1], "sortDesktop" ) == 0 )
   {
@@ -316,3 +311,11 @@ int clientApp::doIt( int argc, char **argv )
   return 0;
 }
 
+void clientApp::slotResult( KIO::Job * job )
+{
+  if (job->error())
+    job->showErrorDialog();
+  quit();
+}
+
+#include "kfmclient.moc"

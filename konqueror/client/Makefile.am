@@ -7,10 +7,11 @@ bin_PROGRAMS = kfmclient
 
 kfmclient_SOURCES = kfmclient.cc KonquerorIface.stub KDesktopIface.stub
 noinst_HEADERS = kfmclient.h
+METASOURCES = AUTO
 
 KonquerorIface_DIR =  $(srcdir)/..
 KDesktopIface_DIR = $(top_srcdir)/kdesktop
 
 messages:
-	$(XGETTEXT) -kaliasLocal *.h *.cc -o $(podir)/kfmclient.pot 
+	$(XGETTEXT) -kaliasLocal *.h *.cc -o $(podir)/kfmclient.pot
 
