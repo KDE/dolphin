@@ -48,7 +48,7 @@ public:
   void setURL( const KURL & url );
 
 public slots:
-  void setFocus() { nameBox->setFocus(); }
+  void setFocus();
 
 private slots:
   void getDirectory();

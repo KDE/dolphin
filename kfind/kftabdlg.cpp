@@ -440,6 +440,12 @@ void KfindTabWidget::slotEditRegExp()
     textEdit->setText( iface->regExp() );
 }
 
+void KfindTabWidget::setFocus()
+{
+  nameBox->setFocus();
+  nameBox->lineEdit()->selectAll();
+}
+
 void KfindTabWidget::slotSizeBoxChanged(int index)
 {
   sizeEdit->setEnabled((bool)(index != 0));
