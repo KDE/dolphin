@@ -157,14 +157,18 @@ void KManualProxyDlg::setProxyData( const KProxyData &data )
       // based configuration. We ignore it here as it is not applicable...
       if ((*it).lower() != "no_proxy" && !(*it).isEmpty())
       {
-        // Validate the NOPROXYFOR entries and ignore them if they are 
-        // not valid or legitimate URLs.
+        // Validate the NOPROXYFOR entries and use only hostnames if the entry is 
+        // a valid or legitimate URL. NOTE: needed to catch manual manipulation
+        // of the proxy config files...
         QStringList filters;
         filters << "kshorturifilter" << "localdomainfilter";
-        KURL url = *it;
-        if ((url.isValid() || KURIFilter::self()->filterURI(url, filters)) &&
-            !url.host().isEmpty())
-          (void) new QListViewItem( dlg->lvExceptions, url.host() );
+        
+        KURL url = *it;        
+        if ( !url.isValid() )
+          KURIFilter::self()->filterURI(url, filters);
+          
+        QString exception = (url.isValid() && !url.host().isEmpty()) ? url.host() : url.url();                
+        (void) new QListViewItem( dlg->lvExceptions, exception );
       }
     }
 
@@ -405,24 +409,31 @@ void KManualProxyDlg::newPressed()
   // Specify the appropriate message...
   if ( dlg->cbReverseProxy->isChecked() )
       msg = i18n("Enter the address or URL for which the above proxy server "
-                  "should be used:");
+                 "should be used:");
   else
       msg = i18n("Enter the address or URL that should be excluded from using "
-                  "the above proxy server:");
+                 "the above proxy server:");
 
   KURL result = KInputDialog::getText (i18n("New Exception"), msg);
+  
+  // If the user pressed cancel, do nothing...
+  if (result.isEmpty())
+    return;
   
   QStringList filters;
   filters << "kshorturifilter" << "localdomainfilter";
   
-  if ( result.isValid() || KURIFilter::self()->filterURI(result, filters) )
+  // If the typed URL is malformed, attempt to filter it in order
+  // to check its validity...
+  if ( !result.isValid() )
+    KURIFilter::self()->filterURI(result, filters);
+    
+  QString exception = (result.isValid() && !result.host().isEmpty()) ? result.host() : result.url();
+  
+  if ( !handleDuplicate( exception ) )
   {
-    QString exception = result.host();
-    if ( !handleDuplicate( exception ) )
-    {
-      QListViewItem* index = new QListViewItem( dlg->lvExceptions, exception );
-      dlg->lvExceptions->setCurrentItem( index );
-    }
+    QListViewItem* index = new QListViewItem( dlg->lvExceptions, exception );
+    dlg->lvExceptions->setCurrentItem( index );
   }
 }
 
