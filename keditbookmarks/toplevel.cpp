@@ -54,9 +54,9 @@ KEBTopLevel::KEBTopLevel(const QString & bookmarksFile, bool readonly, QString a
    s_topLevel = this;
 
    ListView::createListView(this);
-   listview->initListView();
-   setCentralWidget(listview->widget());
-   resize(listview->widget()->sizeHint().width(), 400);
+   ListView::self()->initListView();
+   setCentralWidget(ListView::self()->widget());
+   resize(ListView::self()->widget()->sizeHint().width(), 400);
 
    createActions();
    createGUI();
@@ -68,25 +68,25 @@ KEBTopLevel::KEBTopLevel(const QString & bookmarksFile, bool readonly, QString a
    connect(&m_commandHistory, SIGNAL( commandExecuted() ),  SLOT( slotCommandExecuted() ));
    connect(&m_commandHistory, SIGNAL( documentRestored() ), SLOT( slotDocumentRestored() ));
 
-   listview->connectSignals();
+   ListView::self()->connectSignals();
 
    KGlobal::locale()->insertCatalogue("libkonq");
 
    construct();
 
-   KEBListViewItem *item = listview->getItemAtAddress(address);
+   KEBListViewItem *item = ListView::self()->getItemAtAddress(address);
    if (!item) {
-      item = listview->getFirstChild();
+      item = ListView::self()->getFirstChild();
    }
-   listview->setCurrent(item);
+   ListView::self()->setCurrent(item);
    item->setSelected(true);
 }
 
 void KEBTopLevel::construct() {
    MyManager::self()->createManager(this, m_bookmarksFilename);
 
-   listview->updateListViewSetup(m_readOnly);
-   listview->fillWithGroup(BkManagerAccessor::mgr()->root());
+   ListView::self()->updateListViewSetup(m_readOnly);
+   ListView::self()->fillWithGroup(BkManagerAccessor::mgr()->root());
 
    slotClipboardDataChanged();
 
@@ -226,8 +226,8 @@ bool KEBTopLevel::nsShown() {
 }
 
 void KEBTopLevel::updateActions() {
-   listview->updateLastAddress();
-   setActionsEnabled(listview->getSelectionAbilities());
+   ListView::self()->updateLastAddress();
+   setActionsEnabled(ListView::self()->getSelectionAbilities());
 }
 
 void KEBTopLevel::setActionsEnabled(SelcAbilities sa) {
@@ -352,7 +352,7 @@ void KEBTopLevel::emitSlotCommandExecuted() {
 // DESIGN - poinless drivel
 
 void KEBTopLevel::setAllOpen(bool open) {
-   listview->setOpen(open);
+   ListView::self()->setOpen(open);
    setModifiedFlag(true);
 }
 
@@ -365,8 +365,8 @@ void KEBTopLevel::slotCommandExecuted() {
    if (!m_readOnly) {
       kdDebug() << "KEBTopLevel::slotCommandExecuted" << endl;
       setModifiedFlag(true);
-      listview->updateListView();
-      listview->emitSlotSelectionChanged();
+      ListView::self()->updateListView();
+      ListView::self()->emitSlotSelectionChanged();
       updateActions();
    }
 }
@@ -389,7 +389,7 @@ void KEBTopLevel::slotBookmarksChanged(const QString &, const QString &caller) {
       kdDebug() << "KEBTopLevel::slotBookmarksChanged" << endl;
       // DESIGN - is this logic really unique?
       clearHistory();
-      listview->fillWithGroup(BkManagerAccessor::mgr()->root());
+      ListView::self()->fillWithGroup(BkManagerAccessor::mgr()->root());
       updateActions();
    }
 }

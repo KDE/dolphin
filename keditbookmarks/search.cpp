@@ -42,7 +42,7 @@ void SearchItrHolder::doItrListChanged() {
 
 SearchItr::SearchItr(QValueList<KBookmark> bks)
    : BookmarkIterator(bks), m_showstatuscounter(0), m_statusitem(0)  {
-   listview->clearSelection();
+   ListView::self()->clearSelection();
 }
 
 SearchItr::~SearchItr() {
@@ -59,20 +59,20 @@ void SearchItrHolder::addFind(KEBListViewItem *item) {
    bool wasEmpty = m_foundlist.isEmpty();
    if (wasEmpty) {
       m_foundlist.first();
-      listview->setCurrent(item);
+      ListView::self()->setCurrent(item);
    };
    m_foundlist.append(item);
 }
 
 void SearchItrHolder::nextOne() {
-   listview->setCurrent(m_foundlist.next());
+   ListView::self()->setCurrent(m_foundlist.next());
 }
 
 void SearchItr::doBlah() {
    // kdDebug() << "doBlah()" << m_statusitem << endl;
 
    KEBListViewItem* new_statusitem = 0;
-   KEBListViewItem* openparent = listview->findOpenParent(curItem());
+   KEBListViewItem* openparent = ListView::self()->findOpenParent(curItem());
    if (openparent != curItem()->parent()) {
       new_statusitem = openparent;
    } else if ((m_showstatuscounter++ % 4) == 0) {
@@ -92,8 +92,8 @@ void SearchItr::doBlah() {
       // kdDebug() << m_book.url().url() << endl;
       SearchItrHolder::self()->addFind(curItem());
       curItem()->setSelected(true); // only if no current selection?
-      listview->openParents(curItem());
-      // listview->updateListView();
+      ListView::self()->openParents(curItem());
+      // ListView::self()->updateListView();
       // set paintstyle also, thats most important, but will require 
       // refactoring stuff from items/testlink into itr base
    }

@@ -117,8 +117,6 @@ private:
    QString m_oldStatus;
 };
 
-#define listview ListView::self()
-
 // DESIGN - make some stuff private if possible
 class ListView : public QObject
 {
