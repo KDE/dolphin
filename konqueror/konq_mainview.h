@@ -375,8 +375,7 @@ class ViewModeGUIClient : public QObject, public KXMLGUIClient
 public:
   ViewModeGUIClient( KonqMainView *mainView );
 
-  virtual KAction *action( const QDomElement &element );
-  virtual QDomDocument document() const;
+  virtual KAction *action( const QDomElement &element ) const;
 
   void update( const KTrader::OfferList &services );
 
@@ -392,8 +391,7 @@ class OpenWithGUIClient : public QObject, public KXMLGUIClient
 public:
   OpenWithGUIClient( KonqMainView *mainView );
 
-  virtual KAction *action( const QDomElement &element );
-  virtual QDomDocument document() const;
+  virtual KAction *action( const QDomElement &element ) const;
 
   void update( const KTrader::OfferList &services );
 

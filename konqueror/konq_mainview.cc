@@ -1851,19 +1851,15 @@ ViewModeGUIClient::ViewModeGUIClient( KonqMainView *mainView )
   m_doc.setContent( QString::fromLatin1( viewModeGUI ) );
   m_menuElement = m_doc.documentElement().namedItem( "MenuBar" ).namedItem( "Menu" ).namedItem( "Menu" ).toElement();
   m_actions = 0L;
+  setDocument( m_doc );
 }
 
-KAction *ViewModeGUIClient::action( const QDomElement &element )
+KAction *ViewModeGUIClient::action( const QDomElement &element ) const
 {
   if ( !m_actions )
     return 0L;
 
   return m_actions->action( element.attribute( "name" ) );
-}
-
-QDomDocument ViewModeGUIClient::document() const
-{
-  return m_doc;
 }
 
 void ViewModeGUIClient::update( const KTrader::OfferList &services )
@@ -1923,19 +1919,15 @@ OpenWithGUIClient::OpenWithGUIClient( KonqMainView *mainView )
   m_doc.setContent( QString::fromLatin1( openWithGUI ) );
   m_menuElement = m_doc.documentElement().namedItem( "MenuBar" ).namedItem( "Menu" ).toElement();
   m_actions = 0L;
+  setDocument( m_doc );
 }
 
-KAction *OpenWithGUIClient::action( const QDomElement &element )
+KAction *OpenWithGUIClient::action( const QDomElement &element ) const
 {
   if ( !m_actions )
     return 0L;
 
   return m_actions->action( element.attribute( "name" ) );
-}
-
-QDomDocument OpenWithGUIClient::document() const
-{
-  return m_doc;
 }
 
 void OpenWithGUIClient::update( const KTrader::OfferList &services )
