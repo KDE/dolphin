@@ -146,6 +146,7 @@ public slots:
     void slotExportNS();
     void slotImportMoz();
     void slotExportMoz();
+    void slotLoad();
     void slotSave();
     void slotSaveAs();
     void slotDocumentRestored();
@@ -187,6 +188,9 @@ protected slots:
     void slotCreatedNewFolder( QString text, QString address );
 
 protected:
+    void initListView();
+    void resetActions();
+
     void fillGroup( KEBListViewItem * parentItem, KBookmarkGroup group );
     virtual bool queryClose();
     void fillListView();

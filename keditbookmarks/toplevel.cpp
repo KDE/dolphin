@@ -347,7 +347,98 @@ KEBTopLevel::KEBTopLevel( const QString & bookmarksFile, bool readonly )
 {
     // Create the bookmark manager.
     s_pManager = KBookmarkManager::managerForFile( bookmarksFile, false );
+    m_bReadOnly = readonly;
 
+    initListView();
+
+    s_topLevel = this;
+    fillListView();
+
+    setCentralWidget( m_pListView );
+    resize( m_pListView->sizeHint().width(), 400 );
+
+    // Create the actions
+
+    KAction * act = new KAction( i18n( "Import Netscape Bookmarks" ), "netscape", 0, this, SLOT( slotImportNS() ), actionCollection(), "importNS" );
+    act->setEnabled( QFile::exists( KNSBookmarkImporter::netscapeBookmarksFile() ) );
+    (void) new KAction( i18n( "Export to Netscape Bookmarks" ), "netscape", 0, this, SLOT( slotExportNS() ), actionCollection(), "exportNS" );
+    act = new KAction( i18n( "Import Mozilla Bookmarks" ), "mozilla", 0, this, SLOT( slotImportMoz() ), actionCollection(), "importMoz" );
+    (void) new KAction( i18n( "Export to Mozilla Bookmarks" ), "mozilla", 0, this, SLOT( slotExportMoz() ), actionCollection(), "exportMoz" );
+    (void) KStdAction::open( this, SLOT( slotLoad() ), actionCollection() );
+    (void) KStdAction::save( this, SLOT( slotSave() ), actionCollection() );
+    (void) KStdAction::saveAs( this, SLOT( slotSaveAs() ), actionCollection() );
+    (void) KStdAction::quit( this, SLOT( close() ), actionCollection() );
+    (void) KStdAction::cut( this, SLOT( slotCut() ), actionCollection() );
+    (void) KStdAction::copy( this, SLOT( slotCopy() ), actionCollection() );
+    (void) KStdAction::paste( this, SLOT( slotPaste() ), actionCollection() );
+    (void) KStdAction::keyBindings( this, SLOT( slotConfigureKeyBindings() ), actionCollection() );
+    (void) KStdAction::configureToolbars( this, SLOT( slotConfigureToolbars() ), actionCollection() );
+    (void) new KAction( i18n( "&Delete" ), "editdelete", Key_Delete, this, SLOT( slotDelete() ), actionCollection(), "delete" );
+    (void) new KAction( i18n( "&Rename" ), "text", Key_F2, this, SLOT( slotRename() ), actionCollection(), "rename" );
+    (void) new KAction( i18n( "Change &URL" ), "text", Key_F3, this, SLOT( slotChangeURL() ), actionCollection(), "changeurl" );
+    (void) new KAction( i18n( "Chan&ge Icon" ), 0, this, SLOT( slotChangeIcon() ), actionCollection(), "changeicon" );
+    (void) new KAction( i18n( "&Create New Folder" ), "folder_new", CTRL+Key_N, this, SLOT( slotNewFolder() ), actionCollection(), "newfolder" );
+    (void) new KAction( i18n( "&Create New Bookmark" ), "www", 0, this, SLOT( slotNewBookmark() ), actionCollection(), "newbookmark" );
+    (void) new KAction( i18n( "&Insert Separator" ), CTRL+Key_I, this, SLOT( slotInsertSeparator() ), actionCollection(), "insertseparator" );
+    (void) new KAction( i18n( "&Sort Alphabetically" ), 0, this, SLOT( slotSort() ), actionCollection(), "sort" );
+    (void) new KAction( i18n( "Set as &Toolbar Folder" ), "bookmark_toolbar", 0, this, SLOT( slotSetAsToolbar() ), actionCollection(), "setastoolbar" );
+    (void) new KAction( i18n( "&Expand All Folders" ), 0, this, SLOT( slotExpandAll() ), actionCollection(), "expandall" );
+    (void) new KAction( i18n( "&Collapse All Folders" ), 0, this, SLOT( slotCollapseAll() ), actionCollection(), "collapseall" );
+    (void) new KAction( i18n( "&Open in Konqueror" ), "fileopen", 0, this, SLOT( slotOpenLink() ), actionCollection(), "openlink" );
+    (void) new KAction( i18n( "Check &Status" ), "bookmark", 0, this, SLOT( slotTestLink() ), actionCollection(), "testlink" );
+    (void) new KAction( i18n( "Check Status: &All" ), 0, this, SLOT( slotTestAllLinks() ), actionCollection(), "testall" );
+    (void) new KAction( i18n( "Cancel &Checks" ), 0, this, SLOT( slotCancelAllTests() ), actionCollection(), "canceltests" );
+    m_taShowNS = new KToggleAction( i18n( "Show Netscape Bookmarks in Konqueror Windows" ), 0, this, SLOT( slotShowNS() ), actionCollection(), "settings_showNS" );
+
+    resetActions();
+
+    slotSelectionChanged();
+    slotClipboardDataChanged();
+
+    createGUI();
+
+    setAutoSaveSettings();
+    setModified(false); // for a very nice caption
+    m_commandHistory.documentSaved();
+
+    KGlobal::locale()->insertCatalogue("libkonq");
+}
+
+void KEBTopLevel::resetActions() 
+{
+    m_taShowNS->setChecked( s_pManager->showNSBookmarks() );
+
+    if (m_bReadOnly) {
+       actionCollection()->action("exportNS")->setEnabled(false);
+       actionCollection()->action("exportMoz")->setEnabled(false);
+       actionCollection()->action("importMoz")->setEnabled(false);
+       actionCollection()->action("settings_showNS")->setEnabled(false);
+    }
+
+    // AK - reduce this stuff
+    actionCollection()->action("edit_cut")       ->setEnabled(false);
+    actionCollection()->action("edit_copy")      ->setEnabled(false);
+    actionCollection()->action("edit_paste")     ->setEnabled(false);
+    actionCollection()->action("rename")         ->setEnabled(false);
+    actionCollection()->action("changeurl")      ->setEnabled(false);
+    actionCollection()->action("delete")         ->setEnabled(false);
+    actionCollection()->action("newfolder")      ->setEnabled(false);
+    actionCollection()->action("changeicon")     ->setEnabled(false);
+    actionCollection()->action("insertseparator")->setEnabled(false);
+    actionCollection()->action("newbookmark")    ->setEnabled(false);
+    actionCollection()->action("sort")           ->setEnabled(false);
+    actionCollection()->action("expandall")      ->setEnabled(false);
+    actionCollection()->action("collapseall")    ->setEnabled(false);
+    actionCollection()->action("setastoolbar")   ->setEnabled(false);
+    actionCollection()->action("openlink")       ->setEnabled(false);
+    actionCollection()->action("testlink")       ->setEnabled(false);
+    actionCollection()->action("testall")        ->setEnabled(false);
+    actionCollection()->action("canceltests")    ->setEnabled(false);
+
+}
+
+void KEBTopLevel::initListView()
+{
     // Create the list view
     m_pListView = new KEBListView( this );
     m_pListView->setDragEnabled( true );
@@ -358,7 +449,6 @@ KEBTopLevel::KEBTopLevel( const QString & bookmarksFile, bool readonly )
     m_pListView->addColumn( i18n("Address"), 100 );
 #endif
 
-    m_bReadOnly = readonly;
     m_pListView->setRootIsDecorated( true );
     m_pListView->setRenameable( 0 );
     m_pListView->setRenameable( 1 );
@@ -372,8 +462,6 @@ KEBTopLevel::KEBTopLevel( const QString & bookmarksFile, bool readonly )
     m_pListView->setDragEnabled( true );
     m_pListView->setAllColumnsShowFocus( true );
     m_pListView->setSorting(-1, false);
-    setCentralWidget( m_pListView );
-    resize( m_pListView->sizeHint().width(), 400 );
 
     if (!m_bReadOnly) {
        connect( m_pListView, SIGNAL(itemRenamed(QListViewItem *, const QString &, int)),
@@ -409,83 +497,6 @@ KEBTopLevel::KEBTopLevel( const QString & bookmarksFile, bool readonly )
                SIGNAL(createdNewFolder(QString,QString)),
                SLOT(slotCreatedNewFolder(QString,QString)));
     }
-
-    s_topLevel = this;
-    fillListView();
-
-    // Create the actions
-
-    KAction * act = new KAction( i18n( "Import Netscape Bookmarks" ), "netscape", 0, this, SLOT( slotImportNS() ), actionCollection(), "importNS" );
-    act->setEnabled( QFile::exists( KNSBookmarkImporter::netscapeBookmarksFile() ) );
-    (void) new KAction( i18n( "Export to Netscape Bookmarks" ), "netscape", 0, this, SLOT( slotExportNS() ), actionCollection(), "exportNS" );
-    act = new KAction( i18n( "Import Mozilla Bookmarks" ), "mozilla", 0, this, SLOT( slotImportMoz() ), actionCollection(), "importMoz" );
-    (void) new KAction( i18n( "Export to Mozilla Bookmarks" ), "mozilla", 0, this, SLOT( slotExportMoz() ), actionCollection(), "exportMoz" );
-    (void) KStdAction::save( this, SLOT( slotSave() ), actionCollection() );
-    (void) KStdAction::saveAs( this, SLOT( slotSaveAs() ), actionCollection() );
-    (void) KStdAction::quit( this, SLOT( close() ), actionCollection() );
-    (void) KStdAction::cut( this, SLOT( slotCut() ), actionCollection() );
-    (void) KStdAction::copy( this, SLOT( slotCopy() ), actionCollection() );
-    (void) KStdAction::paste( this, SLOT( slotPaste() ), actionCollection() );
-    (void) KStdAction::keyBindings( this, SLOT( slotConfigureKeyBindings() ), actionCollection() );
-    (void) KStdAction::configureToolbars( this, SLOT( slotConfigureToolbars() ), actionCollection() );
-    (void) new KAction( i18n( "&Delete" ), "editdelete", Key_Delete, this, SLOT( slotDelete() ), actionCollection(), "delete" );
-    (void) new KAction( i18n( "&Rename" ), "text", Key_F2, this, SLOT( slotRename() ), actionCollection(), "rename" );
-    (void) new KAction( i18n( "Change &URL" ), "text", Key_F3, this, SLOT( slotChangeURL() ), actionCollection(), "changeurl" );
-    (void) new KAction( i18n( "Chan&ge Icon" ), 0, this, SLOT( slotChangeIcon() ), actionCollection(), "changeicon" );
-    (void) new KAction( i18n( "&Create New Folder" ), "folder_new", CTRL+Key_N, this, SLOT( slotNewFolder() ), actionCollection(), "newfolder" );
-    (void) new KAction( i18n( "&Create New Bookmark" ), "www", 0, this, SLOT( slotNewBookmark() ), actionCollection(), "newbookmark" );
-    (void) new KAction( i18n( "&Insert Separator" ), CTRL+Key_I, this, SLOT( slotInsertSeparator() ), actionCollection(), "insertseparator" );
-    (void) new KAction( i18n( "&Sort Alphabetically" ), 0, this, SLOT( slotSort() ), actionCollection(), "sort" );
-    (void) new KAction( i18n( "Set as &Toolbar Folder" ), "bookmark_toolbar", 0, this, SLOT( slotSetAsToolbar() ), actionCollection(), "setastoolbar" );
-    (void) new KAction( i18n( "&Expand All Folders" ), 0, this, SLOT( slotExpandAll() ), actionCollection(), "expandall" );
-    (void) new KAction( i18n( "&Collapse All Folders" ), 0, this, SLOT( slotCollapseAll() ), actionCollection(), "collapseall" );
-    (void) new KAction( i18n( "&Open in Konqueror" ), "fileopen", 0, this, SLOT( slotOpenLink() ), actionCollection(), "openlink" );
-    (void) new KAction( i18n( "Check &Status" ), "bookmark", 0, this, SLOT( slotTestLink() ), actionCollection(), "testlink" );
-    (void) new KAction( i18n( "Check Status: &All" ), 0, this, SLOT( slotTestAllLinks() ), actionCollection(), "testall" );
-    (void) new KAction( i18n( "Cancel &Checks" ), 0, this, SLOT( slotCancelAllTests() ), actionCollection(), "canceltests" );
-    m_taShowNS = new KToggleAction( i18n( "Show Netscape Bookmarks in Konqueror Windows" ), 0, this, SLOT( slotShowNS() ), actionCollection(), "settings_showNS" );
-
-    m_taShowNS->setChecked( s_pManager->showNSBookmarks() );
-
-    actionCollection()->action("canceltests")->setEnabled(false);
-    actionCollection()->action("testall")->setEnabled(false);
-
-    if (m_bReadOnly) {
-       actionCollection()->action("exportNS")->setEnabled(false);
-       actionCollection()->action("exportMoz")->setEnabled(false);
-       actionCollection()->action("importMoz")->setEnabled(false);
-       actionCollection()->action("settings_showNS")->setEnabled(false);
-    }
-
-    // AK - reduce this stuff
-    actionCollection()->action("edit_cut")       ->setEnabled(false);
-    actionCollection()->action("edit_copy")      ->setEnabled(false);
-    actionCollection()->action("edit_paste")     ->setEnabled(false);
-    actionCollection()->action("rename")         ->setEnabled(false);
-    actionCollection()->action("changeurl")      ->setEnabled(false);
-    actionCollection()->action("delete")         ->setEnabled(false);
-    actionCollection()->action("newfolder")      ->setEnabled(false);
-    actionCollection()->action("changeicon")     ->setEnabled(false);
-    actionCollection()->action("insertseparator")->setEnabled(false);
-    actionCollection()->action("newbookmark")    ->setEnabled(false);
-    actionCollection()->action("sort")           ->setEnabled(false);
-    actionCollection()->action("expandall")      ->setEnabled(false);
-    actionCollection()->action("collapseall")    ->setEnabled(false);
-    actionCollection()->action("setastoolbar")   ->setEnabled(false);
-    actionCollection()->action("openlink")       ->setEnabled(false);
-    actionCollection()->action("testlink")       ->setEnabled(false);
-    actionCollection()->action("testall")        ->setEnabled(false);
-
-    slotSelectionChanged();
-    slotClipboardDataChanged();
-
-    createGUI();
-
-    setAutoSaveSettings();
-    setModified(false); // for a very nice caption
-    m_commandHistory.documentSaved();
-
-    KGlobal::locale()->insertCatalogue("libkonq");
 }
 
 KEBTopLevel::~KEBTopLevel()
@@ -631,8 +642,15 @@ void KEBTopLevel::slotSelectionChanged()
     coll->action("edit_copy")          ->setEnabled(itemSelected && !root);
     coll->action("openlink")           ->setEnabled(itemSelected && !group && !separator && !urlIsEmpty);
 
+    // AK - note if these do eventually save there state for every drawer than need to move this down
+    coll->action("expandall")      ->setEnabled(!multiSelect && !(root && m_pListView->childCount()==1));
+    coll->action("collapseall")    ->setEnabled(!multiSelect && !(root && m_pListView->childCount()==1));
+
     if (!m_bReadOnly) {
-        // AK - not sure if the ones that say !multiSelect that don't care should really have it...
+        coll->action("exportNS")       ->setEnabled(true);
+        coll->action("exportMoz")      ->setEnabled(true);
+        coll->action("importMoz")      ->setEnabled(true);
+        coll->action("settings_showNS")->setEnabled(true);
         coll->action("edit_cut")       ->setEnabled(itemSelected && !root);
         coll->action("edit_paste")     ->setEnabled(itemSelected && !root && m_bCanPaste);
         coll->action("rename")         ->setEnabled(!multiSelect && itemSelected && !separator && !root);
@@ -644,8 +662,6 @@ void KEBTopLevel::slotSelectionChanged()
         coll->action("newbookmark")    ->setEnabled(!multiSelect);
         coll->action("sort")           ->setEnabled(!multiSelect && group);
         coll->action("setastoolbar")   ->setEnabled(!multiSelect && group);
-        coll->action("expandall")      ->setEnabled(!multiSelect && !(root && m_pListView->childCount()==1));
-        coll->action("collapseall")    ->setEnabled(!multiSelect && !(root && m_pListView->childCount()==1));
         coll->action("testlink")       ->setEnabled(!root && itemSelected && !separator); // AK
         coll->action("testall")        ->setEnabled(!multiSelect && !(root && m_pListView->childCount()==1));
     }
@@ -657,6 +673,14 @@ void KEBTopLevel::slotClipboardDataChanged()
     QMimeSource *data = QApplication::clipboard()->data();
     m_bCanPaste = KBookmarkDrag::canDecode( data );
     slotSelectionChanged();
+}
+
+void KEBTopLevel::slotLoad()
+{
+    if (queryClose()) {
+       kdWarning() << "execute other program" << endl;
+       close();
+    }
 }
 
 void KEBTopLevel::slotSave()
@@ -957,14 +981,10 @@ void KEBTopLevel::slotOpenLink()
 void KEBTopLevel::slotTestAllLinks()
 {
     QPtrList<KBookmark> bookmarks;
+    // AK - this gives the warning:
+    //      toplevel.cpp:984: warning: taking address of temporary, FIXME :)
     bookmarks.append(&rootBookmark());
     testBookmarks(&bookmarks);
-    /*
-    KEBListViewItem *p = findByAddress("/0");
-    KBookmark bk = p->bookmark();
-    tests.insert(0, new TestLink(bk));
-    actionCollection()->action("canceltests")->setEnabled( true );
-    */
 }
 
 void KEBTopLevel::slotTestLink()

@@ -32,33 +32,15 @@ static KCmdLineOptions options[] =
   { 0, 0, 0}
 };
 
-int main(int argc, char ** argv)
-{
-  KLocale::setMainCatalogue("konqueror");
-  KAboutData aboutData( "keditbookmarks", I18N_NOOP("KEditBookmarks"), "1.0",
-                        I18N_NOOP("Konqueror Bookmarks Editor"),
-                        KAboutData::License_GPL,
-                        I18N_NOOP("(c) 2000, KDE developers") );
-  aboutData.addAuthor("David Faure",0, "faure@kde.org");
+#define ID_QUIT     0
+#define ID_READONLY 2
+#define ID_NORMAL   1
 
-  KCmdLineArgs::init( argc, argv, &aboutData );
-  KApplication::addCmdLineOptions();
-  // KUniqueApplication::addCmdLineOptions();
-  KCmdLineArgs::addCmdLineOptions( options );
-
-  KApplication::disableAutoDcopRegistration(); 
-  KApplication app;
-
-  KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
-
-  int noargs = (args->count() == 0);
-  QString bookmarksFile = (noargs)
-                          ? locateLocal("data", QString::fromLatin1("konqueror/bookmarks.xml") )
-                          : QString::fromLatin1(args->arg(0));
-  args->clear();
+int prepare(KApplication &app, QString bookmarksFile = "") {
 
   QCString appName = "keditbookmarks";
-  if (!noargs) appName += "-" + bookmarksFile.utf8();
+
+  appName += (bookmarksFile == "") ? QCString("-" + bookmarksFile.utf8()) : QCString("");
 
   QCString givenName = app.dcopClient()->registerAs(appName,false);
 
@@ -72,11 +54,45 @@ int main(int argc, char ** argv)
      bool quit = (answer==KMessageBox::No);
      if (quit) {
         // app.dcopClient()->send( "keditbookmarks", "KEditBookmarks", "activateWindow()", data );
-        return 0;
+        // AK - implement "Continue in same", thus removing this awfull ID_ defines
+        return ID_QUIT;
      }
   }
 
-  KEBTopLevel * toplevel = new KEBTopLevel( bookmarksFile, !unique );
+  return unique ? ID_NORMAL : ID_READONLY;
+}
+
+int main(int argc, char ** argv)
+{
+  KLocale::setMainCatalogue("konqueror");
+  KAboutData aboutData( "keditbookmarks", I18N_NOOP("KEditBookmarks"), "1.0",
+                        I18N_NOOP("Konqueror Bookmarks Editor"),
+                        KAboutData::License_GPL,
+                        I18N_NOOP("(c) 2000, KDE developers") );
+  aboutData.addAuthor("David Faure",0, "faure@kde.org");
+
+  KCmdLineArgs::init( argc, argv, &aboutData );
+  KApplication::addCmdLineOptions();
+  KCmdLineArgs::addCmdLineOptions( options );
+
+  KApplication::disableAutoDcopRegistration(); 
+  KApplication app;
+
+  KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
+
+  const char *arg = (args->count() == 0) ? NULL : args->arg(0);
+  args->clear();
+
+  QString bookmarksFile = (!arg)
+                          ? locateLocal("data", QString::fromLatin1("konqueror/bookmarks.xml") )
+                          : QString::fromLatin1(arg);
+
+
+  int ret = prepare(app, bookmarksFile);
+  if (ret == ID_QUIT) 
+     return 0;
+
+  KEBTopLevel * toplevel = new KEBTopLevel( bookmarksFile, (ret==ID_READONLY) );
   toplevel->show();
   app.setMainWidget(toplevel);
 
