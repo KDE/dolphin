@@ -25,6 +25,7 @@
 #include <kiconloader.h>
 #include <kglobal.h>
 #include <dcopclient.h>
+#include <kio/http_slave_defaults.h>
 
 #include "kproxydlg.h"
 
@@ -287,7 +288,7 @@ void KProxyOptions::defaults() {
   cb_useCache->setChecked(true);
   setCache();
   rb_verify->setChecked(true);
-  sb_max_cache_size->setValue(KProtocolManager::defaultMaxCacheSize());
+  sb_max_cache_size->setValue(DEFAULT_MAX_CACHE_SIZE);
 #ifdef MAX_CACHE_AGE
   sb_max_cache_age->setText( "Not yet implemented."); // MaxCacheAge
 #endif
