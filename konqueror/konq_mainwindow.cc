@@ -2654,6 +2654,7 @@ void KonqMainWindow::disableActionsNoView()
     action("duplicate_window")->setEnabled( true );
     action("open_location")->setEnabled( true );
     action("toolbar_url_combo")->setEnabled( true );
+    m_pamLoadViewProfile->setEnabled( true );
     m_combo->clear();
     action("clear_location")->setEnabled( true );
     action("animated_logo")->setEnabled( true );
