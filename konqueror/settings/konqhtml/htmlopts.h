@@ -49,6 +49,7 @@ private:
     QRadioButton *m_pUnderlineRadio[3];
     QCheckBox* cbCursor;
     QCheckBox* m_pAutoLoadImagesCheckBox;
+    QCheckBox* m_pBackRightClick;
     QCheckBox* m_pEnableFaviconCheckBox;
     QCheckBox* m_pFormCompletionCheckBox;
     KIntNumInput* m_pMaxFormCompletionItems;

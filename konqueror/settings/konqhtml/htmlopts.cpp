@@ -79,6 +79,12 @@ KMiscHTMLOptions::KMiscHTMLOptions(KConfig *config, QString group, QWidget *pare
     connect(m_pAutoLoadImagesCheckBox, SIGNAL(clicked()), this, SLOT(changed()));
     lay->addWidget( m_pAutoLoadImagesCheckBox, 1 );
 
+    m_pBackRightClick = new QCheckBox( i18n( "Right click goes back in history" ), this );
+    QWhatsThis::add( m_pBackRightClick, i18n(
+      "If this box is checked, you can go back in history by right clicking on a Konqueror view. "
+      "To access the context menu, press the right mouse button and move." ) );
+    lay->addWidget( m_pBackRightClick, 1 );
+
 /*  Tackat doesn't want too much options :)
 
     m_pEnableFaviconCheckBox = new QCheckBox( i18n( "Enable \"&favorite icon\" support" ), this );
@@ -97,6 +103,8 @@ KMiscHTMLOptions::KMiscHTMLOptions(KConfig *config, QString group, QWidget *pare
 void KMiscHTMLOptions::load()
 {
     // *** load ***
+    m_pConfig->setGroup( "MainView Settings" );
+    bool bBackRightClick = m_pConfig->readBoolEntry( "BackRightClick", false );
     m_pConfig->setGroup( "HTML Settings" );
     bool changeCursor = m_pConfig->readBoolEntry("ChangeCursor", KDE_DEFAULT_CHANGECURSOR);
     bool underlineLinks = m_pConfig->readBoolEntry("UnderlineLinks", DEFAULT_UNDERLINELINKS);
@@ -106,6 +114,7 @@ void KMiscHTMLOptions::load()
     // *** apply to GUI ***
     cbCursor->setChecked( changeCursor );
     m_pAutoLoadImagesCheckBox->setChecked( bAutoLoadImages );
+    m_pBackRightClick->setChecked( bBackRightClick );
 
     // we use two keys for link underlining so that this config file
     // is backwards compatible with KDE 2.0.  the HoverLink setting
@@ -134,10 +143,13 @@ void KMiscHTMLOptions::defaults()
     m_pUnderlineRadio[Always]->setChecked( true );
     m_pFormCompletionCheckBox->setChecked(true);
     m_pMaxFormCompletionItems->setEnabled( true );
+    m_pBackRightClick->setChecked( false );
 }
 
 void KMiscHTMLOptions::save()
 {
+    m_pConfig->setGroup( "MainView Settings" );
+    m_pConfig->writeEntry( "BackRightClick", m_pBackRightClick->isChecked() );
     m_pConfig->setGroup( "HTML Settings" );
     m_pConfig->writeEntry( "ChangeCursor", cbCursor->isChecked() );
     m_pConfig->writeEntry( "AutoLoadImages", m_pAutoLoadImagesCheckBox->isChecked() );
