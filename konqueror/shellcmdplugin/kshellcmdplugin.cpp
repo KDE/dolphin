@@ -45,13 +45,24 @@ void KShellCmdPlugin::slotExecuteShellCommand()
       KMessageBox::sorry(part->widget(),i18n("Executing shell commands works only on local directories."));
       return;
    }
-   KLineEditDlg l(i18n("Execute shell command:"),part->currentItem(), part->widget() );
-   //KLineEditDlg l( i18n("Execute shell command:"), m_pListView->currentItem()?m_pListView->url().path()+QString("/")+m_pListView->currentItem()->text(0):"", m_pListView );
+   bool isLocal = part->url().isLocalFile();
+   QString defaultValue;
+   if ( part->currentItem() )
+      // Putting the complete path to the selected file isn't really necessary, since
+      // we'll cd to the directory first (if isLocal).
+      defaultValue = isLocal ? part->currentItem()->name() : part->currentItem()->url().prettyURL();
+   else
+      defaultValue = isLocal ? part->url().path() : part->url().prettyURL();
+   KLineEditDlg l(i18n("Execute shell command:"), defaultValue, part->widget() );
    if ( l.exec() )
    {
-      QString chDir="cd ";
-      chDir+=part->url().path();
-      chDir+="; ";
+      QString chDir;
+      if ( isLocal )
+      {
+         chDir="cd ";
+         chDir+=part->url().path();
+         chDir+="; ";
+      }
       chDir+=l.text();
 
       KShellCommandDialog *shellCmdDialog=new KShellCommandDialog(i18n("Output from command: \"%1\"").arg(l.text()),chDir,part->widget(),true);
