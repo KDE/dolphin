@@ -63,8 +63,10 @@ void KonqFMSettings::init( KConfig * config )
   // Fonts and colors
   m_standardFont = config->readFontEntry( "StandardFont" );
 
-  m_normalTextColor = config->readColorEntry( "NormalTextColor", &FM_DEFAULT_TXT_COLOR );
-  m_highlightedTextColor = config->readColorEntry( "HighlightedTextColor", &FM_DEFAULT_HIGHLIGHTED_TXT_COLOR );
+  m_normalTextColor = KGlobalSettings::textColor();
+  m_normalTextColor = config->readColorEntry( "NormalTextColor", &m_normalTextColor );
+  m_highlightedTextColor = KGlobalSettings::highlightedTextColor();
+  m_highlightedTextColor = config->readColorEntry( "HighlightedTextColor", &m_highlightedTextColor );
   m_bWordWrapText = config->readBoolEntry( "WordWrapText", DEFAULT_WORDWRAPTEXT );
 
   // Behaviour
