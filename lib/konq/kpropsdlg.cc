@@ -29,7 +29,7 @@
  * the rest of the layout management, bug fixes, adaptation to libkio,
  * template feature by
  *  David Faure <faure@kde.org>
- * More layout and cleanups by 
+ * More layout and cleanups by
  *  Preston Brown <pbrown@kde.org>
  */
 
@@ -50,6 +50,7 @@
 #include <qcheckbox.h>
 #include <qstrlist.h>
 #include <qstringlist.h>
+#include <qtextstream.h>
 #include <qpainter.h>
 #include <qlayout.h>
 
@@ -82,7 +83,7 @@ mode_t FilePermissionsPropsPage::fperm[3][4] = {
     };
 
 PropertiesDialog::PropertiesDialog( KFileItemList _items ) :
-  m_singleUrl( _items.first()->url() ), m_items( _items ), 
+  m_singleUrl( _items.first()->url() ), m_items( _items ),
   m_bMustDestroyItems( false )
 {
   init();
@@ -278,7 +279,7 @@ bool PropsPage::isDesktopFile( KFileItem * _item )
 
 ///////////////////////////////////////////////////////////////////////////////
 
-FilePropsPage::FilePropsPage( PropertiesDialog *_props ) 
+FilePropsPage::FilePropsPage( PropertiesDialog *_props )
   : PropsPage( _props )
 {
   m_bFromTemplate = false;
@@ -288,10 +289,10 @@ FilePropsPage::FilePropsPage( PropertiesDialog *_props )
     filename = properties->kurl().filename();
   else
     m_bFromTemplate = true;
-  
+
   // Make it human-readable (%2F => '/', ...)
   filename = KFileItem::decodeFileName( filename );
-  
+
   bool isTrash = false;
   QString path, directory;
 
@@ -300,7 +301,7 @@ FilePropsPage::FilePropsPage( PropertiesDialog *_props )
     // is it the trash bin ?
     if ( properties->kurl().isLocalFile() && tmp == KUserPaths::trashPath())
       isTrash = true;
-    
+
     // Extract the full name, but without file: for local files
     if ( properties->kurl().isLocalFile() )
       path = properties->kurl().path();
@@ -312,7 +313,7 @@ FilePropsPage::FilePropsPage( PropertiesDialog *_props )
     directory = properties->currentDir();
   }
 
-  if (ExecPropsPage::supports(properties->items()) || 
+  if (ExecPropsPage::supports(properties->items()) ||
       BindingPropsPage::supports(properties->items())) {
     m_sRelativePath = "";
     // now let's make it relative
@@ -328,7 +329,7 @@ FilePropsPage::FilePropsPage( PropertiesDialog *_props )
       if ( path.find( *it ) == 0 ) // path is dirs + relativePath
 	m_sRelativePath = path.mid( (*it).length() ); // skip appsdirs
     }
-    if ( m_sRelativePath.isEmpty() )  
+    if ( m_sRelativePath.isEmpty() )
     {
       if (BindingPropsPage::supports(properties->items()))
         kdebug(KDEBUG_WARN,1202,"Warning : editing a mimetype file out of the mimetype dirs!");
@@ -345,7 +346,7 @@ FilePropsPage::FilePropsPage( PropertiesDialog *_props )
   vbl->addLayout(grid);
   int curRow = 0;
 
-  if (isDesktopFile(properties->item()) || 
+  if (isDesktopFile(properties->item()) ||
       properties->item()->mimetype() == "inode/directory") {
 
     KIconLoaderButton *iconButton = new KIconLoaderButton(KGlobal::iconLoader(), this);
@@ -367,7 +368,7 @@ FilePropsPage::FilePropsPage( PropertiesDialog *_props )
     iconArea = iconLabel;
   }
   grid->addWidget(iconArea, curRow, 0, AlignLeft);
-  
+
   if (isTrash || filename == "/") {
     QLabel *lab = new QLabel(filename, this);
     nameArea = lab;
@@ -376,7 +377,7 @@ FilePropsPage::FilePropsPage( PropertiesDialog *_props )
     lined->setText(filename);
     nameArea = lined;
   }
-  
+
   grid->addWidget(nameArea, curRow++, 2);
   oldName = filename;
 
@@ -391,10 +392,10 @@ FilePropsPage::FilePropsPage( PropertiesDialog *_props )
   QString tempstr = properties->item()->mimeComment();
   l = new QLabel(properties->item()->mimeComment(), this);
   grid->addWidget(l, curRow++, 2);
-  
+
   l = new QLabel( i18n("Location:"), this);
   grid->addWidget(l, curRow, 0);
-  
+
   l = new QLabel(this);
   l->setText( directory );
   grid->addWidget(l, curRow++, 2);
@@ -402,12 +403,12 @@ FilePropsPage::FilePropsPage( PropertiesDialog *_props )
   if (S_ISREG(properties->item()->mode())) {
     l = new QLabel(i18n("Size:"), this);
     grid->addWidget(l, curRow, 0);
-    
+
     int size = properties->item()->size();
     if (size > 1024*1024) {
       tempstr = i18n("%1MB ").arg(KGlobal::locale()->formatNumber(ROUND(size/(1024*1024.0)), 0));
       tempstr += i18n("(%1 bytes)").arg(KGlobal::locale()->formatNumber(size, 0));
-      
+
     } else if (size > 1024) {
       tempstr = i18n("%1KB ").arg(KGlobal::locale()->formatNumber(ROUND(size/1024.0), 2));
       tempstr += i18n("(%1 bytes)").arg(KGlobal::locale()->formatNumber(size, 0));
@@ -429,7 +430,7 @@ FilePropsPage::FilePropsPage( PropertiesDialog *_props )
   l->setFrameStyle(QFrame::HLine|QFrame::Sunken);
   grid->addMultiCellWidget(l, curRow, curRow, 0, 2);
   ++curRow;
-  
+
   grid = new QGridLayout(0, 3); // unknown # of rows
   grid->setColStretch(2, 1);
   grid->addColSpacing(1, KDialog::spacingHint());
@@ -438,11 +439,11 @@ FilePropsPage::FilePropsPage( PropertiesDialog *_props )
 
   l = new QLabel(i18n("Created:"), this);
   grid->addWidget(l, curRow, 0);
-  
+
   tempstr = properties->item()->time(KIO::UDS_CREATION_TIME);
   l = new QLabel(tempstr, this);
   grid->addWidget(l, curRow++, 2);
-  
+
   l = new QLabel(i18n("Modified:"), this);
   grid->addWidget(l, curRow, 0);
 
@@ -473,17 +474,17 @@ void FilePropsPage::applyChanges()
     n = KFileItem::encodeFileName(((QLabel *) nameArea)->text());
   else
     n = KFileItem::encodeFileName(((QLineEdit *) nameArea)->text());
-  
+
   // Do we need to rename the file ?
   if ( oldName != n || m_bFromTemplate ) { // true for any from-template file
     QString oldpath = properties->kurl().path(-1);
     // Tell properties. Warning, this changes the result of properties->kurl() !
     properties->rename( n );
-    
+
     // Don't remove the template !!
     if ( !m_bFromTemplate ) {
       if ( rename( oldpath, properties->kurl().path(-1) ) != 0 )
-	KMessageBox::sorry(this, 
+	KMessageBox::sorry(this,
 			   i18n("Could not rename file or directory\n%1\nto\n%2\n")
                            .arg(oldpath).arg(properties->kurl().path(-1)));
     }
@@ -505,11 +506,11 @@ void FilePropsPage::applyChanges()
   if (!iconArea->isA("QLabel")) {
     KIconLoaderButton *iconButton = (KIconLoaderButton *) iconArea;
     QString path;
-    
+
     if (properties->item()->mimetype() == "inode/directory")
     {
       path = properties->kurl().path(1) + ".directory";
-      // don't call updateUrl because the other tabs (i.e. permissions) 
+      // don't call updateUrl because the other tabs (i.e. permissions)
       // apply to the directory, not the .directory file.
     }
     else
@@ -525,7 +526,7 @@ void FilePropsPage::applyChanges()
     KDesktopFile cfg(path);
     // Get the default image
     QString str = KMimeType::findByURL( properties->kurl(),
-					properties->item()->mode(), 
+					properties->item()->mode(),
 					true )->KServiceType::icon();
     // Is it another one than the default ?
     QString sIcon;
@@ -564,12 +565,12 @@ FilePermissionsPropsPage::FilePermissionsPropsPage( PropertiesDialog *_props )
     lstat( path.ascii(), &buff ); // display uid/gid of the link, if it's a link
     user = getpwuid( buff.st_uid );
     ge = getgrgid( buff.st_gid );
-      
+
     isMyFile = (geteuid() == buff.st_uid);
-    if ( user != 0L ) 
+    if ( user != 0L )
       strOwner = user->pw_name;
 
-      
+
     if ( ge != 0L ) {
       strGroup = ge->gr_name;
       if (strGroup.isEmpty())
@@ -749,13 +750,13 @@ void FilePermissionsPropsPage::applyChanges()
 {
   QString path = properties->kurl().path();
   QString fname = properties->kurl().filename();
-  
+
   mode_t p = 0L;
   for (int row = 0;row < 3; ++row)
     for (int col = 0; col < 4; ++col)
       if (permBox[row][col]->isChecked())
 	p |= fperm[row][col];
-  
+
   // First update group / owner
   // (permissions have to set after, in case of suid and sgid)
   if ( owner->text() != strOwner ||
@@ -766,7 +767,7 @@ void FilePermissionsPropsPage::applyChanges()
       g = getgrnam( grp->text(grp->currentItem()) );
     else
       g = 0L;
-    
+
     if ( pw == 0L ) {
       kdebug(KDEBUG_ERROR,1202," ERROR: No user %s",(const char*)owner->text());
       return;
@@ -779,7 +780,7 @@ void FilePermissionsPropsPage::applyChanges()
     if ( chown( path, pw->pw_uid, g->gr_gid ) != 0 )
       KMessageBox::sorry( 0, i18n( "Could not change owner/group\nPerhaps access denied." ));
   }
-  
+
   debug("permissions : %d", permissions);
   debug("p : %d", p);
   debug("path : %s", path.ascii());
@@ -796,7 +797,7 @@ void FilePermissionsPropsPage::applyChanges()
 
 }
 
-ExecPropsPage::ExecPropsPage( PropertiesDialog *_props ) 
+ExecPropsPage::ExecPropsPage( PropertiesDialog *_props )
   : PropsPage( _props )
 {
   QVBoxLayout * mainlayout = new QVBoxLayout(this, KDialog::spacingHint());
@@ -931,7 +932,7 @@ bool ExecPropsPage::supports( KFileItemList _items )
 void ExecPropsPage::applyChanges()
 {
   QString path = properties->kurl().path();
-    
+
   QFile f( path );
 
   if ( !f.open( IO_ReadWrite ) ) {
@@ -957,11 +958,11 @@ void ExecPropsPage::slotBrowseExec()
 					    QString::null, this );
   if ( f.isNull() )
     return;
-  
+
   execEdit->setText( f );
 }
 
-URLPropsPage::URLPropsPage( PropertiesDialog *_props ) 
+URLPropsPage::URLPropsPage( PropertiesDialog *_props )
   : PropsPage( _props )
 {
   QVBoxLayout * layout = new QVBoxLayout(this, KDialog::spacingHint());
@@ -1006,7 +1007,7 @@ bool URLPropsPage::supports( KFileItemList _items )
 void URLPropsPage::applyChanges()
 {
   QString path = properties->kurl().path();
-  
+
   QFile f( path );
   if ( !f.open( IO_ReadWrite ) ) {
     KMessageBox::sorry( 0, i18n("Could not save properties\nYou most likely do not have access to write to %1.").arg(path));
@@ -1026,7 +1027,7 @@ void URLPropsPage::applyChanges()
  *
  * -------------------------------------------------- */
 
-ApplicationPropsPage::ApplicationPropsPage( PropertiesDialog *_props ) 
+ApplicationPropsPage::ApplicationPropsPage( PropertiesDialog *_props )
   : PropsPage( _props )
 {
   QVBoxLayout *toplayout = new QVBoxLayout(this, KDialog::spacingHint());
@@ -1034,7 +1035,7 @@ ApplicationPropsPage::ApplicationPropsPage( PropertiesDialog *_props )
   availableExtensionsList = new QListBox( this );
   addExtensionButton = new QPushButton( "<<", this );
   delExtensionButton = new QPushButton( ">>", this );
-  
+
   QLabel *l;
 
   QGridLayout *grid = new QGridLayout(2, 2);
@@ -1104,7 +1105,7 @@ ApplicationPropsPage::ApplicationPropsPage( PropertiesDialog *_props )
   addMimeType( "all" );
   addMimeType( "alldirs" );
   addMimeType( "allfiles" );
-  
+
   KMimeType::List mimeTypes = KMimeType::allMimeTypes();
   QValueListIterator<KMimeType::Ptr> it2 = mimeTypes.begin();
   for ( ; it2 != mimeTypes.end(); ++it2 )
@@ -1114,13 +1115,13 @@ ApplicationPropsPage::ApplicationPropsPage( PropertiesDialog *_props )
 void ApplicationPropsPage::addMimeType( const char * name )
 {
   // Add a mimetype to the list of available mime types if not in the extensionsList
-  
+
   bool insert = true;
-  
+
   for ( uint i = 0; i < extensionsList->count(); i++ )
     if ( strcmp( name, extensionsList->text( i ) ) == 0 )
       insert = false;
-  
+
   if ( insert )
     availableExtensionsList->inSort( name );
 }
@@ -1134,9 +1135,9 @@ bool ApplicationPropsPage::supports( KFileItemList _items )
 void ApplicationPropsPage::applyChanges()
 {
   QString path = properties->kurl().path();
-  
+
   QFile f( path );
-  
+
   if ( !f.open( IO_ReadWrite ) ) {
     KMessageBox::sorry( 0, i18n("Could not save properties\nYou most likely do not have access to write to %1.").arg(path));
     return;
@@ -1147,14 +1148,14 @@ void ApplicationPropsPage::applyChanges()
   config.setDesktopGroup();
   config.writeEntry( "Type", "Application");
   config.writeEntry( "Comment", commentEdit->text(), true, false, true );
-  
+
   extensions.clear();
   for ( uint i = 0; i < extensionsList->count(); i++ )
     extensions.append( extensionsList->text( i ) );
-  
+
   config.writeEntry( "MimeType", extensions );
   config.writeEntry( "Name", nameEdit->text(), true, false, true );
-  
+
   config.sync();
   f.close();
 }
@@ -1162,10 +1163,10 @@ void ApplicationPropsPage::applyChanges()
 void ApplicationPropsPage::slotAddExtension()
 {
   int pos = availableExtensionsList->currentItem();
-  
+
   if ( pos == -1 )
     return;
-  
+
   extensionsList->inSort( availableExtensionsList->text( pos ) );
   availableExtensionsList->removeItem( pos );
 }
@@ -1173,10 +1174,10 @@ void ApplicationPropsPage::slotAddExtension()
 void ApplicationPropsPage::slotDelExtension()
 {
   int pos = extensionsList->currentItem();
-  
+
   if ( pos == -1 )
     return;
-  
+
   availableExtensionsList->inSort( extensionsList->text( pos ) );
   extensionsList->removeItem( pos );
 }
@@ -1307,52 +1308,94 @@ void BindingPropsPage::applyChanges()
 
 DevicePropsPage::DevicePropsPage( PropertiesDialog *_props ) : PropsPage( _props )
 {
-  bool IamRoot = (geteuid() == 0);
+  IamRoot = (geteuid() == 0);
+
+  QStringList devices;
+  QString fstabFile;
+  if ( QFile::exists("/etc/fstab") )
+    fstabFile = "/etc/fstab";
+  // insert your favorite location for fstab here
+  if ( !fstabFile.isEmpty() )
+  {
+    QFile f( fstabFile );
+    f.open( IO_ReadOnly );
+    QTextStream stream( &f );
+    while ( !stream.eof() )
+    {
+      QString line = stream.readLine();
+      line = line.simplifyWhiteSpace();
+      if (!line.isEmpty() && line[0] == '/') // skip comments but also
+        // anything else (nfs mounts, 'none', ...)
+      {
+        //debug(QString("'%1'").arg(line));
+        QStringList lst = QStringList::split( ' ', line );
+        if ( lst.count() > 2 && lst[0] != "/proc" && lst[1] != "none" )
+        {
+          //debug(QString("******** '%1'  '%2'").arg(lst[0]).arg(lst[1]));
+          devices.append( lst[0]+" ("+lst[1]+")" );
+          m_devicelist.append( line );
+        }
+      }
+    }
+    f.close();
+  }
+
 
   QLabel* tmpQLabel;
-  tmpQLabel = new QLabel( this, "Label_1" );
+  tmpQLabel = new QLabel( this );
   tmpQLabel->move( 10, 10 );
-  tmpQLabel->setText(  i18n("Device ( /dev/fd0 )") );
+  tmpQLabel->setText( devices.count()==0 ?
+                      i18n("Device ( /dev/fd0 )") : // old style
+                      i18n("Device") ); // new style (combobox)
   tmpQLabel->adjustSize();
 
+  /*
   device = new KLineEdit( this, "LineEdit_1" );
   device->setGeometry( 10, 40, 180, 30 );
   device->setText( "" );
+  */
+  device = new QComboBox( true, this, "ComboBox_device" );
+  device->setGeometry( 10, 40, 180, 30 );
+  device->insertStringList( devices );
+  connect( device, SIGNAL( activated( int ) ),
+           this, SLOT( slotActivated( int ) ) );
 
-  tmpQLabel = new QLabel( this, "Label_2" );
+  tmpQLabel = new QLabel( this );
   tmpQLabel->move( 10, 80 );
-  tmpQLabel->setText(  i18n("Mount Point ( /floppy )") );
+  tmpQLabel->setText( devices.count()==0 ?
+                      i18n("Mount Point ( /floppy )") : // old style
+                      i18n("Mount Point")); // new style (combobox)
   tmpQLabel->adjustSize();
 
-  mountpoint = new KLineEdit( this, "LineEdit_2" );
+  mountpoint = new KLineEdit( this, "LineEdit_mountpoint" );
   mountpoint->setGeometry( 10, 110, 180, 30 );
   mountpoint->setText( "" );
   if ( !IamRoot )
     mountpoint->setEnabled( false );
 
-  readonly = new QCheckBox( this, "CheckBox_1" );
+  readonly = new QCheckBox( this, "CheckBox_readonly" );
   readonly->setGeometry( 220, 40, 130, 30 );
   readonly->setText(  i18n("Readonly") );
   if ( !IamRoot )
     readonly->setEnabled( false );
 
-  tmpQLabel = new QLabel( this, "Label_4" );
+  tmpQLabel = new QLabel( this );
   tmpQLabel->move( 10, 150 );
-  tmpQLabel->setText(  i18n("Filesystems ( iso9660,msdos,minix,default )") );
+  tmpQLabel->setText(  i18n("File system") );
   tmpQLabel->adjustSize();
 
-  fstype = new KLineEdit( this, "LineEdit_3" );
+  fstype = new KLineEdit( this, "LineEdit_fstype" );
   fstype->setGeometry( 10, 180, 280, 30 );
   fstype->setText( "" );
   if ( !IamRoot )
     fstype->setEnabled( false );
 
-  //tmpQLabel = new QLabel( this, "Label_5" );
+  //tmpQLabel = new QLabel( this );
   //tmpQLabel->move( 10, 220 );
   //tmpQLabel->setText(  i18n("Mounted Icon") );
   //tmpQLabel->adjustSize();
 
-  tmpQLabel = new QLabel( this, "Label_6" );
+  tmpQLabel = new QLabel( this );
   tmpQLabel->move( 10 /*170*/, 220 );
   tmpQLabel->setText(  i18n("Unmounted Icon") );
   tmpQLabel->adjustSize();
@@ -1374,18 +1417,34 @@ DevicePropsPage::DevicePropsPage( PropertiesDialog *_props ) : PropsPage( _props
 
   KSimpleConfig config( path );
   config.setDesktopGroup();
-  deviceStr = config.readEntry( "Dev" );
-  mountPointStr = config.readEntry( "MountPoint" );
-  readonlyStr = config.readEntry( "ReadOnly" );
-  fstypeStr = config.readEntry( "FSType" );
-  // mountedStr = config.readEntry( "Icon" );
-  unmountedStr = config.readEntry( "UnmountIcon" );
+  QString deviceStr = config.readEntry( "Dev" );
+  QString mountPointStr = config.readEntry( "MountPoint" );
+  QString readonlyStr = config.readEntry( "ReadOnly" );
+  QString fstypeStr = config.readEntry( "FSType" );
+  // QString mountedStr = config.readEntry( "Icon" );
+  QString unmountedStr = config.readEntry( "UnmountIcon" );
 
-  if ( !deviceStr.isNull() )
-    device->setText( deviceStr );
-  if ( !mountPointStr.isNull() )
+  if ( !deviceStr.isEmpty() )
+  {
+    device->setEditText( deviceStr );
+    // Set default options for this device (first matching entry)
+    int index = 0;
+    debug(QString("looking for %1").arg(deviceStr));
+    for ( QStringList::Iterator it = m_devicelist.begin();
+          it != m_devicelist.end(); ++it, ++index )
+    {
+      qDebug( (*it).left( deviceStr.length() ) );
+      if ( (*it).left( deviceStr.length() ) == deviceStr )
+      {
+        qDebug( "found it %d", index );
+        slotActivated( index );
+        break;
+      }
+    }
+  }
+  if ( !mountPointStr.isEmpty() )
     mountpoint->setText( mountPointStr );
-  if ( !fstypeStr.isNull() )
+  if ( !fstypeStr.isEmpty() )
     fstype->setText( fstypeStr );
   if ( readonlyStr == "0" )
     readonly->setChecked( false );
@@ -1398,6 +1457,14 @@ DevicePropsPage::DevicePropsPage( PropertiesDialog *_props ) : PropsPage( _props
 
   //mounted->setIcon( mountedStr );
   unmounted->setIcon( unmountedStr );
+}
+
+void DevicePropsPage::slotActivated( int index )
+{
+  QStringList lst = QStringList::split( ' ', m_devicelist[index] );
+  device->setEditText( lst[0] );
+  mountpoint->setText( lst[1] );
+  fstype->setText( lst[2] );
 }
 
 bool DevicePropsPage::supports( KFileItemList _items )
@@ -1426,9 +1493,12 @@ void DevicePropsPage::applyChanges()
   config.setDesktopGroup();
   config.writeEntry( "Type", "FSDev" );
 
-  config.writeEntry( "Dev", device->text() );
-  config.writeEntry( "MountPoint", mountpoint->text() );
-  config.writeEntry( "FSType", fstype->text() );
+  config.writeEntry( "Dev", device->currentText() );
+  if ( IamRoot )
+  {
+    config.writeEntry( "MountPoint", mountpoint->text() );
+    config.writeEntry( "FSType", fstype->text() );
+  }
 
   //config.writeEntry( "Icon", mounted->icon() );
   config.writeEntry( "UnmountIcon", unmounted->icon() );

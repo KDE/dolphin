@@ -72,27 +72,27 @@ public:
 
   /**
    * Bring up a Properties dialog. Normal constructor for
-   * file-manager-like applications.  
-   * 
+   * file-manager-like applications.
+   *
    * @param _items list of file items whose properties should be
    * displayed. NOTE : the current limitations of PropertiesDialog
-   * makes it use only the FIRST item in the list 
-   * 
+   * makes it use only the FIRST item in the list
+   *
    */
   PropertiesDialog( KFileItemList _items );
-  /** 
+  /**
    * Bring up a Properties dialog. Convenience constructor for
    * non-file-manager applications.
-   * 
+   *
    * @param _url the URL whose properties should be displayed
    * @param _mode the mode, as returned by stat(). Don't set if unknown.  */
   PropertiesDialog( const QString& _url, mode_t _mode = (mode_t) -1 );
 
-  /** 
+  /**
    * Create a properties dialog for a new .desktop file (whose name
    * is not known yet), based on a template. Special constructor for
    * "File / New" in file-manager applications.
-   * 
+   *
    * @param _templUrl template used for reading only
    * @param _currentDir directory where the file will be written to
    * @param _defaultName something to put in the name field, like mimetype.desktop */
@@ -111,7 +111,7 @@ public:
    *
    * To create a new page type, inherit from the base class PropsPage
    * and implement all the methods.
-   * 
+   *
    * @param page is a pointer to the PropsPage widget.  The Properties
    *        dialog will do destruction for you.  The PropsPage MUST
    *        have been created with the Properties Dialog as its parent.
@@ -130,7 +130,7 @@ public:
    * HACK : returns the first item of the list
    */
   KFileItem *item() { return m_items.first(); }
-  
+
   KFileItemList items() const { return m_items; }
 
   /**
@@ -179,7 +179,7 @@ signals:
   void propertiesClosed();
   void applied();
   void canceled();
-    
+
 protected:
 
   /**
@@ -278,7 +278,7 @@ public:
    * page in the dialog, since this function may rename the file which
    * may confuse other applyChanges functions. When this page is the
    * first one this means that this applyChanges function is the last
-   * one called.  
+   * one called.
    */
   virtual void applyChanges();
 
@@ -507,23 +507,22 @@ public:
 
   static bool supports( KFileItemList _items );
 
+protected slots:
+  void slotActivated( int );
+
 protected:
-  QLineEdit* device;
+  QComboBox* device;
   QLineEdit* mountpoint;
   QCheckBox* readonly;
   QLineEdit* fstype;
   //KIconLoaderButton* mounted;
   KIconLoaderButton* unmounted;
 
+  bool IamRoot;
+
+  QStringList m_devicelist;
   QPixmap pixmap;
   QString pixmapFile;
-
-  QString deviceStr;
-  QString mountPointStr;
-  //QString mountedStr;
-  QString unmountedStr;
-  QString readonlyStr;
-  QString fstypeStr;
 };
 
 #endif
