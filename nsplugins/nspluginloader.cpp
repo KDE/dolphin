@@ -79,7 +79,9 @@ void NSPluginInstance::resizeEvent(QResizeEvent *event)
   if (shown == false)
      return;
   EMBEDCLASS::resizeEvent(event);
-  resizePlugin(width(), height());
+  if (isVisible()) {
+    resizePlugin(width(), height());
+  }
   kdDebug() << "NSPluginInstance(client)::resizeEvent" << endl;
 }
 
