@@ -302,7 +302,7 @@ void KRootOptions::fillDevicesListView()
     QValueListIterator<KMimeType::Ptr> it2(mimetypes.begin());
     g_pConfig->setGroup( "Devices" );
     enableDevicesBox->setChecked(g_pConfig->readBoolEntry("enabled",true));
-    QString excludedDevices=g_pConfig->readEntry("exclude","kdedevice/hdd_mounted;kdedevice/hdd_unmounted;kdedevice/floppy_unmounted;kdedevice/cdrom_unmounted;kdedevice/floppy5_unmounted");
+    QString excludedDevices=g_pConfig->readEntry("exclude","kdedevice/hdd_mounted,kdedevice/hdd_unmounted,kdedevice/floppy_unmounted,kdedevice/cdrom_unmounted,kdedevice/floppy5_unmounted");
     for (; it2 != mimetypes.end(); ++it2) {
 	if ((*it2)->name().startsWith("kdedevice/"))
 	{
