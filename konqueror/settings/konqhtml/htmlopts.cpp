@@ -92,7 +92,7 @@ KAppearanceOptions::KAppearanceOptions(KConfig *config, QString group, QWidget *
   lay->addMultiCellWidget(m_pChset,r, r, M, W);
   connect( m_pChset, SIGNAL( activated(const QString& ) ),
 	   SLOT( slotCharset(const QString&) ) );
-  
+
   QLabel* label = new QLabel( i18n("S&tandard Font"), this );
   lay->addWidget( label , ++r, E+1);
 
@@ -292,7 +292,7 @@ void KAppearanceOptions::load()
     defaultFonts.append( m_pConfig->readEntry( "FantasyFont", HTML_DEFAULT_VIEW_FANTASY_FONT ) );
     for ( QStringList::Iterator it = chSets.begin(); it != chSets.end(); ++it ) {
 	fonts = m_pConfig->readListEntry( *it );
-	if( fonts.count() != 6 ) 
+	if( fonts.count() != 6 )
 	    fonts = defaultFonts;
 	fontsForCharset.insert( *it, fonts );
     }
@@ -314,11 +314,11 @@ void KAppearanceOptions::defaults()
 
 void KAppearanceOptions::updateGUI()
 {
-    //kdDebug() << "KAppearanceOptions::updateGUI " << charset << endl; 
+    //kdDebug() << "KAppearanceOptions::updateGUI " << charset << endl;
     int i;
     fonts = fontsForCharset[charset];
     if(fonts.count() != 6) {
-	kdDebug() << "fonts wrong" << endl; 
+	kdDebug() << "fonts wrong" << endl;
 	fonts = defaultFonts;
     }
 
@@ -326,7 +326,7 @@ void KAppearanceOptions::updateGUI()
     //kdDebug() << s->xNameToID( charset ) << endl;
     QStringList families = s->availableFamilies( s->xNameToID( charset ) );
     families.sort();
-    
+
     m_pStandard->clear();
     m_pStandard->insertStringList( families );
     i = 0;
@@ -392,18 +392,18 @@ void KAppearanceOptions::updateGUI()
 void KAppearanceOptions::save()
 {
     fontsForCharset[charset] = fonts;
-    
-    m_pConfig->setGroup(m_groupname);			
+
+    m_pConfig->setGroup(m_groupname);
     m_pConfig->writeEntry( "FontSize", fSize );
-    m_pConfig->writeEntry( "MinimumFontSize", fMinSize );                      
+    m_pConfig->writeEntry( "MinimumFontSize", fMinSize );
 
     QMap<QString, QStringList>::Iterator it;
     for( it = fontsForCharset.begin(); it != fontsForCharset.end(); ++it ) {
-	//kdDebug() << "KAppearanceOptions::save "<< it.key() << endl; 
-	//kdDebug() << "         "<< it.data().join(",") << endl; 
+	//kdDebug() << "KAppearanceOptions::save "<< it.key() << endl;
+	//kdDebug() << "         "<< it.data().join(",") << endl;
 	m_pConfig->writeEntry( it.key(), it.data() );
     }
-    
+
     // If the user chose "Use language encoding", write an empty string
     if (encodingName == i18n("Use language encoding"))
         encodingName = "";
@@ -449,7 +449,7 @@ KJavaScriptOptions::KJavaScriptOptions( KConfig* config, QString group, QWidget 
   QHBox* domainSpecificHB = new QHBox( domainSpecificGB );
   domainSpecificHB->setSpacing( 10 );
   domainSpecificLV = new KListView( domainSpecificHB );
-  domainSpecificLV->addColumn(i18n("Hostname"));
+  domainSpecificLV->addColumn(i18n("Host/Domain"));
   domainSpecificLV->addColumn(i18n("Java Policy"), 100);
   domainSpecificLV->addColumn(i18n("JavaScript Policy"), 120);
   QString wtstr = i18n("This box contains the domains and hosts you have set "
@@ -463,24 +463,24 @@ KJavaScriptOptions::KJavaScriptOptions( KConfig* config, QString group, QWidget 
   QVBox* domainSpecificVB = new QVBox( domainSpecificHB );
   domainSpecificVB->setSpacing( 10 );
   QPushButton* addDomainPB = new QPushButton( i18n("Add..."), domainSpecificVB );
-  QWhatsThis::add( addDomainPB, i18n("Click on this button to manually add a domain-"
+  QWhatsThis::add( addDomainPB, i18n("Click on this button to manually add a host or domain "
                                      "specific policy.") );
   connect( addDomainPB, SIGNAL(clicked()), SLOT( addPressed() ) );
 
   QPushButton* changeDomainPB = new QPushButton( i18n("Change..."), domainSpecificVB );
   QWhatsThis::add( changeDomainPB, i18n("Click on this button to change the policy for the "
-                                        "domain selected in the list box.") );
+                                        "host or domain selected in the list box.") );
   connect( changeDomainPB, SIGNAL( clicked() ), this, SLOT( changePressed() ) );
 
   QPushButton* deleteDomainPB = new QPushButton( i18n("Delete"), domainSpecificVB );
   QWhatsThis::add( deleteDomainPB, i18n("Click on this button to change the policy for the "
-                                        "domain selected in the list box.") );
+                                        "host or domain selected in the list box.") );
   connect( deleteDomainPB, SIGNAL( clicked() ), this, SLOT( deletePressed() ) );
 
   QPushButton* importDomainPB = new QPushButton( i18n("Import..."), domainSpecificVB );
   QWhatsThis::add( importDomainPB, i18n("Click this button to choose the file that contains "
                                         "the JavaScript policies.  These policies will be merged "
-                                        "with the exisiting ones.  Duplicate enteries are ignored.") );
+                                        "with the exisiting ones.  Duplicate entries are ignored.") );
   connect( importDomainPB, SIGNAL( clicked() ), this, SLOT( importPressed() ) );
   importDomainPB->setEnabled( false );
 
@@ -493,11 +493,11 @@ KJavaScriptOptions::KJavaScriptOptions( KConfig* config, QString group, QWidget 
   exportDomainPB->setEnabled( false );
 
   QWhatsThis::add( domainSpecificGB, i18n("Here you can set specific JavaScript policies for any particular "
-                                          "domain. To add a new policy, simply click the <i>Add...</i> "
+                                          "host or domain. To add a new policy, simply click the <i>Add...</i> "
                                           "button and supply the necessary information requested by the "
-                                          "dialog box. To change an exisiting policy, click on the <i>Change...</i> "
+                                          "dialog box. To change an existing policy, click on the <i>Change...</i> "
                                           "button and choose the new policy from the policy dialog box.  Clicking "
-                                          "on the <i>Delete</i> will remove the selected policy causing the default "
+                                          "on the <i>Delete</i> button will remove the selected policy causing the default "
                                           "policy setting to be used for that domain. The <i>Import</i> and <i>Export</i> "
                                           "button allows you to easily share your policies with other people by allowing "
                                           "you to save and retrive them from a zipped file.") );

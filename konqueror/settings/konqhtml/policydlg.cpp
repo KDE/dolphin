@@ -22,13 +22,16 @@ PolicyDialog::PolicyDialog( QWidget *parent, const char *name )
   grid->setColStretch(1, 1);
   topl->addLayout(grid);
 
-  QLabel *l = new QLabel(i18n("&Host name:"), this);
+  QLabel *l = new QLabel(i18n("&Host or domain name:"), this);
   grid->addWidget(l, 0, 0);
 
   le_domain = new QLineEdit(this);
   l->setBuddy( le_domain );
   grid->addWidget(le_domain, 0, 1);
-  
+
+  QWhatsThis::add(le_domain, i18n("Enter the name of a host (like www.kde.org) "
+                                  "or a domain, starting with a dot (like .kde.org or .org)") );
+
   l = new QLabel(i18n("&Java policy:"), this);
   grid->addWidget(l, 1, 0);
 
@@ -40,7 +43,7 @@ PolicyDialog::PolicyDialog( QWidget *parent, const char *name )
   grid->addWidget(cb_javapolicy, 1, 1);
 
   QWhatsThis::add(cb_javapolicy, i18n("Select a Java policy for "
-								  "the above domain name.") );
+                                      "the above host or domain.") );
 
   l = new QLabel(i18n("Java&Script policy:"), this);
   grid->addWidget(l, 2, 0);
@@ -51,18 +54,18 @@ PolicyDialog::PolicyDialog( QWidget *parent, const char *name )
   grid->addWidget(cb_javascriptpolicy, 2, 1);
 
   QWhatsThis::add(cb_javascriptpolicy, i18n("Select a JavaScript policy for "
-								  "the above domain name.") );
+                                            "the above host or domain.") );
 
   KButtonBox *bbox = new KButtonBox(this);
   topl->addWidget(bbox);
-  
+
   bbox->addStretch(1);
   QPushButton *okButton = bbox->addButton(i18n("OK"));
   okButton->setDefault(true);
   connect(okButton, SIGNAL(clicked()), this, SLOT(accept()));
 
   QPushButton *cancelButton = bbox->addButton(i18n("Cancel"));
-  connect(cancelButton, SIGNAL(clicked()), this, SLOT(reject()));  
+  connect(cancelButton, SIGNAL(clicked()), this, SLOT(reject()));
 
   le_domain->setFocus();
 }
@@ -71,9 +74,9 @@ void PolicyDialog::setDisableEdit( bool state, const QString& text )
 {
     if( text.isNull() );
         le_domain->setText( text );
-        
+
     le_domain->setEnabled( state );
-    
+
     if( !state )
         cb_javapolicy->setFocus();
 }
@@ -97,7 +100,7 @@ void PolicyDialog::accept()
         KMessageBox::information( 0, i18n("You must first enter a domain name!") );
         return;
     }
-    QDialog::accept();    
+    QDialog::accept();
 }
 
 #include "policydlg.moc"
