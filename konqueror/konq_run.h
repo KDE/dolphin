@@ -54,8 +54,8 @@ public:
 
   static bool allowExecution( const QString &serviceType, const KURL &url );
   static bool isExecutable( const QString &serviceType );
-  static bool askSave( const KURL & url, KService::Ptr offer );
-  static void save( const KURL & url );
+  static bool askSave( const KURL & url, KService::Ptr offer, const QString & suggestedFilename = QString::null );
+  static void save( const KURL & url, const QString & suggestedFilename );
 
 protected:
   /**
@@ -77,6 +77,7 @@ protected:
   bool m_bFoundMimeType;
   KonqOpenURLRequest m_req;
   bool m_bTrustedSource;
+  QString m_suggestedFilename;
 };
 
 #endif

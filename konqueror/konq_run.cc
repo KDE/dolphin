@@ -85,7 +85,8 @@ void KonqRun::foundMimeType( const QString & _type )
   if ( !m_bFinished &&
        m_req.args.postData.size() > 0 )
   {
-      save( m_strURL );
+      kdDebug(1203) << "KonqRun: saving directly" << endl;
+      save( m_strURL, m_suggestedFilename );
       m_bFinished = true;
       m_bFault = true; // make Konqueror think there was an error, in order to stop the spinning wheel
   }
@@ -95,8 +96,9 @@ void KonqRun::foundMimeType( const QString & _type )
        mimeType != "inode/directory" && // dirs can't be saved
        !m_strURL.isLocalFile() ) // ... and remote URL
   {
+      kdDebug(1203) << "KonqRun: ask for saving" << endl;
       KService::Ptr offer = KServiceTypeProfile::preferredService(mimeType, true);
-      if ( askSave( m_strURL, offer ) ) // ... -> ask whether to save
+      if ( askSave( m_strURL, offer, m_suggestedFilename ) ) // ... -> ask whether to save
       { // true: saving done or canceled
           m_bFinished = true;
           m_bFault = true; // make Konqueror think there was an error, in order to stop the spinning wheel
@@ -202,12 +204,15 @@ void KonqRun::slotKonqMimetype(KIO::Job *, const QString &type)
 {
   kdDebug(1202) << "slotKonqMimetype" << endl;
 
-  KIO::SimpleJob *job = (KIO::SimpleJob *) m_job;
+  KIO::TransferJob *job = (KIO::TransferJob *) m_job;
 
   // Update our URL in case of a redirection
   //kdDebug() << "old URL=" << m_strURL.url() << endl;
   //kdDebug() << "new URL=" << job->url().url() << endl;
   m_strURL = job->url();
+
+  m_suggestedFilename = job->queryMetaData("content-disposition");
+  kdDebug(1202) << "m_suggestedFilename=" << m_suggestedFilename << endl;
 
   // type is a reference on TranfserJob::m_mimetype. This
   // reference is DEAD after the putOnHold() call (which kills
@@ -241,7 +246,7 @@ bool KonqRun::isExecutable( const QString &serviceType )
              serviceType == "application/x-shellscript" );
 }
 
-bool KonqRun::askSave( const KURL & url, KService::Ptr offer )
+bool KonqRun::askSave( const KURL & url, KService::Ptr offer, const QString & suggestedFilename )
 {
     QString surl = KStringHandler::csqueeze( url.prettyURL() );
     // Inspired from kmail
@@ -251,12 +256,12 @@ bool KonqRun::askSave( const KURL & url, KService::Ptr offer )
     int choice = KMessageBox::warningYesNoCancel(0L, question, QString::null,
                                                  i18n("Save to disk"), i18n("Open"));
     if ( choice == KMessageBox::Yes ) // Save
-        save( url );
+        save( url, suggestedFilename );
 
     return choice != KMessageBox::No; // saved or canceled -> don't open
 }
 
-void KonqRun::save( const KURL & url )
+void KonqRun::save( const KURL & url, const QString & suggestedFilename )
 {
     // Inspired from khtml_part :-)
     KFileDialog *dlg = new KFileDialog( QString::null, QString::null /*all files*/,
@@ -266,7 +271,7 @@ void KonqRun::save( const KURL & url )
 
     dlg->setCaption(i18n("Save as"));
 
-    dlg->setSelection( url.fileName() );
+    dlg->setSelection( suggestedFilename.isEmpty() ? url.fileName() : suggestedFilename );
     if ( dlg->exec() )
     {
         KURL destURL( dlg->selectedURL() );
