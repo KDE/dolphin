@@ -97,7 +97,7 @@ QString KonqAboutPageFactory::intro()
           .arg( i18n( "Welcome to Konqueror %1." ).arg( KGlobal::instance()->aboutData()->version() ) )
           .arg( i18n( "With Konqueror you have your filesystem at your command, browsing "
 		      "local or networked drives with equal ease. Thanks to the component "
-		      "technology used throughout KDE 2, Konqueror is also a full featured, "
+		      "technology used throughout KDE, Konqueror is also a full featured, "
 		      "easy to use and comfortable Web Browser, which you can use to explore "
 		      "the Internet." ) )
           .arg( i18n( "Simply enter the Internet address (e.g. <A HREF=\"http://www.kde.org\">http://www.kde.org</A>) "
