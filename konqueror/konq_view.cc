@@ -132,7 +132,7 @@ void KonqView::openURL( const KURL &url, const QString & locationBarURL, const Q
 
   updateHistoryEntry(false /* don't save location bar URL yet */);
   // add pending history entry
-  KonqHistoryManager::self()->addPending( url, locationBarURL, QString::null );
+  KonqHistoryManager::kself()->addPending( url, locationBarURL, QString::null);
 
   //kdDebug(1202) << "Current position : " << m_lstHistory.at() << endl;
 }
@@ -362,7 +362,7 @@ void KonqView::slotInfoMessage( KIO::Job *, const QString &msg )
 
 void KonqView::slotCompleted()
 {
-   slotCompleted( false );   
+   slotCompleted( false );
 }
 
 void KonqView::slotCompleted( bool hasPending )
@@ -380,10 +380,10 @@ void KonqView::slotCompleted( bool hasPending )
       updateHistoryEntry(true);
 
       if ( m_bAborted ) // remove the pending entry on error
-          KonqHistoryManager::self()->removePending( url() );
+          KonqHistoryManager::kself()->removePending( url() );
       else // register as proper history entry
-          KonqHistoryManager::self()->confirmPending(url(), typedURL(),
-                                                     m_lstHistory.current()->title);
+          KonqHistoryManager::kself()->confirmPending(url(), typedURL(),
+						      m_lstHistory.current()->title);
 
       emit viewCompleted( this );
   }
@@ -570,7 +570,7 @@ void KonqView::stop()
   {
     // aborted -> confirm the pending url. We might as well remove it, but
     // we decided to keep it :)
-    KonqHistoryManager::self()->confirmPending( url(), m_sTypedURL );
+    KonqHistoryManager::kself()->confirmPending( url(), m_sTypedURL );
 
     //kdDebug(1202) << "m_pPart->closeURL()" << endl;
     m_pPart->closeURL();

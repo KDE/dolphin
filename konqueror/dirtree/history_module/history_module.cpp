@@ -72,7 +72,7 @@ KonqHistoryModule::KonqHistoryModule( KonqTree * parentTree, const char *name )
     m_sortsByName = kc->readEntry( "SortHistory", "byName" ) == "byName";
 
 
-    KonqHistoryManager *manager = KonqHistoryManager::self();
+    KonqHistoryManager *manager = KonqHistoryManager::kself();
 
     connect( manager, SIGNAL( loadingFinished() ), SLOT( slotCreateItems() ));
     connect( manager, SIGNAL( cleared() ), SLOT( clear() ));
@@ -138,7 +138,7 @@ void KonqHistoryModule::slotCreateItems()
 
     KonqHistoryItem *item;
     KonqHistoryEntry *entry;
-    KonqHistoryList entries( KonqHistoryManager::self()->entries() );
+    KonqHistoryList entries( KonqHistoryManager::kself()->entries() );
     KonqHistoryIterator it( entries );
     m_currentTime = QDateTime::currentDateTime();
 
@@ -248,7 +248,7 @@ void KonqHistoryModule::slotRemoveEntry()
     QListViewItem *item = tree()->selectedItem();
     KonqHistoryItem *hi = dynamic_cast<KonqHistoryItem*>( item );
     if ( hi ) // remove a single entry
-	KonqHistoryManager::self()->emitRemoveFromHistory( hi->externalURL());
+	KonqHistoryManager::kself()->emitRemoveFromHistory( hi->externalURL());
 
     else { // remove a group of entries
 	KonqHistoryGroupItem *gi = dynamic_cast<KonqHistoryGroupItem*>( item );
@@ -397,7 +397,7 @@ KonqHistoryDialog::~KonqHistoryDialog()
 
 void KonqHistoryDialog::initFromSettings()
 {
-    KonqHistoryManager *manager = KonqHistoryManager::self();
+    KonqHistoryManager *manager = KonqHistoryManager::kself();
     spinEntries->setValue( manager->maxCount() );
     Q_UINT32 maxAge = manager->maxAge();
     cbExpire->setChecked( maxAge > 0 );
@@ -428,7 +428,7 @@ void KonqHistoryDialog::initFromSettings()
 
 void KonqHistoryDialog::applySettings()
 {
-    KonqHistoryManager *manager = KonqHistoryManager::self();
+    KonqHistoryManager *manager = KonqHistoryManager::kself();
     manager->emitSetMaxCount( spinEntries->value() );
     manager->emitSetMaxAge( spinExpire->value() );
 

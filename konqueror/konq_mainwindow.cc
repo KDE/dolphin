@@ -97,6 +97,7 @@
 #include <kurlrequesterdlg.h>
 #include <kurlrequester.h>
 #include <kuserprofile.h>
+#include <kwin.h>
 #include <kfile.h>
 #include <kfiledialog.h>
 
@@ -158,7 +159,8 @@ KonqMainWindow::KonqMainWindow( const KURL &initialURL, bool openInitialURL, con
 
   // init history-manager, load history, get completion object
   if ( !s_pCompletion ) {
-    s_pCompletion = KonqHistoryManager::self()->completionObject();
+    KonqHistoryManager *mgr = new KonqHistoryManager( kapp, "history mgr" );
+    s_pCompletion = mgr->completionObject();
 
     // setup the completion object before createGUI(), so that the combo
     // picks up the correct mode from the HistoryManager (in slotComboPlugged)
@@ -1400,6 +1402,8 @@ void KonqMainWindow::slotViewCompleted( KonqView * view )
   // the location edit if we remove the current item. We set the url back,
   // a bit below.
   QString currentText = m_combo->currentText();
+  const QPixmap &pix = KonqPixmapProvider::self()->pixmapFor( currentText );
+  topLevelWidget()->setIcon( pix );
 
 
   // FIXME: workaround against Qt limitation: since we can't set the pixmap for

@@ -171,7 +171,7 @@ void KonqHistoryGroupItem::remove()
     }
 
     if ( !list.isEmpty() )
-	KonqHistoryManager::self()->emitRemoveFromHistory( list );
+	KonqHistoryManager::kself()->emitRemoveFromHistory( list );
 }
 
 KonqHistoryItem * KonqHistoryGroupItem::findChild(const KonqHistoryEntry *entry) const
