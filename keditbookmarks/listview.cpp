@@ -359,7 +359,6 @@ void ListView::updateListView() {
 }
 
 void ListView::fillWithGroup(KBookmarkGroup group, KEBListViewItem *parentItem) {
-   KEBListViewItem *lastItem = 0;
    if (!parentItem) {
       m_listView->clear();
       KEBListViewItem *tree = new KEBListViewItem(m_listView, group);
@@ -367,12 +366,12 @@ void ListView::fillWithGroup(KBookmarkGroup group, KEBListViewItem *parentItem) 
       tree->QListViewItem::setOpen(true);
       return;
    }
+   KEBListViewItem *lastItem = parentItem;
    for (KBookmark bk = group.first(); !bk.isNull(); bk = group.next(bk)) {
       KEBListViewItem *item = 0;
       if (bk.isGroup()) {
          KBookmarkGroup grp = bk.toGroup();
          item = new KEBListViewItem(parentItem, lastItem, grp);
-         lastItem = item;
          fillWithGroup(grp, item);
          if (grp.isOpen()) {
             item->QListViewItem::setOpen(true);
@@ -381,6 +380,7 @@ void ListView::fillWithGroup(KBookmarkGroup group, KEBListViewItem *parentItem) 
             // empty folder
             new KEBListViewItem(item, item); 
          }
+         lastItem = item;
 
       } else {
          item = new KEBListViewItem(parentItem, lastItem, bk);
@@ -409,13 +409,7 @@ void ListView::slotContextMenu(KListView *, QListViewItem *qitem, const QPoint &
 }
 
 void ListView::slotDoubleClicked(QListViewItem *item, const QPoint &, int column) {
-   if ((!KEBApp::self()->readonly()) 
-    && ((column == KEBListView::UrlColumn) 
-     || (column == KEBListView::NameColumn))
-    && (item) && !(static_cast<KEBListViewItem *>(item)->isEmptyFolder())
-   ) {
-      m_listView->rename(item, column);
-   }
+   m_listView->rename(item, column);
 }
 
 void ListView::slotItemRenamed(QListViewItem *item, const QString &newText, int column) {
@@ -445,6 +439,7 @@ void ListView::slotItemRenamed(QListViewItem *item, const QString &newText, int 
    KEBApp::self()->addCommand(cmd);
 }
 
+// used by f2 and f3 shortcut slots - see actionsimpl
 void ListView::rename(int column) {
    KEBListViewItem* item = firstSelected();
    Q_ASSERT(item);
@@ -459,9 +454,13 @@ void ListView::clearSelection() {
 
 void KEBListView::rename(QListViewItem *qitem, int column) {
    KEBListViewItem *item = static_cast<KEBListViewItem *>(qitem);
-   if ( (item != firstChild()) 
-     && !item->bookmark().isSeparator()
-     && !((column == 1) && item->bookmark().isGroup())
+   kdDebug() << "column == " << column << endl;
+   if ( !(KEBApp::self()->readonly())
+     && (item) && (item != firstChild()) 
+     && !(static_cast<KEBListViewItem *>(item)->isEmptyFolder())
+     && (column == NameColumn || column == UrlColumn)
+     && !(item->bookmark().isSeparator())
+     && !(column == 1 && item->bookmark().isGroup())
    ) {
       KListView::rename(item, column);
    }
