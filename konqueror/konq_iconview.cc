@@ -686,7 +686,9 @@ void KonqKfmIconViewItem::init( KonqKfmIconView* _IconView, UDSEntry& _entry, K2
   setText( _name );
 
   cerr << ">>>>>>>>>PIX" << endl;
-  setPixmap( *( KPixmapCache::pixmapForMimeType( m_pMimeType, _url, m_bIsLocalURL, mini ) ) );
+  QPixmap * p = KPixmapCache::pixmapForMimeType( m_pMimeType, _url, m_bIsLocalURL, mini );
+  if (!p) warning("Pixmap not found for mimetype %s",m_pMimeType->mimeType());
+  else setPixmap( *p );
   cerr << "<<<<<<<<<PIX" << endl;
 }
 
