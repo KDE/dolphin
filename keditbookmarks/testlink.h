@@ -37,10 +37,11 @@ public:
    }
    void resetToValue(const QString &url, const QString &val);
    const QString getMod(const QString &url) const;
-   const QString getOldMod(const QString &url) const;
+   const QString getOldVisit(const QString &url) const;
    void setMod(const QString &url, const QString &val);
-   void setOldMod(const QString &url, const QString &val);
-   static QString calcPaintStyle(const QString &, KEBListViewItem::PaintStyle&, const QString &);
+   void setOldVisit(const QString &url, const QString &val);
+   static QString calcPaintStyle(const QString &, KEBListViewItem::PaintStyle&, 
+                                 const QString &, const QString &);
 protected:
    virtual void doItrListChanged();
 private:

@@ -61,7 +61,7 @@ public:
    bool isEmptyFolderPadder() const { return m_emptyFolderPadder; }
    KBookmark bookmark() const { return m_bookmark; }
 
-   typedef enum { TempStyle, BoldStyle, DefaultStyle } PaintStyle;
+  typedef enum { GreyStyle, BoldStyle, GreyBoldStyle, DefaultStyle } PaintStyle;
 
 private:
    const QString nsGet() const;
@@ -71,6 +71,8 @@ private:
    PaintStyle m_paintStyle;
    bool m_emptyFolderPadder;
    QString m_oldStatus;
+   void greyStyle(QColorGroup &);
+   void boldStyle(QPainter *);
 };
 
 class KEBListView : public KListView

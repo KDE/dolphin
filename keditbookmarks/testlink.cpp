@@ -22,6 +22,7 @@
 #include "toplevel.h"
 #include "listview.h"
 #include "testlink.h"
+#include "commands.h"
 #include "bookmarkiterator.h"
 
 #include <qtimer.h>
@@ -152,7 +153,7 @@ const QString TestLinkItrHolder::getMod(const QString &url) const {
         : QString::null;
 }
 
-const QString TestLinkItrHolder::getOldMod(const QString &url) const {
+const QString TestLinkItrHolder::getOldVisit(const QString &url) const {
     return self()->m_oldModify.contains(url) 
         ? self()->m_oldModify[url] 
         : QString::null;
@@ -162,7 +163,7 @@ void TestLinkItrHolder::setMod(const QString &url, const QString &val) {
     m_modify[url] = val;
 }
 
-void TestLinkItrHolder::setOldMod(const QString &url, const QString &val) {
+void TestLinkItrHolder::setOldVisit(const QString &url, const QString &val) {
     m_oldModify[url] = val;
 }
 
@@ -184,40 +185,58 @@ static QString mkTimeStr(int b) {
         : KGlobal::locale()->formatDateTime(dt, false);
 }
 
-QString TestLinkItrHolder::calcPaintStyle(const QString &url, KEBListViewItem::PaintStyle &_style, const QString &nsinfo) {
+QString TestLinkItrHolder::calcPaintStyle(const QString &url, KEBListViewItem::PaintStyle &_style, 
+                                          const QString &nVisit, const QString &Modify) {
     bool newModValid = false;
     int newMod = 0;
+    QString newModStr;
+    bool initial = false;
+    bool oldError = false;
+
+    if (!Modify.isNull() && Modify == "1") {
+        oldError = true;
+    }
 
     // get new mod date if there is one
-    QString newModStr = self()->getMod(url);
+    newModStr = self()->getMod(url);
+
+    if (newModStr.isNull()) {
+        newModStr = Modify;
+        initial = true;
+    }    
+
     if (!newModStr.isNull()) {
         newMod = newModStr.toInt(&newModValid);
     }
 
-    QString oldModStr;
 
-    if (self()->getOldMod(url).isNull()) {
+//    kdDebug() << url << " " << "booktime=" << nVisit << " urltime=" << newModStr << 
+//               " Modify=" << Modify << " init=" << initial << " newMod=" << newMod << "\n";
+
+    QString visitStr;
+
+    if (self()->getOldVisit(url).isNull()) {
         // first time
-        oldModStr = nsinfo;
-        if (!nsinfo.isEmpty())
-            self()->setOldMod(url, oldModStr);
+        visitStr = nVisit;
+        if (!nVisit.isEmpty())
+            self()->setOldVisit(url, visitStr);
 
     } else if (!newModStr.isNull()) {
-        oldModStr = self()->getOldMod(url);
+        visitStr = self()->getOldVisit(url);
 
     } else { 
         // may be reading a second bookmark with same url
-        QString oom = nsinfo;
-        oldModStr = self()->getOldMod(url);
-        if (oom.toInt() > oldModStr.toInt()) {
-            self()->setOldMod(url, oom);
-            oldModStr = oom;
+        QString oom = nVisit;
+        visitStr = self()->getOldVisit(url);
+        if (oom.toInt() > visitStr.toInt()) {
+            self()->setOldVisit(url, oom);
+            visitStr = oom;
         }
     }
 
-    int oldMod = 0;
-    if (!oldModStr.isNull())
-        oldMod = oldModStr.toInt(); // TODO - check validity?
+    int visit = 0;
+    if (!visitStr.isNull())
+        visit = visitStr.toInt(); // TODO - check validity?
 
     QString statusStr;
     KEBListViewItem::PaintStyle style = KEBListViewItem::DefaultStyle;
@@ -225,26 +244,40 @@ QString TestLinkItrHolder::calcPaintStyle(const QString &url, KEBListViewItem::P
     if (!newModStr.isNull() && !newModValid) { 
         // error in current check
         statusStr = newModStr;
-        style = (oldMod == 1) 
+//	kdDebug() << "=======================Bold=" << visit << "\n";
+        style = (!oldError) 
             ? KEBListViewItem::DefaultStyle : KEBListViewItem::BoldStyle;
+
+    } else if (initial && !newModStr.isNull() && (newMod == 0)) { 
+        // initial display and no modify time recorded
+        statusStr = QString::null;
+
+    } else if (initial && oldError) { 
+        // error in previous check
+        style = KEBListViewItem::GreyStyle;
+        statusStr = i18n("Error");
 
     } else if (!newModStr.isNull() && (newMod == 0)) { 
         // no modify time returned
         statusStr = i18n("Ok");
 
-    } else if (!newModStr.isNull() && (newMod >= oldMod)) { 
-        // info from current check
+    } else if (!newModStr.isNull() && (newMod > visit)) { 
+        // if modify time greater than last visit, show bold modify time
         statusStr = mkTimeStr(newMod);
-        style = (newMod == oldMod) 
-            ? KEBListViewItem::DefaultStyle : KEBListViewItem::BoldStyle;
+        if (initial) {
+            style = KEBListViewItem::GreyBoldStyle;
+        } else {
+            style = KEBListViewItem::BoldStyle;
+        }
 
-    } else if (oldMod == 1) { 
-        // error in previous check
-        statusStr = i18n("Error");
-
-    } else if (oldMod != 0) { 
-        // info from previous check
-        statusStr = mkTimeStr(oldMod);
+    } else if (visit != 0) { 
+        // modify time not greater than last visit, show last visit time
+        statusStr = mkTimeStr(visit);
+        if (initial) {
+                style = KEBListViewItem::GreyStyle;
+        } else {
+                style = KEBListViewItem::DefaultStyle;
+        }
 
     } else {
         statusStr = QString::null;
@@ -252,6 +285,14 @@ QString TestLinkItrHolder::calcPaintStyle(const QString &url, KEBListViewItem::P
 
     _style = style;
     return statusStr;
+}
+
+static void parseInfo (KBookmark &bk, QString &nVisited) {
+    nVisited = 
+        NodeEditCommand::getNodeText(bk, QStringList() << "info" << "metadata"
+                                     << "time_visited" );
+
+//    kdDebug() << " Visited=" << nVisited << "\n";
 }
 
 static void parseNsInfo(const QString &nsinfo, QString &nCreate, QString &nAccess, QString &nModify) {
@@ -282,6 +323,7 @@ static const QString updateNsInfoMod(const QString &_nsinfo, const QString &nm) 
     tmp += " LAST_VISIT=\"" + ((nAccess.isEmpty()) ? QString("0") : nAccess) + "\"";
     tmp += " LAST_MODIFIED=\"" + ((numValid) ? nm : QString("1")) + "\"";
 
+//  if (!numValid) kdDebug() << tmp << "\n";
     return tmp;
 }
 
@@ -298,12 +340,18 @@ void KEBListViewItem::nsPut(const QString &newModDate) {
 
 // KEBListViewItem !!!!!!!!!!!
 void KEBListViewItem::modUpdate() {
-    QString nCreate, nAccess, nModify;
+    QString nCreate, nAccess, oldModify;
+    QString iVisit;
+
     QString nsinfo = m_bookmark.internalElement().attribute("netscapeinfo");
-    if (!nsinfo.isEmpty())
-        parseNsInfo(nsinfo, nCreate, nAccess, nModify);
+    if (!nsinfo.isEmpty()) {
+        parseNsInfo(nsinfo, nCreate, nAccess, oldModify);
+    }
+
+    parseInfo(m_bookmark, iVisit);
+
     QString statusLine;
-    statusLine = TestLinkItrHolder::calcPaintStyle(m_bookmark.url().url(), m_paintStyle, nModify);
+    statusLine = TestLinkItrHolder::calcPaintStyle(m_bookmark.url().url(), m_paintStyle, iVisit, oldModify);
     if (statusLine != "Error")
         setText(KEBListView::StatusColumn, statusLine);
 }

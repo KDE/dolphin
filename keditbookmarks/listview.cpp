@@ -332,7 +332,7 @@ void ListView::handleDropped(KEBListView *lv, QDropEvent *e, QListViewItem *newP
     KMacroCommand *mcmd = 0;
 
     if (!inApp) {
-        mcmd = CmdGen::self()->insertMimeSource(i18n("Drop Items"), e, newAddress);
+        mcmd = CmdGen::self()->insertMimeSource(i18n("Drop items"), e, newAddress);
 
     } else {
         if (!VALID_FIRST(selectedItems()) || (selectedItems()->first() == itemAfterQLVI))
@@ -830,6 +830,19 @@ void KEBListViewItem::setOpen(bool open) {
     QListViewItem::setOpen(open);
 }
 
+void KEBListViewItem::greyStyle(QColorGroup &cg) {
+  int h, s, v;
+  cg.background().hsv(&h, &s, &v);
+  QColor color = (v > 180 && v < 220) ? (Qt::darkGray) : (Qt::gray);
+  cg.setColor(QColorGroup::Text, color);
+}
+
+void KEBListViewItem::boldStyle(QPainter *p) {
+  QFont font = p->font();
+  font.setBold(true);
+  p->setFont(font);
+}
+
 void KEBListViewItem::paintCell(QPainter *p, const QColorGroup &ocg, int col, int w, int a) {
     QColorGroup cg(ocg);
 
@@ -859,19 +872,20 @@ void KEBListViewItem::paintCell(QPainter *p, const QColorGroup &ocg, int col, in
 
     if (col == KEBListView::StatusColumn) {
         switch (m_paintStyle) {
-            case KEBListViewItem::TempStyle: 
+           case KEBListViewItem::GreyStyle:
                 {
-                    int h, s, v;
-                    cg.background().hsv(&h, &s, &v);
-                    QColor color = (v > 180 && v < 220) ? (Qt::darkGray) : (Qt::gray);
-                    cg.setColor(QColorGroup::Text, color);
+                    greyStyle(cg);
                     break;
                 }
             case KEBListViewItem::BoldStyle:
                 {
-                    QFont font = p->font();
-                    font.setBold(true);
-                    p->setFont(font);
+                    boldStyle(p);
+                    break;
+                }
+            case KEBListViewItem::GreyBoldStyle:
+                {
+                    greyStyle(cg);
+                    boldStyle(p);
                     break;
                 }
             case KEBListViewItem::DefaultStyle:
