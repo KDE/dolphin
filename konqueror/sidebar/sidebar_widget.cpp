@@ -44,6 +44,9 @@
 #include "sidebar_widget.h"
 #include "sidebar_widget.moc"
 
+
+bool Sidebar_Widget::s_skipInitialCopy=false;
+
 addBackEnd::addBackEnd(QObject *parent,class QPopupMenu *addmenu,const char *name):QObject(parent,name)
 {
 
@@ -247,7 +250,11 @@ Sidebar_Widget::Sidebar_Widget(QWidget *parent, KParts::ReadOnlyPart *par, const
 	connect(ab, SIGNAL(initialCopyNeeded()),
 		this, SLOT(finishRollBack()));
 
-	initialCopy();
+	if (!s_skipInitialCopy)
+		initialCopy();
+	else
+		kdDebug()<<"Initial copy skipped"<<endl;
+	s_skipInitialCopy=true;
 
 	m_config = new KConfig("konqsidebartng.rc");
 	connect(&m_configTimer, SIGNAL(timeout()), 
@@ -350,49 +357,63 @@ void Sidebar_Widget::aboutToShowConfigMenu()
 
 void Sidebar_Widget::initialCopy()
 {
-	// kdDebug()<<"Initial copy"<<endl;
-	QString dirtree_dir = KGlobal::dirs()->findDirs("data","konqsidebartng/entries/").last();
+	kdDebug()<<"Initial copy"<<endl;
+	QStringList dirtree_dirs = KGlobal::dirs()->findDirs("data","konqsidebartng/entries/");
+	if (dirtree_dirs.last()==m_path)
+		return; //oups;	
 
-	if (dirtree_dir == m_path)
-		return; // oups?
+	int nVersion=-1;
+	KSimpleConfig lcfg(m_path+".version");
+	int lVersion=lcfg.readNumEntry("Version",0);
 
-        if ( !dirtree_dir.isEmpty() && dirtree_dir != m_path )
-        {
-		KSimpleConfig gcfg(dirtree_dir+".version");
-		KSimpleConfig lcfg(m_path+".version");
-		int gversion = gcfg.readNumEntry("Version", 1);
-		if (lcfg.readNumEntry("Version", 0) >= gversion)
-			return;
 
- 	        QDir dir(m_path);
-    	        QStringList entries = dir.entryList( QDir::Files );
-                QStringList dirEntries = dir.entryList( QDir::Dirs | QDir::NoSymLinks );
-                dirEntries.remove( "." );
-                dirEntries.remove( ".." );
+	for (QStringList::const_iterator ddit=dirtree_dirs.constBegin();ddit!=dirtree_dirs.constEnd();++ddit) {
+		QString dirtree_dir=*ddit;
+		if (dirtree_dir == m_path) continue;	
 
-                QDir globalDir( dirtree_dir );
-                Q_ASSERT( globalDir.isReadable() );
-                // Only copy the entries that don't exist yet in the local dir
-                QStringList globalDirEntries = globalDir.entryList();
-                QStringList::ConstIterator eIt = globalDirEntries.begin();
-                QStringList::ConstIterator eEnd = globalDirEntries.end();
-                for (; eIt != eEnd; ++eIt )
-                {
-                	//kdDebug(1201) << "KonqSidebarTree::scanDir dirtree_dir contains " << *eIt << endl;
-                	if ( *eIt != "." && *eIt != ".." &&
-				!entries.contains( *eIt ) &&
-				!dirEntries.contains( *eIt ) )
-			{ // we don't have that one yet -> copy it.
-				QString cp("cp -R ");
-				cp += KProcess::quote(dirtree_dir + *eIt);
-				cp += " ";
-				cp += KProcess::quote(m_path);
-				kdDebug() << "SidebarWidget::intialCopy executing " << cp << endl;
-				::system( QFile::encodeName(cp) );
+
+		kdDebug()<<"************************************ retrieving directory info:"<<dirtree_dir<<endl;
+
+	        if ( !dirtree_dir.isEmpty() && dirtree_dir != m_path )
+        	{
+			KSimpleConfig gcfg(dirtree_dir+".version");
+			int gversion = gcfg.readNumEntry("Version", 1);
+			nVersion=(nVersion>gversion)?nVersion:gversion;
+			if (lVersion >= gversion)
+				continue;
+
+	 	        QDir dir(m_path);
+    		        QStringList entries = dir.entryList( QDir::Files );
+                	QStringList dirEntries = dir.entryList( QDir::Dirs | QDir::NoSymLinks );
+	                dirEntries.remove( "." );
+        	        dirEntries.remove( ".." );
+
+	                QDir globalDir( dirtree_dir );
+        	        Q_ASSERT( globalDir.isReadable() );
+	                // Only copy the entries that don't exist yet in the local dir
+        	        QStringList globalDirEntries = globalDir.entryList();
+                	QStringList::ConstIterator eIt = globalDirEntries.begin();
+	                QStringList::ConstIterator eEnd = globalDirEntries.end();
+        	        for (; eIt != eEnd; ++eIt )
+                	{
+                		//kdDebug(1201) << "KonqSidebarTree::scanDir dirtree_dir contains " << *eIt << endl;
+	                	if ( *eIt != "." && *eIt != ".." &&
+					!entries.contains( *eIt ) &&
+					!dirEntries.contains( *eIt ) )
+				{ // we don't have that one yet -> copy it.
+					QString cp("cp -R ");
+					cp += KProcess::quote(dirtree_dir + *eIt);
+					cp += " ";
+					cp += KProcess::quote(m_path);
+					kdDebug() << "SidebarWidget::intialCopy executing " << cp << endl;
+					::system( QFile::encodeName(cp) );
+				}
 			}
 		}
-		lcfg.writeEntry("Version",gversion);
-		lcfg.sync();
+
+			lcfg.writeEntry("Version",(nVersion>lVersion)?nVersion:lVersion);
+			lcfg.sync();
+
 	}
 }
 
@@ -456,9 +477,10 @@ void Sidebar_Widget::activatedMenu(int id)
 			m_singleWidgetMode = !m_singleWidgetMode;
 			if ((m_singleWidgetMode) && (m_visibleViews.count()>1))
 			{
+				int tmpViewID=m_latestViewed;
 				for (uint i=0; i<m_buttons.count(); i++) {
 					ButtonInfo *button = m_buttons.at(i);
-					if ((int) i != m_latestViewed)
+					if ((int) i != tmpViewID)
 					{
 						if (button->dock && button->dock->isVisibleTo(this))
 							showHidePage(i);
@@ -469,7 +491,8 @@ void Sidebar_Widget::activatedMenu(int id)
 							m_mainDockWidget->undock();
 						}
 					}
-				}
+				}		
+				m_latestViewed=tmpViewID;
 			} else {
 				if (!m_singleWidgetMode)
 				{

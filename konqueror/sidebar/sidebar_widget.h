@@ -197,6 +197,8 @@ private:
 	QString m_path;
 	QStringList m_visibleViews; // The views that are actually open
 	QStringList m_openViews; // The views that should be opened
+
+	static bool s_skipInitialCopy;
 };
 
 #endif
