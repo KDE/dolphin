@@ -132,6 +132,7 @@ public slots:  // IDL
   virtual void slotShowHTML();
   virtual void slotLargeIcons();
   virtual void slotSmallIcons();
+  virtual void slotSmallVerticalIcons();
   virtual void slotTreeView();
   virtual void slotReload();
   virtual void slotStop();
@@ -201,6 +202,8 @@ public slots:  // IDL
 
   virtual void slotLoadingProgress( OpenParts::Id id, CORBA::Long percent );
   virtual void slotSpeedProgress( OpenParts::Id id, CORBA::Long bytesPerSecond );
+
+  virtual void slotSelectionChanged();
   
   /////////////////////////
   // Animated Logo

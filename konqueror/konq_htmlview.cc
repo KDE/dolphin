@@ -603,23 +603,16 @@ void KonqHTMLView::openURL( QString _url, bool _reload, int _xoffset, int _yoffs
   SIGNAL_CALL1( "openURL", req );
 }
 
-CORBA::Boolean KonqHTMLView::canCopy()
+void KonqHTMLView::can( CORBA::Boolean &copy, CORBA::Boolean &paste, CORBA::Boolean &move )
 {
   KHTMLView *selectedView = getSelectedView();
   if ( selectedView )
-    return (CORBA::Boolean)selectedView->isTextSelected();
+    copy = (CORBA::Boolean)selectedView->isTextSelected();
   else
-    return (CORBA::Boolean)isTextSelected();
-}
+    copy = (CORBA::Boolean)isTextSelected();
 
-CORBA::Boolean KonqHTMLView::canPaste()
-{
-  return (CORBA::Boolean)false;
-}
-
-CORBA::Boolean KonqHTMLView::canMove()
-{
-  return (CORBA::Boolean)false;
+  paste = false;    
+  move = false;
 }
 
 void KonqHTMLView::copySelection()

@@ -55,6 +55,8 @@ KonqKfmIconView::KonqKfmIconView( KonqMainView *mainView )
   ADD_INTERFACE( "IDL:Konqueror/KfmIconView:1.0" );
   ADD_INTERFACE( "IDL:Browser/EditExtension:1.0" );
 
+  SIGNAL_IMPL( "selectionChanged" ); //part of the EditExtension
+
   m_pMainView = mainView;
   m_vViewMenu = 0L;
 
@@ -81,6 +83,7 @@ KonqKfmIconView::KonqKfmIconView( KonqMainView *mainView )
   QObject::connect( this, SIGNAL( drop( QDropEvent*, KIconContainerItem*, QStringList& ) ),
 	   this, SLOT( slotDrop( QDropEvent*, KIconContainerItem*, QStringList& ) ) );
   QObject::connect( this, SIGNAL( onItem( KIconContainerItem* ) ), this, SLOT( slotOnItem( KIconContainerItem* ) ) );
+  QObject::connect( this, SIGNAL( selectionChanged( KIconContainerItem * ) ), this, SLOT( slotSelectionChanged() ) );
   //  connect( m_pView->gui(), SIGNAL( configChanged() ), SLOT( initConfig() ) );
 
   // Now we may react to configuration changes
@@ -134,16 +137,6 @@ bool KonqKfmIconView::mappingFillMenuEdit( Browser::View::EventFillMenu_ptr edit
   return true;
 }
 
-void KonqKfmIconView::slotLargeIcons()
-{
-  setDisplayMode( KIconContainer::Horizontal );
-}
-
-void KonqKfmIconView::slotSmallIcons()
-{
-  setDisplayMode( KIconContainer::Vertical );
-}
-
 void KonqKfmIconView::slotShowDot()
 {
   kdebug(0, 1202, "KonqKfmIconView::slotShowDot()");
@@ -177,12 +170,34 @@ void KonqKfmIconView::slotSelectAll()
   selectAll();
 }
 
-Konqueror::KfmIconView::IconViewState KonqKfmIconView::viewState()
+void KonqKfmIconView::setViewMode( Konqueror::DirectoryDisplayMode mode )
 {
-  if ( m_displayMode == Horizontal || m_displayMode == Vertical )
-    return Konqueror::KfmIconView::LargeIcons;
-  else
-    return Konqueror::KfmIconView::SmallIcons;
+  switch ( mode )
+  {
+    case Konqueror::LargeIcons:
+      setDisplayMode( KIconContainer::Horizontal );
+      break;
+    case Konqueror::SmallIcons:
+      setDisplayMode( KIconContainer::Vertical );
+      break;
+    case Konqueror::SmallVerticalIcons:
+      setDisplayMode( KIconContainer::SmallVertical );
+      break;
+    default: assert( 0 );
+  }
+}
+
+Konqueror::DirectoryDisplayMode KonqKfmIconView::viewMode()
+{
+  switch ( m_displayMode )
+  {
+    case Horizontal:
+      return Konqueror::LargeIcons;
+    case Vertical:
+      return Konqueror::SmallIcons;
+    case SmallVertical:
+      return Konqueror::SmallVerticalIcons;
+  }
 }
 
 void KonqKfmIconView::stop()
@@ -347,6 +362,11 @@ void KonqKfmIconView::slotDrop( QDropEvent *_ev, KIconContainerItem* _item, QStr
   }
 }
 
+void KonqKfmIconView::slotSelectionChanged()
+{
+  SIGNAL_CALL0( "selectionChanged" );
+}
+
 void KonqKfmIconView::slotStarted( const QString & url )
 {
   SIGNAL_CALL2( "started", id(), CORBA::Any::from_string( (char*)url.ascii(), 0 ) );
@@ -434,25 +454,17 @@ void KonqKfmIconView::openURL( const char *_url, int xOffset, int yOffset )
   m_vMainWindow->setPartCaption( id(), caption );
 }
 
-CORBA::Boolean KonqKfmIconView::canCopy()
+void KonqKfmIconView::can( CORBA::Boolean &copy, CORBA::Boolean &paste, CORBA::Boolean &move )
 {
   QList<KIconContainerItem> selection;
   selectedItems( selection );
-  return (CORBA::Boolean) ( selection.count() != 0 );
-}
+  move = copy = (CORBA::Boolean) ( selection.count() != 0 );
 
-CORBA::Boolean KonqKfmIconView::canPaste()
-{
   bool bKIOClipboard = !isClipboardEmpty();
   
   QMimeSource *data = QApplication::clipboard()->data();
   
-  return (CORBA::Boolean) ( bKIOClipboard || data->encodedData( data->format() ).size() != 0 );
-}
-
-CORBA::Boolean KonqKfmIconView::canMove()
-{
-  return canCopy();
+  paste = (CORBA::Boolean) ( bKIOClipboard || data->encodedData( data->format() ).size() != 0 );
 }
 
 void KonqKfmIconView::copySelection()

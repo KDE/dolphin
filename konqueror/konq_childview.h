@@ -84,14 +84,10 @@ public:
   void switchView( Browser::View_ptr _vView, const QStringList &serviceTypes );
 
   bool changeViewMode( const QString &serviceType, const QString &url = QString::null,
-                       bool useMiscURLData = true, bool forceTreeView = false );
+                       bool useMiscURLData = true, 
+		       Konqueror::DirectoryDisplayMode dirMode = Konqueror::LargeIcons );
   void changeView( Browser::View_ptr _vView, const QStringList &serviceTypes, 
                    const QString &url = QString::null );
-  
-  /**
-   * Create a view
-   */
-  Browser::View_ptr createViewByServiceType( const QString &serviceType );
   
   /**
    * Call this to prevent next makeHistory() call from changing history lists
@@ -202,7 +198,8 @@ public:
 
   static Browser::View_ptr createView( const QString &serviceType, 
 			               QStringList &serviceTypes, 
-			               KonqMainView *mainView );
+			               KonqMainView *mainView,
+				       Konqueror::DirectoryDisplayMode dirMode = Konqueror::LargeIcons );
 
 signals:
 
@@ -225,7 +222,7 @@ protected:
     int xOffset;
     int yOffset;
     QString strServiceType;
-    bool bIsTreeView;
+    Konqueror::DirectoryDisplayMode eDirMode;
   };
 
   void go( QList<HistoryEntry> &stack, int steps );

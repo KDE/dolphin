@@ -60,9 +60,7 @@ public:
 
   virtual void openURL( const char* _url, int xOffset, int yOffset );
 
-  virtual CORBA::Boolean canCopy();
-  virtual CORBA::Boolean canPaste();
-  virtual CORBA::Boolean canMove();
+  virtual void can( CORBA::Boolean &copy, CORBA::Boolean &paste, CORBA::Boolean &move );
   
   virtual void copySelection();
   virtual void pasteSelection();
@@ -72,13 +70,12 @@ public:
 
 public slots:
   // IDL
-  virtual void slotLargeIcons();
-  virtual void slotSmallIcons();
   virtual void slotShowDot();
   virtual void slotSelect();
   virtual void slotSelectAll();
 
-  virtual Konqueror::KfmIconView::IconViewState viewState();
+  virtual void setViewMode( Konqueror::DirectoryDisplayMode mode );
+  virtual Konqueror::DirectoryDisplayMode viewMode();
 
 protected slots:
   // slots connected to the icon container
@@ -86,6 +83,8 @@ protected slots:
   virtual void slotDoubleClicked( KIconContainerItem* _item, const QPoint& _global, int _button );
   virtual void slotReturnPressed( KIconContainerItem* _item, const QPoint& _global );
   virtual void slotDrop( QDropEvent*, KIconContainerItem*, QStringList& _formats );
+
+  void slotSelectionChanged();
 
   virtual void slotOnItem( KIconContainerItem* );
   

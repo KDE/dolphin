@@ -84,10 +84,40 @@ void KonqViewManager::saveViewProfile( KConfig &cfg )
     
     cfg.writeEntry( QString::fromLatin1( "URL" ).prepend( viewStr ), viewIt.current()->url() );
     cfg.writeEntry( QString::fromLatin1( "ServiceType" ).prepend( viewStr ), viewIt.current()->serviceTypes().first() );
+
+    if ( viewIt.current()->supportsServiceType( "inode/directory" ) )
+    {
+      QString strDirMode;
     
-    //HACK
-    cfg.writeEntry( QString::fromLatin1( "IsBuiltinTreeView" ).prepend( viewStr ), 
-                    ( viewIt.current()->view()->supportsInterface( "IDL:Konqueror/KfmTreeView:1.0" ) ) );
+      Browser::View_ptr pView = viewIt.current()->view();
+      
+      if ( pView->supportsInterface( "IDL:Konqueror/KfmTreeView:1.0" ) )
+        strDirMode = "TreeView";
+      else
+      {
+        Konqueror::KfmIconView_var iv = Konqueror::KfmIconView::_narrow( pView );
+	
+        Konqueror::DirectoryDisplayMode dirMode = iv->viewMode();
+	
+	switch ( dirMode )
+	{
+	  case Konqueror::LargeIcons:
+	    strDirMode = "LargeIcons";
+	    break;
+	  case Konqueror::SmallIcons:
+	    strDirMode = "SmallIcons";
+	    break;
+	  case Konqueror::SmallVerticalIcons:
+	    strDirMode = "SmallVerticalIcons";
+	    break;
+	  default: assert( 0 );
+	}
+      }
+      
+      cfg.writeEntry( QString::fromLatin1( "DirectoryMode" ).prepend( viewStr ),
+                      strDirMode );
+    }
+    
   }
   
   cfg.sync();
@@ -134,28 +164,32 @@ void KonqViewManager::loadViewProfile( KConfig &cfg )
       QString url = cfg.readEntry( QString::fromLatin1( "URL" ).prepend( viewStr ) );
       QString serviceType = cfg.readEntry( QString::fromLatin1( "ServiceType" ).prepend( viewStr ) );
 
-      //HACK
-      QString treeViewKey = QString::fromLatin1( "IsBuiltinTreeView" ).prepend( viewStr );
-      bool treeView = ( cfg.hasKey( treeViewKey ) &&
-                        cfg.readBoolEntry( treeViewKey, false ) &&
-			serviceType == "inode/directory" );
+      Konqueror::DirectoryDisplayMode dirMode = Konqueror::LargeIcons;
+
+      if ( serviceType == "inode/directory" )
+      {
+        QString strDirMode = cfg.readEntry( QString::fromLatin1( "DirectoryMode" ).prepend( viewStr ),
+	                                    "LargeIcons" );
+
+        if ( strDirMode == "LargeIcons" )
+	  dirMode = Konqueror::LargeIcons;
+	else if ( strDirMode == "SmallIcons" )
+	  dirMode = Konqueror::SmallIcons;
+	else if ( strDirMode == "SmallVerticalIcons" )
+	  dirMode = Konqueror::SmallVerticalIcons;
+	else if ( strDirMode == "TreeView" )
+	  dirMode = Konqueror::TreeView;
+	else assert( 0 );
+	
+      }
       
       Browser::View_var vView;
       QStringList serviceTypes;
 
       QString savedGroup = cfg.group();
       
-      if ( treeView )
-      {
-        //HACK
-        vView = Browser::View::_duplicate( new KonqKfmTreeView( m_pMainView ) );
-	serviceTypes.append( "inode/directory" );
-      }
-      else
-      {
-        //Simon TODO: error handling
-        vView = KonqChildView::createView( serviceType, serviceTypes, m_pMainView );
-      }
+      //Simon TODO: error handling
+      vView = KonqChildView::createView( serviceType, serviceTypes, m_pMainView, dirMode );
       
       cfg.setGroup( savedGroup );
       

@@ -26,18 +26,16 @@
 
 module Konqueror
 {
+  enum DirectoryDisplayMode { TreeView, LargeIcons, SmallIcons, SmallVerticalIcons };
  
   interface KfmIconView : Browser::View, Browser::EditExtension
   {
-    enum IconViewState { LargeIcons, SmallIcons };
-  
     slot void slotShowDot();
-    slot void slotLargeIcons();
-    slot void slotSmallIcons();
     slot void slotSelect();
     slot void slotSelectAll();
     
-    IconViewState viewState();
+    void setViewMode( in DirectoryDisplayMode dirMode );
+    DirectoryDisplayMode viewMode();
   };
 
   interface KfmTreeView : Browser::View
@@ -104,6 +102,7 @@ module Konqueror
     slot void slotShowHTML();
     slot void slotLargeIcons();
     slot void slotSmallIcons();
+    slot void slotSmallVerticalIcons();
     slot void slotTreeView();
     slot void slotReload();
     slot void slotStop();
@@ -164,6 +163,8 @@ module Konqueror
     
     slot void slotLoadingProgress( in OpenParts::Id id, in long percent );
     slot void slotSpeedProgress( in OpenParts::Id id, in long bytesPerSecond );
+    
+    slot void slotSelectionChanged();
   };
   
   interface MainWindow : OpenParts::MainWindow

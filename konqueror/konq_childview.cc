@@ -112,6 +112,13 @@ void KonqChildView::detach()
 //  m_pKonqFrame->hide();
   m_pKonqFrame->detach();
 
+  if ( m_vView->supportsInterface( "IDL:Browser/EditExtension:1.0" ) )
+  {
+    CORBA::Object_var obj = m_vView->getInterface( "IDL:Browser/EditExtension:1.0" );
+    Browser::EditExtension_var editExtension = Browser::EditExtension::_narrow( obj );
+    editExtension->disconnectObject( m_pMainView );
+  }
+  
   m_vView->disconnectObject( m_pMainView );
   m_vView->decRef(); //die view, die ... (cruel world, isn't it?) ;)
   VeryBadHackToFixCORBARefCntBug( m_vView );
@@ -170,14 +177,15 @@ void KonqChildView::switchView( Browser::View_ptr _vView, const QStringList &ser
 
 bool KonqChildView::changeViewMode( const QString &serviceType, 
                                     const QString &_url, bool useMiscURLData,
-				    bool forceTreeView )
+				    Konqueror::DirectoryDisplayMode dirMode )
 {
   QString url = _url;
   if ( url.isEmpty() )
     url = KonqChildView::url();
 
   //no need to change anything if we are able to display this servicetype
-  if ( m_lstServiceTypes.find( serviceType ) != m_lstServiceTypes.end() )
+  if ( m_lstServiceTypes.find( serviceType ) != m_lstServiceTypes.end() &&
+       serviceType != "inode/directory" )
   {
     makeHistory( false );
     openURL( url, useMiscURLData );
@@ -186,13 +194,7 @@ bool KonqChildView::changeViewMode( const QString &serviceType,
 
   Browser::View_var vView;
   QStringList serviceTypes;
-  if ( forceTreeView )
-  {
-    serviceTypes.clear();
-    serviceTypes.append( serviceType );
-    vView = Browser::View::_duplicate( new KonqKfmTreeView( m_pMainView ) );
-  }
-  else if ( CORBA::is_nil( ( vView = createView( serviceType, serviceTypes, m_pMainView ) ) ) )
+  if ( CORBA::is_nil( ( vView = createView( serviceType, serviceTypes, m_pMainView, dirMode ) ) ) )
    return false;
   
   makeHistory( false );
@@ -294,6 +296,21 @@ void KonqChildView::connectView(  )
     kdebug(KDEBUG_WARN,1202,"WARNING: view does not know signal ""speedProgress"" ");
   }
 
+  if ( m_vView->supportsInterface( "IDL:Browser/EditExtension:1.0" ) )
+  {
+    CORBA::Object_var obj = m_vView->getInterface( "IDL:Browser/EditExtension:1.0" );
+    Browser::EditExtension_var editExtension = Browser::EditExtension::_narrow( obj );
+    try
+    {
+      editExtension->connect( "selectionChanged", m_pMainView, "slotSelectionChanged" );
+    }
+    catch ( ... )
+    {
+      kdebug(KDEBUG_WARN,1202,"WARNING: edit extension does not know signal ""selectionChanged"" ");
+    }
+    
+  }
+
 }
 
 void KonqChildView::makeHistory( bool pushEntry )
@@ -333,7 +350,18 @@ void KonqChildView::makeHistory( bool pushEntry )
   m_pCurrentHistoryEntry->xOffset = m_vView->xOffset();
   m_pCurrentHistoryEntry->yOffset = m_vView->yOffset();
   m_pCurrentHistoryEntry->strServiceType = m_lstServiceTypes.first();
-  m_pCurrentHistoryEntry->bIsTreeView = m_vView->supportsInterface( "IDL:Konqueror/KfmTreeView:1.0" );
+  
+  if ( m_pCurrentHistoryEntry->strServiceType == "inode/directory" )
+  {
+    if ( m_vView->supportsInterface( "IDL:Konqueror/KfmTreeView:1.0" ) )
+      m_pCurrentHistoryEntry->eDirMode = Konqueror::TreeView;
+    else
+    {
+      Konqueror::KfmIconView_var iconView = Konqueror::KfmIconView::_narrow( m_vView );
+      
+      m_pCurrentHistoryEntry->eDirMode = iconView->viewMode();
+    }
+  }
 }
 
 void KonqChildView::go( QList<HistoryEntry> &stack, int steps )
@@ -350,7 +378,7 @@ void KonqChildView::go( QList<HistoryEntry> &stack, int steps )
   m_bReloadURL = false;
   m_iXOffset = h->xOffset;
   m_iYOffset = h->yOffset;
-  changeViewMode( h->strServiceType, h->strURL, true, h->bIsTreeView );
+  changeViewMode( h->strServiceType, h->strURL, true, h->eDirMode );
   
   stack.removeFirst();
 }
@@ -420,7 +448,8 @@ bool KonqChildView::supportsServiceType( const QString &serviceType )
 
 Browser::View_ptr KonqChildView::createView( const QString &serviceType, 
 			                     QStringList &serviceTypes,
-				             KonqMainView *mainView )
+				             KonqMainView *mainView,
+					     Konqueror::DirectoryDisplayMode dirMode )
 {
   serviceTypes.clear();
 
@@ -429,9 +458,15 @@ Browser::View_ptr KonqChildView::createView( const QString &serviceType,
   //check for builtin views first
   if ( serviceType == "inode/directory" )
   {
-    //default for directories is the iconview
     serviceTypes.append( serviceType );
-    return Browser::View::_duplicate( new KonqKfmIconView( mainView ) );
+    if ( dirMode != Konqueror::TreeView )
+    {
+      KonqKfmIconView *iconView = new KonqKfmIconView( mainView );
+      iconView->setViewMode( dirMode );
+      return Browser::View::_duplicate( iconView );
+    }
+    else
+      return Browser::View::_duplicate( new KonqKfmTreeView( mainView ) );
   }
   else if ( serviceType == "text/html" )
   {

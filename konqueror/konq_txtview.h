@@ -56,9 +56,7 @@ public:
 
   virtual void print();
 
-  virtual CORBA::Boolean canCopy();
-  virtual CORBA::Boolean canPaste();
-  virtual CORBA::Boolean canMove();
+  virtual void can( CORBA::Boolean &copy, CORBA::Boolean &paste, CORBA::Boolean &move );
   
   virtual void copySelection();
   virtual void pasteSelection();

@@ -271,19 +271,11 @@ void KonqTxtView::print()
   SIGNAL_CALL1( "setStatusBarText", CORBA::Any::from_wstring( (CORBA::WChar*)0L, 0 ) );
 }
 
-CORBA::Boolean KonqTxtView::canCopy()
+void KonqTxtView::can( CORBA::Boolean &copy, CORBA::Boolean &paste, CORBA::Boolean &move )
 {
-  return (CORBA::Boolean)hasMarkedText();
-}
-
-CORBA::Boolean KonqTxtView::canPaste()
-{
-  return (CORBA::Boolean)false;
-}
-
-CORBA::Boolean KonqTxtView::canMove()
-{
-  return (CORBA::Boolean)false;
+  copy = (CORBA::Boolean)hasMarkedText();
+  paste = false;
+  move = false;
 }
 
 void KonqTxtView::copySelection()

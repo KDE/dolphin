@@ -86,9 +86,7 @@ public:
 
   virtual void openURL( QString _url, bool _reload, int _xoffset = 0, int _yoffset = 0, const char *_post_data = 0L);
   
-  virtual CORBA::Boolean canCopy();
-  virtual CORBA::Boolean canPaste();
-  virtual CORBA::Boolean canMove();
+  virtual void can( CORBA::Boolean &copy, CORBA::Boolean &paste, CORBA::Boolean &move );
   
   virtual void copySelection();
   virtual void pasteSelection();
