@@ -52,24 +52,30 @@ extern "C"
    {
 	  KStandardDirs *dirs=KGlobal::dirs();
 	  QStringList list=dirs->findAllResources("data","konqsidebartng/dirtree/*.desktop",false,true);
-	  
+	  QStringList names;	  
 	  for (QStringList::ConstIterator it=list.begin();it!=list.end();++it)
 	  {
 		KSimpleConfig sc(*it);
 		sc.setGroup("Desktop Entry");
-		if (KMessageBox::questionYesNo(0,sc.readEntry("Name")+"?")==KMessageBox::Yes)
-		{
-		        map->insert("Type","Link");
-			map->insert("Icon",sc.readEntry("Icon"));
-			map->insert("Name",sc.readEntry("Name"));
-		 	map->insert("Open","false");
-			map->insert("URL",sc.readEntry("X-KDE-Default-URL"));
-			map->insert("X-KDE-KonqSidebarModule","konqsidebar_tree");
-			map->insert("X-KDE-TreeModule",sc.readEntry("X-KDE-TreeModule"));
-			fn->setLatin1("dirtree%1.desktop");
-			return true;	
-		}
+		names<<sc.readEntry("Name");
 	  }
+	KonqSidebarTreeSelectionDialog dlg(0,names);
+	if (dlg.exec()==QDialog::Accepted)
+		{
+			int id=dlg.getValue();
+			if (id==-1) return false;
+			KSimpleConfig ksc2(*list.at(id));
+			ksc2.setGroup("Desktop Entry");
+		        map->insert("Type","Link");
+			map->insert("Icon",ksc2.readEntry("Icon"));
+			map->insert("Name",ksc2.readEntry("Name"));
+		 	map->insert("Open","false");
+			map->insert("URL",ksc2.readEntry("X-KDE-Default-URL"));
+			map->insert("X-KDE-KonqSidebarModule","konqsidebar_tree");
+			map->insert("X-KDE-TreeModule",ksc2.readEntry("X-KDE-TreeModule"));
+			fn->setLatin1("dirtree%1.desktop");
+			return true;
+		}
 	return false;
    }
 };

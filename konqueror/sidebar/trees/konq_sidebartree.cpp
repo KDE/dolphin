@@ -146,6 +146,7 @@ KonqSidebarTree::KonqSidebarTree( KonqSidebar_Tree *parent, QWidget *parentWidge
     m_dirtreeDir.type=virt;
     // Initial parsing
     rescanConfiguration();
+    if (firstChild()) firstChild()->setOpen(true);
 }
 
 KonqSidebarTree::~KonqSidebarTree()
@@ -649,7 +650,7 @@ void KonqSidebarTree::slotAnimation()
     {
         uint & iconNumber = it.data().iconNumber;
         QString icon = QString::fromLatin1( it.data().iconBaseName ).append( QString::number( iconNumber ) );
-        it.key()->setPixmap( 0, SmallIcon( icon, m_part->getInterfaces()->getInstance() ));
+        it.key()->setPixmap( 0, SmallIcon( icon));
 
         iconNumber++;
         if ( iconNumber > it.data().iconCount )

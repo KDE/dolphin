@@ -1,8 +1,8 @@
 [Desktop Entry]
 Type=Link
 URL=
-Icon=
-Name=dirtree
+Icon=folder 
+Name=Directory
 Open=false
  
 X-KDE-TreeModule=Directory
