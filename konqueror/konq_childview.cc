@@ -365,7 +365,7 @@ void KonqChildView::createHistoryEntry()
 void KonqChildView::updateHistoryEntry()
 {
   ASSERT( !m_bLockHistory ); // should never happen
- 
+
   HistoryEntry * current = m_lstHistory.current();
   assert( current ); // let's see if this happens
   if ( current == 0L) // empty history
@@ -399,17 +399,20 @@ void KonqChildView::go( int steps )
   int newPos = m_lstHistory.at() + steps;
   assert( newPos >= 0 && (uint)newPos < m_lstHistory.count() );
   // Yay, we can move there without a loop !
-  HistoryEntry *h = m_lstHistory.at( newPos ); // sets current item
+  HistoryEntry *currentHistoryEntry = m_lstHistory.at( newPos ); // sets current item
 
-  assert( h );
+  assert( currentHistoryEntry );
   assert( newPos == m_lstHistory.at() ); // check we moved (i.e. if I understood the docu)
-  assert( h == m_lstHistory.current() );
+  assert( currentHistoryEntry == m_lstHistory.current() );
   kdDebug(1202) << "New position " << m_lstHistory.at() << endl;
 
-  if ( ! changeViewMode( h->strServiceType, h->strServiceName ) )
+  HistoryEntry h( *currentHistoryEntry ); // make a copy of the current history entry, as the data
+                                          // the pointer points to will change with the following calls
+  
+  if ( ! changeViewMode( h.strServiceType, h.strServiceName ) )
   {
-    kdWarning(1202) << "Couldn't change view mode to " << h->strServiceType
-                    << " " << h->strServiceName << endl;
+    kdWarning(1202) << "Couldn't change view mode to " << h.strServiceType
+                    << " " << h.strServiceName << endl;
     return /*false*/;
   }
 
@@ -417,23 +420,23 @@ void KonqChildView::go( int steps )
 
   if ( browserExtension() )
   {
-    QDataStream stream( h->buffer, IO_ReadOnly );
+    QDataStream stream( h.buffer, IO_ReadOnly );
 
     browserExtension()->restoreState( stream );
   }
   else
-    m_pView->openURL( h->url );
+    m_pView->openURL( h.url );
 
-  sendOpenURLEvent( h->url );
+  sendOpenURLEvent( h.url );
 
-  kdDebug(1202) << "Restoring location bar URL from history : " << h->locationBarURL << endl;
-  setLocationBarURL( h->locationBarURL );
+  kdDebug(1202) << "Restoring location bar URL from history : " << h.locationBarURL << endl;
+  setLocationBarURL( h.locationBarURL );
 
   if ( m_pMainView->currentChildView() == this )
     m_pMainView->updateToolBarActions();
 
   if ( m_metaView )
-    m_metaView->openURL( h->url );
+    m_metaView->openURL( h.url );
 
   kdDebug(1202) << "New position (2) " << m_lstHistory.at() << endl;
 }
