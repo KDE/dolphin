@@ -20,6 +20,8 @@
 
 #include "konq_tabs.h"
 
+#include <qapplication.h>
+#include <qclipboard.h>
 #include <qptrlist.h>
 #include <qpopupmenu.h>
 #include <qtoolbutton.h>
@@ -31,6 +33,7 @@
 #include "konq_frame.h"
 #include "konq_view.h"
 #include "konq_viewmgr.h"
+#include "konq_misc.h"
 
 #include <konq_pixmapprovider.h>
 #include <kstdaccel.h>
@@ -87,6 +90,7 @@ KonqFrameTabs::KonqFrameTabs(QWidget* parent, KonqFrameContainerBase* parentCont
 
   setTabReorderingEnabled( true );
   connect( this, SIGNAL( movedTab( int, int ) ), SLOT( slotMovedTab( int, int ) ) );
+  connect( this, SIGNAL( mouseMiddleClick( QWidget * ) ), SLOT( slotMouseMiddleClick( QWidget * ) ) );
 }
 
 KonqFrameTabs::~KonqFrameTabs()
@@ -230,21 +234,21 @@ void KonqFrameTabs::slotCurrentChanged( QWidget* newPage )
   }
 }
 
-void KonqFrameTabs::moveTabLeft(int index)
+void KonqFrameTabs::moveTabLeft( int index )
 {
   if ( index == 0 )
     return;
   moveTab( index, index-1 );
 }
 
-void KonqFrameTabs::moveTabRight(int index)
+void KonqFrameTabs::moveTabRight( int index )
 {
   if ( index == count()-1 )
     return;
   moveTab( index, index+1 );
 }
 
-void KonqFrameTabs::slotMovedTab(int from, int to)
+void KonqFrameTabs::slotMovedTab( int from, int to )
 {
   KonqFrameBase* currentFrame = m_pChildFrameList->at( from );
   kdDebug()<<" currentFrame: "<<currentFrame<<" index: "<<from<<endl;
@@ -262,6 +266,16 @@ void KonqFrameTabs::slotCloseRequest( QWidget *w )
 {
   m_pViewManager->mainWindow()->setWorkingTab( dynamic_cast<KonqFrameBase*>(w) );
   m_pViewManager->removeTab();
+}
+
+void KonqFrameTabs::slotMouseMiddleClick( QWidget *w )
+{
+  QApplication::clipboard()->setSelectionMode( QClipboard::Selection );
+  KURL filteredURL = KonqMisc::konqFilteredURL( this, QApplication::clipboard()->text() );
+  if ( !filteredURL.isEmpty() ) {
+    KonqFrameBase* frame = dynamic_cast<KonqFrameBase*>(w);
+    m_pViewManager->mainWindow()->openURL( frame->activeChildView(), filteredURL );
+  }
 }
 
 #include "konq_tabs.moc"
