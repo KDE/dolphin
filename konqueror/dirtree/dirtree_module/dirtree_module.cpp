@@ -243,7 +243,7 @@ void KonqDirTreeModule::slotNewItems( const KFileItemList& entries )
         KonqTreeItem * parentItem = m_dictSubDirs[ dir.url(0) ];
         ASSERT( parentItem );
 
-        KonqDirTreeItem *dirTreeItem = new KonqDirTreeItem( m_pTree, parentItem, m_topLevelItem, fileItem );
+        KonqDirTreeItem *dirTreeItem = new KonqDirTreeItem( parentItem, m_topLevelItem, fileItem );
         dirTreeItem->setPixmap( 0, m_folderPixmap );
         dirTreeItem->setText( 0, KIO::decodeFileName( fileItem->url().fileName() ) );
     }

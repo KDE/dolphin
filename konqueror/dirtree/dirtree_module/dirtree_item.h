@@ -27,7 +27,7 @@ class QDropEvent;
 class KonqDirTreeItem : public KonqTreeItem
 {
 public:
-    KonqDirTreeItem( KonqTree *parent, KonqTreeItem *parentItem, KonqTreeTopLevelItem *topLevelItem, KonqFileItem *fileItem );
+    KonqDirTreeItem( KonqTreeItem *parentItem, KonqTreeTopLevelItem *topLevelItem, KonqFileItem *fileItem );
     KonqDirTreeItem( KonqTree *parent, KonqTreeTopLevelItem *topLevelItem, KonqFileItem *fileItem );
     ~KonqDirTreeItem();
 

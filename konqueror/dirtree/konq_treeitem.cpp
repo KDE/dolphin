@@ -20,8 +20,8 @@
 #include "konq_tree.h"
 #include "konq_treetoplevelitem.h"
 
-KonqTreeItem::KonqTreeItem( KonqTree *parent, KonqTreeItem *parentItem, KonqTreeTopLevelItem *topLevelItem )
-    : QListViewItem( parent, parentItem )
+KonqTreeItem::KonqTreeItem( KonqTreeItem *parentItem, KonqTreeTopLevelItem *topLevelItem )
+    : QListViewItem( parentItem )
 {
     initItem( topLevelItem );
 }

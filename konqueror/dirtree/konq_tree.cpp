@@ -455,7 +455,10 @@ void KonqTree::scanDir2( KonqTreeItem *parent, const QString &path )
 
     KonqTreeTopLevelItem *item;
     if ( parent )
-        item = new KonqTreeTopLevelItem( this, parent, 0 /* no module */, path );
+    {
+        kdDebug() << "KonqTree::scanDir2 Inserting new group under parent " << endl;
+        item = new KonqTreeTopLevelItem( parent, 0 /* no module */, path );
+    }
     else
         item = new KonqTreeTopLevelItem( this, 0 /* no module */, path );
     item->setText( 0, name );
@@ -499,7 +502,7 @@ void KonqTree::loadTopLevelItem( KonqTreeItem *parent,  const QString &filename 
 
     KonqTreeTopLevelItem *item;
     if ( parent )
-        item = new KonqTreeTopLevelItem( this, parent, module, path );
+        item = new KonqTreeTopLevelItem( parent, module, path );
     else
         item = new KonqTreeTopLevelItem( this, module, path );
 

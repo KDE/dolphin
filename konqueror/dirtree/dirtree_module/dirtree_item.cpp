@@ -30,8 +30,8 @@
 
 #define MYMODULE static_cast<KonqDirTreeModule*>(module())
 
-KonqDirTreeItem::KonqDirTreeItem( KonqTree *parent, KonqTreeItem *parentItem, KonqTreeTopLevelItem *topLevelItem, KonqFileItem *fileItem )
-    : KonqTreeItem( parent, parentItem, topLevelItem ), m_fileItem( fileItem )
+KonqDirTreeItem::KonqDirTreeItem( KonqTreeItem *parentItem, KonqTreeTopLevelItem *topLevelItem, KonqFileItem *fileItem )
+    : KonqTreeItem( parentItem, topLevelItem ), m_fileItem( fileItem )
 {
     if ( m_topLevelItem )
         MYMODULE->addSubDir( this );
@@ -52,6 +52,7 @@ KonqDirTreeItem::~KonqDirTreeItem()
 
 void KonqDirTreeItem::setOpen( bool open )
 {
+    kdDebug() << "KonqDirTreeItem::setOpen " << open << endl;
     if ( open & !childCount() && m_bListable )
         MYMODULE->openSubFolder( this );
 

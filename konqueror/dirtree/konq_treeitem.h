@@ -36,8 +36,8 @@ class KonqTreeTopLevelItem;
 class KonqTreeItem : public QListViewItem
 {
 public:
-    KonqTreeItem( KonqTree *parent, KonqTreeItem *parentItem, KonqTreeTopLevelItem *topLevelItem );
-    KonqTreeItem( KonqTree *parent, KonqTreeTopLevelItem *topLevelItem );
+    // Create an item under another one
+    KonqTreeItem( KonqTreeItem *parentItem, KonqTreeTopLevelItem *topLevelItem );
 
     void initItem( KonqTreeTopLevelItem *topLevelItem );
 
@@ -81,6 +81,9 @@ public:
     KonqTree *tree() const;
 
 protected:
+    // Create an item at the toplevel - only for toplevel items -> protected
+    KonqTreeItem( KonqTree *parent, KonqTreeTopLevelItem *topLevelItem );
+
     KonqTreeTopLevelItem *m_topLevelItem;
     bool m_bListable:1;
     bool m_bClickable:1;

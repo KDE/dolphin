@@ -44,8 +44,8 @@ public:
      * @param module the module handling this toplevel item
      * @param path the path to the desktop file that was the reason for creating this item
      */
-    KonqTreeTopLevelItem( KonqTree *parent, KonqTreeItem *parentItem, KonqTreeModule * module, const QString & path )
-        : KonqTreeItem(parent, parentItem, 0L), m_module(module), m_path(path), m_bTopLevelGroup(false) {}
+    KonqTreeTopLevelItem( KonqTreeItem *parentItem, KonqTreeModule * module, const QString & path )
+        : KonqTreeItem( parentItem, 0L), m_module(module), m_path(path), m_bTopLevelGroup(false) {}
 
     virtual bool acceptsDrops( const QStrList & formats );
     virtual void drop( QDropEvent * ev );

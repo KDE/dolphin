@@ -66,7 +66,6 @@ KonqTreeBrowserExtension::KonqTreeBrowserExtension( KonqTreePart *parent, KonqTr
  : KParts::BrowserExtension( parent )
 {
     m_pTree = tree;
-    connect( m_pTree, SIGNAL( selectionChanged() ), this, SLOT( slotSelectionChanged() ) );
 }
 
 void KonqTreeBrowserExtension::cut()
