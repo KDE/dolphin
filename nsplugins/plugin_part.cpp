@@ -48,7 +48,7 @@ void NSPluginCallback::requestURL(QCString url)
  * function
  */
 KInstance *PluginFactory::s_instance = 0L;
-NSPluginLoader *PluginFactory::s_loader = 0L;
+
 
 PluginFactory::PluginFactory()
 {
@@ -60,10 +60,7 @@ PluginFactory::~PluginFactory()
 {
   kDebugInfo("~PluginFactory");
 
-  delete s_loader;
   delete s_instance;
-
-  s_loader = 0;
   s_instance = 0;
 }
 
@@ -90,13 +87,8 @@ KInstance *PluginFactory::instance()
 }
 
 
-NSPluginLoader *PluginFactory::loader()
-{
-  if (!s_loader)
-    s_loader = NSPluginLoader::instance();
-
-  return s_loader;
-}
+NSPluginLoader *PluginPart::s_loader = 0L;
+int PluginPart::s_loaderRef = 0;
 
 
 PluginPart::PluginPart(QWidget *parent, const char *name)
@@ -106,6 +98,11 @@ PluginPart::PluginPart(QWidget *parent, const char *name)
   kDebugInfo("PluginPart");
 
   m_extension = new PluginBrowserExtension(this);
+
+  // create loader
+  if (!s_loader)
+    s_loader = NSPluginLoader::instance();
+  s_loaderRef++;
 
   // create a canvas to insert our widget
   canvas = new PluginCanvasWidget(parent);
@@ -120,6 +117,13 @@ PluginPart::~PluginPart()
 {
   kDebugInfo("~PluginPart");
   closeURL();
+
+  s_loaderRef--;
+  if (s_loaderRef==0)
+  {
+    delete s_loader;
+    s_loader = 0L;
+  }
 }
 
 
@@ -132,7 +136,7 @@ bool PluginPart::openURL(const KURL &url)
   QStringList _argn, _argv;
   _argn << "SRC" << "TYPE";
   _argv << url.url() << m_extension->urlArgs().serviceType;
-  widget =  PluginFactory::loader()->NewInstance(canvas, url.url(), m_extension->urlArgs().serviceType, 1, _argn, _argv);
+  widget =  s_loader->NewInstance(canvas, url.url(), m_extension->urlArgs().serviceType, 1, _argn, _argv);
 
   if (widget)
     {

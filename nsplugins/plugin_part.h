@@ -46,12 +46,10 @@ public:
 			  const QStringList &args = QStringList());
   
   static KInstance *instance();
-  static class NSPluginLoader *loader();
 
 private:
 
   static KInstance *s_instance;
-  static class NSPluginLoader *s_loader;
 };
 
 
@@ -107,7 +105,8 @@ private:
   PluginCanvasWidget *canvas;
   PluginBrowserExtension *m_extension;
   NSPluginCallback *callback;
-
+  static class NSPluginLoader *s_loader;
+  static int s_loaderRef;
 };
 
 
