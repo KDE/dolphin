@@ -53,7 +53,7 @@ KonqChildView::KonqChildView( Browser::View_ptr view,
   m_bLoading = false;
   m_iProgress = 0;
   m_bPassiveMode = false;
-  m_bProgressSignals = false;
+  m_bProgressSignals = true;
 }
 
 KonqChildView::~KonqChildView()
@@ -204,7 +204,6 @@ void KonqChildView::changeView( Browser::View_ptr _vView,
 
 void KonqChildView::connectView(  )
 {
-  m_bProgressSignals = true;
   try
   {
     m_vView->connect("openURL", m_pMainView, "openURL");

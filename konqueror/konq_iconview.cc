@@ -321,7 +321,7 @@ char *KonqKfmIconView::url()
   char *url = 0;
 
   if ( m_dirLister )
-    url = m_dirLister->url().ascii();
+    url = (char *)m_dirLister->url().ascii();
 
   return CORBA::string_dup( url );
 }
