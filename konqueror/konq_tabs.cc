@@ -98,6 +98,7 @@ KonqFrameTabs::KonqFrameTabs(QWidget* parent, KonqFrameContainerBase* parentCont
 
   setTabReorderingEnabled( true );
   connect( this, SIGNAL( movedTab( int, int ) ), SLOT( slotMovedTab( int, int ) ) );
+  connect( this, SIGNAL( mouseMiddleClick() ), SLOT( slotMouseMiddleClick() ) );
   connect( this, SIGNAL( mouseMiddleClick( QWidget * ) ), SLOT( slotMouseMiddleClick( QWidget * ) ) );
 }
 
@@ -364,6 +365,19 @@ void KonqFrameTabs::slotCloseRequest( QWidget *w )
 {
   m_pViewManager->mainWindow()->setWorkingTab( dynamic_cast<KonqFrameBase*>(w) );
   emit ( removeTabPopup() );
+}
+
+void KonqFrameTabs::slotMouseMiddleClick()
+{
+  QApplication::clipboard()->setSelectionMode( QClipboard::Selection );
+  KURL filteredURL = KonqMisc::konqFilteredURL( this, QApplication::clipboard()->text() );
+  if ( !filteredURL.isEmpty() ) {
+    KonqView* newView = m_pViewManager->addTab(QString::null, QString::null, false, false);
+    if (newView == 0L) return;
+    m_pViewManager->mainWindow()->openURL( newView, filteredURL, QString::null );
+    m_pViewManager->showTab( newView );
+    m_pViewManager->mainWindow()->focusLocationBar();
+  }
 }
 
 void KonqFrameTabs::slotMouseMiddleClick( QWidget *w )

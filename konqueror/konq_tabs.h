@@ -102,6 +102,7 @@ private slots:
   void slotContextMenu( QWidget*, const QPoint& );
   void slotCloseRequest( QWidget* );
   void slotMovedTab( int, int );
+  void slotMouseMiddleClick();
   void slotMouseMiddleClick( QWidget* );
 
 private:
