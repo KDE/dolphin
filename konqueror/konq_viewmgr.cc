@@ -138,7 +138,6 @@ KonqView* KonqViewManager::splitView ( Qt::Orientation orientation,
   //kdDebug(1202) << "Create new Container" << endl;
   KonqFrameContainer *newContainer = new KonqFrameContainer( orientation, parentContainer->widget(), parentContainer );
   connect(newContainer,SIGNAL(ctrlTabPressed()),m_pMainWindow,SLOT(slotCtrlTabPressed()));
-  newContainer->setOpaqueResize( true );
 
   parentContainer->insertChildFrame( newContainer, index );
   if ( moveNewContainer ) {
@@ -231,7 +230,6 @@ KonqView* KonqViewManager::splitWindow( Qt::Orientation orientation,
 
   KonqFrameContainer *newContainer = new KonqFrameContainer( orientation, m_pMainWindow, 0L);
   connect(newContainer,SIGNAL(ctrlTabPressed()),m_pMainWindow,SLOT(slotCtrlTabPressed()));
-  newContainer->setOpaqueResize( true );
 
   m_pMainWindow->insertChildFrame( newContainer );
 

@@ -29,6 +29,7 @@
 
 #include <kapplication.h>
 #include <kdebug.h>
+#include <kglobalsettings.h>
 #include <kiconloader.h>
 #include <kprogress.h>
 #include <klocale.h>
@@ -507,7 +508,7 @@ KonqFrameContainer::KonqFrameContainer( Orientation o,
   m_pFirstChild = 0L;
   m_pSecondChild = 0L;
   m_pActiveChild = 0L;
-  setOpaqueResize( true );
+  setOpaqueResize( KGlobalSettings::opaqueResize() );
 }
 
 KonqFrameContainer::~KonqFrameContainer()
