@@ -109,12 +109,18 @@ KWrite::~KWrite()
   if (m_kateView->document()->views().count() == 1) docList.remove(m_kateView->document());
 }
 
+void KWrite::slotConfigure()
+{
+  Kate::Document *doc = 0;
+  if ((doc = Kate::document (kateView()->document())))
+  {
+    doc->configDialog ();
+    writeConfig ();
+  }
+}
 
 void KWrite::init()
 {
-/*  KToolBar *tb = toolBar("mainToolBar");
-  if (tb) m_paShowToolBar->setChecked( !tb->isHidden() );
-    else m_paShowToolBar->setEnabled(false);*/
   KStatusBar *sb = statusBar();
   if (sb) m_paShowStatusBar->setChecked( !sb->isHidden() );
     else m_paShowStatusBar->setEnabled(false);
@@ -181,6 +187,12 @@ void KWrite::slotFlush ()
 void KWrite::setupActions()
 {
   KAction *a;
+
+  if (Kate::document (kateView()->document()))
+  {
+    m_kateView->actionCollection()->remove (m_kateView->actionCollection()->action( "set_confdlg" ));
+    KStdAction::preferences(this, SLOT(slotConfigure()), actionCollection(), "settings_configure");
+  }
 
   // setup File menu
   KStdAction::print(this, SLOT(printDlg()), actionCollection())->setWhatsThis(i18n("Use this command to print the current document"));

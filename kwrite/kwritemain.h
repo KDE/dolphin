@@ -70,6 +70,7 @@ class KWrite : public KParts::MainWindow
     void editKeys();
     void editToolbars();
     void changeEditor();
+    void slotConfigure ();
 
   public slots:
     void printNow();
