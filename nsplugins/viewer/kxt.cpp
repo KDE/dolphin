@@ -311,7 +311,6 @@ KXtApplication::KXtApplication(int& argc, char** argv,
     if (resources) XtAppSetFallbackResources(appcon, (char**)resources);
     XtDisplayInitialize(appcon, qt_xdisplay(), name(), rAppName, options,
     	num_options, &argc, argv);
-    //toplevel = XtAppInitialize( &appcon, "", options, num_options, &argc, argv, (char**)resources, 0, 0);
 
     init();
 }
