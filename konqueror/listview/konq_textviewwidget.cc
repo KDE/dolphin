@@ -109,7 +109,7 @@ void KonqTextViewWidget::createColumns()
          QCString tmpName=tmpColumn->name.utf8();
          if (tmpColumn->udsId==KIO::UDS_SIZE)
          {
-            addColumn(i18n(tmpName),fontMetrics().width("000000000"));
+            addColumn(i18n(tmpName),fontMetrics().width(KGlobal::locale()->formatNumber(888888888, 0)+"  "));
             setColumnAlignment(currentColumn,AlignRight);
          }
          else if ((tmpColumn->udsId==KIO::UDS_MODIFICATION_TIME)
