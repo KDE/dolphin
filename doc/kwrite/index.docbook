@@ -635,7 +635,7 @@ list of markers which is appended at the  bottom of this menu item.</para>
 </varlistentry>  
 </variablelist>  
   
-<para>At the bottom of this menu, a submenu of markers becomes active, if any  
+<para>At the bottom of this menu, a submenu of markers appears if any  
 markers are available for this window.</para>
 </sect1>  
   
@@ -739,7 +739,7 @@ of the editor just outside of the text entry area.</para></note>
 <variablelist>
 <varlistentry>
 <term><guibutton>Help</guibutton></term>
-<listitem><para> This invokes the KDE help system starting at the &kedit; help
+<listitem><para> This invokes the KDE help system starting at the &kwrite; help
 pages (this document).</para></listitem>
 </varlistentry>
 
