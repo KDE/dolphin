@@ -295,9 +295,9 @@ BookmarkInfoWidget::BookmarkInfoWidget(
 class MagicKLineEdit : public KLineEdit {
 public:
    MagicKLineEdit(const QString &text, QWidget *parent, const char *name = 0);
-   void focusOutEvent(QFocusEvent *ev);
-   void mousePressEvent(QMouseEvent *ev);
-   void focusInEvent(QFocusEvent *ev);
+   virtual void focusOutEvent(QFocusEvent *ev);
+   virtual void mousePressEvent(QMouseEvent *ev);
+   virtual void focusInEvent(QFocusEvent *ev);
    void setGrayedText(const QString &text) { m_grayedText = text; }
    QString grayedText() const { return m_grayedText; }
 private:
@@ -306,7 +306,7 @@ private:
 
 MagicKLineEdit::MagicKLineEdit(
    const QString &text, QWidget *parent, const char *name
-) : KLineEdit(text, parent, name) {
+) : KLineEdit(text, parent, name), m_grayedText(text) {
    setPaletteForegroundColor(gray);
 }
 
