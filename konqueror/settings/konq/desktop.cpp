@@ -104,12 +104,12 @@ KDesktopConfig::KDesktopConfig(QWidget *parent, const char */*name*/)
 
   for(int i = 1; i < 16; i++)
       setTabOrder( _nameInput[i-1], _nameInput[i] );
-      
+
   layout->addWidget(name_group);
-  
+
   _wheelOption = new QCheckBox(i18n("Mouse wheel over desktop switches desktop"), this);
   connect(_wheelOption,SIGNAL(toggled(bool)),this,SLOT(slotOptionChanged()));
-  
+
   layout->addWidget(_wheelOption);
   layout->addStretch(1);
 
@@ -127,15 +127,14 @@ void KDesktopConfig::load()
   for(int i = 1; i <= 16; i++)
   {
     QString name = QString::fromUtf8(info.desktopName(i));
-    if( !name.isEmpty())
-        _nameInput[i-1]->setText(name);
+    _nameInput[i-1]->setText(name);
   }
 
   for(int i = 1; i <= 16; i++)
     _nameInput[i-1]->setEnabled(i <= n);
   emit changed(false);
-  
-  
+
+
   KConfig *config = new KConfig("kdesktoprc", true);
   config->setGroup("Mouse Buttons");
   _wheelOption->setChecked(config->readBoolEntry("WheelSwitchesWorkspace",false));
@@ -161,7 +160,7 @@ void KDesktopConfig::save()
   config->setGroup("Mouse Buttons");
   config->writeEntry("WheelSwitchesWorkspace", _wheelOption->isChecked());
   delete config;
-    
+
   // Tell kdesktop about the new config file
   if ( !kapp->dcopClient()->isAttached() )
      kapp->dcopClient()->attach();
@@ -191,9 +190,9 @@ void KDesktopConfig::defaults()
 
   for(int i = 0; i < 16; i++)
     _nameInput[i]->setEnabled(i < n);
-    
+
   _wheelOption->setChecked(false);
-    
+
   emit changed(false);
 }
 
