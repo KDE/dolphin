@@ -206,7 +206,7 @@ void KonqOperations::_del( int method, const KURL::List & selectedURLs, int conf
         // konq standalone.
         QString trashPath = KGlobalSettings::trashPath();
         if ( !QFile::exists( trashPath ) )
-            KStandardDirs::makeDir( QFile::encodeName( trashPath ), 0660 );
+            KStandardDirs::makeDir( QFile::encodeName( trashPath ) );
         KURL u;
         u.setPath( trashPath );
         job = KIO::move( selectedURLs, u );
