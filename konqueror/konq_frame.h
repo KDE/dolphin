@@ -72,6 +72,14 @@ class KonqFrameStatusBar : public QWidget
       KonqFrameStatusBar( KonqFrame *_parent = 0L, const char *_name = 0L );
       ~KonqFrameStatusBar() {}
       QCheckBox *passiveModeCheckBox() const { return m_pPassiveModeCheckBox; }
+      /**
+       * Shows the passiveModeCheckBox and the little green led
+       */
+      void showStuff();
+      /**
+       * Hides the passiveModeCheckBox and the little green led
+       */
+      void hideStuff();
 
    public slots:
       void slotConnectToNewView(KParts::ReadOnlyPart *oldOne,KParts::ReadOnlyPart *newOne);
@@ -99,6 +107,7 @@ class KonqFrameStatusBar : public QWidget
       QCheckBox *m_pPassiveModeCheckBox;
       QLabel statusLabel;
       int m_yOffset;
+      bool m_showLed;
 };
 
 typedef QList<KonqChildView> ChildViewList;

@@ -67,6 +67,7 @@ KonqFrameStatusBar::KonqFrameStatusBar( KonqFrame *_parent, const char *_name )
 ,m_pParentKonqFrame( _parent )
 ,statusLabel(this)
 ,m_yOffset(0)
+,m_showLed(true)
 {
    m_pPassiveModeCheckBox = new KonqCheckBox( this );
    m_pPassiveModeCheckBox->show();
@@ -139,10 +140,25 @@ void KonqFrameStatusBar::slotConnectToNewView(KParts::ReadOnlyPart *,KParts::Rea
    slotDisplayStatusText( QString::null );
 }
 
+void KonqFrameStatusBar::showStuff()
+{
+    m_pPassiveModeCheckBox->show();
+    m_showLed = true;
+    repaint();
+}
+
+void KonqFrameStatusBar::hideStuff()
+{
+    m_pPassiveModeCheckBox->hide();
+    m_showLed = false;
+    repaint();
+}
+
 void KonqFrameStatusBar::paintEvent(QPaintEvent* e)
 {
    if (!isVisible()) return;
    QWidget::paintEvent(e);
+   if (!m_showLed) return;
    bool hasFocus = m_pParentKonqFrame->isActivePart();
    if ( m_pParentKonqFrame->childView()->passiveMode() )
       hasFocus = false;

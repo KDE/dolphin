@@ -131,7 +131,7 @@ KParts::ReadOnlyPart* KonqViewManager::split (KonqFrameBase* splitFrame,
     printSizeInfo( splitFrame, parentContainer, "before split");
 
     if ( splitFrame->widget()->inherits( "KonqFrame" ) )
-      ((KonqFrame *)splitFrame->widget())->statusbar()->passiveModeCheckBox()->show();
+      ((KonqFrame *)splitFrame->widget())->statusbar()->showStuff();
 
     splitFrame->widget()->setUpdatesEnabled( false );
     parentContainer->setUpdatesEnabled( false );
@@ -185,7 +185,7 @@ KParts::ReadOnlyPart* KonqViewManager::split (KonqFrameBase* splitFrame,
     // exclude the splitter and all child widgets from the part focus handling
     m_pMainContainer->show();
 
-    childView->frame()->statusbar()->passiveModeCheckBox()->hide();
+    childView->frame()->statusbar()->hideStuff();
 
     if ( newFrameContainer )
       *newFrameContainer = m_pMainContainer;
@@ -229,6 +229,8 @@ void KonqViewManager::removeView( KonqChildView *view )
   if( moveOtherChild )
     grandParentContainer->moveToFirst( otherFrame->widget() );
 
+  if(m_pMainView->viewList().count() == 1)
+    m_pMainView->currentChildView()->frame()->statusbar()->hideStuff();
 }
 
 void KonqViewManager::saveViewProfile( KConfig &cfg )
@@ -279,13 +281,13 @@ void KonqViewManager::loadViewProfile( KConfig &cfg )
     KonqChildView *nextChildView = chooseNextView( childView );
     setActivePart( nextChildView->view() );
     if ( lst.count() == 2 )
-      nextChildView->frame()->statusbar()->passiveModeCheckBox()->hide();
+      nextChildView->frame()->statusbar()->hideStuff();
   }
   else
     setActivePart( view );
 
   if ( lst.count() == 1 && !childView->passiveMode() )
-    childView->frame()->statusbar()->passiveModeCheckBox()->hide();
+    childView->frame()->statusbar()->hideStuff();
 }
 
 void KonqViewManager::loadItem( KConfig &cfg, KonqFrameContainer *parent,
