@@ -579,10 +579,13 @@ bool KonqIconViewWidget::initConfig( bool bInit )
           setItemTextBackground( NoBrush );
     }
 
-
-    d->pFileTip->setOptions(m_pSettings->showFileTips() && QToolTip::isGloballyEnabled(),
+    bool on = m_pSettings->showFileTips() && QToolTip::isGloballyEnabled();
+    d->pFileTip->setOptions(on,
                             m_pSettings->showPreviewsInFileTips(),
                             m_pSettings->numFileTips());
+
+    // if the user wants our own tooltip, don't show the one from Qts ListView
+    setShowToolTips(!on);
 
     // Font settings
     QFont font( m_pSettings->standardFont() );
@@ -600,7 +603,7 @@ bool KonqIconViewWidget::initConfig( bool bInit )
         }
     }
 
-    setIconTextHeight( m_bDesktop ? 2 : m_pSettings->iconTextHeight() );
+    setIconTextHeight( m_pSettings->iconTextHeight() );
 
     // Update icons if settings for preview icon size have changed
     if ( d->bBoostPreview != boostPreview() )
