@@ -112,6 +112,10 @@ public:
    * @return the list of file items currently displayed
    */
   QList<KFileItem> & items() { return m_lstFileItems; }
+  /**
+   * @return the file item for kurl() itself (".")
+   */
+  KFileItem * rootItem() { return m_rootFileItem; }
 
   int jobId() { return m_jobId; }
 
@@ -165,6 +169,8 @@ protected:
 
   /** The internal storage of file items */
   QList<KFileItem> m_lstFileItems;
+  /** File Item for m_url itself (".") */
+  KFileItem * m_rootFileItem;
 
   /**
    * List of dirs handled by this instance. Same as m_sURL if only one dir

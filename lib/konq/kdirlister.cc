@@ -38,6 +38,7 @@ KDirLister::KDirLister()
   m_bComplete = true;
   m_jobId = 0;
   m_lstFileItems.setAutoDelete( true );
+  m_rootFileItem = 0L;
 }
 
 KDirLister::~KDirLister()
@@ -50,6 +51,7 @@ KDirLister::~KDirLister()
       job->kill();
     m_jobId = 0;
   }
+  delete m_rootFileItem; // no problem if 0L says the master
   forgetDirs();
 }
 
@@ -136,6 +138,8 @@ void KDirLister::openURL( const KURL& _url, bool _showDotFiles, bool _keep )
   {
     emit clear();
     m_lstFileItems.clear(); // clear our internal list
+    delete m_rootFileItem;
+    m_rootFileItem = 0L;
     m_bKofficeDocs = false;
   }
 }
@@ -170,11 +174,16 @@ void KDirLister::slotListEntry( int /*_id*/, const KUDSEntry& _entry )
       name = (*it).m_str;
 
   assert( !name.isEmpty() );
-  // Skip . and .. for now (TODO : store info for '.', like permissions)
-  if ( name == "." || name == ".." )
-    return;
 
-  if ( m_isShowingDotFiles || name[0] != '.' ) {
+  if ( name == ".." )
+    return;
+  else if ( name == "." )
+  {
+    KURL u( m_url );
+    m_rootFileItem = new KFileItem( _entry, u );
+  }
+  else if ( m_isShowingDotFiles || name[0] != '.' )
+  {
     KURL u( m_url );
     u.addPath( name );
     //kdebug(0,1203,"Adding %s", u.url().ascii());
@@ -271,6 +280,9 @@ void KDirLister::slotUpdateFinished( int /*_id*/ )
 	name = (*it2).m_str;
 
     assert( !name.isEmpty() );
+
+    if ( name == "." || name == ".." )
+      continue;
 
     if ( m_isShowingDotFiles || name[0]!='.' )
     {
