@@ -110,6 +110,7 @@ protected slots:
   void slotCompleted();
   void slotNewItems( const KFileItemList& );
   void slotDeleteItem( KFileItem * );
+  void slotRefreshItems( const KFileItemList& );
   void slotClear();
   void slotRedirection( const KURL & );
 

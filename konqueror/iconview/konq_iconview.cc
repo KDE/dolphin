@@ -793,7 +793,7 @@ void KonqKfmIconView::slotCompleted()
     //m_paKOfficeMode->setEnabled( m_dirLister->kofficeDocsFound() );
 
     m_bUpdateContentsPosAfterListing = false;
-    
+
     slotOnViewport();
     // slotProcessMimeIcons will do it
     m_bNeedEmitCompleted = true;
@@ -863,6 +863,23 @@ void KonqKfmIconView::slotDeleteItem( KFileItem * _fileitem )
 	}
 	it = it->nextItem();
     }
+}
+
+void KonqKfmIconView::slotRefreshItems( const KFileItemList& entries )
+{
+  KFileItemListIterator rit(entries);
+  for (; rit.current(); ++rit) {
+    QIconViewItem *it = m_pIconView->firstItem();
+    for ( ; it ; it = it->nextItem() )
+    {
+        KFileIVI * fileIVI = static_cast<KFileIVI *>(it);
+        if ( fileIVI->item() == rit.current() )
+        {
+            fileIVI->refreshIcon( true );
+            break;
+        }
+    }
+  }
 }
 
 void KonqKfmIconView::slotClear()
@@ -1021,6 +1038,8 @@ bool KonqKfmIconView::openURL( const KURL &_url )
 			  this, SLOT( slotNewItems( const KFileItemList& ) ) );
 	QObject::connect( m_dirLister, SIGNAL( deleteItem( KFileItem * ) ),
 			  this, SLOT( slotDeleteItem( KFileItem * ) ) );
+	QObject::connect( m_dirLister, SIGNAL( refreshItems( const KFileItemList& ) ),
+			  this, SLOT( slotRefreshItems( const KFileItemList& ) ) );
 	QObject::connect( m_dirLister, SIGNAL( redirection( const KURL & ) ),
                           this, SLOT( slotRedirection( const KURL & ) ) );
     }
