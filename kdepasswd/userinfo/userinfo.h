@@ -29,9 +29,9 @@ public:
 
   const KAboutData* aboutData() const;
 
-  void save();
-  void load();
-  void defaults();
+  virtual void save();
+  virtual void load();
+  virtual void defaults();
   bool eventFilter(QObject*, QEvent*);
   int buttons();
   QString quickHelp() const;

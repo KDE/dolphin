@@ -117,7 +117,6 @@ KUserInfoConfig::KUserInfoConfig(QWidget *parent, const char *name, const QStrin
   pTop->addLayout( pMainArea );
   pTop->addStretch();
 
-  setButtons( Ok|Help );
   load();// Load our settings
 }
 
@@ -355,7 +354,7 @@ void KUserInfoConfig::load()
 
 int KUserInfoConfig::buttons()
 {
-  return KCModule::Help | KCModule::Apply;
+  return KCModule::Help | KCModule::Apply |  KCModule::Default;
 }
 
 QString KUserInfoConfig::quickHelp() const
