@@ -555,6 +555,9 @@ void KonqMainView::slotToggleDirTree( bool toggle )
 
     QListIterator<KonqChildView> it( viewList );
 
+    if ( m_currentView->view()->inherits( "KonqDirTreePart" ) )
+      m_pViewManager->setActivePart( m_pViewManager->chooseNextView( m_currentView )->view() );
+    
     for (; it.current(); ++it )
       if ( it.current()->view()->inherits( "KonqDirTreePart" ) )
         m_pViewManager->removeView( it.current() );

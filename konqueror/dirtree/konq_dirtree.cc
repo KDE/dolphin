@@ -27,6 +27,7 @@
 #include <kdesktopfile.h>
 #include <konqsettings.h>
 #include <kparts/factory.h>
+#include <kdebug.h>
 
 #include <assert.h>
 
@@ -577,6 +578,20 @@ void KonqDirTree::slotListingStopped()
 
   KURL url = lister->url();
 
+  QMap<KURL, KonqDirTreeItem *>::ConstIterator dirIt = topLevelItem.m_mapSubDirs->begin();
+  QMap<KURL, KonqDirTreeItem *>::ConstIterator dirEnd = topLevelItem.m_mapSubDirs->end();
+  for (; dirIt != dirEnd; ++dirIt )
+  {
+    if ( url.cmp( dirIt.key(), true ) )
+      break;
+  }
+  
+  if ( dirIt != topLevelItem.m_mapSubDirs->end() && dirIt.data()->childCount() == 0 )
+  {
+      dirIt.data()->setExpandable( false );
+      dirIt.data()->repaint();
+  }
+  
   KURL::List::Iterator it = topLevelItem.m_lstPendingURLs->find( url );
   if ( it != topLevelItem.m_lstPendingURLs->end() )
     topLevelItem.m_lstPendingURLs->remove( it );
@@ -788,7 +803,7 @@ void KonqDirTree::loadTopLevelItem( QListViewItem *parent,  const QString &filen
 
   bool hasOpenKey = cfg.hasKey( "Open" );
   bool open = cfg.readBoolEntry( "Open", true );
-  
+
   if ( ( !hasOpenKey && fileItem->url().isLocalFile() ) || ( hasOpenKey && open ) )
     item->setOpen( true );
 
