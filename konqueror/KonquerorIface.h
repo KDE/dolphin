@@ -3,6 +3,7 @@
 #define __KonquerorIface_h__
 
 #include <dcopobject.h>
+#include <dcopref.h>
 
 class KonquerorIface : virtual public DCOPObject
 {
@@ -11,6 +12,8 @@ public:
 
 k_dcop:
   virtual void openBrowserWindow( const QString &url ) = 0;
+
+  virtual void createBrowserWindowFromProfile( const QString &filename ) = 0;
 
   virtual void setMoveSelection( int move ) = 0;
 

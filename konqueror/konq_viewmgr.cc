@@ -374,30 +374,35 @@ void KonqViewManager::doGeometry( int width, int height )
 
 KonqChildView *KonqViewManager::chooseNextView( KonqChildView *view )
 {
-  QList<KonqChildView> viewList;
 
-  m_pMainContainer->listViews( &viewList );
+  
+  QValueList<BrowserView *> viewList = m_pMainView->viewList();
 
-  KonqChildView *nextView = viewList.first();
+  if ( !view )
+    return m_pMainView->childView( *viewList.begin() );
+    
+  QValueList<BrowserView *>::ConstIterator it = viewList.find( view->view() );
+  QValueList<BrowserView *>::ConstIterator end = viewList.end();
 
-  if ( !view && !nextView->passiveMode() )
-    return nextView;
-
-  nextView = 0;
-
-  int startPos = viewList.find( view );
-  int pos = startPos + 1;
-  while ( pos != startPos )
+  QValueList<BrowserView *>::ConstIterator startIt = it;
+  
+  if ( it != end )
+    it++;
+      
+  while ( it != startIt )
   {
-    if( pos >= (int)viewList.count() )
-      pos = 0;
-    kdebug(0, 1202, "next view: %d", pos );  
-    nextView = viewList.at( pos++ );
-    if ( !nextView->passiveMode() )
-      break;
-  }
+    if ( it == end )
+      it = viewList.begin();
 
-  return nextView;
+    KonqChildView *nextView = m_pMainView->childView( *it );
+    if ( nextView && !nextView->passiveMode() )
+      return nextView;
+
+    it++;
+  }
+  
+  return 0L; // ARGHL
+
 }
 
 #warning FIXME (Simon)

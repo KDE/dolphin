@@ -24,6 +24,7 @@
 #include "konq_misc.h"
 #include "konq_shell.h"
 #include "konq_mainview.h"
+#include "konq_viewmgr.h"
 #include "KonquerorIface.h"
 
 #include <ktrader.h>
@@ -33,6 +34,7 @@
 #include <kapp.h>
 #include <dcopclient.h>
 #include <kimgio.h>
+#include <ksimpleconfig.h>
 
 class KonquerorIfaceImpl : virtual public KonquerorIface
 {
@@ -41,6 +43,8 @@ public:
   virtual ~KonquerorIfaceImpl();
   
   virtual void openBrowserWindow( const QString &url );
+
+  virtual void createBrowserWindowFromProfile( const QString &filename );
 
   virtual void setMoveSelection( int move );
 };
@@ -57,6 +61,33 @@ KonquerorIfaceImpl::~KonquerorIfaceImpl()
 void KonquerorIfaceImpl::openBrowserWindow( const QString &url )
 {
   KFileManager::getFileManager()->openFileManagerWindow( url );
+}
+
+void KonquerorIfaceImpl::createBrowserWindowFromProfile( const QString &filename )
+{
+  qDebug( "void KonquerorIfaceImpl::createBrowserWindowFromProfile( const QString &filename ) " );
+  qDebug( "%s", filename.ascii() );
+
+  KonqShell *shell = new KonqShell;
+  
+  KonqPart *part = new KonqPart;
+  
+  part->setOpenInitialURL( false );
+  
+  //  shell->setRootPart( part );
+  KonqMainView *mainView = new KonqMainView( part, shell );
+
+  shell->setView( mainView );
+
+  mainView->show();
+
+  KSimpleConfig cfg( filename, true );
+  cfg.setGroup( "Profile" );
+  mainView->viewManager()->loadViewProfile( cfg );
+
+  shell->setActiveView( mainView );  
+
+  shell->show();
 }
 
 void KonquerorIfaceImpl::setMoveSelection( int move )
@@ -85,6 +116,8 @@ int main( int argc, char **argv )
   {
     fm.openFileManagerWindow( 0L );
   }
+  else if ( argc == 2 && strncmp( "--silent", argv[1], 8 ) == 0 )
+  { /* do nothing ;) */ }
   else
   {
     for ( int i = 1; i < argc; i++ )
