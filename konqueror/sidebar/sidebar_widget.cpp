@@ -220,7 +220,7 @@ Sidebar_Widget::Sidebar_Widget(QWidget *parent, KParts::ReadOnlyPart *par, const
                                 KDockWidget::DockBottom|KDockWidget::DockDesktop);*/
 
 
-   	ButtonBar = new KMultiTabBar(this, KMultiTabBar::Vertical);
+   	ButtonBar = new KMultiTabBar(KMultiTabBar::Vertical,this);
 	ButtonBar->showActiveTabTexts(true);
 	Menu = new QPopupMenu(this, "Sidebar_Widget::Menu");
 	QPopupMenu *addMenu = new QPopupMenu(this, "Sidebar_Widget::addPopup");
