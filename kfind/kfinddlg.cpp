@@ -227,7 +227,7 @@ void KfindDlg::copySelection()
 void  KfindDlg::about ()
 {
   KAboutApplication dlg(this, "about", true);
-  dlg.show();
+  dlg.exec ();
 }
 
 void KfindDlg::slotDeleteItem(const QString& file)
