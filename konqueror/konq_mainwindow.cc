@@ -1208,7 +1208,7 @@ void KonqMainWindow::slotRunFinished()
       stopAnimation();
       // Revert to working URL - unless the URL was typed manually
       kdDebug(1202) << " typed URL = " << run->typedURL() << endl;
-      if ( run->typedURL().isEmpty() ) // not typed
+      if ( run->typedURL().isEmpty() && childView->history().current() ) // not typed
         childView->setLocationBarURL( childView->history().current()->locationBarURL );
     }
   }
