@@ -34,8 +34,7 @@ public:
                  mode_t mode,
                  QString viewURL,
                  bool canGoBack, 
-                 bool canGoForward, 
-                 bool canGoUp );
+                 bool canGoForward );
   /**
    * Don't forget to destroy the object
    */

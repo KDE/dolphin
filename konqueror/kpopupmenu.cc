@@ -1,3 +1,5 @@
+#include <qdir.h>
+
 #include <opMenu.h>
 
 #include <kbookmark.h>
@@ -20,8 +22,7 @@ KonqPopupMenu::KonqPopupMenu( QStringList urls,
                               mode_t mode,
                               QString viewURL, 
                               bool canGoBack, 
-                              bool canGoForward, 
-                              bool canGoUp )
+                              bool canGoForward )
   : m_pMenuNew(0L), m_sViewURL(viewURL), m_lstPopupURLs(urls), m_popupMode(mode)
 {
   assert( m_lstPopupURLs.count() >= 1 );
@@ -35,6 +36,7 @@ KonqPopupMenu::KonqPopupMenu( QStringList urls,
   bool sWriting       = true;
   bool sDeleting      = true;
   bool sMoving        = true;
+  bool hasUpURL       = false;
   int id;
 
   KProtocolManager pManager = KProtocolManager::self();
@@ -83,19 +85,29 @@ KonqPopupMenu::KonqPopupMenu( QStringList urls,
 
   //check if current url is trash
   url = KURL( m_sViewURL );
-  QString path = url.path();
-  if ( path.right(1) != "/" )
-    path += "/";
+  url.cleanPath();
     
   if ( url.protocol() == "file" &&
-       path == UserPaths::trashPath() )
+       url.path(1) == UserPaths::trashPath() )
     isTrash = true;
 
   //check if url is current directory
   if ( m_lstPopupURLs.count() == 1 )
-    if ( m_sViewURL == m_lstPopupURLs.getFirst() )
+  {
+    KURL firstPopupURL = KURL(m_lstPopupURLs.getFirst());
+    firstPopupURL.cleanPath();
+    kdebug(0, 1202, "View path is %s",url.path(1).data());
+    kdebug(0, 1202, "First popup path is %s",firstPopupURL.path(1).data());
+    if ( firstPopupURL.protocol() == url.protocol()
+         && url.path(1) == firstPopupURL.path(1) )
+    {
       currentDir = true;
-
+      // ok, now check if we enable 'up'
+      if ( url.hasPath() )
+        hasUpURL = ( url.path(1) != "/");
+    }
+  }
+  
   QObject::disconnect( m_popupMenu, SIGNAL( activated( int ) ), this, SLOT( slotPopup( int ) ) );
 
   m_popupMenu->clear();
@@ -113,10 +125,6 @@ KonqPopupMenu::KonqPopupMenu( QStringList urls,
 
   if ( isTrash )
   {
-    /* Commented out. Left click does it. Why have it on right click menu ?. David.
-       id = popupMenu->insertItem( klocale->getAlias(ID_STRING_CD), 
-       view, SLOT( slotPopupCd() ) );
-    */
     id = m_popupMenu->insertItem( i18n( "New view" ), 
 				  this, SLOT( slotPopupNewView() ) );
     m_popupMenu->insertSeparator();    
@@ -131,16 +139,18 @@ KonqPopupMenu::KonqPopupMenu( QStringList urls,
     id = m_popupMenu->insertItem( i18n("&New"), m_pMenuNew->popupMenu() );
     m_popupMenu->insertSeparator();
 
-    id = m_popupMenu->insertItem( *KPixmapCache::toolbarPixmap( "up.xpm" ), i18n( "Up" ), KPOPUPMENU_UP_ID );
-    m_popupMenu->setItemEnabled( id, canGoUp );
+    if ( currentDir ) {
+      id = m_popupMenu->insertItem( *KPixmapCache::toolbarPixmap( "up.xpm" ), i18n( "Up" ), KPOPUPMENU_UP_ID );
+      m_popupMenu->setItemEnabled( id, hasUpURL );
 
-    id = m_popupMenu->insertItem( *KPixmapCache::toolbarPixmap( "back.xpm" ), i18n( "Back" ), KPOPUPMENU_BACK_ID );
-    m_popupMenu->setItemEnabled( id, canGoBack );
+      id = m_popupMenu->insertItem( *KPixmapCache::toolbarPixmap( "back.xpm" ), i18n( "Back" ), KPOPUPMENU_BACK_ID );
+      m_popupMenu->setItemEnabled( id, canGoBack );
 
-    id = m_popupMenu->insertItem( *KPixmapCache::toolbarPixmap( "forward.xpm" ), i18n( "Forward" ), KPOPUPMENU_FORWARD_ID );
-    m_popupMenu->setItemEnabled( id, canGoForward );
+      id = m_popupMenu->insertItem( *KPixmapCache::toolbarPixmap( "forward.xpm" ), i18n( "Forward" ), KPOPUPMENU_FORWARD_ID );
+      m_popupMenu->setItemEnabled( id, canGoForward );
 
-    m_popupMenu->insertSeparator();  
+      m_popupMenu->insertSeparator();  
+    }
 
     id = m_popupMenu->insertItem( i18n( "New View"), this, SLOT( slotPopupNewView() ) );
     m_popupMenu->insertSeparator();    
@@ -170,7 +180,7 @@ KonqPopupMenu::KonqPopupMenu( QStringList urls,
       id = m_popupMenu->insertItem( *KPixmapCache::toolbarPixmap( "editcopy.xpm" ), i18n( "Copy" ), this, SLOT( slotPopupCopy() ) );
     if ( sMoving && !isCurrentTrash && !currentDir )
       id = m_popupMenu->insertItem( *KPixmapCache::pixmap( "kfm_trash.xpm", true ), i18n( "Move to trash" ), this, SLOT( slotPopupTrash() ) );
-    if ( sDeleting /* && !_current_dir */)
+    if ( sDeleting && !currentDir )
       id = m_popupMenu->insertItem( i18n( "Delete" ), this, SLOT( slotPopupDelete() ) );
   }
 

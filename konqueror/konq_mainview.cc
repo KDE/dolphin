@@ -68,6 +68,7 @@
 #include <kservices.h>
 #include <kstdaccel.h>
 #include <kuserprofile.h>
+#include <kwm.h>
 #include <userpaths.h>
 
 #include <iostream>
@@ -837,10 +838,7 @@ void KonqMainView::slotSetUpEnabled( QString _url, OpenParts::Id _id )
   {
     u = _url;
     if ( u.hasPath() )
-    {
-      kdebug(0,1202,"u.path() = '%s'",u.path().data());
-      bHasUpURL = ( strcmp( u.path(), "/") != 0 );
-    }
+      bHasUpURL = ( u.path() != "/");
   }
   
   setItemEnabled( m_vMenuGo, MGO_UP_ID, bHasUpURL );
@@ -968,12 +966,26 @@ void KonqMainView::slotNewWindow()
 
 void KonqMainView::slotRun()
 {
-  // TODO
+  // HACK: The command is not executed in the directory
+  // we are in currently. KWM does not support that yet
+  KWM::sendKWMCommand("execute");
 }
 
 void KonqMainView::slotTerminal()
 {
-  // TODO
+    KConfig *config = KApplication::getKApplication()->getConfig();
+    config->setGroup( "Misc Defaults" ); // TODO : change this in kcmkonq too
+    QString term = config->readEntry( "Terminal", DEFAULT_TERMINAL );
+ 
+    QString dir ( QDir::homeDirPath() );
+ 
+    KURL u( m_currentView->url() );
+    if ( u.isLocalFile() )
+      dir = u.path();
+
+    QString cmd;
+    cmd.sprintf("cd \"%s\" ; %s &", dir.data(), term.data());
+    system( cmd.data() ); 
 }
 
 void KonqMainView::slotOpenLocation()
@@ -1357,8 +1369,7 @@ void KonqMainView::popupMenu( const Konqueror::View::MenuPopupRequest &popup )
                                                  (mode_t) popup.mode,
                                                  m_currentView->url(),
                                                  m_currentView->canGoBack(),
-                                                 m_currentView->canGoForward(), 
-                                                 true /* TODO ! */ );
+                                                 m_currentView->canGoForward() );
 
   kdebug(0, 1202, "exec()");
   int iSelected = popupMenu->exec( QPoint(popup.x, popup.y) );
