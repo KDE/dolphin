@@ -173,10 +173,10 @@ KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name)
     typeBox->insertItem(i18n("All Files and Directories"));
     typeBox->insertItem(i18n("Files"));
     typeBox->insertItem(i18n("Directories"));
-    typeBox->insertItem(i18n("Symbolic links"));
-    typeBox->insertItem(i18n("Special files (sockets, device files...)"));
-    typeBox->insertItem(i18n("Executable files"));
-    typeBox->insertItem(i18n("SUID executable files"));
+    typeBox->insertItem(i18n("Symbolic Links"));
+    typeBox->insertItem(i18n("Special Files (Sockets, Device Files...)"));
+    typeBox->insertItem(i18n("Executable Files"));
+    typeBox->insertItem(i18n("SUID Executable Files"));
 
     initMimeTypes();
 
