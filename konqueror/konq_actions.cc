@@ -24,8 +24,6 @@
 #include <qlabel.h>
 #include <qpopupmenu.h>
 #include <qcombobox.h>
-#include <kbookmark.h>
-#include <kbookmarkbar.h>
 
 #include <ktoolbar.h>
 
@@ -49,10 +47,6 @@ int KonqComboAction::plug( QWidget *w, int index )
   int id = get_toolbutton_id();
 
   toolBar->insertCombo( m_items, id, true, SIGNAL( activated( const QString & ) ),m_receiver, m_member, true, QString::null, 70, index );
-
-  QLabel *label = new QLabel( plainText(), w );
-  label->adjustSize();
-  toolBar->insertWidget( get_toolbutton_id(), label->width(), label, index );
 
   QComboBox *comboBox = toolBar->getCombo( id );
 
@@ -80,13 +74,6 @@ void KonqComboAction::unplug( QWidget *w )
   KToolBar *toolBar = (KToolBar *)w;
 
   int idx = findContainer( w );
-  int id = menuId( idx ) - 1;
-
-  QWidget *l = toolBar->getWidget( id );
-
-  assert( l->inherits( "QLabel" ) );
-
-  toolBar->removeItem( id );
 
   toolBar->removeItem( menuId( idx ) );
 
@@ -214,43 +201,6 @@ QPopupMenu *KonqHistoryAction::popupMenu()
   return m_popup;
 }
 
-KonqBookmarkBar::KonqBookmarkBar( const QString& text, int accel,
-                                  KBookmarkOwner* owner, QObject *parent,
-                                  const char* name )
-    : QAction( text, accel, parent, name ), m_pOwner(owner)
-{
-}
-
-int KonqBookmarkBar::plug( QWidget *w, int index )
-{
-  KToolBar *toolBar = (KToolBar *)w;
-
-#ifdef __GNUC__
-#warning "FIXME: obey index"
-#endif
-  new KBookmarkBar(m_pOwner, toolBar, (QActionCollection*)parent());
-
-  int id = get_toolbutton_id();
-
-  addContainer( toolBar, id );
-
-  connect( toolBar, SIGNAL( destroyed() ), this, SLOT( slotDestroyed() ) );
-
-  return containerCount() - 1;
-}
-
-void KonqBookmarkBar::unplug( QWidget *w )
-{
-  KToolBar *toolBar = (KToolBar *)w;
-
-  int idx = findContainer( w );
-  int id = menuId( idx ) + 1;
-
-  toolBar->removeItem( menuId( idx ) );
-
-  removeContainer( idx );
-}
-
 KonqLogoAction::KonqLogoAction( const QString& text, int accel, QObject* parent, const char* name )
   : KAction( text, accel, parent, name )
 {
@@ -279,12 +229,59 @@ KonqLogoAction::KonqLogoAction( QObject* parent, const char* name )
 
 int KonqLogoAction::plug( QWidget *widget, int index )
 {
-  int containerId = KAction::plug( widget, index ); 
-  
+  int containerId = KAction::plug( widget, index );
+
   if ( widget->inherits( "KToolBar" ) )
     ((KToolBar *)widget)->alignItemRight( menuId( containerId ) );
-  
+
   return containerId;
+}
+
+KonqLabelAction::KonqLabelAction( const QString &text, QObject *parent, const char *name )
+: QAction( text, 0, parent, name )
+{
+} 
+
+int KonqLabelAction::plug( QWidget *widget, int index )
+{
+  //do not call the previous implementation here
+
+  if ( widget->inherits( "KToolBar" ) )
+  {
+    KToolBar *tb = (KToolBar *)widget;
+    
+    int id = get_toolbutton_id();
+    
+    QLabel *label = new QLabel( plainText(), widget );
+    label->adjustSize();
+    tb->insertWidget( id, label->width(), label, index );
+    
+    addContainer( tb, id );
+    
+    connect( tb, SIGNAL( destroyed() ), this, SLOT( slotDestroyed() ) );
+    
+    return containerCount() - 1;
+  }
+  
+  return -1;
+} 
+
+void KonqLabelAction::unplug( QWidget *widget )
+{
+  if ( widget->inherits( "KToolBar" ) )
+  {
+    KToolBar *bar = (KToolBar *)widget;
+
+    int idx = findContainer( bar );
+
+    if ( idx != -1 )
+    {
+      bar->removeItem( menuId( idx ) );
+      removeContainer( idx );
+    }
+
+    return;
+  }
 } 
 
 #include "konq_actions.moc"

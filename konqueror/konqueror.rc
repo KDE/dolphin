@@ -100,12 +100,11 @@
  <Separator/>
  <Action name="animated_logo"/>
 </ToolBar>
-<ToolBar fullWidth="true" name="locationToolBar">
- <Action name="toolbar_url_combo"/>
+<ToolBar fullWidth="true" name="locationToolBar" >
+  <Action name="location_label" />
+  <Action name="toolbar_url_combo" />
 </ToolBar>
-<ToolBar fullWidth="true" name="bookmarkToolBar">
- <Action name="toolbar_bookmark"/>
-</ToolBar>
+<ToolBar fullWidth="true" name="bookmarkToolBar" />
 <StatusBar/>
 </QConfig>
 

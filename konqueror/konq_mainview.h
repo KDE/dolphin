@@ -73,6 +73,8 @@ public:
 
   KonqViewManager *viewManager() const { return m_pViewManager; }
 
+  virtual QWidget *createContainer( QWidget *parent, int index, const QDomElement &element, const QByteArray &containerStateBuffer, int &id );
+
 public slots:
 
   void slotPopupMenu( const QPoint &_global, const KFileItemList &_items );

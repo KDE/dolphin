@@ -67,6 +67,7 @@
 #include <klibloader.h>
 #include <kbookmarkbar.h>
 #include <kbookmarkmenu.h>
+#include <kbookmarkbar.h>
 #include <kstdaction.h>
 #include <khelpmenu.h>
 #include <kparts/part.h>
@@ -200,6 +201,23 @@ KonqMainView::~KonqMainView()
 
   KonqFactory::instanceUnref();
 }
+
+QWidget *KonqMainView::createContainer( QWidget *parent, int index, const QDomElement &element, const QByteArray &containerStateBuffer, int &id )
+{
+  static QString nameBookmarkBar = QString::fromLatin1( "bookmarkToolBar" );
+  static QString tagToolBar = QString::fromLatin1( "ToolBar" );
+ 
+  QWidget *res = KParts::MainWindow::createContainer( parent, index, element, containerStateBuffer, id );
+  
+  if ( element.tagName() == tagToolBar && element.attribute( "name" ) == nameBookmarkBar )
+  {
+    assert( res->inherits( "KToolBar" ) );
+    
+    (void)new KBookmarkBar( this, (KToolBar *)res, actionCollection(), this );
+  }
+  
+  return res;
+} 
 
 QString KonqMainView::konqFilteredURL( const QString &_url )
 {
@@ -777,7 +795,7 @@ void KonqMainView::slotPartActivated( KParts::Part *part )
     m_paDelete->setEnabled( false );
     m_paTrash->setEnabled( false );
     m_paPrint->setEnabled( false );
-  
+
     createGUI( 0L );
   }
 
@@ -1327,11 +1345,11 @@ void KonqMainView::initActions()
 
   m_paAnimatedLogo = new KonqLogoAction( QString::null, QIconSet( *s_plstAnimatedLogo->at( 0 ) ), 0, this, SLOT( slotNewWindow() ), actionCollection(), "animated_logo" );
 
+  (void)new KonqLabelAction( i18n( "Location " ), actionCollection(), "location_label" );
+  
   m_paURLCombo = new KonqComboAction( i18n( "Location " ), 0, this, SLOT( slotURLEntered( const QString & ) ), actionCollection(), "toolbar_url_combo" );
   connect( m_paURLCombo, SIGNAL( plugged() ),
            this, SLOT( slotComboPlugged() ) );
-
-  m_paBookmarkBar = new KonqBookmarkBar( "BookmarkBar", 0, this, actionCollection(), "toolbar_bookmark" );
 
   // Bookmarks menu
   m_pamBookmarks = new KActionMenu( i18n( "&Bookmarks" ), actionCollection(), "bookmarks" );
