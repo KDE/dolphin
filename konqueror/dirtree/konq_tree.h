@@ -1,7 +1,7 @@
 /* This file is part of the KDE project
    Copyright (C) 2000 David Faure <faure@kde.org>
                  2000 Carsten Pfeiffer <pfeiffer@kde.org>
-		
+
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Library General Public
    License version 2 as published by the Free Software Foundation.
@@ -77,10 +77,10 @@ public:
     KonqTreePart * part() { return m_part; }
 
     void lockScrolling( bool lock ) { m_scrollingLocked = lock; }
-    
+
 public slots:
     virtual void setContentsPos( int x, int y );
-    
+
 protected:
     virtual void contentsDragEnterEvent( QDragEnterEvent *e );
     virtual void contentsDragMoveEvent( QDragMoveEvent *e );
@@ -106,6 +106,7 @@ private slots:
     void rescanConfiguration();
 
     void slotOnItem( QListViewItem * );
+    void slotItemRenamed(QListViewItem*, const QString &, int);
 
 private:
     void clearTree();

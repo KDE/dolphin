@@ -52,7 +52,8 @@ public:
     KonqTreeBrowserExtension( KonqTreePart *parent, KonqTree *tree );
 
     void enableActions( bool copy, bool cut, bool paste,
-                        bool trash, bool del, bool shred );
+                        bool trash, bool del, bool shred,
+                        bool rename = false );
 
 protected slots:
     void copy();
@@ -61,6 +62,7 @@ protected slots:
     void trash();
     void del();
     void shred();
+    void rename();
 
 protected:
     KURL::List selectedUrls();
@@ -93,7 +95,7 @@ public:
     { return m_pTree; }
 
     void emitStatusBarText( const QString& text );
-    
+
 private:
     KonqTreeBrowserExtension * m_extension;
     KonqTree * m_pTree;

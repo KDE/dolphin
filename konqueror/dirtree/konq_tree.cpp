@@ -81,6 +81,8 @@ KonqTree::KonqTree( KonqTreePart *parent, QWidget *parentWidget )
 
     connect( this, SIGNAL( onItem( QListViewItem * )),
 	     this, SLOT( slotOnItem( QListViewItem * ) ) );
+    connect( this, SIGNAL(itemRenamed(QListViewItem*, const QString &, int)),
+             this, SLOT(slotItemRenamed(QListViewItem*, const QString &, int)));
 
     m_bDrag = false;
 
@@ -625,6 +627,21 @@ void KonqTree::setContentsPos( int x, int y )
 {
     if ( !m_scrollingLocked )
 	return KListView::setContentsPos( x, y );
+}
+
+void KonqTree::slotItemRenamed(QListViewItem* item, const QString &name, int col)
+{
+    ASSERT(col==0);
+    if (col != 0) return;
+    assert(item);
+    KonqTreeItem * treeItem = static_cast<KonqTreeItem *>(item);
+    if ( treeItem->isTopLevelItem() )
+    {
+        KonqTreeTopLevelItem * topLevelItem = static_cast<KonqTreeTopLevelItem *>(treeItem);
+        topLevelItem->rename( name );
+    }
+    else
+        kdWarning() << "slotItemRenamed: rename not implemented for non-toplevel items" << endl;
 }
 
 ///////////////////////////////////////////////////////////////////

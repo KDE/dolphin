@@ -22,6 +22,7 @@
 #include "konq_tree.h"
 #include <kparts/factory.h>
 #include <kinstance.h>
+#include <kdebug.h>
 #include <konq_drag.h>
 #include <qapplication.h>
 #include <qclipboard.h>
@@ -69,7 +70,8 @@ KonqTreeBrowserExtension::KonqTreeBrowserExtension( KonqTreePart *parent, KonqTr
 }
 
 void KonqTreeBrowserExtension::enableActions( bool copy, bool cut, bool paste,
-                                              bool trash, bool del, bool shred )
+                                              bool trash, bool del, bool shred,
+                                              bool rename )
 {
     emit enableAction( "copy", copy );
     emit enableAction( "cut", cut );
@@ -77,6 +79,7 @@ void KonqTreeBrowserExtension::enableActions( bool copy, bool cut, bool paste,
     emit enableAction( "trash", trash );
     emit enableAction( "del", del );
     emit enableAction( "shred", shred );
+    emit enableAction( "rename", rename );
 }
 
 void KonqTreeBrowserExtension::cut()
@@ -115,6 +118,12 @@ void KonqTreeBrowserExtension::shred()
 {
     if (m_pTree->currentItem())
         m_pTree->currentItem()->shred();
+}
+
+void KonqTreeBrowserExtension::rename()
+{
+    if (m_pTree->currentItem())
+        m_pTree->currentItem()->rename();
 }
 
 ////////////////////

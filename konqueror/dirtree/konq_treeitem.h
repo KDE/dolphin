@@ -61,6 +61,7 @@ public:
     virtual void trash() {}
     virtual void del() {}
     virtual void shred() {}
+    virtual void rename() {}
 
     // The URL to open when this link is clicked
     virtual KURL externalURL() const = 0;
@@ -71,7 +72,7 @@ public:
 
     // overwrite this if you want a tooltip shown on your item
     virtual QString toolTipText() const { return QString::null; }
-    
+
     // Called when this item is selected
     // Reimplement, and call tree()->part()->extension()->enableActions(...)
     virtual void itemSelected() = 0;

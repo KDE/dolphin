@@ -43,9 +43,11 @@ void KonqTreeTopLevelItem::setOpen( bool open )
 
 void KonqTreeTopLevelItem::itemSelected()
 {
+    kdDebug() << "KonqTreeTopLevelItem::itemSelected" << endl;
     QMimeSource *data = QApplication::clipboard()->data();
     bool paste = m_bTopLevelGroup && data->provides("text/uri-list");
-    tree()->part()->extension()->enableActions( true, true, paste, true, true, true );
+    tree()->part()->extension()->enableActions( true, true, paste, true, true, true,
+                                                true /*rename*/ );
 }
 
 bool KonqTreeTopLevelItem::acceptsDrops( const QStrList & formats )
@@ -137,6 +139,9 @@ void KonqTreeTopLevelItem::rightButtonPressed()
 {
     KURL url;
     url.setPath( m_path );
+    // We don't show "edit file type" (useless here) and "properties" (shows the wrong name,
+    // i.e. the filename instead of the Name field). There's the Rename item for that.
+    // Only missing thing is changing the URL of a link. Hmm...
     emit tree()->part()->extension()->popupMenu( QCursor::pos(), url,
                                                  isTopLevelGroup() ? "inode/directory" : "application/x-desktop" );
 }
@@ -184,4 +189,33 @@ void KonqTreeTopLevelItem::paste()
         destURL = m_externalURL;
 
     KIO::pasteClipboard( destURL, move );
+}
+
+void KonqTreeTopLevelItem::rename()
+{
+    tree()->rename( this, 0 );
+}
+
+void KonqTreeTopLevelItem::rename( const QString & name )
+{
+    KURL url;
+    url.setPath( m_path );
+
+    // Well, it's not really the file we want to rename, it's the Name field
+    // of the .directory or desktop file
+    //KonqOperations::rename( tree(), url, name );
+
+    QString desktopFile = m_path;
+    if ( isTopLevelGroup() )
+        desktopFile += "/.directory";
+    KSimpleConfig cfg( desktopFile );
+    cfg.setDesktopGroup();
+    cfg.writeEntry( "Name", name );
+    cfg.sync();
+
+    // Notify about the change
+    KURL::List lst;
+    lst.append(url);
+    KDirNotify_stub allDirNotify("*", "KDirNotify*");
+    allDirNotify.FilesChanged( lst );
 }
