@@ -52,7 +52,7 @@ int KonqComboAction::plug( QWidget *w, int index )
   KComboBox *comboBox = toolBar->getCombo( id );
   KCompletion *comp = comboBox->completionObject();
   // Update the KCompletion object as well...
-  connect( comboBox, SIGNAL( returnPressed( QString& ) ), comp, SLOT( addItem( QString& ) ) );
+  connect( comboBox, SIGNAL( returnPressed( const QString& ) ), comp, SLOT( addItem( const QString& ) ) );
 
   addContainer( toolBar, id );
 
