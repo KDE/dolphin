@@ -137,7 +137,7 @@ KonqMainWindow * KonqMisc::createBrowserWindowFromProfile( const QString &path, 
       KonqOpenURLRequest req;
       req.args = args;
       req.filesToSelect = filesToSelect;
-      req.tempFile = true;
+      req.tempFile = tempFile;
       mainWindow->viewManager()->loadViewProfile( path, filename, url, req, true );
   }
   else
