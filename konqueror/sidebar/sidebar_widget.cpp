@@ -350,7 +350,7 @@ void Sidebar_Widget::addWebSideBar(const KURL& url, const QString& /*name*/) {
 		scf.writeEntry("X-KDE-KonqSidebarModule", "konqsidebar_web");
 		scf.sync();
 
-		updateButtons(); // update
+		QTimer::singleShot(0,this,SLOT(updateButtons()));
 	}
 }
 
