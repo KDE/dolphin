@@ -296,11 +296,7 @@ void testLocalInstallation()
   testDir( UserPaths::desktopPath(), TRUE );
   copyDirectoryFile("directory.desktop", UserPaths::desktopPath(), false);
   testDir( UserPaths::trashPath() );
-  // TODO : This is tricky. Just before we ship the first version of KDE 2,
-  // the last argument of the call below should become 'newRelease'.
-  // But as long as kapp.h isn't updated, I want the trash icon
-  // information to be copied to the trash .directory file. David.
-  copyDirectoryFile("directory.trash", UserPaths::trashPath(), true);
+  copyDirectoryFile("directory.trash", UserPaths::trashPath(), newRelease); //for trash icon
   testDir( UserPaths::templatesPath() );
   copyDirectoryFile("directory.templates", UserPaths::templatesPath(), copyTemplates);
   testDir( UserPaths::autostartPath() );
