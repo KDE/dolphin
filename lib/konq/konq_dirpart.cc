@@ -310,7 +310,7 @@ void KonqDirPart::slotClipboardDataChanged()
 void KonqDirPart::updatePasteAction()
 {
     QMimeSource *data = QApplication::clipboard()->data();
-    bool paste = ( data->encodedData( data->format() ).size() != 0 );
+    bool paste = ( data->format() != 0 );
 
     emit m_extension->enableAction( "paste", paste ); // TODO : if only one url, check that it's a dir
 }
