@@ -103,6 +103,6 @@ void KHTMLPluginKTTSD::slotReadOut()
     }
 }
 
-K_EXPORT_COMPONENT_FACTORY( libkhtmlkttsdplugin, KGenericFactory<KHTMLPluginKTTSD>("khtmlkttsdplugin") )
+K_EXPORT_COMPONENT_FACTORY( libkhtmlkttsdplugin, KGenericFactory<KHTMLPluginKTTSD>("khtmlkttsd") )
 
 #include "khtmlkttsd.moc"
