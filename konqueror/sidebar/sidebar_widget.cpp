@@ -243,7 +243,8 @@ Sidebar_Widget::Sidebar_Widget(QWidget *parent, KParts::ReadOnlyPart *par, const
 	connect(Area,SIGNAL(dockWidgetHasUndocked(KDockWidget*)),this,SLOT(dockWidgetHasUndocked(KDockWidget*)));
 
 	// we want to keep our size when the splitter is resized!
-	static_cast<QSplitter*>( parent->parentWidget() )->setResizeMode( parent, QSplitter::KeepSize );
+	// The next line is not correct fix for above, triggers more annoying bug (#50316)!
+//	static_cast<QSplitter*>( parent->parentWidget() )->setResizeMode( parent, QSplitter::KeepSize );
 }
 
 void Sidebar_Widget::finishRollBack()
