@@ -253,6 +253,8 @@ void KonqUndoManager::undoStep()
         else
   	  assert( 0 ); // this should not happen!
       }
+      else if ( d->m_current.m_type == KonqCommand::COPY )
+        d->m_currentJob = KIO::file_delete( op.m_dst );
       else
         d->m_currentJob = KIO::file_move( op.m_dst, op.m_src, -1, true );
     }
