@@ -16,6 +16,9 @@
    Boston, MA 02111-1307, USA.
 */
 
+#ifndef __kebdrag_h
+#define __kebdrag_h
+
 #include <qdragobject.h>
 #include <kbookmark.h>
 
@@ -43,3 +46,5 @@ public:
 protected:
     KBookmark m_bookmark;
 };
+#endif
+
