@@ -126,18 +126,27 @@ void ImportCommand::unexecute() {
    }
 }
 
-void ImportCommand::connectImporter(const QObject *importer, const QObject *builder) {
+//////////////////////////////
+
+void KBookmarkDomBuilder::connectImporter(const QObject *importer) {
    connect(importer, SIGNAL( newBookmark(const QString &, const QCString &, const QString &) ),
-           builder,  SLOT( newBookmark(const QString &, const QCString &, const QString &) ));
+                     SLOT( newBookmark(const QString &, const QCString &, const QString &) ));
    connect(importer, SIGNAL( newFolder(const QString &, bool, const QString &) ),
-           builder,  SLOT( newFolder(const QString &, bool, const QString &) ));
+                     SLOT( newFolder(const QString &, bool, const QString &) ));
    connect(importer, SIGNAL( newSeparator() ),
-           builder,  SLOT( newSeparator() ) );
+                     SLOT( newSeparator() ) );
    connect(importer, SIGNAL( endFolder() ),
-           builder,  SLOT( endFolder() ) );
+                     SLOT( endFolder() ) );
 }
 
-//////////////////////////////
+KBookmarkDomBuilder::KBookmarkDomBuilder(const KBookmarkGroup &bkGroup) {
+   m_stack.push(&bkGroup);
+}
+
+KBookmarkDomBuilder::~KBookmarkDomBuilder() {
+   m_list.clear();
+   m_stack.clear();
+}
 
 void KBookmarkDomBuilder::newBookmark(const QString &text, const QCString &url, const QString &additionnalInfo) {
    KBookmark bk = m_stack.top()->addBookmark(
@@ -178,15 +187,6 @@ void ImportCommand::doCreateHoldingFolder(KBookmarkGroup &bkGroup) {
    m_group = bkGroup.address();
 }
 
-KBookmarkDomBuilder::KBookmarkDomBuilder(const KBookmarkGroup &bkGroup) {
-   m_stack.push(&bkGroup);
-}
-
-KBookmarkDomBuilder::~KBookmarkDomBuilder() {
-   m_list.clear();
-   m_stack.clear();
-}
-
 /* -------------------------------------- */
 
 QString OperaImportCommand::requestFilename() const {
@@ -196,7 +196,7 @@ QString OperaImportCommand::requestFilename() const {
 void OperaImportCommand::doExecute(const KBookmarkGroup &bkGroup) {
    KBookmarkDomBuilder builder(bkGroup);
    KOperaBookmarkImporter importer(m_fileName);
-   connectImporter(&importer, &builder);
+   builder.connectImporter(&importer);
    importer.parseOperaBookmarks();
 }
 
@@ -209,7 +209,7 @@ QString IEImportCommand::requestFilename() const {
 void IEImportCommand::doExecute(const KBookmarkGroup &bkGroup) {
    KBookmarkDomBuilder builder(bkGroup);
    KIEBookmarkImporter importer(m_fileName);
-   connectImporter(&importer, &builder);
+   builder.connectImporter(&importer);
    importer.parseIEBookmarks();
 }
 
@@ -218,7 +218,7 @@ void IEImportCommand::doExecute(const KBookmarkGroup &bkGroup) {
 void HTMLImportCommand::doExecute(const KBookmarkGroup &bkGroup) {
    KBookmarkDomBuilder builder(bkGroup);
    KNSBookmarkImporter importer(m_fileName);
-   connectImporter(&importer, &builder);
+   builder.connectImporter(&importer);
    importer.parseNSBookmarks(m_utf8);
 }
 

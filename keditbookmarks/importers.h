@@ -89,8 +89,6 @@ protected:
       m_utf8 = utf8;
    }
 
-   void connectImporter(const QObject *importer, const QObject *builder);
-
    virtual void doCreateHoldingFolder(KBookmarkGroup &bkGroup);
    virtual void doExecute(const KBookmarkGroup &) = 0;
 
@@ -108,6 +106,7 @@ class KBookmarkDomBuilder : public QObject {
 public:
    KBookmarkDomBuilder(const KBookmarkGroup &group);
    virtual ~KBookmarkDomBuilder();
+   void connectImporter(const QObject *);
 protected slots:
    void newBookmark(const QString &text, const QCString &url, const QString &additionnalInfo);
    void newFolder(const QString &text, bool open, const QString &additionnalInfo);
