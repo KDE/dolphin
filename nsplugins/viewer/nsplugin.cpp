@@ -1045,8 +1045,9 @@ bool NSPluginStreamBase::create( QString url, QString mimeType, void *notify )
         } else {
             kdDebug() << "remote file" << endl;
 
-            // stream into temporary file
-            _tempFile = new KTempFile( QString::null, src.fileName() );
+            // stream into temporary file (use lower() in case the
+            // filename as an upper case X in it)
+            _tempFile = new KTempFile( QString::null, src.fileName().lower() );
             _tempFile->setAutoDelete( TRUE );
             _fileURL = _tempFile->name();
             kdDebug() << "saving into " << _fileURL << endl;
