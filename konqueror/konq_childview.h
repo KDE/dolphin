@@ -36,7 +36,6 @@
 
 class KonqRun;
 class KonqFrame;
-class QSplitter;
 
 struct HistoryEntry
 {

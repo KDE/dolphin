@@ -451,9 +451,6 @@ void KonqKfmIconView::resizeEvent( QResizeEvent * )
 
 void KonqKfmIconView::slotSortDescending( bool toggle )
 {
-  if ( !toggle )
-    return;
-
   if ( m_pIconView->sortDirection() )
     m_pIconView->setSorting( true, false );
   else
