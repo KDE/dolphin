@@ -454,6 +454,8 @@ bool KonqMainView::mappingCreateMenubar( OpenPartsUI::MenuBar_ptr menuBar )
   
   fillProfileMenu();
   
+  m_vMenuBar->insertSeparator( -1 );
+  
   text = Q2C( i18n( "&Help" ) );
   CORBA::Long helpId = m_vMenuBar->insertMenu( text, m_vMenuHelp, -1, -1 );
   m_vMenuBar->setHelpMenu( helpId );
