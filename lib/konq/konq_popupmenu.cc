@@ -421,8 +421,8 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
         currentDir = firstPopupURL.equals( url, true /* ignore_trailing */ );
     }
 
-    bool isCurrentTrash = m_lstItems.count() == 1 && bTrashIncluded;
-    bool isIntoTrash = url.protocol() == "trash";
+    bool isCurrentTrash = m_lstItems.count() == 1 && bTrashIncluded; // popup on trash:/ itself
+    bool isIntoTrash = url.protocol() == "trash" && !isCurrentTrash; // trashed file, not trash:/ itself
     bool isSingleMedium = m_lstItems.count() == 1 && mediaFiles;
     clear();
 
@@ -460,96 +460,86 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
             actNewWindow->setStatusText( i18n( "Open the document in a new window" ) );
     }
 
-    if ( isCurrentTrash )
+    if ( S_ISDIR(mode) && sWriting && !isCurrentTrash ) // A dir, and we can create things into it
     {
-        if (actNewWindow)
+        if ( currentDir && m_pMenuNew ) // Current dir -> add the "new" menu
         {
-            addAction( actNewWindow );
+            // As requested by KNewMenu :
+            m_pMenuNew->slotCheckUpToDate();
+            m_pMenuNew->setPopupFiles( m_lstPopupURLs );
+
+            addAction( m_pMenuNew );
+
             addSeparator();
         }
-        addGroup( "tabhandling" ); // includes a separator
+        else
+        {
+            if (d->m_itemFlags & KParts::BrowserExtension::ShowCreateDirectory)
+            {
+                KAction *actNewDir = new KAction( i18n( "Create &Folder..." ), "folder_new", 0, this, SLOT( slotPopupNewDir() ), &m_ownActions, "newdir" );
+                addAction( actNewDir );
+                addSeparator();
+            }
+        }
+    } else if ( isIntoTrash ) {
+        // Trashed item, offer restoring
+        act = new KAction( i18n( "&Restore" ), 0, this, SLOT( slotPopupRestoreTrashedItems() ), &m_ownActions, "restore" );
+        addAction( act );
+    }
 
+    if (d->m_itemFlags & KParts::BrowserExtension::ShowNavigationItems)
+    {
+        if (d->m_itemFlags & KParts::BrowserExtension::ShowUp)
+            addAction( "up" );
+        addAction( "back" );
+        addAction( "forward" );
+        if (d->m_itemFlags & KParts::BrowserExtension::ShowReload)
+            addAction( "reload" );
+        addSeparator();
+    }
+
+    // "open in new window" is either provided by us, or by the tabhandling group
+    if (actNewWindow)
+    {
+        addAction( actNewWindow );
+        addSeparator();
+    }
+    addGroup( "tabhandling" ); // includes a separator
+
+    if ( !bIsLink )
+    {
+        if ( !currentDir && sReading ) {
+            if ( sDeleting ) {
+                addAction( "cut" );
+            }
+            addAction( "copy" );
+        }
+
+        if ( S_ISDIR(mode) && sWriting ) {
+            if ( currentDir )
+                addAction( "paste" );
+            else
+                addAction( "pasteto" );
+        }
+        if ( !currentDir )
+        {
+            if ( m_lstItems.count() == 1 && sWriting && sDeleting )
+                addAction( "rename" );
+
+            if ( sMoving && !isIntoTrash )
+                addAction( "trash" );
+
+            if ( sDeleting ) {
+                addAction( "del" );
+            }
+        }
+    }
+    if ( isCurrentTrash )
+    {
         act = new KAction( i18n( "&Empty Trash Bin" ), 0, this, SLOT( slotPopupEmptyTrashBin() ), &m_ownActions, "empytrash" );
         addAction( act );
     }
-    else
-    {
-        if ( S_ISDIR(mode) && sWriting && !isIntoTrash ) // A dir, and we can create things into it
-        {
-            if ( currentDir && m_pMenuNew ) // Current dir -> add the "new" menu
-            {
-                // As requested by KNewMenu :
-                m_pMenuNew->slotCheckUpToDate();
-                m_pMenuNew->setPopupFiles( m_lstPopupURLs );
-
-                addAction( m_pMenuNew );
-
-                addSeparator();
-            }
-            else
-            {
-                if (d->m_itemFlags & KParts::BrowserExtension::ShowCreateDirectory)
-                {
-                    KAction *actNewDir = new KAction( i18n( "Create &Folder..." ), "folder_new", 0, this, SLOT( slotPopupNewDir() ), &m_ownActions, "newdir" );
-                    addAction( actNewDir );
-                    addSeparator();
-                }
-            }
-        } else if ( isIntoTrash ) {
-            // Trashed item, offer restoring
-            act = new KAction( i18n( "&Restore" ), 0, this, SLOT( slotPopupRestoreTrashedItems() ), &m_ownActions, "restore" );
-            addAction( act );
-        }
-
-        if (d->m_itemFlags & KParts::BrowserExtension::ShowNavigationItems)
-        {
-            if (d->m_itemFlags & KParts::BrowserExtension::ShowUp)
-                addAction( "up" );
-            addAction( "back" );
-            addAction( "forward" );
-            if (d->m_itemFlags & KParts::BrowserExtension::ShowReload)
-                addAction( "reload" );
-            addSeparator();
-        }
-
-        // "open in new window" is either provided by us, or by the tabhandling group
-        if (actNewWindow)
-        {
-            addAction( actNewWindow );
-            addSeparator();
-        }
-        addGroup( "tabhandling" ); // includes a separator
-
-        if ( !bIsLink )
-        {
-            if ( !currentDir && sReading ) {
-                if ( sDeleting ) {
-                    addAction( "cut" );
-                }
-                addAction( "copy" );
-            }
-
-            if ( S_ISDIR(mode) && sWriting && !isIntoTrash) {
-                if ( currentDir )
-                    addAction( "paste" );
-                else
-                    addAction( "pasteto" );
-            }
-            if (!currentDir )
-            {
-                if ( m_lstItems.count() == 1 && sWriting && sDeleting && !isIntoTrash )
-                    addAction( "rename" );
-
-                if ( sMoving && !isIntoTrash )
-                    addAction( "trash" );
-
-                if ( sDeleting ) {
-                    addAction( "del" );
-                }
-            }
-        }
-        addGroup( "editactions" );
-    }
+    addGroup( "editactions" );
 
     if (d->m_itemFlags & KParts::BrowserExtension::ShowTextSelectionItems) {
       addMerge( 0 );
