@@ -49,7 +49,7 @@
 #define DEFAULT_WORDWRAPTEXT true // kfm-like, sorry Reggie :-)
 
 // browser window color defaults -- Bernd
-#define HTML_DEFAULT_BG_COLOR Qt::white
+#define HTML_DEFAULT_BG_COLOR Qt::lightGray
 #define HTML_DEFAULT_LNK_COLOR Qt::blue
 #define HTML_DEFAULT_TXT_COLOR Qt::black
 #define HTML_DEFAULT_VLNK_COLOR Qt::magenta
