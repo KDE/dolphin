@@ -66,19 +66,19 @@ the required file(s), you can:
 </chapter>
 <chapter id="Installation">
 <title>Installation</title>
-<sect1>
+<sect1 id="how-to-obtain-kfind">
 <title>How to Obtain KFind</title>
 <para>KFind is a part of the KDE project <ulink url="http://www.kde.org">http://www.kde.org</ulink>. KFind can be found on
 <ulink url="ftp://ftp.kde.org/pub/kde/">ftp://ftp.kde.org/pub/kde/</ulink>, the main ftp site of the KDE project.
 There are links to many FTP mirrors there as well.</para>
 </sect1>
-<sect1>
+<sect1 id="requirements">
 <title>Requirements</title>
 <para>In order to successfully compile KFind, you need the latest versions
 of <literal remap="tt">libkdecore</literal> and <literal remap="tt">libkfm</literal>. All required libraries
 as well as KFind itself can be found on <ulink url="ftp://ftp.kde.org/pub/kde/">ftp://ftp.kde.org/pub/kde/</ulink>.</para>
 </sect1>
-<sect1>
+<sect1 id="compilation-and-installation">
 <title>Compilation and installation</title>
 <para><emphasis remap="bf">Kfind</emphasis> is normally an integrated part of a KDE release and therefore
 will be automatically installed with other KDE applications in the normal
@@ -94,7 +94,7 @@ following in the base directory of the KFind distribution:
 <para>Since KFind uses <literal remap="tt">autoconf</literal>, you should not have trouble compiling it.
 Should you run into problems, please report them to the <emphasis remap="bf">KDE</emphasis> mailing lists.</para>
 </sect1>
-<sect1>
+<sect1 id="configuration">
 <title>Configuration</title>
 <para>Configuration is normally performed by means of the Preferences dialog;
 see the user section of this manual for more details. A technical description
@@ -150,7 +150,7 @@ then this is the name of this directory.</para>
 <para>The <emphasis remap="bf">Kfind</emphasis> window is separated into three areas: toolbar, search parameters
 dialog, and viewing area. The viewing area and statusbar are visible only
 after receiving search results.</para>
-<sect1>
+<sect1 id="toolbar">
 <title>Toolbar</title>
 <para><variablelist>
 <varlistentry>
@@ -223,7 +223,7 @@ dialog.	</para>
 </variablelist>
 </para>
 </sect1>
-<sect1>
+<sect1 id="search-parameters-dialog">
 <title>Search Parameters Dialog</title>
 <para>This dialog is the main part of <literal remap="tt">KFind</literal>. It's used for specifying
 parameter for find utility. There are three find parameters groups:</para>
@@ -264,7 +264,7 @@ Postscript-documents, JPEG image files or WAV sound files.</para>
 </variablelist>
 </para>
 </sect1>
-<sect1>
+<sect1 id="viewing-area">
 <title>Viewing Area</title>
 <para>The viewing area contains results of find process. After a file has been 
 selected, the functions open, add to archive,delete, properties and open 
@@ -273,7 +273,7 @@ containing folder are enabled.  Double clicking causes execution.</para>
 </chapter>
 <chapter id="TheMenuEntries">
 <title>The Menu Entries</title>
-<sect1>
+<sect1 id="file">
 <title>File</title>
 <para>The following functions are available from the file menu:
 <variablelist>
@@ -326,11 +326,11 @@ manager (KFM) window</para>
 </variablelist>
 </para>
 </sect1>
-<sect1>
+<sect1 id="edit">
 <title>Edit</title>
 <para>Entries in this menu are disabled.</para>
 </sect1>
-<sect1>
+<sect1 id="options">
 <title>Options </title>
 <para>From this menu you can start the preferences dialog.  The first tab
 of the preferences dialog allows one to select the name and format of
@@ -356,14 +356,14 @@ of the archiver definitions used by <emphasis remap="it">Add to Archive</emphasi
 </variablelist>
 </para>
 </sect1>
-<sect1>
+<sect1 id="help">
 <title>Help</title>
 <para>&gt;Show information about KFind and KFind documentation.</para>
 </sect1>
 </chapter>
 <chapter id="Epilog">
 <title>Epilog</title>
-<sect1>
+<sect1 id="developers">
 <title>Developers</title>
 <para><variablelist>
 <varlistentry>
@@ -381,7 +381,7 @@ of the archiver definitions used by <emphasis remap="it">Add to Archive</emphasi
 </variablelist>
 </para>
 </sect1>
-<sect1>
+<sect1 id="authors">
 <title>Authors</title>
 <para><variablelist>
 <varlistentry>
