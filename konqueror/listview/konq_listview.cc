@@ -150,7 +150,7 @@ void ListViewBrowserExtension::updateActions()
 
   emit enableAction( "copy", cutcopy );
   emit enableAction( "cut", cutcopy );
-  emit enableAction( "trash", del && !bInTrash );
+  emit enableAction( "trash", del && !bInTrash && m_listView->url().isLocalFile() );
   emit enableAction( "del", del );
   emit enableAction( "shred", del );
 
