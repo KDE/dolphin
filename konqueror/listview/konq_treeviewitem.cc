@@ -1,6 +1,6 @@
 /* This file is part of the KDE project
    Copyright (C) 1998, 1999 Torben Weis <weis@kde.org>
-                 2001, 2002 Michael Brade <brade@kde.org>
+                 2001, 2002, 2004 Michael Brade <brade@kde.org>
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public
@@ -29,15 +29,15 @@
  **************************************************************/
 
 KonqListViewDir::KonqListViewDir( KonqTreeViewWidget *_parent, KFileItem* _fileitem )
-:KonqListViewItem( _parent, _fileitem )
+  : KonqListViewItem( _parent, _fileitem )
 {
   setExpandable( true );
   m_bComplete = false;
   _parent->addSubDir( this );
 }
 
-KonqListViewDir::KonqListViewDir( KonqTreeViewWidget *_treeview, KonqListViewDir * _parent, KFileItem* _fileitem )
-:KonqListViewItem(_treeview,_parent,_fileitem)
+KonqListViewDir::KonqListViewDir( KonqTreeViewWidget *_treeview, KonqListViewDir *_parent, KFileItem *_fileitem )
+  : KonqListViewItem( _treeview, _parent, _fileitem )
 {
   setExpandable( true );
   m_bComplete = false;
@@ -46,7 +46,7 @@ KonqListViewDir::KonqListViewDir( KonqTreeViewWidget *_treeview, KonqListViewDir
 
 KonqListViewDir::~KonqListViewDir()
 {
-  static_cast<KonqTreeViewWidget*>(m_pListViewWidget)->m_dictSubDirs.remove(url(-1));
+  static_cast<KonqTreeViewWidget *>(listView())->removeSubDir( item()->url() );
 }
 
 void KonqListViewDir::setOpen( bool _open )
@@ -58,7 +58,7 @@ void KonqListViewDir::open( bool _open, bool _reload )
 {
   if ( _open != isOpen() || _reload )
   {
-    KonqTreeViewWidget* treeView = static_cast<KonqTreeViewWidget *>(listView());
+    KonqTreeViewWidget *treeView = static_cast<KonqTreeViewWidget *>(listView());
 
     if ( _open )
     {
@@ -104,6 +104,6 @@ void KonqListViewDir::open( bool _open, bool _reload )
 
 QString KonqListViewDir::url( int _trailing )
 {
-  return m_fileitem->url().url( _trailing );
+  return item()->url().url( _trailing );
 }
 
