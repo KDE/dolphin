@@ -91,8 +91,6 @@ KonqBaseListViewWidget::KonqBaseListViewWidget( KonqListView *parent, QWidget *p
 
    //Adjust KListView behaviour
    setMultiSelection(TRUE);
-   //maybe these two calls should be merged in KListView::setSelectionModeExt() ?
-   setSelectionMode( QListView::Extended);
    setSelectionModeExt( Konqueror );
 
    initConfig();
