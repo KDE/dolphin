@@ -346,11 +346,6 @@ KAdvancedOptions::KAdvancedOptions(KConfig *config, QString group, QWidget *pare
 
     cb_enableJavaScript = new QCheckBox(i18n("Enable Java&Script"), this);
     lay->addWidget(cb_enableJavaScript);
-    // ### don't add JavaScript for KRASH.
-#ifdef __GNUC__
-#warning remove this line after KRASH (Lars)
-#endif
-    cb_enableJavaScript->setEnabled(false);
     connect(cb_enableJavaScript, SIGNAL(clicked()), this, SLOT(changed()));
 
     cb_enableJava = new QCheckBox(i18n("Enable &Java"), this);
