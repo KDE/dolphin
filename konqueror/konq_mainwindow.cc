@@ -1490,7 +1490,7 @@ void KonqMainWindow::slotConfigure()
 
 void KonqMainWindow::slotConfigureKeys()
 {
-  KKeyDialog dlg;
+  KKeyDialog dlg( true, this );
 
   dlg.insert( actionCollection() );
   if ( currentPart() )
@@ -2225,7 +2225,7 @@ void KonqMainWindow::slotRequesterClicked( KURLRequester *req )
 //copied from libkonq/konq_popupmenu.cc
 void KonqMainWindow::slotNewDir()
 {
-    KLineEditDlg l( i18n("Enter directory name:"), i18n("Directory"), 0L );
+    KLineEditDlg l( i18n("Enter directory name:"), i18n("Directory"), this );
     l.setCaption(i18n("New Directory"));
     if ( l.exec() )
     {
@@ -2897,7 +2897,7 @@ void KonqMainWindow::initActions()
   // If any one needs to be initially disabled, put that code in enableAllActions
 
   // File menu
-  m_pMenuNew = new KNewMenu ( actionCollection(), "new_menu" );
+  m_pMenuNew = new KNewMenu ( actionCollection(), this, "new_menu" );
   QObject::connect( m_pMenuNew->popupMenu(), SIGNAL(aboutToShow()),
                     this, SLOT(slotFileNewAboutToShow()) );
 
@@ -3583,6 +3583,7 @@ void KonqMainWindow::slotPopupMenu( KXMLGUIClient *client, const QPoint &_global
                              viewURL,
                              popupMenuCollection,
                              m_pMenuNew,
+			     this,
                              showPropsAndFileType );
   if ( openedForViewURL && !viewURL.isLocalFile() )
       pPopupMenu.setURLTitle( m_currentView->caption() );

@@ -73,7 +73,9 @@ public:
 class KonqPopupMenu::KonqPopupMenuPrivate
 {
 public:
+  KonqPopupMenuPrivate() : m_parentWidget(0) {}
   QString m_urlTitle;
+  QWidget *m_parentWidget;
 };
 
 KonqPopupMenu::ProtocolInfo::ProtocolInfo( )
@@ -114,6 +116,25 @@ KonqPopupMenu::KonqPopupMenu( KBookmarkManager *mgr, const KFileItemList &items,
     m_pMenuNew( newMenu ), m_sViewURL(viewURL), m_lstItems(items), m_pManager(mgr)
 {
   d = new KonqPopupMenuPrivate;
+  setup(showPropertiesAndFileType);
+}
+
+KonqPopupMenu::KonqPopupMenu( KBookmarkManager *mgr, const KFileItemList &items,
+                              KURL viewURL,
+                              KActionCollection & actions,
+                              KNewMenu * newMenu,
+			      QWidget * parentWidget,
+                  bool showPropertiesAndFileType )
+  : QPopupMenu( 0L, "konq_popupmenu" ), m_actions( actions ), m_ownActions( static_cast<QObject *>( 0 ), "KonqPopupMenu::m_ownActions" ),
+    m_pMenuNew( newMenu ), m_sViewURL(viewURL), m_lstItems(items), m_pManager(mgr)
+{
+  d = new KonqPopupMenuPrivate;
+  d->m_parentWidget = parentWidget;
+  setup(showPropertiesAndFileType);
+}
+
+void KonqPopupMenu::setup(bool showPropertiesAndFileType)
+{
   assert( m_lstItems.count() >= 1 );
 
   m_ownActions.setWidget( this );
@@ -526,7 +547,6 @@ KonqPopupMenu::KonqPopupMenu( KBookmarkManager *mgr, const KFileItemList &items,
   m_factory->addClient( this );
 }
 
-
 void KonqPopupMenu::slotOpenShareFileDialog()
 {
     //kdDebug()<<"KonqPopupMenu::slotOpenShareFileDialog()\n";
@@ -540,13 +560,13 @@ void KonqPopupMenu::slotOpenShareFileDialog()
         if (item->entry().count() == 0) // this item wasn't listed by a slave
         {
             // KPropertiesDialog will use stat to get more info on the file
-            KPropertiesDialog*dlg= new KPropertiesDialog( item->url() );
+            KPropertiesDialog*dlg= new KPropertiesDialog( item->url(), d->m_parentWidget );
             dlg->showFileSharingPage();
 
             return;
         }
     }
-    KPropertiesDialog*dlg=new KPropertiesDialog( m_lstItems );
+    KPropertiesDialog*dlg=new KPropertiesDialog( m_lstItems, d->m_parentWidget );
     dlg->showFileSharingPage();
 }
 
@@ -573,7 +593,7 @@ void KonqPopupMenu::slotPopupNewView()
 
 void KonqPopupMenu::slotPopupNewDir()
 {
-    KLineEditDlg l( i18n("Enter directory name:"), i18n("Directory"), 0L );
+    KLineEditDlg l( i18n("Enter directory name:"), i18n("Directory"), d->m_parentWidget );
     l.setCaption(i18n("New Directory"));
     if ( l.exec() )
     {
@@ -656,11 +676,11 @@ void KonqPopupMenu::slotPopupProperties()
         if (item->entry().count() == 0) // this item wasn't listed by a slave
         {
             // KPropertiesDialog will use stat to get more info on the file
-            (void) new KPropertiesDialog( item->url() );
+            (void) new KPropertiesDialog( item->url(), d->m_parentWidget );
             return;
         }
     }
-    (void) new KPropertiesDialog( m_lstItems );
+    (void) new KPropertiesDialog( m_lstItems, d->m_parentWidget );
 }
 
 KAction *KonqPopupMenu::action( const QDomElement &element ) const

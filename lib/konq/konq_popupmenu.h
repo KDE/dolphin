@@ -68,6 +68,15 @@ public:
                  KURL viewURL,
                  KActionCollection & actions,
                  KNewMenu * newMenu, bool showPropertiesAndFileType = true );
+
+  KonqPopupMenu( KBookmarkManager* manager,
+                 const KFileItemList &items,
+                 KURL viewURL,
+                 KActionCollection & actions,
+                 KNewMenu * newMenu, 
+		 QWidget * parentWidget,
+		 bool showPropertiesAndFileType = true );
+    
   /**
    * Don't forget to destroy the object
    */
@@ -123,6 +132,7 @@ protected:
   KActionCollection m_ownActions;
 
 private:
+  void setup(bool showPropertiesAndFileType);
   void addPlugins( );
   class KonqPopupMenuPrivate;
   KonqPopupMenuPrivate *d;

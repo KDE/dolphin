@@ -52,8 +52,10 @@ KDirWatch * KNewMenu::s_pDirWatch = 0L;
 class KNewMenu::KNewMenuPrivate
 {
 public:
+    KNewMenuPrivate() : m_parentWidget(0) {}
     KActionCollection * m_actionCollection;
     QString m_destPath;
+    QWidget *m_parentWidget;
 };
 
 KNewMenu::KNewMenu( KActionCollection * _collec, const char *name ) :
@@ -65,6 +67,15 @@ KNewMenu::KNewMenu( KActionCollection * _collec, const char *name ) :
   // We'll do that in slotCheckUpToDate (should be connected to abouttoshow)
     d = new KNewMenuPrivate;
     d->m_actionCollection = _collec;
+}
+
+KNewMenu::KNewMenu( KActionCollection * _collec, QWidget *parentWidget, const char *name ) :
+  KActionMenu( i18n( "Create Ne&w" ), "filenew", _collec, name ),
+  menuItemsVersion( 0 )
+{
+    d = new KNewMenuPrivate;
+    d->m_actionCollection = _collec;
+    d->m_parentWidget = parentWidget;
 }
 
 KNewMenu::~KNewMenu()
@@ -298,7 +309,7 @@ void KNewMenu::slotNewFile()
         {
             m_isURLDesktopFile = true;
             // entry.comment contains i18n("Enter link to location (URL):"). JFYI :)
-            KURLDesktopFileDlg dlg( i18n("File name:"), entry.comment );
+            KURLDesktopFileDlg dlg( i18n("File name:"), entry.comment, d->m_parentWidget );
             // TODO dlg.setCaption( i18n( ... ) );
             if ( dlg.exec() )
             {
@@ -320,7 +331,7 @@ void KNewMenu::slotNewFile()
               //kdDebug(1203) << "first arg=" << entry.templatePath << endl;
               //kdDebug(1203) << "second arg=" << (*it).url() << endl;
               //kdDebug(1203) << "third arg=" << entry.text << endl;
-              (void) new KPropertiesDialog( entry.templatePath, *it, entry.text );
+              (void) new KPropertiesDialog( entry.templatePath, *it, entry.text, d->m_parentWidget );
           }
           return; // done, exit.
         }
@@ -329,7 +340,7 @@ void KNewMenu::slotNewFile()
     {
         // The template is not a desktop file
         // Show the small dialog for getting the destination filename
-        KLineEditDlg dlg( entry.comment, entry.text, 0L );
+        KLineEditDlg dlg( entry.comment, entry.text, d->m_parentWidget );
         // TODO dlg.setCaption( i18n( ... ) );
         if ( dlg.exec() )
         {
@@ -426,6 +437,13 @@ void KNewMenu::slotResult( KIO::Job * job )
 
 KURLDesktopFileDlg::KURLDesktopFileDlg( const QString& textFileName, const QString& textUrl )
     : KDialogBase( Plain, QString::null, Ok|Cancel|User1, Ok, 0L /*parent*/, 0L, true,
+                   true, KStdGuiItem::clear() )
+{
+    initDialog( textFileName, QString::null, textUrl, QString::null );
+}
+
+KURLDesktopFileDlg::KURLDesktopFileDlg( const QString& textFileName, const QString& textUrl, QWidget *parent )
+    : KDialogBase( Plain, QString::null, Ok|Cancel|User1, Ok, parent, 0L, true,
                    true, KStdGuiItem::clear() )
 {
     initDialog( textFileName, QString::null, textUrl, QString::null );

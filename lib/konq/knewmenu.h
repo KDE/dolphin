@@ -53,6 +53,7 @@ public:
      * Constructor
      */
     KNewMenu( KActionCollection * _collec, const char *name=0L );
+    KNewMenu( KActionCollection * _collec, QWidget *parentWidget, const char *name=0L );
     virtual ~KNewMenu();
 
     /**
@@ -171,6 +172,7 @@ class KURLDesktopFileDlg : public KDialogBase
     Q_OBJECT
 public:
     KURLDesktopFileDlg( const QString& textFileName, const QString& textUrl );
+    KURLDesktopFileDlg( const QString& textFileName, const QString& textUrl, QWidget *parent );
     virtual ~KURLDesktopFileDlg() {}
 
     /**
