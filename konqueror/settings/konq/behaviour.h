@@ -70,6 +70,7 @@ private:
   QSpinBox  *sbToolTip;
   QCheckBox *cbShowTips;
   QCheckBox *cbShowPreviewsInTips;
+  QCheckBox *cbShowMMBInTabs;
 };
 
 #endif		// __BEHAVIOUR_H__

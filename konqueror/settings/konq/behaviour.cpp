@@ -114,16 +114,22 @@ KBehaviourOptions::KBehaviourOptions(KConfig *config, QString group, QWidget *pa
     QWhatsThis::add( fileTips, tipstr );
     QWhatsThis::add( sbToolTip, tipstr );
 
-    // -----
-    
-    row++;
+	row++;
     cbShowPreviewsInTips = new QCheckBox( i18n( "&Show previews in file tips" ), this );
     lay->addMultiCellWidget(cbShowPreviewsInTips, row, row, 0, 1, Qt::AlignLeft);
     connect(cbShowPreviewsInTips, SIGNAL(clicked()), this, SLOT(changed()));
     
     QWhatsThis::add( cbShowPreviewsInTips, i18n("Here you can control if you want the "
                           "popup window to contain a larger preview for the file, when moving the mouse over it."));
-    // --
+
+    row++;
+    cbShowMMBInTabs = new QCheckBox( i18n( "Open &links in new tab instead of in new window" ), this );
+    lay->addMultiCellWidget(cbShowMMBInTabs, row, row, 0, 1, Qt::AlignLeft);
+    connect(cbShowMMBInTabs, SIGNAL(clicked()), this, SLOT(changed()));
+
+    
+    QWhatsThis::add( cbShowMMBInTabs, i18n("This will open a new tab instead of a new window in various situations "
+                          "such as choosing a link or a folder with the middle mouse button.") );
 
     row++;
     label = new QLabel(i18n("Home &URL:"), this);
@@ -210,6 +216,8 @@ void KBehaviourOptions::load()
     bool showPreviewsIntips = g_pConfig->readBoolEntry( "ShowPreviewsInFileTips", true );
     cbShowPreviewsInTips->setChecked( showPreviewsIntips );
     
+	cbShowMMBInTabs->setChecked( g_pConfig->readBoolEntry( "MMBOpensTab", false ) );
+	
     if (!stips) sbToolTip->setEnabled( false );
     if (!stips) cbShowPreviewsInTips->setEnabled( false );
         
@@ -245,6 +253,8 @@ void KBehaviourOptions::defaults()
 
     cbListProgress->setChecked( false );
 
+	cbShowMMBInTabs->setChecked( false );
+
     cbShowTips->setChecked( true );
     sbToolTip->setEnabled( true );
     sbToolTip->setValue( 6 );
@@ -264,6 +274,7 @@ void KBehaviourOptions::save()
     g_pConfig->writeEntry( "ShowPreviewsInFileTips", cbShowPreviewsInTips->isChecked() );
     g_pConfig->writeEntry( "FileTipsItems", sbToolTip->value() );
 
+	g_pConfig->writeEntry( "MMBOpensTab", cbShowMMBInTabs->isChecked() );
     QString val = QString::fromLatin1("Web only");
     if (rbOPWeb->isChecked())
         val = QString::fromLatin1("Local only");
