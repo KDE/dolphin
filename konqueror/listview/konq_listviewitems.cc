@@ -172,16 +172,16 @@ void KonqListViewItem::paintCell( QPainter *_painter, const QColorGroup & _cg, i
 
   // --- from here, keep in sync with konqtextviewitem !
 
-  // Don't set a brush, we draw the background ourselves
-  cg.setBrush( QColorGroup::Base, NoBrush );
-
-  // Gosh this is ugly. We need to paint the background, but for this we need
-  // to translate the painter back to the viewport coordinates.
-  QPoint offset = listView()->itemRect(this).topLeft();
-  _painter->translate( -offset.x(), -offset.y() );
-  static_cast<KonqBaseListViewWidget *>(listView())->paintEmptyArea( _painter,
-                                                                     QRect( offset.x(), offset.y(), _width, height() ) );
-  _painter->translate( offset.x(), offset.y() );
+  QBrush brush;
+  const QPixmap * pm = m_pListViewWidget->viewport()->backgroundPixmap();
+  if ( !pm || pm->isNull() )
+  {
+      brush.setColor( m_pListViewWidget->viewport()->backgroundColor() );
+      brush.setStyle( SolidPattern );
+  }
+  else
+      brush.setPixmap( *pm );
+  cg.setBrush( QColorGroup::Base, brush );
 
   QListViewItem::paintCell( _painter, cg, _column, _width, _alignment );
 }

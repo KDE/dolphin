@@ -859,10 +859,6 @@ KonqBaseListViewWidget::iterator KonqBaseListViewWidget::iterator::operator++(in
 
 void KonqBaseListViewWidget::paintEmptyArea( QPainter *p, const QRect &r )
 {
-    /*
-    kdDebug() << "KonqBaseListViewWidget::paintEmptyArea "
-              << r.x() << "," << r.y() << " " << r.width() << "x" << r.height()
-              << endl; */
     const QPixmap *pm = viewport()->backgroundPixmap();
 
     if (!pm || pm->isNull())
@@ -871,6 +867,10 @@ void KonqBaseListViewWidget::paintEmptyArea( QPainter *p, const QRect &r )
     {
         int ax = (r.x() + contentsX()) % pm->width();
         int ay = (r.y() + contentsY()) % pm->height();
+        /*kdDebug() << "KonqBaseListViewWidget::paintEmptyArea "
+                  << r.x() << "," << r.y() << " " << r.width() << "x" << r.height()
+                  << " drawing pixmap with offset " << ax << "," << ay
+                  << endl;*/
         p->drawTiledPixmap(r, *pm, QPoint(ax, ay));
     }
 }
