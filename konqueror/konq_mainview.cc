@@ -1427,6 +1427,7 @@ void KonqMainView::updateExtensionDependendActions( BrowserView *view )
   bool bViewPropExt = view->child( 0L, "ViewPropertiesExtension" ) != (QObject *)0L;
   m_paSaveSettings->setEnabled( bViewPropExt );
   m_paSaveSettingsPerURL->setEnabled( bViewPropExt );
+  checkEditExtension();
 }
 
 QString KonqMainView::findIndexFile( const QString &dir )
@@ -1449,6 +1450,9 @@ void KonqMainView::enableAllActions( bool enable )
   int count = actionCollection()->count();
   for ( int i = 0; i < count; i++ )
     actionCollection()->action( i )->setEnabled( enable );
+
+  if ( enable )
+    updateExtensionDependendActions( m_currentView->view() );
 }
 
 void KonqMainView::openBookmarkURL( const QString & url )
