@@ -193,6 +193,7 @@ private:
 	bool m_hasStoredUrl;
 	bool m_singleWidgetMode;
 	bool m_showTabsLeft;
+	bool m_hideTabs;
 	bool m_showExtraButtons;
 	bool m_somethingVisible;
 	bool m_noUpdate;

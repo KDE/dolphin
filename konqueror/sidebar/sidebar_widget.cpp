@@ -349,6 +349,7 @@ void Sidebar_Widget::saveConfig()
 	m_config->writeEntry("SingleWidgetMode",m_singleWidgetMode);
 	m_config->writeEntry("ShowExtraButtons",m_showExtraButtons);
 	m_config->writeEntry("ShowTabsLeft", m_showTabsLeft);
+	m_config->writeEntry("HideTabs", m_hideTabs);
 	m_config->writeEntry("SavedWidth",m_savedWidth);
 	m_config->sync();
 }
@@ -370,6 +371,8 @@ void Sidebar_Widget::doLayout()
 		m_buttonBar->setPosition(KMultiTabBar::Right);
 	}
 	m_layout->activate();
+	if (m_hideTabs) m_buttonBar->hide(); 
+		else m_buttonBar->show();
 }
 
 
@@ -590,6 +593,7 @@ void Sidebar_Widget::readConfig()
 	m_singleWidgetMode = m_config->readBoolEntry("SingleWidgetMode",true);
 	m_showExtraButtons = m_config->readBoolEntry("ShowExtraButtons",true);
 	m_showTabsLeft = m_config->readBoolEntry("ShowTabsLeft", true);
+	m_hideTabs = m_config->readBoolEntry("HideTabs", false);
 	if (m_initial) {
 		m_openViews = m_config->readListEntry("OpenViews");
 		m_savedWidth = m_config->readNumEntry("SavedWidth",200);
