@@ -627,6 +627,16 @@ void KonqHistoryManager::slotEmitUpdated()
     m_updateURLs.clear();
 }
 
+QStringList KonqHistoryManager::allURLs() const
+{
+    QStringList list;
+    KonqHistoryIterator it ( m_history );
+    for ( ; it.current(); ++it )
+        list.append( it.current()->url.url() );
+    
+    return list;
+}
+
 //////////////////////////////////////////////////////////////////
 
 

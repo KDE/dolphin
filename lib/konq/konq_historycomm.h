@@ -21,6 +21,7 @@
 #define KONQ_HISTORYCOMM_H
 
 #include <qdatetime.h>
+#include <qstringlist.h>
 
 #include <dcopobject.h>
 #include <kurl.h>
@@ -67,6 +68,7 @@ k_dcop:
     virtual ASYNC notifyClear( QCString saveId ) = 0;
     virtual ASYNC notifyRemove( KURL url, QCString saveId ) = 0;
     virtual ASYNC notifyRemove( KURL::List url, QCString saveId ) = 0;
+    virtual QStringList allURLs() const = 0;
 
 };
 

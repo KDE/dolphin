@@ -282,6 +282,11 @@ protected:
     virtual void notifyRemove( KURL::List urls, QCString saveId );
 
     /**
+     * @returns a list of all urls in the history.
+     */
+    virtual QStringList allURLs() const;
+
+    /**
      * Does the work for @ref addPending() and @ref confirmPending().
      *
      * Adds an entry to the history. If an entry with @p url already exists,
