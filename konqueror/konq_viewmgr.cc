@@ -251,7 +251,12 @@ void KonqViewManager::loadViewProfile( KConfig &cfg )
   KonqChildView *childView = m_pMainView->childView( view );
 
   if ( childView->passiveMode() )
-    m_pMainView->setActiveView( chooseNextView( childView )->view() );
+  {
+    KonqChildView *nextChildView = chooseNextView( childView );
+    m_pMainView->setActiveView( nextChildView->view() );
+    if ( lst.count() == 2 )
+      nextChildView->frame()->header()->passiveModeCheckBox()->hide();
+  }
   else
     m_pMainView->setActiveView( view );
 
