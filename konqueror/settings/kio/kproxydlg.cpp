@@ -43,6 +43,7 @@
 #include <kio/ioslave_defaults.h>
 
 #include "kproxydlg.h"
+#include "kproxydlg.moc"
 
 KExceptionBox::KExceptionBox( QWidget* parent, const char* name )
               :QGroupBox( parent, name )

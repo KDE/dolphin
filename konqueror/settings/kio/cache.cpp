@@ -284,3 +284,4 @@ QString KCacheConfigDialog::quickHelp() const
                  "cache which is a lot faster." );
 }
 
+#include "cache.moc"
