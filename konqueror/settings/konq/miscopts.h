@@ -19,10 +19,8 @@
 // The "Misc Options" Tab contains :
 
 // Allow per-url settings         (Sven)
-// Tree view follows navigation   (David)
 // Preferred terminal             (David)
-// AutoLoad Images                (Simon)
-// Big ToolBar                    (Simon)
+// Big ToolBar                    (Simon)  => to move to options menu
 // ... there is room for others :))
 
 
@@ -49,9 +47,7 @@ private:
 	QString groupname;
 
         QCheckBox *urlpropsbox;
-        QCheckBox *treefollowbox;
         QLineEdit *leTerminal;
-        QLineEdit *leEditor;
 	QCheckBox *m_pHaveBiiigToolBarCheckBox;
 };
 
