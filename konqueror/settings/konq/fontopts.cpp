@@ -181,22 +181,25 @@ KonqFontOptions::KonqFontOptions(KConfig *config, QString group, bool desktop, Q
 
 void KonqFontOptions::slotFontSize(int i)
 {
-    fSize = i;
+    m_fSize = i;
     changed();
 }
 
 void KonqFontOptions::slotStandardFont(const QString& n )
 {
-    stdName = n;
+    m_stdName = n;
 }
 
 void KonqFontOptions::load()
 {
     g_pConfig->setGroup(groupname);
 
-    m_stdFont = g_pConfig->readFontEntry( "StandardFont" );
-    stdName = m_stdFont.family();
-    fSize = m_stdFont.pointSize();
+    QFont stdFont = g_pConfig->readFontEntry( "StandardFont" );
+    m_stdName = stdFont.family();
+    m_fSize = stdFont.pointSize();
+    // we have to use QFontInfo, in case the font was specified with a pixel size
+    if ( m_fSize == -1 )
+        m_fSize = QFontInfo(stdFont).pointSize();
 
     normalTextColor = KGlobalSettings::textColor();
     normalTextColor = g_pConfig->readColorEntry( "NormalTextColor", &normalTextColor );
@@ -233,11 +236,12 @@ void KonqFontOptions::load()
 
 void KonqFontOptions::defaults()
 {
-		// Should grab from the configurable location (Oliveri).
-    fSize=8;
-
-    stdName = KGlobalSettings::generalFont().family();
-    m_stdFont = QFont(stdName, 12);
+    QFont stdFont = KGlobalSettings::generalFont();
+    m_stdName = stdFont.family();
+    m_fSize = stdFont.pointSize();
+    // we have to use QFontInfo, in case the font was specified with a pixel size
+    if ( m_fSize == -1 )
+        m_fSize = QFontInfo(stdFont).pointSize();
 
     normalTextColor = KGlobalSettings::textColor();
     m_pNormalText->setColor( normalTextColor );
@@ -261,22 +265,19 @@ void KonqFontOptions::defaults()
 
 void KonqFontOptions::updateGUI()
 {
-    if ( stdName.isEmpty() )
-        stdName = KGlobalSettings::generalFont().family();
+    if ( m_stdName.isEmpty() )
+        m_stdName = KGlobalSettings::generalFont().family();
 
-    m_pStandard->setCurrentFont( stdName );
-    m_pSize->setValue( fSize );
+    m_pStandard->setCurrentFont( m_stdName );
+    m_pSize->setValue( m_fSize );
 }
 
 void KonqFontOptions::save()
 {
     g_pConfig->setGroup(groupname);
 
- 		// fSize set via signal (Oliveri)
-    m_stdFont.setPointSize(fSize);
-
-    m_stdFont.setFamily( stdName );
-    g_pConfig->writeEntry( "StandardFont", m_stdFont );
+    QFont stdFont( m_stdName, m_fSize );
+    g_pConfig->writeEntry( "StandardFont", stdFont );
 
     g_pConfig->writeEntry( "NormalTextColor", normalTextColor );
     //g_pConfig->writeEntry( "HighlightedTextColor", highlightedTextColor );

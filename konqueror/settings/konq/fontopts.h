@@ -88,9 +88,8 @@ private:
   KFontCombo* m_pStandard;
   QSpinBox* m_pSize;
 
-  int fSize;
-  QString stdName;
-  QFont m_stdFont;
+  int m_fSize;
+  QString m_stdName;
 
   KColorButton* m_pBg;
   KColorButton* m_pNormalText;
