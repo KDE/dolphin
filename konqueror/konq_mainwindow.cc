@@ -155,8 +155,6 @@ KonqMainWindow::KonqMainWindow( const KURL &initialURL, bool openInitialURL, con
     m_toggleViewGUIClient = 0;
   }
 
-  updateBookmarkBar();
-
   m_bNeedApplyKonqMainWindowSettings = true;
   if ( !initialURL.isEmpty() )
   {
@@ -182,6 +180,7 @@ KonqMainWindow::KonqMainWindow( const KURL &initialURL, bool openInitialURL, con
   m_paShowToolBar->setChecked( !toolBarByName("mainToolBar")->isHidden() );
   m_paShowLocationBar->setChecked( !toolBarByName("locationToolBar")->isHidden() );
   m_paShowBookmarkBar->setChecked( !toolBarByName("bookmarkToolBar")->isHidden() );
+  updateBookmarkBar(); // hide if empty
 
   config->setGroup("MainView Settings");
   m_bSaveViewPropertiesLocally = config->readBoolEntry( "SaveViewPropertiesLocally", false );
@@ -2786,6 +2785,10 @@ void KonqMainWindow::readProperties( KConfig *config )
 {
   kdDebug() << "KonqMainWindow::readProperties( KConfig *config )" << endl;
   m_pViewManager->loadViewProfile( *config, QString::null /*no profile name*/ );
+  if (m_currentView)
+      enableAllActions( true );
+  else
+      disableActionsNoView();
 }
 
 void KonqMainWindow::setInitialFrameName( const QString &name )
@@ -2917,8 +2920,6 @@ void KonqMainWindow::updateBookmarkBar()
     m_paShowBookmarkBar->setChecked( false );
     bar->hide();
   }
-  else if ( bar )
-    m_paShowBookmarkBar->setChecked( true );
 }
 
 void KonqMainWindow::closeEvent( QCloseEvent *e )
