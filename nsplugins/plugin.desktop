@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=Netscape Plugin
+Icon=netscape
+MimeType=image/x-xpixmap;application/x-java-applet;application/x-shockwave-flash;
+Type=Service
+DocPath=aktion/aktion.html
+Comment=Netscape plugin viewer
+Terminal=0
+ServiceTypes=KParts/ReadOnlyPart,Browser/View
+X-KDE-Library=libplugin
