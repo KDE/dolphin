@@ -249,11 +249,6 @@ void ToggleViewGUIClient::slotToggleView( bool toggle )
 
     m_mainWindow->viewCountChanged();
 
-    // turn on frame header if it is vertical.  it looked quite ugly for horizontal,
-    // but this could be fixed by having a fixed height.  (the layout stretched)
-    if( !horizontal)
-        childView->frame()->header()->setText(childView->service()->name());
-
   }
   else
   {
@@ -298,7 +293,19 @@ void ToggleViewGUIClient::slotViewAdded( KonqView *view )
   {
     static_cast<KToggleAction *>( action )->setChecked( true );
     saveConfig( true, name );
-    view->frame()->header()->setAction(action);
+
+    // KonqView::isToggleView() is not set yet.. so just check for the orientation
+
+    QVariant vert = view->service()->property( "X-KDE-BrowserView-ToggableView-Orientation");
+    bool vertical = vert.toString().lower() == "vertical";
+
+    // if it is a vertical toggle part, turn on the header.
+    // this works even when konq loads the view from a profile.
+    if ( vertical )
+    {
+        view->frame()->header()->setText(view->service()->name());
+        view->frame()->header()->setAction(action);
+    }
   }
 }
 
