@@ -230,13 +230,12 @@ QString ListView::userAddress() {
       //       - else we could get /0
       //       - in view?
       return "/0";
-
-   } else {
-      KBookmark current = firstSelected()->bookmark();
-      return (current.isGroup()) 
-           ? (current.address() + "/0")
-           : KBookmark::nextAddress(current.address());
    }
+
+   KBookmark current = firstSelected()->bookmark();
+   return (current.isGroup()) 
+        ? (current.address() + "/0")
+        : KBookmark::nextAddress(current.address());
 }
 
 void ListView::setCurrent(KEBListViewItem *item) {
