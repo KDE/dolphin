@@ -75,7 +75,7 @@ KParts::Part* KonqListViewFactory::createPart( QWidget *parentWidget, const char
 KInstance *KonqListViewFactory::instance()
 {
   if ( !s_instance )
-    s_instance = new KInstance( "konqueror" );
+    s_instance = new KInstance( "konqlistview" );
   return s_instance;
 }
 
