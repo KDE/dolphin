@@ -121,13 +121,14 @@ private slots:
 private:
   KonqViewManager* m_pViewManager;
   QPopupMenu* m_pPopupMenu;
-    QPopupMenu * m_pSubPopupMenuTab;
+  QPopupMenu* m_pSubPopupMenuTab;
   uint m_CurrentMaxLength, m_maxLength, m_minLength;
   QToolButton* m_rightWidget;
   QToolButton* m_leftWidget;
   bool m_permanentCloseButtons;
   bool m_alwaysTabBar;
   bool m_MouseMiddleClickClosesTab;
+  int m_closeOtherTabsId;
 };
 
 #endif
