@@ -15,7 +15,7 @@
 #include <konq_defaults.h> // include default values directly from konqueror
 #include <kglobalsettings.h> // get default for DEFAULT_CHANGECURSOR
 #include <klocale.h>
-#include <kdialog.h> 
+#include <kdialog.h>
 #include <knuminput.h>
 #include <kseparator.h>
 
@@ -76,7 +76,7 @@ KMiscHTMLOptions::KMiscHTMLOptions(KConfig *config, QString group, QWidget *pare
     row++;
 
     m_pAutoRedirectCheckBox = new QCheckBox( i18n( "Allow automatic delayed &reloading / redirecting"), this );
-    QWhatsThis::add( m_pAutoRedirectCheckBox, 
+    QWhatsThis::add( m_pAutoRedirectCheckBox,
     i18n( "Some web pages request an automatic reload or redirection after a certain period of time. By unchecking this box Konqueror will ignore these requests." ) );
     connect(m_pAutoRedirectCheckBox, SIGNAL(clicked()), this, SLOT(changed()));
     lay->addMultiCellWidget( m_pAutoRedirectCheckBox, row, row, 0, 1 );
@@ -186,6 +186,7 @@ void KMiscHTMLOptions::defaults()
     m_pFormCompletionCheckBox->setChecked(true);
     m_pMaxFormCompletionItems->setEnabled( true );
     m_pBackRightClick->setChecked( false );
+    m_pMaxFormCompletionItems->setValue( 10 );
 }
 
 void KMiscHTMLOptions::save()
