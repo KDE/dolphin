@@ -140,8 +140,10 @@ void KonqRun::handleError( KIO::Job *job )
    * error = int kio error code, errText = QString error text from kio
    * The sub-url is the URL that we were trying to open.
    */
+  QString errorText = job->errorText();
+  errorText.replace( '#', "%23" ); // a # in the error string would really muck things up...
   KURL newURL(QString("error:/?error=%1&errText=%2")
-	      .arg( job->error() ).arg( job->errorText()), HINT_UTF8 );
+	      .arg( job->error() ).arg( errorText ), HINT_UTF8 );
 
   m_strURL.setPass( QString::null ); // don't put the password in the error URL
 
