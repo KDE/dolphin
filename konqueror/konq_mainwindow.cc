@@ -3878,6 +3878,8 @@ QStringList KonqMainWindow::historyPopupCompletionItems( const QString& s)
     QString wwws = "https://www.";
     QString ftp = "ftp://";
     QString ftpftp = "ftp://ftp.";
+    if( s.isEmpty())
+	return QStringList();
     KCompletionMatches matches= s_pCompletion->allWeightedMatches( s );
     hp_checkCommonPrefixes( matches, s );
     bool checkDuplicates = false;
@@ -3911,7 +3913,8 @@ QStringList KonqMainWindow::historyPopupCompletionItems( const QString& s)
     if( checkDuplicates )
         hp_removeDuplicates( matches );
     QStringList items = matches.list();
-    if( items.count() == 0 )
+    if( items.count() == 0
+	&& !s.contains( ':' ) && s[ 0 ] != '/' )
         {
         QString pre = hp_tryPrepend( s );
         if( !pre.isNull())
