@@ -788,6 +788,8 @@ void KonqKfmIconView::slotNewItems( const KFileItemList& entries )
 
 void KonqKfmIconView::slotDeleteItem( KFileItem * _fileitem )
 {
+    m_pIconView->stopImagePreview();
+
     if ( _fileitem == m_dirLister->rootItem() )
     {
         m_pIconView->setRootItem( 0L );
