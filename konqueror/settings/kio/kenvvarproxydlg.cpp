@@ -92,8 +92,8 @@ KEnvVarProxyDlg::KEnvVarProxyDlg( QWidget* parent, const char* name )
 
     m_cbEnvHttps = new QCheckBox( i18n("HTTP&S:"), m_gbHostnames, "m_cbEnvHttps" );
     QWhatsThis::add( m_cbEnvHttps, i18n("Check this box to enable environment "
-                                        "variable based proxy setup for Https "
-                                        "connections such as HTTPS.") );
+                                        "variable based proxy setup for HTTPS "
+                                        "connections.") );
     m_leEnvHttps = new KLineEdit( m_gbHostnames, "m_leEnvHttps" );
     m_leEnvHttps->setEnabled( false );
     m_leEnvHttps->setSizePolicy( QSizePolicy(QSizePolicy::MinimumExpanding,
@@ -102,11 +102,11 @@ KEnvVarProxyDlg::KEnvVarProxyDlg( QWidget* parent, const char* name )
     QWhatsThis::add( m_leEnvHttps, i18n("<qt>Enter the name of the environment "
                                         "variable, eg. <tt>HTTPS_PROXY"
                                         "</tt>, used to store the address of "
-                                        "the Https proxy server.<p>"
+                                        "the HTTPS proxy server.<p>"
                                         "Alternatively, you can click on the "
                                         "<tt>\"Auto Detect\"</tt> button "
                                         "to attempt an automatic discovery of "
-                                        "this variable(s).</qt>") );
+                                        "this variable.</qt>") );
 
     glay->addWidget( m_cbEnvHttps, 1, 0 );
     glay->addWidget( m_leEnvHttps, 1, 1 );
@@ -171,7 +171,7 @@ KEnvVarProxyDlg::KEnvVarProxyDlg( QWidget* parent, const char* name )
                                      "lookup works by searching for the "
                                      "following common variable names:</p>"
                                      "<p><u>For HTTP: </u>%1</p>"
-                                     "<p><u>For Https: </u>%2</p>"
+                                     "<p><u>For HTTPS: </u>%2</p>"
                                      "<p><u>For FTP: </u>%3</p></qt>").arg(ENV_HTTP_PROXY).arg(ENV_HTTPS_PROXY).arg(ENV_FTP_PROXY));
     vlay->addWidget( m_pbDetect );
 
@@ -324,7 +324,7 @@ void KEnvVarProxyDlg::verifyPressed()
 {
     if ( !validate() )
     {
-        QString msg = i18n("The highlighted input field(s) contain unknown or "
+        QString msg = i18n("The highlighted input field(s) contains an unknown or "
                            "invalid proxy environment variable.");
 
         QString details = i18n("<qt>Make sure you entered the actual environment "
@@ -523,8 +523,8 @@ void KEnvVarProxyDlg::slotOk()
 {
     if ( !validate() )
     {
-        QString msg = i18n("The highlighted input field(s) contain unknown or "
-                           "invalid environment variable!");
+        QString msg = i18n("The highlighted input field(s) contain an unknown or "
+                           "invalid environment variable.");
 
         QString details = i18n("<qt>Make sure you entered the actual "
                                "environment variable name rather than the "
