@@ -303,7 +303,7 @@ void KonqBaseListViewWidget::readProtocolConfig( const QString & protocol )
       }
    }
    //check what the protocol provides
-   QStringList listingList = KProtocolInfo::listing( protocol );
+   QStringList listingList = KProtocolInfo::listing( KURL( protocol ) );
    kdDebug(1202) << k_funcinfo << "protocol: " << protocol << endl;
 
    // Even if this is not given by the protocol, we can determine it.
