@@ -182,8 +182,9 @@ void KfindTop::menuInit()
 
 void KfindTop::toolBarInit()
   {
+    // Use KIconLoader
     QString directory = KApplication::getKApplication()->kdedir()
-      + QString("/lib/pics/");
+      + QString("/share/toolbar");
     QPixmap icon;
 
 

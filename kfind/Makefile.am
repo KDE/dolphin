@@ -5,7 +5,7 @@ CLEANFILES = $(BUILT_SOURCES)
 bin_PROGRAMS = kfind
 LDADD += @all_libraries@ -lkfm -lkdeui -lkdecore -lqt -lXext -lX11 @LIBSOCKET@ 
 MOC 	= @MOC@
-PICSDIR=$(libdir)/pics
+ICONSDIR=$(prefix)/share/icons
 
 ####### Files
 
@@ -18,12 +18,12 @@ noinst_HEADERS	  =  kfarch.h kfdird.h kfindtop.h kftabdlg.h kfwin.h kfind.h \
              kfsave.h kftypes.h kfoptions.h
 
 install-data-local:
-	$(mkinstalldirs) $(PICSDIR)
-	$(INSTALL_DATA) kfind.xpm $(PICSDIR)
+	$(mkinstalldirs) $(ICONSDIR)
+	$(INSTALL_DATA) kfind.xpm $(ICONSDIR)
 	(cd pics && $(MAKE) install)
 
 uninstall-local:
-	rm -f $(PICSDIR)/$(TARGET).xpm
+	rm -f $(ICONSDIR)/$(TARGET).xpm
 	(cd pics && $(MAKE) uninstall)
 
 
