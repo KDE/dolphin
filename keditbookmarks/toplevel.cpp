@@ -249,14 +249,14 @@ void KEBTopLevel::initListView(bool firstTime)
 
 void KEBTopLevel::disconnectSignals() {
 
-    // NEW, evil method :)
-
     kdWarning() << disconnect( m_pListView, 0, 0, 0 ) << endl;
     kdWarning() << disconnect( s_pManager, 0, 0, 0 ) << endl;
     kdWarning() << disconnect( &m_commandHistory, 0, 0, 0 ) << endl;
     kdWarning() << disconnect( m_dcopIface, 0, 0, 0 ) << endl;
 
     return;
+
+    // AK - TODO remove the old code after verifying the above
 
     disconnect( m_pListView, SIGNAL( selectionChanged()), 0, 0 );
     disconnect( m_pListView, SIGNAL( contextMenu( KListView *, QListViewItem *, const QPoint & )), 0, 0 );
@@ -284,6 +284,7 @@ void KEBTopLevel::connectSignals() {
     connect( m_pListView, SIGNAL( contextMenu( KListView *, QListViewItem*, const QPoint & ) ),
              SLOT( slotContextMenu( KListView *, QListViewItem *, const QPoint & ) ) );
 
+    // AK - TODO - test that this works
     // If someone plays with konq's bookmarks while we're open, update. (when applicable)
     connect( s_pManager, SIGNAL( changed(const QString &, const QString &) ),
              SLOT( slotBookmarksChanged(const QString &, const QString &) ) );
@@ -414,6 +415,8 @@ void KEBTopLevel::updateSelection()
     }
     if (lastItem) {
        m_last_selection_address = ITEM_TO_BK(lastItem).address();
+    } else {
+       // AK - do something?
     }
 }
 
@@ -487,10 +490,10 @@ void KEBTopLevel::slotSave()
 
 void KEBTopLevel::slotSaveAs()
 {
-	QString saveFilename=
-		KFileDialog::getSaveFileName( QString::null, "*.xml", this );
-        if(!saveFilename.isEmpty())
-            s_pManager->saveAs( saveFilename );
+    QString saveFilename=
+    KFileDialog::getSaveFileName( QString::null, "*.xml", this );
+    if(!saveFilename.isEmpty())
+        s_pManager->saveAs( saveFilename );
 }
 
 bool KEBTopLevel::save()
@@ -589,7 +592,7 @@ void KEBTopLevel::slotDelete()
 
 void KEBTopLevel::slotNewFolder()
 {
-    // AK - fix this
+    // AK - TODO FIXME TODO
     // EVIL HACK
     // We need to ask for the folder name before creating the command, in case of "Cancel".
     // But in message-freeze time, impossible to add i18n()s. So... we have to call the existing code :
@@ -607,7 +610,7 @@ void KEBTopLevel::slotNewFolder()
 
 QString KEBTopLevel::correctAddress(QString address)
 {
-   // AK - move to kbookmark
+   // AK - TODO - move to kbookmark ?
    return s_pManager->findByAddress(address,true).address();
 }
 
@@ -686,6 +689,8 @@ void KEBTopLevel::slotImportIE()
     m_commandHistory.addCommand( cmd );
     selectImport(cmd);
 }
+
+// TODO - sort out this mess
 
 QString kdeBookmarksFile() {
    // locateLocal on the bookmarks file and get dir?
@@ -1016,25 +1021,80 @@ void KEBTopLevel::slotItemRenamed(QListViewItem * item, const QString & newText,
     }
 }
 
+class FavIconUpdater : public KonqFavIconMgr {
+
+public:   
+   static FavIconUpdater * self();
+   FavIconUpdater( QObject *parent, const char *name );
+   ~FavIconUpdater();
+   virtual void notifyChange( bool isHost, QString hostOrURL, QString iconName );
+
+private:
+   static FavIconUpdater * s_self;
+
+};
+
+FavIconUpdater * FavIconUpdater::self() {
+   if ( !s_self )
+      s_self = new FavIconUpdater( kapp, "FavIconUpdater" );
+   return s_self;
+}
+
+FavIconUpdater::FavIconUpdater( QObject *parent, const char *name )
+   : KonqFavIconMgr( parent, name )
+{
+}
+
+FavIconUpdater::~FavIconUpdater()
+{
+   s_self = 0L;
+}
+
+/*
+   void FavIconUpdater::getIcon() {
+   QString favicon = KonqFavIconMgr::iconForURL(bk.url().url());
+   if (favicon == QString::null) {
+   KonqFavIconMgr::downloadHostIcon(bk.url());
+   favicon = KonqFavIconMgr::iconForURL(bk.url().url());
+   }
+   }
+ */
+
+void FavIconUpdater::notifyChange( bool isHost, QString hostOrURL, QString iconName ) 
+{
+// 1. here - add (store link to bk <-> qstring url) map
+// 2. add a new class for faviconmgr
+// 3. on notifyChanged update the bk's with given url
+// 4. make a khtml part for each url with a browserextensions part thingy...
+
+   kdDebug(26000) << "blah blah!" << endl;
+   /*
+      bks = list[url];
+      for (bk.first(); bk != bk.end; bk.next) {
+      bk.icon = iconname;
+      }
+      this->nextIcon();
+    */
+}
+
+FavIconUpdater * FavIconUpdater::s_self = 0L;
+
 void KEBTopLevel::slotUpdateFavicon()
 {
-    KBookmark bk = selectedBookmark();
     // if folder then recursive
-    QString favicon = KonqFavIconMgr::iconForURL(bk.url().url());
-    if (favicon == QString::null) {
-       KonqFavIconMgr::downloadHostIcon(bk.url());
-       favicon = KonqFavIconMgr::iconForURL(bk.url().url());
-    }
+    KBookmark bk = selectedBookmark();
+    FavIconUpdater::self()->notifyChange(false,"cds","mozilla");
+
+    /*
     if (favicon != QString::null) {
-        // AK - change directly?
         EditCommand * cmd = new EditCommand( i18n("Update Favicon"), bk.address(),
                                              EditCommand::Edition("icon", favicon) );
         m_commandHistory.addCommand( cmd );
-        // TODO - status bar - got one
-    } else {
-        // TODO - status bar - failed to find favicon!
     }
+    */
+
 }
+
 
 void KEBTopLevel::slotChangeIcon()
 {
