@@ -50,7 +50,13 @@ messages: rc.cpp
 data_DATA = konquerorsu.desktop kfmclient.desktop Arrange.desktop
 datadir = $(kde_appsdir)/System
 
-data2_DATA = Home.desktop Trash.desktop
+data2_DATA = Home.desktop
 data2dir = $(kde_appsdir)
 
-EXTRA_DIST = $(data_DATA) $(data2_DATA)
+profiledir = $(kde_datadir)/konqueror/profiles
+install-data-local:
+	$(mkinstalldirs) $(profiledir)
+	$(INSTALL_DATA) $(srcdir)/profile_webbrowsing $(profiledir)/webbrowsing
+uninstall-local:
+	-rm -f $(profiledir)/webbrowsing
+
