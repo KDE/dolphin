@@ -26,6 +26,7 @@
 
 class KonqFMSettings;
 class KFileIVI;
+namespace KIO { class Job; }
 
 /**
  * A file-aware icon view, implementing drag'n'drop, KDE icon sizes,
@@ -99,6 +100,8 @@ protected slots:
     virtual void slotDrop( QDropEvent *e );
     /** connect each item to this */
     virtual void slotDropItem( KFileIVI *item, QDropEvent *e );
+
+    void slotResult( KIO::Job * job );
 
 protected:
     /** Common to slotDrop and slotDropItem */
