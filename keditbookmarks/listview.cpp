@@ -172,32 +172,27 @@ void ListView::updateSelectedItems() {
 
 QValueList<KBookmark> ListView::selectedBookmarksExpanded() {
    QValueList<KBookmark> bookmarks;
-   QStringList addresses;
    for (QPtrListIterator<KEBListViewItem> it(*itemList()); it.current() != 0; ++it) {
-      if ((it.current()->isSelected()) && !it.current()->isEmptyFolder()) {
-         if (it.current()->childCount() > 0) {
-            for(QListViewItemIterator it2((QListViewItem*)it.current()); it2.current(); it2++) {
-	       KEBListViewItem *item = static_cast<KEBListViewItem *>(it2.current());
-               if (!item->isEmptyFolder()) {
-                  const KBookmark bk = item->bookmark();
-                  if (!addresses.contains(bk.address())) {
-                     bookmarks.append(bk);
-                     addresses.append(bk.address());
-                  }
-               }
-               if ((it.current()->nextSibling())
-                && (it2.current() == it.current()->nextSibling()->itemAbove())
-               ) {
-                  break;
-               }
+      if (!it.current()->isSelected() || it.current()->isEmptyFolder()) {
+         continue;
+      }
+      if (it.current()->childCount() > 0) {
+         QListViewItem *endOfFolder = 0;
+         if (it.current()->nextSibling()) {
+            endOfFolder = it.current()->nextSibling()->itemAbove();
+         }
+         // TODO check that this loop covers all, included subfolders!
+         for(QListViewItemIterator it2((QListViewItem*)it.current()); it2.current(); it2++) {
+            KEBListViewItem *item = static_cast<KEBListViewItem *>(it2.current());
+            if (!item->isEmptyFolder()) {
+               bookmarks.append(item->bookmark());
             }
-         } else {
-            const KBookmark bk = it.current()->bookmark();
-            if (!addresses.contains(bk.address())) {
-               bookmarks.append(bk);
-               addresses.append(bk.address());
+            if (endOfFolder && it2.current() == endOfFolder) {
+               break;
             }
          }
+      } else {
+         bookmarks.append(it.current()->bookmark());
       }
    }
    return bookmarks;
@@ -268,7 +263,7 @@ KEBListViewItem* ListView::getItemAtAddress(const QString &address) {
 void ListView::setOpen(bool open) {
    for (QPtrListIterator<KEBListViewItem> it(*itemList()); it.current() != 0; ++it) {
       if (it.current()->parent()) {
-         (static_cast<KEBListViewItem*>(it.current()))->setOpen(open);
+         it.current()->setOpen(open);
       }
    }
 }
@@ -402,7 +397,6 @@ void ListView::slotContextMenu(KListView *, QListViewItem *qitem, const QPoint &
    if (!item) {
       return;
    }
-   // TODO
    const char *type = (item->bookmark().isGroup() ? "popup_folder" : "popup_bookmark");
    QWidget* popup = KEBApp::self()->popupMenuFactory(type);
    if (popup) {
@@ -412,9 +406,9 @@ void ListView::slotContextMenu(KListView *, QListViewItem *qitem, const QPoint &
 
 void ListView::slotDoubleClicked(QListViewItem *item, const QPoint &, int column) {
    if ((!KEBApp::self()->readonly()) 
-    && (item)
     && ((column == KEBListView::UrlColumn) 
      || (column == KEBListView::NameColumn))
+    && (item) && !(static_cast<KEBListViewItem *>(item)->isEmptyFolder())
    ) {
       m_listView->rename(item, column);
    }
