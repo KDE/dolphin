@@ -79,13 +79,14 @@ KonqViewFactory KonqFactory::createView( const QString &serviceType,
                                          const QString &serviceName,
                                          KService::Ptr *serviceImpl,
                                          KTrader::OfferList *partServiceOffers,
-                                         KTrader::OfferList *appServiceOffers )
+                                         KTrader::OfferList *appServiceOffers,
+					 bool forceAutoEmbed )
 {
   kdDebug(1202) << "Trying to create view for \"" << serviceType << "\"" << endl;
 
   // We ask ourselves whether to do it or not only if no service was specified.
   // If it was (from the View menu or from RMB + Embedding service), just do it.
-  bool forceAutoEmbed = !serviceName.isEmpty();
+  forceAutoEmbed |= !serviceName.isEmpty();
   if ( ! forceAutoEmbed )
   {
     if ( ! KonqFMSettings::settings()->shouldEmbed( serviceType ) )

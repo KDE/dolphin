@@ -570,7 +570,10 @@ bool KonqMainWindow::openView( QString serviceType, const KURL &_url, KonqView *
   if ( !childView )
     {
       // Create a new view
-      childView = m_pViewManager->splitView( Qt::Horizontal, serviceType, serviceName );
+      // The last "true" means: force auto-embed even if user setting is "separate viewer",
+      // since this window has no view yet - we don't want to keep an empty mainwindow.
+      // This can happen with e.g. application/pdf from a target="_blank" link, or window.open.
+      childView = m_pViewManager->splitView( Qt::Horizontal, serviceType, serviceName, false, true );
 
       if ( !childView )
         {

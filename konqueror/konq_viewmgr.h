@@ -67,7 +67,7 @@ public:
   KonqView* splitView( Qt::Orientation orientation,
                        const QString & serviceType = QString::null,
                        const QString & serviceName = QString::null,
-                       bool newOneFirst = false);
+                       bool newOneFirst = false, bool forceAutoEmbed = false );
 
   /**
    * Does basically the same as splitView() but inserts the new view at the top
@@ -90,7 +90,7 @@ public:
                    const QString &serviceType = QString::null,
                    const QString &serviceName = QString::null,
                    KonqFrameContainer **newFrameContainer = 0L,
-                   bool passiveMode = false );
+                   bool passiveMode = false, bool forceAutoEmbed = false );
 
   /**
    * Guess!:-)
@@ -234,7 +234,8 @@ private:
                               const QString &serviceName,
                               KService::Ptr &service,
                               KTrader::OfferList &partServiceOffers,
-                              KTrader::OfferList &appServiceOffers );
+                              KTrader::OfferList &appServiceOffers,
+			      bool forceAutoEmbed = false );
 
   /**
    * Mainly creates the backend structure(KonqView) for a view and

@@ -70,7 +70,8 @@ public:
 				     const QString &serviceName = QString::null,
 				     KService::Ptr *serviceImpl = 0,
 				     KTrader::OfferList *partServiceOffers = 0,
-				     KTrader::OfferList *appServiceOffers = 0);
+				     KTrader::OfferList *appServiceOffers = 0,
+				     bool forceAutoEmbed = false );
 
   static void getOffers( const QString & serviceType,
                          KTrader::OfferList *partServiceOffers = 0,

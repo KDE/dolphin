@@ -55,7 +55,7 @@ KonqViewManager::~KonqViewManager()
 KonqView* KonqViewManager::splitView ( Qt::Orientation orientation,
                                        const QString &serviceType,
                                        const QString &serviceName,
-                                       bool newOneFirst)
+                                       bool newOneFirst, bool forceAutoEmbed )
 {
   kdDebug(1202) << "KonqViewManager::splitView(ServiceType)" << endl;
 
@@ -72,7 +72,7 @@ KonqView* KonqViewManager::splitView ( Qt::Orientation orientation,
   }
 
   KonqFrameContainer *newContainer;
-  KonqView* childView = split( viewFrame, orientation, serviceType, serviceName, &newContainer );
+  KonqView* childView = split( viewFrame, orientation, serviceType, serviceName, &newContainer, false, forceAutoEmbed );
 
   if ( newOneFirst )
   {
@@ -124,14 +124,14 @@ KonqView* KonqViewManager::split (KonqFrameBase* splitFrame,
                                   Qt::Orientation orientation,
                                   const QString &serviceType, const QString &serviceName,
                                   KonqFrameContainer **newFrameContainer,
-                                  bool passiveMode )
+                                  bool passiveMode, bool forceAutoEmbed )
 {
   kdDebug(1202) << "KonqViewManager::split" << endl;
 
   KService::Ptr service;
   KTrader::OfferList partServiceOffers, appServiceOffers;
 
-  KonqViewFactory newViewFactory = createView( serviceType, serviceName, service, partServiceOffers, appServiceOffers );
+  KonqViewFactory newViewFactory = createView( serviceType, serviceName, service, partServiceOffers, appServiceOffers, forceAutoEmbed );
 
   if( newViewFactory.isNull() )
     return 0L; //do not split at all if we can't create the new view
@@ -427,7 +427,8 @@ KonqViewFactory KonqViewManager::createView( const QString &serviceType,
                                           const QString &serviceName,
                                           KService::Ptr &service,
                                           KTrader::OfferList &partServiceOffers,
-                                          KTrader::OfferList &appServiceOffers )
+                                          KTrader::OfferList &appServiceOffers,
+					  bool forceAutoEmbed )
 {
   kdDebug(1202) << "KonqViewManager::createView" << endl;
   KonqViewFactory viewFactory;
@@ -437,12 +438,12 @@ KonqViewFactory KonqViewManager::createView( const QString &serviceType,
     KonqView *cv = m_pMainWindow->currentView();
 
     viewFactory = KonqFactory::createView( cv->serviceType(), cv->service()->desktopEntryName(),
-                                           &service, &partServiceOffers, &appServiceOffers );
+                                           &service, &partServiceOffers, &appServiceOffers, forceAutoEmbed );
   }
   else {
     //create view with the given servicetype
     viewFactory = KonqFactory::createView( serviceType, serviceName,
-                                           &service, &partServiceOffers, &appServiceOffers );
+                                           &service, &partServiceOffers, &appServiceOffers, forceAutoEmbed );
   }
 
   return viewFactory;
