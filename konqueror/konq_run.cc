@@ -129,7 +129,7 @@ void KonqRun::foundMimeType( const QString & _type )
   // is konqueror/kfmclient, then we'll loop forever. So we have to check what KRun
   // is going to do before calling it.
   KService::Ptr offer = KServiceTypeProfile::preferredService( mimeType, true /*need app*/ );
-  if ( offer && ( offer->desktopEntryName() == "konqueror" || offer->desktopEntryName() == "kfmclient" ) )
+  if ( offer && ( offer->desktopEntryName() == "konqueror" || offer->desktopEntryName().startsWith("kfmclient") ) )
   {
     KMessageBox::error( m_pMainWindow, i18n("There appears to be a misconfiguration. You have associated konqueror with %1, but it can't handle this file type.").arg(mimeType));
     m_pMainWindow = 0L;

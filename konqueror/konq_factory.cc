@@ -171,7 +171,8 @@ void KonqFactory::getOffers( const QString & serviceType,
     if ( appServiceOffers )
     {
         *appServiceOffers = KTrader::self()->query( serviceType, "Application",
-                                                    "DesktopEntryName != 'kfmclient'", QString::null );
+"DesktopEntryName != 'kfmclient' and DesktopEntryName != 'kfmclient_dir' and DesktopEntryName != 'kfmclient_html'",
+                                                    QString::null );
     }
 
     if ( partServiceOffers )
