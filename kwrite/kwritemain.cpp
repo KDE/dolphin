@@ -265,12 +265,12 @@ void TopLevel::editToolbars()
 
 void TopLevel::printNow()
 {
-  kateView->printDlg ();
+  kateView->doc()->print ();
 }
 
 void TopLevel::printDlg()
 {
-  kateView->printDlg ();
+  kateView->doc()->printDialog ();
 }
 
 void TopLevel::newCurPos()
