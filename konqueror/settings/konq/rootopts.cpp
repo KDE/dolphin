@@ -89,7 +89,7 @@ KRootOptions::KRootOptions(KConfig *config, QWidget *parent, const char *name )
   QWhatsThis::add( menuBarBox, i18n("Check this option if you want the"
                                     " desktop popup menus to appear on the top of the screen in the style"
                                     " of Macintosh.  This setting is independent of the global top-level"
-                                    " menu setting that applys to KDE applications.") );
+                                    " menu setting that applies to KDE applications.") );
 
   row++;
   QFrame * hLine2 = new QFrame(this);
