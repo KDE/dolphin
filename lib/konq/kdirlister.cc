@@ -35,7 +35,6 @@
 
 KDirLister::KDirLister()
 {
-  m_bIsLocalURL = false;
   m_bComplete = true;
   m_jobId = 0;
 }
@@ -136,8 +135,8 @@ void KDirLister::openURL( const KURL& _url, bool _showDotFiles, bool _keep )
   {
     emit clear();
     m_lstFileItems.clear(); // clear our internal list
+    m_bKofficeDocs = false;
   }
-  m_bIsLocalURL = m_url.isLocalFile();
 }
 
 void KDirLister::slotError( int /*_id*/, int _errid, const char *_errortext )
@@ -177,6 +176,15 @@ void KDirLister::slotListEntry( int /*_id*/, const KUDSEntry& _entry )
     KFileItem* item = new KFileItem( _entry, u );
     m_lstFileItems.append( item );
     emit newItem( item );
+
+    // Detect koffice files
+    QString mimeType = item->mimetype();
+    if ( mimeType.left(15) == "application/x-k" )
+    {
+      // Currently this matches all koffice mimetypes
+      // To be changed later on if anybody else uses a x-k* mimetype
+      m_bKofficeDocs = true;
+    }
   }
 }
 

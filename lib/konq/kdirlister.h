@@ -115,6 +115,11 @@ public:
 
   int jobId() { return m_jobId; }
 
+  /**
+   * @return true if koffice documents were listed since the last clear()
+   */
+  bool kofficeDocsFound() { return m_bKofficeDocs; }
+
 signals:
   /**
    * Tell the view that we started to list _url.
@@ -156,8 +161,6 @@ protected:
   KURL m_url;
   QString m_sURL;
 
-  bool m_bIsLocalURL;
-
   int m_jobId;
 
   /** The internal storage of file items */
@@ -179,6 +182,9 @@ protected:
   QValueList<KUDSEntry> m_buffer;
 
   QStringList m_lstPendingUpdates;
+
+  /** Whether koffice documents were found */
+  bool m_bKofficeDocs;
 };
 
 #endif
