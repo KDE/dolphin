@@ -39,6 +39,7 @@
 #include <ktrader.h>
 #include <kprocess.h>
 #include <kstddirs.h>
+#include <kopenwith.h>
 #include <kdebug.h>
 #include <dcopclient.h>
 
@@ -187,6 +188,7 @@ int clientApp::doIt( int argc, char **argv )
     }
     else if ( argc == 3 )
     {
+      KFileOpenWithHandler fowh;
       KRun * run = new KRun( KCmdLineArgs::makeURL(argv[2]) );
       QObject::connect( run, SIGNAL( finished() ), this, SLOT( quit() ));
       QObject::connect( run, SIGNAL( error() ), this, SLOT( quit() ));
@@ -199,6 +201,7 @@ int clientApp::doIt( int argc, char **argv )
 //      KService::Ptr serv = KServiceProvider::getServiceProvider()->serviceByServiceType( argv[3] );
       KService::Ptr serv = (*KTrader::self()->query( argv[ 3 ] ).begin());
       if (!serv) return 1;
+      KFileOpenWithHandler fowh;
       bool ret = KRun::run( *serv, urls );
       if (!ret) return 1;
     }

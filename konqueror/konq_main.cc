@@ -37,6 +37,7 @@
 #include <dcopclient.h>
 #include <kimgio.h>
 #include <ksimpleconfig.h>
+#include <kopenwith.h>
 
 static KCmdLineOptions options[] =
 {
@@ -128,6 +129,7 @@ int main( int argc, char **argv )
   QString path = KGlobal::dirs()->saveLocation("data", "kfm/bookmarks", true);
   KonqBookmarkManager bm ( path );
   KonqFileManager fm;
+  KFileOpenWithHandler fowh;
 
   // Launch the cookiejar if not already running
   KConfig *kioConfig = new KConfig("kioslaverc", false, false);
