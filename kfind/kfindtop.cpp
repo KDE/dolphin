@@ -30,8 +30,6 @@
 
 #include "version.h" 
 
-// Adapted to new KTW by sven
-
 KfindTop::KfindTop(const char *searchPath) : KTopLevelWidget()
   {
     setCaption(QString("KFind ")+KFIND_VERSION);
@@ -85,7 +83,8 @@ KfindTop::KfindTop(const char *searchPath) : KTopLevelWidget()
     connect(_toolBar ,SIGNAL(moved(BarPosition)),
     	    this,SLOT(resizeOnFloating()));
 
-    _width=(440>_toolBar->width())?440:_toolBar->width();
+    //_width=(440>_toolBar->width())?440:_toolBar->width();
+    _width=520;
     int _height=(_kfind->sizeHint()).height();
 
     //the main widget  never should be smaller
@@ -121,6 +120,11 @@ void KfindTop::about()
 
     QMessageBox::information(this,"",tmp,trans->translate("OK"));
   };
+
+void KfindTop::aboutQt()
+{
+    QMessageBox::aboutQt( this, "" );
+}      
 
 void KfindTop::menuInit()
   {
@@ -179,6 +183,8 @@ void KfindTop::menuInit()
     _helpMenu->insertItem(trans->translate("Kfind &help"),
 			  this, SLOT(help()));
     _helpMenu->insertSeparator();
+    _helpMenu->insertItem(trans->translate("About &Qt"), 
+			  this, SLOT( aboutQt() ));
     _helpMenu->insertItem(trans->translate("&About"), this, SLOT( about() ));  
 
     _mainMenu = new KMenuBar(this, "_mainMenu");
@@ -281,20 +287,20 @@ void KfindTop::enableStatusBar(bool enable)
 
      if ( enable )
        {
-	 if (_heightTmp==_height)
- 	   _height+=200;
-	 _statusBar->enable(KStatusBar::Show);
-	 setMaximumSize(9999,9999);
- 	 resize(width(),_mainMenu->height()+_toolBar->height()+_height+_statusBar->height());
- 	 resizeOnFloating();
- 	 updateRects();
+         if (_heightTmp==_height)
+           _height+=200;
+         _statusBar->enable(KStatusBar::Show);
+         setMaximumSize(9999,9999);
+         resize(width(),_mainMenu->height()+_toolBar->height()+_height+_statusBar->height());
+         resizeOnFloating();
+         updateRects();
        }
      else
        {
-	 _statusBar->enable(KStatusBar::Hide);
- 	 resizeOnFloating();
- 	 updateRects();
-       };
+         _statusBar->enable(KStatusBar::Hide);
+         resizeOnFloating();
+         updateRects();
+       };                               
   };
 
 void KfindTop::statusChanged(const char *str)
@@ -319,11 +325,12 @@ void KfindTop::resizeOnFloating()
       _height+=_toolBar->height();
     if (_statusBar->isVisible())
       _height+=_statusBar->height();
-     
+
     setMinimumSize(_width,_height);
     if ( !_statusBar->isVisible() )
       {
-	resize(width(),_height);
-	setMaximumSize(9999,_height);
-      };
+        resize(width(),_height);
+        setMaximumSize(9999,_height);
+      };                       
   };
+
