@@ -249,29 +249,24 @@ KonqPopupMenu::KonqPopupMenu( const KFileItemList &items,
 
   //////////////////////////////////////////////////////
 
-  bool bLastSepInserted = false;
+  QValueList<KDEDesktopMimeType::Service> builtin;
+  QValueList<KDEDesktopMimeType::Service> user;
 
-  if ( !m_sMimeType.isNull() ) // common mimetype among all URLs ?
+  // 1 - Look for builtin and user-defined services
+  if ( m_sMimeType == "application/x-desktop" && m_lstItems.count() == 1 ) // .desktop file
   {
-    // Query the trader for offers associated to this mimetype
-
-    // 2 - Look for builtin and user-defined services
-    QValueList<KDEDesktopMimeType::Service> builtin;
-    QValueList<KDEDesktopMimeType::Service> user;
-    if ( m_sMimeType == "application/x-desktop" ) // .desktop file
-    {
       // get builtin services, like mount/unmount
       builtin = KDEDesktopMimeType::builtinServices( m_lstItems.first()->url() );
       user = KDEDesktopMimeType::userDefinedServices( m_lstItems.first()->url() );
-    }
+  }
 
-    // 3 - Look for "servicesmenus" bindings (konqueror-specific user-defined services)
-    QStringList dirs = KGlobal::dirs()->findDirs( "data", "konqueror/servicemenus/" );
-    QStringList::ConstIterator dIt = dirs.begin();
-    QStringList::ConstIterator dEnd = dirs.end();
+  // 2 - Look for "servicesmenus" bindings (konqueror-specific user-defined services)
+  QStringList dirs = KGlobal::dirs()->findDirs( "data", "konqueror/servicemenus/" );
+  QStringList::ConstIterator dIt = dirs.begin();
+  QStringList::ConstIterator dEnd = dirs.end();
 
-    for (; dIt != dEnd; ++dIt )
-    {
+  for (; dIt != dEnd; ++dIt )
+  {
       QDir dir( *dIt );
 
       QStringList entries = dir.entryList( QDir::Files );
@@ -280,34 +275,37 @@ KonqPopupMenu::KonqPopupMenu( const KFileItemList &items,
 
       for (; eIt != eEnd; ++eIt )
       {
-        KSimpleConfig cfg( *dIt + *eIt, true );
+          KSimpleConfig cfg( *dIt + *eIt, true );
 
-        cfg.setDesktopGroup();
+          cfg.setDesktopGroup();
 
-        if ( cfg.hasKey( "Actions" ) && cfg.hasKey( "ServiceTypes" ) &&
-             ( cfg.readListEntry( "ServiceTypes" ).contains( m_sMimeType ) ) ||
-               ( cfg.readEntry( "ServiceTypes" ) == "allfiles" ) )
-        {
-          KURL u;
-          u.setPath( *dIt + *eIt );
-          user += KDEDesktopMimeType::userDefinedServices( u );
-        }
+          if ( cfg.hasKey( "Actions" ) && cfg.hasKey( "ServiceTypes" ) )
 
+              if ( ( !m_sMimeType.isNull() && cfg.readListEntry( "ServiceTypes" ).contains( m_sMimeType ) )
+                   || ( cfg.readEntry( "ServiceTypes" ) == "allfiles" ) )
+              {
+                  KURL u;
+                  u.setPath( *dIt + *eIt );
+                  user += KDEDesktopMimeType::userDefinedServices( u );
+              }
       }
+  }
 
-    }
+  KTrader::OfferList offers;
+  if ( !m_sMimeType.isNull() ) // common mimetype among all URLs ?
+  {
+      // 3 - Query for applications
+      offers = KTrader::self()->query( m_sMimeType,
+                                       "Type == 'Application' and DesktopEntryName != 'kfmclient'" );
+  }
 
-    // 4 - Query for applications
-    KTrader::OfferList offers = KTrader::self()->query( m_sMimeType,
-      "Type == 'Application' and DesktopEntryName != 'kfmclient'" );
+  //// Ok, we have everything, now insert
 
-    //// Ok, we have everything, now insert
+  m_mapPopup.clear();
+  m_mapPopupServices.clear();
 
-    m_mapPopup.clear();
-    m_mapPopupServices.clear();
-
-    if ( !offers.isEmpty() )
-    {
+  if ( !offers.isEmpty() )
+  {
       // First block, app and preview offers
       addSeparator();
 
@@ -350,23 +348,23 @@ KonqPopupMenu::KonqPopupMenu( const KFileItemList &items,
         KAction *openWithAct = new KAction( i18n( "Other..." ), 0, this, SLOT( slotPopupOpenWith() ), &m_ownActions, "openwith" );
         addAction( openWithAct, menu ); // Other...
       }
-    }
-    else // no app offers -> Open With...
-    {
+  }
+  else // no app offers -> Open With...
+  {
       addSeparator();
       act = new KAction( i18n( "Open With..." ), 0, this, SLOT( slotPopupOpenWith() ), &m_ownActions, "openwith" );
       addAction( act );
-    }
+  }
 
-    addGroup( "preview" );
+  addGroup( "preview" );
 
-    addSeparator();
+  addSeparator();
 
-    bool insertedOffer = false;
+  // Second block, builtin + user
+  if ( !user.isEmpty() || !builtin.isEmpty() )
+  {
+      bool insertedOffer = false;
 
-    // Second block, builtin + user
-    if ( !user.isEmpty() || !builtin.isEmpty() )
-    {
       QValueList<KDEDesktopMimeType::Service>::Iterator it2 = user.begin();
       for( ; it2 != user.end(); ++it2 )
       {
@@ -388,12 +386,6 @@ KonqPopupMenu::KonqPopupMenu( const KFileItemList &items,
           insertedOffer = true;
         }
       }
-
-      // One too much IMHO (David)
-      //if ( insertedOffer )
-      //  addSeparator();
-
-      //insertedOffer = false;
 
       it2 = builtin.begin();
       for( ; it2 != builtin.end(); ++it2 )
@@ -417,25 +409,20 @@ KonqPopupMenu::KonqPopupMenu( const KFileItemList &items,
 
       if ( insertedOffer )
         addSeparator();
-    }
+  }
 
-    if ( showPropertiesAndFileType )
-    {
-      bLastSepInserted = true;
-
+  if ( !m_sMimeType.isEmpty() && showPropertiesAndFileType )
+  {
       act = new KAction( i18n( "Edit File Type..." ), 0, this, SLOT( slotPopupMimeType() ),
                        &m_ownActions, "editfiletype" );
       addAction( act );
-    }
   }
 
   if ( KPropertiesDialog::canDisplay( m_lstItems ) && showPropertiesAndFileType )
   {
-    if ( !bLastSepInserted ) addSeparator();
-
-    act = new KAction( i18n( "Properties..." ), 0, this, SLOT( slotPopupProperties() ),
-                       &m_ownActions, "properties" );
-    addAction( act );
+      act = new KAction( i18n( "Properties..." ), 0, this, SLOT( slotPopupProperties() ),
+                         &m_ownActions, "properties" );
+      addAction( act );
   }
 
   while ( !m_menuElement.lastChild().isNull() &&
@@ -510,9 +497,7 @@ void KonqPopupMenu::slotRunService()
   QMap<int,KDEDesktopMimeType::Service>::Iterator it2 = m_mapPopupServices.find( id );
   if ( it2 != m_mapPopupServices.end() )
   {
-    KURL::List::Iterator it3 = m_lstPopupURLs.begin();
-    for( ; it3 != m_lstPopupURLs.end(); ++it3 )
-      KDEDesktopMimeType::executeService( (*it3).path(), it2.data() );
+      KDEDesktopMimeType::executeService( m_lstPopupURLs, it2.data() );
   }
 
   return;
