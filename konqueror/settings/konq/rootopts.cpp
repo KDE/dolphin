@@ -160,7 +160,7 @@ void KRootOptions::load()
     g_pConfig->setGroup( "Desktop Icons" );
     bool bShowHidden = g_pConfig->readBoolEntry("ShowHidden", DEFAULT_SHOW_HIDDEN_ROOT_ICONS);
     showHiddenBox->setChecked(bShowHidden);
-    bool bVertAlign = g_pConfig->readNumEntry("VertAlign", 1);
+    bool bVertAlign = g_pConfig->readNumEntry("VertAlign", DEFAULT_VERT_ALIGN);
     VertAlignBox->setChecked(bVertAlign);
     //
     g_pConfig->setGroup( "Mouse Buttons" );
