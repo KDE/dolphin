@@ -175,9 +175,9 @@ KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const 
     : KParts::ReadOnlyPart( parent, name )
 {
     kdDebug(1202) << "+KonqKfmIconView" << endl;
-    
+
     m_extension = new IconViewBrowserExtension( this );
-    
+
     // Create a properties instance for this view
     m_pProps = new KonqPropsView( KonqIconViewFactory::instance(), KonqIconViewFactory::defaultViewProps() );
 
@@ -185,9 +185,11 @@ KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const 
 
     // When our viewport is adjusted (resized or scrolled) we need
     // to get the mime types for any newly visible icons. (Rikkus)
-    connect(
-      m_pIconView,  SIGNAL(viewportAdjusted()),
-      this,         SLOT(slotProcessMimeIcons()));
+    connect( m_pIconView,  SIGNAL(viewportAdjusted()),
+             this, SLOT(slotViewportAdjusted()));
+
+    connect( m_pIconView,  SIGNAL(imagePreviewFinished()),
+             this, SLOT(slotRenderingFinished()));
 
     // pass signals to the extension
     connect( m_pIconView, SIGNAL( enableAction( const char *, bool ) ),
@@ -962,6 +964,38 @@ void KonqKfmIconView::slotDisplayFileSelectionInfo()
     emit m_extension->selectionInfo( lst );
 }
 
+void KonqKfmIconView::slotViewportAdjusted()
+{
+  KFileIVI * item = findVisibleIcon();
+  if (item)
+  {
+    determineIcon( item );
+    m_timer->start( 0, true /* single shot */ );
+  }
+}
+
+KFileIVI * KonqKfmIconView::findVisibleIcon()
+{
+  // Find an icon that's visible and whose mimetype we don't know.
+
+  QListIterator<KFileIVI> it(m_lstPendingMimeIconItems);
+
+  QRect visibleContentsRect
+    (
+      m_pIconView->viewportToContents(QPoint(0, 0)),
+      m_pIconView->viewportToContents
+      (
+        QPoint(m_pIconView->visibleWidth(), m_pIconView->visibleHeight())
+        )
+      );
+
+  for (; it.current(); ++it)
+    if (visibleContentsRect.intersects(it.current()->rect()))
+      return it.current();
+
+  return 0L;
+}
+
 void KonqKfmIconView::slotProcessMimeIcons()
 {
     // kdDebug(1202) << "KonqKfmIconView::slotProcessMimeIcons() "
@@ -969,30 +1003,12 @@ void KonqKfmIconView::slotProcessMimeIcons()
     KFileIVI * item = 0L;
     int nextDelay = 0;
 
-    if ( m_lstPendingMimeIconItems.count() > 0 ) {
-
-        // Find an icon that's visible.
-        //
-        // We only find mimetypes for icons that are visible. When more
-        // of our viewport is exposed, we'll get a signal and then get
-        // the mimetypes for the newly visible icons. (Rikkus)
-
-        QListIterator<KFileIVI> it(m_lstPendingMimeIconItems);
-
-        QRect visibleContentsRect
-            (
-        m_pIconView->viewportToContents(QPoint(0, 0)),
-        m_pIconView->viewportToContents
-        (
-            QPoint(m_pIconView->visibleWidth(), m_pIconView->visibleHeight())
-            )
-        );
-
-        for (; it.current(); ++it)
-            if (visibleContentsRect.intersects(it.current()->rect())) {
-                item = it.current();
-                break;
-            }
+    if ( m_lstPendingMimeIconItems.count() > 0 )
+    {
+      // We only find mimetypes for icons that are visible. When more
+      // of our viewport is exposed, we'll get a signal and then get
+      // the mimetypes for the newly visible icons. (Rikkus)
+      item = findVisibleIcon();
     }
 
     // No more visible items.
@@ -1005,25 +1021,22 @@ void KonqKfmIconView::slotProcessMimeIcons()
         }
         else
         {
-            if ( m_bNeedEmitCompleted )
-            {
-                kdDebug(1202) << "KonqKfmIconView completed()" << endl;
-                emit completed();
-                m_bNeedEmitCompleted = false;
-                if ( m_pProps->isShowingImagePreview() )
-                  // We can do this only when the mimetypes are fully determined,
-                  // since we only do image preview... on images :-)
-                  m_pIconView->startImagePreview( false );
-            }
-            if ( m_bNeedAlign )
-            {
-                m_bNeedAlign = false;
-                m_pIconView->arrangeItemsInGrid();
-            }
-            return;
+          if ( m_pProps->isShowingImagePreview() )
+            // We can do this only when the mimetypes are fully determined,
+            // since we only do image preview... on images :-)
+            m_pIconView->startImagePreview( false );
+          else
+            slotRenderingFinished();
+          return;
         }
     }
 
+    determineIcon(item);
+    m_timer->start( nextDelay, true /* single shot */ );
+}
+
+void KonqKfmIconView::determineIcon( KFileIVI * item )
+{
     QPixmap *currentIcon = item->pixmap();
 
     KMimeType::Ptr dummy = item->item()->determineMimeType();
@@ -1036,7 +1049,22 @@ void KonqKfmIconView::slotProcessMimeIcons()
       item->QIconViewItem::setPixmap( newIcon );
 
     m_lstPendingMimeIconItems.remove(item);
-    m_timer->start( nextDelay, true /* single shot */ );
+}
+
+void KonqKfmIconView::slotRenderingFinished()
+{
+  kdDebug(1202) << "KonqKfmIconView::slotImagePreviewFinished()" << endl;
+  if ( m_bNeedEmitCompleted )
+  {
+    kdDebug(1202) << "KonqKfmIconView completed() after image preview" << endl;
+    emit completed();
+    m_bNeedEmitCompleted = false;
+  }
+  if ( m_bNeedAlign )
+  {
+    m_bNeedAlign = false;
+    m_pIconView->arrangeItemsInGrid();
+  }
 }
 
 bool KonqKfmIconView::openURL( const KURL & url )

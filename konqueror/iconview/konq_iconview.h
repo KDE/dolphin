@@ -106,6 +106,7 @@ protected slots:
   void slotViewportRightClicked( QIconViewItem * );
   void slotOnItem( QIconViewItem *item );
   void slotOnViewport();
+  void slotViewportAdjusted();
 
   // slots connected to the directory lister
   void slotStarted( const QString & );
@@ -126,9 +127,18 @@ protected slots:
 
   void slotOpenURLRequest();
 
+  /**
+   * This is the 'real' finished slot, where we emit the completed() signal
+   * after everything was done.
+   */
+  void slotRenderingFinished();
+
 protected:
 
   virtual void guiActivateEvent( KParts::GUIActivateEvent *event );
+
+  KFileIVI * findVisibleIcon();
+  void determineIcon( KFileIVI * item );
 
   void setupSorting( SortCriterion criterion );
 
