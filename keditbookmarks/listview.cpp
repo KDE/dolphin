@@ -731,7 +731,8 @@ void KEBListViewItem::normalConstruct(const KBookmark &bk) {
    setText(KEBListView::AddressColumn, bk.address());
 #endif
    setText(KEBListView::CommentColumn, NodeEditCommand::getNodeText(bk, "desc"));
-   setPixmap(0, SmallIcon(bk.icon()));
+   bool shown = CmdGen::self()->shownInToolbar(bk);
+   setPixmap(0, SmallIcon(shown ? "bookmark_toolbar" : bk.icon()));
    // DESIGN - modUpdate badly needs a redesign
    modUpdate();
 }
