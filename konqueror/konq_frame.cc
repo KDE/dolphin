@@ -91,11 +91,11 @@ KonqFrameStatusBar::KonqFrameStatusBar( KonqFrame *_parent, const char *_name )
             this, SIGNAL(linkedViewClicked(bool)) );
 
     m_progressBar = new KProgress( this );
+    m_progressBar->setMaximumHeight(fontMetrics().height());
     m_progressBar->hide();
-    m_progressBar->setSizePolicy(QSizePolicy( QSizePolicy::Fixed, QSizePolicy::Fixed ));
     addWidget( m_progressBar, 0, true /*permanent->right align*/ );
 
-	fontChange(font());
+    fontChange(QFont());
 }
 
 KonqFrameStatusBar::~KonqFrameStatusBar()
