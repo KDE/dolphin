@@ -24,6 +24,7 @@
 #include "konq_frame.h"
 
 #include <qstringlist.h>
+#include <qdir.h>
 
 #include <kconfig.h>
 #include <browser.h>
@@ -201,37 +202,39 @@ void KonqViewManager::loadViewProfile( KConfig &cfg )
 
   QString rootItem = cfg.readEntry( "RootItem" );
 
-  if( !rootItem.isNull() ) {
-    kdebug(0, 1202, "Load RootItem %s", rootItem.data());  
-
-    m_pMainContainer = new KonqFrameContainer( Qt::Horizontal, m_pMainView );
-    m_pMainContainer->setOpaqueResize();
-    m_pMainContainer->setGeometry( 0, 0, m_pMainView->width(), m_pMainView->height() );
-    m_pMainContainer->show();
-
-    loadItem( cfg, m_pMainContainer, rootItem );
-
-    OpenParts::MainWindow_var vMainWindow = m_pMainView->mainWindow();
-    
-    if ( vMainWindow->activePartId() == m_pMainView->id() )
-      vMainWindow->setActivePart( viewIdByNumber( 0 ) );
+  if( rootItem.isNull() ) {
+    // Config file doesn't contain anything about view profiles, fallback to defaults
+    rootItem = "InitialView";
   }
-  else
-    warning("Profile Loading Error: RootItem not specified" );
+
+  kdebug(0, 1202, "Load RootItem %s", rootItem.data());  
+
+  m_pMainContainer = new KonqFrameContainer( Qt::Horizontal, m_pMainView );
+  m_pMainContainer->setOpaqueResize();
+  m_pMainContainer->setGeometry( 0, 0, m_pMainView->width(), m_pMainView->height() );
+  m_pMainContainer->show();
+
+  loadItem( cfg, m_pMainContainer, rootItem );
+
+  OpenParts::MainWindow_var vMainWindow = m_pMainView->mainWindow();
+  
+  if ( vMainWindow->activePartId() == m_pMainView->id() )
+    vMainWindow->setActivePart( viewIdByNumber( 0 ) );
 }
 
 void KonqViewManager::loadItem( KConfig &cfg, KonqFrameContainer *parent, 
 				const QString &name )
 {
-  cfg.setGroup( name );
+  if( name != "InitialView" )
+    cfg.setGroup( name );
   kdebug(0, 1202, "begin loadItem: %s",name.data() );  
 
   if( name.find("View") != -1 ) {
     kdebug(0, 1202, "Item is View");  
     //load view config
-    QString url = cfg.readEntry( QString::fromLatin1( "URL" ) );
+    QString url = cfg.readEntry( QString::fromLatin1( "URL" ), QDir::homeDirPath() );
     kdebug(0, 1202, "URL: %s",url.data());  
-    QString serviceType = cfg.readEntry( QString::fromLatin1( "ServiceType" ));
+    QString serviceType = cfg.readEntry( QString::fromLatin1( "ServiceType" ), "inode/directory");
     kdebug(0, 1202, "ServiceType: %s", serviceType.data());  
 
     Konqueror::DirectoryDisplayMode dirMode = Konqueror::LargeIcons;
@@ -310,15 +313,17 @@ void KonqViewManager::clear()
   QList<KonqChildView> viewList;
   QListIterator<KonqChildView> it( viewList );
 
-  m_pMainContainer->listViews( &viewList );
+  if (m_pMainContainer) {
+    m_pMainContainer->listViews( &viewList );
 
-  for ( ; it.current(); ++it ) {
-    m_pMainView->removeChildView( it.current()->id() );
-    delete it.current();
-  }    
+    for ( ; it.current(); ++it ) {
+      m_pMainView->removeChildView( it.current()->id() );
+      delete it.current();
+    }    
   
-  delete m_pMainContainer;
-  m_pMainContainer = 0L;
+    delete m_pMainContainer;
+    m_pMainContainer = 0L;
+  }
 }
 
 void KonqViewManager::doGeometry( int width, int height )
