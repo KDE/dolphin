@@ -174,7 +174,7 @@ KonqFontOptions::KonqFontOptions(KConfig *config, QString group, bool desktop, Q
                                               " being displayed in kilobytes or megabytes if appropriate.") );
     }
     row++;
-    cbRenameDirectlyIcon = new QCheckBox(i18n("&Rename Directly Icon"), this);
+    cbRenameDirectlyIcon = new QCheckBox(i18n("&Rename icons inline"), this);
     lay->addMultiCellWidget(cbRenameDirectlyIcon,row,row,0,LASTCOLUMN,hAlign);
     connect(cbRenameDirectlyIcon, SIGNAL(clicked()), this, SLOT(changed()));
 
