@@ -445,20 +445,9 @@ void KonqFrame::slotStatusBarClicked()
 
 void KonqFrame::slotLinkedViewClicked( bool mode )
 {
-  if (m_pView->mainWindow()->linkableViewsCount() == 2)
-  {
-    // Exactly two linkable views : link both
-    KonqMainWindow::MapViews mapViews = m_pView->mainWindow()->viewMap();
-    KonqMainWindow::MapViews::Iterator it = mapViews.begin();
-    if( (*it)->isFollowActive() ) // skip sidebar
-        ++it;
-    (*it)->setLinkedView( mode );
-    ++it;
-    if( (*it)->isFollowActive() ) // skip sidebar
-        ++it;
-    (*it)->setLinkedView( mode );
-  }
-  else // Normal case : just this view
+  if ( m_pView->mainWindow()->linkableViewsCount() == 2 )
+    m_pView->mainWindow()->slotLinkView();
+  else
     m_pView->setLinkedView( mode );
 }
 

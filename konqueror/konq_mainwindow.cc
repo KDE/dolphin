@@ -1702,8 +1702,22 @@ void KonqMainWindow::slotLinkView()
 {
   // Can't access this action in passive mode anyway
   assert(!m_currentView->isPassiveMode());
-  bool link = !m_currentView->isLinkedView();
-  m_currentView->setLinkedView( link ); // takes care of the statusbar and the action
+  bool mode = !m_currentView->isLinkedView();
+
+  if (linkableViewsCount() == 2)
+  {
+    // Exactly two linkable views : link both
+    KonqMainWindow::MapViews::ConstIterator it = viewMap().begin();
+    if( (*it)->isFollowActive() ) // skip sidebar
+        ++it;
+    (*it)->setLinkedView( mode );
+    ++it;
+    if( (*it)->isFollowActive() ) // skip sidebar
+        ++it;
+    (*it)->setLinkedView( mode );
+  }
+  else // Normal case : just this view
+    m_currentView->setLinkedView( mode );
 }
 
 void KonqMainWindow::slotReload( KonqView* reloadView )
