@@ -617,12 +617,9 @@ void KonqHTMLView::viewDocumentSource()
 
 void KonqHTMLView::viewFrameSource()
 {
- //FIXME: getSelectedFrame() is not implemented in KHTMLWidget (Simon)
-/*
-  KHTMLWidget *w = m_pBrowser->getSelectedFrame();
+  KHTMLWidget *w = m_pBrowser->selectedFrame();
   if ( w )
     openTxtView( w->url() );
-*/
 }
 
 void KonqHTMLView::slotLoadImages()
@@ -717,7 +714,11 @@ void KonqHTMLView::updateActions()
   QString bgURL;
 
   if ( m_pBrowser->isFrameSet() )
-    bgURL = m_pBrowser->getSelectedFrame()->htmlDocument().body().getAttribute( "background" ).string();
+  {
+    KHTMLWidget *frame =  m_pBrowser->selectedFrame();
+    if(frame)
+	bgURL = frame->htmlDocument().body().getAttribute( "background" ).string();
+  }
   else
     bgURL = m_pBrowser->htmlDocument().body().getAttribute( "background" ).string();
 
