@@ -133,7 +133,7 @@ public:
 
     QPtrList<KBookmark>* allBookmarks() const;
     QPtrList<KBookmark>* selectedBookmarks() const;
-    QPtrList<KBookmark>* firstBookmark() const;
+    QPtrList<KBookmark>* selectedBookmarksExpanded() const;
 
     QListViewItem* selectedItem();
     KBookmark selectedBookmark() const;

@@ -546,6 +546,7 @@ TestLink::TestLink(QPtrList<KBookmark> *bks) : m_bks(bks)
 {
    connect( this, SIGNAL( deleteSelf(TestLink *)),
             KEBTopLevel::self(), SLOT(slotCancelTest(TestLink *)));
+   m_job = 0;
    doNext();
 }
 
@@ -553,8 +554,8 @@ TestLink::~TestLink()
 {
    if (m_job) {
       kdDebug() << "JOB kill\n";
-      KEBListViewItem *p = KEBTopLevel::self()->findByAddress(m_book.address());
-      p->restoreStatus(m_oldStatus);
+      KEBListViewItem *cur_item = KEBTopLevel::self()->findByAddress(m_book.address());
+      cur_item->restoreStatus(m_oldStatus);
       m_job->disconnect();
       m_job->kill(false);
    }
@@ -570,17 +571,24 @@ void TestLink::doNext()
    }
 
    KBookmark *bk = m_bks->at(0);
-   setCurrent(*bk);
+
    m_bks->remove(bk);
+   if (!bk->isGroup() && !bk->isSeparator()) {
+      setCurrent(*bk);
+      // remove this stupid duplication by using setAutoDelete to false
+      m_bks->remove(bk);
+   } else {
+      m_bks->remove(bk);
+      doNext();
+   }
 }
 
 void TestLink::setCurrent(KBookmark bk)
 {
    m_book = bk;
    m_url = bk.url().url();
-   kdDebug() << "TestLink::setCurrent " << m_url << " : " << m_book.address() << "\n";
 
-   KEBListViewItem *p = KEBTopLevel::self()->findByAddress(m_book.address());
+   kdDebug() << "TestLink::setCurrent " << m_url << " : " << m_book.address() << "\n";
 
    m_job = KIO::get(bk.url(), true, false);
    connect(m_job, SIGNAL( result( KIO::Job *)),
@@ -589,27 +597,28 @@ void TestLink::setCurrent(KBookmark bk)
            this, SLOT( read(KIO::Job *, const QByteArray &)));
    m_job->addMetaData("errorPage", "true");
 
-   setTmpStatus(p, i18n("Checking..."));
+   KEBListViewItem *cur_item = KEBTopLevel::self()->findByAddress(m_book.address());
+   setTmpStatus(cur_item, i18n("Checking..."));
 }
 
-void TestLink::setStatus(KEBListViewItem *p, QString status) {
-   p->nsPut(KCharsets::resolveEntities(status));
+void TestLink::setStatus(KEBListViewItem *item, QString status) {
+   item->nsPut(KCharsets::resolveEntities(status));
 }
 
-void TestLink::setTmpStatus(KEBListViewItem *p, QString status) {
-   p->setTmpStatus(status, m_oldStatus);
+void TestLink::setTmpStatus(KEBListViewItem *item, QString status) {
+   item->setTmpStatus(status, m_oldStatus);
 }
 
-void TestLink::setMod(KEBListViewItem *p, QString mod) {
+void TestLink::setMod(KEBListViewItem *item, QString mod) {
    time_t modt =  KRFCDate::parseDate(mod);
    QString ms;
    ms.setNum(modt);
-   p->nsPut(ms);
+   item->nsPut(ms);
 }
 
 void TestLink::read(KIO::Job *j, const QByteArray &a)
 {
-   KEBListViewItem *p = KEBTopLevel::self()->findByAddress(m_book.address());
+   KEBListViewItem *cur_item = KEBTopLevel::self()->findByAddress(m_book.address());
    KIO::TransferJob *jb = (KIO::TransferJob *)j;
 
    m_errSet = false;
@@ -626,7 +635,7 @@ void TestLink::read(KIO::Job *j, const QByteArray &a)
             if (fn >= 0) {
                t = t.left(fn);
             }
-            setStatus(p, t);
+            setStatus(cur_item, t);
             m_errSet = true;
             break;
          }
@@ -635,7 +644,7 @@ void TestLink::read(KIO::Job *j, const QByteArray &a)
    } else {
       QString str = jb->queryMetaData("modified");
       if (!str.isEmpty()) {
-         setMod(p, str);
+         setMod(cur_item, str);
       }
    }
    jb->kill(false);
@@ -645,7 +654,7 @@ void TestLink::read(KIO::Job *j, const QByteArray &a)
 void TestLink::finished(KIO::Job *j)
 {
    m_job = 0;
-   KEBListViewItem *p = KEBTopLevel::self()->findByAddress( m_book.address());
+   KEBListViewItem *cur_item = KEBTopLevel::self()->findByAddress( m_book.address());
    KIO::TransferJob *jb = (KIO::TransferJob *)j;
    QString mod = jb->queryMetaData("modified");
 
@@ -655,27 +664,27 @@ void TestLink::finished(KIO::Job *j)
       if (!jerr.isEmpty()) {
          jerr.replace( QRegExp("\n")," ");
          // kdDebug() << "MERR=" << jerr << "\n";
-         setStatus(p, jerr);
+         setStatus(cur_item, jerr);
 
       } else if (!mod.isEmpty()) {
          // kdDebug() << "MODE=" << mod <<"\n";
-         setMod(p, mod);
+         setMod(cur_item, mod);
 
       } else if (!m_errSet) {
          //	kdDebug() << "Me==\n";
-         setMod(p, "0");
+         setMod(cur_item, "0");
       }
 
    } else if (!mod.isEmpty()) {
       // kdDebug() << "MOD=" << mod <<"\n";
-      setMod(p, mod);
+      setMod(cur_item, mod);
 
    } else if (!m_errSet) {
       // kdDebug() << "M=\n";
-      setMod(p, "0");
+      setMod(cur_item, "0");
    }
 
-   p->modUpdate();
+   cur_item->modUpdate();
 
    doNext();
 }

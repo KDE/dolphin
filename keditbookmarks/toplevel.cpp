@@ -342,8 +342,43 @@ QPtrList<KBookmark>* KEBTopLevel::allBookmarks() const
    // selection helper
    QPtrList<KBookmark> *bookmarks = new QPtrList<KBookmark>();
    for( QListViewItemIterator it(m_pListView); it.current(); it++ ) {
-      if (IS_REAL(it)) {
+      if (IS_REAL(it) && (it.current()->childCount() == 0)) {
          bookmarks->append(&ITEM_TO_BK(it.current()));
+      }
+   }
+   return bookmarks;
+}
+
+QPtrList<KBookmark>* KEBTopLevel::selectedBookmarksExpanded() const
+{
+   QPtrList<KBookmark> *bookmarks = new QPtrList<KBookmark>();
+   for(QListViewItemIterator it(m_pListView); it.current(); it++) {
+      if (IS_REAL_SEL(it)) {
+         int childCount = it.current()->childCount();
+         // is not an empty folder && childCount() == 0 
+         // therefore MUST be a single bookmark. good logic???
+         // no!, this is what you would think, but actually
+         // the "empty folder" is only the empty folder item
+         // itself and not the wrapping folder. therefore we
+         // need yet another check in the childCount > 0 path!!!
+         if (childCount > 0) {
+            for(QListViewItemIterator it2(it.current()); it2.current(); it2++) {
+               if (!static_cast<KEBListViewItem *>(it2.current())->m_emptyFolder) {
+                  const KBookmark *bk = &ITEM_TO_BK(it2.current());
+                  if (!bookmarks->contains(bk)) {
+                     bookmarks->append(bk);
+                  }
+               }
+               if (it.current()->nextSibling() 
+                && it2.current() == it.current()->nextSibling()->itemAbove()) {
+                  break;
+               }
+            }
+         } else {
+            if (!bookmarks->contains(&ITEM_TO_BK(it.current()))) {
+               bookmarks->append(&ITEM_TO_BK(it.current()));
+            }
+         }
       }
    }
    return bookmarks;
@@ -357,13 +392,6 @@ QPtrList<KBookmark>* KEBTopLevel::selectedBookmarks() const
          bookmarks->append(&ITEM_TO_BK(it.current()));
       }
    }
-   return bookmarks;
-}
-
-QPtrList<KBookmark>* KEBTopLevel::firstBookmark() const
-{
-   QPtrList<KBookmark> *bookmarks = new QPtrList<KBookmark>();
-   bookmarks->append(&ITEM_TO_BK(m_pListView->firstChild()));
    return bookmarks;
 }
 
@@ -877,7 +905,7 @@ void KEBTopLevel::slotTestAllLinks()
 
 void KEBTopLevel::slotTestLink()
 {
-   testBookmarks(selectedBookmarks());
+   testBookmarks(selectedBookmarksExpanded());
 }
 
 void KEBTopLevel::testBookmarks(QPtrList<KBookmark>* bks)

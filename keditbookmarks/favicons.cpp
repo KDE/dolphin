@@ -181,14 +181,14 @@ void FavIconUpdater::setIconURL(const KURL & iconURL)
    // AK - this in turn calls notifyChange not really sure why we don't just call it directly...
 }
 
-void FavIconUpdater::notifyChange(bool isHost, QString hostOrURL, QString iconName)
+void FavIconUpdater::notifyChange(bool /*isHost*/, QString /*hostOrURL*/, QString iconName)
 {
    /*
-      1. here - add (store link to bk <-> qstring url) map
-      2. add a new class for faviconmgr
-      3. on notifyChanged update the bk's with given url
-      4. make a khtml part for each url with a browserextensions part thingy...
-    */
+   1. here - add (store link to bk <-> qstring url) map
+   2. add a new class for faviconmgr
+   3. on notifyChanged update the bk's with given url
+   4. make a khtml part for each url with a browserextensions part thingy...
+   */
 
    kdDebug(26000) << "notifyChange called" << endl;
    m_bk.internalElement().setAttribute("icon",iconName);
