@@ -98,7 +98,7 @@ void KonqRun::foundMimeType( const QString & _type )
   {
       kdDebug(1203) << "KonqRun: ask for saving" << endl;
       KService::Ptr offer = KServiceTypeProfile::preferredService(mimeType, true);
-      if ( askSave( m_strURL, offer, m_suggestedFilename ) ) // ... -> ask whether to save
+      if ( askSave( m_strURL, offer, mimeType, m_suggestedFilename ) ) // ... -> ask whether to save
       { // true: saving done or canceled
           m_bFinished = true;
           m_bFault = true; // make Konqueror think there was an error, in order to stop the spinning wheel
@@ -258,7 +258,7 @@ bool KonqRun::isExecutable( const QString &serviceType )
              serviceType == "application/x-shellscript" );
 }
 
-bool KonqRun::askSave( const KURL & url, KService::Ptr offer, const QString & suggestedFilename )
+bool KonqRun::askSave( const KURL & url, KService::Ptr offer, const QString& mimeType, const QString & suggestedFilename )
 {
     QString surl = KStringHandler::csqueeze( url.prettyURL() );
     // Inspired from kmail
@@ -268,7 +268,7 @@ bool KonqRun::askSave( const KURL & url, KService::Ptr offer, const QString & su
     int choice = KMessageBox::warningYesNoCancel(
         0L, question, QString::null,
         i18n("Save to disk"), i18n("Open"),
-        QString::fromLatin1("askSave")+offer->desktopEntryPath()); // dontAskAgainName
+        QString::fromLatin1("askSave")+ mimeType ); // dontAskAgainName
     if ( choice == KMessageBox::Yes ) // Save
         save( url, suggestedFilename );
 
