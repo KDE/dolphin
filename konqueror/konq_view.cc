@@ -89,6 +89,10 @@ KonqView::~KonqView()
 {
   //kdDebug(1202) << "KonqView::~KonqView : part = " << m_pPart << endl;
 
+  // We did so ourselves for passive views
+  if ( isPassiveMode() && m_pPart )
+      disconnect( m_pPart, SIGNAL( destroyed() ), m_pMainWindow->viewManager(), SLOT( slotObjectDestroyed() ) );
+
   delete m_pPart;
   delete (KonqRun *)m_pRun;
   //kdDebug(1202) << "KonqView::~KonqView " << this << " done" << endl;
@@ -174,6 +178,7 @@ void KonqView::switchView( KonqViewFactory &viewFactory )
     QVariant prop = m_service->property( "X-KDE-BrowserView-PassiveMode");
     if ( prop.isValid() && prop.toBool() )
     {
+      kdDebug() << "KonqView::switchView X-KDE-BrowserView-PassiveMode -> setPassiveMode" << endl;
       setPassiveMode( true ); // set as passive
     }
 
@@ -361,19 +366,23 @@ void KonqView::slotCompleted()
   kdDebug(1202) << "KonqView::slotCompleted" << endl;
   m_bLoading = false;
   m_pKonqFrame->statusbar()->slotLoadingProgress( -1 );
-  // No, this sucks with directory views
-  //m_pKonqFrame->statusbar()->slotDisplayStatusText( i18n("Loading complete") );
 
-  // Success... update history entry (mostly for location bar URL)
-  updateHistoryEntry(true);
+  if ( m_pMainWindow->currentView() == this )
+    m_pMainWindow->updateToolBarActions();
 
-  if ( m_bAborted ) // remove the pending entry on error
-      KonqHistoryManager::self()->removePending( url() );
-  else // register as proper history entry
-      KonqHistoryManager::self()->confirmPending(url(), typedURL(),
-						m_lstHistory.current()->title);
+  if ( ! m_bLockHistory )
+  {
+      // Success... update history entry (mostly for location bar URL)
+      updateHistoryEntry(true);
 
-  emit viewCompleted( this );
+      if ( m_bAborted ) // remove the pending entry on error
+          KonqHistoryManager::self()->removePending( url() );
+      else // register as proper history entry
+          KonqHistoryManager::self()->confirmPending(url(), typedURL(),
+                                                     m_lstHistory.current()->title);
+
+      emit viewCompleted( this );
+  }
 }
 
 void KonqView::slotCanceled( const QString & errorMsg )

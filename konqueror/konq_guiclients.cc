@@ -218,26 +218,11 @@ void ToggleViewGUIClient::slotToggleView( bool toggle )
 
   if ( toggle )
   {
-    // This should be probably merged with KonqViewManager::splitWindow
 
-    KonqFrameBase *splitFrame = mainContainer ? mainContainer->firstChild() : 0L;
-
-    KonqFrameContainer *newContainer;
-
-    KonqView *childView = viewManager->split( splitFrame, horizontal ? Qt::Vertical : Qt::Horizontal,
-                                                   QString::fromLatin1( "Browser/View" ), serviceName, &newContainer );
-
-    if ( !horizontal )
-    {
-      if (!splitFrame)
-        kdWarning(1202) << "No split frame !" << endl;
-      else
-      {
-        //kdDebug(1202) << "Swapping" << endl;
-        newContainer->moveToLast( splitFrame->widget() );
-        newContainer->swapChildren();
-      }
-    }
+    KonqView *childView = viewManager->splitWindow( horizontal ? Qt::Vertical : Qt::Horizontal,
+                                                    QString::fromLatin1( "Browser/View" ),
+                                                    serviceName,
+                                                    !horizontal /* vertical = make it first */);
 
     QValueList<int> newSplitterSizes;
 
@@ -246,6 +231,7 @@ void ToggleViewGUIClient::slotToggleView( bool toggle )
     else
       newSplitterSizes << 30 << 100;
 
+    KonqFrameContainer *newContainer = childView->frame()->parentContainer();
     newContainer->setSizes( newSplitterSizes );
 
     if ( m_mainWindow->currentView() )

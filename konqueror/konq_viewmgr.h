@@ -61,17 +61,25 @@ public:
    * Service Type.
    * If no Service Type was provided it takes the one from the current view.
    * Returns the newly created view or 0L if the view couldn't be created.
+   *
+   * @param newOneFirst if true, move the new view as the first one (left or top)
    */
   KonqView* splitView( Qt::Orientation orientation,
-                       QString serviceType = QString::null,
-                       const QString & serviceName = QString::null );
+                       const QString & serviceType = QString::null,
+                       const QString & serviceName = QString::null,
+                       bool newOneFirst = false);
 
   /**
    * Does basically the same as splitView() but inserts the new view at the top
    * of the view tree.
    * Returns the newly created view or 0L if the view couldn't be created.
+   *
+   * @param newOneFirst if true, move the new view as the first one (left or top)
    */
-  KonqView* splitWindow( Qt::Orientation orientation );
+  KonqView* splitWindow( Qt::Orientation orientation,
+                         const QString & serviceType = QString::null,
+                         const QString & serviceName = QString::null,
+                         bool newOneFirst = false);
 
   /**
    * Do the actual splitting. The new View will be created from serviceType.
@@ -118,7 +126,7 @@ public:
    * @param forcedURL if set, the URL to open, whatever the profile says
    * @param req attributes related to @p forcedURL
    */
-  void loadViewProfile( KConfig &cfg, const QString & filename, 
+  void loadViewProfile( KConfig &cfg, const QString & filename,
                         const KURL & forcedURL = KURL(),
                         const KonqOpenURLRequest &req = KonqOpenURLRequest() );
 
@@ -130,7 +138,7 @@ public:
    * @param forcedURL if set, the URL to open, whatever the profile says
    * @param req attributes related to @p forcedURL
    */
-  void loadViewProfile( const QString & path, const QString & filename, 
+  void loadViewProfile( const QString & path, const QString & filename,
                         const KURL & forcedURL = KURL(),
                         const KonqOpenURLRequest &req = KonqOpenURLRequest() );
 
@@ -192,6 +200,8 @@ protected slots:
   void slotProfileActivated( int id );
 
   void slotProfileListAboutToShow();
+
+  void slotPassiveModePartDeleted();
 
 protected:
 

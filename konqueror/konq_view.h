@@ -113,8 +113,10 @@ public:
   /**
    * Call this to prevent next openURL() call from changing history lists
    * Used when the same URL is reloaded (for instance with another view mode)
+   *
+   * Calling with lock=false is a hack reserved to the "find" feature.
    */
-  void lockHistory() { m_bLockHistory = true; }
+  void lockHistory( bool lock = true ) { m_bLockHistory = lock; }
 
   /**
    * @return true if view can go back

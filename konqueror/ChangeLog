@@ -1,3 +1,16 @@
+2000-12-02  David Faure  <faure@kde.org>
+
+	* konq_mainwindow.cc (slotToolFind): "Find Files" now embeds the kfind
+	part, and the result of the search is connected to the current directory
+	part. "Close" or opening any other URL closes the 'find' part.
+	Thanks to Eric Coquelle for the kfind classes, and to jpmartin for 
+	pushing us to do this :)
+
+	* konq_viewmgr.cc: Support for suicidal passive views, more arguments 
+	to splitView and splitWindow.
+
+	* konq_guiclients.cc: Duplicated code removed, uses splitWindow now.
+
 2000-11-30  David Faure  <faure@kde.org>
 
 	* konq_mainwindow.cc: Use current profile in "New Window" to fix #16283.

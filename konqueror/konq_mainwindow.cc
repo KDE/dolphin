@@ -72,6 +72,7 @@
 #include <kmessagebox.h>
 #include <knewmenu.h>
 #include <konq_defaults.h>
+#include <konq_dirpart.h>
 #include <konq_historymgr.h>
 #include <konq_popupmenu.h>
 #include <konq_settings.h>
@@ -855,6 +856,46 @@ void KonqMainWindow::slotOpenLocation()
 
 void KonqMainWindow::slotToolFind()
 {
+  if ( currentView() && currentView()->part()->inherits("KonqDirPart") )
+  {
+    KonqDirPart * dirPart = static_cast<KonqDirPart *>(currentView()->part());
+
+    KonqView * findView = m_pViewManager->splitView( Vertical, "Konqueror/FindPart", QString::null, true /*make it on top*/ );
+
+    KParts::ReadOnlyPart * findPart = findView->part();
+
+    dirPart->setFindPart( findPart );
+
+    connect( findPart, SIGNAL( started() ),
+             dirPart, SLOT( slotStarted() ) );
+    connect( findPart, SIGNAL( clear() ),
+             dirPart, SLOT( slotClear() ) );
+    connect( findPart, SIGNAL( newItems( const KFileItemList & ) ),
+             dirPart, SLOT( slotNewItems( const KFileItemList & ) ) );
+    connect( findPart, SIGNAL( finished() ), // can't name it completed, it conflicts with a KROP signal
+             dirPart, SLOT( slotCompleted() ) );
+    connect( findPart, SIGNAL( canceled() ),
+             dirPart, SLOT( slotCanceled() ) );
+    connect( findPart, SIGNAL( findClosed() ),
+             dirPart, SLOT( slotFindClosed() ) );
+    connect( dirPart, SIGNAL( findClosed(KonqDirPart *) ),
+             this, SLOT( slotFindClosed(KonqDirPart *) ) );
+
+    // set the initial URL
+    findPart->openURL( currentView()->url() );
+
+    // lock the history in the current view - until slotFindClosed
+    currentView()->lockHistory();
+  }
+  else
+  {
+      KonqMainWindow * mw = KonqMisc::createBrowserWindowFromProfile(
+          locate( "data", QString::fromLatin1("konqueror/profiles/filemanagement") ),
+          "filemanagement" );
+      mw->slotToolFind();
+  }
+
+  /* Old version
   KShellProcess proc;
   proc << "kfind";
 
@@ -873,6 +914,17 @@ void KonqMainWindow::slotToolFind()
   }
 
   proc.start(KShellProcess::DontCare);
+  */
+}
+
+void KonqMainWindow::slotFindClosed( KonqDirPart * dirPart )
+{
+    kdDebug() << "KonqMainWindow::slotFindClosed " << dirPart << endl;
+    KonqView * dirView = m_mapViews.find( dirPart ).data();
+    assert(dirView);
+    dirView->lockHistory( false );
+    delete dirPart->findPart();
+    dirPart->setFindPart( 0 );
 }
 
 void KonqMainWindow::slotOpenWith()
@@ -1261,11 +1313,6 @@ void KonqMainWindow::slotViewCompleted( KonqView * view )
 
   QString viewURL = view->locationBarURL();
   bool isActiveView = currentView() == view;
-  if ( isActiveView )
-  {
-    //kdDebug(1202) << "updating toolbar actions" << endl;
-    updateToolBarActions();
-  }
 
   if (!m_combo) // happens if removed from .rc file :)
     return;

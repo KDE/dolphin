@@ -61,6 +61,7 @@ class OpenWithGUIClient;
 class ToggleViewGUIClient;
 class ViewModeGUIClient;
 class KonqMainWindowIface;
+class KonqDirPart;
 struct HistoryEntry;
 
 namespace KParts {
@@ -329,6 +330,8 @@ protected slots:
 
   void slotActionStatusText( const QString &text );
   void slotClearStatusText();
+
+  void slotFindClosed( KonqDirPart * dirPart );
 
 protected:
   QString detectNameFilter( QString & url );

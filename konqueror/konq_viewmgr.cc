@@ -64,8 +64,9 @@ KonqViewManager::~KonqViewManager()
 }
 
 KonqView* KonqViewManager::splitView ( Qt::Orientation orientation,
-                                       QString serviceType,
-                                       const QString &serviceName )
+                                       const QString &serviceType,
+                                       const QString &serviceName,
+                                       bool newOneFirst)
 {
   kdDebug(1202) << "KonqViewManager::splitView(ServiceType)" << endl;
 
@@ -73,11 +74,22 @@ KonqView* KonqViewManager::splitView ( Qt::Orientation orientation,
   if( m_pMainContainer && m_pMainWindow->currentView() )
     viewFrame = m_pMainWindow->currentView()->frame();
 
-  KonqView* childView = split( viewFrame, orientation, serviceType, serviceName );
+  KonqFrameContainer *newContainer;
+  KonqView* childView = split( viewFrame, orientation, serviceType, serviceName, &newContainer );
+
+  if ( newOneFirst )
+  {
+      newContainer->moveToLast( viewFrame->widget() );
+      newContainer->swapChildren();
+  }
+
   return childView;
 }
 
-KonqView* KonqViewManager::splitWindow( Qt::Orientation orientation )
+KonqView* KonqViewManager::splitWindow( Qt::Orientation orientation,
+                                        const QString &serviceType,
+                                        const QString &serviceName,
+                                        bool newOneFirst )
 {
   kdDebug(1202) << "KonqViewManager::splitWindow(default)" << endl;
 
@@ -91,7 +103,14 @@ KonqView* KonqViewManager::splitWindow( Qt::Orientation orientation )
     locationBarURL = m_pMainWindow->currentView()->locationBarURL();
   }
 
-  KonqView* childView = split( splitFrame, orientation );
+  KonqFrameContainer *newContainer;
+  KonqView* childView = split( splitFrame, orientation, serviceType, serviceName, &newContainer );
+
+  if ( newOneFirst )
+  {
+      newContainer->moveToLast( splitFrame->widget() );
+      newContainer->swapChildren();
+  }
 
   if( childView )
     childView->openURL( url, locationBarURL );
@@ -225,6 +244,7 @@ void KonqViewManager::removeView( KonqView *view )
     return;
   }
 
+  kdDebug(1202) << "KonqViewManager::removeView reparenting other frame " << otherFrame << " widget=" << otherFrame->widget() << endl;
   QPoint pos = otherFrame->widget()->pos();
 
   otherFrame->reparentFrame( m_pMainWindow, pos );
@@ -235,16 +255,21 @@ void KonqViewManager::removeView( KonqView *view )
   m_pMainWindow->removeChildView( view );
 
   parentContainer->removeChildFrame( view->frame() );
-  //kdDebug(1202) << "Deleting view frame" << view->frame() << endl;
+
+  // We did so ourselves for passive views - doesn't really matter, but saves a call to slotPassiveModePartDeleted
+  if ( view->isPassiveMode() && view->part() )
+      disconnect( view->part(), SIGNAL( destroyed() ), this, SLOT( slotPassiveModePartDeleted() ) );
+
+  kdDebug(1202) << "Deleting view frame" << view->frame() << endl;
   delete view->frame();
   // This deletes the widgets inside, including the part's widget, so tell the child view
   view->partDeleted();
-  //kdDebug(1202) << "Deleting view " << view << endl;
+  kdDebug(1202) << "Deleting view " << view << endl;
   delete view;
 
   grandParentContainer->removeChildFrame( parentContainer );
-  //kdDebug(1202) << "Deleting parentContainer " << parentContainer
-  //              << ". Its parent is " << parentContainer->parent() << endl;
+  kdDebug(1202) << "Deleting parentContainer " << parentContainer
+                << ". Its parent is " << parentContainer->parent() << endl;
   delete parentContainer;
 
   otherFrame->reparentFrame( grandParentContainer, pos, true/*showIt*/ );
@@ -271,7 +296,7 @@ void KonqViewManager::removePart( KParts::Part * part )
   KonqView * view = m_pMainWindow->childView( static_cast<KParts::ReadOnlyPart *>(part) );
   if ( view ) // the child view still exists, so we are in case 1
   {
-      //kdDebug(1202) << "Found a child view" << endl;
+      kdDebug(1202) << "Found a child view" << endl;
       view->partDeleted(); // tell the child view that the part auto-deletes itself
       if (m_pMainWindow->viewCount() == 1)
       {
@@ -297,6 +322,20 @@ void KonqViewManager::removePart( KParts::Part * part )
   //kdDebug(1202) << "Calling KParts::PartManager::removePart " << part << endl;
   KParts::PartManager::removePart( part );
   //kdDebug(1202) << "KonqViewManager::removePart ( " << part << " ) done" << endl;
+}
+
+void KonqViewManager::slotPassiveModePartDeleted()
+{
+  // Passive mode parts aren't registered to the part manager,
+  // so we have to handle suicidal ones ourselves
+  KParts::ReadOnlyPart * part = const_cast<KParts::ReadOnlyPart *>( static_cast<const KParts::ReadOnlyPart *>( sender() ) );
+  disconnect( part, SIGNAL( destroyed() ), this, SLOT( slotPassiveModePartDeleted() ) );
+  KonqView * view = m_pMainWindow->childView( part );
+  if ( view ) // the child view still exists, so the part suicided
+  {
+      view->partDeleted(); // tell the child view that the part deleted itself
+      removeView( view );
+  }
 }
 
 void KonqViewManager::viewCountChanged()
@@ -438,6 +477,11 @@ KonqView *KonqViewManager::setupView( KonqFrameContainer *parentContainer,
   // Don't register passive views to the part manager
   if ( !v->isPassiveMode() ) // note that KonqView's constructor could set this to true even if passiveMode is false
     addPart( v->part(), false );
+  else
+  {
+    // Passive views aren't registered, but we still want to detect the suicidal ones
+    connect( v->part(), SIGNAL( destroyed() ), this, SLOT( slotPassiveModePartDeleted() ) );
+  }
 
   kdDebug(1202) << "KonqViewManager::setupView done" << endl;
   return v;
