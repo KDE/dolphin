@@ -168,7 +168,7 @@ void ListViewBrowserExtension::rename()
 
 void ListViewBrowserExtension::trash()
 {
-  if (sender() && sender()->inherits( "KAction" ) && 
+  if (sender() && sender()->inherits( "KAction" ) &&
    (static_cast<KAction*>(const_cast<QObject*>(sender()))->activationReason()==KAction::PopupMenuActivation) &&
    (KApplication::keyboardMouseState() & Qt::ShiftButton))
      KonqOperations::del(m_listView->listViewWidget(),
@@ -300,7 +300,8 @@ void KonqListView::guiActivateEvent( KParts::GUIActivateEvent *event )
 bool KonqListView::doOpenURL( const KURL &url )
 {
   KURL u( url );
-  emit setWindowCaption( u.prettyURL() );
+  const QString prettyURL = url.prettyURL( 0, KURL::StripFileProtocol );
+  emit setWindowCaption( prettyURL );
   return m_pListView->openURL( url );
 }
 

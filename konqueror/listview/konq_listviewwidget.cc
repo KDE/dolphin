@@ -192,8 +192,8 @@ void KonqBaseListViewWidget::readProtocolConfig( const KURL & url )
    m_bAscending = config->readBoolEntry( "SortOrder", true );
 
    // width of filename column
-   m_filenameColumnWidth = config->readNumEntry( 
-         "FileNameColumnWidth", 25 * fontMetrics().width( "m" ) 
+   m_filenameColumnWidth = config->readNumEntry(
+         "FileNameColumnWidth", 25 * fontMetrics().width( "m" )
    );
 
    bool defaultColumns = false;
@@ -262,7 +262,7 @@ void KonqBaseListViewWidget::readProtocolConfig( const KURL & url )
 
             if ( i < lstColumnWidths.count() )
                confColumns[j].width = *lstColumnWidths.at(i);
-            else 
+            else
             {
                // Default Column widths
                ColumnInfo *tmpColumn = &confColumns[j];
@@ -312,7 +312,7 @@ void KonqBaseListViewWidget::readProtocolConfig( const KURL & url )
    listingList.append( "MimeType" );
    for ( unsigned int i = 0; i < NumberOfAtoms; i++ )
    {
-      if ( confColumns[i].udsId == KIO::UDS_URL || 
+      if ( confColumns[i].udsId == KIO::UDS_URL ||
            confColumns[i].udsId == KIO::UDS_MIME_TYPE )
       {
          continue;
@@ -529,7 +529,7 @@ void KonqBaseListViewWidget::slotAutoScroll()
       QRect rect = itemRect( cur );
       if ( !allColumnsShowFocus() )
           rect.setWidth( executeArea( cur ) );
-      
+
       rect = QRect( viewportToContents( rect.topLeft() ),
                     viewportToContents( rect.bottomRight() ) );
 
@@ -766,7 +766,7 @@ void KonqBaseListViewWidget::slotSelectionChanged()
    emit m_pBrowserView->m_extension->selectionInfo( lst );
 }
 
-void KonqBaseListViewWidget::slotMouseButtonClicked( int _button, 
+void KonqBaseListViewWidget::slotMouseButtonClicked( int _button,
       QListViewItem *_item, const QPoint& pos, int )
 {
    if ( _button == MidButton )
@@ -1017,7 +1017,7 @@ void KonqBaseListViewWidget::setComplete()
 
    // Show totals
    reportItemCounts();
-   
+
    m_pBrowserView->emitMouseOver( 0 );
 
    if ( !isUpdatesEnabled() || !viewport()->isUpdatesEnabled() )
@@ -1151,7 +1151,7 @@ void KonqBaseListViewWidget::slotRefreshItems( const KFileItemList & entries )
             break;
          }
    }
-   
+
    reportItemCounts();
 }
 
@@ -1164,8 +1164,9 @@ void KonqBaseListViewWidget::slotRedirection( const KURL & url )
       readProtocolConfig( url );
       createColumns();
    }
-   emit m_pBrowserView->extension()->setLocationBarURL( url.prettyURL() );
-   emit m_pBrowserView->setWindowCaption( url.prettyURL() );
+   const QString prettyURL = url.prettyURL( 0, KURL::StripFileProtocol );
+   emit m_pBrowserView->extension()->setLocationBarURL( prettyURL );
+   emit m_pBrowserView->setWindowCaption( prettyURL );
    m_pBrowserView->m_url = url;
    m_url = url;
 }
@@ -1324,13 +1325,13 @@ int KonqBaseListViewWidget::executeArea( QListViewItem *_item )
 {
    if ( !_item )
       return 0;
-    
+
    int width = treeStepSize() * ( _item->depth() + ( rootIsDecorated() ? 1 : 0 ) );
    width += itemMargin();
    int ca = AlignHorizontal_Mask & columnAlignment( 0 );
-   if ( ca == AlignLeft || ca == AlignAuto ) 
+   if ( ca == AlignLeft || ca == AlignAuto )
    {
-      width += _item->width( fontMetrics(), this, 0 );      
+      width += _item->width( fontMetrics(), this, 0 );
       if ( width > columnWidth( 0 ) )
          width = columnWidth( 0 );
    }

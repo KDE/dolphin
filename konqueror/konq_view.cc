@@ -610,6 +610,11 @@ void KonqView::slotMouseOverInfo( const KFileItem *item )
   QApplication::sendEvent( m_pMainWindow, &ev );
 }
 
+void KonqView::setLocationBarURL( const KURL& locationBarURL )
+{
+    setLocationBarURL( locationBarURL.prettyURL(0, KURL::StripFileProtocol) );
+}
+
 void KonqView::setLocationBarURL( const QString & locationBarURL )
 {
   //kdDebug(1202) << "KonqView::setLocationBarURL " << locationBarURL << " this=" << this << endl;

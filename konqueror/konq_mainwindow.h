@@ -190,6 +190,10 @@ public:
    */
   void setLocationBarURL( const QString &url );
   /**
+   * Overload for convenience
+   */
+  void setLocationBarURL( const KURL &url );
+  /**
    * Return URL displayed in the location bar - for KonqViewManager
    */
   QString locationBarURL() const;

@@ -516,7 +516,7 @@ void KonqMainWindow::openURL( KonqView *_view, const KURL &_url,
                                   openAfterCurrentPage);
     if (view) {
       view->setCaption( _url.host() );
-      view->setLocationBarURL( _url.prettyURL() );
+      view->setLocationBarURL( _url );
 
       if ( req.newTabInFront )
         m_pViewManager->showTab( view );
@@ -606,8 +606,8 @@ void KonqMainWindow::openURL( KonqView *_view, const KURL &_url,
       {
           // Show it for now in the location bar, but we'll need to store it in the view
           // later on (can't do it yet since either view == 0 or updateHistoryEntry will be called).
-          kdDebug(1202) << "setLocationBarURL : url = " << url.prettyURL() << endl;
-          setLocationBarURL( url.prettyURL() );
+          kdDebug(1202) << "setLocationBarURL : url = " << url << endl;
+          setLocationBarURL( url );
       }
 
       kdDebug(1202) << "Creating new konqrun for " << url.url() << " req.typedURL=" << req.typedURL << endl;
@@ -663,7 +663,7 @@ bool KonqMainWindow::openView( QString serviceType, const KURL &_url, KonqView *
       if ( childView->isFollowActive() && childView != m_currentView )
       {
         abortLoading();
-        setLocationBarURL( _url.prettyURL() );
+        setLocationBarURL( _url );
         KonqOpenURLRequest newreq;
         newreq.followMode = true;
         newreq.args = req.args;
@@ -712,7 +712,7 @@ bool KonqMainWindow::openView( QString serviceType, const KURL &_url, KonqView *
   // to still display the original URL (so that 'up' uses that URL,
   // and since that's what the user entered).
   // changeViewMode will take care of setting and storing that url.
-  QString originalURL = url.prettyURL();
+  QString originalURL = url.prettyURL(0, KURL::StripFileProtocol);
   if ( !req.nameFilter.isEmpty() ) // keep filter in location bar
   {
     if (originalURL.right(1) != "/")
@@ -1016,7 +1016,7 @@ bool KonqMainWindow::makeViewsFollow( const KURL & url, const KParts::URLArgs &a
       if ( view == m_currentView )
       {
         abortLoading();
-        setLocationBarURL( url.prettyURL() );
+        setLocationBarURL( url );
       }
       else
         view->stop();
@@ -3420,6 +3420,11 @@ void KonqMainWindow::slotUpdateFullScreen( bool set )
   }
 }
 
+void KonqMainWindow::setLocationBarURL( const KURL &url )
+{
+    setLocationBarURL( url.prettyURL( 0, KURL::StripFileProtocol ) );
+}
+
 void KonqMainWindow::setLocationBarURL( const QString &url )
 {
   kdDebug(1202) << "KonqMainWindow::setLocationBarURL: url = " << url << endl;
@@ -4500,11 +4505,11 @@ void KonqMainWindow::slotOpenEmbedded()
 void KonqMainWindow::slotOpenEmbeddedDoIt()
 {
   m_currentView->stop();
-  m_currentView->setLocationBarURL(m_popupURL.prettyURL());
+  m_currentView->setLocationBarURL(m_popupURL);
   m_currentView->setTypedURL(QString::null);
   if ( m_currentView->changeViewMode( m_popupServiceType,
                                       m_popupService ) )
-       m_currentView->openURL( m_popupURL, m_popupURL.prettyURL() );
+      m_currentView->openURL( m_popupURL, m_popupURL.prettyURL(0, KURL::StripFileProtocol) );
 }
 
 void KonqMainWindow::slotDatabaseChanged()

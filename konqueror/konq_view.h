@@ -291,6 +291,9 @@ public:
   // Returns false in case the reload must be cancelled.
   bool prepareReload( KParts::URLArgs& args );
 
+  // overload for the QString version
+  void setLocationBarURL( const KURL& locationBarURL );
+
   static QStringList childFrameNames( KParts::ReadOnlyPart *part );
 
   static KParts::BrowserHostExtension *hostExtension( KParts::ReadOnlyPart *part, const QString &name );
