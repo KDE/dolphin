@@ -25,6 +25,7 @@ namespace KCMPerformance
 {
 
 class Konqueror;
+class SystemWidget;
 
 class Config
     : public KCModule
@@ -40,6 +41,7 @@ class Config
         void configChanged();
     private:
         Konqueror* konqueror_widget;
+        SystemWidget* system_widget;
     };
 
 class KonquerorConfig

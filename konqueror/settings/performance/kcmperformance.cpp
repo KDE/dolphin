@@ -18,6 +18,7 @@
 
 #include "kcmperformance.h"
 #include "konqueror.h"
+#include "system.h"
 
 #include <qlayout.h>
 #include <qtabwidget.h>
@@ -49,6 +50,10 @@ Config::Config( QWidget* parent_P, const char* )
     konqueror_widget->layout()->setMargin( KDialog::marginHint() );
     connect( konqueror_widget, SIGNAL( changed()), SLOT( configChanged()));
     tabs->addTab( konqueror_widget, i18n( "Konqueror" ));
+    system_widget = new SystemWidget( tabs );
+    system_widget->layout()->setMargin( KDialog::marginHint() );
+    connect( system_widget, SIGNAL( changed()), SLOT( configChanged()));
+    tabs->addTab( system_widget, i18n( "System" ));
     topLayout->add( tabs );
     load();
     }
@@ -61,18 +66,21 @@ void Config::configChanged()
 void Config::load()
     {
     konqueror_widget->load();
+    system_widget->load();
     emit changed( false );
     }
 
 void Config::save()
     {
     konqueror_widget->save();
+    system_widget->save();
     emit changed( false );
     }
 
 void Config::defaults()
     {
     konqueror_widget->defaults();
+    system_widget->defaults();
     emit changed( true );
     }
 
