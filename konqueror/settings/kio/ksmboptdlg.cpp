@@ -188,7 +188,7 @@ KSMBOptions::KSMBOptions(QWidget *parent, const char *name)
 
     bindingsLB = new QListBox( groupUser );
     subLayout->addMultiCellWidget(bindingsLB,2,13,4,4);
-    wtstr = i18n( "This box lists the currently configured shared. You can add and delete entries by using the buttons <em>Add...</em> and <em>Delete</em>" );
+    wtstr = i18n( "This box lists the currently configured shares. You can add and delete entries by using the buttons <em>Add...</em> and <em>Delete</em>" );
     QWhatsThis::add( bindingsLA, wtstr );
     QWhatsThis::add( bindingsLB, wtstr );
 
