@@ -20,7 +20,7 @@
 #include "konqsettings.h"
 #include "konqdefaults.h"
 #include <kconfig.h>
-#include <kapp.h>
+#include <kglobal.h>
 #include <assert.h>
 
 // We have to handle three instances of this class in the code
@@ -39,7 +39,7 @@ KonqFMSettings * KonqFMSettings::getInstance( int nr )
   assert( nr >= 0 && nr <= MAXINSTANCE );
   if (!s_pSettings[nr])
   {
-    KConfig *config = kapp->config();
+    KConfig *config = KGlobal::config();
     KConfigGroupSaver cgs(config, s_sGroupName[nr]);
     s_pSettings[nr] = new KonqFMSettings(config);
   }
@@ -61,7 +61,7 @@ KonqFMSettings * KonqFMSettings::defaultIconSettings()
 //static
 void KonqFMSettings::reparseConfiguration()
 {
-  KConfig *config = kapp->config();
+  KConfig *config = KGlobal::config();
   for (int i = 0 ; i < MAXINSTANCE+1 ; i++ )
   {
     if (s_pSettings[i])
@@ -96,7 +96,11 @@ void KonqFMSettings::init( KConfig * config )
   m_bWordWrapText = config->readBoolEntry( "WordWrapText", DEFAULT_WORDWRAPTEXT );
 
   // Behaviour
-  m_bSingleClick = config->readBoolEntry("SingleClick", DEFAULT_SINGLECLICK);
+  {
+    KConfigGroupSaver cgs(config, "KDE");
+    m_bSingleClick = config->readBoolEntry("SingleClick", DEFAULT_SINGLECLICK);
+  }
+
   m_iAutoSelect = config->readNumEntry("AutoSelect", DEFAULT_AUTOSELECT);
   m_bChangeCursor = config->readBoolEntry( "ChangeCursor", DEFAULT_CHANGECURSOR );
   m_underlineLink = config->readBoolEntry( "UnderlineLinks", DEFAULT_UNDERLINELINKS );
