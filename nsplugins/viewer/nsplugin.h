@@ -204,6 +204,7 @@ private:
   void destroy();
 
   bool _destroyed;
+  bool _visible;
   void addTempFile(KTempFile *tmpFile);
   QPtrList<KTempFile> _tempFiles;
   NSPluginCallbackIface_stub *_callback;
@@ -217,8 +218,6 @@ private:
   Widget _area, _form, _toplevel;
   QString _baseURL;
   int _width, _height;
-  QString _url, _mimetype;  // used for the first request since the initial
-                            // loading of the plugin is delayed
 
   struct Request
   {

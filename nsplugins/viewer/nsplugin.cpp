@@ -315,12 +315,13 @@ NPError g_NPN_SetValue(NPP /*instance*/, NPPVariable /*variable*/, void* /*value
 
 NSPluginInstance::NSPluginInstance(NPP privateData, NPPluginFuncs *pluginFuncs,
                                    KLibrary *handle, int width, int height,
-                                   QString src, QString mime,
+                                   QString src, QString /*mime*/,
                                    QString appId, QString callbackId,
                                    bool embed,
                                    QObject *parent, const char* name )
    : QObject( parent, name ), DCOPObject()
 {
+   _visible = false;
    _npp = privateData;
    _npp->ndata = this;
    _destroyed = false;
@@ -332,8 +333,6 @@ NSPluginInstance::NSPluginInstance(NPP privateData, NPPluginFuncs *pluginFuncs,
    _waitingRequests.setAutoDelete( true );
    _callback = new NSPluginCallbackIface_stub( appId.latin1(), callbackId.latin1() );
 
-   _url = src;
-   _mimetype = mime;
    KURL base(src);
    base.setFileName( QString::null );
    _baseURL = base.url();
@@ -580,6 +579,9 @@ int NSPluginInstance::setWindow(int remove)
 
 void NSPluginInstance::resizePlugin(int w, int h)
 {
+   if (!_visible)
+      return;
+
    kdDebug(1431) << "-> NSPluginInstance::resizePlugin( w=" << w << ", h=" << h << " ) " << endl;
 
    _width = w;
@@ -760,6 +762,7 @@ void NSPluginInstance::displayPlugin()
    // display plugin
    setWindow();
 
+   _visible = true;
    kdDebug(1431) << "<- NSPluginInstance::displayPlugin = " << (void*)this << endl;
 }
 
