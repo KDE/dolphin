@@ -748,7 +748,7 @@ cycle through the available sessions.</para>
 </varlistentry>
 
 <varlistentry>
-<term><menuchoice><guimenu>Bookmarks</guimenu><guimenuitem>Add Bookmark Folder</guimenuitem></menuchoice></term>
+<term><menuchoice><guimenu>Bookmarks</guimenu><guimenuitem>New Bookmark Folder...</guimenuitem></menuchoice></term>
 <listitem><para><action>Add a new folder </action>to the bookmark list.</para></listitem>
 </varlistentry>
 

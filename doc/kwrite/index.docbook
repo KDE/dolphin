@@ -34,7 +34,7 @@
 </copyright>
 <legalnotice>&FDLNotice;</legalnotice>
 
-<date>2001-06-13</date>
+<date>2004-08-27</date>
 <releaseinfo>2.00.00</releaseinfo>
 
 <abstract>
@@ -364,11 +364,16 @@ document with unsaved changes the user is given a chance to save it.
 <keycombo action="simul">&Ctrl;<keycap>O</keycap></keycombo>
 </shortcut>  
 <guimenu>File</guimenu>
-<guimenuitem>0pen...</guimenuitem>
+<guimenuitem>Open...</guimenuitem>
 </menuchoice>
 </term>  
 
 <listitem>
+<!--
+This is description of a standard dialog and so should go in the UG,
+with a pointer to it. In fact, I'll probably nick this very stuff for
+the UG
+- Phil
 <para>
 This command opens a file.  It does this by means of a dialog box which
 allows the user to navigate the file system.  The dialog operates like a
@@ -404,6 +409,13 @@ The last button on the toolbar allows you to create a new folder, and
 even change some basic settings for the dialog box, and finally there is
 dropdown box with a list of some commonly frequented folders.
 </para>
+-->
+<para>Displays a standard &kde; <guilabel>Open File</guilabel>
+dialog. Use the file view to select the file you want to open, and
+click on <guibutton>Open</guibutton> to open it. You can find more
+information about the &kde; <guilabel>Open File</guilabel> dialog in
+the &kde; User Guide.</para>
+
 </listitem>
 </varlistentry>  
   
@@ -758,7 +770,7 @@ To be written
   
 <sect1 id="go">  
 <title>The <guimenu>Bookmarks</guimenu> Menu</title>  
-
+<!--
 <variablelist>  
 <varlistentry>
 <term id="toggle-bookmarks">
@@ -776,12 +788,12 @@ To be written
 </para>
 </listitem>
 </varlistentry>
-
+-->
 <varlistentry>
 <term id="clear-bookmarks">
 <menuchoice>  
 <guimenu>Bookmarks</guimenu>
-<guimenuitem>Clear Markers</guimenuitem>
+<guimenuitem>Clear All Bookmarks</guimenuitem>
 </menuchoice>
 </term>  
 <listitem>  
@@ -1290,7 +1302,11 @@ will not be shortened.</para></listitem>
   
 </variablelist>  
 </sect1>  
-  
+
+<!-- 
+2004-08-27
+Out of date - getting it out of the translators' way
+- Phil
 <sect1 id="pref-select">  
 <title>Select</title>  
 <variablelist>  
@@ -1318,12 +1334,7 @@ clipboard.</para></listitem>
 <term><guilabel>X11-like Single Selection</guilabel></term>  
 <listitem><para>Not implemented yet.</para></listitem>  
 </varlistentry>  
-  
-<varlistentry>  
-<term><guilabel>Vertical Selections</guilabel></term> <listitem><para>This  
-activates the <!--<link linkend="vertical-selection">//-->Vertical Selection<!--</link>//-->  
-option.</para></listitem>  
-</varlistentry>  
+
   
 <varlistentry>  
 <term>Toggle Old</term> <listitem><para>Not yet implemented</para></listitem>  
@@ -1331,12 +1342,12 @@ option.</para></listitem>
   
 </variablelist>  
 </sect1>  
-  
+  -->
 <sect1 id="pref-edit">  
 <title>Edit</title>  
 <variablelist>  
 <varlistentry>  
-<term id="pref-word-wrap"><guilabel>Word Wrap</guilabel></term>  
+<term id="pref-word-wrap"><guilabel>Static Word Wrap</guilabel></term>  
 <listitem><para>Word wrap is a feature that causes the editor to
 automatically start a new line of text and move (wrap) the cursor to the
 beginning of that new line.  &kwrite; will automatically start a new line of text
@@ -1379,6 +1390,7 @@ enters the right bracket (}, ), or ]) to the right of the
 cursor.</para></listitem>
 </varlistentry>
 
+<!-- Outdated
 <varlistentry>
 <term id="group-undos"><guilabel>Group Undos</guilabel></term>
 <listitem><para>Groups of similar actions are to be considered a single
@@ -1400,16 +1412,17 @@ before the operation and so on.  When not selected three clicks of the undo
 button would only remove the last three letters typed, or the last three
 operations.</para></listitem>  
 </varlistentry>  
-  
+-->  
 <varlistentry> <term><guilabel>Show Tabs</guilabel></term>  
 <listitem><para>The editor will display a symbol to indicate the presence  
 of a tab in the text.</para></listitem>  
 </varlistentry>  
-
+<!--
 <varlistentry>
 <term><guilabel>Smart Home</guilabel></term>
 <listitem><para>Not yet implemented</para></listitem>
 </varlistentry>
+-->
 <varlistentry>
 <term><guilabel>Page Up/Down Moves Cursor</guilabel></term>
 <listitem><para>This option changes the behavior of the cursor when
@@ -1452,6 +1465,7 @@ this entry to 10 would mean that the user would be be able reverse the last
 ten operations, <abbrev>i.e.</abbrev> click the <guibutton>undo</guibutton>
 button 10 times and obtain results.</para></listitem> </varlistentry>
 
+<!-- Outdated
 <varlistentry>
 <term>Encoding</term>
 <listitem>
@@ -1461,7 +1475,7 @@ This sets the character encoding for your file.
 </listitem>
 </varlistentry>
 </variablelist>
-
+-->
 </sect1>
 
 <sect1 id="prefspellchecker">
@@ -1514,6 +1528,10 @@ use.</para></listitem> </varlistentry>
 </sect1>
 </chapter>
 
+<!--
+2004-08-27 
+Whole chapter is out of date, moving out of translators' way
+-Phil
 <chapter id="pref-highlighting">
 <title>Highlighting</title>
 
@@ -1652,7 +1670,7 @@ the <guilabel>Defaults</guilabel> tab.</para></listitem>
 </varlistentry>
 </variablelist>
 </chapter>  
-  
+-->  
 <chapter id="credits">  
 <title>Credits and Licenses</title>  
   
