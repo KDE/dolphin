@@ -99,7 +99,8 @@ public:
 
    // change multiple attributes
    EditCommand(const QString &address,
-               const QValueList<Edition> &editions, const QString &name = QString::null)
+               const QValueList<Edition> &editions, 
+               const QString &name = QString::null)
       : KCommand(), m_address(address), m_editions(editions), m_mytext(name)
    { ; }
    virtual ~EditCommand() { ; }
@@ -113,11 +114,14 @@ private:
    QString m_mytext;
 };
 
+// rename to NodeEditCommand
 class RenameCommand : public KCommand
 {
 public:
-   RenameCommand(const QString &address, const QString &newText)
-      : KCommand(), m_address(address), m_newText(newText) 
+   RenameCommand(const QString &address, 
+                 const QString &newText, 
+                 const QString &nodeName)
+      : KCommand(), m_address(address), m_newText(newText), m_nodename(nodeName)
    { ; }
    virtual ~RenameCommand() { ; }
    virtual void execute();
@@ -127,6 +131,7 @@ private:
    QString m_address;
    QString m_newText;
    QString m_oldText;
+   QString m_nodename;
 };
 
 class DeleteCommand : public KCommand

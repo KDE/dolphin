@@ -167,16 +167,16 @@ void RenameCommand::execute() {
    KBookmark bk = CurrentMgr::bookmarkAt(m_address);
    Q_ASSERT(!bk.isNull());
 
-   QDomNode titleNode = bk.internalElement().namedItem("title");
-   Q_ASSERT(!titleNode.isNull());
+   QDomNode subnode = bk.internalElement().namedItem(m_nodename);
+   Q_ASSERT(!subnode.isNull());
 
-   if (titleNode.firstChild().isNull()) {
+   if (subnode.firstChild().isNull()) {
       // no text child yet
-      QDomText domtext = titleNode.ownerDocument().createTextNode("");
-      titleNode.appendChild(domtext);
+      QDomText domtext = subnode.ownerDocument().createTextNode("");
+      subnode.appendChild(domtext);
    }
 
-   QDomText domtext = titleNode.firstChild().toText();
+   QDomText domtext = subnode.firstChild().toText();
 
    m_oldText = domtext.data();
    domtext.setData(m_newText);
@@ -184,7 +184,7 @@ void RenameCommand::execute() {
 
 void RenameCommand::unexecute() {
    // code reuse
-   RenameCommand cmd(m_address, m_oldText);
+   RenameCommand cmd(m_address, m_oldText, m_nodename);
    cmd.execute();
    // get the old text back from it, in case they changed (hmm, shouldn't happen)
    m_newText = cmd.m_oldText;
