@@ -324,7 +324,7 @@ void testLocalInstallation()
   if (copyTemplates)
   {
     // uniquq
-    QStringList list = KGlobal::dirs()->findAllResources("data", "konqueror/Templates/*", false, true);
+    QStringList list = KGlobal::dirs()->findAllResources("appdata", "Templates/*", false, true);
     QString cmd = "cp ";
     for (QStringList::ConstIterator it = list.begin(); it != list.end(); it++)
       cmd += *it + " ";
