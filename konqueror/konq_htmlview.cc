@@ -47,6 +47,7 @@
 KonqHTMLView::KonqHTMLView()
 {
   ADD_INTERFACE( "IDL:Konqueror/HTMLView:1.0" );
+  ADD_INTERFACE( "IDL:Konqueror/PrintingExtension:1.0" );
 
   setWidget( this );
 
@@ -513,6 +514,11 @@ SavedPage *KonqHTMLView::restorePage( Konqueror::HTMLView::SavedState state )
     p->frames = 0L;    
     
   return p;
+}
+
+void KonqHTMLView::print()
+{
+  KHTMLView::print();
 }
 
 void KonqHTMLView::saveDocument()

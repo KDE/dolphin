@@ -110,6 +110,12 @@ module Konqueror
   };
 
   typedef sequence<View> ViewList;
+
+  interface PrintingExtension
+  {
+    void print();
+    //TO BE IMPROVED!
+  };
   
   /*
    * see kio_interface.h in libkio for further information
@@ -164,7 +170,7 @@ module Konqueror
     slot void slotReloadTree();
   };
   
-  interface HTMLView : View
+  interface HTMLView : View, PrintingExtension
   {
   
     struct SavedState

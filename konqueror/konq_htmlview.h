@@ -45,7 +45,8 @@ protected:
 
 class KonqHTMLView : public KBrowser,
                      public KonqBaseView,
-                     virtual public Konqueror::HTMLView_skel
+                     virtual public Konqueror::HTMLView_skel,
+		     virtual public Konqueror::PrintingExtension
 {
   Q_OBJECT  
 
@@ -66,6 +67,8 @@ public:
   virtual void restoreState( const Konqueror::View::HistoryEntry &history );
   virtual Konqueror::HTMLView::SavedState savePage( SavedPage *page );
   virtual SavedPage *restorePage( Konqueror::HTMLView::SavedState state );
+
+  virtual void print();
   
   virtual void saveDocument();
   virtual void saveFrame();

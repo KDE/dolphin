@@ -492,6 +492,12 @@ bool KonqMainView::mappingCreateMenubar( OpenPartsUI::MenuBar_ptr menuBar )
   m_vMenuOptions->setItemChecked( MOPTIONS_SHOWTOOLBAR_ID, true );
   m_vMenuOptions->setItemChecked( MOPTIONS_SHOWLOCATIONBAR_ID, true );
 
+  if ( m_currentView )
+  {
+    Konqueror::View_var view = m_currentView->view();
+    setItemEnabled( m_vMenuFile, MFILE_PRINT_ID, view->supportsInterface( "IDL:Konqueror/PrintingExtension:1.0" ) );
+  }
+      
   return true;
 }
 
@@ -707,6 +713,9 @@ void KonqMainView::setActiveView( OpenParts::Id id )
   setItemEnabled( m_vMenuGo, MGO_BACK_ID, m_currentView->canGoBack() );
   setItemEnabled( m_vMenuGo, MGO_FORWARD_ID, m_currentView->canGoForward() );
 
+  Konqueror::View_var view = m_currentView->view();
+  setItemEnabled( m_vMenuFile, MFILE_PRINT_ID, view->supportsInterface( "IDL:Konqueror/PrintingExtension:1.0" ) );
+
   if ( !CORBA::is_nil( m_vLocationBar ) )
   {
     CORBA::WString_var text = Q2C( m_currentView->locationBarURL() );
@@ -768,9 +777,6 @@ void KonqMainView::removeView( OpenParts::Id id )
     
     if ( !splitter->children() )
       m_lstRows.removeRef( splitter );
-    
-    // TODO : check if that was the last view in its row.
-    // If yes, remove the row itself
   }
 
   setItemEnabled( m_vMenuView, MVIEW_REMOVEVIEW_ID, 
@@ -1052,6 +1058,15 @@ void KonqMainView::slotPrint()
   // But it's silly to print an icon view, isn't it ?
   // Then why not simply disable "print" if not a HTML view ?
   //  ... ideas please ! (David)
+  // Here's a proposal :-) (Simon)
+  Konqueror::View_var view = m_currentView->view();
+  
+  if ( view->supportsInterface( "IDL:Konqueror/PrintingExtension:1.0" ) )
+  {
+    CORBA::Object_var obj = view->getInterface( "IDL:Konqueror/PrintingExtension:1.0" );
+    Konqueror::PrintingExtension_var printExt = Konqueror::PrintingExtension::_narrow( obj );
+    printExt->print();
+  }
 }
 
 void KonqMainView::slotClose()
