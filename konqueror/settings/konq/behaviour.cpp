@@ -191,7 +191,7 @@ void KBehaviourOptions::save()
     g_pConfig->setGroup( groupname );
 
     g_pConfig->writeEntry( "AlwaysNewWin", cbNewWin->isChecked() );
-    g_pConfig->writeEntry( "HomeURL", homeURL->text() );
+    g_pConfig->writeEntry( "HomeURL", homeURL->text().isEmpty()? "~" : homeURL->text() );
 
     QString val = QString::fromLatin1("Web only");
     if (rbOPWeb->isChecked())
