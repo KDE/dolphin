@@ -5,7 +5,7 @@ libkcm_nsplugin_la_LDFLAGS = $(all_libraries) -module -avoid-version -no-undefin
 libkcm_nsplugin_la_METASOURCES = AUTO
 libkcm_nsplugin_la_SOURCES = nsconfig.cpp configwidget.ui
 
-lib_LTLIBRARIES = libkcm_nsplugin.la
+kde_module_LTLIBRARIES = libkcm_nsplugin.la
 
 noinst_HEADERS = nsconfig.h
 
