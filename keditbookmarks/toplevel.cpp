@@ -454,8 +454,8 @@ KEBTopLevel::KEBTopLevel( const QString & bookmarksFile )
     (void) new KAction( i18n( "Set as &Toolbar Folder" ), "bookmark_toolbar", 0, this, SLOT( slotSetAsToolbar() ), actionCollection(), "setastoolbar" );
     (void) new KAction( i18n( "&Open in Konqueror" ), "fileopen", 0, this, SLOT( slotOpenLink() ), actionCollection(), "openlink" );
     (void) new KAction( i18n( "Check &Status" ), "bookmark", 0, this, SLOT( slotTestLink() ), actionCollection(), "testlink" );
-    (void) new KAction( i18n( "Check Status: &All" ), "testall", 0, this, SLOT( slotTestAllLinks() ), actionCollection(), "testall" );
-    (void) new KAction( i18n( "Cancel &Checks" ), "canceltests", 0, this, SLOT( slotCancelAllTests() ), actionCollection(), "canceltests" );
+    (void) new KAction( i18n( "Check Status: &All" ), 0, this, SLOT( slotTestAllLinks() ), actionCollection(), "testall" );
+    (void) new KAction( i18n( "Cancel &Checks" ), 0, this, SLOT( slotCancelAllTests() ), actionCollection(), "canceltests" );
     m_taShowNS = new KToggleAction( i18n( "Show Netscape Bookmarks in Konqueror Windows" ), 0, this, SLOT( slotShowNS() ), actionCollection(), "settings_showNS" );
 
     m_taShowNS->setChecked( s_pManager->showNSBookmarks() );
