@@ -35,7 +35,7 @@ PolicyDialog::PolicyDialog( QWidget *parent, const char *name )
   cb_policy->insertStringList( policies );
   grid->addWidget(cb_policy, 1, 1);
 
-  QWhatsThis::add(cb_policy, i18n("Select a cookie policy for the "
+  QWhatsThis::add(cb_policy, i18n("Select a cookie policy for "
                                      "the above domain name.") );
 
   KButtonBox *bbox = new KButtonBox(this);
