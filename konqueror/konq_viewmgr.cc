@@ -586,20 +586,22 @@ void KonqViewManager::loadViewProfile( KConfig &cfg, const QString & filename,
       m_pMainWindow->action( "clear_location" )->activate();
   }
 
-  if ( /*m_pMainWindow->viewCount() == 0 &&*/ !forcedURL.isEmpty())
+  // Set an active part first so that we open the URL in the current view
+  // (to set the location bar correctly and asap)
+  KonqView *nextChildView = chooseNextView( 0L );
+  setActivePart( nextChildView ? nextChildView->part() : 0L, true /* immediate */ );
+
+  if ( !forcedURL.isEmpty())
   {
-      KonqView *firstChildView = chooseNextView( 0L );
       KonqOpenURLRequest _req(req);
       if (_req.typedURL.isEmpty())
           _req.typedURL = forcedURL.url();
-      m_pMainWindow->openURL( firstChildView /* can be 0 for an empty profile */,
+      m_pMainWindow->openURL( nextChildView /* can be 0 for an empty profile */,
                               forcedURL, _req.args.serviceType, _req );
 
       // TODO choose a linked view if any (instead of just the first one),
       // then open the same URL in any non-linked one
   }
-  KonqView *nextChildView = chooseNextView( 0L );
-  setActivePart( nextChildView ? nextChildView->part() : 0L, true /* immediate */ );
 
   // Window size
 

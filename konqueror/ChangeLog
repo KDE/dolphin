@@ -1,3 +1,11 @@
+2001-01-12  David Faure  <faure@kde.org>
+
+	* konq_viewmgr.cc (loadViewProfile): Set active part before loading
+	URL, so that the URL appears in the location bar.
+
+	* konq_mainwindow.cc, konq_dirpart.cc: Store find part into history,
+	in order to restore it when pressing back.
+
 2001-01-11  David Faure  <faure@kde.org>
 
 	* konq_mainwindow.*, konq_view.*: Store caption in the view,
@@ -46,6 +54,8 @@
 	retrieve a QValueList<KAction *> and iterate over that, as the =+(int)
 	operator of QDictIterator isn't really fast
 
+	          ----- KDE 2.1 BETA 1 RELEASE ----
+	
 2000-12-12  David Faure  <faure@kde.org>
 
 	* konq_viewmgr.cc: Fixed saving of profiles containing views
