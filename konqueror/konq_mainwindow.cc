@@ -2914,7 +2914,7 @@ void KonqMainWindow::disableActionsNoView()
 void KonqMainWindow::openBookmarkURL( const QString & url )
 {
   kdDebug(1202) << (QString("KonqMainWindow::openBookmarkURL(%1)").arg(url)) << endl;
-  openURL( 0L, KURL( url ) );
+  openFilteredURL( url );
 }
 
 void KonqMainWindow::setCaption( const QString &caption )

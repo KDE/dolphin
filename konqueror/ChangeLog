@@ -1,3 +1,10 @@
+2001-02-06  Simon Hausmann  <simon@kde.org>
+	
+	* konq_mainwindow.cc (openBookmarkURL): Patch by 
+	Marco Krohn <Marco.Krohn@stud.uni-hannover.de> to call openFilteredURL
+	instead of openURL. Allows environment variables in bookmarks and
+	other sugar.
+
 2001-01-28  Stephan Kulow  <coolo@kde.org>
 
 	* konq_mainwindow.cc (initActions): Plug the actions into a KAccel to
