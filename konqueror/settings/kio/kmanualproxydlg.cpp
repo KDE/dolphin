@@ -111,7 +111,7 @@ KManualProxyDlg::KManualProxyDlg( QWidget* parent, const char* name )
     label->setSizePolicy( QSizePolicy(QSizePolicy::Minimum,
                                       QSizePolicy::Fixed,
                                       label->sizePolicy().hasHeightForWidth()) );
-    sb_httpproxy = new KMySpinBox( gb_servers, "sb_httpproxy" );
+    sb_httpproxy = new QSpinBox( gb_servers, "sb_httpproxy" );
     sb_httpproxy->setEnabled( false );
     QWhatsThis::add( sb_httpproxy, i18n("Enter the port number of the HTTP "
                                        "proxy server.  Default is 8080.") );
@@ -140,7 +140,7 @@ KManualProxyDlg::KManualProxyDlg( QWidget* parent, const char* name )
     label->setSizePolicy( QSizePolicy(QSizePolicy::Minimum,
                                       QSizePolicy::Fixed,
                                       label->sizePolicy().hasHeightForWidth()) );
-    sb_secproxy = new KMySpinBox( gb_servers, "sb_secport" );
+    sb_secproxy = new QSpinBox( gb_servers, "sb_secport" );
     sb_secproxy->setEnabled( false );
     QWhatsThis::add( sb_secproxy, i18n("Enter the port number of the secure "
                                       "proxy server.  Default is 8080.") );
@@ -168,7 +168,7 @@ KManualProxyDlg::KManualProxyDlg( QWidget* parent, const char* name )
     label->setSizePolicy( QSizePolicy(QSizePolicy::Minimum,
                                       QSizePolicy::Fixed,
                                       label->sizePolicy().hasHeightForWidth()) );
-    sb_ftpproxy = new KMySpinBox( gb_servers, "sb_ftpport" );
+    sb_ftpproxy = new QSpinBox( gb_servers, "sb_ftpport" );
     sb_ftpproxy->setEnabled( false );
     QWhatsThis::add( sb_ftpproxy, i18n("Enter the port number of the ftp "
                                       "proxy server.  Default 8080.") );
@@ -197,7 +197,7 @@ KManualProxyDlg::KManualProxyDlg( QWidget* parent, const char* name )
     label->setSizePolicy( QSizePolicy(QSizePolicy::Minimum,
                                       QSizePolicy::Fixed,
                                       label->sizePolicy().hasHeightForWidth()) );
-    sb_gopherproxy = new KMySpinBox( gb_servers, "sb_gopherport" );
+    sb_gopherproxy = new QSpinBox( gb_servers, "sb_gopherport" );
     sb_gopherproxy->setEnabled( false );
     QWhatsThis::add( sb_gopherproxy, i18n("Enter the port number for the gopher "
                                          "proxy server.  Default is 8080.") );

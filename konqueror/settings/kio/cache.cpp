@@ -143,7 +143,7 @@ KCacheConfigDialog::KCacheConfigDialog( QWidget* parent, const char* name )
     lb_max_cache_size->setEnabled( false );
     hlay->addWidget( lb_max_cache_size );
 
-    sb_max_cache_size = new KMySpinBox( this, "sb_max_cache_size" );
+    sb_max_cache_size = new QSpinBox( this, "sb_max_cache_size" );
     sb_max_cache_size->setEnabled( false );
     sb_max_cache_size->setMinValue( 1 );
     sb_max_cache_size->setMaxValue( 99999999 );
