@@ -368,7 +368,7 @@ void KonqFrame::setView( KonqView* child )
    m_pView = child;
    if (m_pView)
    {
-     connect(m_pView,SIGNAL(sigViewChanged(KonqView *, KParts::ReadOnlyPart *,KParts::ReadOnlyPart *)),
+     connect(m_pView,SIGNAL(sigPartChanged(KonqView *, KParts::ReadOnlyPart *,KParts::ReadOnlyPart *)),
              m_pStatusBar,SLOT(slotConnectToNewView(KonqView *, KParts::ReadOnlyPart *,KParts::ReadOnlyPart *)));
      //connect(m_pView->view(),SIGNAL(setStatusBarText(const QString &)),
      //m_pHeader,SLOT(slotDisplayStatusText(const QString&)));
