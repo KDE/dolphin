@@ -116,6 +116,10 @@ int main( int argc, char **argv )
 
 bool clientApp::openFileManagerWindow(const KURL & url)
 {
+  // If we want to open an HTTP url, use the web browsing profile
+  if (url.protocol().left(4) == QString::fromLatin1("http"))
+    return openProfile( QString::fromLatin1("webbrowsing"), url.url() );
+
   QByteArray data;
   QCString appId, appObj;
   if ( dcopClient()->findObject( "konqueror*", "KonquerorIface", "", data,
@@ -140,15 +144,24 @@ bool clientApp::openFileManagerWindow(const KURL & url)
   return true;
 }
 
-bool clientApp::openProfile( const QString & profile )
+bool clientApp::openProfile( const QString & _profile, const QString & url )
 {
+  QString profile = locate( "data", QString::fromLatin1("konqueror/profiles/") + _profile );
+  if ( profile.isEmpty() )
+  {
+    fprintf( stderr, i18n("Profile %1 not found\n").arg(_profile).local8Bit() );
+    return 1;
+  }
   QByteArray data;
   QCString appId, appObj;
   if ( dcopClient()->findObject( "konqueror*", "KonquerorIface", "", data,
                                  appId, appObj ) )
   {
     KonquerorIface_stub konqy( appId, appObj );
-    konqy.createBrowserWindowFromProfile( profile );
+    if ( url.isEmpty() )
+      konqy.createBrowserWindowFromProfile( profile );
+    else
+      konqy.createBrowserWindowFromProfileAndURL( profile, url );
   }
   else
   {
@@ -156,6 +169,7 @@ bool clientApp::openProfile( const QString & profile )
     QObject::connect( dcopClient(), SIGNAL( applicationRegistered( const QCString& ) ),
 		    this, SLOT( slotAppRegistered( const QCString & ) ) );
     m_profile = profile;
+    m_url = url;
     QString error;
     if ( KApplication::startServiceByDesktopPath( QString::fromLatin1("konqueror.desktop"), QString::fromLatin1("--silent"), &error ) > 0 )
     {
@@ -174,7 +188,10 @@ void clientApp::slotAppRegistered( const QCString &appId )
   if ( appId.left( 9 ) == "konqueror" )
     {
       KonquerorIface_stub konqy( appId, "KonquerorIface" );
-      konqy.createBrowserWindowFromProfile( m_profile );
+      if ( m_url.isEmpty() )
+        konqy.createBrowserWindowFromProfile( m_profile );
+      else
+        konqy.createBrowserWindowFromProfileAndURL( m_profile, m_url );
       ::exit( 0 );
     }
 }
@@ -215,13 +232,7 @@ int clientApp::doIt( int argc, char **argv )
     }
     else if ( argc == 3 )
     {
-      QString profile = locate( "data", QString::fromLatin1("konqueror/profiles/") + QFile::decodeName(argv[2]) );
-      if ( profile.isEmpty() )
-      {
-        fprintf( stderr, i18n("Profile %1 not found\n").arg(profile).local8Bit() );
-        return 1;
-      }
-      return openProfile( profile );
+      return openProfile( QFile::decodeName(argv[2]), QString::null );
     }
     else
     {

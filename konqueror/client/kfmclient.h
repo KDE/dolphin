@@ -40,8 +40,8 @@ public:
   /** Make konqueror open a window for @p url */
   bool openFileManagerWindow(const KURL & url);
 
-  /** Make konqueror open a window for @p profile */
-  bool openProfile(const QString & profile);
+  /** Make konqueror open a window for @p profile and @p url */
+  bool openProfile(const QString & profile, const QString & url);
 
 protected slots:
   void slotResult( KIO::Job * );
@@ -49,6 +49,7 @@ protected slots:
 
 private:
   QString m_profile;
+  QString m_url;
 
 };
 
