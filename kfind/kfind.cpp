@@ -55,7 +55,7 @@ Kfind::Kfind( QWidget *parent, const char *name, const char *searchPath = 0 )
 
     bt[0]->setFixedSize(bt[2]->sizeHint());
     bt[1]->setFixedSize(bt[2]->sizeHint());
-    bt[1]->setEnabled(FALSE);
+    bt[1]->setEnabled(false);
     bt[2]->setFixedSize(bt[2]->sizeHint());
 
     //connect button to slots
@@ -120,15 +120,15 @@ void Kfind::timerEvent( QTimerEvent * )
           {
             win->updateResults( outFile.data() );
             win->show();
-            emit haveResults(TRUE);
+            emit haveResults(true);
             if (height()==220)
 	      resize(width(),height()+150);
 	  };
 
         unlink( outFile.data() );
     
-        bt[1]->setEnabled(FALSE);
-        bt[0]->setEnabled(TRUE);
+        bt[1]->setEnabled(false);
+        bt[0]->setEnabled(true);
       }
    };
     
@@ -144,13 +144,13 @@ void Kfind::startSearch()
 
     buffer = tabDialog->createQuery();
 
-    emit haveResults(FALSE);
-    emit resultSelected(FALSE);
+    emit haveResults(false);
+    emit resultSelected(false);
 
     if (!buffer.isNull())
       {
-        bt[0]->setEnabled(FALSE);
-        bt[1]->setEnabled(TRUE);
+        bt[0]->setEnabled(false);
+        bt[1]->setEnabled(true);
 
         int t = time( 0L ); 
         outFile.sprintf( "/tmp/kfindout%i", t );
@@ -188,7 +188,7 @@ void Kfind::startSearch()
    	    exit(1); 
           }; 
 
-        doProcess=TRUE;
+        doProcess=true;
         timerID = startTimer( 1000 );
       };
   };
@@ -197,8 +197,8 @@ void Kfind::stopSearch()
   {
     //    printf("Stoping Search\n");
     
-    bt[1]->setEnabled(FALSE);
-    bt[0]->setEnabled(TRUE);
+    bt[1]->setEnabled(false);
+    bt[0]->setEnabled(true);
 
     kill(childPID,9);
   };
@@ -211,16 +211,16 @@ void Kfind::newSearch()
     resize(width(),220);
     setMaximumSize(9999,220);
 
-    doProcess=FALSE;
-    emit haveResults(FALSE);
-    emit resultSelected(FALSE);
+    doProcess=false;
+    emit haveResults(false);
+    emit resultSelected(false);
      
     stopSearch();
  };
 
 void Kfind::resultSelected(const char * str)
   {
-    emit resultSelected(TRUE);
+    emit resultSelected(true);
   };
 
 void Kfind::aboutFind()
