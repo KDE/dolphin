@@ -171,7 +171,16 @@ uint KonqFrameTabs::tabBarWidthForMaxChars( uint maxLength )
   QFontMetrics fm = tabBar()->fontMetrics();
   int x = 0;
   for( int i=0; i < count(); ++i ) {
-    QString newTitle = static_cast<KonqFrame*>( page(i) )->title();
+    QString newTitle;
+    KonqFrame* konqframe = dynamic_cast<KonqFrame*>( page(i) );
+    if ( konqframe )
+      newTitle = konqframe->title();
+    else {
+      KonqView* konqview= static_cast<KonqFrameContainer*>( page(i) )->activeChildView();
+      if ( konqview )
+        newTitle = konqview->frame()->title();
+    }
+
     if ( maxLength == 3)
       newTitle = "";
     else if ( newTitle.length() > maxLength )
@@ -236,8 +245,16 @@ void KonqFrameTabs::setTitle( const QString &title , QWidget* sender)
     {
       for( int i = 0; i < count(); ++i)
         {
-          newTitle = static_cast<KonqFrame*>( page(i) )->title();
-          newTitle.replace( '&', "&&" );
+          KonqFrame* konqframe = dynamic_cast<KonqFrame*>( page(i) );
+          if ( konqframe )
+            newTitle = konqframe->title();
+          else {
+            KonqView* konqview= static_cast<KonqFrameContainer*>( page(i) )->activeChildView();
+            if ( konqview )
+              newTitle = konqview->frame()->title();
+          }
+
+	  newTitle.replace( '&', "&&" );
           if ( newMaxLength == 3)
             newTitle = "";
           else if ( newTitle.length() > newMaxLength )
@@ -359,8 +376,16 @@ void KonqFrameTabs::slotMouseMiddleClick( QWidget *w )
 void KonqFrameTabs::resizeEvent( QResizeEvent *e )
 {
     KTabWidget::resizeEvent( e );
-    if ( count() )
-      setTitle( static_cast<KonqFrame*>( page( 0 ) )->title(), page( 0 ) );
+    if ( count() ) {
+      KonqFrame* konqframe = dynamic_cast<KonqFrame*>( page(0) );
+      if ( konqframe )
+        setTitle( konqframe->title(), page( 0 ) );
+      else {
+        KonqView* konqview= static_cast<KonqFrameContainer*>( page(0) )->activeChildView();
+        if ( konqview )
+          setTitle( konqview->frame()->title(), page( 0 ) );
+      }
+    }
 }
 
 #include "konq_tabs.moc"
