@@ -78,9 +78,12 @@ int main( int argc, char **argv )
                 "            #  'url' may be a relative path\n"
                 "            #   or file name, such as . or subdir/\n"
                 "            #   If 'url' is omitted, $HOME is used instead.\n\n").local8Bit());
+
+    // TODO: mention optionnal argument 'url' after 2.0
     printf(i18n("  kfmclient openProfile 'profile'\n"
                 "            # Opens a window using the given profile.\n"
                 "            #   'profile' is a file under ~/.kde/share/apps/konqueror/profiles.\n\n").local8Bit());
+
     printf(i18n("  kfmclient openProperties 'url'\n"
                 "            # Opens a properties menu\n\n").local8Bit());
     printf(i18n("  kfmclient exec ['url' ['binding']]\n"
@@ -278,8 +281,11 @@ bool clientApp::doIt()
   }
   else if ( command == "openProfile" )
   {
-    checkArgumentCount(argc, 2, 2);
-    return openProfile( QString::fromLocal8Bit(args->arg(1)), QString::null );
+    checkArgumentCount(argc, 2, 3);
+    QString url;
+    if ( argc == 3 )
+      url = args->url(2).url();
+    return openProfile( QString::fromLocal8Bit(args->arg(1)), url );
   }
   else if ( command == "openProperties" )
   {
