@@ -787,12 +787,14 @@ void KonqKfmIconView::showDirectoryOverlay(KFileIVI* item)
 
     KConfigGroup group( KGlobal::config(), "PreviewSettings" );
     if ( group.readBoolEntry( fileItem->url().protocol(), true /*default*/ ) ) {
-        KIVDirectoryOverlay* overlay = item->setShowDirectoryOverlay( true );
-        m_paOutstandingOverlays.append(overlay);
-        connect( overlay, SIGNAL( finished() ), this, SLOT( slotDirectoryOverlayFinished() ) );
+        if ( KIVDirectoryOverlay* overlay = item->setShowDirectoryOverlay( true ) )
+		{
+            m_paOutstandingOverlays.append(overlay);
+            connect( overlay, SIGNAL( finished() ), this, SLOT( slotDirectoryOverlayFinished() ) );
         
-        if (m_paOutstandingOverlays.count() == 1) {
-            m_paOutstandingOverlays.first() -> start();
+            if (m_paOutstandingOverlays.count() == 1) {
+                m_paOutstandingOverlays.first() -> start();
+            }
         }
     }
 }

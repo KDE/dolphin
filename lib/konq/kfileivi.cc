@@ -130,7 +130,7 @@ void KFileIVI::setOverlay( const QString& iconName )
 
 KIVDirectoryOverlay* KFileIVI::setShowDirectoryOverlay( bool show )
 {
-    if ( !m_fileitem->isDir() ) return 0;
+    if ( !m_fileitem->isDir() || m_fileitem->iconName() != "folder" ) return 0;
 
 	if (show) {
         if (!d->m_directoryOverlay) d->m_directoryOverlay = new KIVDirectoryOverlay(this);
