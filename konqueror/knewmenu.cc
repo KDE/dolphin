@@ -99,14 +99,15 @@ void KNewMenu::fillMenu()
     {
         KSimpleConfig config(UserPaths::templatesPath() + *templ, true);
         config.setGroup( "KDE Desktop Entry" );
-        if ( templ->right(7) == ".kdelnk" )
-            templ->truncate( templ->length() - 7 );
+        QString name = *templ;
+        if ( name.right(7) == ".kdelnk" )
+            name.truncate( name.length() - 7 );
         if ( m_bUseOPMenu )
 	  {
-	    m_vMenu->insertItem( config.readEntry("Name", *templ ).data(), CORBA::Object::_nil(), 0L, 0 );
+	    m_vMenu->insertItem( config.readEntry("Name", name), CORBA::Object::_nil(), 0L, 0 );
 	  }    
 	else
-	  m_pMenu->insertItem( config.readEntry("Name", *templ ) );
+	  m_pMenu->insertItem( config.readEntry("Name", name ) );
     }
 }
 
@@ -156,18 +157,21 @@ void KNewMenu::slotNewFile( int _id )
     m_sDest.clear();
     m_sDest.setAutoDelete(true);
 
-    QString p;
+    QString sFile;
     
     if ( m_bUseOPMenu )
-      p = *(templatesList->at( m_vMenu->indexOf( _id ) ));
+      sFile = *(templatesList->at( m_vMenu->indexOf( _id ) ));
     else
-      p = *(templatesList->at( m_pMenu->indexOf( _id ) ));
+      sFile = *(templatesList->at( m_pMenu->indexOf( _id ) ));
+    kdebug(0, 1202, "sFile = %s",sFile.data());
       
-    QString tmp = p;
+    QString sName ( sFile );
+    QString text, value;
 
-    if ( strcmp( tmp, "Folder" ) != 0 ) {
-      QString x = UserPaths::templatesPath() + p;
+    if ( sName != "Folder" ) {
+      QString x = UserPaths::templatesPath() + sFile;
       if (!QFile::exists(x)) {
+          kdebug(KDEBUG_WARN, 1202, "%s doesn't exist", x.data());
           QMessageBox::critical( 0L, i18n( "Error" ), i18n(
               "Source file doesn't exist anymore ! \n"
               "Use \"Rescan Bindings\" in View menu to update the menu"));
@@ -175,20 +179,15 @@ void KNewMenu::slotNewFile( int _id )
       }
       KSimpleConfig config(x, true);
       config.setGroup( "KDE Desktop Entry" );
-      if ( tmp.right(7) == ".kdelnk" )
-	tmp.truncate( tmp.length() - 7 );
-      tmp = config.readEntry("Name", tmp);
-    }
+      if ( sName.right(7) == ".kdelnk" )
+	sName.truncate( sName.length() - 7 );
+      sName = config.readEntry("Name", sName);
 
-    QString text = i18n("New ");
-    text += tmp;
-    text += ":";
-    const char *value = p;
-
-    if ( strcmp( tmp, "Folder" ) == 0 ) {
-	value = "";
-	text = i18n("New Folder");
-	text += ":";
+      text = i18n("New ") + sName + ":";
+      value = sFile;
+    } else {
+      value = "";
+      text = i18n("New Folder :");
     }
 
     KLineEditDlg l( text, value, 0L, true );
@@ -199,7 +198,7 @@ void KNewMenu::slotNewFile( int _id )
 	    return;
 
         QStringList::Iterator it = popupFiles.begin();
-	if ( strcmp( p, "Folder" ) == 0 )
+	if ( sFile =="Folder" )
 	{
             for ( ; it != popupFiles.end(); ++it )
 	    {
@@ -219,7 +218,7 @@ void KNewMenu::slotNewFile( int _id )
 	}
 	else
 	{
-	    QString src = UserPaths::templatesPath() + p;
+	    QString src = UserPaths::templatesPath() + sFile;
             for ( ; it != popupFiles.end(); ++it )
             {
                 KIOJob * job = new KIOJob( );
@@ -236,7 +235,7 @@ void KNewMenu::slotNewFile( int _id )
 		//		Kfm::setUpDest(&u2);
 		// --- Sven's check if global apps/mime end ---
 
-                if ( name.right(7) ==".kdelnk" )
+                if ( sFile.right(7) ==".kdelnk" )
                 {
                   m_sDest.insert( job->id(), new QString( dest.url() ) );
                   connect(job, SIGNAL( finished( int ) ), this, SLOT( slotCopyFinished( int ) ) );
