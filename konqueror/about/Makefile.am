@@ -1,8 +1,8 @@
 lib_LTLIBRARIES = libkonqaboutpage.la
 
-INCLUDES = -I.. $(all_includes)
+INCLUDES = -I$(srcdir)/.. $(all_includes)
 libkonqaboutpage_la_SOURCES = konq_aboutpage.cc
-libkonqaboutpage_la_LDFLAGS = -I.. $(all_libraries) $(KDE_PLUGIN)
+libkonqaboutpage_la_LDFLAGS = -I$(srcdir).. $(all_libraries) $(KDE_PLUGIN)
 libkonqaboutpage_la_LIBADD = ../konqueror.la $(LIB_KHTML)
 
 kdelnkdir = $(kde_servicesdir)
