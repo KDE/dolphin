@@ -40,9 +40,11 @@ int main(int argc, char ** argv)
   aboutData.addAuthor("David Faure",0, "faure@kde.org");
 
   KCmdLineArgs::init( argc, argv, &aboutData );
-  KUniqueApplication::addCmdLineOptions();
+  KApplication::addCmdLineOptions();
+  // KUniqueApplication::addCmdLineOptions();
   KCmdLineArgs::addCmdLineOptions( options );
-  KUniqueApplication app;
+  KApplication app;
+  // KUniqueApplication app;
 
   KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
   QString bookmarksFile = (args->count() == 0)

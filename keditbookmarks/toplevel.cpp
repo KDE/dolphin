@@ -319,6 +319,13 @@ QDragObject *KEBListView::dragObject()
 
 KEBTopLevel * KEBTopLevel::s_topLevel = 0L;
 
+/*
+void KEBTopLevel::activateWindow()
+{
+    KWin::setActiveWindow( winId() );
+}
+*/
+
 KEBTopLevel::KEBTopLevel( const QString & bookmarksFile )
     : KMainWindow(), DCOPObject("KBookmarkListener"), m_commandHistory( actionCollection() )
 {
@@ -335,6 +342,23 @@ KEBTopLevel::KEBTopLevel( const QString & bookmarksFile )
 #ifdef DEBUG_ADDRESSES
     m_pListView->addColumn( "Address", 100 );
 #endif
+
+    bool unique = false;
+
+    if (!kapp->dcopClient()->isApplicationRegistered(kapp->name())) {
+       kapp->dcopClient()->registerAs(kapp->name(),false);
+       unique = true;
+    } else {
+       int answer = KMessageBox::warningYesNo( this, i18n("Another KEditBookmarks is already running do you really want to open another or continue on work in the other one?. Please note that new KEditBookmark's will not be able to stay in synchronization with your main bookmarks."), i18n("Warning"), i18n("Run another"), i18n("Quit") );
+       if (0) {
+          KMessageBox::warningYesNo( this, i18n("Another KEditBookmarks is already running do you really want to open another or continue on work in the other one?. Please note that new KEditBookmark's will not be able to stay in synchronization with your main bookmarks."), i18n("Warning"), i18n("Run another"), i18n("Continue in old window") );
+       }
+       bool oldWindow = (answer==KMessageBox::No);
+       if (oldWindow) {
+          // kapp->dcopClient()->send( "keditbookmarks", "KEditBookmarks", "activateWindow()", data );
+          close();
+       }
+    }
 
     m_pListView->setRootIsDecorated( true );
     m_pListView->setRenameable( 0 );
@@ -359,17 +383,23 @@ KEBTopLevel::KEBTopLevel( const QString & bookmarksFile )
              SLOT(slotSelectionChanged() ) );
     connect( kapp->clipboard(), SIGNAL(dataChanged()),
              SLOT(slotClipboardDataChanged() ) );
+
     // If someone plays with konq's bookmarks while we're open, update. (when applicable)
-    connect( KBookmarkManager::self(), SIGNAL( changed(const QString &, const QString &) ),
-             SLOT( slotBookmarksChanged(const QString &, const QString &) ) );
+    if (unique) {
+       connect( KBookmarkManager::self(), SIGNAL( changed(const QString &, const QString &) ),
+                SLOT( slotBookmarksChanged(const QString &, const QString &) ) );
+    }
+
     // Update GUI after executing command
     connect( &m_commandHistory, SIGNAL( commandExecuted() ), SLOT( slotCommandExecuted() ) );
     connect( &m_commandHistory, SIGNAL( documentRestored() ), SLOT( slotDocumentRestored() ) );
 
-    connectDCOPSignal(0, 0, "addBookmark_signal(QString,QString,QString,QString)",
-                            "addBookmark(QString,QString,QString,QString)", false);
-    connectDCOPSignal(0, 0, "createNewFolder_signal(QString,QString)",
-                            "createNewFolder(QString,QString)", false);
+    if (unique) {
+       connectDCOPSignal(0, 0, "addBookmark_signal(QString,QString,QString,QString)",
+                               "addBookmark(QString,QString,QString,QString)", false);
+       connectDCOPSignal(0, 0, "createNewFolder_signal(QString,QString)",
+                               "createNewFolder(QString,QString)", false);
+    }
 
     s_topLevel = this;
     fillListView();
@@ -611,7 +641,6 @@ QString KEBTopLevel::correctAddress(QString address)
 
 void KEBTopLevel::createNewFolder(QString text, QString address) // DCOP call
 {
-   //kdWarning() << "createNewFolder - " << text << "," << address << endl;
    if (!m_bModified) return;
    CreateCommand * cmd = new CreateCommand( i18n("Create Folder in Konqueror"), correctAddress(address), text, QString :: null, true );
    m_commandHistory.addCommand( cmd );
@@ -619,7 +648,6 @@ void KEBTopLevel::createNewFolder(QString text, QString address) // DCOP call
 
 void KEBTopLevel::addBookmark(QString url, QString text, QString address, QString icon) // DCOP call
 {
-   //kdWarning() << "addBookmark - " << url << "," << text << "," << address << endl;
    if (!m_bModified) return;
    CreateCommand * cmd = new CreateCommand( i18n("Add Bookmark in Konqueror"), correctAddress(address), text, icon, KURL(url) );
    m_commandHistory.addCommand( cmd );
@@ -831,7 +859,8 @@ void KEBTopLevel::setModified( bool modified )
 
 void KEBTopLevel::slotDocumentRestored()
 {
-    // AK - whats the logic behing this?
+    // Called when undoing the very first action - or the first one after
+    // saving. The "document" is set to "non modified" in that case.
     setModified( false );
 }
 
