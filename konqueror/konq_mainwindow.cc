@@ -3962,6 +3962,14 @@ void KonqMainWindow::closeEvent( QCloseEvent *e )
     hide();
     qApp->flushX();
   }
+  // We're going to close - tell the parts
+  MapViews::ConstIterator it = m_mapViews.begin();
+  MapViews::ConstIterator end = m_mapViews.end();
+  for (; it != end; ++it )
+  {
+      if ( (*it)->part() && (*it)->part()->widget() )
+          QApplication::sendEvent( (*it)->part()->widget(), e );
+  }
   KParts::MainWindow::closeEvent( e );
   kdDebug(1202) << "KonqMainWindow::closeEvent end" << endl;
 }
