@@ -487,15 +487,15 @@ void ListView::renameNextCell(bool fwd) {
       } else if (!fwd && myrenamecolumn > KEBListView::NameColumn) {
          myrenamecolumn--;
       } else {
-         myrenameitem    = static_cast<KEBListViewItem *>(
-                           fwd ? myrenameitem->itemBelow()
-                               : myrenameitem->itemAbove());
-         if (!myrenameitem) {
-            myrenameitem = fwd ? static_cast<KEBListViewItem*>(m_listView->firstChild())
-                               : static_cast<KEBListViewItem*>(m_listView->lastItem());
-         }
-         myrenamecolumn  = fwd ? KEBListView::NameColumn 
-                               : KEBListView::CommentColumn;
+         myrenameitem    = 
+            static_cast<KEBListViewItem *>(
+              fwd ? ( myrenameitem->itemBelow() 
+                    ? myrenameitem->itemBelow() : m_listView->firstChild() ) 
+                  : ( myrenameitem->itemAbove()
+                    ? myrenameitem->itemAbove() : m_listView->lastItem() ) );
+         myrenamecolumn  
+            = fwd ? KEBListView::NameColumn 
+                  : KEBListView::CommentColumn;
       }
       if (!myrenameitem 
         || myrenameitem == getFirstChild() 
