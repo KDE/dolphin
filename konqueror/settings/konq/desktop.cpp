@@ -114,6 +114,7 @@ KDesktopConfig::KDesktopConfig(QWidget *parent, const char *name)
 
   layout->addWidget(name_group);
   layout->setStretchFactor(name_group, 2);
+  layout->addStretch(1);
 
   load();
 }
