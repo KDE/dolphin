@@ -638,7 +638,7 @@ void Sidebar_Widget::activatedMenu(int id)
 void Sidebar_Widget::readConfig()
 {
 	m_singleWidgetMode = m_config->readBoolEntry("SingleWidgetMode",true);
-	m_showExtraButtons = m_config->readBoolEntry("ShowExtraButtons",true);
+	m_showExtraButtons = m_config->readBoolEntry("ShowExtraButtons",false);
 	m_showTabsLeft = m_config->readBoolEntry("ShowTabsLeft", true);
 	m_hideTabs = m_config->readBoolEntry("HideTabs", false);
 	if (m_initial) {
