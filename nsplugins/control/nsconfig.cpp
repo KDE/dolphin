@@ -18,6 +18,10 @@
  *  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
+#include <stdlib.h>
+#include <stdio.h>
+#include <unistd.h>
+
 #include <qlayout.h>
 #include <qvbox.h>
 #include <qgroupbox.h>
@@ -149,7 +153,6 @@ void NSPluginConfig::fillPluginList()
 
    QTextStream cache(&cachef);
 
-
    // root object
    QListViewItem *root = new QListViewItem( m_pluginList, i18n("Netscape Plugins") );
    root->setOpen( true );
@@ -166,22 +169,22 @@ void NSPluginConfig::fillPluginList()
       line = cache.readLine();
       kdDebug() << line << endl;
       if (line.isEmpty() || (line.left(1) == "#"))
-	 continue;
+         continue;
 
       if (line.left(1) == "[")
       {
-	 plugin = line.mid(1,line.length()-2);
-	 kdDebug() << "plugin=" << plugin << endl;
+         plugin = line.mid(1,line.length()-2);
+         kdDebug() << "plugin=" << plugin << endl;
 
-	 // add plugin root item
-	 next = new QListViewItem( root, i18n("Plugin"), plugin );
-	 next->setOpen( true );
-	 next->setSelectable( false );
-	 next->setExpandable( true );
+         // add plugin root item
+         next = new QListViewItem( root, i18n("Plugin"), plugin );
+         next->setOpen( true );
+         next->setSelectable( false );
+         next->setExpandable( true );
 
-	 lastMIME = 0;
+         lastMIME = 0;
 
-	 continue;
+         continue;
       }
 
       QStringList desc = QStringList::split(':', line, TRUE);
@@ -191,21 +194,21 @@ void NSPluginConfig::fillPluginList()
 
       if (!mime.isEmpty())
       {
-	 kdDebug() << "mime=" << mime << " desc=" << name << " suffix=" << suffixes << endl;
-	 lastMIME = new QListViewItem( next, lastMIME, i18n("MIME type"), mime );
-	 lastMIME->setOpen( true );
-	 lastMIME->setSelectable( false );
-	 lastMIME->setExpandable( true );
+         kdDebug() << "mime=" << mime << " desc=" << name << " suffix=" << suffixes << endl;
+         lastMIME = new QListViewItem( next, lastMIME, i18n("MIME type"), mime );
+         lastMIME->setOpen( true );
+         lastMIME->setSelectable( false );
+         lastMIME->setExpandable( true );
 
-	 QListViewItem *last = new QListViewItem( lastMIME, 0, i18n("Description"), name );
-	 last->setOpen( false );
-	 last->setSelectable( false );
-	 last->setExpandable( false );
+         QListViewItem *last = new QListViewItem( lastMIME, 0, i18n("Description"), name );
+         last->setOpen( false );
+         last->setSelectable( false );
+         last->setExpandable( false );
 
-	 last = new QListViewItem( lastMIME, last, i18n("Suffixes"), suffixes );
-	 last->setOpen( false );
-	 last->setSelectable( false );
-	 last->setExpandable( false );
+         last = new QListViewItem( lastMIME, last, i18n("Suffixes"), suffixes );
+         last->setOpen( false );
+         last->setSelectable( false );
+         last->setExpandable( false );
       }
    }
    kdDebug() << "<- NSPluginConfig::fillPluginList" << endl;
@@ -222,13 +225,13 @@ void NSPluginConfig::scan()
       QString scanExe = KGlobal::dirs()->findExe("nspluginscan");
       if (!scanExe)
       {
-	 kdDebug() << "can't find nspluginviewer" << endl;
-	 delete nspluginscan;
+         kdDebug() << "can't find nspluginviewer" << endl;
+         delete nspluginscan;
 
-	 KMessageBox::sorry ( this,
-			      i18n("The nspluginscan executable can't be found."
-				   "Netscape plugins won't be scanned.") );
-	 return;
+         KMessageBox::sorry ( this,
+                              i18n("The nspluginscan executable can't be found."
+                                   "Netscape plugins won't be scanned.") );
+         return;
       }
       progress.setProgress( 1 );
 
@@ -240,8 +243,8 @@ void NSPluginConfig::scan()
 
       while ( nspluginscan->isRunning() )
       {
-	 if ( progress.wasCancelled() ) break;
-	 kapp->processEvents();
+         if ( progress.wasCancelled() ) break;
+         kapp->processEvents();
       }
       progress.setProgress( 2 );
 
@@ -261,10 +264,21 @@ QString NSPluginConfig::quickHelp() const
 
 extern "C"
 {
-  KCModule *create_nsplugin(QWidget *parent, const char *name)
-  {
-    KGlobal::locale()->insertCatalogue("kcmnsplugin");
-    return new NSPluginConfig(parent, name);
-  };
+    KCModule *create_nsplugin(QWidget *parent, const char *name)
+    {
+        KGlobal::locale()->insertCatalogue("kcmnsplugin");
+        return new NSPluginConfig(parent, name);
+    };
+
+    void init_nsplugin()
+    {
+        KConfig *config = new KConfig("kcmnspluginrc", true);
+        config->setGroup("Misc");
+        bool scan = config->readBoolEntry( "startkdeScan", true );
+        delete config;
+
+        if ( scan )
+            system( "nspluginscan" );
+    }
 }
 #include "nsconfig.moc"
