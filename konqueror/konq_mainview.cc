@@ -1928,16 +1928,4 @@ void KonqMainView::initView()
   EMIT_EVENT( vView2, Konqueror::eventOpenURL, eventURL );
 }
 
-/******************************************************
- *
- * Global functions
- *
- ******************************************************/
-
-void openFileManagerWindow( const char *_url )
-{
-  KonqMainWindow *m_pShell = new KonqMainWindow( _url );
-  m_pShell->show();
-}
-
 #include "konq_mainview.moc"

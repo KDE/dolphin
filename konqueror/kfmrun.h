@@ -43,4 +43,14 @@ protected:
   KonqMainView* m_pView;  
 };
 
+/* Implement the openFileManagerWindow call that libkio does if necessary */
+class KonqFileManager : public KFileManager
+{
+public:
+  KonqFileManager() {} ;
+  virtual ~KonqFileManager() {} ;
+ 
+  virtual void openFileManagerWindow( const char *_url );
+};
+
 #endif

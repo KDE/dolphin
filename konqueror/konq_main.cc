@@ -327,6 +327,7 @@ int main( int argc, char **argv )
   // KMimeType::initStatic();
   // KService::initStatic();
   // KServiceTypeProfile::initStatic();
+  KonqFileManager fm;
 
   testLocalInstallation();
   

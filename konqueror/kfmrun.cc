@@ -19,6 +19,7 @@
 
 #include "kfmrun.h"
 #include "konq_mainview.h"
+#include "konq_mainwindow.h"
 
 #include <string.h>
 
@@ -59,6 +60,12 @@ void KfmRun::foundMimeType( const char *_type )
   cerr << "Nothing special to do here" << endl;
 
   KRun::foundMimeType( _type );
+}
+
+void KonqFileManager::openFileManagerWindow( const char *_url )
+{
+  KonqMainWindow *m_pShell = new KonqMainWindow( _url );
+  m_pShell->show();
 }
 
 #include "kfmrun.moc"
