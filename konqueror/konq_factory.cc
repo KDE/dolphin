@@ -41,7 +41,7 @@ KParts::ReadOnlyPart *KonqViewFactory::create( QWidget *parent, const char *name
 
   KParts::ReadOnlyPart *obj = 0L;
 
-  if ( !m_createKROP )
+  if ( m_createBrowser )
     obj = (KParts::ReadOnlyPart *)m_factory->create( parent, name, "Browser/View", m_args );
 
   if ( !obj )
@@ -142,7 +142,7 @@ KonqViewFactory KonqFactory::createView( const QString &serviceType,
     args = QStringList::split( " ", argStr );
   }
 
-  return KonqViewFactory( factory, args, service->serviceTypes().contains( "KParts/ReadOnlyPart" ) );
+  return KonqViewFactory( factory, args, service->serviceTypes().contains( "Browser/View" ) );
 }
 
 void KonqFactory::instanceRef()
