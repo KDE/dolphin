@@ -56,6 +56,8 @@
 #include <klocale.h>
 #include <qregexp.h>
 
+template class QList<KFileIVI>;
+
 class KonqIconViewFactory : public KLibFactory
 {
 public:
