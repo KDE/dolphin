@@ -19,27 +19,17 @@
 #ifndef __dcop_h
 #define __dcop_h
 
-#include <kmainwindow.h>
 #include <dcopobject.h>
-#include <kcommand.h>
 
-#define DCOP_ACCEPT m_modified
-
-// Those methods aren't in KEBTopLevel since KEBTopLevel registers in DCOP
-// and we need to create this DCOPObject after registration.
 class KBookmarkEditorIface : public QObject, public DCOPObject
 {
    Q_OBJECT
    K_DCOP
 public:
    KBookmarkEditorIface();
-   void connectToToplevel(class KEBTopLevel *top);
 k_dcop:
-   void slotDcopAddedBookmark2(QString filename, QString url, QString text, QString address, QString icon);
-   void slotDcopCreatedNewFolder2(QString filename, QString text, QString address);
-signals:
-   void addedBookmark(QString filename, QString url, QString text, QString address, QString icon);
-   void createdNewFolder(QString filename, QString text, QString address);
+   void slotDcopAddedBookmark(QString filename, QString url, QString text, QString address, QString icon);
+   void slotDcopCreatedNewFolder(QString filename, QString text, QString address);
 };
 
 #endif

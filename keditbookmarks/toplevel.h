@@ -76,6 +76,7 @@ public:
    void updateActions();
 
    bool readonly() { return m_readOnly; }
+   bool modified() { return m_modified; }
 
    void setAllOpen(bool open);
 
@@ -100,8 +101,6 @@ protected slots:
    void slotBookmarksChanged(const QString &, const QString &);
    void slotCommandExecuted();
    void slotNewToolbarConfig();
-   void slotDcopAddedBookmark(QString, QString, QString, QString, QString);
-   void slotDcopCreatedNewFolder(QString, QString, QString);
 
 private:
    void construct();

@@ -59,50 +59,33 @@
 
 #include "dcop.h"
 
+#define top KEBTopLevel::self()
+
 KBookmarkEditorIface::KBookmarkEditorIface()
  : QObject(), DCOPObject("KBookmarkEditor") {
 
-   connectDCOPSignal(0, "KBookmarkNotifier", "addedBookmark(QString,QString,QString,QString,QString)", "slotDcopAddedBookmark2(QString,QString,QString,QString,QString)", false);
-   connectDCOPSignal(0, "KBookmarkNotifier", "createdNewFolder(QString,QString,QString)", "slotDcopCreatedNewFolder2(QString,QString,QString)", false);
+   connectDCOPSignal(0, "KBookmarkNotifier", "addedBookmark(QString,QString,QString,QString,QString)", "slotDcopAddedBookmark(QString,QString,QString,QString,QString)", false);
+   connectDCOPSignal(0, "KBookmarkNotifier", "createdNewFolder(QString,QString,QString)", "slotDcopCreatedNewFolder(QString,QString,QString)", false);
 }
 
-void KBookmarkEditorIface::connectToToplevel(KEBTopLevel *top) {
-   connect(this, SIGNAL( addedBookmark(QString, QString, QString, QString, QString) ),
-           top,  SLOT( slotDcopAddedBookmark(QString, QString, QString, QString, QString) ));
-   connect(this, SIGNAL( createdNewFolder(QString, QString, QString) ),
-           top,  SLOT( slotDcopCreatedNewFolder(QString, QString, QString) ));
-}
-
-void KBookmarkEditorIface::slotDcopAddedBookmark2(QString filename, QString url, QString text, QString address, QString icon) {
-   emit addedBookmark(filename, url, text, address, icon);
-}
-
-void KBookmarkEditorIface::slotDcopCreatedNewFolder2(QString filename, QString text, QString address) {
-   emit createdNewFolder(filename, text, address);
-}
-
-// DESIGN - can these two be moved out of KEBTopLevel and into "middle layer"
-//          in fact, why not remove these extra functions altogether
-//          by somehow stringing together the connects?
-
-void KEBTopLevel::slotDcopCreatedNewFolder(QString filename, QString text, QString address) {
-   if (DCOP_ACCEPT && filename == MyManager::self()->path()) {
+void KBookmarkEditorIface::slotDcopCreatedNewFolder(QString filename, QString text, QString address) {
+   if (top->modified() && filename == MyManager::self()->path()) {
       kdDebug() << "slotDcopCreatedNewFolder(" << text << "," << address << ")" << endl;
       CreateCommand *cmd = new CreateCommand( 
                                   MyManager::self()->correctAddress(address), 
                                   text, QString::null, 
                                   true /*open*/, true /*indirect*/);
-      addCommand(cmd);
+      top->addCommand(cmd);
    }
 }
 
-void KEBTopLevel::slotDcopAddedBookmark(QString filename, QString url, QString text, QString address, QString icon) {
-   if (DCOP_ACCEPT && filename == MyManager::self()->path()) {
+void KBookmarkEditorIface::slotDcopAddedBookmark(QString filename, QString url, QString text, QString address, QString icon) {
+   if (top->modified() && filename == MyManager::self()->path()) {
       kdDebug() << "slotDcopAddedBookmark(" << url << "," << text << "," << address << "," << icon << ")" << endl;
       CreateCommand *cmd = new CreateCommand(
                                   MyManager::self()->correctAddress(address), 
                                   text, icon, KURL(url), true /*indirect*/);
-      addCommand(cmd);
+      top->addCommand(cmd);
    }
 }
 

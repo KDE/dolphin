@@ -7,12 +7,8 @@ basic plan:
       make empty constructors for all
       move doImport into the base constructor
    possible use of guistates for action enabling logic?
-   make an actionsimpl class
    recursive 404 finder, recursive sort
    add some metadata support - comments
-   search dialog
-   bugfix - 
-      crash when copying a selection into a child folder which is part of selection
 
 switch favicons to use the bookmarkiterator
 make an all dirs sort function that uses the bookmarkiterator

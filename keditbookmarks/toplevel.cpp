@@ -383,7 +383,7 @@ void KEBTopLevel::slotBookmarksChanged(const QString &, const QString &caller) {
    kdDebug() << "blah blah blah!!!: " << caller << " == " << kapp->name() << "?" << endl;
    // TODO umm.. what happens if a readonly gets a update for a non-readonly???
    // the non-readonly maybe has a pretty much random kapp->name() ??? umm...
-   if ((caller != kapp->name()) && !DCOP_ACCEPT) {
+   if ((caller != kapp->name()) && !m_modified) {
       kdDebug() << "KEBTopLevel::slotBookmarksChanged" << endl;
       // DESIGN - is this logic really unique?
       clearHistory();
