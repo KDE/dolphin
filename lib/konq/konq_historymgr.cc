@@ -41,6 +41,7 @@ KonqHistoryManager::KonqHistoryManager( QObject *parent, const char *name )
     KConfig *config = KGlobal::config();
     KConfigGroupSaver cs( config, "HistorySettings" );
     m_maxCount = config->readNumEntry( "Maximum of History entries", 500 );
+    m_maxCount = QMAX( 1, m_maxCount );
     m_maxAgeDays = config->readNumEntry( "Maximum age of History entries", 90);
 
     m_history.setAutoDelete( true );
@@ -246,8 +247,8 @@ void KonqHistoryManager::addToHistory( bool pending, const KURL& url,
 
 // interface of KParts::HistoryManager
 // Usually, we only record the history for non-local URLs (i.e. filterOut()
-// returns true. But when using the HistoryProvider interface, we record 
-// exactly those filtered-out urls. 
+// returns true. But when using the HistoryProvider interface, we record
+// exactly those filtered-out urls.
 // Moreover, we  don't get any pending/confirming entries, just one insert()
 void KonqHistoryManager::insert( const QString& url )
 {
