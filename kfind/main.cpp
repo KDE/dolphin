@@ -1,8 +1,8 @@
 #include <signal.h>
 
+#include <qdir.h>
 #include <kapp.h>
 #include <qfileinf.h>
-
 #include "kftypes.h"
 #include "kfarch.h"
 #include "kfind.h"
@@ -41,10 +41,8 @@ int main( int argc, char ** argv )
 	break;
       };
 
-    if (i==argc) {
-	char buffer[1000];
-       searchPath = getcwd(buffer, 0);
-    };
+    if (i==argc) 
+       searchPath = QDir::currentDirPath();
 
     if ( searchPath.isNull() )
       searchPath = getenv( "HOME" );
