@@ -26,6 +26,7 @@
 #include "kfind.h"
 #include "kfindtop.h"
 #include <klocale.h>
+#include <kstdaccel.h>
 
 #include "version.h" 
 
@@ -110,20 +111,22 @@ KfindTop::~KfindTop()
 
 void KfindTop::menuInit()
   {
+    KStdAccel stdAccel;
+
     _fileMenu   = new QPopupMenu;
     _editMenu   = new QPopupMenu;
     _optionMenu = new QPopupMenu;
     _helpMenu   = new QPopupMenu;        
 
     fileStart = _fileMenu->insertItem(i18n("&Start search"), _kfind,
-			      SLOT(startSearch()), CTRL + Key_F);
+			      SLOT(startSearch()), stdAccel.find());
     fileStop = _fileMenu->insertItem(i18n("S&top search"), _kfind,
-			      SLOT(stopSearch()), CTRL + Key_C);    
+			      SLOT(stopSearch()), Key_Escape);    
     _fileMenu->setItemEnabled(fileStop, FALSE);
     _fileMenu->insertSeparator();
 
     openWithM  = _fileMenu->insertItem(i18n("&Open"),
-				       this,SIGNAL(open()), CTRL+Key_O );
+				       this,SIGNAL(open()), stdAccel.open());
     toArchM    = _fileMenu->insertItem(i18n("&Add to archive"),
 				       this,SIGNAL(addToArchive()));
     _fileMenu             ->insertSeparator();
@@ -136,21 +139,21 @@ void KfindTop::menuInit()
 				       this,SIGNAL(openFolder()));
     _fileMenu             ->insertSeparator();
     saveSearchM= _fileMenu->insertItem(i18n("&Save Search"),
-				       this,SIGNAL(saveResults()),CTRL+Key_S);
+				       this,SIGNAL(saveResults()),stdAccel.save());
     _fileMenu             ->insertSeparator();
     quitM      = _fileMenu->insertItem(i18n("&Quit"),qApp,
-				       SLOT(quit()),CTRL+Key_Q);
+				       SLOT(quit()),stdAccel.quit());
 
     for(int i=openWithM;i>quitM;i--)
        _fileMenu->setItemEnabled(i,FALSE);  
    
     int undo =       _editMenu->insertItem(i18n("&Undo"),
-					   this, SIGNAL(undo()) );
+					   this, SIGNAL(undo()), stdAccel.undo() );
     _editMenu                 ->insertSeparator();
     int cut  =       _editMenu->insertItem(i18n("&Cut"),
-					   this, SIGNAL(cut()) );
+					   this, SIGNAL(cut()), stdAccel.cut() );
     editCopy =       _editMenu->insertItem(i18n("&Copy"),
-					   this, SLOT(copySelection()) );
+					   this, SLOT(copySelection()), stdAccel.copy() );
     _editMenu->insertSeparator();
     editSelectAll = _editMenu->insertItem(i18n("&Select All"),
 					   this,SIGNAL(selectAll()) );
