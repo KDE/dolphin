@@ -56,7 +56,7 @@ void KonqListViewDir::open( bool _open, bool _reload )
 {
   if ( _open != isOpen() || _reload )
   {
-    KonqTreeViewWidget *treeView = static_cast<KonqTreeViewWidget *>(listView());
+    KonqTreeViewWidget *treeView = static_cast<KonqTreeViewWidget *>(m_pListViewWidget);
 
     if ( _open )
     {
