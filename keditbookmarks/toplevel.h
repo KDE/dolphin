@@ -33,6 +33,8 @@
 #include <kparts/browserextension.h>
 #include <khtml_part.h>
 
+// #define DEBUG_ADDRESSES
+
 class KToggleAction;
 class TestLink;
 

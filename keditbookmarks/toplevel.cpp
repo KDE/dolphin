@@ -47,35 +47,6 @@
 
 #include <favicons.h>
 
-//#define DEBUG_ADDRESSES
-void KEBListView::rename( QListViewItem *_item, int c )
-{
-    KEBListViewItem * item = static_cast<KEBListViewItem *>(_item);
-    if ( !(item->bookmark().isGroup() && c == 1) 
-      && !item->bookmark().isSeparator() 
-      && ( firstChild() != item) 
-    ) {
-       KListView::rename( _item, c );
-    }
-}
-
-bool KEBListView::acceptDrag(QDropEvent * e) const
-{
-    return e->source() == viewport() || KBookmarkDrag::canDecode( e );
-}
-
-QDragObject *KEBListView::dragObject()
-{
-    if( KEBTopLevel::self()->numSelected() == 0 )
-        return (QDragObject*)0;
-
-    /* viewport() - not sure why klistview does it this way*/
-    QValueList<KBookmark> bookmarks = KEBTopLevel::self()->getBookmarkSelection();
-    KBookmarkDrag * drag = KBookmarkDrag::newDrag( bookmarks, viewport() );
-    drag->setPixmap( SmallIcon( (bookmarks.size() > 1) ? ("bookmark") : (bookmarks.first().icon()) ) );
-    return drag;
-}
-
 KEBTopLevel * KEBTopLevel::s_topLevel = 0L;
 KBookmarkManager * KEBTopLevel::s_pManager = 0L;
 
@@ -169,11 +140,10 @@ void KEBTopLevel::createActions() {
     m_taShowNS = new KToggleAction( i18n( "&Show Netscape Bookmarks in Konqueror Windows" ), 0, this, SLOT( slotShowNS() ), actionCollection(), "settings_showNS" );
 }
 
-// TODO - add a few default place to the file dialog somehow?,
-//      - e.g kfile bookmarks +  normal bookmarks file dir
-
 void KEBTopLevel::slotLoad()
 {
+   // TODO - add a few default place to the file dialog somehow?,
+   //      - e.g kfile bookmarks +  normal bookmarks file dir
     if (!queryClose()) return;
     QString bookmarksFile = KFileDialog::getOpenFileName( QString::null, "*.xml", this );
     m_bookmarksFilename = bookmarksFile;

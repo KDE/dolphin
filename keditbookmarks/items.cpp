@@ -44,6 +44,34 @@
 
 #include <konq_faviconmgr.h>
 
+void KEBListView::rename( QListViewItem *_item, int c )
+{
+    KEBListViewItem * item = static_cast<KEBListViewItem *>(_item);
+    if ( !(item->bookmark().isGroup() && c == 1) 
+      && !item->bookmark().isSeparator() 
+      && ( firstChild() != item) 
+    ) {
+       KListView::rename( _item, c );
+    }
+}
+
+bool KEBListView::acceptDrag(QDropEvent * e) const
+{
+    return e->source() == viewport() || KBookmarkDrag::canDecode( e );
+}
+
+QDragObject *KEBListView::dragObject()
+{
+    if( KEBTopLevel::self()->numSelected() == 0 )
+        return (QDragObject*)0;
+
+    /* viewport() - not sure why klistview does it this way*/
+    QValueList<KBookmark> bookmarks = KEBTopLevel::self()->getBookmarkSelection();
+    KBookmarkDrag * drag = KBookmarkDrag::newDrag( bookmarks, viewport() );
+    drag->setPixmap( SmallIcon( (bookmarks.size() > 1) ? ("bookmark") : (bookmarks.first().icon()) ) );
+    return drag;
+}
+
 // toplevel item (there should be only one!)
 KEBListViewItem::KEBListViewItem(QListView *parent, const KBookmark & group )
     : QListViewItem(parent, i18n("Bookmarks") ), m_bookmark(group)
