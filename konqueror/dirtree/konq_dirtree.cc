@@ -40,6 +40,7 @@
 #include <kio/paste.h>
 #include <klibloader.h>
 #include <klocale.h>
+#include <kurldrag.h>
 #include <konq_drag.h>
 #include <konq_fileitem.h>
 #include <konq_operations.h>
@@ -152,18 +153,15 @@ void KonqDirTreeBrowserExtension::copy()
 
 KonqDrag * KonqDirTreeBrowserExtension::konqDragObject()
 {
-  QStringList lst;
-
   KonqDirTreeItem *selection = static_cast<KonqDirTreeItem *>( m_tree->selectedItem() );
 
   if ( !selection )
     return 0L;
 
-  lst.append( selection->fileItem()->url().url() );
+  KURL::List lst;
+  lst.append( selection->fileItem()->url() );
 
-  KonqDrag *drag = new KonqDrag( 0L /* no parent ! */ );
-  drag->setUnicodeUris( lst );
-  return drag;
+  return KonqDrag::newDrag( lst, false, 0L /* no parent ! */ );
 }
 
 void KonqDirTreeBrowserExtension::paste()
@@ -521,7 +519,7 @@ void KonqDirTree::contentsDropEvent( QDropEvent *ev )
       if ( url.isLocalFile() )
       {
           KURL::List lst;
-          if ( KonqDrag::decode( ev, lst ) ) // Are they urls ?
+          if ( KURLDrag::decode( ev, lst ) ) // Are they urls ?
           {
               KURL::List::Iterator it = lst.begin();
               for ( ; it != lst.end() ; it++ )
@@ -584,11 +582,10 @@ void KonqDirTree::contentsMouseMoveEvent( QMouseEvent *e )
   if ( !item || !item->isSelectable() )
     return;
 
-  QStrList lst;
-  lst.append(static_cast<KonqDirTreeItem *>( item )->fileItem()->url().url().local8Bit().data());
+  KURL::List lst;
+  lst.append(static_cast<KonqDirTreeItem *>( item )->fileItem()->url());
 
-  KonqDrag *drag = new KonqDrag( viewport() );
-  drag->setUris( lst );
+  QUriDrag * drag = KURLDrag::newDrag( lst, viewport() );
   QPoint hotspot;
   hotspot.setX( item->pixmap( 0 )->width() / 2 );
   hotspot.setY( item->pixmap( 0 )->height() / 2 );

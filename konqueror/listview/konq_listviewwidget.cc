@@ -38,6 +38,7 @@
 #include <kprotocolinfo.h>
 #include <konq_settings.h>
 #include <kaction.h>
+#include <kurldrag.h>
 
 #include <stdlib.h>
 #include <assert.h>
@@ -454,11 +455,11 @@ void KonqBaseListViewWidget::viewportDropEvent( QDropEvent *ev  )
 void KonqBaseListViewWidget::startDrag()
 {
          // Collect all selected items
-         QStrList urls;
+         KURL::List urls;
          iterator it = begin();
          for( ; it != end(); it++ )
             if ( it->isSelected() )
-               urls.append( it->item()->url().url().ascii() );
+               urls.append( it->item()->url() );
 
          // Multiple URLs ?
 
@@ -478,7 +479,7 @@ void KonqBaseListViewWidget::startDrag()
          // Calculate hotspot
          QPoint hotspot;
 
-         QUriDrag *d = new QUriDrag( urls, viewport() );
+         QUriDrag *d = KURLDrag::newDrag( urls, viewport() );
          if ( !pixmap2.isNull())
          {
             hotspot.setX( pixmap2.width() / 2 );
@@ -889,7 +890,7 @@ void KonqBaseListViewWidget::paintEmptyArea( QPainter *p, const QRect &r )
     }
 }
 
-void KonqBaseListViewWidget::disableIcons( const QStrList & lst )
+void KonqBaseListViewWidget::disableIcons( const KURL::List & lst )
 {
   iterator kit = begin();
   for( ; kit != end(); ++kit )
@@ -897,9 +898,9 @@ void KonqBaseListViewWidget::disableIcons( const QStrList & lst )
       bool bFound = false;
       // Wow. This is ugly. Matching two lists together....
       // Some sorting to optimise this would be a good idea ?
-      for (QStrListIterator it(lst); !bFound && *it; ++it)
+      for (KURL::List::ConstIterator it = lst.begin(); !bFound && it != lst.end(); ++it)
       {
-          if ( (*kit).item()->url().url() == QString::fromLatin1( *it ) ) // *it is encoded already
+          if ( (*kit).item()->url() == *it ) // *it is encoded already
           {
               bFound = true;
               // maybe remove "it" from lst here ?

@@ -119,7 +119,7 @@ class KonqBaseListViewWidget : public KListView
       virtual void saveState( QDataStream & ) {}
       virtual void restoreState( QDataStream & ) {}
 
-      virtual void disableIcons( const QStrList & lst );
+      virtual void disableIcons( const KURL::List & lst );
 
    public slots:
       //virtual void slotOnItem( KonqBaseListViewItem* _item );

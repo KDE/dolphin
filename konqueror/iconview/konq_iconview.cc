@@ -1105,7 +1105,7 @@ QString KonqKfmIconView::makeSizeKey( KFileIVI *item )
     return QString::number( item->item()->size() ).rightJustify( 20, '0' );
 }
 
-void KonqKfmIconView::disableIcons( const QStrList & lst )
+void KonqKfmIconView::disableIcons( const KURL::List & lst )
 {
     m_pIconView->disableIcons( lst );
 }

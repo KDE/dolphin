@@ -172,18 +172,16 @@ void ListViewBrowserExtension::copySelection( bool move )
 
   m_listView->listViewWidget()->selectedItems( selection );
 
-  QStrList lstURLs;
+  KURL::List lstURLs;
 
   QValueList<KonqBaseListViewItem*>::ConstIterator it = selection.begin();
   QValueList<KonqBaseListViewItem*>::ConstIterator end = selection.end();
   for (; it != end; ++it )
   {
-    lstURLs.append( (*it)->item()->url().url().local8Bit().data() );
+    lstURLs.append( (*it)->item()->url() );
   }
 
-  KonqDrag *urlData = new KonqDrag;
-  urlData->setUris( lstURLs );
-  urlData->setMoveSelection( move );
+  KonqDrag *urlData = KonqDrag::newDrag( lstURLs, move );
   QApplication::clipboard()->setData( urlData );
 }
 
@@ -321,7 +319,7 @@ void KonqListView::restoreState( QDataStream &stream )
     m_pListView->restoreState( stream );
 }
 
-void KonqListView::disableIcons( const QStrList &lst )
+void KonqListView::disableIcons( const KURL::List &lst )
 {
     m_pListView->disableIcons( lst );
 }
