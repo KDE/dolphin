@@ -416,7 +416,7 @@ void KonqCombo::setConfig( KConfig *kc )
 
 void KonqCombo::mouseDoubleClickEvent( QMouseEvent * )
 {
-    selectAll();
+    lineEdit()->selectAll();
 }
 
 #include "konq_combo.moc"
