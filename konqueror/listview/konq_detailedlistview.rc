@@ -1,14 +1,14 @@
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
 <kpartgui name="KonqDetailedListView" version="6">
 <MenuBar>
- <Menu name="edit">
+ <Menu name="edit"><text>&amp;Edit</text>
   <Action name="select"/>
   <Action name="unselect"/>
   <Action name="selectall"/>
   <Action name="unselectall"/>
   <Action name="invertselection"/>
  </Menu>
- <Menu name="view">
+ <Menu name="view"><text>&amp;View</text>
   <Menu name="iconview_mode"><text>Icon Size</text>
    <Action name="modedefault"/>
    <Separator/>

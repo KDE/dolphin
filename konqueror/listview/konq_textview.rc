@@ -1,13 +1,13 @@
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
 <kpartgui name="KonqTextView" version="2">
 <MenuBar>
- <Menu name="edit">
+ <Menu name="edit"><text>&amp;Edit</text>
   <Action name="select"/>
   <Action name="unselect"/>
   <Action name="unselectall"/>
   <Action name="invertselection"/>
  </Menu>
- <Menu name="view">
+ <Menu name="view"><text>&amp;View</text>
   <Action name="show_dot" />
   <Action name="sort_caseinsensitive"/>
   <Menu name="listview_show"><text>Show Details...</text>
