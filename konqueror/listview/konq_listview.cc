@@ -649,7 +649,7 @@ void KonqListView::setupActions()
   m_paInvertSelection = new KAction( i18n( "&Invert Selection" ), CTRL+Key_Asterisk, this, SLOT( slotInvertSelection() ), actionCollection(), "invertselection" );
 
   m_paShowDot = new KToggleAction( i18n( "Show &Hidden Files" ), 0, this, SLOT( slotShowDot() ), actionCollection(), "show_dot" );
-  m_paShowDot->setCheckedState(i18n("Hide &Hidden Files"));
+//  m_paShowDot->setCheckedState(i18n("Hide &Hidden Files"));
   m_paCaseInsensitive = new KToggleAction(i18n("Case Insensitive Sort"), 0, this, SLOT(slotCaseInsensitive()),actionCollection(), "sort_caseinsensitive" );
 
   newIconSize( KIcon::SizeSmall /* default size */ );
