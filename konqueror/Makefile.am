@@ -1,4 +1,3 @@
-
 INCLUDES  = $(MICO_INCLUDES) $(all_includes) -I$(idldir)
 LDFLAGS   = $(all_libraries) $(MICO_LDFLAGS) $(KDE_RPATH)
 LDADD = -lkparts -lkpartsui -lkom $(LIB_KIO) $(LIB_KHTML) $(LIB_KDEUI) \
@@ -8,16 +7,21 @@ LDADD = -lkparts -lkpartsui -lkom $(LIB_KIO) $(LIB_KHTML) $(LIB_KDEUI) \
 
 bin_PROGRAMS = konqueror
 
-konqueror_SOURCES =  konq_main.cc konq_mainwindow.cc konqueror.cc \
-	kbookmark.cc konq_iconview.cc kiconcontainer.cc \
-	kfmpaths.cc xview.cc kfmguiprops.cc konq_baseview.cc \
-	konq_mainview.cc kfmpopup.cc kfmviewprops.cc
+# Source files, please keep sorted.
+konqueror_SOURCES =  kbookmark.cc kbrowser.cc \
+	kfmguiprops.cc kfmpaths.cc kfmpopup.cc kfmviewprops.cc \
+	kiconcontainer.cc \
+	konq_baseview.cc konq_htmlview.cc konq_iconview.cc \
+	konq_main.cc konq_mainview.cc konq_mainwindow.cc konqueror.cc \
+	xview.cc
 
 # noinst_HEADERS = ... to be completed
 
-METASOURCES = konq_main.moc konq_mainwindow.moc \
-	kbookmark.moc konq_iconview.moc kiconcontainer.moc \
-	konq_mainview.moc kfmpopup.moc
+METASOURCES = kbookmark.moc kbrowser.moc \
+	kfmpopup.moc \
+	kiconcontainer.moc \
+	konq_htmlview.moc konq_iconview.moc \
+	konq_main.moc konq_mainview.moc konq_mainwindow.moc
 
 kdelnk_DATA = konqueror_part.kdelnk
 kdelnkdir = $(kde_datadir)/../partlnk
