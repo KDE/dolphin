@@ -82,7 +82,7 @@ KRootOptions::KRootOptions(KConfig *config, QWidget *parent, const char *name )
     " are doing!") );
 
   row++;
-  topLevelBox = new QCheckBox(i18n("Enable Top Level Desktop &Menu"), this);
+  topLevelBox = new QCheckBox(i18n("Enable Desktop &Menu"), this);
   lay->addMultiCellWidget(topLevelBox, row, row, 0, 1);
   connect(topLevelBox, SIGNAL(clicked()), this, SLOT(changed()));
   QWhatsThis::add( topLevelBox, i18n("Check this option if you want the"
