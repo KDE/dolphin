@@ -32,6 +32,7 @@
 #include <konq_pixmapprovider.h>
 #include <konq_operations.h>
 #include <konqbookmarkmanager.h>
+#include <klineeditdlg.h>
 
 #include <config.h>
 #include <pwd.h>
@@ -134,6 +135,7 @@ KonqMainWindow::KonqMainWindow( const KURL &initialURL, bool openInitialURL, con
   m_viewModeMenu = 0;
   m_paCopyFiles = 0L;
   m_paMoveFiles = 0L;
+  m_paNewDir = 0L;
   m_bookmarkBarActionCollection = 0L;
 
   KConfig *config = KGlobal::config();
@@ -1636,6 +1638,8 @@ void KonqMainWindow::slotPartActivated( KParts::Part *part )
       m_paCopyFiles->setEnabled( false );
     if ( m_paMoveFiles )
       m_paMoveFiles->setEnabled( false );
+    if ( m_paNewDir )
+      m_paNewDir->setEnabled( true );
   }
   createGUI( part );
 
@@ -2098,6 +2102,19 @@ bool KonqMainWindow::askForTarget(const QString& text, KURL& url)
 void KonqMainWindow::slotRequesterClicked( KURLRequester *req )
 {
     req->fileDialog()->setMode(KFile::Mode(KFile::Directory|KFile::ExistingOnly));
+}
+
+//copied from libkonq/konq_popupmenu.cc
+void KonqMainWindow::slotNewDir()
+{
+    KLineEditDlg l( i18n("New Directory"), i18n("Directory"), 0L );
+    if ( l.exec() )
+    {
+        QString name = KIO::encodeFileName( l.text() );
+        KURL url=m_currentView->url();
+        url.addPath( name );
+        KonqOperations::mkdir( 0L, url );
+    }
 }
 
 void KonqMainWindow::slotCopyFiles()
@@ -3043,11 +3060,14 @@ void KonqMainWindow::updateViewActions()
       // mc users want F5 for Copy and F6 for move, but I can't make that default.
       m_paCopyFiles = new KAction( i18n("Copy Files"), Key_F7, this, SLOT( slotCopyFiles() ), actionCollection(), "copyfiles" );
       m_paMoveFiles = new KAction( i18n("Move Files"), Key_F8, this, SLOT( slotMoveFiles() ), actionCollection(), "movefiles" );
+      m_paNewDir    = new KAction( i18n("New Directory"), Key_F10, this, SLOT( slotNewDir() ), actionCollection(), "newdir" );
       QPtrList<KAction> lst;
       lst.append( m_paCopyFiles );
       lst.append( m_paMoveFiles );
+      lst.append( m_paNewDir );
       m_paCopyFiles->setEnabled( false );
       m_paMoveFiles->setEnabled( false );
+      m_paNewDir->setEnabled( true );
       plugActionList( "operations", lst );
     }
   }
@@ -3058,6 +3078,8 @@ void KonqMainWindow::updateViewActions()
     m_paCopyFiles = 0L;
     delete m_paMoveFiles;
     m_paMoveFiles = 0L;
+    delete m_paNewDir;
+    m_paNewDir = 0L;
   }
 }
 
@@ -3152,6 +3174,10 @@ void KonqMainWindow::enableAction( const char * name, bool enabled )
   else if (m_paMoveFiles && !strcmp( name, "cut" ))
   {
     m_paMoveFiles->setEnabled( enabled );
+  }
+  else if (m_paNewDir && !strcmp( name, "newdir" ))
+  {
+    m_paNewDir->setEnabled( enabled );
   }
 }
 

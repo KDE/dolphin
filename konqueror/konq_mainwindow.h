@@ -309,6 +309,7 @@ public slots:
   void slotRun();
   void slotCopyFiles();
   void slotMoveFiles();
+  void slotNewDir();
   void slotOpenTerminal();
   void slotOpenLocation();
   void slotToolFind();
@@ -551,6 +552,7 @@ private:
 
   KAction *m_paCopyFiles;
   KAction *m_paMoveFiles;
+  KAction *m_paNewDir;
 
   KonqLogoAction *m_paAnimatedLogo;
 
