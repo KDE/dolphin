@@ -92,7 +92,6 @@ public:
   
   virtual void setStatusBarText( const char *_text );
   virtual void setLocationBarURL( OpenParts::Id id, const char *_url );
-  void setUpURL( const char *_url );
   
   virtual void createNewWindow( const char *url );
   virtual void popupMenu( const Konqueror::View::MenuPopupRequest &popup );
@@ -192,6 +191,10 @@ protected:
   void initGui();
   void initPanner();
   void initView();
+  
+  /* Enable or disable the "up" button (and the menu item) depending
+   * on the paremeter, _url */
+  void setUpEnabled( const char * _url );
 
   /* Changes the view mode of the current view, if different from viewName*/
   void changeViewMode( const char *viewName );
@@ -246,7 +249,6 @@ protected:
     
     Konqueror::View_var m_vView;
     
-    QString m_strUpURL;
     QString m_strLocationBarURL;
     
     string m_strLastURL;

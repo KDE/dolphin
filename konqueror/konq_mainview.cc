@@ -526,10 +526,12 @@ void KonqMainView::setActiveView( OpenParts::Id id )
 
   CORBA::String_var vn = m_currentView->m_vView->viewName();
   cerr << "current view is a " << vn.in() << endl;
+  CORBA::String_var sViewURL = m_currentView->m_vView->url();
+  cerr << "its url is " << sViewURL.in() << endl;
 
   if ( !CORBA::is_nil( m_vToolBar ) )
   {
-    m_vToolBar->setItemEnabled( TOOLBAR_UP_ID, !m_currentView->m_strUpURL.isEmpty() );
+    setUpEnabled( sViewURL.in() );
     m_vToolBar->setItemEnabled( TOOLBAR_BACK_ID, m_currentView->m_lstBack.size() != 0 );
     m_vToolBar->setItemEnabled( TOOLBAR_FORWARD_ID, m_currentView->m_lstForward.size() != 0 );
   }
@@ -779,22 +781,25 @@ void KonqMainView::setLocationBarURL( OpenParts::Id id, const char *_url )
   
   if ( ( id == m_currentId ) && (!CORBA::is_nil( m_vLocationBar ) ) )
     m_vLocationBar->setLinedText( TOOLBAR_URL_ID, _url );
+
+  setUpEnabled( _url ); // new url -> check if up is possible
 }
 
-void KonqMainView::setUpURL( const char *_url )
+void KonqMainView::setUpEnabled( const char * _url )
 {
-  if ( _url == 0 )
-    m_currentView->m_strUpURL = "";
+  KURL u( _url );
+  bool bHasUpURL;
+  if ( !u.hasPath() ) // _url == 0, is empty, or has no path
+    bHasUpURL = false;
   else
-    m_currentView->m_strUpURL = _url;
+  {
+    debug("u.path() = '%s'",u.path());
+    bHasUpURL = ( strcmp( u.path(), "/") != 0 );
+  }
 
-  if ( CORBA::is_nil( m_vToolBar ) )
-    return;
-
-  if ( m_currentView->m_strUpURL.isEmpty() )
-    m_vToolBar->setItemEnabled( TOOLBAR_UP_ID, false );
-  else
-    m_vToolBar->setItemEnabled( TOOLBAR_UP_ID, true );
+  if ( !CORBA::is_nil( m_vToolBar ) )
+    m_vToolBar->setItemEnabled( TOOLBAR_UP_ID, bHasUpURL );
+  //TODO same in "go" menu
 }
 
 void KonqMainView::createNewWindow( const char *url )
@@ -920,8 +925,9 @@ void KonqMainView::popupMenu( const Konqueror::View::MenuPopupRequest &popup )
     m_popupMenu->insertSeparator();
 
     id = m_popupMenu->insertItem( *KPixmapCache::toolbarPixmap( "up.xpm" ), i18n( "Up" ), this, SLOT( slotUp() ), 100 );
-    if ( !m_currentView->m_strUpURL.isEmpty() )
-      m_popupMenu->setItemEnabled( id, false );
+    // TODO !
+    // if ( !m_currentView->m_strUpURL.isEmpty() )
+    //   m_popupMenu->setItemEnabled( id, false );
 
     id = m_popupMenu->insertItem( *KPixmapCache::toolbarPixmap( "back.xpm" ), i18n( "Back" ), this, SLOT( slotBack() ), 101 );
     if ( m_currentView->m_lstBack.size() == 0 )
@@ -1074,27 +1080,13 @@ void KonqMainView::openDirectory( const char *url )
   assert( KURL::split( url, lst ) );
 
   // Do we perhaps want to display a html index file ? => Save the path of the URL
-  QString tmppath;
+  //QString tmppath;
   //if ( lst.size() == 1 && lst.front().isLocalFile() /*&& isHTMLAllowed()*/ )
   //tmppath = lst.front().path();
 
-//  if (!strcmp(lst.getFirst()->protocol(), "file"))
-//    tmppath = lst.getFirst()->path();
-  // Get parent directory
-  QString p = lst.getLast()->path();
-  if ( p.isEmpty() || p == "/" )
-    setUpURL( 0 );
-  else
-  { //FIXME: This seems to be broken! David, is this related to your
-    //       KURL changes? (Simon)
-    KURL * lastUrl = lst.getLast();
-    QString dir = lastUrl->directory( true, true );
-    lastUrl->setPath( dir );
-    QString _url;
-    KURL::join( lst, _url );
-    setUpURL( _url );
-  }
-  
+  // TODO : a method with all the lines above in it. This is too much
+  // duplicated (David).       --> openUrlInCurrentView() ? ;)
+  setUpEnabled( url );
   Konqueror::EventOpenURL eventURL;
   eventURL.url = CORBA::string_dup( url );
   eventURL.reload = (CORBA::Boolean)false;
@@ -1111,9 +1103,7 @@ void KonqMainView::openHTML( const char *url )
   if ( strcmp( viewName.in(), "KonquerorHTMLView" ) != 0 )
     changeViewMode( "KonquerorHTMLView" );
 
-  // createViewMenu();
-
-  setUpURL( 0 );
+  setUpEnabled( url );
   
   Konqueror::EventOpenURL eventURL;
   eventURL.url = CORBA::string_dup( url );
@@ -1147,7 +1137,7 @@ void KonqMainView::openPluginView( const char *url, const QString serviceType, K
   
   m_mapViews[ vView->id() ] = m_currentView;
         
-  setUpURL( 0 );
+  setUpEnabled( 0 /* was url */ );
   
   Konqueror::EventOpenURL eventURL;
   eventURL.url = CORBA::string_dup( url );
@@ -1234,6 +1224,7 @@ void KonqMainView::splitView ( Konqueror::NewViewPosition newViewPosition )
   connectView( vView );
   insertView( vView, newViewPosition );
   
+  setUpEnabled( url.in() );
   Konqueror::EventOpenURL eventURL;
   eventURL.url = url;
   eventURL.reload = (CORBA::Boolean)false;
@@ -1506,10 +1497,13 @@ void KonqMainView::slotNewWindow()
 
 void KonqMainView::slotUp()
 {
-  assert( !m_currentView->m_strUpURL.isEmpty() );
-
+  CORBA::String_var url = m_currentView->m_vView->url();
+  KURL u( url );
+  u.cd(".."); // KURL does it for us
+  
+  setUpEnabled( u.url() );
   Konqueror::EventOpenURL eventURL;
-  eventURL.url = CORBA::string_dup( m_currentView->m_strUpURL.ascii() );
+  eventURL.url = CORBA::string_dup( u.url() ); // encoded URL
   eventURL.reload = (CORBA::Boolean)false;
   eventURL.xOffset = 0;
   eventURL.yOffset = 0;
@@ -1543,6 +1537,7 @@ void KonqMainView::slotBack()
     m_currentView->m_vView->restoreState( h.entry );
   else
   {
+    setUpEnabled( h.strURL.c_str() );
     Konqueror::EventOpenURL eventURL;
     eventURL.url = CORBA::string_dup( h.strURL.c_str() );
     eventURL.reload = (CORBA::Boolean)false;
@@ -1570,6 +1565,7 @@ void KonqMainView::slotForward()
     m_currentView->m_vView->restoreState( h.entry );
   else
   {
+    setUpEnabled( h.strURL.c_str() );
     Konqueror::EventOpenURL eventURL;
     eventURL.url = CORBA::string_dup( h.strURL.c_str() );
     eventURL.reload = (CORBA::Boolean)false;
@@ -1888,9 +1884,8 @@ void KonqMainView::initView()
   insertView( vView1, Konqueror::left );
   insertView( vView2, Konqueror::right );
 
-  setActiveView( vView1->id() );
-
   //temporary...
+  setUpEnabled( m_strTempURL.c_str() );
   Konqueror::EventOpenURL eventURL;
   eventURL.url = CORBA::string_dup( m_strTempURL.c_str() );
   eventURL.reload = (CORBA::Boolean)false;
@@ -1904,6 +1899,8 @@ void KonqMainView::initView()
 
   EMIT_EVENT( vView1, Konqueror::eventOpenURL, eventURL );
   EMIT_EVENT( vView2, Konqueror::eventOpenURL, eventURL );
+
+  setActiveView( vView1->id() );
 }
 
 void KonqMainView::openBookmarkURL( const char *url )
