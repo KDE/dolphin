@@ -37,7 +37,6 @@
 #include <kdebug.h>
 #include <krun.h>
 #include <kprocess.h>
-#include <kmsgbox.h>
 #include <kpropsdlg.h>
 #include <krun.h>
 
@@ -298,8 +297,10 @@ void KfindWindow::deleteFiles()
   {
     QString tmp = i18n("Do you really want to delete file:\n%1")
                 .arg(lbx->text(lbx->currentItem()));
-    if(KMsgBox::yesNo(parentWidget(),i18n("Delete File"),
-                      tmp, KMsgBox::QUESTION | KMsgBox::DB_SECOND) == 1)
+    if (!QMessageBox::information(parentWidget(),
+				  i18n("Delete File - Find Files"),
+				  tmp, i18n("&Yes"), i18n("&No"), 0, 
+				  1))
       {
         QFileInfo *file = new QFileInfo(lbx->text(lbx->currentItem()));
 	if (file->isFile()||file->isSymLink())
@@ -309,15 +310,15 @@ void KfindWindow::deleteFiles()
                     {
     	              case EACCES: 
 			QMessageBox::warning(parentWidget(),
-					   i18n("Error"),
+					   i18n("Error - Find Files"),
 					   i18n("You have no permission\n to delete this file"),
-					   i18n("OK"));
+					   i18n("&Ok"));
                                    break;
                       default: 
 			QMessageBox::warning(parentWidget(),
-					     i18n("Error"),
+					     i18n("Error - Find Files"),
 					     i18n("It isn't possible to delete\nselected file"),
-					     i18n("OK"));
+					     i18n("&Ok"));
                     }
                 else
                   {
