@@ -1,13 +1,9 @@
-
 #include "konq_aboutpage.h"
 #include "konq_mainwindow.h"
 #include "konq_frame.h"
 #include "konq_view.h"
 
-#include <qvbox.h>
-#include <qtimer.h>
 #include <qfile.h>
-#include <qtextstream.h>
 
 #include <kapp.h>
 #include <kinstance.h>
