@@ -1,5 +1,0 @@
-[Desktop Entry]
-Type=Service
-Name=About-Page for Konqueror
-ServiceTypes=KParts/ReadOnlyPart
-X-KDE-Library=libkonqaboutpage
