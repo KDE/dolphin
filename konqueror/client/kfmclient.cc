@@ -418,7 +418,7 @@ bool clientApp::doIt()
   }
   else
   {
-    fprintf( stderr, i18n("Syntax Error: Unknown command '%1'\n").arg(QString::fromLocal8Bit(command)).local8Bit() );
+    fprintf( stderr, "%s", i18n("Syntax Error: Unknown command '%1'\n").arg(QString::fromLocal8Bit(command)).latin1() );
     return false;
   }
   return true;
