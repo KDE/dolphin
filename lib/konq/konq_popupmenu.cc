@@ -22,6 +22,7 @@
 #include <qapplication.h>
 #include <qdragobject.h>
 
+#include <klocale.h>
 #include <krun.h>
 #include <kbookmark.h>
 #include <kdebug.h>

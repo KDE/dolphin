@@ -26,6 +26,7 @@
 #include <kdesktopfile.h>
 #include <kdirwatch.h>
 #include <klineeditdlg.h>
+#include <klocale.h>
 #include <kmessagebox.h>
 #include <ksimpleconfig.h>
 #include <kstddirs.h>
