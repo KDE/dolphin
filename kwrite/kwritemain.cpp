@@ -100,8 +100,16 @@ KWrite::KWrite (KTextEditor::Document *doc)
   KParts::GUIActivateEvent ev( true );
   QApplication::sendEvent( m_kateView, &ev );
 
-  // Read basic main-view settings, and set to autosave
-  setAutoSaveSettings( "General Options" );
+  // init with more usefull size, stolen from konq :)
+  if ( !initialGeometrySet() )
+      resize( 700, 480 );
+  
+  // call it as last thing, must be sure everything is already set up ;)
+  setAutoSaveSettings ("MainWindow Settings");
+
+  // init with more usefull size, stolen from konq :)
+  if ( !initialGeometrySet() && !kapp->config()->hasGroup("MainWindow Settings"))
+      resize( 700, 480 );
 }
 
 
