@@ -333,7 +333,6 @@ bool KonqOperations::askDeleteConfirmation( const KURL::List & selectedURLs, int
 void KonqOperations::doDrop( const KFileItem * destItem, const KURL & dest, QDropEvent * ev, QWidget * parent )
 {
     kdDebug(1203) << "dest : " << dest.url() << endl;
-    kdDebug() << kdBacktrace() << endl;
     KURL::List lst;
     QMap<QString, QString> metaData;
     if ( KURLDrag::decode( ev, lst, metaData ) ) // Are they urls ?
@@ -614,7 +613,7 @@ void KonqOperations::doFileCopy()
 void KonqOperations::rename( QWidget * parent, const KURL & oldurl, const QString & name )
 {
     QString newPath = oldurl.directory(false,true) + name;
-    kdDebug(1203) << "KonqOperations::rename newPath=" << newPath << endl;
+    kdDebug(1203) << "KonqOperations::rename " << oldurl.prettyURL() << " newPath=" << newPath << endl;
     KURL newurl(oldurl);
     newurl.setPath(newPath);
     if ( oldurl != newurl )
