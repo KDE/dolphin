@@ -171,8 +171,7 @@ void KonqTextViewItem::updateContents()
                {
                   QDateTime dt;
                   dt.setTime_t((time_t) (*it).m_long);
-                  //setText(3,dt.toString());
-                  setText(tmpColumn->displayInColumn,KGlobal::locale()->formatDate(dt.date(),true)+" "+KGlobal::locale()->formatTime(dt.time()));
+                  setText(tmpColumn->displayInColumn,KGlobal::locale()->formatDateTime(dt));
                   break;
                };
 

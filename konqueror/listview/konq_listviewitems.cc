@@ -96,7 +96,7 @@ void KonqListViewItem::init()
             {
                QDateTime dt;
                dt.setTime_t( m_fileitem->time( tmpColumn->udsId ) );
-               setText(tmpColumn->displayInColumn,KGlobal::locale()->formatDate(dt.date(),true)+" "+KGlobal::locale()->formatTime(dt.time()));
+               setText(tmpColumn->displayInColumn,KGlobal::locale()->formatDateTime(dt));
             }
             break;
          default:

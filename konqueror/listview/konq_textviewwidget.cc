@@ -117,7 +117,7 @@ void KonqTextViewWidget::createColumns()
                   || (tmpColumn->udsId==KIO::UDS_CREATION_TIME))
          {
             QDateTime dt(QDate(2000,10,10),QTime(20,20,20));
-            addColumn(i18n(tmpName),fontMetrics().width(KGlobal::locale()->formatDate(dt.date(),true)+" "+KGlobal::locale()->formatTime(dt.time())+"---"));
+            addColumn(i18n(tmpName),fontMetrics().width(KGlobal::locale()->formatDateTime(dt)+"--"));
          }
          else if (tmpColumn->udsId==KIO::UDS_ACCESS)
             addColumn(i18n(tmpName),fontMetrics().width("--Permissions--"));
