@@ -41,6 +41,7 @@
 #include "konq_combo.h"
 #include "konq_frame.h"
 
+class QFile;
 class KAction;
 class KActionCollection;
 class KActionMenu;
@@ -636,6 +637,10 @@ private:
   bool m_urlCompletionStarted;
 
   bool m_bBackRightClick;
+
+public:
+
+  static QFile *s_crashlog_file;
 };
 
 #endif

@@ -51,6 +51,7 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 
+#include <qfile.h>
 #include <qclipboard.h>
 #include <qmetaobject.h>
 #include <qvbox.h>
@@ -93,6 +94,7 @@ template class QPtrList<KToggleAction>;
 QPtrList<KonqMainWindow> *KonqMainWindow::s_lstViews = 0;
 KConfig * KonqMainWindow::s_comboConfig = 0;
 KCompletion * KonqMainWindow::s_pCompletion = 0;
+QFile * KonqMainWindow::s_crashlog_file = 0;
 
 KonqMainWindow::KonqMainWindow( const KURL &initialURL, bool openInitialURL, const char *name )
  : KParts::MainWindow( name, WDestructiveClose | WStyle_ContextHelp )

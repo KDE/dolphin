@@ -23,6 +23,7 @@
 #include "konq_mainwindow.h"
 #include "KonquerorIface.h"
 
+#include <ktempfile.h>
 #include <klocale.h>
 #include <kstandarddirs.h>
 #include <kdebug.h>
@@ -58,6 +59,11 @@ int main( int argc, char **argv )
   KImageIO::registerFormats();
 
   KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
+
+  KTempFile crashlog_file(locateLocal("tmp", "konqueror-crashlog"), ".xml");
+
+  KonqMainWindow::s_crashlog_file = new QFile( crashlog_file.name() );
+  KonqMainWindow::s_crashlog_file->open( IO_WriteOnly );
 
   if ( kapp->isRestored() )
   {
@@ -135,6 +141,8 @@ int main( int argc, char **argv )
      if ( w->testWFlags( Qt::WDestructiveClose ) )
           delete w;
   }  
+
+  KonqMainWindow::s_crashlog_file->remove();
 
   return 0;
 }

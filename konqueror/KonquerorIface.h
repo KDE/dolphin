@@ -37,6 +37,7 @@ public:
   ~KonquerorIface();
 
 k_dcop:
+
   /**
    * Opens a new window for the given @p url (using createSimpleWindow, i.e. a single view)
    */
@@ -130,6 +131,11 @@ k_dcop:
    * Called by kcontrol when the global configuration changes
    */
   ASYNC reparseConfiguration();
+
+  /**
+   * @return the name of the instance's crash log file
+   */
+  QString crashLogFile();
 
   /**
    * @return a list of references to all the windows

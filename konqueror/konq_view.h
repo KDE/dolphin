@@ -387,6 +387,7 @@ protected:
   KonqViewIface * m_dcopObject;
   KonqBrowserInterface *m_browserIface;
   bool m_bBackRightClick;
+  int m_randID;
 };
 
 #endif

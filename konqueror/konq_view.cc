@@ -19,6 +19,7 @@
 
 
 #include "konq_view.h"
+#include "kapplication.h"
 #include "KonqViewIface.h"
 #include "konq_frame.h"
 #include "konq_run.h"
@@ -65,6 +66,8 @@ KonqView::KonqView( KonqViewFactory &viewFactory,
   m_pPart = 0L;
   m_dcopObject = 0L;
 
+  m_randID = KApplication::random();
+
   m_service = service;
   m_partServiceOffers = partServiceOffers;
   m_appServiceOffers = appServiceOffers;
@@ -91,6 +94,14 @@ KonqView::~KonqView()
 {
   kdDebug(1202) << "KonqView::~KonqView : part = " << m_pPart << endl;
 
+  // AK - stupid code duplication, see below comment
+  if (KonqMainWindow::s_crashlog_file) {
+     QString part_url = (m_pPart)?(m_pPart->url().url()):(QString(""));
+     QCString lines = ( QString("close(%1):%2\n").arg(m_randID,0,16).arg(part_url) ).utf8();
+     KonqMainWindow::s_crashlog_file->writeBlock(lines,lines.length());
+     KonqMainWindow::s_crashlog_file->flush();
+  }
+
   // We did so ourselves for passive views
   if (m_pPart != 0L)
   {
@@ -108,6 +119,17 @@ void KonqView::openURL( const KURL &url, const QString & locationBarURL, const Q
 {
   kdDebug(1202) << "KonqView::openURL url=" << url.url() << " locationBarURL=" << locationBarURL << endl;
   setServiceTypeInExtension();
+
+  // TODO - AK - could be abstracted to prevent duplication here 
+  //             & in destructor & in the importer
+  if (KonqMainWindow::s_crashlog_file) {
+     QString part_url = (m_pPart)?(m_pPart->url().url()):(QString(""));
+     QCString lines = ( QString("opened(%1):%2\nclosed(%3):%4\n")
+                           .arg(m_randID,0,16).arg(part_url)
+                           .arg(m_randID,0,16).arg(url.url()) ).utf8();
+     KonqMainWindow::s_crashlog_file->writeBlock(lines,lines.length());
+     KonqMainWindow::s_crashlog_file->flush();
+  }
 
   KParts::BrowserExtension *ext = browserExtension();
   KParts::URLArgs args;

@@ -27,6 +27,7 @@
 #include <kapplication.h>
 #include <dcopclient.h>
 #include <kdebug.h>
+#include <qfile.h>
 
 KonquerorIface::KonquerorIface()
  : DCOPObject( "KonquerorIface" )
@@ -171,6 +172,11 @@ void KonquerorIface::updateProfileList()
   QPtrListIterator<KonqMainWindow> it( *mainWindows );
   for (; it.current(); ++it )
     it.current()->viewManager()->profileListDirty( false );
+}
+
+QString KonquerorIface::crashLogFile()
+{
+  return KonqMainWindow::s_crashlog_file->name();
 }
 
 QValueList<DCOPRef> KonquerorIface::getWindows()
