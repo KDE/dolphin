@@ -169,7 +169,7 @@ void UAProviderDlg::setIdentity( const QString& text )
 
 QString UAProviderDlg::siteName()
 {
-  return m_leSite->text();
+  return m_leSite->text().lower();
 }
 
 QString UAProviderDlg::identity()
