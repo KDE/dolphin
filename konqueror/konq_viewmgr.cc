@@ -624,7 +624,7 @@ void KonqViewManager::loadItem( KConfig &cfg, KonqFrameContainer *parent,
     KonqView *childView = setupView( parent, viewFactory, service, partServiceOffers, appServiceOffers, serviceType, passiveMode );
 
     childView->setLinkedView( linkedView );
-    childView->setToggleView( linkedView );
+    childView->setToggleView( toggleView );
 
     //QCheckBox *checkBox = childView->frame()->statusbar()->passiveModeCheckBox();
     //checkBox->setChecked( passiveMode );
