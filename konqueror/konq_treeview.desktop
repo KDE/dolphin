@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=BrowserView
+Exec=blahfoo
+Comment=Embeddable Treeview
+MimeType=inode/directory
+Name=KonqTreeView
+ServiceTypes=Browser/View
+X-KDE-Library=libkonqtreeview

@@ -41,7 +41,7 @@
  */
 class KonqPropsMainView
 {
-  // This is not a Q_OBJECT because we need a copy constructor.
+  // This is not a Q__OBJECT because we need a copy constructor.
 public:
   friend class KonqMainView;
   

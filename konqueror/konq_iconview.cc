@@ -41,6 +41,7 @@
 #include <kurl.h>
 #include <kdebug.h>
 #include <konqsettings.h>
+#include <klibloader.h>
 
 #include <qmsgbox.h>
 #include <qkeycode.h>
@@ -50,6 +51,26 @@
 #include <qapplication.h>
 #include <qclipboard.h>
 #include <qregexp.h>
+
+class KonqIconViewFactory : public KLibFactory
+{
+public:
+  KonqIconViewFactory() {}
+  
+  virtual QObject* create( QObject* parent = 0, const char* name = 0, const char* classname = "QObject" )
+  {
+    return new KonqKfmIconView;
+  }
+
+};
+
+extern "C"
+{
+  void *init_libkonqiconview()
+  {
+    return new KonqIconViewFactory;
+  }
+};
 
 KonqDragItem::KonqDragItem()
     : QIconDragItem()

@@ -300,3 +300,5 @@ void ConfigWidget::saveEngine( const EngineCfg::Entry &e )
   item->setText( 1, keystr );
   item->setText( 2, e.m_strQuery );
 }
+
+#include "configwidget.moc"

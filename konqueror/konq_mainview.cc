@@ -1339,3 +1339,5 @@ void KonqMainView::slotPopupMenu( const QPoint &_global, const KFileItemList &_i
   pPopupMenu->exec( _global );
   delete pPopupMenu;
 }
+
+#include "konq_mainview.moc"

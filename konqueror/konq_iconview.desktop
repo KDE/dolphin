@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=BrowserView
+Exec=blahfoo
+Comment=Embeddable Iconview
+MimeType=inode/directory
+Name=KonqKfmIconView
+ServiceTypes=Browser/View
+X-KDE-Library=libkonqiconview

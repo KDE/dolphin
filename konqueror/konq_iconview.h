@@ -146,8 +146,8 @@ public slots:
   void slotSortBySize();
   void slotSetSortDirectionDescending();
 
-  void setViewMode( Konqueror::DirectoryDisplayMode mode );
-  Konqueror::DirectoryDisplayMode viewMode();
+  virtual void setViewMode( Konqueror::DirectoryDisplayMode mode );
+  virtual Konqueror::DirectoryDisplayMode viewMode();
 
 signals:
   // emitted here, triggers the popup menu in the main view

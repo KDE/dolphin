@@ -48,6 +48,27 @@
 #include <qdragobject.h>
 #include <qclipboard.h>
 #include <klocale.h>
+#include <klibloader.h>
+
+class KonqTreeViewFactory : public KLibFactory
+{
+public:
+  KonqTreeViewFactory() {}
+  
+  virtual QObject* create( QObject* parent = 0, const char* name = 0, const char* classname = "QObject" )
+  {
+    return new KonqTreeView;
+  }
+  
+};
+
+extern "C"
+{
+  void *init_libkonqtreeview()
+  {
+    return new KonqTreeViewFactory;
+  }
+};
 
 KonqTreeView::KonqTreeView()
 {

@@ -45,6 +45,27 @@
 #include <kpixmapcache.h>
 #include <konqdefaults.h>
 #include <konqsettings.h>
+#include <klibloader.h>
+
+class KonqHTMLViewFactory : public KLibFactory
+{
+public:
+  KonqHTMLViewFactory() {}
+  
+  virtual QObject* create( QObject* parent = 0, const char* name = 0, const char* classname = "QObject" )
+  {
+    return new KonqHTMLView;
+  }
+  
+};
+
+extern "C"
+{
+  void *init_libkonqhtmlview()
+  {
+    return new KonqHTMLViewFactory;
+  }
+};
 
 KonqBrowser::KonqBrowser( KonqHTMLView *htmlView, const char *name )
 : KHTMLWidget( htmlView, name )

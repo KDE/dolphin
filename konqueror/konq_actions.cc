@@ -129,3 +129,5 @@ void KonqComboAction::changeItem( const QString &text, int index )
       ((QActionWidget *)w)->updateAction( this );
   }
 }
+
+#include "konq_actions.moc"

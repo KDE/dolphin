@@ -59,24 +59,24 @@ BrowserView *KonqFactory::createView( const QString &serviceType,
   serviceTypes.clear();
 
   kdebug(0,1202,"trying to create view for \"%s\"", serviceType.ascii());
-
+/*
   //check for builtin views first
   if ( serviceType == "inode/directory" )
   {
     serviceTypes.append( serviceType );
     if ( dirMode != Konqueror::TreeView )
     {
-      KonqKfmIconView *iconView = new KonqKfmIconView;
+      KonqKfmIconView *iconView = (KonqKfmIconView *)KLibLoader::self()->factory( "libkonqiconview" )->create();
       iconView->setViewMode( dirMode );
       return iconView;
     }
     else
-      return new KonqTreeView();
+      return (BrowserView *)KLibLoader::self()->factory( "libkonqtreeview" )->create();
   }
   else if ( serviceType == "text/html" )
   {
     serviceTypes.append( serviceType );
-    return new KonqHTMLView();
+    return (BrowserView *)KLibLoader::self()->factory( "libkonqhtmlview" )->create();
   }
   else if ( serviceType.left( 5 ) == "text/" &&
             ( serviceType.mid( 5, 2 ) == "x-" ||
@@ -84,12 +84,22 @@ BrowserView *KonqFactory::createView( const QString &serviceType,
 	      serviceType.mid( 5 ) == "plain" ) )
   {
     serviceTypes.append( serviceType );
-    return new KonqTxtView;
+    return (BrowserView *)KLibLoader::self()->factory( "libkonqtxtview" )->create();
   }
-
+*/
   //now let's query the Trader for view plugins
 
-  KTrader::OfferList offers = KTrader::self()->query( serviceType, "'Browser/View' in ServiceTypes" );
+  QString constraint = "('Browser/View' in ServiceTypes)";
+  
+  if ( serviceType == "inode/directory" )
+  {
+    if ( dirMode != Konqueror::TreeView )
+      constraint += "and (Name == 'KonqKfmIconView')";
+    else
+      constraint += "and (Name == 'KonqTreeView')";
+  }
+
+  KTrader::OfferList offers = KTrader::self()->query( serviceType, constraint );
 
   if ( offers.count() == 0 ) //no results?
     return 0L;
@@ -104,7 +114,15 @@ BrowserView *KonqFactory::createView( const QString &serviceType,
 
   serviceTypes = service->serviceTypes();
 
-  return (BrowserView *)factory->create();
+  BrowserView *view = (BrowserView *)factory->create();
+  
+  if ( serviceType == "inode/directory" && dirMode != Konqueror::TreeView )
+  {
+    KonqKfmIconView *iconView = (KonqKfmIconView *)view;
+    iconView->setViewMode( dirMode );
+  }
+  
+  return view;
 }
 
 QObject* KonqFactory::create( QObject* parent, const char* name, const char* /*classname*/ )
@@ -122,3 +140,5 @@ KLibGlobal *KonqFactory::global()
 
   return s_global;
 }
+
+#include "konq_factory.moc"

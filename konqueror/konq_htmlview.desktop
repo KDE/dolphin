@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=BrowserView
+Exec=blahfoo
+Comment=Embeddable HTMLView
+MimeType=text/html
+Name=KonqHTMLView
+ServiceTypes=Browser/View
+X-KDE-Library=libkonqhtmlview

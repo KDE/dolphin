@@ -57,3 +57,4 @@ QString KonqShell::configFile() const
   return readConfigFile( locate( "data", "konqueror/konqueror_shell.rc" ) );
 }
 
+#include "konq_shell.moc"

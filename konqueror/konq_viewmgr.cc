@@ -490,3 +490,5 @@ void KonqViewManager::slotProfileListAboutToShow()
   
   m_bProfileListDirty = false;
 }
+
+#include "konq_viewmgr.moc"

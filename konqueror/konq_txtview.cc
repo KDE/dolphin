@@ -44,6 +44,27 @@
 #include <kiconloader.h>
 #include <konqdefaults.h>
 #include <kfileitem.h>
+#include <klibloader.h>
+
+class KonqTxtViewFactory : public KLibFactory
+{
+public:
+  KonqTxtViewFactory() {}
+  
+  virtual QObject* create( QObject* parent = 0, const char* name = 0, const char* classname = "QObject" )
+  {
+    return new KonqTxtView;
+  }
+  
+};
+
+extern "C"
+{
+  void *init_libkonqtxtview()
+  {
+    return new KonqTxtViewFactory;
+  }
+};
 
 KonqTxtPrintingExtension::KonqTxtPrintingExtension( KonqTxtView *txtView )
 : PrintingExtension( txtView, "KonqTxtPrintingExtension" )

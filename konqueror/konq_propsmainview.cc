@@ -146,3 +146,4 @@ void KonqPropsMainView::saveProps( KConfig * config )
 
   config->sync();
 }
+

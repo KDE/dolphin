@@ -46,7 +46,7 @@ class KonqPropsView
   friend KonqKfmIconView; // seems it doesn't inherit "friendliness" !
   friend KfmTreeView; //      ... strange ...
 
-  // This is not a Q_OBJECT because we need a copy constructor.
+  // This is not a Q__OBJECT because we need a copy constructor.
 public:
   
   // The static instance of KonqPropsView, holding the default values

@@ -77,3 +77,4 @@ QString KonqPart::configFile() const
   return readConfigFile( locate( "data", "konqueror/konqueror_part.rc", KonqFactory::global() ) );
 }
 
+#include "konq_part.moc"
