@@ -173,7 +173,7 @@ KRootOptions::KRootOptions(KConfig *config, QWidget *parent, const char * )
   lay->addWidget(previewListView, row, RO_LASTCOL);
 
   row++;
-  groupBox = new QVGroupBox( i18n("Clicks on the Desktop"), this );
+  groupBox = new QVGroupBox( i18n("Clicks on Desktop"), this );
   lay->addMultiCellWidget( groupBox, row, row, 0, RO_LASTCOL );
 
   QWidget *grid = new QWidget(groupBox);
