@@ -99,7 +99,7 @@ KProxyDialog::KProxyDialog( QWidget* parent)
              :KCModule( parent, "kcmkio" )
 {
     QVBoxLayout* mainLayout = new QVBoxLayout( this, 0, 0 );
-    
+
     dlg = new KProxyDialogUI(this);
     mainLayout->addWidget(dlg);
 
@@ -227,9 +227,9 @@ void KProxyDialog::load()
   dlg->cbUseProxy->setChecked( useProxy );
   dlg->gbConfigure->setEnabled( useProxy );
   dlg->gbAuth->setEnabled( useProxy );
+  dlg->gbOptions->setEnabled( useProxy );
 
   dlg->cbPersConn->setChecked( proto.persistentProxyConnection() );
-  dlg->cbPersConn->setEnabled( useProxy );
 
   if ( !m_data->scriptProxy.isEmpty() )
     dlg->location->lineEdit()->setText( m_data->scriptProxy );
@@ -433,9 +433,10 @@ void KProxyDialog::slotUseProxyChanged()
 {
   bool useProxy = dlg->cbUseProxy->isChecked();
   dlg->gbConfigure->setEnabled(useProxy);
+  dlg->lbLocation->setEnabled(dlg->rbAutoScript->isChecked());
   dlg->location->setEnabled(dlg->rbAutoScript->isChecked());
   dlg->gbAuth->setEnabled(useProxy);
-  dlg->cbPersConn->setEnabled(useProxy);
+  dlg->gbOptions->setEnabled(useProxy);
   emit changed( true );
 }
 

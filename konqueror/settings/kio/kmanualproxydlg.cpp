@@ -43,7 +43,7 @@ KManualProxyDlg::KManualProxyDlg( QWidget* parent, const char* name )
 {
     QWidget *page = new QWidget( this );
     setMainWidget (page);
-    QVBoxLayout* mainLayout = new QVBoxLayout( page, KDialog::marginHint(),
+    QVBoxLayout* mainLayout = new QVBoxLayout( page, 0,
                                                KDialog::spacingHint() );
     m_gbHostnames = new QGroupBox( i18n("Servers"), page, "m_gbHostnames" );
     m_gbHostnames->setSizePolicy( QSizePolicy(QSizePolicy::Expanding,

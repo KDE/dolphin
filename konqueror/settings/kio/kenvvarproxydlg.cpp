@@ -51,7 +51,6 @@ KEnvVarProxyDlg::KEnvVarProxyDlg( QWidget* parent, const char* name )
 
   QVBoxLayout* mainLayout = new QVBoxLayout( page );
   mainLayout->setSpacing( KDialog::spacingHint() );
-  mainLayout->setMargin( KDialog::marginHint() );
 
   m_gbHostnames = new QGroupBox( page, "m_gbHostnames" );
 

@@ -4,6 +4,14 @@
     <property name="name">
         <cstring>widget2</cstring>
     </property>
+    <property name="geometry">
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>327</width>
+            <height>376</height>
+        </rect>
+    </property>
     <property name="caption">
         <string>unnamed</string>
     </property>
@@ -213,7 +221,10 @@
         </widget>
         <widget class="QButtonGroup">
             <property name="name">
-                <cstring>buttonGroup3</cstring>
+                <cstring>gbOptions</cstring>
+            </property>
+            <property name="enabled">
+                <bool>false</bool>
             </property>
             <property name="title">
                 <string>Options</string>
@@ -242,6 +253,12 @@
             <property name="sizeType">
                 <enum>Expanding</enum>
             </property>
+            <property name="sizeHint">
+                <size>
+                    <width>20</width>
+                    <height>20</height>
+                </size>
+            </property>
         </spacer>
     </vbox>
 </widget>
@@ -250,6 +267,12 @@
         <sender>rbAutoScript</sender>
         <signal>toggled(bool)</signal>
         <receiver>location</receiver>
+        <slot>setEnabled(bool)</slot>
+    </connection>
+    <connection>
+        <sender>rbAutoScript</sender>
+        <signal>toggled(bool)</signal>
+        <receiver>lbLocation</receiver>
         <slot>setEnabled(bool)</slot>
     </connection>
 </connections>
