@@ -567,7 +567,7 @@ void KEBTopLevel::slotDelete()
         return;
     }
     KBookmark bk = selectedBookmark();
-    DeleteCommand * cmd = new DeleteCommand( i18n("Delete item"), bk.address() );
+    DeleteCommand * cmd = new DeleteCommand( i18n("Delete Item"), bk.address() );
     m_commandHistory.addCommand( cmd );
 }
 
