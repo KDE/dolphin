@@ -35,6 +35,9 @@ KonqSidebarDirTreeModule::KonqSidebarDirTreeModule( KonqSidebarTree * parentTree
 
 KonqSidebarDirTreeModule::~KonqSidebarDirTreeModule()
 {
+    // KDirLister may still emit canceled while being deleted.
+    disconnect( m_dirLister, SIGNAL( canceled( const KURL & ) ),
+                this, SLOT( slotListingStopped( const KURL & ) ) );
     delete m_dirLister;
 }
 
