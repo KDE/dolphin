@@ -59,7 +59,7 @@ private slots:
 protected:
   virtual void resizeEvent(QResizeEvent *e);
 
-  virtual QDragObject *dragObject() const;
+  virtual QDragObject *dragObject();
 
 signals:
   void resultSelected(bool);

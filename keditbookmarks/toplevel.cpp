@@ -148,7 +148,7 @@ void KEBListViewItem::modUpdate( )
       nM = nModify.toInt(&ok);
       if (!ok)
 	nis = true;
-    }	
+    }
 
     if (top->oldModify.contains(url)) {
       if (nMod) {
@@ -166,7 +166,7 @@ void KEBListViewItem::modUpdate( )
 	  oModify = oom;
 	}
       }
-    } else { // first time 
+    } else { // first time
       nsGet(oModify);
       top->oldModify[url] = oModify;
     }
@@ -174,7 +174,7 @@ void KEBListViewItem::modUpdate( )
     if (oM == 1) {
       ois = true;
     }
-    
+
     //    kdDebug() << "nMod=" << nMod << " nis=" << nis << " nM=" << nM << " oM=" << nM << "\n";
     QString sn;
     QDateTime dt;
@@ -230,7 +230,7 @@ void KEBListViewItem::setTmpStatus(QString status, QString &oldStatus) {
   top->Modify[url] = status;
 }
 
-void KEBListViewItem::restoreStatus( QString oldStatus) 
+void KEBListViewItem::restoreStatus( QString oldStatus)
 {
   KEBTopLevel *top = KEBTopLevel::self();
   QString url = m_bookmark.url().url();
@@ -251,7 +251,7 @@ void KEBListViewItem::nsPut (QString nm)
   nm.toInt(&okNum);
 
   nsGet(nCreate, nAccess, nModify);
- 
+
   QString nsinfo = "ADD_DATE=\"";
 
   if (!nCreate.isEmpty()) {
@@ -300,7 +300,7 @@ bool KEBListView::acceptDrag(QDropEvent * e) const
     return e->source() == viewport() || KBookmarkDrag::canDecode( e );
 }
 
-QDragObject *KEBListView::dragObject() const
+QDragObject *KEBListView::dragObject()
 {
     if (!currentItem())
         return 0;
@@ -472,7 +472,7 @@ void KEBTopLevel::slotSelectionChanged()
     coll->action("sort")->setEnabled(group);
     coll->action("setastoolbar")->setEnabled(group);
     coll->action("openlink")->setEnabled(itemSelected && !group && !separator && !urlIsEmpty);
-    coll->action("testlink")->setEnabled(!root && itemSelected && !separator); 
+    coll->action("testlink")->setEnabled(!root && itemSelected && !separator);
     coll->action("testall")->setEnabled(itemSelected && !(root && m_pListView->childCount()==1));
 }
 
@@ -491,7 +491,7 @@ void KEBTopLevel::slotSave()
 
 void KEBTopLevel::slotSaveAs()
 {
-	QString saveFilename= 
+	QString saveFilename=
 		KFileDialog::getSaveFileName( QString::null, "*.xml", this );
 
 	KBookmarkManager::self()->saveAs( saveFilename );
@@ -755,7 +755,7 @@ void KEBTopLevel::slotTestLink()
 void KEBTopLevel::slotCancelAllTests()
 {
   TestLink *t, *p;
-  
+
   for (t = tests.first(); t != 0; t=p) {
     p = tests.next();
     slotCancelTest(t);

@@ -71,7 +71,7 @@ public slots:
 
 protected:
     virtual bool acceptDrag( QDropEvent * e ) const;
-    virtual QDragObject *dragObject() const;
+    virtual QDragObject *dragObject();
 };
 
 

@@ -331,7 +331,7 @@ void KfindWindow::resizeEvent(QResizeEvent *e)
   clipper()->repaint();
 }
 
-QDragObject * KfindWindow::dragObject() const
+QDragObject * KfindWindow::dragObject()
 {
   KURL::List uris;
   QPtrList<QListViewItem> selected = selectedItems();
