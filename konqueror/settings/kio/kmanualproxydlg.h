@@ -27,25 +27,13 @@
 
 class ManualProxyDlgUI;
 
-class KProxyExceptionDlg : public KLineEditDlg
-{
-  Q_OBJECT
-
-public:
-    KProxyExceptionDlg( QWidget* parent = 0, const QString &msg = QString::null,
-                        const QString &value = QString::null,
-                        const QString &caption = QString::null );
-    ~KProxyExceptionDlg();
-};
-
-
 class KManualProxyDlg : public KProxyDialogBase
 {
   Q_OBJECT
 
 public:
   KManualProxyDlg( QWidget* parent = 0, const char* name = 0 );
-  ~KManualProxyDlg();
+  ~KManualProxyDlg() {};
 
   virtual void setProxyData( const KProxyData &data );
   virtual const KProxyData data() const;

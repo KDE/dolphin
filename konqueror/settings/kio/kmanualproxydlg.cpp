@@ -1,7 +1,7 @@
 /*
    kmanualproxydlg.cpp - Proxy configuration dialog
 
-   Copyright (C) 2001,2002,2003 - Dawit Alemayehu <adawit@kde.org>
+   Copyright (C) 2001,02,03 - Dawit Alemayehu <adawit@kde.org>
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public
@@ -35,32 +35,11 @@
 #include <kurifilter.h>
 #include <kmessagebox.h>
 #include <kiconloader.h>
+#include <kinputdialog.h>
 #include <kio/ioslave_defaults.h>
 
 #include "manualproxy_ui.h"
 #include "kmanualproxydlg.h"
-
-KProxyExceptionDlg::KProxyExceptionDlg( QWidget* parent, const QString &msg,
-                                        const QString &value, const QString &caption)
-                   :KLineEditDlg( msg, value, parent )
-{
-    setCaption( caption );
-
-    QWhatsThis::add( edit, i18n("<qt>Enter the site name(s) that "
-                                "should be exempted from using the "
-                                "proxy server(s) specified above.<p>"
-                                "Note that the reverse is true if "
-                                "the \"<code>Only use proxy for "
-                                "entries in this list</code>\" "
-                                "box is checked. That is the proxy "
-                                "server will only be used for "
-                                "addresses that match one of the "
-                                "items in this list.</qt>") );
-}
-
-KProxyExceptionDlg::~KProxyExceptionDlg()
-{
-}
 
 
 KManualProxyDlg::KManualProxyDlg( QWidget* parent, const char* name )
@@ -76,10 +55,6 @@ KManualProxyDlg::KManualProxyDlg( QWidget* parent, const char* name )
     dlg->pbCopyDown->setSizePolicy( sizePolicy );
 
     init();
-}
-
-KManualProxyDlg::~KManualProxyDlg()
-{
 }
 
 void KManualProxyDlg::init()
@@ -272,8 +247,6 @@ void KManualProxyDlg::sameProxy( bool enable )
     }
 }
 
-
-
 bool KManualProxyDlg::validate()
 {
     QFont f;
@@ -428,14 +401,14 @@ void KManualProxyDlg::newPressed()
         msg = i18n("Enter the address or URL that should be excluded from using "
                    "the above proxy server:");
 
-    KProxyExceptionDlg expDlg ( this, msg, QString::null, i18n("New Exception") );
-    if ( expDlg.exec() )
+    QString result = KInputDialog::getText (i18n("New Exception"), msg);
+    
+    if ( !result.isNull() )
     {
-        QString exception = expDlg.text();
-        if ( !handleDuplicate( exception ) )
+        if ( !handleDuplicate( result ) )
         {
             QListViewItem* index = new QListViewItem( dlg->lvExceptions,
-                                                      exception );
+                                                      result );
             dlg->lvExceptions->setCurrentItem( index );
         }
     }
@@ -450,21 +423,20 @@ void KManualProxyDlg::changePressed()
 
     // Specify the appropriate message...
     if ( dlg->cbReverseProxy->isChecked() )
-        msg = i18n("<qt>Enter the address that should be sent through "
-                   "the proxy servers:</qt>");
+        msg = i18n("Enter the address or URL for which the above proxy server "
+                   "should be used:");
     else
-        msg = i18n("<qt>Enter the address that is exempt from "
-                   "using the proxy servers:</qt>");
+        msg = i18n("Enter the address or URL that should be excluded from using "
+                   "the above proxy server:");
 
     QString currentItem = dlg->lvExceptions->currentItem()->text(0);
-    KProxyExceptionDlg expDlg( this, msg, currentItem, i18n("Change Exception") );
-    if ( expDlg.exec() )
+    QString result = KInputDialog::getText ( i18n("Change Exception"), msg, currentItem );
+    if ( !result.isNull() )
     {
-        QString exception = expDlg.text();
-        if ( !handleDuplicate( exception ) )
+        if ( !handleDuplicate( result ) )
         {
             QListViewItem* index = dlg->lvExceptions->currentItem();
-            index->setText( 0, exception );
+            index->setText( 0, result );
             dlg->lvExceptions->setCurrentItem( index );
         }
     }
@@ -499,7 +471,5 @@ void KManualProxyDlg::updateButtons()
     dlg->pbDeleteAll->setEnabled( hasItems );
     dlg->pbChange->setEnabled( itemSelected );
 }
-
-
 
 #include "kmanualproxydlg.moc"
