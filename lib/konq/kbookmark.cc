@@ -70,7 +70,7 @@ KBookmarkManager* KBookmarkManager::self()
     {
       QCString cmd;
       cmd.sprintf( "cp %s %s/.directory",
-          QFile::encodeName(locate("data", "kbookmark/directory.bookmarkbar")).data(),
+          QFile::encodeName(locate("data", "kbookmark/directory_bookmarkbar.desktop")).data(),
           QFile::encodeName(bookmark_path).data() );
       system( cmd );
     }
