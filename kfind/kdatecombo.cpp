@@ -4,6 +4,8 @@
  *
  ***********************************************************************/
 
+#include <qtimer.h>
+
 #include <kglobal.h>
 #include <klocale.h>
 #include <kdatepicker.h>
@@ -25,10 +27,11 @@ KDateCombo::KDateCombo(const QDate & date, QWidget *parent, const char *name) : 
   initObject(date, parent, name);
 }
 
-void KDateCombo::initObject(const QDate & date, QWidget *parent, const char *name)
+void KDateCombo::initObject(const QDate & date, QWidget *, const char *)
 {
   clearValidator();
   popupFrame = new KPopupFrame(this, "popupFrame");
+  popupFrame->installEventFilter(this);
   datePicker = new KDatePicker(popupFrame, date, "datePicker");
   datePicker->setMinimumSize(datePicker->sizeHint());
   datePicker->installEventFilter(this);
@@ -73,6 +76,8 @@ bool KDateCombo::setDate(const QDate & newDate)
 
 void KDateCombo::dateEnteredEvent(QDate newDate)
 {
+  if (!newDate.isValid())
+     newDate = datePicker->date();
   popupFrame->hide();
   setDate(newDate);
 }
@@ -80,6 +85,7 @@ void KDateCombo::dateEnteredEvent(QDate newDate)
 void KDateCombo::mousePressEvent (QMouseEvent * e)
 {
   if (e->button() & QMouseEvent::LeftButton)
+  {
     if  (rect().contains( e->pos()))
     {
       QDate tempDate;
@@ -88,11 +94,22 @@ void KDateCombo::mousePressEvent (QMouseEvent * e)
       popupFrame->popup(mapToGlobal(QPoint(0, height())));
       //datePicker->setFocus();
     }
+  }
 }
 
-bool KDateCombo::eventFilter (QObject* o, QEvent* e)
+bool KDateCombo::eventFilter (QObject*, QEvent* e)
 {
-  if ( e->type() == QEvent::KeyRelease )
+  if ( e->type() == QEvent::MouseButtonPress )
+  {
+      QMouseEvent *me = (QMouseEvent *)e;
+      QPoint p = mapFromGlobal( me->globalPos() );
+      if (rect().contains( p ) )
+      {
+        QTimer::singleShot(10, this, SLOT(dateEnteredEvent()));
+        return true;
+      }
+  }
+  else if ( e->type() == QEvent::KeyRelease )
   {
       QKeyEvent *k = (QKeyEvent *)e;
       //Press return == pick selected date and close the combo
@@ -101,9 +118,14 @@ bool KDateCombo::eventFilter (QObject* o, QEvent* e)
         dateEnteredEvent(datePicker->date());
         return true;
       }
+      else if (k->key()==Qt::Key_Escape)
+      {
+        popupFrame->hide();
+        return true;
+      }
       else
         return false;
   }
-  else
-    return false;
+
+  return false;
 }
