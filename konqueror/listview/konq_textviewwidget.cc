@@ -75,6 +75,7 @@ KonqTextViewWidget::KonqTextViewWidget( KonqListView *parent, QWidget *parentWid
    highlight[KTVI_CHARDEV]=colors[KTVI_CHARDEV].light(180);
    highlight[KTVI_BLOCKDEV]=colors[KTVI_BLOCKDEV].light(180);
    timer.start();
+   m_showIcons=FALSE;
 }
 
 KonqTextViewWidget::~KonqTextViewWidget()
