@@ -2,7 +2,7 @@
 Encoding=UTF-8
 Type=Link
 URL=
-Icon=netscape
+Icon=www
 Name=Web SideBar Module
 Name[ar]=وحدة شريط الويب الجانبي
 Name[az]=Veb Yan Çubuq Modulu
@@ -46,6 +46,7 @@ Name[pt]=Módulo Barra Lateral Web
 Name[pt_BR]=Módulo da Barra Lateral Web
 Name[ro]=Modul bară laterală web
 Name[ru]=Модуль боковой панели Web
+Name[se]=Neahtta-bálddalasholga moduvla
 Name[sk]=Modul bočného Web panelu
 Name[sl]=Modul spletne stranske vrstice
 Name[sr]=Модул веб бочне траке
