@@ -129,6 +129,50 @@ bool KonqPopupMenu::ProtocolInfo::trashIncluded() const
   return m_TrashIncluded;
 }
 
+// This helper class stores the .desktop-file actions and the servicemenus
+// in order to support X-KDE-Priority and X-KDE-Submenu.
+class PopupServices
+{
+public:
+    ServiceList* selectList( const QString& priority, const QString& submenuName );
+
+    ServiceList builtin;
+    ServiceList user, userToplevel, userPriority;
+    QMap<QString, ServiceList> userSubmenus, userToplevelSubmenus, userPrioritySubmenus;
+};
+
+ServiceList* PopupServices::selectList( const QString& priority, const QString& submenuName )
+{
+    // we use the categories .desktop entry to define submenus
+    // if none is defined, we just pop it in the main menu
+    if (submenuName.isEmpty())
+    {
+        if (priority == "TopLevel")
+        {
+            return &userToplevel;
+        }
+        else if (priority == "Important")
+        {
+            return &userPriority;
+        }
+    }
+    else if (priority == "TopLevel")
+    {
+        return &(userToplevelSubmenus[submenuName]);
+    }
+    else if (priority == "Important")
+    {
+        return &(userPrioritySubmenus[submenuName]);
+    }
+    else
+    {
+        return &(userSubmenus[submenuName]);
+    }
+    return &user;
+}
+
+
+
 KonqPopupMenu::KonqPopupMenu( KBookmarkManager *mgr, const KFileItemList &items,
                               KURL viewURL,
                               KActionCollection & actions,
@@ -547,17 +591,21 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
 
     //////////////////////////////////////////////////////
 
-    ServiceList builtin;
-    ServiceList user, userToplevel, userPriority;
-    QMap<QString, ServiceList> userSubmenus, userToplevelSubmenus, userPrioritySubmenus;
+    PopupServices s;
 
     bool isSingleLocal = (m_lstItems.count() == 1 && m_lstItems.first()->url().isLocalFile());
     // 1 - Look for builtin and user-defined services
     if ( m_sMimeType == "application/x-desktop" && isSingleLocal ) // .desktop file
     {
         // get builtin services, like mount/unmount
-        builtin = KDEDesktopMimeType::builtinServices( m_lstItems.first()->url() );
-        user = KDEDesktopMimeType::userDefinedServices( m_lstItems.first()->url().path(), url.isLocalFile() );
+        s.builtin = KDEDesktopMimeType::builtinServices( m_lstItems.first()->url() );
+        const QString path = m_lstItems.first()->url().path();
+        KSimpleConfig cfg( path, true );
+        cfg.setDesktopGroup();
+        const QString priority = cfg.readEntry("X-KDE-Priority");
+        const QString submenuName = cfg.readEntry( "X-KDE-Submenu" );
+        ServiceList* list = s.selectList( priority, submenuName );
+        (*list) = KDEDesktopMimeType::userDefinedServices( path, cfg, url.isLocalFile() );
     }
 
     if ( !isCurrentTrash && !isIntoTrash && sReading)
@@ -574,15 +622,10 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
 
             if (KIOSKAuthorizedAction(cfg))
             {
-                QString submenuName = cfg.readEntry( "X-KDE-Submenu" );
-                if (submenuName.isEmpty())
-                {
-                    user += KDEDesktopMimeType::userDefinedServices( dotDirectoryFile, true );
-                }
-                else
-                {
-                    userSubmenus[submenuName] += KDEDesktopMimeType::userDefinedServices( dotDirectoryFile, true );
-                }
+                const QString priority = cfg.readEntry("X-KDE-Priority");
+                const QString submenuName = cfg.readEntry( "X-KDE-Submenu" );
+                ServiceList* list = s.selectList( priority, submenuName );
+                (*list) += KDEDesktopMimeType::userDefinedServices( dotDirectoryFile, true );
             }
         }
 
@@ -629,6 +672,8 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
                         // we could cram the following three if statements into
                         // one gigantic boolean statement but that would be a
                         // hororr show for readability
+                        // DF: ok, but every if() could set a bool, and then the code to actually
+                        // run in there (excludeTypes etc.) could be done only in one place.
 
                         // first check if we have an all mimetype
                         if (*it == "all/all" ||
@@ -687,36 +732,9 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
 
                     if ( ok )
                     {
-                        // we use the categories .desktop entry to define submenus
-                        // if none is defined, we just pop it in the main menu
-                        QString priority = cfg.readEntry("X-KDE-Priority");
-                        QString submenuName = cfg.readEntry( "X-KDE-Submenu" );
-                        ServiceList* list = &user;
-
-                        if (submenuName.isEmpty())
-                        {
-                            if (priority == "TopLevel")
-                            {
-                                list = &userToplevel;
-                            }
-                            else if (priority == "Important")
-                            {
-                                list = &userPriority;
-                            }
-                        }
-                        else if (priority == "TopLevel")
-                        {
-                            list = &(userToplevelSubmenus[submenuName]);
-                        }
-                        else if (priority == "Important")
-                        {
-                            list = &(userPrioritySubmenus[submenuName]);
-                        }
-                        else
-                        {
-                            list = &(userSubmenus[submenuName]);
-                        }
-
+                        const QString priority = cfg.readEntry("X-KDE-Priority");
+                        const QString submenuName = cfg.readEntry( "X-KDE-Submenu" );
+                        ServiceList* list = s.selectList( priority, submenuName );
                         (*list) += KDEDesktopMimeType::userDefinedServices( *dIt + *eIt, url.isLocalFile() );
                     }
                 }
@@ -799,8 +817,8 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
     // Second block, builtin + user
     QDomElement actionMenu = m_menuElement;
     int userItemCount = 0;
-    if (user.count() + userSubmenus.count() +
-        userPriority.count() + userPrioritySubmenus.count() > 1)
+    if (s.user.count() + s.userSubmenus.count() +
+        s.userPriority.count() + s.userPrioritySubmenus.count() > 1)
     {
         // we have more than one item, so let's make a submenu
         actionMenu = m_doc.createElement( "menu" );
@@ -811,26 +829,26 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
         text.appendChild( m_doc.createTextNode( i18n("Ac&tions") ) );
     }
 
-    userItemCount += insertServicesSubmenus(userPrioritySubmenus, actionMenu, false);
-    userItemCount += insertServices(userPriority, actionMenu, false);
+    userItemCount += insertServicesSubmenus(s.userPrioritySubmenus, actionMenu, false);
+    userItemCount += insertServices(s.userPriority, actionMenu, false);
 
     // see if we need to put a separator between our priority items and our regular items
     if (userItemCount > 0 &&
-        (user.count() > 0 ||
-         userSubmenus.count() > 0 ||
-         builtin.count() > 0) &&
+        (s.user.count() > 0 ||
+         s.userSubmenus.count() > 0 ||
+         s.builtin.count() > 0) &&
          actionMenu.lastChild().toElement().tagName().lower() != "separator")
     {
         QDomElement separator = m_doc.createElement( "separator" );
         actionMenu.appendChild(separator);
     }
 
-    userItemCount += insertServicesSubmenus(userSubmenus, actionMenu, false);
-    userItemCount += insertServices(user, actionMenu, false);
-    userItemCount += insertServices(builtin, m_menuElement, true);
+    userItemCount += insertServicesSubmenus(s.userSubmenus, actionMenu, false);
+    userItemCount += insertServices(s.user, actionMenu, false);
+    userItemCount += insertServices(s.builtin, m_menuElement, true);
 
-    userItemCount += insertServicesSubmenus(userToplevelSubmenus, m_menuElement, false);
-    userItemCount += insertServices(userToplevel, m_menuElement, false);
+    userItemCount += insertServicesSubmenus(s.userToplevelSubmenus, m_menuElement, false);
+    userItemCount += insertServices(s.userToplevel, m_menuElement, false);
 
     if (userItemCount > 0)
     {
