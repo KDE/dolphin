@@ -190,7 +190,7 @@ void KonqInfoListViewWidget::rebuildView()
 
 void KonqInfoListViewWidget::slotNewItems( const KFileItemList& list)
 {
-    slotStarted();
+    slotStarted(); // ############# WHY?
     for (QPtrListIterator<KFileItem> kit ( list ); kit.current(); ++kit )
     {
         KonqInfoListViewItem * tmp = new KonqInfoListViewItem( this, *kit );
@@ -240,7 +240,7 @@ void KonqInfoListViewWidget::slotDeleteItem( KFileItem * item )
     m_metaInfoTodo.removeRef(item);
     if (m_metaInfoJob)
        m_metaInfoJob->removeItem(item);
-       
+
     KonqBaseListViewWidget::slotDeleteItem(item);
 }
 
