@@ -52,7 +52,7 @@ public:
 
   virtual QObject* create( QObject *parent, const char *name, const char*, const QStringList & )
   {
-    QObject *obj = new KonqDirTreeBrowserView( (QWidget *)parent, name );
+    QObject *obj = new KonqDirTreePart( (QWidget *)parent, parent, name );
     emit objectCreated( obj );
     return obj;
   }
@@ -67,37 +67,47 @@ extern "C"
   }
 };
 
-KonqDirTreeEditExtension::KonqDirTreeEditExtension( QObject *parent, KonqDirTree *dirTree )
- : EditExtension( parent, "KonqDirTreeEditExtension" )
+KonqDirTreeBrowserExtension::KonqDirTreeBrowserExtension( KonqDirTreePart *parent, KonqDirTree *dirTree )
+ : KParts::BrowserExtension( parent )
 {
   m_tree = dirTree;
+  connect( m_tree, SIGNAL( selectionChanged() ), this, SLOT( slotSelectionChanged() ) );
 }
 
-void KonqDirTreeEditExtension::can( bool &cut, bool &copy, bool &paste, bool &move )
+void KonqDirTreeBrowserExtension::slotSelectionChanged()
 {
   bool bInTrash = false;
+  
+  bool cutcopy, move;
 
   KonqDirTreeItem *selection = (KonqDirTreeItem *)m_tree->selectedItem();
 
   if ( selection && selection->fileItem()->url().directory(false) == KUserPaths::trashPath() )
     bInTrash = true;
 
-  cut = move = copy = selection;
+  cutcopy = move = selection;
   move = move && !bInTrash;
 
   bool bKIOClipboard = !isClipboardEmpty();
   QMimeSource *data = QApplication::clipboard()->data();
-  paste = ( bKIOClipboard || data->encodedData( data->format() ).size() != 0 ) &&
-	  ( selection );
+  bool paste = ( bKIOClipboard || data->encodedData( data->format() ).size() != 0 ) &&
+	       ( selection );
+  
+  emit enableAction( "copy", cutcopy );
+  emit enableAction( "cut", cutcopy );
+  emit enableAction( "del", move );
+  emit enableAction( "trash", move );
+  emit enableAction( "pastecut", paste );
+  emit enableAction( "pastecopy", paste );
 }
 
-void KonqDirTreeEditExtension::cutSelection()
+void KonqDirTreeBrowserExtension::cut()
 {
   //TODO: grey out item
-  copySelection();
+  copy();
 }
 
-void KonqDirTreeEditExtension::copySelection()
+void KonqDirTreeBrowserExtension::copy()
 {
   QStringList lst;
 
@@ -113,7 +123,7 @@ void KonqDirTreeEditExtension::copySelection()
   QApplication::clipboard()->setData( drag );
 }
 
-void KonqDirTreeEditExtension::pasteSelection( bool move )
+void KonqDirTreeBrowserExtension::pasteSelection( bool move )
 {
   KonqDirTreeItem *selection = (KonqDirTreeItem *)m_tree->selectedItem();
 
@@ -122,74 +132,46 @@ void KonqDirTreeEditExtension::pasteSelection( bool move )
   pasteClipboard( selection->fileItem()->url().url(), move );
 }
 
-void KonqDirTreeEditExtension::moveSelection( const QString &destinationURL )
+void KonqDirTreeBrowserExtension::moveSelection( const QString &destinationURL )
 {
-  QStringList lst = selectedUrls();
+  KonqDirTreeItem *selection = (KonqDirTreeItem *)m_tree->selectedItem();
 
-  if ( lst.count() == 0 )
+  if ( !selection )
     return;
 
   KIOJob *job = new KIOJob;
 
   if ( !destinationURL.isEmpty() )
-    job->move( lst.first(), destinationURL );
+    job->move( selection->fileItem()->url().url(), destinationURL );
   else
-    job->del( lst );
+    job->del( selection->fileItem()->url().url() );
 }
 
-QStringList KonqDirTreeEditExtension::selectedUrls()
+KonqDirTreePart::KonqDirTreePart( QWidget *parentWidget, QObject *parent, const char *name )
+ : KParts::ReadOnlyPart( parent, name )
 {
-   QStringList lst;
-   KonqDirTreeItem *selection = (KonqDirTreeItem *)m_tree->selectedItem();
-   if (selection)
-    // only one item selected
-    lst.append( selection->fileItem()->url().url() );
+  m_pTree = new KonqDirTree( this, parentWidget );
 
-   return lst;
+  m_extension = new KonqDirTreeBrowserExtension( this, m_pTree );
+  
+  setWidget( m_pTree );
+  setInstance( KonqFactory::instance(), false );
+  m_url = KURL( QDir::homeDirPath().prepend( "file:" ) );
 }
 
-KonqDirTreeBrowserView::KonqDirTreeBrowserView( QWidget *parent, const char *name )
-  : BrowserView( parent, name )
-{
-  m_pTree = new KonqDirTree( this );
-  setFocusProxy( m_pTree );
-  setFocusPolicy( m_pTree->focusPolicy() );
-
-  (void)new KonqDirTreeEditExtension( this, m_pTree );
-}
-
-KonqDirTreeBrowserView::~KonqDirTreeBrowserView()
+KonqDirTreePart::~KonqDirTreePart()
 {
 }
 
-void KonqDirTreeBrowserView::openURL( const QString &, bool, int, int )
+bool KonqDirTreePart::openURL( const KURL & )
 {
-  emit started();
+  emit started( 0 );
   emit completed();
+  return true;
 }
 
-QString KonqDirTreeBrowserView::url()
+void KonqDirTreePart::closeURL()
 {
-  return QDir::homeDirPath().prepend( "file:" );
-}
-
-int KonqDirTreeBrowserView::xOffset()
-{
-  return 0;
-}
-
-int KonqDirTreeBrowserView::yOffset()
-{
-  return 0;
-}
-
-void KonqDirTreeBrowserView::stop()
-{
-}
-
-void KonqDirTreeBrowserView::resizeEvent( QResizeEvent * )
-{
-  m_pTree->setGeometry( rect() );
 }
 
 KonqDirTreeItem::KonqDirTreeItem( KonqDirTree *parent, QListViewItem *parentItem, KonqDirTreeItem *topLevelItem, KFileItem *item )
@@ -229,8 +211,8 @@ void KonqDirTreeItem::setListable( bool b )
 //TODO: make it configurable via viewprops
 static const int autoOpenTimeout = 750;
 
-KonqDirTree::KonqDirTree( KonqDirTreeBrowserView *parent )
-  : QListView( parent )
+KonqDirTree::KonqDirTree( KonqDirTreePart *parent, QWidget *parentWidget )
+  : KListView( parentWidget )
 {
 
   m_folderPixmap = KonqFactory::instance()->iconLoader()->loadIcon( "folder", KIconLoader::Small );
@@ -524,7 +506,7 @@ void KonqDirTree::slotDoubleClicked( QListViewItem *item )
   if ( item == m_lastItem )
     return;
 
-  emit m_view->openURLRequest( ((KonqDirTreeItem *)item)->fileItem()->url().url(), false, 0, 0 );
+  emit m_view->extension()->openURLRequest( ((KonqDirTreeItem *)item)->fileItem()->url(), false, 0, 0 );
 
   m_lastItem = item;
 }
@@ -547,7 +529,7 @@ void KonqDirTree::slotRightButtonPressed( QListViewItem *item )
 
   lstItems.append( ((KonqDirTreeItem *)item)->fileItem() );
 
-  emit m_view->popupMenu( QCursor::pos(), lstItems );
+  emit m_view->extension()->popupMenu( QCursor::pos(), lstItems );
 }
 
 void KonqDirTree::slotClicked( QListViewItem *item )
@@ -561,7 +543,7 @@ void KonqDirTree::slotClicked( QListViewItem *item )
   if ( item == m_lastItem )
     return;
 
-  emit m_view->openURLRequest( ((KonqDirTreeItem *)item)->fileItem()->url().url(), false, 0, 0 );
+  emit m_view->extension()->openURLRequest( ((KonqDirTreeItem *)item)->fileItem()->url(), false, 0, 0 );
 
   m_lastItem = item;
 }

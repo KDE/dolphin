@@ -518,7 +518,7 @@ void KonqMainView::slotToggleDirTree( bool toggle )
     QListIterator<KonqChildView> it( viewList );
 
     for (; it.current(); ++it )
-      if ( it.current()->view()->inherits( "KonqDirTreeBrowserView" ) )
+      if ( it.current()->view()->inherits( "KonqDirTreePart" ) )
         m_pViewManager->removeView( it.current() );
   }
 }
@@ -763,7 +763,11 @@ void KonqMainView::slotPartActivated( KParts::Part *part )
   KonqChildView *newView = m_mapViews.find( (KParts::ReadOnlyPart *)part ).data();
 
   if ( newView->passiveMode() )
+  {
+    if ( newView->browserExtension() )
+      connectExtension( newView->browserExtension() );
     return;
+  }
 
   //  guiFactory()->removeServant( m_viewModeGUIServant );
 

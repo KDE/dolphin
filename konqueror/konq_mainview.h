@@ -136,6 +136,8 @@ public:
   int viewCount() { return m_mapViews.count(); }
   QValueList<KParts::ReadOnlyPart *> viewList();
 
+  QMap<KParts::ReadOnlyPart *, KonqChildView *> viewMap() const { return m_mapViews; }
+
   KonqChildView *currentChildView() { return m_currentView; }
   KParts::ReadOnlyPart *currentView();
 

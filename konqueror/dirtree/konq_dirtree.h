@@ -4,54 +4,58 @@
 
 #include <kbrowser.h>
 #include <kurl.h>
+#include <kuserpaths.h>
 
-#include <qlistview.h>
+#include <klistview.h>
 #include <qdict.h>
 #include <qmap.h>
 
 class KonqDirTree;
 class QTimer;
-class KonqDirTree;
+class KonqDirTreePart;
 
-class KonqDirTreeEditExtension : public EditExtension
-{
-  Q_OBJECT
-public:
-  KonqDirTreeEditExtension( QObject *parent, KonqDirTree *dirTree );
-
-  virtual void can( bool &cut, bool &copy, bool &paste, bool &move );
-
-  virtual void cutSelection();
-  virtual void copySelection();
-  virtual void pasteSelection( bool move = false );
-  virtual void moveSelection( const QString &destinationURL = QString::null );
-  virtual QStringList selectedUrls();
-
-private:
-  KonqDirTree *m_tree;
-};
-
-class KonqDirTreeBrowserView : public BrowserView
+class KonqDirTreeBrowserExtension : public KParts::BrowserExtension
 {
   Q_OBJECT
   friend class KonqDirTree;
 public:
-  KonqDirTreeBrowserView( QWidget *parent = 0L, const char *name = 0L );
-  virtual ~KonqDirTreeBrowserView();
+  KonqDirTreeBrowserExtension( KonqDirTreePart *parent, KonqDirTree *dirTree );
 
-  virtual void openURL( const QString &url, bool reload = false,
-                        int xOffset = 0, int yOffset = 0 );
+protected slots:
+  void copy();
+  void cut();
+  void del() { moveSelection( QString::null ); }
+  void pastecut() { pasteSelection( true ); }
+  void pastecopy() { pasteSelection( false ); }
+  void trash() { moveSelection( KUserPaths::trashPath() ); }
 
-  virtual QString url();
-  virtual int xOffset();
-  virtual int yOffset();
-  virtual void stop();
+  void slotSelectionChanged();
+private:
+  void pasteSelection( bool move );
+  void moveSelection( const QString &destinationURL );
 
-protected:
-  virtual void resizeEvent( QResizeEvent * );
+  KonqDirTree *m_tree;
+};
+
+class KonqDirTreePart : public KParts::ReadOnlyPart
+{
+  Q_OBJECT
+  friend class KonqDirTree;
+public:
+  KonqDirTreePart( QWidget *parentWidget, QObject *parent, const char *name = 0L );
+  virtual ~KonqDirTreePart();
+
+  virtual bool openURL( const KURL & );
+
+  virtual void closeURL();
+
+  virtual bool openFile() { return true; }
+
+  KonqDirTreeBrowserExtension *extension() const { return m_extension; }
 
 private:
   KonqDirTree *m_pTree;
+  KonqDirTreeBrowserExtension *m_extension;
 };
 
 class KonqDirTree;
@@ -77,11 +81,11 @@ private:
   bool m_bListable;
 };
 
-class KonqDirTree : public QListView
+class KonqDirTree : public KListView
 {
   Q_OBJECT
 public:
-  KonqDirTree( KonqDirTreeBrowserView *parent );
+  KonqDirTree( KonqDirTreePart *parent, QWidget *parentWidget );
   virtual ~KonqDirTree();
 
   void openSubFolder( KonqDirTreeItem *item, KonqDirTreeItem *topLevel );
@@ -144,7 +148,7 @@ private:
 
   QMap<QListViewItem *,QString> m_groupItems;
 
-  KonqDirTreeBrowserView *m_view;
+  KonqDirTreePart *m_view;
 
   QMap<KURL, QListViewItem *> m_mapCurrentOpeningFolders;
 

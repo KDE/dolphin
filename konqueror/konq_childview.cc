@@ -30,6 +30,8 @@
 
 #include <kdebug.h>
 
+#include <qapplication.h>
+
 template class QList<HistoryEntry>;
 
 KonqChildView::KonqChildView( KonqViewFactory &viewFactory,
@@ -114,6 +116,15 @@ void KonqChildView::openURL( const KURL &url, bool useMiscURLData  )
     browserExtension()->setXYOffset( m_iXOffset, m_iYOffset );
 
   m_pMainView->setLocationBarURL( this, url.decodedURL() );
+  
+  QMap<KParts::ReadOnlyPart *, KonqChildView *> views = m_pMainView->viewMap();
+  QMap<KParts::ReadOnlyPart *, KonqChildView *>::ConstIterator it = views.begin();
+  QMap<KParts::ReadOnlyPart *, KonqChildView *>::ConstIterator end = views.end();
+  for (; it != end; ++it )
+  {
+    KParts::OpenURLEvent ev( m_pView, url );
+    QApplication::sendEvent( it.key(), &ev );
+  }
 }
 
 void KonqChildView::switchView( KonqViewFactory &viewFactory )
