@@ -32,6 +32,7 @@
 #include <kprotocolinfo.h>
 #include <kaction.h>
 #include <kurldrag.h>
+#include <kmessagebox.h>
 #include <qheader.h>
 #include <qpainter.h>
 #include <qstyle.h>
@@ -775,7 +776,17 @@ void KonqBaseListViewWidget::slotReturnPressed( QListViewItem *_item )
    if ( !fileItem )
       return;
 
-   m_pBrowserView->lmbClicked( fileItem );
+   KURL url = fileItem->url();
+   url.cleanPath();
+   bool isIntoTrash =  url.isLocalFile() && url.path(1).startsWith(KGlobalSettings::trashPath());
+   if ( !isIntoTrash || (isIntoTrash && fileItem->isDir()) )
+   {
+       m_pBrowserView->lmbClicked( fileItem );
+   }
+   else
+   {
+       KMessageBox::information(0L, i18n("You must leave the file out of the trash before being able to use it."));
+    }
 }
 
 void KonqBaseListViewWidget::slotRightButtonPressed( QListViewItem *, const QPoint &_global, int )
