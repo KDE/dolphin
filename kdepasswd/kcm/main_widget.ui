@@ -99,7 +99,7 @@
                         <cstring>lblEmail</cstring>
                     </property>
                     <property name="text">
-                        <string>&amp;Email Address:</string>
+                        <string>&amp;Email address:</string>
                     </property>
                     <property name="buddy" stdset="0">
                         <cstring>leEmail</cstring>
@@ -115,7 +115,7 @@
                         <cstring>textLabel3</cstring>
                     </property>
                     <property name="text">
-                        <string>&amp;SMTP Server:</string>
+                        <string>&amp;SMTP server:</string>
                     </property>
                     <property name="buddy" stdset="0">
                         <cstring>leSMTP</cstring>
