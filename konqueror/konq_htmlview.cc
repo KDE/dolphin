@@ -36,6 +36,7 @@
 #include <khtml.h>
 #include <khtmlsavedpage.h>
 #include <kapp.h>
+#include <kfiledialog.h>
 
 #include <kurl.h>
 #include <kio_error.h>
@@ -60,6 +61,8 @@ KonqHTMLView::KonqHTMLView()
 //                    this, SLOT( slotStarted( const char * ) ) );
 //  QObject::connect( this, SIGNAL( canceled() ),
 //                    this, SLOT( canceled() ) );
+
+  m_vViewMenu = 0L;
 		    
   slotFrameInserted( this );
 }
@@ -100,20 +103,29 @@ bool KonqHTMLView::mappingOpenURL( Konqueror::EventOpenURL eventURL )
   KonqBaseView::mappingOpenURL(eventURL);
   openURL( eventURL.url, (bool)eventURL.reload ); // implemented by kbrowser
   SIGNAL_CALL2( "started", id(), CORBA::Any::from_string( (char *)eventURL.url, 0 ) );
+  checkViewMenu();
   return true;
 }
 
 bool KonqHTMLView::mappingCreateViewMenu( Konqueror::View::EventCreateViewMenu viewMenu )
 {
+//FIXME!!!!!!!!!!!!!!!
+#define ID_BASE 14226
+
   if ( !CORBA::is_nil( viewMenu.menu ) )
   {
     if ( viewMenu.create )
     {
-      viewMenu.menu->insertItem4( "testtesttest", this, "testIgnore", 0, 9999, -1 );
+      viewMenu.menu->insertItem4( i18n("&Save As..."), this, "saveDocument", 0, ID_BASE+1, -1 );
+      viewMenu.menu->insertItem4( i18n("Save &Frame As..."), this, "saveFrame", 0, ID_BASE+2, -1 );
+      m_vViewMenu = OpenPartsUI::Menu::_duplicate( viewMenu.menu );
+      checkViewMenu();
     }
     else
     {
-      viewMenu.menu->removeItem ( 9999 );
+      viewMenu.menu->removeItem ( ID_BASE + 1 );
+      viewMenu.menu->removeItem ( ID_BASE + 2 );
+      m_vViewMenu = 0L;
     }
   }
   
@@ -187,6 +199,7 @@ void KonqHTMLView::slotFrameInserted( KBrowser *frame )
     htmlWidget->setURLCursor( KCursor().handCursor() );
   else
     htmlWidget->setURLCursor( KCursor().arrowCursor() );		    
+    checkViewMenu();
 }
 
 void KonqHTMLView::slotURLClicked( const char *url )
@@ -299,6 +312,7 @@ void KonqHTMLView::slotStarted( const char *url )
 void KonqHTMLView::slotCompleted()
 {
   SIGNAL_CALL1( "completed", id() );
+  checkViewMenu();
 }
 
 void KonqHTMLView::slotCanceled()
@@ -332,6 +346,7 @@ KHTMLEmbededWidget* KonqHTMLView::newEmbededWidget( QWidget* _parent, const char
 void KonqHTMLView::stop()
 {
   KBrowser::slotStop();
+  checkViewMenu();
 }
 
 char *KonqHTMLView::url()
@@ -488,34 +503,39 @@ SavedPage *KonqHTMLView::restorePage( Konqueror::HTMLView::SavedState state )
   return p;
 }
 
-#include "konq_partview.h"
-#include "konq_mainview.h"
-
-void KonqHTMLView::testIgnore()
+void KonqHTMLView::saveDocument()
 {
-  if ( !CORBA::is_nil( m_vParent ) )
+  if ( isFrameSet() )
   {
-    if ( m_vParent->supportsInterface( "IDL:Konqueror/MainView:1.0" ) )
+    //TODO
+  }
+  else
+  {
+    QString destFile = KFileDialog::getOpenFileName( QDir::currentDirPath() );
+    if ( !destFile.isEmpty() )
     {
-      Konqueror::MainView_var mainView = Konqueror::MainView::_narrow( m_vParent->getInterface( "IDL:Konqueror/MainView:1.0" ) );
+      KURL u( destFile );
+      Konqueror::EventNewTransfer transfer;
+      transfer.source = getKHTMLWidget()->getDocumentURL().url();
+      transfer.destination = u.url();
+      EMIT_EVENT( m_vParent, Konqueror::eventNewTransfer, transfer );
+    }
+  }
+}
 
-      Konqueror::PartView_var partView = Konqueror::PartView::_duplicate( new KonqPartView );
-    
-      mainView->insertView( partView, Konqueror::right );  
-
-      Konqueror::MainView_var mainView2 = Konqueror::MainView::_duplicate( new KonqMainView );
-
-      mainView2->setMainWindow( m_vMainWindow );      
-
-      partView->setPart( mainView2 );
-      
-      Konqueror::EventOpenURL eventURL;
-      
-      QString home = "file:";
-      home += QDir::homeDirPath();
-      eventURL.url = CORBA::string_dup( home.ascii() );
-      eventURL.reload = (CORBA::Boolean)true;
-      EMIT_EVENT( mainView2, Konqueror::eventOpenURL, eventURL );
+void KonqHTMLView::saveFrame()
+{
+  KHTMLView *v = getSelectedView();
+  if ( v )
+  {
+    QString destFile = KFileDialog::getOpenFileName( QDir::currentDirPath() );
+    if ( !destFile.isEmpty() )
+    {
+      KURL u( destFile );
+      Konqueror::EventNewTransfer transfer;
+      transfer.source = v->getKHTMLWidget()->getDocumentURL().url();
+      transfer.destination = u.url();
+      EMIT_EVENT( m_vParent, Konqueror::eventNewTransfer, transfer );
     }
   }
 }
@@ -524,6 +544,23 @@ void KonqHTMLView::openURL( const char *_url, bool _reload, int _xoffset, int _y
 {
   KBrowser::openURL( _url, _reload, _xoffset, _yoffset, _post_data );
   SIGNAL_CALL2( "setLocationBarURL", id(), CORBA::Any::from_string( (char *)_url, 0 ) );
+}
+
+void KonqHTMLView::checkViewMenu()
+{
+  if ( !CORBA::is_nil( m_vViewMenu ) )
+  {
+    if ( isFrameSet() )
+    {
+      m_vViewMenu->changeItemText( i18n("&Save Frameset As..."), ID_BASE + 1 );
+      m_vViewMenu->setItemEnabled( ID_BASE + 2, true );
+    }      
+    else
+    {
+      m_vViewMenu->changeItemText( i18n("&Save As..."), ID_BASE + 1 );
+      m_vViewMenu->setItemEnabled( ID_BASE + 2, false );
+    }      
+  }
 }
 
 /**********************************************

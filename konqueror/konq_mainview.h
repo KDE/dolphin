@@ -67,6 +67,7 @@ public:
   bool mappingChildGotFocus( OpenParts::Part_ptr child );
   bool mappingParentGotFocus( OpenParts::Part_ptr child );
   bool mappingOpenURL( Konqueror::EventOpenURL eventURL );
+  bool mappingNewTransfer( Konqueror::EventNewTransfer transfer );
 
   //IDL
   // Position is relative to activeView(); above and below create a new row

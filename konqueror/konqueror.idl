@@ -189,7 +189,8 @@ module Konqueror
       sequence<SavedState> frames;
     };
   
-    slot void testIgnore();
+    slot void saveDocument();
+    slot void saveFrame();
   };
   
   interface PartView : View

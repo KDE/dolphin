@@ -67,7 +67,8 @@ public:
   virtual Konqueror::HTMLView::SavedState savePage( SavedPage *page );
   virtual SavedPage *restorePage( Konqueror::HTMLView::SavedState state );
   
-  virtual void testIgnore();
+  virtual void saveDocument();
+  virtual void saveFrame();
 
   virtual void openURL( const char *_url, bool _reload, int _xoffset = 0, int _yoffset = 0, const char *_post_data = 0L);
       
@@ -92,6 +93,9 @@ protected:
 						int _marginwidth, int _marginheight,
 						int _frameborder, bool _noresize );
 
+private:
+  void checkViewMenu();
+  OpenPartsUI::Menu_var m_vViewMenu;
 };
 
 #endif

@@ -336,6 +336,7 @@ bool KonqMainView::event( const char* event, const CORBA::Any& value )
   MAPPING( OpenParts::eventChildGotFocus, OpenParts::Part_var, mappingChildGotFocus );
   MAPPING( OpenParts::eventParentGotFocus, OpenParts::Part_var, mappingParentGotFocus );
   MAPPING( Konqueror::eventOpenURL, Konqueror::EventOpenURL, mappingOpenURL );
+  MAPPING( Konqueror::eventNewTransfer, Konqueror::EventNewTransfer, mappingNewTransfer );
 
   END_EVENT_MAPPER;
 
@@ -562,6 +563,16 @@ bool KonqMainView::mappingParentGotFocus( OpenParts::Part_ptr child )
 bool KonqMainView::mappingOpenURL( Konqueror::EventOpenURL eventURL )
 {
   openURL( eventURL.url, eventURL.reload );
+  return true;
+}
+
+bool KonqMainView::mappingNewTransfer( Konqueror::EventNewTransfer transfer )
+{
+  //TODO: provide transfer status information somewhere (statusbar?...needs extension in OpenParts)
+  
+  KIOJob *job = new KIOJob;
+  job->copy( transfer.source.in(), transfer.destination.in() );
+  
   return true;
 }
 
