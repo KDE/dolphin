@@ -299,7 +299,7 @@ void KNewMenu::slotNewFile()
 		KURL dest( *it );
                 dest.addPath(  KIO::encodeFileName(name) ); // Chosen destination file name
 
-                KIO::Job * job = KIO::copy( src, dest );
+                KIO::Job * job = KIO::copyAs( src, dest );
                 connect( job, SIGNAL( result( KIO::Job * ) ),
                          SLOT( slotResult( KIO::Job * ) ) );
             }
