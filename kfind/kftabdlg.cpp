@@ -14,6 +14,7 @@
 #include <qcombobox.h>
 #include <qspinbox.h>
 
+#include <kcalendarsystem.h>
 #include <kcombobox.h>
 #include <klineedit.h>
 #include <klocale.h>
@@ -142,7 +143,8 @@ KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name)
     betweenType->insertItem(i18n("year(s)"));
     betweenType->setCurrentItem(1);
 
-    fromDate = new KDateCombo(QDate(2000,1,1), pages[1], "fromDate");
+    QDate dt = KGlobal::locale()->calendar()->addYears(QDate::currentDate(), -1);
+    fromDate = new KDateCombo(dt, pages[1], "fromDate");
     toDate = new KDateCombo(pages[1], "toDate");
     timeBox = new QSpinBox(1, 60, 1, pages[1], "timeBox");
 
@@ -457,7 +459,8 @@ void KfindTabWidget::slotSizeBoxChanged(int index)
 
 void KfindTabWidget::setDefaults()
 {
-    fromDate ->setDate(QDate(2000,1,1));
+    QDate dt = KGlobal::locale()->calendar()->addYears(QDate::currentDate(), -1);
+    fromDate ->setDate(dt);
     toDate ->setDate(QDate::currentDate());
 
     timeBox->setValue(1);
