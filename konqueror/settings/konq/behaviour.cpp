@@ -36,8 +36,10 @@ KBehaviourOptions::KBehaviourOptions(KConfig *config, QString group, bool showFi
     {
       row++;
       winPixmap = new QLabel(this);
+      winPixmap->setFrameStyle( QFrame::StyledPanel | QFrame::Sunken );
       winPixmap->setPixmap(QPixmap(locate("data",
 					"kcontrol/pics/onlyone.png")));
+      winPixmap->setFixedSize( winPixmap->sizeHint() );
       lay->addMultiCellWidget(winPixmap, row, row, 1, 2);
 
       // ----
