@@ -72,10 +72,12 @@ void KHTMLPluginKTTSD::slotReadOut()
                            data, replyType, replyData, true) )
            QMessageBox::warning( 0, i18n( "DCOP Call failed" ),
                                     i18n( "The DCOP call setText failed" ));
-        if ( !client->call("kttsd", "kspeech", "playText()",
+        QDataStream arg2(data2, IO_WriteOnly);
+        arg2 << 0;
+        if ( !client->call("kttsd", "kspeech", "startText(uint)",
                            data2, replyType, replyData, true) )
            QMessageBox::warning( 0, i18n( "DCOP Call failed" ),
-                                    i18n( "The DCOP call playText failed" ));
+                                    i18n( "The DCOP call startText failed" ));
     }
 }
 
