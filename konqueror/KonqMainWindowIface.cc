@@ -106,3 +106,11 @@ bool KonqMainWindowIface::processDynamic( const QCString &fun, const QByteArray 
     return DCOPObject::processDynamic( fun, data, replyType, replyData );
 }
 
+bool KonqMainWindowIface::windowCanBeUsedForTab( int screen )
+{
+    if( qt_xscreen() != screen )
+        return false; // this window shows on different screen
+    if( KonqMainWindow::isPreloaded() )
+        return false; // we want a tab in an already shown window
+    return true;
+}

@@ -279,6 +279,24 @@ bool clientApp::createNewWindow(const KURL & url, const QString & mimetype)
 		return true;
 	}
 
+    KConfig cfg( QString::fromLatin1( "konquerorrc" ), true );
+    cfg.setGroup( "FMSettings" );
+    if ( cfg.readBoolEntry( "MMBOpensTab", false ) )
+    {
+        QCString foundApp, foundObj;
+        QByteArray data;
+        QDataStream str( data, IO_WriteOnly );
+        str << currentScreen();
+        if( KApplication::dcopClient()->findObject( "konqueror*", "konqueror-mainwindow*",
+            "windowCanBeUsedForTab( int )", data, foundApp, foundObj, false, 3000 ) )
+        {
+            DCOPRef ref( foundApp, foundObj );
+            DCOPReply reply = ref.call( "newTab", url.url() );
+            if ( reply.isValid() )
+                return true;
+      }
+    }
+
     QCString appId = konqyToReuse( url.url(), mimetype, QString::null );
     if( !appId.isEmpty())
     {

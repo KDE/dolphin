@@ -57,6 +57,11 @@ k_dcop:
   QCStringList actions();
   QMap<QCString,DCOPRef> actionMap();
 
+  /**
+   * Used by kfmclient when searching a window to open a tab within
+   */
+  bool windowCanBeUsedForTab( int screen );
+
 public:
     virtual QCStringList functionsDynamic();
     virtual bool processDynamic( const QCString &fun, const QByteArray &data, QCString &replyType, QByteArray &replyData );
