@@ -118,7 +118,7 @@ void KonqCommandRecorder::slotResult( KIO::Job *job )
   KonqUndoManager::self()->addCommand( d->m_cmd );
 }
 
-void KonqCommandRecorder::slotCopyingDone( KIO::Job *, const KURL &from, const KURL &to, bool directory, bool renamed )
+void KonqCommandRecorder::slotCopyingDone( KIO::Job *job, const KURL &from, const KURL &to, bool directory, bool renamed )
 {
   KonqBasicOperation op;
   op.m_valid = true;
@@ -127,6 +127,19 @@ void KonqCommandRecorder::slotCopyingDone( KIO::Job *, const KURL &from, const K
   op.m_src = from;
   op.m_dst = to;
   op.m_link = false;
+
+  if ( d->m_cmd.m_type == KonqCommand::TRASH )
+  {
+      Q_ASSERT( from.isLocalFile() );
+      Q_ASSERT( to.protocol() == "trash" );
+      QMap<QString, QString> metaData = job->metaData();
+      QMap<QString, QString>::ConstIterator it = metaData.find( "trashURL-" + from.path() );
+      if ( it != metaData.end() ) {
+          // Update URL
+          op.m_dst = it.data();
+      }
+  }
+
   d->m_cmd.m_opStack.prepend( op );
 }
 
@@ -243,6 +256,8 @@ QString KonqUndoManager::undoText() const
     return i18n( "Und&o: Link" );
   else if ( t == KonqCommand::MOVE )
     return i18n( "Und&o: Move" );
+  else if ( t == KonqCommand::TRASH )
+    return i18n( "Und&o: Trash" );
   else if ( t == KonqCommand::MKDIR )
     return i18n( "Und&o: Create Folder" );
   else
@@ -270,16 +285,6 @@ void KonqUndoManager::undo()
   QValueList<KonqBasicOperation>::Iterator end = d->m_current.m_opStack.end();
   while ( it != end )
   {
-      if ( d->m_current.m_type == KonqCommand::MOVE && (*it).m_src.path(1) == KGlobalSettings::trashPath())
-      {
-          kdDebug(1203) << "Update trash path" <<(*it).m_dst.path()<< endl;
-          KConfig *globalConfig = KGlobal::config();
-          KConfigGroupSaver cgs( globalConfig, "Paths" );
-          globalConfig->writeEntry("Trash" , (*it).m_dst.path(), true, true );
-          globalConfig->sync();
-          KIPC::sendMessageAll(KIPC::SettingsChanged, KApplication::SETTINGS_PATHS);
-      }
-
     if ( (*it).m_directory && !(*it).m_renamed )
     {
       d->m_dirStack.push( (*it).m_src );
@@ -422,7 +427,8 @@ void KonqUndoManager::undoMovingFiles()
         d->m_currentJob = KIO::file_delete( op.m_dst );
         d->m_uiserver->deleting( d->m_uiserverJobId, op.m_dst );
       }
-      else
+      else if ( d->m_current.m_type == KonqCommand::MOVE
+                || d->m_current.m_type == KonqCommand::TRASH )
       {
         kdDebug(1203) << "KonqUndoManager::undoStep file_move " << op.m_dst.prettyURL() << " " << op.m_src.prettyURL() << endl;
         d->m_currentJob = KIO::file_move( op.m_dst, op.m_src, -1, true );

@@ -54,7 +54,7 @@ struct KonqCommand
 {
   typedef QValueStack<KonqCommand> Stack;
 
-  enum Type { COPY, MOVE, LINK, MKDIR };
+  enum Type { COPY, MOVE, LINK, MKDIR, TRASH };
 
   KonqCommand()
   { m_valid = false; }
@@ -113,7 +113,7 @@ signals:
   void undoTextChanged( const QString &text );
 
 protected:
-  /** 
+  /**
    * @internal
    */
   void stopUndo( bool step );

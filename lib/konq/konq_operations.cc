@@ -61,7 +61,8 @@
 KBookmarkManager * KonqBookmarkManager::s_bookmarkManager;
 
 KonqOperations::KonqOperations( QWidget *parent )
-    : QObject( parent, "KonqOperations" ), m_info(0L), m_pasteInfo(0L)
+    : QObject( parent, "KonqOperations" ),
+      m_method( UNKNOWN ), m_info(0L), m_pasteInfo(0L)
 {
 }
 
@@ -193,7 +194,7 @@ void KonqOperations::_del( int method, const KURL::List & _selectedURLs, int con
       case TRASH:
       {
         job = KIO::trash( selectedURLs );
-        (void) new KonqCommandRecorder( KonqCommand::MOVE, selectedURLs, "trash:/", job );
+        (void) new KonqCommandRecorder( KonqCommand::TRASH, selectedURLs, "trash:/", job );
          break;
       }
       case EMPTYTRASH:
@@ -212,7 +213,7 @@ void KonqOperations::_del( int method, const KURL::List & _selectedURLs, int con
         job = KIO::del( selectedURLs, true );
         break;
       default:
-        Q_ASSERT(0);
+        kdWarning() << "Unknown operation: " << method << endl;
         delete this;
         return;
     }
@@ -616,8 +617,10 @@ void KonqOperations::doFileCopy()
     case QDropEvent::Move :
         job = KIO::move( lst, m_destURL );
         job->setMetaData( m_info->metaData );
-        setOperation( job, MOVE, lst, m_destURL );
-        (void) new KonqCommandRecorder( KonqCommand::MOVE, lst, m_destURL, job );
+        setOperation( job, m_method == TRASH ? TRASH : MOVE, lst, m_destURL );
+        (void) new KonqCommandRecorder(
+            m_method == TRASH ? KonqCommand::TRASH : KonqCommand::MOVE,
+            lst, m_destURL, job );
         return; // we still have stuff to do -> don't delete ourselves
     case QDropEvent::Copy :
         job = KIO::copy( lst, m_destURL );
