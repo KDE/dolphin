@@ -81,9 +81,9 @@ KonqFactory::~KonqFactory()
 
 KonqViewFactory KonqFactory::createView( const QString &serviceType,
                                          const QString &serviceName,
-				         KService::Ptr *serviceImpl,
-				         KTrader::OfferList *partServiceOffers,
-					 KTrader::OfferList *appServiceOffers )
+                                         KService::Ptr *serviceImpl,
+                                         KTrader::OfferList *partServiceOffers,
+                                         KTrader::OfferList *appServiceOffers )
 {
   kdDebug(1202) << "Trying to create view for \"" << serviceType << "\"" << endl;
 
@@ -110,8 +110,7 @@ KonqViewFactory KonqFactory::createView( const QString &serviceType,
       //kdDebug(1202) << (*it)->desktopEntryName() << endl;
       // Remove pure services (no app), and also remove ourselves... :-}
       if ( (*it)->type() != "Application"
-           || (*it)->desktopEntryName() == "kfmclient"
-           || (*it)->desktopEntryName() == "home" )
+           || (*it)->desktopEntryName() == "kfmclient" )
       {
         it = appServiceOffers->remove( it );
         // it points to the next one now
