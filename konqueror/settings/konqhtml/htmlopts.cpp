@@ -114,7 +114,7 @@ KMiscHTMLOptions::KMiscHTMLOptions(KConfig *config, QString group, QWidget *pare
     label->setBuddy(m_pAnimationsCombo);
     m_pAnimationsCombo->insertItem(i18n("Enabled"), AnimationsAlways);
     m_pAnimationsCombo->insertItem(i18n("Disabled"), AnimationsNever);
-    m_pAnimationsCombo->insertItem(i18n("Show only once"), AnimationsLoopOnce);
+    m_pAnimationsCombo->insertItem(i18n("Show Only Once"), AnimationsLoopOnce);
     lay->addWidget(label, row, 0);
     lay->addWidget(m_pAnimationsCombo, row, 1);
     row++;

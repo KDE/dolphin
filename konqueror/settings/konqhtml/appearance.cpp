@@ -177,7 +177,7 @@ KAppearanceOptions::KAppearanceOptions(KConfig *config, QString group, QWidget *
   m_pEncoding = new QComboBox( false, this );
   label->setBuddy( m_pEncoding );
   encodings = KGlobal::charsets()->availableEncodingNames();
-  encodings.prepend(i18n("Use language encoding"));
+  encodings.prepend(i18n("Use Language Encoding"));
   m_pEncoding->insertStringList( encodings );
   lay->addMultiCellWidget(m_pEncoding,r, r, M, W);
 
@@ -346,7 +346,7 @@ void KAppearanceOptions::save()
     m_pConfig->writeEntry( "Fonts", fonts );
 
     // If the user chose "Use language encoding", write an empty string
-    if (encodingName == i18n("Use language encoding"))
+    if (encodingName == i18n("Use Language Encoding"))
         encodingName = "";
     m_pConfig->writeEntry( "DefaultEncoding", encodingName );
     m_pConfig->sync();

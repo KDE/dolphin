@@ -70,7 +70,7 @@ KJavaScriptOptions::KJavaScriptOptions( KConfig* config, QString group, QWidget 
 //  connect( enableJavaScriptDebugCB, SIGNAL( clicked() ), this, SLOT( changed() ) );
 
   // the domain-specific listview (copied and modified from Cookies configuration)
-  QGroupBox* domainSpecificGB = new QGroupBox( i18n( "D&omain-specific" ), this );
+  QGroupBox* domainSpecificGB = new QGroupBox( i18n( "D&omain-Specific" ), this );
   domainSpecificGB->setColumnLayout(0, Qt::Vertical );
   domainSpecificGB->layout()->setSpacing( 0 );
   domainSpecificGB->layout()->setMargin( 0 );
