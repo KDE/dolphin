@@ -43,6 +43,9 @@
 #include <kmessagebox.h>
 #include <klineeditdlg.h>
 #include <qdir.h>
+#if QT_VERSION >= 300
+#include <qucom.h>
+#endif
 
 
 QString  Sidebar_Widget::PATH=QString(""); 
@@ -372,11 +375,21 @@ void Sidebar_Widget::stdAction(const char *handlestd)
 	KParts::BrowserExtension *ext;
 	if ((ext=(KParts::BrowserExtension*)mod->module->provides("KParts::BrowserExtension")))
 		{
+#if QT_VERSION < 300
 			QMetaData *md=ext->metaObject()->slot(handlestd);
 			if (md)
 			{
 				(ext->*((void(QObject::*)())md->ptr))();
 			}
+#else
+            QMetaObject *mo = ext->metaObject();
+            const QMetaData *md = mo->slot( mo->findSlot( handlestd ) );
+            if ( md )
+            {
+                QUObject o[ 1 ];
+                ext->qt_invoke( md->ptr, o );
+            }
+#endif
 		}
 }
 

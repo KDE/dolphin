@@ -11,6 +11,7 @@
 #include <kfileitem.h>
 
 class QString;
+class QPushButton;
 
 class KQuery;
 class KURL;

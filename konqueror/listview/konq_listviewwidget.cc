@@ -36,6 +36,8 @@
 #include <kaction.h>
 #include <kurldrag.h>
 #include <qheader.h>
+#include <qpainter.h>
+#include <qstyle.h>
 
 #include <stdlib.h>
 #include <assert.h>
@@ -387,8 +389,14 @@ void KonqBaseListViewWidget::drawRubber()
 
    QPoint pt( m_rubber->x(), m_rubber->y() );
    pt = contentsToViewport( pt );
+#if QT_VERSION < 300
    style().drawFocusRect( &p, QRect( pt.x(), pt.y(), m_rubber->width(), m_rubber->height() ),
                           colorGroup(), &colorGroup().base() );
+#else
+   style().drawPrimitive( QStyle::PE_FocusRect, &p, 
+                          QRect( pt.x(), pt.y(), m_rubber->width(), m_rubber->height() ),
+                          colorGroup(), QStyle::Style_Default, colorGroup().base() );
+#endif
    p.end();
 }
 

@@ -22,7 +22,7 @@
 #define __KonqViewIface_h__
 
 #include <dcopobject.h>
-#include <qvaluelist.h>
+#include <qstringlist.h>
 #include <dcopref.h>
 
 class KonqView;

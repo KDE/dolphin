@@ -42,6 +42,9 @@
 #include <qapplication.h>
 #include <qmetaobject.h>
 #include <qobjectlist.h>
+#if QT_VERSION >= 300
+#include <qucom.h>
+#endif
 
 #include <kparts/factory.h>
 
@@ -734,6 +737,7 @@ bool KonqView::callExtensionMethod( const char *methodName )
   if ( !obj )
     return false;
 
+#if QT_VERSION < 300
   QMetaData * mdata = obj->metaObject()->slot( methodName );
   if( mdata )
   {
@@ -741,6 +745,16 @@ bool KonqView::callExtensionMethod( const char *methodName )
     return true;
   };
   return false;
+#else
+  QMetaObject *mo = obj->metaObject();
+  const QMetaData *mdata = mo->slot( mo->findSlot( methodName ) );
+  if ( !mdata )
+    return false;
+  QUObject o[ 1 ];
+  
+  obj->qt_invoke( mdata->ptr, o ); 
+  return true;
+#endif
 }
 
 bool KonqView::callExtensionBoolMethod( const char *methodName, bool value )
@@ -750,6 +764,7 @@ bool KonqView::callExtensionBoolMethod( const char *methodName, bool value )
   if ( !obj )
     return false;
 
+#if QT_VERSION < 300
   typedef void (QObject::*BoolMethod)(bool);
   QMetaData * mdata = obj->metaObject()->slot( methodName );
   if( mdata )
@@ -758,6 +773,18 @@ bool KonqView::callExtensionBoolMethod( const char *methodName, bool value )
     return true;
   };
   return false;
+#else
+  QMetaObject *mo = obj->metaObject();
+  const QMetaData *mdata = mo->slot( mo->findSlot( methodName ) );
+  if ( !mdata )
+    return false;
+  QUObject o[ 2 ];
+
+  pQUType_bool->set( o + 1, value );
+  
+  obj->qt_invoke( mdata->ptr, o ); 
+  return true;
+#endif
 }
 
 bool KonqView::callExtensionStringMethod( const char *methodName, QString value )
@@ -767,6 +794,7 @@ bool KonqView::callExtensionStringMethod( const char *methodName, QString value 
   if ( !obj )
     return false;
 
+#if QT_VERSION < 300
   //kdDebug(1202) << "KonqView::callExtensionStringMethod " << methodName << endl;
   typedef void (QObject::*StringMethod)(QString);
   QMetaData * mdata = obj->metaObject()->slot( methodName );
@@ -777,6 +805,18 @@ bool KonqView::callExtensionStringMethod( const char *methodName, QString value 
     //kdDebug(1202) << "Call done" << endl;
   };
   return false;
+#else
+  QMetaObject *mo = obj->metaObject();
+  const QMetaData *mdata = mo->slot( mo->findSlot( methodName ) );
+  if ( !mdata )
+    return false;
+  QUObject o[ 2 ];
+
+  pQUType_QString->set( o + 1, value );
+  
+  obj->qt_invoke( mdata->ptr, o ); 
+  return true;
+#endif
 }
 
 void KonqView::setViewName( const QString &name )
