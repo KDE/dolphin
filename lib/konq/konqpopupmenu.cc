@@ -53,17 +53,13 @@ KonqPopupMenu::KonqPopupMenu( const KonqFileItemList &items,
 {
   assert( m_lstItems.count() >= 1 );
 
-  bool bHttp          = true;
-  bool isTrash        = true;
   bool currentDir     = false;
-  bool isCurrentTrash = false;
   bool sReading       = true;
   bool sWriting       = true;
   bool sDeleting      = true;
   bool sMoving        = true;
-  //  bool hasUpURL       = false;
   m_sMimeType         = m_lstItems.first()->mimetype();
-  mode_t mode     = m_lstItems.first()->mode();
+  mode_t mode         = m_lstItems.first()->mode();
   m_lstPopupURLs.clear();
   int id;
 
@@ -79,9 +75,6 @@ KonqPopupMenu::KonqPopupMenu( const KonqFileItemList &items,
     // Build the list of URLs
     m_lstPopupURLs.append( url );
 
-    QString protocol = url.protocol();
-    if ( protocol != "http" ) bHttp = false; // not HTTP
-
     // Determine if common mode among all URLs
     if ( mode != (*it)->mode() )
       mode = 0; // modes are different => reset to 0
@@ -90,17 +83,7 @@ KonqPopupMenu::KonqPopupMenu( const KonqFileItemList &items,
     if ( m_sMimeType != (*it)->mimetype() )
       m_sMimeType = QString::null; // mimetypes are different => null
 
-    // check if all urls are in the trash
-    if ( isTrash )
-    {
-      QString path = url.path();
-      if ( path.at(path.length() - 1) != '/' )
-	path += '/';
-
-      if ( protocol != "file" ||
-	   path != KGlobalSettings::trashPath() )
-	isTrash = false;
-    }
+    QString protocol = url.protocol();
 
     if ( sReading )
       sReading = pManager.supportsReading( protocol );
@@ -119,27 +102,17 @@ KonqPopupMenu::KonqPopupMenu( const KonqFileItemList &items,
   url = m_sViewURL;
   url.cleanPath();
 
-  if ( url.protocol() == "file" &&
-       url.path(1) == KGlobalSettings::trashPath() )
-    isCurrentTrash = true;
+  bool isCurrentTrash = ( url.isLocalFile() &&
+                          url.path(1) == KGlobalSettings::trashPath() );
 
   //check if url is current directory
   if ( m_lstItems.count() == 1 )
   {
     KURL firstPopupURL ( m_lstItems.first()->url() );
     firstPopupURL.cleanPath();
-    //kdDebug(1203) << "View path is " << url.path(1) << endl;
-    //kdDebug(1203) << "First popup path is " << firstPopupURL.path(1) << endl;
-    if ( firstPopupURL.protocol() == url.protocol()
-         && url.path(1) == firstPopupURL.path(1) )
-    {
-      currentDir = true;
-      // ok, now check if we enable 'up'
-      /*
-      if ( url.hasPath() )
-        hasUpURL = ( url.path(1) != "/");
-      */
-    }
+    //kdDebug(1203) << "View path is " << url.url() << endl;
+    //kdDebug(1203) << "First popup path is " << firstPopupURL.url() << endl;
+    currentDir = firstPopupURL.cmp( url, true /* ignore_trailing */ );
   }
 
   QObject::disconnect( this, SIGNAL( activated( int ) ), this, SLOT( slotPopup( int ) ) );
@@ -147,6 +120,10 @@ KonqPopupMenu::KonqPopupMenu( const KonqFileItemList &items,
   clear();
 
   //////////////////////////////////////////////////////////////////////////
+
+  // Now let's plug the actions we want to plug.
+  // Remember, the caller did all the setEnabled stuff, we shouldn't do
+  // any of it here.
 
   QAction * act;
   if ( ( act = m_actions.action("showmenubar") ) )
@@ -161,8 +138,8 @@ KonqPopupMenu::KonqPopupMenu( const KonqFileItemList &items,
     act->plug( this );
     insertSeparator();
   }
-  
-  if ( isTrash )
+
+  if ( isCurrentTrash && currentDir )
   {
     id = insertItem( i18n( "New View" ),
 				  this, SLOT( slotPopupNewView() ) );
@@ -187,15 +164,12 @@ KonqPopupMenu::KonqPopupMenu( const KonqFileItemList &items,
       if ( currentDir ) {
         if ( ( act = m_actions.action("up") ) )
           act->plug( this );
-        //setItemEnabled( id, hasUpURL );
 
         if ( ( act = m_actions.action("back") ) )
           act->plug( this );
-        //setItemEnabled( id, canGoBack );
 
         if ( ( act = m_actions.action("forward") ) )
           act->plug( this );
-        //setItemEnabled( id, canGoForward );
 
         insertSeparator();
       }
@@ -204,9 +178,9 @@ KonqPopupMenu::KonqPopupMenu( const KonqFileItemList &items,
       insertSeparator();
 
     }
-    else // not trash nor dir
+    else // not all URLs are dirs
     {
-      if ( bHttp )
+      if ( m_sViewURL.protocol() == "http" )
       {
         /* Should be for http URLs (HTML pages) only ... */
         id = insertItem( i18n( "New View"), this, SLOT( slotPopupNewView() ) );
@@ -223,52 +197,22 @@ KonqPopupMenu::KonqPopupMenu( const KonqFileItemList &items,
         act->plug( this );
     }
 
-    if ( ( act = m_actions.action("paste") ) )
-      act->plug( this );
-
-    /*
-      I'm confused by this ...
-    if ( sWriting && m_bHandleEditOperations )
-      id = insertItem( BarIcon( "editpaste" ), i18n( "Paste" ), this, SLOT( slotPopupPaste() ) );
-    else if ( !m_bHandleEditOperations )
-    {
-    // do we have to create the item in this case, or in the other case ?
-      id = insertItem( *BarIcon( "editpaste" ), i18n( "Paste" ), KPOPUPMENU_PASTE_ID );
-      setItemEnabled( id, canPaste );
+    if ( sWriting ) {
+      if ( ( act = m_actions.action("paste") ) )
+        act->plug( this );
     }
-    */
 
-    /*
-    if ( isClipboardEmpty() && m_bHandleEditOperations )
-      setItemEnabled( id, false );
-    */
+    if ( sMoving && !currentDir ) {
+      if ( ( act = m_actions.action("trash") ) )
+        act->plug( this );
+    }
 
-    if ( ( act = m_actions.action("trash") ) )
-      act->plug( this );
-    /*
-      if ( sMoving && !isCurrentTrash && !currentDir && m_bHandleEditOperations )
-      id = insertItem( BarIcon( "kfm_trash" ), i18n( "Move to trash" ), this, SLOT( slotPopupTrash() ) );
-      else if ( !m_bHandleEditOperations )
-      {
-      id = insertItem( BarIcon( "kfm_trash", true ), i18n( "Move to trash" ), KPOPUPMENU_TRASH_ID );
-      setItemEnabled( id, canMove );
-      }
-    */
-
-    if ( ( act = m_actions.action("del") ) )
-      act->plug( this );
-    if ( ( act = m_actions.action("shred") ) )
-      act->plug( this );
-    /*
-      if ( sDeleting && !currentDir && m_bHandleEditOperations )
-      id = insertItem( i18n( "Delete" ), this, SLOT( slotPopupDelete() ) );
-      else if ( !m_bHandleEditOperations )
-      {
-      id = insertItem( i18n( "Delete" ), KPOPUPMENU_DELETE_ID );
-      setItemEnabled( id, canMove );
-      }
-    */
-
+    if ( sDeleting && !currentDir ) {
+      if ( ( act = m_actions.action("del") ) )
+        act->plug( this );
+      if ( m_sViewURL.isLocalFile() && ( act = m_actions.action("shred") ) )
+        act->plug( this );
+    }
   }
 
   id = insertItem( i18n( "Add To Bookmarks" ), this, SLOT( slotPopupAddToBookmark() ) );
