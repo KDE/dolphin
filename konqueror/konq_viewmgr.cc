@@ -1189,7 +1189,20 @@ void KonqViewManager::loadViewProfile( KConfig &cfg, const QString & filename,
     m_pMainWindow->action( "clear_location" )->activate();
   }
 
-  if ( m_pDocContainer->frameType() != "Tabs")
+  if (m_pDocContainer == 0L)
+  {
+    if (m_pMainWindow &&
+        m_pMainWindow->currentView() &&
+        m_pMainWindow->currentView()->frame()) {
+       m_pDocContainer = m_pMainWindow->currentView()->frame();
+    } else {
+       kdDebug(1202) << "This view profile does not support tabs." << endl;
+       return;
+    }
+  }
+
+
+    if ( m_pDocContainer->frameType() != "Tabs")
     convertDocContainer();
 
   static_cast<KonqFrameTabs*>( m_pDocContainer )->setAlwaysTabbedMode( alwaysTabbedMode );
