@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="keditbookmarks" version="6">
+<kpartgui name="keditbookmarks" version="7">
 
 <MenuBar>
 
@@ -8,10 +8,6 @@
  <Action name="importMoz"/>
  <Action name="exportNS"/>
  <Action name="exportMoz"/>
- <Separator/><!-- Creation -->
- <Action name="newbookmark"/>
- <Action name="newfolder"/>
- <Action name="insertseparator"/>
  <Separator/>
  <Action name="file_save"/>
  <Action name="file_save_as"/>
@@ -27,6 +23,12 @@
  <Separator/><!-- Stuff for folders -->
  <Action name="sort"/>
  <Action name="setastoolbar"/>
+</Menu>
+
+<Menu name="insert"><text>&amp;Insert</text>
+ <Action name="newbookmark"/>
+ <Action name="newfolder"/>
+ <Action name="insertseparator"/>
 </Menu>
 
 <Menu name="bookmark"><text>&amp;Bookmark</text>
