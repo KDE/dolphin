@@ -778,6 +778,11 @@ void KonqComboLineEdit::setCompletedItems( const QStringList& items )
             const QString currentSelection = completionbox->currentText();
             completionbox->setItems( items );
             QListBoxItem* item = completionbox->findItem( currentSelection, Qt::ExactMatch );
+            if( !item || !wasSelected )
+            {
+                wasSelected = false;
+                item = completionbox->item( 0 );
+            }
             if ( item ) {
                 completionbox->blockSignals( true );
                 completionbox->setCurrentItem( item );
