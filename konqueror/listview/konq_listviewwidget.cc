@@ -400,9 +400,6 @@ void KonqBaseListViewWidget::initConfig()
    bool on = m_pSettings->showFileTips() && QToolTip::isGloballyEnabled();
    m_fileTip->setOptions( on, m_pSettings->showPreviewsInFileTips(), m_pSettings->numFileTips() );
 
-   // if the user wants our own tooltip, don't show the one from Qts ListView
-   setShowToolTips(!on);
-
    updateListContents();
 }
 
@@ -492,6 +489,7 @@ void KonqBaseListViewWidget::contentsMouseMoveEvent( QMouseEvent *e )
          QRect rect( viewportToContents( vp ), QSize(20, item->height()) );
          m_fileTip->setItem( item->item(), rect, item->pixmap( 0 ) );
          m_fileTip->setPreview( KGlobalSettings::showFilePreview( item->item()->url() ) );
+         setShowToolTips( !m_pSettings->showFileTips() );
       }
       else
       {
@@ -499,6 +497,7 @@ void KonqBaseListViewWidget::contentsMouseMoveEvent( QMouseEvent *e )
          m_pBrowserView->emitMouseOver( 0 );
 
          m_fileTip->setItem( 0 );
+         setShowToolTips( true );
       }
    }
 
