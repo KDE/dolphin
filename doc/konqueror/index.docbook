@@ -1,9 +1,9 @@
 <!DOCTYPE book PUBLIC  "-//KDE//DTD DocBook V3.1-Based Variant V1.0//EN" [
- <!ENTITY appname "&konqueror;" -- this only *seems* redundant -->
- <!ENTITY % English "INCLUDE" -- change language only here -->
- <!ENTITY % addindex "IGNORE">
- <!ENTITY % ents PUBLIC "-//KDE//ENTITIES Documentation V1.0//EN">
- %ents;
+  <!ENTITY kappname "&konqueror;">
+  <!ENTITY % English "INCLUDE" -- change language only here -->
+  <!ENTITY % addindex "IGNORE">
+  <!ENTITY % ents PUBLIC "-//KDE//ENTITIES Documentation V1.0//EN">
+  %ents;
 ]>
 
 <book lang="&language;"> 
