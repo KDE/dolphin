@@ -66,7 +66,6 @@ void KFileIVI::setIcon( int size, int state, bool recalc, bool redraw )
 {
     m_size = size;
     m_bThumbnail = false;
-    m_thumbnailName = QString::null;
     if ( m_bDisabled )
       m_state = KIcon::DisabledState;
     else
