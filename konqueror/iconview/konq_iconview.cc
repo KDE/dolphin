@@ -620,6 +620,7 @@ void KonqKfmIconView::slotOpenURLRequest()
   {
     KParts::URLArgs args;
     args.serviceType = openURLRequestFileItem->mimetype();
+    args.trustedSource = true;
     emit m_extension->openURLRequest( openURLRequestFileItem->url(), args );
     openURLRequestFileItem = 0L;
   }

@@ -612,6 +612,7 @@ void KonqDirTree::slotDoubleClicked( QListViewItem *item )
   if ( dItem->isListable() )
     args.serviceType = QString::fromLatin1( "inode/directory" );
 
+  args.trustedSource = true;
   emit m_view->extension()->openURLRequest( dItem->fileItem()->url(), args );
 
   m_lastItem = item;

@@ -597,7 +597,9 @@ void KonqBaseListViewWidget::emitCompleted()
 
 void KonqBaseListViewWidget::emitOpenURLRequest(const KURL& url, const KParts::URLArgs& args)
 {
-   emit m_pBrowserView->extension()->openURLRequest(url,args);
+   KParts::URLArgs a = args;
+   a.trustedSource = true;
+   emit m_pBrowserView->extension()->openURLRequest(url,a);
 }
 
 void KonqBaseListViewWidget::emitStarted( KIO::Job * job)
