@@ -106,6 +106,9 @@ class Sidebar_Widget: public QWidget, public KonqSidebar_PluginInterface
 	void initialCopy();
 	void doLayout();
 	void connectModule(QObject *mod);
+	int savedWidth;
+	bool somethingVisible;
+	void collapseExpandSidebar();
   protected:
 	virtual bool eventFilter(QObject*,QEvent*);
 	friend class ButtonInfo;

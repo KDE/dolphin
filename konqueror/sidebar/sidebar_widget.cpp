@@ -32,7 +32,7 @@
 #include <qdockarea.h>
 #include <config.h>
 #include <qpopupmenu.h>
-
+#include <qsplitter.h>
 
 QString  Sidebar_Widget::PATH=QString("");
 
@@ -227,6 +227,7 @@ void Sidebar_Widget::doLayout()
 
 	}
 	myLayout->activate();
+//	savedWidth=((QWidget*)(parent()))->width();
 }
 
 
@@ -355,15 +356,21 @@ void Sidebar_Widget::readConfig()
 	QStringList list=conf.readListEntry("OpenViews");
 	kdDebug()<<"readConfig: "<<conf.readEntry("OpenViews")<<endl;
 	doLayout();
+	savedWidth=((QWidget*)(parent()))->width();
+	somethingVisible=true;
+	bool tmpSomethingVisible=false;
 	for (uint i=0; i<Buttons.count();i++)
 	{
 		if (list.contains(Buttons.at(i)->file))
 			{
+				tmpSomethingVisible=true;
+				somethingVisible=true;
 				ButtonBar->setTab(i,true); //showHidePage(i);
 				showHidePage(i);
 				if (singleWidgetMode) return;
 			}
 	}
+	if (!tmpSomethingVisible) collapseExpandSidebar();
 }
 
 void Sidebar_Widget::updateDock()
@@ -621,7 +628,34 @@ void Sidebar_Widget::showHidePage(int page)
 				}
 
 		}
-	
+
+	collapseExpandSidebar();	
+}
+
+void Sidebar_Widget::collapseExpandSidebar()
+{
+	if ((somethingVisible) && (visibleViews.count()==0))
+	{
+    		QValueList<int> list = ((QSplitter*)parent()->parent())->sizes();
+		QValueList<int>::Iterator it = list.begin();
+		savedWidth=*it;
+		(*it)=ButtonBar->width();
+		((QSplitter*)parent()->parent())->setSizes(list);
+
+		((QWidget*)parent())->setMaximumWidth(ButtonBar->width());
+		somethingVisible=false;
+	}
+	else
+	if ((!somethingVisible) && (visibleViews.count()!=0))
+	{
+		somethingVisible=true;
+		
+		((QWidget*)parent())->setMaximumWidth(32767);
+    		QValueList<int> list = ((QSplitter*)parent()->parent())->sizes();
+		QValueList<int>::Iterator it = list.begin();
+		if (it!=list.end()) (*it)=savedWidth;
+		((QSplitter*)parent()->parent())->setSizes(list);
+	}
 }
 
 void Sidebar_Widget::dockWidgetHasUndocked(KDockWidget* wid)
