@@ -180,6 +180,8 @@ public:
 
   void setActivePart( KParts::Part *part, bool immediate );
 
+  static QSize readConfigSize( KConfig &cfg );
+
 protected slots:
   void emitActivePartChanged();
 

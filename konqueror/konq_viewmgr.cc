@@ -522,44 +522,10 @@ void KonqViewManager::loadViewProfile( KConfig &cfg, const QString & filename, c
 
   // Window size
 
-  bool ok;
+  QSize size = readConfigSize( cfg );
 
-  QString widthStr = cfg.readEntry( "Width" );
-  QString heightStr = cfg.readEntry( "Height" );
-
-  int width = -1;
-  int height = -1;
-
-  if ( widthStr.contains( '%' ) == 1 )
-  {
-    widthStr.truncate( widthStr.length() - 1 );
-    int relativeWidth = widthStr.toInt( &ok );
-    if ( ok )
-      width = relativeWidth * QApplication::desktop()->width() / 100;
-  }
-  else
-  {
-    width = widthStr.toInt( &ok );
-    if ( !ok )
-      width = -1;
-  }
-
-  if ( heightStr.contains( '%' ) == 1 )
-  {
-    heightStr.truncate( heightStr.length() - 1 );
-    int relativeHeight = heightStr.toInt( &ok );
-    if ( ok )
-      height = relativeHeight * QApplication::desktop()->height() / 100;
-  }
-  else
-  {
-    height = heightStr.toInt( &ok );
-    if ( !ok )
-      height = -1;
-  }
-
-  if ( width > -1 && height > -1 )
-    m_pMainWindow->resize( width, height );
+  if ( size.isValid() )
+    m_pMainWindow->resize( size );
 
   printFullHierarchy( m_pMainContainer );
 
@@ -592,6 +558,47 @@ void KonqViewManager::setActivePart( KParts::Part *part, QWidget * )
 void KonqViewManager::emitActivePartChanged()
 {
     m_pMainWindow->slotPartActivated( activePart() );
+}
+
+QSize KonqViewManager::readConfigSize( KConfig &cfg )
+{
+    bool ok;
+
+    QString widthStr = cfg.readEntry( "Width" );
+    QString heightStr = cfg.readEntry( "Height" );
+
+    int width = -1;
+    int height = -1;
+
+    if ( widthStr.contains( '%' ) == 1 )
+    {
+        widthStr.truncate( widthStr.length() - 1 );
+        int relativeWidth = widthStr.toInt( &ok );
+        if ( ok )
+            width = relativeWidth * QApplication::desktop()->width() / 100;
+    }
+    else
+    {
+        width = widthStr.toInt( &ok );
+        if ( !ok )
+            width = -1;
+    }
+
+    if ( heightStr.contains( '%' ) == 1 )
+    {
+        heightStr.truncate( heightStr.length() - 1 );
+        int relativeHeight = heightStr.toInt( &ok );
+        if ( ok )
+            height = relativeHeight * QApplication::desktop()->height() / 100;
+    }
+    else
+    {
+        height = heightStr.toInt( &ok );
+        if ( !ok )
+            height = -1;
+    }
+
+    return QSize( width, height );
 }
 
 void KonqViewManager::loadItem( KConfig &cfg, KonqFrameContainer *parent,

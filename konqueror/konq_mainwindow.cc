@@ -518,6 +518,7 @@ bool KonqMainWindow::openView( QString serviceType, const KURL &_url, KonqView *
       childView->setTypedURL( req.typedURL );
       if ( childView->browserExtension() )
           childView->browserExtension()->setURLArgs( req.args );
+      if ( !url.isEmpty() )
       childView->openURL( url, originalURL, req.nameFilter );
     }
   return ok || bOthersFollowed;
@@ -688,7 +689,14 @@ void KonqMainWindow::slotCreateNewWindow( const KURL &url, const KParts::URLArgs
 
     KonqOpenURLRequest req;
     req.args = args;
-    mainWindow->openURL( 0L, url, args.serviceType, req, args.trustedSource );
+
+    if ( !mainWindow->openView( args.serviceType, url, 0L, req ) )
+    {
+        // we have problems. abort.
+        delete mainWindow;
+        part = 0;
+        return;
+    }
 
     mainWindow->show();
 
@@ -702,8 +710,31 @@ void KonqMainWindow::slotCreateNewWindow( const KURL &url, const KParts::URLArgs
     if ( part )
         mainWindow->viewManager()->setActivePart( part, true );
 
-    if ( windowArgs.geometry.isValid() )
-        mainWindow->setGeometry( windowArgs.geometry );
+    KSimpleConfig cfg( locate( "data", QString::fromLatin1( "konqueror/profiles/webbrowsing" ) ), true );
+    cfg.setGroup( "Profile" );
+    QSize size = KonqViewManager::readConfigSize( cfg );
+
+    if ( size.isValid() )
+        mainWindow->resize( size );
+
+    if ( windowArgs.x != -1 )
+        mainWindow->move( windowArgs.x, mainWindow->y() );
+    if ( windowArgs.y != -1 )
+        mainWindow->move( mainWindow->x(), windowArgs.y );
+
+    int width;
+    if ( windowArgs.width != -1 )
+        width = windowArgs.width;
+    else
+        width = size.isValid() ? size.width() : mainWindow->width();
+
+    int height;
+    if ( windowArgs.height != -1 )
+        height = windowArgs.height;
+    else
+        height = size.isValid() ? size.height() : mainWindow->height();
+
+    mainWindow->resize( width, height );
 
     // process the window args
 
