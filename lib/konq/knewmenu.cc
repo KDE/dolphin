@@ -93,7 +93,7 @@ KNewMenu::~KNewMenu()
 
 void KNewMenu::makeMenus()
 {
-    d->m_menuDev = new KActionMenu( i18n( "Device" ), "filenew", d->m_actionCollection, "devnew" );
+    d->m_menuDev = new KActionMenu( i18n( "Device" ), "kcmdevices", d->m_actionCollection, "devnew" );
     d->m_menuNew = new KActionMenu( i18n( "File" ), "filenew", d->m_actionCollection, "devnew" );
 }
 
