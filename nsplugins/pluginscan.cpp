@@ -66,13 +66,18 @@ void generateMimeType(QString mime, QString extensions, QString description)
       ts << "Name=Netscape plugin mimeinfo" << endl;
       ts << "Type=MimeType" << endl;
       ts << "MimeType=" << mime << endl;
+      ts << "Icon=netscape" << endl;
       
       if (!extensions.isEmpty())
 	{
 	  ts << "Patterns=";
 	  QStringList exts = QStringList::split(",", extensions);
 	  for (QStringList::Iterator it=exts.begin(); it != exts.end(); ++it)
-	    ts << "*." << *it << ";";
+	  {
+	     // filter dangerous extension
+	     if ( *it!="rpm" ) // ### FIXME
+	        ts << "*." << *it << ";";
+	  }
 	  ts << endl;
 	}
 
