@@ -181,7 +181,12 @@ private:
    void fillWithGroup(KEBListView *, KBookmarkGroup, KEBListViewItem * = 0);
 
    ListView();
-   void deselectParents(KEBListViewItem *item);
+
+   enum Which { None, Some, All };
+   static Which whichChildrenSelected(KEBListViewItem *item);
+   static void deselectParents(KEBListViewItem *item);
+   static void deselectAllButParent(KEBListViewItem *item);
+
    QString m_last_selection_address;
    KEBListView *m_listView;
    KEBListView *m_folderListView;

@@ -165,9 +165,7 @@ void ListView::deselectParents(KEBListViewItem *item) {
    }
 }
 
-enum Which { None, Some, All };
-
-static Which whichChildrenSelected(KEBListViewItem *item) {
+ListView::Which ListView::whichChildrenSelected(KEBListViewItem *item) {
    bool some = false;
    bool all = true;
    QListViewItem *endOfFolder
@@ -188,7 +186,7 @@ static Which whichChildrenSelected(KEBListViewItem *item) {
    return all ? All : (some ? Some : None);
 }
 
-static void deselectAllButParent(KEBListViewItem *item) {
+void ListView::deselectAllButParent(KEBListViewItem *item) {
    QListViewItem *endOfFolder
       = item->nextSibling() ? item->nextSibling()->itemAbove() : 0;
    QListViewItemIterator it((QListViewItem*)item);
@@ -218,7 +216,7 @@ void ListView::updateSelectedItems() {
          // don't bother looking into it if its not a folder
          continue;
       }
-      int which = whichChildrenSelected(it.current());
+      Which which = whichChildrenSelected(it.current());
       if (which == All) { 
          // select outer folder
          deselectAllButParent(it.current());
