@@ -3,8 +3,6 @@ Type=Application
 Exec=kfmclient openProfile filemanagement
 Icon=kfm
 DocPath=konqueror/index.html
-MimeType=text/html;inode/directory
-InitialPreference=9
 
 Name=File Manager
 Name[ca]=Gestor de fitxers
@@ -36,4 +34,3 @@ Name[sv]=Filhanterare
 Name[ta]=ேகாபஂபு ேமலாளரஂ
 Name[tr]=Dosya Yöneticisi
 Name[uk]=Менеджер файлів
-XClassHintResName=konqueror
