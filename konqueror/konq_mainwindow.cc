@@ -115,6 +115,7 @@ KonqMainWindow::KonqMainWindow( const KURL &initialURL, bool openInitialURL, con
   m_bLockLocationBarURL = false;
   m_paBookmarkBar = 0L;
   m_pCompletion = 0L;
+  m_bFullScreen = false;
 
   m_bViewModeToggled = false;
 
@@ -2062,6 +2063,7 @@ void KonqMainWindow::slotToggleFullScreen()
         barIt.current()->setEnableContextMenu( false );
 
     menuBar()->hide();
+    m_paShowMenuBar->setChecked( false );
 
     // Preserve caption, reparent calls setCaption (!)
     QString m_oldTitle = m_title;
@@ -2079,7 +2081,8 @@ void KonqMainWindow::slotToggleFullScreen()
     for (; barIt.current(); ++barIt )
         barIt.current()->setEnableContextMenu( true );
 
-    menuBar()->show();
+    menuBar()->show(); // maybe we should store this setting instead of forcing it
+    m_paShowMenuBar->setChecked( true );
 
     QString m_oldTitle = m_title; // The unmodified title
     showNormal();  // (calls setCaption, i.e. the one in this class!)
