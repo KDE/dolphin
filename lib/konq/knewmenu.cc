@@ -101,8 +101,8 @@ void KNewMenu::fillTemplates()
     QDir d( KUserPaths::templatesPath() );
     const QFileInfoList *list = d.entryInfoList();
     if ( list == 0L )
-        warning(i18n("ERROR: Template does not exist '%s'"),
-		KUserPaths::templatesPath().ascii());
+        KMessageBox::error( 0L, i18n("ERROR: Template does not exist '%1'").arg(
+		KUserPaths::templatesPath()));
     else
     {
 	QFileInfoListIterator it( *list );      // create list iterator
