@@ -479,10 +479,15 @@ KonqChildView *KonqViewManager::setupView( KonqFrameContainer *parentContainer,
 {
   kdebug(0, 1202, "KonqViewManager::setupView" );
 
+  QString sType = serviceType;
+  
+  if ( sType.isEmpty() )
+    sType = m_pMainView->currentChildView()->serviceType();
+  
   KonqFrame* newViewFrame = new KonqFrame( parentContainer );
 
   KonqChildView *v = new KonqChildView( viewFactory, newViewFrame,
-					m_pMainView, service, serviceOffers, serviceType );
+					m_pMainView, service, serviceOffers, sType );
 
   QObject::connect( v, SIGNAL( sigViewChanged( KParts::ReadOnlyPart *, KParts::ReadOnlyPart * ) ),
                     m_pMainView, SLOT( slotViewChanged( KParts::ReadOnlyPart *, KParts::ReadOnlyPart * ) ) );
