@@ -71,7 +71,7 @@ void KonqHistoryModule::slotCreateItems()
     KonqHistoryList entries( KonqHistoryManager::self()->entries() );
     KonqHistoryIterator it( entries );
     m_currentTime = QDateTime::currentDateTime();
-    
+
     QString host;
 
     while ( (entry = it.current()) ) {
@@ -121,7 +121,8 @@ void KonqHistoryModule::slotEntryAdded( const KonqHistoryEntry *entry )
     else
 	item->update( entry );
 
-    m_topLevelItem->sortChildItems( 0, false /*descending*/);
+    group->sort();
+    m_topLevelItem->sort();
 }
 
 void KonqHistoryModule::slotEntryRemoved( const KonqHistoryEntry *entry )
