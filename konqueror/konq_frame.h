@@ -128,7 +128,7 @@ protected:
   OPFrame *m_pOPFrame;
   QVBoxLayout *m_pLayout;
   KonqFrameHeader* m_pHeader;
-  Browser::View_ptr m_pView;
+  Browser::View_var m_vView;
   QSplitter *m_pParentSplitter;
 };
 

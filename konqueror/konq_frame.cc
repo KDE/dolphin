@@ -381,14 +381,17 @@ KonqFrameHeader::mousePressEvent( QMouseEvent* event )
 Browser::View_ptr 
 KonqFrame::view( void ) 
 { 
-  return Browser::View::_duplicate( m_pView ); 
+  return Browser::View::_duplicate( m_vView ); 
 }
 
 void
 KonqFrame::slotHeaderClicked()
 {
-  if ( !CORBA::is_nil( m_pView ) )
-    m_pView->parent()->mainWindow()->setActivePart( m_pView->id() );
+  if ( !CORBA::is_nil( m_vView ) )
+  {
+    OpenParts::MainWindow_var mainWindow = m_vView->mainWindow();
+    mainWindow->setActivePart( m_vView->id() );
+  }    
 }
 
 void 
@@ -400,7 +403,7 @@ KonqFrame::paintEvent( QPaintEvent* event )
 void
 KonqFrame::attach( Browser::View_ptr view )
 {
-  m_pView = Browser::View::_duplicate( view );    
+  m_vView = Browser::View::_duplicate( view );    
 
   OPPartIf* localView = 0L;
   // Local or remote ? (Simon's trick ;)
