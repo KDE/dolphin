@@ -46,6 +46,8 @@ class KWrite : public KParts::MainWindow
     void loadURL(const KURL &url);
 
     KTextEditor::View *view() const { return m_view; }
+    
+    static bool noWindows () { return winList.isEmpty(); }
 
   private:
     void setupActions();

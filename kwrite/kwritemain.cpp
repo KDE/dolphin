@@ -643,6 +643,11 @@ extern "C" int kdemain(int argc, char **argv)
       }
     }
   }
+  
+  // no window there, uh, ohh, for example borked session config !!!
+  // create at least one !!
+  if (KWrite::noWindows())
+    new KWrite();
 
   return a.exec ();
 }
