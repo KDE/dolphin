@@ -1,3 +1,8 @@
+2001-05-05  David Faure  <faure@kde.org>
+
+	* konq_mainwindow.cc: Set WDestructiveClose again when going
+	to fullscreen mode (Qt bug), to prevent Alt+F4 from crashing.
+
 2001-05-01  Simon Hausmann  <simon@kde.org>
 
 	* konq_mainwindow.cc : moved the connect and disconnect calls

@@ -231,7 +231,7 @@ KonqMainWindow::KonqMainWindow( const KURL &initialURL, bool openInitialURL, con
 
 KonqMainWindow::~KonqMainWindow()
 {
-  //kdDebug(1202) << "KonqMainWindow::~KonqMainWindow " << this << endl;
+  kdDebug(1202) << "KonqMainWindow::~KonqMainWindow " << this << endl;
   if ( s_lstViews )
   {
     s_lstViews->removeRef( this );
@@ -263,7 +263,7 @@ KonqMainWindow::~KonqMainWindow()
       s_comboConfig = 0L;
   }
 
-  //kdDebug(1202) << "KonqMainWindow::~KonqMainWindow " << this << " done" << endl;
+  kdDebug(1202) << "KonqMainWindow::~KonqMainWindow " << this << " done" << endl;
 }
 
 QWidget * KonqMainWindow::createContainer( QWidget *parent, int index, const QDomElement &element, int &id )
@@ -2403,6 +2403,8 @@ void KonqMainWindow::slotToggleFullScreen()
     if (!m_oldTitle.isEmpty())
       setCaption( m_oldTitle );
 
+    // Qt bug, the flags are lost. They know about it.
+    setWFlags( WDestructiveClose );
     // Qt bug (see below)
     setAcceptDrops( FALSE );
     topData()->dnd = 0;
@@ -3487,7 +3489,7 @@ void KonqMainWindow::updateBookmarkBar()
 
 void KonqMainWindow::closeEvent( QCloseEvent *e )
 {
-  //kdDebug(1202) << "KonqMainWindow::closeEvent begin" << endl;
+  kdDebug(1202) << "KonqMainWindow::closeEvent begin" << endl;
   // This breaks session management (the window is withdrawn in kwin)
   // so let's do this only when closed by the user.
   if ( static_cast<KonquerorApplication *>(kapp)->closedByUser() )
@@ -3496,7 +3498,7 @@ void KonqMainWindow::closeEvent( QCloseEvent *e )
     qApp->flushX();
   }
   KParts::MainWindow::closeEvent( e );
-  //kdDebug(1202) << "KonqMainWindow::closeEvent end" << endl;
+  kdDebug(1202) << "KonqMainWindow::closeEvent end" << endl;
 }
 
 void KonqMainWindow::setIcon( const QPixmap& pix )
