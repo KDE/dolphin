@@ -46,9 +46,9 @@ public:
     virtual void shred();
 
     // Called by KonqDirTreeItem
-    void openSubFolder( KonqTreeItem *item );
-    void addSubDir( KonqTreeItem *item, const KURL &url );
-    void removeSubDir( KonqTreeItem *item, const KURL &url );
+    void openSubFolder( KonqDirTreeItem *item );
+    void addSubDir( KonqDirTreeItem *item, const KURL &url );
+    void removeSubDir( KonqDirTreeItem *item, const KURL &url );
 
 private slots:
     void slotNewItems( const KFileItemList & );
