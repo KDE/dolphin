@@ -1,3 +1,6 @@
+2000-12-08  Malte Starostik <malte.starostik@t-online.de>
+	* libkonq/, iconview/: Preview for HTML files implemented.
+
 2000-12-08  David Faure  <faure@kde.org> and Carsten Pfeiffer <pfeiffer@kde.org>
 
 	* dirtree/*: Major rewrite of the directory tree, to make it generic.
