@@ -97,8 +97,6 @@ KonqTreeViewWidget::KonqTreeViewWidget( KonqTreeView *parent, QWidget *parentWid
 
   setFrameStyle( QFrame::NoFrame | QFrame::Plain );
 
-//    connect( &m_timer, SIGNAL( timeout() ), this, SLOT( slotUpdate() ) );
-  m_lstNewItems.setAutoDelete( false );
 }
 
 KonqTreeViewWidget::~KonqTreeViewWidget()
@@ -126,6 +124,28 @@ const KURL & KonqTreeViewWidget::url()
 
 void KonqTreeViewWidget::initConfig()
 {
+  // Default configuration for the columns (TODO get this from config file)
+  m_dctColumnForAtom.clear();
+  m_dctColumnForAtom.setAutoDelete( true );
+  m_dctColumnForAtom.insert( KIO::UDS_NAME, new int(0) );
+  m_dctColumnForAtom.insert( KIO::UDS_FILE_TYPE, new int(1) );
+  m_dctColumnForAtom.insert( KIO::UDS_SIZE, new int(2) );
+  m_dctColumnForAtom.insert( KIO::UDS_MODIFICATION_TIME, new int(3) );
+  m_dctColumnForAtom.insert( KIO::UDS_ACCESS, new int(4) );
+  m_dctColumnForAtom.insert( KIO::UDS_USER, new int(5) );
+  m_dctColumnForAtom.insert( KIO::UDS_GROUP, new int(6) );
+  m_dctColumnForAtom.insert( KIO::UDS_LINK_DEST, new int(7) );
+
+  m_lstColumns.clear();
+  m_lstColumns.append( i18n("Name") );
+  m_lstColumns.append( i18n("Type") );
+  m_lstColumns.append( i18n("Size") );
+  m_lstColumns.append( i18n("Date") );
+  m_lstColumns.append( i18n("Permissions") );
+  m_lstColumns.append( i18n("Owner") );
+  m_lstColumns.append( i18n("Group") );
+  m_lstColumns.append( i18n("Link") );
+
   QColor bgColor           = m_pSettings->bgColor();
   // TODO QColor textColor         = m_pSettings->normalTextColor();
    // TODO highlightedTextColor
@@ -526,21 +546,13 @@ bool KonqTreeViewWidget::openURL( const KURL &url )
   // The first time or new protocol ? So create the columns first
   if ( m_iColumns == -1 || isNewProtocol )
   {
-    QStringList listing = KProtocolManager::self().listing( url.protocol() );
-    if ( listing.isEmpty() )
-    {
-      QString tmp = i18n( "Unknown Protocol %1" ).arg( url.protocol());
-      KMessageBox::sorry( this, tmp );
-      return false;
-    }
-
     if ( m_iColumns == -1 )
       m_iColumns = 0;
 
     int currentColumn = 0;
 
-    QStringList::Iterator it = listing.begin();
-    for( ; it != listing.end(); it++ )
+    QStringList::Iterator it = m_lstColumns.begin();
+    for( ; it != m_lstColumns.end(); it++ )
     {	
       if ( currentColumn > m_iColumns - 1 )
       {
@@ -613,7 +625,6 @@ void KonqTreeViewWidget::slotStarted( const QString & /*url*/ )
 {
   if ( !m_bTopLevelComplete )
     emit m_pBrowserView->started( 0 );
-  m_timer.start( 500, true );
 }
 
 void KonqTreeViewWidget::slotCompleted()
@@ -621,16 +632,12 @@ void KonqTreeViewWidget::slotCompleted()
   if ( !m_bTopLevelComplete )
     emit m_pBrowserView->completed();
   setComplete();
-  m_timer.stop();
-  slotUpdate();
 }
 
 void KonqTreeViewWidget::slotCanceled()
 {
   setComplete();
   emit m_pBrowserView->canceled( QString::null );
-  m_timer.stop();
-  slotUpdate();
 }
 
 void KonqTreeViewWidget::slotClear()
@@ -642,24 +649,7 @@ void KonqTreeViewWidget::slotClear()
 
 void KonqTreeViewWidget::slotNewItems( const KFileItemList & entries )
 {
-  //Hmm...
   QListIterator<KFileItem> kit ( entries );
-  for( ; kit.current(); ++kit )
-  {
-    m_lstNewItems.append(*kit);
-  }
-
-  if ( !m_timer.isActive() )
-    {
-      m_timer.start( 500, true );
-      slotUpdate();
-    }
-}
-
-void KonqTreeViewWidget::slotUpdate()
-{
-  kDebugInfo( 1202, "KonqTreeViewWidget::slotUpdate(...)");
-  QListIterator<KFileItem> kit ( m_lstNewItems );
   for( ; kit.current(); ++kit )
   {
     bool isdir = S_ISDIR( (*kit)->mode() );
@@ -686,9 +676,7 @@ void KonqTreeViewWidget::slotUpdate()
         new KonqTreeViewItem( this, (*kit) );
     }
   }
-  m_lstNewItems.clear();
 }
-
 
 void KonqTreeViewWidget::slotDeleteItem( KFileItem * _fileitem )
 {

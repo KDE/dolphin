@@ -22,6 +22,7 @@
 #include <qlistview.h>
 #include <qcursor.h>
 #include <qpixmap.h>
+#include <qintdict.h>
 #include <qdict.h>
 #include <qtimer.h>
 #include <kurl.h>
@@ -38,7 +39,8 @@ class KonqFMSettings;
 class TreeViewPropertiesExtension;
 
 /**
- * The tree view
+ * The tree view widget (based on QListView).
+ * Most of the functionality is here.
  */
 class KonqTreeViewWidget : public QListView
 {
@@ -80,8 +82,16 @@ public:
 
   virtual void openSubFolder( const KURL &_url, KonqTreeViewDir* _dir );
 
-  virtual void selectedItems( QValueList<KonqTreeViewItem*>& _list );
-  virtual KURL::List selectedUrls();
+  /**
+   * Used by KonqTreeViewItem, to know how to sort the file details
+   * The KonqTreeViewWidget holds the configuration for it, which is why
+   * it provides this method.
+   * @returns a pointer to the column number, or 0L if the atom shouldn't be displayed
+   */
+  int * columnForAtom( int atom ) { return m_dctColumnForAtom[ atom ]; }
+
+  void selectedItems( QValueList<KonqTreeViewItem*>& _list );
+  KURL::List selectedUrls();
 
   /** @return the KonqTreeViewDir which handles the directory _url */
   virtual KonqTreeViewDir * findDir ( const QString & _url );
@@ -107,9 +117,6 @@ protected slots:
   void slotClear();
   void slotNewItems( const KFileItemList & );
   void slotDeleteItem( KFileItem * );
-
-  // Called by m_timer timeout and upon completion
-  void slotUpdate();
 
   void slotResult( KIO::Job * );
 
@@ -159,6 +166,15 @@ protected:
   // Cache, for findDir
   KonqTreeViewDir* m_lasttvd;
 
+  /**
+   * In which column should go each UDS atom
+   * The UDS atom type is the key, the column number is the value
+   * Not in the dict -> not shown.
+   */
+  QIntDict<int> m_dctColumnForAtom;
+  // List of columns headers
+  QStringList m_lstColumns;
+
   bool m_bTopLevelComplete;
   bool m_bSubFolderComplete;
 
@@ -191,9 +207,6 @@ protected:
   KURL m_url;
 
   KonqTreeView *m_pBrowserView;
-
-  QTimer m_timer;
-  QList<KFileItem> m_lstNewItems;
 
 };
 

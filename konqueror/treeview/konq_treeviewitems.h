@@ -41,39 +41,41 @@ public:
    * @param _parent the parent widget, the tree view
    * @param _fileitem the file item created by KDirLister
    */
-  KonqTreeViewItem( KonqTreeViewWidget *_parent, KFileItem* _fileitem );
+  KonqTreeViewItem( KonqTreeViewWidget *_treeViewWidget, KFileItem* _fileitem );
   /**
    * Create an item representing a file, inside a directory
    * @param _treeview the parent tree view
    * @param _parent the parent widget, a directory item in the tree view
    * @param _fileitem the file item created by KDirLister
    */
-  KonqTreeViewItem( KonqTreeViewWidget *_treeview, KonqTreeViewDir *_parent, KFileItem* _fileitem );
+  KonqTreeViewItem( KonqTreeViewWidget *_treeViewWidget, KonqTreeViewDir *_parent, KFileItem* _fileitem );
   virtual ~KonqTreeViewItem() { }
-
-  virtual QString text( int column ) const;
-  virtual QString key( int _column, bool ) const;
-
-  /** Call this before destroying the tree view (decreases reference count
-   * on the view) */
-  virtual void prepareToDie() { m_pTreeView = 0L; }
-  virtual void paintCell( QPainter *_painter, const QColorGroup & cg, int column, int width, int alignment );
 
   /** @return the file item held by this instance */
   KFileItem * item() { return m_fileitem; }
+
+  virtual QString key( int _column, bool ) const;
+  //virtual QString text( int column ) const;
+
+  /** Call this before destroying the tree view (decreases reference count
+   * on the view) */
+  virtual void prepareToDie() { m_pTreeViewWidget = 0L; }
+  virtual void paintCell( QPainter *_painter, const QColorGroup & cg,
+                          int column, int width, int alignment );
 
 protected:
   void init();
 
   QString makeNumericString( const KIO::UDSAtom &_atom ) const;
   QString makeTimeString( const KIO::UDSAtom &_atom ) const;
-  const char* makeAccessString( const KIO::UDSAtom &_atom ) const;
+  QString makeAccessString( const KIO::UDSAtom &_atom ) const;
   QString makeTypeString( const KIO::UDSAtom &_atom ) const;
 
   /** Pointer to the file item in KDirLister's list */
   KFileItem* m_fileitem;
+
   /** Parent tree view */
-  KonqTreeViewWidget* m_pTreeView;
+  KonqTreeViewWidget* m_pTreeViewWidget;
 };
 
 /**

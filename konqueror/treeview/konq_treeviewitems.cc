@@ -22,6 +22,7 @@
 #include "konq_treeviewwidget.h"
 #include <kfileitem.h>
 #include <kio/job.h>
+#include <kio/global.h>
 #include <klocale.h>
 #include <assert.h>
 #include <stdio.h>
@@ -32,31 +33,69 @@
  *
  **************************************************************/
 
-KonqTreeViewItem::KonqTreeViewItem( KonqTreeViewWidget *_treeview, KonqTreeViewDir * _parent, KFileItem* _fileitem )
+KonqTreeViewItem::KonqTreeViewItem( KonqTreeViewWidget *_treeViewWidget, KonqTreeViewDir * _parent, KFileItem* _fileitem )
   : QListViewItem( _parent ), m_fileitem( _fileitem )
 {
-  m_pTreeView = _treeview;
+  m_pTreeViewWidget = _treeViewWidget;
   init();
 }
 
-KonqTreeViewItem::KonqTreeViewItem( KonqTreeViewWidget *_parent, KFileItem* _fileitem )
-  : QListViewItem( _parent ), m_fileitem( _fileitem )
+KonqTreeViewItem::KonqTreeViewItem( KonqTreeViewWidget *_treeViewWidget, KFileItem* _fileitem )
+  : QListViewItem( _treeViewWidget ), m_fileitem( _fileitem )
 {
-  m_pTreeView = _parent;
+  m_pTreeViewWidget = _treeViewWidget;
   init();
 }
 
 void KonqTreeViewItem::init()
 {
   setPixmap( 0, m_fileitem->pixmap( KIconLoader::Small, false /*no image preview*/ ) );
+  // Set the text of each column
+  const KIO::UDSEntry & entry = m_fileitem->entry();
+  KIO::UDSEntry::ConstIterator it = entry.begin();
+  for( ; it != entry.end(); it++ ) {
+    const KIO::UDSAtom & atom = (*it);
+    int * pColumn = m_pTreeViewWidget->columnForAtom( atom.m_uds );
+    if ( pColumn )
+    {
+      // We want to put that atom in the column *pColumn
+      // Now convert the text
+      QString text;
+      switch (atom.m_uds) {
+        case KIO::UDS_ACCESS:
+          text = makeAccessString( atom );
+          break;
+        case KIO::UDS_FILE_TYPE :
+          text = makeTypeString( atom );
+          break;
+        case KIO::UDS_NAME :
+          text = m_fileitem->text();
+          break;
+        default:
+          // Otherwise use the type
+          switch (atom.m_uds & (KIO::UDS_TIME|KIO::UDS_STRING|KIO::UDS_LONG) )  {
+            case KIO::UDS_TIME :
+              text = makeTimeString( atom );
+              break;
+            case KIO::UDS_STRING :
+              text = atom.m_str;
+              break;
+            case KIO::UDS_LONG :
+              text = makeNumericString( atom );
+              break;
+          }
+      }
+      setText( *pColumn, text );
+    }
+  }
 }
 
 QString KonqTreeViewItem::key( int _column, bool ) const
 {
+  // TODO return a judicious key for dates
+
+  /*
   static char buffer[ 12 ];
-
-  assert( _column < (int)m_fileitem->entry().count() );
-
   unsigned long uds = m_fileitem->entry()[ _column ].m_uds;
 
   if ( uds & KIO::UDS_STRING )
@@ -68,12 +107,13 @@ QString KonqTreeViewItem::key( int _column, bool ) const
   }
   else
     assert( 0 );
+    */
+  return text( _column );
 }
 
+/*
 QString KonqTreeViewItem::text( int _column ) const
 {
-  //  assert( _column < (int)m_fileitem->entry().count() );
-
   if ( _column >= (int)m_fileitem->entry().count() )
     return "";
 
@@ -99,6 +139,7 @@ QString KonqTreeViewItem::text( int _column ) const
   }
   assert( 0 );
 }
+*/
 
 QString KonqTreeViewItem::makeNumericString( const KIO::UDSAtom &_atom ) const
 {
@@ -126,7 +167,7 @@ QString KonqTreeViewItem::makeTypeString( const KIO::UDSAtom &_atom ) const
     return i18n( "File" );
 }
 
-const char* KonqTreeViewItem::makeAccessString( const KIO::UDSAtom &_atom ) const
+QString KonqTreeViewItem::makeAccessString( const KIO::UDSAtom &_atom ) const
 {
   static char buffer[ 12 ];
 
@@ -172,14 +213,14 @@ const char* KonqTreeViewItem::makeAccessString( const KIO::UDSAtom &_atom ) cons
   buffer[8] = oxbit;
   buffer[9] = 0;
 
-  return buffer;
+  return QString::fromLatin1(buffer);
 }
 
 void KonqTreeViewItem::paintCell( QPainter *_painter, const QColorGroup & _cg, int _column, int _width, int _alignment )
 {
   // Underline link ?
-  if ( m_pTreeView->m_bSingleClick &&
-       m_pTreeView->m_bUnderlineLink && _column == 0)
+  if ( m_pTreeViewWidget->m_bSingleClick &&
+       m_pTreeViewWidget->m_bUnderlineLink && _column == 0)
   {
     QFont f = _painter->font();
     f.setUnderline( true );
@@ -187,10 +228,10 @@ void KonqTreeViewItem::paintCell( QPainter *_painter, const QColorGroup & _cg, i
   }
   // TODO text color
 
-  if (!m_pTreeView->props()->bgPixmap().isNull())
+  if (!m_pTreeViewWidget->props()->bgPixmap().isNull())
   {
     _painter->drawTiledPixmap( 0, 0, _width, height(),
-                               m_pTreeView->props()->bgPixmap(),
+                               m_pTreeViewWidget->props()->bgPixmap(),
                                0, 0 ); // ?
   }
 
@@ -211,7 +252,7 @@ void KonqTreeViewItem::paintCell( QPainter *_painter, const QColorGroup & _cg, i
 KonqTreeViewDir::KonqTreeViewDir( KonqTreeViewWidget *_parent, KFileItem* _fileitem )
   : KonqTreeViewItem( _parent, _fileitem )
 {
-  m_pTreeView->addSubDir( _fileitem->url(), this );
+  m_pTreeViewWidget->addSubDir( _fileitem->url(), this );
 
   m_bComplete = false;
 }
@@ -219,15 +260,15 @@ KonqTreeViewDir::KonqTreeViewDir( KonqTreeViewWidget *_parent, KFileItem* _filei
 KonqTreeViewDir::KonqTreeViewDir( KonqTreeViewWidget *_treeview, KonqTreeViewDir * _parent, KFileItem* _fileitem )
   : KonqTreeViewItem( _treeview, _parent, _fileitem )
 {
-  m_pTreeView->addSubDir( _fileitem->url(), this );
+  m_pTreeViewWidget->addSubDir( _fileitem->url(), this );
 
   m_bComplete = false;
 }
 
 KonqTreeViewDir::~KonqTreeViewDir()
 {
-  if ( m_pTreeView )
-    m_pTreeView->removeSubDir( m_fileitem->url() );
+  if ( m_pTreeViewWidget )
+    m_pTreeViewWidget->removeSubDir( m_fileitem->url() );
 }
 
 void KonqTreeViewDir::setup()
@@ -239,7 +280,7 @@ void KonqTreeViewDir::setup()
 void KonqTreeViewDir::setOpen( bool _open )
 {
   if ( _open && !m_bComplete ) // complete it before opening
-    m_pTreeView->openSubFolder( m_fileitem->url(), this );
+    m_pTreeViewWidget->openSubFolder( m_fileitem->url(), this );
 
   QListViewItem::setOpen( _open );
 }

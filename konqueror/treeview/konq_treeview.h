@@ -32,6 +32,11 @@
 class KToggleAction;
 class TreeViewBrowserExtension;
 
+/**
+ * The part for the tree view. It does quite nothing, just the
+ * konqueror interface. Most of the functionality is in the
+ * widget, KonqTreeViewWidget.
+ */
 class KonqTreeView : public KParts::ReadOnlyPart
 {
   friend class KonqTreeViewWidget;
