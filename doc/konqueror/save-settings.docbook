@@ -46,7 +46,7 @@ a Browser. These control the window size, whether the window is split into two
 or more views, whether the Navigation Panel or Terminal Emulator are shown, 
 and the starting directory or &URL;.</para>
 
-<para>To change this start up behaviour, simply set &konqueror; to whatever you
+<para>To change this start up behavior, simply set &konqueror; to whatever you
 want, then in the <guimenu>Settings</guimenu> menu select <guimenuitem>
 Save View Profile &quot;File Management&quot;</guimenuitem> or <guimenuitem>
 Save View Profile &quot;Web Browsing&quot;</guimenuitem> depending on which 

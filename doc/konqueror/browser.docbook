@@ -209,7 +209,7 @@ identification information, known as the <quote>User Agent</quote> string.
 Many web sites use this information to customize the pages that they send 
 back, based on the strengths and weaknesses of different browsers.</para>
 <para>Unfortunately, some badly designed sites refuse to work properly 
-unless you are using a browser that the site recognises as a 
+unless you are using a browser that the site recognizes as a 
 <quote>valid</quote> one, even though if given a chance, &konqueror; will 
 work satisfactorily with the vast majority of web pages.</para>
 <para>To overcome this problem, you can change the browser identification 

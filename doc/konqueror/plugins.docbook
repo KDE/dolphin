@@ -41,7 +41,7 @@ directory to make other applications aware of them.</para>
 
 <para>The <guilabel>Plugins</guilabel> page shows you the &Netscape; plugins
 that &kde; has found, and for each plugin it lists the <acronym>MIME</acronym>
-types and the filename suffixes it uses to recognise them.</para>
+types and the filename suffixes it uses to recognize them.</para>
 
 <para>The dialog box also contains a checkbox <guilabel>
 Enable plugins globally</guilabel> which you can use to enable or disable 
