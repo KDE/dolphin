@@ -37,7 +37,6 @@
 
 #include <assert.h>
 
-unsigned long KonqFactory::m_instanceRefCnt = 0;
 KInstance *KonqFactory::s_instance = 0;
 KAboutData *KonqFactory::s_aboutData = 0;
 KonqPropsView *KonqFactory::s_defaultViewProps = 0;
@@ -202,22 +201,6 @@ KonqViewFactory KonqFactory::createView( const QString &serviceType,
   }
 
   return KonqViewFactory( factory, args, service->serviceTypes().contains( "Browser/View" ) );
-}
-
-void KonqFactory::instanceRef()
-{
-  m_instanceRefCnt++;
-}
-
-void KonqFactory::instanceUnref()
-{
-  m_instanceRefCnt--;
-  if ( m_instanceRefCnt == 0 && s_instance )
-  {
-    delete s_instance;
-    s_instance = 0;
-
-  }
 }
 
 KInstance *KonqFactory::instance()

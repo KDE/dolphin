@@ -67,9 +67,6 @@ public:
 				     KTrader::OfferList *appServiceOffers = 0);
 				
 
-  static void instanceRef();
-  static void instanceUnref();
-
   static KInstance *instance();	
 
   static const KAboutData* aboutData();
@@ -77,7 +74,6 @@ public:
   static KonqPropsView *defaultViewProps();
 
 private:
-  static unsigned long m_instanceRefCnt;
   static KInstance *s_instance;
   static KAboutData *s_aboutData;
   static KonqPropsView *s_defaultViewProps;

@@ -114,8 +114,6 @@ KonqMainView::KonqMainView( const KURL &initialURL, bool openInitialURL, const c
   m_pBookmarkMenu = 0L;
   m_bURLEnterLock = false;
 
-  KonqFactory::instanceRef();
-
   if ( !s_plstAnimatedLogo )
   {
     s_plstAnimatedLogo = new QStringList;
@@ -216,7 +214,6 @@ KonqMainView::~KonqMainView()
 
   delete m_pBookmarkMenu;
 
-  KonqFactory::instanceUnref();
   kdDebug(1202) << "KonqMainView::~KonqMainView done" << endl;
 }
 
