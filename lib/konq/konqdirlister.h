@@ -39,7 +39,7 @@ public:
   /**
    * Destroy the directory lister
    */
-  ~KonqDirLister();
+  virtual ~KonqDirLister();
 
   /**
    * @return true if koffice documents were listed since the last clear()
