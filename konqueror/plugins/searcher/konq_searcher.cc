@@ -47,7 +47,7 @@ bool KonqSearcher::eventFilter(QObject *, QEvent *ev) {
     if (KonqURLEnterEvent::test(ev)) {
 	QString url = ((KonqURLEnterEvent *)ev)->url();
 
-	if (KURIFilter::filter()->filterURI(url)) {
+	if (KURIFilter::self()->filterURI(url)) {
 	    KonqURLEnterEvent e(url);
 	    QApplication::sendEvent(parent(), &e);
 	
