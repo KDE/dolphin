@@ -51,7 +51,7 @@ void addBackEnd::aboutToShowAddMenu()
   libNames.setAutoDelete(true);
   libNames.resize(0); 	
   libParam.setAutoDelete(true);
-  libParam.resize(0); 	
+  libParam.resize(0);
   menu->clear();
   int i=0;
   for (QStringList::Iterator it = list.begin(); it != list.end(); ++it, i++ )
@@ -77,10 +77,10 @@ void addBackEnd::aboutToShowAddMenu()
 void addBackEnd::activatedAddMenu(int id)
 {
 	kdDebug()<<"activatedAddMenu: " << QString("%1").arg(id)<<endl;
-	if(id>=libNames.size()) return;
-	
+	if(((uint)id)>=libNames.size()) return;
+
 	KLibLoader *loader = KLibLoader::self();
- 
+
         // try to load the library
         QString libname("lib");
 	libname=libname+(*libNames.at(id));
@@ -91,7 +91,7 @@ void addBackEnd::activatedAddMenu(int id)
                 QString factory("add_");
 		factory=factory+(*libNames.at(id));
                 void *add = lib->symbol(QFile::encodeName(factory));
- 
+
                 if (add)
                         {
                         //call the add function
@@ -144,12 +144,13 @@ void addBackEnd::activatedAddMenu(int id)
                         }
                 }
                 else
-                        kdWarning() << "libname:"<< libNames.at(id) << " doesn't specify a library!" << endl;	
+                        kdWarning() << "libname:"<< libNames.at(id) << " doesn't specify a library!" << endl;
 }
 
 
-Sidebar_Widget::Sidebar_Widget(QWidget *parent, KParts::ReadOnlyPart *par, const char *name):QHBox(parent,name),KonqSidebar_PluginInterface()
+Sidebar_Widget::Sidebar_Widget(QWidget *parent, KParts::ReadOnlyPart *par, const char *name):QWidget(parent,name),KonqSidebar_PluginInterface()
 {
+	myLayout=0;
         kdDebug()<<"**** Sidebar_Widget:SidebarWidget()"<<endl;
         PATH=KGlobal::dirs()->saveLocation("data","konqsidebartng/entries/",true);
 	Buttons.resize(0);
@@ -199,8 +200,28 @@ Sidebar_Widget::Sidebar_Widget(QWidget *parent, KParts::ReadOnlyPart *par, const
 	initialCopy();
 
 	QTimer::singleShot(0,this,SLOT(createButtons()));
-	connect(ButtonBar,SIGNAL(toggled(int)),this,SLOT(showHidePage(int)));
+//	connect(ButtonBar,SIGNAL(toggled(int)),this,SLOT(showHidePage(int)));
 	connect(Area,SIGNAL(dockWidgetHasUndocked(KDockWidget*)),this,SLOT(dockWidgetHasUndocked(KDockWidget*)));
+}
+
+void Sidebar_Widget::doLayout()
+{
+	if (myLayout) delete myLayout;
+	myLayout=new QHBoxLayout(this);
+	if  (showTabsRight)
+	{
+		myLayout->add(Area);
+		myLayout->add(ButtonBar);
+		ButtonBar->setPosition(KMultiVertTabBar::Right);
+	}
+	else
+	{
+		myLayout->add(ButtonBar);
+		myLayout->add(Area);
+		ButtonBar->setPosition(KMultiVertTabBar::Left);
+
+	}
+	myLayout->activate();
 }
 
 
@@ -265,7 +286,7 @@ void Sidebar_Widget::buttonPopupActivate(int id)
 					ksc.setGroup("Desktop Entry");
 					ksc.writeEntry("Icon",iconname);
 					ksc.sync();
-				        QTimer::singleShot(0,this,SLOT(createButtons()));  
+				        QTimer::singleShot(0,this,SLOT(createButtons()));
 				}
 			break;
 		}
@@ -315,7 +336,7 @@ void Sidebar_Widget::activatedMenu(int id)
 		case 2:
 		{
 			showTabsRight = ! showTabsRight;
-			//We have to reverse the widget order
+			doLayout();
 			break;
 		}
 	}
@@ -328,14 +349,15 @@ void Sidebar_Widget::readConfig()
 	showTabsRight=(conf.readEntry("ShowTabsLeft","false")=="false");
 	QStringList list=conf.readListEntry("OpenViews");
 	kdDebug()<<"readConfig: "<<conf.readEntry("OpenViews")<<endl;
-	for (int i=0; i<Buttons.count();i++)
+	doLayout();
+	for (uint i=0; i<Buttons.count();i++)
 	{
 		if (list.contains(Buttons.at(i)->file))
 			{
-				ButtonBar->setTab(i,true); //showHidePage(i);				
+				ButtonBar->setTab(i,true); //showHidePage(i);
 				showHidePage(i);
 				if (singleWidgetMode) return;
-			} 
+			}
 	}
 }
 
@@ -351,7 +373,7 @@ ButtonInfo* Sidebar_Widget::getActiveModule()
 #endif
         ButtonInfo *info;
         for (unsigned int i=0;i<Buttons.count();i++)
-                if ((info=Buttons.at(i))->dock!=0)                      
+                if ((info=Buttons.at(i))->dock!=0)
                       if ((info->dock->isVisible()) && (info->module)) return info;
 	return 0;
 }
@@ -438,12 +460,12 @@ bool Sidebar_Widget::addButton(const QString &desktoppath,int pos)
 	Buttons.resize(Buttons.size()+1);
 
   	KSimpleConfig *confFile;
-	
+
 	kdDebug()<<"addButton:"<<(PATH+desktoppath)<<endl;
 
 	confFile=new KSimpleConfig(PATH+desktoppath,true);
 	confFile->setGroup("Desktop Entry");
- 
+
     	QString icon=confFile->readEntry("Icon","");
 	QString name=confFile->readEntry("Name","");
 	QString url=confFile->readEntry("URL","");
@@ -461,7 +483,7 @@ bool Sidebar_Widget::addButton(const QString &desktoppath,int pos)
 		tab->installEventFilter(this);
 		connect(tab,SIGNAL(clicked(int)),this,SLOT(showHidePage(int)));
 	}
-	
+
 	return true;
 }
 
@@ -676,7 +698,7 @@ Sidebar_Widget::~Sidebar_Widget()
 	conf.writeEntry("SingleWidgetMode",singleWidgetMode?"true":"false");
         conf.writeEntry("OpenViews", visibleViews);
 	conf.sync();
-	for (int i=0;i<Buttons.count();i++)
+	for (uint i=0;i<Buttons.count();i++)
 	{
 		if (Buttons.at(i)->dock!=0)
 			Buttons.at(i)->dock->undock();

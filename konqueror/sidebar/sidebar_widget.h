@@ -62,7 +62,7 @@ class addBackEnd: public QObject
 
 };
 
-class Sidebar_Widget: public QHBox, public KonqSidebar_PluginInterface
+class Sidebar_Widget: public QWidget, public KonqSidebar_PluginInterface
 {
   Q_OBJECT
   public:
@@ -90,11 +90,13 @@ class Sidebar_Widget: public QHBox, public KonqSidebar_PluginInterface
 	bool singleWidgetMode;
 	bool showTabsRight;
 	void readConfig();
+	QHBoxLayout *myLayout;
 	class QStringList visibleViews;
 	class QPopupMenu *buttonPopup;
 	class QPopupMenu *Menu;
 	int popupFor;
 	void initialCopy();
+	void doLayout();
   protected:
 	virtual bool eventFilter(QObject*,QEvent*);
   protected slots:
