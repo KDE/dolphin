@@ -1153,15 +1153,47 @@ void KonqViewManager::loadViewProfile( KConfig &cfg, const QString & filename,
       if ( tabContainer->count() > 1 )
       {
           if ( KMessageBox::warningContinueCancel( 0,
-                  i18n("You have multiple tabs open in this window, "
-                        "loading a profile will close them."),
+                  i18n("You have multiple tabs open in this window.\n"
+                        "Loading a view profile will close them."),
                   i18n("Confirmation"),
-                  i18n("Load Profile"),
+                  i18n("Load View Profile"),
                   "LoadProfileTabsConfirm" ) == KMessageBox::Cancel )
               return;
       }
+      
+      KonqView *originalView = m_pMainWindow->currentView();
+      QPtrList<KonqFrameBase> frameList = *tabContainer->childFrameList();
+      QPtrListIterator<KonqFrameBase> it( frameList );
+      for ( it.toFirst(); it != 0L; ++it )
+      {
+          KonqView *view = it.current()->activeChildView();
+          QVariant prop = view->part()->property("modified");
+          if (prop.isValid() && prop.toBool()) {
+              showTab( view );
+              if ( KMessageBox::warningContinueCancel( 0,
+                 i18n("This tab contains changes that have not been submitted.\nLoading a profile will discard these changes."),
+                 i18n("Discard Changes?"), i18n("&Discard Changes")) != KMessageBox::Continue )
+              {
+                  showTab( originalView );
+                  return;
+              }
+          }
+      }
+      showTab( originalView );
   }
-
+  else
+  {
+      KonqView *view = m_pMainWindow->currentView();
+      if (view) {
+        QVariant prop = m_pMainWindow->currentView()->part()->property("modified");
+        if (prop.isValid() && prop.toBool())
+            if ( KMessageBox::warningContinueCancel( 0,
+               i18n("This page contains changes that have not been submitted.\nLoading a profile will discard these changes."),
+               i18n("Discard Changes?"), i18n("&Discard Changes")) != KMessageBox::Continue )
+            return;
+      }
+  }
+  
   KConfig *config = KGlobal::config();
   KConfigGroupSaver cs( config, QString::fromLatin1("FMSettings") );
   bool alwaysTabbedMode = config->readBoolEntry( "AlwaysTabbedMode", false );
