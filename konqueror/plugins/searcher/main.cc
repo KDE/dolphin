@@ -29,6 +29,9 @@
 
 #include <opUIUtils.h>
 
+#include <kurl.h>
+#include <kprotocolmanager.h>
+
 KonqSearcher::KonqSearcher( KOM::Component_ptr core )
 : KOMPlugin( core )
 {
@@ -52,10 +55,10 @@ CORBA::Boolean KonqSearcher::eventFilter( KOM::Base_ptr obj, const char *name, c
     CORBA::WChar *url;
     value >>= CORBA::Any::to_wstring( url, 0 );
     QString qurl = C2Q( url );
+    KURL kurl( qurl );
     
     // candidate?
-    if ( qurl.contains( "//" ) == 0 && qurl.contains( ':' ) &&
-         qurl.contains( "file:" ) == 0 )
+    if ( kurl.isMalformed() || !KProtocolManager::self().protocols().contains( kurl.protocol() ) )
     {
       int pos = qurl.find( ':' );
       QString key = qurl.left( pos );
@@ -63,7 +66,9 @@ CORBA::Boolean KonqSearcher::eventFilter( KOM::Base_ptr obj, const char *name, c
       QString query = EngineCfg::self()->query( key );
       if ( query != QString::null )
       {
-        QString qnewurl = query.replace( QRegExp( "|" ), qurl.mid( pos+1 ).replace( QRegExp( " " ), "+" ) );
+        QString querypart = qurl.mid( pos+1 ).replace( QRegExp( " " ), "+" );
+	KURL::encode( querypart );
+        QString qnewurl = query.replace( QRegExp( "|" ), querypart );
 	CORBA::WString_var wnewurl = Q2C( qnewurl );
 	
 	EMIT_EVENT_WSTRING( obj, name, wnewurl );
@@ -100,9 +105,8 @@ int main( int argc, char **argv )
 
   ConfigWidget *w = new ConfigWidget;
   
-//  if ( !QXEmbed::processClientCmdline( w, argc, argv ) )
-//    delete w;
-  w->show();
+  if ( !QXEmbed::processClientCmdline( w, argc, argv ) )
+    delete w;
 
   app.exec();
   return 0;

@@ -155,7 +155,6 @@ ConfigWidget::ConfigWidget()
 
 ConfigWidget::~ConfigWidget()
 {
-  kapp->quit();
 }
 
 void ConfigWidget::slotSelectionChanged( QListViewItem *item )
