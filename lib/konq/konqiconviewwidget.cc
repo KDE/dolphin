@@ -80,14 +80,9 @@ void KonqIconViewWidget::initConfig()
     font.setUnderline( m_pSettings->underlineLink() );
     setItemFont( font );
 
-    // Behaviour (single click/double click, autoselect, ...)
-    // ########### Why has konqy a seperate singe-click setting and doesn't use KDE's?
-//     bool bChangeCursor = m_pSettings->changeCursor();
-//     setSingleClickConfiguration( new QFont(font), new QColor(normalTextColor),
-// 				 new QFont(font), new QColor(highlightedTextColor),
-// 				 new QCursor(bChangeCursor ? KCursor().handCursor() : KCursor().arrowCursor()),
-// 				 m_pSettings->autoSelect() );
-//     setUseSingleClickMode( m_pSettings->singleClick() );
+    // Behaviour ( changecursor, autoselect, ...)
+    setChangeCursor( m_pSettings->changeCursor() );
+    // TODO autoselect, here or in KIconView
     setWordWrapIconText( m_pSettings->wordWrapText() );
 }
 
