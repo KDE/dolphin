@@ -159,18 +159,20 @@ QPixmap KonqFileItem::pixmap( int _size, int _state,
       // No thumbnail, or too old -> load the orig image and create Pixie pic
       int extent;
       QString sizeStr;
+      KURL grandFather( KURL( m_url.directory() ).directory() );
+      QString mospicsPath = (grandFather.fileName() == ".mospics") ? grandFather.path() : m_url.directory();
       if(_size < 28){
-          thumbURL.setPath( m_url.directory() + "/.mospics/small/" + m_url.fileName() );
+          thumbURL.setPath( mospicsPath + "/.mospics/small/" + m_url.fileName() );
           extent = 48;
           sizeStr = "/.mospics/small";
       }
       else if(_size < 40){
-          thumbURL.setPath( m_url.directory() + "/.mospics/med/" + m_url.fileName() );
+          thumbURL.setPath( mospicsPath + "/.mospics/med/" + m_url.fileName() );
           extent = 64;
           sizeStr = "/.mospics/med";
       }
       else{
-          thumbURL.setPath( m_url.directory() + "/.mospics/large/" + m_url.fileName() );
+          thumbURL.setPath( mospicsPath + "/.mospics/large/" + m_url.fileName() );
           extent = 90;
           sizeStr = "/.mospics/large";
       }
