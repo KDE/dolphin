@@ -49,7 +49,9 @@ KonqRun::~KonqRun()
 
 void KonqRun::foundMimeType( const QString & _type )
 {
-  kdDebug(1202) << "FILTERING " << _type << endl;
+  kdDebug(1202) << "KonqRun::foundMimeType " << _type << endl;
+
+  QString mimeType = _type; // this ref comes from the job, we lose it when using KIO again
 
   m_bFoundMimeType = true;
 
@@ -58,21 +60,21 @@ void KonqRun::foundMimeType( const QString & _type )
   if (m_pView)
     m_pView->setLoading(false); // first phase finished, don't confuse KonqView
 
-  kdDebug(1202) << "m_req.nameFilter= " << m_req.nameFilter << endl;
-  kdDebug(1202) << "m_req.typedURL= " << m_req.typedURL << endl;
-  
-  m_bFinished = m_pMainWindow->openView( _type, m_strURL, m_pView, m_req );
+  //kdDebug(1202) << "m_req.nameFilter= " << m_req.nameFilter << endl;
+  //kdDebug(1202) << "m_req.typedURL= " << m_req.typedURL << endl;
+
+  m_bFinished = m_pMainWindow->openView( mimeType, m_strURL, m_pView, m_req );
   if ( !m_bFinished &&  // .... if not embedddable ...
       !m_bTrustedSource && // ... and untrusted source...
-      !allowExecution( _type, m_strURL ) ) // ...and the user *really* wants to execute ...
-  {    
+      !allowExecution( mimeType, m_strURL ) ) // ...and the user *really* wants to execute ...
+  {
       m_bFinished = true;
       m_bFault = true; // make Konqueror think there was an error (even if we really execute it) , in order to stop the spinning wheel
   }
-  
+
   //  if ( m_pMainWindow->openView( _type, m_strURL, m_pView, m_req ) ||
   //       ( !m_bTrustedSource && !allowExecution( _type, m_strURL ) ) )
-  
+
   if ( m_bFinished )
   {
     m_pMainWindow = 0L;
@@ -81,10 +83,10 @@ void KonqRun::foundMimeType( const QString & _type )
     return;
   }
   KIO::SimpleJob::removeOnHold(); // Kill any slave that was put on hold.
-  kdDebug(1202) << "Nothing special to do here" << endl;
+  kdDebug(1202) << "Nothing special to do in KonqRun, falling back to KRun" << endl;
 
   m_bFault = true; // make Konqueror believe that there was an error, in order to stop the spinning wheel...
-  KRun::foundMimeType( _type );
+  KRun::foundMimeType( mimeType );
 }
 
 void KonqRun::scanFile()
@@ -125,7 +127,7 @@ void KonqRun::scanFile()
 
 void KonqRun::slotKonqScanFinished(KIO::Job *job)
 {
-  kdDebug(1202) << "slotKonqScanFinished" << endl;
+  //kdDebug(1202) << "slotKonqScanFinished" << endl;
   KRun::slotScanFinished(job);
 }
 
@@ -147,7 +149,7 @@ bool KonqRun::allowExecution( const QString &serviceType, const KURL &url )
          serviceType != "application/x-executable" &&
          serviceType != "application/x-shellscript" )
       return true;
-    
+
     return ( KMessageBox::warningYesNo( 0, i18n( "Do you really want to execute '%1' ? " ).arg( url.prettyURL() ) ) == KMessageBox::Yes );
 }
 
