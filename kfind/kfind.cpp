@@ -25,7 +25,7 @@
 
  **********************************************************************/
 
-#include <qpushbutton.h>
+#include <kpushbutton.h>
 #include <qlayout.h>
 #include <qvbox.h>
 
@@ -35,7 +35,7 @@
 #include <kseparator.h>
 #include <qlineedit.h>
 #include <qcheckbox.h>
-//#include <kstatusbar.h>
+#include <kstdguiitem.h>
 
 #include "kftabdlg.h"
 #include "kquery.h"
@@ -60,17 +60,20 @@ Kfind::Kfind(QWidget *parent, const char *name)
   mTopLayout->addWidget(mActionSep);
 
   // create button box
-  QWidget * mButtonBox = new QVBox( this );
+  QVBox * mButtonBox = new QVBox( this );
+  QVBoxLayout *lay = (QVBoxLayout*)mButtonBox->layout();
+  lay->addStretch(1);
   mTopLayout->addWidget(mButtonBox);
 
-  mSearch = new QPushButton( i18n("&Find"), mButtonBox );
+  mSearch = new KPushButton( KGuiItem(i18n("&Find"), "find"), mButtonBox );
+  mButtonBox->setSpacing( (tabWidget->sizeHint().height()-4*mSearch->sizeHint().height()) / 4);
   connect( mSearch, SIGNAL(clicked()), this, SLOT( startSearch() ) );
-  mStop = new QPushButton( i18n("Stop"), mButtonBox );
+  mStop = new KPushButton( KGuiItem(i18n("Stop"), "stop"), mButtonBox );
   connect( mStop, SIGNAL(clicked()), this, SLOT( stopSearch() ) );
-  mSave = new QPushButton( i18n("Save As..."), mButtonBox );
+  mSave = new KPushButton( KStdGuiItem::saveAs(), mButtonBox );
   connect( mSave, SIGNAL(clicked()), this, SLOT( saveResults() ) );
 
-  QPushButton * mClose = new QPushButton( i18n("&Close"), mButtonBox );
+  KPushButton * mClose = new KPushButton( KGuiItem(i18n("&Close"),"fileclose"), mButtonBox );
   connect( mClose, SIGNAL(clicked()), this, SIGNAL( destroyMe() ) );
 
   // react to search requests from widget

@@ -11,7 +11,7 @@
 #include <kfileitem.h>
 
 class QString;
-class QPushButton;
+class KPushButton;
 
 class KQuery;
 class KURL;
@@ -49,9 +49,9 @@ signals:
 private:
     void setFocus();
     KfindTabWidget *tabWidget;
-    QPushButton *mSearch;
-    QPushButton *mStop;
-    QPushButton *mSave;
+    KPushButton *mSearch;
+    KPushButton *mStop;
+    KPushButton *mSave;
     KQuery *query;
 };
 
