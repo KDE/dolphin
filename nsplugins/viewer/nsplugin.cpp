@@ -404,22 +404,19 @@ NSPluginClass::NSPluginClass( const QString &library, QObject *parent )
    {
       kdDebug() << "Could not get symbol NP_GetMIMEDescription" << endl;
       return;
-   } else
-      kdDebug() << "Resolved NP_GetMIMEDescription to " << _NP_GetMIMEDescription << endl;
+   }
 
    if (!_NP_Initialize)
    {
       kdDebug() << "Could not get symbol NP_Initialize" << endl;
       return;
-   } else
-      kdDebug() << "Resolved NP_Initialize to " << _NP_Initialize << endl;
+   }
 
    if (!_NP_Shutdown)
    {
       kdDebug() << "Could not get symbol NP_Shutdown" << endl;
       return;
-   } else
-      kdDebug() << "Resolved NP_Shutdown to " << _NP_Shutdown << endl;
+   }
 
    kdDebug() << "Plugin library " << library << " loaded!" << endl;
    _constructed = true;
