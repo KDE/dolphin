@@ -73,18 +73,32 @@ FaviconsModule::~FaviconsModule()
     delete d;
 }
 
+QString removeSlash(QString result) 
+{
+    for (unsigned int i = result.length() - 1; i > 0; --i)
+        if (result[i] != '/')
+        {
+            result.truncate(i + 1);
+            break;
+        }
+
+    return result;
+}
+
+
 QString FaviconsModule::iconForURL(const KURL &url)
 {
     if (url.host().isEmpty())
         return QString::null;
 
     QString icon;
+    QString simplifiedURL = simplifyURL(url);
 
-    QString *iconURL = d->faviconsCache.find( simplifyURL(url) );
+    QString *iconURL = d->faviconsCache.find( removeSlash(simplifiedURL) );
     if (iconURL)
         icon = *iconURL;
     else
-        icon = d->config->readEntry(simplifyURL(url));
+        icon = d->config->readEntry( removeSlash(simplifiedURL) );
 
     if (!icon.isEmpty())
         icon = iconNameFromURL(icon);
@@ -106,7 +120,6 @@ QString FaviconsModule::simplifyURL(const KURL &url)
     for (unsigned int i = 0; i < result.length(); ++i)
         if (result[i] == '=')
             result[i] = '_';
-
     return result;
 }
 
@@ -115,10 +128,10 @@ QString FaviconsModule::iconNameFromURL(const KURL &iconURL)
     if (iconURL.path() == "/favicon.ico")
        return iconURL.host();
 
-    QString result = iconURL.host() + iconURL.path();
-    // splat = and / so it can be safely used as a file name
+    QString result = simplifyURL(iconURL);
+    // splat / so it can be safely used as a file name
     for (unsigned int i = 0; i < result.length(); ++i)
-        if (result[i] == '=' || result[i] == '/')
+        if (result[i] == '/')
             result[i] = '_';
 
     QString ext = result.right(4);
@@ -140,14 +153,13 @@ bool FaviconsModule::isIconOld(const QString &icon)
 void FaviconsModule::setIconForURL(const KURL &url, const KURL &iconURL)
 {
     QString simplifiedURL = simplifyURL(url);
-    QString iconFile = d->faviconsDir + "favicons/" + iconNameFromURL(iconURL) + ".png";
 
-    if (!d->faviconsCache.insert(simplifiedURL, new QString(iconURL.url()) )) {
-        // AK - do failure stuff
-    }
+    d->faviconsCache.insert(removeSlash(simplifiedURL), new QString(iconURL.url()) );
+
+    QString iconName = "favicons/" + iconNameFromURL(iconURL);
+    QString iconFile = d->faviconsDir + iconName + ".png";
 
     if (!isIconOld(iconFile)) {
-        QString iconName = "favicons/" + iconNameFromURL(iconURL);
         emit iconChanged(false, simplifiedURL, iconName);
         return;
     }
@@ -161,8 +173,7 @@ void FaviconsModule::downloadHostIcon(const KURL &url)
     if (!isIconOld(iconFile))
         return;
 
-    KURL iconURL(url, "/favicon.ico");
-    startDownload(url.host(), true, iconURL);
+    startDownload(url.host(), true, KURL(url, "/favicon.ico"));
 }
 
 void FaviconsModule::startDownload(const QString &hostOrURL, bool isHost, const KURL &iconURL)
@@ -231,7 +242,7 @@ void FaviconsModule::slotResult(KIO::Job *job)
             if (!io.write())
                 iconName = QString::null;
             else if (!download.isHost)
-                d->config->writeEntry(download.hostOrURL, iconURL);
+                d->config->writeEntry( removeSlash(download.hostOrURL), iconURL);
         }
     }
     if (iconName.isEmpty())
