@@ -3694,7 +3694,7 @@ void KonqMainWindow::slotPopupMenu( KXMLGUIClient *client, const QPoint &_global
   KAction *actNewTab = new KAction( i18n( "Open in &Background Tab" ), "tab_new_bg", 0, this, SLOT( slotPopupNewTab() ), actionCollection(), "openintab" );
   actNewTab->setStatusText( i18n( "Open the document in a new background tab" ) );
   KAction *actNewTabFront = new KAction( i18n( "Open in &New Tab" ), "tab_new", 0, this, SLOT( slotPopupNewTabAtFront() ), actionCollection(), "openintabfront" );
-  actNewTabFront->setStatusText( i18n( "Open the document in a foreground new tab" ) );
+  actNewTabFront->setStatusText( i18n( "Open the document in a new foreground tab" ) );
 
   if ( _items.count() == 1 )
     m_popupEmbeddingServices = KTrader::self()->query( _items.getFirst()->mimetype(),
