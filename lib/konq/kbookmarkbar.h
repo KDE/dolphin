@@ -20,11 +20,14 @@
 #define KBOOKMARKBAR_H
 
 #include <qobject.h>
+#include <qlist.h>
 
 class KToolBar;
 class KBookmark;
 class KBookmarkOwner;
+class KBookmarkMenu;
 class KActionCollection;
+class KAction;
 
 /**
  * This class provides a bookmark toolbar.  Using this class is nearly
@@ -42,9 +45,9 @@ public:
      * @param _toolBar toolbar to fill
      * @param _collec parent for the KActions
      */
-	KBookmarkBar( KBookmarkOwner *_owner, KToolBar *_toolBar,
+        KBookmarkBar( KBookmarkOwner *_owner, KToolBar *_toolBar,
                   KActionCollection *_collec, QObject *parent = 0L, const char *name = 0L);
-	virtual ~KBookmarkBar();
+        virtual ~KBookmarkBar();
 
 public slots:
     void slotBookmarksChanged();
@@ -52,10 +55,13 @@ public slots:
 
 protected:
     void fillBookmarkBar( KBookmark *parent );
+    void clear();
 
     KBookmarkOwner    *m_pOwner;
     KToolBar          *m_toolBar;
     KActionCollection *m_actionCollection;
+    QList<KAction>     m_actions;
+    QList<KBookmarkMenu> m_lstSubMenus;
 };
 
 #endif // KBOOKMARKBAR_H

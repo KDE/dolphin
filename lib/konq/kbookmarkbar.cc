@@ -42,6 +42,8 @@ KBookmarkBar::KBookmarkBar( KBookmarkOwner *_owner, KToolBar *_toolBar,
     // force the "icon to the left of the text" look
     m_toolBar->setIconText(KToolBar::IconTextRight);
 
+    m_lstSubMenus.setAutoDelete( true );
+
     connect(KBookmarkManager::self(), SIGNAL(changed()),
             this,                     SLOT(slotBookmarksChanged()));
     slotBookmarksChanged();
@@ -49,12 +51,33 @@ KBookmarkBar::KBookmarkBar( KBookmarkOwner *_owner, KToolBar *_toolBar,
 
 KBookmarkBar::~KBookmarkBar()
 {
+    clear();
+}
+
+void KBookmarkBar::clear()
+{
+    m_lstSubMenus.clear();
+
+    QListIterator<KAction> it( m_actions );
+    for (; it.current(); ++it )
+    {
+        it.current()->unplugAll();
+        m_actionCollection->take( it.current() );
+    }
+
+    m_actions.setAutoDelete( true );
+    m_actions.clear();
+    m_actions.setAutoDelete( false );
+
+    // remove that strange separator thing..
+    m_toolBar->clear();
 }
 
 void KBookmarkBar::slotBookmarksChanged()
 {
-    m_toolBar->clear();
+    clear();
 
+    // ### What's this?? Is that still really needed with QToolBar? (Simon)
     { // KToolBar needs a setMinimumSize method similar to this
     KToolBarButton *separ = new KToolBarButton(m_toolBar);
 
@@ -74,28 +97,31 @@ void KBookmarkBar::fillBookmarkBar(KBookmark *parent)
     KBookmark *bm;
     for (bm = parent->first(); bm; bm = parent->next())
     {
-        QPixmap pix = SmallIcon(bm->pixmapFile());
+        QString pix = bm->pixmapFile();
 
         if (bm->type() == KBookmark::URL)
         {
             KAction *action;
             // create a normal URL item, with ID as a name
-            action = new KAction(bm->text(), QIconSet(pix), 0,
+            action = new KAction(bm->text(), pix, 0,
                                  this, SLOT(slotBookmarkSelected()),
                                  m_actionCollection,
                                  QCString().sprintf("bookmark%d", bm->id()));
             action->plug(m_toolBar);
+            m_actions.append( action );
         }
         else
         {
             KActionMenu *action;
-            action = new KActionMenu(bm->text(), QIconSet(pix), this);
+            action = new KActionMenu(bm->text(), pix, this);
 
             KBookmarkMenu *menu;
             menu = new KBookmarkMenu(m_pOwner, action->popupMenu(),
                                      m_actionCollection, false, false);
             menu->fillBookmarkMenu( bm );
             action->plug(m_toolBar);
+            m_actions.append( action );
+            m_lstSubMenus.append( menu );
         }
     }
 }
