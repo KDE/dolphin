@@ -217,7 +217,8 @@ QString KonqAboutPageFactory::tips()
 		      " toolbar to increase the font size on your web page.").arg("viewmag.png") )
 	  .arg( i18n( "When you want to paste a new address into the Location toolbar you might want to "
 		      "clear the current entry by pressing the black arrow with the white cross &nbsp;"
-		      "<IMG WIDTH=16 HEIGHT=16 SRC=\"%1\"> &nbsp; in the toolbar.").arg("locationbar_erase.png"))
+		      "<IMG WIDTH=16 HEIGHT=16 SRC=\"%1\"> &nbsp; in the toolbar.")
+              .arg(QApplication::reverseLayout() ? "locationbar_erase_rtl.png" : "locationbar_erase.png"))
 	  .arg( i18n( "To create a link on your desktop pointing to the current page, "
 		      "simply drag the \"Location\" label that is to the left of the Location toolbar, drop it on to "
 		      "the desktop, and choose \"Link\"." ) )
