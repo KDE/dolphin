@@ -26,6 +26,7 @@
 
 #include "kfileitem.h"
 
+#include <kglobal.h>
 #include <kmimetype.h>
 #include <kpixmapcache.h>
 #include <klocale.h>
@@ -112,7 +113,7 @@ QPixmap* KFileItem::getPixmap( bool _mini ) const
 {
   QPixmap * p = KPixmapCache::pixmapForMimeType( m_pMimeType, m_url, m_bIsLocalURL, _mini );
   if (!p)
-    warning("Pixmap not found for mimetype %s",m_pMimeType->mimeType().ascii());
+    warning("Pixmap not found for mimetype %s",m_pMimeType->name().latin1());
   return p;
 }
 
@@ -140,7 +141,7 @@ QString KFileItem::getStatusBarInfo() const
 {
   QString comment = m_pMimeType->comment( m_url, false );
   QString text = m_strText;
-  // Extract from the UDSEntry the additionnal info we didn't get previously
+  // Extract from the UDSEntry the additional info we didn't get previously
   QString myLinkDest = linkDest();
   long mySize = size();
 
@@ -246,6 +247,19 @@ QString KFileItem::mimetype() const
   return m_pMimeType->name();
 }
 
+QString KFileItem::mimeComment() const
+{
+  if (!m_pMimeType->comment(m_url, false).isEmpty())
+    return m_pMimeType->comment(m_url, false);
+  else
+    return m_pMimeType->name();
+}
+
+QString KFileItem::iconName() const
+{
+  return m_pMimeType->icon(m_url, false);
+}
+
 void KFileItem::run()
 {
   (void) new KRun( m_url.url(), m_mode, m_bIsLocalURL );
@@ -284,13 +298,10 @@ QString KFileItem::decodeFileName( const QString & _str )
   return str;
 }
 
-const char* KFileItem::makeTimeString( time_t _time )
+QString KFileItem::makeTimeString( time_t _time )
 {
-  static char buffer[ 100 ];
- 
-  struct tm* t2 = localtime( &_time );
- 
-  strftime( buffer, 100, "%c", t2 );
- 
-  return buffer;
+  QDateTime dt;
+  dt.setTime_t(_time);
+
+  return KGlobal::locale()->formatDateTime(dt);
 } 

@@ -44,7 +44,7 @@
 #include <qfile.h>
 #include <qdir.h>
 #include <qdict.h>
-#include <qlineedit.h>
+#include <klined.h>
 #include <qlabel.h>
 #include <qpushbutton.h>
 #include <qcheckbox.h>
@@ -53,6 +53,7 @@
 #include <qpainter.h>
 #include <qlayout.h>
 
+#include <kpixmapcache.h>
 #include <kdialog.h>
 #include <kdirwatch.h>
 #include <kdebug.h>
@@ -72,6 +73,8 @@
 #include "kpropsdlg.h"
 
 #include <X11/Xlib.h> // for XSetTransientForHint
+
+#define ROUND(x) ((int)(0.5 + (x)))
 
 mode_t FilePermissionsPropsPage::fperm[3][4] = {
         {S_IRUSR, S_IWUSR, S_IXUSR, S_ISUID},
@@ -306,7 +309,8 @@ FilePropsPage::FilePropsPage( PropertiesDialog *_props )
   filename = KFileItem::decodeFileName( filename );
   
   bool isTrash = false;
-  QString path;
+  QString path, directory;
+
   if ( !m_bFromTemplate ) {
     QString tmp = properties->kurl().path( 1 );
     // is it the trash bin ?
@@ -318,91 +322,125 @@ FilePropsPage::FilePropsPage( PropertiesDialog *_props )
       path = properties->kurl().path();
     else
       path = properties->kurl().url();
-  } else
+    directory = properties->kurl().directory();
+  } else {
     path = properties->currentDir() + properties->defaultName();
+    directory = properties->currentDir();
+  }
+  
 
   QVBoxLayout *vbl = new QVBoxLayout(this, KDialog::marginHint(),
 				     KDialog::spacingHint(), "vbl");
-  QGridLayout *grid = new QGridLayout(0, 2); // unknown rows
+  QGridLayout *grid = new QGridLayout(0, 3); // unknown rows
+  grid->setColStretch(2, 1);
+  grid->addColSpacing(1, KDialog::spacingHint());
   vbl->addLayout(grid);
+  int curRow = 0;
 
   iconButton = new KIconLoaderButton(KGlobal::iconLoader(), this);
   iconButton->setFixedSize(50, 50);
   iconButton->setIconType("icon"); // chose from application icons
-  grid->addWidget(iconButton, 0, 0, AlignLeft);
+  grid->addWidget(iconButton, curRow, 0, AlignLeft);
 
-  QLabel *l = new QLabel(properties->kurl().filename(), this);
-  grid->addWidget(l, 0, 1);
+  QString iconStr;
+  //  if (isDesktopFile(properties->item())) {
+  //    KDesktopFile dfile(path, true);
+  //    iconStr = dfile.readIcon();
+  //  }
+  //  if (iconStr.isNull()) {
+    iconButton->setEnabled(false);
+    iconStr = KPixmapCache::pixmapFileForURL(properties->kurl().path(),
+					     properties->item()->mode(),
+					     properties->kurl().isLocalFile());
+      //  }
+  iconButton->setIcon(iconStr);
+    
+  name = new KLineEdit(this);
+  name->setText(filename);
+  // Don't rename trash or root.
+  if (isTrash || filename == "/")
+    name->setEnabled(false);
+  grid->addWidget(name, curRow++, 2);
+  oldName = filename;
+
+  QLabel *l = new QLabel(this);
+  l->setFrameStyle(QFrame::HLine|QFrame::Sunken);
+  grid->addMultiCellWidget(l, curRow, curRow, 0, 2);
+  ++curRow;
+
+  l = new QLabel(i18n("Type:"), this);
+  grid->addWidget(l, curRow, 0);
+
+  QString tempstr = properties->item()->mimeComment();
+  l = new QLabel(properties->item()->mimeComment(), this);
+  grid->addWidget(l, curRow++, 2);
+  
+  l = new QLabel( i18n("Location:"), this);
+  grid->addWidget(l, curRow, 0);
+  
+  l = new QLabel(this);
+  l->setText( directory );
+  grid->addWidget(l, curRow++, 2);
+
+  if (S_ISREG(properties->item()->mode())) {
+    l = new QLabel(i18n("Size:"), this);
+    grid->addWidget(l, curRow, 0);
+    
+    int size = properties->item()->size();
+    if (size > 1024*1024) {
+      tempstr = i18n("%1MB ").arg(KGlobal::locale()->formatNumber(ROUND(size/(1024*1024.0)), 0));
+      tempstr += i18n("(%1 bytes)").arg(KGlobal::locale()->formatNumber(size, 0));
+      
+    } else if (size > 1024) {
+      tempstr = i18n("%1KB ").arg(KGlobal::locale()->formatNumber(ROUND(size/1024.0), 2));
+      tempstr += i18n("(%1 bytes)").arg(KGlobal::locale()->formatNumber(size, 0));
+    } else
+      tempstr = i18n("%1 bytes").arg(KGlobal::locale()->formatNumber(size, 0));
+    l = new QLabel(tempstr, this);
+    grid->addWidget(l, curRow++, 2);
+  }
+
+  if (S_ISLNK(properties->item()->mode())) {
+    l = new QLabel(i18n("Points to:"), this);
+    grid->addWidget(l, curRow, 0);
+
+    l = new QLabel(properties->item()->linkDest(), this);
+    grid->addWidget(l, curRow++, 2);
+  }
 
   l = new QLabel(this);
   l->setFrameStyle(QFrame::HLine|QFrame::Sunken);
-  grid->addMultiCellWidget(l, 1, 1, 0, 1);
+  grid->addMultiCellWidget(l, curRow, curRow, 0, 2);
+  ++curRow;
+  
+  grid = new QGridLayout(0, 3); // unknown # of rows
+  grid->setColStretch(2, 1);
+  grid->addColSpacing(1, KDialog::spacingHint());
+  vbl->addLayout(grid);
+  curRow = 0;
 
-  l = new QLabel( i18n("File Name"), this);
-  grid->addWidget(l, 2, 0);
+  l = new QLabel(i18n("Created:"), this);
+  grid->addWidget(l, curRow, 0);
   
-  name = new QLineEdit(this);
-  name->setText( filename );
-  grid->addWidget(name, 2, 1);
-  // Dont rename trash or root directory
-  if ( isTrash || filename == "/" )
-    name->setEnabled( false );
-  oldName = filename;
+  tempstr = properties->item()->time(KIO::UDS_CREATION_TIME);
+  l = new QLabel(tempstr, this);
+  grid->addWidget(l, curRow++, 2);
   
-  l = new QLabel( i18n("Full Name:"), this);
-  grid->addWidget(l, 3, 0);
-  
-  l = new QLabel(this);
-  l->setText( path );
-  grid->addWidget(l, 3, 1);
+  l = new QLabel(i18n("Modified:"), this);
+  grid->addWidget(l, curRow, 0);
 
-  if ( isTrash ) {
-    l = new QLabel( i18n( "Is the Trash Bin"), this);
-  } else if ( S_ISDIR( properties->item()->mode() ) ) {
-    l = new QLabel( i18n("Is a Directory"), this);
-  }
-  grid->addWidget(l, 4, 0);
-  
-  if ( properties->item()->isLink() ) {
-    l = new QLabel( i18n( "Points to" ), this);
-    grid->addWidget(l, 5, 0);
-    
-    QLabel *lname = new QLabel(this);
-    lname->setLineWidth(1);
-    lname->setFrameStyle(QFrame::Box | QFrame::Raised);
-    grid->addWidget(lname, 5, 1);
-    
-    QString linkDest = properties->item()->linkDest();
-    if ( linkDest.isNull() && properties->kurl().isLocalFile() ) {
-      char buffer[1024];
-      int n = readlink( path.ascii(), buffer, 1022 );
-      if ( n > 0 ) {
-	buffer[ n ] = 0;
-	linkDest = buffer;
-      }
-    }
-    lname->setText( linkDest );
-  } else if ( S_ISREG( properties->item()->mode() ) ) {
-    QString tempstr = i18n("Size: %1").arg( properties->item()->size() );
-    l = new QLabel( tempstr, this);
-    vbl->addWidget(l);
-  }
-  
-  QString tempstr = i18n("Mimetype: %1").arg( properties->item()->mimetype() );
-  l = new QLabel( tempstr, this);
-  vbl->addWidget(l);
-  
-  QString buffer = 
-    i18n("Last Access: %1").arg(properties->item()->time(KIO::UDS_ACCESS_TIME));
-  l = new QLabel( buffer, this);
-  vbl->addWidget(l);
-  
-  buffer = 
-    i18n("Last Modified: %1").arg(properties->item()->time(KIO::UDS_MODIFICATION_TIME));
-  l = new QLabel( buffer, this);
-  vbl->addWidget(l);
+  tempstr = properties->item()->time(KIO::UDS_MODIFICATION_TIME);
+  l = new QLabel(tempstr, this);
+  grid->addWidget(l, curRow++, 2);
 
-  vbl->addStretch(2);
+  l = new QLabel(i18n("Accessed:"), this);
+  grid->addWidget(l, curRow, 0);
+
+  tempstr = properties->item()->time(KIO::UDS_ACCESS_TIME);
+  l = new QLabel(tempstr, this);
+  grid->addWidget(l, curRow++, 2);
+
+  vbl->addStretch(1);
 }
 
 bool FilePropsPage::supports( KFileItemList /*_items*/ )

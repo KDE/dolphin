@@ -109,6 +109,18 @@ public:
   QString mimetype() const;
 
   /**
+   * @return the descriptive comment for this mime type, or
+   *         the mime type itself if none is present.
+   */
+  QString mimeComment() const;
+
+  /**
+   * @return the full path name to the icon that represents
+   *         this mime type.
+   */
+  QString iconName() const;
+
+  /**
    * @return the UDS entry. Used by the tree view to access all details
    * by position.
    */
@@ -156,7 +168,7 @@ public:
   /**
    * Convert a time information into a string
    */
-  static const char* makeTimeString( time_t _time );
+  static QString makeTimeString( time_t _time );
   
 protected:
   /**
