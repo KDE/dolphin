@@ -2116,6 +2116,7 @@ void KonqMainWindow::slotDuplicateTabPopup()
 void KonqMainWindow::slotBreakOffTab()
 {
   m_pViewManager->breakOffTab();
+  updateViewActions();
 }
 
 void KonqMainWindow::slotBreakOffTabPopup()
