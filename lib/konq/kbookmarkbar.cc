@@ -81,7 +81,16 @@ void KBookmarkBar::slotBookmarksChanged( KBookmarkGroup & group )
         clear();
 
         fillBookmarkBar( group );
+    } else
+    {
+        // Iterate recursively into child menus
+        QListIterator<KBookmarkMenu> it( m_lstSubMenus );
+        for (; it.current(); ++it )
+        {
+            it.current()->slotBookmarksChanged( group );
+        }
     }
+
 }
 
 void KBookmarkBar::fillBookmarkBar(KBookmarkGroup & parent)
@@ -105,14 +114,15 @@ void KBookmarkBar::fillBookmarkBar(KBookmarkGroup & parent)
         else
         {
             KActionMenu *action;
-            action = new KActionMenu(bm.text(), bm.icon(), this);
+            action = new KActionMenu(bm.text(), bm.icon(),
+                                     m_actionCollection, "bookmarkbar-actionmenu");
             action->setDelayed(false);
 
             KBookmarkMenu *menu;
             menu = new KBookmarkMenu(m_pOwner, action->popupMenu(),
-                                     m_actionCollection, false, false,
+                                     m_actionCollection, false, true,
                                      bm.toGroup());
-            menu->fillBookmarkMenu();
+            //menu->fillBookmarkMenu();
             action->plug(m_toolBar);
             m_actions.append( action );
             m_lstSubMenus.append( menu );

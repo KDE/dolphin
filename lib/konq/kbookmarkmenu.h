@@ -86,9 +86,11 @@ public:
    */
   void fillBookmarkMenu();
 
+public slots: // public for bookmark bar
+  void slotBookmarksChanged(KBookmarkGroup &);
+
 protected slots:
   void slotAboutToShow();
-  void slotBookmarksChanged(KBookmarkGroup &);
   void slotBookmarkSelected();
   void slotAddBookmark();
   void slotNewFolder();

@@ -126,7 +126,7 @@ void KBookmarkMenu::slotBookmarksChanged( KBookmarkGroup & group )
 
 void KBookmarkMenu::refill()
 {
-  kdDebug(1203) << "KBookmarkMenu::slotBookmarksChanged()" << endl;
+  kdDebug(1203) << "KBookmarkMenu::refill()" << endl;
   m_lstSubMenus.clear();
 
   QListIterator<KAction> it( m_actions );
