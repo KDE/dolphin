@@ -685,27 +685,42 @@ void KonqKfmIconView::slotKofficeMode( bool b )
 
 void KonqKfmIconView::slotViewLarge( bool b )
 {
-  if ( b )
-    m_pIconView->setViewMode( QIconSet::Large );
+    if ( b ) {
+	m_pIconView->setViewMode( QIconSet::Large );
+	m_pIconView->orderItemsInGrid();
+	m_pIconView->repaint( FALSE );
+    }
 }
 
 void KonqKfmIconView::slotViewNormal( bool b )
 {
-  if ( b )
-    m_pIconView->setViewMode( QIconSet::Automatic );
+    if ( b ) {
+	m_pIconView->setViewMode( QIconSet::Automatic );
+	m_pIconView->orderItemsInGrid();
+	m_pIconView->repaintContents( m_pIconView->contentsX(), m_pIconView->contentsY(), 
+				      m_pIconView->viewport()->width(), m_pIconView->viewport()->height(), 
+				      FALSE );
+    }
 }
 
 void KonqKfmIconView::slotViewSmall( bool b )
 {
-  if ( b )
-    m_pIconView->setViewMode( QIconSet::Small );
+    if ( b ) {
+	m_pIconView->setViewMode( QIconSet::Small );
+	m_pIconView->orderItemsInGrid();
+	m_pIconView->repaintContents( m_pIconView->contentsX(), m_pIconView->contentsY(), 
+				      m_pIconView->viewport()->width(), m_pIconView->viewport()->height(), 
+				      FALSE );
+    }
 }
 
 void KonqKfmIconView::slotTextBottom( bool b )
 {
     if ( b ) {
 	m_pIconView->setGridX( 70 );
-	m_pIconView->setItemTextPos( QIconView::Bottom );
+	m_pIconView->repaintContents( m_pIconView->contentsX(), m_pIconView->contentsY(), 
+				      m_pIconView->viewport()->width(), m_pIconView->viewport()->height(), 
+				      FALSE );
     }
 }
 
