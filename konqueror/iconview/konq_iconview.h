@@ -47,8 +47,8 @@ class KonqKfmIconView : public KonqDirPart
   Q_PROPERTY( uint directorySize READ dirSize )
   Q_PROPERTY( uint directoryCount READ dirCount )
   Q_PROPERTY( uint fileCount READ fileCount )
-  Q_PROPERTY( bool supportsUndo READ supportsUndo );
-  Q_PROPERTY( QString viewMode READ viewMode WRITE setViewMode );
+  Q_PROPERTY( bool supportsUndo READ supportsUndo )
+  Q_PROPERTY( QString viewMode READ viewMode WRITE setViewMode )
 public:
 
   enum SortCriterion { NameCaseSensitive, NameCaseInsensitive, Size, Type };
