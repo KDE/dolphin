@@ -52,19 +52,6 @@
 
 #define DEFAULT_HEADER_HEIGHT 13
 
-//#include <iostream.h>
-
-KonqCheckBox::KonqCheckBox( QWidget * parent, const char * name )
-  :QCheckBox( parent, name )
-{
-  kdDebug(1202) << this << " KonqCheckBox created" << endl;
-}
-
-KonqCheckBox::~KonqCheckBox()
-{
-  kdDebug(1202) << this << " KonqCheckBox deleted" << endl;
-}
-
 void KonqCheckBox::paintEvent(QPaintEvent *)
 {
     static QPixmap anchor_grey(anchor_grey_xpm);

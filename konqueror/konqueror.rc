@@ -43,6 +43,7 @@
   <Action name="go_dirtree"/>
   <Action name="go_trash"/>
   <Separator/>
+  <Action name="history"/>
  </Menu>
  <Action name="bookmarks"/>
  <Menu name="tools"><text>&amp;Tools</text>

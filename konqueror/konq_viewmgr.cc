@@ -451,15 +451,18 @@ KonqChildView *KonqViewManager::chooseNextView( KonqChildView *view )
   kdDebug() << "KonqViewManager(" << this << ")::chooseNextView(" << view << ")" << endl;
   KonqMainView::MapViews mapViews = m_pMainView->viewMap();
 
-  KonqMainView::MapViews::Iterator it = view ? mapViews.find( view->view() ) : mapViews.begin();
+  KonqMainView::MapViews::Iterator it = mapViews.begin();
   KonqMainView::MapViews::Iterator end = mapViews.end();
+  if ( view ) // find it in the map - can't use the key since view->view() might be 0L
+      while ( it != end && it.data() != view )
+          ++it;
 
   KonqMainView::MapViews::Iterator startIt = it;
 
   // the view should always be in the list, shouldn't it?
   // maybe use assert( it != end )?
    if ( it == end ) {
-     kdWarning() << "View is not in list !" << endl;
+       kdWarning() << "View " << view << " is not in list !" << endl;
      it = mapViews.begin();
      if ( it == end )
        return 0L; // wow, that certainly caught all possibilities!

@@ -20,7 +20,6 @@
 #include <qdir.h>
 
 #include <kparts/browserextension.h>
-#include <kurifilter.h>
 #include "konq_guiclients.h"
 #include "konq_mainview.h"
 #include "konq_childview.h"
@@ -52,39 +51,39 @@
 #include <qmetaobject.h>
 #include <qlayout.h>
 
+#include <dcopclient.h>
 #include <kaction.h>
+#include <kapp.h>
+#include <kbookmarkbar.h>
+#include <kbookmarkmenu.h>
 #include <kdebug.h>
-#include <kstatusbar.h>
-#include <klocale.h>
+#include <kedittoolbar.h>
+#include <kglobalsettings.h>
+#include <khelpmenu.h>
 #include <kiconloader.h>
+#include <kio/job.h>
+#include <kkeydialog.h>
+#include <klibloader.h>
+#include <klocale.h>
+#include <kmenubar.h>
 #include <kmessagebox.h>
-#include <kprocess.h>
 #include <knewmenu.h>
-#include <kstdaccel.h>
-#include <kstddirs.h>
-#include <ksycoca.h>
-#include <kurl.h>
-#include <kwm.h>
 #include <konqdefaults.h>
 #include <konqpopupmenu.h>
 #include <konqsettings.h>
-#include <kio/job.h>
-#include <ktrader.h>
-#include <kuserprofile.h>
-#include <kapp.h>
-#include <dcopclient.h>
-#include <klibloader.h>
-#include <kbookmarkbar.h>
-#include <kbookmarkmenu.h>
-#include <kbookmarkbar.h>
-#include <kstdaction.h>
-#include <khelpmenu.h>
 #include <kparts/part.h>
-#include <kmenubar.h>
-#include <kglobalsettings.h>
-#include <kedittoolbar.h>
+#include <kprocess.h>
+#include <kstatusbar.h>
+#include <kstdaccel.h>
+#include <kstdaction.h>
+#include <kstddirs.h>
+#include <ksycoca.h>
+#include <ktrader.h>
+#include <kurifilter.h>
+#include <kurl.h>
 #include <kurlrequesterdlg.h>
-#include <kkeydialog.h>
+#include <kuserprofile.h>
+#include <kwm.h>
 
 #include "version.h"
 
@@ -1202,7 +1201,8 @@ void KonqMainView::slotUpActivated( int id )
 
 void KonqMainView::slotGoMenuAboutToShow()
 {
-  m_paBack->fillGoMenu( m_currentView->history() );
+  kdDebug(1202) << "KonqMainView::slotGoMenuAboutToShow" << endl;
+  m_paHistory->fillGoMenu( m_currentView->history() );
 }
 
 void KonqMainView::slotGoHistoryActivated( int steps )
@@ -1213,7 +1213,7 @@ void KonqMainView::slotGoHistoryActivated( int steps )
 void KonqMainView::slotBackAboutToShow()
 {
   m_paBack->popupMenu()->clear();
-  m_paBack->fillHistoryPopup( m_currentView->history(), 0L, true, false );
+  KonqHistoryAction::fillHistoryPopup( m_currentView->history(), m_paBack->popupMenu(), true, false );
 }
 
 void KonqMainView::slotBack()
@@ -1229,7 +1229,7 @@ void KonqMainView::slotBackActivated( int id )
 void KonqMainView::slotForwardAboutToShow()
 {
   m_paForward->popupMenu()->clear();
-  m_paForward->fillHistoryPopup( m_currentView->history(), 0L, false, true );
+  KonqHistoryAction::fillHistoryPopup( m_currentView->history(), m_paForward->popupMenu(), false, true );
 }
 
 void KonqMainView::slotForward()
@@ -1457,9 +1457,6 @@ void KonqMainView::initActions()
 
 
   connect( m_paBack, SIGNAL( activated() ), this, SLOT( slotBack() ) );
-  // go menu
-  connect( m_paBack, SIGNAL( menuAboutToShow() ), this, SLOT( slotGoMenuAboutToShow() ) );
-  connect( m_paBack, SIGNAL( activated( int ) ), this, SLOT( slotGoHistoryActivated( int ) ) );
   // toolbar button
   connect( m_paBack->popupMenu(), SIGNAL( aboutToShow() ), this, SLOT( slotBackAboutToShow() ) );
   connect( m_paBack->popupMenu(), SIGNAL( activated( int ) ), this, SLOT( slotBackActivated( int ) ) );
@@ -1470,6 +1467,10 @@ void KonqMainView::initActions()
   connect( m_paForward, SIGNAL( activated() ), this, SLOT( slotForward() ) );
   connect( m_paForward->popupMenu(), SIGNAL( aboutToShow() ), this, SLOT( slotForwardAboutToShow() ) );
   connect( m_paForward->popupMenu(), SIGNAL( activated( int ) ), this, SLOT( slotForwardActivated( int ) ) );
+
+  m_paHistory = new KonqBidiHistoryAction( actionCollection(), "history" );
+  connect( m_paHistory, SIGNAL( menuAboutToShow() ), this, SLOT( slotGoMenuAboutToShow() ) );
+  connect( m_paHistory, SIGNAL( activated( int ) ), this, SLOT( slotGoHistoryActivated( int ) ) );
 
   (void) new KAction( i18n( "Home Directory" ), "gohome", KStdAccel::key(KStdAccel::Home), this, SLOT( slotHome() ), actionCollection(), "home" );
 

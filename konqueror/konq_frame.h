@@ -57,8 +57,9 @@ class KonqCheckBox : public QCheckBox
 {
     Q_OBJECT // for classname
 public:
-    KonqCheckBox(QWidget *parent=0, const char *name=0);
-    virtual ~KonqCheckBox();
+    KonqCheckBox(QWidget *parent=0, const char *name=0)
+      :QCheckBox( parent, name ) {}
+    virtual ~KonqCheckBox() {}
 protected:
     void paintEvent(QPaintEvent *ev);
 };

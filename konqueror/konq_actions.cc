@@ -81,53 +81,12 @@ void KonqComboAction::unplug( QWidget *w )
   removeContainer( idx );
 }
 
-KonqHistoryAction::KonqHistoryAction( const QString& text, int accel, QObject* parent, const char* name )
-  : KAction( text, accel, parent, name )
-{
-  m_popup = 0;
-  m_firstIndex = 0;
-  m_goMenuDone = false;
-}
-
-KonqHistoryAction::KonqHistoryAction( const QString& text, int accel,
-	     QObject* receiver, const char* slot, QObject* parent, const char* name )
-  : KAction( text, accel, receiver, slot, parent, name )
-{
-  m_popup = 0;
-  m_firstIndex = 0;
-  m_goMenuDone = false;
-}
-
-KonqHistoryAction::KonqHistoryAction( const QString& text, const QIconSet& pix, int accel, QObject* parent, const char* name )
-  : KAction( text, pix, accel, parent, name )
-{
-  m_popup = 0;
-  m_firstIndex = 0;
-  m_goMenuDone = false;
-}
+/////////////////
 
 KonqHistoryAction::KonqHistoryAction( const QString& text, const QString& icon, int accel, QObject* parent, const char* name )
   : KAction( text, icon, accel, parent, name )
 {
   m_popup = 0;
-  m_firstIndex = 0;
-  m_goMenuDone = false;
-}
-
-KonqHistoryAction::KonqHistoryAction( const QString& text, const QIconSet& pix,int accel, QObject* receiver, const char* slot, QObject* parent, const char* name )
-  : KAction( text, pix, accel, receiver, slot, parent, name )
-{
-  m_popup = 0;
-  m_firstIndex = 0;
-  m_goMenuDone = false;
-}
-
-KonqHistoryAction::KonqHistoryAction( QObject* parent, const char* name )
-  : KAction( parent, name )
-{
-  m_popup = 0;
-  m_firstIndex = 0;
-  m_goMenuDone = false;
 }
 
 KonqHistoryAction::~KonqHistoryAction()
@@ -156,25 +115,140 @@ int KonqHistoryAction::plug( QWidget *widget, int index )
 
     return containerCount() - 1;
   }
-  // Go menu
-  if ( widget->inherits("QPopupMenu") && !m_goMenuDone )
+
+  return KAction::plug( widget, index );
+}
+
+void KonqHistoryAction::unplug( QWidget *widget )
+{
+  if ( widget->inherits( "KToolBar" ) )
   {
-    // Remember we did that already, so that when plugging this
-    // action into a QPopupMenu, we don't get the history !
-    m_goMenuDone = true;
-	m_goMenu = (QPopupMenu*)widget;
+    KToolBar *bar = (KToolBar *)widget;
+
+    int idx = findContainer( bar );
+
+    if ( idx != -1 )
+    {
+      bar->removeItem( menuId( idx ) );
+      removeContainer( idx );
+    }
+
+    return;
+  }
+
+  KAction::unplug( widget );
+}
+
+//static - used by KonqHistoryAction and KonqBidiHistoryAction
+void KonqHistoryAction::fillHistoryPopup( const QList<HistoryEntry> &history,
+                                          QPopupMenu * popup,
+                                          bool onlyBack,
+                                          bool onlyForward,
+                                          bool checkCurrentItem,
+                                          uint startPos )
+{
+  assert ( popup ); // kill me if this 0... :/
+
+  kdDebug(1202) << "fillHistoryPopup position: " << history.at() << endl;
+  HistoryEntry * current = history.current();
+  QListIterator<HistoryEntry> it( history );
+  if (onlyBack || onlyForward)
+  {
+      it += history.at(); // Jump to current item
+      if ( !onlyForward ) --it; else ++it; // And move off it
+  } else if ( startPos )
+      it += startPos; // Jump to specified start pos
+
+  uint i = 0;
+  while ( it.current() )
+  {
+      QString text = it.current()->locationBarURL; // perhaps the caption would look even better ?
+      text = KBookmark::stringSqueeze(text, 40); //CT squeeze, but not as much as in bookmarks (now we display URLs)
+      if ( checkCurrentItem && it.current() == current )
+      {
+          int id = popup->insertItem( text ); // no pixmap if checked
+          popup->setItemChecked( id, true );
+      } else
+          popup->insertItem( KMimeType::mimeType( it.current()->strServiceType )->
+		pixmap( KIcon::Small ), text );
+      if ( ++i > 10 )
+          break;
+      if ( !onlyForward ) --it; else ++it;
+  }
+  kdDebug(1202) << "After fillHistoryPopup position: " << history.at() << endl;
+}
+
+void KonqHistoryAction::setEnabled( bool b )
+{
+  // Is this still necessary ? Looks very standard...
+
+  int len = containerCount();
+
+  for ( int i = 0; i < len; i++ )
+  {
+    QWidget *w = container( i );
+
+    if ( w->inherits( "KToolBar" ) )
+      ((KToolBar *)w)->setItemEnabled( menuId( i ), b );
+
+  }
+
+  KAction::setEnabled( b );
+}
+
+void KonqHistoryAction::setIconSet( const QIconSet& iconSet )
+{
+  // Is this still necessary ? Looks very standard...
+
+  int len = containerCount();
+
+  for ( int i = 0; i < len; i++ )
+  {
+    QWidget *w = container( i );
+
+    if ( w->inherits( "KToolBar" ) )
+      ((KToolBar *)w)->setButtonPixmap( menuId( i ), iconSet.pixmap() );
+
+  }
+
+  KAction::setIconSet( iconSet );
+}
+
+QPopupMenu *KonqHistoryAction::popupMenu()
+{
+  if ( m_popup )
+    return m_popup;
+
+  m_popup = new QPopupMenu();
+  return m_popup;
+}
+
+///////////////////////////////
+
+KonqBidiHistoryAction::KonqBidiHistoryAction ( QObject* parent, const char* name )
+  : KAction( QString::null, 0, parent, name )
+{
+  m_firstIndex = 0;
+  m_goMenu = 0L;
+}
+
+int KonqBidiHistoryAction::plug( QWidget *widget, int index )
+{
+  // Go menu
+  if ( widget->inherits("QPopupMenu") )
+  {
+    m_goMenu = (QPopupMenu*)widget;
     // Forward signal (to main view)
     connect( m_goMenu, SIGNAL( aboutToShow() ),
              this, SIGNAL( menuAboutToShow() ) );
     connect( m_goMenu, SIGNAL( activated( int ) ),
              this, SLOT( slotActivated( int ) ) );
-    // Do not return, we also want the default behaviour (get the item in the menu)
+    return m_goMenu->count() /* hmmm, what should this be ? */;
   }
-
   return KAction::plug( widget, index );
 }
 
-void KonqHistoryAction::fillGoMenu( const QList<HistoryEntry> & history )
+void KonqBidiHistoryAction::fillGoMenu( const QList<HistoryEntry> & history )
 {
     kdDebug(1202) << "fillGoMenu position: " << history.at() << endl;
     // Tricky. The first time, the menu doesn't contain history
@@ -208,10 +282,10 @@ void KonqHistoryAction::fillGoMenu( const QList<HistoryEntry> & history )
     }
     assert( m_startPos >= 0 && (uint)m_startPos < history.count() );
     m_currentPos = history.at(); // for slotActivated
-    fillHistoryPopup( history, m_goMenu, false, false, true, m_startPos );
+    KonqHistoryAction::fillHistoryPopup( history, m_goMenu, false, false, true, m_startPos );
 }
 
-void KonqHistoryAction::slotActivated( int id )
+void KonqBidiHistoryAction::slotActivated( int id )
 {
   // 1 for first item in the list, etc.
   int index = m_goMenu->indexOf(id) - m_firstIndex + 1;
@@ -225,105 +299,7 @@ void KonqHistoryAction::slotActivated( int id )
   }
 }
 
-void KonqHistoryAction::unplug( QWidget *widget )
-{
-  if ( widget->inherits( "KToolBar" ) )
-  {
-    KToolBar *bar = (KToolBar *)widget;
-
-    int idx = findContainer( bar );
-
-    if ( idx != -1 )
-    {
-      bar->removeItem( menuId( idx ) );
-      removeContainer( idx );
-    }
-
-    return;
-  }
-
-  KAction::unplug( widget );
-}
-
-void KonqHistoryAction::fillHistoryPopup( const QList<HistoryEntry> &history,
-                                          QPopupMenu * popup,
-                                          bool onlyBack,
-                                          bool onlyForward,
-                                          bool checkCurrentItem,
-                                          uint startPos )
-{
-  if ( !popup )
-    popup = popupMenu();
-
-  kdDebug(1202) << "fillHistoryPopup position: " << history.at() << endl;
-  HistoryEntry * current = history.current();
-  QListIterator<HistoryEntry> it( history );
-  if (onlyBack || onlyForward)
-  {
-      it += history.at(); // Jump to current item
-      if ( !onlyForward ) --it; else ++it; // And move off it
-  } else if ( startPos )
-      it += startPos; // Jump to specified start pos
-
-  uint i = 0;
-  while ( it.current() )
-  {
-      QString text = it.current()->locationBarURL; // perhaps the caption would look even better ?
-      text = KBookmark::stringSqueeze(text, 40); //CT squeeze, but not as much as in bookmarks (now we display URLs)
-      if ( checkCurrentItem && it.current() == current )
-      {
-          int id = popup->insertItem( text ); // no pixmap if checked
-          popup->setItemChecked( id, true );
-      } else
-          popup->insertItem( KMimeType::mimeType( it.current()->strServiceType )->
-		pixmap( KIcon::Small ), text );
-      if ( ++i > 10 )
-          break;
-      if ( !onlyForward ) --it; else ++it;
-  }
-  kdDebug(1202) << "After fillHistoryPopup position: " << history.at() << endl;
-}
-
-void KonqHistoryAction::setEnabled( bool b )
-{
-  int len = containerCount();
-
-  for ( int i = 0; i < len; i++ )
-  {
-    QWidget *w = container( i );
-
-    if ( w->inherits( "KToolBar" ) )
-      ((KToolBar *)w)->setItemEnabled( menuId( i ), b );
-
-  }
-
-  KAction::setEnabled( b );
-}
-
-void KonqHistoryAction::setIconSet( const QIconSet& iconSet )
-{
-  int len = containerCount();
-
-  for ( int i = 0; i < len; i++ )
-  {
-    QWidget *w = container( i );
-
-    if ( w->inherits( "KToolBar" ) )
-      ((KToolBar *)w)->setButtonPixmap( menuId( i ), iconSet.pixmap() );
-
-  }
-
-  KAction::setIconSet( iconSet );
-}
-
-QPopupMenu *KonqHistoryAction::popupMenu()
-{
-  if ( m_popup )
-    return m_popup;
-
-  m_popup = new QPopupMenu();
-  return m_popup;
-}
+///////////////////////////////
 
 KonqLogoAction::KonqLogoAction( const QString& text, int accel, QObject* parent, const char* name )
   : KAction( text, accel, parent, name )

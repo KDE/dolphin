@@ -34,28 +34,29 @@
 #include <kxmlguiclient.h>
 #include <ktrader.h>
 
+class FullScreenGUIClient;
 class KAction;
 class KActionMenu;
-class KSelectAction;
-class KToggleAction;
-class KonqChildView;
-class KonqViewManager;
+class KBookmarkMenu;
 class KNewMenu;
 class KProgress;
-class KonqPart;
-class KonqLogoAction;
-class KonqComboAction;
-class KonqHistoryAction;
+class KSelectAction;
+class KToggleAction;
+class KonqBidiHistoryAction;
 class KonqBookmarkBar;
-struct HistoryEntry;
+class KonqChildView;
+class KonqComboAction;
+class KonqFrame;
 class KonqFrameBase;
 class KonqFrameContainer;
-class KonqFrame;
-class KBookmarkMenu;
-class ViewModeGUIClient;
+class KonqHistoryAction;
+class KonqLogoAction;
+class KonqPart;
+class KonqViewManager;
 class OpenWithGUIClient;
 class ToggleViewGUIClient;
-class FullScreenGUIClient;
+class ViewModeGUIClient;
+struct HistoryEntry;
 
 namespace KParts {
  class BrowserExtension;
@@ -296,6 +297,8 @@ private:
   KonqHistoryAction *m_paUp;
   KonqHistoryAction *m_paBack;
   KonqHistoryAction *m_paForward;
+
+  KonqBidiHistoryAction *m_paHistory;
 
   KAction *m_paSaveSettings;
   KAction *m_paSaveLocalProperties;
