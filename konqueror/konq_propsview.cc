@@ -24,7 +24,7 @@
 
 #include <kdebug.h>
 #include <kstddirs.h>
-#include <qpixmap.h>
+#include <kpixmap.h>
 #include <qpixmapcache.h>
 #include <qfile.h>
 #include <iostream>
@@ -33,21 +33,21 @@ QPixmap wallpaperPixmap( const char *_wallpaper )
 {
     QString key = "wallpapers/";
     key += _wallpaper;
+    KPixmap pix;
     
-    QPixmap *pix = QPixmapCache::find( key );
-    if ( pix )
-	return *pix;
+    if ( QPixmapCache::find( key, pix ) )
+      return pix;
     
-    QString file = locate("wallpaper", _wallpaper);
-    
-    QPixmap p1;
-    p1.load( file );
-    if ( !p1.isNull() )
-	{
-	    QPixmapCache::insert( key, p1 );
-	    return *QPixmapCache::find( key );
-	}
-    
+    QString path = locate("wallpaper", _wallpaper);
+    if (!path.isEmpty())
+    {
+      pix.load( path, 0, KPixmap::LowColor ); // ?
+      if ( pix.isNull() )
+        debug("Wallpaper %s couldn't be loaded",path.ascii());
+      else
+        QPixmapCache::insert( key, pix );
+      return pix;
+    } else debug("Wallpaper %s not found",_wallpaper);
     return QPixmap();
 }
 

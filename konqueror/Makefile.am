@@ -35,7 +35,7 @@ bin_PROGRAMS = konqueror
 
 konqueror_SOURCES = konq_main.cc KonquerorIface.skel
 konqueror_LDFLAGS = $(KDE_RPATH) $(all_libraries)
-konqueror_LDADD = libkonqueror.la
+konqueror_LDADD = libkonqueror.la $(LIB_KIMGIO)
 
 messages:
 	$(XGETTEXT) -C  -ktranslate -kaliasLocal -ki18n -x $(includedir)/kde.pot *.h *.cc && mv messages.po ../po/konqueror.pot 

@@ -32,6 +32,7 @@
 #include <kstddirs.h>
 #include <kapp.h>
 #include <dcopclient.h>
+#include <kimgio.h>
 
 class KonquerorIfaceImpl : virtual public KonquerorIface
 {
@@ -67,7 +68,7 @@ void KonquerorIfaceImpl::openBrowserWindow( const QString &url )
 
 void KonquerorIfaceImpl::setMoveSelection( int move )
 {
-  qDebug( "setMoveSeiection: %i", move );
+  qDebug( "setMoveSelection: %i", move );
   KonqMainView::s_bMoveSelection = (bool)move;
 }
 
@@ -81,6 +82,7 @@ int main( int argc, char **argv )
   (void)new KonquerorIfaceImpl();
 
   KGlobal::locale()->insertCatalogue("libkonq"); // needed for apps using libkonq
+  kimgioRegister();
 
   QString path = KGlobal::dirs()->saveLocation("data", "kfm/bookmarks", true);
   KonqBookmarkManager bm ( path );
