@@ -2975,7 +2975,9 @@ void KonqMainWindow::disableActionsNoView()
     m_paHome->setEnabled( true );
     m_pamBookmarks->setEnabled( true );
     static const char* s_enActions[] = { "new_window", "duplicate_window", "open_location",
-                                         "toolbar_url_combo", "clear_location", "animated_logo", 0 };
+                                         "toolbar_url_combo", "clear_location", "animated_logo",
+                                         "konqintro", "go_most_often", "go_applications", "go_dirtree",
+                                         "go_trash", "go_templates", "go_autostart", 0 };
     for ( int i = 0 ; s_enActions[i] ; ++i )
     {
         KAction * act = action(s_enActions[i]);
@@ -2983,10 +2985,13 @@ void KonqMainWindow::disableActionsNoView()
             act->setEnabled( true );
     }
     m_pamLoadViewProfile->setEnabled( true );
+    m_paSaveViewProfile->setEnabled( true );
+    m_paSaveRemoveViewProfile->setEnabled( true );
     if ( m_combo )
         m_combo->clearTemporary();
     m_paShowMenuBar->setEnabled( true );
     m_paShowToolBar->setEnabled( true );
+    m_paShowExtraToolBar->setEnabled( true );
     m_paShowLocationBar->setEnabled( true );
     m_paShowBookmarkBar->setEnabled( true );
     updateLocalPropsActions();
