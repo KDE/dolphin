@@ -145,7 +145,7 @@
                         <bool>true</bool>
                     </property>
                     <property name="whatsThis" stdset="0">
-                        <string>Select for which types of files you want to enable preview images.</string>
+                        <string>Select the types of file for which you want to enable preview images.</string>
                     </property>
                 </widget>
                 <widget class="QCheckBox" row="5" column="1">
