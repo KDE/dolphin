@@ -46,8 +46,9 @@
 // StatusBar field IDs
 #define ID_LINE_COLUMN 1
 #define ID_INS_OVR 2
-#define ID_MODIFIED 3
-#define ID_GENERAL 4
+#define ID_SEL_NORM_BLOCK 3
+#define ID_MODIFIED 4
+#define ID_GENERAL 5
 
 QPtrList<KateDocument> docList; //documents
 
@@ -168,6 +169,7 @@ void TopLevel::setupStatusBar()
   statusbar = statusBar();
   statusbar->insertItem(" Line:000000 Col: 000 ", ID_LINE_COLUMN);
   statusbar->insertItem(" XXX ", ID_INS_OVR);
+  statusbar->insertItem(" XXX ", ID_SEL_NORM_BLOCK);
   statusbar->insertFixedItem(" * ", ID_MODIFIED);
   statusbar->insertItem("", ID_GENERAL, 1);
   statusbar->setItemAlignment( ID_GENERAL, AlignLeft );
@@ -287,6 +289,7 @@ void TopLevel::newStatus()
 
   bool readOnly = !kateView->doc()->isReadWrite();
   uint config = kateView->doc()->configFlags();
+  bool block=kateView->doc()->blockSelectionMode();
 
   if (readOnly)
     statusBar()->changeItem(i18n(" R/O "),ID_INS_OVR);
@@ -294,6 +297,7 @@ void TopLevel::newStatus()
     statusBar()->changeItem(config & KateDocument::cfOvr ? i18n(" OVR ") : i18n(" INS "),ID_INS_OVR);
 
   statusBar()->changeItem(kateView->doc()->isModified() ? " * " : "",ID_MODIFIED);
+  statusBar()->changeItem(block ? i18n("BLK") : i18n(" NORM "),ID_SEL_NORM_BLOCK);
 }
 
 void TopLevel::timeout() {
