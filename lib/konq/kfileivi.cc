@@ -155,7 +155,7 @@ void KFileIVI::paintItem( QPainter *p, const QColorGroup &c )
         p->setFont( f );
     }
 
-    if (!KGlobal::iconLoader()->alphaBlending())
+    if (!KGlobal::iconLoader()->alphaBlending(KIcon::Desktop))
     {
       // default fallback if we're not using alphablending
       QIconViewItem::paintItem( p, cg );
