@@ -36,7 +36,8 @@ public:
    * optionnal child view.
    */
   KonqRun( KonqMainWindow* mainWindow, KonqView *childView,
-           const KURL &url, const KonqOpenURLRequest & req = KonqOpenURLRequest() );
+                 const KURL &url, const KonqOpenURLRequest & req = KonqOpenURLRequest(),
+	   bool trustedSource = false );
 
   virtual ~KonqRun();
 
@@ -49,6 +50,8 @@ public:
 
   const QString & typedURL() const { return m_req.typedURL; }
 
+  static bool allowExecution( const QString &serviceType, const KURL &url );
+    
 protected:
   /**
    * Called if the mimetype has been detected. The function checks wether the document
@@ -68,6 +71,7 @@ protected:
   KonqView* m_pView;
   bool m_bFoundMimeType;
   KonqOpenURLRequest m_req;
+  bool m_bTrustedSource;
 };
 
 #endif

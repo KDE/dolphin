@@ -294,7 +294,8 @@ void KonqMainWindow::openFilteredURL( const QString & _url )
 }
 
 void KonqMainWindow::openURL( KonqView *_view, const KURL &url,
-                              const QString &serviceType, const KonqOpenURLRequest & req )
+                                                const QString &serviceType, const KonqOpenURLRequest & req,
+			      bool trustedSource )
 {
   kdDebug(1202) << "KonqMainWindow::openURL : url = '" << url.url() << "'  "
                 << "serviceType='" << serviceType << "' view=" << _view << endl;
@@ -341,7 +342,8 @@ void KonqMainWindow::openURL( KonqView *_view, const KURL &url,
         KURL::List lst;
         lst.append(url);
         //kdDebug(1202) << "Got offer " << (offer ? offer->name().latin1() : "0") << endl;
-        if ( !offer || !KRun::run( *offer, lst ) )
+        if ( ( trustedSource || KonqRun::allowExecution( serviceType, url ) ) && 
+             ( !offer || !KRun::run( *offer, lst ) ) )
         {
           (void)new KRun( url );
         }
@@ -350,7 +352,7 @@ void KonqMainWindow::openURL( KonqView *_view, const KURL &url,
   else // no known serviceType, use KonqRun
   {
       kdDebug(1202) << QString("Creating new konqrun for %1").arg(url.url()) << endl;
-      KonqRun * run = new KonqRun( this, view /* can be 0L */, url, req );
+      KonqRun * run = new KonqRun( this, view /* can be 0L */, url, req, trustedSource );
       if ( view )
         view->setRun( run );
       if ( view == m_currentView )
@@ -530,7 +532,7 @@ void KonqMainWindow::openURL( KonqView *childView, const KURL &url, const KParts
   //  ### HACK !!
   if ( args.postData.size() > 0 )
   {
-    openURL( childView, url, QString::fromLatin1( "text/html" ) );
+    openURL( childView, url, QString::fromLatin1( "text/html" ), KonqOpenURLRequest(), args.trustedSource );
     return;
   }
 
@@ -545,7 +547,7 @@ void KonqMainWindow::openURL( KonqView *childView, const KURL &url, const KParts
     return;
   }
 
-  openURL( childView, url, args.serviceType );
+  openURL( childView, url, args.serviceType, KonqOpenURLRequest(), args.trustedSource );
 }
 
 // Linked-views feature

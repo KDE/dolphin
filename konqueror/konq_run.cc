@@ -23,14 +23,16 @@
 #include "konq_view.h"
 #include "konq_mainwindow.h"
 #include <kio/job.h>
+#include <kmessagebox.h>
+#include <klocale.h>
 
 #include <assert.h>
 #include <iostream.h>
 
 KonqRun::KonqRun( KonqMainWindow* mainWindow, KonqView *_childView,
-                  const KURL & _url, const KonqOpenURLRequest & req )
+                  const KURL & _url, const KonqOpenURLRequest & req, bool trustedSource )
   : KRun( _url, 0 /*mode*/, false/*_is_local_file*/, false /* no GUI */ ),
-    m_req( req )
+    m_req( req ), m_bTrustedSource( trustedSource )
 {
   m_pMainWindow = mainWindow;
   assert( m_pMainWindow );
@@ -58,7 +60,20 @@ void KonqRun::foundMimeType( const QString & _type )
 
   kdDebug(1202) << "m_req.nameFilter= " << m_req.nameFilter << endl;
   kdDebug(1202) << "m_req.typedURL= " << m_req.typedURL << endl;
-  if ( m_pMainWindow->openView( _type, m_strURL, m_pView, m_req ) )
+  
+  m_bFinished = m_pMainWindow->openView( _type, m_strURL, m_pView, m_req );
+  if ( !m_bFinished &&  // .... if not embedddable ...
+      !m_bTrustedSource && // ... and untrusted source...
+      !allowExecution( _type, m_strURL ) ) // ...and the user *really* wants to execute ...
+  {    
+      m_bFinished = true;
+      m_bFault = true; // make Konqueror think there was an error (even if we really execute it) , in order to stop the spinning wheel
+  }
+  
+  //  if ( m_pMainWindow->openView( _type, m_strURL, m_pView, m_req ) ||
+  //       ( !m_bTrustedSource && !allowExecution( _type, m_strURL ) ) )
+  
+  if ( m_bFinished )
   {
     m_pMainWindow = 0L;
     m_bFinished = true;
@@ -68,6 +83,7 @@ void KonqRun::foundMimeType( const QString & _type )
   KIO::SimpleJob::removeOnHold(); // Kill any slave that was put on hold.
   kdDebug(1202) << "Nothing special to do here" << endl;
 
+  m_bFault = true; // make Konqueror believe that there was an error, in order to stop the spinning wheel...
   KRun::foundMimeType( _type );
 }
 
@@ -125,5 +141,14 @@ void KonqRun::slotKonqMimetype(KIO::Job *, const QString &type)
   foundMimeType( type );
 }
 
+bool KonqRun::allowExecution( const QString &serviceType, const KURL &url )
+{
+    if ( serviceType != "application/x-desktop" &&
+         serviceType != "application/x-executable" &&
+         serviceType != "application/x-shellscript" )
+      return true;
+    
+    return ( KMessageBox::warningYesNo( 0, i18n( "Do you really want to execute '%1' ? " ).arg( url.prettyURL() ) ) == KMessageBox::Yes );
+}
 
 #include "konq_run.moc"
