@@ -109,11 +109,9 @@ protected:
     virtual void contentsDragLeaveEvent( QDragLeaveEvent *e );
     virtual void contentsDropEvent( QDropEvent *ev );
 
-    virtual void contentsMousePressEvent( QMouseEvent *e );
-    virtual void contentsMouseMoveEvent( QMouseEvent *e );
-    virtual void contentsMouseReleaseEvent( QMouseEvent *e );
-
     virtual void leaveEvent( QEvent * );
+
+    virtual QDragObject* dragObject();
 
 private slots:
     void slotDoubleClicked( QListViewItem *item );
@@ -159,9 +157,6 @@ private:
     MapCurrentOpeningFolders m_mapCurrentOpeningFolders;
 
     QTimer *m_animationTimer;
-
-    QPoint m_dragPos;
-    bool m_bDrag;
 
     QListViewItem *m_currentBeforeDropItem; // The item that was current before the drag-enter event happened
     QListViewItem *m_dropItem; // The item we are moving the mouse over (during a drag)

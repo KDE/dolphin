@@ -103,6 +103,7 @@ KonqSidebarTree::KonqSidebarTree( KonqSidebar_Tree *parent, QWidget *parentWidge
     m_lstModules.setAutoDelete( true );
 
     setSelectionMode( QListView::Single );
+    setDragEnabled(true);
 
     m_part = parent;
 
@@ -137,8 +138,6 @@ KonqSidebarTree::KonqSidebarTree( KonqSidebar_Tree *parent, QWidget *parentWidge
 	     this, SLOT( slotOnItem( QListViewItem * ) ) );
     connect( this, SIGNAL(itemRenamed(QListViewItem*, const QString &, int)),
              this, SLOT(slotItemRenamed(QListViewItem*, const QString &, int)));
-
-    m_bDrag = false;
 
 /*    assert( m_part->getInterfaces()->getInstance()->dirs );
     QString dirtreeDir = m_part->getInterfaces()->getInstance()->dirs()->saveLocation( "data", "konqueror/dirtree/" ); */
@@ -293,42 +292,15 @@ void KonqSidebarTree::contentsDropEvent( QDropEvent *ev )
     }
 }
 
-void KonqSidebarTree::contentsMousePressEvent( QMouseEvent *e )
+QDragObject* KonqSidebarTree::dragObject()
 {
-    KListView::contentsMousePressEvent( e );
+    KonqSidebarTreeItem* item = static_cast<KonqSidebarTreeItem *>( selectedItem() );
+    if ( !item )
+        return 0;
 
-    QPoint p( contentsToViewport( e->pos() ) );
-    QListViewItem *i = itemAt( p );
-
-    if ( e->button() == LeftButton && i ) {
-        // if the user clicked into the root decoration of the item, don't try to start a drag!
-        if ( p.x() > header()->cellPos( header()->mapToActual( 0 ) ) +
-             treeStepSize() * ( i->depth() + ( rootIsDecorated() ? 1 : 0) ) + itemMargin() ||
-             p.x() < header()->cellPos( header()->mapToActual( 0 ) ) )
-        {
-            m_dragPos = e->pos();
-            m_bDrag = true;
-        }
-    }
-}
-
-void KonqSidebarTree::contentsMouseMoveEvent( QMouseEvent *e )
-{
-    KListView::contentsMouseMoveEvent( e );
-    if ( !m_bDrag || ( e->pos() - m_dragPos ).manhattanLength() <= KGlobalSettings::dndEventDelay() )
-        return;
-
-    m_bDrag = false;
-
-    QListViewItem *item = itemAt( contentsToViewport( m_dragPos ) );
-
-    if ( !item || !item->isSelectable() )
-        return;
-
-    // Start a drag
-    QDragObject * drag = static_cast<KonqSidebarTreeItem *>( item )->dragObject( viewport(), false );
+    QDragObject* drag = item->dragObject( viewport(), false );
     if ( !drag )
-	return;
+        return 0;
 
     const QPixmap *pix = item->pixmap(0);
     if ( pix && drag->pixmap().isNull() ) {
@@ -336,13 +308,7 @@ void KonqSidebarTree::contentsMouseMoveEvent( QMouseEvent *e )
         drag->setPixmap( *pix, hotspot );
     }
 
-    drag->drag();
-}
-
-void KonqSidebarTree::contentsMouseReleaseEvent( QMouseEvent *e )
-{
-    KListView::contentsMouseReleaseEvent( e );
-    m_bDrag = false;
+    return drag;
 }
 
 void KonqSidebarTree::leaveEvent( QEvent *e )
