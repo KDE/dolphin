@@ -139,11 +139,13 @@ void PropertiesDialog::slotApply()
   for ( page = pageList.last(); page != 0L; page = pageList.prev() )
     page->applyChanges();
 
+  emit propertiesClosed();
   delete this;
 }
 
 void PropertiesDialog::slotCancel()
 {
+  emit propertiesClosed();
   delete this;
 }
 

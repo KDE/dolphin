@@ -104,6 +104,12 @@ public slots:
   void slotApply();      // Deletes the PropertiesDialog instance
   void slotCancel();     // Deletes the PropertiesDialog instance
   
+signals:
+  /** 
+   * Notify that we have finished with the properties (be it Apply or Cancel)
+   */
+  void propertiesClosed();
+
 protected:
 
   /**
