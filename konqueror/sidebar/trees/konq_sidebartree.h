@@ -114,6 +114,9 @@ public:
     // Add an URL
     void addURL(KonqSidebarTreeTopLevelItem* item, const KURL&url);
 
+    // If we can use dcop to open tabs
+    bool tabSupport();
+
 public slots:
     virtual void setContentsPos( int x, int y );
 

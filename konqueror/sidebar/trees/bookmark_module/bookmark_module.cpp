@@ -97,7 +97,7 @@ bool KonqSidebarBookmarkModule::handleTopLevelContextMenu( KonqSidebarTreeTopLev
 {
     QPopupMenu *menu = new QPopupMenu;
 
-    if (tabSupport()) {
+    if (tree()->tabSupport()) {
 	m_collection->action("folder_open_tabs")->plug(menu);
 	menu->insertSeparator();
     }
@@ -112,30 +112,13 @@ bool KonqSidebarBookmarkModule::handleTopLevelContextMenu( KonqSidebarTreeTopLev
     return true;
 }
 
-bool KonqSidebarBookmarkModule::tabSupport()
-{
-    DCOPRef ref(kapp->dcopClient()->appId(), tree()->topLevelWidget()->name());
-    DCOPReply reply = ref.call("functions()");
-    if (reply.isValid()) {
-        QCStringList funcs;
-        reply.get(funcs, "QCStringList");
-        for (QCStringList::ConstIterator it = funcs.begin(); it != funcs.end(); ++it) {
-            if ((*it) == "void newTab(QString url)") {
-                return true;
-                break;
-            }
-        }
-    }
-    return false;
-}
-
 void KonqSidebarBookmarkModule::showPopupMenu()
 {
     KonqSidebarBookmarkItem *bi = dynamic_cast<KonqSidebarBookmarkItem*>( tree()->selectedItem() );
     if (!bi)
         return;
 
-    bool tabSupported = tabSupport();
+    bool tabSupported = tree()->tabSupport();
     QPopupMenu *menu = new QPopupMenu;
 
     if (bi->bookmark().isGroup()) {

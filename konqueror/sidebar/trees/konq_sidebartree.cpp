@@ -878,27 +878,30 @@ void KonqSidebarTree::enableActions( bool copy, bool cut, bool paste,
     enableAction( "rename", rename );
 }
 
-void KonqSidebarTree::showToplevelContextMenu()
+bool KonqSidebarTree::tabSupport()
 {
-    KonqSidebarTreeTopLevelItem *item = 0;
-    KonqSidebarTreeItem *treeItem = currentItem();
-    if (treeItem && treeItem->isTopLevelItem())
-        item = static_cast<KonqSidebarTreeTopLevelItem *>(treeItem);
-
     // see if the newTab() dcop function is available (i.e. the sidebar is embedded into konqueror)
-    bool tabSupport = false;
-    DCOPRef ref(kapp->dcopClient()->appId(), topLevelWidget()->name());
+   DCOPRef ref(kapp->dcopClient()->appId(), topLevelWidget()->name());
     DCOPReply reply = ref.call("functions()");
     if (reply.isValid()) {
         QCStringList funcs;
         reply.get(funcs, "QCStringList");
         for (QCStringList::ConstIterator it = funcs.begin(); it != funcs.end(); ++it) {
             if ((*it) == "void newTab(QString url)") {
-                tabSupport = true;
+                return true;
                 break;
             }
         }
     }
+    return false;
+}
+
+void KonqSidebarTree::showToplevelContextMenu()
+{
+    KonqSidebarTreeTopLevelItem *item = 0;
+    KonqSidebarTreeItem *treeItem = currentItem();
+    if (treeItem && treeItem->isTopLevelItem())
+        item = static_cast<KonqSidebarTreeTopLevelItem *>(treeItem);
 
     if (!m_collection)
     {
@@ -930,7 +933,7 @@ void KonqSidebarTree::showToplevelContextMenu()
             menu->insertSeparator();
             m_collection->action("create_folder")->plug(menu);
         } else {
-            if (tabSupport)
+            if (tabSupport())
                 m_collection->action("open_tab")->plug(menu);
             m_collection->action("open_window")->plug(menu);
             m_collection->action("copy_location")->plug(menu);

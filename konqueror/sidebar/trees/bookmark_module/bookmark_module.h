@@ -66,8 +66,6 @@ private slots:
     void slotOpenChange(QListViewItem*);
 
 private:
-    bool tabSupport();
-
     KonqSidebarTreeTopLevelItem * m_topLevelItem;
     KonqSidebarBookmarkItem * m_rootItem;
 
