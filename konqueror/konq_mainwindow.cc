@@ -52,6 +52,7 @@
 #include <klargefile.h>
 #include <sys/types.h>
 #include <sys/stat.h>
+#include <time.h>
 
 #include <qfile.h>
 #include <qclipboard.h>
