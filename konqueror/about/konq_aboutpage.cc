@@ -207,25 +207,29 @@ QString KonqAboutPageFactory::tips()
 		      "internet-shortcuts predefined to make searching for software or looking "
 		      "up certain words in an encyclopedia a breeze. And you can even "
                       "<A HREF=\"%1\">create your own</A> internet-keywords!" ).arg("exec:/kcmshell ebrowsing") )
-	  .arg( i18n( "Use the magnifier toolbar-buttons to increase the fontsize on your webpage." ) )
-	  .arg( i18n( "When you want to paste a new address into the URL-bar you might want to "
-		      "clear the current entry by pressing the white-crossed black arrow in the "
-		      "toolbar." ) )
-	  .arg( i18n( "You can also find the \"Fullscreen Mode\" in the Window-Menu. This Feature "
-		      "is very useful for \"talk\" sessions." ) )
+	  .arg( i18n( "Use the magnifier button <IMG WIDTH=16 HEIGHT=16 SRC=\"%1\"> &nbsp; in the"		      
+		      "toolbar to increase the fontsize on your webpage.").arg("viewmag.png") )
+	  .arg( i18n( "When you want to paste a new address into the Location-bar you might want to "
+		      "clear the current entry by pressing the white-crossed black arrow" 
+		      "<IMG WIDTH=16 HEIGHT=16 SRC=\"%1\"> in the toolbar.").arg("viewmag.png"))
+	  .arg( i18n( "You can also find the <IMG WIDTH=16 HEIGHT=16 SRC=\"%1\">\"Fullscreen Mode\" "
+		      "in the Window-Menu. This Feature is very useful for \"talk\" "
+		      "sessions.").arg("window_fullscreen.png") )
 	  .arg( i18n( "Divide et impera (lat. \"Divide and Konquer\") -- by splitting a window "
-		      "into two Parts (e.g. Window -> Split View Left/Right) you can make konqueror "
-		      "appear the way you like. You can even Load some example view-profiles "
-		      "(e.g. Midnight-Commander), or create your own ones." ) )
+		      "into two Parts (e.g. Window -> <IMG WIDTH=16 HEIGHT=16 SRC=\"%1\">Split View" 
+		      "Left/Right) you can make konqueror appear the way you like. You"
+		      "can even load some example view-profiles (e.g. Midnight-Commander)"
+		      ", or create your own ones." ).arg("view_left_right.png"))
 	  .arg( i18n( "Use the <A HREF=\"%1\">user-agent</A> feature if the website you're visiting "
                       "asks you to use a different browser "
 		      "(and don't forget to send a complaint to the webmaster!)" ).arg("exec:/kcmshell useragent") )
-	  .arg( i18n( "The History in your Sidebar makes sure that you will keep track of the "
-		      "pages you have visited recently." ) )
-	  .arg( i18n( "Use a caching <A HREF=\"%1\">proxy</A> to speed up your internet-connection."
-).arg("exec:/kcmshell proxy") )
+	  .arg( i18n( "The <IMG WIDTH=16 HEIGHT=16 SRC=\"%1\"> History in your Sidebar makes sure "
+		      "that you will keep track of the pages you have visited recently.").arg("history.png") )
+	  .arg( i18n( "Use a caching <A HREF=\"%1\">proxy</A> to speed up your" 
+		      "internet-connection.").arg("exec:/kcmshell proxy") )
 	  .arg( i18n( "Advanced users will appreciate the konsole which you can embed into "
-		      "konqueror (Window -> Show Terminal Emulator)." ) )
+		      "konqueror (Window -> <IMG WIDTH=16 HEIGHT=16 SRC=\"%1\"> Show"
+ 		      "Terminal Emulator).").arg("openterm.png"))
 	  .arg( i18n( "Thanks to <A HREF=\"%1\">DCOP</A> you can have full control over Konqueror using a script."
 ).arg("exec:/kdcop") )
 	  .arg( i18n( "Continue" ) )
