@@ -343,7 +343,7 @@ void KonqViewManager::revertDocContainer()
 }
 
 
-KonqView* KonqViewManager::addTab(const QString &serviceType, const QString &serviceName, bool passiveMode)
+KonqView* KonqViewManager::addTab(const QString &serviceType, const QString &serviceName, bool passiveMode, bool openAfterCurrentPage  )
 {
 #ifndef NDEBUG
   kdDebug(1202) << "------------- KonqViewManager::addTab starting -------------" << endl;
@@ -373,7 +373,7 @@ KonqView* KonqViewManager::addTab(const QString &serviceType, const QString &ser
 
   if (m_pDocContainer->frameType() != "Tabs") convertDocContainer();
 
-  KonqView* childView = setupView( static_cast<KonqFrameTabs*>(m_pDocContainer), newViewFactory, service, partServiceOffers, appServiceOffers, serviceType, passiveMode );
+  KonqView* childView = setupView( static_cast<KonqFrameTabs*>(m_pDocContainer), newViewFactory, service, partServiceOffers, appServiceOffers, serviceType, passiveMode, openAfterCurrentPage );
 
 #ifndef NDEBUG
   m_pMainWindow->dumpViewList();
@@ -918,9 +918,10 @@ KonqView *KonqViewManager::setupView( KonqFrameContainerBase *parentContainer,
                                       const KTrader::OfferList &partServiceOffers,
                                       const KTrader::OfferList &appServiceOffers,
                                       const QString &serviceType,
-                                      bool passiveMode )
+                                      bool passiveMode,
+                                      bool openAfterCurrentPage )
 {
-  //kdDebug(1202) << "KonqViewManager::setupView passiveMode=" << passiveMode << endl;
+  kdDebug(1202) << "KonqViewManager::setupView passiveMode=" << passiveMode << endl;
 
   QString sType = serviceType;
 
@@ -941,7 +942,14 @@ KonqView *KonqViewManager::setupView( KonqFrameContainerBase *parentContainer,
 
   m_pMainWindow->insertChildView( v );
 
-  parentContainer->insertChildFrame( newViewFrame );
+
+  int index = -1;
+
+  KonqFrameTabs* tabContainer = static_cast<KonqFrameTabs*>(m_pDocContainer);
+  if ( openAfterCurrentPage )
+      index = tabContainer->currentPageIndex() +1 ;
+
+  parentContainer->insertChildFrame( newViewFrame, index );
 
   if (parentContainer->frameType() != "Tabs") newViewFrame->show();
 

@@ -512,7 +512,7 @@ private:
   void initCombo();
   void initActions();
 
-  void popupNewTab(bool infront);
+  void popupNewTab(bool infront, bool openAfterCurrentPage);
 
   /**
    * Tries to find a index.html (.kde.html) file in the specified directory

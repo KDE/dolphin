@@ -8,11 +8,11 @@
 struct KonqOpenURLRequest {
 
   KonqOpenURLRequest() :
-    followMode(false), newTab(false), newTabInFront(false)
+      followMode(false), newTab(false), newTabInFront(false), openAfterCurrentPage( false )
     {}
 
   KonqOpenURLRequest( const QString & url ) :
-    typedURL(url), followMode(false), newTab(false), newTabInFront(false)
+    typedURL(url), followMode(false), newTab(false), newTabInFront(false), openAfterCurrentPage(false)
     {}
 
   QString typedURL; // empty if URL wasn't typed manually
@@ -20,6 +20,7 @@ struct KonqOpenURLRequest {
   QString nameFilter; // like *.cpp, extracted from the URL
   bool newTab; // open url in new tab
   bool newTabInFront; // new tab in front or back
+    bool openAfterCurrentPage;
   KParts::URLArgs args;
 };
 

@@ -518,13 +518,14 @@ bool KonqMainWindow::openView( QString serviceType, const KURL &_url, KonqView *
      return false; // execute, don't open
   // Contract: the caller of this method should ensure the view is stopped first.
 
-  //kdDebug(1202) << "KonqMainWindow::openView " << serviceType << " " << _url.url() << " " << childView << endl;
-  //kdDebug(1202) << "req.args.frameName= " << req.args.frameName << endl;
-  //kdDebug(1202) << "req.followMode=" << req.followMode << endl;
-  //kdDebug(1202) << "req.nameFilter= " << req.nameFilter << endl;
-  //kdDebug(1202) << "req.typedURL= " << req.typedURL << endl;
-  //kdDebug(1202) << "req.newTab= " << req.newTab << endl;
-  //kdDebug(1202) << "req.newTabInFront= " << req.newTabInFront << endl;
+  kdDebug(1202) << "KonqMainWindow::openView " << serviceType << " " << _url.url() << " " << childView << endl;
+  kdDebug(1202) << "req.args.frameName= " << req.args.frameName << endl;
+  kdDebug(1202) << "req.followMode=" << req.followMode << endl;
+  kdDebug(1202) << "req.nameFilter= " << req.nameFilter << endl;
+  kdDebug(1202) << "req.typedURL= " << req.typedURL << endl;
+  kdDebug(1202) << "req.newTab= " << req.newTab << endl;
+  kdDebug(1202) << "req.newTabInFront= " << req.newTabInFront << endl;
+  kdDebug(1202) << "req.openAfterCurrentPage= " << req.openAfterCurrentPage << endl;
 
   bool bOthersFollowed = false;
   if ( childView )
@@ -658,12 +659,23 @@ bool KonqMainWindow::openView( QString serviceType, const KURL &_url, KonqView *
   {
       if (req.newTab)
       {
-        childView = m_pViewManager->addTab( serviceType, serviceName );
-        if (req.newTabInFront && childView)
-        {
-          KonqFrameTabs* tabContainer = static_cast<KonqFrameTabs*>(m_pViewManager->docContainer());
-          tabContainer->setCurrentPage( tabContainer->count()-1 );
-        }
+          KonqFrameTabs* tabContainer = 0L;
+          int index = 0;
+          if ( m_pViewManager->docContainer() )
+          {
+              tabContainer = static_cast<KonqFrameTabs*>(m_pViewManager->docContainer());
+              index = tabContainer->currentPageIndex();
+          }
+          childView = m_pViewManager->addTab( serviceType, serviceName, false, req.openAfterCurrentPage );
+          if (req.newTabInFront && childView)
+          {
+              if ( !tabContainer )
+                  tabContainer = static_cast<KonqFrameTabs*>(m_pViewManager->docContainer());
+              if ( req.openAfterCurrentPage )
+                  tabContainer->setCurrentPage( index + 1 );
+              else
+                  tabContainer->setCurrentPage( tabContainer->count()-1 );
+          }
       }
 
       else
@@ -2095,15 +2107,22 @@ void KonqMainWindow::slotBreakOffTabPopup()
 
 void KonqMainWindow::slotPopupNewTabAtFront()
 {
-  popupNewTab(true);
+    KConfig *config = KGlobal::config();
+    KConfigGroupSaver cs( config, QString::fromLatin1("FMSettings") );
+    bool openAfterCurrentPage = config->readBoolEntry( "OpenAfterCurrentPage", false );
+    popupNewTab(true , openAfterCurrentPage);
 }
 
 void KonqMainWindow::slotPopupNewTab()
 {
-  popupNewTab(false);
+    KConfig *config = KGlobal::config();
+    KConfigGroupSaver cs( config, QString::fromLatin1("FMSettings") );
+    bool openAfterCurrentPage = config->readBoolEntry( "OpenAfterCurrentPage", false );
+
+    popupNewTab(false,  openAfterCurrentPage);
 }
 
-void KonqMainWindow::popupNewTab(bool infront)
+void KonqMainWindow::popupNewTab(bool infront, bool openAfterCurrentPage)
 {
   kdDebug(1202) << "KonqMainWindow::popupNewTab()" << endl;
 
@@ -2111,6 +2130,7 @@ void KonqMainWindow::popupNewTab(bool infront)
   KonqOpenURLRequest req;
   req.newTab = true;
   req.newTabInFront = infront;
+  req.openAfterCurrentPage = openAfterCurrentPage;
   for ( ; it.current(); ++it )
   {
     openURL( 0L, (*it)->url(), QString::null, req );

@@ -58,6 +58,7 @@ private:
     QCheckBox* m_pNewTabsInFront;
     QCheckBox* m_pTabConfirm;
     QCheckBox* m_pFormCompletionCheckBox;
+    QCheckBox* m_pOpenAfterCurrentPage;
     KIntNumInput* m_pMaxFormCompletionItems;
 };
 

@@ -100,7 +100,7 @@ public:
    */
   KonqView* addTab(const QString &serviceType = QString::null,
                    const QString &serviceName = QString::null,
-                   bool passiveMode = false);
+                   bool passiveMode = false, bool openAfterCurrentPage = false );
 
 
 
@@ -317,7 +317,7 @@ private:
                        const KTrader::OfferList &partServiceOffers,
                        const KTrader::OfferList &appServiceOffers,
                        const QString &serviceType,
-                       bool passiveMode);
+                       bool passiveMode, bool openAfterCurrentPage = false);
 
 #ifndef NDEBUG
   //just for debugging

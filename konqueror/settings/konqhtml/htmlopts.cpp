@@ -78,6 +78,13 @@ KMiscHTMLOptions::KMiscHTMLOptions(KConfig *config, QString group, QWidget *pare
     row++;
     connect(m_pNewTabsInFront, SIGNAL(clicked()), this, SLOT(slotChanged()));
 
+    m_pOpenAfterCurrentPage = new QCheckBox( i18n( "Open links after current page" ), this );
+    lay->addMultiCellWidget( m_pOpenAfterCurrentPage, row, row, 0, 1);
+    row++;
+    connect(m_pOpenAfterCurrentPage, SIGNAL(clicked()), this, SLOT(slotChanged()));
+
+
+
     m_pTabConfirm = new QCheckBox( i18n( "Confirm &when closing windows with multiple tabs" ), this );
     QWhatsThis::add( m_pTabConfirm, i18n("This will ask you whether you are sure you want to close "
                           "a window when it has multiple tabs opened in it.") );
@@ -207,6 +214,7 @@ void KMiscHTMLOptions::load()
     m_pConfig->setGroup("FMSettings");
     m_pShowMMBInTabs->setChecked( m_pConfig->readBoolEntry( "MMBOpensTab", false ) );
     m_pNewTabsInFront->setChecked( m_pConfig->readBoolEntry( "NewTabsInFront", true ) );
+    m_pOpenAfterCurrentPage->setChecked( m_pConfig->readBoolEntry( "OpenAfterCurrentPage", false ) );
 
     m_pConfig->setGroup("Notification Messages");
     m_pTabConfirm->setChecked( !m_pConfig->hasKey("MultipleTabConfirm") );
@@ -270,6 +278,7 @@ void KMiscHTMLOptions::save()
     m_pConfig->setGroup("FMSettings");
     m_pConfig->writeEntry( "MMBOpensTab", m_pShowMMBInTabs->isChecked() );
     m_pConfig->writeEntry( "NewTabsInFront", m_pNewTabsInFront->isChecked() );
+    m_pConfig->writeEntry( "OpenAfterCurrentPage", m_pOpenAfterCurrentPage->isChecked() );
 
     // It only matters wether the key is present, its value has no meaning
     m_pConfig->setGroup("Notification Messages");
