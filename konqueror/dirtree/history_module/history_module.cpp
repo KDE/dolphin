@@ -443,51 +443,31 @@ void KonqHistoryDialog::applySettings()
 // depending on the value of the spinbox
 void KonqHistoryDialog::slotNewerChanged( int value )
 {
-    switch( comboNewer->currentItem() ) {
-    case KonqHistorySettings::DAYS: {
-	const QString& days = i18n("days");
-	
-	if ( value == 1 )
-	    comboNewer->changeItem( i18n("day"), KonqHistorySettings::DAYS );
-	else if ( comboNewer->text( KonqHistorySettings::DAYS ) != days )
-	    comboNewer->changeItem( days, KonqHistorySettings::DAYS );
-	break;
-    }
-    case KonqHistorySettings::MINUTES: {
+    const QString& days = i18n("days");
     const QString& minutes = i18n("minutes");
-    
-	if ( value == 1 )
-	    comboNewer->changeItem( i18n("minute"), 
-				    KonqHistorySettings::MINUTES );
-	else if ( comboNewer->text( KonqHistorySettings::MINUTES ) != minutes )
-	    comboNewer->changeItem( i18n("minutes"), 
-				    KonqHistorySettings::MINUTES );
+	
+    if ( value == 1 ) {
+	comboNewer->changeItem( i18n("day"), KonqHistorySettings::DAYS );
+	comboNewer->changeItem( i18n("minute"), KonqHistorySettings::MINUTES );
     }
+    else {
+	comboNewer->changeItem( days, KonqHistorySettings::DAYS );
+	comboNewer->changeItem( minutes, KonqHistorySettings::MINUTES);
     }
 }
 
 void KonqHistoryDialog::slotOlderChanged( int value )
 {
-    switch( comboOlder->currentItem() ) {
-    case KonqHistorySettings::DAYS: {
-	const QString& days = i18n("days");
+    const QString& days = i18n("days");
+    const QString& minutes = i18n("minutes");
 	
-	if ( value == 1 )
-	    comboOlder->changeItem( i18n("day"), KonqHistorySettings::DAYS );
-	else if ( comboOlder->text( KonqHistorySettings::DAYS ) != days )
-	    comboOlder->changeItem( days, KonqHistorySettings::DAYS );
-	break;
+    if ( value == 1 ) {
+	comboOlder->changeItem( i18n("day"), KonqHistorySettings::DAYS );
+	comboOlder->changeItem( i18n("minute"), KonqHistorySettings::MINUTES );
     }
-    case KonqHistorySettings::MINUTES: {
-	const QString& minutes = i18n("minutes");
-
-	if ( value == 1 )
-	    comboOlder->changeItem( i18n("minute"), 
-				    KonqHistorySettings::MINUTES );
-	else if ( comboOlder->text( KonqHistorySettings::MINUTES ) != minutes )
-	    comboOlder->changeItem( i18n("minutes"), 
-				    KonqHistorySettings::MINUTES );
-    }
+    else {
+	comboOlder->changeItem( days, KonqHistorySettings::DAYS );
+	comboOlder->changeItem( minutes, KonqHistorySettings::MINUTES);
     }
 }
 
