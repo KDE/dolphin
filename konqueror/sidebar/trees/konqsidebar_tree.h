@@ -48,7 +48,7 @@ class KonqSidebarTreeSelectionDialog : public KDialogBase
 	Q_OBJECT
 	public:
 	KonqSidebarTreeSelectionDialog(QWidget *parent,const QStringList &list):
-    		KDialogBase( parent, "konqsidebartreeselectiondialog", true,i18n("Select Type"), Ok|Cancel, 
+    		KDialogBase( parent, "konqsidebartreeselectiondialog", true,i18n("Select Type"), Ok|Cancel,
 			Ok, true ),list_(list)
   		{
     			QWidget *page = new QWidget( this );
@@ -59,23 +59,16 @@ class KonqSidebarTreeSelectionDialog : public KDialogBase
 			cb=new QComboBox(page);
 			cb->setMinimumWidth(fontMetrics().maxWidth()*20);
 			cb->insertStringList(list);
-			cb->setEditable(true);
+			cb->setEditable(false);
 			topLayout->addWidget( cb );
 			topLayout->addStretch(10);
-			enableButtonOK(!cb->lineEdit()->text().isEmpty());
-                        connect(cb->lineEdit(),SIGNAL(textChanged ( const QString & )),this,SLOT(slotTextChanged(const QString & )));
 
 		}
 		int  getValue()
 		{
 			return list_.findIndex(cb->currentText());
-		}		
+		}
 		~KonqSidebarTreeSelectionDialog(){;}
-        public slots:
-          void slotTextChanged(const QString &text )
-          {
-            enableButtonOK(!text.isEmpty());
-          }
 	private:
 		QComboBox *cb;
 		QStringList list_;
