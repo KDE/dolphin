@@ -68,6 +68,8 @@ protected:
     virtual void contentsMousePressEvent( QMouseEvent *e );
     virtual void contentsMouseMoveEvent( QMouseEvent *e );
     virtual void contentsMouseReleaseEvent( QMouseEvent *e );
+    
+    virtual void leaveEvent( QEvent * );
 
 private slots:
     void slotDoubleClicked( QListViewItem *item );
@@ -80,6 +82,8 @@ private slots:
     void slotAutoOpenFolder();
 
     void rescanConfiguration();
+
+    void slotOnItem( QListViewItem * );
 
 private:
     void clearTree();

@@ -81,7 +81,7 @@ public:
 
     virtual QString key( int column, bool ascending ) const;
 
-    void itemInserted( KonqHistoryItem *item );
+    void itemUpdated( KonqHistoryItem *item );
 
     // we don't support the following
     bool acceptsDrops( const QStrList& ) { return false; }

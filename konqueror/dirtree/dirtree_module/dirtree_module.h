@@ -33,13 +33,11 @@ class KonqDirTreeModule : public QObject, public KonqTreeModule
     Q_OBJECT
 public:
     KonqDirTreeModule( KonqTree * parentTree );
-    virtual ~KonqDirTreeModule() {}
+    virtual ~KonqDirTreeModule();
 
     virtual void addTopLevelItem( KonqTreeTopLevelItem * item );
 
     virtual void openTopLevelItem( KonqTreeTopLevelItem * item );
-
-    virtual void clearAll();
 
     virtual void followURL( const KURL & url );
 

@@ -146,4 +146,9 @@ bool KonqTreePart::openURL( const KURL & url )
   return true;
 }
 
+void KonqTreePart::emitStatusBarText( const QString& text )
+{
+    emit setStatusBarText( text );
+}
+
 #include "konq_treepart.moc"

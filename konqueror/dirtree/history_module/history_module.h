@@ -38,7 +38,7 @@ class KonqHistoryModule : public QObject, public KonqTreeModule
 
 public:
     KonqHistoryModule( KonqTree * parentTree, const char * name = 0 );
-    virtual ~KonqHistoryModule() {}
+    virtual ~KonqHistoryModule();
 
     virtual void addTopLevelItem( KonqTreeTopLevelItem * item );
 
@@ -46,9 +46,10 @@ public:
     void showPopupMenu();
     void groupOpened( KonqHistoryGroupItem *item, bool open );
     const QDateTime& currentTime() const { return m_currentTime; }
+    bool sortsByName() const { return m_sortsByName; }
 
 public slots:
-    virtual void clearAll();
+    void clear();
 
 private slots:
     void slotCreateItems();
@@ -60,8 +61,13 @@ private slots:
 
     void slotItemExpanded( QListViewItem * );
 
+    void slotSortByName();
+    void slotSortByDate();
+
 private:
-    typedef QDictIterator<KonqHistoryItem> HistoryItemIterator;
+    void sortingChanged();
+
+    typedef QDictIterator<KonqHistoryGroupItem> HistoryItemIterator;
     QDict<KonqHistoryGroupItem> m_dict;
 
     KonqTreeTopLevelItem * m_topLevelItem;
@@ -71,6 +77,7 @@ private:
     QPixmap m_folderClosed;
     QPixmap m_folderOpen;
     bool m_initialized;
+    bool m_sortsByName;
     QDateTime m_currentTime; // used for sorting the items by date
 };
 

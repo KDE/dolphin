@@ -43,6 +43,7 @@ KonqTree::KonqTree( KonqTreePart *parent, QWidget *parentWidget )
 {
     setAcceptDrops( true );
     viewport()->setAcceptDrops( true );
+    m_lstModules.setAutoDelete( true );
 
     setSelectionMode( QListView::Single );
 
@@ -54,7 +55,7 @@ KonqTree::KonqTree( KonqTreePart *parent, QWidget *parentWidget )
 
     m_dropItem = 0;
 
-    addColumn( "" );
+    addColumn( QString::null );
     header()->hide();
 
     m_autoOpenTimer = new QTimer( this );
@@ -71,6 +72,9 @@ KonqTree::KonqTree( KonqTreePart *parent, QWidget *parentWidget )
              this, SLOT( slotDoubleClicked( QListViewItem * ) ) );
     connect( this, SIGNAL( selectionChanged() ),
              this, SLOT( slotSelectionChanged() ) );
+
+    connect( this, SIGNAL( onItem( QListViewItem * )),
+	     this, SLOT( slotOnItem( QListViewItem * ) ) );
 
     m_bDrag = false;
 
@@ -89,8 +93,9 @@ KonqTree::~KonqTree()
 
 void KonqTree::clearTree()
 {
-    for ( KonqTreeModule * module = m_lstModules.first() ; module ; module = m_lstModules.next() )
-        module->clearAll();
+//     for ( KonqTreeModule * module = m_lstModules.first() ; module ; module = m_lstModules.next() )
+//         module->clearAll();
+    m_lstModules.clear();
     m_topLevelItems.clear();
     m_mapCurrentOpeningFolders.clear();
     clear();
@@ -192,6 +197,7 @@ void KonqTree::contentsMousePressEvent( QMouseEvent *e )
 
 void KonqTree::contentsMouseMoveEvent( QMouseEvent *e )
 {
+    KListView::contentsMouseMoveEvent( e );
     if ( !m_bDrag || ( e->pos() - m_dragPos ).manhattanLength() <= KGlobalSettings::dndEventDelay() )
         return;
 
@@ -213,6 +219,13 @@ void KonqTree::contentsMouseReleaseEvent( QMouseEvent *e )
     KListView::contentsMouseReleaseEvent( e );
     m_bDrag = false;
 }
+
+void KonqTree::leaveEvent( QEvent *e )
+{
+    KListView::leaveEvent( e );
+    m_part->emitStatusBarText( QString::null );
+}
+
 
 void KonqTree::slotDoubleClicked( QListViewItem *item )
 {
@@ -509,6 +522,7 @@ void KonqTree::loadTopLevelItem( KonqTreeItem *parent,  const QString &filename 
     module->addTopLevelItem( item );
 
     m_topLevelItems.append( item );
+    m_lstModules.append( module );
 
     bool open = cfg.readBoolEntry( "Open", false );
     if ( open && item->isExpandable() )
@@ -554,6 +568,16 @@ void KonqTree::stopAnimation( KonqTreeItem * item )
 KonqTreeItem * KonqTree::currentItem() const
 {
     return static_cast<KonqTreeItem *>( selectedItem() );
+}
+
+void KonqTree::slotOnItem( QListViewItem *item )
+{
+    KonqTreeItem *i = static_cast<KonqTreeItem *>( item );
+    const KURL& url = i->externalURL();
+    if ( url.isLocalFile() )
+	m_part->emitStatusBarText( url.path() );
+    else
+	m_part->emitStatusBarText( url.prettyURL() );
 }
 
 #include "konq_tree.moc"

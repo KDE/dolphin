@@ -34,7 +34,7 @@ KonqHistoryItem::KonqHistoryItem( const KonqHistoryEntry *entry,
 {
     setExpandable( false );
     update( entry );
-    MYGROUP->itemInserted( this );
+    MYGROUP->itemUpdated( this );
 }
 
 KonqHistoryItem::~KonqHistoryItem()
@@ -52,6 +52,8 @@ void KonqHistoryItem::update( const KonqHistoryEntry *entry )
 	    path += '/';
 	setText( 0, path );
     }
+    
+    MYGROUP->itemUpdated( this ); // update for sorting
 }
 
 void KonqHistoryItem::itemSelected()
@@ -85,8 +87,11 @@ QDragObject * KonqHistoryItem::dragObject( QWidget * parent, bool move )
 }
 
 // new items go on top
-QString KonqHistoryItem::key( int /*column*/, bool /*ascending*/ ) const
+QString KonqHistoryItem::key( int column, bool ascending ) const
 {
+    if ( MYMODULE->sortsByName() )
+	return KonqTreeItem::key( column, ascending );
+    
     QString tmp;
     tmp.sprintf( "%08d", m_entry->lastVisited.secsTo(MYMODULE->currentTime()));
     return tmp;
@@ -122,7 +127,7 @@ KonqHistoryItem * KonqHistoryGroupItem::findChild(const KonqHistoryEntry *entry)
     const KURL& url = entry->url;
     QListViewItem *child = firstChild();
     KonqHistoryItem *item = 0L;
-    
+
     while ( child ) {
 	item = static_cast<KonqHistoryItem *>( child );
 	if ( item->url() == url )
@@ -155,7 +160,7 @@ void KonqHistoryGroupItem::setOpen( bool open )
 // new items go on top
 QString KonqHistoryGroupItem::key( int column, bool ascending ) const
 {
-    if ( !m_lastVisited.isValid() )
+    if ( !m_lastVisited.isValid() || MYMODULE->sortsByName() )
 	return KonqTreeItem::key( column, ascending );
 
     QString tmp;
@@ -163,7 +168,7 @@ QString KonqHistoryGroupItem::key( int column, bool ascending ) const
     return tmp;
 }
 
-void KonqHistoryGroupItem::itemInserted( KonqHistoryItem *item )
+void KonqHistoryGroupItem::itemUpdated( KonqHistoryItem *item )
 {
     if ( !m_lastVisited.isValid() || m_lastVisited < item->lastVisited() )
 	m_lastVisited = item->lastVisited();

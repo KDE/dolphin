@@ -20,6 +20,7 @@
 #include <qpopupmenu.h>
 
 #include <kaction.h>
+#include <kconfig.h>
 #include <klocale.h>
 #include <kprotocolinfo.h>
 
@@ -35,12 +36,16 @@ KonqHistoryModule::KonqHistoryModule( KonqTree * parentTree, const char *name )
       m_topLevelItem( 0L ),
       m_initialized( false )
 {
-    m_currentTime = QDateTime::currentDateTime();
     m_dict.setAutoDelete( true );
+    m_currentTime = QDateTime::currentDateTime();
+    KConfig *kc = KGlobal::config();
+    KConfigGroupSaver cs( kc, "HistorySettings" );
+    m_sortsByName = kc->readEntry( "SortHistory", "byName" ) == "byName";
+
     KonqHistoryManager *manager = KonqHistoryManager::self();
 
     connect( manager, SIGNAL( loadingFinished() ), SLOT( slotCreateItems() ));
-    connect( manager, SIGNAL( cleared() ), SLOT( clearAll() ));
+    connect( manager, SIGNAL( cleared() ), SLOT( clear() ));
 
     connect( manager, SIGNAL( entryAdded( const KonqHistoryEntry * ) ),
 	     SLOT( slotEntryAdded( const KonqHistoryEntry * ) ));
@@ -58,13 +63,40 @@ KonqHistoryModule::KonqHistoryModule( KonqTree * parentTree, const char *name )
     (void) new KAction( i18n("&Preferences..."), 0, this,
 			SLOT( slotPreferences()), m_collection, "preferences");
 
+    KRadioAction *sort;
+    sort = new KRadioAction( i18n("By &Name"), 0, this,
+			     SLOT( slotSortByName() ), m_collection, "byName");
+    sort->setExclusiveGroup("SortGroup");
+    sort->setChecked( m_sortsByName );
+
+    sort = new KRadioAction( i18n("By &Date"), 0, this,
+			     SLOT( slotSortByDate() ), m_collection, "byDate");
+    sort->setExclusiveGroup("SortGroup");
+    sort->setChecked( !m_sortsByName );
+
     m_folderClosed = SmallIcon( "folder" );
     m_folderOpen = SmallIcon( "folder_open" );
 }
 
+KonqHistoryModule::~KonqHistoryModule()
+{
+    HistoryItemIterator it( m_dict );
+    QStringList openGroups;
+    while ( it.current() ) {
+	if ( it.current()->isOpen() )
+	    openGroups.append( it.currentKey() );
+	++it;
+    }
+
+    KConfig *kc = KGlobal::config();
+    KConfigGroupSaver cs( kc, "HistorySettings" );
+    kc->writeEntry("OpenGroups", openGroups);
+    kc->sync();
+}
+
 void KonqHistoryModule::slotCreateItems()
 {
-    clearAll();
+    clear();
 
     KonqHistoryItem *item;
     KonqHistoryEntry *entry;
@@ -89,12 +121,25 @@ void KonqHistoryModule::slotCreateItems()
 	++it;
     }
 
+    KConfig *kc = KGlobal::config();
+    KConfigGroupSaver cs( kc, "HistorySettings" );
+    QStringList openGroups = kc->readListEntry("OpenGroups");
+    QStringList::Iterator it2 = openGroups.begin();
+    KonqHistoryGroupItem *group;
+    while ( it2 != openGroups.end() ) {
+	group = m_dict.find( *it2 );
+	if ( group )
+	    group->setOpen( true );
+	
+	++it2;
+    }
+
     m_topLevelItem->sortChildItems( 0, false );
     m_initialized = true;
 }
 
 // deletes the listview items but does not affect the history backend
-void KonqHistoryModule::clearAll()
+void KonqHistoryModule::clear()
 {
     m_dict.clear();
 }
@@ -148,14 +193,21 @@ void KonqHistoryModule::addTopLevelItem( KonqTreeTopLevelItem * item )
 
 void KonqHistoryModule::showPopupMenu()
 {
+    QPopupMenu *sortMenu = new QPopupMenu;
+    m_collection->action("byName")->plug( sortMenu );
+    m_collection->action("byDate")->plug( sortMenu );
+
     QPopupMenu *menu = new QPopupMenu;
     m_collection->action("remove")->plug( menu );
     m_collection->action("clear")->plug( menu );
+    menu->insertSeparator();
+    menu->insertItem( i18n("Sort"), sortMenu );
     menu->insertSeparator();
     m_collection->action("preferences")->plug( menu );
 
     menu->exec( QCursor::pos() );
     delete menu;
+    delete sortMenu;
 }
 
 void KonqHistoryModule::slotRemoveEntry()
@@ -175,6 +227,27 @@ void KonqHistoryModule::slotRemoveEntry()
 void KonqHistoryModule::slotPreferences()
 {
     // ### TODO
+}
+
+void KonqHistoryModule::slotSortByName()
+{
+    m_sortsByName = true;
+    sortingChanged();
+}
+
+void KonqHistoryModule::slotSortByDate()
+{
+    m_sortsByName = false;
+    sortingChanged();
+}
+
+void KonqHistoryModule::sortingChanged()
+{
+    m_topLevelItem->sort();
+    KConfig *kc = KGlobal::config();
+    KConfigGroupSaver cs( kc, "HistorySettings" );
+    kc->writeEntry( "SortHistory", m_sortsByName ? "byName" : "byDate" );
+    kc->sync();
 }
 
 void KonqHistoryModule::slotItemExpanded( QListViewItem *item )

@@ -73,7 +73,7 @@ class KonqTreePart : public KParts::ReadOnlyPart
 {
     Q_OBJECT
     Q_PROPERTY( bool supportsUndo READ supportsUndo )
-    public:
+public:
     KonqTreePart( QWidget *parentWidget, QObject *parent, const char *name = 0L );
     virtual ~KonqTreePart();
 
@@ -92,6 +92,8 @@ class KonqTreePart : public KParts::ReadOnlyPart
     KonqTree * tree() const
     { return m_pTree; }
 
+    void emitStatusBarText( const QString& text );
+    
 private:
     KonqTreeBrowserExtension * m_extension;
     KonqTree * m_pTree;

@@ -34,7 +34,7 @@ KonqDirTreeModule::KonqDirTreeModule( KonqTree * parentTree )
     s_defaultViewProps = new KonqPropsView( KonqTreeFactory::instance(), 0L );
 }
 
-void KonqDirTreeModule::clearAll()
+KonqDirTreeModule::~KonqDirTreeModule()
 {
     delete m_pProps;
     delete s_defaultViewProps;
