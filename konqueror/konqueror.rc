@@ -64,8 +64,6 @@
   <Action name="showlocationbar"/>
   <Action name="showbookmarkbar"/>
   <Separator/>
-  <ActionList name="toggleview" />
-  <Separator/>
   <Action name="saveViewPropertiesLocally"/>
   <Action name="removeLocalProperties"/>
   <Separator/>
@@ -88,6 +86,8 @@
   <Action name="splitwindowh"/>
   <Action name="splitwindowv"/>
   <Action name="removeview"/>
+  <Separator/>
+  <ActionList name="toggleview" />
   <Separator/>
   <!--<Action name="savedefaultprofile"/>
   <Separator/>-->
