@@ -1,3 +1,9 @@
+1998-10-23  Alex Zepeda  <garbanzo@hooked.net>
+
+	* LICENSE: remove it, it's redundant.
+
+	* kfind/README: Tidy up, and mention inclusion in kdebase.
+
 ver. 0.4.1: Mario Weilguni <mweilguni@kde.org>
 	* temporary files are no longer needed
 	* found files are now shown while searching
