@@ -267,6 +267,8 @@ protected:
 
   void callExtensionMethod( KonqChildView * childView, const char * methodName );
 
+  void applyMainWindowSettings();
+
 private:
 
   void startAnimation();
@@ -385,6 +387,9 @@ private:
   KURL m_popupURL;
 
   QString m_initialFrameName;
+
+  // Set in constructor, used in slotRunFinished
+  bool m_bNeedApplyMainViewSettings;
 
   static QStringList *s_plstAnimatedLogo;
 

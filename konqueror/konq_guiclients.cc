@@ -19,6 +19,7 @@
 
 #include <kaction.h>
 #include <kconfig.h>
+#include <kdebug.h>
 #include <klocale.h>
 #include <kmenubar.h>
 #include <konq_childview.h>
@@ -312,6 +313,7 @@ ToggleViewGUIClient::ToggleViewGUIClient( KonqMainView *mainView )
   {
     QString description = i18n( "Show %1" ).arg( (*cIt)->comment() );
     QString name = (*cIt)->name();
+    kdDebug(1202) << "ToggleViewGUIClient: name=" << name << endl;
     KToggleAction *action = new KToggleAction( description, 0, actionCollection(), name.latin1() );
 
     // HACK
@@ -353,7 +355,7 @@ void ToggleViewGUIClient::slotToggleView( bool toggle )
   {
     // This should be probably merged with KonqViewManager::splitWindow
 
-    KonqFrameBase *splitFrame = mainContainer->firstChild();
+    KonqFrameBase *splitFrame = mainContainer ? mainContainer->firstChild() : 0L;
 
     KonqFrameContainer *newContainer;
 
@@ -362,8 +364,14 @@ void ToggleViewGUIClient::slotToggleView( bool toggle )
 
     if ( !horizontal )
     {
-      newContainer->moveToLast( splitFrame->widget() );
-      newContainer->swapChildren();
+      if (!splitFrame)
+        kdWarning(1202) << "No split frame !" << endl;
+      else
+      {
+        kdDebug(1202) << "Swapping" << endl;
+        newContainer->moveToLast( splitFrame->widget() );
+        newContainer->swapChildren();
+      }
     }
 
     QValueList<int> newSplitterSizes;
@@ -375,8 +383,11 @@ void ToggleViewGUIClient::slotToggleView( bool toggle )
 
     newContainer->setSizes( newSplitterSizes );
 
-    childView->setLocationBarURL( m_mainView->currentChildView()->url().url() ); // default one in case it doesn't set it
-    childView->openURL( m_mainView->currentChildView()->url() );
+    if ( m_mainView->currentChildView() )
+    {
+        childView->setLocationBarURL( m_mainView->currentChildView()->url().url() ); // default one in case it doesn't set it
+        childView->openURL( m_mainView->currentChildView()->url() );
+    }
 
     // If not passive, set as active :)
     if (!childView->passiveMode())
@@ -405,7 +416,10 @@ void ToggleViewGUIClient::slotToggleView( bool toggle )
   KConfigGroupSaver cgs( config, "MainView Settings" );
   QStringList toggableViewsShown = config->readListEntry( "ToggableViewsShown" );
   if (toggle)
-      toggableViewsShown.append(serviceName);
+  {
+      if ( !toggableViewsShown.contains( serviceName ) )
+          toggableViewsShown.append(serviceName);
+  }
   else
       toggableViewsShown.remove(serviceName);
   config->writeEntry( "ToggableViewsShown", toggableViewsShown );

@@ -160,11 +160,10 @@ KonqMainView::KonqMainView( const KURL &initialURL, bool openInitialURL, const c
     bar->hide();
   }
 
-  bool bSilent = true;
+  m_bNeedApplyMainViewSettings = true;
   if ( !initialURL.isEmpty() )
   {
     openFilteredURL( 0L, initialURL.url() );
-    bSilent = false; // we opened a URL
   }
   else if ( openInitialURL )
   {
@@ -180,28 +179,10 @@ KonqMainView::KonqMainView( const KURL &initialURL, bool openInitialURL, const c
     else
     */
     openURL( 0L, KURL( QDir::homeDirPath().prepend( "file:" ) ) );
-    bSilent = false; // we opened a URL
   }
-
-  if ( !bSilent )
-  {
-      // Apply main-window properties
-      KConfig *config = KonqFactory::instance()->config();
-      KConfigGroupSaver cgs( config, "MainView Settings" );
-      QStringList toggableViewsShown = config->readListEntry( "ToggableViewsShown" );
-      QStringList::ConstIterator togIt = toggableViewsShown.begin();
-      QStringList::ConstIterator togEnd = toggableViewsShown.end();
-      for ( ; togIt != togEnd ; ++togIt )
-      {
-          // Find the action by name
-          KAction * act = m_viewModeGUIClient->actionCollection()->action( *togIt );
-          if ( act )
-              ;// TODO in KAction ! act->activate();
-          else
-              kdWarning(1202) << "Unknown toggable view in ToggableViewsShown " << *togIt << endl;
-      }
-
-  }
+  else
+      // silent
+      m_bNeedApplyMainViewSettings = false;
 
   resize( 700, 480 );
   kdDebug(1202) << "KonqMainView::KonqMainView done" << endl;
@@ -707,7 +688,19 @@ void KonqMainView::slotRunFinished()
   KonqRun *run = (KonqRun *)sender();
 
   if ( run->foundMimeType() )
+  {
+
+    // We do this here and not in the constructor, because
+    // we are waiting for the first view to be set up before doing this...
+
+    if ( m_bNeedApplyMainViewSettings )
+    {
+      m_bNeedApplyMainViewSettings = false; // only once
+      applyMainWindowSettings();
+    }
+
     return;
+  }
 
   KonqChildView *childView = run->childView();
 
@@ -735,6 +728,24 @@ void KonqMainView::slotRunFinished()
     stopAnimation();
     // Revert to working URL
     childView->setLocationBarURL( childView->history().current()->locationBarURL );
+  }
+}
+
+void KonqMainView::applyMainWindowSettings()
+{
+  KConfig *config = KonqFactory::instance()->config();
+  KConfigGroupSaver cgs( config, "MainView Settings" );
+  QStringList toggableViewsShown = config->readListEntry( "ToggableViewsShown" );
+  QStringList::ConstIterator togIt = toggableViewsShown.begin();
+  QStringList::ConstIterator togEnd = toggableViewsShown.end();
+  for ( ; togIt != togEnd ; ++togIt )
+  {
+    // Find the action by name
+    KAction * act = m_toggleViewGUIClient->actionCollection()->action( (*togIt).latin1() );
+    if ( act )
+      act->activate();
+    else
+      kdWarning(1202) << "Unknown toggable view in ToggableViewsShown " << *togIt << endl;
   }
 }
 
