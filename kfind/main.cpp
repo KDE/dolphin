@@ -23,8 +23,8 @@ int main( int argc, char ** argv )
 {
   KLocale::setMainCatalogue("kfindpart");
   KAboutData aboutData( "kfind", I18N_NOOP("KFind"),
-			VERSION, description, KAboutData::License_GPL,
-			I18N_NOOP("(c) 1998-2002, The KDE Developers"));
+      VERSION, description, KAboutData::License_GPL,
+      I18N_NOOP("(c) 1998-2003, The KDE Developers"));
 
   aboutData.addAuthor("Eric Coquelle", I18N_NOOP("Current Maintainer"), "coquelle@caramail.com");
   aboutData.addAuthor("Mark W. Webb", I18N_NOOP("Developer"), "markwebb@adelphia.net");
@@ -43,7 +43,7 @@ int main( int argc, char ** argv )
   aboutData.addAuthor("Clarence Dang", 0, "dang@kde.org");
 
   KCmdLineArgs::init( argc, argv, &aboutData );
-  KCmdLineArgs::addCmdLineOptions( options ); // Add our own options.
+  KCmdLineArgs::addCmdLineOptions( options );
 
   KApplication app;
 
