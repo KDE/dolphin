@@ -411,7 +411,7 @@ void KonqListView::slotShowDot()
 {
   m_pListView->dirLister()->setShowingDotFiles( m_paShowDot->isChecked() );
 }
-void KonqListView::slotColumnToggled(bool)
+void KonqListView::slotColumnToggled()
 {
    kDebugInfo(1202,"::slotColumnToggled\n");
    for (int i=0; i<m_pListView->confColumns.count(); i++)

@@ -1,6 +1,6 @@
-#datadir = $(kde_datadir)/konqueror/pics
+picsdir = $(kde_datadir)/konqueror/pics
+pics_DATA = indicator_anchor.png indicator_connect.png \
+	indicator_empty.png indicator_viewactive.png
 
-KDE_ICON = AUTO
-
-#EXTRA_DIST = $(data_DATA) 
+KDE_ICON = konqueror
 

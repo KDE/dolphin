@@ -88,7 +88,7 @@ protected slots:
   void slotIconSizeToggled(bool b);
 
   void slotShowDot();
-  void slotColumnToggled(bool on);
+  void slotColumnToggled();
 
 //  void slotCheckMimeTypes();
   void slotBackgroundColor();

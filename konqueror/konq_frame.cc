@@ -43,27 +43,20 @@
 
 #include <assert.h>
 
-//these both have white background
-//#include "anchor.xpm"
-//#include "white.xpm"
-#include "green.xpm"
-//these both have very bright grey background
-#include "lightgrey.xpm"
-#include "anchor_grey.xpm"
-
 #define DEFAULT_HEADER_HEIGHT 13
 
 void KonqCheckBox::paintEvent(QPaintEvent *)
 {
-    static QPixmap anchor_grey(anchor_grey_xpm);
-    static QPixmap lightgrey(lightgrey_xpm);
+    //static QPixmap indicator_anchor( UserIcon( "indicator_anchor" ) );
+    static QPixmap indicator_connect( UserIcon( "indicator_connect" ) );
+    static QPixmap indicator_empty( UserIcon( "indicator_empty" ) );
 
    QPainter p(this);
 
    if (isOn() || isDown())
-      p.drawPixmap(0,0,anchor_grey);
+      p.drawPixmap(0,0,indicator_connect);
    else
-      p.drawPixmap(0,0,lightgrey);
+      p.drawPixmap(0,0,indicator_empty);
 }
 
 KonqFrameStatusBar::KonqFrameStatusBar( KonqFrame *_parent, const char *_name )
@@ -211,8 +204,8 @@ void KonqFrameStatusBar::setLinkedView( bool b )
 
 void KonqFrameStatusBar::paintEvent(QPaintEvent* e)
 {
-    static QPixmap green(green_xpm);
-    static QPixmap lightgrey(lightgrey_xpm);
+   static QPixmap indicator_viewactive( UserIcon( "indicator_viewactive" ) );
+   static QPixmap indicator_empty( UserIcon( "indicator_empty" ) );
 
    if (!isVisible()) return;
    QWidget::paintEvent(e);
@@ -223,11 +216,9 @@ void KonqFrameStatusBar::paintEvent(QPaintEvent* e)
    //   hasFocus = false;
    QPainter p(this);
    if (hasFocus)
-      p.drawPixmap(4,m_yOffset,green);
+      p.drawPixmap(4,m_yOffset,indicator_viewactive);
    else
-   {
-      p.drawPixmap(4,m_yOffset,lightgrey);
-   };
+      p.drawPixmap(4,m_yOffset,indicator_empty);
 }
 
 //###################################################################
