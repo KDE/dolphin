@@ -69,6 +69,7 @@ KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name)
     caseSensCb->setChecked(false);
 
     nameBox->setDuplicatesEnabled(FALSE);
+    nameBox->setFocus();
     dirBox->setDuplicatesEnabled(FALSE);
 
     nameBox->setInsertionPolicy(QComboBox::AtTop);
