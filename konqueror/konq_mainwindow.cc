@@ -585,7 +585,7 @@ bool KonqMainWindow::openView( QString serviceType, const KURL &_url, KonqView *
 
 void KonqMainWindow::slotOpenURLRequest( const KURL &url, const KParts::URLArgs &args )
 {
-  kdDebug(1202) << "KonqMainWindow::slotOpenURLRequest" << endl;
+  kdDebug(1202) << "KonqMainWindow::slotOpenURLRequest frameName=" << args.frameName << endl;
 
   QString frameName = args.frameName;
 
@@ -1626,11 +1626,15 @@ KonqView * KonqMainWindow::childView( KParts::ReadOnlyPart *view )
 
 KonqView * KonqMainWindow::childView( const QString &name, KParts::BrowserHostExtension **hostExtension )
 {
+  //kdDebug() << "KonqMainWindow::childView this=" << this << " looking for " << name << endl;
+
   MapViews::ConstIterator it = m_mapViews.begin();
   MapViews::ConstIterator end = m_mapViews.end();
   for (; it != end; ++it )
   {
     QString viewName = it.data()->viewName();
+    //kdDebug() << "       - viewName=" << viewName << "   "
+    //          << "frame names:" << it.data()->frameNames().join( "," ) << endl;
     if ( !viewName.isEmpty() && viewName == name )
     {
       if ( hostExtension )
@@ -2485,7 +2489,8 @@ void KonqMainWindow::setLocationBarURL( const QString &url )
   if ( m_combo )
       m_combo->setURL( url );
 
-  setIcon( KonqPixmapProvider::self()->pixmapFor( url ) );
+  if ( !url.isEmpty() )
+      setIcon( KonqPixmapProvider::self()->pixmapFor( url ) );
 }
 
 // called via DCOP from KonquerorIface

@@ -249,7 +249,7 @@ public:
   bool callExtensionStringMethod( const char *methodName, QString value );
 
   void setViewName( const QString &name );
-  QString viewName() const { return m_name; }
+  QString viewName() const;
 
   // True to enable the context popup menu
   void enablePopupMenu( bool b );

@@ -782,9 +782,17 @@ bool KonqView::callExtensionStringMethod( const char *methodName, QString value 
 
 void KonqView::setViewName( const QString &name )
 {
+    //kdDebug() << "KonqView::setViewName this=" << this << " name=" << name << endl;
     m_name = name;
     if ( m_pPart )
         m_pPart->setName( m_name.local8Bit().data() );
+}
+
+QString KonqView::viewName() const
+{
+    // The name might be set by javascript code (window.name=...). In that case,
+    // the name is only set in the part and not in the view.
+    return m_name.isEmpty() && m_pPart ? QString::fromLocal8Bit( m_pPart->name() ) : m_name;
 }
 
 void KonqView::enablePopupMenu( bool b )
