@@ -67,7 +67,9 @@ DCOPRef KonquerorIface::openBrowserWindowASN( const QString &url, const QCString
 DCOPRef KonquerorIface::createNewWindow( const QString &url )
 {
     qt_x_user_time = 0;
-    KonqMainWindow *res = KonqMisc::createNewWindow( KURL(url) );
+    // Filter the URL, so that "kfmclient openURL gg:foo" works also when konq is already running
+    KURL finalURL = KonqMisc::konqFilteredURL( 0, url );
+    KonqMainWindow *res = KonqMisc::createNewWindow( finalURL );
     if ( !res )
         return DCOPRef();
     return res->dcopObject();
@@ -99,7 +101,9 @@ DCOPRef KonquerorIface::createNewWindow( const QString &url, const QString &mime
     qt_x_user_time = 0;
     KParts::URLArgs args;
     args.serviceType = mimetype;
-    KonqMainWindow *res = KonqMisc::createNewWindow( KURL(url), args );
+    // Filter the URL, so that "kfmclient openURL gg:foo" works also when konq is already running
+    KURL finalURL = KonqMisc::konqFilteredURL( 0, url );
+    KonqMainWindow *res = KonqMisc::createNewWindow( finalURL, args );
     if ( !res )
         return DCOPRef();
     return res->dcopObject();
