@@ -491,6 +491,7 @@ protected:
   QLineEdit *mimeEdit;
   KIconLoaderButton *iconBox;
   QComboBox *appBox;
+  QString m_sMimeStr;
   
   QPixmap pixmap;
   QString pixmapFile;

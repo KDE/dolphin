@@ -1031,16 +1031,12 @@ URLPropsPage::URLPropsPage( PropertiesDialog *_props ) : PropsPage( _props )
 bool URLPropsPage::supports( KFileItemList _items )
 {
   KFileItem * item = _items.first();
-  debug("URLPropsPage : checking for %s",item->url().url().latin1());
   // check if desktop file
   if ( !PropsPage::isDesktopFile( item ) )
     return false;
-  debug("URLPropsPage : %s is a desktop file",item->url().url().latin1());
 
   // open file and check type
   KDesktopFile config( item->url().path(), true /* readonly */ );
-  debug("URLPropsPage : %s opened",item->url().path().latin1());
-  debug("URLPropsPage : hasLinkType : %d", config.hasLinkType());
   return config.hasLinkType();
 }
 
@@ -1056,7 +1052,6 @@ void URLPropsPage::applyChanges()
     }
     f.close();
 
-    debug("URLPropsPage : creating %s",path.latin1());
     KConfig config( path );
     config.setDesktopGroup();
     config.writeEntry( "Type", "URL");
@@ -1653,7 +1648,7 @@ void ApplicationPropsPage::slotDelExtension()
 BindingPropsPage::BindingPropsPage( PropertiesDialog *_props ) : PropsPage( _props )
 {
     patternEdit = new QLineEdit( this, "LineEdit_1" );
-    commentEdit = new QLineEdit( this, "LineEdit_3" );
+    commentEdit = new QLineEdit( this, "LineEdit_2" );
     mimeEdit = new QLineEdit( this, "LineEdit_3" );
     iconBox = new KIconLoaderButton( KGlobal::iconLoader(), this );
     appBox = new QComboBox( false, this, "ComboBox_2" );
@@ -1727,7 +1722,7 @@ BindingPropsPage::BindingPropsPage( PropertiesDialog *_props ) : PropsPage( _pro
     QString appStr = config.readEntry( "DefaultApp" );
     QString iconStr = config.readEntry( "Icon" );
     QString commentStr = config.readEntry( "Comment" );
-    QString mimeStr = config.readEntry( "MimeType" );
+    m_sMimeStr = config.readEntry( "MimeType" );
 
     if ( !patternStr.isEmpty() )
 	patternEdit->setText( patternStr );
@@ -1735,8 +1730,8 @@ BindingPropsPage::BindingPropsPage( PropertiesDialog *_props ) : PropsPage( _pro
 	commentEdit->setText( commentStr );
     if ( iconStr.isEmpty() )
         iconStr = KMimeType::mimeType("")->KServiceType::icon(); // default icon
-    if ( !mimeStr.isEmpty() )
-	mimeEdit->setText( mimeStr );
+    if ( !m_sMimeStr.isEmpty() )
+	mimeEdit->setText( m_sMimeStr );
     
     iconBox->setIcon( iconStr );
     
@@ -1780,142 +1775,14 @@ bool BindingPropsPage::supports( KFileItemList _items )
 
 void BindingPropsPage::applyChanges()
 {
-#ifdef SVEN
-// --- Sven's editable global settings changes start ---
-    int i = 0;
-    bool err = false;
-    // --- Sven's editable global settings changes end ---
-#endif
-    
-    QString path = properties->kurl().path();
+    QString path = locateLocal("mime", m_sMimeStr + ".desktop");
 
     QFile f( path );
 
-#ifdef SVEN
-    QDir lDir (kapp->localkdedir() + "/share/mimelnk/"); // I know it exists
-
-    //debug (path.ascii());
-    //debug (kapp->kde_mimedir().ascii());
-#endif
-    
     if ( !f.open( IO_ReadWrite ) )
     {
-#ifdef SVEN
-      // path = /usr/local/kde/share/mimelnk/image/jpeg.kdelnk
-      
-      //Does path contain kde_mimedir?
-      if (path.find(kapp->kde_mimedir()) == 0) // kde_mimedir on start of path
-      {
-	path.remove(0, strlen(kapp->kde_mimedir())); //remove kde_mimedir
-
-	if (path[0] == '/')
-	  path.remove(0, 1); // remove /
-	
-	while (path.contains('/'))
-	{
-	  i = path.find('/'); // find separator
-	  if (!lDir.cd(path.left(i)))  // exists?
-	  {
-	    lDir.mkdir((path.left(i)));  // no, create
-	    if (!lDir.cd((path.left(i)))) // can cd to?
-	    {
-	      err = true;                 // no flag it...
-	      // debug ("Can't cd to  %s in %s", path.left(i).ascii(),
-	      //	 lDir.absPath().ascii());
-	      break;                      // and exit while
-	    }
-	    // Begin copy .directory if exists here.
-	    // This block can be commented out without problems
-	    // in case of problems.
-	    {
-	      QFile tmp(kapp->kde_mimedir() +
-			'/' + path.left(i) + "/.directory");
-	      //debug ("---- looking for: %s", tmp.name());
-	      if (tmp.open( IO_ReadOnly))
-	      {
-		//debug ("--- opened RO");
-		char *buff = new char[tmp.size()+10];
-		if (buff != 0)
-		{
-		  if (tmp.readBlock(buff, tmp.size()) != -1)
-		  {
-		    size_t tmpsize = tmp.size();
-		    //debug ("--- read");
-		    tmp.close();
-		    tmp.setName(lDir.absPath() + "/.directory");
-		    //debug ("---- copying to: %s", tmp.name());
-		    if (tmp.open(IO_ReadWrite))
-		    {
-		      //debug ("--- opened RW");
-		      if (tmp.writeBlock(buff, tmpsize) != -1)
-		      {
-			//debug ("--- wrote");
-			tmp.close();
-		      }
-		      else
-		      {
-                        //debug ("--- removed");
-			tmp.remove();
-		      }
-		    }                 // endif can open to write
-		  }                   // endif can read
-		  else     //coulnd't read
-		    tmp.close();
-
-		  delete[] buff;
-		}                     // endif is alocated
-	      }                       // can open to write
-	    }
-	    // End coping .directory file
-	  }
-	  path.remove (0, i);           // cded to;
-	  if (path[0] == '/')
-	    path.remove(0, 1); // remove / from path
-	}
-      }
-      else // path didn't contain kde_mimdir this is an error
-	err = true;
-      
-      // we created all subdirs or failed
-      if (!err) // if we didn't fail try to make file just for check
-      {
-	path.prepend('/'); // be sure to have /jpeg.kdelnk
-	path.prepend(lDir.absPath());
-	f.setName(path);
-	//debug("path = %s", path.ascii());
-	if ( f.open( IO_ReadWrite ) )
-	{
-	  // we must first copy whole kdelnk to local dir
-	  // and then change it. Trust me.
-	  QFile s(properties->kurl().path());
-	  s.open(IO_ReadOnly);
-          char *buff = new char[s.size()+10];
-	  if (buff != 0)
-	  {
-	    if (s.readBlock(buff, s.size()) != -1 &&
-		f.writeBlock(buff, s.size()) != -1)
-	      ; // ok
-	    else
-	    {
-	      err = true;
-	      f.remove();
-	    }
-	    delete[] buff;
-	  }
-	  else
-	    err = true;
-	}
-	else
-	  err = true;
-      }
-      if (err)
-      {
-#endif
 	KMessageBox::sorry( 0, i18n("Could not save properties\nPerhaps permissions denied"));
 	return;
-#ifdef SVEN
-      }
-#endif
     }
     f.close();
 

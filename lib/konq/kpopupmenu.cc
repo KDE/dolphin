@@ -70,7 +70,7 @@ KonqPopupMenu::KonqPopupMenu( KFileItemList items,
   bool sDeleting      = true;
   bool sMoving        = true;
   bool hasUpURL       = false;
-  QString mime        = m_lstItems.first()->mimetype();
+  m_sMimeType         = m_lstItems.first()->mimetype();
   mode_t mode         = m_lstItems.first()->mode();
   m_lstPopupURLs.clear();
   int id;
@@ -84,14 +84,6 @@ KonqPopupMenu::KonqPopupMenu( KFileItemList items,
   {
     url = (*it)->url();
 
-    /* Let's assume KFileItem holds a valid URL !
-    if ( url.isMalformed() )
-    {
-//      emit error( ERR_MALFORMED_URL, s );
-      return;
-    }
-    */
-
     // Build the list of URLs
     m_lstPopupURLs.append( url.url() );
 
@@ -103,8 +95,8 @@ KonqPopupMenu::KonqPopupMenu( KFileItemList items,
       mode = 0; // modes are different => reset to 0
 
     // Determine if common mimetype among all URLs
-    if ( mime != (*it)->mimetype() )
-      mime = QString::null; // mimetypes are different => null
+    if ( m_sMimeType != (*it)->mimetype() )
+      m_sMimeType = QString::null; // mimetypes are different => null
 
     // check if all urls are in the trash
     if ( isTrash )
@@ -282,16 +274,18 @@ KonqPopupMenu::KonqPopupMenu( KFileItemList items,
 
   if ( m_pMenuNew ) m_pMenuNew->setPopupFiles( m_lstPopupURLs );
 
-  if ( !mime.isNull() ) // common mimetype among all URLs ?
+  bool bLastSepInserted = false;
+
+  if ( !m_sMimeType.isNull() ) // common mimetype among all URLs ?
   {
     // Query the trader for offers associated to this mimetype
     KTrader* trader = KdedInstance::self()->ktrader();
        
-    KTrader::OfferList offers = trader->query( mime );
+    KTrader::OfferList offers = trader->query( m_sMimeType );
 
     QValueList<KDEDesktopMimeType::Service> builtin;
     QValueList<KDEDesktopMimeType::Service> user;
-    if ( mime == "application/x-desktop" ) // .desktop file (???)
+    if ( m_sMimeType == "application/x-desktop" ) // .desktop file (???)
     {
       builtin = KDEDesktopMimeType::builtinServices( m_lstItems.first()->url() );
       user = KDEDesktopMimeType::userDefinedServices( m_lstItems.first()->url() );
@@ -316,7 +310,7 @@ KonqPopupMenu::KonqPopupMenu( KFileItemList items,
         cfg.setDesktopGroup();
 	
         if ( cfg.hasKey( "Actions" ) && cfg.hasKey( "ServiceTypes" ) &&
-             cfg.readListEntry( "ServiceTypes" ).contains( mime ) )
+             cfg.readListEntry( "ServiceTypes" ).contains( m_sMimeType ) )
         {
           KURL u( *dIt + *eIt );
           user += KDEDesktopMimeType::userDefinedServices( u );
@@ -366,11 +360,16 @@ KonqPopupMenu::KonqPopupMenu( KFileItemList items,
 	id = m_popupMenu->insertItem( (*it2).m_strName );
       m_mapPopup2[ id ] = *it2;
     }
-  }
+
+    bLastSepInserted = true;
+    m_popupMenu->insertSeparator();
   
+    id = m_popupMenu->insertItem( i18n( "Edit Mime Type" ), 
+                                  this, SLOT( slotPopupMimeType() ) );
+  }
   if ( PropertiesDialog::canDisplay( m_lstItems ) )
   {
-    m_popupMenu->insertSeparator();
+    if (!bLastSepInserted) m_popupMenu->insertSeparator();
     m_popupMenu->insertItem( i18n("Properties"), this, SLOT( slotPopupProperties() ) );
   }
 }
@@ -485,6 +484,23 @@ void KonqPopupMenu::slotPopup( int id )
     KDEDesktopMimeType::executeService( *it3, it2.data() );
 
   return;
+}
+
+void KonqPopupMenu::slotPopupMimeType()
+{
+  QString mimeTypeFile = locate("mime", m_sMimeType + ".desktop");
+  if ( mimeTypeFile.isEmpty() )
+  {
+    mimeTypeFile = locate("mime", m_sMimeType + ".kdelnk");
+    if ( mimeTypeFile.isEmpty() )
+    {
+      mimeTypeFile = locate("mime", m_sMimeType );
+      if ( mimeTypeFile.isEmpty() )
+        return; // hmmm
+    }
+  }
+
+  (void) new PropertiesDialog( mimeTypeFile  );
 }
 
 void KonqPopupMenu::slotPopupProperties()

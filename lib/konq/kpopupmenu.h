@@ -100,12 +100,14 @@ public slots:
   void slotPopupOpenWith();
   void slotPopupAddToBookmark();
   void slotPopup( int id );
+  void slotPopupMimeType();
   void slotPopupProperties();
 
 protected:
   OPMenu *m_popupMenu;
   KNewMenu *m_pMenuNew;
   QString m_sViewURL;
+  QString m_sMimeType;
   KFileItemList m_lstItems;
   QStringList m_lstPopupURLs;
   QMap<int,KService::Ptr> m_mapPopup;
