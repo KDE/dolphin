@@ -39,13 +39,9 @@ class KURLCompletion;
 class KonqPropsMainView;
 class KfmRun;
 class KonqChildView;
+class KonqFrame;
+class KSplitter;
 
-class QSplitter;
-
-typedef QSplitter Row;
-
-enum NewViewPosition { above, below, left, right };
-  
 class KonqMainView : public QWidget,
                      virtual public OPPartIf,
 		     virtual public Konqueror::MainView_skel,
@@ -126,9 +122,8 @@ public slots:  // IDL
   virtual void slotDelete();
 
   // View menu
-  virtual void slotSplitView();
-  virtual void slotRowAbove();
-  virtual void slotRowBelow();
+  virtual void slotSplitViewHorizontal();
+  virtual void slotSplitViewVertical();
   virtual void slotRemoveView();
   virtual void slotShowHTML();
   virtual void slotLargeIcons();
@@ -202,12 +197,26 @@ private:
   void initPanner();
 
   /**
-   * Create a new view from the current view (same URL, same view type) 
+   * Splits the view, depending on orientation, either horizontally or 
+   * vertically. The first of the resulting views will contain the initial 
+   * view, the other will be a new one with the same URL and the same view type
    */
-  void splitView ( NewViewPosition newViewPosition );
+  void splitView( Orientation orientation );
 
-  // Position is relative to activeView(); above and below create a new row
-  void insertView( Browser::View_ptr view, NewViewPosition newViewPosition, const QStringList &serviceTypes );
+  /**
+   * Does the same as the above, except that the second view will be the one 
+   * provided by newView
+   */
+  void splitView( Orientation orientation,
+		  Browser::View_ptr newView,
+		  const QStringList &newViewServiceTypes );
+
+  /**
+   * Mainly creates the the backend structure(KonqChildView) for a view and
+   * connects it
+   */
+  void setupView( KSplitter *parentSplitter, Browser::View_ptr view, const QStringList &serviceTypes );
+ 
   void removeView( OpenParts::Id id );
 
   /**
@@ -250,10 +259,8 @@ private:
 
   //////// View storage //////////////
 
-  /* The list of rows */
-  QList<Row> m_lstRows;
-  /* The main, vertical, QSplitter, which holds the rows */
-  QSplitter* m_pMainSplitter;
+  /* The main KSplitter, which initially holds the main icon view */
+  KSplitter* m_pMainSplitter;
 
   /* Storage of View * instances : mapped by Id */
   typedef QMap<OpenParts::Id,KonqChildView *> MapViews;
@@ -261,9 +268,6 @@ private:
 
   KonqChildView *m_currentView;
   OpenParts::Id m_currentId;
-  // current row is currentView->row, no need for a member
-
-  Row * newRow( bool append );
 
   ////////////////////
     

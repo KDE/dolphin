@@ -29,12 +29,10 @@
 #include <qobject.h>
 #include <qstringlist.h>
 
-class QSplitter;
 class KonqBaseView;
 class KfmRun;
 class KonqFrame;
-
-typedef QSplitter Row;
+class KSplitter;
 
 /* This class represents a child of the main view. The main view maintains
  * the list of children. A KonqChildView contains a Browser::View and
@@ -54,16 +52,11 @@ public:
    * @param serviceTypes is the list of supported servicetypes
    */
   KonqChildView( Browser::View_ptr view,
-                 Row * row,
-                 NewViewPosition newViewPosition,
+		 KonqFrame* viewFrame,
 		 KonqMainView * mainView,
-		 const QStringList &serviceTypes
-               );
+		 const QStringList &serviceTypes );
 
   ~KonqChildView();
-
-  /** Get view's row */
-  Row * row() { return m_row; }
 
   /** Attach a view
    * @param view the view to attach (instead of the current one, if any)
@@ -167,6 +160,11 @@ public:
   // FIXME : is duplicated needed ? activeView will do it too !
 
   /**
+   * Returns a pointer to the KonqFrame which the view lives in
+   */
+  KonqFrame* frame() { return m_pKonqFrame; }
+
+  /**
    * Set location bar URL (called by MainView, when View signals it)
    */
   void setLocationBarURL( const QString locationBarURL ) { m_sLocationBarURL = locationBarURL; }
@@ -239,7 +237,6 @@ protected:
     
   KonqMainView *m_pMainView;
   OpenParts::MainWindow_var m_vMainWindow;
-  Row * m_row;
   QStringList m_lstServiceTypes;
   bool m_bAllowHTML;
   KfmRun *m_pRun;

@@ -96,8 +96,6 @@ module Konqueror
 
   interface MainView : OpenParts::Part
   {
-    // Position is relative to activeView(); above and below create a new row
-
     void setActiveView( in OpenParts::Id id );
     Browser::View activeView();
     OpenParts::Id activeViewId();
@@ -125,9 +123,8 @@ module Konqueror
     slot void slotDelete();
 
     // View menu
-    slot void slotSplitView();
-    slot void slotRowAbove();
-    slot void slotRowBelow();
+    slot void slotSplitViewHorizontal();
+    slot void slotSplitViewVertical();
     slot void slotRemoveView();
     slot void slotShowHTML();
     slot void slotLargeIcons();

@@ -26,6 +26,7 @@
 #include <kiconloader.h>
 #include <opFrame.h>
 
+#include "ksplitter.h"
 #include "konq_frame.h"
 
 #define DEFAULT_HEADER_HEIGHT 9
@@ -373,8 +374,9 @@ KonqFrameHeader::gradientFill(KPixmap &pm, QColor ca, QColor cb,bool vertShaded)
     pm.gradientFill(ca, cb, vertShaded);
 }
 
-KonqFrame::KonqFrame( QWidget *_parent, const char *_name )
-                    : QWidget( _parent, _name)
+KonqFrame::KonqFrame( KSplitter *_parentSplitter, const char *_name )
+                    : QWidget( _parentSplitter, _name),
+		      m_pParentSplitter( _parentSplitter )
 {
   m_pOPFrame = 0L;
   m_pLayout = 0L;

@@ -27,12 +27,11 @@
 #include "konq_plugins.h"
 #include "konq_propsview.h"
 #include "kfmrun.h"
+#include "ksplitter.h"
 
 #include <kded_instance.h>
 #include <ktrader.h>
 #include <kactivator.h>
-
-#include <qsplitter.h>
 
 /*
  This is a _very_ bad hack to fix some buggy reference count handling somewhere
@@ -52,14 +51,12 @@ void VeryBadHackToFixCORBARefCntBug( CORBA::Object_ptr obj )
 }
 
 KonqChildView::KonqChildView( Browser::View_ptr view, 
-                              Row * row, 
-                              NewViewPosition newViewPosition,
+			      KonqFrame* viewFrame,
 			      KonqMainView *mainView,
 			      const QStringList &serviceTypes
                               )
-  : m_row( row )
 {
-  m_pKonqFrame = new KonqFrame( row );
+  m_pKonqFrame = viewFrame;
 
   m_sLocationBarURL = "";
   m_bBack = false;
@@ -69,9 +66,6 @@ KonqChildView::KonqChildView( Browser::View_ptr view,
   m_vMainWindow = mainView->mainWindow();
   m_pRun = 0L;
 
-  if (newViewPosition == left)
-    m_row->moveToFirst( m_pKonqFrame );
-  
   attach( view );
 
   m_lstServiceTypes = serviceTypes;
