@@ -159,7 +159,7 @@ public:
 
   void updateToolBarActions();
 
-  bool fullScreenMode() const { return m_ptaFullScreen->isChecked(); }
+  bool fullScreenMode() const { return m_bFullScreen; }
 
   /**
    * @return the "link view" action, for checking/unchecking from KonqView
@@ -185,7 +185,7 @@ signals:
   void viewRemoved( KonqView *view );
 
 public slots:
-  void slotToggleFullScreen( bool );
+  void slotToggleFullScreen();
 
   void slotPopupMenu( const QPoint &_global, const KURL &_url, const QString &_mimeType, mode_t mode );
   void slotPopupMenu( KXMLGUIClient *client, const QPoint &_global, const KURL &_url, const QString &_mimeType, mode_t mode );
@@ -415,7 +415,7 @@ private:
   KToggleAction *m_paShowLocationBar;
   KToggleAction *m_paShowBookmarkBar;
 
-  KToggleAction *m_ptaFullScreen;
+  KAction *m_ptaFullScreen;
 
   uint m_bCutWasEnabled:1;
   uint m_bCopyWasEnabled:1;
@@ -423,6 +423,7 @@ private:
   uint m_bDeleteWasEnabled:1;
   uint m_bLocationBarConnected:1;
   uint m_bURLEnterLock:1;
+  uint m_bFullScreen:1;
   // Global settings
   uint m_bSaveViewPropertiesLocally:1;
   uint m_bHTMLAllowed:1;

@@ -47,10 +47,7 @@ bool KonqFileManager::openFileManagerWindow( const KURL & _url, const QString &n
     QListIterator<KonqMainWindow> it( *mainWindows );
     for (; it.current(); ++it )
       if ( it.current()->fullScreenMode() )
-      {
-        it.current()->slotToggleFullScreen( false );
-        static_cast<KToggleAction *>( it.current()->actionCollection()->action( "fullscreen" ) )->setChecked( false );
-      }
+        it.current()->slotToggleFullScreen();
   }
 
   // If _url is 0L, open $HOME [this doesn't happen anymore]

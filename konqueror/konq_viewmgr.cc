@@ -264,6 +264,7 @@ void KonqViewManager::removePart( KParts::Part * part )
       if (m_pMainWindow->viewCount() == 1)
       {
         kdDebug(1202) << "Deleting last view -> closing the window" << endl;
+        setActivePart( 0L, true );
         m_pMainWindow->removeChildView( view );
         delete view->frame();
         // This deletes the widgets inside, including the part's widget, so tell the child view
@@ -305,8 +306,8 @@ void KonqViewManager::viewCountChanged()
 }
 void KonqViewManager::clear()
 {
-  setActivePart( 0L, true /* immediate */ );
   kdDebug(1202) << "KonqViewManager::clear" << endl;
+  setActivePart( 0L, true /* immediate */ );
   QList<KonqView> viewList;
   QListIterator<KonqView> it( viewList );
 
@@ -563,7 +564,7 @@ void KonqViewManager::loadViewProfile( KConfig &cfg, const QString & filename, c
 
 void KonqViewManager::setActivePart( KParts::Part *part, bool immediate )
 {
-    //kdDebug(1202) << "KonqViewManager::setActivePart " << part << endl;
+    kdDebug(1202) << "KonqViewManager::setActivePart " << part << endl;
     if (part && part->widget())
         part->widget()->setFocus();
 

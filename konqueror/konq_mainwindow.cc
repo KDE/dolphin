@@ -126,6 +126,7 @@ KonqMainWindow::KonqMainWindow( const KURL &initialURL, bool openInitialURL, con
 
   m_pViewManager = new KonqViewManager( this );
 
+
   // See KonqViewManager::setActivePart
   //connect( m_pViewManager, SIGNAL( activePartChanged( KParts::Part * ) ),
   //       this, SLOT( slotPartActivated( KParts::Part * ) ) );
@@ -1986,9 +1987,10 @@ void KonqMainWindow::toggleBar( const char *name, const char *className )
     bar->show();
 }
 
-void KonqMainWindow::slotToggleFullScreen( bool toggle )
+void KonqMainWindow::slotToggleFullScreen()
 {
-  if ( toggle )
+  m_bFullScreen = !m_bFullScreen;
+  if ( m_bFullScreen )
   {
     // Create toolbar button for exiting from full-screen mode
     QList<KAction> lst;
@@ -2170,12 +2172,7 @@ void KonqMainWindow::initActions()
 
   m_pViewManager->setProfiles( m_pamLoadViewProfile );
 
-  m_ptaFullScreen = new KToggleAction( i18n( "Fullscreen Mode" ), "window_fullscreen", CTRL+SHIFT+Key_F, actionCollection(), "fullscreen" );
-
-  m_ptaFullScreen->setChecked( false );
-
-  connect( m_ptaFullScreen, SIGNAL( toggled( bool ) ),
-           this, SLOT( slotToggleFullScreen( bool ) ) );
+  m_ptaFullScreen = new KAction( i18n( "Fullscreen Mode" ), "window_fullscreen", CTRL+SHIFT+Key_F, this, SLOT( slotToggleFullScreen() ), actionCollection(), "fullscreen" );
 
   m_paReload = new KAction( i18n( "&Reload" ), "reload", KStdAccel::key(KStdAccel::Reload), this, SLOT( slotReload() ), actionCollection(), "reload" );
 
@@ -2523,7 +2520,6 @@ void KonqMainWindow::slotPopupMenu( KXMLGUIClient *client, const QPoint &_global
   KonqPopupMenu pPopupMenu ( _items,
                              m_currentView->url(),
                              popupMenuCollection,
-                             m_pMenuNew,
                              showPropsAndFileType );
 
   pPopupMenu.factory()->addClient( konqyMenuClient );
@@ -2597,6 +2593,7 @@ void KonqMainWindow::saveProperties( KConfig *config )
 
 void KonqMainWindow::readProperties( KConfig *config )
 {
+  kdDebug() << "KonqMainWindow::readProperties( KConfig *config )" << endl;
   enableAllActions( true );
   m_pViewManager->loadViewProfile( *config, QString::null /*no profile name*/ );
 }
