@@ -1,35 +1,43 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
 <HTML>
 <HEAD>
- <META NAME="GENERATOR" CONTENT="SGML-Tools 1.0.7">
- <TITLE>The Konsole Handbook: Bugs and FAQ</TITLE>
- <LINK HREF="index-4.html" REL=previous>
- <LINK HREF="index.html#toc5" REL=contents>
+<TITLE>The Konsole Handbook: Bugs and FAQ</TITLE>
+<META HTTP-EQUIV="content-type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="keywords" CONTENT="">
+<META NAME="description" CONTENT="">
 </HEAD>
-<BODY>
-Next
-<A HREF="index-4.html">Previous</A>
-<A HREF="index.html#toc5">Contents</A>
-<HR>
-<H2><A NAME="s5">5. Bugs and FAQ</A></H2>
+<BODY BGCOLOR="#ffffff" LINK="#aa0000" TEXT="#000000" > 
+<FONT FACE="Helvetica">
+<A HREF="http://www.kde.org/"><IMG SRC="logotp3.png" BORDER="0" ALT="The K Desktop Environment"></A>
+<HR WIDTH="100%" SIZE=2 ALIGN="CENTER" NOSHADE>
+
+ 
+<P ALIGN="RIGHT">
+
+Next <A HREF="index-4.html">Previous</A>
+ <A HREF="index.html#toc5">Table of Contents</A>
+</P>
+<H3><A NAME="s5">5. Bugs and FAQ</A></H3>
 
 <P>Before sending bug reports, please check the problem with another
 X terminal to find out whether it is `konsole' specific or not.
 <P>
-<H2><A NAME="ss5.1">5.1 Installation Related Problems</A>
-</H2>
+<H3><A NAME="ss5.1">5.1 Installation Related Problems</A>
+</H3>
 
-<P>Konsole requieres some specific fonts that come along with it's
+<P>
+<A NAME="probPack"></A> 
+Konsole requieres some specific fonts that come along with it's
 distribution but are not installed due to the authors preference
 not claim root privileges during the installation process. You'll
 have to do this manually. See README.linux.console for details.
 <P>
-<H2><A NAME="ss5.2">5.2 Application Related Problems</A>
-</H2>
+<H3><A NAME="ss5.2">5.2 Application Related Problems</A>
+</H3>
 
 <P>Some programs have flaws when run under a X console.
 <P>
-<H3>MC (midnight commander 4.1.21)</H3>
+<H4>MC (midnight commander 4.1.21)</H4>
 
 <P>
 <UL>
@@ -64,7 +72,7 @@ It is not mouse aware then any longer, too.
 </LI>
 </UL>
 <P>
-<H3>Vim 4.6</H3>
+<H4>Vim 4.6</H4>
 
 <P>
 <UL>
@@ -72,7 +80,7 @@ It is not mouse aware then any longer, too.
 secondary screen when run together with mc as default editor.</LI>
 </UL>
 <P>
-<H3>dselect (Debian package manager front end):</H3>
+<H4>dselect (Debian package manager front end):</H4>
 
 <P>
 <UL>
@@ -82,8 +90,8 @@ not cope well with resize events (segfault).</LI>
 </UL>
 <P>
 <P>
-<H2><A NAME="ss5.3">5.3 Broken Termcap and Terminfo Databases</A>
-</H2>
+<H3><A NAME="ss5.3">5.3 Broken Termcap and Terminfo Databases</A>
+</H3>
 
 <P>Please be aware of the fact that most applications (those using ncurses)
 base their knowledge on how to talk to a terminal emulation on the 
@@ -104,8 +112,8 @@ sequences under some circumstances (<CODE>ESC Pn C</CODE> is treated like
 </UL>
 <P>
 <P>
-<H2><A NAME="ss5.4">5.4 Problems with BACKSPACE, DELETE and Likely Keyboard Issues.</A>
-</H2>
+<H3><A NAME="ss5.4">5.4 Problems with BACKSPACE, DELETE and Likely Keyboard Issues.</A>
+</H3>
 
 <P>Once upon a time there was a terminal without a delete key.
 This problem has been perpetuated in Linux and is still a 
@@ -130,15 +138,15 @@ are prefixes (i.e. are eventually to be continued with a second
 character). X11 is known to have these dead keys.
 <P>
 <P>
-<H2><A NAME="ss5.5">5.5 Color Scheme</A>
-</H2>
+<H3><A NAME="ss5.5">5.5 Color Scheme</A>
+</H3>
 
 <P>Because of a storm of complaints about the color scheme,
 konsole offers configurable color schemes in it's latest
 versions. A proper document on them is still missing.
 <P>
-<H2><A NAME="ss5.6">5.6 Fonts</A>
-</H2>
+<H3><A NAME="ss5.6">5.6 Fonts</A>
+</H3>
 
 <P>(Slightly outdated, check README.linux.console)
 <P>
@@ -161,8 +169,8 @@ family, please drop me a line.</LI>
 </UL>
 <P>
 <P>
-<H2><A NAME="ss5.7">5.7 Security</A>
-</H2>
+<H3><A NAME="ss5.7">5.7 Security</A>
+</H3>
 
 <P>Although konsole is prepared to be installed root-suid, it is not
 intented to be used so. Don't do it. Konsole drops privileges
@@ -193,8 +201,8 @@ but the solution will require konsole being installed root/suid.
 I'm aware, that this might not be possible in every installation,
 but i cannot help that.
 <P>
-<H2><A NAME="ss5.8">5.8 Known Bugs (konsole-0.8.6)</A>
-</H2>
+<H3><A NAME="ss5.8">5.8 Known Bugs (konsole-0.8.6)</A>
+</H3>
 
 <P>
 <UL>
@@ -207,8 +215,8 @@ install to get the key-presses.
 </UL>
 <P>
 <P>
-<H2><A NAME="ss5.9">5.9 Features That Will Not Be Implemented.</A>
-</H2>
+<H3><A NAME="ss5.9">5.9 Features That Will Not Be Implemented.</A>
+</H3>
 
 <P>
 <UL>
@@ -225,9 +233,16 @@ a communication channel is available to the one at the console.
 </LI>
 </UL>
 <P>
-<HR>
-Next
-<A HREF="index-4.html">Previous</A>
-<A HREF="index.html#toc5">Contents</A>
+<P ALIGN="RIGHT">
+
+Next <A HREF="index-4.html">Previous</A>
+ <A HREF="index.html#toc5">Table of Contents</A>
+</P>
+<CENTER>
+<HR WIDTH="100%" SIZE=3 ALIGN=CENTER NOSHADE>
+</CENTER>    
+</FONT>
+
+ 
 </BODY>
 </HTML>

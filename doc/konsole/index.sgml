@@ -225,6 +225,7 @@ X terminal to find out whether it is `konsole' specific or not.
 
 <sect1>Installation Related Problems
 <p>
+<label id="probPack">
 Konsole requieres some specific fonts that come along with it's
 distribution but are not installed due to the authors preference
 not claim root privileges during the installation process. You'll
