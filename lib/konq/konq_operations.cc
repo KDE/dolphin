@@ -479,9 +479,8 @@ void KonqOperations::asyncDrop( const KFileItem * destItem )
     delete this;
 }
 
-void KonqOperations::rename( QWidget * parent, const KFileItem * item, const QString & name )
+void KonqOperations::rename( QWidget * parent, const KURL & oldurl, const QString & name )
 {
-    KURL oldurl = item->url();
     QString newPath = oldurl.directory(false,true) + name;
     kdDebug(1203) << "KonqOperations::rename newPath=" << newPath << endl;
     KURL newurl(oldurl);

@@ -101,7 +101,7 @@ void KonqIconViewWidget::slotItemRenamed(QIconViewItem *item, const QString &nam
 {
     kdDebug(1203) << "KonqIconViewWidget::slotItemRenamed" << endl;
     KFileItem * fileItem = static_cast<KFileIVI *>(item)->item();
-    KonqOperations::rename( this, fileItem, name );
+    KonqOperations::rename( this, fileItem->url(), name );
 }
 
 void KonqIconViewWidget::slotIconChanged( int group )

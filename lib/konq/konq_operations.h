@@ -81,7 +81,7 @@ public:
      */
     static void statURL( const KURL & url, const QObject *receiver, const char *member );
 
-    static void rename( QWidget * parent, const KFileItem * item, const QString & name );
+    static void rename( QWidget * parent, const KURL & oldurl, const QString & name );
 
 signals:
     void statFinished( const KFileItem * item );
