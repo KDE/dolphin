@@ -60,7 +60,7 @@ KJavaOptions::KJavaOptions( KConfig* config, QString group,
      **************************************************************************/
     QVGroupBox* globalGB = new QVGroupBox( i18n( "Global Settings" ), this );
     toplevel->addWidget( globalGB );
-    enableJavaGloballyCB = new QCheckBox( i18n( "Enable &Java globally" ), globalGB );
+    enableJavaGloballyCB = new QCheckBox( i18n( "Enable Ja&va globally" ), globalGB );
     connect( enableJavaGloballyCB, SIGNAL( clicked() ), this, SLOT( changed() ) );
     connect( enableJavaGloballyCB, SIGNAL( clicked() ), this, SLOT( toggleJavaControls() ) );
 
@@ -68,7 +68,7 @@ KJavaOptions::KJavaOptions( KConfig* config, QString group,
     /***************************************************************************
      ***************** Domain Specific Settings ********************************
      **************************************************************************/
-    QGroupBox* domainSpecificGB = new QGroupBox( i18n( "D&omain-Specific" ), this );
+    QGroupBox* domainSpecificGB = new QGroupBox( i18n( "Doma&in-Specific" ), this );
     domainSpecificGB->setColumnLayout(0, Qt::Vertical );
     domainSpecificGB->layout()->setSpacing( 0 );
     domainSpecificGB->layout()->setMargin( 0 );
@@ -90,11 +90,11 @@ KJavaOptions::KJavaOptions( KConfig* config, QString group,
     domainSpecificGBLayout->addWidget( addDomainPB, 0, 1 );
     connect( addDomainPB, SIGNAL(clicked()), SLOT( addPressed() ) );
 
-    QPushButton* changeDomainPB = new QPushButton( i18n("C&hange..."), domainSpecificGB );
+    QPushButton* changeDomainPB = new QPushButton( i18n("Chan&ge..."), domainSpecificGB );
     domainSpecificGBLayout->addWidget( changeDomainPB, 1, 1 );
     connect( changeDomainPB, SIGNAL( clicked() ), this, SLOT( changePressed() ) );
 
-    QPushButton* deleteDomainPB = new QPushButton( i18n("De&lete"), domainSpecificGB );
+    QPushButton* deleteDomainPB = new QPushButton( i18n("D&elete"), domainSpecificGB );
     domainSpecificGBLayout->addWidget( deleteDomainPB, 2, 1 );
     connect( deleteDomainPB, SIGNAL( clicked() ), this, SLOT( deletePressed() ) );
 
@@ -123,13 +123,13 @@ KJavaOptions::KJavaOptions( KConfig* config, QString group,
     toplevel->addWidget( javartGB );
 
     QHBox* hbox = new QHBox( javartGB );
-    javaConsoleCB = new QCheckBox( i18n( "&Show Java console" ), hbox );
+    javaConsoleCB = new QCheckBox( i18n( "Sho&w Java console" ), hbox );
     connect( javaConsoleCB, SIGNAL(toggled( bool )), this, SLOT(changed()) );
 
     javaSecurityManagerCB = new QCheckBox( i18n("&Use security manager" ), hbox );
     connect( javaSecurityManagerCB, SIGNAL(toggled( bool )), this, SLOT(changed()) );
 
-    enableShutdownCB = new QCheckBox( i18n("S&hutdown applet server when inactive"), javartGB );
+    enableShutdownCB = new QCheckBox( i18n("Shu&tdown applet server when inactive"), javartGB );
     connect( enableShutdownCB, SIGNAL(toggled( bool )), this, SLOT(changed()) );
     connect( enableShutdownCB, SIGNAL(clicked()), this, SLOT(toggleJavaControls()) );
 

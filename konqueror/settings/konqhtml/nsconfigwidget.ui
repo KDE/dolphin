@@ -201,7 +201,7 @@
                                 </property>
                                 <property stdset="1">
                                     <name>text</name>
-                                    <string>&amp;Down</string>
+                                    <string>Do&amp;wn</string>
                                 </property>
                             </widget>
                             <widget row="2"  column="2" >
@@ -350,7 +350,7 @@
                         </property>
                         <property stdset="1">
                             <name>text</name>
-                            <string>Use &amp;artsdsp to pipe plugin sound through aRts</string>
+                            <string>Use a&amp;rtsdsp to pipe plugin sound through aRts</string>
                         </property>
                     </widget>
                 </grid>

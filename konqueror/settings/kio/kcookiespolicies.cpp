@@ -127,7 +127,7 @@ KCookiesPolicies::KCookiesPolicies(QWidget *parent, const char *name)
                                             "accepting cookies."), m_bgDefault );
     m_bgDefault->insert (m_rbPolicyAsk, KCookieAdvice::Ask);
 
-    m_rbPolicyAccept = new QRadioButton( i18n("Acce&pt all cookies by "
+    m_rbPolicyAccept = new QRadioButton( i18n("Accep&t all cookies by "
                                                "default"), m_bgDefault );
     m_bgDefault->insert (m_rbPolicyAccept, KCookieAdvice::Accept);
 
@@ -172,7 +172,7 @@ KCookiesPolicies::KCookiesPolicies(QWidget *parent, const char *name)
     QWhatsThis::add( m_pbAdd, i18n("Add a domain specific cookie policy.") );
     connect( m_pbAdd, SIGNAL(clicked()), SLOT( addPressed() ) );
 
-    m_pbChange = new QPushButton( i18n("C&hange..."), vbox );
+    m_pbChange = new QPushButton( i18n("Chan&ge..."), vbox );
     m_pbChange->setEnabled( false );
     QWhatsThis::add( m_pbChange, i18n("Change the policy for the selected item "
                                               "in the list box.") );

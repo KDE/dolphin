@@ -115,7 +115,7 @@ KCacheConfigDialog::KCacheConfigDialog( QWidget* parent, const char* name )
     hlay->setSpacing( KDialog::spacingHint() );
     hlay->setMargin( 0 );
 
-    rb_offlineMode = new QRadioButton( i18n("&Offline browsing mode"),
+    rb_offlineMode = new QRadioButton( i18n("O&ffline browsing mode"),
                                        gb_Cache_policy, "rb_offlineMode" );
     
     QWhatsThis::add( rb_offlineMode, i18n("Enable this to prevent HTTP "

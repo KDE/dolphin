@@ -57,7 +57,7 @@ KJavaScriptOptions::KJavaScriptOptions( KConfig* config, QString group, QWidget 
   QVGroupBox* globalGB = new QVGroupBox( i18n( "Global Settings" ), this );
   toplevel->addWidget( globalGB );
 
-  enableJavaScriptGloballyCB = new QCheckBox( i18n( "Enable Java&Script globally" ), globalGB );
+  enableJavaScriptGloballyCB = new QCheckBox( i18n( "Ena&ble JavaScript globally" ), globalGB );
   QWhatsThis::add( enableJavaScriptGloballyCB, i18n("Enables the execution of scripts written in ECMA-Script "
         "(also known as JavaScript) that can be contained in HTML pages. Be aware that JavaScript support "
         "is not yet finished. Note that, as with any browser, enabling scripting languages can be a security problem.") );
@@ -70,7 +70,7 @@ KJavaScriptOptions::KJavaScriptOptions( KConfig* config, QString group, QWidget 
 //  connect( enableJavaScriptDebugCB, SIGNAL( clicked() ), this, SLOT( changed() ) );
 
   // the domain-specific listview (copied and modified from Cookies configuration)
-  QGroupBox* domainSpecificGB = new QGroupBox( i18n( "D&omain-Specific" ), this );
+  QGroupBox* domainSpecificGB = new QGroupBox( i18n( "Do&main-Specific" ), this );
   domainSpecificGB->setColumnLayout(0, Qt::Vertical );
   domainSpecificGB->layout()->setSpacing( 0 );
   domainSpecificGB->layout()->setMargin( 0 );
@@ -100,7 +100,7 @@ KJavaScriptOptions::KJavaScriptOptions( KConfig* config, QString group, QWidget 
                                      "specific policy.") );
   connect( addDomainPB, SIGNAL(clicked()), SLOT( addPressed() ) );
 
-  QPushButton* changeDomainPB = new QPushButton( i18n("C&hange..."), domainSpecificGB );
+  QPushButton* changeDomainPB = new QPushButton( i18n("Chan&ge..."), domainSpecificGB );
   domainSpecificGBLayout->addWidget( changeDomainPB, 1, 1 );
   QWhatsThis::add( changeDomainPB, i18n("Click on this button to change the policy for the "
                                         "host or domain selected in the list box.") );

@@ -109,7 +109,7 @@ KAppearanceOptions::KAppearanceOptions(KConfig *config, QString group, QWidget *
   connect( m_pFonts[2], SIGNAL( activated( const QString& ) ),
 	   SLOT( changed() ) );
 
-  label = new QLabel( i18n( "S&ans serif font:" ), this );
+  label = new QLabel( i18n( "Sa&ns serif font:" ), this );
   lay->addWidget( label, ++r, E );
 
   m_pFonts[3] = new KFontCombo( emptyList, this );

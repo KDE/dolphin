@@ -165,7 +165,7 @@ UserAgentOptions::UserAgentOptions( QWidget * parent, const char * name )
   hlay->setSpacing( KDialog::spacingHint() );
   hlay->setMargin( 0 );
 
-  cb_showLanguage = new QCheckBox( i18n("Add your &language setting"), bg_default );
+  cb_showLanguage = new QCheckBox( i18n("Add yo&ur language setting"), bg_default );
   wtstr = i18n("Check this box to add your language settings to the default "
                "identification string.");
   QWhatsThis::add( cb_showLanguage, wtstr );
@@ -222,7 +222,7 @@ UserAgentOptions::UserAgentOptions( QWidget * parent, const char * name )
   pb_add = new QPushButton( i18n("&New..."), vbox );
   QWhatsThis::add( pb_add, i18n("Add browser identification for a specific site.") );
   
-  pb_change = new QPushButton( i18n("C&hange..."), vbox );
+  pb_change = new QPushButton( i18n("Chan&ge..."), vbox );
   pb_change->setEnabled( false );
   QWhatsThis::add( pb_change, i18n("Change the selected identifier.") );
 
