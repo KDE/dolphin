@@ -83,8 +83,8 @@ PluginFactory::~PluginFactory()
 }
 
 KParts::Part * PluginFactory::createPart(QWidget *parentWidget, const char *widgetName,
-  	                  	         QObject *parent, const char *name,
-  			                 const char */*classname*/, const QStringList &args)
+                                         QObject *parent, const char *name,
+                                         const char */*classname*/, const QStringList &args)
 {
   kdDebug() << "PluginFactory::create" << endl;
   KParts::Part *obj = new PluginPart(parentWidget, widgetName, parent, name, args);
@@ -106,11 +106,11 @@ KAboutData *PluginFactory::aboutData()
 {
   KAboutData *about = new KAboutData("plugin", I18N_NOOP("plugin"), "1.99");
   return about;
-} 
+}
 
 PluginPart::PluginPart(QWidget *parentWidget, const char *widgetName, QObject *parent,
                        const char *name, const QStringList &args)
-  : KParts::ReadOnlyPart(parent, name), _widget(0), _callback(0), _args(args)
+    : KParts::ReadOnlyPart(parent, name), _widget(0), _errorLabel(0), _callback(0), _args(args)
 {
   setInstance(PluginFactory::instance());
   kdDebug() << "PluginPart::PluginPart" << endl;
@@ -162,24 +162,24 @@ bool PluginPart::openURL(const KURL &url)
       int equalPos = (*it).find("=");
       if (equalPos>0)
       {
-	 QString name = (*it).left(equalPos).upper();
-	 QString value = (*it).right((*it).length()-equalPos-1);
-	 if (value.at(0)=='\"') value = value.right(value.length()-1);
-	 if (value.at(value.length()-1)=='\"') value = value.left(value.length()-1);
+         QString name = (*it).left(equalPos).upper();
+         QString value = (*it).right((*it).length()-equalPos-1);
+         if (value.at(0)=='\"') value = value.right(value.length()-1);
+         if (value.at(value.length()-1)=='\"') value = value.left(value.length()-1);
 
-	 kdDebug() << "name=" << name << " value=" << value << endl;
+         kdDebug() << "name=" << name << " value=" << value << endl;
 
-	 if (!name.isEmpty())
-	 {
-	    argn << name;
-	    argv << value;
-	 }
+         if (!name.isEmpty())
+         {
+            argn << name;
+            argv << value;
+         }
 
-	 if (surl.isEmpty() && (name=="SRC" || name=="DATA" || name=="MOVIE"))
-	 {
-	    kdDebug() << "found src=" << value << endl;
-	    surl = value;
-	 }
+         if (surl.isEmpty() && (name=="SRC" || name=="DATA" || name=="MOVIE"))
+         {
+            kdDebug() << "found src=" << value << endl;
+            surl = value;
+         }
       }
 
       it++;
@@ -211,15 +211,21 @@ bool PluginPart::openURL(const KURL &url)
    {
       _widget->resize( _canvas->width(), _canvas->height() );
       _widget->show();
-      connect( _widget, SIGNAL(destroyed(NSPluginInstance *)), 
-	       this, SLOT(widgetDestroyed(NSPluginInstance *)) );
+      connect( _widget, SIGNAL(destroyed(NSPluginInstance *)),
+               this, SLOT(widgetDestroyed(NSPluginInstance *)) );
 
       // create plugin callback
       delete _callback;
       _callback = new NSPluginCallback(this);
       _widget->setCallback(kapp->dcopClient()->appId(), _callback->objId());
-   }    
-  
+   } else
+   {
+       _errorLabel = new QLabel( i18n("Unable to load Netscape plugin for ") + url.url(), _canvas );
+       _errorLabel->setAlignment( AlignCenter );
+       _errorLabel->resize( _canvas->width(), _canvas->height() );
+       _errorLabel->show();
+   }
+
    kdDebug() << "<- PluginPart::openURL = " << (int)(_widget!=0) << endl;
    return _widget!=0;
 }
@@ -230,8 +236,10 @@ bool PluginPart::closeURL()
   kdDebug() << "PluginPart::closeURL" << endl;
   delete _widget;
   delete _callback;
+  delete _errorLabel;
   _widget = 0;
   _callback = 0;
+  _errorLabel = 0;
 
   return true;
 }
@@ -251,14 +259,15 @@ void PluginPart::widgetDestroyed( NSPluginInstance *inst )
 {
    kdDebug() << "PluginPart::widgetDestroyed" << endl;
    _widget = 0;
+   _errorLabel = 0;
    closeURL();
 }
 
 
 void PluginPart::pluginResized(int w, int h)
 {
-  if ( _widget )
-    _widget->resize(w,h);
+  if ( _widget ) _widget->resize( w, h );
+  if ( _errorLabel ) _errorLabel->resize( w, h );
 
   kdDebug() << "PluginPart::pluginResized()" << endl;
 }

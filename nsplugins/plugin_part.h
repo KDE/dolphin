@@ -94,6 +94,7 @@ protected slots:
 
 private:
   NSPluginInstance *_widget;
+  QLabel *_errorLabel;
   PluginCanvasWidget *_canvas;
   PluginBrowserExtension *_extension;
   NSPluginCallback *_callback;
