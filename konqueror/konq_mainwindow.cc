@@ -356,8 +356,6 @@ QWidget * KonqMainWindow::createContainer( QWidget *parent, int index, const QDo
   return res;
 }
 
-
-
 void KonqMainWindow::initBookmarkBar()
 {
   KToolBar * bar = static_cast<KToolBar *>( child( "bookmarkToolBar", "KToolBar" ) );
@@ -546,7 +544,7 @@ void KonqMainWindow::openURL( KonqView *_view, const KURL &_url,
             if ( !open ) {
                 KParts::BrowserRun::AskSaveResult res = KonqRun::askSave( url, offer, serviceType );
                 if ( res == KParts::BrowserRun::Save )
-                    KParts::BrowserRun::simpleSave( url, QString::null );
+                    KParts::BrowserRun::simpleSave( url, QString::null, this );
                 open = ( res == KParts::BrowserRun::Open );
             }
             if ( open )
@@ -557,7 +555,7 @@ void KonqMainWindow::openURL( KonqView *_view, const KURL &_url,
                 if ( ( trustedSource || KonqRun::allowExecution( serviceType, url ) ) &&
                      ( KonqRun::isExecutable( serviceType ) || !offer || !KRun::run( *offer, lst ) ) )
                 {
-                    (void)new KRun( url );
+                    (void)new KRun( url, this );
                 }
             }
         }
@@ -583,10 +581,11 @@ void KonqMainWindow::openURL( KonqView *_view, const KURL &_url,
           delete m_initialKonqRun;
           m_initialKonqRun = run;
       }
+
       if ( view == m_currentView )
         startAnimation();
-      connect( run, SIGNAL( finished() ),
-               this, SLOT( slotRunFinished() ) );
+
+      connect( run, SIGNAL( finished() ), this, SLOT( slotRunFinished() ) );
   }
 }
 
