@@ -45,7 +45,6 @@ private:
 	Arts::Dispatcher m_dispatcher;
 	Arts::SoundServerV2 m_soundServer;
 	KPlayObjectFactory *m_factory;
-	KPlayObject *m_playobject;
 };
 
 #endif
