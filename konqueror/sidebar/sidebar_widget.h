@@ -120,6 +120,7 @@ class Sidebar_Widget: public QWidget
 	bool m_initial;
   protected:
 	virtual bool eventFilter(QObject*,QEvent*);
+	virtual void mousePressEvent(QMouseEvent*);
 	friend class ButtonInfo;
 	QGuardedPtr<ButtonInfo>activeModule;
   protected slots:

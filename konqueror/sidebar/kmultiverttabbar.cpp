@@ -4,6 +4,7 @@
 #include <qpopupmenu.h>
 #include <qlayout.h>
 #include <qpainter.h>
+#include <kdebug.h>
 
 KMultiVertTabBarInternal::KMultiVertTabBarInternal(QWidget *parent):QScrollView(parent)
 	{
@@ -45,6 +46,15 @@ void KMultiVertTabBarInternal::drawContents ( QPainter * paint, int clipx, int c
 
 }
 
+void KMultiVertTabBarInternal::contentsMousePressEvent(QMouseEvent *ev)
+{
+	ev->ignore();
+}
+
+void KMultiVertTabBarInternal::mousePressEvent(QMouseEvent *ev)
+{
+	ev->ignore();
+}
 
 
 KMultiVertTabBarTab* KMultiVertTabBarInternal::getTab(int id)

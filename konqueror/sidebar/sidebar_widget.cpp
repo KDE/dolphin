@@ -592,9 +592,16 @@ bool Sidebar_Widget::eventFilter(QObject *obj, QEvent *ev)
 				if (popupFor!=-1)
 					buttonPopup->exec(QCursor::pos());
 				return true;
+				
 			}
 	}
 	return false;
+}
+
+void Sidebar_Widget::mousePressEvent(QMouseEvent *ev)
+{
+	if (ev->type()==QEvent::MouseButtonPress && ((QMouseEvent *)ev)->button()==QMouseEvent::RightButton)
+		Menu->exec(QCursor::pos());
 }
 
 KonqSidebarPlugin *Sidebar_Widget::loadModule(QWidget *par,QString &desktopName,QString lib_name,ButtonInfo* bi)

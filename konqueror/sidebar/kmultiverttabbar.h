@@ -84,6 +84,14 @@ private:
 	enum KMultiVertTabBar::KMultiVertTabBarPosition position;
 protected:
 	virtual void drawContents ( QPainter *, int, int, int, int);
+
+	/**
+	 * [contentsM|m]ousePressEvent are reimplemented from QScrollView 
+	 * in order to ignore all mouseEvents on the viewport, so that the
+	 * parent can handle them.
+	 */
+	virtual void contentsMousePressEvent(QMouseEvent *);
+	virtual void mousePressEvent(QMouseEvent *);
 };
 
 #endif
