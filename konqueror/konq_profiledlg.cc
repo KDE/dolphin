@@ -161,6 +161,7 @@ KonqProfileDlg::~KonqProfileDlg()
 
 void KonqProfileDlg::loadAllProfiles(const QString & preselectProfile)
 {
+    bool profileFound = false;
     m_mapEntries.clear();
     m_pListView->clear();
     m_mapEntries = readAllProfiles();
@@ -173,11 +174,13 @@ void KonqProfileDlg::loadAllProfiles(const QString & preselectProfile)
         kdDebug(1202) << filename << endl;
         if ( filename == preselectProfile )
         {
+            profileFound = true;
             m_pProfileNameLineEdit->setText( eIt.key() );
             m_pListView->setSelected( item, true );
         }
     }
-    m_pProfileNameLineEdit->setText( preselectProfile);
+    if (!profileFound)
+        m_pProfileNameLineEdit->setText( preselectProfile);
 }
 
 void KonqProfileDlg::slotSave()
