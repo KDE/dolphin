@@ -123,7 +123,7 @@ KBehaviourOptions::KBehaviourOptions(KConfig *config, QString group, QWidget *pa
 
     QString homestr = i18n("This is the URL (e.g. a directory or a web page) where "
                            "Konqueror will jump to when the \"Home\" button is pressed. "
-						   "This usually is your home dirctory, symbolized by a 'tilde' (~).");
+						   "This usually is your home directory, symbolized by a 'tilde' (~).");
     QWhatsThis::add( label, homestr );
     QWhatsThis::add( homeURL, homestr );
 
