@@ -210,6 +210,8 @@ void KonqUndoManager::slotResult( KIO::Job *job )
   if ( job->error() )
   {
     d->m_current.m_opStack.clear();
+    d->m_dirCleanupStack.clear();
+    d->m_undoState = REMOVINGDIRS;
     job->showErrorDialog( 0L );
   }
 
