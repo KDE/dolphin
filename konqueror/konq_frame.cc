@@ -43,8 +43,8 @@ static QBitmap *checkBmp = NULL;
 void KonqCheckBox::paintEvent(QPaintEvent *)
 {
 static unsigned char check_bits[] = {
-  0x11, 0x0a, 0x04, 0x0a, 0x11, };     
-    
+  0x11, 0x0a, 0x04, 0x0a, 0x11, };
+
     if(!checkBmp){
         checkBmp = new QBitmap(5, 5, check_bits, true);
         checkBmp->setMask(*checkBmp);
@@ -64,7 +64,7 @@ static unsigned char check_bits[] = {
 }
 
 
-KonqFrameHeader::KonqFrameHeader( KonqFrame *_parent, const char *_name ) 
+KonqFrameHeader::KonqFrameHeader( KonqFrame *_parent, const char *_name )
                                 : QWidget( _parent, _name ),
 				  m_pParentKonqFrame( _parent )
 {
@@ -77,7 +77,7 @@ KonqFrameHeader::KonqFrameHeader( KonqFrame *_parent, const char *_name )
   config->setGroup("WM");
 
   frameHeaderBlendActive = config->readColorEntry( "activeBlend" , &(Qt::black) );
-  frameHeaderBlendInactive = config->readColorEntry( "inactiveBlend" , 
+  frameHeaderBlendInactive = config->readColorEntry( "inactiveBlend" ,
 						     &palette().normal().background() );
 
   config->setGroup( "General" );
@@ -138,7 +138,7 @@ KonqFrameHeader::KonqFrameHeader( KonqFrame *_parent, const char *_name )
 
   if ( frameHeaderLook == XPixmap ) {
     KIconLoader iconLoader("kwm");
-    
+
     *(frameHeaderActive) = iconLoader.reloadIcon("activetitlebar");
     *(frameHeaderInactive) = iconLoader.reloadIcon("inactivetitlebar");
 
@@ -166,12 +166,12 @@ KonqFrameHeader::KonqFrameHeader( KonqFrame *_parent, const char *_name )
   m_pPassiveModeCheckBox = new KonqCheckBox( this );
 
   setFixedHeight( DEFAULT_HEADER_HEIGHT );
-  
+
   connect( m_pPassiveModeCheckBox, SIGNAL( toggled( bool ) ),
            this, SIGNAL( passiveModeChange( bool ) ) );
 }
 
-enum KPixmapEffect::GradientType 
+enum KPixmapEffect::GradientType
 KonqFrameHeader::mapShade( KonqFrameHeaderLook look)
 {
   switch (look)
@@ -187,7 +187,7 @@ KonqFrameHeader::mapShade( KonqFrameHeaderLook look)
     default:
       return KPixmapEffect::HorizontalGradient; // keep compiler happy
     }
-  
+
 }
 
 void
@@ -201,17 +201,17 @@ KonqFrameHeader::paintEvent( QPaintEvent* )
   }
 
   bool hasFocus = m_pParentKonqFrame->isActivePart();
-  
+
   if ( m_pParentKonqFrame->childView()->passiveMode() )
     hasFocus = false;
-  
+
   QRect r = rect();
   //bool double_buffering = false;
   //QPixmap* buffer = 0;
   KonqFrameHeaderLook look = frameHeaderLook;
 
   if ( look == HORIZ || look == VERT || look == DIAG ||
-       look == PIPE  || look == RECT || 
+       look == PIPE  || look == RECT ||
        look == CROSSDIAG || look == ELLIP){
     // the new horizontal (and vertical) shading code
     /*if (colors_have_changed){
@@ -234,8 +234,8 @@ KonqFrameHeader::paintEvent( QPaintEvent* )
   QPainter p;
 
   /*  if (only_label && animate){
-    double_buffering = ( look == HShaded || 
-                         look == VShaded || 
+    double_buffering = ( look == HShaded ||
+                         look == VShaded ||
                          look == D_SAHDED ||
                          look == XPixmap);
     if(titlestring_delay) {
@@ -279,7 +279,7 @@ KonqFrameHeader::paintEvent( QPaintEvent* )
       p.drawPixmap(x, r.y(), *pm);
   }
   else if ( look == HORIZ || look == VERT || look == DIAG ||
-	    look == PIPE  || look == RECT || 
+	    look == PIPE  || look == RECT ||
 	    look == CROSSDIAG || look == ELLIP){
     // the new horizontal shading code
     QPixmap* pm = 0;
@@ -294,7 +294,7 @@ KonqFrameHeader::paintEvent( QPaintEvent* )
     else {
       if (inactiveShadePm.size() != r.size()){
 	inactiveShadePm.resize(r.width(), r.height());
-	KPixmapEffect::gradient(inactiveShadePm, kapp->inactiveTitleColor(), 
+	KPixmapEffect::gradient(inactiveShadePm, kapp->inactiveTitleColor(),
 				frameHeaderBlendInactive, mapShade(look));
       }
       pm = &inactiveShadePm;
@@ -303,7 +303,7 @@ KonqFrameHeader::paintEvent( QPaintEvent* )
     p.drawPixmap( r.x(), r.y(), *pm );
   }
   else { // TitlebarLook == TITLEBAR_PLAIN
-    p.setBackgroundColor( hasFocus ? kapp->activeTitleColor() 
+    p.setBackgroundColor( hasFocus ? kapp->activeTitleColor()
 			           : kapp->inactiveTitleColor());
     /*if (only_label && !double_buffering && animate){
        p.eraseRect(QRect(r.x(), r.y(), TITLE_ANIMATION_STEP+1, r.height()));
@@ -365,7 +365,7 @@ KonqFrameHeader::paintEvent( QPaintEvent* )
   //CT 02Dec1998 - optional noPixmap behind text,
   //     suggested by Nils Meier <nmeier@vossnet.de>
   if (!options.PixmapUnderTitleText && look == XPixmap ) {
-    // NM 02Dec1998 - Clear bg behind text 
+    // NM 02Dec1998 - Clear bg behind text
     p.setBackgroundColor(is_active ? myapp->activeTitleColor() :
 			 myapp->inactiveTitleColor());
     p.eraseRect(
@@ -396,7 +396,7 @@ KonqFrameHeader::paintEvent( QPaintEvent* )
 	   0,0,
 	   buffer->width(), buffer->height());
     delete buffer;
-  }*/ 
+  }*/
   p.end();
 //  kdebug(0, 1202, "paintEvent done !");
 
@@ -410,7 +410,7 @@ KonqFrameHeader::mousePressEvent( QMouseEvent* event )
   {
     emit headerClicked();
     update();
-  }    
+  }
 }
 
 void KonqFrameHeader::resizeEvent( QResizeEvent * )
@@ -433,9 +433,9 @@ KonqFrame::KonqFrame( KonqFrameContainer *_parentContainer, const char *_name )
   connect( m_pHeader, SIGNAL( passiveModeChange( bool ) ), this, SLOT( slotPassiveModeChange( bool ) ) );
 }
 
-BrowserView * 
-KonqFrame::view( void ) 
-{ 
+BrowserView *
+KonqFrame::view( void )
+{
   return m_pView;
 }
 
@@ -444,13 +444,13 @@ bool KonqFrame::isActivePart()
   return ( m_pView == m_pChildView->mainView()->currentView() );
 }
 
-void 
+void
 KonqFrame::listViews( ChildViewList *viewList )
 {
   viewList->append( childView() );
 }
 
-void 
+void
 KonqFrame::saveConfig( KConfig* config, const QString &prefix, int /*id*/, int /*depth*/ )
 {
   config->writeEntry( QString::fromLatin1( "URL" ).prepend( prefix ), childView()->url() );
@@ -482,7 +482,7 @@ KonqFrame::detach( void )
   m_pView = 0L;
 }
 
-KonqFrameContainer* 
+KonqFrameContainer*
 KonqFrame::parentContainer()
 {
   if( parentWidget()->isA("KonqFrameContainer") )
@@ -491,8 +491,8 @@ KonqFrame::parentContainer()
     return 0L;
 }
 
-void 
-KonqFrame::reparent( QWidget* parent, WFlags f, 
+void
+KonqFrame::reparent( QWidget* parent, WFlags f,
 		     const QPoint & p, bool showIt )
 {
   QWidget::reparent( parent, f, p, showIt );
@@ -507,8 +507,8 @@ KonqFrame::slotHeaderClicked()
   {
     OpenParts::MainWindow_var mainWindow = m_vView->mainWindow();
     mainWindow->setActivePart( m_vView->id() );
-  }    
-*/  
+  }
+*/
 }
 
 void KonqFrame::slotPassiveModeChange( bool mode )
@@ -516,7 +516,7 @@ void KonqFrame::slotPassiveModeChange( bool mode )
   m_pChildView->setPassiveMode( mode );
 }
 
-void 
+void
 KonqFrame::paintEvent( QPaintEvent* )
 {
   m_pHeader->repaint();
@@ -524,16 +524,16 @@ KonqFrame::paintEvent( QPaintEvent* )
 
 //###################################################################
 
-KonqFrameContainer::KonqFrameContainer( Orientation o, 
-					QWidget* parent, 
+KonqFrameContainer::KonqFrameContainer( Orientation o,
+					QWidget* parent,
 					const char * name)
   : QSplitter( o, parent, name)
 {
   m_pFirstChild = 0L;
-  m_pSecondChild = 0L;   
+  m_pSecondChild = 0L;
 }
 
-void 
+void
 KonqFrameContainer::listViews( ChildViewList *viewList )
 {
   if( firstChild() )
@@ -543,7 +543,7 @@ KonqFrameContainer::listViews( ChildViewList *viewList )
     secondChild()->listViews( viewList );
 }
 
-void 
+void
 KonqFrameContainer::saveConfig( KConfig* config, const QString &prefix, int id, int depth )
 {
   int idSecond = id + (int)pow( 2, depth );
@@ -553,7 +553,7 @@ KonqFrameContainer::saveConfig( KConfig* config, const QString &prefix, int id, 
   //write children sizes
   config->writeEntry( QString::fromLatin1( "SplitterSizes" ).prepend( prefix ), QVariant( sizes() ) );
 
-  //write children 
+  //write children
   QStringList strlst;
   if( firstChild() )
     strlst.append( firstChild()->frameType() + QString("%1").arg(idSecond - 1) );
@@ -577,11 +577,11 @@ KonqFrameContainer::saveConfig( KConfig* config, const QString &prefix, int id, 
     QString newPrefix = firstChild()->frameType() + QString("%1").arg(idSecond - 1);
     newPrefix.append( '_' );
     firstChild()->saveConfig( config, newPrefix, id, depth + 1 );
-  } 
+  }
 
   if( secondChild() ) {
 //    config->setGroup( secondChild()->frameType() + QString("%1").arg( idSecond ) );
-    QString newPrefix = secondChild()->frameType() + QString("%1").arg( idSecond ); 
+    QString newPrefix = secondChild()->frameType() + QString("%1").arg( idSecond );
     newPrefix.append( '_' );
     secondChild()->saveConfig( config, newPrefix, idSecond, depth + 1 );
   }
@@ -594,11 +594,11 @@ KonqFrameContainer::otherChild( KonqFrameBase* child )
     return secondChild();
   else if( secondChild() == child )
     return firstChild();
-  else 
+  else
     return 0L;
 }
 
-KonqFrameContainer* 
+KonqFrameContainer*
 KonqFrameContainer::parentContainer()
 {
   if( parentWidget()->isA("KonqFrameContainer") )
@@ -607,17 +607,17 @@ KonqFrameContainer::parentContainer()
     return 0L;
 }
 
-void 
+void
 KonqFrameContainer::reparent( QWidget* parent, WFlags f, const QPoint & p, bool showIt )
 {
   QWidget::reparent( parent, f, p, showIt );
 }
 
-void 
+void
 KonqFrameContainer::childEvent( QChildEvent * ce )
 {
   KonqFrameBase* castChild = 0L;
-    
+
   if( ce->child()->isA("KonqFrame") )
     castChild = ( KonqFrame* )ce->child();
   else if( ce->child()->isA("KonqFrameContainer") )
@@ -625,15 +625,15 @@ KonqFrameContainer::childEvent( QChildEvent * ce )
 
   if( ce->type() == QEvent::ChildInserted ) {
 
-    if( castChild ) 
+    if( castChild )
       if( !firstChild() ) {
 	setFirstChild( castChild );
       }
       else if( !secondChild() ) {
 	setSecondChild( castChild );
       }
-  
-  } 
+
+  }
   else if( ce->type() == QEvent::ChildRemoved ) {
 
     if( castChild ) {
