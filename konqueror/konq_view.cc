@@ -573,7 +573,7 @@ void KonqView::stop()
     // Revert to working URL - unless the URL was typed manually
     // This is duplicated with KonqMainWindow::slotRunFinished, but we can't call it
     //   since it relies on sender()...
-    if ( m_pRun->typedURL().isEmpty() ) // not typed
+    if ( history().current() && m_pRun->typedURL().isEmpty() ) // not typed
       setLocationBarURL( history().current()->locationBarURL );
 
     delete static_cast<KonqRun *>(m_pRun); // should set m_pRun to 0L
