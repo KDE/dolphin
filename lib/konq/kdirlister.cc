@@ -139,7 +139,7 @@ void KDirLister::stop()
   // Stop running jobs
   if ( m_job )
   {
-    disconnect( m_job, this );
+    m_job->disconnect( this );
     m_job->kill();
     m_job = 0;
   }
