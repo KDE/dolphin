@@ -75,7 +75,7 @@ UserAgentOptions::UserAgentOptions( QWidget * parent, const char * name )
                "below.");
   QWhatsThis::add( lb_default, wtstr );
 
-  cb_showOS = new QCheckBox( i18n("Add operating s&ystem &name"), bg_default);
+  cb_showOS = new QCheckBox( i18n("Add operating s&ystem name"), bg_default);
   bg_grid->addMultiCellWidget( cb_showOS, 2, 2, 0, 1 );
   wtstr = i18n("Check this box to add your <code>operating system name</code> "
                "to the default identification string.");
@@ -227,6 +227,7 @@ void UserAgentOptions::load()
   lb_default->setText( KProtocolManager::customDefaultUserAgent( m_iMods ) );
   cb_showOS->setChecked( m_iMods.showOS );
   cb_showOSV->setChecked( m_iMods.showOSVersion );
+  cb_showOSV->setEnabled( m_iMods.showOSVersion );
   cb_showPlatform->setChecked( m_iMods.showPlatform );
   cb_showMachine->setChecked( m_iMods.showMachine );
   cb_showLanguage->setChecked( m_iMods.showLanguage );
@@ -249,7 +250,7 @@ void UserAgentOptions::defaults()
   m_iMods.showOSVersion = false;
   m_iMods.showPlatform = false;
   m_iMods.showMachine = false;
-  m_iMods.showLanguage = false;
+  m_iMods.showLanguage = true;
   cb_showOS->setChecked( m_iMods.showOS );
   cb_showOSV->setChecked( m_iMods.showOSVersion );
   cb_showPlatform->setChecked( m_iMods.showPlatform );
