@@ -217,8 +217,7 @@ QString KBookmark::icon() const
         // Default icon depends on URL for bookmarks, and is default directory
         // icon for groups.
         if ( isGroup() )
-            icon = /*"bookmark_folder";*/
-                KMimeType::mimeType( "inode/directory" )->KMimeType::icon( QString::null, true );
+            icon = "bookmark_folder";
         else
             if ( isSeparator() )
                 icon = "eraser"; // whatever
