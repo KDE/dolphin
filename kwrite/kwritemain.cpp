@@ -486,7 +486,7 @@ void KWrite::restore()
   for (z = 1; z <= docs; z++) {
      buf = QString("Document%1").arg(z);
      config->setGroup(buf);
-     doc = KTextEditor::createDocument ("katepart");  
+     doc = KTextEditor::createDocument ("libkatepart");  
      
      if (KTextEditor::configInterface(doc))
        KTextEditor::configInterface(doc)->readSessionConfig(config);
