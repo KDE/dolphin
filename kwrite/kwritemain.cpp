@@ -35,9 +35,7 @@
 
 #include <dcopclient.h>
 #include <kurldrag.h>
-#define protected public
-#include <kfiledialog.h>
-#undef protected
+#include <kencodingfiledialog.h>
 #include <kdiroperator.h>
 #include <kiconloader.h>
 #include <kaboutdata.h>
@@ -261,17 +259,13 @@ void KWrite::slotOpen()
 {
   if (KTextEditor::encodingInterface(m_kateView->document()))
   {
-  	KFileDialog dlg(QString::null,
-	KTextEditor::encodingInterface(m_kateView->document())->encoding(),
-		i18n("Open File"),KFileDialog::Opening,this,"",true);
-	dlg.setMode(KFile::Files);
-	dlg.ops->clearHistory();
-    	dlg.exec();
-	KURL::List urls=dlg.selectedURLs();
+	KEncodingFileDialog::Result r=KEncodingFileDialog::getOpenURLsAndEncoding(
+		KTextEditor::encodingInterface(m_kateView->document())->encoding(), 
+	QString::null,QString::null,this,i18n("Open File"));
 
-    for (KURL::List::Iterator i=urls.begin(); i != urls.end(); ++i)
+    for (KURL::List::Iterator i=r.URLs.begin(); i != r.URLs.end(); ++i)
     {
-      encoding = dlg.selectedEncoding();
+      encoding = r.encoding;
       slotOpen ( *i );
     }
   }
