@@ -27,6 +27,8 @@
 namespace KParts { class BrowserExtension; }
 class KonqPropsView;
 class QScrollView;
+class KAction;
+class KToggleAction;
 
 class KonqDirPart: public KParts::ReadOnlyPart
 {
@@ -89,6 +91,13 @@ public:
      */
     void emitCounts( const KFileItemList & lst, bool selectionChanged );
 
+    /**
+     * This is called by the actions that change the icon size. The view
+     * should also call it initially, or any time it wants to change the size.
+     * The view should also reimplement it, to update the view.
+     */
+    virtual void newIconSize( int size );
+
 public slots:
     void slotBackgroundColor();
     void slotBackgroundImage();
@@ -98,6 +107,11 @@ public slots:
      */
     void slotClipboardDataChanged();
 
+    void slotIncIconSize();
+    void slotDecIconSize();
+
+    void slotIconSizeToggled( bool );
+
 protected:
     QString m_nameFilter;
 
@@ -106,6 +120,15 @@ protected:
      * View properties
      */
     KonqPropsView * m_pProps;
+
+    KAction *m_paIncIconSize;
+    KAction *m_paDecIconSize;
+    KToggleAction *m_paDefaultIcons;
+    KToggleAction *m_paLargeIcons;
+    KToggleAction *m_paMediumIcons;
+    KToggleAction *m_paSmallIcons;
+
+    int m_iIconSize[4];
 
     unsigned long m_lDirSize;
     uint m_lFileCount;
