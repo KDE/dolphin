@@ -305,7 +305,7 @@ public:
    *
    * @return the title of the current page.
    */
-  virtual QString currentTitle() { return QString::null; }
+  virtual QString currentTitle() const { return QString::null; }
 
   /**
    * This function is called whenever the user wants to add the
@@ -315,7 +315,7 @@ public:
    *
    * @return the URL of the current page.
    */
-  virtual QString currentURL() { return QString::null; }
+  virtual QString currentURL() const { return QString::null; }
 };
 
 #endif
