@@ -1243,7 +1243,7 @@ void KonqMainWindow::slotViewCompleted( KonqView * view )
   if ( m_qComboHack )
       m_combo->removeItem( m_combo->count() -1 );
 
-      
+
   // Register this URL as a working one, in the completion object and the combo
   // Only register remote URLs, because local ones will be found by
   // KURLCompletion
@@ -2204,7 +2204,7 @@ void KonqMainWindow::setLocationBarURL( const QString &url )
       m_combo->removeItem( m_combo->count() -1 );
       m_qComboHack = false;
     }
-    
+
     //    m_combo->setEditText( url );
     for ( int i = 0; i < m_combo->count(); i++ ) {
       if ( m_combo->text( i ) == url ) {
@@ -2634,6 +2634,7 @@ void KonqMainWindow::disableActionsNoView()
     action("duplicate_window")->setEnabled( true );
     action("open_location")->setEnabled( true );
     action("toolbar_url_combo")->setEnabled( true );
+    m_combo->clear();
     action("clear_location")->setEnabled( true );
     action("animated_logo")->setEnabled( true );
     updateLocalPropsActions();
