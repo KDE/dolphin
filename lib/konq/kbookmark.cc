@@ -312,11 +312,11 @@ KBookmark::KBookmark( KBookmarkManager *_bm, KBookmark *_parent, QString _text, 
     return;
   }
 
-  fprintf( f, "# KDE Config File\n" );
+  //fprintf( f, "# KDE Config File\n" );
   fprintf( f, "[Desktop Entry]\n" );
   fprintf( f, "URL=%s\n", m_url.ascii() );
   fprintf( f, "Icon=%s\n", icon.ascii() );
-  fprintf( f, "MiniIcon=%s\n", icon.ascii() );
+  //fprintf( f, "MiniIcon=%s\n", icon.ascii() );
   fprintf( f, "Type=Link\n" );
   fclose( f );
 
@@ -385,6 +385,16 @@ QString KBookmark::pixmapFile( )
     KMimeType::pixmapForURL( KURL( url ), buff.st_mode, KIconLoader::Small, &m_sPixmap );
   }
   return m_sPixmap;
+}
+
+//static
+QString KBookmark::stringSqueeze( const QString & str, unsigned int maxlen )
+{
+  if (str.length() > maxlen) {
+    int part = (maxlen-3)/2;
+    return QString(str.left(part) + "..." + str.right(part));
+  }
+  else return str;
 }
 
 #include "kbookmark.moc"

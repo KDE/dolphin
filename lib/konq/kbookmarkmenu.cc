@@ -108,7 +108,9 @@ void KBookmarkMenu::fillBookmarkMenu( KBookmark *parent )
     if ( bm->type() == KBookmark::URL )
     {
       // create a normal URL item, with ID as a name
-      KAction * action = new KAction( bm->text(), QIconSet( BarIcon( bm->pixmapFile() ) ), 0,
+      QPixmap pix = KGlobal::iconLoader()->loadApplicationIcon(bm->pixmapFile(),
+                                                               KIconLoader::Small);
+      KAction * action = new KAction( bm->text(), QIconSet( pix ), 0,
                                       this, SLOT( slotBookmarkSelected() ),
                                       m_actionCollection, QString("bookmark%1").arg(bm->id()) );
       action->plug( m_parentMenu );

@@ -44,7 +44,10 @@ public:
    */
   KBookmark( KBookmarkManager *, KBookmark *_parent, QString _text, QString _url );
   
-  QString text() { return m_text; }
+  /**
+   * Text shown for the bookmark
+   */
+  QString text() { return stringSqueeze( m_text ); }
   QString url() { return m_url; }
   int type() { return m_type; }
   int id() { return m_id; }
@@ -57,6 +60,8 @@ public:
   QList<KBookmark> *children() { return &m_lstChildren; }
   
   KBookmark* findBookmark( int _id );
+
+  static QString stringSqueeze( const QString & str, unsigned int maxlen = 30 );
  
 protected:
   /**
