@@ -45,7 +45,6 @@ QString KBookmarkGroup::groupAddress() const
 {
     if (m_address.isEmpty())
         m_address = address();
-    assert(!m_address.isEmpty());
     return m_address;
 }
 
