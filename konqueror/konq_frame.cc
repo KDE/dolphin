@@ -670,4 +670,10 @@ void KonqFrameContainer::childEvent( QChildEvent *c )
       QSplitter::childEvent(c);
 }
 
+void KonqFrameContainer::setRubberband( int pos  )
+{
+    emit setRubberbandCalled();
+    QSplitter::setRubberband( pos );
+}
+
 #include "konq_frame.moc"

@@ -160,7 +160,8 @@ public slots:
 		const QPoint &global, const KURL &url,
 		const QString &mimeType, mode_t mode = (mode_t)-1 );
 	void enableAction( const char * name, bool enabled );
-
+	void userMovedSplitter();
+	
 private:
 	QSplitter *splitter() const;
 	bool addButton(const QString &desktoppath,int pos=-1);
@@ -173,6 +174,7 @@ private:
 	void collapseExpandSidebar();
 	bool doEnableActions();
 	bool m_universalMode;
+	bool m_userMovedSplitter;
 private:
 	KParts::ReadOnlyPart *m_partParent;
 	KDockArea *m_area;

@@ -229,6 +229,7 @@ Sidebar_Widget::Sidebar_Widget(QWidget *parent, KParts::ReadOnlyPart *par, const
 	m_layout = 0;
 	m_currentButton = 0;
 	m_activeModule = 0;
+	m_userMovedSplitter = false;
         //kdDebug() << "**** Sidebar_Widget:SidebarWidget()"<<endl;
 	if (universalMode)
         	m_path = KGlobal::dirs()->saveLocation("data", "konqsidebartng/kicker_entries/", true);
@@ -240,9 +241,12 @@ Sidebar_Widget::Sidebar_Widget(QWidget *parent, KParts::ReadOnlyPart *par, const
 	setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding));
 
 	QSplitter *splitterWidget = splitter();
-	if (splitterWidget)
+	if (splitterWidget) {
 		splitterWidget->setResizeMode(parent, QSplitter::FollowSizeHint);
-
+		splitterWidget->setOpaqueResize( false );
+		connect(splitterWidget,SIGNAL(setRubberbandCalled()),SLOT(userMovedSplitter()));
+	}
+		
 	m_area = new KDockArea(this);
 	m_area->setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding));
 	m_mainDockWidget = m_area->createDockWidget("free", 0);
@@ -1243,7 +1247,7 @@ void Sidebar_Widget::customEvent(QCustomEvent* ev)
 
 void Sidebar_Widget::resizeEvent(QResizeEvent* ev)
 {
-	if (m_somethingVisible)
+	if (m_somethingVisible && m_userMovedSplitter)
 	{
 		int newWidth = width();
                 QSplitter *split = splitter();
@@ -1258,6 +1262,7 @@ void Sidebar_Widget::resizeEvent(QResizeEvent* ev)
 			}
 		}
 	}
+	m_userMovedSplitter = false;
 	QWidget::resizeEvent(ev);
 }
 
@@ -1270,3 +1275,7 @@ QSplitter *Sidebar_Widget::splitter() const
 	return static_cast<QSplitter*>(p);
 }
 
+void Sidebar_Widget::userMovedSplitter()
+{
+	m_userMovedSplitter = true;
+}

@@ -397,8 +397,11 @@ public:
 
 signals:
   void ctrlTabPressed();
-
+  void setRubberbandCalled();
+  
 protected:
+  virtual void setRubberband( int );
+
   KonqFrameBase* m_pFirstChild;
   KonqFrameBase* m_pSecondChild;
   bool m_bAboutToBeDeleted;
