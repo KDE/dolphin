@@ -1036,11 +1036,11 @@ DirPropsPage::DirPropsPage( PropertiesDialog *_props ) : PropsPage( _props )
 
     wallBox = new QComboBox( false, this, "ComboBox_1" );
 
-    applyButton = new QPushButton( i18n("Apply") , this );
+    applyButton = new QPushButton( i18n("Apply wallpaper") , this );
     applyButton->adjustSize();
     connect( applyButton, SIGNAL( clicked() ), this, SLOT( slotApply() ) );
 
-    globalButton = new QPushButton( i18n("Apply global"), this );
+    globalButton = new QPushButton( i18n("Apply  wallpaper globally"), this );
     globalButton->adjustSize();
     connect( globalButton, SIGNAL( clicked() ), this, SLOT( slotApplyGlobal() ) );
 
