@@ -75,6 +75,8 @@ KBgndDialogPage::KBgndDialogPage( QWidget * parent, const QString & pixmapFile, 
                              KURL( *it ).filename() :    // then only filename
                              *it );
 
+    m_wallBox->adjustSize();
+
     m_browseButton = new QPushButton( i18n("&Browse..."), this );
     m_browseButton->adjustSize();
     connect( m_browseButton, SIGNAL( clicked() ), SLOT( slotBrowse() ) );
