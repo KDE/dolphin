@@ -37,6 +37,8 @@
 FavIconUpdater::FavIconUpdater(QObject *parent, const char *name)
     : KonqFavIconMgr(parent, name) {
     m_part = 0;
+    m_browserIface = 0;
+    m_webGrabber = 0;
 }
 
 void FavIconUpdater::slotCompleted() {
