@@ -95,9 +95,9 @@ protected slots:
 
 protected:
   void prepareXMLGUIStuff();
-  void addAction( KAction *action );
-  void addAction( const char *name );
-  void addSeparator();
+  void addAction( KAction *action, const QDomElement &menu = QDomElement() );
+  void addAction( const char *name, const QDomElement &menu = QDomElement() );
+  void addSeparator( const QDomElement &menu = QDomElement() );
   void addMerge( const char *name );
 
   KActionCollection &m_actions;

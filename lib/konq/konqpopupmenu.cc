@@ -199,11 +199,8 @@ KonqPopupMenu::KonqPopupMenu( const KonqFileItemList &items,
       if ( m_sViewURL.protocol() == "http" )
       {
         addAction( m_paNewView );
+        addSeparator();
       }
-
-      act = new KAction( i18n( "Open With..." ), 0, this, SLOT( slotPopupOpenWith() ), &m_ownActions, "openwith" );
-      addAction( act );
-      addSeparator();
     }
 
     if ( sReading ) {
@@ -286,20 +283,42 @@ KonqPopupMenu::KonqPopupMenu( const KonqFileItemList &items,
 
     m_mapPopup.clear();
     m_mapPopupServices.clear();
+    
+    QString openWithText = i18n( "Open With..." );
 
     if ( !offers.isEmpty() || !user.isEmpty() || !builtin.isEmpty() )
     {
       // First block, app offers + user
       addSeparator();
 
-      QDomElement group = m_doc.createElement( "definegroup" );
-      m_menuElement.appendChild( group );
-      group.setAttribute( "name", "preview" );
-      
       id = 1;
 
       bool insertedOffer = false;
 
+      QDomElement menu = m_menuElement;
+      
+      if ( offers.count() > 1 )
+      {
+        menu = m_doc.createElement( "menu" );
+        m_menuElement.appendChild( menu );
+        QDomElement text = m_doc.createElement( "text" );
+        menu.appendChild( text );
+        text.appendChild( m_doc.createTextNode( openWithText ) );
+	openWithText = i18n( "Other ..." );
+      }
+      
+      KAction *openWithAct = new KAction( openWithText, 0, this, SLOT( slotPopupOpenWith() ), &m_ownActions, "openwith" );
+      
+      if ( menu == m_menuElement )
+      {
+        addAction( openWithAct, menu );
+	addSeparator();
+      }
+      
+      QDomElement group = m_doc.createElement( "definegroup" );
+      m_menuElement.appendChild( group );
+      group.setAttribute( "name", "preview" );
+      
       // KServiceTypeProfile::OfferList::Iterator it = offers.begin();
       KTrader::OfferList::ConstIterator it = offers.begin();
       for( ; it != offers.end(); it++ )
@@ -310,7 +329,7 @@ KonqPopupMenu::KonqPopupMenu( const KonqFileItemList &items,
         act = new KAction( (*it)->name(), (*it)->pixmap( KIconLoader::Small ), 0,
 			   this, SLOT( slotRunService() ),
 			   &m_ownActions, nam.prepend( "appservice_" ) );
-	addAction( act );
+	addAction( act, menu );
 	
 	m_mapPopup[ id++ ] = *it;
 
@@ -332,24 +351,32 @@ KonqPopupMenu::KonqPopupMenu( const KonqFileItemList &items,
 	    act->setIconSet( pix );
           }
 	
-	  addAction( act );
+	  addAction( act, menu );
 	
           m_mapPopupServices[ id++ ] = *it2;
           insertedOffer = true;
         }
       }
 
+      if ( menu != m_menuElement )
+      {
+	addSeparator( menu );
+        addAction( openWithAct, menu );
+      }
+      
       // Second block, builtin
       if ( insertedOffer )
         addSeparator();
 
+      insertedOffer = false;
+      
       it2 = builtin.begin();
       for( ; it2 != builtin.end(); ++it2 )
       {
         QCString nam;
 	nam.setNum( id );
 	
-        act = new KAction( (*it2).m_strName, 0, this, SLOT( slotService() ), &m_ownActions, nam.prepend( "builtinservice_" ) );
+        act = new KAction( (*it2).m_strName, 0, this, SLOT( slotRunService() ), &m_ownActions, nam.prepend( "builtinservice_" ) );
 	
         if ( !(*it2).m_strIcon.isEmpty() )
         {
@@ -357,13 +384,22 @@ KonqPopupMenu::KonqPopupMenu( const KonqFileItemList &items,
 	  act->setIconSet( pix );
         }
 	
-	addAction( act );
+	addAction( act, menu );
 	
         m_mapPopupServices[ id++ ] = *it2;
+	insertedOffer = true;
       }
+      
+      if ( insertedOffer )
+        addSeparator();
     }
     else
+    {
       addSeparator();
+      act = new KAction( openWithText, 0, this, SLOT( slotPopupOpenWith() ), &m_ownActions, "openwith" );
+      addAction( act );
+      addSeparator();
+    }
 
     bLastSepInserted = true;
 
@@ -519,23 +555,33 @@ QDomDocument KonqPopupMenu::document() const
   return m_doc;
 }
 
-void KonqPopupMenu::addAction( KAction *act )
+void KonqPopupMenu::addAction( KAction *act, const QDomElement &menu )
 {
-  addAction( act->name() );
+  addAction( act->name(), menu );
 }
 
-void KonqPopupMenu::addAction( const char *name )
-{
+void KonqPopupMenu::addAction( const char *name, const QDomElement &menu )
+{  
   static QString tagAction = QString::fromLatin1( "action" );
+  
+  QDomElement parent = menu;
+  if ( parent.isNull() )
+    parent = m_menuElement;
+  
   QDomElement e = m_doc.createElement( tagAction );
-  m_menuElement.appendChild( e );
+  parent.appendChild( e );
   e.setAttribute( attrName, name );
 }
 
-void KonqPopupMenu::addSeparator()
+void KonqPopupMenu::addSeparator( const QDomElement &menu )
 {
   static QString tagSeparator = QString::fromLatin1( "separator" );
-  m_menuElement.appendChild( m_doc.createElement( tagSeparator ) );
+  
+  QDomElement parent = menu;
+  if ( parent.isNull() )
+    parent = m_menuElement;
+  
+  parent.appendChild( m_doc.createElement( tagSeparator ) );
 }
 
 void KonqPopupMenu::addMerge( const char *name )
