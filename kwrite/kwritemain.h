@@ -46,13 +46,13 @@ class KWrite : public KParts::MainWindow
     void loadURL(const KURL &url);
 
     KTextEditor::View *view() const { return m_view; }
-    
+
     static bool noWindows () { return winList.isEmpty(); }
 
   private:
     void setupActions();
     void setupStatusBar();
-    
+
     bool queryClose();
 
     void dragEnterEvent( QDragEnterEvent * );
@@ -80,6 +80,11 @@ class KWrite : public KParts::MainWindow
 
     void slotEnableActions( bool enable );
 
+    /**
+     * adds a chenged URL to the recent files
+     */
+    void slotFileNameChanged();
+
   //config file functions
   public:
     void readConfig (KConfig *);
@@ -100,13 +105,13 @@ class KWrite : public KParts::MainWindow
 
   private:
     KTextEditor::View * m_view;
-    
+
     KRecentFilesAction * m_recentFiles;
     KToggleAction * m_paShowPath;
     KToggleAction * m_paShowStatusBar;
-    
+
     QString encoding;
-    
+
     static QPtrList<KTextEditor::Document> docList;
     static QPtrList<KWrite> winList;
 };
@@ -114,14 +119,14 @@ class KWrite : public KParts::MainWindow
 class KWriteEditorChooser: public KDialogBase
 {
   Q_OBJECT
-  
+
   public:
     KWriteEditorChooser(QWidget *parent);
     virtual ~KWriteEditorChooser();
 
   private:
     KTextEditor::EditorChooser *m_chooser;
-  
+
   protected slots:
     void slotOk();
 };

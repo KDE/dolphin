@@ -100,6 +100,7 @@ KWrite::KWrite (KTextEditor::Document *doc)
   connect(m_view,SIGNAL(newStatus()),this,SLOT(newCaption()));
   connect(m_view,SIGNAL(viewStatusMsg(const QString &)),this,SLOT(newStatus(const QString &)));
   connect(m_view->document(),SIGNAL(fileNameChanged()),this,SLOT(newCaption()));
+  connect(m_view->document(),SIGNAL(fileNameChanged()),this,SLOT(slotFileNameChanged()));
   connect(m_view,SIGNAL(dropEventPass(QDropEvent *)),this,SLOT(slotDropEvent(QDropEvent *)));
 
   setXMLFile( "kwriteui.rc" );
@@ -185,7 +186,6 @@ void KWrite::setupStatusBar()
 // load on url
 void KWrite::loadURL(const KURL &url)
 {
-  m_recentFiles->addURL( url );
   m_view->document()->openURL(url);
 }
 
@@ -269,6 +269,12 @@ void KWrite::slotOpen( const KURL& url )
     if (KTextEditor::encodingInterface(m_view->document())) KTextEditor::encodingInterface(m_view->document())->setEncoding(encoding);
     loadURL(url);
   }
+}
+
+void KWrite::slotFileNameChanged()
+{
+  if ( ! m_view->document()->url().isEmpty() )
+    m_recentFiles->addURL( m_view->document()->url() );
 }
 
 void KWrite::newView()
