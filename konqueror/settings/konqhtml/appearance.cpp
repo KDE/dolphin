@@ -25,6 +25,7 @@
 #include <kurlrequester.h>
 #include <X11/Xlib.h>
 #include <klineedit.h>
+#include <qspinbox.h>
 
 #include "htmlopts.h"
 #include "policydlg.h"
@@ -40,7 +41,7 @@ KAppearanceOptions::KAppearanceOptions(KConfig *config, QString group, QWidget *
 {
   QString wtstr;
 
-  QGridLayout *lay = new QGridLayout(this, 1 ,1 , 9, 5);
+  QGridLayout *lay = new QGridLayout(this, 1 ,1 , 10, 5);
   int r = 0;
   int E = 0, M = 2, W = 4; //CT 3 (instead 2) allows smaller color buttons
 
@@ -179,6 +180,17 @@ KAppearanceOptions::KAppearanceOptions(KConfig *config, QString group, QWidget *
   connect( m_pFantasy, SIGNAL( activated( const QString& ) ),
 	   SLOT( changed() ) );
 
+  label = new QLabel( i18n( "Font size adjustment for this encoding:" ), this );
+  lay->addWidget( label, ++r, M );
+
+  m_pFontSizeAdjust = new QSpinBox( -5, 5, 1, this );
+  label->setBuddy( m_pFontSizeAdjust );
+  lay->addMultiCellWidget( m_pFontSizeAdjust, r, r, M+1, W );
+
+  connect( m_pFontSizeAdjust, SIGNAL( valueChanged( int ) ),
+	   SLOT( slotFontSizeAdjust( int ) ) );
+  connect( m_pFontSizeAdjust, SIGNAL( valueChanged( int ) ),
+	   SLOT( changed() ) );
 
   label = new QLabel( i18n( "&Default Encoding"), this );
   ++r;
@@ -254,6 +266,10 @@ void KAppearanceOptions::slotFantasyFont( const QString& n )
     fonts[5] = n;
 }
 
+void KAppearanceOptions::slotFontSizeAdjust( int value )
+{
+    fonts[6] = QString::number( value );
+}
 
 void KAppearanceOptions::slotEncoding(const QString& n)
 {
@@ -280,9 +296,13 @@ void KAppearanceOptions::load()
     defaultFonts.append( m_pConfig->readEntry( "SansSerifFont", HTML_DEFAULT_VIEW_SANSSERIF_FONT ) );
     defaultFonts.append( m_pConfig->readEntry( "CursiveFont", HTML_DEFAULT_VIEW_CURSIVE_FONT ) );
     defaultFonts.append( m_pConfig->readEntry( "FantasyFont", HTML_DEFAULT_VIEW_FANTASY_FONT ) );
+    defaultFonts.append( QString("0") ); // default font size adjustment
     for ( QStringList::Iterator it = chSets.begin(); it != chSets.end(); ++it ) {
 	fonts = m_pConfig->readListEntry( *it );
-	if( fonts.count() != 6 )
+	if( fonts.count() == 6 ) {
+	    fonts.append( QString( "0" ) );
+	}
+	if ( fonts.count() != 7 )
 	    fonts = defaultFonts;
 	fontsForCharset.insert( *it, fonts );
     }
@@ -307,7 +327,7 @@ void KAppearanceOptions::updateGUI()
     //kdDebug() << "KAppearanceOptions::updateGUI " << charset << endl;
     int i;
     fonts = fontsForCharset[charset];
-    if(fonts.count() != 6) {
+    if(fonts.count() != 7) {
 	kdDebug() << "fonts wrong" << endl;
 	fonts = defaultFonts;
     }
@@ -371,6 +391,8 @@ void KAppearanceOptions::updateGUI()
         if ( encodingName == *it )
             m_pEncoding->setCurrentItem( i );
     }
+    
+    m_pFontSizeAdjust->setValue( fonts[6].toInt() );
 
     m_pXSmall->setChecked( fSize == -1 );
     m_pSmall->setChecked( fSize == 0 );
@@ -384,7 +406,7 @@ void KAppearanceOptions::updateGUI()
 void KAppearanceOptions::save()
 {
     fontsForCharset[charset] = fonts;
-
+    
     m_pConfig->setGroup(m_groupname);
     m_pConfig->writeEntry( "FontSize", fSize );
     m_pConfig->writeEntry( "MinimumFontSize", fMinSize );
@@ -395,7 +417,7 @@ void KAppearanceOptions::save()
 	//kdDebug() << "         "<< it.data().join(",") << endl;
 	m_pConfig->writeEntry( it.key(), it.data() );
     }
-
+    
     // If the user chose "Use language encoding", write an empty string
     if (encodingName == i18n("Use language encoding"))
         encodingName = "";

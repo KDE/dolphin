@@ -13,6 +13,8 @@
 #include <kcmodule.h>
 #include <qmap.h>
 
+class QSpinBox;
+
 class KAppearanceOptions : public KCModule
 {
   Q_OBJECT
@@ -34,7 +36,8 @@ public slots:
   void slotFantasyFont( const QString& n );
   void slotEncoding( const QString& n);
     void slotCharset( const QString &n );
-
+    void slotFontSizeAdjust( int value );
+    
 private slots:
   void changed();
 
@@ -61,6 +64,8 @@ private:
   QComboBox* m_pEncoding;
   QComboBox* m_pChset;
 
+    QSpinBox *m_pFontSizeAdjust;
+    
   int fSize;
   int fMinSize;
     QMap<QString, QStringList> fontsForCharset;
