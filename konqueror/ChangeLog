@@ -1,3 +1,9 @@
+2001-03-24  Simon Hausmann  <simon@kde.org>
+
+	* konq_mainwindow.cc (slotShowMenuBar): call saveMainWindowSettings and
+	KGlobal::config()->sync() after toggling the visiblity of the menubar,
+	just like it is done for toolbars.
+
 2001-03-02  Simon Hausmann  <simon@kde.org>
 
 	* konq_view.cc, konq_browseriface.cc/h: Utilize and implement the newly
