@@ -106,8 +106,8 @@ void KonqFrameStatusBar::fontChange(const QFont & /* oldFont */)
 {
     int h = fontMetrics().height();
     if ( h < DEFAULT_HEADER_HEIGHT ) h = DEFAULT_HEADER_HEIGHT;
-    m_led->setFixedHeight( h );
-    m_progressBar->setFixedHeight( h );
+    m_led->setFixedHeight( h + 2 );
+    m_progressBar->setFixedHeight( h + 2 );
     // This one is important. Otherwise richtext messages make it grow in height.
     m_pStatusLabel->setFixedHeight( h + 2 );
 
