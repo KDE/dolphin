@@ -3008,16 +3008,16 @@ void KonqMainWindow::initActions()
   m_paLinkView = new KToggleAction( i18n( "Lin&k View"), 0, this, SLOT( slotLinkView() ), actionCollection(), "link" );
 
   // Go menu
-  m_paUp = new KToolBarPopupAction( i18n( "&Up" ), "up", ALT+Key_Up, this, SLOT( slotUp() ), actionCollection(), "up" );
+  m_paUp = new KToolBarPopupAction( i18n( "&Up" ), "up", KStdAccel::key(KStdAccel::Up), this, SLOT( slotUp() ), actionCollection(), "up" );
   connect( m_paUp->popupMenu(), SIGNAL( aboutToShow() ), this, SLOT( slotUpAboutToShow() ) );
   connect( m_paUp->popupMenu(), SIGNAL( activated( int ) ), this, SLOT( slotUpActivated( int ) ) );
 
   QPair< KGuiItem, KGuiItem > backForward = KStdGuiItem::backAndForward();
-  m_paBack = new KToolBarPopupAction( backForward.first, ALT+Key_Left, this, SLOT( slotBack() ), actionCollection(), "back" );
+  m_paBack = new KToolBarPopupAction( backForward.first, KStdAccel::key(KStdAccel::Back), this, SLOT( slotBack() ), actionCollection(), "back" );
   connect( m_paBack->popupMenu(), SIGNAL( aboutToShow() ), this, SLOT( slotBackAboutToShow() ) );
   connect( m_paBack->popupMenu(), SIGNAL( activated( int ) ), this, SLOT( slotBackActivated( int ) ) );
 
-  m_paForward = new KToolBarPopupAction( backForward.second, ALT+Key_Right, this, SLOT( slotForward() ), actionCollection(), "forward" );
+  m_paForward = new KToolBarPopupAction( backForward.second, KStdAccel::key(KStdAccel::Forward), this, SLOT( slotForward() ), actionCollection(), "forward" );
   connect( m_paForward->popupMenu(), SIGNAL( aboutToShow() ), this, SLOT( slotForwardAboutToShow() ) );
   connect( m_paForward->popupMenu(), SIGNAL( activated( int ) ), this, SLOT( slotForwardActivated( int ) ) );
 
