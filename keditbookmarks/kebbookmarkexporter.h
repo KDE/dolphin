@@ -33,9 +33,9 @@ public:
         : m_fileName(fileName), m_pManager(mgr) 
     { ; }
     virtual ~KEBBookmarkExporterBase() {}
-    virtual void write(bool utf8 /* true for mozilla */) = 0;
+    virtual void write(bool utf8 /* true for mozilla */, KBookmarkGroup) = 0;
 protected:
-    virtual const QString folderAsString(KBookmarkGroup parent) = 0;
+    virtual const QString folderAsString(KBookmarkGroup) = 0;
     QString m_fileName;
     KBookmarkManager* m_pManager;
 };
@@ -47,9 +47,9 @@ public:
       : KEBBookmarkExporterBase(mgr, fileName) 
     { ; }
     virtual ~KEBNSBookmarkExporterImpl() {}
-    virtual void write(bool utf8);
+    virtual void write(bool utf8, KBookmarkGroup);
 protected:
-    virtual const QString folderAsString(KBookmarkGroup parent);
+    virtual const QString folderAsString(KBookmarkGroup);
 };
 
 // BC - remove for KDE 4.0

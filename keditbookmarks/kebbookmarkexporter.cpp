@@ -31,7 +31,7 @@
 // for compat
 void KEBNSBookmarkExporter::write(bool utf8) {
    KEBNSBookmarkExporterImpl exporter(m_pManager, m_fileName);
-   exporter.write(utf8);
+   exporter.write(utf8, m_pManager->root());
 }
 
 // for compat
@@ -39,7 +39,7 @@ void KEBNSBookmarkExporter::writeFolder(QTextStream &, KBookmarkGroup) {
    kdFatal(7043) << "Sorry, BIC compatibility for KEBNSBookmarkExporter does allow for subclassing!, email me (lypanov) if you need this!" << endl;
 }
 
-void KEBNSBookmarkExporterImpl::write(bool utf8) {
+void KEBNSBookmarkExporterImpl::write(bool utf8, KBookmarkGroup parent) {
    if (QFile::exists(m_fileName)) {
       ::rename(
          QFile::encodeName(m_fileName), 
@@ -66,7 +66,7 @@ void KEBNSBookmarkExporterImpl::write(bool utf8) {
            << "<TITLE>" << i18n("Bookmarks") << "</TITLE>" << endl
            << "<H1>" << i18n("Bookmarks") << "</H1>" << endl
            << "<DL><p>" << endl
-           << folderAsString(m_pManager->root())
+           << folderAsString(parent)
            << "</DL><P>" << endl;
 }
 
