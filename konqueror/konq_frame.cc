@@ -429,7 +429,7 @@ KParts::ReadOnlyPart *KonqFrame::attach( const KonqViewFactory &viewFactory )
    // We don't want that deleting the widget deletes the part automatically
    // because we already have that taken care of in KParts...
 
-   m_pPart = factory.create( this, "view widget", 0, "child view" );
+   m_pPart = factory.create( this, "view widget", 0, "" );
 
    assert( m_pPart->widget() );
 
