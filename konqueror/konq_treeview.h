@@ -221,7 +221,6 @@ public:
   //  virtual void updateDirectory();
 
 public slots:
-  virtual void slotCloseSubFolder( int _id );
   virtual void slotOnItem( KfmTreeViewItem* _item );
 
 protected slots:
@@ -260,6 +259,8 @@ protected:
 
   virtual void addSubDir( const KURL & _url, KfmTreeViewDir* _dir );
   virtual void removeSubDir( const KURL & _url );
+  /** Common method for slotCompleted and slotCanceled */
+  virtual void setComplete();
 
   virtual void popupMenu( const QPoint& _global );
 

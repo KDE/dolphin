@@ -738,7 +738,7 @@ void KonqKfmTreeView::openURL( const char *_url, int xOffset, int yOffset )
   //test if we are switching to a new protocol
   if ( m_dirLister )
   {
-    if ( strcmp( m_dirLister->initialUrl().protocol(), url.protocol() ) != 0 )
+    if ( strcmp( m_dirLister->kurl().protocol(), url.protocol() ) != 0 )
       isNewProtocol = true;
   }
 
@@ -800,8 +800,23 @@ void KonqKfmTreeView::openURL( const char *_url, int xOffset, int yOffset )
   m_iYOffset = yOffset;
 
   // Start the directory lister !
-  m_dirLister->openURL( url, m_pProps->m_bShowDot );
+  m_dirLister->openURL( url, m_pProps->m_bShowDot, false /* new url */ );
   // Note : we don't store the url. KDirLister does it for us.
+}
+
+void KonqKfmTreeView::setComplete()
+{
+  if ( m_pWorkingDir )
+  {
+    m_bSubFolderComplete = true;
+    m_pWorkingDir->setComplete( true );
+    m_pWorkingDir = 0L;
+  }
+  else
+  {
+    m_bTopLevelComplete = true;
+    setContentsPos( m_iXOffset, m_iYOffset );
+  }
 }
 
 void KonqKfmTreeView::slotStarted( const QString & url )
@@ -811,20 +826,13 @@ void KonqKfmTreeView::slotStarted( const QString & url )
 
 void KonqKfmTreeView::slotCompleted()
 {
-  if ( m_pWorkingDir )
-    m_bSubFolderComplete = true;
-  else
-    m_bTopLevelComplete = true;
+  setComplete();
   SIGNAL_CALL1( "completed", id() );
-  setContentsPos( m_iXOffset, m_iYOffset );
 }
 
 void KonqKfmTreeView::slotCanceled()
 {
-  if ( m_pWorkingDir )
-    m_bSubFolderComplete = true;
-  else
-    m_bTopLevelComplete = true;
+  setComplete();
   SIGNAL_CALL1( "canceled", id() );
 }
 
@@ -877,12 +885,12 @@ void KonqKfmTreeView::openSubFolder( const KURL &_url, KfmTreeViewDir* _dir )
   // If we are opening another sub folder right now, stop it.
   if ( !m_bSubFolderComplete )
   {
-
+    m_dirLister->stop();
   }
 
   /** Debug code **/
   assert( m_iColumns != -1 && m_dirLister );
-  if ( strcmp( m_dirLister->initialUrl().protocol(), _url.protocol() ) != 0 )
+  if ( strcmp( m_dirLister->kurl().protocol(), _url.protocol() ) != 0 )
     assert( 0 ); // not same protocol as parent dir -> abort
   /** End Debug code **/
 
@@ -890,19 +898,7 @@ void KonqKfmTreeView::openSubFolder( const KURL &_url, KfmTreeViewDir* _dir )
 
   m_bSubFolderComplete = false;
   m_pWorkingDir = _dir;
-  m_dirLister->openURL( _url, m_pProps->m_bShowDot );
-}
-
-void KonqKfmTreeView::slotCloseSubFolder( int /*_id*/ )
-{
-  assert( !m_bSubFolderComplete && m_pWorkingDir );
-
-  m_bSubFolderComplete = true;
-  m_pWorkingDir->setComplete( true );
-  m_pWorkingDir = 0L;
-  m_dirLister->stop();
-
-  SIGNAL_CALL1( "completed", id() );
+  m_dirLister->openURL( _url, m_pProps->m_bShowDot, true /* keep existing data */ );
 }
 
 KonqKfmTreeView::iterator& KonqKfmTreeView::iterator::operator++()
@@ -1315,10 +1311,7 @@ void KfmTreeViewDir::setOpen( bool _open )
 {
   if ( _open && !m_bComplete ) // complete it before opening
     m_pTreeView->openSubFolder( m_fileitem->url(), this );
-/*
-  if ( !_open )
-    m_pTreeView->slotCloseSubFolder
-*/
+
   QListViewItem::setOpen( _open );
 }
 
