@@ -21,39 +21,283 @@
 
 #include <qlayout.h>
 #include <qlistview.h>
+#include <qpushbutton.h>
+#include <qlineedit.h>
+#include <qlabel.h>
+#include <qlistbox.h>
 
 #include <klocale.h>
+#include <kapp.h>
+
+#include <iostream.h>
 
 ConfigWidget::ConfigWidget()
 {
-  m_lstSearchEngines = EngineCfg::self()->engines();
+  QHBoxLayout *topLayout = new QHBoxLayout( this );
 
-  QVBoxLayout *topLayout = new QVBoxLayout( this );
+  QVBoxLayout *subLayout = new QVBoxLayout;
   
+  topLayout->addLayout( subLayout );
+
+  QHBoxLayout *buttonLayout = new QHBoxLayout;
+  
+  subLayout->addLayout( buttonLayout );
+  
+  m_pSaveEntryPushButton = new QPushButton( i18n( "Save Entry" ), this );
+  
+  buttonLayout->addWidget( m_pSaveEntryPushButton );
+  
+  m_pRemoveEntryPushButton = new QPushButton( i18n( "Remove Entry" ), this );
+  
+  buttonLayout->addWidget( m_pRemoveEntryPushButton );
+
+  QGridLayout *topGrid = new QGridLayout( 3, 2 );
+  
+  subLayout->addLayout( topGrid );
+  
+  QLabel *label = new QLabel( i18n( "Name:" ), this );
+
+  topGrid->addWidget( label, 0, 0 );
+  
+  m_pNameLineEdit = new QLineEdit( this );
+  
+  topGrid->addWidget( m_pNameLineEdit, 0, 1 );
+
+  label = new QLabel( i18n( "Query:" ), this );
+  
+  topGrid->addWidget( label, 1, 0 );
+  
+  m_pQueryLineEdit = new QLineEdit( this );
+  
+  topGrid->addWidget( m_pQueryLineEdit, 1, 1 );
+
+  label = new QLabel( i18n( "Keys:" ), this );
+  
+  topGrid->addWidget( label, 2, 0, Qt::AlignTop );
+
+  QGridLayout *subGrid = new QGridLayout( 6, 2 );
+
+  topGrid->addLayout( subGrid, 2, 1 );
+
+  m_pKeyListBox = new QListBox( this );
+
+  subGrid->addMultiCellWidget( m_pKeyListBox, 0, 3, 0, 1 );
+
+  m_pKeyLineEdit = new QLineEdit( this );
+  
+  subGrid->addMultiCellWidget( m_pKeyLineEdit, 4, 4, 0, 1 );
+
+  m_pAddKeyPushButton = new QPushButton( i18n( "Add Key" ), this );
+  
+  subGrid->addWidget( m_pAddKeyPushButton, 5, 0 );
+  
+  m_pRemoveKeyPushButton = new QPushButton( i18n( "Remove Key" ), this );
+
+  subGrid->addWidget( m_pRemoveKeyPushButton, 5, 1 );
+
   m_pListView = new QListView( this );
   m_pListView->addColumn( i18n( "Name" ) );
   m_pListView->addColumn( i18n( "Keys" ) );
   m_pListView->addColumn( i18n( "Query" ) );
+
+  m_pListView->setMinimumSize( m_pListView->sizeHint() );
+
+  topLayout->addSpacing( 10 );
   
   topLayout->addWidget( m_pListView );
-  
-  QValueList<EngineCfg::Entry>::ConstIterator it = m_lstSearchEngines.begin();
-  QValueList<EngineCfg::Entry>::ConstIterator end = m_lstSearchEngines.end();
+
+  QValueList<EngineCfg::Entry> lstSearchEngines = EngineCfg::self()->engines();
+  QValueList<EngineCfg::Entry>::ConstIterator it = lstSearchEngines.begin();
+  QValueList<EngineCfg::Entry>::ConstIterator end = lstSearchEngines.end();
   for (; it != end; ++it )
-  {
-    QString keystr;
-    
-    QStringList::ConstIterator sIt = (*it).m_lstKeys.begin();
-    QStringList::ConstIterator sEnd = (*it).m_lstKeys.end();
-    for (; sIt != sEnd; ++sIt )
-      keystr += *sIt + ',';
-    
-    (void)new QListViewItem( m_pListView, (*it).m_strName, keystr, (*it).m_strQuery );
-  }
+    saveEngine( *it );
+  
+  topLayout->setMargin( 2 );
   
   resize( topLayout->sizeHint() );
+  
+  m_pSaveEntryPushButton->setEnabled( false );
+  m_pRemoveEntryPushButton->setEnabled( false );
+  
+  m_pAddKeyPushButton->setEnabled( false );
+  m_pRemoveKeyPushButton->setEnabled( false );
+  
+  connect( m_pListView, SIGNAL( selectionChanged( QListViewItem * ) ),
+           this, SLOT( slotSelectionChanged( QListViewItem * ) ) );
+
+  connect( m_pSaveEntryPushButton, SIGNAL( clicked() ),
+           this, SLOT( slotSaveEntry() ) );
+
+  connect( m_pRemoveEntryPushButton, SIGNAL( clicked() ),
+           this, SLOT( slotRemoveEntry() ) );
+	   
+  connect( m_pNameLineEdit, SIGNAL( textChanged( const QString & ) ),
+           this, SLOT( slotTextChanged( const QString & ) ) );
+	   
+  connect( m_pKeyListBox, SIGNAL( selected( const QString & ) ),
+           this, SLOT( slotKeySelected( const QString & ) ) );
+
+  connect( m_pKeyListBox, SIGNAL( selected( const QString & ) ),
+           m_pKeyLineEdit, SLOT( setText( const QString & ) ) );
+	   
+  connect( m_pKeyLineEdit, SIGNAL( textChanged( const QString & ) ),
+           this, SLOT( slotKeyTextChanged( const QString & ) ) );
+
+  connect( m_pAddKeyPushButton, SIGNAL( clicked() ),
+           this, SLOT( slotAddKey() ) );
+	   
+  connect( m_pRemoveKeyPushButton, SIGNAL( clicked() ),
+           this, SLOT( slotRemoveKey() ) );
+	   
+  connect( m_pQueryLineEdit, SIGNAL( textChanged( const QString & ) ),
+           this, SLOT( slotQueryTextChanged() ) );
 }
 
 ConfigWidget::~ConfigWidget()
 {
+  kapp->quit();
+}
+
+void ConfigWidget::slotSelectionChanged( QListViewItem *item )
+{
+  m_pRemoveEntryPushButton->setEnabled( true );
+
+  EngineCfg::Entry entry = EngineCfg::self()->entryByName( item->text( 0 ) );
+
+  m_strCurrentName = entry.m_strName;
+
+  m_pNameLineEdit->setText( entry.m_strName );
+  
+  m_pQueryLineEdit->setText( entry.m_strQuery );
+  
+  m_pKeyListBox->clear();
+  m_pKeyListBox->insertStringList( entry.m_lstKeys );
+  
+  m_pKeyLineEdit->clear();
+
+  m_pAddKeyPushButton->setEnabled( false );
+  m_pRemoveKeyPushButton->setEnabled( false );
+}
+
+void ConfigWidget::slotSaveEntry()
+{
+  EngineCfg::Entry e;
+  
+  e.m_strName = m_pNameLineEdit->text();
+ 
+  for (int i = 0; i < m_pKeyListBox->count(); i++)
+    e.m_lstKeys.append( m_pKeyListBox->text( i ) );
+
+  e.m_strQuery = m_pQueryLineEdit->text();
+  
+  saveEngine( e );
+  
+  EngineCfg::self()->saveEngine( e );
+  
+  m_pSaveEntryPushButton->setEnabled( false );
+}
+
+void ConfigWidget::slotRemoveEntry()
+{
+  m_pRemoveEntryPushButton->setEnabled( false );
+  m_pSaveEntryPushButton->setEnabled( false );
+
+  QListViewItem *current = m_pListView->selectedItem();
+  if ( current && current->text( 0 ) == m_pNameLineEdit->text() )
+    m_pListView->removeItem( current );
+
+  EngineCfg::self()->removeEngine( m_pNameLineEdit->text() );
+  
+  m_pNameLineEdit->clear();
+  m_pQueryLineEdit->clear();
+  m_pKeyListBox->clear();
+  m_pKeyLineEdit->clear();
+}
+
+void ConfigWidget::slotTextChanged( const QString &text )
+{
+  m_pSaveEntryPushButton->setEnabled( !text.isEmpty() && 
+                                      text != m_strCurrentName &&
+				      !m_pQueryLineEdit->text().isEmpty() &&
+				      m_pKeyListBox->count() > 0 );
+}
+
+void ConfigWidget::slotKeySelected( const QString &text )
+{
+  m_pAddKeyPushButton->setEnabled( false );
+  m_pRemoveKeyPushButton->setEnabled( true );
+  m_strCurrentKey = text;
+  m_pKeyLineEdit->setText( text );
+}
+
+void ConfigWidget::slotKeyTextChanged( const QString &text )
+{
+  m_pAddKeyPushButton->setEnabled( !text.isEmpty() && text != m_strCurrentKey );
+
+  m_pRemoveKeyPushButton->setEnabled( false );
+
+  for ( int i = 0; i < m_pKeyListBox->count(); i++ )
+    if ( m_pKeyListBox->text( i ) == text )
+    {
+      m_pRemoveKeyPushButton->setEnabled( true );
+      m_pAddKeyPushButton->setEnabled( false );
+      break;
+    }
+}
+
+void ConfigWidget::slotAddKey()
+{
+  m_pKeyListBox->insertItem( m_pKeyLineEdit->text() );
+  slotKeyTextChanged( m_pKeyLineEdit->text() );
+  slotTextChanged( m_pNameLineEdit->text() );
+}
+
+void ConfigWidget::slotRemoveKey()
+{
+  m_pRemoveKeyPushButton->setEnabled( false );
+  
+  QString key = m_pKeyLineEdit->text();
+  
+  m_pKeyLineEdit->clear();
+  
+  for ( int i = 0; i < m_pKeyListBox->count(); i++ )
+    if ( m_pKeyListBox->text( i ) == key )
+    {
+      m_pKeyListBox->removeItem( i );
+      break;
+    }
+
+  m_strCurrentKey = QString::null;
+}
+
+void ConfigWidget::slotQueryTextChanged()
+{
+  slotTextChanged( m_pNameLineEdit->text() );
+}
+
+void ConfigWidget::saveEngine( const EngineCfg::Entry &e )
+{
+  QListViewItem *item = 0L;
+
+  QListViewItemIterator it( m_pListView );
+  for (; it.current(); ++it )
+    if ( it.current()->text( 0 ) == e.m_strName )
+    {
+      item = it.current();
+      break;
+    }
+
+  if ( !item )
+    item = new QListViewItem( m_pListView );
+
+  QString keystr;
+    
+  QStringList::ConstIterator sIt = e.m_lstKeys.begin();
+  QStringList::ConstIterator sEnd = e.m_lstKeys.end();
+  for (; sIt != sEnd; ++sIt )
+    keystr += *sIt + ',';
+    
+  item->setText( 0, e.m_strName );
+  item->setText( 1, keystr );
+  item->setText( 2, e.m_strQuery );
 }

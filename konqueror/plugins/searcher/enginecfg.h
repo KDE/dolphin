@@ -38,11 +38,17 @@ public:
     QString m_strQuery;
   };
 
+  void saveEngine( Entry e );
+  void removeEngine( const QString &name );
+
   QValueList<Entry> engines() const { return m_lstSearchEngines; }
   
   QString query( const QString &key );
+  
+  Entry entryByName( const QString &Name );
 
 private:
+  void saveConfig();
 
   QValueList<Entry> m_lstSearchEngines;
   

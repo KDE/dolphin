@@ -94,14 +94,15 @@ KOM::Plugin_ptr KonqSearcherFactory::create( KOM::Component_ptr core )
 
 int main( int argc, char **argv )
 {
-  KOMApplication app( argc, argv );
+  KOMApplication app( argc, argv, "konq_searcher" );
 
   KOMAutoLoader<KonqSearcherFactory> pluginLoader( "IDL:KOM/PluginFactory:1.0", "KonqSearcher" );
 
   ConfigWidget *w = new ConfigWidget;
   
-  if ( !QXEmbed::processClientCmdline( w, argc, argv ) )
-    delete w;
+//  if ( !QXEmbed::processClientCmdline( w, argc, argv ) )
+//    delete w;
+  w->show();
 
   app.exec();
   return 0;

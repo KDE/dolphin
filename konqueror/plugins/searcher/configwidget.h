@@ -25,15 +25,58 @@
 #include "enginecfg.h"
 
 class QListView;
+class QListViewItem;
+class QPushButton;
+class QLineEdit;
+class QListBox;
 
 class ConfigWidget : public QWidget
 {
+  Q_OBJECT
 public: 
   ConfigWidget();
   ~ConfigWidget();
+
+private slots:
+  void slotSelectionChanged( QListViewItem *item );
+  
+  void slotSaveEntry();
+  void slotRemoveEntry();
+  
+  void slotTextChanged( const QString &text );
+  
+  void slotKeySelected( const QString &text );
+  
+  void slotKeyTextChanged( const QString &text );
+  
+  void slotAddKey();
+  void slotRemoveKey();
+  
+  void slotQueryTextChanged();
   
 private:
+  void saveEngine( const EngineCfg::Entry &e );
+
   QValueList<EngineCfg::Entry> m_lstSearchEngines;
+
+  QPushButton *m_pSaveEntryPushButton;
+  
+  QPushButton *m_pRemoveEntryPushButton;
+  
+  QLineEdit *m_pNameLineEdit;
+  
+  QLineEdit *m_pQueryLineEdit;
+  
+  QListBox *m_pKeyListBox;
+  
+  QLineEdit *m_pKeyLineEdit;
+  
+  QPushButton *m_pAddKeyPushButton;
+  
+  QPushButton *m_pRemoveKeyPushButton;
+  
+  QString m_strCurrentName;
+  QString m_strCurrentKey;
   
   QListView *m_pListView;
 };

@@ -1,7 +1,7 @@
 INCLUDES  = $(MICO_INCLUDES) $(all_includes)
 LDFLAGS   = $(all_libraries) $(KDE_RPATH) $(MICO_LDFLAGS)
 LDADD = -lkparts
-IDL_FLAGS = --query-server-for-narrow --relative-paths --any -I$(idldir)
+IDL_FLAGS = --relative-paths --any -I$(idldir)
 
 bin_PROGRAMS = konq_searcher
 
@@ -12,3 +12,5 @@ rc_DATA = konq_searcherrc
 rcdir = $(kde_confdir)
 
 konq_searcher_SOURCES = main.cc configwidget.cc enginecfg.cc
+
+METASOURCES = AUTO

@@ -1,7 +1,7 @@
 INCLUDES  = -I$(top_srcdir)/libkonq $(MICO_INCLUDES) $(all_includes)
 LDFLAGS   = $(all_libraries) $(KDE_RPATH) $(MICO_LDFLAGS)
 LDADD = -lkparts -lkded $(LIB_KFILE) $(LIB_KHTML) $(top_builddir)/libkonq/libkonq.la 
-IDL_FLAGS = --query-server-for-narrow --relative-paths --any -I$(idldir)
+IDL_FLAGS = --relative-paths --any -I$(idldir)
 
 SUBDIRS = client pics Templates plugins
 

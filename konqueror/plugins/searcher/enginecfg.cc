@@ -46,6 +46,36 @@ EngineCfg::EngineCfg()
   }
 }
 
+void EngineCfg::saveEngine( Entry e )
+{
+  QValueList<Entry>::Iterator it = m_lstSearchEngines.begin();
+  QValueList<Entry>::Iterator end = m_lstSearchEngines.end();
+  for (; it != end; ++it )
+    if ( (*it).m_strName == e.m_strName )
+    {
+      m_lstSearchEngines.remove( it );
+      break;
+    }
+
+  m_lstSearchEngines.append( e );
+  
+  saveConfig();
+}
+
+void EngineCfg::removeEngine( const QString &name )
+{
+  QValueList<Entry>::Iterator it = m_lstSearchEngines.begin();
+  QValueList<Entry>::Iterator end = m_lstSearchEngines.end();
+  for (; it != end; ++it )
+    if ( (*it).m_strName == name )
+    {
+      m_lstSearchEngines.remove( it );
+      break;
+    }
+
+  saveConfig();
+}  
+
 QString EngineCfg::query( const QString &key )
 {
   QValueList<Entry>::ConstIterator it = m_lstSearchEngines.begin();
@@ -57,6 +87,17 @@ QString EngineCfg::query( const QString &key )
   return QString::null;
 }
 
+EngineCfg::Entry EngineCfg::entryByName( const QString &name )
+{
+  QValueList<Entry>::ConstIterator it = m_lstSearchEngines.begin();
+  QValueList<Entry>::ConstIterator end = m_lstSearchEngines.end();
+  for (; it != end; ++it )
+    if ( (*it).m_strName == name )
+      return *it;
+
+  return Entry();
+}
+
 EngineCfg* EngineCfg::self()
 {
   if ( !s_pSelf )
@@ -64,3 +105,25 @@ EngineCfg* EngineCfg::self()
     
   return s_pSelf;
 }
+
+void EngineCfg::saveConfig()
+{
+  KConfig *config = kapp->getConfig();
+
+  QStringList engines;
+
+  QValueList<Entry>::ConstIterator it = m_lstSearchEngines.begin();
+  QValueList<Entry>::ConstIterator end = m_lstSearchEngines.end();
+  for (; it != end; ++it )
+  {
+    engines.append( (*it).m_strName );
+    config->setGroup( (*it).m_strName );
+    config->writeEntry( "Keys", (*it).m_lstKeys );
+    config->writeEntry( "Query", (*it).m_strQuery );
+  }
+  
+  config->setGroup( "General" );
+  config->writeEntry( "SearchEngines", engines );
+  config->sync();
+}
+
