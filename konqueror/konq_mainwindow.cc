@@ -738,24 +738,18 @@ void KonqMainWindow::slotCreateNewWindow( const KURL &url, const KParts::URLArgs
 {
     kdDebug(1202) << "KonqMainWindow::slotCreateNewWindow(4 args) url=" << url.prettyURL()
                   << " args.serviceType=" << args.serviceType << endl;
+    KonqMainWindow *mainWindow = new KonqMainWindow( KURL(), false );
+    mainWindow->setInitialFrameName( args.frameName );
+
     KonqOpenURLRequest req;
     req.args = args;
 
-    KonqMainWindow *mainWindow;
-    if ( args.serviceType.isNull() || args.serviceType.isEmpty() ) {
-	mainWindow = KonqMisc::createNewWindow( url, args );
-    }
-    else {
-	mainWindow = new KonqMainWindow( KURL(), false );
-	mainWindow->setInitialFrameName( args.frameName );
-
-	if ( !mainWindow->openView( args.serviceType, url, 0L, req ) )
-	{
-	    // we have problems. abort.
-	    delete mainWindow;
-	    part = 0;
-	    return;
-	}
+    if ( !mainWindow->openView( args.serviceType, url, 0L, req ) )
+    {
+	// we have problems. abort.
+	delete mainWindow;
+	part = 0;
+	return;
     }
 
     mainWindow->show();
