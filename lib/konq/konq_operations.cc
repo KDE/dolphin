@@ -217,15 +217,15 @@ void KonqOperations::_del( int method, const KURL::List & selectedURLs, int conf
 
 bool KonqOperations::askDeleteConfirmation( const KURL::List & selectedURLs, int confirmation )
 {
+    QString keyName;
     bool ask = ( confirmation == FORCE_CONFIRMATION );
     if ( !ask )
     {
-        KConfig *config = new KConfig("konquerorrc", false, true);
-        config->setGroup( "Trash" );
-        QString groupName = ( m_method == DEL ? "ConfirmDelete" : m_method == SHRED ? "ConfirmShred" : "ConfirmTrash" );
+        KConfig config("konquerorrc", true, false);
+        config.setGroup( "Trash" );
+        keyName = ( m_method == DEL ? "ConfirmDelete" : m_method == SHRED ? "ConfirmShred" : "ConfirmTrash" );
         bool defaultValue = ( m_method == DEL ? DEFAULT_CONFIRMDELETE : m_method == SHRED ? DEFAULT_CONFIRMSHRED : DEFAULT_CONFIRMTRASH );
-        ask = config->readBoolEntry( groupName, defaultValue );
-        delete config;
+        ask = config.readBoolEntry( keyName, defaultValue );
     }
     if ( ask )
     {
@@ -234,23 +234,89 @@ bool KonqOperations::askDeleteConfirmation( const KURL::List & selectedURLs, int
       for ( ; it != selectedURLs.end(); ++it )
         prettyList.append( (*it).prettyURL() );
 
+      int result;
       if ( prettyList.count() == 1 )
       {
         QString filename = KStringHandler::csqueeze(KIO::decodeFileName(selectedURLs.first().fileName()));
         QString directory = KStringHandler::csqueeze(selectedURLs.first().directory());
-        QString msg = (m_method == DEL ? i18n( "Do you really want to delete <b>%1</b> from '%2'?" ).arg( filename ).arg( directory ) :
-                       m_method == SHRED ? i18n( "Do you really want to shred <b>%1</b>?" ).arg( filename ) :
-                       i18n( "Do you really want to move <b>%1</b> to the trash?" ).arg( filename ));
-        return ( KMessageBox::questionYesNo( 0, msg ) == KMessageBox::Yes );
+        switch(m_method)
+        {
+          case DEL:
+             result = KMessageBox::warningContinueCancel( 0, 
+             	i18n( "Do you really want to delete <b>%1</b> from '%2'?" ).arg( filename ).arg( directory ),
+		i18n( "Delete File" ),
+		i18n( "Delete" ),
+		keyName, false);
+	     break;
+	     
+	  case SHRED:
+             result = KMessageBox::warningContinueCancel( 0, 
+             	i18n( "Do you really want to shred <b>%1</b>?" ).arg( filename ),
+		i18n( "Shred File" ),
+		i18n( "Shred" ),
+		keyName, false);
+	     break;
+
+          case MOVE:
+ 	  default:
+             result = KMessageBox::warningContinueCancel( 0, 
+             	i18n( "Do you really want to move <b>%1</b> to the trash?" ).arg( filename ),
+		i18n( "Move to Trash" ),
+		i18n( "Trash" ),
+		keyName, false);
+	     break;
+	     
+        }
       }
       else
       {
-        QString msg = (m_method == DEL ? i18n( "Do you really want to delete those %1 items?" ) :
-                       m_method == SHRED ? i18n( "Do you really want to shred those %1 items?" ) :
-                       i18n( "Do you really want to move those %1 items to the trashcan?" ));
+        switch(m_method)
+        {
+          case DEL:
+             result = KMessageBox::warningContinueCancelList( 0, 
+             	i18n( "Do you really want to delete these %1 items?" ).arg(prettyList.count()),
+             	prettyList,
+		i18n( "Delete Files" ),
+		i18n( "Delete" ),
+		keyName);
+	     break;
+	     
+	  case SHRED:
+             result = KMessageBox::warningContinueCancelList( 0, 
+                i18n( "Do you really want to shred these %1 items?" ).arg(prettyList.count()),
+                prettyList,
+                i18n( "Shred Files" ),
+		i18n( "Shred" ),
+		keyName);
+	     break;
 
-        return ( KMessageBox::questionYesNoList( 0, msg.arg(prettyList.count()), prettyList ) == KMessageBox::Yes );
+          case MOVE:
+ 	  default:
+             result = KMessageBox::warningContinueCancelList( 0, 
+                i18n( "Do you really want to move these %1 items to the trashcan?" ).arg(prettyList.count()),
+                prettyList,
+		i18n( "Move to Trash" ),
+		i18n( "Trash" ),
+		keyName);
+	     break;
+	     
+        }
       }
+      if (!keyName.isEmpty())
+      {
+         // Check kmessagebox setting... erase & copy to konquerorrc.
+         KConfig *config = kapp->config();
+         KConfigGroupSaver saver(config, "Notification Messages");
+         if (!config->readBoolEntry(keyName, true))
+         {
+            config->writeEntry(keyName, true);
+            config->sync();
+            KConfig konq_config("konquerorrc", false);
+            konq_config.setGroup( "Trash" );
+            konq_config.writeEntry( keyName, false );
+         }
+      }
+      return (result == KMessageBox::Continue);
     }
     return true;
 }
