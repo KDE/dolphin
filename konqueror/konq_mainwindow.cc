@@ -2627,13 +2627,13 @@ void KonqMainWindow::initActions()
   (void) new KAction( i18n( "Open &Terminal..." ), "openterm", CTRL+Key_T, this, SLOT( slotOpenTerminal() ), actionCollection(), "open_terminal" );
   (void) new KAction( i18n( "&Open Location..." ), "fileopen", KStdAccel::key(KStdAccel::Open), this, SLOT( slotOpenLocation() ), actionCollection(), "open_location" );
 
-  m_paFindFiles = new KAction( i18n( "&Find file..." ), "filefind", 0 /*not KStdAccel::find!*/, this, SLOT( slotToolFind() ), actionCollection(), "findfile" );
+  m_paFindFiles = new KAction( i18n( "&Find File..." ), "filefind", 0 /*not KStdAccel::find!*/, this, SLOT( slotToolFind() ), actionCollection(), "findfile" );
 
   m_paPrint = KStdAction::print( 0, 0, actionCollection(), "print" );
   (void) KStdAction::quit( this, SLOT( close() ), actionCollection(), "quit" );
 
   m_ptaUseHTML = new KToggleAction( i18n( "&Use index.html" ), 0, this, SLOT( slotShowHTML() ), actionCollection(), "usehtml" );
-  m_paLockView = new KAction( i18n( "Lock to current location"), 0, this, SLOT( slotLockView() ), actionCollection(), "lock" );
+  m_paLockView = new KAction( i18n( "Lock to Current Location"), 0, this, SLOT( slotLockView() ), actionCollection(), "lock" );
   m_paUnlockView = new KAction( i18n( "Unlock view"), 0, this, SLOT( slotUnlockView() ), actionCollection(), "unlock" );
   m_paLinkView = new KToggleAction( i18n( "Link view"), 0, this, SLOT( slotLinkView() ), actionCollection(), "link" );
 
@@ -2661,14 +2661,14 @@ void KonqMainWindow::initActions()
   (void) new KAction( i18n( "Trash" ), 0, this, SLOT( slotGoTrash() ), actionCollection(), "go_trash" );
   (void) new KAction( i18n( "Templates" ), 0, this, SLOT( slotGoTemplates() ), actionCollection(), "go_templates" );
   (void) new KAction( i18n( "Autostart" ), 0, this, SLOT( slotGoAutostart() ), actionCollection(), "go_autostart" );
-  KonqMostOftenURLSAction *mostOften = new KonqMostOftenURLSAction( i18n("Most often visited"), actionCollection(), "go_most_often" );
+  KonqMostOftenURLSAction *mostOften = new KonqMostOftenURLSAction( i18n("Most often Visited"), actionCollection(), "go_most_often" );
   connect( mostOften, SIGNAL( activated( const KURL& )),
 	   SLOT( slotOpenURL( const KURL& )));
 
   // Settings menu
 
   m_paSaveViewProfile = new KAction( i18n( "&Save View Profile" ), 0, this, SLOT( slotSaveViewProfile() ), actionCollection(), "saveviewprofile" );
-  m_paSaveViewPropertiesLocally = new KToggleAction( i18n( "View Properties Saved In &Directory" ), 0, this, SLOT( slotSaveViewPropertiesLocally() ), actionCollection(), "saveViewPropertiesLocally" );
+  m_paSaveViewPropertiesLocally = new KToggleAction( i18n( "View Properties Saved in &Directory" ), 0, this, SLOT( slotSaveViewPropertiesLocally() ), actionCollection(), "saveViewPropertiesLocally" );
    // "Remove" ? "Reset" ? The former is more correct, the latter is more kcontrol-like...
   m_paRemoveLocalProperties = new KAction( i18n( "Remove Directory Properties" ), 0, this, SLOT( slotRemoveLocalProperties() ), actionCollection(), "removeLocalProperties" );
 
@@ -2845,8 +2845,8 @@ void KonqMainWindow::updateViewActions()
     {
       // F5 is the default key binding for Reload.... a la Windows.
       // mc users want F5 for Copy and F6 for move, but I can't make that default.
-      m_paCopyFiles = new KAction( i18n("Copy files"), Key_F7, this, SLOT( slotCopyFiles() ), actionCollection(), "copyfiles" );
-      m_paMoveFiles = new KAction( i18n("Move files"), Key_F8, this, SLOT( slotMoveFiles() ), actionCollection(), "movefiles" );
+      m_paCopyFiles = new KAction( i18n("Copy Files"), Key_F7, this, SLOT( slotCopyFiles() ), actionCollection(), "copyfiles" );
+      m_paMoveFiles = new KAction( i18n("Move Files"), Key_F8, this, SLOT( slotMoveFiles() ), actionCollection(), "movefiles" );
       QPtrList<KAction> lst;
       lst.append( m_paCopyFiles );
       lst.append( m_paMoveFiles );
@@ -3350,7 +3350,7 @@ void KonqMainWindow::updateOpenWithActions()
   KTrader::OfferList::ConstIterator end = services.end();
   for (; it != end; ++it )
   {
-    KAction *action = new KAction( i18n( "Open With %1" ).arg( (*it)->name() ), 0, 0, (*it)->desktopEntryName().latin1() );
+    KAction *action = new KAction( i18n( "Open with %1" ).arg( (*it)->name() ), 0, 0, (*it)->desktopEntryName().latin1() );
     action->setIcon( (*it)->icon() );
 
     connect( action, SIGNAL( activated() ),

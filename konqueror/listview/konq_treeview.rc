@@ -20,7 +20,7 @@
   <Action name="show_dot"/>
   <Action name="sort_caseinsensitive"/>
   <!--<Action name="sort_directoriesfirst" /> TODO -->
-  <Menu name="listview_show"><text>Show details</text>
+  <Menu name="listview_show"><text>Show Details</text>
    <TearOffHandle />
    <Action name="show_size"/>
    <Action name="show_type"/>
