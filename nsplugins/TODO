@@ -1,7 +1,5 @@
-- add PostURL handling
 - add plugin initiated streams
 - use Konqui's cache
 - become asynchronous
-- fix gcc 3.x support
 - mozilla plugin support when they are available.
 ...

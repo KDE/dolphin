@@ -1,0 +1,40 @@
+
+When making changes to nsplugin.cpp or related areas, please try to test as
+many, if not all of the following plugins before and after the changes.  It
+is also useful to test in embedded mode in KHTML, as well as with kfmclient
+loading it into a clean konqueror pane.
+
+LiveConnect is not particularily supported, and probably never will be.  Most
+unimplemented functions are documented with // FIXME in nsplugin.cpp.
+
+
+Working Plugins:
+Macromedia Flash Player
+SWFDEC Mozilla Plugin (also flash)
+Crossover (commercial from codeweavers)
+	- Test Windows Media Player, QuickTime, iPIX at least.
+RealPlayer Plugin
+TclPlugin
+DjVU
+Acrobat Plugin
+mplayerplug-in
+plugger
+
+
+Non-working plugins:
+CoPyCat (http://www.cartesianinc.com) - Bad plugin?
+Java Plugin from SUN (Well, more like untested since KJava beats us to it)
+
+
+
+Good test sites:
+http://www.shockwave.com/
+http://www.apple.com/trailers/
+http://www.djvuzone.org/
+http://www.tcl.tk/software/plugin/
+http://examples.macromedia.com/petmarket/flashstore.html
+http://www.spiegel.de/video/0,4916,557,00.html       <-- Real Video
+http://www.bacardidj.com/
+http://fredrik.hubbe.net/plugger/test.html
+
+

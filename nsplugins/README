@@ -118,21 +118,6 @@ Main classes
   Those function calls would be transfered over DCOP and implemented
   in PluginPart's NSPluginCallback class.
 
-- KJavaEmebed (javaembed.h, javaembed.cpp)
-
-  The same code we use for embedding Java(R) applets inside
-  KHTML happens to be useful for plugins too. The code
-  in kdelibs/khtml/java/ is similar so there's indeed a bit
-  of duplication here.
-
-  Note: Our use of this class has nothing to do with Java(R) applets.
-
-  This code provides a custom QWidget, which, when operated upon
-  (e.g. resized), does the same operation to another X11 window.
-  This is useful, since the other X11 window can belong to the
-  nspluginviewer, and then we could resize the QWidget and at the
-  same time resize the plugin window. That's how the "embedding"
-  magic happens.
 
 Plugin Scanner
 ==============
@@ -241,6 +226,11 @@ browser plugin execution environment, it still lacks the following features:
     Should involve adding a slot to KParts::BrowserExtension
     and making KHTML signal it whenever JS gets enabled or disabled.
 
+  LiveConnect will probably never be supported due to JRE ABI issues, and
+  the fact that we need to have a JRE with JNI inside the nspluginviewer.
+  LiveConnect is almost obsolete as well.  It is more likely that XPConnect
+  is the proper approach for the future.
+
 - XPConnect (Mozilla) JavaScript connectivity
 
 The current support is enough to run common plugins such as Macromedia(R)
@@ -262,3 +252,6 @@ Author
 This README was authored Ilya Konstantinov <kde-devel@future.shiny.co.il>.
 Thanks go to Matthias Hoelzer-Kluepfel and Stefan Schimanski for writing
 the actual code and making it all possible.
+
+Present maintainer of the nsplugin code is George Staikos <staikos@kde.org>
+
