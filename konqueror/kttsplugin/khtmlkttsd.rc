@@ -1,12 +1,12 @@
 <!DOCTYPE kpartgui>
-<kpartgui name="khtmlkttsd" library="libkhtmlkttsdplugin" version="1" >
+<kpartgui name="Speak Text" library="libkhtmlkttsdplugin" version="1" >
 	<MenuBar>
 		<Menu name="tools">
 		<Text>&amp;Tools</Text>
 			<Action name="tools_kttsd"/>
 		</Menu>
 	</MenuBar>
-	<ToolBar name="extraToolBar">
+	<ToolBar name="Speech Toolbar">
 		<Action name="tools_kttsd"/>
 	</ToolBar>
 </kpartgui>
