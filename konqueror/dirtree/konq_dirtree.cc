@@ -514,10 +514,7 @@ void KonqDirTree::slotDoubleClicked( QListViewItem *item )
 void KonqDirTree::slotRightButtonPressed( QListViewItem *item )
 {
   if ( !item )
-  //  {
-  //    unselectAll();
     return;
-  //  }
 
   QMap<QListViewItem *,QString>::ConstIterator groupItem = m_groupItems.find( item );
   if ( groupItem != m_groupItems.end() )
@@ -541,10 +538,7 @@ void KonqDirTree::slotRightButtonPressed( QListViewItem *item )
 void KonqDirTree::slotClicked( QListViewItem *item )
 {
   if ( !item )
-  //  {
-  //    unselectAll();
     return;
-  //  }
 
   if ( m_unselectableItems.findRef( item ) != -1 )
     return;
@@ -773,38 +767,7 @@ void KonqDirTree::removeGroup( const QString &path, QListViewItem *item )
   KIOJob *job = new KIOJob;
   job->del( QString( path ).prepend( "file:" ) );
 }
-/*
-KonqDirTreeItem *KonqDirTree::findDir( const QMap<KURL, KonqDirTreeItem*> &dict, const KURL &url )
-{
-  QMap<KURL, KonqDirTreeItem *>::ConstIterator it = dict.begin();
-  QMap<KURL, KonqDirTreeItem *>::ConstIterator end = dics.end();
-  for (; it != end; ++it )
-    if ( urlcmp( it.current()->fileItem()->url().url( 0 ), url, true, true ) )
-      return it.current();
 
-  return 0;
-}
-
-QList<KonqDirTreeItem> KonqDirTree::selectedItems()
-{
-  QList<KonqDirTreeItem> list;
-
-  QListViewItemIterator it( this );
-  for (; it.current(); ++it )
-    if ( it.current()->isSelected() )
-      list.append( (KonqDirTreeItem *)it.current() );
-
-  return list;
-}
-
-void KonqDirTree::unselectAll()
-{
-  QList<KonqDirTreeItem> selection = selectedItems();
-  QListIterator<KonqDirTreeItem> it( selection );
-  for (; it.current(); ++it )
-    it.current()->setSelected( false );
-}
-*/
 KonqDirTree::TopLevelItem KonqDirTree::findTopLevelByItem( KonqDirTreeItem *item )
 {
   QValueList<TopLevelItem>::ConstIterator it = m_topLevelItems.begin();

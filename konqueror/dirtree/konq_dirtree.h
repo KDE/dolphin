@@ -85,8 +85,6 @@ public:
   void addSubDir( KonqDirTreeItem *item, KonqDirTreeItem *topLevel, const KURL &url );
   void removeSubDir( KonqDirTreeItem *item, KonqDirTreeItem *topLevel, const KURL &url );
 
-  // QList<KonqDirTreeItem> selectedItems();
-
 protected:
   virtual void contentsDragEnterEvent( QDragEnterEvent *e );
   virtual void contentsDragMoveEvent( QDragMoveEvent *e );
@@ -122,10 +120,6 @@ private:
   void addGroup( const QString &path, QListViewItem *item );
   void addLink( const QString &path, QListViewItem *item );
   void removeGroup( const QString &path, QListViewItem *item );
-
-  //  KonqDirTreeItem *findDir( const QMap<KURL, KonqDirTreeItem*> &dict, const KURL &url );
-
-  //  void unselectAll();
 
   struct TopLevelItem
   {
