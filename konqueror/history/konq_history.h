@@ -20,6 +20,8 @@
 #ifndef __konq_history_h__
 #define __konq_history_h__
 
+#include <qvbox.h>
+
 #include <kparts/browserextension.h>
 #include <kurl.h>
 #include <kglobalsettings.h>
@@ -53,9 +55,10 @@ private:
   KonqHistory *m_history;
 };
 
-class KonqHistory;
+class HistoryWidget;
+class KonqHistoryWidget;
 
-class KonqHistory : public QWidget
+class KonqHistory : public QVBox
 {
   Q_OBJECT
 public:
@@ -63,6 +66,9 @@ public:
   virtual ~KonqHistory();
 
   void followURL( const KURL &url );
+
+private:
+    HistoryWidget *m_widget;
 
 };
 

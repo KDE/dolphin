@@ -4,7 +4,7 @@ lib_LTLIBRARIES = libkonqhistory.la
 
 METASOURCES = AUTO
 
-libkonqhistory_la_SOURCES = konq_history.cc
+libkonqhistory_la_SOURCES = konq_history.cc historywidget.cc
 libkonqhistory_la_LDFLAGS = $(all_libraries) $(KDE_PLUGIN)
 libkonqhistory_la_LIBADD = $(top_builddir)/libkonq/libkonq.la
 

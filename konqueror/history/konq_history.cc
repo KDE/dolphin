@@ -17,8 +17,6 @@
    Boston, MA 02111-1307, USA.
 */
 
-#include "konq_history.h"
-
 #include <qapplication.h>
 
 #include <kdebug.h>
@@ -34,6 +32,10 @@
 #include <kstddirs.h>
 
 #include <assert.h>
+
+#include "konq_history.h"
+#include "historywidget.h"
+
 
 
 /************************************************************************************/
@@ -92,7 +94,7 @@ KonqPropsView *KonqHistoryFactory::s_defaultViewProps = 0;
 
 extern "C"
 {
-  void *init_libkonqdirtree()
+  void *init_libkonqhistory()
   {
     return new KonqHistoryFactory;
   }
@@ -124,6 +126,7 @@ KonqHistoryPart::KonqHistoryPart( QWidget *parentWidget, QObject *parent, const 
                                 KonqHistoryFactory::defaultViewProps() );
 
   setWidget( m_history );
+  m_history->show();
   setInstance( KonqHistoryFactory::instance(), false );
 }
 
@@ -145,12 +148,13 @@ bool KonqHistoryPart::closeURL()
 }
 
 
-/************************************************************************************/
+/****************************************************************************/
 
 
 KonqHistory::KonqHistory( KonqHistoryPart */*parent*/, QWidget *parentWidget )
-  : QWidget( parentWidget )
+  : QVBox( parentWidget )
 {
+    m_widget = new HistoryWidget( this );
 }
 
 KonqHistory::~KonqHistory()
