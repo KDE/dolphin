@@ -199,7 +199,7 @@ void KPluginOptions::save()
     global_policies.save();
 
     domainSpecific->save(m_groupname,"PluginDomains");
-    
+
     m_pConfig->sync();	// I need a sync here, otherwise "apply" won't work
     			// instantly
 
@@ -480,7 +480,7 @@ void KPluginOptions::pluginLoad( KConfig */*config*/ )
 
     // open the cache file
     QFile cachef( locate("data", "nsplugins/cache") );
-    if ( !cachef.open(IO_ReadOnly) ) {
+    if ( !cachef.exists() || !cachef.open(IO_ReadOnly) ) {
         kdDebug() << "Could not load plugin cache file!" << endl;
         return;
     }
