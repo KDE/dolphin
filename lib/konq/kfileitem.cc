@@ -18,19 +18,21 @@
 */     
 // $Id$
 
+#include <sys/time.h>
+
 #include <assert.h>
 #include <unistd.h>
-#include <sys/time.h>
 
 #include "kfileitem.h"
 
-#include <kglobal.h>
-#include <kmimetype.h>
-#include <qimage.h>
-#include <qfile.h>
 #include <qdir.h>
+#include <qfile.h>
+#include <qimage.h>
 #include <qpixmap.h>
+
+#include <kglobal.h>
 #include <klocale.h>
+#include <kmimetype.h>
 #include <krun.h>
 
 KFileItem::KFileItem( const KUDSEntry& _entry, KURL& _url ) :
@@ -46,22 +48,40 @@ KFileItem::KFileItem( const KUDSEntry& _entry, KURL& _url ) :
   // extract the mode and the filename from the UDS Entry
   KUDSEntry::ConstIterator it = m_entry.begin();
   for( ; it != m_entry.end(); it++ ) {
-    if ( (*it).m_uds == UDS_FILE_TYPE )
+  switch ((*it).m_uds) {
+
+    case UDS_FILE_TYPE:
       m_fileMode = (mode_t)((*it).m_long);
-    else if ( (*it).m_uds == UDS_ACCESS)
+      break;
+
+    case UDS_ACCESS:
       m_permissions = (mode_t)((*it).m_long);
-    else if ( (*it).m_uds == UDS_USER)
+      break;
+
+    case UDS_USER:
       m_user = ((*it).m_str);
-    else if ( (*it).m_uds == UDS_GROUP)
+      break;
+
+    case UDS_GROUP:
       m_group = ((*it).m_str);
-    else if ( (*it).m_uds == UDS_NAME )
+      break;
+
+    case UDS_NAME:
       m_strText = decodeFileName( (*it).m_str );
-    else if ( (*it).m_uds == UDS_URL )
+      break;
+
+    case UDS_URL:
       m_url = KURL((*it).m_str);
-    else if ( (*it).m_uds == UDS_MIME_TYPE )
+      break;
+
+    case UDS_MIME_TYPE:
       m_pMimeType = KMimeType::mimeType((*it).m_str);
-    else if ( (*it).m_uds == UDS_LINK_DEST )
+      break;
+
+    case UDS_LINK_DEST:
       m_bLink = !(*it).m_str.isEmpty(); // we don't store the link dest
+      break;
+  }
   }
   init();
 }
