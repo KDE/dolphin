@@ -1915,6 +1915,8 @@ void KonqMainView::enableAllActions( bool enable )
       m_paUnlockAll->setEnabled( false );
       // removeview only if more than one active view
       m_paRemoveView->setEnabled( activeViewsCount() > 1 );
+      // Load profile submenu
+      m_pViewManager->profileListDirty();
   }
   actionCollection()->action( "close" )->setEnabled( true );
 }

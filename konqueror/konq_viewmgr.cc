@@ -48,6 +48,7 @@ KonqViewManager::KonqViewManager( KonqMainView *mainView )
 
   m_pMainContainer = 0L;
 
+  m_pamProfiles = 0L;
   m_bProfileListDirty = true;
 
   // we need this for a proper layout of the toolbars upon startup, when no real view has been loaded, yet
@@ -511,15 +512,24 @@ void KonqViewManager::setProfiles( KActionMenu *profiles )
     connect( m_pamProfiles->popupMenu(), SIGNAL( aboutToShow() ),
              this, SLOT( slotProfileListAboutToShow() ) );
   }	
-	
-  m_bProfileListDirty = true;
+  //KonqMainView::enableAllActions will call it anyway
+  //profileListDirty();
 }
 
 void KonqViewManager::slotProfileDlg()
 {
   KonqProfileDlg dlg( this, m_pMainView );
   dlg.exec();
+  profileListDirty();
+}
+
+void KonqViewManager::profileListDirty()
+{
+  kdDebug(1202) << "KonqViewManager::profileListDirty()" << endl;
   m_bProfileListDirty = true;
+  QStringList profiles = KonqFactory::instance()->dirs()->findAllResources( "data", "konqueror/profiles/*", false, true );
+  if ( m_pamProfiles )
+      m_pamProfiles->setEnabled( profiles.count() > 0 );
 }
 
 KonqViewFactory KonqViewManager::createView( const QString &serviceType,

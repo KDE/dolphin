@@ -118,6 +118,8 @@ public:
 
   void setProfiles( KActionMenu *profiles );
 
+  void profileListDirty();
+
   KonqFrameContainer *mainContainer() const { return m_pMainContainer; }
 
   /**
