@@ -93,7 +93,7 @@ public:
    void makeConnections();
    void readonlyFlagInit(bool);
 
-   virtual void startDrag();
+   // virtual void startDrag();
 
    bool isFolderList() { return m_folderList; }
 
@@ -103,6 +103,7 @@ public:
 public slots:
    virtual void rename(QListViewItem *item, int c);
    void slotSelectionChanged();
+   void slotMoved();
    void slotCurrentChanged(QListViewItem*);
    void slotContextMenu(KListView *, QListViewItem *, const QPoint &);
    void slotItemRenamed(QListViewItem *, const QString &, int);

@@ -611,6 +611,8 @@ void KEBListView::init() {
 }
 
 void KEBListView::makeConnections() {
+   connect(this, SIGNAL( moved() ),
+                 SLOT( slotMoved() ));
    connect(this, SIGNAL( selectionChanged() ),
                  SLOT( slotSelectionChanged() ));
    connect(this, SIGNAL( currentChanged(QListViewItem *) ),
@@ -632,6 +634,9 @@ void KEBListView::readonlyFlagInit(bool readonly) {
    setDropVisualizer(!readonly);
 }
 
+void KEBListView::slotMoved() 
+   { kdDebug() << "KEBListView::slotMoved()" << endl;  }
+
 void KEBListView::slotSelectionChanged() 
    { ListView::self()->handleSelectionChanged(this); }
 void KEBListView::slotCurrentChanged(QListViewItem *a) 
@@ -645,6 +650,7 @@ void KEBListView::slotDoubleClicked(QListViewItem *a, const QPoint &b, int c)
 void KEBListView::slotDropped(QDropEvent *a, QListViewItem *b, QListViewItem *c) 
    { ListView::self()->handleDropped(this, a,b,c); }
 
+/*
 void KEBListView::startDrag() {
    QDragObject *drag = dragObject();
 
@@ -658,16 +664,15 @@ void KEBListView::startDrag() {
    kdDebug() << moved << ", " << drag->target() << ", " << viewport() << endl;
    if (moved) {
       kdDebug() << "cooool, gonna delete it!" << endl;
-      /*
-      if (drag->target() != viewport()) {
+      if (0 && drag->target() != viewport()) {
          KMacroCommand *mcmd = CmdGen::self()->deleteItems( i18n("Moved Items"), 
                                                             ListView::self()->selectedItems());
          CmdHistory::self()->didCommand(mcmd);
       }
-      */
    }
    kdDebug() << "2" << endl;
 }
+*/
 
 void KEBListView::rename(QListViewItem *qitem, int column) {
    KEBListViewItem *item = static_cast<KEBListViewItem *>(qitem);
