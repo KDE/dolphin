@@ -257,6 +257,7 @@ void KonqPopupMenu::setup(bool showPropertiesAndFileType)
     KURL url;
     KFileItemListIterator it ( m_lstItems );
     // Check whether all URLs are correct
+    bool devicesFile = false;
     for ( ; it.current(); ++it )
     {
         url = (*it)->url();
@@ -288,6 +289,8 @@ void KonqPopupMenu::setup(bool showPropertiesAndFileType)
 
         if ( sMoving )
             sMoving = KProtocolInfo::supportsMoving( url );
+        if ( url.protocol().find("device", 0, false)==0)
+            devicesFile = true;
     }
     // Be on the safe side when including the trash
     if ( bTrashIncluded )
@@ -415,7 +418,7 @@ void KonqPopupMenu::setup(bool showPropertiesAndFileType)
         addGroup( "tabhandling" );
         bool separatorAdded = false;
 
-        if ( !currentDir && sReading && !isIntoTrash) {
+        if ( !currentDir && sReading && !isIntoTrash &&!devicesFile ) {
             addSeparator();
             separatorAdded = true;
             if ( sDeleting ) {
@@ -613,61 +616,63 @@ void KonqPopupMenu::setup(bool showPropertiesAndFileType)
 
         m_mapPopup.clear();
         m_mapPopupServices.clear();
-
-        if ( !offers.isEmpty() )
+        if ( !devicesFile)
         {
-            // First block, app and preview offers
-            addSeparator();
-
-            id = 1;
-
-            QDomElement menu = m_menuElement;
-
-            if ( offers.count() > 1 ) // submenu 'open with'
+            if ( !offers.isEmpty() )
             {
-                menu = m_doc.createElement( "menu" );
-                menu.setAttribute( "name", "openwith submenu" );
-                m_menuElement.appendChild( menu );
-                QDomElement text = m_doc.createElement( "text" );
-                menu.appendChild( text );
-                text.appendChild( m_doc.createTextNode( i18n("&Open With") ) );
+                // First block, app and preview offers
+                addSeparator();
+
+                id = 1;
+
+                QDomElement menu = m_menuElement;
+
+                if ( offers.count() > 1 ) // submenu 'open with'
+                {
+                    menu = m_doc.createElement( "menu" );
+                    menu.setAttribute( "name", "openwith submenu" );
+                    m_menuElement.appendChild( menu );
+                    QDomElement text = m_doc.createElement( "text" );
+                    menu.appendChild( text );
+                    text.appendChild( m_doc.createTextNode( i18n("&Open With") ) );
+                }
+
+                if ( menu == m_menuElement ) // no submenu -> open with... above the single offer
+                {
+                    KAction *openWithAct = new KAction( i18n( "&Open With..." ), 0, this, SLOT( slotPopupOpenWith() ), &m_ownActions, "openwith" );
+                    addAction( openWithAct, menu );
+                }
+
+                KTrader::OfferList::ConstIterator it = offers.begin();
+                for( ; it != offers.end(); it++ )
+                {
+                    QCString nam;
+                    nam.setNum( id );
+
+                    act = new KAction( (*it)->name(), (*it)->pixmap( KIcon::Small ), 0,
+                                       this, SLOT( slotRunService() ),
+                                       &m_ownActions, nam.prepend( "appservice_" ) );
+                    addAction( act, menu );
+
+                    m_mapPopup[ id++ ] = *it;
+                }
+
+                if ( menu != m_menuElement ) // submenu
+                {
+                    addSeparator( menu );
+                    KAction *openWithAct = new KAction( i18n( "&Other..." ), 0, this, SLOT( slotPopupOpenWith() ), &m_ownActions, "openwith" );
+                    addAction( openWithAct, menu ); // Other...
+                }
+            }
+            else // no app offers -> Open With...
+            {
+                addSeparator();
+                act = new KAction( i18n( "&Open With..." ), 0, this, SLOT( slotPopupOpenWith() ), &m_ownActions, "openwith" );
+                addAction( act );
             }
 
-            if ( menu == m_menuElement ) // no submenu -> open with... above the single offer
-            {
-                KAction *openWithAct = new KAction( i18n( "&Open With..." ), 0, this, SLOT( slotPopupOpenWith() ), &m_ownActions, "openwith" );
-                addAction( openWithAct, menu );
-            }
-
-            KTrader::OfferList::ConstIterator it = offers.begin();
-            for( ; it != offers.end(); it++ )
-            {
-                QCString nam;
-                nam.setNum( id );
-
-                act = new KAction( (*it)->name(), (*it)->pixmap( KIcon::Small ), 0,
-                                   this, SLOT( slotRunService() ),
-                                   &m_ownActions, nam.prepend( "appservice_" ) );
-                addAction( act, menu );
-
-                m_mapPopup[ id++ ] = *it;
-            }
-
-            if ( menu != m_menuElement ) // submenu
-            {
-                addSeparator( menu );
-                KAction *openWithAct = new KAction( i18n( "&Other..." ), 0, this, SLOT( slotPopupOpenWith() ), &m_ownActions, "openwith" );
-                addAction( openWithAct, menu ); // Other...
-            }
+            addGroup( "preview" );
         }
-        else // no app offers -> Open With...
-        {
-            addSeparator();
-            act = new KAction( i18n( "&Open With..." ), 0, this, SLOT( slotPopupOpenWith() ), &m_ownActions, "openwith" );
-            addAction( act );
-        }
-
-        addGroup( "preview" );
     }
     // Second block, builtin + user
     if ( !user.isEmpty() || !userSubmenus.empty() || !builtin.isEmpty() )
@@ -703,10 +708,10 @@ void KonqPopupMenu::setup(bool showPropertiesAndFileType)
 
     addSeparator();
 
-    if ( !isCurrentTrash && !isIntoTrash)
+    if ( !isCurrentTrash && !isIntoTrash && !devicesFile)
         addPlugins( ); // now it's time to add plugins
 
-    if ( !m_sMimeType.isEmpty() && showPropertiesAndFileType && !isCurrentTrash && !isIntoTrash)
+    if ( !m_sMimeType.isEmpty() && showPropertiesAndFileType && !isCurrentTrash && !isIntoTrash &&!devicesFile)
     {
         act = new KAction( i18n( "&Edit File Type..." ), 0, this, SLOT( slotPopupMimeType() ),
                            &m_ownActions, "editfiletype" );
