@@ -1,5 +1,26 @@
 [Desktop Entry]
 Name=UADescription (Lynx 2.8.3)
+Name[af]=UA-BESKRYWING (LYNX 2.8.3)
+Name[cs]=Popis agenta (Lynx 2.8.3)
+Name[da]=Brugeragentbeskrivelse (Lynx 2.8.3)
+Name[de]=UserAgent-Beschreibung (Lynx 2.8.3)
+Name[el]=Περιγραφή UA (Lynx 2.8.3)
+Name[eo]=UA-Priskribo (Lynx 2.8.3)
+Name[es]=Descripción de AU (Lynx 2.8.3)
+Name[fi]=Käyttäjäagenttikuvaus (Lynx 2.8.3)
+Name[fr]=Identité du navigateur (Lynx 2.8.3)
+Name[hu]=Böngészőtípus (Lynx 2.8.3)
+Name[is]=UAD strengur (Lynx 2.8.3)
+Name[it]=DescrizioneUA (Lynx 2.8.3)
+Name[lt]=Vartotojo agento apibrėžimas (Lynx 2.8.3)
+Name[lv]=UAApraksts (Lynx 2.8.3)
+Name[nl]=GA-beschrijving (Lynx 2.8.3)
+Name[pl]=Opis Programu Użytkownika (Lynx 2.8.3)
+Name[sk]=Popis agenta (Lynx 2.8.3)
+Name[sl]=UAopis (Lynx 2.8.3)
+Name[sv]=AAbeskrivning (Lynx 2.8.3)
+Name[tr]=UA Tanımı (Lynx 2.8.3)
+Name[zh_CN.GB2312]=用户代理描述 (Lynx 2.8.3)
 Type=Service
 ServiceTypes=UserAgentStrings
 X-KDE-UA-TAG=MISC
