@@ -125,6 +125,8 @@ KonqFrameTabs::KonqFrameTabs(QWidget* parent, KonqFrameContainerBase* parentCont
   }
   else
     setHoverCloseButton( config->readBoolEntry( "HoverCloseButton", false ) );
+  if (config->readEntry("TabPosition")=="Bottom")
+    setTabPosition(QTabWidget::Bottom);
   connect( this, SIGNAL( closeRequest( QWidget * )), SLOT(slotCloseRequest( QWidget * )));
   connect( this, SIGNAL( removeTabPopup() ),
            m_pViewManager->mainWindow(), SLOT( slotRemoveTabPopup() ) );
