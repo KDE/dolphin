@@ -8,7 +8,7 @@ METASOURCES = AUTO
 check_PROGRAMS = test
 test_SOURCES = main.cpp
 test_LDFLAGS = $(all_libraries)
-test_LDADD = $(LIB_KDEUI) libnsplugin.a -lXt
+test_LDADD = $(LIB_KDEUI) -lplugin
 
 NSPluginClassIface.h:
 	ln -s viewer/NSPluginClassIface.h .
@@ -19,7 +19,7 @@ libplugin_la_SOURCES = plugin_part.cpp nspluginloader.cpp NSPluginClassIface.stu
 			NSPluginCallbackIface.skel
 
 libplugin_la_LDFLAGS = $(all_libraries) -version-info 1:0:0 -module -no-undefined
-libplugin_la_LIBADD  = -lkparts -lXt
+libplugin_la_LIBADD  = -lkparts
 
 
 bin_PROGRAMS = pluginscan
