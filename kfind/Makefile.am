@@ -2,7 +2,8 @@
 INCLUDES= $(all_includes) 
 
 bin_PROGRAMS = kfind
-LDADD = $(all_libraries) -lkfile -lkfm -lkdeui -lkdecore -lqt -lXext -lX11 $(LIBSOCKET) $(KDE_RPATH)
+LDFLAGS =  $(all_libraries) $(KDE_RPATH)
+LDADD = $(LIB_KFILE)
 
 ICONSDIR=$(kde_icondir)
 
