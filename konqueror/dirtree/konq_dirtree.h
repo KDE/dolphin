@@ -84,11 +84,23 @@ public:
   void setListable( bool b );
   bool isListable() const { return m_bListable; }
 
+  void setClickable( bool b ) { m_bClickable = b; }
+  bool isClickable() const { return m_bClickable; }
+
+  // Whether the item is a .desktop link
+  void setLink( bool b ) { m_bLink = b; }
+  bool isLink() const { return m_bLink; }
+
+  // The URL to open when this link is clicked
+  KURL externalURL() const;
+
 private:
   KonqDirTree *m_tree;
   KonqFileItem *m_item;
   KonqDirTreeItem *m_topLevelItem;
-  bool m_bListable;
+  bool m_bListable:1;
+  bool m_bClickable:1;
+  bool m_bLink:1;
 };
 
 class KonqDirTree : public KListView, public KDirNotify
@@ -160,8 +172,6 @@ private:
   TopLevelItem findTopLevelByDirLister( const KonqDirLister *lister );
 
   QValueList<TopLevelItem> m_topLevelItems;
-
-  QList<QListViewItem> m_unselectableItems;
 
   QMap<QListViewItem *,QString> m_groupItems;
 

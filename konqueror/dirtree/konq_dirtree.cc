@@ -32,6 +32,7 @@
 #include <kdesktopfile.h>
 #include <konq_dirlister.h>
 #include <kdirnotify.h>
+#include <kdirnotify_stub.h>
 #include <kglobalsettings.h>
 #include <kiconloader.h>
 #include <kinstance.h>
@@ -49,10 +50,6 @@
 #include <kstddirs.h>
 
 #include <assert.h>
-
-/*
-  TODO: - merge with KonqTreeView?
- */
 
 inline bool operator<( const KURL &u1, const KURL &u2 )
 {
@@ -129,10 +126,8 @@ void KonqDirTreeBrowserExtension::slotSelectionChanged()
   emit enableAction( "del", del );
   emit enableAction( "shred", del );
 
-  bool bKIOClipboard = !KIO::isClipboardEmpty();
   QMimeSource *data = QApplication::clipboard()->data();
-  bool paste = ( bKIOClipboard || data->encodedData( data->format() ).size() != 0 ) &&
-               ( selection );
+  bool paste = ( data->encodedData( data->format() ).size() != 0 ) && selection;
 
   emit enableAction( "pastecut", paste );
   emit enableAction( "pastecopy", paste );
@@ -204,7 +199,7 @@ KonqDirTreePart::KonqDirTreePart( QWidget *parentWidget, QObject *parent, const 
 
   setWidget( m_pTree );
   setInstance( KonqDirTreeFactory::instance(), false );
-  m_url = KURL( QDir::homeDirPath().prepend( "file:" ) );
+  m_url.setPath( QDir::homeDirPath() );
 }
 
 KonqDirTreePart::~KonqDirTreePart()
@@ -244,6 +239,8 @@ void KonqDirTreeItem::initItem( KonqDirTree *parent, KonqDirTreeItem *topLevelIt
   m_topLevelItem = topLevelItem;
   m_tree = parent;
   m_bListable = true;
+  m_bClickable = true;
+  m_bLink = false;
 
   if ( m_topLevelItem )
     m_tree->addSubDir( this, m_topLevelItem, m_item->url() );
@@ -259,9 +256,8 @@ KonqDirTreeItem::~KonqDirTreeItem()
 
 void KonqDirTreeItem::setOpen( bool open )
 {
-
-  if ( open && !childCount() && m_bListable )
-    m_tree->openSubFolder( this, m_topLevelItem );
+  if ( open & !childCount() && m_bListable )
+      m_tree->openSubFolder( this, m_topLevelItem );
 
   QListViewItem::setOpen( open );
 }
@@ -280,6 +276,23 @@ void KonqDirTreeItem::paintCell( QPainter *_painter, const QColorGroup & _cg, in
 void KonqDirTreeItem::setListable( bool b )
 {
   m_bListable = b;
+}
+
+KURL KonqDirTreeItem::externalURL() const
+{
+    if ( isLink() )
+    {
+        KSimpleConfig config( m_item->url().path() );
+        config.setDesktopGroup();
+        config.setDollarExpansion(true);
+        KURL url = config.readEntry("URL");
+
+        if ( url.path().isEmpty() )
+            url.setPath( "/" );
+        return url;
+    }
+    else
+        return m_item->url();
 }
 
 //TODO: make it configurable via viewprops
@@ -339,7 +352,6 @@ KonqDirTree::~KonqDirTree()
 
 void KonqDirTree::clearTree()
 {
-  m_unselectableItems.clear();
   QValueList<TopLevelItem>::Iterator it = m_topLevelItems.begin();
   QValueList<TopLevelItem>::Iterator end = m_topLevelItems.end();
   for (; it != end; ++it )
@@ -365,18 +377,21 @@ void KonqDirTree::openSubFolder( KonqDirTreeItem *item, KonqDirTreeItem *topLeve
 
   assert( topLevelItem.m_item );
 
-  KURL u = item->fileItem()->url();
+  KURL u = item->externalURL();
 
-  kdDebug(1202) << "openSubFolder( " << u.url() << " )" << endl;
+  kdDebug(1202) << "openSubFolder( " << u.url() << " )  topLevel=" << topLevel << endl;
 
   if ( topLevelItem.m_dirLister->job() == 0 )
     topLevelItem.m_dirLister->openURL( u, false, topLevel ? true : false );
   else  if ( !topLevelItem.m_lstPendingURLs->contains( u ) )
     topLevelItem.m_lstPendingURLs->append( u );
 
-  if ( !topLevel )
-    return;
+  /* ??????????????
+     if ( !topLevel )
+     return;
+     */
 
+  kdDebug(1202) << "m_mapCurrentOpeningFolders.insert( " << u.prettyURL() << " )" << endl;
   m_mapCurrentOpeningFolders.insert( u, item );
 
   if ( !m_animationTimer->isActive() )
@@ -403,6 +418,14 @@ void KonqDirTree::removeSubDir( KonqDirTreeItem *item, KonqDirTreeItem *topLevel
 
 void KonqDirTree::followURL( const KURL &_url )
 {
+  // Maybe we're there already ?
+  KonqDirTreeItem *selection = static_cast<KonqDirTreeItem *>( selectedItem() );
+  if (selection && selection->externalURL().cmp( _url, true ))
+  {
+      ensureItemVisible( selection );
+      return;
+  }
+
   kdDebug(1202) << "KonqDirTree::followURL: " << _url.url() << endl;
   KURL uParent( _url.upURL() );
 
@@ -426,10 +449,18 @@ void KonqDirTree::followURL( const KURL &_url )
       {
         if ( !dirIt.data()->isOpen() )
         {
-            m_selectAfterOpening = _url;
-            //kdDebug(1202) << "KonqDirTree::followURL: m_selectAfterOpening=" << m_selectAfterOpening.url() << endl;
             dirIt.data()->setOpen( true );
-            return; // We know we won't find it
+            if ( dirIt.data()->childCount() )
+            {
+                // Immediate opening, if the dir was already listed
+                followURL( _url );
+                return;
+            } else
+            {
+                m_selectAfterOpening = _url;
+                kdDebug(1202) << "KonqDirTree::followURL: m_selectAfterOpening=" << m_selectAfterOpening.url() << endl;
+                return; // We know we won't find it
+            }
         }
       }
     }
@@ -479,7 +510,46 @@ void KonqDirTree::contentsDropEvent( QDropEvent *ev )
 
   assert( selection );
 
-  KonqOperations::doDrop( selection->fileItem(), ev, this );
+  KFileItem * fileItem = selection->fileItem();
+
+  if ( !selection->isClickable() )
+  {
+      // When dropping something to "Network" or its subdirs, we want to create
+      // a desktop link, not to move/copy/link
+      KURL url = fileItem->url();
+      if ( url.isLocalFile() )
+      {
+          KURL::List lst;
+          if ( KonqDrag::decode( ev, lst ) ) // Are they urls ?
+          {
+              KURL::List::Iterator it = lst.begin();
+              for ( ; it != lst.end() ; it++ )
+              {
+                  const KURL & targetURL = (*it);
+                  KURL linkURL(url);
+                  linkURL.addPath( KIO::encodeFileName( targetURL.fileName() )+".desktop" );
+                  KSimpleConfig config( linkURL.path() );
+                  config.setDesktopGroup();
+                  // Don't write a Name field in the desktop file, it makes renaming impossible
+                  config.writeEntry( "URL", targetURL.url() );
+                  config.writeEntry( "Type", "Link" );
+                  QString icon = KMimeType::findByURL( targetURL )->icon( targetURL, false );
+                  static const QString& unknown = KGlobal::staticQString("unknown");
+                  if ( icon == unknown )
+                      icon = KProtocolInfo::icon( targetURL.protocol() );
+                  config.writeEntry( "Icon", icon );
+                  config.sync();
+                  KDirNotify_stub allDirNotify( "*", "KDirNotify*" );
+                  linkURL.setPath( linkURL.directory() );
+                  allDirNotify.FilesAdded( linkURL );
+              }
+          } else
+              kdError(1202) << "Not a URL !?!" << endl;
+      } else
+          kdError(1202) << "Dropped to a remote item !  " << url.prettyURL() << endl;
+  }
+  else
+      KonqOperations::doDrop( fileItem, ev, this );
 }
 
 void KonqDirTree::contentsMousePressEvent( QMouseEvent *e )
@@ -618,7 +688,7 @@ void KonqDirTree::slotDoubleClicked( QListViewItem *item )
   if ( !item )
     return;
 
-  if ( m_unselectableItems.findRef( item ) != -1 )
+  if ( !static_cast<KonqDirTreeItem*>(item)->isClickable() )
     return;
 
   if ( m_groupItems.find( item ) != m_groupItems.end() )
@@ -633,7 +703,7 @@ void KonqDirTree::slotClicked( QListViewItem *item )
   if ( !item )
     return;
 
-  if ( m_unselectableItems.findRef( item ) != -1 )
+  if ( !static_cast<KonqDirTreeItem*>(item)->isClickable() )
     return;
 
   KonqDirTreeItem *dItem = static_cast<KonqDirTreeItem *>( item );
@@ -644,7 +714,7 @@ void KonqDirTree::slotClicked( QListViewItem *item )
     args.serviceType = QString::fromLatin1( "inode/directory" );
 
   args.trustedSource = true;
-  emit m_view->extension()->openURLRequest( dItem->fileItem()->url(), args );
+  emit m_view->extension()->openURLRequest( dItem->externalURL(), args );
 }
 
 void KonqDirTree::slotRightButtonPressed( QListViewItem *item )
@@ -652,14 +722,16 @@ void KonqDirTree::slotRightButtonPressed( QListViewItem *item )
   if ( !item )
     return;
 
-  //  if ( m_unselectableItems.findRef( item ) != -1 )
-  //    return;
+  //if ( !item.isClickable() )
+  //  return;
 
   item->setSelected( true );
 
   KFileItemList lstItems;
 
   lstItems.append( (static_cast<KonqDirTreeItem *>(item))->fileItem() );
+
+  kdDebug() << "KonqDirTree::slotRightButtonPressed Emitting popup for " <<  static_cast<KonqDirTreeItem *>(item)->fileItem()->url().prettyURL() << endl;
 
   emit m_view->extension()->popupMenu( QCursor::pos(), lstItems );
 }
@@ -673,6 +745,8 @@ void KonqDirTree::slotListingStopped()
   assert( topLevelItem.m_item );
 
   KURL url = lister->url();
+
+  kdDebug() << "KonqDirTree::slotListingStopped " << url.prettyURL() << endl;
 
   QMap<KURL, KonqDirTreeItem *>::ConstIterator dirIt = topLevelItem.m_mapSubDirs->begin();
   QMap<KURL, KonqDirTreeItem *>::ConstIterator dirEnd = topLevelItem.m_mapSubDirs->end();
@@ -704,8 +778,10 @@ void KonqDirTree::slotListingStopped()
   if ( oIt != m_mapCurrentOpeningFolders.end() )
   {
     oIt.data()->setPixmap( 0, m_folderPixmap );
+    kdDebug() << " m_selectAfterOpening " << m_selectAfterOpening.prettyURL() << endl;
     if ( !m_selectAfterOpening.isEmpty() && m_selectAfterOpening.upURL() == url )
     {
+      kdDebug() << " ** Selecting m_selectAfterOpening " << m_selectAfterOpening.prettyURL() << endl;
       followURL( m_selectAfterOpening );
       m_selectAfterOpening = KURL();
     }
@@ -714,7 +790,7 @@ void KonqDirTree::slotListingStopped()
 
     if ( m_mapCurrentOpeningFolders.count() == 0 )
       m_animationTimer->stop();
-  }
+  } else kdDebug() << url.prettyURL() << "not found in m_mapCurrentOpeningFolders" << endl;
 }
 
 void KonqDirTree::slotAnimation()
@@ -855,9 +931,10 @@ void KonqDirTree::scanDir2( KonqDirTreeItem *parent, const QString &path )
     open = cfg.readBoolEntry( "Open", open );
   }
 
-  QString url = QString( path ).prepend( "file:" );
+  KURL url;
+  url.setPath( path );
 
-  KonqFileItem *fileItem = new KonqFileItem( -1, -1, KURL( url ) );
+  KonqFileItem *fileItem = new KonqFileItem( -1, -1, url );
   KonqDirTreeItem *item;
   if ( parent )
     item = new KonqDirTreeItem( this, parent, 0, fileItem );
@@ -866,9 +943,7 @@ void KonqDirTree::scanDir2( KonqDirTreeItem *parent, const QString &path )
   item->setText( 0, name );
   item->setPixmap( 0, SmallIcon( icon ) );
   item->setListable( false );
-  //  item->setSelectable( false );
-
-  m_unselectableItems.append( item );
+  item->setClickable( false );
 
   kdDebug(1202) << "Inserting group " << name << "   " << path << endl;;
   m_groupItems.insert( item, path );
@@ -884,41 +959,46 @@ void KonqDirTree::scanDir2( KonqDirTreeItem *parent, const QString &path )
 void KonqDirTree::loadTopLevelItem( KonqDirTreeItem *parent,  const QString &filename )
 {
   KDesktopFile cfg( filename, true );
+  cfg.setDollarExpansion(true);
 
   QFileInfo inf( filename );
 
-  QString url, icon;
+  QString path = filename;
+  QString icon;
   QString name = KIO::decodeFileName( inf.fileName() );
+  if ( name.length() > 8 && name.right( 8 ) == ".desktop" )
+    name.truncate( name.length() - 8 );
+  if ( name.length() > 7 && name.right( 7 ) == ".kdelnk" )
+    name.truncate( name.length() - 7 );
+
+  KURL targetURL;
+  targetURL.setPath(path);
 
   if ( cfg.hasLinkType() )
   {
-    url = cfg.readURL();
+    targetURL = cfg.readURL();
     icon = cfg.readIcon();
-
     stripIcon( icon );
 
     name = cfg.readEntry( "Name", name );
-
-    if ( url == "file:$HOME" ) //HACK
-      url = QDir::homeDirPath().prepend( "file:" );
   }
   else if ( cfg.hasDeviceType() )
   {
-    QString mountPoint = KIO::findDeviceMountPoint( cfg.readEntry( "Dev" ) );
+    // Determine the mountpoint
+    path = KIO::findDeviceMountPoint( cfg.readEntry( "Dev" ) );
 
-    if ( mountPoint.isNull() )
+    if ( path.isEmpty() )
       return;
 
-    url = mountPoint.prepend( "file:" );
+    targetURL.setPath(path);
     icon = cfg.readIcon();
     name = cfg.readEntry( "Name", name );
   }
   else
     return;
 
-  KURL kurl( url );
-  if ( kurl.path().isEmpty() )
-    kurl.setPath( "/" );
+  KURL kurl;
+  kurl.setPath( path );
 
   KonqFileItem *fileItem = new KonqFileItem( -1, -1, kurl );
   KonqDirTreeItem *item;
@@ -927,16 +1007,14 @@ void KonqDirTree::loadTopLevelItem( KonqDirTreeItem *parent,  const QString &fil
   else
       item = new KonqDirTreeItem( this, 0, fileItem );
 
-  //  m_unselectableItems.append( item );
-
-  //  item->setSelectable( false );
-
   item->setPixmap( 0, SmallIcon( icon ) );
   item->setText( 0, name );
+  item->setLink( true );
 
   KonqDirLister *dirLister = 0;
 
-  bool bListable = KProtocolInfo::supportsListing( kurl.protocol() );
+  bool bListable = KProtocolInfo::supportsListing( targetURL.protocol() );
+  kdDebug() << targetURL.prettyURL() << " listable : " << bListable << endl;
 
   if ( bListable )
   {
@@ -957,15 +1035,14 @@ void KonqDirTree::loadTopLevelItem( KonqDirTreeItem *parent,  const QString &fil
 
   m_topLevelItems.append( TopLevelItem( item, dirLister, new QMap<KURL, KonqDirTreeItem *>, new KURL::List ) );
 
-  addSubDir( item, item, fileItem->url() );
+  addSubDir( item, item, targetURL );
 
-  bool hasOpenKey = cfg.hasKey( "Open" );
-  bool open = cfg.readBoolEntry( "Open", true );
+  bool open = cfg.readBoolEntry( "Open", false /* targetURL.isLocalFile() sucks a bit IMHO - DF */ );
 
   if ( !bListable )
     item->setListable( false );
 
-  if ( ( ( !hasOpenKey && fileItem->url().isLocalFile() ) || ( hasOpenKey && open ) ) && item->isExpandable() )
+  if ( open && item->isExpandable() )
     item->setOpen( true );
 
 }
@@ -998,6 +1075,4 @@ KonqDirTree::TopLevelItem KonqDirTree::findTopLevelByDirLister( const KonqDirLis
   return TopLevelItem();
 }
 
-// DO NOT REMOVE THIS INCLUDE!!!
 #include "konq_dirtree.moc"
-
