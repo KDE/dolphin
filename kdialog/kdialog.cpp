@@ -27,11 +27,13 @@
 #include <qfile.h>
 #include <qdatastream.h>
 #include <qregexp.h>
+#include <qtimer.h>
 #include <kmessagebox.h>
 #include <kapplication.h>
 #include <kdebug.h>
 //#include <ktopwidget.h>
 #include <kmainwindow.h>
+#include <kpassivepopup.h>
 
 #include "widgets.h"
 
@@ -64,6 +66,7 @@ static KCmdLineOptions options[] =
     { "menu <text> [tag item] [tag item] ...", I18N_NOOP("Menu dialog"), 0 },
     { "checklist <text> [tag item status] ...", I18N_NOOP("Check List dialog"), 0 },
     { "radiolist <text> [tag item status] ...", I18N_NOOP("Radio List dialog"), 0 },
+    { "passivepopup <text> <timeout>", I18N_NOOP("Passive Popup"), 0 },
     { "getopenfilename [startDir] [filter]", I18N_NOOP("File dialog to open an existing file"), 0 },
     { "getsavefilename [startDir] [filter]", I18N_NOOP("File dialog to save a file"), 0 },
     { "getexistingdirectory [startDir]", I18N_NOOP("File dialog to select an existing directory"), 0 },
@@ -260,6 +263,23 @@ int directCommand(KCmdLineArgs *args)
       cout << result.data() << endl;
       return retcode ? 0 : 1;
     }
+
+    // --passivepopup
+    if (args->isSet("passivepopup"))
+      {
+	KPassivePopup *popup = KPassivePopup::message( title,
+						       QString::fromLocal8Bit( args->getOption("passivepopup") ),
+						       0, // icon
+						       0UL, // parent
+						       0, // name
+						       1000 * QString::fromLocal8Bit(args->arg(0)).toInt() );
+	QTimer *timer = new QTimer();
+	QObject::connect( timer, SIGNAL( timeout() ), kapp, SLOT( quit() ) );
+	QObject::connect( popup, SIGNAL( clicked() ), kapp, SLOT( quit() ) );
+	timer->start( 1000 * QString::fromLocal8Bit(args->arg(0)).toInt(), TRUE );
+	kapp->exec();
+	return 0;
+      }
 
     // --textbox file [width] [height]
     if (args->isSet("textbox"))
