@@ -22,8 +22,8 @@
 #include <konq_treepart.h>
 #include <kdebug.h>
 
-KonqBookmarkItem::KonqBookmarkItem( KonqTreeItem *parentItem, KonqTreeTopLevelItem *topLevelItem, const KBookmark & bk )
-    : KonqTreeItem( parentItem, topLevelItem ), m_bk(bk)
+KonqBookmarkItem::KonqBookmarkItem( KonqTreeItem *parentItem, KonqTreeTopLevelItem *topLevelItem, const KBookmark & bk, int key )
+    : KonqTreeItem( parentItem, topLevelItem ), m_bk(bk), m_key(key)
 {
     setText( 0, bk.text() );
     setPixmap( 0, SmallIcon(bk.icon()) );
@@ -65,4 +65,9 @@ QString KonqBookmarkItem::toolTipText() const
 void KonqBookmarkItem::itemSelected()
 {
     tree()->part()->extension()->enableActions( false, false, false, false, false, false );
+}
+
+QString KonqBookmarkItem::key( int /*column*/, bool /*ascending*/ ) const
+{
+    return QString::number(m_key).rightJustify( 5, '0' );
 }

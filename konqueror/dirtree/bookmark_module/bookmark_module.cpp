@@ -66,11 +66,12 @@ void KonqBookmarkModule::fillListView()
 
 void KonqBookmarkModule::fillGroup( KonqTreeItem * parentItem, KBookmarkGroup group )
 {
-    for ( KBookmark bk = group.first() ; !bk.isNull() ; bk = group.next(bk) )
+    int n = 0;
+    for ( KBookmark bk = group.first() ; !bk.isNull() ; bk = group.next(bk), ++n )
     {
         if ( !bk.isSeparator() ) // Separators don't look good in the tree IMHO
         {
-            KonqBookmarkItem * item = new KonqBookmarkItem( parentItem, m_topLevelItem, bk );
+            KonqBookmarkItem * item = new KonqBookmarkItem( parentItem, m_topLevelItem, bk, n );
             if ( bk.isGroup() )
             {
                 KBookmarkGroup grp = bk.toGroup();

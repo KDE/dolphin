@@ -28,7 +28,8 @@
 class KonqBookmarkItem : public KonqTreeItem
 {
 public:
-    KonqBookmarkItem( KonqTreeItem *parentItem, KonqTreeTopLevelItem *topLevelItem, const KBookmark & bk );
+    KonqBookmarkItem( KonqTreeItem *parentItem, KonqTreeTopLevelItem *topLevelItem,
+                      const KBookmark & bk, int key );
 
     virtual ~KonqBookmarkItem() {}
 
@@ -48,8 +49,12 @@ public:
 
     // Called when this item is selected
     virtual void itemSelected();
+
+    virtual QString key( int column, bool /*ascending*/ ) const;
+
 private:
     KBookmark m_bk;
+    int m_key;
 };
 
 #endif
