@@ -1,0 +1,17 @@
+dcopRef=`./kdialog --progressbar "Initialising" 6`
+dcop $dcopRef setProgress 1
+dcop $dcopRef setLabel "Thinking really hard"
+sleep 2
+dcop $dcopRef setProgress 2
+sleep 2
+dcop $dcopRef setLabel "Thinking some more"
+dcop $dcopRef setProgress 3
+sleep 2
+dcop $dcopRef setProgress 4
+sleep 2
+dcop $dcopRef setLabel "Finishing up"
+dcop $dcopRef setProgress 5
+sleep 1
+dcop $dcopRef setProgress 6
+sleep 1
+dcop $dcopRef close
