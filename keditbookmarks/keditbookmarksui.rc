@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="keditbookmarks" version="19">
+<kpartgui name="keditbookmarks" version="20">
 
 <MenuBar>
 
@@ -34,10 +34,11 @@
   <Separator/><!-- Stuff for folders -->
   <Action name="sort"/>
   <Action name="setastoolbar"/>
-  <Separator/><!-- Expand/collapse -->
+  <Separator/><!-- Searching -->
   <Action name="search"/>
   <Action name="nexthit"/>
   <Action name="cancelsearch"/>
+  <Separator/><!-- Expand/collapse -->
   <Action name="expandall"/>
   <Action name="collapseall"/>
 </Menu>
@@ -69,53 +70,45 @@
   <Action name="file_save"/>
   <Action name="edit_undo"/>
   <Action name="edit_redo"/>
-  <Action name="delete"/>
   <Action name="newbookmark"/>
   <Action name="newfolder"/>
 </ToolBar>
 
 <Menu name="popup_folder">
-  <Action name="testlink"/>
-              <!-- Edition -->
+  <Action name="sort"/>
+  <Action name="setastoolbar"/>
+  <Separator/><!-- Clipboard -->
   <Action name="edit_undo"/>
   <Action name="edit_redo"/>
   <Action name="edit_cut"/>
   <Action name="edit_copy"/>
   <Action name="edit_paste"/>
-  <Separator/>
+  <Separator/><!-- Edition -->
   <Action name="rename"/>
   <Action name="changeurl"/>
-  <Action name="changecomment"/>
-  <Action name="updatefavicon"/>
   <Action name="changeicon"/>
-  <Action name="delete"/>
   <Separator/><!-- Creation -->
   <Action name="newbookmark"/>
-  <Action name="newfolder"/>
-  <Action name="insertseparator"/>
-  <Separator/><!-- Stuff for folders -->
-  <Action name="sort"/>
-  <Action name="setastoolbar"/>
+  <Separator/><!-- Dangerous actions :/ -->
+  <Action name="delete"/>
 </Menu>
 
 <Menu name="popup_bookmark">
   <!-- Stuff for bookmarks -->
   <Action name="openlink"/>
   <Action name="testlink"/>
-  <Separator/><!-- Edition -->
+  <Action name="updatefavicon"/>
+  <Separator/><!-- Clipboard stuff -->
   <Action name="edit_undo"/>
   <Action name="edit_redo"/>
   <Action name="edit_cut"/>
   <Action name="edit_copy"/>
   <Action name="edit_paste"/>
-  <Separator/>
+  <Separator/><!-- Edition -->
   <Action name="rename"/>
   <Action name="changeurl"/>
-  <Action name="changecomment"/>
-  <Action name="updatefavicon"/>
   <Action name="changeicon"/>
   <Separator/><!-- Creation -->
-  <Action name="newbookmark"/>
   <Action name="newfolder"/>
   <Action name="insertseparator"/>
   <Separator/><!-- Dangerous actions :/ -->

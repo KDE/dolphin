@@ -508,7 +508,9 @@ void ListView::handleContextMenu(KEBListView *lv, KListView *, QListViewItem *qi
    }
    // BLAH
    const char *type = 
-      (item == m_listView->rootItem()) || (item->bookmark().isGroup()) 
+      (item == m_listView->rootItem()) 
+   || (item->bookmark().isGroup()) 
+   || (item->isEmptyFolder())
     ? "popup_folder" : "popup_bookmark";
    QWidget* popup = KEBApp::self()->popupMenuFactory(type);
    if (popup) {
