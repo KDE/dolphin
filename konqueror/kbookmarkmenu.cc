@@ -96,7 +96,12 @@ void KBookmarkMenu::slotBookmarksChanged()
     m_vMenu->insertItem( text, m_vPart, "slotEditBookmarks", 0 );
   }    
 
+  // Converting the same pixmap via UIUtils for each item is VERY long.
+  // We could add a method to opMenu* that would take a pixmap file name and
+  // use KPixmapCache instead.  Just my 2 euros (David).
+  kdebug(0, 1202, "fillBookmarkMenu : starting (this can be VERY long - see comment in kbookmarkmenu.cc, line %d)",__LINE__);
   fillBookmarkMenu( KBookmarkManager::self()->root() );
+  kdebug(0, 1202, "fillBookmarkMenu : done");
 }
 
 void KBookmarkMenu::fillBookmarkMenu( KBookmark *parent )
@@ -112,25 +117,20 @@ void KBookmarkMenu::fillBookmarkMenu( KBookmark *parent )
 
   for ( bm = parent->children()->first(); bm != 0L;  bm = parent->children()->next() )
   {
-    QPixmap * pixmap = bm->pixmap( true );
-    if ( pixmap ) // be on the safe side...
+    QPixmap * pixmap = bm->pixmap();
+    OpenPartsUI::Pixmap_var pix = OPUIUtils::convertPixmap( *pixmap );
+    text = Q2C( bm->text() );
+    if ( bm->type() == KBookmark::URL )
     {
-      if ( bm->type() == KBookmark::URL )
-      {
-        OpenPartsUI::Pixmap_var pix = OPUIUtils::convertPixmap( *pixmap );
-	text = Q2C( bm->text() );
         m_vMenu->insertItem11( pix, text, (CORBA::Long)bm->id(), -1 );	
-      }
-      else
-      {	
+    }
+    else
+    {	
         OpenPartsUI::Menu_var subMenuVar;
-        OpenPartsUI::Pixmap_var pix = OPUIUtils::convertPixmap( *pixmap );
-	text = Q2C( bm->text() );
         m_vMenu->insertItem12( pix, text, subMenuVar, -1, -1 );
         KBookmarkMenu *subMenu = new KBookmarkMenu( m_pOwner, subMenuVar, m_vPart, false );
         m_lstSubMenus.append( subMenu );
         subMenu->fillBookmarkMenu( bm );
-      }
     }
   }
 }
