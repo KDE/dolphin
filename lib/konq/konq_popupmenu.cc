@@ -394,12 +394,6 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
         if ( url.protocol().find("device", 0, false)==0)
             devicesFile = true;
     }
-    // Be on the safe side when including the trash
-    if ( bTrashIncluded )
-    {
-        sMoving = false;
-        sDeleting = false;
-    }
     //check if current url is trash
     url = m_sViewURL;
     url.cleanPath();
@@ -526,7 +520,7 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
 
         if ( !bIsLink )
         {
-            if ( !currentDir && sReading && !isIntoTrash &&!devicesFile ) {
+            if ( !currentDir && sReading && !devicesFile ) {
                 if ( sDeleting ) {
                     addAction( "cut" );
                 }
@@ -539,19 +533,16 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
                 else
                     addAction( "pasteto" );
             }
-            if ( !isIntoTrash )
+            if (!currentDir )
             {
-                if (!currentDir )
-                {
-                    if ( m_lstItems.count() == 1 && sWriting )
-                        addAction("rename");
+                if ( m_lstItems.count() == 1 && sWriting && !isIntoTrash )
+                    addAction("rename");
 
-                    if ( sMoving )
-                        addAction( "trash" );
+                if ( sMoving && !isIntoTrash )
+                    addAction( "trash" );
 
-                    if ( sDeleting ) {
-                        addAction( "del" );
-                    }
+                if ( sDeleting ) {
+                    addAction( "del" );
                 }
             }
         }
