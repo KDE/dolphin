@@ -39,7 +39,9 @@ KIOControlApplication::KIOControlApplication( int &argc, char **argv )
   m_pUserAgentOptions = 0L;
   m_pCookiesOptions   = 0L;
   m_pProfileOptions   = 0L;
-  
+
+  g_pConfig = new KConfig( "kioslaverc", false, false );
+
   if ( !runGUI() )
     return;
 
@@ -124,8 +126,7 @@ void KIOControlApplication::apply()
 
 int main(int argc, char **argv )
 {
-  g_pConfig = new KConfig( "kioslaverc", false, false );
-  KIOControlApplication app( argc, argv );
+    KIOControlApplication app( argc, argv );
   
   app.setTitle( i18n( "KDE Network Configuration" ) );
   

@@ -18,7 +18,7 @@
 #include "behaviour.h"
 #include "rootopts.h"
 
-KConfig *g_pConfig;
+KConfig *g_pConfig = 0;
 
 class KonqControlApplication: public KControlApplication
 {
@@ -48,6 +48,14 @@ KonqControlApplication::KonqControlApplication( int &argc, char **argv )
   m_pMiscOptions  = 0L;
   m_pRootOptions  = 0L;
 
+  bool _desktop = argc > 1 && !strcmp(argv[1], "desktop");
+  g_pConfig = new KConfig( _desktop ? "kdesktoprc" : "konquerorrc", false, false );
+
+  if ( _desktop )
+      setTitle( i18n( "Desktop Icons Configuration" ) );
+  else
+      setTitle( i18n( "Konqueror Configuration" ) );
+  
   if ( !runGUI() )
     return;
 
@@ -173,16 +181,9 @@ void KonqControlApplication::apply()
 
 int main(int argc, char **argv )
 {
-  bool desktop = argc > 1 && !strcmp(argv[1], "desktop");
+    KonqControlApplication app( argc, argv );
+  
 
-  g_pConfig = new KConfig( desktop ? "kdesktoprc" : "konquerorrc", false, false );
-  KonqControlApplication app( argc, argv );
-  
-  if ( desktop )
-    app.setTitle( i18n( "Desktop Icons Configuration" ) );
-  else
-    app.setTitle( i18n( "Konqueror Configuration" ) );
-  
   int ret = 0;
   if ( app.runGUI() )
     ret = app.exec();
