@@ -42,7 +42,7 @@
 #include <ktrader.h>
 #include <openparts.h>
 
-#include <sti.h>
+#include <cutesti.h>
 
 #include "kfmclient.h"
 
