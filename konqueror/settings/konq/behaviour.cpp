@@ -34,12 +34,12 @@ KBehaviourOptions::KBehaviourOptions(KConfig *config, QString group, QWidget *pa
     lay->setColStretch(0,0);
     lay->setColStretch(1,1);
 
-    cbSingleClick = new QCheckBox(i18n("&Single click to activate"), this);
+    cbSingleClick = new QCheckBox(i18n("&Single click to activate / run / open"), this);
     lay->addMultiCellWidget(cbSingleClick,row,row,0,N_COLS,Qt::AlignLeft);
     connect(cbSingleClick, SIGNAL(clicked()), this, SLOT(changed()));
 
     row++;
-    cbAutoSelect = new QCheckBox(i18n("&Auto select"), this);
+    cbAutoSelect = new QCheckBox(i18n("&Automatically select links"), this);
     lay->addMultiCellWidget(cbAutoSelect,row,row,0,N_COLS,Qt::AlignLeft);
     connect(cbAutoSelect, SIGNAL(clicked()), this, SLOT(changed()));
 
@@ -66,7 +66,7 @@ KBehaviourOptions::KBehaviourOptions(KConfig *config, QString group, QWidget *pa
     //----------
 
     row++;
-    cbCursor = new QCheckBox(i18n("&Change cursor over link"), this);
+    cbCursor = new QCheckBox(i18n("&Change cursor shape when over a link"), this);
     lay->addMultiCellWidget(cbCursor,row,row,0,N_COLS,Qt::AlignLeft);
     connect(cbCursor, SIGNAL(clicked()), this, SLOT(changed()));
 

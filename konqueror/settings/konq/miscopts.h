@@ -49,6 +49,7 @@ private:
         QCheckBox *urlpropsbox;
         QLineEdit *leTerminal;
 	QCheckBox *m_pHaveBiiigToolBarCheckBox;
+	QCheckBox *m_pConfirmDestructive;
 };
 
 #endif // __KFM_MISC_OPTIONS_H
