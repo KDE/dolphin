@@ -286,7 +286,7 @@ KonqPopupMenu::KonqPopupMenu( const KFileItemList &items,
     m_mapPopup.clear();
     m_mapPopupServices.clear();
 
-    QString openWithText = i18n( "Open With..." );
+    QString openWithText = i18n( "Open With" );
 
     if ( !offers.isEmpty() || !user.isEmpty() || !builtin.isEmpty() )
     {
@@ -306,7 +306,7 @@ KonqPopupMenu::KonqPopupMenu( const KFileItemList &items,
         QDomElement text = m_doc.createElement( "text" );
         menu.appendChild( text );
         text.appendChild( m_doc.createTextNode( openWithText ) );
-	openWithText = i18n( "Other ..." );
+	openWithText = i18n( "Other..." );
       }
 
       KAction *openWithAct = new KAction( openWithText, 0, this, SLOT( slotPopupOpenWith() ), &m_ownActions, "openwith" );
@@ -396,6 +396,7 @@ KonqPopupMenu::KonqPopupMenu( const KFileItemList &items,
     else
     {
       addSeparator();
+      openWithText += "..."; //Show "..." only when no application binding is found!!
       act = new KAction( openWithText, 0, this, SLOT( slotPopupOpenWith() ), &m_ownActions, "openwith" );
       addAction( act );
       addSeparator();
