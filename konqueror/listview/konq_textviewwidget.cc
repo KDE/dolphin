@@ -143,13 +143,11 @@ bool KonqTextViewWidget::openURL( const KURL &url )
 
    m_url=url;
 
-   if ( m_pProps->enterDir( url, KonqListViewFactory::defaultViewProps() ) )
-   {
-      // nothing to do yet
-   }
+   m_pProps->enterDir( url );
+   // TODO: setChecked on the actions, depending on isShowing...
 
    // Start the directory lister !
-   m_dirLister->openURL( url, m_pProps->m_bShowDot, false /* new url */ );
+   m_dirLister->openURL( url, m_pProps->isShowingDotFiles(), false /* new url */ );
 
    //  setCaptionFromURL( m_sURL );
    return true;

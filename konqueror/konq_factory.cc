@@ -235,10 +235,11 @@ const KAboutData *KonqFactory::aboutData()
   return s_aboutData;
 }
 
+// This is a kludge for konq_childview (HTMLAllowed)
 KonqPropsView *KonqFactory::defaultViewProps()
 {
   if ( !s_defaultViewProps )
-    s_defaultViewProps = KonqPropsView::defaultProps( instance() );
+    s_defaultViewProps = new KonqPropsView( instance(), 0L );
 
   return s_defaultViewProps;
 }

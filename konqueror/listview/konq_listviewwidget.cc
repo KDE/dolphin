@@ -41,7 +41,7 @@
 #include <stdlib.h>
 #include <assert.h>
 
-KonqBaseListViewWidget::KonqBaseListViewWidget( KonqListView *parent, QWidget *parentWidget)
+KonqBaseListViewWidget::KonqBaseListViewWidget( KonqListView *parent, QWidget *parentWidget )
 :KListView(parentWidget )
 ,m_dirLister(0L)
 ,m_iColumns(-1)
@@ -66,9 +66,8 @@ KonqBaseListViewWidget::KonqBaseListViewWidget( KonqListView *parent, QWidget *p
    m_bTopLevelComplete  = true;
 
    // Create a properties instance for this view
-   // (copying the default values)
-   //   m_pProps = new KonqPropsView( * KonqPropsView::defaultProps( KonqListViewFactory::instance() ) );
-   m_pProps = new KonqPropsView( * KonqListViewFactory::defaultViewProps() );
+   // All the listview view modes inherit the same properties defaults...
+   m_pProps = new KonqPropsView( KonqListViewFactory::instance(), KonqListViewFactory::defaultViewProps() );
 
    //Adjust QListView behaviour
    setSelectionMode( Extended );
@@ -640,10 +639,8 @@ bool KonqBaseListViewWidget::openURL( const KURL &url )
 
   m_url = url;
 
-  if ( m_pProps->enterDir( url, KonqListViewFactory::defaultViewProps() ) )
-  {
-    // nothing to do yet
-  }
+  m_pProps->enterDir( url );
+  // TODO: setChecked on the actions, depending on isShowing...
 
   // Start the directory lister !
   m_dirLister->openURL( url, m_pProps->isShowingDotFiles(), false /* new url */ );

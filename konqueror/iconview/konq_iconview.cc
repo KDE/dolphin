@@ -97,7 +97,7 @@ public:
    static KonqPropsView *defaultViewProps()
    {
      if ( !s_defaultViewProps )
-       s_defaultViewProps = KonqPropsView::defaultProps( instance() );
+       s_defaultViewProps = new KonqPropsView( instance(), 0L );
 
      return s_defaultViewProps;
    }
@@ -122,6 +122,7 @@ IconViewBrowserExtension::IconViewBrowserExtension( KonqKfmIconView *iconView )
  : KParts::BrowserExtension( iconView )
 {
   m_iconView = iconView;
+  m_bSaveViewPropertiesLocally = false;
 }
 
 int IconViewBrowserExtension::xOffset()
@@ -142,16 +143,6 @@ void IconViewBrowserExtension::reparseConfiguration()
     m_iconView->iconViewWidget()->initConfig();
 }
 
-void IconViewBrowserExtension::saveLocalProperties()
-{
-    m_iconView->m_pProps->saveLocal( m_iconView->url() );
-}
-
-void IconViewBrowserExtension::savePropertiesAsDefault()
-{
-    m_iconView->m_pProps->saveAsDefault( KonqIconViewFactory::instance() );
-}
-
 void IconViewBrowserExtension::properties()
 {
     KFileItem * item = m_iconView->iconViewWidget()->selectedFileItems().first();
@@ -162,6 +153,11 @@ void IconViewBrowserExtension::editMimeType()
 {
     KFileItem * item = m_iconView->iconViewWidget()->selectedFileItems().first();
     KonqOperations::editMimeType( item->mimetype() );
+}
+
+void IconViewBrowserExtension::setSaveViewPropertiesLocally( bool value )
+{
+  m_iconView->m_pProps->setSaveViewPropertiesLocally( value );
 }
 
 
@@ -177,9 +173,7 @@ KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const 
     setXMLFile( "konq_iconview.rc" );
 
     // Create a properties instance for this view
-    // (copying the default values)
-    //    m_pProps = new KonqPropsView( * KonqPropsView::defaultProps( KonqIconViewFactory::instance() ) );
-    m_pProps = new KonqPropsView( * KonqIconViewFactory::defaultViewProps() );
+    m_pProps = new KonqPropsView( instance(), KonqIconViewFactory::defaultViewProps() );
 
     m_pIconView = new KonqIconViewWidget( parentWidget, "qiconview" );
 
@@ -274,8 +268,8 @@ KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const 
     m_paBottomText->setChecked( true );
     m_paRightText->setChecked( false );
 
-    /*KAction * paBackgroundColor =*/ new KAction( i18n( "Background Color..." ), 0, this, SLOT( slotBackgroundColor() ), actionCollection(), "bgcolor" );
-    /*KAction * paBackgroundImage =*/ new KAction( i18n( "Background Image..." ), 0, this, SLOT( slotBackgroundImage() ), actionCollection(), "bgimage" );
+    new KAction( i18n( "Background Color..." ), 0, this, SLOT( slotBackgroundColor() ), actionCollection(), "bgcolor" );
+    new KAction( i18n( "Background Image..." ), 0, this, SLOT( slotBackgroundImage() ), actionCollection(), "bgimage" );
 
     //
 
@@ -290,51 +284,22 @@ KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const 
     connect( m_paRightText, SIGNAL( toggled( bool ) ), this, SLOT( slotTextRight( bool ) ) );
 
     //
-    /*
-    actions()->append( BrowserView::ViewAction( m_paImagePreview, BrowserView::MenuView ) );
-    actions()->append( BrowserView::ViewAction( m_paDotFiles, BrowserView::MenuView ) );
-    actions()->append( BrowserView::ViewAction( m_pamSort, BrowserView::MenuView ) );
 
-    actions()->append( BrowserView::ViewAction( new KActionSeparator( this ), BrowserView::MenuView ) );
-
-    actions()->append( BrowserView::ViewAction( paBackgroundColor, BrowserView::MenuView ) );
-    actions()->append( BrowserView::ViewAction( paBackgroundImage, BrowserView::MenuView ) );
-
-    actions()->append( BrowserView::ViewAction( new KActionSeparator( this ), BrowserView::MenuView ) );
-
-    actions()->append( BrowserView::ViewAction( m_paBottomText, BrowserView::MenuView ) );
-    actions()->append( BrowserView::ViewAction( m_paRightText, BrowserView::MenuView ) );
-
-    actions()->append( BrowserView::ViewAction( new KActionSeparator( this ), BrowserView::MenuView ) );
-
-    actions()->append( BrowserView::ViewAction( m_paLargeIcons, BrowserView::MenuView ) );
-    actions()->append( BrowserView::ViewAction( m_paMediumIcons, BrowserView::MenuView ) );
-    actions()->append( BrowserView::ViewAction( m_paSmallIcons, BrowserView::MenuView ) );
-    //actions()->append( BrowserView::ViewAction( m_paKOfficeMode, BrowserView::MenuView ) );
-
-
-    actions()->append( BrowserView::ViewAction( m_paSelect, BrowserView::MenuEdit ) );
-    actions()->append( BrowserView::ViewAction( m_paUnselect, BrowserView::MenuEdit ) );
-    actions()->append( BrowserView::ViewAction( m_paSelectAll, BrowserView::MenuEdit ) );
-    actions()->append( BrowserView::ViewAction( m_paUnselectAll, BrowserView::MenuEdit ) );
-    actions()->append( BrowserView::ViewAction( m_paInvertSelection, BrowserView::MenuEdit ) );
-    */
-
-    QObject::connect( m_pIconView, SIGNAL( executed( QIconViewItem * ) ),
-		      this, SLOT( slotReturnPressed( QIconViewItem * ) ) );
-    QObject::connect( m_pIconView, SIGNAL( returnPressed( QIconViewItem * ) ),
-		      this, SLOT( slotReturnPressed( QIconViewItem * ) ) );
+    connect( m_pIconView, SIGNAL( executed( QIconViewItem * ) ),
+             this, SLOT( slotReturnPressed( QIconViewItem * ) ) );
+    connect( m_pIconView, SIGNAL( returnPressed( QIconViewItem * ) ),
+             this, SLOT( slotReturnPressed( QIconViewItem * ) ) );
 		
-    QObject::connect( m_pIconView, SIGNAL( onItem( QIconViewItem * ) ),
-		      this, SLOT( slotOnItem( QIconViewItem * ) ) );
+    connect( m_pIconView, SIGNAL( onItem( QIconViewItem * ) ),
+             this, SLOT( slotOnItem( QIconViewItem * ) ) );
 		
-    QObject::connect( m_pIconView, SIGNAL( onViewport() ),
-		      this, SLOT( slotOnViewport() ) );
+    connect( m_pIconView, SIGNAL( onViewport() ),
+             this, SLOT( slotOnViewport() ) );
 		
-    QObject::connect( m_pIconView, SIGNAL( mouseButtonPressed(int, QIconViewItem*, const QPoint&)),
-		      this, SLOT( slotMouseButtonPressed(int, QIconViewItem*, const QPoint&)) );
-    QObject::connect( m_pIconView, SIGNAL( rightButtonPressed( QIconViewItem *, const QPoint &) ),
-		      this, SLOT( slotViewportRightClicked( QIconViewItem * ) ) );
+    connect( m_pIconView, SIGNAL( mouseButtonPressed(int, QIconViewItem*, const QPoint&)),
+             this, SLOT( slotMouseButtonPressed(int, QIconViewItem*, const QPoint&)) );
+    connect( m_pIconView, SIGNAL( rightButtonPressed( QIconViewItem *, const QPoint &) ),
+             this, SLOT( slotViewportRightClicked( QIconViewItem * ) ) );
 
     // Extract 3 icon sizes from the icon theme. Use 16,32,48 as default.
     int i;
@@ -363,8 +328,6 @@ KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const 
 
     m_eSortCriterion = NameCaseInsensitive;
 
-    m_paImagePreview->setChecked( m_pProps->m_bImagePreview );
-
     m_lDirSize = 0;
     m_lFileCount = 0;
     m_lDirCount = 0;
@@ -384,11 +347,11 @@ KonqKfmIconView::~KonqKfmIconView()
 
 void KonqKfmIconView::slotImagePreview( bool toggle )
 {
-    m_pProps->m_bImagePreview = toggle;
-    if ( !m_pProps->m_bImagePreview )
+    m_pProps->setShowingImagePreview( toggle );
+    if ( !m_pProps->isShowingImagePreview() )
       calculateGridX();
-    m_pIconView->setImagePreviewAllowed ( m_pProps->m_bImagePreview );
-    if ( m_pProps->m_bImagePreview ) {
+    m_pIconView->setImagePreviewAllowed ( toggle );
+    if ( m_pProps->isShowingImagePreview() ) {
 	QIconViewItem *i = m_pIconView->firstItem();
 	for ( ; i; i = i->nextItem() ) {
 	    m_pIconView->setGridX( QMAX( m_pIconView->gridX(), i->width() ) );
@@ -419,8 +382,8 @@ void KonqKfmIconView::calculateGridX()
 void KonqKfmIconView::slotShowDot()
 {
     kdDebug(1202) << "KonqKfmIconView::slotShowDot()" << endl;
-    m_pProps->m_bShowDot = !m_pProps->m_bShowDot;
-    m_dirLister->setShowingDotFiles( m_pProps->m_bShowDot );
+    m_pProps->setShowingDotFiles( !m_pProps->isShowingDotFiles() );
+    m_dirLister->setShowingDotFiles( m_pProps->isShowingDotFiles() );
     //we don't want the non-dot files to remain where they are
     m_bNeedAlign = true;
 }
@@ -650,7 +613,7 @@ void KonqKfmIconView::slotBackgroundColor()
 	m_pProps->m_bgPixmap = QPixmap();
 	m_pIconView->viewport()->setBackgroundColor( m_pProps->m_bgColor );
 	m_pIconView->viewport()->setBackgroundPixmap( m_pProps->m_bgPixmap );
-	m_pProps->saveLocal( url() );
+	//m_pProps->saveLocal( url() );
 	m_pIconView->updateContents();
     }
 }
@@ -679,17 +642,17 @@ bool KonqKfmIconView::closeURL()
 void KonqKfmIconView::saveState( QDataStream &stream )
 {
     stream << (Q_INT32)m_pIconView->iconSize()
-	   << (Q_INT32)m_pIconView->itemTextPos()
-	   << (Q_INT32)m_pProps->m_bImagePreview
-	   << (Q_INT32)m_pProps->m_bShowDot
-	   << (Q_INT32)m_pProps->m_bHTMLAllowed;
+	   << (Q_INT32)m_pIconView->itemTextPos();
+        //<< (Q_INT32)m_pProps->m_bImagePreview
+	//   << (Q_INT32)m_pProps->m_bShowDot
+	//   << (Q_INT32)m_pProps->m_bHTMLAllowed;
 }
 
 void KonqKfmIconView::restoreState( QDataStream &stream )
 {
-    Q_INT32 iIconSize, iTextPos, iImagePreview, iShowDot, iHTMLAllowed;
+    Q_INT32 iIconSize, iTextPos; //, iImagePreview, iShowDot, iHTMLAllowed;
 
-    stream >> iIconSize >> iTextPos >> iImagePreview >> iShowDot >> iHTMLAllowed;
+    stream >> iIconSize >> iTextPos; // >> iImagePreview >> iShowDot >> iHTMLAllowed;
 
     QIconView::ItemTextPos textPos = (QIconView::ItemTextPos)iTextPos;
 
@@ -725,11 +688,9 @@ void KonqKfmIconView::restoreState( QDataStream &stream )
         slotTextRight( true );
     }
 
-    m_paImagePreview->setChecked( (bool) iImagePreview );
-    slotImagePreview( (bool) iImagePreview );
-
-    m_pProps->m_bShowDot = (bool) iShowDot;
-    // TODO apply HTML allowed
+    //m_paImagePreview->setChecked( (bool) iImagePreview );
+    //slotImagePreview( (bool) iImagePreview );
+    //m_pProps->m_bShowDot = (bool) iShowDot;
 }
 
 void KonqKfmIconView::slotReturnPressed( QIconViewItem *item )
@@ -837,7 +798,7 @@ void KonqKfmIconView::slotNewItems( const KFileItemList& entries )
 
     //kdDebug(1202) << "KonqKfmIconView::slotNewItem(...)" << _fileitem->url().url() << endl;
     KFileIVI* item = new KFileIVI( m_pIconView, _fileitem,
-				   m_pIconView->iconSize(), m_pProps->m_bImagePreview );
+				   m_pIconView->iconSize(), m_pProps->isShowingImagePreview() );
     item->setRenameEnabled( false );
 
     QObject::connect( item, SIGNAL( dropMe( KFileIVI *, QDropEvent * ) ),
@@ -1001,14 +962,15 @@ void KonqKfmIconView::slotProcessMimeIcons()
 
     KMimeType::Ptr dummy = item->item()->determineMimeType();
 
-    QPixmap newIcon = item->item()->pixmap( m_pIconView->iconSize(), m_pProps->m_bImagePreview );
+    QPixmap newIcon = item->item()->pixmap( m_pIconView->iconSize(),
+                                            m_pProps->isShowingImagePreview() );
 
     if ( currentIcon->serialNumber() != newIcon.serialNumber() )
     {
 	item->QIconViewItem::setPixmap( newIcon );
 	if ( item->width() > m_pIconView->gridX() )
 	    m_pIconView->setGridX( item->width() );
-	if ( m_pProps->m_bImagePreview )
+	if ( m_pProps->isShowingImagePreview() )
 	    m_bNeedAlign = true;
     }
 
@@ -1045,19 +1007,22 @@ bool KonqKfmIconView::openURL( const KURL &_url )
     // and in the part :-)
     m_url = _url;
 
+    m_pProps->enterDir( _url );
+    m_paDotFiles->setChecked( m_pProps->isShowingDotFiles() );
+    m_paImagePreview->setChecked( m_pProps->isShowingImagePreview() );
+    // TODO HTML allowed : here or in konqmainview? rather here I'd say
+
     // Start the directory lister !
-    m_dirLister->openURL( url(), m_pProps->m_bShowDot );
+    m_dirLister->openURL( url(), m_pProps->isShowingDotFiles() );
     // Note : we don't store the url. KonqDirLister does it for us.
 
     m_bNeedAlign = false;
 
+
     // do it after starting the dir lister to avoid changing bgcolor of the
     // old view
-    if ( m_pProps->enterDir( _url, KonqIconViewFactory::defaultViewProps() ) )
-    {
-	m_pIconView->viewport()->setBackgroundColor( m_pProps->m_bgColor );
-	m_pIconView->viewport()->setBackgroundPixmap( m_pProps->m_bgPixmap );
-    }
+    m_pIconView->viewport()->setBackgroundColor( m_pProps->m_bgColor );
+    m_pIconView->viewport()->setBackgroundPixmap( m_pProps->m_bgPixmap );
 
     emit setWindowCaption( _url.decodedURL() );
 

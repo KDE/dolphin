@@ -230,8 +230,7 @@ public:
 public slots:
   // Those slots are automatically connected by the shell
   void reparseConfiguration();
-  void saveLocalProperties();
-  void savePropertiesAsDefault();
+  void setSaveViewPropertiesLocally( bool value );
   void refreshMimeTypes() { m_iconView->iconViewWidget()->refreshMimeTypes(); }
 
   void cut() { m_iconView->iconViewWidget()->cutSelection(); }
@@ -255,6 +254,7 @@ public slots:
 
 private:
   KonqKfmIconView *m_iconView;
+  bool m_bSaveViewPropertiesLocally;
 };
 
 #endif

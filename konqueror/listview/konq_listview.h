@@ -157,8 +157,7 @@ class ListViewBrowserExtension : public KParts::BrowserExtension
                                          m_listView->listViewWidget()->selectedUrls()); }
 
       void reparseConfiguration();
-      void saveLocalProperties();
-      void savePropertiesAsDefault();
+      void setSaveViewPropertiesLocally( bool value );
 
       void properties();
       void editMimeType();

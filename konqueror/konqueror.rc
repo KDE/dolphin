@@ -62,8 +62,7 @@
   <Separator/>
   <Merge name="toggleview" />
   <Separator/>
-  <Action name="savePropertiesAsDefault"/>
-  <Action name="saveLocalProperties"/>
+  <Action name="saveViewPropertiesLocally"/>
   <Separator/>
   <Menu name="configure"><text>&amp;Configure</text>
     <Action name="configurefilemanager"/>

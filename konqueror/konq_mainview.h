@@ -131,7 +131,6 @@ public slots:
   void slotGoTemplates();
   void slotGoAutostart();
 
-  void slotSaveSettings();
   void slotConfigureFileManager();
   void slotConfigureBrowser();
   void slotConfigureFileTypes();
@@ -221,7 +220,7 @@ protected slots:
   void slotSplitWindowVertical();
   void slotRemoveView();
 
-  //void slotSaveDefaultProfile();
+  void slotSaveViewPropertiesLocally();
 
   void slotOpenEmbedded();
   void slotOpenEmbeddedDoIt();
@@ -266,6 +265,7 @@ protected:
   void fillHistoryPopup( QPopupMenu *menu, const QList<HistoryEntry> &history );
 
   void callExtensionMethod( KonqChildView * childView, const char * methodName );
+  void callExtensionBoolMethod( KonqChildView * childView, const char * methodName, bool value );
 
   void applyMainWindowSettings();
 
@@ -305,8 +305,7 @@ private:
 
   KonqBidiHistoryAction *m_paHistory;
 
-  KAction *m_paSaveSettings;
-  KAction *m_paSaveLocalProperties;
+  KToggleAction *m_paSaveViewPropertiesLocally;
 
   KAction *m_paConfigureFileManager;
   KAction *m_paConfigureBrowser;
@@ -388,6 +387,7 @@ private:
 
   // Set in constructor, used in slotRunFinished
   bool m_bNeedApplyMainViewSettings;
+  bool m_bSaveViewPropertiesLocally;
 
   static QStringList *s_plstAnimatedLogo;
 

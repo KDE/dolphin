@@ -90,7 +90,7 @@ KInstance *KonqListViewFactory::instance()
 KonqPropsView *KonqListViewFactory::defaultViewProps()
 {
   if ( !s_defaultViewProps )
-    s_defaultViewProps = KonqPropsView::defaultProps( instance() );
+    s_defaultViewProps = new KonqPropsView( instance(), 0L );
 
   return s_defaultViewProps;
 }
@@ -203,15 +203,9 @@ void ListViewBrowserExtension::reparseConfiguration()
   m_listView->listViewWidget()->initConfig();
 }
 
-void ListViewBrowserExtension::saveLocalProperties()
+void ListViewBrowserExtension::setSaveViewPropertiesLocally( bool value )
 {
-  // TODO move this to KonqListView. Ugly.
-  m_listView->listViewWidget()->m_pProps->saveLocal( m_listView->url() );
-}
-
-void ListViewBrowserExtension::savePropertiesAsDefault()
-{
-  m_listView->listViewWidget()->m_pProps->saveAsDefault( KonqListViewFactory::instance() );
+    m_listView->listViewWidget()->m_pProps->setSaveViewPropertiesLocally( value );
 }
 
 void ListViewBrowserExtension::properties()
@@ -239,7 +233,7 @@ KonqListView::KonqListView( QWidget *parentWidget, QObject *parent, const char *
 
   if (mode=="TextView")
   {
-     kdDebug(1202) << "Creating KonqTextViewWidget\n" << endl;
+     kdDebug(1202) << "Creating KonqTextViewWidget" << endl;
      setXMLFile( "konq_textview.rc" );
      m_pListView=new KonqTextViewWidget(this, parentWidget);
   }

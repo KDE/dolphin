@@ -1,21 +1,21 @@
 /* This file is part of the KDE project
-   Copyright (C) 1998, 1999 Faure David <faure@kde.org>
- 
+   Copyright (C) 1998-2000 David Faure <faure@kde.org>
+
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public
    License as published by the Free Software Foundation; either
    version 2 of the License, or (at your option) any later version.
- 
+
    This program is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
     General Public License for more details.
- 
+
    You should have received a copy of the GNU General Public License
    along with this program; see the file COPYING.  If not, write to
    the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
    Boston, MA 02111-1307, USA.
-*/     
+*/
 
 #include "konq_propsmainview.h"
 #include <konqdefaults.h>
@@ -26,10 +26,10 @@ KonqPropsMainView * KonqPropsMainView::m_pDefaultProps = 0L;
 
 KonqPropsMainView::KonqPropsMainView( KConfig * config )
 {
-  QString entry;
-  m_bSplitView = config->readBoolEntry( "SplitView", false );
+    //  m_toggableViewsShown = config->readListEntry( "ToggableViewsShown" );
 
   /*
+  QString entry;
   entry = config->readEntry("Toolbar", "top");
   m_bShowToolBar = true;
   if ( entry == "top" )
@@ -37,13 +37,13 @@ KonqPropsMainView::KonqPropsMainView( KConfig * config )
   else if ( entry == "left" )
     m_toolBarPos = KToolBar::Left;
   else if ( entry == "right" )
-    m_toolBarPos = KToolBar::Right;    
+    m_toolBarPos = KToolBar::Right;
   else if ( entry == "bottom" )
-    m_toolBarPos = KToolBar::Bottom;    
+    m_toolBarPos = KToolBar::Bottom;
   else if ( entry == "floating" )
-    m_toolBarPos = KToolBar::Floating;    
+    m_toolBarPos = KToolBar::Floating;
   else if ( entry == "flat" )
-    m_toolBarPos = KToolBar::Flat;    
+    m_toolBarPos = KToolBar::Flat;
   else
     m_bShowToolBar = false;
 
@@ -52,11 +52,11 @@ KonqPropsMainView::KonqPropsMainView( KConfig * config )
   if ( entry == "top" )
     m_locationBarPos = KToolBar::Top;
   else if ( entry == "bottom" )
-    m_locationBarPos = KToolBar::Bottom;    
+    m_locationBarPos = KToolBar::Bottom;
   else if ( entry == "floating" )
-    m_locationBarPos = KToolBar::Floating;    
+    m_locationBarPos = KToolBar::Floating;
   else if ( entry == "flat" )
-    m_locationBarPos = KToolBar::Flat;    
+    m_locationBarPos = KToolBar::Flat;
   else
     m_bShowLocationBar = false;
 
@@ -65,11 +65,11 @@ KonqPropsMainView::KonqPropsMainView( KConfig * config )
   if ( entry == "top" )
     m_menuBarPos = KMenuBar::Top;
   else if ( entry == "bottom" )
-    m_menuBarPos = KMenuBar::Bottom;    
+    m_menuBarPos = KMenuBar::Bottom;
   else if ( entry == "floating" )
-    m_menuBarPos = KMenuBar::Floating;    
+    m_menuBarPos = KMenuBar::Floating;
   else if ( entry == "flat" )
-    m_menuBarPos = KMenuBar::Flat;    
+    m_menuBarPos = KMenuBar::Flat;
   else
     m_bShowMenuBar = false;
 
@@ -78,18 +78,15 @@ KonqPropsMainView::KonqPropsMainView( KConfig * config )
   if ( entry == "top" )
     m_statusBarPos = KStatusBar::Top;
   else if ( entry == "bottom" )
-    m_statusBarPos = KStatusBar::Bottom;    
+    m_statusBarPos = KStatusBar::Bottom;
   else if ( entry == "floating" )
-    m_statusBarPos = KStatusBar::Floating;    
+    m_statusBarPos = KStatusBar::Floating;
   else
     m_bShowStatusBar = false;
   */
 
   m_width = config->readNumEntry("WindowWidth",  MAINWINDOW_WIDTH);
   m_height = config->readNumEntry("WindowHeight",MAINWINDOW_HEIGHT);
-
-  KConfigGroupSaver s( config, "Misc Defaults" );
-  m_bHaveBigToolBar = config->readBoolEntry( "HaveBigToolBar", false );
 }
 
 KonqPropsMainView::~KonqPropsMainView()
@@ -98,8 +95,8 @@ KonqPropsMainView::~KonqPropsMainView()
 
 void KonqPropsMainView::saveProps( KConfig * config )
 {
-  config->writeEntry( "SplitView", m_bSplitView );
-  
+    //  config->writeEntry( "SplitView", m_bSplitView );
+
   /*
   if ( !m_bShowToolBar )
       config->writeEntry( "Toolbar", "hide" );

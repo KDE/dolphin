@@ -183,6 +183,12 @@ KonqMainView::KonqMainView( const KURL &initialURL, bool openInitialURL, const c
       // silent
       m_bNeedApplyMainViewSettings = false;
 
+  // Read basic main-view settings
+  KConfig *config = KonqFactory::instance()->config();
+  KConfigGroupSaver cgs( config, "MainView Settings" );
+  m_bSaveViewPropertiesLocally = config->readBoolEntry( "SaveViewPropertiesLocally", false );
+  m_paSaveViewPropertiesLocally->setChecked( m_bSaveViewPropertiesLocally );
+
   resize( 700, 480 );
   kdDebug(1202) << "KonqMainView::KonqMainView done" << endl;
 }
@@ -590,14 +596,6 @@ void KonqMainView::slotGoAutostart()
   KonqFileManager::getFileManager()->openFileManagerWindow( KGlobalSettings::autostartPath() );
 }
 
-void KonqMainView::slotSaveSettings()
-{
-  // "savePropertiesAsDefault()" is automatically called in the view
-  // But we also connected this slot here, in order to
-  // save here konqueror settings (show menubar, ...)
-  // (TODO)
-}
-
 void KonqMainView::slotConfigureFileManager()
 {
   if (fork() == 0) {
@@ -876,6 +874,7 @@ void KonqMainView::insertChildView( KonqChildView *childView )
 
   m_paRemoveView->setEnabled( activeViewsCount() > 1 );
 
+  callExtensionBoolMethod( childView, "setSaveViewPropertiesLocally(bool)", m_bSaveViewPropertiesLocally );
   emit viewAdded( childView );
 }
 
@@ -1095,6 +1094,21 @@ void KonqMainView::slotRemoveView()
   m_paLockView->setEnabled(m_pViewManager->chooseNextView(m_currentView) != 0L );
 }
 
+void KonqMainView::slotSaveViewPropertiesLocally()
+{
+  m_bSaveViewPropertiesLocally = !m_bSaveViewPropertiesLocally;
+  // And this is a main-view setting, so save it
+  KConfig *config = KonqFactory::instance()->config();
+  KConfigGroupSaver cgs( config, "MainView Settings" );
+  config->writeEntry( "SaveViewPropertiesLocally", m_bSaveViewPropertiesLocally );
+  config->sync();
+  // Now tell the views
+  MapViews::ConstIterator it = m_mapViews.begin();
+  MapViews::ConstIterator end = m_mapViews.end();
+  for (; it != end; ++it )
+    callExtensionBoolMethod( (*it), "setSaveViewPropertiesLocally(bool)", m_bSaveViewPropertiesLocally );
+}
+
 /*
 void KonqMainView::slotSaveDefaultProfile()
 {
@@ -1114,6 +1128,19 @@ void KonqMainView::callExtensionMethod( KonqChildView * childView, const char * 
   QMetaData * mdata = obj->metaObject()->slot( methodName );
   if( mdata )
     (obj->*(mdata->ptr))();
+}
+
+void KonqMainView::callExtensionBoolMethod( KonqChildView * childView, const char * methodName, bool value )
+{
+  QObject *obj = childView->view()->child( 0L, "KParts::BrowserExtension" );
+  // assert(obj); Hmm, not all views have a browser extension !
+  if ( !obj )
+    return;
+
+  typedef void (QObject::*BoolMethod)(bool);
+  QMetaData * mdata = obj->metaObject()->slot( methodName );
+  if( mdata )
+    (obj->*((BoolMethod)mdata->ptr))(value);
 }
 
 void KonqMainView::slotCut()
@@ -1509,9 +1536,8 @@ void KonqMainView::initActions()
   (void) new KAction( i18n( "Templates" ), 0, this, SLOT( slotGoTemplates() ), actionCollection(), "go_templates" );
   (void) new KAction( i18n( "Autostart" ), 0, this, SLOT( slotGoAutostart() ), actionCollection(), "go_autostart" );
 
-  // Options menu
-  m_paSaveSettings = new KAction( i18n( "Sa&ve Settings" ), 0, this, SLOT( slotSaveSettings() ), actionCollection(), "savePropertiesAsDefault" );
-  m_paSaveLocalProperties = new KAction( i18n( "Save Settings for this &URL" ), 0, actionCollection(), "saveLocalProperties" );
+  // Settings menu
+  m_paSaveViewPropertiesLocally = new KToggleAction( i18n( "Sa&ve View Properties In Directory" ), 0, this, SLOT( slotSaveViewPropertiesLocally() ), actionCollection(), "saveViewPropertiesLocally" );
 
   m_paConfigureFileManager = new KAction( i18n( "Configure File &Manager..." ), 0, this, SLOT( slotConfigureFileManager() ), actionCollection(), "configurefilemanager" );
   m_paConfigureBrowser = new KAction( i18n( "Configure &Browser..." ), 0, this, SLOT( slotConfigureBrowser() ), actionCollection(), "configurebrowser" );
@@ -1725,16 +1751,18 @@ void KonqMainView::connectExtension( KParts::BrowserExtension *ext )
       actionName = "paste";
     KAction * act = actionCollection()->action( actionName );
     //kdDebug(1202) << actionName << endl;
-    assert(act);
-    bool enable = false;
-    // Does the extension have a slot with the name of this action ?
-    if ( slotNames.contains( it.key()+"()" ) )
+    if ( act )
     {
-      if ( ! s_dontConnect->contains( it.key() ) )
-        connect( act, SIGNAL( activated() ), ext, it.data() /* SLOT(slot name) */ );
-      enable = true;
-    }
-    act->setEnabled( enable );
+      bool enable = false;
+      // Does the extension have a slot with the name of this action ?
+      if ( slotNames.contains( it.key()+"()" ) )
+      {
+        if ( ! s_dontConnect->contains( it.key() ) )
+          connect( act, SIGNAL( activated() ), ext, it.data() /* SLOT(slot name) */ );
+        enable = true;
+      }
+      act->setEnabled( enable );
+    } else kdError(1202) << "Error in BrowserExtension::actionSlotMap(), unknown action : " << actionName << endl;
   }
 
   connect( ext, SIGNAL( enableAction( const char *, bool ) ),
