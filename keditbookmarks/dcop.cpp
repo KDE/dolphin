@@ -63,7 +63,7 @@ void KBookmarkEditorIface::slotDcopAddedBookmark(QString filename, QString url, 
       CreateCommand *cmd = new CreateCommand(
                                   CurrentMgr::self()->correctAddress(address), 
                                   text, icon, KURL(url), true /*indirect*/);
-      KEBApp::self()->addCommand(cmd);
+      CmdHistory::self()->addCommand(cmd);
    }
 }
 
@@ -74,7 +74,7 @@ void KBookmarkEditorIface::slotDcopCreatedNewFolder(QString filename, QString te
                                   CurrentMgr::self()->correctAddress(address), 
                                   text, QString::null, 
                                   true /*open*/, true /*indirect*/);
-      KEBApp::self()->addCommand(cmd);
+      CmdHistory::self()->addCommand(cmd);
    }
 }
 

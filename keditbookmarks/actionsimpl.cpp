@@ -62,7 +62,7 @@ ActionsImpl* ActionsImpl::s_self = 0;
 void ActionsImpl::slotCut() {
    slotCopy();
    KMacroCommand *mcmd = CmdGen::self()->deleteItems(i18n("Cut Items"), ListView::self()->selectedItems());
-   KEBApp::self()->didCommand(mcmd);
+   CmdHistory::self()->didCommand(mcmd);
 }
 
 void ActionsImpl::slotCopy() {
@@ -79,7 +79,7 @@ void ActionsImpl::slotPaste() {
            i18n("Paste"), 
            kapp->clipboard()->data(QClipboard::Clipboard), 
            ListView::self()->userAddress());
-   KEBApp::self()->didCommand(mcmd);
+   CmdHistory::self()->didCommand(mcmd);
 }
 
 /* -------------------------------------- */
@@ -96,7 +96,7 @@ void ActionsImpl::slotNewFolder() {
    CreateCommand *cmd = new CreateCommand(
                               ListView::self()->userAddress(),
                               dlg.text(), "bookmark_folder", /*open*/ true);
-   KEBApp::self()->addCommand(cmd);
+   CmdHistory::self()->addCommand(cmd);
 }
 
 void ActionsImpl::slotNewBookmark() {
@@ -104,12 +104,12 @@ void ActionsImpl::slotNewBookmark() {
    CreateCommand * cmd = new CreateCommand(
                                ListView::self()->userAddress(),
                                QString::null, "www", KURL("http://"));
-   KEBApp::self()->addCommand(cmd);
+   CmdHistory::self()->addCommand(cmd);
 }
 
 void ActionsImpl::slotInsertSeparator() {
    CreateCommand * cmd = new CreateCommand(ListView::self()->userAddress());
-   KEBApp::self()->addCommand(cmd);
+   CmdHistory::self()->addCommand(cmd);
 }
 
 void ActionsImpl::slotImport() { 
@@ -117,7 +117,7 @@ void ActionsImpl::slotImport() {
    if (!import) {
       return;
    }
-   KEBApp::self()->addCommand(import);
+   CmdHistory::self()->addCommand(import);
    KEBListViewItem *item = ListView::self()->getItemAtAddress(import->groupAddress());
    if (item) {
       ListView::self()->setCurrent(item);
@@ -191,14 +191,14 @@ void ActionsImpl::slotSort() {
    KBookmark bk = ListView::self()->firstSelected()->bookmark();
    Q_ASSERT(bk.isGroup());
    SortCommand *cmd = new SortCommand(i18n("Sort Alphabetically"), bk.address());
-   KEBApp::self()->addCommand(cmd);
+   CmdHistory::self()->addCommand(cmd);
 }
 
 /* -------------------------------------- */
 
 void ActionsImpl::slotDelete() {
    KMacroCommand *mcmd = CmdGen::self()->deleteItems(i18n("Delete Items"), ListView::self()->selectedItems());
-   KEBApp::self()->didCommand(mcmd);
+   CmdHistory::self()->didCommand(mcmd);
 }
 
 void ActionsImpl::slotOpenLink() {
@@ -230,7 +230,7 @@ void ActionsImpl::slotSetAsToolbar() {
    KBookmark bk = ListView::self()->firstSelected()->bookmark();
    Q_ASSERT(bk.isGroup());
    KMacroCommand *mcmd = CmdGen::self()->setAsToolbar(bk);
-   KEBApp::self()->addCommand(mcmd);
+   CmdHistory::self()->addCommand(mcmd);
 }
 
 void ActionsImpl::slotChangeIcon() {
@@ -244,7 +244,7 @@ void ActionsImpl::slotChangeIcon() {
                             bk.address(),
                             EditCommand::Edition("icon", newIcon),
                             i18n("Icon"));
-   KEBApp::self()->addCommand(cmd);
+   CmdHistory::self()->addCommand(cmd);
 }
 
 void ActionsImpl::slotExpandAll() {

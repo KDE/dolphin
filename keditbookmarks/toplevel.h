@@ -23,6 +23,11 @@
 #include <kmainwindow.h>
 #include <kcommand.h>
 
+class KBookmarkManager;
+class KToggleAction;
+class KBookmarkEditorIface;
+class ImportCommand;
+
 struct SelcAbilities {
    bool itemSelected:1;
    bool group:1;
@@ -34,10 +39,23 @@ struct SelcAbilities {
    bool notEmpty:1;
 };
 
-class KBookmarkManager;
-class KBookmarkEditorIface;
-class ImportCommand;
-class KToggleAction;
+class CmdHistory : public QObject {
+   Q_OBJECT
+private:
+   KCommandHistory m_commandHistory;
+   static CmdHistory *s_self;
+public:
+   CmdHistory(KActionCollection *collection);
+   virtual ~CmdHistory() { ; }
+   void notifyDocSaved();
+   void clearHistory();
+   void addCommand(KCommand *);
+   void didCommand(KCommand *);
+   static CmdHistory *self();
+protected slots:
+   void slotCommandExecuted();
+   void slotDocumentRestored();
+};
 
 class KEBApp : public KMainWindow
 {
@@ -62,12 +80,6 @@ public:
 
    void emitSlotCommandExecuted();
 
-   void didCommand(KCommand *cmd);
-   void addCommand(KCommand *cmd);
-
-   void docSaved();
-   void clearHistory();
-
    void updateActions();
 
    bool readonly() { return m_readOnly; }
@@ -85,7 +97,6 @@ public slots:
    void slotLoad();
    void slotSave();
    void slotSaveAs();
-   void slotDocumentRestored();
    void slotSaveOnClose();
    void slotConfigureKeyBindings();
    void slotConfigureToolbars();
@@ -93,7 +104,6 @@ public slots:
 protected slots:
    void slotClipboardDataChanged();
    void slotBookmarksChanged(const QString &, const QString &);
-   void slotCommandExecuted();
    void slotNewToolbarConfig();
 
 private:
@@ -107,7 +117,7 @@ private:
    bool m_canPaste;
    bool m_readOnly;
 
-   KCommandHistory m_commandHistory;
+   CmdHistory *m_cmdHistory;
    KBookmarkEditorIface *m_dcopIface;
    QString m_bookmarksFilename;
    bool m_saveOnClose;

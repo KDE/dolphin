@@ -45,14 +45,65 @@
 
 #include "toplevel.h"
 
+CmdHistory* CmdHistory::s_self = 0;
+
+CmdHistory::CmdHistory(KActionCollection *collection) : m_commandHistory(collection) {
+   connect(&m_commandHistory, SIGNAL( commandExecuted() ),  
+                              SLOT( slotCommandExecuted() ));
+   connect(&m_commandHistory, SIGNAL( documentRestored() ), 
+                              SLOT( slotDocumentRestored() ));
+
+   assert(!s_self);
+   s_self = this;
+}
+
+CmdHistory* CmdHistory::self() {
+   assert(s_self); 
+   return s_self;
+}
+
+void CmdHistory::slotCommandExecuted() {
+   KEBApp::self()->emitSlotCommandExecuted();
+}
+
+void CmdHistory::slotDocumentRestored() {
+   // called when undoing the very first action - or the first one after
+   // saving. the "document" is set to "non modified" in that case.
+   if (!KEBApp::self()->readonly()) {
+      KEBApp::self()->setModifiedFlag(false);
+   }
+}
+
+void CmdHistory::notifyDocSaved() { 
+   m_commandHistory.documentSaved();
+}
+
+void CmdHistory::didCommand(KCommand *cmd) {
+   if (cmd) {
+      m_commandHistory.addCommand(cmd, false);
+      KEBApp::self()->emitSlotCommandExecuted();
+   }
+}
+
+void CmdHistory::addCommand(KCommand *cmd) {
+   if (cmd) {
+      m_commandHistory.addCommand(cmd);
+   }
+}
+
+void CmdHistory::clearHistory() {
+   m_commandHistory.clear();
+}
+
 KEBApp *KEBApp::s_topLevel = 0;
 
 KEBApp::KEBApp(const QString & bookmarksFile, bool readonly, const QString &address)
-   : KMainWindow(), m_commandHistory(actionCollection()), m_dcopIface(0) {
+   : KMainWindow(), m_dcopIface(0) {
 
    m_bookmarksFilename = bookmarksFile;
    m_readOnly = readonly;
    m_saveOnClose = true;
+   m_cmdHistory = new CmdHistory(actionCollection());
 
    s_topLevel = this;
 
@@ -71,9 +122,6 @@ KEBApp::KEBApp(const QString & bookmarksFile, bool readonly, const QString &addr
    m_dcopIface = new KBookmarkEditorIface();
 
    connect(kapp->clipboard(), SIGNAL( dataChanged() ),      SLOT( slotClipboardDataChanged() ));
-
-   connect(&m_commandHistory, SIGNAL( commandExecuted() ),  SLOT( slotCommandExecuted() ));
-   connect(&m_commandHistory, SIGNAL( documentRestored() ), SLOT( slotDocumentRestored() ));
 
    ListView::self()->connectSignals();
 
@@ -99,7 +147,7 @@ void KEBApp::construct() {
 
    setAutoSaveSettings();
    setModifiedFlag(false);
-   this->docSaved(); // CmdHistory
+   m_cmdHistory->notifyDocSaved();
 }
 
 KEBApp::~KEBApp() {
@@ -300,35 +348,7 @@ void KEBApp::slotClipboardDataChanged() {
 
 /* -------------------------- */
 
-void KEBApp::didCommand(KCommand *cmd) {
-   if (cmd) {
-      m_commandHistory.addCommand(cmd, false);
-      emit slotCommandExecuted();
-   }
-}
-
-void KEBApp::addCommand(KCommand *cmd) {
-   if (cmd) {
-      m_commandHistory.addCommand(cmd);
-   }
-}
-
-void KEBApp::docSaved() {
-   m_commandHistory.documentSaved();
-}
-
-void KEBApp::clearHistory() {
-   m_commandHistory.clear();
-}
-
 void KEBApp::emitSlotCommandExecuted() {
-   emit slotCommandExecuted();
-}
-
-/* -------------------------- */
-
-// LATER - move
-void KEBApp::slotCommandExecuted() {
    if (!m_readOnly) {
       kdDebug() << "KEBApp::slotCommandExecuted" << endl;
       setModifiedFlag(true);
@@ -338,20 +358,14 @@ void KEBApp::slotCommandExecuted() {
    }
 }
 
-void KEBApp::slotDocumentRestored() {
-   if (!m_readOnly) {
-      // called when undoing the very first action - or the first one after
-      // saving. the "document" is set to "non modified" in that case.
-      setModifiedFlag(false);
-   }
-}
+/* -------------------------- */
 
 void KEBApp::slotBookmarksChanged(const QString &, const QString &caller) {
    // TODO umm.. what happens if a readonly gets a update for a non-readonly???
    // the non-readonly maybe has a pretty much random kapp->name() ??? umm...
    if ((caller.latin1() != kapp->dcopClient()->appId()) && !m_modified) {
       kdDebug() << "KEBApp::slotBookmarksChanged" << endl;
-      clearHistory();
+      m_cmdHistory->clearHistory();
       ListView::self()->fillWithGroup();
       updateActions();
    }
@@ -384,7 +398,7 @@ bool KEBApp::save() {
    }
    CurrentMgr::self()->notifyManagers();
    setModifiedFlag(false);
-   this->docSaved(); // CmdHistory
+   m_cmdHistory->notifyDocSaved();
    return true;
 }
 

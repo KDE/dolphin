@@ -422,6 +422,7 @@ void ListView::handleDropped(KEBListView *lv, QDropEvent *e, QListViewItem *newP
    bool inApp = (e->source() == m_listView->viewport())
              || (m_folderListView && e->source() == m_folderListView->viewport());
    bool toOther = e->source() != lv->viewport();
+   Q_UNUSED(toOther);
 
    if (m_splitView) {
       return;
@@ -454,7 +455,7 @@ void ListView::handleDropped(KEBListView *lv, QDropEvent *e, QListViewItem *newP
       mcmd = CmdGen::self()->itemsMoved(selection, newAddress, copy);
    }
 
-   KEBApp::self()->didCommand(mcmd);
+   CmdHistory::self()->didCommand(mcmd);
 }
 
 void ListView::updateListView() {
@@ -589,7 +590,7 @@ void ListView::handleItemRenamed(KEBListView *lv, QListViewItem *item, const QSt
          cmd = new NodeEditCommand(bk.address(), newText, "desc");
       }
    }
-   KEBApp::self()->addCommand(cmd);
+   CmdHistory::self()->addCommand(cmd);
 }
 
 // used by f2 and f3 shortcut slots - see actionsimpl
