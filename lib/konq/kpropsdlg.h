@@ -381,7 +381,6 @@ protected:
     QLineEdit *swallowExecEdit;
     QLineEdit *swallowTitleEdit;
     QButton *execBrowse;
-    QString m_sRelativePath;
 
     QString execStr;
     QString swallowExecStr;
@@ -461,7 +460,6 @@ protected:
   QString nameStr;
   QStringList extensions;
   QString commentStr;
-  QString m_sRelativePath;
 };
 
 /**
