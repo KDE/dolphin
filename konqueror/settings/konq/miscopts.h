@@ -24,6 +24,7 @@ extern KConfig *g_pConfig;
 // Tree view follows navigation   (David)
 // Preferred terminal             (David)
 // AutoLoad Images                (Simon)
+// Big ToolBar                    (Simon)
 // ... there is room for others :))
 
 class KMiscOptions : public KConfigWidget
@@ -42,6 +43,7 @@ private:
         QLineEdit *leTerminal;
         QLineEdit *leEditor;
 	QCheckBox *m_pAutoLoadImagesCheckBox;
+	QCheckBox *m_pHaveBiiigToolBarCheckBox;
 };
 
 #endif // __KFM_MISC_OPTIONS_H

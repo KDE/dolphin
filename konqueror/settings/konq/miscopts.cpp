@@ -44,11 +44,16 @@ KMiscOptions::KMiscOptions( QWidget *parent, const char *name )
     leEditor = new QLineEdit(this);
     hlay->addWidget(leEditor, 5);
 
-    m_pAutoLoadImagesCheckBox =  new QCheckBox( i18n( ""
+    m_pAutoLoadImagesCheckBox = new QCheckBox( i18n( ""
      "Automatically load images\n""
      (Otherwise, click the Images button to load when needed)" ), this );
      
     lay->addWidget( m_pAutoLoadImagesCheckBox, 1 );
+
+    m_pHaveBiiigToolBarCheckBox = new QCheckBox( i18n( "Display big toolbar" ),
+                                                 this );
+						 
+    lay->addWidget( m_pHaveBiiigToolBarCheckBox );
 
     lay->addStretch(10);
     lay->activate();
@@ -65,6 +70,7 @@ void KMiscOptions::loadSettings()
     QString sTerminal = g_pConfig->readEntry( "Terminal", DEFAULT_TERMINAL );
     QString sEditor = g_pConfig->readEntry( "Editor", DEFAULT_EDITOR );
     bool bAutoLoadImages = g_pConfig->readBoolEntry( "AutoLoadImages", true );
+    bool bHaveBigToolBar = g_pConfig->readBoolEntry( "HaveBigToolBar", false );
 
     // *** apply to GUI ***
 
@@ -73,6 +79,7 @@ void KMiscOptions::loadSettings()
     leTerminal->setText(sTerminal);
     leEditor->setText(sEditor);
     m_pAutoLoadImagesCheckBox->setChecked( bAutoLoadImages );
+    m_pHaveBiiigToolBarCheckBox->setChecked( bHaveBigToolBar );
 }
 
 void KMiscOptions::defaultSettings()
@@ -82,6 +89,7 @@ void KMiscOptions::defaultSettings()
     leTerminal->setText(DEFAULT_TERMINAL);
     leEditor->setText(DEFAULT_EDITOR);
     m_pAutoLoadImagesCheckBox->setChecked( true );
+    m_pHaveBiiigToolBarCheckBox->setChecked( false );
 }
 
 void KMiscOptions::saveSettings()
@@ -92,6 +100,7 @@ void KMiscOptions::saveSettings()
     g_pConfig->writeEntry( "Terminal", leTerminal->text());
     g_pConfig->writeEntry( "Editor", leEditor->text());
     g_pConfig->writeEntry( "AutoLoadImages", m_pAutoLoadImagesCheckBox->isChecked() );
+    g_pConfig->writeEntry( "HaveBigToolBar", m_pHaveBiiigToolBarCheckBox->isChecked() );
     g_pConfig->sync();
 }
 
