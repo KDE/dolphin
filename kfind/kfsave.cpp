@@ -20,11 +20,11 @@ KfSaveOptions::KfSaveOptions()
   config->setGroup( "Saving" );
   
   saveFormat = QString(config->readEntry( "Format" )).upper();
-  if ( saveFormat.isNull() | (saveFormat=="") )
+  if ( saveFormat.isEmpty() )
     saveFormat = "HTML";
 
   saveFile   = config->readEntry( "Filename" );
-  if ( saveFile.isNull() | (saveFile=="") )
+  if ( saveFile.isEmpty() )
     saveStandard = TRUE;
   else
     saveStandard = FALSE;

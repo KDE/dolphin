@@ -420,7 +420,7 @@ void KfindWindow::execAddToArchive(KfArchiver *arch,QString archname)
       if ( pom=="%d" )
 	{
 	  QFileInfo *fileInfo = new QFileInfo(text(currentItem()));
-	  pom = fileInfo->dirPath(TRUE)+"/";
+	  pom = fileInfo->dirPath(TRUE)+'/';
 	};
 
       if ( pom=="%a" )

@@ -38,7 +38,7 @@ void KfArchiver::initArchivers()
   QString arch = config->readEntry( "Archivers" );
 
   //Create Tar Archive Entry when no entry found in rc file
-  if ( arch.isNull() | (arch=="") )
+  if ( arch.isEmpty() )
     {
       arch="tar;";
       config->setGroup( "Archiver Types" );

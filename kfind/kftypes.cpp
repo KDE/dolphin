@@ -36,7 +36,7 @@ void KfFileType::initFileTypes( const QString& _path )
             QString tmp = ep->d_name;
 
             QString file = _path;
-            file += "/";
+            file += '/';
             file += ep->d_name;
             struct stat buff;
             stat( file.ascii(), &buff );
