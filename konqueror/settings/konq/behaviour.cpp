@@ -234,7 +234,7 @@ void KBehaviourOptions::save()
     g_pConfig->setGroup( groupname );
 
     g_pConfig->writeEntry( "AlwaysNewWin", cbNewWin->isChecked() );
-    g_pConfig->writePathEntry( "HomeURL", homeURL->url().isEmpty()? "~" : homeURL->url() );
+    g_pConfig->writePathEntry( "HomeURL", homeURL->url().isEmpty()? QString("~") : homeURL->url() );
 
     g_pConfig->writeEntry( "ShowFileTips", cbShowTips->isChecked() );
     g_pConfig->writeEntry( "ShowPreviewsInFileTips", cbShowPreviewsInTips->isChecked() );
