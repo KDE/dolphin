@@ -34,6 +34,7 @@
 #include <assert.h>
 
 #include <dirtree_module/dirtree_module.h> // TEMPORARY HACK
+#include <history_module/history_module.h> // TEMPORARY HACK
 
 static const int autoOpenTimeout = 750;
 
@@ -494,12 +495,23 @@ void KonqTree::loadTopLevelItem( KonqTreeItem *parent,  const QString &filename 
         name.truncate( name.length() - 7 );
 
     name = cfg.readEntry( "Name", name );
-
     KonqTreeModule * module = 0L;
+
+    QString moduleName = cfg.readEntry( "X-KDE-TreeModule" );
+    kdDebug(1202) << "##### Loading module: " << moduleName << " file: " << filename << endl;
+    if ( moduleName == "Directory" ) {
+	module = new KonqDirTreeModule( this );
+    }
+    else if ( moduleName == "History" ) {
+	module = new KonqHistoryModule( this );
+    }
+    else {
+	kdDebug(1202) << "Unknown module found: " << moduleName << " file: " << filename << endl;
+	return;
+    }
+	
     /////////// ####### !!!!!!!!! @@@@@@@@ here's where we need to create the right module...
 #warning TODO
-
-    module = new KonqDirTreeModule( this );
 
     KonqTreeTopLevelItem *item;
     if ( parent )
