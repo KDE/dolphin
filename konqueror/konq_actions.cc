@@ -22,6 +22,7 @@
 #include <assert.h>
 
 #include <qlabel.h>
+#include <qpopupmenu.h>
 #include <qcombobox.h>
 #include <kbookmark.h>
 #include <kbookmarkbar.h>
