@@ -53,6 +53,18 @@ public:
         popupFiles.append( _file );
     }
 
+    /**
+     * @return the popup menu, if not using corba, so that
+     * it can be added to another popup menu
+     */
+    QPopupMenu *popupMenu()
+    {
+      if ( m_bUseOPMenu )
+        return 0L;
+      else
+        return m_pMenu;
+    }
+
 public slots:        
     /**
      * Called when New->* is clicked
@@ -68,14 +80,6 @@ public slots:
      * Called when the templates has been copied
      */
     void slotCopyFinished( int id );
-
-    QPopupMenu *popupMenu()
-    {
-      if ( m_bUseOPMenu )
-        return 0L;
-      else
-        return m_pMenu;
-    }
      
 private:
 
