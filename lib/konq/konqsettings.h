@@ -30,9 +30,11 @@ class KConfig;
  * There is no 'local' (per-URL) instance of it.
  * All those settings can only be changed in kcmkonq.
  *
- * There is one instance for the tree view, one for the icon view
- * in konqueror and one for the icon view in kdesktop
- * (but currently lacking support in kcontrol)
+ * Using this class from konqueror and from kdesktop return
+ * different settings, since the config file is different.
+ * konquerorrc, group "FMSettings", and kdesktoprc, group "FMSettings"
+ * The kcontrol modules handles both files, depending where
+ * it's called from.
  */
 
 class KonqFMSettings
@@ -52,14 +54,9 @@ protected:
 public:
 
   /**
-   * A static instance of KonqFMSettings, holding the values for the tree view
+   * The static instance of KonqFMSettings
    */
-  static KonqFMSettings * defaultTreeSettings();
-  /**
-   * A static instance of KonqFMSettings, holding the values for the icon view
-   */
-  static KonqFMSettings * defaultIconSettings();
-
+  static KonqFMSettings * settings();
 
   /**
    * Reparse the configuration to update the already-created instances
@@ -69,9 +66,14 @@ public:
    */
   static void reparseConfiguration();
 
-  // Behaviour settings
-  bool underlineLink() { return m_underlineLink; }
+  // Use settings (and mimetype definition files)
+  // to find whether to embed a certain service type or not
+  // Only makes sense in konqueror.
   bool shouldEmbed( const QString & serviceType );
+
+  // Behaviour settings
+  bool wordWrapText() { return m_bWordWrapText; }
+  bool underlineLink() { return m_underlineLink; }
   bool alwaysNewWin() { return m_alwaysNewWin; }
   QString homeURL() { return m_homeURL; }
   bool treeFollow() { return m_bTreeFollow; }
@@ -85,13 +87,8 @@ public:
   const QColor& normalTextColor() { return m_normalTextColor; }
   const QColor& highlightedTextColor() { return m_highlightedTextColor; }
 
-  // Other appearance settings
-  bool wordWrapText() { return m_bWordWrapText; }
-
 protected:
-  // The two instances
-  static KonqFMSettings * s_pSettings[2];
-  static KonqFMSettings * getInstance( int nr );
+  static KonqFMSettings * s_pSettings;
 
   bool m_underlineLink;
   bool m_alwaysNewWin;

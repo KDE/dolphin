@@ -27,52 +27,29 @@
 #include <kdebug.h>
 #include <assert.h>
 
-// We have to handle three instances of this class in the code
-// Everything's handled by arrays to avoid code duplication
+//static
+KonqFMSettings * KonqFMSettings::s_pSettings = 0L;
 
-KonqFMSettings * KonqFMSettings::s_pSettings[] = { 0L, 0L };
-
-static const char * s_sGroupName[] = { "Icon Settings", "Tree Settings" };
-
-#define KS_ICON 0
-#define KS_TREE 1
-#define MAXINSTANCE KS_TREE  // last one
-
-KonqFMSettings * KonqFMSettings::getInstance( int nr )
+//static
+KonqFMSettings * KonqFMSettings::settings()
 {
-  assert( nr >= 0 && nr <= MAXINSTANCE );
-  if (!s_pSettings[nr])
+  if (!s_pSettings)
   {
     KConfig *config = KGlobal::config();
-    KConfigGroupSaver cgs(config, s_sGroupName[nr]);
-    s_pSettings[nr] = new KonqFMSettings(config);
+    KConfigGroupSaver cgs(config, "FMSettings");
+    s_pSettings = new KonqFMSettings(config);
   }
-  return s_pSettings[nr];
-}
-
-//static
-KonqFMSettings * KonqFMSettings::defaultTreeSettings()
-{
-  return getInstance( KS_TREE );
-}
-
-//static
-KonqFMSettings * KonqFMSettings::defaultIconSettings()
-{
-  return getInstance( KS_ICON );
+  return s_pSettings;
 }
 
 //static
 void KonqFMSettings::reparseConfiguration()
 {
-  KConfig *config = KGlobal::config();
-  for (int i = 0 ; i < MAXINSTANCE+1 ; i++ )
+  if (s_pSettings)
   {
-    if (s_pSettings[i])
-    {
-      KConfigGroupSaver cgs(config, s_sGroupName[i]);
-      s_pSettings[i]->init( config );
-    }
+    KConfig *config = KGlobal::config();
+    KConfigGroupSaver cgs(config, "FMSettings");
+    s_pSettings->init( config );
   }
 }
 
@@ -110,7 +87,6 @@ void KonqFMSettings::init( KConfig * config )
   m_embedText = config->readBoolEntry( "EmbedText", true );
   m_embedImage = config->readBoolEntry( "EmbedImage", true );
   m_embedOther = config->readBoolEntry( "EmbedOther", true );
-
 }
 
 bool KonqFMSettings::shouldEmbed( const QString & serviceType )

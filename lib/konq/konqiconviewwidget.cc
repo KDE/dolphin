@@ -74,7 +74,7 @@ KonqIconViewWidget::KonqIconViewWidget( QWidget * parent, const char * name, WFl
 
 void KonqIconViewWidget::initConfig()
 {
-    m_pSettings = KonqFMSettings::defaultIconSettings();
+    m_pSettings = KonqFMSettings::settings();
 
     // Color settings
     QColor normalTextColor	 = m_pSettings->normalTextColor();

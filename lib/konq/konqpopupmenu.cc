@@ -225,6 +225,11 @@ KonqPopupMenu::KonqPopupMenu( const KonqFileItemList &items,
   {
     // Query the trader for offers associated to this mimetype
 
+    // 1 - Query for services that could embed it
+    // How do we know that this is konqueror ?? Major hack (appname) or param ?
+    // TODO
+
+    // 2 - Query for applications
     KTrader::OfferList offers = KTrader::self()->query( m_sMimeType, "Type == 'Application'" );
 
     QValueList<KDEDesktopMimeType::Service> builtin;
