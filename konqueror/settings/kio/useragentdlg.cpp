@@ -26,6 +26,7 @@
 #include <qlabel.h>
 #include <qlayout.h>
 #include <qcheckbox.h>
+#include <qlineedit.h>
 #include <qwhatsthis.h>
 #include <qpushbutton.h>
 #include <qvbuttongroup.h>
@@ -102,36 +103,78 @@ UserAgentOptions::UserAgentOptions( QWidget * parent, const char * name )
                "below.");
   QWhatsThis::add( lb_default, wtstr );
 
+  // Operating system ...
+  hlay = new QHBoxLayout;
+  hlay->setSpacing( KDialog::spacingHint() );
+  hlay->setMargin( 0 );
+
   cb_showOS = new QCheckBox( i18n("Add operating s&ystem name"), bg_default);
-  bg_grid->addMultiCellWidget( cb_showOS, 2, 2, 0, 1 );
   wtstr = i18n("Check this box to add your <code>operating system name</code> "
                "to the default identification string.");
   QWhatsThis::add( cb_showOS, wtstr );
+  hlay->addWidget( cb_showOS );
+  spacer = new QSpacerItem( 20, 20, QSizePolicy::Expanding, QSizePolicy::Minimum );
+  hlay->addItem( spacer );
+  bg_grid->addMultiCellLayout( hlay, 2, 2, 0, 1 );
+
+  // Operating system version...
+  hlay = new QHBoxLayout;
+  hlay->setSpacing( KDialog::spacingHint() );
+  hlay->setMargin( 0 );
 
   cb_showOSV = new QCheckBox( i18n("Add operating system &version"), bg_default );
-  bg_grid->addWidget( cb_showOSV, 3, 1 );
   cb_showOSV->setEnabled( false );
   wtstr = i18n("Check this box to add your <code>operating system version "
                "number</code> to the default identification string.");
   QWhatsThis::add( cb_showOSV, wtstr );
+  hlay->addWidget( cb_showOSV );
+  spacer = new QSpacerItem( 20, 20, QSizePolicy::Expanding, QSizePolicy::Minimum );
+  hlay->addItem( spacer );
+  bg_grid->addLayout( hlay, 3, 1 );
+
+  // Platform name...
+  hlay = new QHBoxLayout;
+  hlay->setSpacing( KDialog::spacingHint() );
+  hlay->setMargin( 0 );
 
   cb_showPlatform = new QCheckBox( i18n("Add &platform name"), bg_default );
-  bg_grid->addMultiCellWidget( cb_showPlatform, 4, 4, 0, 1 );
+
   wtstr = i18n("Check this box to add your <code>platform</code> to the default "
                "identification string.");
   QWhatsThis::add( cb_showPlatform, wtstr );
+  hlay->addWidget( cb_showPlatform );
+  spacer = new QSpacerItem( 20, 20, QSizePolicy::Expanding, QSizePolicy::Minimum );
+  hlay->addItem( spacer );
+  bg_grid->addMultiCellLayout( hlay, 4, 4, 0, 1 );
+
+  // Processor type...
+  hlay = new QHBoxLayout;
+  hlay->setSpacing( KDialog::spacingHint() );
+  hlay->setMargin( 0 );
 
   cb_showMachine = new QCheckBox( i18n("Add &machine (processor) type"), bg_default );
-  bg_grid->addMultiCellWidget( cb_showMachine, 5, 5, 0, 1 );
   wtstr = i18n("Check this box to add your <code>machine or processor type"
                "</code> to the default identification string.");
   QWhatsThis::add( cb_showMachine, wtstr );
+  hlay->addWidget( cb_showMachine );
+  spacer = new QSpacerItem( 20, 20, QSizePolicy::Expanding, QSizePolicy::Minimum );
+  hlay->addItem( spacer );
+  bg_grid->addMultiCellLayout( hlay, 5, 5, 0, 1 );
+
+  // Language Setting...
+  hlay = new QHBoxLayout;
+  hlay->setSpacing( KDialog::spacingHint() );
+  hlay->setMargin( 0 );
 
   cb_showLanguage = new QCheckBox( i18n("Add your &language setting"), bg_default );
-  bg_grid->addMultiCellWidget( cb_showLanguage, 6, 6, 0, 1 );
   wtstr = i18n("Check this box to add your language settings to the default "
                "identification string.");
   QWhatsThis::add( cb_showLanguage, wtstr );
+  hlay->addWidget( cb_showLanguage );
+  spacer = new QSpacerItem( 20, 20, QSizePolicy::Expanding, QSizePolicy::Minimum );
+  hlay->addItem( spacer );
+  bg_grid->addMultiCellLayout( hlay, 6, 6, 0, 1 );
+  
 
   mainLayout->addWidget( bg_default );
 
@@ -257,7 +300,7 @@ void UserAgentOptions::load()
   {
       if ( (*it) == "<default>")
          continue;
-      QString domain = "." + *it;
+      QString domain = *it;
       m_config->setGroup(*it);
       QString userAgent = m_config->readEntry("UserAgent");
       if (!userAgent.isEmpty());
@@ -312,6 +355,7 @@ void UserAgentOptions::defaults()
 void UserAgentOptions::save()
 {
   QStringList deleteList;
+
   // This is tricky because we have to take care to delete entries
   // as well.
   QStringList list = m_config->groupList();
@@ -319,7 +363,7 @@ void UserAgentOptions::save()
   {
       if ( (*it) == "<default>")
          continue;
-      QString domain = "." + *it;
+      QString domain = *it;
       m_config->setGroup(*it);
       if (m_config->hasKey("UserAgent"))
          deleteList.append(*it);
@@ -338,6 +382,7 @@ void UserAgentOptions::save()
 
     it = it->nextSibling();
   }
+  
   m_config->setGroup(QString::null);
   m_config->writeEntry("SendUserAgent", cb_sendUAString->isChecked());
   m_config->writeEntry("UserAgentKeys", m_ua_keys );
@@ -385,7 +430,7 @@ bool UserAgentOptions::handleDuplicate( const QString& site,
   QListViewItem* item = lv_siteUABindings->firstChild();
   while ( item != 0 )
   {
-    if ( item->text(0).findRev( site ) != -1 )
+    if ( item->text(0) == site )
     {
       QString msg = i18n("<qt><center>Found an existing identification for"
                          "<br/><b>%1</b><br/>"
