@@ -108,6 +108,8 @@ public:
   virtual void moveSelection( const QCString & );
 */
 public slots:
+  // small hack to get popupmenus. Fix after krash 
+  void slotRightButtonPressed( const QString &_url, const QPoint &_global);
   void slotMousePressed( const QString &, const QPoint&, int );
   void slotFrameInserted( KHTMLWidget *frame );
 

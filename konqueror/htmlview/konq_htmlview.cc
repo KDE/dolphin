@@ -292,6 +292,13 @@ bool KonqHTMLView::mappingFillToolBar( Browser::View::EventFillToolBar viewToolB
   return true;
 }
 */
+
+void KonqHTMLView::slotRightButtonPressed( const QString &_url, 
+					   const QPoint &_global)
+{
+    slotMousePressed(_url, _global, RightButton);
+}
+
 void KonqHTMLView::slotMousePressed( const QString &_url,
 				     const QPoint &_global, int _button )
 {
@@ -337,6 +344,8 @@ void KonqHTMLView::slotFrameInserted( KHTMLWidget *frame )
 
   QObject::connect( frame, SIGNAL( mousePressed( const QString &, const QPoint&, int ) ),
                     this, SLOT( slotMousePressed( const QString &, const QPoint&, int ) ) );
+  QObject::connect( frame, SIGNAL( popupMenu( const QString &, const QPoint& ) ),
+                    this, SLOT( slotRightButtonPressed( const QString &, const QPoint& ) ) );
 		
   QObject::connect( frame, SIGNAL( frameInserted( KBrowser * ) ),
                     this, SLOT( slotFrameInserted( KBrowser * ) ) );		
