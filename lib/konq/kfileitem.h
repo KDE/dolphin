@@ -61,6 +61,9 @@ public:
    *        determined immediately or on demand
    */
   KFileItem( mode_t _mode, mode_t _permissions, const KURL& _url, bool _determineMimeTypeOnDemand = false );
+
+  KFileItem( const KURL &url, const QString &mimeType, mode_t mode );
+
   /**
    * Destructor
    */

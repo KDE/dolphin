@@ -100,6 +100,19 @@ KFileItem::KFileItem( mode_t _mode, mode_t _permissions, const KURL& _url, bool 
   init( _determineMimeTypeOnDemand );
 }
 
+KFileItem::KFileItem( const KURL &url, const QString &mimeType, mode_t mode )
+:  m_url( url ),
+  m_bIsLocalURL( url.isLocalFile() ),
+  m_strText( KIO::decodeFileName( url.filename() ) ),
+  m_fileMode( mode ),
+  m_permissions( 0 ),
+  m_bLink( false ),
+  m_bMarked( false ) 
+{
+  m_pMimeType = KMimeType::mimeType( mimeType );  
+  init( false ); 
+} 
+
 void KFileItem::init( bool _determineMimeTypeOnDemand )
 {
   // determine mode and/or permissions if unknown
