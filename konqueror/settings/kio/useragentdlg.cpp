@@ -138,6 +138,7 @@ UserAgentOptions::UserAgentOptions( QWidget * parent, const char * name )
   lv_siteUABindings->setSorting(0);
   s_grid->addMultiCellWidget( lv_siteUABindings, 1, 2, 0, 0 );
   connect( lv_siteUABindings, SIGNAL( selectionChanged() ), SLOT( updateButtons() ) );
+  connect( lv_siteUABindings, SIGNAL( doubleClicked ( QListViewItem * ) ), SLOT( changePressed() ));
   wtstr = i18n("<qt>This box contains a list of browser-identifications that "
                "will be used in place of the default one when browsing the "
                "listed site(s)."
