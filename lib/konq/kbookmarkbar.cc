@@ -60,9 +60,7 @@ void KBookmarkBar::slotBookmarksChanged()
     separ->hide();
     }
 
-    KGlobal::iconLoader()->setIconType("icon");
     fillBookmarkBar(KBookmarkManager::self()->toolbar());
-    KGlobal::iconLoader()->setIconType("toolbar"); // restore default
 }
 
 void KBookmarkBar::fillBookmarkBar(KBookmark *parent)
