@@ -2790,21 +2790,21 @@ void KonqMainWindow::slotRemoveLocalProperties()
 
 bool KonqMainWindow::askForTarget(const QString& text, KURL& url)
 {
-   QString initialUrl = (viewCount()==2) ? otherView(m_currentView)->url().prettyURL() : m_currentView->url().prettyURL();
-   QString label=text+" "+m_currentView->url().prettyURL()+" "+i18n("to:");
-   KURLRequesterDlg dlg(initialUrl,label,this,"urlrequester",true);
+   const KURL initialUrl = (viewCount()==2) ? otherView(m_currentView)->url() : m_currentView->url();
+   QString label = text.arg( m_currentView->url().prettyURL( 0, KURL::StripFileProtocol ) );
+   KURLRequesterDlg dlg(initialUrl.prettyURL( 0, KURL::StripFileProtocol ), label, this, "urlrequester", true);
    dlg.setCaption(i18n("Enter Target"));
-   dlg.urlRequester()->setMode( KFile::File | KFile::ExistingOnly |KFile::Directory);
+   dlg.urlRequester()->setMode( KFile::File | KFile::ExistingOnly | KFile::Directory );
    if (dlg.exec())
    {
-      url=dlg.selectedURL();
+      url = dlg.selectedURL();
       if ( url.isValid() )
-	return true;
+        return true;
       else
-	{
-	  KMessageBox::error( this, i18n("<qt><b>%1</b> is not valid</qt>").arg(url.url()));
-	  return false;
-	}
+      {
+        KMessageBox::error( this, i18n("<qt><b>%1</b> is not valid</qt>").arg(url.url()));
+        return false;
+      }
    }
    return false;
 }
@@ -2818,7 +2818,7 @@ void KonqMainWindow::slotCopyFiles()
 {
   //kdDebug(1202) << "KonqMainWindow::slotCopyFiles()" << endl;
   KURL dest;
-  if (!askForTarget(i18n("Copy selected files from"),dest))
+  if (!askForTarget(i18n("Copy selected files from %1 to:"),dest))
      return;
 
   KonqOperations::copy(this,KonqOperations::COPY,currentURLs(),dest);
@@ -2828,7 +2828,7 @@ void KonqMainWindow::slotMoveFiles()
 {
   //kdDebug(1202) << "KonqMainWindow::slotMoveFiles()" << endl;
   KURL dest;
-  if (!askForTarget(i18n("Move selected files from"),dest))
+  if (!askForTarget(i18n("Move selected files from %1 to:"),dest))
      return;
 
   KonqOperations::copy(this,KonqOperations::MOVE,currentURLs(),dest);
@@ -2907,7 +2907,7 @@ void KonqMainWindow::slotUpAboutToShow()
   while ( u.hasPath() )
   {
     popup->insertItem( KonqPixmapProvider::self()->pixmapFor( u.url() ),
-		       u.prettyURL() );
+                       u.prettyURL( 0, KURL::StripFileProtocol ) );
 
     if ( u.path() == "/" )
       break;
