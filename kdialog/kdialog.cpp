@@ -60,6 +60,8 @@ static KCmdLineOptions options[] =
     { "getopenfilename [startDir] [filter]", I18N_NOOP("File dialog to open an existing file"), 0 },
     { "getsavefilename [startDir] [filter]", I18N_NOOP("File dialog to save a file"), 0 },
     { "getexistingdirectory [startDir]", I18N_NOOP("File dialog to select an existing directory"), 0 },
+    { "getopenurl [startDir] [filter]", I18N_NOOP("File dialog to open an existing URL"), 0 },
+    { "getsaveurl [startDir] [filter]", I18N_NOOP("File dialog to save a URL"), 0 },
 
     // TODO gauge stuff, reading values from stdin
 
@@ -243,12 +245,10 @@ int directCommand(KCmdLineArgs *args)
     if (args->isSet("getopenfilename")) {
         QString startDir;
         QString filter;
-        if (args->count() >= 1) {
-            startDir = QString::fromLocal8Bit(args->arg(0));
-            if (args->count() >= 2)  {
-                filter = QString::fromLocal8Bit(args->arg(1));
-            }
-        }
+	startDir = QString::fromLocal8Bit(args->getOption("getopenfilename"));
+	if (args->count() >= 1)  {
+	    filter = QString::fromLocal8Bit(args->arg(0));
+	}
         QString result = KFileDialog::getOpenFileName( startDir, filter, 0, title );
         if (!result.isEmpty())  {
             cout << result.local8Bit().data() << endl;
@@ -261,12 +261,10 @@ int directCommand(KCmdLineArgs *args)
     if (args->isSet("getsavefilename")) {
         QString startDir;
         QString filter;
-        if (args->count() >= 1) {
-            startDir = QString::fromLocal8Bit(args->arg(0));
-            if (args->count() >= 2)  {
-                filter = QString::fromLocal8Bit(args->arg(1));
-            }
-        }
+	startDir = QString::fromLocal8Bit(args->getOption("getsavefilename"));
+	if (args->count() >= 1)  {
+	    filter = QString::fromLocal8Bit(args->arg(0));
+	}
         QString result = KFileDialog::getSaveFileName( startDir, filter, 0, title );
         if (!result.isEmpty())  {
             cout << result.local8Bit().data() << endl;
@@ -278,12 +276,42 @@ int directCommand(KCmdLineArgs *args)
     // getexistingdirectory [startDir]
     if (args->isSet("getexistingdirectory")) {
         QString startDir;
-        if (args->count() >= 1) {
-            startDir = QString::fromLocal8Bit(args->arg(0));
-        }
+	startDir = QString::fromLocal8Bit(args->getOption("getexistingdirectory"));
         QString result = KFileDialog::getExistingDirectory( startDir, 0, title );
         if (!result.isEmpty())  {
             cout << result.local8Bit().data() << endl;
+            return 0;
+        }
+        return 1; // cancelled
+    }
+
+    // getopenurl [startDir] [filter]
+    if (args->isSet("getopenurl")) {
+        QString startDir;
+        QString filter;
+	startDir = QString::fromLocal8Bit(args->getOption("getopenurl"));
+	if (args->count() >= 1)  {
+	    filter = QString::fromLocal8Bit(args->arg(0));
+	}
+        KURL result = KFileDialog::getOpenURL( startDir, filter, 0, title );
+        if (!result.isEmpty())  {
+            cout << result.url().local8Bit().data() << endl;
+            return 0;
+        }
+        return 1; // cancelled
+    }
+
+    // getsaveurl [startDir] [filter]
+    if (args->isSet("getsaveurl")) {
+        QString startDir;
+        QString filter;
+	startDir = QString::fromLocal8Bit(args->getOption("getsaveurl"));
+	if (args->count() >= 1)  {
+	    filter = QString::fromLocal8Bit(args->arg(0));
+	}
+        KURL result = KFileDialog::getSaveURL( startDir, filter, 0, title );
+        if (!result.isEmpty())  {
+            cout << result.url().local8Bit().data() << endl;
             return 0;
         }
         return 1; // cancelled
@@ -301,9 +329,9 @@ int main(int argc, char *argv[])
                         "(C) 2000, Nick Thompson");
   aboutData.addAuthor("David Faure", I18N_NOOP("Current maintainer"),"faure@kde.org");
   aboutData.addAuthor("Nick Thompson",0, 0/*"nickthompson@lucent.com" bounces*/);
-  aboutData.addAuthor("Nick Thompson",0, 0/*"nickthompson@lucent.com" bounces*/);
   aboutData.addAuthor("Matthias Hölzer",0,"hoelzer@kde.org");
   aboutData.addAuthor("David Gümbel",0,"david.guembel@gmx.net");
+  aboutData.addAuthor("Richard Moore",0,"rich@kde.org");
 
   KCmdLineArgs::init(argc, argv, &aboutData);
   KCmdLineArgs::addCmdLineOptions( options ); // Add our own options.
