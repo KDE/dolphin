@@ -185,12 +185,12 @@ void KFileIVI::setPixmapDirect( const QPixmap& pixmap, bool recalc, bool redraw 
 
 void KFileIVI::setDisabled( bool disabled )
 {
-    if ( m_bDisabled != disabled && !isThumbnail() )
+    if ( m_bDisabled != disabled )
     {
         m_bDisabled = disabled;
         bool active = ( m_state == KIcon::ActiveState );
-        m_state = m_bDisabled ? KIcon::DisabledState : ( active ? KIcon::ActiveState : KIcon::DefaultState );
-        QIconViewItem::setPixmap( m_fileitem->pixmap( m_size, m_state ), false, true );
+        setEffect( m_bDisabled ? KIcon::DisabledState : 
+                   ( active ? KIcon::ActiveState : KIcon::DefaultState ) );
     }
 }
 
