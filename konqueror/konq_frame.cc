@@ -415,7 +415,7 @@ void KonqFrameContainer::listViews( ChildViewList *viewList )
 
 void KonqFrameContainer::saveConfig( KConfig* config, const QString &prefix, bool saveURLs, int id, int depth )
 {
-  int idSecond = id + (int)pow( 2, depth );
+  int idSecond = id + (int)pow( 2.0, depth );
 
   //write children sizes
   config->writeEntry( QString::fromLatin1( "SplitterSizes" ).prepend( prefix ), sizes() );
