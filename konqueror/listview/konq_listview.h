@@ -160,6 +160,9 @@ class ListViewBrowserExtension : public KParts::BrowserExtension
       void saveLocalProperties();
       void savePropertiesAsDefault();
 
+      void properties();
+      void editMimeType();
+
    private:
       void pasteSelection( bool move );
 

@@ -40,6 +40,7 @@
 #include <kmimetype.h>
 #include <konqiconviewwidget.h>
 #include <konqsettings.h>
+#include <kpropsdlg.h>
 #include <krun.h>
 #include <kstdaction.h>
 #include <kurl.h>
@@ -68,10 +69,10 @@ public:
     {
       if ( s_instance )
         delete s_instance;
-      
+
       if ( s_defaultViewProps )
         delete s_defaultViewProps;
-      
+
       s_instance = 0;
       s_defaultViewProps = 0;
     }
@@ -94,7 +95,7 @@ public:
    {
      if ( !s_defaultViewProps )
        s_defaultViewProps = KonqPropsView::defaultProps( instance() );
-     
+
      return s_defaultViewProps;
    }
 
@@ -146,6 +147,18 @@ void IconViewBrowserExtension::saveLocalProperties()
 void IconViewBrowserExtension::savePropertiesAsDefault()
 {
     m_iconView->m_pProps->saveAsDefault( KonqIconViewFactory::instance() );
+}
+
+void IconViewBrowserExtension::properties()
+{
+    KFileItem * item = m_iconView->iconViewWidget()->selectedFileItems().first();
+    (void) new PropertiesDialog( item );
+}
+
+void IconViewBrowserExtension::editMimeType()
+{
+    KFileItem * item = m_iconView->iconViewWidget()->selectedFileItems().first();
+    KonqOperations::editMimeType( item->mimetype() );
 }
 
 

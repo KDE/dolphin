@@ -35,6 +35,7 @@
 #include <kparts/mainwindow.h>
 #include <kparts/partmanager.h>
 #include <klineeditdlg.h>
+#include <kpropsdlg.h>
 
 #include <assert.h>
 #include <string.h>
@@ -64,7 +65,7 @@ KonqListViewFactory::~KonqListViewFactory()
     delete s_instance;
   if ( s_defaultViewProps )
     delete s_defaultViewProps;
-  
+
   s_instance = 0;
   s_defaultViewProps = 0;
 }
@@ -90,9 +91,9 @@ KonqPropsView *KonqListViewFactory::defaultViewProps()
 {
   if ( !s_defaultViewProps )
     s_defaultViewProps = KonqPropsView::defaultProps( instance() );
-  
+
   return s_defaultViewProps;
-} 
+}
 
 KInstance *KonqListViewFactory::s_instance = 0;
 KonqPropsView *KonqListViewFactory::s_defaultViewProps = 0;
@@ -131,10 +132,13 @@ void ListViewBrowserExtension::updateActions()
   bool cutcopy, del;
   bool bInTrash = false;
   QValueList<KonqBaseListViewItem*>::ConstIterator it = selection.begin();
+  KFileItem * firstSelectedItem = 0L;
   for (; it != selection.end(); ++it )
   {
     if ( (*it)->item()->url().directory(false) == KGlobalSettings::trashPath() )
       bInTrash = true;
+    if ( ! firstSelectedItem )
+        firstSelectedItem = (*it)->item();
   }
   cutcopy = del = ( selection.count() > 0 );
 
@@ -151,6 +155,13 @@ void ListViewBrowserExtension::updateActions()
 
   emit enableAction( "pastecut", paste );
   emit enableAction( "pastecopy", paste );
+
+  KFileItemList lstItems;
+  if ( firstSelectedItem )
+      lstItems.append( firstSelectedItem );
+  emit enableAction( "properties", ( selection.count() == 1 ) &&
+                     PropertiesDialog::canDisplay( lstItems ) );
+  emit enableAction( "editMimeType", ( selection.count() == 1 ) );
 }
 
 void ListViewBrowserExtension::cut()
@@ -201,6 +212,22 @@ void ListViewBrowserExtension::saveLocalProperties()
 void ListViewBrowserExtension::savePropertiesAsDefault()
 {
   m_listView->listViewWidget()->m_pProps->saveAsDefault( KonqListViewFactory::instance() );
+}
+
+void ListViewBrowserExtension::properties()
+{
+    QValueList<KonqBaseListViewItem*> selection;
+    m_listView->listViewWidget()->selectedItems( selection );
+    assert ( selection.count() == 1 );
+    (void) new PropertiesDialog( selection.first()->item() );
+}
+
+void ListViewBrowserExtension::editMimeType()
+{
+    QValueList<KonqBaseListViewItem*> selection;
+    m_listView->listViewWidget()->selectedItems( selection );
+    assert ( selection.count() == 1 );
+    KonqOperations::editMimeType( selection.first()->item()->mimetype() );
 }
 
 KonqListView::KonqListView( QWidget *parentWidget, QObject *parent, const char *name, const QString& mode )

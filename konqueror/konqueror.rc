@@ -2,18 +2,13 @@
 <MenuBar>
  <Menu name="file"><text>&amp;File</text>
   <Action name="new_menu"/>
-  <Action name="new_window"/>
   <Separator/>
-  <Action name="run"/>
-  <Action name="open_terminal"/>
-  <Action name="open_location"/>
-  <Action name="find"/>
-  <Separator/>
-  <Action name="print"/>
+  <Action name="editMimeType"/><!--Applies to one file only-->
+  <Action name="properties"/><!--Applies to one file only-->
   <Separator/>
   <Action name="close"/>
  </Menu>
- <Menu name="edit"><text>&amp;Edit</text>
+ <Menu name="edit"><text>&amp;Edit</text>  <!--Here is what applies to a selection-->
   <Action name="cut"/>
   <Action name="copy"/>
   <Action name="paste"/>
@@ -24,12 +19,13 @@
   <Merge name="openwith"/>
   <Merge/>
  </Menu>
- <Menu name="view"><text>&amp;View</text>
+ <Menu name="view"><text>&amp;View</text> <!--Here is what applies to the active view-->
   <Merge name="viewmode"/>
   <Action name="usehtml"/>
   <Separator/>
   <Action name="reload"/>
   <Action name="stop" />
+  <Action name="print"/>
   <WeakSeparator/>
   <Merge/>
  </Menu>
@@ -38,6 +34,7 @@
   <Action name="back"/>
   <Action name="forward"/>
   <Action name="home"/>
+  <Action name="open_location"/>
   <Separator/>
   <Action name="go_mimetypes"/>
   <Action name="go_applications"/>
@@ -46,6 +43,13 @@
   <Separator/>
  </Menu>
  <Action name="bookmarks"/>
+ <Menu name="tools"><text>&amp;Tools</text>
+  <Action name="run"/>
+  <Action name="open_terminal"/>
+  <Action name="findfile"/>
+  <WeakSeparator/>
+  <Merge/>
+ </Menu>
  <Menu name="settings"><text>&amp;Settings</text>
   <Action name="showmenubar"/>
   <Action name="showtoolbar"/>
@@ -68,6 +72,7 @@
   </Menu>
  </Menu>
  <Menu name="window"><text>&amp;Window</text>
+  <Action name="new_window"/>
   <Action name="splitviewh"/>
   <Action name="splitviewv"/>
   <Action name="splitwindowh"/>

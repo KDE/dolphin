@@ -925,6 +925,16 @@ void KonqMainView::callExtensionMethod( KonqChildView * childView, const char * 
     (obj->*(mdata->ptr))();
 }
 
+void KonqMainView::slotEditMimeType()
+{
+  callExtensionMethod( m_currentView, "editMimeType()" );
+}
+
+void KonqMainView::slotProperties()
+{
+  callExtensionMethod( m_currentView, "properties()" );
+}
+
 void KonqMainView::slotCut()
 {
   kdDebug(1202) << "slotCut - sending cut to konqueror* and kdesktop, with true" << endl;
@@ -1269,12 +1279,16 @@ void KonqMainView::initActions()
   QObject::connect( m_pMenuNew->popupMenu(), SIGNAL(aboutToShow()),
                     this, SLOT(slotFileNewAboutToShow()) );
 
+  m_paFileType = new KAction( i18n( "Edit File Type..." ), 0, this, SLOT( slotEditMimeType() ),
+                     actionCollection(), "editMimeType" );
+  m_paProperties = new KAction( i18n( "Properties..." ), 0, this, SLOT( slotProperties() ),
+                     actionCollection(), "properties" );
   m_paNewWindow = new KAction( i18n( "New &Window" ), "filenew", KStdAccel::key(KStdAccel::New), this, SLOT( slotNewWindow() ), actionCollection(), "new_window" );
 
-  m_paRun = new KAction( i18n( "&Run Command..." ), "run", 0/*kdesktop has a binding for it*/, this, SLOT( slotRun() ), actionCollection(), "run" );
-  m_paOpenTerminal = new KAction( i18n( "Open &Terminal..." ), "openterm", CTRL+Key_T, this, SLOT( slotOpenTerminal() ), actionCollection(), "open_terminal" );
-	m_paOpenLocation = new KAction( i18n( "&Open Location..." ), "fileopen", KStdAccel::key(KStdAccel::Open), this, SLOT( slotOpenLocation() ), actionCollection(), "open_location" );
-  m_paToolFind = new KAction( i18n( "&Find" ), "find", 0 /*not KStdAccel::find!*/, this, SLOT( slotToolFind() ), actionCollection(), "find" );
+  (void) new KAction( i18n( "&Run Command..." ), "run", 0/*kdesktop has a binding for it*/, this, SLOT( slotRun() ), actionCollection(), "run" );
+  (void) new KAction( i18n( "Open &Terminal..." ), "openterm", CTRL+Key_T, this, SLOT( slotOpenTerminal() ), actionCollection(), "open_terminal" );
+  (void) new KAction( i18n( "&Open Location..." ), "fileopen", KStdAccel::key(KStdAccel::Open), this, SLOT( slotOpenLocation() ), actionCollection(), "open_location" );
+  (void) new KAction( i18n( "&Find file..." ), "findfile", 0 /*not KStdAccel::find!*/, this, SLOT( slotToolFind() ), actionCollection(), "find" );
 
   m_paPrint = KStdAction::print( this, SLOT( slotPrint() ), actionCollection(), "print" );
   m_paShellClose = KStdAction::close( this, SLOT( close() ), actionCollection(), "close" );

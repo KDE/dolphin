@@ -194,6 +194,8 @@ protected slots:
   void slotURLEntered( const QString &text );
 
   void slotFileNewAboutToShow();
+  void slotEditMimeType();
+  void slotProperties();
 
   void slotSplitViewHorizontal();
   void slotSplitViewVertical();
@@ -270,10 +272,8 @@ private:
   KNewMenu * m_pMenuNew;
   KAction *m_paNewWindow;
 
-  KAction *m_paRun;
-  KAction *m_paOpenTerminal;
-  KAction *m_paOpenLocation;
-  KAction *m_paToolFind;
+  KAction *m_paFileType;
+  KAction *m_paProperties;
 
   KAction *m_paPrint;
   KAction *m_paShellClose;
