@@ -2812,10 +2812,13 @@ void KonqMainWindow::enableAllActions( bool enable )
 {
   kdDebug(1202) << "KonqMainWindow::enableAllActions " << enable << endl;
   KParts::BrowserExtension::ActionSlotMap * actionSlotMap = KParts::BrowserExtension::actionSlotMapPtr();
-  int count = actionCollection()->count();
-  for ( int i = 0; i < count; i++ )
+
+  QValueList<KAction *> actions = actionCollection()->actions();
+  QValueList<KAction *>::Iterator it = actions.begin();
+  QValueList<KAction *>::Iterator end = actions.end();
+  for (; it != end; ++it )
   {
-    KAction *act = actionCollection()->action( i );
+    KAction *act = *it;
     if ( strncmp( act->name(), "configure", 9 ) /* do not touch the configureblah actions */
          && ( !enable || !actionSlotMap->contains( act->name() ) ) ) /* don't enable BE actions */
       act->setEnabled( enable );

@@ -1,3 +1,10 @@
+2000-12-27  Simon Hausmann  <simon@kde.org>
+
+	* konq_mainwindow.cc (enableAllActions): for iterating over all actions
+	don't use the action( int index ) method of KActionCollection but instead
+	retrieve a QValueList<KAction *> and iterate over that, as the =+(int)
+	operator of QDictIterator isn't really fast
+
 2000-12-12  David Faure  <faure@kde.org>
 
 	* konq_viewmgr.cc: Fixed saving of profiles containing views
