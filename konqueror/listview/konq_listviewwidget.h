@@ -164,17 +164,17 @@ class KonqBaseListViewWidget : public KListView
       void emitOpenURLRequest(const KURL& url, const KParts::URLArgs& args);
       //QStringList readProtocolConfig( const QString & protocol );
 
+      virtual void startDrag();
       virtual void viewportDragMoveEvent( QDragMoveEvent *_ev );
       virtual void viewportDragEnterEvent( QDragEnterEvent *_ev );
       virtual void viewportDragLeaveEvent( QDragLeaveEvent *_ev );
       virtual void viewportDropEvent( QDropEvent *_ev );
 
-      virtual void viewportMousePressEvent( QMouseEvent *_ev );
-      virtual void viewportMouseMoveEvent( QMouseEvent *_ev );
-      virtual void viewportMouseReleaseEvent( QMouseEvent *_ev );
-      virtual void viewportMouseDoubleClickEvent( QMouseEvent *_ev );
+      //virtual void viewportMousePressEvent( QMouseEvent *_ev );
+      //virtual void viewportMouseMoveEvent( QMouseEvent *_ev );
+      //virtual void viewportMouseReleaseEvent( QMouseEvent *_ev );
+      //virtual void viewportMouseDoubleClickEvent( QMouseEvent *_ev );
 
-      //virtual void keyPressEvent( QKeyEvent *_ev );
 
       /** Common method for slotCompleted and slotCanceled */
       virtual void setComplete();
@@ -186,8 +186,6 @@ class KonqBaseListViewWidget : public KListView
       virtual void drawContentsOffset( QPainter*, int _offsetx, int _offsety,
                                    int _clipx, int _clipy,
                                    int _clipw, int _cliph );
-
-      virtual void focusInEvent( QFocusEvent* _event );
 
       //this one is called only by KListView, and this is friend anyways (Alex)
       //KonqDirLister *dirLister() const { return m_dirLister; }
@@ -205,11 +203,11 @@ class KonqBaseListViewWidget : public KListView
 
       KonqFileItem * openURLRequestFileItem;
       KonqBaseListViewItem* m_dragOverItem;
-      QStringList m_lstDropFormats;
+    //QStringList m_lstDropFormats;
 
-      bool m_pressed;
-      QPoint m_pressedPos;
-      KonqBaseListViewItem* m_pressedItem;
+    //bool m_pressed;
+    //QPoint m_pressedPos;
+    //KonqBaseListViewItem* m_pressedItem;
 
       QPixmap m_bgPixmap;
       QFont m_itemFont;
@@ -225,6 +223,7 @@ class KonqBaseListViewWidget : public KListView
       bool m_filesSelected;
       bool m_showIcons;
       int m_filenameColumn;
+      bool m_bUpdateContentsPosAfterListing;
 
       KURL m_url;
 

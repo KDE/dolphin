@@ -73,13 +73,13 @@ void ColumnInfo::setData(const char* n, const char* desktopName, int kioUds,int 
 
 
 KonqBaseListViewWidget::KonqBaseListViewWidget( KonqListView *parent, QWidget *parentWidget)
-:KListView(parentWidget )
+    :KListView(parentWidget)
 ,sortedByColumn(0)
 ,ascending(TRUE)
 ,m_dirLister(0L)
 ,m_dragOverItem(0L)
-,m_pressed(FALSE)
-,m_pressedItem(0L)
+//,m_pressed(FALSE)
+//,m_pressedItem(0L)
 ,m_filesSelected(FALSE)
 ,m_showIcons(TRUE)
 ,m_filenameColumn(0)
@@ -93,6 +93,8 @@ KonqBaseListViewWidget::KonqBaseListViewWidget( KonqListView *parent, QWidget *p
    //Adjust KListView behaviour
    setMultiSelection(TRUE);
    setSelectionModeExt( Konqueror );
+   setDragEnabled(true);
+   setItemsMovable(false);
 
    initConfig();
 
@@ -379,8 +381,6 @@ void KonqBaseListViewWidget::initConfig()
 
 void KonqBaseListViewWidget::viewportDragMoveEvent( QDragMoveEvent *_ev )
 {
-  static int c = 0;
-  c++;
    KonqBaseListViewItem *item = (KonqBaseListViewItem*)itemAt( _ev->pos() );
    if ( !item )
    {
@@ -395,7 +395,7 @@ void KonqBaseListViewWidget::viewportDragMoveEvent( QDragMoveEvent *_ev )
    if ( m_dragOverItem != 0L )
       setSelected( m_dragOverItem, false );
 
-   if ( item->item()->acceptsDrops( ) )
+   if ( item->item()->acceptsDrops() )
    {
       _ev->accept();
       setSelected( item, true );
@@ -406,14 +406,12 @@ void KonqBaseListViewWidget::viewportDragMoveEvent( QDragMoveEvent *_ev )
       _ev->ignore();
       m_dragOverItem = 0L;
    }
-
-   return;
 }
 
 void KonqBaseListViewWidget::viewportDragEnterEvent( QDragEnterEvent *_ev )
 {
    m_dragOverItem = 0L;
-
+/*
    // Save the available formats
    m_lstDropFormats.clear();
 
@@ -422,6 +420,7 @@ void KonqBaseListViewWidget::viewportDragEnterEvent( QDragEnterEvent *_ev )
       if ( *( _ev->format( i ) ) )
          m_lstDropFormats.append( _ev->format( i ) );
    }
+   */
 
    // By default we accept any format
    _ev->accept();
@@ -432,17 +431,16 @@ void KonqBaseListViewWidget::viewportDragLeaveEvent( QDragLeaveEvent * )
    if ( m_dragOverItem != 0L )
       setSelected( m_dragOverItem, false );
    m_dragOverItem = 0L;
-
-   /** DEBUG CODE */
-   // Give the user some feedback...
-   /** End DEBUG CODE */
 }
 
 void KonqBaseListViewWidget::viewportDropEvent( QDropEvent *ev  )
 {
-   if ( m_dragOverItem != 0L )
-      setSelected( m_dragOverItem, false );
+    kdDebug() << "KonqBaseListViewWidget::viewportDropEvent" << endl;
+    if ( m_dragOverItem != 0L )
+     setSelected( m_dragOverItem, false );
    m_dragOverItem = 0L;
+
+   ev->accept();
 
    KonqBaseListViewItem *item = (KonqBaseListViewItem*)itemAt( ev->pos() );
 
@@ -458,6 +456,7 @@ void KonqBaseListViewWidget::viewportDropEvent( QDropEvent *ev  )
      delete destItem; // we just created it
 }
 
+/*
 void KonqBaseListViewWidget::viewportMousePressEvent( QMouseEvent *_ev )
 {
   KListView::viewportMousePressEvent( _ev );
@@ -501,7 +500,6 @@ void KonqBaseListViewWidget::viewportMouseReleaseEvent( QMouseEvent *_mouse )
 void KonqBaseListViewWidget::viewportMouseMoveEvent( QMouseEvent *_mouse )
 {
    KListView::viewportMouseMoveEvent( _mouse );
-
    if ( m_pressed && m_pressedItem )
    {
       kdDebug() << "KonqBaseListViewWidget::viewportMouseMoveEvent : m_pressed=" << m_pressed << endl;
@@ -511,6 +509,11 @@ void KonqBaseListViewWidget::viewportMouseMoveEvent( QMouseEvent *_mouse )
       //Is it time to start a drag?
       if ( abs( x - m_pressedPos.x() ) > KGlobalSettings::dndEventDelay() || abs( y - m_pressedPos.y() ) > KGlobalSettings::dndEventDelay() )
       {
+}
+*/
+
+void KonqBaseListViewWidget::startDrag()
+{
          // Collect all selected items
          QStrList urls;
          iterator it = begin();
@@ -519,6 +522,9 @@ void KonqBaseListViewWidget::viewportMouseMoveEvent( QMouseEvent *_mouse )
                urls.append( it->item()->url().url().ascii() );
 
          // Multiple URLs ?
+
+         QListViewItem * m_pressedItem = currentItem();
+
          QPixmap pixmap2;
          bool pixmap0Invalid(m_pressedItem->pixmap(0)==0);
          if (!pixmap0Invalid) if (m_pressedItem->pixmap(0)->isNull()) pixmap0Invalid=TRUE;
@@ -532,9 +538,6 @@ void KonqBaseListViewWidget::viewportMouseMoveEvent( QMouseEvent *_mouse )
 
          // Calculate hotspot
          QPoint hotspot;
-
-         // Do not handle and more mouse move or mouse release events
-         m_pressed = false;
 
          QUriDrag *d = new QUriDrag( urls, viewport() );
          if ( !pixmap2.isNull())
@@ -550,8 +553,6 @@ void KonqBaseListViewWidget::viewportMouseMoveEvent( QMouseEvent *_mouse )
             d->setPixmap( *(m_pressedItem->pixmap( 0 )), hotspot );
          }
          d->drag();
-      }
-   }
 }
 
 bool KonqBaseListViewWidget::isSingleClickArea( const QPoint& _point )
@@ -598,18 +599,20 @@ void KonqBaseListViewWidget::slotMouseButtonPressed(int _button, QListViewItem* 
     m_pBrowserView->mmbClicked( static_cast<KonqBaseListViewItem*>(_item)->item() );
 }
 
-void KonqBaseListViewWidget::slotExecuted( QListViewItem* )
+void KonqBaseListViewWidget::slotExecuted( QListViewItem* item )
 {
-  if ( !m_pressedItem )
+  if ( !item )
       return;
   //isSingleClickArea() checks wether the mouse pointer is
   // over an area where an action should be triggered
   // no matter wether single or double click
+
+  // Is this still necessary with KListView ? (David)
   if ( isSingleClickArea( viewport()->mapFromGlobal(QCursor::pos())))
   {
-    if ( m_pressedItem->isExpandable() )
-      m_pressedItem->setOpen( !m_pressedItem->isOpen() );
-    slotReturnPressed( m_pressedItem );
+    if ( item->isExpandable() )
+      item->setOpen( !item->isOpen() );
+    slotReturnPressed( item );
   }
 }
 
@@ -795,6 +798,8 @@ bool KonqBaseListViewWidget::openURL( const KURL &url )
    // Start the directory lister !
    m_dirLister->openURL( url, m_pBrowserView->m_pProps->isShowingDotFiles(), false /* new url */ );
 
+   m_bUpdateContentsPosAfterListing = true;
+
    // Apply properties and reflect them on the actions
    // do it after starting the dir lister to avoid changing the properties
    // of the old view
@@ -824,14 +829,19 @@ bool KonqBaseListViewWidget::openURL( const KURL &url )
 
 void KonqBaseListViewWidget::setComplete()
 {
-   m_bTopLevelComplete = true;
-   setContentsPos( m_pBrowserView->extension()->urlArgs().xOffset, m_pBrowserView->extension()->urlArgs().yOffset );
-   if ((firstChild()!=0) && (m_pBrowserView->extension()->urlArgs().yOffset==0))
-   {
-      setCurrentItem(firstChild());
-      ensureItemVisible(currentItem());
-   };
-   emit selectionChanged();
+    m_bTopLevelComplete = true;
+    if ( m_bUpdateContentsPosAfterListing )
+    {
+        setContentsPos( m_pBrowserView->extension()->urlArgs().xOffset,
+                        m_pBrowserView->extension()->urlArgs().yOffset );
+        m_bUpdateContentsPosAfterListing = false;
+        if ((firstChild()!=0) && (m_pBrowserView->extension()->urlArgs().yOffset==0))
+        {
+            setCurrentItem(firstChild());
+            ensureItemVisible(currentItem());
+        }
+        emit selectionChanged();
+    }
 
 }
 
@@ -878,6 +888,7 @@ void KonqBaseListViewWidget::slotDeleteItem( KFileItem * _fileitem )
       delete &(*it);
       return;
     }
+
 }
 
 void KonqBaseListViewWidget::slotRefreshItems( const KFileItemList & entries )
@@ -976,13 +987,6 @@ void KonqBaseListViewWidget::drawContentsOffset( QPainter* _painter, int _offset
 
   QListView::drawContentsOffset( _painter, _offsetx, _offsety,
                                  _clipx, _clipy, _clipw, _cliph );
-}
-
-void KonqBaseListViewWidget::focusInEvent( QFocusEvent* _event )
-{
-//  emit gotFocus();
-
-  KListView::focusInEvent( _event );
 }
 
 #include "konq_listviewwidget.moc"

@@ -103,7 +103,9 @@ void KonqTreeViewWidget::setComplete()
    else
    {
       m_bTopLevelComplete = true;
-      setContentsPos( m_pBrowserView->extension()->urlArgs().xOffset, m_pBrowserView->extension()->urlArgs().yOffset );
+      if ( m_bUpdateContentsPosAfterListing )
+          setContentsPos( m_pBrowserView->extension()->urlArgs().xOffset, m_pBrowserView->extension()->urlArgs().yOffset );
+      m_bUpdateContentsPosAfterListing = false;
    }
 }
 
