@@ -3,7 +3,7 @@ INCLUDES = -I$(top_srcdir)/libkonq -I$(top_srcdir)/kcontrol/input $(all_includes
 
 SUBDIRS = . plugins kfmexec client iconview dirtree listview pics
 
-lib_LTLIBRARIES = libkonqueror.la konqueror.la
+lib_LTLIBRARIES = konqueror.la
 
 rcdir = $(kde_datadir)/konqueror
 rc_DATA = konqueror.rc
@@ -18,18 +18,6 @@ METASOURCES = AUTO
 
 include_HEADERS = KonquerorIface.h
 
-libkonqueror_la_SOURCES = \
-			  konq_propsview.cc \
-			  konq_events.cc \
-			  konq_bgnddlg.cc
-
-#			  konq_metadata.cc
-#			  konq_htmlsettings.cc
-
-libkonqueror_la_LDFLAGS = $(all_libraries) -version-info 1:0:0 -module -no-undefined
-
-libkonqueror_la_LIBADD = ../libkonq/libkonq.la -lkparts
-
 bin_PROGRAMS = konqueror
 
 konqueror_la_SOURCES = konq_main.cc KonquerorIface.skel konq_mainview.skel \
@@ -43,7 +31,7 @@ konqueror_la_SOURCES = konq_main.cc KonquerorIface.skel konq_mainview.skel \
 		    konq_factory.cc
 
 konqueror_la_LDFLAGS = $(all_libraries) -module -avoid-version
-konqueror_la_LIBADD = libkonqueror.la $(LIB_KIMGIO)
+konqueror_la_LIBADD = ../libkonq/libkonq.la $(LIB_KPARTS) $(LIB_KIMGIO)
 
 konqueror_SOURCES = dummy.cc
 konqueror_LDADD = konqueror.la
