@@ -305,7 +305,7 @@ int main( int argc, char **argv )
   // Kudos to Nikita V. Youshchenko !
   QApplication::setColorSpec( QApplication::ManyColor ); 
 
-  KonqBoot boot( "IDL:Konqueror/Application:1.0", "Konqueror" );
+  KonqBoot boot( "IDL:Konqueror/Application:1.0", "App" );
   
   KonqApp app( argc, argv );
   KGlobal::locale()->insertCatalogue("libkonq"); // needed for apps using libkonq

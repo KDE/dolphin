@@ -36,6 +36,9 @@
 #include <kregistry.h>
 #include <kregfactories.h>
 #include <kservices.h>
+#include <kded_utils.h>
+#include <kactivator.h>
+#include <ktrader.h>
 
 #include "kfmclient.h"
 
@@ -117,20 +120,23 @@ int main( int argc, char **argv )
 
 void clientApp::openFileManagerWindow(const char* _url)
 {
-  getIOR();
+  getKonqy();
 
-  CORBA::String_var s = CORBA::string_dup( _url );
-   //  Konqueror::MainWindow_ptr mainWindow = Konqueror::MainWindow::_duplicate( 
-  (void) m_vApp->createMainWindow( s );
+  Konqueror::MainWindow_var m_vMainWindow = m_vApp->createMainWindow( _url );
 }
 
 void clientApp::initRegistry()
 {
   // Register mimetypes and services, for kpropsdlg and krun
-  KRegistry * registry = new KRegistry;
-  registry->addFactory( new KServiceTypeFactory );
-  registry->addFactory( new KServiceFactory );
-  registry->load( );
+  // no need to load the registry if we're running a local kded, since it already
+  // loaded it.
+  if ( !kded->isLocalKded() )
+  {
+    KRegistry * registry = new KRegistry;
+    registry->addFactory( new KServiceTypeFactory );
+    registry->addFactory( new KServiceFactory );
+    registry->load( );
+  }    
 }
 
 int clientApp::doIt( int argc, char **argv )
@@ -334,36 +340,46 @@ int clientApp::doIt( int argc, char **argv )
   return 0;
 }
 
-void clientApp::getIOR()
+void clientApp::getKonqy()
 {
-  // TODO : add display name, or switch to Torben's trader ;)
-  const QString refFile = kapp->localkdedir()+"/share/apps/konqueror/konqueror.ior";
-  //const QString refFile = QDir::homeDirPath() + "/.konqueror.ior"; // not the app !
+  /**
+   * Wellwell, this is not the nice way to solve connecting to Konqy, but
+   * unless we finished the keep-IMR-in-sync-with-services problem we'll have
+   * to go this way...although it's ugly ;)
+   */
 
-  // Read IOR from file
-  ifstream in( refFile.data() );
+  KTrader::OfferList offers = trader->query( "FileManager" );
 
-  if ( in.fail() )
-    cerr << " Can't open `" << refFile.data() << "': " << strerror(errno) << endl;
-  else
+  if ( offers.count() != 1 )
   {
-    char s[1000];
-    in >> s;
-    in.close();
-
-    // Turn IOR into object reference
-    CORBA::Object_var obj = opapp_orb->string_to_object( s );
-    m_vApp = Konqueror::Application::_narrow( obj );
-    if( !CORBA::is_nil( m_vApp ) )
-      return;
+    printf("%i\n", offers.count());
+    printf( "Error: Can't find Konqueror service" );fflush(stdout);
+    return;
   }
 
-  // TODO : start konqueror server here
-  
-  QMessageBox::critical( (QWidget*)0L, i18n("ERROR"),
-                         i18n("Can't contact konqueror !"), i18n("Ok") );
+  KTrader::ServicePtr s = offers.getFirst();
 
-  // fatal("Can't contact konqueror"); dumps a core...
-  ::exit(1);
+//  activator->registerService( s->name(), s->activationMode(), s->repoIds(),
+//                              s->CORBAExec() );
+// Register server manually since it seems KConfig doesn't read the repoid list
+// properly from the .desktop file :-((
+  QStringList repoIds;
+  repoIds.append( "IDL:Konqueror/Application:1.0#App" );
+  activator->registerService( s->name(), s->activationMode(), repoIds, s->CORBAExec() );
+
+  CORBA::Object_var obj = activator->activateService( "Konqueror", "IDL:Konqueror/Application:1.0", "App" );
+
+  if ( CORBA::is_nil( obj ) )
+  {
+    printf( "Error: Can't connect to Konqueror" );fflush(stdout);
+    return;
+  }
+
+  m_vApp = Konqueror::Application::_narrow( obj );
+
+  if ( CORBA::is_nil( m_vApp ) )
+  {
+    printf( "Error: Can't connect to Konqueror" );fflush(stdout);
+    return;
+  }
 }
-

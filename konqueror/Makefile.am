@@ -7,7 +7,10 @@ SUBDIRS = client pics Templates
 data_DATA = directory.trash directory.autostart directory.templates directory.desktop
 datadir = $(kde_datadir)/konqueror
 
-EXTRA_DIST = $(data_DATA)
+service_DATA = konqueror.desktop
+servicedir = $(kde_servicesdir)
+
+EXTRA_DIST = $(data_DATA) $(service_DATA)
 
 ####### Files
 
@@ -38,8 +41,6 @@ METASOURCES = kbrowser.moc kfmrun.moc kiconcontainer.moc \
 	konq_htmlview.moc konq_iconview.moc \
 	konq_main.moc konq_mainview.moc konq_mainwindow.moc \
 	konq_partview.moc konq_topwidget.moc konq_treeview.moc konq_txtview.moc
-
-kde_parts_DATA = konqueror_part.desktop
 
 DISTCLEANFILES = $(METASOURCES) konqueror.cc konqueror.h
 

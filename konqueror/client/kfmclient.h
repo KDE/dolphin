@@ -20,19 +20,25 @@
 #ifndef __kfmclient_h
 #define __kfmclient_h
 
-#include <opApplication.h>
+#include <komApplication.h>
+#include <kded_utils.h>
 #include <krun.h>
 #include "konqueror.h"
 
-class clientApp : public OPApplication,
+class clientApp : public KOMApplication,
                   public KFileManager
 {
 public:
 
   clientApp( int &argc, char **argv, const QString& rAppName = QString::null )
-    : OPApplication ( argc, argv, rAppName ) { };
+    : KOMApplication ( argc, argv, rAppName )
+    {
+      kded = new KdedInstance( argc, argv, komapp_orb );
+      trader = kded->ktrader();
+      activator = kded->kactivator();
+    };
 
-  ~clientApp() {} ;
+  ~clientApp() { /* delete kded */ } ;
 
   /** Parse command-line arguments and "do it" */
   int doIt( int argc, char **argv );
@@ -44,10 +50,13 @@ protected:
 
   void initRegistry();
 
-  void getIOR();
+  void getKonqy();
+
+  KdedInstance *kded;
+  KTrader *trader;
+  KActivator *activator;
 
   Konqueror::Application_ptr m_vApp;
-
 };
 
 #endif
