@@ -98,7 +98,7 @@ QString KProxyOptions::quickHelp() const
 KProxyDialog::KProxyDialog( QWidget* parent)
              :KCModule( parent, "kcmkio" )
 {
-    QVBoxLayout* mainLayout = new QVBoxLayout( this, KDialog::marginHint(), 
+    QVBoxLayout* mainLayout = new QVBoxLayout( this, KDialog::marginHint(),
         KDialog::spacingHint() );
 
     dlg = new KProxyDialogUI(this);
@@ -310,6 +310,8 @@ void KProxyDialog::defaults()
 {
   _defaultData = true;
   dlg->rbNoProxy->setChecked( true );
+  dlg->location->lineEdit()->clear();
+  dlg->cbPersConn->setChecked( false );
   setChanged( true );
 }
 
