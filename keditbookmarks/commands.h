@@ -24,6 +24,14 @@
 #include <kcommand.h>
 #include <kbookmark.h>
 
+#include <qptrstack.h>
+#include <qobject.h>
+
+#define  BK_NS       0
+#define  BK_IE       2
+#define  BK_OPERA    3
+#define  BK_XBEL     4
+
 // ## TODO: s/KNamedCommand/KCommand/ where possible (i.e. virtual QString name())
 
 class MoveCommand : public KNamedCommand
@@ -159,73 +167,70 @@ private:
    QString m_oldText;
 };
 
-// TODO - format the rest
-
 class SortItem;
 
 class SortCommand : public KMacroCommand
 {
 public:
-    SortCommand( const QString & name, const QString &groupAddress /*TODO criteria.. enum ?*/ )
-        : KMacroCommand( name ), m_groupAddress( groupAddress ) {}
-    virtual ~SortCommand() {}
-    virtual void execute();
-    virtual void unexecute();
-    // internal
-    void moveAfter( const SortItem & moveMe, const SortItem & afterMe );
+   SortCommand(const QString &name, const QString &groupAddress)
+      : KMacroCommand(name), m_groupAddress(groupAddress) 
+   { ; }
+   virtual ~SortCommand() 
+   { ; }
+   virtual void execute();
+   virtual void unexecute();
+   // internal
+   void moveAfter(const SortItem &moveMe, const SortItem &afterMe);
 private:
-    QString m_groupAddress;
+   QString m_groupAddress;
 };
 
-#define BK_XBEL   4
-#define BK_OPERA  3
-#define BK_IE     2
-#define BK_NS     0
-
-#include <qptrstack.h>
-#include <qobject.h>
 class ImportCommand : public QObject, public KNamedCommand
 {
-    Q_OBJECT
+   Q_OBJECT
 public:
-    /**
-     * @param name name of the command
-     * @param fileName HTML file to import
-     * @param folder name of the folder to create. Empty for no creation (root()).
-     * @param icon icon for the new folder, if @p folder isn't empty
-     * @param utf8 true if the HTML is in utf-8 encoding
-     */
-    ImportCommand( const QString & name, const QString & fileName, const QString & folder, const QString & icon, bool utf8, int bookmarksType )
-        : KNamedCommand(name), m_fileName(fileName), m_folder(folder), m_icon(icon), m_cleanUpCmd(0L), m_utf8(utf8), m_bookmarksType(bookmarksType)
-    {}
-    virtual ~ImportCommand() {}
-    virtual void execute();
-    virtual void unexecute();
+   /**
+    * @param name name of the command
+    * @param fileName HTML file to import
+    * @param folder name of the folder to create. Empty for no creation (root()).
+    * @param icon icon for the new folder, if @p folder isn't empty
+    * @param utf8 true if the HTML is in utf-8 encoding
+    */
+   ImportCommand(const QString &name, const QString &fileName, const QString &folder, 
+                 const QString &icon, bool utf8, int bookmarksType)
+      : KNamedCommand(name), m_fileName(fileName), m_folder(folder), m_icon(icon), 
+        m_cleanUpCmd(0L), m_utf8(utf8), m_bookmarksType(bookmarksType)
+   { ; }
+   virtual ~ImportCommand() 
+   { ; }
+   virtual void execute();
+   virtual void unexecute();
 
-    QString groupAddress() { return m_group; }
+   QString groupAddress() { return m_group; }
 
 protected slots:
-    void newBookmark( const QString & text, const QCString & url, const QString & additionnalInfo );
-    void newFolder( const QString & text, bool open, const QString & additionnalInfo );
-    void newSeparator();
-    void endFolder();
+   void newBookmark(const QString &text, const QCString &url, const QString &additionnalInfo);
+   void newFolder(const QString &text, bool open, const QString &additionnalInfo);
+   void newSeparator();
+   void endFolder();
 
 private:
-    void xbelExecute(); // doesn't use signals
-    void nsExecute();
-    void IEExecute();
-    void connectImporter( const QObject *importer );
-    void operaExecute();
+   void connectImporter(const QObject *importer);
 
-    QPtrStack<KBookmarkGroup> mstack;
-    QValueList<KBookmarkGroup> mlist;
-    QString m_fileName;
-    QString m_folder;
-    QString m_icon;
-    QString m_group;
-    KMacroCommand *m_cleanUpCmd;
-    bool m_utf8;
-    int m_bookmarksType;
+   void xbelExecute(); // doesn't use signals
+   void nsExecute();
+   void IEExecute();
+   void operaExecute();
+
+   QPtrStack<KBookmarkGroup> mstack;
+   QValueList<KBookmarkGroup> mlist;
+   QString m_fileName;
+   QString m_folder;
+   QString m_icon;
+   QString m_group;
+   KMacroCommand *m_cleanUpCmd;
+   bool m_utf8;
+   int m_bookmarksType;
 };
 
 class KEBListViewItem;
