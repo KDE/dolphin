@@ -42,20 +42,22 @@ static const char * adviceToStr(KCookieAdvice _advice)
     case KCookieAccept: return I18N_NOOP("Accept");
     case KCookieReject: return I18N_NOOP("Reject");
     case KCookieAsk: return I18N_NOOP("Ask");
-    default: return 0;
+    default: return I18N_NOOP("Dunno");
     }
 }
 
 static KCookieAdvice strToAdvice(const QString& _str)
 {
-    if (!_str)
+    if ( _str.isEmpty() )
         return KCookieDunno;
 
-    if (_str.lower() == QString::fromLatin1("accept"))
+    QString advice = _str.lower();
+
+    if ( advice == QString::fromLatin1("accept"))
         return KCookieAccept;
-    else if (_str.lower() == QString::fromLatin1("reject"))
+    else if ( advice == QString::fromLatin1("reject"))
         return KCookieReject;
-    else if (_str.lower() == QString::fromLatin1("ask"))
+    else if ( advice == QString::fromLatin1("ask"))
         return KCookieAsk;
 
     return KCookieDunno;
@@ -268,77 +270,75 @@ void KCookiesPolicies::changeCookiesEnabled()
 void KCookiesPolicies::updateDomainList(const QStringList &domainConfig)
 {
     for (QStringList::ConstIterator it = domainConfig.begin();
-         it != domainConfig.end(); ++it) {
+         it != domainConfig.end(); ++it)
+    {
       QString domain;
       KCookieAdvice advice;
       splitDomainAdvice(*it, domain, advice);
-      QCString advStr = adviceToStr(advice);
-      QListViewItem *index =
-        new QListViewItem( lv_domainPolicy, domain, i18n(advStr) );
-      domainPolicy[index] = advStr;
+      QListViewItem *index = new QListViewItem( lv_domainPolicy, domain, i18n( adviceToStr(advice) ) );
+      domainPolicy[index] = adviceToStr(advice);
     }
 }
 
 void KCookiesPolicies::load()
 {
-  KSimpleConfig *g_pConfig = new KSimpleConfig( "kcookiejarrc" );
+  KSimpleConfig* cfg = new KSimpleConfig( "kcookiejarrc" );
 
   // Backwards compatiable reading of domain specific settings
-  if( g_pConfig->hasGroup( "Browser Settings/HTTP" ) &&
-      !g_pConfig->hasGroup( "Cookie Policy" ) )
-     g_pConfig->setGroup( "Browser Settings/HTTP" );
+  if( cfg->hasGroup( "Browser Settings/HTTP" ) &&
+     !cfg->hasGroup( "Cookie Policy" ) )
+     cfg->setGroup( "Browser Settings/HTTP" );
   else
-     g_pConfig->setGroup( "Cookie Policy" );
+    cfg->setGroup( "Cookie Policy" );
 
-  QString tmp = g_pConfig->readEntry("CookieGlobalAdvice", "Ask");
-  KCookieAdvice globalAdvice = strToAdvice(tmp);
-  cb_enableCookies->setChecked( g_pConfig->readBoolEntry( "Cookies", true ));
+  KCookieAdvice globalAdvice = strToAdvice( cfg->readEntry("CookieGlobalAdvice", "Ask") );
+  cb_enableCookies->setChecked( cfg->readBoolEntry( "Cookies", true ) );
 
   rb_gbPolicyAccept->setChecked( globalAdvice == KCookieAccept );
   rb_gbPolicyReject->setChecked( globalAdvice == KCookieReject );
   rb_gbPolicyAsk->setChecked( (globalAdvice != KCookieAccept) &&
                               (globalAdvice != KCookieReject) );
 
-  updateDomainList(g_pConfig->readListEntry("CookieDomainAdvice"));
+  updateDomainList( cfg->readListEntry("CookieDomainAdvice") );
   changeCookiesEnabled();
 
   // Remove the old group - R.I.P
-  if( g_pConfig->hasGroup( "Browser Settings/HTTP" ) )
-     g_pConfig->deleteGroup( "Browser Settings/HTTP" );
+  if( cfg->hasGroup( "Browser Settings/HTTP" ) )
+     cfg->deleteGroup( "Browser Settings/HTTP" );
 
-  delete g_pConfig;
+  delete cfg;
 }
 
 void KCookiesPolicies::save()
 {
-  KSimpleConfig *g_pConfig = new KSimpleConfig( "kcookiejarrc" );
+  KSimpleConfig *cfg = new KSimpleConfig( "kcookiejarrc" );
+
+  cfg->setGroup( "Cookie Policy" );
+
+  cfg->writeEntry( "Cookies", cb_enableCookies->isChecked() );
+
   QString advice;
-
-  g_pConfig->setGroup( "Cookie Policy" );
-  g_pConfig->writeEntry( "Cookies", cb_enableCookies->isChecked() );
-
   if (rb_gbPolicyAccept->isChecked())
       advice = adviceToStr(KCookieAccept);
   else if (rb_gbPolicyReject->isChecked())
       advice = adviceToStr(KCookieReject);
   else
       advice = adviceToStr(KCookieAsk);
-  g_pConfig->writeEntry("CookieGlobalAdvice", advice);
+  cfg->writeEntry("CookieGlobalAdvice", advice);
   QStringList domainConfig;
   QListViewItem *at = lv_domainPolicy->firstChild();
-  while (at) {
+  while( at )
+  {
     domainConfig.append(QString::fromLatin1("%1:%2").arg(at->text(0)).arg(domainPolicy[at]));
     at = at->nextSibling();
   }
-  g_pConfig->writeEntry("CookieDomainAdvice", domainConfig);
-
-  g_pConfig->sync();
-
-  delete g_pConfig;
+  cfg->writeEntry("CookieDomainAdvice", domainConfig);
+  cfg->sync();
+  delete cfg;
 
   // Create a dcop client object to communicate with the
   // cookiejar if it is alive, if not who cares.  It will
-  // read the config info from file the next time...
+  // read the cfg info from file the next time...
   DCOPClient *m_dcopClient = new DCOPClient();
   if( m_dcopClient->attach() )
   {
