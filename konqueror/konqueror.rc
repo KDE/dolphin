@@ -89,7 +89,9 @@
   <Action name="splitviewv"/>
   <Action name="removeview"/>
   <Separator/>
-  <Action name="addtab"/>
+  <Action name="newtab"/>
+  <Action name="duplicatecurrenttab"/>
+  <Action name="breakoffcurrenttab"/>
   <Action name="removecurrenttab"/>
   <Separator/>
   <ActionList name="toggleview" />
@@ -132,7 +134,9 @@
   <Action name="splitviewv" />
   <Action name="splitviewh" />
   <Action name="removeview" /> 
-  <Action name="addtab"/>
+  <Action name="newtab"/>
+  <Action name="duplicatecurrenttab"/>
+  <Action name="breakoffcurrenttab"/>
   <Action name="removecurrenttab"/>
 </ToolBar>
 <ToolBar fullWidth="true" name="locationToolBar" newline="true"><text>Location Toolbar</text>

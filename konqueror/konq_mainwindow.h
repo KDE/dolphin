@@ -154,6 +154,7 @@ public:
   const MapViews & viewMap() const { return m_mapViews; }
 
   KonqView *currentView() const { return m_currentView; }
+
   KParts::ReadOnlyPart *currentPart() const;
 
   /** URL of current part, or URLs of selected items for directory views */
@@ -264,6 +265,9 @@ public:
   QCString frameType();
 
   KonqFrameBase* childFrame();
+  
+  KonqFrameBase* workingTab() { return m_pWorkingTab; }
+  void setWorkingTab( KonqFrameBase* tab ) { m_pWorkingTab = tab; }
 
   void setActiveChild( KonqFrameBase* activeChild );
 
@@ -360,9 +364,14 @@ protected slots:
   void slotSplitViewHorizontal();
   void slotSplitViewVertical();
   void slotAddTab();
+  void slotDuplicateTab();
+  void slotDuplicateTabPopup();
+  void slotBreakOffTab();
+  void slotBreakOffTabPopup();
   void slotPopupNewTab();
   void slotRemoveView();
-  void slotRemoveCurrentTab();
+  void slotRemoveTab();
+  void slotRemoveTabPopup();
   void slotDumpDebugInfo();
 
   void slotSaveViewProfile();
@@ -427,7 +436,7 @@ protected:
 
   void applyKonqMainWindowSettings();
 
-    void saveToolBarServicesMap();
+  void saveToolBarServicesMap();
 
   void viewsChanged();
 
@@ -513,9 +522,11 @@ private:
   KAction *m_paSplitViewHor;
   KAction *m_paSplitViewVer;
   KAction *m_paAddTab;
+  KAction *m_paDuplicateTab;
+  KAction *m_paBreakOffTab;
   KAction *m_paRemoveView;
-	KAction *m_paRemoveCurrentTab;
-	KAction *m_paDumpDebugInfo;
+  KAction *m_paRemoveTab;
+  KAction *m_paDumpDebugInfo;
 
   KAction *m_paSaveRemoveViewProfile;
   KActionMenu *m_pamLoadViewProfile;
@@ -577,6 +588,8 @@ private:
 
   KonqViewManager *m_pViewManager;
   KonqFrameBase* m_pChildFrame;
+
+  KonqFrameBase* m_pWorkingTab;
 
   KFileItemList popupItems;
 

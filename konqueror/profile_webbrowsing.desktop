@@ -58,7 +58,6 @@ Name[zu]=Ukubheka izincwadi kwi Web
 RootItem=View0
 View0_ServiceName=konq_aboutpage
 View0_ServiceType=KonqAboutPage
-View0_docContainer=true
 View0_URL=about:konqueror
 Width=80%
 Height=80%

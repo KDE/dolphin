@@ -86,12 +86,32 @@ public:
                          bool newOneFirst = false);
 
   /**
+   * Converts a Container or View docContainer into a Tabs
+   */
+  void convertDocContainer();
+
+  /**
+   * Reverts a Tab docContainer into a View
+   */
+  void revertDocContainer();
+
+  /**
    * Adds a tab to m_pMainContainer
    */
-
   KonqView* addTab(const QString &serviceType = QString::null,
                    const QString &serviceName = QString::null,
                    bool passiveMode = false, bool forceAutoEmbed = false);
+
+  /**
+   * Duplicates the specified tab, or else the current one if none is specified
+   */
+  void duplicateTab( KonqFrameBase* tab = 0L );
+
+  /**
+   * Break the current tab off into a new window,
+   * if none is specified, the current one is used
+   */
+  void breakOffTab( KonqFrameBase* tab = 0L );
 
   /**
    * Guess!:-)
@@ -100,10 +120,10 @@ public:
   void removeView( KonqView *view );
 
   /**
-   * Guess Again!:->
+   * Removes specified tab, if none is specified it remvoe the current tab
    * Also takes care of setting another view as active if the active view was in this tab
    */
-  void removeCurrentTab();
+  void removeTab( KonqFrameBase* tab = 0L );
 
   /**
    * Saves the current view layout to a config file.
@@ -182,6 +202,7 @@ public:
   void profileListDirty( bool broadcast = true );
 
   KonqFrameBase *docContainer() const { return m_pDocContainer; }
+  void setDocContainer( KonqFrameBase* docContainer ) { m_pDocContainer = docContainer; }
 
   KonqMainWindow *mainWindow() const { return m_pMainWindow; }
 

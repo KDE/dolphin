@@ -28,6 +28,7 @@
 #include <qcheckbox.h>
 #include <qlabel.h>
 #include <qtabwidget.h>
+#include <qtabbar.h>
 
 #include <kpixmap.h>
 #include <kpixmapeffect.h>
@@ -40,6 +41,7 @@ class QPushButton;
 class QToolButton;
 
 class KonqView;
+class KonqViewManager;
 class KonqFrameBase;
 class KonqFrame;
 class KonqFrameContainerBase;
@@ -413,13 +415,29 @@ protected:
   KonqFrameBase* m_pSecondChild;
 };
 
+class KonqTabBar : public QTabBar
+{
+  Q_OBJECT
+
+  public:
+    KonqTabBar(KonqViewManager* viewManager, KonqFrameTabs *parent, const char *name = 0);
+
+  protected:
+    void mouseReleaseEvent(QMouseEvent *e);
+
+  private:
+    KonqFrameTabs* m_pTabWidget;
+    KonqViewManager* m_pViewManager;
+    QPopupMenu* m_pPopupMenu;
+};
+
 class KonqFrameTabs : public QTabWidget, public KonqFrameContainerBase
 {
   Q_OBJECT
   friend class KonqFrame; //for emitting ctrlTabPressed() only, aleXXX
 
 public:
-  KonqFrameTabs(QWidget* parent, KonqFrameContainerBase* parentContainer, const char * name = 0);
+  KonqFrameTabs(QWidget* parent, KonqFrameContainerBase* parentContainer, KonqViewManager* viewManager, const char * name = 0);
   virtual ~KonqFrameTabs();
 
   virtual void listViews( ChildViewList *viewList );
@@ -459,6 +477,9 @@ signals:
 
 protected:
   QPtrList<KonqFrameBase>* m_pChildFrameList;
+  
+private:
+  KonqViewManager* m_pViewManager;
 };
 
 #endif

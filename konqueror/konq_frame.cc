@@ -416,7 +416,7 @@ void KonqFrame::saveConfig( KConfig* config, const QString &prefix, bool saveURL
   config->writeEntry( QString::fromLatin1( "ToggleView" ).prepend( prefix ), childView()->isToggleView() );
   config->writeEntry( QString::fromLatin1( "LockedLocation" ).prepend( prefix ), childView()->isLockedLocation() );
   config->writeEntry( QString::fromLatin1( "ShowStatusBar" ).prepend( prefix ), statusbar()->isVisible() );
-  config->writeEntry( QString::fromLatin1( "docContainer" ).prepend( prefix ), (this == docContainer) );
+  if (this == docContainer) config->writeEntry( QString::fromLatin1( "docContainer" ).prepend( prefix ), true );
 }
 
 void KonqFrame::copyHistory( KonqFrameBase *other )
@@ -632,7 +632,7 @@ void KonqFrameContainer::saveConfig( KConfig* config, const QString &prefix, boo
   config->writeEntry( QString::fromLatin1( "Orientation" ).prepend( prefix ), o );
 
   //write docContainer
-  config->writeEntry( QString::fromLatin1( "docContainer" ).prepend( prefix ), (this == docContainer) );
+  if (this == docContainer) config->writeEntry( QString::fromLatin1( "docContainer" ).prepend( prefix ), true );
 
   //write child configs
   if( firstChild() ) {
@@ -744,7 +744,39 @@ void KonqFrameContainer::removeChildFrame( KonqFrameBase * frame )
 
 //###################################################################
 
-KonqFrameTabs::KonqFrameTabs(QWidget* parent, KonqFrameContainerBase* parentContainer, const char * name)
+// I'd like to thank the good people at QTella for the inspiration for KonqTabBar
+
+KonqTabBar::KonqTabBar(KonqViewManager* viewManager, KonqFrameTabs *parent, const char *name)
+  : QTabBar(parent, name)
+{
+  m_pTabWidget = parent;
+  m_pViewManager = viewManager;
+  
+  m_pPopupMenu = new QPopupMenu( 0L );
+
+  m_pPopupMenu->insertItem( "Add Tab", m_pViewManager->mainWindow(), SLOT( slotAddTab() ) );
+  m_pPopupMenu->insertItem( "Duplicate Tab", m_pViewManager->mainWindow(), SLOT( slotDuplicateTabPopup() ) );
+  m_pPopupMenu->insertSeparator();
+  m_pPopupMenu->insertItem( "Remove Tab", m_pViewManager->mainWindow(), SLOT( slotRemoveTabPopup() ) );
+  m_pPopupMenu->insertItem( "Break Off Tab", m_pViewManager->mainWindow(), SLOT( slotBreakOffTabPopup() ) );
+}
+
+void KonqTabBar::mouseReleaseEvent(QMouseEvent *e)
+{
+  kdDebug(1202) << "KonqTabBar::mouseReleaseEvent begin" << endl;
+
+  if (e->button() == RightButton)
+  {
+    QWidget* page = m_pTabWidget->page( indexOf( selectTab(e->pos())->identifier() ) );
+    if (page == 0L) return;
+    m_pViewManager->mainWindow()->setWorkingTab( dynamic_cast<KonqFrameBase*>(page) );
+    m_pPopupMenu->exec( mapToGlobal( e->pos() ) );
+  }
+
+  kdDebug(1202) << "KonqTabBar::mouseReleaseEvent end" << endl;
+}
+
+KonqFrameTabs::KonqFrameTabs(QWidget* parent, KonqFrameContainerBase* parentContainer, KonqViewManager* viewManager, const char * name)
   : QTabWidget(parent, name)
 {
   kdDebug(1202) << "**************** KonqFrameTabs::KonqFrameTabs() *********************" << endl;
@@ -753,6 +785,9 @@ KonqFrameTabs::KonqFrameTabs(QWidget* parent, KonqFrameContainerBase* parentCont
   m_pChildFrameList = new QPtrList<KonqFrameBase>;
   m_pChildFrameList->setAutoDelete(false);
   m_pActiveChild = 0L;
+  m_pViewManager = viewManager;
+
+  setTabBar( new KonqTabBar( m_pViewManager, this ) );
 
   connect( this, SIGNAL( currentChanged ( QWidget * ) ), this, SLOT( slotCurrentChanged( QWidget* ) ) );
 }
@@ -760,7 +795,7 @@ KonqFrameTabs::KonqFrameTabs(QWidget* parent, KonqFrameContainerBase* parentCont
 KonqFrameTabs::~KonqFrameTabs()
 {
   kdDebug(1202) << "KonqFrameTabs::~KonqFrameTabs() " << this << " - " << className() << endl;
-  m_pChildFrameList->setAutoDelete(true);	
+  m_pChildFrameList->setAutoDelete(true);
   delete m_pChildFrameList;
 }
 
@@ -775,7 +810,7 @@ void KonqFrameTabs::saveConfig( KConfig* config, const QString &prefix, bool sav
   QStringList strlst;
   int i = 0;
   QString newPrefix;
-	for (KonqFrameBase* it = m_pChildFrameList->first(); it; it = m_pChildFrameList->next())
+  for (KonqFrameBase* it = m_pChildFrameList->first(); it; it = m_pChildFrameList->next())
   {
     newPrefix = QString::fromLatin1( it->frameType() ) + "T" + QString::number(i);
     strlst.append( newPrefix );
@@ -876,6 +911,5 @@ void KonqFrameTabs::slotCurrentChanged( QWidget* newPage )
 
   currentFrame->activateChild();
 }
-
 
 #include "konq_frame.moc"

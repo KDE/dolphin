@@ -106,6 +106,7 @@ KonqMainWindow::KonqMainWindow( const KURL &initialURL, bool openInitialURL, con
 
   m_currentView = 0L;
   m_pChildFrame = 0L;
+  m_pWorkingTab = 0L;
   m_initialKonqRun = 0L;
   m_pBookmarkMenu = 0L;
   m_dcopObject = 0L;
@@ -1942,7 +1943,28 @@ void KonqMainWindow::slotAddTab()
 {
   KonqView* newView = m_pViewManager->addTab();
   if (newView == 0L) return;
-  newView->openURL( m_currentView->url(), m_currentView->locationBarURL() );
+  openURL( newView, KURL("about:blank") );
+  m_pWorkingTab = 0L;
+}
+
+void KonqMainWindow::slotDuplicateTab()
+{
+  m_pViewManager->duplicateTab();
+}
+
+void KonqMainWindow::slotDuplicateTabPopup()
+{
+  m_pViewManager->duplicateTab( m_pWorkingTab );
+}
+
+void KonqMainWindow::slotBreakOffTab()
+{
+  m_pViewManager->breakOffTab();
+}
+
+void KonqMainWindow::slotBreakOffTabPopup()
+{
+  m_pViewManager->breakOffTab( m_pWorkingTab );
 }
 
 void KonqMainWindow::slotPopupNewTab()
@@ -1974,9 +1996,14 @@ void KonqMainWindow::slotRemoveView()
   m_pViewManager->removeView( m_currentView );
 }
 
-void KonqMainWindow::slotRemoveCurrentTab()
+void KonqMainWindow::slotRemoveTab()
 {
-	m_pViewManager->removeCurrentTab();
+  m_pViewManager->removeTab();
+}
+
+void KonqMainWindow::slotRemoveTabPopup()
+{
+  m_pViewManager->removeTab( m_pWorkingTab );
 }
 
 void KonqMainWindow::slotDumpDebugInfo()
@@ -2795,10 +2822,11 @@ void KonqMainWindow::initActions()
   // Window menu
   m_paSplitViewHor = new KAction( i18n( "Split View &Left/Right" ), "view_left_right", CTRL+SHIFT+Key_L, this, SLOT( slotSplitViewHorizontal() ), actionCollection(), "splitviewh" );
   m_paSplitViewVer = new KAction( i18n( "Split View &Top/Bottom" ), "view_top_bottom", CTRL+SHIFT+Key_T, this, SLOT( slotSplitViewVertical() ), actionCollection(), "splitviewv" );
-  m_paAddTab = new KAction( i18n( "Add Tab" ), "view_add_tab", 0, this, SLOT( slotAddTab() ), actionCollection(), "addtab" );
+  m_paAddTab = new KAction( i18n( "New Tab" ), "view_new_tab", CTRL+SHIFT+Key_N, this, SLOT( slotAddTab() ), actionCollection(), "newtab" );
+  m_paDuplicateTab = new KAction( i18n( "Duplicate Current Tab" ), "view_duplicate_current_tab", CTRL+SHIFT+Key_D, this, SLOT( slotDuplicateTab() ), actionCollection(), "duplicatecurrenttab" );
+  m_paBreakOffTab = new KAction( i18n( "Break Off Current Tab" ), "view_break_off_current_tab", CTRL+SHIFT+Key_B, this, SLOT( slotBreakOffTab() ), actionCollection(), "breakoffcurrenttab" );
   m_paRemoveView = new KAction( i18n( "&Remove Active View" ),"view_remove", CTRL+SHIFT+Key_R, this, SLOT( slotRemoveView() ), actionCollection(), "removeview" );
-
-  m_paRemoveCurrentTab = new KAction( i18n( "Remove Current Tab" ), "view_remove_current_tab", 0, this, SLOT( slotRemoveCurrentTab() ), actionCollection(), "removecurrenttab" );
+  m_paRemoveTab = new KAction( i18n( "Remove Current Tab" ), "view_remove_current_tab", CTRL+SHIFT+Key_W, this, SLOT( slotRemoveTab() ), actionCollection(), "removecurrenttab" );
   m_paDumpDebugInfo = new KAction( i18n( "Dump Debug Info" ), "view_dump_debug_info", 0, this, SLOT( slotDumpDebugInfo() ), actionCollection(), "dumpdebuginfo" );
 
   m_paSaveRemoveViewProfile = new KAction( i18n( "&Configure View Profiles..." ), 0, m_pViewManager, SLOT( slotProfileDlg() ), actionCollection(), "saveremoveviewprofile" );
@@ -2835,7 +2863,7 @@ void KonqMainWindow::initActions()
   // focus the URI combo. This is meant to do a similar task to QLabel->setBuddy();
   connect( label, SIGNAL(clicked()), m_combo, SLOT(setFocus()) );
   connect( label, SIGNAL(clicked()), m_combo->lineEdit(), SLOT(selectAll()) );
-  
+
   KWidgetAction* comboAction = new KWidgetAction( m_combo, i18n( "Location Bar" ), 0,
                   0, 0, actionCollection(), "toolbar_url_combo" );
   comboAction->setShortcutConfigurable( false );
@@ -2960,13 +2988,24 @@ void KonqMainWindow::updateViewActions()
   if ( docContainer == 0L && !(currentView() && currentView()->frame()))
   {
     m_paAddTab->setEnabled( false );
-    m_paRemoveCurrentTab->setEnabled( false );
+    m_paDuplicateTab->setEnabled( false );
+    m_paRemoveTab->setEnabled( false );
+    m_paBreakOffTab->setEnabled( false );
   }
   else
   {
     m_paAddTab->setEnabled( true );
-    m_paRemoveCurrentTab->setEnabled( docContainer &&
-                                      docContainer->frameType() == "Tabs" );
+    m_paDuplicateTab->setEnabled( true );
+    if ( docContainer && docContainer->frameType() == "Tabs" )
+    {
+      m_paRemoveTab->setEnabled( true );
+      m_paBreakOffTab->setEnabled( true );
+    }
+    else
+    {
+      m_paRemoveTab->setEnabled( false );
+      m_paBreakOffTab->setEnabled( false );
+    }
   }
 
   // Can split a view if it's not a toggle view (because a toggle view can be here only once)
