@@ -53,7 +53,7 @@ void KShellCmdPlugin::slotExecuteShellCommand()
       defaultValue = isLocal ? "./"+part->currentItem()->name() : part->currentItem()->url().prettyURL();
    else
       defaultValue = isLocal ? part->url().path() : part->url().prettyURL();
-   KLineEditDlg l(i18n("Execute shell command:"), defaultValue, part->widget() );
+   KLineEditDlg l(i18n("Execute shell command in current directory:"), defaultValue, part->widget() );
    if ( l.exec() )
    {
       QString chDir;
