@@ -1410,20 +1410,14 @@ void KonqMainView::slotURLCompleted( OpenParts::Id id )
   
   assert( it != m_mapViews.end() );
 
-#warning FIXME:disabled toolbar stuff here! read comment why. (Simon)
-// I have the impression that there's a bug in the KToolbar/KTMainWindow stuff
-// because without _any_ changes in konqy nor OpenParts suddenly the toolbars
-// disappeared (according to the debug out they get deleted, by KTM I suppose).
-// any without toolbars the out-commented calls fail -> crash
-
-//  if ( id == m_currentId )
-//    slotStopAnimation();
+  if ( id == m_currentId )
+    slotStopAnimation();
 
   it.data()->makeHistory( true /* completed */, QString::null /* not used */);
   if ( id == m_currentId )
   {
-//    setItemEnabled( m_vMenuGo, MGO_BACK_ID, m_currentView->canGoBack() );
-//    setItemEnabled( m_vMenuGo, MGO_FORWARD_ID, m_currentView->canGoForward() );
+    setItemEnabled( m_vMenuGo, MGO_BACK_ID, m_currentView->canGoBack() );
+    setItemEnabled( m_vMenuGo, MGO_FORWARD_ID, m_currentView->canGoForward() );
   }
 }
 

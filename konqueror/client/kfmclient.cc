@@ -365,7 +365,7 @@ void clientApp::getKDesky()
   KNaming *naming = kded->knaming();
 
   // Lookup KDesktopIf object
-  CORBA::Object_var obj = naming->lookup( "IDL:KDesktopIf:1.0" );
+  CORBA::Object_var obj = naming->resolve( "IDL:KDesktopIf:1.0" );
   if ( CORBA::is_nil( obj ) )
   {
     printf( "Error: Can't connect to KDesktop" );fflush(stdout);
