@@ -129,30 +129,37 @@ void ListView::connectSignals() {
 
 // fowards
 
-#define lt ListView::self()
+void KEBListView::slotSelectionChanged() { 
+  ListView::self()->slotSelectionChanged(); 
+}
 
-void KEBListView::slotSelectionChanged() 
-  { lt->slotSelectionChanged(); }
-void KEBListView::slotContextMenu(KListView *a, QListViewItem *b, const QPoint &c) 
-  { lt->slotContextMenu(a,b,c); }
-void KEBListView::slotItemRenamed(QListViewItem *a, const QString &b, int c)
-  { lt->slotItemRenamed(a,b,c); }
-void KEBListView::slotDoubleClicked(QListViewItem *a, const QPoint &b, int c)
-  { lt->slotDoubleClicked(a,b,c); }
-void KEBListView::slotDropped(QDropEvent *a, QListViewItem *b, QListViewItem *c)
-  { lt->slotDropped(a,b,c); }
+void KEBListView::slotContextMenu(KListView *a, QListViewItem *b, const QPoint &c) {
+  ListView::self()->slotContextMenu(a,b,c); 
+}
+
+void KEBListView::slotItemRenamed(QListViewItem *a, const QString &b, int c) { 
+  ListView::self()->slotItemRenamed(a,b,c); 
+}
+
+void KEBListView::slotDoubleClicked(QListViewItem *a, const QPoint &b, int c) { 
+  ListView::self()->slotDoubleClicked(a,b,c); 
+}
+
+void KEBListView::slotDropped(QDropEvent *a, QListViewItem *b, QListViewItem *c) { 
+  ListView::self()->slotDropped(a,b,c); 
+}
 
 void ListView::connectSignals(KEBListView *listview) {
    connect(listview, SIGNAL( selectionChanged() ),
-           this,     SLOT( slotSelectionChanged() ));
+           listview, SLOT( slotSelectionChanged() ));
    connect(listview, SIGNAL( contextMenu(KListView *, QListViewItem*, const QPoint &) ),
-           this,     SLOT( slotContextMenu(KListView *, QListViewItem *, const QPoint &) ));
+           listview, SLOT( slotContextMenu(KListView *, QListViewItem *, const QPoint &) ));
    connect(listview, SIGNAL( itemRenamed(QListViewItem *, const QString &, int) ),
-           this,     SLOT( slotItemRenamed(QListViewItem *, const QString &, int) ));
+           listview, SLOT( slotItemRenamed(QListViewItem *, const QString &, int) ));
    connect(listview, SIGNAL( doubleClicked(QListViewItem *, const QPoint &, int) ),
-           this,     SLOT( slotDoubleClicked(QListViewItem *, const QPoint &, int) ));
+           listview, SLOT( slotDoubleClicked(QListViewItem *, const QPoint &, int) ));
    connect(listview, SIGNAL( dropped(QDropEvent*, QListViewItem*, QListViewItem*) ),
-           this,     SLOT( slotDropped(QDropEvent*, QListViewItem*, QListViewItem*) ));
+           listview, SLOT( slotDropped(QDropEvent*, QListViewItem*, QListViewItem*) ));
 }
 
 QValueList<KBookmark> ListView::itemsToBookmarks(QPtrList<KEBListViewItem>* items) {
