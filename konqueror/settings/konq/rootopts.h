@@ -46,7 +46,6 @@ private slots:
 
         void enableChanged();
 	void changed();
-	void enableDevicesBoxChanged();
 	void comboBoxChanged();
 	void editButtonPressed();
 

@@ -140,14 +140,14 @@ KRootOptions::KRootOptions(KConfig *config, QWidget *parent, const char * )
                                     " of Macintosh. This setting is independent of the global top-level"
                                     " menu setting that applies to KDE applications.") );
 
-  iconsEnabledBox = new QCheckBox(i18n("Enable &icons on desktop"), groupBox);
+  iconsEnabledBox = new QCheckBox(i18n("E&nable icons on desktop"), groupBox);
   connect(iconsEnabledBox, SIGNAL(clicked()), this, SLOT(enableChanged()));
   QWhatsThis::add( iconsEnabledBox, i18n("Uncheck this option if you do not want to have icons on the desktop."
                                       " Without icons the desktop will be somewhat faster but you will no"
                                       " longer be able to drag files to the desktop." ) );
 
 
-  showHiddenBox = new QCheckBox(i18n("Show h&idden files on desktop"), groupBox);
+  showHiddenBox = new QCheckBox(i18n("&Show hidden files on desktop"), groupBox);
   connect(showHiddenBox, SIGNAL(clicked()), this, SLOT(changed()));
   QWhatsThis::add( showHiddenBox, i18n("If you check this option, any files"
                                        " in your desktop directory that begin with a period (.) will be shown."
@@ -159,7 +159,7 @@ KRootOptions::KRootOptions(KConfig *config, QWidget *parent, const char * )
                                        " You should not change or delete these files unless you know what you"
                                        " are doing!") );
 
-  vrootBox = new QCheckBox(i18n("Pr&ograms in desktop window"), groupBox);
+  vrootBox = new QCheckBox(i18n("Pro&grams in desktop window"), groupBox);
   connect(vrootBox, SIGNAL(clicked()), this, SLOT(changed()));
   QWhatsThis::add( vrootBox, i18n("Check this option if you want to"
                                     " run X11 programs that draw into the desktop such as xsnow, xpenguin or"
@@ -180,11 +180,11 @@ KRootOptions::KRootOptions(KConfig *config, QWidget *parent, const char * )
 
   QWidget *grid = new QWidget(groupBox);
 
-  strMouseButton1 = i18n("Left button:");
+  strMouseButton1 = i18n("&Left button:");
   strButtonTxt1 = i18n( "You can choose what happens when"
    " you click the left button of your pointing device on the desktop:");
 
-  strMouseButton3 = i18n("Right button:");
+  strMouseButton3 = i18n("Right b&utton:");
   strButtonTxt3 = i18n( "You can choose what happens when"
    " you click the right button of your pointing device on the desktop:");
 
@@ -219,7 +219,7 @@ KRootOptions::KRootOptions(KConfig *config, QWidget *parent, const char * )
   QWhatsThis::add( leftLabel, wtstr );
   QWhatsThis::add( leftComboBox, wtstr );
 
-  QLabel *middleLabel = new QLabel( i18n("Middle button:"), grid );
+  QLabel *middleLabel = new QLabel( i18n("Middle &button:"), grid );
   middleComboBox = new QComboBox( grid );
   middleEditButton = new QPushButton( i18n("Edit..."), grid);
   middleLabel->setBuddy( middleComboBox );
@@ -247,7 +247,7 @@ KRootOptions::KRootOptions(KConfig *config, QWidget *parent, const char * )
 
   QLabel *rightLabel = new QLabel( strMouseButton3, grid );
   rightComboBox = new QComboBox( grid );
-  rightEditButton = new QPushButton( i18n("Edit..."), grid);
+  rightEditButton = new QPushButton( i18n("Edi&t..."), grid);
   rightLabel->setBuddy( rightComboBox );
   fillMenuCombo( rightComboBox );
   connect(rightEditButton, SIGNAL(clicked()), this, SLOT(editButtonPressed()));
@@ -288,12 +288,13 @@ KRootOptions::KRootOptions(KConfig *config, QWidget *parent, const char * )
   //BEGIN devices configuration
   row++;
 #ifdef Q_OS_LINUX
-  groupBox = new QVGroupBox( i18n("Display Devices"), this );
+  groupBox = new QVGroupBox( i18n("Devices"), this );
   lay->addMultiCellWidget( groupBox, row, row, 0, RO_LASTCOL );
+  
 
-  enableDevicesBox = new QCheckBox(i18n("Enable"), groupBox);
-  connect(enableDevicesBox, SIGNAL(clicked()), this, SLOT(changed()));
-  connect(enableDevicesBox, SIGNAL(clicked()), this, SLOT(enableDevicesBoxChanged()));
+  enableDevicesBox = new QCheckBox(i18n("Displa&y devices on desktop"), groupBox);
+  connect(enableDevicesBox, SIGNAL(clicked()), this, SLOT(enableChanged()));  
+
   devicesListView = new KListView( groupBox );
   devicesListView->setFullWidth(true);
   devicesListView->addColumn( i18n("Types to Display") );
@@ -312,7 +313,7 @@ void KRootOptions::fillDevicesListView()
 {
 
     devicesListView->clear();
-    devicesListView->setRootIsDecorated(true);
+    devicesListView->setRootIsDecorated(false);
     KMimeType::List mimetypes = KMimeType::allMimeTypes();
     QValueListIterator<KMimeType::Ptr> it2(mimetypes.begin());
     g_pConfig->setGroup( "Devices" );
@@ -326,12 +327,6 @@ void KRootOptions::fillDevicesListView()
 
         }
     }
-    devicesListView->setEnabled(enableDevicesBox->isChecked());
-}
-
-void KRootOptions::enableDevicesBoxChanged()
-{
-	devicesListView->setEnabled(enableDevicesBox->isChecked());
 }
 
 void KRootOptions::saveDevicesListView()
@@ -473,6 +468,11 @@ void KRootOptions::enableChanged()
     showHiddenBox->setEnabled(enabled);
     previewListView->setEnabled(enabled);
     vrootBox->setEnabled(enabled);
+    enableDevicesBox->setEnabled(enabled);
+
+#ifdef Q_OS_LINUX
+    devicesListView->setEnabled(enableDevicesBox->isChecked() && iconsEnabledBox->isChecked());
+#endif
 
     changed();
 }
