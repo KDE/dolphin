@@ -352,8 +352,17 @@ void KonqBaseListViewWidget::contentsMouseReleaseEvent( QMouseEvent *e )
       delete m_rubber;
       m_rubber = 0;
    }
-   m_selected.clear();
 
+   if ( m_scrollTimer )
+   {
+      disconnect( m_scrollTimer, SIGNAL( timeout() ),
+                  this, SLOT( slotAutoScroll() ) );
+      m_scrollTimer->stop();
+      delete m_scrollTimer;
+      m_scrollTimer = 0;
+   }
+
+   m_selected.clear();
    KListView::contentsMouseReleaseEvent( e );
 }
 
@@ -473,20 +482,25 @@ void KonqBaseListViewWidget::slotAutoScroll()
    m_rubber = oldRubber;
    drawRubber();
 
-   ensureVisible( vc.x(), vc.y() );
+   int scroll_margin = 40;
+   ensureVisible( vc.x(), vc.y(), scroll_margin, scroll_margin );
 
    pos = viewport()->mapFromGlobal( QCursor::pos() );
-   if ( !QRect( 0, 0, viewport()->width(), viewport()->height() ).contains( pos ) &&
-        !m_scrollTimer )
-   {
-      m_scrollTimer = new QTimer( this );
 
-      connect( m_scrollTimer, SIGNAL( timeout() ),
-               this, SLOT( slotAutoScroll() ) );
-      m_scrollTimer->start( 100, false );
+   if ( !QRect( scroll_margin, scroll_margin,
+                viewport()->width() - 2*scroll_margin,
+                viewport()->height() - 2*scroll_margin ).contains( pos ) )
+   {
+      if ( !m_scrollTimer )
+      {
+         m_scrollTimer = new QTimer( this );
+
+         connect( m_scrollTimer, SIGNAL( timeout() ),
+                  this, SLOT( slotAutoScroll() ) );
+         m_scrollTimer->start( 100, false );
+      }
    }
-   else if ( QRect( 0, 0, viewport()->width(), viewport()->height() ).contains( pos ) &&
-             m_scrollTimer )
+   else if ( m_scrollTimer )
    {
       disconnect( m_scrollTimer, SIGNAL( timeout() ),
                   this, SLOT( slotAutoScroll() ) );
