@@ -23,105 +23,124 @@
 #include <qlistview.h>
 #include <qstring.h>
 #include <kio/global.h>
+#include <klocale.h>
+#include "konq_listviewwidget.h"
 
-class KonqListViewWidget;
+class KonqBaseListViewWidget;
 class KMimeType;
 class KonqFileItem;
 class KonqListViewDir;
 class QPainter;
+class KonqBaseListViewItem;
+class KonqListViewItem;
+
+class KonqBaseListViewItem : public QListViewItem
+{
+   public:
+      KonqBaseListViewItem(KonqBaseListViewWidget *_listViewWidget,KonqFileItem* _fileitem);
+      KonqBaseListViewItem(KonqBaseListViewItem *_parent,KonqFileItem* _fileitem);
+      virtual ~KonqBaseListViewItem() {}
+      /** @return the file item held by this instance */
+      KonqFileItem * item() {return m_fileitem;}
+      /** Call this before destroying the tree view (decreases reference count
+       * on the view) */
+      virtual void prepareToDie() {}
+   protected:
+      /** Pointer to the file item in KDirLister's list */
+      KonqFileItem* m_fileitem;
+      const char* makeAccessString( const mode_t mode ) const;
+};
 
 /**
  * One item in the tree
  */
-class KonqListViewItem : public QListViewItem
+class KonqListViewItem : public KonqBaseListViewItem
 {
-public:
-  /**
-   * Create an item in the tree toplevel representing a file
-   * @param _parent the parent widget, the tree view
-   * @param _fileitem the file item created by KDirLister
-   */
-  KonqListViewItem( KonqListViewWidget *_listViewWidget, KonqFileItem* _fileitem );
-  /**
-   * Create an item representing a file, inside a directory
-   * @param _treeview the parent tree view
-   * @param _parent the parent widget, a directory item in the tree view
-   * @param _fileitem the file item created by KDirLister
-   */
-  KonqListViewItem( KonqListViewWidget *_listViewWidget, KonqListViewDir *_parent, KonqFileItem* _fileitem );
-  virtual ~KonqListViewItem() { }
+   public:
+      /**
+       * Create an item in the tree toplevel representing a file
+       * @param _parent the parent widget, the tree view
+       * @param _fileitem the file item created by KDirLister
+       */
+      KonqListViewItem( KonqBaseListViewWidget *_listViewWidget, KonqFileItem* _fileitem );
+      /**
+       * Create an item representing a file, inside a directory
+       * @param _treeview the parent tree view
+       * @param _parent the parent widget, a directory item in the tree view
+       * @param _fileitem the file item created by KDirLister
+       */
+      KonqListViewItem( KonqBaseListViewWidget *_listViewWidget, KonqListViewItem *_parent, KonqFileItem* _fileitem );
+      //KonqListViewItem( KonqBaseListViewWidget *_listViewWidget, KonqListViewDir *_parent, KonqFileItem* _fileitem );
+      virtual ~KonqListViewItem() { }
 
-  /** @return the file item held by this instance */
-  KonqFileItem * item() { return m_fileitem; }
+      virtual void prepareToDie() { m_pListViewWidget = 0L; }
+      virtual QString key( int _column, bool ) const;
+      virtual void paintCell( QPainter *_painter, const QColorGroup & cg,
+                              int column, int width, int alignment );
+   protected:
+      void init();
 
-  virtual QString key( int _column, bool ) const;
-  //virtual QString text( int column ) const;
+      QString makeNumericString( const KIO::UDSAtom &_atom ) const;
+      QString makeTimeString( const KIO::UDSAtom &_atom ) const;
+      QString makeTypeString( const KIO::UDSAtom &_atom ) const;
 
-  /** Call this before destroying the tree view (decreases reference count
-   * on the view) */
-  virtual void prepareToDie() { m_pListViewWidget = 0L; }
-  virtual void paintCell( QPainter *_painter, const QColorGroup & cg,
-                          int column, int width, int alignment );
-
-protected:
-  void init();
-
-  QString makeNumericString( const KIO::UDSAtom &_atom ) const;
-  QString makeTimeString( const KIO::UDSAtom &_atom ) const;
-  QString makeAccessString( const KIO::UDSAtom &_atom ) const;
-  QString makeTypeString( const KIO::UDSAtom &_atom ) const;
-
-  /** Pointer to the file item in KDirLister's list */
-  KonqFileItem* m_fileitem;
-
-  /** Parent tree view */
-  KonqListViewWidget* m_pListViewWidget;
+      /** Parent tree view */
+      KonqBaseListViewWidget* m_pListViewWidget;
 };
 
-/**
- * An item specialized for directories
- */
-class KonqListViewDir : public KonqListViewItem
+inline KonqBaseListViewItem::KonqBaseListViewItem(KonqBaseListViewWidget *_listViewWidget,KonqFileItem* _fileitem)
+:QListViewItem(_listViewWidget),m_fileitem(_fileitem)
+{}
+
+inline KonqBaseListViewItem::KonqBaseListViewItem(KonqBaseListViewItem *_parent,KonqFileItem* _fileitem)
+:QListViewItem(_parent),m_fileitem(_fileitem)
+{}
+
+inline const char* KonqBaseListViewItem::makeAccessString( mode_t mode) const
 {
-public:
-  /**
-   * Create an item in the tree toplevel representing a directory
-   * @param _parent the parent widget, the tree view
-   * @param _fileitem the file item created by KDirLister
-   */
-  KonqListViewDir( KonqListViewWidget *_parent, KonqFileItem* _fileitem );
-  /**
-   * Create an item representing a directory, inside a directory
-   * @param _treeview the parent tree view
-   * @param _parent the parent widget, a directory item in the tree view
-   * @param _fileitem the file item created by KDirLister
-   */
-  KonqListViewDir( KonqListViewWidget *_treeview, KonqListViewDir * _parent, KonqFileItem* _fileitem );
-  virtual ~KonqListViewDir();
+   static char buffer[ 12 ];
 
-  /**
-   * Called when user opens the directory (inherited from QListViewItem).
-   * Checks whether its contents is known (@see #setComplete).
-   */
-  virtual void setOpen( bool _open );
-  /**
-   * Set to true when contents is completely known (one sublevel only)
-   */
-  virtual void setComplete( bool _b ) { m_bComplete = _b; }
+   char uxbit,gxbit,oxbit;
 
-  /**
-   * (inherited from QListViewItem)
-   */
-  virtual void setup();
+   if ( (mode & (S_IXUSR|S_ISUID)) == (S_IXUSR|S_ISUID) )
+      uxbit = 's';
+   else if ( (mode & (S_IXUSR|S_ISUID)) == S_ISUID )
+      uxbit = 'S';
+   else if ( (mode & (S_IXUSR|S_ISUID)) == S_IXUSR )
+      uxbit = 'x';
+   else
+      uxbit = '-';
+	
+   if ( (mode & (S_IXGRP|S_ISGID)) == (S_IXGRP|S_ISGID) )
+      gxbit = 's';
+   else if ( (mode & (S_IXGRP|S_ISGID)) == S_ISGID )
+      gxbit = 'S';
+   else if ( (mode & (S_IXGRP|S_ISGID)) == S_IXGRP )
+      gxbit = 'x';
+   else
+      gxbit = '-';
 
-  /**
-   * URL of this directory
-   * @param _trailing set to true for a trailing slash (see KURL)
-   */
-  QString url( int _trailing );
+   if ( (mode & (S_IXOTH|S_ISVTX)) == (S_IXOTH|S_ISVTX) )
+      oxbit = 't';
+   else if ( (mode & (S_IXOTH|S_ISVTX)) == S_ISVTX )
+      oxbit = 'T';
+   else if ( (mode & (S_IXOTH|S_ISVTX)) == S_IXOTH )
+      oxbit = 'x';
+   else
+      oxbit = '-';
 
-protected:
-  bool m_bComplete;
-};
+   buffer[0] = ((( mode & S_IRUSR ) == S_IRUSR ) ? 'r' : '-' );
+   buffer[1] = ((( mode & S_IWUSR ) == S_IWUSR ) ? 'w' : '-' );
+   buffer[2] = uxbit;
+   buffer[3] = ((( mode & S_IRGRP ) == S_IRGRP ) ? 'r' : '-' );
+   buffer[4] = ((( mode & S_IWGRP ) == S_IWGRP ) ? 'w' : '-' );
+   buffer[5] = gxbit;
+   buffer[6] = ((( mode & S_IROTH ) == S_IROTH ) ? 'r' : '-' );
+   buffer[7] = ((( mode & S_IWOTH ) == S_IWOTH ) ? 'w' : '-' );
+   buffer[8] = oxbit;
+   buffer[9] = 0;
+
+   return buffer;
+}
 
 #endif

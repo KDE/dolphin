@@ -22,18 +22,16 @@
 #include <qcursor.h>
 #include <qpixmap.h>
 #include <qintdict.h>
-#include <qdict.h>
 #include <qtimer.h>
 #include <kurl.h>
 #include <konqfileitem.h>
 #include <klistview.h>
+#include <kparts/browserextension.h>
 
 namespace KIO { class Job; }
 class QCursor;
 class KDirLister;
-class KonqListViewItem;
-class KonqListViewDir;
-class KonqListView;
+class KonqBaseListViewItem;
 class KonqPropsView;
 class KonqFMSettings;
 class ListViewPropertiesExtension;
@@ -42,180 +40,183 @@ class ListViewPropertiesExtension;
  * The tree view widget (based on KListView).
  * Most of the functionality is here.
  */
-class KonqListViewWidget : public KListView
+class KonqBaseListViewWidget : public KListView
 {
-  friend KonqListViewItem;
-  friend KonqListViewDir;
-  friend KonqListView;
-  friend class ListViewBrowserExtension;
+   friend class KonqListView;
+   friend class ListViewBrowserExtension;
 
-  Q_OBJECT
-public:
-  KonqListViewWidget( KonqListView *parent, QWidget *parentWidget, const QString& mode );
-  ~KonqListViewWidget();
+   Q_OBJECT
+   public:
+      KonqBaseListViewWidget( KonqListView *parent, QWidget *parentWidget);
+      virtual ~KonqBaseListViewWidget();
 
-  void stop();
-  const KURL & url();
+      virtual void stop();
+      const KURL & url();
 
-  enum KonqListViewMode { DetailedList, MixedTree, TextMode };
+      struct iterator
+      {
+         KonqBaseListViewItem* m_p;
 
-  struct iterator
-  {
-    KonqListViewItem* m_p;
+         iterator() : m_p( 0L ) { }
+         iterator( KonqBaseListViewItem* _b ) : m_p( _b ) { }
+         iterator( const iterator& _it ) : m_p( _it.m_p ) { }
 
-    iterator() : m_p( 0L ) { }
-    iterator( KonqListViewItem* _b ) : m_p( _b ) { }
-    iterator( const iterator& _it ) : m_p( _it.m_p ) { }
+         KonqBaseListViewItem& operator*() { return *m_p; }
+         KonqBaseListViewItem* operator->() { return m_p; }
+         bool operator==( const iterator& _it ) { return ( m_p == _it.m_p ); }
+         bool operator!=( const iterator& _it ) { return ( m_p != _it.m_p ); }
+         iterator& operator++();
+         iterator operator++(int);
+      };
+      iterator begin() { iterator it( (KonqBaseListViewItem*)firstChild() ); return it; }
+      iterator end() { iterator it; return it; }
 
-    KonqListViewItem& operator*() { return *m_p; }
-    KonqListViewItem* operator->() { return m_p; }
-    bool operator==( const iterator& _it ) { return ( m_p == _it.m_p ); }
-    bool operator!=( const iterator& _it ) { return ( m_p != _it.m_p ); }
-    iterator& operator++();
-    iterator operator++(int);
-  };
+      virtual bool openURL( const KURL &url );
 
-  iterator begin() { iterator it( (KonqListViewItem*)firstChild() ); return it; }
-  iterator end() { iterator it; return it; }
+      /**
+       * Used by KonqBaseListViewItem, to know how to sort the file details
+       * The KonqListViewWidget holds the configuration for it, which is why
+       * it provides this method.
+       * @returns a pointer to the column number, or 0L if the atom shouldn't be displayed
+       */
+      int * columnForAtom( int atom ) { return m_dctColumnForAtom[ atom ]; }
 
-  virtual bool openURL( const KURL &url );
+      void selectedItems( QValueList<KonqBaseListViewItem*>& _list );
+      KURL::List selectedUrls();
 
-  virtual void openSubFolder( const KURL &_url, KonqListViewDir* _dir );
+      /** @return the KonqListViewDir which handles the directory _url */
+      //virtual KonqListViewDir * findDir ( const QString & _url );
 
-  /**
-   * Used by KonqListViewItem, to know how to sort the file details
-   * The KonqListViewWidget holds the configuration for it, which is why
-   * it provides this method.
-   * @returns a pointer to the column number, or 0L if the atom shouldn't be displayed
-   */
-  int * columnForAtom( int atom ) { return m_dctColumnForAtom[ atom ]; }
+      /**
+       * @return the Properties instance for this view. Used by the items.
+       */
+      KonqPropsView * props() { return m_pProps; }
 
-  void selectedItems( QValueList<KonqListViewItem*>& _list );
-  KURL::List selectedUrls();
+      virtual void setCheckMimeTypes( bool enable ) { m_checkMimeTypes = enable; }
+      virtual bool checkMimetypes() { return m_checkMimeTypes; }
 
-  /** @return the KonqListViewDir which handles the directory _url */
-  virtual KonqListViewDir * findDir ( const QString & _url );
+      virtual void setShowIcons( bool enable ) { m_showIcons = enable; }
+      virtual bool showIcons() { return m_showIcons; }
+      virtual void updateSelectedFilesInfo();
 
-  /**
-   * @return the Properties instance for this view. Used by the items.
-   */
-  KonqPropsView * props() { return m_pProps; }
+      bool showTime()                 {return m_showTime;}
+      bool showSize()                 {return m_showSize;}
+      bool showOwner()                {return m_showOwner;}
+      bool showGroup()                {return m_showGroup;}
+      bool showPermissions()          {return m_showPermissions;}
+      bool underlineLink()            {return m_bUnderlineLink;}
+      bool singleClick()              {return m_bSingleClick;}
 
-  void setCheckMimeTypes( bool enable ) { m_checkMimeTypes = enable; }
-  bool checkMimetypes() { return m_checkMimeTypes; }
+   public slots:
+      //virtual void slotOnItem( KonqBaseListViewItem* _item );
+      virtual void slotOnItem( QListViewItem* _item );
+      virtual void slotOnViewport();
 
-  void setShowIcons( bool enable ) { m_showIcons = enable; }
-  bool showIcons() { return m_showIcons; }
+   protected slots:
+      // from QListView
+      virtual void slotReturnPressed( QListViewItem *_item );
+      virtual void slotRightButtonPressed( QListViewItem *_item, const QPoint &_global, int _column );
 
-public slots:
-  void slotOnItem( QListViewItem* _item );
-  void slotOnViewport();
+      virtual void slotCurrentChanged( QListViewItem* _item ) { slotOnItem( _item ); }
 
-protected slots:
-  // from QListView
-  void slotReturnPressed( QListViewItem *_item );
-  void slotRightButtonPressed( QListViewItem *_item, const QPoint &_global, int _column );
-  void slotCurrentChanged( QListViewItem* _item ) { slotOnItem( _item ); }
+      // slots connected to the directory lister
+      virtual void slotStarted( const QString & );
+      virtual void slotCompleted();
+      virtual void slotCanceled();
+      virtual void slotClear();
+      virtual void slotNewItems( const KonqFileItemList & );
+      virtual void slotDeleteItem( KonqFileItem * );
 
-  // slots connected to the directory lister
-  void slotStarted( const QString & );
-  void slotCompleted();
-  void slotCanceled();
-  void slotClear();
-  void slotNewItems( const KonqFileItemList & );
-  void slotDeleteItem( KonqFileItem * );
+      virtual void slotResult( KIO::Job * );
 
-  void slotResult( KIO::Job * );
+   protected:
+      //this is called in the constructor, so virtual would be nonsense
+      void initConfig();
+      void emitOpenURLRequest(const KURL& url, const KParts::URLArgs& args);
+      void emitStarted( KIO::Job* job);
+      void emitCompleted();
+      QStringList readProtocolConfig( const QString & protocol );
 
-protected:
-  void initConfig();
-  QStringList readProtocolConfig( const QString & protocol );
+      virtual void viewportDragMoveEvent( QDragMoveEvent *_ev );
+      virtual void viewportDragEnterEvent( QDragEnterEvent *_ev );
+      virtual void viewportDragLeaveEvent( QDragLeaveEvent *_ev );
+      virtual void viewportDropEvent( QDropEvent *_ev );
 
-  virtual void viewportDragMoveEvent( QDragMoveEvent *_ev );
-  virtual void viewportDragEnterEvent( QDragEnterEvent *_ev );
-  virtual void viewportDragLeaveEvent( QDragLeaveEvent *_ev );
-  virtual void viewportDropEvent( QDropEvent *_ev );
+      virtual void viewportMousePressEvent( QMouseEvent *_ev );
+      virtual void viewportMouseMoveEvent( QMouseEvent *_ev );
+      virtual void viewportMouseReleaseEvent( QMouseEvent *_ev );
+      virtual void keyPressEvent( QKeyEvent *_ev );
 
-  virtual void viewportMousePressEvent( QMouseEvent *_ev );
-  virtual void viewportMouseMoveEvent( QMouseEvent *_ev );
-  virtual void viewportMouseReleaseEvent( QMouseEvent *_ev );
-  virtual void keyPressEvent( QKeyEvent *_ev );
+      /** Common method for slotCompleted and slotCanceled */
+      virtual void setComplete();
 
-  virtual void addSubDir( const KURL & _url, KonqListViewDir* _dir );
-  virtual void removeSubDir( const KURL & _url );
-  /** Common method for slotCompleted and slotCanceled */
-  virtual void setComplete();
+      virtual void popupMenu( const QPoint& _global );
 
-  virtual void popupMenu( const QPoint& _global );
+      virtual bool isSingleClickArea( const QPoint& _point );
 
-  virtual bool isSingleClickArea( const QPoint& _point );
-
-  virtual void drawContentsOffset( QPainter*, int _offsetx, int _offsety,
+      virtual void drawContentsOffset( QPainter*, int _offsetx, int _offsety,
 				   int _clipx, int _clipy,
 				   int _clipw, int _cliph );
 
-  virtual void focusInEvent( QFocusEvent* _event );
+      virtual void focusInEvent( QFocusEvent* _event );
 
-  KDirLister *dirLister() const { return m_dirLister; }
+      KDirLister *dirLister() const { return m_dirLister; }
 
-  /** The directory lister for this URL */
-  KDirLister* m_dirLister;
+      /** The directory lister for this URL */
+      KDirLister* m_dirLister;
 
-  /** Konqueror settings */
-  KonqFMSettings * m_pSettings;
+      /** Konqueror settings */
+      KonqFMSettings * m_pSettings;
 
-  /** View properties */
-  KonqPropsView * m_pProps;
+      /** View properties */
+      KonqPropsView * m_pProps;
 
-  /** If 0L, we are listing the toplevel.
-   * Otherwise, m_pWorkingDir points to the directory item we are listing,
-   * and all files found will be created under this directory item.
-   */
-  KonqListViewDir* m_pWorkingDir;
-  // Cache, for findDir
-  KonqListViewDir* m_lasttvd;
 
-  /**
-   * In which column should go each UDS atom
-   * The UDS atom type is the key, the column number is the value
-   * Not in the dict -> not shown.
-   */
-  QIntDict<int> m_dctColumnForAtom;
+      /**
+       * In which column should go each UDS atom
+       * The UDS atom type is the key, the column number is the value
+       * Not in the dict -> not shown.
+       */
+      QIntDict<int> m_dctColumnForAtom;
 
-  bool m_bTopLevelComplete;
-  bool m_bSubFolderComplete;
+      int m_iColumns;
 
-  int m_iColumns;
+      KonqBaseListViewItem* m_dragOverItem;
+      KonqBaseListViewItem* m_overItem;
+      QStringList m_lstDropFormats;
 
-  QDict<KonqListViewDir> m_mapSubDirs;
+      bool m_pressed;
+      QPoint m_pressedPos;
+      KonqBaseListViewItem* m_pressedItem;
 
-  KonqListViewItem* m_dragOverItem;
-  KonqListViewItem* m_overItem;
-  QStringList m_lstDropFormats;
+      QCursor m_stdCursor;
+      QCursor m_handCursor;
+      QPixmap m_bgPixmap;
 
-  bool m_pressed;
-  QPoint m_pressedPos;
-  KonqListViewItem* m_pressedItem;
+      // TODO remove this and use KonqFMSettings
+      bool m_bSingleClick;
 
-  QCursor m_stdCursor;
-  QCursor m_handCursor;
-  QPixmap m_bgPixmap;
+      bool m_bUnderlineLink;
+      bool m_bChangeCursor;
+      bool m_bTopLevelComplete;
 
-  // TODO remove this and use KonqFMSettings
-  bool m_bSingleClick;
-  bool m_bUnderlineLink;
-  bool m_bChangeCursor;
+      long int m_idShowDot;
+      bool m_showTime;
+      bool m_showSize;
+      bool m_showOwner;
+      bool m_showGroup;
+      bool m_showPermissions;
 
-  long int m_idShowDot;
+      bool m_settingsChanged;
+      bool m_filesSelected;
+      bool m_checkMimeTypes;
+      bool m_showIcons;
+      int m_filenameColumn;
 
-  KonqListViewMode m_mode;
-  bool m_showIcons;
-  bool m_checkMimeTypes;  
+      KURL m_url;
 
-  KURL m_url;
-
-  KonqListView *m_pBrowserView;
-
+      KonqListView *m_pBrowserView;
+      QString m_selectedFilesStatusText;
 };
 
 #endif

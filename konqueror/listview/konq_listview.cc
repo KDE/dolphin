@@ -20,6 +20,8 @@
 #include "konq_listview.h"
 #include "konq_listviewitems.h"
 #include "konq_listviewwidget.h"
+#include "konq_textviewwidget.h"
+#include "konq_treeviewwidget.h"
 #include "konq_factory.h"
 
 #include <kcursor.h>
@@ -104,12 +106,12 @@ void ListViewBrowserExtension::updateActions()
 {
   // This code is very related to KonqIconViewWidget::slotSelectionChanged
 
-  QValueList<KonqListViewItem*> selection;
+  QValueList<KonqBaseListViewItem*> selection;
   m_listView->listViewWidget()->selectedItems( selection );
 
   bool cutcopy, del;
   bool bInTrash = false;
-  QValueList<KonqListViewItem*>::ConstIterator it = selection.begin();
+  QValueList<KonqBaseListViewItem*>::ConstIterator it = selection.begin();
   for (; it != selection.end(); ++it )
   {
     if ( (*it)->item()->url().directory(false) == KUserPaths::trashPath() )
@@ -140,14 +142,14 @@ void ListViewBrowserExtension::cut()
 
 void ListViewBrowserExtension::copy()
 {
-  QValueList<KonqListViewItem*> selection;
+  QValueList<KonqBaseListViewItem*> selection;
 
   m_listView->listViewWidget()->selectedItems( selection );
 
   QStringList lstURLs;
 
-  QValueList<KonqListViewItem*>::ConstIterator it = selection.begin();
-  QValueList<KonqListViewItem*>::ConstIterator end = selection.end();
+  QValueList<KonqBaseListViewItem*>::ConstIterator it = selection.begin();
+  QValueList<KonqBaseListViewItem*>::ConstIterator end = selection.end();
   for (; it != end; ++it )
     lstURLs.append( (*it)->item()->url().url() );
 
@@ -158,7 +160,7 @@ void ListViewBrowserExtension::copy()
 
 void ListViewBrowserExtension::pasteSelection( bool move )
 {
-  QValueList<KonqListViewItem*> selection;
+  QValueList<KonqBaseListViewItem*> selection;
   m_listView->listViewWidget()->selectedItems( selection );
   assert ( selection.count() == 1 );
   KIO::pasteClipboard( selection.first()->item()->url(), move );
@@ -186,12 +188,27 @@ KonqListView::KonqListView( QWidget *parentWidget, QObject *parent, const char *
  : KParts::ReadOnlyPart( parent, name )
 {
   setInstance( KonqFactory::instance() );
-  setXMLFile( "konq_treeview.rc" );
 
   m_browser = new ListViewBrowserExtension( this );
 
-  m_pListView = new KonqListViewWidget( this, parentWidget, mode );
-
+  if (mode=="TextView")
+  {
+     kDebugInfo(1202,"Creating KonqTextViewWidget\n");
+     setXMLFile( "konq_textview.rc" );
+     m_pListView=new KonqTextViewWidget(this, parentWidget);
+  }
+  else if (mode=="MixedTree")
+  {
+     kDebugInfo(1202,"Creating KonqTreeViewWidget\n");
+     setXMLFile( "konq_treeview.rc" );
+     m_pListView=new KonqTreeViewWidget(this,parentWidget);
+  }
+  else
+  {
+     kDebugInfo(1202,"Creating KonqDetailedListViewWidget\n");
+     setXMLFile( "konq_detailedlistview.rc" );
+     m_pListView = new KonqBaseListViewWidget( this, parentWidget);
+  };
   setWidget( m_pListView );
 
   setupActions();
@@ -201,8 +218,7 @@ KonqListView::KonqListView( QWidget *parentWidget, QObject *parent, const char *
 }
 
 KonqListView::~KonqListView()
-{
-}
+{}
 
 bool KonqListView::openURL( const KURL &url )
 {
@@ -242,8 +258,8 @@ void KonqListView::slotSelect()
 
       m_pListView->blockSignals( true );
 
-      for (KonqListViewWidget::iterator it = m_pListView->begin(); it != m_pListView->end(); it++ )
-         if ( re.match( it->text(0) ) != -1 )
+      for (KonqBaseListViewWidget::iterator it = m_pListView->begin(); it != m_pListView->end(); it++ )
+         if ( re.match( it->text(m_pListView->m_filenameColumn) ) != -1 )
             it->setSelected( TRUE);
 
       m_pListView->blockSignals( false );
@@ -269,8 +285,8 @@ void KonqListView::slotUnselect()
 
       m_pListView->blockSignals(TRUE);
 
-      for (KonqListViewWidget::iterator it = m_pListView->begin(); it != m_pListView->end(); it++ )
-         if ( re.match( it->text(0) ) != -1 )
+      for (KonqBaseListViewWidget::iterator it = m_pListView->begin(); it != m_pListView->end(); it++ )
+         if ( re.match( it->text(m_pListView->m_filenameColumn) ) != -1 )
             it->setSelected(FALSE);
 
       m_pListView->blockSignals(FALSE);
@@ -328,6 +344,41 @@ void KonqListView::slotShowDot()
   m_pListView->dirLister()->setShowingDotFiles( m_paShowDot->isChecked() );
 }
 
+void KonqListView::slotShowTime()
+{
+   m_pListView->m_settingsChanged=TRUE;
+   m_pListView->m_showTime=m_paShowTime->isChecked();
+   if (!m_pListView->url().isMalformed()) m_pListView->openURL(m_pListView->url());
+};
+
+void KonqListView::slotShowSize()
+{
+   m_pListView->m_settingsChanged=TRUE;
+   m_pListView->m_showSize=m_paShowSize->isChecked();
+   if (!m_pListView->url().isMalformed()) m_pListView->openURL(m_pListView->url());
+};
+
+void KonqListView::slotShowOwner()
+{
+   m_pListView->m_settingsChanged=TRUE;
+   m_pListView->m_showOwner=m_paShowOwner->isChecked();
+   if (!m_pListView->url().isMalformed()) m_pListView->openURL(m_pListView->url());
+};
+
+void KonqListView::slotShowGroup()
+{
+   m_pListView->m_settingsChanged=TRUE;
+   m_pListView->m_showGroup=m_paShowGroup->isChecked();
+   if (!m_pListView->url().isMalformed()) m_pListView->openURL(m_pListView->url());
+};
+
+void KonqListView::slotShowPermissions()
+{
+   m_pListView->m_settingsChanged=TRUE;
+   m_pListView->m_showPermissions=m_paShowPermissions->isChecked();
+   if (!m_pListView->url().isMalformed()) m_pListView->openURL(m_pListView->url());
+};
+
 void KonqListView::slotCheckMimeTypes()
 {
   //TODO
@@ -350,7 +401,13 @@ void KonqListView::slotReloadTree()
 
 void KonqListView::setupActions()
 {
-  m_paSelect = new KAction( i18n( "&Select..." ), CTRL+Key_Plus, this, SLOT( slotSelect() ), actionCollection(), "select" );
+   m_paShowTime=new KToggleAction(i18n("Show &Modification Time"), 0, this, SLOT( slotShowTime() ), actionCollection(), "show_time" );
+   m_paShowSize=new KToggleAction(i18n("Show Filesize"), 0, this, SLOT( slotShowSize() ), actionCollection(), "show_size" );
+   m_paShowOwner=new KToggleAction(i18n("Show Owner"), 0, this, SLOT( slotShowOwner() ), actionCollection(), "show_owner" );
+   m_paShowGroup=new KToggleAction(i18n("Show Group"), 0, this, SLOT( slotShowGroup() ), actionCollection(), "show_group" );
+   m_paShowPermissions=new KToggleAction(i18n("Show permissions"), 0, this, SLOT( slotShowPermissions() ), actionCollection(), "show_permissions" );
+
+   m_paSelect = new KAction( i18n( "&Select..." ), CTRL+Key_Plus, this, SLOT( slotSelect() ), actionCollection(), "select" );
   m_paUnselect = new KAction( i18n( "&Unselect..." ), CTRL+Key_Minus, this, SLOT( slotUnselect() ), actionCollection(), "unselect" );
   m_paSelectAll = KStdAction::selectAll( this, SLOT( slotSelectAll() ), this, "selectall" );
   m_paUnselectAll = new KAction( i18n( "U&nselect All" ), CTRL+Key_U, this, SLOT( slotUnselectAll() ), actionCollection(), "unselectall" );

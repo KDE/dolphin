@@ -29,6 +29,8 @@
 #include <qlistview.h>
 #include <qstringlist.h>
 
+#include "konq_listviewwidget.h"
+
 class KAction;
 class KToggleAction;
 class ListViewBrowserExtension;
@@ -40,19 +42,17 @@ class ListViewBrowserExtension;
  */
 class KonqListView : public KParts::ReadOnlyPart
 {
-  friend class KonqListViewWidget;
+  friend class KonqBaseListViewWidget;
   Q_OBJECT
 public:
   KonqListView( QWidget *parentWidget, QObject *parent, const char *name, const QString& mode );
   virtual ~KonqListView();
 
   virtual bool openURL( const KURL &url );
-
   virtual bool closeURL();
-
   virtual bool openFile() { return true; }
 
-  KonqListViewWidget *listViewWidget() const { return m_pListView; }
+  KonqBaseListViewWidget *listViewWidget() const { return m_pListView; }
 
   ListViewBrowserExtension *extension() const { return m_browser; }
 
@@ -73,6 +73,12 @@ protected slots:
   void slotViewNone( bool b );
 
   void slotShowDot();
+  void slotShowTime();
+  void slotShowSize();
+  void slotShowOwner();
+  void slotShowGroup();
+  void slotShowPermissions();
+
   void slotCheckMimeTypes();
   void slotBackgroundColor();
   void slotBackgroundImage();
@@ -80,7 +86,7 @@ protected slots:
   void slotReloadTree();
 
 private:
-  KonqListViewWidget *m_pListView;
+  KonqBaseListViewWidget *m_pListView;
   ListViewBrowserExtension *m_browser;
 
   KAction *m_paSelect;
@@ -95,42 +101,48 @@ private:
   KToggleAction *m_paNoIcons;
 
   KToggleAction *m_paShowDot;
+  KToggleAction *m_paShowTime;
+  KToggleAction *m_paShowSize;
+  KToggleAction *m_paShowOwner;
+  KToggleAction *m_paShowGroup;
+  KToggleAction *m_paShowPermissions;
+
   KToggleAction *m_paCheckMimeTypes;
 };
 
 class ListViewBrowserExtension : public KParts::BrowserExtension
 {
-  Q_OBJECT
-  friend class KonqListView;
-  friend class KonqListViewWidget;
-public:
-  ListViewBrowserExtension( KonqListView *listView );
+   Q_OBJECT
+   friend class KonqListView;
+   friend class KonqBaseListViewWidget;
+   public:
+      ListViewBrowserExtension( KonqListView *listView );
 
-  virtual int xOffset();
-  virtual int yOffset();
+      virtual int xOffset();
+      virtual int yOffset();
 
-protected slots:
-  void updateActions();
+   protected slots:
+      void updateActions();
 
-  void copy();
-  void cut();
-  void pastecut() { pasteSelection( true ); }
-  void pastecopy() { pasteSelection( false ); }
-  void trash() { KonqOperations::del(KonqOperations::TRASH,
-                                     m_listView->listViewWidget()->selectedUrls()); }
-  void del() { KonqOperations::del(KonqOperations::DEL,
-                                   m_listView->listViewWidget()->selectedUrls()); }
-  void shred() { KonqOperations::del(KonqOperations::SHRED,
-                                     m_listView->listViewWidget()->selectedUrls()); }
+      void copy();
+      void cut();
+      void pastecut() { pasteSelection( true ); }
+      void pastecopy() { pasteSelection( false ); }
+      void trash() { KonqOperations::del(KonqOperations::TRASH,
+                                         m_listView->listViewWidget()->selectedUrls()); }
+      void del() { KonqOperations::del(KonqOperations::DEL,
+                                       m_listView->listViewWidget()->selectedUrls()); }
+      void shred() { KonqOperations::del(KonqOperations::SHRED,
+                                         m_listView->listViewWidget()->selectedUrls()); }
 
-  void reparseConfiguration();
-  void saveLocalProperties();
-  void savePropertiesAsDefault();
+      void reparseConfiguration();
+      void saveLocalProperties();
+      void savePropertiesAsDefault();
 
-private:
-  void pasteSelection( bool move );
+   private:
+      void pasteSelection( bool move );
 
-  KonqListView *m_listView;
+      KonqListView *m_listView;
 };
 
 #endif
