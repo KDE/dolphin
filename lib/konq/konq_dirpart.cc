@@ -22,6 +22,8 @@
 #include "konq_propsview.h"
 #include "konq_settings.h"
 
+#include "kshellcmddialog.h"
+
 #include <kaction.h>
 #include <kcolordlg.h>
 #include <kdebug.h>
@@ -31,6 +33,8 @@
 #include <kparts/browserextension.h>
 #include <kurldrag.h>
 #include <kuserprofile.h>
+#include <kmessagebox.h>
+#include <klineeditdlg.h>
 
 #include <qapplication.h>
 #include <qclipboard.h>
@@ -79,9 +83,13 @@ KonqDirPart::KonqDirPart( QObject *parent, const char *name )
       for (i=1, it=avSizes.begin(); (it!=avSizes.end()) && (i<4); it++, i++)
       {
         m_iIconSize[i] = *it;
-        //kdDebug(1202) << "m_iIconSize[" << i << "] = " << *it << endl;
+        //kdDebug(1203) << "m_iIconSize[" << i << "] = " << *it << endl;
       }
     }
+
+
+    m_paExecuteShellCommand = new KAction( i18n( "&Execute Shell Command" ),
+        CTRL+Key_E, this, SLOT( slotExecuteShellCommand() ), actionCollection(), "executeshellcommand" );
 }
 
 KonqDirPart::~KonqDirPart()
@@ -119,12 +127,34 @@ void KonqDirPart::slotBackgroundImage()
     }
 }
 
+void KonqDirPart::slotExecuteShellCommand()
+{
+   if (!url().isLocalFile())
+   {
+      KMessageBox::sorry(widget(),i18n("Executing shell commands works only on local directories."));
+      return;
+   }
+   KLineEditDlg l( i18n("Execute shell command:"), /*TODO m_pListView->currentItem()?m_pListView->currentItem()->text(0):*/"", widget() );
+   if ( l.exec() )
+   {
+      QString chDir="cd ";
+      chDir+=url().path();
+      chDir+="; ";
+      chDir+=l.text();
+
+      KShellCommandDialog *shellCmdDialog=new KShellCommandDialog(i18n("Output from command: \"%1\"").arg(l.text()),chDir,widget(),true);
+      shellCmdDialog->resize(500,300);
+      shellCmdDialog->executeCommand();
+      delete shellCmdDialog;
+   }
+}
+
 void KonqDirPart::mmbClicked( KFileItem * fileItem )
 {
     // Optimisation to avoid KRun to call kfmclient that then tells us
     // to open a window :-)
     KService::Ptr offer = KServiceTypeProfile::preferredService(fileItem->mimetype(), true);
-    if (offer) kdDebug() << "KonqDirPart::mmbClicked: got service " << offer->desktopEntryName() << endl;
+    if (offer) kdDebug(1203) << "KonqDirPart::mmbClicked: got service " << offer->desktopEntryName() << endl;
     if ( offer && offer->desktopEntryName() == "kfmclient" )
     {
         KParts::URLArgs args;
@@ -318,7 +348,7 @@ void KonqDirPart::setFindPart( KParts::ReadOnlyPart * part )
 
 void KonqDirPart::slotFindClosed()
 {
-    kdDebug() << "KonqDirPart::slotFindClosed" << endl;
+    kdDebug(1203) << "KonqDirPart::slotFindClosed" << endl;
     emit findClosed( this );
     // reload where we were before
     openURL( url() );
