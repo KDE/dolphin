@@ -189,7 +189,9 @@ class KonqBaseListViewWidget : public KListView
       /** Common method for slotCompleted and slotCanceled */
       virtual void setComplete();
 
-      virtual void popupMenu( const QPoint& _global );
+      //the second parameter is set to true when the menu shortcut is pressed,
+      //so the position of the mouse pointer doesn't matter when using keyboard, aleXXX
+      virtual void popupMenu( const QPoint& _global, bool alwaysForSelectedFiles=false );
 
       //this one is called only by KListView, and this is friend anyways (Alex)
       //KonqDirLister *dirLister() const { return m_dirLister; }

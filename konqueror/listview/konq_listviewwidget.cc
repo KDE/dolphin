@@ -542,17 +542,17 @@ void KonqBaseListViewWidget::slotRightButtonPressed( QListViewItem *, const QPoi
 void KonqBaseListViewWidget::slotPopupMenu(KListView*, QListViewItem * )
 {
    kdDebug() << "KonqBaseListViewWidget::slotPopupMenu" << endl;
-   popupMenu( QCursor::pos() );
+   popupMenu( QCursor::pos(),true );
 }
 
-void KonqBaseListViewWidget::popupMenu( const QPoint& _global )
+void KonqBaseListViewWidget::popupMenu( const QPoint& _global, bool alwaysForSelectedFiles )
 {
    KFileItemList lstItems;
 
    // Only consider a right-click on the name column as something
    // related to the selection. On all the other columns, we want
    // a popup for the current dir instead.
-   if ( isExecuteArea( viewport()->mapFromGlobal( _global ) ) )
+   if ((alwaysForSelectedFiles) || (isExecuteArea( viewport()->mapFromGlobal( _global ) )))
    {
        QValueList<KonqBaseListViewItem*> items;
        selectedItems( items );
