@@ -130,6 +130,7 @@ void PropertiesDialog::init()
   connect( tab, SIGNAL( applyButtonPressed() ), this, SLOT( slotApply() ) );
   connect( tab, SIGNAL( cancelButtonPressed() ), this, SLOT( slotCancel() ) );
 
+  tab->resize(tab->sizeHint());
   tab->show();
 }
 
@@ -1370,7 +1371,7 @@ DevicePropsPage::DevicePropsPage( PropertiesDialog *_props ) : PropsPage( _props
 
   readonly = new QCheckBox( this, "CheckBox_readonly" );
   readonly->setText(  i18n("Read Only") );
-  layout->addWidget(readonly, 0, 2);
+  layout->addWidget(readonly, 1, 1);
   if ( !IamRoot )
     readonly->setEnabled( false );
 
@@ -1378,28 +1379,36 @@ DevicePropsPage::DevicePropsPage( PropertiesDialog *_props ) : PropsPage( _props
   label->setText( devices.count()==0 ?
                       i18n("Mount Point (/mnt/floppy):") : // old style
                       i18n("Mount Point:")); // new style (combobox)
-  layout->addWidget(label, 1, 0);
+  layout->addWidget(label, 2, 0);
 
   mountpoint = new KLineEdit( this, "LineEdit_mountpoint" );
-  layout->addWidget(mountpoint, 1, 1);
+  layout->addWidget(mountpoint, 2, 1);
   if ( !IamRoot )
     mountpoint->setEnabled( false );
 
   label = new QLabel( this );
   label->setText(  i18n("File System Type:") );
-  layout->addWidget(label, 2, 0);
+  layout->addWidget(label, 3, 0);
 
   fstype = new KLineEdit( this, "LineEdit_fstype" );
-  layout->addWidget(fstype, 2, 1);
+  layout->addWidget(fstype, 3, 1);
   if ( !IamRoot )
     fstype->setEnabled( false );
 
-  label = new QLabel( i18n("Unmounted Icon"),  this );
-  layout->addWidget(label, 3, 0);
+  QFrame *frame = new QFrame(this);
+  frame->setFrameStyle(QFrame::HLine|QFrame::Sunken);
+  layout->addMultiCellWidget(frame, 4, 4, 0, 2);
+
 
   unmounted = new KIconLoaderButton( KGlobal::iconLoader(), this );
+  unmounted->setFixedSize(50, 50);
   unmounted->setIconType("icon"); // Choose from app icons
-  layout->addWidget(unmounted, 3, 1);
+  layout->addWidget(unmounted, 5, 0);
+
+  label = new QLabel( i18n("Unmounted Icon"),  this );
+  layout->addWidget(label, 5, 1);
+
+  layout->setRowStretch(6, 1);
 
   QString path( _props->kurl().path() );
 
