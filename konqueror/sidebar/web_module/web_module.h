@@ -43,7 +43,7 @@ class KHTMLSideBar : public KHTMLPart
 		virtual void urlSelected( const QString &url, int button,
 				int, const QString &_target,
 				KParts::URLArgs args = KParts::URLArgs()) {
-			if (button == LeftButton && _target == "_content") {
+			if (button == LeftButton && _target.lower() == "_content") {
 				emit openURLRequest( url, args );
 			}
 		}
