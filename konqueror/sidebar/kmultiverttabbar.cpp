@@ -181,11 +181,11 @@ KMultiVertTabBar::KMultiVertTabBar(QWidget *parent):QWidget(parent)
 	
 	internal=new KMultiVertTabBarInternal(this);
 	l->insertWidget(0,internal);
-	QFrame *tmp;
-	l->insertWidget(0,tmp=new QFrame(this));
-	tmp->setFixedHeight(4);
-	tmp->setFrameStyle(QFrame::Panel | QFrame::Sunken);
-	tmp->setLineWidth(2);
+	l->insertWidget(0,btnTabSep=new QFrame(this));
+	btnTabSep->setFixedHeight(4);
+	btnTabSep->setFrameStyle(QFrame::Panel | QFrame::Sunken);
+	btnTabSep->setLineWidth(2);
+	btnTabSep->hide();
 	setPosition(KMultiVertTabBar::Right);
 }
 
@@ -202,6 +202,7 @@ int KMultiVertTabBar::insertButton(QPixmap pic ,int id,QPopupMenu *popup,const Q
 			popup,id,this,position));
 	l->insertWidget(0,btn);
 	btn->show();
+	btnTabSep->show();
 	return 0;
 }
 
@@ -238,6 +239,7 @@ void KMultiVertTabBar::removeButton(int id)
 			break;
 		}
 	}
+	if (buttons.count()==0) btnTabSep->hide();
 }
 
 void KMultiVertTabBar::removeTab(int id)

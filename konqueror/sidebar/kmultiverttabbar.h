@@ -10,6 +10,7 @@
 
 class QPixmap;
 class QPainter;
+class QFrame;
 
 class KMultiVertTabBar: public QWidget
 {
@@ -33,6 +34,7 @@ public:
 private:
 	class KMultiVertTabBarInternal *internal;
 	QVBoxLayout *l;
+	QFrame *btnTabSep;	
 	KMultiVertTabBarPosition position;
 };
 
