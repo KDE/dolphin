@@ -213,7 +213,7 @@ void KonqFrameTabs::setTitle( const QString &title , QWidget* sender)
 
   uint lcw=0, rcw=0;
 #if QT_VERSION >= 0x030200
-  uint tabBarHeight = tabBar()->sizeHint().height();
+  int tabBarHeight = tabBar()->sizeHint().height();
   if ( cornerWidget( TopLeft ) && cornerWidget( TopLeft )->isVisible() )
     lcw = QMAX( cornerWidget( TopLeft )->width(), tabBarHeight );
   if ( cornerWidget( TopRight ) && cornerWidget( TopRight )->isVisible() )
