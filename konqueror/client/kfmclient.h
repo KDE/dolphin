@@ -29,7 +29,7 @@ class clientApp : public KApplication
 public:
 
   clientApp( )
-    : KApplication ( false, false /* non-GUI */ )
+    : KApplication( false /*no styles*/ )
     { }
 
   ~clientApp() {}
