@@ -168,7 +168,12 @@ void KonqOperations::doDrop( const KonqFileItem * destItem, QDropEvent * ev, QWi
         {
             kdDebug() << "URL : " << (*it).url() << endl;
             if ( dest.cmp( *it, true /*ignore trailing slashes*/ ) )
+            {
+                // The event source may be the view or an item (icon)
+                if ( ev->source() != parent && ev->source()->parent() != parent )
+                    KMessageBox::sorry( parent, i18n("You can't drop a directory on itself") );
                 return; // do nothing instead of displaying kfm's annoying error box
+            }
         }
 
         // Check what the destination is
