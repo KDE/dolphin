@@ -78,8 +78,6 @@ public:
   int exec( QPoint p );
 
 public slots:
-  void slotFileNewActivated( CORBA::Long id );
-  void slotFileNewAboutToShow();
   void slotPopupNewView();
   void slotPopupEmptyTrashBin();
   void slotPopupCopy();

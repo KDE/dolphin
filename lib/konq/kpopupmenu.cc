@@ -291,26 +291,6 @@ KonqPopupMenu::~KonqPopupMenu()
   if ( m_pMenuNew ) delete m_pMenuNew;
 }
 
-void KonqPopupMenu::slotFileNewActivated( CORBA::Long id )
-{
-  if ( m_pMenuNew )
-     {
-       QStringList urls;
-       urls.append( m_sViewURL );
-
-       m_pMenuNew->setPopupFiles( urls );
-
-       m_pMenuNew->slotNewFile( (int)id );
-     }
-}
-
-void KonqPopupMenu::slotFileNewAboutToShow()
-{
-  if ( m_pMenuNew )
-    m_pMenuNew->slotCheckUpToDate();
-}
-
-
 void KonqPopupMenu::slotPopupNewView()
 {
   QStringList::ConstIterator it = m_lstPopupURLs.begin();
