@@ -279,10 +279,10 @@ void KonqSidebarTree::contentsDragMoveEvent( QDragMoveEvent *e )
         return;
     }
 
-    if (static_cast<KonqSidebarTreeItem*>(item)->acceptsDrops( m_lstDropFormats )) {
+    if (item && static_cast<KonqSidebarTreeItem*>(item)->acceptsDrops( m_lstDropFormats )) {
         d->m_dropMode = SidebarTreeMode;
 
-        if ( !item || !item->isSelectable() || !static_cast<KonqSidebarTreeItem*>(item)->acceptsDrops( m_lstDropFormats ))
+        if ( !item->isSelectable() )
         {
             m_dropItem = 0;
             m_autoOpenTimer->stop();
