@@ -41,25 +41,31 @@
 #include <stdlib.h>
 #include <assert.h>
 
-KonqBaseListViewWidget::KonqBaseListViewWidget( KonqListView *parent, QWidget *parentWidget )
+ColumnInfo::ColumnInfo(const char* n, const char* desktopName, int kioUds,int count,bool enabled,KToggleAction* someAction)
+   :displayInColumn(count)
+   ,name(n)
+   ,desktopFileName(desktopName)
+   ,udsId(kioUds)
+   ,displayThisOne(enabled)
+   ,toggleThisOne(someAction)
+{};
+
+
+
+KonqBaseListViewWidget::KonqBaseListViewWidget( KonqListView *parent, QWidget *parentWidget)
 :KListView(parentWidget )
 ,m_dirLister(0L)
-,m_iColumns(-1)
 ,m_dragOverItem(0L)
 ,m_pressed(FALSE)
 ,m_pressedItem(0L)
-,m_showTime(FALSE)
-,m_showSize(TRUE)
-,m_showOwner(TRUE)
-,m_showGroup(FALSE)
-,m_showPermissions(TRUE)
-,m_settingsChanged(TRUE)
+,m_iconSize(KIcon::SizeSmall)
 ,m_filesSelected(FALSE)
 ,m_checkMimeTypes(TRUE)
 ,m_showIcons(TRUE)
 ,m_filenameColumn(0)
 ,m_pBrowserView(parent)
 ,m_selectedFilesStatusText()
+,m_wasShiftEvent(FALSE)
 {
    kdDebug(1202) << "+KonqBaseListViewWidget" << endl;
 
@@ -72,7 +78,7 @@ KonqBaseListViewWidget::KonqBaseListViewWidget( KonqListView *parent, QWidget *p
    //Adjust QListView behaviour
    setSelectionMode( Extended );
    setMultiSelection(TRUE);
-   setSorting( 1 );
+   setSorting(0);
 
    initConfig();
 
@@ -93,6 +99,9 @@ KonqBaseListViewWidget::KonqBaseListViewWidget( KonqListView *parent, QWidget *p
    setFrameStyle( QFrame::WinPanel | QFrame::Sunken );
    setLineWidth(1);
    //setFrameStyle( QFrame::NoFrame | QFrame::Plain );
+   setShowSortIndicator(TRUE);
+
+   confColumns.setAutoDelete(TRUE);
 }
 
 KonqBaseListViewWidget::~KonqBaseListViewWidget()
@@ -106,6 +115,273 @@ KonqBaseListViewWidget::~KonqBaseListViewWidget()
   for( ; it != end(); ++it )
     it->prepareToDie();
 }
+
+void KonqBaseListViewWidget::keyPressEvent( QKeyEvent *_ev )
+{
+   if ((_ev->state()==ShiftButton) && (!m_wasShiftEvent)) selectAll(FALSE);
+   m_wasShiftEvent=(_ev->state()==ShiftButton);
+   //cerr<<"keyPressEvent"<<endl;
+   // We are only interested in the insert key here
+   KonqListViewItem* item = (KonqListViewItem*)currentItem();
+   //insert without modifiers toggles the selection of the current item and moves to the next
+   if (item==0) return;
+   QListViewItem *nextItem(0);
+   int items(0);
+   if (((_ev->key() == Key_Enter)|| (_ev->key()==Key_Return)) && (_ev->state()==ControlButton))
+   {
+      KonqBaseListViewItem* item = (KonqBaseListViewItem*)currentItem();
+
+      if ( !item->isSelected() )
+      {
+         iterator it = begin();
+         for( ; it != end(); it++ )
+            if ( it->isSelected() )
+               setSelected( &*it, false );
+         setSelected( item, true );
+      }
+      QPoint p( width() / 2, height() / 2 );
+      p = mapToGlobal( p );
+      popupMenu( p );
+      return;
+   };
+   switch (_ev->key())
+   {
+   case Key_Escape:
+      selectAll(FALSE);
+      break;
+   case Key_Space:
+      //toggle selection of current item
+      item->setSelected(!item->isSelected());
+      item->repaint();
+      emit selectionChanged();
+      updateSelectedFilesInfo();
+      break;
+   case Key_Insert:
+      //toggle selection of current item and move to the next item
+      item->setSelected(!item->isSelected());
+      nextItem=item->itemBelow();
+      if (nextItem!=0)
+      {
+         setCurrentItem(nextItem);
+         ensureItemVisible(nextItem);
+      }
+      else item->repaint();
+      emit selectionChanged();
+      updateSelectedFilesInfo();
+      break;
+   case Key_Down:
+      //toggle selection of current item and move to the next item
+      if ((_ev->state()==ShiftButton) || (_ev->state()==(ControlButton|ShiftButton)))
+         item->setSelected(!item->isSelected());
+      nextItem=item->itemBelow();
+      if (nextItem!=0)
+      {
+         setCurrentItem(nextItem);
+         ensureItemVisible(nextItem);
+      }
+      else item->repaint();
+      if ((_ev->state()==ShiftButton) || (_ev->state()==(ControlButton|ShiftButton)))
+      {
+         emit selectionChanged();
+         updateSelectedFilesInfo();
+      };
+      break;
+   case Key_Up:
+      //move to the prev. item and toggle selection of this one
+      nextItem=item->itemAbove();
+      if (nextItem==0) break;
+      if ((_ev->state()==ShiftButton) || (_ev->state()==(ControlButton|ShiftButton)))
+         nextItem->setSelected(!nextItem->isSelected());
+      setCurrentItem(nextItem);
+      ensureItemVisible(nextItem);
+      if ((_ev->state()==ShiftButton) || (_ev->state()==(ControlButton|ShiftButton)))
+      {
+         emit selectionChanged();
+         updateSelectedFilesInfo();
+      };
+      break;
+   case Key_End:
+      //move to the last item and toggle selection of all items inbetween
+      nextItem=item;
+
+      while(nextItem!=0)
+      {
+         if ((_ev->state()==ShiftButton) || (_ev->state()==(ControlButton|ShiftButton)))
+            nextItem->setSelected(!nextItem->isSelected());
+         if (nextItem->itemBelow()==0)
+         {
+            nextItem->repaint();
+            ensureItemVisible(nextItem);
+            setCurrentItem(nextItem);
+         };
+         nextItem=nextItem->itemBelow();
+      };
+      if ((_ev->state()==ShiftButton) || (_ev->state()==(ControlButton|ShiftButton)))
+      {
+         emit selectionChanged();
+         updateSelectedFilesInfo();
+      };
+      break;
+   case Key_Home:
+      //move to the last item and toggle selection of all items inbetween
+      nextItem=item;
+
+      while(nextItem!=0)
+      {
+         if ((_ev->state()==ShiftButton) || (_ev->state()==(ControlButton|ShiftButton)))
+            nextItem->setSelected(!nextItem->isSelected());
+         if (nextItem->itemAbove()==0)
+         {
+            nextItem->repaint();
+            ensureItemVisible(nextItem);
+            setCurrentItem(nextItem);
+         };
+         nextItem=nextItem->itemAbove();
+      };
+      if ((_ev->state()==ShiftButton) || (_ev->state()==(ControlButton|ShiftButton)))
+      {
+         emit selectionChanged();
+         updateSelectedFilesInfo();
+      };
+
+      break;
+   case Key_Next:
+      items=visibleHeight()/item->height();
+      nextItem=item;
+      for (int i=0; i<items; i++)
+      {
+         if ((_ev->state()==ShiftButton) || (_ev->state()==(ControlButton|ShiftButton)))
+            nextItem->setSelected(!nextItem->isSelected());
+         //the end
+         if ((i==items-1) || (nextItem->itemBelow()==0))
+
+         {
+            if ((_ev->state()==ShiftButton) || (_ev->state()==(ControlButton|ShiftButton)))
+               nextItem->setSelected(!nextItem->isSelected());
+            nextItem->repaint();
+            ensureItemVisible(nextItem);
+            setCurrentItem(nextItem);
+            if ((_ev->state()==ShiftButton) || (_ev->state()==(ControlButton|ShiftButton)))
+            {
+               emit selectionChanged();
+               updateSelectedFilesInfo();
+            };
+            return;
+         };
+         nextItem=nextItem->itemBelow();
+      };
+      break;
+   case Key_Prior:
+      items=visibleHeight()/item->height();
+      nextItem=item;
+      for (int i=0; i<items; i++)
+      {
+         if ((nextItem!=item) &&((_ev->state()==ShiftButton) || (_ev->state()==(ControlButton|ShiftButton))))
+            nextItem->setSelected(!nextItem->isSelected());
+         //the end
+         if ((i==items-1) || (nextItem->itemAbove()==0))
+
+         {
+            nextItem->repaint();
+            ensureItemVisible(nextItem);
+            setCurrentItem(nextItem);
+            if ((_ev->state()==ShiftButton) || (_ev->state()==(ControlButton|ShiftButton)))
+            {
+               emit selectionChanged();
+               updateSelectedFilesInfo();
+            };
+            return;
+         };
+         nextItem=nextItem->itemAbove();
+      };
+      
+      break;
+    case Key_Minus:
+       if ( item->isOpen() )
+          setOpen( item, FALSE );
+       break;
+    case Key_Plus:
+       if (  !item->isOpen() && (item->isExpandable() || item->childCount()) )
+          setOpen( item, TRUE );
+       break;
+   default:
+      KListView::keyPressEvent( _ev );
+      break;
+   };
+};
+
+void KonqBaseListViewWidget::readProtocolConfig( const QString & protocol )
+{
+   kdDebug(1202)<<"readProtocolConfig: -"<<protocol<<"-"<<endl;
+   
+   KConfig * config = KGlobal::config();
+   //kdDebug(1202) << "in readProtocolConfig: protocol: -" <<protocol<<"-"<< endl;
+   if ( config->hasGroup( "ListView_" + protocol ) )
+      config->setGroup( "ListView_" + protocol );
+   else
+      config->setGroup( "ListView_default" );
+
+   QStringList lstColumns = config->readListEntry( "Columns" );
+   if (lstColumns.isEmpty())
+   {
+// Default column selection
+//      lstColumns.append( "Name" );
+//      lstColumns.append( "Type" );
+      lstColumns.append( "Size" );
+      //lstColumns.append( "Date" );
+      lstColumns.append( "Modified" );
+      lstColumns.append( "Permissions" );
+      lstColumns.append( "Owner" );
+      lstColumns.append( "Group" );
+      lstColumns.append( "Link" );
+   }
+
+   for (int i=0; i<confColumns.count(); i++)
+   {
+      confColumns.at(i)->displayThisOne=FALSE;
+      confColumns.at(i)->toggleThisOne->blockSignals(TRUE);
+      confColumns.at(i)->toggleThisOne->setChecked(FALSE);
+      confColumns.at(i)->toggleThisOne->setEnabled(TRUE);
+      confColumns.at(i)->toggleThisOne->blockSignals(FALSE);
+   };
+   //check all columns in lstColumns
+   for (int i=0; i<lstColumns.count(); i++)
+   {
+      //search the column in confColumns
+      for (int j=0; j<confColumns.count(); j++)
+      {
+         if (confColumns.at(j)->name==*lstColumns.at(i))
+         {
+            confColumns.at(j)->displayThisOne=TRUE;
+            confColumns.at(j)->toggleThisOne->blockSignals(TRUE);
+            confColumns.at(j)->toggleThisOne->setChecked(TRUE);
+            confColumns.at(j)->toggleThisOne->blockSignals(FALSE);
+            break;
+         };
+      };
+   };
+   KProtocolManager *protocolManager=&KProtocolManager::self();
+   QStringList listingList=protocolManager->listing(protocol);
+   kdDebug(1202)<<"protocol: -"<<protocol<<"-"<<endl;
+   for (int j=0; j<listingList.count(); j++)
+      kdDebug(1202)<<"listing: -"<<*listingList.at(j)<<"-"<<endl;
+   
+   for (int i=0; i<confColumns.count(); i++)
+   {
+      int k(0);
+      for (k=0; k<listingList.count(); k++)
+         if (*listingList.at(k)==confColumns.at(i)->desktopFileName) break;
+      if (*listingList.at(k)!=confColumns.at(i)->desktopFileName)
+      {
+         confColumns.at(i)->displayThisOne=FALSE;
+         confColumns.at(i)->toggleThisOne->blockSignals(TRUE);
+         confColumns.at(i)->toggleThisOne->setEnabled(FALSE);
+         confColumns.at(i)->toggleThisOne->setChecked(FALSE);
+         confColumns.at(i)->toggleThisOne->blockSignals(FALSE);
+      };
+   };
+};
+
 
 void KonqBaseListViewWidget::stop()
 {
@@ -162,8 +438,7 @@ void KonqBaseListViewWidget::updateSelectedFilesInfo()
    //cerr<<"KonqTextViewWidget::updateSelectedFilesInfo"<<endl;
 };
 
-
-QStringList KonqBaseListViewWidget::readProtocolConfig( const QString & protocol )
+/*QStringList KonqBaseListViewWidget::readProtocolConfig( const QString & protocol )
 {
    KConfig * config = KGlobal::config();
    if ( config->hasGroup( "ListView_" + protocol ) )
@@ -176,9 +451,12 @@ QStringList KonqBaseListViewWidget::readProtocolConfig( const QString & protocol
    {
       // Default order and column selection
       lstColumns.append( "Name" );
-      lstColumns.append( "Type" );
+//      lstColumns.append( "Type" );
       lstColumns.append( "Size" );
+      //lstColumns.append( "Date" );
       lstColumns.append( "Date" );
+//      lstColumns.append( "Created" );
+//      lstColumns.append( "Accessed" );
       lstColumns.append( "Permissions" );
       lstColumns.append( "Owner" );
       lstColumns.append( "Group" );
@@ -206,14 +484,14 @@ QStringList KonqBaseListViewWidget::readProtocolConfig( const QString & protocol
 
    m_dctColumnForAtom.clear();
    m_dctColumnForAtom.setAutoDelete( true );
-   QStringList::Iterator it = lstColumns.begin();
+   //QStringList::Iterator it = lstColumns.begin();
    int currentColumn = 0;
-   for( ; it != lstColumns.end(); it++ )
+   for(QStringList::Iterator it = lstColumns.begin() ; it != lstColumns.end(); it++ )
    {
       // Lookup the KIO::UDS_* for this column, by name
       int * uds = completeDict[ *it ];
       if (!uds)
-         kdError(1202) << "The column " << *it << ", specified in konqueror's config file, is unknown to konq_treeviewwidget !" << endl;
+         kdError(1202) << "The column " << *it << ", specified in konqueror's config file, is unknown to konq_listviewwidget !" << endl;
       else
       {
          // Store result, in m_dctColumnForAtom
@@ -222,7 +500,7 @@ QStringList KonqBaseListViewWidget::readProtocolConfig( const QString & protocol
       }
    }
    return lstColumns;
-}
+}*/
 
 void KonqBaseListViewWidget::initConfig()
 {
@@ -333,29 +611,6 @@ void KonqBaseListViewWidget::viewportDropEvent( QDropEvent *ev  )
    KonqFileItem * destItem = (item) ? item->item() : static_cast<KonqFileItem *>(m_dirLister->rootItem());
    assert( destItem );
    KonqOperations::doDrop( destItem, ev, this );
-}
-
-void KonqBaseListViewWidget::keyPressEvent( QKeyEvent *_ev )
-{
-   // We are only interested in the CTRL+ENTER/RETURN key here
-   if (((_ev->key() == Key_Enter)|| (_ev->key()==Key_Return)) && (_ev->state()==ControlButton))
-   {
-      KonqBaseListViewItem* item = (KonqBaseListViewItem*)currentItem();
-
-      if ( !item->isSelected() )
-      {
-         iterator it = begin();
-         for( ; it != end(); it++ )
-            if ( it->isSelected() )
-               setSelected( &*it, false );
-         setSelected( item, true );
-      }
-      QPoint p( width() / 2, height() / 2 );
-      p = mapToGlobal( p );
-      popupMenu( p );
-   }
-   else
-      KListView::keyPressEvent( _ev );
 }
 
 void KonqBaseListViewWidget::viewportMousePressEvent( QMouseEvent *_ev )
@@ -583,70 +838,75 @@ void KonqBaseListViewWidget::popupMenu( const QPoint& _global )
    emit m_pBrowserView->extension()->popupMenu( _global, lstItems );
 }
 
+void KonqBaseListViewWidget::createColumns()
+{
+   //this column is always required, so add it
+   if (columns()<1) addColumn(i18n("Name"));
+
+   //remove all but the first column
+   for (int i=columns()-1; i>0; i--)
+      removeColumn(i);
+   //now add the checked columns
+   //start with 1, since we have the name column always
+   int currentColumn(1);
+   for (int i=0; i<confColumns.count(); i++)
+   {
+      if (confColumns.at(i)->displayThisOne)
+      {
+         addColumn(i18n(confColumns.at(i)->name ));
+         if (confColumns.at(i)->udsId==KIO::UDS_SIZE) setColumnAlignment(currentColumn,AlignRight);
+         confColumns.at(i)->displayInColumn=currentColumn;
+         currentColumn++;
+      };
+   };
+};
+
+void KonqBaseListViewWidget::updateListContents()
+{
+   for (KonqBaseListViewWidget::iterator it = begin(); it != end(); it++ )
+      it->updateContents();
+};
+
 bool KonqBaseListViewWidget::openURL( const KURL &url )
 {
-  bool isNewProtocol = false;
 
-  //test if we are switching to a new protocol
-  if ( m_dirLister )
-  {
-    if ( strcmp( m_dirLister->url().protocol(), url.protocol() ) != 0 )
-      isNewProtocol = true;
-  }
+   if ( !m_dirLister )
+   {
+      // Create the directory lister
+      m_dirLister = new KonqDirLister(true);
 
-  // The first time or new protocol ? So create the columns first
-  if ( m_iColumns == -1 || isNewProtocol )
-  {
-    if ( m_iColumns == -1 )
-      m_iColumns = 0;
+      QObject::connect( m_dirLister, SIGNAL( started( const QString & ) ),
+                        this, SLOT( slotStarted( const QString & ) ) );
+      QObject::connect( m_dirLister, SIGNAL( completed() ), this, SLOT( slotCompleted() ) );
+      QObject::connect( m_dirLister, SIGNAL( canceled() ), this, SLOT( slotCanceled() ) );
+      QObject::connect( m_dirLister, SIGNAL( clear() ), this, SLOT( slotClear() ) );
+      QObject::connect( m_dirLister, SIGNAL( newItems( const KFileItemList & ) ),
+                        this, SLOT( slotNewItems( const KFileItemList & ) ) );
+      QObject::connect( m_dirLister, SIGNAL( deleteItem( KFileItem * ) ),
+                        this, SLOT( slotDeleteItem( KFileItem * ) ) );
+   }
 
-    QStringList lstColumns = readProtocolConfig( url.protocol() );
-    QStringList::Iterator it = lstColumns.begin();
-    int currentColumn = 0;
-    for( ; it != lstColumns.end(); it++, currentColumn++ )
-    {	
-      if ( currentColumn > m_iColumns - 1 )
-      {
-         addColumn( i18n(*it) );
-         m_iColumns++;
-      }
-      else
-         setColumnText( currentColumn, i18n(*it) );
-    }
+   // The first time or new protocol ? So create the columns first
+   kdDebug(1202) << "protocol in ::openURL: -" << url.protocol()<<"- url: -"<<url.path()<<"-"<<endl;
+   
+   if (( columns() <1) || (strcmp( url.protocol(), m_url.protocol() ) != 0))
+   {
+      readProtocolConfig( url.protocol() );
+      createColumns();
+   };
+   m_bTopLevelComplete = false;
 
-    // We had more columns than this. Should we delete them ?
-    while ( currentColumn < m_iColumns )
-      setColumnText( currentColumn++, "" );
-  }
+   m_url=url;
 
-  if ( !m_dirLister )
-  {
-    // Create the directory lister
-    m_dirLister = new KonqDirLister();
+   m_pProps->enterDir( url );
+   // TODO: setChecked on the actions, depending on isShowing...
 
-    QObject::connect( m_dirLister, SIGNAL( started( const QString & ) ),
-                      this, SLOT( slotStarted( const QString & ) ) );
-    QObject::connect( m_dirLister, SIGNAL( completed() ), this, SLOT( slotCompleted() ) );
-    QObject::connect( m_dirLister, SIGNAL( canceled() ), this, SLOT( slotCanceled() ) );
-    QObject::connect( m_dirLister, SIGNAL( clear() ), this, SLOT( slotClear() ) );
-    QObject::connect( m_dirLister, SIGNAL( newItems( const KFileItemList & ) ),
-                      this, SLOT( slotNewItems( const KFileItemList & ) ) );
-    QObject::connect( m_dirLister, SIGNAL( deleteItem( KFileItem * ) ),
-                      this, SLOT( slotDeleteItem( KFileItem * ) ) );
-  }
+   // Start the directory lister !
+   //m_dirLister->openURL( url, m_pProps->m_bShowDot, false /* new url */ );
+   m_dirLister->openURL( url, m_pProps->isShowingDotFiles(), false /* new url */ );
 
-  m_bTopLevelComplete = false;
-
-  m_url = url;
-
-  m_pProps->enterDir( url );
-  // TODO: setChecked on the actions, depending on isShowing...
-
-  // Start the directory lister !
-  m_dirLister->openURL( url, m_pProps->isShowingDotFiles(), false /* new url */ );
-
-//  setCaptionFromURL( m_url );
-  return true;
+   //  setCaptionFromURL( m_sURL );
+   return true;
 }
 
 void KonqBaseListViewWidget::setComplete()

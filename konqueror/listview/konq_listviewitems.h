@@ -45,7 +45,9 @@ class KonqBaseListViewItem : public QListViewItem
       /** Call this before destroying the tree view (decreases reference count
        * on the view) */
       virtual void prepareToDie() {}
+      virtual void updateContents() {};
    protected:
+      QChar sortChar;
       /** Pointer to the file item in KonqDirLister's list */
       KonqFileItem* m_fileitem;
       const char* makeAccessString( const mode_t mode ) const;
@@ -77,6 +79,7 @@ class KonqListViewItem : public KonqBaseListViewItem
       virtual QString key( int _column, bool ) const;
       virtual void paintCell( QPainter *_painter, const QColorGroup & cg,
                               int column, int width, int alignment );
+      virtual void updateContents() {init();};
    protected:
       void init();
 
@@ -89,11 +92,15 @@ class KonqListViewItem : public KonqBaseListViewItem
 };
 
 inline KonqBaseListViewItem::KonqBaseListViewItem(KonqBaseListViewWidget *_listViewWidget,KonqFileItem* _fileitem)
-:QListViewItem(_listViewWidget),m_fileitem(_fileitem)
+:QListViewItem(_listViewWidget)
+,sortChar('1')
+,m_fileitem(_fileitem)
 {}
 
 inline KonqBaseListViewItem::KonqBaseListViewItem(KonqBaseListViewItem *_parent,KonqFileItem* _fileitem)
-:QListViewItem(_parent),m_fileitem(_fileitem)
+:QListViewItem(_parent)
+,sortChar('1')
+,m_fileitem(_fileitem)
 {}
 
 inline const char* KonqBaseListViewItem::makeAccessString( mode_t mode) const

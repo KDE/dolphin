@@ -36,6 +36,18 @@ class KonqPropsView;
 class KonqFMSettings;
 class ListViewPropertiesExtension;
 
+class ColumnInfo
+{
+   public:
+      ColumnInfo(const char* n,const char* desktopName,int kioUds,int count,bool enabled,KToggleAction* someAction);
+      int displayInColumn;
+      QString name;
+      QString desktopFileName;
+      int udsId;
+      bool displayThisOne;
+      KToggleAction *toggleThisOne;
+};
+
 /**
  * The tree view widget (based on KListView).
  * Most of the functionality is here.
@@ -49,6 +61,7 @@ class KonqBaseListViewWidget : public KListView
    public:
       KonqBaseListViewWidget( KonqListView *parent, QWidget *parentWidget);
       virtual ~KonqBaseListViewWidget();
+
 
       virtual void stop();
       const KURL & url();
@@ -73,14 +86,6 @@ class KonqBaseListViewWidget : public KListView
 
       virtual bool openURL( const KURL &url );
 
-      /**
-       * Used by KonqBaseListViewItem, to know how to sort the file details
-       * The KonqListViewWidget holds the configuration for it, which is why
-       * it provides this method.
-       * @returns a pointer to the column number, or 0L if the atom shouldn't be displayed
-       */
-      int * columnForAtom( int atom ) { return m_dctColumnForAtom[ atom ]; }
-
       void selectedItems( QValueList<KonqBaseListViewItem*>& _list );
       KURL::List selectedUrls();
 
@@ -92,6 +97,8 @@ class KonqBaseListViewWidget : public KListView
        */
       KonqPropsView * props() { return m_pProps; }
 
+      QList<ColumnInfo> *columnConfigInfo() {return &confColumns;};
+
       virtual void setCheckMimeTypes( bool enable ) { m_checkMimeTypes = enable; }
       virtual bool checkMimetypes() { return m_checkMimeTypes; }
 
@@ -99,11 +106,8 @@ class KonqBaseListViewWidget : public KListView
       virtual bool showIcons() { return m_showIcons; }
       virtual void updateSelectedFilesInfo();
 
-      bool showTime()                 {return m_showTime;}
-      bool showSize()                 {return m_showSize;}
-      bool showOwner()                {return m_showOwner;}
-      bool showGroup()                {return m_showGroup;}
-      bool showPermissions()          {return m_showPermissions;}
+//      bool underlineLink()            {return m_bUnderlineLink;}
+//      bool singleClick()              {return m_bSingleClick;}
 
       void setItemFont( const QFont &f ) { m_itemFont = f; }
       QFont itemFont() const { return m_itemFont; }
@@ -111,6 +115,7 @@ class KonqBaseListViewWidget : public KListView
       QColor itemColor() const { return m_itemColor; }
       void setColor( const QColor &c ) { m_color = c; }
       QColor color() const { return m_color; }
+      int iconSize() const {return m_iconSize;};
 
    public slots:
       //virtual void slotOnItem( KonqBaseListViewItem* _item );
@@ -136,12 +141,41 @@ class KonqBaseListViewWidget : public KListView
       virtual void slotResult( KIO::Job * );
 
    protected:
+      /* Completely custom keyboard selection style:
+       home: move to the first
+       end: move to the last
+       PgUp/PgDn: move one page up/down
+       up/down: move one item up/down
+       insert: toggle selection of current and move to the next
+       space: toggle selection of the current
+       CTRL+up: move to the previous item and toggle selection of this one
+       CTRL+down: toggle selection of the current item and move to the next
+       CTRL+end: toggle selection from (including) the current
+       item to (including) the last item
+       CTRL+home: toggle selection from (including) the current
+       item to the (including) the first item
+       CTRL+PgDn: toggle selection from (including) the current
+       item to (excluding) the item one page down
+       CTRL+PgUp: toggle selection from (excluding) the current
+       item to (including) the item one page up
+
+       the combinations work the same with SHIFT instead of CTRL, except
+       that if you start selecting something using SHIFT everything selected
+       before will be deselected first
+
+       This way e.g. SHIFT+up/PgUp then SHIFT+down/PgDn leaves no item selected
+       */
+      virtual void keyPressEvent( QKeyEvent *_ev );
+      virtual void createColumns();
+      void readProtocolConfig( const QString & protocol );
+      void updateListContents();
+
       //this is called in the constructor, so virtual would be nonsense
       void initConfig();
       void emitOpenURLRequest(const KURL& url, const KParts::URLArgs& args);
       void emitStarted( KIO::Job* job);
       void emitCompleted();
-      QStringList readProtocolConfig( const QString & protocol );
+      //QStringList readProtocolConfig( const QString & protocol );
 
       virtual void viewportDragMoveEvent( QDragMoveEvent *_ev );
       virtual void viewportDragEnterEvent( QDragEnterEvent *_ev );
@@ -151,7 +185,7 @@ class KonqBaseListViewWidget : public KListView
       virtual void viewportMousePressEvent( QMouseEvent *_ev );
       virtual void viewportMouseMoveEvent( QMouseEvent *_ev );
       virtual void viewportMouseReleaseEvent( QMouseEvent *_ev );
-      virtual void keyPressEvent( QKeyEvent *_ev );
+      //virtual void keyPressEvent( QKeyEvent *_ev );
 
       /** Common method for slotCompleted and slotCanceled */
       virtual void setComplete();
@@ -174,16 +208,8 @@ class KonqBaseListViewWidget : public KListView
       /** View properties */
       KonqPropsView * m_pProps;
 
-
-      /**
-       * In which column should go each UDS atom
-       * The UDS atom type is the key, the column number is the value
-       * Not in the dict -> not shown.
-       */
-      QIntDict<int> m_dctColumnForAtom;
-
-      int m_iColumns;
-
+      QList<ColumnInfo> confColumns;
+      
       KonqBaseListViewItem* m_dragOverItem;
       QStringList m_lstDropFormats;
 
@@ -195,19 +221,14 @@ class KonqBaseListViewWidget : public KListView
       QFont m_itemFont;
       QColor m_itemColor;
       QColor m_color;
+      int m_iconSize;
 
       KonqFMSettings* m_pSettings;
 
       bool m_bTopLevelComplete;
 
       long int m_idShowDot;
-      bool m_showTime;
-      bool m_showSize;
-      bool m_showOwner;
-      bool m_showGroup;
-      bool m_showPermissions;
 
-      bool m_settingsChanged;
       bool m_filesSelected;
       bool m_checkMimeTypes;
       bool m_showIcons;
@@ -215,8 +236,11 @@ class KonqBaseListViewWidget : public KListView
 
       KURL m_url;
 
+   public:
       KonqListView *m_pBrowserView;
+   protected:
       QString m_selectedFilesStatusText;
+      bool m_wasShiftEvent;
 };
 
 #endif

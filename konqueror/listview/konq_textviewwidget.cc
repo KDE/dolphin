@@ -63,95 +63,85 @@ KonqTextViewWidget::KonqTextViewWidget( KonqListView *parent, QWidget *parentWid
    setRootIsDecorated(false);
    setSorting(1);
 
-   colors[REGULAR]=Qt::black;
-   colors[EXEC]=QColor(0,170,0);
-   colors[REGULARLINK]=Qt::black;
-   colors[DIR]=Qt::black;
-   colors[DIRLINK]=Qt::black;
-   colors[BADLINK]=Qt::red;
-   colors[SOCKET]=Qt::magenta;
-   colors[FIFO]=Qt::magenta;
-   colors[UNKNOWN]=Qt::red;
-   colors[CHARDEV]=Qt::blue;
-   colors[BLOCKDEV]=Qt::blue;
+   colors[KTVI_REGULAR]=Qt::black;
+   colors[KTVI_EXEC]=QColor(0,170,0);
+   colors[KTVI_REGULARLINK]=Qt::black;
+   colors[KTVI_DIR]=Qt::black;
+   colors[KTVI_DIRLINK]=Qt::black;
+   colors[KTVI_BADLINK]=Qt::red;
+   colors[KTVI_SOCKET]=Qt::magenta;
+   colors[KTVI_FIFO]=Qt::magenta;
+   colors[KTVI_UNKNOWN]=Qt::red;
+   colors[KTVI_CHARDEV]=Qt::blue;
+   colors[KTVI_BLOCKDEV]=Qt::blue;
 
-   highlight[REGULAR]=Qt::white;
-   highlight[EXEC]=colors[EXEC].light(200);
-   highlight[REGULARLINK]=Qt::white;
-   highlight[DIR]=Qt::white;
-   highlight[DIRLINK]=Qt::white;
-   highlight[BADLINK]=colors[BADLINK].light();
-   highlight[SOCKET]=colors[SOCKET].light();
-   highlight[FIFO]=colors[FIFO].light();
-   highlight[UNKNOWN]=colors[UNKNOWN].light();
-   highlight[CHARDEV]=colors[CHARDEV].light(180);
-   highlight[BLOCKDEV]=colors[BLOCKDEV].light(180);
+   highlight[KTVI_REGULAR]=Qt::white;
+   highlight[KTVI_EXEC]=colors[KTVI_EXEC].light(200);
+   highlight[KTVI_REGULARLINK]=Qt::white;
+   highlight[KTVI_DIR]=Qt::white;
+   highlight[KTVI_DIRLINK]=Qt::white;
+   highlight[KTVI_BADLINK]=colors[KTVI_BADLINK].light();
+   highlight[KTVI_SOCKET]=colors[KTVI_SOCKET].light();
+   highlight[KTVI_FIFO]=colors[KTVI_FIFO].light();
+   highlight[KTVI_UNKNOWN]=colors[KTVI_UNKNOWN].light();
+   highlight[KTVI_CHARDEV]=colors[KTVI_CHARDEV].light(180);
+   highlight[KTVI_BLOCKDEV]=colors[KTVI_BLOCKDEV].light(180);
    m_filenameColumn=1;
-
    timer.start();
 }
 
 KonqTextViewWidget::~KonqTextViewWidget()
 {}
 
-void KonqTextViewWidget::keyPressEvent( QKeyEvent *_ev )
+void KonqTextViewWidget::createColumns()
 {
-   //cerr<<"keyPressEvent"<<endl;
-   // We are only interested in the insert key here
-   KonqTextViewItem* item = (KonqTextViewItem*)currentItem();
-   //insert without modifiers toggles the selection of the current item and moves to the next
-   if ((_ev->key()==Key_Insert) && (_ev->state()==0))
+   //the textview has fixed size columns
+   //these both columns are always required, so add them
+   if (columns()<2)
    {
-      if (item==0) return;
-      item->setSelected(!item->isSelected());
-      QListViewItem *nextItem=item->itemBelow();
-      if (nextItem!=0)
+      addColumn(" ",fontMetrics().width("@")+2);
+      addColumn(i18n("Name"),fontMetrics().width("_a_quite_long_filename_"));
+      setColumnAlignment(0,AlignRight);
+   };
+
+   //remove all but the first two columns
+   for (int i=columns()-1; i>1; i--)
+      removeColumn(i);
+
+   int currentColumn(2);
+   //now add the checked columns
+   for (int i=0; i<confColumns.count(); i++)
+   {
+      if (confColumns.at(i)->displayThisOne)
       {
-         setCurrentItem(nextItem);
-         ensureItemVisible(nextItem);
-      }
-      else item->repaint();
-      emit selectionChanged();
-      updateSelectedFilesInfo();
-   }
-   else
-   {
-      //cerr<<"QListView->keyPressEvent"<<endl;
-      KonqBaseListViewWidget::keyPressEvent( _ev );
+         ColumnInfo *tmpColumn=confColumns.at(i);
+         QString tmpName=tmpColumn->name;
+         if (tmpColumn->udsId==KIO::UDS_SIZE)
+         {
+            addColumn(i18n(tmpName),fontMetrics().width("000000000"));
+            setColumnAlignment(currentColumn,AlignRight);
+         }
+         else if ((tmpColumn->udsId==KIO::UDS_MODIFICATION_TIME)
+                  || (tmpColumn->udsId==KIO::UDS_ACCESS_TIME)
+                  || (tmpColumn->udsId==KIO::UDS_CREATION_TIME))
+         {
+            QDateTime dt(QDate(2000,10,10),QTime(20,20,20));
+            addColumn(i18n(tmpName),fontMetrics().width(KGlobal::locale()->formatDate(dt.date(),true)+" "+KGlobal::locale()->formatTime(dt.time())+"---"));
+         }
+         else if (tmpColumn->udsId==KIO::UDS_ACCESS)
+            addColumn(i18n(tmpName),fontMetrics().width("--Permissions--"));
+         else if (tmpColumn->udsId==KIO::UDS_USER)
+            addColumn(i18n(tmpName),fontMetrics().width("a_long_username"));
+         else if (tmpColumn->udsId==KIO::UDS_GROUP)
+            addColumn(i18n(tmpName),fontMetrics().width("a_groupname"));
+         else if (tmpColumn->udsId==KIO::UDS_LINK_DEST)
+            addColumn(i18n(tmpName),fontMetrics().width("_a_quite_long_filename_"));
+            
+         confColumns.at(i)->displayInColumn=currentColumn;
+         currentColumn++;
+      };
    };
 };
-
-bool KonqTextViewWidget::openURL( const KURL &url )
-{
-   if ( !m_dirLister )
-   {
-      // Create the directory lister
-      m_dirLister = new KonqDirLister(true);
-
-      QObject::connect( m_dirLister, SIGNAL( started( const QString & ) ),
-                        this, SLOT( slotStarted( const QString & ) ) );
-      QObject::connect( m_dirLister, SIGNAL( completed() ), this, SLOT( slotCompleted() ) );
-      QObject::connect( m_dirLister, SIGNAL( canceled() ), this, SLOT( slotCanceled() ) );
-      QObject::connect( m_dirLister, SIGNAL( clear() ), this, SLOT( slotClear() ) );
-      QObject::connect( m_dirLister, SIGNAL( newItems( const KFileItemList & )),
-                        this, SLOT( slotNewItems( const KFileItemList & ) ) );
-      QObject::connect( m_dirLister, SIGNAL( deleteItem( KFileItem * ) ),
-                        this, SLOT( slotDeleteItem( KFileItem * ) ) );
-   }
-
-   m_bTopLevelComplete = false;
-
-   m_url=url;
-
-   m_pProps->enterDir( url );
-   // TODO: setChecked on the actions, depending on isShowing...
-
-   // Start the directory lister !
-   m_dirLister->openURL( url, m_pProps->isShowingDotFiles(), false /* new url */ );
-
-   //  setCaptionFromURL( m_sURL );
-   return true;
-}
 
 void KonqTextViewWidget::slotStarted( const QString & /*url*/ )
 {
@@ -159,35 +149,6 @@ void KonqTextViewWidget::slotStarted( const QString & /*url*/ )
       emitStarted(m_dirLister->job());
    setUpdatesEnabled(FALSE);
    timer.restart();
-   if (m_settingsChanged)
-   {
-      m_settingsChanged=FALSE;
-      for (int i=columns()-1; i>1; i--)
-         removeColumn(i);
-
-      if (m_showSize)
-      {
-         addColumn(i18n("Size"),fontMetrics().width("000000000"));
-         setColumnAlignment(2,AlignRight);
-      };
-      if (m_showTime)
-      {
-         QDateTime dt(QDate(2000,10,10),QTime(20,20,20));
-         addColumn(i18n("Modified"),fontMetrics().width(KGlobal::locale()->formatDate(dt.date(),true)+" "+KGlobal::locale()->formatTime(dt.time())+"---"));
-      };
-      if (m_showOwner)
-         addColumn(i18n("Owner"),fontMetrics().width("a_long_username"));
-
-      //   int permissionsWidth=fontMetrics().width(i18n("Permissions"))+fontMetrics().width("--");
-      //   cerr<<" set to: "<<permissionsWidth<<endl;
-
-      if (m_showGroup)
-         addColumn(i18n("Group"),fontMetrics().width("a_groupname"));
-      if (m_showPermissions)
-         addColumn(i18n("Permissions"),fontMetrics().width("--Permissions--"));
-      //   int permissionsWidth=fontMetrics().width(i18n("Permissions"))+fontMetrics().width("--");
-      //   cerr<<" set to: "<<permissionsWidth<<endl;
-   };
 }
 
 void KonqTextViewWidget::setComplete()
@@ -212,7 +173,8 @@ void KonqTextViewWidget::slotCompleted()
 void KonqTextViewWidget::slotNewItems( const KFileItemList & entries )
 {
    for( QListIterator<KFileItem> kit (entries); kit.current(); ++kit )
-      new KonqTextViewItem( this, static_cast<KonqFileItem *>(*kit));
+      new KonqTextViewItem( this,static_cast<KonqFileItem*> (*kit));
+   kdDebug(1202)<<"::slotNewItem: received: "<<entries.count()<<endl;
 }
 
 #include "konq_textviewwidget.moc"

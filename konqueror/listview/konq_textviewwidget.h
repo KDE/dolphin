@@ -38,7 +38,6 @@ class KonqTextViewWidget : public KonqBaseListViewWidget
    public:
       KonqTextViewWidget( KonqListView *parent, QWidget *parentWidget );
       ~KonqTextViewWidget();
-      virtual bool openURL( const KURL &url );
       
    protected slots:
       // slots connected to the directory lister
@@ -46,8 +45,8 @@ class KonqTextViewWidget : public KonqBaseListViewWidget
       virtual void slotCompleted();
       virtual void slotNewItems( const KFileItemList & );
    protected:
+      virtual void createColumns();
       virtual bool isSingleClickArea( const QPoint& ) {return TRUE;};
-      virtual void keyPressEvent( QKeyEvent *_ev );
       /** Common method for slotCompleted and slotCanceled */
       virtual void setComplete();
 

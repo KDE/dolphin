@@ -30,17 +30,17 @@
 class KonqFileItem;
 class QPainter;
 
-#define REGULAR 0
-#define REGULARLINK 1
-#define EXEC 2
-#define DIR 3
-#define DIRLINK 4
-#define BADLINK 5
-#define SOCKET 6
-#define CHARDEV 7
-#define BLOCKDEV 8
-#define FIFO 9
-#define UNKNOWN 10
+#define KTVI_REGULAR 0
+#define KTVI_REGULARLINK 1
+#define KTVI_EXEC 2
+#define KTVI_DIR 3
+#define KTVI_DIRLINK 4
+#define KTVI_BADLINK 5
+#define KTVI_SOCKET 6
+#define KTVI_CHARDEV 7
+#define KTVI_BLOCKDEV 8
+#define KTVI_FIFO 9
+#define KTVI_UNKNOWN 10
 
 
 class KonqTextViewItem : public KonqBaseListViewItem
@@ -49,7 +49,7 @@ class KonqTextViewItem : public KonqBaseListViewItem
       /**
        * Create an item in the text toplevel representing a file
        * @param _parent the parent widget, the text view
-       * @param _fileitem the file item created by KonqDirLister
+       * @param _fileitem the file item created by KDirLister
        */
       KonqTextViewItem( KonqTextViewWidget *_parent, KonqFileItem* _fileitem);
       virtual ~KonqTextViewItem() {/*cerr<<"~KonqTextViewItem: "<<text(1)<<endl;*/ };
@@ -57,9 +57,9 @@ class KonqTextViewItem : public KonqBaseListViewItem
       /** Call this before destroying the text view (decreases reference count
        * on the view)*/
       virtual void paintCell( QPainter *_painter, const QColorGroup & _cg, int _column, int _width, int _alignment );
+      virtual void updateContents();
 
    protected:
-      QChar sortChar;
       virtual void setup();
 
       /** Parent text view */
@@ -69,10 +69,10 @@ class KonqTextViewItem : public KonqBaseListViewItem
 
 inline KonqTextViewItem::KonqTextViewItem( KonqTextViewWidget *_parent, KonqFileItem* _fileitem)
 :KonqBaseListViewItem( _parent,_fileitem )
-,sortChar('1')
 ,m_pTextView (_parent)
 {
-   QString tmp;
+   updateContents();
+   /*QString tmp;
    long int size=m_fileitem->size();
    mode_t m=m_fileitem->mode();
    if (m_fileitem->isLink())
@@ -80,18 +80,18 @@ inline KonqTextViewItem::KonqTextViewItem( KonqTextViewWidget *_parent, KonqFile
       if (S_ISDIR(m))
       {
          sortChar='0';
-         type=DIRLINK;
+         type=KTVI_DIRLINK;
          tmp="~";
       }
       else if (S_ISREG(m))
       {
          tmp="@";
-         type=REGULARLINK;
+         type=KTVI_REGULARLINK;
       }
       else
       {
          tmp="!";
-         type=UNKNOWN;
+         type=KTVI_UNKNOWN;
          size=-1;
       };
    }
@@ -100,44 +100,44 @@ inline KonqTextViewItem::KonqTextViewItem( KonqTextViewWidget *_parent, KonqFile
       if ((m_fileitem->permissions() & (S_IXUSR|S_IXGRP|S_IXOTH)) !=0 )
       {
          tmp="*";
-         type=EXEC;
+         type=KTVI_EXEC;
       }
       else
       {
          tmp="";
-         type=REGULAR;
+         type=KTVI_REGULAR;
       };
    }
    else if (S_ISDIR(m))
    {
-      type=DIR;
+      type=KTVI_DIR;
       tmp="/";
       sortChar='0';
    }
    else if (S_ISCHR(m))
    {
-      type=CHARDEV;
+      type=KTVI_CHARDEV;
       tmp="-";
    }
    else if (S_ISBLK(m))
    {
-      type=BLOCKDEV;
+      type=KTVI_BLOCKDEV;
       tmp="+";
    }
    else if (S_ISSOCK(m))
    {
-      type=SOCKET;
+      type=KTVI_SOCKET;
       tmp="=";
    }
    else if (S_ISFIFO(m))
    {
-      type=FIFO;
+      type=KTVI_FIFO;
       tmp=">";
    }
    else
    {
       tmp="!";
-      type=UNKNOWN;
+      type=KTVI_UNKNOWN;
       size=-1;
    };
    setText(0,tmp);
@@ -183,7 +183,7 @@ inline KonqTextViewItem::KonqTextViewItem( KonqTextViewWidget *_parent, KonqFile
    if (m_pTextView->showPermissions())
    {
       setText(nextColumn,makeAccessString(m_fileitem->permissions()));
-   };
+   };*/
 };
 
 #endif

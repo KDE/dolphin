@@ -85,26 +85,21 @@ protected slots:
   void slotUnselectAll();
   void slotInvertSelection();
 
-  void slotViewLarge( bool b );
-  void slotViewMedium( bool b );
-  void slotViewSmall( bool b );
-  void slotViewNone( bool b );
+  void slotIconSizeToggled(bool b);
 
   void slotShowDot();
-  void slotShowTime();
-  void slotShowSize();
-  void slotShowOwner();
-  void slotShowGroup();
-  void slotShowPermissions();
+  void slotColumnToggled(bool on);
 
-  void slotCheckMimeTypes();
+//  void slotCheckMimeTypes();
   void slotBackgroundColor();
   void slotBackgroundImage();
 
   void slotReloadTree();
 
-private:
-  KonqBaseListViewWidget *m_pListView;
+   private:
+
+
+   KonqBaseListViewWidget *m_pListView;
   ListViewBrowserExtension *m_browser;
 
   KAction *m_paSelect;
@@ -116,16 +111,20 @@ private:
   KToggleAction *m_paLargeIcons;
   KToggleAction *m_paMediumIcons;
   KToggleAction *m_paSmallIcons;
-  KToggleAction *m_paNoIcons;
+//  KToggleAction *m_paNoIcons;
 
   KToggleAction *m_paShowDot;
   KToggleAction *m_paShowTime;
+  KToggleAction *m_paShowType;
+  KToggleAction *m_paShowAccessTime;
+  KToggleAction *m_paShowCreateTime;
+  KToggleAction *m_paShowLinkDest;
   KToggleAction *m_paShowSize;
   KToggleAction *m_paShowOwner;
   KToggleAction *m_paShowGroup;
   KToggleAction *m_paShowPermissions;
 
-  KToggleAction *m_paCheckMimeTypes;
+//  KToggleAction *m_paCheckMimeTypes;
 };
 
 class ListViewBrowserExtension : public KParts::BrowserExtension
@@ -158,6 +157,8 @@ class ListViewBrowserExtension : public KParts::BrowserExtension
 
       void reparseConfiguration();
       void setSaveViewPropertiesLocally( bool value );
+//      void saveLocalProperties();
+//      void savePropertiesAsDefault();
 
       void properties();
       void editMimeType();

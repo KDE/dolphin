@@ -20,6 +20,7 @@
 #include "konq_propsview.h"
 #include "konq_listviewitems.h"
 #include "konq_listviewwidget.h"
+#include "konq_listview.h"
 #include <konqfileitem.h>
 #include <kio/job.h>
 #include <kio/global.h>
@@ -49,9 +50,56 @@ KonqListViewItem::KonqListViewItem( KonqBaseListViewWidget *_listViewWidget, Kon
 
 void KonqListViewItem::init()
 {
-   setPixmap( 0, m_fileitem->pixmap( KIcon::SizeSmall, false /*no image preview*/ ) );
+   setPixmap( 0/*m_PListViewWidget->m_filenameColumn*/, m_fileitem->pixmap( m_pListViewWidget->iconSize(), false /*no image preview*/ ) );
    // Set the text of each column
-   const KIO::UDSEntry & entry = m_fileitem->entry();
+
+   if (S_ISDIR(m_fileitem->mode()))
+      sortChar='0';
+
+   QString tmp;
+   long int size=m_fileitem->size();
+   setText(0,m_fileitem->text());
+   //now we have the first column, so let's do the rest
+
+   for (unsigned int i=0; i<m_pListViewWidget->columnConfigInfo()->count(); i++)
+   {
+      ColumnInfo *tmpColumn=m_pListViewWidget->columnConfigInfo()->at(i);
+      if (tmpColumn->displayThisOne)
+      {
+         if (tmpColumn->udsId==KIO::UDS_USER)
+            setText(tmpColumn->displayInColumn,m_fileitem->user());
+         else if (tmpColumn->udsId==KIO::UDS_GROUP)
+            setText(tmpColumn->displayInColumn,m_fileitem->group());
+         else if (tmpColumn->udsId==KIO::UDS_LINK_DEST)
+            setText(tmpColumn->displayInColumn,m_fileitem->linkDest());
+         else if (tmpColumn->udsId==KIO::UDS_SIZE)
+         {
+            tmp.sprintf("%9d",size);
+            setText(tmpColumn->displayInColumn,tmp);
+         }
+         else if (tmpColumn->udsId==KIO::UDS_ACCESS)
+            setText(tmpColumn->displayInColumn,makeAccessString(m_fileitem->permissions()));
+         else if ((tmpColumn->udsId==KIO::UDS_MODIFICATION_TIME)
+                  || (tmpColumn->udsId==KIO::UDS_ACCESS_TIME)
+                  || (tmpColumn->udsId==KIO::UDS_ACCESS_TIME))
+         {
+            for( KIO::UDSEntry::ConstIterator it = m_fileitem->entry().begin(); it != m_fileitem->entry().end(); it++ )
+            {
+               if ((*it).m_uds==tmpColumn->udsId)
+               {
+                  QDateTime dt;
+                  dt.setTime_t((time_t) (*it).m_long);
+                  //setText(3,dt.toString());
+                  setText(tmpColumn->displayInColumn,KGlobal::locale()->formatDate(dt.date(),true)+" "+KGlobal::locale()->formatTime(dt.time()));
+                  break;
+               };
+
+            };
+
+         };
+      };
+   };
+/*   const KIO::UDSEntry & entry = m_fileitem->entry();
    KIO::UDSEntry::ConstIterator it = entry.begin();
    for( ; it != entry.end(); it++ )
    {
@@ -89,28 +137,37 @@ void KonqListViewItem::init()
          }
          setText( *pColumn, text );
       }
-   }
+   }*/
 }
 
-QString KonqListViewItem::key( int _column, bool ) const
+QString KonqListViewItem::key( int _column, bool asc) const
 {
-  // TODO return a judicious key for dates
-
-  /*
-  static char buffer[ 12 ];
-  unsigned long uds = m_fileitem->entry()[ _column ].m_uds;
-
-  if ( uds & KIO::UDS_STRING )
-    return m_fileitem->entry()[ _column ].m_str;
-  else if ( uds & KIO::UDS_LONG )
-  {
-    sprintf( buffer, "%08d", (int)m_fileitem->entry()[ _column ].m_long );
-    return buffer;
-  }
-  else
-    assert( 0 );
-    */
-  return text( _column );
+   QString tmp=sortChar;
+   if (!asc && (sortChar=='0')) tmp=QChar('2');
+   //check if it is a time column
+   if (_column>1)
+   {
+      for (int i=0; i<m_pListViewWidget->columnConfigInfo()->count(); i++)
+      {
+         ColumnInfo *cInfo=m_pListViewWidget->columnConfigInfo()->at(i);
+         if (_column==cInfo->displayInColumn)
+         {
+            if ((cInfo->udsId==KIO::UDS_MODIFICATION_TIME)
+                || (cInfo->udsId==KIO::UDS_ACCESS_TIME)
+                || (cInfo->udsId==KIO::UDS_CREATION_TIME))
+            {
+               QString tmpDate;
+               tmpDate.sprintf("%ld",m_fileitem->time(cInfo->udsId));
+               tmp+=tmpDate;
+               return tmp;
+            }
+            else break;
+               
+         };
+      };
+   };
+   tmp+=text(_column);
+   return tmp;
 }
 
 QString KonqListViewItem::makeNumericString( const KIO::UDSAtom &_atom ) const
