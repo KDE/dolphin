@@ -36,14 +36,9 @@ KonqComboAction::KonqComboAction( const QString& text, int accel,
 
 int KonqComboAction::plug( QWidget *w )
 {
-  qDebug( "int KonqComboAction::plug( QWidget *w )" );
-  qDebug( "w is a %s", w->className() );
-  qDebug( "uh %i", w->inherits( "KToolBar" ) );
   //  if ( !w->inherits( "KToolBar" ) );
   //    return -1;
   
-  qDebug( "plugging :-)" );
-    
   KToolBar *toolBar = (KToolBar *)w;
   
   QLabel *label = new QLabel( plainText(), w );
