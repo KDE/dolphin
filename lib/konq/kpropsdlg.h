@@ -129,7 +129,9 @@ public:
    * @return the file item for which the dialog is shown
    * HACK : returns the first item of the list
    */
-  KFileItem * item() { return m_items.first(); }
+  KFileItem *item() { return m_items.first(); }
+  
+  KFileItemList items() const { return m_items; }
 
   /**
    * @return a pointer to the dialog
@@ -289,6 +291,7 @@ protected:
   QWidget *iconArea;
   QWidget *nameArea;
 
+  QString m_sRelativePath;
   bool m_bFromTemplate;
 
   /**

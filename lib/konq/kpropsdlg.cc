@@ -319,7 +319,27 @@ FilePropsPage::FilePropsPage( PropertiesDialog *_props )
     path = properties->currentDir() + properties->defaultName();
     directory = properties->currentDir();
   }
-  
+
+  if (ExecPropsPage::supports(properties->items())) {
+    m_sRelativePath = "";
+    // now let's make it relative
+    QStringList dirs;
+    if (BindingPropsPage::supports(properties->items()))
+      dirs = KGlobal::dirs()->resourceDirs("mime");
+    else
+      dirs = KGlobal::dirs()->resourceDirs("apps");
+
+    QStringList::ConstIterator it = dirs.begin();
+    for ( ; it != dirs.end() && m_sRelativePath.isEmpty(); ++it ) {
+      // might need canonicalPath() ...
+      if ( path.find( *it ) == 0 ) // path is dirs + relativePath
+	m_sRelativePath = path.mid( (*it).length() ); // skip appsdirs
+    }
+    if ( m_sRelativePath.isEmpty() )
+      kdebug( KDEBUG_FATAL, 1203, QString("Couldn't find %1 in any apps/mime dir !!!").arg( path ) );
+    
+    while ( m_sRelativePath.left( 1 ) == '/' ) m_sRelativePath.remove( 0, 1 );
+  }
 
   QVBoxLayout *vbl = new QVBoxLayout(this, KDialog::marginHint(),
 				     KDialog::spacingHint(), "vbl");
@@ -474,20 +494,28 @@ void FilePropsPage::applyChanges()
   // handle icon changes
   if (!iconArea->isA("QLabel")) {
     KIconLoaderButton *iconButton = (KIconLoaderButton *) iconArea;
-    QString tmp;
-    if (properties->item()->mimetype() == "inode/directory")
-      tmp = properties->kurl().path(1) + ".directory";
-    else
-      tmp = properties->kurl().path();
+    QString path;
     
-    QFile f( tmp );
+    // Save the file where we can -> usually in ~/.kde/...
+    if (BindingPropsPage::supports(properties->items()))
+      path = locateLocal("mime", m_sRelativePath);
+    else if (ExecPropsPage::supports(properties->items()))
+      path = locateLocal("apps", m_sRelativePath);
+    else if (properties->item()->mimetype() == "inode/directory")
+      path = properties->kurl().path(1) + ".directory";
+    else
+      path = properties->kurl().path();
+
+    properties->updateUrl( KURL( path ) );
+    
+    QFile f( path );
     if ( !f.open( IO_ReadWrite ) ) {
-      KMessageBox::error( 0, i18n("Could not write to\n") + tmp);
+      KMessageBox::sorry( 0, i18n("Could not save properties\nYou most likely do not have access to write to this file or directory."));
       return;
     }
     f.close();
-    
-    KDesktopFile cfg( tmp );
+
+    KDesktopFile cfg(path);
     // Get the default image
     QString str = KMimeType::findByURL( properties->kurl(),
 					properties->item()->mode(), 
@@ -508,7 +536,7 @@ FilePermissionsPropsPage::FilePermissionsPropsPage( PropertiesDialog *_props )
     QString path = properties->kurl().path(-1);
     QString fname = properties->kurl().filename();
     bool isLocal = properties->kurl().isLocalFile();
-    
+
     bool IamRoot = (geteuid() == 0);
     bool isMyFile, isDir, isLink;
 
@@ -741,11 +769,9 @@ void FilePermissionsPropsPage::applyChanges()
       KMessageBox::sorry( 0, i18n( "Could not change owner/group\nPerhaps access denied." ));
   }
   
-  if ( p != permissions ) {
-    qDebug("old permissions: %d, new permissions: %d",permissions,p);
+  if ( permissions != p )
     if ( chmod( path, p ) != 0 )
       KMessageBox::sorry( 0, i18n( "Could not change permissions.\nYou most likely do not have access to write to this file or directory." ));
-  }
 }
 
 ExecPropsPage::ExecPropsPage( PropertiesDialog *_props ) 
@@ -848,7 +874,6 @@ ExecPropsPage::ExecPropsPage( PropertiesDialog *_props )
       kdebug( KDEBUG_FATAL, 1203, QString("Couldn't find %1 in any apps dir !!!").arg( path ) );
 
     while ( m_sRelativePath.left( 1 ) == '/' ) m_sRelativePath.remove( 0, 1 );
-    kdebug( KDEBUG_INFO, 1203, QString("m_sRelativePath = '%1' ").arg( m_sRelativePath ) );
 
     KSimpleConfig config( path );
     config.setDollarExpansion( false );
@@ -1061,7 +1086,6 @@ ApplicationPropsPage::ApplicationPropsPage( PropertiesDialog *_props )
     kdebug( KDEBUG_FATAL, 1203, QString("Couldn't find %1 in any apps dir !!!").arg( path ) );
 
   while ( m_sRelativePath.left( 1 ) == '/' ) m_sRelativePath.remove( 0, 1 );
-  kdebug( KDEBUG_INFO, 1203, QString("m_sRelativePath = '%1' ").arg( m_sRelativePath ) );
   
   KSimpleConfig config( path );
   config.setDesktopGroup();

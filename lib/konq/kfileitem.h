@@ -235,6 +235,7 @@ private:
  * List of KFileItems
  */
 typedef QList<KFileItem> KFileItemList;
+
 /**
  * Iterator for KFileItemList
  */

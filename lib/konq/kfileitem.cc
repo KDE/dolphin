@@ -45,7 +45,7 @@ KFileItem::KFileItem( const KUDSEntry& _entry, KURL& _url ) :
   m_strText = QString::null;
   KUDSEntry::ConstIterator it = m_entry.begin();
   for( ; it != m_entry.end(); it++ ) {
-    if ( (*it).m_uds == UDS_ACCESS )
+    if ( (*it).m_uds == UDS_FILE_TYPE )
       m_mode = (mode_t)((*it).m_long);
     else if ( (*it).m_uds == UDS_USER)
       m_user = ((*it).m_str);
