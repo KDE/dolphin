@@ -39,7 +39,7 @@ public:
   virtual void savePropertiesAsDefault();
 
 private:
-  KonqHTMLView *m_HTMLView;  
+  KonqHTMLView *m_HTMLView;
 };
 
 /* ### FIXME (Lars)
@@ -97,7 +97,7 @@ public:
 
   virtual void slotLoadImages();
 
-#if 0
+#if 1
   virtual void saveState( QDataStream &stream );
   virtual void restoreState( QDataStream &stream );
 #endif

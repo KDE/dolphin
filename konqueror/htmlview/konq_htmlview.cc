@@ -224,7 +224,7 @@ void KonqHTMLView::stop()
   m_pBrowser->slotStop();
 }
 
-#if 0
+#if 1
 void KonqHTMLView::saveState( QDataStream &stream )
 {
     m_pBrowser->saveState(stream);
