@@ -60,7 +60,8 @@ public:
     virtual bool acceptDrop( const QMimeSource *mime ) const;
 
     /** */
-    virtual void setIcon( int size, bool bImagePreviewAllowed );
+    virtual void setIcon( int size, int state=KIcon::DefaultState,
+                          bool bImagePreviewAllowed=false );
 
     virtual void setKey( const QString &key );
     virtual void paintItem( QPainter *p, const QColorGroup &cg );
@@ -71,14 +72,10 @@ signals:
 protected:
     virtual void dropped( QDropEvent *e, const QValueList<QIconDragItem> &  );
 
-    int m_size;
+    int m_size, m_state;
     bool m_bpreview;
     /** Pointer to the file item in KonqDirLister's list */
     KonqFileItem* m_fileitem;
-
-private slots:
-    void slotIconChanged(int);
-
 };
 
 #endif

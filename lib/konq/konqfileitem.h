@@ -46,7 +46,8 @@ public:
    * with the image, loaded from the xvpics dir (created if necessary)
    * @return the pixmap
    */
-  QPixmap pixmap( int _size, bool bImagePreviewAllowed ) const;
+  QPixmap pixmap( int _size, int _state=KIcon::DefaultState,
+                  bool bImagePreviewAllowed=false ) const;
 
 };
 

@@ -115,6 +115,8 @@ protected slots:
     virtual void slotDropItem( KFileIVI *item, QDropEvent *e );
 
     void slotIconChanged(int);
+    void slotOnItem(QIconViewItem *);
+    void slotOnViewport();
 
 protected:
     virtual void drawBackground( QPainter *p, const QRect &r );
@@ -132,6 +134,7 @@ protected:
 
     /** Konqueror settings */
     KonqFMSettings * m_pSettings;
+    KFileIVI * m_pActiveItem;
 
     QColor iColor;
 

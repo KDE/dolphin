@@ -63,7 +63,9 @@ KonqIconViewWidget::KonqIconViewWidget( QWidget * parent, const char * name, WFl
       this,                 SLOT(slotViewportScrolled(int)));
 
     kapp->addKipcEventMask( KIPC::IconChanged );
-    QObject::connect( kapp, SIGNAL(iconChanged(int)), SLOT(slotIconChanged(int)) );
+    connect( kapp, SIGNAL(iconChanged(int)), SLOT(slotIconChanged(int)) );
+    connect( this, SIGNAL(onItem(QIconViewItem *)), SLOT(slotOnItem(QIconViewItem *)) );
+    connect( this, SIGNAL(onViewport()), SLOT(slotOnViewport()) );
 
     // hardcoded settings
     setSelectionMode( QIconView::Extended );
@@ -80,15 +82,34 @@ KonqIconViewWidget::KonqIconViewWidget( QWidget * parent, const char * name, WFl
     m_iconPositionGroupPrefix = QString::fromLatin1( "IconPosition::" );
 }
 
-void KonqIconViewWidget::slotIconChanged(int group)
+void KonqIconViewWidget::slotIconChanged( int group )
 {
-    if (group == KIcon::LastGroup)
+    if (group != KIcon::Desktop)
+	return;
+
+    QIconViewItem *it;
+    for (it=firstItem(); it; it = it->nextItem())
     {
-	// This signal is the second part of an icon change notification.
-	// On the first signal, all the QIconViewItems have updated their
-	// pixmaps.
-	arrangeItemsInGrid(true);
+	KFileIVI *ivi = static_cast<KFileIVI *>(it);
+	ivi->setIcon( m_size, KIcon::DefaultState, m_bImagePreviewAllowed );
     }
+    arrangeItemsInGrid();
+}
+
+void KonqIconViewWidget::slotOnItem( QIconViewItem *item )
+{
+    if (m_pActiveItem != 0L)
+	m_pActiveItem->setIcon( m_size, KIcon::DefaultState, m_bImagePreviewAllowed );
+    m_pActiveItem = static_cast<KFileIVI *>(item);
+    m_pActiveItem->setIcon( m_size, KIcon::ActiveState, m_bImagePreviewAllowed );
+}
+    
+void KonqIconViewWidget::slotOnViewport()
+{
+    if (m_pActiveItem == 0L)
+	return;
+    m_pActiveItem->setIcon( m_size, KIcon::DefaultState, m_bImagePreviewAllowed );
+    m_pActiveItem = 0L;
 }
 
 void KonqIconViewWidget::initConfig()
@@ -144,7 +165,8 @@ void KonqIconViewWidget::setImagePreviewAllowed( bool b )
 {
     m_bImagePreviewAllowed = b;
     for ( QIconViewItem *it = firstItem(); it; it = it->nextItem() ) {
-	(static_cast<KFileIVI *>( it ))->setIcon( m_size, m_bImagePreviewAllowed );
+	(static_cast<KFileIVI *>( it ))->setIcon( m_size,
+		KIcon::DefaultState, m_bImagePreviewAllowed );
     }
 }
 

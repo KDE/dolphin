@@ -29,7 +29,8 @@
 #include <kdebug.h>
 #include <kmimetype.h>
 
-QPixmap KonqFileItem::pixmap( int _size, bool bImagePreviewAllowed ) const
+QPixmap KonqFileItem::pixmap( int _size, int _state, 
+	                      bool bImagePreviewAllowed ) const
 {
   if ( m_pMimeType && m_pMimeType->name().left(6) == "image/" &&
        m_bIsLocalURL && bImagePreviewAllowed )
@@ -194,5 +195,5 @@ QPixmap KonqFileItem::pixmap( int _size, bool bImagePreviewAllowed ) const
       }
   }
 
-  return KFileItem::pixmap( _size );
+  return KFileItem::pixmap( _size, _state );
 }
