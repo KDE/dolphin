@@ -227,8 +227,15 @@ void KonqDraggableLabel::dragEnterEvent( QDragEnterEvent *ev )
 
 void KonqDraggableLabel::dropEvent( QDropEvent* ev )
 {
-  KURL::List lst;
-  if ( KURLDrag::decode( ev, lst ) ) {
-    m_mw->openURL( 0L, lst.first() );
+  _savedLst.clear();
+  if ( KURLDrag::decode( ev, _savedLst ) ) {
+    QTimer::singleShot(0, this, SLOT(delayedOpenURL()));
   }
 }
+
+void KonqDraggableLabel::delayedOpenURL()
+{
+    m_mw->openURL( 0L, _savedLst.first() );
+}
+
+#include "konq_misc.moc"

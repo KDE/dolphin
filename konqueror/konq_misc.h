@@ -91,6 +91,7 @@ public:
 
 class KonqDraggableLabel : public QLabel
 {
+    Q_OBJECT
 public:
     KonqDraggableLabel( KonqMainWindow * mw, const QString & text );
 
@@ -101,10 +102,14 @@ protected:
     void dragEnterEvent( QDragEnterEvent *ev );
     void dropEvent( QDropEvent* ev );
 
+private slots:
+    void delayedOpenURL();
+
 private:
     QPoint startDragPos;
     bool validDrag;
     KonqMainWindow * m_mw;
+    KURL::List _savedLst;
 };
 
 #endif
