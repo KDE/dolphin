@@ -1227,6 +1227,15 @@ void KonqMainView::slotFullScreenStart()
   widget->header()->hide();
   widget->recreate( 0L, WStyle_Customize | WStyle_NoBorder | WType_Popup, QPoint( 0, 0 ), true );
   widget->resize( QApplication::desktop()->width(), QApplication::desktop()->height() );
+
+  QWidget *toolbar = guiFactory()->container( "locationToolBar", this );
+  toolbar->recreate( widget, 0, QPoint( 0,0 ), true );
+  widget->layout()->insertWidget( 0, toolbar );
+  
+  toolbar = guiFactory()->container( "mainToolBar", this );
+  toolbar->recreate( widget, 0, QPoint( 0, 0 ), true );
+  widget->layout()->insertWidget( 0, toolbar );
+
   widget->setFocusPolicy( QWidget::StrongFocus );
   widget->setFocus();
   m_bFullScreen = true;
@@ -1234,12 +1243,20 @@ void KonqMainView::slotFullScreenStart()
 
 void KonqMainView::slotFullScreenStop()
 {
+  QWidget *toolbar1 = guiFactory()->container( "mainToolBar", this );
+  QWidget *toolbar2 = guiFactory()->container( "locationToolBar", this );
+  
   KonqFrame *widget = m_currentView->frame();
   widget->close( false );
   widget->recreate( m_tempContainer, 0, QPoint( 0, 0 ), true);
   widget->header()->show();
   widget->setFocusPolicy( m_tempFocusPolicy );
   m_bFullScreen = false;
+  
+  widget->attachInternal();
+
+  toolbar1->recreate( this, 0, QPoint( 0, 0 ), true );
+  toolbar2->recreate( this, 0, QPoint( 0, 0 ), true );
 }
 
 void KonqMainView::fillHistoryPopup( QPopupMenu *menu, const QList<HistoryEntry> &history )

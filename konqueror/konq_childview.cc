@@ -76,8 +76,8 @@ KonqChildView::KonqChildView( KonqViewFactory &viewFactory,
 KonqChildView::~KonqChildView()
 {
   kDebugInfo(1202,"KonqChildView::~KonqChildView");
-  delete m_pView;
   delete m_pKonqFrame;
+  //  delete m_pView;
   delete (KonqRun *)m_pRun;
 }
 
@@ -184,7 +184,7 @@ void KonqChildView::connectView(  )
 
   connect( ext, SIGNAL( popupMenu( const QPoint &, const KURL &, const QString &, mode_t ) ),
 	   m_pMainView, SLOT( slotPopupMenu( const QPoint &, const KURL &, const QString &, mode_t ) ) );
-  
+
   connect( ext, SIGNAL( setLocationBarURL( const QString & ) ),
            m_pMainView, SLOT( slotSetLocationBarURL( const QString & ) ) );
 

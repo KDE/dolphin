@@ -166,6 +166,11 @@ KonqFrame::KonqFrame( KonqFrameContainer *_parentContainer, const char *_name )
    connect( m_pHeader, SIGNAL( passiveModeChange( bool ) ), this, SLOT( slotPassiveModeChange( bool ) ) );
 }
 
+KonqFrame::~KonqFrame()
+{
+  delete m_pLayout; 
+} 
+
 KParts::ReadOnlyPart * KonqFrame::view( void )
 {
   return m_pView;
@@ -191,27 +196,32 @@ void KonqFrame::saveConfig( KConfig* config, const QString &prefix, int /*id*/, 
 
 KParts::ReadOnlyPart *KonqFrame::attach( const KonqViewFactory &viewFactory )
 {
-   if (m_pLayout) delete m_pLayout;
-
    KonqViewFactory factory( viewFactory );
-
-   m_pLayout = new QVBoxLayout( this );
 
    m_pView = factory.create( this, 0L );
 
    assert( m_pView->widget() );
 
+   attachInternal();
+   
+   connect(m_pView,SIGNAL(setStatusBarText(const QString &)),m_pHeader,SLOT(slotDisplayStatusText(const QString&)));
+
+   return m_pView;
+}
+
+void KonqFrame::attachInternal()
+{
+   if (m_pLayout) delete m_pLayout;
+   
+   m_pLayout = new QVBoxLayout( this );
+   
    m_pLayout->addWidget( m_pView->widget() );
    m_pLayout->addWidget( m_pHeader );
    m_pView->widget()->show();
    if ( !m_pChildView->mainView()->fullSreenMode() )
      m_pHeader->show();
    m_pLayout->activate();
-
-   connect(m_pView,SIGNAL(setStatusBarText(const QString &)),m_pHeader,SLOT(slotDisplayStatusText(const QString&)));
-
-   return m_pView;
-}
+} 
 
 void KonqFrame::setChildView( KonqChildView* child )
 {

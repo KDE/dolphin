@@ -97,7 +97,7 @@ class KonqFrameHeader : public QWidget
        * Brings up the context menu for this frame
        */
       virtual void splitFrameMenu();
-      
+
       virtual void paintEvent(QPaintEvent *e);
       KonqFrame* m_pParentKonqFrame;
       QCheckBox *m_pPassiveModeCheckBox;
@@ -145,13 +145,15 @@ class KonqFrame : public QWidget, public KonqFrameBase
 public:
   KonqFrame( KonqFrameContainer *_parentContainer = 0L,
 	     const char *_name = 0L );
-  ~KonqFrame() {}
+  ~KonqFrame();
 
   /**
    * Attach a view to the KonqFrame.
    * @param view the view to attach (instead of the current one, if any)
    */
   KParts::ReadOnlyPart *attach( const KonqViewFactory &viewFactory );
+
+  void attachInternal();
 
   /**
    * Returns the view that is currently connected to the Frame.
@@ -172,6 +174,8 @@ public:
   KonqFrameContainer* parentContainer();
   QWidget* widget() { return this; }
   virtual QString frameType() { return QString("View"); }
+
+  QVBoxLayout *layout() { return m_pLayout; }
 
   KonqFrameHeader *header() const { return m_pHeader; }
 
