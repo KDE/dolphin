@@ -20,15 +20,19 @@
 #include <kbookmarkdrag.h>
 #include <kbookmark.h>
 #include <kiconloader.h>
+#include <klocale.h>
 #include <kprotocolinfo.h>
 #include <konq_faviconmgr.h>
 
 #include "konq_treepart.h"
 #include "history_item.h"
 #include "history_module.h"
+#include "history_settings.h"
 
 #define MYMODULE static_cast<KonqHistoryModule*>(module())
 #define MYGROUP static_cast<KonqHistoryGroupItem*>(parent())
+
+KonqHistorySettings * KonqHistoryItem::s_settings = 0L;
 
 KonqHistoryItem::KonqHistoryItem( const KonqHistoryEntry *entry,
 				  KonqTreeItem * parentItem,
@@ -101,7 +105,11 @@ QString KonqHistoryItem::key( int column, bool ascending ) const
 
 QString KonqHistoryItem::toolTipText() const
 {
-    // ### date, etc. all in richtext :)
+    if ( s_settings->m_detailedTips ) {
+	QString tip = i18n("<qt><center><b>%1</b></center><hr>First visited: %2<br>Last visited: %3<br>Number of times visited: %4");
+	return tip.arg( m_entry->url.url() ).arg( KGlobal::locale()->formatDateTime( m_entry->firstVisited ) ).arg( KGlobal::locale()->formatDateTime( m_entry->lastVisited ) ).arg( m_entry->numberOfTimesVisited );
+    }
+
     return m_entry->url.url();
 }
 
@@ -194,7 +202,7 @@ void KonqHistoryGroupItem::itemUpdated( KonqHistoryItem *item )
 QDragObject * KonqHistoryGroupItem::dragObject( QWidget *parent, bool /*move*/)
 {
     QString icon = KonqFavIconMgr::iconForURL( m_url.url() );
-    KBookmark bookmark = KBookmark::standaloneBookmark( QString::null, m_url, 
+    KBookmark bookmark = KBookmark::standaloneBookmark( QString::null, m_url,
 							icon );
     KBookmarkDrag *drag = KBookmarkDrag::newDrag( bookmark, parent );
     return drag;

@@ -18,32 +18,58 @@
 */
 
 #include <qapplication.h>
+#include <qcheckbox.h>
+#include <qcombobox.h>
+#include <qlabel.h>
+#include <qlayout.h>
 #include <qpopupmenu.h>
+#include <qpushbutton.h>
+#include <qspinbox.h>
 
 #include <kaction.h>
+#include <kapp.h>
 #include <kconfig.h>
+#include <kdialogbase.h>
 #include <klocale.h>
 #include <kprotocolinfo.h>
+#include <kstaticdeleter.h>
 
 #include <konq_drag.h>
 #include <konq_faviconmgr.h>
 #include <konq_historymgr.h>
 #include <konq_tree.h>
 
+#include "history_dlg.h"
 #include "history_module.h"
+#include "history_settings.h"
+
+KStaticDeleter<KonqHistorySettings> sd;
+KonqHistorySettings * KonqHistoryModule::s_settings = 0L;
 
 KonqHistoryModule::KonqHistoryModule( KonqTree * parentTree, const char *name )
     : QObject( 0L, name ), KonqTreeModule( parentTree ),
       m_dict( 3001 ),
       m_topLevelItem( 0L ),
+      m_dlg( 0L ),
       m_initialized( false )
 {
+    if ( !s_settings ) {
+	s_settings = sd.setObject(
+			 new KonqHistorySettings( kapp, "history settings" ));
+	s_settings->readSettings();
+    }
+    
+    connect( s_settings, SIGNAL( settingsChanged() ), 
+	     SLOT( slotSettingsChanged() ));
+    
     m_dict.setAutoDelete( true );
     m_currentTime = QDateTime::currentDateTime();
+
     KConfig *kc = KGlobal::config();
     KConfigGroupSaver cs( kc, "HistorySettings" );
     m_sortsByName = kc->readEntry( "SortHistory", "byName" ) == "byName";
 
+    
     KonqHistoryManager *manager = KonqHistoryManager::self();
 
     connect( manager, SIGNAL( loadingFinished() ), SLOT( slotCreateItems() ));
@@ -78,6 +104,8 @@ KonqHistoryModule::KonqHistoryModule( KonqTree * parentTree, const char *name )
 
     m_folderClosed = SmallIcon( "folder" );
     m_folderOpen = SmallIcon( "folder_open" );
+    
+    slotSettingsChanged(); // read the settings
 }
 
 KonqHistoryModule::~KonqHistoryModule()
@@ -96,6 +124,12 @@ KonqHistoryModule::~KonqHistoryModule()
     kc->sync();
 }
 
+void KonqHistoryModule::slotSettingsChanged()
+{
+    KonqHistoryItem::setSettings( s_settings );
+    tree()->triggerUpdate();
+}
+ 
 void KonqHistoryModule::slotCreateItems()
 {
     clear();
@@ -105,8 +139,6 @@ void KonqHistoryModule::slotCreateItems()
     KonqHistoryList entries( KonqHistoryManager::self()->entries() );
     KonqHistoryIterator it( entries );
     m_currentTime = QDateTime::currentDateTime();
-
-    QString icon;
 
     // the group item and the item of the serverroot '/' get a fav-icon
     // if available. All others get the protocol icon.
@@ -159,6 +191,8 @@ void KonqHistoryModule::slotEntryAdded( const KonqHistoryEntry *entry )
     else
 	item->update( entry );
 
+    // QListView scrolls when calling sort(), so we have to hack around that
+    // (we don't want no scrolling everytime an entry is added)
     KonqTree *t = tree();
     t->lockScrolling( true );
     group->sort();
@@ -223,7 +257,30 @@ void KonqHistoryModule::slotRemoveEntry()
 
 void KonqHistoryModule::slotPreferences()
 {
-    // ### TODO
+    m_dlg = new KDialogBase( KDialogBase::Plain, i18n("History settings"),
+			     KDialogBase::Ok | KDialogBase::Cancel,
+			     KDialogBase::Ok, 
+			     tree(), "history dialog", false );
+    QWidget *page = m_dlg->plainPage();
+    QVBoxLayout *layout = new QVBoxLayout( page );
+    layout->setAutoAdd( true );
+    layout->setSpacing( KDialog::spacingHint() );
+    layout->setMargin( KDialog::marginHint() );
+    m_settingsDlg = new KonqHistoryDialog( s_settings, page );
+    connect( m_dlg, SIGNAL( finished() ), SLOT( slotDialogFinished() ));
+    connect( m_dlg, SIGNAL( okClicked() ), 
+	     m_settingsDlg, SLOT( applySettings() ));
+    
+    m_dlg->show();
+}
+
+void KonqHistoryModule::slotDialogFinished()
+{
+    if ( !m_dlg )
+	return;
+    
+    m_dlg->delayedDestruct();
+    m_dlg = 0L;
 }
 
 void KonqHistoryModule::slotSortByName()
@@ -258,7 +315,7 @@ void KonqHistoryModule::groupOpened( KonqHistoryGroupItem *item, bool open )
 {
     if ( item->hasFavIcon() )
 	return;
-    
+
     if ( open )
 	item->setPixmap( 0, m_folderOpen );
     else
@@ -268,7 +325,7 @@ void KonqHistoryModule::groupOpened( KonqHistoryGroupItem *item, bool open )
 
 KonqHistoryGroupItem * KonqHistoryModule::createGroupItem( const KURL& url )
 {
-    KonqHistoryGroupItem *group = new KonqHistoryGroupItem( url, 
+    KonqHistoryGroupItem *group = new KonqHistoryGroupItem( url,
 							    m_topLevelItem );
 
     QString icon = KonqFavIconMgr::iconForURL( url.url() );
@@ -278,8 +335,144 @@ KonqHistoryGroupItem * KonqHistoryModule::createGroupItem( const KURL& url )
 	group->setFavIcon( SmallIcon( icon ) );
 
     m_dict.insert( url.host(), group );
-    
+
     return group;
+}
+
+
+///////////////////////////////////////////////////////////////////
+
+
+KonqHistoryDialog::KonqHistoryDialog( KonqHistorySettings *settings,
+				      QWidget *parent, const char *name )
+    : KonqHistoryDlg( parent, name ),
+      m_settings( settings )
+{
+    spinEntries->setRange( 0, INT_MAX );
+    spinExpire->setRange( 1, INT_MAX );
+    
+    spinNewer->setRange( 0, INT_MAX );
+    spinOlder->setRange( 0, INT_MAX );
+    
+    comboNewer->insertItem( i18n("minutes"), KonqHistorySettings::MINUTES );
+    comboNewer->insertItem( i18n("days"), KonqHistorySettings::DAYS );
+    
+    comboOlder->insertItem( i18n("minutes"), KonqHistorySettings::MINUTES );
+    comboOlder->insertItem( i18n("days"), KonqHistorySettings::DAYS );
+
+    connect( cbExpire, SIGNAL( toggled( bool )), 
+	     spinExpire, SLOT( setEnabled( bool )));
+
+    connect( spinNewer, SIGNAL( valueChanged( int )), 
+	     SLOT( slotNewerChanged( int )));
+    connect( spinOlder, SIGNAL( valueChanged( int )), 
+	     SLOT( slotOlderChanged( int )));
+    
+    initFromSettings();
+}
+
+void KonqHistoryDialog::initFromSettings()
+{
+    KonqHistoryManager *manager = KonqHistoryManager::self();
+    spinEntries->setValue( manager->maxCount() );
+    Q_UINT32 maxAge = manager->maxAge();
+    cbExpire->setChecked( maxAge > 0 );
+    spinExpire->setValue( maxAge );
+    
+    spinNewer->setValue( m_settings->m_valueYoungerThan );
+    spinOlder->setValue( m_settings->m_valueOlderThan );
+    
+    comboNewer->setCurrentItem( m_settings->m_metricYoungerThan );
+    comboOlder->setCurrentItem( m_settings->m_metricOlderThan );
+    
+    cbDetailedTips->setChecked( m_settings->m_detailedTips );
+    cbTimesVisited->setChecked( m_settings->m_columnTimesVisited );
+    cbFirstVisited->setChecked( m_settings->m_columnFirstVisited );
+    cbLastVisited->setChecked( m_settings->m_columnLastVisited );
+    
+    // enable/disable widgets
+    spinExpire->setEnabled( cbExpire->isChecked() );
+
+    slotNewerChanged( spinNewer->value() );
+    slotOlderChanged( spinOlder->value() );
+    
+    // ### TODO:synchronization of "newer than XXX" and "older than XXX"
+}
+
+void KonqHistoryDialog::applySettings()
+{
+    KonqHistoryManager *manager = KonqHistoryManager::self();
+    manager->emitSetMaxCount( spinEntries->value() );
+    manager->emitSetMaxAge( spinExpire->value() );
+    
+    m_settings->m_valueYoungerThan = spinNewer->value();
+    m_settings->m_valueOlderThan   = spinOlder->value();
+    
+    m_settings->m_metricYoungerThan = comboNewer->currentItem();
+    m_settings->m_metricOlderThan   = comboOlder->currentItem();
+    
+    m_settings->m_detailedTips = cbDetailedTips->isChecked();
+    m_settings->m_columnTimesVisited = cbTimesVisited->isChecked();
+    m_settings->m_columnFirstVisited = cbFirstVisited->isChecked();
+    m_settings->m_columnLastVisited  = cbLastVisited->isChecked();
+    
+    m_settings->applySettings();
+}
+
+KonqHistoryDialog::~KonqHistoryDialog()
+{
+}
+
+// change hour to days, minute to minutes and the other way round, 
+// depending on the value of the spinbox
+void KonqHistoryDialog::slotNewerChanged( int value )
+{
+    switch( comboNewer->currentItem() ) {
+    case KonqHistorySettings::DAYS: {
+	const QString& days = i18n("days");
+	
+	if ( value == 1 )
+	    comboNewer->changeItem( i18n("day"), KonqHistorySettings::DAYS );
+	else if ( comboNewer->text( KonqHistorySettings::DAYS ) != days )
+	    comboNewer->changeItem( days, KonqHistorySettings::DAYS );
+	break;
+    }
+    case KonqHistorySettings::MINUTES: {
+    const QString& minutes = i18n("minutes");
+    
+	if ( value == 1 )
+	    comboNewer->changeItem( i18n("minute"), 
+				    KonqHistorySettings::MINUTES );
+	else if ( comboNewer->text( KonqHistorySettings::MINUTES ) != minutes )
+	    comboNewer->changeItem( i18n("minutes"), 
+				    KonqHistorySettings::MINUTES );
+    }
+    }
+}
+
+void KonqHistoryDialog::slotOlderChanged( int value )
+{
+    switch( comboOlder->currentItem() ) {
+    case KonqHistorySettings::DAYS: {
+	const QString& days = i18n("days");
+	
+	if ( value == 1 )
+	    comboOlder->changeItem( i18n("day"), KonqHistorySettings::DAYS );
+	else if ( comboOlder->text( KonqHistorySettings::DAYS ) != days )
+	    comboOlder->changeItem( days, KonqHistorySettings::DAYS );
+	break;
+    }
+    case KonqHistorySettings::MINUTES: {
+	const QString& minutes = i18n("minutes");
+
+	if ( value == 1 )
+	    comboOlder->changeItem( i18n("minute"), 
+				    KonqHistorySettings::MINUTES );
+	else if ( comboOlder->text( KonqHistorySettings::MINUTES ) != minutes )
+	    comboOlder->changeItem( i18n("minutes"), 
+				    KonqHistorySettings::MINUTES );
+    }
+    }
 }
 
 #include "history_module.moc"

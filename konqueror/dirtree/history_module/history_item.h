@@ -25,6 +25,7 @@
 #include "konq_treeitem.h"
 
 class QDropEvent;
+class KonqHistorySettings;
 
 class KonqHistoryItem : public KonqTreeItem
 {
@@ -55,8 +56,11 @@ public:
 
     virtual QString key( int column, bool ascending ) const;
 
+    static void setSettings( KonqHistorySettings *s ) { s_settings = s; }
+    
 private:
     const KonqHistoryEntry *m_entry;
+    static KonqHistorySettings *s_settings;
 
 };
 

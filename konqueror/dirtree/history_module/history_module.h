@@ -27,8 +27,12 @@
 #include <konq_treemodule.h>
 
 #include "history_item.h"
+#include "history_dlg.h"
 
 class KActionCollection;
+class KDialogBase;
+class KonqHistoryDialog;
+class KonqHistorySettings;
 class KonqTree;
 class KonqTreeItem;
 
@@ -58,6 +62,8 @@ private slots:
 
     void slotRemoveEntry();
     void slotPreferences();
+    void slotDialogFinished();
+    void slotSettingsChanged();
 
     void slotItemExpanded( QListViewItem * );
 
@@ -75,12 +81,37 @@ private:
 
     KActionCollection *m_collection;
 
+    KDialogBase *m_dlg;
+    KonqHistoryDialog *m_settingsDlg;
     QPixmap m_folderClosed;
     QPixmap m_folderOpen;
     bool m_initialized;
     bool m_sortsByName;
     QDateTime m_currentTime; // used for sorting the items by date
+    static KonqHistorySettings *s_settings;
 };
 
+
+class KonqHistoryDialog : public KonqHistoryDlg
+{
+    Q_OBJECT
+
+public:
+    KonqHistoryDialog( KonqHistorySettings *settings,
+		       QWidget *parent, const char *name=0 );
+    ~KonqHistoryDialog();
+
+    void initFromSettings();
+
+public slots:
+    void applySettings();
+
+private slots:
+    void slotNewerChanged( int );
+    void slotOlderChanged( int );
+
+private:
+    KonqHistorySettings *m_settings;
+};
 
 #endif // HISTORY_MODULE_H
