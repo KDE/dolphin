@@ -14,11 +14,13 @@
 
 <important><para>Like all &kde; applications, &konqueror; is highly
  configurable. This document describes how &konqueror; behaves with the normal,
- default, settings.</para>
+ default settings.</para>
 <para> A three button mouse can be useful when you are running
 &konqueror; or any other &kde; application. If your mouse only has two buttons
 then you should be able to set your system up so that you can simulate a &MMB;
-by pressing both buttons at the same time.  </para>
+by pressing both buttons at the same time.</para>
+<para>You can read more about mouse usage in <xref
+linkend="lmb-mmb"/></para>
 <para>If you are used to having to double-click to perform an action,
 then take care, because in common with the rest of &kde;, &konqueror; defaults
 to single-clicking.</para></important>
@@ -26,7 +28,8 @@ to single-clicking.</para></important>
 <sect1 id="konq-start">
 <title>Starting &konqueror;</title>
 
-<para>Being a combined File Manager and Browser, &konqueror; will automatically
+<para>Being a combined File Manager and Browser,
+&konqueror; will automatically
 switch between the two modes as needed when it is running, but it is convenient
 to be able to choose which mode is to be used when you start it up.</para>
 
@@ -115,7 +118,8 @@ Toolbar</interface> to go to it. The black icon at the left hand end of the
 
 <para>The <interface>Bookmark Toolbar</interface> is the area under the 
 <interface>Location Toolbar</interface> in the previous screenshot. You can add
-frequently used bookmarks here, see the <link linkend="orgbmark">Organizing
+frequently used bookmarks here; see the <link
+linkend="orgbmark">Organizing
 Your
 Bookmarks</link> section of this document.</para>
 
@@ -138,7 +142,7 @@ Status Bar <link linkend="rmb-menus"><mousebutton>Right</mousebutton> Mouse
 Button Menu</link>.</para>
 
 <note><para>Don't worry if your &konqueror; doesn't look exactly like this
-screenshot, it is highly configurable. In particular:</para>
+screenshot; it is highly configurable. In particular:</para>
 
 <itemizedlist>
 <listitem><para>You can use the <link
@@ -195,7 +199,7 @@ Most of the dialog boxes that &konqueror; brings up support the
 <title><mousebutton>Left</mousebutton> and <mousebutton>Middle</mousebutton>
 Mouse Button Actions</title>
 
-<para>If you click the &LMB; on an item in &konqueror;'s window that item will
+<para>If you click the &LMB; on an item in &konqueror;'s window, it will
  be
 <quote>activated</quote>. Thus</para>
 

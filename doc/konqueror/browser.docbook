@@ -81,7 +81,9 @@ Web Shortcuts</link> feature can make this easier.</para>
 <para>To open a link in a new instance of &konqueror;, leaving the
 old page still visible, &MMB; click on the link or <mousebutton> right 
 </mousebutton> click on it and select the
-<guimenuitem>Open in New Window</guimenuitem> option.</para>
+<guimenuitem>Open in New Window</guimenuitem> option. Alternatively, you might want to <guimenuitem>Open in New Tab</guimenuitem>. <link linkend="tabbrowse">Tabbed Browsing</link> will let 
+you hold a number of pages in one &konqueror; window and quickly switch 
+between them with a single mouse click.</para>
 
 <para>You could also select the multiple view mode with <keycombo
 action="simul">&Ctrl;&Shift;<keycap>L</keycap>
@@ -92,9 +94,6 @@ pages at the same time. This can be useful if you are looking through a
 complicated set of <acronym>HTML</acronym> pages, but make sure the little link
 box at the bottom right hand corner is empty when you are doing
 this.</para>
-<para><link linkend="tabbrowse">Tabbed Browsing</link> will let 
-you hold a number of pages in one &konqueror; window and quickly switch 
-between them with a single mouse click.</para>
 <para>To go back to the previous page use the <keycombo
 action="simul">&Alt;<keysym>Left Arrow</keysym></keycombo>
 shortcut, the <guibutton>Back</guibutton> button on the Toolbar, or the Menubar
@@ -222,7 +221,7 @@ back, based on the strengths and weaknesses of different browsers.</para>
 unless you are using a browser that the site recognizes as a 
 <quote>valid</quote> one, even though if given a chance, &konqueror; will 
 work satisfactorily with the vast majority of web pages.</para>
-<para>To overcome this problem, you can change the browser identification 
+<para>To overcome this problem you can change the browser identification 
 information that &konqueror; sends for specific sites or domains by 
 selecting <menuchoice><guimenu>Settings</guimenu><guimenuitem>
 Configure Konqueror...</guimenuitem></menuchoice> to bring up the <guilabel>
@@ -298,7 +297,7 @@ Internet.</para>
 <para>With &FTP; you can see files and folders on the distant computer just
 as if they were on your own system, download them onto your computer using
 &konqueror;'s normal <guimenuitem>Copy</guimenuitem> and
-<guimenuitem>Paste</guimenuitem> or Drag 'n Drop methods and, if allowed,
+<guimenuitem>Paste</guimenuitem> or Drag n' Drop methods and, if allowed,
 upload files from your machine to the other computer's filesystem. To try it, 
 type the &URL;</para>
 

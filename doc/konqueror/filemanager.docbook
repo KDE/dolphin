@@ -31,13 +31,15 @@ class="directory">home</filename> of the top level folder, and <filename>
 that subfolder. The leading <quote>/</quote> in these paths represents the 
 top level folder.</para>
 
-<para>Every folder accessible by your system, including those on other hard 
-disk partitions, your floppy and &CD-ROM;, will appear in the tree descending 
-from /, their exact paths will depend on how your system was set up (see also 
+<para>Every folder accessible by your system &mdash; including those on
+other hard disk partitions, your floppy and &CD-ROM; &mdash; will appear
+in the tree descending
+from /, their exact paths will depend on how your system was set up (see
+also
 the section on <link linkend="floppy-cd">Floppy and &CD-ROM; Drives</link>).
 </para>
 <para>Every user on a &UNIX; / &Linux; system has their own <quote>home</quote> 
-folder to hold their personal files and settings, for example 
+folder to hold their personal files and settings; for example
 <filename class="directory">/home/john</filename> and  
 <filename class="directory">/home/mary</filename>. The 
 symbol <keycap>~</keycap> is often used to represent the user's home 
@@ -171,10 +173,10 @@ tree:</para>
 <itemizedlist>
 <listitem><para>To descend into a subfolder <mousebutton>left
 </mousebutton> click on its name or
-icon, or if you have <quote>selected</quote> it (see below) then just press
+icon -- or if you have already <quote>selected</quote> it (see below) -- then just press
 <keycap>Enter</keycap>.</para></listitem> 
-<listitem><para>To go up the folder tree, click on the <guiicon>Up
-</guiicon> button in the Toolbar, or use<keycombo action="simul">&Alt;<keysym>Up Arrow</keysym></keycombo>, or use the Menubar
+<listitem><para>To go up the folder tree you can click on the <guiicon>Up
+</guiicon> button in the Toolbar, use<keycombo action="simul">&Alt;<keysym>Up Arrow</keysym></keycombo>, or use the Menubar
 <menuchoice><guimenu>Go</guimenu><guimenuitem>Up</guimenuitem></menuchoice>
 option.</para></listitem>
 </itemizedlist>
@@ -187,7 +189,7 @@ will be displayed in the Status Bar.</para>
 
 <para>Setting the <link linkend="viewmode">View Mode</link> to <guimenuitem>
 Tree View</guimenuitem> can help you locate folders in the tree below the 
-current folder. In this mode each folder is shown with a small box at 
+current folder; in this mode each folder is shown with a small box at 
 the left. If the box contains a <keycap>+</keycap> sign, <mousebutton>left
 </mousebutton> clicking on the box (not on the folder name or icon) will 
 display a sub tree showing files and subfolders contained in that folder. 
@@ -207,18 +209,20 @@ O</keycap></keycombo>. &konqueror;'s <link linkend="path-complete">
 Text Completion</link> feature may be useful when you do this. Don't forget
 that in &Linux; / &UNIX; file and folder names are case sensitive.</para>
 
-<para>Once you have moved to a new folder you can go back to your
+<para>When you have moved to a new folder you can go back to your
 previous choice by using the Toolbar <guiicon>Back</guiicon> button, the
 Menubar
 <menuchoice><guimenu>Go</guimenu> <guimenuitem>Back</guimenuitem></menuchoice>
 item, or <keycombo action="simul">&Alt;<keysym>Left
-Arrow</keysym></keycombo>.</para>
-
-<para>Once you have gone back you can go forward. Use the Toolbar
+Arrow</keysym></keycombo>. Once you have gone back you can go forward. Use the Toolbar
 <guiicon>Forward</guiicon> button, the Menubar
 <menuchoice><guimenu>Go</guimenu>
 <guimenuitem>Forward</guimenuitem></menuchoice> item or <keycombo
 action="simul">&Alt;<keysym>Right
+Arrow</keysym></keycombo>.</para>
+
+<para>Alternatively, you can also choose to enter the parent folder by clicking on the Toolbar <guiicon>Up</guiicon>, the <menuchoice><guimenu>Go</guimenu> <guimenuitem>Up</guimenuitem></menuchoice> item, or with <keycombo
+action="simul">&Alt;<keysym>Up
 Arrow</keysym></keycombo>.</para>
 
 <tip><para>Holding the &LMB; pressed while the mouse pointer is
@@ -254,7 +258,7 @@ file.</para></note>
 
 <para>Any floppy disk, &CD; drive or other hard disk partition that you have 
 on your system will usually appear in the <filename class="directory">/
-</filename>,  <filename class="directory">/mnt</filename> or 
+</filename>,  <filename class="directory">/media</filename>, <filename class="directory">/mnt</filename> or 
 <filename class="directory">/auto</filename> folder, having a path something 
 like <filename class="directory">/mnt/floppy</filename> or
 <filename class="directory">/cdrom</filename>. The details will depend on
@@ -358,7 +362,7 @@ will really, truly and irrevocably delete the selected item or
 items.</para>
 
 <note><para>You won't be able to remove a file or folder if you don't have
-the necessary permissions, see the section on <link linkend="super-user">Super
+the necessary permissions; see the section on <link linkend="super-user">Super
 User Mode</link> for further details.</para></note>
 
 </sect1>
@@ -379,7 +383,7 @@ the &RMB;, which will bring up a menu containing the
 <guimenuitem>Copy</guimenuitem></menuchoice>
 item, or the <keycombo
 action="simul">&Ctrl;<keycap>C</keycap></keycombo> 
-shortcut key combination.</para></listitem>
+shortcut key combination. You can also select <link linkend="multiple">multiple</link> files or folders to copy/move as well.</para></listitem>
 
 <listitem><para>Navigate to the folder you want to copy the item into then
 Paste the item into the new folder by using the Toolbar
@@ -545,6 +549,8 @@ Menubar <menuchoice><guimenu>Edit</guimenu><guimenuitem>Invert
 Selection</guimenuitem></menuchoice> option or <keycombo
 action="simul">&Ctrl;<keycap>*</keycap></keycombo> to do this.</para>
 
+<para>You can also select multiple files and folders by holding the <keycap>&Ctrl;</keycap> button while you click on each individual file or folder. This enables you to then move or copy multiple files and folders to a different location at one time by using the same method above.</para>
+
 <para>A number of useful shortcut keys can be used in list, tree and text 
 view modes:</para>
 <variablelist>
@@ -682,7 +688,7 @@ and open an instance of &konqueror; showing the disk's contents. To unmount the
 disk when you have finished with it <mousebutton>right</mousebutton> click on
 the icon and select <guimenuitem>Unmount</guimenuitem>. In practice it doesn't
 have to be a floppy disk but can be any hard disk or partition on your system
-that is not normally mounted.  In most cases you will want to create the icon
+that is not normally mounted.  However, in most cases you will want to create the icon
 on
 your desktop.</para></listitem>
 </varlistentry>
@@ -757,9 +763,9 @@ role="extension">.kil</literal>.</para></listitem>
 <sect1 id="newname">
 <title>Changing Names and Permissions</title>
 
-<para>The easiest way to change the name of a file or folder is to 
+<para>The two easiest ways to change the name of a file or folder is to either 
 <mousebutton>right</mousebutton> click on it and select 
-<guimenuitem>Rename</guimenuitem>.</para>
+<guimenuitem>Rename</guimenuitem>, or select the file or folder and then press the <keycap>F2</keycap> button.</para>
 
 <para>To change the name or permissions of a file or folder 
 <mousebutton>right</mousebutton> click on its name or icon and select the 
@@ -782,8 +788,8 @@ ownership and access permissions and lets you change the permissions.
 
 <sect2 id="copyrename">
 <title>Copy and Rename</title>
-<para>If you want to make a copy of an existing file with a different name, 
-perhaps as a backup, in the same folder as the original file, do a normal 
+<para>If you want to make a copy of an existing file with a different name -- 
+perhaps as a backup -- in the same folder as the original file, do a normal 
 <guimenuitem>Copy</guimenuitem> then when you <guimenuitem>Paste</guimenuitem> 
 it a dialog box will pop up  complaining that the file already exists. 
 Just type the new name into the dialog's text box and press the 
@@ -827,11 +833,11 @@ seriously increases your vulnerability to malicious hacking.</para></warning>
 &Linux; / &UNIX; user wants to get down to the basics and work at the text 
 command line level.</para>
 
-<para>She could, of course, open an instance of &konsole;, perhaps with
+<para>You can, of course, open an instance of &konsole;, perhaps with
 &konqueror;'s Menubar <menuchoice><guimenu>Tools</guimenu><guimenuitem>Open
 Terminal</guimenuitem></menuchoice> option or with <keycombo
 action="simul">&Ctrl;<keycap>T</keycap></keycombo>.</para>
-<para>If she only wants to launch a program or view a &URL;, the <menuchoice>
+<para>If you only want to launch a program or view a &URL;, the <menuchoice>
 <guimenu>Tools</guimenu><guimenuitem>Run Command</guimenuitem></menuchoice> 
 (<keycombo action="simul">&Alt;<keycap>F2</keycap></keycombo>) option may be 
 easier.</para>
@@ -846,7 +852,7 @@ less</userinput> will not work properly, but it is available immediately
 without the delay involved in starting &konsole;.
 </para>
 
-<para>For more complex operations, &konqueror; has another nice feature; the 
+<para>For more complex operations, &konqueror; has another nice feature: the 
 Menubar <menuchoice><guimenu>Window</guimenu><guimenuitem>Show Terminal
 Emulator</guimenuitem></menuchoice> option, which opens up a terminal window as 
 a new view within &konqueror;. As long as the link icon is visible at the 

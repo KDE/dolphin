@@ -30,7 +30,7 @@ manager?</para></question>
 window manager, launch &konqueror;. It should work just fine, but if it
 doesn't (&kde; developers don't test that case often), report it to <ulink
 url="http://bugs.kde.org">http://bugs.kde.org</ulink> and try running
-<application>kdeinit</application> before running &konqueror;, it usually
+<application>kdeinit</application> before running &konqueror;; it usually
 helps.</para></answer>
 </qandaentry>
 
