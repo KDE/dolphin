@@ -688,9 +688,9 @@ void KIconContainer::dropEvent( QDropEvent * e )
       for( ; it != m_dragIcons.end(); ++it )
       {
         // for each icon we need to find the item related to it
-        KIconContainerItem* movedItem = find( it->url );
+        KIconContainerItem* movedItem = find( (*it).url );
         if ( movedItem )
-          movedItem->setFixedPos( e->pos() + it->pos );
+          movedItem->setFixedPos( e->pos() + (*it).pos );
         else
           kdebug(KDEBUG_ERROR, 1205, "Item moved is not on the desktop !");
       }
@@ -1370,7 +1370,7 @@ void KIconContainer::drawDragShadow( const QPoint& _offset )
   KIconDrag::IconList::Iterator it = m_dragIcons.begin();
   while( it != m_dragIcons.end() )
   {
-    painter.drawRect( _offset.x() + it->pos.x(), _offset.y() + it->pos.y(), m_iMinItemWidth, m_iMinItemHeight );
+    painter.drawRect( _offset.x() + (*it).pos.x(), _offset.y() + (*it).pos.y(), m_iMinItemWidth, m_iMinItemHeight );
     it++;
   }
 
@@ -1691,7 +1691,7 @@ QColor KIconContainerItem::color()
   return m_pContainer->linkColor();
 }
 
-void KIconContainerItem::setSelected( bool _selected, bool _refresh = true )
+void KIconContainerItem::setSelected( bool _selected, bool _refresh )
 {
   if ( _selected == isSelected() )
     return;

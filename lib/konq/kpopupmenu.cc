@@ -260,10 +260,10 @@ KonqPopupMenu::KonqPopupMenu( QStringList urls,
     QValueList<KDEDesktopMimeType::Service>::Iterator it2 = user.begin();
     for( ; it2 != user.end(); ++it2 )
     {
-      if ( !it2->m_strIcon.isEmpty() )
-	id = m_popupMenu->insertItem( *(KPixmapCache::pixmap( it2->m_strIcon, true ) ), it2->m_strName );
+      if ( !(*it2).m_strIcon.isEmpty() )
+	id = m_popupMenu->insertItem( *(KPixmapCache::pixmap( (*it2).m_strIcon, true ) ), (*it2).m_strName );
       else
-	id = m_popupMenu->insertItem( it2->m_strName );
+	id = m_popupMenu->insertItem( (*it2).m_strName );
       m_mapPopup2[ id ] = *it2;
     }
     
@@ -273,10 +273,10 @@ KonqPopupMenu::KonqPopupMenu( QStringList urls,
     it2 = builtin.begin();
     for( ; it2 != builtin.end(); ++it2 )
     {
-      if ( !it2->m_strIcon.isEmpty() )
-	id = m_popupMenu->insertItem( *(KPixmapCache::pixmap( it2->m_strIcon, true ) ), it2->m_strName );
+      if ( !(*it2).m_strIcon.isEmpty() )
+	id = m_popupMenu->insertItem( *(KPixmapCache::pixmap( (*it2).m_strIcon, true ) ), (*it2).m_strName );
       else
-	id = m_popupMenu->insertItem( it2->m_strName );
+	id = m_popupMenu->insertItem( (*it2).m_strName );
       m_mapPopup2[ id ] = *it2;
     }
   }
@@ -334,7 +334,7 @@ void KonqPopupMenu::slotPopupDelete()
   list<string> lst;
   QStringList::Iterator it = m_lstPopupURLs.begin();
   for ( ; it != m_lstPopupURLs.end(); ++it )
-    lst.push_back( it->data() );
+    lst.push_back( (*it).data() );
   job->del( lst );
 }
 

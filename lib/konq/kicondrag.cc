@@ -62,9 +62,9 @@ QByteArray KIconDrag::encodedData(const char* mime) const
     IconList::ConstIterator it = m_lstIcons.begin();
     for ( ; it != m_lstIcons.end(); ++it )
     {
-      int l = it->url.length();
+      int l = (*it).url.length();
       a.resize(c + l + 1 );
-      memcpy( a.data() + c , it->url.ascii(), l );
+      memcpy( a.data() + c , (*it).url.ascii(), l );
       a[ c + l ] = 0;
       c += l + 1;
     }
@@ -77,7 +77,7 @@ QByteArray KIconDrag::encodedData(const char* mime) const
     for ( ; it != m_lstIcons.end(); ++it )
     {
       QString d( "%1:%2:%3" );
-      d = d.arg( it->pos.x() ).arg( it->pos.y() ).arg( it->url );
+      d = d.arg( (*it).pos.x() ).arg( (*it).pos.y() ).arg( (*it).url );
       int l = d.length();
       a.resize( c + l + 1 );
       memcpy( a.data() + c , d.ascii(), l );
