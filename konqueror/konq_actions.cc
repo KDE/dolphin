@@ -28,7 +28,9 @@
 #include <kcombobox.h>
 #include <kanimwidget.h>
 #include <kdebug.h>
-#include <konq_view.h> // HistoryEntry
+#include <kstringhandler.h>
+
+#include "konq_view.h" // HistoryEntry
 
 KonqComboAction::KonqComboAction( const QString& text, int accel, const QObject *receiver, const char *member,
 			          QObject* parent, const char* name )
@@ -180,7 +182,7 @@ void KonqHistoryAction::fillHistoryPopup( const QList<HistoryEntry> &history,
   while ( it.current() )
   {
       QString text = it.current()->title;
-      text = KBookmark::stringSqueeze(text, 50); //CT: squeeze
+      text = KStringHandler::csqueeze(text, 50); //CT: squeeze
       if ( checkCurrentItem && it.current() == current )
       {
           int id = popup->insertItem( text ); // no pixmap if checked
