@@ -3777,6 +3777,9 @@ void KonqMainWindow::updateOpenWithActions()
 
   m_openWithActions.clear();
 
+  if (!kapp->authorizeKAction("openwith"))
+     return;
+
   const KTrader::OfferList & services = m_currentView->appServiceOffers();
   KTrader::OfferList::ConstIterator it = services.begin();
   KTrader::OfferList::ConstIterator end = services.end();
