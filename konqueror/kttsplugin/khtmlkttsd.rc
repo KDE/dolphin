@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui>
-<kpartgui name="Speak Text" library="libkhtmlkttsdplugin" version="2" >
+<kpartgui name="khtmlkttsdplugin" library="libkhtmlkttsdplugin" version="2" >
 	<MenuBar>
 		<Menu name="tools">
 		<Text>&amp;Tools</Text>
