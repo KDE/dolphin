@@ -273,6 +273,14 @@ QString KonqMainView::konqFilteredURL( const QString &_url )
     tmp += url;
     url = tmp;
   }
+  // Samba notation for \\host\share?
+  else if ( strncmp( url, "\\\\", 2 ) == 0 )
+  {
+    for (int i=0; i<url.length(); i++ )
+      if (url[i] == '\\') url[i]='/';
+    KURL::encode( url );
+    url.prepend( "smb:" );
+  }
 /*
   else if ( gethostbyname( url.ascii() ) != 0 )
   {
