@@ -2743,7 +2743,7 @@ void KonqMainWindow::initActions()
   m_paAnimatedLogo = new KonqLogoAction( i18n("Animated Logo"), 0, this, SLOT( slotDuplicateWindow() ), actionCollection(), "animated_logo" );
 
   // Location bar
-  (void)new KonqLabelAction( i18n( "L&ocation " ), actionCollection(), "location_label" );
+  (void)new KonqLabelAction( i18n( "L&ocation: " ), actionCollection(), "location_label" );
 
   m_paURLCombo = new KonqComboAction( i18n( "Location Bar" ), 0, this, SLOT( slotURLEntered( const QString & ) ), actionCollection(), "toolbar_url_combo" );
   connect( m_paURLCombo, SIGNAL( plugged() ),
