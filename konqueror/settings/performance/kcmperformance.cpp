@@ -22,6 +22,7 @@
 #include <qlayout.h>
 #include <qtabwidget.h>
 #include <klocale.h>
+#include <kdialog.h>
 
 extern "C"
 {
@@ -45,6 +46,7 @@ Config::Config( QWidget* parent_P, const char* )
     QVBoxLayout *topLayout = new QVBoxLayout( this );
     QTabWidget* tabs = new QTabWidget( this );
     konqueror_widget = new Konqueror( tabs );
+    konqueror_widget->layout()->setMargin( KDialog::marginHint() );
     connect( konqueror_widget, SIGNAL( changed()), SLOT( configChanged()));
     tabs->addTab( konqueror_widget, i18n( "Konqueror" ));
     topLayout->add( tabs );
