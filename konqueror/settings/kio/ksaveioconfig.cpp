@@ -33,11 +33,12 @@ public:
   ~KSaveIOConfigPrivate ();
 
   KConfig* config;
+  KConfig* http_config;
 };
 
 static KStaticDeleter<KSaveIOConfigPrivate> ksiocp;
 
-KSaveIOConfigPrivate::KSaveIOConfigPrivate (): config(0)
+KSaveIOConfigPrivate::KSaveIOConfigPrivate (): config(0), http_config(0)
 {
   ksiocp.setObject (this);
 }
@@ -58,6 +59,17 @@ KConfig* KSaveIOConfig::config()
      d->config = new KConfig("kioslaverc", false, false);
 
   return d->config;
+}
+
+KConfig* KSaveIOConfig::http_config()
+{
+  if (!d)
+     d = new KSaveIOConfigPrivate;
+
+  if (!d->http_config)
+     d->http_config = new KConfig("kio_httprc", false, false);
+
+  return d->http_config;
 }
 
 void KSaveIOConfig::reparseConfiguration ()
@@ -125,21 +137,21 @@ void KSaveIOConfig::setAutoResume( bool _mode )
 
 void KSaveIOConfig::setUseCache( bool _mode )
 {
-  KConfig* cfg = config ();
+  KConfig* cfg = http_config ();
   cfg->writeEntry( "UseCache", _mode );
   cfg->sync();
 }
 
 void KSaveIOConfig::setMaxCacheSize( int cache_size )
 {
-  KConfig* cfg = config ();
+  KConfig* cfg = http_config ();
   cfg->writeEntry( "MaxCacheSize", cache_size );
   cfg->sync();
 }
 
 void KSaveIOConfig::setCacheControl(KIO::CacheControl policy)
 {
-  KConfig* cfg = config ();
+  KConfig* cfg = http_config ();
   QString tmp = KIO::getCacheControlString(policy);
   cfg->writeEntry("cache", tmp);
   cfg->sync();
@@ -147,7 +159,7 @@ void KSaveIOConfig::setCacheControl(KIO::CacheControl policy)
 
 void KSaveIOConfig::setMaxCacheAge( int cache_age )
 {
-  KConfig* cfg = config ();
+  KConfig* cfg = http_config ();
   cfg->writeEntry( "MaxCacheAge", cache_age );
   cfg->sync();
 }

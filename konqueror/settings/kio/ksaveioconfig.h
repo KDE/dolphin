@@ -84,6 +84,7 @@ public:
   
 protected:
   static KConfig* config ();
+  static KConfig* http_config ();
   KSaveIOConfig ();
   
 private:  
