@@ -52,126 +52,138 @@ addBackEnd::addBackEnd(QObject *parent,class QPopupMenu *addmenu,const char *nam
 
 void addBackEnd::aboutToShowAddMenu()
 {
-  if (!menu) return;
-  KStandardDirs *dirs = KGlobal::dirs();
-  QStringList list=dirs->findAllResources("data","konqsidebartng/add/*.desktop",true,true);
-  libNames.setAutoDelete(true);
-  libNames.resize(0);
-  libParam.setAutoDelete(true);
-  libParam.resize(0);
-  menu->clear();
-  int i=0;
-  for (QStringList::Iterator it = list.begin(); it != list.end(); ++it, i++ )
-  {
-  	KSimpleConfig *confFile;
+	if (!menu)
+		return;
+	KStandardDirs *dirs = KGlobal::dirs();
+	QStringList list = dirs->findAllResources("data","konqsidebartng/add/*.desktop",true,true);
+	libNames.setAutoDelete(true);
+	libNames.resize(0);
+	libParam.setAutoDelete(true);
+	libParam.resize(0);
+	menu->clear();
+	int i=0;
 
-	confFile=new KSimpleConfig(*it,true);
-	confFile->setGroup("Desktop Entry");
-    	QString icon=confFile->readEntry("Icon","");
-	if (!icon.isEmpty())
-		menu->insertItem(SmallIcon(icon),confFile->readEntry("Name",""),i);
-	else
-		menu->insertItem(confFile->readEntry("Name",""),i);
-	libNames.resize(libNames.size()+1);
-	libNames.insert(libNames.count(),new QString(confFile->readEntry("X-KDE-KonqSidebarAddModule","")));
-	libParam.resize(libParam.size()+1);
-	libParam.insert(libParam.count(),new QString(confFile->readEntry("X-KDE-KonqSidebarAddParam","")));
-	delete confFile;
+	for (QStringList::Iterator it = list.begin(); it != list.end(); ++it, i++ )
+	{
+		KSimpleConfig *confFile;
 
-  }
-  menu->insertSeparator();
-  menu->insertItem(i18n("Rollback to System Default"),i);
+		confFile = new KSimpleConfig(*it,true);
+		confFile->setGroup("Desktop Entry");
+		QString icon = confFile->readEntry("Icon","");
+		if (!icon.isEmpty())
+		{
+			menu->insertItem(SmallIcon(icon),confFile->readEntry("Name",""),i);
+		} else {
+			menu->insertItem(confFile->readEntry("Name",""),i);
+		}
+		libNames.resize(libNames.size()+1);
+		libNames.insert(libNames.count(),new QString(confFile->readEntry("X-KDE-KonqSidebarAddModule","")));
+		libParam.resize(libParam.size()+1);
+		libParam.insert(libParam.count(),new QString(confFile->readEntry("X-KDE-KonqSidebarAddParam","")));
+		delete confFile;
+	}
+	menu->insertSeparator();
+	menu->insertItem(i18n("Rollback to System Default"),i);
 }
 
 
 void addBackEnd::doRollBack()
 {
-      if (KMessageBox::questionYesNo(0,i18n("<qt>This removes all your entries from the sidebar and adds the system default ones.<BR><B>This procedure is irreversible</B><BR>Do you want to proceed?</qt>"))==KMessageBox::Yes)
+	if (KMessageBox::questionYesNo(0,i18n("<qt>This removes all your entries from the sidebar and adds the system default ones.<BR><B>This procedure is irreversible</B><BR>Do you want to proceed?</qt>"))==KMessageBox::Yes)
 	{
-	       KStandardDirs *dirs = KGlobal::dirs();
-	       QString loc=dirs->saveLocation("data","konqsidebartng/",true);
-	       QDir dir(loc);
-	       QStringList dirEntries = dir.entryList( QDir::Dirs | QDir::NoSymLinks );
-	       dirEntries.remove(".");
-	       dirEntries.remove("..");
-		       for ( QStringList::Iterator it = dirEntries.begin(); it != dirEntries.end(); ++it ) {
-			if ((*it)!="add") KIO::NetAccess::del(loc+(*it));
-       		}
-       		emit initialCopyNeeded();
+		KStandardDirs *dirs = KGlobal::dirs();
+		QString loc=dirs->saveLocation("data","konqsidebartng/",true);
+		QDir dir(loc);
+		QStringList dirEntries = dir.entryList( QDir::Dirs | QDir::NoSymLinks );
+		dirEntries.remove(".");
+		dirEntries.remove("..");
+		for ( QStringList::Iterator it = dirEntries.begin(); it != dirEntries.end(); ++it ) {
+			if ((*it)!="add")
+				 KIO::NetAccess::del(loc+(*it));
+		}
+		emit initialCopyNeeded();
 	}
 }
 
 void addBackEnd::activatedAddMenu(int id)
 {
-	kdDebug()<<"activatedAddMenu: " << QString("%1").arg(id)<<endl;
-	if (((uint)id)==libNames.size()) doRollBack();
-	if(((uint)id)>=libNames.size()) return;
+	kdDebug() << "activatedAddMenu: " << QString("%1").arg(id) << endl;
+	if (((uint)id) == libNames.size())
+		doRollBack();
+	if(((uint)id) >= libNames.size())
+		return;
 
 	KLibLoader *loader = KLibLoader::self();
 
         // try to load the library
-	QString libname=*libNames.at(id);
+	QString libname = *libNames.at(id);
         KLibrary *lib = loader->library(QFile::encodeName(libname));
         if (lib)
-                {
-                // get the create_ function
-                QString factory("add_");
-		factory=factory+(*libNames.at(id));
-                void *add = lib->symbol(QFile::encodeName(factory));
+       	{
+		// get the create_ function
+		QString factory("add_");
+		factory = factory+(*libNames.at(id));
+		void *add = lib->symbol(QFile::encodeName(factory));
 
-                if (add)
-                        {
-                        //call the add function
-                        bool (*func)(QString*, QString*, QMap<QString,QString> *);
-                        QMap<QString,QString> map;
-                        func = (bool (*)(QString*, QString*, QMap<QString,QString> *)) add;
-                        QString *tmp=new QString("");
-                        if (func(tmp,libParam.at(id),&map))
-                                {
-					KStandardDirs *dirs = KGlobal::dirs();
-				        dirs->saveLocation("data","konqsidebartng/entries/",true);
-					tmp->prepend("/konqsidebartng/entries/");
-					QString myFile;
-					QString filename;
-					filename=tmp->arg("");
-					kdDebug()<<"filename part is "<<filename<<endl;
-					bool found=false;
-					myFile = locateLocal("data",filename);
-					if (QFile::exists(myFile))
-						{
-							kdDebug()<<"Searching for new possible entry"<<endl;
-							for (ulong l=0;l<ULONG_MAX;l++)
-								{
-									kdDebug()<<myFile<<endl;
-									filename=tmp->arg(l);
-									myFile=locateLocal("data",filename);
-									if (!QFile::exists(myFile))
-										{
-											found=true;
-											break;
-										}
-								}
-						}
-					else found=true;
-					if (found)
-						{
-							KSimpleConfig scf(myFile,false);
-							scf.setGroup("Desktop Entry");
-							for (QMap<QString,QString>::ConstIterator it=map.begin(); it!=map.end();++it)
-								scf.writeEntry(it.key(),it.data());
-							scf.sync();
-							emit updateNeeded();
+		if (add)
+		{
+			//call the add function
+			bool (*func)(QString*, QString*, QMap<QString,QString> *);
+			QMap<QString,QString> map;
+			func = (bool (*)(QString*, QString*, QMap<QString,QString> *)) add;
+			QString *tmp = new QString("");
+			if (func(tmp,libParam.at(id),&map))
+			{
+				QString myFile, filename;
+				KStandardDirs *dirs = KGlobal::dirs();
+				bool found = false;
 
+				dirs->saveLocation("data","konqsidebartng/entries/",true);
+				tmp->prepend("/konqsidebartng/entries/");
+				filename = tmp->arg("");
+				kdDebug() << "filename part is " << filename
+					<< endl;
+				myFile = locateLocal("data",filename);
+
+				if (QFile::exists(myFile))
+				{
+					kdDebug() << "Searching for new possible entry" << endl;
+					for (ulong l = 0; l < ULONG_MAX; l++)
+					{
+						kdDebug() << myFile << endl;
+						filename = tmp->arg(l);
+						myFile = locateLocal("data", filename);
+						if (!QFile::exists(myFile))
+						{
+							found = true;
+							break;
 						}
-					else kdWarning()<<"No unique filename found"<<endl;
-                                }
-                        else
-                                {kdWarning()<< "No new entry (error?)"<<endl;}
-                        delete tmp;
-                        }
-                }
-                else
-                        kdWarning() << "libname:"<< libNames.at(id) << " doesn't specify a library!" << endl;
+					}
+				} else {
+					found = true;
+				}
+
+				if (found)
+				{
+					KSimpleConfig scf(myFile,false);
+					scf.setGroup("Desktop Entry");
+					for (QMap<QString,QString>::ConstIterator it = map.begin(); it != map.end(); ++it)
+						scf.writeEntry(it.key(), it.data());
+					scf.sync();
+					emit updateNeeded();
+
+				} else {
+					kdWarning() << "No unique filename found" << endl;
+				}
+			} else {	
+				kdWarning() << "No new entry (error?)" << endl;
+			}
+			delete tmp;
+		}
+	} else {
+		kdWarning() << "libname:" << libNames.at(id)
+			<< " doesn't specify a library!" << endl;
+	}
 }
 
 
@@ -352,43 +364,43 @@ void Sidebar_Widget::buttonPopupActivate(int id)
 			QString iconname=kicd.selectIcon(KIcon::Small);
 			kdDebug()<<"New Icon Name:"<<iconname<<endl;;
 			if (!iconname.isEmpty())
-				{
-					KSimpleConfig ksc(PATH+Buttons.at(popupFor)->file);
-					ksc.setGroup("Desktop Entry");
-					ksc.writeEntry("Icon",iconname);
-					ksc.sync();
-				        QTimer::singleShot(0,this,SLOT(createButtons()));
-				}
+			{
+				KSimpleConfig ksc(PATH+Buttons.at(popupFor)->file);
+				ksc.setGroup("Desktop Entry");
+				ksc.writeEntry("Icon",iconname);
+				ksc.sync();
+			        QTimer::singleShot(0,this,SLOT(createButtons()));
+			}
 			break;
 		}
 		case 2:
 		{
-			  bool okval;
-			  QString newurl=KLineEditDlg::getText(i18n("Enter a URL:"), Buttons.at(popupFor)->URL,&okval,this);
-			  if ((okval) && (!newurl.isEmpty()))
-				{
-                                        KSimpleConfig ksc(PATH+Buttons.at(popupFor)->file);
-                                        ksc.setGroup("Desktop Entry");
-                                        ksc.writeEntry("Name",newurl);
-                                        ksc.writeEntry("URL",newurl);
-                                        ksc.sync();
-                                        QTimer::singleShot(0,this,SLOT(createButtons()));
-				}
+			bool okval;
+			QString newurl = KLineEditDlg::getText(i18n("Enter a URL:"), Buttons.at(popupFor)->URL,&okval,this);
+			if ((okval) && (!newurl.isEmpty()))
+			{
+				KSimpleConfig ksc(PATH+Buttons.at(popupFor)->file);
+				ksc.setGroup("Desktop Entry");
+				ksc.writeEntry("Name",newurl);
+				ksc.writeEntry("URL",newurl);
+				ksc.sync();
+				QTimer::singleShot(0,this,SLOT(createButtons()));
+			}
 			break;
 		}
 		case 3:
 		{
 			if (KMessageBox::questionYesNo(this,i18n("<qt>Do you really want to remove the <b>%1</b> tab?</qt>").
 				arg(Buttons.at(popupFor)->displayName))==KMessageBox::Yes)
-				{
-					QFile f(PATH+Buttons.at(popupFor)->file);
-					if (!f.remove()) qDebug("Error, file not deleted");
-				        QTimer::singleShot(0,this,SLOT(createButtons()));
-				}
+			{
+				QFile f(PATH+Buttons.at(popupFor)->file);
+				if (!f.remove())
+					qDebug("Error, file not deleted");
+				QTimer::singleShot(0,this,SLOT(createButtons()));
+			}
 			break;
 		}
 	}
-
 }
 
 void Sidebar_Widget::activatedMenu(int id)
@@ -397,23 +409,23 @@ void Sidebar_Widget::activatedMenu(int id)
 	{
 		case 1:
 		{
-			singleWidgetMode = ! singleWidgetMode;
+			singleWidgetMode = !singleWidgetMode;
 			if ((singleWidgetMode) && (visibleViews.count()>1))
-				for (uint i=0; i<Buttons.count(); i++)
+			{
+				for (uint i=0; i<Buttons.count(); i++) {
 					if ((int) i != latestViewed)
 					{
 						if (Buttons.at(i)->dock!=0)
 							if (Buttons.at(i)->dock->isVisibleTo(this)) showHidePage(i);
-					}
-					else
-					{
+					} else {
 						if (Buttons.at(i)->dock!=0)
 						{
 							Area->setMainDockWidget(Buttons.at(i)->dock);
 							dummyMainW->undock();
 						}
 					}
-			else
+				}
+			} else {
 				if (!singleWidgetMode)
 				{
 					int tmpLatestViewed=latestViewed;
@@ -438,9 +450,9 @@ void Sidebar_Widget::activatedMenu(int id)
 							Buttons.at(tmpLatestViewed)->dock->show();
 */
 						}
-
 					}
 				}
+			}
 			break;
 		}
 		case 2:
