@@ -103,7 +103,6 @@ KCMUserAccount::KCMUserAccount( QWidget *parent, const char *name,
 
 	addConfig( KCFGPassword::self(), this );
 	load();
-
 }
 
 void KCMUserAccount::slotChangePassword()
@@ -150,33 +149,32 @@ void KCMUserAccount::load()
 		KGlobal::dirs()->resourceDirs("data").last() + "kdm/faces/";
 
 	QString fs = KCFGUserAccount::faceSource();
-	FacePerm faceType;
 	if (fs == QString::fromLatin1("UserOnly"))
-		faceType = userOnly;
+		_facePerm = userOnly;
 	else if (fs == QString::fromLatin1("PreferUser"))
-		faceType = adminFirst;
+		_facePerm = userFirst;
 	else if (fs == QString::fromLatin1("PreferAdmin"))
-		faceType = adminFirst;
+		_facePerm = adminFirst;
 	else
-		faceType = adminOnly; // Admin Only
+		_facePerm = adminOnly; // Admin Only
 
-	if ( faceType == adminFirst )
+	if ( _facePerm == adminFirst )
 	{ 	// If the administrator's choice takes preference
 		_facePixmap = QPixmap( _userPicsDir + _ku->loginName() + ".face.icon" );
 
 		if ( _facePixmap.isNull() )
-			faceType = userFirst;
+			_facePerm = userFirst;
 		else
 			_mw->btnChangeFace->setPixmap( _facePixmap );
 	}
 
-	if ( faceType >= userFirst )
+	if ( _facePerm >= userFirst )
 	{
 		// If the user's choice takes preference
 		_facePixmap = QPixmap( KCFGUserAccount::faceFile() );
 
 		// The user has no face, should we check for the admin's setting?
-		if ( _facePixmap.isNull() && faceType == userFirst )
+		if ( _facePixmap.isNull() && _facePerm == userFirst )
 			_facePixmap = QPixmap( _userPicsDir + _ku->loginName() + ".face.icon" );
 
 		if ( _facePixmap.isNull() )
@@ -184,7 +182,7 @@ void KCMUserAccount::load()
 
 		_mw->btnChangeFace->setPixmap( _facePixmap );
 	}
-	else if ( faceType <= adminOnly )
+	else if ( _facePerm <= adminOnly )
 	{
 		// Admin only
 		_facePixmap = QPixmap( _userPicsDir + _ku->loginName() + ".face.icon" );
