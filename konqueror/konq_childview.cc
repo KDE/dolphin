@@ -92,11 +92,10 @@ void KonqChildView::detach()
 {
   m_pFrame->detach();
   m_pFrame->hide();
-  // m_vView->decRef(); // ?
   m_vView->disconnectObject( m_mainView );
-  m_vParent->removeChild( m_vView ); // doesn't seem necessary, since OPPartIf::cleanUp does it
+  m_vView->decRef(); //die view, die ... (cruel world, isn't it?) ;)
   VeryBadHackToFixCORBARefCntBug( m_vView );
-  m_vView = 0L;
+  m_vView = 0L; //now it _IS_ dead
 }
 
 void KonqChildView::repaint()
@@ -168,7 +167,13 @@ Konqueror::View_ptr KonqChildView::createViewByName( const char *viewName )
     vView = Konqueror::View::_duplicate( factory->create() );
     assert( !CORBA::is_nil( vView ) );
   }
-  
+
+  vView->incRef(); //it's a little bit...uhm... tricky do increase the KOM
+                   //reference counter here, because IMO it would make more
+		   //sense in the constructor and in attach() .
+		   //Nevertheless it works fine this way and it helps us to
+		   //make sure that we're also "owner" of the view.
+    
   return Konqueror::View::_duplicate( vView );
 }
 

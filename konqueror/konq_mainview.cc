@@ -1185,12 +1185,23 @@ void KonqMainView::slotShowDot()
 
 void KonqMainView::slotLargeIcons()
 {
-  changeViewMode( "KonquerorKfmIconView" ); // perhaps add a ":Large" here ?
+  changeViewMode( "KonquerorKfmIconView" );
+  
+  //this must never fail... 
+  //(but it's quite sure that doesn't fail ;) 
+  //(we could also ask via supportsInterface() ...anyway)
+  Konqueror::KfmIconView_var iv = Konqueror::KfmIconView::_narrow( m_currentView->m_vView );
+  
+  iv->slotLargeIcons();
 }
 
 void KonqMainView::slotSmallIcons()
 {
-  changeViewMode( "KonquerorKfmIconView" ); // perhaps add a ":Small" here ?
+  changeViewMode( "KonquerorKfmIconView" );
+  
+  Konqueror::KfmIconView_var iv = Konqueror::KfmIconView::_narrow( m_currentView->m_vView );
+  
+  iv->slotSmallIcons();
 }
 
 void KonqMainView::slotTreeView()
