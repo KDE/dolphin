@@ -86,7 +86,10 @@ public:
   void popupMenu( const QPoint &_global, const QStringList &_urls, mode_t _mode );
   
   bool openView( const QString &serviceType, const QString &url, KonqChildView *childView );
-  
+
+  //HACK
+  KonqChildView *childView( OpenParts::Id id );  
+
   ////////////////////
   /// Overloaded functions of KBookmarkOwner
   ////////////////////

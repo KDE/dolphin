@@ -21,6 +21,8 @@
 #include "kbrowser.h"
 #include "konq_propsview.h"
 #include "konq_mainview.h"
+#include "konq_childview.h"
+#include "konq_txtview.h"
 
 #include <sys/stat.h>
 #include <unistd.h>
@@ -133,13 +135,20 @@ bool KonqHTMLView::mappingFillMenuView( Konqueror::View::EventFillMenu viewMenu 
   {
     if ( viewMenu.create )
     {
-      CORBA::WString_var text = Q2C( i18n("&Save As...") );
-      viewMenu.menu->insertItem4( text, this, "saveDocument", 0, ID_BASE+1, -1 );
-      text = Q2C( i18n("Save &Frame As...") );
-      viewMenu.menu->insertItem4( text, this, "saveFrame", 0, ID_BASE+2, -1 );
-      text = Q2C( i18n("Save &Background Image As...") );
-      viewMenu.menu->insertItem4( text, this, "saveBackground", 0, ID_BASE+3, -1 );
+      CORBA::WString_var text;
+      viewMenu.menu->insertItem4( ( text = Q2C( i18n("&Save As...") ) ), 
+                                  this, "saveDocument", 0, ID_BASE+1, -1 );
+      viewMenu.menu->insertItem4( ( text = Q2C( i18n("Save &Frame As...") ) ), 
+                                  this, "saveFrame", 0, ID_BASE+2, -1 );
+      viewMenu.menu->insertItem4( ( text = Q2C( i18n("Save &Background Image As...") ) ), 
+                                  this, "saveBackground", 0, ID_BASE+3, -1 );
+      viewMenu.menu->insertItem4( ( text = Q2C( i18n( "View Document Source" ) ) ), 
+                                  this, "viewDocumentSource", 0, ID_BASE+4, -1 );
+      viewMenu.menu->insertItem4( ( text = Q2C( i18n( "View Frame Source" ) ) ), 
+                                  this, "viewFrameSource", 0, ID_BASE+5, -1 );
+      
       m_vViewMenu = OpenPartsUI::Menu::_duplicate( viewMenu.menu );
+      
       checkViewMenu();
     }
     else
@@ -147,6 +156,8 @@ bool KonqHTMLView::mappingFillMenuView( Konqueror::View::EventFillMenu viewMenu 
       viewMenu.menu->removeItem ( ID_BASE + 1 );
       viewMenu.menu->removeItem ( ID_BASE + 2 );
       viewMenu.menu->removeItem ( ID_BASE + 3 );
+      viewMenu.menu->removeItem ( ID_BASE + 4 );
+      viewMenu.menu->removeItem ( ID_BASE + 5 );
       m_vViewMenu = 0L;
     }
   }
@@ -506,6 +517,34 @@ void KonqHTMLView::saveBackground()
   delete dlg;
 }
 
+void KonqHTMLView::viewDocumentSource()
+{
+  openTxtView( getKHTMLWidget()->getDocumentURL().url() );
+}
+
+void KonqHTMLView::viewFrameSource()
+{
+  KHTMLView *v = getSelectedView();
+  if ( v )
+    openTxtView( v->getKHTMLWidget()->getDocumentURL().url() );
+}
+
+void KonqHTMLView::openTxtView( const QString &url )
+{
+  if ( m_pMainView )
+  {
+    KonqChildView *childView = m_pMainView->childView( id() );
+    if ( childView )
+    {
+      Konqueror::View_var vView = Konqueror::View::_duplicate( new KonqTxtView( m_pMainView ) );
+      QStringList serviceTypes;
+      serviceTypes.append( "text/plain" );
+      childView->makeHistory( false );
+      childView->changeView( vView, serviceTypes );
+    }
+  }
+}
+
 void KonqHTMLView::beginDoc( const CORBA::WChar *url, CORBA::Long dx, CORBA::Long dy )
 {
   KBrowser::begin( C2Q( url ), (int)dx, (int)dy );
@@ -548,12 +587,14 @@ void KonqHTMLView::checkViewMenu()
       text = Q2C( i18n("&Save Frameset As...") );
       m_vViewMenu->changeItemText( text, ID_BASE + 1 );
       m_vViewMenu->setItemEnabled( ID_BASE + 2, true );
+      m_vViewMenu->setItemEnabled( ID_BASE + 5, true );
     }      
     else
     {
       text = Q2C( i18n("&Save As...") );
       m_vViewMenu->changeItemText( text, ID_BASE + 1 );
       m_vViewMenu->setItemEnabled( ID_BASE + 2, false );
+      m_vViewMenu->setItemEnabled( ID_BASE + 5, false );
     }
 
     QString bURL;

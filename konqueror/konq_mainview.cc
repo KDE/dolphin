@@ -964,6 +964,15 @@ bool KonqMainView::openView( const QString &serviceType, const QString &url, Kon
   return false;
 }
 
+KonqChildView *KonqMainView::childView( OpenParts::Id id )
+{
+  MapViews::ConstIterator it = m_mapViews.find( id );
+  if ( it != m_mapViews.end() )
+    return it.data();
+  else
+    return 0L;
+}
+
 // protected
 void KonqMainView::splitView ( NewViewPosition newViewPosition )
 {
@@ -1214,6 +1223,7 @@ void KonqMainView::slotLargeIcons()
     v = Konqueror::View::_duplicate( new KonqKfmIconView( this ) );
     QStringList serviceTypes;
     serviceTypes.append( "inode/directory" );
+    m_currentView->lockHistory();
     m_currentView->changeView( v, serviceTypes );
   }
   
@@ -1232,6 +1242,7 @@ void KonqMainView::slotSmallIcons()
     v = Konqueror::View::_duplicate( new KonqKfmIconView( this ) );
     QStringList serviceTypes;
     serviceTypes.append( "inode/directory" );
+    m_currentView->lockHistory();
     m_currentView->changeView( v, serviceTypes );
   }
   
@@ -1248,6 +1259,7 @@ void KonqMainView::slotTreeView()
     Konqueror::View_var v = Konqueror::View::_duplicate( new KonqKfmTreeView( this ) );
     QStringList serviceTypes;
     serviceTypes.append( "inode/directory" );
+    m_currentView->lockHistory();
     m_currentView->changeView( v, serviceTypes );
   }
 }
