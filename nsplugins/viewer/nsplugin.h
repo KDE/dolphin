@@ -140,7 +140,7 @@ public:
   void resizePlugin(int w, int h);
 
   void setCallback( QCString app, QCString obj );
-  void requestURL( QCString url, QCString target, void *notify );
+  void requestURL( const QString &url, const QString &target, void *notify );
 
   void destroyPlugin();
  
@@ -174,8 +174,8 @@ private:
 
   struct Request
   {
-      QCString url;
-      QCString target;
+      QString url;
+      QString target;
       void *notify;
   };
 

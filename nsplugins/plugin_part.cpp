@@ -45,9 +45,9 @@ NSPluginCallback::NSPluginCallback(PluginPart *part)
 }
 
 
-void NSPluginCallback::requestURL(QCString url, QCString target)
+void NSPluginCallback::requestURL(QString url, QString target)
 {
-  _part->requestURL(url, target);
+  _part->requestURL( url.latin1(), target.latin1() );
 }
 
 

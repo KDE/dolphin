@@ -24,7 +24,7 @@ public:
 
   NSPluginCallback(PluginPart *part);
 
-  virtual void requestURL(QCString url, QCString target);
+  virtual void requestURL(QString url, QString target);
 
 private:
 

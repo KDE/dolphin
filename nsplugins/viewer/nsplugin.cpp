@@ -181,7 +181,7 @@ NPError g_NPN_GetURL(NPP instance, const char *url, const char *target)
    kdDebug() << "g_NPN_GetURL: url=" << url << " target=" << target << endl;
 
    NSPluginInstance *inst = (NSPluginInstance*) instance->ndata;
-   inst->requestURL( url, target, 0 );
+   inst->requestURL( QString::fromLatin1(url), QString::fromLatin1(target), 0 );
 
    return NPERR_NO_ERROR;
 }
@@ -344,10 +344,11 @@ NSPluginInstance::NSPluginInstance(NPP privateData, NPPluginFuncs *pluginFuncs,
    if (!src.isEmpty())
    {
       kdDebug() << "Starting src stream" << endl;
-      NSPluginStream *s = new NSPluginStream( this );
+      requestURL( src, QString::null, 0 );
+/*      NSPluginStream *s = new NSPluginStream( this );
       connect( s, SIGNAL(finished(NSPluginStream*)), SLOT(streamFinished(NSPluginStream*)) );
       _streams.append( s );
-      s->get( src, mime, 0 );
+      s->get( src, mime, 0 );*/
    } else
       kdDebug() << "No src stream" << endl;
 }
@@ -432,7 +433,7 @@ void NSPluginInstance::timer()
 }
 
 
-void NSPluginInstance::requestURL( QCString url, QCString target, void *notify )
+void NSPluginInstance::requestURL( const QString &url, const QString &target, void *notify )
 {
     Request *req = new Request;
     req->url = url;
