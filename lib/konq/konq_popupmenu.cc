@@ -342,7 +342,7 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
     mode_t mode         = m_lstItems.first()->mode();
     bool isDirectory    = S_ISDIR(mode);
     bool bTrashIncluded = false;
-    bool devicesFile = false;
+    bool mediaFiles = false;
     bool isLocal = m_lstItems.first()->isLocalFile();
     m_lstPopupURLs.clear();
     int id = 0;
@@ -398,8 +398,8 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
 
         if ( sMoving )
             sMoving = KProtocolInfo::supportsMoving( url );
-        if ( url.protocol().find("device", 0, false)==0)
-            devicesFile = true;
+        if ( (*it)->mimetype().startsWith("media/") )
+            mediaFiles = true;
     }
     //check if current url is trash
     url = m_sViewURL;
@@ -423,6 +423,7 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
 
     bool isCurrentTrash = m_lstItems.count() == 1 && bTrashIncluded;
     bool isIntoTrash = url.protocol() == "trash";
+    bool isSingleMedium = m_lstItems.count() == 1 && mediaFiles;
     clear();
 
     //////////////////////////////////////////////////////////////////////////
@@ -453,6 +454,8 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
     {
         if (isCurrentTrash)
             actNewWindow->setStatusText( i18n( "Open the trash in a new window" ) );
+        else if (isSingleMedium)
+            actNewWindow->setStatusText( i18n( "Open the medium in a new window") );
         else
             actNewWindow->setStatusText( i18n( "Open the document in a new window" ) );
     }
@@ -519,7 +522,7 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
 
         if ( !bIsLink )
         {
-            if ( !currentDir && sReading && !devicesFile ) {
+            if ( !currentDir && sReading ) {
                 if ( sDeleting ) {
                     addAction( "cut" );
                 }
@@ -763,7 +766,7 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
         m_mapPopup.clear();
         m_mapPopupServices.clear();
         // "Open With..." for folders is really not very useful, especially for remote folders.
-        // (devices:/something, or trash:/, or ftp://...)
+        // (media:/something, or trash:/, or ftp://...)
         if ( !isDirectory || isLocal )
         {
             if ( hasAction() )
@@ -864,7 +867,7 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
         addPendingSeparator();
     }
 
-    if ( !isCurrentTrash && !isIntoTrash && !devicesFile && sReading )
+    if ( !isCurrentTrash && !isIntoTrash && !mediaFiles && sReading )
         addPlugins(); // now it's time to add plugins
 
     if ( KPropertiesDialog::canDisplay( m_lstItems ) && (kpf & ShowProperties) )
