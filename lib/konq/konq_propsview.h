@@ -87,7 +87,7 @@ public:
   int itemTextPos() const { return m_iItemTextPos; }
 
   void setSortCriterion( const QString &criterion );
-  const QString getSortCriterion() const { return m_sortcriterion; }
+  const QString& sortCriterion() const;
 
   void setShowingDotFiles( bool show );
   bool isShowingDotFiles() const { return m_bShowDot; }

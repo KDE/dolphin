@@ -182,7 +182,7 @@ bool KonqPropsView::enterDir( const KURL & dir )
   {
     m_iIconSize = m_defaultProps->iconSize();
     m_iItemTextPos = m_defaultProps->itemTextPos();
-    d->sortcriterion = m_defaultProps->getSortCriterion();
+    d->sortcriterion = m_defaultProps->sortCriterion();
     m_bShowDot = m_defaultProps->isShowingDotFiles();
     d->caseInsensitiveSort=m_defaultProps->isCaseInsensitiveSort();
     m_dontPreview = m_defaultProps->m_dontPreview;
@@ -547,3 +547,9 @@ const QStringList& KonqPropsView::previewSettings()
 
     return *(d->previewsToShow);
 }
+
+const QString& KonqPropsView::sortCriterion() const {
+    return d->sortcriterion;
+}
+
+
