@@ -48,6 +48,8 @@
 
 #include <konq_defaults.h> // include default values directly from libkonq
 
+#include <qglobal.h>
+
 //-----------------------------------------------------------------------------
 
 class KRootOptPreviewItem : public QCheckListItem
@@ -285,6 +287,7 @@ KRootOptions::KRootOptions(KConfig *config, QWidget *parent, const char * )
   
   //BEGIN devices configuration
   row++;
+#ifdef Q_OS_LINUX
   groupBox = new QVGroupBox( i18n("Display Devices"), this );
   lay->addMultiCellWidget( groupBox, row, row, 0, RO_LASTCOL );
   
@@ -296,6 +299,7 @@ KRootOptions::KRootOptions(KConfig *config, QWidget *parent, const char * )
   devicesListView->addColumn( i18n("Types to Display") );
   QWhatsThis::add(devicesListView, i18n("Deselect the device types which you do not want to see on the desktop"));
   //END devices configuration
+#endif
   
   // -- Bottom --
   Q_ASSERT( row == RO_LASTROW-1 ); // if it fails here, check the row++ and RO_LASTROW above
@@ -332,6 +336,7 @@ void KRootOptions::enableDevicesBoxChanged()
 
 void KRootOptions::saveDevicesListView()
 {
+#ifdef Q_OS_LINUX
     g_pConfig->setGroup( "Devices" );
     g_pConfig->writeEntry("enabled",enableDevicesBox->isChecked());
     QStringList exclude;
@@ -340,7 +345,8 @@ void KRootOptions::saveDevicesListView()
     	{
 		if (!it->isOn()) exclude << it->mimeType();
 	    }
-     g_pConfig->writeEntry("exclude",exclude);   
+     g_pConfig->writeEntry("exclude",exclude);
+#endif   
 }
 
 
@@ -393,7 +399,9 @@ void KRootOptions::load()
     m_wheelSwitchesWorkspace = g_pConfig->readBoolEntry("WheelSwitchesWorkspace", false);
 
     comboBoxChanged();
+#ifdef Q_OS_LINUX
     fillDevicesListView();
+#endif
     enableChanged();
 }
 
