@@ -716,8 +716,7 @@ void NSPluginInstance::timer()
                 } else if (url.lower().startsWith("javascript:")){
                     if (_callback) {
                         static int _jsrequestid = 0;
-                        if ( req.notify )
-                            _jsrequests.insert(_jsrequestid, new Request(req));
+			_jsrequests.insert(_jsrequestid, new Request(req));
                         _callback->evalJavaScript(_jsrequestid++, url.mid(11));
                     } else {
                         kdDebug() << "No callback for javascript: url!" << endl;
