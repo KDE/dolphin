@@ -145,7 +145,13 @@ bool KonqHistoryManager::loadHistory()
 				    entry->numberOfTimesVisited );
 
 	    // and fill our baseclass.
-	    KParts::HistoryProvider::insert( entry->url.url() );
+            QString urlString = entry->url.url();
+	    KParts::HistoryProvider::insert( urlString );
+            // DF: also insert the "pretty" version if different
+            // This helps getting 'visited' links on websites which don't use fully-escaped urls.
+            QString urlString2 = entry->url.prettyURL();
+            if ( urlString != urlString2 )
+                KParts::HistoryProvider::insert( urlString2 );
 	}
 
 	kdDebug(1203) << "## loaded: " << m_history.count() << " entries." << endl;
@@ -212,7 +218,7 @@ void KonqHistoryManager::adjustSize()
 	KParts::HistoryProvider::remove( urlString );
 
         addToUpdateList( urlString );
-        
+
 	emit entryRemoved( m_history.getFirst() );
 	m_history.removeFirst(); // deletes the entry
 
@@ -288,15 +294,16 @@ void KonqHistoryManager::addToHistory( bool pending, const KURL& _url,
 
 // interface of KParts::HistoryManager
 // Usually, we only record the history for non-local URLs (i.e. filterOut()
-// returns true. But when using the HistoryProvider interface, we record
+// returns false). But when using the HistoryProvider interface, we record
 // exactly those filtered-out urls.
 // Moreover, we  don't get any pending/confirming entries, just one insert()
 void KonqHistoryManager::insert( const QString& url )
 {
     KURL u = url;
-    if ( !filterOut( url ) )
+    if ( !filterOut( url ) ) { // remote URL
 	return;
-
+    }
+    // Local URL -> add to history
     KonqHistoryEntry entry;
     entry.url = u;
     entry.firstVisited = QDateTime::currentDateTime();
@@ -515,7 +522,7 @@ void KonqHistoryManager::notifyRemove( KURL::List urls, QCString saveId )
 	    KParts::HistoryProvider::remove( urlString );
 
             addToUpdateList( urlString );
-            
+
 	    m_history.take(); // does not delete
 	    emit entryRemoved( entry );
 	    delete entry;
