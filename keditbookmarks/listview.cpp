@@ -472,13 +472,12 @@ QDragObject *KEBListView::dragObject() {
    QPtrList<KEBListViewItem> *selcItems = ListView::self()->selectedItems();
    if (selcItems->count() == 0) {
       return (QDragObject*)0;
-   } else {
-      QValueList<KBookmark> bookmarks = ListView::self()->itemsToBookmarks(selcItems);
-      KBookmarkDrag *drag = KBookmarkDrag::newDrag(bookmarks, viewport());
-      const QString iconname = (bookmarks.size() == 1) ? bookmarks.first().icon() : "bookmark";
-      drag->setPixmap(SmallIcon(iconname)) ;
-      return drag;
    }
+   QValueList<KBookmark> bookmarks = ListView::self()->itemsToBookmarks(selcItems);
+   KBookmarkDrag *drag = KBookmarkDrag::newDrag(bookmarks, viewport());
+   const QString iconname = (bookmarks.size() == 1) ? bookmarks.first().icon() : "bookmark";
+   drag->setPixmap(SmallIcon(iconname)) ;
+   return drag;
 }
 
 /* -------------------------------------- */
