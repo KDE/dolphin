@@ -75,7 +75,7 @@ void KMiscHTMLOptions::defaults()
 {
     cbCursor->setChecked( false );
     cbUnderline->setChecked( true );
-    m_pAutoLoadImagesCheckBox->setChecked( false );
+    m_pAutoLoadImagesCheckBox->setChecked( true );
 }
 
 void KMiscHTMLOptions::save()

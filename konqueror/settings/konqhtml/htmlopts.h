@@ -12,6 +12,8 @@
 
 #include <kcmodule.h>
 
+#include <qmap.h>
+
 class KColorButton;
 class KConfig;
 class KListView;
@@ -44,7 +46,7 @@ public slots:
   void slotCursiveFont( const QString& n );
   void slotFantasyFont( const QString& n );
   void slotEncoding( const QString& n);
-
+    void slotCharset( const QString &n );
 
 private slots:
   void changed();
@@ -70,23 +72,17 @@ private:
   QComboBox* m_pCursive;
   QComboBox* m_pFantasy;
   QComboBox* m_pEncoding;
+  QComboBox* m_pChset;
 
   int fSize;
   int fMinSize;
-  QString stdName;
-  QString fixedName;
-  QString serifName;
-  QString sansSerifName;
-  QString cursiveName;
-  QString fantasyName;
-  QString encodingName;
-  QStrList standardFonts;
-  QStrList fixedFonts;
-  QStrList serifFonts;
-  QStrList sansSerifFonts;
-  QStrList cursiveFonts;
-  QStrList fantasyFonts;
+    QMap<QString, QStringList> fontsForCharset;
   QStringList encodings;
+  QStringList chSets;
+    QString charset;
+    QStringList fonts;
+    QStringList defaultFonts;
+    QString encodingName;
 };
 
 
