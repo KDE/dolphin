@@ -290,9 +290,9 @@ KRootOptions::KRootOptions(KConfig *config, QWidget *parent, const char * )
 #if defined(Q_OS_LINUX) || defined(Q_OS_FREEBSD)
   groupBox = new QVGroupBox( i18n("Devices"), this );
   lay->addMultiCellWidget( groupBox, row, row, 0, RO_LASTCOL );
-  
+
   enableDevicesBox = new QCheckBox(i18n("Displa&y devices on desktop"), groupBox);
-  connect(enableDevicesBox, SIGNAL(clicked()), this, SLOT(enableChanged()));  
+  connect(enableDevicesBox, SIGNAL(clicked()), this, SLOT(enableChanged()));
 
   devicesListView = new KListView( groupBox );
   devicesListView->setFullWidth(true);
@@ -521,6 +521,7 @@ void KRootOptions::editButtonPressed()
    {
       editor.save(&cfg);
       cfg.sync();
+      emit changed();
    }
 }
 
@@ -828,7 +829,7 @@ void DesktopPathConfig::changed()
 QString DesktopPathConfig::quickHelp() const
 {
   return i18n("<h1>Paths</h1>\n"
-    "This module allows you to choose where in the filesystem the " 
+    "This module allows you to choose where in the filesystem the "
     "files on your desktop should be stored.\n"
     "Use the \"Whats This?\" (Shift+F1) to get help on specific options.");
 }
