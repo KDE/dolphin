@@ -418,8 +418,8 @@ void KEBTopLevel::slotSetAsToolbar()
     if (!oldToolbar.isNull())
     {
         QValueList<EditCommand::Edition> lst;
-        lst.append(EditCommand::Edition( "TOOLBAR", "0" ));
-        lst.append(EditCommand::Edition( "ICON", "" ));
+        lst.append(EditCommand::Edition( "toolbar", "no" ));
+        lst.append(EditCommand::Edition( "icon", "" ));
         EditCommand * cmd1 = new EditCommand("", oldToolbar.address(), lst);
         cmd->addCommand(cmd1);
     }
@@ -427,8 +427,8 @@ void KEBTopLevel::slotSetAsToolbar()
     KBookmark bk = selectedBookmark();
     ASSERT( bk.isGroup() );
     QValueList<EditCommand::Edition> lst;
-    lst.append(EditCommand::Edition( "TOOLBAR", "1" ));
-    lst.append(EditCommand::Edition( "ICON", "bookmark_toolbar" ));
+    lst.append(EditCommand::Edition( "toolbar", "yes" ));
+    lst.append(EditCommand::Edition( "icon", "bookmark_toolbar" ));
     EditCommand * cmd2 = new EditCommand("", bk.address(), lst);
     cmd->addCommand(cmd2);
 
@@ -506,7 +506,7 @@ void KEBTopLevel::slotChangeIcon()
     KIconDialog dlg(this);
     QString newIcon = dlg.selectIcon(KIcon::Small, KIcon::FileSystem);
     EditCommand * cmd = new EditCommand( i18n("Icon change"), bk.address(),
-                                         EditCommand::Edition("ICON", newIcon) );
+                                         EditCommand::Edition("icon", newIcon) );
     m_commandHistory.addCommand( cmd );
 }
 
