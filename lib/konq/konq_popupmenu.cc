@@ -582,7 +582,8 @@ KURL::List KonqPopupMenu::popupURLList( ) const {
 	Plugin
 */
 
-KonqPopupMenuPlugin::KonqPopupMenuPlugin( KonqPopupMenu *, const char *, const QStringList & ){
+KonqPopupMenuPlugin::KonqPopupMenuPlugin( KonqPopupMenu *parent, const char *name )
+    : QObject( parent, name ) {
 }
 KonqPopupMenuPlugin::~KonqPopupMenuPlugin( ){
 
