@@ -9,6 +9,7 @@
 #include <qmessagebox.h>
 #include <qwhatsthis.h>
 #include <qlineedit.h>
+#include <qfontdatabase.h>
 #include <qvgroupbox.h>
 #include <qhbox.h>
 #include <qvbox.h>
@@ -69,23 +70,11 @@ KAppearanceOptions::KAppearanceOptions(KConfig *config, QString group, QWidget *
                    i18n("This is the relative font size Konqueror uses "
                         "to display web sites.") );
 
-  QLabel *chsetLA = new QLabel( i18n("Charset:"), this );
-  ++r;
-  lay->addMultiCellWidget( chsetLA , r, r, E, E+1 );
-
-  m_pChset = new QComboBox( false, this );
-#if QT_VERSION < 300
-  chSets = KGlobal::charsets()->availableCharsetNames();
-  m_pChset->insertStringList( chSets );
-#endif
-  lay->addMultiCellWidget(m_pChset,r, r, M, W);
-  connect( m_pChset, SIGNAL( activated(const QString& ) ),
-	   SLOT( slotCharset(const QString&) ) );
-
   QLabel* label = new QLabel( i18n("S&tandard Font"), this );
   lay->addWidget( label , ++r, E+1);
 
   m_pFonts[0] = new KFontCombo( this );
+
   label->setBuddy( m_pFonts[0] );
   lay->addMultiCellWidget(m_pFonts[0], r, r, M, W);
 
@@ -102,6 +91,7 @@ KAppearanceOptions::KAppearanceOptions(KConfig *config, QString group, QWidget *
   lay->addWidget( label, ++r, E+1 );
 
   m_pFonts[1] = new KFontCombo( this );
+
   label->setBuddy( m_pFonts[1] );
   lay->addMultiCellWidget(m_pFonts[1], r, r, M, W);
 
@@ -118,6 +108,7 @@ KAppearanceOptions::KAppearanceOptions(KConfig *config, QString group, QWidget *
   lay->addWidget( label, ++r, E+1 );
 
   m_pFonts[2] = new KFontCombo( this );
+
   label->setBuddy( m_pFonts[2] );
   lay->addMultiCellWidget( m_pFonts[2], r, r, M, W );
 
@@ -134,6 +125,7 @@ KAppearanceOptions::KAppearanceOptions(KConfig *config, QString group, QWidget *
   lay->addWidget( label, ++r, E+1 );
 
   m_pFonts[3] = new KFontCombo( this );
+
   label->setBuddy( m_pFonts[3] );
   lay->addMultiCellWidget( m_pFonts[3], r, r, M, W );
 
@@ -150,6 +142,7 @@ KAppearanceOptions::KAppearanceOptions(KConfig *config, QString group, QWidget *
   lay->addWidget( label, ++r, E+1 );
 
   m_pFonts[4] = new KFontCombo( this );
+
   label->setBuddy( m_pFonts[4] );
   lay->addMultiCellWidget( m_pFonts[4], r, r, M, W );
 
@@ -166,6 +159,7 @@ KAppearanceOptions::KAppearanceOptions(KConfig *config, QString group, QWidget *
   lay->addWidget( label, ++r, E+1 );
 
   m_pFonts[5] = new KFontCombo( this );
+
   label->setBuddy( m_pFonts[5] );
   lay->addMultiCellWidget( m_pFonts[5], r, r, M, W );
 
@@ -211,21 +205,19 @@ KAppearanceOptions::KAppearanceOptions(KConfig *config, QString group, QWidget *
   connect( m_pEncoding, SIGNAL( activated(const QString& ) ),
 	   SLOT(changed() ) );
 
-  m_pEnforceCharset = new QCheckBox( i18n( "Enforce default Encoding charset" ), this );
-  connect( m_pEnforceCharset, SIGNAL( toggled( bool ) ), this, SLOT( slotEnforceDefault( bool ) ) );
-  connect( m_pEnforceCharset, SIGNAL( toggled( bool ) ), this, SLOT( changed() ) );
-  QWhatsThis::add( m_pEnforceCharset ,
-                   i18n( "Select this to enforce that the default locale encoding "
-                         "is always used as charset. This is useful when you don't "
-                         "have unicode fonts installed and some webpages show ugly "
-                         "fixed size fonts for you. You won't be able to view pages "
-                         "that require foreign charsets properly any more. " ) );
-  ++r;
-  lay->addMultiCellWidget( m_pEnforceCharset, r, r, M, W );
-
-
   ++r; lay->setRowStretch(r, 8);
 
+  QFontDatabase db;
+
+  m_families = db.families();
+  m_families.sort();
+
+  m_pFonts[0]->setFonts( m_families );
+  m_pFonts[1]->setFonts( m_families );
+  m_pFonts[2]->setFonts( m_families );
+  m_pFonts[3]->setFonts( m_families );
+  m_pFonts[4]->setFonts( m_families );
+  m_pFonts[5]->setFonts( m_families );
 
   load();
 }
@@ -295,18 +287,6 @@ void KAppearanceOptions::slotEncoding(const QString& n)
     encodingName = n;
 }
 
-void KAppearanceOptions::slotEnforceDefault( bool n )
-{
-    enforceCharset = n;
-}
-
-void KAppearanceOptions::slotCharset( const QString &n )
-{
-    fontsForCharset[charset] = fonts;
-    charset = n;
-    updateGUI();
-}
-
 void KAppearanceOptions::load()
 {
     m_pConfig->setGroup(m_groupname);
@@ -321,22 +301,13 @@ void KAppearanceOptions::load()
     defaultFonts.append( m_pConfig->readEntry( "CursiveFont", HTML_DEFAULT_VIEW_CURSIVE_FONT ) );
     defaultFonts.append( m_pConfig->readEntry( "FantasyFont", HTML_DEFAULT_VIEW_FANTASY_FONT ) );
     defaultFonts.append( QString("0") ); // default font size adjustment
-    for ( QStringList::Iterator it = chSets.begin(); it != chSets.end(); ++it ) {
-	fonts = m_pConfig->readListEntry( *it );
-	if( fonts.count() == 6 ) {
-	    fonts.append( QString( "0" ) );
-	}
-	if ( fonts.count() != 7 )
-	    fonts = defaultFonts;
-	fontsForCharset.insert( *it, fonts );
-    }
-    charset = chSets[0];
+
+    fonts = m_pConfig->readListEntry( "Fonts" );
     encodingName = m_pConfig->readEntry( "DefaultEncoding", "" );
-    enforceCharset = m_pConfig->readBoolEntry( "EnforceDefaultCharset", false );
 
     //kdDebug(0) << "encoding = " << encodingName << endl;
 
-    updateGUI();
+    //updateGUI();
 }
 
 void KAppearanceOptions::defaults()
@@ -344,7 +315,6 @@ void KAppearanceOptions::defaults()
   fSize = 10;
   fMinSize = HTML_DEFAULT_MIN_FONT_SIZE;
   encodingName = "";
-  enforceCharset = true;
   defaultFonts.clear();
   defaultFonts.append( KGlobalSettings::generalFont().family() );
   defaultFonts.append( KGlobalSettings::fixedFont().family() );
@@ -352,10 +322,7 @@ void KAppearanceOptions::defaults()
   defaultFonts.append( HTML_DEFAULT_VIEW_SANSSERIF_FONT );
   defaultFonts.append( HTML_DEFAULT_VIEW_CURSIVE_FONT );
   defaultFonts.append( HTML_DEFAULT_VIEW_FANTASY_FONT );
-  defaultFonts.append( QString("0") ); // default font size adjustment
-  for ( QStringList::Iterator it = chSets.begin(); it != chSets.end(); ++it ) {
-      fontsForCharset.insert( *it, defaultFonts );
-  }
+  defaultFonts.append( QString("0") );
 
   updateGUI();
 }
@@ -364,27 +331,11 @@ void KAppearanceOptions::updateGUI()
 {
     //kdDebug() << "KAppearanceOptions::updateGUI " << charset << endl;
     int i;
-    fonts = fontsForCharset[charset];
     if(fonts.count() != 7) {
 	kdDebug() << "fonts wrong" << endl;
 	fonts = defaultFonts;
     }
 
-
-    KCharsets *s = KGlobal::charsets();
-#if QT_VERSION < 300
-    m_families = s->availableFamilies( s->xNameToID( charset ) );
-    m_families.sort();
-#else 
-#warning port me! FIXME!
-#endif
-
-    m_pFonts[0]->setFonts( m_families );
-    m_pFonts[1]->setFonts( m_families );
-    m_pFonts[2]->setFonts( m_families );
-    m_pFonts[3]->setFonts( m_families );
-    m_pFonts[4]->setFonts( m_families );
-    m_pFonts[5]->setFonts( m_families );
 
     for ( int f = 0; f < 6; f++ ) {
         QString cf = defaultFonts[f];
@@ -407,31 +358,21 @@ void KAppearanceOptions::updateGUI()
             m_pEncoding->setCurrentItem( i );
 
     m_pFontSizeAdjust->setValue( fonts[6].toInt() );
-    m_pEnforceCharset->setChecked( enforceCharset );
     m_MedSize->setValue( fSize );
     m_minSize->setValue( fMinSize );
 }
 
 void KAppearanceOptions::save()
 {
-    fontsForCharset[charset] = fonts;
-
     m_pConfig->setGroup(m_groupname);
     m_pConfig->writeEntry( "MediumFontSize", fSize );
     m_pConfig->writeEntry( "MinimumFontSize", fMinSize );
-
-    QMap<QString, QStringList>::Iterator it;
-    for( it = fontsForCharset.begin(); it != fontsForCharset.end(); ++it ) {
-	//kdDebug() << "KAppearanceOptions::save "<< it.key() << endl;
-	//kdDebug() << "         "<< it.data().join(",") << endl;
-	m_pConfig->writeEntry( it.key(), it.data() );
-    }
+    m_pConfig->writeEntry( "Fonts", fonts );
 
     // If the user chose "Use language encoding", write an empty string
     if (encodingName == i18n("Use language encoding"))
         encodingName = "";
     m_pConfig->writeEntry( "DefaultEncoding", encodingName );
-    m_pConfig->writeEntry( "EnforceDefaultCharset", enforceCharset );
     m_pConfig->sync();
 }
 

@@ -37,9 +37,7 @@ public slots:
   void slotCursiveFont( const QString& n );
   void slotFantasyFont( const QString& n );
   void slotEncoding( const QString& n);
-  void slotCharset( const QString &n );
   void slotFontSizeAdjust( int value );
-  void slotEnforceDefault( bool );
     
 private slots:
   void changed();
@@ -58,18 +56,11 @@ private:
   KIntNumInput* m_pageDPI;
   KFontCombo* m_pFonts[6];
   QComboBox* m_pEncoding;
-  QComboBox* m_pChset;
-  QCheckBox* m_pEnforceCharset;
-
   QSpinBox *m_pFontSizeAdjust;
 
-  bool enforceCharset;
   int fSize;
   int fMinSize;
-  QMap<QString, QStringList> fontsForCharset;
   QStringList encodings;
-  QStringList chSets;
-  QString charset;
   QStringList fonts;
   QStringList defaultFonts;
   QString encodingName;
