@@ -79,7 +79,7 @@ void KCacheConfigDialog::save()
   KSaveIOConfig::setMaxCacheSize( m_dlg->sbMaxCacheSize->value() );
 
   if ( !m_dlg->cbUseCache->isChecked() )
-      KSaveIOConfig::setCacheControl(KIO::CC_Reload);
+      KSaveIOConfig::setCacheControl(KIO::CC_Refresh);
   else if ( m_dlg->rbVerifyCache->isChecked() )
       KSaveIOConfig::setCacheControl(KIO::CC_Refresh);
   else if ( m_dlg->rbOfflineMode->isChecked() )
