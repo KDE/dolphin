@@ -89,6 +89,7 @@ NSPluginLoader::NSPluginLoader()
 {
   scanPlugins();
   _mapping.setAutoDelete( true );
+  _filetype.setAutoDelete(true);
 
   // trap dcop register events
   kapp->dcopClient()->setNotifications(true);
