@@ -21,7 +21,7 @@
 #include <stdio.h>
 
 #include <qstring.h>
-#include <kapp.h>
+#include <kapplication.h>
 #include <kcmdlineargs.h>
 #include <dcopclient.h>
 #include <kdebug.h>

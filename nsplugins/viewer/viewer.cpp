@@ -27,7 +27,7 @@
 
 #include <qmessagebox.h>
 #include <kdebug.h>
-#include <kapp.h>
+#include <kapplication.h>
 #include <kcmdlineargs.h>
 #include <dcopclient.h>
 #include <klocale.h>

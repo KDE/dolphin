@@ -23,11 +23,11 @@
 
 #include <kfiledialog.h>
 #include <klocale.h>
-#include <kapp.h>
+#include <kapplication.h>
 #include <krun.h>
 #include <kprocess.h>
 #include <kpropsdlg.h>
-#include <kstddirs.h>
+#include <kstandarddirs.h>
 #include <kmessagebox.h>
 #include <kmimetype.h>
 #include <kglobal.h>

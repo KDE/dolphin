@@ -23,6 +23,7 @@ class QLineEdit;
 class QListViewItem;
 class QRadioButton;
 class QSpinBox;
+class QButtonGroup;
 
 class KJavaScriptOptions : public KCModule
 {

@@ -25,7 +25,7 @@
 
 #include <unistd.h>
 
-
+#include <kconfig.h>
 #include <kapplication.h>
 #include <dcopclient.h>
 #include <klocale.h>
@@ -34,7 +34,6 @@
 #include <qtabwidget.h>
 #include <qlayout.h>
 
-#include "htmlopts.h"
 #include "jsopts.h"
 #include "javaopts.h"
 #include "pluginopts.h"

@@ -33,8 +33,8 @@
 #include <kiconloader.h>
 #include <klocale.h>
 #include <konq_defaults.h>
-#include <kstddirs.h>
-#include <kapp.h>
+#include <kstandarddirs.h>
+#include <kapplication.h>
 #include <dcopclient.h>
 #include <kio/uiserver_stub.h>
 
