@@ -1,4 +1,4 @@
-INCLUDES = -I$(top_srcdir)/libkonq $(all_includes) -I$(top_srcdir)/kcontrol/input
+INCLUDES = -I$(top_srcdir)/libkonq -I$(top_srcdir)/kcontrol/input $(all_includes)
 LDFLAGS =  $(all_libraries)
 
 METASOURCES = AUTO
