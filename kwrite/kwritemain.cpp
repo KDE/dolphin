@@ -219,7 +219,7 @@ void KWrite::slotNew()
   if (m_view->document()->isModified() || !m_view->document()->url().isEmpty())
     new KWrite();
   else
-    m_view->document()->openURL("");
+    m_view->document()->openURL(KURL());
 }
 
 void KWrite::slotOpen()

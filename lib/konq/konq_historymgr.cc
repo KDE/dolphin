@@ -331,8 +331,8 @@ void KonqHistoryManager::addToHistory( bool pending, const KURL& _url,
 // Moreover, we  don't get any pending/confirming entries, just one insert()
 void KonqHistoryManager::insert( const QString& url )
 {
-    KURL u = url;
-    if ( !filterOut( url ) || u.protocol() == "about" ) { // remote URL
+    KURL u ( url );
+    if ( !filterOut( u ) || u.protocol() == "about" ) { // remote URL
 	return;
     }
     // Local URL -> add to history

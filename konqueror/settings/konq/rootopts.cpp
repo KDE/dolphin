@@ -212,7 +212,7 @@ void DesktopPathConfig::save()
                 if ( newTrashURL.equals( futureTrashURL, true ) )
                     trashMoved = true; // The trash moves with the desktop
                 else
-                    trashMoved = moveDir( KGlobalSettings::trashPath(), urTrash->url(), i18n("Trash") );
+                    trashMoved = moveDir( KURL( KGlobalSettings::trashPath() ), KURL( urTrash->url() ), i18n("Trash") );
             }
         }
 
@@ -236,11 +236,11 @@ void DesktopPathConfig::save()
                 if ( newAutostartURL.equals( futureAutostartURL, true ) )
                     autostartMoved = true;
                 else
-                    autostartMoved = moveDir( KGlobalSettings::autostartPath(), urAutostart->url(), i18n("Autostart") );
+                    autostartMoved = moveDir( KURL( KGlobalSettings::autostartPath() ), KURL( urAutostart->url() ), i18n("Autostart") );
             }
         }
 
-        if ( moveDir( KGlobalSettings::desktopPath(), urlDesktop, i18n("Desktop") ) )
+        if ( moveDir( KURL( KGlobalSettings::desktopPath() ), KURL( urlDesktop ), i18n("Desktop") ) )
         {
 //            config->writeEntry( "Desktop", urDesktop->url());
             config->writePathEntry( "Desktop", urlDesktop, true, true );
@@ -251,7 +251,7 @@ void DesktopPathConfig::save()
     if ( !newTrashURL.equals( trashURL, true ) )
     {
         if (!trashMoved)
-            trashMoved = moveDir( KGlobalSettings::trashPath(), urTrash->url(), i18n("Trash") );
+            trashMoved = moveDir( KURL( KGlobalSettings::trashPath() ), KURL( urTrash->url() ), i18n("Trash") );
         if (trashMoved)
         {
 //            config->writeEntry( "Trash", urTrash->url());
@@ -263,7 +263,7 @@ void DesktopPathConfig::save()
     if ( !newAutostartURL.equals( autostartURL, true ) )
     {
         if (!autostartMoved)
-            autostartMoved = moveDir( KGlobalSettings::autostartPath(), urAutostart->url(), i18n("Autostart") );
+            autostartMoved = moveDir( KURL( KGlobalSettings::autostartPath() ), KURL( urAutostart->url() ), i18n("Autostart") );
         if (autostartMoved)
         {
 //            config->writeEntry( "Autostart", Autostart->url());

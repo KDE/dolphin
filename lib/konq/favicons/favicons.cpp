@@ -104,7 +104,7 @@ QString FaviconsModule::iconForURL(const KURL &url)
         icon = d->config->readEntry( removeSlash(simplifiedURL) );
 
     if (!icon.isEmpty())
-        icon = iconNameFromURL(icon);
+        icon = iconNameFromURL(KURL( icon ));
     else 
         icon = url.host();
         
@@ -212,7 +212,7 @@ void FaviconsModule::slotResult(KIO::Job *job)
 {
     FaviconsModulePrivate::DownloadInfo download = d->downloads[job];
     d->downloads.remove(job);
-    QString iconURL = static_cast<KIO::TransferJob *>(job)->url().url();
+    KURL iconURL = static_cast<KIO::TransferJob *>(job)->url();
     QString iconName;
     if (!job->error())
     {
@@ -245,19 +245,18 @@ void FaviconsModule::slotResult(KIO::Job *job)
             if (!io.write())
                 iconName = QString::null;
             else if (!download.isHost)
-                d->config->writeEntry( removeSlash(download.hostOrURL), iconURL);
+                d->config->writeEntry( removeSlash(download.hostOrURL), iconURL.url());
         }
     }
     if (iconName.isEmpty())
-        d->failedDownloads.append(iconURL);
+        d->failedDownloads.append(iconURL.url());
 
     emit iconChanged(download.isHost, download.hostOrURL, iconName);
 }
 
 void FaviconsModule::slotInfoMessage(KIO::Job *job, const QString &msg)
 {
-    QString iconURL = static_cast<KIO::TransferJob *>(job)->url().url();
-    emit infoMessage(iconURL, msg);
+    emit infoMessage(static_cast<KIO::TransferJob *>( job )->url(), msg);
 }
 
 void FaviconsModule::slotKill()

@@ -401,7 +401,9 @@ void KNewMenu::slotNewFile()
                 //kdDebug(1203) << "third arg=" << entry.text << endl;
                 QString text = entry.text;
                 text.replace( "...", QString::null ); // the ... is fine for the menu item but not for the default filename
-                (void) new KPropertiesDialog( entry.templatePath, *it, text, d->m_parentWidget );
+                KURL templateURL;
+                templateURL.setPath( entry.templatePath );
+                (void) new KPropertiesDialog( templateURL, *it, text, d->m_parentWidget );
     	    }
     	    return; // done, exit.
     	}
