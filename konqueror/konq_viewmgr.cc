@@ -348,7 +348,7 @@ KonqView* KonqViewManager::addTab(const QString &serviceType, const QString &ser
   return childView;
 }
 
-void KonqViewManager::duplicateTab( KonqFrameBase* tab )
+void KonqViewManager::duplicateTab( KonqFrameBase* tab, bool openAfterCurrentPage )
 {
 #ifdef DEBUG_VIEWMGR
   kdDebug(1202) << "---------------- KonqViewManager::duplicateTab( " << tab << " ) --------------" << endl;
@@ -400,7 +400,7 @@ void KonqViewManager::duplicateTab( KonqFrameBase* tab )
   // from profile loading (e.g. in switchView)
   m_bLoadingProfile = true;
 
-  loadItem( config, tabContainer, rootItem, KURL(""), true );
+  loadItem( config, tabContainer, rootItem, KURL(""), true, openAfterCurrentPage );
 
   m_bLoadingProfile = false;
 
@@ -410,6 +410,9 @@ void KonqViewManager::duplicateTab( KonqFrameBase* tab )
   // so we do it once at the end :
   m_pMainWindow->viewCountChanged();
 
+  if (openAfterCurrentPage)
+    tabContainer->setCurrentPage( tabContainer->currentPageIndex () + 1 );
+  else
   tabContainer->setCurrentPage( tabContainer->count() - 1 );
 
   KonqFrameBase* duplicatedFrame = dynamic_cast<KonqFrameBase*>(tabContainer->currentPage());
@@ -1412,7 +1415,7 @@ QSize KonqViewManager::readConfigSize( KConfig &cfg, QWidget *widget )
 }
 
 void KonqViewManager::loadItem( KConfig &cfg, KonqFrameContainerBase *parent,
-                                const QString &name, const KURL & defaultURL, bool openURL )
+                                const QString &name, const KURL & defaultURL, bool openURL, bool openAfterCurrentPage )
 {
   QString prefix;
   if( name != "InitialView" )
@@ -1441,7 +1444,7 @@ void KonqViewManager::loadItem( KConfig &cfg, KonqFrameContainerBase *parent,
     bool passiveMode = cfg.readBoolEntry( QString::fromLatin1( "PassiveMode" ).prepend( prefix ), false );
 
     //kdDebug(1202) << "Creating View Stuff" << endl;
-    KonqView *childView = setupView( parent, viewFactory, service, partServiceOffers, appServiceOffers, serviceType, passiveMode );
+    KonqView *childView = setupView( parent, viewFactory, service, partServiceOffers, appServiceOffers, serviceType, passiveMode, openAfterCurrentPage );
 
     if (!childView->isFollowActive()) childView->setLinkedView( cfg.readBoolEntry( QString::fromLatin1( "LinkedView" ).prepend( prefix ), false ) );
     childView->setToggleView( cfg.readBoolEntry( QString::fromLatin1( "ToggleView" ).prepend( prefix ), false ) );

@@ -103,7 +103,7 @@ public:
   /**
    * Duplicates the specified tab, or else the current one if none is specified
    */
-  void duplicateTab( KonqFrameBase* tab = 0L );
+  void duplicateTab( KonqFrameBase* tab = 0L, bool openAfterCurrentPage = false );
 
   /**
    * Break the current tab off into a new window,
@@ -303,7 +303,7 @@ protected:
    *  (this is set to false when we have a forcedURL to open)
    */
   void loadItem( KConfig &cfg, KonqFrameContainerBase *parent,
-                 const QString &name, const KURL & defaultURL, bool openURL );
+                 const QString &name, const KURL & defaultURL, bool openURL, bool openAfterCurrentPage = false );
 
   // Disabled - we do it ourselves
   virtual void setActiveInstance( KInstance * ) {}

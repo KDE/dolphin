@@ -2459,12 +2459,16 @@ void KonqMainWindow::slotAddTab()
 
 void KonqMainWindow::slotDuplicateTab()
 {
-  m_pViewManager->duplicateTab();
+  KConfig *config = KGlobal::config();
+  KConfigGroupSaver cs( config, QString::fromLatin1("FMSettings") );
+  m_pViewManager->duplicateTab( 0, config->readBoolEntry( "OpenAfterCurrentPage", false ) );
 }
 
 void KonqMainWindow::slotDuplicateTabPopup()
 {
-  m_pViewManager->duplicateTab( m_pWorkingTab );
+  KConfig *config = KGlobal::config();
+  KConfigGroupSaver cs( config, QString::fromLatin1("FMSettings") );
+  m_pViewManager->duplicateTab( m_pWorkingTab, config->readBoolEntry( "OpenAfterCurrentPage", false ) );
 }
 
 void KonqMainWindow::slotBreakOffTab()
