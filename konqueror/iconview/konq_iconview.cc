@@ -637,7 +637,7 @@ void KonqKfmIconView::slotReturnPressed( QIconViewItem *item )
             args.serviceType = fileItem->mimetype();
         args.trustedSource = true;
         KURL url = fileItem->url();
-        if ( fileItem->isLink() )
+        if ( fileItem->isLink() && fileItem->isLocalFile() ) // see KFileItem::run
             url = KURL( url, fileItem->linkDest() );
         kdDebug() << "emit m_extension->openURLRequest( " << url.url() << "," << args.serviceType << ")" << endl;
         emit m_extension->openURLRequest( url, args );

@@ -781,7 +781,7 @@ void KonqBaseListViewWidget::slotReturnPressed( QListViewItem *_item )
         }
         // ### Add error message if the latter case, after msg freeze.
    }
-   if ( fileItem->isLink() )
+   if ( fileItem->isLink() && fileItem->isLocalFile() ) // see KFileItem::run
       u = KURL( u, fileItem->linkDest() );
 
    if (KonqFMSettings::settings()->alwaysNewWin() && fileItem->isDir()) {
