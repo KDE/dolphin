@@ -307,11 +307,12 @@ public slots:
 
   void slotPopupMenu( const QPoint &_global, const KURL &_url, const QString &_mimeType, mode_t mode );
   void slotPopupMenu( KXMLGUIClient *client, const QPoint &_global, const KURL &_url, const QString &_mimeType, mode_t mode );
+  void slotPopupMenu( KXMLGUIClient *client, const QPoint &_global, const KURL &_url, const KParts::URLArgs &_args, mode_t mode );
 
   void slotPopupMenu( const QPoint &_global, const KFileItemList &_items );
   void slotPopupMenu( KXMLGUIClient *client, const QPoint &_global, const KFileItemList &_items );
 
-  void slotPopupMenu( KXMLGUIClient *client, const QPoint &_global, const KFileItemList &_items, bool showPropsAndFileType );
+  void slotPopupMenu( KXMLGUIClient *client, const QPoint &_global, const KFileItemList &_items, const KParts::URLArgs &_args, bool showPropsAndFileType );
 
   /**
    * __NEEEEVER__ call this method directly. It relies on sender() (the part)
@@ -655,6 +656,7 @@ private:
   KonqFrameBase* m_pWorkingTab;
 
   KFileItemList popupItems;
+  KParts::URLArgs popupUrlArgs;
 
   KonqRun *m_initialKonqRun;
 

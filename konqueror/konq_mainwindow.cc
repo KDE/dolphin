@@ -560,13 +560,6 @@ void KonqMainWindow::openURL( KonqView *_view, const KURL &_url,
   else // no known serviceType, use KonqRun
   {
       kdDebug(1202) << "Creating new konqrun for " << url.url() << " req.typedURL=" << req.typedURL << endl;
-      if (currentURL().startsWith("http") && !req.args.metaData().contains("referrer")) {
-          KURL tmp = currentURL();
-          tmp.setRef(QString::null);
-          tmp.setUser(QString::null);
-          tmp.setPass(QString::null);
-          req.args.metaData()["referrer"] = tmp.url();
-      }
 
       KonqRun * run = new KonqRun( this, view /* can be 0L */, url, req, trustedSource );
       if ( view )
@@ -603,14 +596,6 @@ bool KonqMainWindow::openView( QString serviceType, const KURL &_url, KonqView *
   kdDebug(1202) << "KonqMainWindow::openView " << serviceType << " " << _url.url() << " " << childView << " req:" << req.debug() << endl;
 #endif
   bool bOthersFollowed = false;
-
-  if (currentURL().startsWith("http") && !req.args.metaData().contains("referrer")) {
-      KURL tmp = currentURL();
-      tmp.setRef(QString::null);
-      tmp.setUser(QString::null);
-      tmp.setPass(QString::null);
-      req.args.metaData()["referrer"] = tmp.url();
-  }
 
   if ( childView )
   {
@@ -2267,19 +2252,10 @@ void KonqMainWindow::slotPopupNewWindow()
 {
     kdDebug(1202) << "KonqMainWindow::popupNewWindow()" << endl;
 
-    KParts::URLArgs args;
-    if (currentURL().startsWith("http")) {
-        KURL tmp = currentURL();
-        tmp.setRef(QString::null);
-        tmp.setUser(QString::null);
-        tmp.setPass(QString::null);
-        args.metaData()["referrer"] = tmp.url();
-    }
-
     KFileItemListIterator it ( popupItems );
     for ( ; it.current(); ++it )
     {
-        KonqMisc::createNewWindow( (*it)->url(), args );
+        KonqMisc::createNewWindow( (*it)->url(), popupUrlArgs );
     }
 }
 
@@ -2309,6 +2285,8 @@ void KonqMainWindow::popupNewTab(bool infront, bool openAfterCurrentPage)
   req.newTab = true;
   req.newTabInFront = infront;
   req.openAfterCurrentPage = openAfterCurrentPage;
+  req.args = popupUrlArgs;
+
   for ( ; it.current(); ++it )
   {
     openURL( 0L, (*it)->url(), QString::null, req );
@@ -3354,6 +3332,7 @@ void KonqMainWindow::slotFillContextMenu( const KBookmark &bk, QPopupMenu * pm )
 {
   kdDebug() << "KonqMainWindow::slotFillContextMenu(bk, pm == " << pm << ")" << endl;
   popupItems.clear();
+  popupUrlArgs = KParts::URLArgs();
   if ( bk.isGroup() )
   {
     KBookmarkGroup grp = bk.toGroup();
@@ -3785,7 +3764,15 @@ void KonqMainWindow::slotPopupMenu( KXMLGUIClient *client, const QPoint &_global
   KFileItem item( url, _mimeType, _mode );
   KFileItemList items;
   items.append( &item );
-  slotPopupMenu( client, _global, items, false ); //BE CAREFUL WITH sender() !
+  slotPopupMenu( client, _global, items, KParts::URLArgs(), false ); //BE CAREFUL WITH sender() !
+}
+
+void KonqMainWindow::slotPopupMenu( KXMLGUIClient *client, const QPoint &_global, const KURL &url, const KParts::URLArgs &_args, mode_t _mode )
+{
+  KFileItem item( url, _args.serviceType, _mode );
+  KFileItemList items;
+  items.append( &item );
+  slotPopupMenu( client, _global, items, _args, false ); //BE CAREFUL WITH sender() !
 }
 
 void KonqMainWindow::slotPopupMenu( const QPoint &_global, const KFileItemList &_items )
@@ -3795,10 +3782,10 @@ void KonqMainWindow::slotPopupMenu( const QPoint &_global, const KFileItemList &
 
 void KonqMainWindow::slotPopupMenu( KXMLGUIClient *client, const QPoint &_global, const KFileItemList &_items )
 {
-    slotPopupMenu( client, _global, _items, true );
+  slotPopupMenu( client, _global, _items, KParts::URLArgs(), true );
 }
 
-void KonqMainWindow::slotPopupMenu( KXMLGUIClient *client, const QPoint &_global, const KFileItemList &_items, bool showPropsAndFileType )
+void KonqMainWindow::slotPopupMenu( KXMLGUIClient *client, const QPoint &_global, const KFileItemList &_items, const KParts::URLArgs &_args, bool showPropsAndFileType )
 {
   KonqView * m_oldView = m_currentView;
 
@@ -3909,6 +3896,7 @@ void KonqMainWindow::slotPopupMenu( KXMLGUIClient *client, const QPoint &_global
 
   // We will need these if we call the newTab slot
   popupItems = _items;
+  popupUrlArgs = _args;
 
   connectActionCollection( pPopupMenu.actionCollection() );
 
