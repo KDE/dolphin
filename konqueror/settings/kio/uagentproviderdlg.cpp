@@ -90,8 +90,8 @@ UAProviderDlg::UAProviderDlg( const QString& caption, QWidget *parent,
   QWhatsThis::add( dlg->leAlias, wtstr );
 
   // Update button
-  wtstr = i18n( "Updates the browser identification list."
-                "<p>\n<u>NOTE:</u> There is no need to press this button "
+  wtstr = i18n( "Updates the browser identification list.\n"
+                "<p><u>NOTE:</u> There is no need to press this button "
                 "unless a new description file was added while this "
                 "configuration box is displayed!" );
   QWhatsThis::add( dlg->pbUpdateList, wtstr );

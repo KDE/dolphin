@@ -76,7 +76,7 @@ KCookiesPolicies::KCookiesPolicies(QWidget *parent)
                           "hard drive or storage device. Instead, they are "
                           "deleted when you close all applications (e.g. "
                           "your browser) that use them."
-                          "<P>NOTE: Checking this option along with the next "
+                          "<p><u>NOTE:</u> Checking this option along with the next "
                           "one will override your default as well as site "
                           "specific cookie policies. However, doing so also "
                           "increases your privacy since all cookies will be "
@@ -90,7 +90,7 @@ KCookiesPolicies::KCookiesPolicies(QWidget *parent)
                           "use them. Unlike regular cookies, session "
                           "cookies are never stored on your hard drive or "
                           "other storage medium."
-                          "<P>NOTE: checking this option along with the "
+                          "<p><u>NOTE:</u> Checking this option along with the "
                           "previous one will override your default as well "
                           "as site specific cookie policies. However, doing "
                           "so also increases your privacy since all cookies "
@@ -105,7 +105,7 @@ KCookiesPolicies::KCookiesPolicies(QWidget *parent)
                           "accepted without prompting you.</li><li><b>Reject</b> "
                           "will cause the cookiejar to refuse all cookies it "
                           "receives.</li></ul>"
-                          "<u>NOTE:<u>Domain specific policies, which can be set "
+                          "<p><u>NOTE:</u> Domain specific policies, which can be set "
                           "below, always take precedence over the default policy.") );
 
 

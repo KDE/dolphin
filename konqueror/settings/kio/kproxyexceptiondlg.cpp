@@ -41,8 +41,8 @@ KProxyExceptionDlg::KProxyExceptionDlg( QWidget* parent, const QString &msg,
                                          "should be exempted from using the "
                                          "proxy server(s) specified above.<p>"
                                          "Note that the reverse is true if "
-                                         "the \"<code>Only use proxy for "
-                                         "entries in this list</code>\" "
+                                         "the \"<b>Only use proxy for "
+                                         "entries in this list</b>\" "
                                          "box is checked. That is the proxy "
                                          "server will only be used for "
                                          "addresses that match one of the "
@@ -163,7 +163,7 @@ bool KExceptionBox::handleDuplicate( const QString& site )
              item != m_lvExceptions->currentItem() )
         {
             QString msg = i18n("<qt><center><b>%1</b><br/>"
-                               "already exists!").arg(site);
+                               "already exists!</qt>").arg(site);
             KMessageBox::error( this, msg, i18n("Duplicate Exception") );
             return true;
         }
