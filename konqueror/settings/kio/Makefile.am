@@ -28,11 +28,8 @@ updatedir = $(kde_datadir)/kconf_update
 servicetypes_DATA = uasprovider.desktop
 servicetypesdir = $(kde_servicetypesdir)
 
-kcmkio_data_DATA = cookies.desktop useragent.desktop cache.desktop
-kcmkio_datadir = $(kde_appsdir)/Settings/Network/WebBrowsing
-
-kcmkio_data2_DATA = lanbrowser.desktop netpref.desktop proxy.desktop
-kcmkio_data2dir = $(kde_appsdir)/Settings/Network
+xdg_apps_DATA = cookies.desktop useragent.desktop cache.desktop \
+                lanbrowser.desktop netpref.desktop proxy.desktop
 
 smb_DATA = smb.desktop
 smbdir = $(kde_appsdir)/.hidden

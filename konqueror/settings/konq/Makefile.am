@@ -19,14 +19,7 @@ kcm_konq_ladir = $(kde_datadir)/kcontrol/pics
 kcmkonq_data_DATA = filebehavior.desktop fileappearance.desktop filepreviews.desktop
 kcmkonq_datadir = $(kde_appsdir)/.hidden
 
-kcmkonq_datadesk_DATA = desktopbehavior.desktop desktop.desktop
-kcmkonq_datadeskdir = $(kde_appsdir)/Settings/Desktop
-
-kcmkonq_data2_DATA = desktoppath.desktop
-kcmkonq_data2dir = $(kde_appsdir)/Settings/System
-
-kcmkonq_data3_DATA = filebrowser.desktop
-kcmkonq_data3dir = $(kde_appsdir)/Settings/Components
+xdg_apps_DATA = desktopbehavior.desktop desktop.desktop desktoppath.desktop filebrowser.desktop
 
 uiserver_DIR = $(kde_includes)/kio
 

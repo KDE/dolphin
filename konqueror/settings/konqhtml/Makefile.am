@@ -14,10 +14,7 @@ kcm_konqhtml_la_SOURCES = htmlopts.cpp jsopts.cpp \
 kcm_konqhtml_la_LDFLAGS  = $(all_libraries) -module -avoid-version -no-undefined
 kcm_konqhtml_la_LIBADD = -lkhtml -lkdeui
 
-kcmkonqhtml_data_DATA = khtml_behavior.desktop khtml_java_js.desktop khtml_fonts.desktop
-kcmkonqhtml_datadir = $(kde_appsdir)/Settings/Network/WebBrowsing
-
-EXTRA_DIST = $(kcmkonqhtml_data_DATA)
+xdg_apps_DATA = khtml_behavior.desktop khtml_java_js.desktop khtml_fonts.desktop
 
 messages: rc.cpp
 	$(XGETTEXT) *.cpp -o $(podir)/kcmkonqhtml.pot

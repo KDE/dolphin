@@ -12,8 +12,7 @@ noinst_HEADERS = konqueror.h
 messages: rc.cpp
 	$(XGETTEXT) *.cpp -o $(podir)/kcmperformance.pot
 
-kcmperformance_data_DATA = kcmperformance.desktop
-kcmperformance_datadir = $(kde_appsdir)/Settings/Components/
+xdg_apps_DATA = kcmperformance.desktop
 
 kcmperformance_hidden_data_DATA = kcmkonqyperformance.desktop
 kcmperformance_hidden_datadir = $(kde_appsdir)/.hidden
