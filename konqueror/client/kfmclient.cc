@@ -44,6 +44,7 @@
 
 int main( int argc, char **argv )
 {
+  clientApp a( argc, argv, "kfmclient" );
   if ( argc == 1 )
   {
     printf(i18n("\nSyntax:\n"));
@@ -98,7 +99,6 @@ int main( int argc, char **argv )
     return 0;
   }
     
-  clientApp a( argc, argv, "kfmclient" );
 
   a.dcopClient()->attach();
 
