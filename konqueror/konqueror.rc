@@ -1,9 +1,12 @@
-<!DOCTYPE kpartgui SYSTEM "kpartgui.dtd"><kpartgui name="Konqueror" version="25">
+<!DOCTYPE kpartgui SYSTEM "kpartgui.dtd"><kpartgui name="Konqueror" version="26">
 <MenuBar>
  <Menu name="file" noMerge="1"><text>&amp;Location</text>
   <Action name="new_window"/>
   <Action name="duplicate_window"/>
   <Action name="open_location"/>
+  <Separator/>
+  <Action name="print"/>
+  <DefineGroup name="print" />
   <Separator/>
   <ActionList name="openwith" /> <!--Includes termination separator-->
   <Action name="quit"/>
@@ -35,8 +38,6 @@
   <Separator/>
   <Action name="reload"/>
   <Action name="stop" />
-  <Action name="print"/>
-  <DefineGroup name="print" />
   <WeakSeparator/>
   <Merge/>
  </Menu>
