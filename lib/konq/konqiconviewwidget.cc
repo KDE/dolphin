@@ -120,7 +120,7 @@ void KonqIconViewWidget::setURL( const KURL &kurl )
     m_dotDirectoryPath = m_url.path().append( ".directory" );
   else
     m_dotDirectoryPath = QString::null;
-} 
+}
 
 void KonqIconViewWidget::setImagePreviewAllowed( bool b )
 {
@@ -198,6 +198,18 @@ QDragObject * KonqIconViewWidget::dragObject()
 	}
     }
     return drag;
+}
+
+void KonqIconViewWidget::contentsDragEnterEvent( QDragEnterEvent *e )
+{
+    if ( e->provides( "text/uri-list" ) )
+    {
+        // Cache the URLs, since we need them every time we move over a file
+        // (see KFileIVI)
+        bool ok = KonqDrag::decode( e, m_lstDragURLs );
+        assert( ok );
+    }
+    KIconView::contentsDragEnterEvent( e );
 }
 
 void KonqIconViewWidget::setItemFont( const QFont &f )

@@ -85,6 +85,11 @@ public:
     bool sortDirectoriesFirst() const;
     void setSortDirectoriesFirst( bool b );
 
+    /**
+     * Cache of the dragged URLs over the icon view, used by KFileIVI
+     */
+    const KURL::List & dragURLs() { return m_lstDragURLs; }
+
 public slots:
     /**
      * Checks the new selection and emits enableAction() signals
@@ -114,10 +119,13 @@ protected slots:
 protected:
     virtual void drawBackground( QPainter *p, const QRect &r );
     virtual void viewportResizeEvent(QResizeEvent *);
+    virtual void contentsDragEnterEvent( QDragEnterEvent *e );
     virtual void contentsDropEvent( QDropEvent *e );
 
     KURL m_url;
     const KonqFileItem * m_rootItem;
+
+    KURL::List m_lstDragURLs;
 
     KIconLoader::Size m_size;
     bool m_bImagePreviewAllowed;

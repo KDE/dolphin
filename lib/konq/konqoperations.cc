@@ -108,7 +108,7 @@ void KonqOperations::doDrop( const KonqFileItem * destItem, QDropEvent * ev, QOb
         KURL::List::Iterator it = lst.begin();
         for ( ; it != lst.end() ; it++ )
             if ( dest.cmp( *it, true /*ignore trailing slashes*/ ) )
-                return; // do nothing instead of diaplying kfm's annoying error box
+                return; // do nothing instead of displaying kfm's annoying error box
 
         // Check what the destination is
         if ( S_ISDIR(destItem->mode()) )
