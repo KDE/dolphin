@@ -278,7 +278,7 @@ void KCookiesPolicies::addPressed()
     {
       const char* strAdvice = KCookieAdvice::adviceToStr(advice);
       QListViewItem* index = new QListViewItem (m_lvDomainPolicy, domain,
-                                                strAdvice);
+                                                i18n(strAdvice));
       m_pDomainPolicy.insert (index, strAdvice);
       m_lvDomainPolicy->setCurrentItem (index);
       changed( true );
