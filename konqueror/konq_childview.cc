@@ -99,7 +99,15 @@ void KonqChildView::openURL( const KURL &url )
 {
   setServiceTypeInExtension();
 
+  // this is needed for apps which emit started()/completed() right in KParts::Part::openURL
+  // (as in slotCompleted we call updateHistory entry, which would update the latest history
+  // entry (of the previous view for example) , which is wrong! (Simon)
+  bool oldLock = m_bLockHistory;
+  m_bLockHistory = true;
+  
   m_pView->openURL( url );
+  
+  m_bLockHistory = oldLock;
 
   // Shouldn't be necessary (David) setLocationBarURL( url.url() );
 
@@ -363,6 +371,9 @@ void KonqChildView::createHistoryEntry()
 
 void KonqChildView::updateHistoryEntry()
 {
+  if ( m_bLockHistory )
+    return;
+ 
   HistoryEntry * current = m_lstHistory.current();
   assert( current ); // let's see if this happens
   if ( current == 0L) // empty history
