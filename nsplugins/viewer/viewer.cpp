@@ -4,7 +4,7 @@
 
 
   Copyright (c) 2000 Matthias Hoelzer-Kluepfel <mhk@caldera.de>
-  		     Stefan Schimanski <1Stein@gmx.de>
+                     Stefan Schimanski <1Stein@gmx.de>
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -33,6 +33,8 @@
 #include <klocale.h>
 #include <qintdict.h>
 #include <qsocketnotifier.h>
+#include <stdlib.h>
+#include "../../config.h"
 
 #include "kxt.h"
 
@@ -80,8 +82,8 @@ void parseCommandLine(int argc, char *argv[])
    {
       if (!strcmp(argv[i], "-dcopid") && (i+1 < argc))
       {
-	 dcopId = argv[i+1];
-	 i++;
+         dcopId = argv[i+1];
+         i++;
       }
    }
 }
@@ -144,17 +146,17 @@ bool qt_set_socket_handler( int sockfd, int type, QObject *obj, bool enable )
 
   switch (type)
   {
-  case QSocketNotifier::Read: 
+  case QSocketNotifier::Read:
      inpMask = (XtPointer)XtInputReadMask;
-     notifiers = &_read_notifiers; 
+     notifiers = &_read_notifiers;
      break;
-  case QSocketNotifier::Write: 
+  case QSocketNotifier::Write:
      inpMask = (XtPointer)XtInputWriteMask;
-     notifiers = &_write_notifiers; 
+     notifiers = &_write_notifiers;
      break;
-  case QSocketNotifier::Exception: 
+  case QSocketNotifier::Exception:
      inpMask = (XtPointer)XtInputExceptMask;
-     notifiers = &_except_notifiers; 
+     notifiers = &_except_notifiers;
      break;
   default: return FALSE;
   }
@@ -164,24 +166,24 @@ bool qt_set_socket_handler( int sockfd, int type, QObject *obj, bool enable )
   {
     if (!socknot)
     {
-      socknot = new SocketNot;      
+      socknot = new SocketNot;
     } else
     {
         XtRemoveInput( socknot->id );
-	notifiers->remove( socknot->sock );
+        notifiers->remove( socknot->sock );
     }
-  	
+
     socknot->sock = sockfd;
     socknot->type = type;
-    socknot->obj = obj;  	
+    socknot->obj = obj;
     socknot->id = XtAppAddInput( appcon, sockfd, inpMask, socketCallback, socknot );
     notifiers->insert( sockfd, socknot );
   } else
       if (socknot)
       {
-    	XtRemoveInput( socknot->id );
-	notifiers->remove( socknot->sock );    	
-    	delete socknot;
+        XtRemoveInput( socknot->id );
+        notifiers->remove( socknot->sock );
+        delete socknot;
       }
 
   kdDebug() << "<- qt_set_socket_handler" << endl;
@@ -191,6 +193,9 @@ bool qt_set_socket_handler( int sockfd, int type, QObject *obj, bool enable )
 
 int main(int argc, char** argv)
 {
+    // hack to avoid segfault in qapp's session manager routines
+    setenv( "SESSION_MANAGER", "", 1 );
+
    // trap X errors
    kdDebug() << "1 - XSetErrorHandler" << endl;
    XSetErrorHandler(x_errhandler);
@@ -213,11 +218,11 @@ int main(int argc, char** argv)
    if (!dcop->attach())
    {
       QMessageBox::critical(NULL,
-			    i18n("Error connecting to DCOP server"),
-			    i18n("There was an error connecting to the Desktop\n"
-				 "communications server.  Please make sure that\n"
-				 "the 'dcopserver' process has been started, and\n"
-				 "then try again.\n"));
+                            i18n("Error connecting to DCOP server"),
+                            i18n("There was an error connecting to the Desktop\n"
+                                 "communications server.  Please make sure that\n"
+                                 "the 'dcopserver' process has been started, and\n"
+                                 "then try again.\n"));
       exit(1);
    }
 
