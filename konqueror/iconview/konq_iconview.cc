@@ -150,6 +150,7 @@ KonqKfmIconView::KonqKfmIconView()
   // Create a properties instance for this view
   // (copying the default values)
   m_pProps = new KonqPropsView( * KonqPropsView::defaultProps() );
+  m_pSettings = KonqFMSettings::defaultIconSettings();
 
   m_pIconView = new KonqIconViewWidget( this, "qiconview" );
   setFocusProxy( m_pIconView );
@@ -606,7 +607,11 @@ int KonqKfmIconView::yOffset()
 void KonqKfmIconView::slotReturnPressed( QIconViewItem *item )
 {
   KFileItem *fileItem = ((KFileIVI*)item)->item();
-  emit openURLRequest( fileItem->url().url(), false, 0, 0 );
+  if (m_pSettings->alwaysNewWin() && fileItem->mode() & S_IFDIR) {
+    fileItem->run();
+  } else {
+    emit openURLRequest( fileItem->url().url(), false, 0, 0 );
+  }
 }
 
 void KonqKfmIconView::slotMouseButtonPressed(int _button, QIconViewItem* _item, const QPoint& _global)

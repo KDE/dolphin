@@ -136,6 +136,9 @@ protected:
   /** The directory lister for this URL */
   KDirLister* m_dirLister;
 
+  /** Konqueror settings */
+  KonqFMSettings * m_pSettings;
+
   /** View properties */
   KonqPropsView * m_pProps;
 
