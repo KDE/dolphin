@@ -17,6 +17,3 @@ libkonqdirmetaview_la_LDFLAGS = $(all_libraries) -version-info 1:0:0 -module -no
 
 libkonqdirmetaview_la_LIBADD = $(top_builddir)/konqueror/libkonqueror.la
 
-messages: rc.cpp
-	$(EXTRACTRC) */*.rc >> rc.cpp
-	$(XGETTEXT) -kaliasLocal -o $(podir)/konqueror.pot rc.cpp *.h *.cc *view/*h *view/*cc
