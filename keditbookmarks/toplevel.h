@@ -139,7 +139,6 @@ public slots:
     void slotSaveOnClose();
     void slotSplitView();
 
-    void slotConfigureKeyBindings();
     void slotConfigureToolbars();
 
 protected slots:

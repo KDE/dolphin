@@ -81,8 +81,8 @@ void KEBApp::createActions() {
     // save and quit should probably not be in the toplevel???
     (void) KStdAction::quit(
         this, SLOT( close() ), actionCollection());
-    (void) KStdAction::keyBindings(
-        this, SLOT( slotConfigureKeyBindings() ), actionCollection());
+    KStdAction::keyBindings(guiFactory(), SLOT(configureShortcuts()), 
+actionCollection());
     (void) KStdAction::configureToolbars(
         this, SLOT( slotConfigureToolbars() ), actionCollection());
 

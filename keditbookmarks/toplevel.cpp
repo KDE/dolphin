@@ -44,7 +44,6 @@
 #include <dcopclient.h>
 #include <dcopref.h>
 
-#include <kkeydialog.h>
 #include <kedittoolbar.h>
 #include <kmessagebox.h>
 #include <klineedit.h>
@@ -353,10 +352,6 @@ void KEBApp::notifyCommandExecuted() {
 }
 
 /* -------------------------- */
-
-void KEBApp::slotConfigureKeyBindings() {
-    KKeyDialog::configure(actionCollection());
-}
 
 void KEBApp::slotConfigureToolbars() {
     saveMainWindowSettings(KGlobal::config(), "MainWindow");
