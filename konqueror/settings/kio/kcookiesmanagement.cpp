@@ -77,9 +77,9 @@ KCookiesManagement::KCookiesManagement(QWidget *parent, const char *name)
                    :KCModule(parent, name)
 {
 	// Toplevel layout
-	QGridLayout *layout = new QGridLayout( this, 4, 2, KDialog::marginHint(), KDialog::spacingHint() );
-	layout->setColStretch(0, 2);
-	layout->setRowStretch(2, 2);
+	QVBoxLayout *layout = new QVBoxLayout( this, KDialog::marginHint(), KDialog::spacingHint() );
+	// Cookie list and buttons layout
+	QHBoxLayout *lst_layout = new QHBoxLayout( layout );
 
 	// The cookie list
 	cLV = new KListView( this );
@@ -88,40 +88,46 @@ KCookiesManagement::KCookiesManagement(QWidget *parent, const char *name)
 	cLV->setRootIsDecorated(true);
 	cLV->setAllColumnsShowFocus(true);
 	cLV->setSorting(0);
-	layout->addMultiCellWidget(cLV, 0, 2, 0, 0 );
+	lst_layout->addWidget(cLV);
+
+	// Buttons layout
+	QVBoxLayout *btn_layout = new QVBoxLayout( lst_layout );
 
 	// The command buttons
 	delBT = new QPushButton(i18n("Delete"), this);
 	delBT->setEnabled(false);
-	layout->addWidget(delBT,  0, 1);
+	btn_layout->addWidget(delBT);
 
 	delAllBT = new QPushButton(i18n("Delete all"), this);
 	delAllBT->setEnabled(false);
-	layout->addWidget(delAllBT, 2, 1);
+	btn_layout->addWidget(delAllBT);
+
+	// I like the buttons to be at top
+	btn_layout->addStretch();
 
 	// Cookie details layout
-	QGroupBox *dgb = new QGroupBox(1, Horizontal, i18n("Cookie details"), this);
-	layout->addMultiCellWidget(dgb, 3, 3, 0, 1);
+	QGroupBox *dtl_group = new QGroupBox(1, Qt::Horizontal, i18n("Cookie details"), this);
+	layout->addWidget(dtl_group);
 
-	QWidget *details = new QWidget(dgb); // Layout would be screwed alot without this
-	QGridLayout *layout2 = new QGridLayout(details, 8, 2, KDialog::marginHint(), KDialog::spacingHint());
+	QWidget *details = new QWidget(dtl_group); // Layout would be screwed alot without this
+	QGridLayout *dtl_layout = new QGridLayout(details, 8, 2, KDialog::marginHint(), KDialog::spacingHint());
 
-    layout2->addWidget( new QLabel(i18n("Target Domain"),    details), 0, 0 );
-	layout2->addWidget( new QLabel(i18n("Target Path"),      details), 0, 1 );
-	layout2->addWidget( new QLabel(i18n("Value"),            details), 2, 0 );
-	layout2->addWidget( new QLabel(i18n("Set by Host"),      details), 4, 0 );
-	layout2->addWidget( new QLabel(i18n("Expires On"),       details), 4, 1 );
-	layout2->addWidget( new QLabel(i18n("Protocol Version"), details), 6, 0 );
-	layout2->addWidget( new QLabel(i18n("Is Secure"),        details), 6, 1 );
+	dtl_layout->addWidget( new QLabel(i18n("Target Domain"),    details), 0, 0 );
+	dtl_layout->addWidget( new QLabel(i18n("Target Path"),      details), 0, 1 );
+	dtl_layout->addWidget( new QLabel(i18n("Value"),            details), 2, 0 );
+	dtl_layout->addWidget( new QLabel(i18n("Set by Host"),      details), 4, 0 );
+	dtl_layout->addWidget( new QLabel(i18n("Expires On"),       details), 4, 1 );
+	dtl_layout->addWidget( new QLabel(i18n("Protocol Version"), details), 6, 0 );
+	dtl_layout->addWidget( new QLabel(i18n("Is Secure"),        details), 6, 1 );
 
 
-	layout2->addWidget(domainLE   = new QLineEdit(details), 1, 0);
-	layout2->addWidget(pathLE     = new QLineEdit(details), 1, 1);
-	layout2->addMultiCellWidget(valueLE = new QLineEdit(details), 3, 3, 0, 1);
-	layout2->addWidget(setByLE    = new QLineEdit(details), 5, 0);
-	layout2->addWidget(expiresLE  = new QLineEdit(details), 5, 1);
-	layout2->addWidget(protoVerLE = new QLineEdit(details), 7, 0);
-	layout2->addWidget(isSecureLE = new QLineEdit(details), 7, 1);
+	dtl_layout->addWidget(domainLE   = new QLineEdit(details), 1, 0);
+	dtl_layout->addWidget(pathLE     = new QLineEdit(details), 1, 1);
+	dtl_layout->addMultiCellWidget(valueLE = new QLineEdit(details), 3, 3, 0, 1);
+	dtl_layout->addWidget(setByLE    = new QLineEdit(details), 5, 0);
+	dtl_layout->addWidget(expiresLE  = new QLineEdit(details), 5, 1);
+	dtl_layout->addWidget(protoVerLE = new QLineEdit(details), 7, 0);
+	dtl_layout->addWidget(isSecureLE = new QLineEdit(details), 7, 1);
 
 	domainLE->setReadOnly(true);
 	pathLE->setReadOnly(true);
