@@ -100,17 +100,10 @@ listviews:
 dirtree:
 ========
 
-- clicking on an item emits an openURLRequest, which calls back openURL,
-which does a followURL, which (used to) open the dir. Huh. #3472
-But opening the dir on followURL is necessary to follow navigation :(
-Solution ? Maybe look into current dir to find item to open to follow
-navigation ? Or make the difference between openURL calls ? Huh.
-
+- KDirWatch on subdirs of the configuration dir
 
 And more:
 =========
-
-- Integrate kdf and kdu ... (#3111) or rather use KIO::listRecursive for du.
 
 - see grep TODO *.cc *.h
 
