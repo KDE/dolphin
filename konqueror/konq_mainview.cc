@@ -598,21 +598,6 @@ void KonqMainView::slotReload()
   m_currentView->reload();
 }
 
-void KonqMainView::slotUp()
-{
-  openURL( (KonqChildView *)m_currentView, m_currentView->url().upURL(true) );
-}
-
-void KonqMainView::slotBack()
-{
-  m_currentView->go( -1 );
-}
-
-void KonqMainView::slotForward()
-{
-  m_currentView->go( 1 );
-}
-
 void KonqMainView::slotHome()
 {
   openURL( 0L, KURL( konqFilteredURL( KonqFMSettings::settings()->homeURL() ) ) );
@@ -1066,6 +1051,7 @@ void KonqMainView::callExtensionMethod( KonqChildView * childView, const char * 
 
 void KonqMainView::slotCut()
 {
+  kdDebug(1202) << "slotCut - sending cut to konqueror* and kdesktop, with true" << endl;
   // Call cut on the child object
   callExtensionMethod( m_currentView, "cut()" );
 
@@ -1079,6 +1065,7 @@ void KonqMainView::slotCut()
 
 void KonqMainView::slotCopy()
 {
+  kdDebug(1202) << "slotCopy - sending cut to konqueror* and kdesktop, with false" << endl;
   // Call copy on the child object
   callExtensionMethod( m_currentView, "copy()" );
 
@@ -1092,6 +1079,7 @@ void KonqMainView::slotCopy()
 
 void KonqMainView::slotPaste()
 {
+  kdDebug() << "slotPaste() - moveselection is " << s_bMoveSelection << endl;
   if ( s_bMoveSelection )
     callExtensionMethod( m_currentView, "pastecut()" );
   else
@@ -1155,7 +1143,7 @@ void KonqMainView::slotUpAboutToShow()
   uint i = 0;
 
   KURL u( m_currentView->view()->url() );
-  u.cd( ".." );
+  u = u.upURL();
   while ( u.hasPath() )
   {
     popup->insertItem( KMimeType::pixmapForURL( u ), u.decodedURL() );
@@ -1166,8 +1154,33 @@ void KonqMainView::slotUpAboutToShow()
     if ( ++i > 10 )
       break;
 
-    u.cd( ".." );
+    u = u.upURL();
   }
+}
+
+void KonqMainView::slotUp()
+{
+  kdDebug(1202) << "slotUp. Start URL is " << m_currentView->url().url() << endl;
+  openURL( (KonqChildView *)m_currentView, m_currentView->url().upURL() );
+}
+
+void KonqMainView::slotUpActivated( int id )
+{
+  KURL u( m_currentView->url() );
+  kdDebug(1202) << "slotUpActivated. Start URL is " << u.url() << endl;
+  for ( int i = 0 ; i < m_paUp->popupMenu()->indexOf( id ) + 1 ; i ++ )
+      u = u.upURL();
+  openURL( 0L, u );
+}
+
+void KonqMainView::slotGoMenuAboutToShow()
+{
+  m_paBack->fillGoMenu( m_currentView->history() );
+}
+
+void KonqMainView::slotGoHistoryActivated( int steps )
+{
+  m_currentView->go( steps );
 }
 
 void KonqMainView::slotBackAboutToShow()
@@ -1176,35 +1189,25 @@ void KonqMainView::slotBackAboutToShow()
   m_paBack->fillHistoryPopup( m_currentView->history(), 0L, true, false );
 }
 
+void KonqMainView::slotBack()
+{
+  m_currentView->go( -1 );
+}
+
+void KonqMainView::slotBackActivated( int id )
+{
+  m_currentView->go( -(m_paBack->popupMenu()->indexOf( id ) + 1) );
+}
+
 void KonqMainView::slotForwardAboutToShow()
 {
   m_paForward->popupMenu()->clear();
   m_paForward->fillHistoryPopup( m_currentView->history(), 0L, false, true );
 }
 
-void KonqMainView::slotGoMenuAboutToShow()
+void KonqMainView::slotForward()
 {
-  m_paBack->fillGoMenu( m_currentView->history() );
-}
-
-void KonqMainView::slotUpActivated( int id )
-{
-  // Strip any filename
-  KURL u( m_currentView->view()->url().directory(false,false) );
-  kdDebug(1202) << "slotUpActivated. Start URL is " << u.url() << endl;
-  for ( int i = 0 ; i < m_paUp->popupMenu()->indexOf( id ) + 1 ; i ++ )
-      u.cd( ".." );
-  openURL( 0L, u );
-}
-
-void KonqMainView::slotGoHistoryActivated( int steps )
-{
-  m_currentView->go( steps );
-}
-
-void KonqMainView::slotBackActivated( int id )
-{
-  m_currentView->go( -(m_paBack->popupMenu()->indexOf( id ) + 1) );
+  m_currentView->go( 1 );
 }
 
 void KonqMainView::slotForwardActivated( int id )
