@@ -329,10 +329,7 @@ void KonqMainWindow::openURL( KonqView *_view, const KURL &url, const QString &s
       {
         view->setRun( run );
         if ( view == m_currentView )
-        {
           startAnimation();
-          view->setLoading( true );
-        }
       }
       connect( run, SIGNAL( finished() ),
                this, SLOT( slotRunFinished() ) );
@@ -743,6 +740,8 @@ void KonqMainWindow::slotRunFinished()
   //kdDebug(1202) << "KonqMainWindow::slotRunFinished()" << endl;
   const KonqRun *run = static_cast<const KonqRun *>( sender() );
 
+  KonqView *childView = run->childView();
+
   // Check if we found a mimetype _and_ we got no error (example: cancel in openwith dialog)
   if ( run->foundMimeType() && !run->hasError() )
   {
@@ -758,8 +757,6 @@ void KonqMainWindow::slotRunFinished()
 
     return;
   }
-
-  KonqView *childView = run->childView();
 
   if ( !childView )
   {
@@ -1153,8 +1150,6 @@ void KonqMainWindow::customEvent( QCustomEvent *event )
     KParts::OpenURLEvent * ev = static_cast<KParts::OpenURLEvent*>(event);
     KonqView * senderChildView = childView(ev->part());
 
-    KParts::BrowserExtension *ext = senderChildView->browserExtension();
-
     // Check if sender is linked
     bool bLinked = senderChildView->linkedView();
     // Forward the event to all views
@@ -1168,9 +1163,8 @@ void KonqMainWindow::customEvent( QCustomEvent *event )
       //kdDebug(1202) << "Sending event to view " << it.key()->className() << endl;
        QApplication::sendEvent( it.key(), event );
 
-       bool reload = false;
-       if ( ext )
-         reload = ev->args().reload;
+       bool reload = ev->args().reload;
+       kdDebug(1202) << "ev->args().reload=" << reload << endl;
 
        // Linked-views feature
        if ( bLinked && (*it)->linkedView()
@@ -1184,7 +1178,7 @@ void KonqMainWindow::customEvent( QCustomEvent *event )
               || senderChildView->passiveMode() )
          {
            kdDebug(1202) << "Sending openURL to view " << it.key()->className() << " url:" << ev->url().url() << endl;
-           kdDebug(1202) << "Current view url:" << (*it)->url().url() << endl;
+           kdDebug(1202) << "Current view url:" << (*it)->url().url() << " reload=" << reload << endl;
            (*it)->setLockedViewMode(true);
 	   openURL( (*it), ev->url(), ev->args() );
          } else
@@ -1707,7 +1701,7 @@ void KonqMainWindow::initActions()
   connect( m_paHistory, SIGNAL( menuAboutToShow() ), this, SLOT( slotGoMenuAboutToShow() ) );
   connect( m_paHistory, SIGNAL( activated( int ) ), this, SLOT( slotGoHistoryActivated( int ) ) );
 
-  m_paHome = new KAction( i18n( "Home Directory" ), "gohome", KStdAccel::key(KStdAccel::Home), this, SLOT( slotHome() ), actionCollection(), "home" );
+  m_paHome = new KAction( i18n( "Home URL" ), "gohome", KStdAccel::key(KStdAccel::Home), this, SLOT( slotHome() ), actionCollection(), "home" );
 
   (void) new KAction( i18n( "App&lications" ), 0, this, SLOT( slotGoApplications() ), actionCollection(), "go_applications" );
   (void) new KAction( i18n( "Directory Tree" ), 0, this, SLOT( slotGoDirTree() ), actionCollection(), "go_dirtree" );
