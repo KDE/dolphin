@@ -52,7 +52,7 @@ KonqIconViewWidget::KonqIconViewWidget( QWidget * parent, const char * name, WFl
     setSelectionMode( QIconView::Extended );
     setItemTextPos( QIconView::Bottom );
     setGridX( 70 );
-    setAligning( true );
+    setAutoArrange( true );
     setSorting( true, sortDirection() );
     // configurable settings
     initConfig();
