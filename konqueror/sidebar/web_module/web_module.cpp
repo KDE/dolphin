@@ -31,8 +31,9 @@ KonqSideBarWebModule::KonqSideBarWebModule(KInstance *instance, QObject *parent,
 	: KonqSidebarPlugin(instance, parent, widgetParent, desktopName, name)
 {
 	_htmlPart = new KHTMLSideBar;
-//	connect(_htmlPart, SIGNAL(setWindowCaption(const QString&)), this, SLOT());
 	connect(_htmlPart, SIGNAL(completed()), this, SLOT(pageLoaded()));
+	connect(_htmlPart, SIGNAL(setWindowCaption(const QString&)),
+		this, SLOT(setTitle(const QString&)));
 	connect(_htmlPart, SIGNAL(openURLRequest(const QString&, KParts::URLArgs)),
 		       	this, SLOT(urlClicked(const QString&, KParts::URLArgs)));
 	KSimpleConfig ksc(desktopName);
@@ -74,6 +75,12 @@ void KonqSideBarWebModule::loadFavicon() {
 	QString icon = KonqPixmapProvider::iconForURL(_url);
 	if (!icon.isEmpty())
 		emit setIcon(icon);
+}
+
+
+void KonqSideBarWebModule::setTitle(const QString& title) {
+	if (!title.isEmpty())
+		emit setCaption(title);
 }
 
 

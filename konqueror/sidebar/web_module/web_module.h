@@ -74,6 +74,7 @@ class KonqSideBarWebModule : public KonqSidebarPlugin
 		void urlClicked(const QString& url, KParts::URLArgs args);
 		void pageLoaded();
 		void loadFavicon();
+		void setTitle(const QString&);
 
 	private:
 		KHTMLSideBar *_htmlPart;

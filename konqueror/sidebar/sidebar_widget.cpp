@@ -837,6 +837,11 @@ void Sidebar_Widget::showHidePage(int page)
 				ButtonBar->getTab(page),
 				SLOT(setIcon(const QString&)));
 
+			connect(info->module,
+				SIGNAL(setCaption(const QString&)),
+				ButtonBar->getTab(page),
+				SLOT(setText(const QString&)));
+
 			if (singleWidgetMode)
 			{
 				Area->setMainDockWidget(info->dock);
