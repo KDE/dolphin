@@ -487,6 +487,13 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
         }
         addGroup( "editactions" );
     }
+
+    if (d->m_itemFlags & KParts::BrowserExtension::ShowTextSelectionItems) {
+      addMerge( 0 );
+      m_factory->addClient( this );
+      return;
+    }
+
     if ( !isCurrentTrash && !isIntoTrash && (d->m_itemFlags & KParts::BrowserExtension::ShowBookmark))
     {
         addSeparator();

@@ -4022,7 +4022,7 @@ void KonqMainWindow::slotPopupMenu( KXMLGUIClient *client, const QPoint &_global
   url.cleanPath();
   bool isIntoTrash =  url.isLocalFile() && url.path(1).startsWith(KGlobalSettings::trashPath());
   PopupMenuGUIClient *konqyMenuClient = new PopupMenuGUIClient( this, m_popupEmbeddingServices,
-                                                                dirsSelected, isIntoTrash );
+                                                                dirsSelected, isIntoTrash || (itemFlags & KParts::BrowserExtension::ShowTextSelectionItems));
 
   //kdDebug(1202) << "KonqMainWindow::slotPopupMenu " << viewURL.prettyURL() << endl;
 
