@@ -57,7 +57,7 @@ public:
                     m_icon(QString::null), m_cleanUpCmd(0L), m_utf8(false)
    { ; }
 
-   virtual void init3(const QString &fileName, bool folder) = 0;
+   virtual void import(const QString &fileName, bool folder) = 0;
 
    virtual QString name() const;
    virtual QString visibleName() const = 0;
@@ -118,7 +118,7 @@ class XBELImportCommand : public ImportCommand
 {
 public:
    XBELImportCommand() : ImportCommand() { ; }
-   virtual void init3(const QString &fileName, bool folder) = 0;
+   virtual void import(const QString &fileName, bool folder) = 0;
    virtual QString visibleName() const = 0;
    virtual QString requestFilename() const = 0;
 private:
@@ -131,7 +131,7 @@ class GaleonImportCommand : public XBELImportCommand
 {
 public:
    GaleonImportCommand() : XBELImportCommand() { ; }
-   virtual void init3(const QString &fileName, bool folder) {
+   virtual void import(const QString &fileName, bool folder) {
       init(fileName, folder, icon, false);
    }
    virtual QString visibleName() const;
@@ -143,7 +143,7 @@ class KDE2ImportCommand : public XBELImportCommand
 {
 public:
    KDE2ImportCommand() : XBELImportCommand() { ; }
-   virtual void init3(const QString &fileName, bool folder) {
+   virtual void import(const QString &fileName, bool folder) {
       init(fileName, folder, icon, false);
    }
    virtual QString visibleName() const;
@@ -156,7 +156,7 @@ class HTMLImportCommand : public ImportCommand
 {
 public:
    HTMLImportCommand() : ImportCommand() { ; }
-   virtual void init3(const QString &fileName, bool folder) = 0;
+   virtual void import(const QString &fileName, bool folder) = 0;
    virtual QString visibleName() const = 0;
    virtual QString requestFilename() const = 0;
 private:
@@ -167,7 +167,7 @@ class NSImportCommand : public HTMLImportCommand
 {
 public:
    NSImportCommand() : HTMLImportCommand() { ; }
-   virtual void init3(const QString &fileName, bool folder) {
+   virtual void import(const QString &fileName, bool folder) {
       init(fileName, folder, "netscape", false);
    }
    virtual QString visibleName() const;
@@ -179,7 +179,7 @@ class MozImportCommand : public HTMLImportCommand
 {
 public:
    MozImportCommand() : HTMLImportCommand() { ; }
-   virtual void init3(const QString &fileName, bool folder) {
+   virtual void import(const QString &fileName, bool folder) {
       init(fileName, folder, "mozilla", true);
    }
    virtual QString visibleName() const;
@@ -191,7 +191,7 @@ class IEImportCommand : public ImportCommand
 {
 public:
    IEImportCommand() : ImportCommand() { ; }
-   virtual void init3(const QString &fileName, bool folder) {
+   virtual void import(const QString &fileName, bool folder) {
       init(fileName, folder, "", false);
    }
    virtual QString visibleName() const;
@@ -204,7 +204,7 @@ class OperaImportCommand : public ImportCommand
 {
 public:
    OperaImportCommand() : ImportCommand() { ; }
-   virtual void init3(const QString &fileName, bool folder) {
+   virtual void import(const QString &fileName, bool folder) {
       init(fileName, folder, "opera", false);
    }
    virtual QString visibleName() const;
