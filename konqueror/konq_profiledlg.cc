@@ -73,8 +73,6 @@ KonqProfileDlg::KonqProfileDlg( KonqViewManager *manager, const QString & presel
 
   setCaption( i18n( "Profile Management" ) );
 
-  m_mapEntries = readAllProfiles();
-
 #define N_BUTTONS 4
   m_pGrid = new QGridLayout( this, 10, N_BUTTONS, KDialog::marginHint(), KDialog::spacingHint() );
 
@@ -99,20 +97,7 @@ KonqProfileDlg::KonqProfileDlg( KonqViewManager *manager, const QString & presel
   connect( m_pListView, SIGNAL( itemRenamed( QListViewItem * ) ),
             SLOT( slotItemRenamed( QListViewItem * ) ) );
 
-  KonqProfileMap::ConstIterator eIt = m_mapEntries.begin();
-  KonqProfileMap::ConstIterator eEnd = m_mapEntries.end();
-  for (; eIt != eEnd; ++eIt )
-  {
-    QListViewItem *item = new KonqProfileItem( m_pListView, eIt.key() );
-    QString filename = eIt.data().mid( eIt.data().findRev( '/' ) + 1 );
-    kdDebug(1202) << filename << endl;
-    if ( filename == preselectProfile )
-    {
-      m_pProfileNameLineEdit->setText( eIt.key() );
-      m_pListView->setSelected( item, true );
-    }
-  }
-
+  loadAllProfiles(preselectProfile);
   m_pListView->setMinimumSize( m_pListView->sizeHint() );
 
   KGlobal::config()->setGroup("Settings");
@@ -174,6 +159,27 @@ KonqProfileDlg::~KonqProfileDlg()
   config->writeEntry("SaveWindowSizeInProfile", m_cbSaveSize->isChecked());
 }
 
+void KonqProfileDlg::loadAllProfiles(const QString & preselectProfile)
+{
+    m_mapEntries.clear();
+    m_pListView->clear();
+    m_mapEntries = readAllProfiles();
+    KonqProfileMap::ConstIterator eIt = m_mapEntries.begin();
+    KonqProfileMap::ConstIterator eEnd = m_mapEntries.end();
+    for (; eIt != eEnd; ++eIt )
+    {
+        QListViewItem *item = new KonqProfileItem( m_pListView, eIt.key() );
+        QString filename = eIt.data().mid( eIt.data().findRev( '/' ) + 1 );
+        kdDebug(1202) << filename << endl;
+        if ( filename == preselectProfile )
+        {
+            m_pProfileNameLineEdit->setText( eIt.key() );
+            m_pListView->setSelected( item, true );
+        }
+    }
+    m_pProfileNameLineEdit->setText( preselectProfile);
+}
+
 void KonqProfileDlg::slotSave()
 {
   QString name = KIO::encodeFileName( m_pProfileNameLineEdit->text() ); // in case of '/'
@@ -203,10 +209,7 @@ void KonqProfileDlg::slotDelete()
   KonqProfileMap::Iterator it = m_mapEntries.find( m_pListView->selectedItem()->text(0) );
 
   if ( it != m_mapEntries.end() && QFile::remove( it.data() ) )
-  {
-    m_pListView->removeItem( m_pListView->selectedItem() );
-    m_mapEntries.remove( it );
-  }
+      loadAllProfiles();
   m_pDeleteProfileButton->setEnabled( m_pListView->selectedItem ()!=0 );
   m_pRenameProfileButton->setEnabled( m_pListView->selectedItem ()!=0 );
 }
@@ -219,7 +222,7 @@ void KonqProfileDlg::slotRename()
     m_pListView->rename( item, 0 );
 }
 
-void KonqProfileDlg::slotItemRenamed( QListViewItem * item ) 
+void KonqProfileDlg::slotItemRenamed( QListViewItem * item )
 {
   KonqProfileItem * profileItem = static_cast<KonqProfileItem *>( item );
 

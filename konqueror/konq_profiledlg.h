@@ -67,7 +67,8 @@ protected slots:
   void slotItemRenamed( QListViewItem * );
 
 private:
-  KonqViewManager *m_pViewManager;
+    void loadAllProfiles(const QString & = QString::null);
+    KonqViewManager *m_pViewManager;
 
   KonqProfileMap m_mapEntries;
 
