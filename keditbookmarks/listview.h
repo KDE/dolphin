@@ -93,8 +93,6 @@ public:
    void makeConnections();
    void readonlyFlagInit(bool);
 
-   // virtual void startDrag();
-
    bool isFolderList() { return m_folderList; }
 
    KEBListViewItem* rootItem();
@@ -168,6 +166,7 @@ public:
    void rename(int);
    void clearSelection();
 
+   void handleMoved(KEBListView *);
    void handleDropped(KEBListView *, QDropEvent *, QListViewItem *, QListViewItem *);
    void handleSelectionChanged(KEBListView *);
    void handleCurrentChanged(KEBListView *, QListViewItem *);

@@ -460,6 +460,15 @@ void ListView::handleCurrentChanged(KEBListView *, QListViewItem *item) {
    }
 }
 
+void ListView::handleMoved(KEBListView *) {
+   kdDebug() << "ListView::handleMoved()" << endl;  
+   /*
+   KMacroCommand *mcmd = CmdGen::self()->deleteItems( i18n("Moved Items"), 
+                                                      ListView::self()->selectedItems());
+   CmdHistory::self()->didCommand(mcmd);
+   */
+}
+
 void ListView::handleSelectionChanged(KEBListView *) {
    s_listview_is_dirty = true;
    KEBApp::self()->updateActions();
@@ -635,8 +644,7 @@ void KEBListView::readonlyFlagInit(bool readonly) {
 }
 
 void KEBListView::slotMoved() 
-   { kdDebug() << "KEBListView::slotMoved()" << endl;  }
-
+   { ListView::self()->handleMoved(this); }
 void KEBListView::slotSelectionChanged() 
    { ListView::self()->handleSelectionChanged(this); }
 void KEBListView::slotCurrentChanged(QListViewItem *a) 
@@ -649,30 +657,6 @@ void KEBListView::slotDoubleClicked(QListViewItem *a, const QPoint &b, int c)
    { ListView::self()->handleDoubleClicked(this, a,b,c); }
 void KEBListView::slotDropped(QDropEvent *a, QListViewItem *b, QListViewItem *c) 
    { ListView::self()->handleDropped(this, a,b,c); }
-
-/*
-void KEBListView::startDrag() {
-   QDragObject *drag = dragObject();
-
-   if (!drag) {
-      return;
-   }
-
-   bool moved = drag->drag();
-
-   kdDebug() << "1" << endl;
-   kdDebug() << moved << ", " << drag->target() << ", " << viewport() << endl;
-   if (moved) {
-      kdDebug() << "cooool, gonna delete it!" << endl;
-      if (0 && drag->target() != viewport()) {
-         KMacroCommand *mcmd = CmdGen::self()->deleteItems( i18n("Moved Items"), 
-                                                            ListView::self()->selectedItems());
-         CmdHistory::self()->didCommand(mcmd);
-      }
-   }
-   kdDebug() << "2" << endl;
-}
-*/
 
 void KEBListView::rename(QListViewItem *qitem, int column) {
    KEBListViewItem *item = static_cast<KEBListViewItem *>(qitem);
