@@ -132,8 +132,9 @@ KJavaScriptOptions::KJavaScriptOptions( KConfig* config, QString group, QWidget 
   connect( disableWindowOpenCB, SIGNAL( clicked() ), this, SLOT( changed() ) );
 
   kdDebug() << "\"Show debugger window\" says: make me useful!" << endl;
-
   enableDebugOutputCB = new QCheckBox( i18n( "Show debugger window" ), miscSettingsGB);
+  enableDebugOutputCB->setEnabled( false );
+
   QWhatsThis::add( enableDebugOutputCB, i18n("Show a window with informations and warnings issued by the JavaScript interpreter. "
                                              "This is extremely useful for both debugging your own html pages and tracing down "
                                              "problems with Konquerors JavaScript support.") );
