@@ -500,8 +500,8 @@ void KonqMainView::slotConfigureFileManager()
 {
   if (fork() == 0) {
     // execute 'kcmkonq'
-    execl(locate("exe", "kcmkonq"), 0);
-    warning("Error launching kcmkonq !");
+    execl(locate("exe", "kcmshell"), "kcmshell", "Applications/konqueror", 0);
+    warning("Error launching kcmshell konqueror!");
     exit(1);
   }
 }
