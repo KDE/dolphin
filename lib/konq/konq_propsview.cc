@@ -106,7 +106,7 @@ KonqPropsView::KonqPropsView( KInstance * instance, KonqPropsView * defaultProps
 
   m_textColor = config->readColorEntry( "TextColor" ); // will be set to QColor() if not found
   m_bgColor = config->readColorEntry( "BgColor" ); // will be set to QColor() if not found
-  m_bgPixmapFile = config->readEntry( "BgImage" );
+  m_bgPixmapFile = config->readPathEntry( "BgImage" );
   //kdDebug(1203) << "KonqPropsView::KonqPropsView from \"config\" : BgImage=" << m_bgPixmapFile << endl;
 
   // colorsConfig is either the local file (.directory) or the application global file
@@ -118,7 +118,7 @@ KonqPropsView::KonqPropsView( KInstance * instance, KonqPropsView * defaultProps
       KConfigGroupSaver cgs2(KGlobal::config(), "Settings");
       m_textColor = KGlobal::config()->readColorEntry( "TextColor", &m_textColor );
       m_bgColor = KGlobal::config()->readColorEntry( "BgColor", &m_bgColor );
-      m_bgPixmapFile = KGlobal::config()->readEntry( "BgImage", m_bgPixmapFile );
+      m_bgPixmapFile = KGlobal::config()->readPathEntry( "BgImage", m_bgPixmapFile );
       //kdDebug(1203) << "KonqPropsView::KonqPropsView from KGlobal : BgImage=" << m_bgPixmapFile << endl;
   }
 
@@ -230,7 +230,7 @@ bool KonqPropsView::enterDir( const KURL & dir )
 
     m_textColor = config->readColorEntry( "TextColor", &m_textColor );
     m_bgColor = config->readColorEntry( "BgColor", &m_bgColor );
-    m_bgPixmapFile = config->readEntry( "BgImage", m_bgPixmapFile );
+    m_bgPixmapFile = config->readPathEntry( "BgImage", m_bgPixmapFile );
     //kdDebug(1203) << "KonqPropsView::enterDir m_bgPixmapFile=" << m_bgPixmapFile << endl;
     d->previewsEnabled = config->readBoolEntry( "PreviewsEnabled", d->previewsEnabled );
     delete config;
@@ -475,7 +475,7 @@ void KonqPropsView::setBgPixmapFile( const QString & file )
         if (colorConfig) // 0L when saving locally but remote URL
         {
             KConfigGroupSaver cgs(colorConfig, currentGroup());
-            colorConfig->writeEntry( "BgImage", file );
+            colorConfig->writePathEntry( "BgImage", file );
             colorConfig->sync();
         }
     }
