@@ -247,8 +247,9 @@ int main(int argc, char *argv[])
                         "(C) 2000, Nick Thompson");
   aboutData.addAuthor("David Faure", I18N_NOOP("Current maintainer"),"faure@kde.org");
   aboutData.addAuthor("Nick Thompson",0, 0/*"nickthompson@lucent.com" bounces*/);
-  aboutData.addAuthor("Matthias Hölzer",0,"hoelzer@kde.org");
-  aboutData.addAuthor("David Gümbel",0,"david.guembel@gmx.net");
+  aboutData.addAuthor("Nick Thompson",0, 0/*"nickthompson@lucent.com" bounces*/);
+  aboutData.addAuthor("Matthias HÃ¶lzer",0,"hoelzer@kde.org");
+  aboutData.addAuthor("David GÃ¼mbel",0,"david.guembel@gmx.net");
 
   KCmdLineArgs::init(argc, argv, &aboutData);
   KCmdLineArgs::addCmdLineOptions( options ); // Add our own options.
