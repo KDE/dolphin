@@ -53,7 +53,7 @@ KAppearanceOptions::KAppearanceOptions(KConfig *config, QString group, QWidget *
 
   QStringList emptyList;
 
-  QLabel* label = new QLabel( i18n("S&tandard Font"), this );
+  QLabel* label = new QLabel( i18n("S&tandard font:"), this );
   lay->addWidget( label , ++r, E+1);
 
   m_pFonts[0] = new KFontCombo( emptyList, this );
@@ -168,8 +168,9 @@ KAppearanceOptions::KAppearanceOptions(KConfig *config, QString group, QWidget *
 	   SLOT( changed() ) );
 
   label = new QLabel( i18n( "Default encoding:"), this );
-  ++r;
-  lay->addMultiCellWidget( label, r, r, E, E+1);
+  //++r;
+  //lay->addMultiCellWidget( label, r, r, E, E+1);
+  lay->addWidget( label, ++r, E+1);
 
   m_pEncoding = new QComboBox( false, this );
   label->setBuddy( m_pEncoding );

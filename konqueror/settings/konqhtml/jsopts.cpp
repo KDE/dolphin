@@ -70,7 +70,7 @@ KJavaScriptOptions::KJavaScriptOptions( KConfig* config, QString group, QWidget 
 //  connect( enableJavaScriptDebugCB, SIGNAL( clicked() ), this, SLOT( changed() ) );
 
   // the domain-specific listview (copied and modified from Cookies configuration)
-  QGroupBox* domainSpecificGB = new QGroupBox( i18n( "Domain-specific" ), this );
+  QGroupBox* domainSpecificGB = new QGroupBox( i18n( "D&omain-specific" ), this );
   domainSpecificGB->setColumnLayout(0, Qt::Vertical );
   domainSpecificGB->layout()->setSpacing( 0 );
   domainSpecificGB->layout()->setMargin( 0 );
@@ -145,7 +145,7 @@ KJavaScriptOptions::KJavaScriptOptions( KConfig* config, QString group, QWidget 
                                           "button allows you to easily share your policies with other people by allowing "
                                           "you to save and retrive them from a zipped file.") );
 
-  js_popup      = new QButtonGroup(4, Horizontal, i18n( "JavaScript web popups policy" ), this);
+  js_popup      = new QButtonGroup(4, Horizontal, i18n( "JavaScript Web Popups Policy" ), this);
   js_popup->setExclusive(TRUE);
   QRadioButton* js_popupAllow = new QRadioButton(i18n( "Allow" ), js_popup);
   QRadioButton* js_popupAsk   = new QRadioButton(i18n( "Ask" ), js_popup);

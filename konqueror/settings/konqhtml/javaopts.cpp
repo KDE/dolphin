@@ -67,7 +67,7 @@ KJavaOptions::KJavaOptions( KConfig* config, QString group,
     /***************************************************************************
      ***************** Domain Specific Settings ********************************
      **************************************************************************/
-    QGroupBox* domainSpecificGB = new QGroupBox( i18n( "Domain-specific" ), this );
+    QGroupBox* domainSpecificGB = new QGroupBox( i18n( "D&omain-specific" ), this );
     domainSpecificGB->setColumnLayout(0, Qt::Vertical );
     domainSpecificGB->layout()->setSpacing( 0 );
     domainSpecificGB->layout()->setMargin( 0 );
@@ -133,12 +133,13 @@ KJavaOptions::KJavaOptions( KConfig* config, QString group,
     QHBox* secondsHB = new QHBox( javartGB );
     serverTimeoutSB = new KIntNumInput( secondsHB );
     serverTimeoutSB->setRange( 0, 1000, 5 );
-    serverTimeoutSB->setLabel( i18n("Applet Server Timeout (seconds)"), AlignLeft );
+    serverTimeoutSB->setLabel( i18n("App&let Server timeout:"), AlignLeft );
+    serverTimeoutSB->setSuffix(i18n(" sec"));
     connect(serverTimeoutSB, SIGNAL(valueChanged(int)),this,SLOT(changed()));
 
     QHBox* pathHB = new QHBox( javartGB );
     pathHB->setSpacing( 10 );
-    QLabel* pathLA = new QLabel( i18n( "&Path to Java executable, or 'java'" ),
+    QLabel* pathLA = new QLabel( i18n( "&Path to Java executable, or 'java':" ),
                                  pathHB );
     pathED = new  KURLRequester( pathHB );
     connect( pathED, SIGNAL(textChanged( const QString& )), this, SLOT(changed()) );
@@ -146,7 +147,7 @@ KJavaOptions::KJavaOptions( KConfig* config, QString group,
 
     QHBox* addArgHB = new QHBox( javartGB );
     addArgHB->setSpacing( 10 );
-    QLabel* addArgLA = new QLabel( i18n( "Additional Java A&rguments" ), addArgHB  );
+    QLabel* addArgLA = new QLabel( i18n( "Additional Java a&rguments:" ), addArgHB  );
     addArgED = new QLineEdit( addArgHB );
     connect( addArgED, SIGNAL(textChanged( const QString& )), this, SLOT(changed()) );
     addArgLA->setBuddy( addArgED );
