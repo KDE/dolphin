@@ -129,6 +129,9 @@ bool PluginPart::openURL(const KURL &url)
 {
   kDebugInfo("-> PluginPart::openURL");
 
+  m_url = url;
+  emit setWindowCaption( url.decodedURL() );
+
 //  delete _widget; _widget = 0;
 
   QString surl = url.url();
@@ -220,7 +223,9 @@ bool PluginPart::closeURL()
 
 void PluginPart::requestURL(QCString url)
 {
-  emit _extension->openURLRequest( KURL( QString::fromLatin1( url ) ) );
+  KURL new_url(this->url(), url);
+
+  emit _extension->openURLRequest( new_url );
 }
 
 
