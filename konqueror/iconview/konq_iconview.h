@@ -167,6 +167,8 @@ protected:
 
   bool m_bUpdateContentsPosAfterListing:1;
 
+  bool m_bDirPropertiesChanged:1;
+
   SortCriterion m_eSortCriterion;
 
   KToggleAction *m_paDotFiles;

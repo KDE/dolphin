@@ -367,6 +367,7 @@ KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const 
     m_bNeedAlign = false;
     m_bNeedEmitCompleted = false;
     m_bUpdateContentsPosAfterListing = false;
+    m_bDirPropertiesChanged = true;
     m_pIconView->setResizeMode( QIconView::Adjust );
 
     connect( m_pIconView, SIGNAL( selectionChanged() ),
@@ -821,6 +822,10 @@ void KonqKfmIconView::slotCompleted()
 
 void KonqKfmIconView::slotNewItems( const KFileItemList& entries )
 {
+    // We need to disable graphics updates on the iconview when
+    // inserting items, or else a blank paint operation will be
+    // performed on the top-left corner for each inserted item!
+    m_pIconView->setUpdatesEnabled( false );
     for (KFileItemListIterator it(entries); it.current(); ++it)
     {
         //kdDebug(1202) << "KonqKfmIconView::slotNewItem(...)" << _fileitem->url().url() << endl;
@@ -859,6 +864,8 @@ void KonqKfmIconView::slotNewItems( const KFileItemList& entries )
 
         m_itemDict.insert( *it, item );
     }
+    // After filtering out updates-on-insertions we can re-enable updates
+    m_pIconView->setUpdatesEnabled( true );
     KonqDirPart::newItems( entries );
 }
 
@@ -985,6 +992,16 @@ void KonqKfmIconView::slotClear()
 {
     resetCount();
     m_pIconView->clear();
+
+    // If directory properties are changed, apply pending changes
+    // changes are: view background or color, iconsize, enabled previews
+    if ( m_bDirPropertiesChanged )
+    {
+        m_pProps->applyColors( m_pIconView->viewport() );
+        newIconSize( m_pProps->iconSize() );
+        m_pIconView->setPreviewSettings( m_pProps->previewSettings() );
+    }
+
     m_mimeTypeResolver->m_lstPendingMimeIconItems.clear();
     m_itemDict.clear();
     // Bug in QIconview IMHO - it should emit selectionChanged()
@@ -1063,9 +1080,9 @@ bool KonqKfmIconView::doOpenURL( const KURL & url )
     m_bLoading = true;
 
     // Check for new properties in the new dir
-    // newProps returns true the first time, and any time something might
+    // enterDir returns true the first time, and any time something might
     // have changed.
-    bool newProps = m_pProps->enterDir( url );
+    m_bDirPropertiesChanged = m_pProps->enterDir( url );
 
     m_dirLister->setNameFilter( m_nameFilter );
 
@@ -1091,13 +1108,11 @@ bool KonqKfmIconView::doOpenURL( const KURL & url )
     // Start the directory lister !
     m_dirLister->openURL( url, false, m_extension->urlArgs().reload );
 
-    // Apply properties and reflect them on the actions
-    // do it after starting the dir lister to avoid changing the properties
-    // of the old view
-    if ( newProps )
+    // Properties (icon size, preview, ..) will be applied into the
+    // slotClear(); this is called between m_dirLister->openURL and the
+    // first incoming results that will be delivered with slotNewItems
+    if ( m_bDirPropertiesChanged )
     {
-      newIconSize( m_pProps->iconSize() );
-
       m_paDotFiles->setChecked( m_pProps->isShowingDotFiles() );
       m_paDirectoryOverlays->setChecked( m_pProps->isShowingDirectoryOverlays() );
       m_paEnablePreviews->setChecked( m_pProps->isShowingPreview() );
@@ -1114,12 +1129,6 @@ bool KonqKfmIconView::doOpenURL( const KURL & url )
           m_paPreviewPlugins.current()->setChecked( enabled );
           m_paPreviewPlugins.current()->setEnabled( m_pProps->isShowingPreview() );
       }
-
-      m_pIconView->setPreviewSettings(m_pProps->previewSettings());
-
-      // It has to be "viewport()" - this is what KonqDirPart's slots act upon,
-      // and otherwise we get a color/pixmap in the square between the scrollbars.
-      m_pProps->applyColors( m_pIconView->viewport() );
     }
 
     emit setWindowCaption( url.prettyURL() );
