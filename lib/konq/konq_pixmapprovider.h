@@ -56,11 +56,13 @@ public:
 
 protected:
     KonqPixmapProvider( QObject *parent=0, const char *name=0 );
-    
+
     /**
      * Overridden from KonqFavIconMgr to update the cache
      */
     virtual void notifyChange( bool isHost, QString hostOrURL, QString iconURL );
+    
+    QPixmap loadIcon( const QString& url, const QString& icon, int size );
 
 private:
     QMap<QString,QString> iconMap;

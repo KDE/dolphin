@@ -3419,7 +3419,16 @@ void KonqMainWindow::closeEvent( QCloseEvent *e )
 void KonqMainWindow::setIcon( const QPixmap& pix )
 {
   KParts::MainWindow::setIcon( pix );
-  KWin::setIcons( winId(), pix, pix );
+
+  QPixmap big = pix;
+
+  QString url = m_combo ? m_combo->currentText() : m_currentView ?
+		m_currentView->url().url() : QString::null;
+  
+  if ( !url.isEmpty() )
+    big = KonqPixmapProvider::self()->pixmapFor( url, KIcon::SizeMedium );
+
+  KWin::setIcons( winId(), big, pix );
 }
 
 

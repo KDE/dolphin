@@ -17,6 +17,7 @@
    Boston, MA 02111-1307, USA.
 */
 
+#include <qbitmap.h>
 #include <qstringlist.h>
 
 #include <kapp.h>
@@ -60,7 +61,7 @@ QPixmap KonqPixmapProvider::pixmapFor( const QString& url, int size )
     if ( it != iconMap.end() ) {
         icon = it.data();
         if ( !icon.isEmpty() )
-	    return SmallIcon( icon, size );
+	    return loadIcon( url, icon, size );
     }
 
     KURL u;
@@ -78,7 +79,7 @@ QPixmap KonqPixmapProvider::pixmapFor( const QString& url, int size )
     // cache the icon found for url
     iconMap.insert( url, icon );
 
-    return SmallIcon( icon, size );
+    return loadIcon( url, icon, size );
 }
 
 
@@ -146,4 +147,44 @@ void KonqPixmapProvider::notifyChange( bool isHost, QString hostOrURL,
 void KonqPixmapProvider::clear()
 {
     iconMap.clear();
+}
+
+QPixmap KonqPixmapProvider::loadIcon( const QString& url, const QString& icon,
+				      int size )
+{
+    if ( size <= KIcon::SizeSmall )
+	return SmallIcon( icon, size );
+    
+    KURL u;
+    if ( url.at(0) == '/' )
+	u.setPath( url );
+    else
+	u = url;
+    
+    QPixmap big;
+    
+    // favicon? => blend the favicon in the large
+    if ( url.startsWith( "http:/" ) && icon.startsWith("favicons/") ) {
+	QPixmap small = SmallIcon( icon, size );
+	big = KGlobal::iconLoader()->loadIcon( KProtocolInfo::icon("http"),
+					       KIcon::Panel, size );
+
+	int x = big.width()  - small.width();
+	int y = 0;
+      
+ 	if ( big.mask() ) {
+ 	    QBitmap mask = *big.mask();
+ 	    bitBlt( &mask, x, y, small.mask(), 0, 0, 
+ 		    small.width(), small.height(), 
+ 		    small.mask() ? OrROP : SetROP );
+ 	    big.setMask( mask );
+ 	}
+
+	bitBlt( &big, x, y, &small );
+    }
+    
+    else // not a favicon..
+	big = KGlobal::iconLoader()->loadIcon( icon, KIcon::Panel, size );
+
+    return big;
 }
