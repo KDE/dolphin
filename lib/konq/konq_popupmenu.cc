@@ -232,7 +232,8 @@ KonqPopupMenu::KonqPopupMenu( const KFileItemList &items,
 
     if (!currentDir)
     {
-        addSeparator();
+        if ( sReading || sWriting ) // only if we added an action above
+            addSeparator();
 
         if ( m_lstItems.count() == 1 && sWriting )
             addAction("rename");
