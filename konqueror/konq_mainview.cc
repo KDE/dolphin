@@ -1283,14 +1283,28 @@ void KonqMainView::slotFullScreenStart()
   KonqFrame *widget = m_currentView->frame();
   m_tempContainer = widget->parentContainer();
   m_tempFocusPolicy = widget->focusPolicy();
+
   widget->statusbar()->hide();
-  widget->recreate( 0L, WStyle_Customize | WStyle_NoBorder | WType_Popup, QPoint( 0, 0 ), true );
-  widget->resize( QApplication::desktop()->width(), QApplication::desktop()->height() );
+
+  // see QWidget::showFullScreen()
+  widget->reparent( 0L, WStyle_Customize | WStyle_NoBorder | WType_Popup | WStyle_StaysOnTop, QPoint( 0, 0 ) );
+  widget->resize( QApplication::desktop()->size() );
 
   attachToolbars( widget );
 
   widget->setFocusPolicy( QWidget::StrongFocus );
   widget->setFocus();
+
+  widget->show();
+
+  /* Doesn't work
+  widget->setMouseTracking( TRUE ); // for autoselect stuff
+  QWidget * viewWidget = widget->view()->widget();
+  viewWidget->setMouseTracking( TRUE ); // for autoselect stuff
+  if ( viewWidget->inherits("QScrollView") )
+    ((QScrollView *) viewWidget)->viewport()->setMouseTracking( TRUE );
+  */
+
   m_bFullScreen = true;
 }
 
@@ -1299,13 +1313,19 @@ void KonqMainView::attachToolbars( KonqFrame *frame )
   QWidget *toolbar = guiFactory()->container( "locationToolBar", this );
   ((KToolBar*)toolbar)->setEnableContextMenu(false);
   if ( toolbar->parentWidget() != frame )
-    toolbar->recreate( frame, 0, QPoint( 0,0 ), true );
+  {
+    toolbar->reparent( frame, 0, QPoint( 0,0 ) );
+    toolbar->show();
+  }
   frame->layout()->insertWidget( 0, toolbar );
 
   toolbar = guiFactory()->container( "mainToolBar", this );
   ((KToolBar*)toolbar)->setEnableContextMenu(false);
   if ( toolbar->parentWidget() != frame )
-    toolbar->recreate( frame, 0, QPoint( 0, 0 ), true );
+  {
+    toolbar->reparent( frame, 0, QPoint( 0, 0 ) );
+    toolbar->show();
+  }
   frame->layout()->insertWidget( 0, toolbar );
 }
 
@@ -1319,15 +1339,18 @@ void KonqMainView::slotFullScreenStop()
 
   KonqFrame *widget = m_currentView->frame();
   widget->close( false );
-  widget->recreate( m_tempContainer, 0, QPoint( 0, 0 ), true);
+  widget->reparent( m_tempContainer, 0, QPoint( 0, 0 ) );
   widget->statusbar()->show();
+  widget->show();
   widget->setFocusPolicy( m_tempFocusPolicy );
   m_bFullScreen = false;
 
   widget->attachInternal();
 
-  toolbar1->recreate( this, 0, QPoint( 0, 0 ), true );
-  toolbar2->recreate( this, 0, QPoint( 0, 0 ), true );
+  toolbar1->reparent( this, 0, QPoint( 0, 0 ) );
+  toolbar1->show();
+  toolbar2->reparent( this, 0, QPoint( 0, 0 ) );
+  toolbar2->show();
 }
 
 void KonqMainView::setLocationBarURL( KonqChildView *childView, const QString &url )
