@@ -219,12 +219,16 @@ KonqTextView::KonqTextView( QWidget *parentWidget, QObject *parent, const char *
    m_paShowGroup=new KToggleAction(i18n("Show Group"), 0, this, SLOT( slotShowGroup() ), actionCollection(), "show_group" );
    m_paShowPermissions=new KToggleAction(i18n("Show permissions"), 0, this, SLOT( slotShowPermissions() ), actionCollection(), "show_permissions" );*/
 
-
    m_paShowTime.setChecked(FALSE);
    m_paShowSize.setChecked(TRUE);
-   m_paShowOwner.setChecked(FALSE);
+   m_paShowOwner.setChecked(TRUE);
    m_paShowGroup.setChecked(FALSE);
    m_paShowPermissions.setChecked(FALSE);
+   slotShowTime();
+   slotShowSize();
+   slotShowOwner();
+   slotShowGroup();
+   slotShowPermissions();
 }
 
 KonqTextView::~KonqTextView()
@@ -235,11 +239,8 @@ KonqTextView::~KonqTextView()
 bool KonqTextView::openURL( const KURL &url )
 {
    m_url = url;
-
    KURL u( url );
-
    emit setWindowCaption( u.decodedURL() );
-
    return m_pTextView->openURL( url );
 }
 
@@ -373,7 +374,7 @@ void KonqTextView::slotInvertSelection()
 {
     m_pTextView->invertSelection();
     m_pTextView->updateSelectedFilesInfo();
-
+    m_pTextView->repaintContents(0,0,m_pTextView->width(),m_pTextView->height());
 }
 
 #include "konq_textview.moc"
