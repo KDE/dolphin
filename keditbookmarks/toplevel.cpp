@@ -17,9 +17,9 @@
 */
 
 #include "toplevel.h"
-#include "drag.h"
 #include "commands.h"
 #include <kaction.h>
+#include <kbookmarkdrag.h>
 #include <kbookmarkmanager.h>
 #include <kbookmarkimporter.h>
 #include <kbookmarkexporter.h>
@@ -92,7 +92,7 @@ public:
 
     virtual bool acceptDrag(QDropEvent * e) const
     {
-        return e->source() == viewport() || KEBDrag::canDecode( e );
+        return e->source() == viewport() || KBookmarkDrag::canDecode( e );
     }
 
     virtual QDragObject *dragObject() const
@@ -101,7 +101,7 @@ public:
             return 0;
 
         KBookmark bk = KEBTopLevel::self()->selectedBookmark();
-        KEBDrag * drag = KEBDrag::newDrag( bk, viewport() /*not sure why klistview does it this way*/ );
+        KBookmarkDrag * drag = KBookmarkDrag::newDrag( bk, viewport() /*not sure why klistview does it this way*/ );
         drag->setPixmap( SmallIcon(bk.icon()) );
         return drag;
     }
@@ -236,7 +236,7 @@ void KEBTopLevel::slotClipboardDataChanged()
 {
     kdDebug() << "KEBTopLevel::slotClipboardDataChanged" << endl;
     QMimeSource *data = QApplication::clipboard()->data();
-    m_bCanPaste = KEBDrag::canDecode( data );
+    m_bCanPaste = KBookmarkDrag::canDecode( data );
     slotSelectionChanged();
 }
 
@@ -377,7 +377,7 @@ void KEBTopLevel::slotCopy()
     ASSERT(!bk.isNull());
     // This is not a command, because it can't be undone
 
-    KEBDrag* data = KEBDrag::newDrag( bk, 0L /* not this ! */ );
+    KBookmarkDrag* data = KBookmarkDrag::newDrag( bk, 0L /* not this ! */ );
     QApplication::clipboard()->setData( data );
     slotClipboardDataChanged(); // don't ask
 }
@@ -389,9 +389,9 @@ void KEBTopLevel::slotPaste()
 
 void KEBTopLevel::pasteData( const QString & cmdName,  QMimeSource * data, const QString & insertionAddress )
 {
-    if ( KEBDrag::canDecode( data ) )
+    if ( KBookmarkDrag::canDecode( data ) )
     {
-        KBookmark bk = KEBDrag::decode( data );
+        KBookmark bk = KBookmarkDrag::decode( data );
         kdDebug() << "KEBTopLevel::slotPaste url=" << bk.url().prettyURL() << endl;
         CreateCommand * cmd = new CreateCommand( cmdName, insertionAddress, bk );
         m_commandHistory.addCommand( cmd );

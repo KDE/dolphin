@@ -4,8 +4,7 @@ METASOURCES = AUTO
 
 lib_LTLIBRARIES = keditbookmarks.la
 
-keditbookmarks_la_SOURCES = main.cpp \
-	toplevel.cpp commands.cpp drag.cpp
+keditbookmarks_la_SOURCES = main.cpp toplevel.cpp commands.cpp
 
 keditbookmarks_la_LIBADD  = $(top_builddir)/libkonq/libkonq.la
 keditbookmarks_la_LDFLAGS = $(all_libraries) -module -avoid-version
