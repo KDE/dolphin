@@ -56,7 +56,6 @@ void KonqDirTreeModule::addTopLevelItem( KonqTreeTopLevelItem * item )
 
     KDesktopFile cfg( item->path(), true );
     cfg.setDollarExpansion(true);
-    QString icon;
 
     KURL targetURL;
     targetURL.setPath(item->path());
@@ -64,8 +63,6 @@ void KonqDirTreeModule::addTopLevelItem( KonqTreeTopLevelItem * item )
     if ( cfg.hasLinkType() )
     {
         targetURL = cfg.readURL();
-        icon = cfg.readIcon();
-        //stripIcon( icon );
     }
     else if ( cfg.hasDeviceType() )
     {
@@ -75,7 +72,6 @@ void KonqDirTreeModule::addTopLevelItem( KonqTreeTopLevelItem * item )
             return;
 
         targetURL.setPath(mp);
-        icon = cfg.readIcon();
     }
     else
         return;
@@ -89,7 +85,6 @@ void KonqDirTreeModule::addTopLevelItem( KonqTreeTopLevelItem * item )
         item->setListable( false );
     }
 
-    item->setPixmap( 0, SmallIcon( icon ) );
     item->setExternalURL( targetURL );
     addSubDir( item );
 

@@ -429,11 +429,11 @@ void KonqTree::scanDir( KonqTreeItem *parent, const QString &path, bool isRoot )
         if ( newPath == KGlobalSettings::autostartPath() )
             continue;
 
-        scanDir2( parent, newPath );
+        loadTopLevelGroup( parent, newPath );
     }
 }
 
-void KonqTree::scanDir2( KonqTreeItem *parent, const QString &path )
+void KonqTree::loadTopLevelGroup( KonqTreeItem *parent, const QString &path )
 {
     QDir dir( path );
     QString name = dir.dirName();
@@ -469,9 +469,6 @@ void KonqTree::scanDir2( KonqTreeItem *parent, const QString &path )
     item->setClickable( false );
     item->setTopLevelGroup( true );
     item->setOpen( open );
-    KURL url;
-    url.setPath( path );
-    item->setExternalURL( url );
 
     m_topLevelItems.append( item );
 
@@ -519,7 +516,6 @@ void KonqTree::loadTopLevelItem( KonqTreeItem *parent,  const QString &filename 
 
     item->setText( 0, name );
     item->setPixmap( 0, SmallIcon( cfg.readIcon() ));
-    item->setOpen( cfg.readBoolEntry( "Open", false ));
 
     module->addTopLevelItem( item );
 

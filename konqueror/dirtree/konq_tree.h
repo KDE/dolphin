@@ -68,7 +68,7 @@ protected:
     virtual void contentsMousePressEvent( QMouseEvent *e );
     virtual void contentsMouseMoveEvent( QMouseEvent *e );
     virtual void contentsMouseReleaseEvent( QMouseEvent *e );
-    
+
     virtual void leaveEvent( QEvent * );
 
 private slots:
@@ -88,7 +88,7 @@ private slots:
 private:
     void clearTree();
     void scanDir( KonqTreeItem *parent, const QString &path, bool isRoot = false );
-    void scanDir2( KonqTreeItem *parent, const QString &path );
+    void loadTopLevelGroup( KonqTreeItem *parent, const QString &path );
     void loadTopLevelItem( KonqTreeItem *parent, const QString &filename );
 
     QList<KonqTreeTopLevelItem> m_topLevelItems;

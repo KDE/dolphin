@@ -126,7 +126,9 @@ QDragObject * KonqTreeTopLevelItem::dragObject( QWidget * parent, bool move )
 
 void KonqTreeTopLevelItem::middleButtonPressed()
 {
-    emit tree()->part()->extension()->createNewWindow( externalURL() );
+    if ( !m_bTopLevelGroup )
+        emit tree()->part()->extension()->createNewWindow( m_externalURL );
+    // Do nothing for toplevel groups
 }
 
 void KonqTreeTopLevelItem::rightButtonPressed()
@@ -173,5 +175,11 @@ void KonqTreeTopLevelItem::paste()
         kdDebug(1201) << "move (from clipboard data) = " << move << endl;
     }
 
-    KIO::pasteClipboard( externalURL(), move );
+    KURL destURL;
+    if ( m_bTopLevelGroup )
+        destURL.setPath( m_path );
+    else
+        destURL = m_externalURL;
+
+    KIO::pasteClipboard( destURL, move );
 }
