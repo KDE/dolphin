@@ -1,0 +1,26 @@
+[Profile]
+Container0_Children=Container1,View2
+Container0_Orientation=Vertical
+Container0_SplitterSizes=481,87
+Container1_Children=View3,View4
+Container1_Orientation=Horizontal
+Container1_SplitterSizes=100,100
+Height=658
+Name=Midnight Commander
+RootItem=Container0
+View2_LinkedView=true
+View2_PassiveMode=false
+View2_ServiceName=konsolepart
+View2_ServiceType=Browser/View
+View2_ToggleView=true
+View3_LinkedView=true
+View3_PassiveMode=false
+View3_ServiceName=konq_detailedlistview
+View3_ServiceType=inode/directory
+View3_ToggleView=false
+View4_LinkedView=true
+View4_PassiveMode=false
+View4_ServiceName=konq_detailedlistview
+View4_ServiceType=inode/directory
+View4_ToggleView=false
+Width=600
