@@ -17,7 +17,8 @@
 */
 
 #include <kparts/browserextension.h>
-#include <konq_drag.h>
+#include <kbookmarkdrag.h>
+#include <kbookmark.h>
 
 #include "konq_treepart.h"
 #include "history_item.h"
@@ -29,8 +30,7 @@
 KonqHistoryItem::KonqHistoryItem( const KonqHistoryEntry *entry,
 				  KonqTreeItem * parentItem,
 				  KonqTreeTopLevelItem *topLevelItem )
-    : KonqTreeItem( parentItem, topLevelItem ),
-      m_entry( entry )
+    : KonqTreeItem( parentItem, topLevelItem )
 {
     setExpandable( false );
     update( entry );
@@ -43,8 +43,10 @@ KonqHistoryItem::~KonqHistoryItem()
 
 void KonqHistoryItem::update( const KonqHistoryEntry *entry )
 {
+    m_entry = entry;
     QString title( entry->title );
-    if ( !title.isEmpty() && title != entry->url.url() )
+    if ( !title.stripWhiteSpace().isEmpty() &&
+	 title != entry->url.url() )
 	setText( 0, title );
     else {
 	QString path( entry->url.path() );
@@ -67,13 +69,11 @@ void KonqHistoryItem::rightButtonPressed()
     MYMODULE->showPopupMenu();
 }
 
-QDragObject * KonqHistoryItem::dragObject( QWidget * parent, bool move )
+QDragObject * KonqHistoryItem::dragObject( QWidget * parent, bool /*move*/ )
 {
-    KURL::List lst;
-    lst.append( externalURL() );
-
-    KonqDrag * drag = KonqDrag::newDrag( lst, false, parent );
-    drag->setMoveSelection( move );
+    KBookmark bookmark = KBookmark::standaloneBookmark( m_entry->title,
+                                                        m_entry->url ); // TODO , icon
+    KBookmarkDrag *drag = KBookmarkDrag::newDrag( bookmark, parent );
     return drag;
 }
 
@@ -111,23 +111,25 @@ KonqHistoryGroupItem::KonqHistoryGroupItem( const QString& host,
 // when the last child is removed
 void KonqHistoryGroupItem::remove()
 {
-    KonqHistoryManager *manager = KonqHistoryManager::self();
+    KURL::List list;
     KonqHistoryItem *child = static_cast<KonqHistoryItem*>( firstChild() );
     while( child ) {
-	manager->emitRemoveFromHistory( child->externalURL() );
+	list.append( child->externalURL() );
 	child = static_cast<KonqHistoryItem*>( child->nextSibling() );
     }
+    
+    if ( !list.isEmpty() )
+	KonqHistoryManager::self()->emitRemoveFromHistory( list );
 }
 
 KonqHistoryItem * KonqHistoryGroupItem::findChild(const KonqHistoryEntry *entry) const
 {
-    const KURL& url = entry->url;
     QListViewItem *child = firstChild();
     KonqHistoryItem *item = 0L;
 
     while ( child ) {
 	item = static_cast<KonqHistoryItem *>( child );
-	if ( item->url() == url )
+	if ( item->entry() == entry )
 	    return item;
 
 	child = child->nextSibling();

@@ -49,6 +49,7 @@ public:
     const QDateTime& lastVisited() const { return m_entry->lastVisited; }
 
     void update( const KonqHistoryEntry *entry );
+    const KonqHistoryEntry *entry() const { return m_entry; }
 
     virtual QDragObject * dragObject( QWidget * parent, bool move = false );
 
