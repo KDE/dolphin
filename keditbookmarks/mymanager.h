@@ -48,25 +48,7 @@ private:
 };
 
 class BkManagerAccessor {
-
-   friend class KEBListView;
-   friend class KEBApp;
-   friend class ActionsImpl;
-   friend class ListView;
-
-   friend class MoveCommand;
-   friend class CreateCommand;
-   friend class DeleteCommand;
-   friend class EditCommand;
-   friend class RenameCommand;
-   friend class SortCommand;
-
-   friend class CmdGen;
-
-   friend class ImportCommand;
-   friend class XBELImportCommand;
-
-private:
+public:
    static KBookmarkManager* mgr() { return MyManager::self()->mgr(); }
 };
 
