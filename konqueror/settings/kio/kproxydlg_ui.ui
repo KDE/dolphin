@@ -1,4 +1,4 @@
-<!DOCTYPE UI><UI version="3.1" stdsetdef="1">
+<!DOCTYPE UI><UI version="3.2" stdsetdef="1">
 <class>KProxyDialogUI</class>
 <widget class="QWidget">
     <property name="name">
@@ -8,8 +8,8 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>577</width>
-            <height>517</height>
+            <width>381</width>
+            <height>416</height>
         </rect>
     </property>
     <property name="whatsThis" stdset="0">
@@ -440,6 +440,12 @@ Note that eventhough a persistent proxy connection is faster, it only works corr
         <sender>rbPresetLogin</sender>
         <signal>toggled(bool)</signal>
         <receiver>lbPassword</receiver>
+        <slot>setEnabled(bool)</slot>
+    </connection>
+    <connection>
+        <sender>rbAutoScript</sender>
+        <signal>toggled(bool)</signal>
+        <receiver>location</receiver>
         <slot>setEnabled(bool)</slot>
     </connection>
 </connections>
