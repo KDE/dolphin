@@ -264,24 +264,24 @@ void KonqSidebarTree::contentsDragMoveEvent( QDragMoveEvent *e )
     if (static_cast<KonqSidebarTreeItem*>(item)->acceptsDrops( m_lstDropFormats )) {
         d->m_dropMode = SidebarTreeMode;
 
-    if ( !item || !item->isSelectable() || !static_cast<KonqSidebarTreeItem*>(item)->acceptsDrops( m_lstDropFormats ))
-    {
-        m_dropItem = 0;
-        m_autoOpenTimer->stop();
-        e->ignore();
-        return;
-    }
-
-    e->acceptAction();
-
-    setSelected( item, true );
-
-    if ( item != m_dropItem )
-    {
-        m_autoOpenTimer->stop();
-        m_dropItem = item;
-        m_autoOpenTimer->start( autoOpenTimeout );
-    }
+        if ( !item || !item->isSelectable() || !static_cast<KonqSidebarTreeItem*>(item)->acceptsDrops( m_lstDropFormats ))
+        {
+            m_dropItem = 0;
+            m_autoOpenTimer->stop();
+            e->ignore();
+            return;
+        }
+    
+        e->acceptAction();
+    
+        setSelected( item, true );
+    
+        if ( item != m_dropItem )
+        {
+            m_autoOpenTimer->stop();
+            m_dropItem = item;
+            m_autoOpenTimer->start( autoOpenTimeout );
+        }
     } else {
         d->m_dropMode = KListViewMode;
         KListView::contentsDragMoveEvent(e);
@@ -307,17 +307,17 @@ void KonqSidebarTree::contentsDragLeaveEvent( QDragLeaveEvent *ev )
 void KonqSidebarTree::contentsDropEvent( QDropEvent *ev )
 {
     if (d->m_dropMode == SidebarTreeMode) {
-    m_autoOpenTimer->stop();
-
-    if ( !selectedItem() )
-    {
-//        KonqOperations::doDrop( 0L, m_dirtreeDir.dir, ev, this );
-    }
-    else
-    {
-        KonqSidebarTreeItem *selection = static_cast<KonqSidebarTreeItem *>( selectedItem() );
-        selection->drop( ev );
-    }
+        m_autoOpenTimer->stop();
+    
+        if ( !selectedItem() )
+        {
+    //        KonqOperations::doDrop( 0L, m_dirtreeDir.dir, ev, this );
+        }
+        else
+        {
+            KonqSidebarTreeItem *selection = static_cast<KonqSidebarTreeItem *>( selectedItem() );
+            selection->drop( ev );
+        }
     } else {
         KListView::contentsDropEvent(ev);
     }
