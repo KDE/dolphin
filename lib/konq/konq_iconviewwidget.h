@@ -222,6 +222,7 @@ protected slots:
     void slotPreviewResult();
 
     void slotMovieUpdate();
+    void slotMovieStatus( int status );
     void slotReenableAnimation();
 protected:
     virtual QDragObject *dragObject();

@@ -71,7 +71,7 @@ void KFileTip::maybeTip (const QPoint & p)
     QPoint point = m_view->viewportToContents( p );
     KFileIVI* ivi = static_cast<KFileIVI *>(m_view->findItem( point ));
     if ( ivi ) {
-  	    QString text = ivi->item()->getToolTipText(m_num);
+        QString text = ivi->item()->getToolTipText(m_num);
         QRect rect = ivi->rect();
         rect.moveBy( -m_view->contentsX(), -m_view->contentsY() );
         if ( !text.isEmpty() )
@@ -220,23 +220,23 @@ void KonqIconViewWidget::slotOnItem( QIconViewItem *item )
         else {
             d->pActiveItem->setActive( false );
         }
-	d->pActiveItem = 0L;
+        d->pActiveItem = 0L;
     }
 
     // Stop sound
     if (d->pSoundPlayer != 0 && static_cast<KFileIVI *>(item) != d->pSoundItem)
     {
-	d->pSoundPlayer->stop();
+        d->pSoundPlayer->stop();
 
-	d->pSoundItem = 0;
-	if (d->pSoundTimer && d->pSoundTimer->isActive())
-    	    d->pSoundTimer->stop();
+        d->pSoundItem = 0;
+        if (d->pSoundTimer && d->pSoundTimer->isActive())
+            d->pSoundTimer->stop();
     }
 
     if ( !m_bMousePressed )
     {
-	if( item != d->pActiveItem )
-	{
+        if( item != d->pActiveItem )
+        {
             d->pActiveItem = static_cast<KFileIVI *>(item);
             if ( d->doAnimations && d->pActiveItem && d->pActiveItem->hasAnimation() )
             {
@@ -266,6 +266,7 @@ void KonqIconViewWidget::slotOnItem( QIconViewItem *item )
                         delete d->m_movie;
                         d->m_movie = new QMovie( movie ); // shallow copy, don't worry
                         d->m_movie->connectUpdate( this, SLOT( slotMovieUpdate() ) );
+                        d->m_movie->connectStatus( this, SLOT( slotMovieStatus(int) ) );
                         d->movieFileName = d->pActiveItem->mouseOverAnimation();
                         d->pActiveItem->setAnimated( true );
                     }
@@ -284,14 +285,14 @@ void KonqIconViewWidget::slotOnItem( QIconViewItem *item )
             {
                 d->pActiveItem->setActive( true );
             }
-	}
+        }
         else // No change in current item
-	{
-	    // No effect. If we want to underline on hover, we should
-	    // force the IVI to repaint here, though!
-	    d->pActiveItem = 0L;
-	}
-    }	// bMousePressed
+        {
+            // No effect. If we want to underline on hover, we should
+            // force the IVI to repaint here, though!
+            d->pActiveItem = 0L;
+        }
+    } // bMousePressed
     else
     {
         // All features disabled during mouse clicking, e.g. rectangular
@@ -375,7 +376,7 @@ void KonqIconViewWidget::slotPreview(const KFileItem *item, const QPixmap &pix)
             static_cast<KFileIVI *>(it)->setThumbnailPixmap(pix);
             d->updateAfterPreview = true;
         }
-}
+    }
 }
 
 void KonqIconViewWidget::slotPreviewResult()
@@ -397,6 +398,18 @@ void KonqIconViewWidget::slotMovieUpdate()
     // seems stopAnimation triggers one last update
     if ( d->pActiveItem && d->m_movie && d->pActiveItem->isAnimated() )
         d->pActiveItem->setPixmapDirect( d->m_movie->framePixmap(), false, true );
+}
+
+void KonqIconViewWidget::slotMovieStatus( int status )
+{
+    if ( status < 0 ) {
+        // Error playing the MNG -> forget about it and do normal iconeffect
+        if ( d->pActiveItem && d->pActiveItem->isAnimated() ) {
+            d->pActiveItem->setAnimated( false );
+            d->pActiveItem->setMouseOverAnimation( QString::null );
+            d->pActiveItem->setActive( true );
+        }
+    }
 }
 
 void KonqIconViewWidget::slotReenableAnimation()
@@ -489,14 +502,14 @@ void KonqIconViewWidget::setIcons( int size, const char * stopImagePreviewFor )
     // Do this even if size didn't change, since this is used by refreshMimeTypes...
     for ( QIconViewItem *it = firstItem(); it; it = it->nextItem() ) {
         KFileIVI * ivi = static_cast<KFileIVI *>( it );
-	if ( !ivi->isThumbnail() ||
-	    ( stopImagePreviewFor && strlen(stopImagePreviewFor) == 0) )
-	{
+        if ( !ivi->isThumbnail() ||
+             ( stopImagePreviewFor && strlen(stopImagePreviewFor) == 0) )
+        {
             // perhaps we should do one big redraw instead ?
-	    ivi->setIcon( size, ivi->state(), true, true );
-	}
-	else
-	    ivi->invalidateThumb( ivi->state(), true );
+            ivi->setIcon( size, ivi->state(), true, true );
+        }
+        else
+            ivi->invalidateThumb( ivi->state(), true );
     }
     if ( autoArrange() && (oldGridX != gridX() || stopImagePreviewFor) )
     {
