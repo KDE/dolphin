@@ -200,7 +200,12 @@ void KonqBidiHistoryAction::fillGoMenu( const QList<HistoryEntry> & history )
         if ( history.at() > (int)history.count() - 4 )
           m_startPos = history.count() - 1;
     }
-    assert( m_startPos >= 0 && (uint)m_startPos < history.count() );
+    ASSERT( m_startPos >= 0 && (uint)m_startPos < history.count() );
+    if ( m_startPos < 0 || (uint)m_startPos >= history.count() )
+    {
+        kdWarning() << "m_startPos=" << m_startPos << " history.count()=" << history.count() << endl;
+        return;
+    }
     m_currentPos = history.at(); // for slotActivated
     KonqBidiHistoryAction::fillHistoryPopup( history, m_goMenu, false, false, true, m_startPos );
 }
