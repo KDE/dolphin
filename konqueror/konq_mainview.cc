@@ -260,6 +260,10 @@ void KonqMainView::openURL( KonqChildView *_view, const QString &_url, bool relo
     m_paURLCombo->QSelectAction::changeItem( 0, url );
     (void) new KonqRun( this, 0L, url, 0, false, true );
   }
+
+  if ( view == m_currentView )
+    startAnimation();
+    
 }
 
 void KonqMainView::openURL( const QString &url, bool reload, int xOffset,
@@ -386,7 +390,7 @@ void KonqMainView::slotShowHTML()
 
 void KonqMainView::slotStop()
 {
-  if ( m_currentView && m_currentView->isLoading() )
+  if ( m_currentView )
   {
     m_currentView->stop();
     stopAnimation();
