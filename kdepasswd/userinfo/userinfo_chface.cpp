@@ -37,13 +37,12 @@
 
 
 KUserInfoChFaceDlg::KUserInfoChFaceDlg(const QString& picsdir, QWidget *parent, const char *name, bool modal)
-  : KDialogBase( parent, name, modal, i18n("Change your Face"), Ok|Cancel, Ok )
+  : KDialogBase( parent, name, modal, i18n("Change your Face"), Ok|Cancel, Ok, true )
 {
   QWidget *page = new QWidget(this);
   setMainWidget( page );
 
-  QVBoxLayout *top = new QVBoxLayout(page, 10);
-  top->setAlignment( Qt::AlignTop );
+  QVBoxLayout *top = new QVBoxLayout(page, 0, spacingHint());
 
   QLabel *header = new QLabel( i18n("Select a new face:"), page );
   top->addWidget( header );
@@ -58,7 +57,7 @@ KUserInfoChFaceDlg::KUserInfoChFaceDlg(const QString& picsdir, QWidget *parent, 
   top->addWidget( m_FacesWidget );
 
   // Buttons to get more pics
-  QHBoxLayout * morePics = new QHBoxLayout( page, 0, 20 );
+  QHBoxLayout * morePics = new QHBoxLayout( 0, 0, spacingHint() );
   QPushButton *browseBtn = new QPushButton( i18n("Custom &Image..."), page );
   connect( browseBtn, SIGNAL( clicked() ), SLOT( slotGetCustomImage() ) );
   morePics->addWidget( browseBtn );
@@ -69,6 +68,7 @@ KUserInfoChFaceDlg::KUserInfoChFaceDlg(const QString& picsdir, QWidget *parent, 
 #endif
   morePics->addStretch();
   top->addLayout( morePics );
+  top->addStretch();
 
   // Filling the icon view
   QDir facesDir( picsdir );
@@ -94,7 +94,7 @@ KUserInfoChFaceDlg::KUserInfoChFaceDlg(const QString& picsdir, QWidget *parent, 
   enableButtonOK( false );
   connect( this, SIGNAL( okClicked() ), SLOT( slotSaveCustomImage() ) );
 
-  resize( 540, 430 ); // This is our default size.
+  resize( 420, 400 );
 }
 
 void KUserInfoChFaceDlg::addCustomPixmap( QString imPath, bool saveCopy )
