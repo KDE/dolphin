@@ -38,6 +38,7 @@
 
 typedef QValueList<KDEDesktopMimeType::Service> ServiceList;
 
+class KPropertiesDialog;
 class KNewMenu;
 class KService;
 class KonqPopupMenuPlugin;
@@ -177,6 +178,7 @@ private:
   int  insertServicesSubmenus(const QMap<QString, ServiceList>& list, QDomElement& menu, bool isBuiltin);
   int  insertServices(const ServiceList& list, QDomElement& menu, bool isBuiltin);
   bool KIOSKAuthorizedAction(KConfig& cfg);
+  KPropertiesDialog* showPropertiesDialog();
 
   class KonqPopupMenuPrivate;
   KonqPopupMenuPrivate *d;

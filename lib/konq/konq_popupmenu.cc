@@ -47,9 +47,10 @@
 
 /*
  Test cases:
-  iconview background
-  iconview file (with and without servicemenus)
-  iconview directory
+  iconview file: background
+  iconview file: file (with and without servicemenus)
+  iconview file: directory
+  iconview remote protocol (e.g. ftp: or fish:)
   sidebar directory tree
   khtml background
   khtml link
@@ -889,24 +890,7 @@ void KonqPopupMenu::setup(KonqPopupFlags kpf)
 
 void KonqPopupMenu::slotOpenShareFileDialog()
 {
-    //kdDebug()<<"KonqPopupMenu::slotOpenShareFileDialog()\n";
-    // It may be that the kfileitem was created by hand
-    // (see KonqKfmIconView::slotMouseButtonPressed)
-    // In that case, we can get more precise info in the properties
-    // (like permissions) if we stat the URL.
-    if ( m_lstItems.count() == 1 )
-    {
-        KFileItem * item = m_lstItems.first();
-        if (item->entry().count() == 0) // this item wasn't listed by a slave
-        {
-            // KPropertiesDialog will use stat to get more info on the file
-            KPropertiesDialog*dlg= new KPropertiesDialog( item->url(), d->m_parentWidget );
-            dlg->showFileSharingPage();
-
-            return;
-        }
-    }
-    KPropertiesDialog*dlg=new KPropertiesDialog( m_lstItems, d->m_parentWidget );
+    KPropertiesDialog* dlg = showPropertiesDialog();
     dlg->showFileSharingPage();
 }
 
@@ -916,7 +900,7 @@ KonqPopupMenu::~KonqPopupMenu()
   delete m_factory;
   delete m_builder;
   delete d;
-  kdDebug(1203) << "~KonqPopupMenu leave" << endl;
+  //kdDebug(1203) << "~KonqPopupMenu leave" << endl;
 }
 
 void KonqPopupMenu::setURLTitle( const QString& urlTitle )
@@ -1002,6 +986,11 @@ void KonqPopupMenu::slotPopupMimeType()
 
 void KonqPopupMenu::slotPopupProperties()
 {
+    (void)showPropertiesDialog();
+}
+
+KPropertiesDialog* KonqPopupMenu::showPropertiesDialog()
+{
     // It may be that the kfileitem was created by hand
     // (see KonqKfmIconView::slotMouseButtonPressed)
     // In that case, we can get more precise info in the properties
@@ -1012,11 +1001,10 @@ void KonqPopupMenu::slotPopupProperties()
         if (item->entry().count() == 0) // this item wasn't listed by a slave
         {
             // KPropertiesDialog will use stat to get more info on the file
-            (void) new KPropertiesDialog( item->url(), d->m_parentWidget );
-            return;
+            return new KPropertiesDialog( item->url(), d->m_parentWidget );
         }
     }
-    (void) new KPropertiesDialog( m_lstItems, d->m_parentWidget );
+    return new KPropertiesDialog( m_lstItems, d->m_parentWidget );
 }
 
 KAction *KonqPopupMenu::action( const QDomElement &element ) const
