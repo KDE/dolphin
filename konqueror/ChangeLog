@@ -1,3 +1,10 @@
+2000-11-17  David Faure  <faure@kde.org>
+
+	* konq_run.cc: Check that when we call KRun from KonqRun, it's not going
+	to launch another konqueror.
+	* konq_guiclients.cc: Build toggle-view actions in the actioncollection 
+	of the mainwindow, so that it's possible to assign them a shortcut.
+
 2000-11-16  David Faure  <faure@kde.org>
 
 	* konq_viewmgr.cc: Patch by Keunwoo Lee <klee@cs.washington.edu> to
