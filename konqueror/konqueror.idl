@@ -161,6 +161,7 @@ module Konqueror
   {
     slot void slotSelectAll();
     slot void slotEdit();
+    slot void slotFixedFont();
   };
 
   interface MainView : OpenParts::Part

@@ -36,6 +36,7 @@
 #include <klocale.h>
 #include <opUIUtils.h>
 #include <kapp.h>
+#include <kglobal.h>
 
 KonqTxtView::KonqTxtView( KonqMainView *mainView )
 {
@@ -52,6 +53,8 @@ KonqTxtView::KonqTxtView( KonqMainView *mainView )
   m_pMainView = mainView;
   m_jobId = 0;
   setAcceptDrops( true );
+  m_bFixedFont = false;
+  setFont( KGlobal::generalFont() );
 }
 
 KonqTxtView::~KonqTxtView()
@@ -88,9 +91,30 @@ bool KonqTxtView::mappingOpenURL( Konqueror::EventOpenURL eventURL )
   return true;
 }
 
-bool KonqTxtView::mappingFillMenuView( Konqueror::View::EventFillMenu /*viewMenu*/ )
+bool KonqTxtView::mappingFillMenuView( Konqueror::View::EventFillMenu viewMenu )
 {
-  //TODO
+//HACK
+#define MVIEW_BASE_ID 1423
+#define MVIEW_FIXEDFONT_ID MVIEW_BASE_ID+1
+
+  if ( CORBA::is_nil( viewMenu.menu ) )
+    return true;
+    
+  if ( viewMenu.create )
+  {
+    CORBA::WString_var txt;
+    m_vMenuView = OpenPartsUI::Menu::_duplicate( viewMenu.menu );
+    m_vMenuView->insertItem4( ( txt = Q2C( i18n( "Use Fixed Font" ) ) ),
+                              this, "slotFixedFont", 0,
+			      MVIEW_FIXEDFONT_ID, -1 );
+    m_vMenuView->setItemChecked( MVIEW_FIXEDFONT_ID, m_bFixedFont );
+  }
+  else
+  {
+    viewMenu.menu->removeItem( MVIEW_FIXEDFONT_ID );
+    m_vMenuView = 0L;
+  }
+
   return true;
 }
 
@@ -157,6 +181,18 @@ void KonqTxtView::slotEdit()
   QCString cmd;
   cmd.sprintf( "%s %s &", editor.ascii(), m_strURL.ascii() );
   system( cmd.data() );
+}
+
+void KonqTxtView::slotFixedFont()
+{
+  m_bFixedFont = !m_bFixedFont;
+  if ( !CORBA::is_nil( m_vMenuView ) )
+    m_vMenuView->setItemChecked( MVIEW_FIXEDFONT_ID, m_bFixedFont );
+    
+  if ( m_bFixedFont )
+    setFont( KGlobal::fixedFont() );
+  else
+    setFont( KGlobal::generalFont() );
 }
 
 void KonqTxtView::print()

@@ -25,6 +25,7 @@
 #include <qmultilineedit.h>
 
 class KonqMainView;
+class QFont;
 
 class KonqTxtView : public QMultiLineEdit,
                     public KonqBaseView,
@@ -48,6 +49,7 @@ public:
   
   virtual void slotSelectAll();
   virtual void slotEdit();
+  virtual void slotFixedFont();
 
   virtual void print();
 
@@ -65,6 +67,8 @@ private:
   KonqMainView *m_pMainView;
   int m_iXOffset;
   int m_iYOffset;
+  bool m_bFixedFont;
+  OpenPartsUI::Menu_var m_vMenuView;
 };
 
 #endif
