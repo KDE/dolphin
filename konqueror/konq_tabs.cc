@@ -70,24 +70,24 @@ KonqFrameTabs::KonqFrameTabs(QWidget* parent, KonqFrameContainerBase* parentCont
                             i18n("&New Tab"),
                             m_pViewManager->mainWindow(),
                             SLOT( slotAddTab() ),
-                            QKeySequence("Ctrl+Shift+N") );
+                            m_pViewManager->mainWindow()->action("newtab")->shortcut() );
   m_pPopupMenu->insertItem( SmallIcon( "tab_duplicate" ),
                             i18n("&Duplicate Tab"),
                             m_pViewManager->mainWindow(),
                             SLOT( slotDuplicateTabPopup() ),
-                            QKeySequence("Ctrl+Shift+D") );
+                            m_pViewManager->mainWindow()->action("duplicatecurrenttab")->shortcut() );
   m_pPopupMenu->insertSeparator();
   m_pPopupMenu->insertItem( SmallIcon( "tab_breakoff" ),
                             i18n("D&etach Tab"),
                             m_pViewManager->mainWindow(),
                             SLOT( slotBreakOffTabPopup() ),
-                            QKeySequence("Ctrl+Shift+B"),
+                            m_pViewManager->mainWindow()->action("breakoffcurrenttab")->shortcut(),
                             BREAKOFF_ID );
   m_pPopupMenu->insertItem( SmallIcon( "tab_remove" ),
 			    i18n("&Close Tab"),
                             m_pViewManager->mainWindow(),
                             SLOT( slotRemoveTabPopup() ),
-                            QKeySequence("Ctrl+W"),
+                            m_pViewManager->mainWindow()->action("removecurrenttab")->shortcut(),
                             CLOSETAB_ID );
   m_pPopupMenu->insertSeparator();
   m_pPopupMenu->insertItem( SmallIcon( "reload" ),
