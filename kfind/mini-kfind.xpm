@@ -1,0 +1,28 @@
+/* XPM */
+/* Drawn  by Nico Schwiring and Mark Donohoe for the K Desktop Environment */
+/* See http://www.kde.org */
+static char*kfind[]={
+"16 16 6 1",
+"# c #000000",
+"d c #c0c0c0",
+"a c #ffffff",
+"b c #0000ff",
+"c c #bebeff",
+". c None",
+".###########....",
+"#aaaaaaaaaaa#...",
+"#aaaaaaaabca#...",
+"#aaaaaaaaaba#...",
+"#aaaad###daa#...",
+"#aaad#aaa#da#...",
+"#aaa#acaca#a#...",
+"#aaa#abbaa#a#...",
+"#aaa#aabca#a#...",
+"#aaad#aaa##a#...",
+"#bcaad####a##...",
+"#abaaaaaaa#a#...",
+"#aaaaaaaaaa#a#..",
+"#aabcaaaaaaa#a#.",
+".###########.#a#",
+"..............#."};
+

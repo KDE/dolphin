@@ -22,9 +22,12 @@ SUBDIRS = pics
 install-data-local:
 	$(mkinstalldirs) $(ICONSDIR)
 	$(INSTALL_DATA) kfind.xpm $(ICONSDIR)
+	$(mkinstalldirs) $(kde_minidir)
+	$(INSTALL_DATA) mini-kfind.xpm $(kde_minidir)/kfind.xpm
 
 uninstall-local:
 	rm -f $(ICONSDIR)/$(TARGET).xpm
+	rm -f $(kde_minidir)/kfind.xpm
 
 mkfdird.cpp: kfdird.h
 	$(MOC) kfdird.h -o mkfdird.cpp
