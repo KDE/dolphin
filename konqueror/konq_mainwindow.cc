@@ -414,7 +414,7 @@ void KonqMainWindow::openURL( KonqView *_view, const KURL &_url,
       // Don't change location bar if not current view
     }
   }
-  else // startup with argument
+  else if (!req.newTab) // startup with argument
     setLocationBarURL( url.prettyURL() );
 
   // Fast mode for local files: do the stat ourselves instead of letting KRun do it.
