@@ -96,7 +96,7 @@ QString KonqKfmViewItem::getStatusBarInfo()
 
   if ( m_url.isLocalFile() )
   {
-    if ( S_ISLNK( mode ) )
+    if ( mode & S_ISVTX /* S_ISLNK( mode ) */ )
     {
       QString tmp;
       if ( comment.isEmpty() )
