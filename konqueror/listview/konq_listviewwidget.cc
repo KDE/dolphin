@@ -757,7 +757,7 @@ bool KonqBaseListViewWidget::openURL( const KURL &url )
       }
       m_pBrowserView->m_paShowDot->setChecked( m_pProps->isShowingDotFiles() );
 
-      m_pProps->applyColors( viewport() );
+      m_pProps->applyColors( this );
    }
 
    return true;

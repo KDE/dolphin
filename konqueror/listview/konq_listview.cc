@@ -538,7 +538,7 @@ void KonqListView::slotBackgroundColor()
    {
       m_pListView->m_pProps->setBgColor( bgndColor );
       m_pListView->m_pProps->setBgPixmapFile( "" );
-      m_pListView->initConfig();
+      m_pListView->m_pProps->applyColors( m_pListView );
       m_pListView->repaint();
    }
 }
@@ -549,7 +549,7 @@ void KonqListView::slotBackgroundImage()
    if ( dlg.exec() == KonqBgndDialog::Accepted )
    {
       m_pListView->m_pProps->setBgPixmapFile( dlg.pixmapFile() );
-      m_pListView->initConfig();
+      m_pListView->m_pProps->applyColors( m_pListView );
       m_pListView->updateContents();
    }
 }
