@@ -118,6 +118,7 @@ KCookiesManagement::KCookiesManagement(QWidget *parent)
   connect(dlg->pbReload, SIGNAL(clicked()), SLOT(getDomains()));
   connect(dlg->pbPolicy, SIGNAL(clicked()), SLOT(doPolicy()));
 
+  connect(dlg->lvCookies, SIGNAL(doubleClicked (QListViewItem *)), SLOT(doPolicy()));
   deletedCookies.setAutoDelete(true);
   m_bDeleteAll = false;
   mainWidget = parent;
@@ -377,10 +378,9 @@ void KCookiesManagement::doPolicy()
   // Get current item
   CookieListViewItem *item = static_cast<CookieListViewItem*>( dlg->lvCookies->currentItem() );
 
-  if( item )
+  if( item && item->cookie())
   {
     CookieProp *cookie = item->cookie();
-    assert (cookie);
 
     QString domain = cookie->domain;
 
