@@ -1101,6 +1101,7 @@ void KonqMainWindow::slotToolFind()
 
     m_currentView->frame()->insertTopWidget( findPart->widget() );
     findPart->widget()->show();
+    findPart->widget()->setFocus();
 
     connect( dirPart, SIGNAL( findClosed(KonqDirPart *) ),
              this, SLOT( slotFindClosed(KonqDirPart *) ) );
