@@ -3793,7 +3793,7 @@ void KonqMainWindow::slotPopupMenu( KXMLGUIClient *client, const QPoint &_global
   slotPopupMenu( client, _global, _items, _args, _flags, true );
 }
 
-void KonqMainWindow::slotPopupMenu( KXMLGUIClient *client, const QPoint &_global, const KFileItemList &_items, const KParts::URLArgs &_args, KParts::BrowserExtension::PopupFlags itemFlags, bool showPropsAndFileType )
+void KonqMainWindow::slotPopupMenu( KXMLGUIClient *client, const QPoint &_global, const KFileItemList &_items, const KParts::URLArgs &_args, KParts::BrowserExtension::PopupFlags itemFlags, bool showProperties )
 {
   KonqView * m_oldView = m_currentView;
 
@@ -3822,6 +3822,9 @@ void KonqMainWindow::slotPopupMenu( KXMLGUIClient *client, const QPoint &_global
 
   //kdDebug(1202) << "KonqMainWindow::slotPopupMenu( " << client << "...)" << " current view=" << m_currentView << " " << m_currentView->part()->className() << endl;
 
+  // This action collection is used to pass actions to KonqPopupMenu.
+  // It has to be a KActionCollection instead of a KActionPtrList because we need
+  // the actionStatusText signal...
   KActionCollection popupMenuCollection( (QWidget*)0 );
   popupMenuCollection.insert( m_paBack );
   popupMenuCollection.insert( m_paForward );
@@ -3862,6 +3865,8 @@ void KonqMainWindow::slotPopupMenu( KXMLGUIClient *client, const QPoint &_global
 
   // Don't set the view URL for a toggle view.
   // (This is a bit of a hack for the directory tree....)
+  // ## should use the new m_currentView->isHierarchicalView() instead?
+  // Would this be correct for the konqlistview tree view?
   KURL viewURL = m_currentView->isToggleView() ? KURL() : m_currentView->url();
 
   bool openedForViewURL = false;
@@ -3886,24 +3891,31 @@ void KonqMainWindow::slotPopupMenu( KXMLGUIClient *client, const QPoint &_global
 
   //kdDebug(1202) << "KonqMainWindow::slotPopupMenu " << viewURL.prettyURL() << endl;
 
+  // Those actions go into the PopupMenuGUIClient, since that's the one defining them.
   KAction *actNewWindow, *actNewTab;
   if ( openedForViewURL )
   {
-    actNewWindow = new KAction( i18n( "Duplicate in New &Window" ), "window_new", 0, this, SLOT( slotPopupNewWindow() ), &popupMenuCollection, "newview" );
+    actNewWindow = new KAction( i18n( "Duplicate in New &Window" ), "window_new", 0, this, SLOT( slotPopupNewWindow() ), konqyMenuClient->actionCollection(), "newview" );
     actNewWindow->setStatusText( i18n( "Duplicate the document in a new window" ) );
-    actNewTab = new KAction( i18n( "Duplicate in &New Tab" ), "tab_new", 0, this, SLOT( slotPopupNewTab() ), &popupMenuCollection, "openintab" );
+    actNewTab = new KAction( i18n( "Duplicate in &New Tab" ), "tab_new", 0, this, SLOT( slotPopupNewTab() ), konqyMenuClient->actionCollection(), "openintab" );
     actNewTab->setStatusText( i18n( "Duplicate the document in a new tab" ) );
   }
   else
   {
-    actNewWindow = new KAction( i18n( "Open in New &Window" ), "window_new", 0, this, SLOT( slotPopupNewWindow() ), &popupMenuCollection, "newview" );
+    actNewWindow = new KAction( i18n( "Open in New &Window" ), "window_new", 0, this, SLOT( slotPopupNewWindow() ), konqyMenuClient->actionCollection(), "newview" );
     actNewWindow->setStatusText( i18n( "Open the document in a new window" ) );
-    actNewTab = new KAction( i18n( "Open in &New Tab" ), "tab_new", 0, this, SLOT( slotPopupNewTab() ), &popupMenuCollection, "openintab" );
+    actNewTab = new KAction( i18n( "Open in &New Tab" ), "tab_new", 0, this, SLOT( slotPopupNewTab() ), konqyMenuClient->actionCollection(), "openintab" );
     actNewTab->setStatusText( i18n( "Open the document in a new tab" ) );
   }
 
   if (m_currentView->isHierarchicalView())
     itemFlags |= KParts::BrowserExtension::ShowCreateDirectory;
+
+  KonqPopupMenu::KonqPopupFlags kpf = 0;
+  if ( showProperties )
+      kpf |= KonqPopupMenu::ShowProperties;
+  else
+      kpf |= KonqPopupMenu::IsLink; // HACK
 
   QGuardedPtr<KonqPopupMenu> pPopupMenu = new KonqPopupMenu(
       KonqBookmarkManager::self(), _items,
@@ -3913,7 +3925,7 @@ void KonqMainWindow::slotPopupMenu( KXMLGUIClient *client, const QPoint &_global
       // This parent ensures that if the part destroys itself (e.g. KHTML redirection),
       // it will close the popupmenu
       m_currentView->part()->widget(),
-      showPropsAndFileType,
+      kpf,
       itemFlags );
 
   if ( openedForViewURL && !viewURL.isLocalFile() )
@@ -3944,8 +3956,10 @@ void KonqMainWindow::slotPopupMenu( KXMLGUIClient *client, const QPoint &_global
   m_popupEmbeddingServices.clear();
   popupItems.clear();
 
-  delete actNewTab;
-  delete actNewWindow;
+  // Deleted by konqyMenuClient's actioncollection
+  //delete actNewTab;
+  //delete actNewWindow;
+
   delete actPaste;
 
   // We're sort of misusing KActionCollection here, but we need it for the actionStatusText signal...

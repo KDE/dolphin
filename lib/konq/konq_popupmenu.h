@@ -54,7 +54,20 @@ class KonqPopupMenu : public QPopupMenu, public KonqXMLGUIClient
 public:
 
   /**
-   * @deprecated, lacks parentWidget pointer
+   * Flags set by the calling application (konqueror/kdesktop), unlike
+   * KParts::BrowserExtension::PopupFlags, which are set by the calling part
+   */
+  typedef uint KonqPopupFlags;
+  enum { NoFlags = 0,
+         ShowProperties = 1,  // whether to show the "Properties" menu item
+         IsLink = 2,          // HTML link. If set, we won't have cut/copy/paste, and we'll say "bookmark this link"
+         ShowNewWindow = 4 };
+    // WARNING: bitfield. Next item is 8
+
+  /**
+   * @deprecated, lacks parentWidget pointer, and
+   * uses bool instead of KonqPopupFlags enum,
+   * might do strange things with the 'new window' action...
    */
   KonqPopupMenu( KBookmarkManager* manager,
                  const KFileItemList &items,
@@ -63,13 +76,17 @@ public:
                  KNewMenu * newMenu,
                  bool showPropertiesAndFileType = true ) KDE_DEPRECATED;
 
+  /**
+   * @deprecated, uses bool instead of KonqPopupFlags enum,
+   * might do strange things with the 'new window' action...
+   */
   KonqPopupMenu( KBookmarkManager* manager,
                  const KFileItemList &items,
                  KURL viewURL,
                  KActionCollection & actions,
                  KNewMenu * newMenu,
 		 QWidget * parentWidget,
-		 bool showPropertiesAndFileType = true );
+		 bool showPropertiesAndFileType = true ) KDE_DEPRECATED;
 
   /**
    * Constructor
@@ -77,20 +94,26 @@ public:
    * @param viewURL the URL shown in the view, to test for RMB click on view background
    * @param actions list of actions the caller wants to see in the menu
    * @param newMenu "New" menu, shared with the File menu, in konqueror
+   * @param parentWidget the widget we're showing this popup for. Helps destroying
+   * the popup if the widget is destroyed before the popup.
+   * @param kpf flags from the KonqPopupFlags enum, set by the calling application
+   * @param f flags from the BrowserExtension enum, set by the calling part
    *
    * The actions to pass in include :
    * showmenubar, back, forward, up, cut, copy, paste, pasteto, trash, rename, del
+   * (TODO: that list is probably not be up-to-date)
    * The others items are automatically inserted.
    *
+   * @since 3.2
    */
   KonqPopupMenu( KBookmarkManager* manager,
                  const KFileItemList &items,
-                 KURL viewURL,
+                 const KURL& viewURL,
                  KActionCollection & actions,
                  KNewMenu * newMenu,
                  QWidget * parentWidget,
-                 bool showPropertiesAndFileType,
-                 KParts::BrowserExtension::PopupFlags f = KParts::BrowserExtension::DefaultPopupItems);
+                 KonqPopupFlags kpf,
+                 KParts::BrowserExtension::PopupFlags f /*= KParts::BrowserExtension::DefaultPopupItems*/);
 
   /**
    * Don't forget to destroy the object
@@ -147,8 +170,8 @@ protected:
   KActionCollection m_ownActions;
 
 private:
-  void init (QWidget * parentWidget, bool showPropertiesAndFileType, KParts::BrowserExtension::PopupFlags itemFlags);
-  void setup(bool showPropertiesAndFileType);
+  void init (QWidget * parentWidget, KonqPopupFlags kpf, KParts::BrowserExtension::PopupFlags itemFlags);
+  void setup(KonqPopupFlags kpf);
   void addPlugins( );
   void insertServices(const ServiceList& list, QDomElement& menu, bool isBuiltin);
   bool KIOSKAuthorizedAction(KConfig& cfg);

@@ -30,6 +30,27 @@ class KActionCollection;
 class KonqMainWindow;
 class KonqView;
 
+/**
+ * This XML-GUI-Client is passed to KonqPopupMenu to add extra actions into it,
+ * using the XMLGUI merging. It offers embedding actions and tabbed-browsing actions.
+ * Its XML looks like this:
+ * @code
+
+ <kpartgui name="konqueror" >
+ <Menu name="popupmenu" >
+  <menu group="preview" name="preview submenu" >
+   <text>Preview In</text>
+   <action group="preview" name="0" />
+   <action group="preview" name="1" />
+  </menu>
+  <action group="tabhandling" name="newview" />
+  <action group="tabhandling" name="openintab" />
+  <separator group="tabhandling" />
+ </Menu>
+ </kpartgui>
+
+ * @endcode
+ */
 class PopupMenuGUIClient : public KXMLGUIClient
 {
 public:

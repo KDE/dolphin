@@ -116,12 +116,13 @@ KonqPopupMenu::KonqPopupMenu( KBookmarkManager *mgr, const KFileItemList &items,
                               KURL viewURL,
                               KActionCollection & actions,
                               KNewMenu * newMenu,
-                              bool showPropertiesAndFileType )
+                              bool showProperties )
   : QPopupMenu( 0L, "konq_popupmenu" ), m_actions( actions ), m_ownActions( static_cast<QObject *>( 0 ), "KonqPopupMenu::m_ownActions" ),
     m_pMenuNew( newMenu ), m_sViewURL(viewURL), m_lstItems(items), m_pManager(mgr)
 
 {
-  init(0, showPropertiesAndFileType, KParts::BrowserExtension::DefaultPopupItems);
+  KonqPopupFlags kpf = ( showProperties ? ShowProperties : IsLink ) | ShowNewWindow;
+  init(0, kpf, KParts::BrowserExtension::DefaultPopupItems);
 }
 
 KonqPopupMenu::KonqPopupMenu( KBookmarkManager *mgr, const KFileItemList &items,
@@ -129,30 +130,31 @@ KonqPopupMenu::KonqPopupMenu( KBookmarkManager *mgr, const KFileItemList &items,
                               KActionCollection & actions,
                               KNewMenu * newMenu,
 			      QWidget * parentWidget,
-                              bool showPropertiesAndFileType )
+                              bool showProperties )
   : QPopupMenu( parentWidget, "konq_popupmenu" ), m_actions( actions ), m_ownActions( static_cast<QObject *>( 0 ), "KonqPopupMenu::m_ownActions" ), m_pMenuNew( newMenu ), m_sViewURL(viewURL), m_lstItems(items), m_pManager(mgr)
 {
-  init(parentWidget, showPropertiesAndFileType, KParts::BrowserExtension::DefaultPopupItems);
+  KonqPopupFlags kpf = ( showProperties ? ShowProperties : IsLink ) | ShowNewWindow;
+  init(parentWidget, kpf, KParts::BrowserExtension::DefaultPopupItems);
 }
 
 KonqPopupMenu::KonqPopupMenu( KBookmarkManager *mgr, const KFileItemList &items,
-                              KURL viewURL,
+                              const KURL& viewURL,
                               KActionCollection & actions,
                               KNewMenu * newMenu,
                               QWidget * parentWidget,
-                              bool showPropertiesAndFileType,
-							  KParts::BrowserExtension::PopupFlags flags)
+                              KonqPopupFlags kpf,
+                              KParts::BrowserExtension::PopupFlags flags)
   : QPopupMenu( parentWidget, "konq_popupmenu" ), m_actions( actions ), m_ownActions( static_cast<QObject *>( 0 ), "KonqPopupMenu::m_ownActions" ), m_pMenuNew( newMenu ), m_sViewURL(viewURL), m_lstItems(items), m_pManager(mgr)
 {
-  init(parentWidget, showPropertiesAndFileType, flags);
+  init(parentWidget, kpf, flags);
 }
 
-void KonqPopupMenu::init (QWidget * parentWidget, bool showPropertiesAndFileType, KParts::BrowserExtension::PopupFlags flags)
+void KonqPopupMenu::init (QWidget * parentWidget, KonqPopupFlags kpf, KParts::BrowserExtension::PopupFlags flags)
 {
   d = new KonqPopupMenuPrivate;
   d->m_parentWidget = parentWidget;
   d->m_itemFlags = flags;
-  setup(showPropertiesAndFileType);
+  setup(kpf);
 }
 
 
@@ -224,13 +226,13 @@ bool KonqPopupMenu::KIOSKAuthorizedAction(KConfig& cfg)
 }
 
 
-void KonqPopupMenu::setup(bool showPropertiesAndFileType)
+void KonqPopupMenu::setup(KonqPopupFlags kpf)
 {
     assert( m_lstItems.count() >= 1 );
 
     m_ownActions.setWidget( this );
 
-    bool bIsLink        = !showPropertiesAndFileType;
+    bool bIsLink        = (kpf & IsLink);
     bool currentDir     = false;
     bool sReading       = true;
     bool sWriting       = true;
@@ -334,38 +336,42 @@ void KonqPopupMenu::setup(bool showPropertiesAndFileType)
         addMerge( "konqueror" );
 
     bool isKDesktop = QCString(  kapp->name() ) == "kdesktop";
-    QString openStr = isKDesktop ? i18n( "&Open" ) : i18n( "Open in New &Window" );
-    KAction *actNewView = m_actions.action( "newview" );
+    KAction *actNewWindow = 0;
 
-    if (showPropertiesAndFileType && isKDesktop &&
+    if (( kpf & ShowProperties ) && isKDesktop &&
         !kapp->authorize("editable_desktop_icons"))
     {
-        showPropertiesAndFileType = false;
+        kpf &= ~ShowProperties; // remove flag
     }
 
-    if (!actNewView)
+    // Either 'newview' is in the actions we're given (probably in the tabhandling group)
+    // or we need to insert it ourselves (e.g. for kdesktop). In the first case, actNewWindow must remain 0.
+    if ( kpf & ShowNewWindow )
     {
-        actNewView = new KAction( openStr, "window_new", 0, this, SLOT( slotPopupNewView() ), &m_ownActions, "newview" );
+        QString openStr = isKDesktop ? i18n( "&Open" ) : i18n( "Open in New &Window" );
+        actNewWindow = new KAction( openStr, "window_new", 0, this, SLOT( slotPopupNewView() ), &m_ownActions, "newview" );
     }
 
-    if ( actNewView && !isKDesktop )
+    if ( actNewWindow && !isKDesktop )
     {
         if (isCurrentTrash)
-            actNewView->setStatusText( i18n( "Open the trash in a new window" ) );
+            actNewWindow->setStatusText( i18n( "Open the trash in a new window" ) );
         else
-            actNewView->setStatusText( i18n( "Open the document in a new window" ) );
+            actNewWindow->setStatusText( i18n( "Open the document in a new window" ) );
     }
 
     if ( isCurrentTrash )
     {
-        if (actNewView)
-            addAction( actNewView );
-        addGroup( "tabhandling" );
-        addSeparator();
+        if (actNewWindow)
+        {
+            addAction( actNewWindow );
+            addSeparator();
+        }
+        addGroup( "tabhandling" ); // includes a separator
 
         act = new KAction( i18n( "&Empty Trash Bin" ), 0, this, SLOT( slotPopupEmptyTrashBin() ), &m_ownActions, "empytrash" );
         addAction( act );
-        if ( KPropertiesDialog::canDisplay( m_lstItems ) && showPropertiesAndFileType )
+        if ( KPropertiesDialog::canDisplay( m_lstItems ) && (kpf & ShowProperties) )
         {
             act = new KAction( i18n( "&Properties" ), 0, this, SLOT( slotPopupProperties() ),
                                &m_ownActions, "properties" );
@@ -410,11 +416,13 @@ void KonqPopupMenu::setup(bool showPropertiesAndFileType)
             addSeparator();
         }
 
-        // "open in new window" always available
-        if (actNewView)
-            addAction( actNewView );
-        addGroup( "tabhandling" );
-        addSeparator();
+        // "open in new window" is either provided by us, or by the tabhandling group
+        if (actNewWindow)
+        {
+            addAction( actNewWindow );
+            addSeparator();
+        }
+        addGroup( "tabhandling" ); // includes a separator
 
         if ( !bIsLink )
         {
@@ -734,7 +742,7 @@ void KonqPopupMenu::setup(bool showPropertiesAndFileType)
     if ( !isCurrentTrash && !isIntoTrash && !devicesFile)
         addPlugins( ); // now it's time to add plugins
 
-    if ( KPropertiesDialog::canDisplay( m_lstItems ) && showPropertiesAndFileType )
+    if ( KPropertiesDialog::canDisplay( m_lstItems ) && (kpf & ShowProperties) )
     {
         act = new KAction( i18n( "&Properties" ), 0, this, SLOT( slotPopupProperties() ),
                            &m_ownActions, "properties" );
@@ -894,7 +902,6 @@ void KonqPopupMenu::slotPopupProperties()
 KAction *KonqPopupMenu::action( const QDomElement &element ) const
 {
   QCString name = element.attribute( attrName ).ascii();
-
   KAction *res = m_ownActions.action( name );
 
   if ( !res )
