@@ -382,8 +382,9 @@ void KonqMainView::slotNewWindow()
 void KonqMainView::slotRun()
 {
   // HACK: The command is not executed in the directory
-  // we are in currently. KWM does not support that yet
-  KWM::sendKWMCommand("execute");
+  // we are in currently. Minicli does not support that yet
+  QByteArray data;
+  kapp->dcopClient()->send( "kdesktop", "KDesktopIface", "popupExecuteCommand()", data );
 }
 
 void KonqMainView::slotOpenTerminal()
@@ -1264,7 +1265,7 @@ void KonqMainView::initActions()
 	m_paNewWindow = new KAction( i18n( "New &Window" ), QIconSet( BarIcon( "filenew",  KonqFactory::instance() ) ), KStdAccel::key(KStdAccel::New), this, SLOT( slotNewWindow() ), actionCollection(), "new_window" );
 
   QPixmap execpix = KGlobal::iconLoader()->loadIcon( "exec", KIconLoader::Small );
-  m_paRun = new KAction( i18n( "&Run..." ), execpix, 0/*kdesktop has a binding for it*/, this, SLOT( slotRun() ), actionCollection(), "run" );
+  m_paRun = new KAction( i18n( "&Run command..." ), execpix, 0/*kdesktop has a binding for it*/, this, SLOT( slotRun() ), actionCollection(), "run" );
   QPixmap terminalpix = KGlobal::iconLoader()->loadIcon( "terminal", KIconLoader::Small );
   m_paOpenTerminal = new KAction( i18n( "Open &Terminal..." ), terminalpix, CTRL+Key_T, this, SLOT( slotOpenTerminal() ), actionCollection(), "open_terminal" );
 	m_paOpenLocation = new KAction( i18n( "&Open Location..." ), QIconSet( BarIcon( "fileopen", KonqFactory::instance() ) ), KStdAccel::key(KStdAccel::Open), this, SLOT( slotOpenLocation() ), actionCollection(), "open_location" );
