@@ -86,7 +86,7 @@ Comment[uk]=Тут Ви можете настроїти вигляд та пов
 Comment[zh_CN.GB2312]=你可以在此配置 Konqueror 的外观
 Comment[zh_TW.Big5]=你可在此設定 konqueror 的外觀
 
-Keywords=konqueror,filemanager,kfm,removing,trash,colours,colors,files,icons,windows,Home URL,directories,fonts,word-wrap,filenames
+Keywords=konqueror,filemanager,kfm,removing,trash,colours,colors,files,icons,windows,Home URL,directories,fonts,word-wrap,filenames,behaviour,confirmation,delete,shred,appearance,underline,network operations
 Keywords[ca]=konqueror,gestor de fitxers,kfm,esborrat,paperera,colors,fitxers,icones
 Keywords[cs]=konqueror,Správce souborů,kfm,Odstranění,Koš,Barvy,Soubory,Ikony
 Keywords[da]=konqueror,filhåndtering,kfm,fjerner,affald,farver,filer,ikoner

@@ -77,7 +77,7 @@ Comment[zh_CN.GB2312]=配置你必须使用的代理服务 (通常当你在防�
 Comment[zh_TW.Big5]=設定任何你必須使用的代理伺服器(通常是你需要的□□如果你在防火牆之後)
 are behind a firewall)
 
-Keywords=Proxy,Proxy server,WWW,Internet,Browsing,HTTP,FTP,Network,Firewall,Cache
+Keywords=Proxy,Proxy server,WWW,Internet,Browsing,HTTP,FTP,Network,Firewall,Cache,Port,Size
 Keywords[ca]=Procuració,servidor de procuració,WWW,Internet,Navegació,HTTP,FTP,Xarxa,Tallafocs
 Keywords[cs]=Proxy,Proxy server,WWW,Internet,Prohlížení,HTTP,FTP,Síť,Firewall
 Keywords[da]=Proxy,Proxy server,www,Internet,Netsøgning,Http,Ftp,Netværk,brandmur

@@ -78,7 +78,7 @@ Comment[uk]=Тут Ви можете настроїти як звітує Аге
 Comment[zh_CN.GB2312]=可以在这里配置你的浏览器送出什么样的 "User Agent"
 Comment[zh_TW.Big5]=你可以在此控制瀏覽器的"使用者代理端"描述
 
-Keywords=User Agent,Browser,Internet,WWW,Network,agent,bindings,server
+Keywords=User Agent,Browser,Internet,WWW,Network,agent,bindings,server,login
 Keywords[ca]=Agent d'usuari,Fullejador,Internet,WWW,Xarxa
 Keywords[cs]=Uživatelský agent,Prohlížeč,Internet,WWW,Síť
 Keywords[da]=Brugeragent,Internet,www,Netværk
