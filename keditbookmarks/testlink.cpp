@@ -118,6 +118,7 @@ void TestLinkItr::slotJobData(KIO::Job *job, const QByteArray &data) {
 
 void TestLinkItr::slotJobResult(KIO::Job *job) {
     m_job = 0;
+    if ( !curItem() ) return;
 
     KIO::TransferJob *transfer = (KIO::TransferJob *)job;
     QString modDate = transfer->queryMetaData("modified");
