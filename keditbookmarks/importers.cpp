@@ -48,7 +48,7 @@ QString ImportCommand::name() const {
    return i18n("Import %1 Bookmarks").arg(visibleName());
 }
 
-QString ImportCommand::folder() {
+QString ImportCommand::folder()const {
    return m_folder ? (i18n("%1 Bookmarks").arg(visibleName())) : (QString::null);
 }
 
@@ -66,7 +66,7 @@ void ImportCommand::execute() {
       m_cleanUpCmd->execute();
 
       // import at the root
-      m_group = ""; 
+      m_group = "";
 
    } else {
       doCreateHoldingFolder(bkGroup);
@@ -97,9 +97,9 @@ void ImportCommand::unexecute() {
 }
 
 void ImportCommand::newBookmark(const QString &text, const QCString &url, const QString &additionnalInfo) {
-   KBookmark bk = m_stack.top()->addBookmark( 
-                                    BkManagerAccessor::mgr(), 
-                                    text, QString::fromUtf8(url), 
+   KBookmark bk = m_stack.top()->addBookmark(
+                                    BkManagerAccessor::mgr(),
+                                    text, QString::fromUtf8(url),
                                     QString::null, false);
    // store additionnal info
    bk.internalElement().setAttribute("netscapeinfo", additionnalInfo);
@@ -141,7 +141,7 @@ void ImportCommand::doExecuteWrapper(const KBookmarkGroup bkGroup) {
 }
 
 void ImportCommand::connectImporter(const QObject *importer) {
-   connect(importer, SIGNAL( newBookmark(const QString &, const QCString &, const QString &) ), 
+   connect(importer, SIGNAL( newBookmark(const QString &, const QCString &, const QString &) ),
                      SLOT( newBookmark(const QString &, const QCString &, const QString &) ));
    connect(importer, SIGNAL( newFolder(const QString &, bool, const QString &) ),
                      SLOT( newFolder(const QString &, bool, const QString &) ));
@@ -154,7 +154,7 @@ void ImportCommand::connectImporter(const QObject *importer) {
 // importer subclasses
 
 OperaImportCommand::OperaImportCommand(const QString &fileName, bool folder)
-   : ImportCommand(fileName, folder, "opera", false) { 
+   : ImportCommand(fileName, folder, "opera", false) {
    ;
 }
 
@@ -170,10 +170,10 @@ void OperaImportCommand::doExecute() {
    KOperaBookmarkImporter importer(m_fileName);
    connectImporter(&importer);
    importer.parseOperaBookmarks();
-} 
+}
 
 IEImportCommand::IEImportCommand(const QString &fileName, bool folder)
-   : ImportCommand(fileName, folder, "", false) { 
+   : ImportCommand(fileName, folder, "", false) {
    ;
 }
 
@@ -189,7 +189,7 @@ void IEImportCommand::doExecute() {
    KIEBookmarkImporter importer(m_fileName);
    connectImporter(&importer);
    importer.parseIEBookmarks();
-} 
+}
 
 void HTMLImportCommand::doExecute() {
    KNSBookmarkImporter importer(m_fileName);
@@ -198,7 +198,7 @@ void HTMLImportCommand::doExecute() {
 }
 
 MozImportCommand::MozImportCommand(const QString &fileName, bool folder)
-   : HTMLImportCommand(fileName, folder, "mozilla", true) { 
+   : HTMLImportCommand(fileName, folder, "mozilla", true) {
    ;
 }
 
@@ -211,7 +211,7 @@ QString MozImportCommand::visibleName() const {
 }
 
 NSImportCommand::NSImportCommand(const QString &fileName, bool folder)
-   : HTMLImportCommand(fileName, folder, "netscape", false) { 
+   : HTMLImportCommand(fileName, folder, "netscape", false) {
    ;
 }
 
@@ -223,14 +223,14 @@ QString NSImportCommand::visibleName() const {
    return i18n("Netscape");
 }
 
-HTMLImportCommand::HTMLImportCommand(const QString &fileName, bool folder, 
+HTMLImportCommand::HTMLImportCommand(const QString &fileName, bool folder,
       const QString &icon, bool utf8)
-   : ImportCommand(fileName, folder, icon, utf8) { 
+   : ImportCommand(fileName, folder, icon, utf8) {
    ;
 }
 
 XBELImportCommand::XBELImportCommand(const QString &fileName, bool folder, const QString &icon)
-   : ImportCommand(fileName, folder, icon, false) { 
+   : ImportCommand(fileName, folder, icon, false) {
    ;
 }
 
@@ -240,7 +240,7 @@ GaleonImportCommand::GaleonImportCommand(const QString &fileName, bool folder)
 }
 
 QString GaleonImportCommand::requestFilename() {
-   return KFileDialog::getOpenFileName( 
+   return KFileDialog::getOpenFileName(
                QDir::homeDirPath() + "/.galeon",
                i18n("*.xbel|Galeon bookmark files (*.xbel)"));
 }
@@ -250,13 +250,13 @@ QString GaleonImportCommand::visibleName() const {
 }
 
 KDE2ImportCommand::KDE2ImportCommand(const QString &fileName, bool folder)
-   : XBELImportCommand(fileName, folder, "") { 
+   : XBELImportCommand(fileName, folder, "") {
    ;
 }
 
 QString KDE2ImportCommand::requestFilename() {
    // locateLocal on the bookmarks file and get dir?
-   return KFileDialog::getOpenFileName( 
+   return KFileDialog::getOpenFileName(
                QDir::homeDirPath() + "/.kde",
                i18n("*.xml|KDE bookmark files (*.xml)"));
 }
@@ -320,7 +320,7 @@ void XBELImportCommand::doExecute() {
       QDomNode n = subDoc.firstChild().toElement();
 
       while (!n.isNull()) {
-         QDomElement e = n.toElement(); 
+         QDomElement e = n.toElement();
          if (!e.isNull()) {
             childList.append(e);
          }

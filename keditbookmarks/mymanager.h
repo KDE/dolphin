@@ -1,7 +1,7 @@
 /* This file is part of the KDE project
    Copyright (C) 2002-2003 Alexander Kellett <lypanov@kde.org>
 
-   This program is free software; you can redistribute it and/or 
+   This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public
    License version 2 as published by the Free Software Foundation.
 
@@ -28,16 +28,16 @@ public:
    static MyManager* self() { if (!s_mgr) { s_mgr = new MyManager(); } return s_mgr; }
    void createManager(class KEBTopLevel *top, QString filename);
    void flipShowNSFlag();
-   void doExport(QString path, bool moz);
+   void doExport(const QString &path, bool moz);
    void notifyManagers();
    bool managerSave();
-   void saveAs(QString fileName);
-   QString correctAddress(QString address);
+   void saveAs(const QString &fileName);
+   QString correctAddress(const QString &address);
    void setUpdate(bool update);
    QString path();
    bool showNSBookmarks();
 protected:
-   KBookmarkManager* mgr() { return m_mgr; }
+   KBookmarkManager* mgr()const { return m_mgr; }
 private:
    MyManager() {
       m_mgr = 0;

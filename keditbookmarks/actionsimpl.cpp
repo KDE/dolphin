@@ -47,8 +47,6 @@
 #include <kbookmarkimporter_ie.h>
 #include <kbookmarkimporter_opera.h>
 
-#include <klineeditdlg.h>
-
 // DESIGN - shuffle, sort out includes in general
 
 #include "toplevel.h"
@@ -65,12 +63,12 @@
 
 #define top KEBTopLevel::self()
 
-void ActionsImpl::slotExpandAll() { 
-   top->setAllOpen(true); 
+void ActionsImpl::slotExpandAll() {
+   top->setAllOpen(true);
 }
 
-void ActionsImpl::slotCollapseAll() { 
-   top->setAllOpen(false); 
+void ActionsImpl::slotCollapseAll() {
+   top->setAllOpen(false);
 }
 
 ActionsImpl* ActionsImpl::s_self = 0;
@@ -112,14 +110,14 @@ void ActionsImpl::slotNewFolder() {
       return;
    }
    CreateCommand *cmd = new CreateCommand(
-                              listview->userAddress(), 
+                              listview->userAddress(),
                               dlg.text(), "bookmark_folder", /*open*/ true);
    top->addCommand(cmd);
 }
 
 void ActionsImpl::slotNewBookmark() {
-   CreateCommand * cmd = new CreateCommand( 
-                               listview->userAddress(), 
+   CreateCommand * cmd = new CreateCommand(
+                               listview->userAddress(),
                                QString::null, QString::null, KURL());
    top->addCommand(cmd);
 }

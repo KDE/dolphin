@@ -78,7 +78,7 @@ void MyManager::notifyManagers() {
    DCOPRef("*", objId).send("notifyCompleteChange", QString::fromLatin1(kapp->name()));
 }
 
-void MyManager::doExport(QString path, bool moz) {
+void MyManager::doExport(const QString &path, bool moz) {
    if (!path.isEmpty()) {
       KNSBookmarkExporter exporter(mgr(), path);
       exporter.write(moz);
@@ -91,13 +91,13 @@ void MyManager::flipShowNSFlag() {
    mgr()->setShowNSBookmarks(!mgr()->showNSBookmarks());
 }
 
-QString MyManager::correctAddress(QString address) {
+QString MyManager::correctAddress(const QString &address) {
    return mgr()->findByAddress(address, true).address();
 }
 
 // TODO - simplistic forwards, remove or inline in .h
 
-void MyManager::saveAs(QString fileName) {
+void MyManager::saveAs(const QString &fileName) {
    mgr()->saveAs(fileName);
 }
 
@@ -114,6 +114,6 @@ QString MyManager::path() {
 }
 
 void MyManager::setUpdate(bool update) {
-   mgr()->setUpdate(update); 
+   mgr()->setUpdate(update);
 }
 

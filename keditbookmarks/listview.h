@@ -29,7 +29,7 @@
 #include "toplevel.h"
 
 #define COL_NAME 0
-#define COL_URL  1 
+#define COL_URL  1
 
 class KEBListView : public KListView
 {
@@ -104,7 +104,7 @@ public:
    void restoreStatus();
 
    virtual void setOpen(bool);
-   bool isEmptyFolder() { return m_emptyFolder; }
+   bool isEmptyFolder()const { return m_emptyFolder; }
    const KBookmark& bookmark() { return m_bookmark; }
    void paintCell(QPainter *p, const QColorGroup &cg, int column, int width, int alignment);
 
@@ -131,7 +131,7 @@ public:
 
    void updateListViewSetup(bool readOnly);
    void connectSignals();
-   
+
    // item stuff
    QListViewItem* getFirstChild();
    QPtrList<QListViewItem>* itemList();
@@ -172,7 +172,7 @@ public:
 
    static ListView* self() { assert(s_self); return s_self; }
    static void createListView(QWidget *parent);
-   QWidget *widget() { return m_listView; }
+   QWidget *widget()const { return m_listView; }
    void rename(int);
    void clearSelection();
 

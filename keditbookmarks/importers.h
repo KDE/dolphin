@@ -37,7 +37,7 @@
 // for a cancel from the file dialog it should
 // do nothing, yet for a import without "..."
 // it shouldn't even be called + thus should be
-// a assert, or possible not... 
+// a assert, or possible not...
 // need to think more about this...
 
 // REPLY
@@ -69,14 +69,14 @@ public:
     * @param icon icon for the new folder, if @p folder isn't empty
     * @param utf8 true if the HTML is in utf-8 encoding
     */
-   ImportCommand(const QString &fileName, 
+   ImportCommand(const QString &fileName,
                  bool folder, const QString &icon, bool utf8)
-      : KCommand(), m_fileName(fileName), m_folder(folder), 
+      : KCommand(), m_fileName(fileName), m_folder(folder),
                     m_icon(icon), m_cleanUpCmd(0L), m_utf8(utf8)
    { ; }
 
    ImportCommand()
-      : KCommand(), m_fileName(QString::null), m_folder(false), 
+      : KCommand(), m_fileName(QString::null), m_folder(false),
                     m_icon(QString::null), m_cleanUpCmd(0L), m_utf8(false)
    { ; }
 
@@ -85,14 +85,14 @@ public:
 
    static int doImport(QWidget*, QString);
 
-   virtual ~ImportCommand() 
+   virtual ~ImportCommand()
    { ; }
 
    virtual void execute();
    virtual void unexecute();
 
-   QString groupAddress() { return m_group; }
-   QString folder();
+   QString groupAddress()const { return m_group; }
+   QString folder()const;
 
 protected slots:
    void newBookmark(const QString &text, const QCString &url, const QString &additionnalInfo);
@@ -121,7 +121,7 @@ protected:
 class XBELImportCommand : public ImportCommand
 {
 public:
-   XBELImportCommand(const QString &fileName, 
+   XBELImportCommand(const QString &fileName,
                      bool folder, const QString &icon);
    XBELImportCommand() { ; }
    virtual QString visibleName() const = 0;
