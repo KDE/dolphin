@@ -22,6 +22,8 @@
 #include "konq_propsview.h"
 #include "konq_factory.h"
 #include "konq_run.h"
+#include "konq_viewmgr.h"
+#include "konq_mainview.h"
 
 #include <assert.h>
 
@@ -360,4 +362,12 @@ void KonqChildView::reload()
   m_pView->openURL( m_pView->url(), true, m_pView->xOffset(), m_pView->yOffset() );
 }
 
+void KonqChildView::setPassiveMode( bool mode )
+{
+  m_bPassiveMode = mode;
+  
+  if ( mode )
+    m_pMainView->setActiveView( m_pMainView->viewManager()->chooseNextView( this )->view() );
+}
+  
 #include "konq_childview.moc"

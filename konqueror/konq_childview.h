@@ -200,7 +200,7 @@ public:
   int progress() const { return m_iProgress; }
 
   bool passiveMode() const { return m_bPassiveMode; }
-  void setPassiveMode( bool mode ) { m_bPassiveMode = mode; }
+  void setPassiveMode( bool mode );
 
   bool supportsProgressIndication() const { return m_bProgressSignals; }
 
