@@ -97,19 +97,20 @@ KBehaviourOptions::KBehaviourOptions(KConfig *config, QString group, QWidget *pa
     QWhatsThis::add( cbShowTips, i18n("Here you can control if, when moving the mouse over a file, you want to see a "
                                     "small popup window with additional information about that file"));
 
-    label = new QLabel(i18n("Number of file tip entries:"), this);
-    lay->addWidget(label, row, 2);
+    fileTips = new QLabel(i18n("Number of file tip entries:"), this);
+    lay->addWidget(fileTips, row, 2);
 
     sbToolTip = new QSpinBox(this);
     lay->addWidget(sbToolTip, row, 3);
     connect(sbToolTip, SIGNAL(valueChanged(int)), this, SLOT(changed()));
     connect(cbShowTips, SIGNAL(toggled(bool)), sbToolTip, SLOT(setEnabled(bool)));
-    label->setBuddy(sbToolTip);
+    connect(cbShowTips, SIGNAL(toggled(bool)), fileTips, SLOT(setEnabled(bool)));
+    fileTips->setBuddy(sbToolTip);
 
     QString tipstr = i18n("If you move the mouse over a file, you usually see a small popup window that shows some "
                           "additional information about that file. Here, you can set how many items of information "
                           "are displayed");
-    QWhatsThis::add( label, tipstr );
+    QWhatsThis::add( fileTips, tipstr );
     QWhatsThis::add( sbToolTip, tipstr );
 
     // --

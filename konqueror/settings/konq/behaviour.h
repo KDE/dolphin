@@ -57,6 +57,7 @@ private:
   QCheckBox *cbListProgress;
 
   QLabel *winPixmap;
+  QLabel *fileTips;
 
   QLineEdit *homeURL;
 
