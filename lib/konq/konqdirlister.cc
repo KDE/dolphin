@@ -33,7 +33,7 @@ KonqDirLister::~KonqDirLister()
 
 void KonqDirLister::FilesAdded( const KURL & directory )
 {
-  kdDebug(1203) << "FilesAdded " << directory.url() << endl;
+  kdDebug(1203) << "FilesAdded " << directory.url() << " - we are showing " << m_lstDirs.first().url() << endl;
   slotURLDirty( directory );
 }
 
