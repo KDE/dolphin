@@ -1949,7 +1949,9 @@ void KonqMainWindow::slotComboPlugged()
 
   m_combo->setHistoryItems( locationBarCombo );
   m_pURLCompletion = new KURLCompletion( KURLCompletion::FileCompletion );
-  m_pURLCompletion->setReplaceHome( false );  // Leave ~ alone! Will be taken care of by filters!!
+  // This only turns completion off. ~ is still there in the result
+  // We do want completion of user names, right?
+  //m_pURLCompletion->setReplaceHome( false );  // Leave ~ alone! Will be taken care of by filters!!
   m_pURLCompletion->setCompletionMode( (KGlobalSettings::Completion) mode );
 
   connect( m_combo, SIGNAL( completion( const QString& )),
