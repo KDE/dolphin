@@ -62,8 +62,6 @@ private:
     // URL -> item
     QDict<KonqTreeItem> m_dictSubDirs;
 
-    QPixmap m_folderPixmap;
-
     // Cache, for findDir
     //KonqTreeItem* m_lasttvd;
 

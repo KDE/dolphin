@@ -32,9 +32,6 @@ KonqDirTreeModule::KonqDirTreeModule( KonqTree * parentTree )
 {
     // Used to be static...
     s_defaultViewProps = new KonqPropsView( KonqTreeFactory::instance(), 0L );
-
-    m_folderPixmap = KMimeType::mimeType( "inode/directory" )->pixmap( KIcon::Desktop, KIcon::SizeSmall );
-
 }
 
 void KonqDirTreeModule::clearAll()
@@ -188,6 +185,7 @@ void KonqDirTreeModule::slotNewItems( const KFileItemList& entries )
     KonqTreeItem * parentItem = m_dictSubDirs[ dir.url(-1) ];
     assert( parentItem );
 
+    int size = KGlobal::iconLoader()->currentSize( KIcon::Small );
     QListIterator<KFileItem> kit ( entries );
     for( ; kit.current(); ++kit )
     {
@@ -195,7 +193,7 @@ void KonqDirTreeModule::slotNewItems( const KFileItemList& entries )
         assert( fileItem->isDir() );
 
         KonqDirTreeItem *dirTreeItem = new KonqDirTreeItem( parentItem, m_topLevelItem, fileItem );
-        dirTreeItem->setPixmap( 0, m_folderPixmap );
+        dirTreeItem->setPixmap( 0, fileItem->pixmap( size ) );
         dirTreeItem->setText( 0, KIO::decodeFileName( fileItem->url().fileName() ) );
     }
 }

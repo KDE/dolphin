@@ -456,6 +456,9 @@ void KonqTree::scanDir2( KonqTreeItem *parent, const QString &path )
     item->setClickable( false );
     item->setTopLevelGroup( true );
     item->setOpen( open );
+    KURL url;
+    url.setPath( path );
+    item->setExternalURL( url );
 
     m_topLevelItems.append( item );
 
