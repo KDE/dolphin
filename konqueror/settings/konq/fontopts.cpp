@@ -44,7 +44,7 @@ KonqFontOptions::KonqFontOptions(KConfig *config, QString group, bool desktop, Q
     QString wtstr;
     int row = 0;
 
-    int LASTLINE = m_bDesktop ? 7 : 8; // this can be different :)
+    int LASTLINE = m_bDesktop ? 8 : 9; // this can be different :)
 #define LASTCOLUMN 2
     QGridLayout *lay = new QGridLayout(this,LASTLINE+1,LASTCOLUMN+1,KDialog::marginHint(),
                                        KDialog::spacingHint());
@@ -173,6 +173,10 @@ KonqFontOptions::KonqFontOptions(KConfig *config, QString group, bool desktop, Q
                                               " being displayed in bytes. Otherwise file sizes are"
                                               " being displayed in kilobytes or megabytes if appropriate.") );
     }
+    row++;
+    cbRenameDirectlyIcon = new QCheckBox(i18n("&Rename Directly Icon"), this);
+    lay->addMultiCellWidget(cbRenameDirectlyIcon,row,row,0,LASTCOLUMN,hAlign);
+    connect(cbRenameDirectlyIcon, SIGNAL(clicked()), this, SLOT(changed()));
 
     assert( row == LASTLINE-1 );
     // The last line is empty and grows if resized
@@ -227,6 +231,7 @@ void KonqFontOptions::load()
         m_pSizeInBytes->setChecked( g_pConfig->readBoolEntry( "DisplayFileSizeInBytes", DEFAULT_FILESIZEINBYTES ) );
     }
     cbUnderline->setChecked( g_pConfig->readBoolEntry("UnderlineLinks", DEFAULT_UNDERLINELINKS ) );
+    cbRenameDirectlyIcon->setChecked( g_pConfig->readBoolEntry("RenameIconDirectly",  DEFAULT_RENAMEICONDIRECTLY ) );
 
     KConfig cfg("kdeglobals");
     cfg.setGroup("DesktopIcons");
@@ -260,7 +265,7 @@ void KonqFontOptions::defaults()
         m_pSizeInBytes->setChecked( DEFAULT_FILESIZEINBYTES );
     }
     cbUnderline->setChecked( DEFAULT_UNDERLINELINKS );
-
+    cbRenameDirectlyIcon->setChecked( DEFAULT_RENAMEICONDIRECTLY);
     updateGUI();
 }
 
@@ -290,6 +295,7 @@ void KonqFontOptions::save()
         g_pConfig->writeEntry( "DisplayFileSizeInBytes", m_pSizeInBytes->isChecked() );
     }
     g_pConfig->writeEntry( "UnderlineLinks", cbUnderline->isChecked() );
+    g_pConfig->writeEntry( "RenameIconDirectly", cbRenameDirectlyIcon->isChecked());
     g_pConfig->sync();
 
     KConfig cfg("kdeglobals");

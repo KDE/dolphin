@@ -342,6 +342,7 @@ struct KonqIconViewWidgetPrivate
     KIO::PreviewJob *pPreviewJob;
     KFileTip* pFileTip;
     QStringList previewSettings;
+    bool renameItem;
 };
 
 KonqIconViewWidget::KonqIconViewWidget( QWidget * parent, const char * name, WFlags f, bool kdesktop )
@@ -418,7 +419,7 @@ void KonqIconViewWidget::slotItemRenamed(QIconViewItem *item, const QString &nam
     // completed. Unfortunately, KIconView forces us to allow the text to be changed
     // before we try the rename, so set it back to the pre-rename state.
     viewItem->setText( fileItem->text() );
-
+    kdDebug()<<" fileItem->text() ;"<<fileItem->text()<<endl;
     // Don't do anything if the user renamed to a blank name.
     if( !name.isEmpty() )
     {
@@ -426,6 +427,7 @@ void KonqIconViewWidget::slotItemRenamed(QIconViewItem *item, const QString &nam
         KURL oldurl( fileItem->url() );
         KURL newurl( url() );
         newurl.setPath( url().path(1) + name );
+        kdDebug()<<" newurl :"<<newurl.url()<<endl;
         // We use url()+name so that it also works if the name is a relative path (#51176)
         KonqOperations::rename( this, oldurl, newurl );
     }
@@ -772,7 +774,7 @@ bool KonqIconViewWidget::initConfig( bool bInit )
     QFont font( m_pSettings->standardFont() );
     if (!m_bDesktop)
         font.setUnderline( m_pSettings->underlineLink() );
-        
+
     if ( font != KonqIconViewWidget::font() )
     {
         setFont( font );
@@ -1231,6 +1233,12 @@ void KonqIconViewWidget::setSortDirectoriesFirst( bool b )
   m_bSortDirsFirst = b;
 }
 
+void KonqIconViewWidget::contentsMouseMoveEvent( QMouseEvent *e )
+{
+    d->renameItem= false;
+    QIconView::contentsMouseMoveEvent( e );
+}
+
 void KonqIconViewWidget::contentsDropEvent( QDropEvent * ev )
 {
   QIconViewItem *i = findItem( ev->pos() );
@@ -1260,6 +1268,7 @@ void KonqIconViewWidget::contentsDropEvent( QDropEvent * ev )
 
 void KonqIconViewWidget::contentsMousePressEvent( QMouseEvent *e )
 {
+    d->renameItem= true;
   //kdDebug(1203) << "KonqIconViewWidget::contentsMousePressEvent" << endl;
   m_mousePos = e->pos();
   m_bMousePressed = true;
@@ -1271,6 +1280,14 @@ void KonqIconViewWidget::contentsMousePressEvent( QMouseEvent *e )
 
 void KonqIconViewWidget::contentsMouseReleaseEvent( QMouseEvent *e )
 {
+    QIconViewItem* item = findItem( e->pos() );
+    if ( d->renameItem && m_pSettings->renameIconDirectly() && e->button() == LeftButton && item && item->textRect( false ).contains(e->pos()))
+    {
+        item->rename();
+        m_bMousePressed = false;
+        return;
+    }
+
   m_bMousePressed = false;
   KIconView::contentsMouseReleaseEvent( e );
 }

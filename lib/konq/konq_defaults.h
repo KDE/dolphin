@@ -49,6 +49,8 @@
 #define DEFAULT_WORDWRAPTEXT true // kfm-like, sorry Reggie :-)
 #define DEFAULT_FILESIZEINBYTES false
 
+#define DEFAULT_RENAMEICONDIRECTLY false
+
 // root window icon text transparency default -- stefan@space.twc.de
 //#define DEFAULT_TRANSPARENT_ICON_TEXT true
 

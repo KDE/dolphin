@@ -42,7 +42,7 @@ class KConfig;
 class KonqFMSettings
 {
 protected:
-  /** 
+  /**
    * @internal
    * Constructs a KonqFMSettings instance from a config file.
    */
@@ -78,10 +78,11 @@ public:
   bool fileSizeInBytes() const { return m_fileSizeInBytes; }
   bool alwaysNewWin() const { return m_alwaysNewWin; }
   const QString & homeURL() const { return m_homeURL; }
-  
+
   bool showFileTips() const {return m_showFileTips; }
   bool showPreviewsInFileTips() const;
   int numFileTips() const {return m_numFileTips; }
+    bool renameIconDirectly() const;
 
   // Font settings
   const QFont& standardFont() const { return m_standardFont; }
@@ -92,7 +93,7 @@ public:
   const QColor& itemTextBackground() const { return m_itemTextBackground; }
 
   int textPreviewIconTransparency() const { return m_iconTransparency; }
-    
+
 private:
 
   static KonqFMSettings * s_pSettings;
@@ -118,7 +119,7 @@ private:
 
   // used for the textpreview
   int m_iconTransparency;
-    
+
   /** Called by constructor and reparseConfiguration */
   void init( KConfig * config );
 

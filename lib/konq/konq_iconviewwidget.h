@@ -268,6 +268,7 @@ protected:
     virtual void contentsDropEvent( QDropEvent *e );
     virtual void contentsMousePressEvent( QMouseEvent *e );
     virtual void contentsMouseReleaseEvent ( QMouseEvent * e );
+    virtual void contentsMouseMoveEvent( QMouseEvent *e );
     virtual void backgroundPixmapChange( const QPixmap & );
     void readAnimatedIconsConfig();
 
