@@ -229,11 +229,11 @@ int clientApp::doIt( int argc, char **argv )
     else if ( argc == 4 )
     {
       // kfm.exec( argv[2], argv[3] );
-      QStrList urls;
+      QStringList urls;
       urls.append( argv[2] );
-      KService * serv = KService::findByName( argv[3] );
+      KService * serv = KService::find( argv[3] );
       if (!serv) return 1;
-      bool ret = KRun::run( serv, urls );
+      bool ret = KRun::run( *serv, urls );
       if (!ret) return 1;
     }
     else
