@@ -189,8 +189,8 @@ void KEBApp::createActions() {
         i18n("Cancel &Checks"), 0,
         actn, SLOT( slotCancelAllTests() ), actionCollection(), "canceltests" );
     (void) new KAction(
-        18n("Cancel &Favicon Updates"), 0,
-        ctn, SLOT( slotCancelFavIconUpdates() ), actionCollection(), 
+        i18n("Cancel &Favicon Updates"), 0,
+        actn, SLOT( slotCancelFavIconUpdates() ), actionCollection(), 
         "cancelfaviconupdates" );
     (void) new KAction(
         i18n("Import &Netscape Bookmarks..."), "netscape", 0,
