@@ -181,7 +181,7 @@ QString KonqMisc::konqFilteredURL( QWidget* parent, const QString& _url, const Q
 }
 
 KonqDraggableLabel::KonqDraggableLabel( KonqMainWindow* mw, const QString& text )
-  : QLabel( text, mw, "kde toolbar widget" )	// Use this name for it to be styled!
+  : QLabel( text, 0L, "kde toolbar widget" )	// Use this name for it to be styled!
   , m_mw(mw)
 {
   setBackgroundMode( Qt::PaletteButton );
@@ -203,7 +203,7 @@ void KonqDraggableLabel::mouseMoveEvent( QMouseEvent * ev )
   if ((startDragPos - ev->pos()).manhattanLength() > QApplication::startDragDistance())
   {
     validDrag = false;
-    if ( m_mw && m_mw->currentView() )
+    if ( m_mw->currentView() )
     {
       KURL::List lst;
       lst.append( m_mw->currentView()->url() );

@@ -3251,7 +3251,7 @@ void KonqMainWindow::initActions()
   m_paAnimatedLogo = new KonqLogoAction( i18n("Animated Logo"), 0, this, SLOT( slotDuplicateWindow() ), actionCollection(), "animated_logo" );
 
   // Location bar
-  m_locationLabel = new KonqDraggableLabel( 0, i18n("L&ocation: ") );
+  m_locationLabel = new KonqDraggableLabel( this, i18n("L&ocation: ") );
   (void) new KWidgetAction( m_locationLabel, i18n("L&ocation: "), Key_F6, this, SLOT( slotLocationLabelActivated() ), actionCollection(), "location_label" );
   m_locationLabel->setBuddy( m_combo );
 
