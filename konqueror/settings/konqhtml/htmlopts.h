@@ -27,6 +27,7 @@
 #include <qstring.h>
 #include <kconfig.h>
 class KURLRequester;
+class QRadioButton;
 
 class KMiscHTMLOptions : public KCModule
 {
@@ -46,8 +47,8 @@ private:
     KConfig* m_pConfig;
 	QString  m_groupname;
 
+    QRadioButton *m_pUnderlineRadio[3];
     QCheckBox* cbCursor;
-    QCheckBox* cbUnderline;
     QCheckBox* m_pAutoLoadImagesCheckBox;
     QCheckBox* m_pEnableFaviconCheckBox;
 

@@ -8,6 +8,8 @@
 #include <qgroupbox.h>
 #include <qlayout.h>//CT - 12Nov1998
 #include <qwhatsthis.h>
+#include <qvbuttongroup.h>
+#include <qradiobutton.h>
 #include <kapp.h>
 
 #include "htmlopts.h"
@@ -22,6 +24,7 @@
 
 #include "htmlopts.moc"
 
+enum UnderlineLinkType { Always=0, Never=1, Hover=2 };
 //-----------------------------------------------------------------------------
 
 KMiscHTMLOptions::KMiscHTMLOptions(KConfig *config, QString group, QWidget *parent, const char *name )
@@ -37,12 +40,15 @@ KMiscHTMLOptions::KMiscHTMLOptions(KConfig *config, QString group, QWidget *pare
 
     connect(cbCursor, SIGNAL(clicked()), this, SLOT(changed()));
 
-    cbUnderline = new QCheckBox(i18n("&Underline links"), this);
-    lay->addWidget(cbUnderline);
+    QVButtonGroup *bg = new QVButtonGroup( i18n("Un&derline Links"), this );
+    bg->setExclusive( TRUE );
+    connect(bg, SIGNAL(clicked(int)), this, SLOT(changed()));
+    lay->addWidget(bg);
+    QWhatsThis::add( bg, i18n("Controls how Konqueror handles underlining hyperlinks.") );
 
-    QWhatsThis::add( cbUnderline, i18n("Tells konqueror to underline hyperlinks.") );
-
-    connect(cbUnderline, SIGNAL(clicked()), this, SLOT(changed()));
+    m_pUnderlineRadio[Always] = new QRadioButton( i18n("&Always"), bg );
+    m_pUnderlineRadio[Never] = new QRadioButton( i18n("&Never"), bg );
+    m_pUnderlineRadio[Hover] = new QRadioButton( i18n("&Hover"), bg );
 
     m_pAutoLoadImagesCheckBox = new QCheckBox( i18n( ""
      "A&utomatically load images\n"
@@ -84,6 +90,7 @@ void KMiscHTMLOptions::load()
     m_pConfig->setGroup( "HTML Settings" );
     bool changeCursor = m_pConfig->readBoolEntry("ChangeCursor", KDE_DEFAULT_CHANGECURSOR);
     bool underlineLinks = m_pConfig->readBoolEntry("UnderlineLinks", DEFAULT_UNDERLINELINKS);
+    bool hoverLinks = m_pConfig->readBoolEntry("HoverLinks", true);
     bool bAutoLoadImages = m_pConfig->readBoolEntry( "AutoLoadImages", true );
     
     bool sheetEnabled = m_pConfig->readBoolEntry("UserStyleSheetEnabled", false);
@@ -96,26 +103,50 @@ void KMiscHTMLOptions::load()
     
 
     cbCursor->setChecked( changeCursor );
-    cbUnderline->setChecked( underlineLinks );
     m_pAutoLoadImagesCheckBox->setChecked( bAutoLoadImages );
+
+    // we use two keys for link underlining so that this config file
+    // is backwards compatible with KDE 2.0.  the HoverLink setting
+    // has precedence over the UnderlineLinks setting
+    if (hoverLinks)
+    {
+        m_pUnderlineRadio[Hover]->setChecked( true );
+    }
+    else
+    {
+        if (underlineLinks)
+            m_pUnderlineRadio[Always]->setChecked( true );
+        else
+            m_pUnderlineRadio[Never]->setChecked( true );
+    }
 }
 
 void KMiscHTMLOptions::defaults()
 {
     cbCursor->setChecked( false );
-    cbUnderline->setChecked( true );
     m_pAutoLoadImagesCheckBox->setChecked( true );
+    m_pUnderlineRadio[Hover]->setChecked( true );
 }
 
 void KMiscHTMLOptions::save()
 {
     m_pConfig->setGroup( "HTML Settings" );
     m_pConfig->writeEntry( "ChangeCursor", cbCursor->isChecked() );
-    m_pConfig->writeEntry( "UnderlineLinks", cbUnderline->isChecked() );
     m_pConfig->writeEntry( "AutoLoadImages", m_pAutoLoadImagesCheckBox->isChecked() );
 //    m_pConfig->writeEntry( "EnableFavicon", m_pEnableFaviconCheckBox->isChecked() );
     m_pConfig->writeEntry( "UserStyleSheetEnabled", userSheet->isChecked() );
     m_pConfig->writeEntry( "UserStyleSheet", userSheetLocation->lineEdit()->text() );
+    if (m_pUnderlineRadio[Hover]->isChecked())
+    {
+        m_pConfig->writeEntry( "UnderlineLinks", false );
+        m_pConfig->writeEntry( "HoverLinks", true );
+    }
+    else
+    {
+        m_pConfig->writeEntry( "HoverLinks", false );
+        m_pConfig->writeEntry( "UnderlineLinks", m_pUnderlineRadio[Always]->isChecked() );
+    }
+
     m_pConfig->sync();
 }
 
