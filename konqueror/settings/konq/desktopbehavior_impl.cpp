@@ -403,7 +403,9 @@ void DesktopBehavior::save()
     else
         appname.sprintf("kdesktop-screen-%d", konq_screen_number);
     kapp->dcopClient()->send( appname, "KDesktopIface", "configure()", data );
-    kapp->dcopClient()->send( "menuapplet", "menuapplet", "configure()", data );
+    // for the standalone menubar setting
+    kapp->dcopClient()->send( "menuapplet*", "menuapplet", "configure()", data );
+    kapp->dcopClient()->send( "kwin*", "", "reconfigure()", data );
 }
 
 void DesktopBehavior::enableChanged()
