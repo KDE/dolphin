@@ -1147,13 +1147,14 @@ void KonqBaseListViewWidget::paintEmptyArea( QPainter *p, const QRect &r )
       p->fillRect(r, viewport()->backgroundColor());
    else
    {
-      int ax = (r.x() + contentsX()) % pm->width();
-      int ay = (r.y() + contentsY()) % pm->height();
-        /*kdDebug() << "KonqBaseListViewWidget::paintEmptyArea "
+       QRect devRect = p->xForm( r );
+       int ax = (devRect.x() + contentsX());
+       int ay = (devRect.y() + contentsY());
+       /* kdDebug() << "KonqBaseListViewWidget::paintEmptyArea "
                   << r.x() << "," << r.y() << " " << r.width() << "x" << r.height()
                   << " drawing pixmap with offset " << ax << "," << ay
                   << endl;*/
-      p->drawTiledPixmap(r, *pm, QPoint(ax, ay));
+       p->drawTiledPixmap(r, *pm, QPoint(ax, ay));
    }
 }
 
