@@ -25,7 +25,8 @@
 #include <kglobalsettings.h>
 #include <kprotocolinfo.h>
 #include <kdesktopfile.h>
-#include <assert.h>
+#include <kmessagebox.h>
+#include <klocale.h>
 
 KonqDirTreeModule::KonqDirTreeModule( KonqTree * parentTree )
     : KonqTreeModule( parentTree ), m_dirLister(0L), m_topLevelItem(0L), m_pProps(0L)
@@ -43,16 +44,21 @@ KonqDirTreeModule::~KonqDirTreeModule()
 
 KURL::List KonqDirTreeModule::selectedUrls()
 {
-    KonqDirTreeItem *selection = static_cast<KonqDirTreeItem *>( m_pTree->selectedItem() );
-    assert( selection );
     KURL::List lst;
+    KonqDirTreeItem *selection = static_cast<KonqDirTreeItem *>( m_pTree->selectedItem() );
+    if( !selection )
+    {
+        kdError() << "KonqDirTreeModule::selectedUrls: no selection!" << endl;
+        return lst;
+    }
     lst.append(selection->fileItem()->url());
     return lst;
 }
 
 void KonqDirTreeModule::addTopLevelItem( KonqTreeTopLevelItem * item )
 {
-    assert(!m_topLevelItem); // We can handle only one at a time !
+    if(m_topLevelItem) // We can handle only one at a time !
+        kdError() << "KonqDirTreeModule::addTopLevelItem: Impossible, we can have only one toplevel item !" << endl;
 
     KDesktopFile cfg( item->path(), true );
     cfg.setDollarExpansion(true);
@@ -77,7 +83,7 @@ void KonqDirTreeModule::addTopLevelItem( KonqTreeTopLevelItem * item )
         return;
 
     bool bListable = KProtocolInfo::supportsListing( targetURL.protocol() );
-    kdDebug(1201) << targetURL.prettyURL() << " listable : " << bListable << endl;
+    //kdDebug(1201) << targetURL.prettyURL() << " listable : " << bListable << endl;
 
     if ( !bListable )
     {
@@ -169,9 +175,9 @@ void KonqDirTreeModule::listDirectory( KonqTreeItem *item )
 
 void KonqDirTreeModule::slotNewItems( const KFileItemList& entries )
 {
-    kdDebug(1201) << this << " KonqDirTreeModule::slotNewItems " << entries.count() << endl;
+    //kdDebug(1201) << this << " KonqDirTreeModule::slotNewItems " << entries.count() << endl;
 
-    assert(entries.count());
+    ASSERT(entries.count());
     KFileItem * firstItem = const_cast<KFileItemList&>(entries).first(); // qlist sucks for constness
 
     // Find parent item - it's the same for all the items
@@ -179,14 +185,22 @@ void KonqDirTreeModule::slotNewItems( const KFileItemList& entries )
     dir.setFileName( "" );
     kdDebug(1201) << this << " KonqDirTreeModule::slotNewItems dir=" << dir.url(-1) << endl;
     KonqTreeItem * parentItem = m_dictSubDirs[ dir.url(-1) ];
-    assert( parentItem );
+    if( !parentItem )
+    {
+        KMessageBox::error( tree(), i18n("Can't find parent item %1 in the tree. Internal error.").arg( dir.url(-1) ) );
+        return;
+    }
 
     int size = KGlobal::iconLoader()->currentSize( KIcon::Small );
     QListIterator<KFileItem> kit ( entries );
     for( ; kit.current(); ++kit )
     {
         KonqFileItem * fileItem = static_cast<KonqFileItem *>(*kit);
-        assert( fileItem->isDir() );
+        if (! fileItem->isDir() )
+        {
+            kdError() << "Item " << fileItem->url().prettyURL() << " is not a directory!" << endl;
+            return;
+        }
 
         KonqDirTreeItem *dirTreeItem = new KonqDirTreeItem( parentItem, m_topLevelItem, fileItem );
         dirTreeItem->setPixmap( 0, fileItem->pixmap( size ) );
