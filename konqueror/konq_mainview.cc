@@ -1214,7 +1214,7 @@ void KonqMainView::toggleBar( const char *name, const char *className )
 
 void KonqMainView::slotFullScreenStart()
 {
-  KonqFrame *widget = m_currentView->frame(); 
+  KonqFrame *widget = m_currentView->frame();
   m_tempContainer = widget->parentContainer();
   m_tempFocusPolicy = widget->focusPolicy();
   widget->header()->hide();
@@ -1228,11 +1228,12 @@ void KonqMainView::slotFullScreenStart()
 void KonqMainView::slotFullScreenStop()
 {
   KonqFrame *widget = m_currentView->frame();
+  widget->close( false );
   widget->recreate( m_tempContainer, 0, QPoint( 0, 0 ), true);
   widget->header()->show();
   widget->setFocusPolicy( m_tempFocusPolicy );
   m_bFullScreen = false;
-} 
+}
 
 void KonqMainView::fillHistoryPopup( QPopupMenu *menu, const QList<HistoryEntry> &history )
 {
@@ -1369,7 +1370,7 @@ void KonqMainView::initActions()
   m_pamLoadViewProfile = new KActionMenu( i18n( "Load View Profile" ), actionCollection(), "loadviewprofile" );
 
   m_pViewManager->setProfiles( m_pamLoadViewProfile );
-  
+
   m_paFullScreenStart = new KAction( i18n( "Experimental Fullscreen Mode" ), 0, this, SLOT( slotFullScreenStart() ), actionCollection(), "fullscreenstart" );
   m_paFullScreenStop = new KAction( i18n( "Stop Experimental Fullscreen Mode" ), 0, this, SLOT( slotFullScreenStop() ), actionCollection(), "fullscreenstop" );
 
@@ -1635,7 +1636,7 @@ void KonqMainView::slotPopupMenu( const QPoint &_global, const KonqFileItemList 
 
   if ( m_bFullScreen )
     popupMenuCollection.insert( m_paFullScreenStop );
-  
+
   KonqPopupMenu pPopupMenu ( _items,
                              m_currentView->url(),
                              popupMenuCollection,
