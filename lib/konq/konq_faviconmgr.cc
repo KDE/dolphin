@@ -26,6 +26,7 @@
 #include <kstddirs.h>
 #include <kdatastream.h>
 #include <kapp.h>
+#include <kconfig.h>
 #include <kiconloader.h>
 
 #include "konq_faviconmgr.h"
@@ -80,6 +81,17 @@ void KonqFavIconMgr::changed(const QString &url)
 QString KonqFavIconMgr::iconForURL(const QString &url)
 {
     QMapConstIterator<QString, URLInfo> it(self()->m_knownURLs.find(url));
+
+    KConfig *config = KGlobal::config();
+    config->setGroup( "HTML Settings" );
+
+
+    // Don't pass an icon if favicon support is disabled
+    if ( config->readBoolEntry( "EnableFavicon" ) == false )
+    {
+        return QString::null;
+    }
+
     if (it == self()->m_knownURLs.end())
     {
         KURL _url(url);

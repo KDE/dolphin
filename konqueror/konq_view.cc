@@ -642,12 +642,18 @@ void KonqView::sendOpenURLEvent( const KURL &url, const KParts::URLArgs &args )
   // We also do here what we want to do after opening an URL, whether a new one
   // or one from the history (common stuff).
 
-  // Try to get /favicon.ico
-  if ( m_serviceType == "text/html" && url.protocol().left(4) == "http" )
+  KConfig *config = KGlobal::config();
+  config->setGroup( "HTML Settings" );
+
+  if ( config->readBoolEntry( "EnableFavicon" ) == true )
   {
+    // Try to get /favicon.ico
+    if ( m_serviceType == "text/html" && url.protocol().left(4) == "http" )
+    {
       KURL iconURL( url );
       iconURL.setEncodedPathAndQuery( "/favicon.ico" );
       KonqFavIconMgr::self()->setIconForURL(m_sLocationBarURL, iconURL, true);
+    }
   }
 }
 

@@ -44,15 +44,20 @@ KMiscHTMLOptions::KMiscHTMLOptions(KConfig *config, QString group, QWidget *pare
     connect(cbUnderline, SIGNAL(clicked()), this, SLOT(changed()));
 
     m_pAutoLoadImagesCheckBox = new QCheckBox( i18n( ""
-     "Automatically load images\n"
+     "A&utomatically load images\n"
      "(Otherwise, click the Images button to load when needed)" ), this );
-
     QWhatsThis::add( m_pAutoLoadImagesCheckBox, i18n( "If this box is checked, Konqueror will automatically load any images that are embedded in a web page. Otherwise, it will display placeholders for the images, and you can then manually load the images by clicking on the image button.<br>Unless you have a very slow network connection, you will probably want to check this box to enhance your browsing experience." ) );
-
     connect(m_pAutoLoadImagesCheckBox, SIGNAL(clicked()), this, SLOT(changed()));
-   lay->addWidget( m_pAutoLoadImagesCheckBox, 1 );
+    lay->addWidget( m_pAutoLoadImagesCheckBox, 1 );
 
-    userSheet = new QCheckBox(i18n("Enable user defined style sheet"), this);
+    m_pEnableFaviconCheckBox = new QCheckBox( i18n( "Enable \"&favorite icon\" support" ), this );
+    QWhatsThis::add( m_pEnableFaviconCheckBox, i18n( "This will cause konqueror to look for <b>\"/favicon.ico\"</b> on the server "
+    "to display this icon in the locationbar and the bookmarks.") );
+    lay->addWidget( m_pEnableFaviconCheckBox, 1 );
+    connect(m_pEnableFaviconCheckBox, SIGNAL(clicked()), this, SLOT(changed()));
+
+
+    userSheet = new QCheckBox(i18n("Enable user defined &style sheet"), this);
     lay->addWidget(userSheet);
     connect( userSheet, SIGNAL( clicked() ), this, SLOT( changed() ));
 
@@ -63,7 +68,7 @@ KMiscHTMLOptions::KMiscHTMLOptions(KConfig *config, QString group, QWidget *pare
     lay->addWidget(userSheetLocation);
     connect( userSheetLocation->lineEdit(), SIGNAL( textChanged( const QString & ) ), this, SLOT( changed() ) );
     connect( userSheet, SIGNAL( toggled( bool )), userSheetLocation, SLOT( setEnabled( bool ) ) );
-    
+
      lay->addStretch(10);
     lay->activate();
 
@@ -105,6 +110,7 @@ void KMiscHTMLOptions::save()
     m_pConfig->writeEntry( "ChangeCursor", cbCursor->isChecked() );
     m_pConfig->writeEntry( "UnderlineLinks", cbUnderline->isChecked() );
     m_pConfig->writeEntry( "AutoLoadImages", m_pAutoLoadImagesCheckBox->isChecked() );
+    m_pConfig->writeEntry( "EnableFavicon", m_pEnableFaviconCheckBox->isChecked() );
     m_pConfig->writeEntry( "UserStyleSheetEnabled", userSheet->isChecked() );
     m_pConfig->writeEntry( "UserStyleSheet", userSheetLocation->lineEdit()->text() );
     m_pConfig->sync();
