@@ -654,9 +654,12 @@ void KonqSidebarTree::slotAnimation()
 void KonqSidebarTree::startAnimation( KonqSidebarTreeItem * item, const char * iconBaseName, uint iconCount, const QPixmap * originalPixmap )
 {
     const QPixmap *pix = originalPixmap ? originalPixmap : item->pixmap(0);
-    m_mapCurrentOpeningFolders.insert( item, AnimationInfo( iconBaseName, iconCount, *pix ) );
-    if ( !m_animationTimer->isActive() )
-        m_animationTimer->start( 50 );
+    if (pix)
+    {
+        m_mapCurrentOpeningFolders.insert( item, AnimationInfo( iconBaseName, iconCount, *pix ) );
+        if ( !m_animationTimer->isActive() )
+            m_animationTimer->start( 50 );
+    }
 }
 
 void KonqSidebarTree::stopAnimation( KonqSidebarTreeItem * item )
