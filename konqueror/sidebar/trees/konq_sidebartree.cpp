@@ -134,8 +134,6 @@ KonqSidebarTree::KonqSidebarTree( KonqSidebar_Tree *parent, QWidget *parentWidge
     connect( this, SIGNAL( selectionChanged() ),
              this, SLOT( slotSelectionChanged() ) );
 
-    connect( this, SIGNAL( onItem( QListViewItem * )),
-	     this, SLOT( slotOnItem( QListViewItem * ) ) );
     connect( this, SIGNAL(itemRenamed(QListViewItem*, const QString &, int)),
              this, SLOT(slotItemRenamed(QListViewItem*, const QString &, int)));
 
@@ -709,18 +707,6 @@ void KonqSidebarTree::stopAnimation( KonqSidebarTreeItem * item )
 KonqSidebarTreeItem * KonqSidebarTree::currentItem() const
 {
     return static_cast<KonqSidebarTreeItem *>( selectedItem() );
-}
-
-void KonqSidebarTree::slotOnItem( QListViewItem *item )
-{
-    KonqSidebarTreeItem *i = static_cast<KonqSidebarTreeItem *>( item );
-/*
-    const KURL& url = i->externalURL();
-
-    if ( url.isLocalFile() )
-	emitStatusBarText( url.path() );
-    else
-	emitStatusBarText( url.prettyURL() );*/
 }
 
 void KonqSidebarTree::setContentsPos( int x, int y )

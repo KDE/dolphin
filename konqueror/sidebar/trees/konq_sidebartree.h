@@ -126,7 +126,6 @@ private slots:
 
     void rescanConfiguration();
 
-    void slotOnItem( QListViewItem * );
     void slotItemRenamed(QListViewItem*, const QString &, int);
 
 private:
