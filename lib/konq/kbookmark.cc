@@ -141,7 +141,12 @@ KBookmark KBookmarkGroup::addBookmark( const QString & text, const KURL & url, c
     QDomElement elem = doc.createElement( "bookmark" );
     element.appendChild( elem );
     elem.setAttribute( "href", url.url( 0, QFont::Unicode ) ); // write utf8 URL
-    elem.setAttribute( "icon", icon.isEmpty() ? KMimeType::iconForURL( url ) : icon );
+    QString _icon = icon;
+    if ( _icon.isEmpty() )
+        _icon = KonqFavIconMgr::iconForURL( url.url() );
+    if ( _icon.isEmpty() )
+        _icon = KMimeType::iconForURL( url );
+    elem.setAttribute( "icon", _icon );
 
     QDomElement textElem = doc.createElement( "title" );
     elem.appendChild( textElem );
