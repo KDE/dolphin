@@ -433,7 +433,7 @@ void KonqMainWindow::openFilteredURL( const QString & _url, bool inNewTab )
 
     KURL filteredURL ( KonqMisc::konqFilteredURL( this, url, m_currentDir ) );
     kdDebug(1202) << "_url " << _url << " filtered into " << filteredURL.prettyURL() << endl;
-    
+
     if ( filteredURL.isEmpty() ) // initially empty, or error (e.g. ~unknown_user)
         return;
 
@@ -447,6 +447,7 @@ void KonqMainWindow::openFilteredURL( const QString & _url, bool inNewTab )
             filteredURL = KonqMisc::konqFilteredURL( this, url, m_currentDir );
         }
     }
+    m_currentDir = QString::null;
 
     // Remember the initial (typed) URL
     KonqOpenURLRequest req( _url );
@@ -991,7 +992,7 @@ bool KonqMainWindow::makeViewsFollow( const KURL & url, const KParts::URLArgs &a
   {
     bool followed = false;
     // Views that should follow this URL as both views are linked
-    if ( (view != senderView) && view->isLinkedView() && senderView->isLinkedView() ) 
+    if ( (view != senderView) && view->isLinkedView() && senderView->isLinkedView() )
     {
       QObject *viewFrame = lastFrame( view );
 
@@ -1059,7 +1060,7 @@ void KonqMainWindow::slotCreateNewWindow( const KURL &url, const KParts::URLArgs
       KonqOpenURLRequest req;
       req.newTab = true;
       req.newTabInFront = config->readBoolEntry( "NewTabsInFront", false );
-      if (KApplication::keyboardModifiers() & KApplication::ShiftModifier)
+      if (KApplication::keyboardMouseState() & Qt::ShiftButton)
         req.newTabInFront = !req.newTabInFront;
       req.args = args;
       openURL( 0L, url, QString::null, req );
@@ -1383,7 +1384,16 @@ void KonqMainWindow::slotOpenLocation()
   // Don't pre-fill the url, as it is auto-selected and thus overwrites the
   // X clipboard, making it impossible to paste in the url you really wanted.
   // Another example of why the X clipboard sux
-  KURL url = KURLRequesterDlg::getURL( QString::null, this, i18n("Open Location") );
+  KURLRequesterDlg dlg( QString::null, this, 0, true);
+  dlg.setCaption( i18n("Open Location") );
+  // Set current directory for relative paths.
+  // Testcase: konqueror www.kde.org; Ctrl+O; file in $HOME; would open http://$file
+  QString currentDir;
+  if (m_currentView && m_currentView->url().isLocalFile())
+      currentDir = m_currentView->url().path(1);
+  dlg.urlRequester()->completionObject()->setDir( currentDir );
+  dlg.exec();
+  const KURL& url = dlg.selectedURL();
   if (!url.isEmpty())
      openFilteredURL( url.url().stripWhiteSpace() );
 }
@@ -1732,10 +1742,10 @@ void KonqMainWindow::slotReloadPopup()
 void KonqMainWindow::slotHome()
 {
   QString homeURL = m_pViewManager->profileHomeURL();
-  
+
   if (homeURL.isEmpty())
     homeURL = KonqFMSettings::settings()->homeURL();
-  
+
   openURL( 0L, KURL( KonqMisc::konqFilteredURL( this, homeURL ) ) );
 }
 
@@ -2520,7 +2530,7 @@ void KonqMainWindow::slotPopupNewTab()
     bool openAfterCurrentPage = config->readBoolEntry( "OpenAfterCurrentPage", false );
     bool newTabsInFront = config->readBoolEntry( "NewTabsInFront", false );
 
-    if (KApplication::keyboardModifiers() & KApplication::ShiftModifier)
+    if (KApplication::keyboardMouseState() & Qt::ShiftButton)
       newTabsInFront = !newTabsInFront;
 
     popupNewTab(newTabsInFront, openAfterCurrentPage);
@@ -4655,7 +4665,7 @@ void KonqMainWindow::updateViewModeActions()
       QString itname = (*it)->genericName();
       if (itname.isEmpty())
           itname = (*it)->name();
-      
+
       QString icon = (*it)->icon();
       if ( icon != QString::fromLatin1( "unknown" ) )
           // we *have* to specify a parent qobject, otherwise the exclusive group stuff doesn't work!(Simon)
