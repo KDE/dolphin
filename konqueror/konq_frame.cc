@@ -475,7 +475,7 @@ KonqFrame::attach( Browser::View_ptr view )
     m_pOPFrame->attach( view );
     m_pOPFrame->setGeometry( 0, 0, width(), height() );
   }
-  m_pHeader->show();
+//  m_pHeader->show();
 }
 
 void
