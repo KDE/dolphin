@@ -56,7 +56,7 @@ KMiscHTMLOptions::KMiscHTMLOptions(KConfig *config, QString group, QWidget *pare
 
     // Misc
 
-    cbCursor = new QCheckBox(i18n("Chan&ge cursor over &links"), this);
+    cbCursor = new QCheckBox(i18n("Chan&ge cursor over links"), this);
     lay->addMultiCellWidget(cbCursor, row, row, 0, 1);
     row++;
 
