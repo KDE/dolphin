@@ -54,31 +54,31 @@ SMBRoOptions::SMBRoOptions(QWidget *parent)
    layout->addWidget(label,2,0);
    layout->addWidget(m_passwordLe,2,1);
 
-   m_workgroupLe=new QLineEdit(this);
+/*   m_workgroupLe=new QLineEdit(this);
    label=new QLabel(m_workgroupLe,i18n("Workgroup:"),this);
    layout->addWidget(label,3,0);
    layout->addWidget(m_workgroupLe,3,1);
 
    m_showHiddenShares=new QCheckBox(i18n("Show hidden shares"),this);
-   layout->addMultiCellWidget(m_showHiddenShares,4,4,0,1);
+   layout->addMultiCellWidget(m_showHiddenShares,4,4,0,1);*/
 
    m_encodingList = new KComboBox( false, this );
    QStringList _strList = KGlobal::charsets()->availableEncodingNames();
    m_encodingList->insertStringList( _strList );
 
    label = new QLabel( m_encodingList, i18n( "MS Windows encoding:" ), this );
-   layout->addWidget( label, 5, 0 );
-   layout->addWidget( m_encodingList, 5, 1 );
+   layout->addWidget( label, 3, 0 );
+   layout->addWidget( m_encodingList, 3, 1 );
 
-   layout->addWidget(new QWidget(this),6,0);
+   layout->addWidget(new QWidget(this),4,0);
 
-   connect(m_showHiddenShares, SIGNAL(toggled(bool)), this, SLOT(changed()));
+//   connect(m_showHiddenShares, SIGNAL(toggled(bool)), this, SLOT(changed()));
    connect(m_userLe, SIGNAL(textChanged(const QString&)), this, SLOT(changed()));
    connect(m_passwordLe, SIGNAL(textChanged(const QString&)), this, SLOT(changed()));
-   connect(m_workgroupLe, SIGNAL(textChanged(const QString&)), this, SLOT(changed()));
+//   connect(m_workgroupLe, SIGNAL(textChanged(const QString&)), this, SLOT(changed()));
    connect( m_encodingList, SIGNAL( activated( const QString & ) ), this , SLOT( changed() ) );
 
-   layout->setRowStretch(6,1);
+   layout->setRowStretch(4, 1);
 
    // finaly read the options
    load();
@@ -95,8 +95,8 @@ void SMBRoOptions::load()
    QString tmp;
    cfg->setGroup( "Browser Settings/SMBro" );
    m_userLe->setText(cfg->readEntry("User"));
-   m_workgroupLe->setText(cfg->readEntry("Workgroup"));
-   m_showHiddenShares->setChecked(cfg->readBoolEntry("ShowHiddenShares",false));
+//   m_workgroupLe->setText(cfg->readEntry("Workgroup"));
+//   m_showHiddenShares->setChecked(cfg->readBoolEntry("ShowHiddenShares",false));
 
    QStringList _strList = KGlobal::charsets()->availableEncodingNames();
    QString m_encoding = QTextCodec::codecForLocale()->name();
@@ -127,8 +127,8 @@ void SMBRoOptions::save()
 
    cfg->setGroup( "Browser Settings/SMBro" );
    cfg->writeEntry( "User", m_userLe->text());
-   cfg->writeEntry( "Workgroup", m_workgroupLe->text());
-   cfg->writeEntry( "ShowHiddenShares", m_showHiddenShares->isChecked());
+//   cfg->writeEntry( "Workgroup", m_workgroupLe->text());
+//   cfg->writeEntry( "ShowHiddenShares", m_showHiddenShares->isChecked());
    cfg->writeEntry( "Encoding", m_encodingList->currentText() );
 
    //taken from Nicola Brodu's smb ioslave
@@ -156,8 +156,8 @@ void SMBRoOptions::defaults()
 {
    m_userLe->setText("");
    m_passwordLe->setText("");
-   m_workgroupLe->setText("");
-   m_showHiddenShares->setChecked(false);
+//   m_workgroupLe->setText("");
+//   m_showHiddenShares->setChecked(false);
 }
 
 void SMBRoOptions::changed()

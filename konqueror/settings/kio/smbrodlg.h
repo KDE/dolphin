@@ -1,6 +1,6 @@
 /*  This file is part of the KDE project
 
-    Copyright (C) 2000 Alexander Neundorf <neundorf@kde.org>
+    Copyright (C) 2000, 2005 Alexander Neundorf <neundorf@kde.org>
 
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Library General Public
@@ -47,8 +47,8 @@ class SMBRoOptions : public KCModule
    private:
       QLineEdit *m_userLe;
       QLineEdit *m_passwordLe;
-      QLineEdit *m_workgroupLe;
-      QCheckBox *m_showHiddenShares;
+//      QLineEdit *m_workgroupLe; //currently unused, Alex
+//      QCheckBox *m_showHiddenShares; //currently unused, Alex
       KComboBox *m_encodingList;
 };
 
