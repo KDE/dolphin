@@ -2676,7 +2676,8 @@ void KonqMainWindow::enableAllActions( bool enable )
   for ( int i = 0; i < count; i++ )
   {
     KAction *act = actionCollection()->action( i );
-    if ( !enable || !s_actionSlotMap->contains( act->name() ) )
+    if ( strncmp( act->name(), "configure", 9 ) /* do not touch the configureblah actions */
+         && ( !enable || !s_actionSlotMap->contains( act->name() ) ) ) /* don't enable BE actions */
       act->setEnabled( enable );
   }
 
@@ -2734,7 +2735,8 @@ void KonqMainWindow::disableActionsNoView()
         for ( KAction * it = actions.first(); it ; it = actions.next() )
             it->setEnabled( false );
     }
-    // There are things we can do, though : bookmarks, view profile, location bar, new window etc.
+    // There are things we can do, though : bookmarks, view profile, location bar, new window,
+    // settings, etc.
     m_paHome->setEnabled( true );
     m_pamBookmarks->setEnabled( true );
     action("new_window")->setEnabled( true );
