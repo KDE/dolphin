@@ -55,6 +55,7 @@ KonqTree::KonqTree( KonqTreePart *parent, QWidget *parentWidget )
     connect( m_animationTimer, SIGNAL( timeout() ),
              this, SLOT( slotAnimation() ) );
 
+    m_currentBeforeDropItem = 0;
     m_dropItem = 0;
 
     addColumn( QString::null );
@@ -130,6 +131,7 @@ void KonqTree::followURL( const KURL &url )
 void KonqTree::contentsDragEnterEvent( QDragEnterEvent *ev )
 {
     m_dropItem = 0;
+    m_currentBeforeDropItem = selectedItem();
     // Save the available formats
     m_lstDropFormats.clear();
     for( int i = 0; ev->format( i ); i++ )
@@ -163,6 +165,12 @@ void KonqTree::contentsDragMoveEvent( QDragMoveEvent *e )
 
 void KonqTree::contentsDragLeaveEvent( QDragLeaveEvent * )
 {
+    // Restore the current item to what it was before the dragging (#17070)
+    if ( m_currentBeforeDropItem )
+        setSelected( m_currentBeforeDropItem, true );
+    else
+        setSelected( m_dropItem, false ); // no item selected
+    m_currentBeforeDropItem = 0;
     m_dropItem = 0;
     m_lstDropFormats.clear();
 }

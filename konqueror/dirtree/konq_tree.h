@@ -132,7 +132,8 @@ private:
     QPoint m_dragPos;
     bool m_bDrag;
 
-    QListViewItem *m_dropItem;
+    QListViewItem *m_currentBeforeDropItem; // The item that was current before the drag-enter event happened
+    QListViewItem *m_dropItem; // The item we are moving the mouse over (during a drag)
     QStrList m_lstDropFormats;
 
     QTimer *m_autoOpenTimer;
