@@ -271,7 +271,7 @@ void KonqBaseListViewWidget::updateSelectedFilesInfo()
          m_filesSelected=TRUE;
          if ( S_ISDIR( it->item()->mode() ) )
             dirCount++;
-         else
+         else // what about symlinks ?
          {
             fileSizeSum += it->item()->size();
             fileCount++;
@@ -281,23 +281,13 @@ void KonqBaseListViewWidget::updateSelectedFilesInfo()
    if (m_filesSelected)
    {
       int items(fileCount+dirCount);
-      if (items == 1)
-         m_selectedFilesStatusText= i18n("One Item");
-      else
-         m_selectedFilesStatusText= i18n("%1 Items").arg(items);
-      m_selectedFilesStatusText+= " - ";
-      if (fileCount == 1)
-         m_selectedFilesStatusText+= i18n("One File");
-      else
-         m_selectedFilesStatusText+= i18n("%1 Files").arg(fileCount);
-      m_selectedFilesStatusText+= " ";
-      m_selectedFilesStatusText+= i18n("(%1 Total)").arg(KIO::convertSize(fileSizeSum));
-      m_selectedFilesStatusText+= " - ";
-      if (dirCount == 1)
-         m_selectedFilesStatusText+= i18n("One Directory");
-      else
-         m_selectedFilesStatusText+= i18n("%1 Directories").arg(dirCount);
-   }
+      m_selectedFilesStatusText = m_pBrowserView->displayString(
+          items,
+          fileCount,
+          fileSizeSum,
+          dirCount );
+
+   } // else : call slotOnViewport, which is todo (i.e. mouse on column > 1)
    emit m_pBrowserView->setStatusBarText(m_selectedFilesStatusText);
    //kdDebug(1202)<<"KonqTextViewWidget::updateSelectedFilesInfo"<<endl;
 }
