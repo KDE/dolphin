@@ -287,9 +287,8 @@ void KAppearanceOptions::load()
     fonts = m_pConfig->readListEntry( "Fonts" );
     while (fonts.count() < 7)
        fonts.append(QString::null);
-       
-    encodingName = m_pConfig->readEntry( "DefaultEncoding", "" );
 
+    encodingName = m_pConfig->readEntry( "DefaultEncoding", "" );
     //kdDebug(0) << "encoding = " << encodingName << endl;
 
     updateGUI();
@@ -329,7 +328,8 @@ void KAppearanceOptions::updateGUI()
     for ( QStringList::Iterator it = encodings.begin(); it != encodings.end(); ++it, ++i )
         if ( encodingName == *it )
             m_pEncoding->setCurrentItem( i );
-
+    if(encodingName.isEmpty())
+        m_pEncoding->setCurrentItem( 0 );
     m_pFontSizeAdjust->setValue( fonts[6].toInt() );
     m_MedSize->setValue( fSize );
     m_minSize->setValue( fMinSize );
