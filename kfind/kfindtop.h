@@ -17,6 +17,7 @@ class KStatusBar;
 class Kfind;               
 class QPushButton;
 class KfindTabDialog;
+class KAccel;
 
 class KfindTop: public KTMainWindow
 {
@@ -31,6 +32,7 @@ public:
 public slots:
   void enableSaveResults(bool enable);
   void enableMenuItems(bool enable);
+  void keyBindings();
   void prefs();
   void statusChanged(const char *);
   void enableSearchButton(bool);
@@ -72,6 +74,8 @@ private:
   KToolBar       *_toolBar;
   KStatusBar     *_statusBar;
   Kfind          *_kfind;
+
+  KAccel         *_accel;
 
   int        fileStart;
   int        fileStop;

@@ -10,8 +10,6 @@
 #include <qpopupmenu.h>
 #include <qlayout.h>
 #include <qpixmap.h>
-#include <qkeycode.h>
-#include <qaccel.h>
 
 #include <kapp.h>
 #include <kiconloader.h>
@@ -25,7 +23,8 @@
 #include "kfind.h"
 #include "kfindtop.h"
 #include <klocale.h>
-#include <kstdaccel.h>
+#include <kaccel.h>
+#include <kkeydialog.h>
 
 #include "version.h"
 #include <kglobal.h>
@@ -33,6 +32,7 @@
 KfindTop::KfindTop(const char *searchPath) : KTMainWindow()
   {
 //     setCaption(QString("KFind ")+KFIND_VERSION);
+	_accel = new KAccel(this);
 
     _toolBar = new KToolBar( this, "_toolBar" );
     _toolBar->setBarPos( KToolBar::Top );
@@ -93,28 +93,41 @@ KfindTop::~KfindTop()
 
 void KfindTop::menuInit()
 {
-  KStdAccel stdAccel;
-
   _fileMenu   = new QPopupMenu;
   _editMenu   = new QPopupMenu;
   _optionMenu = new QPopupMenu;
   _helpMenu   = new QPopupMenu;
 
+  _accel->connectItem(KAccel::Find, _kfind, SLOT(startSearch()));
+  _accel->connectItem(KAccel::Open, this,   SLOT(open()));
+  _accel->connectItem(KAccel::Save, this,   SLOT(saveResults()));
+  _accel->connectItem(KAccel::Undo, this,   SLOT(undo()));
+  _accel->connectItem(KAccel::Copy, this,   SLOT(copySelection()));
+  _accel->connectItem(KAccel::Cut,  this,   SLOT(cut()));
+  _accel->connectItem(KAccel::Quit, kapp,   SLOT(quit()));
+  _accel->insertItem(i18n("Stop Search"), "search", Key_Escape);
+  _accel->insertItem(i18n("Delete"),      "delete", Key_Delete);
+
+  _accel->readSettings();
+
   fileStart = _fileMenu->insertItem(i18n("&Start search"), _kfind,
-				    SLOT(startSearch()), stdAccel.find());
+				    SLOT(startSearch()));
+  _accel->changeMenuAccel(_fileMenu, fileStart, KAccel::Find);
   fileStop = _fileMenu->insertItem(i18n("S&top search"), _kfind,
-				   SLOT(stopSearch()), Key_Escape);
+				   SLOT(stopSearch()));
+  _accel->changeMenuAccel(_fileMenu, fileStop, "search");
   _fileMenu->setItemEnabled(fileStop, FALSE);
   _fileMenu->insertSeparator();
 
-  openWithM = _fileMenu->insertItem(i18n("&Open"),
-				    this,SIGNAL(open()), stdAccel.open());
+  openWithM = _fileMenu->insertItem(i18n("&Open"), this, SIGNAL(open()));
+  _accel->changeMenuAccel(_fileMenu, openWithM, KAccel::Open);
   toArchM = _fileMenu->insertItem(i18n("&Add to archive"),
 				  this,SIGNAL(addToArchive()));
   _fileMenu->insertSeparator();
 
   deleteM = _fileMenu->insertItem(i18n("&Delete"),
 				  this,SIGNAL(deleteFile()));
+  _accel->changeMenuAccel(_fileMenu, deleteM, "delete");
   propsM = _fileMenu->insertItem(i18n("&Properties"),
 				 this,SIGNAL(properties()));
   _fileMenu->insertSeparator();
@@ -124,21 +137,25 @@ void KfindTop::menuInit()
   _fileMenu->insertSeparator();
 
   saveSearchM = _fileMenu->insertItem(i18n("&Save Search"),
-				      this, SIGNAL(saveResults()), stdAccel.save());
+				      this, SIGNAL(saveResults()));
+  _accel->changeMenuAccel(_fileMenu, saveSearchM, KAccel::Save);
   _fileMenu->insertSeparator();
 
-  quitM = _fileMenu->insertItem(i18n("&Quit"),qApp,
-				SLOT(quit()),stdAccel.quit());
+  quitM = _fileMenu->insertItem(i18n("&Quit"), kapp, SLOT(quit()));
+  _accel->changeMenuAccel(_fileMenu, quitM, KAccel::Quit);
   for(int i=openWithM;i>quitM;i--)
     _fileMenu->setItemEnabled(i,FALSE);
 
   int undo = _editMenu->insertItem(i18n("&Undo"),
-				   this, SIGNAL(undo()), stdAccel.undo() );
+				   this, SIGNAL(undo()));
+  _accel->changeMenuAccel(_editMenu, undo, KAccel::Undo);
   _editMenu->insertSeparator();
   int cut = _editMenu->insertItem(i18n("&Cut"),
-				  this, SIGNAL(cut()), stdAccel.cut() );
+				  this, SIGNAL(cut()));
+  _accel->changeMenuAccel(_editMenu, cut, KAccel::Cut);
   editCopy =  _editMenu->insertItem(i18n("&Copy"),
-				    this, SLOT(copySelection()), stdAccel.copy() );
+				    this, SLOT(copySelection()));
+  _accel->changeMenuAccel(_editMenu, editCopy, KAccel::Copy);
   _editMenu->insertSeparator();
   editSelectAll = _editMenu->insertItem(i18n("&Select All"),
 					this,SIGNAL(selectAll()) );
@@ -151,6 +168,8 @@ void KfindTop::menuInit()
   _editMenu->setItemEnabled( editSelectAll, FALSE );
   _editMenu->setItemEnabled( editUnselectAll, FALSE );
 
+  _optionMenu->insertItem(i18n("Configure &Key Bindings..."),
+			  this, SLOT(keyBindings()));
   _optionMenu->insertItem(i18n("&Preferences ..."),
 			  this,SLOT(prefs()));
 
@@ -269,6 +288,11 @@ void KfindTop::enableStatusBar(bool enable)
 void KfindTop::statusChanged(const char *str)
 {
   _statusBar->changeItem((char *)str, 0);
+}
+
+void KfindTop::keyBindings()
+{
+    KKeyDialog::configureKeys(_accel);
 }
 
 void KfindTop::prefs()
