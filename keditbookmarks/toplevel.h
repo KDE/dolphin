@@ -21,16 +21,37 @@
 
 #include <kmainwindow.h>
 #include <kbookmark.h>
+#include <qlistview.h>
+#include <gcommand.h>
 
 class KToggleAction;
 class KListView;
-class QListViewItem;
-class KEBListViewItem;
+
+class KEBListViewItem : public QListViewItem
+{
+public:
+    // toplevel item (there should be only one!)
+    KEBListViewItem(QListView *parent, const KBookmark & group );
+    // bookmark (first of its group)
+    KEBListViewItem(KEBListViewItem *parent, const KBookmark & bk );
+    // bookmark (after another)
+    KEBListViewItem(KEBListViewItem *parent, QListViewItem *after, const KBookmark & bk );
+    // group
+    KEBListViewItem(KEBListViewItem *parent, QListViewItem *after, const KBookmarkGroup & gp );
+
+    virtual void setOpen( bool );
+
+    const KBookmark & bookmark() { return m_bookmark; }
+private:
+    KBookmark m_bookmark;
+};
 
 class KEBTopLevel : public KMainWindow
 {
     Q_OBJECT
 public:
+    static KEBTopLevel * self() { return s_topLevel; }
+
     KEBTopLevel( const QString & bookmarksFile );
     virtual ~KEBTopLevel();
 
@@ -40,9 +61,22 @@ public:
 
     KBookmark selectedBookmark() const;
 
+    // @return where to insert a new item - depending on the selected item
+    QString insertionAddress() const;
+
+    KEBListViewItem * findByAddress( const QString & address ) const;
+
+    /**
+     * Rebuild the whole list view from the dom document
+     * Openness of folders is saved, as well as current item.
+     * Call this every time the underlying qdom document is modified.
+     */
+    void update();
+
+    KListView * listView() const { return m_pListView; }
+
 public slots:
     void slotSave();
-    void slotUndo();
     void slotRename();
     void slotDelete();
     void slotNewFolder();
@@ -58,15 +92,19 @@ protected slots:
     void slotMoved(QListViewItem *, QListViewItem *, QListViewItem *);
     void slotSelectionChanged( QListViewItem * );
     void slotContextMenu( KListView *, QListViewItem *, const QPoint & );
-    void fillListView();
+    void slotBookmarksChanged();
 
 protected:
     void fillGroup( KEBListViewItem * parentItem, KBookmarkGroup group );
     virtual bool queryClose();
+    void fillListView();
 
     bool m_bModified;
     KToggleAction * m_taShowNS;
     KListView * m_pListView;
+    KCommandHistory m_commandHistory;
+
+    static KEBTopLevel * s_topLevel;
 };
 
 #endif

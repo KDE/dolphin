@@ -12,11 +12,13 @@
 
 <Menu name="edit" noMerge="1"><text>&amp;Edit</text>
  <Action name="edit_undo"/>
+ <Action name="edit_redo"/>
  <Action name="edit_rename"/>
  <Action name="edit_delete"/>
- <Separator/><!-- Stuff for folders -->
+ <Separator/>
  <Action name="edit_newfolder"/>
  <Action name="edit_insertseparator"/>
+ <Separator/><!-- Stuff for folders -->
  <Action name="edit_sort"/>
  <Action name="edit_setastoolbar"/>
  <Separator/><!-- Stuff for bookmarks -->
@@ -33,6 +35,7 @@
 <ToolBar name="mainToolBar" noMerge="1" fullWidth="true"><text>Main Toolbar</text>
  <Action name="file_save"/>
  <Action name="edit_undo"/>
+ <Action name="edit_redo"/>
  <Action name="edit_delete"/>
  <Action name="edit_newfolder"/>
 </ToolBar>
@@ -40,9 +43,9 @@
 <Menu name="popup_folder">
  <Action name="edit_rename"/>
  <Action name="edit_delete"/>
- <Separator/><!-- Stuff for folders -->
  <Action name="edit_newfolder"/>
  <Action name="edit_insertseparator"/>
+ <Separator/><!-- Stuff for folders -->
  <!--<Action name="edit_sort"/>-->
  <Action name="edit_setastoolbar"/>
 </Menu>
@@ -50,6 +53,8 @@
 <Menu name="popup_bookmark">
  <Action name="edit_rename"/>
  <Action name="edit_delete"/>
+ <Action name="edit_newfolder"/>
+ <Action name="edit_insertseparator"/>
  <Separator/><!-- Stuff for bookmarks -->
  <Action name="edit_openlink"/>
  <!--<Action name="edit_testlink"/>-->

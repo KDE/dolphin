@@ -17,6 +17,7 @@
 */
 
 #include "toplevel.h"
+#include "commands.h"
 #include <kaction.h>
 #include <kbookmarkmanager.h>
 #include <kdebug.h>
@@ -28,65 +29,97 @@
 #include <kiconloader.h>
 #include <kapp.h>
 #include <dcopclient.h>
+#include <assert.h>
+#include <stdlib.h>
 
 // #define DEBUG_ADDRESSES
 
-class KEBListViewItem : public QListViewItem
+// toplevel item (there should be only one!)
+KEBListViewItem::KEBListViewItem(QListView *parent, const KBookmark & group )
+    : QListViewItem(parent, i18n("Bookmarks") ), m_bookmark(group)
+{
+    setPixmap(0, SmallIcon("bookmark"));
+#ifdef DEBUG_ADDRESSES
+    setText(2, bk.address());
+#endif
+}
+
+// bookmark (first of its group)
+KEBListViewItem::KEBListViewItem(KEBListViewItem *parent, const KBookmark & bk )
+    : QListViewItem(parent, bk.fullText(), bk.url()), m_bookmark(bk)
+{
+    setPixmap(0, SmallIcon( bk.icon() ) );
+#ifdef DEBUG_ADDRESSES
+    setText(2, bk.address());
+#endif
+}
+
+// bookmark (after another)
+KEBListViewItem::KEBListViewItem(KEBListViewItem *parent, QListViewItem *after, const KBookmark & bk )
+    : QListViewItem(parent, after, bk.fullText(), bk.url()), m_bookmark(bk)
+{
+    setPixmap(0, SmallIcon( bk.icon() ) );
+#ifdef DEBUG_ADDRESSES
+    setText(2, bk.address());
+#endif
+}
+
+// group
+KEBListViewItem::KEBListViewItem(KEBListViewItem *parent, QListViewItem *after, const KBookmarkGroup & gp )
+    : QListViewItem(parent, after, gp.fullText()), m_bookmark(gp)
+{
+    setPixmap(0, SmallIcon( gp.icon() ) );
+#ifdef DEBUG_ADDRESSES
+    setText(2, gp.address());
+#endif
+}
+
+void KEBListViewItem::setOpen( bool open )
+{
+    m_bookmark.internalElement().setAttribute( "OPEN", open ? 1 : 0 );
+    QListViewItem::setOpen( open );
+}
+
+class KEBListView : public KListView
 {
 public:
-    // toplevel item (there should be only one!)
-    KEBListViewItem(QListView *parent, const KBookmark & group, const QString & s1 )
-        : QListViewItem(parent, s1 ), m_bookmark(group)
-    {
-#ifdef DEBUG_ADDRESSES
-        setText(2, bk.address());
-#endif
-    }
+    KEBListView( QWidget * parent ) : KListView( parent ) {}
+    virtual ~KEBListView() {}
 
-    // bookmark (first of its group)
-    KEBListViewItem(KEBListViewItem *parent, const KBookmark & bk )
-        : QListViewItem(parent, bk.fullText(), bk.url()), m_bookmark(bk)
+protected:
+    // KListView is no good for undoable operations. It moves stuff before telling us.
+    virtual void contentsDropEvent(QDropEvent* e)
     {
-        setPixmap(0, SmallIcon( bk.icon() ) );
-#ifdef DEBUG_ADDRESSES
-        setText(2, bk.address());
-#endif
-    }
+        cleanDropVisualizer();
 
-    // bookmark (after another)
-    KEBListViewItem(KEBListViewItem *parent, QListViewItem *after, const KBookmark & bk )
-        : QListViewItem(parent, after, bk.fullText(), bk.url()), m_bookmark(bk)
-    {
-        setPixmap(0, SmallIcon( bk.icon() ) );
-#ifdef DEBUG_ADDRESSES
-        setText(2, bk.address());
-#endif
-    }
+        if (acceptDrag (e))
+        {
+            e->accept();
+            QListViewItem *afterme;
+            QListViewItem *parent;
+            findDrop(e->pos(), parent, afterme);
 
-    // group
-    KEBListViewItem(KEBListViewItem *parent, QListViewItem *after, const KBookmarkGroup & gp )
-        : QListViewItem(parent, after, gp.fullText()), m_bookmark(gp)
-    {
-        setPixmap(0, SmallIcon( gp.icon() ) );
-#ifdef DEBUG_ADDRESSES
-        setText(2, gp.address());
-#endif
+            // Now a simplified version of movableDropEvent
+            //movableDropEvent (parent, afterme);
+            QListViewItem * i = selectedItem();
+            ASSERT(i);
+            if (i != afterme)
+                emit moved(i, 0 /* unused */, afterme);
+        }
     }
-
-    const KBookmark & bookmark() { return m_bookmark; }
-private:
-    KBookmark m_bookmark;
 };
 
+KEBTopLevel * KEBTopLevel::s_topLevel = 0L;
+
 KEBTopLevel::KEBTopLevel( const QString & bookmarksFile )
-    : KMainWindow()
+    : KMainWindow(), m_commandHistory( actionCollection() )
 {
     // Create the bookmark manager.
     // It will be available in KBookmarkManager::self() from now.
     (void) new KBookmarkManager( bookmarksFile, false );
 
     // Create the list view
-    m_pListView = new KListView( this );
+    m_pListView = new KEBListView( this );
     m_pListView->setDragEnabled( true );
     m_pListView->addColumn( i18n("Bookmark"), 300 );
     m_pListView->addColumn( i18n("URL"), 300 );
@@ -101,9 +134,9 @@ KEBTopLevel::KEBTopLevel( const QString & bookmarksFile )
     m_pListView->setItemsMovable( true );
     m_pListView->setAcceptDrops( true );
     m_pListView->setAllColumnsShowFocus( true );
-    m_pListView->setMinimumHeight(400);
     m_pListView->setSorting(-1, false);
     setCentralWidget( m_pListView );
+    resize( m_pListView->sizeHint().width(), 400 );
 
     connect( m_pListView, SIGNAL(itemRenamed(QListViewItem *, const QString &, int)),
              SLOT(slotItemRenamed(QListViewItem *, const QString &, int)) );
@@ -115,7 +148,8 @@ KEBTopLevel::KEBTopLevel( const QString & bookmarksFile )
              SLOT(slotContextMenu( KListView *, QListViewItem *, const QPoint & )) );
     // If someone plays with konq's bookmarks while we're open, update.
     connect( KBookmarkManager::self(), SIGNAL(changed(const QString &) ),
-             SLOT( fillListView() ) );
+             SLOT( slotBookmarksChanged() ) );
+
     fillListView();
 
     // Create the actions
@@ -123,7 +157,6 @@ KEBTopLevel::KEBTopLevel( const QString & bookmarksFile )
     // TODO importNS (icon : "netscape")
     (void) KStdAction::save( this, SLOT( slotSave() ), actionCollection() );
     (void) KStdAction::close( this, SLOT( close() ), actionCollection() );
-    (void) KStdAction::undo( this, SLOT( slotUndo() ), actionCollection() );
     (void) new KAction( i18n( "&Delete" ), "editdelete", SHIFT+Key_Delete, this, SLOT( slotDelete() ), actionCollection(), "edit_delete" );
     (void) new KAction( i18n( "&Rename" ), "text", Key_F2, this, SLOT( slotRename() ), actionCollection(), "edit_rename" );
     (void) new KAction( i18n( "&Create New Folder" ), "folder_new", CTRL+Key_N, this, SLOT( slotNewFolder() ), actionCollection(), "edit_newfolder" );
@@ -137,7 +170,6 @@ KEBTopLevel::KEBTopLevel( const QString & bookmarksFile )
     m_taShowNS->setEnabled(false); // not implemented
     // TODO m_taShowNS->setChecked(....)
 
-    actionCollection()->action("edit_undo")->setEnabled(false); // not implemented
     actionCollection()->action("edit_sort")->setEnabled(false); // not implemented
     actionCollection()->action("edit_testlink")->setEnabled(false); // not implemented
 
@@ -146,11 +178,13 @@ KEBTopLevel::KEBTopLevel( const QString & bookmarksFile )
     createGUI();
 
     setModified(false); // for a nice caption
+
+    s_topLevel = this;
 }
 
 KEBTopLevel::~KEBTopLevel()
 {
-
+    s_topLevel = 0L;
 }
 
 void KEBTopLevel::slotSave()
@@ -165,7 +199,7 @@ bool KEBTopLevel::save()
     {
         QByteArray data;
         // We don't want to notify ourselves (keditbookmarks), because this would
-        // call fillListView, which would seem to close all folders.
+        // call slotBookmarksChanged, which clears the history.
         // There's probably a better solution, but not at 4:47am.
         kapp->dcopClient()->send( "konqueror*", "KBookmarkManager", "notifyCompleteChange()", data );
         kapp->dcopClient()->send( "kdesktop", "KBookmarkManager", "notifyCompleteChange()", data );
@@ -174,9 +208,37 @@ bool KEBTopLevel::save()
     return ok;
 }
 
-void KEBTopLevel::slotUndo()
+QString KEBTopLevel::insertionAddress() const
 {
+    KBookmark current = selectedBookmark();
+    if (current.isGroup())
+        // In a group, we insert as first child
+        return current.address() + "/0";
+    else
+        // Otherwise, as next sibling
+        return KBookmark::nextAddress( current.address() );
+}
 
+KEBListViewItem * KEBTopLevel::findByAddress( const QString & address ) const
+{
+    kdDebug() << "KEBTopLevel::findByAddress " << address << endl;
+    QListViewItem * item = m_pListView->firstChild();
+    // The address is something like /5/10/2
+    QStringList addresses = QStringList::split('/',address);
+    for ( QStringList::Iterator it = addresses.begin() ; it != addresses.end() ; ++it )
+    {
+        uint number = (*it).toUInt();
+        //kdDebug() << "KBookmarkManager::findByAddress " << number << endl;
+        assert(item);
+        item = item->firstChild();
+        for ( uint i = 0 ; i < number ; ++i )
+        {
+            assert(item);
+            item = item->nextSibling();
+        }
+    }
+    ASSERT(item);
+    return static_cast<KEBListViewItem *>(item);
 }
 
 void KEBTopLevel::slotRename()
@@ -187,6 +249,11 @@ void KEBTopLevel::slotRename()
 
 void KEBTopLevel::slotDelete()
 {
+    if( !m_pListView->selectedItem() )
+    {
+        kdWarning() << "KEBTopLevel::slotDelete no selected item !" << endl;
+        return;
+    }
     KBookmark bk = selectedBookmark();
     kdDebug() << "KEBTopLevel::slotDelete child count=" << bk.internalElement().childNodes().count() << endl;
     if ( bk.isGroup() && bk.internalElement().childNodes().count() > 1 /*there's always "TEXT"*/ )
@@ -195,51 +262,27 @@ void KEBTopLevel::slotDelete()
                                          i18n("Confirmation required") ) == KMessageBox::No )
             return;
     }
-    bk.parentGroup().deleteBookmark(bk);
-    delete m_pListView->selectedItem();
+
+    DeleteCommand * cmd = new DeleteCommand( i18n("Delete item"), bk.address() );
+    cmd->execute();
+    m_commandHistory.addCommand( cmd );
     setModified();
 }
 
 void KEBTopLevel::slotNewFolder()
 {
-    KEBListViewItem * kebItem = static_cast<KEBListViewItem *>(m_pListView->selectedItem());
-    ASSERT( kebItem );
-    KBookmark bk = kebItem->bookmark();
-    ASSERT( bk.isGroup() );
-    KBookmarkGroup group = bk.toGroup();
-    // Ask user for a name, and insert in dom tree
-    KBookmarkGroup newGroup = group.createNewFolder();
-    if (!newGroup.isNull())
-    {
-        // Create GUI for the new item - last in its group
-        QListViewItem * child = kebItem->firstChild();
-        while( child && child->nextSibling() )
-            child = child->nextSibling();
-
-        (void) new KEBListViewItem( kebItem, child, newGroup );
-        setModified();
-    }
+    CreateCommand * cmd = new CreateCommand( i18n("Create Folder"), insertionAddress(), QString::null );
+    cmd->execute();
+    m_commandHistory.addCommand( cmd );
+    setModified();
 }
 
 void KEBTopLevel::slotInsertSeparator()
 {
-    KEBListViewItem * kebItem = static_cast<KEBListViewItem *>(m_pListView->selectedItem());
-    ASSERT( kebItem );
-    KBookmark bk = kebItem->bookmark();
-    ASSERT( bk.isGroup() );
-    KBookmarkGroup group = bk.toGroup();
-
-    KBookmark separator = group.createNewSeparator();
-    if (!separator.isNull())
-    {
-        // Create GUI for the new item - last in its group
-        QListViewItem * child = kebItem->firstChild();
-        while( child && child->nextSibling() )
-            child = child->nextSibling();
-
-        (void) new KEBListViewItem( kebItem, child, separator );
-        setModified();
-    }
+    CreateCommand * cmd = new CreateCommand( i18n("Insert separator"), insertionAddress() );
+    cmd->execute();
+    m_commandHistory.addCommand( cmd );
+    setModified();
 }
 
 void KEBTopLevel::slotSort()
@@ -249,6 +292,7 @@ void KEBTopLevel::slotSort()
 
 void KEBTopLevel::slotSetAsToolbar()
 {
+    // TODO EditCommand
     KBookmarkGroup oldToolbar = KBookmarkManager::self()->toolbar();
     if (!oldToolbar.isNull())
         oldToolbar.internalElement().removeAttribute( "TOOLBAR" );
@@ -295,6 +339,7 @@ KBookmark KEBTopLevel::selectedBookmark() const
 
 void KEBTopLevel::slotItemRenamed(QListViewItem * item, const QString & newText, int column)
 {
+    // TODO EditCommand
     ASSERT(item);
     KEBListViewItem * kebItem = static_cast<KEBListViewItem *>(item);
     KBookmark bk = kebItem->bookmark();
@@ -334,54 +379,64 @@ void KEBTopLevel::slotMoved(QListViewItem *_item, QListViewItem * /*_afterFirst*
     // group, which sets as first item of the group. I'm afraid it means a
     // "new parent" item in the signal
 
-    //kdDebug() << "KEBTopLevel::slotMoved _item=" << _item << " _afterFirst=" << _afterFirst << " _afterNow=" << _afterNow << endl;
+    kdDebug() << "KEBTopLevel::slotMoved _item=" << _item << " _afterNow=" << _afterNow << endl;
     KEBListViewItem * item = static_cast<KEBListViewItem *>(_item);
     KEBListViewItem * afterNow = static_cast<KEBListViewItem *>(_afterNow);
     if (!afterNow) // Not allowed to drop something before the root item !
     {
-        kdDebug() << "Refilling" << endl;
-        // We need to undo what KListView did
-        // m_pListView->moveItem( _item, argl not enough info
-        // Let's schedule a full refill then (can't do it now, klistview will need the items !)
-        QTimer::singleShot( 0, this, SLOT(fillListView()));
         return;
     }
+
     KBookmarkGroup newParent = afterNow->bookmark().parentGroup();
+    QString newAddress;
     if (newParent.isNull())
     {
         // newParent can be null, if afterNow is the root item. In this case, set as first child
         // This is a very special case, in fact. The more generic solution would be to
         // allow insertions into a group. See above.
-        m_pListView->takeItem( item );
+        /*m_pListView->takeItem( item );
         m_pListView->firstChild()->insertItem( item );
         afterNow->bookmark().internalElement().insertBefore( item->bookmark().internalElement(), QDomNode() );
+        */
+        newAddress="/0";
     }
     else
     {
-        QDomNode result = newParent.internalElement().insertAfter( item->bookmark().internalElement(), afterNow->bookmark().internalElement() );
-        ASSERT(!result.isNull());
+        // We move as the next child of afterNow
+        newAddress = KBookmark::nextAddress( afterNow->bookmark().address() );
     }
-    setModified();
+
+    kdDebug() << "KEBTopLevel::slotMoved moving " << item->bookmark().address() << " to " << newAddress << endl;
+    MoveCommand * cmd = new MoveCommand( i18n("Move %1").arg(item->bookmark().text()),
+                                         item->bookmark().address(),
+                                         newAddress );
+    cmd->execute();
+    m_commandHistory.addCommand( cmd );
+
+    setModified(); // should be done by the command ? not sure.
 }
 
 void KEBTopLevel::slotSelectionChanged( QListViewItem * item )
 {
+    kdDebug() << "KEBTopLevel::slotSelectionChanged " << item << endl;
     bool itemSelected = (item != 0L);
     bool group = false;
+    bool root = false;
     bool separator = false;
     if ( itemSelected )
     {
         KEBListViewItem * kebItem = static_cast<KEBListViewItem *>(item);
         group = kebItem->bookmark().isGroup();
         separator = kebItem->bookmark().isSeparator();
+        root = (m_pListView->firstChild() == item);
     }
 
     KActionCollection * coll = actionCollection();
 
-    coll->action("edit_rename")->setEnabled(itemSelected && !separator);
-    coll->action("edit_delete")->setEnabled(itemSelected);
-    coll->action("edit_newfolder")->setEnabled(group);
-    coll->action("edit_insertseparator")->setEnabled(group);
+    coll->action("edit_rename")->setEnabled(itemSelected && !separator && !root);
+    coll->action("edit_delete")->setEnabled(itemSelected && !root);
+    coll->action("edit_newfolder")->setEnabled(itemSelected);
+    coll->action("edit_insertseparator")->setEnabled(itemSelected);
     //coll->action("edit_sort")->setEnabled(group); // not implemented
     coll->action("edit_setastoolbar")->setEnabled(group);
     coll->action("edit_openlink")->setEnabled(itemSelected && !group && !separator);
@@ -408,17 +463,45 @@ void KEBTopLevel::slotContextMenu( KListView *, QListViewItem * _item, const QPo
     }
 }
 
+void KEBTopLevel::slotBookmarksChanged()
+{
+    kdDebug() << "KEBTopLevel::slotBookmarksChanged" << endl;
+    // This is called when someone changes bookmarks in konqueror....
+    m_commandHistory.clear();
+    fillListView();
+}
+
+void KEBTopLevel::update()
+{
+    QListViewItem * item = m_pListView->selectedItem();
+    if (item)
+    {
+        kdDebug() << "KEBTopLevel::update item=" << item << endl;
+        QString address = static_cast<KEBListViewItem*>(item)->bookmark().address();
+        fillListView();
+        KEBListViewItem * newItem = findByAddress( address );
+        ASSERT(newItem);
+        if (newItem)
+        {
+            m_pListView->setCurrentItem(newItem);
+            m_pListView->setSelected(newItem,true);
+        }
+    }
+    else
+    {
+        fillListView();
+        slotSelectionChanged(0);
+    }
+}
+
 void KEBTopLevel::fillListView()
 {
     m_pListView->clear();
     KBookmarkGroup root = KBookmarkManager::self()->root();
     // Create root item
-    KEBListViewItem * rootItem = new KEBListViewItem( m_pListView, root, i18n("Bookmarks") );
-    rootItem->setPixmap(0, SmallIcon("bookmark"));
-    // Maybe we could reimplement setOpen and fill the groups
-    // only when we want to see them ? Not sure it makes a big difference though.
+    KEBListViewItem * rootItem = new KEBListViewItem( m_pListView, root );
     fillGroup( rootItem, root );
-    rootItem->setOpen(true);
+    rootItem->QListViewItem::setOpen(true);
 }
 
 void KEBTopLevel::fillGroup( KEBListViewItem * parentItem, KBookmarkGroup group )
@@ -432,6 +515,8 @@ void KEBTopLevel::fillGroup( KEBListViewItem * parentItem, KBookmarkGroup group 
             KBookmarkGroup grp = bk.toGroup();
             KEBListViewItem * item = new KEBListViewItem( parentItem, lastItem, grp );
             fillGroup( item, grp );
+            if (grp.internalElement().attribute("OPEN") == "1")
+                item->QListViewItem::setOpen(true); // no need to save it again :)
             lastItem = item;
         }
         else
