@@ -617,8 +617,8 @@ void KonqMostOftenURLSAction::slotActivated( int id )
 }
 
 // sort by numberOfTimesVisited (least often goes first)
-int MostOftenList::compareItems( QCollection::Item item1,
-				 QCollection::Item item2)
+int MostOftenList::compareItems( QPtrCollection::Item item1,
+				 QPtrCollection::Item item2)
 {
     KonqHistoryEntry *entry1 = static_cast<KonqHistoryEntry *>( item1 );
     KonqHistoryEntry *entry2 = static_cast<KonqHistoryEntry *>( item2 );

@@ -160,7 +160,7 @@ protected:
     /**
      * Ensures that the items are sorted by numberOfTimesVisited
      */
-    virtual int compareItems( QCollection::Item, QCollection::Item );
+    virtual int compareItems( QPtrCollection::Item, QPtrCollection::Item );
 };
 
 class KonqMostOftenURLSAction : public KActionMenu
