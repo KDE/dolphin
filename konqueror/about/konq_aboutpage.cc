@@ -95,7 +95,7 @@ QString KonqAboutPageFactory::intro()
 	return res;
 
     KIconLoader *iconloader = KGlobal::iconLoader();
-    QString back_icon_path = iconloader->iconPath("back", KIcon::Small );
+    QString back_icon_path = QApplication::reverseLayout()?iconloader->iconPath("forward", KIcon::Small ):iconloader->iconPath("back", KIcon::Small );
     QString gohome_icon_path = iconloader->iconPath("gohome", KIcon::Small );
 
     res = res.arg( i18n("Conquer your Desktop!") )
