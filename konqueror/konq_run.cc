@@ -55,33 +55,29 @@ void KonqRun::foundMimeType( const QString & _type )
 
   m_bFoundMimeType = true;
 
-  assert( m_pMainWindow );
-
   if (m_pView)
     m_pView->setLoading(false); // first phase finished, don't confuse KonqView
 
   //kdDebug(1202) << "m_req.nameFilter= " << m_req.nameFilter << endl;
   //kdDebug(1202) << "m_req.typedURL= " << m_req.typedURL << endl;
 
+  assert( m_pMainWindow );
   m_bFinished = m_pMainWindow->openView( mimeType, m_strURL, m_pView, m_req );
   if ( !m_bFinished &&  // .... if not embedddable ...
-      !m_bTrustedSource && // ... and untrusted source...
-      !allowExecution( mimeType, m_strURL ) ) // ...and the user *really* wants to execute ...
-  {
+       !m_bTrustedSource && // ... and untrusted source...
+       !allowExecution( mimeType, m_strURL ) ) // ...and the user *really* wants to execute ...
+    {
       m_bFinished = true;
       m_bFault = true; // make Konqueror think there was an error (even if we really execute it) , in order to stop the spinning wheel
-  }
-
-  //  if ( m_pMainWindow->openView( _type, m_strURL, m_pView, m_req ) ||
-  //       ( !m_bTrustedSource && !allowExecution( _type, m_strURL ) ) )
+    }
 
   if ( m_bFinished )
-  {
-    m_pMainWindow = 0L;
-    m_bFinished = true;
-    m_timer.start( 0, true );
-    return;
-  }
+    {
+      m_pMainWindow = 0L;
+      m_bFinished = true;
+      m_timer.start( 0, true );
+      return;
+    }
   KIO::SimpleJob::removeOnHold(); // Kill any slave that was put on hold.
   kdDebug(1202) << "Nothing special to do in KonqRun, falling back to KRun" << endl;
 
