@@ -405,6 +405,8 @@ KonqHistoryDialog::KonqHistoryDialog( KonqHistorySettings *settings,
 
     connect( cbExpire, SIGNAL( toggled( bool )),
 	     spinExpire, SLOT( setEnabled( bool )));
+    connect( spinExpire, SIGNAL( valueChanged( int )),
+	     this, SLOT( slotExpireChanged( int )));
 
     connect( spinNewer, SIGNAL( valueChanged( int )),
 	     SLOT( slotNewerChanged( int )));
@@ -443,6 +445,7 @@ void KonqHistoryDialog::initFromSettings()
     // enable/disable widgets
     spinExpire->setEnabled( cbExpire->isChecked() );
 
+    slotExpireChanged( spinExpire->value() );
     slotNewerChanged( spinNewer->value() );
     slotOlderChanged( spinOlder->value() );
 }
@@ -465,6 +468,14 @@ void KonqHistoryDialog::applySettings()
     m_settings->m_fontOlderThan   = m_fontOlder;
 
     m_settings->applySettings();
+}
+
+void KonqHistoryDialog::slotExpireChanged( int value )
+{
+    if ( value == 1 )
+        spinExpire->setSuffix( i18n(" day") );
+    else
+        spinExpire->setSuffix( i18n(" days") );
 }
 
 // change hour to days, minute to minutes and the other way round,

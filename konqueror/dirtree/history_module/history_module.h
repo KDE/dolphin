@@ -79,7 +79,7 @@ private slots:
     void slotSortByDate();
 
     void slotClearHistory();
-    
+
 private:
     KonqHistoryGroupItem *getGroupItem( const KURL& url );
 
@@ -119,6 +119,7 @@ public slots:
     void slotGetFontOlder();
 
 private slots:
+    void slotExpireChanged( int );
     void slotNewerChanged( int );
     void slotOlderChanged( int );
 
