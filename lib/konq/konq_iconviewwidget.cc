@@ -1046,12 +1046,10 @@ KonqIconDrag * KonqIconViewWidget::konqDragObject( QWidget * dragSource )
     //kdDebug(1203) << "KonqIconViewWidget::konqDragObject" << endl;
 
     KonqIconDrag * drag = new KonqIconDrag( dragSource );
-    // Position of the mouse in the view
-    QPoint orig = viewportToContents( viewport()->mapFromGlobal( m_mousePos ) );
     // Position of the item clicked in the view
     QPoint itempos = currentItem()->pixmapRect( FALSE ).topLeft();
     // Set pixmap, with the correct offset
-    drag->setPixmap( *currentItem()->pixmap(), orig - itempos );
+    drag->setPixmap( *currentItem()->pixmap(), m_mousePos - itempos );
     // Append all items to the drag object
     for ( QIconViewItem *it = firstItem(); it; it = it->nextItem() ) {
         if ( it->isSelected() ) {
@@ -1060,12 +1058,10 @@ KonqIconDrag * KonqIconViewWidget::konqDragObject( QWidget * dragSource )
           QIconDragItem id;
           id.setData( QCString(itemURL.latin1()) );
           drag->append( id,
-                        QRect( it->pixmapRect( FALSE ).x() - orig.x(),
-                               it->pixmapRect( FALSE ).y() - orig.y(),
-                               it->pixmapRect().width(), it->pixmapRect().height() ),
-                        QRect( it->textRect( FALSE ).x() - orig.x(),
-                               it->textRect( FALSE ).y() - orig.y(),
-                               it->textRect().width(), it->textRect().height() ),
+                        QRect( it->pixmapRect( FALSE ).topLeft() - m_mousePos,
+                               it->pixmapRect( FALSE ).size() ),
+                        QRect( it->textRect( FALSE ).topLeft() - m_mousePos,
+                               it->textRect( FALSE ).size() ),
                         itemURL );
         }
     }
@@ -1264,7 +1260,7 @@ void KonqIconViewWidget::contentsDropEvent( QDropEvent * ev )
 void KonqIconViewWidget::contentsMousePressEvent( QMouseEvent *e )
 {
   //kdDebug(1203) << "KonqIconViewWidget::contentsMousePressEvent" << endl;
-  m_mousePos = QCursor::pos();
+  m_mousePos = e->pos();
   m_bMousePressed = true;
   if (d->pSoundPlayer)
     d->pSoundPlayer->stop();
