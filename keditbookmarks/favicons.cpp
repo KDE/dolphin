@@ -26,10 +26,11 @@
 #include <kparts/componentfactory.h>
 #include <kparts/browserextension.h>
 
-#include "favicons.h"
+#include "bookmarkiterator.h"
 #include "listview.h"
 #include "toplevel.h"
-#include "bookmarkiterator.h"
+
+#include "favicons.h"
 
 FavIconsItrHolder *FavIconsItrHolder::s_self = 0;
 

@@ -19,6 +19,8 @@
 #ifndef __listview_h
 #define __listview_h
 
+#include <assert.h>
+
 #include <qlistview.h>
 
 #include <klocale.h>
@@ -118,8 +120,6 @@ private:
 };
 
 #define listview ListView::self()
-
-#include <assert.h>
 
 // DESIGN - make some stuff private if possible
 class ListView : public QObject
