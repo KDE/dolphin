@@ -19,6 +19,8 @@
 KCookiesMain::KCookiesMain(QWidget *parent, const char *name)
   : KCModule(parent, name)
 {
+    management = 0;
+
     bool managerOK = false;
     QByteArray data;
     QCString replyType;
