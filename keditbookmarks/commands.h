@@ -16,6 +16,9 @@
    Boston, MA 02111-1307, USA.
 */
 
+#ifndef __commands_h
+#define __commands_h
+
 #include <gcommand.h>
 
 // TODO MacroCommand
@@ -87,3 +90,5 @@ private:
     QString m_from;
     KCommand * m_cmd;
 };
+#endif
+
