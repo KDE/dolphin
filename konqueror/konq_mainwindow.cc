@@ -1756,7 +1756,7 @@ void KonqMainWindow::slotFullScreenStart()
   widget->statusbar()->hide();
 
   // see QWidget::showFullScreen()
-  widget->reparent( 0L, WStyle_Customize | WStyle_NoBorder | WStyle_StaysOnTop, QPoint( 0, 0 ) );
+  widget->reparent( 0L, WStyle_Customize | WStyle_NoBorderEx | WStyle_StaysOnTop, QPoint( 0, 0 ) );
   widget->resize( QApplication::desktop()->size() );
 
   m_tempContainer->removeChildFrame( widget );
