@@ -82,13 +82,13 @@ KRootOptions::KRootOptions(KConfig *config, QWidget *parent, const char *name )
     " are doing!") );
 
   row++;
-  topLevelBox = new QCheckBox(i18n("Enable Desktop &Menu"), this);
+  topLevelBox = new QCheckBox(i18n("Enable Desktop &Menubar"), this);
   lay->addMultiCellWidget(topLevelBox, row, row, 0, 1);
   connect(topLevelBox, SIGNAL(clicked()), this, SLOT(changed()));
-  QWhatsThis::add( topLevelBox, i18n("Check this option if you want the"
-    " desktop popup menus to appear on the top of the screen in the style"
-    " of Macintosh.  This setting is independent of the global top-level"
-    " menu setting that applys to KDE applications.") );
+  QWhatsThis::add( topLevelBox, i18n("Check this option if you want a menubar"
+    " for the desktop, that appears on the top of the screen in the style"
+    " of Macintosh. This setting is independent of the global top-level"
+    " menu setting that applies to all KDE applications.") );
 
   row++;
   QFrame * hLine2 = new QFrame(this);
