@@ -493,6 +493,7 @@ void writeServicesFile( QStringList mimeTypes )
         ts << "X-KDE-Library=libnsplugin" << endl;
         ts << "InitialPreference=0" << endl;
         ts << "ServiceTypes=KParts/ReadOnlyPart,Browser/View" << endl;
+        ts << "X-KDE-BrowserView-PluginsInfo=nsplugins/pluginsinfo" << endl;
 
         if (mimeTypes.count() > 0)
             ts << "MimeType=" << mimeTypes.join(";") << endl;
