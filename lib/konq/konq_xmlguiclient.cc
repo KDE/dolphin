@@ -18,8 +18,9 @@
    Boston, MA 02111-1307, USA.
 */
 
-#include "konq_xmlguiclient.h"
+#include "kapplication.h"
 
+#include "konq_xmlguiclient.h"
 
 KonqXMLGUIClient::KonqXMLGUIClient( ) : KXMLGUIClient( )
 {
@@ -62,6 +63,9 @@ void KonqXMLGUIClient::addAction( KAction *act, const QDomElement &menu )
 void KonqXMLGUIClient::addAction( const char *name, const QDomElement &menu )
 {
   static QString tagAction = QString::fromLatin1( "action" );
+
+  if (!kapp->authorizeKAction(name))
+     return;
 
   QDomElement parent = menu;
   if ( parent.isNull() )
