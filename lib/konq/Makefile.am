@@ -30,7 +30,7 @@ libkonq_la_SOURCES = kbookmarkmenu.cc kbookmark.cc knewmenu.cc konqpopupmenu.cc 
 	kfileivi.cc konqiconviewwidget.cc konqimagepreviewjob.cc \
 	konqsettings.cc konqdrag.cc  \
 	konqoperations.cc kbookmarkbar.cc \
-        konq_propsview.cc konq_events.cc konq_bgnddlg.cc \
+        konq_dirpart.cc konq_propsview.cc konq_events.cc konq_bgnddlg.cc \
         kdirnotify.stub konq_undo.cc konq_undo.skel
 
 kdirnotify_DIR = $(kde_includes)
@@ -42,7 +42,7 @@ include_HEADERS = kbookmark.h kbookmarkmenu.h knewmenu.h konqpopupmenu.h \
 	kfileivi.h konqdrag.h konqiconviewwidget.h konqimagepreviewjob.h \
 	konqdefaults.h konqsettings.h \
 	konqoperations.h kbookmarkbar.h \
-        konq_propsview.h konq_events.h konq_bgnddlg.h \
+        konq_dirpart.h konq_propsview.h konq_events.h konq_bgnddlg.h \
 	konq_undo.h
 
 messages:
