@@ -659,6 +659,11 @@ void KonqKfmIconView::slotCompleted()
     // Root item ? Store root item in konqiconviewwidget (whether 0L or not)
     m_pIconView->setRootItem( m_dirLister->rootItem() );
 
+    if ( m_bLoading ) // only after initial listing, not after updates
+        // If we don't set a current item, the iconview has none (one more keypress needed)
+        // but it appears on focusin... qiconview bug, Reggie acknowledged it LONG ago (07-2000).
+        m_pIconView->setCurrentItem( m_pIconView->firstItem() );
+
     if ( m_bUpdateContentsPosAfterListing )
         m_pIconView->setContentsPos( m_xOffset, m_yOffset );
 
@@ -741,6 +746,7 @@ void KonqKfmIconView::slotDeleteItem( KFileItem * _fileitem )
 // see also KDesktop::slotRefreshItems
 void KonqKfmIconView::slotRefreshItems( const KFileItemList& entries )
 {
+    bool bNeedRepaint = false;
     KFileItemListIterator rit(entries);
     for (; rit.current(); ++rit)
     {
@@ -749,14 +755,18 @@ void KonqKfmIconView::slotRefreshItems( const KFileItemList& entries )
         kdDebug() << "KonqKfmIconView::slotRefreshItems '" << rit.current()->name() << "' ivi=" << ivi << endl;
         if (ivi)
         {
+            QSize oldSize = ivi->pixmap()->size();
             ivi->refreshIcon( true );
             ivi->setText( rit.current()->text() );
             if ( rit.current()->isMimeTypeKnown() )
                 ivi->setMouseOverAnimation( rit.current()->iconName() );
+            if ( !bNeedRepaint && oldSize != ivi->pixmap()->size() )
+                bNeedRepaint = true;
         }
     }
     // In case we replace a big icon with a small one, need to repaint.
-    m_pIconView->updateContents();
+    if ( bNeedRepaint )
+        m_pIconView->updateContents();
 }
 
 void KonqKfmIconView::slotClear()
@@ -818,7 +828,6 @@ void KonqKfmIconView::slotRenderingFinished()
         kdDebug(1202) << "KonqKfmIconView completed() after rendering" << endl;
         emit completed();
         m_bNeedEmitCompleted = false;
-        m_pIconView->setCurrentItem( m_pIconView->firstItem() ); // workaround for qiconview bug, says reggie ;-)
     }
     if ( m_bNeedAlign )
     {
