@@ -237,7 +237,13 @@ NPError g_NPN_PostURLNotify(NPP instance, const char* url, const char* target,
 {
 // http://devedge.netscape.com/library/manuals/2002/plugin/1.0/npn_api14.html
    kdDebug(1431) << "g_NPN_PostURLNotify() [incomplete]" << endl;
+   kdDebug(1431) << "url=[" << url << "] target=[" << target << "]" << endl;
    QByteArray postdata;
+   KParts::URLArgs args;
+
+   if (len == 0) {
+      return NPERR_NO_DATA;
+   }
 
    if (file) { // buf is a filename
       QFile f(buf);
@@ -245,15 +251,58 @@ NPError g_NPN_PostURLNotify(NPP instance, const char* url, const char* target,
          return NPERR_FILE_NOT_FOUND;
       }
 
+      // FIXME: this will not work because we need to strip the header out!
       postdata = f.readAll();
       f.close();
    } else {    // buf is raw data
-      postdata.duplicate(buf, len);
+      // First strip out the header
+      const char *previousStart = buf;
+      uint32 l;
+      bool previousCR = true;
+
+      for (l = 1;; l++) {
+         if (l == len) {
+            break;
+         }
+
+         if (buf[l-1] == '\n' || (previousCR && buf[l-1] == '\r')) {
+            if (previousCR) { // header is done!
+               if ((buf[l-1] == '\r' && buf[l] == '\n') ||
+                   (buf[l-1] == '\n' &&  buf[l] == '\r'))
+                  l++;
+               l++;
+               previousStart = &buf[l-1];
+               break;
+            }
+
+            QString thisLine = QString::fromLatin1(previousStart, &buf[l-1] - previousStart).stripWhiteSpace();
+
+            previousStart = &buf[l];
+            previousCR = true;
+
+            kdDebug(1431) << "Found header line: [" << thisLine << "]" << endl;
+            if (thisLine.startsWith("Content-Type: ")) {
+               args.setContentType(thisLine);
+            }
+         } else {
+            previousCR = false;
+         }
+      }
+
+      postdata.duplicate(previousStart, len - l + 1);
    }
+
+   kdDebug(1431) << "Post data: " << postdata.size() << " bytes" << endl;
+#if 0
+   QFile f("/tmp/nspostdata");
+   f.open(IO_WriteOnly);
+   f.writeBlock(postdata);
+   f.close();
+#endif
 
    if (!target) {
       // Send the results of the post to the plugin
-      // FIXME
+      // (works by default)
    } else if (!strcmp(target, "_current") || !strcmp(target, "_self") ||
               !strcmp(target, "_top")) {
       // Unload the plugin, put the results in the frame/window that the
@@ -272,7 +321,7 @@ NPError g_NPN_PostURLNotify(NPP instance, const char* url, const char* target,
    if (u.protocol() == "http" || u.protocol() == "https") {
       NSPluginInstance *inst = static_cast<NSPluginInstance*>(instance->ndata);
       inst->postURL( QString::fromLatin1(url), postdata, QString::null,
-                     QString::fromLatin1(target), notifyData );
+                     QString::fromLatin1(target), notifyData, args );
    } else {
       // FIXME - must implement this
       return NPERR_INVALID_URL;
@@ -577,7 +626,7 @@ void NSPluginInstance::timer()
                     kdDebug() << "posting to " << url << endl;
 
                     emitStatus( i18n("Submitting data to %1").arg(url) );
-                    s->post( url, req.data, req.mime, req.notify );
+                    s->post( url, req.data, req.mime, req.notify, req.args );
                 } else if (url.lower().startsWith("javascript:document.location") ||
                      url.lower().startsWith("javascript:window.location.href")) {
                     // hack to get java vm and HyperCosm 3d working
@@ -628,11 +677,12 @@ void NSPluginInstance::requestURL( const QString &url, const QString &mime,
 
 void NSPluginInstance::postURL( const QString &url, const QByteArray& data,
                                 const QString &mime,
-                                const QString &target, void *notify )
+                                const QString &target, void *notify,
+                                const KParts::URLArgs& args )
 {
     kdDebug(1431) << "NSPluginInstance::postURL url=" << url << " target=" <<
         target << " notify=" << notify << endl;
-    _waitingRequests.enqueue( new Request( url, data, mime, target, notify ) );
+    _waitingRequests.enqueue( new Request( url, data, mime, target, notify, args) );
     if ( _streams.count()==0 )
         _timer->start( 0, true );
 }
@@ -1058,6 +1108,7 @@ QString NSPluginClass::getMIMEDescription()
 
 void NSPluginClass::shutdown()
 {
+    kdDebug(1431) << "NSPluginClass::shutdown error=" << _error << endl;
     if( _NP_Shutdown && !_error )
         _NP_Shutdown();
 }
@@ -1466,12 +1517,13 @@ bool NSPluginStream::get( const QString& url, const QString& mimeType,
 
 
 bool NSPluginStream::post( const QString& url, const QByteArray& data, 
-                           const QString& mimeType, void *notify )
+           const QString& mimeType, void *notify, const KParts::URLArgs& args )
 {
     // create new stream
     if ( create( url, mimeType, notify ) ) {
         // start the kio job
         _job = KIO::http_post(url, data, false);
+        _job->addMetaData("content-type", args.contentType());
         connect(_job, SIGNAL(data(KIO::Job *, const QByteArray &)),
                 SLOT(data(KIO::Job *, const QByteArray &)));
         connect(_job, SIGNAL(result(KIO::Job *)), SLOT(result(KIO::Job *)));

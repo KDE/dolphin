@@ -39,6 +39,7 @@
 #include <qintdict.h>
 #include <qguardedptr.h>
 
+#include <kparts/browserextension.h>  // for URLArgs
 #include <kio/job.h>
 
 
@@ -115,7 +116,7 @@ public:
   ~NSPluginStream();
 
   bool get(const QString& url, const QString& mimeType, void *notifyData);
-  bool post(const QString& url, const QByteArray& data, const QString& mimeType, void *notifyData);
+  bool post(const QString& url, const QByteArray& data, const QString& mimeType, void *notifyData, const KParts::URLArgs& args);
 
 protected slots:
   void data(KIO::Job *job, const QByteArray &data);
@@ -195,7 +196,7 @@ public:
 		   const QString &target, void *notify );
 
   void postURL( const QString &url, const QByteArray& data, const QString &mime,
-		   const QString &target, void *notify );
+             const QString &target, void *notify, const KParts::URLArgs& args );
 
 public slots:
   void streamFinished( NSPluginStreamBase *strm );
@@ -235,9 +236,10 @@ private:
 
       // A POST request
       Request( const QString &_url, const QByteArray& _data,
-               const QString &_mime, const QString &_target, void *_notify)
+               const QString &_mime, const QString &_target, void *_notify,
+               const KParts::URLArgs& _args)
 	  { url=_url; mime=_mime; target=_target;
-            notify=_notify; post=true; data=_data; }
+            notify=_notify; post=true; data=_data; args=_args; }
 
       QString url;
       QString mime;
@@ -245,6 +247,7 @@ private:
       QByteArray data;
       bool post;
       void *notify;
+      KParts::URLArgs args;
   };
 
   NPWindow _win;
