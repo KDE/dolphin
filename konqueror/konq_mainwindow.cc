@@ -1691,7 +1691,8 @@ void KonqMainWindow::initActions()
   m_paFileType = new KAction( i18n( "Edit File Type..." ), 0, actionCollection(), "editMimeType" );
   m_paProperties = new KAction( i18n( "Properties..." ), 0, actionCollection(), "properties" );
   (void) new KAction( i18n( "New &Window" ), "window_new", KStdAccel::key(KStdAccel::New), this, SLOT( slotNewWindow() ), actionCollection(), "new_window" );
-  (void) new KAction( i18n( "&Duplicate Window" ), "window_new", KStdAccel::key(KStdAccel::New), this, SLOT( slotDuplicateWindow() ), actionCollection(), "duplicate_window" );
+  (void) new KAction( i18n( "&Duplicate Window" ), "window_new", 0 /*conflict with New Window! KStdAccel::key(KStdAccel::New)*/, 
+		      this, SLOT( slotDuplicateWindow() ), actionCollection(), "duplicate_window" );
 
   (void) new KAction( i18n( "&Run Command..." ), "run", 0/*kdesktop has a binding for it*/, this, SLOT( slotRun() ), actionCollection(), "run" );
   (void) new KAction( i18n( "Open &Terminal..." ), "openterm", CTRL+Key_T, this, SLOT( slotOpenTerminal() ), actionCollection(), "open_terminal" );
