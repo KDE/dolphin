@@ -46,9 +46,7 @@ KCookiesPolicies::KCookiesPolicies(QWidget *parent, const char *name)
     QVBoxLayout *mainLayout = new QVBoxLayout( this, KDialog::marginHint(),
                                         KDialog::spacingHint() );
 
-    QHBoxLayout* hlay = new QHBoxLayout;
-    hlay->setSpacing( KDialog::spacingHint() );
-    hlay->setMargin( 0 );
+    QHBoxLayout* hlay = new QHBoxLayout( this, 0, KDialog::spacingHint() );
 
     m_cbEnableCookies = new QCheckBox( i18n("Enable coo&kies"), this );
     QWhatsThis::add( m_cbEnableCookies, i18n("This option turns on cookie support. Normally "
@@ -142,10 +140,9 @@ KCookiesPolicies::KCookiesPolicies(QWidget *parent, const char *name)
 
     // Create Group Box for specific settings
     m_gbDomainSpecific = new QGroupBox( i18n("Domain Specific Policy"), this);
-    QGridLayout *s_grid = new QGridLayout( m_gbDomainSpecific, 3, 2,
-                                           KDialog::marginHint(),
+    m_gbDomainSpecific->setColumnLayout( 0, Qt::Horizontal );
+    QGridLayout *s_grid = new QGridLayout( m_gbDomainSpecific->layout(), 3, 2,
                                            KDialog::spacingHint() );
-    s_grid->addRowSpacing( 0, fontMetrics().lineSpacing() );
     s_grid->setColStretch( 0, 2 ); // only resize the listbox horizontally, not the buttons
     s_grid->setRowStretch( 2, 2 );
 
@@ -417,6 +414,8 @@ void KCookiesPolicies::updateButtons()
 
 void KCookiesPolicies::updateDomainList(const QStringList &domainConfig)
 {
+    m_lvDomainPolicy->clear();
+
     QStringList::ConstIterator it = domainConfig.begin();
     for (; it != domainConfig.end(); ++it)
     {
