@@ -87,6 +87,16 @@ KBookmarkMenu::KBookmarkMenu( KBookmarkOwner * _owner, QPopupMenu * _parentMenu,
                SLOT( slotBookmarksChanged(const QString &) ) );
     }
   }
+
+  // add entries that possibly have a shortcut, so they are available _before_ first popup
+  if ( m_bIsRoot )
+  {
+    if ( m_bAddBookmark )
+      addAddBookmark();
+
+    addEditBookmarks();
+  }
+
   m_bDirty = true;
 }
 
@@ -169,6 +179,15 @@ void KBookmarkMenu::addAddBookmark()
   m_actions.append( paAddBookmarks );
 }
 
+void KBookmarkMenu::addEditBookmarks()
+{
+  KAction * m_paEditBookmarks = KStdAction::editBookmarks( KBookmarkManager::self(), SLOT( slotEditBookmarks() ),
+                                                             m_actionCollection, "edit_bookmarks" );
+  m_paEditBookmarks->plug( m_parentMenu );
+  m_paEditBookmarks->setStatusText( i18n( "Edit your bookmark collection in a separate window" ) );
+  m_actions.append( m_paEditBookmarks );
+}
+
 void KBookmarkMenu::addNewFolder()
 {
   KAction * paNewFolder = new KAction( i18n( "&New Folder..." ),
@@ -191,11 +210,7 @@ void KBookmarkMenu::fillBookmarkMenu()
     if ( m_bAddBookmark )
       addAddBookmark();
 
-    KAction * m_paEditBookmarks = KStdAction::editBookmarks( KBookmarkManager::self(), SLOT( slotEditBookmarks() ),
-                                                             m_actionCollection, "edit_bookmarks" );
-    m_paEditBookmarks->plug( m_parentMenu );
-    m_paEditBookmarks->setStatusText( i18n( "Edit your bookmark collection in a separate window" ) );
-    m_actions.append( m_paEditBookmarks );
+    addEditBookmarks();
 
     if ( m_bAddBookmark )
       addNewFolder();

@@ -119,6 +119,7 @@ protected:
 
   void refill();
   void addAddBookmark();
+  void addEditBookmarks();
   void addNewFolder();
 
   bool m_bIsRoot:1;
