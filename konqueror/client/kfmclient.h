@@ -29,7 +29,7 @@ class clientApp : public KApplication,
 public:
 
   clientApp( int &argc, char **argv, const QCString& rAppName )
-    : KApplication ( argc, argv, rAppName )
+    : KApplication ( argc, argv, rAppName, false /* non-GUI */ )
     { };
 
   ~clientApp() {} ;

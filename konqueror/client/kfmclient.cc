@@ -28,7 +28,6 @@
 #include <fstream.h>
 
 #include <qdir.h>
-#include <qmessagebox.h>
 #include <qstring.h>
 
 #include <kpropsdlg.h>
