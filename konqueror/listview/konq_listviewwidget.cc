@@ -74,12 +74,14 @@ KonqBaseListViewWidget::KonqBaseListViewWidget( KonqListView *parent, QWidget *p
 ,sortedByColumn(0)
 ,m_pBrowserView(parent)
 ,m_dirLister(new KonqDirLister( true /*m_showIcons==FALSE*/))
-,m_dragOverItem(0L)
+,m_dragOverItem(0)
 ,m_showIcons(true)
 ,m_bCaseInsensitive(true)
-,m_bAscending(TRUE)
+,m_bAscending(true)
 ,m_itemFound(false)
 ,m_goToFirstItem(false)
+,m_xOffset(0)
+,m_yOffset(0)
 ,m_filenameColumn(0)
 ,m_itemToGoTo("")
 {
@@ -672,9 +674,14 @@ bool KonqBaseListViewWidget::openURL( const KURL &url )
    m_dirLister->openURL( url, m_pBrowserView->m_pProps->isShowingDotFiles(), false /* new url */ );
 
    if ( m_pBrowserView->extension()->urlArgs().reload )
-      m_bUpdateContentsPosAfterListing = false;
-   else
-      m_bUpdateContentsPosAfterListing = true;
+   {
+      m_itemFound = true;
+      m_goToFirstItem = false;
+      m_xOffset = contentsX();
+      m_yOffset = contentsY();
+   }
+
+   m_bUpdateContentsPosAfterListing = true;
 
    // Apply properties and reflect them on the actions
    // do it after starting the dir lister to avoid changing the properties
@@ -708,15 +715,15 @@ void KonqBaseListViewWidget::setComplete()
        //kdDebug() << "KonqBaseListViewWidget::setComplete m_bUpdateContentsPosAfterListing=true" << endl;
       m_bUpdateContentsPosAfterListing = false;
 
-      setContentsPos( m_pBrowserView->extension()->urlArgs().xOffset,
-                      m_pBrowserView->extension()->urlArgs().yOffset );
-
       if ((m_goToFirstItem==true) || (m_itemFound==false))
       {
           kdDebug() << "going to first item" << endl;
           setCurrentItem(firstChild());
+          ensureItemVisible(firstChild());
           //selectCurrentItemAndEnableSelectedBySimpleMoveMode();
-      }
+      } else
+          setContentsPos( m_xOffset, m_yOffset );
+
       // this sucks a bit, for instance if you scroll with the wheel mouse, and the
       // the active item was out of the view when you used back/forward.
       // The x/y offset already restores the contents pos anyway.
@@ -962,6 +969,11 @@ void KonqBaseListViewWidget::restoreState( QDataStream & ds )
       m_itemToGoTo = str;
       m_goToFirstItem = false;
    }
+
+   // Store those, because the toplevel completed() erases them (in BE) !
+   // (needed for the treeview)
+   m_xOffset = m_pBrowserView->extension()->urlArgs().xOffset;
+   m_yOffset = m_pBrowserView->extension()->urlArgs().yOffset;
 }
 
 #include "konq_listviewwidget.moc"

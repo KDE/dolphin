@@ -31,9 +31,7 @@ template class QDict<KonqListViewDir>;
 
 //////////////////////////////////////////////
 KonqTreeViewWidget::KonqTreeViewWidget( KonqListView *parent, QWidget *parentWidget)
-: KonqBaseListViewWidget(parent,parentWidget),
-  m_xOffset( 0 ),
-  m_yOffset( 0 )
+: KonqBaseListViewWidget(parent,parentWidget)
 {
    kdDebug(1202) << "+KonqTreeViewWidget" << endl;
 
@@ -70,9 +68,6 @@ void KonqTreeViewWidget::restoreState( QDataStream &stream )
 {
     stream >> m_urlsToOpen;
     KonqBaseListViewWidget::restoreState( stream );
-    // Store those, because the toplevel completed() erases them (in BE) !
-    m_xOffset = m_pBrowserView->extension()->urlArgs().xOffset;
-    m_yOffset = m_pBrowserView->extension()->urlArgs().yOffset;
 }
 
 void KonqTreeViewWidget::addSubDir( KonqListViewDir* _dir )
@@ -87,36 +82,12 @@ void KonqTreeViewWidget::removeSubDir( const KURL & _url )
 
 void KonqTreeViewWidget::setComplete()
 {
-   // Cheat so that KonqBaseListViewWidget::setComplete won't do this itself
-   bool old = m_bUpdateContentsPosAfterListing;
-   m_bUpdateContentsPosAfterListing = false;
-
    KonqBaseListViewWidget::setComplete();
 
    if ( m_itemsToOpen.count() > 0 )
    {
       KonqListViewDir *dir = m_itemsToOpen.take( 0 );
       dir->setOpen( true );
-      m_bUpdateContentsPosAfterListing = old; // restore for later
-   }
-   else if ( old )
-   {
-      // Small code duplication with the parent's setComplete()
-      // but the difference is that we get the x/y offsets from m_xOffset & m_yOffset
-      kdDebug() << "KonqTreeViewWidget::setComplete going to " << m_xOffset << "," << m_yOffset << endl;
-      setContentsPos( m_xOffset, m_yOffset );
-
-      if ((m_goToFirstItem==true) || (m_itemFound==false))
-      {
-         kdDebug(1202) << "treeview: going to first item" << endl;
-         setCurrentItem(firstChild());
-         //selectCurrentItemAndEnableSelectedBySimpleMoveMode();
-      }
-      // this sucks a bit, for instance if you scroll with the wheel mouse, and the
-      // the active item was out of the view when you used back/forward.
-      // The x/y offset already restores the contents pos anyway.
-      //ensureItemVisible(currentItem());
-
    }
 
    slotOnViewport();

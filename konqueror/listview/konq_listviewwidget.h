@@ -224,6 +224,8 @@ class KonqBaseListViewWidget : public KListView
       bool m_itemFound:1;
       bool m_goToFirstItem:1;
 
+      int m_xOffset, m_yOffset;
+
       int m_filenameColumn;
 
       KURL m_url;
