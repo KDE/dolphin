@@ -1,4 +1,4 @@
-<!DOCTYPE UI><UI version="3.2" stdsetdef="1">
+<!DOCTYPE UI><UI version="3.3" stdsetdef="1">
 <class>MainWidget</class>
 <author>Frans Englich &lt;frans.englich@telia.com&gt;</author>
 <widget class="QWidget">
@@ -144,55 +144,6 @@
                 </widget>
             </grid>
         </widget>
-        <widget class="QButtonGroup" row="2" column="0" rowspan="1" colspan="4">
-            <property name="name">
-                <cstring>bgpPassword</cstring>
-            </property>
-            <property name="title">
-                <string>At Password Prompt</string>
-            </property>
-            <property name="flat">
-                <bool>false</bool>
-            </property>
-            <property name="checkable">
-                <bool>false</bool>
-            </property>
-            <property name="checked">
-                <bool>false</bool>
-            </property>
-            <property name="exclusive">
-                <bool>true</bool>
-            </property>
-            <grid>
-                <property name="name">
-                    <cstring>unnamed</cstring>
-                </property>
-                <widget class="QRadioButton" row="0" column="0">
-                    <property name="name">
-                        <cstring>rdbOneStar</cstring>
-                    </property>
-                    <property name="text">
-                        <string>Show one star for each letter</string>
-                    </property>
-                </widget>
-                <widget class="QRadioButton" row="1" column="0">
-                    <property name="name">
-                        <cstring>rdbThreeStars</cstring>
-                    </property>
-                    <property name="text">
-                        <string>Show three stars for each letter</string>
-                    </property>
-                </widget>
-                <widget class="QRadioButton" row="2" column="0">
-                    <property name="name">
-                        <cstring>rdbShowPassword</cstring>
-                    </property>
-                    <property name="text">
-                        <string>Show nothing</string>
-                    </property>
-                </widget>
-            </grid>
-        </widget>
         <spacer row="4" column="2">
             <property name="name">
                 <cstring>spacer3</cstring>
@@ -273,6 +224,55 @@
                 </size>
             </property>
         </spacer>
+        <widget class="QButtonGroup" row="2" column="0" rowspan="1" colspan="4">
+            <property name="name">
+                <cstring>kcfg_EchoMode</cstring>
+            </property>
+            <property name="title">
+                <string>At Password Prompt</string>
+            </property>
+            <property name="flat">
+                <bool>false</bool>
+            </property>
+            <property name="checkable">
+                <bool>false</bool>
+            </property>
+            <property name="checked">
+                <bool>false</bool>
+            </property>
+            <property name="selectedId" stdset="0">
+                <number>0</number>
+            </property>
+            <grid>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <widget class="QRadioButton" row="0" column="0">
+                    <property name="name">
+                        <cstring>rdbOneStar</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Show one star for each letter</string>
+                    </property>
+                </widget>
+                <widget class="QRadioButton" row="1" column="0">
+                    <property name="name">
+                        <cstring>rdbThreeStars</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Show three stars for each letter</string>
+                    </property>
+                </widget>
+                <widget class="QRadioButton" row="2" column="0">
+                    <property name="name">
+                        <cstring>rdbShowPassword</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Show nothing</string>
+                    </property>
+                </widget>
+            </grid>
+        </widget>
     </grid>
 </widget>
 <tabstops>

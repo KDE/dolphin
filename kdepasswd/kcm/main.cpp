@@ -70,7 +70,6 @@ KCMUserAccount::KCMUserAccount( QWidget *parent, const char *name,
 	connect( _mw->leRealname, SIGNAL(textChanged(const QString&)), SLOT(changed()));
 	connect( _mw->leOrganization, SIGNAL(textChanged(const QString&)), SLOT(changed()));
 	connect( _mw->leEmail, SIGNAL(textChanged(const QString&)), SLOT(changed()));
-	connect( _mw->bgpPassword, SIGNAL(clicked(int)), SLOT(changed()));
 	connect( _mw->leSMTP, SIGNAL(textChanged(const QString&)), SLOT(changed()));
 
 	_ku = new KUser();
@@ -79,16 +78,14 @@ KCMUserAccount::KCMUserAccount( QWidget *parent, const char *name,
 	_mw->lblUsername->setText( _ku->loginName() );
 	_mw->lblUID->setText( QString().number(_ku->uid()) );
 
-	setButtons( KCModule::Ok|KCModule::Apply);
-	load();
-	
 	KAboutData *about = new KAboutData(I18N_NOOP("kcm_useraccount"), 
 		I18N_NOOP("Password & User Information"), 0, 0,
 		KAboutData::License_GPL,
 		I18N_NOOP("(C) 2002, Braden MacDonald, "
 			"(C) 2004 Ravikiran Rajagopal"));
 
-	about->addAuthor("Ravikiran Rajagopal", I18N_NOOP("Maintainer"), "ravi@kde.org");
+	about->addAuthor("Frans Englich", I18N_NOOP("Maintainer"), "frans.englich@telia.com");
+	about->addAuthor("Ravikiran Rajagopal", 0, "ravi@kde.org");
 	about->addAuthor("Michael H\303\244ckel", "haeckel@kde.org" );
 
 	about->addAuthor("Braden MacDonald", I18N_NOOP("Face editor"), "bradenm_k@shaw.ca");
@@ -99,6 +96,14 @@ KCMUserAccount::KCMUserAccount( QWidget *parent, const char *name,
 	about->addAuthor("Hans Karlsson", I18N_NOOP("Icons"), "karlsson.h@home.se");
 	about->addAuthor("Hermann Thomas", I18N_NOOP("Icons"), "h.thomas@gmx.de");
 	setAboutData(about);
+
+	setQuickHelp( i18n("<qt>Here you can change your personal information, which "
+			"will be used in mail programs and word processors, for example. You can "
+			"change your login password by clicking <em>Change Password</em>.</qt>") );
+
+	addConfig( KCFGPassword::self(), this );
+	load();
+
 }
 
 void KCMUserAccount::slotChangePassword()
@@ -141,11 +146,8 @@ void KCMUserAccount::load()
 	_mw->leOrganization->setText( _kes->getSetting( KEMailSettings::Organization ));
 	_mw->leSMTP->setText( _kes->getSetting( KEMailSettings::OutServer ));
 
-	_mw->bgpPassword->setButton( KCFGPassword::echoMode() );
-
-
 	QString _userPicsDir = KCFGUserAccount::faceDir() +  
-		KGlobal::dirs()->resourceDirs("data").last() + "kdm/faces"  + '/';
+		KGlobal::dirs()->resourceDirs("data").last() + "kdm/faces/";
 
 	QString fs = KCFGUserAccount::faceSource();
 	FacePerm faceType;
@@ -191,11 +193,14 @@ void KCMUserAccount::load()
 		_mw->btnChangeFace->setPixmap( _facePixmap );
 	}
 
+	KCModule::load(); /* KConfigXT */
+
 }
 
 void KCMUserAccount::save()
 {
-	
+	KCModule::save(); /* KConfigXT */
+
 	/* Save KDE's homebrewn settings */
 	_kes->setSetting( KEMailSettings::RealName, _mw->leRealname->text() );
 	_kes->setSetting( KEMailSettings::EmailAddress, _mw->leEmail->text() );
@@ -208,12 +213,14 @@ void KCMUserAccount::save()
 		QCString password;
 		int ret = KPasswordDialog::getPassword( password, i18n("Please enter "
 			"your password in order to save your settings:"));
+
 		if ( !ret ) 
 		{
 			KMessageBox::sorry( this, i18n("You must enter "
 				"your password in order to change your information."));
 			return;
 		}
+
 		ChfnProcess *proc = new ChfnProcess();
 		ret = proc->exec(password, _mw->leRealname->text().ascii() );
 		if ( ret )
@@ -236,15 +243,8 @@ void KCMUserAccount::save()
 
 	/* Save the image */
 	if( !_facePixmap.save( KCFGUserAccount::faceFile(), "PNG" ))
-			KMessageBox::error( this, i18n("There was an error saving the image: %1" ).arg(
-				KCFGUserAccount::faceFile()) );
-
-	/* Password echo */
-	KCFGPassword::setEchoMode( _mw->bgpPassword->selectedId() );
-	KCFGPassword::writeConfig(); // Ya know, this one's pretty important.
-
-	emit changed(false);
-
+		KMessageBox::error( this, i18n("There was an error saving the image: %1" ).arg(
+			KCFGUserAccount::faceFile()) );
 
 }
 
@@ -270,20 +270,13 @@ void KCMUserAccount::slotFaceButtonClicked()
     KMessageBox::sorry( this, i18n("Your administrator has disallowed changing your image.") );
     return;
   }
-  /*
-		<entry name="kdmFaceDir" type="Path">
-			<default code="true">
-			</default>
-		</entry>
-		*/
+
   ChFaceDlg* pDlg = new ChFaceDlg( KGlobal::dirs()->resourceDirs("data").last() +
 	"/kdm/pics/users/" );
 
-  if ( pDlg->exec() == QDialog::Accepted )
-  {
-    if ( !pDlg->getFaceImage().isNull() )
+  if ( pDlg->exec() == QDialog::Accepted && !pDlg->getFaceImage().isNull() )
       changeFace( pDlg->getFaceImage() );
-  }
+
   delete pDlg;
 }
 

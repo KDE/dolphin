@@ -10,13 +10,10 @@
 				<choice name="ThreeStars"/>
 				<choice name="NoEcho"/>
 				<!-- TODO: We need a ShowPassword and implement it.
-				For accessibility, we need to prompt for password before 
+				 We need to prompt for password before 
 				enabling it..-->
 			</choices>
 			<default>OneStar</default>
-		</entry>
-		<entry name="test" type="String">
-			<default> adasderasd </default>
 		</entry>
 	</group>
 </kcfg>
