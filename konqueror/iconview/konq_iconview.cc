@@ -636,9 +636,11 @@ void KonqKfmIconView::slotMouseButtonPressed(int _button, QIconViewItem* _item, 
                 }
                 else
                 {
-                        // We didn't get a root item (e.g. over FTP)
-                        // TODO Use KIO::stat (or NetAccess::stat ?) here !
-                        item = new KFileItem( S_IFDIR, (mode_t)-1, url() );
+                    // We didn't get a root item (e.g. over FTP)
+                    // We have to create a dummy item. I tried using KonqOperations::statURL,
+                    // but this was leading to a huge delay between the RMB and the popup. Bad.
+                    // But KonqPopupMenu now takes care of stating before opening properties.
+                    item = new KFileItem( S_IFDIR, (mode_t)-1, url() );
                     delRootItem = true;
                 }
             }
