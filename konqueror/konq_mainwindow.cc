@@ -793,7 +793,7 @@ bool KonqMainWindow::openView( QString serviceType, const KURL &_url, KonqView *
               forceAutoEmbed = true;
           // If the protocol doesn't support writing (e.g. HTTP) then we don't want the FM settings.
           // So we ask the user, instead, except in some very well-known cases.
-          if ( !forceAutoEmbed && !KProtocolInfo::supportsWriting( url ) ) {
+          if ( !forceAutoEmbed && !KProtocolInfo::supportsWriting( url ) && url.protocol() != "about" ) {
               KParts::BrowserRun::AskSaveResult res = KParts::BrowserRun::askEmbedOrSave(
                   url, serviceType/*, suggestedFilename TODO - get from KonqRun! */ );
               if ( res == KParts::BrowserRun::Open )
