@@ -72,14 +72,24 @@ KBehaviourOptions::KBehaviourOptions(KConfig *config, QString group, bool showFi
 
       // ----
       row++;
-      QString opstr = i18n("With this option activated, only one instance of Konqueror "
+      QString opstrg = i18n("With this option activated, only one instance of Konqueror "
                            "will exist in the memory of your computer at any moment "
-                           "no matter how many %1 browsing windows you open, "
+                           "no matter how many browsing windows you open, "
                            "thus reducing resource requirements."
                            "<p>Be aware that this also means that, if something goes wrong, "
-                           "all your %2 browsing windows will be closed simultaneously");
-      QString opstrLocal = i18n("<b>local</b>");
-      QString opstrWeb   = i18n("<b>web</b>");
+                           "all your browsing windows will be closed simultaneously");
+      QString opstrl = i18n("With this option activated, only one instance of Konqueror "
+                           "will exist in the memory of your computer at any moment "
+                           "no matter how many local browsing windows you open, "
+                           "thus reducing resource requirements."
+                           "<p>Be aware that this also means that, if something goes wrong, "
+                           "all your local browsing windows will be closed simultaneously");
+      QString opstrw = i18n("With this option activated, only one instance of Konqueror "
+                           "will exist in the memory of your computer at any moment "
+                           "no matter how many web browsing windows you open, "
+                           "thus reducing resource requirements."
+                           "<p>Be aware that this also means that, if something goes wrong, "
+                           "all your web browsing windows will be closed simultaneously");
 
       bgOneProcess = new QVButtonGroup(i18n("Minimize memory usage"), this);
       bgOneProcess->setExclusive( true );
@@ -90,13 +100,13 @@ KBehaviourOptions::KBehaviourOptions(KConfig *config, QString group, bool showFi
                                          "to make each browsing activity independent from the others"));
 
         rbOPLocal = new QRadioButton(i18n("For &local browsing only (recommended)"), bgOneProcess);
-        QWhatsThis::add( rbOPLocal, opstr.arg(opstrLocal).arg(opstrLocal));
+        QWhatsThis::add( rbOPLocal, opstrl);
 
         rbOPWeb = new QRadioButton(i18n("For &web browsing only"), bgOneProcess);
-        QWhatsThis::add( rbOPWeb, opstr.arg(opstrWeb).arg(opstrWeb));
+        QWhatsThis::add( rbOPWeb, opstrw);
 
         rbOPAlways = new QRadioButton(i18n("&Always (use with care)"), bgOneProcess);
-        QWhatsThis::add( rbOPAlways, opstr.arg("").arg(""));
+        QWhatsThis::add( rbOPAlways, opstrg);
 
         rbOPLocal->setChecked(true);
       }
