@@ -566,7 +566,8 @@ void KonqViewManager::reloadAllTabs( )
   {
       if ( it.current()->activeChildView())
       {
-          it.current()->activeChildView()->openURL( it.current()->activeChildView()->url(),it.current()->activeChildView()->locationBarURL());
+          if( !it.current()->activeChildView()->locationBarURL().isEmpty())
+              it.current()->activeChildView()->openURL( it.current()->activeChildView()->url(),it.current()->activeChildView()->locationBarURL());
       }
   }
 }
@@ -618,7 +619,6 @@ void KonqViewManager::moveTabRight()
     if( tabContainer->count() == 1 ) return;
 
     int iTab = tabContainer->currentPageIndex();
-    kdDebug()<<" tabContainer->currentPageIndex(); :"<<iTab<<endl;
     tabContainer->moveTabRight(iTab);
 }
 

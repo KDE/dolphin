@@ -4359,12 +4359,12 @@ void KonqMainWindow::saveConfig( KConfig* config, const QString &prefix, bool sa
 
 void KonqMainWindow::copyHistory( KonqFrameBase *other ) { if( m_pChildFrame ) m_pChildFrame->copyHistory( other ); }
 
-void KonqMainWindow::printFrameInfo( QString spaces ) { if( m_pChildFrame ) m_pChildFrame->printFrameInfo( spaces ); }
+void KonqMainWindow::printFrameInfo( const QString &spaces ) { if( m_pChildFrame ) m_pChildFrame->printFrameInfo( spaces ); }
 
 void KonqMainWindow::reparentFrame( QWidget* /*parent*/,
                                     const QPoint & /*p*/, bool /*showIt*/ ) { return; }
 
-KonqFrameContainerBase* KonqMainWindow::parentContainer() { return 0L; }
+KonqFrameContainerBase* KonqMainWindow::parentContainer()const { return 0L; }
 void KonqMainWindow::setParentContainer(KonqFrameContainerBase* /*parent*/) { return; }
 
 void KonqMainWindow::setTitle( QString /*title*/ , QWidget* /*sender*/) { return; }

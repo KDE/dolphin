@@ -260,12 +260,12 @@ public:
 
   void copyHistory( KonqFrameBase *other );
 
-  void printFrameInfo( QString spaces );
+  void printFrameInfo( const QString &spaces );
 
   void reparentFrame( QWidget* parent,
                               const QPoint & p, bool showIt=FALSE );
 
-  KonqFrameContainerBase* parentContainer();
+  KonqFrameContainerBase* parentContainer()const;
   void setParentContainer(KonqFrameContainerBase* parent);
 
   void setTitle( QString title , QWidget* sender);
