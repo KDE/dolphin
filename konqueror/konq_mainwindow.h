@@ -389,7 +389,7 @@ public slots:
 protected slots:
   void slotViewCompleted( KonqView * view );
 
-  void slotURLEntered( const QString &text, ButtonState state );
+  void slotURLEntered( const QString &text, int );
 
   void slotFileNewAboutToShow();
   void slotLocationLabelActivated();

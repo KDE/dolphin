@@ -197,8 +197,7 @@ KonqMainWindow::KonqMainWindow( const KURL &initialURL, bool openInitialURL, con
     // setup the completion object before createGUI(), so that the combo
     // picks up the correct mode from the HistoryManager (in slotComboPlugged)
     KConfigGroupSaver cs( config, QString::fromLatin1("Settings") );
-    int mode = config->readNumEntry( "CompletionMode",
-				     KGlobalSettings::completionMode() );
+    int mode = config->readNumEntry( "CompletionMode", KGlobalSettings::completionMode() );
     s_pCompletion->setCompletionMode( (KGlobalSettings::Completion) mode );
   }
   connect(KParts::HistoryProvider::self(), SIGNAL(cleared()), SLOT(slotClearComboHistory()));
@@ -1328,10 +1327,12 @@ void KonqMainWindow::slotOpenTerminal()
   {
       KURL u( m_currentView->url() );
       if ( u.isLocalFile() )
+      {
           if ( m_currentView->serviceType() == "inode/directory" )
               dir = u.path();
           else
               dir = u.directory();
+  }
   }
 
   KProcess cmd;
@@ -2283,7 +2284,7 @@ void KonqMainWindow::updateLocalPropsActions()
     m_paRemoveLocalProperties->setEnabled( canWrite );
 }
 
-void KonqMainWindow::slotURLEntered( const QString &text, ButtonState state )
+void KonqMainWindow::slotURLEntered( const QString &text, int state )
 {
   if ( m_bURLEnterLock || text.isEmpty() )
     return;
@@ -2744,8 +2745,8 @@ void KonqMainWindow::initCombo()
 
   m_combo->init( s_pCompletion );
 
-  connect( m_combo, SIGNAL(activated(const QString&,ButtonState)),
-           this, SLOT(slotURLEntered(const QString&,ButtonState)) );
+  connect( m_combo, SIGNAL(activated(const QString&,int)),
+           this, SLOT(slotURLEntered(const QString&,int)) );
 
   m_pURLCompletion = new KURLCompletion();
   m_pURLCompletion->setCompletionMode( s_pCompletion->completionMode() );
@@ -2790,7 +2791,12 @@ void KonqMainWindow::slotCompletionModeChanged( KGlobalSettings::Completion m )
   s_pCompletion->setCompletionMode( m );
   KConfig *config = KGlobal::config();
   config->setGroup( "Settings" );
+  
+  if (m_combo->completionMode() == KGlobalSettings::completionMode())
+    config->deleteEntry("CompletionMode");
+  else
   config->writeEntry( "CompletionMode", (int)m_combo->completionMode() );
+    
   config->sync();
 
   // tell the other windows too (only this instance currently)
@@ -2986,7 +2992,8 @@ bool KonqMainWindow::eventFilter(QObject*obj,QEvent *ev)
 
       slotClipboardDataChanged();
 
-    } else if ( ev->type()==QEvent::FocusOut)
+    } 
+    else if ( ev->type()==QEvent::FocusOut) 
     {
       //kdDebug(1202) << "ComboBox lost focus..." << endl;
       if (!m_bLocationBarConnected)
@@ -3021,14 +3028,17 @@ bool KonqMainWindow::eventFilter(QObject*obj,QEvent *ev)
       disconnect( m_combo->lineEdit(), SIGNAL(textChanged(const QString &)), this, SLOT(slotCheckComboSelection()) );
       disconnect( m_combo->lineEdit(), SIGNAL(selectionChanged()), this, SLOT(slotCheckComboSelection()) );
 
-      if ( ext ) {
+      if ( ext ) 
+      {
           m_paCut->setEnabled( ext->isActionEnabled( "cut" ) );
           m_paCopy->setEnabled( ext->isActionEnabled( "copy" ) );
           m_paPaste->setEnabled( ext->isActionEnabled( "paste" ) );
           if (m_paDelete)
               m_paDelete->setEnabled( ext->isActionEnabled( "delete" ) );
           m_paTrash->setEnabled( ext->isActionEnabled( "trash" ) );
-      } else {
+      } 
+      else 
+      {
           m_paCut->setEnabled( false );
           m_paCopy->setEnabled( false );
           m_paPaste->setEnabled( false );
@@ -3142,8 +3152,7 @@ void KonqMainWindow::setLocationBarURL( const QString &url )
 }
 
 // called via DCOP from KonquerorIface
-void KonqMainWindow::comboAction( int action, const QString& url,
-				  const QCString& objId )
+void KonqMainWindow::comboAction( int action, const QString& url, const QCString& objId )
 {
     if (!s_lstViews) // this happens in "konqueror --silent"
         return;
@@ -3151,29 +3160,29 @@ void KonqMainWindow::comboAction( int action, const QString& url,
     KonqCombo *combo = 0L;
     KonqMainWindow *window = s_lstViews->first();
     while ( window ) {
-	if ( window->m_combo ) {
-	    combo = window->m_combo;
-
-	    switch ( action ) {
-	    case ComboAdd:
-		combo->insertPermanent( url );
-		break;
-	    case ComboClear:
-		combo->clearHistory();
-		break;
-	    case ComboRemove:
-		combo->removeURL( url );
-		break;
-	    default:
-		;
-	    }
-	}
-	window = s_lstViews->next();
+        if ( window->m_combo ) {
+            combo = window->m_combo;
+        
+            switch ( action ) {
+            case ComboAdd:
+              combo->insertPermanent( url );
+              break;
+            case ComboClear:
+              combo->clearHistory();
+              break;
+            case ComboRemove:
+              combo->removeURL( url );
+              break;
+            default:
+              break;
+            }
+        }
+        window = s_lstViews->next();
     }
 
     // only one instance should save...
     if ( combo && objId == kapp->dcopClient()->defaultObject() )
-	combo->saveItems();
+      combo->saveItems();
 }
 
 QString KonqMainWindow::locationBarURL() const
