@@ -86,7 +86,6 @@ Comment[xx]=xxKDE File Manager & Web Browserxx
 Comment[zh_CN]=KDE 文件管理器和 Web 浏览器
 Comment[zh_TW]=KDE 檔案管理程式和網頁瀏覽器
 Comment[zu]=Imenenja yamafayela ye-KDE & Umcingi we-Web
-X-KDE-Library=libkonqueror
 Icon=konqueror
 X-DCOP-ServiceType=multi
 X-KDE-StartupNotify=true
