@@ -59,6 +59,8 @@ KonqIconViewWidget::KonqIconViewWidget( QWidget * parent, const char * name, WFl
     setSorting( true, sortDirection() );
     // configurable settings
     initConfig();
+    // emit our signals
+    slotSelectionChanged();
 }
 
 void KonqIconViewWidget::initConfig()
@@ -405,15 +407,16 @@ void KonqIconViewWidget::slotSelectionChanged()
 
     emit enableAction( "cut", iCount > 0 );
     emit enableAction( "copy", iCount > 0 );
-    emit enableAction( "move", iCount > 0 && !bInTrash );
-    emit enableAction( "delete", iCount > 0 && !bInTrash );
+    emit enableAction( "del", iCount > 0 && !bInTrash );
+    emit enableAction( "trash", iCount > 0 && !bInTrash );
 
     bool bKIOClipboard = !isClipboardEmpty();
     QMimeSource *data = QApplication::clipboard()->data();
     bool bPaste = ( bKIOClipboard || data->encodedData( data->format() ).size() != 0 ) &&
 	(iCount <= 1); // We can't paste to more than one destination, can we ?
 
-    emit enableAction( "paste", bPaste );
+    emit enableAction( "pastecopy", bPaste );
+    emit enableAction( "pastecut", bPaste );
 
     // TODO : if only one url, check that it's a dir
 }
