@@ -298,7 +298,7 @@ void KonqMainWindow::openFilteredURL( const QString & _url )
 }
 
 void KonqMainWindow::openURL( KonqView *_view, const KURL &url,
-                                                const QString &serviceType, const KonqOpenURLRequest & req,
+                              const QString &serviceType, const KonqOpenURLRequest & req,
                               bool trustedSource )
 {
   kdDebug(1202) << "KonqMainWindow::openURL : url = '" << url.url() << "'  "
@@ -388,6 +388,22 @@ bool KonqMainWindow::openView( QString serviceType, const KURL &_url, KonqView *
 
   KURL url( _url );
 
+  //////////// Tar files support
+
+  if ( url.isLocalFile() // kio_tar only supports local files
+       && ( serviceType == QString::fromLatin1("application/x-tar")  ||
+            serviceType == QString::fromLatin1("application/x-tgz") ) )
+    {
+      url.setProtocol( QString::fromLatin1("tar") );
+      url.setPath( url.path() + '/' );
+
+      serviceType = "inode/directory";
+
+      kdDebug(1202) << "TAR FILE. Now trying with " << url.url() << endl;
+    }
+
+  ///////////
+
   // In case we open an index.html, we want the location bar
   // to still display the original URL (so that 'up' uses that URL,
   // and since that's what the user entered).
@@ -401,73 +417,73 @@ bool KonqMainWindow::openView( QString serviceType, const KURL &_url, KonqView *
   // Look for which view mode to use, if a directory - not if view locked, and not if following a URL
   if ( ( !childView || (!req.followMode && !childView->isLockedViewMode()) )
        && serviceType == "inode/directory" )
-  { // Phew !
+    { // Phew !
 
-    // Set view mode if necessary (current view doesn't support directories)
-    if ( !childView || !childView->supportsServiceType( serviceType ) )
-      serviceName = m_sViewModeForDirectory;
+      // Set view mode if necessary (current view doesn't support directories)
+      if ( !childView || !childView->supportsServiceType( serviceType ) )
+        serviceName = m_sViewModeForDirectory;
 
-    if ( url.isLocalFile() ) // local, we can do better (.directory)
-    {
-      // Read it in the .directory file, default to m_bHTMLAllowed
-      KURL urlDotDir( url );
-      urlDotDir.addPath(".directory");
-      bool HTMLAllowed = m_bHTMLAllowed;
-      QFile f( urlDotDir.path() );
-      if ( f.open(IO_ReadOnly) )
-      {
-          f.close();
-          KSimpleConfig config( urlDotDir.path(), true );
-          config.setGroup( "URL properties" );
-          HTMLAllowed = config.readBoolEntry( "HTMLAllowed", m_bHTMLAllowed );
-          serviceName = config.readEntry( "ViewMode", m_sViewModeForDirectory );
-      }
-      if ( HTMLAllowed &&
-           ( ( indexFile = findIndexFile( url.path() ) ) != QString::null ) )
-      {
-          serviceType = "text/html";
-          url = KURL();
-          url.setPath( indexFile );
-          serviceName = QString::null; // cancel what we just set, this is not a dir finally
-      }
+      if ( url.isLocalFile() ) // local, we can do better (.directory)
+        {
+          // Read it in the .directory file, default to m_bHTMLAllowed
+          KURL urlDotDir( url );
+          urlDotDir.addPath(".directory");
+          bool HTMLAllowed = m_bHTMLAllowed;
+          QFile f( urlDotDir.path() );
+          if ( f.open(IO_ReadOnly) )
+            {
+              f.close();
+              KSimpleConfig config( urlDotDir.path(), true );
+              config.setGroup( "URL properties" );
+              HTMLAllowed = config.readBoolEntry( "HTMLAllowed", m_bHTMLAllowed );
+              serviceName = config.readEntry( "ViewMode", m_sViewModeForDirectory );
+            }
+          if ( HTMLAllowed &&
+               ( ( indexFile = findIndexFile( url.path() ) ) != QString::null ) )
+            {
+              serviceType = "text/html";
+              url = KURL();
+              url.setPath( indexFile );
+              serviceName = QString::null; // cancel what we just set, this is not a dir finally
+            }
 
-      // Reflect this setting in the menu
-      m_ptaUseHTML->setChecked( HTMLAllowed );
+          // Reflect this setting in the menu
+          m_ptaUseHTML->setChecked( HTMLAllowed );
+        }
     }
-  }
 
   bool ok = true;
   if ( !childView )
-  {
-    // Create a new view
-    childView = m_pViewManager->splitView( Qt::Horizontal, serviceType, serviceName );
-
-    if ( !childView )
     {
-      KMessageBox::sorry( 0L, i18n( "Could not create view for %1\nCheck your installation").arg(serviceType) );
-      return true; // fake everything was ok, we don't want to propagate the error
+      // Create a new view
+      childView = m_pViewManager->splitView( Qt::Horizontal, serviceType, serviceName );
+
+      if ( !childView )
+        {
+          KMessageBox::sorry( 0L, i18n( "Could not create view for %1\nCheck your installation").arg(serviceType) );
+          return true; // fake everything was ok, we don't want to propagate the error
+        }
+
+      enableAllActions( true );
+
+      childView->part()->widget()->setFocus();
+
+      childView->setViewName( m_initialFrameName );
+      m_initialFrameName = QString::null;
+    }
+  else // We know the child view
+    {
+      //childView->stop();
+      ok = childView->changeViewMode( serviceType, serviceName );
     }
 
-    enableAllActions( true );
-
-    childView->part()->widget()->setFocus();
-
-    childView->setViewName( m_initialFrameName );
-    m_initialFrameName = QString::null;
-  }
-  else // We know the child view
-  {
-    //childView->stop();
-    ok = childView->changeViewMode( serviceType, serviceName );
-  }
-
   if (ok)
-  {
-    //kdDebug(1202) << "req.nameFilter= " << req.nameFilter << endl;
-    //kdDebug(1202) << "req.typedURL= " << req.typedURL << endl;
-    childView->setTypedURL( req.typedURL );
-    childView->openURL( url, originalURL, req.nameFilter );
-  }
+    {
+      //kdDebug(1202) << "req.nameFilter= " << req.nameFilter << endl;
+      //kdDebug(1202) << "req.typedURL= " << req.typedURL << endl;
+      childView->setTypedURL( req.typedURL );
+      childView->openURL( url, originalURL, req.nameFilter );
+    }
   return ok;
 }
 
