@@ -271,6 +271,8 @@ int main(int argc, char** argv)
    else
       g_dcopId = dcop->registerAs("nspluginviewer");
 
+   dcop->setNotifications(true);
+
    // create dcop interface
    kdDebug(1430) << "7 - new NSPluginViewer" << endl;
    NSPluginViewer *viewer = new NSPluginViewer( "viewer", 0 );

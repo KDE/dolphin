@@ -69,8 +69,8 @@ public:
   NSPluginStreamBase( class NSPluginInstance *instance );
   ~NSPluginStreamBase();
 
-  KURL url() { return _url; };
-  int pos() { return _pos; };
+  KURL url() { return _url; }
+  int pos() { return _pos; }
   void stop();
 
 signals:
@@ -79,10 +79,10 @@ signals:
 protected:
   void finish( bool err );
   bool pump();
-  bool error() { return _error; };
+  bool error() { return _error; }
   void queue( const QByteArray &data );
   bool create( const QString& url, const QString& mimeType, void *notify, bool forceNotify = false );
-  int tries() { return _tries; };
+  int tries() { return _tries; }
   void inform( );
 
   class NSPluginInstance *_instance;
@@ -167,7 +167,7 @@ public:
 
   // DCOP functions
   void shutdown();
-  int winId() { return XtWindow(_toplevel); };
+  int winId() { return XtWindow(_form); }
   int setWindow(int remove=0);
   void resizePlugin(int w, int h);
   void javascriptResult(int id, QString result);
@@ -275,7 +275,10 @@ public:
 		      QStringList argn, QStringList argv,
                       QString appId, QString callbackId );
   void destroyInstance( NSPluginInstance* inst );
-  bool error() { return _error; };
+  bool error() { return _error; }
+
+  void setApp(const QCString& app) { _app = app; }
+  const QCString& app() const { return _app; }
 
 protected slots:
   void timer();
@@ -299,6 +302,8 @@ private:
 
   QPtrList<NSPluginInstance> _instances;
   QPtrList<NSPluginInstance> _trash;
+
+  QCString _app;
 };
 
 
@@ -311,6 +316,9 @@ public:
 
    void shutdown();
    DCOPRef newClass( QString plugin );
+
+private slots:
+   void appUnregistered(const QCString& id);
 
 private:
    QDict<NSPluginClass> _classes;

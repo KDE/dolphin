@@ -1192,12 +1192,37 @@ NSPluginViewer::NSPluginViewer( QCString dcopId,
    : DCOPObject(dcopId), QObject( parent, name ) 
 {
     _classes.setAutoDelete( true );
+    connect(KApplication::dcopClient(),
+            SIGNAL(applicationRemoved(const QCString&)),
+            this,
+            SLOT(appUnregistered(const QCString&)));
 }
 
 
 NSPluginViewer::~NSPluginViewer()
 {
    kdDebug(1431) << "NSPluginViewer::~NSPluginViewer" << endl;
+}
+
+
+void NSPluginViewer::appUnregistered(const QCString& id) {
+   if (id.isEmpty()) {
+      return;
+   }
+
+   QDictIterator<NSPluginClass> it(_classes);
+   NSPluginClass *c;
+   while ( (c = it.current()) ) {
+      QString key = it.currentKey();
+      ++it;
+      if (c->app() == id) {
+         _classes.remove(key);
+      }
+   }
+
+   if (_classes.isEmpty()) {
+      shutdown();
+   }
 }
 
 
@@ -1222,6 +1247,12 @@ DCOPRef NSPluginViewer::newClass( QString plugin )
    if ( !cls ) {
        // create new class
        cls = new NSPluginClass( plugin, this );
+       QCString id = "";
+       DCOPClient *dc = callingDcopClient();
+       if (dc) {
+          id = dc->senderId();
+       }
+       cls->setApp(id);
        if ( cls->error() ) {
            kdError(1431) << "Can't create plugin class" << endl;
            delete cls;
