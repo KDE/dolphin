@@ -107,6 +107,8 @@ void KonqBrowser::openURL( const QString &url, bool reload, int xOffset, int yOf
 
 KonqHTMLView::KonqHTMLView()
 {
+  (void)new HTMLViewPropertiesExtension( this );
+
   m_pBrowser = new KonqBrowser( this, "konqbrowser" );
 
   QObject::connect( m_pBrowser, SIGNAL( setTitle( QString ) ),
