@@ -51,7 +51,7 @@ int NSPluginLoader::s_refCount = 0;
 
 
 NSPluginInstance::NSPluginInstance(QWidget *parent, const QCString& app, const QCString& id)
-  : EMBEDCLASS(parent), DCOPStub(app, id), NSPluginInstanceIface_stub(app, id)
+  : DCOPStub(app, id), NSPluginInstanceIface_stub(app, id), EMBEDCLASS(parent)
 {
     shown = false;
     _loader = NSPluginLoader::instance();
