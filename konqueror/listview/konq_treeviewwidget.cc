@@ -116,8 +116,16 @@ void KonqTreeViewWidget::setComplete()
    else
    {
       m_bTopLevelComplete = true;
-      if ( m_bUpdateContentsPosAfterListing )
-          setContentsPos( m_pBrowserView->extension()->urlArgs().xOffset, m_pBrowserView->extension()->urlArgs().yOffset );
+      if (m_itemToGoTo.isEmpty())
+      {
+         setCurrentItem(firstChild());
+         //ugghh, hack, to set the selectedBySimpleMove in KListview->d, aleXXX
+         QKeyEvent tmpEvent(QEvent::KeyPress,0,0,0,"MajorHack");
+         keyPressEvent(&tmpEvent);
+      };
+      ensureItemVisible(currentItem());
+      /*if ( m_bUpdateContentsPosAfterListing )
+          setContentsPos( m_pBrowserView->extension()->urlArgs().xOffset, m_pBrowserView->extension()->urlArgs().yOffset );*/
       m_bUpdateContentsPosAfterListing = false;
    }
 
@@ -170,6 +178,34 @@ void KonqTreeViewWidget::slotNewItems( const KFileItemList & entries )
             fileItem = new KonqListViewItem( this,static_cast<KonqFileItem*> (*kit) );
       }
 
+      if (!m_itemToGoTo.isEmpty())
+      {
+         if (fileItem)
+         {
+            if (fileItem->text(0)==m_itemToGoTo)
+            {
+               setCurrentItem(fileItem);
+               ensureItemVisible(fileItem);
+               emit selectionChanged();
+               //ugghh, hack, to set the selectedBySimpleMove in KListview->d, aleXXX
+               QKeyEvent tmpEvent(QEvent::KeyPress,0,0,0,"MajorHack");
+               keyPressEvent(&tmpEvent);
+            };
+         }
+         else if (dirItem)
+         {
+            if (dirItem->text(0)==m_itemToGoTo)
+            {
+               setCurrentItem(dirItem);
+               ensureItemVisible(dirItem);
+               emit selectionChanged();
+               //ugghh, hack, to set the selectedBySimpleMove in KListview->d, aleXXX
+               QKeyEvent tmpEvent(QEvent::KeyPress,0,0,0,"MajorHack");
+               keyPressEvent(&tmpEvent);
+            };
+         };
+
+      };
       if (fileItem)
           m_pBrowserView->lstPendingMimeIconItems().append( fileItem );
 

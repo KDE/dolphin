@@ -47,7 +47,10 @@ KonqTextViewWidget::KonqTextViewWidget( KonqListView *parent, QWidget *parentWid
 
    // David: This breaks dropping things towards the current directory
    // using the columns != Name.
-   //setAllColumnsShowFocus(TRUE);
+   // I know, but I want to have it this way and I use it all the time.
+   // If I want to have free space, I disable some columns.
+   // If people don't like it, they can use a different view type. Alex
+   setAllColumnsShowFocus(TRUE);
    setRootIsDecorated(false);
 
    colors[KTVI_REGULAR]=Qt::black;
@@ -150,8 +153,20 @@ void KonqTextViewWidget::createColumns()
 void KonqTextViewWidget::slotNewItems( const KFileItemList & entries )
 {
    for( QListIterator<KFileItem> kit (entries); kit.current(); ++kit )
-      new KonqTextViewItem( this,static_cast<KonqFileItem*> (*kit));
-   kdDebug(1202)<<"::slotNewItem: received: "<<entries.count()<<endl;
+   {
+      KonqTextViewItem *tmp=new KonqTextViewItem( this,static_cast<KonqFileItem*> (*kit));
+      if (!m_itemToGoTo.isEmpty())
+         if (tmp->text(0)==m_itemToGoTo)
+         {
+            setCurrentItem(tmp);
+            ensureItemVisible(tmp);
+            emit selectionChanged();
+            //ugghh, hack, to set the selectedBySimpleMove in KListview->d, aleXXX
+            QKeyEvent tmpEvent(QEvent::KeyPress,0,0,0,"MajorHack");
+            keyPressEvent(&tmpEvent);
+         };
+   };
+   //kdDebug(1202)<<"::slotNewItem: received: "<<entries.count()<<endl;
 }
 
 #include "konq_textviewwidget.moc"

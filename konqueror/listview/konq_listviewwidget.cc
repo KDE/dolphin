@@ -76,15 +76,15 @@ void ColumnInfo::setData(const char* n, const char* desktopName, int kioUds,int 
 KonqBaseListViewWidget::KonqBaseListViewWidget( KonqListView *parent, QWidget *parentWidget)
     :KListView(parentWidget)
 ,sortedByColumn(0)
+,m_pBrowserView(parent)
 ,m_dirLister(0L)
 ,m_dragOverItem(0L)
 ,m_showIcons(TRUE)
 ,m_bCaseInsensitive(true)
 ,m_bAscending(TRUE)
 ,m_filenameColumn(0)
-,m_pBrowserView(parent)
 ,m_positionInDirHist()
-,m_itemToGoTo(0)
+,m_itemToGoTo("")
 {
    kdDebug(1202) << "+KonqBaseListViewWidget" << endl;
 
@@ -281,70 +281,6 @@ void KonqBaseListViewWidget::updateSelectedFilesInfo()
     KFileItemList lst = selectedFileItems();
     m_pBrowserView->emitCounts( lst, true );
 }
-
-/*QStringList KonqBaseListViewWidget::readProtocolConfig( const QString & protocol )
-{
-   KConfig * config = KGlobal::config();
-   if ( config->hasGroup( "ListView_" + protocol ) )
-      config->setGroup( "ListView_" + protocol );
-   else
-      config->setGroup( "ListView_default" );
-
-   QStringList lstColumns = config->readListEntry( "Columns" );
-   if (lstColumns.isEmpty())
-   {
-      // Default order and column selection
-      lstColumns.append( "Name" );
-//      lstColumns.append( "Type" );
-      lstColumns.append( "Size" );
-      //lstColumns.append( "Date" );
-      lstColumns.append( "Date" );
-//      lstColumns.append( "Created" );
-//      lstColumns.append( "Accessed" );
-      lstColumns.append( "Permissions" );
-      lstColumns.append( "Owner" );
-      lstColumns.append( "Group" );
-      lstColumns.append( "Link" );
-   }
-   // (Temporary) complete list of columns and associated m_uds constant
-   // It is just there to avoid tons of if(...) in the loop below
-   // Order has no importance of course - it matches global.h just for easier maintainance
-   QDict<int> completeDict;
-   completeDict.setAutoDelete( true );
-   completeDict.insert( I18N_NOOP("Size"), new int(KIO::UDS_SIZE) );
-   completeDict.insert( I18N_NOOP("Owner"), new int(KIO::UDS_USER) );
-   completeDict.insert( I18N_NOOP("Group"), new int(KIO::UDS_GROUP) );
-   completeDict.insert( I18N_NOOP("Name"), new int(KIO::UDS_NAME) );
-   completeDict.insert( I18N_NOOP("Permissions"), new int(KIO::UDS_ACCESS) );
-   completeDict.insert( I18N_NOOP("Date"), new int(KIO::UDS_MODIFICATION_TIME) );
-   // we can even have two possible titles for the same column
-   completeDict.insert( I18N_NOOP("Modification time"), new int(KIO::UDS_MODIFICATION_TIME) );
-   completeDict.insert( I18N_NOOP("Access time"), new int(KIO::UDS_ACCESS_TIME) );
-   completeDict.insert( I18N_NOOP("Creation time"), new int(KIO::UDS_CREATION_TIME) );
-   completeDict.insert( I18N_NOOP("Type"), new int(KIO::UDS_FILE_TYPE) );
-   completeDict.insert( I18N_NOOP("Link"), new int(KIO::UDS_LINK_DEST) );
-   completeDict.insert( I18N_NOOP("URL"), new int(KIO::UDS_URL) );
-   completeDict.insert( I18N_NOOP("MimeType"), new int(KIO::UDS_MIME_TYPE) );
-
-   m_dctColumnForAtom.clear();
-   m_dctColumnForAtom.setAutoDelete( true );
-   //QStringList::Iterator it = lstColumns.begin();
-   int currentColumn = 0;
-   for(QStringList::Iterator it = lstColumns.begin() ; it != lstColumns.end(); it++ )
-   {
-      // Lookup the KIO::UDS_* for this column, by name
-      int * uds = completeDict[ *it ];
-      if (!uds)
-         kdError(1202) << "The column " << *it << ", specified in konqueror's config file, is unknown to konq_listviewwidget !" << endl;
-      else
-      {
-         // Store result, in m_dctColumnForAtom
-         m_dctColumnForAtom.insert( *uds, new int(currentColumn) );
-         currentColumn++;
-      }
-   }
-   return lstColumns;
-}*/
 
 void KonqBaseListViewWidget::initConfig()
 {
@@ -688,7 +624,7 @@ bool KonqBaseListViewWidget::openURL( const KURL &url )
    }
    m_bTopLevelComplete = false;
 
-   m_itemToGoTo=0;
+   m_itemToGoTo="";
    if (url.protocol()!=m_url.protocol())
       m_positionInDirHist.clear();
    else
@@ -696,7 +632,8 @@ bool KonqBaseListViewWidget::openURL( const KURL &url )
       //we go one dir deeper, so push the current posiotion on the stack
       if (url.path().contains(m_url.path()))
       {
-         m_positionInDirHist.push(new PositionHistoryEntry(m_url.path(),itemIndex(currentItem())));
+         if (currentItem()!=0)
+            m_positionInDirHist.push(new PositionHistoryEntry(m_url.path(),currentItem()->text(0)));
       }
       //we go one dir up, get the position from the stack
       else if (m_url.path().contains(url.path()))
@@ -777,14 +714,14 @@ void KonqBaseListViewWidget::setComplete()
         }
         emit selectionChanged();
     }*/
-    QListViewItem *newCurrentItem=itemAtIndex(m_itemToGoTo);
-    setCurrentItem(newCurrentItem);
-    ensureItemVisible(newCurrentItem);
-    emit selectionChanged();
-
-    //ugghh, hack, to set the selectedBySimpleMove in KListview->d, aleXXX
-    QKeyEvent tmpEvent(QEvent::KeyPress,0,0,0,"MajorHack");
-    keyPressEvent(&tmpEvent);
+    if (m_itemToGoTo.isEmpty())
+    {
+       setCurrentItem(firstChild());
+       //ugghh, hack, to set the selectedBySimpleMove in KListview->d, aleXXX
+       QKeyEvent tmpEvent(QEvent::KeyPress,0,0,0,"MajorHack");
+       keyPressEvent(&tmpEvent);
+    };
+    ensureItemVisible(currentItem());
     // Show "cut" icons as such
     m_pBrowserView->slotClipboardDataChanged();
 
@@ -823,8 +760,18 @@ void KonqBaseListViewWidget::slotNewItems( const KFileItemList & entries )
    kdDebug(1202) << "KonqBaseListViewWidget::slotNewItems " << entries.count() << endl;
    for (QListIterator<KFileItem> kit ( entries ); kit.current(); ++kit )
    {
-      KonqListViewItem * item = new KonqListViewItem( this, static_cast<KonqFileItem *>(*kit) );
-      m_pBrowserView->lstPendingMimeIconItems().append( item );
+      KonqListViewItem * tmp = new KonqListViewItem( this, static_cast<KonqFileItem *>(*kit) );
+      if (!m_itemToGoTo.isEmpty())
+         if (tmp->text(0)==m_itemToGoTo)
+         {
+            setCurrentItem(tmp);
+            ensureItemVisible(tmp);
+            emit selectionChanged();
+            //ugghh, hack, to set the selectedBySimpleMove in KListview->d, aleXXX
+            QKeyEvent tmpEvent(QEvent::KeyPress,0,0,0,"MajorHack");
+            keyPressEvent(&tmpEvent);
+         };
+      m_pBrowserView->lstPendingMimeIconItems().append( tmp );
    }
    m_pBrowserView->newItems( entries );
 }

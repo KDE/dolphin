@@ -55,10 +55,11 @@ class ColumnInfo
 
 struct PositionHistoryEntry
 {
-   PositionHistoryEntry(const QString& p, int pos)
+   PositionHistoryEntry(const QString& p, const QString& pos)
       :path(p), currentItem(pos) {};
    QString path;
-   int currentItem;
+   QString currentItem;
+   //int currentItem;
 };
 
 /**
@@ -136,6 +137,7 @@ class KonqBaseListViewWidget : public KListView
 
       virtual void disableIcons( const KURL::List & lst );
 
+      KonqListView *m_pBrowserView;
    signals:
       void viewportAdjusted();
 
@@ -227,10 +229,9 @@ class KonqBaseListViewWidget : public KListView
 
       KURL m_url;
 
-   public:
-      KonqListView *m_pBrowserView;
       QStack<PositionHistoryEntry> m_positionInDirHist;
-      int m_itemToGoTo;
+      QString m_itemToGoTo;
+      //int m_itemToGoTo;
 
 };
 
