@@ -6,7 +6,6 @@
 
 #include <stdio.h>
 
-#include <qmessagebox.h>
 #include <qsize.h>
 #include <qpopupmenu.h>
 #include <qlayout.h>

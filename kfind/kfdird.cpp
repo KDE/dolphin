@@ -9,12 +9,12 @@
 #include <qstring.h>
 #include <qlabel.h>
 #include <qpushbutton.h>
-#include <qmessagebox.h>
 #include <qapplication.h>
 #include <qlayout.h>
 
 #include <kapp.h>
 #include <klocale.h>
+#include <kmessagebox.h>
 
 #include "kfdird.h"
 
@@ -113,10 +113,7 @@ void KfDirDialog::rereadDir()
     }
   } else {
     qApp->restoreOverrideCursor();
-    QMessageBox::information( this,
-			  i18n("Sorry"), 
-			  i18n("Cannot open or read directory."),
-			  i18n("OK") );
+    KMessageBox::sorry( this, i18n("Cannot open or read directory."));
     qApp ->setOverrideCursor( waitCursor );
   }
   dirs ->setAutoUpdate( TRUE );
@@ -154,8 +151,5 @@ void KfDirDialog::checkDir(const QString& subdir, bool abs)
     return;
   }
   
-  QMessageBox::information(this,
-			i18n("Sorry"), 
-			i18n("Cannot open or read directory."),
-			i18n("OK") );
+  KMessageBox::sorry(this, i18n("Cannot open or read directory."));
 }

@@ -20,7 +20,6 @@
 #include <qfiledefs.h>
 #include <qfiledialog.h>
 #include <qfileinfo.h>
-#include <qmessagebox.h>
 #include <qdir.h>
 #include <qclipboard.h>
 #include <qevent.h>
@@ -35,9 +34,7 @@
 #include <kprocess.h>
 #include <kpropsdlg.h>
 #include <kstddirs.h>
-
-//#include <knewmenu.h>
-//#include <kpopupmenu.h>
+#include <kmessagebox.h>
 
 #include "kfwin.h"
 #include "kfarch.h"
@@ -243,9 +240,7 @@ void KfindWindow::saveResults()
   results=fopen(filename.ascii(),"w");
 
   if (results == 0L)
-    QMessageBox::warning(parentWidget(),i18n("Error"),
-			 i18n("It wasn't possible to save results!"),
-			 i18n("OK"));
+    KMessageBox::error(parentWidget(), i18n("It wasn't possible to save results!"));
   else {
     if ( saving->getSaveFormat() == "HTML" ) {
       fprintf(results,"<HTML><HEAD>\n");
@@ -276,11 +271,9 @@ void KfindWindow::saveResults()
     }	
 
     fclose(results);
-    QMessageBox::information(parentWidget(),
-			     i18n("Information"),
+    KMessageBox::information(parentWidget(),
 			     i18n("Results were saved to file\n")+
-			     filename,
-			     i18n("OK"));
+			     filename);
   }
 }
 
@@ -339,10 +332,7 @@ void KfindWindow::deleteFiles()
   {
     /*    QString tmp = i18n("Do you really want to delete file:\n%1")
                 .arg(text(currentItem()));
-    if (!QMessageBox::information(parentWidget(),
-				  i18n("Delete File - Find Files"),
-				  tmp, i18n("&Yes"), i18n("&No"), 0,
-				  1))
+    if (!KMessageBox::questionYesNo(parentWidget(), tmp);
       {
         QFileInfo *file = new QFileInfo(text(currentItem()));
 	if (file->isFile()||file->isSymLink())
@@ -351,16 +341,12 @@ void KfindWindow::deleteFiles()
                   switch(errno)
                     {
     	              case EACCES:
-			QMessageBox::warning(parentWidget(),
-					   i18n("Error - Find Files"),
-					   i18n("You have no permission\n to delete this file"),
-					   i18n("&Ok"));
+			KMessageBox::error(parentWidget(),
+					   i18n("You have no permission\n to delete this file"));
                                    break;
                       default:
-			QMessageBox::warning(parentWidget(),
-					     i18n("Error - Find Files"),
-					     i18n("It isn't possible to delete\nselected file"),
-					     i18n("&Ok"));
+			KMessageBox::error(parentWidget(),
+					     i18n("It isn't possible to delete\nselected file"));
                     }
                 else
                   {
@@ -377,20 +363,14 @@ void KfindWindow::deleteFiles()
               if (rmdir(file->filePath().ascii())==-1)
 		  switch(errno)
                     {
-		    case EACCES: QMessageBox::warning(parentWidget(),
-				              i18n("Error"),
-		                              i18n("You have no permission\n to delete this directory"),
-					      i18n("OK"));
+		    case EACCES: KMessageBox::error(parentWidget(),
+		                              i18n("You have no permission\n to delete this directory"));
                                   break;
-      	             case ENOTEMPTY: QMessageBox::warning(parentWidget(),
-					    i18n("Error"),
+      	             case ENOTEMPTY: KMessageBox::error(parentWidget(),
 					    i18n("Specified directory\nis not empty!"),
-					    i18n("OK"));
                                      break;
-     	             default: QMessageBox::warning(parentWidget(),
-					 i18n("Error"),
-                                         i18n("It isn't possible to delete\nselected directory"),
-                                         i18n("OK"));
+     	             default: KMessageBox::error(parentWidget(),
+                                         i18n("It isn't possible to delete\nselected directory"));
                    }
                  else
                   {
@@ -460,9 +440,8 @@ void KfindWindow::addToArchive()
     if ( (arch = KfArchiver::findByPattern(("*"+pattern1).ascii()))!=0L)
       execAddToArchive(arch,filename);
     else
-      QMessageBox::warning(parentWidget(),i18n("Error"),
-			   i18n("Couldn't recognize archive type!"),
-			   i18n("OK"));
+      KMessageBox::error(parentWidget(),
+			   i18n("Couldn't recognize archive type!"));
 }
 
 void KfindWindow::execAddToArchive(KfArchiver *arch, QString archname)

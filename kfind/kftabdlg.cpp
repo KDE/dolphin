@@ -21,7 +21,6 @@
 #include <qfiledialog.h>
 #include <qdir.h>
 #include <qregexp.h>
-#include <qmessagebox.h>
 #include <qlist.h>
 #include <qsize.h>
 #include <qvalidator.h>
@@ -29,6 +28,7 @@
 #include <kdebug.h>
 #include <klocale.h>
 #include <kconfig.h>
+#include <kmessagebox.h>
 
 #include "kfdird.h"
 #include "kftypes.h"
@@ -357,9 +357,7 @@ bool KfindTabWidget::isDateValid()
   if ( string2Date(le[0]->text(), &hi1).isNull() ||
        string2Date(le[1]->text(), &hi2).isNull() ||
        hi1 > hi2) {
-    QMessageBox mb(this,"message box");
-    mb.setText( i18n("The date is not valid!!"));
-    mb.show();
+    KMessageBox::sorry(this, i18n("The date is not valid!"));
     return FALSE;
   }
 
