@@ -472,12 +472,12 @@ bool KonqMainView::mappingCreateMenubar( OpenPartsUI::MenuBar_ptr menuBar )
   m_vMenuOptions->insertItem4( text, this, "slotShowToolbar", 0, MOPTIONS_SHOWTOOLBAR_ID, -1 );
   text = Q2C( i18n("Show &Locationbar") );
   m_vMenuOptions->insertItem4( text, this, "slotShowLocationbar", 0, MOPTIONS_SHOWLOCATIONBAR_ID, -1 );
-  m_vMenuEdit->insertSeparator( -1 );
+  m_vMenuOptions->insertSeparator( -1 );
   text = Q2C( i18n("Sa&ve Settings") );
   m_vMenuOptions->insertItem4( text, this, "slotSaveSettings", 0, MOPTIONS_SAVESETTINGS_ID, -1 );
   text = Q2C( i18n("Save Settings for this &URL") );
   m_vMenuOptions->insertItem4( text, this, "slotSaveLocalSettings", 0, MOPTIONS_SAVELOCALSETTINGS_ID, -1 );
-  m_vMenuEdit->insertSeparator( -1 );
+  m_vMenuOptions->insertSeparator( -1 );
   // TODO : cache submenu
   text = Q2C( i18n("&Configure File Manager...") );
   m_vMenuOptions->insertItem4( text, this, "slotConfigureFileManager", 0, MOPTIONS_CONFIGUREFILEMANAGER_ID, -1 );
