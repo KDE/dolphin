@@ -201,6 +201,7 @@ void KonqRun::slotRedirection( KIO::Job *job, const KURL& redirectedToURL )
     // doing a POST request.
     if (redirectFromURL != redirectedToURL)
         m_args.setDoPost (false);
+    m_args.setRedirectedRequest(true);
 }
 
 #include "konq_run.moc"
