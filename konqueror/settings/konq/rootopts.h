@@ -14,6 +14,7 @@
 
 class KConfig;
 class QCheckBox;
+class QComboBox;
 
 //-----------------------------------------------------------------------------
 // The "Desktop Icons Options" Tab contains :
@@ -30,7 +31,12 @@ public:
         virtual void defaults();
         
 private:
+        void fillMenuCombo( QComboBox * combo );
         QCheckBox *showHiddenBox;
+        QComboBox *leftComboBox;
+        QComboBox *middleComboBox;
+        QComboBox *rightComboBox;
+        typedef enum { NOTHING = 0, WINDOWLISTMENU, DESKTOPMENU, APPMENU } menuChoice;
 };
 
 #endif // __ROOT_OPTIONS_H
