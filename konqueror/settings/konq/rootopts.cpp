@@ -27,6 +27,7 @@
 #include <kmessagebox.h>
 #include <kstddirs.h>
 #include <kipc.h>
+#include <ktrader.h>
 #include <qcheckbox.h>
 #include <qcombobox.h>
 #include <qlabel.h>
@@ -34,6 +35,7 @@
 #include <qlineedit.h>
 #include <qwhatsthis.h>
 #include <qtl.h>
+#include <qlistview.h>
 #include <assert.h>
 
 #include "rootopts.h"
@@ -43,13 +45,28 @@
 
 //-----------------------------------------------------------------------------
 
+class PreviewItem : public QCheckListItem
+{
+public:
+    PreviewItem(QListView *parent, const KService::Ptr &plugin, bool on)
+        : QCheckListItem(parent, plugin->name(), CheckBox)
+    {
+        m_pluginName = plugin->desktopEntryName();
+        setOn(on);
+    }
+    const QString &pluginName() const { return m_pluginName; }
+    
+private:
+    QString m_pluginName;
+};
+
 static const char * s_choices[4] = { "", "WindowListMenu", "DesktopMenu", "AppMenu" };
 
 KRootOptions::KRootOptions(KConfig *config, QWidget *parent, const char *name )
     : KCModule( parent, name ), g_pConfig(config)
 {
   QLabel * tmpLabel;
-#define RO_LASTROW 14   // 3 cb, 1 line, 3 combo, 1 line, 4 paths and 1 label + last row
+#define RO_LASTROW 13   // 1 cb, 1 listview, 1 line, 3 combo, 1 line, 4 paths and 1 label + last row
 #define RO_LASTCOL 2
   int row = 0;
   QGridLayout *lay = new QGridLayout(this, RO_LASTROW+1, RO_LASTCOL+1, 10);
@@ -79,15 +96,8 @@ KRootOptions::KRootOptions(KConfig *config, QWidget *parent, const char *name )
                                       " you choose \"Arrange Icons\" from the Desktop menu, icons will be"
                                       " arranged horizontally or vertically.") );
 
-  imagePreviewBox = new QCheckBox( i18n( "Image Preview" ), this );
-  lay->addMultiCellWidget( imagePreviewBox, row, row, 1, 2 );
-  connect( imagePreviewBox, SIGNAL( clicked() ), this, SLOT( changed() ) );
-  QWhatsThis::add( imagePreviewBox, i18n( "Check this option if you want to enable the"
-                                          " image preview for image files on the desktop" ) );
-
-  row++;
   showHiddenBox = new QCheckBox(i18n("Show &Hidden Files on Desktop"), this);
-  lay->addMultiCellWidget(showHiddenBox, row, row, 0, 0);
+  lay->addMultiCellWidget(showHiddenBox, row, row, 1, 1);
   connect(showHiddenBox, SIGNAL(clicked()), this, SLOT(changed()));
   QWhatsThis::add( showHiddenBox, i18n("If you check this option, any files"
                                        " in your desktop directory that begin with a period (.) will be shown."
@@ -98,22 +108,28 @@ KRootOptions::KRootOptions(KConfig *config, QWidget *parent, const char *name )
                                        " displaying a directory, the order in which files should be sorted, etc."
                                        " You should not change or delete these files unless you know what you"
                                        " are doing!") );
-
-  textPreviewBox = new QCheckBox( i18n( "Text Preview" ), this );
-  lay->addMultiCellWidget( textPreviewBox, row, row, 1, 2 );
-  connect( textPreviewBox, SIGNAL( clicked() ), this, SLOT( changed() ) );
-  QWhatsThis::add( textPreviewBox, i18n( "Check this option if you want to enable the"
-                                         " text preview for text files on the desktop" ) );
-
-  row++;
+  
   menuBarBox = new QCheckBox(i18n("Enable Desktop &Menu"), this);
-  lay->addMultiCellWidget(menuBarBox, row, row, 0, 1);
+  lay->addMultiCellWidget(menuBarBox, row, row, 2, RO_LASTCOL);
   connect(menuBarBox, SIGNAL(clicked()), this, SLOT(changed()));
   QWhatsThis::add( menuBarBox, i18n("Check this option if you want the"
                                     " desktop popup menus to appear on the top of the screen in the style"
                                     " of Macintosh.  This setting is independent of the global top-level"
                                     " menu setting that applies to KDE applications.") );
-
+  
+  row++;
+  lay->setRowStretch( row, 10 );
+  tmpLabel = new QLabel( i18n("&Show Previews for:"), this );
+  lay->addWidget( tmpLabel, row, 0 );
+  previewListView = new QListView( this );
+  tmpLabel->setBuddy( previewListView );
+  previewListView->addColumn( i18n("File Type") );
+  lay->addMultiCellWidget( previewListView, row, row, 1, RO_LASTCOL );
+  QString tmpWhatsThis = i18n("Select for which types of files you want to"
+                              " enable preview images");
+  QWhatsThis::add( tmpLabel, tmpWhatsThis );
+  QWhatsThis::add( previewListView, tmpWhatsThis );
+    
   row++;
   QFrame * hLine2 = new QFrame(this);
   hLine2->setFrameStyle(QFrame::Sunken|QFrame::HLine);
@@ -301,10 +317,11 @@ void KRootOptions::load()
     showHiddenBox->setChecked(bShowHidden);
     bool bVertAlign = g_pConfig->readNumEntry("VertAlign", DEFAULT_VERT_ALIGN);
     VertAlignBox->setChecked(bVertAlign);
-    bool bImagePreview = g_pConfig->readNumEntry( "ImagePreview", DEFAULT_DESKTOP_IMAGEPREVIEW );
-    imagePreviewBox->setChecked( bImagePreview );
-    bool bTextPreview = g_pConfig->readNumEntry( "TextPreview", DEFAULT_DESKTOP_TEXTPREVIEW );
-    textPreviewBox->setChecked( bTextPreview );
+    KTrader::OfferList plugins = KTrader::self()->query("ThumbCreator");
+    previewListView->clear();
+    QStringList previews = g_pConfig->readListEntry("Preview");
+    for (KTrader::OfferList::ConstIterator it = plugins.begin(); it != plugins.end(); ++it)
+        new PreviewItem(previewListView, *it, previews.contains((*it)->desktopEntryName()));
     //
     g_pConfig->setGroup( "Menubar" );
     bool bMenuBar = g_pConfig->readBoolEntry("ShowMenubar", false);
@@ -336,8 +353,8 @@ void KRootOptions::defaults()
 {
     showHiddenBox->setChecked(DEFAULT_SHOW_HIDDEN_ROOT_ICONS);
     VertAlignBox->setChecked(true);
-    imagePreviewBox->setChecked( DEFAULT_DESKTOP_IMAGEPREVIEW );
-    textPreviewBox->setChecked( DEFAULT_DESKTOP_TEXTPREVIEW );
+    for (QListViewItem *item = previewListView->firstChild(); item; item = item->nextSibling())
+        static_cast<PreviewItem *>(item)->setOn(false);
     menuBarBox->setChecked(true);
     leftComboBox->setCurrentItem( NOTHING );
     middleComboBox->setCurrentItem( WINDOWLISTMENU );
@@ -355,8 +372,13 @@ void KRootOptions::save()
     g_pConfig->setGroup( "Desktop Icons" );
     g_pConfig->writeEntry("ShowHidden", showHiddenBox->isChecked());
     g_pConfig->writeEntry("VertAlign",VertAlignBox->isChecked());
-    g_pConfig->writeEntry("ImagePreview", imagePreviewBox->isChecked() );
-    g_pConfig->writeEntry("TextPreview", textPreviewBox->isChecked() );
+    QStringList previews;
+    for ( PreviewItem *item = static_cast<PreviewItem *>( previewListView->firstChild() );
+          item;
+          item = static_cast<PreviewItem *>( item->nextSibling() ) )
+        if ( item->isOn() )
+            previews.append( item->pluginName() );
+    g_pConfig->writeEntry( "Preview", previews );
     g_pConfig->setGroup( "Menubar" );
     g_pConfig->writeEntry("ShowMenubar", menuBarBox->isChecked());
     g_pConfig->setGroup( "Mouse Buttons" );

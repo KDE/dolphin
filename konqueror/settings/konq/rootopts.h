@@ -21,6 +21,7 @@ class KConfig;
 class QCheckBox;
 class QComboBox;
 class QLineEdit;
+class QListView;
 namespace KIO { class Job; }
 
 //-----------------------------------------------------------------------------
@@ -51,8 +52,7 @@ private:
         QCheckBox *showHiddenBox;
         QCheckBox *VertAlignBox;
         QCheckBox *menuBarBox;
-        QCheckBox *imagePreviewBox;
-        QCheckBox *textPreviewBox;
+        QListView *previewListView;
 
         // Combo for the menus
         void fillMenuCombo( QComboBox * combo );
