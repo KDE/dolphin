@@ -47,7 +47,7 @@ KonqFontOptions::KonqFontOptions(KConfig *config, QString group, bool desktop, Q
     QString wtstr;
     int row = 0;
 
-    int LASTLINE = m_bDesktop ? 8 : 9; // this can be different :)
+    int LASTLINE = m_bDesktop ? 8 : 10; // this can be different :)
 #define LASTCOLUMN 2
     QGridLayout *lay = new QGridLayout(this,LASTLINE+1,LASTCOLUMN+1, 0,
         KDialog::spacingHint());
@@ -145,8 +145,8 @@ KonqFontOptions::KonqFontOptions(KConfig *config, QString group, bool desktop, Q
         m_pNbLines = new QSpinBox( 1, 10, 1, this );
         m_pNbLines->setSuffix( i18n( " lines" ) );
         m_pNbLines->setSpecialValueText( i18n( "1 line" ) );
-        QLabel* wordWrap = new QLabel( m_pNbLines, i18n("H&eight for icon text:"), this );
-        lay->addWidget( wordWrap, row, 0 );
+        QLabel* label = new QLabel( m_pNbLines, i18n("H&eight for icon text:"), this );
+        lay->addWidget( label, row, 0 );
         lay->addWidget( m_pNbLines, row, 1 );
         connect( m_pNbLines, SIGNAL( valueChanged(int) ),
                  this, SLOT( changed() ) );
@@ -154,8 +154,25 @@ KonqFontOptions::KonqFontOptions(KConfig *config, QString group, bool desktop, Q
         QString thwt = i18n("This is the maximum number of lines that can be"
                             " used to draw icon text. Long file names are"
                             " truncated at the end of the last line.");
-        QWhatsThis::add( wordWrap, thwt );
+        QWhatsThis::add( label, thwt );
         QWhatsThis::add( m_pNbLines, thwt );
+
+        row++;
+
+        // width for the items in multicolumn icon view
+        m_pNbWidth = new QSpinBox( 1, 100000, 1, this );
+        m_pNbWidth->setSuffix( i18n( " pixels" ) );
+
+        label = new QLabel( m_pNbWidth, i18n("&Width for icon text:"), this );
+        lay->addWidget( label, row, 0 );
+        lay->addWidget( m_pNbWidth, row, 1 );
+        connect( m_pNbWidth, SIGNAL( valueChanged(int) ),
+                 this, SLOT( changed() ) );
+
+        thwt = i18n( "This is the maximum width for the icon text when konqueror "
+                     "is used in multi column view mode." );
+        QWhatsThis::add( label, thwt );
+        QWhatsThis::add( m_pNbWidth, thwt );
 
         row++;
     }
@@ -240,13 +257,16 @@ void KonqFontOptions::load()
                 n = 1;
         }
         m_pNbLines->setValue( n );
+
+        n = g_pConfig->readNumEntry( "TextWidth", DEFAULT_TEXTWIDTH_MULTICOLUMN );
+        m_pNbWidth->setValue( n );
+
         m_pSizeInBytes->setChecked( g_pConfig->readBoolEntry( "DisplayFileSizeInBytes", DEFAULT_FILESIZEINBYTES ) );
     }
     cbUnderline->setChecked( g_pConfig->readBoolEntry("UnderlineLinks", DEFAULT_UNDERLINELINKS ) );
 
     KConfig cfg("kdeglobals");
     cfg.setGroup("DesktopIcons");
-    m_gridXSpacing=cfg.readNumEntry("GridXSpacing", 50);
 
     updateGUI();
     emit KCModule::changed( false );
@@ -274,6 +294,7 @@ void KonqFontOptions::defaults()
     else
     {
         m_pNbLines->setValue( DEFAULT_TEXTHEIGHT );
+        m_pNbWidth->setValue( DEFAULT_TEXTWIDTH_MULTICOLUMN );
         m_pSizeInBytes->setChecked( DEFAULT_FILESIZEINBYTES );
     }
     cbUnderline->setChecked( DEFAULT_UNDERLINELINKS );
@@ -303,6 +324,7 @@ void KonqFontOptions::save()
     else
     {
         g_pConfig->writeEntry( "TextHeight", m_pNbLines->value() );
+        g_pConfig->writeEntry( "TextWidth", m_pNbWidth->value() );
         g_pConfig->writeEntry( "DisplayFileSizeInBytes", m_pSizeInBytes->isChecked() );
     }
     g_pConfig->writeEntry( "UnderlineLinks", cbUnderline->isChecked() );
@@ -310,7 +332,6 @@ void KonqFontOptions::save()
 
     KConfig cfg("kdeglobals");
     cfg.setGroup("DesktopIcons");
-    cfg.writeEntry("GridXSpacing", m_gridXSpacing);
 
     // Send signal to konqueror
     // Warning. In case something is added/changed here, keep kfmclient in sync

@@ -131,6 +131,7 @@ KonqIconViewWidget::KonqIconViewWidget( QWidget * parent, const char * name, WFl
     connect( this, SIGNAL(onViewport()), SLOT(slotOnViewport()) );
     connect( this, SIGNAL(itemRenamed(QIconViewItem *, const QString &)), SLOT(slotItemRenamed(QIconViewItem *, const QString &)) );
 
+    m_pSettings = KonqFMSettings::settings();  // already needed in setItemTextPos(), calculateGridX()
     d->bBoostPreview = boostPreview();
 
     // hardcoded settings
@@ -548,7 +549,6 @@ void KonqIconViewWidget::setThumbnailPixmap( KFileIVI * item, const QPixmap & pi
 bool KonqIconViewWidget::initConfig( bool bInit )
 {
     bool fontChanged = false;
-    m_pSettings = KonqFMSettings::settings();
 
     // Color settings
     QColor normalTextColor       = m_pSettings->normalTextColor();
@@ -589,8 +589,13 @@ bool KonqIconViewWidget::initConfig( bool bInit )
 
     setIconTextHeight( m_pSettings->iconTextHeight() );
 
-    // Update icons if settings for preview icon size have changed
-    if ( d->bBoostPreview != boostPreview() )
+    if ( (itemTextPos() == QIconView::Right) && (maxItemWidth() != gridXValue()) )
+    {
+        int size = m_size;
+        m_size = -1; // little trick to force grid change in setIcons
+        setIcons( size ); // force re-determining all icons
+    }
+    else if ( d->bBoostPreview != boostPreview() ) // Update icons if settings for preview icon size have changed
         setIcons(m_size);
     else if (!bInit)
         updateContents();
@@ -690,17 +695,17 @@ bool KonqIconViewWidget::mimeTypeMatch( const QString& mimeType, const QStringLi
 
 void KonqIconViewWidget::setItemTextPos( ItemTextPos pos )
 {
+    // can't call gridXValue() because this already would need the new itemTextPos()
+    int sz = m_size ? m_size : KGlobal::iconLoader()->currentSize( KIcon::Desktop );
+
     if ( m_bSetGridX )
-    {
-        calculateGridX();
-        if ( itemTextPos() != pos )
+        if ( pos == QIconView::Bottom )
+            setGridX( QMAX( sz + 50, previewIconSize( sz ) + 13 ) );
+        else
         {
-            if ( pos == QIconView::Right )
-                setGridX( gridX() + 100 );
-            else
-                setGridX( gridX() - 100 );
+            setMaxItemWidth( QMAX( sz, previewIconSize( sz ) ) + m_pSettings->iconTextWidth() );
+            setGridX( -1 );
         }
-    }
 
     KIconView::setItemTextPos( pos );
 }
@@ -746,16 +751,26 @@ void KonqIconViewWidget::gridValues( int* x, int* y, int* dx, int* dy,
 void KonqIconViewWidget::calculateGridX()
 {
     if ( m_bSetGridX )
-        setGridX( gridXValue() );
+        if ( itemTextPos() == QIconView::Bottom )
+            setGridX( gridXValue() );
+        else
+        {
+            setMaxItemWidth( gridXValue() );
+            setGridX( -1 );
+        }
 }
 
 int KonqIconViewWidget::gridXValue() const
 {
     // this method is only used in konqi as filemanager (not desktop)
     int sz = m_size ? m_size : KGlobal::iconLoader()->currentSize( KIcon::Desktop );
-    bool horizontal = (itemTextPos() == QIconView::Right);
-    int newGridX = sz + 50 + ( horizontal ? 100 : 0);
-    newGridX = QMAX( newGridX, (horizontal ? 2 : 1) * previewIconSize( sz ) + 13 );
+    int newGridX;
+
+    if ( itemTextPos() == QIconView::Bottom )
+        newGridX = QMAX( sz + 50, previewIconSize( sz ) + 13 );
+    else
+        newGridX = QMAX( sz, previewIconSize( sz ) ) + m_pSettings->iconTextWidth();
+
     //kdDebug(1203) << "gridXValue: " << newGridX << " sz=" << sz << endl;
     return newGridX;
 }

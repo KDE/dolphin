@@ -99,9 +99,9 @@ private:
   QColor textBackgroundColor;
 
   QSpinBox* m_pNbLines;
+  QSpinBox* m_pNbWidth;
   QCheckBox* cbUnderline;
   QCheckBox* m_pSizeInBytes;
-  int m_gridXSpacing;
 };
 
 #endif
