@@ -332,6 +332,8 @@ protected slots:
   // Connected to KApp
   void slotReconfigure();
 
+  void slotForceSaveMainWindowSettings();
+  
   void slotOpenWith();
 
   void slotGoMenuAboutToShow();
@@ -344,25 +346,16 @@ protected slots:
   void slotForwardActivated( int id );
   void slotGoHistoryDelayed();
 
-  void slotComboPlugged();
   void slotCompletionModeChanged( KGlobalSettings::Completion );
   void slotMakeCompletion( const QString& );
   void slotSubstringcompletion( const QString& );
   void slotRotation( KCompletionBase::KeyBindingType );
   void slotMatch( const QString& );
 
-  void slotComboCut();
-  void slotComboCopy();
-  void slotComboPaste();
-  void slotComboDelete();
   void slotClipboardDataChanged();
   void slotCheckComboSelection();
 
   void slotShowMenuBar();
-  void slotShowToolBar();
-  void slotShowExtraToolBar();
-  void slotShowLocationBar();
-  void slotShowBookmarkBar();
 
   void slotOpenURL( const KURL& );
 
@@ -376,9 +369,6 @@ protected slots:
 
 protected:
   QString detectNameFilter( QString & url );
-
-  void toggleBar( const char *name );
-  KToolBar * toolBarByName( const char *name );
 
   virtual bool eventFilter(QObject*obj,QEvent *ev);
 
@@ -435,6 +425,7 @@ private:
 
   void setUpEnabled( const KURL &url );
 
+  void initCombo();
   void initActions();
 
   /**
@@ -498,7 +489,6 @@ private:
 
   KonqLogoAction *m_paAnimatedLogo;
 
-  KonqComboAction *m_paURLCombo;
   KBookmarkBar *m_paBookmarkBar;
 
   KAction * m_paFindFiles;
@@ -580,3 +570,4 @@ private:
 };
 
 #endif
+

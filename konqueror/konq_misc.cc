@@ -17,9 +17,12 @@
    Boston, MA 02111-1307, USA.
 */
 
-#include "konq_misc.h"
-#include "konq_mainwindow.h"
-#include "konq_viewmgr.h"
+
+#include <qapplication.h>
+#include <qwhatsthis.h>
+#include <qstyle.h>
+#include <qdir.h>
+
 #include <kdebug.h>
 #include <kmessagebox.h>
 #include <kurifilter.h>
@@ -27,7 +30,12 @@
 #include <kstandarddirs.h>
 #include <kwin.h>
 #include <kprotocolinfo.h>
-#include <qdir.h>
+#include <kurldrag.h>
+
+#include "konq_misc.h"
+#include "konq_mainwindow.h"
+#include "konq_viewmgr.h"
+#include "konq_view.h"
 
 /**********************************************
  *
@@ -136,3 +144,69 @@ QString KonqMisc::konqFilteredURL( QWidget* parent, const QString& _url, const Q
   return _url;  // return the original url if it cannot be filtered.
 }
 
+KonqDraggableLabel::KonqDraggableLabel( KonqMainWindow* mw, const QString& text )
+  : QToolButton( 0L, "KonqDraggableLabel" )
+  , m_mw(mw)
+{
+  setText(text);
+  setAcceptDrops(true);
+  validDrag = false;
+}
+
+void KonqDraggableLabel::mousePressEvent( QMouseEvent * ev )
+{
+  validDrag = true;
+  startDragPos = ev->pos();
+}
+
+void KonqDraggableLabel::mouseMoveEvent( QMouseEvent * ev )
+{
+  if ((startDragPos - ev->pos()).manhattanLength() > QApplication::startDragDistance())
+  {
+    validDrag = false;
+    if ( m_mw->currentView() )
+    {
+      KURL::List lst;
+      lst.append( m_mw->currentView()->url() );
+      QDragObject * drag = KURLDrag::newDrag( lst, m_mw );
+      drag->setPixmap( KMimeType::pixmapForURL( lst.first(), 0, KIcon::Small ) );
+      drag->dragCopy();
+    }
+  }
+}
+
+void KonqDraggableLabel::mouseReleaseEvent( QMouseEvent * )
+{
+  validDrag = false;
+}
+
+QSize KonqDraggableLabel::sizeHint() const
+{
+  int w = fontMetrics().width( text() );
+  int h = fontMetrics().height();
+  return QSize( w, h );
+}
+
+void KonqDraggableLabel::drawButton( QPainter * p )
+{
+  // Draw the background
+  style().drawComplexControl( QStyle::CC_ToolButton, p, this, rect(), colorGroup(),
+                              QStyle::Style_Enabled, QStyle::SC_ToolButton );
+  // Draw the label
+  style().drawControl( QStyle::CE_ToolButtonLabel, p, this, rect(), colorGroup(),
+                       QStyle::Style_Enabled );
+}
+
+void KonqDraggableLabel::dragEnterEvent( QDragEnterEvent *ev )
+{
+  if ( QUriDrag::canDecode( ev ) )
+    ev->acceptAction();
+}
+
+void KonqDraggableLabel::dropEvent( QDropEvent* ev )
+{
+  KURL::List lst;
+  if ( KURLDrag::decode( ev, lst ) ) {
+    m_mw->openURL( 0L, lst.first() );
+  }
+}

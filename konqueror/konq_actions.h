@@ -20,39 +20,12 @@
 #ifndef __konq_actions_h__
 #define __konq_actions_h__ "$Id$"
 
-#include <qguardedptr.h>
 #include <konq_historymgr.h>
-
 #include <kaction.h>
 #include <qptrlist.h>
 
-class KBookmarkOwner;
-class KonqCombo;
 class HistoryEntry;
-class QToolButton;
 class QPopupMenu;
-
-class KonqComboAction : public KAction
-{
-  Q_OBJECT
-public:
-    KonqComboAction( const QString& text, int accel, const QObject *receiver, const char *member, QObject* parent, const char* name );
-    ~KonqComboAction();
-
-    virtual int plug( QWidget *w, int index = -1 );
-
-    virtual void unplug( QWidget *w );
-
-    QGuardedPtr<KonqCombo> combo() { return m_combo; }
-
-signals:
-    void plugged();
-
-private:
-    QGuardedPtr<KonqCombo> m_combo;
-    const QObject *m_receiver;
-    const char *m_member;
-};
 
 /**
  * Plug this action into a menu to get a bidirectional history
@@ -117,20 +90,6 @@ public:
 
 private:
     QStringList iconList;
-};
-
-class KonqLabelAction : public KAction
-{
-  Q_OBJECT
-public:
-  KonqLabelAction( const QString &text, int accel,
-	            QObject* receiver, const char* slot, QObject *parent = 0, const char *name = 0 );
-
-  virtual int plug( QWidget *widget, int index = -1 );
-  virtual void unplug( QWidget *widget );
-  QToolButton * label() { return m_label; }
-private:
-  QToolButton * m_label;
 };
 
 class KonqViewModeAction : public KRadioAction

@@ -21,80 +21,18 @@
 
 #include <assert.h>
 
-#include <qapplication.h>
-#include <qwhatsthis.h>
-#include <qstyle.h>
-
-#include <kurldrag.h>
 #include <ktoolbarbutton.h>
 #include <kanimwidget.h>
 #include <kdebug.h>
 #include <kstringhandler.h>
 
 #include <konq_pixmapprovider.h>
-#include "konq_view.h"
 #include <kiconloader.h>
 #include <kpopupmenu.h>
 
+#include "konq_view.h"
+
 template class QPtrList<KonqHistoryEntry>;
-
-
-KonqComboAction::KonqComboAction( const QString& text, int accel, const QObject *receiver, const char *member,
-                                  QObject* parent, const char* name )
-    : KAction( text, accel, parent, name )
-{
-  m_receiver = receiver;
-  m_member = member;
-}
-
-KonqComboAction::~KonqComboAction()
-{
-}
-
-int KonqComboAction::plug( QWidget *w, int index )
-{
-  //  if ( !w->inherits( "KToolBar" ) );
-  //    return -1;
-
-  KToolBar *toolBar = (KToolBar *)w;
-
-  int id = KAction::getToolButtonID();
-  //kdDebug() << "KonqComboAction::plug id=" << id << endl;
-
-  KonqCombo *comboBox = new KonqCombo( toolBar, "history combo" );
-  toolBar->insertWidget( id, 70, comboBox, index );
-  connect( comboBox, SIGNAL( activated( const QString& )), m_receiver, m_member );
-
-  addContainer( toolBar, id );
-
-  connect( toolBar, SIGNAL( destroyed() ), this, SLOT( slotDestroyed() ) );
-
-  toolBar->setItemAutoSized( id, true );
-
-  m_combo = comboBox;
-
-  emit plugged();
-
-  QWhatsThis::add( comboBox, whatsThis() );
-
-  return containerCount() - 1;
-}
-
-void KonqComboAction::unplug( QWidget *w )
-{
-//  if ( !w->inherits( "KToolBar" ) )
-//    return;
-
-  KToolBar *toolBar = (KToolBar *)w;
-
-  int idx = findContainer( w );
-  //kdDebug() << "KonqComboAction::unplug idx=" << idx << " menuId=" << menuId(idx) << endl;
-
-  toolBar->removeItem( menuId( idx ) );
-
-  removeContainer( idx );
-  m_combo = 0L;
-}
 
 /////////////////
 
@@ -318,124 +256,6 @@ int KonqLogoAction::plug( QWidget *widget, int index )
 }
 
 ///////////
-
-
-// Use a toolbutton instead of a label so it is styled correctly. (gallium)
-class KonqDraggableLabel : public QToolButton
-{
-public:
-    KonqDraggableLabel( KonqMainWindow * mw, const QString & text, QWidget * parent = 0, const char * name = 0 )
-        : QToolButton( parent, name ), m_mw(mw)
-    {
-	setText(text);
-        setAcceptDrops(true);
-        validDrag = false;
-    }
-protected:
-    void mousePressEvent( QMouseEvent * ev )
-    {
-        validDrag = true;
-        startDragPos = ev->pos();
-    }
-    void mouseMoveEvent( QMouseEvent * ev )
-    {
-        if ((startDragPos - ev->pos()).manhattanLength() > QApplication::startDragDistance())
-        {
-            validDrag = false;
-            if ( m_mw->currentView() )
-            {
-                KURL::List lst;
-                lst.append( m_mw->currentView()->url() );
-                QDragObject * drag = KURLDrag::newDrag( lst, m_mw );
-                drag->setPixmap( KMimeType::pixmapForURL( lst.first(), 0, KIcon::Small ) );
-                drag->dragCopy();
-            }
-        }
-    }
-    void mouseReleaseEvent( QMouseEvent * )
-    {
-        validDrag = false;
-    }
-    QSize sizeHint() const
-    {
-    	int w = fontMetrics().width( text() );
-	int h = fontMetrics().height();
-	return QSize( w, h );
-    }
-    void drawButton( QPainter * p )
-    {
-        // Draw the background
-        style().drawComplexControl( QStyle::CC_ToolButton, p, this, rect(), colorGroup(),
-                                    QStyle::Style_Enabled, QStyle::SC_ToolButton );
-        // Draw the label
-        style().drawControl( QStyle::CE_ToolButtonLabel, p, this, rect(), colorGroup(),
-                             QStyle::Style_Enabled );
-    }
-    void enterEvent( QEvent* ) {};
-    void leaveEvent( QEvent* ) {};
-    void dragEnterEvent( QDragEnterEvent *ev ) {
-        if ( QUriDrag::canDecode( ev ) )
-            ev->acceptAction();
-    }
-    void dropEvent( QDropEvent* ev ) {
-        KURL::List lst;
-        if ( KURLDrag::decode( ev, lst ) ) {
-            m_mw->openURL( 0L, lst.first() );
-        }
-    }
-private:
-    QPoint startDragPos;
-    bool validDrag;
-    KonqMainWindow * m_mw;
-};
-
-KonqLabelAction::KonqLabelAction( const QString &text, int accel,
-	            QObject* receiver, const char* slot, QObject *parent, const char *name )
-    : KAction( text, accel, receiver, slot, parent, name ), m_label( 0L )
-{
-}
-
-int KonqLabelAction::plug( QWidget *widget, int index )
-{
-  //do not call the previous implementation here
-
-  if ( widget->inherits( "KToolBar" ) )
-  {
-    KToolBar *tb = (KToolBar *)widget;
-
-    int id = KAction::getToolButtonID();
-
-    m_label = new KonqDraggableLabel( static_cast<KonqMainWindow *>(tb->mainWindow()), text(), widget );
-    tb->insertWidget( id, m_label->width(), m_label, index );
-
-    addContainer( tb, id );
-
-    connect( tb, SIGNAL( destroyed() ), this, SLOT( slotDestroyed() ) );
-
-    return containerCount() - 1;
-  }
-
-  return -1;
-}
-
-void KonqLabelAction::unplug( QWidget *widget )
-{
-  if ( widget->inherits( "KToolBar" ) )
-  {
-    KToolBar *bar = (KToolBar *)widget;
-
-    int idx = findContainer( bar );
-
-    if ( idx != -1 )
-    {
-      bar->removeItem( menuId( idx ) );
-      removeContainer( idx );
-    }
-
-    m_label = 0;
-    return;
-  }
-}
 
 KonqViewModeAction::KonqViewModeAction( const QString &text, const QString &icon,
                                         QObject *parent, const char *name )

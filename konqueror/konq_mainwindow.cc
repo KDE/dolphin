@@ -148,7 +148,16 @@ KonqMainWindow::KonqMainWindow( const KURL &initialURL, bool openInitialURL, con
 				     KGlobalSettings::completionMode() );
     s_pCompletion->setCompletionMode( (KGlobalSettings::Completion) mode );
   }
+  KonqPixmapProvider *prov = KonqPixmapProvider::self();
+  if ( !s_comboConfig ) {
+      s_comboConfig = new KConfig( "konq_history", false, false );
+      KonqCombo::setConfig( s_comboConfig );
+      s_comboConfig->setGroup( "Location Bar" );
+      prov->load( s_comboConfig, "ComboIconCache" );
+  }
+  connect( prov, SIGNAL( changed() ), SLOT( slotIconsChanged() ) );
 
+  initCombo();
   initActions();
 
   setInstance( KGlobal::instance() );
@@ -159,15 +168,6 @@ KonqMainWindow::KonqMainWindow( const KURL &initialURL, bool openInitialURL, con
   connect( kapp, SIGNAL( kdisplayFontChanged()), SLOT(slotReconfigure()));
 
   setXMLFile( "konqueror.rc" );
-
-  KonqPixmapProvider *prov = KonqPixmapProvider::self();
-  if ( !s_comboConfig ) {
-      s_comboConfig = new KConfig( "konq_history", false, false );
-      KonqCombo::setConfig( s_comboConfig );
-      s_comboConfig->setGroup( "Location Bar" );
-      prov->load( s_comboConfig, "ComboIconCache" );
-  }
-  connect( prov, SIGNAL( changed() ), SLOT( slotIconsChanged() ) );
 
   createGUI( 0L );
 
@@ -859,20 +859,10 @@ void KonqMainWindow::slotCreateNewWindow( const KURL &url, const KParts::URLArgs
 
     if ( !windowArgs.toolBarsVisible )
     {
-        // Maybe we could get all KToolBar children at once ?
-        KToolBar * tb = static_cast<KToolBar *>( mainWindow->child( "mainToolBar", "KToolBar" ) );
-        if (tb) tb->hide();
-        tb = static_cast<KToolBar *>( mainWindow->child( "extraToolBar", "KToolBar" ) );
-        if (tb) tb->hide();
-        tb = static_cast<KToolBar *>( mainWindow->child( "locationToolBar", "KToolBar" ) );
-        if (tb) tb->hide();
-        tb = static_cast<KToolBar *>( mainWindow->child( "bookmarkToolBar", "KToolBar" ) );
-        if (tb) tb->hide();
-
-        mainWindow->m_paShowToolBar->setChecked( false );
-        mainWindow->m_paShowLocationBar->setChecked( false );
-        mainWindow->m_paShowBookmarkBar->setChecked( false );
-        mainWindow->m_paShowExtraToolBar->setChecked( false );
+      for ( QPtrListIterator<KToolBar> it( toolBarIterator() ); it.current(); ++it )
+      {
+        (*it)->hide();
+      }
     }
 
     if ( view && !windowArgs.statusBarVisible )
@@ -1098,9 +1088,6 @@ void KonqMainWindow::slotFindClosed( KonqDirPart * dirPart )
 
 void KonqMainWindow::slotIconsChanged()
 {
-    if ( !m_combo )
-	return;
-
     m_combo->updatePixmaps();
     setIcon( KonqPixmapProvider::self()->pixmapFor( m_combo->currentText() ));
 }
@@ -1383,13 +1370,12 @@ void KonqMainWindow::slotConfigureKeys()
 void KonqMainWindow::slotConfigureToolbars()
 {
   saveMainWindowSettings( KGlobal::config(), "KonqMainWindow" );
-  QString savedURL = m_combo ? m_combo->currentText() : QString::null;
+  QString savedURL = m_combo->currentText();
   KEditToolbar dlg(factory());
   connect(&dlg,SIGNAL(newToolbarConfig()),this,SLOT(slotNewToolbarConfig()));
   if ( dlg.exec() )
   {
-    if ( m_combo )
-      m_combo->setTemporary(savedURL);
+    m_combo->setTemporary(savedURL);
   }
 }
 
@@ -1643,8 +1629,7 @@ void KonqMainWindow::slotPartActivated( KParts::Part *part )
   {
     //kdDebug(1202) << "slotPartActivated: setting location bar url to "
     //              << m_currentView->locationBarURL() << " m_currentView=" << m_currentView << endl;
-    if ( m_combo )
-      setLocationBarURL( m_currentView->locationBarURL() );
+    setLocationBarURL( m_currentView->locationBarURL() );
   }
   else
     m_bLockLocationBarURL = false;
@@ -2163,25 +2148,15 @@ void KonqMainWindow::slotForwardActivated( int id )
   slotGoHistoryActivated( m_paForward->popupMenu()->indexOf( id ) + 1 );
 }
 
-void KonqMainWindow::slotComboPlugged()
+void KonqMainWindow::initCombo()
 {
-  m_combo = m_paURLCombo->combo();
-
-  KAction * act = actionCollection()->action("location_label");
-  if (act && act->inherits("KonqLabelAction") )
-  {
-      QToolButton * label = static_cast<KonqLabelAction *>(act)->label();
-      if (label) {
-          // When the location label's toolbutton accelerator gets activated,
-          // focus the URI combo. This is meant to do a similar task to QLabel->setBuddy();
-          connect( (const QObject*)label, SIGNAL(clicked()), (const QObject*)m_combo, SLOT(setFocus()) );
-          connect( (const QObject*)label, SIGNAL(clicked()), m_combo->lineEdit(), SLOT(selectAll()) );
-      } else // this can happen if the label is removed, using the toolbar editor
-          kdDebug() << "Label not constructed yet!" << endl;
-  } else kdError() << "Not a KonqLabelAction !" << endl;
-
+  m_combo = new KonqCombo( 0L, "history combo");
+ 
   m_combo->init( s_pCompletion );
 
+  connect( m_combo, SIGNAL(activated(const QString&)),
+           this, SLOT(slotURLEntered(const QString&)) );
+  
   m_pURLCompletion = new KURLCompletion( KURLCompletion::FileCompletion );
   m_pURLCompletion->setCompletionMode( s_pCompletion->completionMode() );
   // This only turns completion off. ~ is still there in the result
@@ -2189,7 +2164,7 @@ void KonqMainWindow::slotComboPlugged()
   //m_pURLCompletion->setReplaceHome( false );  // Leave ~ alone! Will be taken care of by filters!!
 
   connect( m_combo, SIGNAL(completionModeChanged(KGlobalSettings::Completion)),
-	   SLOT( slotCompletionModeChanged( KGlobalSettings::Completion )));
+           SLOT( slotCompletionModeChanged( KGlobalSettings::Completion )));
   connect( m_combo, SIGNAL( completion( const QString& )),
            SLOT( slotMakeCompletion( const QString& )));
   connect( m_combo, SIGNAL( substringCompletion( const QString& )),
@@ -2395,18 +2370,14 @@ bool KonqMainWindow::eventFilter(QObject*obj,QEvent *ev)
       if (slotNames.contains("shred()"))
         disconnect( m_paShred, SIGNAL( activated() ), ext, SLOT( shred() ) );
 
-      connect( m_paCut, SIGNAL( activated() ), this, SLOT( slotComboCut() ) );
-      connect( m_paCopy, SIGNAL( activated() ), this, SLOT( slotComboCopy() ) );
-      connect( m_paPaste, SIGNAL( activated() ), this, SLOT( slotComboPaste() ) );
-      //connect( m_paDelete, SIGNAL( activated() ), this, SLOT( slotComboDelete() ) );
-      connect( m_paTrash, SIGNAL( activated() ), this, SLOT( slotComboDelete() ) );
-      //connect( m_paShred, SIGNAL( activated() ), this, SLOT( slotComboDelete() ) );
+      connect( m_paCut, SIGNAL( activated() ), m_combo->lineEdit(), SLOT( cut() ) );
+      connect( m_paCopy, SIGNAL( activated() ), m_combo->lineEdit(), SLOT( copy() ) );
+      connect( m_paPaste, SIGNAL( activated() ), m_combo->lineEdit(), SLOT( paste() ) );
       connect( QApplication::clipboard(), SIGNAL(dataChanged()), this, SLOT(slotClipboardDataChanged()) );
       connect( m_combo->lineEdit(), SIGNAL(textChanged(const QString &)), this, SLOT(slotCheckComboSelection()) );
       connect( m_combo->lineEdit(), SIGNAL(selectionChanged()), this, SLOT(slotCheckComboSelection()) );
 
-      m_paTrash->setText( i18n("&Delete") ); // Name Delete the action associated with 'del'
-      m_paTrash->setEnabled(true);
+      m_paTrash->setEnabled(false);
       m_paDelete->setEnabled(false);
       m_paShred->setEnabled(false);
 
@@ -2442,12 +2413,9 @@ bool KonqMainWindow::eventFilter(QObject*obj,QEvent *ev)
       if (slotNames.contains("shred()"))
         connect( m_paShred, SIGNAL( activated() ), ext, SLOT( shred() ) );
 
-      disconnect( m_paCut, SIGNAL( activated() ), this, SLOT( slotComboCut() ) );
-      disconnect( m_paCopy, SIGNAL( activated() ), this, SLOT( slotComboCopy() ) );
-      disconnect( m_paPaste, SIGNAL( activated() ), this, SLOT( slotComboPaste() ) );
-      //disconnect( m_paDelete, SIGNAL( activated() ), this, SLOT( slotComboDelete() ) );
-      disconnect( m_paTrash, SIGNAL( activated() ), this, SLOT( slotComboDelete() ) );
-      //disconnect( m_paShred, SIGNAL( activated() ), this, SLOT( slotComboDelete() ) );
+      disconnect( m_paCut, SIGNAL( activated() ), m_combo->lineEdit(), SLOT( cut() ) );
+      disconnect( m_paCopy, SIGNAL( activated() ), m_combo->lineEdit(), SLOT( copy() ) );
+      disconnect( m_paPaste, SIGNAL( activated() ), m_combo->lineEdit(), SLOT( paste() ) );
       disconnect( QApplication::clipboard(), SIGNAL(dataChanged()), this, SLOT(slotClipboardDataChanged()) );
       disconnect( m_combo->lineEdit(), SIGNAL(textChanged(const QString &)), this, SLOT(slotCheckComboSelection()) );
       disconnect( m_combo->lineEdit(), SIGNAL(selectionChanged()), this, SLOT(slotCheckComboSelection()) );
@@ -2467,8 +2435,6 @@ bool KonqMainWindow::eventFilter(QObject*obj,QEvent *ev)
           m_paTrash->setEnabled( false );
           m_paShred->setEnabled( false );
       }
-      m_paTrash->setText( i18n("&Move to Trash") ); // Name back
-      m_paTrash->setText( i18n("&Move to Trash") ); // Name back
     }
   }
   return KParts::MainWindow::eventFilter( obj, ev );
@@ -2490,35 +2456,17 @@ void KonqMainWindow::slotCheckComboSelection()
   m_paCut->setEnabled( hasSelection );
 }
 
-void KonqMainWindow::slotComboCut()
-{
-  // Don't ask me why this isn't a slot...
-  m_combo->lineEdit()->cut();
-}
-
-void KonqMainWindow::slotComboCopy()
-{
-  m_combo->lineEdit()->copy();
-}
-
-void KonqMainWindow::slotComboPaste()
-{
-  m_combo->lineEdit()->paste();
-}
-
-void KonqMainWindow::slotComboDelete()
-{
-  m_combo->lineEdit()->del();
-}
-
 void KonqMainWindow::slotClearLocationBar()
 {
-    if ( m_combo )
-    {
-        kdDebug(1202) << "slotClearLocationBar" << endl;
-        m_combo->clearTemporary();
-        m_combo->setFocus();
-    }
+  kdDebug(1202) << "slotClearLocationBar" << endl;
+  m_combo->clearTemporary();
+  m_combo->setFocus();
+}
+
+void KonqMainWindow::slotForceSaveMainWindowSettings()
+{
+  saveMainWindowSettings( KGlobal::config(), "KonqMainWindow" );
+  KGlobal::config()->sync();
 }
 
 void KonqMainWindow::slotShowMenuBar()
@@ -2527,60 +2475,7 @@ void KonqMainWindow::slotShowMenuBar()
     menuBar()->hide();
   else
     menuBar()->show();
-
-  saveMainWindowSettings( KGlobal::config(), "KonqMainWindow" );
-  KGlobal::config()->sync();
-}
-
-/*
-void KonqMainWindow::slotShowStatusBar()
-{
-  if (statusBar()->isVisible())
-    statusBar()->hide();
-  else
-    statusBar()->show();
-}
-*/
-
-void KonqMainWindow::slotShowToolBar()
-{
-  toggleBar( "mainToolBar" );
-}
-
-void KonqMainWindow::slotShowExtraToolBar()
-{
-  toggleBar( "extraToolBar" );
-}
-
-void KonqMainWindow::slotShowLocationBar()
-{
-  toggleBar( "locationToolBar" );
-}
-
-void KonqMainWindow::slotShowBookmarkBar()
-{
-  toggleBar( "bookmarkToolBar" );
-}
-
-KToolBar * KonqMainWindow::toolBarByName( const char *name )
-{
-  KToolBar *bar = static_cast<KToolBar *>( child( name, "KToolBar" ) );
-  return bar;
-}
-
-void KonqMainWindow::toggleBar( const char *name )
-{
-  KToolBar *bar = toolBarByName( name );
-  if ( !bar )
-    return;
-  if ( bar->isVisible() )
-    bar->hide();
-  else
-    bar->show();
-
-  saveMainWindowSettings( KGlobal::config(), "KonqMainWindow" );
-  KGlobal::config()->sync();
-  // otherwise changing toolbar style in kcontrol will lose our changes
+  slotForceSaveMainWindowSettings();
 }
 
 void KonqMainWindow::slotToggleFullScreen()
@@ -2641,8 +2536,7 @@ void KonqMainWindow::setLocationBarURL( const QString &url )
 {
   kdDebug(1202) << "KonqMainWindow::setLocationBarURL: url = " << url << endl;
 
-  if ( m_combo )
-      m_combo->setURL( url );
+  m_combo->setURL( url );
 
   if ( !url.isEmpty() )
       setIcon( KonqPixmapProvider::self()->pixmapFor( url ) );
@@ -2685,13 +2579,12 @@ void KonqMainWindow::comboAction( int action, const QString& url,
 
 QString KonqMainWindow::locationBarURL() const
 {
-    return m_combo ? m_combo->currentText() : QString::null;
+    return m_combo->currentText();
 }
 
 void KonqMainWindow::focusLocationBar()
 {
-    if ( m_combo )
-        m_combo->setFocus();
+  m_combo->setFocus();
 }
 
 void KonqMainWindow::startAnimation()
@@ -2791,7 +2684,7 @@ void KonqMainWindow::initActions()
 
   // Settings menu
 
-  m_paSaveViewProfile = new KAction( i18n( "&Save View Profile" ), 0, this, SLOT( slotSaveViewProfile() ), actionCollection(), "saveviewprofile" );
+  m_paSaveViewProfile = new KAction( i18n( "&Save View Profile..." ), 0, this, SLOT( slotSaveViewProfile() ), actionCollection(), "saveviewprofile" );
   m_paSaveViewPropertiesLocally = new KToggleAction( i18n( "View Properties Saved in &Directory" ), 0, this, SLOT( slotSaveViewPropertiesLocally() ), actionCollection(), "saveViewPropertiesLocally" );
    // "Remove" ? "Reset" ? The former is more correct, the latter is more kcontrol-like...
   m_paRemoveLocalProperties = new KAction( i18n( "Remove Directory Properties" ), 0, this, SLOT( slotRemoveLocalProperties() ), actionCollection(), "removeLocalProperties" );
@@ -2835,13 +2728,16 @@ void KonqMainWindow::initActions()
   m_paAnimatedLogo = new KonqLogoAction( i18n("Animated Logo"), 0, this, SLOT( slotDuplicateWindow() ), actionCollection(), "animated_logo" );
 
   // Location bar
-  (void)new KonqLabelAction( i18n( "L&ocation: " ), Key_F6, this, SLOT( slotLocationLabelActivated() ), actionCollection(), "location_label" );
-
-  m_paURLCombo = new KonqComboAction( i18n( "Location Bar" ), 0, this, SLOT( slotURLEntered( const QString & ) ), actionCollection(), "toolbar_url_combo" );
-  m_paURLCombo->setShortcutConfigurable( false );
-  connect( m_paURLCombo, SIGNAL( plugged() ),
-           this, SLOT( slotComboPlugged() ) );
-
+  QToolButton* label = new KonqDraggableLabel( this, i18n("L&ocation: ") );
+  (void) new KWidgetAction( label, i18n("L&ocation: "), Key_F6, this, SLOT( slotLocationLabelActivated() ), actionCollection(), "location_label" );
+  // When the location label's toolbutton accelerator gets activated,
+  // focus the URI combo. This is meant to do a similar task to QLabel->setBuddy();
+  connect( label, SIGNAL(clicked()), m_combo, SLOT(setFocus()) );
+  connect( label, SIGNAL(clicked()), m_combo->lineEdit(), SLOT(selectAll()) );
+  
+  KWidgetAction* comboAction = new KWidgetAction( m_combo, i18n( "Location Bar" ), 0,
+                  0, 0, actionCollection(), "toolbar_url_combo" );
+  comboAction->setShortcutConfigurable( false );
   (void)new KAction( i18n( "Clear location bar" ),
                      QApplication::reverseLayout() ? "clear_left" : "locationbar_erase",
                      0, this, SLOT( slotClearLocationBar() ), actionCollection(), "clear_location" );
@@ -2858,10 +2754,14 @@ void KonqMainWindow::initActions()
   m_pBookmarkMenu = new KBookmarkMenu( KonqBookmarkManager::self(), this, m_pamBookmarks->popupMenu(), m_bookmarksActionCollection, true );
 
   m_paShowMenuBar = KStdAction::showMenubar( this, SLOT( slotShowMenuBar() ), actionCollection(), "showmenubar" );
-  m_paShowToolBar = KStdAction::showToolbar( this, SLOT( slotShowToolBar() ), actionCollection(), "showtoolbar" );
-  m_paShowExtraToolBar = new KToggleAction( i18n( "Show &Extra Toolbar" ), 0, this, SLOT( slotShowExtraToolBar() ), actionCollection(), "showextratoolbar" );
-  m_paShowLocationBar = new KToggleAction( i18n( "Show &Location Toolbar" ), 0, this, SLOT( slotShowLocationBar() ), actionCollection(), "showlocationbar" );
-  m_paShowBookmarkBar = new KToggleAction( i18n( "Show &Bookmark Toolbar" ), 0, this, SLOT( slotShowBookmarkBar() ),actionCollection(), "showbookmarkbar" );
+  m_paShowToolBar = KStdAction::showToolbar( "mainToolBar", actionCollection(), "showtoolbar" );
+  connect( m_paShowToolBar, SIGNAL(toggled(bool)), this, SLOT(slotForceSaveMainWindowSettings()) );
+  m_paShowExtraToolBar = new KToggleToolBarAction( "extraToolBar", i18n("Show &Extra Toolbar"), actionCollection(), "showextratoolbar" );
+  connect( m_paShowExtraToolBar, SIGNAL(toggled(bool)), this, SLOT(slotForceSaveMainWindowSettings()) );
+  m_paShowLocationBar = new KToggleToolBarAction( "locationToolBar", i18n("Show &Location Toolbar"), actionCollection(), "showlocationbar" );
+  connect( m_paShowLocationBar, SIGNAL(toggled(bool)), this, SLOT(slotForceSaveMainWindowSettings()) );
+  m_paShowBookmarkBar = new KToggleToolBarAction( "bookmarkToolBar", i18n("Show &Bookmark Toolbar"), actionCollection(), "showbookmarkbar" );
+  connect( m_paShowBookmarkBar, SIGNAL(toggled(bool)), this, SLOT(slotForceSaveMainWindowSettings()) );
 
   (void) new KAction( i18n( "Kon&queror Introduction" ), 0, this, SLOT( slotIntro() ), actionCollection(), "konqintro" );
 
@@ -3176,8 +3076,7 @@ void KonqMainWindow::disableActionsNoView()
     m_pamLoadViewProfile->setEnabled( true );
     m_paSaveViewProfile->setEnabled( true );
     m_paSaveRemoveViewProfile->setEnabled( true );
-    if ( m_combo )
-        m_combo->clearTemporary();
+    m_combo->clearTemporary();
     m_paShowMenuBar->setEnabled( true );
     m_paShowToolBar->setEnabled( true );
     m_paShowExtraToolBar->setEnabled( true );
@@ -3213,18 +3112,6 @@ void KonqMainWindow::show()
   // view profiles store toolbar info, and that info is read after
   // construct time.
   m_paShowMenuBar->setChecked( !menuBar()->isHidden() );
-  KToolBar *tb = toolBarByName("mainToolBar");
-  if (tb) m_paShowToolBar->setChecked( !tb->isHidden() );
-    else m_paShowToolBar->setEnabled(false);
-  tb = toolBarByName("extraToolBar");
-  if (tb) m_paShowExtraToolBar->setChecked( !tb->isHidden() );
-    else m_paShowExtraToolBar->setEnabled(false);
-  tb = toolBarByName("locationToolBar");
-  if (tb) m_paShowLocationBar->setChecked( !tb->isHidden() );
-    else m_paShowLocationBar->setEnabled(false);
-  tb = toolBarByName("bookmarkToolBar");
-  if (tb) m_paShowBookmarkBar->setChecked( !tb->isHidden() );
-    else m_paShowBookmarkBar->setEnabled(false);
   updateBookmarkBar(); // hide if empty
 
   // Call parent method
@@ -3712,7 +3599,6 @@ void KonqMainWindow::updateBookmarkBar()
   KToolBar * bar = static_cast<KToolBar *>( child( "bookmarkToolBar", "KToolBar" ) );
   if ( bar && bar->count() == 0 )
   {
-    m_paShowBookmarkBar->setChecked( false );
     bar->hide();
   }
 }
@@ -3737,8 +3623,7 @@ void KonqMainWindow::setIcon( const QPixmap& pix )
 
   QPixmap big = pix;
 
-  QString url = m_combo ? m_combo->currentText() : m_currentView ?
-		m_currentView->url().url() : QString::null;
+  QString url = m_combo->currentText();
 
   if ( !url.isEmpty() )
     big = KonqPixmapProvider::self()->pixmapFor( url, KIcon::SizeMedium );
@@ -3753,23 +3638,18 @@ void KonqMainWindow::slotIntro()
 
 void KonqMainWindow::goURL()
 {
-    if ( !m_combo )
-        return;
+  QLineEdit *lineEdit = m_combo->lineEdit();
+  if ( !lineEdit )
+    return;
 
-    QLineEdit *lineEdit = m_combo->lineEdit();
-    if ( !lineEdit )
-        return;
-
-    QKeyEvent event( QEvent::KeyPress, Key_Return, '\n', 0 );
-    QApplication::sendEvent( lineEdit, &event );
+  QKeyEvent event( QEvent::KeyPress, Key_Return, '\n', 0 );
+  QApplication::sendEvent( lineEdit, &event );
 }
 
 void KonqMainWindow::slotLocationLabelActivated()
 {
-    if ( m_combo ) {
-        m_combo->setFocus();
-        m_combo->lineEdit()->selectAll();
-    }
+  m_combo->setFocus();
+  m_combo->lineEdit()->selectAll();
 }
 
 void KonqMainWindow::slotOpenURL( const KURL& url )
