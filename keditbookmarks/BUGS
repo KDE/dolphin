@@ -6,3 +6,6 @@ multi selection deletion then shift down selects roots
 deletion of group shuffles down top elements, should shuffle up bottom
 clicking in the increm. search text field selects the root item in the list view
 shouldn't be possible to "close" (via left) the root item - very confusing to even me :)
+--
+tips dialog:
+   fixes bugs - shortcuts for keyboard selection are wierd
