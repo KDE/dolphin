@@ -23,6 +23,7 @@
 
 #include <kdirlister.h>
 #include <kdebug.h>
+#include <kdebugclasses.h>
 
 
 template class QDict<KonqListViewDir>;
@@ -101,7 +102,41 @@ void KonqTreeViewWidget::addSubDir( KonqListViewDir* _dir )
 
 void KonqTreeViewWidget::removeSubDir( const KURL & _url )
 {
-   m_dictSubDirs.remove( _url.url(-1) );
+   QListViewItem *item = m_dictSubDirs[_url.url(-1)];
+   if ( item )
+   {
+      // search all subdirs of _url (item)
+      QDictIterator<KonqListViewDir> it( m_dictSubDirs );
+      for ( ; it.current(); ++it )
+      {
+         if ( !_url.cmp( it.current()->item()->url(), true )
+              && _url.isParentOf( it.current()->item()->url() ) )
+         {
+            setSelected( it.current(), false );
+            m_pBrowserView->deleteItem( it.current()->item() );
+            
+            QListViewItem* child = it.current()->firstChild();
+            while ( child )
+            {
+               // unselect the items in the closed folder
+               setSelected( child, false );
+               // delete the item from the counts for the statusbar
+               KFileItem* tmp = static_cast<KonqListViewItem*>(child)->item();
+               m_pBrowserView->deleteItem( tmp );
+               child = child->nextSibling();
+            }
+            
+            m_dictSubDirs.remove( it.currentKey() );
+            m_urlsToOpen.remove( it.currentKey() );
+            m_urlsToReload.remove( it.currentKey() );
+         }
+      }
+
+      m_dictSubDirs.remove( _url.url(-1) );
+   }
+
+   m_urlsToOpen.remove( _url.url(-1) );
+   m_urlsToReload.remove( _url.url(-1) );
 }
 
 void KonqTreeViewWidget::slotCompleted()
@@ -145,50 +180,18 @@ void KonqTreeViewWidget::slotClear()
 
 void KonqTreeViewWidget::slotClear( const KURL & _url )
 {
-   kdDebug(1202) << k_funcinfo << _url.url() << endl;
+   kdDebug(1202) << k_funcinfo << _url << endl;
 
    // normally this means we have to empty _only_ the directory _url but
    // we are allowed to delete the subdirs as well since the opening of
    // subdirs happens level per level.
 
-   QListViewItem *item = m_dictSubDirs[_url.url(-1)];
-   if ( item )
-   {
-      QDictIterator<KonqListViewDir> it( m_dictSubDirs );
-      for ( ; it.current(); ++it )
-      {
-         if ( !_url.cmp( it.current()->item()->url(), true )
-              && _url.isParentOf( it.current()->item()->url() ) )
-         {
-            setSelected( it.current(), false );
-            m_pBrowserView->deleteItem( it.current()->item() );
-            
-            QListViewItem* child = it.current()->firstChild();
-            while ( child )
-            {
-               // unselect the items in the closed folder
-               setSelected( child, false );
-               // delete the item from the counts for the statusbar
-               KFileItem* tmp = static_cast<KonqListViewItem*>(child)->item();
-               kdDebug(1202) << tmp->url().prettyURL() << endl;
-               m_pBrowserView->deleteItem( tmp );
-               child = child->nextSibling();
-            }
-            
-            m_dictSubDirs.remove( it.currentKey() );
-            m_urlsToOpen.remove( it.currentKey() );
-            m_urlsToReload.remove( it.currentKey() );
-         }
-      }
-   }
-
-   m_urlsToOpen.remove( _url.url(-1) );
-   m_urlsToReload.remove( _url.url(-1) );
+   removeSubDir( _url );
 }
 
 void KonqTreeViewWidget::slotRedirection( const KURL &oldUrl, const KURL &newUrl )
 {
-   kdDebug(1202) << k_funcinfo << oldUrl.url() << " -> " << newUrl.url() << endl;
+   kdDebug(1202) << k_funcinfo << oldUrl << " -> " << newUrl << endl;
 
    KonqListViewDir *dir = m_dictSubDirs.take( oldUrl.url(-1) );
    Q_ASSERT( dir );
@@ -268,10 +271,6 @@ void KonqTreeViewWidget::slotNewItems( const KFileItemList & entries )
 
 void KonqTreeViewWidget::slotDeleteItem( KFileItem *_fileItem )
 {
-    QString url = _fileItem->url().url( 0 );
-    m_urlsToOpen.remove( url );
-    m_urlsToReload.remove( url );
-
     // Check if this item is in m_dictSubDirs, and if yes, then remove it
     removeSubDir( _fileItem->url().url(-1) );
 
