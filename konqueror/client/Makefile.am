@@ -16,4 +16,6 @@ noinst_HEADERS = kfmclient.h
 
 BUILT_SOURCES =
 
+kfmclient.cc: konqueror.h
+
 ####### Meta objects
