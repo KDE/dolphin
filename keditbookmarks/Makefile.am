@@ -14,7 +14,7 @@ bin_PROGRAMS = keditbookmarks
 
 keditbookmarks_SOURCES = dummy.cpp
 keditbookmarks_LDADD = keditbookmarks.la
-keditbookmarks_LDFLAGS = $(all_libraries) $(KDE_RPATH)
+keditbookmarks_LDFLAGS = $(all_libraries) $(LIB_KHTML) $(KDE_RPATH)
 
 dummy.cpp:
 	echo > dummy.cpp
