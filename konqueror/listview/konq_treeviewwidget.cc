@@ -95,10 +95,6 @@ void KonqTreeViewWidget::restoreState( QDataStream &stream )
     KonqBaseListViewWidget::restoreState( stream );
 }
 
-void KonqTreeViewWidget::addSubDir( KonqListViewDir *_dir )
-{
-   m_dictSubDirs.insert( _dir->url(-1), _dir );
-}
 
 void KonqTreeViewWidget::removeSubDir( const KURL & _url )
 {
@@ -215,14 +211,20 @@ void KonqTreeViewWidget::slotNewItems( const KFileItemList &entries )
         if ( parentDir ) // adding under a directory item
         {
             if ( (*kit)->isDir() )
+            {
                 dirItem = new KonqListViewDir( this, parentDir, *kit );
+                m_dictSubDirs.insert( (*kit)->url().url(-1), dirItem );
+            }
             else
                 fileItem = new KonqListViewItem( this, parentDir, *kit );
         }
         else   // adding on the toplevel
         {
             if ( (*kit)->isDir() )
+            {
                 dirItem = new KonqListViewDir( this, *kit );
+                m_dictSubDirs.insert( (*kit)->url().url(-1), dirItem );
+            }
             else
                 fileItem = new KonqListViewItem( this, *kit );
         }
@@ -236,8 +238,8 @@ void KonqTreeViewWidget::slotNewItems( const KFileItemList &entries )
             }
             else if ( dirItem && dirItem->text(0) == m_itemToGoTo )
             {
-                setCurrentItem(dirItem);
-                m_itemFound=true;
+                setCurrentItem( dirItem );
+                m_itemFound = true;
             }
         }
         

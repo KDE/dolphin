@@ -55,7 +55,6 @@ protected:
    KonqListViewDir *findDir( const QString &_url );
 
    // Called by KonqListViewDir
-   void addSubDir( KonqListViewDir *_dir );
    void removeSubDir( const KURL & _url );
 
    void openSubFolder( KonqListViewDir *_dir, bool _reload );
