@@ -46,7 +46,7 @@
 <affiliation><address><email>vampyr@atconnex.net</email></address></affiliation>
 </othercredit>
 
-<!-- ROLES_OF_TRANSLATORS -->
+<!-- TRANS:ROLES_OF_TRANSLATORS -->
 
 </authorgroup>
 
@@ -1506,7 +1506,7 @@ the <guilabel>Defaults</guilabel> tab.</para></listitem>
 <itemizedlist>
 <listitem><para>This version of the &kwrite; Handbook is based on the original by Cristian Tibirna <email>tibirna@kde.org</email></para></listitem></itemizedlist>  
 <para>Converted to docbook/proofreading by Lauri Watts <email>vampyr@atconnex.net</email></para>  
-<!-- CREDITS_FOR_TRANSLATORS -->
+<!-- TRANS:CREDITS_FOR_TRANSLATORS -->
  
 &underFDL;
 &underGPL;
