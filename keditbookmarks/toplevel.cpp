@@ -41,6 +41,7 @@
 #include <kbookmarkmanager.h>
 #include <kbookmarkimporter.h>
 #include <kbookmarkimporter_ie.h>
+#include <kbookmarkimporter_opera.h>
 #include <kbookmarkexporter.h>
 
 #include "listview.h"
@@ -146,9 +147,15 @@ void CurrentMgr::notifyManagers() {
 }
 
 void CurrentMgr::doExport(ExportType type) {
+   // TODO - add a factory and make all this use the base class
    if (type == IEExport) {
       QString path = KIEBookmarkImporterImpl().findDefaultLocation(true);
       KIEBookmarkExporterImpl exporter(mgr(), path);
+      exporter.write(mgr()->root());
+      return;
+   } else if (type == OperaExport) {
+      QString path = KOperaBookmarkImporterImpl().findDefaultLocation(true);
+      KOperaBookmarkExporterImpl exporter(mgr(), path);
       exporter.write(mgr()->root());
       return;
    }
@@ -322,6 +329,8 @@ void KEBApp::createActions() {
                       actn, SLOT( slotImport() ), actionCollection(), "importMoz");
    (void) new KAction(i18n("&Export to Netscape Bookmarks"), "netscape", 0,
                       actn, SLOT( slotExportNS() ), actionCollection(), "exportNS");
+   (void) new KAction(i18n("&Export to Opera Bookmarks"), "opera", 0,
+                      actn, SLOT( slotExportOpera() ), actionCollection(), "exportOpera");
    (void) new KAction(i18n("&Export to IE Bookmarks"), "ie", 0,
                       actn, SLOT( slotExportIE() ), actionCollection(), "exportIE");
    (void) new KAction(i18n("Export to &Mozilla Bookmarks..."), "mozilla", 0,

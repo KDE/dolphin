@@ -119,17 +119,16 @@ void ActionsImpl::slotImport() {
    CmdHistory::self()->addCommand(import);
 }
 
+// TODO - this is getting ugly and repetitive. cleanup!
+
+void ActionsImpl::slotExportOpera() {
+   CurrentMgr::self()->doExport(CurrentMgr::OperaExport); }
 void ActionsImpl::slotExportIE() {
-   CurrentMgr::self()->doExport(CurrentMgr::IEExport);
-}
-
+   CurrentMgr::self()->doExport(CurrentMgr::IEExport); }
 void ActionsImpl::slotExportNS() {
-   CurrentMgr::self()->doExport(CurrentMgr::NetscapeExport);
-}
-
+   CurrentMgr::self()->doExport(CurrentMgr::NetscapeExport); }
 void ActionsImpl::slotExportMoz() {
-   CurrentMgr::self()->doExport(CurrentMgr::MozillaExport);
-}
+   CurrentMgr::self()->doExport(CurrentMgr::MozillaExport); }
 
 /* -------------------------------------- */
 

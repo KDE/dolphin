@@ -16,6 +16,7 @@
     <Action name="importNS"/>
   </Menu>
   <Menu name="export" noMerge="1"><text>&amp;Export</text>
+    <Action name="exportOpera"/>
     <Action name="exportIE"/>
     <Action name="exportMoz"/>
     <Action name="exportNS"/>
@@ -140,6 +141,7 @@
     <Action name="file_open"/>
     <Action name="file_save_as"/>
     <Action name="file_quit"/>
+    <Action name="exportOpera"/>
     <Action name="exportIE"/>
     <Action name="exportNS"/>
     <Action name="exportMoz"/>
