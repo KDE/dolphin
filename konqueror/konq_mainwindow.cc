@@ -2213,7 +2213,11 @@ void KonqMainWindow::updateOpenWithActions( const KTrader::OfferList &services )
   KTrader::OfferList::ConstIterator end = services.end();
   for (; it != end; ++it )
   {
-    KAction *action = new KAction( (*it)->comment().prepend( openWithText ), 0, 0, (*it)->name().latin1() );
+    QString comment = (*it)->comment();
+    if ( comment.isEmpty() )
+      comment = (*it)->name();
+    
+    KAction *action = new KAction( comment.prepend( openWithText ), 0, 0, (*it)->name().latin1() );
     action->setIcon( (*it)->icon() );
 
     connect( action, SIGNAL( activated() ),
