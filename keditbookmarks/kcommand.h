@@ -46,10 +46,30 @@ protected:
 public:
     virtual ~KCommand() {}
 
+    /**
+     * The main method: execute this command.
+     * Implement here what this command is about, and remember to
+     * record any information that will be helpful for @ref unexecute.
+     */
     virtual void execute() = 0;
+    /**
+     * Unexecute (undo) this command.
+     * Implement here the steps to take for undoing the command.
+     * If your application uses actions for everything (it should),
+     * and if you implement unexecute correctly, the application is in the same
+     * state after unexecute as it was before execute. This means, the next
+     * call to execute will do the same thing as it did the first time.
+     */
     virtual void unexecute() = 0;
 
+    /**
+     * @return the name of this command
+     */
     QString name() const { return m_name; }
+    /**
+     * Update the name of this command.
+     * Rarely necessary.
+     */
     void setName(const QString &name) { m_name=name; }
 
 private:
@@ -64,6 +84,12 @@ private:
 class KMacroCommand : public KCommand
 {
 public:
+    /**
+     * Create a macro command. You will then need to call @ref addCommand
+     * for each subcommand to be added to this macro command.
+     * @param name the name of this command, translated, since it will appear
+     * in the menus.
+     */
     KMacroCommand( const QString & name );
     virtual ~KMacroCommand() {}
 
@@ -83,6 +109,7 @@ public:
      * in the _reverse_ order to the one in which they were added.
      */
     virtual void unexecute();
+
 protected:
     QList<KCommand> m_commands;
 };
@@ -118,6 +145,11 @@ public:
 
     virtual ~KCommandHistory();
 
+    /**
+     * Erase all the undo/redo history.
+     * Use this when reloading the data, for instance, since this invalidates
+     * all the commands.
+     */
     void clear();
 
     /**
@@ -129,13 +161,33 @@ public:
      */
     void addCommand(KCommand *command, bool execute=true);
 
+    /**
+     * @return the maximum number of items in the undo history
+     */
     const int &undoLimit() { return m_undoLimit; }
+    /**
+     * Set the maximum number of items in the undo history
+     */
     void setUndoLimit(const int &limit);
+    /**
+     * @return the maximum number of items in the redo history
+     */
     const int &redoLimit() { return m_redoLimit; }
+    /**
+     * Set the maximum number of items in the redo history
+     */
     void setRedoLimit(const int &limit);
 
 public slots:
+    /**
+     * Undo the last action.
+     * Call this if you don't use the builtin KActions.
+     */
     virtual void undo();
+    /**
+     * Redo the last undone action.
+     * Call this if you don't use the builtin KActions.
+     */
     virtual void redo();
 
 protected slots:
