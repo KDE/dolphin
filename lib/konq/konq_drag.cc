@@ -56,12 +56,15 @@ QByteArray KonqIconDrag::encodedData( const char* mime ) const
         memcpy( a.data(), s.data(), s.length() + 1 );
     }
     else if ( mimetype == "text/plain" ) {
-        QStringList uris;
-        for (QStringList::ConstIterator it = urls.begin(); it != urls.end(); ++it)
-            uris.append(KURL((*it).latin1(), 106).prettyURL()); // 106 is mib enum for utf8 codec
-        QCString s = uris.join( "\n" ).local8Bit();
-        a.resize( s.length() + 1 ); // trailing zero
-        memcpy( a.data(), s.data(), s.length() + 1 );
+        if (!urls.isEmpty())
+        {
+            QStringList uris;
+            for (QStringList::ConstIterator it = urls.begin(); it != urls.end(); ++it)
+                uris.append(KURL((*it).latin1(), 106).prettyURL()); // 106 is mib enum for utf8 codec
+            QCString s = uris.join( "\n" ).local8Bit();
+            a.resize( s.length() + 1 ); // trailing zero
+            memcpy( a.data(), s.data(), s.length() + 1 );
+        }
     }
     return a;
 }
