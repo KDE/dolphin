@@ -25,7 +25,7 @@ void KCookiesManagement::defaults()
 {
 }
 
-QString KCookiesManagement::quickHelp()
+QString KCookiesManagement::quickHelp() const
 {
   return i18n("<h1>KCookiesManagement::quickHelp()</h1>" );
 }

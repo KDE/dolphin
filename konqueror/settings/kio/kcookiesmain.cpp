@@ -25,11 +25,11 @@ KCookiesMain::KCookiesMain(QWidget *parent, const char *name)
     QVBoxLayout *layout = new QVBoxLayout(this);
     tab = new QTabWidget(this);
     layout->addWidget(tab);
-    
+
     policies = new KCookiesPolicies(this);
     tab->addTab(policies, i18n("&Policy"));
     connect(policies, SIGNAL(changed(bool)), this, SLOT(moduleChanged()));
-    
+
     /*  TODO: Finish the management dialog.
     management = new KCookiesManagement(this, "Management");
     tab->addTab(management, i18n("&Management"));
@@ -64,7 +64,7 @@ void KCookiesMain::moduleChanged()
   emit KCModule::changed(true);
 }
 
-QString KCookiesMain::quickHelp()
+QString KCookiesMain::quickHelp() const
 {
   return i18n("<h1>Cookies</h1> Cookies contain information that Konqueror "
     " (or other KDE applications using the http protocol) stores on your "

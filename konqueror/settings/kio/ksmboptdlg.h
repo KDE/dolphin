@@ -25,7 +25,7 @@ public:
 	virtual void load();
 	virtual void save();
 	virtual void defaults();
-	QString quickHelp();
+	QString quickHelp() const;
 
 private slots:
 	void textChanged(const QString&);

@@ -106,7 +106,7 @@ void KonqyModule::defaults()
   misc->defaults();
 }
 
-QString KonqyModule::quickHelp()
+QString KonqyModule::quickHelp() const
 {
   return i18n("<h1>File Manager</h1> In this module, you can configure various"
     " aspects of Konqueror's file manager functionality. Please note that the"

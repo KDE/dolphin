@@ -114,8 +114,8 @@ KCookiesPolicies::KCookiesPolicies(QWidget *parent, const char *name)
     // Create Group Box for specific settings
     gb_domainSpecific = new QGroupBox( i18n("Domain Specific"), this);
     lay->setStretchFactor( gb_domainSpecific, 10 );
-    QGridLayout *ds_lay = new QGridLayout( gb_domainSpecific, 6, 2, 
-					   KDialog::marginHint(), KDialog::spacingHint() );
+    QGridLayout *ds_lay = new QGridLayout( gb_domainSpecific, 6, 2,
+                       KDialog::marginHint(), KDialog::spacingHint() );
     ds_lay->setColStretch( 0, 2 ); // only resize the listbox horizontally, not the buttons
     ds_lay->addRowSpacing( 0, 2 * KDialog::spacingHint() );
     ds_lay->setRowStretch( 0, 0 );
@@ -124,7 +124,7 @@ KCookiesPolicies::KCookiesPolicies(QWidget *parent, const char *name)
     ds_lay->setRowStretch( 3, 1 );
     ds_lay->setRowStretch( 4, 1 );
     ds_lay->setRowStretch( 5, 1 );
-    
+
     // CREATE SPLIT LIST BOX
     lb_domainPolicy = new KListView( gb_domainSpecific );
     //    lb_domainPolicy->setMinimumHeight( 0.10 * sizeHint().height() );
@@ -203,9 +203,9 @@ void KCookiesPolicies::addPressed()
     pDlg.setCaption( i18n( "New Cookie Policy" ) );
     if( pDlg.exec() ) {
         QListViewItem* index = new QListViewItem(lb_domainPolicy, pDlg.domain(),
-												 adviceToStr( (KCookieAdvice) pDlg.policyAdvice()));
-		domainPolicy.insert( index, adviceToStr( (KCookieAdvice)pDlg.policyAdvice() ) );
-		lb_domainPolicy->setCurrentItem( index );
+                                                 adviceToStr( (KCookieAdvice) pDlg.policyAdvice()));
+        domainPolicy.insert( index, adviceToStr( (KCookieAdvice)pDlg.policyAdvice() ) );
+        lb_domainPolicy->setCurrentItem( index );
         changed();
     }
 }
@@ -341,7 +341,7 @@ void KCookiesPolicies::save()
   if( m_dcopClient->attach() )
   {
      if( !m_dcopClient->send( "kcookiejar", "kcookiejar", "reloadPolicy", QString::null ) )
-		kdDebug(7104) << "Can't communicate with the cookiejar!" << endl;
+        kdDebug(7104) << "Can't communicate with the cookiejar!" << endl;
   }
   else
      kdDebug(7103) << "Can't connect with the DCOP server." << endl;
@@ -360,7 +360,7 @@ void KCookiesPolicies::defaults()
   changeCookiesEnabled();
 }
 
-QString KCookiesPolicies::quickHelp()
+QString KCookiesPolicies::quickHelp() const
 {
     return i18n("<h1>Cookies</h1> Cookies contain information that Konqueror\n"
                 " (or other KDE applications using the http protocol) stores on your\n"

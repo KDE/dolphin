@@ -230,8 +230,8 @@ void KRootOptions::load()
     QString s;
     s = g_pConfig->readEntry( "Left", "" );
     for ( int c = 0 ; c < 4 ; c ++ )
-	if (s == s_choices[c])
-	  { leftComboBox->setCurrentItem( c ); break; }
+    if (s == s_choices[c])
+      { leftComboBox->setCurrentItem( c ); break; }
     s = g_pConfig->readEntry( "Middle", "WindowListMenu" );
     for ( int c = 0 ; c < 4 ; c ++ )
       if (s == s_choices[c])
@@ -341,7 +341,7 @@ void KRootOptions::changed()
 }
 
 
-QString KRootOptions::quickHelp()
+QString KRootOptions::quickHelp() const
 {
   return i18n("<h1>Desktop</h1>\n"
     "This module allows you to choose various options\n"

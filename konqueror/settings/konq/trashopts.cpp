@@ -50,7 +50,7 @@ KTrashOptions::KTrashOptions(KConfig *config, QString group, QWidget *parent, co
     QButtonGroup *bg = new QButtonGroup( i18n("Ask confirmation for:"), this );
     bg->setMinimumWidth( bg->fontMetrics().width( bg->title() ) + 50 );
     QVBoxLayout *bgLay = new QVBoxLayout(bg, KDialog::marginHint(),
-				       KDialog::spacingHint());
+                       KDialog::spacingHint());
     QWhatsThis::add( bg, i18n("This option tells Konqueror whether to ask"
        " for a confirmation when you \"delete\" a file."
        " <ul><li><em>Move To Trash:</em> moves the file to your trash directory,"
@@ -105,7 +105,7 @@ void KTrashOptions::save()
     g_pConfig->sync();
 }
 
-QString KTrashOptions::quickHelp()
+QString KTrashOptions::quickHelp() const
 {
     return i18n("<h1>Trash Options</h1> Here you can modify the behaviour "
                 "of konqueror when you want to delete a file."
