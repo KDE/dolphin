@@ -74,7 +74,7 @@ public:
      * Loads the history and fills the completion object.
      */
     bool loadHistory();
-    
+
     /**
      * Saves the entire history.
      */
@@ -161,6 +161,29 @@ public:
      */
     KCompletion * completionObject() const { return m_pCompletion; }
 
+signals:
+    /**
+     * Emitted after the entire history was loaded from disk.
+     */
+    void loadingFinished();
+    
+    /**
+     * Emitted after a new entry was added
+     */
+    void entryAdded( const KonqHistoryEntry *entry );
+
+    /**
+     * Emitted after an entry was removed from the history
+     * Note, that this entry will be deleted immediately after you got
+     * that signal.
+     */
+    void entryRemoved( const KonqHistoryEntry *entry );
+
+    /**
+     * Emitted after the history was cleared.
+     */
+    void cleared();
+    
 protected:
     KonqHistoryManager( QObject *parent, const char *name );
     ~KonqHistoryManager();

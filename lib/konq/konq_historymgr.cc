@@ -17,7 +17,7 @@
    Boston, MA 02111-1307, USA.
 */
 
-#include "konq_history.h"
+#include "konq_historymgr.h"
 
 #include <qcstring.h>
 #include <qtimer.h>
@@ -52,7 +52,7 @@ KonqHistoryManager::KonqHistoryManager( QObject *parent, const char *name )
     KConfigGroupSaver cs( config, "Settings" );
     m_maxCount = config->readNumEntry( "Maximum of History entries", 300 );
     m_maxAgeDays = config->readNumEntry( "Maximum age of History entries", 30);
-    
+
     m_history.setAutoDelete( true );
     m_filename = locateLocal( "data",
 			      QString::fromLatin1("konqueror/konq_history" ));
@@ -106,7 +106,9 @@ bool KonqHistoryManager::loadHistory()
 	kdWarning() << "Can't open " << file.name() << endl;
 
 	// try to load the old completion history
-	return loadFallback();
+	bool ret = loadFallback();
+	emit loadingFinished();
+	return ret;
     }
 	
     QDataStream stream( &file );
@@ -117,6 +119,7 @@ bool KonqHistoryManager::loadHistory()
 	if ( s_historyVersion != version ) { // simple version check for now
 	    kdWarning() << "The history version doesn't match, aborting loading" << endl;
 	    file.close();
+	    emit loadingFinished();
 	    return false;
 	}
 	
@@ -144,6 +147,7 @@ bool KonqHistoryManager::loadHistory()
     }
 
     file.close();
+    emit loadingFinished();
 
     return true;
 }
@@ -182,7 +186,9 @@ void KonqHistoryManager::adjustSize()
     while ( m_history.count() > m_maxCount || isExpired( entry ) ) {
 	m_pCompletion->removeItem( entry->url );
 	m_pCompletion->removeItem( entry->typedURL );
-	m_history.removeFirst();
+
+	emit entryRemoved( m_history.getFirst() );
+	m_history.removeFirst(); // deletes the entry
 	
 	entry = m_history.getFirst();
     }
@@ -353,6 +359,8 @@ void KonqHistoryManager::notifyHistoryEntry( KonqHistoryEntry e,
 
     if ( saveId == objId() ) // we are the sender of the broadcast, so we save
 	saveHistory();
+
+    emit entryAdded( entry );
 }
 
 void KonqHistoryManager::notifyMaxCount( Q_UINT32 count, QCString saveId )
@@ -391,6 +399,8 @@ void KonqHistoryManager::notifyClear( QCString saveId )
 
     if ( saveId == objId() ) // we are the sender of the broadcast
 	saveHistory();
+
+    emit cleared();
 }
 
 void KonqHistoryManager::notifyRemove( QString url, QCString saveId )
@@ -401,8 +411,13 @@ void KonqHistoryManager::notifyRemove( QString url, QCString saveId )
     if ( entry ) {
 	m_pCompletion->removeItem( entry->url );
 	m_pCompletion->removeItem( entry->typedURL );
-	m_history.removeRef( entry );
-
+	int index = m_history.findRef( entry );
+	if ( index >= 0 ) {
+	    m_history.take( index ); // does not delete
+	    emit entryRemoved( entry );
+	}
+	delete entry;
+	
 	if ( saveId == objId() )
 	    saveHistory();
     }
@@ -500,4 +515,4 @@ int KonqHistoryList::compareItems( QCollection::Item item1,
 	return 0;
 }
 
-#include "konq_history.moc"
+#include "konq_historymgr.moc"
