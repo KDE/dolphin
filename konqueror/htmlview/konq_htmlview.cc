@@ -145,10 +145,14 @@ KonqHTMLView::KonqHTMLView()
   m_paViewDocument = new KAction( i18n( "View Document Source" ), 0, this, SLOT( viewDocumentSource() ), this );
   m_paViewFrame = new KAction( i18n( "View Frame Source" ), 0, this, SLOT( viewFrameSource() ), this );
   m_paSaveBackground = new KAction( i18n( "Save &Background Image As.." ), 0, this, SLOT( saveBackground() ), this );
-
+  m_paSaveDocument = new KAction( i18n( "&Save As.." ), 0, this, SLOT( saveDocument() ), this );
+  m_paSaveFrame = new KAction( i18n( "Save &Frame As.." ), 0, this, SLOT( saveFrame() ), this );
+  
   actions()->append( BrowserView::ViewAction( m_paViewDocument, BrowserView::MenuView ) );
   actions()->append( BrowserView::ViewAction( m_paViewFrame, BrowserView::MenuView ) );
   actions()->append( BrowserView::ViewAction( m_paSaveBackground, BrowserView::MenuView ) );
+  actions()->append( BrowserView::ViewAction( m_paSaveDocument, BrowserView::MenuView ) );
+  actions()->append( BrowserView::ViewAction( m_paSaveFrame, BrowserView::MenuView ) );
 
   slotFrameInserted( m_pBrowser );
 }
@@ -551,14 +555,13 @@ void KonqHTMLView::print()
 
 void KonqHTMLView::saveDocument()
 {
-/*
-  if ( isFrameSet() )
+  if ( m_pBrowser->isFrameSet() )
   {
     //TODO
   }
   else
   {
-    KURL srcURL( getKHTMLWidget()->getDocumentURL().url() );
+    KURL srcURL( m_strURL );
 
     if ( srcURL.filename(false).isEmpty() )
       srcURL.setFileName( "index.html" );
@@ -570,44 +573,44 @@ void KonqHTMLView::saveDocument()
     if ( dlg->exec() )
       {
 	KURL destURL( dlg->selectedFileURL() );
-	Browser::EventNewTransfer transfer;
-	transfer.source = srcURL.url();
-	transfer.destination = destURL.url();
-	EMIT_EVENT( m_vParent, Browser::eventNewTransfer, transfer );
+	if ( !destURL.isMalformed() )
+	{
+    	  KIOJob *job = new KIOJob;
+	  job->copy( m_strURL, destURL.url() );
+	}
       }
 
     delete dlg;
   }
-*/
 }
 
 void KonqHTMLView::saveFrame()
 {
-/*
-  KHTMLView *v = getSelectedView();
-  if ( v )
-  {
-    KURL srcURL( v->getKHTMLWidget()->getDocumentURL().url() );
+  KHTMLWidget *frame = m_pBrowser->selectedFrame();
+  
+  if ( !frame )
+    return;
 
-    if ( srcURL.filename(false).isEmpty() )
-      srcURL.setFileName( "index.html" );
+  KURL srcURL( frame->url() );
 
-    KFileDialog *dlg = new KFileDialog( QString::null, "*\n*.html\n*.htm",
+  if ( srcURL.filename(false).isEmpty() )
+    srcURL.setFileName( "index.html" );
+
+  KFileDialog *dlg = new KFileDialog( QString::null, "*\n*.html\n*.htm",
 					this , "filedialog", true, false );
-    dlg->setCaption(i18n("Save frameset as"));
-    dlg->setSelection( dlg->dirPath() + srcURL.filename() );
-    if ( dlg->exec() )
+  dlg->setCaption(i18n("Save frameset as"));
+  dlg->setSelection( dlg->dirPath() + srcURL.filename() );
+  if ( dlg->exec() )
+  {
+    KURL destURL( dlg->selectedFileURL() );
+    if ( !destURL.isMalformed() )
     {
-      KURL destURL( dlg->selectedFileURL() );
-      Browser::EventNewTransfer transfer;
-      transfer.source = srcURL.url();
-      transfer.destination = destURL.url();
-      EMIT_EVENT( m_vParent, Browser::eventNewTransfer, transfer );
+      KIOJob *job = new KIOJob;
+      job->copy( m_strURL, destURL.url() );
     }
-
-    delete dlg;
   }
-*/
+
+  delete dlg;
 }
 
 void KonqHTMLView::saveBackground()
@@ -748,9 +751,17 @@ void KonqHTMLView::updateActions()
     KHTMLWidget *frame =  m_pBrowser->selectedFrame();
     if(frame)
 	bgURL = frame->htmlDocument().body().getAttribute( "background" ).string();
+    
+    m_paSaveDocument->setText( i18n( "&Save Frameset As.." ) );
+    m_paSaveFrame->setEnabled( true );
   }
   else
+  {
     bgURL = m_pBrowser->htmlDocument().body().getAttribute( "background" ).string();
+    
+    m_paSaveDocument->setText( i18n( "&Save As.." ) );
+    m_paSaveFrame->setEnabled( false );
+  }    
 
   m_paSaveBackground->setEnabled( !bgURL.isEmpty() );
 

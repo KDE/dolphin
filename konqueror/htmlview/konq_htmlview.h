@@ -92,9 +92,6 @@ public:
 
   virtual void print();
 
-  virtual void saveDocument();
-  virtual void saveFrame();
-
   virtual void slotLoadImages();
 
 #if 1
@@ -120,6 +117,8 @@ protected slots:
   void viewDocumentSource();
   void viewFrameSource();
   void saveBackground();
+  void saveDocument();
+  void saveFrame();
 
   void slotDocumentRedirection( int, const char *url );
   void slotNewWindow( const QString &url );
@@ -158,6 +157,8 @@ private:
   KAction *m_paViewDocument;
   KAction *m_paViewFrame;
   KAction *m_paSaveBackground;
+  KAction *m_paSaveDocument;
+  KAction *m_paSaveFrame;
     //QAction *m_paSearch;
 
 };
