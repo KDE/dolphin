@@ -224,7 +224,9 @@ void KNewMenu::slotFillTemplates()
         }
         connect ( s_pDirWatch, SIGNAL( dirty( const QString & ) ),
                   this, SLOT ( slotFillTemplates() ) );
-        connect ( s_pDirWatch, SIGNAL( fileDirty( const QString & ) ),
+        connect ( s_pDirWatch, SIGNAL( created( const QString & ) ),
+                  this, SLOT ( slotFillTemplates() ) );
+        connect ( s_pDirWatch, SIGNAL( deleted( const QString & ) ),
                   this, SLOT ( slotFillTemplates() ) );
         // Ok, this doesn't cope with new dirs in KDEDIRS, but that's another story
     }
