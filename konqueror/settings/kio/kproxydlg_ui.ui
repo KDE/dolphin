@@ -58,13 +58,16 @@ Note that the use of proxy servers is optional.
                         <cstring>rbNoProxy</cstring>
                     </property>
                     <property name="text">
-                        <string>Connect to the Internet &amp;directly</string>
+                        <string>Connect to the &amp;Internet directly</string>
+                    </property>
+                    <property name="accel">
+                        <string>Alt+I</string>
                     </property>
                     <property name="checked">
                         <bool>true</bool>
                     </property>
                     <property name="whatsThis" stdset="0">
-                        <string>Connect to the Internet directly without using a proxy server.</string>
+                        <string>Connect to the Internet directly.</string>
                     </property>
                 </widget>
                 <widget class="QRadioButton">
@@ -77,10 +80,14 @@ Note that the use of proxy servers is optional.
                     <property name="text">
                         <string>A&amp;utomatically detect proxy configuration</string>
                     </property>
+                    <property name="accel">
+                        <string>Alt+U</string>
+                    </property>
                     <property name="whatsThis" stdset="0">
                         <string>&lt;qt&gt;
-Automatically detect and configure the proxy server settings.&lt;p&gt;
-The configuration file is automatically downloaded using the &lt;b&gt;Web Proxy Auto-Discovery Protocol (WPAD)&lt;/b&gt; specification.
+Automatically detect and configure the proxy settings.&lt;p&gt;
+Automatic detection is performed using the &lt;b&gt;Web Proxy Auto-Discovery Protocol (WPAD)&lt;/b&gt;.&lt;p&gt;
+&lt;b&gt;NOTE:&lt;/b&gt;This option might not work properly or not work at all in some Unix/Linux distributions. If you encounter a problem when using this option, please check the FAQ section at http://konqueror.kde.org.
 &lt;/qt&gt;</string>
                     </property>
                 </widget>
@@ -94,8 +101,11 @@ The configuration file is automatically downloaded using the &lt;b&gt;Web Proxy 
                     <property name="text">
                         <string>U&amp;se the following proxy configuration URL</string>
                     </property>
+                    <property name="accel">
+                        <string>Alt+S</string>
+                    </property>
                     <property name="whatsThis" stdset="0">
-                        <string>Use the specified configuration script to setup the proxy server settings.</string>
+                        <string>Use the specified proxy script URL to configure the proxy settings.</string>
                     </property>
                 </widget>
                 <widget class="QLayoutWidget">
@@ -170,10 +180,13 @@ The configuration file is automatically downloaded using the &lt;b&gt;Web Proxy 
                             <property name="text">
                                 <string>Use preset proxy environment &amp;variables</string>
                             </property>
+                            <property name="accel">
+                                <string>Alt+V</string>
+                            </property>
                             <property name="whatsThis" stdset="0">
                                 <string>&lt;qt&gt;
-Use environment variables to setup the proxy server settings.&lt;p&gt;
-Environment variables such as &lt;b&gt;HTTP_PROXY&lt;/b&gt; and &lt;b&gt;NO_PROXY&lt;/b&gt; based configuration are usually used in multi-user UNIX installations, where both graphical and non-graphical applications need to share the same proxy configuration information.
+Use environment variables to configure the proxy settings.&lt;p&gt;
+Environment variables such as &lt;b&gt;HTTP_PROXY&lt;/b&gt; and &lt;b&gt;NO_PROXY&lt;/b&gt; are usually used in multi-user UNIX installations, where both graphical and non-graphical applications need to share the same proxy configuration information.
 &lt;/qt&gt;</string>
                             </property>
                         </widget>
@@ -219,10 +232,11 @@ Environment variables such as &lt;b&gt;HTTP_PROXY&lt;/b&gt; and &lt;b&gt;NO_PROX
                             <property name="text">
                                 <string>&amp;Manually specify the proxy settings</string>
                             </property>
+                            <property name="accel">
+                                <string>Alt+M</string>
+                            </property>
                             <property name="whatsThis" stdset="0">
-                                <string>&lt;qt&gt;
-Manually enter proxy server configuration information.
-&lt;/qt&gt;</string>
+                                <string>Manually enter proxy server configuration information.</string>
                             </property>
                         </widget>
                         <widget class="QPushButton">
@@ -399,6 +413,8 @@ Although a persistent proxy connection is faster, note that it only works correc
         </widget>
     </vbox>
 </widget>
+<customwidgets>
+</customwidgets>
 <connections>
     <connection>
         <sender>rbPresetLogin</sender>
@@ -436,4 +452,7 @@ Although a persistent proxy connection is faster, note that it only works correc
 </includes>
 <layoutdefaults spacing="6" margin="11"/>
 <layoutfunctions spacing="KDialog::spacingHint" margin="KDialog::marginHint"/>
+<includehints>
+    <includehint>kpushbutton.h</includehint>
+</includehints>
 </UI>

@@ -29,7 +29,6 @@
 #include <kdialogbase.h>
 #include <kprotocolmanager.h>
 
-
 class KProxyData
 {
 public:
@@ -63,6 +62,7 @@ public:
   virtual void setProxyData (const KProxyData&)=0;
 
 protected:
+  void setHighLight (QWidget* widget = 0, bool highlight = false);
   bool m_bHasValidData;
 };
 #endif

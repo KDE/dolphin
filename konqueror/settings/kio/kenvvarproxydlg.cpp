@@ -159,9 +159,9 @@ void KEnvVarProxyDlg::autoDetectPressed()
 
   bool found = false;
 
-  setHighLight (false, dlg->lbHttp);
-  setHighLight (false, dlg->lbHttps);
-  setHighLight (false, dlg->lbFtp);
+  setHighLight (dlg->lbHttp, false);
+  setHighLight (dlg->lbHttps, false);
+  setHighLight (dlg->lbFtp, false);
 
   // Detect HTTP proxy settings...
   QStringList list = QStringList::split( ',', QString::fromLatin1(ENV_HTTP_PROXY) );
@@ -273,15 +273,6 @@ void KEnvVarProxyDlg::showValue()
     dlg->leNoProxy->setText( value );
   }
 }
-void KEnvVarProxyDlg::setHighLight (bool highlight, QWidget* widget)
-{
-  if (!widget)
-    return;
-
-  QFont f = widget->font();
-  f.setBold( highlight );
-  widget->setFont( f );
-}
 
 bool KEnvVarProxyDlg::validate()
 {
@@ -308,9 +299,9 @@ void KEnvVarProxyDlg::slotOk()
 {
   if ( !validate() )
   {
-    setHighLight (true, dlg->lbHttp);
-    setHighLight (true, dlg->lbHttps);
-    setHighLight (true, dlg->lbFtp);
+    setHighLight (dlg->lbHttp, true);
+    setHighLight (dlg->lbHttps, true);
+    setHighLight (dlg->lbFtp, true);
 
     QString msg = i18n("You must specify at least one valid proxy "
                        "environment variable.");

@@ -29,7 +29,7 @@
 #include <kdebug.h>
 #include <klocale.h>
 #include <knuminput.h>
-#include <klistview.h>
+#include <klistbox.h>
 #include <klineedit.h>
 #include <kicontheme.h>
 #include <kurifilter.h>
@@ -68,8 +68,8 @@ void KManualProxyDlg::init()
     connect( dlg->pbDelete, SIGNAL( clicked() ), SLOT( deletePressed() ) );
     connect( dlg->pbDeleteAll, SIGNAL( clicked() ), SLOT( deleteAllPressed() ) );
 
-    connect( dlg->lvExceptions, SIGNAL(selectionChanged()), SLOT(updateButtons()) );
-    connect( dlg->lvExceptions, SIGNAL(doubleClicked (QListViewItem *)), SLOT(changePressed()));
+    connect( dlg->lbExceptions, SIGNAL(selectionChanged()), SLOT(updateButtons()) );
+    connect( dlg->lbExceptions, SIGNAL(doubleClicked (QListBoxItem *)), SLOT(changePressed()));
 
     connect( dlg->cbSameProxy, SIGNAL( toggled(bool) ), SLOT( sameProxy(bool) ) );
     connect( dlg->pbCopyDown, SIGNAL( clicked() ), SLOT( copyDown() ) );
@@ -80,24 +80,19 @@ void KManualProxyDlg::init()
 
 void KManualProxyDlg::setProxyData( const KProxyData &data )
 {
-    KURL u;
-
-    QString host;
-    int port = DEFAULT_PROXY_PORT;
-
+    KURL url;
+        
     // Set the HTTP proxy...
-    u = data.proxyList["http"];
-    if (!u.isValid())
-        dlg->sbHttp->setValue(port);
+    if (!isValidURL(data.proxyList["http"], &url))
+        dlg->sbHttp->setValue( DEFAULT_PROXY_PORT );
     else
     {
-        int p = u.port();
-        if ( p > 0 )
-            port = p;
-
-        u.setPort( 0 );
-        host = u.url();
-        dlg->leHttp->setText( host );
+        int port = url.port();
+        if ( port <= 0 )
+            port = DEFAULT_PROXY_PORT;
+            
+        url.setPort( 0 );
+        dlg->leHttp->setText( url.url() );
         dlg->sbHttp->setValue( port );
     }
 
@@ -109,46 +104,43 @@ void KManualProxyDlg::setProxyData( const KProxyData &data )
 
     if ( useSameProxy )
     {
-      dlg->leHttps->setText ( host );
-      dlg->leFtp->setText ( host );
-      dlg->sbHttps->setValue( port );
-      dlg->sbFtp->setValue( port );
+      dlg->leHttps->setText ( dlg->leHttp->text() );
+      dlg->leFtp->setText ( dlg->leHttp->text() );
+      dlg->sbHttps->setValue( dlg->sbHttp->value() );
+      dlg->sbFtp->setValue( dlg->sbHttp->value() );
+
       sameProxy ( true );
     }
     else
     {
       // Set the HTTPS proxy...
-      u = data.proxyList["https"];
-      if (!u.isValid())
+      if( !isValidURL( data.proxyList["https"], &url ) )
           dlg->sbHttps->setValue( DEFAULT_PROXY_PORT );
       else
       {
-          int p = u.port();
-          if ( p > 0 )
-              port = p;
+          int port = url.port();
+          if ( port <= 0 )
+              port = DEFAULT_PROXY_PORT;
 
-          u.setPort( 0 );
-          dlg->leHttps->setText( u.url() );
+          url.setPort( 0 );
+          dlg->leHttps->setText( url.url() );
           dlg->sbHttps->setValue( port );
       }
 
       // Set the FTP proxy...
-      u = data.proxyList["ftp"];
-      if (!u.isValid())
+      if( !isValidURL( data.proxyList["ftp"], &url ) )
           dlg->sbFtp->setValue( DEFAULT_PROXY_PORT );
       else
       {
-          int p = u.port();
-          if ( p > 0 )
-              port = p;
+          int port = url.port();
+          if ( port <= 0 )
+              port = DEFAULT_PROXY_PORT;
 
-          u.setPort( 0 );
-
-          dlg->leFtp->setText( u.url() );
+          url.setPort( 0 );
+          dlg->leFtp->setText( url.url() );
           dlg->sbFtp->setValue( port );
       }
     }
-
 
     QStringList::ConstIterator it = data.noProxyFor.begin();
     for( ; it != data.noProxyFor.end(); ++it )
@@ -160,14 +152,8 @@ void KManualProxyDlg::setProxyData( const KProxyData &data )
         // Validate the NOPROXYFOR entries and use only hostnames if the entry is 
         // a valid or legitimate URL. NOTE: needed to catch manual manipulation
         // of the proxy config files...
-        QStringList filters;
-        filters << "kshorturifilter" << "localdomainfilter";
-        KURL url ( *it );        
-        if ( !url.isValid() )
-          KURIFilter::self()->filterURI(url, filters);
-          
-        QString exception = (url.isValid() && !url.host().isEmpty()) ? url.host() : url.url();                
-        (void) new QListViewItem( dlg->lvExceptions, exception );
+        if( isValidURL( *it ) )
+          dlg->lbExceptions->insertItem( *it );
       }
     }
 
@@ -176,19 +162,13 @@ void KManualProxyDlg::setProxyData( const KProxyData &data )
 
 const KProxyData KManualProxyDlg::data() const
 {
-    KURL u;
     KProxyData data;
 
     if (!m_bHasValidData)
       return data;
 
-    u = dlg->leHttp->text();
-    if ( u.isValid() )
-    {
-        u.setPort( dlg->sbHttp->value() );
-        data.proxyList["http"] = u.url();
-    }
-
+    data.proxyList["http"] = urlFromInput( dlg->leHttp, dlg->sbHttp );
+    
     if ( dlg->cbSameProxy->isChecked () )
     {
         data.proxyList["https"] = data.proxyList["http"];
@@ -196,26 +176,15 @@ const KProxyData KManualProxyDlg::data() const
     }
     else
     {
-        u = dlg->leHttps->text();
-        if ( u.isValid() )
-        {
-            u.setPort( dlg->sbHttps->value() );
-            data.proxyList["https"] = u.url();
-        }
-
-        u = dlg->leFtp->text();
-        if ( u.isValid() )
-        {
-            u.setPort( dlg->sbFtp->value() );
-            data.proxyList["ftp"] = u.url();
-        }
+        data.proxyList["https"] = urlFromInput( dlg->leHttps, dlg->sbHttps );
+        data.proxyList["ftp"] = urlFromInput( dlg->leFtp, dlg->sbFtp );
     }
 
-    if ( dlg->lvExceptions->childCount() )
+    if ( dlg->lbExceptions->count() )
     {
-        QListViewItem* item = dlg->lvExceptions->firstChild();
-        for( ; item != 0L; item = item->nextSibling() )
-            data.noProxyFor << item->text(0);
+        QListBoxItem* item = dlg->lbExceptions->firstItem();
+        for( ; item != 0L; item = item->next() )
+            data.noProxyFor << item->text();
     }
 
     data.type = KProtocolManager::ManualProxy;
@@ -248,6 +217,12 @@ void KManualProxyDlg::sameProxy( bool enable )
 
       dlg->sbFtp->setValue (port);
       dlg->sbHttps->setValue (port);
+      
+      if (dlg->lbHttps->font().bold())
+        setHighLight( dlg->lbHttps, false );
+      
+      if (dlg->lbFtp->font().bold())
+        setHighLight( dlg->lbFtp, false );
     }
     else
     {
@@ -255,73 +230,47 @@ void KManualProxyDlg::sameProxy( bool enable )
       dlg->leHttps->setText (m_oldHttpsText);
 
       dlg->sbFtp->setValue (m_oldFtpPort);
-      dlg->sbHttps->setValue (m_oldHttpsPort);
+      dlg->sbHttps->setValue (m_oldHttpsPort);      
     }
 }
 
 bool KManualProxyDlg::validate()
 {
-    QFont f;
-    QStringList filters;
-
+    KURL filteredURL;
     unsigned short count = 0;
-    filters << "kshorturifilter" << "localdomainfilter";
 
-    KURL url ( dlg->leHttp->text() );
-
-    if (url.isValid() || KURIFilter::self()->filterURI (url, filters))
+    if ( isValidURL( dlg->leHttp->text(), &filteredURL ) )
     {
-        dlg->leHttp->setText (url.url());
+        dlg->leHttp->setText( filteredURL.url() );
         count++;
     }
     else
-    {
-        f = dlg->lbHttp->font();
-        f.setBold( true );
-        dlg->lbHttp->setFont( f );
-    }
+        setHighLight( dlg->lbHttp, true );
 
     if ( !dlg->cbSameProxy->isChecked () )
     {
-        url = dlg->leHttps->text();
-
-        if (url.isValid() || KURIFilter::self()->filterURI (url, filters))
+        if ( isValidURL( dlg->leHttps->text(), &filteredURL ) )
         {
-            dlg->leHttps->setText (url.url());
+            dlg->leHttps->setText( filteredURL.url() );
             count++;
         }
         else
-        {
-            f = dlg->lbHttps->font();
-            f.setBold( true );
-            dlg->lbHttps->setFont( f );
-        }
+            setHighLight( dlg->lbHttps, true );
 
-        url = dlg->leFtp->text();
-
-        if (url.isValid() || KURIFilter::self()->filterURI (url, filters))
+        if ( isValidURL( dlg->leFtp->text(), &filteredURL ) )
         {
-            dlg->leFtp->setText (url.url());
+            dlg->leFtp->setText( filteredURL.url() );
             count++;
         }
         else
-        {
-            f = dlg->lbFtp->font();
-            f.setBold( true );
-            dlg->lbFtp->setFont( f );
-        }
+            setHighLight( dlg->lbFtp, true );
     }
 
     if ( count == 0 )
     {
-        QString msg = i18n("You must specify at least one valid proxy address.");
-
-        QString details = i18n("<qt>Make sure that you have specified at least one "
-                               "valid proxy address, eg. <b>http://192.168.1.20</b>."
-                               "</qt>");
-
-        KMessageBox::detailedError( this, msg, details,
-                                    i18n("Invalid Proxy Setup") );
+        showErrorMsg( i18n("Invalid Proxy Setting"),
+                      i18n("One or more of the specified proxy settings are "
+                           "invalid. The incorrect entries are highlighted.") );
     }
 
     return (count > 0);
@@ -332,8 +281,8 @@ void KManualProxyDlg::textChanged(const QString& text)
     if (!dlg->cbSameProxy->isChecked())
         return;
 
-    dlg->leFtp->setText (text);
-    dlg->leHttps->setText (text);
+    dlg->leFtp->setText( text );
+    dlg->leHttps->setText( text );
 }
 
 void KManualProxyDlg::valueChanged(int value)
@@ -375,6 +324,7 @@ void KManualProxyDlg::copyDown()
 
 void KManualProxyDlg::slotOk()
 {
+    qDebug("m_bHasValidData: %s" , m_bHasValidData ? "true" : "false");
     if ( m_bHasValidData || validate() )
     {
       KDialogBase::slotOk();
@@ -384,114 +334,165 @@ void KManualProxyDlg::slotOk()
 
 bool KManualProxyDlg::handleDuplicate( const QString& site )
 {
-    QListViewItem* item = dlg->lvExceptions->firstChild();
+    QListBoxItem* item = dlg->lbExceptions->firstItem();
     while ( item != 0 )
     {
-        if ( item->text(0).findRev( site ) != -1 &&
-             item != dlg->lvExceptions->currentItem() )
+        if ( item->text().findRev( site ) != -1 &&
+             item != dlg->lbExceptions->selectedItem() )
         {
-            QString msg = i18n("<qt><center><b>%1</b><br/>"
-                               "already exists!").arg(site);
-            KMessageBox::error( this, msg, i18n("Duplicate Exception") );
+            QString msg = i18n("You entered a duplicate address. "
+                               "Please try again.");
+            QString details = i18n("<qt><center><b>%1</b></center> "
+                                   "is already in the list.</qt>").arg(site);
+            KMessageBox::detailedError( this, msg, details, i18n("Duplicate Entry") );
             return true;
         }
-        item = item->nextSibling();
+        
+        item = item->next();
     }
     return false;
 }
 
-
 void KManualProxyDlg::newPressed()
 {
-  QString msg;
-
-  // Specify the appropriate message...
-  if ( dlg->cbReverseProxy->isChecked() )
-      msg = i18n("Enter the address or URL for which the above proxy server "
-                 "should be used:");
-  else
-      msg = i18n("Enter the address or URL that should be excluded from using "
-                 "the above proxy server:");
-
-  KURL result ( KInputDialog::getText (i18n("New Exception"), msg) );
-  
-  // If the user pressed cancel, do nothing...
-  if (result.isEmpty())
-    return;
-  
-  QStringList filters;
-  filters << "kshorturifilter" << "localdomainfilter";
-  
-  // If the typed URL is malformed, attempt to filter it in order
-  // to check its validity...
-  if ( !result.isValid() )
-    KURIFilter::self()->filterURI(result, filters);
-    
-  QString exception = (result.isValid() && !result.host().isEmpty()) ? result.host() : result.url();
-  
-  if ( !handleDuplicate( exception ) )
-  {
-    QListViewItem* index = new QListViewItem( dlg->lvExceptions, exception );
-    dlg->lvExceptions->setCurrentItem( index );
-  }
+  QString result;
+  if( getException(result, i18n("New Exception")) && !handleDuplicate(result) )
+    dlg->lbExceptions->insertItem( result );
 }
 
 void KManualProxyDlg::changePressed()
 {
-    if( !dlg->lvExceptions->currentItem() )
-        return;
-
-    QString msg;
-
-    // Specify the appropriate message...
-    if ( dlg->cbReverseProxy->isChecked() )
-        msg = i18n("Enter the address or URL for which the above proxy server "
-                   "should be used:");
-    else
-        msg = i18n("Enter the address or URL that should be excluded from using "
-                   "the above proxy server:");
-
-    QString currentItem = dlg->lvExceptions->currentItem()->text(0);
-    QString result = KInputDialog::getText ( i18n("Change Exception"), msg, currentItem );
-    if ( !result.isNull() )
-    {
-        if ( !handleDuplicate( result ) )
-        {
-            QListViewItem* index = dlg->lvExceptions->currentItem();
-            index->setText( 0, result );
-            dlg->lvExceptions->setCurrentItem( index );
-        }
-    }
+  QString result;
+  if( getException( result, i18n("Change Exception"), 
+                    dlg->lbExceptions->currentText() ) &&
+      !handleDuplicate( result ) )
+      dlg->lbExceptions->changeItem( result, dlg->lbExceptions->currentItem() );
 }
 
 void KManualProxyDlg::deletePressed()
 {
-    QListViewItem* item = dlg->lvExceptions->selectedItem()->itemBelow();
-
-    if ( !item )
-        item = dlg->lvExceptions->selectedItem()->itemAbove();
-
-    delete dlg->lvExceptions->selectedItem();
-
-    if ( item )
-        dlg->lvExceptions->setSelected( item, true );
-
+    dlg->lbExceptions->removeItem( dlg->lbExceptions->currentItem() );
+    dlg->lbExceptions->setSelected( dlg->lbExceptions->currentItem(), true );
     updateButtons();
 }
 
 void KManualProxyDlg::deleteAllPressed()
 {
-    dlg->lvExceptions->clear();
+    dlg->lbExceptions->clear();
     updateButtons();
 }
 
 void KManualProxyDlg::updateButtons()
 {
-    bool hasItems = dlg->lvExceptions->childCount() > 0;
-    bool itemSelected = ( hasItems && dlg->lvExceptions->selectedItem()!=0 );
+    bool hasItems = dlg->lbExceptions->count() > 0;
+    bool itemSelected = (hasItems && dlg->lbExceptions->selectedItem()!=0);
+    
+    dlg->pbDeleteAll->setEnabled( hasItems );    
     dlg->pbDelete->setEnabled( itemSelected );
-    dlg->pbDeleteAll->setEnabled( hasItems );
     dlg->pbChange->setEnabled( itemSelected );
+}
+
+QString KManualProxyDlg::urlFromInput(const KLineEdit* edit, 
+                                      const QSpinBox* spin) const
+{
+  if (!edit)
+    return QString::null;
+    
+  KURL u( edit->text() );
+  
+  if (spin)
+    u.setPort( spin->value() );
+  
+  return u.url();
+}
+
+bool KManualProxyDlg::isValidURL( const QString& _url, KURL* result ) const
+{
+    KURL url (_url);
+    
+    QStringList filters;
+    filters << "kshorturifilter" << "localdomainfilter";
+    
+    // If the typed URL is malformed, and the filters cannot filter it
+    // then it must be an invalid entry, 
+    if( !(url.isValid() || KURIFilter::self()->filterURI(url, filters)) && 
+        !url.hasHost() )
+      return false;
+      
+    QString host (url.host());
+    
+    // We only check for a relevant subset of characters that are 
+    // not allowed in <authority> component of a URL.
+    if ( host.contains ('*') || host.contains (' ') || host.contains ('?') )
+      return false;
+      
+    if ( result )
+      *result = url;
+          
+    return true;
+}
+
+void KManualProxyDlg::showErrorMsg( const QString& caption, 
+                                    const QString& message )
+{
+  QString cap( caption );
+  QString msg( message );
+   
+  if ( cap.isNull() )
+    cap = i18n("Invalid Entry");
+  
+  if ( msg.isNull() )
+    msg = i18n("The address you have entered is not valid.");
+  
+  QString details = i18n("<qt>Make sure none of the addresses or URLs you "
+                          "specified contain invalid or wildcard characters "
+                          "such as spaces, asteriks(*) or question marks(?).<p>"
+                          "<u>Examples of VALID entries:</u><br/>"
+                          "<code>http://mycompany.com, 192.168.10.1, "
+                          "mycompany,com, localhost, http://localhost</code><p>"
+                          "<u>Examples of INVALID entries:</u><br/>"
+                          "<code>http://my company.com, http:/mycompany,com "
+                          "file:/localhost</code>");
+  
+  KMessageBox::detailedError( this, msg, details, cap );
+}
+
+bool KManualProxyDlg::getException ( QString& result,
+                                     const QString& caption, 
+                                     const QString& value )
+{
+    QString label;
+    
+    // Specify the appropriate message...
+    if ( dlg->cbReverseProxy->isChecked() )
+      label = i18n("Enter the URL or address that should use the above proxy "
+                  "settings:");
+    else
+      label = i18n("Enter the address or URL that should be excluded from "
+                  "using the above proxy settings:");
+    
+    QString whatsThis = i18n("<qt>Enter a valid address or url.<p>"
+                            "<b><u>NOTE:</u></b> Wildcard matching such as "
+                            "<code>*.kde.org</code> is not supported. If you want "
+                            "to match any host in the <code>.kde.org</code> domain, "
+                            "e.g. <code>printing.kde.org</code>, then simply enter "
+                            "<code>.kde.org</code></qt>");
+                            
+    bool ok;
+    result = KInputDialog::text( caption, label, value, &ok, 0, 0, 0, 
+                                QString::null, whatsThis );
+    
+    // If the user pressed cancel, do nothing...
+    if (!ok)
+      return false;
+    
+    // If the typed URL is malformed, and the filters cannot filter it
+    // then it must be an invalid entry, 
+    if( isValidURL(result) )
+      return true;
+    
+    showErrorMsg();
+    return false;
 }
 
 #include "kmanualproxydlg.moc"

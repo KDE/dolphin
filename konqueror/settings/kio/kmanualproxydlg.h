@@ -25,40 +25,48 @@
 #include <klineeditdlg.h>
 #include "kproxydlgbase.h"
 
+class QSpinBox;
+class KLineEdit;
 class ManualProxyDlgUI;
 
 class KManualProxyDlg : public KProxyDialogBase
 {
   Q_OBJECT
-
+  
 public:
   KManualProxyDlg( QWidget* parent = 0, const char* name = 0 );
   ~KManualProxyDlg() {};
-
+  
   virtual void setProxyData( const KProxyData &data );
   virtual const KProxyData data() const;
-
+  
 protected:
   void init();
   bool validate();
-
+  
 protected slots:
   virtual void slotOk();
-
+  
   void copyDown();
   void sameProxy( bool );
   void valueChanged (int value);
   void textChanged (const QString&);
-
+  
   void newPressed();
   void updateButtons();
   void changePressed();
   void deletePressed();
   void deleteAllPressed();
-
+  
 private:
+  QString urlFromInput( const KLineEdit* edit, const QSpinBox* spin ) const;
+  bool isValidURL( const QString&, KURL* = 0 ) const;
   bool handleDuplicate( const QString& );
-
+  bool getException ( QString&, const QString&,
+                      const QString& value = QString::null );
+  void showErrorMsg( const QString& caption = QString::null,
+                     const QString& message = QString::null );
+  
 private:
   ManualProxyDlgUI* dlg;
 

@@ -62,3 +62,13 @@ KProxyDialogBase::KProxyDialogBase( QWidget* parent, const char* name,
 {
   m_bHasValidData = false;
 }
+
+void KProxyDialogBase::setHighLight (QWidget* widget, bool highlight)
+{
+  if (!widget)
+    return;
+
+  QFont f = widget->font();
+  f.setBold( highlight );
+  widget->setFont( f );
+}

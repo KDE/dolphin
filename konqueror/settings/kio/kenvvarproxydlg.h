@@ -48,8 +48,7 @@ protected slots:
 protected:
     void init();
     bool validate();
-    void setHighLight (bool highlight = false, QWidget* widget = 0);
-
+    
 private:
     EnvVarProxyDlgUI* dlg;
 

@@ -211,43 +211,12 @@ Reverse the use of the exception list. Checking this box will result in the prox
                 </widget>
                 <widget class="QLayoutWidget">
                     <property name="name">
-                        <cstring>layout9</cstring>
+                        <cstring>layout2</cstring>
                     </property>
                     <grid>
                         <property name="name">
                             <cstring>unnamed</cstring>
                         </property>
-                        <widget class="QPushButton" row="2" column="1">
-                            <property name="name">
-                                <cstring>pbDelete</cstring>
-                            </property>
-                            <property name="enabled">
-                                <bool>false</bool>
-                            </property>
-                            <property name="text">
-                                <string>De&amp;lete</string>
-                            </property>
-                            <property name="whatsThis" stdset="0">
-                                <string>Remove the selected proxy exception address from the list.</string>
-                            </property>
-                        </widget>
-                        <spacer row="4" column="1">
-                            <property name="name">
-                                <cstring>spacer2</cstring>
-                            </property>
-                            <property name="orientation">
-                                <enum>Vertical</enum>
-                            </property>
-                            <property name="sizeType">
-                                <enum>Expanding</enum>
-                            </property>
-                            <property name="sizeHint">
-                                <size>
-                                    <width>20</width>
-                                    <height>81</height>
-                                </size>
-                            </property>
-                        </spacer>
                         <widget class="QPushButton" row="3" column="1">
                             <property name="name">
                                 <cstring>pbDeleteAll</cstring>
@@ -260,6 +229,34 @@ Reverse the use of the exception list. Checking this box will result in the prox
                             </property>
                             <property name="whatsThis" stdset="0">
                                 <string>Remove all proxy exception addresses from the list.</string>
+                            </property>
+                        </widget>
+                        <widget class="QPushButton" row="2" column="1">
+                            <property name="name">
+                                <cstring>pbDelete</cstring>
+                            </property>
+                            <property name="enabled">
+                                <bool>false</bool>
+                            </property>
+                            <property name="text">
+                                <string>De&amp;lete</string>
+                            </property>
+                            <property name="accel">
+                                <string>Alt+L</string>
+                            </property>
+                            <property name="whatsThis" stdset="0">
+                                <string>Remove the selected proxy exception address from the list.</string>
+                            </property>
+                        </widget>
+                        <widget class="QPushButton" row="0" column="1">
+                            <property name="name">
+                                <cstring>pbNew</cstring>
+                            </property>
+                            <property name="text">
+                                <string>&amp;New...</string>
+                            </property>
+                            <property name="whatsThis" stdset="0">
+                                <string>Add new proxy exception address to the list.</string>
                             </property>
                         </widget>
                         <widget class="QPushButton" row="1" column="1">
@@ -276,42 +273,26 @@ Reverse the use of the exception list. Checking this box will result in the prox
                                 <string>Change the selected proxy exception address.</string>
                             </property>
                         </widget>
-                        <widget class="QPushButton" row="0" column="1">
+                        <spacer row="4" column="1">
                             <property name="name">
-                                <cstring>pbNew</cstring>
+                                <cstring>spacer2</cstring>
                             </property>
-                            <property name="text">
-                                <string>&amp;New...</string>
+                            <property name="orientation">
+                                <enum>Vertical</enum>
                             </property>
-                            <property name="whatsThis" stdset="0">
-                                <string>Add new proxy exception address to the list.</string>
+                            <property name="sizeType">
+                                <enum>Expanding</enum>
                             </property>
-                        </widget>
-                        <widget class="KListView" row="0" column="0" rowspan="5" colspan="1">
-                            <column>
-                                <property name="text">
-                                    <string>Address</string>
-                                </property>
-                                <property name="clickable">
-                                    <bool>true</bool>
-                                </property>
-                                <property name="resizable">
-                                    <bool>true</bool>
-                                </property>
-                            </column>
+                            <property name="sizeHint">
+                                <size>
+                                    <width>20</width>
+                                    <height>114</height>
+                                </size>
+                            </property>
+                        </spacer>
+                        <widget class="KListBox" row="0" column="0" rowspan="5" colspan="1">
                             <property name="name">
-                                <cstring>lvExceptions</cstring>
-                            </property>
-                            <property name="showSortIndicator">
-                                <bool>true</bool>
-                            </property>
-                            <property name="treeStepSize">
-                                <number>0</number>
-                            </property>
-                            <property name="whatsThis" stdset="0">
-                                <string>&lt;qt&gt;
-List of addresses that are either exempt or allowed, based on the "Use proxy only..." option, from using the proxy server.&lt;p&gt;If the "Use proxy only..." option is checked, only addresses that match the ones in this list will be sent through the proxy server.
-&lt;/qt&gt;</string>
+                                <cstring>lbExceptions</cstring>
                             </property>
                         </widget>
                     </grid>
@@ -330,7 +311,6 @@ List of addresses that are either exempt or allowed, based on the "Use proxy onl
     <tabstop>cbSameProxy</tabstop>
     <tabstop>pbCopyDown</tabstop>
     <tabstop>cbReverseProxy</tabstop>
-    <tabstop>lvExceptions</tabstop>
     <tabstop>pbNew</tabstop>
     <tabstop>pbChange</tabstop>
     <tabstop>pbDelete</tabstop>
