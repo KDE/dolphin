@@ -481,8 +481,8 @@ void KonqView::updateHistoryEntry( bool saveLocationBarURL )
     //kdDebug(1202) << "Saving location bar URL : " << m_sLocationBarURL << " in history position " << m_lstHistory.at() << endl;
     current->locationBarURL = m_sLocationBarURL;
   }
-  //kdDebug(1202) << "Saving title : " << m_pMainWindow->currentTitle() << " in history position " << m_lstHistory.at() << endl;
-  current->title = m_pMainWindow->currentTitle();
+  //kdDebug(1202) << "Saving title : " << m_caption << " in history position " << m_lstHistory.at() << endl;
+  current->title = m_caption;
   current->strServiceType = m_serviceType;
   current->strServiceName = m_service->desktopEntryName();
 }

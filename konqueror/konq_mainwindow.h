@@ -155,7 +155,7 @@ public:
 
   /// Overloaded functions of KBookmarkOwner
   virtual void openBookmarkURL( const QString & _url );
-  virtual QString currentTitle() const { return m_title; }
+  virtual QString currentTitle() const;
   virtual QString currentURL() const;
 
   /**
@@ -330,6 +330,7 @@ protected slots:
   void slotActionStatusText( const QString &text );
   void slotClearStatusText();
 
+  void slotFindOpen( KonqDirPart * dirPart );
   void slotFindClosed( KonqDirPart * dirPart );
 
   void slotIconsChanged();

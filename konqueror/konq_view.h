@@ -237,6 +237,9 @@ public:
   void setService( const KService::Ptr &s ) { m_service = s; }
   KService::Ptr service() { return m_service; }
 
+  void setCaption( const QString & caption ) { m_caption = caption; }
+  QString caption() const { return m_caption; }
+
   KTrader::OfferList partServiceOffers() { return m_partServiceOffers; }
   KTrader::OfferList appServiceOffers() { return m_appServiceOffers; }
 
@@ -358,6 +361,7 @@ protected:
   KService::Ptr m_service;
   QString m_serviceType;
   QString m_name;
+  QString m_caption;
   KonqViewIface * m_dcopObject;
 };
 

@@ -976,6 +976,12 @@ void KonqMainWindow::slotToolFind()
   */
 }
 
+void KonqMainWindow::slotFindOpen( KonqDirPart * dirPart )
+{
+    kdDebug(1202) << "KonqMainWindow::slotFindOpen " << dirPart << endl;
+
+}
+
 void KonqMainWindow::slotFindClosed( KonqDirPart * dirPart )
 {
     kdDebug(1202) << "KonqMainWindow::slotFindClosed " << dirPart << endl;
@@ -1524,6 +1530,7 @@ void KonqMainWindow::slotPartActivated( KParts::Part *part )
 
   // View-dependent GUI
 
+  KParts::MainWindow::setCaption( m_currentView->caption() );
   updateOpenWithActions();
   updateLocalPropsActions();
   updateViewActions(); // undo, lock, link and other view-dependent actions
@@ -2414,9 +2421,10 @@ void KonqMainWindow::slotToggleFullScreen()
     m_paShowMenuBar->setChecked( false );
 
     // Preserve caption, reparent calls setCaption (!)
-    QString m_oldTitle = m_title;
+    QString m_oldTitle = m_currentView ? m_currentView->caption() : QString::null;
     showFullScreen();
-    setCaption( m_oldTitle );
+    if (!m_oldTitle.isEmpty())
+      setCaption( m_oldTitle );
 
     // Qt bug (see below)
     setAcceptDrops( FALSE );
@@ -2437,9 +2445,10 @@ void KonqMainWindow::slotToggleFullScreen()
     menuBar()->show(); // maybe we should store this setting instead of forcing it
     m_paShowMenuBar->setChecked( true );
 
-    QString m_oldTitle = m_title; // The unmodified title
+    QString m_oldTitle = m_currentView ? m_currentView->caption() : QString::null;
     showNormal();  // (calls setCaption, i.e. the one in this class!)
-    setCaption( m_oldTitle );
+    if (!m_oldTitle.isEmpty())
+      setCaption( m_oldTitle );
 
     // Qt bug, the flags aren't restored. They know about it.
     setWFlags( WType_TopLevel | WDestructiveClose );
@@ -2966,18 +2975,23 @@ void KonqMainWindow::setCaption( const QString &caption )
   // KParts sends us empty captions when activating a brand new part
   // We can't change it there (in case of apps removing all parts altogether)
   // but here we never do that.
-  if ( !caption.isEmpty() )
+  if ( !caption.isEmpty() && m_currentView )
   {
-    //kdDebug(1202) << "KonqMainWindow::setCaption(" << caption << ")" << endl;
+    kdDebug(1202) << "KonqMainWindow::setCaption(" << caption << ")" << endl;
     // Keep an unmodified copy of the caption (before kapp->makeStdCaption is applied)
-    m_title = caption;
+    m_currentView->setCaption( caption );
     KParts::MainWindow::setCaption( caption );
   }
 }
 
 QString KonqMainWindow::currentURL() const
 {
-  return m_currentView ? m_currentView->url().prettyURL() : "";
+  return m_currentView ? m_currentView->url().prettyURL() : QString::null;
+}
+
+QString KonqMainWindow::currentTitle() const
+{
+  return m_currentView ? m_currentView->caption() : QString::null;
 }
 
 void KonqMainWindow::slotPopupMenu( const QPoint &_global, const KURL &url, const QString &_mimeType, mode_t _mode )
