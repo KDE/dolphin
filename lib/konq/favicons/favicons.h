@@ -92,6 +92,7 @@ private:
 private slots:
     void slotData(KIO::Job *, const QByteArray &);
     void slotResult(KIO::Job *);
+    void slotInfoMessage(KIO::Job *, const QString &);
 
 private:
     struct FaviconsModulePrivate *d;

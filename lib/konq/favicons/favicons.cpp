@@ -147,6 +147,7 @@ void FaviconsModule::startDownload(const QString &hostOrURL, bool isHost, const 
     KIO::Job *job = KIO::get(iconURL, false, false);
     connect(job, SIGNAL(data(KIO::Job *, const QByteArray &)), SLOT(slotData(KIO::Job *, const QByteArray &)));
     connect(job, SIGNAL(result(KIO::Job *)), SLOT(slotResult(KIO::Job *)));
+    connect(job, SIGNAL(infoMessage(KIO::Job *, const QString &)), SLOT(slotInfoMessage(KIO::Job *, const QString &)));
     FaviconsModulePrivate::DownloadInfo download;
     download.hostOrURL = hostOrURL;
     download.isHost = isHost;
@@ -206,6 +207,16 @@ void FaviconsModule::slotResult(KIO::Job *job)
     QDataStream stream( data, IO_WriteOnly );
     stream << download.isHost << download.hostOrURL << iconName;
     emitDCOPSignal("iconChanged(bool,QString,QString)", data);
+}
+
+void FaviconsModule::slotInfoMessage(KIO::Job *job, const QString &msg)
+{
+  FaviconsModulePrivate::DownloadInfo download = d->downloads[job];
+  QString iconURL = static_cast<KIO::TransferJob *>(job)->url().url();
+  QByteArray data;
+  QDataStream stream( data, IO_WriteOnly );
+  stream << iconURL << msg;
+  emitDCOPSignal("infoMessage(KURL,QString)", data);
 }
 
 extern "C" {
