@@ -20,7 +20,7 @@ public:
     */
   KfArchiver(const char*); 
       
-  //~KfArchiver();
+  virtual ~KfArchiver() {}
 
   /** Initialize archivers
     * Call this function before you call any other function.

@@ -28,6 +28,8 @@ public:
   */
   KfFileType( const char *_pattern);
 
+  virtual ~KfFileType() {}
+
   /// Add a pattern which matches this type.
   virtual void addPattern( const char *_p ) 
     { if ( pattern.find( _p ) == -1 ) pattern.append( _p ); }
