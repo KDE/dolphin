@@ -3381,6 +3381,7 @@ void KonqMainWindow::slotFillContextMenu( const KBookmark &bk, QPopupMenu * pm )
   {
     popupItems.append( new KFileItem( bk.url(), QString::null, KFileItem::Unknown) );
     pm->insertItem( i18n( "Open in New Tab" ), this, SLOT( slotPopupNewTab() ) );
+    pm->insertItem( i18n( "Open in New Window" ), this, SLOT( slotPopupNewWindow() ) );
   }
 }
 
