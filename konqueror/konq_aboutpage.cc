@@ -82,44 +82,49 @@ QString KonqAboutPageFactory::aboutPage()
 
     res = QString::fromLatin1( data.data() );
 
+    QString kcmshell = KStandardDirs::findExe("kcmshell");
+    QString kcmshell_konqhtml = QString::fromLatin1("file:%1 konqhtml").arg(kcmshell);
+    QString kcmshell_ioslaveinfo = QString::fromLatin1("file:%1 ioslaveinfo").arg(kcmshell);
+
     res = res.arg( i18n( "Insert the URL you want to browse in the above edit-field." ) )
-          .arg( i18n( "" ) )
-          .arg( i18n( "In addition to <a href=\"http://pyxml.sourceforge.net/topics/xbel/\">XBEL-bookmarks</a>, "
-                      "favourite-icon support and Internet Keywords, Konqueror supports:" ) )
+          .arg( "" ) // TODO Konqueror-Logo
+          .arg( i18n( "Konqueror supports:" ) )
           .arg( i18n( "Specifications" ) )
           .arg( i18n( "Supported standards" ) )
           .arg( i18n( "Additional requirements" ) )
-          .arg( i18n( "<a href=\"http://www.w3.org/DOM/\">DOM</a> (Level 1, partially Level 2) based "
-                      "<a href=\"http://www.w3.org/TR/html4/\">HTML 4.01</a>" ) )
+          .arg( i18n( "<a href=\"%1\">DOM</a> (Level 1, partially Level 2) based "
+                      "<a href=\"%2\">HTML 4.01</a>" ).arg("http://www.w3.org/DOM/").arg("http://www.w3.org/TR/html4/") )
           .arg( i18n( "built-in" ) )
-          .arg( i18n( "<a href=\"http://www.w3.org/Style/CSS/\">Cascading Style Sheets</a> (CSS 1, partially CSS2)" ) )
+          .arg( i18n( "<a href=\"%1\">Cascading Style Sheets</a> (CSS 1, partially CSS2)" ).arg("http://www.w3.org/Style/CSS/") )
           .arg( i18n( "built-in" ) )
-          .arg( i18n( "<a href=\"http://www.ecma.ch/ecma1/STAND/ECMA-262.HTM\">ECMA-262</a>"
-                      "Edition 3 (equals roughly Javascript<sup>TM</sup> 1.5" ) )
-          .arg( i18n( "Javascript disabled (globally). Enable Javascript <a href=\\\"file:%1 konqhtml\\\">here</a>" ).arg(KStandardDirs::findExe("kcmshell")) )
-          .arg( i18n( "Javascript enabled (globally). Javascript configuration <a href=\\\"file:%1 konqhtml\\\">here</a>" ).arg(KStandardDirs::findExe("kcmshell")) )
-          .arg( i18n( "Secure <a href=\"http://java.sun.com\">Java</a><sup>&reg;</sup> support" ) )
-	  .arg( i18n( "JDK 1.2.0 (Java 2) compatible VM (<A HREF=\"http://www.blackdown.org\">Blackdown</A>, <A HREF=\"\">IBM</A>, <A HREF=\"http://www.kaffe.org\">Kaffe</A> or <A HREF=\"http://java.sun.com\">Sun</A>)" ) )
-	  .arg( i18n( "Enable Java (globally) <A HREF=\"\">here</A>" ) )
-	  .arg( i18n( "Netscape Communicator<SUP>&reg;</SUP> plugins (for viewing <A HREF=\"\">Flash</A><SUP>TM</SUP>, <A HREF=\"http://www.real.com\">Real</A>Audio<SUP>TM</SUP>, RealVideo<SUP>TM</SUP> etc.)" ) )
-	  .arg( i18n( "OSF/Motif<SUP>&reg;</SUP>-compatible library (<A HREF=\"http://www.openmotif.com\">Open Motif</A> or <A HREF=\"http://www.lesstif.org\">LessTif</A>)" ) )
-	  .arg( i18n( "<A HREF=\"http://www.netscape.com/eng/ssl3/\">Secure Sockets Layer</A> (TLS/SSL v2/3) for secure communications up to 168bit" ) )
-	  .arg( i18n( "<A HREF=\"http://www.openssl.org\">OpenSSL</A>" ) )
+          .arg( i18n( "<a href=\"%1\">ECMA-262</a> "
+                      "Edition 3 (equals roughly Javascript<sup>TM</sup> 1.5)" ).arg("http://www.ecma.ch/ecma1/STAND/ECMA-262.HTM") )
+          .arg( i18n( "Javascript disabled (globally). Enable Javascript <a href=\"%1\">here</a>" ).arg(kcmshell_konqhtml) )
+          .arg( i18n( "Javascript enabled (globally). Javascript configuration <a href=\\\"%1\\\">here</a>" ).arg(kcmshell_konqhtml) )
+          .arg( i18n( "Secure <a href=\"%1\">Java</a><sup>&reg;</sup> support" ).arg("http://java.sun.com") )
+	  .arg( i18n( "JDK 1.2.0 (Java 2) compatible VM (<A HREF=\"%1\">Blackdown</A>, <A HREF=\"%2\">IBM</A>, <A HREF=\"%3\">Kaffe</A> or <A HREF=\"%4\">Sun</A>)" ).arg("http://www.blackdown.org").arg("http://www.ibm.com").arg("http://www.kaffe.org").arg("http://java.sun.com") )
+	  .arg( i18n( "Enable Java (globally) <A HREF=\"%1\">here</A>" ).arg(kcmshell_konqhtml) )
+	  .arg( i18n( "Netscape Communicator<SUP>&reg;</SUP> plugins (for viewing <A HREF=\"%1\">Flash</A><SUP>TM</SUP>, <A HREF=\"%2\">Real</A>Audio<SUP>TM</SUP>, <A HREF=\"%2\">Real</A>Video<SUP>TM</SUP> etc.)" ).arg("TODO").arg("http://www.real.com").arg("http://www.real.com") )
+	  .arg( i18n( "OSF/Motif<SUP>&reg;</SUP>-compatible library (<A HREF=\"%1\">Open Motif</A> or <A HREF=\"%2\">LessTif</A>)" ).arg("http://www.openmotif.com").arg("http://www.lesstif.org") )
+	  .arg( i18n( "<A HREF=\"%1\">Secure Sockets Layer</A> (TLS/SSL v2/3) for secure communications up to 168bit" ).arg("http://www.netscape.com/eng/ssl3/") )
+	  .arg( i18n( "<A HREF=\"%1\">OpenSSL</A>" ).arg("http://www.openssl.org") )
 	  .arg( i18n( "Bidirectional 16bit unicode support" ) )
-	  .arg( i18n( "built-in" ) );
-// 	  .arg( i18n( "" ) )
-// 	  .arg( i18n( "" ) )
-// 	  .arg( i18n( "" ) )
-// 	  .arg( i18n( "" ) )
-// 	  .arg( i18n( "" ) )
-// 	  .arg( i18n( "" ) )
-// 	  .arg( i18n( "" ) )
-// 	  .arg( i18n( "" ) )
-// 	  .arg( i18n( "" ) )
-// 	  .arg( i18n( "" ) )
-// 	  .arg( i18n( "" ) )
-// 	  .arg( i18n( "" ) )
-// 	  .arg( i18n( "" ) );
+	  .arg( i18n( "built-in" ) )
+ 	  .arg( i18n( "Image formats:" ) )
+ 	  .arg( "<LI>PNG</LI><LI>MNG</LI><LI>JPG</LI><LI>GIF</LI>" ) // TODO better than that
+	  .arg( i18n( "built-in" ) )
+	  .arg( i18n( "Transfer protocols:") )
+	  .arg( i18n( "HTTP 1.1 (including gzip/bzip2 compression)" ) )
+	  .arg( i18n( "FTP" ) )
+          .arg( i18n( "<a href=\"%1\">and many more</a>" ).arg(kcmshell_ioslaveinfo) )
+	  .arg( i18n( "built-in" ) )
+ 	  .arg( i18n( "<a href=\"%1\">XBEL bookmarks</a>" ).arg("http://pyxml.sourceforge.net/topics/xbel/") )
+	  .arg( i18n( "built-in" ) )
+ 	  .arg( i18n( "Favourite icon support" ) )
+	  .arg( i18n( "built-in" ) )
+ 	  .arg( i18n( "Internet Keywords" ) )
+	  .arg( i18n( "built-in" ) )
+          ;
 
 
     s_page = new QString( res );
@@ -127,40 +132,23 @@ QString KonqAboutPageFactory::aboutPage()
     return res;
 }
 
-KonqAboutPage::KonqAboutPage( KonqMainWindow *mainWindow,
+KonqAboutPage::KonqAboutPage( KonqMainWindow *, // TODO get rid of this
                               QWidget *parentWidget, const char *widgetName,
                               QObject *parent, const char *name )
     : KHTMLPart( parentWidget, widgetName, parent, name )
 {
-    m_mainWindow = mainWindow;
-
-//    setInstance( KonqAboutPageFactory::instance(), false );
-
-//    QVBox *box = new QVBox( parentWidget, widgetName );
-
-//    m_doc = new KHTMLPart( box, "docview", this, "doc" );
-
-//    setWidget( box );
+    //m_mainWindow = mainWindow;
 }
 
 KonqAboutPage::~KonqAboutPage()
 {
-//    delete m_doc;
 }
 
-bool KonqAboutPage::openURL( const KURL &url )
+bool KonqAboutPage::openURL( const KURL & )
 {
-//    m_doc->begin( url );
-//    m_doc->write( "<html><body><h1>*test*</h1></body></html>" );
-//    m_doc->end();
-//    m_doc->openURL( "file:/home/simon/about.html" );
-//    KHTMLPart::openURL( "file:/home/simon/about.html" );
-    begin( url );
+    begin( "about:konqueror" );
     write( KonqAboutPageFactory::aboutPage() );
     end();
-
-    QTimer::singleShot( 0, m_mainWindow->action( "clear_location" ), SLOT( activate() ) );
-
     return true;
 }
 

@@ -342,25 +342,16 @@ void KonqMainWindow::openFilteredURL( const QString & _url )
     QString nameFilter = detectNameFilter( url );
 
     // Filter URL to build a correct one
-    KURL filteredURL;
-    if ( url.startsWith( "about" ) ) // hack to skip filtering
-        filteredURL = url;
-    else
-    {
-        filteredURL = KonqMisc::konqFilteredURL( this, url, m_currentDir );
-        kdDebug(1202) << "url " << url << " filtered into " << filteredURL.url() << endl;
-    }
+    KURL filteredURL = KonqMisc::konqFilteredURL( this, url, m_currentDir );
+    kdDebug(1202) << "url " << url << " filtered into " << filteredURL.url() << endl;
+
+    kdDebug() << "KonqMainWindow::openFilteredURL" << endl;
 
     // Remember the initial (typed) URL
     KonqOpenURLRequest req( _url );
     req.nameFilter = nameFilter;
 
-    QString serviceType;
-
-    if ( url == "about:" || url == "about:konqueror" ) // ### hack
-        serviceType = QString::fromLatin1( "KParts/ReadOnlyPart" );
-
-    openURL( 0L, filteredURL, serviceType, req );
+    openURL( 0L, filteredURL, QString::null, req );
 
     // #4070: Give focus to view after URL was entered manually
     // Note: we do it here if the view mode (i.e. part) wasn't changed
@@ -383,18 +374,15 @@ void KonqMainWindow::openURL( KonqView *_view, const KURL &url,
     return;
   }
 
-  if ( !url.url().startsWith( "about:" ) )
+  if ( url.isMalformed() )
   {
-      if ( url.isMalformed() )
-      {
-          KMessageBox::error(0, i18n("Malformed URL\n%1").arg(url.url()));
-          return;
-      }
-      if ( !KProtocolInfo::isKnownProtocol( url.protocol() ) )
-      {
-          KMessageBox::error(0, i18n("Protocol not supported\n%1").arg(url.protocol()));
-          return;
-      }
+      KMessageBox::error(0, i18n("Malformed URL\n%1").arg(url.url()));
+      return;
+  }
+  if ( !KProtocolInfo::isKnownProtocol( url.protocol() ) && url.protocol() != "about" )
+  {
+      KMessageBox::error(0, i18n("Protocol not supported\n%1").arg(url.protocol()));
+      return;
   }
 
   KonqView *view = _view;
@@ -422,7 +410,7 @@ void KonqMainWindow::openURL( KonqView *_view, const KURL &url,
     setLocationBarURL( url.prettyURL() );
 
   kdDebug(1202) << QString("trying openView for %1 (servicetype %2)").arg(url.url()).arg(serviceType) << endl;
-  if ( !serviceType.isEmpty() && serviceType != "application/octet-stream" )
+  if ( ( !serviceType.isEmpty() && serviceType != "application/octet-stream") || url.protocol() == "about" )
   {
     // Built-in view ?
     if ( !openView( serviceType, url, view /* can be 0L */, req ) )
@@ -525,10 +513,10 @@ bool KonqMainWindow::openView( QString serviceType, const KURL &_url, KonqView *
 
   QString serviceName; // default: none provided
 
+  if ( url.url() == "about:konqueror" )
   {
-      QString plainURL = url.url();
-      if ( plainURL == "about:" || plainURL == "about:konqueror" )
-          serviceName = "konq_aboutpage";
+      serviceType = "KParts/ReadOnlyPart";
+      serviceName = "konq_aboutpage";
   }
 
   // Look for which view mode to use, if a directory - not if view locked
@@ -1446,13 +1434,6 @@ void KonqMainWindow::slotPartActivated( KParts::Part *part )
       return;
     }
   }
-  /*
-    // Hmm, KonqViewManager::loadViewProfile has to set the active part to 0L
-    // before clearing all views. No warning, then.
-  else
-    if ( viewCount() > 0 ) // No warning if we're closing the window
-      kdWarning(1202) << "No more active part !!!! This shouldn't happen anymore !" << endl;
-      */
 
   KParts::BrowserExtension *ext = 0;
 

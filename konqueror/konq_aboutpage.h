@@ -47,7 +47,7 @@ private:
     static QString generateAboutPage();
 
     KHTMLPart *m_doc;
-    KonqMainWindow *m_mainWindow;
+    //KonqMainWindow *m_mainWindow;
 };
 
 #endif

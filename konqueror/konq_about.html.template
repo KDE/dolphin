@@ -11,7 +11,7 @@
 <P>
 %1
 <!--
-In addition to XBEL-bookmarks, favourite-icon support and Internet Keywords, Konqueror supports:
+Konqueror supports:
 -->
 </P>
 
@@ -30,68 +30,76 @@ In addition to XBEL-bookmarks, favourite-icon support and Internet Keywords, Kon
                 <TH>%1<!-- Additional requirements*--></TH>
         </TR>
         <TR BGCOLOR="#FFFFCC">
-                <TD>
-		  <!-- <A HREF="http://www.w3.org/DOM">DOM</A> (Level 1, partially Level 2) based
-		       <A HREF="http://www.w3.org/TR/html4/">HTML 4.01</A>-->
-                  %1
-		</TD>
+                <TD>%1<!-- DOM (Level 1, partially Level 2) based HTML 4.01</A>--></TD>
                 <TD>%1<!-- built-in --></TD>
         </TR>
         <TR>
-                <TD>%1<!-- <A HREF="http://www.w3.org/Style/CSS/">Cascading Style Sheets</A> (CSS 1, partially CSS 2) --></TD>
+                <TD>%1<!-- Cascading Style Sheets (CSS 1, partially CSS 2) --></TD>
                 <TD>%1<!-- built-in --></TD>
         </TR>
         <TR BGCOLOR="#FFFFCC">
-                <TD>%1<!-- <A HREF="http://www.ecma.ch/ecma1/STAND/ECMA-262.HTM">ECMA-262</A> Edition 3 (equals roughly Javascript<SUP>TM</SUP> 1.5) --></TD>
+                <TD>%1<!-- ECMA-262 Edition 3 (equals roughly Javascript 1.5) --></TD>
 <NOSCRIPT>
                 <TD>%1<!-- Javascript disabled [...] --></TD>
 </NOSCRIPT>
 <SCRIPT LANGUAGE="Javascript">
-                document.write("<TD>%1<!-- Javascript enabled [...]  --></TD>");
+                document.write("<TD>%1</TD>"); // Javascript enabled [...]
 </SCRIPT>
         </TR>
         <TR>
-                <TD>%1<!-- Secure <A HREF="http://java.sun.com">Java</A><SUP>&reg;</SUP> support--></TD>
+                <TD>%1<!-- Secure Java support--></TD>
                 <TD>
                         <UL>
-                                <LI>%1</LI><!-- JDK 1.2.0 (Java 2) compatible VM (<A HREF="http://www.blackdown.org">Blackdown</A>, <A HREF="">IBM</A>, <A HREF="http://www.kaffe.org">Kaffe</A> or <A HREF="http://java.sun.com">Sun</A>) --> 
-                                <LI>%1</LI><!-- Enable Java (globally) <A HREF="">here</A> -->
+                                <LI>%1</LI><!-- JDK 1.2.0 (Java 2) compatible VM (Blackdown, IBM, Kaffe or Sun) --> 
+                                <LI>%1</LI><!-- Enable Java (globally) here</A> -->
                         </UL>
                 </TD>
         </TR>
         <TR BGCOLOR="#FFFFCC">
-                <TD>%1</TD><!-- Netscape Communicator<SUP>&reg;</SUP> plugins (for viewing <A HREF="">Flash</A><SUP>TM</SUP>, <A HREF="http://www.real.com">Real</A>Audio<SUP>TM</SUP>, RealVideo<SUP>TM</SUP> etc.) -->
-                <TD>%1</TD><!-- OSF/Motif<SUP>&reg;</SUP>-compatible library (<A HREF="http://www.openmotif.com">Open Motif</A> or <A HREF="http://www.lesstif.org">LessTif</A>) -->
+                <TD>%1</TD><!-- Netscape Communicator plugins (for viewing Flash, RealAudio, RealVideo etc.) -->
+                <TD>%1</TD><!-- OSF/Motif-compatible library (Open Motif or LessTif) -->
         </TR>
         <TR>
-                <TD>%1</TD><!-- <A HREF="http://www.netscape.com/eng/ssl3/">Secure Sockets Layer</A> (TLS/SSL v2/3) for secure communications up to 168bit -->
-                <TD>%1</TD><!-- <A HREF="http://www.openssl.org">OpenSSL</A> -->
+                <TD>%1</TD><!-- Secure Sockets Layer (TLS/SSL v2/3) for secure communications up to 168bit -->
+                <TD>%1</TD><!-- OpenSSL -->
         </TR>
         <TR BGCOLOR="#FFFFCC">
                 <TD>%1</TD><!-- Bidirectional 16bit unicode support -->
                 <TD>%1</TD><!-- built-in -->
         </TR>
         <TR>
-                <TD>
-                Image formats:
+                <TD>%1<!-- Image formats: -->
                 <UL>
+                %1<!--
                 <LI>PNG</LI>
                 <LI>MNG</LI>
                 <LI>JPG</LI>
-                <LI>GIF</LI>
+                <LI>GIF</LI>-->
                 </UL>
                 </TD>
-                <TD>built-in</TD>
+                <TD>%1</TD><!-- built-in -->
         </TR>
         <TR BGCOLOR="#FFFFCC">
-                <TD> Transfer protocols:
+                <TD>%1<!-- Transfer protocols:-->
                 <UL>
-                <LI>HTTP 1.1 (including gzip/bzip2 compression)</LI>
-                <LI>FTP</LI>
+                <LI>%1<!--HTTP 1.1 (including gzip/bzip2 compression)--></LI>
+                <LI>%1<!--FTP--></LI>
+                <LI>%1<!--and many more--></LI>
                 </TD>
-                <TD>&nbsp;</TD>
+                <TD>%1</TD><!-- built-in -->
         </TR>
-
+        <TR>
+                <TD>%1</TD><!-- XBEL bookmarks -->
+                <TD>%1</TD><!-- built-in -->
+        </TR>
+        <TR BGCOLOR="#FFFFCC">
+                <TD>%1</TD><!-- Favourite icon support -->
+                <TD>%1</TD><!-- built-in -->
+        </TR>
+        <TR>
+                <TD>%1</TD><!-- Internet Keywords -->
+                <TD>%1</TD><!-- built-in -->
+        </TR>
 </TABLE>
 
 </TD></TR></TABLE>

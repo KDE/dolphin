@@ -1,3 +1,8 @@
+2001-01-15  David Faure  <faure@kde.org>
+
+	* konq_aboutpage.cc, konq_mainwindow.cc: Support for "about:konqueror".
+	Credits to Simon for the part, and Torsten for the icons.
+
 2001-01-14  David Faure  <faure@kde.org>
 
 	* konq_viewmgr.cc (loadItem): Use openView instead of view->openURL,

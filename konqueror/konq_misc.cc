@@ -103,18 +103,24 @@ KonqMainWindow * KonqMisc::createBrowserWindowFromProfile( const QString &path, 
 
 QString KonqMisc::konqFilteredURL( QWidget* parent, const QString& _url, const QString& _path )
 {
-  KURIFilterData data = _url;
-
-  if( !_path.isEmpty() )
-    data.setAbsolutePath(_path);
-
-  if( KURIFilter::self()->filterURI( data ) )
+  if ( !_url.startsWith( "about:" ) ) // Don't filter "about:" URLs
   {
-    if( data.uriType() == KURIFilterData::ERROR && !data.errorMsg().isEmpty() )
-      KMessageBox::sorry( parent, i18n( data.errorMsg().utf8() ) );
-    else
-      return data.uri().url();
+    KURIFilterData data = _url;
+
+    if( !_path.isEmpty() )
+      data.setAbsolutePath(_path);
+
+    if( KURIFilter::self()->filterURI( data ) )
+    {
+      if( data.uriType() == KURIFilterData::ERROR && !data.errorMsg().isEmpty() )
+        KMessageBox::sorry( parent, i18n( data.errorMsg().utf8() ) );
+      else
+        return data.uri().url();
+    }
   }
+  else
+      if ( _url == "about:" ) // We can't use "about:" as it is, KURL doesn't parse it.
+          return "about:konqueror";
   return _url;  // return the original url if it cannot be filtered.
 }
 
