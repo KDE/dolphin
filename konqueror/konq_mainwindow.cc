@@ -2827,11 +2827,11 @@ void KonqMainWindow::initActions()
   // Window menu
   m_paSplitViewHor = new KAction( i18n( "Split View &Left/Right" ), "view_left_right", CTRL+SHIFT+Key_L, this, SLOT( slotSplitViewHorizontal() ), actionCollection(), "splitviewh" );
   m_paSplitViewVer = new KAction( i18n( "Split View &Top/Bottom" ), "view_top_bottom", CTRL+SHIFT+Key_T, this, SLOT( slotSplitViewVertical() ), actionCollection(), "splitviewv" );
-  m_paAddTab = new KAction( i18n( "New Tab" ), "view_new_tab", CTRL+SHIFT+Key_N, this, SLOT( slotAddTab() ), actionCollection(), "newtab" );
-  m_paDuplicateTab = new KAction( i18n( "Duplicate Current Tab" ), "view_duplicate_current_tab", CTRL+SHIFT+Key_D, this, SLOT( slotDuplicateTab() ), actionCollection(), "duplicatecurrenttab" );
-  m_paBreakOffTab = new KAction( i18n( "Break Off Current Tab" ), "view_break_off_current_tab", CTRL+SHIFT+Key_B, this, SLOT( slotBreakOffTab() ), actionCollection(), "breakoffcurrenttab" );
+  m_paAddTab = new KAction( i18n( "New Tab" ), "tab_new", CTRL+SHIFT+Key_N, this, SLOT( slotAddTab() ), actionCollection(), "newtab" );
+  m_paDuplicateTab = new KAction( i18n( "Duplicate Current Tab" ), "tab_duplicate", CTRL+SHIFT+Key_D, this, SLOT( slotDuplicateTab() ), actionCollection(), "duplicatecurrenttab" );
+  m_paBreakOffTab = new KAction( i18n( "Break Off Current Tab" ), "tab_breakoff", CTRL+SHIFT+Key_B, this, SLOT( slotBreakOffTab() ), actionCollection(), "breakoffcurrenttab" );
   m_paRemoveView = new KAction( i18n( "&Remove Active View" ),"view_remove", CTRL+SHIFT+Key_R, this, SLOT( slotRemoveView() ), actionCollection(), "removeview" );
-  m_paRemoveTab = new KAction( i18n( "Remove Current Tab" ), "view_remove_current_tab", CTRL+SHIFT+Key_W, this, SLOT( slotRemoveTab() ), actionCollection(), "removecurrenttab" );
+  m_paRemoveTab = new KAction( i18n( "Remove Current Tab" ), "tab_remove", CTRL+SHIFT+Key_W, this, SLOT( slotRemoveTab() ), actionCollection(), "removecurrenttab" );
   m_paDumpDebugInfo = new KAction( i18n( "Dump Debug Info" ), "view_dump_debug_info", 0, this, SLOT( slotDumpDebugInfo() ), actionCollection(), "dumpdebuginfo" );
 
   m_paSaveRemoveViewProfile = new KAction( i18n( "&Configure View Profiles..." ), 0, m_pViewManager, SLOT( slotProfileDlg() ), actionCollection(), "saveremoveviewprofile" );
