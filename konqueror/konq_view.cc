@@ -523,7 +523,7 @@ void KonqView::setPassiveMode( bool mode )
   m_bPassiveMode = mode;
 
   if ( mode && m_pMainWindow->viewCount() > 1 && m_pMainWindow->currentView() == this )
-    m_pMainWindow->viewManager()->setActivePart( m_pMainWindow->viewManager()->chooseNextView( this )->part() );
+    m_pMainWindow->viewManager()->chooseNextView( this )->part()->widget()->setFocus(); // switch active part
 
   // Update statusbar stuff
   m_pMainWindow->viewManager()->viewCountChanged();

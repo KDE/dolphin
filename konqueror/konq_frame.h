@@ -179,11 +179,14 @@ public:
   /**
    * Returns the part that is currently connected to the Frame.
    */
-  KParts::ReadOnlyPart *part();
+  KParts::ReadOnlyPart *part() { return m_pPart; }
+  /**
+   * Returns the view that is currently connected to the Frame.
+   */
+  KonqView* childView() { return m_pView; }
 
   bool isActivePart();
 
-  KonqView* childView() { return m_pView; }
   void setView( KonqView* child );
   void listViews( ChildViewList *viewList );
 

@@ -284,11 +284,6 @@ KonqFrame::~KonqFrame()
   //delete m_pLayout;
 }
 
-KParts::ReadOnlyPart * KonqFrame::part()
-{
-  return m_pPart;
-}
-
 bool KonqFrame::isActivePart()
 {
   return ( m_pView &&
@@ -391,7 +386,7 @@ void KonqFrame::reparentFrame( QWidget* parent, const QPoint & p, bool showIt )
 void KonqFrame::slotStatusBarClicked()
 {
   if ( !isActivePart() )
-     m_pView->mainWindow()->viewManager()->setActivePart( m_pPart );
+    part()->widget()->setFocus(); // Will change the active part
 }
 
 void KonqFrame::slotLinkedViewClicked( bool mode )
