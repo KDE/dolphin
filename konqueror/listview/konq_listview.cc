@@ -120,7 +120,6 @@ void ListViewBrowserExtension::updateActions()
   QValueList<KonqBaseListViewItem*> selection;
   m_listView->listViewWidget()->selectedItems( selection );
 
-  bool cutcopy, del;
   bool bInTrash = false;
   QValueList<KonqBaseListViewItem*>::ConstIterator it = selection.begin();
   KFileItem * firstSelectedItem = 0L;
@@ -131,13 +130,14 @@ void ListViewBrowserExtension::updateActions()
     if ( ! firstSelectedItem )
         firstSelectedItem = (*it)->item();
   }
-  cutcopy = del = ( selection.count() > 0 );
+   
+  bool hasSelection = selection.count() > 0;
 
-  emit enableAction( "copy", cutcopy );
-  emit enableAction( "cut", cutcopy );
-  emit enableAction( "trash", del && !bInTrash && m_listView->url().isLocalFile() );
-  emit enableAction( "del", del );
-  emit enableAction( "shred", del );
+  emit enableAction( "copy", hasSelection );
+  emit enableAction( "cut", hasSelection );
+  emit enableAction( "trash", hasSelection && !bInTrash && m_listView->url().isLocalFile() );
+  emit enableAction( "del", hasSelection );
+  emit enableAction( "shred", hasSelection );
 
   KFileItemList lstItems;
   if ( firstSelectedItem )
@@ -145,7 +145,7 @@ void ListViewBrowserExtension::updateActions()
   emit enableAction( "properties", ( selection.count() == 1 ) &&
                      KPropertiesDialog::canDisplay( lstItems ) );
   emit enableAction( "editMimeType", ( selection.count() == 1 ) );
-  emit enableAction( "rename", ( selection.count() == 1 ) );
+  emit enableAction( "rename", ( m_listView->listViewWidget()->currentItem() != 0 ) );
 }
 
 void ListViewBrowserExtension::copySelection( bool move )
@@ -183,10 +183,9 @@ void ListViewBrowserExtension::paste()
 
 void ListViewBrowserExtension::rename()
 {
-  QValueList<KonqBaseListViewItem*> selection;
-  m_listView->listViewWidget()->selectedItems( selection );
-  Q_ASSERT ( selection.count() == 1 );
-  m_listView->listViewWidget()->rename( selection.first(), 0 );
+  QListViewItem* item = m_listView->listViewWidget()->currentItem();
+  Q_ASSERT ( item );
+  m_listView->listViewWidget()->rename( item, 0 );
 }
 
 void ListViewBrowserExtension::reparseConfiguration()
@@ -270,8 +269,10 @@ KonqListView::KonqListView( QWidget *parentWidget, QObject *parent, const char *
    // Note: File Type is in fact the mimetype comment. We use UDS_FILE_TYPE but that's not what we show in fact :/
    m_pListView->confColumns[10].setData(I18N_NOOP("File Type"),"Type",KIO::UDS_FILE_TYPE,-1,FALSE,m_paShowType);
 
-   QObject::connect( m_pListView, SIGNAL( selectionChanged() ),
-                     m_extension, SLOT( updateActions() ) );
+   connect( m_pListView, SIGNAL( selectionChanged() ),
+            m_extension, SLOT( updateActions() ) );
+   connect( m_pListView, SIGNAL( currentChanged(QListViewItem*) ),
+            m_extension, SLOT( updateActions() ) );
    connect(m_pListView->header(),SIGNAL(indexChange(int,int,int)),this,SLOT(headerDragged(int,int,int)));
    connect(m_pListView->header(),SIGNAL(clicked(int)),this,SLOT(slotHeaderClicked(int)));
 
