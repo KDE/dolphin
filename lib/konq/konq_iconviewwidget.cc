@@ -76,6 +76,7 @@ public:
 
         hide();
     }
+    ~KFileTip();
 
     void setPreview(bool on)
     {
@@ -123,6 +124,14 @@ private:
     KIO::PreviewJob* m_previewJob;
     KFileIVI*  m_ivi;
 };
+
+KFileTip::~KFileTip() 
+{
+   if ( m_previewJob ) {
+        m_previewJob->kill();
+        m_previewJob = 0;
+    }
+}
 
 void KFileTip::setItem( KFileIVI *ivi )
 {
