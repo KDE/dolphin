@@ -43,6 +43,7 @@
 #include <kmessagebox.h>
 #include <klineeditdlg.h>
 #include <qdir.h>
+#include <qdockarea.h>
 #if QT_VERSION >= 300
 #include <qucom.h>
 #endif
@@ -181,14 +182,17 @@ Sidebar_Widget::Sidebar_Widget(QWidget *parent, KParts::ReadOnlyPart *par, const
 	mainW->setDockSite(KDockWidget::DockTop);
 	mainW->setEnableDocking(KDockWidget::DockNone);
 	connect(Area,SIGNAL(docked()),this,SLOT(updateDock()));
-   	ButtonBar=new Sidebar_ButtonBar(this);
+	QDockArea *qda=new QDockArea(Vertical,QDockArea::Normal,this,"SidebardockArea");
+   	ButtonBar=new Sidebar_ButtonBar(qda);
 	ButtonBar->setIconText(KToolBar::IconOnly);
 #ifdef __GNUC__
 #warning setIconSize(16) for the buttonbar is only a temporary solution for missing 22x22 icons
 #endif
 	ButtonBar->setIconSize(16);
-   	ButtonBar->enableMoving(false);
 	ButtonBar->setOrientation(Qt::Vertical);
+	ButtonBar->setBarPos(KToolBar::Right);
+   	ButtonBar->setMovingEnabled(false);
+	ButtonBar->adjustSize();
 
 	Menu=new QPopupMenu(this,"Sidebar_Widget::Menu");
 	QPopupMenu *addMenu=new QPopupMenu(this,"Sidebar_Widget::addPopup");
