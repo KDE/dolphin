@@ -2356,6 +2356,9 @@ void KonqMainWindow::slotPopupNewTab()
     bool openAfterCurrentPage = config->readBoolEntry( "OpenAfterCurrentPage", false );
     bool newTabsInFront = config->readBoolEntry( "NewTabsInFront", false );
 
+    if (KApplication::keyboardModifiers() & KApplication::ShiftModifier)
+      newTabsInFront = !newTabsInFront;
+
     popupNewTab(newTabsInFront, openAfterCurrentPage);
 }
 
