@@ -134,6 +134,7 @@ class Sidebar_Widget: public QWidget
   	void dockWidgetHasUndocked(KDockWidget*);
 	void aboutToShowConfigMenu();
 	void slotDeleted();
+	void saveOpenViews();
   signals:
 		void started(KIO::Job *);
                 void completed();
