@@ -328,7 +328,7 @@ void KonqKfmIconView::slotShowDot()
   m_dirLister->setShowingDotFiles( m_pProps->m_bShowDot );
   // TODO : reArrange() [asked Reggie already]
   //we don't want the non-dot files to remain where they are !
-  alignItemsInGrid();
+  m_pIconView->alignItemsInGrid();
   m_pIconView->repaintContents( m_pIconView->contentsX(), m_pIconView->contentsY(),
 				m_pIconView->viewport()->width(), m_pIconView->viewport()->height(),
 				FALSE );
