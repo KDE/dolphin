@@ -1,7 +1,7 @@
 
 INCLUDES= $(all_includes) 
 
-CLEANFILES = $(BUILT_SOURCES)
+DISTCLEANFILES = $(BUILT_SOURCES)
 bin_PROGRAMS = kfind
 LDADD = $(all_libraries) -lkfm -lkdeui -lkdecore -lqt -lXext -lX11 $(LIBSOCKET) $(KDE_RPATH)
 
