@@ -59,8 +59,8 @@
 
 enum _ids {
 ////// toolbar buttons //////
-    TOOLBAR_UP_ID, TOOLBAR_BACK_ID, TOOLBAR_FORWARD_ID,
-    TOOLBAR_HOME_ID, TOOLBAR_RELOAD_ID, TOOLBAR_COPY_ID, TOOLBAR_PASTE_ID,
+  // TOOLBAR_UP_ID, TOOLBAR_BACK_ID, TOOLBAR_FORWARD_ID, TOOLBAR_HOME_ID,      used menu IDs instead
+    TOOLBAR_RELOAD_ID, TOOLBAR_COPY_ID, TOOLBAR_PASTE_ID,
     TOOLBAR_HELP_ID, TOOLBAR_STOP_ID, TOOLBAR_GEAR_ID,
 /////  toolbar lineedit /////
     TOOLBAR_URL_ID,
@@ -80,6 +80,7 @@ enum _ids {
     MVIEW_RELOAD_ID, MVIEW_STOPLOADING_ID,
     // + view frame source, view document source, document encoding
 
+    MGO_UP_ID, MGO_BACK_ID, MGO_FORWARD_ID, MGO_HOME_ID,
     MGO_CACHE_ID, MGO_HISTORY_ID, MGO_MIMETYPES_ID, MGO_APPLICATIONS_ID
 
     // clear cache is needed somewhere
@@ -325,7 +326,10 @@ bool KonqMainView::mappingCreateMenubar( OpenPartsUI::MenuBar_ptr menuBar )
   
   menuBar->insertMenu( i18n("&Go"), m_vMenuGo, -1, -1 );
 
-  //TODO: up, back, forward, home
+  m_vMenuGo->insertItem4( i18n("&Up"), this, "slotUp", 0, MGO_UP_ID, -1 );
+  m_vMenuGo->insertItem4( i18n("&Back"), this, "slotBack", 0, MGO_BACK_ID, -1 );
+  m_vMenuGo->insertItem4( i18n("&Forward"), this, "slotForward", 0, MGO_FORWARD_ID, -1 );
+  m_vMenuGo->insertItem4( i18n("&Home"), this, "slotHome", 0, MGO_HOME_ID, -1 );
   m_vMenuGo->insertSeparator( -1 );
   m_vMenuGo->insertItem4( i18n("&Cache"), this, "slotShowCache", 0, MGO_CACHE_ID, -1 );
   m_vMenuGo->insertItem4( i18n("&History"), this, "slotShowHistory", 0, MGO_HISTORY_ID, -1 );
@@ -361,19 +365,19 @@ bool KonqMainView::mappingCreateToolbar( OpenPartsUI::ToolBarFactory_ptr factory
   m_vToolBar->setFullWidth( false );
 
   pix = OPUIUtils::convertPixmap( *KPixmapCache::toolbarPixmap( "up.xpm" ) );
-  m_vToolBar->insertButton2( pix, TOOLBAR_UP_ID, SIGNAL(clicked()),
+  m_vToolBar->insertButton2( pix, MGO_UP_ID, SIGNAL(clicked()),
                              this, "slotUp", false, i18n("Up"), -1);
 
   pix = OPUIUtils::convertPixmap( *KPixmapCache::toolbarPixmap( "back.xpm" ) );
-  m_vToolBar->insertButton2( pix, TOOLBAR_BACK_ID, SIGNAL(clicked()),
+  m_vToolBar->insertButton2( pix, MGO_BACK_ID, SIGNAL(clicked()),
                              this, "slotBack", false, i18n("Back"), -1);
 
   pix = OPUIUtils::convertPixmap( *KPixmapCache::toolbarPixmap( "forward.xpm" ) );
-  m_vToolBar->insertButton2( pix, TOOLBAR_FORWARD_ID, SIGNAL(clicked()),
+  m_vToolBar->insertButton2( pix, MGO_FORWARD_ID, SIGNAL(clicked()),
                              this, "slotForward", false, i18n("Forward"), -1);
 
   pix = OPUIUtils::convertPixmap( *KPixmapCache::toolbarPixmap( "home.xpm" ) );
-  m_vToolBar->insertButton2( pix, TOOLBAR_HOME_ID, SIGNAL(clicked()),
+  m_vToolBar->insertButton2( pix, MGO_HOME_ID, SIGNAL(clicked()),
                              this, "slotHome", true, i18n("Home"), -1);
 
   m_vToolBar->insertSeparator( -1 );
@@ -515,8 +519,8 @@ void KonqMainView::setActiveView( OpenParts::Id id )
   if ( !CORBA::is_nil( m_vToolBar ) )
   {
     setUpEnabled( sViewURL.in() );
-    m_vToolBar->setItemEnabled( TOOLBAR_BACK_ID, m_currentView->m_lstBack.size() != 0 );
-    m_vToolBar->setItemEnabled( TOOLBAR_FORWARD_ID, m_currentView->m_lstForward.size() != 0 );
+    setItemEnabled( m_vMenuGo, MGO_BACK_ID, m_currentView->m_lstBack.size() != 0 );
+    setItemEnabled( m_vMenuGo, MGO_FORWARD_ID, m_currentView->m_lstForward.size() != 0 );
   }
 
   if ( !CORBA::is_nil( m_vLocationBar ) )
@@ -659,7 +663,7 @@ void KonqMainView::makeHistory( KonqChildView *v )
         v->m_lstForward.push_front( v->m_tmpInternalHistoryEntry );
       
         if ( !CORBA::is_nil( m_vToolBar ) && ( m_currentId == v->m_vView->id() ) )
-          m_vToolBar->setItemEnabled( TOOLBAR_FORWARD_ID, true );
+          setItemEnabled( m_vMenuGo, MGO_FORWARD_ID, true );
       }
       else if ( v->m_bForward )
       {
@@ -668,7 +672,8 @@ void KonqMainView::makeHistory( KonqChildView *v )
         v->m_lstBack.push_back( v->m_tmpInternalHistoryEntry );
       
         if ( !CORBA::is_nil( m_vToolBar ) && ( m_currentId == v->m_vView->id() ) )
-          m_vToolBar->setItemEnabled( TOOLBAR_BACK_ID, true );
+          setItemEnabled( m_vMenuGo, MGO_BACK_ID, true );
+
       }
       else
       {
@@ -677,8 +682,8 @@ void KonqMainView::makeHistory( KonqChildView *v )
       
         if ( !CORBA::is_nil( m_vToolBar ) && ( m_currentId == v->m_vView->id() ) )
         {
-          m_vToolBar->setItemEnabled( TOOLBAR_FORWARD_ID, false );
-          m_vToolBar->setItemEnabled( TOOLBAR_BACK_ID, true );
+          setItemEnabled( m_vMenuGo, MGO_BACK_ID, true );
+          setItemEnabled( m_vMenuGo, MGO_FORWARD_ID, false );
         }
       }	
     }
@@ -779,6 +784,17 @@ void KonqMainView::setLocationBarURL( OpenParts::Id id, const char *_url )
   setUpEnabled( _url ); // new url -> check if up is possible
 }
 
+void KonqMainView::setItemEnabled( OpenPartsUI::Menu_ptr menu, int id, bool enable )
+{
+  // enable menu item, and if present in toolbar, related button
+  // this will allow configurable toolbar buttons later
+  if ( !CORBA::is_nil( menu ) ) 
+    menu->setItemEnabled( id, enable );
+ 
+  if ( !CORBA::is_nil( m_vToolBar ) ) // TODO : and if such ID exists in toolbar
+    m_vToolBar->setItemEnabled( id, enable );
+} 
+
 void KonqMainView::setUpEnabled( const char * _url )
 {
   KURL u;
@@ -794,9 +810,7 @@ void KonqMainView::setUpEnabled( const char * _url )
     }
   }
   
-  if ( !CORBA::is_nil( m_vToolBar ) )
-    m_vToolBar->setItemEnabled( TOOLBAR_UP_ID, bHasUpURL );
-  //TODO same in "go" menu
+  setItemEnabled( m_vMenuGo, MGO_UP_ID, bHasUpURL );
 }
 
 void KonqMainView::createNewWindow( const char *url )
@@ -1535,7 +1549,7 @@ void KonqMainView::slotBack()
   m_currentView->m_lstBack.pop_back();
 
   if( m_currentView->m_lstBack.size() == 0 && ( !CORBA::is_nil( m_vToolBar ) ) )
-    m_vToolBar->setItemEnabled( TOOLBAR_BACK_ID, false );
+    setItemEnabled( m_vMenuGo, MGO_BACK_ID, false );
 
   m_currentView->m_bBack = true;
 
@@ -1565,7 +1579,7 @@ void KonqMainView::slotForward()
   m_currentView->m_lstForward.pop_front();
 
   if( m_currentView->m_lstForward.size() == 0 && ( !CORBA::is_nil( m_vToolBar ) ) )
-    m_vToolBar->setItemEnabled( TOOLBAR_FORWARD_ID, false );
+    setItemEnabled( m_vMenuGo, MGO_FORWARD_ID, false );
 
   m_currentView->m_bForward = true;
 

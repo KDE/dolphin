@@ -192,20 +192,37 @@ protected:
   void initGui();
   void initPanner();
   void initView();
-  
-  /* Enable or disable the "up" button (and the menu item) depending
-   * on the paremeter, _url */
-  void setUpEnabled( const char * _url );
 
-  /* Changes the view mode of the current view, if different from viewName*/
+  /**
+   * Changes the view mode of the current view, if different from viewName
+   */
   void changeViewMode( const char *viewName );
-  /* Create a view
-   * @param viewName the type of view to be created (e.g. "KonqKfmIconView") */
+  /**
+   * Create a view
+   * @param viewName the type of view to be created (e.g. "KonqKfmIconView") 
+   */
   Konqueror::View_ptr createViewByName( const char *viewName );
-  /* Create a new view from the current view (same URL, same view type) */
+  /**
+   * Create a new view from the current view (same URL, same view type) 
+   */
   void splitView ( Konqueror::NewViewPosition newViewPosition );
-  /* Connects a view to the mainview. Do this after creating it and before inserting it */
+  /**
+   * Connects a view to the mainview. Do this after creating it and before inserting it
+   */
   void connectView( Konqueror::View_ptr view );
+  
+  /**
+   * Enable or disable the "up" button (and the menu item) depending
+   * on the parameter, _url */
+  void setUpEnabled( const char * _url );
+  /**
+   * Enable menu item and related toolbar button if present
+   * This will allow configurable toolbar buttons later
+   * @param menu the menu hosting the menu item
+   * @param id the item id (both for menu and toolbar)
+   * @param enable whether to enable or disable it
+   */
+  void setItemEnabled( OpenPartsUI::Menu_ptr menu, int id, bool enable );
 
   void makeHistory( KonqChildView *v );
 
