@@ -21,8 +21,6 @@
 #include "konq_listviewitems.h"
 #include "konq_listviewwidget.h"
 #include "konq_propsview.h"
-#include <kglobalsettings.h>
-
 
 #include <qdragobject.h>
 #include <qheader.h>
@@ -31,6 +29,7 @@
 #include <kdebug.h>
 #include <kdirlister.h>
 #include <kglobal.h>
+#include <kglobalsettings.h>
 #include <kio/job.h>
 #include <kio/paste.h>
 #include <konqoperations.h>
@@ -39,9 +38,7 @@
 #include <kprotocolmanager.h>
 #include <konqsettings.h>
 
-
 #include <stdlib.h>
-
 #include <assert.h>
 
 KonqBaseListViewWidget::KonqBaseListViewWidget( KonqListView *parent, QWidget *parentWidget)
@@ -49,11 +46,8 @@ KonqBaseListViewWidget::KonqBaseListViewWidget( KonqListView *parent, QWidget *p
 ,m_dirLister(0L)
 ,m_iColumns(-1)
 ,m_dragOverItem(0L)
-,m_overItem(0L)
 ,m_pressed(FALSE)
 ,m_pressedItem(0L)
-,m_stdCursor(KCursor().arrowCursor())
-,m_handCursor(KCursor().handCursor())
 ,m_showTime(FALSE)
 ,m_showSize(TRUE)
 ,m_showOwner(TRUE)
@@ -76,16 +70,15 @@ KonqBaseListViewWidget::KonqBaseListViewWidget( KonqListView *parent, QWidget *p
    m_pProps = new KonqPropsView( * KonqPropsView::defaultProps() );
 
    //Adjust QListView behaviour
-   //setSelectionMode( Extended );
+   setSelectionMode( Extended );
    setMultiSelection(TRUE);
-   setSelectionMode( Multi );
    setSorting( 1 );
 
    initConfig();
 
    connect(this,SIGNAL(rightButtonPressed(QListViewItem*,const QPoint&,int)),this,SLOT(slotRightButtonPressed(QListViewItem*,const QPoint&,int)));
    connect(this,SIGNAL(returnPressed(QListViewItem*)),this,SLOT(slotReturnPressed(QListViewItem*)));
-   connect(this,SIGNAL(doubleClicked(QListViewItem* )),this,SLOT(slotReturnPressed(QListViewItem*)));
+   connect(this,SIGNAL(executed(QListViewItem* )),this,SLOT(slotExecuted(QListViewItem*)));
    connect(this,SIGNAL(currentChanged(QListViewItem*)),this,SLOT(slotCurrentChanged(QListViewItem*)));
    connect(this,SIGNAL(onItem(QListViewItem*)),this,SLOT(slotOnItem(QListViewItem*)));
    connect(this,SIGNAL(onViewport()),this,SLOT(slotOnViewport()));
@@ -233,34 +226,45 @@ QStringList KonqBaseListViewWidget::readProtocolConfig( const QString & protocol
 
 void KonqBaseListViewWidget::initConfig()
 {
-  KonqFMSettings * pSettings = KonqFMSettings::settings();
-   QColor bgColor           = pSettings->bgColor();
-   // TODO QColor textColor         = pSettings->normalTextColor();
+   m_pSettings = KonqFMSettings::settings();
    // TODO highlightedTextColor
 
-   QString stdFontName      = pSettings->stdFontName();
-   int fontSize             = pSettings->fontSize();
+   QColorGroup a = palette().active();
+   QColorGroup d = palette().disabled();
+   QColorGroup i = palette().inactive();
 
    m_bgPixmap         = m_pProps->bgPixmap();
-
    if ( m_bgPixmap.isNull() )
    {
-      // viewport()->setBackgroundMode( PaletteBackground );
-      /*viewport()->*/setBackgroundColor( bgColor );
+     a.setColor( QColorGroup::Base, m_pSettings->bgColor() );
+     d.setColor( QColorGroup::Base, m_pSettings->bgColor() );
+     i.setColor( QColorGroup::Base, m_pSettings->bgColor() );
    }
    else
       viewport()->setBackgroundPixmap( m_bgPixmap );
 
-   QFont font( stdFontName, fontSize );
-   setFont( font );
+   QFont stdFont( m_pSettings->stdFontName(), m_pSettings->fontSize() );
+   setFont( stdFont );
+   a.setColor( QColorGroup::Text, Qt::darkGray );
+   d.setColor( QColorGroup::Text, Qt::darkGray );
+   i.setColor( QColorGroup::Text, Qt::darkGray );
 
-   m_bUnderlineLink     = pSettings->underlineLink();
-   m_bSingleClick       = KGlobalSettings::singleClick();
-   m_bChangeCursor      = KGlobalSettings::changeCursorOverIcon();
+   //setColor( Qt::darkGray );
+
+   //TODO: create config GUI
+   QFont itemFont( m_pSettings->stdFontName(), m_pSettings->fontSize() );
+   itemFont.setUnderline( m_pSettings->underlineLink() );
+   setItemFont( itemFont );
+   setItemColor( m_pSettings->normalTextColor() );
+
+   setPalette( QPalette( a, d, i ) );
 }
 
 void KonqBaseListViewWidget::viewportDragMoveEvent( QDragMoveEvent *_ev )
 {
+  static int c = 0;
+  c++;
+  debug("DRAG EVENT %d",c);
    KonqBaseListViewItem *item = (KonqBaseListViewItem*)itemAt( _ev->pos() );
    if ( !item )
    {
@@ -286,6 +290,7 @@ void KonqBaseListViewWidget::viewportDragMoveEvent( QDragMoveEvent *_ev )
       _ev->ignore();
       m_dragOverItem = 0L;
    }
+   
    return;
 }
 
@@ -355,71 +360,30 @@ void KonqBaseListViewWidget::keyPressEvent( QKeyEvent *_ev )
 
 void KonqBaseListViewWidget::viewportMousePressEvent( QMouseEvent *_ev )
 {
-   QPoint globalPos = mapToGlobal( _ev->pos() );
-   m_pressed = false;
+  KListView::viewportMousePressEvent( _ev );
 
-   if ( m_bSingleClick )
-   {
-      KonqBaseListViewItem *item = (KonqBaseListViewItem*)itemAt( _ev->pos() );
-      if ( item )
-      {
-         if ( m_overItem )
-         {
-            //reset to standard cursor
-            setCursor( m_stdCursor );
-            m_overItem = 0;
-         }
+  QPoint globalPos = mapToGlobal( _ev->pos() );
+  m_pressed = false;
 
-         if ( ( _ev->state() & ControlButton ) && _ev->button() == LeftButton )
-         {
-            setSelected( item, !item->isSelected() );
-            return;
-         }
+  KonqBaseListViewItem *item = (KonqBaseListViewItem*)itemAt( _ev->pos() );
+  if ( item ) {
+    if ( _ev->button() == LeftButton || _ev->button() == MidButton ) {
 
-         if ( _ev->button() == RightButton && !item->isSelected() )
-         {
-            clearSelection();
-            setSelected( item, true );
-         }
-         else if ( _ev->button() == LeftButton || _ev->button() == MidButton )
-         {
-            if ( !item->isSelected() )
-            {
-               clearSelection();
-               setSelected( item, true );
-            }
+      m_pressed = true;
+      m_pressedPos = _ev->pos();
+      m_pressedItem = item;
+      return;
 
-            m_pressed = true;
-            m_pressedPos = _ev->pos();
-            m_pressedItem = item;
-            return;
-         }
-         popupMenu( globalPos );
-         return;
-      }
-      else if ( _ev->button() == RightButton )
-      {
-         popupMenu( globalPos );
-         return;
-      }
-      else clearSelection();
-   }
+    }
+  }
 }
 
 void KonqBaseListViewWidget::viewportMouseReleaseEvent( QMouseEvent *_mouse )
 {
+   KListView::viewportMouseReleaseEvent( _mouse );
+
    if ( !m_pressed )
       return;
-
-   if ( m_bSingleClick
-        && _mouse->button() == LeftButton
-        && !( ( _mouse->state() & ControlButton ) == ControlButton )
-        && isSingleClickArea( _mouse->pos() ) )
-   {
-      if ( m_pressedItem->isExpandable() )
-         m_pressedItem->setOpen( !m_pressedItem->isOpen() );
-      slotReturnPressed( m_pressedItem );
-   }
 
    m_pressed = false;
    m_pressedItem = 0L;
@@ -436,7 +400,6 @@ void KonqBaseListViewWidget::viewportMouseMoveEvent( QMouseEvent *_mouse )
 
       //Is it time to start a drag?
       if ( abs( x - m_pressedPos.x() ) > KGlobalSettings::dndEventDelay() || abs( y - m_pressedPos.y() ) > KGlobalSettings::dndEventDelay() )
-      //if ( abs( x - m_pressedPos.x() ) > KGlobal::dndEventDelay() || abs( y - m_pressedPos.y() ) > KGlobal::dndEventDelay() )
       {
          // Collect all selected items
          QStrList urls;
@@ -498,14 +461,14 @@ bool KonqBaseListViewWidget::isSingleClickArea( const QPoint& _point )
 void KonqBaseListViewWidget::slotOnItem( QListViewItem* _item)
 {
    QString s;
-   m_overItem = (KonqBaseListViewItem*)_item;
+   KonqBaseListViewItem* item = (KonqBaseListViewItem*)_item;
 
    //TODO: Highlight on mouseover
    /*if ( item )
     s = item->item()->getStatusBarInfo();
     emit m_pBrowserView->setStatusBarText( s );*/
-   if (( _item ) && (!m_filesSelected))
-      s = m_overItem->item()->getStatusBarInfo();
+   if (( item ) && (!m_filesSelected))
+      s = item->item()->getStatusBarInfo();
    else
       if (m_filesSelected) s=m_selectedFilesStatusText;
    emit m_pBrowserView->setStatusBarText( s );
@@ -513,8 +476,18 @@ void KonqBaseListViewWidget::slotOnItem( QListViewItem* _item)
 
 void KonqBaseListViewWidget::slotOnViewport()
 {
-   m_overItem = 0L;
    //TODO: Display summary in DetailedList in statusbar, like iconview does
+}
+
+void KonqBaseListViewWidget::slotExecuted( QListViewItem* _item ) 
+{
+  //if ( isSingleClickArea( _mouse->pos() ) ) 
+  {
+      
+    if ( m_pressedItem->isExpandable() )
+      m_pressedItem->setOpen( !m_pressedItem->isOpen() );
+    slotReturnPressed( m_pressedItem );
+  }
 }
 
 void KonqBaseListViewWidget::selectedItems( QValueList<KonqBaseListViewItem*>& _list )
@@ -589,22 +562,7 @@ void KonqBaseListViewWidget::slotReturnPressed( QListViewItem *_item )
 
 void KonqBaseListViewWidget::slotRightButtonPressed( QListViewItem *_item, const QPoint &_global, int )
 {
-   if ( _item && !_item->isSelected() )
-   {
-      // Deselect all the others
-      iterator it = begin();
-      for( ; it != end(); ++it )
-         if ( it->isSelected() )
-            QListView::setSelected( &*it, false );
-      QListView::setSelected( _item, true );
-   }
-
-   // Popup menu for m_url
-   // Torben: I think this is impossible in the treeview, or ?
-   //         Perhaps if the list is smaller than the window height.
-   // Simon: Yes, I think so. This happens easily if using the treeview
-   //        with small directories.
-   popupMenu( _global );
+  popupMenu( _global );
 }
 
 void KonqBaseListViewWidget::popupMenu( const QPoint& _global )
@@ -821,7 +779,7 @@ void KonqBaseListViewWidget::focusInEvent( QFocusEvent* _event )
 {
 //  emit gotFocus();
 
-  QListView::focusInEvent( _event );
+  KListView::focusInEvent( _event );
 }
 
 void KonqBaseListViewWidget::slotResult( KIO::Job * job )

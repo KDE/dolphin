@@ -33,6 +33,7 @@ class QCursor;
 class KDirLister;
 class KonqBaseListViewItem;
 class KonqPropsView;
+class KonqFMSettings;
 class ListViewPropertiesExtension;
 
 /**
@@ -103,13 +104,19 @@ class KonqBaseListViewWidget : public KListView
       bool showOwner()                {return m_showOwner;}
       bool showGroup()                {return m_showGroup;}
       bool showPermissions()          {return m_showPermissions;}
-      bool underlineLink()            {return m_bUnderlineLink;}
-      bool singleClick()              {return m_bSingleClick;}
+
+      void setItemFont( const QFont &f ) { m_itemFont = f; }
+      QFont itemFont() const { return m_itemFont; }
+      void setItemColor( const QColor &c ) { m_itemColor = c; }
+      QColor itemColor() const { return m_itemColor; }
+      void setColor( const QColor &c ) { m_color = c; }
+      QColor color() const { return m_color; }
 
    public slots:
       //virtual void slotOnItem( KonqBaseListViewItem* _item );
       virtual void slotOnItem( QListViewItem* _item );
       virtual void slotOnViewport();
+      virtual void slotExecuted( QListViewItem* _item );
 
    protected slots:
       // from QListView
@@ -178,22 +185,19 @@ class KonqBaseListViewWidget : public KListView
       int m_iColumns;
 
       KonqBaseListViewItem* m_dragOverItem;
-      KonqBaseListViewItem* m_overItem;
       QStringList m_lstDropFormats;
 
       bool m_pressed;
       QPoint m_pressedPos;
       KonqBaseListViewItem* m_pressedItem;
 
-      QCursor m_stdCursor;
-      QCursor m_handCursor;
       QPixmap m_bgPixmap;
+      QFont m_itemFont;
+      QColor m_itemColor;
+      QColor m_color;
 
-      // TODO remove this and use KonqFMSettings
-      bool m_bSingleClick;
+      KonqFMSettings* m_pSettings;
 
-      bool m_bUnderlineLink;
-      bool m_bChangeCursor;
       bool m_bTopLevelComplete;
 
       long int m_idShowDot;

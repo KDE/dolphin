@@ -140,15 +140,14 @@ QString KonqListViewItem::makeTypeString( const KIO::UDSAtom &_atom ) const
 
 void KonqListViewItem::paintCell( QPainter *_painter, const QColorGroup & _cg, int _column, int _width, int _alignment )
 {
-  // Underline link ?
-  if ( m_pListViewWidget->singleClick() &&
-       m_pListViewWidget->underlineLink() && _column == 0)
-  {
-    QFont f = _painter->font();
-    f.setUnderline( true );
-    _painter->setFont( f );
+  QColorGroup cg( _cg );
+
+  if ( _column == 0 ) {
+    _painter->setFont( m_pListViewWidget->itemFont() );
+    cg.setColor( QColorGroup::Text, m_pListViewWidget->itemColor() );
   }
-  // TODO text color
+  else
+    _painter->setPen( m_pListViewWidget->color() );
 
   if (!m_pListViewWidget->props()->bgPixmap().isNull())
   {
@@ -158,10 +157,9 @@ void KonqListViewItem::paintCell( QPainter *_painter, const QColorGroup & _cg, i
   }
 
   // Now prevent QListViewItem::paintCell from drawing a white background
-  QColorGroup cg( _cg );
   // I hope color0 is transparent :-))
-  cg.setColor( QColorGroup::Base, Qt::color0 );
+  //cg.setColor( QColorGroup::Base, Qt::color0 );
 
-  QListViewItem::paintCell( _painter, _cg, _column, _width, _alignment );
+  QListViewItem::paintCell( _painter, cg, _column, _width, _alignment );
 }
 
