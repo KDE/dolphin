@@ -63,11 +63,13 @@ KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name)
     dirBox  = new QComboBox(TRUE, pages[0], "combo2");
     QLabel * lookinL = new QLabel(dirBox, i18n("&Look in:"), pages[0], "named");
     subdirsCb  = new QCheckBox(i18n("Include &subdirectories"), pages[0]);
+    caseSensCb  = new QCheckBox(i18n("&Case sensitive search"), pages[0]);
     browseB    = new QPushButton(i18n("&Browse..."), pages[0]);
 
     // Setup
 
     subdirsCb->setChecked(true);
+    caseSensCb->setChecked(true);
 
     nameBox->setDuplicatesEnabled(FALSE);
     dirBox->setDuplicatesEnabled(FALSE);
@@ -80,14 +82,17 @@ KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name)
     QGridLayout *grid = new QGridLayout( pages[0], 3, 3,
 					 KDialog::marginHint(),
 					 KDialog::spacingHint() );
+    QBoxLayout *subgrid = new QHBoxLayout( -1 , "subgrid" );
     grid->addWidget( namedL, 0, 0 );
     grid->addMultiCellWidget( nameBox, 0, 0, 1, 2 );
     grid->addWidget( lookinL, 1, 0 );
     grid->addWidget( dirBox, 1, 1 );
     grid->addWidget( browseB, 1, 2);
-    grid->addWidget( subdirsCb, 2, 1);
     grid->setColStretch(1,1);
-
+    grid->addMultiCellLayout( subgrid, 2, 2, 1, 2 );
+    subgrid->addWidget( subdirsCb );
+    subgrid->addSpacing( KDialog::spacingHint() );
+    subgrid->addWidget( caseSensCb, 1 );
     // Signals
 
     connect( browseB, SIGNAL(clicked()),
@@ -186,7 +191,7 @@ KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name)
     QLabel * sizeL   =new QLabel(sizeBox,i18n("&Size is:"), pages[2],"size");
     sizeEdit=new QLineEdit(pages[2], "sizeEdit" );
     QLabel * kbL     =new QLabel(i18n("KB"), pages[2], "kb");
-    caseCb  =new QCheckBox(i18n("Case S&ensitive"), pages[2]);
+    caseContextCb  =new QCheckBox(i18n("Case S&ensitive (content)"), pages[2]);
 
     // Setup
 
@@ -235,7 +240,7 @@ KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name)
     grid2->addWidget( sizeEdit, 2, 2 );
     grid2->addWidget( kbL, 2, 3 );
     grid2->addColSpacing(4, KDialog::spacingHint());
-    grid2->addWidget( caseCb, 2, 5 );
+    grid2->addWidget( caseContextCb, 2, 5 );
     grid2->setColStretch(6,1);
 
     addTab( pages[2], i18n(" Advanced ") );
@@ -381,7 +386,7 @@ void KfindTabWidget::setQuery(KQuery *query)
 
   query->setPath(KURL(dirBox->currentText()));
 
-  query->setRegExp(QRegExp(nameBox->currentText(), true, true));
+  query->setRegExp(QRegExp(nameBox->currentText(), caseSensCb->isChecked(), true));
 
   query->setRecursive(subdirsCb->isChecked());
 
@@ -442,7 +447,7 @@ void KfindTabWidget::setQuery(KQuery *query)
      query->setMimeType( QString::null );
   }
 
-  query->setContext(textEdit->text(), caseCb->isChecked());
+  query->setContext(textEdit->text(), caseContextCb->isChecked());
 }
 
 QString KfindTabWidget::date2String(const QDate & date) {

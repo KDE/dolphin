@@ -62,6 +62,7 @@ public:
   // for third page
   QComboBox *typeBox;
   QLineEdit * textEdit;
+  QCheckBox   *caseSensCb;
 
 private:
   bool isDateValid();
@@ -84,7 +85,7 @@ private:
   // for third page
   QComboBox *sizeBox;
   QLineEdit *sizeEdit;
-  QCheckBox *caseCb;
+  QCheckBox *caseContextCb;
 
   KURL m_url;
 
