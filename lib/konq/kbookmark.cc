@@ -149,7 +149,7 @@ KBookmark KBookmarkGroup::addBookmark( const QString & text, const KURL & url, c
     QDomDocument doc = element.ownerDocument();
     QDomElement elem = doc.createElement( "bookmark" );
     element.appendChild( elem );
-    elem.setAttribute( "href", url.url( 0, QFont::Unicode ) ); // write utf8 URL
+    elem.setAttribute( "href", url.url( 0, 106 ) ); // write utf8 URL (106 is mib enum for utf8)
     QString _icon = icon;
     if ( _icon.isEmpty() )
         _icon = KonqFavIconMgr::iconForURL( url.url() );
@@ -226,7 +226,7 @@ QString KBookmark::fullText() const
 
 KURL KBookmark::url() const
 {
-    return KURL(element.attribute("href"), QFont::Unicode); // Decode it from utf8
+    return KURL(element.attribute("href"), 106); // Decode it from utf8 (106 is mib enum for utf8)
 }
 
 QString KBookmark::icon() const

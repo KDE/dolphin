@@ -34,7 +34,7 @@ KBookmarkDrag * KBookmarkDrag::newDrag( const KBookmark & bookmark, QWidget * dr
     // Get each URL encoded in utf8 - and since we get it in escaped
     // form on top of that, .latin1() is fine.
     for ( ; uit != uEnd ; ++uit )
-        uris.append( (*uit).url(0, QFont::Unicode).latin1() );
+        uris.append( (*uit).url(0, 106).latin1() ); // 106 is mib enum for utf8 codec
     return new KBookmarkDrag( bookmark, uris, dragSource, name );
 }
 

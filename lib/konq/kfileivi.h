@@ -156,11 +156,7 @@ public:
 	QImage &background, QPixmap &unknown_icon,
 	bool copyOnBg=false, int bgx=0, int bgy=0);
 
-#if QT_VERSION < 300
-    void move( int x, int y );
-#else
     bool move( int x, int y );
-#endif
 
 protected:
     virtual void dropped( QDropEvent *e, const QValueList<QIconDragItem> &  );

@@ -483,11 +483,7 @@ void KFileIVI::paintAlphaItem( QPainter *p, const QColorGroup &cg,
       p->restore();
 }
 
-#if QT_VERSION < 300
-void KFileIVI::move( int x, int y )
-#else
 bool KFileIVI::move( int x, int y )
-#endif
 {
     if ( static_cast<KonqIconViewWidget*>(iconView())->isDesktop() ) {
 	if ( x < 5 )
@@ -499,11 +495,7 @@ bool KFileIVI::move( int x, int y )
 	if ( y > iconView()->viewport()->height() - ( height() + 5 ) )
 	    y = iconView()->viewport()->height() - ( height() + 5 );
     }
-#if QT_VERSION < 300
-    QIconViewItem::move( x, y );
-#else
     return QIconViewItem::move( x, y );
-#endif
 }
 
 /* vim: set noet sw=4 ts=8 softtabstop=4: */
