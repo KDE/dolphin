@@ -126,7 +126,7 @@ void KMiscHTMLOptions::defaults()
 {
     cbCursor->setChecked( false );
     m_pAutoLoadImagesCheckBox->setChecked( true );
-    m_pUnderlineRadio[Hover]->setChecked( true );
+    m_pUnderlineRadio[Always]->setChecked( true );
 }
 
 void KMiscHTMLOptions::save()
