@@ -7,104 +7,66 @@
 #include <qlistbox.h>
 #include <qlineedit.h>
 #include <qstring.h>
-#include <qcombobox.h>
 #include <qlabel.h>
 #include <qpushbutton.h>
 #include <qmessagebox.h>
 #include <qapplication.h>
-
-#include "kfdird.h"
+#include <qlayout.h>
 
 #include <kapp.h>
 #include <klocale.h>
 
-KfDirDialog::KfDirDialog( QWidget *parent, const char *name, bool modal )
-    : QDialog( parent, name, modal )
-{
-    init();
-    d.convertToAbs();
-    rereadDir();
-    resize( 200, 300 );
-};
+#include "kfdird.h"
 
 KfDirDialog::KfDirDialog( const QString& dirName,
 			  QWidget *parent, const char *name, bool modal )
-    : QDialog( parent, name, modal )
+  : QDialog( parent, name, modal )
 {
-    init();
-    if ( !dirName.isNull() )
-	d.setPath( dirName );
-    d.convertToAbs();
-    rereadDir();
-    resize( 200, 300 );
-};
+  init();
+  if ( !dirName.isNull() )
+    d.setPath( dirName );
+  d.convertToAbs();
+  rereadDir();
+  resize( 200, 300 );
+}
 
 void KfDirDialog::init()
 {
-    pathBox    = new QComboBox(		     this, "pathBox"	  );
-    dirs       = new QListBox(		     this, "dirList"	  );
-    dirL       = new QLabel( i18n("Directories:"), this, "dirLabel"	  );
-    okB	       = new QPushButton( i18n("OK"), this, "okButton"	  );
-    cancelB    = new QPushButton( i18n("Cancel") , this, "cancelButton" );
+  setCaption(i18n("Select directory"));
+  
+  pathL   = new QLabel( i18n("Current directory:"), this, "pathLabel" );
+  path    = new QLineEdit( this, "path" );
+  dirL    = new QLabel( i18n("Directories:"), this, "dirLabel" );
+  dirs    = new QListBox( this, "dirList" );
+  okB	  = new QPushButton( i18n("OK"), this, "okButton" );
+  cancelB = new QPushButton( i18n("Cancel") , this, "cancelButton" );
+  
+  QVBoxLayout *vbox = new QVBoxLayout(this, 5);
+  vbox->addWidget(pathL);
+  vbox->addWidget(path);
+  vbox->addSpacing(5);
+  vbox->addWidget(dirL);
+  vbox->addWidget(dirs);
+  QHBoxLayout *hbox = new QHBoxLayout(vbox);
+  hbox->addWidget(okB);
+  hbox->addStretch(1);
+  hbox->addWidget(cancelB);
+  vbox->activate();
 
-    pathBox->setAutoResize( TRUE );
-    dirL   ->setAutoResize( TRUE );
-
-    okB	   ->resize( 50, 25 );
-    cancelB->resize( 50, 25 );
-
-    connect( dirs,	SIGNAL(selected(int)),	 SLOT(dirSelected(int)) );
-    connect( pathBox,	SIGNAL(activated(int)),	 SLOT(pathSelected(int)) );
-    connect( okB,	SIGNAL(clicked()),	 SLOT(okClicked()) );
-    connect( cancelB,	SIGNAL(clicked()),	 SLOT(cancelClicked()) );
-    d.setMatchAllDirs( TRUE );
-    d.setSorting( d.sorting() | QDir::DirsFirst );
-
-    //    setMinimumSize(200,300);
-};
+  connect( dirs, SIGNAL(selected(int)),	 
+	   this, SLOT(dirSelected(int)) );
+  connect( path, SIGNAL(returnPressed()),
+	   this, SLOT(pathSelected()));
+  connect( okB,	SIGNAL(clicked()),	
+	   this, SLOT(accept()) );
+  connect( cancelB, SIGNAL(clicked()),
+	   this, SLOT(reject()) );
+  d.setMatchAllDirs( TRUE );
+  d.setSorting( d.sorting() | QDir::DirsFirst );
+}
 
 KfDirDialog::~KfDirDialog()
-{
-    delete dirs;
-    delete pathBox;
-    delete dirL;
-    delete okB;
-    delete cancelB;
-}
-
-/*!
-  Returns the active directory path string in the file dialog.
-  \sa dir(), setDir()
-*/
-
-QString KfDirDialog::dirPath() const
-{
-    return d.path();
-}
-
-/*!
-  Sets a directory path string for the file dialog.
-  \sa dir()
-*/
-
-void KfDirDialog::setDir( const QString& pathstr )
-{
-    if (d.path() == pathstr)
-	return;
-    d.setPath( pathstr );
-    d.convertToAbs();
-    rereadDir();
-}
-
-/*!
-  Returns the active directory in the file dialog.
-  \sa setDir()
-*/
-
-const QDir *KfDirDialog::dir() const
-{
-    return &d;
-}
+{}
 
 /*!
   Returns the selected dir name.
@@ -112,36 +74,21 @@ const QDir *KfDirDialog::dir() const
 
 QString KfDirDialog::selectedDir() const
 {
-    QString tmp;
-
-    if (dirs->currentItem()!=-1)
-        {
-          tmp = QString("%1/%2")
-		 .arg(d.path())
-		 .arg(dirs->text((dirs->currentItem())));
-          tmp= d.cleanDirPath(tmp); 
-        }
-      else
-        tmp = d.path();
-
-    return tmp;
+  QString tmp;
+  
+  if (dirs->currentItem()!=-1)
+    {
+      tmp = QString("%1/%2")
+	.arg(d.path())
+	.arg(dirs->text((dirs->currentItem())));
+      tmp= d.cleanDirPath(tmp); 
+    }
+  else
+    tmp = d.path();
+  
+  return tmp;
 }
  
-/*!
-  Sets a directory path for the file dialog.
-  \sa dir()
-*/
-
-void KfDirDialog::setDir( const QDir &dir )
-{
-    d = dir;
-    d.convertToAbs();
-    d.setMatchAllDirs( TRUE );
-    d.setSorting( d.sorting() | QDir::DirsFirst );
-    rereadDir();
-}
-
-
 /*!
   Re-reads the active directory in the file dialog.
 
@@ -152,51 +99,29 @@ void KfDirDialog::setDir( const QDir &dir )
 
 void KfDirDialog::rereadDir()
 {
-    qApp ->setOverrideCursor( waitCursor );
-    dirs ->setAutoUpdate( FALSE );
-    dirs ->clear();
-
-    const QFileInfoList	 *filist = d.entryInfoList();
-    if ( filist ) {
-	QFileInfoListIterator it( *filist );
-	QFileInfo		 *fi = it.current();
-	while ( fi && fi->isDir() ) {
-	    dirs->insertItem( fi->fileName() );
-	    fi = ++it;
-	}
-    } else {
-	qApp->restoreOverrideCursor();
-	QMessageBox::message( i18n("Sorry"), 
-			      i18n("Cannot open or read directory."),
-			      i18n("OK") );
-	qApp ->setOverrideCursor( waitCursor );
+  qApp ->setOverrideCursor( waitCursor );
+  dirs ->setAutoUpdate( FALSE );
+  dirs ->clear();
+  
+  const QFileInfoList	 *filist = d.entryInfoList();
+  if ( filist ) {
+    QFileInfoListIterator it( *filist );
+    QFileInfo		 *fi = it.current();
+    while ( fi && fi->isDir() ) {
+      dirs->insertItem( fi->fileName() );
+      fi = ++it;
     }
-    dirs ->setAutoUpdate( TRUE );
-    dirs ->repaint();
-    updatePathBox( d.path() );
+  } else {
     qApp->restoreOverrideCursor();
-}
-
-
-
-/*!!!!!!!!!!!!!!!!!!!!!!!!!!****************!!!!!!!!!!
-  \internal
-  Activated when a file name in the file list has been highlighted.
-*/
-
-void KfDirDialog::dirHighlighted( int index )
-  {
-     QDir tmp = d;
-     if ( d.cd( dirs->text(index) ) && d.isReadable() ) {
-       //	 nameEdit->setText( "" );
-	 emit dirEntered( d.path().ascii() );
-	 rereadDir();
-       } else {
-	 QMessageBox::message( i18n("Sorry"), 
-			       i18n("Cannot open or read directory."),
-			       i18n("OK") );
-	 d = tmp;
-     };
+    QMessageBox::message( i18n("Sorry"), 
+			  i18n("Cannot open or read directory."),
+			  i18n("OK") );
+    qApp ->setOverrideCursor( waitCursor );
+  }
+  dirs ->setAutoUpdate( TRUE );
+  dirs ->repaint();
+  path->setText( d.path() );
+  qApp->restoreOverrideCursor();
 }
 
 /*!
@@ -206,115 +131,29 @@ void KfDirDialog::dirHighlighted( int index )
 
 void KfDirDialog::dirSelected( int index )
 {
-    QDir tmp = d;
-    if ( d.cd( dirs->text(index) ) && d.isReadable() ) {
-	emit dirEntered( d.path().ascii() );
-	rereadDir();
-    } else {
-	QMessageBox::message( i18n("Sorry"), 
-			      i18n("Cannot open or read directory."),
-			      i18n("OK") );
-	d = tmp;
-    }
+  checkDir(dirs->text(index), false);
 }
 
-void KfDirDialog::pathSelected( int index )
+void KfDirDialog::pathSelected()
 {
-    if ( index == 0 )				// current directory shown
-	return;
-    QString newPath;
-    QDir tmp = d;
-    for( int i = pathBox->count() - 1 ; i >= index ; i-- )
-	newPath += pathBox->text( i );
-    d.setPath( newPath );
-    if ( d.isReadable() ) {
-	rereadDir();
-    } else {
-	d = tmp;
-    }
-}
-
-
-/*!
-  \internal
-  Activated when the "OK" button is clicked.
-*/
-
-void KfDirDialog::okClicked()
-  {
-    emit dirSelected( d.path().ascii() );
-    accept();
-  };
-
-/*!
-  \internal
-  Activated when the "Cancel" button is clicked.
-*/
-
-void KfDirDialog::cancelClicked()
-{
-    reject();
-}
-
-
-/*!
-  Handles resize events for the file dialog.
-*/
-
-void KfDirDialog::resizeEvent( QResizeEvent * )
-{
-    int w = width();
-    int h = height();
-    int	  wTmp;
-    QRect rTmp;
-
-    rTmp = *(new QRect(10,0,0,0));
-    wTmp = pathBox->width();
-    pathBox->move( (w - wTmp)/2, rTmp.bottom() + 10 );
-
-    rTmp = pathBox->geometry();
-    dirL->move( 10, rTmp.bottom() + 5 );
-
-    rTmp = dirL->geometry();
-    dirs->setGeometry(10, rTmp.bottom() + 5,
-		      w - 20, h - rTmp.bottom() - 10 - 25 - 10 - 20 - 10 );
-
-    rTmp = dirs->geometry();
-    okB->move( 10, rTmp.bottom() + 10 );
-
-    rTmp = okB->geometry();
-    wTmp = cancelB->width();
-    cancelB->move( w - 10 - wTmp, rTmp.y() );
-
+  checkDir(path->text(), true);
 }
 
 /*!
   \internal
-  Updates the path box.	 Called from rereadDir().
+  Checks dir validity
 */
-void KfDirDialog::updatePathBox( const QString& s )
-{
-    QStrList l;
-    QString tmp;
-    char *safe = qstrdup(s.ascii());
 
-    l.insert( 0, "/" );
-    tmp = strtok( safe, "/" );
-    while ( TRUE ) {
-	if ( tmp.isNull() )
-	    break;
-	l.insert( 0, (tmp + "/").ascii() );
-	tmp = strtok( 0, "/" );
-    }
-    pathBox->setUpdatesEnabled( FALSE );
-    pathBox->clear();
-    pathBox->insertStrList( &l );
-    pathBox->setCurrentItem( 0 );
-    pathBox->move( (width() - pathBox->width()) / 2, pathBox->geometry().y() );
-    pathBox->setUpdatesEnabled( TRUE );
-    pathBox->repaint();
-    delete [] safe;
+void KfDirDialog::checkDir(const QString& subdir, bool abs) 
+{ 
+  QDir tmp = d;
+  if ( tmp.cd( subdir, abs) && tmp.isReadable()) {
+    d = tmp;
+    rereadDir();
+    return;
+  }
+  
+  QMessageBox::message( i18n("Sorry"), 
+			i18n("Cannot open or read directory."),
+			i18n("OK") );
 }
-
-
-

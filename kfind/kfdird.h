@@ -12,10 +12,8 @@
 
 class QListBox;
 class QLineEdit;
-class QComboBox;
 class QLabel;
 class QPushButton;
-
 
 class KfDirDialog : public QDialog
 {
@@ -23,44 +21,30 @@ class KfDirDialog : public QDialog
 public:
     KfDirDialog( const QString& dirName,
                  QWidget *parent=0, const char *name=0, bool modal=FALSE );
-    KfDirDialog( QWidget *parent=0, const char *name=0, bool modal=FALSE );
    ~KfDirDialog();
 
     QString     selectedDir()  const;
 
-    QString dirPath() const;
-    void        setDir( const QString& );
-    const QDir *dir() const;
-    void        setDir( const QDir & );
-
-    void        rereadDir();
-
 signals:
-    void        dirHighlighted( const char * );
-    void        dirSelected( const char * );
-    void        dirEntered( const char * );
 
 private slots:
-    void        dirHighlighted( int );
     void        dirSelected( int );
-    void        pathSelected( int );
-
-    void        okClicked();
-    void        cancelClicked();
+    void        pathSelected();
 
 protected:
-    void        resizeEvent( QResizeEvent * );
       
 private:
     void        init();
-    void        updatePathBox( const QString& );
+    void        checkDir( const QString&, bool );
+    void        rereadDir();
 
     QDir        d;
     QString     dirName;
 
-    QListBox   *dirs;
-    QComboBox  *pathBox;
+    QLabel     *pathL;
+    QLineEdit  *path;
     QLabel     *dirL;
+    QListBox   *dirs;
 
     QPushButton *okB;
     QPushButton *cancelB;
