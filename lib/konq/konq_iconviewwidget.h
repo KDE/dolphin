@@ -223,7 +223,6 @@ protected:
     virtual void contentsMouseReleaseEvent ( QMouseEvent * e );
     virtual void backgroundPixmapChange( const QPixmap & );
 
-private:
     KURL m_url;
     const KonqFileItem * m_rootItem;
 
@@ -236,7 +235,6 @@ private:
     /** Konqueror settings */
     KonqFMSettings * m_pSettings;
 
-    KFileIVI * m_pActiveItem;
     bool m_bMousePressed;
     QPoint m_mousePos;
 
@@ -252,6 +250,9 @@ private:
 
     bool m_bDesktop;
     bool m_bSetGridX;
+
+private:
+    KFileIVI * m_pActiveItem;
 
 };
 
