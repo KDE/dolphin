@@ -7,7 +7,7 @@ kde_module_LTLIBRARIES = kcm_konqhtml.la
 
 kcm_konqhtml_la_SOURCES = htmlopts.cpp jsopts.cpp \
 			     javaopts.cpp pluginopts.cpp appearance.cpp \
-			     khttpoptdlg.cpp policydlg.cpp main.cpp
+			     khttpoptdlg.cpp policydlg.cpp main.cpp nsconfigwidget.ui
 
 kcm_konqhtml_la_LDFLAGS  = $(all_libraries) -module -avoid-version -no-undefined
 kcm_konqhtml_la_LIBADD = -lkhtml -lkdeui
