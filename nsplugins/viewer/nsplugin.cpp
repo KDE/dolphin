@@ -67,13 +67,20 @@ NSPluginInstance::NSPluginInstance(NPP privateData, NPPluginFuncs *pluginFuncs, 
 
   String n, c;
   XtGetApplicationNameAndClass(qt_xdisplay(), &n, &c);
-  _toplevel = XtAppCreateShell("shell", c, applicationShellWidgetClass, qt_xdisplay(), 0, 0);
+
+  _toplevel = XtAppCreateShell("shell", c, topLevelShellWidgetClass,
+                               qt_xdisplay(), 0, 0);
+
+  // What exactly does widget mapping mean? Without this call the widget isn't
+  // embedded correctly. With it the viewer doesn't show anything in standalone mode.
   XtSetMappedWhenManaged(_toplevel, False);
   XtRealizeWidget(_toplevel);
 
+  // Create form window that is searched for by flash plugin
   _form = XtCreateManagedWidget("form", compositeWidgetClass, _toplevel, args, nargs);
   XtRealizeWidget(_form);
-        	
+
+  // Create widget that is passed to the plugin        	
   _area = XmCreateDrawingArea(_form, "drawingArea", args, nargs);
   XtRealizeWidget(_area);
   XtMapWidget(_area);
@@ -853,62 +860,3 @@ void NSPluginStream::result(KIO::Job *job)
   delete _stream;
   _stream = 0;
 }
-
-
-
-/**
- * setWindow - tells the plugin about its drawing window
- *
- * This function is used to initally tell the plugin about its window,
- * to report any changes in window size or position, and finally
- * to tell that the plugin has no more window to draw on.
-Ü*
- */
-/*
-NPError setWindow(bool remove)
-{
-  if (remove)
-    {
-      _instance->SetWindow(0);
-      return NPERR_NO_ERROR;
-    }
-
-  NPWindow *win = new NPWindow;
-  NPSetWindowCallbackStruct *win_info = new NPSetWindowCallbackStruct;
-
-  win->x = 0;
-  win->y = 0;
-  win->height = height;
-  win->width = width;
-
-  // Well, the docu says sometimes, this is only used on the
-  // MAC, but sometimes it says it always. Who knows...
-  NPRect clip;
-  clip.top = 0;
-  clip.left = 0;
-  clip.bottom = height;
-  clip.right = width;  
-  win->clipRect = clip;
-
-  win->window = (void*) XtWindow(area);
-
-  win_info->type = NP_SETWINDOW;
-  win_info->display = dpy;
-  win_info->visual = (Visual*) DefaultVisual(dpy, DefaultScreen(dpy));
-  win_info->colormap = DefaultColormap(dpy, DefaultScreen(dpy));
-  win_info->depth = DefaultDepth(dpy, DefaultScreen(dpy));
-  
-  win->ws_info = win_info;
-
-  NPError error = _instance->SetWindow(win);
-
-  // embed into the containing widget
-  if (embedId)
-    {
-      kDebugInfo("Embedding into window %d", embedId);
-      XReparentWindow(dpy, XtWindow(toplevel), embedId, 0, 0);
-    }
-
-  return error;
-}
-*/
