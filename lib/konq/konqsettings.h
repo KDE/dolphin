@@ -46,9 +46,6 @@ protected:
    */
   KonqFMSettings( KConfig * config );
 
-  /** Called by constructor and reparseConfiguration */
-  void init( KConfig * config );
-
   /** Destructor. Don't delete any instance by yourself. */
   virtual ~KonqFMSettings() {};
 
@@ -71,24 +68,29 @@ public:
   // Use settings (and mimetype definition files)
   // to find whether to embed a certain service type or not
   // Only makes sense in konqueror.
-  bool shouldEmbed( const QString & serviceType );
+  bool shouldEmbed( const QString & serviceType ) const;
 
   // Behaviour settings
-  bool wordWrapText() { return m_bWordWrapText; }
-  bool underlineLink() { return m_underlineLink; }
-  bool alwaysNewWin() { return m_alwaysNewWin; }
-  QString homeURL() { return m_homeURL; }
-  bool treeFollow() { return m_bTreeFollow; }
+  bool wordWrapText() const { return m_bWordWrapText; }
+  bool underlineLink() const { return m_underlineLink; }
+  bool alwaysNewWin() const { return m_alwaysNewWin; }
+  const QString & homeURL() const { return m_homeURL; }
+  bool treeFollow() const { return m_bTreeFollow; }
 
   // Font settings
-  const QFont& standardFont() { return m_standardFont; }
+  const QFont& standardFont() const { return m_standardFont; }
 
   // Color settings
-  const QColor& bgColor() { return m_bgColor; }
-  const QColor& normalTextColor() { return m_normalTextColor; }
-  const QColor& highlightedTextColor() { return m_highlightedTextColor; }
+  const QColor& bgColor() const { return m_bgColor; }
+  const QColor& normalTextColor() const { return m_normalTextColor; }
+  const QColor& highlightedTextColor() const { return m_highlightedTextColor; }
 
-protected:
+  bool visualActivate() const { return m_bVisualActivate; }
+  unsigned int visualActivateSpeed() const { return m_visualActivateSpeed; }
+  unsigned int visualActivateCount() const { return m_visualActivateCount; }
+
+private:
+
   static KonqFMSettings * s_pSettings;
 
   bool m_underlineLink;
@@ -108,8 +110,14 @@ protected:
   bool m_bWordWrapText;
 
   QString m_homeURL;
+  
+  bool m_bVisualActivate;
+  unsigned int m_visualActivateSpeed;
+  unsigned int m_visualActivateCount;
+  
+  /** Called by constructor and reparseConfiguration */
+  void init( KConfig * config );
 
-private:
   // There is no default constructor. Use the provided ones.
   KonqFMSettings();
   // No copy constructor either. What for ?

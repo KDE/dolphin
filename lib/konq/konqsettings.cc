@@ -79,9 +79,17 @@ void KonqFMSettings::init( KConfig * config )
   m_embedText = config->readBoolEntry( "EmbedText", true );
   m_embedImage = config->readBoolEntry( "EmbedImage", true );
   m_embedOther = config->readBoolEntry( "EmbedOther", true );
+
+  m_bVisualActivate = config->readBoolEntry("VisualActivate", true);
+
+  m_visualActivateSpeed =
+    config->readUnsignedNumEntry("VisualActivateSpeed", 80);
+
+  m_visualActivateCount =
+    config->readUnsignedNumEntry("VisualActivateCount", 8);
 }
 
-bool KonqFMSettings::shouldEmbed( const QString & serviceType )
+bool KonqFMSettings::shouldEmbed( const QString & serviceType ) const
 {
     // First check in user's settings whether to embed or not
     // 1 - in the mimetype file itself
