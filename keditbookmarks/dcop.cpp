@@ -37,18 +37,23 @@
 KBookmarkEditorIface::KBookmarkEditorIface()
  : QObject(), DCOPObject("KBookmarkEditor") {
 
+   connectDCOPSignal(0, "KBookmarkNotifier", "updatedAccessMetadata(QString,QString)", "slotDcopUpdatedAccessMetadata(QString,QString)", false);
    connectDCOPSignal(0, "KBookmarkNotifier", "addedBookmark(QString,QString,QString,QString,QString)", "slotDcopAddedBookmark(QString,QString,QString,QString,QString)", false);
    connectDCOPSignal(0, "KBookmarkNotifier", "createdNewFolder(QString,QString,QString)", "slotDcopCreatedNewFolder(QString,QString,QString)", false);
 }
 
-void KBookmarkEditorIface::slotDcopCreatedNewFolder(QString filename, QString text, QString address) {
-   if (KEBApp::self()->modified() && filename == CurrentMgr::self()->path()) {
-      kdDebug() << "slotDcopCreatedNewFolder(" << text << "," << address << ")" << endl;
-      CreateCommand *cmd = new CreateCommand( 
-                                  CurrentMgr::self()->correctAddress(address), 
-                                  text, QString::null, 
-                                  true /*open*/, true /*indirect*/);
-      KEBApp::self()->addCommand(cmd);
+void KBookmarkEditorIface::slotDcopUpdatedAccessMetadata(QString filename, QString url) {
+   // evil hack, konqi gets updates by way of historymgr,
+   // therefore konqi does'nt want "save" notification,
+   // unfortunately to stop konqi getting it is difficult
+   // and probably not needed until more notifier events
+   // are added. therefore, we always updateaccessmetadata
+   // without caring about our modified state like normal
+   // and thusly there is no need to the bkmgr to do a "save"
+   if (/*KEBApp::self()->modified() &&*/ filename == CurrentMgr::self()->path()) {
+      kdDebug() << "slotDcopUpdatedAccessMetadata(" << url << ")" << endl;
+      // no undo
+      CurrentMgr::self()->mgr()->updateAccessMetadata(url, false);
    }
 }
 
@@ -58,6 +63,17 @@ void KBookmarkEditorIface::slotDcopAddedBookmark(QString filename, QString url, 
       CreateCommand *cmd = new CreateCommand(
                                   CurrentMgr::self()->correctAddress(address), 
                                   text, icon, KURL(url), true /*indirect*/);
+      KEBApp::self()->addCommand(cmd);
+   }
+}
+
+void KBookmarkEditorIface::slotDcopCreatedNewFolder(QString filename, QString text, QString address) {
+   if (KEBApp::self()->modified() && filename == CurrentMgr::self()->path()) {
+      kdDebug() << "slotDcopCreatedNewFolder(" << text << "," << address << ")" << endl;
+      CreateCommand *cmd = new CreateCommand( 
+                                  CurrentMgr::self()->correctAddress(address), 
+                                  text, QString::null, 
+                                  true /*open*/, true /*indirect*/);
       KEBApp::self()->addCommand(cmd);
    }
 }

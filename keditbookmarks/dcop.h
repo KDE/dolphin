@@ -28,6 +28,7 @@ class KBookmarkEditorIface : public QObject, public DCOPObject
 public:
    KBookmarkEditorIface();
 k_dcop:
+   void slotDcopUpdatedAccessMetadata(QString filename, QString url);
    void slotDcopAddedBookmark(QString filename, QString url, QString text, QString address, QString icon);
    void slotDcopCreatedNewFolder(QString filename, QString text, QString address);
 };
