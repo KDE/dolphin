@@ -211,11 +211,11 @@ void KEBTopLevel::resetActions()
     actionCollection()->action("file_save_as")->setEnabled(true);
     actionCollection()->action("file_quit")->setEnabled(true);
 
-    actionCollection()->action("importNS")->setEnabled(true);
+    actionCollection()->action("exportNS")->setEnabled(true);
+    actionCollection()->action("exportMoz")->setEnabled(true);
 
     if (!m_bReadOnly) {
-       actionCollection()->action("exportNS")->setEnabled(true);
-       actionCollection()->action("exportMoz")->setEnabled(true);
+       actionCollection()->action("importNS")->setEnabled(true);
        actionCollection()->action("importMoz")->setEnabled(true);
        actionCollection()->action("settings_showNS")->setEnabled(true);
     }
@@ -340,6 +340,8 @@ void KEBTopLevel::slotNewToolbarConfig() // This is called when OK or Apply is c
     applyMainWindowSettings( KGlobal::config(), "MainWindow" );
 }
 
+// SELECTIONS
+
 #define ITEM_TO_BK(item) static_cast<KEBListViewItem *>(item)->bookmark()
 
 int KEBTopLevel::numSelected()
@@ -359,15 +361,16 @@ KBookmark KEBTopLevel::selectedBookmark() const
    return *(selectedBookmarks()->first());
 }
 
+#define IS_REAL(it) ( (it.current()->isSelected()) \
+                   && ( (it.current()->parent() && !it.current()->parent()->isSelected()) \
+                    || !(it.current()->parent()) ) )
+
 QPtrList<QListViewItem> * KEBTopLevel::selectedItems()
 {
    // selection helper
    QPtrList<QListViewItem> *items = new QPtrList<QListViewItem>();
    for( QListViewItemIterator it(KEBTopLevel::self()->m_pListView); it.current(); it++ ) {
-      if ( it.current()->isSelected()
-        && it.current()->parent()
-        && !it.current()->parent()->isSelected()
-      ) {
+      if ( IS_REAL(it) ) {
          items->append(it.current());
       }
    }
@@ -379,10 +382,7 @@ QPtrList<KBookmark>* KEBTopLevel::selectedBookmarks() const
    // selection helper
    QPtrList<KBookmark> *bookmarks = new QPtrList<KBookmark>();
    for( QListViewItemIterator it(m_pListView); it.current(); it++ ) {
-      if ( it.current()->isSelected()
-        && it.current()->parent()
-        && !it.current()->parent()->isSelected()
-      ) {
+      if ( IS_REAL(it) ) {
          KEBListViewItem * kebItem = static_cast<KEBListViewItem *>(it.current());
          bookmarks->append(&kebItem->bookmark());
       }
@@ -412,10 +412,7 @@ void KEBTopLevel::updateSelection()
     // AK - TODO - optimisation, make a selectedItems "cache"
     QListViewItem *lastItem = NULL;
     for( QListViewItemIterator it(KEBTopLevel::self()->m_pListView); it.current(); it++ ) {
-       if ( it.current()->isSelected()
-         && it.current()->parent()
-         && !it.current()->parent()->isSelected()
-       ) {
+       if ( IS_REAL(it) ) {
           lastItem = it.current();
        }
     }
@@ -436,6 +433,7 @@ void KEBTopLevel::slotSelectionChanged()
     bool separator = false;
     bool urlIsEmpty = false;
     bool multiSelect = false;
+    bool singleSelect = false; // simplification
 
     if (item)
     {
@@ -446,6 +444,7 @@ void KEBTopLevel::slotSelectionChanged()
         root = (m_pListView->firstChild() == item);
         urlIsEmpty= kebItem->bookmark().url().isEmpty();
         multiSelect = numSelected() > 1;
+        singleSelect = !multiSelect && itemSelected;
     }
 
     updateSelection();
@@ -460,23 +459,19 @@ void KEBTopLevel::slotSelectionChanged()
     coll->action("collapseall")    ->setEnabled(!multiSelect && !(root && m_pListView->childCount()==1));
 
     if (!m_bReadOnly) {
-        coll->action("exportNS")       ->setEnabled(true);
-        coll->action("exportMoz")      ->setEnabled(true);
-        coll->action("importMoz")      ->setEnabled(true);
-        coll->action("settings_showNS")->setEnabled(true);
         coll->action("edit_cut")       ->setEnabled(itemSelected && !root);
         coll->action("edit_paste")     ->setEnabled(itemSelected && !root && m_bCanPaste);
-        coll->action("rename")         ->setEnabled(!multiSelect && itemSelected && !separator && !root);
-        coll->action("changeurl")      ->setEnabled(!multiSelect && itemSelected && !group && !separator && !root);
-        coll->action("delete")         ->setEnabled(itemSelected && !root); // AK
+        coll->action("rename")         ->setEnabled(singleSelect && !separator && !root);
+        coll->action("changeurl")      ->setEnabled(singleSelect && !group && !separator && !root);
+        coll->action("delete")         ->setEnabled(itemSelected && !root); // AK - root should work
         coll->action("newfolder")      ->setEnabled(!multiSelect);
-        coll->action("updatefavicon")  ->setEnabled(!multiSelect && itemSelected && !root && !separator);
-        coll->action("changeicon")     ->setEnabled(!multiSelect && itemSelected && !root && !separator);
-        coll->action("insertseparator")->setEnabled(!multiSelect && itemSelected);
+        coll->action("updatefavicon")  ->setEnabled(singleSelect && !root && !separator);
+        coll->action("changeicon")     ->setEnabled(singleSelect && !root && !separator);
+        coll->action("insertseparator")->setEnabled(singleSelect);
         coll->action("newbookmark")    ->setEnabled(!multiSelect);
         coll->action("sort")           ->setEnabled(!multiSelect && group);
         coll->action("setastoolbar")   ->setEnabled(!multiSelect && group);
-        coll->action("testlink")       ->setEnabled(!root && itemSelected && !separator); // AK
+        coll->action("testlink")       ->setEnabled(!root && itemSelected && !separator); // AK - root should work
         coll->action("testall")        ->setEnabled(!multiSelect && !(root && m_pListView->childCount()==1));
     }
 }
