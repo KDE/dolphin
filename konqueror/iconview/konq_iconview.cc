@@ -718,6 +718,10 @@ void KonqKfmIconView::slotDragHeld( QIconViewItem *item )
 {
     kdDebug() << "KonqKfmIconView::slotDragHeld()" << endl;
 
+    // This feature is not usable if the user wants one window per folder
+    if ( KonqFMSettings::settings()->alwaysNewWin() )
+        return;
+    
     if ( !item )
         return;
 
@@ -1340,7 +1344,7 @@ SpringLoadingManager *SpringLoadingManager::s_self = 0L;
 static KStaticDeleter<SpringLoadingManager> s_springManagerDeleter;
 
 SpringLoadingManager::SpringLoadingManager()
-    : m_startPart(0L), m_lastPart(0L)
+    : m_startPart(0L)
 {
     connect( &m_endTimer, SIGNAL( timeout() ),
              this, SLOT( finished() ) );
@@ -1375,12 +1379,11 @@ void SpringLoadingManager::springLoadTrigger(KonqKfmIconView *view,
     {
         m_startURL = view->url();
         m_startPart = view;
-        m_lastPart = m_startPart;
     }
 
     // Only the last part of the chain is allowed to trigger a spring load
     // event (if a spring loading chain is in progress)
-    if ( view!=m_lastPart )
+    if ( view!=m_startPart )
         return;
 
 
@@ -1395,27 +1398,10 @@ void SpringLoadingManager::springLoadTrigger(KonqKfmIconView *view,
         args.serviceType = file->mimetype();
     args.trustedSource = true;
 
-    if ( KonqFMSettings::settings()->alwaysNewWin() )
-    {
-        KParts::WindowArgs wargs;
-        KParts::ReadOnlyPart *new_part;
-        emit view->extension()->createNewWindow( url, args, wargs, new_part );
-
-        // The user wants one window by folder, then we keep a pointer
-        // on the created window for later use.
-        m_partsList.append(new_part);
-
-        // Only the new created part is allowed to trigger a new sping
-        // loading request
-        m_lastPart = new_part;
-    }
-    else
-    {
-        // Open the folder URL, we don't want to modify the browser
-        // history, hence the use of openURL and setLocationBarURL
-        view->openURL(url);
-        emit view->extension()->setLocationBarURL( url.prettyURL() );
-    }
+    // Open the folder URL, we don't want to modify the browser
+    // history, hence the use of openURL and setLocationBarURL
+    view->openURL(url);
+    emit view->extension()->setLocationBarURL( url.prettyURL() );
 }
 
 void SpringLoadingManager::dragLeft(KonqKfmIconView */*view*/)
@@ -1430,8 +1416,7 @@ void SpringLoadingManager::dragLeft(KonqKfmIconView */*view*/)
 void SpringLoadingManager::dragEntered(KonqKfmIconView *view)
 {
     // We enter a view involved in the spring loading chain
-    if ( !m_startURL.isEmpty()
-    &&   ( m_startPart==view || m_partsList.containsRef(view) ) )
+    if ( !m_startURL.isEmpty() && m_startPart==view )
     {
         m_endTimer.stop();
     }
@@ -1455,24 +1440,10 @@ void SpringLoadingManager::finished()
 
     KParts::ReadOnlyPart *part = m_startPart;
     m_startPart = 0L;
-    m_lastPart = 0L;
 
     KonqKfmIconView *view = static_cast<KonqKfmIconView*>(part);
     view->openURL(url);
     emit view->extension()->setLocationBarURL( url.prettyURL() );
-
-
-    // We close all the opened windows during the spring loading
-
-    QPtrListIterator<KParts::ReadOnlyPart> it( m_partsList );
-
-    while ( (part = it.current()) != 0 )
-    {
-        ++it;
-        part->widget()->topLevelWidget()->close(false);
-    }
-
-    m_partsList.clear();
 
     deleteLater();
     s_self = 0L;

@@ -283,10 +283,6 @@ private:
     // Timer allowing to know the user wants to abort the spring loading
     // and go back to his start url (closing the opened window if needed)
     QTimer m_endTimer;
-
-    // Only useful when the user settings force one window by folder
-    KParts::ReadOnlyPart *m_lastPart; // Last opened part in the chain
-    QPtrList<KParts::ReadOnlyPart> m_partsList; // All opened parts in the chain
 };
 
 
