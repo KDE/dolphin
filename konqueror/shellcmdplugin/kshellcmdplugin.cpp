@@ -23,6 +23,7 @@
 #include <kmessagebox.h>
 #include <konq_dirpart.h>
 #include <klocale.h>
+#include <kprocess.h>
 #include "kshellcmddialog.h"
 
 KShellCmdPlugin::KShellCmdPlugin( QObject* parent, const char* name )
@@ -60,7 +61,7 @@ void KShellCmdPlugin::slotExecuteShellCommand()
       if ( isLocal )
       {
          chDir="cd ";
-         chDir+=part->url().path();
+         chDir+=KShellProcess::quote(part->url().path());
          chDir+="; ";
       }
       chDir+=l.text();
