@@ -1,0 +1,20 @@
+[Desktop Entry]
+Type=Service
+Name=About-Page for Konqueror
+Name[cs]=O aplikaci Konqueror
+Name[da]=Om-side for Konqueror
+Name[de]=Über Konqueror
+Name[eo]=Informpaĝo por Konkeranto
+Name[fi]=Konquerorin tietoja-sivu
+Name[fr]=À propos de Konqueror
+Name[he]=Konqueror לש תודוא דומע
+Name[hu]=A Konqueror névjegye
+Name[no_NY]=Om-side Konqueror
+Name[pt_BR]=Página Sobre do Konqueror
+Name[ro]=Pagină credite pentru Konqueror
+Name[ru]=Страница сведений о Konqueror
+Name[sk]=Stránka o programe Konqueror
+Name[sv]=Om-sida för Konqueror
+Name[uk]=Сторінка "Про" для Konqueror
+ServiceTypes=KParts/ReadOnlyPart
+X-KDE-Library=libkonqaboutpage
