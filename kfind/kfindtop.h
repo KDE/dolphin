@@ -37,6 +37,8 @@ public slots:
   void enableStatusBar(bool enable);
   void resizeOnFloating();
 
+  void copySelection();
+
 signals:
   //File Menu
   void open();
@@ -52,7 +54,9 @@ signals:
   void cut();
   void copy();
   void selectAll();
+  void unselectAll();
   void invertSelection();
+
   //Options Menu
   void keys();
 
@@ -70,6 +74,8 @@ private:
   KStatusBar     *_statusBar;
   Kfind          *_kfind;
 
+  int        fileStart;
+  int        fileStop;
   int        openWithM;
   int        toArchM;
   int        deleteM;
@@ -78,6 +84,11 @@ private:
   int        openFldrM;
   int        saveSearchM;
   int        quitM;
+
+  int        editCopy;
+  int        editSelectAll;
+  int        editUnselectAll;
+  int        editInvertSelection;
 
   int        _width;
 };

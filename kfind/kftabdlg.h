@@ -32,6 +32,8 @@ public:
   QSize sizeHint();
   void setDefaults();
 
+  virtual void keyPressEvent(QKeyEvent *);
+
 private slots:
   // Slots for first page
   void getDirectory();

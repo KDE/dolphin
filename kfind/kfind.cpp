@@ -21,6 +21,7 @@
 #include <qevent.h>
 #include <qstring.h>
 #include <qdir.h>
+#include <qkeycode.h>
 
 #include <kmsgbox.h>
 #include <kprocess.h>
@@ -57,14 +58,34 @@ Kfind::Kfind( QWidget *parent, const char *name, const char *searchPath )
 	    win,SLOT(addToArchive()));
     connect(this,SIGNAL(open()),
 	    win,SLOT(openBinding()));
+    connect(parentWidget(),SIGNAL(selectAll()),
+	    win,SLOT(selectAll()));
+    connect(parentWidget(),SIGNAL(unselectAll()),
+	    win,SLOT(unselectAll()));
+    connect(parentWidget(),SIGNAL(invertSelection()),
+	    win,SLOT(invertSelection()));
     connect(&findProcess,SIGNAL(processExited(KProcess *)),
 	    this,SLOT(processResults()));
     connect(&findProcess,SIGNAL(receivedStdout(KProcess *, char *, int)), 
 	    this, SLOT(handleStdout(KProcess *, char *, int))) ;
+    
 
     emit haveResults(false);
     resize(tabDialog->sizeHint());
   };
+
+void Kfind::copySelection() {
+  win->copySelection();
+}
+
+void Kfind::keyPressEvent(QKeyEvent *e) {
+  if(e->key() == Key_Return || e->key() == Key_Enter) {
+    e->accept();
+    startSearch();
+  }
+
+  QWidget::keyPressEvent(e);
+}
 
 void Kfind::resizeEvent( QResizeEvent *e)
   {
@@ -79,7 +100,7 @@ void Kfind::resizeEvent( QResizeEvent *e)
 void Kfind::startSearch()
   {
     QString buffer,pom;
-    int pos;
+    //int pos;
     buffer = tabDialog->createQuery();
 
     if ( winsize==1)
@@ -93,26 +114,12 @@ void Kfind::startSearch()
 	enableSearchButton(false);
 
 	findProcess.clearArguments ();
-	findProcess.setExecutable("find");
-
+	QString cmdline = buffer;
+	findProcess.setExecutable(cmdline);
 
         int t = time( 0L ); 
         outFile.sprintf( "/tmp/kfindout%i", t );
-
-	buffer.append(pom.sprintf(" -print"));
-        buffer=buffer.simplifyWhiteSpace();
-	while( !buffer.isEmpty() )
-	  {
-	    pos = buffer.find(" ");
-	    pom = buffer.left(pos);
-
-	    findProcess << pom.data();
-
-	    if (pos==-1) 
-	      pos = buffer.length();
-	    buffer = buffer.remove(0,pos+1);
-	  };
-
+	
 	findProcess.start(KProcess::NotifyOnExit, KProcess::AllOutput);
       };
   };
@@ -144,6 +151,7 @@ void Kfind::newSearch()
 
 void Kfind::handleStdout(KProcess *proc, char *buffer, int buflen)
 {
+  (void)proc;
 	char tmp = buffer[buflen] ;
 	buffer[buflen] = '\0' ;
 	
@@ -170,4 +178,3 @@ QSize Kfind::sizeHint()
   {
     return (tabDialog->sizeHint());//+QSize(0,winsize-1));
   };
-

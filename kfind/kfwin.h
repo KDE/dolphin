@@ -28,7 +28,15 @@ public:
   KfindWindow( QWidget * parent = 0, const char * name = 0 );
   virtual ~KfindWindow();
   void updateResults(const char * );
+  void appendResult(const char *);
   void clearList();
+
+  void copySelection();
+
+public slots:
+  void selectAll();
+  void unselectAll();
+  void invertSelection();
 
 private slots:
   void highlighted();

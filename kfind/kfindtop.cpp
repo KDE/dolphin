@@ -112,6 +112,13 @@ void KfindTop::menuInit()
     _optionMenu = new QPopupMenu;
     _helpMenu   = new QPopupMenu;        
 
+    fileStart = _fileMenu->insertItem("&Start search", _kfind,
+			      SLOT(startSearch()), Key_Enter);
+    fileStop = _fileMenu->insertItem("S&top search", _kfind,
+			      SLOT(stopSearch()), CTRL + Key_C);    
+    _fileMenu->setItemEnabled(fileStop, FALSE);
+    _fileMenu->insertSeparator();
+
     openWithM  = _fileMenu->insertItem(i18n("&Open"),
 				       this,SIGNAL(open()), CTRL+Key_O );
     toArchM    = _fileMenu->insertItem(i18n("&Add to archive"),
@@ -139,19 +146,22 @@ void KfindTop::menuInit()
     _editMenu                 ->insertSeparator();
     int cut  =       _editMenu->insertItem(i18n("&Cut"),
 					   this, SIGNAL(cut()) );
-    int copy =       _editMenu->insertItem(i18n("&Copy"),
-					   this,SIGNAL(copy()) );
-    _editMenu                 ->insertSeparator();
-    int select_all = _editMenu->insertItem(i18n("&Select All"),
+    editCopy =       _editMenu->insertItem(i18n("&Copy"),
+					   this, SLOT(copySelection()) );
+    _editMenu->insertSeparator();
+    editSelectAll = _editMenu->insertItem(i18n("&Select All"),
 					   this,SIGNAL(selectAll()) );
-    int invert_sel = _editMenu->insertItem(i18n("&Invert Selection"),
+    editUnselectAll = _editMenu->insertItem(i18n("Unse&lect All"),
+					   this,SIGNAL(unselectAll()) );
+    editInvertSelection = _editMenu->insertItem(i18n("&Invert Selection"),
 					   this,SIGNAL(invertSelection()) );
 
     _editMenu->setItemEnabled( undo      , FALSE );
     _editMenu->setItemEnabled( cut       , FALSE );
-    _editMenu->setItemEnabled( copy      , FALSE );
-    _editMenu->setItemEnabled( select_all, FALSE );
-    _editMenu->setItemEnabled( invert_sel, FALSE ); 
+    _editMenu->setItemEnabled( editCopy  , FALSE );
+    _editMenu->setItemEnabled( editSelectAll, FALSE );
+    _editMenu->setItemEnabled( editUnselectAll, FALSE );
+    _editMenu->setItemEnabled( editInvertSelection, FALSE ); 
 
     CHECK_PTR( _optionMenu ); 
 
@@ -249,11 +259,20 @@ void KfindTop::enableMenuItems(bool enable)
     for(i=openWithM;i>quitM+1;i--)
       _fileMenu->setItemEnabled(i,enable);
     for(i=3;i<8;i++)
-      _toolBar->setItemEnabled(i,enable);    
+      _toolBar->setItemEnabled(i,enable);
+
+    _editMenu->setItemEnabled(editSelectAll, TRUE);
+    _editMenu->setItemEnabled(editUnselectAll, TRUE);
+    _editMenu->setItemEnabled(editInvertSelection, TRUE);
+
+    _editMenu->setItemEnabled( editCopy  , TRUE );
   };                    
 
 void KfindTop::enableSearchButton(bool enable)
   {
+    _fileMenu->setItemEnabled(fileStart, enable);
+    _fileMenu->setItemEnabled(fileStop, !enable);
+
     _toolBar->setItemEnabled(0,enable);
     _toolBar->setItemEnabled(2,!enable);
   };
@@ -312,3 +331,7 @@ void KfindTop::resizeOnFloating()
       };                       
   };
 
+void KfindTop::copySelection() {
+  if(_kfind)
+    _kfind->copySelection();
+}

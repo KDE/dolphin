@@ -30,10 +30,13 @@
 #include <qlist.h>
 #include <qfileinf.h> 
 #include <qmsgbox.h>
+#include <qdir.h>
+#include <qclipbrd.h>
 
 #include <kfm.h>
 #include <kfmclient_ipc.h>
 #include <kprocess.h>
+#include <kmsgbox.h>
 
 #include "kfwin.h"
 #include "kfarch.h"
@@ -49,6 +52,7 @@ KfindWindow::KfindWindow( QWidget *parent, const char *name )
     : QWidget( parent, name )          
   {
     lbx = new QListBox(this,"list_box" );
+    lbx->setMultiSelection(TRUE);    
 
     connect(lbx , SIGNAL(highlighted(int)),
             this, SLOT(highlighted()) );
@@ -65,6 +69,14 @@ void KfindWindow::resizeEvent( QResizeEvent * )
   {
     lbx->setGeometry(0,0,width(),height());    
   };
+
+void KfindWindow::appendResult(const char *file) {
+  lbx->insertItem(file);
+  
+  QString str;
+  str.sprintf(i18n("%d file(s) found"), (int)lbx->count());
+  emit statusChanged(str);
+}
 
 void KfindWindow::updateResults(const char *file )
   {
@@ -111,6 +123,22 @@ void KfindWindow::updateResults(const char *file )
     delete strl;
   };
 
+// copy to clipboard aka X11 selection
+void KfindWindow::copySelection() {
+  QString s;
+  for(int i = 0; i < (int)lbx->count(); i++)
+    if(lbx->isSelected(i)) {
+      s.append(lbx->text(i));
+      s.append(" ");
+    }
+
+  if(s.length() > 0) {
+    QClipboard *cb = kapp->clipboard();
+    cb->clear();
+    cb->setData("TEXT", s.data());
+  }
+}
+
 void KfindWindow::clearList()
   { 
     lbx->clear();
@@ -121,13 +149,34 @@ void KfindWindow::changeItem(const char *itemName)
     lbx->changeItem(itemName,lbx->currentItem());    
   };
 
+void KfindWindow::selectAll() {
+  if(lbx->currentItem() == -1)
+    lbx->setCurrentItem(0);
+  for(int i = 0; i < (int)lbx->count(); i++)
+    lbx->setSelected(i, TRUE);
+}
+
+void KfindWindow::invertSelection() {
+  if(lbx->currentItem() == -1)
+    lbx->setCurrentItem(0);
+  for(int i = 0; i < (int)lbx->count(); i++)
+    lbx->setSelected(i, !lbx->isSelected(i));
+}
+
+void KfindWindow::unselectAll() {
+  if(lbx->currentItem() == -1)
+    lbx->setCurrentItem(0);
+  for(int i = 0; i < (int)lbx->count(); i++)
+    lbx->setSelected(i, FALSE);
+}
+
 void KfindWindow::saveResults()
   { 
     uint items,item;
     FILE *results;
     QString filename;
 
-    if ( saving->getSaveStandard() )
+     if ( saving->getSaveStandard() )
       {
 	filename = getenv("HOME");
 	filename += "/.kfind-results.html";
@@ -194,9 +243,8 @@ void KfindWindow::deleteFiles()
 
     tmp.sprintf(i18n("Do you really want to delete file:\n%s"),
                 lbx->text(lbx->currentItem()));
-    if(QMessageBox::warning(parentWidget(),i18n("Delete File"),
-                      tmp,i18n("OK"),
-		      i18n("Cancel")) == 0)
+    if(KMsgBox::yesNo(parentWidget(),i18n("Delete File"),
+                      tmp, KMsgBox::QUESTION | KMsgBox::DB_SECOND) == 1)
       {
         QFileInfo *file = new QFileInfo(lbx->text(lbx->currentItem()));
 	if (file->isFile()||file->isSymLink())
@@ -313,7 +361,7 @@ void KfindWindow::openBinding()
 
 void KfindWindow::addToArchive()
 {
-  QString path(getenv("HOME"));
+  QString path = QDir::home().absPath();
   KfArchiver *arch;
 
   QString filename( QFileDialog::getOpenFileName(path) );
@@ -394,5 +442,3 @@ void KfindWindow::execAddToArchive(KfArchiver *arch,QString archname)
   if ( !archProcess.start(KProcess::DontCare) )
     warning(i18n("Error while creating child process!"));
 };
-
-

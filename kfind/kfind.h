@@ -22,6 +22,9 @@ public:
   Kfind( QWidget * parent = 0 ,const char * name = 0,const char*searchPath = 0);
   //    ~Kfind();
   QSize sizeHint();
+  void copySelection();
+
+  virtual void keyPressEvent(QKeyEvent *);
 
 private slots:
   void startSearch();
@@ -29,6 +32,7 @@ private slots:
   void newSearch();
   void processResults();
   void handleStdout(KProcess *proc, char *buffer, int buflen);
+
 signals:
   void  haveResults(bool);
   void  resultSelected(bool);
@@ -43,12 +47,12 @@ signals:
   void properties();
   void openFolder();
   void saveResults();
-  
+
 protected:
   void resizeEvent( QResizeEvent * );
 
 private:
-  KProcess findProcess;
+  KShellProcess findProcess;
   int winsize;
   KfindTabDialog *tabDialog;
   KfindWindow * win;

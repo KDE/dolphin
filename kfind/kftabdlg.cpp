@@ -28,12 +28,15 @@
 #include <qmsgbox.h>
 #include <qlist.h>
 #include <qsize.h>
+#include <qkeycode.h>
        
 #include "kfdird.h"      
 #include "kftypes.h"
 #include "kftabdlg.h"
 
 #include <klocale.h>
+
+#define FIND_PROGRAM "find"
 
 extern QList<KfFileType> *types;
 
@@ -192,8 +195,8 @@ KfindTabDialog::KfindTabDialog( QWidget *parent, const char *name, const char *s
 
     sizeEdit->setMaxLength(5);
 
-    textL->setEnabled(FALSE);
-    textEdit ->setEnabled(FALSE);
+    //textL->setEnabled(FALSE);
+    //textEdit ->setEnabled(FALSE);
     sizeEdit ->setEnabled(TRUE);
 
     KfFileType *typ;
@@ -224,6 +227,12 @@ KfindTabDialog::~KfindTabDialog()
     delete pages[1];
     delete pages[2];
   };
+
+void KfindTabDialog::keyPressEvent(QKeyEvent *e) {
+  if(e->key() == Key_Escape)
+    return;
+  QTabDialog::keyPressEvent(e);
+}
 
 void KfindTabDialog::resizeEvent( QResizeEvent *ev )
   {
@@ -442,9 +451,12 @@ QString KfindTabDialog::createQuery()
     isCheckedValid();
     checkSize();
 
+    str = FIND_PROGRAM;
+    str += " ";
+
     if (enableSearch)
       {
-        str = dirBox->text(dirBox->currentItem());
+        str += dirBox->text(dirBox->currentItem());
 
         nameBox->insertItem( nameBox->currentText(),0 );
 
@@ -459,7 +471,7 @@ QString KfindTabDialog::createQuery()
 
              QStrList& pats = typ->getPattern();
              bool firstpattern = FALSE;
-             str += " ( ";
+             str += " \"(\" ";
              for (QString pattern=pats.first(); pattern!=0L; 
 		  pattern=pats.next())
                {
@@ -474,23 +486,23 @@ QString KfindTabDialog::createQuery()
                  if ( pattern.find("*",0)==0 )
                    {
                      str += nameBox->text(nameBox->currentItem());
-                     str += pattern.data();
+                     str += "\"" + pattern + "\"";
                    }
                  else
                    {
-                     str += pattern.data();
+                     str += "\"" + pattern + "\"";
                      str += nameBox->text(nameBox->currentItem());
                    };
                };                                             
-             str += " )";
+             str += " \")\"";
 
              //      printf("Query : %s\n",str.data());
           }
         else
           {
-            str += " ( -name ";
+            str += " \"(\" -name \"";
             str += nameBox->text(nameBox->currentItem());
-	    str += " )";
+	    str += "\" \")\"";
           };
 
         if (!subdirsCb->isChecked())
@@ -528,6 +540,14 @@ QString KfindTabDialog::createQuery()
             str.append(pom.sprintf(" -size  %s%sk ",type,sizeEdit->text()));
           };
       };
+
+    if(strlen(textEdit->text()) > 0) {
+      str += "|xargs egrep -l \"";
+      str += textEdit->text();
+      str += "\"";
+    }
+
+    // printf("QUERY=%s\n", str.data());    
 
     return(str);
   };        
