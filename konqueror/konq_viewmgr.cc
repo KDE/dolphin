@@ -59,7 +59,7 @@ void KonqViewManager::splitView ( Qt::Orientation orientation )
   kdebug(0, 1202, "KonqViewManager::splitview(default)" );
   KonqChildView* currentChildView = m_pMainView->currentChildView();
   QString url = currentChildView->url();
-  const QString serviceType = currentChildView->serviceTypes().first();
+  const QString serviceType = currentChildView->serviceType();
 
   BrowserView *pView;
   QStringList serviceTypes;

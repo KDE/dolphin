@@ -429,7 +429,7 @@ void
 KonqFrame::saveConfig( KConfig* config, const QString &prefix, int /*id*/, int /*depth*/ )
 {
   config->writeEntry( QString::fromLatin1( "URL" ).prepend( prefix ), childView()->url() );
-  config->writeEntry( QString::fromLatin1( "ServiceType" ).prepend( prefix ), childView()->serviceTypes().first() );
+  config->writeEntry( QString::fromLatin1( "ServiceType" ).prepend( prefix ), childView()->serviceType() );
   config->writeEntry( QString::fromLatin1( "ServiceName" ).prepend( prefix ), childView()->service()->name() );
 }
 
