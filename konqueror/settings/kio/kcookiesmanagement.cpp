@@ -28,6 +28,7 @@
 #include <qlabel.h>
 #include <qdatetime.h>
 
+#include <kidna.h>
 #include <klocale.h>
 #include <kdialog.h>
 #include <klineedit.h>
@@ -85,9 +86,9 @@ CookieProp* CookieListViewItem::leaveCookie()
 QString CookieListViewItem::text(int f) const
 {
     if (mCookie)
-        return f == 0 ? QString::null : mCookie->host;
+        return f == 0 ? QString::null : KIDNA::toUnicode(mCookie->host);
     else
-        return f == 0 ? mDomain : QString::null;
+        return f == 0 ? KIDNA::toUnicode(mDomain) : QString::null;
 }
 
 KCookiesManagement::KCookiesManagement(QWidget *parent)

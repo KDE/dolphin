@@ -30,6 +30,7 @@
 #include <qradiobutton.h>
 #include <qvbuttongroup.h>
 
+#include <kidna.h>
 #include <kmessagebox.h>
 #include <klistview.h>
 #include <klocale.h>
@@ -271,7 +272,7 @@ void KCookiesPolicies::addPressed()
 
   if( dlg->exec() && !dlg->domain().isEmpty())
   {
-    QString domain = dlg->domain();
+    QString domain = KIDNA::toUnicode(dlg->domain());
     int advice = dlg->advice();
 
     if ( !handleDuplicate(domain, advice) )
@@ -312,7 +313,7 @@ void KCookiesPolicies::changePressed()
 
   if( dlg->exec() && !dlg->domain().isEmpty())
   {
-    newDomain = dlg->domain();
+    newDomain = KIDNA::toUnicode(dlg->domain());
     int advice = dlg->advice();
     if (newDomain == oldDomain || !handleDuplicate(newDomain, advice))
     {
@@ -423,7 +424,7 @@ void KCookiesPolicies::updateDomainList(const QStringList &domainConfig)
       QListViewItem *index;
 
       splitDomainAdvice(*it, domain, advice);
-      index = new QListViewItem( m_lvDomainPolicy, domain,
+      index = new QListViewItem( m_lvDomainPolicy, KIDNA::toUnicode(domain),
                                  i18n(KCookieAdvice::adviceToStr(advice)) );
       m_pDomainPolicy[index] = KCookieAdvice::adviceToStr(advice);
     }
@@ -550,7 +551,8 @@ void KCookiesPolicies::save()
   QListViewItem *at = m_lvDomainPolicy->firstChild();
   while( at )
   {
-    domainConfig.append(QString::fromLatin1("%1:%2").arg(at->text(0)).arg(m_pDomainPolicy[at]));
+qWarning("Saving %s [%s]", KIDNA::toAscii(at->text(0)).latin1(), at->text(0).latin1());
+    domainConfig.append(QString::fromLatin1("%1:%2").arg(KIDNA::toAscii(at->text(0))).arg(m_pDomainPolicy[at]));
     at = at->nextSibling();
   }
   cfg->writeEntry("CookieDomainAdvice", domainConfig);
