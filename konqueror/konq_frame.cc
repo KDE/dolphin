@@ -500,8 +500,8 @@ KonqFrame::reparent( QWidget* parent, WFlags f,
 void
 KonqFrame::slotHeaderClicked()
 {
-//  m_pChildView->mainView()->setActiveView( m_pView );
-  m_pChildView->mainView()->viewManager()->setActivePart( m_pView );
+  if ( m_pView != m_pChildView->mainView()->viewManager()->activePart() )
+    m_pChildView->mainView()->viewManager()->setActivePart( m_pView );
 /*
   if ( !CORBA::is_nil( m_vView ) )
   {
