@@ -1,6 +1,6 @@
 [Desktop Entry]
 Type=Link
 URL=smb:///
-Icon=package_network
+Icon=samba
 Name=Windows Shares
 Open=false
