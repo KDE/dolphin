@@ -32,6 +32,7 @@
 #include <kdebug.h>
 #include <kfile.h>
 #include <qtextstream.h>
+#include <kiconloader.h>
 
 #include "nsconfig.h"
 
@@ -141,6 +142,7 @@ void NSPluginConfig::fillPluginList()
    root->setOpen( true );
    root->setSelectable( false );
    root->setExpandable( true );
+   root->setPixmap(0, SmallIcon("nsplugin"));
 
    // read in cache
    QString line, plugin;
@@ -169,7 +171,7 @@ void NSPluginConfig::fillPluginList()
 	 continue;
       }
      
-      QStringList desc = QStringList::split(':', line);
+      QStringList desc = QStringList::split(':', line, TRUE);
       QString mime = desc[0].stripWhiteSpace();
       QString name = desc[2];
       QString suffixes = desc[1];      

@@ -153,7 +153,7 @@ void NSPluginLoader::scanPlugins()
 	  continue;
 	}
 
-      QStringList desc = QStringList::split(':', line);
+      QStringList desc = QStringList::split(':', line, TRUE);
       QString mime = desc[0].stripWhiteSpace();
       QStringList suffixes = QStringList::split(',', desc[1].stripWhiteSpace());
       if (!mime.isEmpty())

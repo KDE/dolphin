@@ -147,14 +147,15 @@ void scanDirectory( QString dir, QStringList &mimeInfoList,
       // parse mime info string
       QStringList entries = QStringList::split(';', mimeInfo);
       QStringList::Iterator entry;
-      for (entry = entries.begin(); entry != entries.end(); ++entry)
+      for (entry = entries.begin(); entry!=entries.end(); ++entry)
       {
-	 QStringList tokens = QStringList::split(':', *entry);
+	 kdDebug() << "***********" << *entry << endl;
+	 QStringList tokens = QStringList::split(':', *entry, TRUE);
 	 QStringList::Iterator token;
 	 token = tokens.begin();
 	 cache << (*token).lower();
 	 ++token;
-	 for (; token!= tokens.end(); ++token)
+	 for (; token!=tokens.end(); ++token)
 	    cache << ":" << *token;
 	 cache << endl;
 

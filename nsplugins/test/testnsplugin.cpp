@@ -65,16 +65,16 @@ void TestNSPlugin::newView()
 {
    QStringList _argn, _argv;
   
-//QString src = "file:/home/sschimanski/kimble_themovie.swf";
+   //QString src = "file:/home/sschimanski/kimble_themovie.swf";
    //QString src = "file:/home/sschimanski/in_ani.swf";
-   //QString src = "http://homepages.tig.com.au/~dkl/swf/promo.swf";
-   //QString mime = "application/x-shockwave-flash";
+   QString src = "http://homepages.tig.com.au/~dkl/swf/promo.swf";
+   QString mime = "application/x-shockwave-flash";
 
-   _argn << "name" << "controls" << "console";
-   _argv << "audio" << "ControlPanel" << "Clip1";
-   QString src = "http://welt.is-kunden.de:554/ramgen/welt/avmedia/realaudio/0701lw177135.rm";
+   //_argn << "name" << "controls" << "console";
+   //_argv << "audio" << "ControlPanel" << "Clip1";
+   //QString src = "http://welt.is-kunden.de:554/ramgen/welt/avmedia/realaudio/0701lw177135.rm";
 //   QString src = "nothing";
-   QString mime = "audio/x-pn-realaudio-plugin";
+   //QString mime = "audio/x-pn-realaudio-plugin";
  
    _argn << "SRC" << "TYPE" << "WIDTH" << "HEIGHT";
    _argv << src << mime << "400" << "100";
