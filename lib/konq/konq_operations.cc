@@ -458,12 +458,12 @@ void KonqOperations::asyncDrop( const KFileItem * destItem )
             // Nor control nor shift are pressed => show popup menu
             QPopupMenu popup;
             if ( sReading )
-              popup.insertItem( i18n( "&Copy Here" ), 1 );
+              popup.insertItem(SmallIconSet("editcopy"), i18n( "&Copy Here" ), 1 );
             if ( (sMoving || (sReading && sDeleting)) )
               popup.insertItem( i18n( "&Move Here" ), 2 );
-            popup.insertItem( i18n( "&Link Here" ), 3 );
+            popup.insertItem(SmallIconSet("www"), i18n( "&Link Here" ), 3 );
             if (bSetWallpaper)
-                popup.insertItem( i18n( "Set as &Wallpaper"), 4 );
+                popup.insertItem(SmallIconSet("background"), i18n( "Set as &Wallpaper"), 4 );
 
             int result = popup.exec( m_info->mousePos );
             switch (result) {
@@ -473,7 +473,7 @@ void KonqOperations::asyncDrop( const KFileItem * destItem )
                 case 4 :
                 {
                     kdDebug(1203) << "setWallpaper iconView=" << iconView << " url=" << lst.first().url() << endl;
-                    if (iconView) iconView->setWallpaper(lst.first());
+                    if (iconView && iconView->isDesktop() ) iconView->setWallpaper(lst.first());
                     delete this;
                     return;
                 }
