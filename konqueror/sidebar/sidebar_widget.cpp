@@ -39,6 +39,7 @@
 #include <kpopupmenu.h>
 #include <kprocess.h>
 #include <kurlrequesterdlg.h>
+#include <kfiledialog.h>
 #include "konqsidebar.h"
 
 #include "sidebar_widget.h"
@@ -471,6 +472,7 @@ void Sidebar_Widget::buttonPopupActivate(int id)
 		case 2:
 		{
                         KURLRequesterDlg * dlg = new KURLRequesterDlg( m_currentButton->URL, i18n("Enter a URL:"), this, "url_dlg" );
+                        dlg->fileDialog()->setMode( KFile::Directory );
 			if (dlg->exec())
 			{
 				KSimpleConfig ksc(m_path+m_currentButton->file);
