@@ -215,7 +215,7 @@ KonqView* KonqViewManager::split (KonqFrameBase* splitFrame,
 
     childView = setupView( m_pMainContainer, newViewFactory, service, partServiceOffers, appServiceOffers, serviceType, passiveMode );
 
-    //m_pMainContainer->show();
+    m_pMainContainer->show();
 
     //childView->frame()->statusbar()->hideStuff();
 
