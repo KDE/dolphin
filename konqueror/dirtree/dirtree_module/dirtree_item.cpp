@@ -112,25 +112,16 @@ QDragObject * KonqDirTreeItem::dragObject( QWidget * parent, bool move )
 
 void KonqDirTreeItem::itemSelected()
 {
-    bool cutcopy, del;
     bool bInTrash = false;
 
     if ( m_fileItem->url().directory(false) == KGlobalSettings::trashPath() )
         bInTrash = true;
 
-    cutcopy = del = true;
-
-    KParts::BrowserExtension * ext = tree()->part()->extension();
-    emit ext->enableAction( "copy", cutcopy );
-    emit ext->enableAction( "cut", cutcopy );
-    emit ext->enableAction( "trash", del && !bInTrash );
-    emit ext->enableAction( "del", del );
-    emit ext->enableAction( "shred", del );
-
     QMimeSource *data = QApplication::clipboard()->data();
     bool paste = ( data->encodedData( data->format() ).size() != 0 );
 
-    emit ext->enableAction( "paste", paste );
+    tree()->part()->extension()->enableActions( true, true, paste,
+                                                true && !bInTrash, true, true );
 }
 
 void KonqDirTreeItem::middleButtonPressed()

@@ -54,10 +54,8 @@ void KonqHistoryItem::update( const KonqHistoryEntry */*entry*/ )
 
 void KonqHistoryItem::itemSelected()
 {
-    KParts::BrowserExtension * ext = tree()->part()->extension();
-    emit ext->enableAction( "copy", true );
-    emit ext->enableAction( "cut", true );
-    emit ext->enableAction( "paste", false );
+    tree()->part()->extension()->enableActions( true, true, false,
+                                                false, false, false );
 }
 
 
@@ -122,7 +120,7 @@ KonqHistoryItem * KonqHistoryGroupItem::findChild(const KonqHistoryEntry *entry)
     while ( child ) {
 	if ( child->url() == url )
 	    return child;
-	
+
 	child = static_cast<KonqHistoryItem *>( child->nextSibling() );
     }
 

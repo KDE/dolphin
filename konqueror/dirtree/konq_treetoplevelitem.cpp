@@ -43,16 +43,9 @@ void KonqTreeTopLevelItem::setOpen( bool open )
 
 void KonqTreeTopLevelItem::itemSelected()
 {
-    KParts::BrowserExtension * ext = tree()->part()->extension();
-    emit ext->enableAction( "copy", true );
-    emit ext->enableAction( "cut", true );
-    emit ext->enableAction( "trash", true );
-    emit ext->enableAction( "del", true );
-    emit ext->enableAction( "shred", true );
-
     QMimeSource *data = QApplication::clipboard()->data();
     bool paste = m_bTopLevelGroup && data->provides("text/uri-list");
-    emit ext->enableAction( "paste", paste );
+    tree()->part()->extension()->enableActions( true, true, paste, true, true, true );
 }
 
 bool KonqTreeTopLevelItem::acceptsDrops( const QStrList & formats )
@@ -65,31 +58,41 @@ void KonqTreeTopLevelItem::drop( QDropEvent * ev )
     if ( m_bTopLevelGroup )
     {
         // When dropping something to "Network" or its subdirs, we want to create
-        // a desktop link, not to move/copy/link
+        // a desktop link, not to move/copy/link - except for .desktop files :-}
         KURL::List lst;
-        if ( KURLDrag::decode( ev, lst ) ) // Are they urls ?
+        if ( KURLDrag::decode( ev, lst ) && !lst.isEmpty() ) // Are they urls ?
         {
-            KURL::List::Iterator it = lst.begin();
-            for ( ; it != lst.end() ; it++ )
+            // hack - we should check every file, but doDrop takes a dropevent...
+            if ( lst.first().fileName().right(8) == ".desktop" )
             {
-                const KURL & targetURL = (*it);
-                KURL linkURL;
-                linkURL.setPath( m_path );
-                linkURL.addPath( KIO::encodeFileName( targetURL.fileName() )+".desktop" );
-                KSimpleConfig config( linkURL.path() );
-                config.setDesktopGroup();
-                // Don't write a Name field in the desktop file, it makes renaming impossible
-                config.writeEntry( "URL", targetURL.url() );
-                config.writeEntry( "Type", "Link" );
-                QString icon = KMimeType::findByURL( targetURL )->icon( targetURL, false );
-                static const QString& unknown = KGlobal::staticQString("unknown");
-                if ( icon == unknown )
-                    icon = KProtocolInfo::icon( targetURL.protocol() );
-                config.writeEntry( "Icon", icon );
-                config.sync();
-                KDirNotify_stub allDirNotify( "*", "KDirNotify*" );
-                linkURL.setPath( linkURL.directory() );
-                allDirNotify.FilesAdded( linkURL );
+                KURL destURL;
+                destURL.setPath( m_path );
+                KonqOperations::doDrop( 0L, destURL, ev, tree() );
+            }
+            else
+            {
+                KURL::List::Iterator it = lst.begin();
+                for ( ; it != lst.end() ; it++ )
+                {
+                    const KURL & targetURL = (*it);
+                    KURL linkURL;
+                    linkURL.setPath( m_path );
+                    linkURL.addPath( KIO::encodeFileName( targetURL.fileName() )+".desktop" );
+                    KSimpleConfig config( linkURL.path() );
+                    config.setDesktopGroup();
+                    // Don't write a Name field in the desktop file, it makes renaming impossible
+                    config.writeEntry( "URL", targetURL.url() );
+                    config.writeEntry( "Type", "Link" );
+                    QString icon = KMimeType::findByURL( targetURL )->icon( targetURL, false );
+                    static const QString& unknown = KGlobal::staticQString("unknown");
+                    if ( icon == unknown )
+                        icon = KProtocolInfo::icon( targetURL.protocol() );
+                    config.writeEntry( "Icon", icon );
+                    config.sync();
+                    KDirNotify_stub allDirNotify( "*", "KDirNotify*" );
+                    linkURL.setPath( linkURL.directory() );
+                    allDirNotify.FilesAdded( linkURL );
+                }
             }
         } else
             kdError(1202) << "No URL !?  " << endl;
@@ -110,10 +113,12 @@ QDragObject * KonqTreeTopLevelItem::dragObject( QWidget * parent, bool move )
 
     KonqDrag * drag = KonqDrag::newDrag( lst, false, parent );
 
-    QPoint hotspot;
-    hotspot.setX( pixmap( 0 )->width() / 2 );
-    hotspot.setY( pixmap( 0 )->height() / 2 );
-    drag->setPixmap( *(pixmap( 0 )), hotspot );
+    const QPixmap * pix = pixmap(0);
+    if (pix)
+    {
+        QPoint hotspot( pix->width() / 2, pix->height() / 2 );
+        drag->setPixmap( *pix, hotspot );
+    }
     drag->setMoveSelection( move );
 
     return drag;

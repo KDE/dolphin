@@ -68,6 +68,17 @@ KonqTreeBrowserExtension::KonqTreeBrowserExtension( KonqTreePart *parent, KonqTr
     m_pTree = tree;
 }
 
+void KonqTreeBrowserExtension::enableActions( bool copy, bool cut, bool paste,
+                                              bool trash, bool del, bool shred )
+{
+    emit enableAction( "copy", copy );
+    emit enableAction( "cut", cut );
+    emit enableAction( "paste", paste );
+    emit enableAction( "trash", trash );
+    emit enableAction( "del", del );
+    emit enableAction( "shred", shred );
+}
+
 void KonqTreeBrowserExtension::cut()
 {
     QDragObject * drag = static_cast<KonqTreeItem*>(m_pTree->selectedItem())->dragObject( 0L, true );

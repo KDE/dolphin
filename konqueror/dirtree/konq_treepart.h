@@ -51,6 +51,9 @@ class KonqTreeBrowserExtension : public KParts::BrowserExtension
 public:
     KonqTreeBrowserExtension( KonqTreePart *parent, KonqTree *tree );
 
+    void enableActions( bool copy, bool cut, bool paste,
+                        bool trash, bool del, bool shred );
+
 protected slots:
     void copy();
     void cut();
@@ -83,14 +86,14 @@ class KonqTreePart : public KParts::ReadOnlyPart
 
     void mmbClicked( KFileItem * fileItem );
 
-    KParts::BrowserExtension * extension() const
+    KonqTreeBrowserExtension * extension() const
     { return m_extension; }
 
     KonqTree * tree() const
     { return m_pTree; }
 
 private:
-    KParts::BrowserExtension * m_extension;
+    KonqTreeBrowserExtension * m_extension;
     KonqTree * m_pTree;
 };
 
