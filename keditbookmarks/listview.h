@@ -92,6 +92,8 @@ public:
    void init();
    void readonlyFlagInit(bool);
 
+   virtual void startDrag();
+
    bool isFolderList() { return m_folderList; }
 
    KEBListViewItem* rootItem();
@@ -99,7 +101,6 @@ public:
 
 public slots:
    virtual void rename(QListViewItem *item, int c);
-
    void slotSelectionChanged();
    void slotCurrentChanged(QListViewItem*);
    void slotContextMenu(KListView *, QListViewItem *, const QPoint &);

@@ -121,27 +121,51 @@ void ListView::connectSignals() {
 // forwards - fixme - this should actually be used :)
 
 void KEBListView::slotSelectionChanged() { 
-  ListView::self()->handleSelectionChanged(this); 
+   ListView::self()->handleSelectionChanged(this); 
 }
 
 void KEBListView::slotCurrentChanged(QListViewItem *a) { 
-  ListView::self()->handleCurrentChanged(this, a); 
+   ListView::self()->handleCurrentChanged(this, a); 
 }
 
 void KEBListView::slotContextMenu(KListView *a, QListViewItem *b, const QPoint &c) {
-  ListView::self()->handleContextMenu(this, a,b,c); 
+   ListView::self()->handleContextMenu(this, a,b,c); 
 }
 
 void KEBListView::slotItemRenamed(QListViewItem *a, const QString &b, int c) { 
-  ListView::self()->handleItemRenamed(this, a,b,c); 
+   ListView::self()->handleItemRenamed(this, a,b,c); 
 }
 
 void KEBListView::slotDoubleClicked(QListViewItem *a, const QPoint &b, int c) { 
-  ListView::self()->handleDoubleClicked(this, a,b,c); 
+   ListView::self()->handleDoubleClicked(this, a,b,c); 
 }
 
 void KEBListView::slotDropped(QDropEvent *a, QListViewItem *b, QListViewItem *c) { 
-  ListView::self()->handleDropped(this, a,b,c); 
+   ListView::self()->handleDropped(this, a,b,c); 
+}
+
+void KEBListView::startDrag() {
+   QDragObject *drag = dragObject();
+
+   if (!drag) {
+      return;
+   }
+
+   bool moved = drag->drag();
+
+   /*
+   kdDebug() << "1" << endl;
+   if (moved) {
+      kdDebug() << moved << ", " << drag->target() << ", " << viewport() << endl;
+      kdDebug() << "cooool, gonna delete it!" << endl;
+      if (drag->target() != viewport()) {
+         KMacroCommand *mcmd = CmdGen::self()->deleteItems( i18n("Moved Items"), 
+                                                            ListView::self()->selectedItems());
+         CmdHistory::self()->didCommand(mcmd);
+      }
+   }
+   kdDebug() << "2" << endl;
+   */
 }
 
 void ListView::connectSignals(KEBListView *listview) {
