@@ -31,7 +31,7 @@ struct KonqFMSettingsPrivate
     KonqFMSettingsPrivate() {
         showPreviewsInFileTips = true;
     }
-    
+
     bool showPreviewsInFileTips;
 };
 
@@ -93,7 +93,7 @@ void KonqFMSettings::init( KConfig * config )
   m_alwaysNewWin = config->readBoolEntry( "AlwaysNewWin", FALSE );
 
   m_homeURL = config->readEntry("HomeURL", "~");
-  
+
   m_showFileTips = config->readBoolEntry("ShowFileTips", true);
   d->showPreviewsInFileTips = config->readBoolEntry("ShowPreviewsInFileTips", true);
   m_numFileTips = config->readNumEntry("FileTipsItems", 6);
@@ -127,12 +127,12 @@ bool KonqFMSettings::shouldEmbed( const QString & serviceType ) const
         return true; //always embed mimetype inode/* and Browser/*
     QMap<QString, QString>::ConstIterator it = m_embedMap.find( QString::fromLatin1("embed-")+serviceTypeGroup );
     if ( it == m_embedMap.end() )
-        return (serviceTypeGroup!="application"); // embedding is true by default except for application/*
+        return false; // embedding is now false by default
     kdDebug(1203) << "KonqFMSettings::shouldEmbed: " << it.data() << endl;
     return it.data() == QString::fromLatin1("true");
 }
 
-bool KonqFMSettings::showPreviewsInFileTips() const 
+bool KonqFMSettings::showPreviewsInFileTips() const
 {
     return d->showPreviewsInFileTips;
 }
