@@ -283,7 +283,7 @@ KRootOptions::KRootOptions(KConfig *config, QWidget *parent, const char * )
   devicesListView = new KListView( groupBox );
   devicesListView->setFullWidth(true);
   devicesListView->addColumn( i18n("Types to Display") );
-  QWhatsThis::add(devicesListView, i18n("Deselect those device types, you don't want to see on the desktop"));
+  QWhatsThis::add(devicesListView, i18n("Deselect the device types which you do not want to see on the desktop"));
   //END devices configuration
   
   // -- Bottom --
