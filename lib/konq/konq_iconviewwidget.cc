@@ -490,9 +490,9 @@ void KonqIconViewWidget::slotItemRenamed(QIconViewItem *item, const QString &nam
     {
         // Actually attempt the rename. If it succeeds, KDirLister will update the name.
         KURL oldurl( fileItem->url() );
-        KURL newurl( url() );
-        newurl.setPath( url().path(1) + KIO::encodeFileName( name ) );
-        kdDebug(1203)<<" newurl :"<<newurl.url()<<endl;
+        KURL newurl( oldurl );
+        newurl.setPath( newurl.directory(false) + KIO::encodeFileName( name ) );
+        kdDebug(1203)<<" newurl :"<<newurl<<endl;
         // We use url()+name so that it also works if the name is a relative path (#51176)
         KonqOperations::rename( this, oldurl, newurl );
     }
