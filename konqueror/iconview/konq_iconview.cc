@@ -783,7 +783,7 @@ static QString displayString(int items, int files, long size, int dirs)
     else
 	text += i18n("%1 Files").arg(files);
     text += " ";
-    text += i18n("(%5 Total)").arg(KIOJob::convertSize( size ) );
+    text += i18n("(%1 Total)").arg(KIOJob::convertSize( size ) );
     text += " - ";
     if (dirs == 1)
 	text += i18n("One Directory");
