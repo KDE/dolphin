@@ -109,7 +109,7 @@ void NSPluginConfig::load()
   KConfig *config = new KConfig("kcmnspluginrc", true);
 
   config->setGroup("Misc");
-  m_startkdeScan->setChecked( config->readBoolEntry( "startkdeScan", true ) );
+  m_startkdeScan->setChecked( config->readBoolEntry( "startkdeScan", false ) );
   delete config;
 
   fillPluginList();
@@ -274,11 +274,20 @@ extern "C"
     {
         KConfig *config = new KConfig("kcmnspluginrc", true);
         config->setGroup("Misc");
-        bool scan = config->readBoolEntry( "startkdeScan", true );
+        bool scan = config->readBoolEntry( "startkdeScan", false );
+        bool firstTime = config->readBoolEntry( "firstTime", true );
         delete config;
 
-        if ( scan )
+        if ( scan || firstTime )
+        {
             system( "nspluginscan" );
+
+            config= new KConfig("kcmnspluginrc", false);
+            config->setGroup("Misc");
+            config->writeEntry( "firstTime", false );
+            config->sync();
+            delete config;
+        }
     }
 }
 #include "nsconfig.moc"
