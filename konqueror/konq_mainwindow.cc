@@ -257,8 +257,10 @@ QWidget *KonqMainWindow::createContainer( QWidget *parent, int index, const QDom
 
 void KonqMainWindow::openFilteredURL( const QString & _url )
 {
+    // Filter URL to build a correct one
     KURL filteredURL( konqFilteredURL( this, _url ) );
 
+    // Remember the initial (typed) URL
     KonqOpenURLRequest req( _url );
 
     openURL( 0L, filteredURL, QString::null, req );
@@ -310,7 +312,8 @@ void KonqMainWindow::openURL( KonqView *_view, const KURL &url,
       // no need to use the serviceType argument. We just force an openURL on the
       // view and hope it can cope with it. If not, it should just ignore it.
       // In all theory we should call updateHistoryEntry here. Bah.
-      view->openURL( url );
+      //view->openURL( url );
+      openView( serviceType, url, view, req );
       return;
     }
   }
@@ -352,6 +355,12 @@ void KonqMainWindow::openURL( KonqView *_view, const KURL &url,
 bool KonqMainWindow::openView( QString serviceType, const KURL &_url, KonqView *childView, const KonqOpenURLRequest & req )
 {
   kdDebug(1202) << "KonqMainWindow::openView " << serviceType << " " << _url.url() << " " << childView << endl;
+  kdDebug(1202) << "req.followMode=" << req.followMode << endl;
+
+  // If linked view and if we are not already following another view
+  if ( childView && childView->linkedView() && !req.followMode )
+    makeViewsFollow( _url, childView );
+
   QString indexFile;
 
   KURL url( _url );
@@ -364,12 +373,9 @@ bool KonqMainWindow::openView( QString serviceType, const KURL &_url, KonqView *
 
   QString serviceName; // default: none provided
 
-  // Look for which view mode to use, if a directory - not if view locked to
-  // its current mode or passive.
-  if ( ( !childView ||
-         (!childView->lockedViewMode() && !childView->passiveMode())
-       )
-     && serviceType == "inode/directory" )
+  // Look for which view mode to use, if a directory - not if view locked, and not if following a URL
+  if ( ( !childView || (!req.followMode && !childView->lockedViewMode()) )
+       && serviceType == "inode/directory" )
   { // Phew !
 
     // Set view mode if necessary (current view doesn't support directories)
@@ -430,15 +436,11 @@ bool KonqMainWindow::openView( QString serviceType, const KURL &_url, KonqView *
     }
   else // We know the child view
   {
-    // We used the 'locking' for keeping the servicename empty,
-    // Now we can reset it.
-    if ( childView->lockedViewMode() )
-        childView->setLockedViewMode( false );
     return childView->changeViewMode( serviceType, serviceName, url, originalURL, req.typedURL );
   }
 }
 
-void KonqMainWindow::slotOpenURL( const KURL &url, const KParts::URLArgs &args )
+void KonqMainWindow::slotOpenURLRequest( const KURL &url, const KParts::URLArgs &args )
 {
   QString frameName = args.frameName;
 
@@ -492,7 +494,7 @@ void KonqMainWindow::slotOpenURL( const KURL &url, const KParts::URLArgs &args )
   openURL( view, url, args );
 }
 
-//Callled by slotOpenURL
+//Called by slotOpenURLRequest
 void KonqMainWindow::openURL( KonqView *childView, const KURL &url, const KParts::URLArgs &args )
 {
   //TODO: handle post data!
@@ -518,6 +520,33 @@ void KonqMainWindow::openURL( KonqView *childView, const KURL &url, const KParts
   }
 
   openURL( childView, url, args.serviceType );
+}
+
+// Linked-views feature
+void KonqMainWindow::makeViewsFollow( const KURL & url, KonqView * senderView )
+{
+  kdDebug(1202) << "makeViewsFollow " << senderView->className() << " url:" << url.url() << endl;
+  KonqOpenURLRequest req;
+  req.followMode = true;
+  MapViews::ConstIterator it = m_mapViews.begin();
+  MapViews::ConstIterator end = m_mapViews.end();
+  for (; it != end; ++it )
+  {
+    if ( (*it != senderView) && (*it)->linkedView() )
+    {
+      // A linked view follows this URL if it supports that service type
+      // _OR_ if the sender is passive (in this case it's locked and we want
+      // the active view to show the URL anyway - example is a web URL in konqdirtree)
+      if ( (*it)->supportsServiceType( senderView->serviceType() )
+           || senderView->passiveMode() )
+      {
+        kdDebug(1202) << "Sending openURL to view " << it.key()->className() << " url:" << url.url() << endl;
+        openView( (*it)->serviceType(), url, (*it), req );
+        //openURL( (*it), ev->url(), req );
+      } else
+        kdDebug(1202) << "View doesn't support service type " << senderView->serviceType() << endl;
+    }
+  }
 }
 
 void KonqMainWindow::abortLoading()
@@ -1225,8 +1254,6 @@ void KonqMainWindow::customEvent( QCustomEvent *event )
       m_paRemoveLocalProperties->setEnabled( canWrite );
     }
 
-    // Check if sender is linked
-    bool bLinked = senderChildView->linkedView();
     // Forward the event to all views
     MapViews::ConstIterator it = m_mapViews.begin();
     MapViews::ConstIterator end = m_mapViews.end();
@@ -1235,30 +1262,9 @@ void KonqMainWindow::customEvent( QCustomEvent *event )
       // Don't resend to sender
       if (it.key() != ev->part())
       {
-      //kdDebug(1202) << "Sending event to view " << it.key()->className() << endl;
-       QApplication::sendEvent( it.key(), event );
+        //kdDebug(1202) << "Sending event to view " << it.key()->className() << endl;
+        QApplication::sendEvent( it.key(), event );
 
-       bool reload = ev->args().reload;
-       kdDebug(1202) << "ev->args().reload=" << reload << endl;
-
-       // Linked-views feature
-       if ( bLinked && (*it)->linkedView()
-            && !(*it)->isLoading()
-            && ( (*it)->url() != ev->url() || reload ) ) // avoid loops !
-       {
-         // A linked view follows this URL if it supports that service type
-         // _OR_ if the sender is passive (in this case it's locked and we want
-         // the active view to show the URL anyway - example is a web URL in konqdirtree)
-         if ( (*it)->supportsServiceType( senderChildView->serviceType() )
-              || senderChildView->passiveMode() )
-         {
-           kdDebug(1202) << "Sending openURL to view " << it.key()->className() << " url:" << ev->url().url() << endl;
-           kdDebug(1202) << "Current view url:" << (*it)->url().url() << " reload=" << reload << endl;
-           (*it)->setLockedViewMode(true);
-	   openURL( (*it), ev->url(), ev->args() );
-         } else
-           kdDebug(1202) << "View doesn't support service type " << senderChildView->serviceType() << endl;
-       }
       }
     }
   }

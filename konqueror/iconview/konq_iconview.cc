@@ -613,11 +613,6 @@ void KonqKfmIconView::slotViewDefault( bool b)
     }
 }
 	
-/*void KonqKfmIconView::slotViewNone( bool )
-{
-  //TODO: Disable Icons
-}*/
-
 /*void KonqKfmIconView::slotTextBottom( bool b )
 {
     if ( b ) {

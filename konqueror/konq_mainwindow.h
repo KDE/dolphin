@@ -176,7 +176,7 @@ public slots:
   /**
    * __NEEEEVER__ call this method directly. It relies on sender() (the part)
    */
-  void slotOpenURL( const KURL &url, const KParts::URLArgs &args );
+  void slotOpenURLRequest( const KURL &url, const KParts::URLArgs &args );
 
   void openURL( KonqView *childView, const KURL &url, const KParts::URLArgs &args );
 
@@ -280,6 +280,8 @@ protected:
   void toggleBar( const char *name, const char *className );
 
   void fillHistoryPopup( QPopupMenu *menu, const QList<HistoryEntry> &history );
+
+  void makeViewsFollow( const KURL & url, KonqView * senderView );
 
   void applyMainWindowSettings();
 

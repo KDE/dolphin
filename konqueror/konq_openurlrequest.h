@@ -5,7 +5,9 @@
 
 struct KonqOpenURLRequest {
 
-  KonqOpenURLRequest() {}
+  KonqOpenURLRequest() :
+    followMode(false)
+    {}
 
   KonqOpenURLRequest( const QString & url ) :
     typedURL(url), followMode(false)

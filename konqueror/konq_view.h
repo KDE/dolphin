@@ -213,10 +213,10 @@ public:
   bool passiveMode() const { return m_bPassiveMode; }
   void setPassiveMode( bool mode );
 
-  // True if locked to current view mode (usually temporarily)
-  // Toggle views are always locked.
-  bool lockedViewMode() const { return m_bLockedViewMode || m_bToggleView; }
-  void setLockedViewMode( bool mode ) { m_bLockedViewMode = mode; }
+  // True if locked to current view mode
+  // Toggle views and passive views are always locked.
+  bool lockedViewMode() const { return m_bLockedViewMode || m_bToggleView || m_bPassiveMode; }
+  void setLockedViewMode( bool mode ) { m_bLockedViewMode = mode; } // currently unused
 
   // True if 'link' symbol set
   bool linkedView() const { return m_bLinkedView; }

@@ -271,7 +271,7 @@ void KonqView::connectPart(  )
     return;
 
   connect( ext, SIGNAL( openURLRequest( const KURL &, const KParts::URLArgs &) ),
-           m_pMainWindow, SLOT( slotOpenURL( const KURL &, const KParts::URLArgs & ) ) );
+           m_pMainWindow, SLOT( slotOpenURLRequest( const KURL &, const KParts::URLArgs & ) ) );
 
   connect( ext, SIGNAL( popupMenu( const QPoint &, const KFileItemList & ) ),
            m_pMainWindow, SLOT( slotPopupMenu( const QPoint &, const KFileItemList & ) ) );

@@ -39,6 +39,7 @@
 #include <kio/paste.h>
 #include <klibloader.h>
 #include <klocale.h>
+#include <konqdrag.h>
 #include <konqfileitem.h>
 #include <konqoperations.h>
 #include <konqsettings.h>
@@ -136,28 +137,47 @@ void KonqDirTreeBrowserExtension::slotSelectionChanged()
 
 void KonqDirTreeBrowserExtension::cut()
 {
-  //TODO: grey out item
-  copy();
+  KonqDrag * drag = konqDragObject();
+  if (drag)
+  {
+    drag->setMoveSelection( true );
+    QApplication::clipboard()->setData( drag );
+  }
 }
 
 void KonqDirTreeBrowserExtension::copy()
+{
+  KonqDrag * drag = konqDragObject();
+  if (drag)
+    QApplication::clipboard()->setData( drag );
+}
+
+KonqDrag * KonqDirTreeBrowserExtension::konqDragObject()
 {
   QStringList lst;
 
   KonqDirTreeItem *selection = (KonqDirTreeItem *)m_tree->selectedItem();
 
   if ( !selection )
-    return;
+    return 0L;
 
   lst.append( selection->fileItem()->url().url() );
 
-  QUriDrag *drag = new QUriDrag( m_tree->viewport() );
+  KonqDrag *drag = new KonqDrag( 0L /* no parent ! */ );
   drag->setUnicodeUris( lst );
-  QApplication::clipboard()->setData( drag );
+  return drag;
 }
 
-void KonqDirTreeBrowserExtension::pasteSelection( bool move )
+void KonqDirTreeBrowserExtension::paste()
 {
+  // move or not move ?
+  bool move = false;
+  QMimeSource *data = QApplication::clipboard()->data();
+  if ( data->provides( "application/x-kde-cutselection" ) ) {
+    move = KonqDrag::decodeIsCutSelection( data );
+    kdDebug(1202) << "move (from clipboard data) = " << move << endl;
+  }
+
   KonqDirTreeItem *selection = (KonqDirTreeItem *)m_tree->selectedItem();
   assert( selection );
   KIO::pasteClipboard( selection->fileItem()->url(), move );
@@ -313,7 +333,7 @@ void KonqDirTree::clear()
 
 void KonqDirTree::openSubFolder( KonqDirTreeItem *item, KonqDirTreeItem *topLevel )
 {
-//  kdDebug() << "openSubFolder( " << item->fileItem()->url().url() << " )" << endl;
+//  kdDebug(1202) << "openSubFolder( " << item->fileItem()->url().url() << " )" << endl;
   TopLevelItem topLevelItem = findTopLevelByItem( topLevel ? topLevel : item );
 
   assert( topLevelItem.m_item );
@@ -480,7 +500,7 @@ void KonqDirTree::contentsMouseReleaseEvent( QMouseEvent *e )
 
 void KonqDirTree::slotNewItems( const KFileItemList& entries )
 {
-  kdDebug() << "slotNewItems " << entries.count() << endl;
+  kdDebug(1202) << "slotNewItems " << entries.count() << endl;
 
   const KonqDirLister *lister = static_cast<const KonqDirLister *>( sender() );
 
@@ -505,7 +525,7 @@ void KonqDirTree::slotNewItems( const KFileItemList& entries )
     QMap<KURL, KonqDirTreeItem *>::ConstIterator dirEnd = topLevelItem.m_mapSubDirs->end();
     for (; dirIt != dirEnd; ++dirIt )
     {
-      //    kdDebug() << "comparing " << dirIt.key().url() << " with " << dir.url() << endl;
+      //    kdDebug(1202) << "comparing " << dirIt.key().url() << " with " << dir.url() << endl;
       if ( dir.cmp( dirIt.key(), true ) )
         break;
     }
@@ -526,7 +546,7 @@ void KonqDirTree::slotDeleteItem( KFileItem *item )
 {
   assert( S_ISDIR( item->mode() ) );
 
-  //  kdDebug() << "slotDeleteItem( " << item->url().url() << " )" << endl;
+  //  kdDebug(1202) << "slotDeleteItem( " << item->url().url() << " )" << endl;
 
   KonqDirLister *lister = (KonqDirLister *)sender();
 
@@ -544,7 +564,7 @@ void KonqDirTree::slotDeleteItem( KFileItem *item )
   {
     if ( ((KonqDirTreeItem *)it.current())->fileItem() == item )
     {
-    //      kdDebug() << "removing " << item->url().url() << endl;
+    //      kdDebug(1202) << "removing " << item->url().url() << endl;
       delete it.current();
       return;
     }
@@ -773,7 +793,7 @@ void KonqDirTree::scanDir2( QListViewItem *parent, const QString &path )
   QString icon = "folder";
   bool    open = false;
 
-  kdDebug() << "Scanning " << path << endl;
+  kdDebug(1202) << "Scanning " << path << endl;
 
   QString dotDirectoryFile = QString(  path ).append( "/.directory" );
 

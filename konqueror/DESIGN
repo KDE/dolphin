@@ -1,8 +1,8 @@
 Konqueror Design Document
- 
+
 Author:
   David Faure, faure@kde.org
- 
+
 Last modified: 16 June 2000
 
 Overall design of konqueror :
@@ -14,7 +14,7 @@ icon views, tree views, html views...)
 
 The main(), including all the startup mechanism is in konq_main.*
 
-The main window contains several "views", in order to show several URLs 
+The main window contains several "views", in order to show several URLs
 at once, possibly using several modes. Each view is a KonqView.
 The KonqView contains the child part, which can be :
 - an icon view (KonqIconView)
@@ -25,7 +25,7 @@ The KonqView contains the child part, which can be :
 Where to find those classes
 ===========================
 
-konq_run.* : Re-implementation of KRun (see libkio) for konqueror. 
+konq_run.* : Re-implementation of KRun (see libkio) for konqueror.
 	   Responsible for finding appropriate view<->mimetype bindings.
 konq_view.* : KonqView, class used by KonqMainView to handle child views
 konq_frame.* : KonqFrame and KonqFrameHeader (handles view-statusbar).
@@ -43,3 +43,29 @@ kdecore, kdeui, kfile, khtml, kparts - usual stuff :)
 libkio - I/O stuff, mimetypes, services
 libkonq - bookmarks, properties dialog, templates ("new") menu, icon view widget
 
+How konqueror opens URLs
+========================
+
+KonqMainWindow:
+
+  openFilteredURL or slotOpenURLRequest
+                    |
+                    |
+            -----openURL----
+             |   |        |
+             |   |        |
+             |  KonqRun  KRun
+             |   |
+             |   |
+           openView
+               |   \----- splitView to create a new one
+KonqView:      |
+         changeViewMode
+               |
+       [switchView if different mode required]
+               |
+          openURL  [emits openURLEvent (after calling openURL)]
+Part:          |
+               |
+          openURL [emits started, progress info, completed]
+              ...
