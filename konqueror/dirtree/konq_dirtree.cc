@@ -266,6 +266,17 @@ void KonqDirTreeItem::setOpen( bool open )
   QListViewItem::setOpen( open );
 }
 
+void KonqDirTreeItem::paintCell( QPainter *_painter, const QColorGroup & _cg, int _column, int _width, int _alignment )
+{
+    if (m_item->isLink())
+    {
+        QFont f( _painter->font() );
+        f.setItalic( TRUE );
+        _painter->setFont( f );
+    }
+    QListViewItem::paintCell( _painter, _cg, _column, _width, _alignment );
+}
+
 void KonqDirTreeItem::setListable( bool b )
 {
   m_bListable = b;

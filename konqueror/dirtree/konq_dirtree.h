@@ -77,6 +77,8 @@ public:
 
   virtual void setOpen( bool open );
 
+  virtual void paintCell( QPainter *_painter, const QColorGroup & _cg, int _column, int _width, int _alignment );
+
   KonqFileItem *fileItem() const { return m_item; }
 
   void setListable( bool b );
