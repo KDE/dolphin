@@ -116,22 +116,7 @@ void KonqTreeViewWidget::setComplete()
    else
    {
       m_bTopLevelComplete = true;
-      // I don't see the point in code duplication (David)
-      // Let's reuse the parent method instead
       KonqBaseListViewWidget::setComplete();
-      /*
-      if ( m_bUpdateContentsPosAfterListing )
-      {
-        if ((m_goToFirstItem==true) || (m_itemFound==false))
-        {
-           setCurrentItem(firstChild());
-           //ugghh, hack, to set the selectedBySimpleMove in KListview->d, aleXXX
-           QKeyEvent tmpEvent(QEvent::KeyPress,0,0,0,"MajorHack");
-           keyPressEvent(&tmpEvent);
-        };
-        ensureItemVisible(currentItem());
-        m_bUpdateContentsPosAfterListing = false;
-      */
    }
 
    if ( m_itemsToOpen.count() > 0 )
@@ -206,9 +191,7 @@ void KonqTreeViewWidget::slotNewItems( const KFileItemList & entries )
             {
                ensureItemVisible(currentItem());
                emit selectionChanged();
-               //ugghh, hack, to set the selectedBySimpleMove in KListview->d, aleXXX
-               QKeyEvent tmpEvent(QEvent::KeyPress,0,0,0,"MajorHack");
-               keyPressEvent(&tmpEvent);
+               selectCurrentItemAndEnableSelectedBySimpleMoveMode();
             };
          };
 

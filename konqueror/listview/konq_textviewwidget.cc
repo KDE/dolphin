@@ -162,9 +162,7 @@ void KonqTextViewWidget::slotNewItems( const KFileItemList & entries )
                setCurrentItem(tmp);
                ensureItemVisible(tmp);
                emit selectionChanged();
-               //ugghh, hack, to set the selectedBySimpleMove in KListview->d, aleXXX
-               QKeyEvent tmpEvent(QEvent::KeyPress,0,0,0,"MajorHack");
-               keyPressEvent(&tmpEvent);
+               selectCurrentItemAndEnableSelectedBySimpleMoveMode();
                m_itemFound=true;
             };
    };
