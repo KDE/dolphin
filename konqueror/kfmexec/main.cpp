@@ -32,6 +32,7 @@
 #include <kio/job.h>
 #include <krun.h>
 #include <kio/netaccess.h>
+#include <kprocess.h>
 #include <kservice.h>
 #include <klocale.h>
 #include <kcmdlineargs.h>
@@ -106,6 +107,7 @@ KFMExec::KFMExec()
                 fileList.append(file);
 
                 expectedCounter++;
+                kdDebug() << "Copying " << url.prettyURL() << " to " << tmp << endl;
                 KIO::Job *job = KIO::file_copy( url, tmp );
                 jobList->append( job );
 
@@ -124,7 +126,11 @@ void KFMExec::slotResult( KIO::Job * job )
 {
     if (job && job->error())
     {
-        job->showErrorDialog();
+        // That error dialog would be queued, i.e. not immediate...
+        //job->showErrorDialog();
+        if ( (job->error() != KIO::ERR_USER_CANCELED) )
+            KMessageBox::error( 0L, job->errorString() );
+
         QString path = static_cast<KIO::FileCopyJob*>(job)->destURL().path();
 
         QValueList<fileInfo>::Iterator it = fileList.begin();
@@ -145,6 +151,7 @@ void KFMExec::slotResult( KIO::Job * job )
     if ( counter < expectedCounter )
         return;
 
+    kdDebug() << "All files downloaded, will call slotRunApp shortly" << endl;
     // We know we can run the app now - but let's finish the job properly first.
     QTimer::singleShot( 0, this, SLOT( slotRunApp() ) );
 
@@ -153,11 +160,13 @@ void KFMExec::slotResult( KIO::Job * job )
 
 void KFMExec::slotRunApp()
 {
-    if ( fileList.isEmpty() )
-      exit(1);
+    if ( fileList.isEmpty() )  {
+        kdDebug() << k_funcinfo << "No file downloaded -> exiting" << endl;
+        exit(1);
+    }
 
     KService service("dummy", command, QString::null);
-    
+
     KURL::List list;
     // Store modification times
     QValueList<fileInfo>::Iterator it = fileList.begin();
@@ -171,17 +180,24 @@ void KFMExec::slotRunApp()
         list << url;
     }
 
-    QStringList params = KRun::processDesktopExec(service, list, true);
-    command = params.join(" ");
+    QStringList params = KRun::processDesktopExec(service, list, false /*no shell*/);
 
-    kdDebug() << "EXEC '" << command << "'" << endl;
+    kdDebug() << "EXEC '" << params.join(" ") << "'" << endl;
 
     // propagate the startup indentification to the started process
     KStartupInfoId id;
     id.initId( kapp->startupId());
     id.setupStartupEnv();
 
-    system( QFile::encodeName(command) );
+    KProcess proc;
+    for(QStringList::Iterator it = params.begin();
+        it != params.end(); ++it)
+    {
+       QString arg = *it;
+       proc << arg;
+    }
+
+    proc.start( KProcess::Block );
 
     KStartupInfo::resetStartupEnv();
 
@@ -194,7 +210,7 @@ void KFMExec::slotRunApp()
         struct stat buff;
         QString src = (*it).path;
         KURL dest = (*it).url;
-        if ( (stat( QFile::encodeName(src), &buff ) == 0) && 
+        if ( (stat( QFile::encodeName(src), &buff ) == 0) &&
              ((*it).time != buff.st_mtime) )
         {
             if ( KMessageBox::questionYesNo( 0L,
