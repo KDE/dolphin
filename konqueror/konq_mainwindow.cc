@@ -281,6 +281,8 @@ QWidget * KonqMainWindow::createContainer( QWidget *parent, int index, const QDo
         m_bookmarkBarActionCollection = new KActionCollection( this );
         m_bookmarkBarActionCollection->setHighlightingEnabled( true );
         connectActionCollection( m_bookmarkBarActionCollection );
+        DelayedInitializer *initializer = new DelayedInitializer( QEvent::Show, res );   
+        connect( initializer, SIGNAL( initialize() ), this, SLOT(initBookmarkBar()) ); 
     }    
   }
 
@@ -288,12 +290,20 @@ QWidget * KonqMainWindow::createContainer( QWidget *parent, int index, const QDo
 }
 
 
+
 void KonqMainWindow::initBookmarkBar()
 {
   KToolBar * bar = static_cast<KToolBar *>( child( "bookmarkToolBar", "KToolBar" ) );
+  
   if (!bar) return;
   if (m_paBookmarkBar) return;
+  
   m_paBookmarkBar = new KBookmarkBar( KonqBookmarkManager::self(), this, bar, m_bookmarkBarActionCollection, this );
+
+  // hide if empty
+  if (bar->count() == 0 )
+        bar->hide();
+  
 }
 
 void KonqMainWindow::removeContainer( QWidget *container, QWidget *parent, QDomElement &element, int id )
@@ -3846,22 +3856,12 @@ void KonqMainWindow::updateBookmarkBar()
 { 
   KToolBar * bar = static_cast<KToolBar *>( child( "bookmarkToolBar", "KToolBar" ) );
   
-  if (bar)
-  {
-    if (bar->isVisible()) //Already visible...
-    {
-      initBookmarkBar(); //So initalize right now..
-      
-      // hide if empty
-      if (bar->count() == 0 )
+  if (!bar) return;
+  
+  // hide if empty
+  if (bar->count() == 0 )
         bar->hide();
-    }
-    else if (!m_paBookmarkBar) //Else delay creation of the KBookmarkBar until the toolbar shown
-    {      
-      DelayedInitializer *initializer = new DelayedInitializer( QEvent::Show, bar );   
-      connect( initializer, SIGNAL( initialize() ), this, SLOT(initBookmarkBar()) ); 
-    } 
-  }
+
 }
 
 void KonqMainWindow::closeEvent( QCloseEvent *e )
