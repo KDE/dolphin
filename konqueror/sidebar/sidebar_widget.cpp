@@ -900,13 +900,11 @@ void Sidebar_Widget::collapseExpandSidebar()
 	{
 		m_somethingVisible = false;
 		parentWidget()->setMaximumWidth(minimumSizeHint().width());
-		QEvent *e = new QEvent( QEvent::LayoutHint );
-		QApplication::postEvent( this, e );
+		updateGeometry();
 	} else {
 		m_somethingVisible = true;
 		parentWidget()->setMaximumWidth(32767);
-		QEvent *e = new QEvent( QEvent::LayoutHint );
-		QApplication::postEvent( this, e );
+		updateGeometry();
 	}
 }
 
@@ -1122,6 +1120,7 @@ void Sidebar_Widget::resizeEvent(QResizeEvent* ev)
 		if (m_savedWidth != newWidth)
 		{
 			m_savedWidth = newWidth;
+			updateGeometry();
 			m_configTimer.start(400, true);
 		}
 	}
