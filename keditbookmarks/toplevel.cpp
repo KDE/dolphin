@@ -981,9 +981,8 @@ void KEBTopLevel::slotOpenLink()
 void KEBTopLevel::slotTestAllLinks()
 {
     QPtrList<KBookmark> bookmarks;
-    // AK - this gives the warning:
-    //      toplevel.cpp:984: warning: taking address of temporary, FIXME :)
-    bookmarks.append(&rootBookmark());
+    KBookmark rootBm = rootBookmark();
+    bookmarks.append(&rootBm);
     testBookmarks(&bookmarks);
 }
 
