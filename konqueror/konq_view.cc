@@ -217,6 +217,11 @@ void KonqView::switchView( KonqViewFactory &viewFactory )
   KParts::ReadOnlyPart *oldPart = m_pPart;
   m_pPart = m_pKonqFrame->attach( viewFactory ); // creates the part
 
+  // Set the statusbar in the BE asap to avoid a KMainWindow statusbar being created.
+  KParts::StatusBarExtension* sbext = statusBarExtension();
+  if ( sbext )
+      sbext->setStatusBar( frame()->statusbar() );
+
   // Activate the new part
   if ( oldPart )
   {
@@ -351,10 +356,6 @@ void KonqView::connectPart(  )
            this, SLOT( slotCanceled( const QString & ) ) );
   connect( m_pPart, SIGNAL( setWindowCaption( const QString & ) ),
            this, SLOT( setCaption( const QString & ) ) );
-
-  KParts::StatusBarExtension* sbext = statusBarExtension();
-  if ( sbext )
-      sbext->setStatusBar( frame()->statusbar() );
 
   KParts::BrowserExtension *ext = browserExtension();
 
