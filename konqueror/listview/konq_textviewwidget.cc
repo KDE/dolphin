@@ -183,14 +183,12 @@ void KonqTextViewWidget::setComplete()
          setCurrentItem( firstChild() );
 
       if ( !m_restored && !m_pBrowserView->extension()->urlArgs().reload )
-      {
          ensureItemVisible( currentItem() );
-         activateAutomaticSelection();
-      }
       else
          setContentsPos( m_pBrowserView->extension()->urlArgs().xOffset,
                          m_pBrowserView->extension()->urlArgs().yOffset );
 
+      activateAutomaticSelection();
       emit selectionChanged();
    }
 
