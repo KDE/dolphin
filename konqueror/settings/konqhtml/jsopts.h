@@ -13,6 +13,8 @@
 #include <kcmodule.h>
 #include <qmap.h>
 
+#include "jspolicies.h"
+
 class KColorButton;
 class KConfig;
 class KListView;
@@ -25,6 +27,8 @@ class QRadioButton;
 class QSpinBox;
 class QButtonGroup;
 
+class PolicyDialog;
+
 class KJavaScriptOptions : public KCModule
 {
   Q_OBJECT
@@ -35,6 +39,8 @@ public:
   virtual void save();
   virtual void defaults();
 
+  bool _removeJavaScriptDomainAdvice;
+
 private slots:
   void slotChanged();
   void importPressed();
@@ -44,16 +50,22 @@ private slots:
   void deletePressed();
 
 private:
+  void setupPolicyDlg(PolicyDialog &,JSPolicies &copy);
   void changeJavaScriptEnabled();
   void updateDomainList(const QStringList &domainConfig);
+  void updateDomainListLegacy(const QStringList &domainConfig); // old format
 
   KConfig *m_pConfig;
   QString m_groupname;
+  JSPolicies js_global_policies;
   QCheckBox *enableJavaScriptGloballyCB;
   QCheckBox *enableJavaScriptDebugCB;
-  QButtonGroup *js_popup;
+  JSPoliciesFrame *js_policies_frame;
   KListView* domainSpecificLV;
-  QMap<QListViewItem*, int> javaScriptDomainPolicy;
+  bool _removeECMADomainSettings;
+
+  typedef QMap<QListViewItem*, JSPolicies> DomainPolicyMap;
+  DomainPolicyMap javaScriptDomainPolicy;
 };
 
 

@@ -8,6 +8,8 @@
 // (C) Kalle Dalheimer 2000
 // Major cleanup & Java/JS settings splitted
 // (c) Daniel Molkentin 2000
+// Big changes to accomodate per-domain settings
+// (c) Leo Savernik 2002
 
 #include <kfiledialog.h>
 #include <qbuttongroup.h>
@@ -44,12 +46,17 @@
 #include <khtmldefaults.h>
 
 #include "jsopts.h"
+#include "jspolicies.h"
 
 #include "jsopts.moc"
 
 KJavaScriptOptions::KJavaScriptOptions( KConfig* config, QString group, QWidget *parent,
 										const char *name ) :
-  KCModule( parent, name ), m_pConfig( config ), m_groupname( group )
+  KCModule( parent, name ),
+  _removeJavaScriptDomainAdvice(false),
+   m_pConfig( config ), m_groupname( group ),
+  js_global_policies(config,group,true,QString::null),
+  _removeECMADomainSettings(false)
 {
   QVBoxLayout* toplevel = new QVBoxLayout( this, 10, 5 );
 
@@ -145,33 +152,10 @@ KJavaScriptOptions::KJavaScriptOptions( KConfig* config, QString group, QWidget 
                                           "button allows you to easily share your policies with other people by allowing "
                                           "you to save and retrive them from a zipped file.") );
 
-  js_popup = new QButtonGroup(4, Horizontal, i18n( "JavaScript Web Popups Policy" ), this);
-  js_popup->setExclusive(TRUE);
-  
-  QRadioButton* popupMode = new QRadioButton(i18n( "Allow" ), js_popup);
-  QWhatsThis::add( popupMode,i18n("Accept all popup window requests.") );
-  
-  popupMode = new QRadioButton(i18n( "Ask" ), js_popup);
-  QWhatsThis::add( popupMode,i18n("Prompt every time a popup window is requested.") );
-  
-  popupMode = new QRadioButton(i18n( "Deny" ), js_popup);
-  QWhatsThis::add( popupMode,i18n("Reject all popup window requests.") );
-  
-  popupMode = new QRadioButton(i18n( "Smart" ), js_popup);  
-  QWhatsThis::add( popupMode, i18n("Accept popup window requests only when "
-                                   "links are activated through an explicit "
-                                   "mouse click or keyboard operation.") );
-  toplevel->addWidget(js_popup);  
-  QWhatsThis::add( js_popup, i18n("If you disable this, Konqueror will stop "
-                                  "interpreting the <i>window.open()</i> "
-                                  "JavaScript command. This is useful if you "
-                                  "regulary visit sites that make extensive use "
-                                  "of this command to pop up ad banners.<br>"
-                                  "<br><b>Note:</b> Disabling this option might "
-                                  "also break certain sites that require <i>"
-                                  "window.open()</i> for proper operation. Use "
-                                  "this feature carefully!") );
-  connect( js_popup, SIGNAL( clicked( int ) ), this, SLOT( slotChanged() ) );
+  js_policies_frame = new JSPoliciesFrame(&js_global_policies,
+  		i18n("Global JavaScript Policies"),this);
+  toplevel->addWidget(js_policies_frame);
+  connect(js_policies_frame, SIGNAL(changed()), SLOT(slotChanged()));
 
 /*
   kdDebug() << "\"Show debugger window\" says: make me useful!" << endl;
@@ -194,55 +178,62 @@ void KJavaScriptOptions::load()
     // *** load ***
     m_pConfig->setGroup(m_groupname);
 
-    if( m_pConfig->hasKey( "ECMADomainSettings" ) )
-        updateDomainList( m_pConfig->readListEntry( "ECMADomainSettings" ) );
-    else
-        updateDomainList(m_pConfig->readListEntry("JavaScriptDomainAdvice") );
+    if( m_pConfig->hasKey( "ECMADomains" ) )
+	updateDomainList(m_pConfig->readListEntry("ECMADomains"));
+    else if( m_pConfig->hasKey( "ECMADomainSettings" ) ) {
+        updateDomainListLegacy( m_pConfig->readListEntry( "ECMADomainSettings" ) );
+	_removeECMADomainSettings = true;
+    } else {
+        updateDomainListLegacy(m_pConfig->readListEntry("JavaScriptDomainAdvice") );
+	_removeJavaScriptDomainAdvice = true;
+    }
 
     // *** apply to GUI ***
-    enableJavaScriptGloballyCB->setChecked( m_pConfig->readBoolEntry("EnableJavaScript",true));
+    js_policies_frame->load();
+    enableJavaScriptGloballyCB->setChecked(
+    		js_global_policies.isFeatureEnabled());
 //    enableJavaScriptDebugCB->setChecked( m_pConfig->readBoolEntry("EnableJavaScriptDebug",false));
-    js_popup->setButton( m_pConfig->readUnsignedNumEntry("WindowOpenPolicy", 0) );
+//    js_popup->setButton( m_pConfig->readUnsignedNumEntry("WindowOpenPolicy", 0) );
 
   // enableDebugOutputCB->setChecked( m_pConfig->readBoolEntry("EnableJSDebugOutput") );
 }
 
 void KJavaScriptOptions::defaults()
 {
-  enableJavaScriptGloballyCB->setChecked( true );
+  js_policies_frame->defaults();
+  enableJavaScriptGloballyCB->setChecked(
+    		js_global_policies.isFeatureEnabled());
 //  enableJavaScriptDebugCB->setChecked( false );
-  js_popup->setButton(0);
  // enableDebugOutputCB->setChecked( false );
 }
 
 void KJavaScriptOptions::save()
 {
     m_pConfig->setGroup(m_groupname);
-    m_pConfig->writeEntry( "EnableJavaScript", enableJavaScriptGloballyCB->isChecked() );
 //    m_pConfig->writeEntry( "EnableJavaScriptDebug", enableJavaScriptDebugCB->isChecked() );
-
-    int js_policy = 0;
-    if ( js_popup->selected() )
-        js_policy = js_popup->id( js_popup->selected() );
-
-    m_pConfig->writeEntry( "WindowOpenPolicy", js_policy);
 
 //    m_pConfig->writeEntry( "EnableJSDebugOutput", enableDebugOutputCB->isChecked() );
 
-    QStringList domainConfig;
-    QListViewItemIterator it( domainSpecificLV );
-    QListViewItem* current;
-    while( ( current = it.current() ) ) {
-        ++it;
-        QCString javaPolicy = KHTMLSettings::adviceToStr( KHTMLSettings::KJavaScriptDunno );
-        QCString javaScriptPolicy = KHTMLSettings::adviceToStr(
-                         (KHTMLSettings::KJavaScriptAdvice) javaScriptDomainPolicy[current] );
-
-        domainConfig.append(QString::fromLatin1("%1:%2:%3").arg(current->text(0)).arg(javaPolicy).arg(javaScriptPolicy));
+    QStringList domainList;
+    DomainPolicyMap::Iterator it = javaScriptDomainPolicy.begin();
+    for (; it != javaScriptDomainPolicy.end(); ++it) {
+    	QListViewItem *current = it.key();
+	JSPolicies &pol = it.data();
+	pol.save();
+	domainList.append(current->text(0));
     }
-    m_pConfig->writeEntry("ECMADomainSettings", domainConfig);
+    m_pConfig->setGroup(m_groupname);
+    m_pConfig->writeEntry("ECMADomains", domainList);
 
-    m_pConfig->sync();
+    js_policies_frame->save();
+
+    if (_removeECMADomainSettings) {
+      m_pConfig->deleteEntry("ECMADomainSettings");
+      _removeECMADomainSettings = false;
+    }
+
+    // sync moved to KJSParts::save
+//    m_pConfig->sync();
 }
 
 void KJavaScriptOptions::slotChanged()
@@ -252,16 +243,16 @@ void KJavaScriptOptions::slotChanged()
 
 void KJavaScriptOptions::addPressed()
 {
-    PolicyDialog pDlg( true, false, this );
-    int def_javapolicy = KHTMLSettings::KJavaScriptDunno;
-    int def_javascriptpolicy = KHTMLSettings::KJavaScriptReject;
-    pDlg.setDefaultPolicy( def_javapolicy, def_javascriptpolicy );
+    JSPolicies pol_copy(m_pConfig,m_groupname,false);
+    pol_copy.defaults();
+    PolicyDialog pDlg(&pol_copy, this);
     pDlg.setCaption( i18n( "New JavaScript Policy" ) );
+    setupPolicyDlg(pDlg,pol_copy);
     if( pDlg.exec() ) {
         QListViewItem* index = new QListViewItem( domainSpecificLV, pDlg.domain(),
-                                                  KHTMLSettings::adviceToStr( (KHTMLSettings::KJavaScriptAdvice)
-                                                                              pDlg.javaScriptPolicyAdvice() ) );
-        javaScriptDomainPolicy.insert( index, (KHTMLSettings::KJavaScriptAdvice)pDlg.javaScriptPolicyAdvice());
+                                                  pDlg.featureEnabledPolicyText() );
+	pol_copy.setDomain(pDlg.domain());
+        javaScriptDomainPolicy.insert(index, pol_copy);
         domainSpecificLV->setCurrentItem( index );
         slotChanged();
     }
@@ -276,18 +267,18 @@ void KJavaScriptOptions::changePressed()
         return;
     }
 
-    int javaScriptAdvice = javaScriptDomainPolicy[index];
+    JSPolicies pol_copy = javaScriptDomainPolicy[index];
 
-    PolicyDialog pDlg( true, false, this );
+    PolicyDialog pDlg( &pol_copy, this );
     pDlg.setDisableEdit( true, index->text(0) );
     pDlg.setCaption( i18n( "Change JavaScript Policy" ) );
-    pDlg.setDefaultPolicy( KHTMLSettings::KJavaScriptDunno, javaScriptAdvice );
+    setupPolicyDlg(pDlg,pol_copy);
     if( pDlg.exec() )
     {
-        javaScriptDomainPolicy[index] = pDlg.javaScriptPolicyAdvice();
+        pol_copy.setDomain(pDlg.domain());
+        javaScriptDomainPolicy[index] = pol_copy;
         index->setText(0, pDlg.domain() );
-        index->setText(1, i18n(KHTMLSettings::adviceToStr(
-                (KHTMLSettings::KJavaScriptAdvice)javaScriptDomainPolicy[index])));
+        index->setText(1, pDlg.featureEnabledPolicyText());
         slotChanged();
     }
 }
@@ -319,12 +310,40 @@ void KJavaScriptOptions::exportPressed()
 void KJavaScriptOptions::changeJavaScriptEnabled()
 {
   bool enabled = enableJavaScriptGloballyCB->isChecked();
+  js_global_policies.setFeatureEnabled(enabled);
   enableJavaScriptGloballyCB->setChecked( enabled );
 }
 
 void KJavaScriptOptions::updateDomainList(const QStringList &domainConfig)
 {
     domainSpecificLV->clear();
+    JSPolicies pol(m_pConfig,m_groupname,false);
+    for (QStringList::ConstIterator it = domainConfig.begin();
+         it != domainConfig.end(); ++it) {
+      QString domain = *it;
+      pol.setDomain(domain);
+      pol.load();
+
+      QString policy;
+      if (pol.isFeatureEnabledPolicyInherited())
+        policy = i18n("Use global");
+      else if (pol.isFeatureEnabled())
+        policy = i18n("Accept");
+      else
+        policy = i18n("Reject");
+      QListViewItem *index =
+        new QListViewItem( domainSpecificLV, domain, policy );
+
+      javaScriptDomainPolicy[index] = pol;
+
+    }
+}
+
+void KJavaScriptOptions::updateDomainListLegacy(const QStringList &domainConfig)
+{
+    domainSpecificLV->clear();
+    JSPolicies pol(m_pConfig,m_groupname,false);
+    pol.defaults();
     for (QStringList::ConstIterator it = domainConfig.begin();
          it != domainConfig.end(); ++it) {
       QString domain;
@@ -335,6 +354,19 @@ void KJavaScriptOptions::updateDomainList(const QStringList &domainConfig)
         new QListViewItem( domainSpecificLV, domain,
                 i18n(KHTMLSettings::adviceToStr(javaScriptAdvice)) );
 
-      javaScriptDomainPolicy[index] = javaScriptAdvice;
+      pol.setDomain(domain);
+      pol.setFeatureEnabled(javaScriptAdvice != KHTMLSettings::KJavaScriptReject);
+      javaScriptDomainPolicy[index] = pol;
     }
+}
+
+void KJavaScriptOptions::setupPolicyDlg(PolicyDialog &pDlg,JSPolicies &pol) {
+  pDlg.setFeatureEnabledLabel(i18n("JavaScript policy:"));
+  pDlg.setFeatureEnabledWhatsThis(i18n("Select a JavaScript policy for "
+                                          "the above host or domain."));
+  JSPoliciesFrame *panel = new JSPoliciesFrame(&pol,i18n("Domain-specific "
+  				"JavaScript policies"),&pDlg);
+  panel->refresh();
+  pDlg.addPolicyPanel(panel);
+  pDlg.refresh();
 }

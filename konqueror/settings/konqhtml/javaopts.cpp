@@ -8,6 +8,8 @@
 // (c) Kalle Dalheimer 2000
 // Redesign and cleanup
 // (c) Daniel Molkentin 2000
+// Big changes to accomodate per-domain settings
+// (c) Leo Savernik 2002
 
 #include <config.h>
 #include <kfiledialog.h>
@@ -47,11 +49,26 @@
 #include "javaopts.h"
 
 
+JavaPolicies::JavaPolicies(KConfig* config, const QString &group, bool global,
+  		const QString &domain) :
+	Policies(config,group,global,domain,"java.","EnableJava") {
+}
+
+JavaPolicies::JavaPolicies() : Policies(0,QString::null,false,
+	QString::null,QString::null,QString::null) {
+}
+
+JavaPolicies::~JavaPolicies() {
+}
+
 KJavaOptions::KJavaOptions( KConfig* config, QString group,
                             QWidget *parent, const char *name )
     : KCModule( parent, name ),
+      _removeJavaScriptDomainAdvice(false),
       m_pConfig( config ),
-      m_groupname( group )
+      m_groupname( group ),
+      java_global_policies(config,group,true),
+      _removeJavaDomainSettings(false)
 {
     QVBoxLayout* toplevel = new QVBoxLayout( this, 10, 5 );
 
@@ -229,8 +246,8 @@ KJavaOptions::KJavaOptions( KConfig* config, QString group,
 void KJavaOptions::load()
 {
     // *** load ***
-    m_pConfig->setGroup(m_groupname);
-    bool bJavaGlobal      = m_pConfig->readBoolEntry( "EnableJava", false);
+    java_global_policies.load();
+    bool bJavaGlobal      = java_global_policies.isFeatureEnabled();
     bool bJavaConsole     = m_pConfig->readBoolEntry( "ShowJavaConsole", false );
     bool bSecurityManager = m_pConfig->readBoolEntry( "UseSecurityManager", true );
     bool bServerShutdown  = m_pConfig->readBoolEntry( "ShutdownAppletServer", true );
@@ -244,10 +261,15 @@ void KJavaOptions::load()
     if( sJavaPath == "/usr/lib/jdk" )
         sJavaPath = "java";
 
-    if( m_pConfig->hasKey( "JavaDomainSettings" ) )
-        updateDomainList( m_pConfig->readListEntry("JavaDomainSettings") );
-    else
-        updateDomainList( m_pConfig->readListEntry("JavaScriptDomainAdvice") );
+    if( m_pConfig->hasKey( "JavaDomains" ) )
+    	updateDomainList(m_pConfig->readListEntry("JavaDomains"));
+    else if( m_pConfig->hasKey( "JavaDomainSettings" ) ) {
+        updateDomainListLegacy( m_pConfig->readListEntry("JavaDomainSettings") );
+	_removeJavaDomainSettings = true;
+    } else {
+        updateDomainListLegacy( m_pConfig->readListEntry("JavaScriptDomainAdvice") );
+	_removeJavaScriptDomainAdvice = true;
+    }
 
     // *** apply to GUI ***
     enableJavaGloballyCB->setChecked( bJavaGlobal );
@@ -265,6 +287,7 @@ void KJavaOptions::load()
 
 void KJavaOptions::defaults()
 {
+    java_global_policies.defaults();
     enableJavaGloballyCB->setChecked( false );
     javaConsoleCB->setChecked( false );
     javaSecurityManagerCB->setChecked( true );
@@ -277,8 +300,7 @@ void KJavaOptions::defaults()
 
 void KJavaOptions::save()
 {
-    m_pConfig->setGroup(m_groupname);
-    m_pConfig->writeEntry( "EnableJava", enableJavaGloballyCB->isChecked());
+    java_global_policies.save();
     m_pConfig->writeEntry( "ShowJavaConsole", javaConsoleCB->isChecked() );
     m_pConfig->writeEntry( "JavaArgs", addArgED->text() );
     m_pConfig->writeEntry( "JavaPath", pathED->lineEdit()->text() );
@@ -286,6 +308,17 @@ void KJavaOptions::save()
     m_pConfig->writeEntry( "ShutdownAppletServer", enableShutdownCB->isChecked() );
     m_pConfig->writeEntry( "AppletServerTimeout", serverTimeoutSB->value() );
 
+    QStringList domainList;
+    DomainPolicyMap::Iterator it = javaDomainPolicy.begin();
+    for (; it != javaDomainPolicy.end(); ++it) {
+    	QListViewItem *current = it.key();
+	JavaPolicies &pol = it.data();
+	pol.save();
+	domainList.append(current->text(0));
+    }
+    m_pConfig->setGroup(m_groupname);
+    m_pConfig->writeEntry("JavaDomains", domainList);
+#if 0
     QStringList domainConfig;
     QListViewItemIterator it( domainSpecificLV );
     QListViewItem* current;
@@ -298,8 +331,15 @@ void KJavaOptions::save()
         domainConfig.append(QString::fromLatin1("%1:%2:%3").arg(current->text(0)).arg(javaPolicy).arg(javaScriptPolicy));
     }
     m_pConfig->writeEntry("JavaDomainSettings", domainConfig);
+#endif
 
-    m_pConfig->sync();
+    if (_removeJavaDomainSettings) {
+      m_pConfig->deleteEntry("JavaDomainSettings");
+      _removeJavaDomainSettings = false;
+    }
+
+    // sync moved to KJSParts::save
+//    m_pConfig->sync();
 }
 
 void KJavaOptions::slotChanged()
@@ -310,7 +350,7 @@ void KJavaOptions::slotChanged()
 
 void KJavaOptions::toggleJavaControls()
 {
-    bool isEnabled = enableJavaGloballyCB->isChecked();
+    bool isEnabled = java_global_policies.isFeatureEnabled();
 
     javaConsoleCB->setEnabled( isEnabled );
     javaSecurityManagerCB->setEnabled( isEnabled );
@@ -323,19 +363,16 @@ void KJavaOptions::toggleJavaControls()
 
 void KJavaOptions::addPressed()
 {
-    PolicyDialog pDlg( false, true, this, 0L );
-    int def_javapolicy = KHTMLSettings::KJavaScriptReject;
-    int def_javascriptpolicy = KHTMLSettings::KJavaScriptReject;
-    pDlg.setDefaultPolicy( def_javapolicy, def_javascriptpolicy );
+    JavaPolicies pol_copy(m_pConfig,m_groupname,false);
+    pol_copy.defaults();
+    PolicyDialog pDlg(&pol_copy, this);
     pDlg.setCaption( i18n( "New Java Policy" ) );
-    if( pDlg.exec() )
-    {
-        KHTMLSettings::KJavaScriptAdvice int_advice = (KHTMLSettings::KJavaScriptAdvice)
-                                                      pDlg.javaPolicyAdvice();
-        QString advice = KHTMLSettings::adviceToStr( int_advice );
+    setupPolicyDlg(pDlg,pol_copy);
+    if( pDlg.exec() ) {
         QListViewItem* index = new QListViewItem( domainSpecificLV, pDlg.domain(),
-                                                  advice );
-        javaDomainPolicy.insert( index, int_advice );
+                                                  pDlg.featureEnabledPolicyText() );
+	pol_copy.setDomain(pDlg.domain());
+        javaDomainPolicy.insert(index, pol_copy);
         domainSpecificLV->setCurrentItem( index );
         slotChanged();
     }
@@ -350,18 +387,18 @@ void KJavaOptions::changePressed()
         return;
     }
 
-    int javaAdvice = javaDomainPolicy[index];
-    int javaScriptAdvice = KHTMLSettings::KJavaScriptDunno;
-    PolicyDialog pDlg( false, true, this );
+    JavaPolicies pol_copy = javaDomainPolicy[index];
+
+    PolicyDialog pDlg( &pol_copy, this );
     pDlg.setDisableEdit( true, index->text(0) );
     pDlg.setCaption( i18n( "Change Java Policy" ) );
-    pDlg.setDefaultPolicy( javaAdvice, javaScriptAdvice );
+    setupPolicyDlg(pDlg,pol_copy);
     if( pDlg.exec() )
     {
-        javaDomainPolicy[index] = pDlg.javaPolicyAdvice();
-        index->setText( 0, pDlg.domain() );
-        index->setText( 1, i18n(KHTMLSettings::adviceToStr(
-            (KHTMLSettings::KJavaScriptAdvice)javaDomainPolicy[index])) );
+        pol_copy.setDomain(pDlg.domain());
+        javaDomainPolicy[index] = pol_copy;
+        index->setText(0, pDlg.domain() );
+        index->setText(1, pDlg.featureEnabledPolicyText());
         slotChanged();
     }
 }
@@ -393,6 +430,33 @@ void KJavaOptions::exportPressed()
 void KJavaOptions::updateDomainList(const QStringList &domainConfig)
 {
     domainSpecificLV->clear();
+    JavaPolicies pol(m_pConfig,m_groupname,false);
+    for (QStringList::ConstIterator it = domainConfig.begin();
+         it != domainConfig.end(); ++it) {
+      QString domain = *it;
+      pol.setDomain(domain);
+      pol.load();
+
+      QString policy;
+      if (pol.isFeatureEnabledPolicyInherited())
+        policy = i18n("Use global");
+      else if (pol.isFeatureEnabled())
+        policy = i18n("Accept");
+      else
+        policy = i18n("Reject");
+      QListViewItem *index =
+        new QListViewItem( domainSpecificLV, domain, policy );
+
+      javaDomainPolicy[index] = pol;
+
+    }
+}
+
+void KJavaOptions::updateDomainListLegacy(const QStringList &domainConfig)
+{
+    domainSpecificLV->clear();
+    JavaPolicies pol(m_pConfig,m_groupname,false);
+    pol.defaults();
     for ( QStringList::ConstIterator it = domainConfig.begin();
           it != domainConfig.end(); ++it)
     {
@@ -402,9 +466,17 @@ void KJavaOptions::updateDomainList(const QStringList &domainConfig)
         KHTMLSettings::splitDomainAdvice(*it, domain, javaAdvice, javaScriptAdvice);
         QListViewItem* index = new QListViewItem( domainSpecificLV, domain,
                                                   i18n(KHTMLSettings::adviceToStr(javaAdvice))  );
-
-        javaDomainPolicy[index] = javaAdvice;
+        pol.setDomain(domain);
+        pol.setFeatureEnabled(javaAdvice != KHTMLSettings::KJavaScriptReject);
+        javaDomainPolicy[index] = pol;
     }
+}
+
+void KJavaOptions::setupPolicyDlg(PolicyDialog &pDlg,JavaPolicies &pol) {
+  pDlg.setFeatureEnabledLabel(i18n("&Java policy:"));
+  pDlg.setFeatureEnabledWhatsThis(i18n("Select a Java policy for "
+                                    "the above host or domain."));
+  pDlg.refresh();
 }
 
 #include "javaopts.moc"

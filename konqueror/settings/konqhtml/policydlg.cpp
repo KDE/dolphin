@@ -1,3 +1,6 @@
+// (C) < 2002 to whoever created and edited this file before
+// (C) 2002 Leo Savernik <l.savernik@aon.at>
+//	Generalizing the policy dialog
 
 #include <qstringlist.h>
 #include <qlayout.h>
@@ -11,15 +14,18 @@
 #include <kbuttonbox.h>
 #include <kmessagebox.h>
 
-#include "policydlg.h"
 #include <qpushbutton.h>
 
-PolicyDialog::PolicyDialog( bool javascript, bool java, QWidget *parent, const char *name )
-             :KDialog(parent, name, true)
-{
-  QVBoxLayout *topl = new QVBoxLayout(this, marginHint(), spacingHint());
+#include "policydlg.h"
+#include "policies.h"
 
-  QGridLayout *grid = new QGridLayout(3, 2);
+PolicyDialog::PolicyDialog( Policies *policies, QWidget *parent, const char *name )
+             :KDialog(parent, name, true), policies(policies)
+{
+  insertIdx = 1;	// index where to insert additional panels
+  topl = new QVBoxLayout(this, marginHint(), spacingHint());
+
+  QGridLayout *grid = new QGridLayout(2, 2);
   grid->setColStretch(1, 1);
   topl->addLayout(grid);
 
@@ -33,7 +39,7 @@ PolicyDialog::PolicyDialog( bool javascript, bool java, QWidget *parent, const c
   QWhatsThis::add(le_domain, i18n("Enter the name of a host (like www.kde.org) "
                                   "or a domain, starting with a dot (like .kde.org or .org)") );
 
-
+#if 0
   l_javapolicy = new QLabel(i18n("&Java policy:"), this);
   grid->addWidget(l_javapolicy, 1, 0);
 
@@ -58,7 +64,16 @@ PolicyDialog::PolicyDialog( bool javascript, bool java, QWidget *parent, const c
 
   QWhatsThis::add(cb_javascriptpolicy, i18n("Select a JavaScript policy for "
                                           "the above host or domain.") );
+#endif
 
+  l_feature_policy = new QLabel(this);
+  grid->addWidget(l_feature_policy, 1, 0);
+
+  cb_feature_policy = new QComboBox(this);
+  l_feature_policy->setBuddy( cb_feature_policy );
+  policy_values << i18n("Use global") << i18n("Accept") << i18n("Reject");
+  cb_feature_policy->insertStringList(policy_values);
+  grid->addWidget(cb_feature_policy, 1, 1);
 
   KButtonBox *bbox = new KButtonBox(this);
   topl->addWidget(bbox);
@@ -71,20 +86,11 @@ PolicyDialog::PolicyDialog( bool javascript, bool java, QWidget *parent, const c
   QPushButton *cancelButton = bbox->addButton(i18n("&Cancel"));
   connect(cancelButton, SIGNAL(clicked()), this, SLOT(reject()));
 
-  //now hide the parts not being used
-  if( !java )
-  {
-    cb_javapolicy->hide();
-    l_javapolicy->hide();
-  }
-
-  if( !javascript )
-  {
-    cb_javascriptpolicy->hide();
-    l_javascriptpolicy->hide();
-  }
-
   le_domain->setFocus();
+}
+
+PolicyDialog::FeatureEnabledPolicy PolicyDialog::featureEnabledPolicy() const {
+    return (FeatureEnabledPolicy)cb_feature_policy->currentItem();
 }
 
 void PolicyDialog::setDisableEdit( bool state, const QString& text )
@@ -95,19 +101,39 @@ void PolicyDialog::setDisableEdit( bool state, const QString& text )
     le_domain->setEnabled( state );
 
     if( state )
-        cb_javapolicy->setFocus();
+        cb_feature_policy->setFocus();
 }
 
-void PolicyDialog::setDefaultPolicy( int javavalue, int javascriptvalue )
-{
-    if( javavalue > 0 && javavalue <= (int) cb_javapolicy->count() )
-    {
-        cb_javapolicy->setCurrentItem( javavalue-1 );
-    }
-    if( javascriptvalue > 0 && javascriptvalue <= (int) cb_javascriptpolicy->count() )
-    {
-        cb_javascriptpolicy->setCurrentItem( javascriptvalue-1 );
-    }
+void PolicyDialog::refresh() {
+    FeatureEnabledPolicy pol;
+
+    if (policies->isFeatureEnabledPolicyInherited())
+      pol = InheritGlobal;
+    else if (policies->isFeatureEnabled())
+      pol = Accept;
+    else
+      pol = Reject;
+    cb_feature_policy->setCurrentItem(pol);
+}
+
+void PolicyDialog::setFeatureEnabledLabel(const QString &text) {
+  l_feature_policy->setText(text);
+}
+
+void PolicyDialog::setFeatureEnabledWhatsThis(const QString &text) {
+  QWhatsThis::add(cb_feature_policy, text);
+}
+
+void PolicyDialog::addPolicyPanel(QWidget *panel) {
+  topl->insertWidget(insertIdx++,panel);
+}
+
+QString PolicyDialog::featureEnabledPolicyText() const {
+  int pol = cb_feature_policy->currentItem();
+  if (pol >= 0 && pol < 3) // Keep in sync with FeatureEnabledPolicy
+    return policy_values[pol];
+  else
+    return QString::null;
 }
 
 void PolicyDialog::accept()
@@ -116,6 +142,16 @@ void PolicyDialog::accept()
     {
         KMessageBox::information( 0, i18n("You must first enter a domain name!") );
         return;
+    }
+
+    FeatureEnabledPolicy pol = (FeatureEnabledPolicy)
+    		cb_feature_policy->currentItem();
+    if (pol == InheritGlobal) {
+      policies->inheritFeatureEnabledPolicy();
+    } else if (pol == Reject) {
+      policies->setFeatureEnabled(false);
+    } else {
+      policies->setFeatureEnabled(true);
     }
     QDialog::accept();
 }

@@ -81,6 +81,7 @@ KJSParts::KJSParts(KConfig *config, QWidget *parent, const char *name)
   tab = new QTabWidget(this);
   layout->addWidget(tab);
 
+  // ### the groupname is duplicated in KJSParts::save
   java = new KJavaOptions( config, "Java/JavaScript Settings", this, name );
   tab->addTab( java, i18n( "&Java" ) );
   connect( java, SIGNAL( changed( bool ) ), SIGNAL( changed( bool ) ) );
@@ -106,6 +107,17 @@ void KJSParts::save()
 {
   javascript->save();
   java->save();
+  
+  // delete old keys after they have been migrated
+  if (javascript->_removeJavaScriptDomainAdvice
+      || java->_removeJavaScriptDomainAdvice) {
+    mConfig->setGroup("Java/JavaScript Settings");
+    mConfig->deleteEntry("JavaScriptDomainAdvice");
+    javascript->_removeJavaScriptDomainAdvice = false;
+    java->_removeJavaScriptDomainAdvice = false;
+  }
+  
+  mConfig->sync();
 
   // Send signal to konqueror
   // Warning. In case something is added/changed here, keep kfmclient in sync
@@ -150,7 +162,10 @@ const KAboutData* KJSParts::aboutData() const
     about->addAuthor("Dirk Mueller",0,"mueller@kde.org");
     about->addAuthor("Daniel Molkentin",0,"molkentin@kde.org");
     about->addAuthor("Wynn Wilkes",0,"wynnw@caldera.com");
-
+    
+    about->addCredit("Leo Savernik",I18N_NOOP("JavaScript access controls\n"
+    					"Per-domain policies extensions"),
+					"l.savernik@aon.at");
 
     return about;
 }

@@ -1,35 +1,71 @@
+// (C) < 2002 to whoever created and edited this file before
+// (C) 2002 Leo Savernik <l.savernik@aon.at>
+//	Generalizing the policy dialog
+
 #ifndef _POLICYDLG_H
 #define _POLICYDLG_H
 
 #include <kdialog.h>
 
+#include <qstringlist.h>
+
 class QLineEdit;
 class QComboBox;
 class QString;
+class QVBoxLayout;
 
+class Policies;
+
+/**
+ * A dialog for editing domain-specific policies.
+ *
+ * Each dialog must be associated with a relevant Policies instance which
+ * will be updated within this dialog appropriately.
+ *
+ * Additionally you can insert your own widget containing controls for
+ * specific policies with addPolicyPanel.
+ *
+ * @author unknown
+ */
 class PolicyDialog : public KDialog
 {
     Q_OBJECT
-    
+
 public:
-    PolicyDialog( bool javascript=true, bool java=true, QWidget *parent = 0, const char *name = 0 );
-    ~PolicyDialog() {};
-    
+    /**
+     * Enumerates the possible return values for the "feature enabled"
+     * policy
+     */
+    enum FeatureEnabledPolicy { InheritGlobal = 0, Accept, Reject };
+
+    /** constructor
+     * @param policies policies object this dialog will write the settings
+     *		into. Note that it always reflects the current settings,
+     *		even if the dialog has been cancelled.
+     * @param parent parent widget this belongs to
+     * @param name internal name
+     */
+    PolicyDialog(Policies *policies, QWidget *parent = 0, const char *name = 0 );
+
+    virtual ~PolicyDialog() {};
+
     /*
-    * @return 1 for "Accept", 2 for "Reject"
+    * @return whether this feature should be activated, deactivated or
+    *	inherited from the respective global policy.
     */
-    int javaPolicyAdvice() const { return cb_javapolicy->currentItem() + 1; }
-    
+    FeatureEnabledPolicy featureEnabledPolicy() const;
+
+    /**
+     * @return the textual representation of the current "feature enabled"
+     * policy
+     */
+    QString featureEnabledPolicyText() const;
+
     /*
-    * @return 1 for "Accept", 2 for "Reject"
-    */
-    int javaScriptPolicyAdvice() const { return cb_javascriptpolicy->currentItem() + 1; }
-    
-    /*
-    * @return the hostname for whom the policy is being set
+    * @return the hostname for which the policy is being set
     */
     QString domain() const { return le_domain->text(); }
-    
+
     /*
     * Sets the line-edit to be enabled/disabled.
     *
@@ -40,26 +76,51 @@ public:
     * @param text  the text to be set in the line-edit. Default is NULL.
     */
     void setDisableEdit( bool /*state*/, const QString& text = QString::null );
-    
-    /*
-    * Sets the default cookie policy.
-    *
-    * @param javavalue 1 - Accept, 2 - Reject
-    * @param javascriptvalue 1 - Accept, 2 - Reject
-    */    
-    void setDefaultPolicy( int javavalue, int javascriptvalue );
+
+    /**
+     * Sets the label for the "feature enabled" policy
+     * @param text label text
+     */
+    void setFeatureEnabledLabel(const QString &text);
+
+    /**
+     * Sets the "What's This" text for the "feature enabled" policy
+     * combo box.
+     * @param text what's-this text
+     */
+    void setFeatureEnabledWhatsThis(const QString &text);
+
+    /**
+     * Syncs the controls with the current content of the
+     * associated policies object.
+     */
+    void refresh();
+
+    /**
+     * Adds another panel which contains controls for more policies.
+     *
+     * The widget is inserted between the "feature enabled" combo box and
+     * the dialog buttons at the bottom.
+     *
+     * Currently at most one widget can be added.
+     * @param panel pointer to widget to insert. The dialog takes ownership
+     *		of it, but does not reparent it.
+     */
+    void addPolicyPanel(QWidget *panel);
 
 protected slots:
 
     virtual void accept();
 
 private:
+    Policies *policies;
+    QVBoxLayout *topl;
+    int insertIdx;
     QLineEdit *le_domain;
-    QLabel *l_javapolicy;
-    QLabel *l_javascriptpolicy;
-    QComboBox *cb_javapolicy;
-    QComboBox *cb_javascriptpolicy;
-
+    QLabel *l_feature_policy;
+    QComboBox *cb_feature_policy;
+    QWidget *panel;
+    QStringList policy_values;
 };
 
 #endif
