@@ -55,6 +55,8 @@
 
 #include "sdk/npupp.h"
 
+static int showProgress=0;
+
 // provide these symbols when compiling with gcc 3.x
 
 #if defined(__GNUC__) && defined(__GNUC_MINOR__)
@@ -440,6 +442,8 @@ QStringList getSearchPaths()
     if ( !config->hasKey("scanPaths") ) {
         QStringList paths;
         paths.append("$HOME/.netscape/plugins");
+        paths.append("/usr/lib64/browser-plugins");
+        paths.append("/usr/lib/browser-plugins");
         paths.append("/usr/local/netscape/plugins");
         paths.append("/opt/mozilla/plugins");
 	paths.append("/opt/mozilla/lib/plugins");
@@ -531,19 +535,31 @@ void sigChildHandler(int)
    errno = saved_errno;
 }
 
+static KCmdLineOptions options[] =
+{
+   { "verbose",     I18N_NOOP("Show progress output for GUI."), 0 },
+   { 0, 0, 0 }
+};
+
 
 int main( int argc, char **argv )
 {
-    printf("10\n"); fflush(stdout);
-
     KAboutData aboutData( "nspluginscan", I18N_NOOP("nspluginscan"),
                           "0.3", "nspluginscan", KAboutData::License_GPL,
                           "(c) 2000,2001 by Stefan Schimanski" );
 
     KLocale::setMainCatalogue("nsplugin");
     KCmdLineArgs::init( argc, argv, &aboutData );
-    KApplication app(false, false);
+    KCmdLineArgs::addCmdLineOptions( options );
+    KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
     
+    showProgress = args->isSet("verbose");
+    if (showProgress) {
+      printf("10\n"); fflush(stdout);
+    }
+
+    KApplication app(false, false);
+
     // Set up SIGCHLD handler
     struct sigaction act;
     act.sa_handler=sigChildHandler;
@@ -579,7 +595,9 @@ int main( int argc, char **argv )
     if (!cachef.open(IO_WriteOnly))
         return -1;
     QTextStream cache(&cachef);
-    printf("20\n"); fflush(stdout);
+    if (showProgress) {
+      printf("20\n"); fflush(stdout);
+    }
 
     // read in the plugins mime information
     kdDebug(1433) << "Scanning directories" << endl;
@@ -589,14 +607,20 @@ int main( int argc, char **argv )
           it != searchPaths.end(); ++it, ++i)
     {
         scanDirectory( *it, mimeInfoList, cache );
-        printf("%d\n", 25 + (50*i) / count ); fflush(stdout);
+        if (showProgress) {
+          printf("%d\n", 25 + (50*i) / count ); fflush(stdout);
+        }
     }
 
-    printf("75\n"); fflush(stdout);
+    if (showProgress) {
+      printf("75\n"); fflush(stdout);
+    }
     // delete old mime types
     kdDebug(1433) << "Removing old mimetypes" << endl;
     deletePluginMimeTypes();
-    printf("80\n");  fflush(stdout);
+    if (showProgress) {
+      printf("80\n");  fflush(stdout);
+    }
 
     // write mimetype files
     kdDebug(1433) << "Creating MIME type descriptions" << endl;
@@ -630,7 +654,9 @@ int main( int argc, char **argv )
           }
         }
     }
-    printf("85\n"); fflush(stdout);
+    if (showProgress) {
+      printf("85\n"); fflush(stdout);
+    }
 
     // close files
     kdDebug(1433) << "Closing cache file" << endl;
@@ -641,7 +667,9 @@ int main( int argc, char **argv )
 
     // write plugin lib service file
     writeServicesFile( mimeTypes );
-    printf("90\n"); fflush(stdout);
+    if (showProgress) {
+      printf("90\n"); fflush(stdout);
+    }
 
     DCOPClient *dcc = kapp->dcopClient();
     if ( !dcc->isAttached() )

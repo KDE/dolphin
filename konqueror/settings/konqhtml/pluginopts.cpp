@@ -279,7 +279,7 @@ void KPluginOptions::scan()
     m_progress->setProgress( 5 );
 
     // start nspluginscan
-    *nspluginscan << scanExe;
+    *nspluginscan << scanExe << "--verbose";
     kdDebug() << "Running nspluginscan" << endl;
     connect(nspluginscan, SIGNAL(readReady(KProcIO*)),
             this, SLOT(progress(KProcIO*)));
