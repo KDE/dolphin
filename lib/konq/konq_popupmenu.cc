@@ -493,7 +493,7 @@ KonqPopupMenu::KonqPopupMenu( KBookmarkManager *mgr, const KFileItemList &items,
 
   if ( KPropertiesDialog::canDisplay( m_lstItems ) && showPropertiesAndFileType )
   {
-      act = new KAction( i18n( "&Properties..." ), 0, this, SLOT( slotPopupProperties() ),
+      act = new KAction( i18n( "&Properties" ), 0, this, SLOT( slotPopupProperties() ),
                          &m_ownActions, "properties" );
       addAction( act );
   }

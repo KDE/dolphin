@@ -10,7 +10,7 @@
  <Menu name="view"><text>&amp;View</text>
   <Action name="show_dot" />
   <Action name="sort_caseinsensitive"/>
-  <Menu name="listview_show"><text>Show Details...</text>
+  <Menu name="listview_show"><text>Show Details</text>
    <TearOffHandle />
    <Action name="show_size"/>
    <Action name="show_time"/>
