@@ -1125,6 +1125,7 @@ void KonqMainWindow::slotConfigureKeys()
 
 void KonqMainWindow::slotConfigureToolbars()
 {
+  QString savedURL = m_combo ? m_combo->currentText() : QString::null;
   KEditToolbar edit(factory());
   if ( edit.exec() )
   {
@@ -1136,6 +1137,9 @@ void KonqMainWindow::slotConfigureToolbars()
     plugViewModeActions();
 
     updateBookmarkBar();
+
+    if ( m_combo )
+      m_combo->setEditText(savedURL);
   }
 }
 
