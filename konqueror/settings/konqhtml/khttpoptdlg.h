@@ -40,9 +40,6 @@ Q_OBJECT
     QLabel *lb_charsets;	
     QLineEdit *le_charsets;	
 
-    // Assume HTML if mime type is not known
-    QCheckBox *cb_assumeHTML;
-
     QString defaultCharsets;
 
 private slots:

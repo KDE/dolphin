@@ -30,11 +30,6 @@ KHTTPOptions::KHTTPOptions(KConfig *config, QString group, QWidget *parent, cons
   connect(le_charsets, SIGNAL(textChanged(const QString&)),
 	  this, SLOT(changed()));
 
-  lay->addSpacing(10);
-  cb_assumeHTML = new QCheckBox( i18n("Assume HTML"), this );
-  lay->addWidget( cb_assumeHTML );
-  connect(cb_assumeHTML, SIGNAL(clicked()), this, SLOT(changed()));
-
   lay->addStretch(10);
 
   // defaultCharsets = QString("utf-8 ")+klocale->charset()+" iso-8859-1";
@@ -53,8 +48,6 @@ void KHTTPOptions::load()
   le_languages->setText( tmp );
   tmp = m_pConfig->readEntry( "AcceptCharsets",defaultCharsets);
   le_charsets->setText( tmp );
-
-  cb_assumeHTML->setChecked(m_pConfig->readBoolEntry( "AssumeHTML", false ));
 }
 
 void KHTTPOptions::save()
@@ -62,7 +55,6 @@ void KHTTPOptions::save()
   m_pConfig->setGroup( "Browser Settings/HTTP" );	
   m_pConfig->writeEntry( "AcceptLanguages", le_languages->text());
   m_pConfig->writeEntry( "AcceptCharsets", le_charsets->text());
-  m_pConfig->writeEntry( "AssumeHTML",cb_assumeHTML->isChecked());
   m_pConfig->sync();
 }
 
@@ -70,7 +62,6 @@ void KHTTPOptions::defaults()
 {
   le_languages->setText( KGlobal::locale()->languages() );
   le_charsets->setText( defaultCharsets );
-  cb_assumeHTML->setChecked( false );
 }
 
 
