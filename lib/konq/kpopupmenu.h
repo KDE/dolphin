@@ -33,7 +33,9 @@ class KNewMenu;
 class KService;
 class OPMenu;
 
-enum { KPOPUPMENU_BACK_ID, KPOPUPMENU_FORWARD_ID, KPOPUPMENU_UP_ID, KPOPUPMENU_SHOWMENUBAR_ID };
+enum { KPOPUPMENU_BACK_ID, KPOPUPMENU_FORWARD_ID, KPOPUPMENU_UP_ID, 
+       KPOPUPMENU_SHOWMENUBAR_ID, KPOPUPMENU_COPY_ID, KPOPUPMENU_PASTE_ID,
+       KPOPUPMENU_TRASH_ID, KPOPUPMENU_DELETE_ID };
 
 /** This class implements the popup menu for URLs in konqueror and kdesktop
  * It's usage is very simple : on right click, create the KonqPopupMenu instance
@@ -56,12 +58,24 @@ public:
    * @param canGoForward set to true if the view can go forward
    * @param canGoUp set to true if the view can go up
    * @param isMenubarHidden if true, additionnal entry : "show Menu"
+   * @param handleEditOperations if true, let KPopupMenu handle operations like
+   *                             copy/paste or delete
+   * if handleEditOperations is false, then the following arguments specify
+   * about whether the edit operations are enabled.
+   * @param canCopy view is able to copy the selected item(s)
+   * @param canPaste view is able to paste data from the clipboard
+   * @param canMove view is able to delete the selected item(s) or move them
+   *                to the trash
    */
   KonqPopupMenu( KFileItemList items,
                  QString viewURL,
                  bool canGoBack, 
                  bool canGoForward,
-                 bool isMenubarHidden);
+                 bool isMenubarHidden,
+		 bool handleEditOperations = true,
+		 bool canCopy = false,
+		 bool canPaste = false,
+		 bool canMove = false );
   /**
    * Don't forget to destroy the object
    */
@@ -96,6 +110,7 @@ protected:
   QStringList m_lstPopupURLs;
   QMap<int,KService::Ptr> m_mapPopup;
   QMap<int,KDEDesktopMimeType::Service> m_mapPopup2;
+  bool m_bHandleEditOperations;
 };
 
 #endif
