@@ -53,7 +53,7 @@ public:
   virtual bool closeURL();
 
   virtual bool openFile() { return true; }
-  virtual void disableIcons( const KURL::List & ) { /* maybe TODO */ }
+  //virtual void disableIcons( const KURL::List & ) { /* maybe TODO */ }
 
   bool supportsUndo() const { return true; }
 
