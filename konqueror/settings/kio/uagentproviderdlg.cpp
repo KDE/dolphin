@@ -65,7 +65,8 @@ UAProviderDlg::UAProviderDlg( const QString& caption, QWidget *parent,
 
   dlg = new UAProviderDlgUI (this);
   mainLayout->addWidget(dlg);
-    
+  //dlg->leIdentity->setEnableSqueezedText( true );
+  
   if (!m_provider)
   {
     setEnabled( false );
@@ -108,7 +109,7 @@ void UAProviderDlg::slotActivated( const QString& text )
   if ( text.isEmpty() )
     dlg->leIdentity->setText( "" );
   else
-    dlg->leIdentity->setSqueezedText( m_provider->agentStr(text) );
+    dlg->leIdentity->setText( m_provider->agentStr(text) );
 
   dlg->pbOk->setEnabled( (!dlg->leSite->text().isEmpty() && !text.isEmpty()) );
 }
