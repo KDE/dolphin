@@ -448,8 +448,9 @@ void KonqSidebarTree::scanDir( KonqSidebarTreeItem *parent, const QString &path,
             // Version 2 includes the history
             // Version 3 includes the bookmarks
             // Version 4 includes lan.desktop and floppy.desktop, Alex
-            // Version 5 includes some stuff from Rob Kaper
-            const int currentVersion = 5;
+            // Version 5 includes the audiocd browser
+            // Version 6 includes the printmanager and lan browser
+            const int currentVersion = 6;
             QString key = QString::fromLatin1("X-KDE-DirTreeVersionNumber");
             KSimpleConfig versionCfg( path + "/.directory" );
             int versionNumber = versionCfg.readNumEntry( key, 1 );
