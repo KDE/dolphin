@@ -2880,7 +2880,7 @@ void KonqMainWindow::initActions()
                     this, SLOT(slotFileNewAboutToShow()) );
 
   m_paFileType = new KAction( i18n( "&Edit File Type..." ), 0, actionCollection(), "editMimeType" );
-  m_paProperties = new KAction( i18n( "Properties" ), 0, actionCollection(), "properties" );
+  m_paProperties = new KAction( i18n( "Properties" ), ALT+Key_Return, actionCollection(), "properties" );
   (void) new KAction( i18n( "New &Window" ), "window_new", KStdAccel::key(KStdAccel::New), this, SLOT( slotNewWindow() ), actionCollection(), "new_window" );
   (void) new KAction( i18n( "&Duplicate Window" ), "window_new", CTRL+Key_D, this, SLOT( slotDuplicateWindow() ), actionCollection(), "duplicate_window" );
   (void) new KAction( i18n( "Send &Link" ), "mail_generic", 0, this, SLOT( slotSendURL() ), actionCollection(), "sendURL" );
