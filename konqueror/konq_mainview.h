@@ -53,7 +53,6 @@ public:
   ~KonqMainView();
 
   void openURL( KonqChildView *_view, const QString &_url, bool reload = false, 
-  // File menu
                 int xOffset = 0, int yOffset = 0 );
 
   KonqViewManager *viewManager() const { return m_pViewManager; }

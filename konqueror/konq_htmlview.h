@@ -79,9 +79,6 @@ public:
   virtual void saveDocument();
   virtual void saveFrame();
   virtual void saveBackground();
-  virtual void viewDocumentSource();
-  virtual void viewFrameSource();
-  void openTxtView( const QString &url );
 
   virtual void slotLoadImages();
 
@@ -100,7 +97,8 @@ public slots:
 protected slots:
   void slotShowURL( const QString &_url );
   void slotSetTitle( QString title );
-  void slotCompleted();
+  void viewDocumentSource();
+  void viewFrameSource();
 
   void slotDocumentRedirection( int, const char *url );
 
@@ -111,6 +109,8 @@ protected slots:
 protected:
   virtual void resizeEvent( QResizeEvent * );
 
+  void openTxtView( const QString &url );
+
 //  virtual KBrowser *createFrame( QWidget *_parent, const char *_name );
 
     //  virtual KHTMLEmbededWidget* newEmbededWidget( QWidget* _parent, const char *_name,
@@ -119,12 +119,16 @@ protected:
     //						int _frameborder, bool _noresize );
 
 private:
-  void checkViewMenu();
+  void updateActions();
+
   bool m_bAutoLoadImages;
 
   KonqBrowser *m_pBrowser;
 
   QString m_strURL;
+
+  KAction *m_paViewDocument;
+  KAction *m_paViewFrame;
 
 /*  CORBA::Long m_idSaveDocument;
   CORBA::Long m_idSaveFrame;

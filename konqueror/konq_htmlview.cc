@@ -19,9 +19,9 @@
 
 #include "konq_htmlview.h"
 #include "konq_propsview.h"
+#include "konq_frame.h"
 #include "konq_childview.h"
 #include "konq_factory.h"
-//#include "konq_txtview.h"
 #include "konq_progressproxy.h"
 
 #include <sys/stat.h>
@@ -85,13 +85,19 @@ KonqHTMLView::KonqHTMLView()
   QObject::connect( m_pBrowser, SIGNAL( setTitle( QString ) ),
                     this, SLOT( slotSetTitle( QString ) ) );
   QObject::connect( m_pBrowser, SIGNAL( completed() ),
-                    this, SLOT( slotCompleted() ) );
+                    this, SIGNAL( completed() ) );
   QObject::connect( m_pBrowser, SIGNAL( started( const QString & ) ),
                     this, SIGNAL( started() ) );
   QObject::connect( m_pBrowser, SIGNAL( canceled() ),
                     this, SIGNAL( canceled() ) );
 
   m_bAutoLoadImages = KonqSettings::defaultHTMLSettings()->autoLoadImages();
+
+  m_paViewDocument = new KAction( i18n( "View Document Source" ), 0, this, SLOT( viewDocumentSource() ), this );
+  m_paViewFrame = new KAction( i18n( "View Frame Source" ), 0, this, SLOT( viewFrameSource() ), this );
+  
+  actions()->append( BrowserView::ViewAction( m_paViewDocument, BrowserView::MenuView ) );
+  actions()->append( BrowserView::ViewAction( m_paViewFrame, BrowserView::MenuView ) );
 
   slotFrameInserted( m_pBrowser );
 }
@@ -104,8 +110,8 @@ KonqHTMLView::~KonqHTMLView()
 void KonqHTMLView::openURL( const QString &url, bool reload,
                             int xOffset, int yOffset )
 {
-    m_bAutoLoadImages = KonqSettings::defaultHTMLSettings()->autoLoadImages();
-    m_pBrowser->enableImages( m_bAutoLoadImages );
+  m_bAutoLoadImages = KonqSettings::defaultHTMLSettings()->autoLoadImages();
+  m_pBrowser->enableImages( m_bAutoLoadImages );
 
   if ( !reload && urlcmp( url, m_strURL, TRUE, TRUE ) )
   {
@@ -114,13 +120,16 @@ void KonqHTMLView::openURL( const QString &url, bool reload,
     emit started();
     if ( !u.htmlRef().isEmpty() )
       m_pBrowser->gotoAnchor( u.htmlRef() );
-    // ### FIXME
-    //    else //HACK (Simon)
-    //      m_pBrowser->slotScrollVert( 0 );
-    slotCompleted();
+    else
+      m_pBrowser->setContentsPos( 0, 0 );
+    emit completed();
     return;
   }
-  else m_pBrowser->KHTMLWidget::openURL( url, reload, xOffset, yOffset );
+  else
+  { 
+    m_strURL = url;
+    m_pBrowser->KHTMLWidget::openURL( url, reload, xOffset, yOffset );
+  }    
 
   if ( m_pBrowser->jobId() )
   {
@@ -133,6 +142,8 @@ void KonqHTMLView::openURL( const QString &url, bool reload,
                         this, SLOT( slotDocumentRedirection( int, const char * ) ) );
     }
   }
+  
+  updateActions();
 }
 
 QString KonqHTMLView::url()
@@ -280,7 +291,7 @@ void KonqHTMLView::slotFrameInserted( KHTMLWidget *frame )
   else
     frame->setURLCursor( KCursor().arrowCursor() );		
 
-//  checkViewMenu();
+  updateActions();
 
   frame->enableImages( m_bAutoLoadImages );
 }
@@ -296,7 +307,7 @@ void KonqHTMLView::slotShowURL( const QString &_url )
   KURL url( _url );
   QString com;
 
-  KMimeType *typ = KMimeType::findByURL( url );
+  KMimeType::Ptr typ = KMimeType::findByURL( url );
 
   if ( typ )
     com = typ->comment( url, false );
@@ -386,12 +397,6 @@ void KonqHTMLView::slotSetTitle( QString )
 
   m_vMainWindow->setPartCaption( id(), decodedTitle );
 */
-}
-
-void KonqHTMLView::slotCompleted()
-{
-  emit completed();
-//  checkViewMenu();
 }
 
 void KonqHTMLView::slotDocumentRedirection( int, const char *url )
@@ -553,16 +558,17 @@ void KonqHTMLView::saveBackground()
 
 void KonqHTMLView::viewDocumentSource()
 {
-//  openTxtView( getKHTMLWidget()->getDocumentURL().url() );
+  openTxtView( m_strURL );
 }
 
 void KonqHTMLView::viewFrameSource()
 {
+ //FIXME: getSelectedFrame() is not implemented in KHTMLWidget (Simon)
 /*
-  KHTMLView *v = getSelectedView();
-  if ( v )
-    openTxtView( v->getKHTMLWidget()->getDocumentURL().url() );
-*/
+  KHTMLWidget *w = m_pBrowser->getSelectedFrame();
+  if ( w )
+    openTxtView( w->url() );
+*/    
 }
 
 void KonqHTMLView::slotLoadImages()
@@ -580,36 +586,37 @@ void KonqHTMLView::slotLoadImages()
 */
 }
 
-void KonqHTMLView::openTxtView( const QString &/*url*/ )
+void KonqHTMLView::openTxtView( const QString &url )
 {
-/*
-  if ( m_pMainView )
+
+  // hmmm, tricky, but why not ;-) (Simon)
+
+  QObject *obj = parent();
+  while ( obj )
   {
-    KonqChildView *childView = m_pMainView->childView( id() );
-    if ( childView )
-    {
-      QStringList serviceTypes;
-      Browser::View_var vView = KonqFactory::createView( "text/plain", serviceTypes );
-      childView->makeHistory( false );
-      childView->changeView( vView, serviceTypes );
-    }
+    if ( obj->inherits( "KonqFrame" ) )
+      break;
+      
+    obj = obj->parent();
+  }
+
+  if ( obj && obj->inherits( "KonqFrame" ) )
+  {
+    KonqChildView *childView = ((KonqFrame *)obj)->childView();
+    childView->changeViewMode( "text/plain", url, false );
   }
   else
   {
-    KConfig *config = kapp->config();
+    KConfig *config = KonqFactory::instance()->config();
     config->setGroup( "Misc Defaults" );
     QString editor = config->readEntry( "Editor", DEFAULT_EDITOR );
 
-    QString u = m_strWorkingURL;
-    if ( u.isEmpty() )
-      u = KBrowser::m_strURL;
-
     QCString cmd;
-    cmd.sprintf( "%s %s &", editor.ascii(), u.ascii() );
+    cmd.sprintf( "%s %s &", editor.ascii(), url.ascii() );
     system( cmd.data() );
   }
-*/
 }
+
 /*
 void KonqHTMLView::can( bool &copy, bool &paste, bool &move )
 {
@@ -647,8 +654,11 @@ void KonqHTMLView::moveSelection( const QCString & )
 }
 */
 
-void KonqHTMLView::checkViewMenu()
+void KonqHTMLView::updateActions()
 {
+#warning FIXME: Lars, please implement KHTMLWidget::isFrameSet() :-)
+//  m_paViewFrame->setEnabled( m_pBrowser->isFrameSet() );
+  
 /*
   if ( !CORBA::is_nil( m_vViewMenu ) )
   {

@@ -86,7 +86,7 @@ public:
 
   bool changeViewMode( const QString &serviceType, const QString &url = QString::null,
                        bool useMiscURLData = true, 
-		       Konqueror::DirectoryDisplayMode dirMode = Konqueror::LargeIcons );
+	               Konqueror::DirectoryDisplayMode dirMode = Konqueror::LargeIcons );
   void changeView( BrowserView *pView, const QStringList &serviceTypes, 
                    const QString &url = QString::null );
   

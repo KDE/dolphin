@@ -946,6 +946,8 @@ void KonqMainView::slotUpAboutToShow()
 
   popup->clear();
 
+  uint i = 0;
+
   KURL u( m_currentView->view()->url() );
   u.cd( ".." );
   while ( u.hasPath() )
@@ -953,6 +955,9 @@ void KonqMainView::slotUpAboutToShow()
     popup->insertItem( u.decodedURL() );
 
     if ( u.path() == "/" )
+      break;
+
+    if ( ++i > 10 )
       break;
 
     u.cd( ".." );
@@ -990,11 +995,14 @@ void KonqMainView::fillHistoryPopup( QPopupMenu *menu, const QStringList &urls )
 
   QStringList::ConstIterator it = urls.begin();
   QStringList::ConstIterator end = urls.end();
+  uint i = 0;
   for (; it != end; ++it )
   {
     KURL u( *it );
     menu->insertItem( *KPixmapCache::pixmapForURL( u, 0, u.isLocalFile(), true ),
                       *it );
+    if ( ++i > 10 )
+      break;
   }
 
 }
@@ -1310,17 +1318,21 @@ void KonqMainView::openBookmarkURL( const QString & url )
 
 QString KonqMainView::currentTitle()
 {
+/*
   QString title = caption();
 
   if ( title.right( 12 ) == " - Konqueror" )
     title.truncate( title.length() - 12 );
 
   return title;
+*/
+#warning FIXME
+  return m_currentView->view()->url();  
 }
 
 QString KonqMainView::currentURL()
 {
-  return m_currentView->url();
+  return m_currentView->view()->url();
 }
 
 void KonqMainView::slotPopupMenu( const QPoint &_global, const KFileItemList &_items )

@@ -352,7 +352,19 @@ void KonqChildView::makeHistory( bool pushEntry )
   m_pCurrentHistoryEntry->xOffset = m_pView->xOffset();
   m_pCurrentHistoryEntry->yOffset = m_pView->yOffset();
   
-  m_pCurrentHistoryEntry->strServiceType = m_lstServiceTypes.first();
+  QStringList::ConstIterator serviceTypeIt = m_lstServiceTypes.begin();
+
+  while ( serviceTypeIt != m_lstServiceTypes.end() )
+  {
+    if ( *serviceTypeIt != "Browser/View" )
+      break;
+    serviceTypeIt++;
+  }      
+
+  if ( *serviceTypeIt == "Browser/View" )
+    qFatal( "invalid history entry! we're missing a proper servicetype!" );
+
+  m_pCurrentHistoryEntry->strServiceType = *serviceTypeIt;
   
   if ( m_pCurrentHistoryEntry->strServiceType == "inode/directory" )
   {
