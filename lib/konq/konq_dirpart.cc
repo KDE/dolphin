@@ -83,13 +83,13 @@ KonqDirPart::KonqDirPart( QObject *parent, const char *name )
     connect( m_paMediumIcons, SIGNAL( toggled( bool ) ), this, SLOT( slotIconSizeToggled( bool ) ) );
     connect( m_paSmallIcons, SIGNAL( toggled( bool ) ), this, SLOT( slotIconSizeToggled( bool ) ) );
 
-    // Extract 3 icon sizes from the icon theme. Use 16,32,48 as default.
+    // Extract 4 icon sizes from the icon theme. Use 16,32,48,64 as default.
     int i;
     m_iIconSize[0] = 0; // Default value
     m_iIconSize[1] = KIcon::SizeSmall; // 16
     m_iIconSize[2] = KIcon::SizeMedium; // 32
     m_iIconSize[3] = KIcon::SizeLarge; // 48
-    m_iIconSize[4] = 64;
+    m_iIconSize[4] = KIcon::SizeHuge; // 64
     KIconTheme *root = KGlobal::instance()->iconLoader()->theme();
     if (root)
     {
