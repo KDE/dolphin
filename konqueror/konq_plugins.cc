@@ -29,7 +29,7 @@ void KonqPlugins::installKOMPlugins( KOM::Component_ptr comp )
 	return;
       }
       
-    QString repoId = (*it)->repoIds().getFirst();
+    QString repoId = (*it)->repoIds().first();
     QString tag = (*it)->name();
     int tagPos = repoId.findRev( "#" );
     if ( tagPos != -1 )
