@@ -168,11 +168,11 @@ void KonqSidebarTree::itemDestructed( KonqSidebarTreeItem *item )
 
 void KonqSidebarTree::clearTree()
 {
+    m_lstModules.clear();
     m_topLevelItems.clear();
     m_mapCurrentOpeningFolders.clear();
     m_currentBeforeDropItem = 0;
     clear();
-    m_lstModules.clear();
 
     if (m_dirtreeDir.type==VIRT_Folder)
     {
@@ -643,8 +643,6 @@ void KonqSidebarTree::loadTopLevelItem( KonqSidebarTreeItem *parent,  const QStr
 
     name = cfg.readEntry( "Name", name );
     KonqSidebarTreeModule * module = 0L;
-
-  module=0;
 
     // Here's where we need to create the right module...
     // ### TODO: make this KTrader/KLibrary based.
