@@ -41,9 +41,6 @@
 
 #include <kbookmarkdrag.h>
 #include <kbookmarkmanager.h>
-#include <kbookmarkimporter.h>
-#include <kbookmarkimporter_ie.h>
-#include <kbookmarkimporter_opera.h>
 
 #include <klineeditdlg.h>
 
@@ -185,19 +182,19 @@ void KEBTopLevel::createActions() {
    (void) new KAction(i18n("Cancel &Search"), 0, 
                       actn, SLOT( slotCancelSearch() ), actionCollection(), "cancelsearch" );
    (void) new KAction(i18n("Import &Netscape Bookmarks..."), "netscape", 0, 
-                      actn, SLOT( slotImportNS() ), actionCollection(), "importNS");
+                      actn, SLOT( slotImport() ), actionCollection(), "importNS");
    (void) new KAction(i18n("Import &Opera Bookmarks..."), "opera", 0, 
-                      actn, SLOT( slotImportOpera() ), actionCollection(), "importOpera");
+                      actn, SLOT( slotImport() ), actionCollection(), "importOpera");
    (void) new KAction(i18n("Import &Galeon Bookmarks..."), 0, 
-                      actn, SLOT( slotImportGaleon() ), actionCollection(), "importGaleon");
-   (void) new KAction(i18n("Import &KDE Bookmarks..."), 0, 
-                      actn, SLOT( slotImportKDE() ), actionCollection(), "importKDE");
+                      actn, SLOT( slotImport() ), actionCollection(), "importGaleon");
+   (void) new KAction(i18n("Import &KDE2 Bookmarks..."), 0, 
+                      actn, SLOT( slotImport() ), actionCollection(), "importKDE2");
    (void) new KAction(i18n("&Import IE Bookmarks..."), 0, 
-                      actn, SLOT( slotImportIE() ), actionCollection(), "importIE");
+                      actn, SLOT( slotImport() ), actionCollection(), "importIE");
+   (void) new KAction(i18n("Import &Mozilla Bookmarks..."), "mozilla", 0, 
+                      actn, SLOT( slotImport() ), actionCollection(), "importMoz");
    (void) new KAction(i18n("&Export to Netscape Bookmarks"), "netscape", 0, 
                       actn, SLOT( slotExportNS() ), actionCollection(), "exportNS");
-   (void) new KAction(i18n("Import &Mozilla Bookmarks..."), "mozilla", 0, 
-                      actn, SLOT( slotImportMoz() ), actionCollection(), "importMoz");
    (void) new KAction(i18n("Export to &Mozilla Bookmarks..."), "mozilla", 0, 
                       actn, SLOT( slotExportMoz() ), actionCollection(), "exportMoz");
 }
@@ -351,12 +348,13 @@ void KEBTopLevel::setAllOpen(bool open) {
 }
 
 void KEBTopLevel::addImport(ImportCommand *cmd) {
-   if (cmd) {
-      addCommand(cmd);
-      KEBListViewItem *item = listview->getItemAtAddress(cmd->groupAddress());
-      if (item) {
-         listview->setCurrent(item);
-      }
+   if (!cmd) {
+      return;
+   }
+   addCommand(cmd);
+   KEBListViewItem *item = listview->getItemAtAddress(cmd->groupAddress());
+   if (item) {
+      listview->setCurrent(item);
    }
 }
 

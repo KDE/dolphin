@@ -48,7 +48,7 @@
 // forcing the filename to import
 
 template <class TheImporter>
-TheImporter *callImporter(QWidget *parent)
+static TheImporter *callImporter(QWidget *parent)
 {
    QString mydirname = TheImporter::requestFilename();
    if (mydirname.isEmpty()) {
@@ -201,6 +201,19 @@ public:
    static QString requestFilename();
 private:
    virtual void doExecute();
+};
+
+class ImportCommandFactory
+{
+public:
+   static ImportCommand* call(const QCString &type, QWidget *top) {
+      if (type == "Galeon") return callImporter<GaleonImportCommand>(top);
+      if (type == "IE")     return callImporter<IEImportCommand>    (top);
+      if (type == "KDE2")   return callImporter<KDE2ImportCommand>  (top);
+      if (type == "Opera")  return callImporter<OperaImportCommand> (top);
+      if (type == "Moz")    return callImporter<MozImportCommand>   (top);
+      if (type == "NS")     return callImporter<NSImportCommand>    (top);
+   }
 };
 
 #endif

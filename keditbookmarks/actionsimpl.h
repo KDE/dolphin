@@ -50,13 +50,8 @@ public slots:
    void slotCancelSearch();
    void slotExpandAll();
    void slotCollapseAll();
-   void slotImportKDE();
-   void slotImportGaleon();
-   void slotImportOpera();
-   void slotImportIE();
-   void slotImportNS();
+   void slotImport();
    void slotExportNS();
-   void slotImportMoz();
    void slotExportMoz();
 
    static ActionsImpl* self() { if (!s_self) { s_self = new ActionsImpl(); }; return s_self; }

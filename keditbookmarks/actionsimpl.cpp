@@ -43,8 +43,6 @@
 #include <kbookmarkdrag.h>
 #include <kbookmarkmanager.h>
 #include <kbookmarkimporter.h>
-#include <kbookmarkimporter_ie.h>
-#include <kbookmarkimporter_opera.h>
 
 #include "kebbookmarkexporter.h"
 
@@ -128,14 +126,9 @@ void ActionsImpl::slotInsertSeparator() {
    top->addCommand(cmd);
 }
 
-#define IMPL(a) top->addImport(callImporter<a>(top));
-
-void ActionsImpl::slotImportIE()     { IMPL(IEImportCommand);     }
-void ActionsImpl::slotImportGaleon() { IMPL(GaleonImportCommand); }
-void ActionsImpl::slotImportKDE()    { IMPL(KDE2ImportCommand);   }
-void ActionsImpl::slotImportOpera()  { IMPL(OperaImportCommand);  }
-void ActionsImpl::slotImportMoz()    { IMPL(MozImportCommand);    }
-void ActionsImpl::slotImportNS()     { IMPL(NSImportCommand);     }
+void ActionsImpl::slotImport() { 
+   top->addImport(ImportCommandFactory::call(sender()->name()+6, top));
+}
 
 void ActionsImpl::slotExportNS() {
    MyManager::self()->doExport(KNSBookmarkImporter::netscapeBookmarksFile(true), false);
