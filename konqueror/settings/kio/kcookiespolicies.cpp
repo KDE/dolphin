@@ -113,6 +113,8 @@ KCookiesPolicies::KCookiesPolicies(QWidget *parent, const char *name)
 
     connect( lv_domainPolicy, SIGNAL(selectionChanged()), SLOT(selectionChanged()) );
     connect( lv_domainPolicy, SIGNAL(doubleClicked (QListViewItem *)),SLOT(changePressed() ) );
+    connect( lv_domainPolicy, SIGNAL(returnPressed ( QListViewItem * )),SLOT(changePressed() ) );
+
     QString wtstr = i18n("This box contains the domains for which you have set a "
                          "specific cookie policy. This policy will be used instead "
                          "of the default policy for any cookie sent by these "
@@ -174,7 +176,7 @@ KCookiesPolicies::KCookiesPolicies(QWidget *parent, const char *name)
                                              "button allows you to easily share your policies with other people by allowing "
                                              "you to save and retrive them from a zipped file."
 #endif
-    
+
     s_grid->addWidget( vbox, 1, 1 );
 
     mainLayout->addWidget( gb_domainSpecific );
@@ -333,7 +335,7 @@ void KCookiesPolicies::exportPressed()
 void KCookiesPolicies::updateButtons()
 {
   bool hasItems = lv_domainPolicy->childCount() > 0;
-  
+
   pb_change->setEnabled ((hasItems && d_itemsSelected == 1));
   pb_delete->setEnabled ((hasItems && d_itemsSelected > 0));
   pb_deleteAll->setEnabled ( hasItems );

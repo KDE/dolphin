@@ -90,6 +90,8 @@ KJavaScriptOptions::KJavaScriptOptions( KConfig* config, QString group, QWidget 
   QWhatsThis::add( domainSpecificLV, wtstr );
   QWhatsThis::add( domainSpecificGB, wtstr );
   connect(domainSpecificLV,SIGNAL(doubleClicked ( QListViewItem * )), this, SLOT( changePressed() ) );
+  connect(domainSpecificLV,SIGNAL(returnPressed ( QListViewItem * )), this, SLOT( changePressed() ) );
+
 
   domainSpecificGBLayout->addMultiCellWidget( domainSpecificLV, 0, 5, 0, 0 );
   QPushButton* addDomainPB = new QPushButton( i18n("Add..."), domainSpecificGB );

@@ -81,6 +81,7 @@ KJavaOptions::KJavaOptions( KConfig* config, QString group,
     domainSpecificLV->addColumn(i18n("Host/Domain"));
     domainSpecificLV->addColumn(i18n("Policy"), 100);
     connect(domainSpecificLV,SIGNAL(doubleClicked ( QListViewItem * )), this, SLOT( changePressed() ) );
+    connect(domainSpecificLV,SIGNAL(returnPressed ( QListViewItem * )), this, SLOT( changePressed() ) );
 
     domainSpecificGBLayout->addMultiCellWidget( domainSpecificLV, 0, 5, 0, 0 );
 
