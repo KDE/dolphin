@@ -109,8 +109,8 @@ KonqViewFactory KonqFactory::createView( const QString &serviceType,
       KTrader::OfferList::ConstIterator end = offers.end();
       for (; it != end; ++it )
       {
-        KService::PropertyPtr prop = (*it)->property( "X-KDE-BrowserView-AllowAsDefault" );
-        if ( !!prop && prop->toBool() )
+        QVariant prop = (*it)->property( "X-KDE-BrowserView-AllowAsDefault" );
+        if ( prop.isValid() && prop.toBool() )
         {
           service = *it;
           break;
@@ -134,11 +134,11 @@ KonqViewFactory KonqFactory::createView( const QString &serviceType,
 
   QStringList args;
 
-  KService::PropertyPtr prop = service->property( "X-KDE-BrowserView-Args" );
+  QVariant prop = service->property( "X-KDE-BrowserView-Args" );
 
-  if ( prop )
+  if ( prop.isValid() )
   {
-    QString argStr = prop->toString();
+    QString argStr = prop.toString();
     args = QStringList::split( " ", argStr );
   }
 
