@@ -109,7 +109,7 @@ bool KonqFMSettings::shouldEmbed( const QString & serviceType ) const
         return true; //always embed mimetype inode/* and Browser/*
     QMap<QString, QString>::ConstIterator it = m_embedMap.find( QString::fromLatin1("embed-")+serviceTypeGroup );
     if ( it == m_embedMap.end() )
-        return true; // default is true
+        return (serviceTypeGroup!="application"); // embedding is true by default except for application/*
     kdDebug(1203) << "KonqFMSettings::shouldEmbed: " << it.data() << endl;
     return it.data() == QString::fromLatin1("true");
 }
