@@ -45,7 +45,7 @@
 #include "main.moc"
 
 typedef KGenericFactory<KonqHTMLModule, QWidget> KonqHTMLFactory;
-K_EXPORT_COMPONENT_FACTORY( libkcm_konqhtml, KonqHTMLFactory );
+K_EXPORT_COMPONENT_FACTORY( libkcm_konqhtml, KonqHTMLFactory("kcmkonqhtml") );
 
 KonqHTMLModule::KonqHTMLModule(QWidget *parent, const char *name, const QStringList &)
   : KCModule(parent, name)
