@@ -411,13 +411,11 @@ void ListView::updateTree(bool updateSplitView) {
 }
 
 void ListView::fillWithGroup(KEBListView *lv, KBookmarkGroup group, KEBListViewItem *parentItem) {
-   static bool currentAlreadyChosen = false;
    KEBListViewItem *lastItem = 0;
    if (!parentItem) {
       lv->clear();
       if (!m_splitView || lv->isFolderList()) {
          KEBListViewItem *tree = new KEBListViewItem(lv, group);
-         currentAlreadyChosen = false;
          fillWithGroup(lv, group, tree);
          tree->QListViewItem::setOpen(true);
          return;
@@ -456,22 +454,20 @@ void ListView::fillWithGroup(KEBListView *lv, KBookmarkGroup group, KEBListViewI
          lastItem = item;
       }
       QString addr = CurrentMgr::self()->correctAddress(m_last_selection_address);
-      if (bk.address() == addr && !currentAlreadyChosen) {
+      if (bk.address() == addr)
          setCurrent(item);
-         currentAlreadyChosen = true;
-      }
-      if (s_selected_addresses.contains(bk.address())) {
+      if (s_selected_addresses.contains(bk.address()))
          lv->setSelected(item, true);
-      }
    }
 }
 
 void ListView::handleCurrentChanged(KEBListView *lv, QListViewItem *item) {
    // hasParent is paranoid, after some thinking remove it
    KEBListViewItem *currentItem = static_cast<KEBListViewItem *>(item);
-   if (currentItem && currentItem->bookmark().hasParent()) {
-      m_last_selection_address = currentItem->bookmark().address();
-   }
+   if (currentItem && currentItem->bookmark().hasParent())
+      m_last_selection_address = selectedItems()->count() >= 1
+                               ? selectedItems()->first()->bookmark().address()
+                               : currentItem->bookmark().address();
    if (item && m_splitView && lv == m_folderListView) {
       m_folderListView->setSelected(item, true);
       QString addr = currentItem->bookmark().address();
