@@ -972,6 +972,7 @@ void KonqMainView::insertChildView( KonqChildView *childView )
   m_paRemoveView->setEnabled( activeViewsCount() > 1 );
 
   childView->callExtensionBoolMethod( "setSaveViewPropertiesLocally(bool)", m_bSaveViewPropertiesLocally );
+  m_pViewManager->viewCountChanged();
   emit viewAdded( childView );
 }
 
@@ -996,9 +997,7 @@ void KonqMainView::removeChildView( KonqChildView *childView )
     m_currentView = 0L;
     m_pViewManager->setActivePart( 0L );
   }
-  if ( viewCount() == 1 && m_currentView )
-    m_currentView->frame()->statusbar()->hideStuff();
-
+  m_pViewManager->viewCountChanged();
   emit viewRemoved( childView );
 }
 
@@ -1718,7 +1717,6 @@ void KonqMainView::initActions()
   m_pBookmarkMenu = new KBookmarkMenu( this, m_pamBookmarks->popupMenu(), actionCollection(), true );
 
   m_paShowMenuBar = KStdAction::showMenubar( this, SLOT( slotShowMenuBar() ), actionCollection(), "showmenubar" );
-  //m_paShowStatusBar = KStdAction::showStatusbar( this, SLOT( slotShowStatusBar() ), actionCollection(), "showstatusbar" );
   m_paShowToolBar = KStdAction::showToolbar( this, SLOT( slotShowToolBar() ), actionCollection(), "showtoolbar" );
   m_paShowLocationBar = new KToggleAction( i18n( "Show &Locationbar" ), 0, actionCollection(), "showlocationbar" );
   m_paShowBookmarkBar = new KToggleAction( i18n( "Show &Bookmarkbar" ), 0, actionCollection(), "showbookmarkbar" );

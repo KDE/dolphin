@@ -138,8 +138,9 @@ KonqChildView* KonqViewManager::split (KonqFrameBase* splitFrame,
 
     printSizeInfo( splitFrame, parentContainer, "before split");
 
-    if ( splitFrame->widget()->inherits( "KonqFrame" ) )
-      ((KonqFrame *)splitFrame->widget())->statusbar()->showStuff();
+    // done by viewCountChanged()
+    //if ( splitFrame->widget()->inherits( "KonqFrame" ) )
+    //  ((KonqFrame *)splitFrame->widget())->statusbar()->showStuff();
 
     splitFrame->widget()->setUpdatesEnabled( false );
     parentContainer->setUpdatesEnabled( false );
@@ -191,12 +192,9 @@ KonqChildView* KonqViewManager::split (KonqFrameBase* splitFrame,
     if ( m_dummyWidget )
       delete (QWidget *)m_dummyWidget;
 
-    // exclude the splitter and all child widgets from the part focus handling
-    // where's the code for that comment ?? (David)
-
     m_pMainContainer->show();
 
-    childView->frame()->statusbar()->hideStuff();
+    //childView->frame()->statusbar()->hideStuff();
 
     if ( newFrameContainer )
       *newFrameContainer = m_pMainContainer;
@@ -288,6 +286,24 @@ void KonqViewManager::removePart( KParts::Part * part )
   //kdDebug(1202) << "KonqViewManager::removePart ( " << part << " ) done" << endl;
 }
 
+void KonqViewManager::viewCountChanged()
+{
+  bool bShowActiveViewIndicator = ( m_pMainView->activeViewsCount() > 1 );
+  bool bShowLinkedViewIndicator = ( m_pMainView->viewCount() > 1 );
+
+  KonqMainView::MapViews mapViews = m_pMainView->viewMap();
+  KonqMainView::MapViews::Iterator it = mapViews.begin();
+  KonqMainView::MapViews::Iterator end = mapViews.end();
+  for (  ; it != end ; ++it )
+  {
+      it.data()->frame()->statusbar()->showActiveViewIndicator(
+          bShowActiveViewIndicator && !it.data()->passiveMode()
+      );
+      it.data()->frame()->statusbar()->showLinkedViewIndicator( bShowLinkedViewIndicator );
+  }
+
+}
+
 void KonqViewManager::saveViewProfile( KConfig &cfg )
 {
   kdDebug(1202) << "KonqViewManager::saveViewProfile" << endl;
@@ -329,8 +345,6 @@ void KonqViewManager::loadViewProfile( KConfig &cfg )
   KonqChildView *nextChildView = chooseNextView( 0L );
   setActivePart( nextChildView->view() );
 
-  //if ( lst.count() == 1 && !childView->passiveMode() )
-  //  childView->frame()->statusbar()->hideStuff();
   kdDebug(1202) << "KonqViewManager::loadViewProfile done" << endl;
   printFullHierarchy( m_pMainContainer );
 }

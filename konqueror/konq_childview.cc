@@ -160,7 +160,6 @@ void KonqChildView::switchView( KonqViewFactory &viewFactory )
   {
     setPassiveMode( true ); // set as passive
     //TODO, perhaps: don't allow "Unlock all views" to unlock this view ?
-    //frame()->statusbar()->hideStuff(); // prevent user from removing passive mode
   }
 
   // Honour "linked view"
@@ -523,19 +522,8 @@ void KonqChildView::setPassiveMode( bool mode )
   if ( mode && m_pMainView->viewCount() > 1 && m_pMainView->currentChildView() == this )
     m_pMainView->viewManager()->setActivePart( m_pMainView->viewManager()->chooseNextView( this )->view() );
 
-  // Hide the mode button for the last active view
-  //
-  /*
-  KonqChildView *current = m_pMainView->currentChildView();
-
-  if (current != 0L) {
-    if ( m_pMainView->viewManager()->chooseNextView( current ) == 0L ) {
-      current->frame()->statusbar()->passiveModeCheckBox()->hide();
-    } else {
-      current->frame()->statusbar()->passiveModeCheckBox()->show();
-    }
-  }
-  */
+  // Update statusbar stuff
+  m_pMainView->viewManager()->viewCountChanged();
 }
 
 void KonqChildView::setLinkedView( bool mode )

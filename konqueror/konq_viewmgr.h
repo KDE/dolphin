@@ -108,6 +108,14 @@ public:
 
   KonqChildView *chooseNextView( KonqChildView *view );
 
+  /**
+   * Called whenever
+   * - the total number of views changed
+   * - the number of views in passive mode changed
+   * The implementation takes care of showing or hiding the statusbar indicators
+   */
+  void viewCountChanged();
+
   void setProfiles( KActionMenu *profiles );
 
   KonqFrameContainer *mainContainer() const { return m_pMainContainer; }

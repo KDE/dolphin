@@ -66,6 +66,10 @@ KonqFrameStatusBar::KonqFrameStatusBar( KonqFrame *_parent, const char *_name )
 ,m_yOffset(0)
 ,m_showLed(true)
 {
+   m_pStatusLabel = new QLabel( this );
+   m_pStatusLabel->show();
+   m_pStatusLabel->installEventFilter(this);
+
    m_pLinkedViewCheckBox = new KonqCheckBox( this, "m_pLinkedViewCheckBox" );
    m_pLinkedViewCheckBox->show();
    QWhatsThis::add( m_pLinkedViewCheckBox,
@@ -76,16 +80,12 @@ KonqFrameStatusBar::KonqFrameStatusBar( KonqFrame *_parent, const char *_name )
                          "directory tree with an icon view or detailed view, and possibly a "
                          "terminal emulator window." ) );
 
-   m_pStatusLabel = new QLabel( this );
-   m_pStatusLabel->show();
-   m_pStatusLabel->installEventFilter(this);
-
    int h=fontMetrics().height()+2;
    if (h<DEFAULT_HEADER_HEIGHT ) h=DEFAULT_HEADER_HEIGHT;
    setFixedHeight(h);
    m_yOffset=(h-13)/2;
 
-   m_pLinkedViewCheckBox->setGeometry(20,m_yOffset,13,13);
+   //m_pLinkedViewCheckBox->setGeometry(20,m_yOffset,13,13);
    m_pLinkedViewCheckBox->setFocusPolicy(NoFocus);
    m_pStatusLabel->setGeometry(40,0,50,h);
 
@@ -104,6 +104,7 @@ KonqFrameStatusBar::~KonqFrameStatusBar()
 void KonqFrameStatusBar::resizeEvent( QResizeEvent* )
 {
    m_progressBar->setGeometry( width()-160, 0, 140, height() );
+   m_pLinkedViewCheckBox->move( width()-15, m_yOffset ); // right justify
 }
 
 void KonqFrameStatusBar::mousePressEvent( QMouseEvent* event )
@@ -218,23 +219,24 @@ void KonqFrameStatusBar::slotConnectToNewView(KonqChildView *, KParts::ReadOnlyP
    slotDisplayStatusText( QString::null );
 }
 
-void KonqFrameStatusBar::showStuff()
+void KonqFrameStatusBar::showActiveViewIndicator( bool b )
 {
-    m_pLinkedViewCheckBox->show();
-    m_showLed = true;
+    m_showLed = b;
     repaint();
 }
 
-void KonqFrameStatusBar::hideStuff()
+void KonqFrameStatusBar::showLinkedViewIndicator( bool b )
 {
-    m_pLinkedViewCheckBox->hide();
-    m_showLed = false;
-    repaint();
+    if (b)
+      m_pLinkedViewCheckBox->show();
+    else
+      m_pLinkedViewCheckBox->hide();
+    //repaint();
 }
 
 void KonqFrameStatusBar::setLinkedView( bool b )
 {
-  m_pLinkedViewCheckBox->setChecked( b );
+    m_pLinkedViewCheckBox->setChecked( b );
 }
 
 void KonqFrameStatusBar::paintEvent(QPaintEvent* e)

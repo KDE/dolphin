@@ -78,13 +78,13 @@ class KonqFrameStatusBar : public QWidget
 
       void setLinkedView( bool b );
       /**
-       * Shows the statusbar buttons
+       * Shows/hides the active-view indicator
        */
-      void showStuff();
+      void showActiveViewIndicator( bool b );
       /**
-       * Hides the statusbar buttons
+       * Shows/hides the linked-view indicator
        */
-      void hideStuff();
+      void showLinkedViewIndicator( bool b );
 
       void message( const QString &msg );
 
