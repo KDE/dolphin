@@ -903,14 +903,23 @@ void NSPluginInstance::javascriptResult(int id, QString result) {
                  SLOT(streamFinished(NSPluginStreamBase*)) );
         _streams.append( s );
 
-        s->create( req->url, QString("text/plain"), req->notify );
         int len = result.length();
-        QByteArray data( len + 1 );
-        if (len)
-            memcpy( data.data(), result.latin1(), len );
-        data[len] = 0;
-        s->process( data, 0 );
-        s->finish( false );
+        s->create( req->url, QString("text/plain"), req->notify );
+        kdDebug(1431) << "javascriptResult has been called with: "<<result<<endl;
+        if (len > 0) {
+            QByteArray data(len + 1);
+            memcpy(data.data(), result.latin1(), len);
+            data[len] = 0;
+            s->process(data, 0);
+        } else {
+            len = 7; //  "unknown"
+            QByteArray data(len + 1);
+            memcpy(data.data(), "unknown", len);
+            data[len] = 0;
+            s->process(data, 0);
+        }
+        s->finish(false);
+
         delete req;
     }
 }
@@ -1451,39 +1460,40 @@ bool NSPluginStreamBase::create( const QString& url, const QString& mimeType, vo
 int NSPluginStreamBase::process( const QByteArray &data, int start )
 {
    int32 max, sent, to_sent, len;
-   char *d = data.data()+start;
+   char *d = data.data() + start;
 
-   to_sent = data.size()-start;
-   while (to_sent>0)
+   to_sent = data.size() - start;
+   while (to_sent > 0)
    {
       inform();
 
-      max = _instance->NPWriteReady( _stream );
+      max = _instance->NPWriteReady(_stream);
+      kdDebug(1431) << "to_sent == " << to_sent << " and max = " << max << endl;
       len = QMIN(max, to_sent);
 
       kdDebug(1431) << "-> Feeding stream to plugin: offset=" << _pos << ", len=" << len << endl;
       sent = _instance->NPWrite( _stream, _pos, len, d );
       kdDebug(1431) << "<- Feeding stream: sent = " << sent << endl;
 
-      if (sent==0) // interrupt the stream for a few ms
+      if (sent == 0) // interrupt the stream for a few ms
           break;
 
-      if ( sent<0 ) {
+      if (sent < 0) {
           // stream data rejected/error
           kdDebug(1431) << "stream data rejected/error" << endl;
           _error = true;
           break;
       }
 
-      if ( _tempFile )
-          _tempFile->dataStream()->writeRawBytes( d, sent );
+      if (_tempFile)
+          _tempFile->dataStream()->writeRawBytes(d, sent);
 
       to_sent -= sent;
       _pos += sent;
       d += sent;
    }
 
-   return data.size()-to_sent;
+   return data.size() - to_sent;
 }
 
 
@@ -1740,3 +1750,4 @@ void NSPluginStream::result(KIO::Job *job)
 }
 
 #include "nsplugin.moc"
+// vim: ts=4 sw=4 et
