@@ -30,7 +30,7 @@
 // for compat
 void KEBNSBookmarkExporter::write( bool utf8 )
 {
-    KEBNSBookmarkExporter exporter( m_pManager, m_fileName );
+    KEBNSBookmarkExporterImpl exporter( m_pManager, m_fileName );
     exporter.write( utf8 );
 }
 
