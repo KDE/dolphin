@@ -23,6 +23,7 @@
 #include <qwhatsthis.h>
 #include <kglobalsettings.h>
 #include <kconfig.h>
+#include <kprocess.h>
 #include <kdebug.h>
 #include <kcolorbutton.h>
 #include <X11/Xlib.h>
@@ -37,14 +38,14 @@
 
 //-----------------------------------------------------------------------------
 
-KonqFontOptions::KonqFontOptions(KConfig *config, QString group, bool desktop, QWidget *parent, const char *name)
+KonqFontOptions::KonqFontOptions(KConfig *config, QString group, bool desktop, QWidget *parent)
     : KCModule( parent, "kcmkonq" ), g_pConfig(config), groupname(group), m_bDesktop(desktop)
 {
     QLabel *label;
     QString wtstr;
     int row = 0;
 
-    int LASTLINE = m_bDesktop ? 7 : 8; // this can be different :)
+    int LASTLINE = m_bDesktop ? 8 : 9; // this can be different :)
 #define LASTCOLUMN 2
     QGridLayout *lay = new QGridLayout(this,LASTLINE+1,LASTCOLUMN+1,KDialog::marginHint(),
                                        KDialog::spacingHint());
@@ -168,6 +169,11 @@ KonqFontOptions::KonqFontOptions(KConfig *config, QString group, bool desktop, Q
                                               " being displayed in bytes. Otherwise file sizes are"
                                               " being displayed in kilobytes or megabytes if appropriate.") );
     }
+
+    row++;
+    QPushButton* pbIconSize = new QPushButton( i18n("Configure Icon Size"), this);
+    connect( pbIconSize, SIGNAL(clicked()), this, SLOT(slotConfigureIconSize()) );
+    lay->addMultiCellWidget( pbIconSize, row, row, 0, LASTCOLUMN, Qt::AlignLeft );
 
     assert( row == LASTLINE-1 );
     // The last line is empty and grows if resized
@@ -322,6 +328,13 @@ void KonqFontOptions::slotTextBackgroundColorChanged( const QColor &col )
         textBackgroundColor = col;
         changed();
     }
+}
+
+void KonqFontOptions::slotConfigureIconSize()
+{
+    KProcess proc;
+    proc << "kcmshell" << "icons";
+    proc.start(KProcess::DontCare);
 }
 
 #include "fontopts.moc"
