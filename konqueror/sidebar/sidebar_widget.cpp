@@ -18,7 +18,7 @@
 #include <qwidget.h>
 #include <qpushbutton.h>
 #include <qbuttongroup.h>
-#include <qvector.h>
+#include <qptrvector.h>
 #include <ktoolbar.h>
 #include <klocale.h>
 #include <ksimpleconfig.h>
