@@ -9,7 +9,10 @@ rcdir = $(kde_datadir)/konqueror
 rc_DATA = konqueror_part.rc konqueror_shell.rc
 
 kdelnkdir = $(kde_servicesdir)
-kdelnk_DATA = konqueror.desktop konq_plugin.desktop
+kdelnk_DATA = konqueror.desktop
+
+servicetypedir = $(kde_servicetypesdir)
+servicetype_DATA = konq_plugin.desktop
 
 libkonqueror_la_SOURCES = konq_mainview.cc konq_part.cc konq_shell.cc \
 			  konq_run.cc konq_childview.cc konq_viewmgr.cc \
