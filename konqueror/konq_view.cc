@@ -160,7 +160,7 @@ void KonqView::openURL( const KURL &url, const QString & locationBarURL, const Q
     args = ext->urlArgs();
 
   // Typing "Enter" again after the URL of an aborted view, triggers a reload.
-  if ( m_bAborted && m_pPart && m_pPart->url() == url )
+  if ( m_bAborted && m_pPart && m_pPart->url() == url && !args.doPost())
   {
     if ( !prepareReload( args ) )
       return;

@@ -470,7 +470,7 @@ void KonqKfmIconView::slotSelect()
         QIconViewItem *it = m_pIconView->firstItem();
         while ( it )
         {
-            if ( re.search( it->text() ) != -1 )
+            if ( re.exactMatch( it->text() ) )
                 it->setSelected( true, true );
             it = it->nextItem();
         }
@@ -497,7 +497,7 @@ void KonqKfmIconView::slotUnselect()
         QIconViewItem *it = m_pIconView->firstItem();
         while ( it )
         {
-            if ( re.search( it->text() ) != -1 )
+            if ( re.exactMatch( it->text() ) )
                 it->setSelected( false, true );
             it = it->nextItem();
         }

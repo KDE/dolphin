@@ -349,7 +349,7 @@ void KonqListView::slotSelect()
          //but who knows, aleXXX
          m_pListView->deactivateAutomaticSelection();
       };
-      if ( re.search( it->text(0) ) == 0 )
+      if ( re.exactMatch( it->text(0) ) )
          it->setSelected( TRUE);
    };
    m_pListView->blockSignals( false );
@@ -371,7 +371,7 @@ void KonqListView::slotUnselect()
    m_pListView->blockSignals(TRUE);
 
    for (KonqBaseListViewWidget::iterator it = m_pListView->begin(); it != m_pListView->end(); it++ )
-      if ( re.search( it->text(0) ) == 0 )
+      if ( re.exactMatch( it->text(0) ) )
          it->setSelected(FALSE);
 
    m_pListView->blockSignals(FALSE);
