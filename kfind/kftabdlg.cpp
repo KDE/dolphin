@@ -403,7 +403,9 @@ void KfindTabWidget::initMimeTypes()
           it != tmp.end(); ++it )
     {
       KMimeType * type = *it;
-      if ((!type->comment().isEmpty()) && (!type->name().startsWith("kdedevice/")))
+      if ((!type->comment().isEmpty()) 
+         && (!type->name().startsWith("kdedevice/"))
+         && (!type->name().startsWith("all/")))
         sortedList.append(type);
     }
     sortedList.sort();
