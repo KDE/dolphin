@@ -638,7 +638,6 @@ private:
   // Set in constructor, used in slotRunFinished
   uint m_bNeedApplyKonqMainWindowSettings:1;
   uint m_bViewModeToggled:1;
-  uint m_bLockLocationBarURL:1;
 
   int m_goBuffer;
 

@@ -155,7 +155,6 @@ KonqMainWindow::KonqMainWindow( const KURL &initialURL, bool openInitialURL, con
   m_combo = 0L;
   m_bURLEnterLock = false;
   m_bLocationBarConnected = false;
-  m_bLockLocationBarURL = false;
   m_paBookmarkBar = 0L;
   m_pURLCompletion = 0L;
   m_goBuffer = 0;
@@ -1755,9 +1754,6 @@ void KonqMainWindow::slotPartChanged( KonqView *childView, KParts::ReadOnlyPart 
 
   // Remove the old part, and add the new part to the manager
   // Note: this makes the new part active... so it calls slotPartActivated
-  // When it does that from here, we don't want to revert the location bar URL,
-  // hence the m_bLockLocationBarURL hack.
-  m_bLockLocationBarURL = true;
 
   m_pViewManager->replacePart( oldPart, newPart, false );
   // Set active immediately
@@ -1977,14 +1973,9 @@ void KonqMainWindow::slotPartActivated( KParts::Part *part )
   if ( oldView && oldView->frame() )
     oldView->frame()->statusbar()->updateActiveStatus();
 
-  if ( !m_bLockLocationBarURL )
-  {
-    //kdDebug(1202) << "slotPartActivated: setting location bar url to "
-    //              << m_currentView->locationBarURL() << " m_currentView=" << m_currentView << endl;
-    m_currentView->setLocationBarURL( m_currentView->locationBarURL() );
-  }
-  else
-    m_bLockLocationBarURL = false;
+  //kdDebug(1202) << "slotPartActivated: setting location bar url to "
+  //              << m_currentView->locationBarURL() << " m_currentView=" << m_currentView << endl;
+  m_currentView->setLocationBarURL( m_currentView->locationBarURL() );
 
   updateToolBarActions();
 
