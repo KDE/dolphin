@@ -166,7 +166,7 @@ ToggleViewGUIClient::ToggleViewGUIClient( KonqMainWindow *mainWindow )
   KTrader::OfferList::ConstIterator cEnd = offers.end();
   for (; cIt != cEnd; ++cIt )
   {
-    QString description = i18n( "Show %1" ).arg( (*cIt)->comment() );
+    QString description = i18n( "Show %1" ).arg( (*cIt)->name() );
     QString name = (*cIt)->desktopEntryName();
     //kdDebug(1202) << "ToggleViewGUIClient: name=" << name << endl;
     KToggleAction *action = new KToggleAction( description, 0, 0, name.latin1() );
