@@ -114,7 +114,7 @@ int main( int argc, char **argv )
   KAboutData aboutData( "konqueror", I18N_NOOP("Konqueror"), 
                         KONQUEROR_VERSION, 
                         I18N_NOOP("Web browser, file manager, ..."),
-                        KAboutData::GPL, 
+                        KAboutData::License_GPL, 
                         "(c) 1999-2000, The Konqueror developers" );
 
   KCmdLineArgs::init( argc, argv, &aboutData );

@@ -30,7 +30,7 @@ KfSaveOptions *saving;
 int main( int argc, char ** argv ) 
 {
 	KAboutData aboutData( "kfind", I18N_NOOP("KFind"), 
-		KFIND_VERSION, description, KAboutData::GPL, 
+		KFIND_VERSION, description, KAboutData::License_GPL, 
 		"(c) 1998-2000, The KDE Developers");
 	aboutData.addAuthor("Martin Hartig");
 	aboutData.addAuthor("Mario Weilguni",0, "mweilguni@sime.com");
