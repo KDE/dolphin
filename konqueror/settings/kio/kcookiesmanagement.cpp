@@ -211,18 +211,6 @@ void KCookiesManagement::load()
   getDomains();
 }
 
-bool KCookiesManagement::checkCookiejarStatus()
-{
-  bool status = kapp->dcopClient()->isApplicationRegistered("kcookiejar");
-  if ( !status )
-  {
-      // TODO: Ask the user whether or not an attempt should be
-      // made to start the cookiejar
-      status = KApplication::startServiceByDesktopName( "kcookiejar" );
-  }
-  return status;
-}
-
 void KCookiesManagement::save()
 {
   // If delete all cookies was requested!
@@ -232,13 +220,7 @@ void KCookiesManagement::save()
     QByteArray reply;
     QCString replyType;
 
-    if ( !checkCookiejarStatus() )
-    {
-      // TODO: Warn the user that cookies not being deleted!
-      return;
-    }
-
-    if( dcop->call("kcookiejar", "kcookiejar", "deleteAllCookies()",
+    if( dcop->call("kded", "kcookiejar", "deleteAllCookies()",
                    call, replyType, reply) )
     {
       // deleted[Cookies|Domains] have been cleared yet
@@ -261,7 +243,7 @@ void KCookiesManagement::save()
     QDataStream callStream(call, IO_WriteOnly);
     callStream << *dIt;
 
-    if( dcop->call("kcookiejar", "kcookiejar",
+    if( dcop->call("kded", "kcookiejar",
                    "deleteCookiesFromDomain(QString)", call, replyType,
                    reply) )
     {
@@ -288,7 +270,7 @@ void KCookiesManagement::save()
       QCString replyType;
       QDataStream callStream(call, IO_WriteOnly);
       callStream << (*cookie)->domain << (*cookie)->host << (*cookie)->path << (*cookie)->name;
-      if( dcop->call("kcookiejar", "kcookiejar",
+      if( dcop->call("kded", "kcookiejar",
                      "deleteCookie(QString,QString,QString,QString)",
                      call, replyType, reply) )
       {
@@ -348,7 +330,7 @@ void KCookiesManagement::getDomains()
   QCString replyType;
   QStringList domains;
 
-  if( dcop->call("kcookiejar", "kcookiejar", "findDomains()",
+  if( dcop->call("kded", "kcookiejar", "findDomains()",
                  call, replyType, reply) && replyType == "QStringList" )
   {
     QDataStream replyStream(reply, IO_ReadOnly);
@@ -393,7 +375,7 @@ void KCookiesManagement::getCookies(QListViewItem *cookieDom)
   callStream << fields << ckd->domain() << QString::null
              << QString::null << QString::null;
 
-  if( dcop->call("kcookiejar", "kcookiejar",
+  if( dcop->call("kded", "kcookiejar",
                  "findCookies(QValueList<int>,QString,QString,QString,QString)",
                  call, replyType, reply) && replyType == "QStringList" )
   {
@@ -434,7 +416,7 @@ bool KCookiesManagement::getCookieDetails(CookieProp *cookie)
   callStream << fields << cookie->domain << cookie->host
              << cookie->path << cookie->name;
 
-  if( dcop->call("kcookiejar", "kcookiejar",
+  if( dcop->call("kded", "kcookiejar",
                  "findCookies(QValueList<int>,QString,QString,QString,QString)",
                  call, replyType, reply) && replyType == "QStringList" )
   {

@@ -86,7 +86,6 @@ private slots:
 private:
     bool getCookieDetails(CookieProp *cookie);
     void clearCookieDetails();
-    bool checkCookiejarStatus();
 
     KLineEdit* le_name;
     KLineEdit* le_value;

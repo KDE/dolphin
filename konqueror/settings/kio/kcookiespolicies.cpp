@@ -46,7 +46,7 @@ KCookiesPolicies::KCookiesPolicies(QWidget *parent, const char *name)
     QVBoxLayout *mainLayout = new QVBoxLayout( this, KDialog::marginHint(),
                                         KDialog::spacingHint() );
 
-    QHBoxLayout* hlay = new QHBoxLayout( this, 0, KDialog::spacingHint() );
+    QHBoxLayout* hlay = new QHBoxLayout( mainLayout, KDialog::spacingHint() );
 
     m_cbEnableCookies = new QCheckBox( i18n("Enable coo&kies"), this );
     QWhatsThis::add( m_cbEnableCookies, i18n("This option turns on cookie support. Normally "
@@ -57,7 +57,6 @@ KCookiesPolicies::KCookiesPolicies(QWidget *parent, const char *name)
     QSpacerItem* spacer = new QSpacerItem( 20, 20, QSizePolicy::Expanding,
                               QSizePolicy::Minimum );
     hlay->addItem( spacer );
-    mainLayout->addLayout( hlay );
     
     m_bgPreferences = new QVButtonGroup( this );
     m_cbRejectCrossDomainCookies = new QCheckBox ( i18n("Only accept cookies from "
@@ -566,13 +565,13 @@ void KCookiesPolicies::save()
   {
     if( m_cbEnableCookies->isChecked() )
      {
-        if ( !m_dcopClient->send ("kcookiejar", "kcookiejar", "reloadPolicy()",
+        if ( !m_dcopClient->send ("kded", "kcookiejar", "reloadPolicy()",
                                   QString::null) )
            kdDebug(7104) << "Can't communicate with the cookiejar!" << endl;
      }
      else
      {
-        if ( !m_dcopClient->send ("kcookiejar", "kcookiejar", "shutdown()",
+        if ( !m_dcopClient->send ("kded", "kcookiejar", "shutdown()",
                                   QString::null) )
            kdDebug(7104) << "Can't communicate with the cookiejar!" << endl;
      }
