@@ -37,9 +37,9 @@ historymgr:
    dirty solution to a problem that is mainly konqi's
    but, still, after konqi is fixed, this should be done
 
-toolbar filtering:
-   show in toolbar / hide in toolbar
-   proper readonly support - no addbookmark, etc.
+proper readonly support -
+   rmb should work but things should be disabled? 
+   no addbookmark, etc.
 
 THINGS FOR 3.3+
 ------------------
@@ -62,13 +62,6 @@ cleanup importing:
 
 basic gui:
    split view stuff - including filtered views
-   a dialog for bookmark editing
    need to get keyboard shortcut changes working somehow (wheels)
    have to get dynamic filtering (e.g sorting, pruning),
    bookmark shortcuts
-
-NON BOOKMARKS
--------------
-
-kmail:
-   evolution like lineedit for searching && maildir bug
