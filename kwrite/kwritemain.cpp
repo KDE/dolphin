@@ -62,155 +62,89 @@
 #include <qlayout.h>
 
 // StatusBar field IDs
-#define ID_GEN 1
+#define KWRITE_ID_GEN 1
 
 QPtrList<KTextEditor::Document> KWrite::docList;
 QPtrList<KWrite> KWrite::winList;
 
 KWrite::KWrite (KTextEditor::Document *doc)
-    : m_kateView(0),
+    : m_view(0),
       m_recentFiles(0),
       m_paShowPath(0),
       m_paShowStatusBar(0)
 {
   setMinimumSize(200,200);
 
-  if (!initialGeometrySet())
-     resize(640,400);
-
-  if (!doc)
+  if ( !doc )
   {
-    doc=KTextEditor::EditorChooser::createDocument(0,"KTextEditor::Document");
+    if ( !(doc = KTextEditor::EditorChooser::createDocument(0,"KTextEditor::Document")) )
+    {
+      KMessageBox::error(this, i18n("A KDE text editor component could not be found!\n"
+                                    "Please check your KDE installation."));
+      kapp->exit(1);
+    }
+    
     docList.append(doc);
   }
 
-  setupEditWidget(doc);
+  m_view = doc->createView (this, 0L);
+
+  setCentralWidget(m_view);
+  
   setupActions();
   setupStatusBar();
 
   setAcceptDrops(true);
 
+  connect(m_view,SIGNAL(newStatus()),this,SLOT(newCaption()));
+  connect(m_view,SIGNAL(viewStatusMsg(const QString &)),this,SLOT(newStatus(const QString &)));
+  connect(m_view->document(),SIGNAL(fileNameChanged()),this,SLOT(newCaption()));
+  connect(m_view,SIGNAL(dropEventPass(QDropEvent *)),this,SLOT(slotDropEvent(QDropEvent *)));
+  
   setXMLFile( "kwriteui.rc" );
   createShellGUI( true );
-  guiFactory()->addClient( m_kateView );
+  guiFactory()->addClient( m_view );
   KParts::GUIActivateEvent ev( true );
-  QApplication::sendEvent( m_kateView, &ev );
-
-  // init with more usefull size, stolen from konq :)
-  if ( !initialGeometrySet() )
-      resize( 700, 480 );
+  QApplication::sendEvent( m_view, &ev );
   
   // call it as last thing, must be sure everything is already set up ;)
   setAutoSaveSettings ("MainWindow Settings");
 
   // init with more usefull size, stolen from konq :)
   if ( !initialGeometrySet() && !kapp->config()->hasGroup("MainWindow Settings"))
-      resize( 700, 480 );
+    resize( 700, 480 );
       
   readConfig ();
-  init ();
-  
-  show ();
   
   winList.append (this);
+  
+  show ();
 }
-
 
 KWrite::~KWrite()
 {
   winList.remove (this);
 
-  if (m_kateView->document()->views().count() == 1)
+  if (m_view->document()->views().count() == 1)
   {
-    docList.remove(m_kateView->document()); 
-    delete m_kateView->document();
+    docList.remove(m_view->document()); 
+    delete m_view->document();
   }
-}
-
-void KWrite::slotConfigure()
-{
-  Kate::Document *doc = Kate::document (kateView()->document());
-
-  if (doc)
-  {
-    doc->configDialog ();
-    writeConfig ();
-  }
-}
-
-void KWrite::init()
-{
-  KStatusBar *sb = statusBar();
-
-  if (sb)
-    m_paShowStatusBar->setChecked( !sb->isHidden() );
-  else
-    m_paShowStatusBar->setEnabled(false);
-}
-
-void KWrite::loadURL(const KURL &url)
-{
-  m_recentFiles->addURL( url );
-  m_kateView->document()->openURL(url);
-}
-
-bool KWrite::queryClose()
-{
-  if (m_kateView->document()->views().count() > 1)
-    return true;
-
-  if (m_kateView->document()->queryClose())
-  {
-    writeConfig();
-    kapp->config()->sync();
-
-    return true;
-  }
-
-  return false;
-}
-
-void KWrite::setupEditWidget(KTextEditor::Document *doc)
-{
-  if (!doc)
-  {
-    KMessageBox::error(this, i18n("A KDE text editor component could not be found!\n"
-                                  "Please check your KDE installation."));
-    kapp->exit(1);
-  }
-
-  m_kateView = doc->createView (this, 0L);
-
-  connect(m_kateView,SIGNAL(newStatus()),this,SLOT(newCaption()));
-  connect(m_kateView,SIGNAL(viewStatusMsg(const QString &)),this,SLOT(newStatus(const QString &)));
-  connect(m_kateView->document(),SIGNAL(fileNameChanged()),this,SLOT(newCaption()));
-  connect(m_kateView,SIGNAL(dropEventPass(QDropEvent *)),this,SLOT(slotDropEvent(QDropEvent *)));
-
-  setCentralWidget(m_kateView);
-
-  KStdAction::close( this, SLOT(slotFlush()), actionCollection(), "file_close" )->setWhatsThis(i18n("Use this to close the current document"));
-}
-
-void KWrite::changeEditor()
-{
-  KWriteEditorChooser choose(this);
-  choose.exec();
-}
-
-void KWrite::slotFlush ()
-{
-   m_kateView->document()->closeURL();
+  
+  kapp->config()->sync ();
 }
 
 void KWrite::setupActions()
 {
   KAction *a;
 
-  if (Kate::document (kateView()->document()))
+  if (Kate::document (view()->document()))
   {
-    m_kateView->actionCollection()->remove (m_kateView->actionCollection()->action( "set_confdlg" ));
+    m_view->actionCollection()->remove (m_view->actionCollection()->action( "set_confdlg" ));
     KStdAction::preferences(this, SLOT(slotConfigure()), actionCollection(), "settings_configure");
   }
+  
+  KStdAction::close( this, SLOT(slotFlush()), actionCollection(), "file_close" )->setWhatsThis(i18n("Use this to close the current document"));
 
   // setup File menu
   KStdAction::print(this, SLOT(printDlg()), actionCollection())->setWhatsThis(i18n("Use this command to print the current document"));
@@ -249,26 +183,70 @@ void KWrite::setupActions()
 
 void KWrite::setupStatusBar()
 {
-  KStatusBar *statusbar;
-  statusbar = statusBar();
-  statusbar->insertItem("", ID_GEN);
+  statusBar()->insertItem("", KWRITE_ID_GEN);
+}
+
+// if we use KatePart, sync config after configDialog is closed
+void KWrite::slotConfigure()
+{
+  Kate::Document *doc = Kate::document (view()->document());
+
+  if (doc)
+  {
+    doc->configDialog ();
+    writeConfig ();
+  }
+}
+
+// load on url
+void KWrite::loadURL(const KURL &url)
+{
+  m_recentFiles->addURL( url );
+  m_view->document()->openURL(url);
+}
+
+// is closing the window wanted by user ?
+bool KWrite::queryClose()
+{
+  if (m_view->document()->views().count() > 1)
+    return true;
+
+  if (m_view->document()->queryClose())
+  {
+    writeConfig();
+
+    return true;
+  }
+
+  return false;
+}
+
+void KWrite::changeEditor()
+{
+  KWriteEditorChooser choose(this);
+  choose.exec();
+}
+
+void KWrite::slotFlush ()
+{
+   m_view->document()->closeURL();
 }
 
 void KWrite::slotNew()
 {
-  if (m_kateView->document()->isModified() || !m_kateView->document()->url().isEmpty())
+  if (m_view->document()->isModified() || !m_view->document()->url().isEmpty())
     new KWrite();
   else
-    m_kateView->document()->openURL("");
+    m_view->document()->openURL("");
 }
 
 void KWrite::slotOpen()
 {
-  if (KTextEditor::encodingInterface(m_kateView->document()))
+  if (KTextEditor::encodingInterface(m_view->document()))
   {
 	KEncodingFileDialog::Result r=KEncodingFileDialog::getOpenURLsAndEncoding(
-		KTextEditor::encodingInterface(m_kateView->document())->encoding(),
-	m_kateView->document()->url().url(),QString::null,this,i18n("Open File"));
+		KTextEditor::encodingInterface(m_view->document())->encoding(),
+	m_view->document()->url().url(),QString::null,this,i18n("Open File"));
 
     for (KURL::List::Iterator i=r.URLs.begin(); i != r.URLs.end(); ++i)
     {
@@ -278,7 +256,7 @@ void KWrite::slotOpen()
   }
   else
   {
-    KURL::List l=KFileDialog::getOpenURLs(m_kateView->document()->url().url(),QString::null,this,QString::null);
+    KURL::List l=KFileDialog::getOpenURLs(m_view->document()->url().url(),QString::null,this,QString::null);
     for (KURL::List::Iterator i=l.begin(); i != l.end(); ++i)
     {
       slotOpen ( *i );
@@ -296,24 +274,22 @@ void KWrite::slotOpen( const KURL& url )
     return;
   }
 
-  if (m_kateView->document()->isModified() || !m_kateView->document()->url().isEmpty())
+  if (m_view->document()->isModified() || !m_view->document()->url().isEmpty())
   {
     KWrite *t = new KWrite();
-    if (KTextEditor::encodingInterface(m_kateView->document())) KTextEditor::encodingInterface(m_kateView->document())->setEncoding(encoding);
+    if (KTextEditor::encodingInterface(m_view->document())) KTextEditor::encodingInterface(m_view->document())->setEncoding(encoding);
     t->loadURL(url);
   }
   else
   {
-    if (KTextEditor::encodingInterface(m_kateView->document())) KTextEditor::encodingInterface(m_kateView->document())->setEncoding(encoding);
+    if (KTextEditor::encodingInterface(m_view->document())) KTextEditor::encodingInterface(m_view->document())->setEncoding(encoding);
     loadURL(url);
   }
 }
 
 void KWrite::newView()
 {
-  KWrite *t = new KWrite(m_kateView->document());
-  t->readConfig();
-  t->init();
+  new KWrite(m_view->document());
 }
 
 void KWrite::toggleStatusBar()
@@ -328,8 +304,8 @@ void KWrite::editKeys()
 {
   KKeyDialog dlg;
   dlg.insert(actionCollection());
-  if( m_kateView )
-    dlg.insert(m_kateView->actionCollection());
+  if( m_view )
+    dlg.insert(m_view->actionCollection());
   dlg.configure();
 }
 
@@ -340,13 +316,13 @@ void KWrite::editToolbars()
   if (dlg->exec())
   {
     KParts::GUIActivateEvent ev1( false );
-    QApplication::sendEvent( m_kateView, &ev1 );
-    guiFactory()->removeClient( m_kateView );
+    QApplication::sendEvent( m_view, &ev1 );
+    guiFactory()->removeClient( m_view );
     createShellGUI( false );
     createShellGUI( true );
-    guiFactory()->addClient( m_kateView );
+    guiFactory()->addClient( m_view );
     KParts::GUIActivateEvent ev2( true );
-    QApplication::sendEvent( m_kateView, &ev2 );
+    QApplication::sendEvent( m_view, &ev2 );
   }
 
   delete dlg;
@@ -354,32 +330,32 @@ void KWrite::editToolbars()
 
 void KWrite::printNow()
 {
-  KTextEditor::printInterface(m_kateView->document())->print ();
+  KTextEditor::printInterface(m_view->document())->print ();
 }
 
 void KWrite::printDlg()
 {
-  KTextEditor::printInterface(m_kateView->document())->printDialog ();
+  KTextEditor::printInterface(m_view->document())->printDialog ();
 }
 
 void KWrite::newStatus(const QString &msg)
 {
   newCaption();
 
-  statusBar()->changeItem(msg,ID_GEN);
+  statusBar()->changeItem(msg,KWRITE_ID_GEN);
 }
 
 void KWrite::newCaption()
 {
-  if (m_kateView->document()->url().isEmpty()) {
-    setCaption(i18n("Untitled"),m_kateView->document()->isModified());
+  if (m_view->document()->url().isEmpty()) {
+    setCaption(i18n("Untitled"),m_view->document()->isModified());
   }
   else
   {
     QString c;
     if (!m_paShowPath->isChecked())
     {
-      c = m_kateView->document()->url().filename();
+      c = m_view->document()->url().filename();
 
       //File name shouldn't be too long - Maciek
       if (c.length() > 64)
@@ -387,14 +363,14 @@ void KWrite::newCaption()
     }
     else
     {
-      c = m_kateView->document()->url().prettyURL();
+      c = m_view->document()->url().prettyURL();
 
       //File name shouldn't be too long - Maciek
       if (c.length() > 64)
         c = "..." + c.right(64);
     }
 
-    setCaption (c, m_kateView->document()->isModified());
+    setCaption (c, m_view->document()->isModified());
   }
 }
 
@@ -428,7 +404,7 @@ void KWrite::slotEnableActions( bool enable )
   for (; it != end; ++it )
       (*it)->setEnabled( enable );
 
-  actions = m_kateView->actionCollection()->actions();
+  actions = m_view->actionCollection()->actions();
   it = actions.begin();
   end = actions.end();
 
@@ -441,28 +417,34 @@ void KWrite::readConfig(KConfig *config)
 {
   config->setGroup("General Options");
 
+  m_paShowStatusBar->setChecked( config->readBoolEntry("ShowStatusBar") );
   m_paShowPath->setChecked( config->readBoolEntry("ShowPath") );
+  
   m_recentFiles->loadEntries(config, "Recent Files");
 
-  if (m_kateView && KTextEditor::configInterface(m_kateView->document()))
-    KTextEditor::configInterface(m_kateView->document())->readConfig(config);
+  if (m_view && KTextEditor::configInterface(m_view->document()))
+    KTextEditor::configInterface(m_view->document())->readConfig(config);
+    
+  if( m_paShowStatusBar->isChecked() )
+    statusBar()->show();
+  else
+    statusBar()->hide();
 }
-
 
 void KWrite::writeConfig(KConfig *config)
 {
   config->setGroup("General Options");
 
-  if (m_paShowPath)
-    config->writeEntry("ShowPath",m_paShowPath->isChecked());
+  config->writeEntry("ShowStatusBar",m_paShowStatusBar->isChecked());
+  config->writeEntry("ShowPath",m_paShowPath->isChecked());
+  
+  m_recentFiles->saveEntries(config, "Recent Files");
 
-  if (m_recentFiles)
-    m_recentFiles->saveEntries(config, "Recent Files");
+  if (m_view && KTextEditor::configInterface(m_view->document()))
+    KTextEditor::configInterface(m_view->document())->writeConfig(config);
 
-  if (m_kateView && KTextEditor::configInterface(m_kateView->document()))
-    KTextEditor::configInterface(m_kateView->document())->writeConfig(config);
+  config->sync ();
 }
-
 
 //config file
 void KWrite::readConfig()
@@ -470,7 +452,6 @@ void KWrite::readConfig()
   KConfig *config = kapp->config();
   readConfig(config);
 }
-
 
 void KWrite::writeConfig()
 {
@@ -482,25 +463,23 @@ void KWrite::writeConfig()
 void KWrite::restore(KConfig *config, int n)
 {
   readPropertiesInternal(config, n);
-
-  init();
 }
 
 void KWrite::readProperties(KConfig *config)
 {
   readConfig(config);
 
-  if (KTextEditor::sessionConfigInterface(m_kateView))
-    KTextEditor::sessionConfigInterface(m_kateView)->readSessionConfig(config);
+  if (KTextEditor::sessionConfigInterface(m_view))
+    KTextEditor::sessionConfigInterface(m_view)->readSessionConfig(config);
 }
 
 void KWrite::saveProperties(KConfig *config)
 {
   writeConfig(config);
-  config->writeEntry("DocumentNumber",docList.find(m_kateView->document()) + 1);
+  config->writeEntry("DocumentNumber",docList.find(m_view->document()) + 1);
 
-  if (KTextEditor::sessionConfigInterface(m_kateView))
-    KTextEditor::sessionConfigInterface(m_kateView)->writeSessionConfig(config);
+  if (KTextEditor::sessionConfigInterface(m_view))
+    KTextEditor::sessionConfigInterface(m_view)->writeSessionConfig(config);
 }
 
 void KWrite::saveGlobalProperties(KConfig *config) //save documents
@@ -524,7 +503,7 @@ void KWrite::saveGlobalProperties(KConfig *config) //save documents
      QString buf = QString("Window %1").arg(z);
      config->setGroup(buf);
 
-     config->writeEntry("DocumentNumber",docList.find(winList.at(z-1)->kateView()->document()) + 1);
+     config->writeEntry("DocumentNumber",docList.find(winList.at(z-1)->view()->document()) + 1);
   }
 }
 
@@ -656,7 +635,7 @@ extern "C" int kdemain(int argc, char **argv)
           } while( !line.isNull() );
 
 
-          KTextEditor::EditInterface *doc = KTextEditor::editInterface (t->kateView()->document());
+          KTextEditor::EditInterface *doc = KTextEditor::editInterface (t->view()->document());
           if( doc )
               doc->setText( text );
         }
@@ -669,12 +648,12 @@ extern "C" int kdemain(int argc, char **argv)
       
         if (!KIO::NetAccess::mimetype( args->url(z), t ).startsWith(QString ("inode/directory")))
         {
-          if (Kate::document (t->kateView()->document()))
+          if (Kate::document (t->view()->document()))
             Kate::Document::setOpenErrorDialogsActivated (false);
   
           t->loadURL( args->url( z ) );
   
-          if (Kate::document (t->kateView()->document()))
+          if (Kate::document (t->view()->document()))
             Kate::Document::setOpenErrorDialogsActivated (true);
         }
         else

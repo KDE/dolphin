@@ -45,24 +45,16 @@ class KWrite : public KParts::MainWindow
 
     void loadURL(const KURL &url);
 
-    KTextEditor::View *kateView() const { return m_kateView; }
+    KTextEditor::View *view() const { return m_view; }
 
   private:
-    void init(); //initialize caption, status and show
-  
-    bool queryClose();
-
-    void setupEditWidget(KTextEditor::Document *);
     void setupActions();
     void setupStatusBar();
+    
+    bool queryClose();
 
     void dragEnterEvent( QDragEnterEvent * );
     void dropEvent( QDropEvent * );
-
-    KTextEditor::View * m_kateView;
-    KRecentFilesAction * m_recentFiles;
-    KToggleAction * m_paShowPath;
-    KToggleAction * m_paShowStatusBar;
 
   public slots:
     void slotNew();
@@ -89,14 +81,11 @@ class KWrite : public KParts::MainWindow
 
   //config file functions
   public:
-    //common config
-    void readConfig(KConfig *);
-    void writeConfig(KConfig *);
+    void readConfig (KConfig *);
+    void writeConfig (KConfig *);
 
-  public slots:
-    //config file
-    void readConfig();
-    void writeConfig();
+    void readConfig ();
+    void writeConfig ();
 
   //session management
   public:
@@ -109,7 +98,14 @@ class KWrite : public KParts::MainWindow
     void saveGlobalProperties(KConfig *);
 
   private:
+    KTextEditor::View * m_view;
+    
+    KRecentFilesAction * m_recentFiles;
+    KToggleAction * m_paShowPath;
+    KToggleAction * m_paShowStatusBar;
+    
     QString encoding;
+    
     static QPtrList<KTextEditor::Document> docList;
     static QPtrList<KWrite> winList;
 };
@@ -119,13 +115,14 @@ class KWriteEditorChooser: public KDialogBase
   Q_OBJECT
   
   public:
-          KWriteEditorChooser(QWidget *parent);
-          virtual ~KWriteEditorChooser();
+    KWriteEditorChooser(QWidget *parent);
+    virtual ~KWriteEditorChooser();
+
   private:
-          KTextEditor::EditorChooser *m_chooser;
+    KTextEditor::EditorChooser *m_chooser;
   
   protected slots:
-          virtual void slotOk();
+    void slotOk();
 };
 
 #endif
