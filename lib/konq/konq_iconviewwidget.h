@@ -61,8 +61,11 @@ public:
      * Read the configuration and apply it.
      * Call this in the inherited constructor with bInit=true,
      * and in some reparseConfiguration() slot with bInit=false.
+     * Returns true if the font was changed (which means something has to
+     * be done so that the icon's texts don't run into each other).
+     * However Konq and KDesktop handle this differently.
      */
-    void initConfig( bool bInit );
+    bool initConfig( bool bInit );
 
     /**
      * Set the area that will be occupied by icons. It is still possible to
@@ -201,7 +204,7 @@ public:
 
     QString iconPositionGroupPrefix() const { return m_iconPositionGroupPrefix; }
     QString dotDirectoryPath() const { return m_dotDirectoryPath; }
-    
+
     void setPreviewSettings(const QStringList& mimeTypes);
     const QStringList& previewSettings();
 
@@ -217,7 +220,7 @@ public slots:
 
     void slotToolTipPreview( const KFileItem *, const QPixmap & );
     void slotToolTipPreviewResult();
-        
+
 signals:
     /**
      * For cut/copy/paste/move/delete (see kparts/browserextension.h)

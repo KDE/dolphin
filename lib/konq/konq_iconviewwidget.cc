@@ -51,8 +51,8 @@
 class KFileTip: public QFrame
 {
 public:
-    KFileTip( KonqIconViewWidget* parent ) : QFrame( 0, 0, WStyle_Customize | WStyle_NoBorder | WStyle_Tool | WStyle_StaysOnTop | WX11BypassWM ),    
-  
+    KFileTip( KonqIconViewWidget* parent ) : QFrame( 0, 0, WStyle_Customize | WStyle_NoBorder | WStyle_Tool | WStyle_StaysOnTop | WX11BypassWM ),
+
           m_corner( 0 ),
           m_filter( false ),
           m_view( parent ),
@@ -89,17 +89,17 @@ public:
 
     void gotPreview( const KFileItem*, const QPixmap& );
     void gotPreviewResult();
-    
+
 protected:
     virtual void drawContents( QPainter *p );
     virtual void timerEvent( QTimerEvent * );
     virtual void resizeEvent( QResizeEvent * );
-    
+
 private:
     void setFilter( bool enable );
 
     void reposition();
-    
+
     QLabel*    m_iconLabel;
     QLabel*    m_textLabel;
     int        m_num;
@@ -122,15 +122,15 @@ void KFileTip::setItem( KFileIVI *ivi )
         m_previewJob->kill();
         m_previewJob = 0;
     }
-    
+
     m_ivi = ivi;
     m_item = ivi ? ivi->item() : 0;
-    
+
     QString text = ivi ? ivi->item()->getToolTipText( m_num ) : QString::null;
     if ( !text.isEmpty() ) {
         hide();
         m_textLabel -> setText( text );
-        
+
         killTimers();
         setFilter( true );
 
@@ -138,14 +138,14 @@ void KFileTip::setItem( KFileIVI *ivi )
             m_iconLabel -> setPixmap(*(ivi->pixmap()));
             KFileItemList oneItem;
             oneItem.append( ivi->item() );
-        
+
             m_previewJob = KIO::filePreview( oneItem, 256, 256, 64, 70, true, true, &(m_view->previewSettings()));
             connect( m_previewJob, SIGNAL( gotPreview( const KFileItem *, const QPixmap & ) ),
                     m_view, SLOT( slotToolTipPreview( const KFileItem *, const QPixmap & ) ) );
             connect( m_previewJob, SIGNAL( result( KIO::Job * ) ),
-                    m_view, SLOT( slotToolTipPreviewResult() ) ); 
-        }           
-          
+                    m_view, SLOT( slotToolTipPreviewResult() ) );
+        }
+
         startTimer( 700 );
     }
     else {
@@ -157,7 +157,7 @@ void KFileTip::setItem( KFileIVI *ivi )
     }
 }
 
-void KFileTip::reposition() 
+void KFileTip::reposition()
 {
     if (!m_ivi) return;
 
@@ -189,16 +189,16 @@ void KFileTip::reposition()
         m_corner += 2;
     }
     else pos.setY( rect.bottom() );
-    
+
     move( pos );
     update();
 }
 
 void KFileTip::gotPreview( const KFileItem* item, const QPixmap& pixmap )
 {
-    m_previewJob = 0;    
+    m_previewJob = 0;
     if (item != m_item) return;
-    
+
     m_iconLabel -> setPixmap(pixmap);
 }
 
@@ -220,7 +220,7 @@ void KFileTip::drawContents( QPainter *p )
         m_corners[m_corner].load( locate( "data", QString::fromLatin1( "konqueror/pics/%1.png" ).arg( names[m_corner] ) ) );
 
     QPixmap &pix = m_corners[m_corner];
-       
+
     switch ( m_corner )
     {
         case 0:
@@ -236,7 +236,7 @@ void KFileTip::drawContents( QPainter *p )
             p->drawPixmap( width() - pix.width() - 3, height() - pix.height() - 3, pix );
             break;
     }
-    
+
     QFrame::drawContents( p );
 }
 
@@ -740,8 +740,9 @@ void KonqIconViewWidget::setThumbnailPixmap( KFileIVI * item, const QPixmap & pi
     }
 }
 
-void KonqIconViewWidget::initConfig( bool bInit )
+bool KonqIconViewWidget::initConfig( bool bInit )
 {
+    bool fontChanged = false;
     m_pSettings = KonqFMSettings::settings();
 
     // Color settings
@@ -772,14 +773,14 @@ void KonqIconViewWidget::initConfig( bool bInit )
         {
             // QIconView doesn't do it by default... but if the font is made much
             // bigger, we really need to give more space between the icons
-            arrangeItemsInGrid();
+            fontChanged = true;
         }
     }
     setWordWrapIconText( m_pSettings->wordWrapText() );
 
     if (!bInit)
         updateContents();
-
+    return fontChanged;
 }
 
 void KonqIconViewWidget::disableSoundPreviews()
@@ -818,12 +819,12 @@ void KonqIconViewWidget::setIcons( int size, const QStringList& stopImagePreview
         else
             ivi->invalidateThumb( ivi->state(), false );
     }
-    
+
     if ( autoArrange() && (oldGridX != gridX() || !stopImagePreviewFor.isEmpty()) )
         arrangeItemsInGrid( false ); // take new grid into account
-        
+
     update(); //Repaint later..
-    
+
 }
 
 bool KonqIconViewWidget::mimeTypeMatch( const QString& mimeType, const QStringList& mimeList ) const
@@ -867,7 +868,7 @@ int KonqIconViewWidget::gridXValue() const
 {
     int sz = m_size ? m_size : KGlobal::iconLoader()->currentSize( KIcon::Desktop );
     int newGridX = sz + (!m_bSetGridX ? d->gridXspacing : 50) + (( itemTextPos() == QIconView::Right ) ? 100 : 0);
-    kdDebug(1203) << "gridXValue: " << newGridX << "sz=" << sz << endl;
+    //kdDebug(1203) << "gridXValue: " << newGridX << " sz=" << sz << endl;
     return newGridX;
 }
 
