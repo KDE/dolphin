@@ -21,25 +21,26 @@
 
 #include <qlabel.h>
 #include <qlayout.h>
+#include <qspinbox.h>
 #include <qcheckbox.h>
 #include <qwhatsthis.h>
 #include <qpushbutton.h>
+#include <qbuttongroup.h>
 #include <qradiobutton.h>
 
 #include <kdebug.h>
+#include <kdialog.h>
 #include <klocale.h>
 #include <dcopclient.h>
 #include <ksaveioconfig.h>
 #include <kio/http_slave_defaults.h>
 
 #include "cache.h"
-#include "kproxydlg.h"
 
 KCacheConfigDialog::KCacheConfigDialog( QWidget* parent, const char* name )
                    :KCModule( parent, name )
 {
-    QVBoxLayout* mainLayout = new QVBoxLayout( this,
-                                               KDialog::marginHint(),
+    QVBoxLayout* mainLayout = new QVBoxLayout( this, KDialog::marginHint(),
                                                KDialog::spacingHint() );
     QHBoxLayout* hlay = new QHBoxLayout;
     hlay->setSpacing( KDialog::spacingHint() );
@@ -49,6 +50,7 @@ KCacheConfigDialog::KCacheConfigDialog( QWidget* parent, const char* name )
     cb_useCache->setSizePolicy( QSizePolicy(QSizePolicy::Fixed,
                                             QSizePolicy::Fixed,
                                             cb_useCache->sizePolicy().hasHeightForWidth()) );
+    
     QWhatsThis::add( cb_useCache, i18n("Click here if you want the web pages "
                                        "you view to be stored in your hard "
                                        "disk for quicker access. Enabling "
@@ -63,12 +65,12 @@ KCacheConfigDialog::KCacheConfigDialog( QWidget* parent, const char* name )
     hlay->addItem( spacer );
     mainLayout->addLayout( hlay );
 
-    gb_Cache_policy = new QButtonGroup( i18n("Policy"), this,
-                                        "gb_Cache_policy" );
+    gb_Cache_policy = new QButtonGroup( i18n("Policy"), this, "gb_Cache_policy" );
     gb_Cache_policy->setEnabled( false );
     gb_Cache_policy->setColumnLayout(0, Qt::Vertical );
     gb_Cache_policy->layout()->setSpacing( 0 );
     gb_Cache_policy->layout()->setMargin( 0 );
+
     QVBoxLayout* gb_Cache_policyLayout = new QVBoxLayout( gb_Cache_policy->layout() );
     gb_Cache_policyLayout->setAlignment( Qt::AlignTop );
     gb_Cache_policyLayout->setSpacing( KDialog::spacingHint() );
@@ -80,13 +82,14 @@ KCacheConfigDialog::KCacheConfigDialog( QWidget* parent, const char* name )
 
     rb_verify = new QRadioButton( i18n("&Keep cache in sync"), gb_Cache_policy,
                                   "rb_verify" );
+    
     QWhatsThis::add( rb_verify, i18n("Select this if you want to verify "
                                      "whether the page cached in your hard "
                                      "disk is still valid. If this is disabled, "
                                      "a cached copy of remote files will be "
                                      "used whenever possible. You can still "
                                      "use the reload button to synchronize the "
-				     "cache with the remote host.") );
+                                     "cache with the remote host.") );
     hlay->addWidget( rb_verify );
     spacer = new QSpacerItem( 20, 20, QSizePolicy::Expanding,
                               QSizePolicy::Minimum );
@@ -100,6 +103,7 @@ KCacheConfigDialog::KCacheConfigDialog( QWidget* parent, const char* name )
     rb_cacheIfPossible = new QRadioButton( i18n("Use cache if &possible"),
                                            gb_Cache_policy,
                                            "rb_cacheIfPossible" );
+    
     QWhatsThis::add( rb_cacheIfPossible, i18n("Enable this to always lookup "
                                               "the cache before connecting "
                                               "to the internet.") );
@@ -115,6 +119,7 @@ KCacheConfigDialog::KCacheConfigDialog( QWidget* parent, const char* name )
 
     rb_offlineMode = new QRadioButton( i18n("&Offline browsing mode"),
                                        gb_Cache_policy, "rb_offlineMode" );
+    
     QWhatsThis::add( rb_offlineMode, i18n("Enable this to prevent HTTP "
                                           "requests by KDE applications "
                                           "by default.") );
@@ -139,9 +144,9 @@ KCacheConfigDialog::KCacheConfigDialog( QWidget* parent, const char* name )
 
     sb_max_cache_size = new QSpinBox( this, "sb_max_cache_size" );
     sb_max_cache_size->setEnabled( false );
-    sb_max_cache_size->setMinValue( 1 );
-    sb_max_cache_size->setMaxValue( 999999 );
+    sb_max_cache_size->setRange( 1, 999999 );
     sb_max_cache_size->setSuffix(i18n(" KB"));
+
     QWhatsThis::add( sb_max_cache_size, i18n("This is the average size "
                                              "in KB that the cache will "
                                              "take on your hard disk. Once "
@@ -196,7 +201,9 @@ KCacheConfigDialog::~KCacheConfigDialog()
 void KCacheConfigDialog::load()
 {
     cb_useCache->setChecked(KProtocolManager::useCache());
+
     KIO::CacheControl cc = KProtocolManager::cacheControl();
+
     if (cc==KIO::CC_Verify)
         rb_verify->setChecked( true );
     else if (cc==KIO::CC_CacheOnly)
@@ -231,9 +238,11 @@ void KCacheConfigDialog::save()
     QByteArray data;
     QDataStream stream( data, IO_WriteOnly );
     stream << QString::null;
+
     DCOPClient* client = new DCOPClient;
     if ( !client->isAttached() )
         client->attach();
+
     client->send( "*", "KIO::Scheduler",
                   "reparseSlaveConfiguration(QString)", data );
     delete client;
