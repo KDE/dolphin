@@ -771,7 +771,9 @@ bool KonqIconViewWidget::initConfig( bool bInit )
 
     // Font settings
     QFont font( m_pSettings->standardFont() );
-    font.setUnderline( m_pSettings->underlineLink() );
+    if (!m_bDesktop)
+        font.setUnderline( m_pSettings->underlineLink() );
+        
     if ( font != KonqIconViewWidget::font() )
     {
         setFont( font );
