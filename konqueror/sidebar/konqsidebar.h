@@ -22,7 +22,7 @@
 #include <kparts/event.h>
 #include <kparts/browserextension.h>
 #include <qguardedptr.h>
-#include <sidebar_widget.h>
+#include "sidebar_widget.h"
 
 class QWidget;
 class QPainter;
