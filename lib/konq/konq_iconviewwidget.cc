@@ -45,6 +45,7 @@
 #include <kurldrag.h>
 #include <kstandarddirs.h>
 #include <kprotocolinfo.h>
+#include <ktrader.h>
 
 #include <assert.h>
 #include <unistd.h>
@@ -345,6 +346,7 @@ struct KonqIconViewWidgetPrivate
         pFileTip = 0;
         pActivateDoubleClick = 0L;
         bCaseInsensitive = true;
+        pPreviewMimeTypes = 0L;
 
         KConfigGroup group( KGlobal::config(), "PreviewSettings" );
         bBoostPreview = group.readBoolEntry( "BoostSize", false );
@@ -355,6 +357,7 @@ struct KonqIconViewWidgetPrivate
         delete m_movie;
         delete pFileTip;
         delete pActivateDoubleClick;
+        delete pPreviewMimeTypes;
         //delete pPreviewJob; done by stopImagePreview
     }
     KFileIVI *pActiveItem;
@@ -368,8 +371,6 @@ struct KonqIconViewWidgetPrivate
     bool bCaseInsensitive;
     bool bBoostPreview;
     int gridXspacing;
-
-    QTimer* rearrangeIconsTimer;
 
     // Animated icons support
     bool doAnimations;
@@ -386,6 +387,7 @@ struct KonqIconViewWidgetPrivate
     QPoint mousePos;
     int mouseState;
     QTimer *pActivateDoubleClick;
+    QStringList* pPreviewMimeTypes;
 };
 
 KonqIconViewWidget::KonqIconViewWidget( QWidget * parent, const char * name, WFlags f, bool kdesktop )
@@ -395,7 +397,6 @@ KonqIconViewWidget::KonqIconViewWidget( QWidget * parent, const char * name, WFl
       m_bSetGridX( !kdesktop ) /* No line breaking on the desktop */
 {
     d = new KonqIconViewWidgetPrivate;
-    d->rearrangeIconsTimer = new QTimer( this );
     connect( this, SIGNAL( dropped( QDropEvent *, const QValueList<QIconDragItem> & ) ),
              this, SLOT( slotDropped( QDropEvent*, const QValueList<QIconDragItem> & ) ) );
 
@@ -407,8 +408,6 @@ KonqIconViewWidget::KonqIconViewWidget( QWidget * parent, const char * name, WFl
     connect( this, SIGNAL(onItem(QIconViewItem *)), SLOT(slotOnItem(QIconViewItem *)) );
     connect( this, SIGNAL(onViewport()), SLOT(slotOnViewport()) );
     connect( this, SIGNAL(itemRenamed(QIconViewItem *, const QString &)), SLOT(slotItemRenamed(QIconViewItem *, const QString &)) );
-
-    connect( d->rearrangeIconsTimer, SIGNAL( timeout() ), SLOT( slotRearrangeIcons() ) );
 
     // hardcoded settings
     setSelectionMode( QIconView::Extended );
@@ -692,9 +691,7 @@ void KonqIconViewWidget::slotPreview(const KFileItem *item, const QPixmap &pix)
         KFileIVI* current = static_cast<KFileIVI *>(it);
         if (current->item() == item)
         {
-            bool needsUpdate = ( !current->pixmap() || current->pixmap()->width() < pix.width() || current->pixmap()->height() < pix.height() );
-            if(item->overlays() & KIcon::HiddenOverlay)
-            {
+            if (item->overlays() & KIcon::HiddenOverlay) {
                 QPixmap p(pix);
 
                 KIconEffect::semiTransparent(p);
@@ -702,11 +699,7 @@ void KonqIconViewWidget::slotPreview(const KFileItem *item, const QPixmap &pix)
             } else {
                 current->setThumbnailPixmap(pix);
             }
-            if ( needsUpdate
-                    && autoArrange()
-                    && !d->rearrangeIconsTimer->isActive() ) {
-                d->rearrangeIconsTimer->start( 500, true );
-            }
+            break;
         }
     }
 }
@@ -714,10 +707,6 @@ void KonqIconViewWidget::slotPreview(const KFileItem *item, const QPixmap &pix)
 void KonqIconViewWidget::slotPreviewResult()
 {
     d->pPreviewJob = 0;
-    if ( d->rearrangeIconsTimer->isActive() ) {
-        d->rearrangeIconsTimer->stop();
-        slotRearrangeIcons();
-    }
     emit imagePreviewFinished();
 }
 
@@ -914,6 +903,7 @@ void KonqIconViewWidget::setIcons( int size, const QStringList& stopImagePreview
         // that are thumbnails but for which it should be stopped
         if ( !ivi->isThumbnail() ||
              sizeChanged ||
+             previewSizeChanged ||
              stopAll ||
              mimeTypeMatch( ivi->item()->mimetype(), stopImagePreviewFor ) )
         {
@@ -923,7 +913,8 @@ void KonqIconViewWidget::setIcons( int size, const QStringList& stopImagePreview
             ivi->invalidateThumb( ivi->state(), true );
     }
 
-    if ( autoArrange() && (oldGridX != gridX() || !stopImagePreviewFor.isEmpty()) )
+    if ( ( sizeChanged || previewSizeChanged || oldGridX != gridX() ||
+         !stopImagePreviewFor.isEmpty() ) && autoArrange() )
         arrangeItemsInGrid( true ); // take new grid into account and repaint
     else
         viewport()->update(); //Repaint later..
@@ -977,6 +968,7 @@ int KonqIconViewWidget::gridXValue() const
 
 void KonqIconViewWidget::refreshMimeTypes()
 {
+    updatePreviewMimeTypes();
     for ( QIconViewItem *it = firstItem(); it; it = it->nextItem() )
         (static_cast<KFileIVI *>( it ))->item()->refreshMimeType();
     setIcons( m_size );
@@ -1092,13 +1084,6 @@ void KonqIconViewWidget::slotAboutToCreate(const QPoint &, const QValueList<KIO:
 {
    // Do nothing :-)
 }
-
-void KonqIconViewWidget::slotRearrangeIcons()
-{
-    // We cannot actually call arrangeItemsInGrid directly as a slot because it has a default parameter.
-  arrangeItemsInGrid();
-}
-
 
 void KonqIconViewWidget::drawBackground( QPainter *p, const QRect &r )
 {
@@ -2023,6 +2008,11 @@ void KonqIconViewWidget::backgroundPixmapChange( const QPixmap & )
 void KonqIconViewWidget::setPreviewSettings( const QStringList& settings )
 {
     d->previewSettings = settings;
+    updatePreviewMimeTypes();
+    
+    int size = m_size;
+    m_size = -1; // little trick to force grid change in setIcons
+    setIcons( size ); // force re-determining all icons
 }
 
 const QStringList& KonqIconViewWidget::previewSettings()
@@ -2048,6 +2038,34 @@ void KonqIconViewWidget::setCaseInsensitiveSort( bool b )
 bool KonqIconViewWidget::caseInsensitiveSort() const
 {
     return d->bCaseInsensitive;
+}
+
+bool KonqIconViewWidget::canPreview( KFileItem* item )
+{
+    if ( d->pPreviewMimeTypes == 0L )
+        updatePreviewMimeTypes();
+
+    return mimeTypeMatch( item->mimetype(), *( d->pPreviewMimeTypes ) );
+}
+
+void KonqIconViewWidget::updatePreviewMimeTypes()
+{
+    if ( d->pPreviewMimeTypes == 0L )
+        d->pPreviewMimeTypes = new QStringList;
+    else
+        d->pPreviewMimeTypes->clear();
+
+    // Load the list of plugins to determine which mimetypes are supported
+    KTrader::OfferList plugins = KTrader::self()->query("ThumbCreator");
+    KTrader::OfferList::ConstIterator it;
+
+    for ( it = plugins.begin(); it != plugins.end(); ++it ) {
+        if ( d->previewSettings.contains((*it)->desktopEntryName()) ) {
+            QStringList mimeTypes = (*it)->property("MimeTypes").toStringList();
+            for (QStringList::ConstIterator mt = mimeTypes.begin(); mt != mimeTypes.end(); ++mt)
+                d->pPreviewMimeTypes->append(*mt);
+        }
+    }
 }
 
 #include "konq_iconviewwidget.moc"

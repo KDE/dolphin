@@ -260,9 +260,6 @@ protected slots:
     void slotAboutToCreate(const QPoint &pos, const QValueList<KIO::CopyInfo> &files);
     void doubleClickTimeout();
 
-private slots:
-    void slotRearrangeIcons();
-
 protected:
     virtual QDragObject *dragObject();
     KonqIconDrag *konqDragObject( QWidget * dragSource = 0L );
@@ -287,6 +284,8 @@ protected:
     void mousePressChangeValue();
     
     int previewIconSize( int size ) const;
+    bool canPreview( KFileItem* item );
+    void updatePreviewMimeTypes();
 
 private:
     KURL m_url;

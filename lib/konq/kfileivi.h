@@ -218,6 +218,10 @@ private:
     virtual void setPixmap ( const QPixmap & icon ) { KIconViewItem::setPixmap( icon ); }
     virtual void setPixmap ( const QPixmap & icon, bool recalc, bool redraw = TRUE )
         { KIconViewItem::setPixmap( icon, recalc, redraw ); }
+
+    /** Check if a thumbnail will be generated and calc the size of the icon */
+    void updatePixmapSize();
+    
     int m_size, m_state;
     bool m_bDisabled;
     bool m_bThumbnail;

@@ -48,13 +48,15 @@ struct KFileIVI::Private
 };
 
 KFileIVI::KFileIVI( KonqIconViewWidget *iconview, KFileItem* fileitem, int size )
-    : KIconViewItem( iconview, fileitem->text(),
-		     fileitem->pixmap( size, KIcon::DefaultState ) ),
+    : KIconViewItem( iconview, fileitem->text() ),
     m_size( size ), m_state( KIcon::DefaultState ),
     m_bDisabled( false ), m_bThumbnail( false ), m_fileitem( fileitem )
 {
-    setDropEnabled( S_ISDIR( m_fileitem->mode() ) );
     d = new KFileIVI::Private;
+
+    updatePixmapSize();
+    setPixmap( m_fileitem->pixmap( m_size, m_state ) );
+    setDropEnabled( S_ISDIR( m_fileitem->mode() ) );
 
     // Cache entry for the icon effects
     d->icons.reset( *pixmap(), QIconSet::Large );
@@ -179,6 +181,8 @@ void KFileIVI::setPixmapDirect( const QPixmap& pixmap, bool recalc, bool redraw 
     // create a dummy empty iconset as base object.
     d->icons = QIconSet();
     d->icons.setPixmap( pixmap, QIconSet::Large, mode );
+
+    updatePixmapSize();
     QIconViewItem::setPixmap( d->icons.pixmap( QIconSet::Large, mode ),
 			      recalc, redraw );
 }
@@ -208,6 +212,7 @@ void KFileIVI::setThumbnailPixmap( const QPixmap & pixmap )
     m_state = KIcon::DefaultState;
 
     // Recalc when setting this pixmap!
+    updatePixmapSize();
     QIconViewItem::setPixmap( d->icons.pixmap( QIconSet::Large,
 			      QIconSet::Normal ), true );
 }
@@ -438,6 +443,23 @@ int KFileIVI::compare( QIconViewItem *i ) const
         return key().localeAwareCompare( i->key() );
     else
         return view->m_pSettings->caseSensitiveCompare( key(), i->key() );
+}
+
+void KFileIVI::updatePixmapSize()
+{
+    int size = m_size ? m_size :
+        KGlobal::iconLoader()->currentSize( KIcon::Desktop );
+
+    KonqIconViewWidget* view = static_cast<KonqIconViewWidget*>( iconView() );
+
+    int previewSize = view->previewIconSize( size );
+    if ( view->canPreview( item() ) )
+        setPixmapSize( QSize( previewSize, previewSize ) );
+    else {
+        QSize pixSize = QSize( size, size );
+        if ( pixSize != pixmapSize() )
+            setPixmapSize( pixSize );
+    }
 }
 
 /* vim: set noet sw=4 ts=8 softtabstop=4: */
