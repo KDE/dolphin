@@ -254,9 +254,10 @@ void KonqIconViewWidget::slotDropItem( KFileIVI *item, QDropEvent *e )
   {
     // Nor control nor shift are pressed => show popup menu
     QPopupMenu popup;
-    popup.insertItem( i18n( "Copy" ), 1 );
-    popup.insertItem( i18n( "Move" ), 2 );
-    popup.insertItem( i18n( "Link" ), 3 );
+    popup.insertItem( i18n( "&Copy Here" ), 1 );
+    popup.insertItem( i18n( "&Move Here" ), 2 );
+    popup.insertItem( i18n( "&Link Here" ), 3 );
+
     int result = popup.exec( QPoint( win_x, win_y ) );
     switch (result) {
     case 1 : e->setAction( QDropEvent::Copy ); break;
@@ -293,13 +294,13 @@ void KonqIconViewWidget::dropStuff( KFileIVI *item, QDropEvent *ev )
     KURL dest( ( item == 0L ) ? m_url /*m_dirLister->url()*/ : item->item()->url().url() );
 
     switch ( ev->action() ) {
-      case QDropEvent::Move : job->move( lst, dest.url( 1 ) ); break;
-      case QDropEvent::Copy : job->copy( lst, dest.url( 1 ) ); break;
-      case QDropEvent::Link : {
-        link( lst, dest );
-        break;
-      }
-      default : kdebug( KDEBUG_ERROR, 1202, "Unknown action %d", ev->action() ); return;
+      case QDropEvent::Move : job->move( lst, dest.url( 1 ) ); 
+	ev->acceptAction(TRUE); ev->accept(); break;
+      case QDropEvent::Copy : job->copy( lst, dest.url( 1 ) ); 
+	ev->acceptAction(TRUE); ev->accept(); break;
+      case QDropEvent::Link : link( lst, dest ); 
+	ev->acceptAction(TRUE); ev->accept(); break;
+    default : kdebug( KDEBUG_ERROR, 1202, "Unknown action %d", ev->action() ); return;
     }
   }
   else if ( formats.count() >= 1 )
