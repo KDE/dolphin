@@ -1202,8 +1202,8 @@ ends of lines of text.</para></listitem> </varlistentry>
   
 <varlistentry>  
 <term><guilabel>Auto Brackets</guilabel></term> <listitem><para>When the
-user types a left bracket <![ CDATA [([,(, or {)]]> &kwrite; automatically
-enters the right bracket <![ CDATA [(}, ), or ]) ]]> to the right of the
+user types a left bracket ([,(, or {) &kwrite; automatically
+enters the right bracket (}, ), or ]) to the right of the
 cursor.</para></listitem>
 </varlistentry>
 
