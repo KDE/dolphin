@@ -917,39 +917,32 @@ void KonqMainWindow::slotOpenLocation()
 
 void KonqMainWindow::slotToolFind()
 {
-  if ( currentView() && currentView()->part()->inherits("KonqDirPart") )
+  if ( m_currentView && m_currentView->part()->inherits("KonqDirPart") )
   {
-    KonqDirPart * dirPart = static_cast<KonqDirPart *>(currentView()->part());
+    KonqDirPart * dirPart = static_cast<KonqDirPart *>(m_currentView->part());
 
-    KonqView * findView = m_pViewManager->splitView( Vertical, "Konqueror/FindPart", QString::null, true /*make it on top*/ );
+    //KonqView * findView = m_pViewManager->splitView( Vertical, "Konqueror/FindPart", QString::null, true /*make it on top*/ );
 
-    KParts::ReadOnlyPart * findPart = findView->part();
-
+    KonqViewFactory factory = KonqFactory::createView( "Konqueror/FindPart" );
+    if ( factory.isNull() )
+    {
+        KMessageBox::error( this, i18n("Can't create the find part, check your installation.") );
+        return;
+    }
+    KParts::ReadOnlyPart * findPart = factory.create( m_currentView->frame(), "findPartWidget", dirPart, "findPart" );
     dirPart->setFindPart( findPart );
 
-    connect( findPart, SIGNAL( started() ),
-             dirPart, SLOT( slotStarted() ) );
-    connect( findPart, SIGNAL( clear() ),
-             dirPart, SLOT( slotClear() ) );
-    connect( findPart, SIGNAL( newItems( const KFileItemList & ) ),
-             dirPart, SLOT( slotNewItems( const KFileItemList & ) ) );
-    connect( findPart, SIGNAL( finished() ), // can't name it completed, it conflicts with a KROP signal
-             dirPart, SLOT( slotCompleted() ) );
-    connect( findPart, SIGNAL( canceled() ),
-             dirPart, SLOT( slotCanceled() ) );
-    connect( findPart, SIGNAL( findClosed() ),
-             dirPart, SLOT( slotFindClosed() ) );
+    m_currentView->frame()->insertTopWidget( findPart->widget() );
+    findPart->widget()->show();
+
     connect( dirPart, SIGNAL( findClosed(KonqDirPart *) ),
              this, SLOT( slotFindClosed(KonqDirPart *) ) );
-
-    // set the initial URL
-    findPart->openURL( currentView()->url() );
 
     // Don't allow to do this twice for this view :-)
     m_paFindFiles->setEnabled(false);
 
     // lock the history in the current view - until slotFindClosed
-    currentView()->lockHistory();
+    m_currentView->lockHistory(); // do we still want that ?
   }
   else
   {
@@ -986,13 +979,13 @@ void KonqMainWindow::slotFindClosed( KonqDirPart * dirPart )
     kdDebug(1202) << "KonqMainWindow::slotFindClosed " << dirPart << endl;
     KonqView * dirView = m_mapViews.find( dirPart ).data();
     ASSERT(dirView);
+    kdDebug(1202) << "dirView=" << dirView << endl;
     if ( dirView )
     {
         dirView->lockHistory( false );
         if ( dirView == m_currentView )
             m_paFindFiles->setEnabled( true );
     }
-    dirPart->setFindPart( 0 );
 }
 
 void KonqMainWindow::slotIconsChanged()

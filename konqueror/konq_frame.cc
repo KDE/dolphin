@@ -285,7 +285,7 @@ KonqFrame::KonqFrame( KonqFrameContainer *_parentContainer, const char *_name )
    m_pLayout = 0L;
    m_pView = 0L;
 
-   // add the frame statusbar to the layout
+   // the frame statusbar
    m_pStatusBar = new KonqFrameStatusBar( this, "KonquerorFrameStatusBar");
    connect(m_pStatusBar, SIGNAL(clicked()), this, SLOT(slotStatusBarClicked()));
    connect( m_pStatusBar, SIGNAL( linkedViewClicked( bool ) ), this, SLOT( slotLinkedViewClicked( bool ) ) );
@@ -359,6 +359,12 @@ void KonqFrame::attachInternal()
    m_pPart->widget()->show();
    m_pStatusBar->show();
    m_pLayout->activate();
+}
+
+void KonqFrame::insertTopWidget( QWidget * widget )
+{
+    assert(m_pLayout);
+    m_pLayout->insertWidget( 0, widget );
 }
 
 void KonqFrame::setView( KonqView* child )

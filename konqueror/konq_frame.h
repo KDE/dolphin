@@ -173,7 +173,16 @@ public:
    */
   KParts::ReadOnlyPart *attach( const KonqViewFactory &viewFactory );
 
+  /**
+   * Inserts the part's widget and the statusbar into the layout
+   */
   void attachInternal();
+
+  /**
+   * Inserts a widget at the top of the part's widget, in the layout
+   * (used for the find functionality)
+   */
+  void insertTopWidget( QWidget * widget );
 
   /**
    * Returns the part that is currently connected to the Frame.

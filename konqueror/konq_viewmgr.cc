@@ -217,7 +217,7 @@ KonqView* KonqViewManager::split (KonqFrameBase* splitFrame,
 
 void KonqViewManager::removeView( KonqView *view )
 {
-  kdDebug(1202) << "---------------- removeView" << view << endl;
+  kdDebug(1202) << "---------------- removeView " << view << endl;
   if ( activePart() == view->part() )
   {
     KonqView *nextView = chooseNextView( view );
@@ -260,7 +260,7 @@ void KonqViewManager::removeView( KonqView *view )
   if ( view->isPassiveMode() && view->part() )
       disconnect( view->part(), SIGNAL( destroyed() ), this, SLOT( slotPassiveModePartDeleted() ) );
 
-  kdDebug(1202) << "Deleting view frame" << view->frame() << endl;
+  kdDebug(1202) << "Deleting view frame " << view->frame() << endl;
   delete view->frame();
   // This deletes the widgets inside, including the part's widget, so tell the child view
   view->partDeleted();
@@ -277,7 +277,7 @@ void KonqViewManager::removeView( KonqView *view )
   if( moveOtherChild )
     grandParentContainer->moveToFirst( otherFrame->widget() );
 
-  //kdDebug(1202) << "------------- removeView done " << view << endl;
+  kdDebug(1202) << "------------- removeView done " << view << endl;
 #ifndef NDEBUG
   printFullHierarchy( m_pMainContainer );
 #endif
@@ -329,7 +329,9 @@ void KonqViewManager::slotPassiveModePartDeleted()
   // so we have to handle suicidal ones ourselves
   KParts::ReadOnlyPart * part = const_cast<KParts::ReadOnlyPart *>( static_cast<const KParts::ReadOnlyPart *>( sender() ) );
   disconnect( part, SIGNAL( destroyed() ), this, SLOT( slotPassiveModePartDeleted() ) );
+  kdDebug(1202) << "KonqViewManager::slotPassiveModePartDeleted part=" << part << endl;
   KonqView * view = m_pMainWindow->childView( part );
+  kdDebug(1202) << "view=" << view << endl;
   if ( view ) // the child view still exists, so the part suicided
   {
       view->partDeleted(); // tell the child view that the part deleted itself
@@ -400,7 +402,7 @@ KonqView *KonqViewManager::chooseNextView( KonqView *view )
   //kdDebug(1202) << "KonqViewManager::chooseNextView: count=" << mapViews.count() << endl;
   while ( true )
   {
-    //kdDebug() << "*KonqViewManager::chooseNextView going next" << endl;
+    //kdDebug(1202) << "*KonqViewManager::chooseNextView going next" << endl;
     if ( ++it == end ) // move to next
       it = mapViews.begin(); // rewind on end
 
@@ -410,7 +412,7 @@ KonqView *KonqViewManager::chooseNextView( KonqView *view )
     KonqView *nextView = it.data();
     if ( nextView && !nextView->isPassiveMode() )
       return nextView;
-    //kdDebug() << "KonqViewManager::chooseNextView nextView=" << nextView << " passive=" << nextView->isPassiveMode() << endl;
+    //kdDebug(1202) << "KonqViewManager::chooseNextView nextView=" << nextView << " passive=" << nextView->isPassiveMode() << endl;
   }
 
   //kdDebug(1202) << "KonqViewManager::chooseNextView: returning 0L" << endl;
