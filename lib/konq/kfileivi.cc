@@ -66,6 +66,7 @@ void KFileIVI::setIcon( int size, int state, bool recalc, bool redraw )
 {
     m_size = size;
     m_bThumbnail = false;
+    m_thumbnailName = QString::null;
     if ( m_bDisabled )
       m_state = KIcon::DisabledState;
     else
@@ -87,6 +88,11 @@ void KFileIVI::setThumbnailPixmap( const QPixmap & pixmap )
 {
     m_bThumbnail = true;
     QIconViewItem::setPixmap( pixmap, true /* recalc */ );
+}
+
+void KFileIVI::setThumbnailName( const QString & name )
+{
+    m_thumbnailName = name;
 }
 
 void KFileIVI::refreshIcon( bool redraw )

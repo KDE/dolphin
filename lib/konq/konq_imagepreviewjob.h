@@ -20,10 +20,13 @@
 #define __konq_imagepreviewjob_h__
 
 #include <kio/job.h>
+#include <kservice.h>
 
 class QImage;
 class KFileIVI;
 class KonqIconViewWidget;
+
+typedef QMap<QString, KService::Ptr> PluginMap;
 
 /**
  * A job that determines the thumbnails for the images in the current directory
@@ -45,7 +48,7 @@ public:
      * transparent (invisible), while 255 means it is completely opaque.
      */
     KonqImagePreviewJob( KonqIconViewWidget * iconView, bool force,
-			 int transparency = 55, const QString &previewSettings = QString::null );
+			 int transparency, const QStringList &previewSettings );
     virtual ~KonqImagePreviewJob();
 
     // Call this to get started
@@ -104,8 +107,8 @@ private:
     // the transparency of the blended mimetype icon
     // {0..255}, shifted into the upper 8 bits
     int m_transparency;
-    // Enabled preview plugins
-    QString m_previewSettings;
+    // Plugin service cache
+    PluginMap m_plugins;
 };
 
 #endif

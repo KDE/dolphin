@@ -110,7 +110,7 @@ public:
 
     void calculateGridX();
 
-    void startImagePreview( const QString &previewSettings, bool force );
+    void startImagePreview( const QStringList &previewSettings, bool force );
     void stopImagePreview();
     void setThumbnailPixmap( KFileIVI * item, const QPixmap & pixmap );
 

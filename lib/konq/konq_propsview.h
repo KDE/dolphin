@@ -92,7 +92,7 @@ public:
   void setShowingPreview( const QString &preview, bool show );
   bool isShowingPreview( const QString &preview ) const { return m_preview.contains(preview); }
   bool isShowingPreview() const { return m_preview.count() > 0; }
-  const QString previewSettings() const { return m_preview.join(","); }
+  const QStringList &previewSettings() const { return m_preview; }
 
   void setBgColor( const QColor & color );
   const QColor& bgColor(QWidget * widget) const;

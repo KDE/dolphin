@@ -36,23 +36,27 @@
  */
 KonqImagePreviewJob::KonqImagePreviewJob( KonqIconViewWidget * iconView,
 					  bool force, int transparency,
-					  const QString &previewSettings )
-  : KIO::Job( false /* no GUI */ ), m_bCanSave( true ), m_iconView( iconView ),
-    m_previewSettings( previewSettings )
+					  const QStringList &previewSettings )
+  : KIO::Job( false /* no GUI */ ), m_bCanSave( true ), m_iconView( iconView )
 {
   m_extent = 0;
   kdDebug(1203) << "KonqImagePreviewJob::KonqImagePreviewJob()" << endl;
+  m_bDirsCreated = true; // if no images, no need for dirs
   // shift into the upper 8 bits, so we can use it as alpha-channel in QImage
   m_transparency = (transparency << 24) | 0x00ffffff;
 
   // Load the list of plugins to determine which mimetypes are supported
   KTrader::OfferList plugins = KTrader::self()->query("ThumbCreator");
-  QStringList mimeTypes;
+  PluginMap mimeMap;
+
   for (KTrader::OfferList::ConstIterator it = plugins.begin(); it != plugins.end(); ++it)
-  {
-      if (m_previewSettings.isNull() || m_previewSettings.contains((*it)->desktopEntryName()))
-        mimeTypes += (*it)->property("MimeTypes").toStringList();
-  }
+      if (previewSettings.contains((*it)->desktopEntryName()))
+      {
+          m_plugins.insert((*it)->desktopEntryName(), *it);
+          QStringList mimeTypes = (*it)->property("MimeTypes").toStringList();
+          for (QStringList::ConstIterator mt = mimeTypes.begin(); mt != mimeTypes.end(); ++mt)
+              mimeMap.insert(*mt, *it);
+      }
   
   // Look for images and store the items in our todo list :)
   for (QIconViewItem * it = m_iconView->firstItem(); it; it = it->nextItem() )
@@ -61,15 +65,21 @@ KonqImagePreviewJob::KonqImagePreviewJob( KonqIconViewWidget * iconView,
     if ( force || !ivi->isThumbnail() )
     {
         QString mimeType = ivi->item()->mimetype();
-        for (QStringList::ConstIterator mt = mimeTypes.begin(); mt != mimeTypes.end(); ++mt)
-            if (mimeType.find(QRegExp(*mt, false, true)) == 0)
-            {
-                m_items.append( ivi );
-                break;
-            }
+        PluginMap::ConstIterator plugin = mimeMap.find(mimeType);
+        if (plugin == mimeMap.end())
+        {
+            mimeType.replace(QRegExp("/.*"), "/*");
+            plugin = mimeMap.find(mimeType);
+        }
+        if (plugin != mimeMap.end())
+        {
+            m_items.append( ivi );
+            ivi->setThumbnailName( (*plugin)->desktopEntryName() );
+            if (m_bDirsCreated && (*plugin)->property("CacheThumbnail").toBool())
+                m_bDirsCreated = false; // Needs a cache dir
+        }
     }
   }
-  m_bDirsCreated = m_items.count() == 0; // if no images, no need for dirs
   // Read configuration value for the maximum allowed size
   KConfig * config = KGlobal::config();
   KConfigGroupSaver cgs( config, "FMSettings" );
@@ -177,6 +187,13 @@ void KonqImagePreviewJob::slotResult( KIO::Job *job )
       determineThumbnailURL();
 
       QString mimeType = m_currentItem->item()->mimetype();
+      if ( !m_plugins[m_currentItem->thumbnailName()]->property( "CacheThumbnail" ).toBool() )
+      {
+          // This preview will not be cached, no need to look for a saved thumbnail
+          // Just create it, and be done
+          getOrCreateThumbnail();
+          return;
+      }
 
       m_state = STATE_STATTHUMB;
       KIO::Job * job = KIO::stat( m_thumbURL, false );
@@ -436,8 +453,7 @@ void KonqImagePreviewJob::createThumbnail( QString pixPath )
         m_iconView->iconSize() : KGlobal::iconLoader()->currentSize(KIcon::Desktop)));
     job->addMetaData("extent", QString().setNum(m_extent));
     job->addMetaData("transparency", QString().setNum(m_transparency));
-    if (!m_previewSettings.isNull())
-        job->addMetaData("enabled", m_previewSettings);
+    job->addMetaData("plugin", m_currentItem->thumbnailName());
     addSubjob(job);
 }
 
@@ -446,7 +462,7 @@ void KonqImagePreviewJob::slotThumbData(KIO::Job *, const QByteArray &data)
     kdDebug(1203) << "KonqImagePreviewJob::slotThumbData" << endl;
     QPixmap pix(data);
     m_iconView->setThumbnailPixmap(m_currentItem, pix);
-    if (m_bCanSave)
+    if (m_bCanSave && m_plugins[m_currentItem->thumbnailName()]->property("CacheThumbnail").toBool())
         saveThumbnail(data);
 }
 

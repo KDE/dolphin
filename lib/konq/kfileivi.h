@@ -97,6 +97,17 @@ public:
     bool isThumbnail() const { return m_bThumbnail; }
 
     /**
+     * The desktop entry name of the thumbnail creator that was
+     * used to generate this item's thumbnail
+     */
+    void setThumbnailName( const QString & name );
+
+    /**
+     * Returns the thumbnail name as set by @ref setThumbnailName()
+     */
+    const QString &thumbnailName() const { return m_thumbnailName; }
+
+    /**
      * Redetermines the icon (useful if KFileItem might return another icon).
      * Does nothing with thumbnails
      */
@@ -133,6 +144,7 @@ protected:
     int m_size, m_state;
     bool m_bDisabled;
     bool m_bThumbnail;
+    QString m_thumbnailName;
     /** Pointer to the file item in KonqDirLister's list */
     KonqFileItem* m_fileitem;
 };

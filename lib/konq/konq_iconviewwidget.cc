@@ -219,7 +219,7 @@ void KonqIconViewWidget::setIcons( int size, const char * stopImagePreviewFor )
     for ( QIconViewItem *it = firstItem(); it; it = it->nextItem() ) {
         KFileIVI * ivi = static_cast<KFileIVI *>( it );
         if ( !ivi->isThumbnail() ||
-             ( stopImagePreviewFor && ivi->item()->mimetype().startsWith(stopImagePreviewFor) ) )
+             ( stopImagePreviewFor && ivi->thumbnailName() == stopImagePreviewFor ) )
             ivi->setIcon( size, ivi->state(),
                           true, true /* perhaps we should do one big redraw instead ? */);
     }
@@ -277,7 +277,7 @@ void KonqIconViewWidget::setURL( const KURL &kurl )
         m_dotDirectoryPath = QString::null;
 }
 
-void KonqIconViewWidget::startImagePreview( const QString &previewSettings, bool force )
+void KonqIconViewWidget::startImagePreview( const QStringList &previewSettings, bool force )
 {
     stopImagePreview(); // just in case
 
