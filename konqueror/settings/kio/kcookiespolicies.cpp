@@ -53,7 +53,7 @@ KCookiesPolicies::KCookiesPolicies(QWidget *parent, const char *name)
     cb_enableCookies = new QCheckBox( i18n("Enable Coo&kies"), this );
     QWhatsThis::add( cb_enableCookies, i18n("This option turns on cookie support. Normally "
                                             "you will want to have cookie support enabled and "
-                                            "customize it to suit your need of privacy.") );
+                                            "customize it to suit your privacy needs.") );
     connect( cb_enableCookies, SIGNAL( clicked() ), this, SLOT( changeCookiesEnabled() ) );
     connect( cb_enableCookies, SIGNAL( clicked() ), this, SLOT( changed() ) );
 
@@ -71,7 +71,7 @@ KCookiesPolicies::KCookiesPolicies(QWidget *parent, const char *name)
                                       "<ul><li><b>Accept</b> will cause cookies to be accepted "
                                       "without prompting you</li><li><b>Reject</b> will cause the "
                                       "cookiejar to refuse all cookies it receives</li><li><b>Ask</b> "
-                                      "will cause KDE to ask you for your confirmation everytime a "
+                                      "will cause KDE to ask you for your confirmation every time a "
                                       "server wants to set a cookie</li></ul>") );
     connect(bg_default, SIGNAL(clicked(int)), this, SLOT(changed()));
     bg_default->setExclusive( true );
@@ -113,8 +113,8 @@ KCookiesPolicies::KCookiesPolicies(QWidget *parent, const char *name)
 
     connect( lv_domainPolicy, SIGNAL(selectionChanged()), SLOT(selectionChanged()) );
     connect( lv_domainPolicy, SIGNAL(doubleClicked (QListViewItem *)),SLOT(changePressed() ) );
-    QString wtstr = i18n("This box contains the domains you have set a specific "
-                         "cookie policy for. This policy will be used instead "
+    QString wtstr = i18n("This box contains the domains for which you have set a "
+                         "specific cookie policy. This policy will be used instead "
                          "of the default policy for any cookie sent by these "
                          "domains. <p>Select a policy and use the controls on "
                          "the right to modify it.");
@@ -130,7 +130,7 @@ KCookiesPolicies::KCookiesPolicies(QWidget *parent, const char *name)
 
     pb_change = new QPushButton( i18n("C&hange..."), vbox );
     pb_change->setEnabled( false );
-    QWhatsThis::add( pb_change, i18n("Change the policy selected item "
+    QWhatsThis::add( pb_change, i18n("Change the policy for the selected item "
                                               "in the list box.") );
     connect( pb_change, SIGNAL( clicked() ), this, SLOT( changePressed() ) );
 
