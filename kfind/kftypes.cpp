@@ -39,6 +39,7 @@ void KfFileType::initFileTypes( const char* _path )
             stat( file.data(), &buff );
             if ( S_ISDIR( buff.st_mode ) )
                 initFileTypes( file.data() );
+#warning FIXME: .kdelnk deprecated (Harri)
             else if ( tmp.right( 7 ) == ".kdelnk" )
             {
                 QFile f( file.data() );
@@ -48,10 +49,11 @@ void KfFileType::initFileTypes( const char* _path )
 				f.close(); // kalle
 				// kalle                QTextStream pstream( &f );
                 KConfig config( file ); //
-                config.setGroup( "KDE Desktop Entry" );
+                config.setDesktopGroup();
 
                 // Read a new extension group
                 QString ext = ep->d_name;
+#warning FIXME: .kdelnk deprecated (Harri)
                 if ( ext.right(7) == ".kdelnk" )
                     ext = ext.left( ext.length() - 7 );
 

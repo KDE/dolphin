@@ -570,7 +570,7 @@ QString KfindTabDialog::createQuery()
 	QString str1;
 	str1 += " \"(\" -name \"";
 	//	str1 += nameBox->text(nameBox->currentItem());
-	str1 += nameBox->currentText();
+
 	if(nameBox->currentText().isEmpty())
 	  str1 += "*";
 	else
