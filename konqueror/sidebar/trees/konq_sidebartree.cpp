@@ -99,6 +99,7 @@ KonqSidebarTree::KonqSidebarTree( KonqSidebar_Tree *parent, QWidget *parentWidge
 
     addColumn( QString::null );
     header()->hide();
+    setTreeStepSize(15);
 
     m_autoOpenTimer = new QTimer( this );
     connect( m_autoOpenTimer, SIGNAL( timeout() ),
@@ -161,7 +162,14 @@ void KonqSidebarTree::clearTree()
     m_topLevelItems.clear();
     m_mapCurrentOpeningFolders.clear();
     clear();
-    setRootIsDecorated( true );
+    if (m_dirtreeDir.type==VIRT_Folder)
+    {
+        setRootIsDecorated( true );
+    }
+    else
+    {
+        setRootIsDecorated( false );
+    }
 }
 
 void KonqSidebarTree::followURL( const KURL &url )
