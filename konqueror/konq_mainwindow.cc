@@ -69,6 +69,7 @@
 #include <konq_main.h>
 #include <konq_undo.h>
 #include <kprotocolinfo.h>
+#include <kstdaccel.h>
 #include <kstdaction.h>
 #include <kstandarddirs.h>
 #include <ksycoca.h>
@@ -2244,7 +2245,7 @@ bool KonqMainWindow::eventFilter(QObject*obj,QEvent *ev)
       // prevents the lineedit from getting this event. IMHO the accel
       // should be disabled in favor of the focus-widget.
       KAction *duplicate = actionCollection()->action("duplicate_window");
-      if ( duplicate->accel() == CTRL+Key_D )
+      if ( duplicate->accel() == QKeySequence(CTRL+Key_D) )
           duplicate->setEnabled( false );
 
       if (slotNames.contains("cut()"))
@@ -2295,7 +2296,7 @@ bool KonqMainWindow::eventFilter(QObject*obj,QEvent *ev)
       // we use new_window as reference, as it's always in the same state
       // as duplicate_window
       KAction *duplicate = actionCollection()->action("duplicate_window");
-      if ( duplicate->accel() == CTRL+Key_D )
+      if ( duplicate->accel() == QKeySequence(CTRL+Key_D) )
           duplicate->setEnabled( actionCollection()->action("new_window")->isEnabled() );
 
       if (slotNames.contains("cut()"))

@@ -40,6 +40,7 @@
 #include <kdebug.h>
 #include <klocale.h>
 #include <kmessagebox.h>
+#include <kstdaccel.h>
 #include <kstdaction.h>
 #include <kpopupmenu.h>
 
