@@ -155,6 +155,8 @@ bool KonqOperations::askDeleteConfirmation( const KURL::List & selectedURLs )
 
       if ( prettyList.count() == 1 )
       {
+        //TODO "Do you really want to delete <filename> from <directory>"
+        // so that it's possible to use KIO::decodeName on the filename
         QString url = prettyList.first();
         QString msg = (m_method == DEL ? i18n( "Do you really want to delete '%1'?" ).arg( url ) :
                        m_method == SHRED ? i18n( "Do you really want to shred '%1'?" ).arg( url ) :
