@@ -26,6 +26,7 @@
 
 #include <kapp.h>
 #include <kcompletion.h>
+#include <kconfig.h>
 #include <kdebug.h>
 #include <ksavefile.h>
 #include <ksimpleconfig.h>
@@ -47,9 +48,11 @@ KonqHistoryManager::KonqHistoryManager( QObject *parent, const char *name )
       KonqHistoryComm( "KonqHistoryManager" )
 {
     // defaults
-    m_maxCount = 300;
-    m_maxAgeDays = 30;
-
+    KConfig *config = KGlobal::config();
+    KConfigGroupSaver cs( config, "Settings" );
+    m_maxCount = config->readNumEntry( "Maximum of History entries", 300 );
+    m_maxAgeDays = config->readNumEntry( "Maximum age of History entries", 30);
+    
     m_history.setAutoDelete( true );
     m_filename = locateLocal( "data",
 			      QString::fromLatin1("konqueror/konq_history" ));
@@ -360,6 +363,10 @@ void KonqHistoryManager::notifyMaxCount( Q_UINT32 count, QCString saveId )
 
     if ( saveId == objId() ) // we are the sender of the broadcast
 	saveHistory();
+
+    KConfig *config = KGlobal::config();
+    KConfigGroupSaver cs( config, "Settings" );
+    config->writeEntry( "Maximum of History entries", m_maxCount );
 }
 
 void KonqHistoryManager::notifyMaxAge( Q_UINT32 days, QCString saveId )
@@ -370,6 +377,10 @@ void KonqHistoryManager::notifyMaxAge( Q_UINT32 days, QCString saveId )
 
     if ( saveId == objId() ) // we are the sender of the broadcast
 	saveHistory();
+
+    KConfig *config = KGlobal::config();
+    KConfigGroupSaver cs( config, "Settings" );
+    config->writeEntry( "Maximum age of History entries", m_maxAgeDays );
 }
 
 void KonqHistoryManager::notifyClear( QCString saveId )
