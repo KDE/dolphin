@@ -1,7 +1,7 @@
 ###################################
 VERSION = 0.3
 
-INSTALL = @INSTALL@ -m 0755 -s
+INSTALL = @INSTALL@ -m 0755 
 INSTALL_DIR = @INSTALL@ -d -m 0755 
 INSTALL_DATA = @INSTALL@ -m 0644
 
@@ -71,6 +71,13 @@ install:
 	$(INSTALL_DATA) kfind.kdelnk $(prefix)/apps/Utility
 	$(INSTALL_DIR) $(LIBDIR)/kfind/config
 	$(INSTALL_DATA) ./kfindrc $(LIBDIR)/kfind/config
+
+uninstall:
+	rm -f $(BINDIR)/$(TARGET)
+	rm -f $(PICSDIR)/$(TARGET).xpm
+	rm -f $(DOCSDIR)/kfind.html
+	rm -f $(prefix)/apps/Utility/kfind.kdelnk
+	rm -f $(LIBDIR)/kfind/config/kfindrc
 
 dist:
 	-mkdir $(DISTDIR)
