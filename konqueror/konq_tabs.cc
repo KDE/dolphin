@@ -32,6 +32,7 @@
 #include <kiconloader.h>
 #include <klocale.h>
 #include <kurldrag.h>
+#include <kstringhandler.h>
 
 #include "konq_frame.h"
 #include "konq_view.h"
@@ -269,7 +270,7 @@ uint KonqFrameTabs::tabBarWidthForMaxChars( uint maxLength )
         newTitle = konqview->frame()->title();
     }
 
-    newTitle = constrainedTitle( newTitle, maxLength );
+    newTitle = KStringHandler::rsqueeze( newTitle, maxLength ).leftJustify( m_minLength, ' ' );
 
     QTab* tab = tabBar()->tabAt( i );
     int lw = fm.width( newTitle );
@@ -281,19 +282,6 @@ uint KonqFrameTabs::tabBarWidthForMaxChars( uint maxLength )
                    QStyleOption( tab ) ) ).width();
   }
   return x;
-}
-
-QString KonqFrameTabs::constrainedTitle( QString title, int maxLength )
-{
-    if ( title.length() > maxLength )
-      title = title.left( maxLength-3 ) + "...";
-
-    if ( title.length() < m_minLength && m_minLength <= maxLength ) {
-      QString tail;
-      tail.fill(' ', m_minLength - title.length());
-      title = title + tail;
-    }
-    return title;
 }
 
 void KonqFrameTabs::setTitle( const QString &title , QWidget* sender)
@@ -325,7 +313,7 @@ void KonqFrameTabs::setTitle( const QString &title , QWidget* sender)
   if ( newTitle.length() > newMaxLength )
       setTabToolTip( sender, newTitle );
 
-  newTitle = constrainedTitle( newTitle, newMaxLength );
+  newTitle = KStringHandler::rsqueeze( newTitle, newMaxLength ).leftJustify( m_minLength, ' ' );
 
   newTitle.replace( '&', "&&" );
   if ( tabLabel( sender ) != newTitle )
@@ -348,7 +336,7 @@ void KonqFrameTabs::setTitle( const QString &title , QWidget* sender)
           if ( newTitle.length() > newMaxLength )
               setTabToolTip( page( i ), newTitle );
 
-          newTitle = constrainedTitle( newTitle, newMaxLength );
+          newTitle = KStringHandler::rsqueeze( newTitle, newMaxLength ).leftJustify( m_minLength, ' ' );
 
           newTitle.replace( '&', "&&" );
           if ( newTitle != tabLabel( page( i ) ) )

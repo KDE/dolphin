@@ -115,8 +115,6 @@ private slots:
   void slotReceivedDropEvent( QWidget *, QDropEvent * );
     void slotSubPopupMenuTabActivated( int);
 private:
-  QString constrainedTitle( QString title, int maxLength );
-
   KonqViewManager* m_pViewManager;
   QPopupMenu* m_pPopupMenu;
     QPopupMenu * m_pSubPopupMenuTab;
