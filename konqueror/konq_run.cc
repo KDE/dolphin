@@ -218,6 +218,9 @@ void KonqRun::save( const KURL & url )
     // Inspired from khtml_part :-)
     KFileDialog *dlg = new KFileDialog( QString::null, QString::null /*all files*/,
                                         0L , "filedialog", true );
+
+    dlg->setKeepLocation( true );
+
     dlg->setCaption(i18n("Save as"));
 
     dlg->setSelection( url.fileName() );
