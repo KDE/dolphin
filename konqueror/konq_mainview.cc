@@ -600,6 +600,7 @@ void KonqMainView::slotCompleted()
 
 void KonqMainView::slotCanceled()
 {
+  slotCompleted();
 }
 
 void KonqMainView::slotSetStatusBarText( const QString &text )
