@@ -217,8 +217,8 @@ void KonqChildView::connectView(  )
   connect( m_pView, SIGNAL( setLocationBarURL( const QString & ) ),
            m_pMainView, SLOT( slotSetLocationBarURL( const QString & ) ) );
 
-//  connect( m_pView, SIGNAL( createNewWindow( const QString & ) ),
-//           m_pMainView, SLOT( slotCreateNewWindow( const QString ) ) );
+  connect( m_pView, SIGNAL( createNewWindow( const QString & ) ),
+           m_pMainView, SLOT( slotCreateNewWindow( const QString & ) ) );
 
   connect( m_pView, SIGNAL( loadingProgress( int ) ),
            m_pMainView, SLOT( slotLoadingProgress( int ) ) );
@@ -343,10 +343,10 @@ void KonqChildView::run( const QString & url )
 {
   debug(" ********** KonqChildView::run ");
   m_pRun = new KonqRun( mainView(), this, url, 0, false, true );
-  
+
   connect( m_pRun, SIGNAL( finished() ),
 	   mainView(), SLOT( slotRunFinished() ) );
-  
+
   // stop() will get called by KonqMainView::openView or the KonqRun will
   // be destroyed upon completion (autodelete)
 }

@@ -70,6 +70,8 @@ public slots:
 
   void openURL( const QString &url, bool reload, int xOffset, int yOffset );
 
+  void slotCreateNewWindow( const QString &url );
+
   void slotNewWindow();
   void slotRun();
   void slotOpenTerminal();

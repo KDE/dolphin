@@ -230,7 +230,7 @@ void KonqMainView::openURL( KonqChildView *_view, const QString &_url, bool relo
                             int yOffset )
 {
   debug("%s", QString("KonqMainView::openURL : _url = '%1'").arg(_url).latin1());
-  
+
   /////////// First, modify the URL if necessary (adding protocol, ...) //////
 
   QString url = konqFilteredURL(_url);
@@ -287,6 +287,11 @@ void KonqMainView::openURL( const QString &url, bool reload, int xOffset,
 
   openURL( childV, url, reload, xOffset, yOffset );
 }
+
+void KonqMainView::slotCreateNewWindow( const QString &url )
+{
+ KonqFileManager::getFileManager()->openFileManagerWindow( url ); 
+} 
 
 void KonqMainView::slotNewWindow()
 {
@@ -625,14 +630,14 @@ void KonqMainView::slotRunFinished()
 
   if ( run->foundMimeType() )
     return;
-  
+
   KonqChildView *childView = run->childView();
-  
+
   if ( !childView )
     return;
-  
+
   childView->setLoading( false );
-  
+
   if ( childView == m_currentView )
   {
     stopAnimation();
