@@ -538,7 +538,7 @@ void sigChildHandler(int)
 static KCmdLineOptions options[] =
 {
    { "verbose",     I18N_NOOP("Show progress output for GUI."), 0 },
-   { 0, 0, 0 }
+   KCmdLineLastOption
 };
 
 
