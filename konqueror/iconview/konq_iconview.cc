@@ -205,6 +205,7 @@ KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const 
 
     m_paDotFiles = new KToggleAction( i18n( "Show &Hidden Files" ), 0, this, SLOT( slotShowDot() ),
                                       actionCollection(), "show_dot" );
+    m_paDotFiles->setCheckedState(i18n("Hide &Hidden Files"));
     m_paDotFiles->setToolTip( i18n( "Toggle displaying of hidden dot files" ) );
 
     m_paDirectoryOverlays = new KToggleAction( i18n( "&Folder Icons Reflect Contents" ), 0, this, SLOT( slotShowDirectoryOverlays() ),
@@ -213,10 +214,9 @@ KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const 
     m_pamPreview = new KActionMenu( i18n( "&Preview" ), actionCollection(), "iconview_preview" );
 
     m_paEnablePreviews = new KToggleAction( i18n("Enable Previews"), 0, actionCollection(), "iconview_preview_all" );
+    m_paEnablePreviews->setCheckedState( i18n("Disable Previews") );
     connect( m_paEnablePreviews, SIGNAL( toggled( bool ) ), this, SLOT( slotPreview( bool ) ) );
     m_paEnablePreviews->setIcon("thumbnail");
-    KGuiItem guiItem( i18n("Disable Previews") );
-    m_paEnablePreviews->setCheckedState( guiItem );
     m_pamPreview->insert( m_paEnablePreviews );
     m_pamPreview->insert( new KActionSeparator(this) );
 
@@ -1132,7 +1132,7 @@ bool KonqKfmIconView::doOpenURL( const KURL & url )
 
     m_bLoading = true;
     m_bNeedSetCurrentItem = true;
-    
+
     // Check for new properties in the new dir
     // enterDir returns true the first time, and any time something might
     // have changed.
@@ -1150,15 +1150,15 @@ bool KonqKfmIconView::doOpenURL( const KURL & url )
         args.xOffset = m_pIconView->contentsX();
         args.yOffset = m_pIconView->contentsY();
         m_extension->setURLArgs( args );
-        
+
         m_filesToSelect.clear();
         KFileItemList fil( selectedFileItems() );
         for (KFileItemListIterator fi_it(fil); fi_it.current(); ++fi_it)
             m_filesToSelect += (*fi_it)->name();
     }
-    
+
     m_itemsToSelect = m_filesToSelect;
-    
+
     m_dirLister->setShowingDotFiles( m_pProps->isShowingDotFiles() );
 
     m_bNeedAlign = false;

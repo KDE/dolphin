@@ -619,15 +619,25 @@ void KonqListView::slotKFindClosed()
 void KonqListView::setupActions()
 {
    m_paShowTime=new KToggleAction(i18n("Show &Modification Time"), 0,this, SLOT(slotColumnToggled()), actionCollection(), "show_time" );
+   m_paShowTime->setCheckedState(i18n("Hide &Modification Time"));
    m_paShowType=new KToggleAction(i18n("Show &File Type"), 0, this, SLOT(slotColumnToggled()),actionCollection(), "show_type" );
+   m_paShowType->setCheckedState(i18n("Hide &File Type"));
    m_paShowMimeType=new KToggleAction(i18n("Show MimeType"), 0, this, SLOT(slotColumnToggled()),actionCollection(), "show_mimetype" );
+   m_paShowMimeType->setCheckedState(i18n("Hide MimeType"));
    m_paShowAccessTime=new KToggleAction(i18n("Show &Access Time"), 0, this, SLOT(slotColumnToggled()),actionCollection(), "show_access_time" );
+   m_paShowAccessTime->setCheckedState(i18n("Hide &Access Time"));
    m_paShowCreateTime=new KToggleAction(i18n("Show &Creation Time"), 0, this, SLOT(slotColumnToggled()),actionCollection(), "show_creation_time" );
+   m_paShowCreateTime->setCheckedState(i18n("Hide &Creation Time"));
    m_paShowLinkDest=new KToggleAction(i18n("Show &Link Destination"), 0, this, SLOT(slotColumnToggled()),actionCollection(), "show_link_dest" );
+   m_paShowLinkDest->setCheckedState(i18n("Hide &Link Destination"));
    m_paShowSize=new KToggleAction(i18n("Show Filesize"), 0, this, SLOT(slotColumnToggled()),actionCollection(), "show_size" );
+   m_paShowSize->setCheckedState(i18n("Hide Filesize"));
    m_paShowOwner=new KToggleAction(i18n("Show Owner"), 0, this, SLOT(slotColumnToggled()),actionCollection(), "show_owner" );
+   m_paShowOwner->setCheckedState(i18n("Hide Owner"));
    m_paShowGroup=new KToggleAction(i18n("Show Group"), 0, this, SLOT(slotColumnToggled()),actionCollection(), "show_group" );
+   m_paShowGroup->setCheckedState(i18n("Hide Group"));
    m_paShowPermissions=new KToggleAction(i18n("Show Permissions"), 0, this, SLOT(slotColumnToggled()),actionCollection(), "show_permissions" );
+   m_paShowPermissions->setCheckedState(i18n("Hide Permissions"));
    m_paShowURL=new KToggleAction(i18n("Show URL"), 0, this, SLOT(slotColumnToggled()),actionCollection(), "show_url" );
 
    m_paSelect = new KAction( i18n( "Se&lect..." ), CTRL+Key_Plus, this, SLOT( slotSelect() ), actionCollection(), "select" );
@@ -637,6 +647,7 @@ void KonqListView::setupActions()
   m_paInvertSelection = new KAction( i18n( "&Invert Selection" ), CTRL+Key_Asterisk, this, SLOT( slotInvertSelection() ), actionCollection(), "invertselection" );
 
   m_paShowDot = new KToggleAction( i18n( "Show &Hidden Files" ), 0, this, SLOT( slotShowDot() ), actionCollection(), "show_dot" );
+  m_paShowDot->setCheckedState(i18n("Hide &Hidden Files"));
   m_paCaseInsensitive = new KToggleAction(i18n("Case Insensitive Sort"), 0, this, SLOT(slotCaseInsensitive()),actionCollection(), "sort_caseinsensitive" );
 
   newIconSize( KIcon::SizeSmall /* default size */ );

@@ -83,14 +83,14 @@ KWrite::KWrite (KTextEditor::Document *doc)
                                     "Please check your KDE installation."));
       kapp->exit(1);
     }
-    
+
     docList.append(doc);
   }
 
   m_view = doc->createView (this, 0L);
 
   setCentralWidget(m_view);
-  
+
   setupActions();
   setupStatusBar();
 
@@ -100,7 +100,7 @@ KWrite::KWrite (KTextEditor::Document *doc)
   connect(m_view,SIGNAL(viewStatusMsg(const QString &)),this,SLOT(newStatus(const QString &)));
   connect(m_view->document(),SIGNAL(fileNameChanged()),this,SLOT(newCaption()));
   connect(m_view,SIGNAL(dropEventPass(QDropEvent *)),this,SLOT(slotDropEvent(QDropEvent *)));
-  
+
   setXMLFile( "kwriteui.rc" );
   createShellGUI( true );
   guiFactory()->addClient( m_view );
@@ -108,18 +108,18 @@ KWrite::KWrite (KTextEditor::Document *doc)
   // install a working kate part popup dialog thingy
   if (static_cast<Kate::View*>(m_view->qt_cast("Kate::View")))
     static_cast<Kate::View*>(m_view->qt_cast("Kate::View"))->installPopup ((QPopupMenu*)(factory()->container("ktexteditor_popup", this)) );
-  
+
   // call it as last thing, must be sure everything is already set up ;)
   setAutoSaveSettings ("MainWindow Settings");
 
   // init with more usefull size, stolen from konq :)
   if ( !initialGeometrySet() && !kapp->config()->hasGroup("MainWindow Settings"))
     resize( 700, 480 );
-      
+
   readConfig ();
-  
+
   winList.append (this);
-  
+
   show ();
 }
 
@@ -129,10 +129,10 @@ KWrite::~KWrite()
 
   if (m_view->document()->views().count() == 1)
   {
-    docList.remove(m_view->document()); 
+    docList.remove(m_view->document());
     delete m_view->document();
   }
-  
+
   kapp->config()->sync ();
 }
 
@@ -167,6 +167,7 @@ void KWrite::setupActions()
 
   m_paShowPath = new KToggleAction(i18n("Sho&w Path"), 0, this, SLOT(newCaption()),
                     actionCollection(), "set_showPath");
+  m_paShowPath->setCheckedState(i18n("Hide Path"));
   m_paShowPath->setWhatsThis(i18n("Show the complete document path in the window caption"));
   a=KStdAction::keyBindings(this, SLOT(editKeys()), actionCollection());
   a->setWhatsThis(i18n("Configure the application's keyboard shortcut assignments."));
@@ -401,12 +402,12 @@ void KWrite::readConfig(KConfig *config)
 
   m_paShowStatusBar->setChecked( config->readBoolEntry("ShowStatusBar") );
   m_paShowPath->setChecked( config->readBoolEntry("ShowPath") );
-  
+
   m_recentFiles->loadEntries(config, "Recent Files");
 
   if (m_view && KTextEditor::configInterface(m_view->document()))
     KTextEditor::configInterface(m_view->document())->readConfig(config);
-    
+
   if( m_paShowStatusBar->isChecked() )
     statusBar()->show();
   else
@@ -419,7 +420,7 @@ void KWrite::writeConfig(KConfig *config)
 
   config->writeEntry("ShowStatusBar",m_paShowStatusBar->isChecked());
   config->writeEntry("ShowPath",m_paShowPath->isChecked());
-  
+
   m_recentFiles->saveEntries(config, "Recent Files");
 
   if (m_view && KTextEditor::configInterface(m_view->document()))
@@ -479,7 +480,7 @@ void KWrite::saveGlobalProperties(KConfig *config) //save documents
      if (KTextEditor::configInterface(doc))
        KTextEditor::configInterface(doc)->writeSessionConfig(config);
   }
-  
+
   for (uint z = 1; z <= winList.count(); z++)
   {
      QString buf = QString("Window %1").arg(z);
@@ -627,14 +628,14 @@ extern "C" int kdemain(int argc, char **argv)
       for ( int z = 0; z < args->count(); z++ )
       {
         KWrite *t = new KWrite();
-      
+
         if (!KIO::NetAccess::mimetype( args->url(z), t ).startsWith(QString ("inode/directory")))
         {
           if (Kate::document (t->view()->document()))
             Kate::Document::setOpenErrorDialogsActivated (false);
-  
+
           t->loadURL( args->url( z ) );
-  
+
           if (Kate::document (t->view()->document()))
             Kate::Document::setOpenErrorDialogsActivated (true);
         }
@@ -643,7 +644,7 @@ extern "C" int kdemain(int argc, char **argv)
       }
     }
   }
-  
+
   // no window there, uh, ohh, for example borked session config !!!
   // create at least one !!
   if (KWrite::noWindows())
