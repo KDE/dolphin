@@ -3,7 +3,7 @@
 SUBDIRS = .
 
 # set the include path for X, qt and KDE
-INCLUDES = $(all_includes) -I..
+INCLUDES = $(all_includes) -I$(srcdir)/..
 
 # these are the headers for your project
 noinst_HEADERS = konqsidebar_classic_wrap.h
