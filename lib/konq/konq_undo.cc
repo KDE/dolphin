@@ -11,6 +11,7 @@
 #include <kdatastream.h>
 #include <kdebug.h>
 #include <klocale.h>
+#include <kprotocolmanager.h>
 
 #include <kio/job.h>
 #include <kio/jobclasses.h>
@@ -44,10 +45,13 @@ KonqCommandRecorder::KonqCommandRecorder( KonqCommand::Type op, const KURL::List
 
   connect( job, SIGNAL( copyingDone( KIO::Job *, const KURL &, const KURL &, bool, bool ) ),
 	   this, SLOT( slotCopyingDone( KIO::Job *, const KURL &, const KURL &, bool, bool ) ) );
+  
+  KonqUndoManager::incRef();
 };
 
 KonqCommandRecorder::~KonqCommandRecorder()
 {
+  KonqUndoManager::decRef(); 
   delete d;
 }
 
