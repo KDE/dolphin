@@ -38,7 +38,7 @@ protected slots:
 private:
   OpenParts::Id m_partId;
   
-  QDict<KOMBase::ClientList> *m_dctSignals;
+  QAsciiDict<KOMBase::ClientList> *m_dctSignals;
   
   unsigned long m_ulTotalDocumentSize;
 };
