@@ -48,6 +48,13 @@ class KonqSidebarPlugin : public QObject
 	public slots:
 		void openURL(const KURL& url){handleURL(url);}
 
+	/*
+		if your plugin supports file preview implement (not supported yet)
+			void openURLPreview(const KURL& url);
+		if your plugin supports a setup dialog, instead (replaces the url menu entry in the popup) (not supported yet)
+			void setup(QWidget *parent);
+	 */
+
 	/* signals, which could be, but need not to be added
 
 		void openURLRequest( const KURL &url, const KParts::URLArgs &args = KParts::URLArgs() );
@@ -73,6 +80,8 @@ class KonqSidebar_PluginInterface
 		virtual ~KonqSidebar_PluginInterface(){;}
 
 		virtual KInstance *getInstance()=0;
+		virtual void showError(QString &)=0;	//for later extension
+		virtual void showMessage(QString &)=0;	//for later extension
 	};
 
 #endif

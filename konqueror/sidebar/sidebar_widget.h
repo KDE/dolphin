@@ -134,8 +134,11 @@ class Sidebar_Widget: public QWidget, public KonqSidebar_PluginInterface
   public:
 	/* interface KonqSidebar_PluginInterface*/
 	virtual KInstance  *getInstance();
+        virtual void showError(QString &);      //for later extension
+        virtual void showMessage(QString &);    //for later extension
 	/* end of interface implementation */
 	
+
  /* The following public slots are wrappers for browserextension fields */
  public slots:
 	void openURLRequest( const KURL &url, const KParts::URLArgs &args = KParts::URLArgs() );

@@ -897,6 +897,10 @@ void Sidebar_Widget::connectModule(QObject *mod)
 }
 
 
+void Sidebar_Widget::showError(QString &){;}
+void Sidebar_Widget::showMessage(QString &){;}
+
+
 Sidebar_Widget::~Sidebar_Widget()
 {
 	KConfig conf("konqsidebartng.rc");
