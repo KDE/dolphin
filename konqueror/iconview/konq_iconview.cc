@@ -315,7 +315,7 @@ KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const 
 KonqKfmIconView::~KonqKfmIconView()
 {
     kdDebug(1202) << "-KonqKfmIconView" << endl;
-    m_dirLister->disconnect( this );
+    if ( m_dirLister ) m_dirLister->disconnect( this );
     delete m_dirLister;
     delete m_mimeTypeResolver;
     delete m_pProps;
