@@ -112,9 +112,9 @@ void KfindTop::menuInit()
     _optionMenu = new QPopupMenu;
     _helpMenu   = new QPopupMenu;        
 
-    fileStart = _fileMenu->insertItem("&Start search", _kfind,
+    fileStart = _fileMenu->insertItem(i18n("&Start search"), _kfind,
 			      SLOT(startSearch()), CTRL + Key_F);
-    fileStop = _fileMenu->insertItem("S&top search", _kfind,
+    fileStop = _fileMenu->insertItem(i18n("S&top search"), _kfind,
 			      SLOT(stopSearch()), CTRL + Key_C);    
     _fileMenu->setItemEnabled(fileStop, FALSE);
     _fileMenu->insertSeparator();
