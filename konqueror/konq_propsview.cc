@@ -21,6 +21,7 @@
 #include "konq_defaults.h"
 
 #include <kapp.h>
+#include <kdebug.h>
 #include <kpixmapcache.h>
 #include <iostream>
 

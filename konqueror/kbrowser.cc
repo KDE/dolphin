@@ -27,6 +27,7 @@
 
 #include <kurl.h>
 #include <kapp.h>
+#include <kdebug.h>
 #include <khtml.h>
 
 #include <qmsgbox.h>

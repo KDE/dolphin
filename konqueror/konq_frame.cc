@@ -20,6 +20,7 @@
 #include <qimage.h>
 
 #include <kapp.h>
+#include <kdebug.h>
 #include <kconfig.h>
 #include <kiconloader.h>
 
