@@ -161,13 +161,13 @@ extern "C" int kdemain(int argc, char **argv) {
             Q_ASSERT(arg2);
             // TODO - maybe an xbel export???
             if (got > 1) // got == 0 isn't possible as !isGui is dependant on "export.*"
-                KCmdLineArgs::usage(I18N_NOOP("You may only a single --export option."));
+                KCmdLineArgs::usage(I18N_NOOP("You may only specify a single --export option."));
             QString path = QString::fromLocal8Bit(args->getOption(arg2));
             CurrentMgr::self()->doExport(exportType, path);
         } else if (importType) {
             kdDebug() << importType << endl;
             if (got > 1) // got == 0 isn't possible as !isGui is dependant on "import.*"
-                KCmdLineArgs::usage(I18N_NOOP("You may only a single --import option."));
+                KCmdLineArgs::usage(I18N_NOOP("You may only specify a single --import option."));
             kdDebug() << filename << endl;
             QString path = QString::fromLocal8Bit(args->getOption(arg2));
             kdDebug() << path << endl;

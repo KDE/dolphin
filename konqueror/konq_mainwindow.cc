@@ -4497,7 +4497,7 @@ void KonqMainWindow::slotAddWebSideBar(const KURL& url, const QString& name)
 
     KAction *a = m_toggleViewGUIClient->action("konq_sidebartng");
     if (!a) {
-        KMessageBox::sorry(0L, i18n("Your sidebar is not functional or unavailable.  A new entry cannot be added."), i18n("Web Sidebar"));
+        KMessageBox::sorry(0L, i18n("Your sidebar is not functional or unavailable. A new entry cannot be added."), i18n("Web Sidebar"));
         return;
     }
 

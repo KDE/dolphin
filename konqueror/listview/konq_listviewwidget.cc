@@ -787,7 +787,7 @@ void KonqBaseListViewWidget::slotReturnPressed( QListViewItem *_item )
    }
    else
    {
-       KMessageBox::information(0L, i18n("You must leave the file out of the trash before being able to use it."));
+       KMessageBox::information(0L, i18n("You must take the file out of the trash before being able to use it."));
     }
 }
 
