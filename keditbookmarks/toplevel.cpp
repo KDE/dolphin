@@ -296,13 +296,13 @@ void KEBApp::setModifiedFlag(bool modified) {
 
 #if 0
    if (filename != default filename) {
-      caption += QString(" [%2]").arg(filename.name());
+      caption += QString(" [%1]").arg(filename.name());
    }
 #endif
 
    if (m_readOnly) {
       m_modified = false;
-      caption += QString(" [%2]").arg(i18n("Read Only"));
+      caption += QString(" [%1]").arg(i18n("Read Only"));
    }
 
    setCaption(caption, m_modified);
