@@ -20,6 +20,7 @@
 #include <qprinter.h>
 #include <opApplication.h>
 #include <komApplication.h>
+#include <komBase.h>
 
 #include <kmimetypes.h>
 #include <kmimemagic.h>
@@ -42,12 +43,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "kfm_main.h"
-#include "kfm_mainwindow.h"
+#include "konq_main.h"
+#include "konq_mainwindow.h"
 #include "kfmpaths.h"
 #include "xview.h"
-#include "kfmgui.h"
-//#include "kfm_part.h"
+#include "konq_mainview.h"
+#include "konq_iconview.h"
 
 // DEBUG
 #include <iostream>
@@ -60,67 +61,112 @@ bool g_bWithGUI = true;
 
 /**********************************************
  *
- * KfmApplicationIf
+ * KonqApplicationIf
  *
  **********************************************/
 
-typedef KOMBoot<KfmApplicationIf> KfmBoot;
+typedef KOMBoot<KonqApplicationIf> KonqBoot;
 
-KfmApplicationIf::KfmApplicationIf()
+KonqApplicationIf::KonqApplicationIf()
 {
 }
 
-KfmApplicationIf::KfmApplicationIf( const CORBA::BOA::ReferenceData &refdata ) :
-  KFM::Application_skel( refdata )
+KonqApplicationIf::KonqApplicationIf( const CORBA::BOA::ReferenceData &refdata ) :
+  Konqueror::Application_skel( refdata )
 {
 }
 
-KfmApplicationIf::KfmApplicationIf( CORBA::Object_ptr _obj ) :
-  KFM::Application_skel( _obj )
+KonqApplicationIf::KonqApplicationIf( CORBA::Object_ptr _obj ) :
+  Konqueror::Application_skel( _obj )
 {
 }
 
-OpenParts::Part_ptr KfmApplicationIf::createPart()
+OpenParts::Part_ptr KonqApplicationIf::createPart()
 {
   QString home = "file:";
   home.detach();
   home += QDir::homeDirPath().data();
 
-  return OpenParts::Part::_duplicate( new KfmGui( home.data() ) );
+  Konqueror::EventOpenURL eventURL;
+  eventURL.url = CORBA::string_dup( home.data() );
+  eventURL.reload = (CORBA::Boolean)true;
+
+  OpenParts::Part_var m_vMainView = OpenParts::Part::_duplicate( new KonqMainView );
+  
+  EMIT_EVENT( m_vMainView, Konqueror::eventOpenURL, eventURL );  
+  
+  return OpenParts::Part::_duplicate( m_vMainView );
 }
 
-OpenParts::MainWindow_ptr KfmApplicationIf::createWindow()
+OpenParts::MainWindow_ptr KonqApplicationIf::createWindow()
 {
   QString home = "file:";
   home.detach();
   home += QDir::homeDirPath().data();
   
-  return OpenParts::MainWindow::_duplicate( (new KfmMainWindow( home.data() ))->interface() );
+  return OpenParts::MainWindow::_duplicate( (new KonqMainWindow( home.data() ))->interface() );
+}
+
+Konqueror::MainView_ptr KonqApplicationIf::createMainView()
+{
+  QString home = "file:";
+  home.detach();
+  home += QDir::homeDirPath().data();
+
+  Konqueror::EventOpenURL eventURL;
+  eventURL.url = CORBA::string_dup( home.data() );
+  eventURL.reload = (CORBA::Boolean)true;
+
+  Konqueror::MainView_var m_vMainView = Konqueror::MainView::_duplicate( new KonqMainView );
+  
+  EMIT_EVENT( m_vMainView, Konqueror::eventOpenURL, eventURL );  
+  
+  return Konqueror::MainView::_duplicate( m_vMainView );
+}
+
+Konqueror::KfmIconView_ptr KonqApplicationIf::createKfmIconView()
+{
+  return Konqueror::KfmIconView::_duplicate( new KonqKfmIconView );
+}
+
+Konqueror::HTMLView_ptr KonqApplicationIf::createHTMLView()
+{
+//  return Konqueror::HTMLView::_duplicate( new KonqHTMLView );
+}
+
+Konqueror::KfmTreeView_ptr KonqApplicationIf::createKfmTreeView()
+{
+//  return Konqueror::KfmTreeView::_duplicate( new KonqKfmTreeView );
+}
+
+Konqueror::PartView_ptr KonqApplicationIf::createPartView()
+{
+//  return Konqueror::PartView::_duplicate( new KonqPartView );
 }
 
 /**********************************************
  *
- * KfmApp
+ * KonqApp
  *
  **********************************************/
 
-KfmApp::KfmApp( int &argc, char** argv ) : 
+KonqApp::KonqApp( int &argc, char** argv ) : 
   OPApplication( argc, argv, "konqueror" )
 {
 }
 
-KfmApp::~KfmApp()
+KonqApp::~KonqApp()
 {
 }
 
-void KfmApp::start()
+void KonqApp::start()
 {
   if ( g_bWithGUI )
   {
     QString home = "file:";
     home.detach();
     home += QDir::homeDirPath().data();
-    KfmMainWindow *m_pShell = new KfmMainWindow( home.data() );
+    KonqMainWindow *m_pShell = new KonqMainWindow( home.data() );
     m_pShell->show();
   }
 }
@@ -128,13 +174,13 @@ void KfmApp::start()
 
 /**********************************************
  *
- * KfmBookmarkManager
+ * KonqBookmarkManager
  *
  **********************************************/
 
-void KfmBookmarkManager::editBookmarks( const char *_url )
+void KonqBookmarkManager::editBookmarks( const char *_url )
 {
-  KfmMainWindow *m_pShell = new KfmMainWindow( _url );
+  KonqMainWindow *m_pShell = new KonqMainWindow( _url );
   m_pShell->show();
 }
 
@@ -147,9 +193,9 @@ void KfmBookmarkManager::editBookmarks( const char *_url )
 
 int main( int argc, char **argv )
 {
-  KfmBoot boot( "IDL:KFM/Application:1.0", "Konqueror" );
+  KonqBoot boot( "IDL:Konqueror/Application:1.0", "Konqueror" );
 
-  KfmApp app( argc, argv );
+  KonqApp app( argc, argv );
 
   int i = 1;
   if ( strcmp( argv[i], "-s" ) == 0 || strcmp( argv[i], "--server" ) == 0 )
@@ -174,13 +220,7 @@ int main( int argc, char **argv )
   KRegistry registry;
   registry.addFactory( new KMimeTypeFactory );
   registry.addFactory( new KServiceFactory );
-  // HACK
-  registry.load( "/tmp/dump" );
-  if ( registry.isModified() )
-  {    
-    registry.save( "/tmp/dump" );
-    registry.clearModified();
-  }
+  registry.load( );
   
   KMimeType::check();
 
@@ -192,7 +232,7 @@ int main( int argc, char **argv )
   
   QImageIO::defineIOHandler( "XV", "^P7 332", 0, read_xv_file, 0L );
 
-  KfmBookmarkManager bm;
+  KonqBookmarkManager bm;
   
   app.exec();
 
@@ -242,4 +282,4 @@ void sig_pipe_handler( int )
   signal( SIGPIPE, sig_pipe_handler );
 }
 
-#include "kfm_main.moc"
+#include "konq_main.moc"

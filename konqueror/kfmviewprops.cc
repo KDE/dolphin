@@ -18,7 +18,7 @@
 */     
 
 #include "kfmviewprops.h"
-#include "kfm_defaults.h"
+#include "konq_defaults.h"
 #include <kpixmapcache.h>
 
 KfmViewProps * KfmViewProps::m_pDefaultProps = 0L;
@@ -26,7 +26,7 @@ KfmViewProps * KfmViewProps::m_pDefaultProps = 0L;
 KfmViewProps::KfmViewProps( const KConfig * config )
 {
   QString entry = "LargeIcons"; // default
-  m_viewMode = KfmView::HOR_ICONS;
+/*  m_viewMode = KfmView::HOR_ICONS;
   entry = config->readEntry("ViewMode", entry);
   if (entry == "SmallIcons")
     m_viewMode = KfmView::VERT_ICONS;
@@ -34,7 +34,7 @@ KfmViewProps::KfmViewProps( const KConfig * config )
     m_viewMode = KfmView::FINDER;
   if (entry == "HTMLView")
     m_viewMode = KfmView::HTML;
-
+*/
   m_bShowDot = config->readBoolEntry( "ShowDotFiles", false );
   m_bImagePreview = config->readBoolEntry( "ImagePreview", false );
   m_bHTMLAllowed = config->readBoolEntry( "HTMLAllowed", false );
@@ -59,7 +59,7 @@ KfmViewProps::~KfmViewProps()
 void KfmViewProps::saveProps( KConfig * config )
 {
   QString entry;
-  switch ( m_viewMode )
+/*  switch ( m_viewMode )
     {
     case KfmView::HOR_ICONS: entry = "LargeIcons"; break;
     case KfmView::FINDER: entry = "TreeView"; break;
@@ -68,7 +68,7 @@ void KfmViewProps::saveProps( KConfig * config )
     default: assert( 0 ); break;
     }
   config->writeEntry( "ViewMode", entry);
-
+*/
   config->writeEntry( "ShowDotFiles", m_bShowDot );
   config->writeEntry( "ImagePreview", m_bImagePreview );
   config->writeEntry( "HTMLAllowed", m_bHTMLAllowed );
@@ -100,9 +100,9 @@ KfmViewSettings::KfmViewSettings( const KConfig * config )
 
   QString entry = config->readEntry( "MouseMode" , "SingleClick");
   if ( entry == "SingleClick" )
-    m_mouseMode = KfmAbstractGui::SingleClick;
+    m_mouseMode = SingleClick;
   else
-    m_mouseMode = KfmAbstractGui::DoubleClick;
+    m_mouseMode = DoubleClick;
 
   m_bgColor = config->readColorEntry( "BgColor", &HTML_DEFAULT_BG_COLOR );
   m_textColor = config->readColorEntry( "TextColor", &HTML_DEFAULT_TXT_COLOR );

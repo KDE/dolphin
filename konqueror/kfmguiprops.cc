@@ -18,7 +18,9 @@
 */     
 
 #include "kfmguiprops.h"
-#include "kfm_defaults.h"
+#include "konq_defaults.h"
+
+#include <assert.h>
 
 KfmGuiProps * KfmGuiProps::m_pDefaultProps = 0L;
 

@@ -17,20 +17,17 @@
    Boston, MA 02111-1307, USA.
 */     
 
-#ifndef __kfm_gui_h__
-#define __kfm_gui_h__
+#ifndef __konq_mainview_h__
+#define __konq_mainview_h__
 
-#include <ktopwidget.h>
 #include <kstatusbar.h>
 #include <ktoolbar.h>
 #include <kmenubar.h>
 #include <kpanner.h>
 #include <kaccel.h>
 
-#include "kfm.h"
-#include "kfmview.h"
+#include "konqueror.h"
 #include "kfmpopup.h"
-#include "kfm_abstract_gui.h"
 #include "kfmguiprops.h"
 
 #include <opPart.h>
@@ -50,19 +47,19 @@
 
 #include <string>
 #include <list>
+#include <map>
 
 class KBookmarkMenu;
 class KURLCompletion;
 
-class KfmGui : public QWidget,
-		public KfmAbstractGui,
-		virtual public OPPartIf,
-		virtual public KFM::Part_skel
+class KonqMainView : public QWidget,
+                     virtual public OPPartIf,
+		     virtual public Konqueror::MainView_skel
 {
   Q_OBJECT
 public:
-  KfmGui( const char *_url, QWidget *_parent = 0L );
-  ~KfmGui();
+  KonqMainView( QWidget *_parent = 0L );
+  ~KonqMainView();
   
   virtual void init();
   virtual void cleanUp();
@@ -70,25 +67,29 @@ public:
   virtual bool event( const char* event, const CORBA::Any& value );
   bool mappingCreateMenubar( OpenPartsUI::MenuBar_ptr menuBar );
   bool mappingCreateToolbar( OpenPartsUI::ToolBarFactory_ptr factory );
-  
-  /////////////////////////
-  // Overloaded functions from @ref KfmAbstractGUI
-  /////////////////////////  
+  bool mappingChildGotFocus( OpenParts::Part_ptr child );
+  bool mappingParentGotFocus( OpenParts::Part_ptr child );
+  bool mappingOpenURL( Konqueror::EventOpenURL eventURL );
 
-  void setStatusBarText( const char *_text );
-  void setLocationBarURL( const char *_url );
-  void setUpURL( const char *_url );
-  
-  void addHistory( const char *_url, int _xoffset, int _yoffset );
+  // TODO : add arguments for position (left, right, above current, new row, ....)
+  virtual void insertView( Konqueror::View_ptr view );  
+  virtual void setActiveView( OpenParts::Id id );
+  virtual Konqueror::View_ptr activeView();
+  virtual Konqueror::ViewList *viewList();
+  virtual void removeView( OpenParts::Id id );
 
-  void createGUI( const char *_url );
+  virtual void openURL( const Konqueror::URLRequest &url );
   
-  bool hasUpURL() { return !m_currentView->m_strUpURL.isEmpty(); }
-  bool hasBackHistory() { return m_currentView->m_lstBack.size() > 0; }
-  bool hasForwardHistory() { return m_currentView->m_lstForward.size() > 0; }
+  virtual void setStatusBarText( const char *_text );
+  virtual void setLocationBarURL( const char *_url );
+  virtual void setUpURL( const char *_url );
+  virtual void addHistory( const char *_url, CORBA::Long _xoffset, CORBA::Long _yoffset );
+  
+  virtual void createNewWindow( const char *url );
 
-  virtual void openURL( const char *url );
-  
+  virtual char *currentTitle() { return ""; }
+  virtual char *currentURL() { return ""; }
+    
 public slots:  
   /////////////////////////
   // MenuBar
@@ -106,12 +107,6 @@ public slots:
   virtual void slotConfigureKeys();
   virtual void slotAboutApp();
 
-  virtual void slotFileNewActivated( CORBA::Long id );
-  virtual void slotFileNewAboutToShow();
-  
-  virtual void slotBookmarkSelected( CORBA::Long id );
-  virtual void slotEditBookmarks();  
-
   /////////////////////////
   // Location Bar
   /////////////////////////
@@ -128,6 +123,12 @@ public slots:
   virtual void slotForward();
   virtual void slotReload();
 
+  virtual void slotFileNewActivated( CORBA::Long id );
+  virtual void slotFileNewAboutToShow();
+  
+  virtual void slotBookmarkSelected( CORBA::Long id );
+  virtual void slotEditBookmarks();  
+  
   /////////////////////////
   // Accel
   /////////////////////////
@@ -141,15 +142,9 @@ public slots:
   void slotStartAnimation();
   void slotStopAnimation();
 
-  /// Other
-  void slotGotFocus( KfmView* _view );
-
 protected:
   virtual void resizeEvent( QResizeEvent *e );
 
-  // TODO : add arguments for position (left, right, above current, new row, ....)
-  void createView( );
-  
   struct History
   {
     QString m_strURL;
@@ -159,7 +154,10 @@ protected:
   
   struct View
   {
-    KfmView* m_pView;
+    View();
+    ~View();
+    Konqueror::View_var m_vView;
+    OPFrame *m_pFrame;
     QString m_strUpURL;
     list<History> m_lstBack;
     list<History> m_lstForward;
@@ -170,12 +168,9 @@ protected:
   void initConfig();
   void initGui();
   void initPanner();
-  void initMenu();
-  void initStatusBar();
-  void initToolBar();
   void initView();
   
-  void setViewModeMenu( KfmView::ViewMode _viewMode );
+//  void setViewModeMenu( KonqView::ViewMode _viewMode );
 
   OpenPartsUI::Menu_var m_vMenuFile;
   OpenPartsUI::Menu_var m_vMenuFileNew;
@@ -191,15 +186,6 @@ protected:
 
   KBookmarkMenu* m_pBookmarkMenu;
 
-/*  
-  KMenuBar *m_pMenu;
-  KStatusBar *m_pStatusBar;
-  KToolBar* m_pToolbar;
-  KToolBar* m_pLocationBar;
-  KBookmarkMenu* m_pBookmarkMenu;
-  QPopupMenu* m_pViewMenu;
-  KURLCompletion* m_pCompletion;
-*/  
   KPanner* m_pPanner;
   
   /**
@@ -210,8 +196,8 @@ protected:
    */
   KNewMenu *m_pMenuNew;
 
-  QList<View> m_views;
-  View * m_currentView;
+  map<OpenParts::Id,View*> m_mapViews;
+  View *m_currentView;
   
   /**
    * Set to true while the constructor is running.
@@ -227,10 +213,10 @@ protected:
 
   KAccel* m_pAccel;
 
-  QString m_strTmpURL;
-    
+  KfmGuiProps *m_Props;
+  
   static QList<OpenPartsUI::Pixmap>* s_lstAnimatedLogo;
-  static QList<KfmGui>* s_lstWindows;
+  static QList<KonqMainView>* s_lstWindows;
 };
 
 #endif

@@ -8,58 +8,34 @@ LDADD = -lkparts -lkpartsui -lkom $(LIB_KIO) $(LIB_KHTML) $(LIB_KDEUI) \
 
 bin_PROGRAMS = konqueror
 
-konqueror_SOURCES = kfm_main.cc kfm_mainwindow.cc kfm.cc \
-		    kbookmark.cc kfmicons.cc kiconcontainer.cc \
-		    kbrowser.cc kfmbrowser.cc kfmpaths.cc \
-		    kfmfinder.cc kfmrun.cc xview.cc \
-		    kfmgui.cc kfmview.cc kfmpopup.cc \
-		    kfmguiprops.cc kfmviewprops.cc
+konqueror_SOURCES =  konq_main.cc konq_mainwindow.cc konqueror.cc \
+	kbookmark.cc konq_iconview.cc kiconcontainer.cc \
+	kfmpaths.cc xview.cc kfmguiprops.cc konq_baseview.cc \
+	konq_mainview.cc kfmpopup.cc kfmviewprops.cc
 
-noinst_HEADERS = kfm_main.h kfm_mainwindow.h kfm.h \
-		 kbookmark.h kfmicons.h kiconcontainer.h \
-		 kbrowser.h kfmbrowser.h kfmpaths.h \
-		 kfmfinder.h kfmrun.h xview.h \
-		 kfmgui.h kfmview.h kfm_abstract_gui.h \
-		 kfmpopup.h kfmguiprops.h kfmviewprops.h
+# noinst_HEADERS = ... to be completed
 
-SRCMETA = kfm_main.moc kfm_mainwindow.moc \
-	  kbookmark.moc kbrowser.moc kfmbrowser.moc \
-	  kfmfinder.moc kfmgui.moc kfmicons.moc \
-	  kfmrun.moc kfmview.moc kiconcontainer.moc \
-	  kfmpopup.moc
+METASOURCES = konq_main.moc konq_mainwindow.moc \
+	kbookmark.moc konq_iconview.moc kiconcontainer.moc \
+	konq_mainview.moc kfmpopup.moc
 
 kdelnk_DATA = konqueror_part.kdelnk
 kdelnkdir = $(kde_datadir)/../partlnk
 
-DISTCLEANFILES = $(SRCMETA) kfm.cc kfm.h
+DISTCLEANFILES = $(METASOURCES) konqueror.cc konqueror.h
 
 messages:
 	$(XGETTEXT) -C -ktranslate -kaliasLocale -ki18n -x $(includedir)/kde.pot $(konqueror_SOURCES) $(noinst_HEADERS) && mv messages.po ../po/konqueror.pot
-
-####### Implicit rules
-
-SUFFIXES = .h .moc
-
-.h.moc:
-	$(MOC) $< -o $@ 
 
 ####### Build rules
 
 IDL_FLAGS = --query-server-for-narrow --relative-paths -I$(top_srcdir)/kom -I$(top_srcdir)/partsui -I$(top_srcdir)/parts -I$(idldir)
 
-kfm.cc: kfm.h
-kfm.h: $(srcdir)/kfm.idl
-	  $(IDL) $(IDL_FLAGS) $(srcdir)/kfm.idl
+konqueror.cc: konqueror.h
+konqueror.h: $(srcdir)/konqueror.idl
+	  $(IDL) $(IDL_FLAGS) $(srcdir)/konqueror.idl
 
-kfm_main.cc: kfm_main.moc kfm.h
-kfm_mainwindow.cc: kfm_mainwindow.moc kfm.h
-kbookmark.cc: kbookmark.moc
-kbrowser.cc: kbrowser.moc
-kfmbrowser.cc: kfmbrowser.moc
-kfmfinder.cc: kfmfinder.moc
-kfmgui.cc: kfmgui.moc
-kfmicons.cc: kfmicons.moc
-kfmrun.cc: kfmrun.moc
-kfmview.cc: kfmview.moc
-kiconcontainer.cc: kiconcontainer.moc
-kfmpopup.cc: kfmpopup.moc
+konq_baseview.h: konqueror.h
+konq_main.h: konqueror.h
+konq_mainview.h: konqueror.h
+konq_mainwindow.h: konqueror.h

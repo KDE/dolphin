@@ -20,9 +20,8 @@
 #ifndef __kfm_guiprops_h__
 #define __kfm_guiprops_h__
 
-#include "kfmview.h"
 #include "kconfig.h"
-#include "kfm_abstract_gui.h"
+// #include "kfm_abstract_gui.h"
 
 #include <ktoolbar.h>
 #include <kmenubar.h>
@@ -73,6 +72,7 @@ public:
 
   // A KfmGui can read/write the values directly.
   friend class KfmGui;
+  friend class KonqMainView;
   
 protected:
 

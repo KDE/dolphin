@@ -1,0 +1,209 @@
+#ifndef __konqueror_idl__
+#define __konqueror_idl__
+
+#include <kom.idl>
+#include <openparts.idl>
+#include <openparts_ui.idl>
+
+module Konqueror
+{
+
+  typedef sequence<string> StrList;
+
+  struct URLRequest
+  {
+    string url;
+    boolean reload;
+  };
+  
+  /*
+   * This event is mapped by Konqueror's implementation of the MainView
+   * interface as well as by all the views.
+   * (we use an event to open an URL instead of a simple method openURL (or
+   * similar) because this way you can install your own custom URL filters :-)
+   */
+  typedef URLRequest EventOpenURL;
+  const string eventOpenURL = "Konqueror/OpenURL";
+
+  interface View : OpenParts::Part
+  {
+    /*
+     * A full featured Konqueror View has to map the eventOpenURL event (which 
+     * has a structure EventOpenURL as parameter)
+     *
+     * In addition it may implement/emit the following signals:
+     *      - signal void openURL( in Konqueror::EventOpenURL eventURL );
+     *      - signal void started( in string url );
+     *      - signal void completed();
+     *      - signal void setStatusBarText( in string text );
+     *      - signal void setLocationBarURL( in string url );
+     *      - signal void createNewWindow( in string url );
+     *      - signal void popupMenu( in long x, in long y, in StrList urls, in long mode, in boolean is_local_file );
+     *      - signal void addHistory( in string url, in long xOffset, in long yOffset );
+     */
+     
+    string url();
+    string title();
+    
+    void stop();
+
+    /*
+     * returns a name for the view (for example just like "KMailFolderView" or
+     * "KonquerorHTMLView")
+     */
+    string viewName();
+        
+    /*
+     * The two below defined events should be mapped by a view to provide view
+     * specific GUI elements. Please note that if the view is embedded in 
+     * Konquerors MainView there will be additional menu entries created by
+     * the main view for the two provides menus. In contrary to this a view's 
+     * toolbar will always be separate (or hidden if the view does not 
+     * implement an own toolbar) .
+     * (Konqueror's views for example do not have their own additional toolbars,
+     *  but a KMail view for example might have one :-)
+     */
+
+    struct EventCreateViewMenuBar
+    {
+      OpenPartsUI::Menu menuEdit;
+      OpenPartsUI::Menu menuView;
+    };
+
+    struct EventCreateViewToolBar
+    {
+      OpenPartsUI::ToolBar toolBar;
+    };
+  
+    const string eventCreateViewMenuBar = "Konqueror/GUI/createViewMenuBar";
+    const string eventCreateViewToolBar = "Konqueror/GUI/createViewToolBar";
+  };
+
+  typedef sequence<View> ViewList;
+  
+  /*
+   * see kio_interface.h in libkio for further information
+   */
+  struct UDSAtom
+  {
+    string m_str;
+    long m_long;
+    unsigned long m_uds;
+  };
+  typedef sequence<UDSAtom> UDSEntry;
+  
+  interface KfmIconTreeViewItem
+  {
+    string url();
+    
+    boolean isMarked();
+    void mark();
+    void unmark();
+    
+    UDSEntry udsEntry();
+    
+    boolean acceptsDrops( in StrList formats );
+    string mimeType();
+  };
+  
+  interface KfmIconViewItem : KfmIconTreeViewItem
+  {
+  };
+  
+  interface KfmIconView : View
+  {
+//    typedef sequence<IconViewItem> IconViewItemList;
+    
+//    IconViewItemList selectedItems();
+    
+//    void updateDirectory();
+  };
+
+  interface KfmTreeViewItem : KfmIconTreeViewItem
+  {
+    string name();
+  };
+    
+  interface KfmTreeView : View
+  {
+  };
+  
+  interface HTMLView : View
+  {
+  };
+  
+  interface PartView : View
+  {
+    void setPart( in OpenParts::Part part );
+    OpenParts::Part part();
+  };
+    
+  interface MainView : OpenParts::Part
+  {
+    // TODO : add arguments for position (left, right, above current, new row, ....)
+    void insertView( in View view );
+    void setActiveView( in OpenParts::Id id );
+    View activeView();
+    ViewList viewList();
+    void removeView( in OpenParts::Id id );
+    
+    slot void openURL( in URLRequest url );
+    
+    slot void setStatusBarText( in string text );
+    slot void setLocationBarURL( in string url );
+    slot void setUpURL( in string url );
+    slot void addHistory( in string url, in long xOffset, in long yOffset );
+    
+    slot void createNewWindow( in string url );
+
+    string currentTitle();
+    string currentURL();
+        
+    slot void slotSplitView();
+    slot void slotShowDot();
+    slot void slotLargeIcons();
+    slot void slotSmallIcons();
+    slot void slotTreeView();
+    slot void slotHTMLView();
+    slot void slotSaveGeometry();
+    slot void slotShowCache();
+    slot void slotShowHistory();
+    slot void slotOpenLocation();
+    slot void slotConfigureKeys();
+    slot void slotAboutApp();
+
+    slot void slotURLEntered();
+  
+    slot void slotStop();
+    slot void slotNewWindow();
+    slot void slotUp();
+    slot void slotHome();
+    slot void slotBack();
+    slot void slotForward();
+    slot void slotReload();
+
+    slot void slotFileNewActivated( in long id );
+    slot void slotFileNewAboutToShow();	
+  
+    slot void slotBookmarkSelected( in long id );
+    slot void slotEditBookmarks();
+  };
+  
+  interface MainWindow : OpenParts::MainWindow
+  {
+    MainView mainView();
+  };
+  
+  interface Application : OpenParts::Application
+  {
+    MainView createMainView();
+    
+    KfmIconView createKfmIconView();
+    HTMLView createHTMLView();
+    KfmTreeView createKfmTreeView();
+    PartView createPartView();
+  };
+  
+};
+
+#endif

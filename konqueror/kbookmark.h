@@ -27,7 +27,7 @@
 
 #include <ksimpleconfig.h>
 
-#include "kfm.h"
+#include <openparts.h>
 #include <openparts_ui.h>
 
 class KBookmarkManager;
@@ -65,7 +65,7 @@ class KBookmarkMenu : public QObject
 {
   Q_OBJECT
 public:
-  KBookmarkMenu( KBookmarkOwner *_owner, OpenPartsUI::Menu_ptr menu, KFM::Part_ptr part, bool _root = true );
+  KBookmarkMenu( KBookmarkOwner *_owner, OpenPartsUI::Menu_ptr menu, OpenParts::Part_ptr part, bool _root = true );
  ~KBookmarkMenu();  
 
 public slots:
@@ -78,7 +78,7 @@ protected:
   bool m_bIsRoot;
   KBookmarkOwner *m_pOwner;
   OpenPartsUI::Menu_var m_vMenu;
-  KFM::Part_var m_vPart;
+  OpenParts::Part_var m_vPart;
   QList<KBookmarkMenu> m_lstSubMenus;
 };
 

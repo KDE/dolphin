@@ -17,37 +17,44 @@
    Boston, MA 02111-1307, USA.
 */     
 
-#ifndef __kfm_main_h__
-#define __kfm_main_h__
+#ifndef __konq_main_h__
+#define __konq_main_h__
 
 #include <opApplication.h>
 
-#include "kfm.h"
+#include "konqueror.h"
 #include "kbookmark.h"
 
-class KfmApp : public OPApplication
+class KonqApp : public OPApplication
 {
   Q_OBJECT
 public:
-  KfmApp( int &argc, char** argv );
-  ~KfmApp();
+  KonqApp( int &argc, char** argv );
+  ~KonqApp();
   
   virtual void start();  
 };
 
-class KfmApplicationIf : virtual public OPApplicationIf,
-			 virtual public KFM::Application_skel
+class KonqApplicationIf : virtual public OPApplicationIf,
+			  virtual public Konqueror::Application_skel
 {
 public:
-  KfmApplicationIf();
-  KfmApplicationIf( const CORBA::BOA::ReferenceData &refdata );
-  KfmApplicationIf( CORBA::Object_ptr _obj );
+  KonqApplicationIf();
+  KonqApplicationIf( const CORBA::BOA::ReferenceData &refdata );
+  KonqApplicationIf( CORBA::Object_ptr _obj );
 
   OpenParts::Part_ptr createPart();
   OpenParts::MainWindow_ptr createWindow();
+  
+  Konqueror::MainView_ptr createMainView();
+  
+  Konqueror::KfmIconView_ptr createKfmIconView();
+  Konqueror::HTMLView_ptr createHTMLView();
+  Konqueror::KfmTreeView_ptr createKfmTreeView();
+  Konqueror::PartView_ptr createPartView();
 };
 
-class KfmBookmarkManager : public KBookmarkManager
+class KonqBookmarkManager : public KBookmarkManager
 {
 public:
   virtual void editBookmarks( const char *_url );

@@ -709,7 +709,7 @@ void KIconContainer::viewportMousePressEvent( QMouseEvent *_ev )
   x += contentsX();
   y += contentsY();
 
-  if ( m_mouseMode == KfmAbstractGui::SingleClick )
+  if ( m_mouseMode == SingleClick )
   {    
     iterator it = itemAt( x, y );
     if ( it != end() )
@@ -760,7 +760,7 @@ void KIconContainer::viewportMousePressEvent( QMouseEvent *_ev )
       return;
     }
   }
-  else if ( m_mouseMode == KfmAbstractGui::DoubleClick )
+  else if ( m_mouseMode == DoubleClick )
   {    
     iterator it = itemAt( x, y );
     if ( it != end() )
@@ -825,7 +825,7 @@ void KIconContainer::viewportMouseReleaseEvent( QMouseEvent *_mouse )
 
   QPoint p = mapToGlobal( m_pressedPos );
 
-  if ( m_mouseMode == KfmAbstractGui::SingleClick )
+  if ( m_mouseMode == SingleClick )
     emit returnPressed( &**m_pressedItem, p );
 
   emit mouseReleased( &**m_pressedItem, p, LeftButton );
@@ -852,7 +852,7 @@ void KIconContainer::viewportMouseMoveEvent( QMouseEvent *_mouse )
 	emit onItem( item );
 	m_overItem = item->text();
 
-	if ( m_mouseMode == KfmAbstractGui::SingleClick )
+	if ( m_mouseMode == SingleClick )
 	  setCursor( m_handCursor );
       }
     }
@@ -951,7 +951,7 @@ void KIconContainer::drawContentsOffset( QPainter* _painter, int _offsetx, int _
   int maxX = _clipx + _clipw;
   int maxY = _clipy + _cliph;
 
-  //  cerr << "!!!!!!!!!! DRAW !!!!!!!!!!!!" <<  " x=" << _clipx << " y=" << _clipy << " w=" << _clipw << " h=" << _cliph << " ox=" << _offsetx << " oy=" << _offsety << endl;
+  // cerr << "!!!!!!!!!! DRAW !!!!!!!!!!!!" <<  " x=" << _clipx << " y=" << _clipy << " w=" << _clipw << " h=" << _cliph << " ox=" << _offsetx << " oy=" << _offsety << endl;
   
   if ( m_bDirty )
   {
@@ -959,7 +959,7 @@ void KIconContainer::drawContentsOffset( QPainter* _painter, int _offsetx, int _
     setup();
   }
   
-  if ( m_mouseMode == KfmAbstractGui::SingleClick && m_underlineLink )
+  if ( m_mouseMode == SingleClick && m_underlineLink )
   {
     QFont f = _painter->font();
     f.setUnderline( true );
@@ -1025,7 +1025,7 @@ void KIconContainer::drawContentsOffset( QPainter* _painter, int _offsetx, int _
     item->paintFocus( _painter, cgr, r );
   }
     
-  //  cerr << "!!!!!!!!!! DRAW END !!!!!!!!!!!!" << endl;
+  // cerr << "!!!!!!!!!! DRAW END !!!!!!!!!!!!" << endl;
 }
 
 void KIconContainer::setup()

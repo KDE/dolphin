@@ -17,10 +17,8 @@
    Boston, MA 02111-1307, USA.
 */     
 
-#include "kfmicons.h"
-#include "kfmview.h"
+#include "konq_iconview.h"
 #include "kfmviewprops.h"
-#include "kfmgui.h"
 
 #include <assert.h>
 #include <string.h>
@@ -35,44 +33,48 @@
 #include <kpixmapcache.h>
 #include <krun.h>
 #include <kio_paste.h>
+#include <kmimetypes.h>
 
 #include <qmsgbox.h>
 #include <qkeycode.h>
 #include <qpalette.h>
 #include <qdragobject.h>
 
-KfmIconView::KfmIconView( QWidget* _parent, KfmView *_view ) : KIconContainer( _parent )
+KonqKfmIconView::KonqKfmIconView( QWidget* _parent ) : KIconContainer( _parent )
 {
   m_bInit = true;
-  
-  setFocusPolicy( StrongFocus );
+
+  setWidget( this );
+
+  QWidget::show();
+      
+  QWidget::setFocusPolicy( StrongFocus );
   viewport()->setFocusPolicy( StrongFocus );
 
   m_bIsLocalURL = false;
-  m_pView = _view;
   m_bComplete = true;
   m_jobId = 0;
 
   initConfig();
   
-  connect( &m_bufferTimer, SIGNAL( timeout() ), this, SLOT( slotBufferTimeout() ) );
-  connect( this, SIGNAL( mousePressed( KIconContainerItem*, const QPoint&, int ) ),
+  QObject::connect( &m_bufferTimer, SIGNAL( timeout() ), this, SLOT( slotBufferTimeout() ) );
+  QObject::connect( this, SIGNAL( mousePressed( KIconContainerItem*, const QPoint&, int ) ),
 	   this, SLOT( slotMousePressed( KIconContainerItem*, const QPoint&, int ) ) );
-  connect( this, SIGNAL( doubleClicked( KIconContainerItem*, const QPoint&, int ) ),
+  QObject::connect( this, SIGNAL( doubleClicked( KIconContainerItem*, const QPoint&, int ) ),
 	   this, SLOT( slotDoubleClicked( KIconContainerItem*, const QPoint&, int ) ) );
-  connect( this, SIGNAL( returnPressed( KIconContainerItem*, const QPoint& ) ),
+  QObject::connect( this, SIGNAL( returnPressed( KIconContainerItem*, const QPoint& ) ),
 	   this, SLOT( slotReturnPressed( KIconContainerItem*, const QPoint& ) ) );
-  connect( this, SIGNAL( dragStart( const QPoint&, QList<KIconContainerItem>&, QPixmap ) ),
+  QObject::connect( this, SIGNAL( dragStart( const QPoint&, QList<KIconContainerItem>&, QPixmap ) ),
 	   this, SLOT( slotDragStart( const QPoint&, QList<KIconContainerItem>&, QPixmap ) ) );
-  connect( this, SIGNAL( drop( QDropEvent*, KIconContainerItem*, QStrList& ) ),
+  QObject::connect( this, SIGNAL( drop( QDropEvent*, KIconContainerItem*, QStrList& ) ),
 	   this, SLOT( slotDrop( QDropEvent*, KIconContainerItem*, QStrList& ) ) );
-  connect( this, SIGNAL( onItem( KIconContainerItem* ) ), this, SLOT( slotOnItem( KIconContainerItem* ) ) );
+  QObject::connect( this, SIGNAL( onItem( KIconContainerItem* ) ), this, SLOT( slotOnItem( KIconContainerItem* ) ) );
   //  connect( m_pView->gui(), SIGNAL( configChanged() ), SLOT( initConfig() ) );
 
   m_bInit = false;
 }
 
-KfmIconView::~KfmIconView()
+KonqKfmIconView::~KonqKfmIconView()
 {
   // Stop running jobs
   if ( m_jobId )
@@ -84,11 +86,28 @@ KfmIconView::~KfmIconView()
   }
 }
 
-void KfmIconView::initConfig()
+bool KonqKfmIconView::mappingOpenURL( Konqueror::EventOpenURL eventURL )
+{
+  openURL( eventURL.url );
+  return true;
+}
+
+void KonqKfmIconView::stop()
+{
+  //TODO
+}
+
+void KonqKfmIconView::initConfig()
 {
   QPalette p          = viewport()->palette();
-  KfmViewSettings *settings = m_pView->settings();
-  KfmViewProps *props = m_pView->props();
+//  KfmViewSettings *settings = m_pView->settings();
+//  KfmViewProps *props = m_pView->props();
+
+  KConfig *config = kapp->getConfig();
+  config->setGroup("Settings");
+
+  KfmViewSettings *settings = new KfmViewSettings( config );
+  KfmViewProps *props = new KfmViewProps( config );
 
   m_bgColor           = settings->bgColor();
   m_textColor         = settings->textColor();
@@ -130,28 +149,31 @@ void KfmIconView::initConfig()
   
   if ( !m_bInit )
     refresh();
+    
+  delete settings;
+  delete props;    
 }
 
-void KfmIconView::selectedItems( list<KfmIconViewItem*>& _list )
+void KonqKfmIconView::selectedItems( list<KonqKfmIconViewItem*>& _list )
 {
-  iterator it = begin();
-  for( ; it != end(); it++ )
+  iterator it = KIconContainer::begin();
+  for( ; it != KIconContainer::end(); it++ )
     if ( (*it)->isSelected() )
-      _list.push_back( (KfmIconViewItem*)&**it );
+      _list.push_back( (KonqKfmIconViewItem*)&**it );
 }
 
-void KfmIconView::slotReturnPressed( KIconContainerItem *_item, const QPoint &_global )
+void KonqKfmIconView::slotReturnPressed( KIconContainerItem *_item, const QPoint &_global )
 {
   if ( !_item )
     return;
   
-  KfmIconViewItem *item = (KfmIconViewItem*)_item;
+  KonqKfmIconViewItem *item = (KonqKfmIconViewItem*)_item;
   item->returnPressed();
 }
 
-void KfmIconView::slotMousePressed( KIconContainerItem *_item, const QPoint &_global, int _button )
+void KonqKfmIconView::slotMousePressed( KIconContainerItem *_item, const QPoint &_global, int _button )
 {
-  //  cerr << "void KfmIconView::slotMousePressed( KIconContainerItem *_item, const QPoint &_global, int _button )" << endl;
+  //  cerr << "void KonqKfmIconView::slotMousePressed( KIconContainerItem *_item, const QPoint &_global, int _button )" << endl;
 
   if ( !_item )
   {
@@ -184,20 +206,21 @@ void KfmIconView::slotMousePressed( KIconContainerItem *_item, const QPoint &_gl
 	mode = buff.st_mode;
       }
 
-      m_pView->popupMenu( _global, urls, mode, m_bIsLocalURL );
+//      m_pView->popupMenu( _global, urls, mode, m_bIsLocalURL );
+      //emit signal here... TODO
     }
   }
   else if ( _button == LeftButton )
-    ((KfmIconViewItem*)_item)->returnPressed();
+    ((KonqKfmIconViewItem*)_item)->returnPressed();
   else if ( _button == RightButton )
   {
     QStrList urls;
     
-    list<KfmIconViewItem*> icons;
+    list<KonqKfmIconViewItem*> icons;
     selectedItems( icons );
     mode_t mode = 0;
     bool first = true;
-    list<KfmIconViewItem*>::iterator icit = icons.begin();
+    list<KonqKfmIconViewItem*>::iterator icit = icons.begin();
     for( ; icit != icons.end(); ++icit )
     {
       urls.append( (*icit)->url() );
@@ -216,17 +239,18 @@ void KfmIconView::slotMousePressed( KIconContainerItem *_item, const QPoint &_gl
 	}
     }
     
-    m_pView->popupMenu( _global, urls, mode, m_bIsLocalURL );
+//    m_pView->popupMenu( _global, urls, mode, m_bIsLocalURL );
+    //emit signal here ..TODO
   }
 }
 
-void KfmIconView::slotDoubleClicked( KIconContainerItem *_item, const QPoint &_global, int _button )
+void KonqKfmIconView::slotDoubleClicked( KIconContainerItem *_item, const QPoint &_global, int _button )
 {
   if ( _button == LeftButton )
-    ((KfmIconViewItem*)_item)->returnPressed();
+    ((KonqKfmIconViewItem*)_item)->returnPressed();
 }
 
-void KfmIconView::slotDrop( QDropEvent *_ev, KIconContainerItem* _item, QStrList &_formats )
+void KonqKfmIconView::slotDrop( QDropEvent *_ev, KIconContainerItem* _item, QStrList &_formats )
 {
   QStrList lst;
   
@@ -242,23 +266,23 @@ void KfmIconView::slotDrop( QDropEvent *_ev, KIconContainerItem* _item, QStrList
   else if ( _formats.count() >= 1 )
   {
     if ( _item == 0L )
-      pasteData( m_strURL.c_str(), _ev->data( _formats.getFirst() ) );
+      pasteData( m_strURL.data(), _ev->data( _formats.getFirst() ) );
     else
     {
-      cerr << "Pasting to " << ((KfmIconViewItem*)_item)->url() << endl;
-      pasteData( ((KfmIconViewItem*)_item)->url(), _ev->data( _formats.getFirst() ) );
+      cerr << "Pasting to " << ((KonqKfmIconViewItem*)_item)->url() << endl;
+      pasteData( ((KonqKfmIconViewItem*)_item)->url(), _ev->data( _formats.getFirst() ) );
     }
   }
 }
 
-void KfmIconView::slotDragStart( const QPoint& _hotspot, QList<KIconContainerItem>& _selected, QPixmap _pixmap )
+void KonqKfmIconView::slotDragStart( const QPoint& _hotspot, QList<KIconContainerItem>& _selected, QPixmap _pixmap )
 {
-  list<KfmIconViewItem*> icons;
+  list<KonqKfmIconViewItem*> icons;
   selectedItems( icons );
 
   QStrList urls;
     
-  list<KfmIconViewItem*>::iterator icit = icons.begin();
+  list<KonqKfmIconViewItem*>::iterator icit = icons.begin();
   for( ; icit != icons.end(); ++icit )
     urls.append( (*icit)->url() );
 
@@ -267,7 +291,7 @@ void KfmIconView::slotDragStart( const QPoint& _hotspot, QList<KIconContainerIte
   d->drag();
 }
 
-void KfmIconView::openURL( const char *_url )
+void KonqKfmIconView::openURL( const char *_url )
 {
   K2URL url( _url );
   if ( url.isMalformed() )
@@ -293,9 +317,9 @@ void KfmIconView::openURL( const char *_url )
   m_bComplete = false;
 
   KIOJob* job = new KIOJob;
-  connect( job, SIGNAL( sigListEntry( int, UDSEntry& ) ), this, SLOT( slotListEntry( int, UDSEntry& ) ) );
-  connect( job, SIGNAL( sigFinished( int ) ), this, SLOT( slotCloseURL( int ) ) );
-  connect( job, SIGNAL( sigError( int, int, const char* ) ),
+  QObject::connect( job, SIGNAL( sigListEntry( int, UDSEntry& ) ), this, SLOT( slotListEntry( int, UDSEntry& ) ) );
+  QObject::connect( job, SIGNAL( sigFinished( int ) ), this, SLOT( slotCloseURL( int ) ) );
+  QObject::connect( job, SIGNAL( sigError( int, int, const char* ) ),
 	   this, SLOT( slotError( int, int, const char* ) ) );
 
   m_strWorkingURL = _url;
@@ -306,17 +330,18 @@ void KfmIconView::openURL( const char *_url )
   m_jobId = job->id();
   job->listDir( _url );
 
-  emit started( m_strWorkingURL.c_str() );
+//  emit started( m_strWorkingURL.c_str() );
+  SIGNAL_CALL1( "started", CORBA::Any::from_string( (char *)m_strWorkingURL.c_str(), 0 ) );
 }
 
-void KfmIconView::slotError( int /*_id*/, int _errid, const char *_errortext )
+void KonqKfmIconView::slotError( int /*_id*/, int _errid, const char *_errortext )
 {
   kioErrorDialog( _errid, _errortext );
 
-  emit canceled();
+//  emit canceled();
 }
 
-void KfmIconView::slotCloseURL( int /*_id*/ )
+void KonqKfmIconView::slotCloseURL( int /*_id*/ )
 {
   if ( m_bufferTimer.isActive() )
   {    
@@ -327,17 +352,18 @@ void KfmIconView::slotCloseURL( int /*_id*/ )
   m_jobId = 0;
   m_bComplete = true;
 
-  emit completed();
+//  emit completed();
+  SIGNAL_CALL0( "completed" );
 }
 
-void KfmIconView::slotListEntry( int /*_id*/, UDSEntry& _entry )
+void KonqKfmIconView::slotListEntry( int /*_id*/, UDSEntry& _entry )
 {
   m_buffer.push_back( _entry );
   if ( !m_bufferTimer.isActive() )
     m_bufferTimer.start( 1000, true );
 }
 
-void KfmIconView::slotBufferTimeout()
+void KonqKfmIconView::slotBufferTimeout()
 {
   cerr << "BUFFER TIMEOUT" << endl;
   
@@ -363,16 +389,16 @@ void KfmIconView::slotBufferTimeout()
       {
         clear();
       
-        m_strURL = m_strWorkingURL;
+        m_strURL = m_strWorkingURL.c_str();
         m_strWorkingURL = "";
-        m_url = m_strURL;
+        m_url = m_strURL.data();
         K2URL u( m_url );
         m_bIsLocalURL = u.isLocalFile();
       }
     
       K2URL u( m_url );
       u.addPath( name.c_str() );
-      KfmIconViewItem* item = new KfmIconViewItem( this, *it, u, name.c_str() );
+      KonqKfmIconViewItem* item = new KonqKfmIconViewItem( this, *it, u, name.c_str() );
       insert( item, -1, -1, false );
 
       cerr << "Ended " << name << endl;
@@ -386,13 +412,13 @@ void KfmIconView::slotBufferTimeout()
   cerr << "111111111111111111" << endl;
   
   // refresh();
-  
+
   viewport()->update();
   
   m_buffer.clear();
 }
 
-void KfmIconView::updateDirectory()
+void KonqKfmIconView::updateDirectory()
 {
   if ( !m_bComplete )
     return;
@@ -410,27 +436,36 @@ void KfmIconView::updateDirectory()
   m_buffer.clear();
   
   KIOJob* job = new KIOJob;
-  connect( job, SIGNAL( sigListEntry( int, UDSEntry& ) ), this, SLOT( slotUpdateListEntry( int, UDSEntry& ) ) );
-  connect( job, SIGNAL( sigFinished( int ) ), this, SLOT( slotUpdateFinished( int ) ) );
-  connect( job, SIGNAL( sigError( int, int, const char* ) ),
+  QObject::connect( job, SIGNAL( sigListEntry( int, UDSEntry& ) ), this, SLOT( slotUpdateListEntry( int, UDSEntry& ) ) );
+  QObject::connect( job, SIGNAL( sigFinished( int ) ), this, SLOT( slotUpdateFinished( int ) ) );
+  QObject::connect( job, SIGNAL( sigError( int, int, const char* ) ),
 	   this, SLOT( slotUpdateError( int, int, const char* ) ) );
   
   m_jobId = job->id();
-  job->listDir( m_strURL.c_str() );
+  job->listDir( m_strURL.data() );
 
-  emit started( 0 );
+//  emit started( 0 );
+  SIGNAL_CALL1( "started", CORBA::Any::from_string( 0L, 0 ) );
 }
 
-void KfmIconView::slotUpdateError( int /*_id*/, int _errid, const char *_errortext )
+void KonqKfmIconView::openURLRequest( const char *_url )
+{
+  Konqueror::URLRequest url;
+  url.url = CORBA::string_dup( _url );
+  url.reload = (CORBA::Boolean)false;
+  SIGNAL_CALL1( "openURL", url );
+}
+
+void KonqKfmIconView::slotUpdateError( int /*_id*/, int _errid, const char *_errortext )
 {
   kioErrorDialog( _errid, _errortext );
 
   m_bComplete = true;
   
-  emit canceled();
+//  emit canceled();
 }
 
-void KfmIconView::slotUpdateFinished( int /*_id*/ )
+void KonqKfmIconView::slotUpdateFinished( int /*_id*/ )
 {
   if ( m_bufferTimer.isActive() )
   {    
@@ -442,9 +477,9 @@ void KfmIconView::slotUpdateFinished( int /*_id*/ )
   m_bComplete = true;
   
   // Unmark all items
-  iterator kit = begin();
-  for( ; kit != end(); ++kit )
-    ((KfmIconViewItem&)**kit).unmark();
+  iterator kit = KIconContainer::begin();
+  for( ; kit != KIconContainer::end(); ++kit )
+    ((KonqKfmIconViewItem&)**kit).unmark();
     
   list<UDSEntry>::iterator it = m_buffer.begin();
   for( ; it != m_buffer.end(); it++ )
@@ -461,12 +496,12 @@ void KfmIconView::slotUpdateFinished( int /*_id*/ )
 
     // Find this icon
     bool done = false;
-    iterator kit = begin();
-    for( ; kit != end() && !done; ++kit )
+    iterator kit = KIconContainer::begin();
+    for( ; kit != KIconContainer::end() && !done; ++kit )
     {
       if ( name == (*kit)->text() )
       {  
-	((KfmIconViewItem&)**kit).mark();
+	((KonqKfmIconViewItem&)**kit).mark();
 	done = true;
       }
     }
@@ -478,7 +513,7 @@ void KfmIconView::slotUpdateFinished( int /*_id*/ )
       {
         K2URL u( m_url );
         u.addPath( name.c_str() );
-        KfmIconViewItem* item = new KfmIconViewItem( this, *it, u, name.c_str() );
+        KonqKfmIconViewItem* item = new KonqKfmIconViewItem( this, *it, u, name.c_str() );
         item->mark();
         insert( item );
         cerr << "Inserting " << name << endl;
@@ -488,10 +523,10 @@ void KfmIconView::slotUpdateFinished( int /*_id*/ )
 
   // Find all unmarked items and delete them
   QList<KIconContainerItem> lst;
-  kit = begin();
-  for( ; kit != end(); ++kit )
+  kit = KIconContainer::begin();
+  for( ; kit != KIconContainer::end(); ++kit )
   {
-    if ( !((KfmIconViewItem&)**kit).isMarked() )
+    if ( !((KonqKfmIconViewItem&)**kit).isMarked() )
     {
       cerr << "Removing " << (*kit)->text() << endl;
       lst.append( &**kit );
@@ -504,26 +539,28 @@ void KfmIconView::slotUpdateFinished( int /*_id*/ )
   
   m_buffer.clear();
 
-  emit completed();
+//  emit completed();
+  SIGNAL_CALL0( "completed" );
 }
 
-void KfmIconView::slotUpdateListEntry( int /*_id*/, UDSEntry& _entry )
+void KonqKfmIconView::slotUpdateListEntry( int /*_id*/, UDSEntry& _entry )
 {
   m_buffer.push_back( _entry );
 }
 
 
-void KfmIconView::slotOnItem( KIconContainerItem *_item )
+void KonqKfmIconView::slotOnItem( KIconContainerItem *_item )
 {
   if ( !_item )
   {    
-    m_pView->gui()->setStatusBarText( "" );
+//    m_pView->gui()->setStatusBarText( "" );
+    SIGNAL_CALL1( "setStatusBarText", CORBA::Any::from_string( "", 0 ) );
     return;
   }
 
-  KMimeType *type = ((KfmIconViewItem* )_item)->mimeType();
-  UDSEntry entry = ((KfmIconViewItem* )_item)->udsEntry();
-  K2URL url(((KfmIconViewItem* )_item)->url());
+  KMimeType *type = ((KonqKfmIconViewItem* )_item)->mimeType();
+  UDSEntry entry = ((KonqKfmIconViewItem* )_item)->udsEntry();
+  K2URL url(((KonqKfmIconViewItem* )_item)->url());
 
   QString comment = type->comment( url, false );  
   QString text;
@@ -586,30 +623,32 @@ void KfmIconView::slotOnItem( KIconContainerItem *_item )
 	text += "  ";
 	text += comment.data();
       }	  
-    m_pView->gui()->setStatusBarText( text );
+//    m_pView->gui()->setStatusBarText( text );
+    SIGNAL_CALL1( "setStatusBarText", CORBA::Any::from_string( (char *)text.data(), 0 ) );
   }
   else
-    m_pView->gui()->setStatusBarText( url.url().c_str() );
+//    m_pView->gui()->setStatusBarText( url.url().c_str() );
+    SIGNAL_CALL1( "setStatusBarText", CORBA::Any::from_string( (char *)url.url().c_str(), 0 ) );
 }
 
-void KfmIconView::focusInEvent( QFocusEvent* _event )
+void KonqKfmIconView::focusInEvent( QFocusEvent* _event )
 {
-  emit gotFocus();
+//  emit gotFocus();
 
   KIconContainer::focusInEvent( _event );
 }
 
-KfmIconViewItem::KfmIconViewItem( KfmIconView *_parent, UDSEntry& _entry, K2URL& _url, const char *_name )
+KonqKfmIconViewItem::KonqKfmIconViewItem( KonqKfmIconView *_parent, UDSEntry& _entry, K2URL& _url, const char *_name )
   : KIconContainerItem( _parent )
 {
   init( _parent, _entry, _url, _name );
 }
 
-void KfmIconViewItem::init( KfmIconView* _IconView, UDSEntry& _entry, K2URL& _url, const char *_name )
+void KonqKfmIconViewItem::init( KonqKfmIconView* _IconView, UDSEntry& _entry, K2URL& _url, const char *_name )
 {
   m_pParent = _IconView;
   m_entry = _entry;
-  m_strURL = _url.url();
+  m_strURL = _url.url().c_str();
   m_bMarked = false;
   
   mode_t mode = 0;
@@ -636,13 +675,13 @@ void KfmIconViewItem::init( KfmIconView* _IconView, UDSEntry& _entry, K2URL& _ur
   cerr << "<<<<<<<<<PIX" << endl;
 }
 
-void KfmIconViewItem::refresh()
+void KonqKfmIconViewItem::refresh()
 {
   if ( m_displayMode != m_pParent->displayMode() )
   {
     m_displayMode = m_pParent->displayMode();
     
-    K2URL url( m_strURL );
+    K2URL url( m_strURL.data() );
   
     mode_t mode = 0;
     UDSEntry::iterator it = m_entry.begin();
@@ -660,7 +699,7 @@ void KfmIconViewItem::refresh()
   KIconContainerItem::refresh();
 }
 
-void KfmIconViewItem::returnPressed()
+void KonqKfmIconViewItem::returnPressed()
 {
   mode_t mode = 0;
   UDSEntry::iterator it = m_entry.begin();
@@ -669,10 +708,12 @@ void KfmIconViewItem::returnPressed()
       mode = (mode_t)it->m_long;
 
   // (void)new KRun( m_strURL.c_str(), mode, m_bIsLocalURL );
-  m_pParent->view()->openURL( m_strURL.c_str(), mode, m_bIsLocalURL );
+//  m_pParent->view()->openURL( m_strURL.c_str(), mode, m_bIsLocalURL );
+// HACKHACKHACK
+  m_pParent->openURLRequest( m_strURL.c_str() );
 }
 
-bool KfmIconViewItem::acceptsDrops( QStrList& /* _formats */ )
+bool KonqKfmIconViewItem::acceptsDrops( QStrList& /* _formats */ )
 {
   if ( strcmp( "inode/directory", m_pMimeType->mimeType() ) == 0 )
     return true;
@@ -684,14 +725,14 @@ bool KfmIconViewItem::acceptsDrops( QStrList& /* _formats */ )
     return true;
   
   // Executable, shell script ... ?
-  K2URL u( m_strURL );
+  K2URL u( m_strURL.data() );
   if ( access( u.path(), X_OK ) == 0 )
     return true;
   
   return false;
 }
 
-void KfmIconViewItem::paint( QPainter* _painter, const QColorGroup _grp )
+void KonqKfmIconViewItem::paint( QPainter* _painter, const QColorGroup _grp )
 {
   mode_t mode = 0;
 
@@ -714,7 +755,7 @@ void KfmIconViewItem::paint( QPainter* _painter, const QColorGroup _grp )
 }
 
 /*
-void KfmIconViewItem::popupMenu( const QPoint &_global )
+void KonqKfmIconViewItem::popupMenu( const QPoint &_global )
 {
   mode_t mode = 0;
   UDSEntry::iterator it = m_entry.begin();
@@ -725,10 +766,10 @@ void KfmIconViewItem::popupMenu( const QPoint &_global )
   m_pParent->setSelected( this, true );
   
   QStrList lst;
-  lst.append( m_strURL.c_str() );
+  lst.append( m_strURL.data() );
   
   m_pParent->view()->popupMenu( _global, lst, mode, m_bIsLocalURL );
 }
 */
 
-#include "kfmicons.moc"
+#include "konq_iconview.moc"

@@ -20,8 +20,7 @@
 #ifndef __kfm_viewprops_h__
 #define __kfm_viewprops_h__
 
-#include "kfm_abstract_gui.h"
-#include "kfmview.h"
+#include "mousemode.h"
 
 #include <qcolor.h>
 #include <qpixmap.h>
@@ -29,6 +28,8 @@
 #include <kconfig.h>
 
 class KfmViewSettings; // see below
+
+class KonqBaseView;
 
 // The class KfmViewProps holds the properties for a KfmView
 //
@@ -68,22 +69,22 @@ public:
 
   //////// The read-only access methods. Order is to be kept. /////
 
-  KfmView::ViewMode viewMode() { return m_viewMode; }
+//  KfmView::ViewMode viewMode() { return m_viewMode; }
   bool isShowingDotFiles() { return m_bShowDot; }
   bool isShowingImagePreview() { return m_bImagePreview; }
   bool isHTMLAllowed() { return m_bHTMLAllowed; }
   // Cache ?
   const QPixmap& bgPixmap() { return m_bgPixmap; }
   
-  // A KfmView can read/write the values directly.
-  friend class KfmView;
+  // A BaseView can read/write the values directly.
+  friend class KonqBaseView;
 
 protected:
 
   // The static instance. Only KfmView can change its value.
   static KfmViewProps * m_pDefaultProps;
 
-  KfmView::ViewMode m_viewMode;
+//  KfmView::ViewMode m_viewMode;
   bool m_bShowDot;
   bool m_bImagePreview;
   bool m_bHTMLAllowed;
@@ -133,7 +134,7 @@ public:
   int fontSize() { return m_iFontSize; }
 
   bool changeCursor() { return m_bChangeCursor; }
-  KfmAbstractGui::MouseMode mouseMode() { return m_mouseMode; }
+  MouseMode mouseMode() { return m_mouseMode; }
 
   const QColor& bgColor() { return m_bgColor; }
   const QColor& textColor() { return m_textColor; }
@@ -142,7 +143,7 @@ public:
 
   bool underlineLink() { return m_underlineLink; }
 
-  friend class KfmView; // should be used only for setting the two static instances,
+  friend class KonqBaseView; // should be used only for setting the two static instances,
   // not for changing other member values.
   
 protected:
@@ -154,7 +155,7 @@ protected:
   int m_iFontSize;  
   
   bool m_bChangeCursor;
-  KfmAbstractGui::MouseMode m_mouseMode;
+  MouseMode m_mouseMode;
   QColor m_bgColor;
   QColor m_textColor;
   QColor m_linkColor;

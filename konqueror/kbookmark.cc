@@ -442,7 +442,7 @@ QPixmap* KBookmark::pixmap( bool _mini )
  *
  ********************************************************************/
 
-KBookmarkMenu::KBookmarkMenu( KBookmarkOwner *_owner, OpenPartsUI::Menu_ptr menu, KFM::Part_ptr part, bool _root )
+KBookmarkMenu::KBookmarkMenu( KBookmarkOwner *_owner, OpenPartsUI::Menu_ptr menu, OpenParts::Part_ptr part, bool _root )
 {
   m_pOwner = _owner;
   m_bIsRoot = _root;
@@ -452,7 +452,7 @@ KBookmarkMenu::KBookmarkMenu( KBookmarkOwner *_owner, OpenPartsUI::Menu_ptr menu
   assert( !CORBA::is_nil( menu ) );
       
   m_vMenu = OpenPartsUI::Menu::_duplicate( menu );
-  m_vPart = KFM::Part::_duplicate( part );
+  m_vPart = OpenParts::Part::_duplicate( part );
   m_vMenu->connect( "activated", m_vPart, "slotBookmarkSelected" );
 
   if ( m_bIsRoot )

@@ -17,10 +17,11 @@
    Boston, MA 02111-1307, USA.
 */     
 
-#ifndef __kfm_icons_h__
-#define __kfm_icons_h__
+#ifndef __konq_icons_h__
+#define __konq_icons_h__
 
 #include "kiconcontainer.h"
+#include "konq_baseview.h"
 
 #include <qtimer.h>
 #include <qstrlist.h>
@@ -30,16 +31,15 @@
 #include <k2url.h>
 #include <kio_interface.h>
 
-class KfmIconView;
-class KfmIconViewItem;
-class KfmView;
+class KonqKfmIconView;
+class KonqKfmIconViewItem;
 class KMimeType;
 
-class KfmIconViewItem : public KIconContainerItem
+class KonqKfmIconViewItem : public KIconContainerItem
 {
 public:
-  KfmIconViewItem( KfmIconView *_parent, UDSEntry& _entry, K2URL& _url, const char *_name );
-  virtual ~KfmIconViewItem() { }
+  KonqKfmIconViewItem( KonqKfmIconView *_parent, UDSEntry& _entry, K2URL& _url, const char *_name );
+  virtual ~KonqKfmIconViewItem() { }
 
   virtual const char* url() { return m_strURL.c_str(); }
 
@@ -56,7 +56,7 @@ public:
 
   virtual KMimeType* mimeType() { return m_pMimeType; }
 protected:
-  virtual void init( KfmIconView* _finder, UDSEntry& _entry, K2URL& _url, const char *_name );
+  virtual void init( KonqKfmIconView* _finder, UDSEntry& _entry, K2URL& _url, const char *_name );
   virtual void paint( QPainter* _painter, const QColorGroup _grp );
 
   virtual void refresh();
@@ -64,7 +64,7 @@ protected:
   UDSEntry m_entry;
   KMimeType* m_pMimeType;
   string m_strURL;
-  KfmIconView* m_pParent;
+  KonqKfmIconView* m_pParent;
   
   bool m_bIsLocalURL;
   KIconContainer::DisplayMode m_displayMode;
@@ -72,28 +72,28 @@ protected:
   bool m_bMarked;
 };
 
-class KfmIconView : public KIconContainer
+class KonqKfmIconView : public KIconContainer,
+                     public KonqBaseView,
+		     virtual public Konqueror::KfmIconView_skel
 {
   Q_OBJECT
 public:
-  KfmIconView( QWidget *_parent, KfmView *_parent );
-  ~KfmIconView();
-  
+  KonqKfmIconView( QWidget *_parent = 0L );
+  ~KonqKfmIconView();
+
+  virtual bool mappingOpenURL( Konqueror::EventOpenURL eventURL );
+
+  virtual void stop();
+  virtual char *viewName() { return "KonquerorIconView"; }
+      
   virtual void openURL( const char* _url );
   
-  virtual KfmView* view() { return m_pView; }
-  virtual const char* url() { return m_strURL.c_str(); }
-    
-  virtual void selectedItems( list<KfmIconViewItem*>& _list );
+  virtual void selectedItems( list<KonqKfmIconViewItem*>& _list );
 
   virtual void updateDirectory();
-  
-signals:
-  void started( const char* _url );
-  void completed();
-  void canceled();
-  void gotFocus();
 
+  virtual void openURLRequest( const char *_url );
+    
 public slots:
   virtual void slotCloseURL( int _id );
   virtual void slotListEntry( int _id, UDSEntry& _entry );
@@ -119,12 +119,9 @@ protected:
 
   virtual void focusInEvent( QFocusEvent* _event );
 
-  string m_strURL;
   K2URL m_url;
   bool m_bIsLocalURL;
   
-  KfmView* m_pView;
-
   int m_jobId;
 
   bool m_bComplete;

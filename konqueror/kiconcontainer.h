@@ -30,7 +30,7 @@
 #include <qdropsite.h>
 #include <qstrlist.h>
 
-#include "kfm_abstract_gui.h"
+#include "mousemode.h"
 
 #include <list>
 #include <string>
@@ -132,8 +132,8 @@ public:
   virtual void setBgPixmap( const QPixmap& _pixmap );
   virtual const QPixmap& bgPixmap() { return m_bgPixmap; }
   
-  virtual void setMouseMode( KfmAbstractGui::MouseMode _mode ) { m_mouseMode = _mode; }
-  virtual KfmAbstractGui::MouseMode mouseMode() { return m_mouseMode; }
+  virtual void setMouseMode( MouseMode _mode ) { m_mouseMode = _mode; }
+  virtual MouseMode mouseMode() { return m_mouseMode; }
   
   virtual void setUnderlineLink( bool _underlineLink );
   virtual bool underlineLink() { return m_underlineLink; }
@@ -281,7 +281,7 @@ protected:
 
   QPixmap m_bgPixmap;
 
-  KfmAbstractGui::MouseMode m_mouseMode;
+  MouseMode m_mouseMode;
 
   bool m_underlineLink;
   bool m_changeCursor;
