@@ -115,6 +115,7 @@ KonqMainWindow::KonqMainWindow( const KURL &initialURL, bool openInitialURL, con
   m_bURLEnterLock = false;
   m_bLocationBarConnected = false;
   m_bLockLocationBarURL = false;
+  m_paBookmarkBar = 0L;
 
   m_bViewModeToggled = false;
 
@@ -258,10 +259,25 @@ QWidget * KonqMainWindow::createContainer( QWidget *parent, int index, const QDo
   {
     assert( res->inherits( "KToolBar" ) );
 
-    (void)new KBookmarkBar( this, static_cast<KToolBar *>( res ), actionCollection(), this );
+    m_paBookmarkBar = new KBookmarkBar( this, static_cast<KToolBar *>( res ), actionCollection(), this );
   }
 
   return res;
+}
+
+void KonqMainWindow::removeContainer( QWidget *container, QWidget *parent, QDomElement &element, int id )
+{
+  static QString nameBookmarkBar = QString::fromLatin1( "bookmarkToolBar" );
+  static QString tagToolBar = QString::fromLatin1( "ToolBar" );
+
+  if ( element.tagName() == tagToolBar && element.attribute( "name" ) == nameBookmarkBar )
+  {
+    assert( container->inherits( "KToolBar" ) );
+
+    m_paBookmarkBar->clear();
+  }
+
+  KParts::MainWindow::removeContainer( container, parent, element, id );
 }
 
 // Note: this removes the filter from the URL.

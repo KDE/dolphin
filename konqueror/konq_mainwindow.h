@@ -44,7 +44,7 @@ class KProgress;
 class KSelectAction;
 class KToggleAction;
 class KonqBidiHistoryAction;
-class KonqBookmarkBar;
+class KBookmarkBar;
 class KonqView;
 class KonqComboAction;
 class KonqFrame;
@@ -102,6 +102,7 @@ public:
   KonqViewManager *viewManager() const { return m_pViewManager; }
 
   virtual QWidget *createContainer( QWidget *parent, int index, const QDomElement &element, int &id );
+  virtual void removeContainer( QWidget *container, QWidget *parent, QDomElement &element, int id );
 
   virtual void saveProperties( KConfig *config );
   virtual void readProperties( KConfig *config );
@@ -390,7 +391,7 @@ private:
   KonqLogoAction *m_paAnimatedLogo;
 
   KonqComboAction *m_paURLCombo;
-  KonqBookmarkBar *m_paBookmarkBar;
+  KBookmarkBar *m_paBookmarkBar;
 
   KToggleAction *m_ptaUseHTML;
 

@@ -52,10 +52,10 @@ public:
 public slots:
     void slotBookmarksChanged();
     void slotBookmarkSelected();
+    void clear();
 
 protected:
     void fillBookmarkBar( KBookmark *parent );
-    void clear();
 
     KBookmarkOwner    *m_pOwner;
     KToolBar          *m_toolBar;
