@@ -99,7 +99,8 @@ KCookiesManagement::KCookiesManagement(QWidget *parent)
                    : KCModule(parent, "kcmkio")
 {
   // Toplevel layout
-  QVBoxLayout* mainLayout = new QVBoxLayout( this, 0, 0);
+  QVBoxLayout* mainLayout = new QVBoxLayout(this, KDialog::marginHint(),
+                                            KDialog::spacingHint());
 
   dlg = new KCookiesManagementDlgUI (this);
   mainLayout->addWidget(dlg);
