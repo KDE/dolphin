@@ -74,7 +74,7 @@ KFileIVI::KFileIVI( KonqIconViewWidget *iconview, KonqFileItem* fileitem, int si
 {
     setDropEnabled( S_ISDIR( m_fileitem->mode() ) );
     d = new KFileIVI::Private;
-    
+
     // Cache entry for the icon effects
     d->icons.reset( *pixmap(), QIconSet::Large );
     d->state = KIcon::DefaultState;
@@ -106,7 +106,7 @@ void KFileIVI::invalidateThumb( int state, bool redraw )
 			apply( d->thumb, KIcon::Desktop, state ),
 			QIconSet::Large, mode );
     d->state = state;
-    
+
     QIconViewItem::setPixmap( d->icons.pixmap( QIconSet::Large, mode ),
 			      false, redraw );
 }
@@ -119,7 +119,7 @@ void KFileIVI::setIcon( int size, int state, bool recalc, bool redraw )
       m_state = KIcon::DisabledState;
     else
       m_state = state;
-     
+
     QIconSet::Mode mode;
     switch( state )
     {
@@ -134,7 +134,7 @@ void KFileIVI::setIcon( int size, int state, bool recalc, bool redraw )
 	    mode = QIconSet::Normal;
 	    break;
     }
-    
+
     // We cannot just reset() the iconset here, because setIcon can be
     // called with any state and not just normal state. So we just
     // create a dummy empty iconset as base object.
@@ -168,7 +168,7 @@ void KFileIVI::setThumbnailPixmap( const QPixmap & pixmap )
 		    QIconSet::Large, QIconSet::Normal );
 
     d->state = KIcon::DefaultState;
-    
+
     // Recalc when setting this pixmap!
     QIconViewItem::setPixmap( d->icons.pixmap( QIconSet::Large,
 			      QIconSet::Normal ), true );
@@ -224,7 +224,7 @@ void KFileIVI::setThumbnailName( const QString & name )
 void KFileIVI::refreshIcon( bool redraw )
 {
     if ( !isThumbnail())
-        QIconViewItem::setPixmap( m_fileitem->pixmap( m_size, m_state ), true, redraw );
+        setIcon( m_size, m_state, true, redraw );
 }
 
 bool KFileIVI::acceptDrop( const QMimeSource *mime ) const
@@ -315,9 +315,9 @@ void KFileIVI::paintItem( QPainter *p, const QColorGroup &c )
     // First, let's get the background.
 
     QRect r=pixmapRect(false);
-    QRect rcontents=r; 
+    QRect rcontents=r;
     rcontents.moveBy(-iconView()->contentsX(), -iconView()->contentsY());
-    
+
     QPixmap background(r.width(),r.height());
     QPainter *pbg=new QPainter(&background);
     static_cast<KonqIconViewWidget *>(iconView())->drawBackground(pbg,
