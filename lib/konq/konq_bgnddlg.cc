@@ -32,6 +32,7 @@
 #include <kmessagebox.h>
 #include <kstddirs.h>
 #include <kglobalsettings.h>
+#include <kdebug.h>
 
 #include "konq_bgnddlg.h"
 
