@@ -35,10 +35,10 @@ public:
   ~clientApp() {}
 
   /** Parse command-line arguments and "do it" */
-  int doIt();
+  bool doIt();
 
   /** Make konqueror open a window for @p url */
-  bool openFileManagerWindow(const KURL & url);
+  bool createNewWindow(const KURL & url);
 
   /** Make konqueror open a window for @p profile and @p url */
   bool openProfile(const QString & profile, const QString & url);
@@ -50,7 +50,7 @@ protected slots:
 private:
   QString m_profileName;
   QString m_url;
-
+  bool m_ok;
 };
 
 #endif

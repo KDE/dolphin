@@ -130,41 +130,38 @@ int main( int argc, char **argv )
   clientApp a;
   a.dcopClient()->attach();
 
-  return a.doIt();
+  return a.doIt() ? 0 /*no error*/ : 1 /*error*/;
 }
 
-bool clientApp::openFileManagerWindow(const KURL & url)
+/** Whether to start a new konqueror or reuse an existing process */
+static bool startNewKonqueror()
 {
-    // If we want to open an html file, use the web browsing profile
-    if ( KMimeType::findByURL(url)->name() == QString::fromLatin1("text/html"))
-        return openProfile( QString::fromLatin1("webbrowsing"), url.url() );
-    else if ( KMimeType::findByURL(url)->name() == QString::fromLatin1("inode/directory") )
-        return openProfile( QString::fromLatin1("filemanagement"), url.url() );
+    KConfig config( QString::fromLatin1("kfmclientrc") );
+    config.setGroup( QString::fromLatin1("Settings") );
+    return config.readBoolEntry( QString::fromLatin1("StartNewKonqueror"), true );
+}
+
+bool clientApp::createNewWindow(const KURL & url)
+{
+    QByteArray data;
+    QCString appId, appObj;
+    if ( !startNewKonqueror() &&
+         dcopClient()->findObject( "konqueror*", "KonquerorIface", "", data,
+                                   appId, appObj ) )
+    {
+        KonquerorIface_stub konqy( appId, appObj );
+        konqy.createNewWindow( url.url() );
+    }
     else
     {
-        KConfig config( QString::fromLatin1("kfmclientrc") );
-        config.setGroup( QString::fromLatin1("Settings") );
-        bool startNewKonqueror = config.readBoolEntry( QString::fromLatin1("StartNewKonqueror"), true );
-        QByteArray data;
-        QCString appId, appObj;
-        if ( !startNewKonqueror &&
-             dcopClient()->findObject( "konqueror*", "KonquerorIface", "", data,
-                                       appId, appObj ) )
+        QString error;
+        if ( KApplication::startServiceByDesktopPath( QString::fromLatin1("konqueror.desktop"),
+                                                      url.url(), &error ) > 0 )
         {
-            KonquerorIface_stub konqy( appId, appObj );
-            konqy.openBrowserWindow( url.url() );
-        }
-        else
-        {
-            QString error;
-            if ( KApplication::startServiceByDesktopPath( QString::fromLatin1("konqueror.desktop"),
-                                                          url.url(), &error ) > 0 )
-            {
-                kdError() << "Couldn't start konqueror from konqueror.desktop: " << error << endl;
-                KProcess proc;
-                proc << QString::fromLatin1("konqueror") << url.url();
-                proc.start( KProcess::DontCare );
-            }
+            kdError() << "Couldn't start konqueror from konqueror.desktop: " << error << endl;
+            KProcess proc;
+            proc << QString::fromLatin1("konqueror") << url.url();
+            proc.start( KProcess::DontCare );
         }
     }
     return true;
@@ -176,14 +173,11 @@ bool clientApp::openProfile( const QString & filename, const QString & url )
   if ( profile.isEmpty() )
   {
     fprintf( stderr, i18n("Profile %1 not found\n").arg(filename).local8Bit() );
-    return 1;
+    return false;
   }
-  KConfig config( QString::fromLatin1("kfmclientrc") );
-  config.setGroup( QString::fromLatin1("Settings") );
-  bool startNewKonqueror = config.readBoolEntry( QString::fromLatin1("StartNewKonqueror"), true );
   QByteArray data;
   QCString appId, appObj;
-  if ( !startNewKonqueror &&
+  if ( !startNewKonqueror() &&
        dcopClient()->findObject( "konqueror*", "KonquerorIface", "", data,
                                  appId, appObj ) )
   {
@@ -246,7 +240,7 @@ static void checkArgumentCount(int count, int min, int max)
    }
 }
 
-int clientApp::doIt()
+bool clientApp::doIt()
 {
   KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
   int argc = args->count();
@@ -259,11 +253,13 @@ int clientApp::doIt()
     checkArgumentCount(argc, 1, 2);
     if ( argc == 1 )
     {
-      return openFileManagerWindow( QDir::homeDirPath() );
+      KURL url;
+      url.setPath(QDir::homeDirPath());
+      return createNewWindow( url );
     }
     if ( argc == 2 )
     {
-      return openFileManagerWindow( args->url(1) );
+      return createNewWindow( args->url(1) );
     }
   }
   else if ( command == "openProfile" )
@@ -277,6 +273,7 @@ int clientApp::doIt()
     KPropertiesDialog * p = new KPropertiesDialog( args->url(1) );
     QObject::connect( p, SIGNAL( destroyed() ), this, SLOT( quit() ));
     exec();
+    return m_ok;
   }
   else if ( command == "exec" )
   {
@@ -293,6 +290,7 @@ int clientApp::doIt()
       QObject::connect( run, SIGNAL( finished() ), this, SLOT( quit() ));
       QObject::connect( run, SIGNAL( error() ), this, SLOT( quit() ));
       exec();
+      return m_ok;
     }
     else if ( argc == 3 )
     {
@@ -301,8 +299,7 @@ int clientApp::doIt()
       KService::Ptr serv = (*KTrader::self()->query( QString::fromLocal8Bit(args->arg(2)) ).begin());
       if (!serv) return 1;
       KFileOpenWithHandler fowh;
-      bool ret = KRun::run( *serv, urls );
-      if (!ret) return 1;
+      return KRun::run( *serv, urls );
     }
   }
   else if ( command == "move" )
@@ -315,6 +312,7 @@ int clientApp::doIt()
     KIO::Job * job = KIO::move( srcLst, args->url(argc - 1) );
     connect( job, SIGNAL( result( KIO::Job * ) ), this, SLOT( slotResult( KIO::Job * ) ) );
     exec();
+    return m_ok;
   }
   else if ( command == "copy" )
   {
@@ -326,6 +324,7 @@ int clientApp::doIt()
     KIO::Job * job = KIO::copy( srcLst, args->url(argc - 1) );
     connect( job, SIGNAL( result( KIO::Job * ) ), this, SLOT( slotResult( KIO::Job * ) ) );
     exec();
+    return m_ok;
   }
   else if ( command == "sortDesktop" )
   {
@@ -363,15 +362,16 @@ int clientApp::doIt()
   else
   {
     fprintf( stderr, i18n("Syntax Error: Unknown command '%1'\n").arg(QString::fromLocal8Bit(command)).local8Bit() );
-    return 1;
+    return false;
   }
-  return 0;
+  return true;
 }
 
 void clientApp::slotResult( KIO::Job * job )
 {
   if (job->error())
     job->showErrorDialog();
+  m_ok = !job->error();
   quit();
 }
 
