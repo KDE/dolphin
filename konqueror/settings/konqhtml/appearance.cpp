@@ -30,9 +30,9 @@ KAppearanceOptions::KAppearanceOptions(KConfig *config, QString group, QWidget *
 {
   QString wtstr;
 
-  QGridLayout *lay = new QGridLayout(this, 1 ,1 , 10, 5);
+  QGridLayout *lay = new QGridLayout(this, 1 ,1 , 10, 4);
   int r = 0;
-  int E = 0, M = 2, W = 4; //CT 3 (instead 2) allows smaller color buttons
+  int E = 0, M = 1, W = 3; //CT 3 (instead 2) allows smaller color buttons
 
   QGroupBox* gb = new QGroupBox( 1, QGroupBox::Horizontal, i18n("Font Si&ze"), this );
   lay->addMultiCellWidget(gb, r, r, E, W);
@@ -59,7 +59,7 @@ KAppearanceOptions::KAppearanceOptions(KConfig *config, QString group, QWidget *
   QStringList emptyList;
 
   QLabel* label = new QLabel( i18n("S&tandard font:"), this );
-  lay->addWidget( label , ++r, E+1);
+  lay->addWidget( label , ++r, E);
 
   m_pFonts[0] = new KFontCombo( emptyList, this );
 
@@ -76,7 +76,7 @@ KAppearanceOptions::KAppearanceOptions(KConfig *config, QString group, QWidget *
 	   SLOT(changed() ) );
 
   label = new QLabel( i18n( "&Fixed font:"), this );
-  lay->addWidget( label, ++r, E+1 );
+  lay->addWidget( label, ++r, E );
 
   m_pFonts[1] = new KFontCombo( emptyList, this );
 
@@ -93,7 +93,7 @@ KAppearanceOptions::KAppearanceOptions(KConfig *config, QString group, QWidget *
 	   SLOT(changed() ) );
 
   label = new QLabel( i18n( "S&erif font:" ), this );
-  lay->addWidget( label, ++r, E+1 );
+  lay->addWidget( label, ++r, E );
 
   m_pFonts[2] = new KFontCombo( emptyList, this );
 
@@ -110,7 +110,7 @@ KAppearanceOptions::KAppearanceOptions(KConfig *config, QString group, QWidget *
 	   SLOT( changed() ) );
 
   label = new QLabel( i18n( "S&ans serif font:" ), this );
-  lay->addWidget( label, ++r, E+1 );
+  lay->addWidget( label, ++r, E );
 
   m_pFonts[3] = new KFontCombo( emptyList, this );
 
@@ -127,7 +127,7 @@ KAppearanceOptions::KAppearanceOptions(KConfig *config, QString group, QWidget *
 	   SLOT( changed() ) );
 
   label = new QLabel( i18n( "C&ursive font:" ), this );
-  lay->addWidget( label, ++r, E+1 );
+  lay->addWidget( label, ++r, E );
 
   m_pFonts[4] = new KFontCombo( emptyList, this );
 
@@ -144,7 +144,7 @@ KAppearanceOptions::KAppearanceOptions(KConfig *config, QString group, QWidget *
 	   SLOT( changed() ) );
 
   label = new QLabel( i18n( "Fantas&y font:" ), this );
-  lay->addWidget( label, ++r, E+1 );
+  lay->addWidget( label, ++r, E );
 
   m_pFonts[5] = new KFontCombo( emptyList, this );
 
@@ -175,7 +175,7 @@ KAppearanceOptions::KAppearanceOptions(KConfig *config, QString group, QWidget *
   label = new QLabel( i18n( "Default encoding:"), this );
   //++r;
   //lay->addMultiCellWidget( label, r, r, E, E+1);
-  lay->addWidget( label, ++r, E+1);
+  lay->addWidget( label, ++r, E);
 
   m_pEncoding = new QComboBox( false, this );
   label->setBuddy( m_pEncoding );
