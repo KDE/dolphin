@@ -398,6 +398,16 @@ void KonqIconViewWidget::startImagePreview( const QStringList &previewSettings, 
 {
     stopImagePreview(); // just in case
 
+    if ((d->bSoundPreviews = previewSettings.contains( "audio/" )) &&
+        !d->pSoundPlayer)
+    {
+      KLibFactory *factory = KLibLoader::self()->factory("libkonqsound");
+      if (factory)
+        d->pSoundPlayer = static_cast<KonqSoundPlayer *>(
+          factory->create(this, 0, "KonqSoundPlayer"));
+      d->bSoundPreviews = (d->pSoundPlayer != 0L);
+    }
+
     KFileItemList items;
     for ( QIconViewItem *it = firstItem(); it; it = it->nextItem() )
         if ( force || !static_cast<KFileIVI *>( it )->isThumbnail() )
@@ -432,14 +442,6 @@ void KonqIconViewWidget::startImagePreview( const QStringList &previewSettings, 
              this, SLOT( slotPreview( const KFileItem *, const QPixmap & ) ) );
     connect( d->pPreviewJob, SIGNAL( result( KIO::Job * ) ),
              this, SLOT( slotPreviewResult() ) );
-    if ((d->bSoundPreviews = previewSettings.contains( "audio/" )) &&
-        !d->pSoundPlayer)
-    {
-      KLibFactory *factory = KLibLoader::self()->factory("libkonqsound");
-      if (factory)
-	d->pSoundPlayer = static_cast<KonqSoundPlayer *>(
-          factory->create(this, 0, "KonqSoundPlayer"));
-    }
 }
 
 void KonqIconViewWidget::stopImagePreview()
