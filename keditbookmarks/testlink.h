@@ -34,8 +34,8 @@ public:
       if (!s_self) { s_self = new TestLinkItrHolder(); }; return s_self; 
    }
    static void resetToValue(const QString &url, const QString &val);
-   static QString getMod(const QString &url) /* const */;
-   static QString getOldMod(const QString &url) /* const */;
+   const QString getMod(const QString &url) const;
+   const QString getOldMod(const QString &url) const;
    static void setMod(const QString &url, const QString &val);
    static void setOldMod(const QString &url, const QString &val);
    static QString calcPaintStyle(const QString &, KEBListViewItem::PaintStyle&, const QString &);

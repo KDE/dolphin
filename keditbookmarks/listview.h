@@ -50,6 +50,8 @@ public:
    void nsPut(const QString &nm);
 
    void modUpdate();
+
+   void setOldStatus(const QString &);
    void setTmpStatus(const QString &);
    void restoreStatus();
 
@@ -67,7 +69,6 @@ private:
    const QString nsGet() const;
 
    KBookmark m_bookmark;
-
    PaintStyle m_paintStyle;
    bool m_emptyFolder;
    QString m_oldStatus;

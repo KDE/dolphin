@@ -68,13 +68,19 @@ bool TestLinkItr::isApplicable(const KBookmark &bk) const {
 
 void TestLinkItr::doAction() {
    m_errSet = false;
+
    m_job = KIO::get(curBk().url(), true, false);
+   m_job->addMetaData("errorPage", "true");
+
    connect(m_job, SIGNAL( result( KIO::Job *)),
            this, SLOT( slotJobResult(KIO::Job *)));
    connect(m_job, SIGNAL( data( KIO::Job *,  const QByteArray &)),
            this, SLOT( slotJobData(KIO::Job *, const QByteArray &)));
-   m_job->addMetaData("errorPage", "true");
+
    curItem()->setTmpStatus(i18n("Checking..."));
+   QString oldModDate = TestLinkItrHolder::self()->getMod(curBk().url().url());
+   curItem()->setOldStatus(oldModDate);
+   TestLinkItrHolder::setMod(curBk().url().url(), i18n("Checking..."));
 }
 
 void TestLinkItr::slotJobData(KIO::Job *job, const QByteArray &data) {
@@ -157,13 +163,13 @@ void TestLinkItrHolder::resetToValue(const QString &url, const QString &oldValue
    }
 }
 
-QString TestLinkItrHolder::getMod(const QString &url) /*const*/ {
+const QString TestLinkItrHolder::getMod(const QString &url) const {
    return self()->m_modify.contains(url) 
         ? self()->m_modify[url] 
         : QString::null;
 }
 
-QString TestLinkItrHolder::getOldMod(const QString &url) /*const*/ {
+const QString TestLinkItrHolder::getOldMod(const QString &url) const {
    return self()->m_oldModify.contains(url) 
         ? self()->m_oldModify[url] 
         : QString::null;
@@ -184,26 +190,26 @@ QString TestLinkItrHolder::calcPaintStyle(const QString &url, KEBListViewItem::P
    int newMod = 0;
 
    // get new mod date if there is one
-   QString newModStr = getMod(url);
+   QString newModStr = self()->getMod(url);
    if (!newModStr.isNull()) {
       newMod = newModStr.toInt(&newModValid);
    }
 
    QString oldModStr;
 
-   if (getOldMod(url).isNull()) {
+   if (self()->getOldMod(url).isNull()) {
       // first time
       oldModStr = nsinfo;
       setOldMod(url, oldModStr);
 
    } else if (!newModStr.isNull()) {
       // umm... nsGet not called here, missing optimisation?
-      oldModStr = getOldMod(url);
+      oldModStr = self()->getOldMod(url);
 
    } else { 
       // may be reading a second bookmark with same url
       QString oom = nsinfo;
-      oldModStr = getOldMod(url);
+      oldModStr = self()->getOldMod(url);
       if (oom.toInt() > oldModStr.toInt()) {
          setOldMod(url, oom);
          oldModStr = oom;
@@ -302,9 +308,7 @@ void KEBListViewItem::nsPut(const QString &nm) {
 
 void KEBListViewItem::modUpdate() {
    QString statusLine;
-   // DESIGN - should return paint style?
    statusLine = TestLinkItrHolder::calcPaintStyle(url(), m_paintStyle, nsGet());
-   // ARGGGGGGGGGGGGGGGGHHHHHHHHHHHH!!!!!!!!!!!!
    if (statusLine != "Error") {
       setText(KEBListView::StatusColumn, statusLine);
    }
@@ -314,12 +318,15 @@ const QString KEBListViewItem::url() const {
    return m_bookmark.url().url();
 }
 
+void KEBListViewItem::setOldStatus(const QString &oldStatus) {
+   kdDebug() << "KEBListViewItem::setOldStatus" << endl;
+   m_oldStatus = oldStatus;
+}
+
 void KEBListViewItem::setTmpStatus(const QString &status) {
    kdDebug() << "KEBListViewItem::setTmpStatus" << endl;
    m_paintStyle = KEBListViewItem::BoldStyle;
-   m_oldStatus = TestLinkItrHolder::getMod(url());
    setText(KEBListView::StatusColumn, status);
-   TestLinkItrHolder::setMod(url(), status);
 }
 
 void KEBListViewItem::restoreStatus() {
