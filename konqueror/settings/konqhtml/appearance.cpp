@@ -307,7 +307,7 @@ void KAppearanceOptions::load()
 
     //kdDebug(0) << "encoding = " << encodingName << endl;
 
-    //updateGUI();
+    updateGUI();
 }
 
 void KAppearanceOptions::defaults()
