@@ -68,7 +68,10 @@ public:
   virtual ~KonqDirTreeFactory()
   {
     if ( s_instance )
+    {
       delete s_instance;
+      s_instance = 0L;
+    }
   }
 
   virtual KParts::Part* createPart( QWidget *parentWidget, const char *, QObject *parent, const char *name, const char*, const QStringList & )
