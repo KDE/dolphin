@@ -32,7 +32,7 @@
 class KonqDirTreeFactory : public KLibFactory
 {
 public:
-  KonqDirTreeFactory() 
+  KonqDirTreeFactory()
   {
     KonqFactory::instanceRef();
   }
@@ -47,7 +47,7 @@ public:
     emit objectCreated( obj );
     return obj;
   }
-  
+
 };
 
 extern "C"
@@ -75,7 +75,7 @@ void KonqDirTreeBrowserView::openURL( const QString &url, bool reload, int xOffs
 
 QString KonqDirTreeBrowserView::url()
 {
-  return QString::null;
+  return QDir::homeDirPath().prepend( "file:" );
 }
 
 int KonqDirTreeBrowserView::xOffset()
@@ -390,17 +390,17 @@ void KonqDirTree::scanDir( QListViewItem *parent, const QString &path )
   {
     if ( *eIt == "." || *eIt == ".." )
       continue;
- 
-    scanDir2( parent, QString( path ).append( *eIt ) ); 
+
+    scanDir2( parent, QString( path ).append( *eIt ) );
   }
 }
 
 void KonqDirTree::scanDir2( QListViewItem *parent, const QString &path )
 {
   QDir dir( path );
-  QString name = dir.dirName();  
+  QString name = dir.dirName();
   QString icon = "folder";
-    
+
   qDebug( "Scanning %s",  path.ascii() );
 
   QString dotDirectoryFile = QString(  path ).append( "/.directory" );
