@@ -314,7 +314,7 @@ void KAppearanceOptions::load()
     }
     charset = chSets[0];
     encodingName = m_pConfig->readEntry( "DefaultEncoding", "" );
-    enforceCharset = m_pConfig->readBoolEntry( "EnforceDefaultCharset", true );
+    enforceCharset = m_pConfig->readBoolEntry( "EnforceDefaultCharset", false );
 
     //kdDebug(0) << "encoding = " << encodingName << endl;
 
