@@ -63,7 +63,9 @@ CPPFLAGS="$X_CFLAGS $CPPFLAGS"
 LDFLAGS="$X_LIBS $LDFLAGS"
 #
 ac_cv_motif_includes="none"
-AC_TRY_COMPILE([#include <Xm/Xm.h>],[int a;],
+AC_TRY_COMPILE([#include <Xm/Xm.h>
+#include <Xm/DrawingA.h>
+],[int a;],
 [
 # Xm/Xm.h is in the standard search path.
 ac_cv_motif_includes=
