@@ -29,136 +29,137 @@
 class MoveCommand : public KNamedCommand
 {
 public:
-    /**
-     * This command stores the movement of an item in the tree.
-     * Create it with itemsAlreadyMoved=true since KListView moves the
-     * item before telling us about it.
-     */
-    MoveCommand( const QString & name, const QString & from, const QString & to )
-        : KNamedCommand(name), m_from(from), m_to(to)
-    {}
-    virtual ~MoveCommand() {}
-    virtual void execute();
-    virtual void unexecute();
-    QString finalAddress();
+   /**
+    * This command stores the movement of an item in the tree.
+    * Create it with itemsAlreadyMoved=true since KListView moves the
+    * item before telling us about it.
+    */
+   MoveCommand(const QString &name, const QString &from, const QString &to)
+      : KNamedCommand(name), m_from(from), m_to(to)
+   { ; }
+   virtual ~MoveCommand() { ; }
+   virtual void execute();
+   virtual void unexecute();
+   QString finalAddress();
 private:
-    QString m_from;
-    QString m_to;
+   QString m_from;
+   QString m_to;
 };
 
 class CreateCommand : public KNamedCommand
 {
 public:
-    // Create a separator
-    CreateCommand( const QString & name, const QString & address )
-        : KNamedCommand(name), m_to(address),
-          m_group(false), m_separator(true), m_originalBookmark(QDomElement())
-    {}
+   // Create a separator
+   CreateCommand(const QString &name, const QString &address)
+      : KNamedCommand(name), m_to(address), 
+        m_group(false), m_separator(true), m_originalBookmark(QDomElement())
+   { ; }
 
-    // Create a bookmark
-    CreateCommand( const QString & name, const QString & address,
-                   const QString & text, const QString &iconPath, const KURL & url )
-        : KNamedCommand(name), m_to(address), m_text(text),m_iconPath(iconPath), m_url(url),
-          m_group(false), m_separator(false), m_originalBookmark(QDomElement())
-    {}
+   // Create a bookmark
+   CreateCommand(const QString &name, const QString &address,
+                 const QString &text, const QString &iconPath, const KURL &url)
+      : KNamedCommand(name), m_to(address), m_text(text), m_iconPath(iconPath), m_url(url),
+        m_group(false), m_separator(false), m_originalBookmark(QDomElement())
+   { ; }
 
-    // Create a folder
-    CreateCommand( const QString & name, const QString & address,
-                   const QString & text, const QString &iconPath, bool open )
-        : KNamedCommand(name), m_to(address), m_text(text),m_iconPath(iconPath),
-          m_group(true), m_separator(false), m_open(open), m_originalBookmark(QDomElement())
-    {}
+   // Create a folder
+   CreateCommand(const QString &name, const QString &address,
+                 const QString &text, const QString &iconPath, bool open)
+      : KNamedCommand(name), m_to(address), m_text(text), m_iconPath(iconPath),
+        m_group(true), m_separator(false), m_open(open), m_originalBookmark(QDomElement())
+   { ; }
 
-    // Create a copy of an existing bookmark (whatever it is)
-    CreateCommand( const QString & name, const QString & address,
-                   const KBookmark & original )
-        : KNamedCommand(name), m_to(address), m_group(false), m_separator(false),
-          m_open(false), m_originalBookmark( original )
-    {}
+   // Create a copy of an existing bookmark (whatever it is)
+   CreateCommand(const QString &name, const QString &address,
+                 const KBookmark &original )
+      : KNamedCommand(name), m_to(address), m_group(false), m_separator(false),
+        m_open(false), m_originalBookmark(original)
+   { ; }
 
-    virtual ~CreateCommand() {}
-    virtual void execute();
-    virtual void unexecute();
-    QString finalAddress();
+   virtual ~CreateCommand() { ; }
+   virtual void execute();
+   virtual void unexecute();
+   QString finalAddress();
 private:
-    QString m_to;
-    QString m_text;
-    QString m_iconPath;
-    KURL m_url;
-    bool m_group:1;
-    bool m_separator:1;
-    bool m_open:1;
-    KBookmark m_originalBookmark;
+   QString m_to;
+   QString m_text;
+   QString m_iconPath;
+   KURL m_url;
+   bool m_group:1;
+   bool m_separator:1;
+   bool m_open:1;
+   KBookmark m_originalBookmark;
 };
 
 class DeleteCommand : public KNamedCommand
 {
 public:
-    DeleteCommand( const QString & name, const QString & from )
-        : KNamedCommand(name), m_from(from), m_cmd(0L), m_subCmd(0L)
-    {}
-    virtual ~DeleteCommand()
-    { delete m_cmd; }
-    virtual void execute();
-    virtual void unexecute();
+   DeleteCommand(const QString &name, const QString &from)
+      : KNamedCommand(name), m_from(from), m_cmd(0L), m_subCmd(0L)
+   { ; }
+   virtual ~DeleteCommand() { delete m_cmd; }
+   virtual void execute();
+   virtual void unexecute();
 
-    static KMacroCommand * deleteAll( const KBookmarkGroup & parentGroup );
+   static KMacroCommand* deleteAll(const KBookmarkGroup &parentGroup);
 private:
-    QString m_from;
-    KNamedCommand * m_cmd;
-    KMacroCommand * m_subCmd;
+   QString m_from;
+   KNamedCommand *m_cmd;
+   KMacroCommand *m_subCmd;
 };
 
 class EditCommand : public KNamedCommand
 {
 public:
 
-    struct Edition {
-        Edition() {} // For QValueList
-        Edition(const QString & a, const QString & v) : attr(a), value(v) {}
-        QString attr;
-        QString value;
-    };
+   struct Edition {
+      Edition() { ; } // For QValueList
+      Edition(const QString &a, const QString &v) : attr(a), value(v) {}
+      QString attr;
+      QString value;
+   };
 
-    /**
-     * This command changes the value of one attribute of the bookmark @p address
-     */
-    EditCommand( const QString & name, const QString & address,
-                 Edition edition ) :
-        KNamedCommand(name), m_address(address)
-    {
-        m_editions.append(edition);
-    }
+   /**
+    * This command changes the value of one attribute of the bookmark @p address
+    */
+   EditCommand(const QString &name, const QString &address, Edition edition) 
+      : KNamedCommand(name), m_address(address)
+   {
+      m_editions.append(edition);
+   }
 
-    /**
-     * This command changes the value of several attributes of the bookmark @p address
-     */
-    EditCommand( const QString & name, const QString & address,
-                 const QValueList<Edition> & editions ) :
-        KNamedCommand(name), m_address(address), m_editions(editions)
-    {}
-    virtual ~EditCommand() {}
-    virtual void execute();
-    virtual void unexecute();
+   /**
+    * This command changes the value of several attributes of the bookmark @p address
+    */
+   EditCommand(const QString & name, const QString & address,
+               const QValueList<Edition> & editions)
+      : KNamedCommand(name), m_address(address), m_editions(editions)
+   { ; }
+   virtual ~EditCommand() { ; }
+   virtual void execute();
+   virtual void unexecute();
 private:
-    QString m_address;
-    QValueList<Edition> m_editions;
-    QValueList<Edition> m_reverseEditions;
+   QString m_address;
+   QValueList<Edition> m_editions;
+   QValueList<Edition> m_reverseEditions;
 };
 
 class RenameCommand : public KNamedCommand
 {
 public:
-    RenameCommand( const QString & name, const QString & address, const QString & newText )
-        : KNamedCommand(name), m_address(address), m_newText(newText) {}
-    virtual ~RenameCommand() {}
-    virtual void execute();
-    virtual void unexecute();
+   RenameCommand(const QString &name, const QString &address, const QString &newText)
+      : KNamedCommand(name), m_address(address), m_newText(newText) 
+   { ; }
+   virtual ~RenameCommand() { ; }
+   virtual void execute();
+   virtual void unexecute();
 private:
-    QString m_address;
-    QString m_newText;
-    QString m_oldText;
+   QString m_address;
+   QString m_newText;
+   QString m_oldText;
 };
+
+// TODO - format the rest
 
 class SortItem;
 
