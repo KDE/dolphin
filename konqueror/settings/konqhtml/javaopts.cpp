@@ -101,11 +101,13 @@ KJavaOptions::KJavaOptions( KConfig* config, QString group,
     domainSpecificGBLayout->addWidget( importDomainPB, 3, 1 );
     connect( importDomainPB, SIGNAL( clicked() ), this, SLOT( importPressed() ) );
     importDomainPB->setEnabled( false );
+    importDomainPB->hide();
 
     QPushButton* exportDomainPB = new QPushButton( i18n("&Export..."), domainSpecificGB );
     domainSpecificGBLayout->addWidget( exportDomainPB, 4, 1 );
     connect( exportDomainPB, SIGNAL( clicked() ), this, SLOT( exportPressed() ) );
     exportDomainPB->setEnabled( false );
+    exportDomainPB->hide();
 
     QSpacerItem* spacer = new QSpacerItem( 20, 20, QSizePolicy::Minimum, QSizePolicy::Expanding );
     domainSpecificGBLayout->addItem( spacer, 5, 1 );

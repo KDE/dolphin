@@ -119,6 +119,7 @@ KJavaScriptOptions::KJavaScriptOptions( KConfig* config, QString group, QWidget 
                                         "with the existing ones. Duplicate entries are ignored.") );
   connect( importDomainPB, SIGNAL( clicked() ), this, SLOT( importPressed() ) );
   importDomainPB->setEnabled( false );
+  importDomainPB->hide();
 
   QPushButton* exportDomainPB = new QPushButton( i18n("&Export..."), domainSpecificGB );
   domainSpecificGBLayout->addWidget( exportDomainPB, 4, 1 );
@@ -128,6 +129,7 @@ KJavaScriptOptions::KJavaScriptOptions( KConfig* config, QString group, QWidget 
 
   connect( exportDomainPB, SIGNAL( clicked() ), this, SLOT( exportPressed() ) );
   exportDomainPB->setEnabled( false );
+  exportDomainPB->hide();
 
   QSpacerItem* spacer = new QSpacerItem( 20, 20, QSizePolicy::Minimum, QSizePolicy::Expanding );
   domainSpecificGBLayout->addItem( spacer, 5, 1 );
