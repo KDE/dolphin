@@ -51,8 +51,8 @@ KonqViewManager::KonqViewManager( KonqMainView *mainView )
   m_bProfileListDirty = true;
 
   // we need this for a proper layout of the toolbars upon startup, when no real view has been loaded, yet
-  m_dummyWidget = new QWidget( mainView );
-  mainView->setView( m_dummyWidget );
+  m_dummyWidget = 0L; // new QWidget( mainView );
+  // mainView->setView( m_dummyWidget );
 }
 
 KonqViewManager::~KonqViewManager()
