@@ -115,7 +115,7 @@ KonqMainView::KonqMainView( const KURL &initialURL, bool openInitialURL, const c
     for ( int i = 1; i <= 50; i++ )
     {
       QString n;
-      n.sprintf( "animated/kde.%0.4i", i );
+      n.sprintf( "animated/kde.%04i", i );
       s_plstAnimatedLogo->append( n );
     }
   }
@@ -1300,7 +1300,7 @@ void KonqMainView::slotFullScreenStart()
   widget->statusbar()->hide();
 
   // see QWidget::showFullScreen()
-  widget->reparent( 0L, WStyle_Customize | WStyle_NoBorder | WType_Popup | WStyle_StaysOnTop, QPoint( 0, 0 ) );
+  widget->reparent( 0L, WStyle_Customize | WStyle_NoBorder | WStyle_StaysOnTop, QPoint( 0, 0 ) );
   widget->resize( QApplication::desktop()->size() );
 
   attachToolbars( widget );
