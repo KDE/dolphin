@@ -72,11 +72,7 @@
  </Menu>
  <Menu name="settings" noMerge="1"><text>&amp;Settings</text>
   <Action name="showmenubar"/>
-<!--  <Action name="showtoolbar"/>
-  <Action name="showextratoolbar"/>
-  <Action name="showlocationbar"/>
-  <Action name="showbookmarkbar"/> -->
-  <Action name="toolbars_showhide"/>
+  <Action name="options_show_toolbar"/>
   <Separator/>
   <Action name="saveViewPropertiesLocally"/>
   <Action name="removeLocalProperties"/>
