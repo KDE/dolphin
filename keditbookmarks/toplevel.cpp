@@ -22,6 +22,8 @@
 #include <qclipboard.h>
 #include <qsplitter.h>
 
+#include <qlayout.h>
+
 #include <klocale.h>
 #include <kdebug.h>
 
@@ -50,8 +52,6 @@
 #include "search.h"
 
 #include "toplevel.h"
-
-#include "bookmarkinfo.h"
 
 CmdHistory* CmdHistory::s_self = 0;
 
@@ -240,6 +240,28 @@ QString CurrentMgr::correctAddress(const QString &address) {
 
 KEBApp *KEBApp::s_topLevel = 0;
 
+#include <qlabel.h>
+class BookmarkInfoWidget : public QWidget {
+public:
+   BookmarkInfoWidget(QWidget * parent = 0, const char * name = 0)
+    : QWidget (parent, name) {
+      QBoxLayout *vbox = new QVBoxLayout(this);
+      QGridLayout *grid = new QGridLayout( vbox, 2, 2 );
+
+      m_title_le = new KLineEdit( this );
+      m_title_le->setText( m_title );
+      grid->addWidget( m_title_le, 0, 1 );
+      grid->addWidget( new QLabel( m_title_le, i18n( "Name:" ), this ), 0, 0 );
+
+      m_url_le = new KLineEdit( this );
+      m_url_le->setText( m_url );
+      grid->addWidget( m_url_le, 1, 1 );
+      grid->addWidget( new QLabel( m_url_le, i18n( "Location:" ), this ), 1, 0 );
+   }
+   KLineEdit *m_title_le, *m_url_le;
+   QString m_title, m_url;
+};
+
 KEBApp::KEBApp(const QString & bookmarksFile, bool readonly, const QString &address)
    : KMainWindow(), m_dcopIface(0) {
 
@@ -261,9 +283,9 @@ KEBApp::KEBApp(const QString & bookmarksFile, bool readonly, const QString &addr
    ListView::self()->initListViews();
    ListView::self()->setInitialAddress(address);
 
-   // BookmarkInfoWidget *bkinfo = new BookmarkInfoWidget(vsplitter);
+   BookmarkInfoWidget *bkinfo = new BookmarkInfoWidget(vsplitter);
    vsplitter->setOrientation(QSplitter::Vertical);
-   vsplitter->setSizes(QValueList<int>() << h << 380 /*<< bkinfo->sizeHint().height()*/ );
+   vsplitter->setSizes(QValueList<int>() << h << 380 << bkinfo->sizeHint().height() );
 
    setCentralWidget(vsplitter);
    resize(ListView::self()->widget()->sizeHint().width(), vsplitter->sizeHint().height());
