@@ -14,21 +14,18 @@ icon views, tree views, html views...)
 
 The main(), including all the startup mechanism is in konq_main.*
 
-[not anymore  Among other things, it creates a KonqTopWidget in order to handle
- session management - and create the initial KonqMainWindows.]
-
 The main view contains several "child views", in order to view several URLs 
 at once, possibly using several modes. Each child view is a KonqChildView
  - this class implements the view-mode switching, adds the
 frame header on top of the view (KonqFrameHeader), ...
 The KonqChildView contains the child part, which can be :
-- an icon view (KonqKfmIconView)
-- a tree view (KonqKfmTreeView)
-- an HTML view (KonqHTMLView)
+- an icon view (KonqIconView)
+- a list view / tree view (KonqListView/KonqTreeView)
+- an HTML view (KHTMLPart)
 - any ReadOnlyPart with or without Browserextension
 
 Additionnally, the icon and tree view define items (one per file) :
-KonqIconViewItem and KonqTreeViewItem, which both inherit KFileIcon 
+KonqIconViewItem and KonqTreeViewItem, which both use KonqFileItem
 (defines common functionality such as url, mimetype, statusbar info, dnd...).
 
 Where to find those classes
@@ -38,11 +35,9 @@ konq_run.* : Re-implementation of KRun (see libkio) for konqueror. Treats
            HTML and directory in a special way compared to KRun and is also
 	   responsible for finding appropriate view<->mimetype bindings with
 	   the help of KonqPlugins.
-konq_baseview.* : KonqBaseView, base class for all builtin views.
 konq_childview.* : KonqChildView, class used by KonqMainView to handle child views
-konq_frame.* : KonqFrame - not used anymore for now - and KonqFrameHeader.
-konq_htmlview.* : KonqHTMLView, html view
-konq_iconview.* : KonqKfmIconView and KonqKfmIconViewItem, for icon views
+konq_frame.* : KonqFrame and KonqFrameHeader (handles view-statusbar).
+iconview/* : KonqIconView and KonqKfmIconViewItem, for icon views
 konq_main.* : The main()
 konq_mainview.* : KonqMainView, main view, one per main window
 konq_plugins.* : KonqPlugins, used to parse .desktop files looking for plugins,
@@ -50,17 +45,12 @@ konq_plugins.* : KonqPlugins, used to parse .desktop files looking for plugins,
 		 activation of the plugin servers if they're requested.
 konq_propsmainview.* : -- main view properties stuff, not sure it will remain as is --
 konq_propsview.* : -- view properties stuff, not sure it will remain as is --
-#konq_topwidget.* : KonqTopWidget, the hidden widget used for session management
-konq_treeview.* : KonqKfmTreeView and KonqKfmTreeViewItem, for tree views
-konq_txtview.* : KonqTxtView, a builtin text viewer
-konqueror.cc, konqueror.h : Files generated from konqueror.idl
-
-konq_defaults.h : Default configuration values, used by konqueror and kcmkonq (todo!)  - problem is to share or not to share those values with kdesktop
+listview/* : KonqTreeView, KonqListView...
 
 Libs used by konqueror
 ======================
 
 kdecore, kdeui, kfile, khtml, kparts - usual stuff :)
 libkio - I/O stuff, mimetypes, services, registry
-libkonq - bookmarks, properties dialog, templates ("new") menu, icon container
+libkonq - bookmarks, properties dialog, templates ("new") menu, icon view widget
 

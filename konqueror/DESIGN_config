@@ -6,19 +6,18 @@ Subject: How to choose between builtin and external application : proposal
 How to configure between builtin and external viewers ?
 I discussed this with a friend, and here is what we come up with :
 
-* global defaults, set in kcmkfm, for each mimetype group (i.e. folder in share/mimelnk/)
+* global defaults, set in kcontrol, for each mimetype group:
 
 text : use builtin viewer (yes/no)  [checkbox]
 image : use builtin viewer (yes/no)  [checkbox]
-other : use builtin viewer (yes/no)  [checkbox] (i.e. application/, like dvi, ps...)
+other : use builtin viewer (yes/no)  [checkbox] (i.e. application/*, like dvi, ps...)
 
-* then, for all text and images mimetypes, in the properties dialog for them
-we would add the choice between    [e.g. 3 radiobuttons]
-- use default
-- use builtin viewer
-- use external application
+* then, in the properties dialog for every mimetype:
+- use default (checkbox as "no change")
+- use builtin viewer (checkbox as "on")
+- use external application (checkbox as "off")
 
-(=> needs a X-KDE-Allow-Embedding=unset/true/false)
+(=> saved as X-KDE-AutoEmbed=true/false or no entry)
 
 This way, one can set choose between builtin and external for all text /
 images files, and set individual values too (e.g. an icon-team artist would
@@ -33,13 +32,12 @@ mimetype text/html - this is the way to keep the exact (though
 inconsistent) behaviour of 1.1-kfm.
 
 I suggest that factory defaults (i.e. configuration for first-time users)
-would be set to 'yes' for the two global defaults (-> use builtin)
+would be set to 'yes' for the three groups (-> use builtin)
 and would be 'use default' for mimetypes.
 This for speed reasons (embedded viewers are really fast) and also to show
 the new features ;)
+KOffice mimetypes have it set to no, though -> click edits.
 
---
-David FAURE
-david.faure@insa-lyon.fr, faure@kde.org
-http://www.insa-lyon.fr/People/AEDI/dfaure/index.html
-KDE, Making The Future of Computing Available Today
+Implemented on 09-04-2000
+David FAURE <faure@kde.org>
+
