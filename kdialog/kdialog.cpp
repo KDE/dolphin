@@ -60,6 +60,7 @@ static KCmdLineOptions options[] =
     { "inputbox <text> <init>", I18N_NOOP("Input Box dialog"), 0 },
     { "password <text>", I18N_NOOP("Password dialog"), 0 },
     { "textbox <file> [width] [height]", I18N_NOOP("Text Box dialog"), 0 },
+    { "combobox <text> [tag item] [tag item] ...", I18N_NOOP("ComboBox dialog"), 0 },
     { "menu <text> [tag item] [tag item] ...", I18N_NOOP("Menu dialog"), 0 },
     { "checklist <text> [tag item status] ...", I18N_NOOP("Check List dialog"), 0 },
     { "radiolist <text> [tag item status] ...", I18N_NOOP("Radio List dialog"), 0 },
@@ -254,6 +255,22 @@ int directCommand(KCmdLineArgs *args)
     }
 
     // --menu text [tag item] [tag item] ...
+    if (args->isSet("combobox")) {
+        QStringList list;
+        if (args->count() >= 2) {
+            for (int i = 0; i < args->count(); i++) {
+                list.append(QString::fromLocal8Bit(args->arg(i)));
+            }
+            QString text = QString::fromLocal8Bit(args->getOption("combobox"));
+            QString result;
+            bool retcode = Widgets::comboBox(0, title, text, list, result);
+            cout << result.local8Bit().data() << endl;
+            return retcode ? 0 : 1;
+        }
+        return -1;
+    }
+
+    // --menu text [tag item] [tag item] ...
     if (args->isSet("menu")) {
         QStringList list;
         if (args->count() >= 2) {
@@ -391,13 +408,14 @@ int directCommand(KCmdLineArgs *args)
 int main(int argc, char *argv[])
 {
   KAboutData aboutData( "kdialog", I18N_NOOP("KDialog"),
-                        "0.9", I18N_NOOP( "KDialog can be used to show nice dialog boxes from shell scripts" ), KAboutData::License_BSD,
+                        "0.9.5", I18N_NOOP( "KDialog can be used to show nice dialog boxes from shell scripts" ), KAboutData::License_BSD,
                         "(C) 2000, Nick Thompson");
   aboutData.addAuthor("David Faure", I18N_NOOP("Current maintainer"),"faure@kde.org");
   aboutData.addAuthor("Nick Thompson",0, 0/*"nickthompson@lucent.com" bounces*/);
   aboutData.addAuthor("Matthias Hölzer",0,"hoelzer@kde.org");
   aboutData.addAuthor("David Gümbel",0,"david.guembel@gmx.net");
   aboutData.addAuthor("Richard Moore",0,"rich@kde.org");
+  aboutData.addAuthor("Dawit Alemayehu",0,"adawit@kde.org");
 
   KCmdLineArgs::init(argc, argv, &aboutData);
   KCmdLineArgs::addCmdLineOptions( options ); // Add our own options.
@@ -409,3 +427,4 @@ int main(int argc, char *argv[])
   // execute direct kdialog command
   return directCommand(args);
 }
+

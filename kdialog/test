@@ -36,3 +36,6 @@ kdialog --title "This is a checklist" --checklist "Choose some of these" a Engli
 
 echo "radiolist:"
 kdialog --title "This is a radiolist" --radiolist "Choose one of these" a English off b German off c French on d Spanish off
+
+echo "combobox:"
+kdialog --title "I scream U scream we all scream for icecream" --combobox "Pick your favorite ice-cream flavor:" "Vanilla" "Chocolate" "Strawberry" "Fudge" "None of your business go away!!?!?"

@@ -25,8 +25,10 @@
 #include "klistboxdialog.h"
 #include <kinputdialog.h>
 #include <kpassdlg.h>
+#include <kcombobox.h>
 #include <kdebug.h>
 
+#include <qlabel.h>
 #include <qtextedit.h>
 #include <qvbox.h>
 #include <qfile.h>
@@ -83,6 +85,25 @@ int Widgets::textBox(QWidget *parent, int width, int height, const QString& titl
   return 0;
 }
 
+bool Widgets::comboBox(QWidget *parent, const QString& title, const QString& text, const QStringList& args, QString &result)
+{
+  KDialogBase dlg( parent, 0, true, title, KDialogBase::Ok|KDialogBase::Cancel,
+                   KDialogBase::Ok );
+
+  QVBox* vbox = dlg.makeVBoxMainWidget();
+
+  QLabel label (vbox);
+  label.setText (text);
+  KComboBox combo (vbox);
+  combo.insertStringList (args);
+
+  bool retcode = (dlg.exec() == QDialog::Accepted);
+
+  if (retcode)
+    result = combo.currentText();
+
+  return retcode;
+}
 
 bool Widgets::listBox(QWidget *parent, const QString& title, const QString& text, const QStringList& args, QString &result)
 {
