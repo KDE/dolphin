@@ -298,13 +298,16 @@ void KonqHistoryManager::addToHistory( bool pending, const KURL& _url,
     entry.firstVisited = QDateTime::currentDateTime();
     entry.lastVisited = entry.firstVisited;
 
-    if ( !pending ) { // remove from pending if available.
-	QMapIterator<QString,KonqHistoryEntry*> it = m_pending.find( u );
+    // always remove from pending if available, otherwise the else branch leaks
+    // if the map already contains an entry for this key.
+    QMapIterator<QString,KonqHistoryEntry*> it = m_pending.find( u );
+    if ( it != m_pending.end() ) {
+        delete it.data();
+        m_pending.remove( it );
+    }
 
+    if ( !pending ) {
 	if ( it != m_pending.end() ) {
-	    delete it.data();
-	    m_pending.remove( it );
-
 	    // we make a pending entry official, so we just have to update
 	    // and not increment the counter. No need to care about
 	    // firstVisited, as this is not taken into account on update.
