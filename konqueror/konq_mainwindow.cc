@@ -1732,10 +1732,7 @@ void KonqMainWindow::slotConfigureToolbars()
   KEditToolbar dlg(factory());
   connect(&dlg,SIGNAL(newToolbarConfig()),this,SLOT(slotNewToolbarConfig()));
   connect(&dlg,SIGNAL(newToolbarConfig()),this,SLOT(initBookmarkBar()));
-  if ( dlg.exec() ) {
-    createGUI( m_pViewManager->activePart() );
-    initBookmarkBar();
-  }
+  dlg.exec();
 }
 
 void KonqMainWindow::slotNewToolbarConfig() // This is called when OK or Apply is clicked
