@@ -151,10 +151,7 @@ void KonqHistoryModule::slotCreateItems()
     // the group item and the item of the serverroot '/' get a fav-icon
     // if available. All others get the protocol icon.
     while ( (entry = it.current()) ) {
-	KonqHistoryGroupItem *group = m_dict.find( entry->url.host() );
-	if ( !group )
-	    group = createGroupItem( entry->url );
-
+	KonqHistoryGroupItem *group = getGroupItem( entry->url );
 	item = new KonqHistoryItem( entry, group, m_topLevelItem );
 	
 	++it;
@@ -189,10 +186,7 @@ void KonqHistoryModule::slotEntryAdded( const KonqHistoryEntry *entry )
 	return;
 
     m_currentTime = QDateTime::currentDateTime();
-    KonqHistoryGroupItem *group = m_dict.find( entry->url.host() );
-    if ( !group )
-	group = createGroupItem( entry->url );
-
+    KonqHistoryGroupItem *group = getGroupItem( entry->url );
     KonqHistoryItem *item = group->findChild( entry );
     if ( !item )
 	item = new KonqHistoryItem( entry, group, m_topLevelItem );
@@ -214,15 +208,15 @@ void KonqHistoryModule::slotEntryRemoved( const KonqHistoryEntry *entry )
     if ( !m_initialized )
 	return;
 
-    QString host( entry->url.host() );
-    KonqHistoryGroupItem *group = m_dict.find( host );
+    QString groupKey = groupForURL( entry->url );
+    KonqHistoryGroupItem *group = m_dict.find( groupKey );
     if ( !group )
 	return;
 
     delete group->findChild( entry );
 
     if ( group->childCount() == 0 )
-	m_dict.remove( host );
+	m_dict.remove( groupKey );
 }
 
 void KonqHistoryModule::addTopLevelItem( KonqTreeTopLevelItem * item )
@@ -352,18 +346,23 @@ void KonqHistoryModule::groupOpened( KonqHistoryGroupItem *item, bool open )
 }
 
 
-KonqHistoryGroupItem * KonqHistoryModule::createGroupItem( const KURL& url )
+KonqHistoryGroupItem * KonqHistoryModule::getGroupItem( const KURL& url )
 {
-    KonqHistoryGroupItem *group = new KonqHistoryGroupItem( url,
-							    m_topLevelItem );
+    const QString& groupKey = groupForURL( url );
+    KonqHistoryGroupItem *group = m_dict.find( groupKey );
+    if ( !group ) {
+	group = new KonqHistoryGroupItem( url, m_topLevelItem );
 
-    QString icon = KonqFavIconMgr::iconForURL( url.url() );
-    if ( icon.isEmpty() )
-	group->setPixmap( 0, m_folderClosed );
-    else
-	group->setFavIcon( SmallIcon( icon ) );
+	QString icon = KonqFavIconMgr::iconForURL( url.url() );
+	if ( icon.isEmpty() )
+	    group->setPixmap( 0, m_folderClosed );
+	else
+	    group->setFavIcon( SmallIcon( icon ) );
 
-    m_dict.insert( url.host(), group );
+	group->setText( 0, groupKey );
+
+	m_dict.insert( groupKey, group );
+    }
 
     return group;
 }

@@ -50,7 +50,7 @@ KonqHistoryItem::~KonqHistoryItem()
 void KonqHistoryItem::update( const KonqHistoryEntry *entry )
 {
     m_entry = entry;
-    
+
     QString title( entry->title );
     if ( !title.stripWhiteSpace().isEmpty() &&
 	 title != entry->url.url() )
@@ -145,12 +145,11 @@ void KonqHistoryItem::paintCell( QPainter *p, const QColorGroup & cg,
 
 
 KonqHistoryGroupItem::KonqHistoryGroupItem( const KURL& url,
-					    KonqTreeTopLevelItem *topLevelItem )
+					    KonqTreeTopLevelItem *topLevelItem)
     : KonqTreeItem( topLevelItem, topLevelItem ),
       m_hasFavIcon( false ),
       m_url( url )
 {
-    setText( 0, url.host() );
 }
 
 void KonqHistoryGroupItem::setFavIcon( const QPixmap& pix )

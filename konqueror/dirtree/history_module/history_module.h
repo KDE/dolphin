@@ -24,6 +24,8 @@
 #include <qdict.h>
 #include <qpixmap.h>
 
+#include <kglobal.h>
+#include <klocale.h>
 #include <konq_treemodule.h>
 
 #include "history_item.h"
@@ -52,6 +54,11 @@ public:
     const QDateTime& currentTime() const { return m_currentTime; }
     bool sortsByName() const { return m_sortsByName; }
 
+    static QString groupForURL( const KURL& url ) {
+	static const QString& misc = KGlobal::staticQString(i18n("Miscellaneous"));
+	return url.host().isEmpty() ? misc : url.host();
+    }
+
 public slots:
     void clear();
 
@@ -72,9 +79,9 @@ private slots:
     void slotSortByDate();
 
 private:
-    KonqHistoryGroupItem *createGroupItem( const KURL& url );
-    void sortingChanged();
+    KonqHistoryGroupItem *getGroupItem( const KURL& url );
 
+    void sortingChanged();
     typedef QDictIterator<KonqHistoryGroupItem> HistoryItemIterator;
     QDict<KonqHistoryGroupItem> m_dict;
 
