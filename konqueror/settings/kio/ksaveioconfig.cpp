@@ -31,7 +31,7 @@ class KSaveIOConfigPrivate
 public:
   KSaveIOConfigPrivate ();
   ~KSaveIOConfigPrivate ();
-  
+
   KConfig* config;
 };
 
@@ -45,7 +45,6 @@ KSaveIOConfigPrivate::KSaveIOConfigPrivate (): config(0)
 KSaveIOConfigPrivate::~KSaveIOConfigPrivate ()
 {
   delete config;
-  ksiocp.setObject (0);
 }
 
 KSaveIOConfigPrivate* KSaveIOConfig::d = 0;
@@ -63,8 +62,8 @@ KConfig* KSaveIOConfig::config()
 
 void KSaveIOConfig::reparseConfiguration ()
 {
-  delete d;
-  d = 0;
+  delete d->config;
+  d->config = 0;
 }
 
 void KSaveIOConfig::setReadTimeout( int _timeout )
@@ -221,10 +220,10 @@ void KSaveIOConfig::setPersistentConnections( bool enable )
 void KSaveIOConfig::updateRunningIOSlaves (QWidget *parent)
 {
   // Inform all running io-slaves about the changes...
-  
+
   DCOPClient client;
   bool updateSuccessful = false;
-  
+
   if (client.attach())
   {
     QByteArray data;
@@ -234,7 +233,7 @@ void KSaveIOConfig::updateRunningIOSlaves (QWidget *parent)
                                     "reparseSlaveConfiguration(QString)",
                                     data );
   }
-  
+
   // if we cannot update, ioslaves inform the end user...
   if (!updateSuccessful)
   {
@@ -242,6 +241,6 @@ void KSaveIOConfig::updateRunningIOSlaves (QWidget *parent)
     QString message = i18n("You have to restart the running applications "
                            "for these changes to take effect.");
     KMessageBox::information (parent, message, caption);
-    return;    
+    return;
   }
 }
