@@ -1,16 +1,16 @@
 /* This file is part of the KDE project
    Copyright (C) 1999 David Faure <faure@kde.org>
- 
+
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Library General Public
    License as published by the Free Software Foundation; either
    version 2 of the License, or (at your option) any later version.
- 
+
    This library is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
    Library General Public License for more details.
- 
+
    You should have received a copy of the GNU Library General Public License
    along with this library; see the file COPYING.LIB.  If not, write to
    the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
@@ -82,7 +82,7 @@ int main( int argc, char **argv )
                 "            # Re-read konqueror's configuration.\n\n"));
     printf(i18n("  kfmclient configureDesktop\n"
                 "            # Re-read kdesktop's configuration.\n\n"));
-    
+
     printf(i18n("*** Examples:\n"
                 "  kfmclient exec file:/root/Desktop/cdrom.desktop \"Mount default\"\n"
                 "             // Mounts the CDROM\n\n"));	
@@ -98,7 +98,7 @@ int main( int argc, char **argv )
                 "             // Opens the CD-ROM's mount directory\n\n"));
     return 0;
   }
-    
+
 
   a.dcopClient()->attach();
 
@@ -107,7 +107,7 @@ int main( int argc, char **argv )
 
 bool clientApp::openFileManagerWindow(const char* _url)
 {
-  
+
   if ( dcopClient()->isApplicationRegistered( "konqueror" ) )
   {
     KonquerorIface_stub konqy( "konqueror", "KonquerorIface" );
@@ -119,7 +119,7 @@ bool clientApp::openFileManagerWindow(const char* _url)
     proc << "konqueror" << QString( _url );
     proc.start( KProcess::DontCare );
   }
-  
+
   return true;
 }
 
@@ -130,7 +130,7 @@ int clientApp::doIt( int argc, char **argv )
     fprintf( stderr, i18n("Syntax Error: Too few arguments\n") );
     return 1;
   }
-    
+
   if ( strcmp( argv[1], "openURL" ) == 0 )
   {
     if ( argc == 2 )
@@ -151,7 +151,8 @@ int clientApp::doIt( int argc, char **argv )
   {
     if ( argc == 3 )
     {
-      PropertiesDialog * p = new PropertiesDialog( argv[2] );
+      KURL u( QString::fromLatin1(argv[2]) );
+      PropertiesDialog * p = new PropertiesDialog( u );
       QObject::connect( p, SIGNAL( propertiesClosed() ), this, SLOT( quit() ));
       exec();
     }
@@ -170,7 +171,8 @@ int clientApp::doIt( int argc, char **argv )
     }
     else if ( argc == 3 )
     {
-      KRun * run = new KRun( argv[2] );
+      KURL u( QString::fromLatin1(argv[2]) );
+      KRun * run = new KRun( u );
       QObject::connect( run, SIGNAL( finished() ), this, SLOT( quit() ));
       QObject::connect( run, SIGNAL( error() ), this, SLOT( quit() ));
       exec();
@@ -236,7 +238,7 @@ int clientApp::doIt( int argc, char **argv )
       fprintf( stderr, i18n("Syntax Error: Too many arguments\n") );
       return 1;
     }
-    
+
     KDesktopIface_stub kdesky( "kdesktop", "KDesktopIface" );
     kdesky.rearrangeIcons( (int)false );
 
@@ -247,7 +249,7 @@ int clientApp::doIt( int argc, char **argv )
     if ( argc == 7 )
     {
       int x = atoi( argv[2] );
-      int y = atoi( argv[3] );	  
+      int y = atoi( argv[3] );	
       int w = atoi( argv[4] );
       int h = atoi( argv[5] );
       // bool bAdd = (bool) atoi( argv[6] ); /* currently unused */ // TODO
