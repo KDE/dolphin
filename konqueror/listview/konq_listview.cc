@@ -114,7 +114,7 @@ void ListViewBrowserExtension::updateActions()
   QValueList<KonqBaseListViewItem*>::ConstIterator it = selection.begin();
   for (; it != selection.end(); ++it )
   {
-    if ( (*it)->item()->url().directory(false) == KUserPaths::trashPath() )
+    if ( (*it)->item()->url().directory(false) == KGlobalSettings::trashPath() )
       bInTrash = true;
   }
   cutcopy = del = ( selection.count() > 0 );

@@ -31,7 +31,7 @@
 #include <kmimetype.h>
 #include <kmessagebox.h>
 #include <kstddirs.h>
-#include <kuserpaths.h>
+#include <kglobalsettings.h>
 
 #include "konq_factory.h"
 #include "konq_bgnddlg.h"
@@ -50,7 +50,7 @@ KonqBgndDialog::KonqBgndDialog( const KURL & dirURL )
 {
   // Is it the trash bin ?
   //QString path = item->url().path( 1 ); // adds trailing slash
-  //if ( item->url().isLocalFile() && path == KUserPaths::trashPath() )
+  //if ( item->url().isLocalFile() && path == KGlobalSettings::trashPath() )
   //  return false;
 
     m_propsPage = new DirPropsPage( this, dirURL );

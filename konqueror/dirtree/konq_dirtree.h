@@ -4,7 +4,7 @@
 
 #include <kparts/browserextension.h>
 #include <kurl.h>
-#include <kuserpaths.h>
+#include <kglobalsettings.h>
 #include <konqoperations.h>
 
 #include <klistview.h>

@@ -81,7 +81,7 @@
 #include <khelpmenu.h>
 #include <kparts/part.h>
 #include <kmenubar.h>
-#include <kuserpaths.h>
+#include <kglobalsettings.h>
 #include <kedittoolbar.h>
 
 #include "version.h"
@@ -610,7 +610,7 @@ void KonqMainView::slotGoDirTree()
 
 void KonqMainView::slotGoTrash()
 {
-  KonqFileManager::getFileManager()->openFileManagerWindow( KUserPaths::trashPath() );
+  KonqFileManager::getFileManager()->openFileManagerWindow( KGlobalSettings::trashPath() );
 }
 
 void KonqMainView::slotSaveSettings()

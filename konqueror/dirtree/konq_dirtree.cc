@@ -20,7 +20,6 @@
 #include <kdirlister.h>
 #include <klocale.h>
 #include <kio/job.h>
-#include <kuserpaths.h>
 #include <kdebug.h>
 #include <konqoperations.h>
 #include <kio/paste.h>
@@ -86,7 +85,7 @@ void KonqDirTreeBrowserExtension::slotSelectionChanged()
 
   KonqDirTreeItem *selection = (KonqDirTreeItem *)m_tree->selectedItem();
 
-  if ( selection && selection->fileItem()->url().directory(false) == KUserPaths::trashPath() )
+  if ( selection && selection->fileItem()->url().directory(false) == KGlobalSettings::trashPath() )
     bInTrash = true;
 
   cutcopy = del = selection;
@@ -675,7 +674,7 @@ void KonqDirTree::scanDir( QListViewItem *parent, const QString &path, bool isRo
   {
     QString newPath = QString( path ).append( *eIt ).append( '/' );
 
-    if ( *eIt == "." || *eIt == ".." || newPath == KUserPaths::templatesPath() || newPath == KUserPaths::autostartPath() )
+    if ( *eIt == "." || *eIt == ".." || newPath == KGlobalSettings::templatesPath() || newPath == KGlobalSettings::autostartPath() )
       continue;
 
     scanDir2( parent, newPath );

@@ -21,7 +21,7 @@
 #define __konq_listview_h__
 
 #include <kparts/browserextension.h>
-#include <kuserpaths.h>
+#include <kglobalsettings.h>
 #include <konqoperations.h>
 #include <konq_listviewwidget.h>
 
