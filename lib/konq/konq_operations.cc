@@ -106,6 +106,7 @@ void KonqOperations::emptyTrash()
   QStringList files = trashDir.entryList( QDir::All | QDir::Hidden | QDir::System );
   files.remove(QString("."));
   files.remove(QString(".."));
+  files.remove(QString(".directory"));
 
   QStringList::Iterator it(files.begin());
   for (; it != files.end(); ++it )
