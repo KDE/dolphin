@@ -265,7 +265,7 @@ KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const 
 
     connect( aSortDescending, SIGNAL( toggled( bool ) ), this, SLOT( slotSortDescending() ) );
     connect( m_paSortDirsFirst, SIGNAL( toggled( bool ) ), this, SLOT( slotSortDirsFirst() ) );
-    
+
     //enable stored settings
     slotSortDirsFirst();
     if (KonqIconViewFactory::defaultViewProps()->isDescending())
@@ -274,7 +274,7 @@ KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const 
      m_pIconView->setSorting(true,true);//enable sort ascending in QIconview
      slotSortDescending();//invert sorting (now descending) and actually resort items
     }
-    
+
     /*
     m_pamSort->insert( aSortByNameCS );
     m_pamSort->insert( aSortByNameCI );
@@ -612,7 +612,7 @@ void KonqKfmIconView::slotSortDescending()
     setupSortKeys(); // keys have to change, for directories
 
     m_pIconView->sort( m_pIconView->sortDirection() );
-    
+
     KonqIconViewFactory::defaultViewProps()->setDescending( !m_pIconView->sortDirection() );
 }
 
@@ -623,7 +623,7 @@ void KonqKfmIconView::slotSortDirsFirst()
     setupSortKeys();
 
     m_pIconView->sort( m_pIconView->sortDirection() );
-    
+
     KonqIconViewFactory::defaultViewProps()->setDirsFirst( m_paSortDirsFirst->isChecked() );
 }
 
@@ -687,6 +687,8 @@ void KonqKfmIconView::slotReturnPressed( QIconViewItem *item )
 
 void KonqKfmIconView::slotContextMenuRequested(QIconViewItem* _item, const QPoint& _global)
 {
+    if (  m_pIconView->selectedFileItems().count() == 0 )
+        return;
     KParts::BrowserExtension::PopupFlags popupFlags = KParts::BrowserExtension::DefaultPopupItems;
     KFileIVI* i = static_cast<KFileIVI*>(_item);
     if (i)
