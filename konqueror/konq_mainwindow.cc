@@ -686,7 +686,6 @@ void KonqMainWindow::slotCreateNewWindow( const KURL &url, const KParts::URLArgs
                                           const KParts::WindowArgs &windowArgs, KParts::ReadOnlyPart *&part )
 {
     KonqMainWindow *mainWindow = new KonqMainWindow( KURL(), false );
-    mainWindow->enableAllActions( true );
     mainWindow->setInitialFrameName( args.frameName );
     //FIXME: obey args (like passing post-data (to KRun), etc.)
 
@@ -789,7 +788,10 @@ void KonqMainWindow::slotDuplicateWindow()
 
   KonqMainWindow *mainWindow = new KonqMainWindow( QString::null, false );
   mainWindow->viewManager()->loadViewProfile( config, m_pViewManager->currentProfile() );
-  mainWindow->enableAllActions( true );
+  if (mainWindow->currentView())
+      mainWindow->enableAllActions( true );
+  else
+      mainWindow->disableActionsNoView();
   mainWindow->show();
 }
 
@@ -809,12 +811,15 @@ void KonqMainWindow::slotOpenTerminal()
 
   QString dir ( QDir::homeDirPath() );
 
-  KURL u( m_currentView->url() );
-  if ( u.isLocalFile() )
-    if ( m_currentView->serviceType() == "inode/directory" )
-      dir = u.path();
-    else
-      dir = u.directory();
+  if ( m_currentView )
+  {
+      KURL u( m_currentView->url() );
+      if ( u.isLocalFile() )
+          if ( m_currentView->serviceType() == "inode/directory" )
+              dir = u.path();
+          else
+              dir = u.directory();
+  }
 
   QString cmd = QString("cd \"%1\" ; %2 &").arg( dir ).arg( term );
   kdDebug(1202) << "slotOpenTerminal: " << cmd << endl;
@@ -1248,10 +1253,10 @@ void KonqMainWindow::slotViewCompleted( KonqView * view )
     return;
 
   // Register this URL as a working one, in the completion object and the combo
-  // Only register remote URLs, because local ones will be found by 
+  // Only register remote URLs, because local ones will be found by
   // KURLCompletion
   bool isLocal = KURL( view->locationBarURL() ).isLocalFile();
-  
+
   if ( !m_combo->contains( view->locationBarURL() ) ) {
       // goes both into the combo and the completion object
        m_combo->addToHistory( view->locationBarURL() );
@@ -1611,17 +1616,7 @@ void KonqMainWindow::customEvent( QCustomEvent *event )
 
     // Enable/disable local properties actions if current view
     if ( senderChildView == m_currentView )
-    {
-      bool canWrite = false;
-      if ( ev->url().isLocalFile() )
-      {
-        // Can we write ?
-        QFileInfo info( ev->url().path() );
-        canWrite = info.isWritable();
-      }
-      m_paSaveViewPropertiesLocally->setEnabled( canWrite );
-      m_paRemoveLocalProperties->setEnabled( canWrite );
-    }
+        updateLocalPropsActions();
 
     // Forward the event to all views
     MapViews::ConstIterator it = m_mapViews.begin();
@@ -1637,6 +1632,19 @@ void KonqMainWindow::customEvent( QCustomEvent *event )
       }
     }
   }
+}
+
+void KonqMainWindow::updateLocalPropsActions()
+{
+    bool canWrite = false;
+    if ( m_currentView && m_currentView->url().isLocalFile() )
+    {
+        // Can we write ?
+        QFileInfo info( m_currentView->url().path() );
+        canWrite = info.isWritable();
+    }
+    m_paSaveViewPropertiesLocally->setEnabled( canWrite );
+    m_paRemoveLocalProperties->setEnabled( canWrite );
 }
 
 void KonqMainWindow::slotURLEntered( const QString &text )
@@ -2179,12 +2187,14 @@ void KonqMainWindow::setLocationBarURL( const QString &url )
 
 void KonqMainWindow::startAnimation()
 {
+  kdDebug(1202) << "KonqMainWindow::startAnimation" << endl;
   m_paAnimatedLogo->start();
   m_paStop->setEnabled( true );
 }
 
 void KonqMainWindow::stopAnimation()
 {
+  kdDebug(1202) << "KonqMainWindow::stopAnimation" << endl;
   m_paAnimatedLogo->stop();
   m_paStop->setEnabled( false );
 }
@@ -2567,7 +2577,6 @@ void KonqMainWindow::enableAllActions( bool enable )
 void KonqMainWindow::disableActionsNoView()
 {
     // No view -> there are some things we can't do
-    // There are things we can do, though : bookmarks, view profile, location bar, new window etc.
     m_paUp->setEnabled( false );
     m_paReload->setEnabled( false );
     m_paBack->setEnabled( false );
@@ -2587,6 +2596,16 @@ void KonqMainWindow::disableActionsNoView()
         for ( KAction * it = actions.first(); it ; it = actions.next() )
             it->setEnabled( false );
     }
+    // There are things we can do, though : bookmarks, view profile, location bar, new window etc.
+    m_paHome->setEnabled( true );
+    m_pamBookmarks->setEnabled( true );
+    action("new_window")->setEnabled( true );
+    action("duplicate_window")->setEnabled( true );
+    action("open_location")->setEnabled( true );
+    action("toolbar_url_combo")->setEnabled( true );
+    action("clear_location")->setEnabled( true );
+    action("animated_logo")->setEnabled( true );
+    updateLocalPropsActions();
 }
 
 void KonqMainWindow::openBookmarkURL( const QString & url )
@@ -2611,8 +2630,7 @@ void KonqMainWindow::setCaption( const QString &caption )
 
 QString KonqMainWindow::currentURL() const
 {
-  assert( m_currentView );
-  return m_currentView->url().prettyURL();
+  return m_currentView ? m_currentView->url().prettyURL() : "";
 }
 
 void KonqMainWindow::slotPopupMenu( const QPoint &_global, const KURL &url, const QString &_mimeType, mode_t _mode )
@@ -2772,7 +2790,6 @@ void KonqMainWindow::saveProperties( KConfig *config )
 void KonqMainWindow::readProperties( KConfig *config )
 {
   kdDebug() << "KonqMainWindow::readProperties( KConfig *config )" << endl;
-  enableAllActions( true );
   m_pViewManager->loadViewProfile( *config, QString::null /*no profile name*/ );
 }
 

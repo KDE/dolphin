@@ -338,6 +338,8 @@ protected:
 
   void viewsChanged();
 
+  void updateLocalPropsActions();
+
   virtual void closeEvent( QCloseEvent * );
 
 private:
