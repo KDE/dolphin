@@ -26,11 +26,11 @@
 #include <qgroupbox.h>
 #include <qhbox.h>
 #include <qlabel.h>
-#include <qlineedit.h>
 #include <qdatetime.h>
 
 #include <klocale.h>
 #include <kdialog.h>
+#include <klineedit.h>
 #include <klistview.h>
 #include <dcopclient.h>
 #include <kiconloader.h>
@@ -145,44 +145,38 @@ KCookiesManagement::KCookiesManagement(QWidget *parent, const char *name)
 
   QLabel* label = new QLabel(i18n("Name:"), grp_details);
   d_lay->addWidget(label,1,0);
-  le_name = new QLineEdit( grp_details );
+  le_name = new KLineEdit( grp_details );
   le_name->setReadOnly(true);
-  le_name->setFrame( false );
   d_lay->addWidget(le_name,1,1);
 
   label = new QLabel(i18n("Value:"), grp_details);
   d_lay->addWidget(label,2,0);
-  le_value = new QLineEdit( grp_details );
+  le_value = new KLineEdit( grp_details );
   le_value->setReadOnly(true);
-  le_value->setFrame( false );
   d_lay->addWidget(le_value,2,1);
 
   label = new QLabel(i18n("Domain:"), grp_details);
   d_lay->addWidget(label,3,0);
-  le_domain = new QLineEdit( grp_details );
+  le_domain = new KLineEdit( grp_details );
   le_domain->setReadOnly(true);
-  le_domain->setFrame( false );
   d_lay->addWidget(le_domain,3,1);
 
   label = new QLabel(i18n("Path:"), grp_details);
   d_lay->addWidget(label,4,0);
-  le_path = new QLineEdit( grp_details );
+  le_path = new KLineEdit( grp_details );
   le_path->setReadOnly(true);
-  le_path->setFrame( false );
   d_lay->addWidget(le_path,4,1);
 
   label = new QLabel(i18n("Expires:"), grp_details);
   d_lay->addWidget(label,5,0);
-  le_expires = new QLineEdit( grp_details );
+  le_expires = new KLineEdit( grp_details );
   le_expires->setReadOnly(true);
-  le_expires->setFrame( false );
   d_lay->addWidget(le_expires,5,1);
 
   label = new QLabel(i18n("Secure:"), grp_details);
   d_lay->addWidget(label,6,0);
-  le_isSecure = new QLineEdit( grp_details );
+  le_isSecure = new KLineEdit( grp_details );
   le_isSecure->setReadOnly(true);
-  le_isSecure->setFrame( false );
   d_lay->addWidget(le_isSecure,6,1);
 
   connect(lv_cookies, SIGNAL(expanded(QListViewItem*)), SLOT(getCookies(QListViewItem*)) );

@@ -31,7 +31,7 @@
 #include <kcmodule.h>
 
 class QPushButton;
-class QLineEdit;
+class KLineEdit;
 class KListView;
 class DCOPClient;
 struct CookieProp;
@@ -85,12 +85,12 @@ private:
     void clearCookieDetails();
     bool checkCookiejarStatus();
 
-    QLineEdit* le_name;
-    QLineEdit* le_value;
-    QLineEdit* le_domain;
-    QLineEdit* le_path;
-    QLineEdit* le_expires;
-    QLineEdit* le_isSecure;
+    KLineEdit* le_name;
+    KLineEdit* le_value;
+    KLineEdit* le_domain;
+    KLineEdit* le_path;
+    KLineEdit* le_expires;
+    KLineEdit* le_isSecure;
 
     KListView* lv_cookies;
     QGroupBox* grp_details;
