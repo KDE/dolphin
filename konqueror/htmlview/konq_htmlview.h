@@ -100,7 +100,6 @@ public:
   virtual void saveState( QDataStream &stream );
   virtual void restoreState( QDataStream &stream );
 
-  virtual void configure();
 //  virtual void openURL( QString _url, bool _reload, int _xoffset = 0, int _yoffset = 0, const char *_post_data = 0L);
 /*
   virtual void can( bool &copy, bool &paste, bool &move );
