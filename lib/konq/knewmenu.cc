@@ -292,8 +292,7 @@ void KNewMenu::slotNewFile()
             for ( ; it != popupFiles.end(); ++it )
             {
 		KURL dest( *it );
-		// shouldn't be necessary... KIO does it.
-                // dest.addPath( name );
+                dest.addPath( name ); // Chosen destination file name
 
                 KIO::Job * job = KIO::copy( src, dest );
                 connect( job, SIGNAL( result( KIO::Job * ) ),
