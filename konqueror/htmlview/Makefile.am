@@ -17,3 +17,6 @@ kbrowser.moc.cc: $(kde_includes)/kbrowser.h
 servicedir = $(kde_servicesdir)
 service_DATA = konq_htmlview.desktop
 
+rcdir = $(kde_datadir)/konqueror
+rc_DATA = konq_htmlview.rc
+
