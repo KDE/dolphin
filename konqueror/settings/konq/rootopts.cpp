@@ -325,7 +325,8 @@ void KRootOptions::fillDevicesListView()
     enableDevicesBox->setChecked(g_pConfig->readBoolEntry("enabled",false));
     QString excludedDevices=g_pConfig->readEntry("exclude","kdedevice/hdd_mounted,kdedevice/hdd_unmounted,kdedevice/floppy_unmounted,kdedevice/cdrom_unmounted,kdedevice/floppy5_unmounted");
     for (; it2 != mimetypes.end(); ++it2) {
-	if ((*it2)->name().startsWith("kdedevice/"))
+	if ( ((*it2)->name().startsWith("kdedevice/")) ||
+	   ((*it2)->name()=="print/printer") )
 	{
     	    bool ok=excludedDevices.contains((*it2)->name())==0;
 		new KRootOptDevicesItem (this, devicesListView, (*it2)->comment(), (*it2)->name(),ok);
