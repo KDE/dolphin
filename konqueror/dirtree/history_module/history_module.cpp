@@ -53,7 +53,7 @@ KonqHistorySettings * KonqHistoryModule::s_settings = 0L;
 
 KonqHistoryModule::KonqHistoryModule( KonqTree * parentTree, const char *name )
     : QObject( 0L, name ), KonqTreeModule( parentTree ),
-      m_dict( 3001 ),
+      m_dict( 1499 ),
       m_topLevelItem( 0L ),
       m_dlg( 0L ),
       m_initialized( false )
@@ -370,9 +370,9 @@ KonqHistoryGroupItem * KonqHistoryModule::getGroupItem( const KURL& url )
 
 void KonqHistoryModule::slotClearHistory()
 {
-    if ( KMessageBox::questionYesNo( tree(), 
+    if ( KMessageBox::questionYesNo( tree(),
 				     i18n("Do you really want to clear\n"
-					  "the entire history?"), 
+					  "the entire history?"),
 				     i18n("Clear History?") )
 	 == KMessageBox::Yes )
 	KonqHistoryManager::kself()->emitClear();
@@ -389,7 +389,7 @@ KonqHistoryDialog::KonqHistoryDialog( KonqHistorySettings *settings,
 {
     m_settings->m_activeDialog = this;
 
-    spinEntries->setRange( 0, INT_MAX, 1, false );
+    spinEntries->setRange( 1, INT_MAX, 1, false );
     spinExpire->setRange(  1, INT_MAX, 1, false );
 
     spinNewer->setRange( 0, INT_MAX, 1, false );
