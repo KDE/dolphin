@@ -767,15 +767,13 @@ KonqTabBar::KonqTabBar(KonqViewManager* viewManager, KonqFrameTabs *parent, cons
 
     m_pPopupMenu = new QPopupMenu( this );
 
-    KActionCollection * col = m_pViewManager->mainWindow()->actionCollection();
-    col->action("newtab")->plug(m_pPopupMenu);
-    col->action("duplicatecurrenttab")->plug(m_pPopupMenu);
+    m_pPopupMenu->insertItem( SmallIcon( "tab_new" ), "&New Tab", m_pViewManager->mainWindow(), SLOT( slotAddTab() ), QKeySequence("Ctrl+Shift+N") );
+    m_pPopupMenu->insertItem( SmallIcon( "tab_duplicate" ), "&Duplicate Tab", m_pViewManager->mainWindow(), SLOT( slotDuplicateTabPopup() ), QKeySequence("Ctrl+Shift+D") );
     m_pPopupMenu->insertSeparator();
-    col->action("breakoffcurrenttab")->plug(m_pPopupMenu);
+    m_pPopupMenu->insertItem( SmallIcon( "tab_breakoff" ), "D&etach Tab", m_pViewManager->mainWindow(), SLOT( slotBreakOffTabPopup() ), QKeySequence("Ctrl+Shift+B") );
+    m_pPopupMenu->insertItem( SmallIcon( "tab_remove" ), "&Close Tab", m_pViewManager->mainWindow(), SLOT( slotRemoveTabPopup() ), QKeySequence("Ctrl+W") );
     m_pPopupMenu->insertSeparator();
-    col->action("removecurrenttab")->plug(m_pPopupMenu);
-    m_pPopupMenu->insertItem( SmallIcon( "tab_remove" ), i18n("Close &Other Tabs"), m_pViewManager->mainWindow(),
-                              SLOT( slotRemoveOtherTabsPopup() ) );
+    m_pPopupMenu->insertItem( SmallIcon( "tab_remove" ), "Close &Other Tabs", m_pViewManager->mainWindow(), SLOT( slotRemoveOtherTabsPopup() ) );
 }
 
 KonqTabBar::~KonqTabBar()
