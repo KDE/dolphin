@@ -192,9 +192,9 @@ KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const 
 
     //    m_pamSort = new KActionMenu( i18n( "Sort..." ), actionCollection(), "sort" );
 
-    KToggleAction *aSortByNameCS = new KToggleAction( i18n( "by Name (Case Sensitive)" ), 0, actionCollection(), "sort_nc" );
-    KToggleAction *aSortByNameCI = new KToggleAction( i18n( "by Name (Case Insensitive)" ), 0, actionCollection(), "sort_nci" );
-    KToggleAction *aSortBySize = new KToggleAction( i18n( "By Size" ), 0, actionCollection(), "sort_size" );
+    KToggleAction *aSortByNameCS = new KRadioAction( i18n( "by Name (Case Sensitive)" ), 0, actionCollection(), "sort_nc" );
+    KToggleAction *aSortByNameCI = new KRadioAction( i18n( "by Name (Case Insensitive)" ), 0, actionCollection(), "sort_nci" );
+    KToggleAction *aSortBySize = new KRadioAction( i18n( "By Size" ), 0, actionCollection(), "sort_size" );
 
     aSortByNameCS->setExclusiveGroup( "sorting" );
     aSortByNameCI->setExclusiveGroup( "sorting" );
