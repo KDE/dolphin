@@ -39,6 +39,7 @@ static KCmdLineOptions options[] = {
    {"exportmoz <filename>", I18N_NOOP("Export bookmarks to file in Mozilla format."), 0},
    {"exportns <filename>", I18N_NOOP("Export bookmarks to file in Netscape (4.x and earlier) format."), 0},
    {"address <address>", I18N_NOOP("Open at the given position in the bookmarks file"), 0},
+   {"caption <caption>", I18N_NOOP("Set the user readable caption for example \"Konsole\""), 0},
    {"nobrowser", I18N_NOOP("Hide all browser related functions."), 0},
    {"+[file]", I18N_NOOP("File to edit"), 0},
    KCmdLineLastOption
@@ -113,7 +114,7 @@ int main(int argc, char **argv) {
 
    KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
    bool isGui = !(args->isSet("exportmoz") || args->isSet("exportns"));
-   bool browser = args->isSet("browser");
+   bool browser = !args->isSet("nobrowser");
 
    KApplication::disableAutoDcopRegistration(); 
    KApplication app(isGui, isGui);
@@ -136,17 +137,20 @@ int main(int argc, char **argv) {
       return 0; // error flag on exit?, 1?
    }
 
-   QString address = 
-      args->isSet("address")
-        ? QString::fromLocal8Bit(args->getOption("address"))
-        : "/0";
+   QString address = args->isSet("address")
+                   ? QString::fromLocal8Bit(args->getOption("address"))
+                   : "/0";
+
+   QString caption = args->isSet("caption")
+                   ? QString::fromLocal8Bit(args->getOption("caption"))
+                   : QString::null;
 
    args->clear();
 
    bool readonly = false; // passed by ref
 
    if (askUser(app, (gotArg ? filename : ""), readonly)) {
-      KEBApp *toplevel = new KEBApp(filename, readonly, address, browser);
+      KEBApp *toplevel = new KEBApp(filename, readonly, address, browser, caption);
       toplevel->show();
       app.setMainWidget(toplevel);
       return app.exec();

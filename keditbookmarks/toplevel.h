@@ -110,7 +110,7 @@ class KEBApp : public KMainWindow {
 public:
    static KEBApp* self() { return s_topLevel; }
 
-   KEBApp(const QString & bookmarksFile, bool readonly, const QString &address, bool browser);
+   KEBApp(const QString & bookmarksFile, bool readonly, const QString &address, bool browser, const QString &caption);
    virtual ~KEBApp();
 
    void setModifiedFlag(bool);
@@ -129,6 +129,7 @@ public:
 
    KToggleAction* getToggleAction(const char *) const;
 
+   QString caption() const { return m_caption; }
    bool readonly() const { return m_readOnly; }
    bool modified() const { return m_modified; }
    bool splitView() const { return m_splitView; } 
@@ -171,6 +172,7 @@ private:
    BookmarkInfoWidget *m_bkinfo;
 
    QString m_bookmarksFilename;
+   QString m_caption;
 
    bool m_modified:1;
    bool m_canPaste:1;

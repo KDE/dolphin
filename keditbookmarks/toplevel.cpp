@@ -329,11 +329,12 @@ void MagicKLineEdit::mousePressEvent(QMouseEvent *ev) {
    QLineEdit::mousePressEvent(ev);
 }
 
-KEBApp::KEBApp(const QString &bookmarksFile, bool readonly, const QString &address, bool browser)
-   : KMainWindow(), m_dcopIface(0), m_browser(browser) {
+KEBApp::KEBApp(
+   const QString &bookmarksFile, bool readonly, 
+   const QString &address, bool browser, const QString &caption 
+) : KMainWindow(), m_dcopIface(0), m_browser(browser), 
+    m_caption(caption), m_readOnly(readonly), m_bookmarksFilename(bookmarksFile) {
 
-   m_bookmarksFilename = bookmarksFile;
-   m_readOnly = readonly;
    m_cmdHistory = new CmdHistory(actionCollection());
 
    s_topLevel = this;
@@ -632,15 +633,8 @@ void KEBApp::setModifiedFlag(bool modified) {
 
    setCaption(caption, m_modified);
 
-   // AK - commented due to usability bug by zander
-   // AK - on second thoughts. this is just wrong. and against
-   // the style guide. maybe zander just saw a bug. doubt it though...
-   // actionCollection()->action("file_save")->setEnabled(m_modified);
-
-   // only update when non-modified
-   // - this means that when we have modifications
-   //   changes are sent via dcop rather than via
-   //   a reload - which would loose user changes
+   // we receive dcop if modified 
+   // rather than reparse notifies
    CurrentMgr::self()->setUpdate(!m_modified);
 }
 
