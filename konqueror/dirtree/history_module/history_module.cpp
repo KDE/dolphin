@@ -17,8 +17,14 @@
    Boston, MA 02111-1307, USA.
 */
 
+#include <qpopupmenu.h>
+
+#include <kaction.h>
+#include <klocale.h>
+
 #include <konq_historymgr.h>
 #include <konq_drag.h>
+#include <konq_tree.h>
 
 #include "history_module.h"
 
@@ -39,6 +45,14 @@ KonqHistoryModule::KonqHistoryModule( KonqTree * parentTree, const char *name )
 	     SLOT( slotEntryAdded( const KonqHistoryEntry * ) ));
     connect( manager, SIGNAL( entryRemoved( const KonqHistoryEntry *) ),
 	     SLOT( slotEntryRemoved( const KonqHistoryEntry *) ));
+    
+    m_collection = new KActionCollection( this, "history actions" );
+    (void) new KAction( i18n("&Remove entry"), 0, this,
+			SLOT( slotRemoveEntry() ), m_collection, "remove");
+    (void) new KAction( i18n("C&lear History"), 0, manager,
+			SLOT( emitClear() ), m_collection, "clear");
+    (void) new KAction( i18n("Preferences..."), 0, this, 
+			SLOT( slotPreferences()), m_collection, "preferences");
 }
 
 void KonqHistoryModule::slotCreateItems()
@@ -83,6 +97,33 @@ void KonqHistoryModule::addTopLevelItem( KonqTreeTopLevelItem * item )
 {
     m_topLevelItem = item;
     slotCreateItems(); // hope this is correct here, but it should
+}
+
+void KonqHistoryModule::showPopupMenu( KonqHistoryItem * /*item*/ )
+{
+    qDebug("*** coll: %i", m_collection->count());
+    
+    QPopupMenu *menu = new QPopupMenu;
+    m_collection->action("remove")->plug( menu );
+    m_collection->action("clear")->plug( menu );
+    menu->insertSeparator();
+    m_collection->action("preferences")->plug( menu );
+    
+    menu->popup( QCursor::pos() );
+}
+
+void KonqHistoryModule::slotRemoveEntry()
+{
+    KonqHistoryItem *item = static_cast<KonqHistoryItem*>(tree()->selectedItem());
+    if ( !item )
+	return;
+    
+    KonqHistoryManager::self()->emitRemoveFromHistory( item->url() );
+}
+
+void KonqHistoryModule::slotPreferences()
+{
+    
 }
 
 #include "history_module.moc"

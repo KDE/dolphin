@@ -26,6 +26,7 @@
 
 #include "history_item.h"
 
+class KActionCollection;
 class KonqTree;
 class KonqTreeItem;
 
@@ -39,6 +40,8 @@ public:
 
     virtual void addTopLevelItem( KonqTreeTopLevelItem * item );
 
+    void showPopupMenu( KonqHistoryItem * );
+    
 public slots:
     virtual void clearAll();
 
@@ -47,11 +50,16 @@ private slots:
     void slotEntryAdded( const KonqHistoryEntry * );
     void slotEntryRemoved( const KonqHistoryEntry * );
 
+    void slotRemoveEntry();
+    void slotPreferences();
+    
 private:
     typedef QPtrDictIterator<KonqHistoryItem> HistoryItemIterator;
     QPtrDict<KonqHistoryItem> m_dict;
 
     KonqTreeTopLevelItem * m_topLevelItem;
+    
+    KActionCollection *m_collection;
 };
 
 

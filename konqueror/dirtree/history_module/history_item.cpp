@@ -28,7 +28,7 @@
 KonqHistoryItem::KonqHistoryItem( KonqTree * /*parent*/,
 				  KonqTreeTopLevelItem *topLevelItem,
 				  const KonqHistoryEntry *entry)
-    : KonqTreeItem( topLevelItem, 0L ),
+    : KonqTreeItem( topLevelItem, topLevelItem ),
       m_entry( entry )
 {
     setText( 0, m_entry->url );
@@ -62,6 +62,7 @@ void KonqHistoryItem::setOpen( bool open )
 
 void KonqHistoryItem::rightButtonPressed()
 {
+    MYMODULE->showPopupMenu( this );
 }
 
 QDragObject * KonqHistoryItem::dragObject( QWidget * parent, bool move )

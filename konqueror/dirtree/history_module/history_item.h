@@ -47,8 +47,10 @@ public:
     virtual void itemSelected();
 
     // The URL to open when this link is clicked
-    virtual KURL externalURL() const { return m_entry->url; }
+    virtual KURL externalURL() const { return KURL(m_entry->url); }
 
+    const QString& url() const { return m_entry->url; }
+    
     void update( const KonqHistoryEntry *entry );
 
     virtual QDragObject * dragObject( QWidget * parent, bool move = false );
