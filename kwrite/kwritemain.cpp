@@ -243,7 +243,11 @@ void TopLevel::toggleStatusBar()
 
 void TopLevel::editKeys()
 {
-  KKeyDialog::configureKeys(actionCollection(), xmlFile());
+  KKeyDialog dlg;
+  dlg.insert(actionCollection());
+  if( kateView )
+    dlg.insert(kateView->actionCollection());
+  dlg.configure();
 }
 
 void TopLevel::editToolbars()
