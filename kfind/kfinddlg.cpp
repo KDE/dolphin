@@ -36,6 +36,10 @@ KfindDlg::KfindDlg(const KURL & url, QWidget *parent, const char *name)
   setEscapeButton(User2);
 
   setButtonApplyText(i18n("About"));
+  
+  // remove misleading default help
+  setButtonWhatsThis(Apply,QString::null);
+  setButtonTip(Apply,QString::null);
 
   isResultReported = false;
 
