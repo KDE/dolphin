@@ -95,6 +95,7 @@
 #include <kpopupmenu.h>
 #include <kprocess.h>
 #include <kio/scheduler.h>
+#include <kaccelmanager.h>
 
 #ifdef KDE_MALLINFO_STDLIB
 #include <stdlib.h>
@@ -377,8 +378,8 @@ void KonqMainWindow::removeContainer( QWidget *container, QWidget *parent, QDomE
   if ( element.tagName() == tagToolBar && element.attribute( "name" ) == nameBookmarkBar )
   {
     assert( container->inherits( "KToolBar" ) );
-
-    m_paBookmarkBar->clear();
+    if (m_paBookmarkBar)
+      m_paBookmarkBar->clear();
   }
 
   KParts::MainWindow::removeContainer( container, parent, element, id );
@@ -1881,6 +1882,9 @@ void KonqMainWindow::slotPartActivated( KParts::Part *part )
       m_paMoveFiles->setEnabled( false );
   }
   createGUI( part );
+  QPopupMenu *popup = static_cast<QPopupMenu*>(factory()->container("edit",this));
+  if (popup)
+	KAcceleratorManager::manage(popup);
 
   KActionCollection *coll = m_currentView->part()->actionCollection();
   if ( coll )
