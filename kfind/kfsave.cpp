@@ -8,6 +8,7 @@
 #include <kapp.h>
 
 #include "kfsave.h"
+#include <kconfig.h>
 
 // Initialize KfSaveOptions object
 /* Scans konfiguration file for saving parameters

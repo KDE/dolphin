@@ -8,6 +8,7 @@
 #include <string.h>
 
 #include "kfarch.h"
+#include <kconfig.h>
 
 QList<KfArchiver> *archivers;        
 

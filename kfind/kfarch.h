@@ -4,8 +4,8 @@
  *
  **********************************************************************/
 
-class QString;
-class QStrList;
+#include <qstring.h>
+#include <qstrlist.h>
 
 class KfArchiver
 {

@@ -29,6 +29,7 @@
 #include <assert.h>
 #include <string.h>
 #include <drag.h>
+#include <kdebug.h>
 
 /*******************************************************
  *
