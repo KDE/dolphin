@@ -573,7 +573,8 @@ void KonqMainWindow::openURL( KonqView *_view, const KURL &_url,
             if ( !url.isLocalFile() && KonqRun::isTextExecutable( serviceType ) )
                 serviceType = "text/plain"; // view, don't execute
             // Remote URL: save or open ?
-            bool open = url.isLocalFile();
+            QString protClass = KProtocolInfo::protocolClass(url.protocol());
+            bool open = url.isLocalFile() || protClass==":local";
             if ( !open ) {
                 KParts::BrowserRun::AskSaveResult res = KonqRun::askSave( url, offer, serviceType );
                 if ( res == KParts::BrowserRun::Save )
