@@ -51,6 +51,7 @@ public:
   void save();
   void defaults();
   QString quickHelp() const;
+  const KAboutData* aboutData() const;
 
 
 protected:
