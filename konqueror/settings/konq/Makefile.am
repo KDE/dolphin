@@ -17,6 +17,9 @@ libkcm_konq_ladir = $(kde_datadir)/kcontrol/pics
 data_DATA = kcmkonq.desktop
 datadir = $(kde_appsdir)/Settings/Browsing/Files
 
+data2_DATA = desktop.desktop
+data2dir = $(kde_appsdir)/Settings/LookNFeel/Desktop
+
 EXTRA_DIST = $(libkcm_konq_la_DATA) $(data_DATA)
 
 messages:
