@@ -181,8 +181,7 @@ bool KonqDirTreePart::openURL( const KURL & url )
 
 bool KonqDirTreePart::closeURL()
 {
-  // (David) shouldn't we stop the dirLister here?
-
+  // Nothing to do
   return true;
 }
 
@@ -338,7 +337,8 @@ void KonqDirTree::removeSubDir( KonqDirTreeItem *item, KonqDirTreeItem *topLevel
 void KonqDirTree::followURL( const KURL &_url )
 {
   kdDebug(1202) << "KonqDirTree::followURL: " << _url.url() << endl;
-  KURL u( _url );
+  KURL uParent( _url.upURL() );
+
   QValueList<TopLevelItem>::ConstIterator it = m_topLevelItems.begin();
   QValueList<TopLevelItem>::ConstIterator end = m_topLevelItems.end();
   for (; it != end; ++it )
@@ -346,14 +346,26 @@ void KonqDirTree::followURL( const KURL &_url )
     QMap<KURL, KonqDirTreeItem *>::ConstIterator dirIt = (*it).m_mapSubDirs->begin();
     QMap<KURL, KonqDirTreeItem *>::ConstIterator dirEnd = (*it).m_mapSubDirs->end();
     for (; dirIt != dirEnd; ++dirIt )
-      if ( u.cmp( dirIt.key(), true ) )
+    {
+      // That's the URL we want to follow -> ensure visible, select, return.
+      if ( _url.cmp( dirIt.key(), true ) )
       {
-        if ( !dirIt.data()->isOpen() )
-            dirIt.data()->setOpen( true );
 	ensureItemVisible( dirIt.data() );
         setSelected( dirIt.data(), true );
         return;
       }
+      // That's the parent directory. Open if not open...
+      if ( uParent.cmp( dirIt.key(), true ) )
+      {
+        if ( !dirIt.data()->isOpen() )
+        {
+            m_selectAfterOpening = _url;
+            //kdDebug(1202) << "KonqDirTree::followURL: m_selectAfterOpening=" << m_selectAfterOpening.url() << endl;
+            dirIt.data()->setOpen( true );
+            return; // We know we won't find it
+        }
+      }
+    }
   }
   kdDebug(1202) << "KonqDirTree::followURL: Not found" << endl;
 }
@@ -606,7 +618,9 @@ void KonqDirTree::slotListingStopped()
 
   KURL::List::Iterator it = topLevelItem.m_lstPendingURLs->find( url );
   if ( it != topLevelItem.m_lstPendingURLs->end() )
+  {
     topLevelItem.m_lstPendingURLs->remove( it );
+  }
 
   if ( topLevelItem.m_lstPendingURLs->count() > 0 )
     topLevelItem.m_dirLister->openURL( topLevelItem.m_lstPendingURLs->first(), false, true );
@@ -615,6 +629,11 @@ void KonqDirTree::slotListingStopped()
   if ( oIt != m_mapCurrentOpeningFolders.end() )
   {
     oIt.data()->setPixmap( 0, m_folderPixmap );
+    if ( m_selectAfterOpening.upURL() == url )
+    {
+      followURL( m_selectAfterOpening );
+      m_selectAfterOpening = KURL();
+    }
 
     m_mapCurrentOpeningFolders.remove( oIt );
 

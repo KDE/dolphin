@@ -154,6 +154,8 @@ private:
   QTimer *m_autoOpenTimer;
 
   QListViewItem *m_lastItem;
+
+  KURL m_selectAfterOpening;
 };
 
 class KonqDirTreeBrowserExtension : public KParts::BrowserExtension
