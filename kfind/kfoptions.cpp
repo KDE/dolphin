@@ -46,7 +46,7 @@ KfOptions::KfOptions( QWidget *parent, const char *name ):QTabDialog( parent, na
     resize(400,330);
     insertPages();
 
-    setOKButton( i18n("OK"));
+    setOkButton( i18n("OK"));
     setCancelButton( i18n("Cancel"));
     setCaption(i18n("Preferences"));
 
