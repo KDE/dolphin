@@ -114,15 +114,18 @@ void KBookmarkMenu::fillBookmarkMenu( KBookmark *parent )
     m_paAddBookmarks->plug( m_parentMenu );
     m_parentMenu->insertSeparator();
 
-    KActionMenu * actionMenu = new KActionMenu( i18n("Netscape Bookmarks"), QIconSet( ),
-                                              m_actionCollection, 0L );
-    actionMenu->plug( m_parentMenu );
-    KBookmarkMenu *subMenu = new KBookmarkMenu( m_pOwner, actionMenu->popupMenu(),
-                                                m_actionCollection, false,
-                                                m_bAddBookmark );
-    m_lstSubMenus.append(subMenu);
-    connect(actionMenu->popupMenu(), SIGNAL(aboutToShow()), subMenu, SLOT(slotNSLoad()));
-    m_parentMenu->insertSeparator();
+    if ( m_bIsRoot )
+    {
+      KActionMenu * actionMenu = new KActionMenu( i18n("Netscape Bookmarks"), QIconSet( ),
+                                                  m_actionCollection, 0L );
+      actionMenu->plug( m_parentMenu );
+      KBookmarkMenu *subMenu = new KBookmarkMenu( m_pOwner, actionMenu->popupMenu(),
+                                                  m_actionCollection, false,
+                                                  m_bAddBookmark );
+      m_lstSubMenus.append(subMenu);
+      connect(actionMenu->popupMenu(), SIGNAL(aboutToShow()), subMenu, SLOT(slotNSLoad()));
+      m_parentMenu->insertSeparator();
+    }
   }
 
   for ( KBookmark * bm = parent->first(); bm != 0L;  bm = parent->next() )
@@ -130,16 +133,16 @@ void KBookmarkMenu::fillBookmarkMenu( KBookmark *parent )
     if ( bm->type() == KBookmark::URL )
     {
       // create a normal URL item, with ID as a name
-      QPixmap pix = KGlobal::iconLoader()->loadIcon(bm->pixmapFile(),
-                                                               KIconLoader::Small);
-      KAction * action = new KAction( bm->text(), QIconSet( pix ), 0,
+      //QPixmap pix = KGlobal::iconLoader()->loadIcon(bm->pixmapFile(),
+      //                                                         KIconLoader::Small);
+      KAction * action = new KAction( bm->text(), bm->pixmapFile(), 0,
                                       this, SLOT( slotBookmarkSelected() ),
                                       m_actionCollection, QString("bookmark%1").arg(bm->id()) );
       action->plug( m_parentMenu );
     }
     else
     {	
-      KActionMenu * actionMenu = new KActionMenu( bm->text(), QIconSet( BarIcon( bm->pixmapFile() ) ),
+      KActionMenu * actionMenu = new KActionMenu( bm->text(), bm->pixmapFile(),
                                                   m_actionCollection, 0L );
       actionMenu->plug( m_parentMenu );
       KBookmarkMenu *subMenu = new KBookmarkMenu( m_pOwner, actionMenu->popupMenu(),
@@ -236,7 +239,7 @@ void KBookmarkMenu::openNSBookmarks()
         QCString name = t.mid(t.find('>', 8)+1);
         name = name.left(name.findRev('<'));
 
-        KActionMenu * actionMenu = new KActionMenu( KBookmark::stringSqueeze(QString(name)), QIconSet(),
+        KActionMenu * actionMenu = new KActionMenu( KBookmark::stringSqueeze(QString(name)), "folder",
                                                     m_actionCollection, 0L );
         actionMenu->plug( mstack.top()->m_parentMenu );
         KBookmarkMenu *subMenu = new KBookmarkMenu( m_pOwner, actionMenu->popupMenu(),
