@@ -1132,17 +1132,31 @@ void KonqMainView::slotUpAboutToShow()
 
 void KonqMainView::slotBackAboutToShow()
 {
-  fillHistoryPopup( m_paBack->popupMenu(), m_currentView->backHistory() );
+  m_paBack->popupMenu()->clear();
+  m_paBack->fillHistoryPopup( m_currentView->backHistory() );
 }
 
 void KonqMainView::slotForwardAboutToShow()
 {
-  fillHistoryPopup( m_paForward->popupMenu(), m_currentView->forwardHistory() );
+  m_paForward->popupMenu()->clear();
+  m_paForward->fillHistoryPopup( m_currentView->forwardHistory() );
+}
+
+void KonqMainView::slotGoMenuAboutToShow()
+{
+  m_paBack->fillGoMenu( m_currentView->backHistory() );
 }
 
 void KonqMainView::slotUpActivated( int id )
 {
-  openURL( 0L, KURL( m_paUp->popupMenu()->text( id ) ) );
+  QString url = m_paUp->popupMenu()->text( id );
+  KURL::encode(url); // re-encode
+  openURL( 0L, KURL( url ) );
+}
+
+void KonqMainView::slotGoHistoryActivated( int steps )
+{
+  m_currentView->goBack( steps );
 }
 
 void KonqMainView::slotBackActivated( int id )
@@ -1235,7 +1249,7 @@ void KonqMainView::slotFullScreenStart()
 }
 
 void KonqMainView::attachToolbars( KonqFrame *frame )
-{ 
+{
   QWidget *toolbar = guiFactory()->container( "locationToolBar", this );
   if ( toolbar->parentWidget() != frame )
     toolbar->recreate( frame, 0, QPoint( 0,0 ), true );
@@ -1245,7 +1259,7 @@ void KonqMainView::attachToolbars( KonqFrame *frame )
   if ( toolbar->parentWidget() != frame )
     toolbar->recreate( frame, 0, QPoint( 0, 0 ), true );
   frame->layout()->insertWidget( 0, toolbar );
-} 
+}
 
 void KonqMainView::slotFullScreenStop()
 {
@@ -1263,22 +1277,6 @@ void KonqMainView::slotFullScreenStop()
 
   toolbar1->recreate( this, 0, QPoint( 0, 0 ), true );
   toolbar2->recreate( this, 0, QPoint( 0, 0 ), true );
-}
-
-void KonqMainView::fillHistoryPopup( QPopupMenu *menu, const QList<HistoryEntry> &history )
-{
-  menu->clear();
-
-  QListIterator<HistoryEntry> it( history );
-  uint i = 0;
-  for (; it.current(); ++it )
-  {
-    menu->insertItem( KMimeType::mimeType( it.current()->strServiceType )->pixmap( KIconLoader::Small ),
-                      it.current()->url.url() );
-    if ( ++i > 10 )
-      break;
-  }
-
 }
 
 void KonqMainView::setLocationBarURL( KonqChildView *childView, const QString &url )
@@ -1321,7 +1319,6 @@ void KonqMainView::initActions()
 {
   // File menu
   /*
-    TODO in the next kparts
   KActionMenu * m_pamFile = (KActionMenu *)(actionCollection()->action("file_menu"));
   QObject::connect( m_pamFile->popupMenu(), SIGNAL(aboutToShow()),
                     this, SLOT(slotFileNewAboutToShow()) );
@@ -1331,7 +1328,7 @@ void KonqMainView::initActions()
   QObject::connect( m_pMenuNew->popupMenu(), SIGNAL(aboutToShow()),
                     this, SLOT(slotFileNewAboutToShow()) );
 
-	m_paNewWindow = new KAction( i18n( "New &Window" ), QIconSet( BarIcon( "filenew",  KonqFactory::instance() ) ), KStdAccel::key(KStdAccel::New), this, SLOT( slotNewWindow() ), actionCollection(), "new_window" );
+  m_paNewWindow = new KAction( i18n( "New &Window" ), QIconSet( BarIcon( "filenew",  KonqFactory::instance() ) ), KStdAccel::key(KStdAccel::New), this, SLOT( slotNewWindow() ), actionCollection(), "new_window" );
 
   QPixmap execpix = KGlobal::iconLoader()->loadIcon( "exec", KIconLoader::Small );
   m_paRun = new KAction( i18n( "&Run Command..." ), execpix, 0/*kdesktop has a binding for it*/, this, SLOT( slotRun() ), actionCollection(), "run" );
@@ -1347,7 +1344,7 @@ void KonqMainView::initActions()
   m_ptaShowDirTree = new KToggleAction( i18n( "Show Directory Tree" ), 0, actionCollection(), "showdirtree" );
   connect( m_ptaShowDirTree, SIGNAL( toggled( bool ) ), this, SLOT( slotToggleDirTree( bool ) ) );
 
-  // Go menu : TODO : connect to abouttoshow and append max 10 history items
+  // Go menu
   m_paUp = new KonqHistoryAction( i18n( "&Up" ), QIconSet( BarIcon( "up", KonqFactory::instance() ) ), ALT+Key_Up, actionCollection(), "up" );
 
   connect( m_paUp, SIGNAL( activated() ), this, SLOT( slotUp() ) );
@@ -1359,6 +1356,10 @@ void KonqMainView::initActions()
   m_paBack->setEnabled( false );
 
   connect( m_paBack, SIGNAL( activated() ), this, SLOT( slotBack() ) );
+  // go menu
+  connect( m_paBack, SIGNAL( menuAboutToShow() ), this, SLOT( slotGoMenuAboutToShow() ) );
+  connect( m_paBack, SIGNAL( activated( int ) ), this, SLOT( slotGoHistoryActivated( int ) ) );
+  // toolbar button
   connect( m_paBack->popupMenu(), SIGNAL( aboutToShow() ), this, SLOT( slotBackAboutToShow() ) );
   connect( m_paBack->popupMenu(), SIGNAL( activated( int ) ), this, SLOT( slotBackActivated( int ) ) );
 

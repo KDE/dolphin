@@ -26,6 +26,7 @@
 
 class KBookmarkOwner;
 class QComboBox;
+class HistoryEntry;
 
 class KonqComboAction : public QAction
 {
@@ -67,14 +68,31 @@ public:
     virtual int plug( QWidget *widget, int index = -1 );
     virtual void unplug( QWidget *widget );
 
+    // If popup is 0, uses m_popup - useful for the toolbar buttons
+    //   (clear it first)
+    // Otherwise uses popup - useful for existing toolbar menu
+    void fillHistoryPopup( const QList<HistoryEntry> &history,
+                           QPopupMenu * popup = 0L );
+
+    void fillGoMenu( const QList<HistoryEntry> &history );
+
     virtual void setEnabled( bool b );
 
     virtual void setIconSet( const QIconSet& iconSet );
 
     QPopupMenu *popupMenu();
 
+protected slots:
+    void slotActivated( int );
+
+signals:
+    void menuAboutToShow();
+    void activated( int );
+
 private:
-    QPopupMenu *m_popup;
+    int m_firstIndex; // first index in the Go menu
+    QPopupMenu *m_popup; // hack 1 :)
+    QPopupMenu *m_goMenu; // hack 2 :)
 };
 
 class KonqLogoAction : public KAction

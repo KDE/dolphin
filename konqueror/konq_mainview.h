@@ -204,10 +204,12 @@ protected slots:
 
   void slotAbout();
 
+  void slotGoMenuAboutToShow();
   void slotUpAboutToShow();
   void slotBackAboutToShow();
   void slotForwardAboutToShow();
 
+  void slotGoHistoryActivated( int steps );
   void slotUpActivated( int id );
   void slotBackActivated( int id );
   void slotForwardActivated( int id );

@@ -76,7 +76,7 @@ KonqChildView::KonqChildView( KonqViewFactory &viewFactory,
 KonqChildView::~KonqChildView()
 {
   kDebugInfo(1202,"KonqChildView::~KonqChildView");
-  delete m_pKonqFrame;
+  // No! We don't take ownership! (David) delete m_pKonqFrame;
   //  delete m_pView;
   delete (KonqRun *)m_pRun;
 }
@@ -112,6 +112,7 @@ void KonqChildView::openURL( const KURL &url, bool useMiscURLData  )
 
 void KonqChildView::switchView( KonqViewFactory &viewFactory )
 {
+  kdDebug(1202) << "KonqChildView::switchView" << endl;
   if ( m_pView )
     m_pView->widget()->hide();
 
@@ -163,7 +164,7 @@ bool KonqChildView::changeViewMode( const QString &serviceType,
 
 void KonqChildView::connectView(  )
 {
-
+  kdDebug(1202) << "KonqChildView::connectView" << endl;
   connect( m_pView, SIGNAL( started( KIO::Job * ) ),
            this, SLOT( slotStarted( KIO::Job * ) ) );
   connect( m_pView, SIGNAL( completed() ),

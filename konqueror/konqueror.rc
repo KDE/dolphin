@@ -44,6 +44,7 @@
   <Action name="go_applications"/>
   <Action name="go_dirtree"/>
   <Action name="go_trash"/>
+  <Separator/>
  </Menu>
  <Action name="bookmarks"/>
  <Menu name="options"><text>&amp;Options</text>

@@ -494,10 +494,12 @@ KonqChildView *KonqViewManager::setupView( KonqFrameContainer *parentContainer,
   if ( sType.isEmpty() )
     sType = m_pMainView->currentChildView()->serviceType();
 
-  KonqFrame* newViewFrame = new KonqFrame( parentContainer );
+  KonqFrame* newViewFrame = new KonqFrame( parentContainer, "KonqFrame" );
 
+  kDebugInfo( 1202, "Creating KonqChildView" );
   KonqChildView *v = new KonqChildView( viewFactory, newViewFrame,
 					m_pMainView, service, serviceOffers, sType );
+  kDebugInfo( 1202, "KonqChildView created" );
 
   QObject::connect( v, SIGNAL( sigViewChanged( KParts::ReadOnlyPart *, KParts::ReadOnlyPart * ) ),
                     m_pMainView, SLOT( slotViewChanged( KParts::ReadOnlyPart *, KParts::ReadOnlyPart * ) ) );
@@ -510,6 +512,7 @@ KonqChildView *KonqViewManager::setupView( KonqFrameContainer *parentContainer,
 
   addPart( v->view(), false );
 
+  kDebugInfo( 1202, "KonqViewManager::setupView done" );
   return v;
 }
 

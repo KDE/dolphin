@@ -26,6 +26,7 @@
 #include <qcombobox.h>
 
 #include <ktoolbar.h>
+#include <konq_childview.h> // HistoryEntry
 
 KonqComboAction::KonqComboAction( const QString& text, int accel, const QObject *receiver, const char *member,
 			          QObject* parent, const char* name )
@@ -82,6 +83,7 @@ KonqHistoryAction::KonqHistoryAction( const QString& text, int accel, QObject* p
   : KAction( text, accel, parent, name )
 {
   m_popup = 0;
+  m_firstIndex = 0;
 }
 
 KonqHistoryAction::KonqHistoryAction( const QString& text, int accel,
@@ -89,24 +91,28 @@ KonqHistoryAction::KonqHistoryAction( const QString& text, int accel,
   : KAction( text, accel, receiver, slot, parent, name )
 {
   m_popup = 0;
+  m_firstIndex = 0;
 }
 
 KonqHistoryAction::KonqHistoryAction( const QString& text, const QIconSet& pix, int accel, QObject* parent, const char* name )
   : KAction( text, pix, accel, parent, name )
 {
   m_popup = 0;
+  m_firstIndex = 0;
 }
 
 KonqHistoryAction::KonqHistoryAction( const QString& text, const QIconSet& pix,int accel, QObject* receiver, const char* slot, QObject* parent, const char* name )
   : KAction( text, pix, accel, receiver, slot, parent, name )
 {
   m_popup = 0;
+  m_firstIndex = 0;
 }
 
 KonqHistoryAction::KonqHistoryAction( QObject* parent, const char* name )
   : KAction( parent, name )
 {
   m_popup = 0;
+  m_firstIndex = 0;
 }
 
 KonqHistoryAction::~KonqHistoryAction()
@@ -134,8 +140,40 @@ int KonqHistoryAction::plug( QWidget *widget, int index )
 
     return containerCount() - 1;
   }
+  if ( widget->inherits("QPopupMenu") )
+  {
+	m_goMenu = (QPopupMenu*)widget;
+        // Forward signal (to main view)
+        connect( m_goMenu, SIGNAL( aboutToShow() ),
+                 this, SIGNAL( menuAboutToShow() ) );
+        connect( m_goMenu, SIGNAL( activated( int ) ),
+                 this, SLOT( slotActivated( int ) ) );
+        // Do not return, we also want the default behaviour (get the item in the menu)
+  }
 
   return KAction::plug( widget, index );
+}
+
+void KonqHistoryAction::fillGoMenu( const QList<HistoryEntry> &history )
+{
+    // Tricky. The first time, the menu doesn't contain history
+    // (but contains the other actions) -> store count at that point
+    if ( m_firstIndex == 0 )
+    {
+        m_firstIndex = m_goMenu->count();
+    }
+    else
+    { // Clean up old history (from the end, to avoid shifts)
+        for ( int i = m_goMenu->count()-1 ; i >= m_firstIndex; i-- )
+            m_goMenu->removeItemAt( i );
+    }
+    // TODO perhaps smarter algorithm (rename existing items, create new ones only if not enough)
+    fillHistoryPopup( history, m_goMenu );
+}
+
+void KonqHistoryAction::slotActivated( int id )
+{
+  emit activated( m_goMenu->indexOf(id) - m_firstIndex + 1 );
 }
 
 void KonqHistoryAction::unplug( QWidget *widget )
@@ -156,6 +194,24 @@ void KonqHistoryAction::unplug( QWidget *widget )
   }
 
   KAction::unplug( widget );
+}
+
+void KonqHistoryAction::fillHistoryPopup( const QList<HistoryEntry> &history,
+                                          QPopupMenu * popup )
+{
+  if ( !popup )
+    popup = popupMenu();
+
+  QListIterator<HistoryEntry> it( history );
+  uint i = 0;
+  for (; it.current(); ++it )
+  {
+    popup->insertItem( KMimeType::mimeType( it.current()->strServiceType )->pixmap( KIconLoader::Small ),
+                       it.current()->url.decodedURL() );
+    if ( ++i > 10 )
+      break;
+  }
+
 }
 
 void KonqHistoryAction::setEnabled( bool b )

@@ -199,7 +199,7 @@ KParts::ReadOnlyPart *KonqFrame::attach( const KonqViewFactory &viewFactory )
 {
    KonqViewFactory factory( viewFactory );
 
-   m_pView = factory.create( this, 0L );
+   m_pView = factory.create( this, "child view" );
 
    assert( m_pView->widget() );
 
@@ -212,9 +212,10 @@ KParts::ReadOnlyPart *KonqFrame::attach( const KonqViewFactory &viewFactory )
 
 void KonqFrame::attachInternal()
 {
+   kdDebug(1202) << "KonqFrame::attachInternal()" << endl;
    if (m_pLayout) delete m_pLayout;
 
-   m_pLayout = new QVBoxLayout( this );
+   m_pLayout = new QVBoxLayout( this, 0, -1, "KonqFrame's QVBoxLayout" );
 
    m_pLayout->addWidget( m_pView->widget() );
    m_pLayout->addWidget( m_pHeader );
