@@ -80,13 +80,17 @@ KJavaOptions::KJavaOptions( KConfig* config, QString group,
     toplevel->addWidget( javartGB );
 
     QHBox* hbox = new QHBox( javartGB );
+    QHBox* hbox2 = new QHBox( javartGB );
     javaConsoleCB = new QCheckBox( i18n( "Sho&w Java console" ), hbox );
     connect( javaConsoleCB, SIGNAL(toggled( bool )), this, SLOT(slotChanged()) );
 
     javaSecurityManagerCB = new QCheckBox( i18n("&Use security manager" ), hbox );
     connect( javaSecurityManagerCB, SIGNAL(toggled( bool )), this, SLOT(slotChanged()) );
 
-    enableShutdownCB = new QCheckBox( i18n("Shu&tdown applet server when inactive"), javartGB );
+    useKioCB = new QCheckBox( i18n("Use &KIO"), hbox2 );
+    connect( useKioCB, SIGNAL(toggled( bool )), this, SLOT(slotChanged()) );
+
+    enableShutdownCB = new QCheckBox( i18n("Shu&tdown applet server when inactive"), hbox2 );
     connect( enableShutdownCB, SIGNAL(toggled( bool )), this, SLOT(slotChanged()) );
     connect( enableShutdownCB, SIGNAL(clicked()), this, SLOT(toggleJavaControls()) );
 
@@ -157,6 +161,8 @@ KJavaOptions::KJavaOptions( KConfig* config, QString group,
                                                   "policytool utility to give code downloaded from certain sites more "
                                                   "permissions." ) );
 
+    QWhatsThis::add( useKioCB, i18n( "Enabling this will cause the jvm to use KIO for network transport ") );
+
     QWhatsThis::add( pathED, i18n("Enter the path to the java executable. If you want to use the jre in "
                                   "your path, simply leave it as 'java'. If you need to use a different jre, "
                                   "enter the path to the java executable (e.g. /usr/lib/jdk/bin/java), "
@@ -183,6 +189,7 @@ void KJavaOptions::load()
     bool bJavaGlobal      = java_global_policies.isFeatureEnabled();
     bool bJavaConsole     = m_pConfig->readBoolEntry( "ShowJavaConsole", false );
     bool bSecurityManager = m_pConfig->readBoolEntry( "UseSecurityManager", true );
+    bool bUseKio = m_pConfig->readBoolEntry( "UseKio", false );
     bool bServerShutdown  = m_pConfig->readBoolEntry( "ShutdownAppletServer", true );
     int  serverTimeout    = m_pConfig->readNumEntry( "AppletServerTimeout", 60 );
 #if defined(PATH_JAVA)
@@ -208,6 +215,7 @@ void KJavaOptions::load()
     enableJavaGloballyCB->setChecked( bJavaGlobal );
     javaConsoleCB->setChecked( bJavaConsole );
     javaSecurityManagerCB->setChecked( bSecurityManager );
+    useKioCB->setChecked( bUseKio );
 
     addArgED->setText( m_pConfig->readEntry( "JavaArgs" ) );
     pathED->lineEdit()->setText( sJavaPath );
@@ -224,6 +232,7 @@ void KJavaOptions::defaults()
     enableJavaGloballyCB->setChecked( false );
     javaConsoleCB->setChecked( false );
     javaSecurityManagerCB->setChecked( true );
+    useKioCB->setChecked( false );
     pathED->lineEdit()->setText( "java" );
     addArgED->setText( "" );
     enableShutdownCB->setChecked(true);
@@ -238,6 +247,7 @@ void KJavaOptions::save()
     m_pConfig->writeEntry( "JavaArgs", addArgED->text() );
     m_pConfig->writePathEntry( "JavaPath", pathED->lineEdit()->text() );
     m_pConfig->writeEntry( "UseSecurityManager", javaSecurityManagerCB->isChecked() );
+    m_pConfig->writeEntry( "UseKio", useKioCB->isChecked() );
     m_pConfig->writeEntry( "ShutdownAppletServer", enableShutdownCB->isChecked() );
     m_pConfig->writeEntry( "AppletServerTimeout", serverTimeoutSB->value() );
 
@@ -265,6 +275,7 @@ void KJavaOptions::toggleJavaControls()
     java_global_policies.setFeatureEnabled( enableJavaGloballyCB->isChecked() );
     javaConsoleCB->setEnabled( isEnabled );
     javaSecurityManagerCB->setEnabled( isEnabled );
+    useKioCB->setEnabled( isEnabled );
     addArgED->setEnabled( isEnabled );
     pathED->setEnabled( isEnabled );
     enableShutdownCB->setEnabled( isEnabled );

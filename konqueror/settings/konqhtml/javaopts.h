@@ -107,6 +107,7 @@ private:
     QCheckBox*     enableJavaGloballyCB;
     QCheckBox*     javaConsoleCB;
     QCheckBox*     javaSecurityManagerCB;
+    QCheckBox*     useKioCB;
     QCheckBox*     enableShutdownCB;
     KIntNumInput*  serverTimeoutSB;
     QLineEdit*     addArgED;
