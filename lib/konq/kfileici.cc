@@ -73,12 +73,20 @@ void KFileICI::returnPressed()
 {
   m_fileitem->run();
 }
-
+#include <iostream.h>
 bool KFileICI::isSmallerThen( const KIconContainerItem &_item )
 {
   // Special handling for fixed pos items
   if ( hasFixedPos() && !_item.hasFixedPos() )
     return true;
+
+  if ( m_fileitem->mimetype() == "inode/directory" && 
+      ((KFileICI&)_item).item()->mimetype() != "inode/directory" )
+    return true;
+
+  if ( m_fileitem->mimetype() != "inode/directory" && 
+      ((KFileICI&)_item).item()->mimetype() == "inode/directory" )
+    return false;
 
   if ( m_pContainer->sortCriterion() != KIconContainerItem::Size )
     return KIconContainerItem::isSmallerThen( _item );
