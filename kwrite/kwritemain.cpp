@@ -417,43 +417,43 @@ void KWrite::slotEnableActions( bool enable )
 //common config
 void KWrite::readConfig(KConfig *config)
 {
+  config->setGroup("General Options");
+
   m_paShowPath->setChecked( config->readBoolEntry("ShowPath") );
   m_recentFiles->loadEntries(config, "Recent Files");
+
+  if (m_kateView && KTextEditor::configInterface(m_kateView->document()))
+    KTextEditor::configInterface(m_kateView->document())->readConfig(config);
 }
 
 
 void KWrite::writeConfig(KConfig *config)
 {
+  config->setGroup("General Options");
+
   if (m_paShowPath)
     config->writeEntry("ShowPath",m_paShowPath->isChecked());
 
   if (m_recentFiles)
     m_recentFiles->saveEntries(config, "Recent Files");
+
+  if (m_kateView && KTextEditor::configInterface(m_kateView->document()))
+    KTextEditor::configInterface(m_kateView->document())->writeConfig(config);
 }
 
 
 //config file
-void KWrite::readConfig() {
-  KConfig *config;
-
-  config = kapp->config();
-
-  config->setGroup("General Options");
+void KWrite::readConfig()
+{
+  KConfig *config = kapp->config();
   readConfig(config);
 }
 
 
 void KWrite::writeConfig()
 {
-  KConfig *config;
-
-  config = kapp->config();
-
-  config->setGroup("General Options");
+  KConfig *config = kapp->config();
   writeConfig(config);
-
-  if (m_kateView && KTextEditor::configInterface(m_kateView->document()))
-    KTextEditor::configInterface(m_kateView->document())->writeConfig();
 }
 
 // session management
