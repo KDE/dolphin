@@ -79,9 +79,10 @@ enum _ids {
     MEDIT_SAVEGEOMETRY_ID,
 
     MVIEW_SPLITWINDOW_ID, MVIEW_ROWABOVE_ID, MVIEW_ROWBELOW_ID,
-    MVIEW_SHOWDOT_ID, MVIEW_IMAGEPREVIEW_ID, MVIEW_LARGEICONS_ID,
-    MVIEW_SMALLICONS_ID, MVIEW_TREEVIEW_ID, MVIEW_HTMLVIEW_ID, MVIEW_RELOADTREE_ID,
-    MVIEW_RELOAD_ID // + view frame source, view document source, document encoding
+    MVIEW_SHOWDOT_ID, MVIEW_SHOWHTML_ID,
+    MVIEW_LARGEICONS_ID, MVIEW_SMALLICONS_ID, MVIEW_TREEVIEW_ID, 
+    MVIEW_RELOAD_ID, MVIEW_STOPLOADING_ID
+    // + view frame source, view document source, document encoding
 
     // clear cache is needed somewhere
     // MOPTIONS_...
@@ -566,6 +567,14 @@ void KonqMainView::insertView( Konqueror::View_ptr view,
 
 void KonqMainView::setActiveView( OpenParts::Id id )
 {
+  // clean view-specific part of the view menu
+  Konqueror::View::EventCreateViewMenu EventViewMenu;
+  if ( m_currentView != 0L )
+  {
+    EventViewMenu.menu = OpenPartsUI::Menu::_nil(); 
+    EMIT_EVENT( m_currentView->m_vView, Konqueror::View::eventCreateViewMenu, EventViewMenu );
+  }
+
   map<OpenParts::Id,View*>::iterator it = m_mapViews.find( id );
 
   assert( it != m_mapViews.end() );
@@ -587,6 +596,9 @@ void KonqMainView::setActiveView( OpenParts::Id id )
 
   if ( !CORBA::is_nil( m_vLocationBar ) )
     m_vLocationBar->setLinedText( TOOLBAR_URL_ID, m_currentView->m_strLocationBarURL.ascii() );
+  
+  EventViewMenu.menu = OpenPartsUI::Menu::_duplicate( m_vMenuView );
+  EMIT_EVENT( m_currentView->m_vView, Konqueror::View::eventCreateViewMenu, EventViewMenu );
 }
 
 Konqueror::View_ptr KonqMainView::activeView()
@@ -1357,32 +1369,29 @@ void KonqMainView::createViewMenu()
     m_vMenuView->insertItem4( i18n("Split &window"), this, "slotSplitView" , 0, MVIEW_SPLITWINDOW_ID, -1 );
     m_vMenuView->insertItem4( i18n("Add row &above"), this, "slotRowAbove" , 0, MVIEW_ROWABOVE_ID, -1 );
     m_vMenuView->insertItem4( i18n("Add row &below"), this, "slotRowBelow" , 0, MVIEW_ROWBELOW_ID, -1 );
+    m_vMenuView->insertSeparator( -1 );
     m_vMenuView->insertItem4( i18n("Show &Dot Files"), this, "slotShowDot" , 0, MVIEW_SHOWDOT_ID, -1 );
+    
+    // Two namings for the same thing ! We have to decide ourselves. 
+    // I prefer the second one, because of .kde.html
+    //m_vMenuView->insertItem4( i18n("&Always Show index.html"), this, "slotShowHTML" , 0, MVIEW_SHOWHTML_ID, -1 );
+    m_vMenuView->insertItem4( i18n("&Use HTML"), this, "slotShowHTML" , 0, MVIEW_SHOWHTML_ID, -1 );
+    
+    m_vMenuView->insertSeparator( -1 );
+
+    m_vMenuView->insertItem4( i18n("&Large Icons"), this, "slotLargeIcons" , 0, MVIEW_LARGEICONS_ID, -1 );
+    m_vMenuView->insertItem4( i18n("&Small Icons"), this, "slotSmallIcons" , 0, MVIEW_SMALLICONS_ID, -1 );
+    m_vMenuView->insertItem4( i18n("&Tree View"), this, "slotTreeView" , 0, MVIEW_TREEVIEW_ID, -1 );
+    m_vMenuView->insertSeparator( -1 );
 
 // should go to the KonqKfmIconView as well, or? (Simon)
 //  m_vMenuView->insertItem4( i18n("Image &Preview"), this, "slotShowSchnauzer" , 0, MVIEW_IMAGEPREVIEW_ID, -1 );
-
-// where should we put this one? (Simon)
-  //m_vMenuView->insertItem4( i18n("&Always Show index.html"), this, "slotShowHTML" , 0 );
-//  m_vMenuView->insertSeparator( -1 );
-
-// I think this belongs to the KonqKfmIconView's menu, or? (Simon)
-//  m_vMenuView->insertItem4( i18n("&Large Icons"), this, "slotLargeIcons" , 0, MVIEW_LARGEICONS_ID, -1 );
-//  m_vMenuView->insertItem4( i18n("&Small Icons"), this, "slotSmallIcons" , 0, MVIEW_SMALLICONS_ID, -1 );
-
-// Where to go with this one? (Simon)
-//  m_vMenuView->insertItem4( i18n("&Tree View"), this, "slotTreeView" , 0, MVIEW_TREEVIEW_ID, -1 );
-//  m_vMenuView->insertSeparator( -1 );
-
-// we can perhaps leave this? (Simon)
-    m_vMenuView->insertItem4( i18n("&Use HTML"), this, "slotHTMLView" , 0, MVIEW_HTMLVIEW_ID, -1 );
-    m_vMenuView->insertSeparator( -1 );
 
 // gone to the treeview's menu, ok? (Simon)  
 //  m_vMenuView->insertItem4( i18n("Rel&oad Tree"), this, "slotReloadTree" , 0, MVIEW_RELOADTREE_ID, -1 );
 
     m_vMenuView->insertItem4( i18n("&Reload Document"), this, "slotReload" , Key_F5, MVIEW_RELOAD_ID, -1 );
-    //TODO: view frame source, view document source, document encoding
+    //TODO: stop loading, view frame source, view document source, document encoding
 
   }
   setupViewMenus();
@@ -1390,7 +1399,7 @@ void KonqMainView::createViewMenu()
 
 void KonqMainView::setupViewMenus()
 {
-  if ( CORBA::is_nil( m_vMenuView ) )
+/*  if ( CORBA::is_nil( m_vMenuView ) )
      {
        //tell the views to eventually clean up
        map<OpenParts::Id,View*>::iterator it = m_mapViews.begin();
@@ -1407,25 +1416,12 @@ void KonqMainView::setupViewMenus()
   map<OpenParts::Id,View*>::iterator it = m_mapViews.begin();
   for (; it != m_mapViews.end(); ++it )
   {
-    /*
-     * temporary solution...
-     * note:
-     * (1) we should implement a smart check whether a view wants to create it's
-     *     own view menu
-     * (2) we have to find a way to distinguish the views (from the user's point of
-     *     view)
-     */
-    
-    OpenPartsUI::Menu_var viewMenu;
-    
     m_vMenuView->insertSeparator( -1 );
     CORBA::String_var viewName = it->second->m_vView->viewName();
     m_vMenuView->insertItem8( viewName.in(), viewMenu, -1, -1 );
     
     Konqueror::View::EventCreateViewMenu EventViewMenu;
-    EventViewMenu.menu = OpenPartsUI::Menu::_duplicate( viewMenu );
-    EMIT_EVENT( it->second->m_vView, Konqueror::View::eventCreateViewMenu, EventViewMenu );
-  }
+  }*/
 }
 
 void KonqMainView::slotSplitView()
