@@ -32,9 +32,10 @@ QString KonqTextViewItem::key( int _column, bool asc) const
    //check if it is a time column
    if (_column>1)
    {
-      for (unsigned int i=0; i<KonqBaseListViewWidget::NumberOfAtoms; i++)
+      KonqTextViewWidget* lv = static_cast<KonqTextViewWidget *>(listView());
+      for (unsigned int i=0; i<lv->NumberOfAtoms; i++)
       {
-         ColumnInfo *cInfo=&static_cast<KonqTextViewWidget *>(listView())->columnConfigInfo()[i];
+         ColumnInfo *cInfo=&lv->columnConfigInfo()[i];
          if (_column==cInfo->displayInColumn)
          {
             if ((cInfo->udsId==KIO::UDS_MODIFICATION_TIME)
@@ -131,10 +132,11 @@ void KonqTextViewItem::updateContents()
    setText(1,tmp);
    setText(0,m_fileitem->text());
    //now we have the first two columns, so let's do the rest
+   KonqTextViewWidget* lv = static_cast<KonqTextViewWidget *>(listView());
 
-   for (unsigned int i=0; i<KonqBaseListViewWidget::NumberOfAtoms; i++)
+   for (unsigned int i=0; i<lv->NumberOfAtoms; i++)
    {
-      ColumnInfo *tmpColumn=&static_cast<KonqTextViewWidget *>(listView())->confColumns[i];
+      ColumnInfo *tmpColumn=&lv->confColumns[i];
       if (tmpColumn->displayThisOne)
       {
          switch (tmpColumn->udsId)

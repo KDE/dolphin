@@ -147,10 +147,12 @@ QString KonqInfoListViewItem::key( int _column, bool asc ) const
    
    QString tmp=sortChar;
    if (!asc && (sortChar=='0')) tmp=QChar('2');
+
+   KonqBaseListViewWidget* lv = static_cast<KonqBaseListViewWidget *>( listView() );
    //check if it is a time or size column
-   for (unsigned int i=0; i<KonqBaseListViewWidget::NumberOfAtoms; i++)
+   for (unsigned int i=0; i<lv->NumberOfAtoms; i++)
    {
-     ColumnInfo *cInfo=&static_cast<KonqBaseListViewWidget *>(listView())->columnConfigInfo()[i];
+     ColumnInfo *cInfo=&lv->columnConfigInfo()[i];
      if (_column==cInfo->displayInColumn)
      {
        switch (cInfo->udsId)
@@ -167,7 +169,7 @@ QString KonqInfoListViewItem::key( int _column, bool asc ) const
        break;
      }
    }
-   tmp += static_cast<KonqBaseListViewWidget *>(listView())->caseInsensitiveSort() ? text(_column).lower() : text(_column);
+   tmp += lv->caseInsensitiveSort() ? text(_column).lower() : text(_column);
    return tmp;
 }
 

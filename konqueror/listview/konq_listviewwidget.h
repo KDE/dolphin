@@ -19,10 +19,8 @@
 #ifndef __konq_listviewwidget_h__
 #define __konq_listviewwidget_h__
 
-//#include <qcursor.h>
-//#include <qpixmap.h>
-//#include <qevent.h>
 #include <qvaluelist.h>
+#include <qvaluevector.h>
 
 #include <kurl.h>
 #include <kfileitem.h>
@@ -55,8 +53,8 @@ class ColumnInfo
 {
    public:
       ColumnInfo();
-      ColumnInfo(const char* n,const char* desktopName,int kioUds,int count,bool enabled,KToggleAction* someAction);
-      void setData(const char* n,const char* desktopName,int kioUds,int count,bool enabled,KToggleAction* someAction);
+      ColumnInfo(const QString& n,const QString& desktopName,int kioUds,int count,bool enabled,KToggleAction* someAction);
+      void setData(const QString& n,const QString& desktopName,int kioUds,int count,bool enabled,KToggleAction* someAction);
       int displayInColumn;
       QString name;
       QString desktopFileName;
@@ -79,7 +77,7 @@ class KonqBaseListViewWidget : public KListView
    public:
       KonqBaseListViewWidget( KonqListView *parent, QWidget *parentWidget);
       virtual ~KonqBaseListViewWidget();
-      enum {NumberOfAtoms=11};
+      int NumberOfAtoms;
 
       virtual void stop();
       const KURL & url();
@@ -117,7 +115,7 @@ class KonqBaseListViewWidget : public KListView
       KonqPropsView * props() const;
 
       //QPtrList<ColumnInfo> *columnConfigInfo() {return &confColumns;};
-      ColumnInfo * columnConfigInfo() {return confColumns;};
+      QValueVector<ColumnInfo>& columnConfigInfo() {return confColumns;};
       QString sortedByColumn;
 
       virtual void setShowIcons( bool enable ) { m_showIcons = enable; }
@@ -140,7 +138,7 @@ class KonqBaseListViewWidget : public KListView
       virtual void restoreState( QDataStream & );
 
       virtual void disableIcons( const KURL::List & lst );
-      
+
       KonqListView *m_pBrowserView;
       KonqFMSettings *m_pSettings;
 
@@ -193,7 +191,7 @@ class KonqBaseListViewWidget : public KListView
       //this is called in the constructor, so virtual would be nonsense
       void initConfig();
       //QStringList readProtocolConfig( const QString & protocol );
-      
+
       //Notifies the browser view of the currently selected items
       void reportSelectedItems();
 
@@ -228,9 +226,7 @@ class KonqBaseListViewWidget : public KListView
       //we have a fixed number of members,
       //it consumes less memory and access should be faster (Alex)
       // This might not be the case for ever... we should introduce custom fields in kio (David)
-      ColumnInfo confColumns[NumberOfAtoms];
-      //maybe I can do some speedup...
-      //ColumnInfo* orderOfColumns[NumberOfAtoms];
+      QValueVector<ColumnInfo> confColumns;
 
       KonqBaseListViewItem* m_dragOverItem;
       KonqBaseListViewItem *m_activeItem;

@@ -55,7 +55,8 @@ void KonqListViewItem::updateContents()
        sortChar='0';
    //now we have the first column, so let's do the rest
 
-   for (unsigned int i=0; i<KonqBaseListViewWidget::NumberOfAtoms; i++)
+   int numExtra = 1;
+   for (unsigned int i=0; i<m_pListViewWidget->NumberOfAtoms; i++)
    {
       ColumnInfo *tmpColumn=&m_pListViewWidget->columnConfigInfo()[i];
       if (tmpColumn->displayThisOne)
@@ -103,6 +104,26 @@ void KonqListViewItem::updateContents()
                }
             }
             break;
+         case KIO::UDS_EXTRA:
+         {
+             // extraData[numExtra]
+             /// ######## SLOOOOW
+             KIO::UDSEntry::ConstIterator it = m_fileitem->entry().begin();
+             int n = 0;
+             for( ; it != m_fileitem->entry().end(); it++ ) {
+                 if ((*it).m_uds == KIO::UDS_EXTRA)
+                 {
+                     ++n;
+                     if ( n == numExtra )
+                     {
+                         setText(tmpColumn->displayInColumn, (*it).m_str);
+                         break;
+                     }
+                 }
+             }
+
+             ++numExtra;
+         }
          default:
             break;
          };
@@ -133,9 +154,9 @@ QString KonqListViewItem::key( int _column, bool asc ) const
    QString tmp=sortChar;
    if (!asc && (sortChar=='0')) tmp=QChar('2');
    //check if it is a time or size column
-   for (unsigned int i=0; i<KonqBaseListViewWidget::NumberOfAtoms; i++)
+   for (unsigned int i=0; i<m_pListViewWidget->NumberOfAtoms; i++)
    {
-     ColumnInfo *cInfo=&m_pListViewWidget->columnConfigInfo()[i];
+     ColumnInfo* cInfo = &m_pListViewWidget->columnConfigInfo()[i];
      if (_column==cInfo->displayInColumn)
      {
        switch (cInfo->udsId)
@@ -162,7 +183,7 @@ int KonqListViewItem::compare( QListViewItem* item, int col, bool ascending ) co
    if ( sortChar != k->sortChar ) // KDE 4: make sortChar a bool
 	return !ascending ? k->sortChar - sortChar : sortChar - k->sortChar;
 
-   for ( unsigned int i=0; i<KonqBaseListViewWidget::NumberOfAtoms; i++ )
+   for ( unsigned int i=0; i<m_pListViewWidget->NumberOfAtoms; i++ )
    {
       ColumnInfo *cInfo = &m_pListViewWidget->columnConfigInfo()[i];
       if ( col == cInfo->displayInColumn )
@@ -182,7 +203,7 @@ int KonqListViewItem::compare( QListViewItem* item, int col, bool ascending ) co
                 KIO::filesize_t s1 = m_fileitem->size();
                 KIO::filesize_t s2 = k->m_fileitem->size();
                 return ( s1 > s2 ) ? 1 : ( s1 < s2 ) ? -1 : 0;
-            }	
+            }
             default:
                 break;
          }
@@ -283,7 +304,7 @@ KonqBaseListViewItem::~KonqBaseListViewItem()
       m_pListViewWidget->m_activeItem = 0;
    if (m_pListViewWidget->m_dragOverItem == this)
       m_pListViewWidget->m_dragOverItem = 0;
-      
+
    if (m_pListViewWidget->m_selected)
       m_pListViewWidget->m_selected->removeRef(this);
 }
@@ -300,7 +321,7 @@ void KonqBaseListViewItem::mimetypeFound()
     setDisabled( m_bDisabled );
     uint done = 0;
     KonqBaseListViewWidget * lv = m_pListViewWidget;
-    for (unsigned int i=0; i<KonqBaseListViewWidget::NumberOfAtoms && done < 2; i++)
+    for (unsigned int i=0; i<m_pListViewWidget->NumberOfAtoms && done < 2; i++)
     {
         ColumnInfo *tmpColumn=&lv->columnConfigInfo()[i];
         if (lv->columnConfigInfo()[i].udsId==KIO::UDS_FILE_TYPE && tmpColumn->displayThisOne)

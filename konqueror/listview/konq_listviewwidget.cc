@@ -44,15 +44,15 @@
 
 ColumnInfo::ColumnInfo()
    :displayInColumn(-1)
-   ,name("")
-   ,desktopFileName("")
+   ,name()
+   ,desktopFileName()
    ,udsId(0)
    ,displayThisOne(FALSE)
    ,toggleThisOne(0)
 {}
 
 
-ColumnInfo::ColumnInfo(const char* n, const char* desktopName, int kioUds,int count,bool enabled,KToggleAction* someAction)
+ColumnInfo::ColumnInfo(const QString& n, const QString& desktopName, int kioUds,int count,bool enabled,KToggleAction* someAction)
    :displayInColumn(count)
    ,name(n)
    ,desktopFileName(desktopName)
@@ -61,7 +61,7 @@ ColumnInfo::ColumnInfo(const char* n, const char* desktopName, int kioUds,int co
    ,toggleThisOne(someAction)
 {}
 
-void ColumnInfo::setData(const char* n, const char* desktopName, int kioUds,int count,bool enabled,KToggleAction* someAction)
+void ColumnInfo::setData(const QString& n, const QString& desktopName, int kioUds,int count,bool enabled,KToggleAction* someAction)
 {
    displayInColumn=count;
    name=n;
@@ -163,8 +163,6 @@ KonqBaseListViewWidget::KonqBaseListViewWidget( KonqListView *parent, QWidget *p
    //looks better with the statusbar
    setFrameStyle( QFrame::StyledPanel | QFrame::Sunken );
    setShowSortIndicator(true);
-
-   //confColumns.setAutoDelete(TRUE);
 }
 
 KonqBaseListViewWidget::~KonqBaseListViewWidget()
@@ -195,10 +193,12 @@ void KonqBaseListViewWidget::readProtocolConfig( const QString & protocol )
    sortedByColumn=config->readEntry("SortBy","FileName");
    m_bAscending=config->readBoolEntry("SortOrder",TRUE);
 
+   bool defaultColumns = false;
    QStringList lstColumns = config->readListEntry( "Columns" );
    if (lstColumns.isEmpty())
    {
       // Default column selection
+      defaultColumns = true;
       lstColumns.append( "Size" );
       lstColumns.append( "File Type" );
       lstColumns.append( "Modified" );
@@ -207,16 +207,43 @@ void KonqBaseListViewWidget::readProtocolConfig( const QString & protocol )
       lstColumns.append( "Group" );
       lstColumns.append( "Link" );
    }
+   // Default number of columns
+   NumberOfAtoms = 11;
+   int extraIndex = NumberOfAtoms;
+
+   // Check for any extra data
+   KURL url;
+   url.setProtocol(protocol);
+   KProtocolInfo::ExtraFieldList extraFields = KProtocolInfo::extraFields(url);
+   NumberOfAtoms += extraFields.count();
+   confColumns.resize( NumberOfAtoms );
+
+   KProtocolInfo::ExtraFieldList::Iterator extraFieldsIt = extraFields.begin();
+   if ( defaultColumns )
+   {
+       int num = 1;
+       for ( ; extraFieldsIt != extraFields.end(); ++extraFieldsIt, ++num )
+       {
+           QString column = (*extraFieldsIt).name;
+           lstColumns << column;
+           QString type = (*extraFieldsIt).type; // ## TODO use when sorting
+           confColumns[extraIndex++].setData( column, QString("Extra%1").arg(num), KIO::UDS_EXTRA, -1, FALSE, 0);
+       }
+   }
+
 
    //disable everything
    for (unsigned int i=0; i<NumberOfAtoms; i++)
    {
       confColumns[i].displayThisOne=FALSE;
       confColumns[i].displayInColumn=-1;
-      confColumns[i].toggleThisOne->setChecked(FALSE);
-      confColumns[i].toggleThisOne->setEnabled(TRUE);
-   };
-   int currentColumn(m_filenameColumn+1);
+      if ( confColumns[i].toggleThisOne )
+      {
+          confColumns[i].toggleThisOne->setChecked(FALSE);
+          confColumns[i].toggleThisOne->setEnabled(TRUE);
+      }
+   }
+   int currentColumn = m_filenameColumn+1;
    //check all columns in lstColumns
    for (unsigned int i=0; i<lstColumns.count(); i++)
    {
@@ -227,7 +254,8 @@ void KonqBaseListViewWidget::readProtocolConfig( const QString & protocol )
          {
             confColumns[j].displayThisOne=TRUE;
             confColumns[j].displayInColumn=currentColumn;
-            confColumns[j].toggleThisOne->setChecked(TRUE);
+            if ( confColumns[j].toggleThisOne )
+                confColumns[j].toggleThisOne->setChecked(TRUE);
             currentColumn++;
             break;
          }
@@ -246,10 +274,8 @@ void KonqBaseListViewWidget::readProtocolConfig( const QString & protocol )
    {
       if ((confColumns[i].udsId==KIO::UDS_URL) || (confColumns[i].udsId==KIO::UDS_MIME_TYPE))
          continue;
-      unsigned int k(0);
-      for (k=0; k<listingList.count(); k++)
-         if (*listingList.at(k)==confColumns[i].desktopFileName) break;
-      if (*listingList.at(k)!=confColumns[i].desktopFileName)
+      QStringList::Iterator listIt = listingList.find(confColumns[i].desktopFileName);
+      if ( listIt == listingList.end() ) // not found -> hide
       {
          //move all columns behind one to the front
          for (unsigned int l=0; l<NumberOfAtoms; l++)
@@ -279,9 +305,10 @@ void KonqBaseListViewWidget::createColumns()
       if ((confColumns[i].displayThisOne) && (confColumns[i].displayInColumn==currentColumn))
       {
          addColumn(i18n(confColumns[i].name.utf8() ));
-         if (sortedByColumn==confColumns[i].desktopFileName)
+         if (sortedByColumn == confColumns[i].desktopFileName)
             setSorting(currentColumn,m_bAscending);
-         if (confColumns[i].udsId==KIO::UDS_SIZE) setColumnAlignment(currentColumn,AlignRight);
+         if (confColumns[i].udsId==KIO::UDS_SIZE)
+             setColumnAlignment(currentColumn,AlignRight);
          i=-1;
          currentColumn++;
       }
@@ -661,7 +688,7 @@ void KonqBaseListViewWidget::startDrag()
           kdWarning(1202) << "Could not find multiple pixmap" << endl;
    }
 
-   KURLDrag *d = KURLDrag::newDrag( urls, viewport() );
+   KURLDrag *d = new KURLDrag( urls, viewport() );
    if ( !pixmap2.isNull())
    {
       d->setPixmap( pixmap2 );
