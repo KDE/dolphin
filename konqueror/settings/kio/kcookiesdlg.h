@@ -7,7 +7,6 @@
 #define __KCOOKIESDLG_H "$Id$"
 
 #include <qdialog.h>
-#include <qpushbutton.h>
 #include <qwidget.h>
 #include <qlabel.h>
 #include <qlineedit.h>

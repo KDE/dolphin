@@ -11,7 +11,6 @@
 #define __KPROXYDLG_H "$Id"
 
 #include <qdialog.h>
-#include <qpushbutton.h>
 #include <qwidget.h>
 #include <qlabel.h>
 #include <qlineedit.h>
