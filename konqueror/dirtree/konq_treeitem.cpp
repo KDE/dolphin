@@ -37,7 +37,6 @@ void KonqTreeItem::initItem( KonqTreeTopLevelItem *topLevelItem )
     m_topLevelItem = topLevelItem;
     m_bListable = true;
     m_bClickable = true;
-    m_bLink = false;
 
     setExpandable( true );
 }

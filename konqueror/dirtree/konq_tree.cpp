@@ -491,7 +491,6 @@ void KonqTree::loadTopLevelItem( KonqTreeItem *parent,  const QString &filename 
 
     item->setPixmap( 0, SmallIcon( icon ) );
     item->setText( 0, name );
-    item->setLink( true );
 
     if (module) // shouldn't be necessary
         module->addTopLevelItem( item );

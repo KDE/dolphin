@@ -68,10 +68,6 @@ public:
     // Whether the item is a toplevel item
     virtual bool isTopLevelItem() const { return false; }
 
-    // Whether the item is a .desktop link
-    void setLink( bool b ) { m_bLink = b; }
-    bool isLink() const { return m_bLink; }
-
     KonqTreeTopLevelItem * topLevelItem() const { return m_topLevelItem; }
 
     // returns the module associated to our toplevel item
@@ -80,11 +76,10 @@ public:
     // returns the tree inside which this item is
     KonqTree *tree() const;
 
-private:
+protected:
     KonqTreeTopLevelItem *m_topLevelItem;
     bool m_bListable:1;
     bool m_bClickable:1;
-    bool m_bLink:1;
 };
 
 #endif

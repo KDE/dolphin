@@ -31,12 +31,11 @@ class KonqTree;
  * between the generic KonqTree and the particular modules
  * (directory tree, history, bookmarks, ...)
  */
-class KonqTreeModule /* : public QObject*/
+class KonqTreeModule
 {
-    /*Q_OBJECT*/
 public:
-    KonqTreeModule( KonqTree * parentTree, const char * name = 0 )
-        : /* QObject( parentTree, name ), */ m_pTree( parentTree ) {}
+    KonqTreeModule( KonqTree * parentTree )
+        : m_pTree( parentTree ) {}
     virtual ~KonqTreeModule() {}
 
     virtual void addTopLevelItem( KonqTreeTopLevelItem * item ) = 0;
