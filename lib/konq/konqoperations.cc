@@ -176,7 +176,7 @@ bool KonqOperations::askDeleteConfirmation( const KURL::List & selectedURLs )
 void KonqOperations::doDrop( const KonqFileItem * destItem, QDropEvent * ev, QWidget * parent )
 {
     KURL dest = destItem->url();
-    //kdDebug() << "dest : " << dest.url() << endl;
+    //kdDebug(1203) << "dest : " << dest.url() << endl;
     KURL::List lst;
     if ( KonqDrag::decode( ev, lst ) ) // Are they urls ?
     {
@@ -189,7 +189,7 @@ void KonqOperations::doDrop( const KonqFileItem * destItem, QDropEvent * ev, QWi
         KURL::List::Iterator it = lst.begin();
         for ( ; it != lst.end() ; it++ )
         {
-            kdDebug() << "URL : " << (*it).url() << endl;
+            kdDebug(1203) << "URL : " << (*it).url() << endl;
             if ( dest.cmp( *it, true /*ignore trailing slashes*/ ) )
             {
                 // The event source may be the view or an item (icon)

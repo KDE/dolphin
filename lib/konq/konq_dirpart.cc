@@ -79,14 +79,14 @@ void KonqDirPart::mmbClicked( KFileItem * fileItem )
 
 void KonqDirPart::saveState( QDataStream &stream )
 {
-  kdDebug() << "void KonqDirPart::saveState( QDataStream &stream )" << endl;
+  //kdDebug(1203) << "void KonqDirPart::saveState( QDataStream &stream )" << endl;
   stream << m_nameFilter;
 }
 
 void KonqDirPart::restoreState( QDataStream &stream )
 {
   // Warning: see comment in IconViewBrowserExtension::restoreState about order
-  kdDebug() << "void KonqDirPart::restoreState( QDataStream &stream )" << endl;
+  //kdDebug(1203) << "void KonqDirPart::restoreState( QDataStream &stream )" << endl;
   stream >> m_nameFilter;
 }
 
