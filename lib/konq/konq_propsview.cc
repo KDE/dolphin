@@ -65,7 +65,7 @@ static QPixmap wallpaperPixmap( const QString & _wallpaper )
 KonqPropsView::KonqPropsView( KInstance * instance, KonqPropsView * defaultProps )
     : m_bSaveViewPropertiesLocally( false ), // will be overriden by setSave... anyway
     // if this is the default properties instance, then keep config object for saving
-    m_dotDirExists( false ),
+    m_dotDirExists( true ), // HACK so that enterDir returns true initially
     m_currentConfig( defaultProps ? 0L : instance->config() ),
     m_defaultProps( defaultProps )
 {
