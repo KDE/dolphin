@@ -464,9 +464,10 @@ void NSPluginInstance::requestURL( const QString &url, const QString &mime,
 
 void NSPluginInstance::emitStatus(const QString &message)
 {
-    kdDebug(1431) << "NSPluginInstance::emitStatus " << message << endl;
+    kdDebug(1431) << "-> NSPluginInstance::emitStatus " << message << endl;
     if( _callback )
-        _callback->statusMessage( message );
+      _callback->statusMessage( message );
+    kdDebug(1431) << "<- NSPluginInstance::emitStatus " << endl;
 }
 
 
@@ -707,6 +708,9 @@ NSPluginClass::NSPluginClass( const QString &library,
     _constructed = false;
     _error = true;
     _instances.setAutoDelete( true );
+    _NP_GetMIMEDescription = 0;
+    _NP_Initialize = 0;
+    _NP_Shutdown = 0;
 
     _timer = new QTimer( this );
     connect( _timer, SIGNAL(timeout()), SLOT(timer()) );
@@ -815,7 +819,8 @@ QString NSPluginClass::getMIMEDescription()
 
 void NSPluginClass::shutdown()
 {
-   _NP_Shutdown();
+    if( _NP_Shutdown && !_error )
+        _NP_Shutdown();
 }
 
 
