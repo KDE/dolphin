@@ -73,7 +73,7 @@ int KDEpasswd1Dialog::getPassword(QCString &password, QCString user)
 
 
 KDEpasswd2Dialog::KDEpasswd2Dialog(const char *oldpass, QCString user)
-    : KPasswordDialog(NewPassword, "")
+    : KPasswordDialog(NewPassword, false, 0)
 {
     m_Pass = oldpass;
     m_User = user;
@@ -103,7 +103,7 @@ bool KDEpasswd2Dialog::checkPassword(const char *password)
 		i18n("Use as is"),
 		"truncatePassword"))
 	{
-	case KMessageBox::Yes : 
+	case KMessageBox::Yes :
 		const_cast<char *>(password)[8] = '\000';
 		break;
 	case KMessageBox::No :
