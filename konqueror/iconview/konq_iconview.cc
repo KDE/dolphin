@@ -351,6 +351,7 @@ KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const 
 
     // Create the directory lister
     m_dirLister = new KDirLister( true );
+    setDirLister( m_dirLister );
     m_dirLister->setMainWindow(m_pIconView->topLevelWidget());
 
     connect( m_dirLister, SIGNAL( started( const KURL & ) ),
@@ -731,7 +732,7 @@ void KonqKfmIconView::slotDragHeld( QIconViewItem *item )
     // This feature is not usable if the user wants one window per folder
     if ( KonqFMSettings::settings()->alwaysNewWin() )
         return;
-    
+
     if ( !item )
         return;
 

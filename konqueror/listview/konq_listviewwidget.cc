@@ -921,7 +921,7 @@ bool KonqBaseListViewWidget::openURL( const KURL &url )
 
       if ( currentItem() && itemRect( currentItem() ).isValid() )
          m_itemToGoTo = currentItem()->text(0);
-         
+
       m_pBrowserView->m_filesToSelect.clear();
       iterator it = begin();
       for( ; it != end(); it++ )
@@ -932,7 +932,7 @@ bool KonqBaseListViewWidget::openURL( const KURL &url )
    m_itemsToSelect = m_pBrowserView->m_filesToSelect;
    if ( !m_itemsToSelect.isEmpty() && m_itemToGoTo.isEmpty() )
       m_itemToGoTo = m_itemsToSelect[0];
-   
+
    if ( columnWidthMode(0) == Maximum )
       setColumnWidth(0,50);
 
@@ -1082,12 +1082,12 @@ void KonqBaseListViewWidget::slotNewItems( const KFileItemList & entries )
 
 void KonqBaseListViewWidget::slotDeleteItem( KFileItem * _fileitem )
 {
-  kdDebug(1202) << k_funcinfo << "removing " << _fileitem->url().url() << " from tree!" << endl;
-
   iterator it = begin();
   for( ; it != end(); ++it )
     if ( (*it).item() == _fileitem )
     {
+      kdDebug(1202) << k_funcinfo << "removing " << _fileitem->url().url() << " from tree!" << endl;
+
       m_pBrowserView->deleteItem( _fileitem );
       m_pBrowserView->lstPendingMimeIconItems().remove( &(*it) );
 
@@ -1102,6 +1102,7 @@ void KonqBaseListViewWidget::slotDeleteItem( KFileItem * _fileitem )
   // This is needed for the case the root of the current view is deleted.
   // I supposed slotUpdateBackground has to be called as well after an item
   // was removed from a listview and was just forgotten previously (Brade).
+  // OK, but this code also gets activated when deleting a hidden file... (dfaure)
   if ( !viewport()->isUpdatesEnabled() )
   {
     viewport()->setUpdatesEnabled( true );

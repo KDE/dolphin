@@ -231,6 +231,8 @@ KonqListView::KonqListView( QWidget *parentWidget, QObject *parent, const char *
       m_pListView = new KonqBaseListViewWidget( this, parentWidget);
    }
    setWidget( m_pListView );
+   setDirLister( m_pListView->m_dirLister );
+
 
    m_mimeTypeResolver = new KMimeTypeResolver<KonqBaseListViewItem,KonqListView>(this);
 
