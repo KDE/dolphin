@@ -324,7 +324,7 @@
 <customwidgets>
     <customwidget>
         <class>KIntNumInput</class>
-        <header location="global">/home/gis/src/kde/kdelibs/kdeui/knuminput.h</header>
+        <header location="global">knuminput.h</header>
         <sizehint>
             <width>-1</width>
             <height>-1</height>
