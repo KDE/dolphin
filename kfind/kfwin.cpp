@@ -30,6 +30,7 @@
 #include <kmessagebox.h>
 #include <kmimetype.h>
 #include <kglobal.h>
+#include <kopenwith.h>
 
 #include "kfwin.h"
 #include "kfarch.h"
@@ -101,7 +102,7 @@ KfindWindow::KfindWindow( QWidget *parent, const char *name )
 {
   setSelectionMode( QListView::Extended );
   setShowSortIndicator( TRUE );
-    
+
   addColumn(i18n("Name"));
   addColumn(i18n("In directory"));
   addColumn(i18n("Size"));
@@ -325,6 +326,9 @@ void KfindWindow::openFolder()
     tmp += fileInfo->filePath();
   else
     tmp += fileInfo->dirPath();
+  if ( !KOpenWithHandler::exists() )
+    (void) new KFileOpenWithHandler();
+
   (void) new KRun(tmp, 0, true, true);
 }
 
@@ -336,6 +340,9 @@ void KfindWindow::openBinding()
     tmp += fileInfo->filePath();
   else
     tmp += fileInfo->absFilePath();
+  if ( !KOpenWithHandler::exists() )
+    (void) new KFileOpenWithHandler();
+
   (void) new KRun( tmp, 0, true, true );
 }
 
@@ -511,7 +518,7 @@ void KfindWindow::resetColumns(bool init)
     columnWidth(2) - columnWidth(3) - columnWidth(4);
 
   int name_w = QMIN((int)(free_space*0.5), 150);
-  int dir_w = free_space - name_w;    
+  int dir_w = free_space - name_w;
 
   setColumnWidth(0, name_w);
   setColumnWidth(1, dir_w);
