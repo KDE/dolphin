@@ -1261,7 +1261,8 @@ void KonqMainWindow::slotConfigureToolbars()
 
     plugViewModeActions();
 
-    updateBookmarkBar();
+    applyMainWindowSettings( KGlobal::config(), "KonqMainWindow" );
+    //updateBookmarkBar();
 
     if ( m_combo )
       m_combo->setTemporary(savedURL);
