@@ -1,5 +1,5 @@
 /* This file is part of the KDE project
-   Copyright (C) 1998, 1999 Torben Weis <weis@kde.org>
+   Copyright (C) 1998, 1999 Michael Reiher <michael.reiher@gmx.de>
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Library General Public
@@ -21,6 +21,7 @@
 
 #include <kapp.h>
 #include <kconfig.h>
+#include <kiconloader.h>
 
 #include "konq_frame.h"
 
@@ -28,15 +29,18 @@
 
 KonqFrameHeader::KonqFrameHeader( KonqFrame *_parent = 0L, const char *_name = 0L ) : QWidget( _parent, _name ), m_pParentKonqFrame( _parent )
 {
-  KConfig* config;
   QString key;
 
-  config = new KConfig( kapp->kde_configdir() + "/kwmrc" , kapp->localconfigdir() + "/kwmrc" );
+  //killTimers();
+
+  KConfig* config = new KConfig( kapp->kde_configdir() + "/kwmrc" , 
+				 kapp->localconfigdir() + "/kwmrc" );
 
   config->setGroup("WM");
 
-  activeTitleBlend = config->readColorEntry( "activeBlend" , &(Qt::black) );
-  inactiveTitleBlend = config->readColorEntry( "inactiveBlend" , &palette().normal().background() );
+  frameHeaderBlendActive = config->readColorEntry( "activeBlend" , &(Qt::black) );
+  frameHeaderBlendInactive = config->readColorEntry( "inactiveBlend" , 
+						     &palette().normal().background() );
 
   config->setGroup( "General" );
 
@@ -65,16 +69,6 @@ KonqFrameHeader::KonqFrameHeader( KonqFrame *_parent = 0L, const char *_name = 0
     options.alignTitle = AT_LEFT;
   }
 
-  //CT 02Dec1998 - optional shaded frame on titlebar
-  key = config->readEntry("TitleFrameShaded");
-  if (key == "no")
-    options.framedActiveTitle = false;
-  else if (key == "yes")
-    options.framedActiveTitle = true;
-  else {
-    config->writeEntry("TitleFrameShaded","yes");
-    options.framedActiveTitle = true;
-  }
   //CT 02Dec1998 - optional pixmap under the title text
   key = config->readEntry("PixmapUnderTitleText");
   if (key == "no")
@@ -87,22 +81,33 @@ KonqFrameHeader::KonqFrameHeader( KonqFrame *_parent = 0L, const char *_name = 0
   }
   //CT
 
+  */
 
-  //CT 23Sep1998 - fixed the name of the titlebar pixmaps to become
-  //   consistent with the buttons pixmaps definition technique
-  if (options.TitlebarLook == PIXMAP) {
-    *(options.titlebarPixmapActive) = getIconLoader()
-      ->reloadIcon("activetitlebar.xpm");
-    *(options.titlebarPixmapInactive) = getIconLoader()
-      ->reloadIcon("inactivetitlebar.xpm");
+  frameHeaderActive = new QPixmap;
+  frameHeaderInactive = new QPixmap;
 
-    if (options.titlebarPixmapInactive->size() == QSize(0,0))
-      *options.titlebarPixmapInactive = *options.titlebarPixmapActive;
+  if ( frameHeaderLook == PIXMAP ) {
+    KIconLoader* iconLoader = new KIconLoader();
 
-    if (options.titlebarPixmapActive->size() == QSize(0,0))
-      options.TitlebarLook = PLAIN;
+    iconLoader->getDirList()->clear();
+    
+    iconLoader->insertDirectory(0, kapp->localkdedir()+"/share/apps/kwm/pics");
+    iconLoader->insertDirectory(1, kapp->kde_datadir()+"/kwm/pics");
+    iconLoader->insertDirectory(2, kapp->localkdedir()+"/share/apps/kwm/toolbar");
+    iconLoader->insertDirectory(3, kapp->kde_datadir()+"/kwm/toolbar");
+    iconLoader->insertDirectory(4, kapp->localkdedir()+"/share/toolbar");
+    iconLoader->insertDirectory(5, kapp->kde_toolbardir());
+
+    *(frameHeaderActive) = iconLoader->reloadIcon("activetitlebar.xpm");
+    *(frameHeaderInactive) = iconLoader->reloadIcon("inactivetitlebar.xpm");
+
+    if (frameHeaderInactive->size() == QSize(0,0))
+      *frameHeaderInactive = *frameHeaderActive;
+
+    if (frameHeaderActive->size() == QSize(0,0))
+      frameHeaderLook = PLAIN;
   }
-
+  /*
   if (config->hasKey("TitleAnimation")){
     options.TitleAnimation = config->readNumEntry("TitleAnimation");
     if (options.TitleAnimation < 0)
@@ -126,8 +131,9 @@ KonqFrameHeader::paintEvent( QPaintEvent* )
   QRect r = rect();
   //bool double_buffering = false;
   //QPixmap* buffer = 0;
+  KonqFrameHeaderLook look = frameHeaderLook;
 
-  if (frameHeaderLook == H_SHADED || frameHeaderLook == V_SHADED){
+  if (look == H_SHADED || look == V_SHADED){
     // the new horizontal (and vertical) shading code
     /*if (colors_have_changed){
       aShadepm.resize(0,0);
@@ -138,15 +144,14 @@ KonqFrameHeader::paintEvent( QPaintEvent* )
     // shading would be senseless (higher performance and less memory
     // consumption)
     if ( hasFocus ){
-      if ( kapp->activeTitleColor() ==  activeTitleBlend)
-        frameHeaderLook = PLAIN;
+      if ( kapp->activeTitleColor() ==  frameHeaderBlendActive)
+        look = PLAIN;
     }
     else {
-      if ( kapp->inactiveTitleColor() ==  inactiveTitleBlend)
-        frameHeaderLook = PLAIN;
+      if ( kapp->inactiveTitleColor() ==  frameHeaderBlendInactive)
+        look = PLAIN;
     }
   }
-
   QPainter p;
 
   /*  if (only_label && animate){
@@ -182,33 +187,33 @@ KonqFrameHeader::paintEvent( QPaintEvent* )
     r.setRect(0,0,r.width(),r.height());
   }*/
 
-    //  QPixmap *pm;
+  QPixmap *pm;
   p.setClipRect(r);
   p.setClipping(True);
 
-  /*if (look == PIXMAP){
-      pm = is_active ? options.titlebarPixmapActive: options.titlebarPixmapInactive;
-      for (x = r.x(); x < r.x() + r.width(); x+=pm->width())
-	p.drawPixmap(x, r.y(), *pm);
+  if ( look == PIXMAP){
+    pm = hasFocus ? frameHeaderActive : frameHeaderInactive;
+    for (int x = r.x(); x < r.x() + r.width(); x+=pm->width())
+      p.drawPixmap(x, r.y(), *pm);
   }
-  else*/ if ( frameHeaderLook == H_SHADED || frameHeaderLook == V_SHADED ){
+  else if ( look == H_SHADED || look == V_SHADED ){
     // the new horizontal shading code
     QPixmap* pm = 0;
     if (hasFocus){
-      if (aShadepm.size() != r.size()){
-	aShadepm.resize(r.width(), r.height());
-	gradientFill( aShadepm, kapp->activeTitleColor(), 
-		      activeTitleBlend, frameHeaderLook == V_SHADED );
+      if (activeShadePm.size() != r.size()){
+	activeShadePm.resize(r.width(), r.height());
+	gradientFill( activeShadePm, kapp->activeTitleColor(), 
+		      frameHeaderBlendActive, look == V_SHADED );
       }
-      pm = &aShadepm;
+      pm = &activeShadePm;
     }
     else {
-      if (iaShadepm.size() != r.size()){
-	iaShadepm.resize(r.width(), r.height());
-	gradientFill( iaShadepm, kapp->inactiveTitleColor(), 
-		      inactiveTitleBlend, frameHeaderLook == V_SHADED );
+      if (inactiveShadePm.size() != r.size()){
+	inactiveShadePm.resize(r.width(), r.height());
+	gradientFill( inactiveShadePm, kapp->inactiveTitleColor(), 
+		      frameHeaderBlendInactive, look == V_SHADED );
       }
-      pm = &iaShadepm;
+      pm = &inactiveShadePm;
     }
 
     p.drawPixmap( r.x(), r.y(), *pm );
@@ -227,10 +232,7 @@ KonqFrameHeader::paintEvent( QPaintEvent* )
   }
   p.setClipping(False);
 
-  //CT 02Dec1998 - optional shade, suggested by Nils Meier <nmeier@vossnet.de>
-/*  if (is_active && options.framedActiveTitle)
-    qDrawShadePanel( &p, r, colorGroup(), true );
-
+/*
 //  p.setPen(is_active ? kapp->activeTextColor() : app->inactiveTextColor());
 
   p.setFont(myapp->tFont);
@@ -319,7 +321,6 @@ void
 KonqFrameHeader::mousePressEvent( QMouseEvent* event )
 {
   QWidget::mousePressEvent( event );
-  cout << "KonqFrameHeader::mousePressEvent" << endl;
   emit headerClicked();
   update();
 }
@@ -327,9 +328,6 @@ KonqFrameHeader::mousePressEvent( QMouseEvent* event )
 void 
 KonqFrameHeader::gradientFill(KPixmap &pm, QColor ca, QColor cb,bool vertShaded)
 {
-  /* code disabled by David. It mixes up colors, with QT 2.0.
-     Don't know why pm.gradientFill is not good enough, BTW. */
-#if 0
   if(vertShaded == false && QColor::numBitPlanes() >= 15) 
   {    
     int w = pm.width();
@@ -352,11 +350,11 @@ KonqFrameHeader::gradientFill(KPixmap &pm, QColor ca, QColor cb,bool vertShaded)
 
     int r = c_red_a, g = c_green_a, b = c_blue_a;
     for(int x = 0; x < w; x++) {
-      *p++ = r >> 16;
-      *p++ = g >> 16;
       *p++ = b >> 16;
+      *p++ = g >> 16;
+      *p++ = r >> 16;
       p++;
-      
+     
       r += d_red;
       g += d_green;
       b += d_blue;
@@ -368,7 +366,6 @@ KonqFrameHeader::gradientFill(KPixmap &pm, QColor ca, QColor cb,bool vertShaded)
 
     pm.convertFromImage(img);
   } else
-#endif
     pm.gradientFill(ca, cb, vertShaded);
 }
 

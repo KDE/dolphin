@@ -21,11 +21,13 @@
 #define __konq_frame_h__
 
 #include <qlayout.h>
+#include <qpixmap.h>
 
 #include <kpixmap.h>
+
 #include <opFrame.h>
 
-enum FrameHeader_Look{
+enum KonqFrameHeaderLook{
   PLAIN,
   H_SHADED,
   V_SHADED,
@@ -54,17 +56,16 @@ protected:
   KonqFrame* m_pParentKonqFrame;
 
 private:
-  //temporarily
-  FrameHeader_Look frameHeaderLook;
+  KonqFrameHeaderLook frameHeaderLook;
   //int titleAnimation;
   //bool framedActiveTitle;
   //bool pixmapUnderTitleText;
-  //QPixmap* titlebarPixmapActive;
-  //QPixmap* titlebarPixmapInactive;
-  KPixmap aShadepm;
-  KPixmap iaShadepm;
-  QColor activeTitleBlend;
-  QColor inactiveTitleBlend;
+  QPixmap* frameHeaderActive;
+  QPixmap* frameHeaderInactive;
+  KPixmap activeShadePm;
+  KPixmap inactiveShadePm;
+  QColor frameHeaderBlendActive;
+  QColor frameHeaderBlendInactive;
 
 };
 
