@@ -97,7 +97,7 @@ void KQuery::checkEntries()
   m_insideCheckEntries=true;
   metaKeyRx=new QRegExp(m_metainfokey,true,true);
   KFileItem * file = 0;
-  while (file=m_fileItems.dequeue())
+  while ((file=m_fileItems.dequeue()))
   {
      processQuery(file);
      delete file;
@@ -265,7 +265,7 @@ void KQuery::processQuery( KFileItem* file)
        // FIXME: doesn't work with non local files
        
        QString filename;
-       QTextStream* stream;
+       QTextStream* stream=0;
        QFile qf;
        QRegExp xmlTags;
        QByteArray zippedXmlFileContent;
