@@ -167,8 +167,7 @@ public:
 
   void disableActionsNoView();
 
-  void updateToolBarActions();
-  void updateToolBarActions( bool );
+  void updateToolBarActions( bool pendingActions = false );
   void updateOpenWithActions();
   void updateViewModeActions();
   void updateViewActions();

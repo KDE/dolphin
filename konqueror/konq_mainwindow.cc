@@ -2692,12 +2692,7 @@ void KonqMainWindow::initActions()
 
 }
 
-void KonqMainWindow::updateToolBarActions()
-{
-   updateToolBarActions( false );
-}
-
-void KonqMainWindow::updateToolBarActions( bool pendingAction )
+void KonqMainWindow::updateToolBarActions( bool pendingAction /*=false*/)
 {
   // Enables/disables actions that depend on the current view (mostly toolbar)
   // Up, back, forward, the edit extension, stop button, wheel
