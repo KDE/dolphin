@@ -141,6 +141,7 @@ Name[zh_CN]=选项
 Name[zh_TW]=偏好設定
 Name[zu]=Okukhethiweyo
 Type=Application
+DocPath=kcontrol/timeouts.html
 X-KDE-FactoryName=netpref
 X-KDE-Library=kio
 X-KDE-ModuleType=Library
