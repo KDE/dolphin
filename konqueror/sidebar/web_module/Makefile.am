@@ -1,4 +1,4 @@
-INCLUDES = $(all_includes)
+INCLUDES = -I$(srcdir)/../ $(all_includes)
 
 kde_module_LTLIBRARIES = konqsidebar_web.la
 

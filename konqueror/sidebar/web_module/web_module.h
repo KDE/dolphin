@@ -67,8 +67,6 @@ class KonqSideBarWebModule : public KonqSidebarPlugin
 
 	signals:
 		void openURLRequest(const KURL &url, const KParts::URLArgs &args);
-		void setIcon(const QString &);
-		void setCaption(const QString &);
 	protected:
 		virtual void handleURL(const KURL &url);
 
