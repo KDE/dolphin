@@ -163,7 +163,9 @@ Sidebar_Widget::Sidebar_Widget(QWidget *parent, KParts::ReadOnlyPart *par, const
 	connect(Area,SIGNAL(docked()),this,SLOT(updateDock()));
    	ButtonBar=new Sidebar_ButtonBar(this);
 	ButtonBar->setIconText(KToolBar::IconOnly);
-    	ButtonBar->enableMoving(false);
+#warning setIconSize(16) for the buttonbar is only a temporary solution for missing 22x22 icons
+	ButtonBar->setIconSize(16);
+   	ButtonBar->enableMoving(false);
 	ButtonBar->setOrientation(Qt::Vertical);
 	
 	QPopupMenu *Menu=new QPopupMenu(this,"Sidebar_Widget::Menu");
@@ -174,14 +176,17 @@ Sidebar_Widget::Sidebar_Widget(QWidget *parent, KParts::ReadOnlyPart *par, const
 	connect(Menu,SIGNAL(activated(int)),this,SLOT(activatedMenu(int)));
 
 	buttonPopup=new QPopupMenu(this,"Sidebar_Widget::ButtonPopup");
-	buttonPopup->insertItem(i18n("Icon"),1);
-	buttonPopup->insertItem(i18n("Url"),2);
-	buttonPopup->insertItem(i18n("Remove"),3);
+	buttonPopup->insertItem(SmallIconSet("www"),i18n("Url"),2);
+	buttonPopup->insertItem(SmallIconSet("image"),i18n("Icon"),1);
+	buttonPopup->insertSeparator();
+	buttonPopup->insertItem(SmallIconSet("remove"),i18n("Remove"),3);
 	connect(buttonPopup,SIGNAL(activated(int)),this,SLOT(buttonPopupActivate(int)));
-	ButtonBar->insertButton("remove",-2);
+#warning replace SmallIcon with BarIcon when 22x22 icons are all available
+	ButtonBar->insertButton(SmallIcon("remove"),-2);
 	connect(ButtonBar->getButton(-2),SIGNAL(clicked(int)),par,SLOT(doCloseMe()));
 	ButtonBar->insertLineSeparator();
-	ButtonBar->insertButton(BarIcon("configure"), -1, Menu,true,
+#warning replace SmallIcon with BarIcon when 22x22 icons are all available
+	ButtonBar->insertButton(SmallIcon("configure"), -1, Menu,true,
     	    				i18n("Configure sidebar"));
 	connect(new addBackEnd(this,addMenu,"Sidebar_Widget-addBackEnd"),SIGNAL(updateNeeded()),this,SLOT(createButtons()));
 	ButtonBar->setMinimumHeight(10);
