@@ -25,6 +25,7 @@
 #include <qlineedit.h>
 #include <qpushbutton.h>
 #include <qvbox.h>
+#include <qcheckbox.h>
 
 class KonqSearchDialog : public QDialog
 {
@@ -33,8 +34,8 @@ public:
   KonqSearchDialog( QWidget *parent = 0L );
   
 signals:
-  void findFirst( const QString &text );
-  void findNext();
+  void findFirst( const QString &text, bool backwards, bool caseSensitive );
+  void findNext( bool backwards, bool caseSensitive );
 
 protected slots:
   void slotFind();
@@ -50,6 +51,9 @@ private:
   QPushButton *m_pCloseButton;
   
   QLineEdit *m_pLineEdit;
+
+  QCheckBox *m_pCaseSensitiveCheckBox;
+  QCheckBox *m_pBackwardsCheckBox;
   
   QVBox *m_pVBox;
   

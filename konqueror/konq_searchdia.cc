@@ -43,6 +43,17 @@ KonqSearchDialog::KonqSearchDialog( QWidget *parent )
            this, SLOT( slotTextChanged() ) );
   
   hBox->setSpacing( 5 );
+
+  hBox = new QHBox( m_pVBox );
+  
+  m_pCaseSensitiveCheckBox = new QCheckBox( i18n( "Case Sensitive" ), hBox );
+  
+  m_pBackwardsCheckBox = new QCheckBox( i18n( "Find Backwards" ), hBox );
+
+  hBox->setSpacing( 5 );
+  
+  m_pCaseSensitiveCheckBox->setChecked( false );
+  m_pBackwardsCheckBox->setChecked( false );
   
   KSeparator *separator = new KSeparator( QFrame::HLine, m_pVBox );
   
@@ -60,22 +71,25 @@ KonqSearchDialog::KonqSearchDialog( QWidget *parent )
   connect( m_pFindButton, SIGNAL( clicked() ), this, SLOT( slotFind() ) );
   connect( m_pClearButton, SIGNAL( clicked() ), this, SLOT( slotClear() ) );
   connect( m_pCloseButton, SIGNAL( clicked() ), this, SLOT( accept() ) );
-  
+ 
   m_pVBox->setSpacing( 10 );
   m_pVBox->setMargin( 5 );
   
-  resize( 300, 100 );
+  resize( 300, 150 );
 }
 
 void KonqSearchDialog::slotFind()
 {
+  bool backwards = m_pBackwardsCheckBox->isChecked();
+  bool caseSensitive = m_pCaseSensitiveCheckBox->isChecked();
+  
   if ( m_bFirstSearch )
   {
-    emit findFirst( m_pLineEdit->text() );
+    emit findFirst( m_pLineEdit->text(), backwards, caseSensitive );
     m_bFirstSearch = false;
   }
   else
-    emit findNext();
+    emit findNext( backwards, caseSensitive );
 }
 
 void KonqSearchDialog::slotClear()

@@ -205,10 +205,10 @@ void KonqTxtView::slotSearch()
 {
   m_pSearchDialog = new KonqSearchDialog( this );
   
-  QObject::connect( m_pSearchDialog, SIGNAL( findFirst( const QString & ) ),
-                    this, SLOT( slotFindFirst( const QString & ) ) );
-  QObject::connect( m_pSearchDialog, SIGNAL( findNext() ),
-                    this, SLOT( slotFindNext() ) );
+  QObject::connect( m_pSearchDialog, SIGNAL( findFirst( const QString &, bool, bool ) ),
+                    this, SLOT( slotFindFirst( const QString &, bool, bool ) ) );
+  QObject::connect( m_pSearchDialog, SIGNAL( findNext( bool, bool ) ),
+                    this, SLOT( slotFindNext( bool, bool ) ) );
   
   m_pSearchDialog->exec();
   
@@ -292,24 +292,50 @@ void KonqTxtView::slotError( int, int err, const char *text )
   kioErrorDialog( err, text );
 }
 
-void KonqTxtView::slotFindFirst( const QString &_text )
+void KonqTxtView::slotFindFirst( const QString &_text, bool backwards, bool caseSensitive )
 {
   m_strSearchText = _text;
-  m_iSearchPos = 0;
-  m_iSearchLine = 0;
+  
+  if ( backwards )
+  {
+    m_iSearchPos = lineLength( numLines() - 1 );
+    m_iSearchLine = numLines() - 1;
+  }
+  else
+  {
+    m_iSearchPos = 0;
+    m_iSearchLine = 0;
+  }    
+  
   m_bFound = false;
-  slotFindNext();
+  slotFindNext( backwards, caseSensitive );
 }
 
-void KonqTxtView::slotFindNext()
+void KonqTxtView::slotFindNext( bool backwards, bool caseSensitive )
 {
   int index;
   
-  while ( ( index = textLine( m_iSearchLine ).find( m_strSearchText, m_iSearchPos ) ) == -1 )
+  if ( backwards )
+    index = textLine( m_iSearchLine ).findRev( m_strSearchText, m_iSearchPos, caseSensitive );
+  else
+    index = textLine( m_iSearchLine ).find( m_strSearchText, m_iSearchPos, caseSensitive );
+    
+  while ( index == -1 )
   {
-    m_iSearchLine++;
-    m_iSearchPos = 0;
-    if ( m_iSearchLine >= numLines() )
+    if ( backwards )
+    {
+      m_iSearchLine--;
+      if ( m_iSearchLine >= 0 )
+        m_iSearchPos = lineLength( m_iSearchLine );
+    }
+    else
+    {
+      m_iSearchLine++;
+      m_iSearchPos = 0;
+    }      
+    
+    if ( ( backwards && m_iSearchLine < 0 ) ||
+         ( !backwards && m_iSearchLine >= numLines() ) )
     {
       if ( !m_bFound )
       {
@@ -317,17 +343,36 @@ void KonqTxtView::slotFindNext()
                                   i18n( "Search string not found." ), i18n( "Ok" ) );
         return;      
       }
-      m_iSearchLine = 0;
-      m_iSearchPos = 0;
+
+      if ( backwards )
+      {
+        m_iSearchPos = lineLength( numLines() - 1 );
+        m_iSearchLine = numLines() - 1;
+      }
+      else
+      {
+        m_iSearchPos = 0;
+        m_iSearchLine = 0;
+      }    
+      
       m_bFound = false;	
     }
+
+    if ( backwards )
+      index = textLine( m_iSearchLine ).findRev( m_strSearchText, m_iSearchPos, caseSensitive );
+    else
+      index = textLine( m_iSearchLine ).find( m_strSearchText, m_iSearchPos, caseSensitive );
   }
 
   m_bFound = true;
   setCursorPosition( m_iSearchLine, index, false );
   setCursorPosition( m_iSearchLine, index + m_strSearchText.length(), true );
   update();
-  m_iSearchPos = index+1;
+  
+  if ( backwards )
+    m_iSearchPos = index-1;
+  else
+    m_iSearchPos = index+1;
 }
 
 void KonqTxtView::mousePressEvent( QMouseEvent *e )

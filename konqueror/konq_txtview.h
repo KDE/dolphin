@@ -61,8 +61,8 @@ protected slots:
   void slotData( int, const char *, int );
   void slotError( int, int, const char * );
 
-  void slotFindFirst( const QString &_text );
-  void slotFindNext();
+  void slotFindFirst( const QString &_text, bool backwards, bool caseSensitive );
+  void slotFindNext( bool backwards, bool caseSensitive );
 
 protected:
   virtual void mousePressEvent( QMouseEvent *e );
