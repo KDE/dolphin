@@ -36,6 +36,7 @@
 #include <kconfig.h>
 #include <kstddirs.h>
 #include <kdebug.h>
+#include <kpopupmenu.h>
 
 #include <assert.h>
 

@@ -77,10 +77,7 @@ iconview:
 iconview+listviews:
 ===================
 
-- Sorting by date, by extension...
-Many bugs (#3220 #2871...)
-
-Show dirs first even in descending order - or change the label of the action.
+- Sorting by extension ?
 
 - Hide backup files (files ending in ~ or #) - see #3212
 

@@ -74,6 +74,7 @@
 #include <konqpopupmenu.h>
 #include <konqsettings.h>
 #include <kparts/part.h>
+#include <kpopupmenu.h>
 #include <kprocess.h>
 #include <kstdaccel.h>
 #include <kstdaction.h>
@@ -1336,6 +1337,8 @@ void KonqMainWindow::slotPaste()
     m_currentView->callExtensionMethod( "pastecopy()" );
 }
 
+/*
+  Now uses KAboutData and the standard about box
 void KonqMainWindow::slotAbout()
 {
   KMessageBox::about( 0, i18n(
@@ -1359,6 +1362,7 @@ void KonqMainWindow::slotAbout()
 "  Dina Rogozin <dima@mercury.co.il>\n"
   ).arg(KONQUEROR_VERSION));
 }
+*/
 
 void KonqMainWindow::slotUpAboutToShow()
 {
@@ -1751,17 +1755,11 @@ void KonqMainWindow::initActions()
   connect( m_ptaFullScreen, SIGNAL( toggled( bool ) ),
 	   this, SLOT( slotToggleFullScreen( bool ) ) );
 
-  /*
-  QPixmap konqpix = KGlobal::iconLoader()->loadIcon( "konqueror", KIcon::Small );
-  (void) new KAction( i18n( "&About Konqueror..." ), konqpix, 0, this, SLOT( slotAbout() ), actionCollection(), "about" );
-  */
-
   KHelpMenu * m_helpMenu = new KHelpMenu( this, KonqFactory::aboutData() );
   KStdAction::helpContents( m_helpMenu, SLOT( appHelpActivated() ), actionCollection(), "contents" );
   KStdAction::whatsThis( m_helpMenu, SLOT( contextHelpActivated() ), actionCollection(), "whats_this" );
-  // Hmm, the generated dialog is HUGE ! Too many developers ;-)
-  //KStdAction::aboutApp( m_helpMenu, SLOT( aboutApplication() ), actionCollection(), "about_app" );
-  KStdAction::aboutApp( this, SLOT( slotAbout() ), actionCollection(), "about_app" );
+  KStdAction::aboutApp( m_helpMenu, SLOT( aboutApplication() ), actionCollection(), "about_app" );
+  // old one KStdAction::aboutApp( this, SLOT( slotAbout() ), actionCollection(), "about_app" );
   KStdAction::aboutKDE( m_helpMenu, SLOT( aboutKDE() ), actionCollection(), "about_kde" );
   KStdAction::reportBug( m_helpMenu, SLOT( reportBug() ), actionCollection(), "report_bug" );
 

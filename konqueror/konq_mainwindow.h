@@ -243,7 +243,7 @@ protected slots:
 
   void slotOpenWith();
 
-  void slotAbout();
+  //void slotAbout();
 
   void slotGoMenuAboutToShow();
   void slotUpAboutToShow();
