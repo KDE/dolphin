@@ -21,7 +21,6 @@
 #include "konq_bgnddlg.h"
 #include "konq_propsview.h"
 #include "konq_settings.h"
-#include "kfind/kfind.h"
 
 #include <kaction.h>
 #include <kcolordlg.h>
