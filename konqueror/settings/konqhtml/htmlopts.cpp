@@ -37,7 +37,7 @@ KMiscHTMLOptions::KMiscHTMLOptions(KConfig *config, QString group, QWidget *pare
 
      // Form completion
 
-    QVGroupBox *bgForm = new QVGroupBox( i18n("Form C&ompletion"), this );
+    QVGroupBox *bgForm = new QVGroupBox( i18n("Form Com&pletion"), this );
     m_pFormCompletionCheckBox = new QCheckBox(i18n( "Enable completion of &forms" ), bgForm);
     QWhatsThis::add( m_pFormCompletionCheckBox, i18n( "If this box is checked, Konqueror will remember"
                                                         " the data you enter in web forms and suggest it in similar fields for all forms." ) );
@@ -56,7 +56,7 @@ KMiscHTMLOptions::KMiscHTMLOptions(KConfig *config, QString group, QWidget *pare
 
     // Misc
 
-    cbCursor = new QCheckBox(i18n("Change cursor over &links"), this);
+    cbCursor = new QCheckBox(i18n("Chan&ge cursor over &links"), this);
     lay->addMultiCellWidget(cbCursor, row, row, 0, 1);
     row++;
 
@@ -72,7 +72,7 @@ KMiscHTMLOptions::KMiscHTMLOptions(KConfig *config, QString group, QWidget *pare
     row++;
     connect(m_pShowMMBInTabs, SIGNAL(clicked()), this, SLOT(changed()));
 
-    m_pTabConfirm = new QCheckBox( i18n( "Confirm when closing windows with multiple tabs" ), this );
+    m_pTabConfirm = new QCheckBox( i18n( "Confirm &when closing windows with multiple tabs" ), this );
     QWhatsThis::add( m_pTabConfirm, i18n("This will ask you whether you are sure you want to close "
                           "a window when it has multiple tabs opened in it.") );
     lay->addMultiCellWidget( m_pTabConfirm, row, row, 0, 1);
@@ -107,7 +107,7 @@ KMiscHTMLOptions::KMiscHTMLOptions(KConfig *config, QString group, QWidget *pare
     lay->addMultiCellWidget(sep, row, row, 0, 1);
     row++;
 
-    QLabel *label = new QLabel( i18n("Un&derline links:"), this);
+    QLabel *label = new QLabel( i18n("Und&erline links:"), this);
     m_pUnderlineCombo = new QComboBox( false, this );
     label->setBuddy(m_pUnderlineCombo);
     m_pUnderlineCombo->insertItem(i18n("Enabled"), UnderlineAlways);
