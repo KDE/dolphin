@@ -74,22 +74,19 @@ KDesktopConfig::KDesktopConfig(QWidget *parent, const char */*name*/)
 
   lay->addWidget(label);
   lay->addWidget(_numInput);
-  lay->setStretchFactor(_numInput, 1);
 
   layout->addWidget(number_group);
 
   // name group
   QGroupBox *name_group = new QGroupBox(i18n("Desktop &Names"), this);
 
-  QGridLayout *grid = new QGridLayout(name_group, 8, 4,
-                      KDialog::marginHint(),
-                      KDialog::spacingHint());
+  name_group->setColumnLayout(4, Horizontal);
 
   for(int i = 0; i < 8; i++)
     {
       _nameLabel[i] = new QLabel(i18n("Desktop %1:").arg(i+1), name_group);
-      _nameLabel[i+8] = new QLabel(i18n("Desktop %1:").arg(i+8+1), name_group);
       _nameInput[i] = new KLineEdit(name_group);
+      _nameLabel[i+8] = new QLabel(i18n("Desktop %1:").arg(i+8+1), name_group);
       _nameInput[i+8] = new KLineEdit(name_group);
       QWhatsThis::add( _nameLabel[i], i18n( "Here you can enter the name for desktop %1" ).arg( i+1 ) );
       QWhatsThis::add( _nameInput[i], i18n( "Here you can enter the name for desktop %1" ).arg( i+1 ) );
@@ -100,18 +97,9 @@ KDesktopConfig::KDesktopConfig(QWidget *parent, const char */*name*/)
           SLOT(slotTextChanged(const QString&)));
       connect(_nameInput[i+8], SIGNAL(textChanged(const QString&)),
           SLOT(slotTextChanged(const QString&)));
-
-      grid->addWidget(_nameLabel[i], i, 0);
-      grid->addWidget(_nameInput[i], i, 1);
-      grid->addWidget(_nameLabel[i+8], i, 2);
-      grid->addWidget(_nameInput[i+8], i, 3);
     }
 
-  grid->setColStretch(1, 2);
-  grid->setColStretch(3, 2);
-
   layout->addWidget(name_group);
-  layout->setStretchFactor(name_group, 2);
   layout->addStretch(1);
 
   load();
