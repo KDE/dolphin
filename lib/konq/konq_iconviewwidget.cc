@@ -139,7 +139,7 @@ void KFileTip::setItem( KFileIVI *ivi )
             KFileItemList oneItem;
             oneItem.append( ivi->item() );
 
-            m_previewJob = KIO::filePreview( oneItem, 256, 256, 64, 70, true, true, &(m_view->previewSettings()));
+            m_previewJob = KIO::filePreview( oneItem, 256, 256, 64, 70, true, true, 0);
             connect( m_previewJob, SIGNAL( gotPreview( const KFileItem *, const QPixmap & ) ),
                     m_view, SLOT( slotToolTipPreview( const KFileItem *, const QPixmap & ) ) );
             connect( m_previewJob, SIGNAL( result( KIO::Job * ) ),
