@@ -176,7 +176,7 @@ int main( int argc, char **argv )
   registry.addFactory( new KServiceFactory );
   // HACK
   registry.load( "/tmp/dump" );
-  if ( registry.modified() )
+  if ( registry.isModified() )
   {    
     registry.save( "/tmp/dump" );
     registry.clearModified();
