@@ -77,7 +77,7 @@ UserAgentOptions::UserAgentOptions( QWidget * parent, const char * name )
   mainLayout->addLayout( hlay );
 
   // Default User-agent customization.
-  bg_default = new QButtonGroup( i18n("Customize default identification"), this );
+  bg_default = new QButtonGroup( i18n("Customize Default Identification"), this );
   // vlay->setStretchFactor( bg_default, 0 );
   QGridLayout *bg_grid = new QGridLayout( bg_default, 7, 2,
                                           KDialog::marginHint(),
@@ -182,7 +182,7 @@ UserAgentOptions::UserAgentOptions( QWidget * parent, const char * name )
   mainLayout->addWidget( bg_default );
 
   // Site/Domain specific settings
-  gb_siteSpecific = new QGroupBox( i18n("Site/domain specific identification"), this );
+  gb_siteSpecific = new QGroupBox( i18n("Site/Domain Specific Identification"), this );
   QGridLayout* s_grid = new QGridLayout( gb_siteSpecific, 3, 2,
                                          KDialog::marginHint(),
                                          KDialog::spacingHint() );
@@ -194,8 +194,8 @@ UserAgentOptions::UserAgentOptions( QWidget * parent, const char * name )
   lv_siteUABindings->setShowSortIndicator( true );
   lv_siteUABindings->setSelectionMode (QListView::Extended);
 
-  lv_siteUABindings->addColumn(i18n("Site/domain name"));
-  lv_siteUABindings->addColumn(i18n("UserAgent"));
+  lv_siteUABindings->addColumn(i18n("Site/Domain Name"));
+  lv_siteUABindings->addColumn(i18n("User Agent"));
   lv_siteUABindings->addColumn(i18n("Alias"));
 
   lv_siteUABindings->setAllColumnsShowFocus( true );
