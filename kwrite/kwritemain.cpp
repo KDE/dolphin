@@ -56,101 +56,6 @@
 // StatusBar field IDs
 #define ID_GEN 1
 
-enum saveResult { SAVE_OK, SAVE_CANCEL, SAVE_RETRY, SAVE_ERROR };
-
-int checkOverwrite( KURL u, KTextEditor::View *view )
-{
-  int query = KMessageBox::Yes;
-
-  if( u.isLocalFile() )
-  {
-    QFileInfo info;
-    QString name( u.path() );
-    info.setFile( name );
-    if( info.exists() )
-      query = KMessageBox::warningYesNoCancel( view,
-        i18n( "A Document with this Name already exists.\nDo you want to overwrite it?" ) );
-  }
-  return query;
-}
-
-saveResult saveAs(KTextEditor::View *view) {
-  int query;
-  KateFileDialog *dialog;
-  KateFileDialogData data;
-
-  do {
-    query = KMessageBox::Yes;
-
-    dialog = new KateFileDialog (view->document()->url().url(),static_cast<KTextEditor::EncodingInterface*>(view->document()->qt_cast("KTextEditor::EncodingInterface"))->encoding(), view, i18n ("Save File"), KateFileDialog::saveDialog);
-    data = dialog->exec ();
-    delete dialog;
-    if (data.url.isEmpty())
-      return SAVE_CANCEL;
-    query = checkOverwrite( data.url, view );
-  }
-  while ((query != KMessageBox::Cancel) && (query != KMessageBox::Yes));
-
-  if( query == KMessageBox::Cancel )
-    return SAVE_CANCEL;
-
-  static_cast<KTextEditor::EncodingInterface*>(view->document()->qt_cast("KTextEditor::EncodingInterface"))->setEncoding (data.encoding);
-  if( !view->document()->saveAs(data.url) ) {
-    KMessageBox::sorry(view,
-      i18n("The file could not be saved. Please check if you have write permission."));
-    return SAVE_ERROR;
-  }
-
-  return SAVE_OK;
-}
-
-saveResult save(KTextEditor::View *view) {
-  int query = KMessageBox::Yes;
-  if (view->document()->isModified()) {
-    if (!view->document()->url().fileName().isEmpty() && view->document()->isReadWrite()) {
-      // If document is new but has a name, check if saving it would
-      // overwrite a file that has been created since the new doc
-      // was created:
-      if( query == KMessageBox::Yes )
-      {
-         if( !view->document()->saveAs(view->document()->url()) ) {
-       KMessageBox::sorry(view,
-        i18n("The file could not be saved. Please check if you have write permission."));
-      return SAVE_ERROR;
-  }
-      }
-      else  // Do not overwrite already existing document:
-        return saveAs(view);
-    } // New, unnamed document:
-    else
-      return saveAs(view);
-  }
-  return SAVE_OK;
-}
-
-bool canDiscard(KTextEditor::View *view) {
-  int query;
-
-  if (view->document()->isModified()) {
-    query = KMessageBox::warningYesNoCancel(view,
-      i18n("The current Document has been modified.\nWould you like to save it?"));
-    switch (query) {
-      case KMessageBox::Yes: //yes
-        if (save(view) == SAVE_CANCEL) return false;
-        if (view->document()->isModified()) {
-            query = KMessageBox::warningContinueCancel(view,
-               i18n("Could not save the document.\nDiscard it and continue?"),
-           QString::null, i18n("&Discard"));
-          if (query == KMessageBox::Cancel) return false;
-        }
-        break;
-      case KMessageBox::Cancel: //cancel
-        return false;
-    }
-  }
-  return true;
-}
-
 QPtrList<KTextEditor::Document> docList; //documents
 
 KWrite::KWrite (KTextEditor::Document *doc)
@@ -213,7 +118,7 @@ void KWrite::loadURL(const KURL &url)
 bool KWrite::queryClose()
 {
   if (!(kateView->document()->views().count() == 1)) return true;
-  return canDiscard(kateView);
+  return kateView->document()->closeURL();
 }
 
 
@@ -242,8 +147,7 @@ void KWrite::setupEditWidget(KTextEditor::Document *doc)
 
 void KWrite::slotFlush ()
 {
-   if (canDiscard (kateView))
-     kateView->document()->closeURL();
+   kateView->document()->closeURL();
 }
 
 void KWrite::setupActions()
