@@ -130,7 +130,7 @@ void TopLevel::setupEditWidget(KateDocument *doc)
 {
   kateView = new KateView(doc, this, 0);
 
-  connect(kateView,SIGNAL(newCurPos()),this,SLOT(newCurPos()));
+  connect(kateView,SIGNAL(cursorPositionChanged()),this,SLOT(newCurPos()));
   connect(kateView,SIGNAL(newStatus()),this,SLOT(newStatus()));
   connect(kateView->doc(),SIGNAL(fileNameChanged()),this,SLOT(newCaption()));
   connect(kateView,SIGNAL(dropEventPass(QDropEvent *)),this,SLOT(slotDropEvent(QDropEvent *)));
