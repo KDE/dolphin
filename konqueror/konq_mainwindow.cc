@@ -5473,7 +5473,8 @@ bool KonqMainWindow::checkPreloadResourceUsage()
         return false;
     }
     int usage = current_memory_usage();
-    kdDebug(1202) << "Memory usage: " << usage << "(startup=" << s_initialMemoryUsage << ")" << endl;
+    kdDebug(1202) << "Memory usage increase: " << ( usage - s_initialMemoryUsage )
+        << " (" << usage << "/" << s_initialMemoryUsage << ")" << endl;
     int max_allowed_usage = s_initialMemoryUsage + 16 * 1024 * 1024;
     if( usage > max_allowed_usage ) // too much memory used?
     {
@@ -5496,6 +5497,24 @@ bool KonqMainWindow::checkPreloadResourceUsage()
 
 static int current_memory_usage()
 {
+#ifdef __linux__
+// Check whole memory usage - VmSize
+    QFile f( QCString().sprintf( "/proc/%i/statm", getpid()));
+    if( f.open( IO_ReadOnly ))
+    {
+        QString line;
+        if( f.readLine( line, 1024 ) > 0 )
+        {
+            line = line.stripWhiteSpace();
+            int usage = line.section( ' ', 0, 0 ).toInt();
+            if( usage > 0 )
+                return usage * 1024;
+        }
+    }
+    kdWarning() << "Couldn't read VmSize from /proc/*/statm." << endl;
+#endif
+
+// Check malloc() usage - very imprecise, but better than nothing.
     int usage_sum = 0;
 #if defined(KDE_MALLINFO_STDLIB) || defined(KDE_MALLINFO_MALLOC)
     // ugly hack for kdecore/malloc
