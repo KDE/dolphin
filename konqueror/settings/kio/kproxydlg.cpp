@@ -54,8 +54,8 @@ KExceptionBox::KExceptionBox( QWidget* parent, const char* name )
                                           "in this list"), this,
                                           "cb_reverseproxy" );
     QWhatsThis::add( cb_reverseproxy, i18n("<qt>Check this box to reverse the "
-                                           "use of the exception list. That "
-                                           "is checking this box will result "
+                                           "use of the exception list. i.e. "
+                                           "Checking this box will result "
                                            "in the proxy servers being used "
                                            "only when the requested URL matches "
                                            "one of the addresses listed here."
@@ -115,13 +115,13 @@ KExceptionBox::KExceptionBox( QWidget* parent, const char* name )
              SLOT(updateButtons()) );
     lv_exceptions->addColumn( i18n("Address") );
     QWhatsThis::add( lv_exceptions, i18n("<qt>Contains a list of addresses "
-                                          "that should either by-pass the use "
+                                          "that should either bypass the use "
                                           "of the proxy server(s) specified "
                                           "above or use these servers based "
                                           "on the state of the <tt>\"Only "
                                           "use proxy for entries in the "
                                           "list\"</tt> checkbox above.<p>"
-                                          "If the box is checked, then only "
+                                          "If the box is checked, only "
                                           "URLs that match the addresses "
                                           "listed here will be sent through "
                                           "the proxy server(s) shown above. "
@@ -437,7 +437,7 @@ KProxyDialog::KProxyDialog( QWidget* parent,  const char* name )
                                         gb_auth->sizePolicy().hasHeightForWidth()) );
 
     gb_auth->setEnabled( false );
-    QWhatsThis::add( gb_auth, i18n("Setup the way authorization information "
+    QWhatsThis::add( gb_auth, i18n("Setup the way that authorization information "
                                    "should be handled when making proxy "
                                    "connections. The default option is to "
                                    "prompt you for password as needed.") );

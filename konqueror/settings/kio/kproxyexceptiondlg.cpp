@@ -89,10 +89,10 @@ KProxyExceptionDlg::KProxyExceptionDlg( QWidget* parent,  const char* name )
                                          "proxy server(s) specified above.<p>"
                                          "Note that the reverse is true if "
                                          "the \"<code>Only use proxy for "
-                                         "enteries in this list</code>\" "
-                                         "box is checked. That is only URLs "
+                                         "entries in this list</code>\" "
+                                         "box is checked. i.e. Only URLs "
                                          "that match one of the addresses in "
-                                         "this would be allowed to use proxy "
+                                         "this list would be allowed to use proxy "
                                          "servers") );
     mainLayout->addWidget( le_exceptions );
     QSpacerItem* spacer = new QSpacerItem( 16, 16, QSizePolicy::Minimum,

@@ -208,8 +208,8 @@ KEnvVarProxyDlg::KEnvVarProxyDlg( QWidget* parent, const char* name )
     QWhatsThis::add( pb_verify, i18n("<qt>Click this button to quickly "
                                      "determine whether or not the environment "
                                      "variable names you supplied are valid. "
-                                     "If an environment variable is not found "
-                                     "the associted labels will be "
+                                     "If an environment variable is not found, "
+                                     "the associated labels will be "
                                      "<b>highlighted</b> to indicate the "
                                      "invalid settings.</qt>") );
     vlay->addWidget( pb_verify );
