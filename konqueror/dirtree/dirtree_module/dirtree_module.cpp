@@ -197,17 +197,24 @@ void KonqDirTreeModule::slotNewItems( const KFileItemList& entries )
 void KonqDirTreeModule::slotRefreshItems( const KFileItemList &entries )
 {
     int size = KGlobal::iconLoader()->currentSize( KIcon::Small );
-    QListIterator<KFileItem> kit ( entries );
-    for( ; kit.current(); ++kit )
+    // We can't look in m_dictSubDirs since the URL might have been updated (after a renaming)
+    // so we have to use the long and painful method.
+    QDictIterator<KonqTreeItem> it( m_dictSubDirs );
+    for ( ; it.current(); ++it )
     {
-        // All items are in m_dictSubDirs, so look them up fast
-        KonqTreeItem * item = m_dictSubDirs[ kit.current()->url().url(-1) ];
+        KonqTreeItem * item = it.current();
         if ( !item->isTopLevelItem() ) // we only have dirs and one toplevel item in the dict
         {
             KonqDirTreeItem * dirTreeItem = static_cast<KonqDirTreeItem *>(item);
-            KonqFileItem * fileItem = dirTreeItem->fileItem();
-            dirTreeItem->setPixmap( 0, fileItem->pixmap( size ) );
-            dirTreeItem->setText( 0, KIO::decodeFileName( fileItem->url().fileName() ) );
+            QListIterator<KFileItem> kit ( entries );
+            for( ; kit.current(); ++kit )
+            {
+                if ( dirTreeItem->fileItem() == kit.current() )
+                {
+                    dirTreeItem->setPixmap( 0, kit.current()->pixmap( size ) );
+                    dirTreeItem->setText( 0, KIO::decodeFileName( kit.current()->url().fileName() ) );
+                }
+            }
         }
     }
 }
