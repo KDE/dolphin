@@ -132,17 +132,18 @@ void KEBListViewItem::paintCell(QPainter *p, const QColorGroup &cg, int column, 
    QListViewItem::paintCell( p, col, column, width, alignment );
 }
 
+#define COL_ADDR 3
+#define COL_STAT 2
+
 void KEBListViewItem::init( const KBookmark & bk )
 {
-    m_emptyFolder = false;
-    setPixmap(0, SmallIcon( bk.icon() ) );
+   m_emptyFolder = false;
+   setPixmap(0, SmallIcon( bk.icon() ) );
 #ifdef DEBUG_ADDRESSES
-    setText(3, bk.address());
+   setText(COL_ADDR, bk.address());
 #endif
-    modUpdate();
+   modUpdate();
 }
-
-// AK - TODO abstract this away, possibly split this rather large file up?
 
 void internal_nsGet(QString nsinfo, QString & nCreate, QString & nAccess, QString & nModify) {
    QStringList sl = QStringList::split(' ', nsinfo);
@@ -173,41 +174,44 @@ void KEBListViewItem::nsGet(QString & nModify )
 
 QString internal_nsPut(QString _nsinfo, QString nm) 
 {
-  QString nCreate, nAccess, nModify;
-  internal_nsGet(_nsinfo, nCreate, nAccess, nModify);
+   QString nCreate, nAccess, nModify;
+   internal_nsGet(_nsinfo, nCreate, nAccess, nModify);
 
-  bool okNum = false;
-  nm.toInt(&okNum);
+   bool numOk = false;
+   nm.toInt(&numOk);
 
-  QString nsinfo;
+   QString nsinfo;
+   nsinfo  =  "ADD_DATE=\"" + ((nCreate.isEmpty()) ? QString::number(time(0)) : nCreate) + "\"";
+   nsinfo += " LAST_VISIT=\"" + ((nAccess.isEmpty()) ? "0" : nAccess) + "\"";
+   nsinfo += " LAST_MODIFIED=\"" + ((numOk) ? nm : "1") + "\"";
 
-  nsinfo  = "ADD_DATE=\"";
-  nsinfo += (nCreate.isEmpty()) ? QString::number(time(0)) : nCreate;
-  nsinfo += "\" LAST_VISIT=\"";
-  nsinfo += (nAccess.isEmpty()) ? "0" : nAccess;
-  nsinfo += "\" LAST_MODIFIED=\"";
-  nsinfo += (okNum) ? nm : "1";
-  nsinfo += "\"";
-
-  return nsinfo;
+   return nsinfo;
 }
 
-void KEBListViewItem::nsPut( QString nm )
+void KEBListViewItem::nsPut(QString nm)
 {
    QString _nsinfo = m_bookmark.internalElement().attribute("netscapeinfo");
    QString nsinfo = internal_nsPut(_nsinfo,nm);
    m_bookmark.internalElement().setAttribute("netscapeinfo",nsinfo);
    KEBTopLevel::self()->setModified(true);
    KEBTopLevel::self()->Modify[m_bookmark.url().url()] = nm;
-   setText(2, nm);
+   setText(COL_STAT, nm);
 }
 
-// */ of nsinfo stuff
+QString mkTimeStr(int b)
+{
+   QDateTime dt;
+   dt.setTime_t(b);
+   if (dt.daysTo(QDateTime::currentDateTime()) > 31) {
+      return KGlobal::locale()->formatDate(dt.date(), false);
+   } else {
+      return KGlobal::locale()->formatDateTime(dt, false);
+   }
+}
 
-void KEBListViewItem::modUpdate( )
+void KEBListViewItem::modUpdate()
 {
    QString url = m_bookmark.url().url();
-
    KEBTopLevel *top = KEBTopLevel::self();
 
    if (top) {
@@ -232,14 +236,13 @@ void KEBListViewItem::modUpdate( )
 
          } else { 
             // may be reading a second bookmark with same url
+
             QString oom;
             nsGet(oom);
-            int ood = oom.toInt();
 
             oModify = top->oldModify[url];
-            int ond = oModify.toInt();
 
-            if (ood > ond) {
+            if (oom.toInt() > oModify.toInt()) {
                top->oldModify[url] = oom;
                oModify = oom;
             }
@@ -258,35 +261,21 @@ void KEBListViewItem::modUpdate( )
 
       // kdDebug() << "nMod=" << nMod << " nis=" << nis << " nM=" << nM << " oM=" << nM << "\n";
       QString sn;
-      QDateTime dt;
 
       if (nMod && nis) { 
          // error in current check
          sn = nModify;
-         if (ois) {
-            render = 1;
-         } else {
-            render = 2;
-         }
+         render = ois ? 1 : 2;
 
       } else if (nMod && nM == 0) { 
          // no modify time returned
+         // AK - change this to "Okay" ?
          sn = i18n(".");
 
       } else if (nMod && nM >= oM) { 
          // info from current check
-         dt.setTime_t(nM);
-
-         if (dt.daysTo(QDateTime::currentDateTime()) > 31) {
-            sn =  KGlobal::locale()->formatDate(dt.date(), false);
-         } else {
-            sn =  KGlobal::locale()->formatDateTime(dt, false);
-         }
-         if (nM > oM)
-            render = 2;
-         else {
-            render = 1;
-         }
+         sn = mkTimeStr(nM);
+         render = (nM > oM) ? 2 : 1;
 
       } else if (ois) { 
          // error in previous check
@@ -295,15 +284,10 @@ void KEBListViewItem::modUpdate( )
 
       } else if (oM) { 
          // info from previous check
-         dt.setTime_t(oM);
-         if (dt.daysTo(QDateTime::currentDateTime()) > 31) {
-            sn =  KGlobal::locale()->formatDate(dt.date(), false);
-         } else {
-            sn =  KGlobal::locale()->formatDateTime(dt, false);
-         }
+         sn = mkTimeStr(oM);
          render = 0;
       }
-      setText(2,  sn);
+      setText(COL_STAT, sn);
    }
 }
 
@@ -312,22 +296,18 @@ void KEBListViewItem::setTmpStatus(QString status, QString &oldStatus) {
    QString url = m_bookmark.url().url();
 
    render = 2;
-   setText(2,status);
-   if (top->Modify.contains(url)) {
-      oldStatus = top->Modify[url];
-   } else {
-      oldStatus = "";
-   }
-   //  kdDebug() << "setStatus " << status << " old=" << oldStatus << "\n";
+   setText(COL_STAT,status);
+   oldStatus = top->Modify.contains(url) ? top->Modify[url] : "";
    top->Modify[url] = status;
+   //  kdDebug() << "setStatus " << status << " old=" << oldStatus << "\n";
 }
 
-void KEBListViewItem::restoreStatus( QString oldStatus)
+void KEBListViewItem::restoreStatus(QString oldStatus)
 {
    KEBTopLevel *top = KEBTopLevel::self();
    QString url = m_bookmark.url().url();
 
-   if (! oldStatus.isEmpty()) {
+   if (!oldStatus.isEmpty()) {
       top->Modify[url] = oldStatus;
    } else {
       top->Modify.remove(url);
