@@ -27,8 +27,6 @@
 #include <qsplitter.h>
 #include <qcheckbox.h>
 #include <qlabel.h>
-#include <qtabwidget.h>
-#include <qtabbar.h>
 
 #include <kpixmap.h>
 #include <kpixmapeffect.h>
@@ -134,7 +132,7 @@ class KonqFrameStatusBar : public KStatusBar
       virtual void splitFrameMenu();
 
       /**
-       * Takes care of the statusbars size 
+       * Takes care of the statusbars size
        **/
       virtual void fontChange(const QFont &oldFont);
 
@@ -393,79 +391,6 @@ signals:
 protected:
   KonqFrameBase* m_pFirstChild;
   KonqFrameBase* m_pSecondChild;
-};
-
-class KonqTabBar : public QTabBar
-{
-  Q_OBJECT
-
-  public:
-    KonqTabBar(KonqViewManager* viewManager, KonqFrameTabs *parent, const char *name = 0);
-    ~KonqTabBar();
-  protected:
-    void mousePressEvent(QMouseEvent *e);
-
-  private:
-    KonqFrameTabs* m_pTabWidget;
-    KonqViewManager* m_pViewManager;
-    QPopupMenu* m_pPopupMenu;
-};
-
-class KonqFrameTabs : public QTabWidget, public KonqFrameContainerBase
-{
-  Q_OBJECT
-  friend class KonqFrame; //for emitting ctrlTabPressed() only, aleXXX
-
-public:
-  KonqFrameTabs(QWidget* parent, KonqFrameContainerBase* parentContainer, KonqViewManager* viewManager, const char * name = 0);
-  virtual ~KonqFrameTabs();
-
-  virtual void listViews( ChildViewList *viewList );
-
-  virtual void saveConfig( KConfig* config, const QString &prefix, bool saveURLs, KonqFrameBase* docContainer, int id = 0, int depth = 0 );
-  virtual void copyHistory( KonqFrameBase *other );
-
-  virtual void printFrameInfo( const QString& spaces );
-
-  QPtrList<KonqFrameBase>* childFrameList() { return m_pChildFrameList; }
-
-  virtual void setTitle( const QString &title, QWidget* sender );
-  virtual void setTabIcon( const QString &url, QWidget* sender );
-
-  virtual QWidget* widget() { return this; }
-  virtual QCString frameType() { return QCString("Tabs"); }
-
-  void activateChild();
-
-  /**
-   * Call this after inserting a new frame into the splitter.
-   */
-  void insertChildFrame( KonqFrameBase * frame, int index = -1);
-
-  /**
-   * Call this before deleting one of our children.
-   */
-  void removeChildFrame( KonqFrameBase * frame );
-
-  //inherited
-  virtual void reparentFrame(QWidget * parent,
-                             const QPoint & p, bool showIt=FALSE );
-
-    void moveTabLeft(int index);
-    void moveTabRight(int index);
-
-
-public slots:
-  void slotCurrentChanged( QWidget* newPage );
-
-signals:
-  void ctrlTabPressed();
-
-protected:
-  QPtrList<KonqFrameBase>* m_pChildFrameList;
-
-private:
-  KonqViewManager* m_pViewManager;
 };
 
 #endif

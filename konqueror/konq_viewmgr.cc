@@ -1,3 +1,4 @@
+// -*- mode: c++; c-basic-offset: 2 -*-
 /*  This file is part of the KDE project
     Copyright (C) 1999 Simon Hausmann <hausmann@kde.org>
 
@@ -16,11 +17,11 @@
     Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
-// -*- mode: c++; c-basic-offset: 2 -*-
 
 #include "konq_viewmgr.h"
 #include "konq_view.h"
 #include "konq_frame.h"
+#include "konq_tabs.h"
 #include "konq_profiledlg.h"
 
 #include <qfileinfo.h>

@@ -26,6 +26,7 @@
 #include "konq_misc.h"
 #include "konq_viewmgr.h"
 #include "konq_frame.h"
+#include "konq_tabs.h"
 #include "konq_events.h"
 #include "konq_actions.h"
 #include "delayedinitializer.h"
@@ -546,6 +547,7 @@ bool KonqMainWindow::openView( QString serviceType, const KURL &_url, KonqView *
   kdDebug(1202) << "req.openAfterCurrentPage= " << req.openAfterCurrentPage << endl;
 
   bool bOthersFollowed = false;
+
   if ( childView )
   {
     // If we're not already following another view (and if we are not reloading)
@@ -689,6 +691,7 @@ bool KonqMainWindow::openView( QString serviceType, const KURL &_url, KonqView *
               index = tabContainer->currentPageIndex();
           }
           childView = m_pViewManager->addTab( serviceType, serviceName, false, req.openAfterCurrentPage );
+
           if (req.newTabInFront && childView)
           {
               if ( !tabContainer )

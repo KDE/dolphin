@@ -30,6 +30,7 @@ konqueror_la_SOURCES = konq_main.cc \
 	    konq_run.cc konq_view.cc konq_viewmgr.cc \
 	    konq_misc.cc \
 	    konq_frame.cc \
+	    konq_tabs.cc \
 	    konq_actions.cc \
 	    konq_profiledlg.cc \
 	    konq_factory.cc \
@@ -40,7 +41,7 @@ konqueror_la_SOURCES = konq_main.cc \
 
 noinst_HEADERS = KonqMainWindowIface.h KonqViewIface.h delayedinitializer.h \
 	konq_actions.h konq_browseriface.h konq_combo.h konq_factory.h \
-	konq_frame.h konq_guiclients.h konq_main.h konq_mainwindow.h \
+	konq_frame.h konq_tabs.h konq_guiclients.h konq_main.h konq_mainwindow.h \
 	konq_misc.h konq_openurlrequest.h konq_profiledlg.h konq_run.h \
 	konq_view.h konq_viewmgr.h version.h
 

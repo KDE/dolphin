@@ -380,6 +380,8 @@ public slots:
   virtual void setIcon( const QPixmap& );
   void slotGoHistoryActivated( int steps );
 
+  void slotAddTab();
+
 protected slots:
   void slotViewCompleted( KonqView * view );
 
@@ -390,7 +392,6 @@ protected slots:
 
   void slotSplitViewHorizontal();
   void slotSplitViewVertical();
-  void slotAddTab();
   void slotDuplicateTab();
   void slotDuplicateTabPopup();
   void slotBreakOffTab();
