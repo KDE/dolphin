@@ -1371,8 +1371,9 @@ void KonqMainView::attachToolbars( KonqFrame *frame )
     toolbar->show();
   }
   frame->layout()->insertWidget( 0, toolbar );
-  
-  menuBar()->reparent( frame, 0, QPoint( 0, 0 ), false );
+
+  menuBar()->reparent( frame, 0, QPoint( 0, 0 ) );
+  menuBar()->hide();
 }
 
 void KonqMainView::slotFullScreenStop()
