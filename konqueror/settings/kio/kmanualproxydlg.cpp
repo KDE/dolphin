@@ -414,7 +414,7 @@ bool KManualProxyDlg::isValidURL( const QString& _url, KURL* result ) const
     filters << "kshorturifilter" << "localdomainurifilter";
     
     // If the typed URL is malformed, and the filters cannot filter it
-    // then it must be an invalid entry, 
+    // then it must be an invalid entry.
     if( !(url.isValid() || KURIFilter::self()->filterURI(url, filters)) && 
         !url.hasHost() )
       return false;
