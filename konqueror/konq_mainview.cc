@@ -958,7 +958,7 @@ void KonqMainView::insertChildView( KonqChildView *childView )
 
   m_paRemoveView->setEnabled( activeViewsCount() > 1 );
 
-  callExtensionBoolMethod( childView, "setSaveViewPropertiesLocally(bool)", m_bSaveViewPropertiesLocally );
+  childView->callExtensionBoolMethod( "setSaveViewPropertiesLocally(bool)", m_bSaveViewPropertiesLocally );
   emit viewAdded( childView );
 }
 
@@ -1190,7 +1190,7 @@ void KonqMainView::slotSaveViewPropertiesLocally()
   MapViews::ConstIterator it = m_mapViews.begin();
   MapViews::ConstIterator end = m_mapViews.end();
   for (; it != end; ++it )
-    callExtensionBoolMethod( (*it), "setSaveViewPropertiesLocally(bool)", m_bSaveViewPropertiesLocally );
+    (*it)->callExtensionBoolMethod( "setSaveViewPropertiesLocally(bool)", m_bSaveViewPropertiesLocally );
 }
 
 void KonqMainView::slotRemoveLocalProperties()
@@ -1227,36 +1227,11 @@ void KonqMainView::slotSaveDefaultProfile()
 }
 */
 
-void KonqMainView::callExtensionMethod( KonqChildView * childView, const char * methodName )
-{
-  QObject *obj = childView->view()->child( 0L, "KParts::BrowserExtension" );
-  // assert(obj); Hmm, not all views have a browser extension !
-  if ( !obj )
-    return;
-
-  QMetaData * mdata = obj->metaObject()->slot( methodName );
-  if( mdata )
-    (obj->*(mdata->ptr))();
-}
-
-void KonqMainView::callExtensionBoolMethod( KonqChildView * childView, const char * methodName, bool value )
-{
-  QObject *obj = childView->view()->child( 0L, "KParts::BrowserExtension" );
-  // assert(obj); Hmm, not all views have a browser extension !
-  if ( !obj )
-    return;
-
-  typedef void (QObject::*BoolMethod)(bool);
-  QMetaData * mdata = obj->metaObject()->slot( methodName );
-  if( mdata )
-    (obj->*((BoolMethod)mdata->ptr))(value);
-}
-
 void KonqMainView::slotCut()
 {
   kdDebug(1202) << "slotCut - sending cut to konqueror* and kdesktop, with true" << endl;
   // Call cut on the child object
-  callExtensionMethod( m_currentView, "cut()" );
+  m_currentView->callExtensionMethod( "cut()" );
 
   QByteArray data;
   QDataStream stream( data, IO_WriteOnly );
@@ -1270,7 +1245,7 @@ void KonqMainView::slotCopy()
 {
   kdDebug(1202) << "slotCopy - sending cut to konqueror* and kdesktop, with false" << endl;
   // Call copy on the child object
-  callExtensionMethod( m_currentView, "copy()" );
+  m_currentView->callExtensionMethod( "copy()" );
 
   QByteArray data;
   QDataStream stream( data, IO_WriteOnly );
@@ -1284,9 +1259,9 @@ void KonqMainView::slotPaste()
 {
   kdDebug(1202) << "slotPaste() - moveselection is " << s_bMoveSelection << endl;
   if ( s_bMoveSelection )
-    callExtensionMethod( m_currentView, "pastecut()" );
+    m_currentView->callExtensionMethod( "pastecut()" );
   else
-    callExtensionMethod( m_currentView, "pastecopy()" );
+    m_currentView->callExtensionMethod( "pastecopy()" );
 }
 
 void KonqMainView::slotAbout()
@@ -2065,7 +2040,7 @@ void KonqMainView::slotDatabaseChanged()
   MapViews::ConstIterator it = m_mapViews.begin();
   MapViews::ConstIterator end = m_mapViews.end();
   for (; it != end; ++it )
-    callExtensionMethod( (*it), "refreshMimeTypes()" );
+    (*it)->callExtensionMethod( "refreshMimeTypes()" );
 }
 
 void KonqMainView::slotReconfigure()
@@ -2082,7 +2057,7 @@ void KonqMainView::reparseConfiguration()
   MapViews::ConstIterator it = m_mapViews.begin();
   MapViews::ConstIterator end = m_mapViews.end();
   for (; it != end; ++it )
-    callExtensionMethod( (*it), "reparseConfiguration()" );
+    (*it)->callExtensionMethod( "reparseConfiguration()" );
 }
 
 void KonqMainView::saveProperties( KConfig *config )

@@ -209,6 +209,9 @@ public:
   void initMetaView();
   void closeMetaView();
 
+  void callExtensionMethod( const char *methodName );
+  void callExtensionBoolMethod( const char *methodName, bool value );
+
   void setViewName( const QString &name ) { m_name = name; }
   QString viewName() const { return m_name; }
 

@@ -31,6 +31,7 @@
 #include <kdebug.h>
 
 #include <qapplication.h>
+#include <qmetaobject.h>
 
 #include <kparts/factory.h>
 
@@ -672,5 +673,30 @@ KParts::BrowserHostExtension *KonqChildView::hostExtension( KParts::ReadOnlyPart
 
   return 0;
 }
+
+void KonqChildView::callExtensionMethod( const char *methodName )
+{
+  QObject *obj = m_pView->child( 0L, "KParts::BrowserExtension" );
+  // assert(obj); Hmm, not all views have a browser extension !
+  if ( !obj )
+    return;
+
+  QMetaData * mdata = obj->metaObject()->slot( methodName );
+  if( mdata )
+    (obj->*(mdata->ptr))();
+}
+
+void KonqChildView::callExtensionBoolMethod( const char *methodName, bool value )
+{
+  QObject *obj = m_pView->child( 0L, "KParts::BrowserExtension" );
+  // assert(obj); Hmm, not all views have a browser extension !
+  if ( !obj )
+    return;
+
+  typedef void (QObject::*BoolMethod)(bool);
+  QMetaData * mdata = obj->metaObject()->slot( methodName );
+  if( mdata )
+    (obj->*((BoolMethod)mdata->ptr))(value);
+} 
 
 #include "konq_childview.moc"

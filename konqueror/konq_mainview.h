@@ -270,9 +270,6 @@ protected:
 
   void fillHistoryPopup( QPopupMenu *menu, const QList<HistoryEntry> &history );
 
-  void callExtensionMethod( KonqChildView * childView, const char * methodName );
-  void callExtensionBoolMethod( KonqChildView * childView, const char * methodName, bool value );
-
   void applyMainWindowSettings();
 
 private:
