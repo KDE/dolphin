@@ -257,6 +257,10 @@ KonqAboutPage::KonqAboutPage( //KonqMainWindow *
 	setCharset(codec->name(), true);
     else
 	setCharset(KGlobal::locale()->charset(), true);
+    // about:blah isn't a kioslave -> disable View source
+    KAction * act = actionCollection()->action("viewDocumentSource");
+    if ( act )
+      act->setEnabled( false );
 }
 
 KonqAboutPage::~KonqAboutPage()
