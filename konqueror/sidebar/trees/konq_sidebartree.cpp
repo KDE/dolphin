@@ -79,18 +79,18 @@ getModule KonqSidebarTree::getPluginFactory(QString name)
     else
       kdWarning() << "Module " << libName << " can't be loaded!" << endl;
   }
-  
+
   return pluginFactories[name];
 }
-    
+
 void KonqSidebarTree::loadModuleFactories()
 {
   pluginFactories.clear();
   pluginInfo.clear();
   KStandardDirs *dirs=KGlobal::dirs();
   QStringList list=dirs->findAllResources("data","konqsidebartng/dirtree/*.desktop",false,true);
-  
-  
+
+
   for (QStringList::ConstIterator it=list.begin();it!=list.end();++it)
   {
     KSimpleConfig ksc(*it);
@@ -289,11 +289,11 @@ void KonqSidebarTree::contentsDragMoveEvent( QDragMoveEvent *e )
             e->ignore();
             return;
         }
-    
+
         e->acceptAction();
-    
+
         setSelected( item, true );
-    
+
         if ( item != m_dropItem )
         {
             m_autoOpenTimer->stop();
@@ -326,7 +326,7 @@ void KonqSidebarTree::contentsDropEvent( QDropEvent *ev )
 {
     if (d->m_dropMode == SidebarTreeMode) {
         m_autoOpenTimer->stop();
-    
+
         if ( !selectedItem() )
         {
     //        KonqOperations::doDrop( 0L, m_dirtreeDir.dir, ev, this );
@@ -371,9 +371,9 @@ void KonqSidebarTree::addURL(KonqSidebarTreeTopLevelItem* item, const KURL & url
        path = item->path();
     else
        path = m_dirtreeDir.dir.path();
-       
+
     KURL destUrl;
-    
+
     if (url.isLocalFile() && url.fileName().endsWith(".desktop"))
     {
        QString filename = findUniqueFilename(path, url.fileName());
@@ -887,7 +887,7 @@ void KonqSidebarTree::showToplevelContextMenu()
     KonqSidebarTreeItem *treeItem = currentItem();
     if (treeItem && treeItem->isTopLevelItem())
         item = static_cast<KonqSidebarTreeTopLevelItem *>(treeItem);
-    
+
     // see if the newTab() dcop function is available (i.e. the sidebar is embedded into konqueror)
     bool tabSupport = false;
     DCOPRef ref(kapp->dcopClient()->appId(), topLevelWidget()->name());
@@ -910,7 +910,7 @@ void KonqSidebarTree::showToplevelContextMenu()
                             SLOT( slotCreateFolder() ), m_collection, "create_folder");
         (void) new KAction( i18n("Delete Folder"), "editdelete", 0, this,
                             SLOT( slotDelete() ), m_collection, "delete_folder");
-        (void) new KAction( i18n("Rename"), "editrename", 0, this,
+        (void) new KAction( i18n("Rename"), 0, this,
                             SLOT( slotRename() ), m_collection, "rename");
         (void) new KAction( i18n("Delete Link"), "editdelete", 0, this,
                             SLOT( slotDelete() ), m_collection, "delete_link");
@@ -962,7 +962,7 @@ void KonqSidebarTree::slotCreateFolder()
 
     while(true)
     {
-        name = KInputDialog::getText(i18n("Create New Folder"), 
+        name = KInputDialog::getText(i18n("Create New Folder"),
     			i18n("Enter folder name:"), name);
         if (name.isEmpty())
             return;
@@ -982,7 +982,7 @@ void KonqSidebarTree::slotCreateFolder()
 
         name = name + "-2";
    }
-   
+
    KGlobal::dirs()->makeDir(path);
 
    loadTopLevelGroup(m_currentTopLevelItem, path);
@@ -1003,7 +1003,7 @@ void KonqSidebarTree::slotRename()
 void KonqSidebarTree::slotProperties()
 {
     if (!m_currentTopLevelItem) return;
-    
+
     KURL url;
     url.setPath(m_currentTopLevelItem->path());
 
