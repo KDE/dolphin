@@ -151,7 +151,7 @@ QString KonqAboutPageFactory::specs()
 		     "de facto standards across the internet. Along with this support, "
 		     "for such functions as favicons, Internet Keywords, and <A HREF=\"%1\">XBEL bookmarks</A>, "
                      "Konqueror also implements:").arg("http://pyxml.sourceforge.net/topics/xbel/") )
-          .arg( i18n("S P E C I F I C A T I O N S") )
+          .arg( i18n("W E B B R O W S I N G") )
           .arg( i18n("Supported standards") )
           .arg( i18n("Additional requirements*") )
           .arg( i18n("<A HREF=\"%1\">DOM</A> (Level 1, partially Level 2) based "
@@ -176,14 +176,22 @@ QString KonqAboutPageFactory::specs()
           .arg( i18n("OpenSSL") )
           .arg( i18n("Bidirectional 16bit unicode support") )
           .arg( i18n("built-in") )
-          .arg( i18n("Image formats:") )
+          .arg( i18n("AutoCompletion for forms") )
           .arg( i18n("built-in") )
-          .arg( i18n("Transfer protocols:") )
+          .arg( i18n("G E N E R A L") )
+          .arg( i18n("Feature") )
+          .arg( i18n("Details") )
+          .arg( i18n("Image formats") )
+          .arg( i18n("Transfer protocols") )
           .arg( i18n("HTTP 1.1 (including gzip/bzip2 compression)") )
           .arg( i18n("FTP") )
           .arg( i18n("and <A HREF=\"%1\">many more...</A>").arg("exec:/kcmshell ioslaveinfo") )
-          .arg( i18n("built-in") )
+          .arg( i18n("URL-Completion") )
+          .arg( i18n("Manual"))
+	  .arg( i18n("Popup"))
+	  .arg( i18n("(Short-) Automatic"))
           .arg( i18n("<A HREF=\"%1\">Back</A> to the Introduction").arg("intro.html") )
+
           ;
 
     s_specs_html = new QString( res );
