@@ -315,10 +315,6 @@ KonqMainWindow::~KonqMainWindow()
   m_dcopObject = 0L;
   delete m_combo;
   m_combo = 0L;
-  delete m_psNextTab;
-  m_psNextTab = 0L;
-  delete m_psPrevTab;
-  m_psPrevTab = 0L;
   delete m_locationLabel;
   m_locationLabel = 0L;
 
@@ -3213,14 +3209,8 @@ void KonqMainWindow::initActions()
   m_paRemoveView = new KAction( i18n( "&Remove Active View" ),"view_remove", CTRL+SHIFT+Key_R, this, SLOT( slotRemoveView() ), actionCollection(), "removeview" );
   m_paRemoveTab = new KAction( i18n( "Close Current Tab/Quit" ), "tab_remove", CTRL+Key_W, this, SLOT( slotRemoveTab() ), actionCollection(), "removecurrenttab" );
 
-  // Append the old konqueror tab-keys to the new defaults
-  m_psNextTab = new KShortcut(KStdAccel::tabNext());
-  m_psNextTab->append(KKey(CTRL+Key_BracketRight));
-  m_psPrevTab = new KShortcut(KStdAccel::tabPrev());
-  m_psPrevTab->append(KKey(CTRL+Key_BracketLeft));
-
-  m_paActivateNextTab = new KAction( i18n( "Activate Next Tab" ), "tab_next", *m_psNextTab, this, SLOT( slotActivateNextTab() ), actionCollection(), "activatenexttab" );
-  m_paActivatePrevTab = new KAction( i18n( "Activate Previous Tab" ), "tab_previous", *m_psPrevTab, this, SLOT( slotActivatePrevTab() ), actionCollection(), "activateprevtab" );
+  m_paActivateNextTab = new KAction( i18n( "Activate Next Tab" ), "tab_next", KStdAccel::tabNext(), this, SLOT( slotActivateNextTab() ), actionCollection(), "activatenexttab" );
+  m_paActivatePrevTab = new KAction( i18n( "Activate Previous Tab" ), "tab_previous", KStdAccel::tabPrev(), this, SLOT( slotActivatePrevTab() ), actionCollection(), "activateprevtab" );
 
   m_paMoveTabLeft = new KAction( i18n("Move Tab Left"), 0 , CTRL+SHIFT+Key_Left,this, SLOT( slotMoveTabLeft()),actionCollection(),"tab_move_left");
   m_paMoveTabRight = new KAction( i18n("Move Tab Right"), 0 , CTRL+SHIFT+Key_Right,this, SLOT( slotMoveTabRight()),actionCollection(),"tab_move_right");
