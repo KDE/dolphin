@@ -301,13 +301,6 @@ void KonqHTMLView::slotCanceled()
   SIGNAL_CALL1( "canceled", id() );
 }
 
-bool KonqHTMLView::mousePressedHook( const char *_url, const char *_target, QMouseEvent *_mouse, bool _isselected )
-{
-//  emit gotFocus();
-
-  return KBrowser::mousePressedHook( _url, _target, _mouse, _isselected );
-}
-
 // #include "kfmicons.h"
 
 KHTMLEmbededWidget* KonqHTMLView::newEmbededWidget( QWidget* _parent, const char *_name, const char *_src, const char *_type,
@@ -346,167 +339,147 @@ char *KonqHTMLView::url()
 
 Konqueror::View::HistoryEntry *KonqHTMLView::saveState()
 {
-  return KonqBaseView::saveState();
-/*
-  Konqueror::View::HistoryEntry *entry = KonqBaseView::saveState();
+  cerr << "Konqueror::View::HistoryEntry *KonqHTMLView::saveState()" << endl;
+
+  Konqueror::View::HistoryEntry *entry = new Konqueror::View::HistoryEntry;
+  
+  entry->url = getKHTMLWidget()->getDocumentURL().url().ascii();
   
   SavedPage *p = saveYourself();
-  savePage( &entry->data, p );
+  entry->data <<= savePage( p );
   delete p;
   return entry;
-*/  
 }
 
 void KonqHTMLView::restoreState( const Konqueror::View::HistoryEntry &entry )
 {
-  KonqBaseView::restoreState( entry );
-//  SavedPage *p = restorePage( &entry.data );
+  cerr << "void KonqHTMLView::restoreState( const Konqueror::View::HistoryEntry &entry )" << endl;
+
+  Konqueror::HTMLView::SavedState state;
+  
+  entry.data >>= state;
+  
+  SavedPage *p = restorePage( state );
+    
   //FIXME: It might be good to use an event here, because of possibly installed
   //       event filters. Pppppperhaps: Store p somewhere else, set a bool flag,
   //       emit an "tweaked" event and obey the flag inside the event handler.
   //(Simon)
-//  restore( p );
-//  delete p;
+  
+  restore( p );
+  delete p;
+  SIGNAL_CALL2( "started", id(), CORBA::Any::from_string( (char *)entry.url.in(), 0 ) );
 }
 
-void KonqHTMLView::savePage( CORBA::Any *data, SavedPage *p )
+Konqueror::HTMLView::SavedState KonqHTMLView::savePage( SavedPage *p )
 {
-  (*data) <<= CORBA::Any::from_string( (char *)p->frameName.ascii(), 0 );
-  (*data) <<= CORBA::Any::from_boolean( (CORBA::Boolean)p->isFrame );
-  (*data) <<= (CORBA::Long)p->scrolling;
-  (*data) <<= (CORBA::Long)p->frameborder;
-  (*data) <<= (CORBA::Long)p->marginwidth;
-  (*data) <<= (CORBA::Long)p->marginheight;
-  (*data) <<= CORBA::Any::from_boolean( (CORBA::Boolean)p->allowresize );
-  (*data) <<= CORBA::Any::from_boolean( (CORBA::Boolean)p->isFrameSet );
-  (*data) <<= CORBA::Any::from_string( (char *)p->url.ascii(), 0 );
-  (*data) <<= CORBA::Any::from_string( (char *)p->title.ascii(), 0 );
-  (*data) <<= (CORBA::Long)p->xOffset;
-  (*data) <<= (CORBA::Long)p->yOffset;
-
-  if ( p->forms )
+  Konqueror::HTMLView::SavedState sp;
+  
+  sp.frameName = p->frameName;
+  sp.isFrame = p->isFrame;
+  sp.scrolling = p->scrolling;
+  sp.frameBorder = p->frameborder;
+  sp.marginWidth = p->marginwidth;
+  sp.marginHeight = p->marginheight;
+  sp.allowResize = p->allowresize;
+  sp.isFrameSet = p->isFrameSet;
+  sp.url = p->url;
+  sp.title= p->title;
+  sp.xOffset = p->xOffset;
+  sp.yOffset = p->yOffset;
+  
+  if ( p->forms && p->forms->count() > 0 )
   {
-    (*data) <<= (CORBA::ULong)p->forms->count();
+    sp.hasFormsList = true;
+    
+    sp.forms.length( p->forms->count() );
+    
     QStrListIterator it( *p->forms );
+    int i = 0;
     for (; it.current(); ++it )
-      (*data) <<= CORBA::Any::from_string( it.current(), 0 );
+      sp.forms[ i++ ] = it.current();
   }
   else
-    (*data) <<= (CORBA::ULong)0;
-
+    sp.hasFormsList = false;
+  
   if ( p->frameLayout )
   {
-    (*data) <<= CORBA::Any::from_boolean( (CORBA::Boolean)true );
-    (*data) <<= CORBA::Any::from_string( (char *)p->frameLayout->rows.ascii(), 0 );
-    (*data) <<= CORBA::Any::from_string( (char *)p->frameLayout->cols.ascii(), 0 );
-    (*data) <<= (CORBA::Long)p->frameLayout->frameBorder;
-    (*data) <<= CORBA::Any::from_boolean( (CORBA::Boolean)p->frameLayout->allowResize );
+    sp.hasFrameLayout = true;
+    
+    sp.fl_rows = p->frameLayout->rows;
+    sp.fl_cols = p->frameLayout->cols;
+    sp.fl_frameBorder = p->frameLayout->frameBorder;
+    sp.fl_allowResize = p->frameLayout->allowResize;
   }
   else
-    (*data) <<= CORBA::Any::from_boolean( (CORBA::Boolean)false );
-        
-  if ( p->frames )
-  {
-    (*data) <<= (CORBA::ULong)p->frames->count();
-    QListIterator<SavedPage> it( *p->frames );
-    for (; it.current(); ++it )
-      savePage( data, it.current() );
-  }
-  else
-    (*data) <<= (CORBA::ULong)0;
+    sp.hasFrameLayout = false;    
 
+  if ( p->frames && p->frames->count() > 0 )
+  {
+    sp.hasFrames = true;  
+      
+    sp.frames.length( p->frames->count() );
+
+    QListIterator<SavedPage> it( *p->frames );
+    int i = 0;
+    for (; it.current(); ++it)
+      sp.frames[ i++ ] = savePage( it.current() );
+  }
+  else
+    sp.hasFrames = false;
+        
+  return sp;
 }
 
-SavedPage *KonqHTMLView::restorePage( const CORBA::Any *data )
+SavedPage *KonqHTMLView::restorePage( Konqueror::HTMLView::SavedState state )
 {
   SavedPage *p = new SavedPage;
   
-  CORBA::String_var s;
-  CORBA::Boolean b;
-  CORBA::ULong u, c;
+  p->frameName = state.frameName.in();
+  p->isFrame = state.isFrame;
+  p->scrolling = state.scrolling;
+  p->frameborder = state.frameBorder;
+  p->marginwidth = state.marginWidth;
+  p->marginheight = state.marginHeight;
+  p->allowresize = state.allowResize;
+  p->isFrameSet = state.isFrameSet;
+  p->url = state.url.in();
+  p->title = state.title.in();
+  p->xOffset = state.xOffset;
+  p->yOffset = state.yOffset;
   
-  (*data) >>= CORBA::Any::to_string( s, 0 );
-  p->frameName = s;
-  
-  (*data) >>= CORBA::Any::to_boolean( b );
-  p->isFrame = b;
-
-  (*data) >>= u;
-  p->scrolling = u;
-  
-  (*data) >>= u;
-  p->frameborder = u;
-  
-  (*data) >>= u;
-  p->marginwidth = u;
-  
-  (*data) >>= u;
-  p->marginheight = u;
-  
-  (*data) >>= CORBA::Any::to_boolean( b );
-  p->allowresize = b;
-  
-  (*data) >>= CORBA::Any::to_boolean( b );
-  p->isFrameSet = b;
-  
-  (*data) >>= CORBA::Any::to_string( s, 0 );
-  p->url = s;
-  
-  (*data) >>= CORBA::Any::to_string( s, 0 );
-  p->title = s;
-  
-  (*data) >>= u;
-  p->xOffset = u;
-  
-  (*data) >>= u;
-  p->yOffset = u;
-  
-  (*data) >>= c;
-  if ( c > 0 )
+  if ( state.hasFormsList )
   {
     p->forms = new QStrList;
-    for ( u = 0; u < c; u++ )
-    {
-      (*data) >>= CORBA::Any::to_string( s, 0 );
-      p->forms->append( s );
-    }
     
+    for ( CORBA::ULong i = 0; i < state.forms.length(); i++ )
+      p->forms->append( state.forms[ i ].in() );
   }
   else
     p->forms = 0L;
   
-  (*data) >>= CORBA::Any::to_boolean( b );
-  if ( (bool)b )
+  if ( state.hasFrameLayout )
   {
     p->frameLayout = new FrameLayout;
     
-    (*data) >>= s;
-    p->frameLayout->rows = s;
-    
-    (*data) >>= s;
-    p->frameLayout->cols = s;
-    
-    (*data) >>= u;
-    p->frameLayout->frameBorder = u;
-    
-    (*data) >>= CORBA::Any::to_boolean( b );
-    p->frameLayout->allowResize = b;
+    p->frameLayout->rows = state.fl_rows.in();
+    p->frameLayout->cols = state.fl_cols.in();
+    p->frameLayout->frameBorder = state.fl_frameBorder;
+    p->frameLayout->allowResize = state.fl_allowResize;
   }
   else
     p->frameLayout = 0L;    
     
-  (*data) >>= c;
-  if ( c > 0 )
+  if ( state.hasFrames )
   {
     p->frames = new QList<SavedPage>;
-    for ( u = 0; u < c; u++ )
-    {
-      SavedPage *sp = restorePage( data );
-      p->frames->append( sp );
-    }
+    
+    for ( CORBA::ULong i = 0; i < state.frames.length(); i++ )
+      p->frames->append( restorePage( state.frames[ i ] ) );
   }
-  else p->frames = 0L;
-  
+  else
+    p->frames = 0L;    
+    
   return p;
 }
 

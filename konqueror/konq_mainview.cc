@@ -30,6 +30,7 @@
 #include "konq_htmlview.h"
 #include "konq_treeview.h"
 #include "konq_partview.h"
+#include "konq_plugins.h"
 
 #include <opUIUtils.h>
 #include <opMenu.h>
@@ -113,7 +114,9 @@ KonqMainView::KonqMainView( const char *url = 0L, QWidget *_parent = 0L ) : QWid
 
   m_currentView = 0L;
   m_currentId = 0;
-    
+
+  m_dctServiceTypes.setAutoDelete( true );
+      
   m_pAccel = new KAccel( this );
   m_pAccel->insertItem( i18n("Switch to left View"), "LeftView", CTRL+Key_1 );
   m_pAccel->insertItem( i18n("Switch to right View"), "RightView", CTRL+Key_2 );
@@ -209,8 +212,8 @@ void KonqMainView::cleanUp()
   for (; it != m_mapViews.end(); it++ )
       {
         it->second->m_vView->disconnectObject( this );
-	it->second->m_pFrame->detach();
 	it->second->m_vView = 0L;
+	it->second->m_pFrame->detach();
         delete it->second->m_pFrame;
 	delete it->second;
       }	
@@ -617,8 +620,8 @@ void KonqMainView::removeView( OpenParts::Id id )
   if ( it != m_mapViews.end() )
   {
     it->second->m_vView->disconnectObject( this );
-    it->second->m_pFrame->detach();
     it->second->m_vView = 0L;
+    it->second->m_pFrame->detach();
     delete it->second->m_pFrame;
     m_mapViews.erase( it );
   }
@@ -675,13 +678,23 @@ Konqueror::View_ptr KonqMainView::createViewByName( const char *viewName )
   }
   else
   {
-    //TODO: check for plugin views (...map lookup + call to ViewFactory)
-    assert( 0 );
+    QString *serviceType = m_dctServiceTypes[ QString(viewName) ];
+    assert( !serviceType->isNull() );
+    
+    assert( KonqPlugins::isPluginServiceType( *serviceType ) );
+    
+    CORBA::Object_var obj = KonqPlugins::lookupServer( *serviceType, KonqPlugins::View );
+    assert( !CORBA::is_nil( obj ) );
+    
+    Konqueror::ViewFactory_var factory = Konqueror::ViewFactory::_narrow( obj );
+    assert( !CORBA::is_nil( obj ) );
+    
+    vView = Konqueror::View::_duplicate( factory->create() );
   }
     
   vView->setMainWindow( m_vMainWindow );
   vView->setParent( this );
-    
+
   try
   {
     vView->connect("openURL", this, "openURL");
@@ -794,9 +807,8 @@ void KonqMainView::makeHistory( View *v )
     h = v->m_tmpInternalHistoryEntry;
       
     h.bHasHistoryEntry = true;
-    Konqueror::View::HistoryEntry *state = v->m_vView->saveState();
-    h.entry = *state;
-    delete state;
+    Konqueror::View::HistoryEntry_var state = v->m_vView->saveState();
+    h.entry = state;
 
     v->m_tmpInternalHistoryEntry = h;    
   }
@@ -1218,21 +1230,106 @@ void KonqMainView::openHTML( const char *url )
   EMIT_EVENT( m_currentView->m_vView, Konqueror::eventOpenURL, eventURL );
 }
 
+void KonqMainView::openPluginView( const char *url, const QString serviceType, Konqueror::View_ptr view )
+{
+  m_pRun = 0L;
+
+  Konqueror::View_var vView = Konqueror::View::_duplicate( view );
+
+  CORBA::String_var viewName = vView->viewName();
+  if ( m_dctServiceTypes[ viewName ] )
+    m_dctServiceTypes.remove( viewName );
+
+  m_dctServiceTypes.insert( viewName, new QString( serviceType ) );
+  
+  vView->setMainWindow( m_vMainWindow );
+  vView->setParent( this );
+
+  try
+  {
+    vView->connect("openURL", this, "openURL");
+  }
+  catch ( ... )
+  {
+    cerr << "WARNING: view does not know signal ""openURL"" " << endl;
+  }
+  try
+  {
+    vView->connect("started", this, "slotURLStarted");
+  }
+  catch ( ... )
+  {
+    cerr << "WARNING: view does not know signal ""started"" " << endl;
+  }
+  try
+  {
+    vView->connect("completed", this, "slotURLCompleted");
+  }
+  catch ( ... )
+  {
+    cerr << "WARNING: view does not know signal ""completed"" " << endl;
+  }
+  try
+  {
+    vView->connect("setStatusBarText", this, "setStatusBarText");
+  }
+  catch ( ... )
+  {
+    cerr << "WARNING: view does not know signal ""setStatusBarText"" " << endl;
+  }
+  try
+  {
+    vView->connect("setLocationBarURL", this, "setLocationBarURL");
+  }
+  catch ( ... )
+  {
+    cerr << "WARNING: view does not know signal ""setLocationBarURL"" " << endl;
+  }
+  try
+  {
+    vView->connect("createNewWindow", this, "createNewWindow");
+  }
+  catch ( ... )
+  {
+    cerr << "WARNING: view does not know signal ""createNewWindow"" " << endl;
+  }
+  try
+  {
+    vView->connect("popupMenu", this, "popupMenu");
+  }
+  catch ( ... )
+  {
+    cerr << "WARNING: view does not know signal ""popupMenu"" " << endl;
+  }
+
+  m_mapViews.erase( m_currentView->m_vView->id() );
+  
+  m_currentView->m_vView->disconnectObject( this );
+  m_currentView->m_vView = Konqueror::View::_duplicate( vView );
+  m_currentView->m_pFrame->attach( vView );
+  m_currentView->m_pFrame->show();
+  m_currentId = vView->id();
+  
+  m_mapViews[ vView->id() ] = m_currentView;
+        
+  createViewMenu();
+
+  setUpURL( 0 );
+  
+  Konqueror::EventOpenURL eventURL;
+  eventURL.url = CORBA::string_dup( url );
+  eventURL.reload = (CORBA::Boolean)false;
+  eventURL.xOffset = 0;
+  eventURL.yOffset = 0;
+  EMIT_EVENT( m_currentView->m_vView, Konqueror::eventOpenURL, eventURL );
+}
+
+
 // protected
 void KonqMainView::splitView ( Konqueror::NewViewPosition newViewPosition )
 {
   CORBA::String_var url = m_currentView->m_vView->url();
   CORBA::String_var viewName = m_currentView->m_vView->viewName();
-
-  // HACK - could be something else than icon view - has to be the same
-  // view mode as current view
-  // Why not do it like this:
-  // - "read" the view name via View::viewName()
-  // - look this name up in a map, containing all available views
-  // - if it is a builtin view just create a new view
-  // - if it is not a builtin view just call the appropriate view factory
-  // Well, let's simply call createViewByName, then :) (David)
-  // 100% agree :-) (Simon)
 
   Konqueror::View_var vView = createViewByName( viewName.in() );
   insertView ( vView, newViewPosition );
@@ -1679,6 +1776,8 @@ void KonqMainView::slotURLStarted( OpenParts::Id id, const char *url )
 
 void KonqMainView::slotURLCompleted( OpenParts::Id id )
 {
+  cerr << "void KonqMainView::slotURLCompleted( OpenParts::Id id )" << endl;
+
   map<OpenParts::Id,View*>::iterator it = m_mapViews.find( id );
   
   assert( it != m_mapViews.end() );

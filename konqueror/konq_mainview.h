@@ -99,6 +99,7 @@ public:
 
   void openDirectory( const char *url );
   void openHTML( const char *url );
+  void openPluginView( const char *url, const QString serviceType, Konqueror::View_ptr view );
 
 public slots:  
   /////////////////////////
@@ -249,7 +250,10 @@ protected:
 
   /* Dual storage of View * instances : mapped by Id */
   map<OpenParts::Id,View*> m_mapViews;
-  
+
+  /* Maps view names to service types (only for plugin views!!) */
+  QDict<QString> m_dctServiceTypes;
+    
   View *m_currentView;
   OpenParts::Id m_currentId;
   // current row is currentView->row, no need for a member

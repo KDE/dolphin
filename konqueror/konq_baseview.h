@@ -20,7 +20,7 @@ public:
   virtual bool mappingCreateViewMenu( Konqueror::View::EventCreateViewMenu viewMenu );
   virtual bool mappingCreateViewToolBar( Konqueror::View::EventCreateViewToolBar viewToolBar );
   virtual bool mappingOpenURL( Konqueror::EventOpenURL eventURL );
-  
+
   virtual char *url();
 
   virtual Konqueror::View::HistoryEntry *saveState();
@@ -28,6 +28,7 @@ public:
 
 protected:
   QString m_strURL;
+  CORBA::String_var debug_ViewName;
 };
 
 #endif

@@ -64,8 +64,8 @@ public:
 
   virtual Konqueror::View::HistoryEntry *saveState();
   virtual void restoreState( const Konqueror::View::HistoryEntry &history );
-  virtual void savePage( CORBA::Any *data, SavedPage *page );
-  virtual SavedPage *restorePage( const CORBA::Any *data );
+  virtual Konqueror::HTMLView::SavedState savePage( SavedPage *page );
+  virtual SavedPage *restorePage( Konqueror::HTMLView::SavedState state );
   
   virtual void testIgnore();
 
@@ -86,9 +86,6 @@ protected slots:
 protected:
 
   virtual void initConfig();
-
-  virtual bool mousePressedHook( const char* _url, const char *_target, QMouseEvent *_ev,
-				 bool _isselected);
 
   virtual KHTMLEmbededWidget* newEmbededWidget( QWidget* _parent, const char *_name,
 						const char *_src, const char *_type,

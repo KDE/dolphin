@@ -20,6 +20,7 @@
 #include "kfmrun.h"
 #include "konq_mainview.h"
 #include "konq_mainwindow.h"
+#include "konq_plugins.h"
 
 #include <string.h>
 
@@ -57,6 +58,26 @@ void KfmRun::foundMimeType( const char *_type )
     return;
   }
 
+  bool isView, isPart, isEventFilter;
+  if ( KonqPlugins::isPluginServiceType( _type, &isView, &isPart, &isEventFilter ) )
+  {
+    cerr << "found plugin for " << _type << endl;
+    
+    if ( isView )
+    {
+      CORBA::Object_var obj = KonqPlugins::lookupServer( _type, KonqPlugins::View );
+      assert( !CORBA::is_nil( obj ) );
+      Konqueror::ViewFactory_var factory = Konqueror::ViewFactory::_narrow( obj );
+      Konqueror::View_var v = Konqueror::View::_duplicate( factory->create() );
+      m_pView->openPluginView( m_strURL, _type, v );
+      m_pView = 0L;
+      m_bFinished = true;
+      m_timer.start( 0, true );
+      return;
+    }
+    else ;//TODO
+  }
+  
   cerr << "Nothing special to do here" << endl;
 
   KRun::foundMimeType( _type );

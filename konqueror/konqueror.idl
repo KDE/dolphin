@@ -154,6 +154,32 @@ module Konqueror
   
   interface HTMLView : View
   {
+  
+    struct SavedState
+    {
+      string frameName;
+      boolean isFrame;
+      long scrolling;
+      long frameBorder;
+      long marginWidth;
+      long marginHeight;
+      boolean allowResize;
+      boolean isFrameSet;
+      string url;
+      string title;
+      long xOffset;
+      long yOffset;
+      boolean hasFormsList;
+      StrList forms;
+      boolean hasFrameLayout;
+      string fl_rows;
+      string fl_cols;
+      long fl_frameBorder;
+      boolean fl_allowResize;
+      boolean hasFrames;
+      sequence<SavedState> frames;
+    };
+  
     slot void testIgnore();
   };
   

@@ -52,6 +52,7 @@
 #include "konq_htmlview.h"
 #include "konq_partview.h"
 #include "konq_treeview.h"
+#include "konq_plugins.h"
 
 // DEBUG
 #include <iostream>
@@ -305,7 +306,7 @@ int main( int argc, char **argv )
   QApplication::setColorSpec( QApplication::ManyColor ); 
 
   KonqBoot boot( "IDL:Konqueror/Application:1.0", "Konqueror" );
-
+  
   KonqApp app( argc, argv );
 
   int i = 1;
@@ -339,6 +340,8 @@ int main( int argc, char **argv )
   KMimeType::check();
   KMimeMagic::initStatic();
 
+  KonqPlugins::init();
+  
   cerr << "===================== mime stuff finished ==============" << endl;
 
   kimgioRegister();
