@@ -49,15 +49,36 @@ QString KBookmarkGroup::groupAddress() const
 
 KBookmark KBookmarkGroup::first() const
 {
-    QDomElement firstChild = element.firstChild().toElement();
-    if ( firstChild.tagName() == "TEXT" )
-        firstChild = firstChild.nextSibling().toElement();
-    return KBookmark(firstChild);
+    return KBookmark( nextKnownTag( element.firstChild().toElement(), true ) );
+}
+
+KBookmark KBookmarkGroup::previous( const KBookmark & current ) const
+{
+    return KBookmark( nextKnownTag( current.element.previousSibling().toElement(), false ) );
 }
 
 KBookmark KBookmarkGroup::next( const KBookmark & current ) const
 {
-    return KBookmark(current.element.nextSibling().toElement());
+    return KBookmark( nextKnownTag( current.element.nextSibling().toElement(), true ) );
+}
+
+QDomElement KBookmarkGroup::nextKnownTag( QDomElement start, bool goNext ) const
+{
+    static const QString & bookmark = KGlobal::staticQString("BOOKMARK");
+    static const QString & folder = KGlobal::staticQString("GROUP");
+    static const QString & separator = KGlobal::staticQString("SEPARATOR");
+    QDomElement elem = start;
+    while ( !elem.isNull() )
+    {
+        QString tag = elem.tagName();
+        if (tag == folder || tag == bookmark || tag == separator)
+            break;
+        if (goNext)
+            elem = elem.nextSibling().toElement();
+        else
+            elem = elem.previousSibling().toElement();
+    }
+    return elem;
 }
 
 KBookmarkGroup KBookmarkGroup::createNewFolder( const QString & text )

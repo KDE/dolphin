@@ -98,16 +98,19 @@ public:
     QDomElement internalElement() const { return element; }
 
     // Utility functions (internal)
+
     /**
      * @return address of parent
      */
     static QString parentAddress( const QString & address )
     { return address.left( address.findRev('/') ); }
+
     /**
      * @return position in parent (e.g. /4/5/2 -> 2)
      */
     static uint positionInParent( const QString & address )
     { return address.mid( address.findRev('/') + 1 ).toInt(); }
+
     /**
      * @return address of previous sibling (e.g. /4/5/2 -> /4/5/1)
      * Returns QString::null for a first child
@@ -117,6 +120,7 @@ public:
         uint pp = positionInParent(address);
         return pp>0 ? parentAddress(address) + '/' + QString::number(pp-1) : QString::null;
     }
+
     /**
      * @return address of next sibling (e.g. /4/5/2 -> /4/5/3)
      * This doesn't check whether it actually exists
@@ -162,6 +166,11 @@ public:
      */
     KBookmark first() const;
     /**
+     * Return the prevous sibling of a child bookmark of this group
+     * @param current has to be one of our child bookmarks.
+     */
+    KBookmark previous( const KBookmark & current ) const;
+    /**
      * Return the next sibling of a child bookmark of this group
      * @param current has to be one of our child bookmarks.
      */
@@ -200,6 +209,9 @@ public:
      * @internal
      */
     QDomElement findToolbar() const;
+
+protected:
+    QDomElement nextKnownTag( QDomElement start, bool goNext ) const;
 
 private:
     mutable QString m_address;
