@@ -60,24 +60,6 @@ void KonqCheckBox::drawButton( QPainter *p )
       p->drawPixmap(0,0,indicator_noconnect);
 }
 
-/**
- * A SqueezedTextLabel that doesn't trigger updateLayout() events on 
- * every setText(). This is used as the main label of the statusbar 
- * and prevents 2 unnecessary repaints when switching between windows 
- * after changing statusbar's text.
- * This works with Qt 3.3, maybe won't be needed in future.
- */
-class KonqSqueezedTextLabel : public KSqueezedTextLabel
-{
-  public:
-    KonqSqueezedTextLabel(QWidget *parent=0, const char *name=0)
-        : KSqueezedTextLabel( parent, name ) {}
-    // the sizeHint is built to not trigger dirty updateLayout events
-    QSize sizeHint() const {
-        return QSize( contentsRect().width(), QLabel::sizeHint().height() );
-    }
-};
-
 KonqFrameStatusBar::KonqFrameStatusBar( KonqFrame *_parent, const char *_name )
   : KStatusBar( _parent, _name ),
     m_pParentKonqFrame( _parent )
@@ -90,7 +72,7 @@ KonqFrameStatusBar::KonqFrameStatusBar( KonqFrame *_parent, const char *_name )
     addWidget( m_led, 0, false ); // led (active view indicator)
     m_led->hide();
 
-    m_pStatusLabel = new KonqSqueezedTextLabel( this );
+    m_pStatusLabel = new KSqueezedTextLabel( this );
     m_pStatusLabel->setMinimumSize( 0, 0 );
     m_pStatusLabel->setSizePolicy(QSizePolicy( QSizePolicy::Ignored, QSizePolicy::Fixed ));
     m_pStatusLabel->installEventFilter(this);
