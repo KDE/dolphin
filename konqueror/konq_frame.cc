@@ -168,8 +168,8 @@ KonqFrame::KonqFrame( KonqFrameContainer *_parentContainer, const char *_name )
 
 KonqFrame::~KonqFrame()
 {
-  delete m_pLayout; 
-} 
+  delete m_pLayout;
+}
 
 KParts::ReadOnlyPart * KonqFrame::view( void )
 {
@@ -203,7 +203,7 @@ KParts::ReadOnlyPart *KonqFrame::attach( const KonqViewFactory &viewFactory )
    assert( m_pView->widget() );
 
    attachInternal();
-   
+
    connect(m_pView,SIGNAL(setStatusBarText(const QString &)),m_pHeader,SLOT(slotDisplayStatusText(const QString&)));
 
    return m_pView;
@@ -212,16 +212,18 @@ KParts::ReadOnlyPart *KonqFrame::attach( const KonqViewFactory &viewFactory )
 void KonqFrame::attachInternal()
 {
    if (m_pLayout) delete m_pLayout;
-   
+
    m_pLayout = new QVBoxLayout( this );
-   
+
    m_pLayout->addWidget( m_pView->widget() );
    m_pLayout->addWidget( m_pHeader );
    m_pView->widget()->show();
-   if ( !m_pChildView->mainView()->fullSreenMode() )
+   if ( m_pChildView->mainView()->fullSreenMode() )
+     m_pChildView->mainView()->attachToolbars( this );
+   else
      m_pHeader->show();
    m_pLayout->activate();
-} 
+}
 
 void KonqFrame::setChildView( KonqChildView* child )
 {

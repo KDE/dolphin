@@ -50,6 +50,7 @@ class KonqBookmarkBar;
 struct HistoryEntry;
 class KonqFrameBase;
 class KonqFrameContainer;
+class KonqFrame;
 class KBookmarkMenu;
 class ViewModeGUIClient;
 
@@ -77,6 +78,8 @@ public:
   KonqViewManager *viewManager() const { return m_pViewManager; }
 
   virtual QWidget *createContainer( QWidget *parent, int index, const QDomElement &element, const QByteArray &containerStateBuffer, int &id );
+
+  void attachToolbars( KonqFrame *frame );
 
 public slots:
 

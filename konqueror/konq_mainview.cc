@@ -1228,31 +1228,38 @@ void KonqMainView::slotFullScreenStart()
   widget->recreate( 0L, WStyle_Customize | WStyle_NoBorder | WType_Popup, QPoint( 0, 0 ), true );
   widget->resize( QApplication::desktop()->width(), QApplication::desktop()->height() );
 
-  QWidget *toolbar = guiFactory()->container( "locationToolBar", this );
-  toolbar->recreate( widget, 0, QPoint( 0,0 ), true );
-  widget->layout()->insertWidget( 0, toolbar );
-  
-  toolbar = guiFactory()->container( "mainToolBar", this );
-  toolbar->recreate( widget, 0, QPoint( 0, 0 ), true );
-  widget->layout()->insertWidget( 0, toolbar );
+  attachToolbars( widget );
 
   widget->setFocusPolicy( QWidget::StrongFocus );
   widget->setFocus();
   m_bFullScreen = true;
 }
 
+void KonqMainView::attachToolbars( KonqFrame *frame )
+{ 
+  QWidget *toolbar = guiFactory()->container( "locationToolBar", this );
+  if ( toolbar->parentWidget() != frame )
+    toolbar->recreate( frame, 0, QPoint( 0,0 ), true );
+  frame->layout()->insertWidget( 0, toolbar );
+
+  toolbar = guiFactory()->container( "mainToolBar", this );
+  if ( toolbar->parentWidget() != frame )
+    toolbar->recreate( frame, 0, QPoint( 0, 0 ), true );
+  frame->layout()->insertWidget( 0, toolbar );
+} 
+
 void KonqMainView::slotFullScreenStop()
 {
   QWidget *toolbar1 = guiFactory()->container( "mainToolBar", this );
   QWidget *toolbar2 = guiFactory()->container( "locationToolBar", this );
-  
+
   KonqFrame *widget = m_currentView->frame();
   widget->close( false );
   widget->recreate( m_tempContainer, 0, QPoint( 0, 0 ), true);
   widget->header()->show();
   widget->setFocusPolicy( m_tempFocusPolicy );
   m_bFullScreen = false;
-  
+
   widget->attachInternal();
 
   toolbar1->recreate( this, 0, QPoint( 0, 0 ), true );
