@@ -10,6 +10,26 @@ class KInstance;
 class PluginBrowserExtension;
 class QLabel;
 class NSPluginInstance;
+class PluginPart;
+
+
+#include "NSPluginCallbackIface.h"
+
+
+class NSPluginCallback : public NSPluginCallbackIface
+{
+public:
+
+  NSPluginCallback(PluginPart *part);
+
+  void requestURL(QCString url);
+
+
+private:
+
+  PluginPart *_part;
+
+};
 
 
 class PluginFactory : public KLibFactory
@@ -66,13 +86,15 @@ public:
   PluginPart(QWidget *parent, const char *name);
   virtual ~PluginPart();
 
+  void requestURL(QCString url);
+
   
 protected:
 
   virtual bool openURL(const KURL &url);
   virtual bool closeURL();
   virtual bool openFile() { return false; }; 
-
+  
 
 protected slots:
     
@@ -84,6 +106,7 @@ private:
   NSPluginInstance *widget;
   PluginCanvasWidget *canvas;
   PluginBrowserExtension *m_extension;
+  NSPluginCallback *callback;
 
 };
 

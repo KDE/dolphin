@@ -2,9 +2,6 @@ SUBDIRS = viewer wrapper
 
 INCLUDES = $(all_includes) -I$(top_srcdir)/libltdl
 
-noinst_LIBRARIES = libnsplugin.a
-
-libnsplugin_a_SOURCES = nspluginloader.cpp NSPluginClassIface.stub
 
 METASOURCES = AUTO
 
@@ -18,7 +15,8 @@ NSPluginClassIface.h:
 
 
 lib_LTLIBRARIES = libplugin.la
-libplugin_la_SOURCES = plugin_part.cpp nspluginloader.cpp NSPluginClassIface.stub
+libplugin_la_SOURCES = plugin_part.cpp nspluginloader.cpp NSPluginClassIface.stub \
+			NSPluginCallback.skel
 
 libplugin_la_LDFLAGS = $(all_libraries) -version-info 1:0:0 -module -no-undefined
 libplugin_la_LIBADD  = -lkparts -lXt

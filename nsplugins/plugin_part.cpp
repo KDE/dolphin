@@ -5,12 +5,15 @@
 #include "nspluginloader.h"
 
 
-#include <kinstance.h>
+#include <kapp.h>
 #include <klocale.h>
 #include <kaboutdata.h>
 #include <kdebug.h>
+#include <dcopclient.h>
+
 
 #include <qlabel.h>
+
 
 extern "C"
 {
@@ -24,6 +27,20 @@ extern "C"
     return new PluginFactory;
   }
 };
+
+
+
+NSPluginCallback::NSPluginCallback(PluginPart *part)
+  : DCOPObject()
+{
+  _part = part;
+}
+
+
+void NSPluginCallback::requestURL(QCString url)
+{
+  _part->requestURL(url);
+}
 
 
 /**
@@ -125,6 +142,10 @@ bool PluginPart::openURL(const KURL &url)
       widget->show();
     }
 
+  delete callback;
+  callback = new NSPluginCallback(this);
+  widget->setCallback(kapp->dcopClient()->appId(), callback->objId());
+
   return widget != 0;
 }
 
@@ -136,6 +157,12 @@ bool PluginPart::closeURL()
   widget = 0;
 
   return true;
+}
+
+
+void PluginPart::requestURL(QCString url)
+{
+  emit openURLRequest(url);
 }
 
 
