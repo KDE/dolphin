@@ -375,6 +375,10 @@ KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const 
 
 KonqKfmIconView::~KonqKfmIconView()
 {
+    // Before anything else, stop the image preview. It might use our fileitems,
+    // and it will only be destroyed togetierh with our widget
+    m_pIconView->stopImagePreview();
+
     kdDebug(1202) << "-KonqKfmIconView" << endl;
     m_dirLister->disconnect( this );
     delete m_dirLister;
