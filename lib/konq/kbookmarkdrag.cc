@@ -57,6 +57,8 @@ const char* KBookmarkDrag::format( int i ) const
         return "application/x-xbel";
     else if ( i == 1 )
 	return "text/uri-list";
+    else if ( i == 2 )
+	return "text/plain";
     else return 0;
 }
 
@@ -71,12 +73,29 @@ QByteArray KBookmarkDrag::encodedData( const char* mime ) const
         a = m_doc.toCString();
         kdDebug() << "KBookmarkDrag::encodedData " << m_doc.toCString() << endl;
     }
+    else if ( mimetype == "text/plain" )
+    {
+        KURL::List m_lstDragURLs;
+        if ( KURLDrag::decode( this, m_lstDragURLs ) )
+        {
+            QStringList uris;
+            KURL::List::ConstIterator uit = m_lstDragURLs.begin();
+            KURL::List::ConstIterator uEnd = m_lstDragURLs.end();
+            for ( ; uit != uEnd ; ++uit )
+                uris.append( (*uit).prettyURL() );
+
+            QCString s = uris.join( "\n" ).local8Bit();
+            a.resize( s.length() + 1 ); // trailing zero
+            memcpy( a.data(), s.data(), s.length() + 1 );
+        }
+    }
     return a;
 }
 
 bool KBookmarkDrag::canDecode( const QMimeSource * e )
 {
-    return e->provides("text/uri-list") || e->provides("application/x-xbel");
+    return e->provides("text/uri-list") || e->provides("application/x-xbel") ||
+           e->provides("text/plain");
 }
 
 KBookmark KBookmarkDrag::decode( const QMimeSource * e )
