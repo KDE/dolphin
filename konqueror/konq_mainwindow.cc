@@ -136,7 +136,7 @@ KonqMainWindow::KonqMainWindow( const KURL &initialURL, bool openInitialURL, con
   m_pWorkingTab = 0L;
   m_initialKonqRun = 0L;
   m_pBookmarkMenu = 0L;
-  m_dcopObject = 0L;
+  m_dcopObject = new KonqMainWindowIface( this );
   m_combo = 0L;
   m_bURLEnterLock = false;
   m_bLocationBarConnected = false;
@@ -4114,8 +4114,6 @@ void KonqMainWindow::unplugViewModeActions()
 
 KonqMainWindowIface* KonqMainWindow::dcopObject()
 {
-  if ( !m_dcopObject )
-      m_dcopObject = new KonqMainWindowIface( this );
   return m_dcopObject;
 }
 
