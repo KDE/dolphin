@@ -55,7 +55,7 @@ KEBListViewItem *ListView::s_myrenameitem = 0;
 bool ListView::s_listview_is_dirty = false;
 
 ListView::ListView() {
-   m_splitView = false;
+   m_splitView = KEBApp::self()->splitView();
 }
 
 void ListView::createListViews(QSplitter *splitter) {

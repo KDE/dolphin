@@ -124,6 +124,7 @@ public:
    bool readonly() { return m_readOnly; }
    bool modified() { return m_modified; }
    bool nsShown();
+   bool splitView() { return m_splitView; } 
 
    BookmarkInfoWidget *bkInfo() { return m_bkinfo; }
 

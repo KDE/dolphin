@@ -366,6 +366,8 @@ KEBApp::KEBApp(const QString & bookmarksFile, bool readonly, const QString &addr
 }
 
 void KEBApp::construct() {
+   readConfig();
+
    CurrentMgr::self()->createManager(m_bookmarksFilename);
 
    ListView::self()->updateListViewSetup(m_readOnly);
@@ -379,7 +381,6 @@ void KEBApp::construct() {
 
    slotClipboardDataChanged();
 
-   readConfig();
    resetActions();
    updateActions();
 
