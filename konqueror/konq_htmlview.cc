@@ -537,7 +537,7 @@ void KonqHTMLView::saveDocument()
     KFileDialog *dlg = new KFileDialog( QString::null, "*\n*.html\n*.htm",
 					this , "filedialog", true, false );
     dlg->setCaption(i18n("Save as"));
-    dlg->setSelection( QDir::currentDirPath() + "/" + srcURL.filename() );
+    dlg->setSelection( dlg->dirPath() + "/" + srcURL.filename() );
     if ( dlg->exec() )
       {
 	KURL destURL( dlg->selectedFileURL() );
@@ -564,7 +564,7 @@ void KonqHTMLView::saveFrame()
     KFileDialog *dlg = new KFileDialog( QString::null, "*\n*.html\n*.htm",
 					this , "filedialog", true, false );
     dlg->setCaption(i18n("Save frameset as"));
-    dlg->setSelection( QDir::currentDirPath() + "/" + srcURL.filename() );
+    dlg->setSelection( dlg->dirPath() + "/" + srcURL.filename() );
     if ( dlg->exec() )
     {
       KURL destURL( dlg->selectedFileURL() );
