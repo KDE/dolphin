@@ -61,6 +61,7 @@ KInstance *PluginFactory::s_instance = 0L;
 PluginFactory::PluginFactory()
 {
   kDebugInfo("PluginFactory::PluginFactory");
+  s_instance = 0;
 }
 
 
@@ -68,17 +69,14 @@ PluginFactory::~PluginFactory()
 {
   kDebugInfo("PluginFactory::~PluginFactory");
 
-  delete s_instance;
+  if ( s_instance )
+  {
+    delete s_instance->aboutData();
+    delete s_instance;
+  }
   s_instance = 0;
+
 }
-
-
-QObject *PluginFactory::create(QObject *parent, const char *name, const char* classname,
-			       const QStringList& args)
-{
-  return createPart((QWidget*)parent, name, parent, name, classname, args);
-}
-
 
 KParts::Part * PluginFactory::createPart(QWidget *parentWidget, const char *widgetName,
   	                  	         QObject *parent, const char *name,
@@ -95,13 +93,15 @@ KInstance *PluginFactory::instance()
 {
   kDebugInfo("PluginFactory::instance");
   if ( !s_instance )
-    {
-      KAboutData about("plugin", I18N_NOOP("plugin"), "1.99");
-      s_instance = new KInstance(&about);
-    }
+      s_instance = new KInstance( aboutData() );
   return s_instance;
 }
 
+KAboutData *PluginFactory::aboutData()
+{
+  KAboutData *about = new KAboutData("plugin", I18N_NOOP("plugin"), "1.99");
+  return about;
+} 
 
 PluginPart::PluginPart(QWidget *parentWidget, const char *widgetName, QObject *parent,
                        const char *name, const QStringList &args)

@@ -7,7 +7,7 @@
 #include <klibloader.h>
 #include <qwidget.h>
 
-
+class KAboutData;
 class KInstance;
 class PluginBrowserExtension;
 class QLabel;
@@ -41,17 +41,14 @@ public:
 
   PluginFactory();
   virtual ~PluginFactory();
-  
-  virtual QObject* create(QObject* parent = 0, const char* name = 0,
-			  const char* classname = "QObject",
-			  const QStringList &args = QStringList());
-			
+
   virtual KParts::Part * createPart(QWidget *parentWidget = 0, const char *widgetName = 0,
   		            	    QObject *parent = 0, const char *name = 0,
   			            const char *classname = "KParts::Part",
    			            const QStringList &args = QStringList());
 
   static KInstance *instance();
+  static KAboutData *aboutData();
 
 private:
 
@@ -65,15 +62,15 @@ class PluginCanvasWidget : public QWidget
 
 public:
 
-  PluginCanvasWidget(QWidget *parent=0, const char *name=0) 
+  PluginCanvasWidget(QWidget *parent=0, const char *name=0)
     : QWidget(parent,name) {};
-    
+
 
 protected:
 
   void resizeEvent(QResizeEvent *e);
 
-  
+
 signals:
 
   void resized(int,int);
@@ -84,7 +81,7 @@ signals:
 class PluginPart: public KParts::ReadOnlyPart
 {
   Q_OBJECT
-    
+
 public:
 
   PluginPart(QWidget *parentWidget, const char *widgetName, QObject *parent,
@@ -93,16 +90,16 @@ public:
 
   void requestURL(QCString url, QCString target);
 
-  
+
 protected:
 
   virtual bool openURL(const KURL &url);
   virtual bool closeURL();
-  virtual bool openFile() { return false; }; 
-  
+  virtual bool openFile() { return false; };
+
 
 protected slots:
-    
+
   void pluginResized(int,int);
 
 
