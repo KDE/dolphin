@@ -21,22 +21,53 @@
 
 #include <qobject.h>
 #include <konqsidebarplugin.h>
+#include <khtml_part.h>
 
-class KHTMLPart;
+
+class KHTMLSideBar : public KHTMLPart
+{
+	Q_OBJECT
+	public:
+		KHTMLSideBar() : KHTMLPart() {}
+		virtual ~KHTMLSideBar() {}
+
+	signals:
+		void openURLRequest(const QString& url, KParts::URLArgs args);
+
+	protected:
+		virtual void urlSelected( const QString &url, int button,
+				int, const QString &_target,
+				KParts::URLArgs args = KParts::URLArgs()) {
+			if (button == LeftButton && _target == "_content") {
+				emit openURLRequest( url, args );
+			}
+		}
+
+};
+
 
 class KonqSideBarWebModule : public KonqSidebarPlugin
 {
 	Q_OBJECT
-public:
-	KonqSideBarWebModule(KInstance *instance, QObject *parent, QWidget *widgetParent, QString &desktopName, const char *name);
-	virtual ~KonqSideBarWebModule();
+	public:
+		KonqSideBarWebModule(KInstance *instance, QObject *parent,
+			       	QWidget *widgetParent, QString &desktopName,
+			       	const char *name);
+		virtual ~KonqSideBarWebModule();
 
-	virtual QWidget *getWidget();
-	virtual void *provides(const QString &);
+		virtual QWidget *getWidget();
+		virtual void *provides(const QString &);
 
-protected:
-	virtual void handleURL(const KURL &url);
-	KHTMLPart *_htmlPart;
+	signals:
+		void openURLRequest(const KURL &url, const KParts::URLArgs &args);
+	protected:
+		virtual void handleURL(const KURL &url);
+
+	private slots:
+		void urlClicked(const QString& url, KParts::URLArgs args);
+
+	private:
+		KHTMLSideBar *_htmlPart;
 };
 
 #endif

@@ -19,7 +19,6 @@
 #include "web_module.h"
 #include <qfileinfo.h>
 
-#include <khtml_part.h>
 #include <klocale.h>
 #include <kdebug.h>
 #include <kstddirs.h>
@@ -29,9 +28,11 @@
 KonqSideBarWebModule::KonqSideBarWebModule(KInstance *instance, QObject *parent, QWidget *widgetParent, QString &desktopName, const char* name)
 	: KonqSidebarPlugin(instance, parent, widgetParent, desktopName, name)
 {
-	_htmlPart = new KHTMLPart;
+	_htmlPart = new KHTMLSideBar;
 //	connect(_htmlPart, SIGNAL(setWindowCaption(const QString&)), this, SLOT());
 //	connect(_htmlPart, SIGNAL(completed()), this, SLOT());
+	connect(_htmlPart, SIGNAL(openURLRequest(const QString&, KParts::URLArgs)),
+		       	this, SLOT(urlClicked(const QString&, KParts::URLArgs)));
 	KSimpleConfig ksc(desktopName);
 	ksc.setGroup("Desktop Entry");
 
@@ -56,6 +57,12 @@ void *KonqSideBarWebModule::provides(const QString &) {
 
 
 void KonqSideBarWebModule::handleURL(const KURL &) {
+}
+
+
+void KonqSideBarWebModule::urlClicked(const QString& url, KParts::URLArgs args) {
+	kdDebug() << "Open URL: [" << url << "]" << endl;
+	emit openURLRequest(url, args);
 }
 
 
