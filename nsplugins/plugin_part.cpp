@@ -95,6 +95,7 @@ PluginPart::PluginPart(QWidget *parent, const char *name)
   // create a canvas to insert our widget
   canvas = new PluginCanvasWidget(parent);
   canvas->setFocusPolicy(QWidget::ClickFocus);
+  canvas->setBackgroundMode(QWidget::NoBackground);
   setWidget(canvas);
   QObject::connect(canvas, SIGNAL(resized(int,int)), this, SLOT(pluginResized(int,int)));
 }

@@ -63,6 +63,7 @@ NSPluginLoader *NSPluginLoader::_instance = 0;
 NSPluginInstance::NSPluginInstance(QWidget *parent, PluginPrivateData *data, const QCString& app, const QCString& id)
   : QXEmbed(parent), DCOPStub(app, id), NSPluginInstanceIface_stub(app, id), _data(data)
 {
+  setBackgroundMode(QWidget::NoBackground);
   embed(NSPluginInstanceIface_stub::winId());
 }
 
