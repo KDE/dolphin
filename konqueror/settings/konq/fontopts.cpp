@@ -40,24 +40,24 @@
 
 //-----------------------------------------------------------------------------
 
-KonqFontOptions::KonqFontOptions(KConfig *config, QString group, QWidget *parent, const char *name)
-    : KCModule( parent, name ), g_pConfig(config), groupname(group)
+KonqFontOptions::KonqFontOptions(KConfig *config, QString group, bool desktop, QWidget *parent, const char *name)
+    : KCModule( parent, name ), g_pConfig(config), groupname(group), m_bDesktop(desktop)
 {
     QLabel *label;
     QString wtstr;
     int row = 0;
 
-#define LASTLINE 8
+    int LASTLINE = m_bDesktop ? 9 : 8;
 #define LASTCOLUMN 2
     QGridLayout *lay = new QGridLayout(this,LASTLINE+1,LASTCOLUMN+1,KDialog::marginHint(),
-				       KDialog::spacingHint());
+                                       KDialog::spacingHint());
     lay->setRowStretch(LASTLINE,10);
     lay->setColStretch(LASTCOLUMN,10);
 
     row++;
     QButtonGroup *bg = new QButtonGroup( i18n("Font Size"), this );
     QWhatsThis::add( bg, i18n("This option allows you to roughly control the size"
-          " of text in Konqueror windows.") );
+                              " of text in Konqueror windows.") );
     QGridLayout *bgLay = new QGridLayout(bg,2,3,10,5);
     bgLay->addRowSpacing(0,10);
     bgLay->setRowStretch(0,0);
@@ -130,15 +130,35 @@ KonqFontOptions::KonqFontOptions(KConfig *config, QString group, QWidget *parent
 
     row++;
 
+    if ( m_bDesktop )
+    {
+        m_cbTextBackground = new QCheckBox( i18n("&Text Background Color:"), this );
+        lay->addWidget(m_cbTextBackground,row,0);
+        connect( m_cbTextBackground, SIGNAL( clicked() ),
+                 SLOT( slotTextBackgroundClicked() ) );
+
+        m_pTextBackground = new KColorButton( textBackgroundColor, this );
+        lay->addWidget(m_pTextBackground,row,COLOR_BUTTON_COL,Qt::AlignLeft);
+
+        wtstr = i18n("This is the color used behind the text for the icons on the desktop.");
+        QWhatsThis::add( label, wtstr );
+        QWhatsThis::add( m_pTextBackground, wtstr );
+
+        connect( m_pTextBackground, SIGNAL( changed( const QColor & ) ),
+                 SLOT( slotTextBackgroundColorChanged( const QColor & ) ) );
+
+        row++;
+    }
+
     m_pWordWrap = new QCheckBox( i18n("&Word-wrap icon text"), this );
     lay->addMultiCellWidget(m_pWordWrap,row,row,0,LASTCOLUMN);
     connect( m_pWordWrap, SIGNAL(clicked()), this, SLOT(changed()) );
 
     QWhatsThis::add( m_pWordWrap, i18n("Checking this option will wrap long filenames"
-       " to multiple lines, rather than showing only the part of the filename"
-       " that fits on a single line.<p>"
-       " Hint: if you uncheck this option, you can still see the word-wrapped filename"
-       " by pausing the mouse pointer over the icon.") );
+                                       " to multiple lines, rather than showing only the part of the filename"
+                                       " that fits on a single line.<p>"
+                                       " Hint: if you uncheck this option, you can still see the word-wrapped filename"
+                                       " by pausing the mouse pointer over the icon.") );
 
     row++;
     cbUnderline = new QCheckBox(i18n("&Underline filenames"), this);
@@ -146,9 +166,9 @@ KonqFontOptions::KonqFontOptions(KConfig *config, QString group, QWidget *parent
     connect(cbUnderline, SIGNAL(clicked()), this, SLOT(changed()));
 
     QWhatsThis::add( cbUnderline, i18n("Checking this option will result in filenames"
-       " being underlined, so that they look like links on a web page. Note:"
-       " to complete the analogy, make sure that single click activation is"
-       " enabled in the mouse control module.") );
+                                       " being underlined, so that they look like links on a web page. Note:"
+                                       " to complete the analogy, make sure that single click activation is"
+                                       " enabled in the mouse control module.") );
 
     assert( row == LASTLINE-1 );
     // The last line is empty and grows if resized
@@ -174,7 +194,7 @@ void KonqFontOptions::addFont( QStrList &list, const char *xfont )
     const char *ptr = strchr( xfont, '-' );
     if ( !ptr )
         return;
-	
+
     ptr = strchr( ptr + 1, '-' );
     if ( !ptr )
         return;
@@ -227,7 +247,7 @@ void KonqFontOptions::load()
     m_stdFont = g_pConfig->readFontEntry( "StandardFont" );
     stdName = m_stdFont.family();
     fSize = 0;
-    if (m_stdFont.pointSizeFloat() == 10.0) 
+    if (m_stdFont.pointSizeFloat() == 10.0)
        fSize = 3;
     else if (m_stdFont.pointSizeFloat() == 12.0)
        fSize = 4;
@@ -236,12 +256,19 @@ void KonqFontOptions::load()
 
     normalTextColor = KGlobalSettings::textColor();
     normalTextColor = g_pConfig->readColorEntry( "NormalTextColor", &normalTextColor );
+    m_pNormalText->setColor( normalTextColor );
 
     highlightedTextColor = KGlobalSettings::highlightedTextColor();
     highlightedTextColor = g_pConfig->readColorEntry( "HighlightedTextColor", &highlightedTextColor );
-
-    m_pNormalText->setColor( normalTextColor );
     m_pHighlightedText->setColor( highlightedTextColor );
+
+    if ( m_bDesktop )
+    {
+        textBackgroundColor = g_pConfig->readColorEntry( "ItemTextBackground" );
+        m_cbTextBackground->setChecked(textBackgroundColor.isValid());
+        m_pTextBackground->setEnabled(textBackgroundColor.isValid());
+        m_pTextBackground->setColor( textBackgroundColor );
+    }
 
     m_pWordWrap->setChecked( g_pConfig->readBoolEntry( "WordWrapText", DEFAULT_WORDWRAPTEXT ) );
     cbUnderline->setChecked( g_pConfig->readBoolEntry("UnderlineLinks", DEFAULT_UNDERLINELINKS ) );
@@ -260,6 +287,11 @@ void KonqFontOptions::defaults()
 
     m_pNormalText->setColor( normalTextColor );
     m_pHighlightedText->setColor( highlightedTextColor );
+    if ( m_bDesktop )
+    {
+        m_cbTextBackground->setChecked(false);
+        m_pTextBackground->setEnabled(false);
+    }
     m_pWordWrap->setChecked( DEFAULT_WORDWRAPTEXT );
     cbUnderline->setChecked( true );
 
@@ -286,7 +318,7 @@ void KonqFontOptions::updateGUI()
 
 void KonqFontOptions::save()
 {
-    g_pConfig->setGroup(groupname);			
+    g_pConfig->setGroup(groupname);
     if ( fSize == 3 )
        m_stdFont.setPointSize(10);
     else if ( fSize == 4 )
@@ -294,11 +326,13 @@ void KonqFontOptions::save()
     else if ( fSize == 5 )
        m_stdFont.setPointSize(14);
 
-    m_stdFont.setFamily( stdName );    
+    m_stdFont.setFamily( stdName );
     g_pConfig->writeEntry( "StandardFont", m_stdFont );
 
     g_pConfig->writeEntry( "NormalTextColor", normalTextColor );
     g_pConfig->writeEntry( "HighlightedTextColor", highlightedTextColor );
+    if ( m_bDesktop )
+        g_pConfig->writeEntry( "ItemTextBackground", m_cbTextBackground->isChecked() ? textBackgroundColor : QColor());
     g_pConfig->writeEntry( "WordWrapText", m_pWordWrap->isChecked() );
     g_pConfig->writeEntry( "UnderlineLinks", cbUnderline->isChecked() );
     g_pConfig->sync();
@@ -308,6 +342,12 @@ void KonqFontOptions::save()
 void KonqFontOptions::changed()
 {
   emit KCModule::changed(true);
+}
+
+void KonqFontOptions::slotTextBackgroundClicked()
+{
+    m_pTextBackground->setEnabled( m_cbTextBackground->isChecked() );
+    changed();
 }
 
 void KonqFontOptions::slotNormalTextColorChanged( const QColor &col )
@@ -324,6 +364,15 @@ void KonqFontOptions::slotHighlightedTextColorChanged( const QColor &col )
     if ( highlightedTextColor != col )
     {
         highlightedTextColor = col;
+        changed();
+    }
+}
+
+void KonqFontOptions::slotTextBackgroundColorChanged( const QColor &col )
+{
+    if ( textBackgroundColor != col )
+    {
+        textBackgroundColor = col;
         changed();
     }
 }

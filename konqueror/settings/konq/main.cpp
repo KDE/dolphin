@@ -59,7 +59,7 @@ KonqyModule::KonqyModule(QWidget *parent, const char *name)
   tab->addTab(behaviour, i18n("&Behavior"));
   connect(behaviour, SIGNAL(changed(bool)), this, SLOT(moduleChanged(bool)));
 
-  font = new KonqFontOptions(config, groupName, this);
+  font = new KonqFontOptions(config, groupName, false, this);
   tab->addTab(font, i18n("&Appearance"));
   connect(font, SIGNAL(changed(bool)), this, SLOT(moduleChanged(bool)));
 
@@ -153,7 +153,7 @@ KDesktopModule::KDesktopModule(QWidget *parent, const char *name)
   //tab->addTab(behaviour, i18n("&Behavior"));
   //connect(behaviour, SIGNAL(changed(bool)), this, SLOT(moduleChanged(bool)));
 
-  font = new KonqFontOptions(config, "FMSettings", this);
+  font = new KonqFontOptions(config, "FMSettings", true, this);
   tab->addTab(font, i18n("&Appearance"));
   connect(font, SIGNAL(changed(bool)), this, SLOT(moduleChanged(bool)));
 

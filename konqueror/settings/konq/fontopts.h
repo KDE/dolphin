@@ -50,7 +50,7 @@ class KonqFontOptions : public KCModule
 {
   Q_OBJECT
 public:
-  KonqFontOptions(KConfig *config, QString group, QWidget *parent=0, const char *name=0);
+  KonqFontOptions(KConfig *config, QString group, bool desktop, QWidget *parent=0, const char *name=0);
 
   virtual void load();
   virtual void save();
@@ -59,9 +59,11 @@ public:
 public slots:
   void slotFontSize( int );
   void slotStandardFont(const QString& n);
+  void slotTextBackgroundClicked();
 
   void slotNormalTextColorChanged( const QColor &col );
   void slotHighlightedTextColorChanged( const QColor &col );
+  void slotTextBackgroundColorChanged( const QColor &col );
 
 private slots:
 
@@ -76,6 +78,7 @@ private:
 
   KConfig *g_pConfig;
   QString groupname;
+  bool m_bDesktop;
 
   QRadioButton* m_pSmall;
   QRadioButton* m_pMedium;
@@ -90,8 +93,11 @@ private:
   KColorButton* m_pBg;
   KColorButton* m_pNormalText;
   KColorButton* m_pHighlightedText;
+  QCheckBox* m_cbTextBackground;
+  KColorButton* m_pTextBackground;
   QColor normalTextColor;
   QColor highlightedTextColor;
+  QColor textBackgroundColor;
 
   QCheckBox* m_pWordWrap;
   QCheckBox *cbUnderline;
