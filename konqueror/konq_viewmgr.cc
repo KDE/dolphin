@@ -477,6 +477,7 @@ void KonqViewManager::loadViewProfile( const QString & path, const QString & fil
 void KonqViewManager::loadViewProfile( KConfig &cfg, const QString & filename, const KURL & forcedURL )
 {
   m_currentProfile = filename;
+  m_currentProfileText = cfg.readEntry("Name",filename);
   m_pMainWindow->currentProfileChanged();
   KURL defaultURL;
   if ( m_pMainWindow->currentView() )

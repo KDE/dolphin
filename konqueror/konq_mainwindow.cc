@@ -2369,7 +2369,7 @@ void KonqMainWindow::slotEnableAction( const char * name, bool enabled )
 void KonqMainWindow::currentProfileChanged()
 {
     m_paSaveViewProfile->setEnabled( !m_pViewManager->currentProfile().isEmpty() );
-    m_paSaveViewProfile->setText( i18n("Save View Profile %1").arg(m_pViewManager->currentProfile()) );
+    m_paSaveViewProfile->setText( i18n("Save View Profile %1").arg(m_pViewManager->currentProfileText()) );
 }
 
 void KonqMainWindow::enableAllActions( bool enable )

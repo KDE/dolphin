@@ -132,6 +132,11 @@ public:
    * by the view manager. For "save settings".
    */
   QString currentProfile() const { return m_currentProfile; }
+  /**
+   * Return the name (i18n'ed) of the last profile that was loaded
+   * by the view manager. For "save settings".
+   */
+  QString currentProfileText() const { return m_currentProfileText; }
 
   /**
    * Load the config entries for a view.
@@ -227,6 +232,7 @@ private:
   QGuardedPtr<KActionMenu> m_pamProfiles;
   bool m_bProfileListDirty;
   QString m_currentProfile;
+  QString m_currentProfileText;
 
   QMap<QString, QString> m_mapProfileNames;
 };
