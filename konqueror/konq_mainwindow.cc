@@ -1625,7 +1625,7 @@ void KonqMainWindow::slotAbout()
 "  Antti Koivisto <koivisto@kde.org>\n"
 "  Waldo Bastian <bastian@kde.org>\n"
 "KIO library/slaves:\n"
-"  Matt Koss <koss@napri.sk>\n"
+"  Matt Koss <koss@miesto.sk>\n"
 "  Alex Zepeda <garbanzo@hooked.net>\n"
 "Java applet support:\n"
 "  Richard Moore <rich@kde.org>\n"
