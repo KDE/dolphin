@@ -102,7 +102,7 @@ KRootOptions::KRootOptions(KConfig *config, QWidget *parent, const char * )
 #define RO_LASTROW 3   // 2 GroupBoxes + last row = 3 rows. But it starts at 0 ;)
 #define RO_LASTCOL 2
   int row = 0;
-  QGridLayout *lay = new QGridLayout(this, RO_LASTROW+1, RO_LASTCOL+1, 
+  QGridLayout *lay = new QGridLayout(this, RO_LASTROW+1, RO_LASTCOL+1,
       0, KDialog::spacingHint());
   QString strMouseButton1, strMouseButton3, strButtonTxt1, strButtonTxt3;
   bool leftHandedMouse;
@@ -164,6 +164,12 @@ KRootOptions::KRootOptions(KConfig *config, QWidget *parent, const char * )
   QWhatsThis::add ( autoLineupIconsBox, i18n("Check this option if you "
 	      "want to see your icons automatically aligned to the "
 	      "grid when you move them.") );
+
+  toolTipBox = new QCheckBox(i18n("Show tooltips"), groupBox);
+  connect (toolTipBox, SIGNAL(clicked()), this, SLOT(changed()));
+  QWhatsThis::add ( toolTipBox, i18n("Check this option if you "
+	      "want to see tool tips for icons when your hover the mouse "
+	      "on them.") );
 
   previewListView = new KListView( this );
   previewListView->setFullWidth(true);
@@ -366,13 +372,15 @@ void KRootOptions::load()
         new KRootOptPreviewItem(this, previewListView, *it, previews.contains((*it)->desktopEntryName()));
     new KRootOptPreviewItem(this, previewListView, previews.contains("audio/"));
     //
+    g_pConfig->setGroup( "FMSettings" );
+    toolTipBox->setChecked(g_pConfig->readBoolEntry( "ShowFileTips", true ) );
     g_pConfig->setGroup( "Menubar" );
     bool bMenuBar = g_pConfig->readBoolEntry("ShowMenubar", false);
     menuBarBox->setChecked(bMenuBar);
     g_pConfig->setGroup( "General" );
     vrootBox->setChecked( g_pConfig->readBoolEntry( "SetVRoot", false ) );
     iconsEnabledBox->setChecked( g_pConfig->readBoolEntry( "Enabled", true ) );
-    autoLineupIconsBox->setChecked( g_pConfig->readBoolEntry( "AutoLineUpIcons", true ) );
+    autoLineupIconsBox->setChecked( g_pConfig->readBoolEntry( "AutoLineUpIcons", false ) );
 
     //
     g_pConfig->setGroup( "Mouse Buttons" );
@@ -411,6 +419,8 @@ void KRootOptions::defaults()
     middleComboBox->setCurrentItem( WINDOWLISTMENU );
     rightComboBox->setCurrentItem( DESKTOPMENU );
     iconsEnabledBox->setChecked(true);
+    autoLineupIconsBox->setChecked(false);
+    toolTipBox->setChecked(true);
 #if defined(Q_OS_LINUX) || defined(Q_OS_FREEBSD)
     fillDevicesListView();
 #endif
@@ -431,6 +441,8 @@ void KRootOptions::save()
         if ( item->isOn() )
             previews.append( item->pluginName() );
     g_pConfig->writeEntry( "Preview", previews );
+    g_pConfig->setGroup( "FMSettings" );
+    g_pConfig->writeEntry( "ShowFileTips", toolTipBox->isChecked() );
     g_pConfig->setGroup( "Menubar" );
     g_pConfig->writeEntry("ShowMenubar", menuBarBox->isChecked());
     g_pConfig->setGroup( "Mouse Buttons" );
@@ -548,7 +560,7 @@ DesktopPathConfig::DesktopPathConfig(QWidget *parent, const char * )
 #define RO_LASTCOL 2
 
   int row = 0;
-  QGridLayout *lay = new QGridLayout(this, RO_LASTROW+1, RO_LASTCOL+1, 
+  QGridLayout *lay = new QGridLayout(this, RO_LASTROW+1, RO_LASTCOL+1,
       0, KDialog::spacingHint());
 
   lay->setRowStretch(RO_LASTROW,10); // last line grows

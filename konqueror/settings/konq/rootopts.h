@@ -58,12 +58,13 @@ private:
         QCheckBox *menuBarBox;
 	QCheckBox *vrootBox;
 	QCheckBox *autoLineupIconsBox;
-	
+	QCheckBox *toolTipBox;
+
 	QCheckBox *enableDevicesBox;
 	KListView *devicesListView;
 	void fillDevicesListView();
 	void saveDevicesListView();
-		
+
         KListView *previewListView;
         // Combo for the menus
         void fillMenuCombo( QComboBox * combo );
@@ -73,7 +74,7 @@ private:
         QPushButton *leftEditButton;
         QPushButton *middleEditButton;
         QPushButton *rightEditButton;
-        
+
         typedef enum { NOTHING = 0, WINDOWLISTMENU, DESKTOPMENU, APPMENU } menuChoice;
         bool m_wheelSwitchesWorkspace;
 };
