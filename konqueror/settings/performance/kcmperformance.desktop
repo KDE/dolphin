@@ -11,7 +11,32 @@ X-KDE-FactoryName=performance
 X-KDE-ParentApp=kcontrol
 
 Name=KDE Performance
+Name[bg]=Производителност на KDE
+Name[da]=KDE's ydelse
+Name[es]=Rendimiento de KDE
+Name[eu]=KDE Performantzia
+Name[hu]=A KDE teljesítménye
+Name[pt_BR]=Performance do KDE
+Name[sl]=Zmogljivost KDE
+Name[sv]=KDE-prestanda
+Name[zh_CN]=KDE 性能
 
-Comment=Configure settings improving KDE performance
+Comment=Configure settings that can improve KDE performance
+Comment[bg]=Конфигуриране настройки за подобряване производителността на KDE 
+Comment[da]=Indstil opsætning for at forbedre KDE's ydelse
+Comment[eu]=Konqueroren performantzia hobetzeko ezarpenak konfiguratu
+Comment[hu]=A KDE teljesítményének hangolása
+Comment[pt_BR]=Configura preferências de aumento de performance do KDE
+Comment[sl]=Nastavite izbire za pohitritev KDE
+Comment[sv]=Anpassa inställningar som förbättrar KDE:s prestanda
+Comment[zh_CN]=配置提高 KDE 性能的选项
 
 Keywords=performance,speed,memory,improve
+Keywords[da]=ydelse,hastighed,hukommelse,forbedre
+Keywords[es]=rendimiento,velocidad,memoria,mejora
+Keywords[eu]=performantzia,abiadura,memoria,hobetu
+Keywords[hu]=teljesítmény,sebesség,memória,hangolás
+Keywords[pt_BR]=performance,velocidade,memória,aumento
+Keywords[sl]=zmogljivost,hitrost,pomnilnik,izboljšanje
+Keywords[sv]=prestanda,hastighet,minne,förbättra
+Keywords[zh_CN]=performance,speed,memory,improve,性能,速度,内存,提高

@@ -33,12 +33,8 @@ Konqueror::Konqueror( QWidget* parent_P )
     : Konqueror_ui( parent_P )
     {
     QWhatsThis::add( rb_never_reuse,
-        i18n( "With this option activated, only one instance of Konqueror "
-              "will exist in the memory of your computer at any moment, "
-              "no matter how many browsing windows you open, "
-              "thus reducing resource requirements."
-              "<p>Be aware that this also means that, if something goes wrong, "
-              "all your browsing windows will be closed simultaneously." ));
+        i18n( "Disables the minimization of memory usage and allows you "
+              "to make each browsing activity independent from the others" ));
     QWhatsThis::add( rb_file_browsing_reuse,
         i18n( "With this option activated, only one instance of Konqueror "
               "used for file browsing will exist in the memory of your computer "
@@ -48,8 +44,12 @@ Konqueror::Konqueror( QWidget* parent_P )
               "<p>Be aware that this also means that, if something goes wrong, "
               "all your file browsing windows will be closed simultaneously" ));
     QWhatsThis::add( rb_always_reuse,
-        i18n( "Disables the minimization of memory usage and allows you "
-              "to make each browsing activity independent from the others" ));
+        i18n( "With this option activated, only one instance of Konqueror "
+              "will exist in the memory of your computer at any moment, "
+              "no matter how many browsing windows you open, "
+              "thus reducing resource requirements."
+              "<p>Be aware that this also means that, if something goes wrong, "
+              "all your browsing windows will be closed simultaneously." ));
     connect( rb_never_reuse, SIGNAL( clicked()), SIGNAL( changed()));
     connect( rb_file_browsing_reuse, SIGNAL( clicked()), SIGNAL( changed()));
     connect( rb_always_reuse, SIGNAL( clicked()), SIGNAL( changed()));
@@ -57,10 +57,11 @@ Konqueror::Konqueror( QWidget* parent_P )
     
     QString tmp =
         i18n( "If non-zero, this option allows keeping Konqueror instances "
-              "in memory after all their windows have been closed, up to the number "
-              "specified in this option. When new Konqueror will be needed, "
-              "one of these preloaded instances will be reused, resulting in faster "
-              "response, at the expense of the memory used by the preloaded instances." );
+              "in memory after all their windows have been closed, up to the "
+              "number specified in this option. "
+              "When a new Konqueror instance is needed, one of these preloaded "
+              "instances will be reused instead, improving responsiveness at "
+              "the expense of the memory required by the preloaded instances." );
     QWhatsThis::add( sb_preload_count, tmp );
     QWhatsThis::add( lb_preload_count, tmp );
     connect( sb_preload_count, SIGNAL( valueChanged( int )), SIGNAL( changed()));

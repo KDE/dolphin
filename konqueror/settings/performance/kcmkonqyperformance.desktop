@@ -12,8 +12,31 @@ X-KDE-FactoryName=konqueror
 X-KDE-ParentApp=kcontrol
 
 Name=Performance
+Name[bg]=Производителност
+Name[da]=Ydelse
+Name[es]=Rendimiento
+Name[eu]=Performantzia
+Name[hu]=Teljesítmény
+Name[pt_BR]=Perfomance
+Name[sl]=Zmogljivost
+Name[sv]=Prestanda
+Name[zh_CN]=性能
 
-Comment=Configure settings improving Konqueror performance
+Comment=Configure settings that can improve Konqueror performance
+Comment[bg]=Конфигуриране настройки за подобряване производителността на Konqueror 
+Comment[da]=Indstil opsætning for at forbedre Konquerors ydelse
+Comment[eu]=Konqueroren performantzia hobetzeko ezarpenak konfiguratu
+Comment[hu]=A Konqueror böngésző teljesítményének hangolása
+Comment[pt_BR]=Configura configurações para aumento de performance do Konqueror 
+Comment[sl]=Nastavitev izbir za pohitritev Konquerorja
+Comment[sv]=Anpassa inställningar som förbättrar Konquerors prestanda
+Comment[zh_CN]=配置提高 Konqueror 性能的选项
 
 Keywords=konqueror,reuse,preloading
+Keywords[da]=konqueror,genbrug,forudindlæsning
+Keywords[hu]=konqueror,ujrafelhasználás,előtöltés
+Keywords[pt_BR]=konqueror,reuso,pre-carregamento
+Keywords[sl]=konqueror,recikliranje,prednalaganje
+Keywords[sv]=konqueror,återanvändning,förladdning
+Keywords[zh_CN]=konqueror,reuse,preloading,再利用,预加载
 
