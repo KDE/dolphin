@@ -43,7 +43,7 @@
 KPreviewOptions::KPreviewOptions( QWidget *parent, const char */*name*/ )
     : KCModule( parent, "kcmkonq" )
 {
-    QVBoxLayout *lay = new QVBoxLayout(this, KDialog::marginHint(), KDialog::spacingHint());
+    QVBoxLayout *lay = new QVBoxLayout(this, 0, KDialog::spacingHint());
 
     lay->addWidget( new QLabel( i18n("Allow previews and \"Folder Icons Reflect Contents\" on protocols:"), this ) );
 

@@ -41,7 +41,7 @@ KBehaviourOptions::KBehaviourOptions(KConfig *config, QString group, QWidget *pa
 {
     QLabel * label;
 
-    QVBoxLayout *lay = new QVBoxLayout( this, KDialog::marginHint(), KDialog::spacingHint() );
+    QVBoxLayout *lay = new QVBoxLayout( this, 0, KDialog::spacingHint() );
 
 	QVGroupBox * miscGb = new QVGroupBox(i18n("Misc Options"), this);
 	lay->addWidget( miscGb );
