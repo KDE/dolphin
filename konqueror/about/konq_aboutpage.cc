@@ -4,6 +4,7 @@
 #include "konq_view.h"
 
 #include <qfile.h>
+#include <qtextcodec.h>
 #include <qtextstream.h>
 
 #include <kapp.h>
@@ -245,9 +246,11 @@ KonqAboutPage::KonqAboutPage( //KonqMainWindow *
     : KHTMLPart( parentWidget, widgetName, parent, name, BrowserViewGUI )
 {
     //m_mainWindow = mainWindow;
-    //QString myCharset = KGlobal::locale()->charset();
-    setCharset(KGlobal::locale()->charset(), true);
-    //kdDebug() << "Setting charset to" << myCharset << endl;
+    QTextCodec *codec = QTextCodec::codecForName(KGlobal::locale()->charset().latin1());
+    if (codec) 
+	setCharset(codec->name(), true);
+    else 
+	setCharset(KGlobal::locale()->charset(), true);
 }
 
 KonqAboutPage::~KonqAboutPage()
