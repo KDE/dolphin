@@ -248,10 +248,15 @@ void KBookmarkManager::scanIntern( KBookmark *_bm, const QString & _path )
       {
         // maybe its an IE Favourite..
         KSimpleConfig cfg( file.path(), true );
-        cfg.setGroup("InternetShortCut");
+        QStringList grp = cfg.groupList().grep( "internetshortcut", false );
+        if ( grp.count() == 0 )
+            continue;
+
+        cfg.setGroup( *grp.begin() );
+
         QString url = cfg.readEntry("URL");
         if (!url.isEmpty() )
-          (void) new KBookmark( this, _bm, ep->d_name, cfg, "InternetShortCut" );
+          (void) new KBookmark( this, _bm, ep->d_name, cfg, *grp.begin() );
       } else kdWarning(1203) << "Invalid bookmark : found mimetype='" << res->name() << "' for file='" << file.path() << "'!" << endl;
     }
   }
@@ -276,12 +281,12 @@ void KBookmarkManager::slotEditBookmarks()
  ********************************************************************/
 
 KBookmark::KBookmark( KBookmarkManager *_bm, KBookmark *_parent, QString _text,
-                      KSimpleConfig& _cfg, const char * _group )
+                      KSimpleConfig& _cfg, const QString &_group )
 {
   assert( _bm != 0L );
   assert( _parent != 0L );
 
-  if ( _group )
+  if ( !_group.isEmpty() )
     _cfg.setGroup( _group );
   else
     _cfg.setDesktopGroup();

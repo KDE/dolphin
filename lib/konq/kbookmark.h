@@ -126,7 +126,7 @@ protected:
    * Creates a bookmark from a file.
    */
   KBookmark( KBookmarkManager *, KBookmark *_parent, QString _text,
-             KSimpleConfig& _cfg, const char * _group );
+             KSimpleConfig& _cfg, const QString &_group );
 
   void clear();
 
