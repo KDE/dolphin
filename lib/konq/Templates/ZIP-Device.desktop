@@ -6,7 +6,7 @@ ReadOnly=false
 Type=FSDevice
 Icon=zip_mount
 UnmountIcon=zip_unmount
-Actions=Eject
+Actions=Eject;
 X-KDE-Priority=TopLevel
 [Desktop Action Eject]
 Name=Eject
@@ -43,6 +43,7 @@ Name[ko]=꺼내기
 Name[lo]=ເອົາແຜ່ນອອກ
 Name[lt]=Išmesti
 Name[lv]=Izņemt
+Name[mk]=Извади
 Name[mn]=Гаргах
 Name[mt]=Iftaħ
 Name[nb]=Løs ut

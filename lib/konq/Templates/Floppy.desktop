@@ -5,6 +5,7 @@ Name[af]=Formaat
 Name[ar]=تجهيز
 Name[bg]=Формат
 Name[bn]=ফরম্যাট
+Name[br]=Furmadiñ
 Name[cs]=Formát
 Name[cy]=Fformat
 Name[de]=Formatieren
@@ -24,6 +25,7 @@ Name[it]=Formatta
 Name[ja]=フォーマット
 Name[lo]=ສູດຄະນິດສານ - K
 Name[lt]=Formatas
+Name[mk]=Формат
 Name[mn]=Хэлбэр
 Name[nds]=Formateern
 Name[nl]=Formatteren
@@ -53,7 +55,7 @@ Name[zh_TW]=格式化
 Name[zu]=Isakhiwo
 
 [Desktop Entry]
-Actions=Format
+Actions=Format;
 Encoding=UTF-8
 MountPoint=
 Dev=
