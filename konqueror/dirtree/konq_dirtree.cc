@@ -208,7 +208,10 @@ KonqDirTreePart::~KonqDirTreePart()
 
 bool KonqDirTreePart::openURL( const KURL & url )
 {
+  // We need to update m_url so that view-follows-view works
+  // (we need other views to follow us, so we need a proper m_url)
   m_url = url;
+
   emit started( 0 );
   m_pTree->followURL( url );
   emit completed();
@@ -835,7 +838,7 @@ void KonqDirTree::FilesAdded( const KURL & dir )
 
 void KonqDirTree::FilesRemoved( const KURL::List & urls )
 {
-  kdDebug() << "KonqDirTree::FilesRemoved" << endl;
+  //kdDebug() << "KonqDirTree::FilesRemoved " << urls.count() << endl;
   for ( KURL::List::ConstIterator it = urls.begin() ; it != urls.end() ; ++it )
   {
     if ( m_dirtreeDir.isParentOf( *it ) )
@@ -885,7 +888,7 @@ void KonqDirTree::scanDir( KonqDirTreeItem *parent, const QString &path, bool is
     entries = dir.entryList( QDir::Files );
     dirEntries = dir.entryList( QDir::Dirs );
     dirEntries.remove( "." );
-    dirEntries.remove( ".." ); 
+    dirEntries.remove( ".." );
   }
 
   QStringList::ConstIterator eIt = entries.begin();
