@@ -126,6 +126,8 @@ public:
      */
     void emitCounts( const KFileItemList & lst, bool selectionChanged );
 
+    void emitMouseOver( const KFileItem * item );
+
     /**
      * Enables or disables the paste action. This depends both on
      * the data in the clipboard and the number of files selected

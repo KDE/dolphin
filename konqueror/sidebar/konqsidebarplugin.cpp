@@ -34,12 +34,12 @@ void KonqSidebarPlugin::openPreview(const KFileItemList& items)
   handlePreview(items);
 }
 
-void KonqSidebarPlugin::openPreviewOnMouseOver(const KFileItem& item)
+void KonqSidebarPlugin::openPreviewOnMouseOver(const KFileItem* item)
 {
   handlePreviewOnMouseOver(item);
 }
 
 void KonqSidebarPlugin::handlePreview(const KFileItemList & /*items*/) {}
 
-void KonqSidebarPlugin::handlePreviewOnMouseOver(const KFileItem& /*items*/) {}
+void KonqSidebarPlugin::handlePreviewOnMouseOver(const KFileItem* /*items*/) {}
 

@@ -666,6 +666,7 @@ void KonqBaseListViewWidget::slotOnItem( QListViewItem* _item)
    if ( item && isExecuteArea( viewport()->mapFromGlobal( QCursor::pos() ).x() ) )
    {
       emit m_pBrowserView->setStatusBarText( item->item()->getStatusBarInfo() );
+      m_pBrowserView->emitMouseOver( item->item() );
    }
    else
        slotOnViewport();
@@ -693,6 +694,7 @@ void KonqBaseListViewWidget::slotOnViewport()
 {
    KFileItemList lst = selectedFileItems();
    m_pBrowserView->emitCounts( lst, false );
+   m_pBrowserView->emitMouseOver( 0 );
 }
 
 void KonqBaseListViewWidget::slotMouseButtonPressed(int _button, QListViewItem* _item, const QPoint&, int col)

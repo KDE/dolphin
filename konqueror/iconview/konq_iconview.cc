@@ -1009,7 +1009,8 @@ void KonqKfmIconView::slotKFindClosed()
 
 void KonqKfmIconView::slotOnItem( QIconViewItem *item )
 {
-    emit setStatusBarText( ((KFileIVI *)item)->item()->getStatusBarInfo() );
+    emit setStatusBarText( static_cast<KFileIVI *>(item)->item()->getStatusBarInfo() );
+    emitMouseOver( static_cast<KFileIVI*>(item)->item());
 }
 
 void KonqKfmIconView::slotOnViewport()

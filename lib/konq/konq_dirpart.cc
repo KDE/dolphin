@@ -391,6 +391,11 @@ void KonqDirPart::emitCounts( const KFileItemList & lst, bool selectionChanged )
         emit m_extension->selectionInfo( lst );
 }
 
+void KonqDirPart::emitMouseOver( const KFileItem* item )
+{
+    emit m_extension->mouseOverInfo( item );
+}
+
 void KonqDirPart::slotIconSizeToggled( bool )
 {
     //kdDebug(1203) << "KonqDirPart::slotIconSizeToggled" << endl;

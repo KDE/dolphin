@@ -1867,7 +1867,8 @@ void KonqMainWindow::customEvent( QCustomEvent *event )
 {
   KParts::MainWindow::customEvent( event );
 
-  if ( KonqFileSelectionEvent::test( event ) )
+  if ( KonqFileSelectionEvent::test( event ) ||
+       KonqFileMouseOverEvent::test( event ) )
   {
     // Forward the event to all views
     MapViews::ConstIterator it = m_mapViews.begin();

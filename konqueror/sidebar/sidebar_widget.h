@@ -137,6 +137,7 @@ class Sidebar_Widget: public QWidget
 		void started(KIO::Job *);
                 void completed();
 		void fileSelection(const KFileItemList& iems);
+		void fileMouseOver(const KFileItem* item);
   public:
 	/* interface KonqSidebar_PluginInterface*/
 	KInstance  *getInstance();

@@ -341,6 +341,9 @@ void KonqView::connectPart(  )
   connect( ext, SIGNAL( selectionInfo( const KFileItemList & ) ),
            this, SLOT( slotSelectionInfo( const KFileItemList & ) ) );
 
+  connect( ext, SIGNAL( mouseOverInfo( const KFileItem * ) ),
+           this, SLOT( slotMouseOverInfo( const KFileItem * ) ) );
+
   connect( ext, SIGNAL( openURLNotify() ),
            this, SLOT( slotOpenURLNotify() ) );
 
@@ -485,6 +488,12 @@ void KonqView::slotCanceled( const QString & errorMsg )
 void KonqView::slotSelectionInfo( const KFileItemList &items )
 {
   KonqFileSelectionEvent ev( items, m_pPart );
+  QApplication::sendEvent( m_pMainWindow, &ev );
+}
+
+void KonqView::slotMouseOverInfo( const KFileItem *item )
+{
+  KonqFileMouseOverEvent ev( item, m_pPart );
   QApplication::sendEvent( m_pMainWindow, &ev );
 }
 

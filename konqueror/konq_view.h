@@ -319,6 +319,7 @@ protected slots:
    * Connected to the BrowserExtension
    */
   void slotSelectionInfo( const KFileItemList &items );
+  void slotMouseOverInfo( const KFileItem* item );
   void slotOpenURLNotify();
   void slotEnableAction( const char * name, bool enabled );
 
