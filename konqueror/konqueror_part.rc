@@ -30,6 +30,7 @@
   <Action name="savesettingsperurl"/>
   <Separator/>
   <Action name="configurefilemanager"/>
+  <Action name="configurebrowser"/>
   <Action name="configurefiletypes"/>
   <Action name="configurenetwork"/>
  </Menu>

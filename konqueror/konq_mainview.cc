@@ -500,9 +500,17 @@ void KonqMainView::slotSaveSettingsPerURL()
 void KonqMainView::slotConfigureFileManager()
 {
   if (fork() == 0) {
-    // execute 'kcmkonq'
     execl(locate("exe", "kcmshell"), "kcmshell", "Applications/konqueror", 0);
-    warning("Error launching kcmshell konqueror!");
+    warning("Error launching kcmshell Applications/konqueror!");
+    exit(1);
+  }
+}
+
+void KonqMainView::slotConfigureBrowser()
+{
+  if (fork() == 0) {
+    execl(locate("exe", "kcmshell"), "kcmshell", "Applications/konqhtml", 0);
+    warning("Error launching kcmshell Applications/konqhtml!");
     exit(1);
   }
 }
@@ -510,7 +518,6 @@ void KonqMainView::slotConfigureFileManager()
 void KonqMainView::slotConfigureFileTypes()
 {
   if (fork() == 0) {
-    // execute 'kcmshell filetypes'
     execl(locate("exe", "kcmshell"), "kcmshell", "filetypes", 0);
     warning("Error launching kcmshell filetypes !");
     exit(1);
@@ -519,12 +526,9 @@ void KonqMainView::slotConfigureFileTypes()
 
 void KonqMainView::slotConfigureNetwork()
 {
-  if (fork() == 0) {
-    // execute 'kcmkio'
-    execl(locate("exe", "kcmkio"), 0);
-    warning("Error launching kcmkio !");
-    exit(1);
-  }
+  // This should be kcmshell instead, when it supports multiple tabs
+  const char * cmd = "kcontrol Network/smb Network/cookies Network/useragent Network/proxy";
+  system( cmd );
 }
 
 void KonqMainView::slotConfigureKeys()
@@ -1269,7 +1273,8 @@ void KonqMainView::initActions()
   m_paSaveSettingsPerURL = new KAction( i18n( "Save Settings for this &URL" ), 0, this, SLOT( slotSaveSettingsPerURL() ), actionCollection(), "savesettingsperurl" );
 
   m_paConfigureFileManager = new KAction( i18n( "Configure File &Manager..." ), 0, this, SLOT( slotConfigureFileManager() ), actionCollection(), "configurefilemanager" );
-  m_paConfigureFileManager = new KAction( i18n( "Configure File &Associations..." ), 0, this, SLOT( slotConfigureFileTypes() ), actionCollection(), "configurefiletypes" );
+  m_paConfigureBrowser = new KAction( i18n( "Configure &Browser..." ), 0, this, SLOT( slotConfigureBrowser() ), actionCollection(), "configurebrowser" );
+  m_paConfigureFileTypes = new KAction( i18n( "Configure File &Associations..." ), 0, this, SLOT( slotConfigureFileTypes() ), actionCollection(), "configurefiletypes" );
   m_paConfigureNetwork = new KAction( i18n( "Configure &Network..." ), 0, this, SLOT( slotConfigureNetwork() ), actionCollection(), "configurenetwork" );
   m_paConfigureKeys = new KAction( i18n( "Configure &Keys..." ), 0, this, SLOT( slotConfigureKeys() ), actionCollection(), "configurekeys" );
 
