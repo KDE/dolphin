@@ -323,6 +323,7 @@ public slots:
 
   // Go menu
   void slotUp();
+  void slotUpDelayed();
   void slotBack();
   void slotForward();
   void slotHome();

@@ -2192,6 +2192,11 @@ void KonqMainWindow::slotUpAboutToShow()
 
 void KonqMainWindow::slotUp()
 {
+  QTimer::singleShot( 0, this, SLOT( slotUpDelayed() ) );
+}
+
+void KonqMainWindow::slotUpDelayed()
+{
   openURL( 0L, m_currentView->upURL() );
 }
 
