@@ -1619,45 +1619,16 @@ void KonqMainWindow::viewsChanged()
   // This is called when the number of views changes OR when
   // the type of some view changes.
 
-  // Do we activate the operations menu ?
-  if ( viewCount() == 2 )
-  {
-    MapViews::ConstIterator it = m_mapViews.begin();
-    if ( it++.data()->serviceType() == "inode/directory"
-         && it.data()->serviceType() == "inode/directory"
-         && !m_paCopyFiles )
-    {
-      // F5 is the default key binding for Reload.... a la Windows.
-      // mc users want F5 for Copy and F6 for move, but I can't make that default.
-      m_paCopyFiles = new KAction( i18n("Copy files"), Key_F7, this, SLOT( slotCopyFiles() ), actionCollection(), "copyfiles" );
-      m_paMoveFiles = new KAction( i18n("Move files"), Key_F8, this, SLOT( slotMoveFiles() ), actionCollection(), "movefiles" );
-      QList<KAction> lst;
-      lst.append( m_paCopyFiles );
-      lst.append( m_paMoveFiles );
-      m_paCopyFiles->setEnabled( false );
-      m_paMoveFiles->setEnabled( false );
-      plugActionList( "operations", lst );
-    }
-  }
-  else if (m_paCopyFiles)
-  {
-    unplugActionList( "operations" );
-    delete m_paCopyFiles;
-    m_paCopyFiles = 0L;
-    delete m_paMoveFiles;
-    m_paMoveFiles = 0L;
-  }
-
   bool locked = false;
   MapViews::Iterator it = m_mapViews.begin();
   MapViews::Iterator end = m_mapViews.end();
   // at least one view locked to location -> Unlock all views
   for (  ; it != end  ; ++it )
-      if ( it.data()->isLockedLocation() )
-      {
-          locked = true;
-          break;
-      }
+    if ( it.data()->isLockedLocation() )
+    {
+      locked = true;
+      break;
+    }
   m_paUnlockAll->setEnabled( locked );
   updateViewActions(); // undo, lock, link and other view-dependent actions
 }
@@ -1901,7 +1872,9 @@ bool KonqMainWindow::askForTarget(const QString& text, KURL& url)
    layout->addWidget(label);
    label=new QLabel(i18n("to"),dlg);
    layout->addWidget(label);
-   KURLRequester *urlReq=new KURLRequester(viewCount()==2?otherView(m_currentView)->url().prettyURL():m_currentView->url().prettyURL(),dlg);
+   QString url = (viewCount()==2) ? otherView(m_currentView)->url().prettyURL() : m_currentView->url().prettyURL();
+   KURLRequester *urlReq=new KURLRequester(url, dlg);
+   // Hmm, this creates the filedialog, hidden, which fires up a KIO job to list the dir, etc. :(
    urlReq->fileDialog()->setMode(KFile::Mode(KFile::Directory|KFile::ExistingOnly));
 
    layout->addWidget(urlReq);
@@ -1917,11 +1890,11 @@ bool KonqMainWindow::askForTarget(const QString& text, KURL& url)
    {
       delete dlg;
       return false;
-   };
+   }
    url=urlReq->url();
    delete dlg;
    return true;
-};
+}
 
 void KonqMainWindow::slotCopyFiles()
 {
@@ -1930,7 +1903,7 @@ void KonqMainWindow::slotCopyFiles()
   if (!askForTarget(i18n("Copy selected files from"),dest))
      return;
 
-  KonqDirPart * part = dynamic_cast<KonqDirPart *>(m_currentView->part());
+  KonqDirPart * part = static_cast<KonqDirPart *>(m_currentView->part());
   KURL::List lst;
   KFileItemList tmpList=part->selectedFileItems();
   for (KFileItem *item=tmpList.first(); item!=0; item=tmpList.next())
@@ -1946,7 +1919,7 @@ void KonqMainWindow::slotMoveFiles()
   if (!askForTarget(i18n("Move selected files from"),dest))
      return;
 
-   KonqDirPart * part = dynamic_cast<KonqDirPart *>(m_currentView->part());
+   KonqDirPart * part = static_cast<KonqDirPart *>(m_currentView->part());
    KURL::List lst;
    KFileItemList tmpList=part->selectedFileItems();
 
@@ -2768,8 +2741,30 @@ void KonqMainWindow::updateViewActions()
   {
     KonqDirPart * dirPart = static_cast<KonqDirPart *>(m_currentView->part());
     m_paFindFiles->setEnabled( dirPart->findPart() == 0 );
-  }
 
+    // Create the copy/move options if not already done
+    if ( !m_paCopyFiles )
+    {
+      // F5 is the default key binding for Reload.... a la Windows.
+      // mc users want F5 for Copy and F6 for move, but I can't make that default.
+      m_paCopyFiles = new KAction( i18n("Copy files"), Key_F7, this, SLOT( slotCopyFiles() ), actionCollection(), "copyfiles" );
+      m_paMoveFiles = new KAction( i18n("Move files"), Key_F8, this, SLOT( slotMoveFiles() ), actionCollection(), "movefiles" );
+      QList<KAction> lst;
+      lst.append( m_paCopyFiles );
+      lst.append( m_paMoveFiles );
+      m_paCopyFiles->setEnabled( false );
+      m_paMoveFiles->setEnabled( false );
+      plugActionList( "operations", lst );
+    }
+  }
+  else if (m_paCopyFiles)
+  {
+    unplugActionList( "operations" );
+    delete m_paCopyFiles;
+    m_paCopyFiles = 0L;
+    delete m_paMoveFiles;
+    m_paMoveFiles = 0L;
+  }
 }
 
 QString KonqMainWindow::findIndexFile( const QString &dir )
