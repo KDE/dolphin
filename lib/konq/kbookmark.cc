@@ -127,6 +127,17 @@ void KBookmarkManager::FilesRemoved( const KURL::List & fileList )
   }
 }
 
+void KBookmarkManager::FilesChanged( const KURL::List & fileList )
+{
+  KURL::List::ConstIterator it = fileList.begin();
+  for ( ; it != fileList.end() ; ++it )
+  {
+    // TODO: make this smarter (if we show the file, reparse it and update the kbookmark)
+    if ((*it).isLocalFile())
+      slotNotify( (*it).directory() );
+  }
+}
+
 void KBookmarkManager::slotNotify( const QString &_url )
 {
   //kdDebug(1203) << "KBookmarkManager::slotNotify( " << _url << ")" << endl;
