@@ -129,8 +129,6 @@ void socketCallback(void *client_data, int */*source*/, XtInputId */*id*/)
 extern bool qt_set_socket_handler( int, int, QObject *, bool );
 bool qt_set_socket_handler( int sockfd, int type, QObject *obj, bool enable )
 {
-  kdDebug(1430) << "-> qt_set_socket_handler( sockfd=" << sockfd << ", type=" << type << ", obj=" << obj << ", enable=" << enable << " )" << endl;
-
   if ( sockfd < 0 || type < 0 || type > 2 || obj == 0 ) {
 #if defined(CHECK_RANGE)
       qWarning( "QSocketNotifier: Internal error" );
@@ -183,9 +181,9 @@ bool qt_set_socket_handler( int sockfd, int type, QObject *obj, bool enable )
           return FALSE;
 
       XtRemoveInput( sn->id );
+      _notifiers[type].remove();
   }
 
-  kdDebug(1430) << "<- qt_set_socket_handler" << endl;
   return TRUE;
 }
 
@@ -242,13 +240,9 @@ int main(int argc, char** argv)
    NSPluginViewer *viewer = new NSPluginViewer( "viewer", 0 );
 
    // start main loop
-   kdDebug(1430) << "8 - XtAppNextEvent" << endl;
-   XEvent xe;
+   kdDebug(1430) << "8 - XtAppProcessEvent" << endl;
    while (!g_quit)
-   {
-      XtAppNextEvent( g_appcon, &xe );
-      XtDispatchEvent( &xe );
-   }
+     XtAppProcessEvent( g_appcon, XtIMAll);
 
    // delete viewer
    delete viewer;

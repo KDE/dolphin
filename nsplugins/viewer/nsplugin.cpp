@@ -70,8 +70,8 @@ void *g_NPN_MemAlloc(uint32 size)
 void g_NPN_MemFree(void *ptr)
 {
    kdDebug(1431) << "g_NPN_MemFree() at " << ptr << endl;
-
-   ::free(ptr);
+   if (ptr) 
+     ::free(ptr);
 }
 
 uint32 g_NPN_MemFlush(uint32 /*size*/)
@@ -278,6 +278,9 @@ NPError g_NPN_SetValue(NPP /*instance*/, NPPVariable /*variable*/, void */*value
 }
 
 
+
+
+
 /******************************************************************/
 
 NSPluginInstance::NSPluginInstance(NPP privateData, NPPluginFuncs *pluginFuncs,
@@ -366,8 +369,13 @@ void NSPluginInstance::destroy()
         _callback = 0;
 
         kdDebug(1431) << "destroy plugin" << endl;
+        NPSavedData *saved = 0;
         if ( _pluginFuncs.destroy )
-            _pluginFuncs.destroy( _npp, 0 );
+            _pluginFuncs.destroy( _npp, &saved );
+        if (saved && saved->len && saved->buf)
+          g_NPN_MemFree(saved->buf);
+        if (saved)
+          g_NPN_MemFree(saved);          
 
         XtDestroyWidget(_area);
         XtDestroyWidget(_form);
@@ -941,7 +949,8 @@ bool NSPluginStreamBase::create( QString url, QString mimeType, void *notify )
     _notifyData = notify;
     _pos = 0;
     _tries = 0;
-    _onlyAsFile = true;
+    _onlyAsFile = false;
+    _streamType = NP_NORMAL;
 
     // create new stream
     _stream = new NPStream;
