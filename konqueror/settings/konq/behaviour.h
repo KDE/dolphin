@@ -23,7 +23,7 @@
 
 class QCheckBox;
 class QLabel;
-class QLineEdit;
+class KURLRequester;
 class KConfig;
 class QVButtonGroup;
 class QRadioButton;
@@ -58,7 +58,7 @@ private:
 
   QLabel *winPixmap;
 
-  QLineEdit *homeURL;
+  KURLRequester *homeURL;
 
   QVButtonGroup *bgOneProcess;
   QRadioButton  *rbOPNever,
@@ -66,8 +66,8 @@ private:
                 *rbOPWeb,
                 *rbOPAlways;
 
-  QLabel *fileTips;
-  QSpinBox  *sbToolTip;
+  //QLabel *fileTips;
+  //QSpinBox  *sbToolTip;
   QCheckBox *cbShowTips;
   QCheckBox *cbShowPreviewsInTips;
   QCheckBox *cbShowMMBInTabs;

@@ -27,6 +27,7 @@
 #include <qslider.h>
 #include <qwhatsthis.h>
 #include <qvbuttongroup.h>
+#include <qvgroupbox.h>
 #include <qradiobutton.h>
 #include <kconfig.h>
 #include <kdialog.h>
@@ -36,6 +37,7 @@
 #include <konq_defaults.h>
 #include <kstandarddirs.h>
 #include <kapplication.h>
+#include <kurlrequester.h>
 #include <dcopclient.h>
 #include <kio/uiserver_stub.h>
 
@@ -45,40 +47,33 @@ KBehaviourOptions::KBehaviourOptions(KConfig *config, QString group, QWidget *pa
     : KCModule(parent, "kcmkonq"), g_pConfig(config), groupname(group)
 {
     QLabel * label;
-    int row = 0;
 
-    QGridLayout *lay = new QGridLayout(this,12,4, // rows, cols
-                                       KDialog::marginHint(),
-                                       KDialog::spacingHint());     // border, space
-    lay->setRowStretch(12,10);
-    lay->setColStretch(1,1);
-    lay->setColStretch(3,1);
-
+    QVBoxLayout *lay = new QVBoxLayout( this, KDialog::marginHint(), KDialog::spacingHint() );
+	
     kfmclientConfig = new KConfig(QString::fromLatin1("kfmclientrc"), false, false);
     kfmclientConfig->setGroup(QString::fromLatin1("Settings")); //use these to set the one-process option in kfmclient
 
-    row++;
-    winPixmap = new QLabel(this);
+	QVGroupBox * miscGb = new QVGroupBox(i18n("Misc Options"), this);
+	lay->addWidget( miscGb );
+	
+	QHBox *hbox = new QHBox(miscGb);
+    winPixmap = new QLabel(hbox);
     winPixmap->setFrameStyle( QFrame::StyledPanel | QFrame::Sunken );
     winPixmap->setPixmap(QPixmap(locate("data",
                                         "kcontrol/pics/onlyone.png")));
     winPixmap->setFixedSize( winPixmap->sizeHint() );
-    lay->addMultiCellWidget(winPixmap, row, row, 1, 2);
-
+	( void ) new QWidget( hbox );
+	
     // ----
-    row++;
-    cbNewWin = new QCheckBox(i18n("&Open directories in separate windows"), this);
+    cbNewWin = new QCheckBox(i18n("&Open directories in separate windows"), miscGb);
     QWhatsThis::add( cbNewWin, i18n("If this option is checked, Konqueror will open a new window when "
                                     "you open a directory, rather than showing that directory's contents in the current window."));
-    lay->addMultiCellWidget(cbNewWin, row, row, 0, 2, Qt::AlignLeft);
     connect(cbNewWin, SIGNAL(clicked()), this, SLOT(changed()));
     connect(cbNewWin, SIGNAL(toggled(bool)), SLOT(updateWinPixmap(bool)));
 
     // ----
 
-    row++;
-    cbListProgress = new QCheckBox( i18n( "&Show network operations in a single window" ), this );
-    lay->addMultiCellWidget(cbListProgress, row, row, 0, 2, Qt::AlignLeft);
+    cbListProgress = new QCheckBox( i18n( "&Show network operations in a single window" ), miscGb );
     connect(cbListProgress, SIGNAL(clicked()), this, SLOT(changed()));
 
     QWhatsThis::add( cbListProgress, i18n("Checking this option will group the"
@@ -89,64 +84,54 @@ KBehaviourOptions::KBehaviourOptions(KConfig *config, QString group, QWidget *pa
 
     // --
 
-    row++;
-    cbShowTips = new QCheckBox( i18n( "&Show file tips" ), this );
-    lay->addMultiCellWidget(cbShowTips, row, row, 0, 1, Qt::AlignLeft);
+    cbShowTips = new QCheckBox( i18n( "&Show file tips" ), miscGb );
     connect(cbShowTips, SIGNAL(clicked()), this, SLOT(changed()));
 
     QWhatsThis::add( cbShowTips, i18n("Here you can control if, when moving the mouse over a file, you want to see a "
                                     "small popup window with additional information about that file"));
 
-    fileTips = new QLabel(i18n("Number of file tip entries:"), this);
-    lay->addWidget(fileTips, row, 2);
-
-    sbToolTip = new QSpinBox(this);
-    lay->addWidget(sbToolTip, row, 3);
-    connect(sbToolTip, SIGNAL(valueChanged(int)), this, SLOT(changed()));
+/*
     connect(cbShowTips, SIGNAL(toggled(bool)), SLOT(slotShowTips(bool)));
     //connect(cbShowTips, SIGNAL(toggled(bool)), sbToolTip, SLOT(setEnabled(bool)));
     //connect(cbShowTips, SIGNAL(toggled(bool)), fileTips, SLOT(setEnabled(bool)));
     fileTips->setBuddy(sbToolTip);
-
     QString tipstr = i18n("If you move the mouse over a file, you usually see a small popup window that shows some "
                           "additional information about that file. Here, you can set how many items of information "
                           "are displayed");
     QWhatsThis::add( fileTips, tipstr );
     QWhatsThis::add( sbToolTip, tipstr );
-
-	row++;
-    cbShowPreviewsInTips = new QCheckBox( i18n( "&Show previews in file tips" ), this );
-    lay->addMultiCellWidget(cbShowPreviewsInTips, row, row, 0, 1, Qt::AlignLeft);
+*/
+    cbShowPreviewsInTips = new QCheckBox( i18n( "&Show previews in file tips" ), miscGb );
     connect(cbShowPreviewsInTips, SIGNAL(clicked()), this, SLOT(changed()));
     
     QWhatsThis::add( cbShowPreviewsInTips, i18n("Here you can control if you want the "
                           "popup window to contain a larger preview for the file, when moving the mouse over it."));
 
-    row++;
-    cbShowMMBInTabs = new QCheckBox( i18n( "Open &links in new tab instead of in new window" ), this );
-    lay->addMultiCellWidget(cbShowMMBInTabs, row, row, 0, 1, Qt::AlignLeft);
+    cbShowMMBInTabs = new QCheckBox( i18n( "Open &links in new tab instead of in new window" ), miscGb );
     connect(cbShowMMBInTabs, SIGNAL(clicked()), this, SLOT(changed()));
 
     
     QWhatsThis::add( cbShowMMBInTabs, i18n("This will open a new tab instead of a new window in various situations "
                           "such as choosing a link or a folder with the middle mouse button.") );
 
-    row++;
+	QHBoxLayout *hlay = new QHBoxLayout( lay );
+	
     label = new QLabel(i18n("Home &URL:"), this);
-    lay->addWidget(label, row, 0);
+	hlay->addWidget( label );
 
-    homeURL = new QLineEdit(this);
-    lay->addMultiCellWidget(homeURL, row, row, 1, 3);
+	homeURL = new KURLRequester(this);
+	homeURL->setMode(KFile::Directory);
+	homeURL->setCaption(i18n("Select Home Directory"));
+	hlay->addWidget( homeURL );
     connect(homeURL, SIGNAL(textChanged(const QString &)), this, SLOT(changed()));
     label->setBuddy(homeURL);
 
     QString homestr = i18n("This is the URL (e.g. a directory or a web page) where "
-                           "Konqueror will jump to when the \"Home\" button is pressed. Usually a 'tilde' (~).");
+                           "Konqueror will jump to when the \"Home\" button is pressed. "
+						   "This usually is your home dirctory, symbolized by a 'tilde' (~).");
     QWhatsThis::add( label, homestr );
     QWhatsThis::add( homeURL, homestr );
 
-    // ----
-    row++;
     QString opstrg = i18n("With this option activated, only one instance of Konqueror "
                           "will exist in the memory of your computer at any moment, "
                           "no matter how many browsing windows you open, "
@@ -186,20 +171,19 @@ KBehaviourOptions::KBehaviourOptions(KConfig *config, QString group, QWidget *pa
         rbOPLocal->setChecked(true);
     }
 
-    lay->addMultiCellWidget(bgOneProcess, row, row, 0, 3);
-	lay->addMultiCellWidget(new QWidget(this), row+1, row+1, 0, 3);
+	lay->addWidget( bgOneProcess );
+	lay->addStretch();
 
     load();
 }
 
-
 void KBehaviourOptions::slotShowTips(bool b)
 {
-    sbToolTip->setEnabled( b );
+//    sbToolTip->setEnabled( b );
     cbShowPreviewsInTips->setEnabled( b );
-    fileTips->setEnabled( b );
+//    fileTips->setEnabled( b );
+	
 }
-
 
 void KBehaviourOptions::load()
 {
@@ -207,7 +191,7 @@ void KBehaviourOptions::load()
     cbNewWin->setChecked( g_pConfig->readBoolEntry("AlwaysNewWin", false) );
     updateWinPixmap(cbNewWin->isChecked());
 
-    homeURL->setText(g_pConfig->readEntry("HomeURL", "~"));
+    homeURL->setURL(g_pConfig->readEntry("HomeURL", "~"));
 
     bool stips = g_pConfig->readBoolEntry( "ShowFileTips", true );
     cbShowTips->setChecked( stips );
@@ -218,10 +202,10 @@ void KBehaviourOptions::load()
     
 	cbShowMMBInTabs->setChecked( g_pConfig->readBoolEntry( "MMBOpensTab", false ) );
 	
-    if (!stips) sbToolTip->setEnabled( false );
+//    if (!stips) sbToolTip->setEnabled( false );
     if (!stips) cbShowPreviewsInTips->setEnabled( false );
         
-    sbToolTip->setValue( g_pConfig->readNumEntry( "FileTipItems", 6 ) );
+//    sbToolTip->setValue( g_pConfig->readNumEntry( "FileTipItems", 6 ) );
 
     QString val = kfmclientConfig->readEntry( QString::fromLatin1("StartNewKonqueror"),
                                               QString::fromLatin1("Web only") );
@@ -247,7 +231,7 @@ void KBehaviourOptions::defaults()
 {
     cbNewWin->setChecked(false);
 
-    homeURL->setText("~");
+    homeURL->setURL("~");
 
     rbOPLocal->setChecked(true);
 
@@ -256,8 +240,8 @@ void KBehaviourOptions::defaults()
 	cbShowMMBInTabs->setChecked( false );
 
     cbShowTips->setChecked( true );
-    sbToolTip->setEnabled( true );
-    sbToolTip->setValue( 6 );
+    //sbToolTip->setEnabled( true );
+    //sbToolTip->setValue( 6 );
     
     cbShowPreviewsInTips->setChecked( true );
     cbShowPreviewsInTips->setEnabled( true );
@@ -268,11 +252,11 @@ void KBehaviourOptions::save()
     g_pConfig->setGroup( groupname );
 
     g_pConfig->writeEntry( "AlwaysNewWin", cbNewWin->isChecked() );
-    g_pConfig->writeEntry( "HomeURL", homeURL->text().isEmpty()? "~" : homeURL->text() );
+    g_pConfig->writeEntry( "HomeURL", homeURL->url().isEmpty()? "~" : homeURL->url() );
 
     g_pConfig->writeEntry( "ShowFileTips", cbShowTips->isChecked() );
     g_pConfig->writeEntry( "ShowPreviewsInFileTips", cbShowPreviewsInTips->isChecked() );
-    g_pConfig->writeEntry( "FileTipsItems", sbToolTip->value() );
+//    g_pConfig->writeEntry( "FileTipsItems", sbToolTip->value() );
 
 	g_pConfig->writeEntry( "MMBOpensTab", cbShowMMBInTabs->isChecked() );
     QString val = QString::fromLatin1("Web only");
