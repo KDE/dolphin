@@ -3083,7 +3083,7 @@ void KonqMainWindow::updateBookmarkBar()
 {
   // hide if empty
   KToolBar * bar = static_cast<KToolBar *>( child( "bookmarkToolBar", "KToolBar" ) );
-  if ( bar && bar->count() <= 1 ) // there is always a separator
+  if ( bar && bar->count() == 0 )
   {
     m_paShowBookmarkBar->setChecked( false );
     bar->hide();
