@@ -3414,16 +3414,7 @@ void KonqMainWindow::slotPopupMenu( KXMLGUIClient *client, const QPoint &_global
 
   KAction *actNewTab = new KAction( i18n( "New Tab" ), "tab_new", 0, this, SLOT( slotPopupNewTab() ), &popupMenuCollection, "newtab" );
   actNewTab->setStatusText( i18n( "Open the document in a new tab" ) );
-
-  QString name;
-  for ( int i = 0; i < 30; i++) {
-    name = pPopupMenu.text(pPopupMenu.idAt(i));
-    if (name == i18n( "New Window" )) {
-      kdDebug(1202) << "Adding at index " << i+1 << endl;
-      actNewTab->plug( &pPopupMenu, i+1 );
-      break;
-    }
-  }
+  actNewTab->plug( &pPopupMenu, pPopupMenu.newviewPos()+1 );
 
   // We will need these if we call the newTab slot
   popupItems = _items;
