@@ -101,7 +101,7 @@ KonqDirPart::KonqDirPart( QObject *parent, const char *name )
       }
     }
 
-    KAction *a = new KAction( i18n( "Background Settings..." ), "background", 0, this, SLOT( slotBackgroundSettings() ),
+    KAction *a = new KAction( i18n( "Configure Background..." ), "background", 0, this, SLOT( slotBackgroundSettings() ),
                               actionCollection(), "bgsettings" );
 
     a->setStatusText( i18n( "Allows choosing of background settings for this view" ) );
