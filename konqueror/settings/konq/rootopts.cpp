@@ -306,9 +306,11 @@ void KRootOptions::save()
 
 void KRootOptions::moveDir( QString src, QString dest )
 {
-    KURL::encode(src);
-    KURL::encode(dest);
-    KIO::Job * job = KIO::move( KURL(src), KURL(dest) );
+    KURL src_url;
+    src_url.setPath(src);
+    KURL dest_url;
+    dest_url.setPath(dest);
+    KIO::Job * job = KIO::move( src_url, dest_url );
     connect( job, SIGNAL( result( KIO::Job * ) ), this, SLOT( slotResult( KIO::Job * ) ) );
     // wait for job
     qApp->enter_loop();
