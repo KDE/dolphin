@@ -56,7 +56,7 @@ KDesktopConfig::KDesktopConfig(QWidget *parent, const char * /*name*/)
 {
 
   Q_ASSERT(maxDesktops % 2 == 0);
-	
+
   QVBoxLayout *layout = new QVBoxLayout(this, 0, KDialog::spacingHint());
 
   // number group
@@ -109,7 +109,7 @@ KDesktopConfig::KDesktopConfig(QWidget *parent, const char * /*name*/)
 
   layout->addWidget(name_group);
 
-  _wheelOption = new QCheckBox(i18n("Mouse wheel over desktop switches desktop"), this);
+  _wheelOption = new QCheckBox(i18n("Mouse wheel over desktop background switches desktop"), this);
   connect(_wheelOption,SIGNAL(toggled(bool)),this,SLOT(slotOptionChanged()));
 
   layout->addWidget(_wheelOption);
@@ -165,10 +165,10 @@ void KDesktopConfig::load()
   KConfig *config = new KConfig("kdesktoprc", false, false);
   config->setGroup("Mouse Buttons");
   _wheelOption->setChecked(config->readBoolEntry("WheelSwitchesWorkspace",false));
-  
+
   if (config->entryIsImmutable("WheelSwitchesWorkspace"))
      _wheelOption->setEnabled(false);
-  
+
   delete config;
 }
 
