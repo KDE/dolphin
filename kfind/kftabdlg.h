@@ -65,6 +65,7 @@ public:
   QComboBox   *dirBox;
   // for first page
   QCheckBox   *subdirsCb;
+  QCheckBox *useLocateCb;
   // for third page
   QComboBox *typeBox;
   QLineEdit * textEdit;

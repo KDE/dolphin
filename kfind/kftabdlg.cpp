@@ -13,8 +13,11 @@
 #include <qtooltip.h>
 #include <qcombobox.h>
 #include <qspinbox.h>
+#include <qpushbutton.h>
+#include <qapplication.h>
 
 #include <kcalendarsystem.h>
+#include <kglobal.h>
 #include <kcombobox.h>
 #include <klineedit.h>
 #include <klocale.h>
@@ -22,11 +25,10 @@
 #include <kfiledialog.h>
 #include <kregexpeditorinterface.h>
 #include <kparts/componentfactory.h>
+#include <kstandarddirs.h>
 
 #include "kquery.h"
-#include <qpushbutton.h>
-#include <kglobal.h>
-#include "kftabdlg.moc"
+#include "kftabdlg.h"
 
 // Static utility functions
 static void save_pattern(QComboBox *, const QString &, const QString &);
@@ -65,11 +67,15 @@ KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name)
     subdirsCb  = new QCheckBox(i18n("Include &subdirectories"), pages[0]);
     caseSensCb  = new QCheckBox(i18n("Case s&ensitive search"), pages[0]);
     browseB    = new QPushButton(i18n("&Browse..."), pages[0]);
+    useLocateCb = new QCheckBox(i18n("use files index"), pages[0]);
 
     // Setup
 
     subdirsCb->setChecked(true);
     caseSensCb->setChecked(false);
+    useLocateCb->setChecked(false);
+    if(KStandardDirs::findExe("locate")==NULL)
+    	useLocateCb->setEnabled(false);
 
     nameBox->setDuplicatesEnabled(FALSE);
     nameBox->setFocus();
@@ -99,6 +105,12 @@ KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name)
 	     "</ul></qt>");
     QWhatsThis::add(nameBox,nameWhatsThis);
     QWhatsThis::add(namedL,nameWhatsThis);
+    const QString whatsfileindex
+      = i18n("<qt>This let you to use the files' index created by the <i>slocate</i> "
+	     "package to <i>speed-up</i> search. Don't forget to update the index time to time "
+       "(using <i>updatedb</i>)"
+	     "</qt>");
+    QToolTip::add(useLocateCb,whatsfileindex);
 
     // Layout
 
@@ -116,7 +128,8 @@ KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name)
     subgrid->addWidget( subdirsCb );
     subgrid->addSpacing( KDialog::spacingHint() );
     subgrid->addWidget( caseSensCb);
-    subgrid->addStretch(1);
+    subgrid->addWidget( useLocateCb );
+   subgrid->addStretch(1);
 
     // Signals
 
@@ -143,7 +156,7 @@ KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name)
     betweenType->insertItem(i18n("year(s)"));
     betweenType->setCurrentItem(1);
 
-    QDate dt = KGlobal::locale()->calendar()->addYears(QDate::currentDate(), -1);
+    KGlobal::locale()->calendar()->addYears(QDate::currentDate(), -1);
     fromDate = new KDateCombo(dt, pages[1], "fromDate");
     toDate = new KDateCombo(pages[1], "toDate");
     timeBox = new QSpinBox(1, 60, 1, pages[1], "timeBox");
@@ -461,7 +474,7 @@ void KfindTabWidget::slotSizeBoxChanged(int index)
 
 void KfindTabWidget::setDefaults()
 {
-    QDate dt = KGlobal::locale()->calendar()->addYears(QDate::currentDate(), -1);
+    KGlobal::locale()->calendar()->addYears(QDate::currentDate(), -1);
     fromDate ->setDate(dt);
     toDate ->setDate(QDate::currentDate());
 
@@ -644,6 +657,9 @@ void KfindTabWidget::setQuery(KQuery *query)
   //Metainfo
   query->setMetaInfo(metainfoEdit->text(), metainfokeyEdit->text());
 
+  //Use locate to speed-up search ?
+  query->setUseFileIndex(useLocateCb->isChecked());
+
   query->setContext(textEdit->text(), caseContextCb->isChecked(), regexpContentCb->isChecked());
 }
 
@@ -675,6 +691,8 @@ void KfindTabWidget::getDirectory()
 
 void KfindTabWidget::beginSearch()
 {
+///  dirlister->openURL(KURL(dirBox->currentText().stripWhiteSpace()));
+
   saveHistory();
   setEnabled( FALSE );
 }
@@ -760,3 +778,5 @@ static void save_pattern(QComboBox *obj,
   conf->setGroup(group);
   conf->writeEntry(entry, sl, ',');
 }
+
+#include "kftabdlg.moc"

@@ -4,8 +4,10 @@
 #include <qfileinfo.h>
 #include <kfileitem.h>
 #include <kfilemetainfo.h>
+#include <kmessagebox.h>
+#include <klocale.h>
 
-#include "kquery.moc"
+#include "kquery.h"
 
 KQuery::KQuery(QObject *parent, const char * name)
   : QObject(parent, name),
@@ -14,6 +16,10 @@ KQuery::KQuery(QObject *parent, const char * name)
     job(0)
 {
   m_regexps.setAutoDelete(true);
+  processLocate = new KProcess;
+  connect(processLocate,SIGNAL(receivedStdout(KProcess*, char*, int)),this,SLOT(slotreceivedSdtout(KProcess*,char*,int)));
+  connect(processLocate,SIGNAL(receivedStderr(KProcess*, char*, int)),this,SLOT(slotreceivedSdterr(KProcess*,char*,int)));
+  connect(processLocate,SIGNAL(processExited(KProcess*)),this,SLOT(slotendProcessLocate(KProcess*)));
 }
 
 KQuery::~KQuery()
@@ -28,6 +34,17 @@ void KQuery::kill()
 
 void KQuery::start()
 {
+  if(m_useLocate) //use "locate" instead of the internal search method
+  {
+    processLocate->clearArguments();
+    *processLocate << "locate";
+    *processLocate << m_url.path().latin1();
+    bufferLocate=NULL;
+    bufferLocateLength=0;
+    processLocate->start(KProcess::NotifyOnExit,KProcess::AllOutput);
+    return;
+  }
+
   if (m_recursive)
     job = KIO::listRecursive( m_url, false );
   else
@@ -54,95 +71,123 @@ void KQuery::slotCanceled( KIO::Job * _job )
 
   emit result(KIO::ERR_USER_CANCELED);
 }
+
+/* List of files found using KIO */
 void KQuery::slotListEntries( KIO::Job *, const KIO::UDSEntryList & list)
 {
   KFileItem * file = 0;
-  QRegExp *filename_match;
-  QRegExp metaKeyRx(m_metainfokey,true,true);
-
-  KIO::UDSEntryListConstIterator it = list.begin();
+  metaKeyRx=new QRegExp(m_metainfokey,true,true);
+  KIO::UDSEntryListConstIterator  it = list.begin();
   KIO::UDSEntryListConstIterator end = list.end();
+
   for (; it != end; ++it)
   {
-    delete file;
     file = new KFileItem(*it, m_url, true, true);
+    processQuery(file);
+    delete file;
+  }
 
-    // we don't want this
+  delete metaKeyRx;
+}
+
+/* List of files found using slocate */
+void KQuery::slotListEntries( QStringList  list )
+{
+  KFileItem * file = 0;
+  metaKeyRx=new QRegExp(m_metainfokey,true,true);
+
+  QStringList::Iterator it = list.begin();
+  QStringList::Iterator end = list.end();
+
+  for (; it != end; ++it)
+  {
+    file = new KFileItem( KFileItem::Unknown,  KFileItem::Unknown, KURL(*it));
+    processQuery(file);
+    delete file;
+  }
+
+  delete metaKeyRx;
+}
+
+/* Check if file meets the find's requirements*/
+void KQuery::processQuery( KFileItem* file)
+{
+  QRegExp *filename_match;
+
     if ( file->name() == "." || file->name() == ".." )
-      continue;
-
+      return;
 
     bool matched=false;
-    QValueList<bool>::iterator m_regexpsContainsGlobsIterator = m_regexpsContainsGlobs.begin();
-    for ( filename_match = m_regexps.first(); !matched && filename_match && m_regexpsContainsGlobsIterator != m_regexpsContainsGlobs.end(); filename_match = m_regexps.next(), m_regexpsContainsGlobsIterator++ )
-      {
-          matched = (*m_regexpsContainsGlobsIterator)
-                    ? filename_match->exactMatch( file->url().fileName( true ) )
-                    : filename_match->search(file->url().fileName( true )) > -1;
-      }
+
+    for ( filename_match = m_regexps.first(); !matched && filename_match; filename_match = m_regexps.next() )
+    {
+      matched |=  filename_match->isEmpty()  ||
+                  (filename_match->exactMatch( file->url().fileName( true ) ) );
+    }
     if (!matched)
-      continue;
+      return;
 
     // make sure the files are in the correct range
-    if ( ( m_minsize >= 0 && file->size() < m_minsize ) ||
-	 ( m_maxsize >= 0 && file->size() > m_maxsize ) )
-      continue;
+    if (  ( m_minsize >= 0 && (int)file->size() < m_minsize ) ||
+          ( m_maxsize >= 0 && (int)file->size() > m_maxsize ) )
+      return;
 
     // make sure it's in the correct date range
     // what about 0 times?
     if ( m_timeFrom && m_timeFrom > file->time(KIO::UDS_MODIFICATION_TIME) )
-      continue;
+      return;
     if ( m_timeTo && m_timeTo < file->time(KIO::UDS_MODIFICATION_TIME) )
-      continue;
+      return;
 
     // username / group match
-    if ( (!m_username.isEmpty()) && (m_username != file->user()) )
-       continue;
-    if ( (!m_groupname.isEmpty()) && (m_groupname != file->group()) )
-       continue;
+    if ( (m_username != "") && (m_username != file->user()) )
+       return;
+    if ( (m_groupname != "") && (m_groupname != file->group()) )
+       return;
+
     // file type
     switch (m_filetype)
-      {
+    {
       case 0:
-	break;
+        break;
       case 1: // plain file
-	if ( !S_ISREG( file->mode() ) )
-	  continue;
-	break;
+        if ( !S_ISREG( file->mode() ) )
+          return;
+        break;
       case 2:
         if ( !file->isDir() )
-	  continue;
-	break;
+          return;
+        break;
       case 3:
-	if ( !file->isLink() )
-	  continue;
-	break;
+        if ( !file->isLink() )
+          return;
+        break;
       case 4:
-	if ( !S_ISCHR ( file->mode() ) && !S_ISBLK ( file->mode() ) &&
-	     !S_ISFIFO( file->mode() ) && !S_ISSOCK( file->mode() ) )
-	  continue;
-	break;
+        if ( !S_ISCHR ( file->mode() ) && !S_ISBLK ( file->mode() ) &&
+              !S_ISFIFO( file->mode() ) && !S_ISSOCK( file->mode() ) )
+              return;
+        break;
       case 5: // binary
-	if ( (file->permissions() & 0111) != 0111 || file->isDir() )
-	  continue;
-	break;
+        if ( (file->permissions() & 0111) != 0111 || file->isDir() )
+          return;
+        break;
       case 6: // suid
-	if ( (file->permissions() & 04000) != 04000 ) // ### FIXME
-	  continue;
-	break;
+        if ( (file->permissions() & 04000) != 04000 ) // fixme
+          return;
+        break;
       default:
-	if (!m_mimetype.isEmpty() && m_mimetype != file->mimetype())
-	  continue;
-      }
+        if (!m_mimetype.isEmpty() && m_mimetype != file->mimetype())
+          return;
+    }
 
     // match datas in metainfo...
     if ((!m_metainfo.isEmpty())  && (!m_metainfokey.isEmpty()))
     {
        bool foundmeta=false;
-
        QString filename = file->url().path();
+
        if(filename.startsWith("/dev/"))
-          continue;
+          return;
 
        KFileMetaInfo metadatas(filename);
        KFileMetaInfoItem metaitem;
@@ -150,12 +195,12 @@ void KQuery::slotListEntries( KIO::Job *, const KIO::UDSEntryList & list)
        QString strmetakeycontent;
 
        if(metadatas.isEmpty())
-          continue;
+          return;
 
        metakeys=metadatas.supportedKeys();
        for ( QStringList::Iterator it = metakeys.begin(); it != metakeys.end(); ++it )
        {
-          if (!metaKeyRx.exactMatch(*it))
+          if (!metaKeyRx->exactMatch(*it))
              continue;
           metaitem=metadatas.item(*it);
           strmetakeycontent=metaitem.string();
@@ -166,7 +211,7 @@ void KQuery::slotListEntries( KIO::Job *, const KIO::UDSEntryList & list)
           }
        }
        if (!foundmeta)
-          continue;
+          return;
     }
 
     // match contents...
@@ -178,8 +223,8 @@ void KQuery::slotListEntries( KIO::Job *, const KIO::UDSEntryList & list)
 
        // FIXME: doesn't work with non local files
        QString filename = file->url().path();
-       if(filename.startsWith("/dev/") || S_ISFIFO( file->mode() ))
-          continue;
+       if(filename.startsWith("/dev/"))
+          return;
        QFile qf(filename);
        qf.open(IO_ReadOnly);
        QTextStream stream(&qf);
@@ -208,17 +253,12 @@ void KQuery::slotListEntries( KIO::Job *, const KIO::UDSEntryList & list)
                 break;
              }
           };
-          //            kapp->processEvents();
        }
 
-
        if (!found)
-          continue;
+          return;
     }
     emit addFile(file,matchingLine);
-  }
-
-  delete file;
 }
 
 void KQuery::setContext(const QString & context, bool casesensitive, bool useRegexp)
@@ -297,3 +337,60 @@ void KQuery::setPath(const KURL &url)
   m_url = url;
 }
 
+void KQuery::setUseFileIndex(bool useLocate)
+{
+	m_useLocate=useLocate;
+}
+
+void KQuery::slotreceivedSdterr(KProcess* ,char* str,int)
+{
+  KMessageBox::error(NULL, QString(str), i18n("Error while using locate"));
+}
+
+void KQuery::slotreceivedSdtout(KProcess*,char* str,int l)
+{
+  int i;
+
+  bufferLocateLength+=l; 
+  str[l]='\0';
+  bufferLocate=(char*)realloc(bufferLocate,sizeof(char)*(bufferLocateLength));
+  for (i=0;i<l;i++)
+    bufferLocate[bufferLocateLength-l+i]=str[i];
+}
+
+void KQuery::slotendProcessLocate(KProcess*)
+{
+  QString qstr;
+  QStringList strlist;
+  int i,j,k;
+
+  if((bufferLocateLength==0)||(bufferLocate==NULL))
+  {
+    emit result(0);
+    return;
+  }
+    
+  i=0;
+  do
+  {
+  	j=1;
+  	while(bufferLocate[i]!='\n')
+   {
+   	i++;
+    j++;
+   }
+   qstr="";
+   for(k=0;k<j-1;k++)
+   	qstr.append(bufferLocate[k+i-j+1]);
+   strlist.append(qstr);
+   i++;
+  	
+  }while(i<bufferLocateLength);
+  bufferLocateLength=0;
+  free(bufferLocate);
+  bufferLocate=NULL;
+  slotListEntries(strlist );
+  emit result(0);
+}
+
+#include "kquery.moc"
