@@ -544,55 +544,43 @@ void KEBApp::updateActions() {
 void KEBApp::setActionsEnabled(SelcAbilities sa) {
    KActionCollection * coll = actionCollection();
 
-#define ENABLE(a) coll->action(a)->setEnabled(true);
+   QStringList toEnable;
 
    if (sa.itemSelected) {
-      ENABLE("edit_copy");
-      if (!sa.urlIsEmpty && !sa.group && !sa.separator) {
-         ENABLE("openlink");
-      }
+      toEnable << "edit_copy";
+      if (!sa.urlIsEmpty && !sa.group && !sa.separator)
+         toEnable << "openlink";
    }
 
    if (!m_readOnly) {
-      if (sa.notEmpty) {
-         ENABLE("testall");
-         ENABLE("updateallfavicons");
-      }
+      if (sa.notEmpty)
+         toEnable << "testall" << "updateallfavicons";
 
       if (sa.itemSelected) {
-         if (!sa.root) {
-            ENABLE("delete");
-            ENABLE("edit_cut");
-         }
-         if (m_canPaste) {
-            ENABLE("edit_paste");
-         }
-         if (!sa.separator) {
-            ENABLE("testlink");
-            ENABLE("updatefavicon");
-         }
+         if (!sa.root)
+            toEnable << "delete" << "edit_cut";
+         if (m_canPaste)
+            toEnable << "edit_paste";
+         if (!sa.separator)
+            toEnable << "testlink" << "updatefavicon";
       }
 
       if (sa.singleSelect && !sa.root && !sa.separator) {
-         ENABLE("rename");
-         ENABLE("changeicon");
-         ENABLE("changecomment");
-         if (!sa.group) {
-            ENABLE("changeurl");
-         }
+         toEnable << "rename" << "changeicon" << "changecomment";
+         if (!sa.group)
+            toEnable << "changeurl";
       }
 
       if (!sa.multiSelect) {
-         ENABLE("newfolder");
-         ENABLE("newbookmark");
-         ENABLE("insertseparator");
-         if (sa.group) {
-            ENABLE("sort");
-            ENABLE("recursivesort");
-            ENABLE("setastoolbar");
-         }
+         toEnable << "newfolder" << "newbookmark" << "insertseparator";
+         if (sa.group)
+            toEnable << "sort" << "recursivesort" << "setastoolbar";
       }
    }
+
+   for ( QStringList::Iterator it = toEnable.begin(); 
+         it != toEnable.end(); ++it )
+      coll->action((*it).ascii())->setEnabled(true);
 }
 
 void KEBApp::setCancelFavIconUpdatesEnabled(bool enabled) {
