@@ -604,7 +604,7 @@ void KonqIconViewWidget::slotSelectionChanged()
 
     emit enableAction( "cut", cutcopy );
     emit enableAction( "copy", cutcopy );
-    emit enableAction( "trash", del && !bInTrash );
+    emit enableAction( "trash", del && !bInTrash && m_url.isLocalFile() );
     emit enableAction( "del", del );
     emit enableAction( "shred", del );
 
@@ -733,6 +733,7 @@ void KonqIconViewWidget::contentsDropEvent( QDropEvent * ev )
     KIconView::contentsDropEvent( ev );
     emit dropped(); // What is this for ? (David)
   }
+  slotSaveIconPositions();
 }
 
 void KonqIconViewWidget::contentsMousePressEvent( QMouseEvent *e )
