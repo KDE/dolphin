@@ -440,26 +440,7 @@ void KonqPopupMenu::slotPopupNewView()
 
 void KonqPopupMenu::slotPopupEmptyTrashBin()
 {
-  QDir trashDir( KGlobalSettings::trashPath() );
-  QStringList files = trashDir.entryList( QDir::Files && QDir::Dirs );
-  files.remove(QString("."));
-  files.remove(QString(".."));
-
-  QStringList::Iterator it(files.begin());
-  for (; it != files.end(); ++it )
-  {
-    (*it).prepend( KGlobalSettings::trashPath() );
-  }
-
-  KIO::Job *job = KIO::del( files );
-  connect( job, SIGNAL( result( KIO::Job * ) ),
-           SLOT( slotResult( KIO::Job * ) ) );
-}
-
-void KonqPopupMenu::slotResult( KIO::Job * job )
-{
-  if (job->error())
-    job->showErrorDialog();
+  KonqOperations::emptyTrash(); 
 }
 
 void KonqPopupMenu::slotPopupOpenWith()

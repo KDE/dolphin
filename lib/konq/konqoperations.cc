@@ -25,6 +25,7 @@
 
 // For doDrop
 #include <qpopupmenu.h>
+#include <qdir.h>
 #include <kio/paste.h>
 #include <kio/job.h>
 #include <klocale.h>
@@ -37,6 +38,12 @@
 #include <unistd.h>
 #include <kglobalsettings.h>
 #include <X11/Xlib.h>
+
+KonqOperations::KonqOperations( QWidget *parent )
+: QObject( parent, "KonqOperations" )
+{
+  m_bSkipConfirmation = false;
+} 
 
 void KonqOperations::editMimeType( const QString & mimeType )
 {
@@ -61,9 +68,34 @@ void KonqOperations::del( QWidget * parent, int method, const KURL::List & selec
   op->_del( method, selectedURLs );
 }
 
+void KonqOperations::emptyTrash()
+{
+  KonqOperations *op = new KonqOperations( 0L );;
+  op->m_bSkipConfirmation = true;
+  
+  QDir trashDir( KGlobalSettings::trashPath() );
+  QStringList files = trashDir.entryList( QDir::Files && QDir::Dirs );
+  files.remove(QString("."));
+  files.remove(QString(".."));
+
+  QStringList::Iterator it(files.begin());
+  for (; it != files.end(); ++it )
+  {
+    (*it).prepend( KGlobalSettings::trashPath() );
+  }
+
+  KURL::List urls;
+  it = files.begin();
+  for (; it != files.end(); ++it )
+    urls.append( *it );
+  
+  op->_del( DEL, urls );
+} 
+
 void KonqOperations::_del( int method, const KURL::List & selectedURLs )
 {
-  if (askDeleteConfirmation( selectedURLs ))
+  if ( ( !m_bSkipConfirmation && askDeleteConfirmation( selectedURLs ) ) 
+       || m_bSkipConfirmation )
   {
     switch( method )
     {

@@ -34,7 +34,7 @@ class KonqOperations : public QObject
 {
     Q_OBJECT
 protected:
-    KonqOperations( QWidget * parent ) : QObject(parent,"KonqOperations") {}
+    KonqOperations( QWidget * parent );
     virtual ~KonqOperations() {}
 
 public:
@@ -54,6 +54,8 @@ public:
      */
     static void doDrop( const KonqFileItem * destItem, QDropEvent * ev, QObject * receiver );
 
+    static void emptyTrash();
+
 protected:
     bool askDeleteConfirmation( const KURL::List & selectedURLs );
     void _del( int method, const KURL::List & selectedURLs );
@@ -61,6 +63,9 @@ protected:
 protected slots:
 
     void slotResult( KIO::Job * job );
+
+private:
+    bool m_bSkipConfirmation;
 };
 
 #endif

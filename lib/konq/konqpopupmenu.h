@@ -91,9 +91,6 @@ public slots:
   void slotPopupMimeType();
   void slotPopupProperties();
 
-protected slots:
-  void slotResult( KIO::Job * );
-
 protected:
   void prepareXMLGUIStuff();
   void addAction( KAction *action, const QDomElement &menu = QDomElement() );
