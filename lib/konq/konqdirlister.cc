@@ -24,7 +24,6 @@
 KonqDirLister::KonqDirLister( bool _delayedMimeTypes )
   : KDirLister( _delayedMimeTypes )
 {
-  //m_bKofficeDocs = false;
 }
 
 KonqDirLister::~KonqDirLister()
@@ -36,16 +35,6 @@ KFileItem * KonqDirLister::createFileItem( const KIO::UDSEntry& entry,
 					   bool determineMimeTypeOnDemand,
 					   bool isDirectory )
 {
-    /*
-       // Detect koffice files
-       QString mimeType = item->name();
-       if ( mimeType.left(15) == "application/x-k" )
-       {
-       // Currently this matches all koffice mimetypes
-       // To be changed later on if anybody else uses a x-k* mimetype
-       m_bKofficeDocs = true;
-       }
-    */
     return new KonqFileItem( entry, url, determineMimeTypeOnDemand, isDirectory );
 }
 
