@@ -1,5 +1,6 @@
 [Desktop Entry]
 Name=Network
+Name[bg]=Ìðåæà
 Name[ca]=Xarxa
 Name[cs]=Síť
 Name[da]=Netværk
@@ -10,6 +11,7 @@ Name[es]=Red
 Name[et]=Võrk
 Name[fi]=Verkko
 Name[fr]=Réseau
+Name[gl]=Rede
 Name[he]=תשר
 Name[hr]=Mreža
 Name[hu]=Hálózat
