@@ -312,7 +312,15 @@ void KonqOperations::asyncDrop( const KFileItem * destItem )
     {
         QDropEvent::Action action = QDropEvent::Copy;
         if ( dest.path( 1 ) == KGlobalSettings::trashPath() )
-            action = QDropEvent::Move;
+        {
+            if ( askDeleteConfirmation( lst, DEFAULT_CONFIRMATION ) )
+                action = QDropEvent::Move;
+            else
+            {
+                delete this;
+                return;
+            }
+        }
         else if ( ((m_info->keybstate & ControlMask) == 0) && ((m_info->keybstate & ShiftMask) == 0) )
         {
             KonqIconViewWidget *iconView = dynamic_cast<KonqIconViewWidget*>(parent());
