@@ -1,6 +1,7 @@
 <!DOCTYPE kpartgui><kpartgui name="Konqueror">
 <MenuBar>
  <Menu name="file"><text>&amp;Location</text>
+  <Action name="new_window"/>
   <Action name="open_location"/>
   <Separator/>
   <Action name="close"/>
@@ -78,7 +79,6 @@
   </Menu>
  </Menu>
  <Menu name="window"><text>&amp;Window</text>
-  <Action name="new_window"/>
   <Action name="splitviewh"/>
   <Action name="splitviewv"/>
   <Action name="splitwindowh"/>
