@@ -18,6 +18,7 @@
 */
 
 #include "konqsidebarplugin.moc"
+#include "konqsidebariface_p.h"
 #include <kdebug.h>
 
 
@@ -48,3 +49,11 @@ void KonqSidebarPlugin::handlePreview(const KFileItemList & /*items*/) {}
 
 void KonqSidebarPlugin::handlePreviewOnMouseOver(const KFileItem& /*items*/) {}
 
+
+bool KonqSidebarPlugin::universalMode() {
+	if (!parent()) return false;
+	KonqSidebarIface *ksi=static_cast<KonqSidebarIface*>(parent()->qt_cast("KonqSidebarIface"));
+	if (!ksi) return false;
+	kdDebug()<<"calling KonqSidebarIface->universalMode()"<<endl;
+	return ksi->universalMode();
+}

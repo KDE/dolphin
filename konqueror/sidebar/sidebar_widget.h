@@ -29,22 +29,23 @@
 #include <kmultitabbar.h>
 
 #include "konqsidebarplugin.h"
+#include "konqsidebariface_p.h"
 
 class KDockWidget;
 class QHBoxLayout;
 class QSplitter;
 class QStringList;
 
-class ButtonInfo: public QObject
+class ButtonInfo: public QObject, public KonqSidebarIface
 {
 	Q_OBJECT
 public:
-	ButtonInfo(const QString& file_, class KDockWidget *dock_,
+	ButtonInfo(const QString& file_, class KonqSidebarIface *part, class KDockWidget *dock_,
 			const QString &url_,const QString &lib,
 			const QString &dispName_, const QString &iconName_,
 			QObject *parent)
 		: QObject(parent), file(file_), dock(dock_), URL(url_),
-		libName(lib), displayName(dispName_), iconName(iconName_)
+		libName(lib), displayName(dispName_), iconName(iconName_), m_part(part)
 		{
 		copy = cut = paste = trash = del = shred = rename =false;
 		}
@@ -65,6 +66,8 @@ public:
 	bool del;
 	bool shred;
         bool rename;
+        KonqSidebarIface *m_part;
+	virtual bool universalMode() {return m_part->universalMode();}
 };
 
 

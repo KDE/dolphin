@@ -738,7 +738,7 @@ bool Sidebar_Widget::addButton(const QString &desktoppath,int pos)
 	if (pos == -1)
 	{
 	  	m_buttonBar->appendTab(SmallIcon(icon), lastbtn, name);
-		ButtonInfo *bi = new ButtonInfo(desktoppath, 0, url, lib, name,
+		ButtonInfo *bi = new ButtonInfo(desktoppath, ((KonqSidebar*)m_partParent),0, url, lib, name,
 						icon, this);
 		/*int id=*/m_buttons.insert(lastbtn, bi);
 		KMultiTabBarTab *tab = m_buttonBar->tab(lastbtn);

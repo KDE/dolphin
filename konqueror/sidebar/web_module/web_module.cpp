@@ -30,7 +30,7 @@
 KonqSideBarWebModule::KonqSideBarWebModule(KInstance *instance, QObject *parent, QWidget *widgetParent, QString &desktopName, const char* name)
 	: KonqSidebarPlugin(instance, parent, widgetParent, desktopName, name)
 {
-	_htmlPart = new KHTMLSideBar;
+	_htmlPart = new KHTMLSideBar(universalMode());
 	connect(_htmlPart, SIGNAL(reload()), this, SLOT(reload()));
 	connect(_htmlPart, SIGNAL(completed()), this, SLOT(pageLoaded()));
 	connect(_htmlPart,

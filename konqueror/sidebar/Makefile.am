@@ -9,7 +9,7 @@ SUBDIRS = . trees web_module
 INCLUDES = -I$(top_srcdir)/libkonq -I$(top_srcdir)/kate/lib $(all_includes)
 
 # these are the headers for your project
-noinst_HEADERS = konqsidebar.h sidebar_widget.h
+noinst_HEADERS = konqsidebar.h sidebar_widget.h konqsidebariface_p.h
 
 include_HEADERS = konqsidebarplugin.h
 

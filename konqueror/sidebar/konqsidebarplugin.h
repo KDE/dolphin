@@ -56,6 +56,9 @@ class KonqSidebarPlugin : public QObject
 		void setIcon(const QString& icon);
 		void setCaption(const QString& caption);
 
+
+	protected:
+		bool universalMode();
 	public slots:
 	  void openURL(const KURL& url);
 

@@ -15,6 +15,7 @@
  *                                                                         *
  ***************************************************************************/
 #include "konqsidebar.h"
+#include "konqsidebariface_p.h"
 
 #include <konq_events.h>
 #include <kdebug.h>
@@ -22,7 +23,7 @@
 
 KonqSidebar::KonqSidebar( QWidget *parentWidget, const char *widgetName,
                           QObject *parent, const char *name, bool universalMode )
-: KParts::ReadOnlyPart(parent, name)
+: KParts::ReadOnlyPart(parent, name),KonqSidebarIface()
 {
 	// we need an instance
 	setInstance( KonqSidebarFactory::instance() );

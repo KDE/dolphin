@@ -32,7 +32,7 @@ class KHTMLSideBar : public KHTMLPart
 {
 	Q_OBJECT
 	public:
-		KHTMLSideBar() : KHTMLPart() {
+		KHTMLSideBar(bool universal) : KHTMLPart() {
 			setStatusMessagesEnabled(false);
 			setMetaRefreshEnabled(true);
 			setJavaEnabled(false);
@@ -45,13 +45,18 @@ class KHTMLSideBar : public KHTMLPart
 				SLOT(formProxy(const char*,const QString&,const QByteArray&,const QString&,const QString&,const QString&))
 				);
 
+
 			_linkMenu = new KPopupMenu(widget(),
 					"link context menu");
-			_linkMenu->insertItem(i18n("&Open Link"),
-					this, SLOT(loadPage()));
-			_linkMenu->insertItem(i18n("Open in New &Window"),
-					this, SLOT(loadNewWindow()));
-
+			if (!universal) {
+				_linkMenu->insertItem(i18n("&Open Link"),
+						this, SLOT(loadPage()));
+				_linkMenu->insertItem(i18n("Open in New &Window"),
+						this, SLOT(loadNewWindow()));
+			} else {
+				_linkMenu->insertItem(i18n("Open in New &Window"),
+						this, SLOT(loadPage()));
+			}
 			_menu = new KPopupMenu(widget(), "context menu");
 			_menu->insertItem(SmallIcon("reload"), i18n("&Reload"),
 					this, SIGNAL(reload()));

@@ -23,6 +23,7 @@
 #include <kparts/browserextension.h>
 #include <qguardedptr.h>
 #include "sidebar_widget.h"
+#include "konqsidebariface_p.h"
 
 class QWidget;
 class QPainter;
@@ -69,7 +70,7 @@ class KonqSidebarBrowserExtension : public KParts::BrowserExtension
  * @author Joseph WENNINGER <jowenn@bigfoot.com>
  * @version 0.1
  */
-class KonqSidebar : public KParts::ReadOnlyPart
+class KonqSidebar : public KParts::ReadOnlyPart, public KonqSidebarIface
 {
     Q_OBJECT
 public:
@@ -88,7 +89,7 @@ public:
     KonqSidebarBrowserExtension* extension() const
        { return m_extension; }
     KInstance *getInstance();
-    bool universalMode() {return m_universalMode;}
+    virtual bool universalMode() {return m_universalMode;}
 protected:
     /**
      * This must be implemented by each part
