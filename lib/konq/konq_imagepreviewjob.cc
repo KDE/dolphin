@@ -59,7 +59,7 @@ KonqImagePreviewJob::KonqImagePreviewJob( KonqIconViewWidget * iconView,
   m_shmid = -1;
   m_shmaddr = 0;
   // shift into the upper 8 bits, so we can use it as alpha-channel in QImage
-  m_transparency = (transparency << 24) | 0x00ffffff;
+  m_transparency = transparency;
 
   // Load the list of plugins to determine which mimetypes are supported
   KTrader::OfferList plugins = KTrader::self()->query("ThumbCreator");
@@ -456,8 +456,9 @@ void KonqImagePreviewJob::createThumbnail( QString pixPath )
     job->addMetaData("mimeType", m_currentItem->item()->mimetype());
     job->addMetaData("iconSize", QString().setNum(m_iconView->iconSize() ?
         m_iconView->iconSize() : KGlobal::iconLoader()->currentSize(KIcon::Desktop)));
-    job->addMetaData("extent", QString().setNum(m_extent));
-    job->addMetaData("transparency", QString().setNum(m_transparency));
+    job->addMetaData("width", QString().setNum(m_extent));
+    job->addMetaData("height", QString().setNum(m_extent));
+    job->addMetaData("iconAlpha", QString().setNum(m_transparency));
     job->addMetaData("plugin", m_currentItem->thumbnailName());
     if (m_shmid == -1
 #ifdef TIME_PREVIEW
