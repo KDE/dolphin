@@ -53,7 +53,7 @@ typedef struct DirTreeConfigData_
 class KonqSidebarTreeToolTip : public QToolTip
 {
 public:
-    KonqSidebarTreeToolTip( QListView *view ) : QToolTip( view ), m_view( view ) {}
+    KonqSidebarTreeToolTip( QListView *view ) : QToolTip( view->viewport() ), m_view( view ) {}
 
 protected:
     virtual void maybeTip( const QPoint & );
