@@ -254,7 +254,10 @@ void scanDirectory( QString dir, QStringList &mimeInfoList,
         // ignore crashing libs
         if ( files[i]=="librvplayer.so" ||      // RealPlayer 5
              files[i]=="libnullplugin.so" ||    // Netscape Default Plugin
-             files[i]=="cult3dplugin.so" )      // Cult 3d plugin
+             files[i]=="cult3dplugin.so" ||     // Cult 3d plugin
+             files[i].right(4) == ".jar" ||     // Java archive
+             files[i].right(6) == ".class"        // Java class
+            )     
             continue;
 
         // get absolute file path
@@ -264,6 +267,7 @@ void scanDirectory( QString dir, QStringList &mimeInfoList,
         // open the library and ask for the mimetype
         kdDebug(1433) << " - opening " << absFile << endl;
         
+        cache.device()->flush();
         // fork, so that a crash in the plugin won't stop the scanning of other plugins
         int pipes[2];
         if (pipe(pipes) != 0) continue;
