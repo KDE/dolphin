@@ -99,6 +99,9 @@ public:
   void openPluginView( const char *url, const QString serviceType, Konqueror::View_ptr view );
   void openText( const char *url );
   
+  // For Child View
+  QString * getServiceType( QString viewName ) { return m_dctServiceTypes[viewName]; }
+
   ////////////////////
   /// Overloaded functions of KBookmarkOwner
   ////////////////////
@@ -125,6 +128,7 @@ public slots:
   virtual void slotSplitView();
   virtual void slotRowAbove();
   virtual void slotRowBelow();
+  virtual void slotRemoveView();
   virtual void slotShowDot();
   virtual void slotLargeIcons();
   virtual void slotSmallIcons();
@@ -194,23 +198,11 @@ protected:
   void initView();
 
   /**
-   * Changes the view mode of the current view, if different from viewName
-   */
-  void changeViewMode( const char *viewName );
-  /**
-   * Create a view
-   * @param viewName the type of view to be created (e.g. "KonqKfmIconView") 
-   */
-  Konqueror::View_ptr createViewByName( const char *viewName );
-  /**
    * Create a new view from the current view (same URL, same view type) 
    */
   void splitView ( Konqueror::NewViewPosition newViewPosition );
-  /**
-   * Connects a view to the mainview. Do this after creating it and before inserting it
-   */
-  void connectView( Konqueror::View_ptr view );
-  
+
+ void changeViewMode( const char *viewName ) ; 
   /**
    * Enable or disable the "up" button (and the menu item) depending
    * on the parameter, _url */

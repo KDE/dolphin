@@ -19,6 +19,14 @@
 
 #include "konq_childview.h"
 #include "konq_frame.h"
+#include "konq_partview.h"
+#include "konq_iconview.h"
+#include "konq_treeview.h"
+#include "konq_txtview.h"
+#include "konq_htmlview.h"
+#include "konq_mainview.h"
+#include "konq_plugins.h"
+
 #include <qsplitter.h>
 
 /*
@@ -40,7 +48,11 @@ void VeryBadHackToFixCORBARefCntBug( CORBA::Object_ptr obj )
 
 KonqChildView::KonqChildView( Konqueror::View_ptr view, 
                               Row * row, 
-                              Konqueror::NewViewPosition newViewPosition )
+                              Konqueror::NewViewPosition newViewPosition,
+                              OpenParts::Part_ptr parent,
+                              OpenParts::MainWindow_ptr mainWindow,
+                              KonqMainView * mainView
+                              )
 {
   m_pFrame = new KonqFrame( row );
   m_bCompleted = false;
@@ -49,6 +61,9 @@ KonqChildView::KonqChildView( Konqueror::View_ptr view,
   m_bBack = false;
   m_bForward = false;
   m_iHistoryLock = 0;
+  m_vParent = OpenParts::Part::_duplicate( parent );
+  m_vMainWindow = OpenParts::MainWindow::_duplicate( mainWindow );
+  m_mainView = mainView;
 
   if (newViewPosition == Konqueror::left)
     m_row->moveToFirst( m_pFrame );
@@ -66,6 +81,9 @@ KonqChildView::~KonqChildView()
 void KonqChildView::attach( Konqueror::View_ptr view )
 {
   m_vView = Konqueror::View::_duplicate( view );
+  m_vView->setMainWindow( m_vMainWindow );
+  m_vView->setParent( m_vParent );
+  connectView( );
   m_pFrame->attach( view );
   m_pFrame->show();
 }
@@ -82,6 +100,131 @@ void KonqChildView::detach()
 void KonqChildView::repaint()
 {
   m_pFrame->repaint();
+}
+
+int KonqChildView::changeViewMode( const char *viewName )
+{
+  CORBA::String_var sViewURL = m_vView->url();
+
+  detach();
+  Konqueror::View_var vView = KonqChildView::createViewByName( viewName );
+  attach( vView );
+
+  Konqueror::EventOpenURL eventURL;
+  eventURL.url = CORBA::string_dup( sViewURL.in() );
+  eventURL.reload = (CORBA::Boolean)false;
+  eventURL.xOffset = 0;
+  eventURL.yOffset = 0;
+  EMIT_EVENT( vView, Konqueror::eventOpenURL, eventURL );
+  return vView->id();
+}
+
+Konqueror::View_ptr KonqChildView::createViewByName( const char *viewName )
+{
+  Konqueror::View_var vView;
+
+  cerr << "void KonqChildView::createViewByName( " << viewName << " )" << endl;
+
+  //check for builtin views
+  if ( strcmp( viewName, "KonquerorKfmIconView" ) == 0 )
+  {
+    vView = Konqueror::View::_duplicate( new KonqKfmIconView );
+  }
+  else if ( strcmp( viewName, "KonquerorKfmTreeView" ) == 0 )
+  {
+    vView = Konqueror::View::_duplicate( new KonqKfmTreeView );
+  }
+  else if ( strcmp( viewName, "KonquerorHTMLView" ) == 0 )
+  {
+    vView = Konqueror::View::_duplicate( new KonqHTMLView );
+  }
+  else if ( strcmp( viewName, "KonquerorPartView" ) == 0 )
+  {
+    vView = Konqueror::View::_duplicate( new KonqPartView );
+  }
+  else if ( strcmp( viewName, "KonquerorTxtView" ) == 0 )
+  {
+    vView = Konqueror::View::_duplicate( new KonqTxtView );
+  }
+  else
+  {
+    QString *serviceType = m_mainView->getServiceType( viewName );
+    assert( !serviceType->isNull() );
+    
+    assert( KonqPlugins::isPluginServiceType( *serviceType ) );
+    
+    CORBA::Object_var obj = KonqPlugins::lookupServer( *serviceType, KonqPlugins::View );
+    assert( !CORBA::is_nil( obj ) );
+    
+    Konqueror::ViewFactory_var factory = Konqueror::ViewFactory::_narrow( obj );
+    assert( !CORBA::is_nil( obj ) );
+    
+    vView = Konqueror::View::_duplicate( factory->create() );
+    assert( !CORBA::is_nil( vView ) );
+  }
+  
+  return Konqueror::View::_duplicate( vView );
+}
+
+void KonqChildView::connectView(  )
+{
+  try
+  {
+    m_vView->connect("openURL", m_mainView, "openURL");
+  }
+  catch ( ... )
+  {
+    cerr << "WARNING: view does not know signal ""openURL"" " << endl;
+  }
+  try
+  {
+    m_vView->connect("started", m_mainView, "slotURLStarted");
+  }
+  catch ( ... )
+  {
+    cerr << "WARNING: view does not know signal ""started"" " << endl;
+  }
+  try
+  {
+    m_vView->connect("completed", m_mainView, "slotURLCompleted");
+  }
+  catch ( ... )
+  {
+    cerr << "WARNING: view does not know signal ""completed"" " << endl;
+  }
+  try
+  {
+    m_vView->connect("setStatusBarText", m_mainView, "setStatusBarText");
+  }
+  catch ( ... )
+  {
+    cerr << "WARNING: view does not know signal ""setStatusBarText"" " << endl;
+  }
+  try
+  {
+    m_vView->connect("setLocationBarURL", m_mainView, "setLocationBarURL");
+  }
+  catch ( ... )
+  {
+    cerr << "WARNING: view does not know signal ""setLocationBarURL"" " << endl;
+  }
+  try
+  {
+    m_vView->connect("createNewWindow", m_mainView, "createNewWindow");
+  }
+  catch ( ... )
+  {
+    cerr << "WARNING: view does not know signal ""createNewWindow"" " << endl;
+  }
+  try
+  {
+    m_vView->connect("popupMenu", m_mainView, "popupMenu");
+  }
+  catch ( ... )
+  {
+    cerr << "WARNING: view does not know signal ""popupMenu"" " << endl;
+  }
+
 }
 
 #include "konq_childview.moc"

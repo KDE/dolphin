@@ -226,6 +226,7 @@ module Konqueror
     slot void slotSplitView();
     slot void slotRowAbove();
     slot void slotRowBelow();
+    slot void slotRemoveView();
     slot void slotShowDot();
     slot void slotLargeIcons();
     slot void slotSmallIcons();

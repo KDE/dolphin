@@ -74,7 +74,7 @@ enum _ids {
     MEDIT_MIMETYPES_ID, MEDIT_APPLICATIONS_ID, // later, add global mimetypes and apps here
     MEDIT_SAVEGEOMETRY_ID,
 
-    MVIEW_SPLITWINDOW_ID, MVIEW_ROWABOVE_ID, MVIEW_ROWBELOW_ID,
+    MVIEW_SPLITWINDOW_ID, MVIEW_ROWABOVE_ID, MVIEW_ROWBELOW_ID, MVIEW_REMOVEVIEW_ID, 
     MVIEW_SHOWDOT_ID, MVIEW_SHOWHTML_ID,
     MVIEW_LARGEICONS_ID, MVIEW_SMALLICONS_ID, MVIEW_TREEVIEW_ID, 
     MVIEW_RELOAD_ID, MVIEW_STOPLOADING_ID,
@@ -472,7 +472,7 @@ void KonqMainView::insertView( Konqueror::View_ptr view,
 {
   Row * currentRow;
   if ( m_currentView )
-    currentRow = m_currentView->m_row;
+    currentRow = m_currentView->getRow();
   else // complete beginning, we don't even have a view
     currentRow = m_lstRows.first();
 
@@ -485,7 +485,8 @@ void KonqMainView::insertView( Konqueror::View_ptr view,
     newViewPosition = Konqueror::right;
   }
 
-  KonqChildView *v = new KonqChildView( view, currentRow, newViewPosition );
+  KonqChildView *v = new KonqChildView( view, currentRow, newViewPosition,
+                                        this, m_vMainWindow, this );
 
   m_mapViews[ view->id() ] = v;
 
@@ -564,7 +565,7 @@ void KonqMainView::removeView( OpenParts::Id id )
       m_vMainWindow->setActivePart( this->id() );
       
     it->second->m_vView->disconnectObject( this );
-    // delete it->second; done by erase, right ?
+    delete it->second;
     m_mapViews.erase( it );
   }
 }
@@ -577,9 +578,6 @@ void KonqMainView::changeViewMode( const char *viewName )
   // check the current view name against the asked one
   if ( strcmp( viewName, vn.in() ) != 0L )
   {
-    Konqueror::View_var vView = createViewByName( viewName );
-    connectView( vView );
-
     m_mapViews.erase( m_currentView->m_vView->id() );
     
     m_vMainWindow->setActivePart( id() );
@@ -591,61 +589,12 @@ void KonqMainView::changeViewMode( const char *viewName )
     
     m_currentView->m_vView->disconnectObject( this );
     OPPartIf::removeChild( m_currentView->m_vView );
-    m_currentView->detach();
-    m_currentView->attach( vView );
-    
-    m_currentId = vView->id();
-    m_mapViews[ vView->id() ] = m_currentView;
+
+    m_currentId = m_currentView->changeViewMode( viewName );
+    m_mapViews[ m_currentId ] = m_currentView;
     
     m_vMainWindow->setActivePart( m_currentId );
   }
-}
-
-Konqueror::View_ptr KonqMainView::createViewByName( const char *viewName )
-{
-  Konqueror::View_var vView;
-
-  cerr << "void KonqMainView::createViewByName( " << viewName << " )" << endl;
-
-  //check for builtin views
-  if ( strcmp( viewName, "KonquerorKfmIconView" ) == 0 )
-  {
-    vView = Konqueror::View::_duplicate( new KonqKfmIconView );
-  }
-  else if ( strcmp( viewName, "KonquerorKfmTreeView" ) == 0 )
-  {
-    vView = Konqueror::View::_duplicate( new KonqKfmTreeView );
-  }
-  else if ( strcmp( viewName, "KonquerorHTMLView" ) == 0 )
-  {
-    vView = Konqueror::View::_duplicate( new KonqHTMLView );
-  }
-  else if ( strcmp( viewName, "KonquerorPartView" ) == 0 )
-  {
-    vView = Konqueror::View::_duplicate( new KonqPartView );
-  }
-  else if ( strcmp( viewName, "KonquerorTxtView" ) == 0 )
-  {
-    vView = Konqueror::View::_duplicate( new KonqTxtView );
-  }
-  else
-  {
-    QString *serviceType = m_dctServiceTypes[ QString(viewName) ];
-    assert( !serviceType->isNull() );
-    
-    assert( KonqPlugins::isPluginServiceType( *serviceType ) );
-    
-    CORBA::Object_var obj = KonqPlugins::lookupServer( *serviceType, KonqPlugins::View );
-    assert( !CORBA::is_nil( obj ) );
-    
-    Konqueror::ViewFactory_var factory = Konqueror::ViewFactory::_narrow( obj );
-    assert( !CORBA::is_nil( obj ) );
-    
-    vView = Konqueror::View::_duplicate( factory->create() );
-    assert( !CORBA::is_nil( vView ) );
-  }
-  
-  return Konqueror::View::_duplicate( vView );
 }
 
 void KonqMainView::makeHistory( KonqChildView *v )
@@ -1079,9 +1028,7 @@ void KonqMainView::openDirectory( const char *url )
 {
   m_pRun = 0L;
 
-  CORBA::String_var viewName = m_currentView->m_vView->viewName();
-  if ( strcmp( viewName.in(), "KonquerorKfmIconView" ) != 0 )
-    changeViewMode( "KonquerorKfmIconView" );  
+  changeViewMode( "KonquerorKfmIconView" );  
 
   createViewMenu();
 
@@ -1111,9 +1058,7 @@ void KonqMainView::openHTML( const char *url )
 {
   m_pRun = 0L;
   
-  CORBA::String_var viewName = m_currentView->m_vView->viewName();
-  if ( strcmp( viewName.in(), "KonquerorHTMLView" ) != 0 )
-    changeViewMode( "KonquerorHTMLView" );
+  changeViewMode( "KonquerorHTMLView" );
 
   // createViewMenu();
 
@@ -1151,9 +1096,8 @@ void KonqMainView::openPluginView( const char *url, const QString serviceType, K
   m_currentView->m_vView->disconnectObject( this );
   OPPartIf::removeChild( m_currentView->m_vView );
   m_currentView->detach();
-
-  connectView( vView );
   m_currentView->attach( vView );
+
   m_currentId = vView->id();
 
   m_mapViews[ vView->id() ] = m_currentView;
@@ -1173,9 +1117,7 @@ void KonqMainView::openText( const char *url )
 {
   m_pRun = 0L;
   
-  CORBA::String_var viewName = m_currentView->m_vView->viewName();
-  if ( strcmp( viewName.in(), "KonquerorTxtView" ) != 0 )
-    changeViewMode( "KonquerorTxtView" );
+  changeViewMode( "KonquerorTxtView" );
 
   // createViewMenu();
 
@@ -1189,81 +1131,13 @@ void KonqMainView::openText( const char *url )
   EMIT_EVENT( m_currentView->m_vView, Konqueror::eventOpenURL, eventURL );
 }
 
-void KonqMainView::connectView( Konqueror::View_ptr view )
-{
-  Konqueror::View_var vView = Konqueror::View::_duplicate( view );
-
-  vView->incRef();
-  vView->setMainWindow( m_vMainWindow );
-  vView->setParent( this );
-
-  try
-  {
-    vView->connect("openURL", this, "openURL");
-  }
-  catch ( ... )
-  {
-    cerr << "WARNING: view does not know signal ""openURL"" " << endl;
-  }
-  try
-  {
-    vView->connect("started", this, "slotURLStarted");
-  }
-  catch ( ... )
-  {
-    cerr << "WARNING: view does not know signal ""started"" " << endl;
-  }
-  try
-  {
-    vView->connect("completed", this, "slotURLCompleted");
-  }
-  catch ( ... )
-  {
-    cerr << "WARNING: view does not know signal ""completed"" " << endl;
-  }
-  try
-  {
-    vView->connect("setStatusBarText", this, "setStatusBarText");
-  }
-  catch ( ... )
-  {
-    cerr << "WARNING: view does not know signal ""setStatusBarText"" " << endl;
-  }
-  try
-  {
-    vView->connect("setLocationBarURL", this, "setLocationBarURL");
-  }
-  catch ( ... )
-  {
-    cerr << "WARNING: view does not know signal ""setLocationBarURL"" " << endl;
-  }
-  try
-  {
-    vView->connect("createNewWindow", this, "createNewWindow");
-  }
-  catch ( ... )
-  {
-    cerr << "WARNING: view does not know signal ""createNewWindow"" " << endl;
-  }
-  try
-  {
-    vView->connect("popupMenu", this, "popupMenu");
-  }
-  catch ( ... )
-  {
-    cerr << "WARNING: view does not know signal ""popupMenu"" " << endl;
-  }
-
-}
-
 // protected
 void KonqMainView::splitView ( Konqueror::NewViewPosition newViewPosition )
 {
   CORBA::String_var url = m_currentView->m_vView->url();
   CORBA::String_var viewName = m_currentView->m_vView->viewName();
 
-  Konqueror::View_var vView = createViewByName( viewName.in() );
-  connectView( vView );
+  Konqueror::View_var vView = m_currentView->createViewByName( viewName.in() );
   insertView( vView, newViewPosition );
   
   setUpEnabled( url.in() );
@@ -1290,6 +1164,7 @@ void KonqMainView::createViewMenu()
     m_vMenuView->insertItem4( i18n("Split &window"), this, "slotSplitView" , 0, MVIEW_SPLITWINDOW_ID, -1 );
     m_vMenuView->insertItem4( i18n("Add row &above"), this, "slotRowAbove" , 0, MVIEW_ROWABOVE_ID, -1 );
     m_vMenuView->insertItem4( i18n("Add row &below"), this, "slotRowBelow" , 0, MVIEW_ROWBELOW_ID, -1 );
+    m_vMenuView->insertItem4( i18n("Remove view"), this, "slotRemoveView" , 0, MVIEW_REMOVEVIEW_ID, -1 );
     m_vMenuView->insertSeparator( -1 );
     
     // Two namings for the same thing ! We have to decide ourselves. 
@@ -1328,6 +1203,11 @@ void KonqMainView::slotRowBelow()
   splitView( Konqueror::below );
 }
 
+void KonqMainView::slotRemoveView()
+{
+  removeView( m_currentId );
+}
+
 void KonqMainView::slotShowDot()
 {
 /*
@@ -1341,30 +1221,22 @@ void KonqMainView::slotShowDot()
 
 void KonqMainView::slotLargeIcons()
 {
-/*
-  m_currentView->m_pView->setViewMode( KfmView::HOR_ICONS );
-  setViewModeMenu( KfmView::HOR_ICONS );
-*/
+  changeViewMode( "KonquerorKfmIconView" ); // perhaps add a ":Large" here ?
 }
 
 void KonqMainView::slotSmallIcons()
 {
-/*
-  m_currentView->m_pView->setViewMode( KfmView::VERT_ICONS );
-  setViewModeMenu( KfmView::VERT_ICONS );
-*/
+  changeViewMode( "KonquerorKfmIconView" ); // perhaps add a ":Small" here ?
 }
 
 void KonqMainView::slotTreeView()
 {
-/*
-  m_currentView->m_pView->setViewMode( KfmView::FINDER );
-  setViewModeMenu( KfmView::FINDER );
-*/
+  changeViewMode( "KonquerorKfmTreeView" );
 }
 
 void KonqMainView::slotHTMLView()
 {
+  changeViewMode( "KonquerorHTMLView" );
 /*
   m_vMenuView->setItemChecked( MVIEW_LARGEICONS_ID, false );
   m_vMenuView->setItemChecked( MVIEW_SMALLICONS_ID, false );
@@ -1892,8 +1764,6 @@ void KonqMainView::initView()
 {
   Konqueror::View_var vView1 = Konqueror::View::_duplicate( new KonqKfmIconView );
   Konqueror::View_var vView2 = Konqueror::View::_duplicate( new KonqKfmTreeView );
-  connectView( vView1 );
-  connectView( vView2 );
   insertView( vView1, Konqueror::left );
   insertView( vView2, Konqueror::right );
 

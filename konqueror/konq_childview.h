@@ -21,6 +21,7 @@
 #define __konq_childview_h__
 
 #include "konqueror.h"
+#include "konq_mainwindow.h"
 
 #include <qlist.h>
 #include <qstring.h>
@@ -47,11 +48,20 @@ public:
    * @param view the IDL View to be added in the child view
    * @param row the row (i.e. splitter) where to add the frame
    * @param newViewPosition only valid if Left or Right
+   * @param parent the openparts parent for the view
+   * @param mainWindow the KonqMainWindow hosting the view
+   * @param mainView the KonqMainView owning the child view
    */
   KonqChildView( Konqueror::View_ptr view, Row * row,
-                 Konqueror::NewViewPosition newViewPosition );
+                 Konqueror::NewViewPosition newViewPosition,
+                 OpenParts::Part_ptr parent,
+                 OpenParts::MainWindow_ptr mainWindow,
+                 KonqMainView * mainView
+               );
   ~KonqChildView();
 
+  /* Get view's row */
+  Row * getRow() { return m_row; }
   /* Attach a view */
   void attach( Konqueror::View_ptr view );
   /* Detach attached view, before deleting myself, or attaching another one */
@@ -59,22 +69,33 @@ public:
 
   void repaint();
 
+  /**
+   * Changes the view mode of the current view, if different from viewName
+   * @returns the new openparts 'id'
+   */
+  int changeViewMode( const char *viewName );
+
+  /**
+   * Create a view
+   * @param viewName the type of view to be created (e.g. "KonqKfmIconView") 
+   */
+  Konqueror::View_ptr createViewByName( const char *viewName );
+
   //  bool mappingGotFocus( OpenParts::Part_ptr child );
   //  bool mappingOpenURL( Konqueror::EventOpenURL eventURL );
 
   //  virtual void openURL( const Konqueror::URLRequest &url );
   //  virtual void openURL( const char * _url, CORBA::Boolean _reload );
 
-  /* Changes the view mode of the current view, if different from viewName*/
-  //  void changeViewMode( const char *viewName );
-  /* Connects a view to the mainview. Do this after creating it and before inserting it */
-  //  void connectView( Konqueror::View_ptr view );
-
   // void makeHistory( View *v );
   
 //public slots:  
   
 protected:
+  /**
+   * Connects the internal View to the mainview. Do this after creating it and before inserting it
+   */
+  void connectView();
 
 public: // temporary !!
 
@@ -104,7 +125,11 @@ public: // temporary !!
     
   list<InternalHistoryEntry> m_lstBack;
   list<InternalHistoryEntry> m_lstForward;
-    
+
+protected:
+  KonqMainView * m_mainView;
+  OpenParts::Part_var m_vParent;
+  OpenParts::MainWindow_var m_vMainWindow;
   KonqFrame *m_pFrame;
   Row * m_row;
 };
