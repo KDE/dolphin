@@ -17,8 +17,8 @@
    Boston, MA 02111-1307, USA.
 */
 
-#ifndef __konq_mainview_h__
-#define __konq_mainview_h__
+#ifndef __konq_mainwindow_h__
+#define __konq_mainwindow_h__
 
 #include <qmap.h>
 #include <qpoint.h>

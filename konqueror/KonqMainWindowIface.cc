@@ -19,7 +19,7 @@
 */
 
 #include "KonqMainWindowIface.h"
-#include "konq_mainview.h"
+#include "konq_mainwindow.h"
 
 KonqMainWindowIface::KonqMainWindowIface( KonqMainWindow * mainWindow )
     : m_pMainWindow( mainWindow )

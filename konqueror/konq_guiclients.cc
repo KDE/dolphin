@@ -22,11 +22,11 @@
 #include <kdebug.h>
 #include <klocale.h>
 #include <kmenubar.h>
-#include <konq_childview.h>
+#include <konq_view.h>
 #include <konq_factory.h>
 #include <konq_frame.h>
 #include <konq_guiclients.h>
-#include <konq_mainview.h>
+#include <konq_mainwindow.h>
 #include <konq_viewmgr.h>
 
 PopupMenuGUIClient::PopupMenuGUIClient( KonqMainWindow *mainWindow, const KTrader::OfferList &embeddingServices )

@@ -28,7 +28,7 @@
 #include <ktoolbar.h>
 #include <kanimwidget.h>
 #include <kdebug.h>
-#include <konq_childview.h> // HistoryEntry
+#include <konq_view.h> // HistoryEntry
 
 KonqComboAction::KonqComboAction( const QString& text, int accel, const QObject *receiver, const char *member,
 			          QObject* parent, const char* name )

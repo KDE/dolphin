@@ -38,9 +38,9 @@
 #include <kparts/browserextension.h>
 #include <kparts/event.h>
 #include "konq_frame.h"
-#include "konq_childview.h"
+#include "konq_view.h"
 #include "konq_viewmgr.h"
-#include "konq_mainview.h"
+#include "konq_mainwindow.h"
 
 #include <assert.h>
 
@@ -318,9 +318,9 @@ KParts::ReadOnlyPart *KonqFrame::attach( const KonqViewFactory &viewFactory )
    // because we already have that taken care of in KParts...
 
 #ifdef METAVIEWS
-   m_pPart = factory.create( m_metaViewFrame, "childview widget", 0, "child view" );
+   m_pPart = factory.create( m_metaViewFrame, "view widget", 0, "child view" );
 #else
-   m_pPart = factory.create( this, "childview widget", 0, "child view" );
+   m_pPart = factory.create( this, "view widget", 0, "child view" );
 #endif
 
    assert( m_pPart->widget() );

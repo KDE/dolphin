@@ -35,15 +35,15 @@ konq_run.* : Re-implementation of KRun (see libkio) for konqueror. Treats
            HTML and directory in a special way compared to KRun and is also
 	   responsible for finding appropriate view<->mimetype bindings with
 	   the help of KonqPlugins.
-konq_childview.* : KonqChildView, class used by KonqMainView to handle child views
+konq_view.* : KonqChildView, class used by KonqMainView to handle child views
 konq_frame.* : KonqFrame and KonqFrameHeader (handles view-statusbar).
 iconview/* : KonqIconView and KonqKfmIconViewItem, for icon views
 konq_main.* : The main()
-konq_mainview.* : KonqMainView, main view, one per main window
+konq_mainwindow.* : KonqMainView, main view, one per main window
 konq_plugins.* : KonqPlugins, used to parse .desktop files looking for plugins,
                  creating the approriate entries in the IMR and forcing the
 		 activation of the plugin servers if they're requested.
-konq_propsmainview.* : -- main view properties stuff, not sure it will remain as is --
+konq_propsmainwindow.* : -- main view properties stuff, not sure it will remain as is --
 konq_propsview.* : -- view properties stuff, not sure it will remain as is --
 listview/* : KonqTreeView, KonqListView...
 

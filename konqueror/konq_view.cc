@@ -17,10 +17,10 @@
    Boston, MA 02111-1307, USA.
 */
 
-#include "konq_childview.h"
+#include "konq_view.h"
 #include "konq_factory.h"
 #include "konq_frame.h"
-#include "konq_mainview.h"
+#include "konq_mainwindow.h"
 #include "konq_propsview.h"
 #include "konq_run.h"
 #include "konq_events.h"
@@ -685,4 +685,4 @@ void KonqView::callExtensionBoolMethod( const char *methodName, bool value )
     (obj->*((BoolMethod)mdata->ptr))(value);
 }
 
-#include "konq_childview.moc"
+#include "konq_view.moc"

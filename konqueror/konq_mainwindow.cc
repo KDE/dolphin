@@ -22,8 +22,8 @@
 #include <kparts/browserextension.h>
 #include "konq_guiclients.h"
 #include "KonqMainWindowIface.h"
-#include "konq_mainview.h"
-#include "konq_childview.h"
+#include "konq_mainwindow.h"
+#include "konq_view.h"
 #include "konq_run.h"
 #include "konq_misc.h"
 #include "konq_factory.h"
@@ -2211,4 +2211,4 @@ DCOPObject* KonqMainWindow::dcopObject()
   return m_dcopObject;
 }
 
-#include "konq_mainview.moc"
+#include "konq_mainwindow.moc"

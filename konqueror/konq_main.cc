@@ -21,7 +21,7 @@
 
 #include "konq_misc.h"
 #include "konq_factory.h"
-#include "konq_mainview.h"
+#include "konq_mainwindow.h"
 #include "KonquerorIface.h"
 
 #include <klocale.h>

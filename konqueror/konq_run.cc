@@ -20,7 +20,7 @@
 #include <kdebug.h>
 
 #include "konq_run.h"
-#include "konq_mainview.h"
+#include "konq_mainwindow.h"
 
 #include <assert.h>
 #include <iostream.h>

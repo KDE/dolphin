@@ -19,10 +19,10 @@
  *  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  **/
 
-#ifndef __konq_childview_h__
-#define __konq_childview_h__ "$Id$"
+#ifndef __konq_view_h__
+#define __konq_view_h__ "$Id$"
 
-#include "konq_mainview.h"
+#include "konq_mainwindow.h"
 #include "konq_factory.h"
 
 #include <kparts/browserextension.h>

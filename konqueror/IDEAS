@@ -149,8 +149,8 @@ A child part does _not_ have it's own GUI (as a normal openpart has)
 instead the part part's gui is used.
 We still allow konqueror views to have their own view specific gui elements
 When a konqueror view (=part child) gets the focus the part parent 
-(the mainview) will receive an event (eventChildGotFocus)
-and this helps the mainview to send yet another event to the just 
+(the mainwindow) will receive an event (eventChildGotFocus)
+and this helps the mainwindow to send yet another event to the just 
 activated view (=part) , an konqueror specific event
 these events are described in konqueror.idl
 
@@ -182,7 +182,7 @@ views.
 
 Transcript
 ==========
-<tronical> we have a usual mainview (looks/behaves quite like a current kfm window on the screen)
+<tronical> we have a usual mainwindow (looks/behaves quite like a current kfm window on the screen)
 <tronical> now we have two views inside, on the left we've got an iconview
 <tronical> and on the right we've got an htmlview
 <tronical> now let's say the iconview wants to add a special entry in the common view menu
@@ -190,7 +190,7 @@ Transcript
 <tronical> and for the htmlview we've got (in the view menu as well):
 <tronical> whatevery...hm...*thinking*, perhaps charset-selection of stuff like this
 <tronical> now when the iconview is active the view menu will contain
-<tronical> all the usual konqueror (mainview) entries (what could this be for example?) plus the three iconview 
+<tronical> all the usual konqueror (mainwindow) entries (what could this be for example?) plus the three iconview 
   entries
 <tronical> and when the users activates the htmlview then view menu will silently change
 <Zogje> I think it makes sense to have both sets of entries in the view-menu at the sma time

@@ -18,7 +18,7 @@
 */
 
 #include "konq_misc.h"
-#include "konq_mainview.h"
+#include "konq_mainwindow.h"
 #include <kmessagebox.h>
 #include <kurifilter.h>
 #include <klocale.h>
