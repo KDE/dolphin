@@ -1,9 +1,8 @@
 [Desktop Entry]
+Type=Application
 Name=Konqueror
 Name[eo]=Konkeranto
 Name[hr]=Konquerer
-Name[pt_BR]=Conquistador
-Name[sv]=Erövraren
 Exec=konqueror
 Comment=KDE File Manager & Web Browser
 Comment[ca]=Gestor de fitxers KDE i fullejador web
@@ -12,10 +11,7 @@ Comment[eo]=Dosieradministrilo kaj TTT-legilo de KDE
 Comment[fi]=KDE Tiedostohallinta & www-selain
 Comment[hr]=KDE Upravitelj Datoteka & Preglednik Weba
 Comment[hu]=KDE Fájlkezelõ és Világháló Böngészõ
-Comment[pl]=KDE Mened¿er plików i przegl±darka HTML
-Comment[pt_BR]=Gerenciador de Arquivos & Navegador Web
-Comment[sr]=KDE Fajl Menad¾er i Web Pretra¾ivaè
-Comment[sv]=KDE:s filhanterare och webläsare
+Comment[ja]=KDE¥Õ¥¡¥¤¥ë¥Þ¥Í¡¼¥¸¥ã¡¼&¥¦¥§¥Ö¥Ö¥é¥¦¥¶¡¼
 X-KDE-Library=libkonqueror
 Icon=konqueror.png
 MiniIcon=konqueror.png
