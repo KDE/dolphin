@@ -74,6 +74,9 @@ KonqSearchDialog::KonqSearchDialog( QWidget *parent )
  
   m_pVBox->setSpacing( 10 );
   m_pVBox->setMargin( 5 );
+
+  m_pLineEdit->setFocus();
+  m_pFindButton->setDefault( true );
   
   resize( 300, 150 );
 }
