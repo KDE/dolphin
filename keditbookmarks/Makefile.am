@@ -19,7 +19,7 @@ dummy.cpp:
 	echo > dummy.cpp
 
 rcdir = $(kde_datadir)/keditbookmarks
-rc_DATA = keditbookmarksui.rc  
+rc_DATA = keditbookmarksui.rc  keditbookmarks-genui.rc
 
 install-data-local: uninstall.desktop
 	$(mkinstalldirs) $(DESTDIR)$(kde_appsdir)/Internet

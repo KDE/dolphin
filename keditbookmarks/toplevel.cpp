@@ -316,8 +316,8 @@ void MagicKLineEdit::mousePressEvent(QMouseEvent *ev) {
    QLineEdit::mousePressEvent(ev);
 }
 
-KEBApp::KEBApp(const QString & bookmarksFile, bool readonly, const QString &address)
-   : KMainWindow(), m_dcopIface(0) {
+KEBApp::KEBApp(const QString & bookmarksFile, bool readonly, const QString &address, bool browser)
+   : KMainWindow(), m_dcopIface(0), m_browser(browser) {
 
    m_bookmarksFilename = bookmarksFile;
    m_readOnly = readonly;
@@ -347,7 +347,10 @@ KEBApp::KEBApp(const QString & bookmarksFile, bool readonly, const QString &addr
    resize(ListView::self()->widget()->sizeHint().width(), vsplitter->sizeHint().height());
 
    createActions();
-   createGUI();
+   if (m_browser)
+      createGUI();
+   else
+      createGUI("keditbookmarks-genui.rc");
 
    m_dcopIface = new KBookmarkEditorIface();
 
@@ -394,9 +397,12 @@ void KEBApp::createActions() {
 
    ActionsImpl *actn = ActionsImpl::self();
 
-   (void) KStdAction::open(this, SLOT( slotLoad() ), actionCollection());
+   if (m_browser)
+   {
+      (void) KStdAction::open(this, SLOT( slotLoad() ), actionCollection());
+      (void) KStdAction::saveAs(this, SLOT( slotSaveAs() ), actionCollection());
+   }
    (void) KStdAction::save(this, SLOT( slotSave() ), actionCollection());
-   (void) KStdAction::saveAs(this, SLOT( slotSaveAs() ), actionCollection());
    (void) KStdAction::quit(this, SLOT( close() ), actionCollection());
    (void) KStdAction::keyBindings(this, SLOT( slotConfigureKeyBindings() ), actionCollection());
    (void) KStdAction::configureToolbars(this, SLOT( slotConfigureToolbars() ), actionCollection());
@@ -497,9 +503,12 @@ void KEBApp::resetActions() {
 }
 
 void KEBApp::readConfig() {
-   KConfig config("kbookmarkrc", false, false);
-   config.setGroup("Bookmarks");
-   m_advancedAddBookmark = config.readBoolEntry("AdvancedAddBookmark", false);
+   if (m_browser)
+   {
+      KConfig config("kbookmarkrc", false, false);
+      config.setGroup("Bookmarks");
+      m_advancedAddBookmark = config.readBoolEntry("AdvancedAddBookmark", false);
+   }
 
    KConfig appconfig("keditbookmarksrc", false, false);
    appconfig.setGroup("General");
@@ -507,10 +516,13 @@ void KEBApp::readConfig() {
 }
 
 void KEBApp::slotAdvancedAddBookmark() {
-   m_advancedAddBookmark = getToggleAction("settings_advancedaddbookmark")->isChecked();
-   KConfig config("kbookmarkrc", false, false);
-   config.setGroup("Bookmarks");
-   config.writeEntry("AdvancedAddBookmark", m_advancedAddBookmark);
+   if (m_browser)
+   {
+      m_advancedAddBookmark = getToggleAction("settings_advancedaddbookmark")->isChecked();
+      KConfig config("kbookmarkrc", false, false);
+      config.setGroup("Bookmarks");
+      config.writeEntry("AdvancedAddBookmark", m_advancedAddBookmark);
+   }
 }
 
 void KEBApp::slotSaveOnClose() {
@@ -594,10 +606,10 @@ void KEBApp::setCancelTestsEnabled(bool enabled) {
 void KEBApp::setModifiedFlag(bool modified) {
    m_modified = modified;
 
-   QString caption = i18n("Bookmark Editor");
+   QString caption;
 
    if (m_bookmarksFilename != KBookmarkManager::userBookmarksManager()->path()) {
-      caption += QString(" %1").arg(m_bookmarksFilename);
+      caption += m_bookmarksFilename;
    }
 
    if (m_readOnly) {

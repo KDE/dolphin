@@ -105,7 +105,7 @@ public:
 
    QWidget* popupMenuFactory(const char *type) { return factory()->container(type, this); }
 
-   KEBApp(const QString & bookmarksFile, bool readonly, const QString &address);
+   KEBApp(const QString & bookmarksFile, bool readonly, const QString &address, bool browser);
    virtual ~KEBApp();
 
    void setModifiedFlag(bool);
@@ -165,6 +165,7 @@ private:
    QString m_bookmarksFilename;
    bool m_saveOnClose;
    bool m_advancedAddBookmark;
+   bool m_browser;
 
    static KEBApp *s_topLevel;
 
