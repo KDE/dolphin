@@ -372,17 +372,8 @@ KonqKfmIconView::KonqKfmIconView()
 
   m_ulTotalFiles = 0;
 
-/*
-  m_vViewMenu = 0L;
-  m_vSortMenu = 0L;
-  m_proxySelectAll = 0L;
-*/
-
   // Dont repaint on configuration changes during construction
   m_bInit = true;
-
-//  QWidget::setFocusPolicy( StrongFocus );
-//  viewport()->setFocusPolicy( StrongFocus );
 
   m_paDotFiles = new KToggleAction( i18n( "Show &Dot Files" ), 0, this, SLOT( slotShowDot() ), this );
   m_pamSort = new KActionMenu( i18n( "Sort..." ), this );
@@ -525,62 +516,6 @@ KonqKfmIconView::~KonqKfmIconView()
   delete m_pIconView;
 }
 
-/*
-bool KonqKfmIconView::mappingFillMenuView( Browser::View::EventFillMenu_ptr viewMenu )
-{
-  m_vViewMenu = OpenPartsUI::Menu::_duplicate( viewMenu );
-
-  if ( !CORBA::is_nil( viewMenu ) )
-  {
-//    viewMenu->insertItem4( i18n("Image &Preview"), this, "slotShowSchnauzer" , 0, -1, -1 );
-    m_idShowDotFiles = viewMenu->insertItem4( i18n("Show &Dot Files"), this, "slotShowDot" , 0, -1, -1 );
-    viewMenu->setItemChecked( m_idShowDotFiles, m_pProps->m_bShowDot );
-
-    viewMenu->insertItem8( i18n( "Sort..." ), m_vSortMenu, -1, -1 );
-
-    m_vSortMenu->setCheckable( true );
-
-    m_idSortByNameCaseSensitive = m_vSortMenu->insertItem4( i18n( "by Name ( Case Sensitive )" ), this,
-							    "slotSortByNameCaseSensitive", 0, -1, -1 );
-
-    m_idSortByNameCaseInsensitive = m_vSortMenu->insertItem4( i18n( "by Name ( Case Insensitive )" ), this,
-							      "slotSortByNameCaseInsensitive", 0, -1, -1 );
-
-    m_idSortBySize = m_vSortMenu->insertItem4( i18n( "by Size" ), this, "slotSortBySize", 0, -1, -1 );
-
-    m_vSortMenu->insertSeparator( -1 );
-
-    m_idSortDescending = m_vSortMenu->insertItem4( i18n( "Descending" ), this,
-						   "slotSetSortDirectionDescending", 0, -1, -1 );
-    m_vSortMenu->setItemChecked( m_idSortDescending, !sortOrder() );
-
-    setupSortMenu();
-  }
-  else
-    m_vSortMenu = 0L;
-
-  return true;
-}
-*/
-/*
-bool KonqKfmIconView::mappingFillMenuEdit( Browser::View::EventFillMenu_ptr editMenu )
-{
-  if ( !CORBA::is_nil( editMenu ) )
-  {
-    QString text;
-    text = i18n("&Select");
-    editMenu->insertItem4( text, this, "slotSelect" , 0, -1, -1 );
-    text = i18n("&Unselect");
-    editMenu->insertItem4( text, this, "slotUnselect" , 0, -1, -1 );
-    text = i18n("Select &All");
-    editMenu->insertItem4( text, this, "slotSelectAll" , 0, -1, -1 );
-    text = i18n("U&nselect All");
-    editMenu->insertItem4( text, this, "slotUnselectAll" , 0, -1, -1 );
-  }
-
-  return true;
-}
-*/
 void KonqKfmIconView::slotShowDot()
 {
   kdebug(0, 1202, "KonqKfmIconView::slotShowDot()");
@@ -678,8 +613,6 @@ void KonqKfmIconView::setupSorting( SortCriterion criterion )
   setupSortKeys();
 
   m_pIconView->sortItems( m_pIconView->sortOrder() );
-
-  setupSortMenu();
 }
 
 void KonqKfmIconView::resizeEvent( QResizeEvent * )
@@ -696,8 +629,6 @@ void KonqKfmIconView::slotSortDescending( bool toggle )
     m_pIconView->setResortItemsWhenInsert( true, false );
   else
     m_pIconView->setResortItemsWhenInsert( true, true );
-
-//  m_vSortMenu->setItemChecked( m_idSortDescending, !sortOrder() );
 
   m_pIconView->sortItems( m_pIconView->sortOrder() );
 }
@@ -1012,55 +943,7 @@ void KonqKfmIconView::openURL( const QString &_url, bool /*reload*/, int xOffset
 //  setCaptionFromURL( _url );
   m_pIconView->show();
 }
-/*
-void KonqKfmIconView::can( bool &copy, bool &paste, bool &move )
-{
-  bool bItemSelected = false;
 
-  for ( QIconViewItem *it = firstItem(); it; it = it->nextItem() )
-    if ( it->isSelected() )
-    {
-      bItemSelected = true;
-      break;
-    }
-
-  move = copy = bItemSelected;
-
-  bool bKIOClipboard = !isClipboardEmpty();
-
-  QMimeSource *data = QApplication::clipboard()->data();
-
-  paste = ( bKIOClipboard || data->encodedData( data->format() ).size() != 0 );
-}
-
-void KonqKfmIconView::copySelection()
-{
-  QDragObject * obj = dragObject();
-  QApplication::clipboard()->setData( obj );
-}
-*/
-/*
-void KonqKfmIconView::pasteSelection()
-{
-  pasteClipboard( m_dirLister->url() );
-}
-
-void KonqKfmIconView::moveSelection( const QCString &destinationURL )
-{
-  QStringList lstURLs;
-
-  for ( QIconViewItem *it = firstItem(); it; it = it->nextItem() )
-    if ( it->isSelected() )
-      lstURLs.append( ( (KFileIVI *)it )->item()->url().url() );
-
-  KIOJob *job = new KIOJob;
-
-  if ( !destinationURL.isEmpty() )
-    job->move( lstURLs, destinationURL );
-  else
-    job->del( lstURLs );
-}
-*/
 void KonqKfmIconView::slotOnItem( QIconViewItem *item )
 {
   emit setStatusBarText( ((KFileIVI *)item)->item()->getStatusBarInfo() );
@@ -1069,30 +952,6 @@ void KonqKfmIconView::slotOnItem( QIconViewItem *item )
 void KonqKfmIconView::slotOnViewport()
 {
   emit setStatusBarText( QString::null );
-}
-
-void KonqKfmIconView::setupSortMenu()
-{
-/*
-  switch ( m_eSortCriterion )
-  {
-    case NameCaseSensitive:
-      m_vSortMenu->setItemChecked( m_idSortByNameCaseSensitive, true );
-      m_vSortMenu->setItemChecked( m_idSortByNameCaseInsensitive, false );
-      m_vSortMenu->setItemChecked( m_idSortBySize, false );
-      break;
-    case NameCaseInsensitive:
-      m_vSortMenu->setItemChecked( m_idSortByNameCaseSensitive, false );
-      m_vSortMenu->setItemChecked( m_idSortByNameCaseInsensitive, true );
-      m_vSortMenu->setItemChecked( m_idSortBySize, false );
-      break;
-    case Size:
-      m_vSortMenu->setItemChecked( m_idSortByNameCaseSensitive, false );
-      m_vSortMenu->setItemChecked( m_idSortByNameCaseInsensitive, false );
-      m_vSortMenu->setItemChecked( m_idSortBySize, true );
-      break;
-  }
-*/
 }
 
 void KonqKfmIconView::setupSortKeys()

@@ -179,8 +179,6 @@ protected:
   virtual void resizeEvent( QResizeEvent * );
 
   /** */
-  void setupSortMenu();
-
   void setupSortKeys();
 
   QString makeSizeKey( KFileIVI *item );
