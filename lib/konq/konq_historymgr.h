@@ -101,6 +101,8 @@ public:
      * are older than @p days. Notifies all other Konqueror instances via DCOP
      * to do the same.
      *
+     * An age of 0 means no expiry based on the age.
+     *
      * The history is saved after receiving the DCOP call.
      */
     void emitSetMaxAge( Q_UINT32 days );
@@ -199,7 +201,7 @@ protected:
      * otherwise false.
      */
     inline bool isExpired( KonqHistoryEntry *entry ) {
-	return (entry && entry->lastVisited <
+	return (entry && m_maxAgeDays > 0 && entry->lastVisited <
 		QDate::currentDate().addDays( -m_maxAgeDays ));
     }
 

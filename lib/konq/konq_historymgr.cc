@@ -51,7 +51,7 @@ KonqHistoryManager::KonqHistoryManager( QObject *parent, const char *name )
     KConfig *config = KGlobal::config();
     KConfigGroupSaver cs( config, "Settings" );
     m_maxCount = config->readNumEntry( "Maximum of History entries", 300 );
-    m_maxAgeDays = config->readNumEntry( "Maximum age of History entries", 30);
+    m_maxAgeDays = config->readNumEntry( "Maximum age of History entries", 90);
 
     m_history.setAutoDelete( true );
     m_filename = locateLocal( "data",
