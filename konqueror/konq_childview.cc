@@ -234,14 +234,14 @@ void KonqChildView::connectView(  )
   connect( ext, SIGNAL( openURLRequest( const KURL &, const KParts::URLArgs &) ),
            m_pMainView, SLOT( openURL( const KURL &, const KParts::URLArgs & ) ) );
 
-  connect( ext, SIGNAL( popupMenu( const QPoint &, const KonqFileItemList & ) ),
-           m_pMainView, SLOT( slotPopupMenu( const QPoint &, const KonqFileItemList & ) ) );
+  connect( ext, SIGNAL( popupMenu( const QPoint &, const KFileItemList & ) ),
+           m_pMainView, SLOT( slotPopupMenu( const QPoint &, const KFileItemList & ) ) );
 
   connect( ext, SIGNAL( popupMenu( const QPoint &, const KURL &, const QString &, mode_t ) ),
 	   m_pMainView, SLOT( slotPopupMenu( const QPoint &, const KURL &, const QString &, mode_t ) ) );
 
-  connect( ext, SIGNAL( popupMenu( KXMLGUIClient *, const QPoint &, const KonqFileItemList & ) ),
-           m_pMainView, SLOT( slotPopupMenu( KXMLGUIClient *, const QPoint &, const KonqFileItemList & ) ) );
+  connect( ext, SIGNAL( popupMenu( KXMLGUIClient *, const QPoint &, const KFileItemList & ) ),
+           m_pMainView, SLOT( slotPopupMenu( KXMLGUIClient *, const QPoint &, const KFileItemList & ) ) );
 
   connect( ext, SIGNAL( popupMenu( KXMLGUIClient *, const QPoint &, const KURL &, const QString &, mode_t ) ),
 	   m_pMainView, SLOT( slotPopupMenu( KXMLGUIClient *, const QPoint &, const KURL &, const QString &, mode_t ) ) );
@@ -258,8 +258,8 @@ void KonqChildView::connectView(  )
   connect( ext, SIGNAL( speedProgress( int ) ),
            m_pKonqFrame->statusbar(), SLOT( slotSpeedProgress( int ) ) );
 
-  connect( ext, SIGNAL( selectionInfo( const KonqFileItemList & ) ),
-	   this, SLOT( slotSelectionInfo( const KonqFileItemList & ) ) );
+  connect( ext, SIGNAL( selectionInfo( const KFileItemList & ) ),
+	   this, SLOT( slotSelectionInfo( const KFileItemList & ) ) );
 
   connect( ext, SIGNAL( openURLNotify() ),
 	   this, SLOT( createHistoryEntry() ) );
@@ -316,7 +316,7 @@ void KonqChildView::slotCanceled( const QString & )
   slotCompleted();
 }
 
-void KonqChildView::slotSelectionInfo( const KonqFileItemList &items )
+void KonqChildView::slotSelectionInfo( const KFileItemList &items )
 {
   KonqFileSelectionEvent ev( items, m_pView );
   QApplication::sendEvent( m_pMainView, &ev );

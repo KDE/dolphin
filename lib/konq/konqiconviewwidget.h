@@ -69,9 +69,9 @@ public:
     virtual QDragObject *dragObject();
 
     /**
-     * Get list of selected KonqFileItems
+     * Get list of selected KFileItems
      */
-    KonqFileItemList selectedFileItems();
+    KFileItemList selectedFileItems();
 
     void setItemFont( const QFont &f );
     void setItemColor( const QColor &c );

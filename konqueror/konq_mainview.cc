@@ -1694,18 +1694,18 @@ void KonqMainView::slotPopupMenu( const QPoint &_global, const KURL &url, const 
 
 void KonqMainView::slotPopupMenu( KXMLGUIClient *client, const QPoint &_global, const KURL &url, const QString &_mimeType, mode_t _mode )
 {
-  KonqFileItem item( url, _mimeType, _mode );
-  KonqFileItemList items;
+  KFileItem item( url, _mimeType, _mode );
+  KFileItemList items;
   items.append( &item );
   slotPopupMenu( client, _global, items ); //BE CAREFUL WITH sender() !
 }
 
-void KonqMainView::slotPopupMenu( const QPoint &_global, const KonqFileItemList &_items )
+void KonqMainView::slotPopupMenu( const QPoint &_global, const KFileItemList &_items )
 {
   slotPopupMenu( 0L, _global, _items );
 }
 
-void KonqMainView::slotPopupMenu( KXMLGUIClient *client, const QPoint &_global, const KonqFileItemList &_items )
+void KonqMainView::slotPopupMenu( KXMLGUIClient *client, const QPoint &_global, const KFileItemList &_items )
 {
   m_oldView = m_currentView;
 

@@ -102,14 +102,14 @@ void KonqIconViewWidget::setIcons( int size )
 {
     m_size = size;
     for ( QIconViewItem *it = firstItem(); it; it = it->nextItem() ) {
-	((KFileIVI*)it)->setIcon( size, m_bImagePreviewAllowed );
+	(static_cast<KFileIVI *>( it ))->setIcon( size, m_bImagePreviewAllowed );
     }
 }
 
 void KonqIconViewWidget::refreshMimeTypes()
 {
     for ( QIconViewItem *it = firstItem(); it; it = it->nextItem() )
-	((KFileIVI*)it)->item()->refreshMimeType();
+	(static_cast<KFileIVI *>( it ))->item()->refreshMimeType();
     setIcons( m_size );
 }
 
@@ -126,18 +126,18 @@ void KonqIconViewWidget::setImagePreviewAllowed( bool b )
 {
     m_bImagePreviewAllowed = b;
     for ( QIconViewItem *it = firstItem(); it; it = it->nextItem() ) {
-	((KFileIVI*)it)->setIcon( m_size, m_bImagePreviewAllowed );
+	(static_cast<KFileIVI *>( it ))->setIcon( m_size, m_bImagePreviewAllowed );
     }
 }
 
-KonqFileItemList KonqIconViewWidget::selectedFileItems()
+KFileItemList KonqIconViewWidget::selectedFileItems()
 {
-    KonqFileItemList lstItems;
+    KFileItemList lstItems;
 
     QIconViewItem *it = firstItem();
     for (; it; it = it->nextItem() )
 	if ( it->isSelected() ) {
-	    KonqFileItem *fItem = ((KFileIVI *)it)->item();
+	    KFileItem *fItem = (static_cast<KFileIVI *>(it))->item();
 	    lstItems.append( fItem );
 	}
     return lstItems;
@@ -184,7 +184,7 @@ QDragObject * KonqIconViewWidget::dragObject()
     // Append all items to the drag object
     for ( QIconViewItem *it = firstItem(); it; it = it->nextItem() ) {
 	if ( it->isSelected() ) {
-          QString itemURL = ((KFileIVI *)it)->item()->url().url();
+          QString itemURL = (static_cast<KFileIVI *>(it))->item()->url().url();
           QIconDragItem id;
           id.setData( QCString(itemURL.latin1()) );
           drag->append( id,
@@ -240,7 +240,7 @@ void KonqIconViewWidget::slotSelectionChanged()
 	if ( it->isSelected() )
 	    iCount++;
 
-	if ( ((KFileIVI *)it)->item()->url().directory(false) == KGlobalSettings::trashPath() )
+	if ( (static_cast<KFileIVI *>( it ))->item()->url().directory(false) == KGlobalSettings::trashPath() )
 	    bInTrash = true;
     }
     cutcopy = del = ( iCount > 0 );
@@ -290,7 +290,7 @@ KURL::List KonqIconViewWidget::selectedUrls()
 
     for ( QIconViewItem *it = firstItem(); it; it = it->nextItem() )
 	if ( it->isSelected() )
-	    lstURLs.append( ( (KFileIVI *)it )->item()->url() );
+	    lstURLs.append( (static_cast<KFileIVI *>( it ))->item()->url() );
     return lstURLs;
 }
 

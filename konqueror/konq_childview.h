@@ -232,7 +232,7 @@ protected slots:
   /**
    * Connected to the BrowserExtension
    */
-  void slotSelectionInfo( const KonqFileItemList &items );
+  void slotSelectionInfo( const KFileItemList &items );
 
 protected:
   /**

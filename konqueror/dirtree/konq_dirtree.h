@@ -5,6 +5,7 @@
 #include <kurl.h>
 #include <kglobalsettings.h>
 #include <konqoperations.h>
+#include <konqfileitem.h>
 
 #include <klistview.h>
 #include <qdict.h>

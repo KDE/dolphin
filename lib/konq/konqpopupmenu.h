@@ -38,7 +38,8 @@ class KService;
        KPOPUPMENU_SHOWMENUBAR_ID, KPOPUPMENU_COPY_ID, KPOPUPMENU_PASTE_ID,
        KPOPUPMENU_TRASH_ID, KPOPUPMENU_DELETE_ID, KPOPUPMENU_SHRED_ID };*/
 
-/** This class implements the popup menu for URLs in konqueror and kdesktop
+/**
+ * This class implements the popup menu for URLs in konqueror and kdesktop
  * It's usage is very simple : on right click, create the KonqPopupMenu instance
  * with the correct arguments, then exec() to make it appear, then destroy it.
  *
@@ -62,7 +63,7 @@ public:
    * The others items are automatically inserted.
    *
    */
-  KonqPopupMenu( const KonqFileItemList &items,
+  KonqPopupMenu( const KFileItemList &items,
                  KURL viewURL,
                  KActionCollection & actions,
                  KNewMenu * newMenu );
@@ -108,7 +109,7 @@ protected:
   KNewMenu *m_pMenuNew;
   KURL m_sViewURL;
   QString m_sMimeType;
-  KonqFileItemList m_lstItems;
+  KFileItemList m_lstItems;
   KURL::List m_lstPopupURLs;
   QMap<int,KService::Ptr> m_mapPopup;
   QMap<int,KDEDesktopMimeType::Service> m_mapPopupServices;

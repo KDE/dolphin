@@ -9,8 +9,8 @@ namespace KParts
   class ReadOnlyPart;
 };
 
-class KonqFileItem;
-typedef QList<KonqFileItem> KonqFileItemList;
+class KFileItem;
+typedef QList<KFileItem> KFileItemList;
 
 class KonqURLEnterEvent : public KParts::Event
 {
@@ -30,9 +30,9 @@ private:
 class KonqFileSelectionEvent : public KParts::Event
 {
 public:
-  KonqFileSelectionEvent( const KonqFileItemList &selection, KParts::ReadOnlyPart *part ) : KParts::Event( s_fileItemSelectionEventName ), m_selection( selection ), m_part( part ) {}
+  KonqFileSelectionEvent( const KFileItemList &selection, KParts::ReadOnlyPart *part ) : KParts::Event( s_fileItemSelectionEventName ), m_selection( selection ), m_part( part ) {}
 
-  KonqFileItemList selection() const { return m_selection; }
+  KFileItemList selection() const { return m_selection; }
   KParts::ReadOnlyPart *part() const { return m_part; }
 
   static bool test( const QEvent *event ) { return KParts::Event::test( event, s_fileItemSelectionEventName ); }
@@ -40,7 +40,7 @@ public:
 private:
   static const char *s_fileItemSelectionEventName;
 
-  KonqFileItemList m_selection;
+  KFileItemList m_selection;
   KParts::ReadOnlyPart *m_part;
 };
 

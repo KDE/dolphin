@@ -559,9 +559,9 @@ void KonqDirTree::slotRightButtonPressed( QListViewItem *item )
 
   item->setSelected( true );
 
-  KonqFileItemList lstItems;
+  KFileItemList lstItems;
 
-  lstItems.append( ((KonqDirTreeItem *)item)->fileItem() );
+  lstItems.append( (static_cast<KonqDirTreeItem *>(item))->fileItem() );
 
   emit m_view->extension()->popupMenu( QCursor::pos(), lstItems );
 }

@@ -567,7 +567,7 @@ void KonqBaseListViewWidget::slotRightButtonPressed( QListViewItem *_item, const
 
 void KonqBaseListViewWidget::popupMenu( const QPoint& _global )
 {
-   KonqFileItemList lstItems;
+   KFileItemList lstItems;
 
    QValueList<KonqBaseListViewItem*> items;
    selectedItems( items );

@@ -636,7 +636,7 @@ void KonqKfmIconView::slotReturnPressed( QIconViewItem *item )
 {
     if ( !item )
 	return;
-    KonqFileItem *fileItem = ((KFileIVI*)item)->item();
+    KonqFileItem *fileItem = (static_cast<KFileIVI*>(item))->item();
     if ( !fileItem )
 	return;
     if (KonqFMSettings::settings()->alwaysNewWin() && fileItem->mode() & S_IFDIR) {
@@ -662,12 +662,12 @@ void KonqKfmIconView::slotMouseButtonPressed(int _button, QIconViewItem* _item, 
     if(_item) {
 	switch(_button) {
 	case RightButton:
-	    ((KFileIVI*)_item)->setSelected( true );
+	    (static_cast<KFileIVI*>(_item))->setSelected( true );
 	    emit m_extension->popupMenu( _global, m_pIconView->selectedFileItems() );
 	    break;
 	case MidButton:
 	    // New view
-	    ((KFileIVI*)_item)->item()->run();
+	    (static_cast<KFileIVI*>(_item))->item()->run();
 	    break;
 	}
     }
@@ -680,7 +680,7 @@ void KonqKfmIconView::slotViewportRightClicked( QIconViewItem *i )
     if ( ! m_dirLister->rootItem() )
         return; // too early, '.' not yet listed
 
-    KonqFileItemList items;
+    KFileItemList items;
     items.append( m_dirLister->rootItem() );
     emit m_extension->popupMenu( QCursor::pos(), items );
 }
@@ -828,8 +828,8 @@ void KonqKfmIconView::slotDisplayFileSelectionInfo()
     long fileCount = 0;
     long dirCount = 0;
 
-    KonqFileItemList lst = m_pIconView->selectedFileItems();
-    KonqFileItemListIterator it( lst );
+    KFileItemList lst = m_pIconView->selectedFileItems();
+    KFileItemListIterator it( lst );
 
     for (; it.current(); ++it )
 	if ( S_ISDIR( it.current()->mode() ) )

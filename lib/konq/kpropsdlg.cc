@@ -80,7 +80,7 @@
 
 #include <X11/Xlib.h> // for XSetTransientForHint
 
-template class QList<KonqFileItem>;
+template class QList<KFileItem>;
 
 #define ROUND(x) ((int)(0.5 + (x)))
 
@@ -92,7 +92,7 @@ mode_t FilePermissionsPropsPage::fperm[3][4] = {
 
 template class QList<PropsPage>;
 
-PropertiesDialog::PropertiesDialog( KonqFileItemList _items ) :
+PropertiesDialog::PropertiesDialog( KFileItemList _items ) :
   m_singleUrl( _items.first()->url() ), m_items( _items ),
   m_bMustDestroyItems( false )
 {
@@ -105,8 +105,8 @@ PropertiesDialog::PropertiesDialog( const KURL& _url, mode_t _mode ) :
   m_singleUrl( _url ), m_bMustDestroyItems( true )
 {
   assert(!_url.isEmpty());
-  // Create a KonqFileItem from the information we have
-  m_items.append( new KonqFileItem( _mode, -1, m_singleUrl ) );
+  // Create a KFileItem from the information we have
+  m_items.append( new KFileItem( _mode, -1, m_singleUrl ) );
   init();
 }
 
@@ -116,8 +116,8 @@ PropertiesDialog::PropertiesDialog( const KURL& _tempUrl, const KURL& _currentDi
     m_defaultName( _defaultName ), m_currentDir( _currentDir )
 {
   assert(!m_singleUrl.isEmpty());
-  // Create the KonqFileItem for the _template_ file, in order to read from it.
-  m_items.append( new KonqFileItem( -1, -1, m_singleUrl ) );
+  // Create the KFileItem for the _template_ file, in order to read from it.
+  m_items.append( new KFileItem( -1, -1, m_singleUrl ) );
   init();
 }
 
@@ -160,7 +160,7 @@ void PropertiesDialog::addPage(PropsPage *page)
   pageList.append( page );
 }
 
-bool PropertiesDialog::canDisplay( KonqFileItemList _items )
+bool PropertiesDialog::canDisplay( KFileItemList _items )
 {
   return FilePropsPage::supports( _items ) ||
          FilePermissionsPropsPage::supports( _items ) ||
@@ -281,7 +281,7 @@ PropsPage::PropsPage( PropertiesDialog *_props ) : QWidget( _props->tabDialog(),
   fontHeight = 2*fontMetrics().height();
 }
 
-bool PropsPage::isDesktopFile( KonqFileItem * _item )
+bool PropsPage::isDesktopFile( KFileItem * _item )
 {
   // only local files
   if ( !_item->url().isLocalFile() )
@@ -318,7 +318,7 @@ FilePropsPage::FilePropsPage( PropertiesDialog *_props )
   // Make it human-readable (%2F => '/', ...)
   filename = KIO::decodeFileName( filename );
 
-  KonqFileItem * item = properties->item();
+  KFileItem * item = properties->item();
   bool isTrash = false;
   QString path, directory;
 
@@ -475,28 +475,32 @@ FilePropsPage::FilePropsPage( PropertiesDialog *_props )
   l = new QLabel(i18n("Created:"), this);
   grid->addWidget(l, curRow, 0);
 
-  tempstr = item->time(KIO::UDS_CREATION_TIME);
+  QDateTime dt;
+  dt.setTime_t( item->time(KIO::UDS_CREATION_TIME) );
+  tempstr = KGlobal::locale()->formatDateTime(dt);
   l = new QLabel(tempstr, this);
   grid->addWidget(l, curRow++, 2);
 
   l = new QLabel(i18n("Modified:"), this);
   grid->addWidget(l, curRow, 0);
 
-  tempstr = item->time(KIO::UDS_MODIFICATION_TIME);
+  dt.setTime_t( item->time(KIO::UDS_MODIFICATION_TIME) );
+  tempstr = KGlobal::locale()->formatDateTime(dt);
   l = new QLabel(tempstr, this);
   grid->addWidget(l, curRow++, 2);
 
   l = new QLabel(i18n("Accessed:"), this);
   grid->addWidget(l, curRow, 0);
 
-  tempstr = item->time(KIO::UDS_ACCESS_TIME);
+  dt.setTime_t( item->time(KIO::UDS_ACCESS_TIME) );
+  tempstr = KGlobal::locale()->formatDateTime(dt);
   l = new QLabel(tempstr, this);
   grid->addWidget(l, curRow++, 2);
 
   vbl->addStretch(1);
 }
 
-bool FilePropsPage::supports( KonqFileItemList /*_items*/ )
+bool FilePropsPage::supports( KFileItemList /*_items*/ )
 {
   return true;
 }
@@ -910,7 +914,7 @@ FilePermissionsPropsPage::FilePermissionsPropsPage( PropertiesDialog *_props )
     cl[2]->setText(i18n("<b>Others</b>"));
 }
 
-bool FilePermissionsPropsPage::supports( KonqFileItemList /*_items*/ )
+bool FilePermissionsPropsPage::supports( KFileItemList /*_items*/ )
 {
   return true;
 }
@@ -1153,9 +1157,9 @@ void ExecPropsPage::enableSuidEdit()
   suidEdit->setEnabled(suidCheck->isChecked());
 }
 
-bool ExecPropsPage::supports( KonqFileItemList _items )
+bool ExecPropsPage::supports( KFileItemList _items )
 {
-  KonqFileItem * item = _items.first();
+  KFileItem * item = _items.first();
   // check if desktop file
   if ( !PropsPage::isDesktopFile( item ) )
     return false;
@@ -1234,9 +1238,9 @@ URLPropsPage::URLPropsPage( PropertiesDialog *_props )
   layout->addStretch (1);
 }
 
-bool URLPropsPage::supports( KonqFileItemList _items )
+bool URLPropsPage::supports( KFileItemList _items )
 {
-  KonqFileItem * item = _items.first();
+  KFileItem * item = _items.first();
   // check if desktop file
   if ( !PropsPage::isDesktopFile( item ) )
     return false;
@@ -1368,7 +1372,7 @@ void ApplicationPropsPage::addMimeType( const char * name )
     availableExtensionsList->inSort( name );
 }
 
-bool ApplicationPropsPage::supports( KonqFileItemList _items )
+bool ApplicationPropsPage::supports( KFileItemList _items )
 {
   // same constraints as ExecPropsPage : desktop file with Type = Application
   return ExecPropsPage::supports( _items );
@@ -1504,9 +1508,9 @@ BindingPropsPage::BindingPropsPage( PropertiesDialog *_props ) : PropsPage( _pro
       cbAutoEmbed->setNoChange();
 }
 
-bool BindingPropsPage::supports( KonqFileItemList _items )
+bool BindingPropsPage::supports( KFileItemList _items )
 {
-  KonqFileItem * item = _items.first();
+  KFileItem * item = _items.first();
   // check if desktop file
   if ( !PropsPage::isDesktopFile( item ) )
     return false;
@@ -1707,9 +1711,9 @@ void DevicePropsPage::slotActivated( int index )
   fstype->setText( lst[indexFSType] );
 }
 
-bool DevicePropsPage::supports( KonqFileItemList _items )
+bool DevicePropsPage::supports( KFileItemList _items )
 {
-  KonqFileItem * item = _items.first();
+  KFileItem * item = _items.first();
   // check if desktop file
   if ( !PropsPage::isDesktopFile( item ) )
     return false;

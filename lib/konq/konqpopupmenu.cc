@@ -71,7 +71,7 @@ public:
   QPopupMenu *m_menu;
 };
 
-KonqPopupMenu::KonqPopupMenu( const KonqFileItemList &items,
+KonqPopupMenu::KonqPopupMenu( const KFileItemList &items,
                               KURL viewURL,
                               KActionCollection & actions,
                               KNewMenu * newMenu )
@@ -99,7 +99,7 @@ KonqPopupMenu::KonqPopupMenu( const KonqFileItemList &items,
   KProtocolManager pManager = KProtocolManager::self();
 
   KURL url;
-  KonqFileItemListIterator it ( m_lstItems );
+  KFileItemListIterator it ( m_lstItems );
   // Check whether all URLs are correct
   for ( ; it.current(); ++it )
   {

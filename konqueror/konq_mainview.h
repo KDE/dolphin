@@ -87,9 +87,9 @@ public:
 
 public slots:
 
-  void slotPopupMenu( const QPoint &_global, const KonqFileItemList &_items );
+  void slotPopupMenu( const QPoint &_global, const KFileItemList &_items );
   void slotPopupMenu( const QPoint &_global, const KURL &_url, const QString &_mimeType, mode_t mode );
-  void slotPopupMenu( KXMLGUIClient *client, const QPoint &_global, const KonqFileItemList &_items );
+  void slotPopupMenu( KXMLGUIClient *client, const QPoint &_global, const KFileItemList &_items );
   void slotPopupMenu( KXMLGUIClient *client, const QPoint &_global, const KURL &_url, const QString &_mimeType, mode_t mode );
 
   void openURL( const KURL &url, const KParts::URLArgs &args );
