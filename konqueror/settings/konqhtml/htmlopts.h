@@ -40,7 +40,6 @@ public slots:
   void slotStandardFont(const QString& n);
   void slotFixedFont(const QString& n);
   void slotCharset( const QString& n);
-  void slotBgColorChanged( const QColor &col );
   void slotTextColorChanged( const QColor &col );
   void slotLinkColorChanged( const QColor &col );
   void slotVLinkColorChanged( const QColor &col );
@@ -76,7 +75,6 @@ private:
   QStrList fixedFonts;
   QStringList charsets;
 
-  KColorButton* m_pBg;
   KColorButton* m_pText;
   KColorButton* m_pLink;
   KColorButton* m_pVLink;

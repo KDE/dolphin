@@ -109,22 +109,6 @@ KAppearanceOptions::KAppearanceOptions(KConfig *config, QString group, QWidget *
 
     connect( bg, SIGNAL( clicked( int ) ), SLOT( slotFontSize( int ) ) );
 
-    label = new QLabel( i18n("Background Color:"), this );
-    lay->addWidget( label, ++r, E);
-
-    m_pBg = new KColorButton( bgColor, this );
-    lay->addWidget(m_pBg, r, M);
-
-    wtstr = i18n("This is the default background color for web pages. Note that if 'Always use my colors' "
-       "is not selected, this value can be overridden by a differing web page.");
-    QWhatsThis::add( label, wtstr );
-    QWhatsThis::add( m_pBg, wtstr );
-
-    connect( m_pBg, SIGNAL( changed( const QColor & ) ),
-             SLOT( slotBgColorChanged( const QColor & ) ) );
-    connect( m_pBg, SIGNAL( changed( const QColor & ) ),
-             SLOT( changed() ) );
-
     label = new QLabel( i18n("Normal Text Color:"), this );
     lay->addWidget( label, ++r, E);
 
@@ -269,8 +253,6 @@ void KAppearanceOptions::load()
     fixedName = m_pConfig->readEntry( "FixedFont" );
     charsetName = m_pConfig->readEntry( "DefaultCharset" );
 
-    bgColor = KGlobalSettings::baseColor();
-    bgColor = m_pConfig->readColorEntry( "BgColor", &bgColor );
     textColor = KGlobalSettings::textColor();
     textColor = m_pConfig->readColorEntry( "TextColor", &textColor );
     linkColor = KGlobalSettings::linkColor();
@@ -279,7 +261,6 @@ void KAppearanceOptions::load()
     vLinkColor = m_pConfig->readColorEntry( "VLinkColor", &vLinkColor);
     bool forceDefaults = m_pConfig->readBoolEntry("ForceDefaultColors", false);
 
-    m_pBg->setColor( bgColor );
     m_pText->setColor( textColor );
     m_pLink->setColor( linkColor );
     m_pVLink->setColor( vLinkColor );
@@ -300,7 +281,6 @@ void KAppearanceOptions::defaults()
     linkColor = KGlobalSettings::linkColor();
     vLinkColor = KGlobalSettings::visitedLinkColor();
 
-    m_pBg->setColor( bgColor );
     m_pText->setColor( textColor );
     m_pLink->setColor( linkColor );
     m_pVLink->setColor( vLinkColor );
@@ -352,7 +332,6 @@ void KAppearanceOptions::save()
     if (charsetName == i18n("Use language charset"))
         charsetName = "";
     m_pConfig->writeEntry( "DefaultCharset", charsetName );
-    m_pConfig->writeEntry( "BgColor", bgColor );
     m_pConfig->writeEntry( "TextColor", textColor );
     m_pConfig->writeEntry( "LinkColor", linkColor);
     m_pConfig->writeEntry( "VLinkColor", vLinkColor );
@@ -364,12 +343,6 @@ void KAppearanceOptions::save()
 void KAppearanceOptions::changed()
 {
   emit KCModule::changed(true);
-}
-
-void KAppearanceOptions::slotBgColorChanged( const QColor &col )
-{
-    if ( bgColor != col )
-        bgColor = col;
 }
 
 void KAppearanceOptions::slotTextColorChanged( const QColor &col )
