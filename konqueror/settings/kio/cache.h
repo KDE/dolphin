@@ -1,7 +1,7 @@
 /*
    cache.h - Proxy configuration dialog
 
-   Copyright (C) 2001- Dawit Alemayehu <adawit@kde.org>
+   Copyright (C) 2001,02,03 Dawit Alemayehu <adawit@kde.org>
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public
@@ -24,42 +24,27 @@
 
 #include <kcmodule.h>
 
-
-class QLabel;
-class QSpinBox;
-class QCheckBox;
-class QPushButton;
-class QRadioButton;
-class QButtonGroup;
+class CacheDlgUI;
 
 class KCacheConfigDialog : public KCModule
 {
-    Q_OBJECT
-
+  Q_OBJECT
+  
 public:
-    KCacheConfigDialog( QWidget* parent = 0 );
-    ~KCacheConfigDialog();
-
-    virtual void load();
-    virtual void save();
-    virtual void defaults();
-    QString quickHelp() const;
+  KCacheConfigDialog( QWidget* parent = 0 );
+  ~KCacheConfigDialog() {};
+  
+  virtual void load();
+  virtual void save();
+  virtual void defaults();
+  QString quickHelp() const;
 
 protected slots:
-  void configChanged() { setChanged( true ); };
+  void configChanged();
   void slotClearCache();
 
 private:
-    QCheckBox* cb_useCache;
-
-    QButtonGroup* gb_Cache_policy;
-    QRadioButton* rb_verify;
-    QRadioButton* rb_cacheIfPossible;
-    QRadioButton* rb_offlineMode;
-
-    QLabel* lb_max_cache_size;
-    QSpinBox* sb_max_cache_size;
-    QPushButton* pb_clearCache;
+  CacheDlgUI* m_dlg;
 };
 
 #endif // CACHE_H
