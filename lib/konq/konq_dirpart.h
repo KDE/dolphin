@@ -47,6 +47,8 @@ public:
 
     QScrollView * scrollWidget();
 
+    void saveNameFilter( QDataStream &stream );
+    void restoreNameFilter( QDataStream &stream );
     virtual void saveState( QDataStream &stream );
     virtual void restoreState( QDataStream &stream );
 
@@ -117,6 +119,12 @@ public:
     virtual KFileItemList selectedFileItems() {KFileItemList lst; return lst;};
 
 signals:
+    /**
+     * We emit this if we want a find part to be created for us.
+     * This happens when restoring from history
+     */
+    void findOpen( KonqDirPart * );
+
     /**
      * We emit this to ask konq to close the find part
      */

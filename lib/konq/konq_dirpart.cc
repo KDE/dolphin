@@ -23,6 +23,7 @@
 #include "konq_settings.h"
 
 #include <kaction.h>
+#include <kdatastream.h>
 #include <kcolordlg.h>
 #include <kdebug.h>
 #include <kfileitem.h>
@@ -141,17 +142,42 @@ void KonqDirPart::mmbClicked( KFileItem * fileItem )
         fileItem->run();
 }
 
+void KonqDirPart::saveNameFilter( QDataStream &stream )
+{
+    stream << m_nameFilter;
+}
+
 void KonqDirPart::saveState( QDataStream &stream )
 {
-    //kdDebug(1203) << "void KonqDirPart::saveState( QDataStream &stream )" << endl;
-    stream << m_nameFilter;
+    kdDebug(1203) << " -- void KonqDirPart::saveState( QDataStream &stream )" << endl;
+    if ( !m_findPart )
+        stream << false;
+    else
+    {
+        kdDebug(1203) << "KonqDirPart::saveState -> saving TRUE" << endl;
+        stream << true;
+        // TODO save the kfindpart in there
+    }
+}
+
+void KonqDirPart::restoreNameFilter( QDataStream &stream )
+{
+    stream >> m_nameFilter;
+    kdDebug(1203) << "KonqDirPart::restoreNameFilter " << m_nameFilter << endl;
 }
 
 void KonqDirPart::restoreState( QDataStream &stream )
 {
     // Warning: see comment in IconViewBrowserExtension::restoreState about order
-    //kdDebug(1203) << "void KonqDirPart::restoreState( QDataStream &stream )" << endl;
-    stream >> m_nameFilter;
+    kdDebug(1203) << " -- void KonqDirPart::restoreState( QDataStream &stream )" << endl;
+    bool bFindPart;
+    stream >> bFindPart;
+    kdDebug() << "KonqDirPart::restoreState " << bFindPart << endl;
+    if ( bFindPart )
+    {
+        // TODO restore the kfindpart data
+        emit findOpen( this );
+    }
 }
 
 void KonqDirPart::slotClipboardDataChanged()
