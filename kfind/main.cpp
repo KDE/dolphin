@@ -9,6 +9,7 @@
 #include "kfindtop.h"
 #include "kfsave.h"
 #include <kglobal.h>
+#include <kstddirs.h>
 
 KfSaveOptions *saving;
 
@@ -18,6 +19,9 @@ int main( int argc, char ** argv )
     QString searchPath;
 
     KApplication app( argc, argv, "kfind" );
+
+    // insert application toolbar dir in resource "toolbar" (Michael)
+    KGlobal::dirs()->addResourceType( "toolbar", KStandardDirs::kde_default("data") + "kfind/toolbar/");
   
     //Scan for saving options in kfind resource file
     saving = new KfSaveOptions();
