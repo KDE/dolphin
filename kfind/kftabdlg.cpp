@@ -14,7 +14,8 @@
 #include <klocale.h>
 #include <kmessagebox.h>
 #include <kfiledialog.h>
-#include <kregexpdialog.h>
+#include <kregexpeditor.h>
+#include <kregexpdialoginterface.h>
 
 #include "kquery.h"
 #include <qpushbutton.h>
@@ -329,12 +330,16 @@ void KfindTabWidget::loadHistory()
 void KfindTabWidget::slotEditRegExp() 
 {
   if ( ! regExpDialog )
-    regExpDialog = new KRegExpDialog( this );
+    regExpDialog = KRegExpEditor::createDialog( this );
 
-  regExpDialog->slotSetRegExp( textEdit->text() );
+  KRegExpDialogInterface *iface = dynamic_cast<KRegExpDialogInterface *>( regExpDialog );
+  if ( !iface )
+      return;
+
+  iface->regExpEditor()->setProperty( "regexp", textEdit->text() );
   bool ok = regExpDialog->exec();
   if ( ok )
-    textEdit->setText( regExpDialog->regexp() );
+    textEdit->setText( iface->regExpEditor()->property( "regexp" ).toString() );
 }
 
 void KfindTabWidget::slotSizeBoxChanged(int index)

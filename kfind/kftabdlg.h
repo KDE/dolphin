@@ -25,7 +25,7 @@ class QLineEdit;
 class QString;
 class QDate;
 class QRegExp;
-class KRegExpDialog;
+class QDialog;
 
 class KfDirDialog;
 
@@ -97,7 +97,7 @@ private:
   QSpinBox *sizeEdit;
   QCheckBox *caseContextCb;
   QCheckBox *regexpContentCb;
-  KRegExpDialog *regExpDialog;
+  QDialog *regExpDialog;
 
   KURL m_url;
 
