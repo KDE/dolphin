@@ -165,6 +165,7 @@ public:
   void updateToolBarActions();
   void updateOpenWithActions();
   void updateViewModeActions();
+  void updateViewActions();
 
   bool fullScreenMode() const { return m_bFullScreen; }
 

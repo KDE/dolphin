@@ -300,7 +300,7 @@ void KonqViewManager::removePart( KParts::Part * part )
 
 void KonqViewManager::viewCountChanged()
 {
-  bool bShowActiveViewIndicator = ( m_pMainWindow->activeViewsCount() > 1 );
+  bool bShowActiveViewIndicator = ( m_pMainWindow->/*activeViewsCount*/viewCount() > 1 );
   bool bShowLinkedViewIndicator = ( m_pMainWindow->viewCount() > 1 );
 
   KonqMainWindow::MapViews mapViews = m_pMainWindow->viewMap();
@@ -358,9 +358,10 @@ KonqView *KonqViewManager::chooseNextView( KonqView *view )
 
   KonqMainWindow::MapViews::Iterator startIt = it;
 
-  // kdDebug(1202) << "KonqViewManager::chooseNextView: count=" << mapViews.count() << endl;
+  kdDebug(1202) << "KonqViewManager::chooseNextView: count=" << mapViews.count() << endl;
   while ( true )
   {
+    kdDebug() << "*KonqViewManager::chooseNextView going next" << endl;
     if ( ++it == end ) // move to next
       it = mapViews.begin(); // rewind on end
 
@@ -370,6 +371,7 @@ KonqView *KonqViewManager::chooseNextView( KonqView *view )
     KonqView *nextView = it.data();
     if ( nextView && !nextView->isPassiveMode() )
       return nextView;
+    kdDebug() << "KonqViewManager::chooseNextView nextView=" << nextView << " passive=" << nextView->isPassiveMode() << endl;
   }
 
   kdDebug(1202) << "KonqViewManager::chooseNextView: returning 0L" << endl;
@@ -525,6 +527,12 @@ void KonqViewManager::loadViewProfile( KConfig &cfg, const QString & filename,
       loadItem( cfg, m_pMainContainer, rootItem, defaultURL, forcedURL.isEmpty() );
 
       m_bLoadingProfile = false;
+
+      m_pMainWindow->enableAllActions(true);
+
+      // This flag disables calls to viewCountChanged while creating the views,
+      // so we do it once at the end :
+      m_pMainWindow->viewCountChanged();
   }
   else
   {

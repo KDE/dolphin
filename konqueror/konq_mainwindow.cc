@@ -127,11 +127,6 @@ KonqMainWindow::KonqMainWindow( const KURL &initialURL, bool openInitialURL, con
 
   m_pViewManager = new KonqViewManager( this );
 
-
-  // See KonqViewManager::setActivePart
-  //connect( m_pViewManager, SIGNAL( activePartChanged( KParts::Part * ) ),
-  //       this, SLOT( slotPartActivated( KParts::Part * ) ) );
-
   m_toggleViewGUIClient = new ToggleViewGUIClient( this );
 
   m_openWithActions.setAutoDelete( true );
@@ -800,11 +795,7 @@ void KonqMainWindow::slotDuplicateWindow()
   if (mainWindow->currentView())
   {
       mainWindow->viewManager()->mainContainer()->copyHistory( m_pViewManager->mainContainer() );
-
-      mainWindow->enableAllActions( true );
   }
-  else
-      mainWindow->disableActionsNoView();
   mainWindow->show();
 }
 
@@ -1424,6 +1415,7 @@ void KonqMainWindow::slotPartActivated( KParts::Part *part )
 
   updateOpenWithActions();
   updateLocalPropsActions();
+  updateViewActions(); // undo, lock and link
 
   if ( !m_bViewModeToggled ) // if we just toggled the view mode via the view mode actions, then
                              // we don't need to do all the time-taking stuff below (Simon)
@@ -1435,17 +1427,10 @@ void KonqMainWindow::slotPartActivated( KParts::Part *part )
 
   m_bViewModeToggled = false;
 
-  slotUndoAvailable( KonqUndoManager::self()->undoAvailable() );
-
   m_currentView->frame()->statusbar()->repaint();
 
   if ( oldView )
     oldView->frame()->statusbar()->repaint();
-
-  // Can lock a view only if there is a next view
-  m_paLockView->setEnabled(m_pViewManager->chooseNextView(m_currentView) != 0L );
-  // Can remove view if we'll still have a main view after that
-  m_paRemoveView->setEnabled( mainViewsCount() > 1 || m_currentView->isToggleView() );
 
   if ( !m_bLockLocationBarURL )
   {
@@ -1477,7 +1462,9 @@ void KonqMainWindow::insertChildView( KonqView *childView )
            this, SLOT( slotViewCompleted( KonqView * ) ) );
 
   childView->callExtensionBoolMethod( "setSaveViewPropertiesLocally(bool)", m_bSaveViewPropertiesLocally );
-  viewCountChanged();
+
+  if ( !m_pViewManager->isLoadingProfile() ) // see KonqViewManager::loadViewProfile
+      viewCountChanged();
   emit viewAdded( childView );
 }
 
@@ -1510,9 +1497,7 @@ void KonqMainWindow::viewCountChanged()
   // This is called when the number of views changes.
   kdDebug(1202) << "KonqMainWindow::viewCountChanged" << endl;
 
-  // done in slotPartActivated now
-  //m_paRemoveView->setEnabled( mainViewsCount() > 1 );
-  //m_paLinkView->setEnabled( viewCount() > 1 );
+  m_paLinkView->setEnabled( viewCount() > 1 );
 
   // Only one view -> make it unlinked
   if ( viewCount() == 1 )
@@ -1557,8 +1542,9 @@ void KonqMainWindow::viewsChanged()
     m_paMoveFiles = 0L;
   }
 
+  // done in slotPartActivated now
   // Can lock a view only if there is a next view
-  m_paLockView->setEnabled(m_pViewManager->chooseNextView(m_currentView) != 0L );
+  //m_paLockView->setEnabled(m_pViewManager->chooseNextView(m_currentView) != 0L );
 }
 
 KonqView * KonqMainWindow::childView( KParts::ReadOnlyPart *view )
@@ -2577,6 +2563,21 @@ void KonqMainWindow::updateToolBarActions()
     stopAnimation(); // takes care of m_paStop
 }
 
+void KonqMainWindow::updateViewActions()
+{
+  slotUndoAvailable( KonqUndoManager::self()->undoAvailable() );
+
+  // Can lock a view only if there is a next view
+  m_paLockView->setEnabled(m_pViewManager->chooseNextView(m_currentView) != 0L );
+  kdDebug() << "KonqMainWindow::updateViewActions m_paLockView enabled ? " << m_paLockView->isEnabled() << endl;
+
+  // Can remove view if we'll still have a main view after that
+  m_paRemoveView->setEnabled( mainViewsCount() > 1 ||
+                              ( m_currentView && m_currentView->isToggleView() ) );
+
+  m_paLinkView->setChecked( m_currentView && m_currentView->isLinkedView() );
+}
+
 QString KonqMainWindow::findIndexFile( const QString &dir )
 {
   QDir d( dir );
@@ -2694,18 +2695,12 @@ void KonqMainWindow::enableAllActions( bool enable )
       // no locked views either
       m_paUnlockAll->setEnabled( false );
 
-      // done in slotPartActivated now
-      // removeview only if more than one main view
-      //m_paRemoveView->setEnabled( mainViewsCount() > 1 );
-      // link view only if more than one view
-      //m_paLinkView->setEnabled( viewCount() > 1 );
-
       // Load profile submenu
       m_pViewManager->profileListDirty();
 
       currentProfileChanged();
 
-      slotUndoAvailable( KonqUndoManager::self()->undoAvailable() );
+      updateViewActions(); // undo, lock and link
 
       m_paStop->setEnabled( m_currentView && m_currentView->isLoading() );
 
@@ -2950,10 +2945,6 @@ void KonqMainWindow::readProperties( KConfig *config )
 {
   kdDebug() << "KonqMainWindow::readProperties( KConfig *config )" << endl;
   m_pViewManager->loadViewProfile( *config, QString::null /*no profile name*/ );
-  if (m_currentView)
-      enableAllActions( true );
-  else
-      disableActionsNoView();
 }
 
 void KonqMainWindow::setInitialFrameName( const QString &name )
