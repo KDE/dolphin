@@ -42,6 +42,8 @@ View *KonqPart::createView( QWidget *parent, const char *name )
 {
   KonqMainView *view = new KonqMainView( this, parent, name ? name : "KonqMainView" );
 
+  addView( view );
+
   if ( m_bOpenInitialURL )
   {
     KConfig *config = KonqFactory::global()->config();
