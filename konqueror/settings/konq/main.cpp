@@ -50,7 +50,7 @@
 int konq_screen_number = 0;
 
 
-KonqyModule::KonqyModule(QWidget *parent, const char *name)
+KonqyModule::KonqyModule(QWidget *parent, const char *)
   : KCModule(parent, "kcmkonq")
 {
   if (qt_xdisplay())
@@ -143,7 +143,7 @@ void KonqyModule::moduleChanged(bool state)
 
 /////////////////////////////////////////////////////////////////////////////
 
-KDesktopModule::KDesktopModule(QWidget *parent, const char *name)
+KDesktopModule::KDesktopModule(QWidget *parent, const char *)
   : KCModule(parent, "kcmkonq")
 {
     QCString configname;

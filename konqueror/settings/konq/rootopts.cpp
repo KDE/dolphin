@@ -81,7 +81,7 @@ private:
 
 static const char * s_choices[6] = { "", "WindowListMenu", "DesktopMenu", "AppMenu", "CustomMenu1", "CustomMenu2" };
 
-KRootOptions::KRootOptions(KConfig *config, QWidget *parent, const char *name )
+KRootOptions::KRootOptions(KConfig *config, QWidget *parent, const char * )
     : KCModule( parent, "kcmkonq" ), g_pConfig(config)
 {
   QLabel * tmpLabel;
@@ -371,7 +371,7 @@ QString KRootOptions::quickHelp() const
     "Use the \"Whats This?\" (Shift+F1) to get help on specific options.");
 }
 
-DesktopPathConfig::DesktopPathConfig(QWidget *parent, const char *name )
+DesktopPathConfig::DesktopPathConfig(QWidget *parent, const char * )
     : KCModule( parent, "kcmkonq" )
 {
   QLabel * tmpLabel;

@@ -504,7 +504,7 @@ void UserAgentOptions::changePressed()
 void UserAgentOptions::deletePressed()
 {
   QListViewItem* item;
-  QListViewItem* nextItem;
+  QListViewItem* nextItem = 0;
 
   item = lv_siteUABindings->firstChild ();
 
