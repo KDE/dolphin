@@ -212,6 +212,7 @@ KonqMainWindow::~KonqMainWindow()
   disconnect( actionCollection(), SIGNAL( clearStatusText() ),
               this, SLOT( slotClearStatusText() ) );
 
+  kdDebug(1202) << "KonqMainWindow::~KonqMainWindow saving combo contents" << endl;
   if ( m_combo )
   {
     KConfig *config = KGlobal::config();
@@ -227,6 +228,7 @@ KonqMainWindow::~KonqMainWindow()
 
     config->sync();
   }
+  kdDebug(1202) << "KonqMainWindow::~KonqMainWindow saving combo contents done" << endl;
 
   delete m_pViewManager;
 
@@ -1985,9 +1987,6 @@ void KonqMainWindow::slotToggleFullScreen( bool toggle )
 {
   if ( toggle )
   {
-    m_oldCaption = QWidget::caption();
-    kdDebug() << "old caption is " << m_oldCaption << endl;
-
     // Create toolbar button for exiting from full-screen mode
     QList<KAction> lst;
     lst.append( m_ptaFullScreen );
@@ -1999,7 +1998,10 @@ void KonqMainWindow::slotToggleFullScreen( bool toggle )
 
     menuBar()->hide();
 
+    // Preserve caption, reparent calls setCaption (!)
+    QString m_oldTitle = m_title;
     showFullScreen();
+    setCaption( m_oldTitle );
 
     m_ptaFullScreen->setText( i18n( "Stop Fullscreen Mode" ) );
     m_ptaFullScreen->setIcon( "window_nofullscreen" );
@@ -2014,11 +2016,9 @@ void KonqMainWindow::slotToggleFullScreen( bool toggle )
 
     menuBar()->show();
 
-    showNormal();
-
-    kdDebug() << "caption is " << m_oldCaption << endl;
-
-    QWidget::setCaption( m_oldCaption );
+    QString m_oldTitle = m_title; // The unmodified title
+    showNormal();  // (calls setCaption, i.e. the one in this class!)
+    setCaption( m_oldTitle );
 
     m_ptaFullScreen->setText( i18n( "Fullscreen Mode" ) );
     m_ptaFullScreen->setIcon( "window_fullscreen" );
@@ -2431,7 +2431,7 @@ void KonqMainWindow::setCaption( const QString &caption )
   // but here we never do that.
   if ( !caption.isEmpty() )
   {
-    //kdDebug(1202) << "KonqMainWindow::setCaption(" << caption << ")" << endl;
+    kdDebug(1202) << "KonqMainWindow::setCaption(" << caption << ")" << endl;
     // Keep an unmodified copy of the caption (before kapp->makeStdCaption is applied)
     m_title = caption;
     KParts::MainWindow::setCaption( caption );
@@ -2441,7 +2441,7 @@ void KonqMainWindow::setCaption( const QString &caption )
 QString KonqMainWindow::currentURL() const
 {
   assert( m_currentView );
-  return m_currentView->url().url();
+  return m_currentView->url().prettyURL();
 }
 
 void KonqMainWindow::slotPopupMenu( const QPoint &_global, const KURL &url, const QString &_mimeType, mode_t _mode )

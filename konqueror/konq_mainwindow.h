@@ -460,8 +460,6 @@ private:
 
   KonqMainWindowIface * m_dcopObject;
 
-  QString m_oldCaption;
-
   static QStringList *s_plstAnimatedLogo;
 
   static QList<KonqMainWindow> *s_lstViews;
