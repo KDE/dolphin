@@ -331,7 +331,7 @@ void KEBListViewItem::modUpdate() {
 void KEBListViewItem::setTmpStatus(QString status) {
    QString url = m_bookmark.url().url();
    m_paintstyle = 2;
-   setText(KEBListView::StatusColumn,status);
+   setText(KEBListView::StatusColumn, status);
    m_oldStatus = TestLinkItrHolder::getMod(url);
    TestLinkItrHolder::setMod(url, status);
 }

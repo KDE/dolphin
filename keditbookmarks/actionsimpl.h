@@ -31,6 +31,7 @@ public slots:
    void slotPaste();
    void slotRename();
    void slotChangeURL();
+   void slotChangeComment();
    void slotChangeIcon();
    void slotDelete();
    void slotNewFolder();

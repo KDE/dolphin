@@ -34,7 +34,13 @@ class KEBListView : public KListView
 {
    Q_OBJECT
 public:
-   enum { NameColumn = 0, UrlColumn = 1, StatusColumn = 2, AddressColumn = 3 };
+   enum { 
+      NameColumn = 0,
+      UrlColumn = 1,
+      CommentColumn = 2,
+      StatusColumn = 3,
+      AddressColumn = 4
+   };
    KEBListView(QWidget *parent) : KListView(parent) {}
    virtual ~KEBListView() {}
 

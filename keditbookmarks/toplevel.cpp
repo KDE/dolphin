@@ -136,6 +136,8 @@ void KEBApp::createActions() {
                       actn, SLOT( slotRename() ), actionCollection(), "rename");
    (void) new KAction(i18n("C&hange URL"), "text", Key_F3, 
                       actn, SLOT( slotChangeURL() ), actionCollection(), "changeurl");
+   (void) new KAction(i18n("C&hange Comment"), "text", Key_F4, 
+                      actn, SLOT( slotChangeComment() ), actionCollection(), "changecomment");
    (void) new KAction(i18n("Chan&ge Icon..."), 0, 
                       actn, SLOT( slotChangeIcon() ), actionCollection(), "changeicon");
    (void) new KAction(i18n("Update Favicon"), 0, 
@@ -245,6 +247,7 @@ void KEBApp::setActionsEnabled(SelcAbilities sa) {
                                    
    coll->action("rename")           ->setEnabled(t4);
    coll->action("changeicon")       ->setEnabled(t4);
+   coll->action("changecomment")    ->setEnabled(t4);
    coll->action("changeurl")        ->setEnabled(t4 && !sa.group);
                                    
    coll->action("newfolder")        ->setEnabled(t5);

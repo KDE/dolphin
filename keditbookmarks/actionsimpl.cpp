@@ -230,6 +230,10 @@ void ActionsImpl::slotChangeURL() {
    ListView::self()->rename(KEBListView::UrlColumn);
 }
 
+void ActionsImpl::slotChangeComment() {
+   ListView::self()->rename(KEBListView::CommentColumn);
+}
+
 void ActionsImpl::slotSetAsToolbar() {
    KBookmark bk = ListView::self()->firstSelected()->bookmark();
    Q_ASSERT(bk.isGroup());

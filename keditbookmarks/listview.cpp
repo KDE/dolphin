@@ -63,12 +63,14 @@ void ListView::initListView() {
    m_listView->setRootIsDecorated(false);
    m_listView->addColumn(i18n("Bookmark"), 300);
    m_listView->addColumn(i18n("URL"), 300);
+   m_listView->addColumn(i18n("Comment"), 300);
    m_listView->addColumn(i18n("Status/Last Modified"), 300);
 #ifdef DEBUG_ADDRESSES
    m_listView->addColumn(i18n("Address"), 100);
 #endif
    m_listView->setRenameable(KEBListView::NameColumn);
    m_listView->setRenameable(KEBListView::UrlColumn);
+   m_listView->setRenameable(KEBListView::CommentColumn);
    m_listView->setSorting(-1, false);
    m_listView->setDragEnabled(true);
    m_listView->setSelectionModeExt(KListView::Extended);
@@ -432,6 +434,12 @@ void ListView::slotItemRenamed(QListViewItem *item, const QString &newText, int 
          }
          break;
 
+      case KEBListView::CommentColumn:
+         if (bk.internalElement().attribute("comment") != newText) {
+            cmd = new EditCommand(bk.address(), EditCommand::Edition("comment", newText), i18n("Comment"));
+         }
+         break;
+
       default:
          kdWarning() << "No such column " << column << endl;
          return;
@@ -452,7 +460,7 @@ void ListView::clearSelection() {
 
 void KEBListView::rename(QListViewItem *qitem, int column) {
    KEBListViewItem *item = static_cast<KEBListViewItem *>(qitem);
-   if ( !(column == NameColumn || column == UrlColumn)
+   if ( !(column == NameColumn || column == UrlColumn || column == CommentColumn)
      || KEBApp::self()->readonly()
      || !item || item == firstChild() || item->isEmptyFolder()
      || item->bookmark().isSeparator()
@@ -485,6 +493,7 @@ void KEBListViewItem::normalConstruct(const KBookmark &bk) {
 #ifdef DEBUG_ADDRESSES
    setText(KEBListView::AddressColumn, bk.address());
 #endif
+   setText(KEBListView::CommentColumn, bk.internalElement().attribute("comment"));
    setPixmap(0, SmallIcon(bk.icon()));
    modUpdate();
 }
