@@ -447,6 +447,8 @@ void KonqViewManager::loadViewProfile( KConfig &cfg, const KURL & forcedURL )
   if ( m_pMainWindow->currentView() )
     defaultURL = m_pMainWindow->currentView()->url();
 
+  setActivePart( 0L, true /* immediate */ );
+
   clear();
 
   QString rootItem = cfg.readEntry( "RootItem" );
@@ -464,6 +466,8 @@ void KonqViewManager::loadViewProfile( KConfig &cfg, const KURL & forcedURL )
   m_pMainContainer->show();
 
   loadItem( cfg, m_pMainContainer, rootItem, defaultURL, forcedURL );
+
+  printFullHierarchy( m_pMainContainer );
 
   KonqView *nextChildView = chooseNextView( 0L );
   setActivePart( nextChildView ? nextChildView->part() : 0L, true /* immediate */ );
@@ -510,7 +514,6 @@ void KonqViewManager::loadViewProfile( KConfig &cfg, const KURL & forcedURL )
     m_pMainWindow->resize( width, height );
 
   kdDebug(1202) << "KonqViewManager::loadViewProfile done" << endl;
-  printFullHierarchy( m_pMainContainer );
 }
 
 void KonqViewManager::setActivePart( KParts::Part *part, bool immediate )
