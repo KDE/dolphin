@@ -581,12 +581,12 @@ void KonqViewManager::profileListDirty()
 {
   kdDebug(1202) << "KonqViewManager::profileListDirty()" << endl;
   m_bProfileListDirty = true;
-  /*
-    There's always one profile at least, now...
+#if 0
+  // There's always one profile at least, now...
   QStringList profiles = KonqFactory::instance()->dirs()->findAllResources( "data", "konqueror/profiles/*", false, true );
   if ( m_pamProfiles )
       m_pamProfiles->setEnabled( profiles.count() > 0 );
-  */
+#endif
 }
 
 void KonqViewManager::slotProfileActivated( int id )
