@@ -1,5 +1,6 @@
 /*  This file is part of the KDE project
     Copyright (C) 1998, 1999 Torben Weis <weis@kde.org>
+    Copyright (C) 2000, 2001, 2002 David Faure <david@mandrakesoft.com>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -32,8 +33,9 @@ namespace KIO { class Job; }
 
 /**
  * A file-aware icon view, implementing drag'n'drop, KDE icon sizes,
- * user settings, ...
- * Used by kdesktop and konq_iconview
+ * user settings, animated icons...
+ * Used by kdesktop and konq_iconview.
+ *
  */
 class KonqIconViewWidget : public KIconView
 {
@@ -216,6 +218,8 @@ protected slots:
     void slotPreview(const KFileItem *, const QPixmap &);
     void slotPreviewResult();
 
+    void slotMovieUpdate();
+    void slotReenableAnimation();
 protected:
     virtual QDragObject *dragObject();
     KonqIconDrag *konqDragObject( QWidget * dragSource = 0L );
@@ -234,7 +238,9 @@ protected:
     virtual void contentsMousePressEvent( QMouseEvent *e );
     virtual void contentsMouseReleaseEvent ( QMouseEvent * e );
     virtual void backgroundPixmapChange( const QPixmap & );
+    void readAnimatedIconsConfig();
 
+private:
     KURL m_url;
     const KFileItem * m_rootItem;
 

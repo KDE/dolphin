@@ -1,5 +1,5 @@
 /* This file is part of the KDE project
-   Copyright (C) 1999 David Faure <faure@kde.org>
+   Copyright (C) 1999, 2000, 2001, 2002 David Faure <faure@kde.org>
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Library General Public
@@ -26,6 +26,7 @@
 #include <kurldrag.h>
 #include <kiconeffect.h>
 #include <kfileitem.h>
+#include <kdebug.h>
 
 #undef Bool
 
@@ -38,12 +39,14 @@ struct KFileIVI::Private
 		    // every time)
     QPixmap  thumb; // Raw unprocessed thumbnail
     int	     state; // Currently displayed state of the icon
+    QString m_animatedIcon; // Name of animation
+    bool m_animated;        // Animation currently running ?
 };
 
 KFileIVI::KFileIVI( KonqIconViewWidget *iconview, KFileItem* fileitem, int size )
     : KIconViewItem( iconview, fileitem->text(),
 		     fileitem->pixmap( size, KIcon::DefaultState ) ),
-  m_size(size), m_state( KIcon::DefaultState ),
+    m_size( size ), m_state( KIcon::DefaultState ),
     m_bDisabled( false ), m_bThumbnail( false ), m_fileitem( fileitem )
 {
     setDropEnabled( S_ISDIR( m_fileitem->mode() ) );
@@ -52,6 +55,11 @@ KFileIVI::KFileIVI( KonqIconViewWidget *iconview, KFileItem* fileitem, int size 
     // Cache entry for the icon effects
     d->icons.reset( *pixmap(), QIconSet::Large );
     d->state = KIcon::DefaultState;
+    d->m_animated = false;
+
+    // iconName() requires the mimetype to be known
+    if ( fileitem->isMimeTypeKnown() )
+        setMouseOverAnimation( fileitem->iconName() );
 }
 
 KFileIVI::~KFileIVI()
@@ -94,8 +102,14 @@ void KFileIVI::setIcon( int size, int state, bool recalc, bool redraw )
     else
       m_state = state;
 
+    d->state = m_state;
+    setPixmapDirect( m_fileitem->pixmap( m_size, m_state ), recalc, redraw );
+}
+
+void KFileIVI::setPixmapDirect( const QPixmap& pixmap, bool recalc, bool redraw )
+{
     QIconSet::Mode mode;
-    switch( state )
+    switch( d->state )
     {
 	case KIcon::DisabledState:
 	    mode = QIconSet::Disabled;
@@ -113,9 +127,7 @@ void KFileIVI::setIcon( int size, int state, bool recalc, bool redraw )
     // called with any state and not just normal state. So we just
     // create a dummy empty iconset as base object.
     d->icons = QIconSet();
-    d->icons.setPixmap( m_fileitem->pixmap( m_size, m_state ),
-			QIconSet::Large, mode );
-    d->state = m_state;
+    d->icons.setPixmap( pixmap, QIconSet::Large, mode );
     QIconViewItem::setPixmap( d->icons.pixmap( QIconSet::Large, mode ),
 			      recalc, redraw );
 }
@@ -196,7 +208,7 @@ void KFileIVI::setEffect( int group, int state )
 
 void KFileIVI::refreshIcon( bool redraw )
 {
-    if ( !isThumbnail())
+    if (!isThumbnail())
         setIcon( m_size, m_state, true, redraw );
 }
 
@@ -287,5 +299,33 @@ bool KFileIVI::move( int x, int y )
     return QIconViewItem::move( x, y );
 }
 
-/* vim: set noet sw=4 ts=8 softtabstop=4: */
+bool KFileIVI::hasAnimation() const
+{
+    return !d->m_animatedIcon.isEmpty() && !m_bThumbnail;
+}
 
+void KFileIVI::setMouseOverAnimation( const QString& movieFileName )
+{
+    if ( !movieFileName.isEmpty() )
+    {
+        //kdDebug(1203) << "KIconViewItem::setMouseOverAnimation " << movieFileName << endl;
+        d->m_animatedIcon = movieFileName;
+    }
+}
+
+QString KFileIVI::mouseOverAnimation() const
+{
+    return d->m_animatedIcon;
+}
+
+bool KFileIVI::isAnimated() const
+{
+    return d->m_animated;
+}
+
+void KFileIVI::setAnimated( bool a )
+{
+    d->m_animated = a;
+}
+
+/* vim: set noet sw=4 ts=8 softtabstop=4: */

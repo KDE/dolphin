@@ -1,5 +1,6 @@
 /* This file is part of the KDE projects
    Copyright (C) 1998, 1999 Torben Weis <weis@kde.org>
+   Copyright (C) 2000, 2001, 2002 David Faure <david@mandrakesoft.com>
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public
@@ -24,6 +25,7 @@
 #include <qtimer.h>
 #include <qpainter.h>
 #include <qtooltip.h>
+#include <qmovie.h>
 
 #include <kapplication.h>
 #include <kdebug.h>
@@ -35,6 +37,7 @@
 #include <kglobalsettings.h>
 #include <kpropsdlg.h>
 #include <kipc.h>
+#include <kicontheme.h>
 #include <kiconeffect.h>
 #include <kurldrag.h>
 
@@ -78,13 +81,42 @@ void KFileTip::maybeTip (const QPoint & p)
 
 struct KonqIconViewWidgetPrivate
 {
+    KonqIconViewWidgetPrivate() {
+        pActiveItem = 0;
+        bSoundPreviews = false;
+        pSoundItem = 0;
+        bSoundItemClicked = false;
+        pSoundPlayer = 0;
+        pSoundTimer = 0;
+        pPreviewJob = 0;
+        updateAfterPreview = false;
+
+        doAnimations = true;
+        m_movie = 0L;
+        m_movieBlocked = 0;
+    }
+    ~KonqIconViewWidgetPrivate() {
+        delete pSoundPlayer;
+        delete pSoundTimer;
+        delete m_movie;
+        //delete pPreviewJob; done by stopImagePreview
+    }
     KFileIVI *pActiveItem;
-    bool bSoundPreviews;
-    bool updateAfterPreview;
+    // Sound preview
     KFileIVI *pSoundItem;
-    bool bSoundItemClicked;
     KonqSoundPlayer *pSoundPlayer;
     QTimer *pSoundTimer;
+    bool bSoundPreviews;
+    bool bSoundItemClicked;
+
+    bool updateAfterPreview;
+
+    // Animated icons support
+    bool doAnimations;
+    QMovie* m_movie;
+    int m_movieBlocked;
+    QString movieFileName;
+
     KIO::PreviewJob *pPreviewJob;
     KFileTip* pFileTip;
 };
@@ -117,21 +149,14 @@ KonqIconViewWidget::KonqIconViewWidget( QWidget * parent, const char * name, WFl
     // hardcoded settings
     setSelectionMode( QIconView::Extended );
     setItemTextPos( QIconView::Bottom );
-    
+
     d->pFileTip = new KFileTip(this);
 
     calculateGridX();
     setAutoArrange( true );
     setSorting( true, sortDirection() );
+    readAnimatedIconsConfig();
     m_bSortDirsFirst = true;
-    d->pActiveItem = 0;
-    d->bSoundPreviews = false;
-    d->pSoundItem = 0;
-    d->bSoundItemClicked = false;
-    d->pSoundPlayer = 0;
-    d->pSoundTimer = 0;
-    d->pPreviewJob = 0;
-    d->updateAfterPreview = false;
     m_bMousePressed = false;
     m_LineupMode = LineupBoth;
     // emit our signals
@@ -172,6 +197,13 @@ void KonqIconViewWidget::slotIconChanged( int group )
     if ( m_size == 0 )
       m_size = -1; // little trick to force grid change in setIcons
     setIcons( size ); // force re-determining all icons
+    readAnimatedIconsConfig();
+}
+
+void KonqIconViewWidget::readAnimatedIconsConfig()
+{
+    KConfigGroup cfgGroup( KGlobal::config(), "DesktopIcons" );
+    d->doAnimations = cfgGroup.readBoolEntry( "Animated", true /*default*/ );
 }
 
 void KonqIconViewWidget::slotOnItem( QIconViewItem *item )
@@ -179,7 +211,15 @@ void KonqIconViewWidget::slotOnItem( QIconViewItem *item )
     // Reset icon of previous item
     if( d->pActiveItem != 0L && d->pActiveItem != item )
     {
-	d->pActiveItem->setEffect( KIcon::Desktop, KIcon::DefaultState );
+        if ( d->m_movie && d->pActiveItem->isAnimated() )
+        {
+            d->m_movie->pause(); // we'll see below what we do with it
+            d->pActiveItem->setAnimated( false );
+            d->pActiveItem->refreshIcon( true );
+        }
+        else {
+            d->pActiveItem->setEffect( KIcon::Desktop, KIcon::DefaultState );
+        }
 	d->pActiveItem = 0L;
     }
 
@@ -197,19 +237,64 @@ void KonqIconViewWidget::slotOnItem( QIconViewItem *item )
     {
 	if( item != d->pActiveItem )
 	{
-	    d->pActiveItem = static_cast<KFileIVI *>(item);
-	    d->pActiveItem->setEffect( KIcon::Desktop, KIcon::ActiveState );
+            d->pActiveItem = static_cast<KFileIVI *>(item);
+            if ( d->doAnimations && d->pActiveItem && d->pActiveItem->hasAnimation() )
+            {
+                // Check if cached movie can be used
+                if ( d->m_movie && d->movieFileName == d->pActiveItem->mouseOverAnimation() )
+                {
+                    d->pActiveItem->setAnimated( true );
+                    if (d->m_movieBlocked) {
+                        kdDebug(1203) << "onitem, but blocked" << endl;
+                        d->m_movie->pause();
+                    }
+                    else {
+                        kdDebug(1203) << "we go ahead.." << endl;
+                        d->m_movieBlocked++;
+                        QTimer::singleShot(1200, this, SLOT(slotReenableAnimation()));
+                        d->m_movie->restart();
+                        d->m_movie->unpause();
+                    }
+                }
+                else
+                {
+                    // If the file can't be loaded (e.g. no mng support), the movie will
+                    // simply never call updatePixmap, so no problem.
+                    QMovie movie = KGlobal::iconLoader()->loadMovie( d->pActiveItem->mouseOverAnimation(), KIcon::Desktop, d->pActiveItem->iconSize() );
+                    if ( !movie.isNull() )
+                    {
+                        delete d->m_movie;
+                        d->m_movie = new QMovie( movie ); // shallow copy, don't worry
+                        d->m_movie->connectUpdate( this, SLOT( slotMovieUpdate() ) );
+                        d->movieFileName = d->pActiveItem->mouseOverAnimation();
+                        d->pActiveItem->setAnimated( true );
+                    }
+                    else
+                    {
+                        d->pActiveItem->setAnimated( false );
+                        if (d->m_movie)
+                            d->m_movie->pause();
+                        // No movie available, remember it
+                        d->pActiveItem->setMouseOverAnimation( QString::null );
+                    }
+                }
+            } // animations
+            // Only do the normal "mouseover" effect if no animation is in use
+            if (!d->pActiveItem->isAnimated())
+            {
+                d->pActiveItem->setEffect( KIcon::Desktop, KIcon::ActiveState );
 
-	    //kdDebug(1203) << "desktop;defaultstate=" <<
-	    //      KGlobal::iconLoader()->iconEffect()->
-	    //      fingerprint(KIcon::Desktop, KIcon::DefaultState) <<
-	    //      endl;
-	    //kdDebug(1203) << "desktop;activestate=" <<
-	    //      KGlobal::iconLoader()->iconEffect()->
-	    //      fingerprint(KIcon::Desktop, KIcon::ActiveState) <<
-	    //      endl;
+                //kdDebug(1203) << "desktop;defaultstate=" <<
+                //      KGlobal::iconLoader()->iconEffect()->
+                //      fingerprint(KIcon::Desktop, KIcon::DefaultState) <<
+                //      endl;
+                //kdDebug(1203) << "desktop;activestate=" <<
+                //      KGlobal::iconLoader()->iconEffect()->
+                //      fingerprint(KIcon::Desktop, KIcon::ActiveState) <<
+                //      endl;
+            }
 	}
-	else
+        else // No change in current item
 	{
 	    // No effect. If we want to underline on hover, we should
 	    // force the IVI to repaint here, though!
@@ -218,32 +303,33 @@ void KonqIconViewWidget::slotOnItem( QIconViewItem *item )
     }	// bMousePressed
     else
     {
-      // All features disabled during mouse clicking, e.g. rectangular
-      // selection
-      d->pActiveItem = 0L;
+        // All features disabled during mouse clicking, e.g. rectangular
+        // selection
+        d->pActiveItem = 0L;
     }
 
+    // ## shouldn't this be disabled during rectangular selection too ?
     if (d->bSoundPreviews && d->pSoundPlayer->mimeTypes().contains(
-        static_cast<KFileIVI *>(item)->item()->mimetype()))
+            static_cast<KFileIVI *>(item)->item()->mimetype()))
     {
-      d->pSoundItem = static_cast<KFileIVI *>(item);
-      d->bSoundItemClicked = false;
-      if (!d->pSoundTimer)
-      {
-        d->pSoundTimer = new QTimer(this);
-        connect(d->pSoundTimer, SIGNAL(timeout()), SLOT(slotStartSoundPreview()));
-      }
-      if (d->pSoundTimer->isActive())
-        d->pSoundTimer->stop();
-      d->pSoundTimer->start(500, true);
+        d->pSoundItem = static_cast<KFileIVI *>(item);
+        d->bSoundItemClicked = false;
+        if (!d->pSoundTimer)
+        {
+            d->pSoundTimer = new QTimer(this);
+            connect(d->pSoundTimer, SIGNAL(timeout()), SLOT(slotStartSoundPreview()));
+        }
+        if (d->pSoundTimer->isActive())
+            d->pSoundTimer->stop();
+        d->pSoundTimer->start(500, true);
     }
     else
     {
-      if (d->pSoundPlayer)
-        d->pSoundPlayer->stop();
-      d->pSoundItem = 0;
-      if (d->pSoundTimer && d->pSoundTimer->isActive())
-        d->pSoundTimer->stop();
+        if (d->pSoundPlayer)
+            d->pSoundPlayer->stop();
+        d->pSoundItem = 0;
+        if (d->pSoundTimer && d->pSoundTimer->isActive())
+            d->pSoundTimer->stop();
     }
 }
 
@@ -258,7 +344,26 @@ void KonqIconViewWidget::slotOnViewport()
     if (d->pActiveItem == 0L)
         return;
 
-    d->pActiveItem->setEffect( KIcon::Desktop, KIcon::DefaultState );
+    if ( d->doAnimations && d->m_movie && d->pActiveItem->isAnimated() )
+    {
+        d->pActiveItem->setAnimated( false );
+        // Aborting before the end of the animation ?
+        if (d->m_movie->running()) {
+            d->m_movie->pause();
+            d->m_movieBlocked++;
+            kdDebug(1203) << "on viewport, blocking" << endl;
+            QTimer::singleShot(1200, this, SLOT(slotReenableAnimation()));
+        }
+        d->pActiveItem->refreshIcon( true );
+        Q_ASSERT( d->pActiveItem->state() == KIcon::DefaultState );
+        //delete d->m_movie;
+        //d->m_movie = 0L;
+        // TODO a timer to delete the movie after some time if unused?
+    }
+    else
+    {
+        d->pActiveItem->setEffect( KIcon::Desktop, KIcon::DefaultState );
+    }
     d->pActiveItem = 0L;
 }
 
@@ -291,6 +396,27 @@ void KonqIconViewWidget::slotPreviewResult()
 }
 
     emit imagePreviewFinished();
+}
+
+void KonqIconViewWidget::slotMovieUpdate()
+{
+    //kdDebug(1203) << "KonqIconViewWidget::slotMovieUpdate" << endl;
+    Q_ASSERT( d );
+    Q_ASSERT( d->m_movie );
+    // seems stopAnimation triggers one last update
+    if ( d->pActiveItem && d->m_movie && d->pActiveItem->isAnimated() )
+        d->pActiveItem->setPixmapDirect( d->m_movie->framePixmap(), false, true );
+}
+
+void KonqIconViewWidget::slotReenableAnimation()
+{
+    if (!--d->m_movieBlocked) {
+        if ( d->pActiveItem && d->m_movie && d->m_movie->paused()) {
+            kdDebug(1203) << "reenabled animation" << endl;
+            d->m_movie->restart();
+            d->m_movie->unpause();
+        }
+    }
 }
 
 void KonqIconViewWidget::clear()
@@ -342,8 +468,8 @@ void KonqIconViewWidget::initConfig( bool bInit )
       else
           setItemTextBackground( NoBrush );
     }
-    
-    
+
+
     d->pFileTip->setOptions(m_pSettings->showFileTips(),
                             m_pSettings->numFileTips());
 
@@ -356,7 +482,7 @@ void KonqIconViewWidget::initConfig( bool bInit )
 
     if (!bInit)
         updateContents();
-    
+
 }
 
 void KonqIconViewWidget::setIcons( int size, const char * stopImagePreviewFor )
@@ -1117,7 +1243,7 @@ void KonqIconViewWidget::lineupIcons()
         {
             item = *it;
             int mid = item->x() + item->width()/2 - x1;
-            kdDebug() << "matching " << mid << " left " << left << " right " << right << endl;
+            kdDebug(1203) << "matching " << mid << " left " << left << " right " << right << endl;
             if (mid < left || (mid >= left && mid < right)) {
                 it = items.remove(it);
                 j = (item->y() + item->height()/2 - y1) / dy;
@@ -1131,7 +1257,7 @@ void KonqIconViewWidget::lineupIcons()
             } else
                 ++it;
         }
-        kdDebug() << "next round " << items.count() << endl;
+        kdDebug(1203) << "next round " << items.count() << endl;
         i = QMIN(i+1, nx - 1);
         left += max_icon_x + spacing();
     }

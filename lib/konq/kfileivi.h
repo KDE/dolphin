@@ -1,5 +1,5 @@
 /* This file is part of the KDE project
-   Copyright (C) 1999 David Faure <faure@kde.org>
+   Copyright (C) 1999, 2000, 2001, 2002 David Faure <faure@kde.org>
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Library General Public
@@ -77,6 +77,17 @@ public:
                           bool redraw=false);
 
     /**
+     * Bypass @ref setIcon. This is for animated icons, you should use setIcon
+     * in all other cases.
+     * @param pixmap the pixmap to set - it SHOULD really have the right icon size!
+     * @param recalc whether to update the layout of the icon view when setting the icon
+     * @param redraw whether to redraw the item after setting the icon
+     */
+    void setPixmapDirect( const QPixmap & pixmap,
+                          bool recalc=false,
+                          bool redraw=false);
+
+    /**
      * Notifies that all icon effects on thumbs should be invalidated,
      * e.g. because the effect settings have been changed. The thumb itself
      * is assumed to be still valid (use setThumbnailPixmap() instead
@@ -91,6 +102,11 @@ public:
      * (KIcon::DefaultState, KIcon::ActiveState etc.)
      */
     int state() const { return m_state; }
+
+    /**
+     * Return the theorical size of the icon
+     */
+    int iconSize() const { return m_size; }
 
     /**
      * Set to true when this icon is 'cut'
@@ -127,7 +143,26 @@ public:
      */
     virtual void paintItem( QPainter *p, const QColorGroup &cg );
 
-    bool move( int x, int y );
+    virtual bool move( int x, int y );
+
+    /**
+     * Enable an animation on mouseover, if there is an available mng.
+     * @param movieFileName the base name for the mng, e.g. "folder".
+     * Nothing happens if there is no animation available.
+     */
+    void setMouseOverAnimation( const QString& movieFileName );
+    QString mouseOverAnimation() const;
+    /**
+     * Return true if the icon _might_ have an animation available.
+     * This doesn't mean the .mng exists (only determined when hovering on the
+     * icon - and if it doesn't exist setMouseOverAnimation(QString::null) is called),
+     * and it doesn't mean that it's currently running either.
+     */
+    bool hasAnimation() const;
+
+    /** Return true if we are currently animating this icon */
+    bool isAnimated() const;
+    void setAnimated( bool );
 
 protected:
     virtual void dropped( QDropEvent *e, const QValueList<QIconDragItem> &  );
