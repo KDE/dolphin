@@ -45,7 +45,7 @@
 #include <konqdrag.h>
 #include <kurl.h>
 
-#include <qmsgbox.h>
+#include <qmessagebox.h>
 #include <qfile.h>
 #include <qkeycode.h>
 #include <qpalette.h>

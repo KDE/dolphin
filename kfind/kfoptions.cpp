@@ -6,7 +6,7 @@
 
 #include <qapplication.h>
 #include <qtabdialog.h>
-#include <qmultilinedit.h>
+#include <qmultilineedit.h>
 #include <qbuttongroup.h>
 #include <qradiobutton.h>
 #include <qlabel.h>
