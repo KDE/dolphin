@@ -16,7 +16,7 @@
 #include <kiconloader.h>
 #include <klibloader.h>
 #include <kinstance.h>
-#include <kfileitem.h>
+#include <konqfileitem.h>
 #include <kdirlister.h>
 #include <klocale.h>
 #include <kio/job.h>

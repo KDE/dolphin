@@ -26,7 +26,7 @@
 #include <qdict.h>
 #include <qtimer.h>
 #include <kurl.h>
-#include <kfileitem.h>
+#include <konqfileitem.h>
 
 namespace KIO { class Job; }
 class QCursor;

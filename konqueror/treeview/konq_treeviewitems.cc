@@ -20,7 +20,7 @@
 #include "konq_propsview.h"
 #include "konq_treeviewitems.h"
 #include "konq_treeviewwidget.h"
-#include <kfileitem.h>
+#include <konqfileitem.h>
 #include <kio/job.h>
 #include <kio/global.h>
 #include <klocale.h>

@@ -24,7 +24,7 @@
 
 #include <kcursor.h>
 #include <kdirlister.h>
-#include <kfileitem.h>
+#include <konqfileitem.h>
 #include <kio/paste.h>
 #include <kio/job.h>
 #include <kdebug.h>

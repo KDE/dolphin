@@ -36,7 +36,7 @@
 #include <kdebug.h>
 #include <kdirlister.h>
 #include <kfileivi.h>
-#include <kfileitem.h>
+#include <konqfileitem.h>
 #include <kio/job.h>
 #include <klibloader.h>
 #include <klineeditdlg.h>

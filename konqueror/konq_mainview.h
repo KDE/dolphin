@@ -25,7 +25,7 @@
 #include <qtimer.h>
 #include <qguardedptr.h>
 
-#include <kfileitem.h>
+#include <konqfileitem.h>
 
 #include <kparts/mainwindow.h>
 #include <kbookmark.h>

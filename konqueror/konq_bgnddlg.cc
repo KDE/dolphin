@@ -25,7 +25,7 @@
 #include <qlineedit.h>
 #include <qpushbutton.h>
 
-#include <kfileitem.h>
+#include <konqfileitem.h>
 #include <kfiledialog.h>
 #include <klocale.h>
 #include <kmimetype.h>
