@@ -188,7 +188,7 @@ public:
      * Create a new bookmark folder, as the last child of this group
      * @p text for the folder. If empty, the user will be queried for it.
      */
-    KBookmarkGroup createNewFolder( const QString & text = QString::null, bool emitSignal = false );
+    KBookmarkGroup createNewFolder( const QString & text = QString::null, bool emitSignal = true );
     /**
      * Create a new bookmark separator
      */
@@ -198,7 +198,7 @@ public:
      * Don't forget to use KBookmarkManager::self()->emitChanged( parentBookmark );
      * if this bookmark was added interactively.
      */
-    KBookmark addBookmark( const QString & text, const KURL & url, const QString & icon = QString::null, bool emitSignal = false );
+    KBookmark addBookmark( const QString & text, const KURL & url, const QString & icon = QString::null, bool emitSignal = true );
 
     /**
      * Moves @p item after @p after (which should be a child of ours).
