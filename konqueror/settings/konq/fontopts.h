@@ -34,7 +34,7 @@
 #ifndef __KONQFONT_OPTIONS_H__
 #define __KONQFONT_OPTIONS_H__
 
-#include <qstrlist.h>
+#include <qstringlist.h>
 #include <kcmodule.h>
 
 class KConfig;
@@ -70,8 +70,6 @@ private slots:
   void changed();
 
 private:
-  void getFontList( QStrList &list, const char *pattern );
-  void addFont( QStrList &list, const char *xfont );
   void updateGUI();
 
 private:
@@ -88,7 +86,7 @@ private:
   int fSize;
   QString stdName;
   QFont m_stdFont;
-  QStrList standardFonts;
+  QStringList standardFonts;
 
   KColorButton* m_pBg;
   KColorButton* m_pNormalText;

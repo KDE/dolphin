@@ -38,6 +38,7 @@
 
 #include <konq_defaults.h> // include default values directly from konqueror
 #include <klocale.h>
+#include <kfontdialog.h>
 
 //-----------------------------------------------------------------------------
 
@@ -91,8 +92,8 @@ KonqFontOptions::KonqFontOptions(KConfig *config, QString group, bool desktop, Q
     QWhatsThis::add( label, wtstr );
     QWhatsThis::add( m_pStandard, wtstr );
 
-    getFontList( standardFonts, "-*-*-*-*-*-*-*-*-*-*-p-*-*-*" );
-    m_pStandard->insertStrList( &standardFonts );
+    KFontChooser::getFontList(standardFonts, false);
+    m_pStandard->insertStringList( standardFonts );
     connect( m_pStandard, SIGNAL( activated(const QString&) ),
              SLOT( slotStandardFont(const QString&) ) );
     connect( m_pStandard, SIGNAL( activated(const QString&) ),
@@ -180,49 +181,6 @@ KonqFontOptions::KonqFontOptions(KConfig *config, QString group, bool desktop, Q
     // The last line is empty and grows if resized
 
     load();
-}
-
-void KonqFontOptions::getFontList( QStrList &list, const char *pattern )
-{
-    int num;
-
-    char **xFonts = XListFonts( qt_xdisplay(), pattern, 2000, &num );
-
-    for ( int i = 0; i < num; i++ )
-        addFont( list, xFonts[i] );
-
-    list.sort();
-    XFreeFontNames( xFonts );
-}
-
-void KonqFontOptions::addFont( QStrList &list, const char *xfont )
-{
-    const char *ptr = strchr( xfont, '-' );
-    if ( !ptr )
-        return;
-
-    ptr = strchr( ptr + 1, '-' );
-    if ( !ptr )
-        return;
-
-    QString font = ptr + 1;
-
-    int pos;
-    if ( ( pos = font.find( '-' ) ) > 0 )
-    {
-        font.truncate( pos );
-
-        if ( font.find( "open look", 0, false ) >= 0 )
-            return;
-
-        QStrListIterator it( list );
-
-        for ( ; it.current(); ++it )
-            if ( it.current() == font )
-                return;
-
-        list.append( font.ascii() );
-    }
 }
 
 void KonqFontOptions::slotFontSize( int i )
@@ -315,11 +273,11 @@ void KonqFontOptions::updateGUI()
     if ( stdName.isEmpty() )
         stdName = KGlobalSettings::generalFont().family();
 
-    QStrListIterator sit( standardFonts );
+    QStringList::Iterator sit = standardFonts.begin();
     int i;
-    for ( i = 0; sit.current(); ++sit, i++ )
+    for ( i = 0; sit != standardFonts.end(); ++sit, i++ )
     {
-        if ( stdName == sit.current() )
+        if ( stdName == (*sit) )
             m_pStandard->setCurrentItem( i );
     }
 
