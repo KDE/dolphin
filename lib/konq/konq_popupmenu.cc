@@ -918,13 +918,13 @@ void KonqPopupMenu::slotPopupAddToBookmark()
   if ( m_lstPopupURLs.count() == 1 ) {
     KURL url = m_lstPopupURLs.first();
     QString title = d->m_urlTitle.isEmpty() ? url.prettyURL() : d->m_urlTitle;
-    root.addBookmark( m_pManager, title, url.url() );
+    root.addBookmark( m_pManager, title, url );
   }
   else
   {
     KURL::List::ConstIterator it = m_lstPopupURLs.begin();
     for ( ; it != m_lstPopupURLs.end(); it++ )
-      root.addBookmark( m_pManager, (*it).prettyURL(), (*it).url() );
+      root.addBookmark( m_pManager, (*it).prettyURL(), (*it) );
   }
   m_pManager->emitChanged( root );
 }
