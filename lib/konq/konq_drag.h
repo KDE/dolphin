@@ -60,7 +60,12 @@ protected:
 class KonqDrag : public QUriDrag
 {
 public:
-    KonqDrag( QWidget * dragSource = 0, const char* name = 0 );
+    static KonqDrag * newDrag( const KURL::List & urls, bool move, QWidget * dragSource = 0, const char* name = 0 );
+
+protected:
+    KonqDrag( const QStrList & urls, bool move, QWidget * dragSource, const char* name );
+
+public:
     virtual ~KonqDrag() {}
 
     const char* format( int i ) const;
@@ -68,12 +73,7 @@ public:
 
     void setMoveSelection( bool move ) { m_bCutSelection = move; }
 
-    // Those are used for KonqIconDrag too
-
-    // Decodes urls (much like QUriDrag::decode, but it returns KURLs)
-    static bool decode( const QMimeSource *e, KURL::List &uris );
-
-    // Returns true if the data was cut
+    // Returns true if the data was cut (used for KonqIconDrag too)
     static bool decodeIsCutSelection( const QMimeSource *e );
 
 protected:

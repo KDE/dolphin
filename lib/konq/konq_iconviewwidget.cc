@@ -43,6 +43,7 @@
 #include <kpropsdlg.h>
 #include <kipc.h>
 #include <kiconeffect.h>
+#include <kurldrag.h>
 
 #include <assert.h>
 #include <unistd.h>
@@ -354,7 +355,8 @@ KonqIconDrag * KonqIconViewWidget::konqDragObject( QWidget * dragSource )
     // Append all items to the drag object
     for ( QIconViewItem *it = firstItem(); it; it = it->nextItem() ) {
         if ( it->isSelected() ) {
-          QString itemURL = (static_cast<KFileIVI *>(it))->item()->url().url();
+          QString itemURL = (static_cast<KFileIVI *>(it))->item()->url().url(0, QFont::Unicode);
+          kdDebug() << "itemURL=" << itemURL << endl;
           QIconDragItem id;
           id.setData( QCString(itemURL.latin1()) );
           drag->append( id,
@@ -379,7 +381,7 @@ void KonqIconViewWidget::contentsDragEnterEvent( QDragEnterEvent *e )
             kdError() << "Empty data !" << endl;
         // Cache the URLs, since we need them every time we move over a file
         // (see KFileIVI)
-        bool ok = KonqDrag::decode( e, m_lstDragURLs );
+        bool ok = KURLDrag::decode( e, m_lstDragURLs );
         if( !ok )
             kdError() << "Couldn't decode urls dragged !" << endl;
     }
@@ -401,17 +403,16 @@ QColor KonqIconViewWidget::itemColor() const
     return iColor;
 }
 
-void KonqIconViewWidget::disableIcons( const QStrList & lst )
+void KonqIconViewWidget::disableIcons( const KURL::List & lst )
 {
   for ( QIconViewItem *kit = firstItem(); kit; kit = kit->nextItem() )
   {
       bool bFound = false;
       // Wow. This is ugly. Matching two lists together....
       // Some sorting to optimise this would be a good idea ?
-      for (QStrListIterator it(lst); !bFound && *it; ++it)
+      for (KURL::List::ConstIterator it = lst.begin(); !bFound && it != lst.end(); ++it)
       {
-          QString itemURL = static_cast<KFileIVI *>( kit )->item()->url().url();
-          if ( itemURL == QString::fromLatin1( *it ) ) // *it is encoded already
+          if ( static_cast<KFileIVI *>( kit )->item()->url() == *it )
           {
               bFound = true;
               // maybe remove "it" from lst here ?

@@ -159,7 +159,7 @@ public:
 
     bool isDesktop() const { return m_bDesktop; }
 
-    void disableIcons( const QStrList & lst );
+    void disableIcons( const KURL::List & lst );
 
 public slots:
     /**

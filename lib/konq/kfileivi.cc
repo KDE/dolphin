@@ -25,6 +25,7 @@
 
 #include <kapp.h>
 #include <kipc.h>
+#include <kurldrag.h>
 #undef Bool
 
 KFileIVI::KFileIVI( KonqIconViewWidget *iconview, KonqFileItem* fileitem, int size )
@@ -80,7 +81,7 @@ bool KFileIVI::acceptDrop( const QMimeSource *mime ) const
             // Use cache if we can
             uris = ( static_cast<KonqIconViewWidget*>(iconView()) )->dragURLs();
         else
-            KonqDrag::decode( mime, uris );
+            KURLDrag::decode( mime, uris );
 
         // Check if we want to drop something on itself
         // (Nothing will happen, but it's a convenient way to move icons)

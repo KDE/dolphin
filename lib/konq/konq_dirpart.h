@@ -58,7 +58,7 @@ public:
     /**
      * "Cut" icons : disable those whose URL is in lst, enable the others
      */
-    virtual void disableIcons( const QStrList & lst ) = 0;
+    virtual void disableIcons( const KURL::List & lst ) = 0;
 
     /**
      * Helper for statusbar information about selection

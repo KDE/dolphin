@@ -28,6 +28,7 @@
 #include <kdebug.h>
 #include <kuserprofile.h>
 #include <konq_drag.h>
+#include <kurldrag.h>
 #include <klocale.h>
 
 #include <qapplication.h>
@@ -103,11 +104,11 @@ void KonqDirPart::restoreState( QDataStream &stream )
 
 void KonqDirPart::slotClipboardDataChanged()
 {
-    QStrList lst;
+    KURL::List lst;
     QMimeSource *data = QApplication::clipboard()->data();
     if ( data->provides( "application/x-kde-cutselection" ) && data->provides( "text/uri-list" ) )
         if ( KonqDrag::decodeIsCutSelection( data ) )
-            (void) QUriDrag::decode( data, lst );
+            (void) KURLDrag::decode( data, lst );
 
     disableIcons( lst );
 }

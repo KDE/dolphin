@@ -40,6 +40,7 @@
 #include <kapp.h>
 #include <kdebug.h>
 #include <kdesktopfile.h>
+#include <kurldrag.h>
 #include <kglobalsettings.h>
 #include <kio/job.h>
 #include <kio/paste.h>
@@ -220,7 +221,7 @@ void KonqOperations::doDrop( const KonqFileItem * destItem, QDropEvent * ev, QWi
     KURL dest = destItem->url();
     kdDebug(1203) << "dest : " << dest.url() << endl;
     KURL::List lst;
-    if ( KonqDrag::decode( ev, lst ) ) // Are they urls ?
+    if ( KURLDrag::decode( ev, lst ) ) // Are they urls ?
     {
         if( lst.count() == 0 )
         {

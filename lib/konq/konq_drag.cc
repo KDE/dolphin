@@ -73,9 +73,22 @@ void KonqIconDrag::append( const QIconDragItem &item, const QRect &pr,
 
 //
 
-KonqDrag::KonqDrag( QWidget * dragSource, const char* name )
-  : QUriDrag( dragSource, name ),
-    m_bCutSelection( false )
+KonqDrag * KonqDrag::newDrag( const KURL::List & urls, bool move, QWidget * dragSource, const char* name )
+{
+    // See KURLDrag::newDrag
+    QStrList uris;
+    KURL::List::ConstIterator uit = urls.begin();
+    KURL::List::ConstIterator uEnd = urls.end();
+    // Get each URL encoded in utf8 - and since we get it in escaped
+    // form on top of that, .latin1() is fine.
+    for ( ; uit != uEnd ; ++uit )
+        uris.append( (*uit).url(0, QFont::Unicode).latin1() );
+    return new KonqDrag( uris, move, dragSource, name );
+}
+
+KonqDrag::KonqDrag( const QStrList & urls, bool move, QWidget * dragSource, const char* name )
+  : QUriDrag( urls, dragSource, name ),
+    m_bCutSelection( move )
 {}
 
 const char* KonqDrag::format( int i ) const
@@ -103,16 +116,7 @@ QByteArray KonqDrag::encodedData( const char* mime ) const
 
 //
 
-// Those are used for KonqIconDrag too
-
-bool KonqDrag::decode( const QMimeSource *e, KURL::List &uris )
-{
-    QStrList lst;
-    bool ret = QUriDrag::decode( e, lst );
-    for (QStrListIterator it(lst); *it; ++it)
-      uris.append(KURL(*it)); // *it is encoded already
-    return ret;
-}
+// Used for KonqIconDrag too
 
 bool KonqDrag::decodeIsCutSelection( const QMimeSource *e )
 {
