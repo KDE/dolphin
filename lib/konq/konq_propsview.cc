@@ -75,13 +75,12 @@ KonqPropsView::KonqPropsView( KInstance * instance, KonqPropsView * defaultProps
     m_currentConfig( defaultProps ? 0L : instance->config() ),
     m_defaultProps( defaultProps )
 {
-  d = new Private;
-  d->previewsToShow = 0;    
 
   KConfig *config = instance->config();
   KConfigGroupSaver cgs(config, "Settings");
 
-  d=new Private();
+  d = new Private;
+  d->previewsToShow = 0;    
   d->caseInsensitiveSort=config->readBoolEntry( "CaseInsensitiveSort", false );
 
   m_iIconSize = config->readNumEntry( "IconSize", 0 );
