@@ -171,6 +171,7 @@ private:
    QString m_last_selection_address;
    KEBListView *m_listView;
    KEBListView *m_listView2;
+   bool m_splitView;
 };
 
 #endif

@@ -54,13 +54,12 @@
 ListView* ListView::s_self = 0;
 
 ListView::ListView() {
-   ;
+   m_splitView = false;
 }
 
-#define SPLIT false
-
 void ListView::createListViews(QSplitter *splitter) {
-   if (SPLIT) {
+   (void) self();
+   if (self()->m_splitView) {
       self()->m_listView2 = new KEBListView(splitter, true);
    }
    self()->m_listView = new KEBListView(splitter, false);
@@ -69,7 +68,7 @@ void ListView::createListViews(QSplitter *splitter) {
 
 void ListView::initListViews() {
    self()->m_listView->init();
-   if (SPLIT) {
+   if (m_splitView) {
       self()->m_listView2->init();
    }
 }
@@ -99,7 +98,7 @@ void KEBListView::init() {
 
 void ListView::updateListViewSetup(bool readonly) {
    self()->m_listView->readonlyFlagInit(readonly);
-   if (SPLIT) {
+   if (m_splitView) {
       self()->m_listView2->readonlyFlagInit(readonly);
    }
 }
@@ -122,7 +121,7 @@ void ListView::setInitialAddress(QString address) {
 
 void ListView::connectSignals() {
    connectSignals(m_listView);
-   if (SPLIT) {
+   if (m_splitView) {
       connectSignals(m_listView2);
    }
 }
@@ -427,7 +426,7 @@ void ListView::updateListView() {
 }
 
 void ListView::fillWithGroup() {
-   if (SPLIT) {
+   if (m_splitView) {
       fillWithGroup(m_listView, CurrentMgr::self()->mgr()->root());
       fillWithGroup(m_listView2, CurrentMgr::self()->mgr()->root());
    } else {
@@ -447,7 +446,7 @@ void ListView::fillWithGroup(KEBListView *lv, KBookmarkGroup group, KEBListViewI
    for (KBookmark bk = group.first(); !bk.isNull(); bk = group.next(bk)) {
       KEBListViewItem *item = 0;
       if (bk.isGroup()) {
-         if (!(lv->isFolderList() && SPLIT)) {
+         if (!(lv->isFolderList() && m_splitView)) {
             continue;
          }
          KBookmarkGroup grp = bk.toGroup();
@@ -456,13 +455,13 @@ void ListView::fillWithGroup(KEBListView *lv, KBookmarkGroup group, KEBListViewI
          if (grp.isOpen()) {
             item->QListViewItem::setOpen(true);
          }
-         if (!SPLIT && grp.first().isNull()) {
+         if (!m_splitView && grp.first().isNull()) {
             // empty folder
             new KEBListViewItem(item, item); 
          }
          lastItem = item;
 
-      } else if (!(lv->isFolderList() && SPLIT)) {
+      } else if (!(lv->isFolderList() && m_splitView)) {
          item = lastItem ? new KEBListViewItem(parentItem, lastItem, bk)
                          : new KEBListViewItem(parentItem, bk);
          lastItem = item;
