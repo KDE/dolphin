@@ -68,5 +68,5 @@ Name[zh_CN]=查找文件
 Name[zh_TW]=尋找檔案
 Name[zu]=Thola Amafayela
 X-KDE-StartupNotify=true
-Categories=Qt;KDE;X-KDE-MenuRoot;
+Categories=Qt;KDE;Core;
 OnlyShowIn=KDE;
