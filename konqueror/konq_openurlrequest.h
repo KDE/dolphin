@@ -15,8 +15,8 @@ struct KonqOpenURLRequest {
     typedURL(url), followMode(false), newTab(false), newTabInFront(false), openAfterCurrentPage(false)
     {}
 
-#ifndef NDEBUG
   QString debug() const {
+#ifndef NDEBUG
       QStringList s;
       if ( !args.frameName.isEmpty() )
           s << "frameName=" + args.frameName;
@@ -33,8 +33,10 @@ struct KonqOpenURLRequest {
       if ( openAfterCurrentPage )
           s << "openAfterCurrentPage";
       return "[" + s.join(" ") + "]";
-  }
+#else
+      return QString::null;
 #endif
+  }
 
   QString typedURL; // empty if URL wasn't typed manually
   QString nameFilter; // like *.cpp, extracted from the URL
