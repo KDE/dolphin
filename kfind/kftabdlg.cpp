@@ -156,7 +156,9 @@ KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name)
     betweenType->insertItem(i18n("year(s)"));
     betweenType->setCurrentItem(1);
 
+
     QDate dt = KGlobal::locale()->calendar()->addYears(QDate::currentDate(), -1);
+
     fromDate = new KDateCombo(dt, pages[1], "fromDate");
     toDate = new KDateCombo(pages[1], "toDate");
     timeBox = new QSpinBox(1, 60, 1, pages[1], "timeBox");
@@ -189,14 +191,11 @@ KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name)
     m_groupBox->setDuplicatesEnabled(FALSE);
     m_usernameBox->setInsertionPolicy(QComboBox::AtTop);
     m_groupBox->setInsertionPolicy(QComboBox::AtTop);
-    // Connect
-    connect( sizeBox, SIGNAL(highlighted(int)),
-	     this, SLOT(slotSizeBoxChanged(int)));
 
-
-    rb[0]->setChecked(true);
 
     // Setup
+    timeBox->setButtonSymbols(QSpinBox::PlusMinus);
+    rb[0]->setChecked(true);
     bg->insert( rb[0] );
     bg->insert( rb[1] );
 
@@ -234,9 +233,11 @@ KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name)
     grid1->setRowStretch(6,1);
 
     // Connect
-    connect( findCreated,  SIGNAL(toggled(bool)), SLOT(fixLayout()) );
-    connect( bg,  SIGNAL(clicked(int)), SLOT(fixLayout()) );
+    connect( findCreated,  SIGNAL(toggled(bool)),   SLOT(fixLayout()) );
+    connect( bg,  SIGNAL(clicked(int)), this,   SLOT(fixLayout()) );
+    connect( sizeBox, SIGNAL(highlighted(int)), this, SLOT(slotSizeBoxChanged(int)));
 
+    
     // ************ Page Three
 
     pages[2] = new QWidget( this, "page3" );
@@ -488,6 +489,7 @@ void KfindTabWidget::slotSizeBoxChanged(int index)
 void KfindTabWidget::setDefaults()
 {
     QDate dt = KGlobal::locale()->calendar()->addYears(QDate::currentDate(), -1);
+
     fromDate ->setDate(dt);
     toDate ->setDate(QDate::currentDate());
 

@@ -8,6 +8,7 @@
 #define KFINDDLG_H
 
 #include <kdialogbase.h>
+#include <kdirlister.h>
 
 class QString;
 
@@ -40,6 +41,8 @@ public slots:
   void slotResult(int);
 //  void slotSearchDone();
   void  about ();
+  void slotDeleteItem(KFileItem*);
+  void slotNewItems( const KFileItemList&  );
 
 signals:
   void haveResults(bool);
@@ -54,6 +57,8 @@ private:
   bool isResultReported;
   KQuery *query;
   KStatusBar *mStatusBar;
+  KDirLister *dirlister;
+  bool searching;
 };
 
 #endif

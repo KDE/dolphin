@@ -44,11 +44,12 @@ class KQuery : public QObject
   /* Check if file meets the find's requirements*/
   inline void processQuery(KFileItem*);
 
+ public slots: 
+  /* List of files found using slocate */
+  void slotListEntries(QStringList);
  protected slots:
   /* List of files found using KIO */
   void slotListEntries(KIO::Job *, const KIO::UDSEntryList &);
-  /* List of files found using slocate */
-  void slotListEntries(QStringList);
   void slotResult(KIO::Job *);
   void slotCanceled(KIO::Job *);
   void slotreceivedSdtout(KProcess*,char*,int);

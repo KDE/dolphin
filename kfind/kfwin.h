@@ -55,7 +55,7 @@ private slots:
   void selectionHasChanged();
   void slotExecute(QListViewItem*);
   void slotOpenWith();
-
+  
 protected:
   virtual void resizeEvent(QResizeEvent *e);
 

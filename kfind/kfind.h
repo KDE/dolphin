@@ -55,7 +55,7 @@ private:
     KPushButton *mSave;
     KQuery *query;
 
-public:    
+public:
     KDirLister *dirlister;
 };
 

@@ -9,7 +9,7 @@
  *   the Free Software Foundation; either version 2 of the License, or
  *   (at your option) any later version.
  *
- * KFind (c) 1998-2000 The KDE Developers
+ * KFind (c) 1998-2003 The KDE Developers
   Martin Hartig
   Stephan Kulow <coolo@kde.org>
   Mario Weilguni <mweilguni@sime.com>

@@ -86,6 +86,11 @@ KfindDlg::KfindDlg(const KURL & url, QWidget *parent, const char *name)
 	  SLOT(addFile(const KFileItem*,const QString&)));
   connect(query, SIGNAL(result(int)), SLOT(slotResult(int)));
   aboutWin = new KAboutApplication(this, "about", true);
+
+  dirlister=new KDirLister();
+  connect(dirlister, SIGNAL( deleteItem ( KFileItem* )), this, SLOT(slotDeleteItem(KFileItem*)));
+  connect(dirlister, SIGNAL( newItems ( const KFileItemList& )), this, SLOT(slotNewItems( const KFileItemList& )));
+  searching=false;
 }
 
 KfindDlg::~KfindDlg()
@@ -126,6 +131,9 @@ void KfindDlg::startSearch()
   enableButton(User2, true); // Enable "Stop"
   enableButton(User3, false); // Disable "Save..."
 
+  dirlister->openURL(query->url());
+  //dirlister->disconnect( SIGNAL( newItems ( const KFileItemList& )));
+  searching=true;
   win->beginSearch(query->url());
   tabWidget->beginSearch();
 
@@ -135,6 +143,7 @@ void KfindDlg::startSearch()
 void KfindDlg::stopSearch()
 {
   query->kill();
+  searching=false;
 }
 
 void KfindDlg::newSearch()
@@ -176,9 +185,13 @@ void KfindDlg::slotResult(int errorCode)
   enableButton(User2, false); // Disable "Stop"
   enableButton(User3, true); // Enable "Save..."
 
+  connect(dirlister, SIGNAL( newItems ( const KFileItemList& )), this, SLOT(slotNewItems( const KFileItemList& )));
+
   win->endSearch();
   tabWidget->endSearch();
   setFocus();
+
+  searching=false;
 }
 
 void KfindDlg::addFile(const KFileItem* item, const QString& matchingLine)
@@ -210,4 +223,53 @@ void  KfindDlg::about ()
 {
   aboutWin->show(this);
   //delete aboutWin;
+}
+
+void KfindDlg::slotDeleteItem(KFileItem* item)
+{
+  kdDebug()<<QString("Will remove one item: %1").arg(item->url().path())<<endl;
+  QListViewItem *iter;
+  QString iterwithpath;
+
+  iter=win->firstChild();
+  while( iter ) {
+    iterwithpath=query->url().path(+1)+iter->text(0);
+    kdDebug()<<QString("iterwithpath: %1").arg(iterwithpath)<<endl;
+    if(iterwithpath==item->url().path())
+    {
+      win->takeItem(iter);
+      break;
+    }
+    iter = iter->nextSibling();
+  }
+}
+
+void KfindDlg::slotNewItems( const KFileItemList& items )
+{
+  kdDebug()<<QString("Will try to add some items")<<endl;
+  
+  if(searching)
+    return;
+    
+  kdDebug()<<QString("Will add some items")<<endl;
+  KFileItemListIterator iter(items);
+  QString iterwithpath;
+  QStringList newfiles;
+
+  while(iter.current()!=0)
+  {
+    iterwithpath=iter.current()->url().path();
+    kdDebug()<<QString("Processed: %1 SearchDir= %2").arg(iterwithpath).arg(query->url().path(+1))<<endl;
+    if(iterwithpath.contains(query->url().path(+1))!=0)
+    {
+      kdDebug()<<QString("Can be added, path OK")<<endl;
+      newfiles.append(iterwithpath);
+    }
+    ++iter;
+  }
+  
+  if(!newfiles.isEmpty())
+  {
+    query->slotListEntries(newfiles);
+  }
 }

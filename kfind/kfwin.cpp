@@ -35,6 +35,7 @@
 #include <kio/netaccess.h>
 #include <kurldrag.h>
 #include <qptrlist.h>
+#include <kdebug.h>
 
 #include "kfwin.h"
 
@@ -127,7 +128,7 @@ KfindWindow::KfindWindow( QWidget *parent, const char *name )
   for (int i = 0; i < 6; i++)
     setColumnWidthMode(i, Manual);
 
-  resetColumns(TRUE);
+  resetColumns(true);
 
   connect( this, SIGNAL(selectionChanged()),
 	   this, SLOT( selectionHasChanged() ));
@@ -138,6 +139,7 @@ KfindWindow::KfindWindow( QWidget *parent, const char *name )
   connect(this, SIGNAL(executed(QListViewItem*)),
 	  this, SLOT(slotExecute(QListViewItem*)));
   setDragEnabled(true);
+
 }
 
 
@@ -153,6 +155,7 @@ QString KfindWindow::reducedDir(const QString& fullDir)
 
 void KfindWindow::beginSearch(const KURL& baseUrl)
 {
+  kdDebug()<<QString("beginSearch in: %1").arg(baseUrl.path())<<endl;
   m_baseDir=baseUrl.path(+1);
   haveSelection = false;
   clear();
@@ -329,7 +332,7 @@ void KfindWindow::slotExecute(QListViewItem* item)
 void KfindWindow::resizeEvent(QResizeEvent *e)
 {
   KListView::resizeEvent(e);
-  resetColumns(FALSE);
+  resetColumns(false);
   clipper()->repaint();
 }
 
@@ -425,5 +428,3 @@ void KfindWindow::slotOpenWith()
 {
    KRun::displayOpenWithDialog( KURL::split(((KfFileLVI*)currentItem())->fileitem.url()) );
 }
-
-
