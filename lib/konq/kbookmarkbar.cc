@@ -71,7 +71,7 @@ void KBookmarkBar::fillBookmarkBar(KBookmark *parent)
         return;
 
     KBookmark *bm;
-    for (bm = parent->children()->first(); bm; bm = parent->children()->next())
+    for (bm = parent->first(); bm; bm = parent->next())
     {
         QPixmap pix(KGlobal::iconLoader()->loadApplicationIcon(
                         bm->pixmapFile(), KIconLoader::Small));

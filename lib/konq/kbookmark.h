@@ -71,14 +71,33 @@ public:
   /**
    * Append a new bookmark to the list.
    */
-  void append( KBookmark *_bm ); 
+  void append( const QString& _name, KBookmark *_bm ); 
   
+  /**
+   * Don't iterate on this anymore.  Use @ref first and @ref next
+   * instead
+   */
   QList<KBookmark> *children() { return &m_lstChildren; }
   
   KBookmark* findBookmark( int _id );
 
   static QString stringSqueeze( const QString & str, unsigned int maxlen = 30 );
  
+  // NOTE: these should probably be const.. but that caused problems
+  // with the ConstInterator.  Dunno why
+
+  /**
+   * Returns a pointer to the first bookmark with optional sorting.
+   * Use this and @ref next instead of @ref children.
+   */
+  KBookmark *first();
+
+  /**
+   * Returns a pointer to the next bookmark with optional sorting.
+   * Use this and @ref first instead of @ref children.
+   */
+  KBookmark *next();
+
 protected:
   /**
    * Creates a folder.
@@ -104,6 +123,10 @@ protected:
   QList<KBookmark> m_lstChildren;
 
   KBookmarkManager *m_pManager;
+
+  QDict<KBookmark> m_bookmarkMap;
+  QStringList m_sortOrder;
+  QStringList::Iterator m_sortIt;
 };
 
 /**

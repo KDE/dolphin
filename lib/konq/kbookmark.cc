@@ -44,6 +44,8 @@
 #include <kmimetype.h>
 #include "kfileitem.h"
 
+#include <qstringlist.h>
+
 /**
  * Global ID for bookmarks.
  */
@@ -262,7 +264,7 @@ KBookmark::KBookmark( KBookmarkManager *_bm, KBookmark *_parent, QString _text,
   m_file += '/';
   m_file += _text;
 
-  _parent->append( this );
+  _parent->append( _text, this );
 
   m_pManager->emitChanged();
 }
@@ -292,6 +294,8 @@ KBookmark::KBookmark( KBookmarkManager *_bm, KBookmark *_parent, QString _text )
     KSimpleConfig cfg( directory_file );
     cfg.setDesktopGroup();
 
+    m_sortOrder = cfg.readListEntry( "SortOrder" );
+
     //CT having all directories named "Bookmark entries" is completely useless
     QString name_text = cfg.readEntry( "Name", m_text );
     if (name_text == "Bookmark entries")
@@ -301,7 +305,7 @@ KBookmark::KBookmark( KBookmarkManager *_bm, KBookmark *_parent, QString _text )
   }
 
   if ( _parent )
-    _parent->append( this );
+    _parent->append( _text, this );
 
   if ( m_pManager )
     m_pManager->emitChanged();
@@ -367,19 +371,32 @@ KBookmark::KBookmark( KBookmarkManager *_bm, KBookmark *_parent, QString _text, 
 
   m_pManager->enableNotify();
 
-  _parent->append( this );
+  _parent->append( _text, this );
 
   m_pManager->emitChanged();
 }
 
-void KBookmark::append( KBookmark *_bm )
-{ 
-  /*CT: Kurt said this will be configurable
-  if ( _bm->type() == Folder && BookmarkFoldersFirst)  
-      lstChildren.prepend( _bm) : m_lstChildren.append( _bm );
-  */
-  /* David : Yeah, what about appending the item nonetheless ? */
+KBookmark *KBookmark::first()
+{
+    m_sortIt = m_sortOrder.begin();
+    return m_bookmarkMap.find(*m_sortIt);
+}
+
+KBookmark *KBookmark::next()
+{
+    m_sortIt++;
+    if ( m_sortIt == m_sortOrder.end() )
+        return NULL;
+
+    return m_bookmarkMap.find(*m_sortIt);
+}
+
+void KBookmark::append( const QString& _name, KBookmark *_bm )
+{
   m_lstChildren.append( _bm );
+  m_bookmarkMap.insert( _name, _bm );
+  if ( m_sortOrder.contains( _name ) == 0 )
+    m_sortOrder.append( _name );
 }
 
 void KBookmark::clear()

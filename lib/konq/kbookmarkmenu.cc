@@ -112,7 +112,7 @@ void KBookmarkMenu::fillBookmarkMenu( KBookmark *parent )
     m_parentMenu->insertSeparator();
   }
 
-  for ( KBookmark * bm = parent->children()->first(); bm != 0L;  bm = parent->children()->next() )
+  for ( KBookmark * bm = parent->first(); bm != 0L;  bm = parent->next() )
   {
     if ( bm->type() == KBookmark::URL )
     {
