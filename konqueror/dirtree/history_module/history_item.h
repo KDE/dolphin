@@ -34,10 +34,6 @@ public:
 		     KonqTreeTopLevelItem *topLevelItem );
     ~KonqHistoryItem();
 
-    // just to make the baseclass happy (pure-virtual methods we don't support)
-    virtual bool acceptsDrops( const QStrList & /*formats*/ ) { return false; }
-    virtual void drop( QDropEvent * ) {}
-
     virtual void rightButtonPressed();
 
     virtual void itemSelected();

@@ -45,11 +45,11 @@ public:
     virtual ~KonqTreeItem() {}
 
     // Whether the item accepts a drop consisting in those @p formats
-    virtual bool acceptsDrops( const QStrList & formats ) = 0;
+    virtual bool acceptsDrops( const QStrList & ) { return false; }
 
     // Handle a drop on this item. If you didn't want it, you shouln't
     // have return true in acceptsDrops :)
-    virtual void drop( QDropEvent * ev ) = 0;
+    virtual void drop( QDropEvent * ) {}
 
     // Create a drag object from this item.
     virtual QDragObject * dragObject( QWidget * parent, bool move = false ) = 0;
@@ -73,8 +73,7 @@ public:
     virtual QString toolTipText() const { return QString::null; }
     
     // Called when this item is selected
-    // Reimplement, and emit the appropriate enableAction signals
-    // from tree()->part()->extension()
+    // Reimplement, and call tree()->part()->extension()->enableActions(...)
     virtual void itemSelected() = 0;
 
     // Basically, true for directories and toplevel items

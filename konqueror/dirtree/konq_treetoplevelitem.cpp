@@ -50,7 +50,8 @@ void KonqTreeTopLevelItem::itemSelected()
 
 bool KonqTreeTopLevelItem::acceptsDrops( const QStrList & formats )
 {
-    return formats.contains("text/uri-list");
+    return formats.contains("text/uri-list") &&
+        ( m_bTopLevelGroup || !externalURL().isEmpty() );
 }
 
 void KonqTreeTopLevelItem::drop( QDropEvent * ev )
@@ -99,7 +100,8 @@ void KonqTreeTopLevelItem::drop( QDropEvent * ev )
     }
     else // Top level item, not group
     {
-        KonqOperations::doDrop( 0L, externalURL(), ev, tree() );
+        if ( !externalURL().isEmpty() )
+            KonqOperations::doDrop( 0L, externalURL(), ev, tree() );
     }
 }
 

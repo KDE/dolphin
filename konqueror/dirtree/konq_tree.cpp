@@ -36,6 +36,7 @@
 
 #include <dirtree_module/dirtree_module.h> // TEMPORARY HACK
 #include <history_module/history_module.h> // TEMPORARY HACK
+#include <bookmark_module/bookmark_module.h> // TEMPORARY HACK
 
 static const int autoOpenTimeout = 750;
 
@@ -220,6 +221,13 @@ void KonqTree::contentsMouseMoveEvent( QMouseEvent *e )
 
     // Start a drag
     QDragObject * drag = static_cast<KonqTreeItem *>( item )->dragObject( viewport(), false );
+    const QPixmap *pix = item->pixmap(0);
+    if ( pix ) {
+        QPoint hotspot;
+        hotspot.setX( pix->width() / 2 );
+        hotspot.setY( pix->height() / 2 );
+        drag->setPixmap( *pix, hotspot );
+    }
     if (drag)
         drag->drag();
 }
@@ -239,6 +247,7 @@ void KonqTree::leaveEvent( QEvent *e )
 
 void KonqTree::slotDoubleClicked( QListViewItem *item )
 {
+    kdDebug(1201) << "KonqTree::slotDoubleClicked " << item << endl;
     if ( !item )
         return;
 
@@ -251,6 +260,7 @@ void KonqTree::slotDoubleClicked( QListViewItem *item )
 
 void KonqTree::slotClicked( QListViewItem *item )
 {
+    kdDebug(1201) << "KonqTree::slotClicked " << item << endl;
     if ( !item )
         return;
 
@@ -359,7 +369,8 @@ void KonqTree::scanDir( KonqTreeItem *parent, const QString &path, bool isRoot )
             // Check version number
             // Version 1 was the dirtree of KDE 2.0.x (no versioning at that time, so default)
             // Version 2 includes the history
-            const int currentVersion = 2;
+            // Version 3 includes the bookmarks
+            const int currentVersion = 3;
             QString key = QString::fromLatin1("X-KDE-DirTreeVersionNumber");
             KSimpleConfig versionCfg( path + "/.directory" );
             int versionNumber = versionCfg.readNumEntry( key, 1 );
@@ -513,6 +524,9 @@ void KonqTree::loadTopLevelItem( KonqTreeItem *parent,  const QString &filename 
     kdDebug(1201) << "##### Loading module: " << moduleName << " file: " << filename << endl;
     if ( moduleName == "History" ) {
 	module = new KonqHistoryModule( this );
+    }
+    else if ( moduleName == "Bookmarks" ) {
+	module = new KonqBookmarkModule( this );
     }
     else { // defaulting to Directory module
 	module = new KonqDirTreeModule( this );

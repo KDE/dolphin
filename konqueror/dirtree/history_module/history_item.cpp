@@ -74,15 +74,6 @@ QDragObject * KonqHistoryItem::dragObject( QWidget * parent, bool move )
 
     KonqDrag * drag = KonqDrag::newDrag( lst, false, parent );
     drag->setMoveSelection( move );
-
-    const QPixmap *pix = pixmap(0);
-    if ( pix ) {
-	QPoint hotspot;
-	hotspot.setX( pix->width() / 2 );
-	hotspot.setY( pix->height() / 2 );
-	drag->setPixmap( *pix, hotspot );
-    }
-
     return drag;
 }
 

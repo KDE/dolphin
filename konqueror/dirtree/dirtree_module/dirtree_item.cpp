@@ -98,11 +98,6 @@ QDragObject * KonqDirTreeItem::dragObject( QWidget * parent, bool move )
     lst.append( m_fileItem->url() );
 
     KonqDrag * drag = KonqDrag::newDrag( lst, false, parent );
-
-    QPoint hotspot;
-    hotspot.setX( pixmap( 0 )->width() / 2 );
-    hotspot.setY( pixmap( 0 )->height() / 2 );
-    drag->setPixmap( *(pixmap( 0 )), hotspot );
     drag->setMoveSelection( move );
 
     return drag;
