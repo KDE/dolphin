@@ -1,13 +1,14 @@
 [Desktop Entry]
 Encoding=UTF-8
 Type=Service
-Exec=kcmshell kcmkonq filetypes konqhtml ebrowsing cookies proxy kcmcss crypto useragent nsplugin
+Exec=kcmshell kcmkonq filetypes konqhtml ebrowsing cookies cache proxy kcmcss crypto useragent nsplugin
 Icon=konqueror
 DocPath=konqueror/index.html
 Name=Configure Konqueror
 Name[af]=konfigureer konqueror
 Name[ar]=اعدادات كونكيورر
 Name[az]=Konqueror'u Quraşdır
+Name[be]=Настроіць Konqueror
 Name[bg]=Настройки на Konqueror
 Name[bs]=Podesi Konqueror
 Name[cs]=Nastavit Konqueror
@@ -36,6 +37,7 @@ Name[nn]=Set opp Konqueror
 Name[pl]=Konfiguracja Konquerora
 Name[pt]=Configuração do Konqueror
 Name[pt_BR]=Configurar Konqueror
+Name[ro]=Configurează Konqueror
 Name[ru]=Настройки Konqueror
 Name[sk]=Nastavenie Konquerora
 Name[sl]=Nastavi Konqueror
