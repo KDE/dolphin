@@ -8,6 +8,7 @@
  <Part/>
  <Menu name="Help"><text>&Help</text>
   <Part/>
+  <Action name="konqueror_shell_aboutkde"/>
  </Menu>
 </MenuBar>
 <ToolBars>

@@ -22,7 +22,8 @@
 
 #include <shell.h>
 
-class QAction;
+class KAction;
+class KHelpMenu;
 
 class KonqShell : public Shell
 {
@@ -39,8 +40,10 @@ protected:
   virtual QString configFile() const;
 
 private:
-  QAction *m_paShellClose;
-  QAction *m_paShellQuit;
+  KAction *m_paShellClose;
+  KAction *m_paShellQuit;
+  KAction *m_paShellHelpAboutKDE;
+  KHelpMenu *m_helpMenu;
 };
 
 #endif

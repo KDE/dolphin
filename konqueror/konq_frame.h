@@ -87,7 +87,7 @@ typedef QList<KonqChildView> ChildViewList;
 class KonqFrameBase
 {
  public:
-  virtual void saveConfig( KConfig* config, int id = 0, int depth = 0 ) = 0;
+  virtual void saveConfig( KConfig* config, const QString &prefix, int id = 0, int depth = 0 ) = 0;
 
   virtual void reparent( QWidget* parent, Qt::WFlags f, 
 			 const QPoint & p, bool showIt=FALSE ) = 0;
@@ -145,7 +145,7 @@ public:
   void setChildView( KonqChildView* child ) { m_pChildView = child; }
   void listViews( ChildViewList *viewList );
 
-  void saveConfig( KConfig* config, int id = 0, int depth = 0 );
+  void saveConfig( KConfig* config, const QString &prefix, int id = 0, int depth = 0 );
 
   void reparent(QWidget * parent, WFlags f, 
 		const QPoint & p, bool showIt=FALSE );
@@ -197,7 +197,7 @@ public:
 
   void listViews( ChildViewList *viewList );
 
-  void saveConfig( KConfig* config, int id = 0, int depth = 0 );
+  void saveConfig( KConfig* config, const QString &prefix, int id = 0, int depth = 0 );
 
   KonqFrameBase* firstChild() { return m_pFirstChild; }
   void setFirstChild( KonqFrameBase* child ) { m_pFirstChild = child; }

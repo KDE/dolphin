@@ -427,10 +427,10 @@ KonqFrame::listViews( ChildViewList *viewList )
 }
 
 void 
-KonqFrame::saveConfig( KConfig* config, int /*id*/, int /*depth*/ )
+KonqFrame::saveConfig( KConfig* config, const QString &prefix, int /*id*/, int /*depth*/ )
 {
-  config->writeEntry( QString::fromLatin1( "URL" ), childView()->url() );
-  config->writeEntry( QString::fromLatin1( "ServiceType" ), childView()->serviceTypes().first() );
+  config->writeEntry( QString::fromLatin1( "URL" ).prepend( prefix ), childView()->url() );
+  config->writeEntry( QString::fromLatin1( "ServiceType" ).prepend( prefix ), childView()->serviceTypes().first() );
     
   if ( childView()->supportsServiceType( "inode/directory" ) )
   {
@@ -457,7 +457,7 @@ KonqFrame::saveConfig( KConfig* config, int /*id*/, int /*depth*/ )
       }	
     }
       
-    config->writeEntry( QString::fromLatin1( "DirectoryMode" ), strDirMode );
+    config->writeEntry( QString::fromLatin1( "DirectoryMode" ).prepend( prefix ), strDirMode );
   }
 }
 
@@ -558,14 +558,14 @@ KonqFrameContainer::listViews( ChildViewList *viewList )
 }
 
 void 
-KonqFrameContainer::saveConfig( KConfig* config, int id, int depth )
+KonqFrameContainer::saveConfig( KConfig* config, const QString &prefix, int id, int depth )
 {
   int idSecond = id + (int)pow( 2, depth );
 
   //write own config
 
   //write children sizes
-  config->writeEntry( QString::fromLatin1( "SplitterSizes" ), QVariant( sizes() ) );
+  config->writeEntry( QString::fromLatin1( "SplitterSizes" ).prepend( prefix ), QVariant( sizes() ) );
 
   //write children 
   QStringList strlst;
@@ -574,7 +574,7 @@ KonqFrameContainer::saveConfig( KConfig* config, int id, int depth )
   if( secondChild() )
     strlst.append( secondChild()->frameType() + QString("%1").arg( idSecond ) );
 
-  config->writeEntry( QString::fromLatin1( "Children" ), strlst );
+  config->writeEntry( QString::fromLatin1( "Children" ).prepend( prefix ), strlst );
 
   //write orientation
   QString o;
@@ -582,18 +582,22 @@ KonqFrameContainer::saveConfig( KConfig* config, int id, int depth )
     o = QString::fromLatin1("Horizontal");
   else if( orientation() == Qt::Vertical )
     o = QString::fromLatin1("Vertical");
-  config->writeEntry( QString::fromLatin1( "Orientation" ), o );
+  config->writeEntry( QString::fromLatin1( "Orientation" ).prepend( prefix ), o );
 
 
   //write child configs
   if( firstChild() ) {
-    config->setGroup( firstChild()->frameType() + QString("%1").arg(idSecond - 1) );
-    firstChild()->saveConfig( config, id, depth + 1 );
+//    config->setGroup( firstChild()->frameType() + QString("%1").arg(idSecond - 1) );
+    QString newPrefix = firstChild()->frameType() + QString("%1").arg(idSecond - 1);
+    newPrefix.append( '_' );
+    firstChild()->saveConfig( config, newPrefix, id, depth + 1 );
   } 
 
   if( secondChild() ) {
-    config->setGroup( secondChild()->frameType() + QString("%1").arg( idSecond ) );
-    secondChild()->saveConfig( config, idSecond, depth + 1 );
+//    config->setGroup( secondChild()->frameType() + QString("%1").arg( idSecond ) );
+    QString newPrefix = secondChild()->frameType() + QString("%1").arg( idSecond ); 
+    newPrefix.append( '_' );
+    secondChild()->saveConfig( config, newPrefix, idSecond, depth + 1 );
   }
 }
 

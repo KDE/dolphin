@@ -200,8 +200,10 @@ void KonqViewManager::saveViewProfile( KConfig &cfg )
   kdebug(0, 1202, "KonqViewManager::saveViewProfile");  
   if( m_pMainContainer->firstChild() ) {
     cfg.writeEntry( "RootItem", m_pMainContainer->firstChild()->frameType() + QString("%1").arg( 0 ) );
-    cfg.setGroup(  m_pMainContainer->firstChild()->frameType() + QString("%1").arg( 0 ) );
-    m_pMainContainer->firstChild()->saveConfig( &cfg, 0, 1 );
+//    cfg.setGroup(  m_pMainContainer->firstChild()->frameType() + QString("%1").arg( 0 ) );
+    QString prefix = m_pMainContainer->firstChild()->frameType() + QString("%1").arg( 0 );
+    prefix.append( '_' );
+    m_pMainContainer->firstChild()->saveConfig( &cfg, prefix, 0, 1 );
   } 
   
   cfg.sync();
@@ -235,23 +237,26 @@ void KonqViewManager::loadViewProfile( KConfig &cfg )
 void KonqViewManager::loadItem( KConfig &cfg, KonqFrameContainer *parent, 
 				const QString &name )
 {
+  QString prefix;
   if( name != "InitialView" )
-    cfg.setGroup( name );
+    prefix = name + '_';
+//    cfg.setGroup( name );
+
   kdebug(0, 1202, "begin loadItem: %s",name.data() );  
 
   if( name.find("View") != -1 ) {
     kdebug(0, 1202, "Item is View");  
     //load view config
-    QString url = cfg.readEntry( QString::fromLatin1( "URL" ), QDir::homeDirPath() );
+    QString url = cfg.readEntry( QString::fromLatin1( "URL" ).prepend( prefix ), QDir::homeDirPath() );
     kdebug(0, 1202, "URL: %s",url.data());  
-    QString serviceType = cfg.readEntry( QString::fromLatin1( "ServiceType" ), "inode/directory");
+    QString serviceType = cfg.readEntry( QString::fromLatin1( "ServiceType" ).prepend( prefix ), "inode/directory");
     kdebug(0, 1202, "ServiceType: %s", serviceType.data());  
 
     Konqueror::DirectoryDisplayMode dirMode = Konqueror::LargeIcons;
 
     if ( serviceType == "inode/directory" )
     {
-      QString strDirMode = cfg.readEntry( QString::fromLatin1( "DirectoryMode" ), "LargeIcons" );
+      QString strDirMode = cfg.readEntry( QString::fromLatin1( "DirectoryMode" ).prepend( prefix ), "LargeIcons" );
 
       if ( strDirMode == "LargeIcons" )
 	dirMode = Konqueror::LargeIcons;
@@ -283,7 +288,7 @@ void KonqViewManager::loadItem( KConfig &cfg, KonqFrameContainer *parent,
     kdebug(0, 1202, "Item is Container");  
 
     //load container config
-    QString ostr = cfg.readEntry( QString::fromLatin1( "Orientation" ));
+    QString ostr = cfg.readEntry( QString::fromLatin1( "Orientation" ).prepend( prefix ) );
     kdebug(0, 1202, "Orientation: ",ostr.data());  
     Qt::Orientation o;
     if( ostr == "Vertical" )
@@ -296,11 +301,11 @@ void KonqViewManager::loadItem( KConfig &cfg, KonqFrameContainer *parent,
     }
 
     QValueList<int> sizes = 
-      QVariant( cfg.readPropertyEntry( QString::fromLatin1( "SplitterSizes" ), 
+      QVariant( cfg.readPropertyEntry( QString::fromLatin1( "SplitterSizes" ).prepend( prefix ), 
 				       QVariant::IntList ) ).intListValue();
 
     QStrList childList;
-    if( cfg.readListEntry( QString::fromLatin1( "Children" ), childList ) < 2 )
+    if( cfg.readListEntry( QString::fromLatin1( "Children" ).prepend( prefix ), childList ) < 2 )
       warning("Profile Loading Error: Less than two children in %s", name.data());
 
     KonqFrameContainer *newContainer = new KonqFrameContainer( o, parent );
