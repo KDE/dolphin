@@ -469,7 +469,6 @@ KParts::ReadOnlyPart *KonqFrame::attach( const KonqViewFactory &viewFactory )
   m_pLayout->addWidget( m_pHeader );
 
   m_pView = factory.create( this, 0L );
-  //  m_pView->setGeometry( 0, DEFAULT_HEADER_HEIGHT, width(), height() );
 
   assert( m_pView->widget() );
 
@@ -502,13 +501,6 @@ KonqFrame::slotHeaderClicked()
 {
   if ( m_pView != m_pChildView->mainView()->viewManager()->activePart() )
     m_pChildView->mainView()->viewManager()->setActivePart( m_pView );
-/*
-  if ( !CORBA::is_nil( m_vView ) )
-  {
-    OpenParts::MainWindow_var mainWindow = m_vView->mainWindow();
-    mainWindow->setActivePart( m_vView->id() );
-  }
-*/
 }
 
 void KonqFrame::slotPassiveModeChange( bool mode )
@@ -578,14 +570,12 @@ KonqFrameContainer::saveConfig( KConfig* config, const QString &prefix, int id, 
 
   //write child configs
   if( firstChild() ) {
-//    config->setGroup( firstChild()->frameType() + QString("%1").arg(idSecond - 1) );
     QString newPrefix = firstChild()->frameType() + QString("%1").arg(idSecond - 1);
     newPrefix.append( '_' );
     firstChild()->saveConfig( config, newPrefix, id, depth + 1 );
   }
 
   if( secondChild() ) {
-//    config->setGroup( secondChild()->frameType() + QString("%1").arg( idSecond ) );
     QString newPrefix = secondChild()->frameType() + QString("%1").arg( idSecond );
     newPrefix.append( '_' );
     secondChild()->saveConfig( config, newPrefix, idSecond, depth + 1 );

@@ -64,26 +64,10 @@ bool KonqFileManager::openFileManagerWindow( const QString & _url )
 {
   // If _url is 0L, open $HOME
   QString url = !_url.isEmpty() ? _url : QDir::homeDirPath().prepend( "file:" );
-  /*
-  KonqShell *shell = new KonqShell;
 
-  KonqPart *part = new KonqPart;
-
-  if ( !_url.isEmpty() )
-    part->setOpenInitialURL( false );
-
-  shell->setRootPart( part );
-
-  shell->show();
-
-  if ( !_url.isEmpty() )
-    ((KonqMainView *)shell->rootView())->openFilteredURL( 0L, url );
-
-  */
-  
   KonqMainView *win = new KonqMainView( url );
   win->show();
-  
+
   return true; // why would it fail ? :)
 }
 
