@@ -418,7 +418,7 @@ void ListView::fillWithGroup(KEBListView *lv, KBookmarkGroup group, KEBListViewI
    }
    if (m_splitView && !lv->isFolderList()) {
       lastItem = new KEBListViewItem(lv, lastItem, group);
-   
+   }
    for (KBookmark bk = group.first(); !bk.isNull(); bk = group.next(bk)) {
       KEBListViewItem *item = 0;
       if (bk.isGroup()) {
