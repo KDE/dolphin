@@ -16,7 +16,7 @@ libkcm_konq_la_DATA = overlapping.png onlyone.png
 libkcm_konq_ladir = $(kde_datadir)/kcontrol/pics
 
 data_DATA = kcmkonq.desktop
-datadir = $(kde_appsdir)/Settings/Browsing/Files
+datadir = $(kde_appsdir)/Settings/FileBrowsing
 
 data2_DATA = desktop.desktop
 data2dir = $(kde_appsdir)/Settings/LookNFeel/Desktop

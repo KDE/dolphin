@@ -17,4 +17,4 @@ messages:
 	$(XGETTEXT) *.cpp -o $(podir)/nsplugin.pot
 
 data_DATA = nsplugin.desktop
-datadir = $(kde_appsdir)/Settings/Browsing/Files
+datadir = $(kde_appsdir)/Settings/WebBrowsing

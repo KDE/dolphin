@@ -12,7 +12,7 @@ libkcm_konqhtml_la_LDFLAGS  = $(all_libraries) -module -avoid-version -no-undefi
 libkcm_konqhtml_la_LIBADD = -lkhtml -lkdeui
 
 data_DATA = konqhtml.desktop
-datadir = $(kde_appsdir)/Settings/Browsing/Web
+datadir = $(kde_appsdir)/Settings/WebBrowsing
 
 EXTRA_DIST = $(data_DATA)
 

@@ -23,4 +23,4 @@ test_LDFLAGS  = $(all_libraries) -module -avoid-version
 test_LDADD = -lkdeui -lkio
 
 data_DATA = cookies.desktop proxy.desktop useragent.desktop 
-datadir = $(kde_appsdir)/Settings/Browsing/Web
+datadir = $(kde_appsdir)/Settings/WebBrowsing
