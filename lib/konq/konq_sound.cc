@@ -42,15 +42,15 @@ private:
 
 	KArtsDispatcher     m_dispatcher;
 	Arts::SoundServerV2 m_soundServer;
-	KPlayObjectFactory *m_factory;
-	KPlayObject        *m_player;
+	KDE::PlayObjectFactory *m_factory;
+	KDE::PlayObject        *m_player;
 };
 
 KonqSoundPlayerImpl::KonqSoundPlayerImpl()
 	: m_player(0)
 {
 	m_soundServer = Arts::Reference("global:Arts_SoundServerV2");
-	m_factory = new KPlayObjectFactory(m_soundServer);
+	m_factory = new KDE::PlayObjectFactory(m_soundServer);
 }
 
 KonqSoundPlayerImpl::~KonqSoundPlayerImpl()
@@ -89,7 +89,7 @@ void KonqSoundPlayerImpl::play(const QString &fileName)
 	delete m_player;
 	if ((m_player = m_factory->createPlayObject(fileName, true)))
 	{
-		if (m_player->object().isNull())
+		if (m_player->isNull())
 			stop();
 		else
 			m_player->play();
