@@ -16,7 +16,7 @@ public:
         return s_bookmarkManager;
     }
 
-
+private:
     static KBookmarkManager *s_bookmarkManager;
 };
 
