@@ -1771,10 +1771,11 @@ void KonqIconViewWidget::lineupIcons()
     int x0, y0, dx, dy, nx, ny;
     gridValues( &x0, &y0, &dx, &dy, &nx, &ny );
     typedef QValueList<QIconViewItem*> Bin;
-    Bin* bins[nx][ny];
+    Bin*** bins = new Bin**[nx];
     int i;
     int j;
     for ( i = 0; i < nx ; i++ ) {
+        bins[i] = new Bin*[ny];
         for ( j = 0; j < ny; j++ )
             bins[i][j] = 0L;
     }
@@ -1953,6 +1954,11 @@ void KonqIconViewWidget::lineupIcons()
             movedItems.remove( movedItems.first() );
         }
     }
+
+    for ( i = 0; i < nx ; i++ ) {
+            delete [] bins[i];
+    }
+    delete [] bins;
 }
 
 void KonqIconViewWidget::lineupIcons( QIconView::Arrangement arrangement )
