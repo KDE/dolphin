@@ -266,7 +266,7 @@ bool clientApp::openProfile( const QString & profileName, const QString & url, c
   QString profile = locate( "data", QString::fromLatin1("konqueror/profiles/") + profileName );
   if ( profile.isEmpty() )
   {
-      fprintf( stderr, i18n("Profile %1 not found\n").arg(profileName).local8Bit() );
+      fprintf( stderr, "%s", i18n("Profile %1 not found\n").arg(profileName).local8Bit().data() );
       ::exit( 0 );
   }
   KonquerorIface_stub konqy( appId, "KonquerorIface" );
