@@ -241,9 +241,10 @@ bool checkTemplates( bool bNewRelease )
     // Test for existing Templates
     bool bTemplates = true;
  
-    DIR* dp = opendir( UserPaths::templatesPath() );
-    if ( dp == NULL )
-        bTemplates = false;
+    DIR* dp = 0L; // avoid warning
+    dp = opendir( UserPaths::templatesPath() );
+    if ( dp == 0L )
+      bTemplates = false;
     else
       closedir( dp );
  
