@@ -48,10 +48,10 @@ extern int konq_screen_number;
 
 //-----------------------------------------------------------------------------
 
-class PreviewItem : public QCheckListItem
+class KRootOptPreviewItem : public QCheckListItem
 {
 public:
-    PreviewItem(KRootOptions *rootOpts, QListView *parent,
+    KRootOptPreviewItem(KRootOptions *rootOpts, QListView *parent,
                 const KService::Ptr &plugin, bool on)
         : QCheckListItem(parent, plugin->name(), CheckBox),
           m_rootOpts(rootOpts)
@@ -323,7 +323,7 @@ void KRootOptions::load()
     previewListView->clear();
     QStringList previews = g_pConfig->readListEntry("Preview");
     for (KTrader::OfferList::ConstIterator it = plugins.begin(); it != plugins.end(); ++it)
-        new PreviewItem(this, previewListView, *it, previews.contains((*it)->desktopEntryName()));
+        new KRootOptPreviewItem(this, previewListView, *it, previews.contains((*it)->desktopEntryName()));
     //
     g_pConfig->setGroup( "Menubar" );
     bool bMenuBar = g_pConfig->readBoolEntry("ShowMenubar", false);
@@ -356,7 +356,7 @@ void KRootOptions::defaults()
     showHiddenBox->setChecked(DEFAULT_SHOW_HIDDEN_ROOT_ICONS);
     VertAlignBox->setChecked(true);
     for (QListViewItem *item = previewListView->firstChild(); item; item = item->nextSibling())
-        static_cast<PreviewItem *>(item)->setOn(false);
+        static_cast<KRootOptPreviewItem *>(item)->setOn(false);
     menuBarBox->setChecked(false);
     leftComboBox->setCurrentItem( NOTHING );
     middleComboBox->setCurrentItem( WINDOWLISTMENU );
@@ -375,9 +375,9 @@ void KRootOptions::save()
     g_pConfig->writeEntry("ShowHidden", showHiddenBox->isChecked());
     g_pConfig->writeEntry("VertAlign",VertAlignBox->isChecked());
     QStringList previews;
-    for ( PreviewItem *item = static_cast<PreviewItem *>( previewListView->firstChild() );
+    for ( KRootOptPreviewItem *item = static_cast<KRootOptPreviewItem *>( previewListView->firstChild() );
           item;
-          item = static_cast<PreviewItem *>( item->nextSibling() ) )
+          item = static_cast<KRootOptPreviewItem *>( item->nextSibling() ) )
         if ( item->isOn() )
             previews.append( item->pluginName() );
     g_pConfig->writeEntry( "Preview", previews );

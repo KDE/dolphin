@@ -39,7 +39,7 @@ public:
         virtual void save();
         virtual void defaults();
         virtual QString quickHelp() const;
-        friend class PreviewItem;
+        friend class KRootOptPreviewItem;
 
 private slots:
 
