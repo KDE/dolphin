@@ -521,6 +521,10 @@ protected:
   bool IamRoot;
 
   QStringList m_devicelist;
+  int indexDevice;
+  int indexMountPoint;
+  int indexFSType;
+
   QPixmap pixmap;
   QString pixmapFile;
 };

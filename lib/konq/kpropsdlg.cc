@@ -1312,8 +1312,19 @@ DevicePropsPage::DevicePropsPage( PropertiesDialog *_props ) : PropsPage( _props
 
   QStringList devices;
   QString fstabFile;
-  if ( QFile::exists("/etc/fstab") )
+  indexDevice = 0;  // device on first column
+  indexMountPoint = 1; // mount point on second column
+  indexFSType = 2; // fstype on third column
+  if ( QFile::exists("/etc/fstab") ) // Linux, ...
+  {
     fstabFile = "/etc/fstab";
+  }
+  else if ( QFile::exists("/etc/vfstab") ) // Solaris
+  {
+    fstabFile = "/etc/vfstab";
+    indexMountPoint++;
+    indexFSType++;
+  }
   // insert your favorite location for fstab here
   if ( !fstabFile.isEmpty() )
   {
@@ -1329,10 +1340,11 @@ DevicePropsPage::DevicePropsPage( PropertiesDialog *_props ) : PropsPage( _props
       {
         //debug(QString("'%1'").arg(line));
         QStringList lst = QStringList::split( ' ', line );
-        if ( lst.count() > 2 && lst[0] != "/proc" && lst[1] != "none" )
+        if ( lst.count() > 2 && lst[indexDevice] != "/proc" 
+            && lst[indexMountPoint] != "none" && lst[indexMountPoint] != "-" )
         {
-          //debug(QString("******** '%1'  '%2'").arg(lst[0]).arg(lst[1]));
-          devices.append( lst[0]+" ("+lst[1]+")" );
+          //debug(QString("******** '%1'  '%2'").arg(lst[indexDevice]).arg(lst[indexMountPoint]));
+          devices.append( lst[indexDevice]+" ("+lst[indexMountPoint]+")" );
           m_devicelist.append( line );
         }
       }
@@ -1433,6 +1445,7 @@ DevicePropsPage::DevicePropsPage( PropertiesDialog *_props ) : PropsPage( _props
     for ( QStringList::Iterator it = m_devicelist.begin();
           it != m_devicelist.end(); ++it, ++index )
     {
+      // WARNING : this works only if indexDevice == 0
       if ( (*it).left( deviceStr.length() ) == deviceStr )
       {
         //qDebug( "found it %d", index );
@@ -1461,9 +1474,9 @@ DevicePropsPage::DevicePropsPage( PropertiesDialog *_props ) : PropsPage( _props
 void DevicePropsPage::slotActivated( int index )
 {
   QStringList lst = QStringList::split( ' ', m_devicelist[index] );
-  device->setEditText( lst[0] );
-  mountpoint->setText( lst[1] );
-  fstype->setText( lst[2] );
+  device->setEditText( lst[indexDevice] );
+  mountpoint->setText( lst[indexMountPoint] );
+  fstype->setText( lst[indexFSType] );
 }
 
 bool DevicePropsPage::supports( KFileItemList _items )
