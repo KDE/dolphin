@@ -59,7 +59,7 @@ dummy.cc:
 	echo > dummy.cc
 
 messages: rc.cpp
-	$(EXTRACTRC) */*.rc >> rc.cpp
+	$(EXTRACTRC) *.rc */*.rc >> rc.cpp
 	$(EXTRACTRC) sidebar/trees/history_module/history_dlg.ui >> rc.cpp
 	$(XGETTEXT) -kaliasLocal rc.cpp *.h *.cc *view/*h *view/*cc  kedit*/*.cpp about/*.h about/*.cc shellcmdplugin/*.cpp -o `find sidebar -name "*.cpp"` `find sidebar -name "*.h"` -o $(podir)/konqueror.pot
 
