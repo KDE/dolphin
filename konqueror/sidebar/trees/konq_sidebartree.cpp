@@ -484,11 +484,6 @@ void KonqSidebarTree::slotMouseButtonPressed( int _button, QListViewItem* _item,
     KonqSidebarTreeItem * item = static_cast<KonqSidebarTreeItem*>( _item );
     if (_button == RightButton)
     {
-        if (!item)
-        {
-            showToplevelContextMenu();
-            return;
-        }
         if ( item && col < 2)
         {
             item->setSelected( true );
