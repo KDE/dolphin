@@ -23,7 +23,7 @@ servicetypes_DATA = uasprovider.desktop
 servicetypesdir = $(kde_servicetypesdir)
 
 data_DATA = cookies.desktop useragent.desktop cache.desktop
-datadir = $(kde_appsdir)/Settings/WebBrowsing
+datadir = $(kde_appsdir)/Settings/Network/WebBrowsing
 
 smb_DATA = smb.desktop netpref.desktop proxy.desktop 
 smbdir = $(kde_appsdir)/Settings/Network
