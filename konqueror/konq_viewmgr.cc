@@ -541,6 +541,14 @@ void KonqViewManager::saveViewProfile( KConfig & cfg, bool saveURLs, bool saveWi
     cfg.writeEntry( "Height", m_pMainWindow->height() );
   }
 
+  // Save menu/toolbar settings in profile. Relys on konq_mainwindow calling
+  // setAutoSaveSetting( "KongMainWindow", false ). The false is important,
+  // we do not want this call save size settings in the profile, because we
+  // do it ourselves. Save in a separate group than the rest of the profile.
+  QString savedGroup = cfg.group();
+  m_pMainWindow->saveMainWindowSettings( &cfg, "Main Window Settings" );
+  cfg.setGroup( savedGroup );
+
   cfg.sync();
 }
 
@@ -631,6 +639,16 @@ void KonqViewManager::loadViewProfile( KConfig &cfg, const QString & filename,
      if ( size.isValid() )
          m_pMainWindow->resize( size );
  }
+
+  // Apply menu/toolbar settings saved in profile. Read from a separate group
+  // so that the window doesn't try to change the size stored in the Profile group.
+  // (If applyMainWindowSettings finds a "Width" or "Height" entry, it
+  // sets them to 0,0)
+  if( cfg.hasGroup( "Main Window Settings" ) ) {
+    QString savedGroup = cfg.group();
+    m_pMainWindow->applyMainWindowSettings( &cfg, "Main Window Settings" );
+    cfg.setGroup( savedGroup );
+  }
 
 #ifndef NDEBUG
   printFullHierarchy( m_pMainContainer );
