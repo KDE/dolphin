@@ -48,6 +48,7 @@ class KonqInfoListViewWidget : public KonqBaseListViewWidget
       // slots connected to the directory lister
 //      virtual void setComplete();
       virtual void slotNewItems( const KFileItemList & );
+      virtual void slotRefreshItems( const KFileItemList & );
       virtual void slotDeleteItem( KFileItem * );
       virtual void slotClear();
       virtual void slotSelectMimeType();

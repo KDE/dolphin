@@ -242,6 +242,27 @@ void KonqInfoListViewWidget::slotNewItems( const KFileItemList& list)
     }
 }
 
+void KonqInfoListViewWidget::slotRefreshItems( const KFileItemList& list)
+{
+    kdDebug(1203) << " ------------------------ startin metainfo job ------\n";
+
+    // start getting metainfo from the files
+    if (m_metaInfoJob)
+    {
+       for (QPtrListIterator<KFileItem> kit ( list ); kit.current(); ++kit )
+          m_metaInfoTodo.append(kit.current());
+    }
+    else
+    {
+        m_metaInfoJob = KIO::fileMetaInfo(list);
+        connect( m_metaInfoJob, SIGNAL( gotMetaInfo( const KFileItem*)),
+             this, SLOT( slotMetaInfo( const KFileItem*)));
+        connect( m_metaInfoJob, SIGNAL( result( KIO::Job*)),
+             this, SLOT( slotMetaInfoResult()));
+    }
+    KonqBaseListViewWidget::slotRefreshItems(list);
+}
+
 void KonqInfoListViewWidget::slotDeleteItem( KFileItem * item )
 {
     m_metaInfoTodo.removeRef(item);
