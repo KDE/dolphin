@@ -25,12 +25,10 @@
 #ifndef __MAIN_H__
 #define __MAIN_H__
 
-
 #include <qtabwidget.h>
-
+#include <qlayout.h>
 
 #include <kcmodule.h>
-
 
 class KAppearanceOptions;
 class KAdvancedOptions;
@@ -53,9 +51,6 @@ public:
 
 
 protected:
-
-  void resizeEvent(QResizeEvent *e);
-
 
 protected slots:
 
