@@ -5,6 +5,7 @@
 
 #include <qobject.h>
 #include <qregexp.h>
+#include <qptrqueue.h>
 #include <qdir.h>
 
 #include <kio/job.h>
@@ -59,6 +60,8 @@ class KQuery : public QObject
   void result(int);
 
  private:
+  void checkEntries();
+
   int m_filetype;
   int m_minsize;
   int m_maxsize;
@@ -84,6 +87,8 @@ class KQuery : public QObject
   QPtrList<QRegExp> m_regexps;// regexps for file name
   QValueList<bool> m_regexpsContainsGlobs;
   KIO::ListJob *job;
+  bool m_insideCheckEntries;
+  QPtrQueue<KFileItem> m_fileItems;
   QRegExp* metaKeyRx;
 };
 

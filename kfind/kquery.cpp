@@ -4,6 +4,7 @@
 #include <kdebug.h>
 #include <kfileitem.h>
 #include <kfilemetainfo.h>
+#include <kapplication.h>
 #include <kmessagebox.h>
 #include <klocale.h>
 #include <kstandarddirs.h>
@@ -15,9 +16,10 @@ KQuery::KQuery(QObject *parent, const char * name)
   : QObject(parent, name),
     m_minsize(-1), m_maxsize(-1),
     m_timeFrom(0), m_timeTo(0),
-    job(0)
+    job(0), m_insideCheckEntries(false)
 {
   m_regexps.setAutoDelete(true);
+  m_fileItems.setAutoDelete(true);
   processLocate = new KProcess;
   connect(processLocate,SIGNAL(receivedStdout(KProcess*, char*, int)),this,SLOT(slotreceivedSdtout(KProcess*,char*,int)));
   connect(processLocate,SIGNAL(receivedStderr(KProcess*, char*, int)),this,SLOT(slotreceivedSdterr(KProcess*,char*,int)));
@@ -31,11 +33,13 @@ KQuery::~KQuery()
 void KQuery::kill()
 {
   if (job)
-    job->kill(false);
+     job->kill(false);
+  m_fileItems.clear();
 }
 
 void KQuery::start()
 {
+  m_fileItems.clear();
   if(m_useLocate) //use "locate" instead of the internal search method
   {
     processLocate->clearArguments();
@@ -71,25 +75,35 @@ void KQuery::slotCanceled( KIO::Job * _job )
   if (job != _job) return;
   job = 0;
 
+  m_fileItems.clear();
   emit result(KIO::ERR_USER_CANCELED);
 }
 
-/* List of files found using KIO */
-void KQuery::slotListEntries( KIO::Job *, const KIO::UDSEntryList & list)
+void KQuery::slotListEntries(KIO::Job*, const KIO::UDSEntryList& list)
 {
   KFileItem * file = 0;
-  metaKeyRx=new QRegExp(m_metainfokey,true,true);
-  KIO::UDSEntryListConstIterator  it = list.begin();
   KIO::UDSEntryListConstIterator end = list.end();
-
-  for (; it != end; ++it)
+  for (KIO::UDSEntryListConstIterator it = list.begin(); it != end; ++it)
   {
     file = new KFileItem(*it, m_url, true, true);
-    processQuery(file);
-    delete file;
+    m_fileItems.enqueue(file);
   }
+  if (!m_insideCheckEntries)
+     checkEntries();
+}
 
+void KQuery::checkEntries()
+{
+  m_insideCheckEntries=true;
+  metaKeyRx=new QRegExp(m_metainfokey,true,true);
+  KFileItem * file = 0;
+  while (file=m_fileItems.dequeue())
+  {
+     processQuery(file);
+     delete file;
+  }
   delete metaKeyRx;
+  m_insideCheckEntries=false;
 }
 
 /* List of files found using slocate */
@@ -332,7 +346,8 @@ void KQuery::processQuery( KFileItem* file)
                 found = true;
                 break;
              }
-          };
+          }
+          kapp->processEvents();
        }
        delete stream;
        
