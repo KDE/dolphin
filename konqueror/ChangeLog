@@ -1,6 +1,13 @@
+2000-11-21  David Faure  <faure@kde.org>
+
+	* Views: Major rework of the "delayed mimetypes determination" feature,
+	to make it available to the list view. This makes the list view
+	MUCH faster in big directories.
+	This also showed a bug in the listview background painting -> fixed.
+
 2000-11-19  David Faure  <faure@kde.org>
 
-	* Implemented in-place renaming of items ("Rename" in menus, F2)
+	* Views: Implemented in-place renaming of items ("Rename" in menus, F2)
 
 2000-11-17  David Faure  <faure@kde.org>
 
