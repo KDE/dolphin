@@ -2731,7 +2731,7 @@ void KonqMainWindow::enableAction( const char * name, bool enabled )
     kdWarning(1202) << "Unknown action " << name << " - can't enable" << endl;
   else
   {
-    kdDebug(1202) << "KonqMainWindow::enableAction " << name << " " << enabled << endl;
+    //kdDebug(1202) << "KonqMainWindow::enableAction " << name << " " << enabled << endl;
     act->setEnabled( enabled );
   }
 

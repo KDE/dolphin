@@ -331,12 +331,12 @@ void KonqView::connectPart(  )
 
 void KonqView::slotEnableAction( const char * name, bool enabled )
 {
-  kdDebug(1202) << "KonqView::slotEnableAction " << name << " " << enabled << endl;
+  //kdDebug(1202) << "KonqView::slotEnableAction " << name << " " << enabled << endl;
   KonqMainWindow::ActionNumberMap::ConstIterator it = KonqMainWindow::s_actionNumberMap->find( name );
   if ( it != KonqMainWindow::s_actionNumberMap->end() )
   {
       m_actionStatus.setBit( it.data(), enabled );
-      kdDebug() << "KonqView::slotEnableAction setting bit " << it.data() << " to " << enabled << endl;
+      //kdDebug(1202) << "KonqView::slotEnableAction setting bit " << it.data() << " to " << enabled << endl;
       if ( m_pMainWindow->currentView() == this )
           m_pMainWindow->enableAction( name, enabled );
   } else
