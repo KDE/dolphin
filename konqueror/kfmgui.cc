@@ -23,6 +23,7 @@
 #include "kfmpaths.h"
 #include "kfmview.h"
 #include "kbookmark.h"
+#include "kfm_defaults.h"
 
 #include <qmsgbox.h>
 #include <qstring.h>

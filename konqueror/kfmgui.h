@@ -41,23 +41,6 @@
 #include <string>
 #include <list>
 
-// browser/tree window color defaults -- Bernd
-#define HTML_DEFAULT_BG_COLOR white
-#define HTML_DEFAULT_LNK_COLOR red
-#define HTML_DEFAULT_TXT_COLOR black
-#define HTML_DEFAULT_VLNK_COLOR magenta
-
-// lets be modern .. -- Bernd
-#define DEFAULT_VIEW_FONT "helvetica"
-#define DEFAULT_VIEW_FIXED_FONT "courier"
-#define DEFAULT_VIEW_FONT_SIZE 12
-
-// the default size of the kfm browswer windows
-// these are optimized sizes displaying a maximum number
-// of icons. -- Bernd
-#define KFMGUI_HEIGHT 360
-#define KFMGUI_WIDTH 540
-
 class KBookmarkMenu;
 class KURLCompletion;
 
