@@ -196,7 +196,7 @@ protected:
   KMimeTypeResolver<KFileIVI,KonqKfmIconView> * m_mimeTypeResolver;
 
   QString m_mode;
-  
+
   private:
   void showDirectoryOverlay(KFileIVI*  item);
 };
@@ -239,6 +239,7 @@ public slots:
   void cut() { m_iconView->iconViewWidget()->cutSelection(); }
   void copy() { m_iconView->iconViewWidget()->copySelection(); }
   void paste() { m_iconView->iconViewWidget()->pasteSelection(); }
+  void pasteTo( const KURL &u ) { m_iconView->iconViewWidget()->paste( u ); }
 
   void trash() { KonqOperations::del(m_iconView->iconViewWidget(),
                                      KonqOperations::TRASH,
