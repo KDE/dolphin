@@ -329,6 +329,7 @@ protected slots:
   void slotComboPaste();
   void slotComboDelete();
   void slotClipboardDataChanged();
+  void slotCheckComboSelection();
 
   void slotShowMenuBar();
   void slotShowToolBar();

@@ -2172,7 +2172,7 @@ bool KonqMainWindow::eventFilter(QObject*obj,QEvent *ev)
       connect( m_paTrash, SIGNAL( activated() ), this, SLOT( slotComboDelete() ) );
       //connect( m_paShred, SIGNAL( activated() ), this, SLOT( slotComboDelete() ) );
       connect( QApplication::clipboard(), SIGNAL(dataChanged()), this, SLOT(slotClipboardDataChanged()) );
-      connect( m_combo->lineEdit(), SIGNAL(textChanged(const QString &)), this, SLOT(slotClipboardDataChanged()) );
+      connect( m_combo->lineEdit(), SIGNAL(textChanged(const QString &)), this, SLOT(slotCheckComboSelection()) );
 
       m_bCutWasEnabled = m_paCut->isEnabled();
       m_bCopyWasEnabled = m_paCopy->isEnabled();
@@ -2233,8 +2233,13 @@ void KonqMainWindow::slotClipboardDataChanged()
   kdDebug(1202) << "KonqMainWindow::slotClipboardDataChanged()" << endl;
   QMimeSource *data = QApplication::clipboard()->data();
   m_paPaste->setEnabled( data->provides( "text/plain" ) );
-  bool hasSelection = m_combo->lineEdit()->hasMarkedText();
+  slotCheckComboSelection();
+}
+
+void KonqMainWindow::slotCheckComboSelection()
+{
   //kdDebug(1202) << "m_combo->lineEdit()->hasMarkedText() : " << hasSelection << endl;
+  bool hasSelection = m_combo->lineEdit()->hasMarkedText();
   m_paCopy->setEnabled( hasSelection );
   m_paCut->setEnabled( hasSelection );
 }
