@@ -14,3 +14,10 @@ libkcm_kio_la_LIBADD = -lkdeui
 messages:
 	$(XGETTEXT) -C -ki18n -x $(includedir)/kde.pot $(libkcm_kio_la_SOURCES) && mv messages.po ../../po/kcmkio.pot
 
+check_PROGRAMS = test
+test_SOURCES = $(libkcm_kio_la_SOURCES) test.cpp
+test.cpp:
+	echo "int main() {};" > test.cpp
+test_LDFLAGS  = $(all_libraries) -module -avoid-version
+test_LDADD = -lkdeui
+

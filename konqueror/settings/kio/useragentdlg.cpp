@@ -138,7 +138,7 @@ void UserAgentOptions::save()
     g_pConfig->setGroup("Browser Settings/UserAgent");
 
     if(!bindingsLB->count())
-      defaultSettings();
+      defaults();
 
     g_pConfig->writeEntry( "EntriesCount", bindingsLB->count() );
     for( uint i = 0; i < bindingsLB->count(); i++ ) {

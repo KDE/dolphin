@@ -130,7 +130,7 @@ KCookiesOptions::KCookiesOptions(QWidget *parent, const char *name)
                     
     b1 = bbox->addButton( i18n("Delete") );
     connect( b1, SIGNAL( clicked() ), this, SLOT( deletePressed() ) );
-    connect( b1, SIGNAL( clicked() ), this, SLOT( deleted() ) );
+    connect( b1, SIGNAL( clicked() ), this, SLOT( changed() ) );
                             
     bbox->addStretch( 20 );
                                 
