@@ -272,9 +272,14 @@ QWidget * KonqMainWindow::createContainer( QWidget *parent, int index, const QDo
 
   QWidget *res = KParts::MainWindow::createContainer( parent, index, element, id );
 
-  if ( element.tagName() == tagToolBar && element.attribute( "name" ) == nameBookmarkBar )
+  if ( res && (element.tagName() == tagToolBar) && (element.attribute( "name" ) == nameBookmarkBar) )
   {
     assert( res->inherits( "KToolBar" ) );
+    if (!kapp->authorizeKAction("bookmarks"))
+    {
+        delete res;
+        return 0;
+    }
 
     if ( !m_bookmarkBarActionCollection )
     {
@@ -304,7 +309,7 @@ void KonqMainWindow::initBookmarkBar()
 
   // hide if empty
   if (bar->count() == 0 )
-        bar->hide();
+     bar->hide();
 
 }
 
