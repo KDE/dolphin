@@ -48,6 +48,8 @@ standard, for "the device in the Type=FSDevice .desktop file"...
 
 - More key bindings
 
+- Undo functionality
+
 - see grep TODO *.cc *.h
 
 - see http://bugs.kde.org/db/pa/lkfm.html !
