@@ -343,7 +343,7 @@ KEBTopLevel::KEBTopLevel( const QString & bookmarksFile )
     : KMainWindow(), m_commandHistory( actionCollection() )
 {
     // Create the bookmark manager.
-    s_pManager = KBookmarkManager::self( bookmarksFile, false );
+    s_pManager = KBookmarkManager::managerForFile( bookmarksFile, false );
 
     // Create the list view
     m_pListView = new KEBListView( this );
