@@ -463,6 +463,8 @@ void NSPluginInstance::destroy()
         kdDebug(1431) << "delete streams" << endl;
         _waitingRequests.clear();
 
+	shutdown();
+
         for( NSPluginStreamBase *s=_streams.first(); s!=0; ) {
             NSPluginStreamBase *next = _streams.next();
             s->stop();
@@ -494,15 +496,16 @@ void NSPluginInstance::destroy()
         if (saved)
           g_NPN_MemFree(saved);
 
-#if 0
         XtRemoveEventHandler(_form, (KeyPressMask|KeyReleaseMask), 
                              False, forwarder, (XtPointer)this);
         XtRemoveEventHandler(_toplevel, (KeyPressMask|KeyReleaseMask), 
                              False, forwarder, (XtPointer)this);
         XtDestroyWidget(_area);
+	_area = 0;
         XtDestroyWidget(_form);
+	_form = 0;
         XtDestroyWidget(_toplevel);
-#endif
+	_toplevel = 0;
 
         ::free(_npp);   // matched with malloc() in newInstance
 
@@ -984,7 +987,6 @@ NSPluginClass::~NSPluginClass()
     _instances.clear();
     _trash.clear();
     shutdown();
-    //KLibLoader::self()->unloadLibrary( QFile::encodeName(libname) );
     if (_handle)
       _handle->unload();
 }
@@ -1133,7 +1135,7 @@ void NSPluginClass::destroyInstance( NSPluginInstance* inst )
 {
     // mark for destruction
     _trash.append( inst );
-    _timer->start( 0, TRUE );
+    timer(); //_timer->start( 0, TRUE );
 }
 
 
