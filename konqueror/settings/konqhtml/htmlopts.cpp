@@ -64,7 +64,7 @@ KMiscHTMLOptions::KMiscHTMLOptions(KConfig *config, QString group, QWidget *pare
 
     // Misc
 
-    cbCursor = new QCheckBox(i18n("&Change cursor over links"), this);
+    cbCursor = new QCheckBox(i18n("Change cursor over &links"), this);
     lay->addWidget(cbCursor);
 
     QWhatsThis::add( cbCursor, i18n("If this option is set, the shape of the cursor will change "

@@ -60,7 +60,7 @@ KonqHTMLModule::KonqHTMLModule(QWidget *parent, const char *name)
   connect(misc, SIGNAL( changed( bool ) ), this, SLOT(moduleChanged(bool) ) );
 
   appearance = new KAppearanceOptions(m_localConfig, "HTML Settings", this);
-  tab->addTab(appearance, i18n( "&Appearance" ) );
+  tab->addTab(appearance, i18n( "App&earance" ) );
   connect(appearance, SIGNAL( changed(bool) ), this, SLOT(moduleChanged(bool) ) );
 
   java = new KJavaOptions( m_localConfig, "Java/JavaScript Settings", this );

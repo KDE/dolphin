@@ -84,15 +84,15 @@ KJavaOptions::KJavaOptions( KConfig* config, QString group,
 
     domainSpecificGBLayout->addMultiCellWidget( domainSpecificLV, 0, 5, 0, 0 );
 
-    QPushButton* addDomainPB = new QPushButton( i18n("&Add..."), domainSpecificGB );
+    QPushButton* addDomainPB = new QPushButton( i18n("Add..."), domainSpecificGB );
     domainSpecificGBLayout->addWidget( addDomainPB, 0, 1 );
     connect( addDomainPB, SIGNAL(clicked()), SLOT( addPressed() ) );
 
-    QPushButton* changeDomainPB = new QPushButton( i18n("&Change..."), domainSpecificGB );
+    QPushButton* changeDomainPB = new QPushButton( i18n("Change..."), domainSpecificGB );
     domainSpecificGBLayout->addWidget( changeDomainPB, 1, 1 );
     connect( changeDomainPB, SIGNAL( clicked() ), this, SLOT( changePressed() ) );
 
-    QPushButton* deleteDomainPB = new QPushButton( i18n("&Delete"), domainSpecificGB );
+    QPushButton* deleteDomainPB = new QPushButton( i18n("Delete"), domainSpecificGB );
     domainSpecificGBLayout->addWidget( deleteDomainPB, 2, 1 );
     connect( deleteDomainPB, SIGNAL( clicked() ), this, SLOT( deletePressed() ) );
 
@@ -201,13 +201,14 @@ KJavaOptions::KJavaOptions( KConfig* config, QString group,
 
     QWhatsThis::add( addArgED, i18n("If you want special arguments to be passed to the virtual machine, enter them here.") );
 
-    QWhatsThis::add( serverTimeoutSB, i18n("When all the applets have been destroyed, the applet server should shut down.  "
+    QString shutdown = i18n("When all the applets have been destroyed, the applet server should shut down.  "
                                            "However, starting the jvm takes a lot of time.  If you would like to "
                                            "keep the java process running while you are "
                                            "browsing, you can set the timeout value to what you would like.  To keep "
                                            "the java process running for the whole time the konqueror process is, "
-                                           "leave the Shutdown Applet Server checkbox unchecked.") );
-
+                                           "leave the Shutdown Applet Server checkbox unchecked.");
+    QWhatsThis::add( serverTimeoutSB, shutdown);
+    QWhatsThis::add( enableShutdownCB, shutdown);
     // Finally do the loading
     load();
 }

@@ -92,19 +92,19 @@ KJavaScriptOptions::KJavaScriptOptions( KConfig* config, QString group, QWidget 
   connect(domainSpecificLV,SIGNAL(doubleClicked ( QListViewItem * )), this, SLOT( changePressed() ) );
 
   domainSpecificGBLayout->addMultiCellWidget( domainSpecificLV, 0, 5, 0, 0 );
-  QPushButton* addDomainPB = new QPushButton( i18n("&Add..."), domainSpecificGB );
+  QPushButton* addDomainPB = new QPushButton( i18n("Add..."), domainSpecificGB );
   domainSpecificGBLayout->addWidget( addDomainPB, 0, 1 );
   QWhatsThis::add( addDomainPB, i18n("Click on this button to manually add a host or domain "
                                      "specific policy.") );
   connect( addDomainPB, SIGNAL(clicked()), SLOT( addPressed() ) );
 
-  QPushButton* changeDomainPB = new QPushButton( i18n("&Change..."), domainSpecificGB );
+  QPushButton* changeDomainPB = new QPushButton( i18n("Change..."), domainSpecificGB );
   domainSpecificGBLayout->addWidget( changeDomainPB, 1, 1 );
   QWhatsThis::add( changeDomainPB, i18n("Click on this button to change the policy for the "
                                         "host or domain selected in the list box.") );
   connect( changeDomainPB, SIGNAL( clicked() ), this, SLOT( changePressed() ) );
 
-  QPushButton* deleteDomainPB = new QPushButton( i18n("&Delete"), domainSpecificGB );
+  QPushButton* deleteDomainPB = new QPushButton( i18n("Delete"), domainSpecificGB );
   domainSpecificGBLayout->addWidget( deleteDomainPB, 2, 1 );
   QWhatsThis::add( deleteDomainPB, i18n("Click on this button to change the policy for the "
                                         "host or domain selected in the list box.") );

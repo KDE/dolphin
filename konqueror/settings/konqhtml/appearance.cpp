@@ -121,7 +121,7 @@ KAppearanceOptions::KAppearanceOptions(KConfig *config, QString group, QWidget *
   connect( m_pFonts[3], SIGNAL( activated( const QString& ) ),
 	   SLOT( changed() ) );
 
-  label = new QLabel( i18n( "&Cursive Font" ), this );
+  label = new QLabel( i18n( "C&ursive Font" ), this );
   lay->addWidget( label, ++r, E+1 );
 
   m_pFonts[4] = new KFontCombo( emptyList, this );
@@ -167,7 +167,7 @@ KAppearanceOptions::KAppearanceOptions(KConfig *config, QString group, QWidget *
   connect( m_pFontSizeAdjust, SIGNAL( valueChanged( int ) ),
 	   SLOT( changed() ) );
 
-  label = new QLabel( i18n( "&Default Encoding"), this );
+  label = new QLabel( i18n( "Default Encoding"), this );
   ++r;
   lay->addMultiCellWidget( label, r, r, E, E+1);
 
