@@ -106,8 +106,8 @@ KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name)
     QWhatsThis::add(nameBox,nameWhatsThis);
     QWhatsThis::add(namedL,nameWhatsThis);
     const QString whatsfileindex
-      = i18n("<qt>This let you to use the files' index created by the <i>slocate</i> "
-	     "package to <i>speed-up</i> search. Don't forget to update the index time to time "
+      = i18n("<qt>This lets you use the files' index created by the <i>slocate</i> "
+	     "package to <i>speed-up</i> the search. Don't forget to update the index from time to time "
        "(using <i>updatedb</i>)"
 	     "</qt>");
     QToolTip::add(useLocateCb,whatsfileindex);
