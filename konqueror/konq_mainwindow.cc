@@ -3138,7 +3138,7 @@ void KonqMainWindow::disableActionsNoView()
     static const char* s_enActions[] = { "new_window", "duplicate_window", "open_location",
                                          "toolbar_url_combo", "clear_location", "animated_logo",
                                          "konqintro", "go_most_often", "go_applications", "go_dirtree",
-                                         "go_trash", "go_templates", "go_autostart", 0 };
+                                         "go_trash", "go_templates", "go_autostart", "go_url", 0 };
     for ( int i = 0 ; s_enActions[i] ; ++i )
     {
         KAction * act = action(s_enActions[i]);
