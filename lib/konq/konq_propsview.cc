@@ -77,7 +77,7 @@ KonqPropsView::KonqPropsView( KInstance * instance, KonqPropsView * defaultProps
   m_bShowDot = config->readBoolEntry( "ShowDotFiles", false );
   m_bImagePreview = config->readBoolEntry( "ImagePreview", false );
 
-  m_bgColor = config->readColorEntry( "BgColor", & Qt::color0 /* default */ );
+  m_bgColor = config->readColorEntry( "BgColor" ); // will be set to QColor() if not found
   m_bgPixmapFile = config->readEntry( "BgImage", "" );
   loadPixmap();
 }
@@ -233,7 +233,7 @@ void KonqPropsView::setBgColor( const QColor & color )
 
 const QColor & KonqPropsView::bgColor( QWidget * widget ) const
 {
-  if ( m_bgColor == Qt::color0 )
+  if ( !m_bgColor.isValid() )
     return widget->colorGroup().base();
   else
     return m_bgColor;
