@@ -8,6 +8,8 @@ AM_CXXFLAGS += -pedantic
 
 IDL_FLAGS = --query-server-for-narrow --relative-paths -I$(srcdir)/.. -I$(idldir)
 
+DISTCLEANFILES = konqueror.cc konqueror.h
+
 konqueror.cc: konqueror.h
 konqueror.h: $(srcdir)/../konqueror.idl
 	$(IDL) $(IDL_FLAGS) $(srcdir)/../konqueror.idl
