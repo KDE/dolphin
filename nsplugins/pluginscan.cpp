@@ -31,7 +31,7 @@
 #include <errno.h>
 #include <signal.h>
 #include <unistd.h>
-              
+
 #include <qdir.h>
 #include <qfile.h>
 #include <qtextstream.h>
@@ -64,7 +64,7 @@ static int showProgress=0;
   ((__GNUC__ << 16) + __GNUC_MINOR__ >= ((maj) << 16) + (min))
 #else
 #define KDE_GNUC_PREREQ(maj,min) 0
-#endif 
+#endif
 
 #if defined(__GNUC__) && KDE_GNUC_PREREQ(3,0)
 extern "C" void* __builtin_new(size_t s)
@@ -264,7 +264,7 @@ int tryCheck(int write_fd, const QString &absFile)
     // remove version info, as it is not used at the moment
     QRegExp versionRegExp(";version=[^:]*:");
     mimeInfo.replace( versionRegExp, ":");
-    
+
     // unload plugin lib
     kdDebug(1433) << " - unloading plugin" << endl;
     KLibLoader::self()->unloadLibrary( QFile::encodeName(absFile) );
@@ -279,7 +279,7 @@ int tryCheck(int write_fd, const QString &absFile)
     stream << name;
     stream << description;
     stream << mimeInfo;
-    
+
     return 0;
 }
 
@@ -316,7 +316,7 @@ void scanDirectory( QString dir, QStringList &mimeInfoList,
              extension == "tmp" ||              // tmp files
              extension == "xpt" ||              // XPConnect
              extension.startsWith("htm")        // HTML
-            )     
+            )
             continue;
 
         // get absolute file path
@@ -325,7 +325,7 @@ void scanDirectory( QString dir, QStringList &mimeInfoList,
 
         // open the library and ask for the mimetype
         kdDebug(1433) << " - opening " << absFile << endl;
-        
+
         cache.device()->flush();
         // fork, so that a crash in the plugin won't stop the scanning of other plugins
         int pipes[2];
@@ -344,11 +344,11 @@ void scanDirectory( QString dir, QStringList &mimeInfoList,
 
            QBuffer m_buffer;
            m_buffer.open(IO_WriteOnly);
-    	
+
            FILE *read_pipe = fdopen(pipes[0], "r");
            QFile q_read_pipe;
            q_read_pipe.open(IO_ReadOnly, read_pipe);
-           
+
            char *data = (char *)malloc(4096);
            if (!data) continue;
 
@@ -358,16 +358,16 @@ void scanDirectory( QString dir, QStringList &mimeInfoList,
                    m_buffer.writeBlock(data, size);
            }
            free(data);
-           
+
            close(pipes[0]); // we no longer need the pipe's reading end
-           
+
            // close the buffer and open for reading (from the start)
            m_buffer.close();
            m_buffer.open(IO_ReadOnly);
-           
+
            // create a QDataStream for our buffer
            QDataStream stream(&m_buffer);
-           
+
            if (stream.atEnd()) continue;
 
            QString name, description, mimeInfo;
@@ -453,7 +453,6 @@ QStringList getSearchPaths()
         paths.append("/usr/lib/netscape/plugins-libc5");
         paths.append("/usr/lib/netscape/plugins-libc6");
         paths.append("/usr/lib/mozilla/plugins");
-	paths.append("/usr/lib/browser-plugins");
 	paths.append("/usr/lib64/netscape/plugins");
 	paths.append("/usr/lib64/mozilla/plugins");
         paths.append("$MOZILLA_HOME/plugins");
@@ -533,7 +532,7 @@ void sigChildHandler(int)
 
    while (waitpid(-1, 0, WNOHANG) == 0)
    	;
-     
+
    errno = saved_errno;
 }
 
@@ -554,7 +553,7 @@ int main( int argc, char **argv )
     KCmdLineArgs::init( argc, argv, &aboutData );
     KCmdLineArgs::addCmdLineOptions( options );
     KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
-    
+
     showProgress = args->isSet("verbose");
     if (showProgress) {
       printf("10\n"); fflush(stdout);
