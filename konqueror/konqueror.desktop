@@ -21,5 +21,4 @@ Comment[sr]=KDE Fajl Menad¾er i Web Pretra¾ivaè
 Comment[sv]=KDE:s filhanterare och webläsare
 X-KDE-Library=libkonqueror
 Icon=konqueror
-MiniIcon=konqueror
 ServiceTypes=Konqueror

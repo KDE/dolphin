@@ -26,7 +26,6 @@ Name[sr]=Fajl sistem ureðaj
 Name[sv]=Filsystemsenhet
 UnmountIcon=unknown.png
 MountPoint=
-Icon=unknown
 Dev=
 ReadOnly=0
 FSType=Default
