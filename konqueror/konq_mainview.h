@@ -167,6 +167,8 @@ public:
 
   void speedProgress( int bytesPerSecond );
 
+  bool fullSreenMode() { return m_bFullScreen; }
+
 protected slots:
   void slotPartActivated( KParts::Part *part );
   void slotEnableAction( const char * name, bool enabled );

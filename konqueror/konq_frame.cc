@@ -97,16 +97,16 @@ void KonqFrameHeader::mousePressEvent( QMouseEvent* event )
 
 void KonqFrameHeader::splitFrameMenu()
 {
-   QActionCollection *actionColl = m_pParentKonqFrame->childView()->mainView()->actionCollection(); 
+   QActionCollection *actionColl = m_pParentKonqFrame->childView()->mainView()->actionCollection();
 
    QPopupMenu menu;
-   
+
    actionColl->action( "splitviewh" )->plug( &menu );
    actionColl->action( "splitviewv" )->plug( &menu );
    actionColl->action( "splitwindowh" )->plug( &menu );
    actionColl->action( "splitwindowv" )->plug( &menu );
    actionColl->action( "removeview" )->plug( &menu );
-   
+
    menu.exec(QCursor::pos());
 }
 
@@ -204,7 +204,8 @@ KParts::ReadOnlyPart *KonqFrame::attach( const KonqViewFactory &viewFactory )
    m_pLayout->addWidget( m_pView->widget() );
    m_pLayout->addWidget( m_pHeader );
    m_pView->widget()->show();
-   m_pHeader->show();
+   if ( !m_pChildView->mainView()->fullSreenMode() )
+     m_pHeader->show();
    m_pLayout->activate();
 
    connect(m_pView,SIGNAL(setStatusBarText(const QString &)),m_pHeader,SLOT(slotDisplayStatusText(const QString&)));
