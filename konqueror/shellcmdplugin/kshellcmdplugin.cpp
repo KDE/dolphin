@@ -82,7 +82,8 @@ void KShellCmdPlugin::slotExecuteShellCommand()
    }
 }
 
-K_EXPORT_COMPONENT_FACTORY( konq_shellcmdplugin, KGenericFactory<KShellCmdPlugin> )
+typedef KGenericFactory<KShellCmdPlugin> KonqShellCmdPluginFactory;
+K_EXPORT_COMPONENT_FACTORY( konq_shellcmdplugin, KonqShellCmdPluginFactory( "kshellcmdplugin" ) )
 
 #include "kshellcmdplugin.moc"
 
