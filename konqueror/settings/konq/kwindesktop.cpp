@@ -285,6 +285,7 @@ void KWinDesktopConfig::defaults( void )
 {
   setWindowSnapZone(KWM_WNDW_SNAP_ZONE_DEFAULT);
   setBorderSnapZone(KWM_BRDR_SNAP_ZONE_DEFAULT);
+  OverlapSnap->setChecked(false);
 }
 
 QString KWinDesktopConfig::quickHelp() const
