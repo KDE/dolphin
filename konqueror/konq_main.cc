@@ -19,6 +19,7 @@
 
 #include <iostream.h>
 
+#include "konq_main.h"
 #include "konq_misc.h"
 #include "konq_factory.h"
 #include "konq_mainwindow.h"
@@ -49,7 +50,7 @@ int main( int argc, char **argv )
 
   KCmdLineArgs::addCmdLineOptions( options ); // Add our own options.
 
-  KApplication app;
+  KonquerorApplication app;
 
   app.dcopClient()->registerAs( "konqueror" );
 

@@ -72,6 +72,7 @@
 #include <konq_defaults.h>
 #include <konq_popupmenu.h>
 #include <konq_settings.h>
+#include <konq_main.h>
 #include <konq_undo.h>
 #include <kparts/part.h>
 #include <kpopupmenu.h>
@@ -2925,8 +2926,13 @@ void KonqMainWindow::updateBookmarkBar()
 void KonqMainWindow::closeEvent( QCloseEvent *e )
 {
   kdDebug() << "KonqMainWindow::closeEvent begin" << endl;
-  hide();
-  qApp->flushX();
+  // This breaks session management (the window is withdrawn in kwin)
+  // so let's do this only when closed by the user.
+  if ( static_cast<KonquerorApplication *>(kapp)->closedByUser() )
+  {
+    hide();
+    qApp->flushX();
+  }
   KParts::MainWindow::closeEvent( e );
   kdDebug() << "KonqMainWindow::closeEvent end" << endl;
 }

@@ -31,7 +31,7 @@ konqueror_la_SOURCES = konq_main.cc \
 	    konq_actions.cc \
 	    konq_profiledlg.cc \
 	    konq_factory.cc \
-		konq_pixmapprovider.cc
+            konq_pixmapprovider.cc
 
 konqueror_la_LDFLAGS = $(all_libraries) -module -avoid-version
 konqueror_la_LIBADD = ../libkonq/libkonq.la
