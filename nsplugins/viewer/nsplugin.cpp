@@ -440,7 +440,7 @@ void NSPluginInstance::requestURL( const QString &url, const QString &mime,
 {
     kdDebug(1431) << "NSPluginInstance::requestURL url=" << url << " target=" <<
         target << " notify=" << notify << endl;
-    _waitingRequests.enqueue( new Request( url, mime, target, notify ) );
+    _waitingRequests.enqueue( new Request( url, mime.isEmpty()?"text/plain":mime, target, notify ) );
     if ( _streams.count()==0 )
         _timer->start( 0, true );
 }
@@ -809,6 +809,7 @@ DCOPRef NSPluginClass::newInstance(QString url, QString mimeType, bool embed,
    QString src = url;
    int width = 300;
    int height = 300;
+   QString baseURL = url;
 
    for (unsigned int i=0; i<argc; i++)
    {
@@ -820,6 +821,7 @@ DCOPRef NSPluginClass::newInstance(QString url, QString mimeType, bool embed,
 
       if (!strcasecmp(_argn[i], "WIDTH")) width = atoi(_argv[i]);
       if (!strcasecmp(_argn[i], "HEIGHT")) height = atoi(_argv[i]);
+      if (!strcasecmp(_argn[i], "NSPLUGINBASEURL")) baseURL = _argv[i];
       kdDebug(1431) << "argn=" << _argn[i] << " argv=" << _argv[i] << endl;
    }
 
@@ -831,7 +833,7 @@ DCOPRef NSPluginClass::newInstance(QString url, QString mimeType, bool embed,
 
    // Create plugin instance object
    NSPluginInstance *inst = new NSPluginInstance( npp, &_pluginFuncs, _handle,
-                                                  width, height, src, mimeType, this );
+                                                  width, height, baseURL, mimeType, this );
 
    // create plugin instance
    NPError error = _pluginFuncs.newp(mime, npp, embed ? NP_EMBED : NP_FULL,
