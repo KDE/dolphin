@@ -298,39 +298,57 @@ void KonqMainView::openURL( KonqChildView *_view, const KURL &url, const QString
   //kdDebug(1202) << "setLocationBarURL : url = " << url.url() << endl;
   setLocationBarURL( url.url() );
 
+  bool emitEvent = false;
+
   kdDebug(1202) << QString("trying openView for %1 (servicetype %2)").arg(url.url()).arg(serviceType) << endl;
   if ( !serviceType.isEmpty() && serviceType != "application/octet-stream" )
   {
     // Built-in view ?
     if ( !openView( serviceType, url, view /* can be 0L */) )
     {
-      // We know the servicetype, let's try its preferred service
-      KService::Ptr offer = KServiceTypeProfile::preferredService(serviceType);
-      KURL::List lst;
-      lst.append(url);
-      if ( !offer || !KRun::run( *offer, lst ) )
+      if ( !view || !view->passiveMode() )
       {
-        (void)new KRun( url );
-      }
+        // We know the servicetype, let's try its preferred service
+        KService::Ptr offer = KServiceTypeProfile::preferredService(serviceType);
+        KURL::List lst;
+        lst.append(url);
+        if ( !offer || !KRun::run( *offer, lst ) )
+        {
+          (void)new KRun( url );
+        }
+      } else // passive view
+          emitEvent = true;
     }
   }
   else // no known serviceType, use KonqRun
   {
-    kdDebug(1202) << QString("Creating new konqrun for %1").arg(url.url()) << endl;
-    KonqRun * run = new KonqRun( this, view /* can be 0L */, url, 0, false, true );
-    if ( view )
+    if ( !view || !view->passiveMode() ) // Do nothing if passive view (we'll have a
+        // linked active one to take care of this...)
     {
-      view->setRun( run );
-      if ( view == m_currentView )
+      kdDebug(1202) << QString("Creating new konqrun for %1").arg(url.url()) << endl;
+      KonqRun * run = new KonqRun( this, view /* can be 0L */, url, 0, false, true );
+      if ( view )
       {
-        startAnimation();
-        view->setLoading( true );
+        view->setRun( run );
+        if ( view == m_currentView )
+        {
+          startAnimation();
+          view->setLoading( true );
+        }
       }
-    }
-    connect( run, SIGNAL( finished() ),
-             this, SLOT( slotRunFinished() ) );
-    connect( run, SIGNAL( error() ),
-             this, SLOT( slotRunFinished() ) );
+      connect( run, SIGNAL( finished() ),
+               this, SLOT( slotRunFinished() ) );
+      connect( run, SIGNAL( error() ),
+               this, SLOT( slotRunFinished() ) );
+    } else emitEvent = true;
+  }
+
+  // A passive view doesn't change its view mode. But it still emits the event !
+  if ( emitEvent )
+  {
+    kdDebug(1202) << "Passive view - mimetype mismatch - emitting event" << endl;
+    KParts::OpenURLEvent ev( view->view(), url );
+    QApplication::sendEvent( this, &ev ); // or customEvent(&ev) directly ?
   }
 }
 
@@ -995,7 +1013,11 @@ void KonqMainView::customEvent( QCustomEvent *event )
             && !(*it)->isLoading()
             && (*it)->url() != ev->url() ) // avoid loops !
        {
-         if ( (*it)->supportsServiceType( senderChildView->serviceType() ) )
+         // A linked view follows this URL if it supports that service type
+         // _OR_ if the sender is passive (in this case it's locked and we want
+         // the active view to show the URL anyway - example is a web URL in konqdirtree)
+         if ( (*it)->supportsServiceType( senderChildView->serviceType() )
+              || senderChildView->passiveMode() )
          {
            kdDebug(1202) << "Sending openURL to view, url:" << ev->url().url() << endl;
            kdDebug(1202) << "Current view url:" << (*it)->url().url() << endl;
