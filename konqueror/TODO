@@ -5,12 +5,6 @@
 
 - Sorting by date, ...
 
-- Fix dropping an icon on itself (Reggie says "Konqy's Iconviewitem
-has to check in acceptDrop if the drop which should be
-accepted (the QMimeSource you get in this method) is the same
-as the item itself by decoding it and comparing the files they point to,
-and refuse or accept the drop according to this result.")
-
 - Add support (in kpropsdlg probably) for user defined actions in .desktop
 files, like :
 ...
@@ -42,6 +36,29 @@ standard, for "the device in the Type=FSDevice .desktop file"...
 
 - Image Preview : make size configurable for tackat :)
 
+- Tree view: sorting, fixing columns, ...
+In konqueror.rc, add treeview config.
+
+[TreeView_default]
+Columns = Column Name, Column Name, ...
+ (i18n'ed in konqueror -> full list there using i18n_noop)
+UDSEntries = UDSEntry constant (KIO::UDS_...), ...
+
+Some protocols have additionnal fields -> dialog box for
+showing the other fields (list of available fields comes
+from the .desktop entry of the protocol).
+
+Saving layout for the other protocols :
+[TreeView_gopher]
+...
+
+In konqueror/treeview: for the current protocol, create in memory
+the dicts    UDS number -> column number (reversing the config file)
+                  This allows sorting the UDSEntryList using qBubbleSort
+                  ( defining a type able to know if two UDS entries are < )
+
++ QStringList of headers (i18n'ed).
+
 - HTMLView (if local dir) : drop should copy to parent dir (for Antonio :)
 
 - Integrate kdf and kdu ...
@@ -51,15 +68,6 @@ standard, for "the device in the Type=FSDevice .desktop file"...
 - Undo functionality
 
 - see grep TODO *.cc *.h
-
-- config dialog box for 
-
-On delete:
-(o) Move To Trash
-( ) Delete
-( ) Shred
-
-[ ] Ask for confirmation
 
 - see http://bugs.kde.org/db/pa/lkfm.html !
 
