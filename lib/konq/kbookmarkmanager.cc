@@ -22,6 +22,8 @@
 #include <krun.h>
 #include <kstandarddirs.h>
 #include <ksavefile.h>
+#include <qtextstream.h>
+#include <qregexp.h>
 #include <kmessagebox.h>
 #include <kprocess.h>
 #include <klocale.h>
@@ -46,6 +48,8 @@ KBookmarkManager::KBookmarkManager( const QString & bookmarksFile, bool bImportD
         delete s_pSelf;
     s_pSelf = this;
 
+    m_update = true;
+
     if (bookmarksFile.isEmpty())
         m_bookmarksFile = locateLocal("data", QString::fromLatin1("konqueror/bookmarks.xml"));
     else
@@ -68,6 +72,11 @@ KBookmarkManager::KBookmarkManager( const QString & bookmarksFile, bool bImportD
 KBookmarkManager::~KBookmarkManager()
 {
     s_pSelf = 0L;
+}
+
+void KBookmarkManager::setUpdate(bool update)
+{
+    m_update = update;
 }
 
 void KBookmarkManager::parse()
@@ -217,28 +226,42 @@ KBookmarkGroup KBookmarkManager::toolbar()
         return KBookmarkGroup(root().findToolbar());
 }
 
-KBookmark KBookmarkManager::findByAddress( const QString & address )
+KBookmark KBookmarkManager::findByAddress( const QString & address, bool tolerant ) 
 {
     //kdDebug(1203) << "KBookmarkManager::findByAddress " << address << endl;
     KBookmark result = root();
-    // The address is something like /5/10/2
-    QStringList addresses = QStringList::split('/',address);
-    for ( QStringList::Iterator it = addresses.begin() ; it != addresses.end() ; ++it )
+    // The address is something like /5/10/2+
+    QStringList addresses = QStringList::split(QRegExp("[/+]"),address);
+    // kdWarning() << addresses.join(",") << endl;
+    for ( QStringList::Iterator it = addresses.begin() ; it != addresses.end() ; )
     {
-        uint number = (*it).toUInt();
-        //kdDebug(1203) << "KBookmarkManager::findByAddress " << number << endl;
-        Q_ASSERT(result.isGroup());
-        KBookmarkGroup group = result.toGroup();
-        KBookmark bk = group.first();
-        for ( uint i = 0 ; i < number ; ++i )
-            bk = group.next(bk);
-        Q_ASSERT(!bk.isNull());
-        result = bk;
+       bool append = ((*it) == "+");
+       uint number = (*it).toUInt();
+       Q_ASSERT(result.isGroup());
+       KBookmarkGroup group = result.toGroup();
+       KBookmark bk = group.first(), lbk = bk; // last non-null bookmark
+       for ( uint i = 0 ; ( (i<number) || append ) && !bk.isNull() ; ++i ) {
+           lbk = bk;
+           bk = group.next(bk);
+         //kdWarning() << i << endl;
+       }
+       it++;
+       int shouldBeGroup = !bk.isGroup() && (it != addresses.end());
+       if ( tolerant && ( bk.isNull() || shouldBeGroup ) ) {
+          if (!lbk.isNull()) result = lbk;
+          //kdWarning() << "break" << endl;
+          break;
+       }
+       //kdWarning() << "found section" << endl;
+       result = bk;
     }
-    if (result.isNull())
-        kdWarning() << "KBookmarkManager::findByAddress: couldn't find item " << address << endl;
+    if (result.isNull()) {
+       kdWarning() << "KBookmarkManager::findByAddress: couldn't find item " << address << endl;
+       Q_ASSERT(!tolerant);
+    }
+    //kdWarning() << "found " << result.address() << endl;
     return result;
-}
+ }
 
 void KBookmarkManager::emitChanged( KBookmarkGroup & group )
 {
@@ -255,8 +278,10 @@ void KBookmarkManager::emitChanged( KBookmarkGroup & group )
     //emit changed( group );
 }
 
-void KBookmarkManager::notifyCompleteChange( QString caller )
+void KBookmarkManager::notifyCompleteChange( QString caller ) // DCOP call
 {
+    if (!m_update) return;
+
     //kdDebug(1203) << "KBookmarkManager::notifyCompleteChange" << endl;
     // The bk editor tells us we should reload everything
     // Reparse
@@ -272,6 +297,8 @@ void KBookmarkManager::notifyCompleteChange( QString caller )
 
 void KBookmarkManager::notifyChanged( QString groupAddress ) // DCOP call
 {
+    if (!m_update) return;
+
     // Reparse (the whole file, no other choice)
     // Of course, if we are the emitter this is a bit stupid....
     parse();

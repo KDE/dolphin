@@ -69,6 +69,12 @@ public:
     ~KBookmarkManager();
 
     /**
+     * Set the update flag.
+     * @param update iff true will KBookmarkManager listen to DCOP update requests.
+     */
+    void setUpdate(bool update);
+
+    /**
      * Save the bookmarks to the default konqueror XML file on disk.
      * @return true if saving was successful
      */
@@ -108,7 +114,7 @@ public:
      * @return the bookmark designated by @p address
      * @see KBookmark::address
      */
-    KBookmark findByAddress( const QString & address );
+    KBookmark findByAddress( const QString & address, bool tolerate = false );
 
     /**
      * @internal (for KBookmarkGroup)
@@ -171,6 +177,7 @@ protected:
     void convertAttribute( QDomElement elem, const QString & oldName, const QString & newName );
     QString m_bookmarksFile;
     QDomDocument m_doc;
+    bool m_update;
     static KBookmarkManager* s_pSelf;
 };
 
