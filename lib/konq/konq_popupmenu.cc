@@ -93,7 +93,7 @@ KonqPopupMenu::KonqPopupMenu( const KFileItemList &items,
   mode_t mode         = m_lstItems.first()->mode();
   bool bTrashIncluded = false;
   m_lstPopupURLs.clear();
-  int id;
+  int id = 0;
 
   setFont(KGlobalSettings::menuFont());
 
