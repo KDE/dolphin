@@ -506,9 +506,8 @@ void KonqMainWindow::openURL( KonqView *_view, const KURL &_url,
       else if ( !req.newTab )
       {
         // there can be only one :) (when not a new tab)
-        if ( m_initialKonqRun )
-          delete m_initialKonqRun; 
-        m_initialKonqRun = run;
+          delete m_initialKonqRun;
+          m_initialKonqRun = run;
       }
       if ( view == m_currentView )
         startAnimation();
