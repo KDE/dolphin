@@ -77,7 +77,7 @@ public:
   KonqIconViewWidget *iconViewWidget() const { return m_pIconView; }
 
 public slots:
-  void slotImagePreview();
+  void slotImagePreview( bool toggle );
   void slotShowDot();
   void slotSelect();
   void slotUnselect();

@@ -158,7 +158,10 @@ KonqKfmIconView::KonqKfmIconView()
   m_bInit = true;
 
   m_paDotFiles = new KToggleAction( i18n( "Show &Dot Files" ), 0, this, SLOT( slotShowDot() ), this );
-  m_paImagePreview = new KToggleAction( i18n( "&Image Preview" ), 0, this, SLOT( slotImagePreview() ), this );
+  m_paImagePreview = new KToggleAction( i18n( "&Image Preview" ), 0, this );
+
+  connect( m_paImagePreview, SIGNAL( toggled( bool ) ), this, SLOT( slotImagePreview( bool ) ) );
+
   m_pamSort = new KActionMenu( i18n( "Sort..." ), this );
 
   KToggleAction *aSortByNameCS = new KToggleAction( i18n( "by Name (Case Sensitive)" ), 0, this );
@@ -289,6 +292,8 @@ KonqKfmIconView::KonqKfmIconView()
   m_pIconView->setSize( KIconLoader::Medium ); // TODO : part of KonqPropsView
 
   m_eSortCriterion = NameCaseInsensitive;
+
+  m_paImagePreview->setChecked( m_pProps->m_bImagePreview );
 }
 
 KonqKfmIconView::~KonqKfmIconView()
@@ -299,9 +304,9 @@ KonqKfmIconView::~KonqKfmIconView()
   delete m_pIconView;
 }
 
-void KonqKfmIconView::slotImagePreview()
+void KonqKfmIconView::slotImagePreview( bool toggle )
 {
-  m_pProps->m_bImagePreview = !m_pProps->m_bImagePreview;
+  m_pProps->m_bImagePreview = toggle;
   m_pIconView->setImagePreviewAllowed ( m_pProps->m_bImagePreview );
   m_pIconView->alignItemsInGrid( true );
 }
@@ -543,7 +548,8 @@ void KonqKfmIconView::restoreState( QDataStream &stream )
     m_paBottomText->setChecked( true );
   else
     m_paRightText->setChecked( true );
-  m_pIconView->setImagePreviewAllowed ( (bool) iImagePreview );
+
+  m_paImagePreview->setChecked( (bool) iImagePreview );
 }
 
 QString KonqKfmIconView::url()
