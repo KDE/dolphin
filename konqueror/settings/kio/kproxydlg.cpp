@@ -343,7 +343,7 @@ void KProxyOptions::setCache()
 #ifdef MAX_CACHE_AGE
   sb_max_cache_age->setEnabled( useCache );
 #endif
-  pb_down->setEnabled( useCache );
+  //pb_down->setEnabled( useCache );
   cb_useCache->setChecked( useCache );
 }
 
