@@ -91,7 +91,7 @@ KUserInfoConfig::KUserInfoConfig(QWidget *parent, const char *name, const QStrin
 
   QHBoxLayout *pInfoLayout = new QHBoxLayout( pInfoGroup->layout(), KDialog::spacingHint() );
 
-  QLabel *pInfoLeft = new QLabel( i18n("Real name:\nUser name:\nUser ID:\nHome directory:\nShell:"), pInfoGroup );
+  QLabel *pInfoLeft = new QLabel( i18n("Real name:\nUser name:\nUser ID:\nHome folder:\nShell:"), pInfoGroup );
   m_pInfoRight = new QLabel( m_InfoRightText , pInfoGroup );
   pInfoLayout->addWidget( pInfoLeft );
   pInfoLayout->addWidget( m_pInfoRight );
