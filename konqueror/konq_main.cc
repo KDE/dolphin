@@ -89,7 +89,7 @@ int main( int argc, char **argv )
        KParts::URLArgs urlargs;
        if (args->isSet("mimetype"))
            urlargs.serviceType = QString::fromLocal8Bit(args->getOption("mimetype"));
-       kdDebug() << "main() -> createBrowserWindowFromProfile servicetype=" << urlargs.serviceType << endl;
+       kdDebug(1202) << "main() -> createBrowserWindowFromProfile servicetype=" << urlargs.serviceType << endl;
        KonqMisc::createBrowserWindowFromProfile( profilePath, profile, url, urlargs );
      }
      else
@@ -101,7 +101,7 @@ int main( int argc, char **argv )
                  KonqMainWindow *mainWindow = new KonqMainWindow;
                  mainWindow->show();
              }
-             kdDebug() << "main() -> no args" << endl;
+             kdDebug(1202) << "main() -> no args" << endl;
          }
          else
          {
@@ -119,7 +119,7 @@ int main( int argc, char **argv )
                  if (args->isSet("mimetype"))
                  {
                      urlargs.serviceType = QString::fromLocal8Bit(args->getOption("mimetype"));
-                     kdDebug() << "main() : setting serviceType to " << urlargs.serviceType << endl;
+                     kdDebug(1202) << "main() : setting serviceType to " << urlargs.serviceType << endl;
                  }
                  KonqMisc::createNewWindow( urlToOpen, urlargs );
              }
