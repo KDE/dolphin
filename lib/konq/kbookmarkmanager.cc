@@ -209,7 +209,11 @@ KBookmarkGroup KBookmarkManager::root() const
 
 KBookmarkGroup KBookmarkManager::toolbar()
 {
-    return KBookmarkGroup(root().findToolbar());
+    QDomElement elem = root().findToolbar();
+    if (elem.isNull())
+        return root(); // Root is the bookmark toolbar if none has been set.
+    else
+        return KBookmarkGroup(root().findToolbar());
 }
 
 KBookmark KBookmarkManager::findByAddress( const QString & address )
