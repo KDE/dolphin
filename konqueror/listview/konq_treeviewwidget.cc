@@ -139,6 +139,11 @@ void KonqTreeViewWidget::clearSubDir( const KURL & _url )
             m_urlsToReload.remove( it.currentKey() );
          }
       }
+      
+      // Delete all child items, their file-items are no longer valid
+      QListViewItem* child;
+      while((child = item->firstChild()))
+         delete child;
    }
 }
 
