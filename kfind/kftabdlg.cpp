@@ -247,6 +247,8 @@ KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name)
     textEdit=new KLineEdit(pages[2], "textEdit" );
     QLabel * textL   =new QLabel(textEdit, i18n("C&ontaining text:"), pages[2], "text");
 
+    connect( textEdit, SIGNAL(returnPressed(const QString &)), SIGNAL( startSearch()));
+
     const QString containingtext
       = i18n("<qt>If specified, only files that contain this text"
 	      " are found. Note that not all file types from the list"
