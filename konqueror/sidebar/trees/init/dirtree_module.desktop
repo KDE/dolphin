@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Link
+URL=
+Icon=
+Name=dirtree
+Open=false
+ 
+X-KDE-TreeModule=Directory
+X-KDE-TreeModule-Lib=konqsidebartree_dirtree
+X-KDE-Default-URL=file:/

@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Link
+URL=
+Icon=folder
+Name=Folder/Directory
+
+Open=false
+X-KDE-KonqSidebarAddParam=
+X-KDE-KonqSidebarAddModule=konqsidebar_tree    
