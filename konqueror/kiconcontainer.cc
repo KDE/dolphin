@@ -1420,7 +1420,7 @@ bool KIconContainerItem::isSmallerThen( KIconContainerItem* _item )
   return false;
 }
 
-void KIconContainerItem::paint( QPainter* _painter, const QColorGroup _grp )
+void KIconContainerItem::paint( QPainter* _painter, const QColorGroup )
 {
   if ( m_pContainer->displayMode() == KIconContainer::Horizontal )
   {

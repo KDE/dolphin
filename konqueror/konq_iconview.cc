@@ -273,7 +273,7 @@ void KonqKfmIconView::selectedItems( list<KonqKfmIconViewItem*>& _list )
       _list.push_back( (KonqKfmIconViewItem*)&**it );
 }
 
-void KonqKfmIconView::slotReturnPressed( KIconContainerItem *_item, const QPoint &_global )
+void KonqKfmIconView::slotReturnPressed( KIconContainerItem *_item, const QPoint & )
 {
   if ( !_item )
     return;
@@ -396,7 +396,7 @@ void KonqKfmIconView::slotDrop( QDropEvent *_ev, KIconContainerItem* _item, QStr
   }
 }
 
-void KonqKfmIconView::slotDragStart( const QPoint& _hotspot, QList<KIconContainerItem>& _selected, QPixmap _pixmap )
+void KonqKfmIconView::slotDragStart( const QPoint& _hotspot, QList<KIconContainerItem>& , QPixmap _pixmap )
 {
   list<KonqKfmIconViewItem*> icons;
   selectedItems( icons );
