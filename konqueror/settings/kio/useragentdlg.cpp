@@ -30,6 +30,7 @@
 #include <qpushbutton.h>
 #include <qvbuttongroup.h>
 
+#include <kdebug.h>
 #include <klocale.h>
 #include <klistview.h>
 #include <dcopclient.h>
@@ -45,17 +46,15 @@
 UserAgentOptions::UserAgentOptions( QWidget * parent, const char * name )
                  :KCModule( parent, name )
 {
-  QVBoxLayout *layout = new QVBoxLayout( this, KDialog::marginHint(),
-                                         KDialog::spacingHint() );
-  QWidget* widget = new QWidget( this );
-  layout->addWidget( widget );
+  QVBoxLayout *mainLayout = new QVBoxLayout( this, KDialog::marginHint(),
+                                             KDialog::spacingHint() );
 
-  QVBoxLayout *vlay = new QVBoxLayout( widget, KDialog::marginHint(),
-                                       KDialog::spacingHint() );
-  vlay->setAutoAdd( true );
+  QHBoxLayout* hlay = new QHBoxLayout;
+  hlay->setSpacing( KDialog::spacingHint() );
+  hlay->setMargin( 0 );
 
   // Send User-agent info ?
-  cb_sendUAString = new QCheckBox( i18n("Se&nd browser identification"), widget );
+  cb_sendUAString = new QCheckBox( i18n("Send browser &identification"), this );
   QString wtstr = i18n("<qt>If unchecked, no identification information about "
                        "your browser will be sent to sites you visit while "
                        "browsing."
@@ -67,11 +66,18 @@ UserAgentOptions::UserAgentOptions( QWidget * parent, const char * name )
                        "remote sites as shown below in <b>bold</b>.</qt>");
   QWhatsThis::add( cb_sendUAString, wtstr );
   connect( cb_sendUAString, SIGNAL(clicked()), this, SLOT(changeSendUAString()) );
-  connect( cb_sendUAString, SIGNAL(clicked()), this, SLOT(clicked()) );
+  connect( cb_sendUAString, SIGNAL(clicked()), this, SLOT(changed()) );
+
+  hlay->addWidget( cb_sendUAString );
+
+  QSpacerItem* spacer = new QSpacerItem( 20, 20, QSizePolicy::Expanding,
+                                         QSizePolicy::Minimum );
+  hlay->addItem( spacer );
+  mainLayout->addLayout( hlay );
 
   // Default User-agent customization.
-  bg_default = new QButtonGroup( i18n("Customize default identification"), widget );
-  vlay->setStretchFactor( bg_default, 0 );
+  bg_default = new QButtonGroup( i18n("Customize default identification"), this );
+  // vlay->setStretchFactor( bg_default, 0 );
   QGridLayout *bg_grid = new QGridLayout( bg_default, 7, 2,
                                           KDialog::marginHint(),
                                           KDialog::spacingHint() );
@@ -127,9 +133,10 @@ UserAgentOptions::UserAgentOptions( QWidget * parent, const char * name )
                "identification string.");
   QWhatsThis::add( cb_showLanguage, wtstr );
 
+  mainLayout->addWidget( bg_default );
+
   // Site/Domain specific settings
-  gb_siteSpecific = new QGroupBox( i18n("Site/domain specific identification"), widget );
-  vlay->setStretchFactor( gb_siteSpecific, 10 );
+  gb_siteSpecific = new QGroupBox( i18n("Site/domain specific identification"), this );
   QGridLayout* s_grid = new QGridLayout( gb_siteSpecific, 3, 2,
                                          KDialog::marginHint(),
                                          KDialog::spacingHint() );
@@ -144,7 +151,7 @@ UserAgentOptions::UserAgentOptions( QWidget * parent, const char * name )
   lv_siteUABindings->addColumn(i18n("Site/domain name"));
   lv_siteUABindings->addColumn(i18n("UserAgent"));
   lv_siteUABindings->addColumn(i18n("Alias"));
-  
+
   lv_siteUABindings->setAllColumnsShowFocus( true );
   lv_siteUABindings->setTreeStepSize(0);
   lv_siteUABindings->setSorting(0);
@@ -206,7 +213,6 @@ UserAgentOptions::UserAgentOptions( QWidget * parent, const char * name )
   connect( pb_export, SIGNAL( clicked() ), this, SLOT( exportPressed() ) );
 #endif
 
-  s_grid->addWidget( vbox, 1, 1 );
   wtstr = i18n("<qt>Here you can modify the default browser-identification string "
                "and/or set a site <code>(ex:www.kde.org)</code> or a domain "
                "<code>(ex:kde.org)</code> specific identification."
@@ -221,9 +227,13 @@ UserAgentOptions::UserAgentOptions( QWidget * parent, const char * name )
                "you to easily share your policies with other people by allowing "
                "you to save and retrieve them from a zipped file.")
 #endif
-
+  
   QWhatsThis::add( gb_siteSpecific, wtstr );
-  vlay->addSpacing( KDialog::spacingHint() );
+  s_grid->addWidget( vbox, 1, 1 );
+
+  mainLayout->addWidget( gb_siteSpecific );
+  mainLayout->addSpacing( KDialog::spacingHint() );
+
   load();
 }
 
@@ -374,8 +384,7 @@ bool UserAgentOptions::handleDuplicate( const QString& site,
   QListViewItem* item = lv_siteUABindings->firstChild();
   while ( item != 0 )
   {
-    if ( item->text(0).findRev( site ) != -1 &&
-         item != lv_siteUABindings->currentItem() )
+    if ( item->text(0).findRev( site ) != -1 )
     {
       QString msg = i18n("<qt><center>Found an existing identification for"
                          "<br/><b>%1</b><br/>"

@@ -43,11 +43,12 @@
 KCookiesPolicies::KCookiesPolicies(QWidget *parent, const char *name)
                  :KCModule(parent, name)
 {
-    QVBoxLayout *lay;
-    // This is the layout for the "Policy" tab.
-    lay = new QVBoxLayout( this, KDialog::marginHint(),
-                           KDialog::spacingHint() );
-    lay->setAutoAdd( true );
+    QVBoxLayout *mainLayout = new QVBoxLayout( this, KDialog::marginHint(),
+                                        KDialog::spacingHint() );
+
+    QHBoxLayout* hlay = new QHBoxLayout;
+    hlay->setSpacing( KDialog::spacingHint() );
+    hlay->setMargin( 0 );
 
     cb_enableCookies = new QCheckBox( i18n("Enable Coo&kies"), this );
     QWhatsThis::add( cb_enableCookies, i18n("This option turns on cookie support. Normally "
@@ -56,8 +57,14 @@ KCookiesPolicies::KCookiesPolicies(QWidget *parent, const char *name)
     connect( cb_enableCookies, SIGNAL( clicked() ), this, SLOT( changeCookiesEnabled() ) );
     connect( cb_enableCookies, SIGNAL( clicked() ), this, SLOT( changed() ) );
 
+    hlay->addWidget( cb_enableCookies );
+
+    QSpacerItem* spacer = new QSpacerItem( 20, 20, QSizePolicy::Expanding,
+                              QSizePolicy::Minimum );
+    hlay->addItem( spacer );
+    mainLayout->addLayout( hlay );
+
     bg_default = new QVButtonGroup( i18n("Default Policy"), this );
-    lay->setStretchFactor( bg_default, 0 );
     QWhatsThis::add( bg_default, i18n("The default policy determines how cookies received from "
                                       "a remote machine, which is not associated with a specific "
                                       "policy (see below), will be handled: "
@@ -81,23 +88,29 @@ KCookiesPolicies::KCookiesPolicies(QWidget *parent, const char *name)
                                                "default"), bg_default );
     bg_default->insert (rb_gbPolicyReject, KCookieAdvice::Reject);
 
+    mainLayout->addWidget( bg_default );
+
     // Create Group Box for specific settings
     gb_domainSpecific = new QGroupBox( i18n("Domain Specific Policy"), this);
-    lay->setStretchFactor( gb_domainSpecific, 10 );
-    QGridLayout *ds_lay = new QGridLayout( gb_domainSpecific, 3, 2,
+    QGridLayout *s_grid = new QGridLayout( gb_domainSpecific, 3, 2,
                                            KDialog::marginHint(),
                                            KDialog::spacingHint() );
-    ds_lay->addRowSpacing( 0, fontMetrics().lineSpacing() );
-    ds_lay->setColStretch( 0, 2 ); // only resize the listbox horizontally, not the buttons
-    ds_lay->setRowStretch( 2, 2 );
+    s_grid->addRowSpacing( 0, fontMetrics().lineSpacing() );
+    s_grid->setColStretch( 0, 2 ); // only resize the listbox horizontally, not the buttons
+    s_grid->setRowStretch( 2, 2 );
 
     // CREATE SPLIT LIST BOX
     lv_domainPolicy = new KListView( gb_domainSpecific );
+    lv_domainPolicy->setShowSortIndicator (true);
     lv_domainPolicy->setSelectionMode (QListView::Extended);
 
     lv_domainPolicy->addColumn(i18n("Domain"));
     lv_domainPolicy->addColumn(i18n("Policy"), 100);
-    ds_lay->addMultiCellWidget( lv_domainPolicy, 1, 2, 0, 0 );
+
+    lv_domainPolicy->setTreeStepSize(0);
+    lv_domainPolicy->setSorting(0);
+    s_grid->addMultiCellWidget( lv_domainPolicy, 1, 2, 0, 0 );
+
     connect( lv_domainPolicy, SIGNAL(selectionChanged()), SLOT(selectionChanged()) );
     connect( lv_domainPolicy, SIGNAL(doubleClicked (QListViewItem *)),SLOT(changePressed() ) );
     QString wtstr = i18n("This box contains the domains you have set a specific "
@@ -105,34 +118,32 @@ KCookiesPolicies::KCookiesPolicies(QWidget *parent, const char *name)
                          "of the default policy for any cookie sent by these "
                          "domains. <p>Select a policy and use the controls on "
                          "the right to modify it.");
+
     QWhatsThis::add( lv_domainPolicy, wtstr );
     QWhatsThis::add( gb_domainSpecific, wtstr );
 
     QVBox* vbox = new QVBox( gb_domainSpecific );
     vbox->setSpacing( KDialog::spacingHint() );
-    pb_domPolicyAdd = new QPushButton( i18n("&New..."), vbox );
-    QWhatsThis::add( pb_domPolicyAdd, i18n("Click on this button to manually "
-                                           "add a domain specific policy.") );
-    connect( pb_domPolicyAdd, SIGNAL(clicked()), SLOT( addPressed() ) );
+    pb_add = new QPushButton( i18n("&New..."), vbox );
+    QWhatsThis::add( pb_add, i18n("Add a domain specific cookie policy.") );
+    connect( pb_add, SIGNAL(clicked()), SLOT( addPressed() ) );
 
-    pb_domPolicyChange = new QPushButton( i18n("C&hange..."), vbox );
-    pb_domPolicyChange->setEnabled( false );
-    QWhatsThis::add( pb_domPolicyChange, i18n("Click on this button to change "
-                                              "the policy for the domain "
-                                              "selected in the list box.") );
-    connect( pb_domPolicyChange, SIGNAL( clicked() ), this, SLOT( changePressed() ) );
+    pb_change = new QPushButton( i18n("C&hange..."), vbox );
+    pb_change->setEnabled( false );
+    QWhatsThis::add( pb_change, i18n("Change the policy selected item "
+                                              "in the list box.") );
+    connect( pb_change, SIGNAL( clicked() ), this, SLOT( changePressed() ) );
 
 
-    pb_domPolicyDelete = new QPushButton( i18n("De&lete"), vbox );
-    pb_domPolicyDelete->setEnabled( false );
-    QWhatsThis::add( pb_domPolicyDelete, i18n("Click on this button to remove the policy for the "
-                                              "domain selected in the list box.") );
-    connect( pb_domPolicyDelete, SIGNAL( clicked() ), this, SLOT( deletePressed() ) );
+    pb_delete = new QPushButton( i18n("De&lete"), vbox );
+    pb_delete->setEnabled( false );
+    QWhatsThis::add( pb_delete, i18n("Remove the selected policy.") );
+    connect( pb_delete, SIGNAL( clicked() ), this, SLOT( deletePressed() ) );
 
-    pb_domPolicyDeleteAll = new QPushButton( i18n("D&elete All"), vbox );
-    pb_domPolicyDeleteAll->setEnabled( false );
-    QWhatsThis::add( pb_domPolicyDeleteAll, i18n("Click on this button to remove all domain policies.") );
-    connect( pb_domPolicyDeleteAll, SIGNAL( clicked() ), this, SLOT( deleteAllPressed() ) );
+    pb_deleteAll = new QPushButton( i18n("D&elete All"), vbox );
+    pb_deleteAll->setEnabled( false );
+    QWhatsThis::add( pb_deleteAll, i18n("Remove all domain policies.") );
+    connect( pb_deleteAll, SIGNAL( clicked() ), this, SLOT( deleteAllPressed() ) );
 
 #if 0
     pb_domPolicyImport = new QPushButton( i18n("Import..."), vbox );
@@ -150,7 +161,6 @@ KCookiesPolicies::KCookiesPolicies(QWidget *parent, const char *name)
     connect( pb_domPolicyExport, SIGNAL( clicked() ), this, SLOT( exportPressed() ) );
     pb_domPolicyExport->hide();
 #endif
-    ds_lay->addWidget( vbox, 1, 1 );
 
     QWhatsThis::add( gb_domainSpecific, i18n("Here you can set specific cookie policies for any particular "
                                              "domain. To add a new policy, simply click on the <i>Add...</i> "
@@ -164,8 +174,12 @@ KCookiesPolicies::KCookiesPolicies(QWidget *parent, const char *name)
                                              "button allows you to easily share your policies with other people by allowing "
                                              "you to save and retrive them from a zipped file."
 #endif
+    
+    s_grid->addWidget( vbox, 1, 1 );
 
-    lay->addSpacing( KDialog::spacingHint() );
+    mainLayout->addWidget( gb_domainSpecific );
+    mainLayout->addSpacing( KDialog::spacingHint() );
+
     load();
 }
 
@@ -319,10 +333,10 @@ void KCookiesPolicies::exportPressed()
 void KCookiesPolicies::updateButtons()
 {
   bool hasItems = lv_domainPolicy->childCount() > 0;
-
-  pb_domPolicyDelete->setEnabled ((hasItems && d_itemsSelected > 0));
-  pb_domPolicyDeleteAll->setEnabled ((hasItems && d_itemsSelected > 0));
-  pb_domPolicyChange->setEnabled ((hasItems && d_itemsSelected == 1));
+  
+  pb_change->setEnabled ((hasItems && d_itemsSelected == 1));
+  pb_delete->setEnabled ((hasItems && d_itemsSelected > 0));
+  pb_deleteAll->setEnabled ( hasItems );
 }
 
 void KCookiesPolicies::changeCookiesEnabled()

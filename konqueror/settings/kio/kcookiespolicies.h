@@ -85,10 +85,10 @@ private:
     // Domain specific cookie policies
     QGroupBox*    gb_domainSpecific;
     KListView*    lv_domainPolicy;
-    QPushButton*  pb_domPolicyAdd;
-    QPushButton*  pb_domPolicyDelete;
-    QPushButton*  pb_domPolicyDeleteAll;
-    QPushButton*  pb_domPolicyChange;
+    QPushButton*  pb_add;
+    QPushButton*  pb_delete;
+    QPushButton*  pb_deleteAll;
+    QPushButton*  pb_change;
 
     QMap<QListViewItem*, const char *> domainPolicy;
 };
