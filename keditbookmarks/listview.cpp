@@ -406,6 +406,7 @@ void ListView::updateTree(bool updateSplitView) {
 }
 
 void ListView::fillWithGroup(KEBListView *lv, KBookmarkGroup group, KEBListViewItem *parentItem) {
+   KEBListViewItem *lastItem = 0;
    if (!parentItem) {
       lv->clear();
       if (!m_splitView || lv->isFolderList()) {
@@ -415,24 +416,25 @@ void ListView::fillWithGroup(KEBListView *lv, KBookmarkGroup group, KEBListViewI
          return;
       }
    }
-   KEBListViewItem *lastItem = 0;
+   if (m_splitView && !lv->isFolderList()) {
+      lastItem = new KEBListViewItem(lv, lastItem, group);
+   
    for (KBookmark bk = group.first(); !bk.isNull(); bk = group.next(bk)) {
       KEBListViewItem *item = 0;
       if (bk.isGroup()) {
-         if (m_splitView && !lv->isFolderList()) {
-            continue;
-         }
          KBookmarkGroup grp = bk.toGroup();
          item = (parentItem)
               ? new KEBListViewItem(parentItem, lastItem, grp)
               : new KEBListViewItem(lv, lastItem, grp);
-         fillWithGroup(lv, grp, item);
-         if (grp.isOpen()) {
-            item->QListViewItem::setOpen(true);
-         }
-         if (!m_splitView && grp.first().isNull()) {
-            // empty folder
-            new KEBListViewItem(item, item); 
+         if (!(m_splitView && !lv->isFolderList())) {
+            fillWithGroup(lv, grp, item);
+            if (grp.isOpen()) {
+               item->QListViewItem::setOpen(true);
+            }
+            if (!m_splitView && grp.first().isNull()) {
+               // empty folder
+               new KEBListViewItem(item, item); 
+            }
          }
          lastItem = item;
 
