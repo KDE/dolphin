@@ -72,11 +72,10 @@ QValueList<KBookmark> KBookmarkTextMap::find(const QString &text) const
    QValueList<KBookmark> matches;
    QValueList<QString> keys = m_bk_map.keys();
    for (QValueList<QString>::iterator it = keys.begin();
-         it != keys.end(); ++it )
-   {
-      if ((*it).find(text,0,false) != -1) {
+         it != keys.end(); ++it 
+   ) {
+      if ((*it).find(text,0,false) != -1)
          matches += m_bk_map[(*it)];
-      }
    }
    return matches;
 }
@@ -84,16 +83,15 @@ QValueList<KBookmark> KBookmarkTextMap::find(const QString &text) const
 Searcher* Searcher::s_self = 0;
 
 static int m_currentResult;
-static QString m_searchText;
+static QStringList m_foundAddrs;
 
 void Searcher::slotSearchNext()
 {
-   QValueList<KBookmark> list = m_bktextmap->find(m_searchText);
-   if (list.empty()) {
+   if (m_foundAddrs.empty())
       return;
-   }
-   KEBListViewItem *item = ListView::self()->getItemAtAddress(list[m_currentResult].address());
-   m_currentResult = (m_currentResult+1) % (list.count()-1);
+   KEBListViewItem *item = ListView::self()->getItemAtAddress(m_foundAddrs[m_currentResult]);
+   m_currentResult = ((m_currentResult+1) <= m_foundAddrs.count())
+                    ? (m_currentResult+1) : 0;
    ListView::self()->clearSelection();
    ListView::self()->setCurrent(item);
    item->setSelected(true);
@@ -101,11 +99,15 @@ void Searcher::slotSearchNext()
 
 void Searcher::slotSearchTextChanged(const QString & text)
 {
-   if (!m_bktextmap) {
+   if (!m_bktextmap)
       m_bktextmap = new KBookmarkTextMap(CurrentMgr::self()->mgr());
-   }
    m_bktextmap->update(); // FIXME - make this public and use it!!!
-   m_searchText = text;
+   QValueList<KBookmark> results = m_bktextmap->find(text);
+   m_foundAddrs.clear();
+   for (QValueList<KBookmark>::iterator it = results.begin(); it != results.end(); ++it )
+      m_foundAddrs << (*it).address();
+   // sort the addr list so we don't go "next" in a random order
+   m_foundAddrs.sort();
    m_currentResult = 0;
    slotSearchNext();
 }
