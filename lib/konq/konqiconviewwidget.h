@@ -148,6 +148,11 @@ public:
     virtual void insertInGrid( QIconViewItem *item );
 
     /**
+     * Reimplemented from QIconView to update the gridX
+     */
+    virtual void setItemTextPos( ItemTextPos pos );
+
+    /**
      * Give feedback when item is activated.
      */
     virtual void visualActivate(QIconViewItem *);

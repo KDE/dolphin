@@ -209,6 +209,19 @@ void KonqIconViewWidget::setIcons( int size, bool stopImagePreview )
     }
 }
 
+void KonqIconViewWidget::setItemTextPos( ItemTextPos pos )
+{
+  calculateGridX();
+  if ( itemTextPos() != pos )
+  {
+     if ( pos == QIconView::Right )
+       setGridX( gridX() + 50 );
+     else
+       setGridX( gridX() - 50 );
+  }
+  KIconView::setItemTextPos( pos );
+}
+
 void KonqIconViewWidget::calculateGridX()
 {
   int sz = m_size ? m_size : KGlobal::iconLoader()->currentSize( KIcon::Desktop );
