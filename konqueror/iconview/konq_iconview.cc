@@ -797,6 +797,12 @@ void KonqKfmIconView::slotRenderingFinished()
 
 bool KonqKfmIconView::openURL( const KURL & url )
 {
+    // Store url in the icon view
+    m_pIconView->setURL( url );
+
+    // And in the part :-)
+    m_url = url;
+
     beforeOpenURL(); // see KonqDirPart
 
     if ( !m_dirLister )
@@ -832,12 +838,6 @@ bool KonqKfmIconView::openURL( const KURL & url )
     }
 
     m_bLoading = true;
-
-    // Store url in the icon view
-    m_pIconView->setURL( url );
-
-    // and in the part :-)
-    m_url = url;
 
     // Check for new properties in the new dir
     // newProps returns true the first time, and any time something might
