@@ -208,7 +208,7 @@ void KonqViewManager::removeView( KonqView *view )
   KonqFrameBase* otherFrame = parentContainer->otherChild( view->frame() );
 
   if( otherFrame == 0L ) {
-    warning("KonqViewManager::removeView: This shouldn't happen!");
+    kdWarning(1202) << "KonqViewManager::removeView: This shouldn't happen!" << endl;
     return;
   }
 
@@ -584,7 +584,7 @@ void KonqViewManager::loadItem( KConfig &cfg, KonqFrameContainer *parent,
     KonqViewFactory viewFactory = KonqFactory::createView( serviceType, serviceName, &service, &partServiceOffers, &appServiceOffers );
     if ( viewFactory.isNull() )
     {
-      warning("Profile Loading Error: View creation failed" );
+      kdWarning(1202) << "Profile Loading Error: View creation failed" << endl;
       return; //ugh..
     }
 
@@ -735,7 +735,7 @@ void KonqViewManager::printSizeInfo( KonqFrameBase* frame,
 {
   QRect r;
   r = frame->widget()->geometry();
-  debug("Child size %s : x: %d, y: %d, w: %d, h: %d", msg, r.x(),r.y(),r.width(),r.height() );
+  qDebug("Child size %s : x: %d, y: %d, w: %d, h: %d", msg, r.x(),r.y(),r.width(),r.height() );
 
   QValueList<int> sizes;
   sizes = parent->sizes();

@@ -380,7 +380,6 @@ void KonqBaseListViewWidget::viewportDragMoveEvent( QDragMoveEvent *_ev )
 {
   static int c = 0;
   c++;
-  debug("DRAG EVENT %d",c);
    KonqBaseListViewItem *item = (KonqBaseListViewItem*)itemAt( _ev->pos() );
    if ( !item )
    {
@@ -526,7 +525,7 @@ void KonqBaseListViewWidget::viewportMouseMoveEvent( QMouseEvent *_mouse )
          {
             pixmap2 = DesktopIcon( "kmultiple", KIcon::SizeMedium );
             if ( pixmap2.isNull() )
-               warning("KDesktop: Could not find kmultiple pixmap\n");
+                kdWarning(1202) << "Could not find multiple pixmap" << endl;
          }
 
          // Calculate hotspot
@@ -948,7 +947,7 @@ KonqBaseListViewWidget::iterator KonqBaseListViewWidget::iterator::operator++(in
 }
 
 void KonqBaseListViewWidget::drawContentsOffset( QPainter* _painter, int _offsetx, int _offsety,
-				    int _clipx, int _clipy, int _clipw, int _cliph )
+                                    int _clipx, int _clipy, int _clipw, int _cliph )
 {
   if ( !_painter )
     return;
@@ -967,12 +966,12 @@ void KonqBaseListViewWidget::drawContentsOffset( QPainter* _painter, int _offset
     for ( int yp = yOrigin; yp - yOrigin < _cliph + ry; yp += ph )
     {
       for ( int xp = xOrigin; xp - xOrigin < _clipw + rx; xp += pw )
-	_painter->drawPixmap( xp, yp, m_bgPixmap );
+        _painter->drawPixmap( xp, yp, m_bgPixmap );
     }
   }
 
   QListView::drawContentsOffset( _painter, _offsetx, _offsety,
-				 _clipx, _clipy, _clipw, _cliph );
+                                 _clipx, _clipy, _clipw, _cliph );
 }
 
 void KonqBaseListViewWidget::focusInEvent( QFocusEvent* _event )

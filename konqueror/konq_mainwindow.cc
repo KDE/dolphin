@@ -931,7 +931,7 @@ void KonqMainWindow::slotConfigureFileManager()
   if (fork() == 0) {
     execl(QFile::encodeName(locate("exe", "kcmshell")),
           "kcmshell", "kcmkonq", 0);
-    warning("Error launching kcmshell kcmkonq!");
+    kdWarning(1202) << "Error launching kcmshell kcmkonq!" << endl;
     exit(1);
   }
 }
@@ -941,7 +941,7 @@ void KonqMainWindow::slotConfigureFileTypes()
   if (fork() == 0) {
     execl(QFile::encodeName(locate("exe", "kcmshell")),
           "kcmshell", "filetypes", 0);
-    warning("Error launching kcmshell filetypes !");
+    kdWarning(1202) << "Error launching kcmshell filetypes !" << endl;
     exit(1);
   }
 }
@@ -951,7 +951,7 @@ void KonqMainWindow::slotConfigureBrowser()
   if (fork() == 0) {
     execl(QFile::encodeName(locate("exe", "kcmshell")),
           "kcmshell", "konqhtml", 0);
-    warning("Error launching kcmshell konqhtml!");
+    kdWarning(1202) << "Error launching kcmshell konqhtml!" << endl;
     exit(1);
   }
 }
@@ -961,7 +961,7 @@ void KonqMainWindow::slotConfigureEBrowsing()
   if (fork() == 0) {
     execl(QFile::encodeName(locate("exe", "kcmshell")),
           "kcmshell", "ebrowsing", 0);
-    warning("Error launching kcmshell ebrowsing!");
+    kdWarning(1202) << "Error launching kcmshell ebrowsing!" << endl;
     exit(1);
   }
 }
@@ -971,7 +971,7 @@ void KonqMainWindow::slotConfigureCookies()
   if (fork() == 0) {
     execl(QFile::encodeName(locate("exe", "kcmshell")),
           "kcmshell", "cookies", 0);
-    warning("Error launching kcmshell cookies!");
+    kdWarning(1202) << "Error launching kcmshell cookies!" << endl;
     exit(1);
   }
 }
@@ -981,7 +981,7 @@ void KonqMainWindow::slotConfigureProxies()
   if (fork() == 0) {
     execl(QFile::encodeName(locate("exe", "kcmshell")),
           "kcmshell", "proxy", 0);
-    warning("Error launching kcmshell proxy!");
+    kdWarning(1202) << "Error launching kcmshell proxy!" << endl;
     exit(1);
   }
 }
