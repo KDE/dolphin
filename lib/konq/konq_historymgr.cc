@@ -151,10 +151,7 @@ bool KonqHistoryManager::loadHistory()
 	    m_history.append( entry );
 	    QString urlString2 = entry->url.prettyURL();    
 
-	    m_pCompletion->addItem( urlString2,
-				    entry->numberOfTimesVisited );
- 	    m_pCompletion->addItem( entry->typedURL,
-				    entry->numberOfTimesVisited );
+	    addToCompletion( urlString2, entry->typedURL, entry->numberOfTimesVisited );
 
 	    // and fill our baseclass.
             QString urlString = entry->url.url();
@@ -236,8 +233,7 @@ void KonqHistoryManager::adjustSize()
     KonqHistoryEntry *entry = m_history.getFirst();
 
     while ( m_history.count() > m_maxCount || isExpired( entry ) ) {
-	m_pCompletion->removeItem( entry->url.prettyURL() );
-	m_pCompletion->removeItem( entry->typedURL );
+	removeFromCompletion( entry->url.prettyURL(), entry->typedURL );
 
         QString urlString = entry->url.url();
 	KParts::HistoryProvider::remove( urlString );
@@ -451,8 +447,7 @@ void KonqHistoryManager::notifyHistoryEntry( KonqHistoryEntry e,
     entry->numberOfTimesVisited += e.numberOfTimesVisited;
     entry->lastVisited = e.lastVisited;
 
-    m_pCompletion->addItem( entry->url.prettyURL() );
-    m_pCompletion->addItem( entry->typedURL );
+    addToCompletion( entry->url.prettyURL(), entry->typedURL );
 
     // bool pending = (e.numberOfTimesVisited != 0);
 
@@ -526,8 +521,7 @@ void KonqHistoryManager::notifyRemove( KURL url, QCString saveId )
     KonqHistoryEntry *entry = m_history.findEntry( url );
     
     if ( entry ) { // entry is now the current item
-	m_pCompletion->removeItem( entry->url.prettyURL() );
-	m_pCompletion->removeItem( entry->typedURL );
+	removeFromCompletion( entry->url.prettyURL(), entry->typedURL );
 
         QString urlString = entry->url.url();
 	KParts::HistoryProvider::remove( urlString );
@@ -554,8 +548,7 @@ void KonqHistoryManager::notifyRemove( KURL::List urls, QCString saveId )
 	KonqHistoryEntry *entry = m_history.findEntry( *it );
 	
 	if ( entry ) { // entry is now the current item
-	    m_pCompletion->removeItem( entry->url.prettyURL() );
-	    m_pCompletion->removeItem( entry->typedURL );
+	    removeFromCompletion( entry->url.prettyURL(), entry->typedURL );
 
             QString urlString = entry->url.url();
 	    KParts::HistoryProvider::remove( urlString );
@@ -593,8 +586,7 @@ bool KonqHistoryManager::loadFallback()
 	entry = createFallbackEntry( *it );
 	if ( entry ) {
 	    m_history.append( entry );
-	    m_pCompletion->addItem( entry->url.prettyURL(),
-				    entry->numberOfTimesVisited );
+	    addToCompletion( entry->url.prettyURL(), QString::null, entry->numberOfTimesVisited );
 
 	    KParts::HistoryProvider::insert( entry->url.url() );
    	}
@@ -671,6 +663,19 @@ QStringList KonqHistoryManager::allURLs() const
         list.append( it.current()->url.url() );
     
     return list;
+}
+
+void KonqHistoryManager::addToCompletion( const QString& url, const QString& typedURL, 
+                                          int numberOfTimesVisited )
+{
+    m_pCompletion->addItem( url, numberOfTimesVisited );
+    m_pCompletion->addItem( typedURL, numberOfTimesVisited );
+}
+
+void KonqHistoryManager::removeFromCompletion( const QString& url, const QString& typedURL )
+{
+    m_pCompletion->addItem( url );
+    m_pCompletion->addItem( typedURL );
 }
 
 //////////////////////////////////////////////////////////////////

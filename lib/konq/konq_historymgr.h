@@ -345,6 +345,9 @@ private:
     bool loadFallback();
     KonqHistoryEntry * createFallbackEntry( const QString& ) const;
 
+    void addToCompletion( const QString& url, const QString& typedURL, int numberOfTimesVisited = 1 );
+    void removeFromCompletion( const QString& url, const QString& typedURL );
+
     QString m_filename;
     KonqHistoryList m_history;
 
