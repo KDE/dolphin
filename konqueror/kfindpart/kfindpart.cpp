@@ -26,6 +26,9 @@
 #include <kdebug.h>
 #include <kglobal.h>
 #include <klocale.h>
+#include <konq_settings.h>
+#include <kstdaction.h>
+#include <kaction.h>
 
 class KFindFactory : public KParts::Factory
 {
@@ -43,9 +46,9 @@ public:
 
     virtual KParts::Part* createPartObject( QWidget *parentWidget, const char *,
                                             QObject *parent, const char *name, const char*,
-                                            const QStringList & )
+                                            const QStringList &args )
     {
-        return new KFindPart( parentWidget, parent, name );
+        return new KFindPart( parentWidget, parent, name,args.first() );
     }
 
     static KInstance *instance()
@@ -69,10 +72,12 @@ extern "C"
     }
 };
 
-KFindPart::KFindPart( QWidget * parentWidget, QObject *parent, const char *name )
-    : KParts::ReadOnlyPart( parent, name )
+KFindPart::KFindPart( QWidget * parentWidget, QObject *parent, const char *name , const QString& mode)
+    : KonqDirPart (parent, name )/*KParts::ReadOnlyPart*/
 {
     setInstance( KFindFactory::instance() );
+
+    setBrowserExtension( new KFindPartBrowserExtension(this) );
 
     kdDebug() << "KFindPart::KFindPart " << this << endl;
     m_kfindWidget = new Kfind( parentWidget, name );
@@ -84,7 +89,6 @@ KFindPart::KFindPart( QWidget * parentWidget, QObject *parent, const char *name 
              this, SLOT(slotDestroyMe()) );
 
     //setXMLFile( "kfind.rc" );
-
     query = new KQuery(this);
     connect(query, SIGNAL(addFile(const KFileItem *)),
             SLOT(addFile(const KFileItem *)));
@@ -158,6 +162,45 @@ void KFindPart::slotDestroyMe()
   emit clear(); // this is necessary to clear the delayed-mimetypes items list
   m_lstFileItems.clear(); // clear our internal list
   emit findClosed();
+}
+
+void KFindPart::saveKFindState( QDataStream *stream )
+{
+  m_kfindWidget->saveState( stream );
+  //Now we'll save the search result
+  KFileItem *fileitem=m_lstFileItems.first();
+  *stream << m_lstFileItems.count();
+  while(fileitem!=NULL)
+  {
+        *stream << fileitem->url();
+        fileitem=m_lstFileItems.next();
+  }
+}
+
+void KFindPart::restoreKFindState( QDataStream *stream )
+{
+  QList<KFileItem> *lstiItems;
+  int nbitems;
+  int i;
+  KURL itemUrl;
+
+  m_kfindWidget->restoreState( stream );
+
+  *stream >> nbitems;
+  slotStarted();
+  for(i=0;i<nbitems;i++)
+  {
+    *stream >> itemUrl;
+    addFile(new KFileItem(itemUrl,"",0));
+  }
+    emit finished();
+}
+
+KFindPartBrowserExtension::KFindPartBrowserExtension( KFindPart *findPart )
+ : KParts::BrowserExtension( findPart )
+{
+  m_findPart = findPart;
+  m_bSaveViewPropertiesLocally = false;
 }
 
 #include "kfindpart.moc"

@@ -54,6 +54,14 @@ private slots:
 signals:
 
 protected:
+public:
+  QComboBox   *nameBox;
+  QComboBox   *dirBox;
+  // for first page
+  QCheckBox   *subdirsCb;
+  // for third page
+  QComboBox *typeBox;
+  QLineEdit * textEdit;
 
 private:
   bool isDateValid();
@@ -63,10 +71,7 @@ private:
 
   QWidget *pages[3];
 
-  // for first page
-  QComboBox   *nameBox;
-  QComboBox   *dirBox;
-  QCheckBox   *subdirsCb;
+  //1st page
   QPushButton *browseB;
 
   KfDirDialog *dirselector;
@@ -77,8 +82,6 @@ private:
   QLineEdit *le[4];
 
   // for third page
-  QComboBox *typeBox;
-  QLineEdit * textEdit;
   QComboBox *sizeBox;
   QLineEdit *sizeEdit;
   QCheckBox *caseCb;

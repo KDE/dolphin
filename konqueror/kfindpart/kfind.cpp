@@ -34,6 +34,8 @@
 #include <kglobal.h>
 #include <kfileitem.h>
 #include <kseparator.h>
+#include <qlineedit.h>
+#include <qcheckbox.h>
 //#include <kstatusbar.h>
 
 #include "kftabdlg.h"
@@ -145,4 +147,30 @@ void Kfind::saveResults()
 void Kfind::setFocus()
 {
   tabWidget->setFocus();
+}
+
+void Kfind::saveState( QDataStream *stream )
+{
+  *stream << tabWidget->nameBox->currentText();
+  *stream << tabWidget->dirBox->currentText();
+  *stream << tabWidget->typeBox->currentItem();
+  *stream << tabWidget->textEdit->text();
+  *stream << ( tabWidget->subdirsCb->isChecked() ? 0 : 1 );
+}
+
+void Kfind::restoreState( QDataStream *stream )
+{
+  QString namesearched, dirsearched,containing;
+  int typeIdx;
+  int subdirs;
+  *stream >> namesearched;
+  *stream >> dirsearched;
+  *stream >> typeIdx;
+  *stream >> containing;
+  *stream >> subdirs;
+  tabWidget->nameBox->insertItem( namesearched, 0);
+  tabWidget->dirBox->insertItem ( dirsearched, 0);
+  tabWidget->typeBox->setCurrentItem(typeIdx);
+  tabWidget->textEdit->setText ( containing );
+  tabWidget->subdirsCb->setChecked( ( subdirs==0 ? true : false ));
 }

@@ -20,23 +20,45 @@
 #ifndef kfindpart__h
 #define kfindpart__h
 
+#include <kparts/browserextension.h>
 #include <kparts/part.h>
 #include <kfileitem.h>
+#include <kdebug.h>
 #include <qlist.h>
-class KQuery;
+#include <konq_dirpart.h>
 
-class KFindPart : public KParts::ReadOnlyPart
+class KQuery;
+//added
+class KonqPropsView;
+class KonqDirLister;
+class KonqFileItem;
+class KAction;
+class KToggleAction;
+class KActionMenu;
+class QIconViewItem;
+class IconViewBrowserExtension;
+//end added
+
+class KFindPart : public KonqDirPart//KParts::ReadOnlyPart
 {
+  friend class KFindPartBrowserExtension;
     Q_OBJECT
     Q_PROPERTY( bool showsResult READ showsResult )
 public:
-    KFindPart( QWidget * parentWidget, QObject *parent, const char *name );
+    KFindPart( QWidget * parentWidget, QObject *parent, const char *name, const QString& mode );
     virtual ~KFindPart();
 
     virtual bool openURL( const KURL &url );
     virtual bool openFile() { return false; }
 
     bool showsResult() const { return m_bShowsResult; }
+    /* Save everything in the dialog box, useful for the "back" function of konqueror */
+    void saveKFindState( QDataStream *stream );
+    void restoreKFindState( QDataStream *stream );
+
+  // "Cut" icons : disable those whose URL is in lst, enable the rest //added for konqdirpart
+  virtual void disableIcons( const KURL::List & lst ){};
+  virtual const KFileItem * currentItem(){};
 
 signals:
     // Konqueror connects directly to those signals
@@ -53,6 +75,16 @@ protected slots:
     void addFile(const KFileItem *item);
     void slotResult(int errorCode);
 
+  // slots connected to the directory lister  //added for konqdirpart
+//  virtual void slotStarted();
+  virtual void slotCanceled(){};
+  virtual void slotCompleted(){};
+  virtual void slotNewItems( const KFileItemList& ){};
+  virtual void slotDeleteItem( KFileItem * ){};
+  virtual void slotRefreshItems( const KFileItemList& ){};
+  virtual void slotClear(){};
+  virtual void slotRedirection( const KURL & ){};
+
 private:
     Kfind * m_kfindWidget;
     KQuery *query;
@@ -61,7 +93,34 @@ private:
      * The internal storage of file items
      */
     QList<KFileItem> m_lstFileItems;
+};
 
+/* This class will be used to save the kfind dialog state and
+  the search result. These will be restored when the user press the
+  "back" button
+*/
+class KFindPartBrowserExtension : public KParts::BrowserExtension
+{
+  Q_OBJECT
+  friend class KFindPart;
+public:
+  KFindPartBrowserExtension( KFindPart *findPart );
+
+  virtual void saveState( QDataStream &stream )
+    {
+      KParts::BrowserExtension::saveState( stream );
+      m_findPart->saveKFindState( &stream );
+    }
+
+  virtual void restoreState( QDataStream &stream )
+    {
+      KParts::BrowserExtension::restoreState( stream );
+      m_findPart->restoreKFindState( &stream );
+    }
+
+private:
+  KFindPart *m_findPart;
+  bool m_bSaveViewPropertiesLocally;
 };
 
 #endif

@@ -29,6 +29,9 @@ public:
     void setQuery(KQuery * q) { query = q; }
     void searchFinished();
 
+    void saveState( QDataStream *stream );
+    void restoreState( QDataStream *stream );
+
 public slots:
     void startSearch();
     void stopSearch();

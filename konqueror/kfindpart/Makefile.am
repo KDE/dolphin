@@ -7,7 +7,7 @@ kde_module_LTLIBRARIES = libkfindpart.la
 
 libkfindpart_la_SOURCES = kftabdlg.cpp kfind.cpp kquery.cpp kfindpart.cpp
 libkfindpart_la_LDFLAGS = $(all_libraries) $(KDE_PLUGIN)
-libkfindpart_la_LIBADD = $(LIB_KPARTS)
+libkfindpart_la_LIBADD = $(LIB_KPARTS) $(top_builddir)/libkonq/libkonq.la
 
 METASOURCES = AUTO
 
