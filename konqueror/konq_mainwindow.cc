@@ -2520,7 +2520,7 @@ void KonqMainWindow::slotPopupMenu( KXMLGUIClient *client, const QPoint &_global
   KonqPopupMenu pPopupMenu ( _items,
                              m_currentView->url(),
                              popupMenuCollection,
-			     m_pMenuNew,
+                             m_pMenuNew,
                              showPropsAndFileType );
 
   pPopupMenu.factory()->addClient( konqyMenuClient );
@@ -2528,7 +2528,13 @@ void KonqMainWindow::slotPopupMenu( KXMLGUIClient *client, const QPoint &_global
   if ( client )
     pPopupMenu.factory()->addClient( client );
 
+  QObject::disconnect( m_pMenuNew->popupMenu(), SIGNAL(aboutToShow()),
+                       this, SLOT(slotFileNewAboutToShow()) );
+
   pPopupMenu.exec( _global );
+
+  QObject::connect( m_pMenuNew->popupMenu(), SIGNAL(aboutToShow()),
+                       this, SLOT(slotFileNewAboutToShow()) );
 
   delete konqyMenuClient;
   m_popupEmbeddingServices.clear();

@@ -647,10 +647,7 @@ void KonqDirTree::slotRightButtonPressed( QListViewItem *item )
 
   lstItems.append( (static_cast<KonqDirTreeItem *>(item))->fileItem() );
 
-  KURL oldURL = m_view->m_url;
-  m_view->m_url = lstItems.first()->url();
   emit m_view->extension()->popupMenu( QCursor::pos(), lstItems );
-  m_view->m_url = oldURL;
 }
 
 void KonqDirTree::slotListingStopped()
