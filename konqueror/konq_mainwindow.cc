@@ -48,6 +48,7 @@
 #include <unistd.h>
 
 #include <qapplication.h>
+#include <qclipboard.h>
 #include <qmetaobject.h>
 #include <qlayout.h>
 
@@ -110,6 +111,7 @@ KonqMainWindow::KonqMainWindow( const KURL &initialURL, bool openInitialURL, con
   m_dcopObject = 0L;
   m_combo = 0L;
   m_bURLEnterLock = false;
+  m_bLocationBarConnected = false;
 
   m_bViewModeToggled = false;
 
@@ -1696,6 +1698,110 @@ void KonqMainWindow::slotComboPlugged()
   m_combo->setCompletionMode( (KGlobalSettings::Completion) mode ); // set the previous completion-mode
   m_combo->completionObject()->setItems( config->readListEntry( "CompletionItems" ) );
   m_combo->setHistoryItems( locationBarCombo );
+
+  m_combo->lineEdit()->installEventFilter(this);
+}
+
+bool KonqMainWindow::eventFilter(QObject*obj,QEvent *ev)
+{
+  if (m_currentView &&
+      ( ev->type()==QEvent::FocusIn || ev->type()==QEvent::FocusOut ))
+  {
+    ASSERT( obj == m_combo->lineEdit() );
+
+    QFocusEvent * focusEv = static_cast<QFocusEvent*>(ev);
+    if (focusEv->reason() == QFocusEvent::Popup )
+    {
+      kdDebug() << "Reason for focus change was popup. gotFocus=" << focusEv->gotFocus() << endl;
+      return KParts::MainWindow::eventFilter( obj, ev );
+    }
+
+    KParts::BrowserExtension * ext = m_currentView->browserExtension();
+    QStrList slotNames =  ext->metaObject()->slotNames();
+    if (ev->type()==QEvent::FocusIn)
+    {
+      kdDebug() << "ComboBox got the focus..." << endl;
+      if (m_bLocationBarConnected)
+      {
+        kdDebug() << "Was already connected..." << endl;
+        return KParts::MainWindow::eventFilter( obj, ev );
+      }
+      m_bLocationBarConnected = true;
+      if (slotNames.contains("cut()"))
+        disconnect( m_paCut, SIGNAL( activated() ), ext, SLOT( cut() ) );
+      if (slotNames.contains("copy()"))
+        disconnect( m_paCopy, SIGNAL( activated() ), ext, SLOT( copy() ) );
+      if (slotNames.contains("paste()"))
+        disconnect( m_paPaste, SIGNAL( activated() ), ext, SLOT( paste() ) );
+
+      connect( m_paCut, SIGNAL( activated() ), this, SLOT( slotComboCut() ) );
+      connect( m_paCopy, SIGNAL( activated() ), this, SLOT( slotComboCopy() ) );
+      connect( m_paPaste, SIGNAL( activated() ), this, SLOT( slotComboPaste() ) );
+      connect( QApplication::clipboard(), SIGNAL(dataChanged()), this, SLOT(slotClipboardDataChanged()) );
+      connect( m_combo->lineEdit(), SIGNAL(textChanged(const QString &)), this, SLOT(slotClipboardDataChanged()) );
+
+      m_bCutWasEnabled = m_paCut->isEnabled();
+      m_bCopyWasEnabled = m_paCopy->isEnabled();
+      m_bPasteWasEnabled = m_paPaste->isEnabled();
+
+      slotClipboardDataChanged();
+
+    } else if ( ev->type()==QEvent::FocusOut)
+    {
+      kdDebug() << "ComboBox lost focus..." << endl;
+      if (!m_bLocationBarConnected)
+      {
+        kdDebug() << "Was already disconnected..." << endl;
+        return KParts::MainWindow::eventFilter( obj, ev );
+      }
+      m_bLocationBarConnected = false;
+      if (slotNames.contains("cut()"))
+        connect( m_paCut, SIGNAL( activated() ), ext, SLOT( cut() ) );
+      if (slotNames.contains("copy()"))
+        connect( m_paCopy, SIGNAL( activated() ), ext, SLOT( copy() ) );
+      if (slotNames.contains("paste()"))
+        connect( m_paPaste, SIGNAL( activated() ), ext, SLOT( paste() ) );
+
+      disconnect( m_paCut, SIGNAL( activated() ), this, SLOT( slotComboCut() ) );
+      disconnect( m_paCopy, SIGNAL( activated() ), this, SLOT( slotComboCopy() ) );
+      disconnect( m_paPaste, SIGNAL( activated() ), this, SLOT( slotComboPaste() ) );
+      disconnect( QApplication::clipboard(), SIGNAL(dataChanged()), this, SLOT(slotClipboardDataChanged()) );
+      disconnect( m_combo->lineEdit(), SIGNAL(textChanged(const QString &)), this, SLOT(slotClipboardDataChanged()) );
+
+      m_paCut->setEnabled( m_bCutWasEnabled );
+      m_paCopy->setEnabled( m_bCopyWasEnabled );
+      m_paPaste->setEnabled( m_bPasteWasEnabled );
+
+    }
+  }
+  return KParts::MainWindow::eventFilter( obj, ev );
+}
+
+void KonqMainWindow::slotClipboardDataChanged()
+{
+  kdDebug() << "KonqMainWindow::slotClipboardDataChanged()" << endl;
+  QMimeSource *data = QApplication::clipboard()->data();
+  m_paPaste->setEnabled( data->provides( "text/plain" ) );
+  kdDebug() << "m_combo->lineEdit()->hasMarkedText() : " << m_combo->lineEdit()->hasMarkedText() << endl;
+  m_paCopy->setEnabled( m_combo->lineEdit()->hasMarkedText() );
+  m_paCut->setEnabled( m_combo->lineEdit()->hasMarkedText() );
+}
+
+void KonqMainWindow::slotComboCut()
+{
+  kdDebug() << "KonqMainWindow::slotComboCut()" << endl;
+  // Don't ask me why this isn't a slot...
+  m_combo->lineEdit()->cut();
+}
+
+void KonqMainWindow::slotComboCopy()
+{
+  m_combo->lineEdit()->copy();
+}
+
+void KonqMainWindow::slotComboPaste()
+{
+  m_combo->lineEdit()->paste();
 }
 
 void KonqMainWindow::slotClearLocationBar()
@@ -2129,7 +2235,7 @@ QString KonqMainWindow::findIndexFile( const QString &dir )
 
 void KonqMainWindow::connectExtension( KParts::BrowserExtension *ext )
 {
-  //kdDebug(1202) << "Connecting extension " << ext << endl;
+  kdDebug(1202) << "Connecting extension " << ext << endl;
   typedef QValueList<QCString> QCStringList;
   ActionSlotMap::ConstIterator it = s_actionSlotMap->begin();
   ActionSlotMap::ConstIterator itEnd = s_actionSlotMap->end();
@@ -2160,7 +2266,7 @@ void KonqMainWindow::connectExtension( KParts::BrowserExtension *ext )
 
 void KonqMainWindow::disconnectExtension( KParts::BrowserExtension *ext )
 {
-  //kdDebug(1202) << "Disconnecting extension " << ext << endl;
+  kdDebug(1202) << "Disconnecting extension " << ext << endl;
   QValueList<KAction *> actions = actionCollection()->actions();
   QValueList<KAction *>::ConstIterator it = actions.begin();
   QValueList<KAction *>::ConstIterator end = actions.end();

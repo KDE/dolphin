@@ -180,12 +180,12 @@ public slots:
 
   void slotPopupMenu( const QPoint &_global, const KURL &_url, const QString &_mimeType, mode_t mode );
   void slotPopupMenu( KXMLGUIClient *client, const QPoint &_global, const KURL &_url, const QString &_mimeType, mode_t mode );
-    
+
   void slotPopupMenu( const QPoint &_global, const KFileItemList &_items );
   void slotPopupMenu( KXMLGUIClient *client, const QPoint &_global, const KFileItemList &_items );
-    
+
   void slotPopupMenu( KXMLGUIClient *client, const QPoint &_global, const KFileItemList &_items, bool showPropsAndFileType );
-    
+
   /**
    * __NEEEEVER__ call this method directly. It relies on sender() (the part)
    */
@@ -286,6 +286,11 @@ protected slots:
 
   void slotComboPlugged();
 
+  void slotComboCut();
+  void slotComboCopy();
+  void slotComboPaste();
+  void slotClipboardDataChanged();
+
   void slotShowMenuBar();
   void slotShowToolBar();
   void slotShowLocationBar();
@@ -298,6 +303,8 @@ protected:
   QString detectNameFilter( QString & url );
 
   void toggleBar( const char *name, const char *className );
+
+  bool eventFilter(QObject*obj,QEvent *ev);
 
   void fillHistoryPopup( QPopupMenu *menu, const QList<HistoryEntry> &history );
 
@@ -402,6 +409,18 @@ private:
   KonqFrameContainer *m_tempContainer;
   QWidget::FocusPolicy m_tempFocusPolicy; // ### do we need this? (Simon)
 
+  uint m_bCutWasEnabled:1;
+  uint m_bCopyWasEnabled:1;
+  uint m_bPasteWasEnabled:1;
+  uint m_bLocationBarConnected:1;
+  uint m_bURLEnterLock:1;
+  // Global settings
+  uint m_bSaveViewPropertiesLocally:1;
+  uint m_bHTMLAllowed:1;
+  // Set in constructor, used in slotRunFinished
+  uint m_bNeedApplyMainWindowSettings:1;
+  uint m_bViewModeToggled:1;
+
   MapViews m_mapViews;
 
   KonqView *m_currentView;
@@ -411,8 +430,6 @@ private:
   KonqViewManager *m_pViewManager;
 
   QString m_title;
-
-  bool m_bURLEnterLock;
 
   QGuardedPtr<KHistoryCombo> m_combo;
 
@@ -425,17 +442,11 @@ private:
 
   QString m_initialFrameName;
 
-  // Set in constructor, used in slotRunFinished
-  bool m_bNeedApplyMainWindowSettings;
-  // Global settings
-  bool m_bSaveViewPropertiesLocally;
-  bool m_bHTMLAllowed;
   QString m_sViewModeForDirectory; // is actually the name of the service
 
   QList<KAction> m_openWithActions;
   KActionMenu *m_viewModeMenu;
   QList<KAction> m_viewModeActions;
-  bool m_bViewModeToggled;
 
   KonqMainWindowIface * m_dcopObject;
 
