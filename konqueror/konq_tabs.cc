@@ -73,9 +73,12 @@ KonqFrameTabs::KonqFrameTabs(QWidget* parent, KonqFrameContainerBase* parentCont
   m_pPopupMenu->insertItem( SmallIcon( "reload" ), i18n( "&Reload" ), m_pViewManager->mainWindow(), SLOT( slotReloadPopup() ), KStdAccel::shortcut(KStdAccel::Reload) );
   m_pPopupMenu->insertItem( SmallIcon( "reload_all_tabs" ), i18n( "&Reload All Tabs" ), m_pViewManager->mainWindow(), SLOT( slotReloadAllTabs() ), QKeySequence(), RELOAD_ALL_ID );
   m_pPopupMenu->insertSeparator();
+  m_pSubPopupMenuTab = new QPopupMenu(this );
+  m_pPopupMenu->insertItem( i18n("Switch to Tab:" ), m_pSubPopupMenuTab );
+  connect( m_pSubPopupMenuTab, SIGNAL( activated ( int) ), this, SLOT( slotSubPopupMenuTabActivated( int ) ) );
+  m_pPopupMenu->insertSeparator();
   m_pPopupMenu->insertItem( SmallIcon( "tab_remove" ), i18n("Close &Other Tabs"), m_pViewManager->mainWindow(), SLOT( slotRemoveOtherTabsPopup() ), QKeySequence(), CLOSE_OTHER_ID );
   connect( this, SIGNAL( contextMenu( QWidget *, const QPoint & )), SLOT(slotContextMenu( QWidget *, const QPoint & )));
-
   KConfig *config = KGlobal::config();
   KConfigGroupSaver cs( config, QString::fromLatin1("FMSettings") );
   m_permanentCloseButtons = config->readBoolEntry( "PermanentCloseButton", false );
@@ -378,7 +381,23 @@ void KonqFrameTabs::slotContextMenu( QWidget *w, const QPoint &p )
   m_pPopupMenu->setItemEnabled( RELOAD_ALL_ID, m_pChildFrameList->count()>1 );
   m_pPopupMenu->setItemEnabled( CLOSE_OTHER_ID, m_pChildFrameList->count()>1 );
   m_pViewManager->mainWindow()->setWorkingTab( dynamic_cast<KonqFrameBase*>(w) );
+  refreshSubPopupMenuTab();
   m_pPopupMenu->exec( p );
+}
+
+void KonqFrameTabs::refreshSubPopupMenuTab()
+{
+    m_pSubPopupMenuTab->clear();
+    int i=0;
+    for (KonqFrameBase* it = m_pChildFrameList->first(); it; it = m_pChildFrameList->next())
+    {
+        if (  it->activeChildView() )
+        {
+            m_pSubPopupMenuTab->insertItem( it->activeChildView()->url().url(), i );
+        }
+      i++;
+    }
+
 }
 
 void KonqFrameTabs::slotCloseRequest( QWidget *w )
@@ -387,6 +406,11 @@ void KonqFrameTabs::slotCloseRequest( QWidget *w )
     m_pViewManager->mainWindow()->setWorkingTab( dynamic_cast<KonqFrameBase*>(w) );
     emit ( removeTabPopup() );
   }
+}
+
+void KonqFrameTabs::slotSubPopupMenuTabActivated( int _id)
+{
+    setCurrentPage( _id );
 }
 
 void KonqFrameTabs::slotMouseMiddleClick()

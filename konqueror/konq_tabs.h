@@ -96,6 +96,7 @@ protected:
   void resizeEvent( QResizeEvent * );
 
   uint tabBarWidthForMaxChars( uint );
+    void refreshSubPopupMenuTab();
 
   QPtrList<KonqFrameBase>* m_pChildFrameList;
 
@@ -110,10 +111,11 @@ private slots:
   void slotReceivedDropEvent( QDropEvent* );
   void slotInitiateDrag( QWidget * );
   void slotReceivedDropEvent( QWidget *, QDropEvent * );
-
+    void slotSubPopupMenuTabActivated( int);
 private:
   KonqViewManager* m_pViewManager;
   QPopupMenu* m_pPopupMenu;
+    QPopupMenu * m_pSubPopupMenuTab;
   uint m_CurrentMaxLength;
 #if QT_VERSION >= 0x030200
   QToolButton* m_rightWidget;
