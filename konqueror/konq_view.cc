@@ -273,6 +273,9 @@ void KonqView::connectPart(  )
   connect( ext, SIGNAL( popupMenu( KXMLGUIClient *, const QPoint &, const KURL &, const QString &, mode_t ) ),
            m_pMainWindow, SLOT( slotPopupMenu( KXMLGUIClient *, const QPoint &, const KURL &, const QString &, mode_t ) ) );
 
+  connect( ext, SIGNAL( goHistory( int ) ),
+           this, SLOT( go( int ) ) );
+
   connect( ext, SIGNAL( setLocationBarURL( const QString & ) ),
            this, SLOT( setLocationBarURL( const QString & ) ) );
 
@@ -496,6 +499,9 @@ void KonqView::updateHistoryEntry( bool saveLocationBarURL )
 
 void KonqView::go( int steps )
 {
+  if ( !steps ) // [WildFox] i bet there are sites on the net with stupid devs who do that :)
+    return;
+
   stop();
 
   int newPos = m_lstHistory.at() + steps;
@@ -503,7 +509,9 @@ void KonqView::go( int steps )
                 << " newPos=" << newPos
                 << " m_lstHistory.count()=" << m_lstHistory.count()
                 << endl; */
-  assert( newPos >= 0 && (uint)newPos < m_lstHistory.count() );
+  if( newPos < 0 || (uint)newPos >= m_lstHistory.count() )
+    return;
+
   // Yay, we can move there without a loop !
   HistoryEntry *currentHistoryEntry = m_lstHistory.at( newPos ); // sets current item
 

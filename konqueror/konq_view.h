@@ -123,11 +123,6 @@ public:
   bool canGoForward() { return m_lstHistory.at() != ((int)m_lstHistory.count())-1; }
 
   /**
-   * Move in history. +1 is "forward", -1 is "back", you can guess the rest.
-   */
-  void go( int steps );
-
-  /**
    * @return the history of this view
    */
   const QList<HistoryEntry> & history() { return m_lstHistory; }
@@ -284,6 +279,11 @@ public slots:
    * get an icon for the URL from the BrowserExtension
    */
   void setIconURL( const KURL &iconURL );
+
+  /**
+   * Move in history. +1 is "forward", -1 is "back", you can guess the rest.
+   */
+  void go( int steps );
 
 protected slots:
   // connected to the KROP's KIO::Job
