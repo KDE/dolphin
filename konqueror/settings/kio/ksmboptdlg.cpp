@@ -120,7 +120,7 @@ KSMBOptions::KSMBOptions(QWidget *parent, const char *name)
 	connect( shareED, SIGNAL( textChanged(const QString&) ),
 	   SLOT( textChanged( const QString&) ) );
 
-	loginasLA = new QLabel( i18n( "login:" ), groupUser );
+	loginasLA = new QLabel( i18n( "Login:" ), groupUser );
 	subLayout->addMultiCellWidget(loginasLA,7,7,0,2);
 
 	loginasED = new QLineEdit( groupUser );
