@@ -499,9 +499,18 @@ files to match your needs.  You can also create custom schema from the
 
 <varlistentry>
 <term><menuchoice><guimenu>Settings</guimenu>
-<guimenuitem><accel>H</accel>istory</guimenuitem></menuchoice></term> 
-<listitem><para><action>Toggles saving of lines that have scrolled off the top
-of the window</action></para></listitem>
+<guimenuitem><accel>H</accel>istory...</guimenuitem></menuchoice></term>
+<listitem><para><anchor id="configure-history"/><action>Opens a dialog
+where you can configure the history.</action>.  The
+<guilabel>enable</guilabel> checkbox toggles saving of lines that have
+scrolled off the top of the window.  You can enter the <guilabel>Number 
+of lines</guilabel> to remember in the text field, or use the spinner
+buttons to increase or decrease the number in steps of 100 lines.  The
+<guibutton>Default</guibutton> button will reset the history to 1000
+lines.  Press <guibutton>OK</guibutton> to save your changes, or
+<guibutton>Cancel</guibutton> to close the dialog without saving your
+settings.  The <guibutton>Help</guibutton> button will open this manual,
+and display the text you're reading right now.</para></listitem>
 </varlistentry>
 
 <varlistentry>
