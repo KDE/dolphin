@@ -411,11 +411,9 @@ void KonqBaseListViewWidget::contentsMousePressEvent( QMouseEvent *e )
       if ( e->button() == LeftButton )
       {
          m_rubber = new QRect( e->x(), e->y(), 0, 0 );
-         if ( ! ( e->state() & ControlButton ) )
-            setSelected( itemAt( vp ), false );
+	 clearSelection();
+	 emit selectionChanged();
       }
-      if ( e->button() != RightButton )
-         QListView::contentsMousePressEvent( e );
    }
    // Store list of selected items at mouse-press time.
    // This is used when autoscrolling (why?)
@@ -523,16 +521,20 @@ void KonqBaseListViewWidget::slotAutoScroll()
    bool block = signalsBlocked();
    blockSignals( true );
 
+   QRect nr = m_rubber->normalize();
    if ( cur )
    {
       QRect rect = itemRect( cur );
+      if ( !allColumnsShowFocus() )
+          rect.setWidth( executeArea( cur ) );
+      
       rect = QRect( viewportToContents( rect.topLeft() ),
                     viewportToContents( rect.bottomRight() ) );
 
       if ( !allColumnsShowFocus() )
       {
          rect.setLeft( header()->sectionPos( 0 ) );
-         rect.setWidth( header()->sectionSize( 0 ) );
+         rect.setWidth( rect.width() );
       }
       else
       {
@@ -545,7 +547,7 @@ void KonqBaseListViewWidget::slotAutoScroll()
 
       while ( cur && rect.top() <= oldBottom )
       {
-         if ( rect.intersects( m_rubber->normalize() ) )
+         if ( rect.intersects( nr ) )
          {
             if ( !cur->isSelected() && cur->isSelectable() )
                setSelected( cur, true );
@@ -553,6 +555,8 @@ void KonqBaseListViewWidget::slotAutoScroll()
             setSelected( cur, false );
 
          cur = cur->itemBelow();
+         if (cur && !allColumnsShowFocus())
+            rect.setWidth( executeArea( cur ) );
          rect.moveBy( 0, rect.height() );
       }
 
@@ -562,7 +566,7 @@ void KonqBaseListViewWidget::slotAutoScroll()
 
       while ( cur && rect.bottom() >= oldTop )
       {
-         if ( rect.intersects( m_rubber->normalize() ) )
+         if ( rect.intersects( nr ) )
          {
             if ( !cur->isSelected() && cur->isSelectable() )
                setSelected( cur, true );
@@ -570,6 +574,8 @@ void KonqBaseListViewWidget::slotAutoScroll()
             setSelected( cur, false );
 
          cur = cur->itemAbove();
+         if (cur && !allColumnsShowFocus())
+            rect.setWidth( executeArea( cur ) );
          rect.moveBy( 0, -rect.height() );
       }
    }
@@ -843,10 +849,10 @@ void KonqBaseListViewWidget::slotReturnPressed( QListViewItem *_item )
       KMessageBox::information( 0, i18n("You must take the file out of the trash before being able to use it.") );
 }
 
-void KonqBaseListViewWidget::slotPopupMenu( QListViewItem *, const QPoint &point, int c )
+void KonqBaseListViewWidget::slotPopupMenu( QListViewItem *i, const QPoint &point, int c )
 {
    kdDebug(1202) << "KonqBaseListViewWidget::slotPopupMenu" << endl;
-   popupMenu( point, c == -1 ); //  c == -1 when activated by keyboard
+   popupMenu( point, ( i != 0 && c == -1 ) ); // i != 0 && c == -1 when activated by keyboard
 }
 
 void KonqBaseListViewWidget::popupMenu( const QPoint& _global, bool alwaysForSelectedFiles )
@@ -1309,6 +1315,24 @@ void KonqBaseListViewWidget::slotUpdateBackground()
 bool KonqBaseListViewWidget::caseInsensitiveSort() const
 {
     return m_pBrowserView->m_pProps->isCaseInsensitiveSort();
+}
+
+// based on isExecuteArea from klistview.cpp
+int KonqBaseListViewWidget::executeArea( QListViewItem *_item )
+{
+   if ( !_item )
+      return 0;
+    
+   int width = treeStepSize() * ( _item->depth() + ( rootIsDecorated() ? 1 : 0 ) );
+   width += itemMargin();
+   int ca = AlignHorizontal_Mask & columnAlignment( 0 );
+   if ( ca == AlignLeft || ca == AlignAuto ) 
+   {
+      width += _item->width( fontMetrics(), this, 0 );      
+      if ( width > columnWidth( 0 ) )
+         width = columnWidth( 0 );
+   }
+   return width;
 }
 
 #include "konq_listviewwidget.moc"

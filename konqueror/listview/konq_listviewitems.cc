@@ -261,16 +261,59 @@ int KonqBaseListViewItem::compare( QListViewItem* item, int col, bool ascending 
 
 void KonqListViewItem::paintCell( QPainter *_painter, const QColorGroup & _cg, int _column, int _width, int _alignment )
 {
-  QColorGroup cg( _cg );
+    QColorGroup cg( _cg );
 
-  if ( _column == 0 )
-  {
-    _painter->setFont( m_pListViewWidget->itemFont() );
-  }
+    if ( _column == 0 )
+    {
+        _painter->setFont( m_pListViewWidget->itemFont() );
+    }
 
-  cg.setColor( QColorGroup::Text, m_pListViewWidget->itemColor() );
+    cg.setColor( QColorGroup::Text, m_pListViewWidget->itemColor() );
 
-  KListViewItem::paintCell( _painter, cg, _column, _width, _alignment );
+    KListView *lv = static_cast< KListView* >( listView() );
+    const QPixmap *pm = lv->viewport()->paletteBackgroundPixmap();
+    if ( _column == 0 && isSelected() && !lv->allColumnsShowFocus() )
+    {
+        int newWidth = width( lv->fontMetrics(), lv, _column );
+        if ( pm && !pm->isNull() )
+        {
+            cg.setBrush( QColorGroup::Base, QBrush( backgroundColor(), *pm ) );
+            QPoint o = _painter->brushOrigin();
+            _painter->setBrushOrigin( o.x() - lv->contentsX(), o.y() - lv->contentsY() );
+            const QColorGroup::ColorRole crole = 
+                QPalette::backgroundRoleFromMode( lv->viewport()->backgroundMode() );
+            _painter->fillRect( newWidth, 0, _width - newWidth, height(), cg.brush( crole ) );
+            _painter->setBrushOrigin( o );
+        }
+        else if ( isAlternate() )
+        {
+            _painter->fillRect( newWidth, 0, _width - newWidth, height(), 
+                lv->alternateBackground() );
+        }
+        else
+        {
+            const QColorGroup::ColorRole crole = 
+                QPalette::backgroundRoleFromMode( lv->viewport()->backgroundMode() );
+            if ( cg.brush( crole ) != lv->colorGroup().brush( crole ) )
+                _painter->fillRect( newWidth, 0, _width - newWidth, height(), cg.brush( crole ) );
+            else
+                m_pListViewWidget->paintEmptyArea( _painter, QRect( newWidth, 0, _width - newWidth, height() ) );
+        }
+
+        _width = newWidth;
+    }
+	
+    KListViewItem::paintCell( _painter, cg, _column, _width, _alignment );
+}
+
+void KonqListViewItem::paintFocus( QPainter * _painter, const QColorGroup & cg, const QRect & _r )
+{
+    QRect r( _r );
+    QListView *lv = static_cast< QListView * >( listView() );
+    r.setWidth( width( lv->fontMetrics(), lv, 0 ) );
+    if ( r.right() > lv->header()->sectionRect( 0 ).right() )
+        r.setRight( lv->header()->sectionRect( 0 ).right() );
+    QListViewItem::paintFocus( _painter, cg, r );
 }
 
 const char* KonqBaseListViewItem::makeAccessString( const mode_t mode)

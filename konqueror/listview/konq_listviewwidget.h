@@ -219,6 +219,8 @@ protected:
    //KDirLister *dirLister() const { return m_dirLister; }
 
 protected:
+   int executeArea( QListViewItem *_item );
+
    /** The directory lister for this URL */
    KDirLister *m_dirLister;
 

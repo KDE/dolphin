@@ -105,6 +105,7 @@ class KonqListViewItem : public KonqBaseListViewItem
 
       virtual void paintCell( QPainter *_painter, const QColorGroup & cg,
                               int column, int width, int alignment );
+      virtual void paintFocus( QPainter * _painter, const QColorGroup & cg, const QRect & r );
       virtual void updateContents();
       virtual void setDisabled( bool disabled );
       virtual void setActive  ( bool active   );
