@@ -254,7 +254,7 @@ KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name)
 		  " above are supported. Please refer to the documentation"
 		  " for a list of supported file types."
 	      "</qt>");
-    QWhatsThis::add(textEdit,containingtext);
+    QToolTip::add(textEdit,containingtext);
     QWhatsThis::add(textL,containingtext);
 
     caseContextCb  =new QCheckBox(i18n("Case s&ensitive"), pages[2]);
@@ -341,8 +341,8 @@ KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name)
     const QString whatsmetainfokey
       = i18n("<qt>If specified, search only in this field<br>"
 	     "<ul>"
-	     "<li><b>Audio files (mp3...)</b>This can be Title, Album...</li>"
-	     "<li><b>Images (png...)</b>Search only in Resolution, Bitdepth...</li>"
+	     "<li><b>Audio files (mp3...)</b> This can be Title, Album...</li>"
+	     "<li><b>Images (png...)</b> Search only in Resolution, Bitdepth...</li>"
 	     "</ul>"
 	     "</qt>");
     QWhatsThis::add(textMetaInfo,whatsmetainfo);
