@@ -26,7 +26,7 @@
 
 #include <kcursor.h>
 #include <kdebug.h>
-#include <kdirlister.h>
+#include <konqdirlister.h>
 #include <kdirwatch.h>
 #include <kglobal.h>
 #include <kio/job.h>

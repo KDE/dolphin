@@ -31,7 +31,7 @@
 #include <kaction.h>
 #include <kcolordlg.h>
 #include <kdebug.h>
-#include <kdirlister.h>
+#include <konqdirlister.h>
 #include <kfileivi.h>
 #include <konqfileitem.h>
 #include <kio/job.h>
@@ -808,7 +808,7 @@ void KonqKfmIconView::slotCompleted()
 {
     // Root item ? Store in konqiconviewwidget
     if ( m_dirLister->rootItem() )
-      m_pIconView->setRootItem( m_dirLister->rootItem() );
+      m_pIconView->setRootItem( static_cast<KonqFileItem *>(m_dirLister->rootItem()) );
 
     m_pIconView->setContentsPos( m_extension->urlArgs().xOffset, m_extension->urlArgs().yOffset );
     //m_paKOfficeMode->setEnabled( m_dirLister->kofficeDocsFound() );
@@ -820,12 +820,12 @@ void KonqKfmIconView::slotCompleted()
     QTimer::singleShot( 0, this, SLOT( slotProcessMimeIcons() ) );
 }
 
-void KonqKfmIconView::slotNewItems( const KonqFileItemList& entries )
+void KonqKfmIconView::slotNewItems( const KFileItemList& entries )
 {
-  KonqFileItemListIterator it(entries);
+  KFileItemListIterator it(entries);
   for (; it.current(); ++it) {
 
-    KonqFileItem * _fileitem = it.current();
+    KonqFileItem * _fileitem = static_cast<KonqFileItem *>(it.current());
 
     if ( !S_ISDIR( _fileitem->mode() ) )
     {
@@ -858,7 +858,7 @@ void KonqKfmIconView::slotNewItems( const KonqFileItemList& entries )
   }
 }
 
-void KonqKfmIconView::slotDeleteItem( KonqFileItem * _fileitem )
+void KonqKfmIconView::slotDeleteItem( KFileItem * _fileitem )
 {
     if ( !S_ISDIR( _fileitem->mode() ) )
     {
@@ -1021,17 +1021,17 @@ bool KonqKfmIconView::openURL( const KURL &_url )
     if ( !m_dirLister )
     {
 	// Create the directory lister
-	m_dirLister = new KDirLister( true );
+	m_dirLister = new KonqDirLister( true );
 
 	QObject::connect( m_dirLister, SIGNAL( started( const QString & ) ),
 			  this, SLOT( slotStarted( const QString & ) ) );
 	QObject::connect( m_dirLister, SIGNAL( completed() ), this, SLOT( slotCompleted() ) );
 	QObject::connect( m_dirLister, SIGNAL( canceled() ), this, SLOT( slotCanceled() ) );
 	QObject::connect( m_dirLister, SIGNAL( clear() ), this, SLOT( slotClear() ) );
-	QObject::connect( m_dirLister, SIGNAL( newItems( const KonqFileItemList& ) ),
-			  this, SLOT( slotNewItems( const KonqFileItemList& ) ) );
-	QObject::connect( m_dirLister, SIGNAL( deleteItem( KonqFileItem * ) ),
-			  this, SLOT( slotDeleteItem( KonqFileItem * ) ) );
+	QObject::connect( m_dirLister, SIGNAL( newItems( const KFileItemList& ) ),
+			  this, SLOT( slotNewItems( const KFileItemList& ) ) );
+	QObject::connect( m_dirLister, SIGNAL( deleteItem( KFileItem * ) ),
+			  this, SLOT( slotDeleteItem( KFileItem * ) ) );
     }
 
     m_bLoading = true;
@@ -1047,7 +1047,7 @@ bool KonqKfmIconView::openURL( const KURL &_url )
 
     // Start the directory lister !
     m_dirLister->openURL( url(), m_pProps->m_bShowDot );
-    // Note : we don't store the url. KDirLister does it for us.
+    // Note : we don't store the url. KonqDirLister does it for us.
 
     m_bNeedAlign = false;
 

@@ -49,7 +49,7 @@ class KonqTextViewItem : public KonqBaseListViewItem
       /**
        * Create an item in the text toplevel representing a file
        * @param _parent the parent widget, the text view
-       * @param _fileitem the file item created by KDirLister
+       * @param _fileitem the file item created by KonqDirLister
        */
       KonqTextViewItem( KonqTextViewWidget *_parent, KonqFileItem* _fileitem);
       virtual ~KonqTextViewItem() {/*cerr<<"~KonqTextViewItem: "<<text(1)<<endl;*/ };

@@ -30,7 +30,7 @@
 
 namespace KIO { class Job; }
 class QCursor;
-class KDirLister;
+class KonqDirLister;
 class KonqBaseListViewItem;
 class KonqPropsView;
 class KonqFMSettings;
@@ -130,8 +130,8 @@ class KonqBaseListViewWidget : public KListView
       virtual void slotCompleted();
       virtual void slotCanceled();
       virtual void slotClear();
-      virtual void slotNewItems( const KonqFileItemList & );
-      virtual void slotDeleteItem( KonqFileItem * );
+      virtual void slotNewItems( const KFileItemList & );
+      virtual void slotDeleteItem( KFileItem * );
 
       virtual void slotResult( KIO::Job * );
 
@@ -166,10 +166,10 @@ class KonqBaseListViewWidget : public KListView
 
       virtual void focusInEvent( QFocusEvent* _event );
 
-      KDirLister *dirLister() const { return m_dirLister; }
+      KonqDirLister *dirLister() const { return m_dirLister; }
 
       /** The directory lister for this URL */
-      KDirLister* m_dirLister;
+      KonqDirLister* m_dirLister;
 
       /** View properties */
       KonqPropsView * m_pProps;

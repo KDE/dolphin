@@ -44,7 +44,7 @@ class KonqTextViewWidget : public KonqBaseListViewWidget
       // slots connected to the directory lister
       virtual void slotStarted( const QString & );
       virtual void slotCompleted();
-      virtual void slotNewItems( const KonqFileItemList & );
+      virtual void slotNewItems( const KFileItemList & );
    protected:
       virtual bool isSingleClickArea( const QPoint& ) {return TRUE;};
       virtual void keyPressEvent( QKeyEvent *_ev );

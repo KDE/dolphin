@@ -24,7 +24,7 @@
 #include <konqoperations.h>
 
 class KonqPropsView;
-class KDirLister;
+class KonqDirLister;
 class KonqFileItem;
 class KFileIVI;
 class KAction;
@@ -107,8 +107,8 @@ protected slots:
   void slotStarted( const QString & );
   void slotCanceled();
   void slotCompleted();
-  void slotNewItems( const KonqFileItemList& );
-  void slotDeleteItem( KonqFileItem * );
+  void slotNewItems( const KFileItemList& );
+  void slotDeleteItem( KFileItem * );
 
   void slotClear();
 
@@ -134,7 +134,7 @@ protected:
   QString makeSizeKey( KFileIVI *item );
 
   /** The directory lister for this URL */
-  KDirLister* m_dirLister;
+  KonqDirLister* m_dirLister;
 
   /** View properties */
   KonqPropsView * m_pProps;

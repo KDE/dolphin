@@ -12,7 +12,7 @@
 
 #include <kdebug.h>
 #include <kdesktopfile.h>
-#include <kdirlister.h>
+#include <konqdirlister.h>
 #include <kdirwatch.h>
 #include <kglobalsettings.h>
 #include <kiconloader.h>
@@ -445,16 +445,16 @@ void KonqDirTree::contentsMouseReleaseEvent( QMouseEvent *e )
   m_bDrag = false;
 }
 
-void KonqDirTree::slotNewItems( const KonqFileItemList& entries )
+void KonqDirTree::slotNewItems( const KFileItemList& entries )
 {
-  QListIterator<KonqFileItem> kit ( entries );
+  QListIterator<KFileItem> kit ( entries );
   for( ; kit.current(); ++kit )
   {
-    KonqFileItem * item = *kit;
+    KonqFileItem * item = static_cast<KonqFileItem *>(*kit);
 
     assert( S_ISDIR( item->mode() ) );
 
-    KDirLister *lister = (KDirLister *)sender();
+    KonqDirLister *lister = (KonqDirLister *)sender();
 
     TopLevelItem topLevelItem = findTopLevelByDirLister( lister );
 
@@ -487,13 +487,13 @@ void KonqDirTree::slotNewItems( const KonqFileItemList& entries )
   }
 }
 
-void KonqDirTree::slotDeleteItem( KonqFileItem *item )
+void KonqDirTree::slotDeleteItem( KFileItem *item )
 {
   assert( S_ISDIR( item->mode() ) );
 
   //  qDebug( "slotDeleteItem( %s )", item->url().url().ascii() );
 
-  KDirLister *lister = (KDirLister *)sender();
+  KonqDirLister *lister = (KonqDirLister *)sender();
 
   TopLevelItem topLevelItem = findTopLevelByDirLister( lister );
 
@@ -589,7 +589,7 @@ void KonqDirTree::slotClicked( QListViewItem *item )
 
 void KonqDirTree::slotListingStopped()
 {
-  KDirLister *lister = (KDirLister *)sender();
+  KonqDirLister *lister = (KonqDirLister *)sender();
 
   TopLevelItem topLevelItem = findTopLevelByDirLister( lister );
 
@@ -815,19 +815,19 @@ void KonqDirTree::loadTopLevelItem( QListViewItem *parent,  const QString &filen
   item->setPixmap( 0, SmallIcon( icon ) );
   item->setText( 0, name );
 
-  KDirLister *dirLister = 0;
+  KonqDirLister *dirLister = 0;
 
   bool bListable = KProtocolManager::self().supportsListing( kurl.protocol() );
 
   if ( bListable )
   {
-    dirLister = new KDirLister( true );
+    dirLister = new KonqDirLister( true );
     dirLister->setDirOnlyMode( true );
 
-    connect( dirLister, SIGNAL( newItems( const KonqFileItemList & ) ),
-  	     this, SLOT( slotNewItems( const KonqFileItemList & ) ) );
-    connect( dirLister, SIGNAL( deleteItem( KonqFileItem * ) ),
-	     this, SLOT( slotDeleteItem( KonqFileItem * ) ) );
+    connect( dirLister, SIGNAL( newItems( const KFileItemList & ) ),
+  	     this, SLOT( slotNewItems( const KFileItemList & ) ) );
+    connect( dirLister, SIGNAL( deleteItem( KFileItem * ) ),
+	     this, SLOT( slotDeleteItem( KFileItem * ) ) );
     connect( dirLister, SIGNAL( completed() ),
 	     this, SLOT( slotListingStopped() ) );
     connect( dirLister, SIGNAL( canceled() ),
@@ -868,7 +868,7 @@ KonqDirTree::TopLevelItem KonqDirTree::findTopLevelByItem( KonqDirTreeItem *item
   return TopLevelItem();
 }
 
-KonqDirTree::TopLevelItem KonqDirTree::findTopLevelByDirLister( KDirLister *lister )
+KonqDirTree::TopLevelItem KonqDirTree::findTopLevelByDirLister( KonqDirLister *lister )
 {
   QValueList<TopLevelItem>::ConstIterator it = m_topLevelItems.begin();
   QValueList<TopLevelItem>::ConstIterator end = m_topLevelItems.end();

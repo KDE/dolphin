@@ -41,14 +41,14 @@ public:
   /**
    * Create an item in the tree toplevel representing a directory
    * @param _parent the parent widget, the tree view
-   * @param _fileitem the file item created by KDirLister
+   * @param _fileitem the file item created by KonqDirLister
    */
   KonqListViewDir( KonqTreeViewWidget *_parent, KonqFileItem* _fileitem );
   /**
    * Create an item representing a directory, inside a directory
    * @param _treeview the parent tree view
    * @param _parent the parent widget, a directory item in the tree view
-   * @param _fileitem the file item created by KDirLister
+   * @param _fileitem the file item created by KonqDirLister
    */
   KonqListViewDir( KonqTreeViewWidget *_treeview, KonqListViewDir * _parent, KonqFileItem* _fileitem );
   virtual ~KonqListViewDir();

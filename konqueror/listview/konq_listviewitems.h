@@ -46,7 +46,7 @@ class KonqBaseListViewItem : public QListViewItem
        * on the view) */
       virtual void prepareToDie() {}
    protected:
-      /** Pointer to the file item in KDirLister's list */
+      /** Pointer to the file item in KonqDirLister's list */
       KonqFileItem* m_fileitem;
       const char* makeAccessString( const mode_t mode ) const;
 };
@@ -60,14 +60,14 @@ class KonqListViewItem : public KonqBaseListViewItem
       /**
        * Create an item in the tree toplevel representing a file
        * @param _parent the parent widget, the tree view
-       * @param _fileitem the file item created by KDirLister
+       * @param _fileitem the file item created by KonqDirLister
        */
       KonqListViewItem( KonqBaseListViewWidget *_listViewWidget, KonqFileItem* _fileitem );
       /**
        * Create an item representing a file, inside a directory
        * @param _treeview the parent tree view
        * @param _parent the parent widget, a directory item in the tree view
-       * @param _fileitem the file item created by KDirLister
+       * @param _fileitem the file item created by KonqDirLister
        */
       KonqListViewItem( KonqBaseListViewWidget *_listViewWidget, KonqListViewItem *_parent, KonqFileItem* _fileitem );
       //KonqListViewItem( KonqBaseListViewWidget *_listViewWidget, KonqListViewDir *_parent, KonqFileItem* _fileitem );

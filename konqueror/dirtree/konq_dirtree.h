@@ -40,7 +40,7 @@ private:
 };
 
 class KonqDirTree;
-class KDirLister;
+class KonqDirLister;
 
 class KonqDirTreeItem : public QListViewItem
 {
@@ -88,8 +88,8 @@ protected:
   virtual void contentsMouseReleaseEvent( QMouseEvent *e );
 
 private slots:
-  void slotNewItems( const KonqFileItemList & );
-  void slotDeleteItem( KonqFileItem *item );
+  void slotNewItems( const KFileItemList & );
+  void slotDeleteItem( KFileItem *item );
 
   void slotDoubleClicked( QListViewItem *item );
   void slotRightButtonPressed( QListViewItem *item );
@@ -113,18 +113,18 @@ private:
 
   struct TopLevelItem
   {
-    TopLevelItem( KonqDirTreeItem *item, KDirLister *lister, QMap<KURL, KonqDirTreeItem*> *subDirMap, KURL::List *pendingURLList )
+    TopLevelItem( KonqDirTreeItem *item, KonqDirLister *lister, QMap<KURL, KonqDirTreeItem*> *subDirMap, KURL::List *pendingURLList )
     { m_item = item; m_dirLister = lister; m_mapSubDirs = subDirMap; m_lstPendingURLs = pendingURLList; }
     TopLevelItem() { m_item = 0; m_dirLister = 0; m_mapSubDirs = 0; }
 
     KonqDirTreeItem *m_item;
-    KDirLister *m_dirLister;
+    KonqDirLister *m_dirLister;
     QMap<KURL,KonqDirTreeItem *> *m_mapSubDirs;
     KURL::List *m_lstPendingURLs;
   };
 
   TopLevelItem findTopLevelByItem( KonqDirTreeItem *item );
-  TopLevelItem findTopLevelByDirLister( KDirLister *lister );
+  TopLevelItem findTopLevelByDirLister( KonqDirLister *lister );
 
   QListViewItem *m_root;
 

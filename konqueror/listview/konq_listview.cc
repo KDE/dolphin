@@ -24,7 +24,7 @@
 #include "konq_treeviewwidget.h"
 
 #include <kcursor.h>
-#include <kdirlister.h>
+#include <konqdirlister.h>
 #include <konqfileitem.h>
 #include <kio/paste.h>
 #include <kio/job.h>

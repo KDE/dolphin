@@ -27,7 +27,7 @@
 
 #include <kcursor.h>
 #include <kdebug.h>
-#include <kdirlister.h>
+#include <konqdirlister.h>
 #include <kglobal.h>
 #include <kglobalsettings.h>
 #include <kio/job.h>
@@ -331,7 +331,7 @@ void KonqBaseListViewWidget::viewportDropEvent( QDropEvent *ev  )
 
    KonqBaseListViewItem *item = (KonqBaseListViewItem*)itemAt( ev->pos() );
 
-   KonqFileItem * destItem = (item) ? item->item() : m_dirLister->rootItem();
+   KonqFileItem * destItem = (item) ? item->item() : static_cast<KonqFileItem *>(m_dirLister->rootItem());
    assert( destItem );
    KonqOperations::doDrop( destItem, ev, this );
 }
@@ -623,17 +623,17 @@ bool KonqBaseListViewWidget::openURL( const KURL &url )
   if ( !m_dirLister )
   {
     // Create the directory lister
-    m_dirLister = new KDirLister();
+    m_dirLister = new KonqDirLister();
 
     QObject::connect( m_dirLister, SIGNAL( started( const QString & ) ),
                       this, SLOT( slotStarted( const QString & ) ) );
     QObject::connect( m_dirLister, SIGNAL( completed() ), this, SLOT( slotCompleted() ) );
     QObject::connect( m_dirLister, SIGNAL( canceled() ), this, SLOT( slotCanceled() ) );
     QObject::connect( m_dirLister, SIGNAL( clear() ), this, SLOT( slotClear() ) );
-    QObject::connect( m_dirLister, SIGNAL( newItems( const KonqFileItemList & ) ),
-                      this, SLOT( slotNewItems( const KonqFileItemList & ) ) );
-    QObject::connect( m_dirLister, SIGNAL( deleteItem( KonqFileItem * ) ),
-                      this, SLOT( slotDeleteItem( KonqFileItem * ) ) );
+    QObject::connect( m_dirLister, SIGNAL( newItems( const KFileItemList & ) ),
+                      this, SLOT( slotNewItems( const KFileItemList & ) ) );
+    QObject::connect( m_dirLister, SIGNAL( deleteItem( KFileItem * ) ),
+                      this, SLOT( slotDeleteItem( KFileItem * ) ) );
   }
 
   m_bTopLevelComplete = false;
@@ -684,15 +684,15 @@ void KonqBaseListViewWidget::slotClear()
    clear();
 }
 
-void KonqBaseListViewWidget::slotNewItems( const KonqFileItemList & entries )
+void KonqBaseListViewWidget::slotNewItems( const KFileItemList & entries )
 {
    kdDebug(1202) << "KonqBaseListViewWidget::slotNewItems " << entries.count() << "\n" << endl;
-   QListIterator<KonqFileItem> kit ( entries );
+   QListIterator<KFileItem> kit ( entries );
    for( ; kit.current(); ++kit )
-      new KonqListViewItem( this, (*kit) );
+      new KonqListViewItem( this, static_cast<KonqFileItem *>(*kit) );
 }
 
-void KonqBaseListViewWidget::slotDeleteItem( KonqFileItem * _fileitem )
+void KonqBaseListViewWidget::slotDeleteItem( KFileItem * _fileitem )
 {
   kdDebug(1202) << "removing " << _fileitem->url().url() << " from tree!" << endl;
   iterator it = begin();

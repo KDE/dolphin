@@ -26,7 +26,7 @@
 
 #include <kcursor.h>
 #include <kdebug.h>
-#include <kdirlister.h>
+#include <konqdirlister.h>
 #include <kglobal.h>
 #include <kio/job.h>
 #include <kio/paste.h>
@@ -126,17 +126,17 @@ bool KonqTextViewWidget::openURL( const KURL &url )
    if ( !m_dirLister )
    {
       // Create the directory lister
-      m_dirLister = new KDirLister(true);
+      m_dirLister = new KonqDirLister(true);
 
       QObject::connect( m_dirLister, SIGNAL( started( const QString & ) ),
                         this, SLOT( slotStarted( const QString & ) ) );
       QObject::connect( m_dirLister, SIGNAL( completed() ), this, SLOT( slotCompleted() ) );
       QObject::connect( m_dirLister, SIGNAL( canceled() ), this, SLOT( slotCanceled() ) );
       QObject::connect( m_dirLister, SIGNAL( clear() ), this, SLOT( slotClear() ) );
-      QObject::connect( m_dirLister, SIGNAL( newItems( const KonqFileItemList & ) ),
-                        this, SLOT( slotNewItems( const KonqFileItemList & ) ) );
-      QObject::connect( m_dirLister, SIGNAL( deleteItem( KonqFileItem * ) ),
-                        this, SLOT( slotDeleteItem( KonqFileItem * ) ) );
+      QObject::connect( m_dirLister, SIGNAL( newItems( const KFileItemList & )),
+                        this, SLOT( slotNewItems( const KFileItemList & ) ) );
+      QObject::connect( m_dirLister, SIGNAL( deleteItem( KFileItem * ) ),
+                        this, SLOT( slotDeleteItem( KFileItem * ) ) );
    }
 
    m_bTopLevelComplete = false;
@@ -211,10 +211,10 @@ void KonqTextViewWidget::slotCompleted()
    //cerr<<"needed "<<timer.elapsed()<<" msecs"<<endl;
 }
 
-void KonqTextViewWidget::slotNewItems( const KonqFileItemList & entries )
+void KonqTextViewWidget::slotNewItems( const KFileItemList & entries )
 {
-   for( QListIterator<KonqFileItem> kit (entries); kit.current(); ++kit )
-      new KonqTextViewItem( this, (*kit));
+   for( QListIterator<KFileItem> kit (entries); kit.current(); ++kit )
+      new KonqTextViewItem( this, static_cast<KonqFileItem *>(*kit));
 }
 
 #include "konq_textviewwidget.moc"
