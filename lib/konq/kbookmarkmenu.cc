@@ -125,7 +125,7 @@ void KBookmarkMenu::fillBookmarkMenu( KBookmark *parent )
       m_paEditBookmarks->plug( m_parentMenu );
       m_paEditBookmarks->setStatusText( i18n( "Edit your bookmark collection in a separate window" ) );
       m_actions.append( m_paEditBookmarks );
-  
+
       if ( !m_bAddBookmark )
         m_parentMenu->insertSeparator();
     }
@@ -176,7 +176,7 @@ void KBookmarkMenu::fillBookmarkMenu( KBookmark *parent )
       m_actions.append( action );
     }
     else
-    {	
+    {
       KActionMenu * actionMenu = new KActionMenu( bm->text(), bm->pixmapFile(),
                                                   m_actionCollection, 0L );
       actionMenu->plug( m_parentMenu );
@@ -292,7 +292,7 @@ void KBookmarkMenu::slotBookmarkSelected()
         KMessageBox::error( 0L, tmp);
         return;
       }
-	
+
       m_pOwner->openBookmarkURL( bm->url() );
     }
     else
@@ -345,12 +345,12 @@ void KBookmarkMenu::openNSBookmarks()
            name = name.left( name.length() - 4 );
         name.replace( amp, "&" ).replace( lt, "<" ).replace( gt, ">" );
 
-        KAction * action = new KAction( KStringHandler::csqueeze(QString::fromLocal8Bit(name)), 0, 0,
+        KAction * action = new KAction( KStringHandler::csqueeze(QString::fromLocal8Bit(name)), "html", 0,
                                         this, SLOT( slotNSBookmarkSelected() ),
                                         m_actionCollection, actionLink.data());
-	action->setStatusText( link );
+        action->setStatusText( link );
         action->plug( mstack.top()->m_parentMenu );
-	mstack.top()->m_actions.append( action );
+        mstack.top()->m_actions.append( action );
       }
       else if(t.left(7) == "<DT><H3") {
         QCString name = t.mid(t.find('>', 7)+1);
@@ -360,7 +360,7 @@ void KBookmarkMenu::openNSBookmarks()
         KActionMenu * actionMenu = new KActionMenu( KStringHandler::csqueeze(QString::fromLocal8Bit(name)), "folder",
                                                     m_actionCollection, 0L );
         actionMenu->plug( mstack.top()->m_parentMenu );
-	mstack.top()->m_actions.append( actionMenu );
+        mstack.top()->m_actions.append( actionMenu );
         KBookmarkMenu *subMenu = new KBookmarkMenu( m_pOwner, actionMenu->popupMenu(),
                                                     m_actionCollection, false,
                                                     m_bAddBookmark );
