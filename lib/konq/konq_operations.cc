@@ -807,7 +807,7 @@ void KonqOperations::rename( QWidget * parent, const KURL & oldurl, const QStrin
 void KonqOperations::newDir( QWidget * parent, const KURL & baseURL )
 {
     bool ok;
-    QString name = i18n( "Folder" );
+    QString name = i18n( "New Folder" );
     if (baseURL.isLocalFile())
     {
        QString base = name;
@@ -825,7 +825,7 @@ void KonqOperations::newDir( QWidget * parent, const KURL & baseURL )
     }
 
     name = KInputDialog::getText ( i18n( "New Folder" ),
-        i18n( "Enter Folder name:" ), name, &ok, parent );
+        i18n( "Enter folder name:" ), name, &ok, parent );
     if ( ok )
     {
         name = KIO::encodeFileName( name );
