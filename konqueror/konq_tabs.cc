@@ -445,11 +445,15 @@ void KonqFrameTabs::refreshSubPopupMenuTab()
     int i=0;
     for (KonqFrameBase* it = m_pChildFrameList->first(); it; it = m_pChildFrameList->next())
     {
-        if (  it->activeChildView() )
+        KonqFrame* frame = dynamic_cast<KonqFrame *>(it);
+        if ( frame && frame->activeChildView() )
         {
-            m_pSubPopupMenuTab->insertItem( it->activeChildView()->url().url(), i );
+            QString title = frame->title().stripWhiteSpace();
+            if ( title.isEmpty() )
+                title = frame->activeChildView()->url().url();
+            m_pSubPopupMenuTab->insertItem( title, i );
         }
-      i++;
+        i++;
     }
 
 }
