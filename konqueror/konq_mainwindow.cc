@@ -2476,8 +2476,8 @@ void KonqMainWindow::initActions()
   m_paStop = new KAction( i18n( "&Stop" ), "stop", Key_Escape, this, SLOT( slotStop() ), actionCollection(), "stop" );
 
   m_paTrash = new KAction( i18n( "&Move to Trash" ), "edittrash", Key_Delete, actionCollection(), "trash" );
-  m_paDelete = new KAction( i18n( "&Delete" ), SHIFT+Key_Delete, actionCollection(), "del" );
-  m_paShred = new KAction( i18n( "&Shred" ), CTRL+SHIFT+Key_Delete, actionCollection(), "shred" );
+  m_paDelete = new KAction( i18n( "&Delete" ), "editdelete", SHIFT+Key_Delete, actionCollection(), "del" );
+  m_paShred = new KAction( i18n( "&Shred" ), "editshred", CTRL+SHIFT+Key_Delete, actionCollection(), "shred" );
 
   m_paAnimatedLogo = new KonqLogoAction( this, SLOT( slotDuplicateWindow() ), actionCollection(), "animated_logo" );
 
