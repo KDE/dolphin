@@ -126,7 +126,7 @@ void KonqInfoListViewItem::gotMetaInfo()
     {
         KFileMetaInfoItem kfmii = info.item(*it);
 
-        m_columnTypes.append(kfmii.type());
+        m_columnValues.append(kfmii.value());
 
         if (!kfmii.isValid())
             continue;
@@ -138,33 +138,63 @@ void KonqInfoListViewItem::gotMetaInfo()
 
 int KonqInfoListViewItem::compare( QListViewItem *item, int col, bool ascending ) const
 {
-    KonqInfoListViewItem *i = dynamic_cast<KonqInfoListViewItem *>(item);
+    if ( col == 0 )
+        return KonqBaseListViewItem::compare( item, 0, ascending );
 
-    if(!i ||
-       int(m_columnTypes.size()) <= col ||
-       int(i->m_columnTypes.size()) <= col ||
-       m_columnTypes[col] != i->m_columnTypes[col])
+    KonqInfoListViewItem *i = static_cast<KonqInfoListViewItem *>(item);
+
+    int size1 = m_columnValues.size();
+    int size2 = i->m_columnValues.size();
+
+    if ( size1 < col || size2 < col )
+        return ascending ? ( size2 - size1 ) : ( size1 - size2 );
+
+    QVariant value1 = m_columnValues[ col-1 ];
+    QVariant value2 = i->m_columnValues[ col-1 ];
+    QVariant::Type type1 = value1.type();
+    QVariant::Type type2 = value2.type();
+
+    if ( type1 != type2 )
+        return ascending ? ( type2 - type1 ) : ( type1 - type2 );
+
+#define KONQ_CASE( x ) \
+    case QVariant::x:\
+        return ( value1.to##x() > value2.to##x() ) ? 1 : (  value1.to##x() == value2.to##x() ) ? 0 : -1; 
+
+    switch( type1 ) {
+    KONQ_CASE( Bool )
+    KONQ_CASE( Int )
+    KONQ_CASE( LongLong )
+    KONQ_CASE( UInt )
+    KONQ_CASE( ULongLong )
+    KONQ_CASE( Double )
+    KONQ_CASE( Date )
+    KONQ_CASE( Time )
+    KONQ_CASE( DateTime )
+    case QVariant::Size:
     {
-        return KonqBaseListViewItem::compare(item, col, ascending);
+        int w1 = value1.toSize().width();
+        int w2 = value2.toSize().width();
+        if ( w1 != w2 )
+            return ( w1 > w2 ) ? 1 : -1;
+        int h1 = value1.toSize().height();
+        int h2 = value2.toSize().height();
+        return ( h1 > h2 ) ? 1 : ( h1 == h2 ) ? 0 : -1;
     }
-
-    bool ok1;
-    int value1 = text(col).toInt(&ok1);
-
-    bool ok2;
-    int value2 = i->text(col).toInt(&ok2);
-
-    if(!ok1 || !ok2)
-    {
-        return KonqBaseListViewItem::compare(item, col, ascending);
+    default:
+        break;
     }
+#undef KONQ_CASE
 
-    if(value1 == value2)
-    {
-        return 0;
-    }
+    QString text1 = text(col);
+    QString text2 = i->text(col);
 
-    return value1 > value2 ? 1 : -1;
+    if ( text1.isEmpty() )
+        return ascending ? 1 : -1;
+    if ( text2.isEmpty() )
+        return ascending ? -1 : 1;
+
+    return text1.lower().localeAwareCompare(text2.lower());
 }
 
 void KonqInfoListViewItem::setDisabled( bool disabled )
