@@ -38,10 +38,9 @@
 #include <k2url.h>
 #include <kio_error.h>
 
-KonqHtmlView::KonqHtmlView( QWidget *_parent, KonqBaseView *_view, const char *_name, KBrowser *_parent_browser )
+KonqHTMLView::KonqHTMLView( QWidget *_parent, const char *_name, KBrowser *_parent_browser )
   : KBrowser( _parent, _name, _parent_browser )
 {
-  m_pView = _view;
   initConfig();
 
   QObject::connect( this, SIGNAL( mousePressed( const char*, const QPoint&, int ) ),
@@ -49,11 +48,11 @@ KonqHtmlView::KonqHtmlView( QWidget *_parent, KonqBaseView *_view, const char *_
 
 }
 
-KonqHtmlView::~KonqHtmlView()
+KonqHTMLView::~KonqHTMLView()
 {
 }
 
-void KonqHtmlView::initConfig()
+void KonqHTMLView::initConfig()
 {
   KfmViewSettings *settings = KfmViewSettings::defaultHTMLSettings(); // m_pView->settings();
   KHTMLWidget* htmlWidget = getKHTMLWidget();
@@ -73,17 +72,17 @@ void KonqHtmlView::initConfig()
     htmlWidget->setURLCursor( KCursor().arrowCursor() );
 }
 
-void KonqHtmlView::slotNewWindow( const char *_url )
+void KonqHTMLView::slotNewWindow( const char *_url )
 {
   (void)new KRun( _url, 0, false );
 }
 
-KBrowser* KonqHtmlView::createFrame( QWidget *_parent, const char *_name )
+KBrowser* KonqHTMLView::createFrame( QWidget *_parent, const char *_name )
 {
-  return ( new KonqHtmlView( _parent, m_pView, _name, this ) );
+  return ( new KonqHTMLView( _parent, _name, this ) );
 }
 
-void KonqHtmlView::slotMousePressed( const char* _url, const QPoint &_global, int _button )
+void KonqHTMLView::slotMousePressed( const char* _url, const QPoint &_global, int _button )
 {
   QString url = _url;
 
@@ -115,7 +114,7 @@ void KonqHtmlView::slotMousePressed( const char* _url, const QPoint &_global, in
   }
 }
 
-void KonqHtmlView::slotOnURL( const char *_url )
+void KonqHTMLView::slotOnURL( const char *_url )
 {
   if ( !_url )
   {
@@ -207,14 +206,14 @@ void KonqHtmlView::slotOnURL( const char *_url )
     SIGNAL_CALL1( "setStatusBarText", CORBA::Any::from_string( (char *)url.url().c_str(), 0 ) );
 }
 
-bool KonqHtmlView::mousePressedHook( const char *_url, const char *_target, QMouseEvent *_mouse, bool _isselected )
+bool KonqHTMLView::mousePressedHook( const char *_url, const char *_target, QMouseEvent *_mouse, bool _isselected )
 {
   emit gotFocus();
 
   return KBrowser::mousePressedHook( _url, _target, _mouse, _isselected );
 }
 
-void KonqHtmlView::setFocus()
+void KonqHTMLView::setFocus()
 {
   emit gotFocus();
 
@@ -223,7 +222,7 @@ void KonqHtmlView::setFocus()
 
 // #include "kfmicons.h"
 
-KHTMLEmbededWidget* KonqHtmlView::newEmbededWidget( QWidget* _parent, const char *_name, const char *_src, const char *_type,
+KHTMLEmbededWidget* KonqHTMLView::newEmbededWidget( QWidget* _parent, const char *_name, const char *_src, const char *_type,
 						  int _marginwidth, int _marginheight, int _frameborder, bool _noresize )
 {
   KonqEmbededFrame *e = new KonqEmbededFrame( _parent, _frameborder,
@@ -244,7 +243,7 @@ KHTMLEmbededWidget* KonqHtmlView::newEmbededWidget( QWidget* _parent, const char
   return e;
 }
 
-void KonqHtmlView::stop()
+void KonqHTMLView::stop()
 {
   //TODO
 }
