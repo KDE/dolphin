@@ -181,9 +181,10 @@ public:
      * @param fileName HTML file to import
      * @param folder name of the folder to create. Empty for no creation (root()).
      * @param icon icon for the new folder, if @p folder isn't empty
+     * @param utf8 true if the HTML is in utf-8 encoding
      */
-    ImportCommand( const QString & name, const QString & fileName, const QString & folder, const QString & icon )
-        : KCommand(name), m_fileName(fileName), m_folder(folder), m_icon(icon), m_cleanUpCmd(0L)
+    ImportCommand( const QString & name, const QString & fileName, const QString & folder, const QString & icon, bool utf8 )
+        : KCommand(name), m_fileName(fileName), m_folder(folder), m_icon(icon), m_cleanUpCmd(0L), m_utf8(utf8)
     {}
     virtual ~ImportCommand() {}
     virtual void execute();
@@ -203,6 +204,7 @@ private:
     QString m_icon;
     QString m_group;
     KMacroCommand * m_cleanUpCmd;
+    bool m_utf8;
 };
 
 #endif

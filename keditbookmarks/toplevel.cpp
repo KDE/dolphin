@@ -373,7 +373,7 @@ void KEBTopLevel::slotImportNS()
                                              i18n("Netscape Import"), i18n("As New Folder"), i18n("Replace") );
     bool subFolder = (answer==KMessageBox::Yes);
     ImportCommand * cmd = new ImportCommand( i18n("Import Netscape Bookmarks"), KNSBookmarkImporter::netscapeBookmarksFile(),
-                                             subFolder ? i18n("Netscape Bookmarks") : QString::null, "netscape");
+                                             subFolder ? i18n("Netscape Bookmarks") : QString::null, "netscape", false);
     m_commandHistory.addCommand( cmd );
 
     // Ok, we don't need the dynamic menu anymore
@@ -388,7 +388,7 @@ void KEBTopLevel::slotImportMoz()
                                              i18n("Mozilla Import"), i18n("As New Folder"), i18n("Replace") );
     bool subFolder = (answer==KMessageBox::Yes);
     ImportCommand * cmd = new ImportCommand( i18n("Import Mozilla Bookmarks"), KNSBookmarkImporter::mozillaBookmarksFile(),
-                                             subFolder ? i18n("Mozilla Bookmarks") : QString::null, "mozilla");
+                                             subFolder ? i18n("Mozilla Bookmarks") : QString::null, "mozilla", true);
     m_commandHistory.addCommand( cmd );
 }
 
@@ -398,7 +398,7 @@ void KEBTopLevel::slotExportNS()
     if (!path.isEmpty())
     {
         KNSBookmarkExporter exporter( path );
-        exporter.write();
+        exporter.write( false );
     }
 }
 
@@ -408,7 +408,7 @@ void KEBTopLevel::slotExportMoz()
     if (!path.isEmpty())
     {
         KNSBookmarkExporter exporter( path );
-        exporter.write();
+        exporter.write( true );
     }
 }
 

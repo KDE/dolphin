@@ -343,7 +343,7 @@ void ImportCommand::execute()
              SLOT( newFolder( const QString &, bool, const QString & ) ) );
     connect( &importer, SIGNAL( newSeparator() ), SLOT( newSeparator() ) );
     connect( &importer, SIGNAL( endMenu() ), SLOT( endMenu() ) );
-    importer.parseNSBookmarks();
+    importer.parseNSBookmarks( m_utf8 );
     // Save memory
     mlist.clear();
     mstack.clear();
