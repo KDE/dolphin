@@ -67,7 +67,7 @@ KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name)
     subdirsCb  = new QCheckBox(i18n("Include &subdirectories"), pages[0]);
     caseSensCb  = new QCheckBox(i18n("Case s&ensitive search"), pages[0]);
     browseB    = new QPushButton(i18n("&Browse..."), pages[0]);
-    useLocateCb = new QCheckBox(i18n("use files index"), pages[0]);
+    useLocateCb = new QCheckBox(i18n("Use files index"), pages[0]);
 
     // Setup
 
