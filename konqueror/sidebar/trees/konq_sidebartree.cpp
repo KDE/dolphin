@@ -342,7 +342,9 @@ void KonqSidebarTree::slotExecuted( QListViewItem *item )
 
     args.serviceType = dItem->externalMimeType();
     args.trustedSource = true;
-    openURLRequest( dItem->externalURL(), args );
+    KURL externalURL = dItem->externalURL();
+    if ( !externalURL.isEmpty() )
+	openURLRequest( externalURL, args );
 }
 
 void KonqSidebarTree::slotMouseButtonPressed( int _button, QListViewItem* _item, const QPoint&, int col )
