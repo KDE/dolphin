@@ -1,10 +1,9 @@
 
-INCLUDES= @all_includes@ 
+INCLUDES= $(all_includes) 
 
 CLEANFILES = $(BUILT_SOURCES)
 bin_PROGRAMS = kfind
-LDADD += @all_libraries@ -lkfm -lkdeui -lkdecore -lqt -lXext -lX11 @LIBSOCKET@ 
-MOC 	= @MOC@
+LDADD = $(all_libraries) -lkfm -lkdeui -lkdecore -lqt -lXext -lX11 $(LIBSOCKET) $(KDE_RPATH)
 
 ICONSDIR=$(kde_icondir)
 
