@@ -91,7 +91,7 @@ KonqBaseListViewWidget::KonqBaseListViewWidget( KonqListView *parent, QWidget *p
 
    //Adjust KListView behaviour
    setMultiSelection(true);
-   setSelectionModeExt( Konqueror );
+   setSelectionModeExt( FileManager );
    setDragEnabled(true);
    setItemsMovable(false);
 
