@@ -22,6 +22,7 @@
 
 #include <qptrlist.h>
 #include <qpopupmenu.h>
+#include <qtoolbutton.h>
 
 #include <kdebug.h>
 #include <kiconloader.h>
@@ -66,6 +67,23 @@ KonqFrameTabs::KonqFrameTabs(QWidget* parent, KonqFrameContainerBase* parentCont
   KConfigGroupSaver cs( config, QString::fromLatin1("FMSettings") );
   setHoverCloseButton( config->readBoolEntry( "HoverCloseButton", true ) );
   connect( this, SIGNAL( closeRequest( QWidget * )), SLOT(slotCloseRequest( QWidget * )));
+
+#if QT_VERSION >= 0x030200
+  if ( config->readBoolEntry( "AddTabButton", true ) ) {
+    QToolButton * leftWidget = new QToolButton( this );
+    connect( leftWidget, SIGNAL( clicked() ), m_pViewManager->mainWindow(), SLOT( slotAddTab() ) );
+    leftWidget->setIconSet( SmallIcon( "tab_new" ) );
+    leftWidget->adjustSize();
+    setCornerWidget( leftWidget, TopLeft );
+  }
+  if ( config->readBoolEntry( "CloseTabButton", true ) ) {
+    QToolButton * rightWidget = new QToolButton( this );
+    connect( rightWidget, SIGNAL( clicked() ), m_pViewManager->mainWindow(), SLOT( slotRemoveTab() ) );
+    rightWidget->setIconSet( SmallIcon( "tab_remove" ) );
+    rightWidget->adjustSize();
+    setCornerWidget( rightWidget, TopRight );
+  }
+#endif
 }
 
 KonqFrameTabs::~KonqFrameTabs()
