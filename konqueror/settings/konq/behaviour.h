@@ -47,6 +47,8 @@ private:
   QCheckBox *cbCursor;
   QCheckBox *cbUnderline;
 
+  QCheckBox *cbNewWin;
+
   QCheckBox *cbEmbedText;
   QCheckBox *cbEmbedImage;
   QCheckBox *cbEmbedOther;

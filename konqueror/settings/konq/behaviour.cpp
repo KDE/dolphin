@@ -8,8 +8,8 @@
 #include <qlayout.h>
 #include <qradiobutton.h>
 #include <kconfig.h>
-#include <kdialog.h>
 #include <klocale.h>
+#include <kdialog.h>
 #include <konqdefaults.h>
 
 
@@ -72,6 +72,11 @@ KBehaviourOptions::KBehaviourOptions(KConfig *config, QString group, bool showBu
     connect( cbSingleClick, SIGNAL( clicked() ), this, SLOT( slotClick() ) );
     connect( cbAutoSelect, SIGNAL( clicked() ), this, SLOT( slotClick() ) );
 
+    row++;
+    cbNewWin = new QCheckBox(i18n("&Open directories in separate windows"), this);
+    lay->addMultiCellWidget(cbNewWin, row, row, 0, N_COLS, Qt::AlignLeft);
+    connect(cbNewWin, SIGNAL(clicked()), this, SLOT(changed()));
+
     // ----
     if (m_bShowBuiltinGroup)
     {
@@ -118,6 +123,7 @@ void KBehaviourOptions::load()
     slAutoSelect->setValue( autoSelect );
     cbCursor->setChecked( changeCursor );
     cbUnderline->setChecked( underlineLinks );
+    cbNewWin->setChecked(g_pConfig->readBoolEntry("AlwaysNewWin", false));
 
     if (m_bShowBuiltinGroup)
     {
@@ -140,6 +146,7 @@ void KBehaviourOptions::defaults()
     slAutoSelect->setValue( 50 );
     cbCursor->setChecked( false );
     cbUnderline->setChecked( true );
+    cbNewWin->setChecked(false);
 
     if (m_bShowBuiltinGroup)
     {
@@ -158,12 +165,16 @@ void KBehaviourOptions::save()
     g_pConfig->writeEntry( "AutoSelect", cbAutoSelect->isChecked()?slAutoSelect->value():-1 );
     g_pConfig->writeEntry( "ChangeCursor", cbCursor->isChecked() );
     g_pConfig->writeEntry( "UnderlineLinks", cbUnderline->isChecked() );
+
     if (m_bShowBuiltinGroup)
     {
         g_pConfig->writeEntry( "EmbedText", cbEmbedText->isChecked() );
         g_pConfig->writeEntry( "EmbedImage", cbEmbedImage->isChecked() );
         g_pConfig->writeEntry( "EmbedOther", cbEmbedOther->isChecked() );
     }
+
+    g_pConfig->writeEntry( "AlwaysNewWin", cbNewWin->isChecked() );
+
     g_pConfig->sync();
 }
 
