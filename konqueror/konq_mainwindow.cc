@@ -31,6 +31,7 @@
 #include "konq_frame.h"
 #include "konq_events.h"
 #include "konq_actions.h"
+#include "konq_pixmapprovider.h"
 
 #include <pwd.h>
 // we define STRICT_ANSI to get rid of some warnings in glibc
@@ -222,9 +223,14 @@ KonqMainWindow::~KonqMainWindow()
     KConfig *config = KGlobal::config();
     config->setGroup( "Settings" );
     config->writeEntry( "Maximum of URLs in combo", m_combo->maxCount() );
-    config->writeEntry( "ToolBarCombo", m_combo->historyItems() );
+    QStringList histItems = m_combo->historyItems();
+    config->writeEntry( "ToolBarCombo", histItems );
     config->writeEntry( "CompletionMode", (int)m_combo->completionMode() );
     config->writeEntry( "CompletionItems", m_combo->completionObject()->items() );
+    KonqPixmapProvider *prov = static_cast<KonqPixmapProvider*> (m_combo->pixmapProvider());
+    if ( prov )
+	prov->save( config, "ComboIconCache", histItems );
+    
     config->sync();
   }
 
@@ -1738,6 +1744,8 @@ void KonqMainWindow::slotComboPlugged()
   m_combo->clearHistory();
   KConfig *config = KGlobal::config();
   config->setGroup( "Settings" );
+  KonqPixmapProvider *prov = static_cast<KonqPixmapProvider*> (m_combo->pixmapProvider());
+  prov->load( config, "ComboIconCache" );
   m_combo->setMaxCount( config->readNumEntry("Maximum of URLs in combo", 10 ));
   QStringList locationBarCombo = config->readListEntry( "ToolBarCombo" );
   int mode = config->readNumEntry("CompletionMode", KGlobalSettings::completionMode());
@@ -1950,6 +1958,8 @@ void KonqMainWindow::setLocationBarURL( const QString &url )
 {
   kdDebug(1202) << "KonqMainWindow::setLocationBarURL : url = " << url << endl;
   ASSERT( !url.isEmpty());
+  // FIXME, change the current pixmap of the combo, using
+  // QComboBox::setCurrentPixmap() (in Qt 2.2 as Reggie promised :) (pfeiffer)
   if ( m_combo )
     m_combo->setEditText( url );
 }
