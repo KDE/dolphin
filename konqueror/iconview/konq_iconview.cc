@@ -18,7 +18,6 @@
 */
 
 #include "konq_iconview.h"
-#include "konq_bgnddlg.h"
 #include "konq_propsview.h"
 
 #include <assert.h>
@@ -29,7 +28,6 @@
 
 #include <kaccel.h>
 #include <kaction.h>
-#include <kcolordlg.h>
 #include <kdebug.h>
 #include <konqdirlister.h>
 #include <kfileivi.h>
@@ -178,7 +176,7 @@ void IconViewBrowserExtension::setNameFilter( QString nameFilter )
 
 
 KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const char *name, const QString& mode  )
-    : KParts::ReadOnlyPart( parent, name )
+    : KonqDirPart( parent, name )
 {
     kdDebug(1202) << "+KonqKfmIconView" << endl;
 
@@ -613,48 +611,12 @@ void KonqKfmIconView::slotTextRight( bool b )
     }
 }*/
 
-void KonqKfmIconView::slotBackgroundColor()
-{
-    QColor bgndColor = m_pProps->bgColor(m_pIconView);
-    if ( KColorDialog::getColor( bgndColor ) == KColorDialog::Accepted )
-    {
-	m_pProps->setBgColor( bgndColor );
-	m_pProps->setBgPixmapFile( "" );
-        m_pProps->applyColors( m_pIconView );
-	m_pIconView->updateContents();
-    }
-}
-
-void KonqKfmIconView::slotBackgroundImage()
-{
-    KonqBgndDialog dlg( m_pProps->bgPixmapFile(), KonqIconViewFactory::instance() );
-    if ( dlg.exec() == KonqBgndDialog::Accepted )
-    {
-	m_pProps->setBgPixmapFile( dlg.pixmapFile() );
-        m_pProps->applyColors( m_pIconView );
-	m_pIconView->updateContents();
-    }
-}
-
 bool KonqKfmIconView::closeURL()
 {
     if ( m_dirLister ) m_dirLister->stop();
     m_lstPendingMimeIconItems.clear();
     m_pIconView->stopImagePreview();
     return true;
-}
-
-void KonqKfmIconView::saveState( QDataStream &stream )
-{
-  kdDebug() << "void KonqKfmIconView::saveState( QDataStream &stream )" << endl;
-  stream << m_nameFilter;
-}
-
-void KonqKfmIconView::restoreState( QDataStream &stream )
-{
-  // Warning: see comment in IconViewBrowserExtension::restoreState about order
-  kdDebug() << "void KonqKfmIconView::restoreState( QDataStream &stream )" << endl;
-  stream >> m_nameFilter;
 }
 
 void KonqKfmIconView::slotReturnPressed( QIconViewItem *item )
@@ -795,8 +757,7 @@ void KonqKfmIconView::slotNewItems( const KFileItemList& entries )
 
     //kdDebug(1202) << "KonqKfmIconView::slotNewItem(...)" << _fileitem->url().url() << endl;
     KFileIVI* item = new KFileIVI( m_pIconView, _fileitem,
-				   m_pIconView->iconSize()
-                                   /* m_pProps->isShowingImagePreview() */ );
+				   m_pIconView->iconSize() );
     item->setRenameEnabled( false );
 
     QString key;
@@ -806,6 +767,7 @@ void KonqKfmIconView::slotNewItems( const KFileItemList& entries )
     case NameCaseSensitive: key = item->text(); break;
     case NameCaseInsensitive: key = item->text().lower(); break;
     case Size: key = makeSizeKey( item ); break;
+    default: ASSERT(0);
     }
 
     item->setKey( key );

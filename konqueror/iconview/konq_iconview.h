@@ -22,6 +22,7 @@
 #include <kparts/browserextension.h>
 #include <konqiconviewwidget.h>
 #include <konqoperations.h>
+#include <konq_dirpart.h>
 
 class KonqPropsView;
 class KonqDirLister;
@@ -38,7 +39,7 @@ class QTimer;
  * The Icon View for konqueror.
  * The "Kfm" in the name stands for file management since it shows files :)
  */
-class KonqKfmIconView : public KParts::ReadOnlyPart
+class KonqKfmIconView : public KonqDirPart
 {
   friend class IconViewBrowserExtension; // to access m_pProps
   Q_OBJECT
@@ -60,9 +61,6 @@ public:
   virtual bool openFile() { return true; }
 
   KonqIconViewWidget *iconViewWidget() const { return m_pIconView; }
-
-  void saveState( QDataStream &stream );
-  void restoreState( QDataStream &stream );
 
   uint itemCount() const;
   uint dirSize() const;
@@ -95,9 +93,6 @@ public slots:
 
   //void slotTextBottom( bool b );
   //void slotTextRight( bool b );
-
-  void slotBackgroundColor();
-  void slotBackgroundImage();
 
 protected slots:
   // slots connected to QIconView
@@ -149,9 +144,6 @@ protected:
 
   /** The directory lister for this URL */
   KonqDirLister* m_dirLister;
-
-  /** View properties */
-  KonqPropsView * m_pProps;
 
   /**
    * Set to true while the constructor is running.
@@ -208,8 +200,6 @@ protected:
   long m_lDirCount;
 
   int m_iIconSize[3];
-
-  QString m_nameFilter;
 
   IconViewBrowserExtension *m_extension;
 
