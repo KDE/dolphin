@@ -158,6 +158,7 @@ QString KonqMainView::konqFilteredURL( const QString &_url )
   if ( url[0] == '/' )
   {
     KURL::encode( url );
+    url.prepend( "file:" );
   }
   // Home directory?
   else if ( url.find( QRegExp( "^~.*" ) ) == 0 )
@@ -662,6 +663,9 @@ debug(" KonqMainView::openView %s %s", serviceType.ascii(), url.ascii());
       setActiveView( view );
 
       enableAllActions( true );
+      // we surely don't have any history buffers at this time
+      m_paBack->setEnabled( false );
+      m_paForward->setEnabled( false );
 
       return true;
     }
