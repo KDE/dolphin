@@ -34,6 +34,7 @@
 #include <kparts/mainwindow.h>
 #include <kparts/partmanager.h>
 #include <kparts/factory.h>
+#include <klineeditdlg.h>
 
 #include <assert.h>
 #include <string.h>
@@ -49,6 +50,7 @@
 #include <qstringlist.h>
 #include <klocale.h>
 #include <klibloader.h>
+#include <qregexp.h>
 
 class KonqListViewFactory : public KParts::Factory
 {
@@ -226,29 +228,79 @@ void KonqListView::guiActivateEvent( KParts::GUIActivateEvent *event )
     m_browser->updateActions();
 }
 
+
 void KonqListView::slotSelect()
 {
-  //TODO
+   KLineEditDlg l( i18n("Select files:"), "", m_pListView );
+   if ( l.exec() )
+   {
+      QString pattern = l.text();
+      if ( pattern.isEmpty() )
+         return;
+
+      QRegExp re( pattern, true, true );
+
+      m_pListView->blockSignals( true );
+
+      for (KonqListViewWidget::iterator it = m_pListView->begin(); it != m_pListView->end(); it++ )
+         if ( re.match( it->text(0) ) != -1 )
+            it->setSelected( TRUE);
+
+      m_pListView->blockSignals( false );
+      m_pListView->repaintContents(0,0,m_pListView->width(),m_pListView->height());
+      //m_pListView->updateSelectedFilesInfo();
+
+      // do this once, not for each item
+      //m_pListView.slotSelectionChanged();
+      //slotDisplayFileSelectionInfo();
+   }
 }
 
 void KonqListView::slotUnselect()
 {
-  //TODO
+   KLineEditDlg l( i18n("Unselect files:"), "", m_pListView );
+   if ( l.exec() )
+   {
+      QString pattern = l.text();
+      if ( pattern.isEmpty() )
+         return;
+
+      QRegExp re( pattern, TRUE, TRUE );
+
+      m_pListView->blockSignals(TRUE);
+
+      for (KonqListViewWidget::iterator it = m_pListView->begin(); it != m_pListView->end(); it++ )
+         if ( re.match( it->text(0) ) != -1 )
+            it->setSelected(FALSE);
+
+      m_pListView->blockSignals(FALSE);
+      m_pListView->repaintContents(0,0,m_pListView->width(),m_pListView->height());
+      
+      // do this once, not for each item
+      //m_pListView.slotSelectionChanged();
+      //slotDisplayFileSelectionInfo();
+      //m_pListView->updateSelectedFilesInfo();
+   }
 }
 
 void KonqListView::slotSelectAll()
 {
-  //TODO
+   m_pListView->selectAll(TRUE);
+   //m_pListView->updateSelectedFilesInfo();
 }
 
 void KonqListView::slotUnselectAll()
 {
-  //TODO
+    m_pListView->selectAll(FALSE);
+    //m_pListView->updateSelectedFilesInfo();
 }
+
 
 void KonqListView::slotInvertSelection()
 {
-  //TODO
+    m_pListView->invertSelection();
+    //m_pListView->updateSelectedFilesInfo();
+    m_pListView->repaintContents(0,0,m_pListView->width(),m_pListView->height());
 }
 
 void KonqListView::slotViewLarge( bool b )
@@ -298,11 +350,11 @@ void KonqListView::slotReloadTree()
 
 void KonqListView::setupActions()
 {
-  m_paSelect = new KAction( i18n( "&Select..." ), CTRL+Key_Slash, this, SLOT( slotSelect() ), actionCollection(), "select" );
-  m_paUnselect = new KAction( i18n( "&Unselect..." ), CTRL+Key_Backslash, this, SLOT( slotUnselect() ), actionCollection(), "unselect" );
+  m_paSelect = new KAction( i18n( "&Select..." ), CTRL+Key_Plus, this, SLOT( slotSelect() ), actionCollection(), "select" );
+  m_paUnselect = new KAction( i18n( "&Unselect..." ), CTRL+Key_Minus, this, SLOT( slotUnselect() ), actionCollection(), "unselect" );
   m_paSelectAll = KStdAction::selectAll( this, SLOT( slotSelectAll() ), this, "selectall" );
   m_paUnselectAll = new KAction( i18n( "U&nselect All" ), CTRL+Key_U, this, SLOT( slotUnselectAll() ), actionCollection(), "unselectall" );
-  m_paInvertSelection = new KAction( i18n( "&Invert Selection" ), CTRL+Key_I, this, SLOT( slotInvertSelection() ), actionCollection(), "invertselection" );
+  m_paInvertSelection = new KAction( i18n( "&Invert Selection" ), CTRL+Key_Asterisk, this, SLOT( slotInvertSelection() ), actionCollection(), "invertselection" );
 
   m_paLargeIcons = new KToggleAction( i18n( "&Large" ), 0, actionCollection(), "modelarge" );
   m_paMediumIcons = new KToggleAction( i18n( "&Medium" ), 0, actionCollection(), "modemedium" );

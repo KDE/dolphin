@@ -57,7 +57,7 @@ public:
   void stop();
   const KURL & url();
 
-  enum KonqListViewMode { DetailedList, MixedTree };
+  enum KonqListViewMode { DetailedList, MixedTree, TextMode };
 
   struct iterator
   {
