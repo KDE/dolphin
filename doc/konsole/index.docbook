@@ -156,7 +156,7 @@ shell) runs in the window. Simply type at the prompt.</para>
 <phrase>&konsole; Screen</phrase>
 </textobject>
 <caption><para>
-A 60 column by 9 row Konsole with 4 terminal sessions running with the tabbar on top.
+A 60 column by 9 row Konsole with 4 terminal sessions running.
 </para></caption>
 </mediaobject>
 </screenshot>
@@ -269,7 +269,9 @@ restored just like any other application when you restart &kde;.
 </para>
 
 <note><para>
-With &kde; 3.4, you can assign shortcuts to any Session.
+You can assign
+<link linkend="settings-menu">shortcuts</link>
+ to any session.
 </para></note>
 
 </sect1>
@@ -449,10 +451,6 @@ care should be taken to avoid accidental damage.
 Commander</application> file browser, as the <systemitem
 class="username">root</systemitem> user.
 </para>
-<note><para>This menu entry will only be visible if Midnight Commander 
-(<command> mc </command>
-) is installed on your system.
-</para></note>
 <para>
 After being prompted for the <systemitem
 class="username">root</systemitem> password, the <prompt>#</prompt>
@@ -462,6 +460,10 @@ privileges. Again, working as <systemitem
 class="username">root</systemitem> is frequently necessary but care
 should be taken to avoid accidental damage.
 </para>
+<note><para>This menu entry will only be visible if Midnight Commander 
+(<command> mc </command>
+) is installed on your system.
+</para></note>
 </listitem>
 </varlistentry>
 
@@ -1273,6 +1275,7 @@ history</para>
 
 <caution><para>
 The following &Qt; options have no effect on &konsole;:
+<informalexample>
 <variablelist>
 
 <varlistentry>
@@ -1301,6 +1304,7 @@ The following &Qt; options have no effect on &konsole;:
 
 </variablelist>
 
+</informalexample>
 </para></caution>
 
 <variablelist>
@@ -1326,6 +1330,13 @@ The following &Qt; options have no effect on &konsole;:
 </varlistentry>
 </variablelist>
 
+</sect1>
+
+<sect1 id="dcop">
+<title>DCOP</title>
+
+<para>Stub for DCOP intro
+</para>
 </sect1>
 
 </chapter>
