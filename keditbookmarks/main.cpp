@@ -19,6 +19,8 @@
    Boston, MA 02111-1307, USA.
 */
 
+#include <config.h>
+
 #include "toplevel.h"
 #include "importers.h"
 
@@ -112,7 +114,7 @@ static int askUser(KApplication &app, QString filename, bool &readonly) {
 
 extern "C" KDE_EXPORT int kdemain(int argc, char **argv) {
     KLocale::setMainCatalogue("konqueror");
-    KAboutData aboutData("keditbookmarks", I18N_NOOP("Bookmark Editor"), "1.2",
+    KAboutData aboutData("keditbookmarks", I18N_NOOP("Bookmark Editor"), VERSION,
             I18N_NOOP("Konqueror Bookmarks Editor"),
             KAboutData::License_GPL,
             I18N_NOOP("(c) 2000 - 2003, KDE developers") );
