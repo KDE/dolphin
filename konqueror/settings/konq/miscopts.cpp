@@ -76,7 +76,7 @@ void KMiscOptions::load()
     urlpropsbox->setChecked(bUrlprops);
     leTerminal->setText(sTerminal);
     m_pHaveBiiigToolBarCheckBox->setChecked( bHaveBigToolBar );
-    m_pConfirmDestructive->setChecked(g_pConfig->readBoolEntry("ConfirmDestrutive", true));
+    m_pConfirmDestructive->setChecked(g_pConfig->readBoolEntry("ConfirmDestructive", true));
 
 }
 
