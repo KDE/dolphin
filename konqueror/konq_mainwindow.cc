@@ -1006,7 +1006,7 @@ void KonqMainWindow::slotViewCompleted( KonqView * view )
 
   // Register this URL as a working one, in the completion object and the combo.
 
-  // TODO use KComboBox::isInserted next wednesday
+  // TODO use KComboBox::contains() next wednesday
   m_combo->insertItem( view->locationBarURL() );
 
   QString u = view->typedURL();
