@@ -24,9 +24,9 @@ int main( int argc, char ** argv )
 			VERSION, description, KAboutData::License_GPL,
 			"(c) 1998-2001, The KDE Developers");
 
+  aboutData.addAuthor("Mark W. Webb", I18N_NOOP("Current Maintainer"), "markwebb@adelphia.net");
   aboutData.addAuthor("Eric Coquelle", I18N_NOOP("Developer & Current Maintainer"), "coquelle@caramail.com");
   aboutData.addAuthor("Beppe Grimaldi", I18N_NOOP("UI Design & more search options"), "grimalkin@ciaoweb.it");
-  aboutData.addAuthor("Mark W. Webb", I18N_NOOP("Developer"), "markwebb@adelphia.net");
   aboutData.addAuthor("Martin Hartig");
   aboutData.addAuthor("Stephan Kulow", 0, "coolo@kde.org");
   aboutData.addAuthor("Mario Weilguni",0, "mweilguni@sime.com");
@@ -37,6 +37,7 @@ int main( int argc, char ** argv )
   aboutData.addAuthor("Carsten Pfeiffer",0, "pfeiffer@kde.org");
   aboutData.addAuthor("Hans Petter Bieker", 0, "bieker@kde.org");
   aboutData.addAuthor("Waldo Bastian", I18N_NOOP("UI Design"), "bastian@kde.org");
+  aboutData.addAuthor("Alexander Neundorf", 0, "neundorf@kde.org");
 
   KCmdLineArgs::init( argc, argv, &aboutData );
   KCmdLineArgs::addCmdLineOptions( options ); // Add our own options.
@@ -54,6 +55,8 @@ int main( int argc, char ** argv )
     url = QDir::homeDirPath();
   args->clear();
 
+  // Open-with dialog handler
+  KFileOpenWithHandler fowh;
 
   KfindDlg kfinddlg(url, 0, "dialog");
 
