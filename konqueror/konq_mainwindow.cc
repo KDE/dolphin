@@ -1798,7 +1798,7 @@ void KonqMainWindow::slotComboPlugged()
 
   connect( m_combo, SIGNAL( completion( const QString& )),
            SLOT( slotMakeCompletion( const QString& )));
-  connect( m_combo, SIGNAL( rotateText( KCompletionBase::KeyBindingType) ),
+  connect( m_combo, SIGNAL( textRotation( KCompletionBase::KeyBindingType) ),
            SLOT( slotRotation( KCompletionBase::KeyBindingType )));
 
   m_combo->lineEdit()->installEventFilter(this);
