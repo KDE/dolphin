@@ -71,7 +71,7 @@ public:
      *
      * @param filter mime-type(s) to filter directory by.
      */
-    void setMimeFilter( const QString& filters );
+    void setMimeFilter (const QStringList& filters);
 
     /**
      * Completely clears the internally stored list of mime filters

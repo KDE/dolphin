@@ -39,7 +39,7 @@
 class KonqDirPart::KonqDirPartPrivate
 {
 public:
-    QMap<QString,QString> mimeFilterList;
+    QMap<QString,QStringList> mimeFilterList;
 };
 
 KonqDirPart::KonqDirPart( QObject *parent, const char *name )
@@ -116,23 +116,24 @@ KonqDirPart::~KonqDirPart()
     delete d;
 }
 
-void KonqDirPart::setMimeFilter( const QString& mime )
+void KonqDirPart::setMimeFilter (const QStringList& mime)
 {
     QString u = url().url();
-    if ( !u.isEmpty() )
-    {
-        if ( mime.isEmpty() )
-            d->mimeFilterList.remove( u );
-        else
-            d->mimeFilterList[u] = mime;
-    }
+
+		if (u.isEmpty ())
+			return;
+
+    if ( mime.isEmpty() )
+        d->mimeFilterList.remove( u );
+    else
+        d->mimeFilterList[u] = mime;
 }
 
 QStringList KonqDirPart::mimeFilter() const
 {
-    QMapConstIterator<QString,QString> it = d->mimeFilterList.find(url().url());
+    QMapConstIterator<QString,QStringList> it = d->mimeFilterList.find(url().url());
     if ( it != d->mimeFilterList.end() )
-        return QStringList::split( ' ', it.data() );
+        return it.data ();
     else
         return QStringList();
 }
