@@ -33,6 +33,7 @@
 
 class BrowserView;
 class KonqMainView;
+class KAboutData;
 
 class KonqViewFactory
 {
@@ -70,9 +71,12 @@ public:
 
   static KInstance *instance();	
 
+  static const KAboutData* aboutData();
+
 private:
   static unsigned long m_instanceRefCnt;
   static KInstance *s_instance;
+  static KAboutData *s_aboutData;
 };
 
 #endif

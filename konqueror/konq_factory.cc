@@ -23,17 +23,21 @@
 #include "konq_factory.h"
 #include "konq_misc.h"
 #include "konq_run.h"
+#include "version.h"
 
 #include <konqsettings.h>
 #include <kdebug.h>
 #include <kinstance.h>
 #include <kstddirs.h>
 #include <kuserprofile.h>
+#include <kaboutdata.h>
+#include <klocale.h>
 
 #include <assert.h>
 
 unsigned long KonqFactory::m_instanceRefCnt = 0;
 KInstance *KonqFactory::s_instance = 0L;
+KAboutData *KonqFactory::s_aboutData = 0L;
 
 KParts::ReadOnlyPart *KonqViewFactory::create( QWidget *parent, const char *name )
 {
@@ -53,7 +57,7 @@ KParts::ReadOnlyPart *KonqViewFactory::create( QWidget *parent, const char *name
 KonqFactory::KonqFactory()
 {
   s_instance = 0L;
-  QString path = instance()->dirs()->saveLocation("data", "kfm/bookmarks", true);
+  /*QString path = */instance()->dirs()->saveLocation("data", "kfm/bookmarks", true);
 }
 
 KonqFactory::~KonqFactory()
@@ -195,7 +199,32 @@ void KonqFactory::instanceUnref()
 KInstance *KonqFactory::instance()
 {
   if ( !s_instance )
-    s_instance = new KInstance( "konqueror" );
+    s_instance = new KInstance( aboutData() );
 
   return s_instance;
 }
+
+const KAboutData *KonqFactory::aboutData()
+{
+  if (!s_aboutData)
+  {
+    s_aboutData = new KAboutData( "konqueror", I18N_NOOP("Konqueror"),
+                        KONQUEROR_VERSION,
+                        I18N_NOOP("Web browser, file manager, ..."),
+                        KAboutData::License_GPL,
+                        "(c) 1999-2000, The Konqueror developers" );
+    s_aboutData->addAuthor( "Torben Weis", I18N_NOOP("kfm author"), "weis@kde.org" );
+    s_aboutData->addAuthor( "David Faure", I18N_NOOP("developer (parts, I/O lib) and maintainer"), "faure@kde.org" );
+    s_aboutData->addAuthor( "Simon Hausmann", I18N_NOOP("developer (framework, parts)"), "hausmann@kde.org" );
+    s_aboutData->addAuthor( "Michael Reiher", I18N_NOOP("developer (framework)"), "michael.reiher@gmx.de" );
+    s_aboutData->addAuthor( "Matthias Welk", I18N_NOOP("developer"), "welk@fokus.gmd.de" );
+    s_aboutData->addAuthor( "Lars Knoll", I18N_NOOP("developer (HTML rendering engine)"), "knoll@kde.org" );
+    s_aboutData->addAuthor( "Antti Koivisto", I18N_NOOP("developer (HTML rendering engine)"), "koivisto@kde.org" );
+    s_aboutData->addAuthor( "Waldo Bastian", I18N_NOOP("developer (HTML rendering engine, I/O lib)"), "bastian@kde.org" );
+    s_aboutData->addAuthor( "Matt Koss", I18N_NOOP("developer (I/O lib)"), "koss@napri.sk" );
+    s_aboutData->addAuthor( "Alex Zepeda", I18N_NOOP("developer (I/O lib)"), "jazepeda@pacbell.net" );
+    s_aboutData->addAuthor( "Stephan Kulow", I18N_NOOP("developer (I/O lib)"), "coolo@kde.org" );
+  }
+  return s_aboutData;
+}
+
