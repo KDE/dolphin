@@ -5,12 +5,12 @@ noinst_HEADERS = nspluginloader.h
 
 NSPluginClassIface_DIR = $(srcdir)/viewer
 
-lib_LTLIBRARIES = libnsplugin.la
+kde_module_LTLIBRARIES = libnsplugin.la
 libnsplugin_la_SOURCES = plugin_part.cpp nspluginloader.cpp		\
 			NSPluginClassIface.stub				\
 			NSPluginCallbackIface.skel
 
-libnsplugin_la_LDFLAGS = $(all_libraries) -version-info 3:0:2 -module -no-undefined
+libnsplugin_la_LDFLAGS = $(all_libraries) -avoid-version -module $(KDE_PLUGIN) -no-undefined
 libnsplugin_la_LIBADD  = -lkparts
 
 bin_PROGRAMS = nspluginscan
