@@ -172,4 +172,70 @@ void KonqTextViewWidget::slotNewItems( const KFileItemList & entries )
    //kdDebug(1202)<<"::slotNewItem: received: "<<entries.count()<<endl;
 }
 
+bool KonqTextViewWidget::isNameColumn(const QPoint& point )
+{
+   if (!itemAt( point ) )
+      return false;
+   int x=point.x();
+
+   int offset = 0;
+   int width = columnWidth( 0 );
+   int pos = header()->mapToIndex( 0 );
+
+   for ( int index = 0; index < pos; index++ )
+      offset += columnWidth( header()->mapToSection( index ) );
+
+   return ( x > offset && x < ( offset + width ) );
+}
+
+void KonqTextViewWidget::viewportDragMoveEvent( QDragMoveEvent *_ev )
+{
+   KonqBaseListViewItem *item =
+       isNameColumn( _ev->pos() ) ? (KonqBaseListViewItem*)itemAt( _ev->pos() ) : 0L;
+
+   if ( !item )
+   {
+      if ( m_dragOverItem )
+         setSelected( m_dragOverItem, false );
+      _ev->accept();
+      return;
+   }
+
+   if ( m_dragOverItem == item )
+       return; // No change
+
+   if ( m_dragOverItem != 0L )
+      setSelected( m_dragOverItem, false );
+
+   if ( item->item()->acceptsDrops() )
+   {
+      _ev->accept();
+      setSelected( item, true );
+      m_dragOverItem = item;
+   }
+   else
+   {
+      _ev->ignore();
+      m_dragOverItem = 0L;
+   }
+}
+
+void KonqTextViewWidget::viewportDropEvent( QDropEvent *ev  )
+{
+    kdDebug() << "KonqBaseListViewWidget::viewportDropEvent" << endl;
+    if ( m_dragOverItem != 0L )
+     setSelected( m_dragOverItem, false );
+   m_dragOverItem = 0L;
+
+   ev->accept();
+
+   // We dropped on an item only if we dropped on the Name column.
+   KonqBaseListViewItem *item =
+       isNameColumn( ev->pos() ) ? (KonqBaseListViewItem*)itemAt( ev->pos() ) : 0;
+
+   KonqFileItem * destItem = (item) ? item->item() : static_cast<KonqFileItem *>(m_dirLister->rootItem());
+   KonqOperations::doDrop( destItem /*may be 0L*/, destItem ? destItem->url() : url(), ev, this );
+}
+
+
 #include "konq_textviewwidget.moc"

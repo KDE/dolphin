@@ -43,6 +43,9 @@ class KonqTextViewWidget : public KonqBaseListViewWidget
       // slots connected to the directory lister
       virtual void slotNewItems( const KFileItemList & );
    protected:
+      bool isNameColumn(const QPoint& point );
+      virtual void viewportDragMoveEvent( QDragMoveEvent *_ev );
+      virtual void viewportDropEvent( QDropEvent *ev  );
       virtual void createColumns();
 
       QColor colors[11];
