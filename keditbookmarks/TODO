@@ -1,15 +1,35 @@
-selecting a closed folder should selected all items inside - i.e, the outer parent
-   currently something really strange is happening here
-someone multi selected deletes are broken again:
-   no longer crashes, but doesn't select current well, maybe laurent just broke it
+67787 : Bookmark toolbar shows wrong folder contents 
+   - kawil's feature is majorly b0rked, it acts on the wrong element it seems...
+
+67635 : Bookmarks toolbar edits don't take effect until restart 
+   - completely unable to confirm, and can't recall fixing this in the past.. umm..
+
+67614 : abort bookmark's context menu causes bookmark to load 
+   - can't reproduce... maybe a new / old qt bug...
+
+67686 : bookmark bar first displayed empty 
+   - can't reproduce, maybe need to check from an empty .kde, thus no previous
+
+67685 : crash often kills bookmarks AND backup 
+   - how the heck does a crash wipe the bookmarks.xml in the first place?
+     well, whatever. i admit this can be improved, but only through new i18n's
+     so thats not going to happen until i get permission for 3.2.1...
+
+67958 : bookmark toolbar intermittenly disappears 
+   - maybe just another dup of tokoe's bug
+
+68161 : Favicons are lost on upgrade 
+   - nothing to do with bookmarks, but, no idea where to put it,
+     so, whatever, i'll handle it anyways...
+
+somehow multi selected deletes are broken again:
+   no longer crashes, but doesn't select current well
    TODO note added to program, quite a difficult problem...
 a selected folder only takes one click to get a rename???
 tbcache: don't create a tbcache file when its gonna be empty in any case!!!
 historymgr: get dirtyness working for the kbookmarkmap
 proper readonly support - rmb should work but things should be disabled?  no addbookmark, etc.
 general xbel bug: http://bugzilla.gnome.org/show_bug.cgi?id=69702
-
-kawil's feature is majorly b0rked, it acts on the wrong element it seems...
 
 possible qt bug:
    multi selection deletion then shift down selects roots
