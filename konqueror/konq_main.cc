@@ -44,6 +44,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "kfmrun.h"
 #include "konq_main.h"
 #include "konq_mainwindow.h"
 #include "userpaths.h"

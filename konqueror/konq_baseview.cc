@@ -1,5 +1,6 @@
 
 #include "konq_baseview.h"
+#include <kdebug.h>
 
 KonqBaseView::KonqBaseView()
 {

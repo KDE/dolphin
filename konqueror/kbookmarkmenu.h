@@ -20,17 +20,13 @@
 #ifndef __kbookmarkmenu_h__
 #define __kbookmarkmenu_h__
 
-#include <qlist.h>
-#include <qstring.h>
-#include <qpixmap.h>
-#include <qpopupmenu.h>
-
-#include <ksimpleconfig.h>
-#include <kbookmark.h>
-
 #include <openparts.h>
 #include <openparts_ui.h>
+#include <qlist.h>
+#include <qobject.h>
 
+class QString;
+class KBookmark;
 
 /**
  * A widget using the bookmarks must derive from this class. It implements

@@ -20,10 +20,10 @@
 #include <qdir.h>
 
 #include "konq_mainview.h"
-#include "kfmguiprops.h"
 #include "userpaths.h"
 #include "kbookmarkmenu.h"
 #include "konq_defaults.h"
+#include "konq_childview.h"
 #include "konq_mainwindow.h"
 #include "konq_iconview.h"
 #include "konq_htmlview.h"
@@ -31,27 +31,41 @@
 #include "konq_partview.h"
 #include "konq_txtview.h"
 #include "konq_plugins.h"
-#include "kio_propsdlg.h"
+#include "kfmguiprops.h"
+#include "kfmpopup.h"
+#include "kfmrun.h"
 
 #include <opUIUtils.h>
 #include <opMenu.h>
 #include <opMenuIf.h>
+#include <opToolBar.h>
+#include <opStatusBar.h>
 
-#include <qmsgbox.h>
-#include <qstring.h>
 #include <qkeycode.h>
+#include <qlayout.h>
+#include <qlist.h>
+#include <qmsgbox.h>
+#include <qpixmap.h>
+#include <qpopmenu.h>
+#include <qsplitter.h>
+#include <qstring.h>
+#include <qtimer.h>
 
+#include <kaccel.h>
 #include <kapp.h>
+#include <kbookmark.h>
 #include <kclipboard.h>
 #include <kconfig.h>
-#include <kkeydialog.h>
-#include <klineeditdlg.h>
-
 #include <kio_cache.h>
-#include <kprotocolmanager.h>
+#include <kio_openwith.h>
 #include <kio_openwith.h>
 #include <kio_paste.h>
+#include <kio_propsdlg.h>
+#include <kkeydialog.h>
+#include <klineeditdlg.h>
 #include <kpixmapcache.h>
+#include <kprotocolmanager.h>
+#include <kservices.h>
 #include <kstdaccel.h>
 
 #include <iostream>

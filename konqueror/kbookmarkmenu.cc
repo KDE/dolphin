@@ -34,7 +34,9 @@
 #include <kurl.h>
 #include <kapp.h>
 #include <kwm.h>
+#include <kbookmark.h>
 #include <qmsgbox.h>
+#include <qstring.h>
 
 #include "kmimetypes.h"
 #include "kpixmapcache.h"

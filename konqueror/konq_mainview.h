@@ -20,40 +20,32 @@
 #ifndef __konq_mainview_h__
 #define __konq_mainview_h__
 
-#include <kstatusbar.h>
-#include <ktoolbar.h>
-#include <kmenubar.h>
-#include <kaccel.h>
-#include <kservices.h>
-#include <kmimetypes.h>
-
 #include "kbookmarkmenu.h"
-#include "kfmguiprops.h"
-#include "kfmpopup.h"
-#include "kfmrun.h"
-#include "konq_childview.h"
 #include "konqueror.h"
 
 #include <opPart.h>
-#include <opMainWindow.h>
 #include <openparts_ui.h>
-#include <opMenu.h>
-#include <opToolBar.h>
-#include <opStatusBar.h>
 
-#include <qlist.h>
-#include <qpopmenu.h>
-#include <qpixmap.h>
+#include <qstring.h>
 #include <qtimer.h>
-#include <qlayout.h>
-#include <qsplitter.h>
+#include <qwidget.h>
 
-#include <string>
-#include <list>
+#include <kmimetypes.h>
+
 #include <map>
 
+class KAccel;
 class KBookmarkMenu;
+class KNewMenu;
+class KService;
 class KURLCompletion;
+class KfmGuiProps;
+class KfmRun;
+class KonqChildView;
+
+class QSplitter;
+
+typedef QSplitter Row;
 
 class KonqMainView : public QWidget,
                      virtual public OPPartIf,
