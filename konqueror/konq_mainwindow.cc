@@ -2178,6 +2178,7 @@ void KonqMainWindow::slotRemoveTabPopup()
 void KonqMainWindow::slotRemoveOtherTabsPopup()
 {
       m_pViewManager->removeOtherTabs( m_pWorkingTab );
+      updateViewActions();
 }
 
 
