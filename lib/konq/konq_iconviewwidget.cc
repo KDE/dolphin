@@ -508,14 +508,16 @@ void KonqIconViewWidget::copySelection()
 void KonqIconViewWidget::pasteSelection()
 {
     KURL::List lst = selectedUrls();
-    assert ( lst.count() <= 1 );
-    KURL pasteURL;
+
+    // nonsense.
+    //assert ( lst.count() <= 1 );
+    /*KURL pasteURL;
     if ( lst.count() == 1 )
       pasteURL = lst.first();
     else
-      pasteURL = url();
+      pasteURL = url(); */
 
-    KonqOperations::doPaste( this, pasteURL );
+    KonqOperations::doPaste( this, /*pasteURL*/url() );
 }
 
 KURL::List KonqIconViewWidget::selectedUrls()

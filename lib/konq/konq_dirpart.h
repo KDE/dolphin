@@ -190,7 +190,7 @@ protected:
     unsigned long m_lDirSize;
     uint m_lFileCount;
     uint m_lDirCount;
-    bool m_bMultipleItemsSelected;
+    //bool m_bMultipleItemsSelected;
 };
 
 #endif

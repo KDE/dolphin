@@ -45,7 +45,7 @@ KonqDirPart::KonqDirPart( QObject *parent, const char *name )
     m_lDirSize = 0;
     m_lFileCount = 0;
     m_lDirCount = 0;
-    m_bMultipleItemsSelected = false;
+    //m_bMultipleItemsSelected = false;
 
     connect( QApplication::clipboard(), SIGNAL(dataChanged()), this, SLOT(slotClipboardDataChanged()) );
 
@@ -196,8 +196,7 @@ void KonqDirPart::slotClipboardDataChanged()
 void KonqDirPart::updatePasteAction()
 {
     QMimeSource *data = QApplication::clipboard()->data();
-    bool paste = ( data->encodedData( data->format() ).size() != 0 ) &&
-        (!m_bMultipleItemsSelected); // We can't paste to more than one destination
+    bool paste = ( data->encodedData( data->format() ).size() != 0 );
 
     emit m_extension->enableAction( "paste", paste ); // TODO : if only one url, check that it's a dir
 }
@@ -252,12 +251,12 @@ void KonqDirPart::emitTotalCount()
 void KonqDirPart::emitCounts( const KFileItemList & lst, bool selectionChanged )
 {
     // Compare the new value with our cache
-    bool multiple = lst.count()>1;
+    /*bool multiple = lst.count()>1;
     if (multiple != m_bMultipleItemsSelected)
     {
         m_bMultipleItemsSelected = multiple;
         updatePasteAction();
-    }
+    }*/
 
     if ( lst.count()==1)
     {
