@@ -39,26 +39,29 @@
 
 extern "C"
 {
-  KCModule *create_virtualdesktops(QWidget *parent, const char */*name*/)
+  KCModule *create_virtualdesktops(QWidget *parent, const char * /*name*/)
   {
     return new KDesktopConfig(parent, "kcmkonq");
   };
 }
 
-// I'm using 16 line inputs by intention as it makes sence to be able
-// to see all desktop names at the same time. It also makes sence to
+// I'm using lineedits by intention as it makes sence to be able
+// to see all desktop names at the same time. It also makes sense to
 // be able to TAB through those line edits fast. So don't send me mails
 // asking why I did not implement a more intelligent/smaller GUI.
 
-KDesktopConfig::KDesktopConfig(QWidget *parent, const char */*name*/)
+KDesktopConfig::KDesktopConfig(QWidget *parent, const char * /*name*/)
   : KCModule(parent, "kcmkonq")
 {
+
+  Q_ASSERT(maxDesktops % 2 == 0);
+	
   QVBoxLayout *layout = new QVBoxLayout(this,
                     KDialog::marginHint(),
                     KDialog::spacingHint());
 
   // number group
-  QGroupBox *number_group = new QGroupBox("", this);
+  QGroupBox *number_group = new QGroupBox(this);
 
   QHBoxLayout *lay = new QHBoxLayout(number_group,
                      KDialog::marginHint(),
@@ -66,7 +69,7 @@ KDesktopConfig::KDesktopConfig(QWidget *parent, const char */*name*/)
 
   QLabel *label = new QLabel(i18n("N&umber of desktops: "), number_group);
   _numInput = new KIntNumInput(4, number_group);
-  _numInput->setRange(1, 16, 1, true);
+  _numInput->setRange(1, maxDesktops, 1, true);
   connect(_numInput, SIGNAL(valueChanged(int)), SLOT(slotValueChanged(int)));
   connect(_numInput, SIGNAL(valueChanged(int)), SLOT(slotOptionChanged()));
   label->setBuddy( _numInput );
@@ -84,24 +87,24 @@ KDesktopConfig::KDesktopConfig(QWidget *parent, const char */*name*/)
 
   name_group->setColumnLayout(4, Horizontal);
 
-  for(int i = 0; i < 8; i++)
+  for(int i = 0; i < (maxDesktops/2); i++)
     {
       _nameLabel[i] = new QLabel(i18n("Desktop %1:").arg(i+1), name_group);
       _nameInput[i] = new KLineEdit(name_group);
-      _nameLabel[i+8] = new QLabel(i18n("Desktop %1:").arg(i+8+1), name_group);
-      _nameInput[i+8] = new KLineEdit(name_group);
+      _nameLabel[i+(maxDesktops/2)] = new QLabel(i18n("Desktop %1:").arg(i+(maxDesktops/2)+1), name_group);
+      _nameInput[i+(maxDesktops/2)] = new KLineEdit(name_group);
       QWhatsThis::add( _nameLabel[i], i18n( "Here you can enter the name for desktop %1" ).arg( i+1 ) );
       QWhatsThis::add( _nameInput[i], i18n( "Here you can enter the name for desktop %1" ).arg( i+1 ) );
-      QWhatsThis::add( _nameLabel[i+8], i18n( "Here you can enter the name for desktop %1" ).arg( i+8+1 ) );
-      QWhatsThis::add( _nameInput[i+8], i18n( "Here you can enter the name for desktop %1" ).arg( i+8+1 ) );
+      QWhatsThis::add( _nameLabel[i+(maxDesktops/2)], i18n( "Here you can enter the name for desktop %1" ).arg( i+(maxDesktops/2)+1 ) );
+      QWhatsThis::add( _nameInput[i+(maxDesktops/2)], i18n( "Here you can enter the name for desktop %1" ).arg( i+(maxDesktops/2)+1 ) );
 
       connect(_nameInput[i], SIGNAL(textChanged(const QString&)),
           SLOT(slotOptionChanged()));
-      connect(_nameInput[i+8], SIGNAL(textChanged(const QString&)),
+      connect(_nameInput[i+(maxDesktops/2)], SIGNAL(textChanged(const QString&)),
           SLOT(slotOptionChanged()));
     }
 
-  for(int i = 1; i < 16; i++)
+  for(int i = 1; i < maxDesktops; i++)
       setTabOrder( _nameInput[i-1], _nameInput[i] );
 
   layout->addWidget(name_group);
@@ -123,13 +126,13 @@ void KDesktopConfig::load()
 
   _numInput->setValue(n);
 
-  for(int i = 1; i <= 16; i++)
+  for(int i = 1; i <= maxDesktops; i++)
   {
     QString name = QString::fromUtf8(info.desktopName(i));
     _nameInput[i-1]->setText(name);
   }
 
-  for(int i = 1; i <= 16; i++)
+  for(int i = 1; i <= maxDesktops; i++)
     _nameInput[i-1]->setEnabled(i <= n);
   emit changed(false);
 
@@ -144,7 +147,7 @@ void KDesktopConfig::save()
 {
   NETRootInfo info( qt_xdisplay(), NET::NumberOfDesktops | NET::DesktopNames );
   // set desktop names
-  for(int i = 1; i <= 16; i++)
+  for(int i = 1; i <= maxDesktops; i++)
   {
     info.setDesktopName(i, (_nameInput[i-1]->text()).utf8());
     info.activate();
@@ -184,10 +187,10 @@ void KDesktopConfig::defaults()
   int n = 4;
   _numInput->setValue(n);
 
-  for(int i = 0; i < 16; i++)
+  for(int i = 0; i < maxDesktops; i++)
     _nameInput[i]->setText(i18n("Desktop %1").arg(i+1));
 
-  for(int i = 0; i < 16; i++)
+  for(int i = 0; i < maxDesktops; i++)
     _nameInput[i]->setEnabled(i < n);
 
   _wheelOption->setChecked(false);
@@ -202,7 +205,7 @@ QString KDesktopConfig::quickHelp() const
 
 void KDesktopConfig::slotValueChanged(int n)
 {
-  for(int i = 0; i < 16; i++)
+  for(int i = 0; i < maxDesktops; i++)
   {
     _nameInput[i]->setEnabled(i < n);
     if(i<n && _nameInput[i]->text().isEmpty())

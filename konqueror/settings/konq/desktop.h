@@ -27,6 +27,8 @@ class QCheckBox;
 class KLineEdit;
 class KIntNumInput;
 
+static const int maxDesktops = 20;
+
 class KDesktopConfig : public KCModule
 {
   Q_OBJECT
@@ -47,9 +49,9 @@ class KDesktopConfig : public KCModule
     
  private:
   KIntNumInput *_numInput;
-  QLabel     *_nameLabel[16];
-  KLineEdit  *_nameInput[16];
-  QCheckBox  *_wheelOption;
+  QLabel       *_nameLabel[maxDesktops];
+  KLineEdit    *_nameInput[maxDesktops];
+  QCheckBox    *_wheelOption;
 };
 
 #endif
