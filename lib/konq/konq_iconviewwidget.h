@@ -285,6 +285,7 @@ protected:
     
     bool boostPreview() const;
     int previewIconSize( int size ) const;
+    int largestPreviewIconSize( int size ) const;
     bool canPreview( KFileItem* item );
     void updatePreviewMimeTypes();
 

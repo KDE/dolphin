@@ -368,7 +368,7 @@ struct KonqIconViewWidgetPrivate
     bool bAllowSetWallpaper;
     bool bCaseInsensitive;
     bool bBoostPreview;
-    bool bDesktopLargeGrid;
+    QPoint desktopGridSpacing;
     int gridXspacing;
 
     // Animated icons support
@@ -410,7 +410,22 @@ KonqIconViewWidget::KonqIconViewWidget( QWidget * parent, const char * name, WFl
 
     if ( m_bDesktop ) {
         KConfigGroup group( KGlobal::config(), "DesktopIcons" );
-        d->bDesktopLargeGrid = group.readBoolEntry( "DesktopLargeGrid", false );
+        QPoint defaultSize;
+        d->desktopGridSpacing = group.readPointEntry( "DesktopGridSpacing", &defaultSize );
+        if ( d->desktopGridSpacing.isNull() ) {
+            // read GridXSpacing (for compatibility with old settings)
+            int compat = group.readNumEntry( "GridXSpacing", 0 );
+            if ( compat > 0 ) {
+                // make a large preview fit into the grid
+                int previewSize = largestPreviewIconSize( m_size );
+                int size = m_size ? m_size : KGlobal::iconLoader()->currentSize(  KIcon::Desktop );
+                d->desktopGridSpacing.setX( compat );
+                d->desktopGridSpacing.setY( 7 + QMAX( 0, previewSize - size ) );
+            }
+            // defaults (medium)
+            else
+                d->desktopGridSpacing = QPoint( 55, 40 );
+        }
     }
     d->bBoostPreview = boostPreview();
 
@@ -868,8 +883,13 @@ bool KonqIconViewWidget::initConfig( bool bInit )
 
 bool KonqIconViewWidget::boostPreview() const
 {
-    if ( m_bDesktop && !d->bDesktopLargeGrid )
-        return false;
+    if ( m_bDesktop ) {
+        int size = m_size ? m_size : KGlobal::iconLoader()->currentSize( KIcon::Desktop );
+        int mini = spacing() + QMAX( 0, largestPreviewIconSize( size ) - size );
+        if ( d->desktopGridSpacing.x() < mini ||
+             d->desktopGridSpacing.y() < mini )
+            return false;
+    }
 
     KConfigGroup group( KGlobal::config(), "PreviewSettings" );
     return group.readBoolEntry( "BoostSize", false );
@@ -1635,24 +1655,19 @@ void KonqIconViewWidget::lineupIcons()
     for ( QIconViewItem* item = firstItem(); item; item = item->nextItem() )
         items.append(item);
 
-    int size;
-    int iconSize = m_size ? m_size : KGlobal::iconLoader()->currentSize(  KIcon::Desktop );
+    int previewSize = previewIconSize( m_size );
+    int iconSize = m_size ? m_size : KGlobal::iconLoader()->currentSize( KIcon::Desktop );
 
-    if ( d->bDesktopLargeGrid ) {
-        // make a large preview fit into the grid
-        bool boost = d->bBoostPreview;
-        d->bBoostPreview = true;
-        size = previewIconSize( m_size );
-        d->bBoostPreview = boost;
-    }
-    else
-        size = iconSize;
-
-    int dx = QMAX( size + 15, gridXValue() );
-    int dy = 2 * fontMetrics().height() + size + spacing();
+    // Grid size
+    int dx = QMAX( iconSize + d->desktopGridSpacing.x(),
+                   previewSize + spacing() );
+    int textHeight = QMIN( iconTextHeight(), 2 ) * fontMetrics().height();
+    int dy = textHeight + QMAX( iconSize + 2 + d->desktopGridSpacing.y(),
+                                previewSize );
 
     // Icon Area
     int x1, x2, y1, y2;
+    int yOffset = QMAX( 0, dy - ( previewSize + textHeight ) );
     if ( m_IconRect.isValid() ) {
         x1 = m_IconRect.left(); x2 = m_IconRect.right();
         y1 = m_IconRect.top(); y2 = m_IconRect.bottom();
@@ -1661,6 +1676,8 @@ void KonqIconViewWidget::lineupIcons()
         x1 = 0; x2 = viewport()->width();
         y1 = 0; y2 = viewport()->height();
     }
+    y1 -= yOffset / 2;
+    y2 -= yOffset / 2;
 
     int nx = (x2 - x1) / dx;
     int ny = (y2 - y1) / dy;
@@ -1688,7 +1705,8 @@ void KonqIconViewWidget::lineupIcons()
     for ( it = items.begin(); it != items.end(); it++ ) {
         QIconViewItem* item = *it;
         int x = item->x() + item->width() / 2 - x1;
-        int y = item->pixmapRect( false ).bottom() - iconSize / 2 - y1;
+        int y = item->pixmapRect( false ).bottom() - iconSize / 2
+                - ( dy - ( iconSize + textHeight ) ) / 2 - y1;
         int posX = QMIN( nx-1, QMAX( 0, x / dx ) );
         int posY = QMIN( ny-1, QMAX( 0, y / dy ) );
 
@@ -1811,6 +1829,7 @@ void KonqIconViewWidget::lineupIcons()
     // Perform the actual moving
     QRegion repaintRegion;
     QValueList<QIconViewItem*> movedItems;
+
     for ( i = 0; i < nx; i++ ) {
         for ( j = 0; j < ny; j++ ) {
             Bin* bin = bins[i][j];
@@ -1819,7 +1838,7 @@ void KonqIconViewWidget::lineupIcons()
             if ( !bin->isEmpty() ) {
                 QIconViewItem* item = bin->first();
                 int newX = x1 + i*dx + ( dx - item->width() ) / 2;
-                int newY = y1 + j*dy + ( dy - item->textRect().y() - 2 * fontMetrics().height() );
+                int newY = y1 + j*dy + dy - ( item->textRect().y() + textHeight + 2 );
                 if ( item->x() != newX || item->y() != newY ) {
                     QRect oldRect = item->rect();
                     movedItems.prepend( item );
@@ -1847,6 +1866,7 @@ void KonqIconViewWidget::lineupIcons()
                             << rects[l].y() << ")\n";
             repaintContents( rects[l], false );
         }
+        // Repaint icons that were moved
         while ( !movedItems.isEmpty() ) {
             repaintItem( movedItems.first() );
             movedItems.remove( movedItems.first() );
@@ -1854,12 +1874,10 @@ void KonqIconViewWidget::lineupIcons()
     }
 }
 
-int KonqIconViewWidget::previewIconSize( int size ) const
+int KonqIconViewWidget::largestPreviewIconSize( int size ) const
 {
     int iconSize = size ? size : KGlobal::iconLoader()->currentSize( KIcon::Desktop );
 
-    if (!d->bBoostPreview)
-        return iconSize;
     if (iconSize < 28)
         return 48;
     if (iconSize < 40)
@@ -1868,6 +1886,16 @@ int KonqIconViewWidget::previewIconSize( int size ) const
         return 96;
 
     return 128;
+}
+
+int KonqIconViewWidget::previewIconSize( int size ) const
+{
+    int iconSize = size ? size : KGlobal::iconLoader()->currentSize( KIcon::Desktop );
+
+    if (!d->bBoostPreview)
+        return iconSize;
+
+    return largestPreviewIconSize( iconSize );
 }
 
 void KonqIconViewWidget::visualActivate(QIconViewItem * item)
