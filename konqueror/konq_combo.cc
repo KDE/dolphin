@@ -268,6 +268,11 @@ bool KonqCombo::eventFilter( QObject *o, QEvent *ev )
                 return true;
             }
         }
+
+        else if ( type == QEvent::MouseButtonDblClick ) {
+            lineEdit()->selectAll();
+            return true;
+        }
     }
     return KComboBox::eventFilter( o, ev );
 }
@@ -328,7 +333,7 @@ void KonqCombo::selectWord(QKeyEvent *e)
 	    count++;
             if( allow_space_break && text[pos].isSpace() )
                 break;
-	} while( pos < text.length() && chars.findIndex(text[pos]) == -1 );
+	} while( pos < (int) text.length() && chars.findIndex(text[pos]) == -1 );
 	if( e->state() & ShiftButton ) {
             edit->cursorRight(true, count+1);
 	} else if(  e->key() == Key_Delete ) {
@@ -412,11 +417,6 @@ void KonqCombo::mouseMoveEvent( QMouseEvent *e )
 void KonqCombo::setConfig( KConfig *kc )
 {
     s_config = kc;
-}
-
-void KonqCombo::mouseDoubleClickEvent( QMouseEvent * )
-{
-    lineEdit()->selectAll();
 }
 
 #include "konq_combo.moc"

@@ -62,7 +62,6 @@ protected:
     virtual bool eventFilter( QObject *, QEvent * );
     virtual void mousePressEvent( QMouseEvent * );
     virtual void mouseMoveEvent( QMouseEvent * );
-    virtual void mouseDoubleClickEvent( QMouseEvent * );
     void selectWord(QKeyEvent *e);
 
 private slots:
