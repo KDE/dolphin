@@ -171,8 +171,11 @@ bool KonqDirTreePart::openURL( const KURL & )
   return true;
 }
 
-void KonqDirTreePart::closeURL()
+bool KonqDirTreePart::closeURL()
 {
+  // (David) shouldn't we stop the dirLister here?
+
+  return true;
 }
 
 bool KonqDirTreePart::event( QEvent *e )

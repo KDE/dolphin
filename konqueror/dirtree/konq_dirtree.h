@@ -47,7 +47,7 @@ public:
 
   virtual bool openURL( const KURL & );
 
-  virtual void closeURL();
+  virtual bool closeURL();
 
   virtual bool openFile() { return true; }
 
