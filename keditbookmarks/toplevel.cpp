@@ -45,7 +45,7 @@
 
 KEBApp *KEBApp::s_topLevel = 0;
 
-KEBApp::KEBApp(const QString & bookmarksFile, bool readonly, QString address)
+KEBApp::KEBApp(const QString & bookmarksFile, bool readonly, const QString &address)
    : KMainWindow(), m_commandHistory(actionCollection()), m_dcopIface(0) {
 
    m_bookmarksFilename = bookmarksFile;

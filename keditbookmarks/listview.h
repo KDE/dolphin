@@ -66,10 +66,10 @@ public:
    KEBListViewItem(KEBListViewItem *, const KBookmark &);
    KEBListViewItem(KEBListViewItem *, QListViewItem *, const KBookmark &);
 
-   void nsPut(QString nm);
+   void nsPut(const QString &nm);
 
    void modUpdate();
-   void setTmpStatus(QString);
+   void setTmpStatus(const QString &);
    void restoreStatus();
 
    virtual void setOpen(bool);

@@ -78,7 +78,7 @@ void TestLinkItr::doBlah() {
    curItem()->setTmpStatus(i18n("Checking..."));
 }
 
-void TestLinkItr::setItemMod(KEBListViewItem *item, QString modDate) {
+void TestLinkItr::setItemMod(KEBListViewItem *item, const QString &modDate) {
    time_t modt = KRFCDate::parseDate(modDate);
    QString ms;
    ms.setNum(modt);
@@ -175,7 +175,7 @@ static QString mkTimeStr(int b) {
 
 /* -------------------------- */
 
-void TestLinkItrHolder::blah2(QString url, QString val) {
+void TestLinkItrHolder::blah2(const QString &url, const QString &val) {
    if (!val.isEmpty()) {
       self()->m_modify[url] = val;
    } else {
@@ -183,29 +183,29 @@ void TestLinkItrHolder::blah2(QString url, QString val) {
    }
 }
 
-QString TestLinkItrHolder::getMod(QString url) {
+QString TestLinkItrHolder::getMod(const QString &url) {
    return self()->m_modify.contains(url) 
         ? self()->m_modify[url] 
         : QString::null;
 }
 
-QString TestLinkItrHolder::getOldMod(QString url) {
+QString TestLinkItrHolder::getOldMod(const QString &url) {
    return self()->m_oldModify.contains(url) 
         ? self()->m_oldModify[url] 
         : QString::null;
 }
 
-void TestLinkItrHolder::setMod(QString url, QString val) {
+void TestLinkItrHolder::setMod(const QString &url, const QString &val) {
    self()->m_modify[url] = val;
 }
 
-void TestLinkItrHolder::setOldMod(QString url, QString val) {
+void TestLinkItrHolder::setOldMod(const QString &url, const QString &val) {
    self()->m_oldModify[url] = val;
 }
 
 /* -------------------------- */
 
-QString TestLinkItrHolder::calcPaintStyle(QString url, int &paintstyle, QString nsinfo) {
+QString TestLinkItrHolder::calcPaintStyle(const QString &url, int &paintstyle, const QString &nsinfo) {
    bool newModValid = false;
    int newMod = 0;
 
@@ -270,7 +270,7 @@ QString TestLinkItrHolder::calcPaintStyle(QString url, int &paintstyle, QString 
 
 /* -------------------------- */
 
-static void parseNsInfo(QString nsinfo, QString &nCreate, QString &nAccess, QString &nModify) {
+static void parseNsInfo(const QString &nsinfo, QString &nCreate, QString &nAccess, QString &nModify) {
    QStringList sl = QStringList::split(' ', nsinfo);
 
    for (QStringList::Iterator it = sl.begin(); it != sl.end(); ++it) {
@@ -297,7 +297,7 @@ QString KEBListViewItem::nsGet() {
 
 /* -------------------------- */
 
-static QString updateNsInfoMod(QString _nsinfo, QString nm) {
+static QString updateNsInfoMod(const QString &_nsinfo, const QString &nm) {
    QString nCreate, nAccess, nModify;
    parseNsInfo(_nsinfo, nCreate, nAccess, nModify);
 
@@ -312,7 +312,7 @@ static QString updateNsInfoMod(QString _nsinfo, QString nm) {
    return tmp;
 }
 
-void KEBListViewItem::nsPut(QString nm) {
+void KEBListViewItem::nsPut(const QString &nm) {
    QString tmp = updateNsInfoMod(m_bookmark.internalElement().attribute("netscapeinfo"), nm);
    m_bookmark.internalElement().setAttribute("netscapeinfo", tmp);
 
@@ -328,7 +328,7 @@ void KEBListViewItem::modUpdate() {
    setText(KEBListView::StatusColumn, statusLine);
 }
 
-void KEBListViewItem::setTmpStatus(QString status) {
+void KEBListViewItem::setTmpStatus(const QString &status) {
    QString url = m_bookmark.url().url();
    m_paintstyle = 2;
    setText(KEBListView::StatusColumn, status);

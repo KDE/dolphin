@@ -27,7 +27,7 @@ class QString;
 class CurrentMgr {
 public:
    static CurrentMgr* self() { if (!s_mgr) { s_mgr = new CurrentMgr(); } return s_mgr; }
-   void createManager(QObject *top, QString filename);
+   void createManager(QObject *top, const QString &filename);
    void doExport(bool moz);
    void notifyManagers();
    bool managerSave() { return mgr()->save(); }

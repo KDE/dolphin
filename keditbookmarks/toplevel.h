@@ -47,7 +47,7 @@ public:
 
    QWidget* popupMenuFactory(const char *type) { return factory()->container(type, this); }
 
-   KEBApp(const QString & bookmarksFile, bool readonly, QString address);
+   KEBApp(const QString & bookmarksFile, bool readonly, const QString &address);
    virtual ~KEBApp();
 
    void setModifiedFlag(bool);

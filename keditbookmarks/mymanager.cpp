@@ -37,7 +37,7 @@
 
 CurrentMgr *CurrentMgr::s_mgr = 0;
 
-void CurrentMgr::createManager(QObject *top, QString filename) {
+void CurrentMgr::createManager(QObject *top, const QString &filename) {
    if (m_mgr) {
       QObject::disconnect(m_mgr, 0, 0, 0);
    }

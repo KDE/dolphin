@@ -32,12 +32,12 @@ public:
    static TestLinkItrHolder* self() { 
       if (!s_self) { s_self = new TestLinkItrHolder(); }; return s_self; 
    }
-   static void blah2(QString url, QString val);
-   static QString getMod(QString url);
-   static QString getOldMod(QString url);
-   static void setMod(QString url, QString val);
-   static void setOldMod(QString url, QString val);
-   static QString calcPaintStyle(QString, int&, QString);
+   static void blah2(const QString &url, const QString &val);
+   static QString getMod(const QString &url);
+   static QString getOldMod(const QString &url);
+   static void setMod(const QString &url, const QString &val);
+   static void setOldMod(const QString &url, const QString &val);
+   static QString calcPaintStyle(const QString &, int&, const QString &);
 protected:
    virtual void doItrListChanged();
 private:
@@ -63,7 +63,7 @@ public slots:
    void slotJobData(KIO::Job *job, const QByteArray &data);
 
 private:
-   void setItemMod(class KEBListViewItem *item, QString modDate);
+   void setItemMod(class KEBListViewItem *item, const QString &modDate);
 
    virtual void doBlah();
    virtual bool isBlahable(const KBookmark &bk);
