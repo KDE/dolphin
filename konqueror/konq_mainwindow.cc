@@ -177,7 +177,21 @@ KonqMainWindow::KonqMainWindow( const KURL &initialURL, bool openInitialURL, con
     m_toggleViewGUIClient = 0;
   }
 
+  KConfigGroupSaver cgs(config,"MainView Settings");
+  m_bSaveViewPropertiesLocally = config->readBoolEntry( "SaveViewPropertiesLocally", false );
+  m_paSaveViewPropertiesLocally->setChecked( m_bSaveViewPropertiesLocally );
+  m_bHTMLAllowed = config->readBoolEntry( "HTMLAllowed", false );
+  m_ptaUseHTML->setChecked( m_bHTMLAllowed );
+  m_sViewModeForDirectory = config->readEntry( "ViewMode" );
+
+  m_bBackRightClick = config->readBoolEntry( "BackRightClick", false );
+
+  KonqUndoManager::incRef();
+
+  connect( KonqUndoManager::self(), SIGNAL( undoAvailable( bool ) ),
+           this, SLOT( slotUndoAvailable( bool ) ) );
   m_bNeedApplyKonqMainWindowSettings = true;
+
   if ( !initialURL.isEmpty() )
   {
     openFilteredURL( initialURL.url() );
@@ -194,20 +208,6 @@ KonqMainWindow::KonqMainWindow( const KURL &initialURL, bool openInitialURL, con
 
   // Read basic main-view settings, and set to autosave
   setAutoSaveSettings( "KonqMainWindow", false );
-
-  KConfigGroupSaver cgs(config,"MainView Settings");
-  m_bSaveViewPropertiesLocally = config->readBoolEntry( "SaveViewPropertiesLocally", false );
-  m_paSaveViewPropertiesLocally->setChecked( m_bSaveViewPropertiesLocally );
-  m_bHTMLAllowed = config->readBoolEntry( "HTMLAllowed", false );
-  m_ptaUseHTML->setChecked( m_bHTMLAllowed );
-  m_sViewModeForDirectory = config->readEntry( "ViewMode" );
-
-  m_bBackRightClick = config->readBoolEntry( "BackRightClick", false );
-
-  KonqUndoManager::incRef();
-
-  connect( KonqUndoManager::self(), SIGNAL( undoAvailable( bool ) ),
-           this, SLOT( slotUndoAvailable( bool ) ) );
 
   if ( !initialGeometrySet() )
       resize( 700, 480 );
@@ -350,32 +350,35 @@ void KonqMainWindow::openFilteredURL( const QString & _url )
 
 }
 
-void KonqMainWindow::openURL( KonqView *_view, const KURL &url,
+void KonqMainWindow::openURL( KonqView *_view, const KURL &_url,
                               const QString &_serviceType, const KonqOpenURLRequest & req,
                               bool trustedSource )
 {
-  kdDebug(1202) << "KonqMainWindow::openURL : url = '" << url.url() << "'  "
+  kdDebug(1202) << "KonqMainWindow::openURL : url = '" << _url.url() << "'  "
                 << "serviceType='" << _serviceType << "' view=" << _view << endl;
 
+  KURL url( _url );
+  QString serviceType( _serviceType );
   if ( url.url() == "about:blank" )
   {
-    m_pViewManager->clear();
-    disableActionsNoView();
-    return;
+    //breaks webcvs. We need about:blank to keep the KHTMLPart that was created by window.open
+    //m_pViewManager->clear();
+    //disableActionsNoView();
+    //return;
+    serviceType = "text/html";
+    url = KURL();
   }
-
-  if ( url.isMalformed() )
+  else if ( url.isMalformed() )
   {
       KMessageBox::error(0, i18n("Malformed URL\n%1").arg(url.url()));
       return;
   }
-  if ( !KProtocolInfo::isKnownProtocol( url.protocol() ) && url.protocol() != "about" )
+  else if ( !KProtocolInfo::isKnownProtocol( url.protocol() ) && url.protocol() != "about" )
   {
       KMessageBox::error(0, i18n("Protocol not supported\n%1").arg(url.protocol()));
       return;
   }
 
-  QString serviceType( _serviceType );
   KonqView *view = _view;
   if ( !view )
     view = m_currentView; /* Note, this can be 0L, e.g. on startup */
@@ -1777,6 +1780,7 @@ KonqView * KonqMainWindow::childView( const QString &name, KParts::BrowserHostEx
     //          << "frame names:" << it.data()->frameNames().join( "," ) << endl;
     if ( !viewName.isEmpty() && viewName == name )
     {
+      //kdDebug() << "found existing view by name: " << it.data() << endl;
       if ( hostExtension )
         *hostExtension = 0;
       return it.data();
