@@ -353,7 +353,7 @@ void ImportCommand::execute()
     connect( &importer, SIGNAL( newFolder( const QString &, bool, const QString & ) ),
              SLOT( newFolder( const QString &, bool, const QString & ) ) );
     connect( &importer, SIGNAL( newSeparator() ), SLOT( newSeparator() ) );
-    connect( &importer, SIGNAL( endMenu() ), SLOT( endMenu() ) );
+    connect( &importer, SIGNAL( endFolder() ), SLOT( endFolder() ) );
     importer.parseNSBookmarks( m_utf8 );
     // Save memory
     mlist.clear();
@@ -405,7 +405,7 @@ void ImportCommand::newSeparator()
     mstack.top()->createNewSeparator();
 }
 
-void ImportCommand::endMenu()
+void ImportCommand::endFolder()
 {
     mstack.pop();
 }

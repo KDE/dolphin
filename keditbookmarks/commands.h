@@ -196,7 +196,7 @@ protected slots:
     void newBookmark( const QString & text, const QCString & url, const QString & additionnalInfo );
     void newFolder( const QString & text, bool open, const QString & additionnalInfo );
     void newSeparator();
-    void endMenu();
+    void endFolder();
 
 private:
     QPtrStack<KBookmarkGroup> mstack;
