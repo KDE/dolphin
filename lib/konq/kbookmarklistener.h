@@ -22,7 +22,6 @@
 
 #include <dcopobject.h>
 #include <qvaluelist.h>
-#include <qstringlist.h>
 #include <dcopref.h>
 
 /**
@@ -33,12 +32,12 @@ class KBookmarkListener : virtual public DCOPObject
   K_DCOP
 
 k_dcop:
-  virtual void addBookmark( QString url, QString text, QStringList address, QString icon ) = 0;
-  virtual void createNewFolder( QString text, QStringList address ) = 0;
+  virtual void addBookmark( QString url, QString text, QString address, QString icon ) = 0;
+  virtual void createNewFolder( QString text, QString address ) = 0;
 
 k_dcop_signals:
-  static void addBookmark_signal( QString url, QString text, QStringList address, QString icon );
-  static void createNewFolder_signal( QString text, QStringList address );
+  static void addBookmark_signal( QString url, QString text, QString address, QString icon );
+  static void createNewFolder_signal( QString text, QString address );
 
 };
 
