@@ -69,7 +69,6 @@ private:
 
   QCheckBox *cbMoveToTrash;
   QCheckBox *cbDelete;
-  QCheckBox *cbShred;
 };
 
 #endif		// __BEHAVIOUR_H__

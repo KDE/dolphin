@@ -138,18 +138,13 @@ KBehaviourOptions::KBehaviourOptions(KConfig *config, QString group, QWidget *pa
        " <ul><li><em>Move To Trash:</em> moves the file to your trash folder,"
        " from where it can be recovered very easily.</li>"
        " <li><em>Delete:</em> simply deletes the file.</li>"
-       " <li><em>Shred:</em> not only deletes the file, but overwrites"
-       " the area on the disk where the file is stored, making recovery impossible."
-       " You should not remove confirmation for this method unless you routinely work"
-       " with very confidential information.</li></ul>") );
+       " </li></ul>") );
 
     connect(bg, SIGNAL( clicked( int ) ), SLOT( changed() ));
 
     cbMoveToTrash = new QCheckBox( i18n("&Move to trash"), bg );
 
     cbDelete = new QCheckBox( i18n("D&elete"), bg );
-
-    cbShred = new QCheckBox( i18n("Sh&red"), bg );
 
     lay->addWidget(bg);
 
@@ -200,7 +195,6 @@ void KBehaviourOptions::load()
     g_pConfig->setGroup( "Trash" );
     cbMoveToTrash->setChecked( g_pConfig->readBoolEntry("ConfirmTrash", DEFAULT_CONFIRMTRASH) );
     cbDelete->setChecked( g_pConfig->readBoolEntry("ConfirmDelete", DEFAULT_CONFIRMDELETE) );
-    cbShred->setChecked( g_pConfig->readBoolEntry("ConfirmShred", DEFAULT_CONFIRMSHRED) );
 }
 
 void KBehaviourOptions::defaults()
@@ -222,7 +216,6 @@ void KBehaviourOptions::defaults()
 
     cbMoveToTrash->setChecked( DEFAULT_CONFIRMTRASH );
     cbDelete->setChecked( DEFAULT_CONFIRMDELETE );
-    cbShred->setChecked( DEFAULT_CONFIRMSHRED );
 }
 
 void KBehaviourOptions::save()
@@ -241,7 +234,6 @@ void KBehaviourOptions::save()
     g_pConfig->setGroup( "Trash" );
     g_pConfig->writeEntry( "ConfirmTrash", cbMoveToTrash->isChecked());
     g_pConfig->writeEntry( "ConfirmDelete", cbDelete->isChecked());
-    g_pConfig->writeEntry( "ConfirmShred", cbShred->isChecked());
     g_pConfig->sync();
 
     // UIServer setting
