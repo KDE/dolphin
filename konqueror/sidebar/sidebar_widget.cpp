@@ -286,7 +286,7 @@ void Sidebar_Widget::initialCopy()
 {
 	kdDebug()<<"Initial copy"<<endl;
 	   QString dirtree_dir = KGlobal::dirs()->findDirs("data","konqsidebartng/entries/").last();
-	    if (dirtree_dir==PATH) exit (1);
+	    if (dirtree_dir==PATH) return; // oups?
             if ( !dirtree_dir.isEmpty() && dirtree_dir != PATH )
             {
 		   KSimpleConfig gcfg(dirtree_dir+".version");
