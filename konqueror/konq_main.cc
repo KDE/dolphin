@@ -17,7 +17,6 @@
    Boston, MA 02111-1307, USA.
 */
 
-#include <qprinter.h>
 #include <opApplication.h>
 #include <komApplication.h>
 #include <komBase.h>
@@ -36,9 +35,11 @@
 #include <kapp.h>
 
 #include <qdir.h>
+#include <qmessagebox.h>
 
 #include <signal.h>
 #include <sys/types.h>
+#include <dirent.h>
 #include <sys/wait.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -161,6 +162,135 @@ void KonqBookmarkManager::editBookmarks( const char *_url )
   m_pShell->show();
 }
 
+/************* Functions called by main ****************/
+
+void testLocalDir( const char *_name )
+{
+  DIR *dp;
+  QString c = kapp->localkdedir().copy();
+  c += _name;
+  dp = opendir( c.data() );
+  if ( dp == NULL )
+    ::mkdir( c.data(), S_IRWXU );
+  else
+    closedir( dp );
+}
+
+void testDir( const char *_name, bool showMsg = FALSE )
+{
+  DIR *dp;
+  dp = opendir( _name );
+  if ( dp == NULL )
+  {
+    QString m = _name;
+    if ( m.right(1) == "/" )
+      m.truncate( m.length() - 1 );
+    
+    if (showMsg)
+      QMessageBox::information( 0, i18n("Information"),
+                                i18n("Creating directory:\n") + m );
+    ::mkdir( m, S_IRWXU );
+  }
+  else
+    closedir( dp );
+}
+ 
+void copyDirectoryFile(const char *filename, const QString& dir)
+{
+  if (!QFile::exists(dir + "/.directory")) {
+    QString cmd;
+    cmd.sprintf( "cp %s/kfm/%s %s/.directory", kapp->kde_datadir().data(),
+                 filename, dir.data() );
+    system( cmd.data() );
+  }
+}
+
+/*
+ * @return true if we must copy Templates, i.e. if this is the first time 
+ * konqy is run for the current release and if the user agrees.
+ * or if there are simply no Templates installed at all
+ */
+bool checkTemplates()
+{
+    // Test for existing Templates
+    bool bTemplates = true;
+ 
+    DIR* dp = opendir( KfmPaths::templatesPath() );
+    if ( dp == NULL )
+        bTemplates = false;
+    else
+      closedir( dp );
+ 
+    bool bNewRelease = false;
+ 
+    KConfig* config = kapp->getConfig();
+    config->setGroup("Version");
+    int versionMajor = config->readNumEntry("KDEVersionMajor", 0);
+    int versionMinor = config->readNumEntry("KDEVersionMinor", 0);
+    int versionRelease = config->readNumEntry("KDEVersionRelease", 0);
+ 
+    if( versionMajor < KDE_VERSION_MAJOR )
+        bNewRelease = true;
+    else if( versionMinor < KDE_VERSION_MINOR )
+             bNewRelease = true;
+         else if( versionRelease < KDE_VERSION_RELEASE )
+                  bNewRelease = true;
+ 
+    if( bNewRelease ) {
+      config->writeEntry("KDEVersionMajor", KDE_VERSION_MAJOR );
+      config->writeEntry("KDEVersionMinor", KDE_VERSION_MINOR );
+      config->writeEntry("KDEVersionRelease", KDE_VERSION_RELEASE );
+      config->sync();
+    }
+
+    if( bNewRelease && bTemplates )
+    {
+      int btn = QMessageBox::information( 0,
+                i18n("Information"),
+                i18n("A new KDE version has been installed.\nThe Template files may have changed.\n\nWould you like to install the new ones?"),
+                i18n("Yes"), i18n("No") );
+      if( !btn ) { // "Yes"
+        bTemplates = false; // force reinstall
+      }
+    }
+    return !bTemplates; // No templates installed, or update wanted
+}
+
+/*
+ * Create, if necessary, some dirs and some .directory in user's .kde/
+ * and copy Templates, still if necessary only
+ */
+void testLocalInstallation()
+{
+  // share and share/config already checked by KApplication
+  testLocalDir( "/share/apps/kfm" ); // don't rename this to konqueror !
+  testLocalDir( "/share/apps/kfm/bookmarks" ); // we want to keep user's bookmarks !
+  testLocalDir( "/share/icons" );
+  testLocalDir( "/share/icons/mini" );
+  testLocalDir( "/share/applnk" );
+  testLocalDir( "/share/mimelnk" );
+
+  bool copyTemplates = checkTemplates();
+
+  testDir( KfmPaths::desktopPath(), TRUE );
+  copyDirectoryFile("directory.desktop", KfmPaths::desktopPath());
+  testDir( KfmPaths::trashPath() );
+  copyDirectoryFile("directory.trash", KfmPaths::trashPath());
+  testDir( KfmPaths::templatesPath() );
+  copyDirectoryFile("directory.templates", KfmPaths::templatesPath());
+  testDir( KfmPaths::autostartPath() );
+  copyDirectoryFile("directory.autostart", KfmPaths::autostartPath());
+
+  if (copyTemplates)
+  {
+    QString cmd;
+    cmd.sprintf("cp %s/kfm/Desktop/Templates/* %s",
+                kapp->kde_datadir().data(),
+                KfmPaths::templatesPath() );
+    system( cmd.data() );
+    KWM::sendKWMCommand("krootwm:refreshNew");
+  }
+}
 
 /**********************************************
  *
@@ -170,6 +300,11 @@ void KonqBookmarkManager::editBookmarks( const char *_url )
 
 int main( int argc, char **argv )
 {
+  // kfm uses lots of colors, especially when browsing the web
+  // The call below helps for 256-color displays
+  // Kudos to Nikita V. Youshchenko !
+  QApplication::setColorSpec( QApplication::ManyColor ); 
+
   KonqBoot boot( "IDL:Konqueror/Application:1.0", "Konqueror" );
 
   KonqApp app( argc, argv );
@@ -194,13 +329,14 @@ int main( int argc, char **argv )
   // KService::initStatic();
   // KServiceTypeProfile::initStatic();
 
+  testLocalInstallation();
+  
   KRegistry registry;
   registry.addFactory( new KMimeTypeFactory );
   registry.addFactory( new KServiceFactory );
   registry.load( );
 
   KMimeType::check();
-
   KMimeMagic::initStatic();
 
   cerr << "===================== mime stuff finished ==============" << endl;

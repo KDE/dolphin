@@ -613,86 +613,10 @@ bool KonqKfmTreeView::isSingleClickArea( const QPoint& _point )
 
 void KonqKfmTreeView::slotOnItem( KfmTreeViewItem* _item)
 {
-  if ( !_item )
-  {
-//    m_pView->gui()->setStatusBarText "" );
-    SIGNAL_CALL1( "setStatusBarText", CORBA::Any::from_string( "", 0 ) );
-    return;
-  }
-
-  KMimeType *type = _item->mimeType();
-  UDSEntry entry = _item->udsEntry();
-  KURL url( _item->url() );
-
-  QString comment = type->comment( url, false );
-  QString text;
-  QString text2;
-  QString linkDest;
-  text = _item->name();
-  text2 = text;
-  //text2.detach();
-
-  long size   = 0;
-  mode_t mode = 0;
-
-  UDSEntry::iterator it = entry.begin();
-  for( ; it != entry.end(); it++ )
-  {
-    if ( it->m_uds == UDS_SIZE )
-      size = it->m_long;
-    else if ( it->m_uds == UDS_FILE_TYPE )
-      mode = (mode_t)it->m_long;
-    else if ( it->m_uds == UDS_LINK_DEST )
-      linkDest = it->m_str.c_str();
-  }
-
-  if ( url.isLocalFile() )
-  {
-    if (mode & S_ISVTX /*S_ISLNK( mode )*/ )
-    {
-      QString tmp;
-      if ( comment.isEmpty() )
-	tmp = i18n ( "Symbolic Link" );
-      else
-        tmp = comment + " " + i18n("(Link)");
-//	tmp.sprintf(i18n( "%s (Link)" ), comment.data() );
-
-      text += "->";
-      text += linkDest;
-      text += "  ";
-      text += tmp;
-    }
-    else if ( S_ISREG( mode ) )
-    {
-      text += " ";
-      if (size < 1024)
-	text.sprintf( "%s (%ld %s)",
-		      text2.data(), (long) size,
-		      i18n( "bytes" ).ascii());
-      else
-      {
-	float d = (float) size/1024.0;
-	text.sprintf( "%s (%.2f K)", text2.data(), d);
-      }
-      text += "  ";
-      text += comment;
-    }
-    else if ( S_ISDIR( mode ) )
-    {
-      text += "/  ";
-      text += comment;
-    }
-    else
-      {
-	text += "  ";
-	text += comment;
-      }	
-//    m_pView->gui()->setStatusBarText( text );
-    SIGNAL_CALL1( "setStatusBarText", CORBA::Any::from_string( (char *)text.ascii(), 0 ) );
-  }
-  else
-//    m_pView->gui()->setStatusBarText( url.url() );
-    SIGNAL_CALL1( "setStatusBarText", CORBA::Any::from_string( (char *)url.url(), 0 ) );
+  QString s;
+  if ( _item )
+    s = _item->getStatusBarInfo();
+  SIGNAL_CALL1( "setStatusBarText", CORBA::Any::from_string( (char *)s.data(), 0 ) );
 }
 
 void KonqKfmTreeView::selectedItems( list<KfmTreeViewItem*>& _list )

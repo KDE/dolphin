@@ -24,6 +24,7 @@
 
 #include <kmimetypes.h>
 #include <kpixmapcache.h>
+#include <klocale.h>
 
 KonqKfmViewItem::KonqKfmViewItem( UDSEntry& _entry, KURL& _url ) :
   m_entry( _entry ), 
@@ -67,5 +68,74 @@ bool KonqKfmViewItem::acceptsDrops( QStrList& /* _formats */ )
 void KonqKfmViewItem::returnPressed()
 {
   //TODO
+}
+
+QString KonqKfmViewItem::getStatusBarInfo()
+{
+  QString comment = m_pMimeType->comment( m_url, false );
+  QString text;
+  QString linkDest;
+
+  long size   = 0;
+  mode_t mode = 0;
+
+  UDSEntry::iterator it = m_entry.begin();
+  for( ; it != m_entry.end(); it++ )
+  {
+    if ( it->m_uds == UDS_SIZE )
+      size = it->m_long;
+    else if ( it->m_uds == UDS_FILE_TYPE )
+      mode = (mode_t)it->m_long;
+    else if ( it->m_uds == UDS_LINK_DEST )
+      linkDest = it->m_str.c_str();
+    else if ( it->m_uds == UDS_NAME )
+      text = it->m_str.c_str();
+  }
+
+  QString text2 = text.copy();
+
+  if ( m_url.isLocalFile() )
+  {
+    if ( S_ISLNK( mode ) )
+    {
+      QString tmp;
+      if ( comment.isEmpty() )
+	tmp = i18n ( "Symbolic Link" );
+      else
+	tmp.sprintf(i18n( "%s (Link)" ), comment.data() );
+      text += "->";
+      text += linkDest;
+      text += "  ";
+      text += tmp.data();
+    }
+    else if ( S_ISREG( mode ) )
+    {
+      text += " ";
+      if (size < 1024)
+	text.sprintf( "%s (%ld %s)",
+		      text2.data(), (long) size,
+		      i18n( "bytes" ).ascii());
+      else
+      {
+	float d = (float) size/1024.0;
+	text.sprintf( "%s (%.2f K)", text2.data(), d);
+      }
+      text += "  ";
+      text += comment.data();
+    }
+    else if ( S_ISDIR( mode ) )
+    {
+      text += "/  ";
+      text += comment.data();
+    }
+    else
+    {
+      text += "  ";
+      text += comment.data();
+    }	
+    return text;
+  }
+  else
+    return m_url.decodedURL();
 }
 

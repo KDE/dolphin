@@ -310,7 +310,7 @@ void KBrowser::slotURLSelected( const char *_url, int _button, const char *_targ
   if ( strcmp( u1.protocol(), "cgi" ) == 0 &&
        strcmp( u2.protocol(), "file" ) != 0 && strcmp( u2.protocol(), "cgi" ) != 0 )
   {
-    QMessageBox::critical( (QWidget*)0L, i18n( "KFM Security Alert" ),
+    QMessageBox::critical( (QWidget*)0L, i18n( "Security Alert" ),
 			   i18n( "This page is untrusted\nbut it contains a link to your local file system." ) );
     return;
   }

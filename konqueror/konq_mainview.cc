@@ -828,7 +828,7 @@ void KonqMainView::openURL( const char * _url, CORBA::Boolean _reload )
   {
     string tmp = i18n("Malformed URL\n").ascii();
     tmp += _url;
-    QMessageBox::critical( (QWidget*)0L, i18n( "KFM Error" ), tmp.c_str(), i18n( "OK" ) );
+    QMessageBox::critical( (QWidget*)0L, i18n( "Error" ), tmp.c_str(), i18n( "OK" ) );
     return;
   }
 
@@ -1377,7 +1377,7 @@ void KonqMainView::slotShowCache()
   QString file = KIOCache::storeIndex();
   if ( file.isEmpty() )
   {
-    QMessageBox::critical( 0L, i18n("KFM Error"), i18n( "Could not write index file" ), i18n( "OK" ) );
+    QMessageBox::critical( 0L, i18n("Error"), i18n( "Could not write index file" ), i18n( "OK" ) );
     return;
   }
 
@@ -1460,7 +1460,7 @@ void KonqMainView::slotURLEntered()
   {
     string tmp = i18n("Malformed URL\n").ascii();
     tmp += m_vLocationBar->linedText( TOOLBAR_URL_ID );
-    QMessageBox::critical( (QWidget*)0L, i18n( "KFM Error" ), tmp.c_str(), i18n( "OK" ) );
+    QMessageBox::critical( (QWidget*)0L, i18n( "Error" ), tmp.c_str(), i18n( "OK" ) );
     return;
   }
 	

@@ -588,84 +588,10 @@ void KonqKfmIconView::slotUpdateListEntry( int /*_id*/, UDSEntry& _entry )
 
 void KonqKfmIconView::slotOnItem( KIconContainerItem *_item )
 {
-  if ( !_item )
-  {
-//    m_pView->gui()->setStatusBarText( "" );
-    SIGNAL_CALL1( "setStatusBarText", CORBA::Any::from_string( "", 0 ) );
-    return;
-  }
-
-  KMimeType *type = ((KonqKfmIconViewItem* )_item)->mimeType();
-  UDSEntry entry = ((KonqKfmIconViewItem* )_item)->udsEntry();
-  KURL url(((KonqKfmIconViewItem* )_item)->url());
-
-  QString comment = type->comment( url, false );
-  QString text;
-  QString text2;
-  QString linkDest;
-  text = _item->text();
-  text2 = text;
-  //text2.detach();
-
-  long size   = 0;
-  mode_t mode = 0;
-
-  UDSEntry::iterator it = entry.begin();
-  for( ; it != entry.end(); it++ )
-  {
-    if ( it->m_uds == UDS_SIZE )
-      size = it->m_long;
-    else if ( it->m_uds == UDS_FILE_TYPE )
-      mode = (mode_t)it->m_long;
-    else if ( it->m_uds == UDS_LINK_DEST )
-      linkDest = it->m_str.c_str();
-  }
-
-  if ( url.isLocalFile() )
-  {
-    if (mode & S_ISVTX /*S_ISLNK( mode )*/ )
-    {
-      QString tmp;
-      if ( comment.isEmpty() )
-	tmp = i18n ( "Symbolic Link" );
-      else
-	tmp.sprintf(i18n( "%s (Link)" ), comment.data() );
-      text += "->";
-      text += linkDest;
-      text += "  ";
-      text += tmp.data();
-    }
-    else if ( S_ISREG( mode ) )
-    {
-      text += " ";
-      if (size < 1024)
-	text.sprintf( "%s (%ld %s)",
-		      text2.data(), (long) size,
-		      i18n( "bytes" ).ascii());
-      else
-      {
-	float d = (float) size/1024.0;
-	text.sprintf( "%s (%.2f K)", text2.data(), d);
-      }
-      text += "  ";
-      text += comment.data();
-    }
-    else if ( S_ISDIR( mode ) )
-    {
-      text += "/  ";
-      text += comment.data();
-    }
-    else
-      {
-	text += "  ";
-	text += comment.data();
-      }	
-//    m_pView->gui()->setStatusBarText( text );
-    SIGNAL_CALL1( "setStatusBarText", CORBA::Any::from_string( (char *)text.data(), 0 ) );
-  }
-  else
-//    m_pView->gui()->setStatusBarText( url.url() );
-    SIGNAL_CALL1( "setStatusBarText", CORBA::Any::from_string( (char *)url.url(), 0 ) );
+  QString s;
+  if ( _item )
+    s = ( (KonqKfmIconViewItem *) _item )->getStatusBarInfo();
+  SIGNAL_CALL1( "setStatusBarText", CORBA::Any::from_string( (char *)s.data(), 0 ) );
 }
 
 void KonqKfmIconView::focusInEvent( QFocusEvent* _event )

@@ -3,7 +3,12 @@ LDFLAGS   = $(all_libraries) $(MICO_LDFLAGS) $(KDE_RPATH)
 LDADD = -lkparts -lkpartsui -lkom $(LIB_KIO) $(LIB_KHTML) $(LIB_KDEUI) \
 	$(LIBMICO)
 
-SUBDIRS = pics
+SUBDIRS = pics Templates
+
+data_DATA = directory.trash directory.autostart directory.templates directory.desktop
+datadir = $(kde_datadir)/kfm
+
+EXTRA_DIST = $(data_DATA)
 
 ####### Files
 

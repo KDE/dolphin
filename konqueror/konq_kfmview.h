@@ -52,6 +52,12 @@ public:
   
   virtual UDSEntry udsEntry() { return m_entry; }
 
+  /*
+   * @return the string to be displayed in the statusbar when the mouse 
+   *         is over this item
+   */
+  virtual QString getStatusBarInfo();
+
   virtual bool acceptsDrops( QStrList& /* _formats */ );
 
   // Hmmmm...
