@@ -387,7 +387,8 @@ KonqFrame::KonqFrame( QWidget *_parent = 0L, const char *_name = 0L )
 void
 KonqFrame::slotHeaderClicked()
 {
-  part()->parent()->mainWindow()->setActivePart( part()->id() );
+  if ( !CORBA::is_nil( m_rPart ) )
+    m_rPart->parent()->mainWindow()->setActivePart( part()->id() );
 }
 
 void 
