@@ -35,6 +35,28 @@
 #include <klocale.h>
 #include <ksimpleconfig.h>
 
+QMap<QString,QString> KonqProfileDlg::readAllProfiles()
+{
+  QMap<QString,QString> mapProfiles;
+
+  QStringList profiles = KonqFactory::instance()->dirs()->findAllResources( "data", "konqueror/profiles/*", false, true );
+  QStringList::ConstIterator pIt = profiles.begin();
+  QStringList::ConstIterator pEnd = profiles.end();
+  for (; pIt != pEnd; ++pIt )
+  {
+    QFileInfo info( *pIt );
+    QString profileName = KIO::decodeFileName( info.baseName() );
+    KSimpleConfig cfg( *pIt, true );
+    cfg.setGroup( "Profile" );
+    if ( cfg.hasKey( "Name" ) )
+      profileName = cfg.readEntry( "Name" );
+
+    mapProfiles.insert( profileName, *pIt );
+  }
+
+  return mapProfiles;
+}
+
 KonqProfileDlg::KonqProfileDlg( KonqViewManager *manager, QWidget *parent )
 : KDialog( parent, 0L, true )
 {
@@ -42,19 +64,7 @@ KonqProfileDlg::KonqProfileDlg( KonqViewManager *manager, QWidget *parent )
 
   setCaption( i18n( "Profile Management" ) );
 
-  QStringList dirs = KonqFactory::instance()->dirs()->findDirs( "data", "konqueror/profiles/" );
-  QStringList::ConstIterator dirIt = dirs.begin();
-  QStringList::ConstIterator dirEnd = dirs.end();
-  for (; dirIt != dirEnd; ++dirIt )
-  {
-    QDir dir( *dirIt );
-    const QFileInfoList *entries = dir.entryInfoList( QDir::Files );
-
-    QFileInfoListIterator eIt( *entries );
-    for (; eIt.current(); ++eIt )
-      if ( eIt.current()->isWritable() )
-        m_mapEntries.insert( KIO::decodeFileName( eIt.current()->baseName() ), eIt.current()->absFilePath() );
-  }
+  m_mapEntries = readAllProfiles();
 
   m_pGrid = new QGridLayout( this, 9, 3, KDialog::marginHint(), KDialog::spacingHint() );
 

@@ -581,9 +581,12 @@ void KonqViewManager::profileListDirty()
 {
   kdDebug(1202) << "KonqViewManager::profileListDirty()" << endl;
   m_bProfileListDirty = true;
+  /*
+    There's always one profile at least, now...
   QStringList profiles = KonqFactory::instance()->dirs()->findAllResources( "data", "konqueror/profiles/*", false, true );
   if ( m_pamProfiles )
       m_pamProfiles->setEnabled( profiles.count() > 0 );
+  */
 }
 
 void KonqViewManager::slotProfileActivated( int id )
@@ -607,23 +610,13 @@ void KonqViewManager::slotProfileListAboutToShow()
   QPopupMenu *popup = m_pamProfiles->popupMenu();
 
   popup->clear();
-  m_mapProfileNames.clear();
 
-  QStringList profiles = KonqFactory::instance()->dirs()->findAllResources( "data", "konqueror/profiles/*", false, true );
-  QStringList::ConstIterator pIt = profiles.begin();
-  QStringList::ConstIterator pEnd = profiles.end();
-  for (; pIt != pEnd; ++pIt )
-  {
-    QFileInfo info( *pIt );
-    QString profileName = KIO::decodeFileName( info.baseName() );
-    KSimpleConfig cfg( *pIt, true );
-    cfg.setGroup( "Profile" );
-    if ( cfg.hasKey( "Name" ) )
-      profileName = cfg.readEntry( "Name" );
+  m_mapProfileNames = KonqProfileDlg::readAllProfiles();
 
-    m_mapProfileNames.insert( profileName, *pIt );
-    popup->insertItem( profileName );
-  }
+  QMap<QString,QString>::ConstIterator eIt = m_mapProfileNames.begin();
+  QMap<QString,QString>::ConstIterator eEnd = m_mapProfileNames.end();
+  for (; eIt != eEnd; ++eIt )
+    popup->insertItem( eIt.key() );
 
   m_bProfileListDirty = false;
 }

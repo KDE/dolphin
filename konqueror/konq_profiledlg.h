@@ -37,6 +37,12 @@ public:
   KonqProfileDlg( KonqViewManager *manager, QWidget *parent = 0L );
   ~KonqProfileDlg();
 
+  /**
+   * Find, read and return all available profiles
+   * @return a map with < name, full path >
+   */
+  static QMap<QString,QString> readAllProfiles();
+
 protected slots:
   void slotEnableSave( const QString &text );
   void slotSave();
