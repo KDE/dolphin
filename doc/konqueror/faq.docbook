@@ -35,7 +35,7 @@ helps.</para></answer>
 <qandaentry>
 <question><para>Where does &konqueror; keep all its configuration
 data?</para></question>
-<answer><para>Generally in the <filename>~/.kde</filename> directory (this may 
+<answer><para>Generally in the <filename>~/.kde</filename> folder (this may 
 be <filename>~/.kde3</filename> on your system, depending on how &kde; 3 
 was installed). Don't alter these files unless you really know what you are 
 doing.</para>
@@ -43,7 +43,7 @@ doing.</para>
 <itemizedlist>
 
 <listitem><para>The <filename
-class="directory">~/.kde/share/apps/konqueror/profiles</filename> directory
+class="directory">~/.kde/share/apps/konqueror/profiles</filename> folder
 holds individual files containing settings for each of your <link
 linkend="save-settings">profiles.  </link></para></listitem>
 
@@ -54,24 +54,24 @@ class="directory">~/.kde/share/apps/kcookiejar/cookies</filename></para></listit
 <listitem><para>Your history, as used for the auto-completion feature,  is in
 <filename>~/.kde/share/config/konq_history</filename></para></listitem>
 
-<listitem><para>In the directory <filename
+<listitem><para>In the folder <filename
 class="directory">~/.kde/share/config/</filename> the files
 <filename>konqiconviewrc</filename>, <filename>konqlistviewrc</filename> and
 <filename>konquerorrc</filename> hold a whole lot of general configuration
 settings.</para></listitem>
 
-<listitem><para>The directory
+<listitem><para>The folder
 <filename class="directory">~/.kde/share/cache/http/</filename> 
 contains the browser cache.</para></listitem>
 
-<listitem><para>The Navigation Panel uses the files and subdirectories in
+<listitem><para>The Navigation Panel uses the files and subfolders in
 <filename
 class="directory">~/.kde/share/apps/konqsidebartng</filename></para></listitem>
 </itemizedlist>
 
-<para>Any directory specific view settings are put into <literal
+<para>Any folder specific view settings are put into <literal
 role="extension">.directory</literal> files in the individual
-directories.</para></answer>
+folders.</para></answer>
 </qandaentry>
 
 <qandaentry>
@@ -126,3 +126,13 @@ http://www.konqueror.org/konq-java.html</ulink>.</para>
 </qandaset>
 
 </chapter>
+<!--
+Local Variables:
+mode: sgml
+sgml-omittag: nil
+sgml-shorttag: t
+sgml-minimize-attributes: nil
+sgml-general-insert-case: lower
+sgml-parent-document:("index.docbook" "book" "chapter")
+End:
+-->

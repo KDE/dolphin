@@ -1,7 +1,3 @@
-<!-- <?xml version="1.0" ?>
-<!DOCTYPE chapter PUBLIC "-//KDE//DTD DocBook XML V4.2-Based Variant V1.1//EN"
- "dtd/kdex.dtd"> -->
-
 <chapter id="save-settings">
 
 <chapterinfo>
@@ -23,28 +19,28 @@ menu settings (such as the <guimenuitem> View Mode</guimenuitem>,
 used next time &konqueror; is started.</para>
 
 <para>But you can also specify different <guimenu>View</guimenu> menu settings
-for any individual directory. To do this check the <guimenuitem>View Properties
-Saved in Directory</guimenuitem> box in the <guimenu>Settings</guimenu> menu,
+for any individual folder. To do this check the <guimenuitem>View Properties
+Saved in Folder</guimenuitem> box in the <guimenu>Settings</guimenu> menu,
 change the <guimenu>View</guimenu> settings to whatever you want then uncheck
 the
-<guimenuitem>View Properties saved in Directory</guimenuitem> box. Doing this
-creates a <filename>.directory</filename> file in that directory to hold the
-directory <guimenu>View</guimenu> settings. Use the <menuchoice><guimenu>
-Settings</guimenu><guimenuitem>Remove Directory Properties</guimenuitem>
-</menuchoice> option to remove the directory specific
+<guimenuitem>View Properties saved in Folder</guimenuitem> box. Doing this
+creates a <filename>.directory</filename> file in that folder to hold the
+folder <guimenu>View</guimenu> settings. Use the <menuchoice><guimenu>
+Settings</guimenu><guimenuitem>Remove Folder Properties</guimenuitem>
+</menuchoice> option to remove the folder specific
 settings (or just delete the <filename>.directory</filename> file).</para>
-<note><para>One nice use of this feature is if you have a directory full of
-pictures. You can set that particular directory to display thumbnails of the
+<note><para>One nice use of this feature is if you have a folder full of
+pictures. You can set that particular folder to display thumbnails of the
 pictures (by choosing <guimenuitem>Icon View</guimenuitem> and <menuchoice>
 <guisubmenu>Preview</guisubmenu><guimenuitem>Show Previews</guimenuitem>
 </menuchoice> from the <guimenu>View</guimenu> menu) when you open it, while 
-not displaying images as thumbnails in other directories.</para></note>
+not displaying images as thumbnails in other folders.</para></note>
 
 <para>&konqueror;'s overall appearance when you start it up is determined by
 one of two profiles, depending on whether you start it as a File Manager or as 
 a Browser. These control the window size, whether the window is split into two 
 or more views, whether the Navigation Panel or Terminal Emulator are shown, 
-and the starting directory or &URL;.</para>
+and the starting folder or &URL;.</para>
 
 <para>To change this start up behavior, simply set &konqueror; to whatever you
 want, then in the <guimenu>Settings</guimenu> menu select <guimenuitem>
@@ -77,3 +73,13 @@ suitable icon.</para></note>
 
 
 </chapter>
+<!--
+Local Variables:
+mode: sgml
+sgml-omittag: nil
+sgml-shorttag: t
+sgml-minimize-attributes: nil
+sgml-general-insert-case: lower
+sgml-parent-document:("index.docbook" "book" "chapter")
+End:
+-->

@@ -6,8 +6,8 @@
 <!-- TRANS:ROLES_OF_TRANSLATORS -->
 </authorgroup>
 
-<date>2002-09-22</date>
-<releaseinfo>3.1</releaseinfo>
+<date>2003-10-20</date>
+<releaseinfo>3.2</releaseinfo>
 </chapterinfo>
 
 <title>&konqueror; Basics</title>
@@ -51,7 +51,7 @@ action="simul">&Alt;<keycap>F2</keycap></keycombo> will open a
 <userinput><command>konqueror</command></userinput> (lower case) and press
 <keycap>Enter</keycap> or the <guibutton>Run</guibutton> button to start in
 file
-manager mode, or just enter a <acronym>URL</acronym> such as
+manager mode, or just enter a &URL; such as
  <userinput>http://www.konqueror.org</userinput> to start &konqueror; as a
 browser.</para></listitem>
 
@@ -59,7 +59,7 @@ browser.</para></listitem>
 
 <para>&konqueror; is also started automatically when you 
 <mousebutton>left</mousebutton> click on a desktop icon that represents a 
-directory, such as a hard disk drive or the <guiicon>Trash</guiicon> icon.
+folder, such as a hard disk drive or the <guiicon>Trash</guiicon> icon.
 </para>
 
 
@@ -107,9 +107,9 @@ this type of icon a small dropdown menu will appear.</para>
 Menu</guilabel></link> which you can use to change the <interface>Toolbar
 </interface>'s appearance and position.</para>
 
-<para>The <interface>Location Toolbar</interface> shows the path to the directory,
-<acronym>URL</acronym> or file being viewed. You can type a path or
-<acronym>URL</acronym> here and press <keycap>Enter</keycap> or
+<para>The <interface>Location Toolbar</interface> shows the path to the folder,
+&URL; or file being viewed. You can type a path or
+&URL; here and press <keycap>Enter</keycap> or
  <mousebutton>left</mousebutton> click on the <guiicon>Go</guiicon> icon at the
  right hand end of the <interface>Location Toolbar</interface> to go to it. The
 black icon at the left hand end of the <interface>Location Toolbar</interface> 
@@ -122,7 +122,7 @@ Your
 Bookmarks</link> section of this document.</para>
 
 <para>The <interface>Window</interface> is the main area of &konqueror; and 
-can show you the contents of a directory, a web page, document or image. Using 
+can show you the contents of a folder, a web page, document or image. Using 
 the <link linkend="menu-window"><guimenu>Window</guimenu></link> menu you can 
 split &konqueror;'s main window into one or more separate views, useful for 
 drag and drop operations, or set it to contain two or more tabbed views.
@@ -213,11 +213,11 @@ thing.</para></listitem>
 <listitem><para><mousebutton>Left</mousebutton> click on an icon in the
 Bookmark
  Toolbar
-to open that <acronym>URL</acronym>.</para></listitem>
+to open that &URL;.</para></listitem>
 <listitem><para><mousebutton>Left</mousebutton> click on a link in a web page 
 to make &konqueror; follow that link.</para></listitem>
-<listitem><para><mousebutton>Left</mousebutton> click on a directory icon or 
-name and &konqueror; will descend into (show the contents of) that directory.
+<listitem><para><mousebutton>Left</mousebutton> click on a folder icon or 
+name and &konqueror; will descend into (show the contents of) that folder.
 </para></listitem>
 <listitem><para><mousebutton>Left</mousebutton> click on a file name or icon 
 and &konqueror; will do whatever it thinks appropriate, based on the file type. 
@@ -236,7 +236,7 @@ the <menuchoice><guimenu>Settings</guimenu><guimenuitem>Configure Konqueror...
 
 </itemizedlist>
 
-<para>Clicking the &MMB; on a file or directory name or icon does essentially 
+<para>Clicking the &MMB; on a file or folder name or icon does essentially 
 the same as <mousebutton>left</mousebutton> clicking except that it usually 
 does it in a new &konqueror; window, unless the <guilabel>Open links in 
 new tab instead of in new window</guilabel> box has been checked in the 
@@ -288,7 +288,7 @@ and whether they are shown as icons, text or both.</para></listitem>
 <varlistentry>
 <term>On the Location Toolbar</term>
 <listitem><para><mousebutton>Right</mousebutton> click in the
- <acronym>URL</acronym>
+ &URL;
 entry box area to perform Cut, Copy, Paste or Clear operations in this area, or
 to change the automatic <link linkend="path-complete">Text Completion</link>
 features.</para></listitem> 
@@ -315,9 +315,9 @@ new</guimenuitem> option from the <guimenu>Edit</guimenu> menu.
 </varlistentry>
 
 <varlistentry>
-<term>On a File or Directory</term>
+<term>On a File or Folder</term>
 <listitem><para>This is a most useful feature. <mousebutton>Right</mousebutton>
-clicking on the name or icon of any file or directory not only
+clicking on the name or icon of any file or folder not only
 <quote>selects</quote> that item but also brings up a menu allowing you to
 <guiicon>Cut</guiicon>, Move, <guiicon>Copy</guiicon> or Remove the item in
 various
@@ -354,7 +354,7 @@ example type <userinput>man:/touch</userinput> or
 the touch command.</para> 
 
 <para>To browse through &UNIX; Info pages, entering  
-<userinput>info:/dir</userinput> takes you to Info's top level directory 
+<userinput>info:/dir</userinput> takes you to Info's top level folder 
 then it's just a matter of clicking on the right links to find the page 
 you want.</para> 
 
@@ -365,3 +365,13 @@ http://docs.kde.org</ulink>.</para></note>
 </sect1>
 
 </chapter>
+<!--
+Local Variables:
+mode: sgml
+sgml-omittag: nil
+sgml-shorttag: t
+sgml-minimize-attributes: nil
+sgml-general-insert-case: lower
+sgml-parent-document:("index.docbook" "book" "chapter")
+End:
+-->

@@ -1,7 +1,3 @@
-<!-- <?xml version="1.0" ?>
-<!DOCTYPE chapter PUBLIC "-//KDE//DTD DocBook XML V4.2-Based Variant V1.1//EN"
- "dtd/kdex.dtd"> -->
-
 <chapter id="browser">
 
 <chapterinfo>
@@ -285,7 +281,7 @@ button.</para>
 perhaps the best, way of transferring files between computers over the
 Internet.</para>
 
-<para>With &FTP; you can see files and directories on the distant computer just
+<para>With &FTP; you can see files and folders on the distant computer just
 as if they were on your own system, download them onto your computer using
 &konqueror;'s normal <guimenuitem>Copy</guimenuitem> and
 <guimenuitem>Paste</guimenuitem> or Drag 'n Drop methods and, if allowed,
@@ -299,7 +295,7 @@ type the &URL;</para>
 <para>into the Location Toolbar and press <keycap>Enter</keycap>. As long as 
 you are connected to the Internet, and as long as the &kde;'s &FTP; site is 
 not too busy, you should end up seeing the <filename
-class="directory">/pub/kde</filename> directory at ftp.kde.org</para>
+class="directory">/pub/kde</filename> folder at &kde-ftp;</para>
 
 <note><para>Although, strictly speaking, &FTP; &URL;s should
 be entered starting with <userinput>ftp://</userinput> and <acronym>WWW
@@ -372,3 +368,14 @@ to <filename>$KDEDIR/share/config/kio_httprc
 
 
 </chapter>
+
+<!--
+Local Variables:
+mode: sgml
+sgml-omittag: nil
+sgml-shorttag: t
+sgml-minimize-attributes: nil
+sgml-general-insert-case: lower
+sgml-parent-document:("index.docbook" "book" "chapter")
+End:
+-->

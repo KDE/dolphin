@@ -70,12 +70,12 @@ expressions within files.
 <para>
 When starting &kfind;, you will see a quite simple window. Type in the
 name of the file you are searching in the textbox labeled
-<guilabel>Named:</guilabel>, choose a directory where you want to search
+<guilabel>Named:</guilabel>, choose a folder where you want to search
 by typing it in the field <guilabel>Look in:</guilabel>
 or by clicking <guibutton>Browse...</guibutton> and hit
 <keycap>Enter</keycap> or click <guibutton>Find</guibutton>. If
-<guilabel>Include subdirectories</guilabel> is checked, all
-subdirectories starting from your chosen directory will be searched,
+<guilabel>Include subfolders</guilabel> is checked, all
+subfolders starting from your chosen folder will be searched,
 too. The results will be displayed in the box below.
 </para>
 
@@ -139,8 +139,8 @@ Here you can specify the type of file you are searching for.
 <listitem>
 <para>
 Type in the word or phrase the files you are searching for must
-contain. Note: If you do this in a large directory or checked
-<guilabel>Include subdirectories</guilabel> in the
+contain. Note: If you do this in a large folder or checked
+<guilabel>Include subfolders</guilabel> in the
 <guilabel>Name/Location</guilabel> tab, this may take a long time.
 </para>
 

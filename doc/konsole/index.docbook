@@ -381,7 +381,7 @@ See <userinput><command>man</command> <option>screen</option>
 <varlistentry>
 <term><menuchoice><guimenu>Session</guimenu>
 <guimenuitem>New Shell at Bookmark</guimenuitem></menuchoice></term>
-<listitem><para><action>Start</action> a new terminal shell, in a directory
+<listitem><para><action>Start</action> a new terminal shell, in a folder
 chosen from the bookmark list.</para></listitem>
 </varlistentry>
 
@@ -1010,7 +1010,7 @@ file</action> to customize key bindings.</para></listitem>
 <varlistentry>
 <term><option>--workdir</option> <parameter>dir</parameter></term>
 <listitem><para><action>Open with</action>
-<parameter>dir</parameter> as the working directory.</para></listitem>
+<parameter>dir</parameter> as the working folder.</para></listitem>
 </varlistentry>
 
 <varlistentry>

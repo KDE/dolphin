@@ -372,8 +372,8 @@ document with unsaved changes the user is given a chance to save it.
 <para>
 This command opens a file.  It does this by means of a dialog box which
 allows the user to navigate the file system.  The dialog operates like a
-small file manager. Clicking on directories displayed in the central
-window directs the dialog to enter that directory - displaying its
+small file manager. Clicking on folders displayed in the central
+window directs the dialog to enter that folder - displaying its
 contents.  There is an entry/dropdown box which can be used to type in
 directly the location and name of the file or by clicking the arrow at
 the side choose from a dropdown list of recently used locations. Below
@@ -384,25 +384,25 @@ window. If the filter contained text such as <literal
 role="extension">*.txt</literal> then only files with the <literal
 role="extension">txt</literal> extension would be visible in the
 selection window. Below the filter is a status bar giving information
-about the number of files and subdirectories within the current
-directory.
+about the number of files and subfolders within the current
+folder.
 </para>
 
 <para>
 The toolbar, which is located at the top of the dialog, has left and
 right arrow buttons that let the user move back and forth through
-previously selected directories as well as an up arrow button for moving
-up the directory tree. The button with the little house takes the user
-to his or her home directory and the one with the two arrows curved in
-on each other updates the view of the current directory. The flag button
-lets the user set a new bookmark at the current directory or go to one
+previously selected folders as well as an up arrow button for moving
+up the folder tree. The button with the little house takes the user
+to his or her home folder and the one with the two arrows curved in
+on each other updates the view of the current folder. The flag button
+lets the user set a new bookmark at the current folder or go to one
 that was previously set. 
 </para>
 
 <para>
-The last button on the toolbar allows you to create a new directory, and
+The last button on the toolbar allows you to create a new folder, and
 even change some basic settings for the dialog box, and finally there is
-dropdown box with a list of some commonly frequented directories.
+dropdown box with a list of some commonly frequented folders.
 </para>
 </listitem>
 </varlistentry>  

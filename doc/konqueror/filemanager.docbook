@@ -5,56 +5,56 @@
 <!-- TRANS:ROLES_OF_TRANSLATORS -->
 </authorgroup> 
 
-<date>2002-09-22</date>
-<releaseinfo>3.1</releaseinfo>
+<date>2003-10-20</date>
+<releaseinfo>3.2</releaseinfo>
 </chapterinfo>
 
 <title>&konqueror; the File Manager</title>
 
 <sect1 id="dirfolders">
-<title>Directories, Folders and Paths</title>
-<para>In &UNIX; and &Linux; all directories are arranged in a simple 
+<title>Folders and Paths</title>
+<para>In &UNIX; and &Linux; all folders are arranged in a simple 
 inverted tree structure descending and branching down from from a single top 
-level directory. This means that you can get from any directory to
+level folder. This means that you can get from any folder to
 any other by going <quote>up</quote> until you reach a common point then
-<quote>down</quote> through the appropriate sub-directories until you reach
+<quote>down</quote> through the appropriate subfolders until you reach
 your
 target. </para>  
 
-<para>The position of any file or directory in the tree can be described by its
-<quote>path</quote>, which is a simple list of the directories you would have
-to descend through to get to the target directory or file. For example 
-<filename class="directory">/home/pam</filename> is the subdirectory <filename 
-class="directory">pam</filename> of the subdirectory <filename
-class="directory">home</filename> of the top level directory, and <filename>
+<para>The position of any file or folder in the tree can be described by its
+<quote>path</quote>, which is a simple list of the folders you would have
+to descend through to get to the target folder or file. For example 
+<filename class="directory">/home/pam</filename> is the subfolder <filename 
+class="directory">pam</filename> of the subfolder <filename
+class="directory">home</filename> of the top level folder, and <filename>
 /home/pam/words.txt</filename> is the file <filename>words.txt</filename> in 
-that subdirectory. The leading <quote>/</quote> in these paths represents the 
-top level directory.</para>
+that subfolder. The leading <quote>/</quote> in these paths represents the 
+top level folder.</para>
 
-<para>Every directory accessible by your system, including those on other hard 
+<para>Every folder accessible by your system, including those on other hard 
 disk partitions, your floppy and &CD-ROM;, will appear in the tree descending 
 from /, their exact paths will depend on how your system was set up (see also 
 the section on <link linkend="floppy-cd">Floppy and &CD-ROM; Drives</link>).
 </para>
 <para>Every user on a &UNIX; / &Linux; system has their own <quote>home</quote> 
-directory to hold their personal files and settings, for example 
+folder to hold their personal files and settings, for example 
 <filename class="directory">/home/john</filename> and  
 <filename class="directory">/home/mary</filename>. The 
 symbol <keycap>~</keycap> is often used to represent the user's home 
-directory, so that <filename>~/letter.txt</filename> refers to the file 
-<filename>letter.txt</filename> in my home directory.</para>
+folder, so that <filename>~/letter.txt</filename> refers to the file 
+<filename>letter.txt</filename> in my home folder.</para>
 <para>Note that the term <quote>folder</quote> is often used instead of 
-<quote>directory</quote>.</para>
+<quote>folder</quote>.</para>
 </sect1>
 
 <sect1 id="viewmode">
 <title>View Modes</title>
 <para>In File Manager mode, &konqueror; shows you what files and 
-sub-directories are held in a directory, and can provide you with some 
+subfolders are held in a folder, and can provide you with some 
 information about them.</para>
-<para>The <quote>path</quote> of the directory you are looking at is shown in 
+<para>The <quote>path</quote> of the folder you are looking at is shown in 
 the Titlebar, and also in the Location Toolbar, prefixed with <quote>file:
-</quote> to indicate that the directory is part of your computer's normal file 
+</quote> to indicate that the folder is part of your computer's normal file 
 system. For example <filename>file:/home/pam</filename>.</para>
 
 <para>The way that &konqueror; displays the files and folders depends mainly
@@ -99,7 +99,7 @@ except that icons are not shown and the first character in each line will be
 <varlistentry>
 <term><guimenuitem>Tree View</guimenuitem></term>
 <listitem><para>This option is useful for <link linkend="navigation">
-navigating</link> through the directory tree below the current directory. 
+navigating</link> through the folder tree below the current folder. 
 The display is similar to <guimenuitem>Detailed List View</guimenuitem> 
 except that the start of each line will show a small <keycap>+</keycap> sign 
 in a box if the item is a folder. 
@@ -129,8 +129,7 @@ Behavior</guilabel> page of the File Manager Configuration dialog causes a
 small pop up information 
 window to appear when the mouse pointer is hovered over a file or folder name 
 or icon in <guimenuitem>Icon View</guimenuitem> or <guimenuitem>
-MultiColumn View</guimenuitem> mode. The <guilabel>Number of file tip entries:
-</guilabel> setting on this page controls how much information is shown.
+MultiColumn View</guimenuitem> mode. 
 </para>
 <para>If the <guilabel>Show previews in file tips</guilabel> checkbox is 
 checked the pop up window will also show a small image of the file contents.
@@ -163,53 +162,53 @@ long.</para>
 <sect1 id="navigation">
 <title>Navigation</title>
 <para>To get to a wanted file with &konqueror; you first need to navigate 
-through the directory tree to find the directory (folder) containing that 
+through the folder tree to find the folder (folder) containing that 
 file.</para>
 
-<para>To move between directories you can simply step up and down the
+<para>To move between folders you can simply step up and down the
 tree:</para>
 
 <itemizedlist>
-<listitem><para>To descend into a sub-directory <mousebutton>left
+<listitem><para>To descend into a subfolder <mousebutton>left
 </mousebutton> click on its name or
 icon, or if you have <quote>selected</quote> it (see below) then just press
 <keycap>Enter</keycap>.</para></listitem> 
-<listitem><para>To go up the directory tree, click on the <guiicon>Up
+<listitem><para>To go up the folder tree, click on the <guiicon>Up
 </guiicon> button in the Toolbar, or use<keycombo action="simul"><keycap>Alt
 </keycap><keysym>Up Arrow</keysym></keycombo>, or use the Menubar
 <menuchoice><guimenu>Go</guimenu><guimenuitem>Up</guimenuitem></menuchoice>
 option.</para></listitem>
 </itemizedlist>
 
-<para>To <quote>select</quote> a file or folder in the displayed directory 
+<para>To <quote>select</quote> a file or folder in the displayed folder 
 without opening it in any way use the <keysym>up</keysym> and <keysym>down
 </keysym> arrow keys to move through the items. 
 The selected item will be highlighted and some information about it 
 will be displayed in the Status Bar.</para>
 
 <para>Setting the <link linkend="viewmode">View Mode</link> to <guimenuitem>
-Tree View</guimenuitem> can help you locate directories in the tree below the 
-current directory. In this mode each directory is shown with a small box at 
+Tree View</guimenuitem> can help you locate folders in the tree below the 
+current folder. In this mode each folder is shown with a small box at 
 the left. If the box contains a <keycap>+</keycap> sign <mousebutton>left
-</mousebutton> clicking on the box (not on the directory name or icon) will 
-display a sub tree showing any sub directories (but not ordinary files). 
+</mousebutton> clicking on the box (not on the folder name or icon) will 
+display a sub tree showing any subfolders (but not ordinary files). 
 The small box will then change to show a <keycap>-</keycap> sign, 
 <mousebutton>left</mousebutton> click on that to collapse the sub tree. Once 
-you have found the directory you are looking for <mousebutton>left
-</mousebutton> click on the directory name or icon to open it.</para>
+you have found the folder you are looking for <mousebutton>left
+</mousebutton> click on the folder name or icon to open it.</para>
 
 <para>The <link linkend="sidebar">Navigation Panel</link> can also help you 
 find your way around the file system.</para>
 
-<para>You can go directly to any directory by typing its path into the
+<para>You can go directly to any folder by typing its path into the
 Location Toolbar window or into the dialog box invoked by the Menubar
 <menuchoice><guimenu>Location</guimenu><guimenuitem>Open Location</guimenuitem>
 </menuchoice> item or by <keycombo action="simul">&Ctrl;<keycap>
 O</keycap></keycombo>. &konqueror;'s <link linkend="path-complete">
 Text Completion</link> feature may be useful when you do this. Don't forget
-that in &Linux; / &UNIX; file and directory names are case sensitive.</para>
+that in &Linux; / &UNIX; file and folder names are case sensitive.</para>
 
-<para>Once you have moved to a new directory then you can go back to your
+<para>Once you have moved to a new folder then you can go back to your
 previous choice by using the Toolbar <guiicon>Back</guiicon> button, the
 Menubar
 <menuchoice><guimenu>Go</guimenu> <guimenuitem>Back</guimenuitem></menuchoice>
@@ -229,9 +228,9 @@ over the Toolbar <guiicon>Up</guiicon>, <guiicon>Back</guiicon> or
 locations.</para></tip>
 
 <sect2 id="file-find">
-<title>Finding Files and Directories</title>
+<title>Finding Files and Folders</title>
 
-<para>If you don't know or can't remember where a file or directory is within
+<para>If you don't know or can't remember where a file or folder is within
 your system, then use the Toolbar <guiicon>Find File</guiicon> button or the
 Menubar <menuchoice><guimenu>Tools</guimenu><guimenuitem>Find 
 File...</guimenuitem></menuchoice> option.  This will embed the file finder 
@@ -240,7 +239,7 @@ for help in using &kfind;.
 </para>
 
 <note><para>If the name of a file or folder begins with a period (dot), then
-it is a <quote>hidden</quote> file or directory, and will not normally be shown
+it is a <quote>hidden</quote> file or folder, and will not normally be shown
 by &konqueror;. To see hidden files or folder use the Menubar <menuchoice>
 <guimenu>View</guimenu><guimenuitem>Show Hidden Files</guimenuitem>
 </menuchoice> option.</para>
@@ -257,7 +256,7 @@ file.</para></note>
 <para>Any floppy disk, &CD; drive or other hard disk partition that you have 
 on your system will usually appear in the <filename class="directory">/
 </filename>,  <filename class="directory">/mnt</filename> or 
-<filename class="directory">/auto</filename> directory, having a path something 
+<filename class="directory">/auto</filename> folder, having a path something 
 like <filename class="directory">/mnt/floppy</filename> or
 <filename class="directory">/cdrom</filename>, the details will depend on
 how your system was set up.</para>
@@ -327,50 +326,38 @@ Command</guimenuitem></menuchoice>
 </sect1>
 
 <sect1 id="deleting">
-<title>Deleting Files and Directories</title>
+<title>Deleting Files and Folders</title>
 
 <para>&konqueror; gives you three ways to dispose of an unwanted file or
-directory:</para>
+folder:</para>
 
 <itemizedlist>
-<listitem><para>You can move it to the <filename>Trash</filename> directory,
+<listitem><para>You can move it to the <filename>Trash</filename> folder,
 which is the safest method as you can get it back when you realize that you
 have
 made a mistake.</para></listitem>
 <listitem><para>You can just plain Delete it, which removes the entry from
-the directory and adds the disk area occupied by the file(s) to the system's
+the folder and adds the disk area occupied by the file(s) to the system's
 list of free disk areas.</para></listitem>
-<listitem><para>Or you can Shred it, which is like Delete, but also overwrites
-the disk area occupied by the file(s) with random data. Useful for disposing of
-incriminating departmental memos or similar files when you don't want any trace
-of them to remain on your system.</para></listitem>
 </itemizedlist>
 
-<note><para>Theoretically, even <quote>shredded</quote> files can be recovered
-by someone with enough skill and determination.</para></note> 
-
-<para>The simplest way of removing a file or directory is to position the mouse
-pointer over its name or icon and press the &RMB;, which will
-bring up a menu containing the options <guimenuitem>Move to
-Trash</guimenuitem>,
-<guimenuitem>Delete</guimenuitem> and <guimenuitem>Shred</guimenuitem>.</para>
+<para>The simplest way of removing a file or folder is to position
+the mouse pointer over its name or icon and press the &RMB;, which
+will bring up a menu containing the options <guimenuitem>Move to
+Trash</guimenuitem> and <guimenuitem>Delete</guimenuitem></para>
 
 <para>Or, if you have <quote>selected</quote> the item, the Menubar
 <guimenu>Edit</guimenu> menu will give you the choice of
-<quote><guimenuitem>Move to Trash</guimenuitem></quote>,
-<quote><guimenuitem>Delete</guimenuitem></quote> and
-<quote><guimenuitem>Shred</guimenuitem></quote> options.</para>
+<quote><guimenuitem>Move to Trash</guimenuitem></quote> and
+<quote><guimenuitem>Delete</guimenuitem></quote> options.</para>
 
 <para><keycap>Del</keycap> will move a selected item or items to Trash.</para>
 
-<para><keycombo
-action="simul">&Shift;<keycap>Del</keycap></keycombo> will
-really, truly and irrevocably delete the selected item or items.</para>
+<para><keycombo action="simul">&Shift;<keycap>Del</keycap></keycombo>
+will really, truly and irrevocably delete the selected item or
+items.</para>
 
-<para><keycombo action="simul">&Ctrl;&Shift;
-<keycap>Del</keycap></keycombo> will shred the selected item or items.</para>
-
-<note><para>You won't be able to remove a file or directory if you don't have
+<note><para>You won't be able to remove a file or folder if you don't have
 the necessary permissions, see the section on <link linkend="super-user">Super
 User Mode</link> for further details.</para></note>
 
@@ -379,7 +366,7 @@ User Mode</link> for further details.</para></note>
 <sect1 id="moving">
 <title>Moving and Copying</title>
 
-<para>To copy a file or sub-directory between directories you can:</para>
+<para>To copy a file or subfolder between folders you can:</para>
 
 <itemizedlist>
 <listitem><para>Position the mouse pointer over its name or icon and hold down
@@ -394,8 +381,8 @@ item, or the <keycombo
 action="simul">&Ctrl;<keycap>C</keycap></keycombo> 
 shortcut key combination.</para></listitem>
 
-<listitem><para>Navigate to the directory you want to copy the item into then
-Paste the item into the new directory by using the Toolbar
+<listitem><para>Navigate to the folder you want to copy the item into then
+Paste the item into the new folder by using the Toolbar
 <guiicon>Paste</guiicon> button or the Menubar
 <menuchoice><guimenu>Edit</guimenu>
 <guimenuitem>Paste</guimenuitem></menuchoice> option or the <keycombo
@@ -405,50 +392,49 @@ down to bring up a menu containing the <guimenuitem>Paste</guimenuitem> option.
 </para></listitem>
 </itemizedlist>
 
-<para>Moving a file or sub-directory between directories can be done in the
+<para>Moving a file or subfolder between folders can be done in the
 same
 way as copying, except that you choose the <guimenuitem>Cut</guimenuitem>
 option
 or <keycombo action="simul">&Ctrl;<keycap>X</keycap></keycombo>
 instead of <guimenuitem>Copy</guimenuitem>. The item that you have
-<guimenuitem>Cut</guimenuitem> will be removed from the original directory when
-you do the <guimenuitem>Paste</guimenuitem> into the new directory.</para>
+<guimenuitem>Cut</guimenuitem> will be removed from the original folder when
+you do the <guimenuitem>Paste</guimenuitem> into the new folder.</para>
 
-<para>You can also copy or move selected item(s) to another directory by using 
+<para>You can also copy or move selected item(s) to another folder by using 
 <menuchoice><guimenu>Edit</guimenu>
 <guimenuitem>Copy Files</guimenuitem></menuchoice> (<keycap>F7</keycap>) or
 <menuchoice><guimenu>Edit</guimenu><guimenuitem>Move Files</guimenuitem>
 </menuchoice> (<keycap>F8</keycap>), or by selecting
 <guimenuitem>Copy To</guimenuitem> or <guimenuitem>Move To</guimenuitem> from
 the drop down menu you get when you <mousebutton>right</mousebutton> click on
-an file or directory name in the File Manager window.</para>
+an file or folder name in the File Manager window.</para>
 
-<note><para>You may not be able to copy or move a file or directory if you
-don't
-have the necessary permissions. See the section on <link
-linkend="super-user">Super User Mode</link> for further details.</para></note>
-
+<note><para>You may not be able to copy or move a file or folder if
+you don't have the necessary permissions. See the section on <link
+linkend="super-user">Super User Mode</link> for further
+details.</para></note>
 
 <sect2 id="dnd">
 <title>Using Drag 'n Drop</title>
 
 <para>&konqueror; also supports Drag and Drop copying and moving of files and
-directories.</para>
+folders.</para>
 
 <para>You can do this by having two instances of &konqueror;, one showing the 
-directory you want to copy from, the other showing the target directory. 
+folder you want to copy from, the other showing the target folder. 
 Position the mouse pointer over the item you wish to copy or move then, 
 holding the &LMB; pressed, <quote>drag</quote> it to a clear space in the
 target
  
-directory. Release the button and you will be
+folder. Release the button and you will be
 presented with a menu choice of <guimenuitem>Copy</guimenuitem> or
 <guimenuitem>Move</guimenuitem>. Take care to <quote>drop</quote> the item into
  an empty area of the target
-directory view - dropping it on top of another file name or icon can cause
+folder view - dropping it on top of another file name or icon can cause
 problems.</para>
 
-<para>You can also set up &konqueror; to show more than one directory within
+<para>You can also set up &konqueror; to show more than one folder within
 its window and drag &amp; drop between them.</para>
 
 <mediaobject>
@@ -465,9 +451,9 @@ Left/Right</guimenuitem></menuchoice> option, also available with the shortcut
 action="simul">&Ctrl;&Shift;<keycap>L</keycap>
 </keycombo>,
 to split the main &konqueror; window into two views, each showing the contents
-of a different directory.</para>
+of a different folder.</para>
 
-<para>To be able to show different directories in each view they should not be 
+<para>To be able to show different folders in each view they should not be 
 linked; the little boxes at the bottom right of each view should be empty.
 </para>
 
@@ -485,11 +471,16 @@ Active View</guimenuitem></menuchoice> option, or &RMB; click on the Status Bar
 and choose the <guimenuitem>Remove Active View</guimenuitem> option from the
 resulting menu.</para>
 
+<para>If you use &konqueror; tabs, you can drag and drop between tabs
+by dragging the file to the tab label, without letting go yet.  The
+destination tab will pop to the front, allowing you to continue
+dragging and then drop the file.</para>
+
 </sect2>
 
 <sect2 id="dups">
 <title>Duplicate File Names</title>
-<para>If you try to paste a copied file file into a directory that already 
+<para>If you try to paste a copied file file into a folder that already 
 contains a file with the same name, &konqueror; will pop up a dialog box warning 
 you that the file already exists. You can then choose to:
 </para>
@@ -513,18 +504,18 @@ do this by typing a new name into the text entry box or get &konqueror; to
 
 <para>You sometimes want to delete, copy or move a number of files that are 
 similar in some way. For example you may wish to move all of the .png graphics 
-files from one directory to another. &konqueror; makes this easy by letting you 
+files from one folder to another. &konqueror; makes this easy by letting you 
 select multiple files based on similarities in their file names.</para>
 
-<para>Use the Menubar <menuchoice><guimenu>Edit</guimenu>
-<guimenuitem>Select...</guimenuitem></menuchoice> item or the shortcut <keycombo
-action="simul">&Ctrl;<keycap>+</keycap></keycombo>. This brings 
-up a little dialog box in which you enter a filename containing the wildcard
-characters <keycap>*</keycap>, which matches any number of characters, and
-<keycap>?</keycap> which matches a single character. Press
-<guibutton>OK</guibutton> and &konqueror; will highlight all files with
-matching
-names. For example;</para>
+<para>Use the Menubar
+<menuchoice><guimenu>Edit</guimenu><guisubmenu>Selection</guisubmenu>
+<guimenuitem>Select...</guimenuitem></menuchoice> item or the shortcut
+<keycombo action="simul">&Ctrl;<keycap>+</keycap></keycombo>. This
+brings up a little dialog box in which you enter a filename containing
+the wildcard characters <keycap>*</keycap>, which matches any number
+of characters, and <keycap>?</keycap> which matches a single
+character. Press <guibutton>OK</guibutton> and &konqueror; will
+highlight all files with matching names. For example;</para>
       
 <itemizedlist>
 <listitem><para> <userinput><filename>flag*.png</filename></userinput> will
@@ -542,21 +533,17 @@ by uing the Menubar <menuchoice><guimenu>Edit</guimenu>
 action="simul">&Ctrl;<keycap>-</keycap></keycombo> to specify
 which of the selected files should be removed from the selection.</para>
 
-<para>Use <keycombo
-action="simul">&Ctrl;<keycap>U</keycap></keycombo> or the
-Menubar
-<menuchoice><guimenu>Edit</guimenu> <guimenuitem>Unselect
-All</guimenuitem></menuchoice> option or just &LMB; click on a clear area of
-the
-view to cancel the selection(s).</para>
+<para>Use <keycombo action="simul">&Ctrl;<keycap>U</keycap></keycombo>
+or the Menubar <menuchoice><guimenu>Edit</guimenu>
+<guimenuitem>Unselect All</guimenuitem></menuchoice> option or just
+&LMB; click on a clear area of the view to cancel the
+selection(s).</para>
 
-<para>You can even invert the selection, that is deselect all selected files
-and
-select those that were previously unselected. Use the Menubar
-<menuchoice><guimenu>Edit</guimenu><guimenuitem>Invert
+<para>You can even invert the selection, that is deselect all selected
+files and select those that were previously unselected. Use the
+Menubar <menuchoice><guimenu>Edit</guimenu><guimenuitem>Invert
 Selection</guimenuitem></menuchoice> option or <keycombo
-action="simul">&Ctrl;<keycap>*</keycap></keycombo> to do
-this.</para>
+action="simul">&Ctrl;<keycap>*</keycap></keycombo> to do this.</para>
 
 <para>A number of useful shortcut keys can be used in list, tree and text 
 view modes:</para>
@@ -622,14 +609,13 @@ only work with the Numeric keypad <keycap>+</keycap>, <keycap>-</keycap> and
 </sect1>
 
 <sect1 id="making">
-<title>Create New...</title>
+<title>Create New</title>
 
-<para>When &konqueror; is in File Manager mode picking <guisubmenu>Create
-New...
-</guisubmenu> from the <guimenu>Edit</guimenu> menu or from the drop-down menu
-you get by <mousebutton>right</mousebutton> clicking on a free area in a
-directory view gives you a sub-menu letting you create any of the following in
-the current directory:</para>
+<para>When &konqueror; is in File Manager mode picking
+<guisubmenu>Create New </guisubmenu> from the <guimenu>Edit</guimenu>
+menu or from the drop-down menu you get by &RMB; clicking on a free
+area in a folder view gives you a sub-menu letting you create any
+of the following in the current folder:</para>
 
 <variablelist>
 
@@ -647,7 +633,7 @@ open the file <filename>/home/pam/todo.txt</filename> in &kedit;. You can
 generally leave the <guilabel>Application</guilabel> page blank. </para>
 
 <para>To make the application icon appear on your desktop, create the link in
-your <filename class="directory">~/Desktop</filename> directory (this may be 
+your <filename class="directory">~/Desktop</filename> folder (this may be 
 called something slightly different depending on how &kde; was installed on 
 your system) or get to the
 <guisubmenu>Create New...  </guisubmenu> sub menu by
@@ -656,14 +642,14 @@ instead of within &konqueror;'s window.</para>
 
 <para>If you have a lot of specialized application links and don't want to
 clutter up the desktop, then why not create them in your Applications
-directory. You can get there in &konqueror; by choosing
+folder. You can get there in &konqueror; by choosing
 <menuchoice><guimenu>Go</guimenu>
 <guimenuitem>Applications</guimenuitem></menuchoice>. Then create a single icon
-on your desktop to open your Applications directory, which is usually in
+on your desktop to open your Applications folder, which is usually in
 <filename class="directory">~/.kde/share/applink</filename>.</para>
 
 <para>To put an application link icon into the panel, first create it in the
-Applications directory then drag the icon onto a clear area of the
+Applications folder then drag the icon onto a clear area of the
 panel.</para>
 
 </listitem>
@@ -673,11 +659,11 @@ panel.</para>
 <term><guimenuitem>Link To Location (URL)...</guimenuitem></term>
 <listitem><para>This lets you create an icon to open &konqueror; at a
 particular
-directory or web page. As with <guimenuitem>Link To
+folder or web page. As with <guimenuitem>Link To
 Application...</guimenuitem>
 you can make the application icon appear on your desktop by creating the link
 in
-your <filename>~/Desktop</filename> directory or going to the
+your <filename>~/Desktop</filename> folder or going to the
 <guisubmenu>Create
 New...</guisubmenu> sub menu by right clicking on a free area of the
 desktop. When you first create it the text shown with the icon will be the full
@@ -714,8 +700,8 @@ drive.</para></listitem>
 </varlistentry>
 
 <varlistentry>
-<term><guimenuitem>Directory...</guimenuitem></term>
-<listitem><para>An easy way of creating a new (sub)directory.</para></listitem>
+<term><guimenuitem>Folder...</guimenuitem></term>
+<listitem><para>An easy way of creating a new (sub)folder.</para></listitem>
 </varlistentry>
 
 <varlistentry>
@@ -769,14 +755,14 @@ role="extension">.kil</literal>.</para></listitem>
 <sect1 id="newname">
 <title>Changing Names and Permissions</title>
 
-<para>The easiest way to change the name of a file or directory is to 
+<para>The easiest way to change the name of a file or folder is to 
 <mousebutton>right</mousebutton> click on it and select 
 <guimenuitem>Rename</guimenuitem>.</para>
 
-<para>To change the name or permissions of a file or directory 
+<para>To change the name or permissions of a file or folder 
 <mousebutton>right</mousebutton> click on its name or icon and select the 
 <guimenuitem>Properties...</guimenuitem> item, or if you have 
-<quote>selected</quote> the file or directory, then you can use the Menubar 
+<quote>selected</quote> the file or folder, then you can use the Menubar 
 <menuchoice><guimenu>Edit</guimenu> 
 <guimenuitem>Properties</guimenuitem></menuchoice> option.</para>
 
@@ -785,7 +771,7 @@ pages, the important ones being:</para>
 
 <itemizedlist>
 <listitem><para><guilabel>General</guilabel>, which gives you some
-information about the item and lets you change its name and, for a directory,
+information about the item and lets you change its name and, for a folder,
 the associated icon.</para></listitem>
 <listitem><para><guilabel>Permissions</guilabel>, which shows you the item's
 ownership and access permissions and lets you change the permissions.
@@ -795,7 +781,7 @@ ownership and access permissions and lets you change the permissions.
 <sect2 id="copyrename">
 <title>Copy and Rename</title>
 <para>If you want to make a copy of an existing file with a different name, 
-perhaps as a backup, in the same directory as the original file, do a normal 
+perhaps as a backup, in the same folder as the original file, do a normal 
 <guimenuitem>Copy</guimenuitem> then when you <guimenuitem>Paste</guimenuitem> 
 it a dialog box will pop up  complaining that the file already exists. 
 Just type the new name into the dialog's text box and press the 
@@ -807,7 +793,7 @@ Just type the new name into the dialog's text box and press the
 <title>Super User Mode</title>
 
 <para>If you are running as a normal user and try to access files outside of
-your own home directory you will often be prevented from doing so and get an
+your own home folder you will often be prevented from doing so and get an
 error message such as <errorname>Access Denied</errorname>. </para>
 
 <para>To access these files you need to be logged in as the system
@@ -862,7 +848,7 @@ without the delay involved in starting &konsole;.
 Menubar <menuchoice><guimenu>Window</guimenu><guimenuitem>Show Terminal
 Emulator</guimenuitem></menuchoice> option, which opens up a terminal window as 
 a new view within &konqueror;. As long as the link icon is visible at the 
-bottom right corner of each view, the terminal will follow any directory changes 
+bottom right corner of each view, the terminal will follow any folder changes 
 you make in the normal file manager view.</para>
 
 <mediaobject>
@@ -874,5 +860,14 @@ you make in the normal file manager view.</para>
 
 </sect1>
 
-
 </chapter>
+<!--
+Local Variables:
+mode: sgml
+sgml-omittag: nil
+sgml-shorttag: t
+sgml-minimize-attributes: nil
+sgml-general-insert-case: lower
+sgml-parent-document:("index.docbook" "book" "chapter")
+End:
+-->

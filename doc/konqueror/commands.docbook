@@ -1,7 +1,3 @@
-<!-- <?xml version="1.0" ?>
-<!DOCTYPE chapter PUBLIC "-//KDE//DTD DocBook XML V4.2-Based Variant V1.1//EN"
- "dtd/kdex.dtd"> -->
-
 <chapter id="commands">
 
 <chapterinfo>
@@ -91,7 +87,7 @@ one.</para></listitem>
 <guimenu>Location</guimenu>
 <guimenuitem>Open Location...</guimenuitem>
 </menuchoice></term>
-<listitem><para>Open a directory or file by entering its path
+<listitem><para>Open a folder or file by entering its path
  (for example <filename class="directory">/home/pam</filename> or
 <filename>/home/pam/fred.txt</filename>) in a simple dialog
 box.</para></listitem>
@@ -253,7 +249,7 @@ clipboard.</para></listitem>
 <guimenuitem>Paste</guimenuitem>
 </menuchoice></term>
 <listitem><para>Paste item(s) from clipboard to the currently viewed
-directory.</para></listitem>
+folder.</para></listitem>
 </varlistentry>
 
 <varlistentry>
@@ -262,7 +258,7 @@ directory.</para></listitem>
 </shortcut><guimenu>Edit</guimenu>
 <guimenuitem>Rename</guimenuitem>
 </menuchoice></term>
-<listitem><para>Lets you rename a file or directory without
+<listitem><para>Lets you rename a file or folder without
  having to
 open the <guimenuitem>Properties...</guimenuitem> dialog box.
 </para></listitem>
@@ -276,7 +272,7 @@ open the <guimenuitem>Properties...</guimenuitem> dialog box.
 <guimenuitem>Move to Trash</guimenuitem>
 </menuchoice></term>
 <listitem><para>Move selected item(s) to the Trash
-directory.</para></listitem>
+folder.</para></listitem>
 </varlistentry>
 
 <varlistentry>
@@ -308,7 +304,7 @@ directory.</para></listitem>
 <guimenuitem>Copy Files</guimenuitem>
 </menuchoice></term>
 <listitem><para>Copy the selected item(s) to another
-directory.</para></listitem>
+folder.</para></listitem>
 </varlistentry>
 
 <varlistentry>
@@ -318,16 +314,16 @@ directory.</para></listitem>
 <guimenuitem>Move Files</guimenuitem>
 </menuchoice></term>
 <listitem><para>Move the selected item(s) to another
-directory.</para></listitem>
+folder.</para></listitem>
 </varlistentry>
 
 <varlistentry>
 <term><menuchoice>
 <shortcut><keycap>F10</keycap></shortcut>
 <guimenu>Edit</guimenu>
-<guimenuitem>New Directory...</guimenuitem>
+<guimenuitem>New Folder...</guimenuitem>
 </menuchoice></term>
-<listitem><para>Create a new sub directory.</para></listitem>
+<listitem><para>Create a new subfolder.</para></listitem>
 </varlistentry>
 
 <varlistentry>
@@ -336,7 +332,7 @@ directory.</para></listitem>
 <guimenuitem>Create New</guimenuitem>
 </menuchoice></term>
 <listitem><para>Create a link to an application,
-<acronym>URL</acronym>, Floppy or &CD-ROM; device, or create a new Directory or
+<acronym>URL</acronym>, Floppy or &CD-ROM; device, or create a new Folder or
 text or <acronym>HTML</acronym> file. See the <link linkend="making">Create
 New...</link>section for more details.</para></listitem> 
 </varlistentry>
@@ -493,9 +489,9 @@ or <guimenuitem>Text</guimenuitem> view mode.</para></listitem>
 <guimenu>View</guimenu>
 <guimenuitem>Use index.html</guimenuitem>
 </menuchoice></term>
-<listitem><para>If a selected directory contains a file 
+<listitem><para>If a selected folder contains a file 
 <filename>index.html</filename>, it will be opened as a web
-page rather than showing the directory as a list of
+page rather than showing the folder as a list of
 files.</para></listitem>
 </varlistentry>
 
@@ -551,7 +547,7 @@ browsing).</para></listitem>
 <guimenuitem>Icon Size</guimenuitem>
 </menuchoice></term>
 <listitem><para>Select size of icons used when
-wiewing a directory in Icon Mode.</para></listitem>
+wiewing a folder in Icon Mode.</para></listitem>
 </varlistentry>
 
 <varlistentry>
@@ -641,7 +637,7 @@ MultiColumn View modes.</para></listitem>
 <guimenu>View</guimenu>
 <guimenuitem>Show details...</guimenuitem>
 </menuchoice></term>
-<listitem><para>Lets you choose which file and directory details are
+<listitem><para>Lets you choose which file and folder details are
 shown in Tree, Detailed List and Text views.</para></listitem>
 </varlistentry>
 
@@ -680,7 +676,7 @@ shown in Tree, Detailed List and Text views.</para></listitem>
 </shortcut><guimenu>Go</guimenu>
 <guimenuitem>Up</guimenuitem>
 </menuchoice></term>
-<listitem><para>Go up a level in the directory
+<listitem><para>Go up a level in the folder
 hierarchy.</para></listitem>
 </varlistentry>
 
@@ -713,7 +709,7 @@ back.</para></listitem>
 </shortcut><guimenu>Go</guimenu>
 <guimenuitem>Home URL</guimenuitem>
 </menuchoice></term>
-<listitem><para>Go to your home directory.</para></listitem>
+<listitem><para>Go to your home folder.</para></listitem>
 </varlistentry>
 
 <varlistentry>
@@ -721,7 +717,7 @@ back.</para></listitem>
 <guimenu>Go</guimenu>
 <guimenuitem>Applications</guimenuitem>
 </menuchoice></term>
-<listitem><para>Open the directory holding your
+<listitem><para>Open the folder holding your
 applications.</para></listitem>
 </varlistentry>
 
@@ -732,7 +728,7 @@ applications.</para></listitem>
 </menuchoice></term>
 <listitem><para>Open your <filename
  class="directory">Trash</filename>
-directory in a separate window.</para></listitem>
+folder in a separate window.</para></listitem>
 </varlistentry>
 
 <varlistentry>
@@ -741,7 +737,7 @@ directory in a separate window.</para></listitem>
 <guimenuitem>Templates</guimenuitem>
 </menuchoice></term>
 <listitem><para>Open the <filename
-class="directory">Templates</filename> directory  in a separate
+class="directory">Templates</filename> folder  in a separate
 window.</para></listitem>
 </varlistentry>
 
@@ -751,7 +747,7 @@ window.</para></listitem>
 <guimenuitem>Autostart</guimenuitem>
 </menuchoice></term>
 <listitem><para>Open your <filename
-class="directory">Autostart</filename> directory in a separate
+class="directory">Autostart</filename> folder in a separate
 window.</para></listitem>
 </varlistentry>
 
@@ -794,7 +790,7 @@ bookmarks.</para></listitem>
 <guimenuitem>New Folder</guimenuitem>
 </menuchoice></term>
 <listitem><para>Create a new folder in your Bookmarks
-directory.</para></listitem>
+folder.</para></listitem>
 </varlistentry>
 </variablelist>
 
@@ -873,18 +869,18 @@ the various Toolbars.</para></listitem>
 <varlistentry>
 <term><menuchoice>
 <guimenu>Settings</guimenu>
-<guimenuitem>View Properties Saved in Directory</guimenuitem>
+<guimenuitem>View Properties Saved in Folder</guimenuitem>
 </menuchoice></term>
 <listitem><para>Save View properties to current
- directory.</para></listitem>
+ folder.</para></listitem>
 </varlistentry>
 
 <varlistentry>
 <term><menuchoice>
 <guimenu>Settings</guimenu>
-<guimenuitem>Remove Directory Properties</guimenuitem>
+<guimenuitem>Remove Folder Properties</guimenuitem>
 </menuchoice></term>
-<listitem><para>Remove directory properties.</para></listitem>
+<listitem><para>Remove folder properties.</para></listitem>
 </varlistentry>
 
 <varlistentry>
@@ -1126,3 +1122,13 @@ you are running.</para></listitem>
 
 
 </chapter>
+<!--
+Local Variables:
+mode: sgml
+sgml-omittag: nil
+sgml-shorttag: t
+sgml-minimize-attributes: nil
+sgml-general-insert-case: lower
+sgml-parent-document:("index.docbook" "book" "chapter")
+End:
+-->

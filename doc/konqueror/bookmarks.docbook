@@ -1,7 +1,3 @@
-<!-- <?xml version="1.0" ?>
-<!DOCTYPE chapter PUBLIC "-//KDE//DTD DocBook XML V4.2-Based Variant V1.1//EN"
- "dtd/kdex.dtd"> -->
-
 <chapter id="bookmarks">
 <chapterinfo>
 <authorgroup>
@@ -16,7 +12,7 @@
 <title>Using Bookmarks</title>
 
 <para>Although you can use &konqueror;'s bookmarks to record the locations of
-your own files and directories, they are most useful when you are surfing the
+your own files and folders, they are most useful when you are surfing the
 Web, letting you build up a list of useful sites.</para>
 
 <para>To open the <guimenu>Bookmarks</guimenu> drop-down list you may either
@@ -31,17 +27,17 @@ your mouse, then press <keycap>Enter</keycap> or
 </guimenu> <guimenuitem>Add Bookmark</guimenuitem></menuchoice> or 
 <keycombo action="simul">&Ctrl;<keycap>B</keycap></keycombo> or
 <mousebutton>right</mousebutton> click on a clear space in the web page or 
-directory view and select <guimenuitem>Add To Bookmarks</guimenuitem> from 
+folder view and select <guimenuitem>Add To Bookmarks</guimenuitem> from 
 the pop up menu.</para>
 
-<para>The <guimenu>Bookmarks</guimenu> list can contain sub folders containing 
+<para>The <guimenu>Bookmarks</guimenu> list can contain subfolders containing 
 other bookmarks, you can create these with <menuchoice><guimenu>Bookmarks 
 </guimenu><guimenuitem>New Bookmark Folder...</guimenuitem></menuchoice> . 
-To add a bookmark into a sub folder rather than into the main Bookmark list, 
+To add a bookmark into a subfolder rather than into the main Bookmark list, 
 select the folder from within the <guimenu>Bookmarks</guimenu> list and use 
 the <guimenuitem>Add Bookmark</guimenuitem> item in that folder.</para>
 
-<para>The items that appear in your Bookmark Toolbar are held in a sub folder, 
+<para>The items that appear in your Bookmark Toolbar are held in a subfolder, 
 usually called <quote>Toolbar</quote> although this can be changed 
 with the <guilabel>Bookmark Editor</guilabel>.</para>
 
@@ -54,18 +50,18 @@ with the <guilabel>Bookmark Editor</guilabel>.</para>
 <para>The <menuchoice><guimenu>Bookmarks</guimenu> <guimenuitem>Edit
 Bookmarks</guimenuitem> </menuchoice> option opens the <guilabel>Bookmark
 Editor</guilabel>.</para>
-<para>This shows a tree view of your bookmarks and bookmark sub folders. 
-As is usual for tree views in &kde; sub folders are shown with a small square 
+<para>This shows a tree view of your bookmarks and bookmark subfolders. 
+As is usual for tree views in &kde; subfolders are shown with a small square 
 at the left of the folder name; if the square contains a <keycap>+</keycap> 
 sign <mousebutton>left</mousebutton> clicking on it will expand the view to 
-show the contents of that sub folder and the <keycap>+</keycap> sign will 
+show the contents of that subfolder and the <keycap>+</keycap> sign will 
 change to <keycap>-</keycap>, <mousebutton>left</mousebutton> clicking on the 
-<keycap>-</keycap> sign will collapse the sub folder view.</para>
+<keycap>-</keycap> sign will collapse the subfolder view.</para>
 
 <para>To select an item in the list you can <mousebutton>left</mousebutton> 
 click on it, or you can navigate through the list by using the <keysym>
 Up arrow</keysym> and <keysym>Down arrow</keysym> keys to move around, 
-<keysym>Right arrow</keysym> to expand a sub folder and <keysym>
+<keysym>Right arrow</keysym> to expand a subfolder and <keysym>
 Left arrow</keysym> to collapse it.</para>
 
 <para>You can move an item to a different place in the list by using the 
@@ -76,7 +72,7 @@ the <guilabel>Bookmark Editor</guilabel> is the order they will appear in the
 </guimenu><guimenuitem>Insert Separator</guimenuitem></menuchoice> option can 
 be used to insert separating lines into the list wherever you wish.</para>
 
-<para>A new sub folder can be created at the selected point in the list by 
+<para>A new subfolder can be created at the selected point in the list by 
 using the <guimenuitem>Create New Folder...</guimenuitem> option in the 
 <guimenu>Insert</guimenu> menu or from the drop down menu you get when you 
 <mousebutton>right</mousebutton> click on an item in the main part of the 
@@ -105,8 +101,8 @@ Windows</guimenuitem> item in the <guimenu>Settings</guimenu> menu. If you
 do this any updates to &Netscape;'s bookmarks are automatically seen by 
 &konqueror;.</para>
 
-<para>To select which bookmark sub folder is used to hold the Bookmark 
-Toolbar items select the sub folder then choose <guimenuitem>Set as Toolbar 
+<para>To select which bookmark subfolder is used to hold the Bookmark 
+Toolbar items select the subfolder then choose <guimenuitem>Set as Toolbar 
 Folder</guimenuitem> from the <guimenu>Edit</guimenu> menu.</para>
 
 <para>If you are tidying up your bookmarks and have forgotten what a 
@@ -125,3 +121,13 @@ the <guilabel>Bookmark Editor</guilabel>.
 
 
 </chapter>
+<!--
+Local Variables:
+mode: sgml
+sgml-omittag: nil
+sgml-shorttag: t
+sgml-minimize-attributes: nil
+sgml-general-insert-case: lower
+sgml-parent-document:("index.docbook" "book" "chapter")
+End:
+-->

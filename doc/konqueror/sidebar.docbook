@@ -1,7 +1,3 @@
-<!-- <?xml version="1.0" ?>
-<!DOCTYPE chapter PUBLIC "-//KDE//DTD DocBook XML V4.2-Based Variant V1.1//EN"
- "dtd/kdex.dtd"> -->
-
 <chapter id="sidebar">
 
 <chapterinfo>
@@ -66,13 +62,13 @@ history page.</para></listitem>
 </varlistentry>
 
 <varlistentry>
-<term><guilabel>Home Directory</guilabel></term>
-<listitem><para>This page shows a tree view of the sub directories your home 
-directory. Note that <quote>hidden</quote> directories (those with names 
+<term><guilabel>Home Folder</guilabel></term>
+<listitem><para>This page shows a tree view of the subfolders your home 
+folder. Note that <quote>hidden</quote> folders (those with names 
 beginning with a dot) are not shown.
 <mousebutton>Left</mousebutton> click on an item to open it in the 
 main view, or <mousebutton>right</mousebutton> click to display a pop up 
-menu allowing you to open the sub directory in a new window or as a new tab 
+menu allowing you to open the subfolder in a new window or as a new tab 
 page of the main view.
 </para></listitem>
 </varlistentry>
@@ -80,14 +76,14 @@ page of the main view.
 <varlistentry>
 <term><guilabel>Network</guilabel></term>
 <listitem><para>This page is intended to show a tree view of your important 
-network connections, although local directories can also be included. Again, 
+network connections, although local folders can also be included. Again, 
 you can <mousebutton>left</mousebutton> click on an item to open it in the 
 main view or <mousebutton>right</mousebutton> click to bring up a menu with 
 a wider range of possibilities.</para>
 <para>The folders shown in the <guilabel>Network</guilabel> page are held in 
 the folder <filename class="directory">
 ~/.kde/share/apps/konqsidebartng/virtual_folders/remote/</filename>, and you can make 
-new ones just as you would make any other sub directory. The items within 
+new ones just as you would make any other subfolder. The items within 
 these folders are held as <literal role="extension">.desktop</literal> files 
 and can be created with &konqueror;'s <menuchoice><guisubmenu>Create New</guisubmenu>
 <guimenuitem>Link to Location (URL)...</guimenuitem></menuchoice> option.</para>
@@ -95,15 +91,15 @@ and can be created with &konqueror;'s <menuchoice><guisubmenu>Create New</guisub
 </varlistentry>
 
 <varlistentry>
-<term><guilabel>Root Directory</guilabel></term>
-<listitem><para>The Root Directory tree has the path <filename
-class="directory">/</filename>, and is the base directory of your system's
-local files. If you expand the <quote>Root</quote> directory you will find 
-another directory called <filename class="directory">root</filename>. This 
-belongs to the system administrator or Super User and is her home directory. 
-You will also find a directory called 
+<term><guilabel>Root Folder</guilabel></term>
+<listitem><para>The Root Folder tree has the path <filename
+class="directory">/</filename>, and is the base folder of your system's
+local files. If you expand the <quote>Root</quote> folder you will find 
+another folder called <filename class="directory">root</filename>. This 
+belongs to the system administrator or Super User and is her home folder. 
+You will also find a folder called 
 <filename class="directory">home</filename>, in which you should be able to 
-find your own <quote>Home</quote> directory again.</para>
+find your own <quote>Home</quote> folder again.</para>
 </listitem>
 </varlistentry>
 
@@ -141,7 +137,7 @@ options:</para>
 Panel. The new page can contain the <guimenuitem>Sidebar Media Player
 </guimenuitem> (a <link linkend="konq-plugin">&konqueror; Plugin</link> 
 feature) or a new 
-<guimenuitem>Folder/Directory</guimenuitem> tree view.</para>
+<guimenuitem>Folder</guimenuitem> tree view.</para>
 </listitem>
 </varlistentry>
 
@@ -174,8 +170,8 @@ menu with the following options:</para>
 <variablelist>
 <varlistentry>
 <term><guimenuitem>Set URL</guimenuitem></term>
-<listitem><para>Only available for directory pages, this option lets you 
-change the &URL; (path) of the directory viewed in that page.</para></listitem>
+<listitem><para>Only available for folder pages, this option lets you 
+change the &URL; (path) of the folder viewed in that page.</para></listitem>
 </varlistentry>
 
 <varlistentry>
@@ -193,3 +189,13 @@ change the &URL; (path) of the directory viewed in that page.</para></listitem>
 
 
 </chapter>
+<!--
+Local Variables:
+mode: sgml
+sgml-omittag: nil
+sgml-shorttag: t
+sgml-minimize-attributes: nil
+sgml-general-insert-case: lower
+sgml-parent-document:("index.docbook" "book" "chapter")
+End:
+-->

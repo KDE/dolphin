@@ -1,7 +1,3 @@
-<!-- <?xml version="1.0" ?>
-<!DOCTYPE chapter PUBLIC "-//KDE//DTD DocBook XML V4.2-Based Variant V1.1//EN"
- "dtd/kdex.dtd"> -->
-
 <chapter id="plugins">
 
 <chapterinfo>
@@ -31,13 +27,13 @@ Configure Konqueror...</guisubmenu><guimenuitem>Plugins</guimenuitem>
 &Netscape; plugins, either manually by pressing the <guibutton>Scan for New
 Plugins</guibutton> button or automatically each time &kde; starts up.</para>
 	
-<para>The scan is done by looking through the directories listed in the
-<guilabel>Scan Directories</guilabel> list for <literal
+<para>The scan is done by looking through the folders listed in the
+<guilabel>Scan Folders</guilabel> list for <literal
 role="extension">.so</literal> files containing plugin code. It examines every
 such file to find out which <acronym>MIME</acronym> types the plugin
 supports. It then creates <acronym>MIME</acronym> type definitions for &kde; in
 the user's <filename class="directory"> ~/.kde/share/mimelnk</filename>
-directory to make other applications aware of them.</para>
+folder to make other applications aware of them.</para>
 
 <para>The <guilabel>Plugins</guilabel> page shows you the &Netscape; plugins
 that &kde; has found, and for each plugin it lists the <acronym>MIME</acronym>
@@ -69,11 +65,11 @@ Web Page</guisubmenu></menuchoice>.</para></listitem>
 </varlistentry>
 
 <varlistentry>
-<term>Directory View Filter</term>
+<term>Folder View Filter</term>
 <listitem><para>This is controlled by
 <menuchoice><guimenu>Tools</guimenu><guisubmenu>View
 Filter</guisubmenu></menuchoice> and allows you to choose which types of item
-are displayed in a directory.</para></listitem>
+are displayed in a folder.</para></listitem>
 </varlistentry>
 
 <varlistentry>
@@ -115,9 +111,9 @@ settings without going through the <guimenu>Settings</guimenu> dialog.
 <listitem><para>In File Manager mode, you can select
 <menuchoice><guimenu>Tools</guimenu><guisubmenu>Create Image
 Gallery</guisubmenu></menuchoice> to create an HTML page with
-thumbnails of all the images in the current directory. By default the HTML page
+thumbnails of all the images in the current folder. By default the HTML page
 is called <filename>images.html</filename> and the thumbnails are put into a
-new <filename>thumbs</filename> directory.
+new <filename>thumbs</filename> folder.
 </para></listitem>
 </varlistentry>
 
@@ -154,3 +150,13 @@ Navigation Panel. You can drag songs or videos onto this page to play them.
 
 
 </chapter>
+<!--
+Local Variables:
+mode: sgml
+sgml-omittag: nil
+sgml-shorttag: t
+sgml-minimize-attributes: nil
+sgml-general-insert-case: lower
+sgml-parent-document:("index.docbook" "book" "chapter")
+End:
+-->
