@@ -27,7 +27,6 @@ class MyManager {
 public:
    static MyManager* self() { if (!s_mgr) { s_mgr = new MyManager(); } return s_mgr; }
    void createManager(class KEBTopLevel *top, QString filename);
-   void flipShowNSFlag();
    void doExport(const QString &path, bool moz);
    void notifyManagers();
    bool managerSave();
@@ -50,6 +49,7 @@ class BkManagerAccessor {
 
    friend class KEBListView;
    friend class KEBTopLevel;
+   friend class ActionsImpl;
 
    friend class ListView;
 
@@ -65,7 +65,7 @@ class BkManagerAccessor {
    friend class ImportCommand;
    friend class XBELImportCommand;
 
-private:
+public:
    static KBookmarkManager* mgr() { return MyManager::self()->mgr(); }
 };
 

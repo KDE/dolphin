@@ -88,10 +88,6 @@ void MyManager::doExport(const QString &path, bool moz) {
 
 // TODO - less than simplistic, but try to remove anyways
 
-void MyManager::flipShowNSFlag() {
-   mgr()->setShowNSBookmarks(!mgr()->showNSBookmarks());
-}
-
 QString MyManager::correctAddress(const QString &address) {
    return mgr()->findByAddress(address, true).address();
 }

@@ -77,6 +77,7 @@ public:
 
    bool readonly() { return m_readOnly; }
    bool modified() { return m_modified; }
+   bool nsShown();
 
    void setAllOpen(bool open);
 

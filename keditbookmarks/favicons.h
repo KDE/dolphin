@@ -76,17 +76,7 @@ private:
    KURL m_url;
 };
 
-class FavIconBrowserInterface : public KParts::BrowserInterface
-{
-   Q_OBJECT
-public:
-   FavIconBrowserInterface(FavIconUpdater *view, const char *name)
-      : KParts::BrowserInterface(view, name), m_view = view {
-      ;
-   }
-private:
-   FavIconUpdater *m_view;
-};
+class FavIconBrowserInterface;
 
 class FavIconUpdater : public KonqFavIconMgr 
 {
@@ -110,6 +100,18 @@ private:
    KParts::ReadOnlyPart *m_part;
    FavIconBrowserInterface *m_browserIface;
    KBookmark m_bk;
+};
+
+class FavIconBrowserInterface : public KParts::BrowserInterface
+{
+   Q_OBJECT
+public:
+   FavIconBrowserInterface(FavIconUpdater *view, const char *name)
+      : KParts::BrowserInterface(view, name), m_view(view) {
+      ;
+   }
+private:
+   FavIconUpdater *m_view;
 };
 
 #endif

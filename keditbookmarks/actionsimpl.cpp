@@ -143,7 +143,8 @@ void ActionsImpl::slotExportMoz() {
 /* ------------------------------------------------------------- */
 
 void ActionsImpl::slotShowNS() {
-   MyManager::self()->flipShowNSFlag();
+   bool shown = top->nsShown();
+   BkManagerAccessor::mgr()->setShowNSBookmarks(shown);
    top->setModifiedFlag(true);
 }
 

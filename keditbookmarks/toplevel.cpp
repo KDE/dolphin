@@ -215,6 +215,14 @@ void KEBTopLevel::resetActions() {
       ->setChecked(MyManager::self()->showNSBookmarks());
 }
 
+void KEBTopLevel::slotSaveOnClose() {
+   m_saveOnClose 
+      = static_cast<KToggleAction*>(actionCollection()->action("settings_saveonclose"))->isChecked();
+}
+
+bool KEBTopLevel::nsShown() {
+   return static_cast<KToggleAction*>(actionCollection()->action("settings_showNS"))->isChecked();
+}
 void KEBTopLevel::updateActions() {
    listview->updateLastAddress();
    setActionsEnabled(listview->getSelectionAbilities());
@@ -457,7 +465,6 @@ void KEBTopLevel::slotLoad() {
    if (!queryClose()) {
       return;
    }
-   // DESIGN - cleanup & do the todo
    // TODO - add a few default place to the file dialog somehow?,
    //      - e.g kfile bookmarks +  normal bookmarks file dir
    QString bookmarksFile = KFileDialog::getOpenFileName(QString::null, "*.xml", this);
@@ -476,10 +483,6 @@ void KEBTopLevel::slotSaveAs() {
    if(!saveFilename.isEmpty()) {
       MyManager::self()->saveAs(saveFilename);
    }
-}
-
-void KEBTopLevel::slotSaveOnClose() {
-   m_saveOnClose = static_cast<KToggleAction*>(actionCollection()->action("settings_saveonclose"))->isChecked();
 }
 
 #include "toplevel.moc"
