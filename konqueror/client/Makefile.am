@@ -18,4 +18,3 @@ noinst_HEADERS = kfmclient.h
 browser_IDLDIR = $(idldir)
 kdesktop_IDLDIR = $(top_srcdir)/kdesktop
 
-kfmclient.cc: kdesktop.h
