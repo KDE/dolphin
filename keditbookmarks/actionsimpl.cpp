@@ -112,9 +112,10 @@ void ActionsImpl::slotNewFolder() {
 }
 
 void ActionsImpl::slotNewBookmark() {
+   // TODO - make a setCurrentItem(Command *) which uses finaladdress interface
    CreateCommand * cmd = new CreateCommand(
                                ListView::self()->userAddress(),
-                               QString::null, QString::null, KURL());
+                               QString::null, "bookmark", KURL());
    KEBApp::self()->addCommand(cmd);
 }
 
