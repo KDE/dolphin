@@ -97,8 +97,10 @@ public:
 
   virtual void slotLoadImages();
 
+#if 0
   virtual void saveState( QDataStream &stream );
   virtual void restoreState( QDataStream &stream );
+#endif
 
 //  virtual void openURL( QString _url, bool _reload, int _xoffset = 0, int _yoffset = 0, const char *_post_data = 0L);
 /*

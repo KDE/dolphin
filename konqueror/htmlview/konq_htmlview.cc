@@ -222,6 +222,7 @@ void KonqHTMLView::stop()
   m_pBrowser->slotStop();
 }
 
+#if 0
 void KonqHTMLView::saveState( QDataStream &stream )
 {
     m_pBrowser->saveState(stream);
@@ -231,6 +232,7 @@ void KonqHTMLView::restoreState( QDataStream &stream )
 {
     m_pBrowser->restoreState(stream);
 }
+#endif
 
 /*
 bool KonqHTMLView::mappingFillMenuView( Browser::View::EventFillMenu_ptr viewMenu )
