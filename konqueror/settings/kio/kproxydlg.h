@@ -15,6 +15,8 @@ class QLineEdit;
 class QPushButton;
 class QCheckBox;
 class QSpinBox;
+class QRadioButton;
+class QButtonGroup;
 
 #include <kcmodule.h>
 
@@ -62,10 +64,14 @@ Q_OBJECT
 
     // use cache checker
     QCheckBox *cb_useCache;
-    // connect at all? checker
-    QCheckBox *cb_offlineMode;
-    // verify obsolete pages checker
-    QCheckBox *cb_verify;
+    // verify obsolete pages radio button
+    QRadioButton *rb_verify;
+    // use cache if possible radio button
+    QRadioButton *rb_cacheIfPossible;
+    // connect at all? radio button
+    QRadioButton *rb_offlineMode;
+
+    QButtonGroup *bg_cacheControl;
 
     // Maximum Cache Size
     QLabel *lb_max_cache_size;
@@ -81,10 +87,6 @@ Q_OBJECT
     void setProxy();
     void setCache();
     void readOptions();
-
-    // hack to save 2 signal/slot connections. offlinemode and verify
-    // are mutually exclusive
-    bool old_verify;
 
   private slots:
 

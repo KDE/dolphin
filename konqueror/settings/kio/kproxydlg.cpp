@@ -11,6 +11,8 @@
 #include <qpushbutton.h>
 #include <qcheckbox.h>
 #include <qspinbox.h>
+#include <qradiobutton.h>
+#include <qbuttongroup.h>
 
 #include <kapp.h>
 #include <kmessagebox.h>
@@ -132,15 +134,25 @@ KProxyOptions::KProxyOptions(QWidget *parent, const char *name)
   connect( cb_useCache, SIGNAL( clicked() ), SLOT( changeCache() ) );
   connect( cb_useCache, SIGNAL( clicked() ), this, SLOT( changed() ) );
 
-  cb_verify = new QCheckBox( i18n("Keep Cache in Sync"), this);
-  QWhatsThis::add(cb_verify, i18n("Enable this to ask Web servers whether a cached page is still valid. If this is disabled, a cached copy of remote files will be used whenever possible. You can still use the reload button to synchronize the cache with the remote host."));
-  connect( cb_verify, SIGNAL( clicked() ), SLOT( changeCache() ) );
-  connect( cb_verify, SIGNAL( clicked() ), this, SLOT( changed() ) );
+  rb_verify = new QRadioButton( i18n("Keep Cache in Sync"), this);
+  QWhatsThis::add(rb_verify, i18n("Enable this to ask Web servers whether a cached page is still valid. If this is disabled, a cached copy of remote files will be used whenever possible. You can still use the reload button to synchronize the cache with the remote host."));
+  connect( rb_verify, SIGNAL( clicked() ), SLOT( changeCache() ) );
+  connect( rb_verify, SIGNAL( clicked() ), this, SLOT( changed() ) );
 
-  cb_offlineMode = new QCheckBox( i18n("Offline Browsing mode"), this);
-  QWhatsThis::add(cb_offlineMode, i18n("Enable this checkbox to prevent http requests by KDE applications by default."));
-  connect( cb_offlineMode, SIGNAL( clicked() ), SLOT( changeCache() ) );
-  connect( cb_offlineMode, SIGNAL( clicked() ), this, SLOT( changed() ) );
+  rb_cacheIfPossible = new QRadioButton( i18n("use Cache if Possible"), this);
+  QWhatsThis::add(rb_cacheIfPossible, i18n("Enable this to always lookup the cache before connecting to the internet."));
+  connect( rb_cacheIfPossible, SIGNAL( clicked() ), SLOT( changeCache() ) );
+  connect( rb_cacheIfPossible, SIGNAL( clicked() ), this, SLOT( changed() ) );
+
+  rb_offlineMode = new QRadioButton( i18n("Offline Browsing mode"), this);
+  QWhatsThis::add(rb_offlineMode, i18n("Enable this to prevent http requests by KDE applications by default."));
+  connect( rb_offlineMode, SIGNAL( clicked() ), SLOT( changeCache() ) );
+  connect( rb_offlineMode, SIGNAL( clicked() ), this, SLOT( changed() ) );
+
+  bg_cacheControl = new QButtonGroup(i18n("Cache Control Options"),this);
+  bg_cacheControl->insert(rb_verify);
+  bg_cacheControl->insert(rb_cacheIfPossible);
+  bg_cacheControl->insert(rb_offlineMode);
 
   sb_max_cache_size = new KMySpinBox(100, 2000000, 100, this);
   connect(sb_max_cache_size, SIGNAL(valueChanged(int)), this, SLOT(changed()));
@@ -207,8 +219,9 @@ KProxyOptions::KProxyOptions(QWidget *parent, const char *name)
  
   QHBoxLayout * l1 = new QHBoxLayout(layout);
   l1->addWidget(cb_useCache);
-  l1->addWidget(cb_verify);
-  l1->addWidget(cb_offlineMode);
+  l1->addWidget(rb_verify);
+  l1->addWidget(rb_cacheIfPossible);
+  l1->addWidget(rb_offlineMode);
 
   QHBoxLayout * l2 = new QHBoxLayout(layout);
   l2->addWidget(lb_max_cache_size);
@@ -242,24 +255,12 @@ void KProxyOptions::load()
               KProtocolManager::noProxyFor());
 
   cb_useCache->setChecked(KProtocolManager::useCache());
-
   if (KProtocolManager::defaultCacheControl()==KIO::CC_Verify)
-  {
-      cb_verify->setChecked(true);
-      cb_offlineMode->setChecked(false);
-  }
+      rb_verify->setChecked(true);
   else if (KProtocolManager::defaultCacheControl()==KIO::CC_CacheOnly)
-  {
-      cb_verify->setChecked(false);
-      cb_offlineMode->setChecked(true);
-  }
-  else
-  {
-      cb_verify->setChecked(false);
-      cb_offlineMode->setChecked(false);
-  }
-
-  old_verify = cb_verify->isChecked();
+      rb_offlineMode->setChecked(true);
+  else if (KProtocolManager::defaultCacheControl()==KIO::CC_Cache)
+      rb_cacheIfPossible->setChecked(true);
 
   sb_max_cache_size->setValue(KProtocolManager::maxCacheSize());
 #ifdef MAX_CACHE_AGE
@@ -279,8 +280,7 @@ void KProxyOptions::defaults() {
   le_no_prx->setText("");
   setProxy();
   cb_useCache->setChecked(true);
-  cb_verify->setChecked(true);
-  cb_offlineMode->setChecked(false);
+  rb_verify->setChecked(true);
 }
 
 void KProxyOptions::updateGUI(QString httpProxy, QString ftpProxy,
@@ -359,12 +359,12 @@ void KProxyOptions::save()
 
     if (!cb_useCache->isChecked())
 	KProtocolManager::setDefaultCacheControl(KIO::CC_Reload);
-    else if (cb_verify->isChecked())
+    else if (rb_verify->isChecked())
 	KProtocolManager::setDefaultCacheControl(KIO::CC_Verify);
-    else if (!cb_offlineMode->isChecked())
-	KProtocolManager::setDefaultCacheControl(KIO::CC_Cache);
-    else
+    else if (rb_offlineMode->isChecked())
 	KProtocolManager::setDefaultCacheControl(KIO::CC_CacheOnly);
+    else if (rb_cacheIfPossible->isChecked())
+	KProtocolManager::setDefaultCacheControl(KIO::CC_Cache);
 
     // Update everyone...
     QByteArray data;
@@ -411,19 +411,9 @@ void KProxyOptions::setCache()
 #endif
   //pb_down->setEnabled( useCache );
   cb_useCache->setChecked( useCache );
-  cb_verify->setEnabled(useCache);
-  if (!useCache)
-      cb_offlineMode->setChecked(false);
-  cb_offlineMode->setEnabled(useCache);
-  if (cb_verify->isChecked() && !old_verify)
-  {
-      cb_offlineMode->setChecked(false);
-  }
-  if (cb_offlineMode->isChecked())
-      cb_verify->setChecked(false);
-  // hack to save 2 signal/slot connections. offlinemode and verify
-  // are mutually exclusive
-  old_verify=cb_verify->isChecked();
+  rb_verify->setEnabled(useCache);
+  rb_cacheIfPossible->setEnabled(useCache);
+  rb_offlineMode->setEnabled(useCache);
 }
 
 void KProxyOptions::changeProxy()
