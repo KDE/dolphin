@@ -502,7 +502,7 @@ void ListView::fillWithGroup(KEBListView *lv, KBookmarkGroup group, KEBListViewI
          }
          if (!m_splitView && grp.first().isNull()) {
             // empty folder
-            item = new KEBListViewItem(item, item); 
+            new KEBListViewItem(item, item); 
          }
          lastItem = item;
 
@@ -518,7 +518,7 @@ void ListView::fillWithGroup(KEBListView *lv, KBookmarkGroup group, KEBListViewI
       }
       QString addr = CurrentMgr::self()->correctAddress(m_last_selection_address);
       if (bk.address() == addr) {
-         lv->setCurrentItem(item);
+         setCurrent(item);
       }
       if (selected_addresses.contains(bk.address())) {
          lv->setSelected(item, true);
