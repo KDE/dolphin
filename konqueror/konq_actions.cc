@@ -30,6 +30,7 @@
 #include <kanimwidget.h>
 #include <kdebug.h>
 #include <kstringhandler.h>
+#include <kurlpixmapprovider.h>
 
 #include "konq_view.h" // HistoryEntry
 
@@ -51,6 +52,7 @@ int KonqComboAction::plug( QWidget *w, int index )
   int id = KAction::getToolButtonID();
 
   KHistoryCombo *comboBox = new KHistoryCombo( toolBar, "history combo" );
+  comboBox->setPixmapProvider( new KURLPixmapProvider );
   toolBar->insertWidget( id, 70, comboBox, index );
   connect( comboBox, SIGNAL( activated( const QString& )), m_receiver, m_member );
 
