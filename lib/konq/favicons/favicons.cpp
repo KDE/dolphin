@@ -166,45 +166,41 @@ void FaviconsModule::slotResult(KIO::Job *job)
     FaviconsModulePrivate::DownloadInfo download = d->downloads[job];
     d->downloads.remove(job);
     QString iconURL = static_cast<KIO::TransferJob *>(job)->url().url();
-    if (job->error())
+    QString iconName;
+    if (!job->error())
     {
-        d->failedDownloads.append(iconURL);
-        return;
-    }
-
-    QBuffer buffer(download.iconData);
-    buffer.open(IO_ReadOnly);
-    QImageIO io;
-    io.setIODevice(&buffer);
-    io.setParameters("16");
-    if (!io.read())
-    {
-        // Here too, the job might have had no error, but the downloaded
+        QBuffer buffer(download.iconData);
+        buffer.open(IO_ReadOnly);
+        QImageIO io;
+        io.setIODevice(&buffer);
+        io.setParameters("16");
+        // Check here too, the job might have had no error, but the downloaded
         // file contains just a 404 message sent with a 200 status.
         // microsoft.com does that... (malte)
-        d->failedDownloads.append(iconURL);
-        return;
+        if (io.read())
+        {
+            // Some sites have nasty 32x32 icons, according to the MS docs
+            // IE ignores them, well, we scale them, otherwise the location
+            // combo / menu will look quite ugly
+            if (io.image().width() != KIcon::SizeSmall || io.image().height() != KIcon::SizeSmall)
+                io.setImage(io.image().smoothScale(KIcon::SizeSmall, KIcon::SizeSmall));
+
+            if (download.isHost)
+                iconName = "favicons/" + download.hostOrURL;
+            else
+                iconName = iconNameFromURL(iconURL);
+
+            io.setIODevice(0);
+            io.setFileName(locateLocal("icon", iconName + ".png"));
+            io.setFormat("PNG");
+            if (!io.write())
+                iconName = QString::null;
+            else if (!download.isHost)
+                d->config->writeEntry(download.hostOrURL, iconURL);
+        }
     }
-    // Some sites have nasty 32x32 icons, according to the MS docs
-    // IE ignores them, well, we scale them, otherwise the location
-    // combo / menu will look quite ugly
-    if (io.image().width() != KIcon::SizeSmall || io.image().height() != KIcon::SizeSmall)
-        io.setImage(io.image().smoothScale(KIcon::SizeSmall, KIcon::SizeSmall));
-
-    QString iconName;
-    if (download.isHost)
-        iconName = "favicons/" + download.hostOrURL;
-    else
-        iconName = iconNameFromURL(iconURL);
-
-    io.setIODevice(0);
-    io.setFileName(locateLocal("icon", iconName + ".png"));
-    io.setFormat("PNG");
-    if (!io.write())
-        return;
-
-    if (!download.isHost)
-        d->config->writeEntry(download.hostOrURL, iconURL);
+    if (iconName.isEmpty())
+        d->failedDownloads.append(iconURL);
 
     QByteArray data;
     QDataStream stream( data, IO_WriteOnly );
