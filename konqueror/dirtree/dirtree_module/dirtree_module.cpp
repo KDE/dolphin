@@ -45,7 +45,7 @@ void KonqDirTreeModule::clearAll()
 {
     delete m_pProps;
     delete s_defaultViewProps;
-    //### TODO iterate over the map and kill the listers
+    delete m_dirLister;
 }
 
 void KonqDirTreeModule::paste()
@@ -143,7 +143,8 @@ void KonqDirTreeModule::addTopLevelItem( KonqTreeTopLevelItem * item )
 
 void KonqDirTreeModule::openTopLevelItem( KonqTreeTopLevelItem * item )
 {
-    openSubFolder( item );
+    if ( !item->childCount() && item->isListable() )
+        openSubFolder( item );
 }
 
 void KonqDirTreeModule::addSubDir( KonqTreeItem *item )
@@ -207,7 +208,7 @@ void KonqDirTreeModule::listDirectory( KonqTreeItem *item )
     // have changed.
     /*bool newProps = */m_pProps->enterDir( url );
 
-    m_dirLister->openURL( url, m_pProps->isShowingDotFiles(), item->isTopLevelItem() /*keep*/ );
+    m_dirLister->openURL( url, m_pProps->isShowingDotFiles(), true /*keep*/ );
 
 #if 0
     if ( newProps )

@@ -35,7 +35,7 @@
 
 void KonqTreeTopLevelItem::setOpen( bool open )
 {
-    if (open)
+    if (open && module())
         module()->openTopLevelItem( this );
     KonqTreeItem::setOpen( open );
 }
