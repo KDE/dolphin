@@ -760,7 +760,7 @@ void KonqMainView::openURL( const Konqueror::URLRequest &url )
   openURL( u.in(), url.reload );
 }
 
-void KonqMainView::openURL( const char * _url, CORBA::Boolean _reload )
+void KonqMainView::openURL( const char * _url, CORBA::Boolean )
 {
   /////////// First, modify the URL if necessary (adding protocol, ...) //////
   QString url = _url;
@@ -1414,7 +1414,7 @@ void KonqMainView::slotFileNewAboutToShow()
 }
 
 
-void KonqMainView::resizeEvent( QResizeEvent *e )
+void KonqMainView::resizeEvent( QResizeEvent * )
 {
   m_pMainSplitter->setGeometry( 0, 0, width(), height() ); 
 }

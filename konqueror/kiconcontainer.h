@@ -71,7 +71,7 @@ public:
   virtual bool acceptsDrops( QStrList& /* _formats */ ) { return false; }
   
 protected:
-  const static int m_iPixmapTextHSpacing = 3;
+  static const int m_iPixmapTextHSpacing = 3;
   
   virtual void paint( QPainter* _painter, const QColorGroup _grp );
   virtual void paintFocus( QPainter *_painter, const QColorGroup &, const QRect& _rect );
@@ -220,10 +220,10 @@ protected:
    */
   virtual bool eventFilter( QObject *o, QEvent *e );
   
-  const static int m_iLineSpacing = 2;
-  const static int m_iHeadSpacing = 5;
-  const static int m_iFootSpacing = 5;
-  const static int m_iColumnSpacing = 3;
+  static const int m_iLineSpacing = 2;
+  static const int m_iHeadSpacing = 5;
+  static const int m_iFootSpacing = 5;
+  static const int m_iColumnSpacing = 3;
   
   virtual void keyPressEvent( QKeyEvent *_ev );
   virtual void viewportMousePressEvent( QMouseEvent *_ev );
