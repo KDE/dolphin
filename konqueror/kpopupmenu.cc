@@ -6,25 +6,26 @@
 #include <kio_propsdlg.h>
 #include <kpixmapcache.h>
 #include <kprotocolmanager.h>
+#include <krun.h>
 #include <kservices.h>
 #include <kurl.h>
 #include <kuserprofile.h>
 #include <userpaths.h>
 
 #include "knewmenu.h"
-#include "kfmrun.h"
 #include "kpopupmenu.h"
 
-KonqPopupMenu::KonqPopupMenu( const Konqueror::View::MenuPopupRequest &popup, 
+KonqPopupMenu::KonqPopupMenu( QStringList urls,
+                              mode_t mode,
                               QString viewURL, 
                               bool canGoBack, 
                               bool canGoForward, 
                               bool canGoUp )
-  : m_pMenuNew(0L), m_sViewURL(viewURL), m_popupMode(popup.mode)
+  : m_pMenuNew(0L), m_sViewURL(viewURL), m_lstPopupURLs(urls), m_popupMode(mode)
 {
-  assert( popup.urls.length() >= 1 );
+  assert( m_lstPopupURLs.count() >= 1 );
 
-  OPMenu *m_popupMenu = new OPMenu;
+  m_popupMenu = new OPMenu;
   bool bHttp          = true;
   bool isTrash        = true;
   bool currentDir     = false;
@@ -38,11 +39,11 @@ KonqPopupMenu::KonqPopupMenu( const Konqueror::View::MenuPopupRequest &popup,
   KProtocolManager pManager = KProtocolManager::self();
   
   KURL url;
-  CORBA::ULong i;
+  QStringList::ConstIterator it = m_lstPopupURLs.begin();
   // Check whether all URLs are correct
-  for ( i = 0; i < popup.urls.length(); i++ )
+  for ( ; it != m_lstPopupURLs.end(); it++ )
   {
-    url = KURL( popup.urls[i].in() );
+    url = KURL( *it );
 
     if ( url.isMalformed() )
     {
@@ -90,8 +91,8 @@ KonqPopupMenu::KonqPopupMenu( const Konqueror::View::MenuPopupRequest &popup,
     isTrash = true;
 
   //check if url is current directory
-  if ( popup.urls.length() == 1 )
-    if ( m_sViewURL == ((popup.urls)[0]) )
+  if ( m_lstPopupURLs.count() == 1 )
+    if ( m_sViewURL == m_lstPopupURLs.getFirst() )
       currentDir = true;
 
   QObject::disconnect( m_popupMenu, SIGNAL( activated( int ) ), this, SLOT( slotPopup( int ) ) );
@@ -121,7 +122,7 @@ KonqPopupMenu::KonqPopupMenu( const Konqueror::View::MenuPopupRequest &popup,
     id = m_popupMenu->insertItem( i18n( "Empty Trash Bin" ), 
 				  this, SLOT( slotPopupEmptyTrashBin() ) );
   } 
-  else if ( S_ISDIR( (mode_t)popup.mode ) )
+  else if ( S_ISDIR( (mode_t)m_popupMode ) )
   {
     //we don't want to use OpenParts here, because of "missing" interface 
     //methods for the popup menu (wouldn't make much sense imho) (Simon)    
@@ -129,13 +130,13 @@ KonqPopupMenu::KonqPopupMenu( const Konqueror::View::MenuPopupRequest &popup,
     id = m_popupMenu->insertItem( i18n("&New"), m_pMenuNew->popupMenu() );
     m_popupMenu->insertSeparator();
 
-    id = m_popupMenu->insertItem( *KPixmapCache::toolbarPixmap( "up.xpm" ), i18n( "Up" ), this, SLOT( slotUp() ), 100 );
+    id = m_popupMenu->insertItem( *KPixmapCache::toolbarPixmap( "up.xpm" ), i18n( "Up" ), KPOPUPMENU_UP_ID );
     m_popupMenu->setItemEnabled( id, canGoUp );
 
-    id = m_popupMenu->insertItem( *KPixmapCache::toolbarPixmap( "back.xpm" ), i18n( "Back" ), this, SLOT( slotBack() ), 101 );
+    id = m_popupMenu->insertItem( *KPixmapCache::toolbarPixmap( "back.xpm" ), i18n( "Back" ), KPOPUPMENU_BACK_ID );
     m_popupMenu->setItemEnabled( id, canGoBack );
 
-    id = m_popupMenu->insertItem( *KPixmapCache::toolbarPixmap( "forward.xpm" ), i18n( "Forward" ), this, SLOT( slotForward() ), 102 );
+    id = m_popupMenu->insertItem( *KPixmapCache::toolbarPixmap( "forward.xpm" ), i18n( "Forward" ), KPOPUPMENU_FORWARD_ID );
     m_popupMenu->setItemEnabled( id, canGoForward );
 
     m_popupMenu->insertSeparator();  
@@ -174,22 +175,18 @@ KonqPopupMenu::KonqPopupMenu( const Konqueror::View::MenuPopupRequest &popup,
 
   id = m_popupMenu->insertItem( i18n( "Add To Bookmarks" ), this, SLOT( slotPopupAddToBookmark() ) );
 
-  m_lstPopupURLs.clear();
-  for ( i = 0; i < popup.urls.length(); i++ )
-    m_lstPopupURLs.append( (popup.urls)[i].in() );
-
   if ( m_pMenuNew ) m_pMenuNew->setPopupFiles( m_lstPopupURLs );
 
   // Do all URLs have the same mimetype ?
   url = KURL( m_lstPopupURLs.getFirst() );
 
-  KMimeType* mime = KMimeType::findByURL( url, (mode_t)popup.mode, (bool)popup.isLocalFile );
+  KMimeType* mime = KMimeType::findByURL( url, m_popupMode );
   ASSERT( mime );
-  QStringList::Iterator it = m_lstPopupURLs.begin();
-  for( ; it != m_lstPopupURLs.end(); ++it )
+  it = m_lstPopupURLs.begin();
+  for( ++it /* skip first */; it != m_lstPopupURLs.end(); ++it )
   {
     KURL u( *it );  
-    KMimeType* m = KMimeType::findByURL( u, (mode_t)popup.mode, (bool)popup.isLocalFile );
+    KMimeType* m = KMimeType::findByURL( u, m_popupMode );
     if ( m != mime )
       mime = 0L;
   }
@@ -252,22 +249,16 @@ KonqPopupMenu::KonqPopupMenu( const Konqueror::View::MenuPopupRequest &popup,
     m_popupMenu->insertSeparator();
     m_popupMenu->insertItem( i18n("Properties"), this, SLOT( slotPopupProperties() ) );
   }
+}
 
-  // m_popupMenu->insertSeparator();
-  // Konqueror::View::EventCreateViewMenu viewMenu;
-  // viewMenu.menu = OpenPartsUI::Menu::_duplicate( m_popupMenu->interface() );
-  // EMIT_EVENT( m_currentView->m_vView, Konqueror::View::eventCreateViewMenu, viewMenu );
-    
-  m_popupMenu->exec( QPoint( popup.x, popup.y ) );
-
-  //  viewMenu.menu = OpenPartsUI::Menu::_nil();
-  // EMIT_EVENT( m_currentView->m_vView, Konqueror::View::eventCreateViewMenu, viewMenu );
-    
-  delete m_popupMenu;
+int KonqPopupMenu::exec( QPoint p )
+{
+  return m_popupMenu->exec( p );
 }
 
 KonqPopupMenu::~KonqPopupMenu()
 {
+  delete m_popupMenu;
   if ( m_pMenuNew ) delete m_pMenuNew;
 }
 
@@ -293,9 +284,9 @@ void KonqPopupMenu::slotFileNewAboutToShow()
 
 void KonqPopupMenu::slotPopupNewView()
 {
-  assert( m_lstPopupURLs.count() == 1 );
-  //  emit sigNewView ( m_lstPopupURLs.getFirst() );
-  
+  QStringList::ConstIterator it = m_lstPopupURLs.begin();
+  for ( ; it != m_lstPopupURLs.end(); it++ )
+    (void) new KRun(*it);
   /* KonqMainWindow *m_pShell = new KonqMainWindow( m_lstPopupURLs.getFirst() );
     m_pShell->show();
   */
@@ -341,14 +332,14 @@ void KonqPopupMenu::slotPopupOpenWith()
     KService *service = l.service();
     if ( service )
     {
-      KfmRun::run( *service, m_lstPopupURLs );
+      KRun::run( *service, m_lstPopupURLs );
       return;
     }
     else
     {
       QString exec = l.text();
       exec += " %f";
-      KfmRun::runOldApplication( exec, m_lstPopupURLs, false );
+      KRun::runOldApplication( exec, m_lstPopupURLs, false );
     }
   }
 }

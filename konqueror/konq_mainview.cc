@@ -1138,6 +1138,7 @@ void KonqMainView::slotStop()
 
 void KonqMainView::slotUp()
 {
+  kdebug(0, 1202, "KonqMainView::slotUp()");
   QString url = m_currentView->url();
   KURL u( url );
   u.cd(".."); // KURL does it for us
@@ -1348,12 +1349,28 @@ void KonqMainView::slotStopAnimation()
 
 void KonqMainView::popupMenu( const Konqueror::View::MenuPopupRequest &popup )
 {
-  // temporary kludge.
-  // this method should be removed, the signal too
-  // and views should do this directly :
-  new KonqPopupMenu( popup, m_currentView->url(),
-                     m_currentView->canGoBack(),
-                     m_currentView->canGoForward(), true /* TODO ! */ );
+  QStringList lstPopupURLs;
+  for ( unsigned int i = 0; i < popup.urls.length(); i++ )
+    lstPopupURLs.append( (popup.urls)[i].in() );
+
+  KonqPopupMenu * popupMenu = new KonqPopupMenu( lstPopupURLs, 
+                                                 (mode_t) popup.mode,
+                                                 m_currentView->url(),
+                                                 m_currentView->canGoBack(),
+                                                 m_currentView->canGoForward(), 
+                                                 true /* TODO ! */ );
+
+  kdebug(0, 1202, "exec()");
+  int iSelected = popupMenu->exec( QPoint(popup.x, popup.y) );
+  kdebug(0, 1202, "deleting popupMenu object");
+  delete popupMenu;
+  /* Test for up, back, forward. A normal signal/slot mechanism doesn't work here,
+     because those slots are virtual. */
+  switch (iSelected) {
+    case KPOPUPMENU_UP_ID : slotUp(); break;
+    case KPOPUPMENU_BACK_ID : slotBack(); break;
+    case KPOPUPMENU_FORWARD_ID : slotForward(); break;      
+  }
 }
 
 void KonqMainView::slotFileNewActivated( CORBA::Long id )
