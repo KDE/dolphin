@@ -670,6 +670,9 @@ void KonqViewManager::removeView( KonqView *view )
   printFullHierarchy( m_pMainWindow );
 #endif
 
+  if (!view)
+    return;
+
   KonqFrame* frame = view->frame();
   KonqFrameContainerBase* parentContainer = frame->parentContainer();
 
