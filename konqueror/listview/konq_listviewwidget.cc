@@ -77,7 +77,7 @@ KonqBaseListViewWidget::KonqBaseListViewWidget( KonqListView *parent, QWidget *p
     :KListView(parentWidget)
 ,sortedByColumn(0)
 ,m_pBrowserView(parent)
-,m_dirLister(0L)
+,m_dirLister(new KonqDirLister( true /*m_showIcons==FALSE*/))
 ,m_dragOverItem(0L)
 ,m_showIcons(TRUE)
 ,m_bCaseInsensitive(true)
@@ -126,6 +126,24 @@ KonqBaseListViewWidget::KonqBaseListViewWidget( KonqListView *parent, QWidget *p
    connect( verticalScrollBar(), SIGNAL(valueChanged(int)),
             this, SIGNAL(viewportAdjusted()));
 
+   // Connect the directory lister
+   QObject::connect( m_dirLister, SIGNAL( started( const QString & ) ),
+                     this, SLOT( slotStarted() ) );
+   QObject::connect( m_dirLister, SIGNAL( completed() ), this, SLOT( slotCompleted() ) );
+   QObject::connect( m_dirLister, SIGNAL( canceled() ), this, SLOT( slotCanceled() ) );
+   QObject::connect( m_dirLister, SIGNAL( clear() ), this, SLOT( slotClear() ) );
+   QObject::connect( m_dirLister, SIGNAL( newItems( const KFileItemList & ) ),
+                     this, SLOT( slotNewItems( const KFileItemList & ) ) );
+   QObject::connect( m_dirLister, SIGNAL( deleteItem( KFileItem * ) ),
+                     this, SLOT( slotDeleteItem( KFileItem * ) ) );
+   QObject::connect( m_dirLister, SIGNAL( refreshItems( const KFileItemList & ) ),
+                     this, SLOT( slotRefreshItems( const KFileItemList & ) ) );
+   QObject::connect( m_dirLister, SIGNAL( redirection( const KURL & ) ),
+                     this, SLOT( slotRedirection( const KURL & ) ) );
+   QObject::connect( m_dirLister, SIGNAL( closeView() ),
+                     this, SLOT( slotCloseView() ) );
+   QObject::connect( m_dirLister, SIGNAL( itemsFilteredByMime( const KFileItemList & ) ),
+                     m_pBrowserView, SIGNAL( itemsFilteredByMime( const KFileItemList & ) ) );
 
    viewport()->setAcceptDrops( true );
    viewport()->setMouseTracking( true );
@@ -144,9 +162,11 @@ KonqBaseListViewWidget::KonqBaseListViewWidget( KonqListView *parent, QWidget *p
 
 KonqBaseListViewWidget::~KonqBaseListViewWidget()
 {
-  kdDebug(1202) << "-KonqBaseListViewWidget" << endl;
+   kdDebug(1202) << "-KonqBaseListViewWidget" << endl;
 
-  if ( m_dirLister ) delete m_dirLister;
+   // TODO: this is a hack, better fix the connections of m_dirLister if possible!
+   m_dirLister->disconnect( this );
+   delete m_dirLister;
 }
 
 //otherwise it doesn't work, I don't knwo why, AleXXX
@@ -264,7 +284,6 @@ void KonqBaseListViewWidget::createColumns()
 
 void KonqBaseListViewWidget::stop()
 {
-  if ( m_dirLister )
     m_dirLister->stop();
 }
 
@@ -361,10 +380,11 @@ void KonqBaseListViewWidget::viewportDragLeaveEvent( QDragLeaveEvent * )
 
 void KonqBaseListViewWidget::viewportDropEvent( QDropEvent *ev  )
 {
-    if (!m_dirLister) return;
-    kdDebug() << "KonqBaseListViewWidget::viewportDropEvent" << endl;
-    if ( m_dragOverItem != 0L )
-     setSelected( m_dragOverItem, false );
+   if ( m_dirLister->url().isEmpty() )
+      return;
+   kdDebug() << "KonqBaseListViewWidget::viewportDropEvent" << endl;
+   if ( m_dragOverItem != 0L )
+      setSelected( m_dragOverItem, false );
    m_dragOverItem = 0L;
 
    ev->accept();
@@ -376,53 +396,53 @@ void KonqBaseListViewWidget::viewportDropEvent( QDropEvent *ev  )
    KonqFileItem * destItem = (item) ? item->item() : static_cast<KonqFileItem *>(m_dirLister->rootItem());
    KURL u = destItem ? destItem->url() : url();
    if ( u.isEmpty() )
-       return;
+      return;
    KonqOperations::doDrop( destItem /*may be 0L*/, u, ev, this );
 }
 
 void KonqBaseListViewWidget::startDrag()
 {
-         // Collect all selected items
-         KURL::List urls;
-         iterator it = begin();
-         for( ; it != end(); it++ )
-            if ( it->isSelected() )
-               urls.append( it->item()->url() );
+   // Collect all selected items
+   KURL::List urls;
+   iterator it = begin();
+   for( ; it != end(); it++ )
+      if ( it->isSelected() )
+         urls.append( it->item()->url() );
 
-         // Multiple URLs ?
+   // Multiple URLs ?
 
-         QListViewItem * m_pressedItem = currentItem();
+   QListViewItem * m_pressedItem = currentItem();
 
-         QPixmap pixmap2;
-         bool pixmap0Invalid(m_pressedItem->pixmap(0)==0);
-         if (!pixmap0Invalid) if (m_pressedItem->pixmap(0)->isNull()) pixmap0Invalid=TRUE;
+   QPixmap pixmap2;
+   bool pixmap0Invalid(m_pressedItem->pixmap(0)==0);
+   if (!pixmap0Invalid) if (m_pressedItem->pixmap(0)->isNull()) pixmap0Invalid=TRUE;
 
-         if (( urls.count() > 1 ) || (pixmap0Invalid))
-         {
-            int iconSize = m_pBrowserView->m_pProps->iconSize();
-            iconSize = iconSize ? iconSize : KGlobal::iconLoader()->currentSize( KIcon::Small ); // Default = small
-            pixmap2 = DesktopIcon( "kmultiple", iconSize );
-            if ( pixmap2.isNull() )
-                kdWarning(1202) << "Could not find multiple pixmap" << endl;
-         }
+   if (( urls.count() > 1 ) || (pixmap0Invalid))
+   {
+      int iconSize = m_pBrowserView->m_pProps->iconSize();
+      iconSize = iconSize ? iconSize : KGlobal::iconLoader()->currentSize( KIcon::Small ); // Default = small
+      pixmap2 = DesktopIcon( "kmultiple", iconSize );
+      if ( pixmap2.isNull() )
+          kdWarning(1202) << "Could not find multiple pixmap" << endl;
+   }
 
-         // Calculate hotspot
-         QPoint hotspot;
+   // Calculate hotspot
+   QPoint hotspot;
 
-         QUriDrag *d = KURLDrag::newDrag( urls, viewport() );
-         if ( !pixmap2.isNull())
-         {
-            hotspot.setX( pixmap2.width() / 2 );
-            hotspot.setY( pixmap2.height() / 2 );
-            d->setPixmap( pixmap2, hotspot );
-         }
-         else if (!pixmap0Invalid)
-         {
-            hotspot.setX( m_pressedItem->pixmap( 0 )->width() / 2 );
-            hotspot.setY( m_pressedItem->pixmap( 0 )->height() / 2 );
-            d->setPixmap( *(m_pressedItem->pixmap( 0 )), hotspot );
-         }
-         d->drag();
+   QUriDrag *d = KURLDrag::newDrag( urls, viewport() );
+   if ( !pixmap2.isNull())
+   {
+      hotspot.setX( pixmap2.width() / 2 );
+      hotspot.setY( pixmap2.height() / 2 );
+      d->setPixmap( pixmap2, hotspot );
+   }
+   else if (!pixmap0Invalid)
+   {
+      hotspot.setX( m_pressedItem->pixmap( 0 )->width() / 2 );
+      hotspot.setY( m_pressedItem->pixmap( 0 )->height() / 2 );
+      d->setPixmap( *(m_pressedItem->pixmap( 0 )), hotspot );
+   }
+   d->drag();
 }
 
 void KonqBaseListViewWidget::slotOnItem( QListViewItem* _item)
@@ -442,29 +462,29 @@ void KonqBaseListViewWidget::slotOnItem( QListViewItem* _item)
 
 void KonqBaseListViewWidget::slotItemRenamed(QListViewItem* item, const QString &name, int col)
 {
-    ASSERT(col==0);
-    if (col != 0) return;
-    assert(item);
-    KFileItem * fileItem = static_cast<KonqBaseListViewItem*>(item)->item();
-    KonqOperations::rename( this, fileItem->url(), name );
-    setFocus(); // When the KListViewLineEdit loses focus, focus tends to go to the location bar...
+   ASSERT(col==0);
+   if (col != 0) return;
+   assert(item);
+   KFileItem * fileItem = static_cast<KonqBaseListViewItem*>(item)->item();
+   KonqOperations::rename( this, fileItem->url(), name );
+   setFocus(); // When the KListViewLineEdit loses focus, focus tends to go to the location bar...
 }
 
 void KonqBaseListViewWidget::slotOnViewport()
 {
-    KFileItemList lst = selectedFileItems();
-    m_pBrowserView->emitCounts( lst, false );
+   KFileItemList lst = selectedFileItems();
+   m_pBrowserView->emitCounts( lst, false );
 }
 
 void KonqBaseListViewWidget::slotMouseButtonPressed(int _button, QListViewItem* _item, const QPoint&, int col)
 {
-    if ( _button == MidButton )
-    {
-        if(_item && col < 2)
-            m_pBrowserView->mmbClicked( static_cast<KonqBaseListViewItem*>(_item)->item() );
-        else // MMB on background
-            m_pBrowserView->mmbClicked( 0L );
-    }
+   if ( _button == MidButton )
+   {
+      if(_item && col < 2)
+         m_pBrowserView->mmbClicked( static_cast<KonqBaseListViewItem*>(_item)->item() );
+      else // MMB on background
+         m_pBrowserView->mmbClicked( 0L );
+   }
 }
 
 void KonqBaseListViewWidget::slotExecuted( QListViewItem* item )
@@ -577,32 +597,33 @@ void KonqBaseListViewWidget::popupMenu( const QPoint& _global, bool alwaysForSel
        selectedItems( items );
        QValueList<KonqBaseListViewItem*>::Iterator it = items.begin();
        for( ; it != items.end(); ++it )
-           lstItems.append( (*it)->item() );
+          lstItems.append( (*it)->item() );
    }
 
    KFileItem * rootItem = 0L;
    bool deleteRootItem = false;
    if ( lstItems.count() == 0 ) // emit popup for background
    {
-     clearSelection();
+      clearSelection();
 
-     if (!m_dirLister) return;
-     rootItem = m_dirLister->rootItem();
-     if ( !rootItem )
-     {
-       if ( url().isEmpty() )
+      if ( m_dirLister->url().isEmpty() )
          return;
-       // Maybe we want to do a stat to get full info about the root item
-       // (when we use permissions). For now create a dummy one.
-       rootItem = new KFileItem( S_IFDIR, (mode_t)-1, url() );
-       deleteRootItem = true;
-     }
+      rootItem = m_dirLister->rootItem();
+      if ( !rootItem )
+      {
+         if ( url().isEmpty() )
+            return;
+         // Maybe we want to do a stat to get full info about the root item
+         // (when we use permissions). For now create a dummy one.
+         rootItem = new KFileItem( S_IFDIR, (mode_t)-1, url() );
+         deleteRootItem = true;
+      }
 
-     lstItems.append( rootItem );
+      lstItems.append( rootItem );
    }
    emit m_pBrowserView->extension()->popupMenu( _global, lstItems );
 
-    if ( deleteRootItem )
+   if ( deleteRootItem )
       delete rootItem; // we just created it
 }
 
@@ -615,29 +636,6 @@ void KonqBaseListViewWidget::updateListContents()
 bool KonqBaseListViewWidget::openURL( const KURL &url )
 {
    m_pBrowserView->beforeOpenURL();
-   if ( !m_dirLister )
-   {
-      // Create the directory lister
-      m_dirLister = new KonqDirLister( true /*m_showIcons==FALSE*/);
-
-      QObject::connect( m_dirLister, SIGNAL( started( const QString & ) ),
-                        this, SLOT( slotStarted() ) );
-      QObject::connect( m_dirLister, SIGNAL( completed() ), this, SLOT( slotCompleted() ) );
-      QObject::connect( m_dirLister, SIGNAL( canceled() ), this, SLOT( slotCanceled() ) );
-      QObject::connect( m_dirLister, SIGNAL( clear() ), this, SLOT( slotClear() ) );
-      QObject::connect( m_dirLister, SIGNAL( newItems( const KFileItemList & ) ),
-                        this, SLOT( slotNewItems( const KFileItemList & ) ) );
-      QObject::connect( m_dirLister, SIGNAL( deleteItem( KFileItem * ) ),
-                        this, SLOT( slotDeleteItem( KFileItem * ) ) );
-      QObject::connect( m_dirLister, SIGNAL( refreshItems( const KFileItemList & ) ),
-                        this, SLOT( slotRefreshItems( const KFileItemList & ) ) );
-      QObject::connect( m_dirLister, SIGNAL( redirection( const KURL & ) ),
-                        this, SLOT( slotRedirection( const KURL & ) ) );
-      QObject::connect( m_dirLister, SIGNAL( closeView() ),
-                        this, SLOT( slotCloseView() ) );
-      QObject::connect( m_dirLister, SIGNAL( itemsFilteredByMime( const KFileItemList & ) ),
-                        m_pBrowserView, SIGNAL( itemsFilteredByMime( const KFileItemList & ) ) );
-  }
 
    // The first time or new protocol ? So create the columns first
    kdDebug(1202) << "protocol in ::openURL: -" << url.protocol()<<"- url: -"<<url.path()<<"-"<<endl;
@@ -806,13 +804,13 @@ void KonqBaseListViewWidget::slotRefreshItems( const KFileItemList & entries )
    QListIterator<KFileItem> kit ( entries );
    for( ; kit.current(); ++kit )
    {
-       iterator it = begin();
-       for( ; it != end(); ++it )
-           if ( (*it).item() == kit.current() )
-           {
-               it->updateContents();
-               break;
-           }
+      iterator it = begin();
+      for( ; it != end(); ++it )
+         if ( (*it).item() == kit.current() )
+         {
+            it->updateContents();
+            break;
+         }
    }
 }
 
@@ -830,38 +828,38 @@ void KonqBaseListViewWidget::slotRedirection( const KURL & url )
 
 void KonqBaseListViewWidget::slotCloseView()
 {
-    kdDebug() << "KonqBaseListViewWidget::slotCloseView" << endl;
-    //delete m_pBrowserView;
+   kdDebug() << "KonqBaseListViewWidget::slotCloseView" << endl;
+   //delete m_pBrowserView;
 }
 
 KonqBaseListViewWidget::iterator& KonqBaseListViewWidget::iterator::operator++()
 {
-  if ( !m_p ) return *this;
-  KonqBaseListViewItem *i = (KonqBaseListViewItem*)m_p->firstChild();
-  if ( i )
-  {
-    m_p = i;
-    return *this;
-  }
-  i = (KonqBaseListViewItem*)m_p->nextSibling();
-  if ( i )
-  {
-    m_p = i;
-    return *this;
-  }
-  m_p = (KonqBaseListViewItem*)m_p->parent();
+   if ( !m_p ) return *this;
+   KonqBaseListViewItem *i = (KonqBaseListViewItem*)m_p->firstChild();
+   if ( i )
+   {
+      m_p = i;
+      return *this;
+   }
+   i = (KonqBaseListViewItem*)m_p->nextSibling();
+   if ( i )
+   {
+      m_p = i;
+      return *this;
+   }
+   m_p = (KonqBaseListViewItem*)m_p->parent();
 
-  while ( m_p )
-  {
+   while ( m_p )
+   {
       if ( m_p->nextSibling() )
-          break;
+         break;
       m_p = (KonqBaseListViewItem*)m_p->parent();
-  }
+   }
 
-  if ( m_p )
-    m_p = (KonqBaseListViewItem*)m_p->nextSibling();
+   if ( m_p )
+      m_p = (KonqBaseListViewItem*)m_p->nextSibling();
 
-  return *this;
+   return *this;
 }
 
 KonqBaseListViewWidget::iterator KonqBaseListViewWidget::iterator::operator++(int)
@@ -884,9 +882,9 @@ KonqBaseListViewWidget::iterator KonqBaseListViewWidget::iterator::operator++(in
 
    while ( m_p )
    {
-       if ( m_p->nextSibling() )
-           break;
-       m_p = (KonqBaseListViewItem*)m_p->parent();
+      if ( m_p->nextSibling() )
+         break;
+      m_p = (KonqBaseListViewItem*)m_p->parent();
    }
 
    if (m_p)
@@ -896,59 +894,59 @@ KonqBaseListViewWidget::iterator KonqBaseListViewWidget::iterator::operator++(in
 
 void KonqBaseListViewWidget::paintEmptyArea( QPainter *p, const QRect &r )
 {
-    const QPixmap *pm = viewport()->backgroundPixmap();
+   const QPixmap *pm = viewport()->backgroundPixmap();
 
-    if (!pm || pm->isNull())
-        p->fillRect(r, viewport()->backgroundColor());
-    else
-    {
-        int ax = (r.x() + contentsX()) % pm->width();
-        int ay = (r.y() + contentsY()) % pm->height();
+   if (!pm || pm->isNull())
+      p->fillRect(r, viewport()->backgroundColor());
+   else
+   {
+      int ax = (r.x() + contentsX()) % pm->width();
+      int ay = (r.y() + contentsY()) % pm->height();
         /*kdDebug() << "KonqBaseListViewWidget::paintEmptyArea "
                   << r.x() << "," << r.y() << " " << r.width() << "x" << r.height()
                   << " drawing pixmap with offset " << ax << "," << ay
                   << endl;*/
-        p->drawTiledPixmap(r, *pm, QPoint(ax, ay));
-    }
+      p->drawTiledPixmap(r, *pm, QPoint(ax, ay));
+   }
 }
 
 void KonqBaseListViewWidget::disableIcons( const KURL::List & lst )
 {
-  iterator kit = begin();
-  for( ; kit != end(); ++kit )
-  {
+   iterator kit = begin();
+   for( ; kit != end(); ++kit )
+   {
       bool bFound = false;
       // Wow. This is ugly. Matching two lists together....
       // Some sorting to optimise this would be a good idea ?
       for (KURL::List::ConstIterator it = lst.begin(); !bFound && it != lst.end(); ++it)
       {
-          if ( (*kit).item()->url() == *it ) // *it is encoded already
-          {
-              bFound = true;
-              // maybe remove "it" from lst here ?
-          }
+         if ( (*kit).item()->url() == *it ) // *it is encoded already
+         {
+            bFound = true;
+            // maybe remove "it" from lst here ?
+         }
       }
       (*kit).setDisabled( bFound );
-  }
+   }
 }
 
 void KonqBaseListViewWidget::saveState( QDataStream & ds )
 {
-    QString str;
-    if ( currentItem() )
-        str = static_cast<KonqBaseListViewItem*>(currentItem())->item()->url().fileName(true);
-    ds << str;
+   QString str;
+   if ( currentItem() )
+      str = static_cast<KonqBaseListViewItem*>(currentItem())->item()->url().fileName(true);
+   ds << str;
 }
 
 void KonqBaseListViewWidget::restoreState( QDataStream & ds )
 {
-    QString str;
-    ds >> str;
-    if ( !str.isEmpty() )
-    {
-        m_itemToGoTo = str;
-        m_goToFirstItem = false;
-    }
+   QString str;
+   ds >> str;
+   if ( !str.isEmpty() )
+   {
+      m_itemToGoTo = str;
+      m_goToFirstItem = false;
+   }
 }
 
 #include "konq_listviewwidget.moc"
