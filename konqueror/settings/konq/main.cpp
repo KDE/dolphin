@@ -82,6 +82,8 @@ void KonqyModule::save()
   // Send signal to konqueror
   // Warning. In case something is added/changed here, keep kfmclient in sync
   QByteArray data;
+  if ( !kapp->dcopClient()->isAttached() )
+    kapp->dcopClient()->attach();
   kapp->dcopClient()->send( "*", "KonqMainViewIface", "reparseConfiguration()", data ); 
 }
 
@@ -143,6 +145,8 @@ void KDesktopModule::save()
   font->save();
 
   // Tell kdesktop about the new config file
+  if ( !kapp->dcopClient()->isAttached() )
+    kapp->dcopClient()->attach();
   QByteArray data;
   kapp->dcopClient()->send( "kdesktop", "KDesktopIface", "configure()", data );
 }
