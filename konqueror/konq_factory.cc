@@ -210,7 +210,7 @@ const KAboutData *KonqFactory::aboutData()
                         KAboutData::License_GPL,
                         I18N_NOOP("(c) 1999-2003, The Konqueror developers"),
                         0,
-                        I18N_NOOP("http://www.konqueror.org") );
+                        I18N_NOOP("http://konqueror.kde.org") );
     s_aboutData->addAuthor( "David Faure", I18N_NOOP("developer (parts, I/O lib) and maintainer"), "faure@kde.org" );
     s_aboutData->addAuthor( "Simon Hausmann", I18N_NOOP("developer (framework, parts)"), "hausmann@kde.org" );
     s_aboutData->addAuthor( "Michael Reiher", I18N_NOOP("developer (framework)"), "michael.reiher@gmx.de" );
