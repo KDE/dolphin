@@ -104,7 +104,7 @@ QValueList<KBookmark> ListView::itemsToBookmarks(QPtrList<KEBListViewItem>* item
     return bookmarks;
 }
 
-#define VALID_FIRST(items) ( (items->count() > 0) && !items->first()->isEmptyFolderPadder() )
+#define VALID_FIRST(items) ( (items->count() > 0) && !items->first()->isEmptyFolderPadder() && items->first()->bookmark().hasParent() )
 
 QPtrList<KEBListViewItem>* ListView::selectedItems() const {
     static QPtrList<KEBListViewItem>* s_selected_items_cache = 0;
