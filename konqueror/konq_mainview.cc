@@ -99,6 +99,7 @@ enum _ids {
     MOPTIONS_CONFIGUREFILEMANAGER_ID,
     MOPTIONS_CONFIGUREBROWSER_ID,
     MOPTIONS_CONFIGUREKEYS_ID,
+    MOPTIONS_RELOADPLUGINS_ID,
     
     MHELP_CONTENTS_ID,
     MHELP_ABOUT_ID
@@ -469,6 +470,8 @@ bool KonqMainView::mappingCreateMenubar( OpenPartsUI::MenuBar_ptr menuBar )
   m_vMenuOptions->insertItem4( text, this, "slotConfigureBrowser", 0, MOPTIONS_CONFIGUREBROWSER_ID, -1 );
   text = Q2C( i18n("Configure &keys") );
   m_vMenuOptions->insertItem4( text, this, "slotConfigureKeys", 0, MOPTIONS_CONFIGUREKEYS_ID, -1 );
+  text = Q2C( i18n("Reload Plugins") );
+  m_vMenuOptions->insertItem4( text, this, "slotReloadPlugins", 0, MOPTIONS_RELOADPLUGINS_ID, -1 );
 
   text = Q2C( i18n( "&Help" ) );
   CORBA::Long helpId = m_vMenuBar->insertMenu( text, m_vMenuHelp, -1, -1 );
@@ -1390,6 +1393,12 @@ void KonqMainView::slotConfigureBrowser()
 void KonqMainView::slotConfigureKeys()
 {
   KKeyDialog::configureKeys( m_pAccel );
+}
+
+void KonqMainView::slotReloadPlugins()
+{
+  KonqPlugins::reload();
+  //TODO: reinstall them
 }
 
 void KonqMainView::slotHelpContents()

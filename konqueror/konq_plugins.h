@@ -20,15 +20,18 @@
 #ifndef __konq_plugins_h__
 #define __konq_plugins_h__
 
-#include <qstring.h>
-#include <qmap.h>
-
 #include <kom.h>
+#include <ktrader.h>
 
 class KonqPlugins
 {
 public:
   static void installKOMPlugins( KOM::Component_ptr comp );
+  static void reload();
+
+private:
+  static KTrader::OfferList komPluginOffers;
+  static bool bInitialized;
 };
 
 #endif

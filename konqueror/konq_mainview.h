@@ -154,6 +154,7 @@ public slots:  // IDL
   virtual void slotConfigureFileManager();
   virtual void slotConfigureBrowser();
   virtual void slotConfigureKeys();
+  virtual void slotReloadPlugins();
 
   // Help menu
   virtual void slotHelpContents();    

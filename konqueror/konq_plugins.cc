@@ -20,23 +20,27 @@
 #include "konq_plugins.h"
 
 #include <kded_instance.h>
-#include <ktrader.h>
 #include <knaming.h>
 #include <kactivator.h>
+#include <qstringlist.h>
 #include <kdebug.h>
+
+KTrader::OfferList KonqPlugins::komPluginOffers;
+bool KonqPlugins::bInitialized = false;
 
 void KonqPlugins::installKOMPlugins( KOM::Component_ptr comp )
 {
   kdebug(0, 1202, "void KonqPlugins::installKOMPlugins( KOM::Component_ptr comp )" );
 
-  KTrader *trader = KdedInstance::self()->ktrader();
   KNaming *naming = KdedInstance::self()->knaming();
   KActivator *activator = KdedInstance::self()->kactivator();
-  
-  KTrader::OfferList offers = trader->query( "Konqueror/KOMPlugin" );
 
-  KTrader::OfferList::ConstIterator it = offers.begin();
-  for (; it != offers.end(); ++it )
+  if ( !bInitialized )
+    reload();
+
+  KTrader::OfferList::ConstIterator it = komPluginOffers.begin();
+  KTrader::OfferList::ConstIterator end = komPluginOffers.end();
+  for (; it != end; ++it )
   {
     KService::PropertyPtr requiredIfProp = (*it)->property( "X-KDE-KonqKOM-RequiredInterfaces" );
     KService::PropertyPtr providedIfProp = (*it)->property( "X-KDE-KonqKOM-ProvidedInterfaces" );
@@ -122,4 +126,13 @@ void KonqPlugins::installKOMPlugins( KOM::Component_ptr comp )
 	
     comp->addPlugin( factory, reqIf, reqPlugins, prov, true );
   }
+}
+
+void KonqPlugins::reload()
+{
+  KTrader *trader = KdedInstance::self()->ktrader();
+  
+  komPluginOffers = trader->query( "Konqueror/KOMPlugin" );
+  
+  bInitialized = true;
 }
