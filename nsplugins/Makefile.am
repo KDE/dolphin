@@ -17,15 +17,11 @@ NSPluginClassIface.h:
 	ln -s viewer/NSPluginClassIface.h .
 
 
-
 lib_LTLIBRARIES = libplugin.la
 libplugin_la_SOURCES = plugin_part.cpp nspluginloader.cpp NSPluginClassIface.stub
 
 libplugin_la_LDFLAGS = $(all_libraries) -version-info 1:0:0 -module -no-undefined
 libplugin_la_LIBADD  = -lkparts -lXt
-
-kdelnkdir = $(kde_servicesdir)
-kdelnk_DATA = plugin.desktop
 
 
 bin_PROGRAMS = pluginscan
