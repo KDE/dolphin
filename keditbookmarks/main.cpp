@@ -37,7 +37,7 @@
 
 static KCmdLineOptions options[] = {
    {"exportmoz <filename>", I18N_NOOP("Export bookmarks to file in Mozilla format."), 0},
-   {"exportns <filename>", I18N_NOOP("Export bookmarks to file in Netscape (<=4) format."), 0},
+   {"exportns <filename>", I18N_NOOP("Export bookmarks to file in Netscape (4.x and earlier) format."), 0},
    {"address <address>", I18N_NOOP("Open at the given position in the bookmarks file"), 0},
    {"+[file]", I18N_NOOP("File to edit"), 0},
    KCmdLineLastOption
