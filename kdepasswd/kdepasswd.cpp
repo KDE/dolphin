@@ -21,7 +21,7 @@
 
 static KCmdLineOptions options[] = 
 {
-    { "+[user]", I18N_NOOP("Change password of this user."), 0 },
+    { "+[user]", I18N_NOOP("Change password of this user"), 0 },
     KCmdLineLastOption
 };
 

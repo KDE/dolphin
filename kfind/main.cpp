@@ -15,7 +15,7 @@ static const char description[] =
 
 static KCmdLineOptions options[] =
 {
-  { "+[searchpath]", I18N_NOOP("Path(s) to search."), 0 },
+  { "+[searchpath]", I18N_NOOP("Path(s) to search"), 0 },
   KCmdLineLastOption
 };
 
@@ -33,7 +33,7 @@ int main( int argc, char ** argv )
   aboutData.addAuthor("Stephan Kulow", 0, "coolo@kde.org");
   aboutData.addAuthor("Mario Weilguni",0, "mweilguni@sime.com");
   aboutData.addAuthor("Alex Zepeda",0, "zipzippy@sonic.net");
-  aboutData.addAuthor("Miroslav Flídr",0, "flidr@kky.zcu.cz");
+  aboutData.addAuthor("Miroslav Flï¿½r",0, "flidr@kky.zcu.cz");
   aboutData.addAuthor("Harri Porten",0, "porten@kde.org");
   aboutData.addAuthor("Dima Rogozin",0, "dima@mercury.co.il");
   aboutData.addAuthor("Carsten Pfeiffer",0, "pfeiffer@kde.org");

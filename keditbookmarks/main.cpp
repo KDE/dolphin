@@ -39,20 +39,20 @@
 #include <kbookmarkexporter.h>
 
 static KCmdLineOptions options[] = {
-    {"importmoz <filename>", I18N_NOOP("Import bookmarks from a file in Mozilla format."), 0},
-    {"importns <filename>", I18N_NOOP("Import bookmarks from a file in Netscape (4.x and earlier) format."), 0},
-    {"importie <filename>", I18N_NOOP("Import bookmarks from a file in Internet Explorer's Favorites format."), 0},
-    {"importopera <filename>", I18N_NOOP("Import bookmarks from a file in Opera format."), 0},
+    {"importmoz <filename>", I18N_NOOP("Import bookmarks from a file in Mozilla format"), 0},
+    {"importns <filename>", I18N_NOOP("Import bookmarks from a file in Netscape (4.x and earlier) format"), 0},
+    {"importie <filename>", I18N_NOOP("Import bookmarks from a file in Internet Explorer's Favorites format"), 0},
+    {"importopera <filename>", I18N_NOOP("Import bookmarks from a file in Opera format"), 0},
 
-    {"exportmoz <filename>", I18N_NOOP("Export bookmarks to a file in Mozilla format."), 0},
-    {"exportns <filename>", I18N_NOOP("Export bookmarks to a file in Netscape (4.x and earlier) format."), 0},
-    {"exporthtml <filename>", I18N_NOOP("Export bookmarks to a file in a printable HTML format."), 0},
-    {"exportie <filename>", I18N_NOOP("Export bookmarks to a file in Internet Explorer's Favorites format."), 0},
-    {"exportopera <filename>", I18N_NOOP("Export bookmarks to a file in Opera format."), 0},
+    {"exportmoz <filename>", I18N_NOOP("Export bookmarks to a file in Mozilla format"), 0},
+    {"exportns <filename>", I18N_NOOP("Export bookmarks to a file in Netscape (4.x and earlier) format"), 0},
+    {"exporthtml <filename>", I18N_NOOP("Export bookmarks to a file in a printable HTML format"), 0},
+    {"exportie <filename>", I18N_NOOP("Export bookmarks to a file in Internet Explorer's Favorites format"), 0},
+    {"exportopera <filename>", I18N_NOOP("Export bookmarks to a file in Opera format"), 0},
 
     {"address <address>", I18N_NOOP("Open at the given position in the bookmarks file"), 0},
     {"customcaption <caption>", I18N_NOOP("Set the user readable caption for example \"Konsole\""), 0},
-    {"nobrowser", I18N_NOOP("Hide all browser related functions."), 0},
+    {"nobrowser", I18N_NOOP("Hide all browser related functions"), 0},
     {"+[file]", I18N_NOOP("File to edit"), 0},
     KCmdLineLastOption
 };

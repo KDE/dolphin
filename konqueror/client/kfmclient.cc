@@ -60,9 +60,9 @@ bool clientApp::m_ok;
 
 static const KCmdLineOptions options[] =
 {
-   { "commands", I18N_NOOP("Show available commands."), 0},
-   { "+command", I18N_NOOP("Command (see --commands)."), 0},
-   { "+[URL(s)]", I18N_NOOP("Arguments for command."), 0},
+   { "commands", I18N_NOOP("Show available commands"), 0},
+   { "+command", I18N_NOOP("Command (see --commands)"), 0},
+   { "+[URL(s)]", I18N_NOOP("Arguments for command"), 0},
    KCmdLineLastOption
 };
 
