@@ -31,7 +31,7 @@
 #include <kcmdlineargs.h>
 #include <dcopclient.h>
 #include <klocale.h>
-#include <qlist.h>
+#include <qptrlist.h>
 #include <qsocketnotifier.h>
 #include <stdlib.h>
 #include "../../config.h"

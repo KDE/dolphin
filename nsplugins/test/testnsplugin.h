@@ -28,7 +28,7 @@
 #include <qwidget.h>
 #include <ktmainwindow.h>
 #include <qlayout.h>
-#include <qlist.h>
+#include <qptrlist.h>
 
 class NSPluginLoader;
 class NSPluginInstance;
