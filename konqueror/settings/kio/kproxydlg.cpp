@@ -252,7 +252,7 @@ void KProxyDialog::save()
           QString msg = i18n("<qt>Proxy information was not setup "
                              "properly: please click on the <em>"
                              "Setup...</em> button to correct this "
-                             "problem before proceeding; otherwise, "
+                             "problem before proceeding; otherwise "
                              "the changes you have made will be ignored."
                              "</qt>");
           KMessageBox::error( this, msg, i18n("Invalid Proxy Setup") );
@@ -271,7 +271,7 @@ void KProxyDialog::save()
         QString msg = i18n("<qt>Proxy information was not setup "
                            "properly: please click on the <em>"
                            "Setup...</em> button to correct this "
-                           "problem before proceeding; otherwise. "
+                           "problem before proceeding; otherwise "
                            "the changes you have made will be ignored."
                            "</qt>");
         KMessageBox::error( this, msg, i18n("Invalid Proxy Setup") );
