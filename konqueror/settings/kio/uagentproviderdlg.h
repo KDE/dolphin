@@ -62,7 +62,7 @@ protected slots:
   void updateInfo();
 
 protected:
-  void init();
+  void init(bool updateInfo = false);
 
 private:
   FakeUASProvider* m_provider;

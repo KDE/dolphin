@@ -64,7 +64,7 @@ UAProviderDlg::UAProviderDlg( const QString& caption, QWidget *parent,
   QVBoxLayout* mainLayout = new QVBoxLayout(this, 0, 0);
 
   dlg = new UAProviderDlgUI (this);
-  mainLayout->addWidget(dlg);  
+  mainLayout->addWidget(dlg);
 
   init();
 }
@@ -73,19 +73,21 @@ UAProviderDlg::~UAProviderDlg()
 {
 }
 
-void UAProviderDlg::init()
+void UAProviderDlg::init(bool updateInfo )
 {
-  connect( dlg->pbOk, SIGNAL(clicked()), SLOT(accept()) );
-  connect( dlg->pbCancel, SIGNAL(clicked()), SLOT(reject()) );
+    if ( !updateInfo )
+    {
+        connect( dlg->pbOk, SIGNAL(clicked()), SLOT(accept()) );
+        connect( dlg->pbCancel, SIGNAL(clicked()), SLOT(reject()) );
 
-  connect( dlg->leSite, SIGNAL(textChanged(const QString&)),
-           SLOT(slotTextChanged( const QString&)) );
+        connect( dlg->leSite, SIGNAL(textChanged(const QString&)),
+                 SLOT(slotTextChanged( const QString&)) );
 
-  connect( dlg->cbAlias, SIGNAL(activated(const QString&)),
-           SLOT(slotActivated(const QString&)) );
-           
-  connect( dlg->pbUpdateList, SIGNAL(clicked()), SLOT(updateInfo()) );
+        connect( dlg->cbAlias, SIGNAL(activated(const QString&)),
+                 SLOT(slotActivated(const QString&)) );
 
+        connect( dlg->pbUpdateList, SIGNAL(clicked()), SLOT(updateInfo()) );
+    }
   if ( !m_provider )
     m_provider = new FakeUASProvider();
 
@@ -93,8 +95,8 @@ void UAProviderDlg::init()
   dlg->cbAlias->insertStringList( m_provider->userAgentAliasList() );
   dlg->cbAlias->insertItem( "", 0 );
   dlg->cbAlias->listBox()->sort();
-  
-  dlg->leSite->setFocus();  
+
+  dlg->leSite->setFocus();
 }
 
 void UAProviderDlg::slotActivated( const QString& text )
@@ -116,7 +118,7 @@ void UAProviderDlg::updateInfo()
 {
   QString citem = dlg->cbAlias->currentText();
   m_provider->setListDirty(true);
-  init();
+  init(true);
   setIdentity(citem);
 }
 
