@@ -116,15 +116,8 @@ void KonqChildView::openURL( const KURL &url, bool useMiscURLData  )
     browserExtension()->setXYOffset( m_iXOffset, m_iYOffset );
 
   m_pMainView->setLocationBarURL( this, url.decodedURL() );
-  
-  QMap<KParts::ReadOnlyPart *, KonqChildView *> views = m_pMainView->viewMap();
-  QMap<KParts::ReadOnlyPart *, KonqChildView *>::ConstIterator it = views.begin();
-  QMap<KParts::ReadOnlyPart *, KonqChildView *>::ConstIterator end = views.end();
-  for (; it != end; ++it )
-  {
-    KParts::OpenURLEvent ev( m_pView, url );
-    QApplication::sendEvent( it.key(), &ev );
-  }
+
+  sendOpenURLEvent( url );
 }
 
 void KonqChildView::switchView( KonqViewFactory &viewFactory )
@@ -402,6 +395,8 @@ void KonqChildView::go( QList<HistoryEntry> &stack, int steps )
   else
     m_pView->openURL( h->url );
 
+  sendOpenURLEvent( h->url );
+  
   m_pMainView->setLocationBarURL( this, h->url.decodedURL() );
 
   stack.removeFirst();
@@ -490,5 +485,17 @@ void KonqChildView::setPassiveMode( bool mode )
     }
   }
 }
+
+void KonqChildView::sendOpenURLEvent( const KURL &url )
+{
+  QMap<KParts::ReadOnlyPart *, KonqChildView *> views = m_pMainView->viewMap();
+  QMap<KParts::ReadOnlyPart *, KonqChildView *>::ConstIterator it = views.begin();
+  QMap<KParts::ReadOnlyPart *, KonqChildView *>::ConstIterator end = views.end();
+  for (; it != end; ++it )
+  {
+    KParts::OpenURLEvent ev( m_pView, url );
+    QApplication::sendEvent( it.key(), &ev );
+  }
+} 
 
 #include "konq_childview.moc"

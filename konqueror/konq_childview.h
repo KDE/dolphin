@@ -238,6 +238,8 @@ protected:
 
   void go( QList<HistoryEntry> &stack, int steps );
 
+  void sendOpenURLEvent( const KURL &url );
+
   KParts::ReadOnlyPart *m_pView;
 
   QString m_sLocationBarURL;

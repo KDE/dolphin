@@ -77,7 +77,7 @@ KonqDirTreeBrowserExtension::KonqDirTreeBrowserExtension( KonqDirTreePart *paren
 void KonqDirTreeBrowserExtension::slotSelectionChanged()
 {
   bool bInTrash = false;
-  
+
   bool cutcopy, move;
 
   KonqDirTreeItem *selection = (KonqDirTreeItem *)m_tree->selectedItem();
@@ -92,7 +92,7 @@ void KonqDirTreeBrowserExtension::slotSelectionChanged()
   QMimeSource *data = QApplication::clipboard()->data();
   bool paste = ( bKIOClipboard || data->encodedData( data->format() ).size() != 0 ) &&
 	       ( selection );
-  
+
   emit enableAction( "copy", cutcopy );
   emit enableAction( "cut", cutcopy );
   emit enableAction( "del", move );
@@ -153,7 +153,7 @@ KonqDirTreePart::KonqDirTreePart( QWidget *parentWidget, QObject *parent, const 
   m_pTree = new KonqDirTree( this, parentWidget );
 
   m_extension = new KonqDirTreeBrowserExtension( this, m_pTree );
-  
+
   setWidget( m_pTree );
   setInstance( KonqFactory::instance(), false );
   m_url = KURL( QDir::homeDirPath().prepend( "file:" ) );
@@ -173,6 +173,20 @@ bool KonqDirTreePart::openURL( const KURL & )
 void KonqDirTreePart::closeURL()
 {
 }
+
+bool KonqDirTreePart::event( QEvent *e )
+{
+ if ( KParts::ReadOnlyPart::event( e ) )
+   return true;
+ 
+ if ( KParts::OpenURLEvent::test( e ) && ((KParts::OpenURLEvent *)e)->part() != this )
+ {
+   m_pTree->followURL( ((KParts::OpenURLEvent *)e)->url() );
+   return true;
+ }
+ 
+ return false;
+} 
 
 KonqDirTreeItem::KonqDirTreeItem( KonqDirTree *parent, QListViewItem *parentItem, KonqDirTreeItem *topLevelItem, KFileItem *item )
   : QListViewItem( parentItem )
@@ -315,6 +329,11 @@ void KonqDirTree::removeSubDir( KonqDirTreeItem *item, KonqDirTreeItem *topLevel
 
   topLevelItem.m_mapSubDirs->remove( url );
 }
+
+void KonqDirTree::followURL( const KURL &url )
+{
+//  qDebug( "url! : %s", url.url().ascii() ); 
+} 
 
 void KonqDirTree::contentsDragEnterEvent( QDragEnterEvent * )
 {

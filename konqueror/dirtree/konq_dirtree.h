@@ -53,6 +53,9 @@ public:
 
   KonqDirTreeBrowserExtension *extension() const { return m_extension; }
 
+protected:
+  virtual bool event( QEvent *e );
+
 private:
   KonqDirTree *m_pTree;
   KonqDirTreeBrowserExtension *m_extension;
@@ -92,6 +95,8 @@ public:
 
   void addSubDir( KonqDirTreeItem *item, KonqDirTreeItem *topLevel, const KURL &url );
   void removeSubDir( KonqDirTreeItem *item, KonqDirTreeItem *topLevel, const KURL &url );
+
+  void followURL( const KURL &url );
 
 protected:
   virtual void contentsDragEnterEvent( QDragEnterEvent *e );
