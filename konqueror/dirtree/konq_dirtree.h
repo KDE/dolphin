@@ -124,7 +124,7 @@ private:
   };
 
   TopLevelItem findTopLevelByItem( KonqDirTreeItem *item );
-  TopLevelItem findTopLevelByDirLister( KonqDirLister *lister );
+  TopLevelItem findTopLevelByDirLister( const KonqDirLister *lister );
 
   QListViewItem *m_root;
 

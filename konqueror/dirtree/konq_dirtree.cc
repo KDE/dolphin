@@ -360,7 +360,7 @@ void KonqDirTree::followURL( const KURL &_url )
         if ( !dirIt.data()->isOpen() )
         {
             m_selectAfterOpening = _url;
-            //kdDebug(1202) << "KonqDirTree::followURL: m_selectAfterOpening=" << m_selectAfterOpening.url() << endl;
+	    //kdDebug(1202) << "KonqDirTree::followURL: m_selectAfterOpening=" << m_selectAfterOpening.url() << endl;
             dirIt.data()->setOpen( true );
             return; // We know we won't find it
         }
@@ -452,18 +452,20 @@ void KonqDirTree::contentsMouseReleaseEvent( QMouseEvent *e )
 
 void KonqDirTree::slotNewItems( const KFileItemList& entries )
 {
+  kdDebug() << "slotNewItems " << entries.count() << endl; 
+  
+  const KonqDirLister *lister = static_cast<const KonqDirLister *>( sender() );
+  
+  TopLevelItem topLevelItem = findTopLevelByDirLister( lister );
+  
+  assert( topLevelItem.m_item );
+
   QListIterator<KFileItem> kit ( entries );
   for( ; kit.current(); ++kit )
   {
     KonqFileItem * item = static_cast<KonqFileItem *>(*kit);
 
     assert( S_ISDIR( item->mode() ) );
-
-    KonqDirLister *lister = (KonqDirLister *)sender();
-
-    TopLevelItem topLevelItem = findTopLevelByDirLister( lister );
-
-    assert( topLevelItem.m_item );
 
     KURL dir( item->url() );
     dir.setFileName( "" );
@@ -594,7 +596,7 @@ void KonqDirTree::slotClicked( QListViewItem *item )
 
 void KonqDirTree::slotListingStopped()
 {
-  KonqDirLister *lister = (KonqDirLister *)sender();
+  const KonqDirLister *lister = static_cast<const KonqDirLister *>( sender() );
 
   TopLevelItem topLevelItem = findTopLevelByDirLister( lister );
 
@@ -629,16 +631,17 @@ void KonqDirTree::slotListingStopped()
   if ( oIt != m_mapCurrentOpeningFolders.end() )
   {
     oIt.data()->setPixmap( 0, m_folderPixmap );
+    m_mapCurrentOpeningFolders.remove( oIt );
+
+    if ( m_mapCurrentOpeningFolders.count() == 0 )
+      m_animationTimer->stop();
+    /*
     if ( m_selectAfterOpening.upURL() == url )
     {
       followURL( m_selectAfterOpening );
       m_selectAfterOpening = KURL();
     }
-
-    m_mapCurrentOpeningFolders.remove( oIt );
-
-    if ( m_mapCurrentOpeningFolders.count() == 0 )
-      m_animationTimer->stop();
+    */
   }
 }
 
@@ -880,7 +883,7 @@ KonqDirTree::TopLevelItem KonqDirTree::findTopLevelByItem( KonqDirTreeItem *item
   return TopLevelItem();
 }
 
-KonqDirTree::TopLevelItem KonqDirTree::findTopLevelByDirLister( KonqDirLister *lister )
+KonqDirTree::TopLevelItem KonqDirTree::findTopLevelByDirLister( const KonqDirLister *lister )
 {
   QValueList<TopLevelItem>::ConstIterator it = m_topLevelItems.begin();
   QValueList<TopLevelItem>::ConstIterator end = m_topLevelItems.end();
