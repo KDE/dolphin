@@ -26,7 +26,6 @@
 
 #include <qstring.h>
 #include <kconfig.h>
-class KURLRequester;
 class QRadioButton;
 
 class KMiscHTMLOptions : public KCModule
@@ -40,7 +39,6 @@ public:
     virtual void defaults();
 
 private slots:
-    void slotOpenFileDialog( KURLRequester * );
     void changed();
 
 private:
@@ -52,8 +50,6 @@ private:
     QCheckBox* m_pAutoLoadImagesCheckBox;
     QCheckBox* m_pEnableFaviconCheckBox;
 
-    QCheckBox* userSheet;
-    KURLRequester* userSheetLocation;
 };
 
 #endif

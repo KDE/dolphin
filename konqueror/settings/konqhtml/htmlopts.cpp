@@ -66,19 +66,6 @@ KMiscHTMLOptions::KMiscHTMLOptions(KConfig *config, QString group, QWidget *pare
     connect(m_pEnableFaviconCheckBox, SIGNAL(clicked()), this, SLOT(changed()));
 */
 
-    userSheet = new QCheckBox(i18n("Enable user defined &style sheet"), this);
-    lay->addWidget(userSheet);
-    connect( userSheet, SIGNAL( clicked() ), this, SLOT( changed() ));
-
-    QWhatsThis::add( userSheet, i18n("If this box is checked, konqueror will try to load a user defined style sheet as specified in the location below. The style sheet allows you to completely override the way web pages are rendered in your browser. The file specified should contain a valid style sheet (see http://www.w3.org/Style/CSS for further information on cascading style sheets).") );
-
-    userSheetLocation = new KURLRequester( this, "sheet");
-    connect( userSheetLocation, SIGNAL( openFileDialog( KURLRequester * )),
-	     SLOT( slotOpenFileDialog( KURLRequester * )));
-    lay->addWidget(userSheetLocation);
-    connect( userSheetLocation->lineEdit(), SIGNAL( textChanged( const QString & ) ), this, SLOT( changed() ) );
-    connect( userSheet, SIGNAL( toggled( bool )), userSheetLocation, SLOT( setEnabled( bool ) ) );
-
     lay->addStretch(10);
     lay->activate();
 
@@ -94,15 +81,7 @@ void KMiscHTMLOptions::load()
     bool hoverLinks = m_pConfig->readBoolEntry("HoverLinks", true);
     bool bAutoLoadImages = m_pConfig->readBoolEntry( "AutoLoadImages", true );
 
-    bool sheetEnabled = m_pConfig->readBoolEntry("UserStyleSheetEnabled", false);
-    QString sheet = m_pConfig->readEntry("UserStyleSheet", "");
-
     // *** apply to GUI ***
-    userSheet->setChecked( sheetEnabled );
-    userSheetLocation->lineEdit()->setText(sheet);
-    userSheetLocation->setEnabled( sheetEnabled );
-
-
     cbCursor->setChecked( changeCursor );
     m_pAutoLoadImagesCheckBox->setChecked( bAutoLoadImages );
 
@@ -135,8 +114,6 @@ void KMiscHTMLOptions::save()
     m_pConfig->writeEntry( "ChangeCursor", cbCursor->isChecked() );
     m_pConfig->writeEntry( "AutoLoadImages", m_pAutoLoadImagesCheckBox->isChecked() );
 //    m_pConfig->writeEntry( "EnableFavicon", m_pEnableFaviconCheckBox->isChecked() );
-    m_pConfig->writeEntry( "UserStyleSheetEnabled", userSheet->isChecked() );
-    m_pConfig->writeEntry( "UserStyleSheet", userSheetLocation->lineEdit()->text() );
     if (m_pUnderlineRadio[Hover]->isChecked())
     {
         m_pConfig->writeEntry( "UnderlineLinks", false );
@@ -151,11 +128,6 @@ void KMiscHTMLOptions::save()
     m_pConfig->sync();
 }
 
-void KMiscHTMLOptions::slotOpenFileDialog( KURLRequester *req )
-{
-    if ( req == userSheetLocation )
-	userSheetLocation->fileDialog()->setFilter("*.css");
-}
 
 void KMiscHTMLOptions::changed()
 {
