@@ -74,13 +74,14 @@ public:
     QStringList::ConstIterator end = args.end();
     uint i = 1;
     for (; it != end; ++it, ++i )
+      // This is not used anymore - do we still need something like this ?
+      // (David)
       if ( *it == "-viewMode" && i <= args.count() )
       {
         ++it;
 	
 	QIconView *iconView = obj->iconViewWidget();
 	
-        // TODO : use setSize instead of setViewMode
 	if ( *it == "LargeIcons" )
 	{
 	  iconView->setViewMode( QIconSet::Large );
@@ -239,13 +240,13 @@ KonqKfmIconView::KonqKfmIconView()
 
   actions()->append( BrowserView::ViewAction( new QActionSeparator( this ), BrowserView::MenuView ) );
 
-  actions()->append( BrowserView::ViewAction( m_paBottomText, BrowserView::MenuView ) );
-  actions()->append( BrowserView::ViewAction( m_paRightText, BrowserView::MenuView ) );
+  actions()->append( BrowserView::ViewAction( paBackgroundColor, BrowserView::MenuView ) );
+  actions()->append( BrowserView::ViewAction( paBackgroundImage, BrowserView::MenuView ) );
 
   actions()->append( BrowserView::ViewAction( new QActionSeparator( this ), BrowserView::MenuView ) );
 
-  actions()->append( BrowserView::ViewAction( paBackgroundColor, BrowserView::MenuView ) );
-  actions()->append( BrowserView::ViewAction( paBackgroundImage, BrowserView::MenuView ) );
+  actions()->append( BrowserView::ViewAction( m_paBottomText, BrowserView::MenuView ) );
+  actions()->append( BrowserView::ViewAction( m_paRightText, BrowserView::MenuView ) );
 
   actions()->append( BrowserView::ViewAction( new QActionSeparator( this ), BrowserView::MenuView ) );
 
@@ -515,16 +516,18 @@ void KonqKfmIconView::saveState( QDataStream &stream )
 {
   BrowserView::saveState( stream );
 
-  stream << (Q_INT32)m_pIconView->size() << (Q_INT32)m_pIconView->itemTextPos();
+  stream << (Q_INT32)m_pIconView->size() 
+         << (Q_INT32)m_pIconView->itemTextPos()
+         << (Q_INT32)m_pProps->m_bImagePreview;
 }
 
 void KonqKfmIconView::restoreState( QDataStream &stream )
 {
   BrowserView::restoreState( stream );
 
-  Q_INT32 iIconSize, iTextPos;
+  Q_INT32 iIconSize, iTextPos, iImagePreview;
 
-  stream >> iIconSize >> iTextPos;
+  stream >> iIconSize >> iTextPos >> iImagePreview;
 
   KIconLoader::Size iconSize = (KIconLoader::Size)iIconSize;
   QIconView::ItemTextPos textPos = (QIconView::ItemTextPos)iTextPos;
@@ -540,6 +543,7 @@ void KonqKfmIconView::restoreState( QDataStream &stream )
     m_paBottomText->setChecked( true );
   else
     m_paRightText->setChecked( true );
+  m_pIconView->setImagePreviewAllowed ( (bool) iImagePreview );
 }
 
 QString KonqKfmIconView::url()
