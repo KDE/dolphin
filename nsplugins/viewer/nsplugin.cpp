@@ -588,6 +588,7 @@ NSPluginInstance::NSPluginInstance(NPP privateData, NPPluginFuncs *pluginFuncs,
    : DCOPObject(), QObject( parent, name ) 
 {
     Q_UNUSED(embed);
+   _firstResize = true;
    _visible = false;
    _npp = privateData;
    _npp->ndata = this;
@@ -966,6 +967,9 @@ void NSPluginInstance::resizePlugin(int w, int h)
    _width = w;
    _height = h;
 
+   XResizeWindow(qt_xdisplay(), XtWindow(_form), w, h);
+   XResizeWindow(qt_xdisplay(), XtWindow(_toplevel), w, h);
+
    Arg args[7];
    Cardinal nargs = 0;
    XtSetArg(args[nargs], XtNwidth, _width); nargs++;
@@ -975,11 +979,15 @@ void NSPluginInstance::resizePlugin(int w, int h)
    XtSetArg(args[nargs], XtNcolormap, QPaintDevice::x11AppColormap()); nargs++;
    XtSetArg(args[nargs], XtNborderWidth, 0); nargs++;
 
+   XtSetValues(_toplevel, args, nargs);
    XtSetValues(_form, args, nargs);
 
    resizeWidgets(XtWindow(_form), _width, _height);
 
-   setWindow();
+   if (_firstResize) {
+      _firstResize = false;
+      setWindow();
+   }
 
    kdDebug(1431) << "<- NSPluginInstance::resizePlugin" << endl;
 }

@@ -218,6 +218,7 @@ private:
 
   bool _destroyed;
   bool _visible;
+  bool _firstResize;
   void addTempFile(KTempFile *tmpFile);
   QPtrList<KTempFile> _tempFiles;
   NSPluginCallbackIface_stub *_callback;
