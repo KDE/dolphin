@@ -41,6 +41,7 @@
 #include "khttpoptdlg.h"
 #include "jsopts.h"
 #include "javaopts.h"
+#include "pluginopts.h"
 #include "appearance.h"
 #include "htmlopts.h"
 
@@ -74,6 +75,10 @@ KonqHTMLModule::KonqHTMLModule(QWidget *parent, const char *name)
   tab->addTab( javascript, i18n( "Java&Script" ) );
   connect( javascript, SIGNAL( changed( bool ) ), this, SLOT( moduleChanged( bool ) ) );
 
+  plugin = new KPluginOptions( m_localConfig, "Java/JavaScript Settings", this );
+  tab->addTab( plugin, i18n( "&Plugins" ) );
+  connect( plugin, SIGNAL( changed( bool ) ), this, SLOT( moduleChanged( bool ) ) );
+
 }
 
 KonqHTMLModule::~KonqHTMLModule()
@@ -87,6 +92,7 @@ void KonqHTMLModule::load()
   appearance->load();
   javascript->load();
   java->load();
+  plugin->load();
   misc->load();
 }
 
@@ -96,6 +102,7 @@ void KonqHTMLModule::save()
   appearance->save();
   javascript->save();
   java->save();
+  plugin->save();
   misc->save();
 
   // Send signal to konqueror
@@ -112,6 +119,7 @@ void KonqHTMLModule::defaults()
   appearance->defaults();
   javascript->defaults();
   java->defaults();
+  plugin->defaults();
   misc->defaults();
 }
 

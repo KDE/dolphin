@@ -6,7 +6,7 @@ METASOURCES = AUTO
 kde_module_LTLIBRARIES = libkcm_konqhtml.la
 
 libkcm_konqhtml_la_SOURCES = htmlopts.cpp jsopts.cpp \
-			     javaopts.cpp appearance.cpp \
+			     javaopts.cpp pluginopts.cpp appearance.cpp \
 			     khttpoptdlg.cpp policydlg.cpp main.cpp
 
 libkcm_konqhtml_la_LDFLAGS  = $(all_libraries) -module -avoid-version -no-undefined

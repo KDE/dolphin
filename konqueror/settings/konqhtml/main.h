@@ -31,6 +31,7 @@
 class KAppearanceOptions;
 class KJavaOptions;
 class KJavaScriptOptions;
+class KPluginOptions;
 class KHTTPOptions;
 class KMiscHTMLOptions;
 class KRootOptions;
@@ -67,6 +68,7 @@ private:
   KAppearanceOptions *appearance;
   KJavaScriptOptions *javascript;
   KJavaOptions       *java;
+  KPluginOptions     *plugin;
 
   KConfig *m_globalConfig;
   KConfig *m_localConfig;
