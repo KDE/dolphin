@@ -89,7 +89,7 @@ public slots:
   void slotSortByNameCaseSensitive( bool toggle );
   void slotSortByNameCaseInsensitive( bool toggle );
   void slotSortBySize( bool toggle );
-  void slotSortDescending( bool toggle );
+  void slotSortDescending();
 
   void slotKofficeMode( bool b );
   void slotViewLarge( bool b );

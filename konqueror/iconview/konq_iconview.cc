@@ -84,17 +84,17 @@ public:
 	
 	if ( *it == "LargeIcons" )
 	{
-	  iconView->setViewMode( QIconSet::Large );
+	  //iconView->setViewMode( QIconSet::Large );
 	  iconView->setItemTextPos( QIconView::Bottom );
 	}
 	else if ( *it == "SmallIcons" )
 	{
-	  iconView->setViewMode( QIconSet::Small );
+	  //iconView->setViewMode( QIconSet::Small );
 	  iconView->setItemTextPos( QIconView::Bottom );
 	}
 	else if ( *it == "SmallVerticalIcons" )
 	{
-	  iconView->setViewMode( QIconSet::Small );
+	  //iconView->setViewMode( QIconSet::Small );
 	  iconView->setItemTextPos( QIconView::Right );
 	}
 
@@ -190,7 +190,7 @@ KonqKfmIconView::KonqKfmIconView()
 
   KToggleAction *aSortDescending = new KToggleAction( i18n( "Descending" ), 0, this );
 
-  connect( aSortDescending, SIGNAL( toggled( bool ) ), this, SLOT( slotSortDescending( bool ) ) );
+  connect( aSortDescending, SIGNAL( toggled( bool ) ), this, SLOT( slotSortDescending() ) );
 
   m_pamSort->insert( aSortByNameCS );
   m_pamSort->insert( aSortByNameCI );
@@ -449,7 +449,7 @@ void KonqKfmIconView::resizeEvent( QResizeEvent * )
   m_pIconView->setGeometry( 0, 0, width(), height() );
 }
 
-void KonqKfmIconView::slotSortDescending( bool toggle )
+void KonqKfmIconView::slotSortDescending()
 {
   if ( m_pIconView->sortDirection() )
     m_pIconView->setSorting( true, false );
@@ -483,19 +483,28 @@ void KonqKfmIconView::slotKofficeMode( bool b )
 void KonqKfmIconView::slotViewLarge( bool b )
 {
     if ( b )
+    {
         m_pIconView->setIcons( KIconLoader::Large );
+        m_pIconView->alignItemsInGrid( true );
+    }
 }
 
 void KonqKfmIconView::slotViewNormal( bool b )
 {
     if ( b )
+    {
         m_pIconView->setIcons( KIconLoader::Medium );
+        m_pIconView->alignItemsInGrid( true );
+    }
 }
 
 void KonqKfmIconView::slotViewSmall( bool b )
 {
     if ( b )
+    {
         m_pIconView->setIcons( KIconLoader::Small );
+        m_pIconView->alignItemsInGrid( true );
+    }
 }
 
 void KonqKfmIconView::slotTextBottom( bool b )
