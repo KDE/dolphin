@@ -161,6 +161,8 @@ void UserAgentOptions::load()
                      i18n("Internet Explorer 5.5 on Windows NT 5.0") );
     aliasMap.insert( "Mozilla/4.0 (compatible; MSIE 5.5; Windows 98)",
                      i18n("Internet Explorer 5.5 on Windows 98") );
+    aliasMap.insert( "Mozilla/4.0 (compatible; MSIE 5.0; Mac_PowerPC)",
+                     i18n("Internet Explorer 5.5 on Mac") );
     // NS stuff
     aliasMap.insert( "Mozilla/3.01 (X11; I; Linux 2.2.14 i686)",
                      i18n("Netscape Navigator 3.01 on Linux") );
@@ -168,6 +170,8 @@ void UserAgentOptions::load()
                      i18n("Netscape Navigator 4.75 on Linux") );
     aliasMap.insert( "Mozilla/5.0 (Windows; U; WinNT4.0; en-US; m18) Gecko/20001010",
                      i18n("Mozilla M18 on Windows NT 4.0" ) );
+    aliasMap.insert( "Mozilla/4.76 (Macintosh; U; PPC)",
+                     i18n("Netscape Navigator 4.76 on Mac") );
 
     // misc
     aliasMap.insert( "Opera/4.03 (Windows NT 4.0; U)",
