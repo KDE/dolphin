@@ -140,6 +140,7 @@ KonqMainView::KonqMainView( const KURL &initialURL, bool openInitialURL, const c
     bar->hide();
   }
 
+/*
   m_statusBar = statusBar();
 
   m_progressBar = new KProgress( 0, 100, 0, KProgress::Horizontal, m_statusBar );
@@ -153,6 +154,7 @@ KonqMainView::KonqMainView( const KURL &initialURL, bool openInitialURL, const c
   m_statusBar->show();
 
   m_progressBar->hide();
+*/
 
   if ( !initialURL.isEmpty() )
     openFilteredURL( 0L, initialURL.url() );
@@ -694,8 +696,9 @@ void KonqMainView::slotRunFinished()
 
 void KonqMainView::slotSetStatusBarText( const QString &text )
 {
-  assert(m_statusBar);
-  m_statusBar->changeItem( text, STATUSBAR_MSG_ID );
+  // Now view specific
+  //assert(m_statusBar);
+  //m_statusBar->changeItem( text, STATUSBAR_MSG_ID );
 }
 
 bool KonqMainView::openView( QString serviceType, const KURL &_url, KonqChildView *childView )
@@ -986,6 +989,7 @@ void KonqMainView::slotSaveDefaultProfile()
 void KonqMainView::speedProgress( int bytesPerSecond )
 {
   // We assume this was called from the current view (see KonqChildView::slotSpeedProgress)
+/*
   if ( !m_currentView->isLoading() )
     return;
 
@@ -998,6 +1002,7 @@ void KonqMainView::speedProgress( int bytesPerSecond )
 
   assert(m_statusBar);
   m_statusBar->changeItem( sizeStr, STATUSBAR_SPEED_ID );
+*/
 }
 
 void KonqMainView::callExtensionMethod( KonqChildView * childView, const char * methodName )
@@ -1170,6 +1175,7 @@ void KonqMainView::slotShowMenuBar()
     menuBar()->show();
 }
 
+/*
 void KonqMainView::slotShowStatusBar()
 {
   if (statusBar()->isVisible())
@@ -1177,6 +1183,7 @@ void KonqMainView::slotShowStatusBar()
   else
     statusBar()->show();
 }
+*/
 
 void KonqMainView::slotShowToolBar()
 {
@@ -1382,7 +1389,7 @@ void KonqMainView::initActions()
   m_pBookmarkMenu = new KBookmarkMenu( this, m_pamBookmarks->popupMenu(), actionCollection(), true );
 
   m_paShowMenuBar = KStdAction::showMenubar( this, SLOT( slotShowMenuBar() ), actionCollection(), "showmenubar" );
-  m_paShowStatusBar = KStdAction::showStatusbar( this, SLOT( slotShowStatusBar() ), actionCollection(), "showstatusbar" );
+  //m_paShowStatusBar = KStdAction::showStatusbar( this, SLOT( slotShowStatusBar() ), actionCollection(), "showstatusbar" );
   m_paShowToolBar = KStdAction::showToolbar( this, SLOT( slotShowToolBar() ), actionCollection(), "showtoolbar" );
   m_paShowLocationBar = new KToggleAction( i18n( "Show &Locationbar" ), 0, actionCollection(), "showlocationbar" );
   m_paShowBookmarkBar = new KToggleAction( i18n( "Show &Bookmarkbar" ), 0, actionCollection(), "showbookmarkbar" );
@@ -1418,6 +1425,8 @@ void KonqMainView::initPlugins()
 
 void KonqMainView::updateStatusBar()
 {
+// now view specific
+/*
   if ( !m_progressBar )
     return;
 
@@ -1436,6 +1445,7 @@ void KonqMainView::updateStatusBar()
   assert(m_statusBar);
   m_statusBar->changeItem( 0L, STATUSBAR_SPEED_ID );
   m_statusBar->changeItem( 0L, STATUSBAR_MSG_ID );
+*/
 }
 
 void KonqMainView::updateToolBarActions()

@@ -48,7 +48,6 @@
  <Action name="bookmarks"/>
  <Menu name="options"><text>&amp;Options</text>
   <Action name="showmenubar"/>
-  <Action name="showstatusbar"/>
   <Action name="showtoolbar"/>
   <Action name="showlocationbar"/>
   <Action name="showbookmarkbar"/>
@@ -110,6 +109,5 @@
   <Action name="toolbar_url_combo" />
 </ToolBar>
 <ToolBar fullWidth="true" name="bookmarkToolBar" />
-<StatusBar/>
 </QConfig>
 

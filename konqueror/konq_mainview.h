@@ -209,7 +209,7 @@ protected slots:
   void slotComboPlugged();
 
   void slotShowMenuBar();
-  void slotShowStatusBar();
+  //void slotShowStatusBar();
   void slotShowToolBar();
   void slotShowLocationBar();
   void slotShowBookmarkBar();
@@ -314,7 +314,7 @@ private:
 
   KonqViewManager *m_pViewManager;
 
-  KStatusBar * m_statusBar;
+  //KStatusBar * m_statusBar;
 
   QString m_title;
 
