@@ -387,11 +387,10 @@ void Sidebar_Widget::stdAction(const char *handlestd)
 			}
 #else
             QMetaObject *mo = ext->metaObject();
-            const QMetaData *md = mo->slot( mo->findSlot( handlestd ) );
-            if ( md )
-            {
-                QUObject o[ 1 ];
-                ext->qt_invoke( md->ptr, o );
+            int idx = mo->findSlot( handlestd, TRUE );
+            if (idx >= 0) {
+                QUObject o[1];
+                ext->qt_invoke(idx, o);
             }
 #endif
 		}
