@@ -27,6 +27,7 @@
 #include <qstring.h>
 #include <kconfig.h>
 class QRadioButton;
+class KIntNumInput;
 
 class KMiscHTMLOptions : public KCModule
 {
@@ -49,6 +50,8 @@ private:
     QCheckBox* cbCursor;
     QCheckBox* m_pAutoLoadImagesCheckBox;
     QCheckBox* m_pEnableFaviconCheckBox;
+    QCheckBox* m_pFormCompletionCheckBox;
+    KIntNumInput* m_pMaxFormCompletionItems;
 
 };
 

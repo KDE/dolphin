@@ -21,6 +21,7 @@
 #include <kurlrequester.h>
 #include <klineedit.h>
 #include <kfiledialog.h>
+#include <knuminput.h>
 
 #include "htmlopts.moc"
 
@@ -66,6 +67,19 @@ KMiscHTMLOptions::KMiscHTMLOptions(KConfig *config, QString group, QWidget *pare
     connect(m_pEnableFaviconCheckBox, SIGNAL(clicked()), this, SLOT(changed()));
 */
 
+    m_pFormCompletionCheckBox = new QCheckBox(
+        i18n( "Enable completion of &forms" ), this );
+    QWhatsThis::add( m_pFormCompletionCheckBox, i18n( "If this box is checked, Konqueror will remember the data you enter in web forms and suggest it in similar fields for all forms." ) );
+    connect(m_pFormCompletionCheckBox, SIGNAL(clicked()), this, SLOT(changed()));
+    lay->addWidget( m_pFormCompletionCheckBox, 1 );
+
+    m_pMaxFormCompletionItems = new KIntNumInput( this );
+    m_pMaxFormCompletionItems->setLabel( i18n( "&Maximum completions:" ) );
+    m_pMaxFormCompletionItems->setRange( 1, 100 );
+    QWhatsThis::add( m_pMaxFormCompletionItems, i18n( "Here you can select how many values Konqueror will remember for a form field." ) );
+    connect(m_pMaxFormCompletionItems, SIGNAL(valueChanged(int)), SLOT(changed()));
+    lay->addWidget( m_pMaxFormCompletionItems, 1 );
+    
     lay->addStretch(10);
     lay->activate();
 
@@ -99,6 +113,10 @@ void KMiscHTMLOptions::load()
         else
             m_pUnderlineRadio[Never]->setChecked( true );
     }
+
+    m_pFormCompletionCheckBox->setChecked( m_pConfig->readBoolEntry( "FormCompletion", false ) );
+    m_pMaxFormCompletionItems->setValue( m_pConfig->readNumEntry( "MaxFormCompletionItems", 10 ) );
+    m_pMaxFormCompletionItems->setEnabled( m_pFormCompletionCheckBox->isChecked() );
 }
 
 void KMiscHTMLOptions::defaults()
@@ -125,11 +143,15 @@ void KMiscHTMLOptions::save()
         m_pConfig->writeEntry( "UnderlineLinks", m_pUnderlineRadio[Always]->isChecked() );
     }
 
+    m_pConfig->writeEntry( "FormCompletion", m_pFormCompletionCheckBox->isChecked() );
+    m_pConfig->writeEntry( "MaxFormCompletionItems", m_pMaxFormCompletionItems->value() );
+    
     m_pConfig->sync();
 }
 
 
 void KMiscHTMLOptions::changed()
 {
+    m_pMaxFormCompletionItems->setEnabled( m_pFormCompletionCheckBox->isChecked() );
     emit KCModule::changed(true);
 }
