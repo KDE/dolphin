@@ -313,7 +313,7 @@ debug(" KonqHTMLWidget::slotMousePressed ");
       if ( i >= 1 && cURL[ i - 1 ] == '/' )
         mode = S_IFDIR;
     }
-    KFileItem item( mode, u );
+    KFileItem item( mode, -1, u );
     KFileItemList items;
     items.append( &item );
     emit popupMenu( _global, items );

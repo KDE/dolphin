@@ -504,12 +504,14 @@ void KonqTreeViewWidget::popupMenu( const QPoint& _global )
   for( ; it != items.end(); ++it )
     lstItems.append( (*it)->item() );
 
-  if ( lstItems.count() == 0 )
+  if ( lstItems.count() == 0 ) // emit popup for background
   {
-    mode_t mode = S_IFDIR;
-    KFileItem * item = new KFileItem ( mode, m_sURL );
-    lstItems.append( item );
-    lstItems.setAutoDelete( true ); // will delete 'item'
+    assert( m_dirLister->rootItem() );
+    lstItems.append( m_dirLister->rootItem() );
+    //mode_t mode = S_IFDIR;
+    //KFileItem * item = new KFileItem ( mode, m_sURL );
+    //lstItems.append( item );
+    //lstItems.setAutoDelete( true ); // will delete 'item'
   }
 
   emit m_pBrowserView->extension()->popupMenu( _global, lstItems );
@@ -522,7 +524,7 @@ bool KonqTreeViewWidget::openURL( const KURL &url )
   //test if we are switching to a new protocol
   if ( m_dirLister )
   {
-    if ( strcmp( m_dirLister->kurl().protocol(), url.protocol() ) != 0 )
+    if ( strcmp( m_dirLister->url().protocol(), url.protocol() ) != 0 )
       isNewProtocol = true;
   }
 
@@ -722,7 +724,7 @@ void KonqTreeViewWidget::openSubFolder( const KURL &_url, KonqTreeViewDir* _dir 
 
   /** Debug code **/
   assert( m_iColumns != -1 && m_dirLister );
-  if ( strcmp( m_dirLister->kurl().protocol(), _url.protocol() ) != 0 )
+  if ( strcmp( m_dirLister->url().protocol(), _url.protocol() ) != 0 )
     assert( 0 ); // not same protocol as parent dir -> abort
   /** End Debug code **/
 

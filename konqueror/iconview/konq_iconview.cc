@@ -144,7 +144,7 @@ void IconViewBrowserExtension::reparseConfiguration()
 
 void IconViewBrowserExtension::saveLocalProperties()
 {
-    m_iconView->m_pProps->saveLocal( KURL( m_iconView->url() ) );
+    m_iconView->m_pProps->saveLocal( m_iconView->url() );
 }
 
 void IconViewBrowserExtension::savePropertiesAsDefault()
@@ -556,14 +556,14 @@ void KonqKfmIconView::slotBackgroundColor()
 	m_pProps->m_bgPixmap = QPixmap();
 	m_pIconView->viewport()->setBackgroundColor( m_pProps->m_bgColor );
 	m_pIconView->viewport()->setBackgroundPixmap( m_pProps->m_bgPixmap );
-	m_pProps->saveLocal( m_dirLister->url() );
+	m_pProps->saveLocal( url() );
 	m_pIconView->updateContents();
     }
 }
 
 void KonqKfmIconView::slotBackgroundImage()
 {
-    KonqBgndDialog dlg( m_dirLister->url() );
+    KonqBgndDialog dlg( url() );
     if ( dlg.exec() == KonqBgndDialog::Accepted )
     {
 	m_pProps->m_bgPixmap = dlg.pixmap();
@@ -658,14 +658,14 @@ void KonqKfmIconView::slotViewportRightClicked( QIconViewItem *i )
 {
     if ( i )
 	return;
-    KURL bgUrl( m_dirLister->url() );
 
+    kDebugInfo(" This is a directory ............ ");
     // This is a directory. Always.
     mode_t mode = S_IFDIR;
 
-    KFileItem item( mode, bgUrl );
     KFileItemList items;
-    items.append( &item );
+    assert( m_dirLister->rootItem() );
+    items.append( m_dirLister->rootItem() );
     emit m_extension->popupMenu( QCursor::pos(), items );
 }
 
@@ -877,21 +877,21 @@ bool KonqKfmIconView::openURL( const KURL &_url )
     m_lFileCount = 0;
     m_lDirCount = 0;
 
+    // Store url in the icon view
+    m_pIconView->setURL( _url );
+    // and in the part :-)
     m_url = _url;
 
-    KURL u( _url );
     // Start the directory lister !
-    m_dirLister->openURL( u, m_pProps->m_bShowDot );
+    m_dirLister->openURL( url(), m_pProps->m_bShowDot );
     // Note : we don't store the url. KDirLister does it for us.
-
-    m_pIconView->setURL( _url.url() );
 
     KIO::Job *job = m_dirLister->job();
     if ( job )
     {
         //TODO
-	connect( job, SIGNAL( sigTotalFiles( int, unsigned long ) ),
-		 this, SLOT( slotTotalFiles( int, unsigned long ) ) );
+	//connect( job, SIGNAL( sigTotalFiles( int, unsigned long ) ),
+	//         this, SLOT( slotTotalFiles( int, unsigned long ) ) );
     }
 
     m_ulTotalFiles = 0;
@@ -899,13 +899,13 @@ bool KonqKfmIconView::openURL( const KURL &_url )
 
     // do it after starting the dir lister to avoid changing bgcolor of the
     // old view
-    if ( m_pProps->enterDir( u ) )
+    if ( m_pProps->enterDir( _url ) )
     {
 	m_pIconView->viewport()->setBackgroundColor( m_pProps->m_bgColor );
 	m_pIconView->viewport()->setBackgroundPixmap( m_pProps->m_bgPixmap );
     }
 
-    emit setWindowCaption( u.decodedURL() );
+    emit setWindowCaption( _url.decodedURL() );
 
     m_pIconView->show(); // ?
     return true;

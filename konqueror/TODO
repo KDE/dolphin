@@ -52,5 +52,14 @@ standard, for "the device in the Type=FSDevice .desktop file"...
 
 - see grep TODO *.cc *.h
 
+- config dialog box for 
+
+On delete:
+(o) Move To Trash
+( ) Delete
+( ) Shred
+
+[ ] Ask for confirmation
+
 - see http://bugs.kde.org/db/pa/lkfm.html !
 

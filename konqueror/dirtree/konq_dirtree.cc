@@ -612,7 +612,7 @@ void KonqDirTree::slotListingStopped()
 
   assert( topLevelItem.m_item );
 
-  KURL url = lister->kurl();
+  KURL url = lister->url();
 
   KURL::List::Iterator it = topLevelItem.m_lstPendingURLs->find( url );
   if ( it != topLevelItem.m_lstPendingURLs->end() )
@@ -739,7 +739,7 @@ void KonqDirTree::scanDir2( QListViewItem *parent, const QString &path )
 
   QString url = QString( path ).prepend( "file:" );
 
-  KFileItem *fileItem = new KFileItem( 0, KURL( url ) );
+  KFileItem *fileItem = new KFileItem( -1, -1, KURL( url ) );
   KonqDirTreeItem *item = new KonqDirTreeItem( this, parent, 0, fileItem );
   //  QListViewItem *item = new QListViewItem( parent );
   item->setText( 0, name );
@@ -793,7 +793,7 @@ void KonqDirTree::loadTopLevelItem( QListViewItem *parent,  const QString &filen
   else
     return;
 
-  KFileItem *fileItem = new KFileItem( 0, KURL( url ) );
+  KFileItem *fileItem = new KFileItem( -1, -1, KURL( url ) );
   KonqDirTreeItem *item = new KonqDirTreeItem( this, parent, 0, fileItem );
 
   //  m_unselectableItems.append( item );

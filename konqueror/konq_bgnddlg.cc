@@ -68,7 +68,7 @@ KonqBgndDialog::~KonqBgndDialog()
 DirPropsPage::DirPropsPage( QWidget * parent, const KURL & dirURL ) 
   : QWidget( parent, "DirPropsPage" ), m_url( dirURL )
 {
-    m_fileitem = new KFileItem( -1, dirURL );
+    m_fileitem = new KFileItem( -1, -1, dirURL );
 
     QLabel* tmpQLabel = new QLabel( this, "Label_1" );
     tmpQLabel->setText( i18n("Background") );
