@@ -90,7 +90,7 @@ public slots:
 
 signals:
     /**
-     * For cut/copy/paste/move/delete (see kbrowser.h)
+     * For cut/copy/paste/move/delete (see kparts/browserextension.h)
      */
     void enableAction( const char * name, bool enabled );
 
