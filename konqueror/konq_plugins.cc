@@ -111,7 +111,13 @@ void KonqPlugins::installKOMPlugins( KOM::Component_ptr comp )
 
 void KonqPlugins::reload()
 {
-  komPluginOffers = KdedInstance::self()->ktrader()->query( "Konqueror/EventFilter" );
+  try {
+     komPluginOffers = KdedInstance::self()->ktrader()->query( "Konqueror/EventFilter" );
+  } catch(...)
+  {
+    fprintf(stderr, "Unhandled exception at %s:%d\n", __FILE__, __LINE__);
+    abort();
+  }
 
   KConfig *config = kapp->getConfig();
   config->setGroup( "Plugins" );
