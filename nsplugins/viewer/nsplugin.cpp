@@ -231,18 +231,54 @@ NPError g_NPN_GetURLNotify(NPP instance, const char *url, const char *target,
 }
 
 
-NPError g_NPN_PostURL(NPP /*instance*/, const char* /*url*/, const char* /*target*/,
-                    uint32 /*len*/, const char* /*buf*/, NPBool /*file*/)
+NPError g_NPN_PostURL(NPP /*instance*/, const char* url, const char* target,
+                    uint32 len, const char* buf, NPBool file)
 {
-   kdDebug(1431) << "g_NPN_PostURL() [unimplemented]" << endl;
+//http://devedge.netscape.com/library/manuals/2002/plugin/1.0/npn_api13.html
+   kdDebug(1431) << "g_NPN_PostURL() [incomplete]" << endl;
+   QByteArray postdata;
 
-   return NPERR_GENERIC_ERROR;
+   if (file) { // buf is a filename
+      QFile f(buf);
+      if (!f.open(IO_ReadOnly)) {
+         return NPERR_FILE_NOT_FOUND;
+      }
+
+      postdata = f.readAll();
+      f.close();
+   } else {    // buf is raw data
+      postdata.duplicate(buf, len);
+   }
+
+   if (!target) {
+      // Send the results of the post to the plugin
+   } else if (!strcmp(target, "_current") || !strcmp(target, "_self") ||
+              !strcmp(target, "_top")) {
+      // Unload the plugin, put the results in the frame/window that the
+      // plugin was loaded in
+   } else if (!strcmp(target, "_new") || !strcmp(target, "_blank")){
+      // Open a new browser window and write the results there
+   } else {
+      // Write the results to the specified frame
+   }
+
+   KURL u(url);
+
+   if (u.protocol() == "http" || u.protocol() == "https") {
+      /*job = */ KIO::http_post(u, postdata, false);
+   } else {
+      // FIXME - must implement this
+      return NPERR_INVALID_URL;
+   }
+
+   return NPERR_NO_ERROR;
 }
 
 
 NPError g_NPN_PostURLNotify(NPP /*instance*/, const char* /*url*/, const char* /*target*/,
                           uint32 /*len*/, const char* /*buf*/, NPBool /*file*/, void* /*notifyData*/)
 {
+//http://devedge.netscape.com/library/manuals/2002/plugin/1.0/npn_api14.html
    kdDebug(1431) << "g_NPN_PostURL() [unimplemented]" << endl;
 
    return NPERR_GENERIC_ERROR;
