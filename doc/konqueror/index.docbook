@@ -43,7 +43,7 @@
 
 <legalnotice>&FDLNotice;</legalnotice>
 
-<date>2002-09-14</date>
+<date>2002-09-15</date>
 <releaseinfo>3.00.07</releaseinfo>
 
 <abstract><para>&konqueror; is &kde;'s advanced File Manager, Web Browser and
@@ -333,10 +333,13 @@ linkend="file-associations">File Associations</link>.</para></listitem>
 
 </itemizedlist>
 
-<para>Clicking the &MMB; on a file or directory name or icon does essentially
-the same as <mousebutton>left</mousebutton> clicking except that it does it in
-a
-new &konqueror; window.</para>
+<para>Clicking the &MMB; on a file or directory name or icon does essentially 
+the same as <mousebutton>left</mousebutton> clicking except that it usually 
+does it in a new &konqueror; window, unless the <guilabel>Open links in 
+new tab instead of in new window</guilabel> box has been checked in the 
+<guimenuitem>Behavior</guimenuitem> page of the <menuchoice><guimenu>Settings
+</guimenu><guimenuitem>Configure Konqueror...</guimenuitem></menuchoice> 
+dialog.</para>
 
 </sect1>
 
@@ -980,13 +983,55 @@ Selection</guimenuitem></menuchoice> option or <keycombo
 action="simul">&Ctrl;<keycap>*</keycap></keycombo> to do
 this.</para>
 
-<para>To select adjacent files in a directory hold the &Shift; key down 
-while using the <keysym>Up Arrow</keysym> and <keysym>Down Arrow</keysym> 
-keys to move aroud.</para>
+<para>A number of useful shortcut keys can be used in list, tree and text 
+view modes:</para>
+<variablelist>
 
-<para>Other shortcut key combinations that may be useful when selecting items 
-in a directory view are described in the <link linkend="specshort">
-Special Shortcuts</link> section of this handbook.</para>
+<varlistentry>
+<term><keycap>Space</keycap></term>
+<listitem>
+<para>Toggle the current selection.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><keycap>Insert</keycap></term>
+<listitem>
+<para>Toggle the current selection and move down to the next item.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><keycombo action="simul">&Ctrl;<keysym>Up Arrow</keysym></keycombo>, 
+<keycombo action="simul">&Ctrl;<keysym>Down Arrow</keysym></keycombo>, 
+<keycombo action="simul">&Ctrl;<keycap>Home</keycap></keycombo>, 
+<keycombo action="simul">&Ctrl;<keycap>End</keycap></keycombo>, 
+<keycombo action="simul">&Ctrl;<keycap>Page Up</keycap></keycombo>, 
+<keycombo action="simul">&Ctrl;<keycap>Page Down</keycap></keycombo>
+</term>
+<listitem>
+<para>Move the selection, toggling the selection of everything on the way.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><keycombo action="simul">&Shift;<keysym>Up Arrow</keysym></keycombo>, 
+<keycombo action="simul">&Shift;<keysym>Down Arrow</keysym></keycombo>, 
+<keycombo action="simul">&Shift;<keycap>Home</keycap></keycombo>, 
+<keycombo action="simul">&Shift;<keycap>End</keycap></keycombo>, 
+<keycombo action="simul">&Shift;<keycap>Page Up</keycap></keycombo>, 
+<keycombo action="simul">&Shift;<keycap>Page Down</keycap></keycombo>
+</term>
+<listitem>
+<para>Deselect everything, then move the selection, selecting everything on 
+the way.
+</para>
+</listitem>
+</varlistentry>
+</variablelist>
 
 <para>Once you have selected the right files then the normal delete, copy or
 move commands will act on all of the selected files at once. </para>
@@ -2782,116 +2827,16 @@ default ones. They can of course be <link linkend="configshort">changed</link>.
 </varlistentry>
 
 <varlistentry>
-<term><keycap>Insert</keycap></term>
+<term><keycombo action="simul">&Ctrl;<keycap>]</keycap></keycombo></term>
 <listitem>
-<para>In list, tree and text view modes; toggle the current selection and move 
-down to the next item.
-</para>
+<para>Activate the next tab page.</para>
 </listitem>
 </varlistentry>
 
 <varlistentry>
-<term><keycap>Space</keycap></term>
+<term><keycombo action="simul">&Ctrl;<keycap>[</keycap></keycombo></term>
 <listitem>
-<para>In list, tree and text view modes; toggle the current selection.
-</para>
-</listitem>
-</varlistentry>
-
-<varlistentry>
-<term><keycombo action="simul">&Ctrl;<keysym>Up Arrow</keysym></keycombo>
-</term>
-<listitem>
-<para>In list, tree and text view modes; move the selection up, selecting 
-everything on the way.
-</para>
-</listitem>
-</varlistentry>
-
-<varlistentry>
-<term><keycombo action="simul">&Ctrl;<keysym>Down Arrow</keysym></keycombo>
-</term>
-<listitem>
-<para>In list, tree and text view modes; move the selection down, selecting 
-everything on the way.
-</para>
-</listitem>
-</varlistentry>
-
-<varlistentry>
-<term><keycombo action="simul">&Ctrl;<keycap>Home</keycap></keycombo></term>
-<listitem>
-<para>In list, tree and text view modes; move the selection to the top.
-</para>
-</listitem>
-</varlistentry>
-
-<varlistentry>
-<term><keycombo action="simul">&Ctrl;<keycap>End</keycap></keycombo></term>
-<listitem>
-<para>In list, tree and text view modes; move the selection to the end, 
-selecting everything on the way.
-</para>
-</listitem>
-</varlistentry>
-
-<varlistentry>
-<term><keycombo action="simul">&Ctrl;<keycap>Page Up</keycap></keycombo>
-</term>
-<listitem>
-<para>In list, tree and text view modes; move the selection to the top, 
-selecting everything on the way.
-</para>
-</listitem>
-</varlistentry>
-
-<varlistentry>
-<term><keycombo action="simul">&Ctrl;<keycap>Page Down</keycap></keycombo>
-</term>
-<listitem>
-<para>In list, tree and text view modes; move the selection to the end, 
-selecting everything on the way.
-</para>
-</listitem>
-</varlistentry>
-
-<varlistentry>
-<term><keycombo action="simul"><keycap>Space</keycap><keycap>Home</keycap>
-</keycombo></term>
-<listitem>
-<para>In list, tree and text view modes; move the selection to the top.
-</para>
-</listitem>
-</varlistentry>
-
-<varlistentry>
-<term><keycombo action="simul"><keycap>Space</keycap><keycap>End</keycap>
-</keycombo></term>
-<listitem>
-<para>In list, tree and text view modes; move the selection to the end.
-</para>
-</listitem>
-</varlistentry>
-
-<varlistentry>
-<term><keycombo action="simul"><keycap>Space</keycap><keycap>Page Up</keycap>
-</keycombo>
-</term>
-<listitem>
-<para>In list, tree and text view modes; move the selection to the top, 
-toggling the selection of all items on the way.
-</para>
-</listitem>
-</varlistentry>
-
-<varlistentry>
-<term><keycombo action="simul"><keycap>Space</keycap><keycap>Page Down</keycap>
-</keycombo>
-</term>
-<listitem>
-<para>In list, tree and text view modes; move the selection to the end, 
-toggling the selection of all items on the way.
-</para>
+<para>Activate the previous tab page.</para>
 </listitem>
 </varlistentry>
 
