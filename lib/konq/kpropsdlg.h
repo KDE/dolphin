@@ -287,6 +287,10 @@ public:
    */
   static bool supports( KFileItemList _items );
 
+protected slots:
+  void slotRenameFinished();
+  void slotRenameError( int, int, const char* );
+
 protected:
   QWidget *iconArea;
   QWidget *nameArea;

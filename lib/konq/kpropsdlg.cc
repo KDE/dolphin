@@ -63,6 +63,7 @@
 #include <klocale.h>
 #include <kglobal.h>
 #include <kstddirs.h>
+#include <kio_job.h>
 #include <kfiledialog.h>
 #include <kmimetype.h>
 #include <kmessagebox.h>
@@ -483,21 +484,37 @@ void FilePropsPage::applyChanges()
   else
     n = KFileItem::encodeFileName(((QLineEdit *) nameArea)->text());
 
+  KIOJob * job = 0L;
   // Do we need to rename the file ?
   if ( oldName != n || m_bFromTemplate ) { // true for any from-template file
-    QString oldpath = properties->kurl().path(-1);
+    QString oldpath = properties->kurl().url(); // path(-1);
     // Tell properties. Warning, this changes the result of properties->kurl() !
     properties->rename( n );
 
     // Don't remove the template !!
     if ( !m_bFromTemplate ) {
-      if ( rename( oldpath, properties->kurl().path(-1) ) != 0 )
-	KMessageBox::sorry(this,
-			   i18n("Could not rename file or directory\n%1\nto\n%2\n")
-                           .arg(oldpath).arg(properties->kurl().path(-1)));
+      job = new KIOJob;
+      connect( job, SIGNAL( sigFinished( int ) ),
+               SLOT( slotRenameFinished() ) );
+      connect( job, SIGNAL( sigCanceled( int ) ),
+               SLOT( slotRenameFinished() ) );
+      connect( job, SIGNAL( sigError( int, int, const char* ) ),
+               SLOT( slotRenameError( int, int, const char* ) ) );
+      kdebug(KDEBUG_INFO,1202,"oldpath = %s",oldpath.ascii());
+      kdebug(KDEBUG_INFO,1202,"newpath = %s",properties->kurl().url().ascii());
+      job->move( oldpath.ascii(), properties->kurl().url().ascii() );
     }
   }
 
+  // If we launched a job, wait for it to finish
+  // Otherwise, we can go on straight away
+  if (!job)
+    slotRenameFinished();
+
+}
+
+void FilePropsPage::slotRenameFinished()
+{
   // Save the file where we can -> usually in ~/.kde/...
   if (BindingPropsPage::supports(properties->items()) && !m_sRelativePath.isEmpty())
   {
@@ -550,6 +567,13 @@ void FilePropsPage::applyChanges()
     // Force updates if that file is displayed.
     KDirWatch::self()->setFileDirty( properties->kurl().path() );
   }
+}
+
+void FilePropsPage::slotRenameError( int, int, const char * )
+{
+  KMessageBox::sorry(this,
+                     i18n("Could not rename file or directory to\n%1\n")
+                     .arg(properties->kurl().url()));
 }
 
 FilePermissionsPropsPage::FilePermissionsPropsPage( PropertiesDialog *_props )
