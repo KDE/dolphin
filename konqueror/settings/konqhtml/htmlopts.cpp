@@ -139,6 +139,8 @@ void KMiscHTMLOptions::defaults()
     cbCursor->setChecked( false );
     m_pAutoLoadImagesCheckBox->setChecked( true );
     m_pUnderlineRadio[Always]->setChecked( true );
+    m_pFormCompletionCheckBox->setChecked(true);
+    m_pMaxFormCompletionItems->setEnabled( true );
 }
 
 void KMiscHTMLOptions::save()
@@ -160,7 +162,7 @@ void KMiscHTMLOptions::save()
 
     m_pConfig->writeEntry( "FormCompletion", m_pFormCompletionCheckBox->isChecked() );
     m_pConfig->writeEntry( "MaxFormCompletionItems", m_pMaxFormCompletionItems->value() );
-    
+
     m_pConfig->sync();
 }
 
