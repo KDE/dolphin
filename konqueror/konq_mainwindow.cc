@@ -2114,7 +2114,8 @@ void KonqMainWindow::slotRequesterClicked( KURLRequester *req )
 //copied from libkonq/konq_popupmenu.cc
 void KonqMainWindow::slotNewDir()
 {
-    KLineEditDlg l( i18n("New Directory"), i18n("Directory"), 0L );
+    KLineEditDlg l( i18n("Enter directory name:"), i18n("Directory"), 0L );
+    l.setCaption(i18n("New Directory"));
     if ( l.exec() )
     {
         QString name = KIO::encodeFileName( l.text() );
