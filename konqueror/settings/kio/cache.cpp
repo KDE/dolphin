@@ -39,7 +39,7 @@ KCacheConfigDialog::KCacheConfigDialog( QWidget* parent, const char* name )
                    :KCModule( parent, name )
 {
     QVBoxLayout* mainLayout = new QVBoxLayout( this,
-                                               2*KDialog::marginHint(),
+                                               KDialog::marginHint(),
                                                KDialog::spacingHint() );
     QHBoxLayout* hlay = new QHBoxLayout;
     hlay->setSpacing( KDialog::spacingHint() );
