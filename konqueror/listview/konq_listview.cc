@@ -183,15 +183,15 @@ void ListViewBrowserExtension::copySelection( bool move )
 void ListViewBrowserExtension::paste()
 {
   QValueList<KonqBaseListViewItem*> selection;
-  m_listView->listViewWidget()->selectedItems( selection );
+  /*m_listView->listViewWidget()->selectedItems( selection );
   assert ( selection.count() <= 1 );
   KURL pasteURL;
   if ( selection.count() == 1 )
     pasteURL = selection.first()->item()->url();
   else
-    pasteURL = m_listView->url();
+    pasteURL = m_listView->url();*/
 
-  KonqOperations::doPaste( m_listView->listViewWidget(), pasteURL );
+  KonqOperations::doPaste( m_listView->listViewWidget(), /*pasteURL*/m_listView->url() );
 }
 
 void ListViewBrowserExtension::rename()
