@@ -1,10 +1,9 @@
 [Desktop Entry]
 Name=KonqSearcher
-Exec=konq_searcher
-CORBAExec=konq_searcher
-X-KDE-ActivationMode=shared
-X-KDE-RepoIds=IDL:KOM/PluginFactory:1.0#KonqSearcher
-ServiceTypes=Konqueror/EventFilter
-RequiredInterface=IDL:Konqueror/MainView:1.0
-Events=Konqueror/GUI/URLEntered
-SupportsGUIConfig=true
+Name[ca]=Cercador
+Name[sv]=Erövringssökaren
+X-KDE-Library=libkonqsearcher
+X-KDE-LibraryMajor=1
+X-KDE-LibraryMinor=0
+X-KDE-LibraryDepedencies=
+ServiceTypes=Konqueror/Plugin

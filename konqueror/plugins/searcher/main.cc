@@ -21,39 +21,39 @@
 #include "configwidget.h"
 #include "enginecfg.h"
 
+#include <konq_events.h>
+
 #include <qregexp.h>
 #include <qxembed.h>
-
-#include <komShutdownManager.h>
-#include <komAutoLoader.h>
-
-#include <opUIUtils.h>
+#include <qapplication.h>
 
 #include <kurl.h>
 #include <kprotocolmanager.h>
+#include <klibglobal.h>
 
-KonqSearcher::KonqSearcher( KOM::Component_ptr core )
-: KOMPlugin( core )
+#include <iostream.h>
+
+KLibGlobal *KonqSearcherFactory::s_global = 0L;
+
+KonqSearcher::KonqSearcher( QObject *parent )
+: QObject( parent, "KonqSearcher" )
+{
+  parent->installEventFilter( this );
+}
+
+KonqSearcher::~KonqSearcher()
 {
 }
 
-void KonqSearcher::cleanUp()
+bool KonqSearcher::eventFilter( QObject *obj, QEvent *ev )
 {
-  if ( m_bIsClean )
-    return;
-
-  //TODO
-    
-  KOMPlugin::cleanUp();
-}
-
-bool KonqSearcher::eventFilter( KOM::Base_ptr obj, const char *name, const CORBA::Any &value )
-{
-  if ( strcmp( name, "Konqueror/GUI/URLEntered" ) == 0 )
+  
+  if ( KonqURLEnterEvent::test( ev ) )
   {
-    cerr << "filtering " << name << endl;
-    QString url;
-    value >>= url;
+    QString url = ((KonqURLEnterEvent *)ev)->url();
+    
+    cerr << "filtering " << url.ascii() << endl;
+
     KURL kurl( url );
     
     // candidate?
@@ -69,32 +69,46 @@ bool KonqSearcher::eventFilter( KOM::Base_ptr obj, const char *name, const CORBA
 	KURL::encode( querypart );
         QString newurl = query.replace( QRegExp( "|" ), querypart );
 	
-	EMIT_EVENT( obj, name, newurl );
+	KonqURLEnterEvent e( newurl );
+	QApplication::sendEvent( parent(), &e );
 	
 	return true;
       }
     }
   }
+
   return false;
 }
 
-KonqSearcherFactory::KonqSearcherFactory( const CORBA::BOA::ReferenceData &refData )
-: KOM::PluginFactory_skel( refData )
+KonqSearcherFactory::KonqSearcherFactory( QObject *parent = 0, const char *name )
+: Factory( parent, name )
+{
+  s_global = new KLibGlobal( "konq_searcher" );
+}
+
+KonqSearcherFactory::~KonqSearcherFactory()
 {
 }
 
-KonqSearcherFactory::KonqSearcherFactory( CORBA::Object_ptr obj )
-: KOM::PluginFactory_skel( obj )
+QObject *KonqSearcherFactory::create( QObject *parent, const char *name )
 {
+  return new KonqSearcher( parent );
 }
 
-KOM::Plugin_ptr KonqSearcherFactory::create( KOM::Component_ptr core )
+KLibGlobal *KonqSearcherFactory::global()
 {
-  KonqSearcher *plugin = new KonqSearcher( core );
-  KOMShutdownManager::self()->watchObject( plugin );
-  return KOM::Plugin::_duplicate( plugin );
+  return s_global;
 }
 
+extern "C"
+{
+  void *init_libkonqsearcher()
+  {
+    return new KonqSearcherFactory;
+  }
+}
+
+/*
 int main( int argc, char **argv )
 {
   KOMApplication app( argc, argv, "konq_searcher" );
@@ -109,3 +123,5 @@ int main( int argc, char **argv )
   app.exec();
   return 0;
 }
+*/
+#include "main.moc"

@@ -1,16 +1,17 @@
-INCLUDES  = $(MICO_INCLUDES) $(all_includes)
-LDFLAGS   = $(all_libraries) $(KDE_RPATH) $(MICO_LDFLAGS)
-LDADD = -lkparts -lcutesti
-IDL_FLAGS = --relative-paths --any -I$(idldir)
+INCLUDES  =  -I$(top_srcdir)/konqueror $(all_includes)
+LDFLAGS   = $(all_libraries) $(KDE_RPATH)
+LDADD = -lkdeui
 
-bin_PROGRAMS = konq_searcher
+lib_LTLIBRARIES = libkonqsearcher.la
+
+libkonqsearcher_la_LDFLAGS = -version-info 1:0:0
+
+libkonqsearcher_la_SOURCES = main.cc configwidget.cc enginecfg.cc
 
 service_DATA = konq_searcher.desktop
 servicedir = $(kde_servicesdir)
 
 rc_DATA = konq_searcherrc
 rcdir = $(kde_confdir)
-
-konq_searcher_SOURCES = main.cc configwidget.cc enginecfg.cc
 
 METASOURCES = AUTO

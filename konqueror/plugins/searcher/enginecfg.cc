@@ -18,15 +18,16 @@
 */ 
 
 #include "enginecfg.h"
+#include "main.h"
 
-#include <kapp.h>
 #include <kconfig.h>
+#include <klibglobal.h>
 
 EngineCfg *EngineCfg::s_pSelf = 0L;
 
 EngineCfg::EngineCfg()
 {
-  KConfig *config = kapp->config();
+  KConfig *config = KonqSearcherFactory::global()->config();
   config->setGroup( "General" );
   
   QStringList engines = config->readListEntry( "SearchEngines" );
@@ -108,7 +109,7 @@ EngineCfg* EngineCfg::self()
 
 void EngineCfg::saveConfig()
 {
-  KConfig *config = kapp->config();
+  KConfig *config = KonqSearcherFactory::global()->config();
 
   QStringList engines;
 

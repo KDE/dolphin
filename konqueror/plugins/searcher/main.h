@@ -20,25 +20,35 @@
 #ifndef __main_h__
 #define __main_h__ $Id$
 
-#include <komPlugin.h>
+#include <loader.h>
 
-class KonqSearcher : public KOMPlugin
+class KLibGlobal;
+class KonqMainView;
+
+class KonqSearcher : public QObject
 {
+  Q_OBJECT
 public:
-  KonqSearcher( KOM::Component_ptr core );
+  KonqSearcher( QObject *parent );
+  ~KonqSearcher();
   
-  virtual void cleanUp();
-  
-  virtual bool eventFilter( KOM::Base_ptr obj, const char *name, const CORBA::Any &value );
+protected:  
+  bool eventFilter( QObject *obj, QEvent *ev );
 };
 
-class KonqSearcherFactory : public KOMPluginFactory
+class KonqSearcherFactory : public Factory
 {
+  Q_OBJECT
 public:
-  KonqSearcherFactory( const CORBA::BOA::ReferenceData &refData );
-  KonqSearcherFactory( CORBA::Object_ptr obj );
+  KonqSearcherFactory( QObject *parent = 0, const char *name = 0 );
+  ~KonqSearcherFactory();
   
-  KOM::Plugin_ptr create( KOM::Component_ptr core );
+  virtual QObject *create( QObject *parent = 0, const char *name = 0 );
+  
+  static KLibGlobal *global();
+  
+private:
+  static KLibGlobal *s_global;
 };
 
 #endif
