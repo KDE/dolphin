@@ -185,13 +185,10 @@ QIconViewItemLineEdit::QIconViewItemLineEdit( const QString &text, QWidget *pare
 					      QIconViewItem *theItem, const char *name )
     : QMultiLineEdit( parent, name ), item( theItem ), startText( text )
 {
-#warning Commented out three lines requiring Qt > 2.0.1
-  /*
     setWordWrap( QMultiLineEdit::FixedWidthWrap | QMultiLineEdit::BreakWithinWords );
     setWrapColumnOrWidth( item->iconView()->maxItemWidth() - ( item->iconView()->itemTextPos() == QIconView::Bottom ?
 			  0 : item->iconRect().width() ) );
     setMaxLength( item->iconView()->maxItemTextLength() );
-  */
     setAlignment( Qt::AlignCenter );
     setText( text );
     clearTableFlags();
@@ -637,6 +634,7 @@ QIconViewItem::QIconViewItem( QIconView *parent, QIconViewItem *after, const QSt
 
 void QIconViewItem::init()
 {
+    f = 0;
     if ( view ) {
 	itemKey = itemText;
 	dirty = TRUE;
@@ -654,6 +652,8 @@ void QIconViewItem::init()
 
 QIconViewItem::~QIconViewItem()
 {
+    if ( f )
+	delete f;
     view->removeItem( this );
     removeRenameBox();
 }
@@ -1089,12 +1089,14 @@ bool QIconViewItem::intersects( QRect r ) const
 
 void QIconViewItem::setFont( const QFont &font )
 {
-    f = font;
+    if ( !f )
+	f = new QFont;
+    *f = font;
 
     if ( fm )
 	delete fm;
 
-    fm = new QFontMetrics( f );
+    fm = new QFontMetrics( *f );
     calcRect();
     repaint();
 }
@@ -1105,7 +1107,9 @@ void QIconViewItem::setFont( const QFont &font )
 
 QFont QIconViewItem::font() const
 {
-    return f;
+    if ( !f )
+	return view->font();
+    return *f;
 }
 
 /*!
@@ -1293,15 +1297,19 @@ void QIconViewItem::calcRect( const QString &text_ )
 
 void QIconViewItem::paintItem( QPainter *p )
 {
-    p->setFont( view->font() );
+    if ( f )
+	p->setFont( *f );
+    else
+	p->setFont( view->font() );
+
     if ( view->d->singleClickMode ) {
 	if ( view->d->highlightedItem == this ) {
-	    if ( view->d->singleClickConfig.highlightedText )
+	    if ( view->d->singleClickConfig.highlightedText && !f )
 		p->setFont( *view->d->singleClickConfig.highlightedText );
 	    if ( view->d->singleClickConfig.highlightedTextCol )
 		p->setPen( *view->d->singleClickConfig.highlightedTextCol );
 	} else {
-	    if ( view->d->singleClickConfig.normalText )
+	    if ( view->d->singleClickConfig.normalText && !f )
 		p->setFont( *view->d->singleClickConfig.normalText );
 	    if ( view->d->singleClickConfig.normalTextCol )
 		p->setPen( *view->d->singleClickConfig.normalTextCol );
@@ -1582,8 +1590,8 @@ void QIconViewItem::setIconRect( const QRect &r )
   Constructs an empty icon view
 */
 
-QIconView::QIconView( QWidget *parent, const char *name, WFlags f=0 )
-    : QScrollView( parent, name, WNorthWestGravity | f )
+QIconView::QIconView( QWidget *parent, const char *name )
+    : QScrollView( parent, name, WNorthWestGravity )
 {
     if ( !unknown_icon ) {
 	QPixmap pix = QPixmap( unknown );
@@ -3977,4 +3985,4 @@ void QIconView::sortItems( bool ascending )
 }
 
 #include "qiconview.moc"
-#include "qiconview.moc.cpp"
+
