@@ -89,7 +89,7 @@ KWrite::KWrite (KTextEditor::Document *doc)
 
 KWrite::~KWrite()
 {                           
-  if (kateView->document()->views().count() == 1) docList.remove((KTextEditor::Document*)kateView->document());
+  if (kateView->document()->views().count() == 1) docList.remove(kateView->document());
 }
 
 
@@ -131,7 +131,7 @@ bool KWrite::queryExit()
 
 void KWrite::setupEditWidget(KTextEditor::Document *doc)
 {
-  kateView = (KTextEditor::View *)doc->createView (this, 0L);
+  kateView = doc->createView (this, 0L);
 
   connect(kateView,SIGNAL(newStatus()),this,SLOT(newCaption()));
   connect(kateView,SIGNAL(viewStatusMsg(const QString &)),this,SLOT(newStatus(const QString &)));
@@ -433,15 +433,19 @@ void KWrite::restore(KConfig *config, int n)
 
 void KWrite::readProperties(KConfig *config)
 {
-  readConfig(config);
-  KTextEditor::sessionConfigInterface(kateView)->readSessionConfig(config);
+  readConfig(config);       
+  
+  if (KTextEditor::sessionConfigInterface(kateView))
+    KTextEditor::sessionConfigInterface(kateView)->readSessionConfig(config);
 }
 
 void KWrite::saveProperties(KConfig *config)
 {
   writeConfig(config);
   config->writeEntry("DocumentNumber",docList.find(kateView->document()) + 1);
-  KTextEditor::sessionConfigInterface(kateView)->writeSessionConfig(config);
+  
+  if (KTextEditor::sessionConfigInterface(kateView))
+    KTextEditor::sessionConfigInterface(kateView)->writeSessionConfig(config);
 }
 
 void KWrite::saveGlobalProperties(KConfig *config) //save documents
@@ -457,7 +461,9 @@ void KWrite::saveGlobalProperties(KConfig *config) //save documents
      buf = QString("Document%1").arg(z);
      config->setGroup(buf);
      doc = docList.at(z - 1);
-     KTextEditor::configInterface(doc)->writeSessionConfig(config);
+     
+     if (KTextEditor::configInterface(doc))
+       KTextEditor::configInterface(doc)->writeSessionConfig(config);
   }
 }
 
@@ -480,8 +486,10 @@ void KWrite::restore()
   for (z = 1; z <= docs; z++) {
      buf = QString("Document%1").arg(z);
      config->setGroup(buf);
-     doc = KTextEditor::createDocument ("katepart");
-     KTextEditor::configInterface(doc)->readSessionConfig(config);
+     doc = KTextEditor::createDocument ("katepart");  
+     
+     if (KTextEditor::configInterface(doc))
+       KTextEditor::configInterface(doc)->readSessionConfig(config);
      docList.append(doc);
   }
 
