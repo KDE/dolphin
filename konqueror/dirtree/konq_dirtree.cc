@@ -275,7 +275,7 @@ KonqDirTree::KonqDirTree( KonqDirTreePart *parent, QWidget *parentWidget )
   : KListView( parentWidget )
 {
 
-  m_folderPixmap = SmallIcon("folder");
+  m_folderPixmap = KMimeType::mimeType( "inode/directory" )->pixmap( KIcon::Desktop, KIcon::SizeSmall );
 
   setAcceptDrops( true );
   viewport()->setAcceptDrops( true );
