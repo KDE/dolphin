@@ -24,8 +24,12 @@ protected:
     int counter;
     int expectedCounter;
     QString command;
-    QStringList fileList;
-    KURL::List urlList;
+    struct fileInfo {
+       QString path;
+       KURL url;
+       int time;
+    };
+    QValueList<fileInfo> fileList;
 };
 
 #endif

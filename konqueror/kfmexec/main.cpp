@@ -79,7 +79,10 @@ KFMExec::KFMExec()
         // => It is not encoded and not shell escaped, too.
         if ( url.isLocalFile() )
         {
-            fileList << url.path();
+            fileInfo file;
+            file.path = url.path();
+            file.time = 0;
+            fileList.append(file);
         }
         // It is an URL
         else
@@ -96,15 +99,17 @@ KFMExec::KFMExec()
                 // (Some programs rely on it)
                 QString tmp = locateLocal( "appdata", "tmp/" ) +
                               QString("%1.%2.%3").arg(getpid()).arg(jobCounter++).arg(url.fileName());
-                fileList << tmp;
-                urlList.append( url );
+                fileInfo file;
+                file.path = tmp;
+                file.url = url;
+                file.time = 0;
+                fileList.append(file);
 
                 expectedCounter++;
                 KIO::Job *job = KIO::file_copy( url, tmp );
                 jobList->append( job );
 
                 connect( job, SIGNAL( result( KIO::Job * ) ), SLOT( slotResult( KIO::Job * ) ) );
-
             }
         }
     }
@@ -120,7 +125,15 @@ void KFMExec::slotResult( KIO::Job * job )
     if (job && job->error())
     {
         job->showErrorDialog();
-        QStringList::Iterator it = fileList.find( static_cast<KIO::FileCopyJob*>(job)->destURL().path() );
+        QString path = static_cast<KIO::FileCopyJob*>(job)->destURL().path();
+
+        QValueList<fileInfo>::Iterator it = fileList.begin();
+        for(;it != fileList.end(); ++it)
+        {
+           if ((*it).path == path)
+              break;
+        }
+
         if ( it != fileList.end() )
            fileList.remove( it );
         else
@@ -145,22 +158,16 @@ void KFMExec::slotRunApp()
 
     KService service("dummy", command, QString::null);
     
-    // TODO: Coupling between fileList, urlList and 'times'
-    // is unreliable. (fileList and urlList are not always in sync)
- 
-
     KURL::List list;
     // Store modification times
-    int* times = new int[ fileList.count() ];
-    int i = 0;
-    QStringList::ConstIterator it = fileList.begin();
+    QValueList<fileInfo>::Iterator it = fileList.begin();
     for ( ; it != fileList.end() ; ++it )
     {
         struct stat buff;
-        stat( QFile::encodeName(*it), &buff );
-        times[i++] = buff.st_mtime;
+        stat( QFile::encodeName((*it).path), &buff );
+        (*it).time = buff.st_mtime;
         KURL url;
-        url.setPath(*it);
+        url.setPath((*it).path);
         list << url;
     }
 
@@ -181,15 +188,14 @@ void KFMExec::slotRunApp()
     kdDebug() << "EXEC done" << endl;
 
     // Test whether one of the files changed
-    i = 0;
-    KURL::List::ConstIterator urlIt = urlList.begin();
     it = fileList.begin();
-    for ( ; it != fileList.end() ; ++it, ++urlIt )
+    for( ;it != fileList.end(); ++it )
     {
         struct stat buff;
-        QString src = *it;
-        KURL dest = *urlIt;
-        if ( stat( QFile::encodeName(src), &buff ) == 0 && times[i++] != buff.st_mtime )
+        QString src = (*it).path;
+        KURL dest = (*it).url;
+        if ( (stat( QFile::encodeName(src), &buff ) == 0) && 
+             ((*it).time != buff.st_mtime) )
         {
             if ( KMessageBox::questionYesNo( 0L,
                                              i18n( "The file\n%1\nhas been modified.\nDo you want to upload the changes?" ).arg(dest.prettyURL()),
