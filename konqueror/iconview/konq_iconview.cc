@@ -430,6 +430,11 @@ KonqKfmIconView::KonqKfmIconView()
   
   actions()->append( BrowserView::ViewAction( new QActionSeparator( this ), BrowserView::MenuView ) );
 
+  actions()->append( BrowserView::ViewAction( aBottomText, BrowserView::MenuView ) );
+  actions()->append( BrowserView::ViewAction( aRightText, BrowserView::MenuView ) );
+
+  actions()->append( BrowserView::ViewAction( new QActionSeparator( this ), BrowserView::MenuView ) );
+
   actions()->append( BrowserView::ViewAction( aLargeIcons, BrowserView::MenuView ) );
   actions()->append( BrowserView::ViewAction( aNormalIcons, BrowserView::MenuView ) );
   actions()->append( BrowserView::ViewAction( aSmallIcons, BrowserView::MenuView ) );
@@ -439,6 +444,7 @@ KonqKfmIconView::KonqKfmIconView()
   actions()->append( BrowserView::ViewAction( m_paUnselect, BrowserView::MenuEdit ) );
   actions()->append( BrowserView::ViewAction( m_paSelectAll, BrowserView::MenuEdit ) );
   actions()->append( BrowserView::ViewAction( m_paUnselectAll, BrowserView::MenuEdit ) );
+
 
   m_pIconView->initConfig();
 
