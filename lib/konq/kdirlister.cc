@@ -262,7 +262,7 @@ void KDirLister::slotUpdateFinished( int /*_id*/ )
   {
     if ( (*kit)->url().directory( false /* keep trailing slash */, false ) == sPath )
     {
-      kdebug( KDEBUG_INFO, 1203, "slotUpdateFinished : unmarking %s", (*kit)->url().url().ascii() );
+      //kdebug( KDEBUG_INFO, 1203, "slotUpdateFinished : unmarking %s", (*kit)->url().url().ascii() );
       (*kit)->unmark();
     } else
       (*kit)->mark(); // keep the other items
@@ -289,7 +289,7 @@ void KDirLister::slotUpdateFinished( int /*_id*/ )
       // Form the complete url
       KURL u( m_url );
       u.addPath( name );
-      kdebug(KDEBUG_INFO, 1203, "slotUpdateFinished : found %s",name.ascii() );
+      //kdebug(KDEBUG_INFO, 1203, "slotUpdateFinished : found %s",name.ascii() );
 
       // Find this icon
       bool done = false;
@@ -298,7 +298,7 @@ void KDirLister::slotUpdateFinished( int /*_id*/ )
       {
         if ( u == (*kit)->url() )
         {
-          kdebug(KDEBUG_INFO, 1203, "slotUpdateFinished : keeping %s",name.ascii() );
+          //kdebug(KDEBUG_INFO, 1203, "slotUpdateFinished : keeping %s",name.ascii() );
           (*kit)->mark();
           done = true;
         }
@@ -306,7 +306,7 @@ void KDirLister::slotUpdateFinished( int /*_id*/ )
 
       if ( !done )
       {
-        kdebug(KDEBUG_INFO, 1203,"slotUpdateFinished : inserting %s", name.ascii());
+        //kdebug(KDEBUG_INFO, 1203,"slotUpdateFinished : inserting %s", name.ascii());
         KFileItem* item = new KFileItem( *it, u );
         m_lstFileItems.append( item );
         item->mark();
@@ -322,7 +322,7 @@ void KDirLister::slotUpdateFinished( int /*_id*/ )
   {
     if ( !(*kit)->isMarked() )
     {
-      kdebug(0,1203,"Removing %s", (*kit)->text().ascii());
+      //kdebug(0,1203,"Removing %s", (*kit)->text().ascii());
       lst.append( *kit );
     }
   }
