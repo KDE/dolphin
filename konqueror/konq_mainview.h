@@ -286,7 +286,7 @@ protected:
 
   KfmRun *m_pRun;
 
-  string m_strTempURL;      
+  QString m_sInitialURL;
 
   static QList<OpenPartsUI::Pixmap>* s_lstAnimatedLogo;
   static QList<KonqMainView>* s_lstWindows;

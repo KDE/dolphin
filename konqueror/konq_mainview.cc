@@ -114,6 +114,8 @@ KonqMainView::KonqMainView( const char *url = 0L, QWidget *_parent = 0L ) : QWid
   m_currentView = 0L;
   m_currentId = 0;
 
+  m_sInitialURL = (url) ? url : QDir::homeDirPath().ascii();
+
   m_pAccel = new KAccel( this );
   m_pAccel->insertItem( i18n("Switch to left View"), "LeftView", CTRL+Key_1 );
   m_pAccel->insertItem( i18n("Switch to right View"), "RightView", CTRL+Key_2 );
@@ -143,11 +145,6 @@ KonqMainView::KonqMainView( const char *url = 0L, QWidget *_parent = 0L ) : QWid
   initConfig();
 
   initPanner();
-  
-  if ( url )
-    m_strTempURL = url;
-  else
-    m_strTempURL = QDir::homeDirPath().ascii();
 }
 
 KonqMainView::~KonqMainView()
@@ -1573,7 +1570,7 @@ void KonqMainView::initView()
 
   map<OpenParts::Id,KonqChildView*>::iterator it = m_mapViews.find( vView1->id() );
   it->second->lockHistory(); // first URL won't go into history
-  it->second->openURL( m_strTempURL.c_str() );
+  it->second->openURL( m_sInitialURL );
 
   setActiveView( vView1->id() );
 }
