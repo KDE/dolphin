@@ -511,20 +511,25 @@ KMacroCommand* CmdGen::insertMimeSource(
             break;
         } else if (strcmp(format, "text/uri-list") == 0) { 
             KURL::List uris;
-            if ( KURLDrag::decode(data, uris) 
-              && uris.count() == 1 
-              && uris.first().url().endsWith(".desktop")) 
-            {
-                KDesktopFile df(uris.first().path(), true);
+            if (!KURLDrag::decode(data, uris))
+                continue; // break out of format loop
+            KURL::List::ConstIterator uit = uris.begin();
+            KURL::List::ConstIterator uEnd = uris.end();
+            QValueList<KBookmark> urlBks;
+            for ( ; uit != uEnd ; ++uit ) {
+                if (!(*uit).url().endsWith(".desktop"))  {
+                    urlBks << KBookmark::standaloneBookmark((*uit).prettyURL(), (*uit));
+                    continue;
+                }
+                KDesktopFile df((*uit).path(), true);
                 QString title = df.readName();
                 KURL url(df.readURL());
                 if (title.isNull())
                     title = url.prettyURL();
-                KBookmark bk;
-                bk = KBookmark::standaloneBookmark(title, url, df.readIcon());
-                KBookmarkDrag *mydrag = KBookmarkDrag::newDrag(bk, 0);
-                data = mydrag;
+                urlBks << KBookmark::standaloneBookmark(title, url, df.readIcon());
             }
+            KBookmarkDrag *mydrag = KBookmarkDrag::newDrag(urlBks, 0);
+            data = mydrag;
         }
     }
     if (!KBookmarkDrag::canDecode(data))
