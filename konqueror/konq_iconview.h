@@ -68,11 +68,15 @@ public:
   
   //virtual void updateDirectory();
 
-public slots:
   // IDL
   virtual void slotShowDot();
   virtual void slotSelect();
   virtual void slotSelectAll();
+
+  virtual void slotSortByNameCaseSensitive();
+  virtual void slotSortByNameCaseInsensitive();
+  virtual void slotSortBySize();
+  virtual void slotSetSortDirectionDescending();
 
   virtual void setViewMode( Konqueror::DirectoryDisplayMode mode );
   virtual Konqueror::DirectoryDisplayMode viewMode();
@@ -100,6 +104,8 @@ protected slots:
 protected:  
   virtual void initConfig();
 
+  void setupSortMenu();
+
   /** The directory lister for this URL */
   KDirLister* m_dirLister;
 
@@ -115,6 +121,8 @@ protected:
   /** The view menu */
   OpenPartsUI::Menu_var m_vViewMenu;
 
+  OpenPartsUI::Menu_var m_vSortMenu;
+
   /** Set to true if the next slotUpdate needs to call setup() */
   bool bSetupNeeded;
   
@@ -122,6 +130,10 @@ protected:
   int m_iYOffset;
   
   CORBA::Long m_idShowDotFiles;
+  CORBA::Long m_idSortByNameCaseSensitive;
+  CORBA::Long m_idSortByNameCaseInsensitive;
+  CORBA::Long m_idSortBySize;
+  CORBA::Long m_idSortDescending;
   
   KonqMainView *m_pMainView;
 };

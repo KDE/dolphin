@@ -59,6 +59,7 @@ KonqKfmIconView::KonqKfmIconView( KonqMainView *mainView )
 
   m_pMainView = mainView;
   m_vViewMenu = 0L;
+  m_vSortMenu = 0L;
 
   // Create a properties instance for this view
   // (copying the default values)
@@ -83,7 +84,7 @@ KonqKfmIconView::KonqKfmIconView( KonqMainView *mainView )
   QObject::connect( this, SIGNAL( drop( QDropEvent*, KIconContainerItem*, QStringList& ) ),
 	   this, SLOT( slotDrop( QDropEvent*, KIconContainerItem*, QStringList& ) ) );
   QObject::connect( this, SIGNAL( onItem( KIconContainerItem* ) ), this, SLOT( slotOnItem( KIconContainerItem* ) ) );
-  QObject::connect( this, SIGNAL( selectionChanged( KIconContainerItem * ) ), this, SLOT( slotSelectionChanged() ) );
+  QObject::connect( this, SIGNAL( selectionChanged() ), this, SLOT( slotSelectionChanged() ) );
   //  connect( m_pView->gui(), SIGNAL( configChanged() ), SLOT( initConfig() ) );
 
   // Now we may react to configuration changes
@@ -118,7 +119,31 @@ bool KonqKfmIconView::mappingFillMenuView( Browser::View::EventFillMenu_ptr view
     text = Q2C( i18n("Show &Dot Files") );
     m_idShowDotFiles = viewMenu->insertItem4( text, this, "slotShowDot" , 0, -1, -1 );
     viewMenu->setItemChecked( m_idShowDotFiles, m_pProps->m_bShowDot );
+    
+    text = Q2C( i18n( "Sort..." ) );
+    viewMenu->insertItem8( text, m_vSortMenu, -1, -1 );
+    
+    m_vSortMenu->setCheckable( true );
+
+    text = Q2C( i18n( "by Name ( Case Sensitive )" ) );
+    m_idSortByNameCaseSensitive = m_vSortMenu->insertItem4( text, this, "slotSortByNameCaseSensitive", 0, -1, -1 );
+
+    text = Q2C( i18n( "by Name ( Case Insensitive )" ) );
+    m_idSortByNameCaseInsensitive = m_vSortMenu->insertItem4( text, this, "slotSortByNameCaseInsensitive", 0, -1, -1 );
+    
+    text = Q2C( i18n( "by Size" ) );
+    m_idSortBySize = m_vSortMenu->insertItem4( text, this, "slotSortBySize", 0, -1, -1 );
+
+    m_vSortMenu->insertSeparator( -1 );
+    
+    text = Q2C( i18n( "Descending" ) );
+    m_idSortDescending = m_vSortMenu->insertItem4( text, this, "slotSetSortDirectionDescending", 0, -1, -1 );
+    m_vSortMenu->setItemChecked( m_idSortDescending, sortDirection() == KIconContainerItem::Descending );
+    
+    setupSortMenu();
   }
+  else
+    m_vSortMenu = 0L;
   
   return true;
 }
@@ -168,6 +193,45 @@ void KonqKfmIconView::slotSelectAll()
 {
   kdebug(0, 1202, "KonqKfmIconView::slotSelectAll");
   selectAll();
+}
+
+void KonqKfmIconView::slotSortByNameCaseSensitive()
+{
+  setSortCriterion( KIconContainerItem::NameCaseSensitive );
+
+  refresh();
+  
+  setupSortMenu();
+}
+
+void KonqKfmIconView::slotSortByNameCaseInsensitive()
+{
+  setSortCriterion( KIconContainerItem::NameCaseInsensitive );
+
+  refresh();
+  
+  setupSortMenu();
+}
+
+void KonqKfmIconView::slotSortBySize()
+{
+  setSortCriterion( KIconContainerItem::Size );
+  
+  refresh();
+  
+  setupSortMenu();
+}
+
+void KonqKfmIconView::slotSetSortDirectionDescending()
+{
+  if ( sortDirection() == KIconContainerItem::Ascending )
+    setSortDirection( KIconContainerItem::Descending );
+  else
+    setSortDirection( KIconContainerItem::Ascending );
+
+  m_vSortMenu->setItemChecked( m_idSortDescending, sortDirection() == KIconContainerItem::Descending );
+  
+  refresh();
 }
 
 void KonqKfmIconView::setViewMode( Konqueror::DirectoryDisplayMode mode )
@@ -517,6 +581,28 @@ void KonqKfmIconView::slotOnItem( KIconContainerItem *_item )
   }
   CORBA::WString_var ws = Q2C( s );
   SIGNAL_CALL1( "setStatusBarText", CORBA::Any::from_wstring( ws.out(), 0 ) );
+}
+
+void KonqKfmIconView::setupSortMenu()
+{
+  switch ( sortCriterion() )
+  {
+    case KIconContainerItem::NameCaseSensitive:
+      m_vSortMenu->setItemChecked( m_idSortByNameCaseSensitive, true );
+      m_vSortMenu->setItemChecked( m_idSortByNameCaseInsensitive, false );
+      m_vSortMenu->setItemChecked( m_idSortBySize, false );
+      break;
+    case KIconContainerItem::NameCaseInsensitive:
+      m_vSortMenu->setItemChecked( m_idSortByNameCaseSensitive, false );
+      m_vSortMenu->setItemChecked( m_idSortByNameCaseInsensitive, true );
+      m_vSortMenu->setItemChecked( m_idSortBySize, false );
+      break;
+    case KIconContainerItem::Size:
+      m_vSortMenu->setItemChecked( m_idSortByNameCaseSensitive, false );
+      m_vSortMenu->setItemChecked( m_idSortByNameCaseInsensitive, false );
+      m_vSortMenu->setItemChecked( m_idSortBySize, true );
+      break;
+  }
 }
 
 #include "konq_iconview.moc"

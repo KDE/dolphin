@@ -25,8 +25,6 @@
 #include "konq_defaults.h"
 #include "konq_childview.h"
 #include "konq_mainwindow.h"
-#include "konq_iconview.h"
-#include "konq_treeview.h"
 #include "konq_plugins.h"
 #include "konq_propsmainview.h"
 #include "konq_propsview.h"
