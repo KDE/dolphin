@@ -64,7 +64,7 @@ KMiscHTMLOptions::KMiscHTMLOptions(KConfig *config, QString group, QWidget *pare
     lay->addWidget(userSheet);
     connect( userSheet, SIGNAL( clicked() ), this, SLOT( changed() ));
 
-    QWhatsThis::add( userSheet, i18n("If this box is checked, konqueror will try to load a user defined style sheet as specified in the location below. The style sheet allows you to completely override the way web pages are rendered in your browser. The file specified should contain a valid style sheet (see http://www.w3.org/Style/CSS) for further information on cascading style sheets.") );
+    QWhatsThis::add( userSheet, i18n("If this box is checked, konqueror will try to load a user defined style sheet as specified in the location below. The style sheet allows you to completely override the way web pages are rendered in your browser. The file specified should contain a valid style sheet (see http://www.w3.org/Style/CSS for further information on cascading style sheets).") );
 
     userSheetLocation = new KURLRequester( this, "sheet");
     userSheetLocation->fileDialog()->setFilter("*.css");
