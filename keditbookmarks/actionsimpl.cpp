@@ -65,14 +65,6 @@
 //                             CLIPBOARD
 /* ------------------------------------------------------------- */
 
-void KEBTopLevel::slotClipboardDataChanged() {
-   kdDebug() << "KEBTopLevel::slotClipboardDataChanged" << endl;
-   if (!m_bReadOnly) {
-      m_bCanPaste = KBookmarkDrag::canDecode(KEBClipboard::get());
-      ListView::self()->emitSlotSelectionChanged();
-   }
-}
-
 void KEBTopLevel::slotCut() {
    slotCopy();
    KMacroCommand *mcmd = CmdGen::self()->deleteItems(i18n("Cut Items"), listview->selectedItems());
@@ -132,37 +124,20 @@ void KEBTopLevel::slotImportMoz()    { IMPL(MozImportCommand);    }
 void KEBTopLevel::slotImportNS()     { IMPL(NSImportCommand);     }
 
 void KEBTopLevel::slotExportNS() {
-   myManager()->doExport(KNSBookmarkImporter::netscapeBookmarksFile(true), false);
+   MyManager::self()->doExport(KNSBookmarkImporter::netscapeBookmarksFile(true), false);
 }
 
 void KEBTopLevel::slotExportMoz() {
-   myManager()->doExport(KNSBookmarkImporter::mozillaBookmarksFile(true), true);
+   MyManager::self()->doExport(KNSBookmarkImporter::mozillaBookmarksFile(true), true);
 }
 
 /* ------------------------------------------------------------- */
 //                            NULL_ACTION
 /* ------------------------------------------------------------- */
 
-// TOPLEVEL???
-void KEBTopLevel::slotSaveOnClose() {
-   m_saveOnClose = static_cast<KToggleAction*>(actionCollection()->action("settings_saveonclose"))->isChecked();
-}
-
 void KEBTopLevel::slotShowNS() {
-   // one will need to save, to get konq to notice the change
-   // if that's bad, then we need to put this flag in a KConfig.
-   myManager()->flipShowNSFlag();
+   MyManager::self()->flipShowNSFlag();
    setModifiedFlag(true);
-}
-
-void KEBTopLevel::slotTestAll() {
-   TestLinkItrHolder::self()->insertItr(
-      new TestLinkItr(listview->allBookmarks()));
-}
-
-void KEBTopLevel::slotUpdateAllFavIcons() {
-   FavIconsItrHolder::self()->insertItr(
-      new FavIconsItr(listview->allBookmarks()));
 }
 
 void KEBTopLevel::slotCancelFavIconUpdates() {
@@ -177,7 +152,14 @@ void KEBTopLevel::slotCancelSearch() {
    SearchItrHolder::self()->cancelAllItrs();
 }
 
-// SHUFFLE- move back into functions themselves, or rename selectedBookmarksExpanded/.*Holder/insertItr to make it obvious.
+void KEBTopLevel::slotTestAll() {
+   TestLinkItrHolder::self()->insertItr(new TestLinkItr(listview->allBookmarks()));
+}
+
+void KEBTopLevel::slotUpdateAllFavIcons() {
+   FavIconsItrHolder::self()->insertItr(new FavIconsItr(listview->allBookmarks()));
+}
+
 /* ------------------------------------------------------------- */
 //                             ITR_ACTION
 /* ------------------------------------------------------------- */
@@ -187,11 +169,11 @@ void KEBTopLevel::slotTestSelection() {
 }
 
 void KEBTopLevel::slotUpdateFavIcon() {
-   FavIconsItrHolder::self()->insertItr(
-      new FavIconsItr(listview->selectedBookmarksExpanded()));
+   FavIconsItrHolder::self()->insertItr(new FavIconsItr(listview->selectedBookmarksExpanded()));
 }
 
 void KEBTopLevel::slotSearch() {
+   // TODO
    // also, need to think about limiting size of itr list to <= 1
    // or, generically. itr's shouldn't overlap. difficult problem...
    bool ok;
@@ -221,7 +203,6 @@ void KEBTopLevel::slotDelete() {
    didCommand(mcmd);
 }
 
-
 void KEBTopLevel::slotOpenLink() {
    QValueList<KBookmark> bks = listview->itemsToBookmarks(listview->selectedItems());
    QValueListIterator<KBookmark> it;
@@ -237,15 +218,11 @@ void KEBTopLevel::slotOpenLink() {
 /* ------------------------------------------------------------- */
 
 void KEBTopLevel::slotRename() {
-   QListViewItem *item = listview->firstSelected();
-   Q_ASSERT(item);
-   listView()->rename(item, COL_NAME);
+   listview->rename(COL_NAME);
 }
 
 void KEBTopLevel::slotChangeURL() {
-   QListViewItem* item = listview->firstSelected();
-   Q_ASSERT(item);
-   listView()->rename(item, COL_URL);
+   listview->rename(COL_URL);
 }
 
 void KEBTopLevel::slotSetAsToolbar() {
@@ -267,4 +244,3 @@ void KEBTopLevel::slotChangeIcon() {
       addCommand(cmd);
    }
 }
-

@@ -59,37 +59,43 @@
 
 #include "toplevel.h"
 
+#define cmdHistory this
+
 KEBTopLevel *KEBTopLevel::s_topLevel = 0;
 
-MyManager* KEBTopLevel::myManager() { 
-   return MyManager::self();
+// DESIGN move to actionsimpl.cpp
+
+void KEBTopLevel::slotExpandAll() { 
+   setAllOpen(true); 
 }
 
-KBookmarkManager* KEBTopLevel::bookmarkManager() { 
-   return BkManagerAccessor::mgr();
+void KEBTopLevel::slotCollapseAll() { 
+   setAllOpen(false); 
 }
 
 KEBTopLevel::KEBTopLevel(const QString & bookmarksFile, bool readonly)
    : KMainWindow(), m_commandHistory(actionCollection()), m_dcopIface(0) {
 
    m_bookmarksFilename = bookmarksFile;
-   m_bReadOnly = readonly;
+   m_readOnly = readonly;
    m_saveOnClose = true;
 
    s_topLevel = this;
 
-   // LISTVIEW
-   m_pListView = new KEBListView(this);
+   ListView::createListView(this);
    listview->initListView();
-   setCentralWidget(listView());
-   resize(listView()->sizeHint().width(), 400);
+   setCentralWidget(listview->widget());
+   resize(listview->widget()->sizeHint().width(), 400);
 
    createActions();
    createGUI();
 
    m_dcopIface = new KBookmarkEditorIface();
 
-   connectSignals();
+   connect(kapp->clipboard(), SIGNAL( dataChanged() ),      SLOT( slotClipboardDataChanged() ));
+   connect(&m_commandHistory, SIGNAL( commandExecuted() ),  SLOT( slotCommandExecuted() ));
+   connect(&m_commandHistory, SIGNAL( documentRestored() ), SLOT( slotDocumentRestored() ));
+
    listview->connectSignals();
 
    KGlobal::locale()->insertCatalogue("libkonq");
@@ -100,7 +106,7 @@ KEBTopLevel::KEBTopLevel(const QString & bookmarksFile, bool readonly)
 void KEBTopLevel::construct() {
    MyManager::self()->createManager(this, m_bookmarksFilename);
 
-   listview->updateListViewSetup(m_bReadOnly);
+   listview->updateListViewSetup(m_readOnly);
    listview->fillWithGroup(BkManagerAccessor::mgr()->root());
 
    slotClipboardDataChanged();
@@ -108,7 +114,7 @@ void KEBTopLevel::construct() {
    resetActions();
    setAutoSaveSettings();
    setModifiedFlag(false);
-   docSaved();
+   cmdHistory->docSaved();
 }
 
 KEBTopLevel::~KEBTopLevel() {
@@ -167,7 +173,7 @@ void KEBTopLevel::resetActions() {
 
    stateChanged("normal");
 
-   if (!m_bReadOnly) {
+   if (!m_readOnly) {
       stateChanged("notreadonly");
    }
 
@@ -175,7 +181,7 @@ void KEBTopLevel::resetActions() {
       ->setChecked(m_saveOnClose);
 
    static_cast<KToggleAction*>(actionCollection()->action("settings_showNS"))
-      ->setChecked(myManager()->showNSBookmarks());
+      ->setChecked(MyManager::self()->showNSBookmarks());
 }
 
 void KEBTopLevel::updateActions() {
@@ -188,14 +194,14 @@ void KEBTopLevel::setActionsEnabled(SelcAbilities sa) {
 
 #define ea(a,b) coll->action(a)->setEnabled(b)
 
-   bool t2 = !m_bReadOnly && sa.itemSelected;
-   bool t4 = !m_bReadOnly && sa.singleSelect && !sa.root && !sa.separator;
-   bool t5 = !m_bReadOnly && !sa.multiSelect;
+   bool t2 = !m_readOnly && sa.itemSelected;
+   bool t4 = !m_readOnly && sa.singleSelect && !sa.root && !sa.separator;
+   bool t5 = !m_readOnly && !sa.multiSelect;
 
    ea("edit_copy",         sa.itemSelected);
    ea("delete",            t2 && !sa.root);
    ea("edit_cut",          t2 && !sa.root);
-   ea("edit_paste",        t2 && m_bCanPaste);
+   ea("edit_paste",        t2 && m_canPaste);
 
    ea("rename",            t4);
    ea("changeicon",        t4);
@@ -211,10 +217,10 @@ void KEBTopLevel::setActionsEnabled(SelcAbilities sa) {
    ea("collapseall",       true);
    ea("openlink",          sa.itemSelected && !sa.urlIsEmpty && !sa.group && !sa.separator);
 
-   ea("testall",           !m_bReadOnly && sa.notEmpty);
+   ea("testall",           !m_readOnly && sa.notEmpty);
    ea("testlink",          t2 && !sa.separator);
 
-   ea("updateallfavicons", !m_bReadOnly && sa.notEmpty);
+   ea("updateallfavicons", !m_readOnly && sa.notEmpty);
    ea("updatefavicon",     t2 && !sa.separator);
 
    ea("sort",              t5 && sa.group);
@@ -237,7 +243,7 @@ void KEBTopLevel::setCancelTestsEnabled(bool enabled) {
 
 void KEBTopLevel::setModifiedFlag(bool modified) {
    QString caption = i18n("Bookmark Editor");
-   m_bModified = modified;
+   m_modified = modified;
 
 #if 0
    if (filename != default filename) {
@@ -245,30 +251,31 @@ void KEBTopLevel::setModifiedFlag(bool modified) {
    }
 #endif
 
-   if (m_bReadOnly) {
-      m_bModified = false;
+   if (m_readOnly) {
+      m_modified = false;
       caption += QString(" [%2]").arg(i18n("Read Only"));
    }
 
-   setCaption(caption, m_bModified);
+   setCaption(caption, m_modified);
 
    // AK - commented due to usability bug by zander 
    // AK - on second thoughts. this is just wrong. and against
    // the style guide. maybe zander just saw a bug. doubt it though...
-   // actionCollection()->action("file_save")->setEnabled(m_bModified);
+   // actionCollection()->action("file_save")->setEnabled(m_modified);
 
    // only update when non-modified
    // - this means that when we have modifications
    //   changes are sent via dcop rather than via
    //   a reload - which would loose user changes
-   myManager()->setUpdate(!m_bModified); 
+   MyManager::self()->setUpdate(!m_modified); 
 }
 
-// DESIGN - move into toplevel constructor??
-void KEBTopLevel::connectSignals() {
-   connect(kapp->clipboard(), SIGNAL( dataChanged() ),      SLOT( slotClipboardDataChanged() ));
-   connect(&m_commandHistory, SIGNAL( commandExecuted() ),  SLOT( slotCommandExecuted() ));
-   connect(&m_commandHistory, SIGNAL( documentRestored() ), SLOT( slotDocumentRestored() ));
+void KEBTopLevel::slotClipboardDataChanged() {
+   kdDebug() << "KEBTopLevel::slotClipboardDataChanged" << endl;
+   if (!m_readOnly) {
+      m_canPaste = KBookmarkDrag::canDecode(KEBClipboard::get());
+      ListView::self()->emitSlotSelectionChanged();
+   }
 }
 
 /* ------------------------------------------------------------- */
@@ -325,7 +332,7 @@ void KEBTopLevel::addImport(ImportCommand *cmd) {
 
 // LATER - move
 void KEBTopLevel::slotCommandExecuted() {
-   if (!m_bReadOnly) {
+   if (!m_readOnly) {
       kdDebug() << "KEBTopLevel::slotCommandExecuted" << endl;
       setModifiedFlag(true);
       listview->updateListView();
@@ -335,7 +342,7 @@ void KEBTopLevel::slotCommandExecuted() {
 }
 
 void KEBTopLevel::slotDocumentRestored() {
-   if (m_bReadOnly) {
+   if (m_readOnly) {
       return;
    }
    // called when undoing the very first action - or the first one after
@@ -383,17 +390,17 @@ void KEBTopLevel::slotNewToolbarConfig() {
 /* ------------------------------------------------------------- */
 
 bool KEBTopLevel::save() {
-   if (!myManager()->managerSave()) {
+   if (!MyManager::self()->managerSave()) {
       return false;
    }
-   myManager()->notifyManagers();
+   MyManager::self()->notifyManagers();
    setModifiedFlag(false);
-   docSaved(); // PRIVATE
+   cmdHistory->docSaved(); // PRIVATE
    return true;
 }
 
 bool KEBTopLevel::queryClose() {
-   if (!m_bModified) {
+   if (!m_modified) {
       return true;
    }
 
@@ -435,8 +442,12 @@ void KEBTopLevel::slotSave() {
 void KEBTopLevel::slotSaveAs() {
    QString saveFilename = KFileDialog::getSaveFileName(QString::null, "*.xml", this);
    if(!saveFilename.isEmpty()) {
-      myManager()->saveAs(saveFilename);
+      MyManager::self()->saveAs(saveFilename);
    }
+}
+
+void KEBTopLevel::slotSaveOnClose() {
+   m_saveOnClose = static_cast<KToggleAction*>(actionCollection()->action("settings_saveonclose"))->isChecked();
 }
 
 #include "toplevel.moc"

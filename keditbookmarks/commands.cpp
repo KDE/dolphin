@@ -167,10 +167,10 @@ void CreateCommand::unexecute() {
    Q_ASSERT(!bk.isNull() && !bk.parentGroup().isNull());
 
    KEBListViewItem *item = 
-      static_cast<KEBListViewItem*>(KEBTopLevel::self()->listView()->selectedItem());
+      static_cast<KEBListViewItem*>(listview->firstSelected());
 
    if (item && item->bookmark().address() == m_to) {
-      KEBTopLevel::self()->listView()->setSelected(item, false);
+      item->setSelected(false);
 
       QListViewItem *selectItem = 0;
 
@@ -186,7 +186,7 @@ void CreateCommand::unexecute() {
       }
 
       if (selectItem) {
-         KEBTopLevel::self()->listView()->setSelected(selectItem, true);
+         item->setSelected(true);
       }
    }
 

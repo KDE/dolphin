@@ -23,7 +23,7 @@
 #include <dcopobject.h>
 #include <kcommand.h>
 
-#define DCOP_ACCEPT m_bModified
+#define DCOP_ACCEPT m_modified
 
 // Those methods aren't in KEBTopLevel since KEBTopLevel registers in DCOP
 // and we need to create this DCOPObject after registration.

@@ -86,10 +86,10 @@ void KBookmarkEditorIface::slotDcopCreatedNewFolder2(QString filename, QString t
 //          by somehow stringing together the connects?
 
 void KEBTopLevel::slotDcopCreatedNewFolder(QString filename, QString text, QString address) {
-   if (DCOP_ACCEPT && filename == KEBTopLevel::myManager()->path()) {
+   if (DCOP_ACCEPT && filename == MyManager::self()->path()) {
       kdDebug() << "slotDcopCreatedNewFolder(" << text << "," << address << ")" << endl;
       CreateCommand *cmd = new CreateCommand( 
-                                  myManager()->correctAddress(address), 
+                                  MyManager::self()->correctAddress(address), 
                                   text, QString::null, 
                                   true /*open*/, true /*indirect*/);
       addCommand(cmd);
@@ -97,10 +97,10 @@ void KEBTopLevel::slotDcopCreatedNewFolder(QString filename, QString text, QStri
 }
 
 void KEBTopLevel::slotDcopAddedBookmark(QString filename, QString url, QString text, QString address, QString icon) {
-   if (DCOP_ACCEPT && filename == KEBTopLevel::myManager()->path()) {
+   if (DCOP_ACCEPT && filename == MyManager::self()->path()) {
       kdDebug() << "slotDcopAddedBookmark(" << url << "," << text << "," << address << "," << icon << ")" << endl;
       CreateCommand *cmd = new CreateCommand(
-                                  myManager()->correctAddress(address), 
+                                  MyManager::self()->correctAddress(address), 
                                   text, icon, KURL(url), true /*indirect*/);
       addCommand(cmd);
    }

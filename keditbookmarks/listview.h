@@ -117,8 +117,9 @@ private:
    QString m_oldStatus;
 };
 
-// DESIGN - remove this, make them inline
 #define listview ListView::self()
+
+#include <assert.h>
 
 // DESIGN - make some stuff private if possible
 class ListView : public QObject
@@ -127,6 +128,7 @@ class ListView : public QObject
 public:
    // init stuff
    void initListView();
+
    void updateListViewSetup(bool readOnly);
    void connectSignals();
    
@@ -168,10 +170,11 @@ public:
    KEBListViewItem* findOpenParent(KEBListViewItem *item);
    void openParents(KEBListViewItem *item);
 
-   // DESIGN - private?
-   KListView *listView() { return KEBTopLevel::self()->listView(); }
-
-   static ListView* self() { if (!s_self) { s_self = new ListView(); }; return s_self; }
+   static ListView* self() { assert(s_self); return s_self; }
+   static void createListView(QWidget *parent);
+   QWidget *widget() { return m_listView; }
+   void rename(int);
+   void clearSelection();
 
 protected slots:
    void slotDropped(QDropEvent *, QListViewItem *, QListViewItem *);
@@ -181,11 +184,11 @@ protected slots:
    void slotItemRenamed(QListViewItem *, const QString &, int);
 
 private:
-   ListView() { ; };
+   ListView();
    static ListView *s_self;
-
    void deselectParents(QListViewItem *item);
    QString m_last_selection_address;
+   KEBListView *m_listView;
 };
 
 #endif

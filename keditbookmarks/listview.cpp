@@ -54,49 +54,58 @@
 
 ListView* ListView::s_self = 0;
 
+ListView::ListView() {
+   ;
+}
+
+void ListView::createListView(QWidget *parent) {
+   s_self = new ListView();
+   self()->m_listView = new KEBListView(parent);
+}
+
 void ListView::initListView() {
-   listView()->setRootIsDecorated(false);
-   listView()->addColumn(i18n("Bookmark"), 300);
-   listView()->addColumn(i18n("URL"), 300);
-   listView()->addColumn(i18n("Status/Last Modified"), 300);
+   m_listView->setRootIsDecorated(false);
+   m_listView->addColumn(i18n("Bookmark"), 300);
+   m_listView->addColumn(i18n("URL"), 300);
+   m_listView->addColumn(i18n("Status/Last Modified"), 300);
 #ifdef DEBUG_ADDRESSES
-   listView()->addColumn(i18n("Address"), 100);
+   m_listView->addColumn(i18n("Address"), 100);
 #endif
-   listView()->setRenameable(COL_NAME);
-   listView()->setRenameable(COL_URL);
-   listView()->setSorting(-1, false);
-   listView()->setDragEnabled(true);
-   listView()->setSelectionModeExt(KListView::Extended);
-   listView()->setAllColumnsShowFocus(true);
+   m_listView->setRenameable(COL_NAME);
+   m_listView->setRenameable(COL_URL);
+   m_listView->setSorting(-1, false);
+   m_listView->setDragEnabled(true);
+   m_listView->setSelectionModeExt(KListView::Extended);
+   m_listView->setAllColumnsShowFocus(true);
 }
 
 void ListView::updateListViewSetup(bool readonly) {
-   listView()->setItemsMovable(readonly); // we move items ourselves (for undo)
-   listView()->setItemsRenameable(!readonly);
-   listView()->setAcceptDrops(!readonly);
-   listView()->setDropVisualizer(!readonly);
+   m_listView->setItemsMovable(readonly); // we move items ourselves (for undo)
+   m_listView->setItemsRenameable(!readonly);
+   m_listView->setAcceptDrops(!readonly);
+   m_listView->setDropVisualizer(!readonly);
 }
 
 void ListView::connectSignals() {
-   connect(listView(), SIGNAL( selectionChanged() ),
+   connect(m_listView, SIGNAL( selectionChanged() ),
            this,       SLOT( slotSelectionChanged() ));
-   connect(listView(), SIGNAL( contextMenu(KListView *, QListViewItem*, const QPoint &) ),
+   connect(m_listView, SIGNAL( contextMenu(KListView *, QListViewItem*, const QPoint &) ),
            this,       SLOT( slotContextMenu(KListView *, QListViewItem *, const QPoint &) ));
-   connect(listView(), SIGNAL( itemRenamed(QListViewItem *, const QString &, int) ),
+   connect(m_listView, SIGNAL( itemRenamed(QListViewItem *, const QString &, int) ),
            this,       SLOT( slotItemRenamed(QListViewItem *, const QString &, int) ));
-   connect(listView(), SIGNAL( doubleClicked(QListViewItem *, const QPoint &, int) ),
+   connect(m_listView, SIGNAL( doubleClicked(QListViewItem *, const QPoint &, int) ),
            this,       SLOT( slotDoubleClicked(QListViewItem *, const QPoint &, int) ));
-   connect(listView(), SIGNAL( dropped(QDropEvent*, QListViewItem*, QListViewItem*) ),
+   connect(m_listView, SIGNAL( dropped(QDropEvent*, QListViewItem*, QListViewItem*) ),
            this,       SLOT( slotDropped(QDropEvent*, QListViewItem*, QListViewItem*) ));
 }
 
 QListViewItem* ListView::getFirstChild() {
-   return listView()->firstChild();
+   return m_listView->firstChild();
 }
 
 QPtrList<QListViewItem>* ListView::itemList() {
    QPtrList<QListViewItem> *items = new QPtrList<QListViewItem>();
-   for (QListViewItemIterator it(listView()); it.current(); it++) {
+   for (QListViewItemIterator it(m_listView); it.current(); it++) {
       items->append(it.current());
    }
    return items;
@@ -234,8 +243,8 @@ QString ListView::userAddress() {
 }
 
 void ListView::setCurrent(KEBListViewItem *item) {
-   listView()->setCurrentItem(item);
-   listView()->ensureItemVisible(item);
+   m_listView->setCurrentItem(item);
+   m_listView->ensureItemVisible(item);
 }
 
 KEBListViewItem* ListView::getItemAtAddress(const QString &address) {
@@ -317,7 +326,7 @@ void ListView::slotDropped(QDropEvent *e, QListViewItem *newParent, QListViewIte
       : (KBookmark::nextAddress(itemAfter->bookmark().address()));
 
    KMacroCommand *mcmd = 0;
-   if (e->source() != listView()->viewport()) {
+   if (e->source() != m_listView->viewport()) {
       mcmd = CmdGen::self()->insertMimeSource(i18n("Drop items"), e, newAddress);
 
    } else {
@@ -334,8 +343,6 @@ void ListView::slotDropped(QDropEvent *e, QListViewItem *newParent, QListViewIte
 }
 
 void ListView::updateListView() {
-   QPoint pos(listView()->contentsX(), listView()->contentsY());
-
    // get address list for selected items, make a function?
    QStringList addressList;
    QPtrList<QListViewItem> *selcItems = selectedItems();
@@ -354,14 +361,14 @@ void ListView::updateListView() {
    KEBListViewItem *item = 0;
    for (QStringList::Iterator ait = addressList.begin(); ait != addressList.end(); ++ait) {
       if (item = getItemAtAddress(*ait), item) {
-         listView()->setSelected(item, true);
+         m_listView->setSelected(item, true);
       }
    }
 
    // fallback, if no selected items
    if (!item) {
       item = getItemRoughlyAtAddress(m_last_selection_address);
-      listView()->setSelected(item, true);
+      m_listView->setSelected(item, true);
    }
 
    setCurrent(item);
@@ -370,8 +377,8 @@ void ListView::updateListView() {
 void ListView::fillWithGroup(KBookmarkGroup group, KEBListViewItem *parentItem) {
    KEBListViewItem *lastItem = 0;
    if (!parentItem) {
-      listView()->clear();
-      KEBListViewItem *tree = new KEBListViewItem(listView(), group);
+      m_listView->clear();
+      KEBListViewItem *tree = new KEBListViewItem(m_listView, group);
       fillWithGroup(group, tree);
       tree->QListViewItem::setOpen(true);
       return;
@@ -420,7 +427,7 @@ void ListView::slotDoubleClicked(QListViewItem *item, const QPoint &, int column
     && ((column == COL_URL) 
      || (column == COL_NAME))
    ) {
-      listView()->rename(item, column);
+      m_listView->rename(item, column);
    }
 }
 
@@ -449,6 +456,16 @@ void ListView::slotItemRenamed(QListViewItem *item, const QString &newText, int 
          return;
    }
    KEBTopLevel::self()->addCommand(cmd);
+}
+
+void ListView::rename(int column) {
+   QListViewItem* item = firstSelected();
+   Q_ASSERT(item);
+   m_listView->rename(item, column);
+}
+
+void ListView::clearSelection() {
+   m_listView->clearSelection();
 }
 
 void KEBListView::rename(QListViewItem *qitem, int column) {

@@ -55,11 +55,7 @@ class KEBTopLevel : public KMainWindow
    Q_OBJECT
 
 public:
-   // DESIGN - rename its _not_ a singleton!
    static KEBTopLevel* self() { return s_topLevel; }
-
-   // DESIGN - define remove this
-   static MyManager* myManager();
 
    QWidget* popupMenuFactory(const char *type) { return factory()->container(type, this); }
 
@@ -67,9 +63,6 @@ public:
    virtual ~KEBTopLevel();
 
    void setModifiedFlag(bool);
-
-   // DESIGN - preferably remove
-   KEBListView* listView() const { return m_pListView; }
 
    void setActionsEnabled(SelcAbilities);
 
@@ -89,7 +82,7 @@ public:
 
    void updateActions();
 
-   bool readonly() { return m_bReadOnly; }
+   bool readonly() { return m_readOnly; }
 
 private:
    static KBookmarkManager* bookmarkManager();
@@ -136,42 +129,36 @@ public slots:
    void slotCancelFavIconUpdates();
    void slotSearch();
    void slotCancelSearch();
+   void slotExpandAll();
+   void slotCollapseAll();
 
 protected slots:
    void slotClipboardDataChanged();
    void slotBookmarksChanged(const QString &, const QString &);
    void slotCommandExecuted();
    void slotNewToolbarConfig();
-
-   // DESIGN - move impl into .cpp
-   void slotExpandAll() { setAllOpen(true); }
-   void slotCollapseAll() { setAllOpen(false); }
-
-   void slotDcopAddedBookmark(QString filename, QString url, QString text, QString address, QString icon);
-   void slotDcopCreatedNewFolder(QString filename, QString text, QString address);
+   void slotDcopAddedBookmark(QString, QString, QString, QString, QString);
+   void slotDcopCreatedNewFolder(QString, QString, QString);
 
 private:
    void construct();
-   void connectSignals();
 
    void resetActions();
    void createActions();
-
    virtual bool queryClose();
-
    void setAllOpen(bool open);
 
-   bool m_bModified;
-   bool m_bCanPaste;
-   bool m_bReadOnly;
+   bool m_modified;
+   bool m_canPaste;
+   bool m_readOnly;
 
    KCommandHistory m_commandHistory;
-   KEBListView *m_pListView;
    KBookmarkEditorIface *m_dcopIface;
    QString m_bookmarksFilename;
    bool m_saveOnClose;
 
    static KEBTopLevel *s_topLevel;
+
 };
 
 #endif

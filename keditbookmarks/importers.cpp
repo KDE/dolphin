@@ -62,7 +62,7 @@ void ImportCommand::execute() {
       m_cleanUpCmd = DeleteCommand::deleteAll( bkGroup );
 
       // unselect current item, it doesn't exist anymore
-      KEBTopLevel::self()->listView()->clearSelection();
+      listview->clearSelection();
       m_cleanUpCmd->execute();
 
       // import at the root
@@ -87,7 +87,7 @@ void ImportCommand::unexecute() {
       KCommand *cmd = DeleteCommand::deleteAll(root);
 
       // unselect current item, it doesn't exist anymore
-      KEBTopLevel::self()->listView()->clearSelection();
+      listview->clearSelection();
       cmd->execute();
       delete cmd;
 
