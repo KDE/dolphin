@@ -1,2 +1,2 @@
-datadir = $(kde_datadir)/kfind/icons
+datadir = $(kde_datadir)/kfindpart/icons
 data_ICON = AUTO

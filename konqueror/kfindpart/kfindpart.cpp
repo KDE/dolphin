@@ -53,7 +53,7 @@ public:
     static KInstance *instance()
     {
         if ( !s_instance )
-            s_instance = new KInstance( "kfind" );
+            s_instance = new KInstance( "kfindpart" );
         return s_instance;
     }
 
