@@ -170,9 +170,15 @@ void KonqRun::scanFile()
   }
 
   KIO::TransferJob *job;
-  m_req.args.metaData().insert("main_frame_request", "TRUE" );
-  m_req.args.metaData().insert("ssl_was_in_use", "FALSE" );  
-  m_req.args.metaData().insert("ssl_activate_warnings", "TRUE" );
+  if (m_strURL.protocol().startsWith("https")) {
+     m_req.args.metaData().insert("main_frame_request", "TRUE" );
+     m_req.args.metaData().insert("ssl_was_in_use", "TRUE" );  
+     m_req.args.metaData().insert("ssl_activate_warnings", "TRUE" );
+  } else if (m_strURL.protocol().startsWith("http")) {
+     m_req.args.metaData().insert("ssl_activate_warnings", "TRUE" );
+     m_req.args.metaData().insert("ssl_was_in_use", "FALSE" );  
+  }
+
   if ( m_req.args.doPost() && m_strURL.protocol().startsWith("http"))
   {
       job = KIO::http_post( m_strURL, m_req.args.postData, false );
