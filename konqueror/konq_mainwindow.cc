@@ -5235,7 +5235,6 @@ void KonqMainWindow::setPreloadedFlag( bool preloaded )
     s_preloaded = preloaded;
     if( s_preloaded )
     {
-        chdir("/"); // so that it's cwd is not e.g. subfs mounted device
         kapp->disableSessionManagement(); // dont restore preloaded konqy's
         return; // was registered before calling this
     }
