@@ -303,7 +303,7 @@ bool KFileIVI::acceptDrop( const QMimeSource *mime ) const
         KURL::List::Iterator it = uris.begin();
         for ( ; it != uris.end() ; it++ )
         {
-            if ( m_fileitem->url().cmp( *it, true /*ignore trailing slashes*/ ) )
+            if ( m_fileitem->url().equals( *it, true /*ignore trailing slashes*/ ) )
                 return true;
         }
     }

@@ -105,6 +105,13 @@ public:
      */
     static void rename( QWidget * parent, const KURL & oldurl, const KURL & newurl );
 
+    /**
+     * Ask for the name of a new directory and create it.
+     * @param parent the parent widget
+     * @param baseURL the directory to create the new directory in
+     */
+    static void newDir( QWidget * parent, const KURL & baseURL );
+
 signals:
     void statFinished( const KFileItem * item );
     void aboutToCreate(const QPoint &pos, const QValueList<KIO::CopyInfo> &files);

@@ -312,7 +312,7 @@ void KonqPopupMenu::setup(bool showPropertiesAndFileType)
         firstPopupURL.cleanPath();
         //kdDebug(1203) << "View path is " << url.url() << endl;
         //kdDebug(1203) << "First popup path is " << firstPopupURL.url() << endl;
-        currentDir = firstPopupURL.cmp( url, true /* ignore_trailing */ );
+        currentDir = firstPopupURL.equals( url, true /* ignore_trailing */ );
     }
 
     bool isCurrentTrash = ( url.isLocalFile() &&
@@ -790,22 +790,10 @@ void KonqPopupMenu::slotPopupNewView()
 
 void KonqPopupMenu::slotPopupNewDir()
 {
-    bool ok;
-    QString dir = KInputDialog::getText( i18n( "New Directory" ),
-        i18n( "Enter directory name:" ), i18n( "Directory" ), &ok,
-        d->m_parentWidget );
-    if ( ok )
-    {
-        QString name = KIO::encodeFileName( dir );
-        KURL::List::ConstIterator it = m_lstPopupURLs.begin();
-        for ( ; it != m_lstPopupURLs.end(); it++ )
-        {
-            KURL url(*it);
-            url.addPath( name );
-            kdDebug() << "KonqPopupMenu::slotPopupNewDir creating dir " << url.url() << endl;
-            KonqOperations::mkdir( 0L, url );
-        }
-    }
+  if (m_lstPopupURLs.empty())
+    return;
+       
+  KonqOperations::newDir(d->m_parentWidget, m_lstPopupURLs.first());
 }
 
 void KonqPopupMenu::slotPopupEmptyTrashBin()

@@ -81,6 +81,11 @@ public slots:
 
 protected slots:
     /**
+     * Called when New->Directory... is clicked
+     */
+    void slotNewDir();
+
+    /**
      * Called when New->* is clicked
      */
     void slotNewFile();

@@ -18,9 +18,11 @@
 
 #include <qclipboard.h>
 #include "konq_operations.h"
+
+#include <kautomount.h>
+#include <kinputdialog.h>
 #include <klocale.h>
 #include <kmessagebox.h>
-#include <kautomount.h>
 #include <krun.h>
 
 #include <kdirnotify_stub.h>
@@ -342,7 +344,7 @@ void KonqOperations::doDrop( const KFileItem * destItem, const KURL & dest, QDro
         for ( ; it != lst.end() ; it++ )
         {
             kdDebug(1203) << "URL : " << (*it).url() << endl;
-            if ( dest.cmp( *it, true /*ignore trailing slashes*/ ) )
+            if ( dest.equals( *it, true /*ignore trailing slashes*/ ) )
             {
                 // The event source may be the view or an item (icon)
                 // Note: ev->source() can be 0L! (in case of kdesktop) (Simon)
@@ -777,7 +779,7 @@ void KonqOperations::slotResult( KIO::Job * job )
     {
         KURL trash;
         trash.setPath( KGlobalSettings::trashPath() );
-        if ( m_destURL.cmp( trash, true /*ignore trailing slash*/ ) )
+        if ( m_destURL.equals( trash, true /*ignore trailing slash*/ ) )
             bUpdateTrash = true;
     }
     if (bUpdateTrash)
@@ -799,6 +801,37 @@ void KonqOperations::rename( QWidget * parent, const KURL & oldurl, const QStrin
     newurl.setPath( oldurl.directory(false, true) + name );
     kdDebug(1203) << "KonqOperations::rename("<<name<<") called. newurl=" << newurl.prettyURL() << endl;
     rename( parent, oldurl, newurl );
+}
+
+void KonqOperations::newDir( QWidget * parent, const KURL & baseURL )
+{
+    bool ok;
+    QString name = i18n( "Directory" );
+    if (baseURL.isLocalFile())
+    {
+       QString base = name;
+       int n = 2;
+       while(true)
+       {
+          KURL url=baseURL;
+          url.addPath( name );
+          
+          if (access(QFile::encodeName(url.path()), F_OK) == -1)
+             break;
+             
+          name = base + QString("_%1").arg(n++);
+       }
+    }
+    
+    name = KInputDialog::getText ( i18n( "New Directory" ),
+        i18n( "Enter directory name:" ), name, &ok, parent );
+    if ( ok )
+    {
+        name = KIO::encodeFileName( name );
+        KURL url=baseURL;
+        url.addPath( name );
+        KonqOperations::mkdir( 0L, url );
+    }
 }
 
 #include "konq_operations.moc"

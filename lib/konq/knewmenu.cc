@@ -34,6 +34,7 @@
 #include <kio/job.h>
 
 #include <kpropertiesdialog.h>
+#include "konq_operations.h"
 #include "konq_undo.h"
 #include "knewmenu.h"
 #include <utime.h>
@@ -259,7 +260,7 @@ void KNewMenu::fillMenu()
                     // The best way to identify the "Create Directory" was the template
                 if((*templ).templatePath.right( 8 ) == "emptydir")
                 {
-                    KAction * act = new KAction( (*templ).text, (*templ).icon, 0, this, SLOT( slotNewFile() ),
+                    KAction * act = new KAction( (*templ).text, (*templ).icon, 0, this, SLOT( slotNewDir() ),
                                      d->m_actionCollection, QCString().sprintf("newmenu%d", i ) );
                     act->setGroup( "KNewMenu" );
             	    act->plug( popupMenu() );
@@ -447,6 +448,16 @@ void KNewMenu::slotFillTemplates()
         s_templatesList->append( (*it).value() );
     }
 
+}
+
+void KNewMenu::slotNewDir()
+{
+    emit activated(); // for KDIconView::slotNewMenuActivated()
+
+    if (popupFiles.isEmpty())
+       return;
+
+    KonqOperations::newDir(d->m_parentWidget, popupFiles.first());
 }
 
 void KNewMenu::slotNewFile()
