@@ -21,34 +21,25 @@
 #include "konq_listviewitems.h"
 #include "konq_treeviewwidget.h"
 
-#include <qdragobject.h>
-#include <qheader.h>
-
 #include <kdebug.h>
 #include <konq_dirlister.h>
-#include <kglobal.h>
-#include <klocale.h>
-#include <stdlib.h>
-#include <kmessagebox.h>
-#include <kprotocolmanager.h>
 
 #include <konq_settings.h>
 #include "konq_propsview.h"
-
-#include <assert.h>
 
 template class QDict<KonqListViewDir>;
 
 //////////////////////////////////////////////
 KonqTreeViewWidget::KonqTreeViewWidget( KonqListView *parent, QWidget *parentWidget)
 : KonqBaseListViewWidget(parent,parentWidget)
-,m_pWorkingDir(0L)
-,m_bSubFolderComplete(TRUE)
 {
    kdDebug(1202) << "+KonqTreeViewWidget" << endl;
 
    setRootIsDecorated( true );
    setTreeStepSize( 20 );
+
+   connect( m_dirLister, SIGNAL( completed( const KURL & ) ),
+            this, SLOT( slotCompleted( const KURL & ) ) );
 }
 
 KonqTreeViewWidget::~KonqTreeViewWidget()
@@ -77,9 +68,9 @@ void KonqTreeViewWidget::restoreState( QDataStream &stream )
     stream >> m_urlsToOpen;
 }
 
-void KonqTreeViewWidget::addSubDir(const KURL & _url, KonqListViewDir* _dir)
+void KonqTreeViewWidget::addSubDir( KonqListViewDir* _dir )
 {
-   m_dictSubDirs.insert( _url.url(-1), _dir );
+   m_dictSubDirs.insert( _dir->url(-1), _dir );
 }
 
 void KonqTreeViewWidget::removeSubDir( const KURL & _url )
@@ -89,13 +80,7 @@ void KonqTreeViewWidget::removeSubDir( const KURL & _url )
 
 void KonqTreeViewWidget::setComplete()
 {
-   if ( m_pWorkingDir )
-   {
-      m_bSubFolderComplete = true;
-      m_pWorkingDir->setComplete( true );
-      m_pWorkingDir = 0L;
-   }
-   else
+   if ( m_dirLister->isFinished() )
    {
       m_bTopLevelComplete = true;
       KonqBaseListViewWidget::setComplete();
@@ -110,14 +95,17 @@ void KonqTreeViewWidget::setComplete()
    slotOnViewport();
 }
 
+void KonqTreeViewWidget::slotCompleted( const KURL & _url )
+{
+   m_dictSubDirs[ _url.url(-1) ]->setComplete( true );
+}
+
 void KonqTreeViewWidget::slotClear()
 {
    kdDebug(1202) << "KonqTreeViewWidget::slotClear()" << endl;
-   if ( !m_pWorkingDir )
-   {
-      KonqBaseListViewWidget::slotClear();
-      m_dictSubDirs.clear();
-   }
+
+   m_dictSubDirs.clear();
+   KonqBaseListViewWidget::slotClear();
 }
 
 void KonqTreeViewWidget::slotNewItems( const KFileItemList & entries )
@@ -151,7 +139,7 @@ void KonqTreeViewWidget::slotNewItems( const KFileItemList & entries )
             if ( (*kit)->isDir() )
                 dirItem = new KonqListViewDir( this, static_cast<KonqFileItem*>(*kit) );
             else
-                fileItem = new KonqListViewItem( this,static_cast<KonqFileItem*> (*kit) );
+                fileItem = new KonqListViewItem( this, static_cast<KonqFileItem*>(*kit) );
         }
 
         if (m_goToFirstItem==false)
@@ -192,6 +180,8 @@ void KonqTreeViewWidget::slotNewItems( const KFileItemList & entries )
             m_urlsToOpen.remove( u );
         }
     }
+
+    // counts for the statusbar
     m_pBrowserView->newItems( entries );
 }
 
@@ -214,30 +204,14 @@ void KonqTreeViewWidget::slotDeleteItem( KFileItem *_fileItem )
     KonqBaseListViewWidget::slotDeleteItem( _fileItem );
 }
 
-void KonqTreeViewWidget::openSubFolder(const KURL &_url, KonqListViewDir* _dir)
+void KonqTreeViewWidget::openSubFolder( KonqListViewDir* _dir )
 {
-   if ( !m_bTopLevelComplete )
-   {
-      // TODO: Give a warning
-      kdDebug(1202) << "Still waiting for toplevel directory" << endl;
-      return;
-   }
+   m_dirLister->openURL( _dir->item()->url(), props()->isShowingDotFiles(), true /* keep existing data */ );
+}
 
-   // If we are opening another sub folder right now, stop it.
-   if ( !m_bSubFolderComplete )
-   {
-      m_dirLister->stop();
-   }
-
-   /** Debug code **/
-   //assert( m_iColumns != -1 && m_dirLister );
-   //if ( m_dirLister->url().protocol() != _url.protocol() )
-   //   assert( 0 ); // not same protocol as parent dir...
-   /** End Debug code **/
-
-   m_bSubFolderComplete = false;
-   m_pWorkingDir = _dir;
-   m_dirLister->openURL( _url, props()->isShowingDotFiles(), true /* keep existing data */ );
+void KonqTreeViewWidget::stopListingSubFolder( KonqListViewDir* _dir )
+{
+   m_dirLister->stop( _dir->item()->url() );
 }
 
 #include "konq_treeviewwidget.moc"

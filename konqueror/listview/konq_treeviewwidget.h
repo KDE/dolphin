@@ -33,18 +33,20 @@ class KonqTreeViewWidget : public KonqBaseListViewWidget
     //friend class KonqListViewDir;
     Q_OBJECT
    public:
-      KonqTreeViewWidget( KonqListView *parent, QWidget *parentWidget);
+      KonqTreeViewWidget( KonqListView *parent, QWidget *parentWidget );
       virtual ~KonqTreeViewWidget();
 
       virtual void saveState( QDataStream &stream );
       virtual void restoreState( QDataStream &stream );
 
-      // Called by KonqTreeViewDir
-      void addSubDir( const KURL & _url, KonqListViewDir* _dir );
-      void openSubFolder(const KURL &_url, KonqListViewDir* _dir);
+      // Called by KonqListViewDir
+      void addSubDir( KonqListViewDir* _dir );
+      void openSubFolder( KonqListViewDir* _dir );
+      void stopListingSubFolder( KonqListViewDir* _dir );
 
    protected slots:
       // slots connected to the directory lister
+      virtual void slotCompleted( const KURL & );
       virtual void slotClear();
       virtual void slotNewItems( const KFileItemList & );
       virtual void slotDeleteItem( KFileItem *_fileTtem );
@@ -54,14 +56,6 @@ class KonqTreeViewWidget : public KonqBaseListViewWidget
       void removeSubDir( const KURL & _url );
       /** Common method for slotCompleted and slotCanceled */
       virtual void setComplete();
-
-      /** If 0L, we are listing the toplevel.
-       * Otherwise, m_pWorkingDir points to the directory item we are listing,
-       * and all files found will be created under this directory item.
-       */
-      KonqListViewDir* m_pWorkingDir;
-
-      bool m_bSubFolderComplete;
 
       // URL -> item (for directories only)
       QDict<KonqListViewDir> m_dictSubDirs;

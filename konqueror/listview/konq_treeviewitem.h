@@ -20,16 +20,10 @@
 #ifndef __konq_treeviewitem_h__
 #define __konq_treeviewitem_h__
 
-#include <qlistview.h>
 #include <qstring.h>
-#include <kio/global.h>
-#include <klocale.h>
-#include "konq_listviewwidget.h"
 #include "konq_listviewitems.h"
 
-class KMimeType;
 class KonqFileItem;
-class QPainter;
 class KonqTreeViewWidget;
 
 /**
@@ -44,6 +38,7 @@ public:
    * @param _fileitem the file item created by KonqDirLister
    */
   KonqListViewDir( KonqTreeViewWidget *_parent, KonqFileItem* _fileitem );
+
   /**
    * Create an item representing a directory, inside a directory
    * @param _treeview the parent tree view
@@ -51,6 +46,7 @@ public:
    * @param _fileitem the file item created by KonqDirLister
    */
   KonqListViewDir( KonqTreeViewWidget *_treeview, KonqListViewDir * _parent, KonqFileItem* _fileitem );
+
   virtual ~KonqListViewDir();
 
   /**
@@ -58,8 +54,9 @@ public:
    * Checks whether its contents is known (@see #setComplete).
    */
   virtual void setOpen( bool _open );
+
   /**
-   * Set to true when contents is completely known (one sublevel only)
+   * Set to true when contents are completely known (one sublevel only).
    */
   virtual void setComplete( bool _b ) { m_bComplete = _b; }
 
