@@ -55,7 +55,9 @@ public:
 
 protected:
     virtual void keyPressEvent( QKeyEvent * );
-
+    virtual void mousePressEvent( QMouseEvent * );
+    virtual void mouseMoveEvent( QMouseEvent * );
+    
 private slots:
     void slotReturnPressed();
     void slotCleared();
@@ -73,6 +75,7 @@ private:
     int m_cursorPos;
     int m_currentIndex;
     QString m_currentText;
+    QPoint m_dragStart;
 
     static KConfig *s_config;
     static const int temporary = 0; // the index of our temporary item

@@ -23,6 +23,7 @@
 #include <kicontheme.h>
 #include <konq_pixmapprovider.h>
 #include <kstdaccel.h>
+#include <kurldrag.h>
 
 #include <dcopclient.h>
 
@@ -263,6 +264,47 @@ void KonqCombo::removeURL( const QString& url )
     setUpdatesEnabled( true );
     lineEdit()->setUpdatesEnabled( true );
     repaint();
+}
+
+void KonqCombo::mousePressEvent( QMouseEvent *e )
+{
+    m_dragStart = QPoint(); // null QPoint
+    
+    if ( e->button() == LeftButton && pixmap( currentItem()) ) {
+        // check if the pixmap was clicked
+        int x = e->pos().x();
+        if ( x > 2 && x < lineEdit()->x() ) {
+            m_dragStart = e->pos();
+            return; // don't call KComboBox::mousePressEvent!
+        }
+    }
+    
+    KComboBox::mousePressEvent( e );
+}
+
+void KonqCombo::mouseMoveEvent( QMouseEvent *e )
+{
+    KComboBox::mouseMoveEvent( e );
+    if ( m_dragStart.isNull() || currentText().isEmpty() )
+        return;
+    
+    if ( e->state() & LeftButton &&
+         (e->pos() - m_dragStart).manhattanLength() >
+         KGlobalSettings::dndEventDelay() ) 
+    {
+        KURL url = currentText();
+        if ( !url.isMalformed() )
+        {
+            KURL::List list;
+            list.append( url );
+            QUriDrag *drag = KURLDrag::newDrag( list, this );
+            QPixmap pix = KonqPixmapProvider::self()->pixmapFor( currentText(),
+                                                                 KIcon::SizeMedium );
+            if ( !pix.isNull() )
+                drag->setPixmap( pix );
+            drag->dragCopy();
+        }
+    }
 }
 
 void KonqCombo::setConfig( KConfig *kc )
