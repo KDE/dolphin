@@ -348,9 +348,6 @@ struct KonqIconViewWidgetPrivate
         pActivateDoubleClick = 0L;
         bCaseInsensitive = true;
         pPreviewMimeTypes = 0L;
-
-        KConfigGroup group( KGlobal::config(), "PreviewSettings" );
-        bBoostPreview = group.readBoolEntry( "BoostSize", false );
     }
     ~KonqIconViewWidgetPrivate() {
         delete pSoundPlayer;
@@ -371,6 +368,7 @@ struct KonqIconViewWidgetPrivate
     bool bAllowSetWallpaper;
     bool bCaseInsensitive;
     bool bBoostPreview;
+    bool bDesktopLargeGrid;
     int gridXspacing;
 
     // Animated icons support
@@ -409,6 +407,12 @@ KonqIconViewWidget::KonqIconViewWidget( QWidget * parent, const char * name, WFl
     connect( this, SIGNAL(onItem(QIconViewItem *)), SLOT(slotOnItem(QIconViewItem *)) );
     connect( this, SIGNAL(onViewport()), SLOT(slotOnViewport()) );
     connect( this, SIGNAL(itemRenamed(QIconViewItem *, const QString &)), SLOT(slotItemRenamed(QIconViewItem *, const QString &)) );
+
+    if ( m_bDesktop ) {
+        KConfigGroup group( KGlobal::config(), "DesktopIcons" );
+        d->bDesktopLargeGrid = group.readBoolEntry( "DesktopLargeGrid", false );
+    }
+    d->bBoostPreview = boostPreview();
 
     // hardcoded settings
     setSelectionMode( QIconView::Extended );
@@ -851,17 +855,24 @@ bool KonqIconViewWidget::initConfig( bool bInit )
             fontChanged = true;
         }
     }
-    setIconTextHeight( m_pSettings->iconTextHeight() );
 
-    KConfigGroup group( KGlobal::config(), "PreviewSettings" );
-    bool boost = group.readBoolEntry( "BoostSize", false );
+    setIconTextHeight( m_bDesktop ? 2 : m_pSettings->iconTextHeight() );
 
     // Update icons if settings for preview icon size have changed
-    if (boost != d->bBoostPreview)
+    if ( d->bBoostPreview != boostPreview() )
         setIcons(m_size);
     else if (!bInit)
         updateContents();
     return fontChanged;
+}
+
+bool KonqIconViewWidget::boostPreview() const
+{
+    if ( m_bDesktop && !d->bDesktopLargeGrid )
+        return false;
+
+    KConfigGroup group( KGlobal::config(), "PreviewSettings" );
+    return group.readBoolEntry( "BoostSize", false );
 }
 
 void KonqIconViewWidget::disableSoundPreviews()
@@ -883,9 +894,8 @@ void KonqIconViewWidget::setIcons( int size, const QStringList& stopImagePreview
     m_size = size;
     
     // boost preview option has changed?
-    KConfigGroup group( KGlobal::config(), "PreviewSettings" );
-    bool boost = group.readBoolEntry( "BoostSize", false );
-    bool previewSizeChanged = ( boost != d->bBoostPreview );
+    bool boost = boostPreview();
+    bool previewSizeChanged = ( d->bBoostPreview != boost );
     d->bBoostPreview = boost;
     
     if ( sizeChanged || previewSizeChanged )
@@ -1032,8 +1042,7 @@ void KonqIconViewWidget::startImagePreview( const QStringList &, bool force )
     int iconSize = m_size ? m_size : KGlobal::iconLoader()->currentSize( KIcon::Desktop );
     int size;
 
-    KConfigGroup group( KGlobal::config(), "PreviewSettings" );
-    d->bBoostPreview = group.readBoolEntry("BoostSize", false);
+    d->bBoostPreview = boostPreview();
     size = previewIconSize( iconSize );
 
     if ( !d->bBoostPreview )
@@ -1588,109 +1597,6 @@ void KonqIconViewWidget::insertInGrid(QIconViewItem *item)
 
 
 /*
- * Utility class QIVItemBin is used by KonqIconViewWidget::lineupIcons().
- */
-
-class QIVItemBin
-{
-public:
-    QIVItemBin() {}
-    ~QIVItemBin() {}
-
-    int count() { return mData.count(); }
-    void add(QIconViewItem *item) { mData.append(item); }
-
-    QIconViewItem *top();
-    QIconViewItem *bottom();
-    QIconViewItem *left();
-    QIconViewItem *right();
-
-private:
-    QPtrList<QIconViewItem> mData;
-};
-
-QIconViewItem *QIVItemBin::top()
-{
-    if (mData.count() == 0)
-        return 0L;
-
-    QIconViewItem *it = mData.first();
-    QIconViewItem *item = it;
-    int y = it->y();
-    for (it=mData.next(); it; it=mData.next())
-    {
-        if (it->y() < y)
-        {
-            y = it->y();
-            item = it;
-        }
-    }
-    mData.remove(item);
-    return item;
-}
-
-QIconViewItem *QIVItemBin::bottom()
-{
-    if (mData.count() == 0)
-        return 0L;
-
-    QIconViewItem *it = mData.first();
-    QIconViewItem *item = it;
-    int y = it->y();
-    for (it=mData.next(); it; it=mData.next())
-    {
-        if (it->y() > y)
-        {
-            y = it->y();
-            item = it;
-        }
-    }
-    mData.remove(item);
-    return item;
-}
-
-QIconViewItem *QIVItemBin::left()
-{
-    if (mData.count() == 0)
-        return 0L;
-
-    QIconViewItem *it=mData.first();
-    QIconViewItem *item = it;
-    int x = it->x();
-    for (it=mData.next(); it; it=mData.next())
-    {
-        if (it->x() < x)
-        {
-            x = it->x();
-            item = it;
-        }
-    }
-    mData.remove(item);
-    return item;
-}
-
-QIconViewItem *QIVItemBin::right()
-{
-    if (mData.count() == 0)
-        return 0L;
-
-    QIconViewItem *it=mData.first();
-    QIconViewItem *item = it;
-    int x = it->x();
-    for (it=mData.next(); it; it=mData.next())
-    {
-        if (it->x() > x)
-        {
-            x = it->x();
-            item = it;
-        }
-    }
-    mData.remove(item);
-    return item;
-}
-
-
-/*
  * The algorithm used for lineing up the icons could be called
  * "beating flat the icon field". Imagine the icon field to be some height
  * field on a regular grid, with the height being the number of icons in
@@ -1717,264 +1623,232 @@ QIconViewItem *QIVItemBin::right()
  * can be no races.
  */
 
-#define MIN3(a,b,c) (kMin((a),(kMin((b),(c)))))
-
 void KonqIconViewWidget::lineupIcons()
 {
-    if ( !firstItem() )
-    {
+    if ( !firstItem() ) {
         kdDebug(1203) << "No icons at all ?\n";
         return;
     }
 
-    // Make a list of items, and look at the highest one
+    // Make a list of items
     QValueList<QIconViewItem*> items;
-    int dy = 0;
-
-    // Put each ivi in its corresponding bin.
-    QIconViewItem *item;
-    for (item=firstItem(); item; item=item->nextItem())
-    {
+    for ( QIconViewItem* item = firstItem(); item; item = item->nextItem() )
         items.append(item);
-        dy = QMAX( dy, item->height() );
+
+    int size;
+
+    if ( d->bDesktopLargeGrid ) {
+        // make a large preview fit into the grid
+        bool boost = d->bBoostPreview;
+        d->bBoostPreview = true;
+        size = previewIconSize( m_size );
+        d->bBoostPreview = boost;
     }
+    else
+        size = m_size ? m_size : KGlobal::iconLoader()->currentSize( KIcon::Desktop );
 
-    // For dx, use what used to be the gridX
-    int dx = gridXValue();
+    int dx = QMAX( size + 15, gridXValue() );
+    int dy = 2 * fontMetrics().height() + size + spacing();
 
-    dx += spacing();
-    dy += spacing();
-
-    kdDebug(1203) << "dx = " << dx << ", dy = " << dy << "\n";
-
-    if ((dx < 15) || (dy < 15))
-    {
-        kdWarning(1203) << "Do you really have that fine a grid?\n";
-        return;
-    }
-
+    // Icon Area
     int x1, x2, y1, y2;
-    if (m_IconRect.isValid())
-    {
+    if ( m_IconRect.isValid() ) {
         x1 = m_IconRect.left(); x2 = m_IconRect.right();
         y1 = m_IconRect.top(); y2 = m_IconRect.bottom();
-    } else
-    {
+    }
+    else {
         x1 = 0; x2 = viewport()->width();
         y1 = 0; y2 = viewport()->height();
     }
 
     int nx = (x2 - x1) / dx;
     int ny = (y2 - y1) / dy;
+    // TODO: Check that items->count() <= nx * ny
 
-    kdDebug(1203) << "nx = " << nx << " ny = " << ny << "\n";
-    if ((nx > 150) || (ny > 100))
-    {
-        kdDebug(1203) << "Do you really have that fine a grid?\n";
-        return;
-    }
-    if ((nx <= 1) || (ny <= 1))
-    {
-        kdDebug(1203) << "Iconview is too small, not doing anything.\n";
-        return;
+    // Let have exactly nx columns and ny rows
+    dx = (x2 - x1) / nx;
+    dy = (y2 - y1) / ny;
+    kdDebug(1203) << "dx = " << dx << ", dy = " << dy << "\n";
+
+    int itemWidth = dx - 2 * spacing();
+    if ( maxItemWidth() != itemWidth ) {
+        setMaxItemWidth( itemWidth );
+        setFont( font() );  // Force calcRect()
     }
 
     // Create a grid of (ny x nx) bins.
-    typedef QIVItemBin *QIVItemPtr;
-    QIVItemPtr **bins = new QIVItemPtr*[ny];
-
-    int i, j;
-    for (j=0; j<ny; j++)
-    {
-        bins[j] = new QIVItemPtr[nx];
-        for (i=0; i<nx; i++)
-            bins[j][i] = 0;
+    typedef QValueList<QIconViewItem*> Bin;
+    Bin* bins[nx][ny];
+    int i;
+    int j;
+    for ( i = 0; i < nx ; i++ ) {
+        for ( j = 0; j < ny; j++ )
+            bins[i][j] = 0L;
     }
 
-    int left = x1;
-    int right = x1 + dx;
-    i = 0;
+    // Insert items into grid
+    QValueList<QIconViewItem*>::Iterator it;
+    for ( it = items.begin(); it != items.end(); it++ ) {
+        QIconViewItem* item = *it;
+        int x = item->x() + item->width() / 2 - x1;
+        int y = item->y() + item->height() / 2 - y1;
+        int posX = QMIN( nx-1, QMAX( 0, x / dx ) );
+        int posY = QMIN( ny-1, QMAX( 0, y / dy ) );
 
-    while (items.count())
-    {
-        int max_icon_x = dx;
-        right = left + dx;
-
-        for (QValueList<QIconViewItem*>::Iterator it = items.begin(); it != items.end(); ++it)
-        {
-            item = *it;
-            if (item->x() < right && max_icon_x < item->width() )
-                max_icon_x = item->width();
-        }
-
-        right = left + max_icon_x;
-
-        for (QValueList<QIconViewItem*>::Iterator it = items.begin(); it != items.end();)
-        {
-            item = *it;
-            int mid = item->x() + item->width()/2 - x1;
-            kdDebug(1203) << "matching " << mid << " left " << left << " right " << right << endl;
-            if (mid < left || (mid >= left && mid < right)) {
-                it = items.remove(it);
-                j = (item->y() + item->height()/2 - y1) / dy;
-                if (j < 0) j = 0;
-                else if (j >= ny) j = ny - 1;
-
-                kdDebug(1203) << "putting " << item->text() << " " << i << " " << j << endl;
-                if (bins[j][i] == 0L)
-                    bins[j][i] = new QIVItemBin;
-                bins[j][i]->add(item);
-            } else
-                ++it;
-        }
-        kdDebug(1203) << "next round " << items.count() << endl;
-        i = QMIN(i+1, nx - 1);
-        left += max_icon_x + spacing();
+        if ( !bins[posX][posY] )
+            bins[posX][posY] = new Bin;
+        bins[posX][posY]->prepend( item );
     }
 
     // The shuffle code
     int n, k;
-    int infinity = 100000, nmoves = 1;
-    for (n=0; (n < 10) && (nmoves != 0); n++)
-    {
+    const int infinity = 10000;
+    int nmoves = 1;
+    for ( n = 0; n < 30 && nmoves > 0; n++ ) {
         nmoves = 0;
-        for (j=0; j<ny; j++)
-        {
-            for (i=0; i<nx; i++)
-            {
-                if (!bins[j][i] || (bins[j][i]->count() < 2))
+        for ( i = 0; i < nx; i++ ) {
+            for ( j = 0; j < ny; j++ ) {
+                if ( !bins[i][j] || ( bins[i][j]->count() <= 1 ) )
                     continue;
 
-                kdDebug(1203) << "calc for " << i << " " << j << endl;
                 // Calculate the 4 "friction coefficients".
-                int tf = 0;
-                for (k=j-1; (k >= 0) && bins[k][i] && bins[k][i]->count(); k--)
-                    tf += bins[k][i]->count();
-                if (k == -1)
+                int tf = 0, bf = 0, lf = 0, rf = 0;
+                for ( k = j-1; k >= 0 && bins[i][k] && bins[i][k]->count(); k-- )
+                    tf += bins[i][k]->count();
+                if ( k == -1 )
                     tf += infinity;
 
-                int bf = 0;
-                for (k=j+1; (k < ny) && bins[k][i] && bins[k][i]->count(); k++)
-                    bf += bins[k][i]->count();
-                if (k == ny)
+                for ( k = j+1; k < ny && bins[i][k] && bins[i][k]->count(); k++ )
+                    bf += bins[i][k]->count();
+                if ( k == ny )
                     bf += infinity;
 
-                int lf = 0;
-                for (k=i-1; (k >= 0) && bins[j][k] && bins[j][k]->count(); k--)
-                    lf += bins[j][k]->count();
-                if (k == -1)
+                for ( k = i-1; k >= 0 && bins[k][j] && bins[k][j]->count(); k-- )
+                    lf += bins[k][j]->count();
+                if ( k == -1 )
                     lf += infinity;
 
-                int rf = 0;
-                for (k=i+1; (k < nx) && bins[j][k] && bins[j][k]->count(); k++)
-                    rf += bins[j][k]->count();
-                if (k == nx)
+                for ( k = i+1; k < nx && bins[k][j] && bins[k][j]->count(); k++ )
+                    rf += bins[k][j]->count();
+                if ( k == nx )
                     rf += infinity;
 
                 // If we are stuck between walls, continue
-                if ( (tf >= infinity) && (bf >= infinity) &&
-                     (lf >= infinity) && (rf >= infinity)
-                   )
+                if ( tf >= infinity && bf >= infinity &&
+                     lf >= infinity && rf >= infinity )
                     continue;
 
                 // Is there a preferred lineup direction?
-                if (m_LineupMode == LineupHorizontal)
-                {
+                if ( m_LineupMode == LineupHorizontal ) {
                     tf += infinity;
                     bf += infinity;
-                } else if (m_LineupMode == LineupVertical)
-                {
+                }
+                else if ( m_LineupMode == LineupVertical ) {
                     lf += infinity;
                     rf += infinity;
                 }
 
-                // Move one item in the direction of the least friction.
-                if (tf <= MIN3(bf,lf,rf))
-                {
-                    if (!bins[j-1][i])
-                        bins[j-1][i] = new QIVItemBin;
-                    bins[j-1][i]->add(bins[j][i]->top());
-                } else if (bf <= MIN3(tf,lf,rf))
-                {
-                    if (!bins[j+1][i])
-                        bins[j+1][i] = new QIVItemBin;
-                    bins[j+1][i]->add(bins[j][i]->bottom());
-                } else if (lf <= MIN3(tf,bf,rf))
-                {
-                    if (!bins[j][i-1])
-                        bins[j][i-1] = new QIVItemBin;
-                    bins[j][i-1]->add(bins[j][i]->left());
-                } else
-                {
-                    if (!bins[j][i+1])
-                        bins[j][i+1] = new QIVItemBin;
-                    bins[j][i+1]->add(bins[j][i]->right());
-                }
+                // Move one item in the direction of the least friction
+                QIconViewItem* movedItem;
+                Bin* items = bins[i][j];
 
+                int mini = QMIN( QMIN( tf, bf ), QMIN( lf, rf ) );
+                if ( tf == mini ) {
+                    // move top item in (i,j) to (i,j-1)
+                    Bin::iterator it = items->begin();
+                    movedItem = *it;
+                    for ( ++it; it != items->end(); ++it ) {
+                        if ( (*it)->y() < movedItem->y() )
+                            movedItem = *it;
+                    }
+                    items->remove( movedItem );
+                    if ( !bins[i][j-1] )
+                        bins[i][j-1] = new Bin;
+                    bins[i][j-1]->prepend( movedItem );
+                }
+                else if ( bf ==mini ) {
+                    // move bottom item in (i,j) to (i,j+1)
+                    Bin::iterator it = items->begin();
+                    movedItem = *it;
+                    for ( ++it; it != items->end(); ++it ) {
+                        if ( (*it)->y() > movedItem->y() )
+                            movedItem = *it;
+                    }
+                    items->remove( movedItem );
+                    if ( !bins[i][j+1] )
+                        bins[i][j+1] = new Bin;
+                    bins[i][j+1]->prepend( movedItem );
+                }
+                else if ( lf == mini )
+                {
+                    // move left item in (i,j) to (i-1,j)
+                    Bin::iterator it = items->begin();
+                    movedItem = *it;
+                    for ( ++it; it != items->end(); ++it ) {
+                        if ( (*it)->x() < movedItem->x() )
+                            movedItem = *it;
+                    }
+                    items->remove( movedItem );
+                    if ( !bins[i-1][j] )
+                        bins[i-1][j] = new Bin;
+                    bins[i-1][j]->prepend( movedItem );
+                }
+                else {
+                    // move right item in (i,j) to (i+1,j)
+                    Bin::iterator it = items->begin();
+                    movedItem = *it;
+                    for ( ++it; it != items->end(); ++it ) {
+                        if ( (*it)->x() > movedItem->x() )
+                            movedItem = *it;
+                    }
+                    items->remove( movedItem );
+                    if ( !bins[i+1][j] )
+                        bins[i+1][j] = new Bin;
+                    bins[i+1][j]->prepend( movedItem );
+                }
                 nmoves++;
             }
         }
-        kdDebug(1203) << "nmoves = " << nmoves << "\n";
     }
 
     // Perform the actual moving
-    n = 0;
-    QIconViewItem **its = new QIconViewItem*[ny];
-    for (i=0; i<nx; i++)
-    {
-        int max_icon_x = dx;
-        for (j=0; j<ny; j++)
-        {
-            its[j] = 0;
-            if (!bins[j][i] || !bins[j][i]->count())
+    QRegion repaintRegion;
+    QValueList<QIconViewItem*> movedItems;
+    for ( i = 0; i < nx; i++ ) {
+        for ( j = 0; j < ny; j++ ) {
+            Bin* bin = bins[i][j];
+            if ( !bin )
                 continue;
-
-            item = its[j] = bins[j][i]->top();
-            if ( max_icon_x < item->width() )
-                max_icon_x = item->width();
-        }
-
-        for (j=0; j<ny; j++)
-        {
-            if ( its[j] == 0 )
-                continue;
-
-            item = its[j];
-            int x = x1 + spacing() + ( max_icon_x - item->width() )/2;
-            int y = y1 + j * dy;
-            if (item->pos() != QPoint(x, y))
-            {
-                kdDebug(1203) << "moving " << item->text() << " " << x << " " << y << endl;
-                item->move(x, y);
-            }
-            if (bins[j][i]->count())
-            {
-                kdDebug(1203) << "Lineup incomplete..\n";
-                item = bins[j][i]->top();
-                for (k=1; item; k++)
-                {
-                    x = x1 + i*dx + spacing() + 10*k; y = y1 + j*dy + spacing() + 5*k;
-                    if (item->pos() != QPoint(x, y))
-                    {
-                        item->move(x, y);
-                    }
-                    item = bins[j][i]->top();
+            if ( !bin->isEmpty() ) {
+                QIconViewItem* item = bin->first();
+                int newX = x1 + i*dx + ( dx - item->width() ) / 2;
+                int newY = y1 + j*dy + ( dy - item->textRect().y() - 2 * fontMetrics().height() );
+                if ( item->x() != newX || item->y() != newY ) {
+                    QRect oldRect = item->rect();
+                    movedItems.prepend( item );
+                    item->move( newX, newY );
+                    if ( item->rect() != oldRect )
+                        repaintRegion = repaintRegion.unite( oldRect );
                 }
             }
-            delete bins[j][i];
-            bins[j][i] = 0;
-            n++;
+            delete bin;
+            bins[i][j] = 0L;
         }
-        x1 += max_icon_x  + spacing();
     }
-    delete[] its;
 
-    updateContents();
-    for (int j=0; j<ny; j++)
-        delete [] bins[j];
-    delete[] bins;
-    kdDebug(1203) << n << " icons successfully moved.\n";
-    return;
+    // repaint
+    QMemArray<QRect> rects = repaintRegion.rects();
+    for ( uint l = 0; l < rects.count(); l++ ) {
+        kdDebug( 1203 ) << "Repainting (" << rects[l].x() << ","
+                        << rects[l].y() << ")\n";
+        repaintContents( rects[l], false );
+    }
+    while ( !movedItems.isEmpty() ) {
+        repaintItem( movedItems.first() );
+        movedItems.remove( movedItems.first() );
+    }
+
+    //updateContents();
 }
 
 int KonqIconViewWidget::previewIconSize( int size ) const

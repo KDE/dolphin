@@ -283,6 +283,7 @@ protected:
     void readAnimatedIconsConfig();
     void mousePressChangeValue();
     
+    bool boostPreview() const;
     int previewIconSize( int size ) const;
     bool canPreview( KFileItem* item );
     void updatePreviewMimeTypes();
