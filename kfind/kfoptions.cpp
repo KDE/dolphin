@@ -43,7 +43,7 @@ KfOptions::KfOptions( QWidget *parent, const char *name, bool modal )
 }
 
 
-KfOptions::~KfOptions() 
+KfOptions::~KfOptions()
 {
   delete bg;
 }
@@ -54,7 +54,7 @@ void KfOptions::setupSavingPage( void )
   QFrame *page = addPage( i18n("Saving") );
   QVBoxLayout *topLayout = new QVBoxLayout( page, 0, spacingHint() );
   if( topLayout == 0 ) { return; }
-  
+
   formatL     = new QLabel(i18n("File format:"), page);
   browseB     = new QPushButton(i18n("Browse"), page);
   formatBox   = new QComboBox(page);
@@ -68,10 +68,10 @@ void KfOptions::setupSavingPage( void )
   bg->insert(kfindfileB);
   bg->insert(selectfileB);
   bg->setExclusive(TRUE);
-    
+
   formatBox->insertItem("HTML");
   formatBox->insertItem(i18n("Plain Text"));
-  
+
   initFileSelecting();
 
 
@@ -112,15 +112,15 @@ void KfOptions::setupArchiversPage( void )
   paternsLBox2    = new QListBox(page);
   addArchiverB    = new QPushButton(i18n("Add New"), page);
   removeArchiverB = new QPushButton(i18n("Remove"), page);
-    
+
   createE        ->setEnabled(FALSE);
   addE           ->setEnabled(FALSE);
   addArchiverB   ->setEnabled(FALSE);
   removeArchiverB->setEnabled(FALSE);
-  
+
   fillArchiverLBox();
   fillArchiverDetail(0);
-  
+
   topLayout->addMultiCellWidget(archiversLBox, 0, 5, 0, 0);
   topLayout->addWidget(createL, 0, 1);
   topLayout->addWidget(addL, 1, 1);
@@ -143,16 +143,16 @@ void KfOptions::setupArchiversPage( void )
 KfOptions::KfOptions( QWidget *parent, const char *name ):QTabDialog( parent, name)
 {
   insertPages();
-  
+
   setOkButton(i18n("OK"));
   setCancelButton(i18n("Cancel"));
   setCaption(i18n("Preferences"));
-  
+
   connect(this,SIGNAL(applyButtonPressed()),
           this,SLOT(applyChanges()));
 }
 
-KfOptions::~KfOptions() 
+KfOptions::~KfOptions()
 {
   delete bg;
 }
@@ -160,31 +160,31 @@ KfOptions::~KfOptions()
 void KfOptions::insertPages()
 {
     setFocusPolicy(QWidget::StrongFocus);
-    
+
     // First page of tab preferences dialog
     QWidget *page1 = new QWidget(this, "page1");
-    
+
     formatL     = new QLabel(i18n("File format:"), page1);
     browseB     = new QPushButton(i18n("Browse"), page1);
     formatBox   = new QComboBox(page1);
     fileE       = new QLineEdit(page1);
     kfindfileB  = new QRadioButton("Save results to file ~/.kfind-results.html",
                                    page1);
-    selectfileB = new QRadioButton("Save results to file:", 
+    selectfileB = new QRadioButton("Save results to file:",
                                    page1);
     bg          = new QButtonGroup();
 
     bg->insert(kfindfileB);
     bg->insert(selectfileB);
     bg->setExclusive(TRUE);
-    
+
     formatBox->insertItem("HTML");
     formatBox->insertItem(i18n("Plain Text"));
-    
+
     initFileSelecting();
 
-    QVBoxLayout *topL = new QVBoxLayout(page1, 
-                                        KDialog::marginHint(), 
+    QVBoxLayout *topL = new QVBoxLayout(page1,
+                                        KDialog::marginHint(),
                                         KDialog::spacingHint());
     topL->addSpacing(15);
     topL->addWidget(kfindfileB);
@@ -204,9 +204,9 @@ void KfOptions::insertPages()
              this, SLOT(setFileSelecting()) );
     connect( browseB     ,SIGNAL(clicked()),
              this, SLOT(selectFile()) );
-    
+
     addTab(page1, i18n("Saving"));
-    
+
     // Third page of tab preferences dialog
     QWidget *page2 = new QWidget(this);
 
@@ -219,17 +219,17 @@ void KfOptions::insertPages()
     paternsLBox2    = new QListBox(page2);
     addArchiverB    = new QPushButton(i18n("Add New"), page2);
     removeArchiverB = new QPushButton(i18n("Remove"), page2);
-    
+
     createE        ->setEnabled(FALSE);
     addE           ->setEnabled(FALSE);
     addArchiverB   ->setEnabled(FALSE);
     removeArchiverB->setEnabled(FALSE);
-    
+
     fillArchiverLBox();
     fillArchiverDetail(0);
-    
+
     QGridLayout *topG = new QGridLayout(page2, 6, 3,
-                                        KDialog::marginHint(), 
+                                        KDialog::marginHint(),
                                         KDialog::spacingHint());
     topG->addMultiCellWidget(archiversLBox, 0, 5, 0, 0);
     topG->addWidget(createL, 0, 1);
@@ -244,7 +244,7 @@ void KfOptions::insertPages()
 
     connect(archiversLBox, SIGNAL(highlighted(int)),
             this, SLOT(fillArchiverDetail(int)) );
-    
+
     addTab(page2, i18n("Archivers"));
 }
 #endif
@@ -253,17 +253,16 @@ void KfOptions::insertPages()
 void KfOptions::selectFile()
   {
     QString filter;
-    QString path(getenv("HOME"));
 
     switch(formatBox->currentItem())
       {
         case 0: filter =  "*.html"; break;
         case 1: filter =  "";
       }
-    QString s( KFileDialog::getOpenFileName(path,filter) );
-    if ( s.isNull() )
+    KURL u( KFileDialog::getOpenURL(QString::null,filter) );
+    if ( u.isEmpty() )
       return;
-    fileE->setText(s);
+    fileE->setText(u.url());
   };
 
 void KfOptions::setFileSelecting()

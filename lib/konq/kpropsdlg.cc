@@ -1017,12 +1017,17 @@ void ExecPropsPage::applyChanges()
 
 void ExecPropsPage::slotBrowseExec()
 {
-  QString f = KFileDialog::getOpenFileName( QString::null,
-					    QString::null, this );
-  if ( f.isNull() )
-    return;
+    KURL f = KFileDialog::getOpenURL( QString::null,
+				      QString::null, this );
+    if ( f.isEmpty() )
+	return;
 
-  execEdit->setText( f );
+    if ( !f.isLocalFile()) {
+	KMessageBox::sorry(this, i18n("Sorry, but only executables of the local file systems are supported."));
+	return;
+    }
+
+    execEdit->setText( f.path() );
 }
 
 URLPropsPage::URLPropsPage( PropertiesDialog *_props )

@@ -37,7 +37,7 @@
 #include "konq_bgnddlg.h"
 
 
-KonqBgndDialog::KonqBgndDialog( const KURL & dirURL ) 
+KonqBgndDialog::KonqBgndDialog( const KURL & dirURL )
   : KDialogBase( 0L, // no parent,
                  "KonqBgndDialog",
                  true, //modal
@@ -57,7 +57,7 @@ KonqBgndDialog::KonqBgndDialog( const KURL & dirURL )
     connect( this, SIGNAL( okClicked() ), m_propsPage, SLOT( slotApply() ) );
     connect( this, SIGNAL( applyClicked() ), m_propsPage, SLOT( slotApply() ) );
     connect( this, SIGNAL( user1Clicked() ), m_propsPage, SLOT( slotApplyGlobal() ) );
-    
+
     setMainWidget( m_propsPage );
 }
 
@@ -65,7 +65,7 @@ KonqBgndDialog::~KonqBgndDialog()
 {
 }
 
-DirPropsPage::DirPropsPage( QWidget * parent, const KURL & dirURL ) 
+DirPropsPage::DirPropsPage( QWidget * parent, const KURL & dirURL )
   : QWidget( parent, "DirPropsPage" ), m_url( dirURL )
 {
     m_fileitem = new KFileItem( -1, -1, dirURL );
@@ -175,8 +175,13 @@ void DirPropsPage::showSettings( QString filename )
 
 void DirPropsPage::slotBrowse( )
 {
-    QString filename = KFileDialog::getOpenFileName( 0 );
-    showSettings( filename );
+    KURL url = KFileDialog::getOpenURL( 0 );
+    if (url.isEmpty())
+      return;
+    if (!url.isLocalFile()) {
+      KMessageBox::sorry(this, i18n("Currently are only local wallpapers allowed."));
+    }
+    showSettings( url.path() );
     m_wallBox->adjustSize();
     loadWallPaper();
 }
@@ -216,7 +221,7 @@ void DirPropsPage::resizeEvent ( QResizeEvent *)
 {
     int fontHeight = 2*fontMetrics().height();
     m_wallBox->move( KDialog::marginHint(), KDialog::marginHint() + fontHeight );
-    m_browseButton->move( KDialog::marginHint(), 
+    m_browseButton->move( KDialog::marginHint(),
                           m_wallBox->y()+m_wallBox->height()+KDialog::spacingHint() ); // under m_wallBox
 
     imageX = 10;

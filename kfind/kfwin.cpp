@@ -55,7 +55,7 @@ KfFileLVI::KfFileLVI(QListView* lv, QString file)
   : QListViewItem(lv)
 {
   fileInfo = new QFileInfo(file);
-  
+
   QString size = KGlobal::locale()->formatNumber(fileInfo->size(), 0);
 
   QString date;
@@ -341,13 +341,16 @@ void KfindWindow::openBinding()
 
 void KfindWindow::addToArchive()
 {
-  QString path = QDir::home().absPath();
   KfArchiver *arch;
 
-  QString filename( KFileDialog::getOpenFileName(path) );
-  if ( filename.isNull() )
+  KURL url( KFileDialog::getOpenURL() );
+  if ( url.isEmpty() )
     return;
-
+  if ( !url.isLocalFile()) {
+    KMessageBox::sorry(this, i18n("No local archives are currently supported."));
+    return;
+  }
+  QString filename = url.path();
   int pos1 = filename.findRev(".");
   int pos2 = filename.findRev(".",pos1-1);
 
@@ -472,7 +475,7 @@ void KfindWindow::resetColumns(bool init)
   if(init) {
     QFontMetrics fm = fontMetrics();
     setColumnWidth(2, QMAX(fm.width(columnText(2)), fm.width("0000000")) + 15);
-    QString sampleDate = 
+    QString sampleDate =
       KGlobal::locale()->formatDate(QDate::currentDate(), true) +
       " " +
       KGlobal::locale()->formatTime(QTime::currentTime(), true);
