@@ -60,11 +60,13 @@ void KonqXMLGUIClient::prepareXMLGUIStuff()
   m_factory = new KXMLGUIFactory( m_builder ); */
 }
 
-QDomElement KonqXMLGUIClient::DomElement( ) const {
+QDomElement KonqXMLGUIClient::DomElement() const
+{
   return m_menuElement;
 }
 
-QDomDocument KonqXMLGUIClient::domDocument( ) const {
+QDomDocument KonqXMLGUIClient::domDocument() const
+{
   return m_doc;
 }
 
@@ -130,7 +132,8 @@ void KonqXMLGUIClient::addGroup( const QString &grp )
   group.setAttribute( d->attrName, grp );
 }
 
-KonqXMLGUIClient::~KonqXMLGUIClient( ){
+KonqXMLGUIClient::~KonqXMLGUIClient()
+{
   delete d;
 }
 
