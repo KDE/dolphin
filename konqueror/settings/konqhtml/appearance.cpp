@@ -193,7 +193,6 @@ KAppearanceOptions::KAppearanceOptions(KConfig *config, QString group, QWidget *
   QFontDatabase db;
 
   m_families = db.families();
-  m_families.sort();
 
   m_pFonts[0]->setFonts( m_families );
   m_pFonts[1]->setFonts( m_families );
