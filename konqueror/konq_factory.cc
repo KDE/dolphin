@@ -71,7 +71,7 @@ BrowserView *KonqFactory::createView( const QString &serviceType,
   QString mimeTypeGroup = serviceType.left(serviceType.find("/"));
   if (serviceType != "text/html") // HACK. Will be replaced by a X-KDE-Embed setting in the mimetypes
     if (! KonqFMSettings::defaultIconSettings()->shouldEmbed( mimeTypeGroup ) )
-      return false;
+      return 0L;
 
   // Then query the trader
   QString constraint = "('Browser/View' in ServiceTypes)";
