@@ -73,6 +73,7 @@ void TestNSPlugin::newView()
    _argn << "name" << "controls" << "console";
    _argv << "audio" << "ControlPanel" << "Clip1";
    QString src = "http://welt.is-kunden.de:554/ramgen/welt/avmedia/realaudio/0701lw177135.rm";
+//   QString src = "nothing";
    QString mime = "audio/x-pn-realaudio-plugin";
  
    _argn << "SRC" << "TYPE" << "WIDTH" << "HEIGHT";
