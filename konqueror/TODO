@@ -12,8 +12,11 @@ Actions=Eject
 [Desktop Action Eject]
 Name=Eject
 Name[fr]=Ejecter
-Exec=...
+Exec=eject /mnt/cdrom #
 (Works fine BTW, we just need the GUI for it !)
+Hmm, that last line is a hack (the url is appended).
+In fact we miss %D or something like that, in the desktop entry
+standard, for "the device in the Type=FSDevice .desktop file"...
 
 - implement search functionality in KonqHTMLView -> wait until khtml catched
   up :-)
