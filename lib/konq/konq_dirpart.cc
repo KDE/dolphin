@@ -190,16 +190,21 @@ void KonqDirPart::lmbClicked( KFileItem * fileItem )
         url = KURL( url, fileItem->linkDest() );
 
     if (KonqFMSettings::settings()->alwaysNewWin() && fileItem->isDir()) {
-        args.frameName = "_blank"; // open new window
+        //args.frameName = "_blank"; // open new window
         // We tried the other option, passing the path as framename so that
         // an existing window for that dir is reused (like MSWindows does when
         // the similar option is activated and the sidebar is hidden (!)).
         // But this requires some work, including changing the framename
         // when navigating, etc. Not very much requested yet, in addition.
+        KParts::WindowArgs wargs;
+        KParts::ReadOnlyPart* dummy;
+        emit m_extension->createNewWindow( url, args, wargs, dummy );
     }
-
-    kdDebug() << "emit m_extension->openURLRequest( " << url.url() << "," << args.serviceType << ")" << endl;
-    emit m_extension->openURLRequest( url, args );
+    else
+    {
+        kdDebug() << "emit m_extension->openURLRequest( " << url.url() << "," << args.serviceType << ")" << endl;
+        emit m_extension->openURLRequest( url, args );
+    }
 }
 
 void KonqDirPart::mmbClicked( KFileItem * fileItem )
