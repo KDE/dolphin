@@ -769,6 +769,7 @@ void KonqMainView::slotMenuViewAboutToShow()
     qDebug( "no lock!" );
     m_pamView->popupMenu()->clear(); //remove separators
     m_pamView->remove( m_ptaUseHTML );
+    m_pamView->remove( m_paReload );
 
     m_viewModeActions.clear();
 
@@ -799,6 +800,8 @@ void KonqMainView::slotMenuViewAboutToShow()
     }
 
     m_pamView->insert( m_ptaUseHTML );
+    m_pamView->popupMenu()->insertSeparator();
+    m_pamView->insert( m_paReload );
 
     // hhhhhmmmmmmmmmmmmmm... (Simon)
     m_ptaUseHTML->blockSignals( true );

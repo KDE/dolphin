@@ -73,12 +73,6 @@ public slots:
   void slotToolFind();
   void slotPrint();
   
-  // Edit menu
-  //void slotCopy();
-  //void slotPaste();
-  //void slotTrash();
-  //void slotDelete();
-
   // View menu
   void slotViewModeToggle( bool toggle );
   void slotShowHTML();

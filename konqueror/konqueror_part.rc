@@ -31,7 +31,6 @@
   <Separator/>
   <Action name="configurefilemanager"/>
   <Action name="configurenetwork"/>
-  <Action name="configurekeys"/>
  </Menu>
  <Menu name="Window"><text>&Window</text>
   <Action name="splitviewh"/>
