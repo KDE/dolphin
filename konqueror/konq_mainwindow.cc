@@ -1944,6 +1944,7 @@ void KonqMainWindow::slotAddTab()
   KonqView* newView = m_pViewManager->addTab();
   if (newView == 0L) return;
   openURL( newView, KURL("about:blank") );
+  focusLocationBar();
   m_pWorkingTab = 0L;
 }
 
