@@ -26,15 +26,17 @@
 #include <time.h>
 #include <unistd.h>
 
-#include <kurl.h>
 #include <kapp.h>
-#include <kio_job.h>
+#include <kdirlister.h>
+#include <kfileitem.h>
 #include <kio_error.h>
+#include <kio_job.h>
+#include <kio_paste.h>
 #include <klineeditdlg.h>
+#include <kmimetypes.h>
 #include <kpixmapcache.h>
 #include <krun.h>
-#include <kio_paste.h>
-#include <kmimetypes.h>
+#include <kurl.h>
 
 #include <qmsgbox.h>
 #include <qkeycode.h>
@@ -49,6 +51,7 @@ KonqKfmIconView::KonqKfmIconView( QWidget* _parent ) : KIconContainer( _parent )
   kdebug(0, 1202, "+KonqKfmIconView");
   ADD_INTERFACE( "IDL:Konqueror/KfmIconView:1.0" );
   
+  // Dont repaint on configuration changes during construction
   m_bInit = true;
 
   setWidget( this );
@@ -56,13 +59,8 @@ KonqKfmIconView::KonqKfmIconView( QWidget* _parent ) : KIconContainer( _parent )
   QWidget::setFocusPolicy( StrongFocus );
   viewport()->setFocusPolicy( StrongFocus );
 
-  m_bIsLocalURL = false;
-  m_bComplete = true;
-  m_jobId = 0;
-
   initConfig();
 
-  QObject::connect( &m_bufferTimer, SIGNAL( timeout() ), this, SLOT( slotBufferTimeout() ) );
   QObject::connect( this, SIGNAL( mousePressed( KIconContainerItem*, const QPoint&, int ) ),
 	   this, SLOT( slotMousePressed( KIconContainerItem*, const QPoint&, int ) ) );
   QObject::connect( this, SIGNAL( doubleClicked( KIconContainerItem*, const QPoint&, int ) ),
@@ -74,20 +72,16 @@ KonqKfmIconView::KonqKfmIconView( QWidget* _parent ) : KIconContainer( _parent )
   QObject::connect( this, SIGNAL( onItem( KIconContainerItem* ) ), this, SLOT( slotOnItem( KIconContainerItem* ) ) );
   //  connect( m_pView->gui(), SIGNAL( configChanged() ), SLOT( initConfig() ) );
 
+  // Now we may react to configuration changes
   m_bInit = false;
+
+  m_dirLister = 0L;
 }
 
 KonqKfmIconView::~KonqKfmIconView()
 {
   kdebug(0, 1202, "-KonqKfmIconView");
-  // Stop running jobs
-  if ( m_jobId )
-  {
-    KIOJob* job = KIOJob::find( m_jobId );
-    if ( job )
-      job->kill();
-    m_jobId = 0;
-  }
+  if ( m_dirLister ) delete m_dirLister;
 }
 
 bool KonqKfmIconView::mappingOpenURL( Konqueror::EventOpenURL eventURL )
@@ -195,15 +189,14 @@ void KonqKfmIconView::slotSelectAll()
 
 void KonqKfmIconView::stop()
 {
-  slotCloseURL( 0 ); // FIXME (just trying)
+  //slotCloseURL( 0 ); // FIXME (just trying)
+  // TODO in kdirlister !
 }
 
 char *KonqKfmIconView::url()
 {
-  QString u= m_sWorkingURL;
-  if ( u.isEmpty() )
-    u = m_strURL;
-  return CORBA::string_dup( u.ascii() );
+  assert( m_dirLister );
+  return CORBA::string_dup( m_dirLister->url().ascii() );
 }
 
 void KonqKfmIconView::initConfig()
@@ -263,33 +256,28 @@ void KonqKfmIconView::initConfig()
   delete props;
 }
 
-void KonqKfmIconView::selectedItems( list<KonqKfmIconViewItem*>& _list )
-{
-  iterator it = KIconContainer::begin();
-  for( ; it != KIconContainer::end(); ++it )
-    if ( (*it)->isSelected() )
-      _list.push_back( (KonqKfmIconViewItem*)&**it );
-}
-
 void KonqKfmIconView::slotReturnPressed( KIconContainerItem *_item, const QPoint & )
 {
   if ( !_item )
     return;
 
-  KonqKfmIconViewItem *item = (KonqKfmIconViewItem*)_item;
-  openURLRequest( item->url().ascii() );
+  KFileItem *fileItem = ((KonqKfmIconViewItem*)_item)->item();
+  openURLRequest( fileItem->url().ascii() ); // gosh, ugly line ;)
 }
 
 void KonqKfmIconView::slotMousePressed( KIconContainerItem *_item, const QPoint &_global, int _button )
 {
   kdebug(0,1202,"void KonqKfmIconView::slotMousePressed( KIconContainerItem *_item, const QPoint &_global, int _button )");
 
+  // Background click ?
   if ( !_item )
   {
+    KURL bgUrl( m_dirLister->url() );
+    // Right button ?
     if ( _button == RightButton )
     {
       Konqueror::View::MenuPopupRequest popupRequest;
-      QString cURL = m_url.url( 1 );
+      QString cURL = bgUrl.url( 1 );
       int i = cURL.length();
 
       mode_t mode = 0;
@@ -299,15 +287,15 @@ void KonqKfmIconView::slotMousePressed( KIconContainerItem *_item, const QPoint 
       // A url ending with '/' is always a directory
       if ( i >= 1 && cURL[ i - 1 ] == '/' )
 	mode = S_IFDIR;
-      // With HTTP we can be shure that everything that does not end with '/'
+      // With HTTP we can be sure that everything that does not end with '/'
       // is NOT a directory
-      else if ( strcmp( m_url.protocol(), "http" ) == 0 )
+      else if ( strcmp( bgUrl.protocol(), "http" ) == 0 )
 	mode = 0;
       // Local filesystem without subprotocol
-      if ( m_bIsLocalURL )
+      if ( bgUrl.isLocalFile() )
       {
 	struct stat buff;
-	if ( stat( m_url.path(), &buff ) == -1 )
+	if ( stat( bgUrl.path(), &buff ) == -1 )
 	{
 	  kioErrorDialog( ERR_COULD_NOT_STAT, cURL );
 	  return;
@@ -318,7 +306,7 @@ void KonqKfmIconView::slotMousePressed( KIconContainerItem *_item, const QPoint 
       popupRequest.x = _global.x();
       popupRequest.y = _global.y();
       popupRequest.mode = mode;
-      popupRequest.isLocalFile = (CORBA::Boolean)m_bIsLocalURL;
+      popupRequest.isLocalFile = (CORBA::Boolean)bgUrl.isLocalFile();
       
       SIGNAL_CALL1( "popupMenu", popupRequest );
     }
@@ -330,30 +318,35 @@ void KonqKfmIconView::slotMousePressed( KIconContainerItem *_item, const QPoint 
     Konqueror::View::MenuPopupRequest popupRequest;
     popupRequest.urls.length( 0 );
 
-    list<KonqKfmIconViewItem*> icons;
-    selectedItems( icons );
+    QList<KIconContainerItem> icons;
+    selectedItems( icons ); // KIconContainer fills the list
     mode_t mode = 0;
     bool first = true;
-    list<KonqKfmIconViewItem*>::iterator icit = icons.begin();
+    QListIterator<KIconContainerItem> icit( icons );
     int i = 0;
-    for( ; icit != icons.end(); ++icit )
+    // For each selected icon
+    for( ; *icit; ++icit )
     {
+      // Cast the iconcontainer item into an icon item
+      // and get the file item out of it
+      KFileItem * item = ((KonqKfmIconViewItem *)*icit)->item();
       popupRequest.urls.length( i + 1 );
-      popupRequest.urls[ i++ ] = (*icit)->url();
-
+      popupRequest.urls[ i++ ] = item->url();
+      
+      // get common mode among all urls, if there is
       if ( first )
-      {
-        mode = (*icit)->mode();
+      {    
+        mode = item->mode();
         first = false;
       }
-      else if ( mode != (*icit)->mode() ) // modes are different
-        mode = 0; // reset to 0
+      else if ( mode != item->mode() )
+        mode = 0;
     }
 
     popupRequest.x = _global.x();
     popupRequest.y = _global.y();
     popupRequest.mode = mode;
-    popupRequest.isLocalFile = (CORBA::Boolean)m_bIsLocalURL;
+    popupRequest.isLocalFile = 0; // we don't need this anyway, it seems !
     SIGNAL_CALL1( "popupMenu", popupRequest );
   }
 }
@@ -364,7 +357,7 @@ void KonqKfmIconView::slotDoubleClicked( KIconContainerItem *_item, const QPoint
     slotReturnPressed( _item, _global );
 }
 
-void KonqKfmIconView::slotDrop( QDropEvent *_ev, KIconContainerItem* _item, QStrList &_formats )
+void KonqKfmIconView::slotDrop( QDropEvent *_ev, KIconContainerItem* _item, QStringList &_formats )
 {
   QStrList lst;
 
@@ -373,308 +366,131 @@ void KonqKfmIconView::slotDrop( QDropEvent *_ev, KIconContainerItem* _item, QStr
   {
     if( lst.count() == 0 )
     {
-      kdebug(0,1202,"Oooops, no data ....");
+      kdebug(KDEBUG_WARN,1202,"Oooops, no data ....");
       return;
     }
+    KIOJob* job = new KIOJob;
+    // Use either the root url or the item url (we stored it as the icon "name")
+    QString dest = ( _item == 0 ) ? m_dirLister->url() : _item->name();
+
+    job->copy( lst, dest );
   }
   else if ( _formats.count() >= 1 )
   {
     if ( _item == 0L )
-      pasteData( m_strURL.data(), _ev->data( _formats.getFirst() ) );
+      pasteData( m_dirLister->url(), _ev->data( _formats.getFirst() ) );
     else
     {
-      kdebug(0,1202,"Pasting to %s", ((KonqKfmIconViewItem*)_item)->url().data());
-      pasteData( ((KonqKfmIconViewItem*)_item)->url(), _ev->data( _formats.getFirst() ) );
+      kdebug(0,1204,"Pasting to %s", (_item->name().data() /* item's url */));
+      pasteData( _item->name() /* item's url */, _ev->data( _formats.getFirst() ) );
     }
   }
+}
+
+void KonqKfmIconView::slotStarted( const QString & url )
+{
+  SIGNAL_CALL2( "started", id(), CORBA::Any::from_string( (char*)url.ascii(), 0 ) );
+}
+
+void KonqKfmIconView::slotCompleted()
+{
+  SIGNAL_CALL1( "completed", id() );
+}
+
+void KonqKfmIconView::slotCanceled()
+{
+  SIGNAL_CALL1( "canceled", id() );
+}
+
+void KonqKfmIconView::slotUpdate()
+{
+  kdebug( KDEBUG_INFO, 1204, "KonqKfmIconView::slotUpdate()");
+  setup();
+  viewport()->update();
+}
+  
+void KonqKfmIconView::slotClear()
+{
+  //kdebug( KDEBUG_INFO, 1204, "KonqKfmIconView::slotClear()");
+  clear();
+}
+
+void KonqKfmIconView::slotNewItem( KFileItem * _fileitem )
+{
+  //kdebug( KDEBUG_INFO, 1204, "KonqKfmIconView::slotNewItem(...)");
+  KonqKfmIconViewItem* item = new KonqKfmIconViewItem( this, _fileitem );
+  insert( item, -1, -1, false );
+}
+
+void KonqKfmIconView::slotDeleteItem( KFileItem * _fileitem )
+{
+  //kdebug( KDEBUG_INFO, 1204, "KonqKfmIconView::slotDeleteItem(...)");
+  // we need to find out the iconcontainer item containing the fileitem
+  iterator it = KIconContainer::begin();
+  for( ; *it; ++it )
+    if ( ((KonqKfmIconViewItem*)*it)->item() == _fileitem ) // compare the pointers
+    {
+      remove( (*it), false /* don't refresh yet */ );
+      break;
+    }
 }
 
 void KonqKfmIconView::openURL( const char *_url )
 {
-  KURL url( _url );
-  if ( url.isMalformed() )
-  {
-    QString tmp = i18n( "Malformed URL" );
-    tmp += "\n";
-    tmp += _url;
-    QMessageBox::critical( this, i18n( "Error" ), tmp, i18n( "OK" ) );
-    return;
-  }
+  // Create the directory lister
+  m_dirLister = new KDirLister();
 
-  // TODO: Check whether the URL is really a directory
+  QObject::connect( m_dirLister, SIGNAL( started( const QString & ) ), 
+           this, SLOT( slotStarted( const QString & ) ) );
+  QObject::connect( m_dirLister, SIGNAL( completed() ), this, SLOT( slotCompleted() ) );
+  QObject::connect( m_dirLister, SIGNAL( canceled() ), this, SLOT( slotCanceled() ) );
+  QObject::connect( m_dirLister, SIGNAL( update() ), this, SLOT( slotUpdate() ) );
+  QObject::connect( m_dirLister, SIGNAL( clear() ), this, SLOT( slotClear() ) );
+  QObject::connect( m_dirLister, SIGNAL( newItem( KFileItem * ) ), 
+           this, SLOT( slotNewItem( KFileItem * ) ) );
+  QObject::connect( m_dirLister, SIGNAL( deleteItem( KFileItem * ) ), 
+           this, SLOT( slotDeleteItem( KFileItem * ) ) );
+  // Start the directory lister !
+  m_dirLister->openURL( KURL( _url ) );
+  // Note : we don't store the url. KDirLister does it for us.
 
-  // Stop running jobs
-  if ( m_jobId )
-  {
-    KIOJob* job = KIOJob::find( m_jobId );
-    if ( job )
-      job->kill();
-    m_jobId = 0;
-  }
-
-  m_bComplete = false;
-
-  KIOJob* job = new KIOJob;
-  QObject::connect( job, SIGNAL( sigListEntry( int, const UDSEntry& ) ), this, SLOT( slotListEntry( int, const UDSEntry& ) ) );
-  QObject::connect( job, SIGNAL( sigFinished( int ) ), this, SLOT( slotCloseURL( int ) ) );
-  QObject::connect( job, SIGNAL( sigError( int, int, const char* ) ),
-	   this, SLOT( slotError( int, int, const char* ) ) );
-
-  m_sWorkingURL = _url;
-  //m_workingURL = url;
-
-  m_buffer.clear();
-
-  m_jobId = job->id();
-  job->listDir( url.url() );
-
-  SIGNAL_CALL2( "started", id(), CORBA::Any::from_string( (char *)m_sWorkingURL.data(), 0 ) );
-  CORBA::WString_var caption = Q2C( m_sWorkingURL );
+  CORBA::WString_var caption = Q2C( _url );
   m_vMainWindow->setPartCaption( id(), caption );
 }
-
-void KonqKfmIconView::slotError( int /*_id*/, int _errid, const char *_errortext )
-{
-  kioErrorDialog( _errid, _errortext );
-
-//  emit canceled();
-}
-
-void KonqKfmIconView::slotCloseURL( int /*_id*/ )
-{
-  if ( m_bufferTimer.isActive() )
-    m_bufferTimer.stop();
-
-  slotBufferTimeout(); // out of the above test, since the dir might be empty (David)
-  m_jobId = 0;
-  m_bComplete = true;
-
-  SIGNAL_CALL1( "completed", id() );
-}
-
-void KonqKfmIconView::slotListEntry( int /*_id*/, const UDSEntry& _entry )
-{
-  m_buffer.push_back( _entry );
-  if ( !m_bufferTimer.isActive() )
-    m_bufferTimer.start( 1000, true );
-}
-
-void KonqKfmIconView::slotBufferTimeout()
-{
-  //kdebug(0,1202,"BUFFER TIMEOUT");
-
-  list<UDSEntry>::iterator it = m_buffer.begin();
-
-  
-  //The first entry in the toplevel ?
-  if ( !m_sWorkingURL.isEmpty() ) 
-  { 
-    clear();
-    m_strURL = m_sWorkingURL;
-    m_sWorkingURL = "";
-    m_url = m_strURL.data();
-    KURL u( m_url );
-    m_bIsLocalURL = u.isLocalFile();
-  }
-
-  for( ; it != m_buffer.end(); it++ )
-  {
-    string name;
-
-    // Find out about the name
-    UDSEntry::iterator it2 = it->begin();
-    for( ; it2 != it->end(); it2++ )
-      if ( it2->m_uds == UDS_NAME )
-	name = it2->m_str;
-
-    assert( !name.empty() );
-    if ( m_isShowingDotFiles || name[0]!='.' )
-    {
-      //kdebug(0,1202,"Processing %s", name);
-
-      KURL u( m_url );
-      u.addPath( name.c_str() );
-      KonqKfmIconViewItem* item = new KonqKfmIconViewItem( this, *it, u );
-      insert( item, -1, -1, false );
-
-      //kdebug(0,1202,"Ended %s", name);
-    }
-  }
-
-  //kdebug(0,1202,"Doing setup");
-
-  setup();
-
-  //kdebug(0,1202,"111111111111111111");
-
-  // refresh();
-
-  viewport()->update();
-
-  m_buffer.clear();
-}
-
-void KonqKfmIconView::updateDirectory()
-{
-  if ( !m_bComplete )
-    return;
-
-  // Stop running jobs
-  if ( m_jobId )
-  {
-    KIOJob* job = KIOJob::find( m_jobId );
-    if ( job )
-      job->kill();
-    m_jobId = 0;
-  }
-
-  m_bComplete = false;
-  m_buffer.clear();
-
-  KIOJob* job = new KIOJob;
-  QObject::connect( job, SIGNAL( sigListEntry( int, const UDSEntry& ) ), this, SLOT( slotUpdateListEntry( int, const UDSEntry& ) ) );
-  QObject::connect( job, SIGNAL( sigFinished( int ) ), this, SLOT( slotUpdateFinished( int ) ) );
-  QObject::connect( job, SIGNAL( sigError( int, int, const char* ) ),
-	   this, SLOT( slotUpdateError( int, int, const char* ) ) );
-
-  m_jobId = job->id();
-  job->listDir( m_strURL.data() );
-
-  SIGNAL_CALL2( "started", id(), CORBA::Any::from_string( 0L, 0 ) );
-}
-
-void KonqKfmIconView::slotUpdateError( int /*_id*/, int _errid, const char *_errortext )
-{
-  kioErrorDialog( _errid, _errortext );
-
-  m_bComplete = true;
-
-//  emit canceled();
-}
-
-void KonqKfmIconView::slotUpdateFinished( int /*_id*/ )
-{
-  if ( m_bufferTimer.isActive() )
-    m_bufferTimer.stop();
-
-  slotBufferTimeout(); // out of the above test, since the dir might be empty (David)
-  m_jobId = 0;
-  m_bComplete = true;
-
-  // Unmark all items
-  iterator kit = KIconContainer::begin();
-  for( ; kit != KIconContainer::end(); ++kit )
-    ((KonqKfmIconViewItem&)**kit).unmark();
-
-  list<UDSEntry>::iterator it = m_buffer.begin();
-  for( ; it != m_buffer.end(); it++ )
-  {
-    QString name;
-
-    // Find out about the name
-    UDSEntry::iterator it2 = it->begin();
-    for( ; it2 != it->end(); it2++ )
-      if ( it2->m_uds == UDS_NAME )
-	name = it2->m_str;
-
-    assert( !name.isEmpty() );
-
-    // Find this icon
-    bool done = false;
-    iterator kit = KIconContainer::begin();
-    for( ; kit != KIconContainer::end() && !done; ++kit )
-    {
-      if ( name == (*kit)->text() )
-      {
-	((KonqKfmIconViewItem&)**kit).mark();
-	done = true;
-      }
-    }
-
-    if ( !done )
-    {
-      kdebug(0,1202,"slotUpdateFinished : %s",name.ascii());
-      if ( m_isShowingDotFiles || name[0]!='.' )
-      {
-        KURL u( m_url );
-        u.addPath( name );
-        KonqKfmIconViewItem* item = new KonqKfmIconViewItem( this, *it, u );
-        item->mark();
-        insert( item );
-        kdebug(0,1202,"Inserting %s", name.ascii());
-      }
-    }
-  }
-
-  // Find all unmarked items and delete them
-  QList<KIconContainerItem> lst;
-  kit = KIconContainer::begin();
-  for( ; kit != KIconContainer::end(); ++kit )
-  {
-    if ( !((KonqKfmIconViewItem&)**kit).isMarked() )
-    {
-      kdebug(0,1202,"Removing %s", (*kit)->text().ascii());
-      lst.append( &**kit );
-    }
-  }
-
-  KIconContainerItem* kci;
-  for( kci = lst.first(); kci != 0L; kci = lst.next() )
-    remove( kci, false );
-
-  m_buffer.clear();
-
-  SIGNAL_CALL1( "completed", id() );
-}
-
-void KonqKfmIconView::slotUpdateListEntry( int /*_id*/, const UDSEntry& _entry )
-{
-  m_buffer.push_back( _entry );
-}
-
 
 void KonqKfmIconView::slotOnItem( KIconContainerItem *_item )
 {
   QString s;
   if ( _item )
-    s = ( (KonqKfmIconViewItem *) _item )->getStatusBarInfo();
+  {
+    KFileItem * fileItem = ((KonqKfmIconViewItem *)_item)->item();
+    s = fileItem->getStatusBarInfo();
+  }
   CORBA::WString_var ws = Q2C( s );
   SIGNAL_CALL1( "setStatusBarText", CORBA::Any::from_wstring( ws.out(), 0 ) );
 }
 
-void KonqKfmIconView::focusInEvent( QFocusEvent* _event )
-{
-//  emit gotFocus();
-
-  KIconContainer::focusInEvent( _event );
-}
-
 ///////// KonqKfmIconViewItem ////////
+// This class is STRONGLY related (almost identical) to KDesktopIcon
 
-KonqKfmIconViewItem::KonqKfmIconViewItem( KonqKfmIconView *_parent, UDSEntry& _entry, KURL& _url )
-  : KIconContainerItem( _parent ), 
-    KFileItem( _entry, _url )
+KonqKfmIconViewItem::KonqKfmIconViewItem( KIconContainer *_parent, KFileItem* _fileitem )
+  : KIconContainerItem( _parent ), // parent constructor
+    m_parent( _parent ), // members
+    m_fileitem( _fileitem )
 {
-  m_pIconView = _parent;
-  init();
-}
-
-void KonqKfmIconViewItem::init()
-{
-  // Done out of the constructor since it uses fields filled by KFileItem constructor
-
   // Set the item text (the one displayed) from the text computed by KFileItem
-  setText( getText() );
+  setText( m_fileitem->getText() );
   // Set the item name from the url hold by KFileItem
-  setName( url() );
+  setName( m_fileitem->url() );
   // Determine the item pixmap from one determined by KFileItem
-  QPixmap *p = getPixmap( m_pIconView->displayMode() == KIconContainer::Vertical );
+  QPixmap *p = m_fileitem->getPixmap( m_parent->displayMode() == KIconContainer::Vertical );
   if (p) setPixmap( *p );
 }
 
 void KonqKfmIconViewItem::refresh()
 {
-  QPixmap *p = getPixmap( m_pIconView->displayMode() == KIconContainer::Vertical ); // determine the pixmap (KFileItem)
+  // No idea if this is ever called currently.
+  QPixmap *p = m_fileitem->getPixmap( m_parent->displayMode() == KIconContainer::Vertical ); // determine the pixmap (KFileItem)
   if (p) setPixmap( *p ); // store it in the item (KIconContainerItem)
 
   KIconContainerItem::refresh();
@@ -682,7 +498,7 @@ void KonqKfmIconViewItem::refresh()
 
 void KonqKfmIconViewItem::paint( QPainter* _painter, bool _drag )
 {
-  if ( isLink() ) // implemented in KFileItem
+  if ( m_fileitem->isLink() )
   {
     QFont f = _painter->font();
     f.setItalic( true );
