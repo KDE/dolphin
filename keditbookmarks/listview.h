@@ -59,7 +59,7 @@ public:
 
    virtual void setOpen(bool);
 
-   bool isEmptyFolder() const { return m_emptyFolder; }
+   bool isEmptyFolderPadder() const { return m_emptyFolderPadder; }
    KBookmark bookmark() const { return m_bookmark; }
    const QString url() const;
 
@@ -70,7 +70,7 @@ private:
 
    KBookmark m_bookmark;
    PaintStyle m_paintStyle;
-   bool m_emptyFolder;
+   bool m_emptyFolderPadder;
    QString m_oldStatus;
 };
 

@@ -1,11 +1,30 @@
-basic plan:
-   cleanup importing:
-      make all importers do a file selection dlg
-   recursive 404 finder, recursive dirs sort, duplicate finder
+basic plan:       cleanup importing:
+                     make all importers do a file selection dlg
+                  recursive 404 finder
+                  recursive dirs sort
+                  duplicate finder
 
-general xbel bug:
-   http://bugzilla.gnome.org/show_bug.cgi?id=69702
+general xbel bug: http://bugzilla.gnome.org/show_bug.cgi?id=69702
 
-general konqi:
-   crashes tabset loading
-   bookmark tabset saving
+general konqi:    crashes tabset loading
+                  bookmark tabset saving
+
+historymgr:       get dirty working
+                - dirty solution to a problem that is mainly konqi's
+                - but, still, after konqi is fixed, this should be done
+
+kmail:            evolution like lineedit for searching && maildir bug
+
+keditbookmarks:   make more exporters
+                  command line import/export
+                  split view stuff - including filtered views
+                  a gui dyn bookmarks editor thingy
+                  a dialog for bookmark editing
+
+kio/bookmarks:  drag & drop
+                editing - name, url, comment, etc...
+
+bookmarklets:   add some examples!
+
+notes:
+   http://c2.com/cgi/wiki?FunctorObject

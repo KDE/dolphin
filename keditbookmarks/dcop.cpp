@@ -36,7 +36,8 @@
 
 KBookmarkEditorIface::KBookmarkEditorIface()
  : QObject(), DCOPObject("KBookmarkEditor") {
-
+   // connect(KBookmarkNotifier_stub, SIGNAL( updatedAccessMetadata(QString,QString) ), 
+   //         this,                   SLOT( slotDcopUpdatedAccessMetadata(QString,QString) ));
    connectDCOPSignal(0, "KBookmarkNotifier", "updatedAccessMetadata(QString,QString)", "slotDcopUpdatedAccessMetadata(QString,QString)", false);
    connectDCOPSignal(0, "KBookmarkNotifier", "addedBookmark(QString,QString,QString,QString,QString)", "slotDcopAddedBookmark(QString,QString,QString,QString,QString)", false);
    connectDCOPSignal(0, "KBookmarkNotifier", "createdNewFolder(QString,QString,QString)", "slotDcopCreatedNewFolder(QString,QString,QString)", false);

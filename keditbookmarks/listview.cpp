@@ -255,7 +255,7 @@ static Which whichChildrenSelected(KEBListViewItem *item) {
    QListViewItem *last = 0;
    for( ; it.current() && (last != endOfFolder); (last = it.current()), it++) {
       KEBListViewItem *item = static_cast<KEBListViewItem *>(it.current());
-      if (!item->isEmptyFolder()) {
+      if (!item->isEmptyFolderPadder()) {
          if (item->isSelected()) {
             some = true;
          } else {
@@ -274,7 +274,7 @@ static void deselectAllButParent(KEBListViewItem *item) {
    QListViewItem *last = 0;
    for( ; it.current() && (last != endOfFolder); (last = it.current()), it++) {
       KEBListViewItem *item = static_cast<KEBListViewItem *>(it.current());
-      if (!item->isEmptyFolder() && item->isSelected()) {
+      if (!item->isEmptyFolderPadder() && item->isSelected()) {
          it.current()->setSelected(false);
       }
    }
@@ -287,7 +287,7 @@ void ListView::updateSelectedItems() {
    // adjust the current selection
    QPtrListIterator<KEBListViewItem> it(*(m_listView->itemList()));
    for ( ; it.current() != 0; ++it) {
-      if (!it.current()->isEmptyFolder() && it.current()->isSelected()) {
+      if (!it.current()->isEmptyFolderPadder() && it.current()->isSelected()) {
          selected = true;
       } else {
          continue;
@@ -312,7 +312,7 @@ void ListView::updateSelectedItems() {
    }
    for (QPtrListIterator<KEBListViewItem> it(*(m_listView->itemList())); 
         it.current() != 0; ++it) {
-      if (it.current()->isEmptyFolder()) {
+      if (it.current()->isEmptyFolderPadder()) {
          it.current()->setSelected(false);
       }
    }
@@ -322,7 +322,7 @@ QValueList<KBookmark> ListView::selectedBookmarksExpanded() {
    QValueList<KBookmark> bookmarks;
    for (QPtrListIterator<KEBListViewItem> it(*(m_listView->itemList())); it.current() != 0; ++it) {
       if (!it.current()->isSelected() 
-       || it.current()->isEmptyFolder()
+       || it.current()->isEmptyFolderPadder()
        || it.current() == m_listView->rootItem()) {
          continue;
       }
@@ -337,7 +337,7 @@ QValueList<KBookmark> ListView::selectedBookmarksExpanded() {
       QListViewItem *last = 0;
       for( ; it2.current() && (last != endOfFolder); (last = it2.current()), it2++) {
          KEBListViewItem *item = static_cast<KEBListViewItem *>(it2.current());
-         if (!item->isEmptyFolder() && (item->childCount() == 0)) {
+         if (!item->isEmptyFolderPadder() && (item->childCount() == 0)) {
             bookmarks.append(item->bookmark());
          }
       }
@@ -348,7 +348,7 @@ QValueList<KBookmark> ListView::selectedBookmarksExpanded() {
 QValueList<KBookmark> ListView::allBookmarks() {
    QValueList<KBookmark> bookmarks;
    for (QPtrListIterator<KEBListViewItem> it(*(m_listView->itemList())); it.current() != 0; ++it) {
-      if ((it.current()->childCount() == 0) && !it.current()->isEmptyFolder()) {
+      if ((it.current()->childCount() == 0) && !it.current()->isEmptyFolderPadder()) {
          bookmarks.append(it.current()->bookmark());
       }
    }
@@ -366,7 +366,7 @@ QString ListView::userAddress() {
    }
 
    KEBListViewItem *item = firstSelected();
-   if (item->isEmptyFolder()) {
+   if (item->isEmptyFolderPadder()) {
       item = static_cast<KEBListViewItem*>(item->parent());
    }
 
@@ -453,7 +453,7 @@ void ListView::handleDropped(KEBListView *lv, QDropEvent *e, QListViewItem *newP
    KEBListViewItem *itemAfter = static_cast<KEBListViewItem *>(itemAfterQLVI);
 
    QString newAddress 
-      = (!itemAfter || itemAfter->isEmptyFolder())
+      = (!itemAfter || itemAfter->isEmptyFolderPadder())
       ? (static_cast<KEBListViewItem *>(newParent)->bookmark().address() + "/0")
       : (KBookmark::nextAddress(itemAfter->bookmark().address()));
 
@@ -570,7 +570,7 @@ void ListView::handleContextMenu(KEBListView *, KListView *, QListViewItem *qite
    }
    const char *type = ( (item == m_listView->rootItem()) 
                      || (item->bookmark().isGroup()) 
-                     || (item->isEmptyFolder()))
+                     || (item->isEmptyFolderPadder()))
                       ? "popup_folder" : "popup_bookmark";
    QWidget* popup = KEBApp::self()->popupMenuFactory(type);
    if (popup) {
@@ -656,7 +656,7 @@ void ListView::renameNextCell(bool fwd) {
       }
       if (!myrenameitem 
         || myrenameitem == m_listView->rootItem()
-        || myrenameitem->isEmptyFolder()
+        || myrenameitem->isEmptyFolderPadder()
         || myrenameitem->bookmark().isSeparator()
         || (myrenamecolumn == KEBListView::UrlColumn 
          && myrenameitem->bookmark().isGroup())
@@ -675,7 +675,7 @@ void KEBListView::rename(QListViewItem *qitem, int column) {
      || KEBApp::self()->readonly()
      || !item 
      || item == firstChild() 
-     || item->isEmptyFolder()
+     || item->isEmptyFolderPadder()
      || item->bookmark().isSeparator()
      || (column == UrlColumn && item->bookmark().isGroup())
    ) {
@@ -720,7 +720,7 @@ bool KEBListView::acceptDrag(QDropEvent * e) const {
 
 QDragObject *KEBListView::dragObject() {
    QPtrList<KEBListViewItem> *selcItems = ListView::self()->selectedItems();
-   if (selcItems->count() == 0 || selcItems->first()->isEmptyFolder()) {
+   if (selcItems->count() == 0 || selcItems->first()->isEmptyFolderPadder()) {
       // we handle empty folders here as a special
       // case for drag & drop in order to allow 
       // for pasting into a "empty folder"
@@ -749,7 +749,7 @@ void KEBListViewItem::normalConstruct(const KBookmark &bk) {
 
 // toplevel item (there should be only one!)
 KEBListViewItem::KEBListViewItem(QListView *parent, const KBookmarkGroup &gp)
-   : QListViewItem(parent, i18n("Bookmarks")), m_bookmark(gp), m_emptyFolder(false) {
+   : QListViewItem(parent, i18n("Bookmarks")), m_bookmark(gp), m_emptyFolderPadder(false) {
 
    setPixmap(0, SmallIcon("bookmark"));
    setExpandable(true);
@@ -757,14 +757,14 @@ KEBListViewItem::KEBListViewItem(QListView *parent, const KBookmarkGroup &gp)
 
 // empty folder item
 KEBListViewItem::KEBListViewItem(KEBListViewItem *parent, QListViewItem *after)
-    : QListViewItem(parent, after, i18n("Empty folder") ), m_emptyFolder(true) {
+    : QListViewItem(parent, after, i18n("Empty folder") ), m_emptyFolderPadder(true) {
 
    setPixmap(0, SmallIcon("bookmark"));
 }
 
 // group
 KEBListViewItem::KEBListViewItem(KEBListViewItem *parent, QListViewItem *after, const KBookmarkGroup &gp)
-   : QListViewItem(parent, after, gp.fullText()), m_bookmark(gp), m_emptyFolder(false) {
+   : QListViewItem(parent, after, gp.fullText()), m_bookmark(gp), m_emptyFolderPadder(false) {
 
    setExpandable(true);
    normalConstruct(gp);
@@ -772,27 +772,27 @@ KEBListViewItem::KEBListViewItem(KEBListViewItem *parent, QListViewItem *after, 
 
 // bookmark (first of its group)
 KEBListViewItem::KEBListViewItem(KEBListViewItem *parent, const KBookmark & bk)
-   : QListViewItem(parent, bk.fullText(), bk.url().prettyURL()), m_bookmark(bk), m_emptyFolder(false) {
+   : QListViewItem(parent, bk.fullText(), bk.url().prettyURL()), m_bookmark(bk), m_emptyFolderPadder(false) {
 
    normalConstruct(bk);
 }
 
 // bookmark (after another)
 KEBListViewItem::KEBListViewItem(KEBListViewItem *parent, QListViewItem *after, const KBookmark &bk)
-   : QListViewItem(parent, after, bk.fullText(), bk.url().prettyURL()), m_bookmark(bk), m_emptyFolder(false) {
+   : QListViewItem(parent, after, bk.fullText(), bk.url().prettyURL()), m_bookmark(bk), m_emptyFolderPadder(false) {
    normalConstruct(bk);
 }
 
 // root bookmark (first of its group)
 KEBListViewItem::KEBListViewItem(QListView *parent, const KBookmark & bk)
-   : QListViewItem(parent, bk.fullText(), bk.url().prettyURL()), m_bookmark(bk), m_emptyFolder(false) {
+   : QListViewItem(parent, bk.fullText(), bk.url().prettyURL()), m_bookmark(bk), m_emptyFolderPadder(false) {
 
    normalConstruct(bk);
 }
 
 // root  bookmark (after another)
 KEBListViewItem::KEBListViewItem(QListView *parent, QListViewItem *after, const KBookmark &bk)
-   : QListViewItem(parent, after, bk.fullText(), bk.url().prettyURL()), m_bookmark(bk), m_emptyFolder(false) {
+   : QListViewItem(parent, after, bk.fullText(), bk.url().prettyURL()), m_bookmark(bk), m_emptyFolderPadder(false) {
    normalConstruct(bk);
 }
 
