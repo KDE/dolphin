@@ -56,7 +56,7 @@ public:
 
   bool empty() const { return m_empty; }
 
-  QList<KAction> actions() const;
+  QPtrList<KAction> actions() const;
   KAction *action( const QString &name ) { return m_actions[ name ]; }
 
   void saveConfig( bool add, const QString &serviceName );

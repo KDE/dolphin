@@ -103,10 +103,10 @@
 
 #include "version.h"
 
-template class QList<QPixmap>;
-template class QList<KToggleAction>;
+template class QPtrList<QPixmap>;
+template class QPtrList<KToggleAction>;
 
-QList<KonqMainWindow> *KonqMainWindow::s_lstViews = 0;
+QPtrList<KonqMainWindow> *KonqMainWindow::s_lstViews = 0;
 KConfig * KonqMainWindow::s_comboConfig = 0;
 KCompletion * KonqMainWindow::s_pCompletion = 0;
 
@@ -114,7 +114,7 @@ KonqMainWindow::KonqMainWindow( const KURL &initialURL, bool openInitialURL, con
  : KParts::MainWindow( name, WDestructiveClose | WStyle_ContextHelp )
 {
   if ( !s_lstViews )
-    s_lstViews = new QList<KonqMainWindow>;
+    s_lstViews = new QPtrList<KonqMainWindow>;
 
   s_lstViews->append( this );
 
@@ -692,7 +692,7 @@ bool KonqMainWindow::makeViewsFollow( const KURL & url, const KParts::URLArgs &a
   req.args = args;
   // We can't iterate over the map here, and openURL for each, because the map can get modified
   // (e.g. by part changes). Better copy the views into a list.
-  QList<KonqView> listViews;
+  QPtrList<KonqView> listViews;
   MapViews::ConstIterator it = m_mapViews.begin();
   MapViews::ConstIterator end = m_mapViews.end();
   for (; it != end; ++it )
@@ -1104,7 +1104,7 @@ void KonqMainWindow::slotViewModeToggle( bool toggle )
               // quick viewmode change (iconview) -> find the iconview-konqviewmode
               // action and set new text,icon,etc. properties, to show the new
               // current viewmode
-              QListIterator<KAction> it( m_toolBarViewModeActions );
+              QPtrListIterator<KAction> it( m_toolBarViewModeActions );
               for (; it.current(); ++it )
                   if ( QString::fromLatin1( it.current()->name() ) == oldService->desktopEntryName() )
                   {
@@ -1673,7 +1673,7 @@ KonqView * KonqMainWindow::findChildView( const QString &name, KonqMainWindow **
   if ( !s_lstViews )
     return 0;
 
-  QListIterator<KonqMainWindow> it( *s_lstViews );
+  QPtrListIterator<KonqMainWindow> it( *s_lstViews );
   for (; it.current(); ++it )
   {
     KonqView *res = it.current()->childView( name, hostExtension );
@@ -2164,7 +2164,7 @@ void KonqMainWindow::slotSubstringcompletion( const QString& text )
     items += s_pCompletion->substringCompletion( text );
     if ( !filesFirst && m_pURLCompletion )
         items += m_pURLCompletion->substringCompletion( text );
-    
+
     m_combo->setCompletedItems( items );
 }
 
@@ -2462,11 +2462,11 @@ void KonqMainWindow::slotToggleFullScreen()
   if ( m_bFullScreen )
   {
     // Create toolbar button for exiting from full-screen mode
-    QList<KAction> lst;
+    QPtrList<KAction> lst;
     lst.append( m_ptaFullScreen );
     plugActionList( "fullscreen", lst );
 
-    QListIterator<KToolBar> barIt = toolBarIterator();
+    QPtrListIterator<KToolBar> barIt = toolBarIterator();
     for (; barIt.current(); ++barIt )
         barIt.current()->setEnableContextMenu( false );
 
@@ -2493,7 +2493,7 @@ void KonqMainWindow::slotToggleFullScreen()
   {
     unplugActionList( "fullscreen" );
 
-    QListIterator<KToolBar> barIt = toolBarIterator();
+    QPtrListIterator<KToolBar> barIt = toolBarIterator();
     for (; barIt.current(); ++barIt )
         barIt.current()->setEnableContextMenu( true );
 
@@ -2847,7 +2847,7 @@ void KonqMainWindow::updateViewActions()
       // mc users want F5 for Copy and F6 for move, but I can't make that default.
       m_paCopyFiles = new KAction( i18n("Copy files"), Key_F7, this, SLOT( slotCopyFiles() ), actionCollection(), "copyfiles" );
       m_paMoveFiles = new KAction( i18n("Move files"), Key_F8, this, SLOT( slotMoveFiles() ), actionCollection(), "movefiles" );
-      QList<KAction> lst;
+      QPtrList<KAction> lst;
       lst.append( m_paCopyFiles );
       lst.append( m_paMoveFiles );
       m_paCopyFiles->setEnabled( false );
@@ -2999,7 +2999,7 @@ void KonqMainWindow::enableAllActions( bool enable )
 
       if (m_toggleViewGUIClient)
       {
-          QList<KAction> actions = m_toggleViewGUIClient->actions();
+          QPtrList<KAction> actions = m_toggleViewGUIClient->actions();
           for ( KAction * it = actions.first(); it ; it = actions.next() )
               it->setEnabled( true );
       }
@@ -3025,7 +3025,7 @@ void KonqMainWindow::disableActionsNoView()
     m_paLinkView->setEnabled( false );
     if (m_toggleViewGUIClient)
     {
-        QList<KAction> actions = m_toggleViewGUIClient->actions();
+        QPtrList<KAction> actions = m_toggleViewGUIClient->actions();
         for ( KAction * it = actions.first(); it ; it = actions.next() )
             it->setEnabled( false );
     }
@@ -3370,7 +3370,7 @@ void KonqMainWindow::updateViewModeActions()
   unplugViewModeActions();
   if ( m_viewModeMenu )
   {
-    QListIterator<KAction> it( m_viewModeActions );
+    QPtrListIterator<KAction> it( m_viewModeActions );
     for (; it.current(); ++it )
       it.current()->unplugAll();
     delete m_viewModeMenu;
@@ -3543,7 +3543,7 @@ void KonqMainWindow::saveToolBarServicesMap()
 
 void KonqMainWindow::plugViewModeActions()
 {
-  QList<KAction> lst;
+  QPtrList<KAction> lst;
   lst.append( m_viewModeMenu );
   plugActionList( "viewmode", lst );
   // display the toolbar viewmode icons only for inode/directory, as here we have dedicated icons

@@ -154,10 +154,10 @@ void KonquerorIface::reparseConfiguration()
   KGlobal::config()->reparseConfiguration();
   KonqFMSettings::reparseConfiguration();
 
-  QList<KonqMainWindow> *mainWindows = KonqMainWindow::mainWindowList();
+  QPtrList<KonqMainWindow> *mainWindows = KonqMainWindow::mainWindowList();
   if ( mainWindows )
   {
-    QListIterator<KonqMainWindow> it( *mainWindows );
+    QPtrListIterator<KonqMainWindow> it( *mainWindows );
     for (; it.current(); ++it )
         it.current()->reparseConfiguration();
   }
@@ -165,11 +165,11 @@ void KonquerorIface::reparseConfiguration()
 
 void KonquerorIface::updateProfileList()
 {
-  QList<KonqMainWindow> *mainWindows = KonqMainWindow::mainWindowList();
+  QPtrList<KonqMainWindow> *mainWindows = KonqMainWindow::mainWindowList();
   if ( !mainWindows )
     return;
 
-  QListIterator<KonqMainWindow> it( *mainWindows );
+  QPtrListIterator<KonqMainWindow> it( *mainWindows );
   for (; it.current(); ++it )
     it.current()->viewManager()->profileListDirty( false );
 }
@@ -177,10 +177,10 @@ void KonquerorIface::updateProfileList()
 QValueList<DCOPRef> KonquerorIface::getWindows()
 {
     QValueList<DCOPRef> lst;
-    QList<KonqMainWindow> *mainWindows = KonqMainWindow::mainWindowList();
+    QPtrList<KonqMainWindow> *mainWindows = KonqMainWindow::mainWindowList();
     if ( mainWindows )
     {
-      QListIterator<KonqMainWindow> it( *mainWindows );
+      QPtrListIterator<KonqMainWindow> it( *mainWindows );
       for (; it.current(); ++it )
         lst.append( DCOPRef( kapp->dcopClient()->appId(), it.current()->dcopObject()->objId() ) );
     }

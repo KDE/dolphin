@@ -38,7 +38,7 @@
 #include <konq_pixmapprovider.h>
 #include "konq_view.h" // HistoryEntry
 
-template class QList<KonqHistoryEntry>;
+template class QPtrList<KonqHistoryEntry>;
 
 
 KonqComboAction::KonqComboAction( const QString& text, int accel, const QObject *receiver, const char *member,
@@ -101,7 +101,7 @@ void KonqComboAction::unplug( QWidget *w )
 /////////////////
 
 //static - used by KonqHistoryAction and KonqBidiHistoryAction
-void KonqBidiHistoryAction::fillHistoryPopup( const QList<HistoryEntry> &history,
+void KonqBidiHistoryAction::fillHistoryPopup( const QPtrList<HistoryEntry> &history,
                                           QPopupMenu * popup,
                                           bool onlyBack,
                                           bool onlyForward,
@@ -112,7 +112,7 @@ void KonqBidiHistoryAction::fillHistoryPopup( const QList<HistoryEntry> &history
 
   //kdDebug(1202) << "fillHistoryPopup position: " << history.at() << endl;
   HistoryEntry * current = history.current();
-  QListIterator<HistoryEntry> it( history );
+  QPtrListIterator<HistoryEntry> it( history );
   if (onlyBack || onlyForward)
   {
       it += history.at(); // Jump to current item
@@ -169,7 +169,7 @@ int KonqBidiHistoryAction::plug( QWidget *widget, int index )
   return KAction::plug( widget, index );
 }
 
-void KonqBidiHistoryAction::fillGoMenu( const QList<HistoryEntry> & history )
+void KonqBidiHistoryAction::fillGoMenu( const QPtrList<HistoryEntry> & history )
 {
     if (history.isEmpty())
         return; // nothing to do

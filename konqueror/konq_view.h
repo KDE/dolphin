@@ -27,7 +27,7 @@
 
 #include <kparts/browserextension.h>
 
-#include <qlist.h>
+#include <qptrlist.h>
 #include <qstring.h>
 #include <qobject.h>
 #include <qstringlist.h>
@@ -133,7 +133,7 @@ public:
   /**
    * @return the history of this view
    */
-  const QList<HistoryEntry> & history() { return m_lstHistory; }
+  const QPtrList<HistoryEntry> & history() { return m_lstHistory; }
 
   /**
    * Creates a deep copy of the @p other view's history buffers.
@@ -349,7 +349,7 @@ protected:
    * The full history (back + current + forward)
    * The current position in the history is m_lstHistory.current()
    */
-  QList<HistoryEntry> m_lstHistory;
+  QPtrList<HistoryEntry> m_lstHistory;
 
   KonqMainWindow *m_pMainWindow;
   QGuardedPtr<KonqRun> m_pRun;

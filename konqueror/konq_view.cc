@@ -48,7 +48,7 @@
 
 #include <kparts/factory.h>
 
-template class QList<HistoryEntry>;
+template class QPtrList<HistoryEntry>;
 
 KonqView::KonqView( KonqViewFactory &viewFactory,
                     KonqFrame* viewFrame,
@@ -159,7 +159,7 @@ void KonqView::switchView( KonqViewFactory &viewFactory )
   // Activate the new part
   if ( oldPart )
   {
-    m_pPart->setName( oldPart->name() );   
+    m_pPart->setName( oldPart->name() );
     emit sigPartChanged( this, oldPart, m_pPart );
     delete oldPart;
   }
@@ -473,7 +473,7 @@ void KonqView::createHistoryEntry()
         {
             if ( !m_lstHistory.removeLast() ) // and remove from the end (faster and easier)
                 assert(0);
-            // go to last one. The documentation says that removeLast() 
+            // go to last one. The documentation says that removeLast()
             // makes current() null if it's the last item. however in qt2
             // the behaviour was different than the documentation. this is
             // changed in qt3 to behave as documented ;-) (Simon)
@@ -589,7 +589,7 @@ void KonqView::copyHistory( KonqView *other )
 {
     m_lstHistory.clear();
 
-    QListIterator<HistoryEntry> it( other->m_lstHistory );
+    QPtrListIterator<HistoryEntry> it( other->m_lstHistory );
     for (; it.current(); ++it )
         m_lstHistory.append( new HistoryEntry( *it.current() ) );
 }
@@ -705,8 +705,8 @@ QStringList KonqView::childFrameNames( KParts::ReadOnlyPart *part )
 
   res += hostExtension->frameNames();
 
-  const QList<KParts::ReadOnlyPart> children = hostExtension->frames();
-  QListIterator<KParts::ReadOnlyPart> it( children );
+  const QPtrList<KParts::ReadOnlyPart> children = hostExtension->frames();
+  QPtrListIterator<KParts::ReadOnlyPart> it( children );
   for (; it.current(); ++it )
     res += childFrameNames( it.current() );
 
@@ -723,8 +723,8 @@ KParts::BrowserHostExtension* KonqView::hostExtension( KParts::ReadOnlyPart *par
   if ( ext->frameNames().contains( name ) )
     return ext;
 
-  const QList<KParts::ReadOnlyPart> children = ext->frames();
-  QListIterator<KParts::ReadOnlyPart> it( children );
+  const QPtrList<KParts::ReadOnlyPart> children = ext->frames();
+  QPtrListIterator<KParts::ReadOnlyPart> it( children );
   for (; it.current(); ++it )
   {
     KParts::BrowserHostExtension *childHost = hostExtension( it.current(), name );
@@ -755,8 +755,8 @@ bool KonqView::callExtensionMethod( const char *methodName )
   if ( id == -1 )
     return false;
   QUObject o[ 1 ];
-  
-  obj->qt_invoke( id, o ); 
+
+  obj->qt_invoke( id, o );
   return true;
 #endif
 }
@@ -784,8 +784,8 @@ bool KonqView::callExtensionBoolMethod( const char *methodName, bool value )
   QUObject o[ 2 ];
 
   pQUType_bool->set( o + 1, value );
-  
-  obj->qt_invoke( id, o ); 
+
+  obj->qt_invoke( id, o );
   return true;
 #endif
 }
@@ -815,8 +815,8 @@ bool KonqView::callExtensionStringMethod( const char *methodName, QString value 
   QUObject o[ 2 ];
 
   pQUType_QString->set( o + 1, value );
-  
-  obj->qt_invoke( id, o ); 
+
+  obj->qt_invoke( id, o );
   return true;
 #endif
 }

@@ -39,11 +39,11 @@
 // Terminates fullscreen-mode for any full-screen window on the current desktop
 void KonqMisc::abortFullScreenMode()
 {
-  QList<KonqMainWindow> *mainWindows = KonqMainWindow::mainWindowList();
+  QPtrList<KonqMainWindow> *mainWindows = KonqMainWindow::mainWindowList();
   if ( mainWindows )
   {
     int currentDesktop = KWin::currentDesktop();
-    QListIterator<KonqMainWindow> it( *mainWindows );
+    QPtrListIterator<KonqMainWindow> it( *mainWindows );
     for (; it.current(); ++it )
     {
       if ( it.current()->fullScreenMode() )

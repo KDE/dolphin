@@ -209,9 +209,9 @@ ToggleViewGUIClient::~ToggleViewGUIClient()
 {
 }
 
-QList<KAction> ToggleViewGUIClient::actions() const
+QPtrList<KAction> ToggleViewGUIClient::actions() const
 {
-  QList<KAction> res;
+  QPtrList<KAction> res;
 
   QDictIterator<KAction> it( m_actions );
   for (; it.current(); ++it )
@@ -266,11 +266,11 @@ void ToggleViewGUIClient::slotToggleView( bool toggle )
   }
   else
   {
-    QList<KonqView> viewList;
+    QPtrList<KonqView> viewList;
 
     mainContainer->listViews( &viewList );
 
-    QListIterator<KonqView> it( viewList );
+    QPtrListIterator<KonqView> it( viewList );
     for (; it.current(); ++it )
       if ( it.current()->service()->desktopEntryName() == serviceName )
         // takes care of choosing the new active view, and also calls slotViewRemoved

@@ -44,7 +44,7 @@
 
 #include <assert.h>
 
-template class QList<KonqView>;
+template class QPtrList<KonqView>;
 
 KonqViewManager::KonqViewManager( KonqMainWindow *mainWindow )
  : KParts::PartManager( mainWindow )
@@ -375,8 +375,8 @@ void KonqViewManager::clear()
 {
   kdDebug(1202) << "KonqViewManager::clear" << endl;
   setActivePart( 0L, true /* immediate */ );
-  QList<KonqView> viewList;
-  QListIterator<KonqView> it( viewList );
+  QPtrList<KonqView> viewList;
+  QPtrListIterator<KonqView> it( viewList );
 
   if (m_pMainContainer) {
     m_pMainContainer->listViews( &viewList );

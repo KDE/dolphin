@@ -204,7 +204,7 @@ public:
 
   bool saveViewPropertiesLocally() const { return m_bSaveViewPropertiesLocally; }
 
-  static QList<KonqMainWindow> *mainWindowList() { return s_lstViews; }
+  static QPtrList<KonqMainWindow> *mainWindowList() { return s_lstViews; }
 
   // public for konq_guiclients
   void viewCountChanged();
@@ -371,7 +371,7 @@ protected:
 
   virtual bool eventFilter(QObject*obj,QEvent *ev);
 
-  void fillHistoryPopup( QPopupMenu *menu, const QList<HistoryEntry> &history );
+  void fillHistoryPopup( QPopupMenu *menu, const QPtrList<HistoryEntry> &history );
 
   bool makeViewsFollow( const KURL & url, const KParts::URLArgs &args, const QString & serviceType,
                         KonqView * senderView );
@@ -539,11 +539,11 @@ private:
 
   QString m_sViewModeForDirectory; // is actually the name of the service
 
-  QList<KAction> m_openWithActions;
+  QPtrList<KAction> m_openWithActions;
   KActionMenu *m_viewModeMenu;
-  QList<KAction> m_toolBarViewModeActions; // basically holds two KonqViewActions, one of
+  QPtrList<KAction> m_toolBarViewModeActions; // basically holds two KonqViewActions, one of
                                            // iconview and one for listview
-  QList<KAction> m_viewModeActions;
+  QPtrList<KAction> m_viewModeActions;
   QMap<QString,KService::Ptr> m_viewModeToolBarServices; // similar to m_toolBarViewModeActions
   // it holds a map library name (libkonqiconview/libkonqlistview) ==> service (service for
   // iconview, multicolumnview, treeview, etc .)
@@ -552,7 +552,7 @@ private:
 
   static QStringList *s_plstAnimatedLogo;
 
-  static QList<KonqMainWindow> *s_lstViews;
+  static QPtrList<KonqMainWindow> *s_lstViews;
 
   QString m_currentDir; // stores current dir for relative URLs whenever applicable
 

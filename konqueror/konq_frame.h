@@ -163,7 +163,7 @@ class KonqFrameHeader : public QWidget
       QHBoxLayout *m_pLayout;
 };
 
-typedef QList<KonqView> ChildViewList;
+typedef QPtrList<KonqView> ChildViewList;
 
 class KonqFrameBase
 {

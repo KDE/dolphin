@@ -69,10 +69,10 @@ public:
     virtual int plug( QWidget *widget, int index = -1 );
     //virtual void unplug( QWidget *widget );
 
-    void fillGoMenu( const QList<HistoryEntry> &history );
+    void fillGoMenu( const QPtrList<HistoryEntry> &history );
 
     // Used by KonqHistoryAction and KonqBidiHistoryAction
-    static void fillHistoryPopup( const QList<HistoryEntry> &history,
+    static void fillHistoryPopup( const QPtrList<HistoryEntry> &history,
                            QPopupMenu * popup,
                            bool onlyBack = false,
                            bool onlyForward = false,
