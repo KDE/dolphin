@@ -123,6 +123,23 @@ void KonqRun::handleError( KIO::Job *job )
     kdDebug(1202) << "KonqRun::handleError error:" << job->errorString() << endl;
     // Override BrowserRun's default behaviour on error messages
     // KHTMLPart will show an error message
+
+  /**
+   * rodda: The following code is my first shot at handling error:/ sub-urls.
+   * The format of the sub-url is that two variables are passed in the query:
+   * error = int kio error code, errText = QString error text from kio
+   * The code below isn't quite right because even though the location bar URL
+   * is set, the subURL is still displayed...
+
+    KURL subURL = QString("error:///?error=%1&errText=%2")
+                        .arg( job->error() ).arg( job->errorString() );
+
+    QStringList stringL;
+    stringL << m_strURL.url() << subURL.url();
+
+    m_strURL = KURL::join( stringL );
+    kdDebug(1202) << "KonqRun::handleError subURL: " << m_strURL.prettyURL() << endl;*/
+
     m_job = 0;
     foundMimeType( "text/html" );
 }
