@@ -42,6 +42,8 @@
 
 #include <assert.h>
 
+template class QDict<KonqTreeViewDir>;
+
 KonqTreeViewWidget::KonqTreeViewWidget( KonqTreeView *parent, QWidget *parentWidget )
 : QListView( parentWidget )
 {

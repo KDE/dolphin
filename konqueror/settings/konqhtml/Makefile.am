@@ -8,7 +8,7 @@ lib_LTLIBRARIES = libkcm_konqhtml.la
 libkcm_konqhtml_la_SOURCES = main.cpp htmlopts.cpp \
 			khttpoptdlg.cpp miscopts.cpp
 
-libkcm_konqhtml_la_LDFLAGS  = $(all_libraries) -module -avoid-version
+libkcm_konqhtml_la_LDFLAGS  = $(all_libraries) -module -avoid-version -no-undefined
 libkcm_konqhtml_la_LIBADD = -lkdeui  
 
 messages:
