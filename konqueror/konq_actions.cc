@@ -162,8 +162,8 @@ void KonqHistoryAction::fillHistoryPopup( const QList<HistoryEntry> &history,
   uint i = 0;
   while ( it.current() )
   {
-      QString text = it.current()->locationBarURL; // perhaps the caption would look even better ?
-      text = KBookmark::stringSqueeze(text, 40); //CT squeeze, but not as much as in bookmarks (now we display URLs)
+      QString text = it.current()->title;
+      text = KBookmark::stringSqueeze(text, 50); //CT: squeeze
       if ( checkCurrentItem && it.current() == current )
       {
           int id = popup->insertItem( text ); // no pixmap if checked
@@ -243,11 +243,11 @@ int KonqBidiHistoryAction::plug( QWidget *widget, int index )
              this, SIGNAL( menuAboutToShow() ) );
     connect( m_goMenu, SIGNAL( activated( int ) ),
              this, SLOT( slotActivated( int ) ) );
-    kdDebug(1202) << "m_goMenu->count()=" << m_goMenu->count() << endl;
+    //kdDebug(1202) << "m_goMenu->count()=" << m_goMenu->count() << endl;
     // Store how many items the menu already contains.
     // This means, the KonqBidiHistoryAction has to be plugged LAST in a menu !
     m_firstIndex = m_goMenu->count();
-    return m_goMenu->count() /* hmmm, what should this be ? */;
+    return m_goMenu->count(); // hmmm, what should this be ?
   }
   return KAction::plug( widget, index );
 }

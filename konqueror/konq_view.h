@@ -44,6 +44,7 @@ struct HistoryEntry
 {
   KURL url;
   QString locationBarURL; // can be different from url when showing a index.html
+  QString title;
   QByteArray buffer;
   QString strServiceType;
   QString strServiceName;
@@ -60,20 +61,22 @@ class KonqView : public QObject
 public:
 
   /**
-   * Create a child view
-   * @param view the IDL View to be added in the child view
-   * @param viewFrame the frame where to create the view - becomes owned by the view,
-   * which will delete it when destroyed.
+   * Create a konqueror view
+   * @param viewFactory the factory to be used to create the part
+   * @param viewFrame the frame where to create the view
    * @param mainWindow is the main window :-)
-   * @param serviceTypes is the list of supported servicetypes
+   * @param service the service implementing the part
+   * @param partServiceOffers list of part offers found by the factory
+   * @param appServiceOffers list of app offers found by the factory
+   * @param serviceType the serviceType implemented by the part
    */
   KonqView( KonqViewFactory &viewFactory,
-		 KonqFrame* viewFrame,
-		 KonqMainWindow * mainWindow,
-		 const KService::Ptr &service,
-		 const KTrader::OfferList &partServiceOffers,
-		 const KTrader::OfferList &appServiceOffers,
-		 const QString &serviceType );
+            KonqFrame* viewFrame,
+            KonqMainWindow * mainWindow,
+            const KService::Ptr &service,
+            const KTrader::OfferList &partServiceOffers,
+            const KTrader::OfferList &appServiceOffers,
+            const QString &serviceType );
 
   ~KonqView();
 
@@ -90,7 +93,7 @@ public:
   void openURL( const KURL &url );
 
   /**
-   * Replace the current view vith _vView
+   * Replace the current view with a new view, created by @p viewFactory
    */
   void switchView( KonqViewFactory &viewFactory );
 

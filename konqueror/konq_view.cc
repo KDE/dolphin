@@ -415,6 +415,7 @@ void KonqView::updateHistoryEntry()
   current->url = m_pPart->url();
   //kdDebug(1202) << "Saving location bar URL : " << m_sLocationBarURL << endl;
   current->locationBarURL = m_sLocationBarURL;
+  current->title = m_pMainWindow->caption();
   current->strServiceType = m_serviceType;
   current->strServiceName = m_service->name();
 }
