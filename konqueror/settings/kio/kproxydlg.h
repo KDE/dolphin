@@ -16,7 +16,7 @@ class QPushButton;
 class QCheckBox;
 class QSpinBox;
 class QRadioButton;
-class QButtonGroup;
+class QVButtonGroup;
 
 #include <kcmodule.h>
 
@@ -71,7 +71,7 @@ Q_OBJECT
     // connect at all? radio button
     QRadioButton *rb_offlineMode;
 
-    QButtonGroup *bg_cacheControl;
+    QVButtonGroup *bg_cacheControl;
 
     // Maximum Cache Size
     QLabel *lb_max_cache_size;

@@ -12,7 +12,7 @@
 #include <qcheckbox.h>
 #include <qspinbox.h>
 #include <qradiobutton.h>
-#include <qbuttongroup.h>
+#include <qvbuttongroup.h>
 
 #include <kapp.h>
 #include <kmessagebox.h>
@@ -134,7 +134,8 @@ KProxyOptions::KProxyOptions(QWidget *parent, const char *name)
   connect( cb_useCache, SIGNAL( clicked() ), SLOT( changeCache() ) );
   connect( cb_useCache, SIGNAL( clicked() ), this, SLOT( changed() ) );
 
-  bg_cacheControl = new QButtonGroup(i18n("Cache Control Options"),this);
+
+  bg_cacheControl = new QVButtonGroup(i18n("Cache Control Options"),this);
 
   rb_verify = new QRadioButton( i18n("Keep Cache in Sync"), this);
   QWhatsThis::add(rb_verify, i18n("Enable this to ask Web servers whether a cached page is still valid. If this is disabled, a cached copy of remote files will be used whenever possible. You can still use the reload button to synchronize the cache with the remote host."));
@@ -219,7 +220,7 @@ KProxyOptions::KProxyOptions(QWidget *parent, const char *name)
 
   layout->addWidget(sep);
  
-  QHBoxLayout * l1 = new QHBoxLayout(layout);
+  QVBoxLayout * l1 = new QVBoxLayout(layout);
   l1->addWidget(cb_useCache);
   l1->addWidget(rb_verify);
   l1->addWidget(rb_cacheIfPossible);
