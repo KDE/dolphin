@@ -89,17 +89,18 @@ public:
   void setShowingImagePreview( bool show );
   bool isShowingImagePreview() const { return m_bImagePreview; }
 
+  void setBgColor( const QColor & color );
   const QColor& bgColor() const { return m_bgColor; }
-  const QPixmap& bgPixmap() const { return m_bgPixmap; }
+  void setBgPixmapFile( const QString & file );
   const QString& bgPixmapFile() const { return m_bgPixmapFile; }
-  // TODO: make those protected
-  QColor m_bgColor;
-  QPixmap m_bgPixmap;
+  const QPixmap& bgPixmap() const { return m_bgPixmap; } // A helper for the above
 
   // TODO : window size - hmm, that applies only if there is only ONE view...
   // .. and if we open that dir in a new window...
 
 protected:
+
+  void loadPixmap();
 
   // The actual properties
 
@@ -107,7 +108,9 @@ protected:
   int m_iItemTextPos;
   bool m_bShowDot;
   bool m_bImagePreview;
+  QColor m_bgColor;
   QString m_bgPixmapFile;
+  QPixmap m_bgPixmap;
 
   // Path to .directory file, whether it exists or not
   QString dotDirectory;

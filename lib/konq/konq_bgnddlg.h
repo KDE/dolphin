@@ -39,6 +39,7 @@ public:
   virtual ~DirPropsPage();
 
   QPixmap pixmap() { return m_wallPixmap; }
+  QString pixmapFile() { return m_wallFile; }
 
 public slots:
   void slotWallPaperChanged( int );
@@ -77,6 +78,7 @@ public:
   ~KonqBgndDialog();
 
   QPixmap pixmap() { return m_propsPage->pixmap(); }
+  QString pixmapFile() { return m_propsPage->pixmapFile(); }
 
 private:
   DirPropsPage * m_propsPage;
