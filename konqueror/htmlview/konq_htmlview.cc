@@ -285,8 +285,9 @@ bool KonqHTMLView::mappingFillToolBar( Browser::View::EventFillToolBar viewToolB
 }
 */
 void KonqHTMLView::slotMousePressed( const QString &_url,
-				     const QPoint &, int _button )
+				     const QPoint &_global, int _button )
 {
+debug(" KonqHTMLView::slotMousePressed ");
   QString url = _url;
 
   if ( _url.isEmpty() )
@@ -314,12 +315,10 @@ void KonqHTMLView::slotMousePressed( const QString &_url,
       if ( i >= 1 && cURL[ i - 1 ] == '/' )
         mode = S_IFDIR;
     }
-#if 0
-    KFileItem item( "viewURL" /*whatever*/ , mode, u );
+    KFileItem item( mode, u );
     KFileItemList items;
     items.append( &item );
-    m_pMainView->popupMenu( _global, items );
-#endif
+    emit popupMenu( _global, items );
   }
 }
 
