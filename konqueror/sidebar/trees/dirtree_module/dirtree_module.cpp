@@ -459,6 +459,7 @@ void KonqSidebarDirTreeModule::slotRefreshItems( const KFileItemList &entries )
             }
             else
             {
+                dirTreeItem->setPixmap( 0, fileItem->pixmap( size ) );
                 dirTreeItem->setText( 0, KIO::decodeFileName( fileItem->name() ) );
             }
 
