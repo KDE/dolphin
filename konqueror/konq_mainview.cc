@@ -665,13 +665,13 @@ void KonqMainView::slotViewChanged( KParts::ReadOnlyPart *oldView, KParts::ReadO
 
   if ( (KonqChildView *)sender() == (KonqChildView *)m_currentView )
   {
-  //    unPlugViewGUI( oldView );
-  //   plugInViewGUI( newView );
     updateStatusBar();
     //checkEditExtension();
     m_bMenuViewDirty = true;
-    m_pViewManager->setActivePart( newView );
   }
+
+  // Add the new part to the manager
+  m_pViewManager->addPart( newView, true );
 }
 
 void KonqMainView::slotStarted()
