@@ -34,6 +34,8 @@ void KQuery::kill()
 {
   if (job)
      job->kill(false);
+  if (processLocate->isRunning())
+     processLocate->kill();
   m_fileItems.clear();
 }
 
