@@ -91,7 +91,7 @@ KonqMainView::KonqMainView( KonqPart *part, QWidget *parent, const char *name )
     {
       QString n;
       n.sprintf( "kde%i", i );
-      s_plstAnimatedLogo->append( new QPixmap( BarIcon( n, KonqFactory::global() ) ) );
+      s_plstAnimatedLogo->append( new QPixmap( BarIcon( n, KonqFactory::instance() ) ) );
     }
   }
 
@@ -235,7 +235,7 @@ void KonqMainView::slotRun()
 
 void KonqMainView::slotOpenTerminal()
 {
-  KConfig *config = KonqFactory::global()->config();
+  KConfig *config = KonqFactory::instance()->config();
   config->setGroup( "Misc Defaults" );
   QString term = config->readEntry( "Terminal", DEFAULT_TERMINAL );
 
@@ -452,12 +452,12 @@ void KonqMainView::slotShowHistory()
 
 void KonqMainView::slotEditMimeTypes()
 {
-    openURL( (KonqChildView *)m_currentView, KonqFactory::global()->dirs()->saveLocation("mime").prepend( "file:" ) );
+    openURL( (KonqChildView *)m_currentView, KonqFactory::instance()->dirs()->saveLocation("mime").prepend( "file:" ) );
 }
 
 void KonqMainView::slotEditApplications()
 {
-    openURL( (KonqChildView *)m_currentView, KonqFactory::global()->dirs()->saveLocation("apps").prepend( "file:" ) );
+    openURL( (KonqChildView *)m_currentView, KonqFactory::instance()->dirs()->saveLocation("apps").prepend( "file:" ) );
 }
 
 void KonqMainView::slotConfigureKeys()
@@ -818,7 +818,7 @@ void KonqMainView::slotRemoveView()
 
 void KonqMainView::slotSaveDefaultProfile()
 {
-  KConfig *config = KonqFactory::global()->config();
+  KConfig *config = KonqFactory::instance()->config();
   config->setGroup( "Default View Profile" );
   m_pViewManager->saveViewProfile( *config );
 }
@@ -1058,7 +1058,7 @@ void KonqMainView::initActions()
   m_paOpenLocation = new KAction( i18n( "Open &Location..." ), CTRL+Key_L, this, SLOT( slotOpenLocation() ), actionCollection(), "open_location" );
   m_paToolFind = new KAction( i18n( "&Find" ), 0, this, SLOT( slotToolFind() ), actionCollection(), "find" );
 
-  m_paPrint = new KAction( i18n( "&Print..."), QIconSet( BarIcon( "fileprint", KonqFactory::global() ) ), stdAccel.print(), this, SLOT( slotPrint() ), actionCollection(), "print" );
+  m_paPrint = new KAction( i18n( "&Print..."), QIconSet( BarIcon( "fileprint", KonqFactory::instance() ) ), stdAccel.print(), this, SLOT( slotPrint() ), actionCollection(), "print" );
 
   // Edit menu
   m_pamEdit = new KActionMenu( i18n( "&Edit" ), actionCollection(), "edit_menu" );
@@ -1094,13 +1094,13 @@ void KonqMainView::initActions()
 
   popup->insertSeparator();
 
-  m_paUp = new KActionMenu( i18n( "&Up" ), QIconSet( BarIcon( "up", KonqFactory::global() ) ), actionCollection(), "up" );
+  m_paUp = new KActionMenu( i18n( "&Up" ), QIconSet( BarIcon( "up", KonqFactory::instance() ) ), actionCollection(), "up" );
 
   connect( m_paUp, SIGNAL( activated() ), this, SLOT( slotUp() ) );
   connect( m_paUp->popupMenu(), SIGNAL( aboutToShow() ), this, SLOT( slotUpAboutToShow() ) );
   connect( m_paUp->popupMenu(), SIGNAL( activated( int ) ), this, SLOT( slotUpActivated( int ) ) );
 
-  m_paBack = new KActionMenu( i18n( "&Back" ), QIconSet( BarIcon( "back", KonqFactory::global() ) ), actionCollection(), "back" );
+  m_paBack = new KActionMenu( i18n( "&Back" ), QIconSet( BarIcon( "back", KonqFactory::instance() ) ), actionCollection(), "back" );
 
   m_paBack->setEnabled( false );
 
@@ -1108,7 +1108,7 @@ void KonqMainView::initActions()
   connect( m_paBack->popupMenu(), SIGNAL( aboutToShow() ), this, SLOT( slotBackAboutToShow() ) );
   connect( m_paBack->popupMenu(), SIGNAL( activated( int ) ), this, SLOT( slotBackActivated( int ) ) );
 
-  m_paForward = new KActionMenu( i18n( "&Forward" ), QIconSet( BarIcon( "forward", KonqFactory::global() ) ), actionCollection(), "forward" );
+  m_paForward = new KActionMenu( i18n( "&Forward" ), QIconSet( BarIcon( "forward", KonqFactory::instance() ) ), actionCollection(), "forward" );
 
   m_paForward->setEnabled( false );
 
@@ -1116,7 +1116,7 @@ void KonqMainView::initActions()
   connect( m_paForward->popupMenu(), SIGNAL( aboutToShow() ), this, SLOT( slotForwardAboutToShow() ) );
   connect( m_paForward->popupMenu(), SIGNAL( activated( int ) ), this, SLOT( slotForwardActivated( int ) ) );
 
-  m_paHome = new KAction( i18n("&Home" ), QIconSet( BarIcon( "home", KonqFactory::global() ) ), 0, this, SLOT( slotHome() ), actionCollection(), "home" );
+  m_paHome = new KAction( i18n("&Home" ), QIconSet( BarIcon( "home", KonqFactory::instance() ) ), 0, this, SLOT( slotHome() ), actionCollection(), "home" );
 
   m_paCache = new KAction( i18n( "&Cache" ), 0, this, SLOT( slotShowCache() ), actionCollection(), "cache" );
   m_paHistory = new KAction( i18n( "&History" ), 0, this, SLOT( slotShowHistory() ), actionCollection(), "history" );
@@ -1152,13 +1152,13 @@ void KonqMainView::initActions()
 
   m_paAbout = new KAction( i18n( "&About Konqueror" ), 0, this, SLOT( slotAbout() ), actionCollection(), "about" );
 
-  m_paReload = new KAction( i18n( "&Reload Document" ), QIconSet( BarIcon( "reload", KonqFactory::global() ) ), Key_F5, this, SLOT( slotReload() ), actionCollection(), "reload" );
+  m_paReload = new KAction( i18n( "&Reload Document" ), QIconSet( BarIcon( "reload", KonqFactory::instance() ) ), Key_F5, this, SLOT( slotReload() ), actionCollection(), "reload" );
 
-  m_paCopy = new KAction( i18n( "&Copy" ), QIconSet( BarIcon( "editcopy", KonqFactory::global() ) ), stdAccel.copy(), this, SLOT( slotCopy() ), actionCollection(), "copy" );
-  m_paPaste = new KAction( i18n( "&Paste" ), QIconSet( BarIcon( "editpaste", KonqFactory::global() ) ), stdAccel.paste(), this, SLOT( slotPaste() ), actionCollection(), "paste" );
-  m_paStop = new KAction( i18n( "Sto&p loading" ), QIconSet( BarIcon( "stop", KonqFactory::global() ) ), Key_Escape, this, SLOT( slotStop() ), actionCollection(), "stop" );
+  m_paCopy = new KAction( i18n( "&Copy" ), QIconSet( BarIcon( "editcopy", KonqFactory::instance() ) ), stdAccel.copy(), this, SLOT( slotCopy() ), actionCollection(), "copy" );
+  m_paPaste = new KAction( i18n( "&Paste" ), QIconSet( BarIcon( "editpaste", KonqFactory::instance() ) ), stdAccel.paste(), this, SLOT( slotPaste() ), actionCollection(), "paste" );
+  m_paStop = new KAction( i18n( "Sto&p loading" ), QIconSet( BarIcon( "stop", KonqFactory::instance() ) ), Key_Escape, this, SLOT( slotStop() ), actionCollection(), "stop" );
 
-  m_paTrash = new KAction( i18n( "&Move to Trash" ), QIconSet( BarIcon( "trash", KonqFactory::global() ) ), stdAccel.cut(), this, SLOT( slotTrash() ), actionCollection(), "trash" );
+  m_paTrash = new KAction( i18n( "&Move to Trash" ), QIconSet( BarIcon( "trash", KonqFactory::instance() ) ), stdAccel.cut(), this, SLOT( slotTrash() ), actionCollection(), "trash" );
   m_paDelete = new KAction( i18n( "&Delete" ), CTRL+Key_Delete, this, SLOT( slotDelete() ), actionCollection(), "delete" );
 
   m_paCopy->plug( m_pamEdit->popupMenu() );

@@ -29,11 +29,11 @@
 
 #include <kurl.h>
 #include <kprotocolmanager.h>
-#include <klibglobal.h>
+#include <kinstance.h>
 
 #include <iostream.h>
 
-KLibGlobal *KonqSearcherFactory::s_global = 0L;
+KInstance *KonqSearcherFactory::s_instance = 0L;
 
 KonqSearcher::KonqSearcher( QObject *parent )
 : QObject( parent, "KonqSearcher" )
@@ -83,7 +83,7 @@ bool KonqSearcher::eventFilter( QObject *obj, QEvent *ev )
 KonqSearcherFactory::KonqSearcherFactory( QObject *parent = 0, const char *name )
 : KLibFactory( parent, name )
 {
-  s_global = new KLibGlobal( "konq_searcher" );
+  s_instance = new KInstance( "konq_searcher" );
 }
 
 KonqSearcherFactory::~KonqSearcherFactory()
@@ -95,9 +95,9 @@ QObject *KonqSearcherFactory::create( QObject *parent, const char *name, const c
   return new KonqSearcher( parent );
 }
 
-KLibGlobal *KonqSearcherFactory::global()
+KInstance *KonqSearcherFactory::instance()
 {
-  return s_global;
+  return s_instance;
 }
 
 extern "C"

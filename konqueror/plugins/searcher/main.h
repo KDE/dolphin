@@ -22,7 +22,7 @@
 
 #include <klibloader.h>
 
-class KLibGlobal;
+class KInstance;
 class KonqMainView;
 
 class KonqSearcher : public QObject
@@ -45,10 +45,10 @@ public:
 
   virtual QObject *create( QObject *parent = 0, const char *name = 0, const char* classname = "QObject" );
 
-  static KLibGlobal *global();
+  static KInstance *instance();
 
 private:
-  static KLibGlobal *s_global;
+  static KInstance *s_instance;
 };
 
 #endif

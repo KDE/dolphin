@@ -553,7 +553,7 @@ void KfmTreeView::viewportMouseMoveEvent( QMouseEvent *_mouse )
   int x = _mouse->pos().x();
   int y = _mouse->pos().y();
 
-  if ( abs( x - m_pressedPos.x() ) > KonqFactory::global()->dndEventDelay() || abs( y - m_pressedPos.y() ) > KonqFactory::global()->dndEventDelay() )
+  if ( abs( x - m_pressedPos.x() ) > KonqFactory::instance()->dndEventDelay() || abs( y - m_pressedPos.y() ) > KonqFactory::instance()->dndEventDelay() )
   {
     // Collect all selected items
     QStrList urls;

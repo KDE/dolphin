@@ -33,7 +33,7 @@ KonqPropsView * KonqPropsView::defaultProps()
   if (!m_pDefaultProps)
   {
     kdebug(0,1202,"Reading global config for konq_propsview");
-    KConfig *config = KonqFactory::global()->config();
+    KConfig *config = KonqFactory::instance()->config();
     KConfigGroupSaver cgs(config, "Settings");
     m_pDefaultProps = new KonqPropsView(config);
   }

@@ -48,7 +48,7 @@ View *KonqPart::createView( QWidget *parent, const char *name )
 
   if ( m_bOpenInitialURL )
   {
-    KConfig *config = KonqFactory::global()->config();
+    KConfig *config = KonqFactory::instance()->config();
     
     if ( config->hasGroup( "Default View Profile" ) )
     {
@@ -78,7 +78,7 @@ void KonqPart::paintEverything( QPainter &/*painter*/, const QRect &/*rect*/,
 
 QString KonqPart::configFile() const
 {
-  return readConfigFile( locate( "data", "konqueror/konqueror_part.rc", KonqFactory::global() ) );
+  return readConfigFile( locate( "data", "konqueror/konqueror_part.rc", KonqFactory::instance() ) );
 }
 
 #include "konq_part.moc"

@@ -21,13 +21,13 @@
 #include "main.h"
 
 #include <kconfig.h>
-#include <klibglobal.h>
+#include <kinstance.h>
 
 EngineCfg *EngineCfg::s_pSelf = 0L;
 
 EngineCfg::EngineCfg()
 {
-  KConfig *config = KonqSearcherFactory::global()->config();
+  KConfig *config = KonqSearcherFactory::instance()->config();
   config->setGroup( "General" );
   
   QStringList engines = config->readListEntry( "SearchEngines" );
@@ -109,7 +109,7 @@ EngineCfg* EngineCfg::self()
 
 void EngineCfg::saveConfig()
 {
-  KConfig *config = KonqSearcherFactory::global()->config();
+  KConfig *config = KonqSearcherFactory::instance()->config();
 
   QStringList engines;
 

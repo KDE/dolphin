@@ -27,11 +27,10 @@
 
 #include "konq_defs.h"
 
-#include <klibglobal.h>
 #include <klibloader.h>
+#include <kinstance.h>
 
 class BrowserView;
-class KLibGlobal;
 
 class KonqFactory : public KLibFactory
 {
@@ -45,10 +44,10 @@ public:
 
   virtual QObject* create( QObject* parent = 0, const char* name = 0, const char* classname = "QObject" );
 
-  static KLibGlobal *global();				
+  static KInstance *instance();				
 
 private:
-  static KLibGlobal *s_global;
+  static KInstance *s_instance;
 };
 
 #endif

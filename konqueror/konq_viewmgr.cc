@@ -461,7 +461,7 @@ void KonqViewManager::slotProfileActivated( int id )
 {
   QString name = QString::fromLatin1( "konqueror/profiles/" ) + m_pamProfiles->popupMenu()->text( id );
   
-  QString fileName = locate( "data", name, KonqFactory::global() );
+  QString fileName = locate( "data", name, KonqFactory::instance() );
   
   KConfig cfg( fileName, true );
   cfg.setGroup( "Profile" );
@@ -477,7 +477,7 @@ void KonqViewManager::slotProfileListAboutToShow()
   
   popup->clear();
   
-  QStringList dirs = KonqFactory::global()->dirs()->findDirs( "data", "konqueror/profiles/" );
+  QStringList dirs = KonqFactory::instance()->dirs()->findDirs( "data", "konqueror/profiles/" );
   QStringList::ConstIterator dIt = dirs.begin();
   QStringList::ConstIterator dEnd = dirs.end();
   

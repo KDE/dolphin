@@ -40,7 +40,7 @@ KonqProfileDlg::KonqProfileDlg( KonqViewManager *manager, QWidget *parent )
 
   setCaption( i18n( "Konqueror: Profile Management" ) );
   
-  QStringList dirs = KonqFactory::global()->dirs()->findDirs( "data", "konqueror/profiles/" );
+  QStringList dirs = KonqFactory::instance()->dirs()->findDirs( "data", "konqueror/profiles/" );
   QStringList::ConstIterator dirIt = dirs.begin();
   QStringList::ConstIterator dirEnd = dirs.end();
   for (; dirIt != dirEnd; ++dirIt )
@@ -116,7 +116,7 @@ void KonqProfileDlg::slotEnableSave( const QString &text )
 void KonqProfileDlg::slotSave()
 {
   QString fileName = locateLocal( "data", QString::fromLatin1( "konqueror/profiles/" ) +
-                                          m_pProfileNameLineEdit->text(), KonqFactory::global() );
+                                          m_pProfileNameLineEdit->text(), KonqFactory::instance() );
 					  
   if ( QFile::exists( fileName ) )
     QFile::remove( fileName );

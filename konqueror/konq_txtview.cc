@@ -158,11 +158,11 @@ KonqTxtView::KonqTxtView()
   
   m_jobId = 0;
   m_bFixedFont = false;
-  m_pEdit->setFont( KonqFactory::global()->generalFont() );
+  m_pEdit->setFont( KonqFactory::instance()->generalFont() );
   
   m_paSelectAll = new KAction( i18n( "Select &All" ), 0, this, SLOT( slotSelectAll() ), this );
-  m_paEdit = new KAction( i18n( "Launch &Editor" ), QIconSet( BarIcon( "pencil", KonqFactory::global() ) ), 0, this, SLOT( slotEdit() ), this );
-  m_paSearch = new KAction( i18n( "Search..." ), QIconSet( BarIcon( "search", KonqFactory::global() ) ), 0, this, SLOT( slotSearch() ), this );
+  m_paEdit = new KAction( i18n( "Launch &Editor" ), QIconSet( BarIcon( "pencil", KonqFactory::instance() ) ), 0, this, SLOT( slotEdit() ), this );
+  m_paSearch = new KAction( i18n( "Search..." ), QIconSet( BarIcon( "search", KonqFactory::instance() ) ), 0, this, SLOT( slotSearch() ), this );
   m_ptaFixedFont = new QToggleAction( i18n( "Use Fixed Font" ), 0, this, SLOT( slotFixedFont() ), this );
 
   actions()->append( BrowserView::ViewAction( m_paSelectAll, BrowserView::MenuView ) );
@@ -323,7 +323,7 @@ void KonqTxtView::slotSelectAll()
 
 void KonqTxtView::slotEdit()
 {
-  KConfig *config = KonqFactory::global()->config();
+  KConfig *config = KonqFactory::instance()->config();
   config->setGroup( "Misc Defaults" );
   QString editor = config->readEntry( "Editor", DEFAULT_EDITOR );
     
@@ -339,9 +339,9 @@ void KonqTxtView::slotFixedFont()
 //    m_vMenuView->setItemChecked( m_idFixedFont, m_bFixedFont );
     
   if ( m_bFixedFont )
-    m_pEdit->setFont( KonqFactory::global()->fixedFont() );
+    m_pEdit->setFont( KonqFactory::instance()->fixedFont() );
   else
-    m_pEdit->setFont( KonqFactory::global()->generalFont() );
+    m_pEdit->setFont( KonqFactory::instance()->generalFont() );
 }
 
 void KonqTxtView::slotSearch()

@@ -28,10 +28,10 @@
 
 #include <ktrader.h>
 #include <kdebug.h>
-#include <klibglobal.h>
+#include <kinstance.h>
 #include <kstddirs.h>
 
-KLibGlobal *KonqFactory::s_global = 0L;
+KInstance *KonqFactory::s_instance = 0L;
 
 extern "C"
 {
@@ -43,8 +43,8 @@ extern "C"
 
 KonqFactory::KonqFactory()
 {
-  s_global = 0L;
-  QString path = global()->dirs()->saveLocation("data", "kfm/bookmarks", true);
+  s_instance = 0L;
+  QString path = instance()->dirs()->saveLocation("data", "kfm/bookmarks", true);
   (void)new KonqBookmarkManager( path );
   (void)new KonqFileManager;
 }
@@ -130,12 +130,12 @@ QObject* KonqFactory::create( QObject* parent, const char* name, const char* /*c
   return new KonqPart( parent, name );
 }
 
-KLibGlobal *KonqFactory::global()
+KInstance *KonqFactory::instance()
 {
-  if ( !s_global )
-    s_global = new KLibGlobal( "konqueror" );
+  if ( !s_instance )
+    s_instance = new KInstance( "konqueror" );
 
-  return s_global;
+  return s_instance;
 }
 
 #include "konq_factory.moc"
