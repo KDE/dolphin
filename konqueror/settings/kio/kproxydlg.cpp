@@ -44,21 +44,19 @@ KProxyOptions::KProxyOptions (QWidget* parent )
               :KCModule (parent, "kcmkio")
 {
   QVBoxLayout *layout = new QVBoxLayout(this);
-  QTabWidget *tab = new QTabWidget(this);
-  layout->addWidget(tab);
+  
+  mTab = new QTabWidget(this);
+  layout->addWidget(mTab);
 
-  proxy  = new KProxyDialog(tab);
-  socks = new KSocksConfig(tab);
+  mProxy  = new KProxyDialog(mTab);
+  mSocks = new KSocksConfig(mTab);
 
-  tab->addTab(proxy, i18n("&Proxy"));
-  tab->addTab(socks, i18n("&SOCKS"));
+  mTab->addTab(mProxy, i18n("&Proxy"));
+  mTab->addTab(mSocks, i18n("&SOCKS"));
 
-  connect(proxy, SIGNAL(changed(bool)), this, SIGNAL(changed(bool)));
-  connect(socks, SIGNAL(changed(bool)), this, SIGNAL(changed(bool)));
-
-  connect(tab, SIGNAL(currentChanged(QWidget *)),
-          this, SIGNAL(quickHelpChanged()));
-  m_tab = tab;
+  connect(mProxy, SIGNAL(changed(bool)), SIGNAL(changed(bool)));
+  connect(mSocks, SIGNAL(changed(bool)), SIGNAL(changed(bool)));
+  connect(mTab, SIGNAL(currentChanged(QWidget *)), SIGNAL(quickHelpChanged()));
 }
 
 KProxyOptions::~KProxyOptions()
@@ -67,30 +65,32 @@ KProxyOptions::~KProxyOptions()
 
 void KProxyOptions::load()
 {
-  proxy->load();
-  socks->load();
+  mProxy->load();
+  mSocks->load();
 }
 
 void KProxyOptions::save()
 {
-  proxy->save();
-  socks->save();
+  mProxy->save();
+  mSocks->save();
 }
 
 void KProxyOptions::defaults()
 {
-  proxy->defaults();
-  socks->defaults();
+  mProxy->defaults();
+  mSocks->defaults();
 }
 
 QString KProxyOptions::quickHelp() const
 {
-  QWidget *w = m_tab->currentPage();
+  QWidget *w = mTab->currentPage();
+  
   if (w && w->inherits("KCModule"))
   {
      KCModule *m = static_cast<KCModule *>(w);
      return m->quickHelp();
   }
+  
   return QString::null;
 }
 
@@ -98,96 +98,96 @@ QString KProxyOptions::quickHelp() const
 KProxyDialog::KProxyDialog( QWidget* parent)
              :KCModule( parent, "kcmkio" )
 {
-    QVBoxLayout* mainLayout = new QVBoxLayout( this, KDialog::marginHint(),
-        KDialog::spacingHint() );
-
-    dlg = new KProxyDialogUI(this);
-    mainLayout->addWidget(dlg);
-    mainLayout->addStretch();
-
-    // signals and slots connections
-    connect( dlg->rbNoProxy, SIGNAL( toggled(bool) ),
-             SLOT( slotUseProxyChanged() ) );
-
-    connect( dlg->rbAutoDiscover, SIGNAL( toggled(bool) ),
-             SLOT( slotChanged() ) );
-    connect( dlg->rbAutoScript, SIGNAL( toggled(bool) ),
-             SLOT( slotChanged() ) );
-
-    connect( dlg->rbPrompt, SIGNAL( toggled(bool) ),
-             SLOT( slotChanged() ) );
-    connect( dlg->rbPresetLogin, SIGNAL( toggled(bool) ),
-             SLOT( slotChanged() ) );
-
-    connect( dlg->cbPersConn, SIGNAL( toggled(bool) ),
-             SLOT( slotChanged() ) );
-
-    connect( dlg->location, SIGNAL( textChanged(const QString&) ),
-             SLOT( slotChanged() ) );
-
-    connect( dlg->pbEnvSetup, SIGNAL( clicked() ), SLOT( setupEnvProxy() ) );
-    connect( dlg->pbManSetup, SIGNAL( clicked() ), SLOT( setupManProxy() ) );
-
-    load();
+  QVBoxLayout* mainLayout = new QVBoxLayout( this, KDialog::marginHint(),
+                                              KDialog::spacingHint() );
+  
+  mDlg = new KProxyDialogUI( this );
+  mainLayout->addWidget( mDlg );
+  mainLayout->addStretch();
+  
+  // signals and slots connections
+  connect( mDlg->rbNoProxy, SIGNAL( toggled(bool) ),
+            SLOT( slotUseProxyChanged() ) );
+  
+  connect( mDlg->rbAutoDiscover, SIGNAL( toggled(bool) ),
+            SLOT( slotChanged() ) );
+  connect( mDlg->rbAutoScript, SIGNAL( toggled(bool) ),
+            SLOT( slotChanged() ) );
+  
+  connect( mDlg->rbPrompt, SIGNAL( toggled(bool) ),
+            SLOT( slotChanged() ) );
+  connect( mDlg->rbPresetLogin, SIGNAL( toggled(bool) ),
+            SLOT( slotChanged() ) );
+  
+  connect( mDlg->cbPersConn, SIGNAL( toggled(bool) ),
+            SLOT( slotChanged() ) );
+  
+  connect( mDlg->location, SIGNAL( textChanged(const QString&) ),
+            SLOT( slotChanged() ) );
+  
+  connect( mDlg->pbEnvSetup, SIGNAL( clicked() ), SLOT( setupEnvProxy() ) );
+  connect( mDlg->pbManSetup, SIGNAL( clicked() ), SLOT( setupManProxy() ) );
+  
+  load();
 }
 
 KProxyDialog::~KProxyDialog()
 {
-  delete _data;
-  _data = 0;
+  delete mData;
+  mData = 0;
 }
 
 void KProxyDialog::load()
 {
-  _defaultData = false;
-  _data = new KProxyData;
+  mDefaultData = false;
+  mData = new KProxyData;
 
   KProtocolManager proto;
   bool useProxy = proto.useProxy();
-  _data->type = proto.proxyType();
-  _data->proxyList["http"] = proto.proxyFor( "http" );
-  _data->proxyList["https"] = proto.proxyFor( "https" );
-  _data->proxyList["ftp"] = proto.proxyFor( "ftp" );
-  _data->proxyList["script"] = proto.proxyConfigScript();
-  _data->useReverseProxy = proto.useReverseProxy();
-  _data->noProxyFor = QStringList::split( QRegExp("[',''\t'' ']"),
+  mData->type = proto.proxyType();
+  mData->proxyList["http"] = proto.proxyFor( "http" );
+  mData->proxyList["https"] = proto.proxyFor( "https" );
+  mData->proxyList["ftp"] = proto.proxyFor( "ftp" );
+  mData->proxyList["script"] = proto.proxyConfigScript();
+  mData->useReverseProxy = proto.useReverseProxy();
+  mData->noProxyFor = QStringList::split( QRegExp("[',''\t'' ']"),
                                            proto.noProxyFor() );
 
-  dlg->gbAuth->setEnabled( useProxy );
-  dlg->gbOptions->setEnabled( useProxy );
+  mDlg->gbAuth->setEnabled( useProxy );
+  mDlg->gbOptions->setEnabled( useProxy );
 
-  dlg->cbPersConn->setChecked( proto.persistentProxyConnection() );
+  mDlg->cbPersConn->setChecked( proto.persistentProxyConnection() );
 
-  if ( !_data->proxyList["script"].isEmpty() )
-    dlg->location->lineEdit()->setText( _data->proxyList["script"] );
+  if ( !mData->proxyList["script"].isEmpty() )
+    mDlg->location->lineEdit()->setText( mData->proxyList["script"] );
 
-  switch ( _data->type )
+  switch ( mData->type )
   {
     case KProtocolManager::WPADProxy:
-      dlg->rbAutoDiscover->setChecked( true );
+      mDlg->rbAutoDiscover->setChecked( true );
       break;
     case KProtocolManager::PACProxy:
-      dlg->rbAutoScript->setChecked( true );
+      mDlg->rbAutoScript->setChecked( true );
       break;
     case KProtocolManager::ManualProxy:
-      dlg->rbManual->setChecked( true );
+      mDlg->rbManual->setChecked( true );
       break;
     case KProtocolManager::EnvVarProxy:
-      dlg->rbEnvVar->setChecked( true );
+      mDlg->rbEnvVar->setChecked( true );
       break;
     case KProtocolManager::NoProxy:
     default:
-      dlg->rbNoProxy->setChecked( true );
+      mDlg->rbNoProxy->setChecked( true );
       break;
   }
 
   switch( proto.proxyAuthMode() )
   {
     case KProtocolManager::Prompt:
-      dlg->rbPrompt->setChecked( true );
+      mDlg->rbPrompt->setChecked( true );
       break;
     case KProtocolManager::Automatic:
-      dlg->rbPresetLogin->setChecked( true );
+      mDlg->rbPresetLogin->setChecked( true );
     default:
       break;
   }
@@ -197,25 +197,23 @@ void KProxyDialog::save()
 {
   bool updateProxyScout = false;
 
-  if (_defaultData)
-    _data->reset ();
+  if (mDefaultData)
+    mData->reset ();
 
-  if ( dlg->rbNoProxy->isChecked() )
+  if ( mDlg->rbNoProxy->isChecked() )
   {
     KSaveIOConfig::setProxyType( KProtocolManager::NoProxy );
   }
   else
   {
-    if ( dlg->rbAutoDiscover->isChecked() )
+    if ( mDlg->rbAutoDiscover->isChecked() )
     {
       KSaveIOConfig::setProxyType( KProtocolManager::WPADProxy );
       updateProxyScout = true;
     }
-    else if ( dlg->rbAutoScript->isChecked() )
+    else if ( mDlg->rbAutoScript->isChecked() )
     {
-      KURL u;
-
-      u = dlg->location->lineEdit()->text();
+      KURL u( mDlg->location->lineEdit()->text() );
 
       if ( !u.isValid() )
       {
@@ -229,21 +227,21 @@ void KProxyDialog::save()
       else
       {
         KSaveIOConfig::setProxyType( KProtocolManager::PACProxy );
-        _data->proxyList["script"] = u.url();
+        mData->proxyList["script"] = u.url();
         updateProxyScout = true;
       }
     }
-    else if ( dlg->rbManual->isChecked() )
+    else if ( mDlg->rbManual->isChecked() )
     {
-      if ( _data->type != KProtocolManager::ManualProxy )
+      if ( mData->type != KProtocolManager::ManualProxy )
       {
         // Let's try a bit harder to determine if the previous
         // proxy setting was indeed a manual proxy
-        KURL u ( _data->proxyList["http"] );
+        KURL u ( mData->proxyList["http"] );
         bool validProxy = (u.isValid() && u.port() != 0);
-        u= _data->proxyList["https"];
+        u= mData->proxyList["https"];
         validProxy |= (u.isValid() && u.port() != 0);
-        u= _data->proxyList["ftp"];
+        u= mData->proxyList["ftp"];
         validProxy |= (u.isValid() && u.port() != 0);
 
         if (!validProxy)
@@ -252,14 +250,14 @@ void KProxyDialog::save()
           return;
         }
 
-        _data->type = KProtocolManager::ManualProxy;
+        mData->type = KProtocolManager::ManualProxy;
       }
 
       KSaveIOConfig::setProxyType( KProtocolManager::ManualProxy );
     }
-    else if ( dlg->rbEnvVar->isChecked() )
+    else if ( mDlg->rbEnvVar->isChecked() )
     {
-      if ( _data->type != KProtocolManager::EnvVarProxy )
+      if ( mData->type != KProtocolManager::EnvVarProxy )
       {
         showInvalidMessage();
         return;
@@ -268,22 +266,22 @@ void KProxyDialog::save()
       KSaveIOConfig::setProxyType( KProtocolManager::EnvVarProxy );
     }
 
-    if ( dlg->rbPrompt->isChecked() )
+    if ( mDlg->rbPrompt->isChecked() )
       KSaveIOConfig::setProxyAuthMode( KProtocolManager::Prompt );
-    else if ( dlg->rbPresetLogin->isChecked() )
+    else if ( mDlg->rbPresetLogin->isChecked() )
       KSaveIOConfig::setProxyAuthMode( KProtocolManager::Automatic );
   }
 
-  KSaveIOConfig::setPersistentProxyConnection( dlg->cbPersConn->isChecked() );
+  KSaveIOConfig::setPersistentProxyConnection( mDlg->cbPersConn->isChecked() );
 
   // Save the common proxy setting...
-  KSaveIOConfig::setProxyFor( "ftp", _data->proxyList["ftp"] );
-  KSaveIOConfig::setProxyFor( "http", _data->proxyList["http"] );
-  KSaveIOConfig::setProxyFor( "https", _data->proxyList["https"] );
+  KSaveIOConfig::setProxyFor( "ftp", mData->proxyList["ftp"] );
+  KSaveIOConfig::setProxyFor( "http", mData->proxyList["http"] );
+  KSaveIOConfig::setProxyFor( "https", mData->proxyList["https"] );
 
-  KSaveIOConfig::setProxyConfigScript( _data->proxyList["script"] );
-  KSaveIOConfig::setUseReverseProxy( _data->useReverseProxy );
-  KSaveIOConfig::setNoProxyFor( _data->noProxyFor.join(",") );
+  KSaveIOConfig::setProxyConfigScript( mData->proxyList["script"] );
+  KSaveIOConfig::setUseReverseProxy( mData->useReverseProxy );
+  KSaveIOConfig::setNoProxyFor( mData->noProxyFor.join(",") );
 
 
   KSaveIOConfig::updateRunningIOSlaves (this);
@@ -295,58 +293,53 @@ void KProxyDialog::save()
 
 void KProxyDialog::defaults()
 {
-  _defaultData = true;
-  dlg->rbNoProxy->setChecked( true );
-  dlg->location->lineEdit()->clear();
-  dlg->cbPersConn->setChecked( false );
+  mDefaultData = true;
+  mDlg->rbNoProxy->setChecked( true );
+  mDlg->location->lineEdit()->clear();
+  mDlg->cbPersConn->setChecked( false );
   emit changed( true );
 }
 
 void KProxyDialog::setupManProxy()
 {
-  KManualProxyDlg* dlgManual = new KManualProxyDlg( this );
+  KManualProxyDlg dlgManual( this );
 
-  dlgManual->setProxyData( *_data );
+  dlgManual.setProxyData( *mData );
 
-  if ( dlgManual->exec() == QDialog::Accepted )
+  if ( dlgManual.exec() == QDialog::Accepted )
   {
-    *_data = dlgManual->data();
-    dlg->rbManual->setChecked(true);
+    *mData = dlgManual.data();
+    mDlg->rbManual->setChecked(true);
     emit changed( true );
   }
-
-  delete dlgManual;
 }
 
 void KProxyDialog::setupEnvProxy()
 {
+  KEnvVarProxyDlg dlgEnv( this );
 
-  KEnvVarProxyDlg* dlgEnv = new KEnvVarProxyDlg( this );
+  dlgEnv.setProxyData( *mData );
 
-  dlgEnv->setProxyData( *_data );
-
-  if ( dlgEnv->exec() == QDialog::Accepted )
+  if ( dlgEnv.exec() == QDialog::Accepted )
   {
-    *_data = dlgEnv->data();
-    dlg->rbEnvVar->setChecked(true);
+    *mData = dlgEnv.data();
+    mDlg->rbEnvVar->setChecked(true);
     emit changed( true );
   }
-
-  delete dlgEnv;
 }
 
 void KProxyDialog::slotChanged()
 {
-  _defaultData = false;
+  mDefaultData = false;
   emit changed( true );
 }
 
 void KProxyDialog::slotUseProxyChanged()
 {
-  _defaultData = false;
-  bool useProxy = !(dlg->rbNoProxy->isChecked());
-  dlg->gbAuth->setEnabled(useProxy);
-  dlg->gbOptions->setEnabled(useProxy);
+  mDefaultData = false;
+  bool useProxy = !(mDlg->rbNoProxy->isChecked());
+  mDlg->gbAuth->setEnabled(useProxy);
+  mDlg->gbOptions->setEnabled(useProxy);
   emit changed( true );
 }
 

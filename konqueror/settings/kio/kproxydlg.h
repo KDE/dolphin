@@ -45,9 +45,9 @@ public:
   virtual QString quickHelp() const;
 
 private:
-  KCModule *proxy;
-  KCModule *socks;
-  QTabWidget *m_tab;
+  KCModule* mProxy;
+  KCModule* mSocks;
+  QTabWidget* mTab;
 };
 
 class KProxyDialog : public KCModule
@@ -74,9 +74,9 @@ private:
   void showInvalidMessage( const QString& _msg = QString::null );
 
 private:
-  KProxyDialogUI* dlg;
-  KProxyData* _data;
-  bool _defaultData;
+  KProxyDialogUI* mDlg;
+  KProxyData* mData;
+  bool mDefaultData;
 };
 
 #endif
