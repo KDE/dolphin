@@ -1208,7 +1208,7 @@ void KonqViewManager::loadViewProfile( KConfig &cfg, const QString & filename,
   setActivePart( nextChildView ? nextChildView->part() : 0L, true /* immediate */);
 
   // #71164
-  if ( !req.args.frameName.isEmpty() ) {
+  if ( !req.args.frameName.isEmpty() && nextChildView ) {
       nextChildView->setViewName( req.args.frameName );
   }
 
