@@ -40,7 +40,8 @@
 
 KAboutData *KonqFactory::s_aboutData = 0;
 
-KParts::ReadOnlyPart *KonqViewFactory::create( QWidget *parentWidget, const char *widgetName, QObject * parent, const char *name )
+KParts::ReadOnlyPart *KonqViewFactory::create( QWidget *parentWidget, const char *widgetName,
+                                               QObject * parent, const char *name )
 {
   if ( !m_factory )
     return 0L;
@@ -68,15 +69,6 @@ KParts::ReadOnlyPart *KonqViewFactory::create( QWidget *parentWidget, const char
       kdError(1202) << "Part " << obj << " (" << obj->className() << ") doesn't inherit KParts::ReadOnlyPart !" << endl;
 
   return static_cast<KParts::ReadOnlyPart *>(obj);
-}
-
-KonqFactory::KonqFactory()
-{
-  KGlobal::dirs()->saveLocation("data", "kfm/bookmarks", true);
-}
-
-KonqFactory::~KonqFactory()
-{
 }
 
 KonqViewFactory KonqFactory::createView( const QString &serviceType,

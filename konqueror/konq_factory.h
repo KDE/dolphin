@@ -38,13 +38,25 @@ class KonqViewFactory
 {
 public:
   KonqViewFactory() : m_factory( 0L ) {}
-  KonqViewFactory( KLibFactory *factory, const QStringList &args, bool createBrowser ) : m_factory( factory ), m_args( args ), m_createBrowser( createBrowser ) {}
-  KonqViewFactory( const KonqViewFactory &factory ) : m_factory( factory.m_factory ), m_args( factory.m_args ) , m_createBrowser( factory.m_createBrowser ) {}
-  KonqViewFactory( KonqViewFactory &factory ) : m_factory( factory.m_factory ), m_args( factory.m_args ), m_createBrowser( factory.m_createBrowser ) {}
 
-  KParts::ReadOnlyPart *create( QWidget *parentWidget, const char *widgetName, QObject *parent, const char *name );
+  KonqViewFactory( KLibFactory *factory, const QStringList &args,
+                   bool createBrowser )
+      : m_factory( factory ), m_args( args ), m_createBrowser( createBrowser ) {}
 
-  bool isNull() { return m_factory ? false : true; }
+  KonqViewFactory( const KonqViewFactory &factory )
+      : m_factory( factory.m_factory ), m_args( factory.m_args ) ,
+        m_createBrowser( factory.m_createBrowser )
+        {}
+
+  KonqViewFactory( KonqViewFactory &factory )
+      : m_factory( factory.m_factory ), m_args( factory.m_args ),
+        m_createBrowser( factory.m_createBrowser )
+        {}
+
+  KParts::ReadOnlyPart *create( QWidget *parentWidget, const char *widgetName,
+                                QObject *parent, const char *name );
+
+  bool isNull() const { return m_factory ? false : true; }
 
 private:
   KLibFactory *m_factory;
@@ -55,9 +67,6 @@ private:
 class KonqFactory
 {
 public:
-  KonqFactory();
-  virtual ~KonqFactory();
-
   static KonqViewFactory createView( const QString &serviceType,
 				     const QString &serviceName = QString::null,
 				     KService::Ptr *serviceImpl = 0,

@@ -1686,7 +1686,7 @@ int KonqMainWindow::mainViewsCount() const
   return res;
 }
 
-KParts::ReadOnlyPart * KonqMainWindow::currentPart()
+KParts::ReadOnlyPart * KonqMainWindow::currentPart() const
 {
   /// ### This is currently unused. Check in the final version (!) if still unused.
   if ( m_currentView )

@@ -58,9 +58,8 @@ class KonqCheckBox : public QCheckBox
 public:
     KonqCheckBox(QWidget *parent=0, const char *name=0)
       :QCheckBox( parent, name ) {}
-    virtual ~KonqCheckBox() {}
 protected:
-    void paintEvent(QPaintEvent *ev);
+    virtual void paintEvent(QPaintEvent *ev);
 };
 
 
@@ -204,12 +203,6 @@ public:
 
   KonqFrameStatusBar *statusbar() const { return m_pStatusBar; }
 
-  QFrame *metaViewFrame() const { return m_metaViewFrame; }
-
-  void detachMetaView();
-
-  void attachMetaView( KParts::ReadOnlyPart *view, bool enableMetaViewFrame, const QMap<QString,QVariant> &framePropertyMap );
-
 public slots:
 
   /**
@@ -227,8 +220,6 @@ public slots:
 protected:
   virtual void paintEvent( QPaintEvent* );
 
-  QVBoxLayout *m_metaViewLayout;
-  QFrame *m_metaViewFrame;
   QVBoxLayout *m_pLayout;
   QGuardedPtr<KonqView> m_pView;
 

@@ -82,12 +82,6 @@ public:
 
   ~KonqView();
 
-  /** Force a repaint of the frame */
-  void repaint();
-
-  /** Show the view */
-  void show();
-
   /**
    * Displays another URL, but without changing the view mode (caller has to
    * ensure that the call makes sense)
@@ -197,19 +191,20 @@ public:
   /**
    * @return a pointer to the KonqFrame which the view lives in
    */
-  KonqFrame* frame() { return m_pKonqFrame; }
+  KonqFrame* frame() const { return m_pKonqFrame; }
 
   /**
    * @return the servicetype this view is currently displaying
    */
-  QString serviceType() { return m_serviceType; }
+  QString serviceType() const { return m_serviceType; }
 
   /**
    * @return the servicetypes this view is capable to display
    */
-  QStringList serviceTypes() { return m_service->serviceTypes(); }
+  QStringList serviceTypes() const { return m_service->serviceTypes(); }
 
-  bool supportsServiceType( const QString &serviceType ) { return serviceTypes().contains( serviceType ); }
+  bool supportsServiceType( const QString &serviceType ) const
+        { return serviceTypes().contains( serviceType ); }
 
   // True if "Use index.html" is set (->the view doesn't necessarily show HTML!)
   bool allowHTML() const { return m_bAllowHTML; }

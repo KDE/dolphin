@@ -81,8 +81,6 @@ KonqView::KonqView( KonqViewFactory &viewFactory,
   m_bToggleView = false;
 
   switchView( viewFactory );
-
-  show();
 }
 
 KonqView::~KonqView()
@@ -96,21 +94,6 @@ KonqView::~KonqView()
   delete m_pPart;
   delete (KonqRun *)m_pRun;
   //kdDebug(1202) << "KonqView::~KonqView " << this << " done" << endl;
-}
-
-void KonqView::repaint()
-{
-//  kdDebug(1202) << "KonqView::repaint()" << endl;
-  if (m_pKonqFrame != 0L)
-    m_pKonqFrame->repaint();
-//  kdDebug(1202) << "KonqView::repaint() : done" << endl;
-}
-
-void KonqView::show()
-{
-  kdDebug(1202) << "KonqView::show()" << endl;
-  if ( m_pKonqFrame )
-    m_pKonqFrame->show();
 }
 
 void KonqView::openURL( const KURL &url, const QString & locationBarURL, const QString & nameFilter )

@@ -140,7 +140,7 @@ public:
   const MapViews & viewMap() const { return m_mapViews; }
 
   KonqView *currentView() const { return m_currentView; }
-  KParts::ReadOnlyPart *currentPart();
+  KParts::ReadOnlyPart *currentPart() const;
 
   // Only valid if there are one or two views
   KonqView * otherView( KonqView * view ) const;
@@ -294,8 +294,6 @@ protected slots:
 
   void slotOpenWith();
 
-  //void slotAbout();
-
   void slotGoMenuAboutToShow();
   void slotUpAboutToShow();
   void slotBackAboutToShow();
@@ -334,7 +332,7 @@ protected:
   void toggleBar( const char *name );
   KToolBar * toolBarByName( const char *name );
 
-  bool eventFilter(QObject*obj,QEvent *ev);
+  virtual bool eventFilter(QObject*obj,QEvent *ev);
 
   void fillHistoryPopup( QPopupMenu *menu, const QList<HistoryEntry> &history );
 
