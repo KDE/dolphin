@@ -19,7 +19,7 @@
 
 #include "konq_undo.h"
 
-#include "uiserver_stub.h"
+#include <kio/uiserver_stub.h>
 
 #include <assert.h>
 
