@@ -347,7 +347,7 @@ KEBTopLevel::KEBTopLevel( const QString & bookmarksFile )
        kapp->dcopClient()->registerAs(kapp->name(),false);
        m_bUnique = true;
     } else {
-       int answer = KMessageBox::warningYesNo( this, i18n("Another instance of KEditBookmarks is already running, do you really want to open another instance or continue work in the same instance?.\nPlease note that, unfortunately, duplicate views are read-only."), i18n("Warning"), i18n("Run another"), i18n("Quit") );
+       int answer = KMessageBox::warningYesNo( this, i18n("Another instance of KEditBookmarks is already running, do you really want to open another instance or continue work in the same instance?\nPlease note that, unfortunately, duplicate views are read-only."), i18n("Warning"), i18n("Run another"), i18n("Quit") );
        if (0) {
           i18n("Continue in same");
        }
