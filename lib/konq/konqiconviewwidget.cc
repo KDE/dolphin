@@ -65,6 +65,8 @@ KonqIconViewWidget::KonqIconViewWidget( QWidget * parent, const char * name, WFl
       verticalScrollBar(),  SIGNAL(valueChanged(int)),
       this,                 SLOT(slotViewportScrolled(int)));
 
+    QObject::connect( QApplication::clipboard(), SIGNAL(dataChanged()), this, SLOT(slotClipboardDataChanged()) );
+
     kapp->addKipcEventMask( KIPC::IconChanged );
     connect( kapp, SIGNAL(iconChanged(int)), SLOT(slotIconChanged(int)) );
     connect( this, SIGNAL(onItem(QIconViewItem *)), SLOT(slotOnItem(QIconViewItem *)) );
@@ -240,7 +242,7 @@ QDragObject * KonqIconViewWidget::dragObject()
     if ( !currentItem() )
 	return 0;
 
-    KonqDrag *drag = new KonqDrag( viewport() );
+    KonqIconDrag *drag = new KonqIconDrag( viewport() );
     // Position of the mouse in the view
     QPoint orig = viewportToContents( viewport()->mapFromGlobal( QCursor::pos() ) );
     // Position of the item clicked in the view
@@ -297,6 +299,40 @@ QColor KonqIconViewWidget::itemColor() const
     return iColor;
 }
 
+void KonqIconViewWidget::slotClipboardDataChanged()
+{
+  // Re-enable everything
+  for ( QIconViewItem *it = firstItem(); it; it = it->nextItem() )
+  {
+    static_cast<KFileIVI *>( it )->setDisabled( false );
+  }
+
+  QMimeSource *data = QApplication::clipboard()->data();
+  if ( data->provides( "application/x-kde-cutselection" ) && data->provides( "text/uri-list" ) )
+    if ( KonqDrag::decodeIsCutSelection( data ) )
+    {
+      QStrList lst;
+      if ( QUriDrag::decode( data, lst ) )
+      {
+        // Ok, those uris have been cut. Do we show them ?
+
+        // Wow. This is ugly. Matching two lists together....
+        // Some sorting to optimise this would be a good idea ?
+        for (QStrListIterator it(lst); *it; ++it)
+        {
+            for ( QIconViewItem *kit = firstItem(); kit; kit = kit->nextItem() )
+            {
+              QString itemURL = static_cast<KFileIVI *>( kit )->item()->url().url();
+              if ( itemURL == QString::fromLatin1( *it ) ) // *it is encoded already
+              {
+                static_cast<KFileIVI *>( kit )->setDisabled( true );
+                break;
+              }
+            }
+        }
+      }
+    }
+}
 
 void KonqIconViewWidget::slotSelectionChanged()
 {
@@ -346,8 +382,10 @@ void KonqIconViewWidget::slotSelectionChanged()
 
 void KonqIconViewWidget::cutSelection()
 {
-    //TODO: grey out items
-    copySelection();
+    kdDebug() << " -- KonqIconViewWidget::cutSelection() -- " << endl;
+    KonqIconDrag * obj = static_cast<KonqIconDrag*>(dragObject());
+    obj->setMoveSelection( true );
+    QApplication::clipboard()->setData( obj );
 }
 
 void KonqIconViewWidget::copySelection()
@@ -359,6 +397,13 @@ void KonqIconViewWidget::copySelection()
 
 void KonqIconViewWidget::pasteSelection( bool move )
 {
+    // move or not move ?
+    QMimeSource *data = QApplication::clipboard()->data();
+    if ( data->provides( "application/x-kde-cutselection" ) ) {
+      bool bMove = KonqDrag::decodeIsCutSelection( data );
+      kdDebug() << " CHECK: move (from dcop hack) = " << move << "  bMove (from clipboard data) = " << bMove << endl;
+    }
+
     KURL::List lst = selectedUrls();
     assert ( lst.count() <= 1 );
     if ( lst.count() == 1 )

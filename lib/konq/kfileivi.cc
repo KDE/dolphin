@@ -30,7 +30,7 @@ KFileIVI::KFileIVI( QIconView *iconview, KonqFileItem* fileitem, int size, bool 
     : QIconViewItem( iconview, fileitem->text(),
 		     fileitem->pixmap( size, KIcon::DefaultState, bImagePreviewAllowed ) ),
     m_size(size), m_state( KIcon::DefaultState ), m_bpreview(bImagePreviewAllowed),
-    m_fileitem( fileitem )
+    m_bDisabled( false ), m_fileitem( fileitem )
 {
     setDropEnabled( S_ISDIR( m_fileitem->mode() ) );
 }
@@ -39,9 +39,22 @@ void KFileIVI::setIcon( int size, int state, bool bImagePreviewAllowed,
                         bool recalc, bool redraw )
 {
     m_size = size;
-    m_state = state;
+    if ( m_bDisabled )
+      m_state = KIcon::DisabledState;
+    else
+      m_state = state;
     m_bpreview = bImagePreviewAllowed;
     QIconViewItem::setPixmap( m_fileitem->pixmap( m_size, m_state, m_bpreview ), recalc, redraw );
+}
+
+void KFileIVI::setDisabled( bool disabled )
+{
+    if ( m_bDisabled != disabled )
+    {
+        m_bDisabled = disabled;
+        m_state = m_bDisabled ? KIcon::DisabledState : KIcon::DefaultState;
+        refreshIcon( true );
+    }
 }
 
 void KFileIVI::refreshIcon( bool redraw )
@@ -58,7 +71,7 @@ bool KFileIVI::acceptDrop( const QMimeSource *mime ) const
         KURL::List uris;
         if ( iconView()->inherits( "KonqIconViewWidget" ) )
             // Use cache if we can
-            uris = ( (KonqIconViewWidget*)iconView() )->dragURLs();
+            uris = ( static_cast<KonqIconViewWidget*>(iconView()) )->dragURLs();
         else
             KonqDrag::decode( mime, uris );
 

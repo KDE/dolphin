@@ -19,37 +19,89 @@
 
 #include "konqdrag.h"
 
-KonqDrag::KonqDrag( QWidget * dragSource, const char* name )
-    : QIconDrag( dragSource, name )
+KonqIconDrag::KonqIconDrag( QWidget * dragSource, const char* name )
+  : QIconDrag( dragSource, name ),
+    m_bCutSelection( false )
 {
 }
 
-const char* KonqDrag::format( int i ) const
+const char* KonqIconDrag::format( int i ) const
 {
     if ( i == 0 )
 	return "application/x-qiconlist";
     else if ( i == 1 )
 	return "text/uri-list";
+    else if ( i == 2 )
+        return "application/x-kde-cutselection";
+    else return 0;
+}
+
+QByteArray KonqIconDrag::encodedData( const char* mime ) const
+{
+    QByteArray a;
+    QCString mimetype( mime );
+    if ( mimetype == "application/x-qiconlist" )
+	a = QIconDrag::encodedData( mime );
+    else if ( mimetype == "text/uri-list" ) {
+        QCString s = urls.join( "\r\n" ).latin1();
+        // perhaps use QUriDrag::unicodeUriToUri here ?
+	a.resize( s.length() );
+	memcpy( a.data(), s.data(), s.length() );
+    }
+    else if ( mimetype == "application/x-kde-cutselection" ) {
+        QCString s ( m_bCutSelection ? "1" : "0" );
+	a.resize( s.length() );
+	memcpy( a.data(), s.data(), s.length() );
+    }
+    return a;
+}
+
+bool KonqIconDrag::canDecode( const QMimeSource* e )
+{
+    return  e->provides( "application/x-qiconlist" ) ||
+      e->provides( "text/uri-list" ) ||
+      e->provides( "application/x-kde-cutselection" );
+}
+
+void KonqIconDrag::append( const QIconDragItem &item, const QRect &pr,
+                             const QRect &tr, const QString &url )
+{
+    QIconDrag::append( item, pr, tr );
+    urls.append(url);
+}
+
+//
+
+KonqDrag::KonqDrag( QWidget * dragSource, const char* name )
+  : QUriDrag( dragSource, name )
+{}
+
+const char* KonqDrag::format( int i ) const
+{
+    if ( i == 0 )
+	return "text/uri-list";
+    else if ( i == 1 )
+        return "application/x-kde-cutselection";
     else return 0;
 }
 
 QByteArray KonqDrag::encodedData( const char* mime ) const
 {
     QByteArray a;
-    if ( QCString( mime ) == "application/x-qiconlist" )
-	a = QIconDrag::encodedData( mime );
-    else if ( QCString( mime ) == "text/uri-list" ) {
-        QString s = urls.join( "\r\n" );
-        a = QCString(s.latin1()); // perhaps use QUriDrag::unicodeUriToUri here
+    QCString mimetype( mime );
+    if ( mimetype == "text/uri-list" )
+        return QUriDrag::encodedData( mime );
+    else if ( mimetype == "application/x-kde-cutselection" ) {
+        QCString s ( m_bCutSelection ? "1" : "0" );
+	a.resize( s.length() );
+	memcpy( a.data(), s.data(), s.length() );
     }
     return a;
 }
 
-bool KonqDrag::canDecode( const QMimeSource* e )
-{
-    return  e->provides( "application/x-qiconlist" ) ||
-      e->provides( "text/uri-list" );
-}
+//
+
+// Those are used for KonqIconDrag too
 
 bool KonqDrag::decode( const QMimeSource *e, KURL::List &uris )
 {
@@ -60,11 +112,13 @@ bool KonqDrag::decode( const QMimeSource *e, KURL::List &uris )
     return ret;
 }
 
-void KonqDrag::append( const QIconDragItem &item, const QRect &pr,
-                             const QRect &tr, const QString &url )
+bool KonqDrag::decodeIsCutSelection( const QMimeSource *e )
 {
-    QIconDrag::append( item, pr, tr );
-    urls.append(url);
+  QByteArray a = e->encodedData( "application/x-kde-cutselection" );
+  if ( a.isEmpty() )
+    return false;
+  else
+    return QCString( a ) = "1";
 }
 
 #include "konqdrag.moc"

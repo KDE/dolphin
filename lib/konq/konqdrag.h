@@ -28,17 +28,18 @@
 
 /*****************************************************************************
  *
- * Class KonqDrag
+ * Class KonqIconDrag
  *
  *****************************************************************************/
 
-class KonqDrag : public QIconDrag
+// Clipboard/dnd data for: Icons + URLS + isCut
+class KonqIconDrag : public QIconDrag
 {
     Q_OBJECT
 
 public:
-    KonqDrag( QWidget * dragSource, const char* name = 0 );
-    virtual ~KonqDrag() {}
+    KonqIconDrag( QWidget * dragSource, const char* name = 0 );
+    virtual ~KonqIconDrag() {}
 
     const char* format( int i ) const;
     QByteArray encodedData( const char* mime ) const;
@@ -46,13 +47,37 @@ public:
     void append( const QIconDragItem &item, const QRect &pr,
                  const QRect &tr, const QString &url );
 
+    void setMoveSelection( bool move ) { m_bCutSelection = move; }
+
     static bool canDecode( const QMimeSource* e );
+
+protected:
+    QStringList urls;
+    bool m_bCutSelection;
+};
+
+// Clipboard/dnd data for: URLS + isCut
+class KonqDrag : public QUriDrag
+{
+public:
+    KonqDrag( QWidget * dragSource = 0, const char* name = 0 );
+    virtual ~KonqDrag() {}
+
+    const char* format( int i ) const;
+    QByteArray encodedData( const char* mime ) const;
+
+    void setMoveSelection( bool move ) { m_bCutSelection = move; }
+
+    // Those are used for KonqIconDrag too
 
     // Decodes urls (much like QUriDrag::decode, but it returns KURLs)
     static bool decode( const QMimeSource *e, KURL::List &uris );
 
+    // Returns true if the data was cut
+    static bool decodeIsCutSelection( const QMimeSource *e );
+
 protected:
-    QStringList urls;
+    bool m_bCutSelection;
 };
 
 #endif

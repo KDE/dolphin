@@ -54,13 +54,13 @@ public:
     void initConfig();
 
     /**
-     * Set the area that will be occupied by icons. It is still possible to 
+     * Set the area that will be occupied by icons. It is still possible to
      * drag icons outside this area; this only applies to automatically placed
      * icons.
      */
     void setIconArea( const QRect &rect );
 
-    /** 
+    /**
      * Returns the icon area.
      */
     QRect iconArea() const;
@@ -77,7 +77,7 @@ public:
     int lineupMode() const;
 
     /**
-     * Line up the icons to a regular grid. The outline of the grid is 
+     * Line up the icons to a regular grid. The outline of the grid is
      * specified by @ref #iconArea. The two length parameters are
      * @ref #gridX and @ref #gridY.
      */
@@ -140,13 +140,18 @@ public:
      * Reimplemented from QIconView to take into account @ref #iconArea.
      */
     virtual void insertInGrid( QIconViewItem *item );
-    
+
     /**
      * Give feedback when item is activated.
      */
     virtual void visualActivate(QIconViewItem *);
 
 public slots:
+    /**
+     * Called when the clipboard's data changes, to update the 'cut' icons
+     * Call this when the directory's listing is finished, to draw icons as cut.
+     */
+    virtual void slotClipboardDataChanged();
     /**
      * Checks the new selection and emits enableAction() signals
      */

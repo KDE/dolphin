@@ -72,6 +72,11 @@ public:
      */
     int state() { return m_state; }
 
+    /**
+     * Set to true when this icon is 'cut'
+     */
+    void setDisabled( bool disabled );
+
     /** */
     virtual void refreshIcon( bool redraw );
 
@@ -86,6 +91,7 @@ protected:
 
     int m_size, m_state;
     bool m_bpreview;
+    bool m_bDisabled;
     /** Pointer to the file item in KonqDirLister's list */
     KonqFileItem* m_fileitem;
 };
