@@ -206,7 +206,7 @@ void KonqTextViewItem::paintCell( QPainter *_painter, const QColorGroup & _cg, i
    KListViewItem::paintCell( _painter, cg, _column, _width, _alignment );
 }
 
-void KonqTextViewItem::paintFocus( QPainter *_p, const QColorGroup &_cg, const QRect &_r )
+/*void KonqTextViewItem::paintFocus( QPainter *_p, const QColorGroup &_cg, const QRect &_r )
 {
    listView()->style().drawFocusRect( _p, _r, _cg,
            isSelected() ? &_cg.highlight() : &_cg.base(), isSelected() );
@@ -216,7 +216,7 @@ void KonqTextViewItem::paintFocus( QPainter *_p, const QColorGroup &_cg, const Q
    QImage im = pix.convertToImage();
    im = KImageEffect::fade( im, 0.25, Qt::black );
    _p->drawImage( _r.topLeft(), im );
-}
+}*/
 
 void KonqTextViewItem::setup()
 {

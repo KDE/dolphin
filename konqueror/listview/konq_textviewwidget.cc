@@ -177,6 +177,44 @@ void KonqTextViewWidget::slotNewItems( const KFileItemList & entries )
    }
 }
 
+void KonqTextViewWidget::setComplete()
+{
+   m_bTopLevelComplete = true;
+
+   // Alex: this flag is set when we are just finishing a voluntary listing,
+   // so do the go-to-item thing only under here. When we update the
+   // current directory automatically (e.g. after a file has been deleted),
+   // we don't want to go to the first item ! (David)
+   if ( m_bUpdateContentsPosAfterListing )
+   {
+      kdDebug() << "KonqTextViewWidget::setComplete m_bUpdateContentsPosAfterListing=true" << endl;
+      m_bUpdateContentsPosAfterListing = false;
+
+      setContentsPos( m_pBrowserView->extension()->urlArgs().xOffset,
+                      m_pBrowserView->extension()->urlArgs().yOffset );
+
+      if ((m_goToFirstItem==true) || (m_itemFound==false))
+      {
+          kdDebug() << "going to first item" << endl;
+          setCurrentItem(firstChild());
+          selectCurrentItemAndEnableSelectedBySimpleMoveMode();
+      }
+      ensureItemVisible(currentItem());
+   }
+   // Show "cut" icons as such
+   m_pBrowserView->slotClipboardDataChanged();
+   // Show totals
+   slotOnViewport();
+
+   if ( !isUpdatesEnabled() || !viewport()->isUpdatesEnabled() )
+   {
+      viewport()->setUpdatesEnabled( true );
+      setUpdatesEnabled( true );
+      triggerUpdate();
+   }
+}
+
+
 bool KonqTextViewWidget::isNameColumn(const QPoint& point )
 {
    if (!itemAt( point ) )

@@ -41,6 +41,7 @@ class KonqTextViewWidget : public KonqBaseListViewWidget
 
    protected slots:
       // slots connected to the directory lister
+      virtual void setComplete();
       virtual void slotNewItems( const KFileItemList & );
    protected:
       bool isNameColumn(const QPoint& point );
