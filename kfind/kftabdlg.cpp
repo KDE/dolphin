@@ -295,9 +295,9 @@ KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name)
       grid2->addWidget( editRegExp, 2, 3 );
     }
     
-    addTab( pages[0], i18n(" Name/&Location ") );
-    addTab( pages[2], i18n(" C&ontents ") );
-    addTab( pages[1], i18n(" &Properties") );
+    addTab( pages[0], i18n("Name/&Location") );
+    addTab( pages[2], i18n("C&ontents") );
+    addTab( pages[1], i18n("&Properties") );
 
 
     // Setup
