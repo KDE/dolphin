@@ -25,11 +25,16 @@
 // Big ToolBar                    (Simon)
 // ... there is room for others :))
 
+
+#include <qstring.h>
+#include <kconfig.h>
+
+
 class KMiscOptions : public KCModule
 {
         Q_OBJECT
 public:
-        KMiscOptions( QWidget *parent = 0L, const char *name = 0L );
+        KMiscOptions(KConfig *config, QString group, QWidget *parent = 0L, const char *name = 0L );
         virtual void load();
         virtual void save();
         virtual void defaults();
@@ -39,6 +44,10 @@ private slots:
 	void changed();
 
 private:
+
+        KConfig *g_pConfig;
+	QString groupname;
+
         QCheckBox *urlpropsbox;
         QCheckBox *treefollowbox;
         QLineEdit *leTerminal;

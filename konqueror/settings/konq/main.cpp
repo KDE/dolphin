@@ -31,6 +31,7 @@
 #include <kglobal.h>
 #include <kstddirs.h>
 #include <kmessagebox.h>
+#include <kconfig.h>
 
 
 #include "rootopts.h"
@@ -40,34 +41,37 @@
 #include "miscopts.h"
 
 #include "main.h"
+#include "main.moc"
 
 
 KonqyModule::KonqyModule(QWidget *parent, const char *name)
   : KCModule(parent, name)
 {
+  KConfig *config = new KConfig("konquerorrc", false, false);
+  
   tab = new QTabWidget(this);
 
-  behaviour = new KBehaviourOptions(this);
+  behaviour = new KBehaviourOptions(config, "HTML Settings", this);
   tab->addTab(behaviour, i18n("&Behaviour"));
   connect(behaviour, SIGNAL(changed(bool)), this, SLOT(moduleChanged(bool)));
 
-  font = new KFontOptions(this);
+  font = new KFontOptions(config, "HTML Settings", this);
   tab->addTab(font, i18n("&Fonts"));
   connect(font, SIGNAL(changed(bool)), this, SLOT(moduleChanged(bool)));
 
-  color = new KColorOptions(this);
+  color = new KColorOptions(config, "HTML Settings", this);
   tab->addTab(color, i18n("&Colors"));
   connect(color, SIGNAL(changed(bool)), this, SLOT(moduleChanged(bool)));
 
-  html = new KHtmlOptions(this);
+  html = new KHtmlOptions(config, "HTML Settings", this);
   tab->addTab(html, i18n("&HTML"));
   connect(html, SIGNAL(changed(bool)), this, SLOT(moduleChanged(bool)));
 
-  http = new KHTTPOptions(this);
+  http = new KHTTPOptions(config, "HTML Settings", this);
   tab->addTab(http, i18n("H&TTP"));
   connect(http, SIGNAL(changed(bool)), this, SLOT(moduleChanged(bool)));
 
-  misc = new KMiscOptions(this);
+  misc = new KMiscOptions(config, "HTML Settings", this);
   tab->addTab(misc, i18n("&Other"));
   connect(misc, SIGNAL(changed(bool)), this, SLOT(moduleChanged(bool)));
 
@@ -93,7 +97,7 @@ void KonqyModule::save()
   html->save();
   http->save();
   misc->save();
-
+  
   // Send signal to konqueror
   // Warning. In case something is added/changed here, keep kfmclient in sync
   QByteArray data;
@@ -124,19 +128,111 @@ void KonqyModule::resizeEvent(QResizeEvent *)
 }
 
 
+KDesktopModule::KDesktopModule(QWidget *parent, const char *name)
+  : KCModule(parent, name)
+{
+  KConfig *config = new KConfig("konquerorrc", false, false);
+
+  tab = new QTabWidget(this);
+
+  root = new KRootOptions(config, "Desktop Settings", this);
+  tab->addTab(root, i18n("&Behaviour"));
+  connect(root, SIGNAL(changed(bool)), this, SLOT(moduleChanged(bool)));
+
+  font = new KFontOptions(config, "Desktop Settings", this);
+  tab->addTab(font, i18n("&Fonts"));
+  connect(font, SIGNAL(changed(bool)), this, SLOT(moduleChanged(bool)));
+
+  color = new KColorOptions(config, "Desktop Settings", this);
+  tab->addTab(color, i18n("&Colors"));
+  connect(color, SIGNAL(changed(bool)), this, SLOT(moduleChanged(bool)));
+
+  html = new KHtmlOptions(config, "Desktop Settings", this);
+  tab->addTab(html, i18n("&HTML"));
+  connect(html, SIGNAL(changed(bool)), this, SLOT(moduleChanged(bool)));
+
+}
+
+
+void KDesktopModule::load()
+{
+  font->load();
+  color->load();
+  html->load();
+  root->load();
+}
+
+
+void KDesktopModule::save()
+{
+  font->save();
+  color->save();
+  html->save();
+  root->load();
+
+#warning David: What to do here?
+
+  /*
+  QString exeloc = locate("exe","kfmclient");
+  if ( exeloc.isEmpty() ) {
+  	  KMessageBox::error( 0L,
+	  i18n( "Can't find the kfmclient program - can't apply configuration dynamically" ), i18n( "Error" ) );
+	return;
+  }
+
+  QApplication::flushX();
+
+  if ( fork() == 0 )
+  {
+    // execute 'kfmclient configure'
+    execl(exeloc, "kfmclient", "configure", 0L);
+    warning("Error launching 'kfmclient configure' !");
+    exit(1);
+  }
+  */
+}
+
+
+void KDesktopModule::defaults()
+{
+  font->defaults();
+  color->defaults();
+  html->defaults();
+  root->load();
+}
+
+
+void KDesktopModule::moduleChanged(bool state)
+{
+  emit changed(state);
+}
+
+
+void KDesktopModule::resizeEvent(QResizeEvent *)
+{
+  tab->setGeometry(0,0,width(),height());
+}
+
+
 extern "C"
 {
 
   KCModule *create_icons(QWidget *parent, const char *name) 
   { 
     KGlobal::locale()->insertCatalogue("kcmkonq");
-    return new KRootOptions(parent, name);
+    return new KRootOptions(new KConfig("kdesktoprc", false, false), "", parent, name);
   }
 
   KCModule *create_konqueror(QWidget *parent, const char *name) 
   { 
     KGlobal::locale()->insertCatalogue("kcmkonq");
     return new KonqyModule(parent, name);
+  }
+
+  KCModule *create_desktop(QWidget *parent, const char *name) 
+  { 
+    KGlobal::locale()->insertCatalogue("kcmkonq");
+    return new KDesktopModule(parent, name);
   }
 
 }

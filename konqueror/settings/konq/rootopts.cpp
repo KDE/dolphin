@@ -32,12 +32,16 @@
 
 #include <konqdefaults.h> // include default values directly from libkonq
 
+extern KConfig *g_pConfig;
+extern QString g_groupname;
+
+
 //-----------------------------------------------------------------------------
 
 static const char * s_choices[4] = { "", "WindowListMenu", "DesktopMenu", "AppMenu" };
 
-KRootOptions::KRootOptions( QWidget *parent, const char *name )
-    : KCModule( parent, name )
+KRootOptions::KRootOptions(KConfig *config, QString group, QWidget *parent, const char *name )
+    : KCModule( parent, name ), g_pConfig(config), groupname(group)
 {
   QLabel * tmpLabel;
 #define RO_ROWS 7
@@ -113,26 +117,23 @@ void KRootOptions::fillMenuCombo( QComboBox * combo )
 
 void KRootOptions::load()
 {
-    KConfig *config = new KConfig( "kdesktoprc" );
-    config->setGroup( "Desktop Icons" );
-    bool bShowHidden = config->readBoolEntry("ShowHidden", DEFAULT_SHOW_HIDDEN_ROOT_ICONS);
+    g_pConfig->setGroup( "Desktop Icons" );
+    bool bShowHidden = g_pConfig->readBoolEntry("ShowHidden", DEFAULT_SHOW_HIDDEN_ROOT_ICONS);
     showHiddenBox->setChecked(bShowHidden);
     //
-    config->setGroup( "Mouse Buttons" );
-    QString s = config->readEntry( "Left", "None" );
+    g_pConfig->setGroup( "Mouse Buttons" );
+    QString s = g_pConfig->readEntry( "Left", "None" );
     for ( int c = 0 ; c < 4 ; c ++ )
       if (s == s_choices[c])
       { leftComboBox->setCurrentItem( c ); break; } 
-    s = config->readEntry( "Middle", "WindowListMenu" );
+    s = g_pConfig->readEntry( "Middle", "WindowListMenu" );
     for ( int c = 0 ; c < 4 ; c ++ )
       if (s == s_choices[c])
       { middleComboBox->setCurrentItem( c ); break; } 
-    s = config->readEntry( "Right", "DesktopMenu" );
+    s = g_pConfig->readEntry( "Right", "DesktopMenu" );
     for ( int c = 0 ; c < 4 ; c ++ )
       if (s == s_choices[c])
       { rightComboBox->setCurrentItem( c ); break; } 
-      
-    delete config;
 }
 
 void KRootOptions::defaults()
@@ -145,16 +146,14 @@ void KRootOptions::defaults()
 
 void KRootOptions::save()
 {
-    KConfig *config = new KConfig("kdesktoprc");
-    config->setGroup( "Desktop Icons" );
-    config->writeEntry("ShowHidden", showHiddenBox->isChecked());
-    config->setGroup( "Mouse Buttons" );
-    config->writeEntry("Left", s_choices[ leftComboBox->currentItem() ]);
-    config->writeEntry("Middle", s_choices[ middleComboBox->currentItem() ]);
-    config->writeEntry("Right", s_choices[ rightComboBox->currentItem() ]);
+    g_pConfig->setGroup( "Desktop Icons" );
+    g_pConfig->writeEntry("ShowHidden", showHiddenBox->isChecked());
+    g_pConfig->setGroup( "Mouse Buttons" );
+    g_pConfig->writeEntry("Left", s_choices[ leftComboBox->currentItem() ]);
+    g_pConfig->writeEntry("Middle", s_choices[ middleComboBox->currentItem() ]);
+    g_pConfig->writeEntry("Right", s_choices[ rightComboBox->currentItem() ]);
 
-    config->sync();
-    delete config;
+    g_pConfig->sync();
 
     // Tell kdesktop about the new config file
     QByteArray data;

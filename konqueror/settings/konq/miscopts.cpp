@@ -16,11 +16,14 @@
 #include <klocale.h>
 #include <kconfig.h>
 
+extern KConfig *g_pConfig;
+extern QString g_groupname;
+
 
 //-----------------------------------------------------------------------------
 
-KMiscOptions::KMiscOptions( QWidget *parent, const char *name )
-    : KCModule( parent, name )
+KMiscOptions::KMiscOptions(KConfig *config, QString group, QWidget *parent, const char *name )
+    : KCModule( parent, name ), g_pConfig(config), groupname(group)
 {
     QVBoxLayout *lay = new QVBoxLayout(this, 40 /* big border */, 20);
 
@@ -64,15 +67,13 @@ KMiscOptions::KMiscOptions( QWidget *parent, const char *name )
 
 void KMiscOptions::load()
 {
-  KConfig *config = new KConfig("konquerrorrc");
-
     // *** load ***
-    config->setGroup( "Misc Defaults" );
-    bool bUrlprops = config->readBoolEntry( "EnablePerURLProps", false);
-    bool bTreeFollow = config->readBoolEntry( "TreeFollowsView", false);
-    QString sTerminal = config->readEntry( "Terminal", DEFAULT_TERMINAL );
-    QString sEditor = config->readEntry( "Editor", DEFAULT_EDITOR );
-    bool bHaveBigToolBar = config->readBoolEntry( "HaveBigToolBar", false );
+    g_pConfig->setGroup( "Misc Defaults" );
+    bool bUrlprops = g_pConfig->readBoolEntry( "EnablePerURLProps", false);
+    bool bTreeFollow = g_pConfig->readBoolEntry( "TreeFollowsView", false);
+    QString sTerminal = g_pConfig->readEntry( "Terminal", DEFAULT_TERMINAL );
+    QString sEditor = g_pConfig->readEntry( "Editor", DEFAULT_EDITOR );
+    bool bHaveBigToolBar = g_pConfig->readBoolEntry( "HaveBigToolBar", false );
 
     // *** apply to GUI ***
 
@@ -81,8 +82,6 @@ void KMiscOptions::load()
     leTerminal->setText(sTerminal);
     leEditor->setText(sEditor);
     m_pHaveBiiigToolBarCheckBox->setChecked( bHaveBigToolBar );
-
-    delete config;
 }
 
 void KMiscOptions::defaults()
@@ -96,17 +95,13 @@ void KMiscOptions::defaults()
 
 void KMiscOptions::save()
 {
-  KConfig *config = new KConfig("konquerrorrc");
-
-    config->setGroup( "Misc Defaults" );
-    config->writeEntry( "EnablePerURLProps", urlpropsbox->isChecked());
-    config->writeEntry( "TreeFollowsView", treefollowbox->isChecked());
-    config->writeEntry( "Terminal", leTerminal->text());
-    config->writeEntry( "Editor", leEditor->text());
-    config->writeEntry( "HaveBigToolBar", m_pHaveBiiigToolBarCheckBox->isChecked() );
-    config->sync();
-
-    delete config;
+    g_pConfig->setGroup( "Misc Defaults" );
+    g_pConfig->writeEntry( "EnablePerURLProps", urlpropsbox->isChecked());
+    g_pConfig->writeEntry( "TreeFollowsView", treefollowbox->isChecked());
+    g_pConfig->writeEntry( "Terminal", leTerminal->text());
+    g_pConfig->writeEntry( "Editor", leEditor->text());
+    g_pConfig->writeEntry( "HaveBigToolBar", m_pHaveBiiigToolBarCheckBox->isChecked() );
+    g_pConfig->sync();
 }
 
 void KMiscOptions::changed()

@@ -10,6 +10,9 @@
 #ifndef __ROOT_OPTIONS_H
 #define __ROOT_OPTIONS_H
 
+
+#include <qstring.h>
+
 #include <kcmodule.h>
 
 class KConfig;
@@ -25,7 +28,7 @@ class KRootOptions : public KCModule
 {
         Q_OBJECT
 public:
-        KRootOptions( QWidget *parent = 0L, const char *name = 0L );
+        KRootOptions(KConfig *config, QString group, QWidget *parent = 0L, const char *name = 0L );
         virtual void load();
         virtual void save();
         virtual void defaults();
@@ -36,6 +39,10 @@ private slots:
 
         
 private:
+
+        KConfig *g_pConfig;
+	QString groupname;
+
         void fillMenuCombo( QComboBox * combo );
         QCheckBox *showHiddenBox;
         QComboBox *leftComboBox;

@@ -18,7 +18,7 @@
 #include <kcolorbtn.h>
 #include <qradiobutton.h>
 #include <kcharsets.h>
-
+#include <kconfig.h>
 #include <kcmodule.h>
 #include <kwm.h>
 
@@ -29,7 +29,7 @@ class KFontOptions : public KCModule
 {
   Q_OBJECT
 public:
-  KFontOptions( QWidget *parent=0, const char *name=0);
+  KFontOptions(KConfig *config, QString group, QWidget *parent=0, const char *name=0);
 
   virtual void load();
   virtual void save();
@@ -53,6 +53,10 @@ private:
   void updateGUI();
 
 private:
+
+  KConfig *g_pConfig;
+  QString groupname;
+
   QRadioButton* m_pSmall;
   QRadioButton* m_pMedium;
   QRadioButton* m_pLarge;
@@ -76,7 +80,7 @@ class KColorOptions : public KCModule
 {
   Q_OBJECT
 public:
-  KColorOptions( QWidget *parent=0, const char *name=0);
+  KColorOptions(KConfig *config, QString group, QWidget *parent=0, const char *name=0);
 
   virtual void load();
   virtual void save();
@@ -95,6 +99,10 @@ private slots:
 
 
 private:
+
+  KConfig *g_pConfig;
+  QString groupname;
+
   KColorButton* m_pBg;
   KColorButton* m_pText;
   KColorButton* m_pLink;
@@ -111,7 +119,7 @@ class KHtmlOptions : public KCModule
 {
   Q_OBJECT
 public:
-  KHtmlOptions( QWidget *parent=0, const char *name=0);
+  KHtmlOptions(KConfig *config, QString group, QWidget *parent=0, const char *name=0);
 
   virtual void load();
   virtual void save();
@@ -124,6 +132,10 @@ private slots:
 
 
 private:
+
+  KConfig *g_pConfig;
+  QString groupname;
+
     QLineEdit *le_JavaPath;
     QCheckBox *cb_enableJava;
     QCheckBox *cb_enableJavaScript;

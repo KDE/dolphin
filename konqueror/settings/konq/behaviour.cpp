@@ -13,9 +13,8 @@
 
 #include "behaviour.h"
 
-
-KBehaviourOptions::KBehaviourOptions( QWidget *parent, const char *name )
-    : KCModule( parent, name )
+KBehaviourOptions::KBehaviourOptions(KConfig *config, QString group, QWidget *parent, const char *name )
+    : KCModule(parent, name), g_pConfig(config), groupname(group)
 {
     QLabel * label;
     int row = 0;
@@ -85,14 +84,12 @@ KBehaviourOptions::KBehaviourOptions( QWidget *parent, const char *name )
 
 void KBehaviourOptions::load()
 {
-    KConfig *config = new KConfig("konquerorrc");
-
-    config->setGroup( "Behaviour" );	
-    bool singleClick = config->readBoolEntry("SingleClick", DEFAULT_SINGLECLICK);
-    int  autoSelect = config->readNumEntry("AutoSelect", DEFAULT_AUTOSELECT);
+    g_pConfig->setGroup("Behaviour");	
+    bool singleClick = g_pConfig->readBoolEntry("SingleClick", DEFAULT_SINGLECLICK);
+    int  autoSelect = g_pConfig->readNumEntry("AutoSelect", DEFAULT_AUTOSELECT);
     if ( autoSelect < 0 ) autoSelect = 0;
-    bool changeCursor = config->readBoolEntry("ChangeCursor", DEFAULT_CHANGECURSOR);
-    bool underlineLinks = config->readBoolEntry("UnderlineLinks", DEFAULT_UNDERLINELINKS);
+    bool changeCursor = g_pConfig->readBoolEntry("ChangeCursor", DEFAULT_CHANGECURSOR);
+    bool underlineLinks = g_pConfig->readBoolEntry("UnderlineLinks", DEFAULT_UNDERLINELINKS);
 
     cbSingleClick->setChecked( singleClick );
     cbAutoSelect->setChecked( autoSelect > 0 );
@@ -101,8 +98,6 @@ void KBehaviourOptions::load()
     cbUnderline->setChecked( underlineLinks );
 
     slotClick();
-
-    delete config;
 }
 
 void KBehaviourOptions::defaults()
@@ -118,16 +113,12 @@ void KBehaviourOptions::defaults()
 
 void KBehaviourOptions::save()
 {
-    KConfig *config = new KConfig("konquerorrc");
-
-    config->setGroup( "Behaviour" );			
-    config->writeEntry( "SingleClick", cbSingleClick->isChecked() );
-    config->writeEntry( "AutoSelect", cbAutoSelect->isChecked()?slAutoSelect->value():-1 );
-    config->writeEntry( "ChangeCursor", cbCursor->isChecked() );
-    config->writeEntry( "UnderlineLinks", cbUnderline->isChecked() );
-    config->sync();
-
-    delete config;
+    g_pConfig->setGroup( "Behaviour" );			
+    g_pConfig->writeEntry( "SingleClick", cbSingleClick->isChecked() );
+    g_pConfig->writeEntry( "AutoSelect", cbAutoSelect->isChecked()?slAutoSelect->value():-1 );
+    g_pConfig->writeEntry( "ChangeCursor", cbCursor->isChecked() );
+    g_pConfig->writeEntry( "UnderlineLinks", cbUnderline->isChecked() );
+    g_pConfig->sync();
 }
 
 void KBehaviourOptions::slotClick()

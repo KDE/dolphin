@@ -2,12 +2,15 @@
 #ifndef __KHTTPOPTDLG_H
 #define __KHTTPOPTDLG_H
 
+
 #include <qwidget.h>
 #include <qlabel.h>
 #include <qlineedit.h>
 #include <qcheckbox.h>
+#include <qstring.h>
  
 #include <kcmodule.h>
+#include <kconfig.h>
 
 
 /**
@@ -18,13 +21,17 @@ class KHTTPOptions : public KCModule
 {
 Q_OBJECT
   public:
-    KHTTPOptions(QWidget *parent = 0L, const char *name = 0L);
+    KHTTPOptions(KConfig *config, QString group, QWidget *parent = 0L, const char *name = 0L);
 
     virtual void load();
     virtual void save();
     virtual void defaults();
     
   private:
+    
+    KConfig *g_pConfig;
+    QString groupname;
+
     // Acceptable languages "LANG" - locale selected languages
     QLabel *lb_languages;	
     QLineEdit *le_languages;	

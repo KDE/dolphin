@@ -3,6 +3,7 @@
 
 
 #include <kcmodule.h>
+#include <kconfig.h>
 
 
 class QCheckBox;
@@ -17,7 +18,7 @@ class KBehaviourOptions : public KCModule
 {
   Q_OBJECT
 public:
-  KBehaviourOptions( QWidget *parent=0, const char *name=0);
+  KBehaviourOptions(KConfig *config, QString group, QWidget *parent=0, const char *name=0);
 
   virtual void load();
   virtual void save();
@@ -31,6 +32,10 @@ protected slots:
  
 
 private:
+
+  KConfig *g_pConfig;
+  QString groupname;
+
   QCheckBox *cbSingleClick;
   QCheckBox *cbAutoSelect;
   QLabel *lDelay;

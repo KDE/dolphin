@@ -27,10 +27,14 @@
 #include <konqdefaults.h> // include default values directly from konqueror
 #include <klocale.h>
 
+extern KConfig *g_pConfig;
+extern QString g_groupname;
+
+
 //-----------------------------------------------------------------------------
 
-KFontOptions::KFontOptions( QWidget *parent, const char *name)
-    : KCModule( parent, name )
+KFontOptions::KFontOptions(KConfig *config, QString group, QWidget *parent, const char *name)
+    : KCModule( parent, name ), g_pConfig(config), groupname(group)
 {
     QLabel *label;
 
@@ -190,10 +194,8 @@ void KFontOptions::slotCharset(const QString& n)
 
 void KFontOptions::load()
 {
-  KConfig *config = new KConfig("konquerorrc");
-
-    config->setGroup("HTML Settings");
-    QString fs = config->readEntry( "BaseFontSize" );
+    g_pConfig->setGroup(groupname);
+    QString fs = g_pConfig->readEntry( "BaseFontSize" );
     if ( !fs.isEmpty() )
     {
         fSize = fs.toInt();
@@ -205,13 +207,11 @@ void KFontOptions::load()
     else
         fSize = 3;
 
-    stdName = config->readEntry( "StandardFont" );
-    fixedName = config->readEntry( "FixedFont" );
-    charsetName = config->readEntry( "DefaultCharset" );
+    stdName = g_pConfig->readEntry( "StandardFont" );
+    fixedName = g_pConfig->readEntry( "FixedFont" );
+    charsetName = g_pConfig->readEntry( "DefaultCharset" );
 
     updateGUI();
-
-  delete config;
 }
 
 void KFontOptions::defaults()
@@ -259,19 +259,15 @@ void KFontOptions::updateGUI()
 
 void KFontOptions::save()
 {
-  KConfig *config = new KConfig("konquerorrc");
-
-    config->setGroup( "HTML Settings" );			
-    config->writeEntry( "BaseFontSize", fSize );
-    config->writeEntry( "StandardFont", stdName );
-    config->writeEntry( "FixedFont", fixedName );
+    g_pConfig->setGroup(groupname);			
+    g_pConfig->writeEntry( "BaseFontSize", fSize );
+    g_pConfig->writeEntry( "StandardFont", stdName );
+    g_pConfig->writeEntry( "FixedFont", fixedName );
     // If the user chose "Use language charset", write an empty string
     if (charsetName == i18n("Use language charset"))
         charsetName = "";
-    config->writeEntry( "DefaultCharset", charsetName );
-    config->sync();
-
-    delete config;
+    g_pConfig->writeEntry( "DefaultCharset", charsetName );
+    g_pConfig->sync();
 }
 
 
@@ -283,8 +279,8 @@ void KFontOptions::changed()
 
 //-----------------------------------------------------------------------------
 
-KColorOptions::KColorOptions( QWidget *parent, const char *name)
-    : KCModule( parent, name )
+KColorOptions::KColorOptions(KConfig *config, QString group, QWidget *parent, const char *name)
+    : KCModule( parent, name ), g_pConfig(config), groupname(group)
 {
     QLabel *label;
 
@@ -406,22 +402,18 @@ void KColorOptions::slotVLinkColorChanged( const QColor &col )
 
 void KColorOptions::load()
 {
-  KConfig *config = new KConfig("konquerorrc");
-
-    config->setGroup("HTML Settings");	
-    bgColor = config->readColorEntry( "BgColor", &HTML_DEFAULT_BG_COLOR );
-    textColor = config->readColorEntry( "TextColor", &HTML_DEFAULT_TXT_COLOR );
-    linkColor = config->readColorEntry( "LinkColor", &HTML_DEFAULT_LNK_COLOR );
-    vLinkColor = config->readColorEntry( "VLinkColor", &HTML_DEFAULT_VLNK_COLOR);
-    bool forceDefaults = config->readBoolEntry("ForceDefaultColors", false);
+    g_pConfig->setGroup(groupname);	
+    bgColor = g_pConfig->readColorEntry( "BgColor", &HTML_DEFAULT_BG_COLOR );
+    textColor = g_pConfig->readColorEntry( "TextColor", &HTML_DEFAULT_TXT_COLOR );
+    linkColor = g_pConfig->readColorEntry( "LinkColor", &HTML_DEFAULT_LNK_COLOR );
+    vLinkColor = g_pConfig->readColorEntry( "VLinkColor", &HTML_DEFAULT_VLNK_COLOR);
+    bool forceDefaults = g_pConfig->readBoolEntry("ForceDefaultColors", false);
 
     m_pBg->setColor( bgColor );
     m_pText->setColor( textColor );
     m_pLink->setColor( linkColor );
     m_pVLink->setColor( vLinkColor );
     forceDefaultsbox->setChecked( forceDefaults );
-
-    delete config;
 }
 
 void KColorOptions::defaults()
@@ -440,17 +432,13 @@ void KColorOptions::defaults()
 
 void KColorOptions::save()
 {
-  KConfig *config = new KConfig("konquerorrc");
-
-    config->setGroup( "HTML Settings" );			
-    config->writeEntry( "BgColor", bgColor );
-    config->writeEntry( "TextColor", textColor );
-    config->writeEntry( "LinkColor", linkColor);
-    config->writeEntry( "VLinkColor", vLinkColor );
-    config->writeEntry("ForceDefaultColors", forceDefaultsbox->isChecked() );
-    config->sync();
-
-    delete config;
+    g_pConfig->setGroup(groupname);			
+    g_pConfig->writeEntry( "BgColor", bgColor );
+    g_pConfig->writeEntry( "TextColor", textColor );
+    g_pConfig->writeEntry( "LinkColor", linkColor);
+    g_pConfig->writeEntry( "VLinkColor", vLinkColor );
+    g_pConfig->writeEntry("ForceDefaultColors", forceDefaultsbox->isChecked() );
+    g_pConfig->sync();
 }
 
 
@@ -460,8 +448,8 @@ void KColorOptions::changed()
 }
 
 
-KHtmlOptions::KHtmlOptions( QWidget *parent, const char *name )
-    : KCModule( parent, name )
+KHtmlOptions::KHtmlOptions(KConfig *config, QString group, QWidget *parent, const char *name )
+    : KCModule( parent, name ), g_pConfig(config), groupname(group)
 {
     QVBoxLayout *lay = new QVBoxLayout(this, 40 /* big border */, 20);
 
@@ -500,14 +488,12 @@ KHtmlOptions::KHtmlOptions( QWidget *parent, const char *name )
 
 void KHtmlOptions::load()
 {
-  KConfig *config = new KConfig("konquerorrc");
-
     // *** load ***
-    config->setGroup( "HTML Settings" );
-    bool bJavaScript = config->readBoolEntry( "EnableJavaScript", false);
-    bool bJava = config->readBoolEntry( "EnableJava", false);
-    QString sJDK = config->readEntry( "JavaPath", "/usr/lib/jdk" );
-    bool bAutoLoadImages = config->readBoolEntry( "AutoLoadImages", true );
+    g_pConfig->setGroup(groupname);
+    bool bJavaScript = g_pConfig->readBoolEntry( "EnableJavaScript", false);
+    bool bJava = g_pConfig->readBoolEntry( "EnableJava", false);
+    QString sJDK = g_pConfig->readEntry( "JavaPath", "/usr/lib/jdk" );
+    bool bAutoLoadImages = g_pConfig->readBoolEntry( "AutoLoadImages", true );
 
     // *** apply to GUI ***
 
@@ -515,8 +501,6 @@ void KHtmlOptions::load()
     cb_enableJava->setChecked(bJava);
     le_JavaPath->setText(sJDK);
     m_pAutoLoadImagesCheckBox->setChecked( bAutoLoadImages );
-
-    delete config;
 }
 
 void KHtmlOptions::defaults()
@@ -529,16 +513,12 @@ void KHtmlOptions::defaults()
 
 void KHtmlOptions::save()
 {
-  KConfig *config = new KConfig("konquerorrc");
-
-    config->setGroup( "HTML Settings" );
-    config->writeEntry( "EnableJavaScript", cb_enableJavaScript->isChecked());
-    config->writeEntry( "EnableJava", cb_enableJava->isChecked());
-    config->writeEntry( "JavaPath", le_JavaPath->text());
-    config->writeEntry( "AutoLoadImages", m_pAutoLoadImagesCheckBox->isChecked() );
-    config->sync();
-
-    delete config;
+    g_pConfig->setGroup(groupname);
+    g_pConfig->writeEntry( "EnableJavaScript", cb_enableJavaScript->isChecked());
+    g_pConfig->writeEntry( "EnableJava", cb_enableJava->isChecked());
+    g_pConfig->writeEntry( "JavaPath", le_JavaPath->text());
+    g_pConfig->writeEntry( "AutoLoadImages", m_pAutoLoadImagesCheckBox->isChecked() );
+    g_pConfig->sync();
 }
 
 void KHtmlOptions::changed()

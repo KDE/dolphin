@@ -10,8 +10,12 @@
 #include <kconfig.h>
 
 
-KHTTPOptions::KHTTPOptions(QWidget *parent, const char *name)
-  : KCModule(parent, name)
+extern KConfig *g_pConfig;
+extern QString g_groupname;
+
+
+KHTTPOptions::KHTTPOptions(KConfig *config, QString group, QWidget *parent, const char *name)
+  : KCModule( parent, name ), g_pConfig(config), groupname(group)
 {
   QGridLayout *lay = new QGridLayout(this,9,3,10,5);
   lay->addRowSpacing(0,10);
@@ -65,31 +69,23 @@ KHTTPOptions::KHTTPOptions(QWidget *parent, const char *name)
 
 void KHTTPOptions::load()
 {
-  KConfig *config = new KConfig("konquerorrc");
-
   QString tmp;
-  config->setGroup( "Browser Settings/HTTP" );	
-  tmp = config->readEntry( "AcceptLanguages",KGlobal::locale()->languages());
+  g_pConfig->setGroup( "Browser Settings/HTTP" );	
+  tmp = g_pConfig->readEntry( "AcceptLanguages",KGlobal::locale()->languages());
   le_languages->setText( tmp );
-  tmp = config->readEntry( "AcceptCharsets",defaultCharsets);
+  tmp = g_pConfig->readEntry( "AcceptCharsets",defaultCharsets);
   le_charsets->setText( tmp );
 
-  cb_assumeHTML->setChecked(config->readBoolEntry( "AssumeHTML", false ));
-
-  delete config;
+  cb_assumeHTML->setChecked(g_pConfig->readBoolEntry( "AssumeHTML", false ));
 }
 
 void KHTTPOptions::save()
 {
-  KConfig *config = new KConfig("konquerorrc");
-
-  config->setGroup( "Browser Settings/HTTP" );	
-  config->writeEntry( "AcceptLanguages", le_languages->text());
-  config->writeEntry( "AcceptCharsets", le_charsets->text());
-  config->writeEntry( "AssumeHTML",cb_assumeHTML->isChecked());
-  config->sync();
-
-  delete config;
+  g_pConfig->setGroup( "Browser Settings/HTTP" );	
+  g_pConfig->writeEntry( "AcceptLanguages", le_languages->text());
+  g_pConfig->writeEntry( "AcceptCharsets", le_charsets->text());
+  g_pConfig->writeEntry( "AssumeHTML",cb_assumeHTML->isChecked());
+  g_pConfig->sync();
 }
 
 void KHTTPOptions::defaults()
