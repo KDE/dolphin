@@ -7,10 +7,6 @@
    - need to fix for 3.2, this one sucks
 
 (#3)
-67813 : Ability to import bookmarks from KDE>=3 
-   - need to confirm, this ones pretty sucky
-
-(#4)
 68161 : Favicons are lost on upgrade 
    - nothing to do with bookmarks, but, no idea where to put it,
      so, whatever, i'll handle it anyways...

@@ -234,6 +234,12 @@ void XBELImportCommand::doExecute(const KBookmarkGroup &/*bkGroup*/) {
 
     // get the xbel
     QDomNode subDoc = pManager->internalDocument().namedItem("xbel").cloneNode();
+    if (subDoc.isProcessingInstruction())
+        subDoc = subDoc.nextSibling();
+    if (subDoc.isDocumentType())
+        subDoc = subDoc.nextSibling();
+    if (subDoc.nodeName() != "xbel")
+        return;
 
     if (!folder().isEmpty()) {
         // transform into folder
@@ -280,5 +286,5 @@ void XBELImportCommand::doExecute(const KBookmarkGroup &/*bkGroup*/) {
             root.appendChild((*it));
     }
 }
-
+ 
 #include "importers.moc"
