@@ -1,5 +1,5 @@
-#ifndef KPARTAPPPART_H
-#define KPARTAPPPART_H
+#ifndef KONQSIDEBARPART_H
+#define KONQSIDEBARPART_H
 
 #include <kparts/part.h>
 #include <kparts/factory.h>
@@ -14,7 +14,7 @@ class KURL;
 
 
 class KonqSidebar;
-class KPartAppPartFactory;
+class KonqSidebarFactory;
 
 class KonqSidebarBrowserExtension : public KParts::BrowserExtension
 {
@@ -78,12 +78,12 @@ private:
 class KInstance;
 class KAboutData;
 
-class KPartAppPartFactory : public KParts::Factory
+class KonqSidebarFactory : public KParts::Factory
 {
     Q_OBJECT
 public:
-    KPartAppPartFactory();
-    virtual ~KPartAppPartFactory();
+    KonqSidebarFactory();
+    virtual ~KonqSidebarFactory();
     virtual KParts::Part* createPartObject( QWidget *parentWidget, const char *widgetName,
                                             QObject *parent, const char *name,
                                             const char *classname, const QStringList &args );

@@ -173,7 +173,7 @@ Sidebar_Widget::Sidebar_Widget(QWidget *parent, KParts::ReadOnlyPart *par, const
 	buttonPopup->insertItem(i18n("Url"),2);
 	buttonPopup->insertItem(i18n("Remove"),3);
 	connect(buttonPopup,SIGNAL(activated(int)),this,SLOT(buttonPopupActivate(int)));
-	ButtonBar->insertButton(QString::fromLatin1("configure"), -1, Menu,true,
+	ButtonBar->insertButton(BarIcon("configure"), -1, Menu,true,
     	    				i18n("Configure sidebar"));
 	connect(new addBackEnd(this,addMenu,"Sidebar_Widget-addBackEnd"),SIGNAL(updateNeeded()),this,SLOT(createButtons()));
 	ButtonBar->setMinimumHeight(10);
@@ -193,7 +193,7 @@ void Sidebar_Widget::buttonPopupActivate(int id)
 		case 1:
 		{
 			KIconDialog kicd(this);
-			kicd.setStrictIconSize(true);
+//			kicd.setStrictIconSize(true);
 			QString iconname=kicd.selectIcon(KIcon::Small);
 			kdDebug()<<"New Icon Name:"<<iconname<<endl;;
 			if (!iconname.isEmpty())

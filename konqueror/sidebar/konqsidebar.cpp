@@ -8,13 +8,13 @@
 #include <qfile.h>
 #include <qtextstream.h>
 #include <kdebug.h>
-
+#include <kglobal.h>
 KonqSidebar::KonqSidebar( QWidget *parentWidget, const char *widgetName,
                                   QObject *parent, const char *name )
     : KParts::ReadOnlyPart(parent, name)
 {
     // we need an instance
-    setInstance( KPartAppPartFactory::instance() );
+    setInstance( KonqSidebarFactory::instance() );
     m_extension=0;
     // this should be your custom internal widget
     m_widget = new Sidebar_Widget( parentWidget,this, widgetName );
@@ -28,7 +28,7 @@ KonqSidebar::KonqSidebar( QWidget *parentWidget, const char *widgetName,
 KInstance *KonqSidebar::getInstance()
 {
 	kdDebug()<<"KonqSidebar::getInstance()"<<endl;
-	return KPartAppPartFactory::instance() ; 
+	return KonqSidebarFactory::instance() ; 
 }
 
 KonqSidebar::~KonqSidebar()
@@ -47,15 +47,15 @@ bool KonqSidebar::openURL(const KURL &url){if (m_widget) m_widget->openURL(url);
 #include <kaboutdata.h>
 #include <klocale.h>
 
-KInstance*  KPartAppPartFactory::s_instance = 0L;
-KAboutData* KPartAppPartFactory::s_about = 0L;
+KInstance*  KonqSidebarFactory::s_instance = 0L;
+KAboutData* KonqSidebarFactory::s_about = 0L;
 
-KPartAppPartFactory::KPartAppPartFactory()
+KonqSidebarFactory::KonqSidebarFactory()
     : KParts::Factory()
 {
 }
 
-KPartAppPartFactory::~KPartAppPartFactory()
+KonqSidebarFactory::~KonqSidebarFactory()
 {
     delete s_instance;
     delete s_about;
@@ -63,7 +63,7 @@ KPartAppPartFactory::~KPartAppPartFactory()
     s_instance = 0L;
 }
 
-KParts::Part* KPartAppPartFactory::createPartObject( QWidget *parentWidget, const char *widgetName,
+KParts::Part* KonqSidebarFactory::createPartObject( QWidget *parentWidget, const char *widgetName,
                                                         QObject *parent, const char *name,
                                                         const char *classname, const QStringList &args )
 {
@@ -77,11 +77,11 @@ KParts::Part* KPartAppPartFactory::createPartObject( QWidget *parentWidget, cons
     return obj;
 }
 
-KInstance* KPartAppPartFactory::instance()
+KInstance* KonqSidebarFactory::instance()
 {
     if( !s_instance )
     {
-        s_about = new KAboutData("kpartapppart", I18N_NOOP("KPartAppPart"), "0.1");
+        s_about = new KAboutData("konqsidebartng", I18N_NOOP("KonqSidebarTNG"), "0.1");
         s_about->addAuthor("Joseph WENNINGER", 0, "jowenn@bigfoot.com");
         s_instance = new KInstance(s_about);
     }
@@ -92,7 +92,7 @@ extern "C"
 {
     void* init_libkonqsidebar()
     {
-        return new KPartAppPartFactory;
+        return new KonqSidebarFactory;
     }
 };
 
