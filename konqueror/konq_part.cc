@@ -36,6 +36,8 @@ KonqPart::KonqPart( QObject *parent, const char *name )
 
 KonqPart::~KonqPart()
 {
+  while ( firstView() )
+    delete firstView();
 }
 
 View *KonqPart::createView( QWidget *parent, const char *name )

@@ -33,7 +33,6 @@ public:
   ~KonqShell();
 
 public slots:
-  void slotClose();
   void slotQuit();
   
 protected:

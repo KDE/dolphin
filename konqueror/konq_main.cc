@@ -81,6 +81,8 @@ int main( int argc, char **argv )
       fm.openFileManagerWindow( argv[ i ] );
   }
 
+  QObject::connect( &app, SIGNAL( lastWindowClosed() ), &app, SLOT( quit() ) );
+
   app.exec();
 
   return 0;

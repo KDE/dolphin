@@ -20,7 +20,6 @@
 #include "konq_shell.h"
 
 #include <kaction.h>
-
 #include <kglobal.h>
 #include <kiconloader.h>
 #include <klocale.h>
@@ -28,6 +27,7 @@
 #include <kstdaccel.h>
 #include <kstddirs.h>
 #include <khelpmenu.h>
+#include <part.h>
 
 KonqShell::KonqShell()
 {
@@ -35,7 +35,7 @@ KonqShell::KonqShell()
   
   m_helpMenu = new KHelpMenu( this );
 
-  m_paShellClose = new KAction( i18n( "Close" ), accel.close(), this, SLOT( slotClose() ), actionCollection(), "konqueror_shell_close" );
+  m_paShellClose = new KAction( i18n( "Close" ), accel.close(), this, SLOT( close() ), actionCollection(), "konqueror_shell_close" );
   m_paShellQuit = new KAction( i18n( "Quit" ), accel.quit(), this, SLOT( slotQuit() ), actionCollection(), "konqueror_shell_quit" );
   m_paShellHelpAboutKDE = new KAction( i18n( "About &KDE..." ), 0, m_helpMenu, SLOT( aboutKDE() ), actionCollection(), "konqueror_shell_aboutkde" );
 
@@ -43,11 +43,7 @@ KonqShell::KonqShell()
 
 KonqShell::~KonqShell()
 {
-}
-
-void KonqShell::slotClose()
-{
-  delete this;
+  delete rootPart();
 }
 
 void KonqShell::slotQuit()
