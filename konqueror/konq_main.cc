@@ -52,7 +52,7 @@ int main( int argc, char **argv )
 
   app.dcopClient()->registerAs( "konqueror", false );
 
-  (void)new KonquerorIface();
+  app.dcopClient()->setDefaultObject( (new KonquerorIface())->objId() );
 
   KGlobal::locale()->insertCatalogue("libkonq"); // needed for apps using libkonq
   KImageIO::registerFormats();
