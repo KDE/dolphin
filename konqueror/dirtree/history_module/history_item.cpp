@@ -106,7 +106,7 @@ QString KonqHistoryItem::key( int column, bool ascending ) const
 QString KonqHistoryItem::toolTipText() const
 {
     if ( s_settings->m_detailedTips ) {
-	QString tip = i18n("<qt><center><b>%1</b></center><hr>First visited: %2<br>Last visited: %3<br>Number of times visited: %4");
+	QString tip = i18n("<qt><center><b>%1</b></center><hr>First visited: %2<br>Last visited: %3<br>Number of times visited: %4</qt>");
 	return tip.arg( m_entry->url.url() ).arg( KGlobal::locale()->formatDateTime( m_entry->firstVisited ) ).arg( KGlobal::locale()->formatDateTime( m_entry->lastVisited ) ).arg( m_entry->numberOfTimesVisited );
     }
 
