@@ -125,7 +125,6 @@ class Sidebar_Widget: public QWidget
 	QGuardedPtr<ButtonInfo>activeModule;
   protected slots:
 	void showHidePage(int value);
-	void updateDock();
 	void createButtons();
 	void activatedMenu(int id);
 	void buttonPopupActivate(int);

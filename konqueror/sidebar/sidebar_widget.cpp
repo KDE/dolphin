@@ -179,7 +179,6 @@ Sidebar_Widget::Sidebar_Widget(QWidget *parent, KParts::ReadOnlyPart *par, const
                                 KDockWidget::DockBottom|KDockWidget::DockDesktop);*/
 
 
-	connect(Area,SIGNAL(docked()),this,SLOT(updateDock()));
    	ButtonBar=new KMultiVertTabBar(this);
 	Menu=new QPopupMenu(this,"Sidebar_Widget::Menu");
 	QPopupMenu *addMenu=new QPopupMenu(this,"Sidebar_Widget::addPopup");
@@ -457,11 +456,6 @@ void Sidebar_Widget::readConfig()
         noUpdate=false;
 	m_initial=false;
 
-}
-
-void Sidebar_Widget::updateDock()
-{
-	kdDebug()<<"updateDock"<<endl;
 }
 
 void Sidebar_Widget::stdAction(const char *handlestd)
