@@ -33,7 +33,7 @@ KSMBOptions::KSMBOptions(QWidget *parent, const char *name)
 	//   net groupbox
 	// =======================
 
-	groupNet = new QGroupBox(i18n("Network settings:"), this);
+	groupNet = new QGroupBox(i18n("Network settings"), this);
 	topLayout->addWidget(groupNet, 2, 0);
 	topLayout->addRowSpacing(3,10);
 	topLayout->setRowStretch(3,0);
@@ -85,7 +85,7 @@ KSMBOptions::KSMBOptions(QWidget *parent, const char *name)
 	//   user groupbox
 	// =======================
 	
-	groupUser = new QGroupBox(i18n("User settings:"), this);
+	groupUser = new QGroupBox(i18n("User settings"), this);
 	topLayout->addWidget(groupUser, 4, 0);
 	
 	subLayout = new QGridLayout(groupUser,14,5,10,0,"smbOptUserSubLayout");
@@ -164,12 +164,12 @@ KSMBOptions::KSMBOptions(QWidget *parent, const char *name)
 	
 	topLayout->addRowSpacing(5,10);
 	
-	groupPassword = new QHButtonGroup(i18n("Password policy (while browsing):"), this);
+	groupPassword = new QHButtonGroup(i18n("Password policy (while browsing)"), this);
 	groupPassword->setExclusive( true );
 	topLayout->addWidget(groupPassword, 6, 0);
-	radioPolicyAdd = new QRadioButton( i18n("Add new bindings."), groupPassword );
+	radioPolicyAdd = new QRadioButton( i18n("Add new bindings"), groupPassword );
 	connect(radioPolicyAdd, SIGNAL(clicked()), this, SLOT(changed()));
-	radioPolicyNoStore = new QRadioButton( i18n("Don't store new bindings."), groupPassword );
+	radioPolicyNoStore = new QRadioButton( i18n("Don't store new bindings"), groupPassword );
 	connect(radioPolicyNoStore, SIGNAL(clicked()), this, SLOT(changed()));
 	radioPolicyAdd->setChecked(true);
 	
