@@ -2215,8 +2215,6 @@ void KonqMainWindow::slotActionHighlighted( KAction *action )
 
 void KonqMainWindow::updateOpenWithActions( const KTrader::OfferList &services )
 {
-  static QString openWithText = i18n( "Open With" ).append( ' ' );
-
   m_openWithActions.clear();
 
   KTrader::OfferList::ConstIterator it = services.begin();
@@ -2227,7 +2225,7 @@ void KonqMainWindow::updateOpenWithActions( const KTrader::OfferList &services )
     if ( comment.isEmpty() )
       comment = (*it)->name();
 
-    KAction *action = new KAction( comment.prepend( openWithText ), 0, 0, (*it)->name().latin1() );
+    KAction *action = new KAction( i18n( "Open With %1" ).arg( comment ), 0, 0, (*it)->name().latin1() );
     action->setIcon( (*it)->icon() );
 
     connect( action, SIGNAL( activated() ),
