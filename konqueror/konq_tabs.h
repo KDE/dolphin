@@ -115,10 +115,12 @@ private slots:
   void slotReceivedDropEvent( QWidget *, QDropEvent * );
     void slotSubPopupMenuTabActivated( int);
 private:
+  QString constrainedTitle( QString title, int maxLength );
+
   KonqViewManager* m_pViewManager;
   QPopupMenu* m_pPopupMenu;
     QPopupMenu * m_pSubPopupMenuTab;
-  uint m_CurrentMaxLength;
+  uint m_CurrentMaxLength, m_maxLength, m_minLength;
   QToolButton* m_rightWidget;
   bool m_permanentCloseButtons;
 };

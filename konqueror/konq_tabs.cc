@@ -52,7 +52,7 @@
 
 KonqFrameTabs::KonqFrameTabs(QWidget* parent, KonqFrameContainerBase* parentContainer,
                              KonqViewManager* viewManager, const char * name)
-  : KTabWidget(parent, name), m_CurrentMaxLength(30), m_rightWidget(0)
+  : KTabWidget(parent, name), m_rightWidget(0)
 {
   //kdDebug(1202) << "KonqFrameTabs::KonqFrameTabs()" << endl;
 
@@ -118,6 +118,13 @@ KonqFrameTabs::KonqFrameTabs(QWidget* parent, KonqFrameContainerBase* parentCont
 
   KConfig *config = KGlobal::config();
   KConfigGroupSaver cs( config, QString::fromLatin1("FMSettings") );
+
+  m_maxLength = config->readNumEntry("MaximumTabLength", 30);
+  m_minLength = config->readNumEntry("MinimumTabLength", 3);
+  if (m_minLength>m_maxLength)
+    m_maxLength=m_minLength;
+  m_CurrentMaxLength = m_maxLength;
+
   m_permanentCloseButtons = config->readBoolEntry( "PermanentCloseButton", false );
   if (m_permanentCloseButtons) {
     setHoverCloseButton( true );
@@ -262,8 +269,7 @@ uint KonqFrameTabs::tabBarWidthForMaxChars( uint maxLength )
         newTitle = konqview->frame()->title();
     }
 
-    if ( newTitle.length() > maxLength )
-      newTitle = newTitle.left( maxLength-3 ) + "...";
+    newTitle = constrainedTitle( newTitle, maxLength );
 
     QTab* tab = tabBar()->tabAt( i );
     int lw = fm.width( newTitle );
@@ -277,24 +283,37 @@ uint KonqFrameTabs::tabBarWidthForMaxChars( uint maxLength )
   return x;
 }
 
+QString KonqFrameTabs::constrainedTitle( QString title, int maxLength )
+{
+    if ( title.length() > maxLength )
+      title = title.left( maxLength-3 ) + "...";
+
+    if ( title.length() < m_minLength && m_minLength <= maxLength ) {
+      QString tail;
+      tail.fill(' ', m_minLength - title.length());
+      title = title + tail;
+    }
+    return title;
+}
+
 void KonqFrameTabs::setTitle( const QString &title , QWidget* sender)
 {
   // kdDebug(1202) << "KonqFrameTabs::setTitle( " << title << " , " << sender << " )" << endl;
   removeTabToolTip( sender );
 
   uint lcw=0, rcw=0;
-#if QT_VERSION >= 0x030200
+
   int tabBarHeight = tabBar()->sizeHint().height();
   if ( cornerWidget( TopLeft ) && cornerWidget( TopLeft )->isVisible() )
     lcw = QMAX( cornerWidget( TopLeft )->width(), tabBarHeight );
   if ( cornerWidget( TopRight ) && cornerWidget( TopRight )->isVisible() )
     rcw = QMAX( cornerWidget( TopRight )->width(), tabBarHeight );
-#endif
+
   uint maxTabBarWidth = width() - lcw - rcw;
   // kdDebug(1202) << "maxTabBarWidth=" << maxTabBarWidth << endl;
 
-  uint newMaxLength=30;
-  for ( ; newMaxLength > 3; newMaxLength-- ) {
+  uint newMaxLength=m_maxLength;
+  for ( ; newMaxLength > m_minLength; newMaxLength-- ) {
     // kdDebug(1202) << "tabBarWidthForMaxChars(" << newMaxLength
     //               << ")=" << tabBarWidthForMaxChars( newMaxLength ) << endl;
     if ( tabBarWidthForMaxChars( newMaxLength ) < maxTabBarWidth )
@@ -304,10 +323,10 @@ void KonqFrameTabs::setTitle( const QString &title , QWidget* sender)
 
   QString newTitle = title;
   if ( newTitle.length() > newMaxLength )
-    {
       setTabToolTip( sender, newTitle );
-      newTitle = newTitle.left( newMaxLength-3 ) + "...";
-    }
+
+  newTitle = constrainedTitle( newTitle, newMaxLength );
+
   newTitle.replace( '&', "&&" );
   if ( tabLabel( sender ) != newTitle )
     changeTab( sender, newTitle );
@@ -327,10 +346,10 @@ void KonqFrameTabs::setTitle( const QString &title , QWidget* sender)
 
           removeTabToolTip( page( i ) );
           if ( newTitle.length() > newMaxLength )
-            {
               setTabToolTip( page( i ), newTitle );
-              newTitle = newTitle.left( newMaxLength-3 ) + "...";
-            }
+
+          newTitle = constrainedTitle( newTitle, newMaxLength );
+
           newTitle.replace( '&', "&&" );
           if ( newTitle != tabLabel( page( i ) ) )
             changeTab( page( i ), newTitle );
