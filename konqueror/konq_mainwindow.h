@@ -232,7 +232,9 @@ public:
   static void comboAction( int action, const QString& url,
 			   const QCString& objId );
 
+#ifndef NDEBUG
   void dumpViewList();
+#endif
 
   // KonqFrameContainerBase implementation BEGIN
 

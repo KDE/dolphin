@@ -960,7 +960,9 @@ void KonqMainWindow::slotDuplicateWindow()
   }
   mainWindow->activateChild();
   mainWindow->show();
+#ifndef NDEBUG
   mainWindow->viewManager()->printFullHierarchy( this );
+#endif
 }
 
 void KonqMainWindow::slotSendURL()
@@ -1716,7 +1718,9 @@ void KonqMainWindow::removeChildView( KonqView *childView )
   disconnect( childView, SIGNAL( viewCompleted( KonqView * ) ),
               this, SLOT( slotViewCompleted( KonqView * ) ) );
 
+#ifndef NDEBUG
   dumpViewList();
+#endif
 
   MapViews::Iterator it = m_mapViews.begin();
   MapViews::Iterator end = m_mapViews.end();
@@ -1745,7 +1749,9 @@ void KonqMainWindow::removeChildView( KonqView *childView )
   viewCountChanged();
   emit viewRemoved( childView );
 
+#ifndef NDEBUG
   dumpViewList();
+#endif
 
   // KonqViewManager takes care of m_currentView
 }
@@ -2040,8 +2046,10 @@ void KonqMainWindow::slotRemoveTabPopup()
 
 void KonqMainWindow::slotDumpDebugInfo()
 {
+#ifndef NDEBUG
   dumpViewList();
   m_pViewManager->printFullHierarchy( 0L );
+#endif
 }
 
 void KonqMainWindow::slotSaveViewPropertiesLocally()
@@ -2878,7 +2886,9 @@ void KonqMainWindow::initActions()
   m_paBreakOffTab = new KAction( i18n( "Break Off Current Tab" ), "tab_breakoff", CTRL+SHIFT+Key_B, this, SLOT( slotBreakOffTab() ), actionCollection(), "breakoffcurrenttab" );
   m_paRemoveView = new KAction( i18n( "&Remove Active View" ),"view_remove", CTRL+SHIFT+Key_R, this, SLOT( slotRemoveView() ), actionCollection(), "removeview" );
   m_paRemoveTab = new KAction( i18n( "Remove Current Tab" ), "tab_remove", CTRL+SHIFT+Key_W, this, SLOT( slotRemoveTab() ), actionCollection(), "removecurrenttab" );
+#ifndef NDEBUG
   m_paDumpDebugInfo = new KAction( i18n( "Dump Debug Info" ), "view_dump_debug_info", 0, this, SLOT( slotDumpDebugInfo() ), actionCollection(), "dumpdebuginfo" );
+#endif
 
   m_paSaveRemoveViewProfile = new KAction( i18n( "&Configure View Profiles..." ), 0, m_pViewManager, SLOT( slotProfileDlg() ), actionCollection(), "saveremoveviewprofile" );
   m_pamLoadViewProfile = new KActionMenu( i18n( "Load &View Profile" ), actionCollection(), "loadviewprofile" );
@@ -4088,6 +4098,7 @@ QStringList KonqMainWindow::historyPopupCompletionItems( const QString& s)
     return items;
 }
 
+#ifndef NDEBUG
 void KonqMainWindow::dumpViewList()
 {
   MapViews::Iterator end = m_mapViews.end();
@@ -4099,6 +4110,7 @@ void KonqMainWindow::dumpViewList()
     kdDebug(1202) << it.data() << endl;
   }
 }
+#endif
 
 // KonqFrameContainerBase implementation BEGIN
 

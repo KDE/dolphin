@@ -231,7 +231,9 @@ public:
    */
   static QSize readConfigSize( KConfig &cfg, QWidget *widget = NULL);
 
+#ifndef NDEBUG
   void printFullHierarchy( KonqFrameContainerBase * container );
+#endif
 
 protected slots:
   void emitActivePartChanged();
@@ -288,10 +290,12 @@ private:
                        const QString &serviceType,
                        bool passiveMode);
 
+#ifndef NDEBUG
   //just for debugging
   void printSizeInfo( KonqFrameBase* frame,
                       KonqFrameContainerBase* parent,
                       const char* msg );
+#endif
 
   KonqMainWindow *m_pMainWindow;
 
