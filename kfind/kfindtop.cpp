@@ -211,7 +211,7 @@ void KfindTop::toolBarInit()
     _toolBar->insertSeparator();
 
 
-    icon = loader->loadIcon("idea.xpm");
+    icon = loader->loadIcon("openfile.xpm");
     _toolBar->insertButton( icon, 3,SIGNAL(clicked()),
 			    _kfind,SIGNAL(open()),
 			    FALSE, i18n("Open"));
