@@ -153,8 +153,8 @@ class ListViewBrowserExtension : public KParts::BrowserExtension
    protected slots:
       void updateActions();
 
-      void copy() { copySelection( true ); }
-      void cut() { copySelection( false ); }
+      void copy() { copySelection( false ); }
+      void cut() { copySelection( true ); }
       void paste();
       void trash() { KonqOperations::del(m_listView->listViewWidget(),
                                          KonqOperations::TRASH,
