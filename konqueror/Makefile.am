@@ -8,6 +8,9 @@ lib_LTLIBRARIES = libkonqueror.la
 rcdir = $(kde_datadir)/konqueror
 rc_DATA = konqueror_part.rc konqueror_shell.rc
 
+kdelnkdir = $(kde_servicesdir)
+kdelnk_DATA = konqueror.desktop konq_plugin.desktop
+
 libkonqueror_la_SOURCES = konq_mainview.cc konq_part.cc konq_shell.cc \
 			  konq_run.cc konq_childview.cc konq_viewmgr.cc \
 			  konq_frame.cc konq_propsview.cc konq_propsmainview.cc \
@@ -19,7 +22,7 @@ libkonqueror_la_SOURCES = konq_mainview.cc konq_part.cc konq_shell.cc \
 
 libkonqueror_la_METASOURCES = AUTO
 
-libkonqueror_la_LDFLAGS = $(all_libraries) -version-info 1:0:0
+libkonqueror_la_LDFLAGS = $(all_libraries) -version-info 1:0:0 -module
 
 libkonqueror_la_LIBADD = -lkparts ../libkonq/libkonq.la $(LIB_KIO) $(LIB_KDEUI) $(LIB_QT) $(LIB_KHTML)
 

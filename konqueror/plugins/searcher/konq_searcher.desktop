@@ -1,9 +1,7 @@
 [Desktop Entry]
 Name=KonqSearcher
 Name[ca]=Cercador
+Name[hu]=KonqKeresõ
 Name[sv]=Erövringssökaren
 X-KDE-Library=libkonqsearcher
-X-KDE-LibraryMajor=1
-X-KDE-LibraryMinor=0
-X-KDE-LibraryDepedencies=
 ServiceTypes=Konqueror/Plugin
