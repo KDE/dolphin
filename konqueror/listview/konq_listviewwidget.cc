@@ -808,8 +808,13 @@ void KonqBaseListViewWidget::slotRefreshItems( const KFileItemList & entries )
 
 void KonqBaseListViewWidget::slotRedirection( const KURL & url )
 {
-    emit m_pBrowserView->extension()->setLocationBarURL( url.prettyURL() );
-    m_url = url;
+   if (( columns() <1) || ( url.protocol() != m_url.protocol() ))
+   {
+      readProtocolConfig( url.protocol() );
+      createColumns();
+   };
+   emit m_pBrowserView->extension()->setLocationBarURL( url.prettyURL() );
+   m_url = url;
 }
 
 void KonqBaseListViewWidget::slotCloseView()
