@@ -15,8 +15,8 @@
    <Action name="modelarge"/>
    <Action name="modemedium"/>
    <Action name="modesmall"/>
-   <Separator/>
-   <Action name="modenone"/>
+   <!--<Separator/>
+   <Action name="modenone"/>-->
    <Separator/>
    <Action name="textbottom"/>
    <Action name="textright"/>

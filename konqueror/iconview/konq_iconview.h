@@ -59,8 +59,8 @@ public:
 
   KonqIconViewWidget *iconViewWidget() const { return m_pIconView; }
 
-  virtual void saveState( QDataStream &stream );
-  virtual void restoreState( QDataStream &stream );
+  //virtual void saveState( QDataStream &stream );
+  //virtual void restoreState( QDataStream &stream );
   virtual void visualActivate(QIconViewItem *);
 
   uint itemCount() const;
@@ -83,12 +83,12 @@ public slots:
   void slotSortDescending();
   void slotSortDirsFirst();
 
-  void slotKofficeMode( bool b );
+  //void slotKofficeMode( bool b );
   void slotViewDefault( bool b );
   void slotViewLarge( bool b );
   void slotViewMedium( bool b );
   void slotViewSmall( bool b );
-  void slotViewNone( bool b );
+  //void slotViewNone( bool b );
 
   void slotTextBottom( bool b );
   void slotTextRight( bool b );
@@ -219,13 +219,13 @@ public:
   virtual void saveState( QDataStream &stream )
     {
       KParts::BrowserExtension::saveState( stream );
-      m_iconView->saveState( stream );
+      //m_iconView->saveState( stream );
     }
 
   virtual void restoreState( QDataStream &stream )
     {
       KParts::BrowserExtension::restoreState( stream );
-      m_iconView->restoreState( stream );
+      //m_iconView->restoreState( stream );
     }
 
 public slots:

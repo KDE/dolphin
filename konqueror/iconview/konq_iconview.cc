@@ -244,21 +244,17 @@ KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const 
     m_paLargeIcons = new KToggleAction( i18n( "&Large" ), 0, actionCollection(), "modelarge" );
     m_paMediumIcons = new KToggleAction( i18n( "&Medium" ), 0, actionCollection(), "modemedium" );
     m_paSmallIcons = new KToggleAction( i18n( "&Small" ), 0, actionCollection(), "modesmall" );
-    m_paNoIcons = new KToggleAction( i18n( "&Disabled" ), 0, actionCollection(), "modenone" );
+    // I don't see how QIconView could cope with a no-icon mode. (David)
+    //m_paNoIcons = new KToggleAction( i18n( "&Disabled" ), 0, actionCollection(), "modenone" );
     //m_paKOfficeMode = new KToggleAction( i18n( "&KOffice mode" ), 0, this );
 
     m_paDefaultIcons->setExclusiveGroup( "ViewMode" );
     m_paLargeIcons->setExclusiveGroup( "ViewMode" );
     m_paMediumIcons->setExclusiveGroup( "ViewMode" );
     m_paSmallIcons->setExclusiveGroup( "ViewMode" );
-    m_paNoIcons->setExclusiveGroup( "ViewMode" );
+    //m_paNoIcons->setExclusiveGroup( "ViewMode" );
     //m_paKOfficeMode->setExclusiveGroup( "ViewMode" );
 
-    m_paDefaultIcons->setChecked( true );
-    m_paLargeIcons->setChecked( false );
-    m_paMediumIcons->setChecked( false );
-    m_paSmallIcons->setChecked( false );
-    m_paNoIcons->setChecked( false );
     //m_paKOfficeMode->setChecked( false );
     //m_paKOfficeMode->setEnabled( false );
 
@@ -267,9 +263,6 @@ KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const 
 
     m_paBottomText->setExclusiveGroup( "TextPos" );
     m_paRightText->setExclusiveGroup( "TextPos" );
-
-    m_paBottomText->setChecked( true );
-    m_paRightText->setChecked( false );
 
     new KAction( i18n( "Background Color..." ), 0, this, SLOT( slotBackgroundColor() ), actionCollection(), "bgcolor" );
     new KAction( i18n( "Background Image..." ), 0, this, SLOT( slotBackgroundImage() ), actionCollection(), "bgimage" );
@@ -281,7 +274,7 @@ KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const 
     connect( m_paMediumIcons, SIGNAL( toggled( bool ) ), this, SLOT( slotViewMedium( bool ) ) );
     connect( m_paSmallIcons, SIGNAL( toggled( bool ) ), this, SLOT( slotViewSmall( bool ) ) );
     //connect( m_paKOfficeMode, SIGNAL( toggled( bool ) ), this, SLOT( slotKofficeMode( bool ) ) );
-    connect( m_paNoIcons, SIGNAL( toggled( bool ) ), this, SLOT( slotViewNone( bool ) ) );
+    //connect( m_paNoIcons, SIGNAL( toggled( bool ) ), this, SLOT( slotViewNone( bool ) ) );
 
     connect( m_paBottomText, SIGNAL( toggled( bool ) ), this, SLOT( slotTextBottom( bool ) ) );
     connect( m_paRightText, SIGNAL( toggled( bool ) ), this, SLOT( slotTextRight( bool ) ) );
@@ -327,7 +320,6 @@ KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const 
     m_bNeedEmitCompleted = false;
 
     m_pIconView->setResizeMode( QIconView::Adjust );
-    m_pIconView->setIcons( 0 ); // default is DesktopIcon size
 
     m_eSortCriterion = NameCaseInsensitive;
 
@@ -523,11 +515,12 @@ void KonqKfmIconView::guiActivateEvent( KParts::GUIActivateEvent *event )
     m_pIconView->slotSelectionChanged();
 }
 
+/*
 void KonqKfmIconView::slotKofficeMode( bool b )
 {
     if ( b )
     {
-    /* emit openURLRequest() signal with serviceType argument set instead (Simon)
+     emit openURLRequest() signal with serviceType argument set instead (Simon)
     QObject *obj = parent();
 	while ( obj )
 	{
@@ -542,15 +535,16 @@ void KonqKfmIconView::slotKofficeMode( bool b )
 	    // TODO switch to koffice view mode here
 	    childView->changeViewMode( "inode/directory", url(), false, "KonqTreeView" );
 	}
-    */
     }
 }
+*/
 
 void KonqKfmIconView::slotViewLarge( bool b )
 {
     if ( b )
     {
-	m_pIconView->setIcons( m_iIconSize[2] );
+	m_pProps->setIconSize( m_iIconSize[2] );
+	m_pIconView->setIcons( m_pProps->iconSize() );
         calculateGridX();
 	m_pIconView->arrangeItemsInGrid( true );
     }
@@ -560,22 +554,19 @@ void KonqKfmIconView::slotViewMedium( bool b )
 {
     if ( b )
     {
-	m_pIconView->setIcons( m_iIconSize[1] );
+	m_pProps->setIconSize( m_iIconSize[1] );
+	m_pIconView->setIcons( m_pProps->iconSize() );
         calculateGridX();
 	m_pIconView->arrangeItemsInGrid( true );
     }
-}
-
-void KonqKfmIconView::slotViewNone( bool /*b*/ )
-{
-  //TODO: Disable Icons
 }
 
 void KonqKfmIconView::slotViewSmall( bool b )
 {
     if ( b )
     {
-	m_pIconView->setIcons( m_iIconSize[0] );
+	m_pProps->setIconSize( m_iIconSize[0] );
+	m_pIconView->setIcons( m_pProps->iconSize() );
         calculateGridX();
 	m_pIconView->arrangeItemsInGrid( true );
     }
@@ -585,25 +576,35 @@ void KonqKfmIconView::slotViewDefault( bool b)
 {
     if ( b )
     {
-	m_pIconView->setIcons( 0 );
+	m_pProps->setIconSize( 0 );
+	m_pIconView->setIcons( m_pProps->iconSize() );
         calculateGridX();
 	m_pIconView->arrangeItemsInGrid( true );
     }
 }
 	
+/*void KonqKfmIconView::slotViewNone( bool )
+{
+  //TODO: Disable Icons
+}*/
+
 void KonqKfmIconView::slotTextBottom( bool b )
 {
     if ( b ) {
-	m_pIconView->setItemTextPos( QIconView::Bottom );
+        m_pProps->setItemTextPos( QIconView::Bottom );
+	m_pIconView->setItemTextPos( (QIconView::ItemTextPos) m_pProps->itemTextPos() );
         calculateGridX();
+	m_pIconView->arrangeItemsInGrid( true );
     }
 }
 
 void KonqKfmIconView::slotTextRight( bool b )
 {
     if ( b ) {
-	m_pIconView->setItemTextPos( QIconView::Right );
+	m_pProps->setItemTextPos( QIconView::Right );
+	m_pIconView->setItemTextPos( (QIconView::ItemTextPos) m_pProps->itemTextPos() );
         calculateGridX();
+	m_pIconView->arrangeItemsInGrid( true );
     }
 }
 
@@ -642,6 +643,7 @@ bool KonqKfmIconView::closeURL()
     return true;
 }
 
+/*
 void KonqKfmIconView::saveState( QDataStream &stream )
 {
     stream << (Q_INT32)m_pIconView->iconSize()
@@ -650,7 +652,9 @@ void KonqKfmIconView::saveState( QDataStream &stream )
 	//   << (Q_INT32)m_pProps->m_bShowDot
 	//   << (Q_INT32)m_pProps->m_bHTMLAllowed;
 }
+*/
 
+/*
 void KonqKfmIconView::restoreState( QDataStream &stream )
 {
     Q_INT32 iIconSize, iTextPos; //, iImagePreview, iShowDot, iHTMLAllowed;
@@ -695,6 +699,7 @@ void KonqKfmIconView::restoreState( QDataStream &stream )
     //slotImagePreview( (bool) iImagePreview );
     //m_pProps->m_bShowDot = (bool) iShowDot;
 }
+*/
 
 void KonqKfmIconView::slotReturnPressed( QIconViewItem *item )
 {
@@ -913,6 +918,7 @@ void KonqKfmIconView::slotProcessMimeIcons()
     // kdDebug() << "KonqKfmIconView::slotProcessMimeIcons() "
     //             << m_lstPendingMimeIconItems.count() << endl;
     KFileIVI * item = 0L;
+    int nextDelay = 0;
 
     if ( m_lstPendingMimeIconItems.count() > 0 ) {
 
@@ -943,9 +949,10 @@ void KonqKfmIconView::slotProcessMimeIcons()
     // No more visible items.
     if (0 == item)
     {
-        // Do the unvisible ones, then
+        // Do the unvisible ones, then, but with a bigger delay
         if ( m_lstPendingMimeIconItems.count() > 0 ) {
             item = m_lstPendingMimeIconItems.first();
+            nextDelay = 10;
         }
         else
         {
@@ -981,7 +988,7 @@ void KonqKfmIconView::slotProcessMimeIcons()
     }
 
     m_lstPendingMimeIconItems.remove(item);
-    QTimer::singleShot( 0, this, SLOT( slotProcessMimeIcons() ) );
+    QTimer::singleShot( nextDelay, this, SLOT( slotProcessMimeIcons() ) );
 }
 
 bool KonqKfmIconView::openURL( const KURL &_url )
@@ -1014,9 +1021,6 @@ bool KonqKfmIconView::openURL( const KURL &_url )
     m_url = _url;
 
     m_pProps->enterDir( _url );
-    m_paDotFiles->setChecked( m_pProps->isShowingDotFiles() );
-    m_paImagePreview->setChecked( m_pProps->isShowingImagePreview() );
-    // TODO HTML allowed : here or in konqmainview? rather here I'd say
 
     // Start the directory lister !
     m_dirLister->openURL( url(), m_pProps->isShowingDotFiles() );
@@ -1024,15 +1028,31 @@ bool KonqKfmIconView::openURL( const KURL &_url )
 
     m_bNeedAlign = false;
 
+    // Apply properties and reflect them on the actions
+    // do it after starting the dir lister to avoid changing the properties
+    // of the old view
 
-    // do it after starting the dir lister to avoid changing bgcolor of the
-    // old view
+    int size = m_pProps->iconSize();
+    m_pIconView->setIcons( size );
+    m_paDefaultIcons->setChecked( size == 0 );
+    m_paLargeIcons->setChecked( size == m_iIconSize[2] );
+    m_paMediumIcons->setChecked( size == m_iIconSize[1] );
+    m_paSmallIcons->setChecked( size == m_iIconSize[0] );
+    //m_paNoIcons->setChecked( false );
+
+    QIconView::ItemTextPos textPos = (QIconView::ItemTextPos) m_pProps->itemTextPos();
+    m_pIconView->setItemTextPos( textPos );
+    m_paBottomText->setChecked( textPos == QIconView::Bottom );
+    m_paRightText->setChecked( textPos == QIconView::Right );
+
+    m_paDotFiles->setChecked( m_pProps->isShowingDotFiles() );
+    m_paImagePreview->setChecked( m_pProps->isShowingImagePreview() );
+
     m_pIconView->viewport()->setBackgroundColor( m_pProps->m_bgColor );
     m_pIconView->viewport()->setBackgroundPixmap( m_pProps->m_bgPixmap );
 
     emit setWindowCaption( _url.decodedURL() );
 
-    //m_pIconView->show(); // ?
     calculateGridX();
     return true;
 }
