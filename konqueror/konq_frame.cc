@@ -255,7 +255,9 @@ void KonqFrameStatusBar::showLinkedViewIndicator( bool b )
 
 void KonqFrameStatusBar::setLinkedView( bool b )
 {
+    m_pLinkedViewCheckBox->blockSignals( true );
     m_pLinkedViewCheckBox->setChecked( b );
+    m_pLinkedViewCheckBox->blockSignals( false );
 }
 
 void KonqFrameStatusBar::paintEvent(QPaintEvent* e)
