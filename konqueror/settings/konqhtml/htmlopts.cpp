@@ -125,7 +125,7 @@ void KMiscHTMLOptions::load()
             m_pUnderlineRadio[Never]->setChecked( true );
     }
 
-    m_pFormCompletionCheckBox->setChecked( m_pConfig->readBoolEntry( "FormCompletion", false ) );
+    m_pFormCompletionCheckBox->setChecked( m_pConfig->readBoolEntry( "FormCompletion", true ) );
     m_pMaxFormCompletionItems->setValue( m_pConfig->readNumEntry( "MaxFormCompletionItems", 10 ) );
     m_pMaxFormCompletionItems->setEnabled( m_pFormCompletionCheckBox->isChecked() );
 }
