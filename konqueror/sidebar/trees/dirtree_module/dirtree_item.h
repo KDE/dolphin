@@ -21,6 +21,7 @@
 
 #include "konq_sidebartreeitem.h"
 #include <kurl.h>
+#include <qstringlist.h>
 class QDropEvent;
 class KFileItem;
 
@@ -57,11 +58,11 @@ public:
     virtual void itemSelected();
 
     bool hasStandardIcon();
+    QStringList alias;
 private:
     void init();
     void delOperation( int method );
     KFileItem *m_fileItem;
-
 };
 
 #endif

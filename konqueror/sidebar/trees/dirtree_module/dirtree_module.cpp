@@ -129,6 +129,12 @@ void KonqSidebarDirTreeModule::removeSubDir( KonqSidebarTreeItem *item, bool chi
     if ( !childrenOnly )
     {
         bool b = m_dictSubDirs.remove( item->externalURL().url(-1) );
+	while (!(((KonqSidebarDirTreeItem*) item)->alias.isEmpty()))
+	{
+	        b = b|m_dictSubDirs.remove( ((KonqSidebarDirTreeItem*) item)->alias.front() );
+		
+		((KonqSidebarDirTreeItem*) item)->alias.pop_front();	
+	}
         if (!b)
             kdWarning(1201) << this << " KonqSidebarDirTreeModule::removeSubDir item " << item
                             << " not found. URL=" << item->externalURL().url(-1) << endl;
@@ -219,7 +225,7 @@ void KonqSidebarDirTreeModule::slotNewItems( const KFileItemList& entries )
     if( !parentItem )
     {
         KMessageBox::error( tree(), i18n("Can't find parent item %1 in the tree. Internal error.").arg( dir.url(-1) ) );
-        return;
+       	return;
     }
 
     int size = KGlobal::iconLoader()->currentSize( KIcon::Small );
@@ -304,7 +310,9 @@ void KonqSidebarDirTreeModule::slotDeleteItem( KFileItem *fileItem )
 
 void KonqSidebarDirTreeModule::slotRedirection( const KURL & oldUrl, const KURL & newUrl )
 {
-    kdDebug(1201) << "KonqSidebarDirTreeModule::slotRedirection(" << newUrl.prettyURL() << ")" << endl;
+    kdDebug(1201) << "******************************KonqSidebarDirTreeModule::slotRedirection(" << newUrl.prettyURL() << ")" << endl;
+
+//    KMessageBox::error( tree(), "REDIRECTION" );
 
     KonqSidebarTreeItem * item = m_dictSubDirs[ oldUrl.url(-1) ];
     Q_ASSERT( item );
@@ -316,6 +324,8 @@ void KonqSidebarDirTreeModule::slotRedirection( const KURL & oldUrl, const KURL 
         // We need to update the URL in m_dictSubDirs
         m_dictSubDirs.remove( oldUrl.url(-1) );
         m_dictSubDirs.insert( newUrl.url(-1), item );
+	((KonqSidebarDirTreeItem*) item)->alias<<oldUrl.url(-1);
+	((KonqSidebarDirTreeItem*) item)->alias<<newUrl.url(-1);
         kdDebug(1201) << "Updating url to " << newUrl.prettyURL() << endl;
     }
 }
