@@ -716,6 +716,12 @@ void KonqKfmIconView::slotNewItems( const KFileItemList& entries )
 
 void KonqKfmIconView::slotDeleteItem( KFileItem * _fileitem )
 {
+    if ( _fileitem == m_dirLister->rootItem() )
+    {
+        m_pIconView->setRootItem( 0L );
+        return;
+    }
+
     KonqDirPart::deleteItem( _fileitem );
 
     //kdDebug(1202) << "KonqKfmIconView::slotDeleteItem(...)" << endl;
