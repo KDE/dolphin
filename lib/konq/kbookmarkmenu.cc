@@ -74,11 +74,12 @@ KBookmarkMenu::KBookmarkMenu( KBookmarkOwner * _owner, QPopupMenu * _parentMenu,
   m_lstSubMenus.setAutoDelete( true );
   m_actions.setAutoDelete( true );
 
-  /*if ( m_bIsRoot )
-  {
-    connect( KBookmarkManager::self(), SIGNAL( changed() ), this, SLOT( slotBookmarksChanged() ) );
-    slotBookmarksChanged();
-  }*/
+  if ( m_bIsRoot )
+    {
+      connect( KBookmarkManager::self(), SIGNAL( changed() ), this,
+	       SLOT( slotBookmarksChanged() ) );
+      slotBookmarksChanged();
+    }
   if ( m_parentBookmark ) // not for the netscape bookmark
     connect( _parentMenu, SIGNAL( aboutToShow() ),
              SLOT( slotAboutToShow() ) );
