@@ -68,7 +68,7 @@ KParts::ReadOnlyPart* KonqViewManager::splitView ( Qt::Orientation orientation,
 						   const KURL &url,
 						   QString serviceType )
 {
-  kdebug(0, 1202, "KonqViewManager::splitView(ServiceType)" );
+  kDebugInfo(1202, "KonqViewManager::splitView(ServiceType)" );
 
   KonqFrame* viewFrame = 0L;
   if( m_pMainContainer )

@@ -156,7 +156,7 @@ void IconViewBrowserExtension::savePropertiesAsDefault()
 KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const char *name )
     : KParts::ReadOnlyPart( parent, name )
 {
-    kdebug(0, 1202, "+KonqKfmIconView");
+    kDebugInfo( 1202, "+KonqKfmIconView");
     m_iXOffset = 0;
     m_iYOffset = 0;
 

@@ -75,7 +75,7 @@ KonqChildView::KonqChildView( KonqViewFactory &viewFactory,
 
 KonqChildView::~KonqChildView()
 {
-  kdebug(0,1202,"KonqChildView::~KonqChildView");
+  kDebugInfo(1202,"KonqChildView::~KonqChildView");
   delete m_pView;
   delete m_pKonqFrame;
   delete (KonqRun *)m_pRun;

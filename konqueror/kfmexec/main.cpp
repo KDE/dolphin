@@ -34,8 +34,6 @@ static KCmdLineOptions options[] =
 
 int jobCounter = 0;
 
-template class QList<KIOJob>;
-
 QList<KIOJob>* jobList = 0L;
 
 KFMExec::KFMExec()
