@@ -120,6 +120,16 @@ protected slots:
   void slotSaveAfterHeaderDrag();
   void slotHeaderClicked(int sec);
 
+  // This comes from KonqDirPart, it's for the "Find" feature
+  virtual void slotStarted() { m_pListView->slotStarted(); }
+  virtual void slotCanceled() { m_pListView->slotCanceled(); }
+  virtual void slotCompleted() { m_pListView->slotCompleted(); }
+  virtual void slotNewItems( const KFileItemList& lst ) { m_pListView->slotNewItems( lst ); }
+  virtual void slotDeleteItem( KFileItem * item ) { m_pListView->slotDeleteItem( item ); }
+  virtual void slotRefreshItems( const KFileItemList& lst ) { m_pListView->slotRefreshItems( lst ); }
+  virtual void slotClear() { m_pListView->slotClear(); }
+  virtual void slotRedirection( const KURL & u ) { m_pListView->slotRedirection( u ); }
+
   void slotViewportAdjusted() { m_mimeTypeResolver->slotViewportAdjusted(); }
   void slotProcessMimeIcons() { m_mimeTypeResolver->slotProcessMimeIcons(); }
 

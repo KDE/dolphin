@@ -601,7 +601,7 @@ void KonqBaseListViewWidget::updateListContents()
 
 bool KonqBaseListViewWidget::openURL( const KURL &url )
 {
-
+   m_pBrowserView->beforeOpenURL();
    if ( !m_dirLister )
    {
       // Create the directory lister
