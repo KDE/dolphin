@@ -1445,6 +1445,15 @@ void KonqMainWindow::slotPartActivated( KParts::Part *part )
       //kdDebug(1202) << "Disconnecting extension for view " << oldView << endl;
       disconnectExtension( ext );
     }
+
+    KActionCollection *coll = oldView->part()->actionCollection();
+    if ( coll )
+    {
+        disconnect( coll, SIGNAL( actionStatusText( const QString & ) ),
+                    this, SLOT( slotActionStatusText( const QString & ) ) );
+        disconnect( coll, SIGNAL( clearStatusText() ),
+                    this, SLOT( slotClearStatusText() ) );
+    }
   }
 
   kdDebug(1202) << "New current view " << newView << endl;
@@ -1487,6 +1496,15 @@ void KonqMainWindow::slotPartActivated( KParts::Part *part )
       m_paMoveFiles->setEnabled( false );
 
     createGUI( 0L );
+  }
+
+  KActionCollection *coll = m_currentView->part()->actionCollection();
+  if ( coll )
+  {
+      connect( coll, SIGNAL( actionStatusText( const QString & ) ),
+               this, SLOT( slotActionStatusText( const QString & ) ) );
+      connect( coll, SIGNAL( clearStatusText() ),
+               this, SLOT( slotClearStatusText() ) );
   }
 
   // View-dependent GUI

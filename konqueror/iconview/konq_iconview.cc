@@ -213,7 +213,10 @@ KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const 
     // Don't repaint on configuration changes during construction
     m_bInit = true;
 
-    m_paDotFiles = new KToggleAction( i18n( "Show &Hidden Files" ), 0, this, SLOT( slotShowDot() ), actionCollection(), "show_dot" );
+    m_paDotFiles = new KToggleAction( i18n( "Show &Hidden Files" ), 0, this, SLOT( slotShowDot() ),
+                                      actionCollection(), "show_dot" );
+    m_paDotFiles->setStatusText( i18n( "Toggle displaying of hidden dot files" ) );
+
     m_pamPreview = new KActionMenu( i18n( "Preview" ), actionCollection(), "iconview_preview" );
     KTrader::OfferList plugins = KTrader::self()->query( "ThumbCreator" );
     for ( KTrader::OfferList::ConstIterator it = plugins.begin(); it != plugins.end(); ++it )
@@ -262,11 +265,22 @@ KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const 
 
     m_pamSort->insert( aSortDescending );
     */
-    m_paSelect = new KAction( i18n( "&Select..." ), CTRL+Key_Plus, this, SLOT( slotSelect() ), actionCollection(), "select" );
-    m_paUnselect = new KAction( i18n( "&Unselect..." ), CTRL+Key_Minus, this, SLOT( slotUnselect() ), actionCollection(), "unselect" );
+    m_paSelect = new KAction( i18n( "&Select..." ), CTRL+Key_Plus, this, SLOT( slotSelect() ),
+                              actionCollection(), "select" );
+    m_paUnselect = new KAction( i18n( "&Unselect..." ), CTRL+Key_Minus, this, SLOT( slotUnselect() ),
+                                actionCollection(), "unselect" );
     m_paSelectAll = KStdAction::selectAll( this, SLOT( slotSelectAll() ), this, "selectall" );
-    m_paUnselectAll = new KAction( i18n( "U&nselect All" ), CTRL+Key_U, this, SLOT( slotUnselectAll() ), actionCollection(), "unselectall" );
-    m_paInvertSelection = new KAction( i18n( "&Invert Selection" ), CTRL+Key_Asterisk, this, SLOT( slotInvertSelection() ), actionCollection(), "invertselection" );
+    m_paUnselectAll = new KAction( i18n( "U&nselect All" ), CTRL+Key_U, this, SLOT( slotUnselectAll() ),
+                                   actionCollection(), "unselectall" );
+    m_paInvertSelection = new KAction( i18n( "&Invert Selection" ), CTRL+Key_Asterisk,
+                                       this, SLOT( slotInvertSelection() ),
+                                       actionCollection(), "invertselection" );
+
+    m_paSelect->setStatusText( i18n( "Allows selecting file or directory items based on a given mask" ) );
+    m_paUnselect->setStatusText( i18n( "Allows unselecting file or directory items based on a given mask" ) );
+    m_paSelectAll->setStatusText( i18n( "Selects all items" ) );
+    m_paUnselectAll->setStatusText( i18n( "Unselects all selected items" ) );
+    m_paInvertSelection->setStatusText( i18n( "Inverts the current selection of items" ) );
 
     //m_paBottomText = new KToggleAction( i18n( "Text at the &bottom" ), 0, actionCollection(), "textbottom" );
     //m_paRightText = new KToggleAction( i18n( "Text at the &right" ), 0, actionCollection(), "textright" );

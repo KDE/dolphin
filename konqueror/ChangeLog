@@ -1,8 +1,14 @@
-2001-03-24  Simon Hausmann  <simon@kde.org>
+2001-03-25  Simon Hausmann  <simon@kde.org>
+
+	* iconview/konq_iconview.cc (KonqKfmIconView): specify a status text for
+	some actions. Likewise for some actions in KonqDirPart. Also call
+	setHighlightingEnabled in the KonqDirPart constructor
 
 	* konq_mainwindow.cc (slotShowMenuBar): call saveMainWindowSettings and
 	KGlobal::config()->sync() after toggling the visiblity of the menubar,
 	just like it is done for toolbars.
+	(slotPartActivated): connect and disconnect to/from the actionStatusText
+	and clearStatusText signals of the part's actioncollection
 
 2001-03-02  Simon Hausmann  <simon@kde.org>
 

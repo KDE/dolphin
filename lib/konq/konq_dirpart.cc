@@ -57,6 +57,8 @@ KonqDirPart::KonqDirPart( QObject *parent, const char *name )
 
     connect( QApplication::clipboard(), SIGNAL(dataChanged()), this, SLOT(slotClipboardDataChanged()) );
 
+    actionCollection()->setHighlightingEnabled( true );
+
     m_paIncIconSize = new KAction( i18n( "Increase Icon Size" ), "viewmag+", 0, this, SLOT( slotIncIconSize() ), actionCollection(), "incIconSize" );
     m_paDecIconSize = new KAction( i18n( "Decrease Icon Size" ), "viewmag-", 0, this, SLOT( slotDecIconSize() ), actionCollection(), "decIconSize" );
 
@@ -93,8 +95,16 @@ KonqDirPart::KonqDirPart( QObject *parent, const char *name )
       }
     }
 
-    new KAction( i18n( "Background Color..." ), 0, this, SLOT( slotBackgroundColor() ), actionCollection(), "bgcolor" );
-    new KAction( i18n( "Background Image..." ), "background", 0, this, SLOT( slotBackgroundImage() ), actionCollection(), "bgimage" );
+    KAction *a = new KAction( i18n( "Background Color..." ), 0, this, SLOT( slotBackgroundColor() ),
+                              actionCollection(), "bgcolor" );
+
+    a->setStatusText( i18n( "Allows choosing a background color for this view" ) );
+
+    a = new KAction( i18n( "Background Image..." ), "background", 0,
+                     this, SLOT( slotBackgroundImage() ),
+                     actionCollection(), "bgimage" );
+
+    a->setStatusText( i18n( "Allows choosing a background image for this view" ) );
 }
 
 KonqDirPart::~KonqDirPart()
