@@ -1167,7 +1167,7 @@ void KonqMainView::checkEditExtension()
 */
 void KonqMainView::callExtensionMethod( KonqChildView * childView, const char * methodName )
 {
-  QObject *obj = childView->view()->child( 0L, "BrowserExtension" );
+  QObject *obj = childView->view()->child( 0L, "KParts::BrowserExtension" );
   assert(obj);
   /*if ( !obj )
     return;*/
@@ -1747,7 +1747,7 @@ QString KonqMainView::findIndexFile( const QString &dir )
   return QString::null;
 }
 
-void KonqMainView::connectExtension( BrowserExtension *ext )
+void KonqMainView::connectExtension( KParts::BrowserExtension *ext )
 {
   kDebugInfo( 1202, "connectExtension" );
   // "cut", "copy", "pastecut", "pastecopy", "del", "trash"
@@ -1780,9 +1780,11 @@ void KonqMainView::connectExtension( BrowserExtension *ext )
       kDebugInfo( 1202, "Connecting to %s", s_actionnames[i] );
     }
   }
+  connect( ext, SIGNAL( enableAction( const char *, bool ) ),
+           this, SLOT( slotEnableAction( const char *, bool ) ) );
 }
 
-void KonqMainView::disconnectExtension( BrowserExtension *ext )
+void KonqMainView::disconnectExtension( KParts::BrowserExtension *ext )
 {
   kDebugInfo( 1202, "Disconnecting extension" );
   QValueList<QAction *> actions = actionCollection()->actions();
@@ -1790,6 +1792,22 @@ void KonqMainView::disconnectExtension( BrowserExtension *ext )
   QValueList<QAction *>::ConstIterator end = actions.end();
   for (; it != end; ++it )
     (*it)->disconnect( ext );
+  disconnect( ext, SIGNAL( enableAction( const char *, bool ) ),
+           this, SLOT( slotEnableAction( const char *, bool ) ) );
+}
+
+void KonqMainView::slotEnableAction( const char * name, bool enabled )
+{
+  // Hmm, we have one action for paste, not two...
+  QCString hackName( name );
+  if ( hackName == "pastecopy" || hackName == "pastecut" )
+    hackName = "paste";
+
+  QAction * act = actionCollection()->action( hackName.data() );
+  if (!act)
+    kDebugWarning( 1202, "Unknown action %s - can't enable", hackName.data() );
+  else
+    act->setEnabled( enabled );
 }
 
 void KonqMainView::enableAllActions( bool enable )

@@ -182,7 +182,7 @@ void KonqChildView::connectView(  )
   connect( m_pView, SIGNAL( canceled( const QString & ) ),
            m_pMainView, SLOT( slotCanceled() ) );
 
-  BrowserExtension *ext = browserExtension();
+  KParts::BrowserExtension *ext = browserExtension();
 
   if ( !ext )
     return;

@@ -23,7 +23,7 @@
 
 #include <kio_job.h>
 
-KonqProgressProxy::KonqProgressProxy( BrowserExtension *view, KIOJob *job )
+KonqProgressProxy::KonqProgressProxy( KParts::BrowserExtension *view, KIOJob *job )
 : QObject( job )
 {
 

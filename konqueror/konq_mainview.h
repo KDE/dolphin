@@ -39,7 +39,6 @@ class KActionMenu;
 class KSelectAction;
 class KToggleAction;
 class KonqChildView;
-class BrowserExtension;
 class KonqViewManager;
 class KStatusBar;
 class KNewMenu;
@@ -54,11 +53,11 @@ class KBookmarkMenu;
 class ViewModeGUIServant;
 
 //Simon: have to include .h here, because dcopidl doesn't support namespace :(
-#include <kpart.h>
+#include <kbrowser.h>
 /*
-namespace KParts
-{
-  class ReadOnlyPart;
+namespace KParts {
+ class BrowserExtension;
+ class ReadOnlyPart;
 };
 */
 
@@ -162,6 +161,7 @@ public:
 
 protected slots:
   void slotPartActivated( KParts::Part *part );
+  void slotEnableAction( const char * name, bool enabled );
 
   void slotAnimatedLogoTimeout();
 
@@ -244,8 +244,8 @@ private:
    */
   QString findIndexFile( const QString &directory );
 
-  void connectExtension( BrowserExtension *ext );
-  void disconnectExtension( BrowserExtension *ext );
+  void connectExtension( KParts::BrowserExtension *ext );
+  void disconnectExtension( KParts::BrowserExtension *ext );
 
   KNewMenu * m_pMenuNew;
   KAction *m_paNewWindow;

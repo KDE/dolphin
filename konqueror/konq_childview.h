@@ -155,7 +155,7 @@ public:
    */
   KParts::ReadOnlyPart *view() { return m_pView; }
 
-  BrowserExtension *browserExtension() { return (BrowserExtension *)m_pView->child( 0L, "BrowserExtension" ); }
+  KParts::BrowserExtension *browserExtension() { return (KParts::BrowserExtension *)m_pView->child( 0L, "KParts::BrowserExtension" ); }
 
   /**
    * Returns a pointer to the KonqFrame which the view lives in

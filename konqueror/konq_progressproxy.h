@@ -22,14 +22,16 @@
 
 #include <qobject.h>
 
+namespace KParts {
 class BrowserExtension;
+};
 class KIOJob;
 
 class KonqProgressProxy : public QObject
 {
   Q_OBJECT
 public:
-  KonqProgressProxy( BrowserExtension *view, KIOJob *job );
+  KonqProgressProxy( KParts::BrowserExtension *view, KIOJob *job );
 
 protected slots:
   void slotTotalSize( int, unsigned long size );
