@@ -94,6 +94,7 @@ void KBookmarkMenu::slotBookmarksChanged()
   {
     KAction * m_paEditBookmarks = KStdAction::editBookmarks( KBookmarkManager::self(), SLOT( slotEditBookmarks() ), m_actionCollection, "edit_bookmarks" );
     m_paEditBookmarks->plug( m_parentMenu );
+    m_paEditBookmarks->setShortText( i18n( "Edit your bookmark collection in a separate window" ) );
     m_actions.append( m_paEditBookmarks );
 
     if ( !m_bAddBookmark )
@@ -115,6 +116,9 @@ void KBookmarkMenu::fillBookmarkMenu( KBookmark *parent )
                                               SLOT( slotBookmarkSelected() ),
                                               m_actionCollection,
                                               QString("bookmark%1").arg(parent->id()) );
+    
+    m_paAddBookmarks->setShortText( i18n( "Add a bookmark for the current document" ) );
+    
     m_paAddBookmarks->plug( m_parentMenu );
     m_actions.append( m_paAddBookmarks );
     m_parentMenu->insertSeparator();
