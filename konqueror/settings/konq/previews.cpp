@@ -86,7 +86,7 @@ KPreviewOptions::KPreviewOptions( QWidget *parent, const char */*name*/ )
 
     m_maxSize = new KDoubleNumInput( this );
     m_maxSize->setSuffix( i18n(" MB") );
-    m_maxSize->setRange( 0.2, 100, 0.2, true );
+    m_maxSize->setRange( 0.02, 10, 0.02, true );
     m_maxSize->setPrecision( 1 );
     lay->addWidget( m_maxSize );
     connect( m_maxSize, SIGNAL( valueChanged(double) ), SLOT( changed() ) );
@@ -101,8 +101,8 @@ KPreviewOptions::KPreviewOptions( QWidget *parent, const char */*name*/ )
                 i18n("Select this to use thumbnails that are found inside some "
                 "file types (e.g. JPEG). This will increase speed and reduce "
                 "disk usage. Deselect it if you have files that have been processed "
-                "by programs which create inaccurate thumbnails, such as ImageMagick.") );    
-    
+                "by programs which create inaccurate thumbnails, such as ImageMagick.") );
+
     lay->addWidget( new QWidget(this), 10 );
 
     load();
@@ -150,7 +150,7 @@ void KPreviewOptions::save()
     group.writeEntry( "BoostSize", m_boostSize->isChecked(), true, true );
     group.writeEntry( "UseFileThumbnails", m_useFileThumbnails->isChecked(), true, true );
     group.sync();
-    
+
     // Send signal to konqueror
     // Warning. In case something is added/changed here, keep kfmclient in sync
     QByteArray data;
