@@ -347,21 +347,25 @@ void KPluginOptions::dirLoad( KConfig *config )
     QStringList paths;
 
     // read search paths
+
     config->setGroup("Misc");
     if ( config->hasKey( "scanPaths" ) )
         paths = config->readListEntry( "scanPaths" );
-    else {
+    else {//keep sync with kdebase/nsplugins/pluginscan
         paths.append("$HOME/.netscape/plugins");
+        paths.append("/usr/lib64/browser-plugins");
+        paths.append("/usr/lib/browser-plugins");
         paths.append("/usr/local/netscape/plugins");
         paths.append("/opt/mozilla/plugins");
+	paths.append("/opt/mozilla/lib/plugins");
         paths.append("/opt/netscape/plugins");
         paths.append("/opt/netscape/communicator/plugins");
         paths.append("/usr/lib/netscape/plugins");
         paths.append("/usr/lib/netscape/plugins-libc5");
         paths.append("/usr/lib/netscape/plugins-libc6");
         paths.append("/usr/lib/mozilla/plugins");
-        paths.append("/usr/lib64/netscape/plugins");
-        paths.append("/usr/lib64/mozilla/plugins");	
+	paths.append("/usr/lib64/netscape/plugins");
+	paths.append("/usr/lib64/mozilla/plugins");
         paths.append("$MOZILLA_HOME/plugins");
     }
 
