@@ -54,12 +54,12 @@ public:
     virtual void save();
     virtual void defaults();
     virtual QString quickHelp() const;
-
+    
 protected slots:
+    void autoAcceptSessionCookies ( bool );
     void ignoreCookieExpirationDate ( bool );
-    void autoAcceptSessionCooikes ( bool );
-    void rejectCrossDomainCooikes ( bool );
     void cookiesEnabled( bool );
+    void emitChanged();    
         
     void selectionChanged();
     void updateButtons();
@@ -68,7 +68,6 @@ protected slots:
     void deletePressed();
     void changePressed();
     void addPressed();
-    void changed();
 
 private:
     void updateDomainList(const QStringList& list);
