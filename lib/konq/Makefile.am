@@ -40,6 +40,12 @@ include_HEADERS = kbookmark.h kbookmarkmenu.h knewmenu.h konqpopupmenu.h \
 	konqdefaults.h konqsettings.h konqdrag.h konqiconviewwidget.h \
 	kbookmarkbar.h
 
+check_PROGRAMS = linktest
+linktest_SOURCES = $(libkonq_la_SOURCES) linktest.cpp
+linktest.cpp:
+	echo "int main() {};" > linktest.cpp
+linktest_LDFLAGS  = $(all_libraries) -module -avoid-version
+linktest_LDADD = $(libkonq_la_LIBADD) 
 messages:
 	$(XGETTEXT) *.cc *.h -o $(podir)/libkonq.pot
 
