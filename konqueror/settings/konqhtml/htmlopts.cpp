@@ -53,6 +53,31 @@ KMiscHTMLOptions::KMiscHTMLOptions(KConfig *config, QString group, QWidget *pare
     lay->addMultiCellWidget( bgForm, row, row, 0, 1 );
     row++;
 
+    // Tabbed Browsing
+
+    QVGroupBox *bgTabbedBrowsing = new QVGroupBox( i18n("Tabbed Browsing"), this );
+    
+    m_pShowMMBInTabs = new QCheckBox( i18n( "Open &links in new tab instead of in new window" ), bgTabbedBrowsing );
+    QWhatsThis::add( m_pShowMMBInTabs, i18n("This will open a new tab instead of a new window in various situations, "
+                          "such as choosing a link or a folder with the middle mouse button.") );
+    connect(m_pShowMMBInTabs, SIGNAL(clicked()), this, SLOT(slotChanged()));
+
+    m_pNewTabsInFront = new QCheckBox( i18n( "Au&tomatically activate new opened tabs" ), bgTabbedBrowsing );
+    QWhatsThis::add( m_pNewTabsInFront, i18n("This will open a new tab in front otherwise as background tab.") );
+    connect(m_pNewTabsInFront, SIGNAL(clicked()), this, SLOT(slotChanged()));
+
+    m_pOpenAfterCurrentPage = new QCheckBox( i18n( "Open new tab after current tab" ), bgTabbedBrowsing );
+    QWhatsThis::add( m_pOpenAfterCurrentPage, i18n("This will open a new tab after the current tab instead after the last tab.") );
+    connect(m_pOpenAfterCurrentPage, SIGNAL(clicked()), this, SLOT(slotChanged()));
+
+
+    m_pTabConfirm = new QCheckBox( i18n( "Confirm &when closing windows with multiple tabs" ), bgTabbedBrowsing );
+    QWhatsThis::add( m_pTabConfirm, i18n("This will ask you whether you are sure you want to close "
+                          "a window when it has multiple tabs opened in it.") );
+    connect(m_pTabConfirm, SIGNAL(clicked()), this, SLOT(slotChanged()));
+
+    lay->addMultiCellWidget( bgTabbedBrowsing, row, row, 0, 1 );
+    row++;
 
     // Misc
 
@@ -64,33 +89,6 @@ KMiscHTMLOptions::KMiscHTMLOptions(KConfig *config, QString group, QWidget *pare
        "(usually to a hand) if it is moved over a hyperlink.") );
 
     connect(cbCursor, SIGNAL(clicked()), this, SLOT(slotChanged()));
-
-    m_pShowMMBInTabs = new QCheckBox( i18n( "Open &links in new tab instead of in new window" ), this );
-    QWhatsThis::add( m_pShowMMBInTabs, i18n("This will open a new tab instead of a new window in various situations, "
-                          "such as choosing a link or a folder with the middle mouse button.") );
-    lay->addMultiCellWidget( m_pShowMMBInTabs, row, row, 0, 1);
-    row++;
-    connect(m_pShowMMBInTabs, SIGNAL(clicked()), this, SLOT(slotChanged()));
-
-    m_pNewTabsInFront = new QCheckBox( i18n( "Au&tomatically activate new opened tabs" ), this );
-    QWhatsThis::add( m_pNewTabsInFront, i18n("This will open a new tab in front otherwise as background tab.") );
-    lay->addMultiCellWidget( m_pNewTabsInFront, row, row, 0, 1);
-    row++;
-    connect(m_pNewTabsInFront, SIGNAL(clicked()), this, SLOT(slotChanged()));
-
-    m_pOpenAfterCurrentPage = new QCheckBox( i18n( "Open links after current page" ), this );
-    lay->addMultiCellWidget( m_pOpenAfterCurrentPage, row, row, 0, 1);
-    row++;
-    connect(m_pOpenAfterCurrentPage, SIGNAL(clicked()), this, SLOT(slotChanged()));
-
-
-
-    m_pTabConfirm = new QCheckBox( i18n( "Confirm &when closing windows with multiple tabs" ), this );
-    QWhatsThis::add( m_pTabConfirm, i18n("This will ask you whether you are sure you want to close "
-                          "a window when it has multiple tabs opened in it.") );
-    lay->addMultiCellWidget( m_pTabConfirm, row, row, 0, 1);
-    row++;
-    connect(m_pTabConfirm, SIGNAL(clicked()), this, SLOT(slotChanged()));
 
     m_pBackRightClick = new QCheckBox( i18n( "Right click goes &back in history" ), this );
     QWhatsThis::add( m_pBackRightClick, i18n(
