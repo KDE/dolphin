@@ -1,21 +1,21 @@
 /*  This file is part of the KDE project
     Copyright (C) 1999 Simon Hausmann <hausmann@kde.org>
- 
+
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation; either version 2 of the License, or
     (at your option) any later version.
- 
+
     This program is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
- 
+
     You should have received a copy of the GNU General Public License
     along with this program; if not, write to the Free Software
     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
- 
-*/ 
+
+*/
 
 #include <kbrowser.h>
 #include "konq_viewmgr.h"
@@ -29,6 +29,7 @@
 #include <qdir.h>
 #include <qevent.h>
 #include <qapplication.h>
+#include <qfileinfo.h>
 
 #include <kconfig.h>
 #include <kstddirs.h>
@@ -41,9 +42,9 @@ KonqViewManager::KonqViewManager( KonqMainView *mainView )
   m_pMainView = mainView;
 
   m_pMainContainer = 0L;
-  
+
   m_bProfileListDirty = true;
-  
+
   qApp->installEventFilter( this );
 }
 
@@ -54,19 +55,19 @@ KonqViewManager::~KonqViewManager()
   if (m_pMainContainer) delete m_pMainContainer;
 }
 
-BrowserView* KonqViewManager::splitView ( Qt::Orientation orientation ) 
+BrowserView* KonqViewManager::splitView ( Qt::Orientation orientation )
 {
   kdebug(0, 1202, "KonqViewManager::splitView(default)" );
 
   return splitView( orientation, m_pMainView->currentChildView()->url() );
 }
 
-BrowserView* KonqViewManager::splitView ( Qt::Orientation orientation, 
+BrowserView* KonqViewManager::splitView ( Qt::Orientation orientation,
 					  QString url,
 					  QString serviceType )
 {
   kdebug(0, 1202, "KonqViewManager::splitView(ServiceType)" );
-  
+
   KonqFrame* viewFrame = 0L;
   if( m_pMainContainer )
     viewFrame = m_pMainView->currentChildView()->frame();
@@ -91,18 +92,18 @@ BrowserView* KonqViewManager::splitWindow( Qt::Orientation orientation )
 
   BrowserView* view = split( splitFrame, orientation );
 
-  if( view )    
+  if( view )
     m_pMainView->childView( view )->openURL( url );
 
   return view;
 }
 
 BrowserView* KonqViewManager::split (KonqFrameBase* splitFrame,
-				     Qt::Orientation orientation, 
+				     Qt::Orientation orientation,
 				     QString serviceType )
 {
   kdebug(0, 1202, "KonqViewManager::split" );
-  
+
   KService::Ptr service;
   KTrader::OfferList serviceOffers;
 
@@ -119,7 +120,7 @@ BrowserView* KonqViewManager::split (KonqFrameBase* splitFrame,
     bool moveNewContainer = (parentContainer->idAfter( splitFrame->widget() ) != 0);
 
     printSizeInfo( splitFrame, parentContainer, "before split");
- 
+
     if ( splitFrame->widget()->inherits( "KonqFrame" ) )
       ((KonqFrame *)splitFrame->widget())->header()->passiveModeCheckBox()->show();
 
@@ -132,7 +133,7 @@ BrowserView* KonqViewManager::split (KonqFrameBase* splitFrame,
     //splitFrame->widget()->hide();
     splitFrame->widget()->reparent( m_pMainView, 0, pos );
     splitFrame->widget()->resize( 100, 30 ); // bring it to the QWidget defaultsize, so that both container childs are equally size after split
-    
+
     debug("Create new Container");
     KonqFrameContainer *newContainer = new KonqFrameContainer( orientation, parentContainer );
     newContainer->setUpdatesEnabled( false );
@@ -184,7 +185,7 @@ void KonqViewManager::removeView( KonqChildView *view )
     warning("KonqViewManager::removeView: This shouldn't happen!");
     return;
   }
-  
+
   QPoint pos = otherFrame->widget()->pos();
 
   //otherFrame->widget()->hide();
@@ -211,21 +212,21 @@ void KonqViewManager::removeView( KonqChildView *view )
 
 void KonqViewManager::saveViewProfile( KConfig &cfg )
 {
-  kdebug(0, 1202, "KonqViewManager::saveViewProfile");  
+  kdebug(0, 1202, "KonqViewManager::saveViewProfile");
   if( m_pMainContainer->firstChild() ) {
     cfg.writeEntry( "RootItem", m_pMainContainer->firstChild()->frameType() + QString("%1").arg( 0 ) );
 //    cfg.setGroup(  m_pMainContainer->firstChild()->frameType() + QString("%1").arg( 0 ) );
     QString prefix = m_pMainContainer->firstChild()->frameType() + QString("%1").arg( 0 );
     prefix.append( '_' );
     m_pMainContainer->firstChild()->saveConfig( &cfg, prefix, 0, 1 );
-  } 
-  
+  }
+
   cfg.sync();
 }
 
 void KonqViewManager::loadViewProfile( KConfig &cfg )
 {
-  kdebug(0, 1202, "KonqViewManager::loadViewProfile");  
+  kdebug(0, 1202, "KonqViewManager::loadViewProfile");
   clear();
 
   QString rootItem = cfg.readEntry( "RootItem" );
@@ -235,7 +236,7 @@ void KonqViewManager::loadViewProfile( KConfig &cfg )
     rootItem = "InitialView";
   }
 
-  kdebug(0, 1202, "Load RootItem %s", rootItem.data());  
+  kdebug(0, 1202, "Load RootItem %s", rootItem.data());
 
   m_pMainContainer = new KonqFrameContainer( Qt::Horizontal, m_pMainView );
   m_pMainContainer->setOpaqueResize();
@@ -243,7 +244,7 @@ void KonqViewManager::loadViewProfile( KConfig &cfg )
   m_pMainContainer->show();
 
   loadItem( cfg, m_pMainContainer, rootItem );
-  
+
   QValueList<BrowserView *> lst = m_pMainView->viewList();
 
   BrowserView *view = *lst.begin();
@@ -258,7 +259,7 @@ void KonqViewManager::loadViewProfile( KConfig &cfg )
     childView->frame()->header()->passiveModeCheckBox()->hide();
 }
 
-void KonqViewManager::loadItem( KConfig &cfg, KonqFrameContainer *parent, 
+void KonqViewManager::loadItem( KConfig &cfg, KonqFrameContainer *parent,
 				const QString &name )
 {
   QString prefix;
@@ -266,19 +267,19 @@ void KonqViewManager::loadItem( KConfig &cfg, KonqFrameContainer *parent,
     prefix = name + '_';
 //    cfg.setGroup( name );
 
-  kdebug(0, 1202, "begin loadItem: %s",name.data() );  
+  kdebug(0, 1202, "begin loadItem: %s",name.data() );
 
   if( name.find("View") != -1 ) {
-    kdebug(0, 1202, "Item is View");  
+    kdebug(0, 1202, "Item is View");
     //load view config
     QString url = cfg.readEntry( QString::fromLatin1( "URL" ).prepend( prefix ), QDir::homeDirPath() );
 
     if ( url == "file:$HOME" ) // HACK
       url = QDir::homeDirPath().prepend( "file:" );
 
-    kdebug(0, 1202, "URL: %s",url.data());  
+    kdebug(0, 1202, "URL: %s",url.data());
     QString serviceType = cfg.readEntry( QString::fromLatin1( "ServiceType" ).prepend( prefix ), "inode/directory");
-    kdebug(0, 1202, "ServiceType: %s", serviceType.data());  
+    kdebug(0, 1202, "ServiceType: %s", serviceType.data());
 
     QString serviceName = cfg.readEntry( QString::fromLatin1( "ServiceName" ).prepend( prefix ) );
 
@@ -291,7 +292,7 @@ void KonqViewManager::loadItem( KConfig &cfg, KonqFrameContainer *parent,
     //Simon TODO: error handling
     pView = KonqFactory::createView( serviceType, serviceName, &service, &serviceOffers );
     if( pView ) {
-      kdebug(0, 1202, "Creating View Stuff");  
+      kdebug(0, 1202, "Creating View Stuff");
       setupView( parent, pView, service, serviceOffers );
 
       KonqChildView *childView = m_pMainView->childView( pView );
@@ -308,11 +309,11 @@ void KonqViewManager::loadItem( KConfig &cfg, KonqFrameContainer *parent,
       warning("Profile Loading Error: View creation failed" );
   }
   else if( name.find("Container") != -1 ) {
-    kdebug(0, 1202, "Item is Container");  
+    kdebug(0, 1202, "Item is Container");
 
     //load container config
     QString ostr = cfg.readEntry( QString::fromLatin1( "Orientation" ).prepend( prefix ) );
-    kdebug(0, 1202, "Orientation: ",ostr.data());  
+    kdebug(0, 1202, "Orientation: ",ostr.data());
     Qt::Orientation o;
     if( ostr == "Vertical" )
       o = Qt::Vertical;
@@ -323,8 +324,8 @@ void KonqViewManager::loadItem( KConfig &cfg, KonqFrameContainer *parent,
       o = Qt::Horizontal;
     }
 
-    QValueList<int> sizes = 
-      QVariant( cfg.readPropertyEntry( QString::fromLatin1( "SplitterSizes" ).prepend( prefix ), 
+    QValueList<int> sizes =
+      QVariant( cfg.readPropertyEntry( QString::fromLatin1( "SplitterSizes" ).prepend( prefix ),
 				       QVariant::IntList ) ).intListValue();
 
     QStrList childList;
@@ -342,14 +343,14 @@ void KonqViewManager::loadItem( KConfig &cfg, KonqFrameContainer *parent,
 
       loadItem( cfg, newContainer, childList.at(0) );
       loadItem( cfg, newContainer, childList.at(1) );
-      
+
       newContainer->setSizes( sizes );
     }
-  }  
+  }
   else
     warning("Profile Loading Error: Unknown item %s", name.data());
 
-  kdebug(0, 1202, "end loadItem: %s",name.data());  
+  kdebug(0, 1202, "end loadItem: %s",name.data());
 }
 
 void KonqViewManager::clear()
@@ -363,8 +364,8 @@ void KonqViewManager::clear()
     for ( it.toFirst(); it.current(); ++it ) {
       m_pMainView->removeChildView( it.current() );
       delete it.current();
-    }    
-  
+    }
+
     delete m_pMainContainer;
     m_pMainContainer = 0L;
   }
@@ -379,20 +380,20 @@ void KonqViewManager::doGeometry( int width, int height )
 KonqChildView *KonqViewManager::chooseNextView( KonqChildView *view )
 {
 
-  
+
   QValueList<BrowserView *> viewList = m_pMainView->viewList();
 
   if ( !view )
     return m_pMainView->childView( *viewList.begin() );
-    
+
   QValueList<BrowserView *>::ConstIterator it = viewList.find( view->view() );
   QValueList<BrowserView *>::ConstIterator end = viewList.end();
 
   QValueList<BrowserView *>::ConstIterator startIt = it;
-  
+
   if ( it != end )
     it++;
-      
+
   while ( it != startIt )
   {
     if ( it == end )
@@ -404,7 +405,7 @@ KonqChildView *KonqViewManager::chooseNextView( KonqChildView *view )
 
     it++;
   }
-  
+
   return 0L; // ARGHL
 
 }
@@ -413,7 +414,7 @@ KonqChildView *KonqViewManager::chooseNextView( KonqChildView *view )
 /*
 unsigned long KonqViewManager::viewIdByNumber( int number )
 {
-  kdebug(0, 1202, "KonqViewManager::viewIdByNumber( %d )", number );  
+  kdebug(0, 1202, "KonqViewManager::viewIdByNumber( %d )", number );
   QList<KonqChildView> viewList;
 
   m_pMainContainer->listViews( &viewList );
@@ -433,16 +434,16 @@ bool KonqViewManager::eventFilter( QObject *obj, QEvent *ev )
   {
     if ( !obj->isWidgetType() )
       return false;
-      
+
     QWidget *w = (QWidget *)obj;
-    
+
     if ( ( w->testWFlags( WStyle_Dialog ) && w->isModal() ) ||
            w->testWFlags( WType_Popup ) )
       return false;
-    
+
     while ( w )
     {
-      
+
       // check for the correct type and see if we "own" the view
       if ( w->inherits( "BrowserView" ) && m_pMainView->childView( (BrowserView *)w ) &&
            ((BrowserView *)w) != m_pMainView->currentView() )
@@ -450,7 +451,7 @@ bool KonqViewManager::eventFilter( QObject *obj, QEvent *ev )
         m_pMainView->setActiveView( (BrowserView *)w );
         return false;
       }
-      
+
       w = w->parentWidget();
 
       if ( w && ( ( w->testWFlags( WStyle_Dialog ) && w->isModal() ) ||
@@ -458,7 +459,7 @@ bool KonqViewManager::eventFilter( QObject *obj, QEvent *ev )
           return false;
 
     }
-    
+
   }
 
   return false;
@@ -467,15 +468,15 @@ bool KonqViewManager::eventFilter( QObject *obj, QEvent *ev )
 void KonqViewManager::setProfiles( KActionMenu *profiles )
 {
   m_pamProfiles = profiles;
-  
+
   if ( m_pamProfiles )
   {
     connect( m_pamProfiles->popupMenu(), SIGNAL( activated( int ) ),
              this, SLOT( slotProfileActivated( int ) ) );
     connect( m_pamProfiles->popupMenu(), SIGNAL( aboutToShow() ),
              this, SLOT( slotProfileListAboutToShow() ) );
-  }	     
-	     
+  }	
+	
   m_bProfileListDirty = true;
 }
 
@@ -486,7 +487,7 @@ void KonqViewManager::slotProfileDlg()
   m_bProfileListDirty = true;
 }
 
-BrowserView* KonqViewManager::createView( QString serviceType, 
+BrowserView* KonqViewManager::createView( QString serviceType,
 					  KService::Ptr &service,
 					  KTrader::OfferList &serviceOffers )
 {
@@ -498,7 +499,7 @@ BrowserView* KonqViewManager::createView( QString serviceType,
     serviceType = m_pMainView->currentChildView()->serviceType();
     QString serviceName = m_pMainView->currentChildView()->service()->name();
 
-    view = KonqFactory::createView( serviceType, serviceName, 
+    view = KonqFactory::createView( serviceType, serviceName,
 				    &service, &serviceOffers );
   }
   else {
@@ -520,10 +521,10 @@ void KonqViewManager::setupView( KonqFrameContainer *parentContainer,
 
   KonqFrame* newViewFrame = new KonqFrame( parentContainer );
 
-  KonqChildView *v = new KonqChildView( view, newViewFrame, 
+  KonqChildView *v = new KonqChildView( view, newViewFrame,
 					m_pMainView, service, serviceOffers );
 
-  QObject::connect( v, SIGNAL( sigViewChanged( BrowserView *, BrowserView * ) ), 
+  QObject::connect( v, SIGNAL( sigViewChanged( BrowserView *, BrowserView * ) ),
                     m_pMainView, SLOT( slotViewChanged( BrowserView *, BrowserView * ) ) );
 
   m_pMainView->insertChildView( v );
@@ -537,18 +538,12 @@ void KonqViewManager::setupView( KonqFrameContainer *parentContainer,
 
 void KonqViewManager::slotProfileActivated( int id )
 {
-  
-  QString name = m_pamProfiles->popupMenu()->text( id );
 
-  QMap<QString, QString>::ConstIterator nameIt = m_mapProfileNames.find( name );
-  if ( nameIt != m_mapProfileNames.end() )
-    name = nameIt.data();
-
-  name.prepend( QString::fromLatin1( "konqueror/profiles/" ) );
+  QMap<QString, QString>::ConstIterator nameIt = m_mapProfileNames.find( m_pamProfiles->popupMenu()->text( id ) );
+  if ( nameIt == m_mapProfileNames.end() )
+    return;
   
-  QString fileName = locate( "data", name, KonqFactory::instance() );
-  
-  KConfig cfg( fileName, true );
+  KConfig cfg( *nameIt, true );
   cfg.setGroup( "Profile" );
   loadViewProfile( cfg );
 }
@@ -557,59 +552,46 @@ void KonqViewManager::slotProfileListAboutToShow()
 {
   if ( !m_pamProfiles || !m_bProfileListDirty )
     return;
-    
+
   QPopupMenu *popup = m_pamProfiles->popupMenu();
-  
+
   popup->clear();
   m_mapProfileNames.clear();
-  
-  QStringList dirs = KonqFactory::instance()->dirs()->findDirs( "data", "konqueror/profiles/" );
-  QStringList::ConstIterator dIt = dirs.begin();
-  QStringList::ConstIterator dEnd = dirs.end();
-  
-  for (; dIt != dEnd; ++dIt )
+
+  QStringList profiles = KonqFactory::instance()->dirs()->findAllResources( "data", "konqueror/profiles/*", false, true );
+  QStringList::ConstIterator pIt = profiles.begin();
+  QStringList::ConstIterator pEnd = profiles.end();
+  for (; pIt != pEnd; ++pIt )
   {
-    QDir dir( *dIt );
-    QStringList entries = dir.entryList( QDir::Files );
+    QFileInfo info( *pIt );
+    QString profileName = info.baseName();
+    KSimpleConfig cfg( *pIt, true );
+    cfg.setGroup( "Profile" );
+    if ( cfg.hasKey( "Name" ) )
+      profileName = cfg.readEntry( "Name" );
     
-    QStringList::ConstIterator eIt = entries.begin();
-    QStringList::ConstIterator eEnd = entries.end();
-    
-    for (; eIt != eEnd; ++eIt )
-    {
-      QString name = *eIt;
-
-      KSimpleConfig cfg( QString( *dIt ).append( *eIt ), true );
-      cfg.setGroup( "Profile" );
-      if ( cfg.hasKey( "Name" ) )
-      {
-	name = cfg.readEntry( "Name" );
-	m_mapProfileNames.insert( name, *eIt );
-      }
-
-      popup->insertItem( name );
-    }
-
+    m_mapProfileNames.insert( profileName, *pIt );
+    popup->insertItem( profileName );
   }
   
   m_bProfileListDirty = false;
 }
 
-void KonqViewManager::printSizeInfo( KonqFrameBase* frame, 
+void KonqViewManager::printSizeInfo( KonqFrameBase* frame,
 				     KonqFrameContainer* parent,
 				     const char* msg )
 {
   QRect r;
   r = frame->widget()->geometry();
   debug("Child size %s : x: %d, y: %d, w: %d, h: %d", msg, r.x(),r.y(),r.width(),r.height() );
-  
+
   QValueList<int> sizes;
   sizes = parent->sizes();
   printf( "Parent sizes %s :", msg );
   QValueList<int>::Iterator it;
   for( it = sizes.begin(); it != sizes.end(); ++it )
     printf( " %d", (*it) );
-  printf("\n");  
+  printf("\n");
 }
 
 #include "konq_viewmgr.moc"
