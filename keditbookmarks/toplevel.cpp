@@ -452,11 +452,11 @@ void KEBApp::createActions() {
                       actn, SLOT( slotImport() ), actionCollection(), "importMoz");
    (void) new KAction(i18n("&Export to Netscape Bookmarks"), "netscape", 0,
                       actn, SLOT( slotExportNS() ), actionCollection(), "exportNS");
-   (void) new KAction(i18n("&Export to Opera Bookmarks"), "opera", 0,
+   (void) new KAction(i18n("&Export to Opera Bookmarks..."), "opera", 0,
                       actn, SLOT( slotExportOpera() ), actionCollection(), "exportOpera");
-   (void) new KAction(i18n("&Export to HTML Bookmarks"), "html", 0,
+   (void) new KAction(i18n("&Export to HTML Bookmarks..."), "html", 0,
                       actn, SLOT( slotExportHTML() ), actionCollection(), "exportHTML");
-   (void) new KAction(i18n("&Export to IE Bookmarks"), "ie", 0,
+   (void) new KAction(i18n("&Export to IE Bookmarks..."), "ie", 0,
                       actn, SLOT( slotExportIE() ), actionCollection(), "exportIE");
    (void) new KAction(i18n("Export to &Mozilla Bookmarks..."), "mozilla", 0,
                       actn, SLOT( slotExportMoz() ), actionCollection(), "exportMoz");
