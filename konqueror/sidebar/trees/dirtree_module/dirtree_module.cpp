@@ -334,11 +334,11 @@ void KonqSidebarDirTreeModule::slotListingStopped()
         listDirectory( m_lstPendingOpenings.first() );
 
     kdDebug(1201) << "m_selectAfterOpening " << m_selectAfterOpening.prettyURL() << endl;
-    if ( !m_selectAfterOpening.isEmpty() && m_selectAfterOpening.upURL().cmp(url,true) )
+    if ( !m_selectAfterOpening.isEmpty() && url.isParentOf( m_selectAfterOpening ) )
     {
-        kdDebug(1201) << "Selecting m_selectAfterOpening " << m_selectAfterOpening.prettyURL() << endl;
-        followURL( m_selectAfterOpening );
+        KURL theURL( m_selectAfterOpening );
         m_selectAfterOpening = KURL();
+        followURL( theURL );
     }
 
     m_pTree->stopAnimation( item );
@@ -355,25 +355,35 @@ void KonqSidebarDirTreeModule::followURL( const KURL & url )
         return;
     }
 
-    KURL uParent( url.upURL() );
-    KonqSidebarTreeItem * parentItem = m_dictSubDirs[ uParent.url(-1) ];
-    if (!parentItem)
-        return;
+    KURL uParent( url );
+    KonqSidebarTreeItem * parentItem = 0L;
+    // Go up to the first known parent
+    do
+    {
+        uParent = uParent.upURL();
+        parentItem = m_dictSubDirs[ uParent.url(-1) ];
+    } while ( !parentItem && !uParent.path().isEmpty() && uParent.path() != "/" );
 
-    // That's the parent directory. Open if not open...
+    // Not found !?!
+    if (!parentItem)
+    {
+        kdDebug() << "No parent found for url " << url.prettyURL() << endl;
+        return;
+    }
+    kdDebug(1202) << "Found parent " << uParent.prettyURL() << endl;
+
+    // That's the parent directory we found. Open if not open...
     if ( !parentItem->isOpen() )
     {
         parentItem->setOpen( true );
-        if ( parentItem->childCount() )
+        if ( parentItem->childCount() && m_dictSubDirs[ url.url(-1) ] )
         {
             // Immediate opening, if the dir was already listed
-            followURL( url );
-            return;
+            followURL( url ); // equivalent to a goto-beginning-of-method
         } else
         {
             m_selectAfterOpening = url;
             kdDebug(1202) << "KonqSidebarDirTreeModule::followURL: m_selectAfterOpening=" << m_selectAfterOpening.url() << endl;
-            return; // We know we won't find it
         }
     }
 }
