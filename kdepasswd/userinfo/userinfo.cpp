@@ -54,6 +54,8 @@ K_EXPORT_COMPONENT_FACTORY (kcm_userinfo, UserInfoFactory("userinfo") )
 KUserInfoConfig::KUserInfoConfig(QWidget *parent, const char *name, const QStringList &)
   : KCModule(UserInfoFactory::instance(), parent, name)
 {
+  KGlobal::locale()->insertCatalogue( "kdepasswd" );
+
   QVBoxLayout *pTop = new QVBoxLayout(this, 0, KDialog::spacingHint());
 
   // The header (face and name)
