@@ -49,6 +49,7 @@ private:
   KConfig *m_pConfig;
   QString m_groupname;
   QCheckBox *enableJavaScriptGloballyCB;
+  QCheckBox *enableJavaScriptDebugCB;
   QButtonGroup *js_popup;
   QRadioButton *js_popupAllow;
   QRadioButton *js_popupAsk;
