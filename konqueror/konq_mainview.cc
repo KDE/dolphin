@@ -1715,7 +1715,7 @@ static const char *viewModeGUI = ""
 "<viewmodexml name=\"viewmode\">"
 "<MenuBar>"
 " <Menu name=\"view\">"
-"  <Menu name=\"viewmodes\"><text>View Mode...</text>"
+"  <Menu name=\"viewmodes\">"
 "  </Menu>"
 " </Menu>"
 "</MenuBar>"
@@ -1760,6 +1760,10 @@ void ViewModeGUIClient::update( const KTrader::OfferList &services )
   if ( services.count() <= 1 )
     return;
 
+  QDomElement textElement = m_doc.createElement( "text" );
+  textElement.appendChild( m_doc.createTextNode( i18n( "View Mode..." ) ) );
+  m_menuElement.appendChild( textElement );
+  
   KTrader::OfferList::ConstIterator it = services.begin();
   KTrader::OfferList::ConstIterator end = services.end();
   for (; it != end; ++it )
