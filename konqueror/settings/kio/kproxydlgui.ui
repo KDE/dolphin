@@ -12,7 +12,7 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>538</width>
+            <width>534</width>
             <height>456</height>
         </rect>
     </property>
@@ -216,7 +216,7 @@
                                 </property>
                                 <property stdset="1">
                                     <name>maxValue</name>
-                                    <number>9999</number>
+                                    <number>65535</number>
                                 </property>
                                 <property stdset="1">
                                     <name>value</name>
@@ -231,7 +231,7 @@
                                 </property>
                                 <property stdset="1">
                                     <name>maxValue</name>
-                                    <number>9999</number>
+                                    <number>65535</number>
                                 </property>
                                 <property stdset="1">
                                     <name>value</name>
