@@ -42,7 +42,7 @@ void KIconDrag::setIcons( const KIconDrag::IconList &_list )
 }
 
 static const char* icon_formats[] = {
-	"url/url",
+	"text/uri-list",
 	"application/x-kiconlist",
 	0 };
 
@@ -56,7 +56,7 @@ const char * KIconDrag::format(int i) const
 QByteArray KIconDrag::encodedData(const char* mime) const
 {
   QByteArray a;
-  if ( strcmp( mime, "url/url" ) == 0 )
+  if ( strcmp( mime, "text/uri-list" ) == 0 )
   {
     int c = 0;
     IconList::ConstIterator it = m_lstIcons.begin();
@@ -141,7 +141,7 @@ bool KIconDrag::decode( QMimeSource* e, KIconDrag::IconList& _list )
 
 bool KIconDrag::decode( QMimeSource* e, QStringList& _list )
 {
-  QByteArray payload = e->encodedData( "url/url" );
+  QByteArray payload = e->encodedData( "text/uri-list" );
   if ( payload.size() )
   {
     _list.clear();
