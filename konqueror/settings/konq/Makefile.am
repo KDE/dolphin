@@ -18,7 +18,7 @@ kcm_konq_ladir = $(kde_datadir)/kcontrol/pics
 data_DATA = filebehavior.desktop fileappearance.desktop filepreviews.desktop
 datadir = $(kde_appsdir)/.hidden
 
-datadesk_DATA = desktopappearance.desktop desktopbehavior.desktop desktop.desktop
+datadesk_DATA = desktopbehavior.desktop desktop.desktop
 datadeskdir = $(kde_appsdir)/Settings/Desktop
 
 data2_DATA = desktoppath.desktop
@@ -34,6 +34,7 @@ install-data-local: uninstall.desktop
 	$(INSTALL_DATA) $(srcdir)/uninstall.desktop $(DESTDIR)$(kde_appsdir)/Settings/LookNFeel/borders.desktop
 	$(mkinstalldirs) $(DESTDIR)$(kde_appsdir)/Settings/Desktop
 	$(INSTALL_DATA) $(srcdir)/uninstall.desktop $(DESTDIR)$(kde_appsdir)/Settings/Desktop/filetrash.desktop
+	$(INSTALL_DATA) $(srcdir)/uninstall.desktop $(DESTDIR)$(kde_appsdir)/Settings/Desktop/desktopappearance.desktop
 
 uiserver_DIR = $(kde_includes)/kio
 
