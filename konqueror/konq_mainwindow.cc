@@ -2812,7 +2812,7 @@ void KonqMainWindow::initActions()
   (void) new KAction( i18n( "New &Window" ), "window_new", KStdAccel::key(KStdAccel::New), this, SLOT( slotNewWindow() ), actionCollection(), "new_window" );
   (void) new KAction( i18n( "&Duplicate Window" ), "window_new", CTRL+Key_D, this, SLOT( slotDuplicateWindow() ), actionCollection(), "duplicate_window" );
   (void) new KAction( i18n( "Send &Link" ), "mail_generic", CTRL+Key_L, this, SLOT( slotSendURL() ), actionCollection(), "sendURL" );
-  (void) new KAction( i18n( "&Send File" ), "mail_generic", 0, this, SLOT( slotSendFile() ), actionCollection(), "sendPage" );
+  (void) new KAction( i18n( "S&end File" ), "mail_generic", 0, this, SLOT( slotSendFile() ), actionCollection(), "sendPage" );
   (void) new KAction( i18n( "&Run Command..." ), "run", 0/*kdesktop has a binding for it*/, this, SLOT( slotRun() ), actionCollection(), "run" );
   if (kapp->authorize("shell_access"))
   {
