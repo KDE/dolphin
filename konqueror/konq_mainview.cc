@@ -703,6 +703,10 @@ void KonqMainView::slotStarted( int jobId )
       connect( job, SIGNAL( sigProcessedSize( int, unsigned long ) ), this, SLOT( slotProcessedSize( int, unsigned long ) ) );
       connect( job, SIGNAL( sigSpeed( int, unsigned long ) ), this, SLOT( slotSpeed( int, unsigned long ) ) );
     }
+    else
+    {
+     kDebugWarning( 1202, "No such job %d !", jobId );
+    }
   }
   m_ulTotalDocumentSize = 0;
 }
@@ -1139,6 +1143,10 @@ void KonqMainView::slotLoadingProgress( int percent )
     return;
 
   KParts::ReadOnlyPart *view = (KParts::ReadOnlyPart *)sender()->parent();
+
+#warning The caller of KonqMainView::slotLoadingProgress isn't necessarily a Part !
+// How to check if it comes from the job of the current view ? Looks like we need
+// a jobId stored in each view...
 
   if ( !view )
     return;

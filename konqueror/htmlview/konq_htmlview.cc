@@ -21,7 +21,6 @@
 #include "konq_htmlview.h"
 #include "konq_propsview.h"
 #include "konq_factory.h"
-#include "konq_progressproxy.h"
 //#include "konq_searchdia.h"
 
 #include <sys/stat.h>
@@ -171,8 +170,6 @@ bool KonqHTMLView::openURL( const KURL &url )
     KIOJob *job = KIOJob::find( m_pWidget->jobId() );
     if ( job )
     {
-      (void)new KonqProgressProxy( m_extension, job );
-
       QObject::connect( job, SIGNAL( sigRedirection( int, const char * ) ),
                         this, SLOT( slotDocumentRedirection( int, const char * ) ) );
     }
@@ -191,8 +188,7 @@ void KonqHTMLView::slotCanceled()
 
 void KonqHTMLView::slotStarted( const QString & )
 {
-  // and a method only because of that jobid arg...
-  emit started( 0 );
+  emit started( m_pWidget->jobId() );
 }
 
 void KonqHTMLView::slotCompleted()

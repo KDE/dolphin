@@ -24,7 +24,7 @@ libkonqueror_la_SOURCES = konq_mainview.cc \
 			  konq_frame.cc \
 			  konq_propsview.cc konq_propsmainview.cc konq_htmlsettings.cc \
 			  konq_factory.cc konq_events.cc \
-			  konq_misc.cc konq_progressproxy.cc \
+			  konq_misc.cc \
 			  konq_actions.cc konq_profiledlg.cc \
 			  konq_bgnddlg.cc \
 			  kbugreport.cc \
