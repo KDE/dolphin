@@ -130,7 +130,9 @@ public:
    SelcAbilities getSelectionAbilities();
    void emitSlotSelectionChanged() { emit slotSelectionChanged(); }
    void setOpen(bool open); // DESIGN -rename to setAllOpenFlag
-   void fillWithGroup(KBookmarkGroup group, KEBListViewItem *parentItem = 0);
+   void fillWithGroup();
+   void fillWithGroup(KEBListView *listview, KBookmarkGroup group,
+                      bool groupsonly, KEBListViewItem *parentItem = 0);
    void setCurrent(KEBListViewItem *item);
    void renameNextCell(bool dir);
 

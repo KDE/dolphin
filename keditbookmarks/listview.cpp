@@ -268,8 +268,8 @@ QString ListView::userAddress() {
         : KBookmark::nextAddress(current.address());
 }
 
-/* MOVE */
 void ListView::setCurrent(KEBListViewItem *item) {
+   // for the moment listview(1) is all that matters
    m_listView->setCurrentItem(item);
    m_listView->ensureItemVisible(item);
 }
@@ -323,7 +323,7 @@ SelcAbilities ListView::getSelectionAbilities() {
    return sa;
 }
 
-/* MOVE */
+// TODO
 void ListView::slotDropped(QDropEvent *e, QListViewItem *newParent, QListViewItem *itemAfterQLVI) {
    if (!newParent) {
       // drop before root item
@@ -355,8 +355,6 @@ void ListView::slotDropped(QDropEvent *e, QListViewItem *newParent, QListViewIte
    KEBApp::self()->didCommand(mcmd);
 }
 
-
-/* MOVE */
 void ListView::updateListView() {
    // get address list for selected items, make a function?
    QStringList addressList;
@@ -369,7 +367,7 @@ void ListView::updateListView() {
       }
    }
 
-   fillWithGroup(CurrentMgr::self()->mgr()->root());
+   fillWithGroup();
 
    // re-select previously selected items
    KEBListViewItem *item = 0;
@@ -390,12 +388,18 @@ void ListView::updateListView() {
    setCurrent(item);
 }
 
+void ListView::fillWithGroup() {
+   fillWithGroup(m_listView, CurrentMgr::self()->mgr()->root(), false);
+   fillWithGroup(m_listView2, CurrentMgr::self()->mgr()->root(), true);
+}
+
 /* MOVE */
-void ListView::fillWithGroup(KBookmarkGroup group, KEBListViewItem *parentItem) {
+void ListView::fillWithGroup(KEBListView *listview, KBookmarkGroup group, 
+                             bool groupsonly, KEBListViewItem *parentItem) {
    if (!parentItem) {
-      m_listView->clear();
-      KEBListViewItem *tree = new KEBListViewItem(m_listView, group);
-      fillWithGroup(group, tree);
+      listview->clear();
+      KEBListViewItem *tree = new KEBListViewItem(listview, group);
+      fillWithGroup(listview, group, groupsonly, tree);
       tree->QListViewItem::setOpen(true);
       return;
    }
@@ -405,7 +409,7 @@ void ListView::fillWithGroup(KBookmarkGroup group, KEBListViewItem *parentItem) 
       if (bk.isGroup()) {
          KBookmarkGroup grp = bk.toGroup();
          item = new KEBListViewItem(parentItem, lastItem, grp);
-         fillWithGroup(grp, item);
+         fillWithGroup(listview, grp, groupsonly, item);
          if (grp.isOpen()) {
             item->QListViewItem::setOpen(true);
          }
@@ -415,7 +419,7 @@ void ListView::fillWithGroup(KBookmarkGroup group, KEBListViewItem *parentItem) 
          }
          lastItem = item;
 
-      } else {
+      } else if (!groupsonly) {
          item = lastItem ? new KEBListViewItem(parentItem, lastItem, bk)
                          : new KEBListViewItem(parentItem, bk);
          lastItem = item;

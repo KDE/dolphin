@@ -90,7 +90,7 @@ void KEBApp::construct() {
    CurrentMgr::self()->createManager(this, m_bookmarksFilename);
 
    ListView::self()->updateListViewSetup(m_readOnly);
-   ListView::self()->fillWithGroup(CurrentMgr::self()->mgr()->root());
+   ListView::self()->fillWithGroup();
 
    slotClipboardDataChanged();
 
@@ -398,7 +398,7 @@ void KEBApp::slotBookmarksChanged(const QString &, const QString &caller) {
       kdDebug() << "KEBApp::slotBookmarksChanged" << endl;
       // DESIGN - is this logic really unique?
       clearHistory();
-      ListView::self()->fillWithGroup(CurrentMgr::self()->mgr()->root());
+      ListView::self()->fillWithGroup();
       updateActions();
    }
 }
