@@ -213,21 +213,23 @@ void NSPluginInstance::destroyStream( NSPluginStream *strm )
 
 
 int NSPluginInstance::setWindow(int remove)
-{
+{  
    if (remove)
    {
       NPSetWindow(0);
       return NPERR_NO_ERROR;
    }
+   
+   kdDebug() << "-> NSPluginInstance::setWindow" << endl;
 
-   NPWindow *win = new NPWindow;
-   NPSetWindowCallbackStruct *win_info = new NPSetWindowCallbackStruct;
+   NPWindow win;
+   NPSetWindowCallbackStruct win_info;
 
-   win->x = 0;
-   win->y = 0;
-   win->height = _height;
-   win->width = _width;
-   win->type = NPWindowTypeWindow;
+   win.x = 0;
+   win.y = 0;
+   win.height = _height;
+   win.width = _width;
+   win.type = NPWindowTypeWindow;
 
    // Well, the docu says sometimes, this is only used on the
    // MAC, but sometimes it says it's always. Who knows...
@@ -236,27 +238,30 @@ int NSPluginInstance::setWindow(int remove)
    clip.left = 0;
    clip.bottom = _height;
    clip.right = _width;  
-   win->clipRect = clip;
+   win.clipRect = clip;
 
-   win->window = (void*) XtWindow(_area);
-   kdDebug() << "Window ID = " << win->window << endl;
+   win.window = (void*) XtWindow(_area);
+   kdDebug() << "Window ID = " << win.window << endl;
 
-   win_info->type = NP_SETWINDOW;
-   win_info->display = XtDisplay( _area );
-   win_info->visual = DefaultVisualOfScreen( XtScreen(_area) );
-   win_info->colormap = DefaultColormapOfScreen( XtScreen(_area) );
-   win_info->depth = DefaultDepthOfScreen( XtScreen(_area) );
+   win_info.type = NP_SETWINDOW;
+   win_info.display = XtDisplay( _area );
+   win_info.visual = DefaultVisualOfScreen( XtScreen(_area) );
+   win_info.colormap = DefaultColormapOfScreen( XtScreen(_area) );
+   win_info.depth = DefaultDepthOfScreen( XtScreen(_area) );
   
-   win->ws_info = win_info;
+   win.ws_info = &win_info;
 
-   NPError error = NPSetWindow( win );
+   NPError error = NPSetWindow( &win );
 
+   kdDebug() << "<- NSPluginInstance::setWindow = " << error << endl;
    return error;
 }
 
 
 void NSPluginInstance::resizePlugin(int w, int h)
 {
+   kdDebug() << "-> NSPluginInstance::resizePlugin( w=" << w << ", h=" << h << " ) " << endl;
+
    _width = w;
    _height = h;
 
@@ -269,6 +274,8 @@ void NSPluginInstance::resizePlugin(int w, int h)
    XtSetValues(_area, args, nargs);
 
    setWindow();
+
+   kdDebug() << "<- NSPluginInstance::resizePlugin" << endl;
 }
 
 

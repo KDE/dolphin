@@ -124,8 +124,7 @@ void scanDirectory( QString dir, QStringList &mimeInfoList,
       char *(*fp)();
       fp = (char *(*)()) func_GetMIMEDescription;	  
       QString mimeInfo = fp();
-      mimeInfo = mimeInfo.lower(); // FIXME: is this correct? are MIME types case insensitive???? look also in html_objectimpl.cpp
-
+     
       // check the mimeInformation
       if (!mimeInfo)
       {
@@ -143,14 +142,22 @@ void scanDirectory( QString dir, QStringList &mimeInfoList,
       kdDebug() << "Mime info: " <<  mimeInfo << endl;
 
       // note the plugin name
-      cache << "[" << absFile << "]" << endl;
+      cache << "[" << absFile << "]" << endl;      
 
       // parse mime info string
       QStringList entries = QStringList::split(';', mimeInfo);
       QStringList::Iterator entry;
       for (entry = entries.begin(); entry != entries.end(); ++entry)
       {
-	 cache << *entry << endl;
+	 QStringList tokens = QStringList::split(':', *entry);
+	 QStringList::Iterator token;
+	 token = tokens.begin();
+	 cache << (*token).lower();
+	 ++token;
+	 for (; token!= tokens.end(); ++token)
+	    cache << ":" << *token;
+	 cache << endl;
+
 	 if (!mimeInfoList.contains(*entry))
 	    mimeInfoList.append(*entry);
       }
