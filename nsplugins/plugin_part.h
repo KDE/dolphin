@@ -29,7 +29,7 @@ public:
   ASYNC requestURL(QString url, QString target);
   ASYNC postURL(QString url, QString target, QByteArray data, QString mime);
   ASYNC statusMessage( QString msg );
-  QString evalJavaScript( QString script );
+  ASYNC evalJavaScript( int id, QString script );
 
 private:
   PluginPart *_part;
@@ -86,7 +86,7 @@ public:
   void postURL(const QString& url, const QString& target, const QByteArray& data, const QString& mime);
   void requestURL(const QString& url, const QString& target);
   void statusMessage( QString msg );
-  QString evalJavaScript( const QString& script );
+  void evalJavaScript( int id, const QString& script );
   void reloadPage();
 
   void changeSrc(const QString& url);

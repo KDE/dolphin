@@ -111,9 +111,9 @@ void NSPluginCallback::statusMessage( QString msg )
 }
 
 
-QString NSPluginCallback::evalJavaScript( QString script )
+void NSPluginCallback::evalJavaScript( int id, QString script )
 {
-    return _part->evalJavaScript( script );
+    _part->evalJavaScript( id, script );
 }
 /**
  * We need one static instance of the factory for our C 'main'
@@ -324,9 +324,11 @@ void PluginPart::requestURL(const QString& url, const QString& target)
     emit _extension->openURLRequest( new_url, args );
 }
 
-QString PluginPart::evalJavaScript( const QString & script )
+void PluginPart::evalJavaScript( int id, const QString & script )
 {
-    return _liveconnect->evalJavaScript( script );
+    if ( _widget )
+        static_cast<NSPluginInstance *>((QWidget*)_widget)->javascriptResult
+            ( id, _liveconnect->evalJavaScript( script ) );
 }
 
 void PluginPart::statusMessage( QString msg )

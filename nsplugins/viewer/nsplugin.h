@@ -36,6 +36,7 @@
 #include <qstringlist.h>
 #include <qptrqueue.h>
 #include <qdict.h>
+#include <qmap.h>
 #include <qintdict.h>
 #include <qguardedptr.h>
 
@@ -168,6 +169,7 @@ public:
   int winId() { return XtWindow(_toplevel); };
   int setWindow(int remove=0);
   void resizePlugin(int w, int h);
+  void javascriptResult(int id, QString result);
   void displayPlugin();
 
   // value handling
@@ -255,6 +257,7 @@ private:
   NPWindow _win;
   NPSetWindowCallbackStruct _win_info;
   QPtrQueue<Request> _waitingRequests;
+  QMap<int, Request*> _jsrequests;
 };
 
 
