@@ -423,7 +423,7 @@ void KfindWindow::execAddToArchive(KfArchiver *arch, QString archname)
     warning(i18n("Error while creating child process!").ascii());
 }
 
-// Resizes QListView to ocuppy all visible space
+// Resizes QListView to occupy all visible space
 void KfindWindow::resizeEvent(QResizeEvent *e)
 {
   QListView::resizeEvent(e);
@@ -432,11 +432,30 @@ void KfindWindow::resizeEvent(QResizeEvent *e)
 }
 
 
+void KfindWindow::contentsMousePressEvent(QMouseEvent *e)
+{
+  QListView::contentsMousePressEvent( e );
+  KfFileLVI *item = (KfFileLVI *) itemAt(contentsToViewport(e->pos()));
+  if ( !item )
+    return;
+
+  if ( e->button() == LeftButton )
+    m_pressed = true;
+}
+
+void KfindWindow::contentsMouseReleaseEvent( QMouseEvent * e )
+{
+  m_pressed = false;
+  QListView::contentsMouseReleaseEvent( e );
+}
+
 // drag items from the list
 void KfindWindow::contentsMouseMoveEvent(QMouseEvent *e)
 {
   QListView::contentsMouseMoveEvent(e);
 
+  if ( !m_pressed ) // Just moving, not a drag
+    return;
   KfFileLVI *item = (KfFileLVI *) itemAt(contentsToViewport(e->pos()));
   if ( !item )
     return;
@@ -452,6 +471,10 @@ void KfindWindow::contentsMouseMoveEvent(QMouseEvent *e)
   }
 
   if ( uris.count() > 0 ) {
+
+    // Do not handle and more mouse move or mouse release events
+    m_pressed = false;
+
     QUriDrag *ud = new QUriDrag( this, "kfind uridrag" );
     ud->setFilenames( uris );
 
@@ -461,6 +484,7 @@ void KfindWindow::contentsMouseMoveEvent(QMouseEvent *e)
 
     // true => move operation, we need to update the list
     if ( ud->drag() && false ) { // FIXME, why does drag() always return true??
+                                 // Seems it's not yet implemented in Qt (David)
       for ( uint i = 0; i < selected->count(); i++ ) {
 	if ( (item = selected->at( i )) ) {
 	  removeItem( item );

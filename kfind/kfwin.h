@@ -52,6 +52,8 @@ private slots:
 
 protected:
   virtual void resizeEvent(QResizeEvent *e);
+  virtual void contentsMousePressEvent(QMouseEvent *e);
+  virtual void contentsMouseReleaseEvent(QMouseEvent *e);
   virtual void contentsMouseMoveEvent(QMouseEvent *e);
 
   QList<KfFileLVI> * selectedItems();
@@ -61,6 +63,7 @@ signals:
 
 private:
   bool haveSelection;
+  bool m_pressed;
   void execAddToArchive(KfArchiver *arch, QString filename);
   void resetColumns(bool init);
 
