@@ -28,11 +28,6 @@ KBehaviourOptions::KBehaviourOptions(KConfig *config, QString group, bool showBu
 				       KDialog::spacingHint());     // border, space
     lay->setRowStretch(N_ROWS-1,1);
 
-    cbSingleClick = new QCheckBox(i18n("&Single click on icon to run / open"), this);
-    lay->addMultiCellWidget(cbSingleClick,row,row,0,N_COLS,Qt::AlignLeft);
-    connect(cbSingleClick, SIGNAL(clicked()), this, SLOT(changed()));
-
-    row++;
     cbAutoSelect = new QCheckBox(i18n("&Automatically select icons"), this);
     lay->addMultiCellWidget(cbAutoSelect,row,row,0,N_COLS,Qt::AlignLeft);
     connect(cbAutoSelect, SIGNAL(clicked()), this, SLOT(changed()));
@@ -69,7 +64,6 @@ KBehaviourOptions::KBehaviourOptions(KConfig *config, QString group, bool showBu
     lay->addMultiCellWidget(cbUnderline,row,row,0,N_COLS,Qt::AlignLeft);
     connect(cbUnderline, SIGNAL(clicked()), this, SLOT(changed()));
 
-    connect( cbSingleClick, SIGNAL( clicked() ), this, SLOT( slotClick() ) );
     connect( cbAutoSelect, SIGNAL( clicked() ), this, SLOT( slotClick() ) );
 
     row++;
@@ -112,13 +106,11 @@ KBehaviourOptions::KBehaviourOptions(KConfig *config, QString group, bool showBu
 void KBehaviourOptions::load()
 {
     g_pConfig->setGroup( groupname );
-    bool singleClick = g_pConfig->readBoolEntry("SingleClick", DEFAULT_SINGLECLICK);
     int  autoSelect = g_pConfig->readNumEntry("AutoSelect", DEFAULT_AUTOSELECT);
     if ( autoSelect < 0 ) autoSelect = 0;
     bool changeCursor = g_pConfig->readBoolEntry("ChangeCursor", DEFAULT_CHANGECURSOR);
     bool underlineLinks = g_pConfig->readBoolEntry("UnderlineLinks", DEFAULT_UNDERLINELINKS);
 
-    cbSingleClick->setChecked( singleClick );
     cbAutoSelect->setChecked( autoSelect > 0 );
     slAutoSelect->setValue( autoSelect );
     cbCursor->setChecked( changeCursor );
@@ -141,7 +133,6 @@ void KBehaviourOptions::load()
 
 void KBehaviourOptions::defaults()
 {
-    cbSingleClick->setChecked( true );
     cbAutoSelect->setChecked( false );
     slAutoSelect->setValue( 50 );
     cbCursor->setChecked( false );
@@ -161,7 +152,6 @@ void KBehaviourOptions::defaults()
 void KBehaviourOptions::save()
 {
     g_pConfig->setGroup( groupname );
-    g_pConfig->writeEntry( "SingleClick", cbSingleClick->isChecked() );
     g_pConfig->writeEntry( "AutoSelect", cbAutoSelect->isChecked()?slAutoSelect->value():-1 );
     g_pConfig->writeEntry( "ChangeCursor", cbCursor->isChecked() );
     g_pConfig->writeEntry( "UnderlineLinks", cbUnderline->isChecked() );
@@ -180,12 +170,17 @@ void KBehaviourOptions::save()
 
 void KBehaviourOptions::slotClick()
 {
-    // Autoselect has a meaning only in single-click mode
-    cbAutoSelect->setEnabled( cbSingleClick->isChecked() );
-    // Delay has a meaning only for autoselect
-    bool bDelay = cbAutoSelect->isChecked() && cbSingleClick->isChecked();
-    slAutoSelect->setEnabled( bDelay );
-    lDelay->setEnabled( bDelay );
+  g_pConfig->setGroup("KDE");
+  bool singleClick =  g_pConfig->readBoolEntry("SingleClick", true);
+  if (singleClick)
+    qDebug("single click mode");
+  g_pConfig->setGroup( groupname );
+  // Autoselect has a meaning only in single-click mode
+  cbAutoSelect->setEnabled(singleClick);
+  // Delay has a meaning only for autoselect
+  bool bDelay = cbAutoSelect->isChecked() && singleClick;
+  slAutoSelect->setEnabled( bDelay );
+  lDelay->setEnabled( bDelay );
 }
 
 

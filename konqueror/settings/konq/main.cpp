@@ -46,7 +46,7 @@
 KonqyModule::KonqyModule(QWidget *parent, const char *name)
   : KCModule(parent, name)
 {
-  KConfig *config = new KConfig("konquerorrc", false, false);
+  KConfig *config = new KConfig("konquerorrc", false, true);
 
   tab = new QTabWidget(this);
 
