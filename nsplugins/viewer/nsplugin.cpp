@@ -31,6 +31,7 @@
 
 #include <qdir.h>
 #include <qdict.h>
+#include <qfile.h>
 #include <qtimer.h>
 
 #include "kxt.h"
@@ -772,7 +773,7 @@ NSPluginClass::NSPluginClass( const QString &library,
    : QObject( parent, name ), DCOPObject()
 {
     // initialize members
-    _handle = KLibLoader::self()->library(library.latin1());
+    _handle = KLibLoader::self()->library(QFile::encodeName(library));
     _libname = library;
     _constructed = false;
     _error = true;
@@ -823,7 +824,7 @@ NSPluginClass::~NSPluginClass()
     _instances.clear();
     _trash.clear();
     shutdown();
-    //KLibLoader::self()->unloadLibrary( _libname.latin1() );
+    //KLibLoader::self()->unloadLibrary( QFile::encodeName(libname) );
     delete _handle;
 }
 
