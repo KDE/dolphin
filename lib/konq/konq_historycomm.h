@@ -61,12 +61,12 @@ protected:
     KonqHistoryComm( QCString objId ) : DCOPObject( objId ) {}
 
 k_dcop:
-    virtual void notifyHistoryEntry( KonqHistoryEntry e, QCString saveId ) = 0;
-    virtual void notifyMaxCount( Q_UINT32 count, QCString saveId ) = 0;
-    virtual void notifyMaxAge( Q_UINT32 days, QCString saveId ) = 0;
-    virtual void notifyClear( QCString saveId ) = 0;
-    virtual void notifyRemove( KURL url, QCString saveId ) = 0;
-    virtual void notifyRemove( KURL::List url, QCString saveId ) = 0;
+    virtual ASYNC notifyHistoryEntry( KonqHistoryEntry e, QCString saveId) = 0;
+    virtual ASYNC notifyMaxCount( Q_UINT32 count, QCString saveId ) = 0;
+    virtual ASYNC notifyMaxAge( Q_UINT32 days, QCString saveId ) = 0;
+    virtual ASYNC notifyClear( QCString saveId ) = 0;
+    virtual ASYNC notifyRemove( KURL url, QCString saveId ) = 0;
+    virtual ASYNC notifyRemove( KURL::List url, QCString saveId ) = 0;
 
 };
 
