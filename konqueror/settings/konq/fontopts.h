@@ -41,7 +41,7 @@
 class KConfig;
 class KColorButton;
 class QRadioButton;
-class QComboBox;
+class KFontCombo;
 class QCheckBox;
 
 
@@ -84,13 +84,12 @@ private:
   QRadioButton* m_pMedium;
   QRadioButton* m_pLarge;
   */
-  QComboBox* m_pStandard;
+  KFontCombo* m_pStandard;
   QSpinBox* m_pSize;
 
   int fSize;
   QString stdName;
   QFont m_stdFont;
-  QStringList standardFonts;
 
   KColorButton* m_pBg;
   KColorButton* m_pNormalText;
