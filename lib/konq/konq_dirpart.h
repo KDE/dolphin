@@ -77,7 +77,7 @@ public:
      * Completely clears the internally stored list of mime filters
      * set by call to @ref #setMimeFilter.
      */
-    QString mimeFilter() const;
+    QStringList mimeFilter() const;
 
 
     KonqPropsView * props() const { return m_pProps; }

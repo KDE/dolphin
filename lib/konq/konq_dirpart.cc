@@ -129,13 +129,13 @@ void KonqDirPart::setMimeFilter( const QString& mime )
     }
 }
 
-QString KonqDirPart::mimeFilter() const
+QStringList KonqDirPart::mimeFilter() const
 {
     QMapConstIterator<QString,QString> it = d->mimeFilterList.find(url().url());
     if ( it != d->mimeFilterList.end() )
-        return it.data();
+        return QStringList::split( ' ', it.data() );
     else
-        return QString::null;
+        return QStringList();
 }
 
 QScrollView * KonqDirPart::scrollWidget()
