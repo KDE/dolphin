@@ -522,18 +522,18 @@ void KPluginOptions::pluginLoad( KConfig */*config*/ )
     while ( !cache.atEnd() ) {
 
         line = cache.readLine();
-        kdDebug() << line << endl;
+        //kdDebug() << line << endl;
         if (line.isEmpty() || (line.left(1) == "#"))
             continue;
 
         if (line.left(1) == "[") {
 
             plugin = line.mid(1,line.length()-2);
-            kdDebug() << "plugin=" << plugin << endl;
+            //kdDebug() << "plugin=" << plugin << endl;
 
             // add plugin root item
             next = new QListViewItem( root, i18n("Plugin"), plugin );
-            next->setOpen( true );
+            next->setOpen( false );
             next->setSelectable( false );
             next->setExpandable( true );
 
@@ -548,9 +548,9 @@ void KPluginOptions::pluginLoad( KConfig */*config*/ )
         QString suffixes = desc[1];
 
         if (!mime.isEmpty()) {
-            kdDebug() << "mime=" << mime << " desc=" << name << " suffix=" << suffixes << endl;
+            //kdDebug() << "mime=" << mime << " desc=" << name << " suffix=" << suffixes << endl;
             lastMIME = new QListViewItem( next, lastMIME, i18n("MIME type"), mime );
-            lastMIME->setOpen( true );
+            lastMIME->setOpen( false );
             lastMIME->setSelectable( false );
             lastMIME->setExpandable( true );
 
@@ -566,7 +566,7 @@ void KPluginOptions::pluginLoad( KConfig */*config*/ )
         }
     }
 
-    kdDebug() << "<- KPluginOptions::fillPluginList" << endl;
+    //kdDebug() << "<- KPluginOptions::fillPluginList" << endl;
 }
 
 
