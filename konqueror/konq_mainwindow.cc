@@ -947,6 +947,7 @@ void KonqMainWindow::slotViewModeToggle( bool toggle )
       config->writeEntry( "ViewMode", modeName );
       config->sync();
       m_sViewModeForDirectory = modeName;
+      kdDebug(1202) << "m_sViewModeForDirectory=" << m_sViewModeForDirectory << endl;
   }
 }
 
@@ -2328,7 +2329,7 @@ void KonqMainWindow::initActions()
   m_paDelete = new KAction( i18n( "&Delete" ), SHIFT+Key_Delete, actionCollection(), "del" );
   m_paShred = new KAction( i18n( "&Shred" ), CTRL+SHIFT+Key_Delete, actionCollection(), "shred" );
 
-  m_paAnimatedLogo = new KonqLogoAction( this, SLOT( slotNewWindow() ), actionCollection(), "animated_logo" );
+  m_paAnimatedLogo = new KonqLogoAction( this, SLOT( slotDuplicateWindow() ), actionCollection(), "animated_logo" );
 
   // Location bar
   (void)new KonqLabelAction( i18n( "Location " ), actionCollection(), "location_label" );
