@@ -19,7 +19,7 @@
 
 #include "konqsettings.h"
 #include "konqdefaults.h"
-#include "mousedefaults.h"
+#include "kglobalsettings.h"
 #include <kconfig.h>
 #include <kglobal.h>
 #include <kservicetype.h>

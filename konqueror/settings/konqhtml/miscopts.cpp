@@ -14,7 +14,7 @@
 #include "miscopts.h"
 
 #include <konqdefaults.h> // include default values directly from konqueror
-#include <mousedefaults.h> // get default for DEFAULT_CHANGECURSOR
+#include <kglobalsettings.h> // get default for DEFAULT_CHANGECURSOR
 #include <klocale.h>
 #include <kconfig.h>
 
@@ -60,7 +60,7 @@ void KMiscHTMLOptions::load()
 {
     // *** load ***
     m_pConfig->setGroup( "HTML Settings" );
-    bool changeCursor = m_pConfig->readBoolEntry("ChangeCursor", DEFAULT_CHANGECURSOR);
+    bool changeCursor = m_pConfig->readBoolEntry("ChangeCursor", KDE_DEFAULT_CHANGECURSOR);
     bool underlineLinks = m_pConfig->readBoolEntry("UnderlineLinks", DEFAULT_UNDERLINELINKS);
     bool bAutoLoadImages = m_pConfig->readBoolEntry( "AutoLoadImages", true );
 
