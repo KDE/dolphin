@@ -992,7 +992,7 @@ void KonqIconViewWidget::lineupIcons()
         max_icon_x = 0; min_icon_x=0;
        for (j=0; j<ny; j++)
         {
-           its[j] = NULL;
+           its[j] = 0;
             if (!bins[j][i] || !bins[j][i]->count())
                 continue;
 
@@ -1006,7 +1006,7 @@ void KonqIconViewWidget::lineupIcons()
 
        for (j=0; j<ny; j++)
        {
-           if ( its[j] == NULL )
+           if ( its[j] == 0 )
                 continue;
 
            item = its[j];
