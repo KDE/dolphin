@@ -504,11 +504,13 @@ void KonqViewManager::breakOffTab( KonqFrameBase* tab )
 
   mainWindow->viewManager()->loadViewProfile( config, "" );
 
-  if( mainWindow->childFrame() &&  mainWindow->childFrame()->frameType() == "Tabs")
+  KonqFrameBase * newDocContainer = mainWindow->viewManager()->docContainer();
+  if( newDocContainer && newDocContainer->frameType() == "Tabs")
   {
-    KonqFrameTabs *kft = dynamic_cast<KonqFrameTabs *>(mainWindow->childFrame());
-    if(kft->childFrameList()->count())
-      kft->childFrameList()->at(0)->copyHistory( currentFrame );
+    KonqFrameTabs *kft = static_cast<KonqFrameTabs *>(newDocContainer);
+    KonqFrameBase *newFrame = dynamic_cast<KonqFrameBase*>(kft->currentPage());
+    if(newFrame)
+      newFrame->copyHistory( currentFrame );
   }
 
   removeTab( currentFrame );
