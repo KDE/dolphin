@@ -1,5 +1,5 @@
 /* XPM */
-/* Drawn  by Nico Schwiring and Mark Donohoe for the K Desktop Environment */
+/* Drawn  by Nico Shirwing for the K Desktop Environment */
 /* See http://www.kde.org */
 static char*kfind[]={
 "16 16 6 1",
@@ -7,7 +7,7 @@ static char*kfind[]={
 "d c #c0c0c0",
 "a c #ffffff",
 "b c #0000ff",
-"c c #bebeff",
+"c c #c0c0ff",
 ". c None",
 ".###########....",
 "#aaaaaaaaaaa#...",
