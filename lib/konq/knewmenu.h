@@ -25,14 +25,17 @@
 
 #include <kaction.h>
 
+class KDirWatch;
+
 /**
- * The manager for the 'New' submenu
- * Fills it with 'Folder' and one item per Template
- * Updates the menu if templates are added (fillTemplates() has to be called)
- *  hmm, perhaps a long-period KDirWatch here ??  (TODO !!)
+ * The 'New' submenu, both for the File menu and the RMB popup menu.
+ * (The same instance can be used by both).
+ * Fills it with 'Folder' and one item per Template.
+ * For this you need to connect aboutToShow() of the File menu with slotCheckUpToDate()
+ * and to call slotCheckUpToDate() before showing the RMB popupmenu.
  *
- * The New menu can be a standalone popupmenu or a
- * popupmenu in a menubar
+ * KNewMenu automatically updates the list of templates if templates are
+ * added/updated/deleted.
  */
 class KNewMenu : public KActionMenu
 {
@@ -42,18 +45,15 @@ public:
      * Constructor
      */
     KNewMenu( QActionCollection * _collec, const char *name=0L );
-    ~KNewMenu() {}
-
-    /**
-     * Fills the templates list. Can be called at any time to update it.
-     */
-    static void fillTemplates();
+    virtual ~KNewMenu() {}
 
     /**
      * Set the files the popup is shown for
      * Call this before showing up the menu
      */
-    void setPopupFiles(QStringList & _files);
+    void setPopupFiles(QStringList & _files) {
+        popupFiles = _files;
+    }
     void setPopupFiles(QString _file) {
         popupFiles.clear();
         popupFiles.append( _file );
@@ -61,15 +61,21 @@ public:
 
 public slots:
     /**
+     * Checks if updating the list is necessary
+     * IMPORTANT : Call this in the slot for aboutToShow.
+     */
+    void slotCheckUpToDate( );
+
+protected slots:
+    /**
      * Called when New->* is clicked
      */
     void slotNewFile();
 
     /**
-     * Checks if updating the list is necessary
-     * IMPORTANT : Call this in the slot for aboutToShow.
+     * Fills the templates list.
      */
-    void slotCheckUpToDate( );
+    void slotFillTemplates();
 
 private:
 
@@ -106,6 +112,8 @@ private:
      * Used to popup properties for it
      */
     QIntDict <QString> m_sDest;
+
+    static KDirWatch * m_pDirWatch;
 };
 
 #endif

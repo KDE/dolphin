@@ -28,6 +28,7 @@
 #include <kmessagebox.h>
 #include <kdebug.h>
 #include <kdesktopfile.h>
+#include <kdirwatch.h>
 
 #include <kio_interface.h>
 #include <kio_job.h>
@@ -38,6 +39,7 @@
 
 QStringList * KNewMenu::templatesList = 0L;
 int KNewMenu::templatesVersion = 1; // one step ahead, to force filling the menu
+KDirWatch * KNewMenu::m_pDirWatch = 0L;
 
 KNewMenu::KNewMenu( QActionCollection * _collec, const char *name ) :
   KActionMenu( i18n( "&New" ), _collec, name ), m_actionCollection( _collec ),
@@ -47,13 +49,9 @@ KNewMenu::KNewMenu( QActionCollection * _collec, const char *name ) :
   // We'll do that in slotCheckUpToDate (should be connected to abouttoshow)
 }
 
-void KNewMenu::setPopupFiles(QStringList & _files)
-{
-    popupFiles = _files;
-}
-
 void KNewMenu::slotCheckUpToDate( )
 {
+    kdebug( KDEBUG_INFO, 1202, "slotCheckUpToDate" );
     if (menuItemsVersion < templatesVersion)
     {
         // We need to clean up the action collection
@@ -71,7 +69,7 @@ void KNewMenu::fillMenu()
 {
     if (!templatesList) { // No templates list up to now
         templatesList = new QStringList();
-        fillTemplates();
+        slotFillTemplates();
         menuItemsVersion = templatesVersion;
     }
 
@@ -121,8 +119,18 @@ void KNewMenu::fillMenu()
     }
 }
 
-void KNewMenu::fillTemplates()
+void KNewMenu::slotFillTemplates()
 {
+    // Ensure any changes in the templates dir will call this
+    if ( ! m_pDirWatch )
+    {
+        m_pDirWatch = new KDirWatch( 5000 ); // 5 seconds
+        m_pDirWatch->addDir( KUserPaths::templatesPath() );
+        connect ( m_pDirWatch, SIGNAL( dirty( const QString & ) ),
+                  this, SLOT ( slotFillTemplates() ) );
+        connect ( m_pDirWatch, SIGNAL( fileDirty( const QString & ) ),
+                  this, SLOT ( slotFillTemplates() ) );
+    }
     templatesVersion++;
 
     templatesList->clear();
