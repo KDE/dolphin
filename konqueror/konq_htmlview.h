@@ -68,13 +68,18 @@ public:
   virtual SavedPage *restorePage( const CORBA::Any *data );
   
   virtual void testIgnore();
-    
+
+  virtual void openURL( const char *_url, bool _reload, int _xoffset = 0, int _yoffset = 0, const char *_post_data = 0L);
+      
 public slots:
   virtual void slotMousePressed( const char*, const QPoint&, int );
 
 protected slots:
   void slotOnURL( const char *_url );
   void slotSetTitle( const char *title );
+  void slotStarted( const char *url );
+  void slotCompleted();
+  void slotCanceled();
   
 protected:
 

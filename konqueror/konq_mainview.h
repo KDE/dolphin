@@ -87,6 +87,7 @@ public:
   virtual Konqueror::View_ptr activeView();
   virtual Konqueror::ViewList *viewList();
   virtual void removeView( OpenParts::Id id );
+  void createViewByName( const char *viewName ); //affects m_currentView!
 
   virtual void openURL( const Konqueror::URLRequest &url );
   virtual void openURL( const char * _url, CORBA::Boolean _reload );
@@ -206,15 +207,21 @@ protected:
   //////// View storage //////////////
 
   struct Row;
-  
+
+  struct InternalHistoryEntry
+  {
+    Konqueror::View::HistoryEntry entry;
+    CORBA::String_var viewName;
+  };
+    
   struct View
   {
     View();
     Konqueror::View_var m_vView;
     OPFrame *m_pFrame;
     QString m_strUpURL;
-    list<Konqueror::View::HistoryEntry> m_lstBack;
-    list<Konqueror::View::HistoryEntry> m_lstForward;
+    list<InternalHistoryEntry> m_lstBack;
+    list<InternalHistoryEntry> m_lstForward;
     Row * row;
   };
 

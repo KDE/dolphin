@@ -59,6 +59,12 @@ KonqHTMLView::KonqHTMLView( QWidget *_parent, const char *_name, KBrowser *_pare
                     this, SLOT( slotMousePressed( const char*, const QPoint&, int ) ) );
   QObject::connect( this, SIGNAL( setTitle( const char* ) ),
                     this, SLOT( slotSetTitle( const char * ) ) );
+  QObject::connect( this, SIGNAL( started( const char * ) ),
+                    this, SLOT( slotStarted( const char * ) ) );
+  QObject::connect( this, SIGNAL( completed() ),
+                    this, SLOT( slotCompleted() ) );
+//  QObject::connect( this, SIGNAL( canceled() ),
+//                    this, SLOT( slotCanceled() ) );
 }
 
 KonqHTMLView::~KonqHTMLView()
@@ -278,6 +284,21 @@ void KonqHTMLView::slotOnURL( const char *_url )
 void KonqHTMLView::slotSetTitle( const char *title )
 {
   m_vMainWindow->setPartCaption( id(), title );
+}
+
+void KonqHTMLView::slotStarted( const char *url )
+{
+  SIGNAL_CALL1( "started", CORBA::Any::from_string( (char *)url, 0 ) );
+}
+
+void KonqHTMLView::slotCompleted()
+{
+  SIGNAL_CALL0( "completed" );
+}
+
+void KonqHTMLView::slotCanceled()
+{
+  SIGNAL_CALL0( "canceled" );
 }
 
 bool KonqHTMLView::mousePressedHook( const char *_url, const char *_target, QMouseEvent *_mouse, bool _isselected )
@@ -516,6 +537,12 @@ void KonqHTMLView::testIgnore()
       EMIT_EVENT( mainView2, Konqueror::eventOpenURL, eventURL );
     }
   }
+}
+
+void KonqHTMLView::openURL( const char *_url, bool _reload, int _xoffset, int _yoffset, const char *_post_data )
+{
+  KBrowser::openURL( _url, _reload, _xoffset, _yoffset, _post_data );
+  SIGNAL_CALL1( "setLocationBarURL", CORBA::Any::from_string( (char *)_url, 0 ) );
 }
 
 /**********************************************

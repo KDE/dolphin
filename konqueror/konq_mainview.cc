@@ -29,6 +29,7 @@
 #include "konq_iconview.h"
 #include "konq_htmlview.h"
 #include "konq_treeview.h"
+#include "konq_partview.h"
 
 #include <opUIUtils.h>
 #include <opMenu.h>
@@ -678,6 +679,112 @@ void KonqMainView::removeView( OpenParts::Id id )
   createViewMenu();
 }
 
+void KonqMainView::createViewByName( const char *viewName )
+{
+  Konqueror::View_var vView;
+
+  cerr << "void KonqMainView::createViewByName( " << viewName << " )" << endl;
+  cerr << "current view is a " << m_currentView->m_vView->viewName() << endl;
+  
+  if ( strcmp( viewName, m_currentView->m_vView->viewName() ) == 0 )
+  {
+    cerr << "skippinggggggggggggggg" << endl;
+    return;
+  }
+  
+  //check for builtin views
+  if ( strcmp( viewName, "KonquerorKfmIconView" ) == 0 )
+  {
+    vView = Konqueror::View::_duplicate( new KonqKfmIconView );
+  }
+  else if ( strcmp( viewName, "KonquerorKfmTreeView" ) == 0 )
+  {
+    vView = Konqueror::View::_duplicate( new KonqKfmTreeView );
+  }
+  else if ( strcmp( viewName, "KonquerorHTMLView" ) == 0 )
+  {
+    vView = Konqueror::View::_duplicate( new KonqHTMLView );
+  }
+  else if ( strcmp( viewName, "KonquerorPartView" ) == 0 )
+  {
+    vView = Konqueror::View::_duplicate( new KonqPartView );
+  }
+  else
+  {
+    //TODO: check for plugin views (...map lookup + call to ViewFactory)
+    assert( 0 );
+  }
+    
+  vView->setMainWindow( m_vMainWindow );
+  vView->setParent( this );
+    
+  m_mapViews.erase( m_currentView->m_vView->id() );
+    
+  m_currentView->m_vView->disconnectObject( this );
+  m_currentView->m_vView = Konqueror::View::_duplicate( vView );
+  m_currentView->m_pFrame->attach( vView );
+  m_currentView->m_pFrame->show();
+    
+  try
+  {
+    vView->connect("openURL", this, "openURL");
+  }
+  catch ( ... )
+  {
+    cerr << "WARNING: view does not know signal ""openURL"" " << endl;
+  }
+  try
+  {
+    vView->connect("started", this, "slotURLStarted");
+  }
+  catch ( ... )
+  {
+    cerr << "WARNING: view does not know signal ""started"" " << endl;
+  }
+  try
+  {
+    vView->connect("completed", this, "slotStopAnimation");
+  }
+  catch ( ... )
+  {
+    cerr << "WARNING: view does not know signal ""completed"" " << endl;
+  }
+  try
+  {
+    vView->connect("setStatusBarText", this, "setStatusBarText");
+  }
+  catch ( ... )
+  {
+    cerr << "WARNING: view does not know signal ""setStatusBarText"" " << endl;
+  }
+  try
+  {
+    vView->connect("setLocationBarURL", this, "setLocationBarURL");
+  }
+  catch ( ... )
+  {
+    cerr << "WARNING: view does not know signal ""setLocationBarURL"" " << endl;
+  }
+  try
+  {
+    vView->connect("createNewWindow", this, "createNewWindow");
+  }
+  catch ( ... )
+  {
+    cerr << "WARNING: view does not know signal ""createNewWindow"" " << endl;
+  }
+  try
+  {
+    vView->connect("popupMenu", this, "popupMenu");
+  }
+  catch ( ... )
+  {
+    cerr << "WARNING: view does not know signal ""popupMenu"" " << endl;
+  }
+
+  m_mapViews[ vView->id() ] = m_currentView;
+}
+
 void KonqMainView::openURL( const Konqueror::URLRequest &url )
 {
   openURL( url.url, url.reload );
@@ -1020,82 +1127,8 @@ void KonqMainView::openDirectory( const char *url )
 {
   m_pRun = 0L;
   
-  if ( strcmp( m_currentView->m_vView->viewName(), "KonquerorKfmIconView" ) != 0L )
-  {
-    Konqueror::View_var vView = Konqueror::View::_duplicate( new KonqKfmIconView );
-    
-    vView->setMainWindow( m_vMainWindow );
-    vView->setParent( this );
-    
-    m_mapViews.erase( m_currentView->m_vView->id() );
-    
-    m_currentView->m_vView->disconnectObject( this );
-    m_currentView->m_vView = Konqueror::View::_duplicate( vView );
-    m_currentView->m_pFrame->attach( vView );
-    m_currentView->m_pFrame->show();
-    
-  try
-  {
-    vView->connect("openURL", this, "openURL");
-  }
-  catch ( ... )
-  {
-    cerr << "WARNING: view does not know signal ""openURL"" " << endl;
-  }
-  try
-  {
-    vView->connect("started", this, "slotURLStarted");
-  }
-  catch ( ... )
-  {
-    cerr << "WARNING: view does not know signal ""started"" " << endl;
-  }
-  try
-  {
-    vView->connect("completed", this, "slotStopAnimation");
-  }
-  catch ( ... )
-  {
-    cerr << "WARNING: view does not know signal ""completed"" " << endl;
-  }
-  try
-  {
-    vView->connect("setStatusBarText", this, "setStatusBarText");
-  }
-  catch ( ... )
-  {
-    cerr << "WARNING: view does not know signal ""setStatusBarText"" " << endl;
-  }
-  try
-  {
-    vView->connect("setLocationBarURL", this, "setLocationBarURL");
-  }
-  catch ( ... )
-  {
-    cerr << "WARNING: view does not know signal ""setLocationBarURL"" " << endl;
-  }
-  try
-  {
-    vView->connect("createNewWindow", this, "createNewWindow");
-  }
-  catch ( ... )
-  {
-    cerr << "WARNING: view does not know signal ""createNewWindow"" " << endl;
-  }
-  try
-  {
-    vView->connect("popupMenu", this, "popupMenu");
-  }
-  catch ( ... )
-  {
-    cerr << "WARNING: view does not know signal ""popupMenu"" " << endl;
-  }
-
-    //temporary hack...grrr (Simon)
-    m_currentView->m_lstBack.clear();
-    
-    m_mapViews[ vView->id() ] = m_currentView;
-  }
+  if ( strcmp( m_currentView->m_vView->viewName(), "KonquerorKfmIconView" ) != 0 )
+    createViewByName( "KonquerorKfmIconView" );  
 
   createViewMenu();
 
@@ -1135,82 +1168,8 @@ void KonqMainView::openHTML( const char *url )
 {
   m_pRun = 0L;
   
-  if ( strcmp( m_currentView->m_vView->viewName(), "KonquerorHTMLView" ) != 0L )
-  {
-    Konqueror::View_var vView = Konqueror::View::_duplicate( new KonqHTMLView );
-
-    vView->setMainWindow( m_vMainWindow );
-    vView->setParent( this );
-    
-    m_mapViews.erase( m_currentView->m_vView->id() );
-
-    m_currentView->m_vView->disconnectObject( this );
-    m_currentView->m_vView = Konqueror::View::_duplicate( vView );
-    m_currentView->m_pFrame->attach( vView );
-    m_currentView->m_pFrame->show();
-
-  try
-  {
-    vView->connect("openURL", this, "openURL");
-  }
-  catch ( ... )
-  {
-    cerr << "WARNING: view does not know signal ""openURL"" " << endl;
-  }
-  try
-  {
-    vView->connect("started", this, "slotURLStarted");
-  }
-  catch ( ... )
-  {
-    cerr << "WARNING: view does not know signal ""started"" " << endl;
-  }
-  try
-  {
-    vView->connect("completed", this, "slotStopAnimation");
-  }
-  catch ( ... )
-  {
-    cerr << "WARNING: view does not know signal ""completed"" " << endl;
-  }
-  try
-  {
-    vView->connect("setStatusBarText", this, "setStatusBarText");
-  }
-  catch ( ... )
-  {
-    cerr << "WARNING: view does not know signal ""setStatusBarText"" " << endl;
-  }
-  try
-  {
-    vView->connect("setLocationBarURL", this, "setLocationBarURL");
-  }
-  catch ( ... )
-  {
-    cerr << "WARNING: view does not know signal ""setLocationBarURL"" " << endl;
-  }
-  try
-  {
-    vView->connect("createNewWindow", this, "createNewWindow");
-  }
-  catch ( ... )
-  {
-    cerr << "WARNING: view does not know signal ""createNewWindow"" " << endl;
-  }
-  try
-  {
-    vView->connect("popupMenu", this, "popupMenu");
-  }
-  catch ( ... )
-  {
-    cerr << "WARNING: view does not know signal ""popupMenu"" " << endl;
-  }
-
-    //temporary hack...grrr (Simon)
-    m_currentView->m_lstBack.clear();
-          
-    m_mapViews[ vView->id() ] = m_currentView;
-  }
+  if ( strcmp( m_currentView->m_vView->viewName(), "KonquerorHTMLView" ) != 0 )
+    createViewByName( "KonquerorHTMLView" );
 
   createViewMenu();
 
@@ -1550,7 +1509,7 @@ void KonqMainView::slotBack()
 {
   assert( m_currentView->m_lstBack.size() != 0 );
   // m_lstForward.push_front( m_currentHistory );
-  Konqueror::View::HistoryEntry h = m_currentView->m_lstBack.back();
+  InternalHistoryEntry h = m_currentView->m_lstBack.back();
   m_currentView->m_lstBack.pop_back();
 
   if( m_currentView->m_lstBack.size() == 0 && ( !CORBA::is_nil( m_vToolBar ) ) )
@@ -1560,14 +1519,17 @@ void KonqMainView::slotBack()
 
   m_bBack = true;
 
-  m_currentView->m_vView->restoreState( h );
+  if ( m_currentView->m_vView->viewName() != h.viewName )
+    createViewByName( h.viewName );
+  
+  m_currentView->m_vView->restoreState( h.entry );
 }
 
 void KonqMainView::slotForward()
 {
   assert( m_currentView->m_lstForward.size() != 0 );
   // m_lstBack.push_back( m_currentHistory() );
-  Konqueror::View::HistoryEntry h = m_currentView->m_lstForward.front();
+  InternalHistoryEntry h = m_currentView->m_lstForward.front();
   m_currentView->m_lstForward.pop_front();
 
   // if( m_lstBack.size() != 0 )
@@ -1577,7 +1539,10 @@ void KonqMainView::slotForward()
 
   m_bForward = true;
 
-  m_currentView->m_vView->restoreState( h );
+  if ( m_currentView->m_vView->viewName() != h.viewName )
+    createViewByName( h.viewName );
+    
+  m_currentView->m_vView->restoreState( h.entry );
 }
 
 void KonqMainView::slotReload()
@@ -1648,17 +1613,20 @@ void KonqMainView::slotURLStarted( const char *url )
     return;
   }
   
-  Konqueror::View::HistoryEntry *h = m_currentView->m_vView->saveState();
+  Konqueror::View::HistoryEntry *viewEntry = m_currentView->m_vView->saveState();
+  InternalHistoryEntry h;
+  h.entry = *viewEntry;
+  h.viewName = m_currentView->m_vView->viewName();
+  delete viewEntry;  
   
   if ( m_bBack )
   {
     m_bBack = false;
     
-    m_currentView->m_lstForward.push_front( *h );
+    m_currentView->m_lstForward.push_front( h );
     if ( !CORBA::is_nil( m_vToolBar ) )
       m_vToolBar->setItemEnabled( TOOLBAR_FORWARD_ID, true );
 
-    delete h;      
     return;      
   }
   
@@ -1666,23 +1634,21 @@ void KonqMainView::slotURLStarted( const char *url )
   {
     m_bForward = false;
     
-    m_currentView->m_lstBack.push_front( *h );
+    m_currentView->m_lstBack.push_front( h );
     if ( !CORBA::is_nil( m_vToolBar ) )
       m_vToolBar->setItemEnabled( TOOLBAR_BACK_ID, true );
       
-    delete h;      
     return;      
   }
   
   m_currentView->m_lstForward.clear();
-  m_currentView->m_lstBack.push_back( *h );
+  m_currentView->m_lstBack.push_back( h );
   
   if ( !CORBA::is_nil( m_vToolBar ) )
   {
     m_vToolBar->setItemEnabled( TOOLBAR_FORWARD_ID, false );
     m_vToolBar->setItemEnabled( TOOLBAR_BACK_ID, true );
   }
-  delete h;      
 }
 
 void KonqMainView::slotFocusLeftView()
