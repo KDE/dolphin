@@ -81,7 +81,8 @@ void KonqDirLister::FilesRemoved( const KURL::List & fileList )
 
 KFileItem * KonqDirLister::createFileItem( const KIO::UDSEntry& entry,
 					   const KURL& url,
-					   bool determineMimeTypeOnDemand )
+					   bool determineMimeTypeOnDemand,
+					   bool isDirectory )
 {
     /*
        // Detect koffice files
@@ -93,7 +94,7 @@ KFileItem * KonqDirLister::createFileItem( const KIO::UDSEntry& entry,
        m_bKofficeDocs = true;
        }
     */
-    return new KonqFileItem( entry, url, determineMimeTypeOnDemand );
+    return new KonqFileItem( entry, url, determineMimeTypeOnDemand, isDirectory );
 }
 
 #include "konqdirlister.moc"

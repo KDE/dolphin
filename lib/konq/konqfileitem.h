@@ -30,11 +30,13 @@ class KonqFileItem: public KFileItem
 public:
   // Need to redeclare all constructors ! I want Java !!! :)
   KonqFileItem( const KIO::UDSEntry& entry, const KURL& url,
-		bool determineMimeTypeOnDemand = false )
- : KFileItem( entry, url, determineMimeTypeOnDemand ) {}
+		bool determineMimeTypeOnDemand = false,
+	        bool isDirectory = false )
+ : KFileItem( entry, url, determineMimeTypeOnDemand, isDirectory ) {}
 
-  KonqFileItem( mode_t mode, mode_t permissions, const KURL& url, bool determineMimeTypeOnDemand = false )
- : KFileItem( mode, permissions, url, determineMimeTypeOnDemand ) {}
+  KonqFileItem( mode_t mode, mode_t permissions, const KURL& url, bool determineMimeTypeOnDemand = false,
+	        bool isDirectory = false )
+ : KFileItem( mode, permissions, url, determineMimeTypeOnDemand, isDirectory ) {}
 
   KonqFileItem( const KURL &url, const QString &mimeType, mode_t mode )
  : KFileItem( url, mimeType, mode ) {}

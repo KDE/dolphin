@@ -75,7 +75,8 @@ protected:
    * Overrides the default KFileItem creation to create a KonqFileItem
    */
   virtual KFileItem * createFileItem( const KIO::UDSEntry&, const KURL&,
-				      bool determineMimeTypeOnDemand );
+				      bool determineMimeTypeOnDemand,
+				      bool isDirectory );
 
 };
 
