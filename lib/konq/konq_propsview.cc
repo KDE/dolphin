@@ -344,22 +344,34 @@ void KonqPropsView::applyColors(QWidget * widget) const
     QColorGroup a = widget->palette().active();
     QColorGroup d = widget->palette().disabled(); // is this one ever used ?
     QColorGroup i = widget->palette().inactive(); // is this one ever used ?
+    bool setPaletteNeeded = false;
 
     if ( m_bgPixmapFile.isEmpty() )
     {
-        a.setColor( QColorGroup::Base, bgColor(widget) );
-        d.setColor( QColorGroup::Base, bgColor(widget) );
-        i.setColor( QColorGroup::Base, bgColor(widget) );
-        widget->setBackgroundColor( bgColor(widget) );
+        if ( m_bgColor.isValid() )
+        {
+            a.setColor( QColorGroup::Base, m_bgColor );
+            d.setColor( QColorGroup::Base, m_bgColor );
+            i.setColor( QColorGroup::Base, m_bgColor );
+            widget->setBackgroundColor( m_bgColor );
+            setPaletteNeeded = true;
+        }
     }
     else
     {
         widget->setBackgroundPixmap( loadPixmap() );
     }
 
-    a.setColor( QColorGroup::Text, textColor(widget) );
-    d.setColor( QColorGroup::Text, textColor(widget) );
-    i.setColor( QColorGroup::Text, textColor(widget) );
+    if ( m_textColor.isValid() )
+    {
+        a.setColor( QColorGroup::Text, m_textColor );
+        d.setColor( QColorGroup::Text, m_textColor );
+        i.setColor( QColorGroup::Text, m_textColor );
+        setPaletteNeeded = true;
+    }
 
-    widget->setPalette( QPalette( a, d, i ) );
+    // Avoid calling setPalette if we are fine with the default values.
+    // This makes us react to the palette-change event accordingly.
+    if ( setPaletteNeeded )
+        widget->setPalette( QPalette( a, d, i ) );
 }
