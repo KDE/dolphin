@@ -82,7 +82,7 @@ namespace KParts {
 
 
 class KonqMainWindow : public KParts::MainWindow,
-		       virtual public KBookmarkOwner,
+		       virtual public KBookmarkOwnerListCapable,
 		       public KonqFrameContainerBase
 {
   Q_OBJECT
@@ -183,8 +183,9 @@ public:
    */
   virtual void show();
 
-  /// Overloaded functions of KBookmarkOwner
+  /// Overloaded functions of KBookmarkOwner(ListCapable)
   virtual void openBookmarkURL( const QString & _url );
+  virtual void openBookmarkURLList( const QStringList & _urlList );
   virtual QString currentTitle() const;
   virtual QString currentURL() const;
 

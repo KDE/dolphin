@@ -503,10 +503,11 @@ void KonqMainWindow::openURL( KonqView *_view, const KURL &_url,
       KonqRun * run = new KonqRun( this, view /* can be 0L */, url, req, trustedSource );
       if ( view )
         view->setRun( run );
-      else
+      else if ( !req.newTab )
       {
-        if (m_initialKonqRun)
-            delete m_initialKonqRun; // there can be only one :)
+        // there can be only one :) (when not a new tab)
+        if ( m_initialKonqRun )
+          delete m_initialKonqRun; 
         m_initialKonqRun = run;
       }
       if ( view == m_currentView )
@@ -3478,6 +3479,20 @@ void KonqMainWindow::openBookmarkURL( const QString & url )
   kdDebug(1202) << (QString("KonqMainWindow::openBookmarkURL(%1)").arg(url)) << endl;
   openFilteredURL( url );
 }
+
+void KonqMainWindow::openBookmarkURLList( const QStringList& urlList )
+{
+    kdDebug(1202) << "KonqMainWindow::openBookmarkURLList()" << endl;
+    QStringList::const_iterator first = urlList.begin();
+    openFilteredURL( *first );
+    ++first;
+    while ( first != urlList.end() )
+    {
+        openFilteredURL( *first, true );
+        ++first;
+    }
+}
+
 
 void KonqMainWindow::setCaption( const QString &caption )
 {
