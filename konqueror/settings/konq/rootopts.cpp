@@ -501,7 +501,6 @@ void KRootOptions::editButtonPressed()
    KCustomMenuEditor editor(this);
    KConfig cfg(cfgFile);
    
-   editor.init();
    editor.load(&cfg);
    if (editor.exec())
    {
