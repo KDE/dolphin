@@ -48,18 +48,16 @@
 
 #define DEFAULT_HEADER_HEIGHT 13
 
-void KonqCheckBox::paintEvent(QPaintEvent *)
+void KonqCheckBox::drawButton( QPainter *p )
 {
     //static QPixmap indicator_anchor( UserIcon( "indicator_anchor" ) );
     static QPixmap indicator_connect( UserIcon( "indicator_connect" ) );
     static QPixmap indicator_noconnect( UserIcon( "indicator_noconnect" ) );
 
-   QPainter p(this);
-
    if (isOn() || isDown())
-      p.drawPixmap(0,0,indicator_connect);
+      p->drawPixmap(0,0,indicator_connect);
    else
-      p.drawPixmap(0,0,indicator_noconnect);
+      p->drawPixmap(0,0,indicator_noconnect);
 }
 
 KonqFrameStatusBar::KonqFrameStatusBar( KonqFrame *_parent, const char *_name )
