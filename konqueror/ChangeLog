@@ -10,3 +10,9 @@ Tue Feb 9 17:57:01 1999 Simon Hausmann <tronical@gmx.net>
           - Added dummy menu and toolbar entries
           - fixed segfault due to missing kfmguiprops in KfmPart
         
+Tue Feb 9 22:51:01 1999 Simon Hausmann <tronical@gmx.net>
+
+        * kfm_part.* kfm.idl : more work on KFM's OpenPart GUI
+           - implemented history functionality
+           - completed toolbar entries
+           - several fixes

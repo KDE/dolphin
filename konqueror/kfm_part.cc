@@ -41,6 +41,15 @@ KfmPart::KfmPart( QWidget *_parent ) : QWidget( _parent )
 
   setBackgroundColor( red );
 
+  m_vMenuEdit = 0L;
+  m_vMenuView = 0L;
+  m_vMenuOptions = 0L;
+  
+  m_vMainToolBar = 0L;
+  m_vLocationToolBar = 0L;
+  
+  m_vStatusBar = 0L;
+  
   // Read application config file if not already done
   if (!KfmGuiProps::m_pDefaultProps)
   {
@@ -54,6 +63,9 @@ KfmPart::KfmPart( QWidget *_parent ) : QWidget( _parent )
   // Copy the default properties
   m_Props = new KfmGuiProps( *KfmGuiProps::m_pDefaultProps );
 
+  m_bBack = false;
+  m_bForward = false;
+  
   m_pView = new KfmView( this, this );
   m_pView->show();
   m_pView->setFocus();
@@ -207,42 +219,48 @@ bool KfmPart::mappingCreateToolbar( OpenPartsUI::ToolBarFactory_ptr factory )
   m_vMainToolBar->setFullWidth( false );
   
   pix = OPUIUtils::convertPixmap( *KPixmapCache::toolbarPixmap( "up.xpm" ) );
-  m_vMainToolBar->insertButton2( pix, 0, SIGNAL(clicked()), 
-                                 this, "slotUp", true, i18n("Up"), -1);
+  m_vMainToolBar->insertButton2( pix, ID_UP, SIGNAL(clicked()), 
+                                 this, "slotUp", false, i18n("Up"), -1);
 
   pix = OPUIUtils::convertPixmap( *KPixmapCache::toolbarPixmap( "back.xpm" ) );
-  m_vMainToolBar->insertButton2( pix, 1, SIGNAL(clicked()), 
-                                 this, "slotBack", true, i18n("Back"), -1);
+  m_vMainToolBar->insertButton2( pix, ID_BACK, SIGNAL(clicked()), 
+                                 this, "slotBack", false, i18n("Back"), -1);
 
   pix = OPUIUtils::convertPixmap( *KPixmapCache::toolbarPixmap( "forward.xpm" ) );
-  m_vMainToolBar->insertButton2( pix, 2, SIGNAL(clicked()), 
-                                 this, "slotForward", true, i18n("Forward"), -1);
+  m_vMainToolBar->insertButton2( pix, ID_FORWARD, SIGNAL(clicked()), 
+                                 this, "slotForward", false, i18n("Forward"), -1);
 
   pix = OPUIUtils::convertPixmap( *KPixmapCache::toolbarPixmap( "home.xpm" ) );
-//  m_vMainToolBar->insertButton2( pix, 3, SIGNAL(clicked()), 
-//                                 this, "slotHome", true, i18n("Home"), -1);
+  m_vMainToolBar->insertButton2( pix, ID_HOME, SIGNAL(clicked()), 
+                                 this, "slotHome", true, i18n("Home"), -1);
 
+  m_vMainToolBar->insertSeparator( -1 );
+
+  pix = OPUIUtils::convertPixmap( *KPixmapCache::toolbarPixmap( "reload.xpm" ) );
+  m_vMainToolBar->insertButton2( pix, ID_RELOAD, SIGNAL(clicked()), 
+                                 this, "slotReload", true, i18n("Reload"), -1);
+  
   m_vMainToolBar->insertSeparator( -1 );
   
   pix = OPUIUtils::convertPixmap( *KPixmapCache::toolbarPixmap( "editcopy.xpm" ) );
-//  m_vMainToolBar->insertButton2( pix, ID_COPY, SIGNAL(clicked()), 
-//                                 this, "slotCopy", true, i18n("Copy"), -1);
+  m_vMainToolBar->insertButton2( pix, ID_COPY, SIGNAL(clicked()), 
+                                 this, "slotCopy", true, i18n("Copy"), -1);
 
   pix = OPUIUtils::convertPixmap( *KPixmapCache::toolbarPixmap( "editpaste.xpm" ) );
-//  m_vMainToolBar->insertButton2( pix, ID_PASTE, SIGNAL(clicked()), 
-//                                 this, "slotPaste", true, i18n("Paste"), -1);
+  m_vMainToolBar->insertButton2( pix, ID_PASTE, SIGNAL(clicked()), 
+                                 this, "slotPaste", true, i18n("Paste"), -1);
  				 
   m_vMainToolBar->insertSeparator( -1 );				 
 
   pix = OPUIUtils::convertPixmap( *KPixmapCache::toolbarPixmap( "help.xpm" ) );
-//  m_vMainToolBar->insertButton2( pix, ID_HELP, SIGNAL(clicked()), 
-//                                 this, "slotHelp", true, i18n("Stop"), -1);
+  m_vMainToolBar->insertButton2( pix, ID_HELP, SIGNAL(clicked()), 
+                                 this, "slotHelp", true, i18n("Stop"), -1);
 				 
   m_vMainToolBar->insertSeparator( -1 );				 
 
   pix = OPUIUtils::convertPixmap( *KPixmapCache::toolbarPixmap( "stop.xpm" ) );
-//  m_vMainToolBar->insertButton2( pix, ID_STOP, SIGNAL(clicked()), 
-//                                 this, "slotStop", true, i18n("Stop"), -1);
+  m_vMainToolBar->insertButton2( pix, ID_STOP, SIGNAL(clicked()), 
+                                 this, "slotStop", false, i18n("Stop"), -1);
 				 
   m_vLocationToolBar = factory->create( OpenPartsUI::ToolBarFactory::Transient );
   
@@ -259,6 +277,141 @@ bool KfmPart::mappingCreateToolbar( OpenPartsUI::ToolBarFactory_ptr factory )
   m_vLocationToolBar->setLinedText( ID_LOCATION, m_pView->workingURL() );
   
   return true;
+}
+
+void KfmPart::slotCopy()
+{
+}
+
+void KfmPart::slotPaste()
+{
+}
+
+void KfmPart::slotTrash()
+{
+}
+
+void KfmPart::slotDelete()
+{
+}
+
+void KfmPart::slotSelect()
+{
+}
+
+void KfmPart::slotEditMimeTypes()
+{
+}
+
+void KfmPart::slotEditApplications()
+{
+}
+
+void KfmPart::slotSaveGeometry()
+{
+}
+
+void KfmPart::slotShowTree()
+{
+}
+
+void KfmPart::slotSplitView()
+{
+}
+
+void KfmPart::slotShowDot()
+{
+}
+
+void KfmPart::slotShowSchnauzer()
+{
+}
+
+void KfmPart::slotShowHTML()
+{
+}
+
+void KfmPart::slotLargeIcons()
+{
+}
+
+void KfmPart::slotSmallIcons()
+{
+}
+
+void KfmPart::slotTreeView()
+{
+}
+
+void KfmPart::slotHTMLView()
+{
+}
+
+void KfmPart::slotReloadTree()
+{
+}
+
+void KfmPart::slotReload()
+{
+  m_bForward = false;
+  m_bBack = false;
+  
+  m_pView->reload();
+}
+
+void KfmPart::slotConfigureKeys()
+{
+}
+
+void KfmPart::slotUp()
+{
+  assert( !m_strUpURL.isEmpty() );
+  m_pView->openURL( m_strUpURL );
+}
+
+void KfmPart::slotBack()
+{
+  assert( m_lstBack.size() != 0 );
+  
+  History h = m_lstBack.back();
+  m_lstBack.pop_back();
+  
+  if ( m_lstBack.size() == 0 )
+    m_vMainToolBar->setItemEnabled( ID_BACK, false );
+  
+  m_bBack = true;
+  
+  m_pView->openURL( h.m_strURL, 0, false, h.m_iXOffset, h.m_iYOffset );
+}
+
+void KfmPart::slotForward()
+{
+  assert( m_lstForward.size() != 0 );
+  
+  History h = m_lstForward.front();
+  m_lstForward.pop_front();
+  
+  if ( m_lstForward.size() == 0 )
+    m_vMainToolBar->setItemEnabled( ID_FORWARD, false );
+
+  m_bForward = true;
+  
+  m_pView->openURL( h.m_strURL, 0, false, h.m_iXOffset, h.m_iYOffset );
+}
+
+void KfmPart::slotHome()
+{
+  QString tmp( QDir::homeDirPath().data() );
+  m_pView->openURL( tmp );
+}
+
+void KfmPart::slotHelp()
+{
+}
+
+void KfmPart::slotStop()
+{
+  m_pView->stop();
 }
 
 void KfmPart::slotURLEntered()
@@ -306,8 +459,8 @@ void KfmPart::slotURLEntered()
     return;
   }
 	
-//  m_bBack = false;
-//  m_bForward = false;
+  m_bBack = false;
+  m_bForward = false;
 
   m_pView->openURL( url.c_str() );
 }
@@ -319,42 +472,67 @@ void KfmPart::bookmarkSelected( CORBA::Long id )
 
 void KfmPart::setStatusBarText( const char *_text )
 {
-  // TODO
+  if ( !CORBA::is_nil( m_vStatusBar ) )
+    m_vStatusBar->changeItem( _text, 1 );
 }
 
 void KfmPart::setLocationBarURL( const char *_url )
 {
-  // TODO
+  if ( !CORBA::is_nil( m_vLocationToolBar ) )
+    m_vLocationToolBar->setLinedText( ID_LOCATION, _url );
 }
 
 void KfmPart::setUpURL( const char *_url )
 {
-  // TODO
+  if ( _url == 0 )
+    m_strUpURL = "";
+  else
+    m_strUpURL = _url;
+    
+  if ( !CORBA::is_nil( m_vMainToolBar ) )
+    m_vMainToolBar->setItemEnabled( ID_UP, !m_strUpURL.isEmpty() );
 }
   
 void KfmPart::addHistory( const char *_url, int _xoffset, int _yoffset )
 {
-  // TODO
+  History h;
+  h.m_strURL = _url;
+  h.m_iXOffset = _xoffset;
+  h.m_iYOffset = _yoffset;
+  
+  if ( m_bBack )
+  {
+    m_bBack = false;
+    
+    m_lstForward.push_front( h );
+    if ( !CORBA::is_nil( m_vMainToolBar ) )
+      m_vMainToolBar->setItemEnabled( ID_FORWARD, true );  
+    return;
+  }
+
+  if ( m_bForward )
+  {
+    m_bForward = false;
+    
+    m_lstBack.push_back( h );
+    if ( !CORBA::is_nil( m_vMainToolBar ) )
+      m_vMainToolBar->setItemEnabled( ID_BACK, true );  
+    return;
+  }
+  
+  m_lstForward.clear();
+  m_lstBack.push_back( h );
+
+  if ( !CORBA::is_nil( m_vMainToolBar ) )
+    {
+      m_vMainToolBar->setItemEnabled( ID_FORWARD, false );  
+      m_vMainToolBar->setItemEnabled( ID_BACK, true );
+    }
 }
 
 void KfmPart::createGUI( const char *_url )
 {
   // TODO
-}
-
-bool KfmPart::hasUpURL()
-{
-  return false;
-}
-
-bool KfmPart::hasBackHistory()
-{
-  return false;
-}
-
-bool KfmPart::hasForwardHistory()
-{
-  return false;
 }
 
 #include "kfm_part.moc"

@@ -49,6 +49,34 @@ public:
   virtual void init();
   virtual void cleanUp();
 
+  void slotCopy();
+  void slotPaste();
+  void slotTrash();
+  void slotDelete();
+  void slotSelect();
+  void slotEditMimeTypes();
+  void slotEditApplications();
+  void slotSaveGeometry();
+  void slotShowTree();
+  void slotSplitView();
+  void slotShowDot();
+  void slotShowSchnauzer();
+  void slotShowHTML();
+  void slotLargeIcons();
+  void slotSmallIcons();
+  void slotTreeView();
+  void slotHTMLView();
+  void slotReloadTree();
+  void slotReload();
+  void slotConfigureKeys();
+		
+  void slotUp();
+  void slotBack();
+  void slotForward();
+  void slotHome();
+  void slotHelp();
+  void slotStop();
+  
   virtual void slotURLEntered();
   virtual void bookmarkSelected( CORBA::Long id );
   
@@ -64,9 +92,9 @@ public:
 
   void createGUI( const char *_url );
   
-  bool hasUpURL();
-  bool hasBackHistory();
-  bool hasForwardHistory();
+  bool hasUpURL() { return !m_strUpURL.isEmpty(); }
+  bool hasBackHistory() { return m_lstBack.size() > 0; }
+  bool hasForwardHistory() { return m_lstForward.size() > 0; }
 
 protected:
   virtual void resizeEvent( QResizeEvent * );
@@ -76,12 +104,10 @@ protected:
   virtual bool mappingCreateToolbar( OpenPartsUI::ToolBarFactory_ptr factory );
 
   OpenPartsUI::Menu_var m_vMenuEdit;
-
   OpenPartsUI::Menu_var m_vMenuView;
   OpenPartsUI::Menu_var m_vMenuOptions;
 
   OpenPartsUI::ToolBar_var m_vMainToolBar;
-
   OpenPartsUI::ToolBar_var m_vLocationToolBar;
     
   OpenPartsUI::StatusBar_var m_vStatusBar;
@@ -97,6 +123,20 @@ protected:
   static const int ID_HELP     = 9;
   static const int ID_STOP     = 10;
 
+  QString m_strUpURL;
+
+  struct History
+  {
+    QString m_strURL;
+    int m_iXOffset;
+    int m_iYOffset;
+  };
+    
+  list<History> m_lstBack;
+  list<History> m_lstForward;
+  bool m_bBack;
+  bool m_bForward;
+  
   KfmView* m_pView;
 };
 
