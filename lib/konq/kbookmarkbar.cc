@@ -54,17 +54,6 @@ void KBookmarkBar::clear()
 {
     m_lstSubMenus.clear();
 
-    QPtrListIterator<KAction> it( m_actions );
-    for (; it.current(); ++it )
-    {
-        it.current()->unplugAll();
-        //m_actionCollection->take( it.current() );
-    }
-
-    m_actions.setAutoDelete( true );
-    m_actions.clear();
-    m_actions.setAutoDelete( false );
-
     if ( m_toolBar )
         m_toolBar->clear();
 }
@@ -113,7 +102,6 @@ void KBookmarkBar::fillBookmarkBar(KBookmarkGroup & parent)
                                      m_actionCollection,
                                      bm.url().url().utf8());
                 action->plug(m_toolBar);
-                m_actions.append( action );
             }
         }
         else
@@ -131,7 +119,6 @@ void KBookmarkBar::fillBookmarkBar(KBookmarkGroup & parent)
                                                     bm.address());
             //menu->fillBookmarkMenu();
             action->plug(m_toolBar);
-            m_actions.append( action );
             m_lstSubMenus.append( menu );
         }
     }
