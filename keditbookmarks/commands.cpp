@@ -95,7 +95,7 @@ void CreateCommand::execute() {
    Q_ASSERT(bk.address() == m_to);
 }
 
-QString CreateCommand::finalAddress() {
+QString CreateCommand::finalAddress() const {
    Q_ASSERT( !m_to.isEmpty() );
    return m_to;
 }
@@ -342,7 +342,7 @@ void MoveCommand::execute() {
    //           << m_from << " to=" << m_to << endl;
 }
 
-QString MoveCommand::finalAddress() {
+QString MoveCommand::finalAddress() const {
    Q_ASSERT( !m_to.isEmpty() );
    return m_to;
 }
@@ -524,37 +524,33 @@ KMacroCommand* CmdGen::itemsMoved(QPtrList<KEBListViewItem> *items,
 
    for (QPtrListIterator<KEBListViewItem> it(*items); 
         it.current() != 0; ++it) {
-      KCommand *cmd;
       if (copy) {
+         CreateCommand *cmd;
          cmd = new CreateCommand(
                      bkInsertAddr,
                      (*it)->bookmark().internalElement()
                                       .cloneNode(true).toElement(),
                      (*it)->bookmark().text());
 
+         cmd->execute();
+         mcmd->addCommand(cmd);
+         
+         bkInsertAddr = cmd->finalAddress();
+
       } else /* if (move) */ {
          QString oldAddress = (*it)->bookmark().address();
-
-         if (bkInsertAddr.startsWith(oldAddress)) {
+         if (bkInsertAddr.startsWith(oldAddress))
             continue;
-         }
 
-         cmd = new MoveCommand(oldAddress, bkInsertAddr,
-                               (*it)->bookmark().text());
+         MoveCommand *cmd = new MoveCommand(oldAddress, bkInsertAddr,
+                                           (*it)->bookmark().text());
+         cmd->execute();
+         mcmd->addCommand(cmd);
+         
+         bkInsertAddr = cmd->finalAddress();
       }
 
-      cmd->execute();
-      mcmd->addCommand(cmd);
-      
-      FinalAddressCommand *finalcmd = 
-         dynamic_cast<FinalAddressCommand*>(cmd);
-
-      // if you hit this, you suck, try 
-      // reading the code before changing it
-      assert(finalcmd); 
-
-      bkInsertAddr 
-         = KBookmark::nextAddress(finalcmd->finalAddress());
+      bkInsertAddr = KBookmark::nextAddress(bkInsertAddr);
    }
 
    return mcmd;

@@ -23,13 +23,7 @@
 #include <kcommand.h>
 #include <kbookmark.h>
 
-class FinalAddressCommand
-{
-public:
-   virtual QString finalAddress() = 0;
-};
-
-class CreateCommand : public KCommand, public FinalAddressCommand
+class CreateCommand : public KCommand
 {
 public:
    // separator
@@ -61,11 +55,12 @@ public:
         m_open(false), m_konqi(false), m_originalBookmark(original), m_mytext(name)
    { ; }
 
+   QString finalAddress() const;
+
    virtual ~CreateCommand() { ; }
    virtual void execute();
    virtual void unexecute();
    virtual QString name() const;
-   virtual QString finalAddress(); // make const
 private:
    QString m_to;
    QString m_text;
@@ -155,7 +150,7 @@ private:
    bool m_contentOnly;
 };
 
-class MoveCommand : public KCommand, public FinalAddressCommand
+class MoveCommand : public KCommand
 {
 public:
    // "Create it with itemsAlreadyMoved=true since 
@@ -163,11 +158,11 @@ public:
    MoveCommand(const QString &from, const QString &to, const QString &name = QString::null)
       : KCommand(), m_from(from), m_to(to), m_mytext(name)
    { ; }
+   QString finalAddress() const;
    virtual ~MoveCommand() { ; }
    virtual void execute();
    virtual void unexecute();
    virtual QString name() const;
-   virtual QString finalAddress();
 private:
    QString m_from;
    QString m_to;
