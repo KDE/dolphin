@@ -113,7 +113,8 @@ void KfDirDialog::rereadDir()
     }
   } else {
     qApp->restoreOverrideCursor();
-    QMessageBox::message( i18n("Sorry"), 
+    QMessageBox::information( this,
+			  i18n("Sorry"), 
 			  i18n("Cannot open or read directory."),
 			  i18n("OK") );
     qApp ->setOverrideCursor( waitCursor );
@@ -153,7 +154,8 @@ void KfDirDialog::checkDir(const QString& subdir, bool abs)
     return;
   }
   
-  QMessageBox::message( i18n("Sorry"), 
+  QMessageBox::information(this,
+			i18n("Sorry"), 
 			i18n("Cannot open or read directory."),
 			i18n("OK") );
 }
