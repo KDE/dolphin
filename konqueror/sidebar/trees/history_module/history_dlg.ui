@@ -262,7 +262,7 @@
                                 <cstring>btnClearHistory</cstring>
                             </property>
                             <property name="text">
-                                <string>Clear History...</string>
+                                <string>Clear History</string>
                             </property>
                         </widget>
                         <spacer>
