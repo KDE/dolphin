@@ -101,22 +101,6 @@ protected:
    QString m_visibleName;
 };
 
-class KBookmarkDomBuilder : public QObject {
-   Q_OBJECT
-public:
-   KBookmarkDomBuilder(const KBookmarkGroup &group);
-   virtual ~KBookmarkDomBuilder();
-   void connectImporter(const QObject *);
-protected slots:
-   void newBookmark(const QString &text, const QCString &url, const QString &additionnalInfo);
-   void newFolder(const QString &text, bool open, const QString &additionnalInfo);
-   void newSeparator();
-   void endFolder();
-public:
-   QPtrStack<KBookmarkGroup> m_stack;
-   QValueList<KBookmarkGroup> m_list;
-};
-
 // part pure
 class XBELImportCommand : public ImportCommand
 {

@@ -29,6 +29,7 @@
 #include <kbookmarkimporter.h>
 #include <kbookmarkimporter_ie.h>
 #include <kbookmarkimporter_opera.h>
+#include <kbookmarkdombuilder.h>
 
 #include "commands.h"
 #include "toplevel.h"
@@ -128,58 +129,6 @@ void ImportCommand::unexecute() {
 
 //////////////////////////////
 
-void KBookmarkDomBuilder::connectImporter(const QObject *importer) {
-   connect(importer, SIGNAL( newBookmark(const QString &, const QCString &, const QString &) ),
-                     SLOT( newBookmark(const QString &, const QCString &, const QString &) ));
-   connect(importer, SIGNAL( newFolder(const QString &, bool, const QString &) ),
-                     SLOT( newFolder(const QString &, bool, const QString &) ));
-   connect(importer, SIGNAL( newSeparator() ),
-                     SLOT( newSeparator() ) );
-   connect(importer, SIGNAL( endFolder() ),
-                     SLOT( endFolder() ) );
-}
-
-KBookmarkDomBuilder::KBookmarkDomBuilder(const KBookmarkGroup &bkGroup) {
-   m_stack.push(&bkGroup);
-}
-
-KBookmarkDomBuilder::~KBookmarkDomBuilder() {
-   m_list.clear();
-   m_stack.clear();
-}
-
-void KBookmarkDomBuilder::newBookmark(const QString &text, const QCString &url, const QString &additionnalInfo) {
-   KBookmark bk = m_stack.top()->addBookmark(
-                                    CurrentMgr::self()->mgr(),
-                                    text, QString::fromUtf8(url),
-                                    QString::null, false);
-   // store additionnal info
-   bk.internalElement().setAttribute("netscapeinfo", additionnalInfo);
-}
-
-void KBookmarkDomBuilder::newFolder( const QString & text, bool open, const QString & additionnalInfo ) {
-   // we use a qvaluelist so that we keep pointers to valid objects in the stack
-   m_list.append(m_stack.top()->createNewFolder(CurrentMgr::self()->mgr(), text, false));
-   m_stack.push(&(m_list.last()));
-
-   // store additionnal info
-   QDomElement element = m_list.last().internalElement();
-   element.setAttribute("netscapeinfo", additionnalInfo);
-   element.setAttribute("folded", (open?"no":"yes"));
-}
-
-void KBookmarkDomBuilder::newSeparator() {
-   m_stack.top()->createNewSeparator();
-}
-
-void KBookmarkDomBuilder::endFolder() {
-   m_stack.pop();
-}
-
-
-//////////////////////////////
-
-
 void ImportCommand::doCreateHoldingFolder(KBookmarkGroup &bkGroup) {
    bkGroup = CurrentMgr::self()->mgr()
       ->root().createNewFolder(CurrentMgr::self()->mgr(), folder(), false);
@@ -194,7 +143,7 @@ QString OperaImportCommand::requestFilename() const {
 }
 
 void OperaImportCommand::doExecute(const KBookmarkGroup &bkGroup) {
-   KBookmarkDomBuilder builder(bkGroup);
+   KBookmarkDomBuilder builder(bkGroup, CurrentMgr::self()->mgr());
    KOperaBookmarkImporter importer(m_fileName);
    builder.connectImporter(&importer);
    importer.parseOperaBookmarks();
@@ -207,7 +156,7 @@ QString IEImportCommand::requestFilename() const {
 }
 
 void IEImportCommand::doExecute(const KBookmarkGroup &bkGroup) {
-   KBookmarkDomBuilder builder(bkGroup);
+   KBookmarkDomBuilder builder(bkGroup, CurrentMgr::self()->mgr());
    KIEBookmarkImporter importer(m_fileName);
    builder.connectImporter(&importer);
    importer.parseIEBookmarks();
@@ -216,7 +165,7 @@ void IEImportCommand::doExecute(const KBookmarkGroup &bkGroup) {
 /* -------------------------------------- */
 
 void HTMLImportCommand::doExecute(const KBookmarkGroup &bkGroup) {
-   KBookmarkDomBuilder builder(bkGroup);
+   KBookmarkDomBuilder builder(bkGroup, CurrentMgr::self()->mgr());
    KNSBookmarkImporter importer(m_fileName);
    builder.connectImporter(&importer);
    importer.parseNSBookmarks(m_utf8);
