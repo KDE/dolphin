@@ -827,5 +827,17 @@
         <receiver>gb_no_proxy_for</receiver>
         <slot>setEnabled(bool)</slot>
     </connection>
+    <connection>
+        <sender>cb_useProxy</sender>
+        <signal>toggled(bool)</signal>
+        <receiver>mle_no_prx</receiver>
+        <slot>setEnabled(bool)</slot>
+    </connection>
+    <connection>
+        <sender>cb_useProxy</sender>
+        <signal>toggled(bool)</signal>
+        <receiver>lb_no_prx</receiver>
+        <slot>setEnabled(bool)</slot>
+    </connection>
 </connections>
 </UI>
