@@ -17,7 +17,6 @@
 */
 
 #include "kbookmark.h"
-#include "kbookmarknotifier.h"
 #include <kdebug.h>
 #include <kmimetype.h>
 #include <kstringhandler.h>
@@ -27,13 +26,9 @@
 #include <assert.h>
 #include <kapp.h>
 #include <dcopclient.h>
+#include <kbookmarkmanager.h>
 
 #include "konq_faviconmgr.h"
-
-// This is created global, since it's impossible to add new members
-// to KBookmark objects (and besides, we need this object to exist
-// in one instance only, so we could connectDCOP to it by name)
-KBookmarkNotifier notifier;
 
 KBookmarkGroup::KBookmarkGroup()
  : KBookmark( QDomElement() )
@@ -116,7 +111,7 @@ KBookmarkGroup KBookmarkGroup::createNewFolder( const QString & text, bool emitS
 
     KBookmarkGroup grp(groupElem);
 
-    if (emitSignal) emit notifier.createdNewFolder( grp.fullText(), grp.address() );
+    if (emitSignal) emit KBookmarkManager::self()->notifier().createNewFolder_signal( grp.fullText(), grp.address() );
 
     return grp;
 
@@ -175,7 +170,7 @@ KBookmark KBookmarkGroup::addBookmark( const QString & text, const KURL & url, c
 
     KBookmark bk(elem);
 
-    if (emitSignal) emit notifier.addedBookmark( url.url(), text, bk.address(), icon );
+    if (emitSignal) emit KBookmarkManager::self()->notifier().addBookmark_signal( url.url(), text, bk.address(), icon );
 
     return bk;
 }

@@ -32,13 +32,15 @@
 #include <qfile.h>
 #include <qfileinfo.h>
 #include <qtextstream.h>
+#include <kstaticdeleter.h>
 
 KBookmarkManager* KBookmarkManager::s_pSelf = 0L;
+KStaticDeleter<KBookmarkManager> sdbm;
 
 KBookmarkManager* KBookmarkManager::self()
 {
   if ( !s_pSelf )
-    s_pSelf = new KBookmarkManager;
+    sdbm.setObject( s_pSelf, new KBookmarkManager );
 
   return s_pSelf;
 }
@@ -292,7 +294,7 @@ KBookmarkGroup KBookmarkManager::toolbar()
         return KBookmarkGroup(root().findToolbar());
 }
 
-KBookmark KBookmarkManager::findByAddress( const QString & address, bool tolerant ) 
+KBookmark KBookmarkManager::findByAddress( const QString & address, bool tolerant )
 {
     //kdDebug(1203) << "KBookmarkManager::findByAddress " << address << endl;
     KBookmark result = root();

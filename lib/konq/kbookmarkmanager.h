@@ -23,6 +23,7 @@
 #include <qdom.h>
 #include <dcopobject.h>
 #include "kbookmark.h"
+#include "kbookmarknotifier.h"
 
 /**
  * This class implements the reading/writing of bookmarks in XML.
@@ -148,6 +149,11 @@ public:
      */
     const QDomDocument & internalDocument() const;
 
+    /** Access to bookmark notifier, for emitting signals.
+     * We need this object to exist in one instance only, so we could
+     * connectDCOP to it by name. */
+    KBookmarkNotifier& notifier() { return m_notifier; }
+
 public slots:
     void slotEditBookmarks();
 
@@ -180,10 +186,13 @@ protected:
     void importDesktopFiles();
     static void convertToXBEL( QDomElement & group );
     static void convertAttribute( QDomElement elem, const QString & oldName, const QString & newName );
+
+private:
+    KBookmarkNotifier m_notifier;
     QString m_bookmarksFile;
-    mutable bool m_docIsLoaded;
     mutable QDomDocument m_doc;
     mutable QDomDocument m_toolbarDoc;
+    mutable bool m_docIsLoaded;
     bool m_update;
     static KBookmarkManager* s_pSelf;
 };

@@ -17,23 +17,23 @@
    Boston, MA 02111-1307, USA.
 */
 
-#ifndef __kbookmarklistener_h__
-#define __kbookmarklistener_h__
+#ifndef __kbookmarknotifier_h__
+#define __kbookmarknotifier_h__
 
 #include <dcopobject.h>
-#include <qvaluelist.h>
-#include <dcopref.h>
 
 /**
  * DCOP interface for a bookmark listener
  */
-class KBookmarkListener : virtual public DCOPObject
+class KBookmarkNotifier : public DCOPObject
 {
   K_DCOP
+public:
+  // TODO KBookmarkNotifier() : DCOPObject("KBookmarkNotifier") {}
 
-k_dcop:
-  virtual void addBookmark( QString url, QString text, QString address, QString icon ) = 0;
-  virtual void createNewFolder( QString text, QString address ) = 0;
+k_dcop_signals:
+  void addBookmark_signal( QString url, QString text, QString address, QString icon );
+  void createNewFolder_signal( QString text, QString address );
 };
 
 #endif
