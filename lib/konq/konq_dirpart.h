@@ -132,12 +132,25 @@ public:
      */
     void emitTotalCount();
 
+    // ##### TODO KDE 4: remove!
     /**
-     * Show the counts for the selected items in the status bar, if any
-     * otherwise show the info for the directory.
-     * @param selectionChanged if true, we'll emit selectionInfo.
+     * Show the counts for the list of items in the status bar.
+     * If none are provided emitTotalCount() is called to display
+     * the counts for the whole directory. However, that does not work
+     * for a treeview.
+     * 
+     * @deprecated
      */
     void emitCounts( const KFileItemList & lst, bool selectionChanged );
+    
+    /**
+     * Show the counts for the list of items in the status bar. The list
+     * can be empty.
+     * 
+     * @param lst the list of fileitems for which to display the counts
+     * @since 3.4
+     */
+    void emitCounts( const KFileItemList & lst );
 
     void emitMouseOver( const KFileItem * item );
 

@@ -482,49 +482,48 @@ void KonqDirPart::emitTotalCount()
     emit setStatusBarText( bShowsResult ? i18n("Search result: %1").arg(summary) : summary );
 }
 
-void KonqDirPart::emitCounts( const KFileItemList & lst, bool selectionChanged )
+void KonqDirPart::emitCounts( const KFileItemList & lst )
 {
-    // Compare the new value with our cache
-    /*bool multiple = lst.count()>1;
-    if (multiple != m_bMultipleItemsSelected)
-    {
-        m_bMultipleItemsSelected = multiple;
-        updatePasteAction();
-    }*/
-
-    if ( lst.count()==1)
-    {
+    if ( lst.count() == 1 )
         emit setStatusBarText( ((KFileItemList)lst).first()->getStatusBarInfo() );
-    }
-    else if ( lst.count()>1)
+    else
     {
         long long fileSizeSum = 0;
         uint fileCount = 0;
         uint dirCount = 0;
 
-        for (KFileItemListIterator it( lst ); it.current(); ++it )
+        for ( KFileItemListIterator it( lst ); it.current(); ++it )
+        {
             if ( it.current()->isDir() )
                 dirCount++;
             else
             {
-                if (!it.current()->isLink()) // ignore symlinks
+                if ( !it.current()->isLink() ) // ignore symlinks
                     fileSizeSum += it.current()->size();
                 fileCount++;
             }
+        }
 
-        emit setStatusBarText( KIO::itemsSummaryString(fileCount + dirCount,
-                                                         fileCount,
-                                                         dirCount,
-                                                         fileSizeSum,
-                                                         true));
+        emit setStatusBarText( KIO::itemsSummaryString( fileCount + dirCount,
+                                                        fileCount, dirCount,
+                                                        fileSizeSum, true ) );
     }
-    else
+}
+
+void KonqDirPart::emitCounts( const KFileItemList & lst, bool selectionChanged )
+{
+    if ( lst.count() == 0 )
         emitTotalCount();
+    else
+        emitCounts( lst );
 
     // Yes, the caller could do that too :)
     // But this bool could also be used to cache the QString for the last
     // selection, as long as selectionChanged is false.
     // Not sure it's worth it though.
+    // MiB: no, I don't think it's worth it. Especially regarding the
+    //      loss of readability of the code. Thus, this will be removed in
+    //      KDE 4.0.
     if ( selectionChanged )
         emit m_extension->selectionInfo( lst );
 }
