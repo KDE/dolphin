@@ -8,14 +8,16 @@
 
 #include "useragentdlg.h"
 
+
 #include <kapp.h>
 #include <klocale.h>
-#include <kconfig.h>
 
 #include <qlayout.h> //CT
 #include <qwhatsthis.h>
 
-#include <kprotocolmanager.h> // for default useragent string
+#include <dcopclient.h>
+#include <kprotocolmanager.h>
+
 
 UserAgentOptions::UserAgentOptions( QWidget * parent, const char * name ) :
   KCModule( parent, name )
@@ -122,31 +124,15 @@ UserAgentOptions::~UserAgentOptions()
 
 void UserAgentOptions::load()
 {
-  KConfig *g_pConfig = new KConfig("kioslaverc");
-
-  // read entries for UserAgentDlg
-  g_pConfig->setGroup( "Browser Settings/UserAgent" );
-  int entries = g_pConfig->readNumEntry( "EntriesCount", 0 );
-  settingsList.clear();
-  for( int i = 0; i < entries; i++ )
-        {
-          QString key;
-          key.sprintf( "Entry%d", i );
-          QString entry = g_pConfig->readEntry( key, "" );
-          if (entry.left( 13 ) == "*:Mozilla/4.0") // update version number
-            settingsList.append( "*:"+DEFAULT_USERAGENT_STRING );
-          else
-            settingsList.append( entry );
-        }
-  if( entries == 0 ) {
+  QStringList list = KProtocolManager::userAgentList();
+  uint entries = list.count();
+  if( entries == 0 )
     defaults();
-  }
-  else {
+  else
+  {
     bindingsLB->clear();
-    bindingsLB->insertStringList( settingsList );
+    bindingsLB->insertStringList( list );
   }
-
-  delete g_pConfig;
 }
 
 void UserAgentOptions::defaults()
@@ -158,23 +144,21 @@ void UserAgentOptions::defaults()
 
 void UserAgentOptions::save()
 {
-  KConfig *g_pConfig = new KConfig("kioslaverc");
-
-    // write back the entries from UserAgent
-    g_pConfig->setGroup("Browser Settings/UserAgent");
-
     if(!bindingsLB->count())
-      defaults();
+        defaults();
 
-    g_pConfig->writeEntry( "EntriesCount", bindingsLB->count() );
-    for( uint i = 0; i < bindingsLB->count(); i++ ) {
-      QString key;
-      key.sprintf( "Entry%d", i );
-      g_pConfig->writeEntry( key, bindingsLB->text( i ) );
+    QStringList list;
+    uint count = bindingsLB->count();
+    for( uint i = 0; i < count; i++ )
+    {
+        list.append( bindingsLB->text(i) );
     }
-    g_pConfig->sync();
+    KProtocolManager::setUserAgentList( list );
 
-  delete g_pConfig;
+    // Force the io-slaves to reload this config change :)
+    QByteArray data;
+    QCString launcher = KApplication::launcher();
+    kapp->dcopClient()->send( launcher, launcher, "reparseConfiguration()", data );
 }
 
 void UserAgentOptions::textChanged( const QString& )
