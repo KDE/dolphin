@@ -241,7 +241,7 @@ void XBELImportCommand::doCreateHoldingFolder(KBookmarkGroup &) {
    // root xbel node into the group when doing an xbel import
 }
 
-void XBELImportCommand::doExecute(const KBookmarkGroup &bkGroup) {
+void XBELImportCommand::doExecute(const KBookmarkGroup &/*bkGroup*/) {
    KBookmarkManager *pManager;
 
    // check if already open first???
