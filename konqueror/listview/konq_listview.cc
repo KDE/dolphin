@@ -605,7 +605,7 @@ void KonqListView::slotSelectionChanged()
   bool itemSelected = selectedFileItems().count()>0;
   m_paUnselect->setEnabled( itemSelected );
   m_paUnselectAll->setEnabled( itemSelected );
-  m_paInvertSelection->setEnabled( itemSelected );
+//  m_paInvertSelection->setEnabled( itemSelected );
 }
 
 #include "konq_listview.moc"
