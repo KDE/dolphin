@@ -32,8 +32,7 @@ METASOURCES = kbookmark.moc kbrowser.moc \
 	konq_main.moc konq_mainview.moc konq_mainwindow.moc \
 	konq_partview.moc konq_treeview.moc konq_frame.moc
 
-kdelnk_DATA = konqueror_part.kdelnk
-kdelnkdir = $(kde_datadir)/../partlnk
+kde_parts_DATA = konqueror_part.kdelnk
 
 DISTCLEANFILES = $(METASOURCES) konqueror.cc konqueror.h
 
@@ -44,7 +43,7 @@ messages:
 
 ####### Build rules
 
-IDL_FLAGS = --query-server-for-narrow --relative-paths -I$(top_srcdir)/kom -I$(top_srcdir)/partsui -I$(top_srcdir)/parts -I$(idldir)
+IDL_FLAGS = --query-server-for-narrow --relative-paths -I$(idldir)
 
 konqueror.cc: konqueror.h
 konqueror.h: $(srcdir)/konqueror.idl
