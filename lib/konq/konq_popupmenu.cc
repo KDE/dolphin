@@ -411,11 +411,14 @@ void KonqPopupMenu::setup(bool showPropertiesAndFileType)
   }
 
   KTrader::OfferList offers;
+
+  if (kapp->authorizeKAction("openwith"))
+  {
       // if check m_sMimeType.isNull (no commom mime type) set it to all/all
       // 3 - Query for applications
       offers = KTrader::self()->query( m_sMimeType.isNull( ) ? QString::fromLatin1( "all/all" ) : m_sMimeType ,
    "Type == 'Application' and DesktopEntryName != 'kfmclient' and DesktopEntryName != 'kfmclient_dir' and DesktopEntryName != 'kfmclient_html'" );
-
+  }
 
   //// Ok, we have everything, now insert
 
