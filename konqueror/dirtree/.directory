@@ -2,17 +2,20 @@
 Name=FTP Servers
 Name[ca]=Servidors FTP
 Name[cs]=FTP servery
+Name[de]=FTP-Server
 Name[eo]=FTP-serviloj
+Name[fi]=FTP-palvelimet
 Name[fr]=Serveurs FTP
 Name[he]=FTP יתרש
 Name[hu]=FTP Kiszolgálók
 Name[it]=Server FTP
 Name[ja]=FTPサーバー
+Name[no]=FTP-tjenere
 Name[no_NY]=FTP-tenar
 Name[pt]=Servidores FTP
 Name[ro]=Server-e FTP
 Name[sl]=Strežniki FTP
 Name[sv]=FTP-servrar
-Name[ta]=FTP §º¨ÅÂ¸õ
+Name[ta]=FTP ேசைவயகம
 Icon=ftp
 
