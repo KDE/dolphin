@@ -1,21 +1,21 @@
 /* This file is part of the KDE project
    Copyright (C) 1998, 1999 Torben Weis <weis@kde.org>
- 
+
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Library General Public
    License as published by the Free Software Foundation; either
    version 2 of the License, or (at your option) any later version.
- 
+
    This library is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
    Library General Public License for more details.
- 
+
    You should have received a copy of the GNU Library General Public License
    along with this library; see the file COPYING.LIB.  If not, write to
    the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
    Boston, MA 02111-1307, USA.
-*/     
+*/
 
 #include <qdir.h>
 
@@ -57,21 +57,21 @@ KBookmarkManager* KBookmarkManager::s_pSelf = 0L;
 KBookmarkManager* KBookmarkManager::self()
 {
   assert ( s_pSelf );
-  
+
   return s_pSelf;
 }
 
 KBookmarkManager::KBookmarkManager() : m_Root( 0L, 0L, 0L )
 {
   s_pSelf = this;
-  
+
   m_lstParsedDirs.setAutoDelete( true );
-  
+
   // Little hack
   m_Root.m_pManager = this;
   m_bAllowSignalChanged = true;
   m_bNotify = true;
-  
+
   QString p = kapp->localkdedir().data();
   p += "/share/apps/kfm/bookmarks";
   scan( p );
@@ -85,11 +85,11 @@ void KBookmarkManager::slotNotify( const char *_url )
 {
   if ( !m_bNotify )
     return;
-  
+
   K2URL u( _url );
   if ( !u.isLocalFile() )
     return;
-  
+
   QString p = kapp->localkdedir().data();
   p += "/share/apps/kfm/bookmarks";
   QDir dir2( p );
@@ -101,7 +101,7 @@ void KBookmarkManager::slotNotify( const char *_url )
     p1 = u.path();
   if ( p2.isEmpty() )
     p2 = p.data();
-  
+
   if ( strncmp( p1.data(), p2.data(), p2.length() ) == 0 )
   {
     QString d = kapp->localkdedir().data();
@@ -109,7 +109,7 @@ void KBookmarkManager::slotNotify( const char *_url )
     scan( d );
   }
 }
-  
+
 void KBookmarkManager::emitChanged()
 {
   // Scanning right now ?
@@ -125,13 +125,13 @@ void KBookmarkManager::emitChanged()
 void KBookmarkManager::scan( const char * _path )
 {
   m_Root.clear();
-  
+
   // Do not emit 'changed' signals here.
   m_bAllowSignalChanged = false;
   scanIntern( &m_Root, _path );
   m_lstParsedDirs.clear();
   m_bAllowSignalChanged = true;
-   
+
   emitChanged();
 }
 
@@ -183,18 +183,18 @@ void KBookmarkManager::scanIntern( KBookmark *_bm, const char * _path )
 	if ( f == 0L )
 	  ok = false;
 	else
-	{    
+	{
 	  char buff[ 100 ];
 	  buff[ 0 ] = 0;
 	  fgets( buff, 100, f );
 	  fclose( f );
-	  
+	
 	  if ( strncmp( buff, "# KDE Config File", 17 ) != 0L )
 	    ok = false;
 	}
 	
 	if ( ok )
-	{    
+	{
 	  KSimpleConfig cfg( file, true );
 	  cfg.setGroup( "KDE Desktop Entry" );
 	  QString type = cfg.readEntry( "Type" );	
@@ -229,10 +229,10 @@ KBookmark::KBookmark( KBookmarkManager *_bm, KBookmark *_parent, const char *_te
 {
   assert( _bm != 0L );
   assert( _parent != 0L );
-  
+
   _cfg.setGroup( "KDE Desktop Entry" );
   m_url = _cfg.readEntry( "URL" );
-  
+
   m_pPixmap = 0L;
   m_pMiniPixmap = 0L;
   m_id = g_id++;
@@ -242,15 +242,15 @@ KBookmark::KBookmark( KBookmarkManager *_bm, KBookmark *_parent, const char *_te
   m_text = KBookmark::decode( _text );
   if ( m_text.length() > 7 && m_text.right( 7 ) == ".kdelnk" )
     m_text.truncate( m_text.length() - 7 );
-  
+
   m_type = URL;
-  
+
   m_file = _parent->file();
   m_file += "/";
   m_file += _text;
 
   _parent->append( this );
-  
+
   m_pManager->emitChanged();
 }
 
@@ -278,7 +278,7 @@ KBookmark::KBookmark( KBookmarkManager *_bm, KBookmark *_parent, const char *_te
 
   if ( _parent )
     _parent->append( this );
-  
+
   if ( m_pManager )
     m_pManager->emitChanged();
 }
@@ -288,7 +288,7 @@ KBookmark::KBookmark( KBookmarkManager *_bm, KBookmark *_parent, const char *_te
   assert( _bm != 0L );
   assert( _parent != 0L );
   assert( _text != 0L && _url != 0L );
-  
+
   K2URL u( _url );
 
   string icon;
@@ -302,7 +302,7 @@ KBookmark::KBookmark( KBookmarkManager *_bm, KBookmark *_parent, const char *_te
     icon = "ftp.xpm";
   else
     icon = "www.xpm";
-  
+
   m_pPixmap = 0L;
   m_pMiniPixmap = 0L;
   m_id = g_id++;
@@ -311,7 +311,7 @@ KBookmark::KBookmark( KBookmarkManager *_bm, KBookmark *_parent, const char *_te
   m_text = _text;
   m_url = _url;
   m_type = URL;
-  
+
   m_file = _parent->file();
   m_file += "/";
   m_file += encode( _text );
@@ -323,7 +323,7 @@ KBookmark::KBookmark( KBookmarkManager *_bm, KBookmark *_parent, const char *_te
     QMessageBox::critical( (QWidget*)0L, i18n("KFM Error"), i18n("Could not write bookmark" ) );
     return;
   }
-  
+
   fprintf( f, "# KDE Config File\n" );
   fprintf( f, "[KDE Desktop Entry]\n" );
   fprintf( f, "URL=%s\n", m_url.data() );
@@ -333,7 +333,7 @@ KBookmark::KBookmark( KBookmarkManager *_bm, KBookmark *_parent, const char *_te
   fclose( f );
 
   m_pManager->disableNotify();
-  
+
   // Update opened KFM windows. Perhaps there is one
   // that shows the bookmarks directory.
   string fe( _parent->file() );
@@ -342,23 +342,23 @@ KBookmark::KBookmark( KBookmarkManager *_bm, KBookmark *_parent, const char *_te
   fe.insert( 0, "file:" );
   // HACK
   // KIOServer::sendNotify( fe.c_str() );
-  
+
   m_pManager->enableNotify();
 
   _parent->append( this );
-  
+
   m_pManager->emitChanged();
 }
 
 void KBookmark::clear()
 {
   KBookmark *bm;
-  
+
   for ( bm = children()->first(); bm != NULL; bm = children()->next() )
   {
     bm->clear();
   }
-  
+
   m_lstChildren.clear();
 }
 
@@ -368,12 +368,12 @@ KBookmark* KBookmark::findBookmark( int _id )
     return this;
 
   KBookmark *bm;
-  
+
   for ( bm = children()->first(); bm != NULL; bm = children()->next() )
   {
     if ( bm->id() == _id )
       return bm;
-    
+
     if ( bm->type() == Folder )
     {
       KBookmark *b = bm->findBookmark( _id );
@@ -404,14 +404,14 @@ QString KBookmark::encode( const char *_str )
 QString KBookmark::decode( const char *_str )
 {
   QString str( _str );
-  
+
   int i = 0;
   while ( ( i = str.find( "%%", i ) ) != -1 )
   {
     str.replace( i, 2, "%");
     i++;
   }
-  
+
   while ( ( i = str.find( "%2f" ) ) != -1 )
       str.replace( i, 3, "/");
   while ( ( i = str.find( "%2F" ) ) != -1 )
@@ -432,7 +432,7 @@ QPixmap* KBookmark::pixmap( bool _mini )
   }
 
   assert( m_pPixmap );
-  
+
   return m_pPixmap;
 }
 
@@ -450,7 +450,7 @@ KBookmarkMenu::KBookmarkMenu( KBookmarkOwner *_owner, OpenPartsUI::Menu_ptr menu
   m_lstSubMenus.setAutoDelete( true );
 
   assert( !CORBA::is_nil( menu ) );
-      
+
   m_vMenu = OpenPartsUI::Menu::_duplicate( menu );
   m_vPart = OpenParts::Part::_duplicate( part );
   m_vMenu->connect( "activated", m_vPart, "slotBookmarkSelected" );
@@ -464,29 +464,29 @@ KBookmarkMenu::KBookmarkMenu( KBookmarkOwner *_owner, OpenPartsUI::Menu_ptr menu
 
 KBookmarkMenu::~KBookmarkMenu()
 {
-  m_lstSubMenus.clear();  
+  m_lstSubMenus.clear();
 
   assert( !CORBA::is_nil( m_vMenu ) );
- 
+
   m_vMenu->disconnect( "activated", m_vPart, "slotBookmarkSelected" );
-      
+
   m_vMenu = 0L;
 }
 
 void KBookmarkMenu::slotBookmarksChanged()
 {
   assert( !CORBA::is_nil( m_vMenu ) );
-    
+
   m_lstSubMenus.clear();
 
-  if ( !m_bIsRoot )    
+  if ( !m_bIsRoot )
     m_vMenu->disconnect( "activated", m_vPart, "slotBookmarkSelected" );
-      
+
   m_vMenu->clear();
-    
+
   if ( m_bIsRoot )
     m_vMenu->insertItem( i18n("&Edit Bookmarks..."), m_vPart, "slotEditBookmarks", 0 );
-  
+
   fillBookmarkMenu( KBookmarkManager::self()->root() );
 }
 
@@ -495,10 +495,10 @@ void KBookmarkMenu::fillBookmarkMenu( KBookmark *parent )
   KBookmark *bm;
 
   assert( !CORBA::is_nil( m_vMenu ) );
-  
+
   m_vMenu->insertItem7( i18n("&Add Bookmark"), (CORBA::Long)parent->id(), -1 );
   m_vMenu->insertSeparator( -1 );
-  
+
   for ( bm = parent->children()->first(); bm != NULL;  bm = parent->children()->next() )
   {
     if ( bm->type() == KBookmark::URL )
@@ -507,7 +507,7 @@ void KBookmarkMenu::fillBookmarkMenu( KBookmark *parent )
       m_vMenu->insertItem11( pix, bm->text(), (CORBA::Long)bm->id(), -1 );	
     }
     else
-    {	    
+    {	
       OpenPartsUI::Menu_var subMenuVar;
       OpenPartsUI::Pixmap_var pix = OPUIUtils::convertPixmap( *(bm->pixmap( true )) );
       m_vMenu->insertItem12( pix, bm->text(), subMenuVar, -1, -1 );
@@ -521,7 +521,7 @@ void KBookmarkMenu::fillBookmarkMenu( KBookmark *parent )
 void KBookmarkMenu::slotBookmarkSelected( int _id )
 {
   KBookmark *bm = KBookmarkManager::self()->findBookmark( _id );
-    
+
   if ( bm )
   {
     if ( bm->type() == KBookmark::Folder )
@@ -535,7 +535,7 @@ void KBookmarkMenu::slotBookmarkSelected( int _id )
     K2URL u( bm->url() );
     if ( u.isMalformed() )
     {
-      string tmp = i18n( "Malformed URL" );
+      string tmp = i18n( "Malformed URL" ).ascii();
       tmp += "\n";
       tmp += bm->url();
       QMessageBox::critical( 0L, i18n( "Error" ), tmp.c_str(), i18n( "OK" ) );

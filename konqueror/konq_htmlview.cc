@@ -1,21 +1,21 @@
 /* This file is part of the KDE project
    Copyright (C) 1998, 1999 Torben Weis <weis@kde.org>
- 
+
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Library General Public
    License as published by the Free Software Foundation; either
    version 2 of the License, or (at your option) any later version.
- 
+
    This library is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
    Library General Public License for more details.
- 
+
    You should have received a copy of the GNU Library General Public License
    along with this library; see the file COPYING.LIB.  If not, write to
    the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
    Boston, MA 02111-1307, USA.
-*/     
+*/
 
 #include "konq_htmlview.h"
 
@@ -44,13 +44,13 @@ KonqHTMLView::KonqHTMLView( QWidget *_parent, const char *_name, KBrowser *_pare
   setWidget( this );
 
   QWidget::show();
-      
+
   QWidget::setFocusPolicy( StrongFocus );
 
   initConfig();
 
   QObject::connect( this, SIGNAL( onURL( KHTMLView*, const char* ) ), this, SLOT( slotOnURL( KHTMLView*, const char* ) ) );
-    
+
   QObject::connect( this, SIGNAL( mousePressed( const char*, const QPoint&, int ) ),
                     this, SLOT( slotMousePressed( const char*, const QPoint&, int ) ) );
 
@@ -66,7 +66,7 @@ void KonqHTMLView::initConfig()
   KHTMLWidget* htmlWidget = getKHTMLWidget();
 
   htmlWidget->setDefaultBGColor( settings->bgColor() );
-  htmlWidget->setDefaultTextColors( settings->textColor(), 
+  htmlWidget->setDefaultTextColors( settings->textColor(),
 				    settings->linkColor(),
 				    settings->vLinkColor() );
   htmlWidget->setStandardFont( settings->stdFontName() );
@@ -89,8 +89,8 @@ void KonqHTMLView::slotNewWindow( const char *_url )
 
 KBrowser* KonqHTMLView::createFrame( QWidget *_parent, const char *_name )
 {
-  KBrowser *m_pBrowser = new KBrowser( _parent, _name, this );  
-  
+  KBrowser *m_pBrowser = new KBrowser( _parent, _name, this );
+
   KConfig *config = kapp->getConfig();
   config->setGroup("Settings");
 
@@ -99,7 +99,7 @@ KBrowser* KonqHTMLView::createFrame( QWidget *_parent, const char *_name )
   KHTMLWidget* htmlWidget = m_pBrowser->getKHTMLWidget();
 
   htmlWidget->setDefaultBGColor( settings->bgColor() );
-  htmlWidget->setDefaultTextColors( settings->textColor(), 
+  htmlWidget->setDefaultTextColors( settings->textColor(),
 				    settings->linkColor(),
 				    settings->vLinkColor() );
   htmlWidget->setStandardFont( settings->stdFontName() );
@@ -111,11 +111,11 @@ KBrowser* KonqHTMLView::createFrame( QWidget *_parent, const char *_name )
     htmlWidget->setURLCursor( KCursor().handCursor() );
   else
     htmlWidget->setURLCursor( KCursor().arrowCursor() );
-    
+
   QObject::connect( m_pBrowser, SIGNAL( onURL( KHTMLView*, const char* ) ), this, SLOT( slotOnURL( KHTMLView*, const char* ) ) );
   QObject::connect( m_pBrowser, SIGNAL( mousePressed( const char*, const QPoint&, int ) ),
 	   this, SLOT( slotMousePressed( const char*, const QPoint&, int ) ) );
-	   
+	
   return m_pBrowser;
 }
 
@@ -148,10 +148,10 @@ void KonqHTMLView::slotMousePressed( const char* _url, const QPoint &_global, in
     K2URL u( url );
     QStrList lst;
     lst.append( url );
-    
+
     mode_t mode = 0;
     if ( u.isLocalFile() )
-      {    
+      {
 	struct stat buff;
 	if ( stat( u.path(), &buff ) == -1 )
 	  {
@@ -160,7 +160,7 @@ void KonqHTMLView::slotMousePressed( const char* _url, const QPoint &_global, in
 	  }
 	mode = buff.st_mode;
       }
-    
+
     // TODO m_pView->popupMenu( _global, lst, mode, u.isLocalFile() );
   }
 }
@@ -175,12 +175,12 @@ void KonqHTMLView::slotOnURL( const char *_url )
 
   K2URL url( _url );
   QString com;
-  
+
   KMimeType *typ = KMimeType::findByURL( url );
-  
+
   if ( typ )
     com = typ->comment( url, false );
-  
+
   if ( url.isMalformed() )
   {
     SIGNAL_CALL1( "setStatusBarText", CORBA::Any::from_string( (char *)_url, 0 ) );
@@ -192,14 +192,14 @@ void KonqHTMLView::slotOnURL( const char *_url )
 	
   struct stat buff;
   stat( decodedPath, &buff );
-  
+
   struct stat lbuff;
   lstat( decodedPath, &lbuff );
   QString text;
   QString text2;
   text = decodedName.copy(); // copy to change it
   text2 = text;
-  text2.detach();
+  //text2.detach();
 	
   if ( url.isLocalFile() )
   {
@@ -230,9 +230,9 @@ void KonqHTMLView::slotOnURL( const char *_url )
     {
       text += " ";
       if (buff.st_size < 1024)
-	text.sprintf( "%s (%ld %s)", 
+	text.sprintf( "%s (%ld %s)",
 		      text2.data(), (long) buff.st_size,
-		      i18n("bytes"));
+		      i18n("bytes").ascii());
       else
       {
 	float d = (float) buff.st_size/1024.0;
@@ -300,7 +300,7 @@ char *KonqHTMLView::url()
 char *KonqHTMLView::title()
 {
   return CORBA::string_dup( "TODOOOOOOOOOOO" );
-}  
+}
 
 /**********************************************
  *
@@ -313,12 +313,12 @@ KonqEmbededFrame::KonqEmbededFrame( QWidget *_parent, int _frameborder, bool _al
 {
   m_pChild = 0L;
 }
-  
+
 void KonqEmbededFrame::setChild( QWidget *_widget )
 {
   if ( m_pChild )
     delete m_pChild;
-  
+
   m_pChild = _widget;
   resizeEvent( 0L );
 }
@@ -332,7 +332,7 @@ void KonqEmbededFrame::resizeEvent( QResizeEvent *_ev )
 {
   if ( m_pChild == 0L )
     return;
-  
+
   m_pChild->setGeometry( 0, 0, width(), height() );
 }
 

@@ -1,21 +1,21 @@
 /* This file is part of the KDE project
    Copyright (C) 1998, 1999 Torben Weis <weis@kde.org>
- 
+
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Library General Public
    License as published by the Free Software Foundation; either
    version 2 of the License, or (at your option) any later version.
- 
+
    This library is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
    Library General Public License for more details.
- 
+
    You should have received a copy of the GNU Library General Public License
    along with this library; see the file COPYING.LIB.  If not, write to
    the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
    Boston, MA 02111-1307, USA.
-*/     
+*/
 
 #include "konq_iconview.h"
 #include "kfmviewprops.h"
@@ -47,7 +47,7 @@ KonqKfmIconView::KonqKfmIconView( QWidget* _parent ) : KIconContainer( _parent )
   setWidget( this );
 
   QWidget::show();
-      
+
   QWidget::setFocusPolicy( StrongFocus );
   viewport()->setFocusPolicy( StrongFocus );
 
@@ -56,7 +56,7 @@ KonqKfmIconView::KonqKfmIconView( QWidget* _parent ) : KIconContainer( _parent )
   m_jobId = 0;
 
   initConfig();
-  
+
   QObject::connect( &m_bufferTimer, SIGNAL( timeout() ), this, SLOT( slotBufferTimeout() ) );
   QObject::connect( this, SIGNAL( mousePressed( KIconContainerItem*, const QPoint&, int ) ),
 	   this, SLOT( slotMousePressed( KIconContainerItem*, const QPoint&, int ) ) );
@@ -147,12 +147,12 @@ void KonqKfmIconView::initConfig()
 
   QFont font( m_stdFontName, m_fontSize );
   setFont( font );
-  
+
   if ( !m_bInit )
     refresh();
-    
+
   delete settings;
-  delete props;    
+  delete props;
 }
 
 void KonqKfmIconView::selectedItems( list<KonqKfmIconViewItem*>& _list )
@@ -167,7 +167,7 @@ void KonqKfmIconView::slotReturnPressed( KIconContainerItem *_item, const QPoint
 {
   if ( !_item )
     return;
-  
+
   KonqKfmIconViewItem *item = (KonqKfmIconViewItem*)_item;
   item->returnPressed();
 }
@@ -183,10 +183,10 @@ void KonqKfmIconView::slotMousePressed( KIconContainerItem *_item, const QPoint 
       QStrList urls;
       QString cURL = m_url.url( 1 ).c_str();
       int i = cURL.length();
-      
+
       mode_t mode = 0;
       urls.append( cURL );
-      
+
       // A url ending with '/' is always a directory
       if ( i >= 1 && cURL[ i - 1 ] == '/' )
 	mode = S_IFDIR;
@@ -196,7 +196,7 @@ void KonqKfmIconView::slotMousePressed( KIconContainerItem *_item, const QPoint 
 	mode = 0;
       // Local filesystem without subprotocol
       if ( m_bIsLocalURL )
-      {    
+      {
 	struct stat buff;
 	if ( stat( m_url.path(), &buff ) == -1 )
 	{
@@ -215,7 +215,7 @@ void KonqKfmIconView::slotMousePressed( KIconContainerItem *_item, const QPoint 
   else if ( _button == RightButton )
   {
     QStrList urls;
-    
+
     list<KonqKfmIconViewItem*> icons;
     selectedItems( icons );
     mode_t mode = 0;
@@ -224,13 +224,13 @@ void KonqKfmIconView::slotMousePressed( KIconContainerItem *_item, const QPoint 
     for( ; icit != icons.end(); ++icit )
     {
       urls.append( (*icit)->url() );
-      
+
       UDSEntry::iterator it = (*icit)->udsEntry().begin();
       for( ; it != (*icit)->udsEntry().end(); it++ )
 	if ( it->m_uds == UDS_FILE_TYPE )
 	{
 	  if ( first )
-	  {    
+	  {
 	    mode = (mode_t)it->m_long;
 	    first = false;
 	  }
@@ -238,7 +238,7 @@ void KonqKfmIconView::slotMousePressed( KIconContainerItem *_item, const QPoint 
 	    mode = 0;
 	}
     }
-    
+
 //    m_pView->popupMenu( _global, urls, mode, m_bIsLocalURL );
     //emit signal here ..TODO
   }
@@ -253,7 +253,7 @@ void KonqKfmIconView::slotDoubleClicked( KIconContainerItem *_item, const QPoint
 void KonqKfmIconView::slotDrop( QDropEvent *_ev, KIconContainerItem* _item, QStrList &_formats )
 {
   QStrList lst;
-  
+
   // Try to decode to the data you understand...
   if ( QUrlDrag::decode( _ev, lst ) )
   {
@@ -281,7 +281,7 @@ void KonqKfmIconView::slotDragStart( const QPoint& _hotspot, QList<KIconContaine
   selectedItems( icons );
 
   QStrList urls;
-    
+
   list<KonqKfmIconViewItem*>::iterator icit = icons.begin();
   for( ; icit != icons.end(); ++icit )
     urls.append( (*icit)->url() );
@@ -296,13 +296,13 @@ void KonqKfmIconView::openURL( const char *_url )
   K2URL url( _url );
   if ( url.isMalformed() )
   {
-    string tmp = i18n( "Malformed URL" );
+    string tmp = i18n( "Malformed URL" ).ascii();
     tmp += "\n";
     tmp += _url;
     QMessageBox::critical( this, i18n( "Error" ), tmp.c_str(), i18n( "OK" ) );
     return;
   }
-    
+
   // TODO: Check whether the URL is really a directory
 
   // Stop running jobs
@@ -313,7 +313,7 @@ void KonqKfmIconView::openURL( const char *_url )
       job->kill();
     m_jobId = 0;
   }
-  
+
   m_bComplete = false;
 
   KIOJob* job = new KIOJob;
@@ -326,7 +326,7 @@ void KonqKfmIconView::openURL( const char *_url )
   m_workingURL = url;
 
   m_buffer.clear();
-  
+
   m_jobId = job->id();
   job->listDir( _url );
 
@@ -344,11 +344,11 @@ void KonqKfmIconView::slotError( int /*_id*/, int _errid, const char *_errortext
 void KonqKfmIconView::slotCloseURL( int /*_id*/ )
 {
   if ( m_bufferTimer.isActive() )
-  {    
+  {
     m_bufferTimer.stop();
     slotBufferTimeout();
   }
-  
+
   m_jobId = 0;
   m_bComplete = true;
 
@@ -366,36 +366,36 @@ void KonqKfmIconView::slotListEntry( int /*_id*/, UDSEntry& _entry )
 void KonqKfmIconView::slotBufferTimeout()
 {
   cerr << "BUFFER TIMEOUT" << endl;
-  
+
   list<UDSEntry>::iterator it = m_buffer.begin();
   for( ; it != m_buffer.end(); it++ )
-  {    
+  {
     string name;
-    
+
     // Find out about the name
     UDSEntry::iterator it2 = it->begin();
     for( ; it2 != it->end(); it2++ )
       if ( it2->m_uds == UDS_NAME )
 	name = it2->m_str;
-  
+
     assert( !name.empty() );
     if ( m_isShowingDotFiles || name[0]!='.' )
     {
 
       cerr << "Processing " << name << endl;
-    
+
     // The first entry in the toplevel ?
       if ( !m_strWorkingURL.empty() )
       {
         clear();
-      
+
         m_strURL = m_strWorkingURL.c_str();
         m_strWorkingURL = "";
         m_url = m_strURL.data();
         K2URL u( m_url );
         m_bIsLocalURL = u.isLocalFile();
       }
-    
+
       K2URL u( m_url );
       u.addPath( name.c_str() );
       KonqKfmIconViewItem* item = new KonqKfmIconViewItem( this, *it, u, name.c_str() );
@@ -408,13 +408,13 @@ void KonqKfmIconView::slotBufferTimeout()
   cerr << "Doing setup" << endl;
 
   setup();
-  
+
   cerr << "111111111111111111" << endl;
-  
+
   // refresh();
 
   viewport()->update();
-  
+
   m_buffer.clear();
 }
 
@@ -422,7 +422,7 @@ void KonqKfmIconView::updateDirectory()
 {
   if ( !m_bComplete )
     return;
-  
+
   // Stop running jobs
   if ( m_jobId )
   {
@@ -431,16 +431,16 @@ void KonqKfmIconView::updateDirectory()
       job->kill();
     m_jobId = 0;
   }
-  
+
   m_bComplete = false;
   m_buffer.clear();
-  
+
   KIOJob* job = new KIOJob;
   QObject::connect( job, SIGNAL( sigListEntry( int, UDSEntry& ) ), this, SLOT( slotUpdateListEntry( int, UDSEntry& ) ) );
   QObject::connect( job, SIGNAL( sigFinished( int ) ), this, SLOT( slotUpdateFinished( int ) ) );
   QObject::connect( job, SIGNAL( sigError( int, int, const char* ) ),
 	   this, SLOT( slotUpdateError( int, int, const char* ) ) );
-  
+
   m_jobId = job->id();
   job->listDir( m_strURL.data() );
 
@@ -461,37 +461,37 @@ void KonqKfmIconView::slotUpdateError( int /*_id*/, int _errid, const char *_err
   kioErrorDialog( _errid, _errortext );
 
   m_bComplete = true;
-  
+
 //  emit canceled();
 }
 
 void KonqKfmIconView::slotUpdateFinished( int /*_id*/ )
 {
   if ( m_bufferTimer.isActive() )
-  {    
+  {
     m_bufferTimer.stop();
     slotBufferTimeout();
   }
-  
+
   m_jobId = 0;
   m_bComplete = true;
-  
+
   // Unmark all items
   iterator kit = KIconContainer::begin();
   for( ; kit != KIconContainer::end(); ++kit )
     ((KonqKfmIconViewItem&)**kit).unmark();
-    
+
   list<UDSEntry>::iterator it = m_buffer.begin();
   for( ; it != m_buffer.end(); it++ )
-  {    
+  {
     string name;
-    
+
     // Find out about the name
     UDSEntry::iterator it2 = it->begin();
     for( ; it2 != it->end(); it2++ )
       if ( it2->m_uds == UDS_NAME )
 	name = it2->m_str;
-  
+
     assert( !name.empty() );
 
     // Find this icon
@@ -500,12 +500,12 @@ void KonqKfmIconView::slotUpdateFinished( int /*_id*/ )
     for( ; kit != KIconContainer::end() && !done; ++kit )
     {
       if ( name == (*kit)->text() )
-      {  
+      {
 	((KonqKfmIconViewItem&)**kit).mark();
 	done = true;
       }
     }
-    
+
     if ( !done )
     {
       debug("slotUpdateFinished : %s",name.c_str());
@@ -532,11 +532,11 @@ void KonqKfmIconView::slotUpdateFinished( int /*_id*/ )
       lst.append( &**kit );
     }
   }
-  
+
   KIconContainerItem* kci;
   for( kci = lst.first(); kci != 0L; kci = lst.next() )
     remove( kci, false );
-  
+
   m_buffer.clear();
 
 //  emit completed();
@@ -552,7 +552,7 @@ void KonqKfmIconView::slotUpdateListEntry( int /*_id*/, UDSEntry& _entry )
 void KonqKfmIconView::slotOnItem( KIconContainerItem *_item )
 {
   if ( !_item )
-  {    
+  {
 //    m_pView->gui()->setStatusBarText( "" );
     SIGNAL_CALL1( "setStatusBarText", CORBA::Any::from_string( "", 0 ) );
     return;
@@ -562,13 +562,13 @@ void KonqKfmIconView::slotOnItem( KIconContainerItem *_item )
   UDSEntry entry = ((KonqKfmIconViewItem* )_item)->udsEntry();
   K2URL url(((KonqKfmIconViewItem* )_item)->url());
 
-  QString comment = type->comment( url, false );  
+  QString comment = type->comment( url, false );
   QString text;
   QString text2;
   QString linkDest;
   text = _item->text();
   text2 = text;
-  text2.detach();
+  //text2.detach();
 
   long size   = 0;
   mode_t mode = 0;
@@ -583,7 +583,7 @@ void KonqKfmIconView::slotOnItem( KIconContainerItem *_item )
     else if ( it->m_uds == UDS_LINK_DEST )
       linkDest = it->m_str.c_str();
   }
-  
+
   if ( url.isLocalFile() )
   {
     if (mode & S_ISVTX /*S_ISLNK( mode )*/ )
@@ -602,9 +602,9 @@ void KonqKfmIconView::slotOnItem( KIconContainerItem *_item )
     {
       text += " ";
       if (size < 1024)
-	text.sprintf( "%s (%ld %s)", 
+	text.sprintf( "%s (%ld %s)",
 		      text2.data(), (long) size,
-		      i18n( "bytes" ));
+		      i18n( "bytes" ).ascii());
       else
       {
 	float d = (float) size/1024.0;
@@ -622,7 +622,7 @@ void KonqKfmIconView::slotOnItem( KIconContainerItem *_item )
       {
 	text += "  ";
 	text += comment.data();
-      }	  
+      }	
 //    m_pView->gui()->setStatusBarText( text );
     SIGNAL_CALL1( "setStatusBarText", CORBA::Any::from_string( (char *)text.data(), 0 ) );
   }
@@ -650,7 +650,7 @@ void KonqKfmIconViewItem::init( KonqKfmIconView* _IconView, UDSEntry& _entry, K2
   m_entry = _entry;
   m_strURL = _url.url().c_str();
   m_bMarked = false;
-  
+
   mode_t mode = 0;
   UDSEntry::iterator it = _entry.begin();
   for( ; it != _entry.end(); it++ )
@@ -659,17 +659,17 @@ void KonqKfmIconViewItem::init( KonqKfmIconView* _IconView, UDSEntry& _entry, K2
 
   m_bIsLocalURL = _url.isLocalFile();
   m_displayMode = m_pParent->displayMode();
-  
+
   bool mini = false;
   if ( m_pParent->displayMode() == KIconContainer::Vertical )
     mini = true;
-  
+
   cerr << ">>>>>>>>>MIME" << endl;
   m_pMimeType = KMimeType::findByURL( _url, mode, m_bIsLocalURL );
   cerr << "<<<<<<<<<MIME" << endl;
-  
+
   setText( _name );
-  
+
   cerr << ">>>>>>>>>PIX" << endl;
   setPixmap( *( KPixmapCache::pixmapForMimeType( m_pMimeType, _url, m_bIsLocalURL, mini ) ) );
   cerr << "<<<<<<<<<PIX" << endl;
@@ -680,9 +680,9 @@ void KonqKfmIconViewItem::refresh()
   if ( m_displayMode != m_pParent->displayMode() )
   {
     m_displayMode = m_pParent->displayMode();
-    
+
     K2URL url( m_strURL.data() );
-  
+
     mode_t mode = 0;
     UDSEntry::iterator it = m_entry.begin();
     for( ; it != m_entry.end(); it++ )
@@ -692,10 +692,10 @@ void KonqKfmIconViewItem::refresh()
     bool mini = false;
     if ( m_pParent->displayMode() == KIconContainer::Vertical )
       mini = true;
-  
+
     setPixmap( *( KPixmapCache::pixmapForURL( url, mode, m_bIsLocalURL, mini ) ) );
   }
-  
+
   KIconContainerItem::refresh();
 }
 
@@ -723,12 +723,12 @@ bool KonqKfmIconViewItem::acceptsDrops( QStrList& /* _formats */ )
 
   if ( strcmp( "application/x-kdelnk", m_pMimeType->mimeType() ) == 0 )
     return true;
-  
+
   // Executable, shell script ... ?
   K2URL u( m_strURL.data() );
   if ( access( u.path(), X_OK ) == 0 )
     return true;
-  
+
   return false;
 }
 
@@ -764,10 +764,10 @@ void KonqKfmIconViewItem::popupMenu( const QPoint &_global )
       mode = (mode_t)it->m_long;
 
   m_pParent->setSelected( this, true );
-  
+
   QStrList lst;
   lst.append( m_strURL.data() );
-  
+
   m_pParent->view()->popupMenu( _global, lst, mode, m_bIsLocalURL );
 }
 */

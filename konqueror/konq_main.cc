@@ -1,21 +1,21 @@
 /* This file is part of the KDE project
    Copyright (C) 1998, 1999 Torben Weis <weis@kde.org>
- 
+
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Library General Public
    License as published by the Free Software Foundation; either
    version 2 of the License, or (at your option) any later version.
- 
+
    This library is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
    Library General Public License for more details.
- 
+
    You should have received a copy of the GNU Library General Public License
    along with this library; see the file COPYING.LIB.  If not, write to
    the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
    Boston, MA 02111-1307, USA.
-*/     
+*/
 
 #include <qprinter.h>
 #include <opApplication.h>
@@ -87,7 +87,7 @@ KonqApplicationIf::KonqApplicationIf( CORBA::Object_ptr _obj ) :
 OpenParts::Part_ptr KonqApplicationIf::createPart()
 {
   QString home = "file:";
-  home.detach();
+  //home.detach();
   home += QDir::homeDirPath().data();
 
   Konqueror::EventOpenURL eventURL;
@@ -95,25 +95,25 @@ OpenParts::Part_ptr KonqApplicationIf::createPart()
   eventURL.reload = (CORBA::Boolean)true;
 
   OpenParts::Part_var m_vMainView = OpenParts::Part::_duplicate( new KonqMainView );
-  
-  EMIT_EVENT( m_vMainView, Konqueror::eventOpenURL, eventURL );  
-  
+
+  EMIT_EVENT( m_vMainView, Konqueror::eventOpenURL, eventURL );
+
   return OpenParts::Part::_duplicate( m_vMainView );
 }
 
 OpenParts::MainWindow_ptr KonqApplicationIf::createWindow()
 {
   QString home = "file:";
-  home.detach();
+  //home.detach();
   home += QDir::homeDirPath().data();
-  
+
   return OpenParts::MainWindow::_duplicate( (new KonqMainWindow( home.data() ))->interface() );
 }
 
 Konqueror::MainView_ptr KonqApplicationIf::createMainView()
 {
   QString home = "file:";
-  home.detach();
+  //home.detach();
   home += QDir::homeDirPath().data();
 
   Konqueror::EventOpenURL eventURL;
@@ -121,9 +121,9 @@ Konqueror::MainView_ptr KonqApplicationIf::createMainView()
   eventURL.reload = (CORBA::Boolean)true;
 
   Konqueror::MainView_var m_vMainView = Konqueror::MainView::_duplicate( new KonqMainView );
-  
-  EMIT_EVENT( m_vMainView, Konqueror::eventOpenURL, eventURL );  
-  
+
+  EMIT_EVENT( m_vMainView, Konqueror::eventOpenURL, eventURL );
+
   return Konqueror::MainView::_duplicate( m_vMainView );
 }
 
@@ -153,7 +153,7 @@ Konqueror::PartView_ptr KonqApplicationIf::createPartView()
  *
  **********************************************/
 
-KonqApp::KonqApp( int &argc, char** argv ) : 
+KonqApp::KonqApp( int &argc, char** argv ) :
   OPApplication( argc, argv, "konqueror" )
 {
 }
@@ -167,7 +167,7 @@ void KonqApp::start()
   if ( g_bWithGUI )
   {
     QString home = "file:";
-    home.detach();
+    //home.detach();
     home += QDir::homeDirPath().data();
     KonqMainWindow *m_pShell = new KonqMainWindow( home.data() );
     m_pShell->show();
@@ -206,7 +206,7 @@ int main( int argc, char **argv )
     i++;
     g_bWithGUI = false;
   }
-  
+
   signal(SIGCHLD,sig_handler);
   signal(SIGTERM,sig_term_handler);
   signal(SIGPIPE,sig_pipe_handler);
@@ -224,19 +224,19 @@ int main( int argc, char **argv )
   registry.addFactory( new KMimeTypeFactory );
   registry.addFactory( new KServiceFactory );
   registry.load( );
-  
+
   KMimeType::check();
 
   KMimeMagic::initStatic();
 
   cerr << "===================== mime stuff finished ==============" << endl;
-  
+
   kimgioRegister();
-  
+
   QImageIO::defineIOHandler( "XV", "^P7 332", 0, read_xv_file, 0L );
 
   KonqBookmarkManager bm;
-  
+
   app.exec();
 
   cerr << "============ BACK from event loop ===========" << endl;
@@ -248,7 +248,7 @@ void sig_handler( int )
 {
     int pid;
     int status;
-    
+
     while( 1 )
     {
 	pid = waitpid( -1, &status, WNOHANG );
@@ -270,7 +270,7 @@ void sig_term_handler( int )
   /*
   if ( pkfm->isGoingDown() )
     return;
-  
+
   // Save cache and stuff and delete the sockets ...
   pkfm->slotSave();
   pkfm->slotShutDown();

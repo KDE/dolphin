@@ -1,16 +1,16 @@
 /* This file is part of the KDE project
    Copyright (C) 1998, 1999 Torben Weis <weis@kde.org>
- 
+
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Library General Public
    License as published by the Free Software Foundation; either
    version 2 of the License, or (at your option) any later version.
- 
+
    This library is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
    Library General Public License for more details.
- 
+
    You should have received a copy of the GNU Library General Public License
    along with this library; see the file COPYING.LIB.  If not, write to
    the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
@@ -44,10 +44,10 @@
 #endif
 
 // browser/tree window color defaults -- Bernd
-#define HTML_DEFAULT_BG_COLOR white
-#define HTML_DEFAULT_LNK_COLOR red
-#define HTML_DEFAULT_TXT_COLOR black
-#define HTML_DEFAULT_VLNK_COLOR magenta
+#define HTML_DEFAULT_BG_COLOR Qt::white
+#define HTML_DEFAULT_LNK_COLOR Qt::red
+#define HTML_DEFAULT_TXT_COLOR Qt::black
+#define HTML_DEFAULT_VLNK_COLOR Qt::magenta
 
 // root window grid spacing defaults -- Bernd
 #define DEFAULT_GRID_WIDTH 70
@@ -60,8 +60,8 @@
 // show hidden files on desktop default
 #define DEFAULT_SHOW_HIDDEN_ROOT_ICONS false
 //CT root icons foreground/background defaults
-#define DEFAULT_ICON_FG white
-#define DEFAULT_ICON_BG black
+#define DEFAULT_ICON_FG Qt::white
+#define DEFAULT_ICON_BG Qt::black
 //CT
 
 // lets be modern .. -- Bernd

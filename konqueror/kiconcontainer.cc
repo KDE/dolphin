@@ -1,21 +1,21 @@
 /* This file is part of the KDE project
    Copyright (C) 1998, 1999 Torben Weis <weis@kde.org>
- 
+
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Library General Public
    License as published by the Free Software Foundation; either
    version 2 of the License, or (at your option) any later version.
- 
+
    This library is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
    Library General Public License for more details.
- 
+
    You should have received a copy of the GNU Library General Public License
    along with this library; see the file COPYING.LIB.  If not, write to
    the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
    Boston, MA 02111-1307, USA.
-*/     
+*/
 
 #include "kiconcontainer.h"
 
@@ -40,7 +40,7 @@ KIconContainer::KIconContainer( QWidget *_parent, const char *_name, WFlags _fla
   QScrollView( _parent, _name, _flags ), QDropSite( this )
 {
   m_pDummy         = new QWidget( 0L );
-  
+
   m_bDirty         = true;
   m_iMinItemWidth  = 90;
   m_pixmapSize     = QSize( 16, 16 );
@@ -67,13 +67,13 @@ KIconContainer::KIconContainer( QWidget *_parent, const char *_name, WFlags _fla
   setFontPropagation( AllChildren );
 
   setHScrollBarMode( AlwaysOff );
-  
+
   viewport()->setBackgroundColor( colorGroup().base() );
 
   // Qt 1.41 hack to get drop events
   // viewport()->installEventFilter( this );
   viewport()->setAcceptDrops( true );
-  
+
   viewport()->setFocusProxy( this );
   setFocusPolicy( TabFocus );
   viewport()->setMouseTracking( true );
@@ -82,7 +82,7 @@ KIconContainer::KIconContainer( QWidget *_parent, const char *_name, WFlags _fla
 KIconContainer::~KIconContainer()
 {
   delete m_pDummy;
-  
+
   clear();
 }
 
@@ -90,23 +90,23 @@ bool KIconContainer::eventFilter( QObject *o, QEvent *e )
 {
   if ( o != viewport() )
      return false;
-  
-  if ( e->type() == Event_Drop )
+
+  if ( e->type() == QEvent::Drop )
   {
     dropEvent( (QDropEvent*)e );
     return true;
   }
-  else if ( e->type() == Event_DragEnter )
+  else if ( e->type() == QEvent::DragEnter )
   {
     dragEnterEvent( (QDragEnterEvent*)e );
     return true;
   }
-  else if ( e->type() == Event_DragLeave )
+  else if ( e->type() == QEvent::DragLeave )
   {
     dragLeaveEvent( (QDragLeaveEvent*)e );
     return true;
   }
-  else if ( e->type() == Event_DragMove )
+  else if ( e->type() == QEvent::DragMove )
   {
     dragMoveEvent( (QDragMoveEvent*)e );
     return true;
@@ -128,7 +128,7 @@ void KIconContainer::setDisplayMode( DisplayMode _m )
 {
   if ( m_displayMode == _m )
     return;
-  
+
   m_displayMode = _m;
 
   if ( m_displayMode == Horizontal )
@@ -157,7 +157,7 @@ void KIconContainer::refreshAll()
     m_iItemWidth = viewport()->width() / x - m_iColumnSpacing;
   else
     m_iItemWidth = m_iMinItemWidth;
-  
+
   iterator it = begin();
   for( ; it != end(); it++ )
     (*it)->refresh();
@@ -169,7 +169,7 @@ void KIconContainer::insert( QPixmap& _pixmap, const char *_txt, int _x, int _y,
 {
   KIconContainerItem *item = new KIconContainerItem( this, _pixmap, _txt );
   m_lstIcons.push_back( item );
-  
+
   if ( _x != -1 && _y != -1 )
     item->setFixedPos( _x, _y );
 
@@ -183,7 +183,7 @@ void KIconContainer::insert( KIconContainerItem* _item, int _x, int _y, bool _re
 
   if ( _x != -1 && _y != -1 )
     _item->setFixedPos( _x, _y );
-  
+
   if ( _refresh )
     refresh();
 }
@@ -208,10 +208,10 @@ void KIconContainer::erase( iterator _it, bool _refresh )
       painter.setClipRect( r );
       drawBackground( &painter, contentsX(), contentsY(), (*_it)->x(), (*_it)->y(), m_iItemWidth, (*_it)->height() );
     }
-    
+
     painter.end();
   }
-  
+
   _it->free();
   m_lstIcons.erase( _it );
 
@@ -236,14 +236,14 @@ KIconContainerItem* KIconContainer::currentItem()
   iterator it = idToIterator( m_currentItemId );
   if ( it == end() )
     return 0L;
-  
+
   return it->item();
 }
 
 void KIconContainer::setCurrentItem( KIconContainerItem *_item )
 {
   iterator it = itemToIterator( _item );
-    
+
   setCurrentItem( it );
 }
 
@@ -316,7 +316,7 @@ KIconContainer::iterator KIconContainer::idToIterator( int _id )
   for( ; it != end(); ++it )
     if ( it->id() == _id )
       return it;
-  
+
   return it;
 }
 
@@ -326,7 +326,7 @@ KIconContainer::iterator KIconContainer::itemToIterator( KIconContainerItem* _it
   for( ; it != end(); ++it )
     if ( it->item() == _item )
       return it;
-  
+
   return it;
 }
 
@@ -348,11 +348,11 @@ void KIconContainer::keyPressEvent( QKeyEvent *_ev )
     case Key_Down:
       _ev->accept();
       if ( m_displayMode == Horizontal )
-      {    
+      {
 	iterator it = idToIterator( m_currentItemId );
 	iterator curr = it;
 	if ( it == end() )
-        {  
+        {
 	  it = begin();
 	  if ( it == end() )
 	    return;
@@ -379,7 +379,7 @@ void KIconContainer::keyPressEvent( QKeyEvent *_ev )
       {
 	iterator it = idToIterator( m_currentItemId );
 	if ( it == end() )
-        {  
+        {
 	  it = begin();
 	  if ( it == end() )
 	    return;
@@ -402,7 +402,7 @@ void KIconContainer::keyPressEvent( QKeyEvent *_ev )
 	iterator it = idToIterator( m_currentItemId );
 	iterator curr = it;
 	if ( it == end() )
-        {  
+        {
 	  it = begin();
 	  if ( it == end() )
 	    return;
@@ -428,7 +428,7 @@ void KIconContainer::keyPressEvent( QKeyEvent *_ev )
       {
 	iterator it = idToIterator( m_currentItemId );
 	if ( it == end() )
-        {  
+        {
 	  it = begin();
 	  if ( it == end() )
 	    return;
@@ -450,7 +450,7 @@ void KIconContainer::keyPressEvent( QKeyEvent *_ev )
       {
 	iterator it = idToIterator( m_currentItemId );
 	if ( it == end() )
-        {  
+        {
 	  it = begin();
 	  if ( it == end() )
 	    return;
@@ -469,7 +469,7 @@ void KIconContainer::keyPressEvent( QKeyEvent *_ev )
 	iterator it = idToIterator( m_currentItemId );
 	iterator curr = it;
 	if ( it == end() )
-        {  
+        {
 	  it = begin();
 	  if ( it == end() )
 	    return;
@@ -489,7 +489,7 @@ void KIconContainer::keyPressEvent( QKeyEvent *_ev )
 	      return;
 	    }
 	  } while ( it != begin() );
-	  
+	
 	  it = begin();
 	  if ( it != end() && (*it)->x() < (*curr)->x() )
 	    setCurrentItem( it );
@@ -504,7 +504,7 @@ void KIconContainer::keyPressEvent( QKeyEvent *_ev )
       {
 	iterator it = idToIterator( m_currentItemId );
 	if ( it == end() )
-        {  
+        {
 	  it = begin();
 	  if ( it == end() )
 	    return;
@@ -523,7 +523,7 @@ void KIconContainer::keyPressEvent( QKeyEvent *_ev )
 	iterator it = idToIterator( m_currentItemId );
 	iterator curr = it;
 	if ( it == end() )
-        {  
+        {
 	  it = begin();
 	  if ( it == end() )
 	    return;
@@ -541,7 +541,7 @@ void KIconContainer::keyPressEvent( QKeyEvent *_ev )
 	    }
 	    it++;
 	  } while ( it != end() );
-	  
+	
 	  it = begin();
 	  if ( it != end() && (*it)->x() > (*curr)->x() )
 	    setCurrentItem( it );
@@ -567,7 +567,7 @@ void KIconContainer::dragMoveEvent( QDragMoveEvent *_ev )
 {
   int x = _ev->pos().x() + contentsX();
   int y = _ev->pos().y() + contentsY();
-  
+
   // Find the item
   iterator it = itemAt( x, y );
   if ( it != end() )
@@ -576,7 +576,7 @@ void KIconContainer::dragMoveEvent( QDragMoveEvent *_ev )
       return;
     if ( m_dragOverItem != end() )
       setSelected( &**m_dragOverItem, false );
-    
+
     if ( (*it)->acceptsDrops( m_lstDropFormats ) )
     {
       _ev->accept();
@@ -584,7 +584,7 @@ void KIconContainer::dragMoveEvent( QDragMoveEvent *_ev )
       m_dragOverItem = it;
     }
     else
-      {  
+      {
 	_ev->ignore();
 	m_dragOverItem = end();
       }
@@ -603,15 +603,15 @@ void KIconContainer::dragEnterEvent( QDragEnterEvent *_ev )
 
   // Save the available formats
   m_lstDropFormats.clear();
-  
+
   for( int i = 0; _ev->format( i ); i++ )
   {
     if ( *( _ev->format( i ) ) )
       m_lstDropFormats.append( _ev->format( i ) );
   }
-  
+
   cerr << "GOT DRAG" << endl;
-  
+
   // By default we accept any format
   _ev->accept();
 }
@@ -635,13 +635,13 @@ void KIconContainer::dropEvent( QDropEvent * e )
   if ( m_dragOverItem != end() )
     setSelected( &**m_dragOverItem, false );
   m_dragOverItem = end();
-  
+
 
   int x = e->pos().x() + contentsX();
   int y = e->pos().y() + contentsY();
-    
+
   iterator it = itemAt( x, y );
-  
+
   // Background drop
   if ( it == end() )
   {
@@ -653,7 +653,7 @@ void KIconContainer::dropEvent( QDropEvent * e )
     cerr << "Item drop" << endl;
     emit drop( e, &**it, m_lstDropFormats );
   }
-  
+
     /*
 
   // Try to decode to the data you understand...
@@ -663,14 +663,14 @@ void KIconContainer::dropEvent( QDropEvent * e )
       return;
 
     m_dropFilePos = e->pos();
-    
+
     m_pPopupMenu->clear();
 
     char *s;
     for ( s = m_lstDropURLs.first(); s != 0L; s = m_lstDropURLs.next() )
     {
       cerr << "Testing URL " << s << endl;
-      
+
       K2URL u( s );
       if ( u.isMalformed() )
       {
@@ -680,7 +680,7 @@ void KIconContainer::dropEvent( QDropEvent * e )
 	return;
       }
     }
-    
+
     if ( m_dndStartPos.x() != -1 && m_dndStartPos.y() != -1 )
     {
       moveIcons( m_lstDropURLs, m_dropFilePos );
@@ -690,7 +690,7 @@ void KIconContainer::dropEvent( QDropEvent * e )
     m_pPopupMenu->insertItem( klocale->getAlias( ID_STRING_COPY ), this, SLOT( slotDropCopy() ) );
     m_pPopupMenu->insertItem( klocale->getAlias( ID_STRING_MOVE ), this, SLOT( slotDropMove() ) );
     m_pPopupMenu->insertItem( klocale->getAlias( ID_STRING_LINK ), this, SLOT( slotDropLink() ) );
-    
+
     m_pPopupMenu->popup( m_dropFilePos );
   } */
 }
@@ -698,19 +698,19 @@ void KIconContainer::dropEvent( QDropEvent * e )
 void KIconContainer::viewportMousePressEvent( QMouseEvent *_ev )
 {
   //  cerr << "void KIconContainer::viewportMousePressEvent( QMouseEvent *_ev )" << endl;
-  
+
   if ( !hasFocus() )
     setFocus();
 
   m_pressed = false;
-  
+
   int x = _ev->pos().x();
   int y = _ev->pos().y();
   x += contentsX();
   y += contentsY();
 
   if ( m_mouseMode == SingleClick )
-  {    
+  {
     iterator it = itemAt( x, y );
     if ( it != end() )
     {
@@ -728,14 +728,14 @@ void KIconContainer::viewportMousePressEvent( QMouseEvent *_ev )
 	return;
       }
       else if ( _ev->button() == RightButton && (*it)->isSelected() == false )
-      {    
+      {
 	unselectAll();
 	setSelected( &**it, true );
       }
       else if ( _ev->button() == LeftButton || _ev->button() == MidButton )
-      {    
+      {
 	if ( (*it)->isSelected() == false )
-        {      
+        {
 	  unselectAll();
 	  setSelected( &**it, true );
 	}
@@ -746,12 +746,12 @@ void KIconContainer::viewportMousePressEvent( QMouseEvent *_ev )
 	m_pressedItem = it;
 	return;
       }
-      
+
       QPoint p = mapToGlobal( _ev->pos() );
       emit mousePressed( &**it, p, _ev->button() );
       return;
     }
-    
+
     // Click on the background of the window
     if ( _ev->button() == RightButton )
     {
@@ -761,7 +761,7 @@ void KIconContainer::viewportMousePressEvent( QMouseEvent *_ev )
     }
   }
   else if ( m_mouseMode == DoubleClick )
-  {    
+  {
     iterator it = itemAt( x, y );
     if ( it != end() )
     {
@@ -771,7 +771,7 @@ void KIconContainer::viewportMousePressEvent( QMouseEvent *_ev )
 	return;
       }
       if ( _ev->button() == RightButton && !(*it)->isSelected() )
-      {    
+      {
 	unselectAll();
 	setSelected( &**it, true );
 
@@ -779,7 +779,7 @@ void KIconContainer::viewportMousePressEvent( QMouseEvent *_ev )
 	emit mousePressed( &**it, p, _ev->button() );
       }
       else if ( _ev->button() == LeftButton || _ev->button() == MidButton )
-      {    
+      {
 	unselectAll();
 	setSelected( &**it, true );
       }
@@ -804,7 +804,7 @@ void KIconContainer::viewportMouseDoubleClickEvent( QMouseEvent *_ev )
   int y = _ev->pos().y();
   x += contentsX();
   y += contentsY();
-  
+
   iterator it = itemAt( x, y );
   if ( it != end() )
   {
@@ -840,9 +840,9 @@ void KIconContainer::viewportMouseMoveEvent( QMouseEvent *_mouse )
   if ( !m_pressed )
   {
     iterator it;
-    
+
     it = itemAt( x + contentsX(), y + contentsY() );
-  
+
     if ( it != end() )
     {
       KIconContainerItem* item = it->item();
@@ -867,7 +867,7 @@ void KIconContainer::viewportMouseMoveEvent( QMouseEvent *_mouse )
 
     return;
   }
-  
+
   if ( abs( x - m_pressedPos.x() ) > Dnd_X_Precision || abs( y - m_pressedPos.y() ) > Dnd_Y_Precision )
   {
     // Collect all selected items
@@ -876,7 +876,7 @@ void KIconContainer::viewportMouseMoveEvent( QMouseEvent *_mouse )
     for( ; it != end(); it++ )
       if ( (*it)->isSelected() )
 	lst.append( &**it );
-    
+
     // Multiple URLs ?
     QPixmap pixmap2;
     if ( lst.count() > 1 )
@@ -894,7 +894,7 @@ void KIconContainer::viewportMouseMoveEvent( QMouseEvent *_mouse )
     m_pressed = false;
 
     cerr << "Starting drag" << endl;
-    
+
     if ( pixmap2.isNull() )
     {
       hotspot.setX( (*m_pressedItem)->pixmap().width() / 2 );
@@ -917,7 +917,7 @@ void KIconContainer::drawBackground( QPainter *_painter, int _xval, int _yval, i
     _painter->eraseRect( _x, _y, _w, _h );
     return;
   }
-  
+
   // if the background pixmap is transparent we must erase the bg
   // if ( m_bgPixmap.mask() )
   // _painter->eraseRect( _x, _y, _w, _h );
@@ -930,7 +930,7 @@ void KIconContainer::drawBackground( QPainter *_painter, int _xval, int _yval, i
 
   int rx = _x%pw;
   int ry = _y%ph;
-  
+
   for ( int yp = yOrigin; yp - yOrigin < _h + ry; yp += ph )
   {
     for ( int xp = xOrigin; xp - xOrigin < _w + rx; xp += pw )
@@ -945,20 +945,20 @@ void KIconContainer::drawContentsOffset( QPainter* _painter, int _offsetx, int _
 {
   if ( !_painter )
     return;
-  
+
   QColorGroup cgr = colorGroup();
   KIconContainerItem* item = currentItem();
   int maxX = _clipx + _clipw;
   int maxY = _clipy + _cliph;
 
   // cerr << "!!!!!!!!!! DRAW !!!!!!!!!!!!" <<  " x=" << _clipx << " y=" << _clipy << " w=" << _clipw << " h=" << _cliph << " ox=" << _offsetx << " oy=" << _offsety << endl;
-  
+
   if ( m_bDirty )
   {
     cerr << "!!!!!!!!!! DRAW SETUP !!!!!!!!!!!!" << endl;
     setup();
   }
-  
+
   if ( m_mouseMode == SingleClick && m_underlineLink )
   {
     QFont f = _painter->font();
@@ -967,7 +967,7 @@ void KIconContainer::drawContentsOffset( QPainter* _painter, int _offsetx, int _
   }
 
   drawBackground( _painter, _offsetx, _offsety, _clipx, _clipy, _clipw, _cliph );
-  
+
   iterator it = begin();
 
   for( ; it != end(); it++ )
@@ -977,7 +977,7 @@ void KIconContainer::drawContentsOffset( QPainter* _painter, int _offsetx, int _
     int ih = (*it)->height();
     int iMaxX = x + m_iItemWidth;
     int iMaxY = y + ih;
-    
+
     if ( iMaxX < _clipx )
     {
       // icon is left from the clipping area
@@ -1002,12 +1002,12 @@ void KIconContainer::drawContentsOffset( QPainter* _painter, int _offsetx, int _
     // check if icons are in the clipping area
     else if ( ( x >= _clipx || iMaxX <= maxX ) &&
 	      ( y >= _clipy || iMaxY <= maxY ) ||
-	      x <= _clipx && iMaxX >= maxX || 
+	      x <= _clipx && iMaxX >= maxX ||
 	      y <= _clipy && iMaxY >= maxY )
     {
       int diffX = x - _offsetx;
       int diffY = y - _offsety;
-      
+
       _painter->save();
       _painter->translate( diffX, diffY );
       (*it)->paint( _painter, cgr );
@@ -1024,24 +1024,24 @@ void KIconContainer::drawContentsOffset( QPainter* _painter, int _offsetx, int _
     QRect r( 0, 0, m_iItemWidth, ih );
     item->paintFocus( _painter, cgr, r );
   }
-    
+
   // cerr << "!!!!!!!!!! DRAW END !!!!!!!!!!!!" << endl;
 }
 
 void KIconContainer::setup()
 {
   if ( m_displayMode == Horizontal )
-  {    
+  {
     m_lstIcons.sort();
     int cols = viewport()->width() / ( m_iItemWidth + m_iColumnSpacing );
     if ( cols == 0 )
       cols = 1;
-    
+
     int h = m_iHeadSpacing;
 
     int lineheight = 0;
     int col = 0;
-    
+
     iterator it = begin();
     for( ; it != end() && !(*it)->hasFixedPos(); ++it )
     {
@@ -1051,7 +1051,7 @@ void KIconContainer::setup()
 	h += lineheight + m_iLineSpacing;
 	lineheight = 0;
       }
-      
+
       (*it)->setPos( col * ( m_iItemWidth + m_iColumnSpacing ), h );
       int ih = (*it)->height();
       if ( ih > lineheight )
@@ -1065,7 +1065,7 @@ void KIconContainer::setup()
     resizeContents( viewport()->width(), h );
   }
   else if ( m_displayMode == Vertical )
-  {    
+  {
     int vcount = 0;
     iterator it = begin();
     for( ; it != end() && !(*it)->hasFixedPos(); ++it )
@@ -1079,7 +1079,7 @@ void KIconContainer::setup()
       else
 	vcount += mult + 1;
     }
-    
+
     m_lstIcons.sort();
     int cols = viewport()->width() / ( m_iItemWidth + m_iColumnSpacing );
     if ( cols == 0 )
@@ -1087,10 +1087,10 @@ void KIconContainer::setup()
     int rows = vcount / cols;
     if ( vcount % cols != 0 )
       rows++;
-    
+
     int h = m_iHeadSpacing;
     int maxh = 0;
-    
+
     int col = 0;
     int row = 0;
     it = begin();
@@ -1105,7 +1105,7 @@ void KIconContainer::setup()
 	  maxh = h;
 	h = m_iHeadSpacing;
       }
-      
+
       (*it)->setPos( col * ( m_iItemWidth + m_iColumnSpacing ),
 		     m_iHeadSpacing + row * ( m_iMinItemHeight + m_iLineSpacing ) );
       int ih = (*it)->height();
@@ -1128,7 +1128,7 @@ void KIconContainer::setup()
   }
   else
     assert( 0 );
-  
+
   m_bDirty = false;
 }
 
@@ -1161,7 +1161,7 @@ void KIconContainer::resizeEvent( QResizeEvent *_ev )
 }
 
 void KIconContainer::setBgColor( const QColor& _color )
-{ 
+{
   m_bgColor = _color;
 
   refresh();
@@ -1170,14 +1170,14 @@ void KIconContainer::setBgColor( const QColor& _color )
 void KIconContainer::setTextColor( const QColor& _color )
 {
   m_textColor = _color;
-  
+
   refresh();
 }
 
 void KIconContainer::setLinkColor( const QColor& _color )
 {
   m_linkColor = _color;
-  
+
   refresh();
 }
 
@@ -1187,7 +1187,7 @@ void KIconContainer::setVLinkColor( const QColor& _color )
 
   refresh();
 }
-  
+
 void KIconContainer::setStdFontName( const char *_name )
 {
   m_stdFontName = _name;
@@ -1208,7 +1208,7 @@ void KIconContainer::setFontSize( const int _size )
 
   refresh();
 }
-  
+
 void KIconContainer::setUnderlineLink( bool _underlineLink )
 {
   m_underlineLink = _underlineLink;
@@ -1231,7 +1231,7 @@ void KIconContainer::setBgPixmap( const QPixmap& _pixmap )
     viewport()->setBackgroundMode( PaletteBackground );
   else
     viewport()->setBackgroundMode( NoBackground );
-  
+
   update();
 }
 
@@ -1279,7 +1279,7 @@ void KIconContainerItem::refresh()
 void KIconContainerItem::setText( const char *_text )
 {
   m_strText = _text;
-  
+
   breakText();
 }
 
@@ -1299,7 +1299,7 @@ void KIconContainerItem::breakText()
 void KIconContainerItem::breakText( QPainter *_painter )
 {
   char str[ m_strText.size() + 1 ];
-  
+
   int maxlen;
   if ( m_pContainer->displayMode() == KIconContainer::Vertical )
     maxlen = m_pContainer->itemWidth() - m_iPixmapTextHSpacing - m_pContainer->pixmapSize().width();
@@ -1313,14 +1313,14 @@ void KIconContainerItem::breakText( QPainter *_painter )
   char* sepPos = 0L;
   char* part = 0L;
   char c = 0;
-        
+
   if ( m_pContainer->fontMetrics().width( m_strText.c_str() ) <= maxlen )
     m_strBrokenText = m_strText;
   else
-  {    
-    strcpy( str, m_strText.c_str() );  
+  {
+    strcpy( str, m_strText.c_str() );
     m_strBrokenText = "";
-  
+
     for ( width=0, part=str, pos=str; *pos; pos++ )
     {
       charWidth = m_pContainer->fontMetrics().width( *pos );
@@ -1338,7 +1338,7 @@ void KIconContainerItem::breakText( QPainter *_painter )
 	  {
 	    pos = sepPos;
 	    break;
-	  }               
+	  }
 	}
 	
 	c = *pos;
@@ -1352,19 +1352,19 @@ void KIconContainerItem::breakText( QPainter *_painter )
       width += charWidth;
     }
     if (*part)
-      m_strBrokenText += part;         
+      m_strBrokenText += part;
   }
-  
+
   assert ( _painter != 0L );
-  
+
   if ( m_pContainer->displayMode() == KIconContainer::Horizontal )
     m_textBoundingRect = _painter->boundingRect( 0, 0, m_pContainer->itemWidth(), 0xFFFF,
-					       AlignTop | AlignHCenter | WordBreak, m_strBrokenText.c_str() );
+					       Qt::AlignTop | Qt::AlignHCenter | Qt::WordBreak, m_strBrokenText.c_str() );
   else if ( m_pContainer->displayMode() == KIconContainer::Vertical )
   {
     m_textBoundingRect = _painter->boundingRect( 0, 0, m_pContainer->itemWidth() - m_iPixmapTextHSpacing -
 					       m_pContainer->pixmapSize().width(), 0xFFFF,
-					       AlignTop | AlignLeft | WordBreak, m_strBrokenText.c_str() );
+					       Qt::AlignTop | Qt::AlignLeft | Qt::WordBreak, m_strBrokenText.c_str() );
   }
   else
     assert( 0 );
@@ -1377,7 +1377,7 @@ void KIconContainerItem::setFixedPos( int _x, int _y )
     m_bFixedPos = false;
     return;
   }
-  
+
   m_x = _x + m_pContainer->contentsX();
   m_y = _y + m_pContainer->contentsY();
   m_bFixedPos = true;
@@ -1407,53 +1407,53 @@ bool KIconContainerItem::isSmallerThen( KIconContainerItem* _item )
 {
   if ( hasFixedPos() && !_item->hasFixedPos() )
     return true;
-  
+
   if ( strcmp( text(), _item->text() ) < 0 )
     return true;
   return false;
 }
 
 void KIconContainerItem::paint( QPainter* _painter, const QColorGroup _grp )
-{ 
+{
   if ( m_pContainer->displayMode() == KIconContainer::Horizontal )
   {
     if ( m_bSelected )
     {
       _painter->fillRect( 0, 0, m_pContainer->itemWidth(), height(), QApplication::winStyleHighlightColor() );
-      _painter->setPen( white ); // A hack copied from Arnt :-) If even he does not know better ...
+      _painter->setPen( Qt::white ); // A hack copied from Arnt :-) If even he does not know better ...
     }
     /* else
       _painter->eraseRect( 0, 0, m_pContainer->itemWidth(), height() ); */
 
     _painter->drawPixmap( ( m_pContainer->itemWidth() - m_pixmap.width() ) / 2, 0, m_pixmap );
-    
+
     int h = m_pixmap.height() + 3;
- 
+
     _painter->setPen( color() );
     _painter->drawText( ( m_pContainer->itemWidth() - m_textBoundingRect.width() ) / 2, h,
-			m_textBoundingRect.width(), /* m_textBoundingRect.height() */ 0xFFFF, 
-			DontClip | AlignTop | AlignHCenter | WordBreak, m_strBrokenText.c_str() );  
+			m_textBoundingRect.width(), /* m_textBoundingRect.height() */ 0xFFFF,
+			Qt::DontClip | Qt::AlignTop | Qt::AlignHCenter | Qt::WordBreak, m_strBrokenText.c_str() );
   }
   else if ( m_pContainer->displayMode() == KIconContainer::Vertical )
   {
     if ( m_bSelected )
     {
       _painter->fillRect( 0, 0, m_pContainer->itemWidth(), height(), QApplication::winStyleHighlightColor() );
-      _painter->setPen( white ); // A hack copied from Arnt :-) If even he does not know better ...
+      _painter->setPen( Qt::white ); // A hack copied from Arnt :-) If even he does not know better ...
     }
     /* else
       _painter->eraseRect( 0, 0, m_pContainer->itemWidth(), height() ); */
 
     _painter->drawPixmap( 0, 0, m_pixmap );
-    
+
     _painter->setPen( color() );
     _painter->drawText( m_pContainer->pixmapSize().width() + m_iPixmapTextHSpacing, 0,
-			m_textBoundingRect.width(), /* m_textBoundingRect.height() */ 0xFFFF, 
-			DontClip | AlignTop | AlignLeft | WordBreak, m_strBrokenText.c_str() );  
+			m_textBoundingRect.width(), /* m_textBoundingRect.height() */ 0xFFFF,
+			Qt::DontClip | Qt::AlignTop | Qt::AlignLeft | Qt::WordBreak, m_strBrokenText.c_str() );
   }
   else
     assert( 0 );
-  
+
 }
 
 void KIconContainerItem::paintFocus( QPainter *_painter, const QColorGroup &, const QRect& _rect )
@@ -1462,18 +1462,18 @@ void KIconContainerItem::paintFocus( QPainter *_painter, const QColorGroup &, co
 }
 
 bool KIconContainerItem::contains( int _x, int _y )
-{ 
+{
   if ( m_pContainer->displayMode() == KIconContainer::Horizontal )
-  {      
+  {
     int pixoffset = ( m_pContainer->itemWidth() - m_pixmap.width() ) / 2;
-    
+
     if ( _x >= m_x + pixoffset && _x < m_x + m_pContainer->itemWidth() - pixoffset &&
 	 _y >= m_y && _y < m_y + m_pixmap.height() )
       return true;
 
     int h = m_pixmap.height() + 3;
     int textoffset = ( m_pContainer->itemWidth() - m_textBoundingRect.width() ) / 2;
-    
+
     if ( _x >= m_x + textoffset && _x < m_x + m_pContainer->itemWidth() - textoffset &&
 	 _y >= m_y + h && _y < m_y + height() )
       return true;
@@ -1481,14 +1481,14 @@ bool KIconContainerItem::contains( int _x, int _y )
     return false;
   }
   else if ( m_pContainer->displayMode() == KIconContainer::Vertical )
-  {    
+  {
     if ( _x >= m_x && _x < m_x + m_pixmap.width() &&
 	 _y >= m_y && _y < m_y + m_pixmap.height() )
       return true;
 
     int textoffset = m_pContainer->pixmapSize().width() + m_iPixmapTextHSpacing;
     int textwidth = m_textBoundingRect.width();
-    
+
     if ( _x >= m_x + textoffset && _x < m_x + textoffset + textwidth &&
 	 _y >= m_y && _y < m_y + m_textBoundingRect.height() )
       return true;

@@ -1,7 +1,7 @@
 INCLUDES  = $(MICO_INCLUDES) $(all_includes) -I$(idldir)
 LDFLAGS   = $(all_libraries) $(MICO_LDFLAGS) $(KDE_RPATH)
 LDADD = -lkparts -lkpartsui -lkom $(LIB_KIO) $(LIB_KHTML) $(LIB_KDEUI) \
-	$(LIBMICO) 
+	$(LIBMICO)
 
 ####### Files
 
@@ -13,7 +13,7 @@ konqueror_SOURCES =  kbookmark.cc kbrowser.cc \
 	kiconcontainer.cc \
 	konq_baseview.cc konq_htmlview.cc konq_iconview.cc \
 	konq_main.cc konq_mainview.cc konq_mainwindow.cc konqueror.cc \
-	konq_treeview.cc konq_partview.cc
+	konq_treeview.cc konq_partview.cc \
 	xview.cc
 
 # noinst_HEADERS = ... to be completed

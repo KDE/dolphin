@@ -1,21 +1,21 @@
 /* This file is part of the KDE project
    Copyright (C) 1998, 1999 Torben Weis <weis@kde.org>
- 
+
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Library General Public
    License as published by the Free Software Foundation; either
    version 2 of the License, or (at your option) any later version.
- 
+
    This library is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
    Library General Public License for more details.
- 
+
    You should have received a copy of the GNU Library General Public License
    along with this library; see the file COPYING.LIB.  If not, write to
    the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
    Boston, MA 02111-1307, USA.
-*/     
+*/
 
 // Popup menus for kfm icons. Only the 'New' submenu for the moment.
 // (c) David Faure, 1998
@@ -46,7 +46,7 @@ KNewMenu::KNewMenu( OpenPartsUI::Menu_ptr menu) : menuItemsVersion(0)
       m_bUseOPMenu = false;
       m_pMenu = new QPopupMenu;
       m_vMenu = 0L;
-      
+
       QObject::connect( m_pMenu, SIGNAL(activated(int)),
                         this, SLOT(slotNewFile(int)) );
       QObject::connect( m_pMenu, SIGNAL(aboutToShow()),
@@ -58,7 +58,7 @@ KNewMenu::KNewMenu( OpenPartsUI::Menu_ptr menu) : menuItemsVersion(0)
       m_vMenu = OpenPartsUI::Menu::_duplicate( menu );
       m_pMenu = 0L;
     }
-    
+
     fillMenu();
 }
 
@@ -83,7 +83,7 @@ void KNewMenu::fillMenu()
 {
     if ( m_bUseOPMenu && CORBA::is_nil( m_vMenu ) )
       return;
-      
+
     if (!templatesList) { // No templates list up to now
         templatesList = new QStrList();
         fillTemplates();
@@ -99,7 +99,7 @@ void KNewMenu::fillMenu()
     {
       m_pMenu->clear();
       m_pMenu->insertItem( i18n( "Folder" ) );
-    }  
+    }
 
     char * templ = templatesList->first(); // skip 'Folder'
     for ( templ = templatesList->next(); (templ); templ = templatesList->next())
@@ -120,7 +120,7 @@ void KNewMenu::fillTemplates()
 {
     templatesVersion++;
 
-    templatesList->clear();    
+    templatesList->clear();
     templatesList->append( QString( "Folder") );
 
     QDir d( KfmPaths::templatesPath() );
@@ -135,7 +135,7 @@ void KNewMenu::fillTemplates()
 
 	while ( ( fi = it.current() ) != 0L )
 	{
-	    if ( strcmp( fi->fileName(), "." ) != 0 && 
+	    if ( strcmp( fi->fileName(), "." ) != 0 &&
 		 strcmp( fi->fileName(), ".." ) != 0 &&
                  !fi->isDir() && fi->isReadable())
 	    {
@@ -159,16 +159,17 @@ void KNewMenu::slotNewFile( int _id )
     }
     else if ( m_pMenu->text( _id ) == 0 )
       return;
-      
+
     QString p = templatesList->at( _id );
     QString tmp = p;
-    tmp.detach();
+    // Reggie: not needed anymore (Qt 2.0)
+    //tmp.detach();
 
     if ( strcmp( tmp, "Folder" ) != 0 ) {
       QString x = KfmPaths::templatesPath() + p;
       if (!QFile::exists(x)) {
           QMessageBox::critical( 0L, i18n( "KFM Error" ), i18n(
-              "Source file doesn't exist anymore ! \n"  
+              "Source file doesn't exist anymore ! \n"
               "Use \"Rescan Bindings\" in View menu to update the menu"));
           return;
       }
@@ -178,7 +179,7 @@ void KNewMenu::slotNewFile( int _id )
 	tmp.truncate( tmp.length() - 7 );
       tmp = config.readEntry("Name", tmp);
     }
-    
+
     QString text = i18n("New ");
     text += tmp;
     text += ":";
@@ -189,7 +190,7 @@ void KNewMenu::slotNewFile( int _id )
 	text = i18n("New Folder");
 	text += ":";
     }
-    
+
     KLineEditDlg l( text, value, 0L, true );
     if ( l.exec() )
     {
