@@ -115,7 +115,7 @@ private:
     int        m_num;
     bool       m_on;
     bool       m_preview;
-    QPixmap    m_corners[5];
+    QPixmap    m_corners[4];
     int        m_corner;
     bool       m_filter;
     KonqIconViewWidget*       m_view;
@@ -231,7 +231,12 @@ void KFileTip::drawContents( QPainter *p )
         "arrow_bottomright"
     };
 
-    if ( m_corners[m_corner].isNull() && m_corner < 4 ) // 4 is empty, so don't draw anything
+    if (m_corner == 4) {  // 4 is empty, so don't draw anything
+        QFrame::drawContents( p );
+        return;
+    }
+
+    if ( m_corners[m_corner].isNull())
         m_corners[m_corner].load( locate( "data", QString::fromLatin1( "konqueror/pics/%1.png" ).arg( names[m_corner] ) ) );
 
     QPixmap &pix = m_corners[m_corner];
