@@ -445,6 +445,8 @@ const QStringList& KonqPropsView::previewSettings()
             if ( ! m_dontPreview.contains(name) )
                 d->previewsToShow->append( name );
         }
+        if ( ! m_dontPreview.contains( "audio/" ) )
+            d->previewsToShow->append( "audio/" );	
     }
     
     return *(d->previewsToShow);
