@@ -311,6 +311,7 @@ KonqDirTree::KonqDirTree( KonqDirTreePart *parent, QWidget *parentWidget )
   m_lastItem = 0L;
   m_bDrag = false;
 
+  assert( KonqDirTreeFactory::instance()->dirs() );
   QString dirtreeDir = KonqDirTreeFactory::instance()->dirs()->saveLocation( "data", "konqueror/dirtree/" );
   m_dirtreeDir.setPath( dirtreeDir );
 
@@ -432,7 +433,7 @@ void KonqDirTree::contentsDragMoveEvent( QDragMoveEvent *e )
 {
   QListViewItem *item = itemAt( contentsToViewport( e->pos() ) );
 
-  if ( !item || !item->isSelectable() )
+  if ( !item || !item->isSelectable() || !static_cast<KonqDirTreeItem*>(item)->fileItem()->acceptsDrops())
   {
     m_dropItem = 0;
     m_autoOpenTimer->stop();
@@ -504,6 +505,10 @@ void KonqDirTree::contentsMouseMoveEvent( QMouseEvent *e )
 
   QUriDrag *drag = new QUriDrag( viewport() );
   drag->setUnicodeUris( lst );
+  QPoint hotspot;
+  hotspot.setX( item->pixmap( 0 )->width() / 2 );
+  hotspot.setY( item->pixmap( 0 )->height() / 2 );
+  drag->setPixmap( *(item->pixmap( 0 )), hotspot );
   drag->drag();
 }
 
