@@ -2,7 +2,7 @@
 VERSION = 0.3
 
 INSTALL = @INSTALL@ -m 0755 -s
-INSTALL_DIR = @mkinstalldirs@
+INSTALL_DIR = @INSTALL@ -d -m 0755 
 INSTALL_DATA = @INSTALL@ -m 0644
 
 prefix  = @prefix@
@@ -14,8 +14,8 @@ DOCSDIR = $(prefix)/doc/HTML/
 INCLDIR	= @all_includes@ -I..
 
 
-CXXFLAGS+= -DVERSION=\"$(VERSION)\" -DDOCSDIR=\"$(DOCSDIR)/\" -DHAVE_CONFIG_H 
-LDFLAGS	+= @all_libraries@ -lqt -lXext -lX11 -lkfm -lkdeui -lkdecore @LIBSOCKET@
+CXXFLAGS+= -DVERSION=\"$(VERSION)\" -DDOCSDIR=\"$(DOCSDIR)/\" -DHAVE_CONFIG_H -I../kfm/libkfm
+LDFLAGS	+= @all_libraries@ -lqt -lXext -lX11 -lkfm -lkdeui -lkdecore @LIBSOCKET@ -L../kfm/libkfm
 CXX 	= @CXX@
 MOC 	= @MOC@
 
@@ -67,6 +67,8 @@ install:
 	$(INSTALL_DIR) $(PICSDIR)
 	$(INSTALL_DATA) $(TARGET).xpm $(PICSDIR)
 	$(INSTALL_DATA) kfind.html $(DOCSDIR)
+	$(INSTALL_DIR) $(KDEDIR)/apps/Utility
+	$(INSTALL_DATA) kfind.kdelnk $(KDEDIR)/apps/Utility
 	$(INSTALL_DIR) $(LIBDIR)/kfind/config
 	$(INSTALL_DATA) ./kfindrc $(LIBDIR)/kfind/config
 
