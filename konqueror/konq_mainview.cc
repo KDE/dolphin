@@ -71,6 +71,7 @@
 #include <klibloader.h>
 #include <part.h>
 #include <kbookmarkmenu.h>
+#include <kstdaction.h>
 
 #include <kbugreport.h>
 #include "version.h"
@@ -1393,7 +1394,7 @@ void KonqMainView::initActions()
   m_paOpenLocation = new KAction( i18n( "&Open Location..." ), QIconSet( BarIcon( "fileopen", KonqFactory::instance() ) ), stdAccel.open(), this, SLOT( slotOpenLocation() ), actionCollection(), "open_location" );
   m_paToolFind = new KAction( i18n( "&Find" ), QIconSet( BarIcon( "find",  KonqFactory::instance() ) ), 0 /*not stdAccel.find()!*/, this, SLOT( slotToolFind() ), actionCollection(), "find" );
 
-  m_paPrint = new KAction( i18n( "&Print..."), QIconSet( BarIcon( "fileprint", KonqFactory::instance() ) ), stdAccel.print(), this, SLOT( slotPrint() ), actionCollection(), "print" );
+  m_paPrint = KStdAction::print( this, SLOT( slotPrint() ), actionCollection(), "print" );
 
   // Edit menu
   m_pamEdit = new KActionMenu( i18n( "&Edit" ), actionCollection(), "edit_menu" );
@@ -1436,7 +1437,7 @@ void KonqMainView::initActions()
   connect( m_paForward->popupMenu(), SIGNAL( aboutToShow() ), this, SLOT( slotForwardAboutToShow() ) );
   connect( m_paForward->popupMenu(), SIGNAL( activated( int ) ), this, SLOT( slotForwardActivated( int ) ) );
 
-  m_paHome = new KAction( i18n("&Home" ), QIconSet( BarIcon( "home", KonqFactory::instance() ) ), Key_Home, this, SLOT( slotHome() ), actionCollection(), "home" );
+  m_paHome = KStdAction::home( this, SLOT( slotHome() ), actionCollection(), "home" );
 
   m_paCache = new KAction( i18n( "&Cache" ), 0, this, SLOT( slotShowCache() ), actionCollection(), "cache" );
   //m_paHistory = new KAction( i18n( "&History" ), 0, this, SLOT( slotShowHistory() ), actionCollection(), "history" );
@@ -1473,9 +1474,9 @@ void KonqMainView::initActions()
 
   m_paReload = new KAction( i18n( "&Reload" ), QIconSet( BarIcon( "reload", KonqFactory::instance() ) ), Key_F5, this, SLOT( slotReload() ), actionCollection(), "reload" );
 
-  m_paCut = new KAction( i18n( "&Cut" ), QIconSet( BarIcon( "editcut", KonqFactory::instance() ) ), stdAccel.cut(), this, SLOT( slotCut() ), actionCollection(), "cut" );
-  m_paCopy = new KAction( i18n( "C&opy" ), QIconSet( BarIcon( "editcopy", KonqFactory::instance() ) ), stdAccel.copy(), this, SLOT( slotCopy() ), actionCollection(), "copy" );
-  m_paPaste = new KAction( i18n( "&Paste" ), QIconSet( BarIcon( "editpaste", KonqFactory::instance() ) ), stdAccel.paste(), this, SLOT( slotPaste() ), actionCollection(), "paste" );
+  m_paCut = KStdAction::cut( this, SLOT( slotCut() ), actionCollection(), "cut" );
+  m_paCopy = KStdAction::copy( this, SLOT( slotCopy() ), actionCollection(), "copy" );
+  m_paPaste = KStdAction::paste( this, SLOT( slotPaste() ), actionCollection(), "paste" );
   m_paStop = new KAction( i18n( "&Stop" ), QIconSet( BarIcon( "stop", KonqFactory::instance() ) ), Key_Escape, this, SLOT( slotStop() ), actionCollection(), "stop" );
 
   m_paTrash = new KAction( i18n( "&Move to Trash" ), QIconSet( BarIcon( "trash", KonqFactory::instance() ) ), 0, this, SLOT( slotTrash() ), actionCollection(), "trash" );

@@ -25,6 +25,7 @@
 #include <klocale.h>
 #include <kapp.h>
 #include <kstdaccel.h>
+#include <kstdaction.h>
 #include <kstddirs.h>
 #include <khelpmenu.h>
 #include <part.h>
@@ -35,13 +36,13 @@ KonqShell::KonqShell()
 
   m_helpMenu = new KHelpMenu( this );
 
-  m_paShellClose = new KAction( i18n( "Close" ), BarIcon( "close" ), accel.close(), this, SLOT( close() ), actionCollection(), "konqueror_shell_close" );
+  m_paShellClose = KStdAction::close( this, SLOT( close() ), actionCollection(), "konqueror_shell_close" );
   //  m_paShellQuit = new KAction( i18n( "Quit" ), BarIcon( "exit" ), accel.quit(), this, SLOT( slotQuit() ), actionCollection(), "konqueror_shell_quit" );
   m_paShellHelpAboutKDE = new KAction( i18n( "About &KDE..." ), 0, m_helpMenu, SLOT( aboutKDE() ), actionCollection(), "konqueror_shell_aboutkde" );
 
-  m_paShowMenuBar = new KToggleAction( i18n( "Show &Menubar" ), 0, actionCollection(), "showmenubar" );
-  m_paShowStatusBar = new KToggleAction( i18n( "Show &Statusbar" ), 0, actionCollection(), "showstatusbar" );
-  m_paShowToolBar = new KToggleAction( i18n( "Show &Toolbar" ), 0, actionCollection(), "showtoolbar" );
+  m_paShowMenuBar = KStdAction::showMenubar( 0L, 0L, actionCollection(), "showmenubar" );
+  m_paShowStatusBar = KStdAction::showStatusbar( 0L, 0L, actionCollection(), "showstatusbar" );
+  m_paShowToolBar = KStdAction::showToolbar( 0L, 0L, actionCollection(), "showtoolbar" );
   m_paShowLocationBar = new KToggleAction( i18n( "Show &Locationbar" ), 0, actionCollection(), "showlocationbar" );
 
   m_paShowMenuBar->setChecked( true );
