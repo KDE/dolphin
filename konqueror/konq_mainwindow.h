@@ -391,7 +391,7 @@ protected slots:
   void slotPopupPasteTo();
   void slotRemoveView();
   void slotRemoveOtherTabsPopup();
-    void slotReloadAllTab();
+    void slotReloadAllTabs();
   void slotRemoveTab();
   void slotRemoveTabPopup();
   void slotActivateNextTab();

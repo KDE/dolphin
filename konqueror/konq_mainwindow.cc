@@ -2189,9 +2189,9 @@ void KonqMainWindow::slotRemoveOtherTabsPopup()
       updateViewActions();
 }
 
-void KonqMainWindow::slotReloadAllTab()
+void KonqMainWindow::slotReloadAllTabs()
 {
-    m_pViewManager->reloadAllTab();
+    m_pViewManager->reloadAllTabs();
     updateViewActions();
 }
 

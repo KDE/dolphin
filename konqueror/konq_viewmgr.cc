@@ -552,7 +552,7 @@ void KonqViewManager::removeTab( KonqFrameBase* tab )
 #endif
 }
 
-void KonqViewManager::reloadAllTab( )
+void KonqViewManager::reloadAllTabs( )
 {
   if (m_pDocContainer == 0L) return;
   if (m_pDocContainer->frameType() != "Tabs") return;

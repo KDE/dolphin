@@ -148,7 +148,7 @@ public:
     void moveTabLeft();
     void moveTabRight();
 
-    void reloadAllTab();
+    void reloadAllTabs();
 
   /**
    * Brings the tab specified by @p view to the front of the stack
