@@ -34,6 +34,8 @@
 #include <kfmclient_ipc.h>
 
 #include <kmsgbox.h>
+#include <kprocess.h>
+
 #include "kfwin.h"
 //#include "kftypes.h"
 #include "kfarch.h"
@@ -330,9 +332,8 @@ void KfindWindow::execAddToArchive(KfArchiver *arch,QString archname)
 {
   QFileInfo archiv(archname);
   QString buffer,pom;
-  char **arch_args;
-  int args_number;
-  int pos,i;
+  KProcess archProcess;
+  int pos;
       
   if ( archiv.exists() )
     buffer = arch->getOnUpdate();
@@ -341,13 +342,15 @@ void KfindWindow::execAddToArchive(KfArchiver *arch,QString archname)
 
   buffer=buffer.simplifyWhiteSpace();
 
-  args_number=buffer.contains(" ")+1;
-  //printf("args number = %d\n",args_number);
+  pos = buffer.find(" ");
+  pom = buffer.left(pos);
+  if (pos==-1) 
+    pos = buffer.length();
+  buffer = buffer.remove(0,pos+1);
 
-  arch_args= (char **) malloc(args_number*sizeof(char *));
+  archProcess.setExecutable(pom.data());
+  archProcess.clearArguments ();
 
-  i=0;
-  //  i<=args_number
   while( !buffer.isEmpty() )
     {
       pos = buffer.find(" ");
@@ -358,7 +361,7 @@ void KfindWindow::execAddToArchive(KfArchiver *arch,QString archname)
 	  QFileInfo *fileInfo = new QFileInfo(lbx->text(lbx->currentItem()));
 	  pom.sprintf("%s/",(fileInfo->dirPath(TRUE)).data());
 
-	  printf("Dir = %s\n",pom.data());
+	  //	  printf("Dir = %s\n",pom.data());
 	};
 
       if ( pom=="%a" )
@@ -373,27 +376,15 @@ void KfindWindow::execAddToArchive(KfArchiver *arch,QString archname)
 	  pom = fileInfo->fileName();
 	};
 
-      arch_args[i]=(char *) malloc(pom.length()*sizeof(char));
-      strcpy(arch_args[i],pom.data());	  
+      archProcess << pom.data();
 
       if (pos==-1) 
 	pos = buffer.length();
       buffer = buffer.remove(0,pos+1);
-      i++;
     };
 
-  //  for(i=0;i<args_number;i++)
-  //    printf("Arg[%d] = %s\n",i,arch_args[i]);
-  if (fork()==0)
-    {
-      execvp(arch_args[0],arch_args);
-      printf("Error by creating child process!\n");
-      exit(1); 
-    }; 
-
-  for(i=0;i<args_number;i++)
-    free(arch_args[i]);
-  free(arch_args);
+  if ( !archProcess.start(KProcess::DontCare) )
+    printf("Error by creating child process!\n");
 };
 
 

@@ -7,6 +7,8 @@
 #ifndef KFWITGETS_H
 #define KFWIDGETS_H
 
+#include <klocale.h>
+
 class QButtonGroup;
 class QPushButton;
 class QRadioButton;
@@ -44,7 +46,9 @@ private slots:
 private:
   /// Inserts all pages in the dialog.
   void insertPages();
-  
+
+  KLocale trans;
+
   /// Store pointers to dialog pages
   QWidget *pages[3]; 
   

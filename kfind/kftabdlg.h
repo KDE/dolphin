@@ -8,6 +8,7 @@
 #define KFTABDLG_H
 
 #include <ktabctl.h>  
+#include <klocale.h>
 
 class QButtonGroup;
 class QPushButton;
@@ -53,6 +54,8 @@ private:
   void resizeEvent( QResizeEvent * );
   QString date2String(QDate);
   QDate string2Date(QString);         
+
+  KLocale trans;
 
   bool modifiedFiles;
   bool betweenDates;

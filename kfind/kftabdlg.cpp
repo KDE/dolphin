@@ -41,12 +41,12 @@ KfindTabDialog::KfindTabDialog( QWidget *parent, const char *name, const char *s
     //Page One of KfTAbDialog
     pages[0] = new QWidget( this, "page1" );
 
-    namedL     = new QLabel("&Named:"         ,pages[0],"named");
+    namedL     = new QLabel(trans.translate("&Named:")  ,pages[0],"named");
     nameBox    = new QComboBox(TRUE           ,pages[0],"combo1");
-    lookinL    = new QLabel("&Look in:"       ,pages[0],"named");
+    lookinL    = new QLabel(trans.translate("&Look in:"),pages[0],"named");
     dirBox     = new QComboBox(FALSE          ,pages[0],"combo2");
     subdirsCb  = new QCheckBox(                pages[0]);
-    browseB    = new QPushButton("&Browse ...",pages[0]);
+    browseB    = new QPushButton(trans.translate("&Browse ..."),pages[0]);
 
     nameBox->insertItem( "*" );
     dirBox ->insertItem( searchPath );
@@ -58,18 +58,20 @@ KfindTabDialog::KfindTabDialog( QWidget *parent, const char *name, const char *s
     dirBox ->insertItem( "/var" );
     dirBox ->insertItem( "/mnt" );
 
-    subdirsCb->setText( "Include &subfolders" );
+    subdirsCb->setText( trans.translate("Include &subfolders") );
 
-
+    int wTmpNamed = (namedL->sizeHint()).width();
+    int wTmpLook  = (lookinL->sizeHint()).width();
+    int wTmp = (wTmpNamed > wTmpLook) ? wTmpNamed:wTmpLook;
     if ((nameBox->style())==WindowsStyle)
       {
-        namedL   ->setFixedSize(60,25);
-        lookinL  ->setFixedSize(60,25);
+        namedL   ->setFixedSize(wTmp+10,25);
+        lookinL  ->setFixedSize(wTmp+10,25);
       }
     else
       {
-        namedL   ->setFixedSize(60,30);
-        lookinL  ->setFixedSize(60,30);
+        namedL   ->setFixedSize(wTmp+10,30);
+        lookinL  ->setFixedSize(wTmp+10,30);
       };                                        
 
     subdirsCb->setFixedSize(subdirsCb->sizeHint());
@@ -86,7 +88,7 @@ KfindTabDialog::KfindTabDialog( QWidget *parent, const char *name, const char *s
     connect( browseB,  SIGNAL(clicked()),
              this, SLOT(getDirectory()) );   
 
-    addTab( pages[0], " Name&Location " );
+    addTab( pages[0], trans.translate(" Name&Location ") );
                                                       
     //Page Two of KfTAbDialog
     pages[1] = new QWidget( this, "page2" );
@@ -98,19 +100,20 @@ KfindTabDialog::KfindTabDialog( QWidget *parent, const char *name, const char *s
     rb2[0] = new QRadioButton(       pages[1] );
     rb2[1] = new QRadioButton(       pages[1] );
     rb2[2] = new QRadioButton(       pages[1] );
-    andL   = new QLabel ("and",      pages[1],"and");
-    monthL = new QLabel ("month(s)", pages[1],"months");
-    dayL   = new QLabel ("day(s)",   pages[1],"days");
+    andL   = new QLabel (trans.translate("and"),      pages[1],"and");
+    monthL = new QLabel (trans.translate("month(s)"), pages[1],"months");
+    dayL   = new QLabel (trans.translate("day(s)"),   pages[1],"days");
     le[0]  = new QLineEdit(          pages[1], "lineEdit1" );
     le[1]  = new QLineEdit(          pages[1], "lineEdit2" );
     le[2]  = new QLineEdit(          pages[1], "lineEdit3" );
     le[3]  = new QLineEdit(          pages[1], "lineEdit4" );
 
-    rb1[0]->setText( "&All files" );
-    rb1[1]->setText( "Find all files created or &modified:" );
-    rb2[0]->setText( "&between" );
-    rb2[1]->setText( "during the previou&s " );
-    rb2[2]->setText( "&during the previous " );
+    rb1[0]->setText( trans.translate("&All files") );
+    rb1[1]->setText( trans.translate("_findall",
+				     "Find all files created or &modified:") );
+    rb2[0]->setText( trans.translate("&between") );
+    rb2[1]->setText( trans.translate("during the previou&s ") );
+    rb2[2]->setText( trans.translate("&during the previous ") );
     le[0] ->setText(date2String(QDate(1980,1,1)));
     le[1] ->setText(date2String(QDate::currentDate()));
     le[2] ->setText("1");
@@ -118,11 +121,11 @@ KfindTabDialog::KfindTabDialog( QWidget *parent, const char *name, const char *s
 
     rb1[0]->setChecked (TRUE);
 
-    rb1[0]->setMinimumSize(rb1[0]->sizeHint()) ;
-    rb1[1]->setMinimumSize(rb1[1]->sizeHint()) ;
-    rb2[0]->setMinimumSize(rb2[0]->sizeHint()) ;
-    rb2[1]->setMinimumSize(rb2[1]->sizeHint()) ;
-    rb2[2]->setMinimumSize(rb2[2]->sizeHint()) ;
+    rb1[0]->setFixedSize(rb1[0]->sizeHint().width(),25) ;
+    rb1[1]->setFixedSize(rb1[1]->sizeHint().width(),25) ;
+    rb2[0]->setFixedSize(rb2[0]->sizeHint().width(),25) ;
+    rb2[1]->setFixedSize(rb2[1]->sizeHint().width(),25) ;
+    rb2[2]->setFixedSize(rb2[2]->sizeHint().width(),25) ;
 
     bg[0]->insert( rb1[0] );
     bg[0]->insert( rb1[1] );
@@ -157,20 +160,20 @@ KfindTabDialog::KfindTabDialog( QWidget *parent, const char *name, const char *s
              this,  SLOT(isCheckedValid()) );
     connect( le[3],  SIGNAL(returnPressed()),
              this,  SLOT(isCheckedValid()) );      
-
-    addTab( pages[1], " Date Modified " );
+    
+    addTab( pages[1], trans.translate(trans.translate(" Date Modified ")) );
 
     //Page Tree of KfTAbDialog
     pages[2] = new QWidget( this, "page3" );
 
-    typeL    = new QLabel("Of &type:"        ,pages[2],"type");
-    typeBox  = new QComboBox(FALSE           ,pages[2],"typeBox");
-    textL    = new QLabel("&Containing Text:",pages[2],"text");
-    textEdit = new QLineEdit(                 pages[2], "textEdit" );
-    sizeL    = new QLabel("&Size is:"        ,pages[2],"size");
-    sizeBox  = new QComboBox(FALSE           ,pages[2],"sizeBox");
-    sizeEdit = new QLineEdit(                 pages[2], "sizeEdit" );
-    kbL      = new QLabel("KB"               ,pages[2],"kb");
+    typeL   =new QLabel(trans.translate("Of &type:")        ,pages[2],"type");
+    typeBox =new QComboBox(FALSE                            ,pages[2],"typeBox");
+    textL   =new QLabel(trans.translate("&Containing Text:"),pages[2],"text");
+    textEdit=new QLineEdit(                 pages[2], "textEdit" );
+    sizeL   =new QLabel(trans.translate("&Size is:")        ,pages[2],"size");
+    sizeBox =new QComboBox(FALSE           ,pages[2],"sizeBox");
+    sizeEdit=new QLineEdit(                 pages[2], "sizeEdit" );
+    kbL     =new QLabel("KB"               ,pages[2],"kb");
 
 
     typeL->setAlignment(namedL->alignment()|ShowPrefix);
@@ -188,24 +191,26 @@ KfindTabDialog::KfindTabDialog( QWidget *parent, const char *name, const char *s
     textEdit ->setEnabled(FALSE);
     sizeEdit ->setEnabled(TRUE);
 
-     KfFileType *typ;
+    KfFileType *typ;
 
-     typeBox->insertItem("All Files and Folders");
-     for ( typ = types->first(); typ != 0L; typ = types->next() )
-       if (typ->getComment("")!="")
-         typeBox->insertItem(typ->getComment(""));
-       else
-         typeBox->insertItem(typ->getName());
+    typeBox->insertItem(trans.translate("_alltypes",
+					"All Files and Folders"));
+    for ( typ = types->first(); typ != 0L; typ = types->next() )
+      if (typ->getComment("")!="")
+	typeBox->insertItem(typ->getComment(""));
+      else
+	typeBox->insertItem(typ->getName());
 
-    sizeBox ->insertItem( "(none)" );
-    sizeBox ->insertItem( "At Least" );
-    sizeBox ->insertItem( "At Most" );
+    sizeBox ->insertItem( trans.translate("(none)") );
+    sizeBox ->insertItem( trans.translate("At Least") );
+    sizeBox ->insertItem( trans.translate("At Most") );
+    sizeBox ->setFixedSize(sizeBox->sizeHint());
     sizeEdit->setText("1");
 
     connect( sizeEdit,  SIGNAL(returnPressed()),
              this    ,  SLOT(checkSize()) );      
 
-    addTab( pages[2], " Advanced " );  
+    addTab( pages[2], trans.translate(trans.translate(" Advanced ")) );  
   };
 
 void KfindTabDialog::resizeEvent( QResizeEvent *ev )
@@ -249,12 +254,12 @@ void KfindTabDialog::resizeEvent( QResizeEvent *ev )
 
     le[0]->setGeometry( 100, 60, 80, 20 );
     le[1]->setGeometry( 220, 60, 80, 20 );
-    le[2]->setGeometry( 60+rb2[1]->width(), 85, 40, 20 );
-    le[3]->setGeometry( 60+rb2[2]->width(), 110, 40, 20 );
+    le[2]->setGeometry( 90+rb2[1]->width(), 85, 40, 20 );
+    le[3]->setGeometry( 90+rb2[2]->width(), 110, 40, 20 );
 
     andL->move(190,55);
-    monthL->move(25+rb2[1]->width()+10+80,80);
-    dayL->move(25+rb2[2]->width()+10+80,105);
+    monthL->move(le[2]->x()+le[2]->width()+15,80);
+    dayL->move(le[3]->x()+le[3]->width()+15,105);
                                                   
 
      //Page Tree of KfTAbDialog

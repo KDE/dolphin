@@ -10,6 +10,8 @@
 #include "kftabdlg.h"
 #include "kfwin.h"
 
+#include <kprocess.h>
+
 class QPushButton;
 
 class Kfind: public QWidget
@@ -25,7 +27,7 @@ private slots:
   void startSearch();
   void stopSearch();
   void newSearch();
-
+  void processResults();
 signals:
   void  haveResults(bool);
   void  resultSelected(bool);
@@ -43,16 +45,13 @@ signals:
   
 protected:
   void resizeEvent( QResizeEvent * );
-  void timerEvent( QTimerEvent * );
 
 private:
+  KProcess findProcess;
+  int winsize;
   KfindTabDialog *tabDialog;
   KfindWindow * win;
-
-  int timerID;
-  int childPID;
   QString outFile;
-  bool doProcess;
 };
 
 #endif

@@ -16,14 +16,16 @@ Compilation
 ----------- 
 
 It is necessary to set the environment variables QTDIR and KDEDIR.
-Then you have to install libkde(>=0.7) and kfm(>=0.5.8)!!! (unless you
+Then you have to install latest libkde and kfm!!! (unless you
 installed them already). Then you can simply do ./configure, make and
 make install. 
 
 TODO
 ----
 
- o enable changing filetypes and archivers details in preferences dialog
+ o some layout managment
+ o find pattern history
+ o context menus
  o write a better widget for viewing results which would enable multiple
    selection
  o and more ...
@@ -49,6 +51,16 @@ appreciate any suggestions and comments.
 
 CHANGES
 -------
+ver. 0.3.3:
+
+ o uses KProcess
+ o supports other languages then english (at this time german and czech)
+
+ver. 0.3.2:
+
+ o uses KTopLevelWidget and KToolBar
+ o new documentations 
+ 
 ver. 0.3.1:
  o new documentation contributed by Mark Roberts
 

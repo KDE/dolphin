@@ -23,6 +23,7 @@
 #include <qdir.h>
 
 #include <kmsgbox.h>
+#include <kprocess.h>
 
 #include "kftabdlg.h"
 #include "kfwin.h"
@@ -37,6 +38,7 @@ Kfind::Kfind( QWidget *parent, const char *name, const char *searchPath = 0 )
     //prepare window for find results
     win = new KfindWindow(this,"window");
     win->hide();  //and hide it firstly    
+    winsize=1;
 
     connect(win ,SIGNAL(resultSelected(bool)),
 	    this,SIGNAL(resultSelected(bool)));
@@ -54,6 +56,8 @@ Kfind::Kfind( QWidget *parent, const char *name, const char *searchPath = 0 )
 	    win,SLOT(addToArchive()));
     connect(this,SIGNAL(open()),
 	    win,SLOT(openBinding()));
+    connect(&findProcess,SIGNAL(processExited(KProcess *)),
+	    this,SLOT(processResults()));
 
     emit haveResults(false);
     resize(tabDialog->sizeHint()+QSize(0,5));
@@ -69,46 +73,22 @@ void Kfind::resizeEvent( QResizeEvent *e)
     //printf("Win height1 = %d\n",win->height());
     //printf("Kfind height1 = %d\n",height());
     //printf("tabDialog height1 = %d\n",(tabDialog->sizeHint()).height());
+
     win->setGeometry(0,5+(tabDialog->sizeHint()).height()+5,width(),
     		     height()-tabDialog->height()-10);
+
     //printf("Win height2 = %d\n",win->height());
     //printf("------------------------------\n");
   };
-
-void Kfind::timerEvent( QTimerEvent * )
-  {
-    int status;
-
-    if (childPID==waitpid(childPID,&status,WNOHANG))
-      {
-        killTimer( timerID );
-
-	if (doProcess)
-          {
-            win->updateResults( outFile.data() );
-            win->show();
-
-            emit haveResults(true);
-	    emit enableStatusBar(true);
- 	  };
-
-        unlink( outFile.data() );
-    
-	enableSearchButton(true);
-      };
-   };
     
 void Kfind::startSearch()
   {
     QString buffer,pom;
-    char **findargs;
-    int args_number;
-    int fromPos,toPos,i;
-
-    //    printf("Starting Search\n");
-
+    int pos;
     buffer = tabDialog->createQuery();
 
+    //if ( winsize==1)
+    //  winsize=300;
     emit haveResults(false);
     emit resultSelected(false);
     win->clearList();
@@ -117,44 +97,28 @@ void Kfind::startSearch()
       {
 	enableSearchButton(false);
 
+	findProcess.setExecutable("find");
+	findProcess.clearArguments ();
+
         int t = time( 0L ); 
         outFile.sprintf( "/tmp/kfindout%i", t );
 
 	buffer.append(pom.sprintf(" -fprint %s",outFile.data()));
         buffer=buffer.simplifyWhiteSpace();
 
-        args_number=buffer.contains(" ")+3;
-        findargs= (char **) malloc(args_number*sizeof(char *));
+	while( !buffer.isEmpty() )
+	  {
+	    pos = buffer.find(" ");
+	    pom = buffer.left(pos);
 
-        findargs[0]=(char *) malloc(5*sizeof(char));
-        findargs[0]="find";
-        i=0;
-        fromPos=0;
-        while(i<buffer.contains(" ")+1)
-          {
-            toPos=buffer.find(" ",fromPos);
-            toPos=(toPos!=-1)?toPos:buffer.length();	    
-            pom=buffer.mid(fromPos,toPos-fromPos);
-            i++;
-            findargs[i]=(char *) malloc((pom.length()+1)*sizeof(char));
-            strcpy(findargs[i],(char*)pom.data());
-            fromPos=toPos+1;
-          };
-        findargs[buffer.contains(" ")+2]=0L;
+	    findProcess << pom.data();
 
-        childPID=fork();
-        if (childPID==0)
-          {
-	    //            printf("Hey I'm child process\n");
-	    //            printf("CMD find %s\n",buffer.data());
+	    if (pos==-1) 
+	      pos = buffer.length();
+	    buffer = buffer.remove(0,pos+1);
+	  };
 
-	    execvp("find",findargs);
-            printf("Error by creating child process!\n");
-   	    exit(1); 
-          }; 
-
-        doProcess=true;
-        timerID = startTimer( 1000 );
+	findProcess.start();
       };
   };
 
@@ -164,7 +128,7 @@ void Kfind::stopSearch()
     
     enableSearchButton(true);
 
-    kill(childPID,9);
+    findProcess.kill();
   };
 
 void Kfind::newSearch()
@@ -172,20 +136,32 @@ void Kfind::newSearch()
     //    printf("Prepare for New Search\n");
     win->hide();
     win->clearList();
+    //    winsize=1;
 
     tabDialog->setDefaults();
 
     emit enableStatusBar(false);
-
-    doProcess=false;
     emit haveResults(false);
     emit resultSelected(false);
      
     stopSearch();
  };
 
+void Kfind::processResults()
+  {
+    win->updateResults( outFile.data() );
+    win->show();
+    
+    emit haveResults(true);
+    emit enableStatusBar(true);
+
+    unlink( outFile.data() );
+    
+    enableSearchButton(true);
+  };
+
 QSize Kfind::sizeHint()
   {
-    return (tabDialog->sizeHint());
+    return (tabDialog->sizeHint());//+QSize(0,winsize-1));
   };
 

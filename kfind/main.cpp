@@ -17,6 +17,10 @@ int main( int argc, char ** argv )
 
     KApplication *app = new KApplication( argc, argv, "kfind" );
 
+//      QFont default_font("-*-helvetica-medium-r-*-*-*-*-*-*-*-*-iso8859-2");
+//      default_font.setRawMode( TRUE );
+//      QApplication::setFont(default_font );
+     
     (void)signal(SIGCHLD, SIG_DFL);
 
      //Scan for saving options in kfind resource file

@@ -30,10 +30,13 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include <klocale.h>
+
 #include "kftypes.h"
 #include "kfarch.h"
 #include "kfoptions.h"
 #include "kfsave.h"
+
 
 extern QList<KfFileType> *types;
 extern KfSaveOptions *saving;
@@ -45,7 +48,7 @@ KfOptions::KfOptions( QWidget *parent=0, const char *name=0 ):QTabDialog( parent
     insertPages();
 
     setCancelButton();
-    setCaption("Preferences");
+    setCaption(trans.translate("Preferences"));
 
     this->setMinimumSize(400,330);
     this->setMaximumSize(400,330);
@@ -61,11 +64,15 @@ void KfOptions::insertPages()
     // First page of tab preferences dialog
     pages[0]= new QWidget(this,"page1");
 
-    formatL     = new QLabel("File format:"         ,pages[0],"formatL");
-    fileL       = new QLabel("Save results to file:",pages[0],"fileL");
-    kfindfileL  = new QLabel("Save results to file ~/.kfind-results.html"
-                                                    ,pages[0],"kfindfileL");
-    browseB     = new QPushButton("Browse"          ,pages[0],"browseB");
+    formatL     = new QLabel(trans.translate("File format:"),
+			     pages[0],"formatL");
+    fileL       = new QLabel(trans.translate("Save results to file:"),
+			     pages[0],"fileL");
+    kfindfileL  = new QLabel(trans.translate(
+			      "Save results to file ~/.kfind-results.html"),
+			     pages[0],"kfindfileL");
+    browseB     = new QPushButton(trans.translate("Browse"),
+			     pages[0],"browseB");
     formatBox   = new QComboBox(                     pages[0],"formatBox");
     fileE       = new QLineEdit(                     pages[0],"fileE");
     kfindfileB  = new QRadioButton(                  pages[0]);
@@ -77,15 +84,16 @@ void KfOptions::insertPages()
     bg->setExclusive(TRUE);
 
     formatBox->insertItem("HTML");
-    formatBox->insertItem("Plain Text");
-    
+    formatBox->insertItem(trans.translate("Plain Text"));
+    formatBox->setFixedSize(formatBox    ->sizeHint());
+
     formatL    ->setFixedSize(formatL    ->sizeHint());
     fileL      ->setFixedSize(fileL      ->sizeHint());
-    fileE      ->setFixedSize(160,25);
     kfindfileL ->setFixedSize(kfindfileL ->sizeHint());
     kfindfileB ->setFixedSize(kfindfileB ->sizeHint());
     selectfileB->setFixedSize(selectfileB->sizeHint());
-    browseB    ->setFixedSize(browseB  ->sizeHint());
+    browseB    ->setFixedSize(browseB    ->sizeHint());
+    fileE      ->setFixedSize(344-(10+10+fileL->width()+browseB->width()),25);
 
     kfindfileB ->move(10,20);
     selectfileB->move(10,50);
@@ -105,7 +113,7 @@ void KfOptions::insertPages()
     connect( browseB     ,SIGNAL(clicked()),
              this, SLOT(selectFile()) );
 
-    addTab(pages[0],"Saving");
+    addTab(pages[0],trans.translate("Saving"));
 
     // Second page of tab preferences dialog
     pages[1]= new QWidget(this,"page2");
