@@ -115,6 +115,7 @@ KUserInfoConfig::KUserInfoConfig(QWidget *parent, const char *name, const QStrin
 
   pTop->addLayout( pMainArea );
 
+  setButtons( Ok + Help );
   load();// Load our settings
 }
 
@@ -235,7 +236,7 @@ void KUserInfoConfig::slotChangeRealName()
 	  m_FullName + "\n" + m_UserName + "\n" + m_UserID + "\n" + m_HomeDir + "\n" + m_Shell;
       m_pInfoRight->setText( m_InfoRightText );
 
-      KMessageBox::information( this, i18n("Your name has been changed!") );
+      //KMessageBox::information( this, i18n("Your name has been changed!") );
     }
     else if ( ret == ChfnProcess::PasswordError )
       KMessageBox::sorry( this, i18n("Your password was wrong.").arg( chfnproc->error() ) );
