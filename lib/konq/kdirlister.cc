@@ -53,6 +53,9 @@ KDirLister::~KDirLister()
       job->kill();
     m_jobId = 0;
   }
+  KURL u( m_sURL );
+  if ( u.isLocalFile() && kdirwatch->contains( u.path() ) )
+    kdirwatch->removeDir( u.path() );
 }
 
 void KDirLister::slotDirectoryDirty( const QString& _dir )
