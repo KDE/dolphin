@@ -340,15 +340,18 @@ KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const 
     if (mode=="MultiColumnView")
     {
        m_pIconView->setArrangement(QIconView::TopToBottom);
-       m_pIconView->setWordWrapIconText(FALSE);
+       //m_pIconView->setWordWrapIconText(false);
        m_pIconView->setItemTextPos(QIconView::Right);
     }
     else
     {
-       m_pIconView->setWordWrapIconText(TRUE);
        m_pIconView->setItemTextPos(QIconView::Bottom);
+       //m_pIconView->setWordWrapIconText(true);
        m_pIconView->setArrangement(QIconView::LeftToRight);
-    };
+    }
+    // Respect kcmkonq's configuration for word-wrap icon text.
+    // If we want something else, we have to adapt the configuration or remove it...
+    m_pIconView->setWordWrapIconText(KonqFMSettings::settings()->wordWrapText());
 
 }
 
