@@ -3,13 +3,13 @@ INCLUDES = -I$(top_srcdir)/libkonq -I$(top_srcdir)/kcontrol/input $(all_includes
 
 SUBDIRS = . kfmexec client iconview dirtree listview keditbookmarks kfindpart shellcmdplugin pics
 
-lib_LTLIBRARIES = konqueror.la
+lib_LTLIBRARIES = konqueror.la libkonqaboutpage.la
 
-rcdir = $(kde_datadir)/konqueror
-rc_DATA = konqueror.rc
+konqdatadir = $(kde_datadir)/konqueror
+konqdata_DATA = konqueror.rc konq_about.html.template
 
 kdelnkdir = $(kde_servicesdir)
-kdelnk_DATA = konqueror.desktop konqueror_config.desktop
+kdelnk_DATA = konqueror.desktop konq_aboutpage.desktop
 
 # servicetypedir = $(kde_servicetypesdir)
 # servicetype_DATA = konq_metaview.desktop
@@ -50,6 +50,10 @@ konqueror_LDFLAGS = $(KDE_RPATH) $(all_libraries)
 #konqueror_static_SOURCES = dummy.cc
 #konqueror_static_LDADD = konqueror.la *view/*.la dirtree/*.la $(libdir)/libkhtml.la
 #konqueror_static_LDFLAGS = $(all_libraries) -static
+
+libkonqaboutpage_la_SOURCES = konq_aboutpage.cc
+libkonqaboutpage_la_LDFLAGS = $(all_libraries) $(KDE_PLUGIN)
+libkonqaboutpage_la_LIBADD = konqueror.la $(LIB_KHTML)
 
 dummy.cc:
 	echo > dummy.cc
