@@ -215,15 +215,18 @@ int main(int argc, char** argv)
       exit(1);
     }
 
-  dcopId = dcop->registerAs(plugin);
+  if (dcopId)
+    dcopId = dcop->registerAs(dcopId, false);
+  else
+    dcopId = dcop->registerAs(plugin);
 
   // create the DCOP object for the plugin class
   NSPluginClass *cls = new NSPluginClass(plugin, plugin);
 
   // Testing code
   //QString src = "file:/home/sschimanski/kimble_themovie.swf";
-  //QString src = "file:/home/sschimanski/autsch.swf";
-  //QString mime = "application/x-shockwave-flash";
+  QString src = "file:/home/sschimanski/autsch.swf";
+  QString mime = "application/x-shockwave-flash";
 
   //QString src = "file:/opt/kde/share/Circuit.jpg";
   //QString mime = "image/jpg";
@@ -238,6 +241,4 @@ int main(int argc, char** argv)
 
   // start main loop
   XtAppMainLoop(appcon);
-
-  delete cls;
 }
