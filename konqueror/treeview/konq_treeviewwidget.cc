@@ -31,6 +31,7 @@
 #include <kglobal.h>
 #include <kio/job.h>
 #include <kio/paste.h>
+#include <konqdrag.h> // doDrop
 #include <klocale.h>
 #include <stdlib.h>
 #include <kmessagebox.h>
@@ -117,7 +118,7 @@ void KonqTreeViewWidget::stop()
 
 const KURL & KonqTreeViewWidget::url()
 {
-  return m_sURL;
+  return m_url;
 }
 
 void KonqTreeViewWidget::initConfig()
@@ -214,29 +215,9 @@ void KonqTreeViewWidget::viewportDropEvent( QDropEvent *ev  )
 
   KonqTreeViewItem *item = (KonqTreeViewItem*)itemAt( ev->pos() );
 
-  QStringList lst;
+  KURL dest = ( item ) ? item->item()->url() : m_url;
 
-  KURL dest = ( item ) ? item->item()->url() : m_sURL;
-
-  if ( QUriDrag::decodeToUnicodeUris( ev, lst ) )
-  {
-    if ( lst.count() == 0 )
-      return;
-
-    KIO::Job * job = 0L;
-    switch ( ev->action() ) {
-        case QDropEvent::Move : job = KIO::move( lst, dest.url( 1 ) ); break;
-        case QDropEvent::Copy : job = KIO::copy( lst, dest.url( 1 ) ); break;
-        case QDropEvent::Link : KIO::link( lst, dest ); break;
-        default : kDebugError( 1202, "Unknown action %d", ev->action() ); return;
-    }
-    connect( job, SIGNAL( result( KIO::Job * ) ),
-             SLOT( slotResult( KIO::Job * ) ) );
-    ev->acceptAction(TRUE);
-    ev->accept();
-  }
-  else if ( m_lstDropFormats.count() >= 1 )
-    KIO::pasteData( dest, ev->data( m_lstDropFormats.first() ) );
+  KonqDrag::doDrop( dest, ev, this );
 }
 
 void KonqTreeViewWidget::addSubDir( const KURL & _url, KonqTreeViewDir* _dir )
@@ -508,10 +489,6 @@ void KonqTreeViewWidget::popupMenu( const QPoint& _global )
   {
     assert( m_dirLister->rootItem() );
     lstItems.append( m_dirLister->rootItem() );
-    //mode_t mode = S_IFDIR;
-    //KFileItem * item = new KFileItem ( mode, m_sURL );
-    //lstItems.append( item );
-    //lstItems.setAutoDelete( true ); // will delete 'item'
   }
 
   emit m_pBrowserView->extension()->popupMenu( _global, lstItems );
@@ -585,7 +562,7 @@ bool KonqTreeViewWidget::openURL( const KURL &url )
   m_iXOffset = 0;
   m_iYOffset = 0;
 
-  m_sURL = url.url();
+  m_url = url;
 
   if ( m_pProps->enterDir( url ) )
   {
@@ -595,7 +572,7 @@ bool KonqTreeViewWidget::openURL( const KURL &url )
   // Start the directory lister !
   m_dirLister->openURL( url, m_pProps->m_bShowDot, false /* new url */ );
 
-//  setCaptionFromURL( m_sURL );
+//  setCaptionFromURL( m_url );
   return true;
 }
 
@@ -673,7 +650,7 @@ void KonqTreeViewWidget::slotUpdate()
     dir.setFileName( "" );
     //kDebugInfo( 1202, "dir = %s", dir.url().ascii());
     KonqTreeViewDir * parentDir = 0L;
-    if( !urlcmp( dir.url(0), m_sURL.url(), true, true ) )
+    if( !m_url.cmp( dir, true ) ) // ignore trailing slash
       {
         parentDir = findDir ( dir.url( 0 ) );
         kDebugInfo( 1202, "findDir returned %p", parentDir );
@@ -832,5 +809,12 @@ KonqTreeViewDir * KonqTreeViewWidget::findDir( const QString &_url )
   }
   return 0L;
 }
+
+void KonqTreeViewWidget::slotResult( KIO::Job * job )
+{
+    if (job->error())
+        job->showErrorDialog();
+}
+
 
 #include "konq_treeviewwidget.moc"

@@ -22,6 +22,7 @@
 #include <kio/job.h>
 #include <kuserpaths.h>
 #include <kdebug.h>
+#include <konqdrag.h> // doDrop
 #include <kio/paste.h>
 #include <kglobal.h>
 #include <kdesktopfile.h>
@@ -407,43 +408,7 @@ void KonqDirTree::contentsDropEvent( QDropEvent *ev )
 
   assert( selection );
 
-  QStringList lst;
-
-  QStringList formats;
-
-  for ( int i = 0; ev->format( i ); i++ )
-    if ( *( ev->format( i ) ) )
-      formats.append( ev->format( i ) );
-
-  // Try to decode to the data you understand...
-  if ( QUriDrag::decodeToUnicodeUris( ev, lst ) )
-  {
-    if( lst.count() == 0 )
-    {
-      kDebugWarning(1202,"Oooops, no data ....");
-      return;
-    }
-    KIO::Job* job = 0L;
-
-    KURL dest( selection->fileItem()->url() );
-
-    switch ( ev->action() ) {
-        case QDropEvent::Move : job = KIO::move( lst, dest.url( 1 ) ); break;
-        case QDropEvent::Copy : job = KIO::copy( lst, dest.url( 1 ) ); break;
-        case QDropEvent::Link : KIO::link( lst, dest ); break;
-        default : kDebugError( 1202, "Unknown action %d", ev->action() ); return;
-    }
-    connect( job, SIGNAL( result( KIO::Job * ) ),
-             SLOT( slotResult( KIO::Job * ) ) );
-    ev->acceptAction(TRUE);
-    ev->accept();
-  }
-  else if ( formats.count() >= 1 )
-  {
-    kDebugInfo(1202,"Pasting to %s", selection->fileItem()->url().url().ascii() /* item's url */);
-    KIO::pasteData( selection->fileItem()->url().url()/* item's url */, ev->data( formats.first() ) );
-  }
-
+  KonqDrag::doDrop( selection->fileItem()->url(), ev, this );
 }
 
 void KonqDirTree::contentsMousePressEvent( QMouseEvent *e )
@@ -555,7 +520,7 @@ void KonqDirTree::slotDoubleClicked( QListViewItem *item )
 {
   if ( !item )
     return;
- 
+
   if ( m_unselectableItems.findRef( item ) != -1 )
     return;
 

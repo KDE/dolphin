@@ -659,10 +659,6 @@ void KonqKfmIconView::slotViewportRightClicked( QIconViewItem *i )
     if ( i )
 	return;
 
-    kDebugInfo(" This is a directory ............ ");
-    // This is a directory. Always.
-    mode_t mode = S_IFDIR;
-
     KFileItemList items;
     assert( m_dirLister->rootItem() );
     items.append( m_dirLister->rootItem() );

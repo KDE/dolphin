@@ -27,7 +27,7 @@
 #include <kurl.h>
 #include <kfileitem.h>
 
-struct KUDSAtom;
+namespace KIO { class Job; }
 class QCursor;
 class KDirLister;
 class KonqTreeViewItem;
@@ -94,21 +94,23 @@ public slots:
   virtual void slotOnItem( KonqTreeViewItem* _item );
 
 protected slots:
-  virtual void slotReturnPressed( QListViewItem *_item );
-  virtual void slotRightButtonPressed( QListViewItem *_item, const QPoint &_global, int _column );
+  // from QListView
+  void slotReturnPressed( QListViewItem *_item );
+  void slotRightButtonPressed( QListViewItem *_item, const QPoint &_global, int _column );
+  void slotCurrentChanged( QListViewItem* _item ) { slotOnItem( (KonqTreeViewItem*)_item ); }
 
   // slots connected to the directory lister
-  virtual void slotStarted( const QString & );
-  virtual void slotCompleted();
-  virtual void slotCanceled();
-  virtual void slotClear();
-  virtual void slotNewItems( const KFileItemList & );
-  virtual void slotDeleteItem( KFileItem * );
+  void slotStarted( const QString & );
+  void slotCompleted();
+  void slotCanceled();
+  void slotClear();
+  void slotNewItems( const KFileItemList & );
+  void slotDeleteItem( KFileItem * );
 
   // Called by m_timer timeout and upon completion
-  virtual void slotUpdate();
+  void slotUpdate();
 
-  virtual void slotCurrentChanged( QListViewItem* _item ) { slotOnItem( (KonqTreeViewItem*)_item ); }
+  void slotResult( KIO::Job * );
 
 protected:
   virtual void initConfig();
@@ -183,7 +185,7 @@ protected:
 
   long int m_idShowDot;
 
-  KURL m_sURL;
+  KURL m_url;
 
   KonqTreeView *m_pBrowserView;
 
