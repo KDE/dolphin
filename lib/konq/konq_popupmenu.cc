@@ -44,6 +44,7 @@
 #include "konq_popupmenu.h"
 #include "konq_operations.h"
 
+
 class KonqPopupMenuGUIBuilder : public KXMLGUIBuilder
 {
 public:
@@ -130,6 +131,38 @@ KonqPopupMenu::KonqPopupMenu( KBookmarkManager *mgr, const KFileItemList &items,
   d = new KonqPopupMenuPrivate;
   d->m_parentWidget = parentWidget;
   setup(showPropertiesAndFileType);
+}
+
+
+void KonqPopupMenu::insertServices(const ServiceList& list,
+                                   QDomElement& menu,
+                                   bool isBuiltin)
+{
+    static int id = 1000;
+
+    ServiceList::const_iterator it = list.begin();
+    for( ; it != list.end(); ++it )
+    {
+        if (isBuiltin || (*it).m_display == true)
+        {
+            QCString name;
+            name.setNum( id );
+            name.prepend( isBuiltin ? "builtinservice_" : "userservice_" );
+            KAction * act = new KAction( (*it).m_strName, 0,
+                                         this, SLOT( slotRunService() ),
+                                         &m_ownActions, name );
+
+            if ( !(*it).m_strIcon.isEmpty() )
+            {
+                QPixmap pix = SmallIcon( (*it).m_strIcon );
+                act->setIconSet( pix );
+            }
+
+            addAction( act, menu ); // Add to toplevel menu
+
+            m_mapPopupServices[ id++ ] = *it;
+        }
+    }
 }
 
 void KonqPopupMenu::setup(bool showPropertiesAndFileType)
@@ -351,8 +384,9 @@ void KonqPopupMenu::setup(bool showPropertiesAndFileType)
 
   //////////////////////////////////////////////////////
 
-  QValueList<KDEDesktopMimeType::Service> builtin;
-  QValueList<KDEDesktopMimeType::Service> user;
+  ServiceList builtin;
+  ServiceList user;
+  QMap<QString, ServiceList> userSubmenus;
 
   // 1 - Look for builtin and user-defined services
   if ( m_sMimeType == "application/x-desktop" && m_lstItems.count() == 1 && m_lstItems.first()->url().isLocalFile() ) // .desktop file
@@ -405,18 +439,57 @@ void KonqPopupMenu::setup(bool showPropertiesAndFileType)
           if ( cfg.hasKey( "Actions" ) && cfg.hasKey( "ServiceTypes" ) )
           {
               QStringList types = cfg.readListEntry( "ServiceTypes" );
-              bool ok = !m_sMimeType.isNull() && types.contains( m_sMimeType );
-              if ( !ok ) {
-                  ok = (types[0] == "all/all" ||
-                        types[0] == "allfiles" /*compat with KDE up to 3.0.3*/);
-                  if ( !ok && types[0] == "all/allfiles" )
+              bool ok = false;
+              QString mimeGroup = m_sMimeType.left(m_sMimeType.find('/'));
+
+              // check for exact matches or a typeglob'd mimetype if we have a mimetype
+              for (QStringList::iterator it = types.begin(); it != types.end(); ++it)
+              {
+                  // we could cram the following three if statements into
+                  // one gigantic boolean statement but that would be a
+                  // hororr show for readability
+
+                  // first check if we have an all mimetype
+                  if (*it == "all/all" ||
+                      *it == "allfiles" /*compat with KDE up to 3.0.3*/)
                   {
-                      ok = (m_sMimeType != "inode/directory"); // ## or inherits from it
+                      ok = true;
+                      break;
+                  }
+
+                  // next, do we match all files?
+                  if (*it == "all/allfiles" &&
+                      m_sMimeType != "inode/directory") // ## or inherits from it
+                  {
+                      ok = true;
+                      break;
+                  }
+
+                  // if we have a mimetype, see if we have an exact or type
+                  // globbed match
+                  if (!m_sMimeType.isNull() &&
+                      (*it == m_sMimeType ||
+                      ((*it).right(1) == "*" &&
+                      (*it).left((*it).find('/')) == mimeGroup)))
+                  {
+                      ok = true;
+                      break;
                   }
               }
+
               if ( ok )
               {
-                  user += KDEDesktopMimeType::userDefinedServices( *dIt + *eIt, url.isLocalFile() );
+                  // we use the categories .desktop entry to define submenus
+                  // if none is defined, we just pop it in the main menu
+                  QString submenuName = cfg.readEntry( "Submenu" );
+                  if (submenuName.isEmpty())
+                  {
+                    user += KDEDesktopMimeType::userDefinedServices( *dIt + *eIt, url.isLocalFile() );
+                  }
+                  else
+                  {
+                    userSubmenus[submenuName] += KDEDesktopMimeType::userDefinedServices( *dIt + *eIt, url.isLocalFile() );
+                  }
               }
           }
       }
@@ -449,7 +522,7 @@ void KonqPopupMenu::setup(bool showPropertiesAndFileType)
       if ( offers.count() > 1 ) // submenu 'open with'
       {
         menu = m_doc.createElement( "menu" );
-	menu.setAttribute( "name", "openwith submenu" );
+        menu.setAttribute( "name", "openwith submenu" );
         m_menuElement.appendChild( menu );
         QDomElement text = m_doc.createElement( "text" );
         menu.appendChild( text );
@@ -492,58 +565,40 @@ void KonqPopupMenu::setup(bool showPropertiesAndFileType)
 
   addGroup( "preview" );
 
+  // Second block, builtin + user
+  if ( !user.isEmpty() || !userSubmenus.empty() || !builtin.isEmpty() )
+  {
+      QDomElement actionMenu = m_doc.createElement( "menu" );
+      actionMenu.setAttribute( "name", "actions submenu" );
+      m_menuElement.appendChild( actionMenu );
+      QDomElement text = m_doc.createElement( "text" );
+      actionMenu.appendChild( text );
+      text.appendChild( m_doc.createTextNode( i18n("Ac&tions") ) );
+
+      QMap<QString, ServiceList>::Iterator it;
+      for (it = userSubmenus.begin(); it != userSubmenus.end(); ++it)
+      {
+        if (it.data().isEmpty())
+        {
+          //avoid empty sub-menus
+          continue;
+        }
+
+        QDomElement actionSubmenu = m_doc.createElement( "menu" );
+        actionSubmenu.setAttribute( "name", "actions " + it.key() );
+        actionMenu.appendChild( actionSubmenu );
+        QDomElement subtext = m_doc.createElement( "text" );
+        actionSubmenu.appendChild( subtext );
+        subtext.appendChild( m_doc.createTextNode( it.key() ) );
+        insertServices(it.data(), actionSubmenu, false);
+      }
+
+      insertServices(user, actionMenu, false);
+      insertServices(builtin, actionMenu, true);
+  }
+
   addSeparator();
 
-  // Second block, builtin + user
-  if ( !user.isEmpty() || !builtin.isEmpty() )
-  {
-      bool insertedOffer = false;
-
-      QValueList<KDEDesktopMimeType::Service>::Iterator it2 = user.begin();
-      for( ; it2 != user.end(); ++it2 )
-      {
-        if ((*it2).m_display == true)
-        {
-          QCString nam;
-          nam.setNum( id );
-          act = new KAction( (*it2).m_strName, 0, this, SLOT( slotRunService() ), &m_ownActions, nam.prepend( "userservice_" ) );
-
-          if ( !(*it2).m_strIcon.isEmpty() )
-          {
-            QPixmap pix = SmallIcon( (*it2).m_strIcon );
-            act->setIconSet( pix );
-          }
-
-          addAction( act, m_menuElement ); // Add to toplevel menu
-
-          m_mapPopupServices[ id++ ] = *it2;
-          insertedOffer = true;
-        }
-      }
-
-      it2 = builtin.begin();
-      for( ; it2 != builtin.end(); ++it2 )
-      {
-        QCString nam;
-        nam.setNum( id );
-
-        act = new KAction( (*it2).m_strName, 0, this, SLOT( slotRunService() ), &m_ownActions, nam.prepend( "builtinservice_" ) );
-
-        if ( !(*it2).m_strIcon.isEmpty() )
-        {
-          QPixmap pix = SmallIcon( (*it2).m_strIcon );
-          act->setIconSet( pix );
-        }
-
-        addAction( act, m_menuElement );
-
-        m_mapPopupServices[ id++ ] = *it2;
-        insertedOffer = true;
-      }
-
-      if ( insertedOffer )
-        addSeparator();
-  }
   if ( !isCurrentTrash )
       addPlugins( ); // now it's time to add plugins
 

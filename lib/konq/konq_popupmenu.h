@@ -34,6 +34,8 @@
 
 #include "konq_xmlguiclient.h"
 
+typedef QValueList<KDEDesktopMimeType::Service> ServiceList;
+
 class KNewMenu;
 class KService;
 class KonqPopupMenuPlugin;
@@ -73,10 +75,10 @@ public:
                  const KFileItemList &items,
                  KURL viewURL,
                  KActionCollection & actions,
-                 KNewMenu * newMenu, 
+                 KNewMenu * newMenu,
 		 QWidget * parentWidget,
 		 bool showPropertiesAndFileType = true );
-    
+
   /**
    * Don't forget to destroy the object
    */
@@ -134,6 +136,7 @@ protected:
 private:
   void setup(bool showPropertiesAndFileType);
   void addPlugins( );
+  void insertServices(const ServiceList& list, QDomElement& menu, bool isBuiltin);
   class KonqPopupMenuPrivate;
   KonqPopupMenuPrivate *d;
   KNewMenu *m_pMenuNew;
