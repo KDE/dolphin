@@ -59,10 +59,9 @@
 #include <kprogress.h>
 #include <kio_job.h>
 #include <kuserpaths.h>
-#include <kded_instance.h>
 #include <ktrader.h>
 #include <ksharedptr.h>
-#include <kservices.h>
+#include <kservice.h>
 #include <kpixmapcache.h>
 
 #include <klibloader.h>
@@ -1191,7 +1190,7 @@ void KonqMainView::initActions()
 
 void KonqMainView::initPlugins()
 {
-  KTrader::OfferList offers = KdedInstance::self()->ktrader()->query( "Konqueror/Plugin" );
+  KTrader::OfferList offers = KTrader::self()->query( "Konqueror/Plugin" );
   KTrader::OfferList::ConstIterator it = offers.begin();
   KTrader::OfferList::ConstIterator end = offers.end();
 

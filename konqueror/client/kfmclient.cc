@@ -35,7 +35,7 @@
 #include <krun.h>
 #include <kregistry.h>
 #include <kregfactories.h>
-#include <kservices.h>
+#include <kservice.h>
 #include <kded_instance.h>
 #include <knaming.h>
 #include <kactivator.h>

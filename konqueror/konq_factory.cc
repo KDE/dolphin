@@ -29,7 +29,6 @@
 #include "konq_run.h"
 #include "browser.h"
 
-#include <kded_instance.h>
 #include <ktrader.h>
 #include <kdebug.h>
 #include <klibglobal.h>
@@ -50,7 +49,6 @@ KonqFactory::KonqFactory()
   s_global = 0L;
   QString path = global()->dirs()->saveLocation("data", "kfm/bookmarks", true);
   (void)new KonqBookmarkManager( path );
-  (void)new KTraderServiceProvider;
   (void)new KonqFileManager;
 }
 
@@ -90,10 +88,8 @@ BrowserView *KonqFactory::createView( const QString &serviceType,
   }
 
   //now let's query the Trader for view plugins
-  KTrader *trader = KdedInstance::self()->ktrader();
-  KActivator *activator = KdedInstance::self()->kactivator();
 
-  KTrader::OfferList offers = trader->query( serviceType, "'Browser/View' in ServiceTypes" );
+  KTrader::OfferList offers = KTrader::self()->query( serviceType, "'Browser/View' in ServiceTypes" );
 
   if ( offers.count() == 0 ) //no results?
     return 0L;
@@ -111,7 +107,7 @@ BrowserView *KonqFactory::createView( const QString &serviceType,
   return (BrowserView *)factory->create();
 }
 
-QObject* KonqFactory::create( QObject* parent, const char* name, const char* classname )
+QObject* KonqFactory::create( QObject* parent, const char* name, const char* /*classname*/ )
 {
 //  if ( !parent || !parent->inherits( "Part" ) )
 //    return 0L;

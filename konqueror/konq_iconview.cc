@@ -36,7 +36,7 @@
 #include <kio_job.h>
 #include <kio_paste.h>
 #include <klineeditdlg.h>
-#include <kmimetypes.h>
+#include <kmimetype.h>
 #include <kpixmapcache.h>
 #include <kurl.h>
 #include <kdebug.h>

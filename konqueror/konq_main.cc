@@ -25,15 +25,11 @@
 #include "konq_shell.h"
 #include "konq_mainview.h"
 
-#include <kregfactories.h>
-#include <kregistry.h>
-#include <kded_instance.h>
 #include <ktrader.h>
 #include <klocale.h>
 #include <kglobal.h>
 #include <kstddirs.h>
 
-#include <CORBA.h>
 
 #include <kapp.h>
 
@@ -42,17 +38,12 @@ int main( int argc, char **argv )
 {
   KApplication app( argc, argv, "konqueror" );
 
-  KRegistry::self()->addFactory( new KServiceTypeFactory );
-  KRegistry::self()->load();
 
-  CORBA::ORB_var orb = CORBA::ORB_init( argc, argv, "mico-local-orb" );
-  KdedInstance kded( argc, argv, orb );
 
   KGlobal::locale()->insertCatalogue("libkonq"); // needed for apps using libkonq
 
   QString path = KGlobal::dirs()->saveLocation("data", "kfm/bookmarks", true);
   KonqBookmarkManager bm ( path );
-  KTraderServiceProvider sp;
   KonqFileManager fm;
 
   if ( argc == 1 )

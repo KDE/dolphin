@@ -28,7 +28,7 @@
 #include <kio_error.h>
 #include <kio_job.h>
 #include <kio_paste.h>
-#include <kmimetypes.h>
+#include <kmimetype.h>
 #include <kmessagebox.h>
 #include <kpixmapcache.h>
 #include <kprotocolmanager.h>

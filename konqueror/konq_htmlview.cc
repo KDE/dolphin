@@ -41,7 +41,7 @@
 #include <kurl.h>
 #include <kio_error.h>
 #include <kio_job.h>
-#include <kmimetypes.h>
+#include <kmimetype.h>
 #include <kpixmapcache.h>
 #include <konqdefaults.h>
 #include <konqsettings.h>
