@@ -40,6 +40,8 @@
 #include "fontopts.h"
 #include "miscopts.h"
 #include "trashopts.h"
+#include "desktop.h"
+#include "kwindesktop.h"
 
 #include "main.h"
 #include "main.moc"
@@ -157,6 +159,14 @@ KDesktopModule::KDesktopModule(QWidget *parent, const char *name)
   tab->addTab(font, i18n("&Appearance"));
   connect(font, SIGNAL(changed(bool)), this, SLOT(moduleChanged(bool)));
 
+  virtualDesks = new KDesktopConfig(this, "VirtualDesktops");
+  tab->addTab(virtualDesks, i18n("&Number of Desktops"));
+  connect(virtualDesks, SIGNAL(changed(bool)), this, SLOT(moduleChanged(bool)));
+
+  borders = new KWinDesktopConfig(this, "WindowBorders");
+  tab->addTab(borders, i18n("&Borders"));
+  connect(borders, SIGNAL(changed(bool)), this, SLOT(moduleChanged(bool)));
+
   //should we add Trash also here ?
 }
 
@@ -166,6 +176,8 @@ void KDesktopModule::load()
   //behaviour->load();
   root->load();
   font->load();
+  virtualDesks->load();
+  borders->load();
 }
 
 
@@ -174,6 +186,8 @@ void KDesktopModule::save()
   //behaviour->save();
   root->save();
   font->save();
+  virtualDesks->save();
+  borders->save();
 
   // Tell kdesktop about the new config file
   if ( !kapp->dcopClient()->isAttached() )
@@ -188,6 +202,8 @@ void KDesktopModule::defaults()
   //behaviour->defaults();
   root->defaults();
   font->defaults();
+  virtualDesks->defaults();
+  borders->defaults();
 }
 
 

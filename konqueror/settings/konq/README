@@ -1,0 +1,22 @@
+This module contains a combination of configuration items which at first
+sight seem to be a rather weird combination.
+
+It contains configuration for:
+* KDesktop
+* Konqueror 
+* Number of virtual desktops. (Handled by KWin via NETWM)
+* Behaviour of desktop borders (Handled by KWin)
+
+The reason for this combination is that the configuration of KDesktop and 
+Konqueror is very similair codewise. On the other hand, the number of virtual
+desktops, border behaviour and the other KDesktop options belongs together 
+from a user interface point of view. The result is that all these options 
+are now grouped together here.
+
+In total it provide 3 configuration modules:
+* desktop.desktop (Desktop configuration)
+* kcmkonq.desk (File browser configuration)
+* virtualdesks.desktop (Configuration of virtual desktops)
+
+virtualdesktops.desktop is used by the panel and isn't shown in the control 
+center. The settings in this module are also part of desktop.desktop.

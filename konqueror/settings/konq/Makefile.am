@@ -7,7 +7,7 @@ lib_LTLIBRARIES = libkcm_konq.la
 
 libkcm_konq_la_SOURCES = behaviour.cpp rootopts.cpp main.cpp \
 		miscopts.cpp trashopts.cpp fontopts.cpp \
-		uiserver.stub
+		desktop.cpp kwindesktop.cpp uiserver.stub
 
 libkcm_konq_la_LDFLAGS  = $(all_libraries) -module -avoid-version -no-undefined
 libkcm_konq_la_LIBADD = $(LIB_KIO) $(LIB_KDEUI)
@@ -18,8 +18,8 @@ libkcm_konq_ladir = $(kde_datadir)/kcontrol/pics
 data_DATA = kcmkonq.desktop
 datadir = $(kde_appsdir)/Settings/FileBrowsing
 
-data2_DATA = desktop.desktop
-data2dir = $(kde_appsdir)/Settings/LookNFeel/Desktop
+data2_DATA = desktop.desktop virtualdesktops.desktop
+data2dir = $(kde_appsdir)/Settings/LookNFeel
 
 uiserver_DIR = $(kde_includes)/kio
 

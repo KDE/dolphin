@@ -37,6 +37,8 @@ class KonqFontOptions;
 class KMiscOptions;
 class KRootOptions;
 class KTrashOptions;
+class KDesktopConfig;
+class KWinDesktopConfig;
 
 class KonqyModule : public KCModule
 {
@@ -100,6 +102,8 @@ private:
   KBehaviourOptions *behaviour;
   KonqFontOptions      *font;
   KRootOptions      *root;
+  KDesktopConfig *virtualDesks;
+  KWinDesktopConfig *borders;
 
 };
 
