@@ -47,14 +47,14 @@
 #include <klibloader.h>
 #include <kglobal.h>
 
-class KonqTxtViewFactory : public KLibFactory
+class KonqTextViewFactory : public KLibFactory
 {
 public:
-  KonqTxtViewFactory() {}
+  KonqTextViewFactory() {}
   
   virtual QObject* create( QObject*, const char*, const char*, const QStringList & )
   {
-    QObject *obj = new KonqTxtView;
+    QObject *obj = new KonqTextView;
     emit objectCreated( obj );
     return obj;
   }
@@ -63,25 +63,25 @@ public:
 
 extern "C"
 {
-  void *init_libkonqtxtview()
+  void *init_libkonqtextview()
   {
-    return new KonqTxtViewFactory;
+    return new KonqTextViewFactory;
   }
 };
 
-KonqTxtPrintingExtension::KonqTxtPrintingExtension( KonqTxtView *txtView )
-: PrintingExtension( txtView, "KonqTxtPrintingExtension" )
+KonqTextPrintingExtension::KonqTextPrintingExtension( KonqTextView *textView )
+: PrintingExtension( textView, "KonqTextPrintingExtension" )
 {
-  m_txtView = txtView;
+  m_textView = textView;
 }
 
-void KonqTxtPrintingExtension::print()
+void KonqTextPrintingExtension::print()
 {
   QPrinter printer;
 
-  emit m_txtView->setStatusBarText( i18n( "Printing..." ) );
+  emit m_textView->setStatusBarText( i18n( "Printing..." ) );
   
-  KMultiLineEdit *edit = m_txtView->multiLineEdit();
+  KMultiLineEdit *edit = m_textView->multiLineEdit();
   
   if ( printer.setup( edit ) )
   {
@@ -95,13 +95,13 @@ void KonqTxtPrintingExtension::print()
     int y = 0, i = 0, page = 1;
     const int Margin = 10;
     
-    emit m_txtView->setStatusBarText( i18n( "Printing page %1 ..." ).arg( page ) );
+    emit m_textView->setStatusBarText( i18n( "Printing page %1 ..." ).arg( page ) );
     
     for (; i < edit->numLines(); i++ )
     {
       if ( Margin + y > paintDevMetrics.height() - Margin )
       {
-	emit m_txtView->setStatusBarText( i18n( "Printing page %1 ..." ).arg( ++page ) );
+	emit m_textView->setStatusBarText( i18n( "Printing page %1 ..." ).arg( ++page ) );
 	printer.newPage();
 	y = 0;
       }
@@ -117,41 +117,41 @@ void KonqTxtPrintingExtension::print()
     
   }
 
-  emit m_txtView->setStatusBarText( QString::null );
+  emit m_textView->setStatusBarText( QString::null );
 }
 
-KonqTxtEditExtension::KonqTxtEditExtension( KonqTxtView *txtView )
- : EditExtension( txtView, "KonqTxtEditExtension" )
+KonqTextEditExtension::KonqTextEditExtension( KonqTextView *textView )
+ : EditExtension( textView, "KonqTextEditExtension" )
 {
-  m_txtView = txtView;
+  m_textView = textView;
 }
 
-void KonqTxtEditExtension::can( bool &copy, bool &paste, bool &move )
+void KonqTextEditExtension::can( bool &copy, bool &paste, bool &move )
 {
-  copy = m_txtView->multiLineEdit()->textMarked();
+  copy = m_textView->multiLineEdit()->textMarked();
   paste = false;
   move = false;
 }
 
-void KonqTxtEditExtension::copySelection()
+void KonqTextEditExtension::copySelection()
 {
-  m_txtView->multiLineEdit()->copy();
+  m_textView->multiLineEdit()->copy();
 }
 
-void KonqTxtEditExtension::pasteSelection()
-{
-}
-
-void KonqTxtEditExtension::moveSelection( const QString &/*destinationURL*/ )
+void KonqTextEditExtension::pasteSelection()
 {
 }
 
-KonqTxtView::KonqTxtView()
+void KonqTextEditExtension::moveSelection( const QString &/*destinationURL*/ )
 {
-  kdebug(KDEBUG_INFO, 1202, "+KonqTxtView");
+}
 
-  (void)new KonqTxtPrintingExtension( this );
-  (void)new KonqTxtEditExtension( this );
+KonqTextView::KonqTextView()
+{
+  kdebug(KDEBUG_INFO, 1202, "+KonqTextView");
+
+  (void)new KonqTextPrintingExtension( this );
+  (void)new KonqTextEditExtension( this );
 
   m_pEdit = new KMultiLineEdit( this );
   
@@ -174,16 +174,16 @@ KonqTxtView::KonqTxtView()
   actions()->append( BrowserView::ViewAction( m_ptaFixedFont, BrowserView::MenuView ) );
 }
 
-KonqTxtView::~KonqTxtView()
+KonqTextView::~KonqTextView()
 {
-  kdebug(KDEBUG_INFO, 1202, "-KonqTxtView");
+  kdebug(KDEBUG_INFO, 1202, "-KonqTextView");
   stop();
 }
 
-void KonqTxtView::openURL( const QString &url, bool reload,
+void KonqTextView::openURL( const QString &url, bool reload,
                            int xOffset, int yOffset )
 {
-  kdebug(0,1202,"bool KonqTxtView::mappingOpenURL( Konqueror::EventOpenURL eventURL )");
+  kdebug(0,1202,"bool KonqTextView::mappingOpenURL( Konqueror::EventOpenURL eventURL )");
   stop();
   
   KIOCachedJob *job = new KIOCachedJob;
@@ -211,13 +211,13 @@ void KonqTxtView::openURL( const QString &url, bool reload,
 //  setCaptionFromURL( m_strURL );
 }
 
-QString KonqTxtView::url()
+QString KonqTextView::url()
 {
   return m_strURL;
 }
 
 /*
-bool KonqTxtView::mappingFillMenuView( Browser::View::EventFillMenu_ptr viewMenu )
+bool KonqTextView::mappingFillMenuView( Browser::View::EventFillMenu_ptr viewMenu )
 {
   m_vMenuView = OpenPartsUI::Menu::_duplicate( viewMenu );
 
@@ -231,7 +231,7 @@ bool KonqTxtView::mappingFillMenuView( Browser::View::EventFillMenu_ptr viewMenu
   return true;
 }
 
-bool KonqTxtView::mappingFillMenuEdit( Browser::View::EventFillMenu_ptr editMenu )
+bool KonqTextView::mappingFillMenuEdit( Browser::View::EventFillMenu_ptr editMenu )
 {
   if ( !CORBA::is_nil( editMenu ) )
   {
@@ -243,7 +243,7 @@ bool KonqTxtView::mappingFillMenuEdit( Browser::View::EventFillMenu_ptr editMenu
   return true;
 }
 
-bool KonqTxtView::mappingFillToolBar( Browser::View::EventFillToolBar toolBar )
+bool KonqTextView::mappingFillToolBar( Browser::View::EventFillToolBar toolBar )
 {
   if ( CORBA::is_nil( toolBar.toolBar ) )
     return false;
@@ -269,17 +269,17 @@ bool KonqTxtView::mappingFillToolBar( Browser::View::EventFillToolBar toolBar )
 }
 */
 
-int KonqTxtView::xOffset()
+int KonqTextView::xOffset()
 {
   return m_pEdit->xScrollOffset();
 }
 
-int KonqTxtView::yOffset()
+int KonqTextView::yOffset()
 {
   return m_pEdit->yScrollOffset();
 }
 
-void KonqTxtView::stop()
+void KonqTextView::stop()
 {
   if ( m_jobId )
   {
@@ -290,7 +290,7 @@ void KonqTxtView::stop()
   }
 }
 
-bool KonqTxtView::eventFilter( QObject *o, QEvent *e )
+bool KonqTextView::eventFilter( QObject *o, QEvent *e )
 {
   if ( o == m_pEdit && e->type() == QEvent::MouseButtonPress &&
        ((QMouseEvent *)e)->button() == RightButton )
@@ -319,12 +319,12 @@ bool KonqTxtView::eventFilter( QObject *o, QEvent *e )
   return false;
 }
 
-void KonqTxtView::slotSelectAll()
+void KonqTextView::slotSelectAll()
 {
   m_pEdit->selectAll();
 }
 
-void KonqTxtView::slotEdit()
+void KonqTextView::slotEdit()
 {
   KConfig *config = KonqFactory::instance()->config();
   config->setGroup( "Misc Defaults" );
@@ -335,7 +335,7 @@ void KonqTxtView::slotEdit()
   system( cmd.data() );
 }
 
-void KonqTxtView::slotFixedFont()
+void KonqTextView::slotFixedFont()
 {
   m_bFixedFont = !m_bFixedFont;
 //  if ( !CORBA::is_nil( m_vMenuView ) )
@@ -347,7 +347,7 @@ void KonqTxtView::slotFixedFont()
     m_pEdit->setFont( KGlobal::generalFont() );
 }
 
-void KonqTxtView::slotSearch()
+void KonqTextView::slotSearch()
 {
   m_pSearchDialog = new KonqSearchDialog( this );
   
@@ -363,43 +363,43 @@ void KonqTxtView::slotSearch()
 }
 
 /*
-void KonqTxtView::can( bool &copy, bool &paste, bool &move )
+void KonqTextView::can( bool &copy, bool &paste, bool &move )
 {
   copy = (bool)hasMarkedText();
   paste = false;
   move = false;
 }
 
-void KonqTxtView::copySelection()
+void KonqTextView::copySelection()
 {
   copy();
 }
 
-void KonqTxtView::pasteSelection()
+void KonqTextView::pasteSelection()
 {
   assert( 0 );
 }
 
-void KonqTxtView::moveSelection( const QCString & )
+void KonqTextView::moveSelection( const QCString & )
 {
   assert( 0 );
 }
 */
-void KonqTxtView::slotFinished( int )
+void KonqTextView::slotFinished( int )
 {
   m_jobId = 0;
   emit completed();
   m_pEdit->setScrollOffset( m_iXOffset, m_iYOffset );
 }
 
-void KonqTxtView::slotRedirection( int, const char *url )
+void KonqTextView::slotRedirection( int, const char *url )
 {
 //  m_strURL = url;
   emit setLocationBarURL( QString( url ) );
 //  m_vMainWindow->setPartCaption( id(), QString(url) );  
 }
 
-void KonqTxtView::slotData( int, const char *data, int len )
+void KonqTextView::slotData( int, const char *data, int len )
 {
   QByteArray a( len );
   memcpy( a.data(), data, len );
@@ -407,12 +407,12 @@ void KonqTxtView::slotData( int, const char *data, int len )
   m_pEdit->append( s );
 }
 
-void KonqTxtView::slotError( int, int err, const char *text )
+void KonqTextView::slotError( int, int err, const char *text )
 {
   kioErrorDialog( err, text );
 }
 
-void KonqTxtView::slotFindFirst( const QString &_text, bool backwards, bool caseSensitive )
+void KonqTextView::slotFindFirst( const QString &_text, bool backwards, bool caseSensitive )
 {
   m_strSearchText = _text;
   
@@ -431,7 +431,7 @@ void KonqTxtView::slotFindFirst( const QString &_text, bool backwards, bool case
   slotFindNext( backwards, caseSensitive );
 }
 
-void KonqTxtView::slotFindNext( bool backwards, bool caseSensitive )
+void KonqTextView::slotFindNext( bool backwards, bool caseSensitive )
 {
   int index;
   
@@ -494,13 +494,13 @@ void KonqTxtView::slotFindNext( bool backwards, bool caseSensitive )
     m_iSearchPos = index+1;
 }
 
-void KonqTxtView::resizeEvent( QResizeEvent * )
+void KonqTextView::resizeEvent( QResizeEvent * )
 {
   m_pEdit->setGeometry( 0, 0, width(), height() );
 }
 
 /*
-void KonqTxtView::mousePressEvent( QMouseEvent *e )
+void KonqTextView::mousePressEvent( QMouseEvent *e )
 {
   if ( e->button() == RightButton && m_pMainView )
   {

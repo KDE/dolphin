@@ -17,8 +17,8 @@
  
 */ 
 
-#ifndef __konq_txtview_h__
-#define __konq_txtview_h__
+#ifndef __konq_textview_h__
+#define __konq_textview_h__
 
 #include "browser.h"
 
@@ -28,26 +28,26 @@ class QFont;
 class KonqSearchDialog;
 class QToggleAction;
 class QAction;
-class KonqTxtView;
+class KonqTextView;
 class KMultiLineEdit;
 
-class KonqTxtPrintingExtension : public PrintingExtension
+class KonqTextPrintingExtension : public PrintingExtension
 {
   Q_OBJECT
 public:
-  KonqTxtPrintingExtension( KonqTxtView *txtView );
+  KonqTextPrintingExtension( KonqTextView *textView );
 
   virtual void print();
 
 private:
-  KonqTxtView *m_txtView;
+  KonqTextView *m_textView;
 };
 
-class KonqTxtEditExtension : public EditExtension
+class KonqTextEditExtension : public EditExtension
 {
   Q_OBJECT
 public:
-  KonqTxtEditExtension( KonqTxtView *txtView );
+  KonqTextEditExtension( KonqTextView *textView );
   
   virtual void can( bool &copy, bool &paste, bool &move );
 
@@ -56,19 +56,19 @@ public:
   virtual void moveSelection( const QString &destinationURL = QString::null );
 
 private:
-  KonqTxtView *m_txtView;  
+  KonqTextView *m_textView;  
 };
 
-class KonqTxtView : public BrowserView
+class KonqTextView : public BrowserView
 {
-  friend class KonqTxtPrintingExtension;
-  friend class KonqTxtEditExtension;
+  friend class KonqTextPrintingExtension;
+  friend class KonqTextEditExtension;
 
   Q_OBJECT
   
 public:
-  KonqTxtView();
-  virtual ~KonqTxtView();
+  KonqTextView();
+  virtual ~KonqTextView();
   
   virtual void openURL( const QString &url, bool reload = false,
                         int xOffset = 0, int yOffset = 0 );
