@@ -66,9 +66,7 @@ KonqChildView::KonqChildView( KonqViewFactory &viewFactory,
   m_iYOffset = 0;
   m_bLoading = false;
   m_bViewStarted = false;
-  m_iProgress = -1;
   m_bPassiveMode = false;
-  m_bProgressSignals = true;
 
   switchView( viewFactory );
 
@@ -233,10 +231,10 @@ void KonqChildView::connectView(  )
            m_pMainView, SLOT( slotCreateNewWindow( const KURL &, const KParts::URLArgs & ) ) );
 
   connect( ext, SIGNAL( loadingProgress( int ) ),
-           this, SLOT( slotLoadingProgress( int ) ) );
+           m_pKonqFrame->statusbar(), SLOT( slotLoadingProgress( int ) ) );
 
   connect( ext, SIGNAL( speedProgress( int ) ),
-           this, SLOT( slotSpeedProgress( int ) ) );
+           m_pKonqFrame->statusbar(), SLOT( slotSpeedProgress( int ) ) );
 
   connect( ext, SIGNAL( selectionInfo( const KonqFileItemList & ) ),
 	   m_pMainView, SLOT( slotSelectionInfo( const KonqFileItemList & ) ) );
@@ -274,30 +272,12 @@ void KonqChildView::slotTotalSize( KIO::Job *, unsigned long size )
 void KonqChildView::slotProcessedSize( KIO::Job *, unsigned long size )
 {
   if ( m_ulTotalDocumentSize > (unsigned long)0 )
-    slotLoadingProgress( size * 100 / m_ulTotalDocumentSize );
+    m_pKonqFrame->statusbar()->slotLoadingProgress( size * 100 / m_ulTotalDocumentSize );
 }
 
 void KonqChildView::slotSpeed( KIO::Job *, unsigned long bytesPerSecond )
 {
-  slotSpeedProgress( (long int)bytesPerSecond );
-}
-
-void KonqChildView::slotLoadingProgress( int percent )
-{
-  m_iProgress = percent;
-  if ( m_pMainView->currentChildView() == this )
-  {
-    kdDebug(1202) << "KonqChildView::slotLoadingProgress " << percent << endl;
-    m_pMainView->updateStatusBar();
-  }
-}
-
-void KonqChildView::slotSpeedProgress( int bytesPerSecond )
-{
-  if ( m_pMainView->currentChildView() == this )
-  {
-    m_pMainView->speedProgress( bytesPerSecond );
-  }
+  m_pKonqFrame->statusbar()->slotSpeedProgress( bytesPerSecond );
 }
 
 void KonqChildView::slotCompleted()
@@ -305,7 +285,7 @@ void KonqChildView::slotCompleted()
   kdDebug() << "KonqChildView::slotCompleted" << endl;
   m_bLoading = false;
   setViewStarted( false );
-  slotLoadingProgress( -1 );
+  m_pKonqFrame->statusbar()->slotLoadingProgress( -1 );
 
   if ( m_pMainView->currentChildView() == this )
   {
@@ -446,7 +426,7 @@ void KonqChildView::stop()
     delete (KonqRun *)m_pRun; // should set m_pRun to 0L
 
   m_bLoading = false;
-  slotLoadingProgress( -1 );
+  m_pKonqFrame->statusbar()->slotLoadingProgress( -1 );
 
     //  if ( m_pRun ) debug(" m_pRun is not NULL "); else debug(" m_pRun is NULL ");
   //if ( m_pRun ) delete (KonqRun *)m_pRun; // should set m_pRun to 0L

@@ -189,14 +189,8 @@ public:
   void setViewStarted( bool b ) { m_bViewStarted = b; }
   bool viewStarted() const { return m_bViewStarted; }
 
-  // set by slotLoadingProgress
-  int progress() const { return m_iProgress; }
-
   bool passiveMode() const { return m_bPassiveMode; }
   void setPassiveMode( bool mode );
-
-  // Is this useful for anything ? (David)
-  bool supportsProgressIndication() const { return m_bProgressSignals; }
 
   KService::Ptr service() { return m_service; }
 
@@ -223,9 +217,6 @@ protected slots:
   void slotTotalSize( KIO::Job *, unsigned long size );
   void slotProcessedSize( KIO::Job *, unsigned long size );
   void slotSpeed( KIO::Job *, unsigned long bytesPerSecond );
-  // connected to the extension's signals (if the part doesn't use KIO::Job)
-  void slotLoadingProgress( int percent );
-  void slotSpeedProgress( int bytesPerSecond );
 
   /**
    * Creates a new entry in the history.
@@ -273,9 +264,7 @@ protected:
   KonqFrame *m_pKonqFrame;
   bool m_bLoading;
   bool m_bViewStarted;
-  int m_iProgress;
   bool m_bPassiveMode;
-  bool m_bProgressSignals;
   KTrader::OfferList m_partServiceOffers;
   KTrader::OfferList m_appServiceOffers;
   KService::Ptr m_service;

@@ -1051,25 +1051,6 @@ void KonqMainView::slotSaveDefaultProfile()
   m_pViewManager->saveViewProfile( *config );
 }
 
-void KonqMainView::speedProgress( int bytesPerSecond )
-{
-  // We assume this was called from the current view (see KonqChildView::slotSpeedProgress)
-/*
-  if ( !m_currentView->isLoading() )
-    return;
-
-  QString sizeStr;
-
-  if ( bytesPerSecond > 0 )
-    sizeStr = KIO::convertSize( bytesPerSecond ) + QString::fromLatin1( "/s" );
-  else
-    sizeStr = i18n( "stalled" );
-
-  assert(m_statusBar);
-  m_statusBar->changeItem( sizeStr, STATUSBAR_SPEED_ID );
-*/
-}
-
 void KonqMainView::callExtensionMethod( KonqChildView * childView, const char * methodName )
 {
   QObject *obj = childView->view()->child( 0L, "KParts::BrowserExtension" );
@@ -1585,31 +1566,6 @@ void KonqMainView::initPlugins()
 
     (void)factory->create( this );
   }
-}
-
-void KonqMainView::updateStatusBar()
-{
-// now view specific
-/*
-  if ( !m_progressBar )
-    return;
-
-  int progress = m_currentView->progress();
-
-  if ( progress != -1 )
-  {
-    if ( !m_progressBar->isVisible() )
-      m_progressBar->show();
-  }
-  else
-    m_progressBar->hide();
-
-  m_progressBar->setValue( progress );
-
-  assert(m_statusBar);
-  m_statusBar->changeItem( 0L, STATUSBAR_SPEED_ID );
-  m_statusBar->changeItem( 0L, STATUSBAR_MSG_ID );
-*/
 }
 
 void KonqMainView::updateToolBarActions()

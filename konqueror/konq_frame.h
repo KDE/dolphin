@@ -41,6 +41,7 @@ class KonqFrame;
 class KonqFrameContainer;
 class KConfig;
 class KSeparator;
+class KProgress;
 
 namespace KParts
 {
@@ -84,6 +85,8 @@ class KonqFrameStatusBar : public QWidget
 
    public slots:
       void slotConnectToNewView(KParts::ReadOnlyPart *oldOne,KParts::ReadOnlyPart *newOne);
+      void slotLoadingProgress( int percent );
+      void slotSpeedProgress( int bytesPerSecond );
 
    signals:
       /**
@@ -97,6 +100,7 @@ class KonqFrameStatusBar : public QWidget
 
    protected:
       virtual bool eventFilter(QObject*,QEvent *);
+      virtual void resizeEvent( QResizeEvent* );
       virtual void mousePressEvent( QMouseEvent* );
       /**
        * Brings up the context menu for this frame
@@ -106,6 +110,7 @@ class KonqFrameStatusBar : public QWidget
       virtual void paintEvent(QPaintEvent *e);
       KonqFrame* m_pParentKonqFrame;
       QCheckBox *m_pPassiveModeCheckBox;
+      KProgress *m_progressBar;
       QLabel statusLabel;
       int m_yOffset;
       bool m_showLed;

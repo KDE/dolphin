@@ -29,6 +29,7 @@
 #include <kconfig.h>
 #include <kiconloader.h>
 #include <kpixmap.h>
+#include <kprogress.h>
 #include <klocale.h>
 #include <kseparator.h>
 
@@ -88,6 +89,15 @@ KonqFrameStatusBar::KonqFrameStatusBar( KonqFrame *_parent, const char *_name )
    statusLabel.setGeometry(40,0,50,h);
 
    connect(m_pPassiveModeCheckBox,SIGNAL(toggled(bool)),this,SIGNAL(passiveModeChange(bool)));
+
+   m_progressBar = new KProgress( 0, 100, 0, KProgress::Horizontal, this );
+   m_progressBar->hide();
+  //m_statusBar->insertWidget( m_progressBar, 120, STATUSBAR_LOAD_ID );
+}
+
+void KonqFrameStatusBar::resizeEvent( QResizeEvent* )
+{
+   m_progressBar->setGeometry( width()-120, 0, width()-20, height() );
 }
 
 void KonqFrameStatusBar::mousePressEvent( QMouseEvent* event )
@@ -135,6 +145,35 @@ void KonqFrameStatusBar::slotDisplayStatusText(const QString& text)
    //kdDebug()<<"KongFrameHeader::slotDisplayStatusText("<<text<<")"<<endl;
    statusLabel.resize(fontMetrics().width(text),13);
    statusLabel.setText(text);
+}
+
+void KonqFrameStatusBar::slotLoadingProgress( int percent )
+{
+  //m_iProgress = percent;
+  if ( percent != -1 )
+  {
+    if ( !m_progressBar->isVisible() )
+      m_progressBar->show();
+  }
+  else
+    m_progressBar->hide();
+
+  m_progressBar->setValue( percent );
+  //m_statusBar->changeItem( 0L, STATUSBAR_SPEED_ID );
+  //m_statusBar->changeItem( 0L, STATUSBAR_MSG_ID );
+}
+
+void KonqFrameStatusBar::slotSpeedProgress( int bytesPerSecond )
+{
+  QString sizeStr;
+
+  if ( bytesPerSecond > 0 )
+    sizeStr = KIO::convertSize( bytesPerSecond ) + QString::fromLatin1( "/s" );
+  else
+    sizeStr = i18n( "stalled" );
+
+  //m_statusBar->changeItem( sizeStr, STATUSBAR_SPEED_ID );
+  slotDisplayStatusText( sizeStr ); // let's share the same label...
 }
 
 void KonqFrameStatusBar::slotConnectToNewView(KParts::ReadOnlyPart *,KParts::ReadOnlyPart *newOne)
@@ -191,7 +230,7 @@ KonqFrame::KonqFrame( KonqFrameContainer *_parentContainer, const char *_name )
    QObject::connect(m_pStatusBar, SIGNAL(clicked()), this, SLOT(slotStatusBarClicked()));
    connect( m_pStatusBar, SIGNAL( passiveModeChange( bool ) ), this, SLOT( slotPassiveModeChange( bool ) ) );
    m_separator = 0;
-   
+
    m_metaViewLayout = 0;
    m_metaViewFrame = new QFrame( this, "metaviewframe" );
    m_metaViewFrame->show();
@@ -247,7 +286,7 @@ void KonqFrame::attachInternal()
    if ( m_metaViewLayout ) delete m_metaViewLayout;
 
    m_pLayout = new QVBoxLayout( this, 0, -1, "KonqFrame's QVBoxLayout" );
-   
+
    m_metaViewFrame->setFrameStyle( QFrame::NoFrame );
    m_metaViewFrame->setLineWidth( 0 );
    //   m_metaViewFrame->setFrameStyle( QFrame::Panel | QFrame::Raised );
@@ -256,9 +295,9 @@ void KonqFrame::attachInternal()
    m_metaViewLayout = new QVBoxLayout( m_metaViewFrame );
    m_metaViewLayout->setMargin( m_metaViewFrame->frameWidth() );
    m_metaViewLayout->addWidget( m_pView->widget() );
-   
+
    m_pLayout->addWidget( m_metaViewFrame );
-   
+
    //   m_pLayout->addWidget( m_pView->widget() );
    //   m_pLayout->addWidget
    m_pLayout->addWidget( m_pStatusBar );

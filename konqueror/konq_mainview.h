@@ -177,10 +177,8 @@ public:
 
   static void setMoveSelection( bool b ) { s_bMoveSelection = b; }
 
-  void updateStatusBar();
+  void updateStatusBar() {} // to remove if we confirm we don't want that anymore
   void updateToolBarActions();
-
-  void speedProgress( int bytesPerSecond );
 
   bool fullScreenMode() { return m_bFullScreen; }
 
