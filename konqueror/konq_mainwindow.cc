@@ -2052,7 +2052,7 @@ void KonqMainWindow::slotGoHistoryActivated( int steps )
 
 void KonqMainWindow::slotGoHistoryDelayed()
 {
-  if (!m_goBuffer || !m_currentView) return;
+  if (!m_currentView) return;
   int steps = m_goBuffer;
   m_goBuffer = 0;
   m_currentView->go( steps );
@@ -3342,7 +3342,7 @@ void KonqMainWindow::saveProperties( KConfig *config )
 
 void KonqMainWindow::readProperties( KConfig *config )
 {
-  kdDebug(1202) << "**************** KonqMainWindow::readProperties( KConfig *config )" << endl;
+  kdDebug(1202) << "KonqMainWindow::readProperties( KConfig *config )" << endl;
   m_pViewManager->loadViewProfile( *config, QString::null /*no profile name*/ );
 }
 
