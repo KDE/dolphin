@@ -68,7 +68,7 @@
                         <string>Open &amp;new tab after current tab</string>
                     </property>
                     <property name="whatsThis" stdset="0">
-                        <string>This will open a new tab after the current tab, instead of after the last tab.</string>
+                        <string>This will open a new tab opened from a page after the current tab, instead of after the last tab.</string>
                     </property>
                 </widget>
                 <widget class="QCheckBox">
