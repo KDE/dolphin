@@ -162,7 +162,7 @@ static QCString getPreloadedKonqy()
         return "";
     DCOPRef ref( "kded", "konqy_preloader" );
     QCString ret;
-    if( ref.call( "getPreloadedKonqy" ).get( ret ))
+    if( ref.call( "getPreloadedKonqy", DCOPRef::NoEventLoop, 3000 ).get( ret ))
 	return ret;
     return QCString();
 }
@@ -178,7 +178,7 @@ static QCString konqyToReuse()
     QCString appObj;
     QByteArray data;
     if( !kapp->dcopClient()->findObject( "konqueror*", "KonquerorIface",
-             "processCanBeReused()", data, ret, appObj, false, 1000 ) )
+             "processCanBeReused()", data, ret, appObj, false, 3000 ) )
         return "";
     return ret;
 }
