@@ -195,16 +195,15 @@ void KonqIconViewWidget::dropStuff( KFileIVI *item, QDropEvent *ev )
 
         KIO::Job * job = 0L;
 	switch ( ev->action() ) {
-	case QDropEvent::Move : job = KIO::move( lst, dest.url( 1 ) );
-	    ev->acceptAction(TRUE); ev->accept(); break;
-	case QDropEvent::Copy : job = KIO::copy( lst, dest.url( 1 ) );
-	    ev->acceptAction(TRUE); ev->accept(); break;
-	case QDropEvent::Link : KIO::link( lst, dest );
-	    ev->acceptAction(TRUE); ev->accept(); break;
-	default : kDebugError( 1202, "Unknown action %d", ev->action() ); return;
+            case QDropEvent::Move : job = KIO::move( lst, dest.url( 1 ) ); break;
+            case QDropEvent::Copy : job = KIO::copy( lst, dest.url( 1 ) ); break;
+            case QDropEvent::Link : KIO::link( lst, dest ); break;
+            default : kDebugError( 1202, "Unknown action %d", ev->action() ); return;
 	}
         connect( job, SIGNAL( result( KIO::Job * ) ),
                  SLOT( slotResult( KIO::Job * ) ) );
+        ev->acceptAction(TRUE);
+        ev->accept();
     }
     else if ( formats.count() >= 1 )
     {
