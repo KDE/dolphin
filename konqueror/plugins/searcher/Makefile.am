@@ -1,6 +1,7 @@
 ## Makefile.am of kdebase/konqueror/plugins/searcher
 
-INCLUDES  = -I$(top_srcdir)/konqueror -I$(top_srcdir)/lib/kparts $(all_includes)
+INCLUDES  = -I$(top_srcdir)/libkonq -I$(top_srcdir)/konqueror \
+            -I$(top_srcdir)/lib/kparts $(all_includes)
 
 lib_LTLIBRARIES = libkonqsearcher.la
 
