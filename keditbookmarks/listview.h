@@ -97,6 +97,8 @@ public:
    void loadColumnSetting();
    void saveColumnSetting();
 
+   void updateByURL(QString url);
+
    bool isFolderList() const { return m_folderList; }
 
    KEBListViewItem* rootItem() const;
@@ -163,6 +165,8 @@ public:
    QWidget *widget() const { return m_listView; }
    void rename(int);
    void clearSelection();
+
+   void updateStatus(QString url);
 
    static ListView* self() { return s_self; }
    static void createListViews(QSplitter *parent);

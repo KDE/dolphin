@@ -344,6 +344,11 @@ void ListView::handleDropped(KEBListView *lv, QDropEvent *e, QListViewItem *newP
     CmdHistory::self()->didCommand(mcmd);
 }
 
+void ListView::updateStatus(QString url) {
+    m_listView->updateByURL(url);
+    handleSelectionChanged(0);
+}
+
 void ListView::updateListView() {
     s_selected_addresses.clear();
     QPtrList<KEBListViewItem> *selcItems = selectedItems();
@@ -457,6 +462,7 @@ void ListView::handleSelectionChanged(KEBListView *) {
     s_listview_is_dirty = true;
     updateSelectedItems();
     KEBApp::self()->updateActions();
+
     if (selectedItems()->count() != 1
       || !VALID_FIRST(selectedItems())
     ) {
@@ -468,7 +474,9 @@ void ListView::handleSelectionChanged(KEBListView *) {
                                           SLOT( slotBkInfoUpdateListViewItem() ));
         KEBApp::self()->bkInfo()->setConnected(true);
     }
+
     KEBApp::self()->bkInfo()->showBookmark(selectedItems()->first()->bookmark());
+    selectedItems()->first()->modUpdate();
 }
 
 void ListView::slotBkInfoUpdateListViewItem() {
@@ -737,6 +745,16 @@ QPtrList<KEBListViewItem>* KEBListView::itemList() {
     for (QListViewItemIterator it(this); it.current(); it++)
         items->append(static_cast<KEBListViewItem *>(it.current()));
     return items;
+}
+
+// Update display of bookmarks containing URL
+void KEBListView::updateByURL(QString url) {
+    for (QListViewItemIterator it(this); it.current(); it++) {
+        KEBListViewItem *p = static_cast<KEBListViewItem *>(it.current());
+        if (p->text(1) == url) {
+            p->modUpdate();
+        }
+    }
 }
 
 bool KEBListView::acceptDrag(QDropEvent * e) const {

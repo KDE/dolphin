@@ -146,6 +146,10 @@ void CurrentMgr::slotBookmarksChanged(const QString &, const QString &caller) {
     }
 }
 
+void CurrentMgr::updateStatus(QString url) {
+    ListView::self()->updateStatus(url);
+}
+
 void CurrentMgr::notifyManagers() {
     KBookmarkGroup grp = mgr()->root();
     mgr()->emitChanged(grp);

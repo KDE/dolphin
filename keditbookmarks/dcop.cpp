@@ -57,16 +57,17 @@ void KBookmarkEditorIface::slotDcopUpdatedAccessMetadata(QString filename, QStri
     // TODO - i'm not sure this is really true :)
 
     if (/*KEBApp::self()->modified() &&*/ filename == CurrentMgr::self()->path()) {
-        // kdDebug() << "slotDcopUpdatedAccessMetadata(" << url << ")" << endl;
+//        kdDebug() << "slotDcopUpdatedAccessMetadata(" << url << ")" << endl;
         // no undo
         CurrentMgr::self()->mgr()->updateAccessMetadata(url, false);
+        CurrentMgr::self()->updateStatus(url);
         // notice - no save here! see! :)
     }
 }
 
 void KBookmarkEditorIface::slotDcopAddedBookmark(QString filename, QString url, QString text, QString address, QString icon) {
     if (KEBApp::self()->modified() && filename == CurrentMgr::self()->path()) {
-        // kdDebug() << "slotDcopAddedBookmark(" << url << "," << text << "," << address << "," << icon << ")" << endl;
+//         kdDebug() << "slotDcopAddedBookmark(" << url << "," << text << "," << address << "," << icon << ")" << endl;
         CreateCommand *cmd = new CreateCommand(
                 CurrentMgr::self()->correctAddress(address), 
                 text, icon, KURL(url), true /*indirect*/);
@@ -76,7 +77,7 @@ void KBookmarkEditorIface::slotDcopAddedBookmark(QString filename, QString url, 
 
 void KBookmarkEditorIface::slotDcopCreatedNewFolder(QString filename, QString text, QString address) {
     if (KEBApp::self()->modified() && filename == CurrentMgr::self()->path()) {
-        // kdDebug() << "slotDcopCreatedNewFolder(" << text << "," << address << ")" << endl;
+//         kdDebug() << "slotDcopCreatedNewFolder(" << text << "," << address << ")" << endl;
         CreateCommand *cmd = new CreateCommand( 
                 CurrentMgr::self()->correctAddress(address), 
                 text, QString::null, 

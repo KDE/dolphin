@@ -92,6 +92,8 @@ public:
 
     void reloadConfig();
 
+    void updateStatus(QString url);
+
 protected slots:
     void slotBookmarksChanged(const QString &, const QString &);
 
@@ -118,6 +120,7 @@ public:
     void setCancelTestsEnabled(bool);
 
     void notifyCommandExecuted();
+    void findURL(QString url);
 
     QWidget* popupMenuFactory(const char *type) { 
         return factory()->container(type, this); 

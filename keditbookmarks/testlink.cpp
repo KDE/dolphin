@@ -211,7 +211,7 @@ QString TestLinkItrHolder::calcPaintStyle(const QString &url, KEBListViewItem::P
     }
 
 
-//    kdDebug() << url << " " << "booktime=" << nVisit << " urltime=" << newModStr << 
+//    kdDebug() << "TestLink " << url << " " << "booktime=" << nVisit << " urltime=" << newModStr << 
 //               " Modify=" << Modify << " init=" << initial << " newMod=" << newMod << "\n";
 
     QString visitStr;
@@ -241,6 +241,9 @@ QString TestLinkItrHolder::calcPaintStyle(const QString &url, KEBListViewItem::P
 
     QString statusStr;
     KEBListViewItem::PaintStyle style = KEBListViewItem::DefaultStyle;
+
+//    kdDebug() << "TestLink " << "isNull=" << newModStr.isNull() << "newModValid=" 
+//              << newModValid << "newMod > visit " << newMod << ">" << visit << "\n";
 
     if (!newModStr.isNull() && !newModValid) { 
         // Current check has error
