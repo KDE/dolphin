@@ -571,7 +571,7 @@ void KonqMainView::slotForward()
 
 void KonqMainView::slotHome()
 {
-  openURL( 0L, KURL( KonqFMSettings::defaultIconSettings()->homeURL() ) );
+  openURL( 0L, KURL( konqFilteredURL( KonqFMSettings::defaultIconSettings()->homeURL() ) ) );
 }
 
 void KonqMainView::slotShowCache()
@@ -759,7 +759,7 @@ bool KonqMainView::openView( QString serviceType, const KURL &_url, KonqChildVie
 {
   kDebugInfo( 1202, " KonqMainView::openView %s %s", serviceType.ascii(), _url.url().ascii());
   QString indexFile;
-  
+
   KURL url = _url;
 
   if ( !childView )
