@@ -16,7 +16,6 @@
 #include <qlabel.h>
 #include <qpixmap.h>
 #include <qimage.h>
-#include <qiconview.h>
 #include <qpushbutton.h>
 #include <qdir.h>
 #include <qcheckbox.h>
@@ -24,6 +23,7 @@
 #include <kdialogbase.h>
 #include <klocale.h>
 #include <kfiledialog.h>
+#include <kiconview.h>
 #include <kimagefilepreview.h>
 #include <kimageio.h>
 #include <kmessagebox.h>
@@ -47,7 +47,7 @@ KUserInfoChFaceDlg::KUserInfoChFaceDlg(const QString& picsdir, QWidget *parent, 
   QLabel *header = new QLabel( i18n("Select a new face:"), page );
   top->addWidget( header );
 
-  m_FacesWidget = new QIconView( page );
+  m_FacesWidget = new KIconView( page );
   m_FacesWidget->setSelectionMode( QIconView::Single );
   m_FacesWidget->setItemsMovable( false );
   m_FacesWidget->setMinimumSize( 400, 200 );
@@ -88,7 +88,7 @@ KUserInfoChFaceDlg::KUserInfoChFaceDlg(const QString& picsdir, QWidget *parent, 
   }
 
   m_FacesWidget->setResizeMode( QIconView::Adjust );
-  m_FacesWidget->setGridX( FACE_PIX_SIZE - 10 );
+  //m_FacesWidget->setGridX( FACE_PIX_SIZE - 10 );
   m_FacesWidget->arrangeItemsInGrid();
 
   enableButtonOK( false );

@@ -15,7 +15,7 @@
 #define USERINFO_CHFACE_H
 
 #include <kdialogbase.h>
-#include <qiconview.h>
+#include <kiconview.h>
 
 class KUserInfoChFaceDlg : public KDialogBase
 {
@@ -23,7 +23,7 @@ class KUserInfoChFaceDlg : public KDialogBase
 public:
   KUserInfoChFaceDlg(const QString& picsdirs, QWidget *parent=0, const char *name=0, bool modal=true);
 
-  QPixmap getFaceImage() const { 
+  QPixmap getFaceImage() const {
     if(m_FacesWidget->currentItem())
       return *(m_FacesWidget->currentItem()->pixmap());
     else
@@ -37,7 +37,7 @@ private slots:
 
 private:
   void addCustomPixmap( QString imPath, bool saveCopy );
-  QIconView *m_FacesWidget;
+  KIconView *m_FacesWidget;
 };
 
 #endif
