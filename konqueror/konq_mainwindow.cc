@@ -1030,6 +1030,8 @@ void KonqMainWindow::slotConfigureToolbars()
     if ( m_currentView->appServiceOffers().count() > 0 )
       plugActionList( "openwith", m_openWithActions );
 
+    plugViewModeActions();
+
     updateBookmarkBar();
   }
 }
