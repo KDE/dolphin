@@ -2502,7 +2502,7 @@ void KonqMainWindow::initActions()
                                    "You can also select the <b>Forward Command</b> from the Go Menu." ) );
 
   m_paHome->setWhatsThis( i18n( "Click this button to display your 'Home URL'<br><br>\n\n"
-                                "You can configure the location this button brings you to in the"
+                                "You can configure the location this button brings you to in the "
                                 "<b>File Manager Configuration</b> in the <b>KDE Control Center</b>" ) );
   m_paHome->setStatusText( i18n( "Enter your home directory" ) );
 
