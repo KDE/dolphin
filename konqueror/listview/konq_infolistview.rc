@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="KonqInfoListView" version="11">
+<kpartgui name="KonqInfoListView" version="12">
 <MenuBar>
  <Menu name="edit"><text>&amp;Edit</text>
    <Menu name="selection"><text>Selection</text>
@@ -26,20 +26,7 @@
   <Action name="show_dot"/>
   <Action name="sort_caseinsensitive"/>
   <!--<Action name="sort_directoriesfirst" /> TODO -->
-  <Menu name="listview_show"><text>Show Details</text>
-   <TearOffHandle />
-   <Action name="show_size"/>
-   <Action name="show_type"/>
-   <Action name="show_mimetype"/>
-   <Action name="show_url"/>
-   <Action name="show_time"/>
-   <Action name="show_access_time"/>
-   <Action name="show_creation_time"/>
-   <Action name="show_permissions"/>
-   <Action name="show_owner"/>
-   <Action name="show_group"/>
-   <Action name="show_link_dest"/>
-  </Menu>
+  <Action name="view_as"/>
   <Separator/>
   <Action name="bgsettings"/>
  </Menu>
