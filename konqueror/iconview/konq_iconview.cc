@@ -824,6 +824,7 @@ void KonqKfmIconView::slotDirectoryOverlayFinished()
 void KonqKfmIconView::slotRefreshItems( const KFileItemList& entries )
 {
     bool bNeedRepaint = false;
+    bool bNeedPreviewJob = false;
     KFileItemListIterator rit(entries);
     for (; rit.current(); ++rit)
     {
@@ -833,7 +834,12 @@ void KonqKfmIconView::slotRefreshItems( const KFileItemList& entries )
         if (ivi)
         {
             QSize oldSize = ivi->pixmap()->size();
-            ivi->refreshIcon( true );
+            if ( ivi->isThumbnail() ) {
+                bNeedPreviewJob = true;
+                ivi->invalidateThumbnail();
+            }
+            else
+                ivi->refreshIcon( true );
             ivi->setText( rit.current()->text() );
             if ( rit.current()->isMimeTypeKnown() )
                 ivi->setMouseOverAnimation( rit.current()->iconName() );
@@ -841,9 +847,17 @@ void KonqKfmIconView::slotRefreshItems( const KFileItemList& entries )
                 bNeedRepaint = true;
         }
     }
-    // In case we replace a big icon with a small one, need to repaint.
-    if ( bNeedRepaint )
-        m_pIconView->updateContents();
+
+    if ( bNeedPreviewJob && m_pProps->isShowingPreview() )
+    {
+        m_pIconView->startImagePreview( m_pProps->previewSettings(), false );
+    }
+    else
+    {
+        // In case we replace a big icon with a small one, need to repaint.
+        if ( bNeedRepaint )
+            m_pIconView->updateContents();
+    }
 }
 
 void KonqKfmIconView::slotClear()
