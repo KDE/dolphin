@@ -3,46 +3,48 @@
  <!ENTITY % addindex "IGNORE">
  <![ %addindex; [ <!ENTITY kdedocindex SYSTEM "docindex.docbook"> ]]>
 ]>
+
 <book lang="en">
- <bookinfo>
-  <title>The &konsole; Handbook</title>
-  <author>
-   <firstname>Lars</firstname>
-   <surname>D&ouml;lle</surname>
-   <affiliation>
-    <address><email><ulink url="mailto:lars.doelle@on-line.de">lars.doelle@on-line.de</ulink></email></address>
-   </affiliation>
-  </author>
-  <date>06/06/1998</date>
-  <releaseinfo>0.0.1</releaseinfo>
-  <abstract>
-   <para>This document describes &konsole; version 0.8.6 Please be
-    aware of the fact that this document is under construction.</para>
-  </abstract>
- </bookinfo>
+<bookinfo>
+<title>The &konsole; Handbook</title>
+<author>
+<firstname>Lars</firstname>
+<surname>D&ouml;lle</surname>
+<affiliation>
+<address><email>lars.doelle@on-line.de</email></address>
+</affiliation>
+</author>
+<date>06/06/1998</date>
+<releaseinfo>0.08.06</releaseinfo>
+<abstract>
+<para>This document describes &konsole; version 0.8.6 Please be
+aware of the fact that this document is under construction.</para>
+</abstract>
+</bookinfo>
 
- <chapter id="Introduction">
-  <title>Introduction</title>
+<chapter id="Introduction">
+<title>Introduction</title>
 
-  <para>&konsole; is a X terminal emulation for the K Desktop
-  Environment.</para>
+<para>&konsole; is a X terminal emulation for the K Desktop
+Environment.</para>
 
-  <para>In the context of a graphical user interface being a terminal
-  emulation means, that it's task is to provide a display to an
-  application that is originally designed to run on a computer with a
-  character terminal attached.</para>
+<para>In the context of a graphical user interface being a terminal
+emulation means, that it's task is to provide a display to an
+application that is originally designed to run on a computer with a
+character terminal attached.</para>
 
-  <para>To give a short taxonomy of free X terminals, there' two other
-  of this kind: <application>xterm</application>, which is the
-  original, written even before X itself (a month or two), and
-  <application>xvt</application>, a light-wight xterm clone, on which
-  most other currently available derivates (notably
-  <application>eterm</application>) base. After a decade, &konsole; is
-  the first rewrite from ground up.  While
-  <application>xterm</application> has definitely been hacked to death
-  meanwhile (its <filename>README</filename> starts with the words
-  "Abandon All Hope, Ye Who Enter Here"), &konsole; offers a fresh
-  start using contemporary technologies and understanding of X.</para>
+<para>To give a short taxonomy of free X terminals, there' two other
+of this kind: <application>xterm</application>, which is the
+original, written even before X itself (a month or two), and
+<application>xvt</application>, a light-wight xterm clone, on which
+most other currently available derivates (notably
+<application>eterm</application>) base. After a decade, &konsole; is
+the first rewrite from ground up.  While
+<application>xterm</application> has definitely been hacked to death
+meanwhile (its <filename>README</filename> starts with the words
+"Abandon All Hope, Ye Who Enter Here"), &konsole; offers a fresh
+start using contemporary technologies and understanding of X.</para>
+
 </chapter>
 
 <chapter id="Overview">
