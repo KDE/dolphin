@@ -43,10 +43,6 @@ k_dcop:
 
   void openURL( QString url );
 
-  int viewCount();
-
-  int activeViewsCount();
-
   /**
    * @return reference to the current KonqView
    */
@@ -60,13 +56,9 @@ k_dcop:
   QCStringList actions();
   QMap<QCString,DCOPRef> actionMap();
 
-    QString locationBarURL() const;
-    bool fullScreenMode();
-
-    QString currentTitle()const;
-    QString currentURL()const;
-
-    bool isHTMLAllowed()const;
+public:
+    virtual QCStringList functionsDynamic();
+    virtual bool processDynamic( const QCString &fun, const QByteArray &data, QCString &replyType, QByteArray &replyData );
 
 private:
 

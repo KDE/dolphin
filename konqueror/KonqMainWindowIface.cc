@@ -26,6 +26,7 @@
 #include <dcopclient.h>
 #include <kapplication.h>
 #include <kdcopactionproxy.h>
+#include <kdcoppropertyproxy.h>
 
 KonqMainWindowIface::KonqMainWindowIface( KonqMainWindow * mainWindow )
     : DCOPObject( mainWindow->name() ), m_pMainWindow( mainWindow )
@@ -41,16 +42,6 @@ KonqMainWindowIface::~KonqMainWindowIface()
 void KonqMainWindowIface::openURL( QString url )
 {
   m_pMainWindow->openFilteredURL( url );
-}
-
-int KonqMainWindowIface::viewCount()
-{
-  return m_pMainWindow->viewCount();
-}
-
-int KonqMainWindowIface::activeViewsCount()
-{
-  return m_pMainWindow->activeViewsCount();
 }
 
 DCOPRef KonqMainWindowIface::currentView()
@@ -97,27 +88,16 @@ QMap<QCString,DCOPRef> KonqMainWindowIface::actionMap()
   return m_dcopActionProxy->actionMap();
 }
 
-QString KonqMainWindowIface::locationBarURL() const
+QCStringList KonqMainWindowIface::functionsDynamic()
 {
-    return m_pMainWindow->locationBarURL();
+    return DCOPObject::functionsDynamic() + KDCOPPropertyProxy::functions( m_pMainWindow );
 }
 
-bool KonqMainWindowIface::fullScreenMode()
+bool KonqMainWindowIface::processDynamic( const QCString &fun, const QByteArray &data, QCString &replyType, QByteArray &replyData )
 {
-    return m_pMainWindow->fullScreenMode();
+    if ( KDCOPPropertyProxy::isPropertyRequest( fun, m_pMainWindow ) )
+        return KDCOPPropertyProxy::processPropertyRequest( fun, data, replyType, replyData, m_pMainWindow );
+
+    return DCOPObject::processDynamic( fun, data, replyType, replyData );
 }
 
-QString KonqMainWindowIface::currentTitle()const
-{
-    return m_pMainWindow->currentTitle();
-}
-
-QString KonqMainWindowIface::currentURL()const
-{
-    return m_pMainWindow->currentURL();
-}
-
-bool KonqMainWindowIface::isHTMLAllowed()const
-{
-    return m_pMainWindow->isHTMLAllowed();
-}

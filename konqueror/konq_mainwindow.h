@@ -86,6 +86,13 @@ class KonqMainWindow : public KParts::MainWindow,
 		       public KonqFrameContainerBase
 {
   Q_OBJECT
+  Q_PROPERTY( int viewCount READ viewCount )
+  Q_PROPERTY( int activeViewsCount READ activeViewsCount )
+  Q_PROPERTY( QString locationBarURL READ locationBarURL )
+  Q_PROPERTY( bool fullScreenMode READ fullScreenMode )
+  Q_PROPERTY( QString currentTitle READ currentTitle )
+  Q_PROPERTY( QString currentURL READ currentURL )
+  Q_PROPERTY( bool isHTMLAllowed READ isHTMLAllowed )
 public:
   enum ComboAction { ComboClear, ComboAdd, ComboRemove };
 
