@@ -488,53 +488,64 @@ bool KonqMainView::mappingCreateToolbar( OpenPartsUI::ToolBarFactory_ptr factory
 
   m_vToolBar->setFullWidth( false );
 
+  CORBA::WString_var toolTip;
+  
+  toolTip = Q2C( i18n("Up") );
   pix = OPUIUtils::convertPixmap( *KPixmapCache::toolbarPixmap( "up.xpm" ) );
   m_vToolBar->insertButton2( pix, MGO_UP_ID, SIGNAL(clicked()),
-                             this, "slotUp", false, i18n("Up"), -1);
+                             this, "slotUp", false, toolTip, -1);
 
   pix = OPUIUtils::convertPixmap( *KPixmapCache::toolbarPixmap( "back.xpm" ) );
+  toolTip = Q2C( i18n("Back") );
   m_vToolBar->insertButton2( pix, MGO_BACK_ID, SIGNAL(clicked()),
-                             this, "slotBack", false, i18n("Back"), -1);
+                             this, "slotBack", false, toolTip, -1);
 
   pix = OPUIUtils::convertPixmap( *KPixmapCache::toolbarPixmap( "forward.xpm" ) );
+  toolTip = Q2C( i18n("Forward") );
   m_vToolBar->insertButton2( pix, MGO_FORWARD_ID, SIGNAL(clicked()),
-                             this, "slotForward", false, i18n("Forward"), -1);
+                             this, "slotForward", false, toolTip, -1);
 
   pix = OPUIUtils::convertPixmap( *KPixmapCache::toolbarPixmap( "home.xpm" ) );
+  toolTip = Q2C( i18n("Home") );
   m_vToolBar->insertButton2( pix, MGO_HOME_ID, SIGNAL(clicked()),
-                             this, "slotHome", true, i18n("Home"), -1);
+                             this, "slotHome", true, toolTip, -1);
 
   m_vToolBar->insertSeparator( -1 );
 
   pix = OPUIUtils::convertPixmap( *KPixmapCache::toolbarPixmap( "reload.xpm" ) );
+  toolTip = Q2C( i18n("Reload") );
   m_vToolBar->insertButton2( pix, MVIEW_RELOAD_ID, SIGNAL(clicked()),
-                             this, "slotReload", true, i18n("Reload"), -1);
+                             this, "slotReload", true, toolTip, -1);
 
   m_vToolBar->insertSeparator( -1 );
 
   pix = OPUIUtils::convertPixmap( *KPixmapCache::toolbarPixmap( "editcopy.xpm" ) );
+  toolTip = Q2C( i18n("Copy") );
   m_vToolBar->insertButton2( pix, MEDIT_COPY_ID, SIGNAL(clicked()),
-                             this, "slotCopy", true, i18n("Copy"), -1);
+                             this, "slotCopy", true, toolTip, -1);
 
   pix = OPUIUtils::convertPixmap( *KPixmapCache::toolbarPixmap( "editpaste.xpm" ) );
+  toolTip = Q2C( i18n("Paste") );
   m_vToolBar->insertButton2( pix, MEDIT_PASTE_ID, SIGNAL(clicked()),
-                             this, "slotPaste", true, i18n("Paste"), -1);
+                             this, "slotPaste", true, toolTip, -1);
  				
   m_vToolBar->insertSeparator( -1 );				
 
   pix = OPUIUtils::convertPixmap( *KPixmapCache::toolbarPixmap( "help.xpm" ) );
+  toolTip = Q2C( i18n("Stop") );
   m_vToolBar->insertButton2( pix, MHELP_HELP_ID, SIGNAL(clicked()),
-                             this, "slotHelp", true, i18n("Stop"), -1);
+                             this, "slotHelp", true, toolTip, -1);
 				
   m_vToolBar->insertSeparator( -1 );				
 
   pix = OPUIUtils::convertPixmap( *KPixmapCache::toolbarPixmap( "stop.xpm" ) );
+  toolTip = Q2C( i18n("Stop") );
   m_vToolBar->insertButton2( pix, MVIEW_STOP_ID, SIGNAL(clicked()),
-                             this, "slotStop", false, i18n("Stop"), -1);
+                             this, "slotStop", false, toolTip, -1);
 
   pix = OPUIUtils::convertPixmap( *KPixmapCache::toolbarPixmap( "kde1.xpm" ) );
   m_vToolBar->insertButton2( pix, TOOLBAR_GEAR_ID, SIGNAL(clicked()),
-                             this, "slotNewWindow", true, "", -1 );
+                             this, "slotNewWindow", true, 0L, -1 );
   m_vToolBar->alignItemRight( TOOLBAR_GEAR_ID, true );
 
   m_vToolBar->enable( OpenPartsUI::Show );
@@ -547,13 +558,17 @@ bool KonqMainView::mappingCreateToolbar( OpenPartsUI::ToolBarFactory_ptr factory
 
   m_vLocationBar->setFullWidth( true );
 
-  m_vLocationBar->insertTextLabel( i18n("Location : "), -1, -1 );
+  CORBA::WString_var text = Q2C( i18n("Location : ") );
+  m_vLocationBar->insertTextLabel( text, -1, -1 );
 
-  m_vLocationBar->insertLined("", TOOLBAR_URL_ID, SIGNAL(returnPressed()), this, "slotURLEntered", true, i18n("Current Location"), 70, -1 );
+  m_vLocationBar->insertLined(0L, TOOLBAR_URL_ID, SIGNAL(returnPressed()), this, "slotURLEntered", true, i18n("Current Location"), 70, -1 );
   m_vLocationBar->setItemAutoSized( TOOLBAR_URL_ID, true );
   if ( m_currentView )
-    m_vLocationBar->setLinedText( TOOLBAR_URL_ID, m_currentView->locationBarURL().ascii() );
-
+  {
+    text = Q2C( m_currentView->locationBarURL() );
+    m_vLocationBar->setLinedText( TOOLBAR_URL_ID, text );
+  }
+    
   //TODO: support completion in opToolBar->insertLined....
   //TODO: m_vLocationBar->setBarPos( convert_to_openpartsui_bar_pos( m_Props->m_locationBarPos ) ) );
 
