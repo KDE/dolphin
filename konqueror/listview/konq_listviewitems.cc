@@ -105,9 +105,13 @@ void KonqListViewItem::updateContents()
          case KIO::UDS_CREATION_TIME:
             {
                QDateTime dt;
-               dt.setTime_t( m_fileitem->time( tmpColumn->udsId ) );
-               setText(tmpColumn->displayInColumn,KGlobal::locale()->formatDate(dt.date(),TRUE)+" "+KGlobal::locale()->formatTime(dt.time())+" ");
-               //setText(tmpColumn->displayInColumn,KGlobal::locale()->formatDateTime(dt));
+               time_t _time = m_fileitem->time( tmpColumn->udsId );
+               if ( _time != 0 )
+               {
+                   dt.setTime_t( _time );
+                   setText(tmpColumn->displayInColumn,KGlobal::locale()->formatDate(dt.date(),TRUE)+" "+KGlobal::locale()->formatTime(dt.time())+" ");
+                   //setText(tmpColumn->displayInColumn,KGlobal::locale()->formatDateTime(dt));
+               }
             }
             break;
          default:
