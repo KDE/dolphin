@@ -892,7 +892,7 @@ selected lines.</para></listitem>
 </varlistentry>
 
 <varlistentry>
-<term id="indent">
+<term>
 <menuchoice>
 <shortcut>
 <keycombo action="simul">&Ctrl;<keycap>I</keycap></keycombo>
@@ -909,7 +909,7 @@ selected lines.</para></listitem>
 </varlistentry>
 
 <varlistentry>
-<term id="indent">
+<term>
 <menuchoice>
 <shortcut>
 <keycombo action="simul">&Ctrl;<keycap>U</keycap></keycombo>

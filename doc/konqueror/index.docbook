@@ -2166,9 +2166,9 @@ directory.</action></para></listitem>
 </shortcut><guimenu><accel>E</accel>dit</guimenu>
 <guimenuitem><accel>R</accel>ename</guimenuitem>
 </menuchoice></term>
-<listitem><para><action>Lets you rename a file or directory without having to
+<listitem><para><action>Lets you rename a file or directory</action> without having to
 open the <guimenuitem>Properties...</guimenuitem> dialog box.
-</action></para></listitem>
+</para></listitem>
 </varlistentry>
 
 
@@ -2291,9 +2291,9 @@ folders.</action></para></listitem>
 <guimenuitem>Select <accel>A</accel>ll</guimenuitem>
 </menuchoice></term>
 <listitem><para><action>Selects all text in a HTML 
-page or in a text page being previewed, you can then 
+page or in a text page being previewed</action>, you can then 
 <guimenuitem>Copy</guimenuitem> it and <guimenuitem>Paste</guimenuitem> it into 
-a text editor.</action></para></listitem> </varlistentry>
+a text editor.</para></listitem> </varlistentry>
 
 <varlistentry>
 <term><menuchoice>
@@ -2788,19 +2788,19 @@ Toolbar.</action></para></listitem> </varlistentry>
 <term><menuchoice> <guimenu><accel>S</accel>ettings</guimenu>
 <guimenuitem>Configure <accel>K</accel>ey Bindings...</guimenuitem>
 </menuchoice></term> <listitem><para><action>Lets you
-see and change &konqueror;'s key bindings, i.e. the
+see and change &konqueror;'s key bindings</action>, i.e. the
 associations between actions such as <guimenuitem>Copy</guimenuitem> and keys or
 combinations of keys such as
-<keycombo action="simul"><keycap>Ctrl</keycap><keycap>V</keycap></keycombo>.</action></para>
+<keycombo action="simul"><keycap>Ctrl</keycap><keycap>V</keycap></keycombo>.</para>
 </listitem></varlistentry>
 
 <varlistentry>
 <term><menuchoice> <guimenu><accel>S</accel>ettings</guimenu>
 <guimenuitem>Configure Tool<accel>b</accel>ars...</guimenuitem>
 </menuchoice></term> <listitem><para><action>
-Lets you configure the Main, Extra and Location Toolbars. See the
+Lets you configure the Main, Extra and Location Toolbars.</action> See the
 section <link linkend="configure-bars">Changing Bars</link>. 
-</action></para></listitem> </varlistentry>
+</para></listitem> </varlistentry>
 
 <varlistentry>
 <term><menuchoice> <guimenu><accel>S</accel>ettings</guimenu>
