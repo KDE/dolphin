@@ -130,19 +130,18 @@ bool KonqKfmTreeView::mappingOpenURL( Konqueror::EventOpenURL eventURL )
 bool KonqKfmTreeView::mappingCreateViewMenu( Konqueror::View::EventCreateViewMenu viewMenu )
 {
 #define MVIEW_RELOADTREE_ID 1483 // temporary
-  OpenPartsUI::Menu_var menu = OpenPartsUI::Menu::_duplicate( viewMenu.menu );
   
-  if ( !CORBA::is_nil( menu ) )
+  if ( !CORBA::is_nil( viewMenu.menu ) )
   {
     if ( viewMenu.create )
     {
       debug("Adding reload tree");
-      menu->insertItem4( i18n("Rel&oad Tree"), this, "slotReloadTree", 0, MVIEW_RELOADTREE_ID, -1 );
+      viewMenu.menu->insertItem4( i18n("Rel&oad Tree"), this, "slotReloadTree", 0, MVIEW_RELOADTREE_ID, -1 );
     }
     else
     {
       debug("Removing reload tree");
-      menu->removeItem( MVIEW_RELOADTREE_ID );
+      viewMenu.menu->removeItem( MVIEW_RELOADTREE_ID );
     }
   }
   

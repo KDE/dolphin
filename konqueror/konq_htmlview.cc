@@ -105,17 +105,15 @@ bool KonqHTMLView::mappingOpenURL( Konqueror::EventOpenURL eventURL )
 
 bool KonqHTMLView::mappingCreateViewMenu( Konqueror::View::EventCreateViewMenu viewMenu )
 {
-  OpenPartsUI::Menu_var menu = OpenPartsUI::Menu::_duplicate( viewMenu.menu );
-  
-  if ( !CORBA::is_nil( menu ) )
+  if ( !CORBA::is_nil( viewMenu.menu ) )
   {
     if ( viewMenu.create )
     {
-      menu->insertItem4( "testtesttest", this, "testIgnore", 0, 9999, -1 );
+      viewMenu.menu->insertItem4( "testtesttest", this, "testIgnore", 0, 9999, -1 );
     }
     else
     {
-      menu->removeItem ( 9999 );
+      viewMenu.menu->removeItem ( 9999 );
     }
   }
   
