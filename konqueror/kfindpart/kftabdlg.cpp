@@ -190,11 +190,14 @@ KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name)
     QLabel * typeL   =new QLabel(typeBox, i18n("Of &type:"), pages[2], "type");
     textEdit=new QLineEdit(pages[2], "textEdit" );
     QLabel * textL   =new QLabel(textEdit, i18n("&Containing Text:"), pages[2], "text");
+
+    caseContextCb  =new QCheckBox(i18n("Case S&ensitive (content)"), pages[2]);
+    regexpContentCb  =new QCheckBox(i18n("Use &Regular Expression Matching"), pages[2]);
+
     sizeBox =new QComboBox(FALSE, pages[2], "sizeBox");
     QLabel * sizeL   =new QLabel(sizeBox,i18n("&Size is:"), pages[2],"size");
     sizeEdit=new QLineEdit(pages[2], "sizeEdit" );
     QLabel * kbL     =new QLabel(i18n("KB"), pages[2], "kb");
-    caseContextCb  =new QCheckBox(i18n("Case S&ensitive (content)"), pages[2]);
 
     // Setup
 
@@ -231,7 +234,7 @@ KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name)
     tmp = sizeEdit->fontMetrics().width(" 00000 ");
     sizeEdit->setMinimumSize(tmp, sizeEdit->sizeHint().height());
 
-    QGridLayout *grid2 = new QGridLayout( pages[2], 3, 6,
+    QGridLayout *grid2 = new QGridLayout( pages[2], 4, 6,
 					  KDialog::marginHint(),
 					  KDialog::spacingHint() );
     grid2->addWidget( typeL, 0, 0 );
@@ -239,11 +242,15 @@ KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name)
     grid2->addWidget( sizeL, 2, 0 );
     grid2->addMultiCellWidget( typeBox, 0, 0, 1, 6 );
     grid2->addMultiCellWidget( textEdit, 1, 1, 1, 6 );
-    grid2->addWidget( sizeBox, 2, 1 );
-    grid2->addWidget( sizeEdit, 2, 2 );
-    grid2->addWidget( kbL, 2, 3 );
+
+    grid2->addWidget( caseContextCb, 2, 1 );
+    grid2->addWidget( regexpContentCb, 2, 2);
+
+    grid2->addWidget( sizeBox, 3, 1 );
+    grid2->addWidget( sizeEdit, 3, 2 );
+    grid2->addWidget( kbL, 3, 3 );
     grid2->addColSpacing(4, KDialog::spacingHint());
-    grid2->addWidget( caseContextCb, 2, 5 );
+
     grid2->setColStretch(6,1);
 
     addTab( pages[2], i18n(" Advanced ") );
@@ -450,7 +457,7 @@ void KfindTabWidget::setQuery(KQuery *query)
      query->setMimeType( QString::null );
   }
 
-  query->setContext(textEdit->text(), caseContextCb->isChecked());
+  query->setContext(textEdit->text(), caseContextCb->isChecked(), regexpContentCb->isChecked());
 }
 
 QString KfindTabWidget::date2String(const QDate & date) {

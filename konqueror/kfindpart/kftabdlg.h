@@ -86,6 +86,7 @@ private:
   QComboBox *sizeBox;
   QLineEdit *sizeEdit;
   QCheckBox *caseContextCb;
+  QCheckBox *regexpContentCb;
 
   KURL m_url;
 

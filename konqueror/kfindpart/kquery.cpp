@@ -136,12 +136,22 @@ void KQuery::slotListEntries( KIO::Job *, const KIO::UDSEntryList & list)
 	  {
 	    QString str = stream.readLine();
 	    if (str.isNull()) break;
+       if (m_regexpForContent)
+       {
+       if (m_contentRegexp.search(str)>=0)
+	      {
+		found = true;
+		break;
+	      }
+       }
+       else
+       {
 	    if (str.find(m_context, 0, m_casesensitive) != -1)
 	      {
 		found = true;
 		break;
 	      }
-
+       };
 //            kapp->processEvents();
 	  }
 
@@ -154,11 +164,18 @@ void KQuery::slotListEntries( KIO::Job *, const KIO::UDSEntryList & list)
   }
 }
 
-void KQuery::setContext(const QString & context, bool casesensitive)
+void KQuery::setContext(const QString & context, bool casesensitive, bool useRegexp)
 {
   m_context = context;
   m_casesensitive = casesensitive;
+  m_regexpForContent=useRegexp;
+  m_contentRegexp.setWildcard(!m_regexpForContent);
+  m_contentRegexp.setCaseSensitive(casesensitive);
+  if (m_regexpForContent)
+     m_contentRegexp.setPattern(m_context);
 }
+
+
 
 void KQuery::setMimeType(const QString &mimetype)
 {

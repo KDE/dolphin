@@ -26,7 +26,7 @@ class KQuery : public QObject
   void setPath(const KURL & url );
   void setFileType( int filetype );
   void setMimeType( const QString & mimetype );
-  void setContext( const QString & context, bool casesensitive );
+  void setContext( const QString & context, bool casesensitive, bool useRegexp );
 
   void start();
   void kill();
@@ -52,6 +52,8 @@ class KQuery : public QObject
   QString m_mimetype;
   QString m_context;
   bool m_casesensitive;
+  bool m_regexpForContent;
+  QRegExp m_contentRegexp;
 
   KIO::ListJob *job;
 };
