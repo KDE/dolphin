@@ -63,10 +63,12 @@ template class QList<KBookmarkMenu>;
  ********************************************************************/
 
 KBookmarkMenu::KBookmarkMenu( KBookmarkOwner * _owner, QPopupMenu * _parentMenu,
-                              KActionCollection * _collec, bool _isRoot, bool _add,
+                              KActionCollection *, bool _isRoot, bool _add,
                               const QString & parentAddress )
   : m_bIsRoot(_isRoot), m_bAddBookmark(_add), m_pOwner(_owner),
-    m_parentMenu( _parentMenu ), m_actionCollection( _collec ),
+    m_parentMenu( _parentMenu ),
+    m_actionCollection( 0L /* we don't need one anymore, they are in m_actions
+                              and we don't want them in kedittoolbar */ ),
     m_parentAddress( parentAddress )
 {
   m_lstSubMenus.setAutoDelete( true );
@@ -96,6 +98,7 @@ KBookmarkMenu::~KBookmarkMenu()
     it.current()->unplugAll();
 
   m_lstSubMenus.clear();
+  m_actions.clear();
 }
 
 void KBookmarkMenu::slotAboutToShow()

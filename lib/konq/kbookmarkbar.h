@@ -44,11 +44,11 @@ public:
      *
      * @param owner implementation of the KBookmarkOwner interface (callbacks)
      * @param toolBar toolbar to fill
-     * @param collec parent for the KActions
+     * @param collec parent for the KActions OBSOLETE
      * @param manager the bookmark manager
      */
     KBookmarkBar( KBookmarkOwner *owner, KToolBar *toolBar,
-                  KActionCollection *collec,
+                  KActionCollection *,
                   QObject *parent = 0L, const char *name = 0L);
 
     virtual ~KBookmarkBar();

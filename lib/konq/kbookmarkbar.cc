@@ -36,9 +36,10 @@
 #include <qiconset.h>
 
 KBookmarkBar::KBookmarkBar( KBookmarkOwner *_owner, KToolBar *_toolBar,
-                            KActionCollection *_collec,
+                            KActionCollection *,
                             QObject *parent, const char *name )
-    : QObject( parent, name ), m_pOwner(_owner), m_toolBar(_toolBar), m_actionCollection(_collec)
+    : QObject( parent, name ), m_pOwner(_owner), m_toolBar(_toolBar),
+      m_actionCollection( 0L /* see KBookmarkMenu */ )
 {
     // force the "icon to the left of the text" look
     m_toolBar->setIconText(KToolBar::IconTextRight);
@@ -65,7 +66,7 @@ void KBookmarkBar::clear()
     for (; it.current(); ++it )
     {
         it.current()->unplugAll();
-        m_actionCollection->take( it.current() );
+        //m_actionCollection->take( it.current() );
     }
 
     m_actions.setAutoDelete( true );
