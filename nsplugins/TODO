@@ -1,6 +1,4 @@
-- add Get/PostURL handling
+- add PostURL handling
 - add plugin initiated streams
-- embed in Konqi
 - use Konqui's cache
-- repair ASFILE mode, saved file is corrupt at the moment
 ...
