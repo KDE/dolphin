@@ -48,6 +48,8 @@ K_EXPORT_COMPONENT_FACTORY (kcm_history, SMSFactory("kcmhistory") );
 HistorySidebarConfig::HistorySidebarConfig( QWidget *parent, const char* name, const QStringList & )
   : KCModule (SMSFactory::instance(), parent, name)
 {
+    KGlobal::locale()->insertCatalogue("konqueror");
+
     m_settings = new KonqSidebarHistorySettings( 0, "history settings" );
     m_settings->readSettings( false );
 
