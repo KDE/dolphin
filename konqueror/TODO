@@ -43,14 +43,14 @@ konqueror framework:
 
 - Remove highlighted text color and text color from kcmkonq, and settings.
 
+- Do we want "[X] Use directory properties" ?
+
 - Action for enabling/disabling javascript, in Settings.
 
 - the 'shared lib' or interface problem for plugins.
 
 - What about a "clear" button at the right of the location bar, to clear the URL
 before pasting another one ?
-
-- Open Location has unknown icon (KURLRequesterDlg bug probably)
 
 - Bug #2760 and other problems with splitter sizes
 

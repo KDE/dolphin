@@ -116,7 +116,7 @@ KonqMainWindow::KonqMainWindow( const KURL &initialURL, bool openInitialURL, con
   m_bURLEnterLock = false;
 
   m_bViewModeToggled = false;
-  
+
   if ( !s_plstAnimatedLogo )
   {
     s_plstAnimatedLogo = new QStringList;
@@ -232,7 +232,7 @@ KonqMainWindow::~KonqMainWindow()
   delete m_pBookmarkMenu;
 
   m_viewModeActions.clear();
-  
+
   kdDebug(1202) << "KonqMainWindow::~KonqMainWindow done" << endl;
 }
 
@@ -525,7 +525,7 @@ void KonqMainWindow::slotViewModeToggle( bool toggle )
     return;
 
   m_bViewModeToggled = true;
-  
+
   m_currentView->lockHistory();
   m_currentView->changeViewMode( m_currentView->serviceType(), modeName,
                                  m_currentView->url() );
@@ -831,7 +831,6 @@ bool KonqMainWindow::openView( QString serviceType, const KURL &_url, KonqView *
   QString originalURL = url.prettyURL();
 
   QString serviceName; // default: none provided
-  m_paRemoveLocalProperties->setEnabled( false ); // default: no local props
 
   // Look for which view mode to use, if a directory - not if view locked to
   // its current mode or passive.
@@ -855,11 +854,10 @@ bool KonqMainWindow::openView( QString serviceType, const KURL &_url, KonqView *
       if ( f.open(IO_ReadOnly) )
       {
           f.close();
-          KSimpleConfig config( urlDotDir.path() );
+          KSimpleConfig config( urlDotDir.path(), true );
           config.setGroup( "URL properties" );
           HTMLAllowed = config.readBoolEntry( "HTMLAllowed", m_bHTMLAllowed );
           serviceName = config.readEntry( "ViewMode", m_sViewModeForDirectory );
-          m_paRemoveLocalProperties->setEnabled( true );
       }
       if ( HTMLAllowed &&
            ( ( indexFile = findIndexFile( url.path() ) ) != QString::null ) )
@@ -1003,7 +1001,7 @@ void KonqMainWindow::slotPartActivated( KParts::Part *part )
   }
 
   m_bViewModeToggled = false;
-  
+
   m_currentView->frame()->statusbar()->repaint();
 
   if ( oldView )
@@ -1178,6 +1176,20 @@ void KonqMainWindow::customEvent( QCustomEvent *event )
   {
     KParts::OpenURLEvent * ev = static_cast<KParts::OpenURLEvent*>(event);
     KonqView * senderChildView = childView(ev->part());
+
+    // Enable/disable local properties actions if current view
+    if ( senderChildView == m_currentView )
+    {
+      bool canWrite = false;
+      if ( ev->url().isLocalFile() )
+      {
+        // Can we write ?
+        QFileInfo info( ev->url().path() );
+        canWrite = info.isWritable();
+      }
+      m_paSaveViewPropertiesLocally->setEnabled( canWrite );
+      m_paRemoveLocalProperties->setEnabled( canWrite );
+    }
 
     // Check if sender is linked
     bool bLinked = senderChildView->linkedView();

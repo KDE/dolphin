@@ -129,10 +129,6 @@ void KonqView::openURL( const KURL &url )
 
   sendOpenURLEvent( url, args );
 
-  //update metaviews!
-  if ( m_metaView )
-    m_metaView->openURL( url );
-
   updateHistoryEntry();
 
   //kdDebug(1202) << "Current position : " << m_lstHistory.at() << endl;
@@ -479,13 +475,12 @@ void KonqView::go( int steps )
   else
     m_pPart->openURL( h.url );
 
+  //m_bAborted = false; // should we do that ?
+
   sendOpenURLEvent( h.url );
 
   if ( m_pMainWindow->currentView() == this )
     m_pMainWindow->updateToolBarActions();
-
-  if ( m_metaView )
-    m_metaView->openURL( h.url );
 
   //kdDebug(1202) << "New position (2) " << m_lstHistory.at() << endl;
 }
@@ -555,6 +550,13 @@ void KonqView::sendOpenURLEvent( const KURL &url, const KParts::URLArgs &args )
 {
   KParts::OpenURLEvent ev( m_pPart, url, args );
   QApplication::sendEvent( m_pMainWindow, &ev );
+
+  // We also do here what we want to do after opening an URL, whether a new one
+  // or one from the history (common stuff).
+
+  //update metaviews!
+  if ( m_metaView )
+    m_metaView->openURL( url );
 }
 
 void KonqView::initMetaView()
