@@ -122,13 +122,13 @@ void KDirLister::openURL( const KURL& _url, bool _showDotFiles, bool _keep )
 
   m_bComplete = false;
 
-  m_job = KIO::listDir( _url );
+  m_url = _url; // keep a copy
+  m_job = KIO::listDir( m_url );
   connect( m_job, SIGNAL( entries( KIO::Job*, const KIO::UDSEntryList&)),
            SLOT( slotEntries( KIO::Job*, const KIO::UDSEntryList&)));
   connect( m_job, SIGNAL( result( KIO::Job * ) ),
 	   SLOT( slotResult( KIO::Job * ) ) );
 
-  m_url = _url; // keep a copy
   m_sURL = _url.url(); // filled in now, in case somebody calls url(). Will be updated later in case of redirection
 
   emit started( m_sURL );
@@ -225,13 +225,13 @@ void KDirLister::updateDirectory( const QString& _dir )
   m_bComplete = false;
   m_buffer.clear();
 
-  m_job = KIO::listDir( m_sURL );
+  m_url = KURL( _dir );
+  m_job = KIO::listDir( m_url );
   connect( m_job, SIGNAL( entries( KIO::Job*, const KIO::UDSEntryList&)),
            SLOT( slotUpdateEntries( KIO::Job*, const KIO::UDSEntryList&)));
   connect( m_job, SIGNAL( result( KIO::Job * ) ),
 	   SLOT( slotUpdateResult( KIO::Job * ) ) );
 
-  m_url = KURL( _dir );
   m_sURL = m_url.url();
 
   kDebugInfo( 1203, "update started in %s", debugString(m_sURL));
