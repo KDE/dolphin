@@ -215,7 +215,7 @@ KfindTabDialog::KfindTabDialog( QWidget *parent, const char *name, const char *s
              this    ,  SLOT(checkSize()) );      
 
     addTab( pages[2], trans->translate(" Advanced ") );  
-    setOkButton(0);
+    //setOkButton(0);
   }
 
 KfindTabDialog::~KfindTabDialog()

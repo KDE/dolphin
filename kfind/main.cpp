@@ -62,9 +62,23 @@ int main( int argc, char ** argv )
     else
       searchPath = getenv( "HOME" );
 
-    KfindTop *kfind= new KfindTop(searchPath); 
-    kfind->show();
+    KfindTop *kfind= NULL;
 
+    // session management (Matthias)
+    app.setUnsavedData(false);
+    if (kapp->isRestored()){
+      int n = 1;
+      while (KTopLevelWidget::canBeRestored(n)){
+	kfind = new KfindTop(searchPath); 
+	kfind->restore(n);
+	n++;
+      }
+      // end session management
+    } else {
+      kfind = new KfindTop(searchPath);
+      kfind->show();
+    }
+    app.setMainWidget(kfind);
     int ret =  app.exec();
 
     delete kfind;
