@@ -63,7 +63,7 @@ int KonqComboAction::plug( QWidget *w )
   {
     QLabel *label = new QLabel( plainText(), w );
     label->adjustSize();
-    ((KToolBar *)w)->insertWidget( 15234, label->width(), label );
+    ((KToolBar *)w)->insertWidget( get_toolbutton_id(), label->width(), label );
   }
 
   int container = KSelectAction::plug( w );
@@ -85,9 +85,9 @@ void KonqComboAction::unplug( QWidget *w )
   {
     int idx = findContainer( w );
     QWidget *l;
-    if ( ( l = ((KToolBar *)w)->getWidget( menuId( idx ) - 1 ) )->inherits( "QLabel" ) )
+    if ( ( l = ((KToolBar *)w)->getWidget( menuId( idx ) + 1 ) )->inherits( "QLabel" ) )
     {
-      ((KToolBar *)w)->removeItem( menuId( idx ) - 1 );
+      ((KToolBar *)w)->removeItem( menuId( idx ) + 1 );
       delete l;
     }	
   }
