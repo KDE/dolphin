@@ -42,25 +42,25 @@
 
 extern "C"
 {
-	KCModule *create_khtml_behavior(QWidget *parent, const char *name)
+	KDE_EXPORT KCModule *create_khtml_behavior(QWidget *parent, const char *name)
 	{
 		KConfig *c = new KConfig( "konquerorrc", false, false );
 		return new KMiscHTMLOptions(c, "HTML Settings", parent, name);
 	}
 
-	KCModule *create_khtml_fonts(QWidget *parent, const char *name)
+	KDE_EXPORT KCModule *create_khtml_fonts(QWidget *parent, const char *name)
 	{
 		KConfig *c = new KConfig( "konquerorrc", false, false );
 		return new KAppearanceOptions(c, "HTML Settings", parent, name);
 	}
 
-	KCModule *create_khtml_java_js(QWidget *parent, const char */*name*/)
+	KDE_EXPORT KCModule *create_khtml_java_js(QWidget *parent, const char* /*name*/)
 	{
 		KConfig *c = new KConfig( "konquerorrc", false, false );
 		return new KJSParts(c, parent, "kcmkonqhtml");
 	}
 
-	KCModule *create_khtml_plugins(QWidget *parent, const char *name)
+	KDE_EXPORT KCModule *create_khtml_plugins(QWidget *parent, const char *name)
 	{
 		KConfig *c = new KConfig( "konquerorrc", false, false );
 		return new KPluginOptions(c, "Java/JavaScript Settings", parent, name);

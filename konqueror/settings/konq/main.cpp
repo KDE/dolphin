@@ -48,49 +48,48 @@ static QCString configname()
 
 extern "C"
 {
-  KCModule *create_browser(QWidget *parent, const char *name)
+  KDE_EXPORT KCModule *create_browser(QWidget *parent, const char *name)
   {
     KConfig *config = new KConfig("konquerorrc", false, true);
     return new KBrowserOptions(config, "FMSettings", parent, name);
   }
 
-  KCModule *create_behavior(QWidget *parent, const char *name)
+  KDE_EXPORT KCModule *create_behavior(QWidget *parent, const char *name)
   {
     KConfig *config = new KConfig("konquerorrc", false, true);
     return new KBehaviourOptions(config, "FMSettings", parent, name);
   }
 
-  KCModule *create_appearance(QWidget *parent, const char *name)
+  KDE_EXPORT KCModule *create_appearance(QWidget *parent, const char *name)
   {
     KConfig *config = new KConfig("konquerorrc", false, true);
     return new KonqFontOptions(config, "FMSettings", false, parent, name);
   }
 
-  KCModule *create_previews(QWidget *parent, const char *name)
+  KDE_EXPORT KCModule *create_previews(QWidget *parent, const char *name)
   {
     return new KPreviewOptions(parent, name);
   }
 
-
-  KCModule *create_dbehavior(QWidget *parent, const char* /*name*/)
+  KDE_EXPORT KCModule *create_dbehavior(QWidget *parent, const char* /*name*/)
   {
     KConfig *config = new KConfig(configname(), false, false);
     return new DesktopBehaviorModule(config, parent);
   }
 
-  KCModule *create_dappearance(QWidget *parent, const char* /*name*/)
+  KDE_EXPORT KCModule *create_dappearance(QWidget *parent, const char* /*name*/)
   {
     KConfig *config = new KConfig(configname(), false, false);
     return new KonqFontOptions(config, "FMSettings", true, parent);
   }
 
-  KCModule *create_dpath(QWidget *parent, const char* /*name*/)
+  KDE_EXPORT KCModule *create_dpath(QWidget *parent, const char* /*name*/)
   {
     //KConfig *config = new KConfig(configname(), false, false);
     return new DesktopPathConfig(parent);
   }
 
-  KCModule *create_ddesktop(QWidget *parent, const char* /*name*/)
+  KDE_EXPORT KCModule *create_ddesktop(QWidget *parent, const char* /*name*/)
   {
     return new KDesktopConfig(parent, "VirtualDesktops");
   }

@@ -265,7 +265,7 @@ void FaviconsModule::slotKill()
 }
 
 extern "C" {
-    KDEDModule *create_favicons(const QCString &obj)
+    KDE_EXPORT KDEDModule *create_favicons(const QCString &obj)
     {
         KImageIO::registerFormats();
         return new FaviconsModule(obj);

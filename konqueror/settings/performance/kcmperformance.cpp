@@ -28,12 +28,12 @@
 
 extern "C"
 {
-KCModule* create_performance( QWidget* parent_P, const char* name_P )
+    KDE_EXPORT KCModule* create_performance( QWidget* parent_P, const char* name_P )
     {
     return new KCMPerformance::Config( parent_P, name_P );
     }
 
-KCModule* create_konqueror( QWidget* parent_P, const char* name_P )
+    KDE_EXPORT KCModule* create_konqueror( QWidget* parent_P, const char* name_P )
     {
     return new KCMPerformance::KonquerorConfig( parent_P, name_P );
     }

@@ -40,7 +40,7 @@
 
 extern "C"
 {
-  KCModule *create_virtualdesktops(QWidget *parent, const char * /*name*/)
+  KDE_EXPORT KCModule *create_virtualdesktops(QWidget *parent, const char * /*name*/)
   {
     return new KDesktopConfig(parent, "kcmkonq");
   }

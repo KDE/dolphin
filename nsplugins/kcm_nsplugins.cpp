@@ -38,7 +38,7 @@
 
 extern "C"
 {
-    void init_nsplugin()
+    KDE_EXPORT void init_nsplugin()
     {
         KConfig *config = new KConfig("kcmnspluginrc", true /* readonly */, false /* no globals*/);
         config->setGroup("Misc");
