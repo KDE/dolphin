@@ -40,6 +40,7 @@ private:
   QString groupname;
   bool m_bShowBuiltinGroup;
 
+  QCheckBox *cbTreeFollow;
   QCheckBox *cbSingleClick;
   QCheckBox *cbAutoSelect;
   QLabel *lDelay;

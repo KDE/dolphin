@@ -34,14 +34,6 @@
 unsigned long KonqFactory::m_instanceRefCnt = 0;
 KInstance *KonqFactory::s_instance = 0L;
 
-extern "C"
-{
-  void *init_libkonqueror()
-  {
-    return new KonqFactory;
-  }
-};
-
 KParts::ReadOnlyPart *KonqViewFactory::create( QWidget *parent, const char *name )
 {
   if ( !m_factory )
@@ -140,19 +132,6 @@ KonqViewFactory KonqFactory::createView( const QString &serviceType,
   }
 
   return KonqViewFactory( factory, args );
-}
-
-QObject* KonqFactory::create( QObject* parent, const char* name, const char* /*classname*/, const QStringList & )
-{
-//  if ( !parent || !parent->inherits( "Part" ) )
-//    return 0L;
-
-//  KonqPart *part = new KonqPart( parent, name );
-//  emit objectCreated( part );
-//
-//  return part;
-  assert( 0 );
-  return 0L;
 }
 
 void KonqFactory::instanceRef()

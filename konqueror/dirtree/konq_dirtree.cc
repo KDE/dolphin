@@ -25,6 +25,7 @@
 #include <kio_paste.h>
 #include <kglobal.h>
 #include <kdesktopfile.h>
+#include <konqsettings.h>
 
 #include <assert.h>
 
@@ -179,7 +180,7 @@ bool KonqDirTreePart::event( QEvent *e )
  if ( KParts::ReadOnlyPart::event( e ) )
    return true;
  
- if ( KParts::OpenURLEvent::test( e ) && ((KParts::OpenURLEvent *)e)->part() != this )
+ if ( KParts::OpenURLEvent::test( e ) && ((KParts::OpenURLEvent *)e)->part() != this && KonqFMSettings::defaultIconSettings()->treeFollow() )
  {
    m_pTree->followURL( ((KParts::OpenURLEvent *)e)->url() );
    return true;
@@ -330,9 +331,26 @@ void KonqDirTree::removeSubDir( KonqDirTreeItem *item, KonqDirTreeItem *topLevel
   topLevelItem.m_mapSubDirs->remove( url );
 }
 
-void KonqDirTree::followURL( const KURL &url )
+void KonqDirTree::followURL( const KURL &_url )
 {
-//  qDebug( "url! : %s", url.url().ascii() ); 
+  KURL u( _url );
+  QValueList<TopLevelItem>::ConstIterator it = m_topLevelItems.begin();
+  QValueList<TopLevelItem>::ConstIterator end = m_topLevelItems.end();
+  for (; it != end; ++it )
+  {
+    QMap<KURL, KonqDirTreeItem *>::ConstIterator dirIt = (*it).m_mapSubDirs->begin();
+    QMap<KURL, KonqDirTreeItem *>::ConstIterator dirEnd = (*it).m_mapSubDirs->end();
+    for (; dirIt != dirEnd; ++dirIt )
+      if ( u.cmp( dirIt.key(), true ) )
+      {
+        if ( !dirIt.data()->isOpen() )
+	  dirIt.data()->setOpen( true );
+	
+	ensureItemVisible( dirIt.data() );
+	
+        return;
+      }
+  }
 } 
 
 void KonqDirTree::contentsDragEnterEvent( QDragEnterEvent * )

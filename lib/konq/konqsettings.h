@@ -77,6 +77,7 @@ public:
   bool shouldEmbed( const QString & mimetypeGroup );
   bool alwaysNewWin() { return m_alwaysNewWin; }
   QString homeURL() { return m_homeURL; }
+  bool treeFollow() { return m_bTreeFollow; }
 
   // Font settings
   const QString& stdFontName() { return m_strStdFontName; }
@@ -100,6 +101,7 @@ protected:
   bool m_bChangeCursor;
   bool m_underlineLink;
   bool m_alwaysNewWin;
+  bool m_bTreeFollow;
 
   bool m_embedText;
   bool m_embedImage;

@@ -25,7 +25,7 @@ KBehaviourOptions::KBehaviourOptions(KConfig *config, QString group, bool showBu
     int row = 0;
 
 #define N_COLS 2
-#define N_ROWS 8
+#define N_ROWS 9
     QGridLayout *lay = new QGridLayout(this,N_ROWS,N_COLS, // rows, cols
                                        KDialog::marginHint(),
 				       KDialog::spacingHint());     // border, space
@@ -71,13 +71,18 @@ KBehaviourOptions::KBehaviourOptions(KConfig *config, QString group, bool showBu
     connect( cbAutoSelect, SIGNAL( clicked() ), this, SLOT( slotClick() ) );
 
     row++;
+    cbTreeFollow = new QCheckBox( i18n( "Tree follows navigation in other views" ), this );
+    lay->addMultiCellWidget( cbTreeFollow, row, row, 0, N_COLS, Qt::AlignLeft );
+    connect( cbTreeFollow, SIGNAL( clicked() ), this, SLOT( changed() ) );
+    
+    row++;
     cbNewWin = new QCheckBox(i18n("&Open directories in separate windows"), this);
     lay->addMultiCellWidget(cbNewWin, row, row, 0, N_COLS-1, Qt::AlignLeft);
     connect(cbNewWin, SIGNAL(clicked()), this, SLOT(changed()));
 
-    
+
     winPixmap = new QLabel(this);
-    winPixmap->setPixmap(QPixmap(locate("data", 
+    winPixmap->setPixmap(QPixmap(locate("data",
 					"kcontrol/pics/onlyone.png")));
     lay->addWidget(winPixmap, row, N_COLS);
     connect(cbNewWin, SIGNAL(toggled(bool)), SLOT(updateWinPixmap(bool)));
@@ -133,9 +138,11 @@ void KBehaviourOptions::load()
     slAutoSelect->setValue( autoSelect );
     cbCursor->setChecked( changeCursor );
     cbUnderline->setChecked( underlineLinks );
-    cbNewWin->setChecked(g_pConfig->readBoolEntry("AlwaysNewWin", false));
+    cbNewWin->setChecked( g_pConfig->readBoolEntry("AlwaysNewWin", false) );
     updateWinPixmap(cbNewWin->isChecked());
 
+    cbTreeFollow->setChecked( g_pConfig->readBoolEntry( "TreeFollowsNavigation", DEFAULT_TREEFOLLOW ) );
+    
     homeURL->setText(g_pConfig->readEntry("HomeURL", "~"));
 
     if (m_bShowBuiltinGroup)
@@ -159,6 +166,7 @@ void KBehaviourOptions::defaults()
     cbCursor->setChecked( false );
     cbUnderline->setChecked( true );
     cbNewWin->setChecked(false);
+    cbTreeFollow->setChecked( DEFAULT_TREEFOLLOW );
 
     homeURL->setText("~");
 
@@ -178,6 +186,7 @@ void KBehaviourOptions::save()
     g_pConfig->writeEntry( "AutoSelect", cbAutoSelect->isChecked()?slAutoSelect->value():-1 );
     g_pConfig->writeEntry( "ChangeCursor", cbCursor->isChecked() );
     g_pConfig->writeEntry( "UnderlineLinks", cbUnderline->isChecked() );
+    g_pConfig->writeEntry( "TreeFollowsNavigation", cbTreeFollow->isChecked() );
 
     g_pConfig->writeEntry( "HomeURL", homeURL->text() );
 
@@ -209,10 +218,10 @@ void KBehaviourOptions::slotClick()
 void KBehaviourOptions::updateWinPixmap(bool b)
 {
   if (b)
-    winPixmap->setPixmap(QPixmap(locate("data", 
+    winPixmap->setPixmap(QPixmap(locate("data",
 					"kcontrol/pics/overlapping.png")));
   else
-    winPixmap->setPixmap(QPixmap(locate("data", 
+    winPixmap->setPixmap(QPixmap(locate("data",
 					"kcontrol/pics/onlyone.png")));
 }
 

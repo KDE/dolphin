@@ -53,9 +53,8 @@ private:
   QStringList m_args;
 };
 
-class KonqFactory : public KLibFactory
+class KonqFactory
 {
-  Q_OBJECT
 public:
   KonqFactory();
   virtual ~KonqFactory();
@@ -65,8 +64,6 @@ public:
 				     KService::Ptr *serviceImpl = 0,
 				     KTrader::OfferList *serviceOffers = 0 );
 				
-
-  virtual QObject* create( QObject* parent = 0, const char* name = 0, const char* classname = "QObject", const QStringList &args = QStringList() );
 
   static void instanceRef();
   static void instanceUnref();

@@ -19,15 +19,11 @@ METASOURCES = AUTO
 
 include_HEADERS = KonquerorIface.h
 
-libkonqueror_la_SOURCES = konq_mainview.cc \
-			  konq_run.cc konq_childview.cc konq_viewmgr.cc \
-			  konq_frame.cc \
+libkonqueror_la_SOURCES = \
 			  konq_propsview.cc konq_propsmainview.cc konq_htmlsettings.cc \
-			  konq_factory.cc konq_events.cc \
-			  konq_misc.cc \
-			  konq_actions.cc konq_profiledlg.cc \
+			  konq_events.cc \
 			  konq_bgnddlg.cc \
-			  kbugreport.cc \
+		          konq_factory.cc \
 			  kbrowser.moc.cc
 
 libkonqueror_la_LDFLAGS = $(all_libraries) -version-info 1:0:0 -module
@@ -39,7 +35,15 @@ kbrowser.moc.cc: $(kde_includes)/kbrowser.h
 
 bin_PROGRAMS = konqueror
 
-konqueror_SOURCES = konq_main.cc KonquerorIface.skel konq_mainview.skel
+konqueror_SOURCES = konq_main.cc KonquerorIface.skel konq_mainview.skel \
+		    konq_mainview.cc \
+		    konq_run.cc konq_childview.cc konq_viewmgr.cc \
+		    konq_frame.cc \
+		    konq_actions.cc \
+		    konq_profiledlg.cc \
+		    konq_misc.cc \
+		    kbugreport.cc
+
 konqueror_LDFLAGS = $(KDE_RPATH) $(all_libraries)
 konqueror_LDADD = libkonqueror.la $(LIB_KIMGIO)
 
