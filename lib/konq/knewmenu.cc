@@ -200,7 +200,7 @@ void KNewMenu::fillMenu()
 
             if ( !bSkip )
             {
-                KAction * act = new KAction( (*templ).text, (*templ).icon, 0, this, SLOT( slotNewFile() ),
+                KAction * act = new KAction( (*templ).text+"...", (*templ).icon, 0, this, SLOT( slotNewFile() ),
                                              m_actionCollection, QCString().sprintf("newmenu%d", i ) );
                 act->setGroup( "KNewMenu" );
                 act->plug( popupMenu() );
