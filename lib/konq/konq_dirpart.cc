@@ -110,6 +110,7 @@ KonqDirPart::KonqDirPart( QObject *parent, const char *name )
     if (root)
     {
       QValueList<int> avSizes = root->querySizes(KIcon::Desktop);
+      kdDebug(1203) << "the icon theme handles the following sizes:" << avSizes << endl;
       if (avSizes.count() < 10) {
 	// Use the icon sizes supplied by the theme.
 	// If avSizes contains more than 10 entries, assume a scalable
@@ -122,8 +123,8 @@ KonqDirPart::KonqDirPart( QObject *parent, const char *name )
 	}
 	// Generate missing sizes
 	for (; i < 7; i++) {
-	  d->m_iIconSize[i] =  d->m_iIconSize[i - 1];
-	  kdDebug(1203) << "m_iIconSize[" << i << "] = " << 128 << endl;
+	  d->m_iIconSize[i] = d->m_iIconSize[i - 1] + d->m_iIconSize[i - 1] / 2 ;
+	  kdDebug(1203) << "m_iIconSize[" << i << "] = " << d->m_iIconSize[i] << endl;
 	}
       }
     }
