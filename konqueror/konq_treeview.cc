@@ -856,9 +856,15 @@ void KonqKfmTreeView::slotNewItem( KFileItem * _fileitem )
   }
 }
 
-void KonqKfmTreeView::slotDeleteItem( KFileItem * )
+void KonqKfmTreeView::slotDeleteItem( KFileItem * _fileitem )
 {
-  //TODO
+  iterator it = begin();
+  for( ; it != end(); ++it )
+    if ( (*it).item() == _fileitem )
+    {
+      delete &(*it);
+      return;
+    }
 }
 
 void KonqKfmTreeView::openSubFolder( const KURL &_url, KfmTreeViewDir* _dir )
@@ -881,8 +887,6 @@ void KonqKfmTreeView::openSubFolder( const KURL &_url, KfmTreeViewDir* _dir )
   if ( strcmp( m_dirLister->kurl().protocol(), _url.protocol() ) != 0 )
     assert( 0 ); // not same protocol as parent dir -> abort
   /** End Debug code **/
-
-  assert( m_bSubFolderComplete && !m_pWorkingDir );
 
   m_bSubFolderComplete = false;
   m_pWorkingDir = _dir;
@@ -935,26 +939,6 @@ KonqKfmTreeView::iterator KonqKfmTreeView::iterator::operator++(int)
 }
 
 /*
-void KonqKfmTreeView::updateDirectory()
-{
-  if ( !m_bTopLevelComplete || !m_bSubFolderComplete )
-    return;
-
-  updateDirectory( 0L, m_strURL.data() );
-}
-
-void KonqKfmTreeView::updateDirectory( KfmTreeViewDir *_dir, const char *_url )
-{
-  if ( _dir )
-    m_bSubFolderComplete = false;
-  else
-    m_bTopLevelComplete = false;
-
-  m_pWorkingDir = _dir;
-
-  SIGNAL_CALL2( "started", id(), CORBA::Any::from_string( (char *)0L, 0 ) );
-}
-
 void KonqKfmTreeView::slotUpdateFinished( int _id )
 {
   if ( m_pWorkingDir )
