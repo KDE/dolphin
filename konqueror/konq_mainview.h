@@ -300,6 +300,7 @@ private:
   KonqHistoryAction *m_paUp;
   KonqHistoryAction *m_paBack;
   KonqHistoryAction *m_paForward;
+  KAction *m_paHome;
 
   KonqBidiHistoryAction *m_paHistory;
 

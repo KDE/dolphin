@@ -1481,7 +1481,7 @@ void KonqMainView::initActions()
   connect( m_paHistory, SIGNAL( menuAboutToShow() ), this, SLOT( slotGoMenuAboutToShow() ) );
   connect( m_paHistory, SIGNAL( activated( int ) ), this, SLOT( slotGoHistoryActivated( int ) ) );
 
-  (void) new KAction( i18n( "Home Directory" ), "gohome", KStdAccel::key(KStdAccel::Home), this, SLOT( slotHome() ), actionCollection(), "home" );
+  m_paHome = new KAction( i18n( "Home Directory" ), "gohome", KStdAccel::key(KStdAccel::Home), this, SLOT( slotHome() ), actionCollection(), "home" );
 
   (void) new KAction( i18n( "File &Types" ), 0, this, SLOT( slotGoMimeTypes() ), actionCollection(), "go_mimetypes" );
   (void) new KAction( i18n( "App&lications" ), 0, this, SLOT( slotGoApplications() ), actionCollection(), "go_applications" );
@@ -1579,6 +1579,48 @@ void KonqMainView::initActions()
   actionCollection()->setHighlightingEnabled( true );
   connect( actionCollection(), SIGNAL( actionHighlighted( KAction * ) ),
 	   this, SLOT( slotActionHighlighted( KAction * ) ) );
+  
+  // help stuff
+  
+  m_paBack->setWhatsThis( i18n( "Click this button to display the previous document<br><br>\n\n"
+				"You can also select the <b>Back Command</b> from the Go menu." ) );
+  m_paBack->setShortText( i18n( "Display the previous document" ) );
+  
+  m_paForward->setWhatsThis( i18n( "Click this button to display the next document<br><br>\n\n"
+				   "You can also select the <b>Forward Command</b> from the Go Menu." ) );
+	
+  m_paHome->setWhatsThis( i18n( "Click this button to display of your home directory<br><br>\n\n"
+				"You can configure the path your home directory in the"
+				"<b>File Manager Configuration</b> in the <b>KDE Control Center</b>" ) );
+  m_paHome->setShortText( i18n( "Enter your home directory" ) );
+				
+  m_paReload->setWhatsThis( i18n( "Reloads the currently displayed document<br><br>\n\n"
+				  "You can also select the <b>Reload Command</b> from the View menu." ) );
+  m_paReload->setShortText( i18n( "Reload the current document" ) );
+			    
+  m_paCut->setWhatsThis( i18n( "Click this button to cut the currently selected text or items and move it "
+                               "to the system clipboard<br><br>\n\n"
+			       "You can also select the <b>Cut Command</b> from the Edit menu." ) );
+  m_paCut->setShortText( i18n( "Moves the selected text/item(s) to the clipboard" ) );
+  
+  m_paCopy->setWhatsThis( i18n( "Click this button to copy the currently selected text or items to the "
+				"system clipboard<br><br>\n\n"
+				"You can also select the <b>Copy Command</b> from the Edit menu." ) );
+  m_paCopy->setShortText( i18n( "Copies the selected text/item(s) to the clipboard" ) );
+  
+  m_paPaste->setWhatsThis( i18n( "Click this button to paste the previously cutted or copied clipboard "
+                                 "content<br><br>\n\n"
+				 "You can also select the <b>Paste Command</b> from the Edit menu." ) );
+  m_paPaste->setShortText( i18n( "Pastes the clipboard content" ) );
+  
+  m_paPrint->setWhatsThis( i18n( "Click this button to print the currently displayed document<br><br>\n\n"
+				 "You can also select the <b>Print Command</b> from the View menu." ) );
+  m_paPrint->setShortText( i18n( "Print the current document" ) );
+  
+  m_paStop->setWhatsThis( i18n( "Click this button to abort loading the document<br><br>\n\n"
+				"You can also select the <b>Stop Command</b> from the View menu." ) );
+  m_paStop->setShortText( i18n( "Stop loading the document" ) );
+  
 }
 
 void KonqMainView::initPlugins()
