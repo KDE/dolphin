@@ -703,6 +703,8 @@ void KonqKfmIconView::slotRefreshItems( const KFileItemList& entries )
         {
             ivi->refreshIcon( true );
             ivi->setText( rit.current()->text() );
+            if ( rit.current()->isMimeTypeKnown() )
+                ivi->setMouseOverAnimation( rit.current()->iconName() );
         }
     }
     // In case we replace a big icon with a small one, need to repaint.
