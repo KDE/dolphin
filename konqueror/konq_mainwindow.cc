@@ -1051,7 +1051,7 @@ void KonqMainWindow::slotCreateNewWindow( const KURL &url, const KParts::URLArgs
 
     KConfig *config = KGlobal::config();
     KConfigGroupSaver cs( config, QString::fromLatin1("FMSettings") );
-    if ( config->readBoolEntry( "MMBOpensTab", false ) && config->readBoolEntry( "PopupsWithinTabs", true ) ) {
+    if ( config->readBoolEntry( "PopupsWithinTabs", false ) ) {
         bool aftercurrentpage = config->readBoolEntry( "OpenAfterCurrentPage", false );
         bool newtabsinfront = config->readBoolEntry( "NewTabsInFront", false );
         KonqView* newView = m_pViewManager->addTab(QString::null, QString::null, false, aftercurrentpage);
