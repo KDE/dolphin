@@ -250,10 +250,11 @@ KonqPopupMenu::KonqPopupMenu( KBookmarkManager *mgr, const KFileItemList &items,
         addAction( "reload" );
       addGroup( "reload" );
       addSeparator();
-
-      addAction( actNewView );
-      addSeparator();
     }
+
+    // "open in new window" always available
+    addAction( actNewView );
+    addSeparator();
 
     if ( !currentDir && sReading ) {
       if ( sDeleting ) {
