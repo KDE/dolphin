@@ -1,4 +1,4 @@
-<!DOCTYPE kpartgui SYSTEM "kpartgui.dtd"><kpartgui name="Konqueror" version="13">
+<!DOCTYPE kpartgui SYSTEM "kpartgui.dtd"><kpartgui name="Konqueror" version="14">
 <MenuBar>
  <Menu name="file" noMerge="1"><text>&amp;Location</text>
   <Action name="new_window"/>
@@ -84,7 +84,7 @@
     <Action name="configuretoolbars"/>
   </Menu>
  </Menu>
- <Menu name="window"><text>&amp;Window</text>
+ <Menu name="window" append="settings_merge"><text>&amp;Window</text>
   <Action name="splitviewh"/>
   <Action name="splitviewv"/>
   <Action name="splitwindowh"/>
