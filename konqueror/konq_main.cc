@@ -84,7 +84,7 @@ int main( int argc, char **argv )
        QString url;
        if (args->count() == 1)
            url = QString::fromLocal8Bit(args->arg(0));
-       KonqFileManager::self()->createBrowserWindowFromProfile( profilePath, profile, url );
+       KonqMisc::createBrowserWindowFromProfile( profilePath, profile, url );
      }
      else
      {
@@ -100,14 +100,15 @@ int main( int argc, char **argv )
          {
              for ( int i = 0; i < args->count(); i++ )
              {
-                 // konqFilteredURL doesn't cope with local files... A bit of hackery below
+                 // KonqMisc::konqFilteredURL doesn't cope with local files... A bit of hackery below
                  KURL url = args->url(i);
                  KURL urlToOpen;
                  if (url.isLocalFile() && QFile::exists(url.path())) // "konqueror index.html"
                      urlToOpen = url;
                  else
-                     urlToOpen = KURL( konqFilteredURL(0L, args->arg(i)) ); // "konqueror slashdot.org"
-                 KonqFileManager::self()->openFileManagerWindow( urlToOpen );
+                     urlToOpen = KURL( KonqMisc::konqFilteredURL(0L, args->arg(i)) ); // "konqueror slashdot.org"
+                 //KonqMisc::createSimpleWindow( urlToOpen );
+                 KonqMisc::createNewWindow( urlToOpen );
              }
          }
      }

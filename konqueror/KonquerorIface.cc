@@ -40,26 +40,26 @@ KonquerorIface::~KonquerorIface()
 
 void KonquerorIface::openBrowserWindow( const QString &url )
 {
-  KonqFileManager::self()->openFileManagerWindow( url );
+  KonqMisc::createSimpleWindow( url );
 }
 
 void KonquerorIface::createBrowserWindowFromProfile( const QString &path )
 {
   kdDebug(1202) << "void KonquerorIface::createBrowserWindowFromProfile( const QString &path ) " << endl;
   kdDebug(1202) << path << endl;
-  KonqFileManager::self()->createBrowserWindowFromProfile( path, QString::null );
+  KonqMisc::createBrowserWindowFromProfile( path, QString::null );
 }
 
 void KonquerorIface::createBrowserWindowFromProfile( const QString & path, const QString &filename )
 {
   kdDebug(1202) << "void KonquerorIface::createBrowserWindowFromProfile( path, filename ) " << endl;
   kdDebug(1202) << path << "," << filename << endl;
-  KonqFileManager::self()->createBrowserWindowFromProfile( path, filename );
+  KonqMisc::createBrowserWindowFromProfile( path, filename );
 }
 
 void KonquerorIface::createBrowserWindowFromProfileAndURL( const QString & path, const QString &filename, const QString &url )
 {
-  KonqFileManager::self()->createBrowserWindowFromProfile( path, filename, url );
+  KonqMisc::createBrowserWindowFromProfile( path, filename, KURL(url) );
 }
 
 void KonquerorIface::reparseConfiguration()

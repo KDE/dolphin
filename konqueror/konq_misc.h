@@ -25,6 +25,7 @@
 
 #include <kbookmark.h>
 #include <krun.h>
+#include <kparts/browserextension.h>
 class KonqMainWindow;
 
 class KonqBookmarkManager : public KBookmarkManager
@@ -35,35 +36,53 @@ public:
   virtual void editBookmarks( const KURL & url );
 };
 
-/* Implement the openFileManagerWindow call that libkio does if necessary */
-class KonqFileManager
+class KonqMisc
 {
 public:
-  KonqFileManager()
-  {} ;
-  virtual ~KonqFileManager() {} ;
+    /*
+    private:
+      static KonqFileManager *s_pSelf;
+    public:
+    KonqFileManager() {}
+    ~KonqFileManager() {}
 
-  static KonqFileManager *self()
-  {
-    if ( !s_pSelf )
+    static KonqFileManager *self()
+    {
+      if ( !s_pSelf )
       s_pSelf = new KonqFileManager();
-    return s_pSelf;
-  }
+      return s_pSelf;
+     }
+    */
 
-  static void abortFullScreenMode();
+    /**
+     * Stop full-screen mode in all windows.
+     */
+    static void abortFullScreenMode();
 
-  bool openFileManagerWindow( const KURL & url );
+    /**
+     * Create a new window with a single view, showing @p url
+     */
+    static KonqMainWindow * createSimpleWindow( const KURL &url, const QString &frameName = QString::null );
 
-  bool openFileManagerWindow( const KURL &url, const QString &name );
+    /**
+     * Create a new window for @p url using @p args and the appropriate profile for this URL.
+     */
+    static KonqMainWindow * createNewWindow( const KURL &url, const KParts::URLArgs &args = KParts::URLArgs() );
 
-  KonqMainWindow * createBrowserWindowFromProfile( const QString &path,
-                                                   const QString &filename,
-                                                   const QString &url = QString::null );
+    /**
+     * Create a new window from the profile defined by @p filename and @p path.
+     * @param url an optionnal URL to open in this profile.
+     */
+    static KonqMainWindow * createBrowserWindowFromProfile( const QString &path,
+                                                            const QString &filename,
+                                                            const KURL &url = KURL(),
+                                                            const KParts::URLArgs &args = KParts::URLArgs());
 
-private:
-  static KonqFileManager *s_pSelf;
+    /**
+     * Applies the URI filters to @p url.
+     * @p parent is used in case of a message box.
+     */
+    static QString konqFilteredURL( QWidget * parent, const QString &url );
 };
-
-QString konqFilteredURL( QWidget * parent, const QString &url );
 
 #endif

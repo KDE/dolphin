@@ -28,18 +28,11 @@
 
 /**********************************************
  *
- * KonqFileManager
+ * KonqMisc
  *
  **********************************************/
 
-KonqFileManager *KonqFileManager::s_pSelf = 0;
-
-bool KonqFileManager::openFileManagerWindow( const KURL & _url )
-{
-  return openFileManagerWindow( _url, QString::null );
-}
-
-void KonqFileManager::abortFullScreenMode()
+void KonqMisc::abortFullScreenMode()
 {
   QList<KonqMainWindow> *mainWindows = KonqMainWindow::mainWindowList();
   if ( mainWindows )
@@ -51,7 +44,7 @@ void KonqFileManager::abortFullScreenMode()
   }
 }
 
-bool KonqFileManager::openFileManagerWindow( const KURL & _url, const QString &name )
+KonqMainWindow * KonqMisc::createSimpleWindow( const KURL & _url, const QString &frameName )
 {
   abortFullScreenMode();
 
@@ -59,26 +52,53 @@ bool KonqFileManager::openFileManagerWindow( const KURL & _url, const QString &n
   KURL url = !_url.isEmpty() ? _url : KURL(QDir::homeDirPath().prepend( "file:" ));
 
   KonqMainWindow *win = new KonqMainWindow( url );
-  win->setInitialFrameName( name );
+  win->setInitialFrameName( frameName );
   win->show();
 
-  return true; // why would it fail ? :)
+  return win;
 }
 
-KonqMainWindow * KonqFileManager::createBrowserWindowFromProfile( const QString &path, const QString &filename, const QString &url )
+KonqMainWindow * KonqMisc::createNewWindow( const KURL &url, const KParts::URLArgs &args )
 {
-  kdDebug(1202) << "void KonqFileManager::createBrowserWindowFromProfile() " << endl;
-  kdDebug(1202) << "path=" << path << ",filename=" << filename << ",url=" << url << endl;
+  abortFullScreenMode();
 
-  KonqMainWindow *mainWindow = new KonqMainWindow( QString::null, false );
-  mainWindow->viewManager()->loadViewProfile( path, filename, KURL(url) );
-  mainWindow->enableAllActions( true );
+  // For HTTP, use the web browsing profile, otherwise use filemanager profile
+  // TODO: maybe add a list of protocols in the profile...
+  QString profileName = url.protocol().startsWith("http") ? "webbrowsing" : "filemanagement";
+
+  QString profile = locate( "data", QString::fromLatin1("konqueror/profiles/") + profileName );
+  return createBrowserWindowFromProfile( profile, profileName, url, args );
+}
+
+
+KonqMainWindow * KonqMisc::createBrowserWindowFromProfile( const QString &path, const QString &filename, const KURL &url, const KParts::URLArgs &args )
+{
+  kdDebug(1202) << "void KonqMisc::createBrowserWindowFromProfile() " << endl;
+  kdDebug(1202) << "path=" << path << ",filename=" << filename << ",url=" << url.prettyURL() << endl;
+
+  KonqMainWindow * mainWindow;
+  if ( path.isEmpty() )
+  {
+      // The profile doesn't exit -> creating a simple window
+      mainWindow = createSimpleWindow( url, args.frameName );
+  }
+  else
+  {
+      mainWindow = new KonqMainWindow( QString::null, false );
+      //FIXME: obey args (like passing post-data (to KRun), etc.)
+      mainWindow->viewManager()->loadViewProfile( path, filename, url );
+  }
+  if (mainWindow->currentView())
+      mainWindow->enableAllActions( true );
+  else
+      mainWindow->disableActionsNoView();
+  mainWindow->setInitialFrameName( args.frameName );
   mainWindow->show();
   return mainWindow;
 }
 
 
-QString konqFilteredURL( QWidget * parent, const QString &_url )
+QString KonqMisc::konqFilteredURL( QWidget * parent, const QString &_url )
 {
   KURIFilterData data = _url;
   KURIFilter::self()->filterURI( data );
@@ -110,6 +130,6 @@ QString konqFilteredURL( QWidget * parent, const QString &_url )
 
 void KonqBookmarkManager::editBookmarks( const KURL & _url )
 {
-  KonqFileManager::self()->openFileManagerWindow( _url );
+  KonqMisc::createSimpleWindow( _url );
 }
 

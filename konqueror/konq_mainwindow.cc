@@ -306,7 +306,7 @@ void KonqMainWindow::openFilteredURL( const QString & _url )
     QString nameFilter = detectNameFilter( url );
 
     // Filter URL to build a correct one
-    KURL filteredURL( konqFilteredURL( this, url ) );
+    KURL filteredURL( KonqMisc::konqFilteredURL( this, url ) );
     kdDebug(1202) << "url " << url << " filtered into " << filteredURL.url() << endl;
 
     // Remember the initial (typed) URL
@@ -672,23 +672,7 @@ void KonqMainWindow::abortLoading()
 
 void KonqMainWindow::slotCreateNewWindow( const KURL &url, const KParts::URLArgs &args )
 {
-  // If we want to open an html file, use the web browsing profile
-  if ( KMimeType::findByURL(url)->name() == QString::fromLatin1("text/html"))
-  {
-    QString profile = locate( "data", QString::fromLatin1("konqueror/profiles/webbrowsing") );
-    KonqMainWindow * mainWindow = KonqFileManager::self()->createBrowserWindowFromProfile( profile, QString::fromLatin1("webbrowsing"), url.url() );
-    mainWindow->setInitialFrameName( args.frameName );
-    //FIXME: obey args (like passing post-data (to KRun), etc.)
-  }
-  else if ( KMimeType::findByURL(url)->name() == QString::fromLatin1("inode/directory") )
-  {
-    QString profile = locate( "data", QString::fromLatin1("konqueror/profiles/filemanagement") );
-    KonqMainWindow * mainWindow = KonqFileManager::self()->createBrowserWindowFromProfile( profile, QString::fromLatin1("filemanagement"), url.url() );
-    mainWindow->setInitialFrameName( args.frameName );
-  }
-  else
-    KonqFileManager::self()->openFileManagerWindow( url, args.frameName );
-    //FIXME: obey args (like passing post-data (to KRun), etc.)
+    KonqMisc::createNewWindow( url, args );
 }
 
 void KonqMainWindow::slotCreateNewWindow( const KURL &url, const KParts::URLArgs &args,
@@ -778,11 +762,11 @@ void KonqMainWindow::slotCreateNewWindow( const KURL &url, const KParts::URLArgs
 void KonqMainWindow::slotNewWindow()
 {
   if ( m_currentView && m_currentView->url().protocol() == QString::fromLatin1( "http" ) )
-      KonqFileManager::self()->createBrowserWindowFromProfile(
+      KonqMisc::createBrowserWindowFromProfile(
           locate( "data", QString::fromLatin1("konqueror/profiles/webbrowsing") ),
           QString::fromLatin1("webbrowsing") );
   else
-      KonqFileManager::self()->createBrowserWindowFromProfile(
+      KonqMisc::createBrowserWindowFromProfile(
           locate( "data", QString::fromLatin1("konqueror/profiles/filemanagement") ),
           QString::fromLatin1("filemanagement") );
 }
@@ -1059,33 +1043,32 @@ void KonqMainWindow::slotReload()
 
 void KonqMainWindow::slotHome()
 {
-  openURL( 0L, KURL( konqFilteredURL( this, KonqFMSettings::settings()->homeURL() ) ) );
+  openURL( 0L, KURL( KonqMisc::konqFilteredURL( this, KonqFMSettings::settings()->homeURL() ) ) );
 }
 
 void KonqMainWindow::slotGoApplications()
 {
-  KonqFileManager::self()->openFileManagerWindow( KGlobal::dirs()->saveLocation("apps") );
+  KonqMisc::createSimpleWindow( KGlobal::dirs()->saveLocation("apps") );
 }
 
 void KonqMainWindow::slotGoDirTree()
 {
-  KonqFileManager::self()->openFileManagerWindow( locateLocal( "data", "konqueror/dirtree/" ) );
+  KonqMisc::createSimpleWindow( locateLocal( "data", "konqueror/dirtree/" ) );
 }
 
 void KonqMainWindow::slotGoTrash()
 {
-  KonqFileManager::self()->openFileManagerWindow( KGlobalSettings::trashPath() );
+  KonqMisc::createSimpleWindow( KGlobalSettings::trashPath() );
 }
 
 void KonqMainWindow::slotGoTemplates()
 {
-  KonqFileManager::self()->openFileManagerWindow(
-      KGlobal::dirs()->resourceDirs("templates").last() );
+  KonqMisc::createSimpleWindow( KGlobal::dirs()->resourceDirs("templates").last() );
 }
 
 void KonqMainWindow::slotGoAutostart()
 {
-  KonqFileManager::self()->openFileManagerWindow( KGlobalSettings::autostartPath() );
+  KonqMisc::createSimpleWindow( KGlobalSettings::autostartPath() );
 }
 
 void KonqMainWindow::slotConfigureFileManager()

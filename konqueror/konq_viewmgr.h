@@ -143,10 +143,11 @@ public:
    * @param cfg the config file
    * ...
    * @param defaultURL the URL to use if the profile doesn't contain urls
-   * @param forcedURL if set, the URL to open, whatever the profile says
+   * @param openURL whether to open urls at all (from the profile or using @p defaultURL).
+   *  (this is set to false when we have a forcedURL to open)
    */
   void loadItem( KConfig &cfg, KonqFrameContainer *parent,
-                 const QString &name, const KURL & defaultURL, const KURL & forcedURL );
+                 const QString &name, const KURL & defaultURL, bool openURL );
 
   void clear();
 
