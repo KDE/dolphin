@@ -1,9 +1,11 @@
 2000-12-10  Simon Hausmann  <simon@kde.org>
 
+	* konqview_example.tar.gz: removed outdated example.
+
 	* konq_frame.h, konq_view.{cc,h},
 	  konq_factory.{cc,h}, konq_mainwindow.{cc,h} : Code cleanups,
 	added missing const's here and there, removed some old unused
-	code
+	code.
 
 2000-12-09  Simon Hausmann  <simon@kde.org>
 
