@@ -28,7 +28,6 @@
 #include <kio_openwith.h>
 #include <kio_paste.h>
 #include <kmessagebox.h>
-#include <kpixmapcache.h>
 #include <kprotocolmanager.h>
 #include <krun.h>
 #include <kservice.h>
@@ -214,11 +213,11 @@ KonqPopupMenu::KonqPopupMenu( const KFileItemList &items,
     /*
       I'm confused by this ...
     if ( sWriting && m_bHandleEditOperations )
-      id = insertItem( *KPixmapCache::toolbarPixmap( "editpaste.png" ), i18n( "Paste" ), this, SLOT( slotPopupPaste() ) );
+      id = insertItem( BarIcon( "editpaste" ), i18n( "Paste" ), this, SLOT( slotPopupPaste() ) );
     else if ( !m_bHandleEditOperations )
     {
     // do we have to create the item in this case, or in the other case ?
-      id = insertItem( *KPixmapCache::toolbarPixmap( "editpaste.png" ), i18n( "Paste" ), KPOPUPMENU_PASTE_ID );
+      id = insertItem( *BarIcon( "editpaste" ), i18n( "Paste" ), KPOPUPMENU_PASTE_ID );
       setItemEnabled( id, canPaste );
     }      
     */
@@ -232,10 +231,10 @@ KonqPopupMenu::KonqPopupMenu( const KFileItemList &items,
       act->plug( this );
     /*
       if ( sMoving && !isCurrentTrash && !currentDir && m_bHandleEditOperations )
-      id = insertItem( *KPixmapCache::pixmap( "kfm_trash.png", true ), i18n( "Move to trash" ), this, SLOT( slotPopupTrash() ) );
+      id = insertItem( BarIcon( "kfm_trash" ), i18n( "Move to trash" ), this, SLOT( slotPopupTrash() ) );
       else if ( !m_bHandleEditOperations )
       {
-      id = insertItem( *KPixmapCache::pixmap( "kfm_trash.png", true ), i18n( "Move to trash" ), KPOPUPMENU_TRASH_ID );
+      id = insertItem( BarIcon( "kfm_trash", true ), i18n( "Move to trash" ), KPOPUPMENU_TRASH_ID );
       setItemEnabled( id, canMove );
       }      
     */
@@ -319,8 +318,7 @@ KonqPopupMenu::KonqPopupMenu( const KFileItemList &items,
     KTrader::OfferList::Iterator it = offers.begin();
     for( ; it != offers.end(); it++ )
     {    
-      id = insertItem( KPixmapCache::pixmap( (*it)->icon(), true ),
-				    (*it)->name() );
+      id = insertItem( (*it)->pixmap( KIconLoader::Small ), (*it)->name() );
       m_mapPopup[ id ] = *it;
     }
     
@@ -328,7 +326,10 @@ KonqPopupMenu::KonqPopupMenu( const KFileItemList &items,
     for( ; it2 != user.end(); ++it2 )
     {
       if ( !(*it2).m_strIcon.isEmpty() )
-	id = insertItem( KPixmapCache::pixmap( (*it2).m_strIcon, true ), (*it2).m_strName );
+      {
+        QPixmap pix = KGlobal::iconLoader()->loadApplicationIcon( (*it2).m_strIcon, KIconLoader::Small );
+	id = insertItem( pix, (*it2).m_strName );
+      }
       else
 	id = insertItem( (*it2).m_strName );
       m_mapPopup2[ id ] = *it2;
@@ -341,7 +342,10 @@ KonqPopupMenu::KonqPopupMenu( const KFileItemList &items,
     for( ; it2 != builtin.end(); ++it2 )
     {
       if ( !(*it2).m_strIcon.isEmpty() )
-	id = insertItem( KPixmapCache::pixmap( (*it2).m_strIcon, true ), (*it2).m_strName );
+      {
+        QPixmap pix = KGlobal::iconLoader()->loadApplicationIcon( (*it2).m_strIcon, KIconLoader::Small );
+	id = insertItem( pix, (*it2).m_strName );
+      }
       else
 	id = insertItem( (*it2).m_strName );
       m_mapPopup2[ id ] = *it2;

@@ -41,7 +41,6 @@
 #include <kmessagebox.h>
 
 #include <kmimetype.h>
-#include <kpixmapcache.h>
 #include "kfileitem.h"
 
 /**
@@ -220,11 +219,10 @@ KBookmark::KBookmark( KBookmarkManager *_bm, KBookmark *_parent, QString _text,
     _cfg.setDesktopGroup();
 
   m_url = _cfg.readEntry( "URL", "ERROR ! No URL !" );
-  m_sPixmap = _cfg.readEntry( "MiniIcon", QString::null );
-  if (m_sPixmap.right( 4 ) == ".xpm" )
+  m_sPixmap = _cfg.readEntry( "Icon", QString::null );
+  if (m_sPixmap.right( 4 ) == ".xpm" ) // prevent warnings
   {
     m_sPixmap.truncate( m_sPixmap.length() - 4 );
-    m_sPixmap.append( ".png" ); 
     // Should we update the config file ?
   }
 
@@ -383,14 +381,10 @@ QString KBookmark::pixmapFile( )
     stat( m_file, &buff );
     QString url = m_file;
     KURL::encode( url );
-    m_sPixmap = KMimeType::findByURL( url, buff.st_mode, true )->icon( url, true );
+    // Get the full path to the Small icon and store it into m_sPixmap
+    KMimeType::pixmapForURL( KURL( url ), buff.st_mode, KIconLoader::Small, &m_sPixmap );
   }
   return m_sPixmap;
-}
-
-QPixmap KBookmark::pixmap( )
-{
-  return KPixmapCache::pixmap( pixmapFile(), true /* mini icon */);
 }
 
 #include "kbookmark.moc"

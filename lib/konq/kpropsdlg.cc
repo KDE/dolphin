@@ -348,17 +348,18 @@ FilePropsPage::FilePropsPage( PropertiesDialog *_props )
     iconButton->setFixedSize(50, 50);
     iconButton->setIconType("icon");
     QString iconStr;
-    iconStr = KPixmapCache::pixmapFileForURL(properties->kurl().path(),
-					     properties->item()->mode(),
-					     properties->kurl().isLocalFile());
+    KMimeType::pixmapForURL(properties->kurl(),
+                            properties->item()->mode(),
+                            KIconLoader::Medium,
+                            &iconStr);
     iconButton->setIcon(iconStr);
     iconArea = iconButton;
   } else {
     QLabel *iconLabel = new QLabel(this);
     iconLabel->setFixedSize(50, 50);
-    iconLabel->setPixmap(KPixmapCache::pixmapForURL(properties->kurl(),
-						    properties->item()->mode(),
-						    properties->kurl().isLocalFile()));
+    iconLabel->setPixmap(KMimeType::pixmapForURL(properties->kurl(),
+                                                 properties->item()->mode(),
+                                                 KIconLoader::Medium));
     iconArea = iconLabel;
   }
   grid->addWidget(iconArea, curRow, 0, AlignLeft);

@@ -26,7 +26,6 @@
 
 #include <kglobal.h>
 #include <kmimetype.h>
-#include <kpixmapcache.h>
 #include <qpixmap.h>
 #include <klocale.h>
 #include <krun.h>
@@ -112,9 +111,9 @@ void KFileItem::init()
   assert (m_pMimeType);
 }
 
-QPixmap KFileItem::getPixmap( bool _mini ) const
+QPixmap KFileItem::getPixmap( KIconLoader::Size _size ) const
 {
-  QPixmap p = KPixmapCache::pixmapForMimeType( m_pMimeType, m_url, m_bIsLocalURL, _mini );
+  QPixmap p = m_pMimeType->pixmap( m_url, _size );
   if (p.isNull())
     warning("Pixmap not found for mimetype %s",m_pMimeType->name().latin1());
   return p;

@@ -104,11 +104,10 @@ public:
    * Don't cache it, don't delete it. It's handled by KPixmapCache !
    *
    * The method is named getPixmap because it actually determines the pixmap
-   * each time. For a KIconContainerItem derived class, use getPixmap
-   * then setPixmap to store the pixmap in the item, then pixmap() to get it later.
+   * each time.
    * getPixmap() should only be called it might have changed
    */
-  QPixmap getPixmap( bool _mini ) const;
+  QPixmap getPixmap( KIconLoader::Size _size ) const;
   /**
    * @return the text of the file item
    * It's not exactly the filename since some decoding happens ('%2F'->'/')
