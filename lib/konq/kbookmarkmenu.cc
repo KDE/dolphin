@@ -38,6 +38,7 @@
 #include <qfile.h>
 #include <qstring.h>
 #include <qpopupmenu.h>
+#include <qregexp.h>
 
 #include <kaction.h>
 #include <kapp.h>

@@ -23,6 +23,7 @@
 #include "kbookmarkmanager.h"
 #include "kbookmarkexporter.h"
 #include <qtextcodec.h>
+#include <qregexp.h>
 
 // write bookmarks file
 //

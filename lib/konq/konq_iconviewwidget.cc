@@ -26,6 +26,7 @@
 #include <qlist.h>
 #include <qregion.h>
 #include <qtimer.h>
+#include <qpainter.h>
 
 #include <kapp.h>
 #include <kcursor.h>

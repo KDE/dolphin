@@ -34,6 +34,7 @@ static struct timeval startTime;
 #include <qdir.h>
 #include <qfile.h>
 #include <qimage.h>
+#include <qregexp.h>
 
 #include <kdatastream.h> // Do not remove, needed for correct bool serialization
 #include <kfileivi.h>
