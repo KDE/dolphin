@@ -43,14 +43,16 @@ public:
   
 protected:
 
-  virtual bool openFile();
+  virtual bool openURL(const KURL &url);
   virtual bool closeURL();
+  virtual bool openFile() { return false; }; 
 
 
 private:
 
-  QLabel *widget;
+  QWidget *widget, *canvas;
   PluginBrowserExtension *m_extension;
+
 };
 
 

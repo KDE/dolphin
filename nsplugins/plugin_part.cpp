@@ -2,6 +2,9 @@
 #include "plugin_part.moc"
 
 
+#include "nspluginloader.h"
+
+
 #include <kinstance.h>
 #include <klocale.h>
 #include <kaboutdata.h>
@@ -67,18 +70,14 @@ PluginPart::PluginPart(QWidget *parent, const char *name)
 {
   setInstance(PluginFactory::instance());
   
+  m_extension = new PluginBrowserExtension(this);
+ 
   // create a canvas to insert our widget
-  QWidget *canvas = new QWidget(parent);
+  canvas = new QWidget(parent);
   canvas->setFocusPolicy(QWidget::ClickFocus);
   setWidget(canvas);
-  
-  m_extension = new PluginBrowserExtension(this);
-  
-  // as an example, display a blank white widget
-  widget = new QLabel(canvas);
-  widget->setText("plugin!");
-  widget->setAutoResize(true);
-  widget->show();
+ 
+  widget = 0;
 }
 
 
@@ -88,11 +87,22 @@ PluginPart::~PluginPart()
 }
 
 
-bool PluginPart::openFile()
+bool PluginPart::openURL(const KURL &url)
 {
-  widget->setText(m_file);
+  NSPluginLoader *loader = NSPluginLoader::instance();
+
+  QStringList _argn, _argv;
+  _argn << "SRC";
+  _argv << url.url();
+  widget = loader->NewInstance(canvas, url.url(), "", 1, _argn, _argv);
   
-  return true;
+  if (widget)
+    {
+      widget->resize(canvas->width(), canvas->height());
+      widget->show();
+    }
+
+  return widget != 0;
 }
 
 
