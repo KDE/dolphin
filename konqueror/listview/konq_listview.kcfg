@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <kcfg xmlns="http://www.kde.org/standards/kcfg/1.0"
       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-      xsi:schemaLocation="http://www.kde.org/standards/kcfg/1.0 
+      xsi:schemaLocation="http://www.kde.org/standards/kcfg/1.0
                           http://www.kde.org/standards/kcfg/1.0/kcfg.xsd" >
+  <include>kapplication.h</include>
   <kcfgfile name="konquerorrc">
-    <parameter name="Protocol" />      
+    <parameter name="Protocol" />
   </kcfgfile>
-  <include>kapplication.h</include> 
-  
+
   <group name="ListView_$(Protocol)">
     <entry key="SortBy" type="String">
       <default>FileName</default> 
@@ -32,6 +32,6 @@
       <label>Widths of the Columns</label>
       <whatsthis></whatsthis>
     </entry>
-  </group> 
+  </group>
 
 </kcfg>

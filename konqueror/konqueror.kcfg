@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <kcfg xmlns="http://www.kde.org/standards/kcfg/1.0"
       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-      xsi:schemaLocation="http://www.kde.org/standards/kcfg/1.0 
+      xsi:schemaLocation="http://www.kde.org/standards/kcfg/1.0
                           http://www.kde.org/standards/kcfg/1.0/kcfg.xsd" >
+  <include>khtmldefaults.h</include>
   <kcfgfile name="konquerorrc" />
-  <include>khtmldefaults.h</include> 
-  
+
 
   <group name="FMSettings">
 <!-- behaviour.cpp -->  
@@ -88,8 +88,10 @@
       <whatsthis></whatsthis>
       <!-- checked -->
     </entry>
-    <entry name="TextPreviewIconOpacity" key="TextpreviewIconOpacity" type="Int" min="0" max="255"> <!--LIBKONQ-->
-      <default>70</default> 
+    <entry name="TextPreviewIconOpacity" key="TextpreviewIconOpacity" type="Int"> <!--LIBKONQ-->
+      <default>70</default>
+      <min>0</min>
+      <max>255</max>
       <label></label>
       <whatsthis></whatsthis>
       <!-- checked -->
