@@ -374,6 +374,7 @@ void KonqKfmIconView::slotPreview( bool toggle )
     if (name == "iconview_preview_all")
     {
         m_pProps->setShowingPreview( toggle );
+        m_pIconView->setPreviewSettings( m_pProps->previewSettings() );
         if ( !toggle )
         {
             kdDebug() << "KonqKfmIconView::slotPreview stopping all previews for " << name << endl;
@@ -394,6 +395,7 @@ void KonqKfmIconView::slotPreview( bool toggle )
     else 
     {
         m_pProps->setShowingPreview( name, toggle );
+        m_pIconView->setPreviewSettings( m_pProps->previewSettings() );
         if ( !toggle )
         {
             kdDebug() << "KonqKfmIconView::slotPreview stopping image preview for " << name << endl;
@@ -944,7 +946,7 @@ bool KonqKfmIconView::doOpenURL( const KURL & url )
     // newProps returns true the first time, and any time something might
     // have changed.
     bool newProps = m_pProps->enterDir( url );
-
+        
     m_dirLister->setNameFilter( m_nameFilter );
 
     m_dirLister->setMimeFilter( mimeFilter() );
@@ -982,6 +984,8 @@ bool KonqKfmIconView::doOpenURL( const KURL & url )
           m_paPreviewPlugins.current()->setChecked( m_pProps->isShowingPreview( m_paPreviewPlugins.current()->name() ) );
           m_paPreviewPlugins.current()->setEnabled( m_pProps->isShowingPreview() );
       }
+      
+      m_pIconView->setPreviewSettings(m_pProps->previewSettings());
           
       // It has to be "viewport()" - this is what KonqDirPart's slots act upon,
       // and otherwise we get a color/pixmap in the square between the scrollbars.

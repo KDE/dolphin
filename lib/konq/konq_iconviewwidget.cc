@@ -22,6 +22,7 @@
 #include "konq_sound.h"
 
 #include <qclipboard.h>
+#include <qlayout.h>
 #include <qtimer.h>
 #include <qpainter.h>
 #include <qtooltip.h>
@@ -47,18 +48,31 @@
 #include <assert.h>
 #include <unistd.h>
 
-class KFileTip: public QLabel
+class KFileTip: public QFrame
 {
 public:
-    KFileTip( KIconView* parent )
-        : QLabel( 0, 0, WStyle_Customize | WStyle_NoBorder | WStyle_Tool | WStyle_StaysOnTop | WX11BypassWM ),
-          m_view( parent ),
+    KFileTip( KonqIconViewWidget* parent ) : QFrame( 0, 0, WStyle_Customize | WStyle_NoBorder | WStyle_Tool | WStyle_StaysOnTop | WX11BypassWM ),    
+  
           m_corner( 0 ),
-          m_filter( false )
+          m_filter( false ),
+          m_view( parent ),
+          m_item( 0 ),
+          m_previewJob( 0 ),
+          m_ivi( 0 )
     {
+        m_iconLabel = new QLabel(this);
+        m_textLabel = new QLabel(this);
+        m_textLabel->setAlignment(Qt::AlignAuto | Qt::AlignTop);
+
+        QGridLayout* layout = new QGridLayout(this, 1, 2, 8, 0);
+        layout->addWidget(m_iconLabel, 0, 0);
+        layout->addWidget(m_textLabel, 0, 1);
+        layout->setResizeMode(QLayout::Fixed);
+
         setPalette( QToolTip::palette() );
         setMargin( 1 );
         setFrameStyle( QFrame::Plain | QFrame::Box );
+
         hide();
     }
 
@@ -72,69 +86,121 @@ public:
 
     virtual bool eventFilter( QObject *, QEvent *e );
 
+    void gotPreview( const KFileItem*, const QPixmap& );
+    void gotPreviewResult();
+    
 protected:
     virtual void drawContents( QPainter *p );
     virtual void timerEvent( QTimerEvent * );
-
+    virtual void resizeEvent( QResizeEvent * );
+    
 private:
     void setFilter( bool enable );
 
-    KIconView* m_view;
+    void reposition();
+    
+    QLabel*    m_iconLabel;
+    QLabel*    m_textLabel;
     int        m_num;
     bool       m_on;
     QPixmap    m_corners[4];
     int        m_corner;
     bool       m_filter;
+    KonqIconViewWidget*       m_view;
+    KFileItem* m_item;
+    KIO::PreviewJob* m_previewJob;
+    KFileIVI*  m_ivi;
 };
 
 void KFileTip::setItem( KFileIVI *ivi )
 {
     if (!m_on) return;
 
+    if ( m_previewJob ) {
+        m_previewJob->kill();
+        m_previewJob = 0;
+    }
+    
+    m_ivi = ivi;
+    m_item = ivi ? ivi->item() : 0;
+    
     QString text = ivi ? ivi->item()->getToolTipText( m_num ) : QString::null;
     if ( !text.isEmpty() ) {
-        setText( text );
-        adjustSize();
-        QRect rect = ivi->rect();
-        QPoint off = m_view->mapToGlobal( m_view->contentsToViewport( QPoint( 0, 0 ) ) );
-        rect.moveBy( off.x(), off.y() );
+        hide();
+        m_textLabel -> setText( text );
+        m_iconLabel -> setPixmap(*(ivi->pixmap()));
 
-        QPoint pos = rect.center();
-        // m_corner:
-        // 0: upperleft
-        // 1: upperright
-        // 2: lowerleft
-        // 3: lowerright
-        m_corner = 0;
-        // should the tooltip be shown to the left or to the right of the ivi ?
-        if ( ( ( rect.center().x() > width() ) && ( rect.center().x() - off.x() > m_view->width() / 2 ) ) ||
-             ( rect.center().x() + width() > QApplication::desktop()->width() ) )
-        {
-            // to the left
-            pos.setX( pos.x() - width() );
-            m_corner = 1;
-        }
-        // should the tooltip be shown above or below the ivi ?
-        if ( ( ( rect.top() > height() ) && ( rect.top() - off.y() > m_view->height() / 2 ) ) ||
-             ( rect.bottom() + height() > QApplication::desktop()->height() ) )
-        {
-            // above
-            pos.setY( rect.top() - height() );
-            m_corner += 2;
-        }
-        else pos.setY( rect.bottom() );
-
-        move( pos );
         killTimers();
         setFilter( true );
-        if ( !isVisible() ) startTimer( 700 );
-        else update();
+
+        KFileItemList oneItem;
+        oneItem.append( ivi->item() );
+
+        m_previewJob = KIO::filePreview( oneItem, 256, 256, 64, 70, true, true, &(m_view->previewSettings()));
+        connect( m_previewJob, SIGNAL( gotPreview( const KFileItem *, const QPixmap & ) ),
+                m_view, SLOT( slotToolTipPreview( const KFileItem *, const QPixmap & ) ) );
+        connect( m_previewJob, SIGNAL( result( KIO::Job * ) ),
+                m_view, SLOT( slotToolTipPreviewResult() ) );            
+             
+        startTimer( 700 );
     }
     else {
         killTimers();
-        if ( isVisible() ) startTimer( 500 );
-        else setFilter( false );
+        if ( isVisible() ) {
+            setFilter( false );
+            hide();
+        }
     }
+}
+
+void KFileTip::reposition() 
+{
+    if (!m_ivi) return;
+
+    QRect rect = m_ivi->rect();
+    QPoint off = m_view->mapToGlobal( m_view->contentsToViewport( QPoint( 0, 0 ) ) );
+    rect.moveBy( off.x(), off.y() );
+
+    QPoint pos = rect.center();
+    // m_corner:
+    // 0: upperleft
+    // 1: upperright
+    // 2: lowerleft
+    // 3: lowerright
+    m_corner = 0;
+    // should the tooltip be shown to the left or to the right of the ivi ?
+    if ( /*( ( rect.center().x() > width() ) && ( rect.center().x() - off.x() > m_view->width() / 2 ) ) || */
+        ( rect.center().x() + width() > QApplication::desktop()->width() ) )
+    {
+        // to the left
+        pos.setX( pos.x() - width() );
+        m_corner = 1;
+    }
+    // should the tooltip be shown above or below the ivi ?
+    if ( /*( ( rect.top() > height() ) && ( rect.top() - off.y() > m_view->height() / 2 ) ) || */
+        ( rect.bottom() + height() > QApplication::desktop()->height() ) )
+    {
+        // above
+        pos.setY( rect.top() - height() );
+        m_corner += 2;
+    }
+    else pos.setY( rect.bottom() );
+    
+    move( pos );
+    update();
+}
+
+void KFileTip::gotPreview( const KFileItem* item, const QPixmap& pixmap )
+{
+    m_previewJob = 0;    
+    if (item != m_item) return;
+    
+    m_iconLabel -> setPixmap(pixmap);
+}
+
+void KFileTip::gotPreviewResult()
+{
+    m_previewJob = 0;
 }
 
 void KFileTip::drawContents( QPainter *p )
@@ -150,6 +216,7 @@ void KFileTip::drawContents( QPainter *p )
         m_corners[m_corner].load( locate( "data", QString::fromLatin1( "konqueror/pics/%1.png" ).arg( names[m_corner] ) ) );
 
     QPixmap &pix = m_corners[m_corner];
+       
     switch ( m_corner )
     {
         case 0:
@@ -165,8 +232,8 @@ void KFileTip::drawContents( QPainter *p )
             p->drawPixmap( width() - pix.width() - 3, height() - pix.height() - 3, pix );
             break;
     }
-
-    QLabel::drawContents( p );
+    
+    QFrame::drawContents( p );
 }
 
 void KFileTip::setFilter( bool enable )
@@ -190,11 +257,18 @@ void KFileTip::timerEvent( QTimerEvent * )
     if ( !isVisible() ) {
         startTimer( 15000 );
         show();
+        reposition();
     }
     else {
         setFilter( false );
         hide();
     }
+}
+
+void KFileTip::resizeEvent( QResizeEvent* event )
+{
+    QFrame::resizeEvent(event);
+    reposition();
 }
 
 bool KFileTip::eventFilter( QObject *, QEvent *e )
@@ -260,6 +334,7 @@ struct KonqIconViewWidgetPrivate
 
     KIO::PreviewJob *pPreviewJob;
     KFileTip* pFileTip;
+    QStringList previewSettings;
     KFileIVI *renamedIcon;
 };
 
@@ -565,6 +640,16 @@ void KonqIconViewWidget::slotPreviewResult()
     emit imagePreviewFinished();
 }
 
+void KonqIconViewWidget::slotToolTipPreview(const KFileItem* item, const QPixmap &pix)
+{
+    if (d->pFileTip) d->pFileTip->gotPreview( item, pix );
+}
+
+void KonqIconViewWidget::slotToolTipPreviewResult()
+{
+    if (d->pFileTip) d->pFileTip->gotPreviewResult();
+}
+
 void KonqIconViewWidget::slotMovieUpdate( const QRect& rect )
 {
     //kdDebug(1203) << "KonqIconViewWidget::slotMovieUpdate " << rect.x() << "," << rect.y() << " " << rect.width() << "x" << rect.height() << endl;
@@ -792,7 +877,7 @@ void KonqIconViewWidget::setURL( const KURL &kurl )
         m_dotDirectoryPath = QString::null;
 }
 
-void KonqIconViewWidget::startImagePreview( const QStringList &previewSettings, bool force )
+void KonqIconViewWidget::startImagePreview( const QStringList &ignored, bool force )
 {
     stopImagePreview(); // just in case
 
@@ -804,7 +889,7 @@ void KonqIconViewWidget::startImagePreview( const QStringList &previewSettings, 
         return;
     }
 
-    if ((d->bSoundPreviews = previewSettings.contains( "audio/" )) &&
+    if ((d->bSoundPreviews = d->previewSettings.contains( "audio/" )) &&
         !d->pSoundPlayer)
     {
       KLibFactory *factory = KLibLoader::self()->factory("konq_sound");
@@ -820,7 +905,7 @@ void KonqIconViewWidget::startImagePreview( const QStringList &previewSettings, 
             items.append( static_cast<KFileIVI *>( it )->item() );
 
     bool onlyAudio = true;
-    for ( QStringList::ConstIterator it = previewSettings.begin(); it != previewSettings.end(); ++it ) {
+    for ( QStringList::ConstIterator it = d->previewSettings.begin(); it != d->previewSettings.end(); ++it ) {
         if ( (*it).startsWith( "audio/" ) )
             d->bSoundPreviews = true;
         else
@@ -855,7 +940,7 @@ void KonqIconViewWidget::startImagePreview( const QStringList &previewSettings, 
 
     d->pPreviewJob = KIO::filePreview( items, size, size, iconSize,
         m_pSettings->textPreviewIconTransparency(), true /* scale */,
-        true /* save */, &previewSettings );
+        true /* save */, &(d->previewSettings) );
     connect( d->pPreviewJob, SIGNAL( gotPreview( const KFileItem *, const QPixmap & ) ),
              this, SLOT( slotPreview( const KFileItem *, const QPixmap & ) ) );
     connect( d->pPreviewJob, SIGNAL( result( KIO::Job * ) ),
@@ -1678,6 +1763,16 @@ void KonqIconViewWidget::visualActivate(QIconViewItem * item)
 void KonqIconViewWidget::backgroundPixmapChange( const QPixmap & )
 {
     viewport()->update();
+}
+
+void KonqIconViewWidget::setPreviewSettings( const QStringList& settings )
+{
+    d->previewSettings = settings;
+}
+
+const QStringList& KonqIconViewWidget::previewSettings()
+{
+    return d->previewSettings;
 }
 
 #include "konq_iconviewwidget.moc"

@@ -303,7 +303,10 @@ void KonqPropsView::setShowingPreview( bool show )
         KConfigGroupSaver cgs(currentConfig(), currentGroup());
         currentConfig()->writeEntry( "PreviewsEnabled", d->previewsEnabled );
         currentConfig()->sync();
-    }    
+    }
+    
+    delete d->previewsToShow;
+    d->previewsToShow = 0; 
 }
 
 bool KonqPropsView::isShowingPreview()
@@ -438,15 +441,17 @@ const QStringList& KonqPropsView::previewSettings()
     {
         d->previewsToShow = new QStringList;
     
-        KTrader::OfferList plugins = KTrader::self()->query( "ThumbCreator" );
-        for ( KTrader::OfferList::ConstIterator it = plugins.begin(); it != plugins.end(); ++it )
-        {
+        if (d->previewsEnabled) {
+            KTrader::OfferList plugins = KTrader::self()->query( "ThumbCreator" );
+            for ( KTrader::OfferList::ConstIterator it = plugins.begin(); it != plugins.end(); ++it )
+            {
             QString name = (*it)->desktopEntryName();
             if ( ! m_dontPreview.contains(name) )
-                d->previewsToShow->append( name );
+                    d->previewsToShow->append( name );
+            }
+            if ( ! m_dontPreview.contains( "audio/" ) )
+            d->previewsToShow->append( "audio/" );
         }
-        if ( ! m_dontPreview.contains( "audio/" ) )
-            d->previewsToShow->append( "audio/" );	
     }
     
     return *(d->previewsToShow);

@@ -130,7 +130,7 @@ public:
      * @param force if true, all files are looked at.
      *    Otherwise, only those which are not a thumbnail already.
      */
-    void startImagePreview( const QStringList &previewSettings, bool force );
+    void startImagePreview( const QStringList &ignored, bool force );
     void stopImagePreview();
     bool isPreviewRunning() const;
     void setThumbnailPixmap( KFileIVI * item, const QPixmap & pixmap );
@@ -201,6 +201,9 @@ public:
 
     QString iconPositionGroupPrefix() const { return m_iconPositionGroupPrefix; }
     QString dotDirectoryPath() const { return m_dotDirectoryPath; }
+    
+    void setPreviewSettings(const QStringList& mimeTypes);
+    const QStringList& previewSettings();
 
 public slots:
     /**
@@ -212,6 +215,9 @@ public slots:
 
     void renameSelectedItem();
 
+    void slotToolTipPreview( const KFileItem *, const QPixmap & );
+    void slotToolTipPreviewResult();
+        
 signals:
     /**
      * For cut/copy/paste/move/delete (see kparts/browserextension.h)
