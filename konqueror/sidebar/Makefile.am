@@ -6,7 +6,7 @@
 SUBDIRS = . trees
 
 # set the include path for X, qt and KDE
-INCLUDES = $(all_includes)
+INCLUDES = $(all_includes) -I$(top_srcdir)/libkonq
 
 # these are the headers for your project
 noinst_HEADERS = konqsidebar.h sidebar_widget.h
@@ -22,7 +22,7 @@ kde_module_LTLIBRARIES = konq_sidebar.la
 # the Part's source, library search path, and link libraries
 konq_sidebar_la_SOURCES = konqsidebar.cpp sidebar_widget.cpp kmultiverttabbar.cpp
 konq_sidebar_la_LDFLAGS = -module $(KDE_PLUGIN) $(all_libraries)
-konq_sidebar_la_LIBADD  = $(LIB_KPARTS) $(LIB_KFILE) ./libkonqsidebarplugin.la
+konq_sidebar_la_LIBADD  = $(LIB_KPARTS) $(LIB_KFILE) ../../libkonq/libkonq.la ./libkonqsidebarplugin.la
 
 libkonqsidebarplugin_la_SOURCES=konqsidebarplugin.cpp
 libkonqsidebarplugin_la_LDFLAGS = $(all_libraries) -no-undefined

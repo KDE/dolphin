@@ -135,6 +135,7 @@ class Sidebar_Widget: public QWidget
   signals:
 		void started(KIO::Job *);
                 void completed();
+		void fileSelection(const KFileItemList& iems);
   public:
 	/* interface KonqSidebar_PluginInterface*/
 	KInstance  *getInstance();
@@ -159,6 +160,8 @@ class Sidebar_Widget: public QWidget
 		const QString &mimeType, mode_t mode = (mode_t)-1 );
 	void enableAction( const char * name, bool enabled );
 
+protected:
+	void customEvent(QCustomEvent* ev);
 };
 
 #endif

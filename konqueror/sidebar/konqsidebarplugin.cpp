@@ -29,3 +29,9 @@ KInstance *KonqSidebarPlugin::parentInstance(){return m_parentInstance;}
 
 void KonqSidebarPlugin::openURL(const KURL& url){handleURL(url);}
 
+void KonqSidebarPlugin::openPreview(const KFileItemList& items)
+{
+  handlePreview(items);
+}
+
+void KonqSidebarPlugin::handlePreview(const KFileItemList & /*items*/) {}

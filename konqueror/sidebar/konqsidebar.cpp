@@ -16,7 +16,9 @@
  ***************************************************************************/
 #include "konqsidebar.h"
 
+#include <konq_events.h>
 #include <kdebug.h>
+#include <qapplication.h>
 
 KonqSidebar::KonqSidebar( QWidget *parentWidget, const char *widgetName,
                                   QObject *parent, const char *name )
@@ -50,6 +52,19 @@ bool KonqSidebar::openFile()
 }
 
 bool KonqSidebar::openURL(const KURL &url){if (m_widget) m_widget->openURL(url); return true;} 
+
+void KonqSidebar::customEvent(QCustomEvent* ev)
+{
+	if (KonqFileSelectionEvent::test(ev))
+	{
+		kdDebug(1202)<<"KonqSidebar got a selection change event\n";
+
+		// Forward the event to the widget
+		QApplication::sendEvent( m_widget, ev );
+	}
+}
+
+
 
 // It's usually safe to leave the factory code alone.. with the
 // notable exception of the KAboutData data

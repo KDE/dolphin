@@ -30,6 +30,8 @@
 #include <qdir.h>
 #include <config.h>
 #include <qpopupmenu.h>
+#include <konq_events.h>
+#include <kfileitem.h>
 
 QString  Sidebar_Widget::PATH=QString("");
 
@@ -672,7 +674,8 @@ bool Sidebar_Widget::createView( ButtonInfo *data)
 				KDockWidget::DockBottom/*|KDockWidget::DockDesktop*/);
 				data->dock->setDockSite(KDockWidget::DockTop|KDockWidget::DockBottom);
 				connectModule(data->module);
-
+        connect(this,         SIGNAL(fileSelection(const KFileItemList&)),
+                data->module, SLOT(openPreview(const KFileItemList&)));
 
 			}
 
@@ -833,30 +836,37 @@ void Sidebar_Widget::createNewWindow( const KURL &url, const KParts::URLArgs &ar
 
 void Sidebar_Widget::enableAction( const char * name, bool enabled )
 {
-	ButtonInfo *btninfo=dynamic_cast<ButtonInfo*>(sender()->parent());
-	if (btninfo)
+ 	if (sender()->parent()->isA("ButtonInfo"))
 	{
-		if (QString(name)=="copy") btninfo->copy=enabled;
-		if (QString(name)=="cut") btninfo->cut=enabled;
-		if (QString(name)=="paste") btninfo->paste=enabled;
-		if (QString(name)=="trash") btninfo->trash=enabled;
-		if (QString(name)=="del") btninfo->del=enabled;
-		if (QString(name)=="shred") btninfo->shred=enabled;
-		if (QString(name)=="rename") btninfo->rename=enabled;
+		ButtonInfo *btninfo=static_cast<ButtonInfo*>(sender()->parent());
+//		ButtonInfo *btninfo=dynamic_cast<ButtonInfo*>(sender()->parent());
+		if (btninfo)
+		{
+			if (QString(name)=="copy") btninfo->copy=enabled;
+			if (QString(name)=="cut") btninfo->cut=enabled;
+			if (QString(name)=="paste") btninfo->paste=enabled;
+			if (QString(name)=="trash") btninfo->trash=enabled;
+			if (QString(name)=="del") btninfo->del=enabled;
+			if (QString(name)=="shred") btninfo->shred=enabled;
+			if (QString(name)=="rename") btninfo->rename=enabled;
+		}
 	}
 }
 
 
 bool  Sidebar_Widget::doEnableActions()
 {
-	activeModule=dynamic_cast<ButtonInfo*>(sender()->parent());
-	if (!activeModule)
+
+//	activeModule=dynamic_cast<ButtonInfo*>(sender()->parent());
+//	if (!activeModule)
+ 	if (!(sender()->parent()->isA("ButtonInfo")))
 	{
 		kdDebug()<<"Couldn't set active module, aborting"<<endl;
 		return false;
 	}
 	else
 	{
+		activeModule=static_cast<ButtonInfo*>(sender()->parent());
 		getExtension()->enableAction( "copy", activeModule->copy );
 		getExtension()->enableAction( "cut", activeModule->cut );
 		getExtension()->enableAction( "paste", activeModule->paste );
@@ -961,3 +971,8 @@ Sidebar_Widget::~Sidebar_Widget()
 
 }
 
+void Sidebar_Widget::customEvent(QCustomEvent* ev)
+{
+	if (KonqFileSelectionEvent::test(ev))
+		emit fileSelection(static_cast<KonqFileSelectionEvent*>(ev)->selection());
+}

@@ -26,6 +26,7 @@
 #include <kparts/browserextension.h>
 #include <kio/job.h>
 #include <qguardedptr.h>
+#include <kfileitem.h>
 
 class KonqSidebarPluginPrivate;
 
@@ -40,6 +41,7 @@ class KonqSidebarPlugin : public QObject
 		KInstance *parentInstance();
 	protected:
 		virtual void handleURL(const KURL &url)=0;
+		virtual void handlePreview(const KFileItemList & items);
 		QString desktopName;
 		KInstance* m_parentInstance;
 
@@ -54,16 +56,14 @@ class KonqSidebarPlugin : public QObject
 	public slots:
 	  void openURL(const KURL& url);
 
+	  void openPreview(const KFileItemList& items);
+
 	/*
-		if your plugin supports file preview implement (not supported yet)
-			void openURLPreview(const KURL& url);
 		if your plugin supports a setup dialog, instead (replaces the url menu entry in the popup) (not supported yet)
 			void setup(QWidget *parent);
-		for further extension: 
-		void showError(QString &)=0;	//for later extension
-		void showMessage(QString &)=0;	//for later extension
 
 	 */
+
 
 	/* signals, which could be, but need not to be added
 
@@ -79,6 +79,10 @@ class KonqSidebarPlugin : public QObject
 		void popupMenu( KXMLGUIClient *client,
 			const QPoint &global, const KURL &url,
 			const QString &mimeType, mode_t mode = (mode_t)-1 );
+
+		void showError(QString &);	//for later extension
+		void showMessage(QString &);	//for later extension
+
 	*/
 
 };

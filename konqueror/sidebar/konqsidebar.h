@@ -26,6 +26,7 @@
 
 class QWidget;
 class QPainter;
+class QCustomEvent;
 class KURL;
 
 
@@ -93,6 +94,8 @@ protected:
      */
     KonqSidebarBrowserExtension * m_extension;
     virtual bool openFile();
+
+    virtual void customEvent(QCustomEvent* ev);
 
 private:
      class Sidebar_Widget *m_widget;
