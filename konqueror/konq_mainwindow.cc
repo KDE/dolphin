@@ -1003,7 +1003,17 @@ void KonqMainWindow::slotPartChanged( KonqView *childView, KParts::ReadOnlyPart 
   // When it does that from here, we don't want to revert the location bar URL,
   // hence the m_bLockLocationBarURL hack.
   m_bLockLocationBarURL = true;
-  m_pViewManager->replacePart( oldPart, newPart, true );
+
+  // Do not activate the part right here, because that would call the inheritted
+  // KonqViewManager::setActivePart method, which would launch the singleshot timer
+  // to activate the part after a certain delay. This breaks in this place, as
+  // slotPartChanged is call in KonqView::switchView, which deletes the old part
+  // right after the emission of the sigPartChanged signal. Thus, when createGUI
+  // is called at the timer timeout the part is already deleted. Thus we cannot
+  // remove it's GUI -> *boom* :-) (Simon)
+  m_pViewManager->replacePart( oldPart, newPart, false );
+  m_pViewManager->KParts::PartManager::setActivePart( newPart );
+  slotPartActivated( newPart );
 
   viewsChanged();
 }
