@@ -265,10 +265,9 @@ void KonqIconViewWidget::slotOnItem( QIconViewItem *_item )
         if( item != d->pActiveItem )
         {
             d->pActiveItem = item;
-            if ( topLevelWidget() == kapp->activeWindow() )
-                d->pFileTip->setItem( d->pActiveItem->item(),
-                                      item->rect(),
-                                      item->pixmap() );
+            d->pFileTip->setItem( d->pActiveItem->item(),
+                                  item->rect(),
+                                  item->pixmap() );
 
             if ( d->doAnimations && d->pActiveItem && d->pActiveItem->hasAnimation() )
             {
