@@ -25,17 +25,17 @@ Q_OBJECT
   public:
     KProxyOptions(QWidget *parent = 0L, const char *name = 0L);
     ~KProxyOptions();
-    
+
     virtual void load();
     virtual void save();
     virtual void defaults();
 
     QString quickHelp() const;
-    
+
   private:
-    // a little information for the user
-    QLabel *lb_info;
-    
+
+    /// ------------ Proxy --------
+
     // ftp proxy fields
     QLabel *lb_ftp_url;		// label ftp url
     QLineEdit *le_ftp_url;	// lineedit ftp url
@@ -46,11 +46,21 @@ Q_OBJECT
     QLabel *lb_http_url;
     QLineEdit *le_http_url;
     QLabel *lb_http_port;
-    QSpinBox *sb_http_port;  
+    QSpinBox *sb_http_port;
 
     // "no proxy for" fields
     QLabel *lb_no_prx;
     QLineEdit *le_no_prx;
+
+    // copy down button
+    QPushButton *pb_down;
+    // use proxy checker
+    QCheckBox *cb_useProxy;
+
+    /// ------------ Cache ----------
+
+    // use cache checker
+    QCheckBox *cb_useCache;
 
     // Maximum Cache Size
     QLabel *lb_max_cache_size;
@@ -60,12 +70,8 @@ Q_OBJECT
     QLabel *lb_max_cache_age;
     QSpinBox *sb_max_cache_age;
 
-    // copy down butto
-    QPushButton *cp_down;
-    // use proxy checker
-    QCheckBox *cb_useProxy;
-    // use cache checker
-    QCheckBox *cb_useCache;
+    // Clear Cache
+    QPushButton *pb_clearCache;
 
     void setProxy();
     void setCache();
@@ -75,11 +81,12 @@ Q_OBJECT
 
     void changed();
 
-    
+
   public slots:
     void copyDown();		// use the http setting for all services
     void changeProxy();
     void changeCache();
+    void clearCache();
     void updateGUI(QString httpProxy, QString ftpProxy, bool bUseProxy,
                    QString noProxyFor);
 };

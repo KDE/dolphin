@@ -13,6 +13,7 @@
 #include <qspinbox.h>
 
 #include <kapp.h>
+#include <kmessagebox.h>
 #include <kurl.h>
 #include <kdialog.h>
 #include <klocale.h>
@@ -24,14 +25,6 @@
 #include <dcopclient.h>
 
 #include "kproxydlg.h"
-
-#define ROW_USEPROXY            1
-#define ROW_HTTP                2
-#define ROW_FTP                 3
-#define ROW_NOPROXY             5
-#define ROW_USECACHE            7
-#define ROW_MAXCACHESIZE        8
-#define ROW_MAXCACHEAGE         9
 
 // PROXY AND PORT SETTINGS
 #define DEFAULT_MIN_PORT_VALUE      1
@@ -134,20 +127,27 @@ KProxyOptions::KProxyOptions(QWidget *parent, const char *name)
 
   lb_max_cache_age = new QLabel( sb_max_cache_age, XXXi18n("Maximum Cache &Age:"), this);
   lb_max_cache_age->setAlignment(AlignVCenter);
-  wtstr = XXXi18n( "Pages that are older than the time entered here will be deleted from the cache automatically. This feature is not yet implemented." );
+  wtstr = XXXi18n( "Pages that are older than the time entered here will be deleted from the cache automatically."
+                   "This feature is not yet implemented." );
   QWhatsThis::add( lb_max_cache_age, wtstr );
   QWhatsThis::add( sb_max_cache_age, wtstr );
 #endif
 
-  QString path;
-  cp_down = new QPushButton( this );
-  cp_down->setPixmap( BarIcon("down") );
-  cp_down->setFixedSize(20,20);
-  QWhatsThis::add( cp_down, i18n("Click this button to copy the values for the HTTP proxy"
+  pb_down = new QPushButton( this );
+  pb_down->setPixmap( BarIcon("down") );
+  pb_down->setFixedSize(20,20);
+  QWhatsThis::add( pb_down, i18n("Click this button to copy the values for the HTTP proxy"
     " server to the fields for the FTP proxy server, if you have one proxy for both protocols.") );
 
-  connect( cp_down, SIGNAL( clicked() ), SLOT( copyDown() ) );
-  connect( cp_down, SIGNAL( clicked() ), SLOT( changed() ) );
+  connect( pb_down, SIGNAL( clicked() ), SLOT( copyDown() ) );
+  connect( pb_down, SIGNAL( clicked() ), SLOT( changed() ) );
+
+  pb_clearCache = new QPushButton( i18n("Clear Cache"), this );
+  QWhatsThis::add( pb_clearCache, i18n("Click this button to completely clear the HTTP cache."
+    " This can be sometimes useful to check if a wrong copy of a website has been cached,"
+    " or to quickly free some disk space.") );
+
+  connect( pb_clearCache, SIGNAL( clicked() ), SLOT( clearCache() ) );
 
   QVBoxLayout * layout =
     new QVBoxLayout(this, KDialog::marginHint(), KDialog::spacingHint());
@@ -160,7 +160,7 @@ KProxyOptions::KProxyOptions(QWidget *parent, const char *name)
   proxyLayout->addWidget(le_http_url, 0, 1);
   proxyLayout->addWidget(lb_http_port, 0, 2);
   proxyLayout->addWidget(sb_http_port, 0, 3);
-  proxyLayout->addWidget(cp_down, 0, 4);
+  proxyLayout->addWidget(pb_down, 0, 4);
 
   proxyLayout->addWidget(lb_ftp_url, 1, 0);
   proxyLayout->addWidget(le_ftp_url, 1, 1);
@@ -178,6 +178,10 @@ KProxyOptions::KProxyOptions(QWidget *parent, const char *name)
   QHBoxLayout * l2 = new QHBoxLayout(layout);
   l2->addWidget(lb_max_cache_size);
   l2->addWidget(sb_max_cache_size);
+
+  QHBoxLayout * l3 = new QHBoxLayout(layout);
+  l3->addWidget(pb_clearCache);
+  l3->addStretch(100);
 
   layout->addStretch(1);
 
@@ -316,7 +320,7 @@ void KProxyOptions::setProxy()
   le_ftp_url->setEnabled( useProxy );
   sb_ftp_port->setEnabled( useProxy );
   le_no_prx->setEnabled( useProxy );
-  cp_down->setEnabled( useProxy );
+  pb_down->setEnabled( useProxy );
   cb_useProxy->setChecked( useProxy );
 }
 
@@ -329,6 +333,7 @@ void KProxyOptions::setCache()
 #ifdef MAX_CACHE_AGE
   sb_max_cache_age->setEnabled( useCache );
 #endif
+  pb_down->setEnabled( useCache );
   cb_useCache->setChecked( useCache );
 }
 
@@ -340,6 +345,18 @@ void KProxyOptions::changeProxy()
 void KProxyOptions::changeCache()
 {
   setCache();
+}
+
+void KProxyOptions::clearCache()
+{
+  QString error;
+  if (KApplication::startServiceByDesktopName("http_cache_cleaner", QStringList(), &error ))
+  {
+    // Error starting kcookiejar.
+    KMessageBox::error(this, i18n("Error starting kio_http_cache_cleaner: %1").arg(error));
+  }
+  // Not so useless. The button seems to do nothing otherwise.
+  KMessageBox::information( this, i18n("Cache cleared"));
 }
 
 void KProxyOptions::changed()
