@@ -47,12 +47,11 @@ public:
   KFileItem( const KUDSEntry& _entry, KURL& _url );
   /**
    * Create an item representing a file, from all the necessary info for it
-   * @param _text the text showed for the file
    * @param _mode the file mode (according to stat())
    * Set to -1 if unknown. For local files, KFileItem will use stat().
    * @param _url the file url
    */
-  KFileItem( QString _text, mode_t _mode, const KURL& _url );
+  KFileItem( mode_t _mode, const KURL& _url );
   /**
    * Destructor
    */

@@ -92,8 +92,7 @@ PropertiesDialog::PropertiesDialog( const QString& _url, mode_t _mode ) :
   m_singleUrl( _url ), m_bMustDestroyItems( true )
 {
   // Create a KFileItem from the information we have
-  m_items.append( new KFileItem( "unknown" /*whatever*/, 
-				 _mode, m_singleUrl ) );
+  m_items.append( new KFileItem( _mode, m_singleUrl ) );
   init();
 }
 
@@ -105,7 +104,7 @@ PropertiesDialog::PropertiesDialog( const QString& _tempUrl, const QString&
   if ( m_currentDir.right(1) != "/" )
     m_currentDir.append( "/" );
   // Create the KFileItem for the _template_ file, in order to read from it.
-  m_items.append( new KFileItem( "unknown" /*whatever*/, -1, m_singleUrl ) );
+  m_items.append( new KFileItem( -1, m_singleUrl ) );
   init();
 }
 

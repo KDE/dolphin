@@ -63,7 +63,7 @@ KFileItem::KFileItem( const KUDSEntry& _entry, KURL& _url ) :
   init();
 }
 
-KFileItem::KFileItem( QString /*_text*/ /*TO REMOVE*/, mode_t _mode, const KURL& _url ) :
+KFileItem::KFileItem( mode_t _mode, const KURL& _url ) :
   m_entry(), // warning !
   m_url( _url ), 
   m_bIsLocalURL( _url.isLocalFile() ),
@@ -118,8 +118,8 @@ void KFileItem::init()
 
 void KFileItem::refresh()
 {
-  m_fileMode = -1;
-  m_permissions = -1;
+  m_fileMode = (mode_t)-1;
+  m_permissions = (mode_t)-1;
   init();
 }
 
