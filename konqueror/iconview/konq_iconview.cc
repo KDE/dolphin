@@ -871,6 +871,7 @@ void KonqKfmIconView::slotDeleteItem( KFileItem * _fileitem )
 	if ( ((KFileIVI*)it)->item() == _fileitem ) // compare the pointers
 	{
        	    m_pIconView->takeItem( it );
+            m_lstPendingMimeIconItems.remove((KFileIVI*)it);
             // This doesn't delete the item, but we don't really care.
             // slotClear() will do it anyway - and it seems this avoids crashes
 	    break;
