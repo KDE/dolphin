@@ -21,7 +21,7 @@
 
 #include <qstring.h>
 
-#include <kdialog.h>
+#include <kdialogbase.h>
 
 
 class QPushButton;
@@ -63,7 +63,7 @@ public:
   }
 };
 
-class PolicyDlg : public KDialog
+class PolicyDlg : public KDialogBase
 {
   Q_OBJECT
 
@@ -81,10 +81,7 @@ public:
 protected slots:
   void slotTextChanged( const QString& );
 
-protected:
-  virtual void keyPressEvent( QKeyEvent* );
-
 private:
-  PolicyDlgUI* dlg;
+  PolicyDlgUI* m_dlgUI;
 };
 #endif

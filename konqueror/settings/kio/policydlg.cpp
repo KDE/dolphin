@@ -42,9 +42,9 @@ public:
   {
     if (input.isEmpty() || (input == "."))
       return Intermediate;
-    
+
     int length = input.length();
-        
+
     for(int i = 0 ; i < length; i++)
     {
       if (!input[i].isLetterOrNumber() && input[i] != '.' && input[i] != '-')
@@ -56,82 +56,66 @@ public:
 };
 
 
-PolicyDlg::PolicyDlg (const QString& caption, QWidget *parent,
-                                    const char *name)
-                 :KDialog(parent, name, true)
+PolicyDlg::PolicyDlg (const QString& caption, QWidget *parent, 
+    const char *name)
+    : KDialogBase(parent, name, true, caption, Ok|Cancel, Ok, true)
 {
-  setCaption( caption );
+  m_dlgUI = new PolicyDlgUI (this);
+  setMainWidget(m_dlgUI);
 
-  QVBoxLayout* mainLayout = new QVBoxLayout(this, 0, 0);
-
-  dlg = new PolicyDlgUI (this);
-  mainLayout->addWidget(dlg);
-
-  dlg->leDomain->setValidator(new DomainLineValidator(dlg->leDomain));
+  m_dlgUI->leDomain->setValidator(new DomainLineValidator(m_dlgUI->leDomain));
 
   QString wstr = i18n("Enter the host or domain to which this policy applies, "
                       "e.g. <i>www.kde.org</i> or <i>.kde.org</i>");
-  QWhatsThis::add( dlg->leDomain, wstr );
+  QWhatsThis::add( m_dlgUI->leDomain, wstr );
 
-  dlg->cbPolicy->setMinimumWidth( dlg->cbPolicy->fontMetrics().width('W') * 25 );
+  m_dlgUI->cbPolicy->setMinimumWidth( m_dlgUI->cbPolicy->fontMetrics().width('W') * 25 );
   wstr = i18n("Select the desired policy:"
               "<ul><li><b>Accept</b> - Allows this site to set cookie</li>"
               "<li><b>Reject</b> - Refuse all cookies sent from this site</li>"
               "<li><b>Ask</b> - Prompt when cookies are received from this site</li></ul>");
-  QWhatsThis::add( dlg->cbPolicy, wstr );
+  QWhatsThis::add( m_dlgUI->cbPolicy, wstr );
 
-  dlg->cbPolicy->clear ();
-  dlg->cbPolicy->insertItem (i18n("Accept"));
-  dlg->cbPolicy->insertItem (i18n("Reject"));
-  dlg->cbPolicy->insertItem (i18n("Ask"));
+  m_dlgUI->cbPolicy->clear ();
+  m_dlgUI->cbPolicy->insertItem (i18n("Accept"));
+  m_dlgUI->cbPolicy->insertItem (i18n("Reject"));
+  m_dlgUI->cbPolicy->insertItem (i18n("Ask"));
 
-  connect (dlg->pbOK, SIGNAL(clicked()), this, SLOT(accept()));
-  connect (dlg->pbCancel, SIGNAL(clicked()), this, SLOT(reject()));
-  connect(dlg->leDomain, SIGNAL(textChanged(const QString&)), SLOT(slotTextChanged(const QString&)));
+  connect(m_dlgUI->leDomain, SIGNAL(textChanged(const QString&)), 
+    SLOT(slotTextChanged(const QString&)));
 
   setFixedSize (sizeHint());
-  dlg->leDomain->setFocus ();
+  m_dlgUI->leDomain->setFocus ();
 }
 
 void PolicyDlg::setEnableHostEdit( bool state, const QString& host )
 {
   if ( !host.isEmpty() )
-    dlg->leDomain->setText( host );
-  dlg->leDomain->setEnabled( state );
+    m_dlgUI->leDomain->setText( host );
+  m_dlgUI->leDomain->setEnabled( state );
 }
 
 void PolicyDlg::setPolicy (int policy)
 {
-  if ( policy > -1 && policy < static_cast<int>(dlg->cbPolicy->count()) )
-    dlg->cbPolicy->setCurrentItem(policy-1);
+  if ( policy > -1 && policy < static_cast<int>(m_dlgUI->cbPolicy->count()) )
+    m_dlgUI->cbPolicy->setCurrentItem(policy-1);
 
-  if ( !dlg->leDomain->isEnabled() )
-    dlg->cbPolicy->setFocus();
+  if ( !m_dlgUI->leDomain->isEnabled() )
+    m_dlgUI->cbPolicy->setFocus();
 }
 
 int PolicyDlg::advice () const
 {
-  return dlg->cbPolicy->currentItem() + 1;
+  return m_dlgUI->cbPolicy->currentItem() + 1;
 }
 
 QString PolicyDlg::domain () const
 {
-  return dlg->leDomain->text();
-}
-
-void PolicyDlg::keyPressEvent( QKeyEvent* e )
-{
-  int key = e->key();
-  if ( key == Qt::Key_Escape )
-  {
-    e->accept();
-    dlg->pbCancel->animateClick();
-  }
-  KDialog::keyPressEvent( e );
+  return m_dlgUI->leDomain->text();
 }
 
 void PolicyDlg::slotTextChanged( const QString& text )
 {
-  dlg->pbOK->setEnabled( text.length() > 1 );
+  enableButtonOK( text.length() > 1 );
 }
 #include "policydlg.moc"
