@@ -223,6 +223,7 @@ KonqMainWindow::~KonqMainWindow()
     config->setGroup( "Settings" );
     config->writeEntry( "ToolBarCombo", comboItems );
     config->writeEntry( "CompletionMode", (int)m_combo->completionMode() );
+    config->writeEntry( "CompletionItems", m_combo->completionObject()->items() );
     config->sync();
   }
 
@@ -1445,6 +1446,7 @@ void KonqMainWindow::slotComboPlugged()
   QStringList locationBarCombo = config->readListEntry( "ToolBarCombo" );
   int mode = config->readNumEntry("CompletionMode", KGlobalSettings::completionMode());
   m_combo->setCompletionMode( (KGlobalSettings::Completion) mode ); // set the previous completion-mode
+  m_combo->completionObject()->setItems( config->readListEntry( "CompletionItems" ) );
 
   while ( locationBarCombo.count() > 10 )
     locationBarCombo.remove( locationBarCombo.fromLast() );
@@ -1461,7 +1463,6 @@ void KonqMainWindow::slotComboPlugged()
   m_combo->clear();
   m_combo->insertStringList( locationBarCombo );
   m_combo->setEditText( "" );  // replacement the above commented code
-  m_combo->completionObject()->setItems( locationBarCombo );
 // m_combo->setCurrentItem( 0 ); // not necessary since we use "QComboBox::AtTop"
 
 }
