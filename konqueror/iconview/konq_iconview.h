@@ -23,7 +23,7 @@
 #include <konq_iconviewwidget.h>
 #include <konq_operations.h>
 #include <konq_dirpart.h>
-#include <konq_mimetyperesolver.h>
+#include <kmimetyperesolver.h>
 #include <qptrdict.h>
 #include <kfileivi.h>
 
@@ -74,7 +74,7 @@ public:
   // "Cut" icons : disable those whose URL is in lst, enable the rest
   virtual void disableIcons( const KURL::List & lst );
 
-  // See KonqMimeTypeResolver
+  // See KMimeTypeResolver
   void mimeTypeDeterminationFinished();
   void determineIcon( KFileIVI * item );
   int iconSize() { return m_pIconView->iconSize(); }
@@ -114,9 +114,6 @@ protected slots:
   virtual void slotClear();
   virtual void slotRedirection( const KURL & );
   void slotCloseView();
-
-  void slotViewportAdjusted() { m_mimeTypeResolver->slotViewportAdjusted(); }
-  void slotProcessMimeIcons() { m_mimeTypeResolver->slotProcessMimeIcons(); }
 
   /**
    * This is the 'real' finished slot, where we emit the completed() signal
@@ -192,7 +189,7 @@ protected:
 
   int m_xOffset, m_yOffset;
 
-  KonqMimeTypeResolver<KFileIVI,KonqKfmIconView> * m_mimeTypeResolver;
+  KMimeTypeResolver<KFileIVI,KonqKfmIconView> * m_mimeTypeResolver;
 
   QString m_mode;
 };

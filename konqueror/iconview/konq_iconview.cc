@@ -169,15 +169,6 @@ KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const 
     m_pIconView = new KonqIconViewWidget( parentWidget, "qiconview" );
     m_pIconView->initConfig( true );
 
-    QTimer * timer = new QTimer( this );
-    connect( timer, SIGNAL( timeout() ), this, SLOT( slotProcessMimeIcons() ) );
-    m_mimeTypeResolver = new KonqMimeTypeResolver<KFileIVI,KonqKfmIconView>(this,timer);
-
-    // When our viewport is adjusted (resized or scrolled) we need
-    // to get the mime types for any newly visible icons. (Rikkus)
-    connect( m_pIconView, SIGNAL( viewportAdjusted() ),
-             SLOT( slotViewportAdjusted() ) );
-
     connect( m_pIconView,  SIGNAL(imagePreviewFinished()),
              this, SLOT(slotRenderingFinished()));
 
@@ -190,6 +181,7 @@ KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const 
     connect( this, SIGNAL( findClosed( KonqDirPart * ) ), SLOT( slotKFindClosed() ) );
 
     setWidget( m_pIconView );
+    m_mimeTypeResolver = new KMimeTypeResolver<KFileIVI,KonqKfmIconView>(this);
 
     setInstance( KonqIconViewFactory::instance() );
 

@@ -253,13 +253,7 @@ KonqListView::KonqListView( QWidget *parentWidget, QObject *parent, const char *
    }
    setWidget( m_pListView );
 
-   QTimer * timer = new QTimer( this );
-   connect( timer, SIGNAL( timeout() ), this, SLOT( slotProcessMimeIcons() ) );
-   m_mimeTypeResolver = new KonqMimeTypeResolver<KonqBaseListViewItem,KonqListView>(this,timer);
-   // When our viewport is adjusted (resized or scrolled) we need
-   // to get the mime types for any newly visible icons. (Rikkus)
-   connect( m_pListView, SIGNAL( viewportAdjusted() ),
-            SLOT( slotViewportAdjusted() ) );
+   m_mimeTypeResolver = new KMimeTypeResolver<KonqBaseListViewItem,KonqListView>(this);
 
    setupActions();
 
