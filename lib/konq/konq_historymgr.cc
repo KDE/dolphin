@@ -674,8 +674,8 @@ void KonqHistoryManager::addToCompletion( const QString& url, const QString& typ
 
 void KonqHistoryManager::removeFromCompletion( const QString& url, const QString& typedURL )
 {
-    m_pCompletion->addItem( url );
-    m_pCompletion->addItem( typedURL );
+    m_pCompletion->removeItem( url );
+    m_pCompletion->removeItem( typedURL );
 }
 
 //////////////////////////////////////////////////////////////////
