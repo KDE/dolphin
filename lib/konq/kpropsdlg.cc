@@ -53,7 +53,6 @@
 #include <qpainter.h>
 #include <qlayout.h>
 
-#include <kpixmapcache.h>
 #include <kdialog.h>
 #include <kdirwatch.h>
 #include <kdebug.h>

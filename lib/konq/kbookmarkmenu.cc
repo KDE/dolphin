@@ -46,7 +46,6 @@
 #include <kwm.h>
 
 #include <kmimetype.h>
-#include "kpixmapcache.h"
 
 
 /********************************************************************
