@@ -206,8 +206,7 @@ void KonqTreeViewWidget::slotNewItems( const KFileItemList & entries )
 {
     // Find parent item - it's the same for all the items
     QPtrListIterator<KFileItem> kit( entries );
-    KURL dir( (*kit)->url() );
-    dir.setFileName( "" );
+    KURL dir( (*kit)->url().upURL() );
 
     KonqListViewDir * parentDir = 0L;
     if ( !m_url.equals( dir, true ) ) // ignore trailing slash
