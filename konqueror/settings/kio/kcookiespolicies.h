@@ -62,7 +62,8 @@ protected slots:
     void changed();
 
 private:
-    void updateDomainList(const QStringList &list);
+    void updateDomainList(const QStringList& list);
+    bool handleDuplicate( const QString& domain, int );
 
     // Global Policy Cookies enabled
     QGroupBox*    gb_global;

@@ -116,15 +116,14 @@ KCookiesPolicies::KCookiesPolicies(QWidget *parent, const char *name)
 
     bg_default = new QVButtonGroup( i18n("Default Policy"), this );
     lay->setStretchFactor( bg_default, 0 );
-    QWhatsThis::add( bg_default, i18n("The default policy determines the way KDE will "
-                                      "handle cookies sent from a server that does not "
-                                      "belong to a domain for which you have set a specific "
-                                      "policy. Note that this default policy is overriden for "
-                                      " any server which has a domain specific policy. <ul><li>"
-                                      "<em>Accept</em> will cause KDE to silently accept all cookies "
-                                      "</li><li><em>Ask</em> will cause KDE to ask you for your confirmation "
-                                      "everytime a server wants to set a cookie</li><li><em>Reject</em> will "
-                                      "cause KDE not to set cookies</li></ul>") );
+    QWhatsThis::add( bg_default, i18n("The default policy determines how cookies received from "
+                                      "a remote machine, which is not associated with a specific "
+                                      "policy (see below), will be handled: "
+                                      "<ul><li><b>Accept</b> will cause cookies to be accepted "
+                                      "without prompting you</li><li><b>Reject</b> will cause the "
+                                      "cookiejar to refuse all cookies it receives</li><li><b>Ask</b> "
+                                      "will cause KDE to ask you for your confirmation everytime a "
+                                      "server wants to set a cookie</li></ul>") );
     connect(bg_default, SIGNAL(clicked(int)), this, SLOT(changed()));
     bg_default->setExclusive( true );
 
@@ -231,11 +230,18 @@ void KCookiesPolicies::addPressed()
     dlg->setDefaultPolicy( def_policy );
     if( dlg->exec() )
     {
-      QListViewItem* index = new QListViewItem(lv_domainPolicy, dlg->domain(),
-                                               adviceToStr(static_cast<KCookieAdvice>(dlg->policyAdvice())));
-      domainPolicy.insert( index, adviceToStr(static_cast<KCookieAdvice>(dlg->policyAdvice())) );
-      lv_domainPolicy->setCurrentItem( index );
-      changed();
+      QString domain = dlg->domain();
+      int advice = dlg->policyAdvice();
+
+      if ( !handleDuplicate(domain, advice) )
+      {
+        const char* strAdvice = adviceToStr(static_cast<KCookieAdvice>(advice));
+        QListViewItem* index = new QListViewItem(lv_domainPolicy,
+                                                 domain, strAdvice);
+        domainPolicy.insert(index, strAdvice);
+        lv_domainPolicy->setCurrentItem( index );
+        changed();
+      }
     }
     delete dlg;
 }
@@ -245,15 +251,52 @@ void KCookiesPolicies::changePressed()
     QListViewItem *index = lv_domainPolicy->currentItem();
     KCookieAdvice advice = strToAdvice(domainPolicy[index]);
     PolicyDialog* dlg = new PolicyDialog( i18n("Change Cookie Policy"), this );
-    dlg->setEnableHostEdit( false, index->text(0) );
+    QString old_domain = index->text(0);
+    dlg->setEnableHostEdit( true, old_domain );
     dlg->setDefaultPolicy( advice - 1 );
     if( dlg->exec() )
     {
-      domainPolicy[index] = adviceToStr(static_cast<KCookieAdvice>(dlg->policyAdvice()));
-      index->setText(1, i18n(domainPolicy[index]));
-      changed();
+      QString new_domain = dlg->domain();
+      int advice = dlg->policyAdvice();
+      if ( new_domain == old_domain || !handleDuplicate(new_domain, advice) )
+      {
+        domainPolicy[index] = adviceToStr(static_cast<KCookieAdvice>(advice));
+        index->setText(0, new_domain);
+        index->setText(1, i18n(domainPolicy[index]) );
+        changed();
+      }
     }
     delete dlg;
+}
+
+bool KCookiesPolicies::handleDuplicate( const QString& domain, int advice )
+{
+  bool isMatch = false;
+  QListViewItem* item = lv_domainPolicy->firstChild();
+  while ( item != 0 )
+  {
+    if ( item->text(0) == domain )
+    {
+      QString msg = i18n("<qt>A policy already exists for"
+                         "<center><b>%1</b></center>"
+                         "Do you want to replace it ?</qt>").arg(domain);
+      int res = KMessageBox::warningYesNo(this, msg,
+                                          i18n("Duplicate Policy"),
+                                          QString::null);
+      if ( res == KMessageBox::Yes )
+      {
+        domainPolicy[item]=adviceToStr(static_cast<KCookieAdvice>(advice));
+        item->setText(0, domain);
+        item->setText(1, i18n(domainPolicy[item]));
+        changed();
+        return true;
+      }
+      else
+        return true;  // User Cancelled!!
+    }
+    item = item->nextSibling();
+  }
+  return false;
 }
 
 void KCookiesPolicies::deletePressed()
@@ -290,11 +333,11 @@ void KCookiesPolicies::exportPressed()
 
 void KCookiesPolicies::updateButtons()
 {
-  bool hasItems = lv_domainPolicy->childCount() > 0;
-  bool itemSelected = ( hasItems && lv_domainPolicy->selectedItem()!=0 );
+  bool hasSelectedItems = lv_domainPolicy->childCount() > 0;
+  bool itemSelected = (hasSelectedItems && lv_domainPolicy->selectedItem()!=0);
   pb_domPolicyChange->setEnabled( itemSelected );
   pb_domPolicyDelete->setEnabled( itemSelected );
-  pb_domPolicyDeleteAll->setEnabled( hasItems );
+  pb_domPolicyDeleteAll->setEnabled( hasSelectedItems );
 }
 
 void KCookiesPolicies::changeCookiesEnabled()
