@@ -114,9 +114,9 @@ UAProviderDlg::UAProviderDlg( const QString& caption, QWidget *parent,
   // Update Button
   QPushButton* btn = new QPushButton( i18n("&Update List"), btnBox );
   wtstr = i18n( "Updates the browser identification list shown above."
-                "<P><u>NOTE:</u> There is no need to press this button "
-                "unless a new description browser-identfication description "
-                "file was added after after this configuration box was already "
+                "<p>\n<u>NOTE:</u> There is no need to press this button "
+                "unless a new browser-identfication description "
+                "file was added after this configuration box was already "
                 "displayed!" );
   QWhatsThis::add( btn, wtstr );
   connect( btn, SIGNAL(clicked()), SLOT(updateInfo()) );
