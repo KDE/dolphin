@@ -1054,7 +1054,7 @@ void KonqKfmIconView::slotProcessMimeIcons()
     m_timer->start( nextDelay, true /* single shot */ );
 }
 
-bool KonqKfmIconView::openURL( const KURL &_url )
+bool KonqKfmIconView::openURL( const KURL & url )
 {
     if ( !m_dirLister )
     {
@@ -1082,18 +1082,18 @@ bool KonqKfmIconView::openURL( const KURL &_url )
     m_lDirCount = 0;
 
     // Store url in the icon view
-    m_pIconView->setURL( _url );
+    m_pIconView->setURL( url );
 
     // and in the part :-)
-    m_url = _url;
+    m_url = url;
 
     // Check for new properties in the new dir
     // newProps returns true the first time, and any time something might
     // have changed.
-    bool newProps = m_pProps->enterDir( _url );
+    bool newProps = m_pProps->enterDir( url );
 
     // Start the directory lister !
-    m_dirLister->openURL( _url, m_pProps->isShowingDotFiles() );
+    m_dirLister->openURL( url, m_pProps->isShowingDotFiles() );
 
     m_bNeedAlign = false;
     m_bUpdateContentsPosAfterListing = true;
@@ -1123,6 +1123,8 @@ bool KonqKfmIconView::openURL( const KURL &_url )
 
       calculateGridX();
     }
+
+    emit setWindowCaption( url.prettyURL() );
 
     return true;
 }
