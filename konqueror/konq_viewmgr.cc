@@ -732,7 +732,10 @@ void KonqViewManager::loadItem( KConfig &cfg, KonqFrameContainer *parent,
       if ( !url.isEmpty() )
       {
         //kdDebug(1202) << "loadItem: calling openURL " << url.prettyURL() << endl;
-        childView->openURL( url, url.prettyURL() );
+        //childView->openURL( url, url.prettyURL() );
+        // We need view-follows-view (for the dirtree, for instance)
+        KonqOpenURLRequest req( url.prettyURL() );
+        m_pMainWindow->openView( serviceType, url, childView, req );
       }
     }
   }

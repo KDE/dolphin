@@ -1,5 +1,8 @@
 2001-01-14  David Faure  <faure@kde.org>
 
+	* konq_viewmgr.cc (loadItem): Use openView instead of view->openURL,
+	so that "view-follows-view" is also applied on startup. Fixes #17679.
+
 	* konq_mainwindow.cc etc.: Lock to current location doesn't make the
 	view passive anymore. This allows to e.g. change the view mode.
 
