@@ -46,9 +46,11 @@ private:
   KConfig *m_pConfig;
   QString m_groupname;
 
+  QRadioButton* m_pXSmall;
   QRadioButton* m_pSmall;
   QRadioButton* m_pMedium;
   QRadioButton* m_pLarge;
+  QRadioButton* m_pXLarge;
   QSpinBox* minSizeSB;
   QComboBox* m_pFixed;
   QComboBox* m_pStandard;

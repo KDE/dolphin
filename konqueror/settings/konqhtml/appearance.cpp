@@ -54,9 +54,11 @@ KAppearanceOptions::KAppearanceOptions(KConfig *config, QString group, QWidget *
   bg->setExclusive( TRUE );
   connect(bg, SIGNAL(clicked(int)), this, SLOT(changed()));
 
+  m_pXSmall = new QRadioButton( i18n("&Tiny"), bg );
   m_pSmall = new QRadioButton( i18n("&Small"), bg );
   m_pMedium = new QRadioButton( i18n("&Medium"), bg );
   m_pLarge = new QRadioButton( i18n("&Large"), bg );
+  m_pXLarge = new QRadioButton( i18n("&Huge"), bg );
 
   QLabel* minSizeLA = new QLabel( i18n( "M&inimum Font Size" ), this );
   r++;
@@ -208,7 +210,7 @@ KAppearanceOptions::KAppearanceOptions(KConfig *config, QString group, QWidget *
 
 void KAppearanceOptions::slotFontSize( int i )
 {
-    fSize = i;
+    fSize = i - 1;
 }
 
 
@@ -269,7 +271,7 @@ void KAppearanceOptions::slotCharset( const QString &n )
 void KAppearanceOptions::load()
 {
     m_pConfig->setGroup(m_groupname);
-    fSize = m_pConfig->readNumEntry( "FontSize", 0 ); // small
+    fSize = m_pConfig->readNumEntry( "FontSize", 1 ); // medium
     fMinSize = m_pConfig->readNumEntry( "MinimumFontSize", HTML_DEFAULT_MIN_FONT_SIZE );
 
     defaultFonts = QStringList();
@@ -371,9 +373,11 @@ void KAppearanceOptions::updateGUI()
             m_pEncoding->setCurrentItem( i );
     }
 
+    m_pXSmall->setChecked( fSize == -1 );
     m_pSmall->setChecked( fSize == 0 );
     m_pMedium->setChecked( fSize == 1 );
     m_pLarge->setChecked( fSize == 2 );
+    m_pXLarge->setChecked( fSize == 3 );
 
 	minSizeSB->setValue( fMinSize );
 }
