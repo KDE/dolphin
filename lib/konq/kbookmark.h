@@ -30,6 +30,8 @@ class KBookmark
 public:
     KBookmark( QDomElement elem ) : element(elem) {}
 
+    static KBookmark standaloneBookmark( const QString & text, const KURL & url );
+
     /**
      * Whether the bookmark is a group or a normal bookmark
      */

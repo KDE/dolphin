@@ -61,7 +61,7 @@ QByteArray KBookmarkDrag::encodedData( const char* mime ) const
         return QUriDrag::encodedData( mime );
     else if ( mimetype == "application/x-xbel" )
     {
-        QDomDocument doc("xbel"); // plan for the future :)
+        QDomDocument doc("xbel");
         QDomElement elem = doc.createElement("xbel");
         doc.appendChild( elem );
         elem.appendChild( m_bookmark.internalElement().cloneNode( true /* deep */ ) );
@@ -94,15 +94,10 @@ KBookmark KBookmarkDrag::decode( const QMimeSource * e )
         KURL::List m_lstDragURLs;
         if ( KURLDrag::decode( e, m_lstDragURLs ) )
         {
-            QDomDocument doc("xbel");
-            QDomElement elem = doc.createElement("xbel");
-            doc.appendChild( elem );
             if ( m_lstDragURLs.count() > 1 )
                 kdWarning() << "Only first URL inserted, known limitation" << endl;
             //kdDebug() << "KBookmarkDrag::decode url=" << m_lstDragURLs.first().url() << endl;
-            KBookmarkGroup grp( elem );
-            grp.addBookmark( m_lstDragURLs.first().fileName(), m_lstDragURLs.first().url() );
-            return grp.first();
+            return KBookmark::standaloneBookmark( m_lstDragURLs.first().fileName(), m_lstDragURLs.first() );
         }
     }
     return KBookmark(QDomElement());

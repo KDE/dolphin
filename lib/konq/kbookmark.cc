@@ -265,3 +265,13 @@ QString KBookmark::address() const
         return "ERROR";
     }
 }
+
+static KBookmark KBookmark::standaloneBookmark( const QString & text, const KURL & url )
+{
+    QDomDocument doc("xbel");
+    QDomElement elem = doc.createElement("xbel");
+    doc.appendChild( elem );
+    KBookmarkGroup grp( elem );
+    grp.addBookmark( text, url );
+    return grp.first();
+}
