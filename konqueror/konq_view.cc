@@ -80,6 +80,7 @@ KonqView::KonqView( KonqViewFactory &viewFactory,
   m_bLinkedView = false;
   m_bAborted = false;
   m_bToggleView = false;
+  m_bGotIconURL = false;
   m_browserIface = new KonqBrowserInterface( this, "browseriface" );
 
   switchView( viewFactory );
@@ -399,6 +400,19 @@ void KonqView::slotCompleted( bool hasPending )
       emit viewCompleted( this );
   }
   m_bLoading = hasPending;
+
+  if (!m_bGotIconURL)
+  {
+    KConfig *config = KGlobal::config();
+    config->setGroup( "HTML Settings" );
+
+    if ( config->readBoolEntry( "EnableFavicon", true ) == true )
+    {
+      // Try to get /favicon.ico
+      if ( m_serviceType == "text/html" && url().protocol().left(4) == "http" )
+      KonqPixmapProvider::self()->downloadHostIcon( url() );
+    }
+  }
 }
 
 void KonqView::slotCanceled( const QString & errorMsg )
@@ -432,6 +446,7 @@ void KonqView::setLocationBarURL( const QString & locationBarURL )
 void KonqView::setIconURL( const KURL & iconURL )
 {
   KonqPixmapProvider::self()->setIconForURL( m_sLocationBarURL, iconURL );
+  m_bGotIconURL = true;
 }
 
 void KonqView::slotOpenURLNotify()
@@ -675,16 +690,7 @@ void KonqView::sendOpenURLEvent( const KURL &url, const KParts::URLArgs &args )
 
   // We also do here what we want to do after opening an URL, whether a new one
   // or one from the history (common stuff).
-
-  KConfig *config = KGlobal::config();
-  config->setGroup( "HTML Settings" );
-
-  if ( config->readBoolEntry( "EnableFavicon", true ) == true )
-  {
-    // Try to get /favicon.ico
-    if ( m_serviceType == "text/html" && url.protocol().left(4) == "http" )
-      KonqPixmapProvider::self()->downloadHostIcon( url );
-  }
+  m_bGotIconURL = false;
 }
 
 void KonqView::setServiceTypeInExtension()

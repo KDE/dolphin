@@ -362,6 +362,7 @@ protected:
   uint m_bToggleView:1;
   uint m_bLockHistory:1;
   uint m_bAborted:1;
+  uint m_bGotIconURL:1;
   KTrader::OfferList m_partServiceOffers;
   KTrader::OfferList m_appServiceOffers;
   KService::Ptr m_service;
