@@ -1019,7 +1019,7 @@ void KonqSidebarTree::slotOpenNewWindow()
 void KonqSidebarTree::slotOpenTab()
 {
     if (!m_currentTopLevelItem) return;
-    DCOPRef ref(kapp->dcopClient()->appId(), topLevelWidget()->name());
+    DCOPRef ref(kapp->dcopClient()->appId(), topLevelWidget()->name());   
     ref.call( "newTab(QString)", m_currentTopLevelItem->externalURL() );
 }
 

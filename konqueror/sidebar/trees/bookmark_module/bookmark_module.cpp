@@ -72,6 +72,9 @@ KonqSidebarBookmarkModule::KonqSidebarBookmarkModule( KonqSidebarTree * parentTr
     (void) new KAction( i18n("Copy Link Address"), "editcopy", 0, this,
                         SLOT( slotCopyLocation() ), m_collection, "copy_location");
 
+    KStdAction::editBookmarks( KonqBookmarkManager::self(), SLOT( slotEditBookmarks() ),
+			       m_collection, "edit_bookmarks" );
+
     connect( KonqBookmarkManager::self(), SIGNAL(changed(const QString &, const QString &) ),
              SLOT( slotBookmarksChanged(const QString &) ) );
 }
@@ -90,14 +93,27 @@ void KonqSidebarBookmarkModule::addTopLevelItem( KonqSidebarTreeTopLevelItem * i
     m_ignoreOpenChange = false;
 }
 
-void KonqSidebarBookmarkModule::showPopupMenu()
+bool KonqSidebarBookmarkModule::handleTopLevelContextMenu( KonqSidebarTreeTopLevelItem *, const QPoint& ) 
 {
-    KonqSidebarBookmarkItem *bi = dynamic_cast<KonqSidebarBookmarkItem*>( tree()->selectedItem() );
-    if (!bi)
-        return;
+    QPopupMenu *menu = new QPopupMenu;
 
-    // see if the newTab() dcop function is available (i.e. the sidebar is embedded into konqueror)
-    bool tabSupport = false;
+    if (tabSupport()) {
+	m_collection->action("folder_open_tabs")->plug(menu);
+	menu->insertSeparator();
+    }
+    m_collection->action("create_folder")->plug(menu);
+ 
+    menu->insertSeparator();
+    m_collection->action("edit_bookmarks")->plug(menu);
+
+    menu->exec( QCursor::pos() );
+    delete menu;
+
+    return true;
+}
+
+bool KonqSidebarBookmarkModule::tabSupport()
+{
     DCOPRef ref(kapp->dcopClient()->appId(), tree()->topLevelWidget()->name());
     DCOPReply reply = ref.call("functions()");
     if (reply.isValid()) {
@@ -105,23 +121,32 @@ void KonqSidebarBookmarkModule::showPopupMenu()
         reply.get(funcs, "QCStringList");
         for (QCStringList::ConstIterator it = funcs.begin(); it != funcs.end(); ++it) {
             if ((*it) == "void newTab(QString url)") {
-                tabSupport = true;
+                return true;
                 break;
             }
         }
     }
+    return false;
+}
 
+void KonqSidebarBookmarkModule::showPopupMenu()
+{
+    KonqSidebarBookmarkItem *bi = dynamic_cast<KonqSidebarBookmarkItem*>( tree()->selectedItem() );
+    if (!bi)
+        return;
+
+    bool tabSupported = tabSupport();
     QPopupMenu *menu = new QPopupMenu;
 
     if (bi->bookmark().isGroup()) {
-        if (tabSupport) {
+        if (tabSupported) {
             m_collection->action("folder_open_tabs")->plug(menu);
             menu->insertSeparator();
         }
         m_collection->action("create_folder")->plug(menu);
         m_collection->action("delete_folder")->plug(menu);
     } else {
-        if (tabSupport)
+        if (tabSupported)
             m_collection->action("open_tab")->plug(menu);
         m_collection->action("open_window")->plug(menu);
         m_collection->action("copy_location")->plug(menu);
@@ -255,17 +280,24 @@ void KonqSidebarBookmarkModule::slotDropped(KListView *, QDropEvent *e, QListVie
 void KonqSidebarBookmarkModule::slotCreateFolder()
 {
     KonqSidebarBookmarkItem *bi = dynamic_cast<KonqSidebarBookmarkItem*>( tree()->selectedItem() );
-    if (!bi)
-        return;
-
-    KBookmarkGroup parentGroup;
-    if (bi->bookmark().isGroup())
-        parentGroup = bi->bookmark().toGroup();
+    KBookmarkGroup parentGroup;    
+    if (bi)
+    {
+	if (bi->bookmark().isGroup())
+	    parentGroup = bi->bookmark().toGroup();
+	else
+	    parentGroup = bi->bookmark().parentGroup();
+    }
+    else if(tree()->selectedItem() == m_topLevelItem)
+    {
+	parentGroup = KonqBookmarkManager::self()->root();
+    }
     else
-        parentGroup = bi->bookmark().parentGroup();
+	return;
 
     KBookmark bookmark = parentGroup.createNewFolder(KonqBookmarkManager::self());
-    parentGroup.moveItem(bookmark, bi->bookmark());
+    if(bi && !(bi->bookmark().isGroup()))
+	parentGroup.moveItem(bookmark, bi->bookmark());
 
     KonqBookmarkManager::self()->emitChanged( parentGroup );
 }
@@ -350,10 +382,15 @@ void KonqSidebarBookmarkModule::slotOpenNewWindow()
 void KonqSidebarBookmarkModule::slotOpenTab()
 {
     KonqSidebarBookmarkItem *bi = dynamic_cast<KonqSidebarBookmarkItem*>( tree()->selectedItem() );
-    if (!bi)
-        return;
-
-    KBookmark bookmark = bi->bookmark();
+    KBookmark bookmark;
+    if (bi)
+    {
+	bookmark = bi->bookmark();
+    }
+    else if(tree()->selectedItem() == m_topLevelItem)
+	bookmark = KonqBookmarkManager::self()->root();	
+    else
+	return;
 
     DCOPRef ref(kapp->dcopClient()->appId(), tree()->topLevelWidget()->name());
 

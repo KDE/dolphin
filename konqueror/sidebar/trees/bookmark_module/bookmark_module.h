@@ -41,8 +41,10 @@ public:
 
     // Handle this new toplevel item [can only be called once currently]
     virtual void addTopLevelItem( KonqSidebarTreeTopLevelItem * item );
+    virtual bool handleTopLevelContextMenu( KonqSidebarTreeTopLevelItem *, const QPoint& );
 
     void showPopupMenu();
+
 
 protected slots:
     void slotBookmarksChanged( const QString & );
@@ -64,6 +66,8 @@ private slots:
     void slotOpenChange(QListViewItem*);
 
 private:
+    bool tabSupport();
+
     KonqSidebarTreeTopLevelItem * m_topLevelItem;
     KonqSidebarBookmarkItem * m_rootItem;
 
