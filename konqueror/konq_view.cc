@@ -288,58 +288,60 @@ bool KonqView::changeViewMode( const QString &serviceType,
                 << " serviceName is " << serviceName
                 << " current service name is " << m_service->desktopEntryName() << endl;
 
-  if ( m_serviceType != serviceType ||
-       ( !serviceName.isEmpty() && serviceName != m_service->desktopEntryName() ) )
+  if ( m_serviceType == serviceType && (serviceName.isEmpty() || serviceName == m_service->desktopEntryName()) )
+    return true;
+
+  // Special hack for sidebar views. They are isLockedViewMode(), but we want
+  // to be able to follow directory changes. So, pretend we changed the view
+  // mode instead of returning false.
+  if ( isLockedViewMode() && m_serviceType == "Browser/View" && serviceType == "inode/directory" )
+    return true;
+
+  if ( isLockedViewMode() )
+    return false; // we can't do that if our view mode is locked
+
+  kdDebug(1202) << "Switching view modes..." << endl;
+  KTrader::OfferList partServiceOffers, appServiceOffers;
+  KService::Ptr service = 0L;
+  KonqViewFactory viewFactory = KonqFactory::createView( serviceType, serviceName, &service, &partServiceOffers, &appServiceOffers );
+
+  if ( viewFactory.isNull() )
   {
-
-    if ( isLockedViewMode() )
-    {
-      kdDebug(1202) << "This view's mode is locked - can't change" << endl;
-      return false; // we can't do that if our view mode is locked
-    }
-
-    kdDebug(1202) << "Switching view modes..." << endl;
-    KTrader::OfferList partServiceOffers, appServiceOffers;
-    KService::Ptr service = 0L;
-    KonqViewFactory viewFactory = KonqFactory::createView( serviceType, serviceName, &service, &partServiceOffers, &appServiceOffers );
-
-    if ( viewFactory.isNull() )
-    {
-      // Revert location bar's URL to the working one
-      if(history().current())
-        setLocationBarURL( history().current()->locationBarURL );
-      return false;
-    }
-    m_serviceType = serviceType;
-    m_partServiceOffers = partServiceOffers;
-    m_appServiceOffers = appServiceOffers;
-
-    // Check if that's already the kind of part we have -> no need to recreate it
-    // Note: we should have an operator= for KService...
-    if ( m_service && m_service->desktopEntryPath() == service->desktopEntryPath() )
-    {
-      kdDebug( 1202 ) << "KonqView::changeViewMode. Reusing service. Service type set to " << m_serviceType << endl;
-      if (  m_pMainWindow->currentView() == this )
-          m_pMainWindow->updateViewModeActions();
-    }
-    else
-    {
-      m_service = service;
-
-      switchView( viewFactory );
-    }
-
-    if ( m_pMainWindow->viewManager()->activePart() != m_pPart )
-    {
-      // Make the new part active. Note that we don't do it each time we
-      // open a URL (becomes awful in view-follows-view mode), but we do
-      // each time we change the view mode.
-      // We don't do it in switchView either because it's called from the constructor too,
-      // where the location bar url isn't set yet.
-      kdDebug(1202) << "Giving focus to new part " << m_pPart << endl;
-      m_pMainWindow->viewManager()->setActivePart( m_pPart );
-    }
+    // Revert location bar's URL to the working one
+    if(history().current())
+      setLocationBarURL( history().current()->locationBarURL );
+    return false;
   }
+
+  m_serviceType = serviceType;
+  m_partServiceOffers = partServiceOffers;
+  m_appServiceOffers = appServiceOffers;
+
+  // Check if that's already the kind of part we have -> no need to recreate it
+  // Note: we should have an operator= for KService...
+  if ( m_service && m_service->desktopEntryPath() == service->desktopEntryPath() )
+  {
+    kdDebug( 1202 ) << "KonqView::changeViewMode. Reusing service. Service type set to " << m_serviceType << endl;
+    if ( m_pMainWindow->currentView() == this )
+        m_pMainWindow->updateViewModeActions();
+  }
+  else
+  {
+    m_service = service;
+    switchView( viewFactory );
+  }
+
+  if ( m_pMainWindow->viewManager()->activePart() != m_pPart )
+  {
+    // Make the new part active. Note that we don't do it each time we
+    // open a URL (becomes awful in view-follows-view mode), but we do
+    // each time we change the view mode.
+    // We don't do it in switchView either because it's called from the constructor too,
+    // where the location bar url isn't set yet.
+    kdDebug(1202) << "Giving focus to new part " << m_pPart << endl;
+    m_pMainWindow->viewManager()->setActivePart( m_pPart );
+  }
+
   return true;
 }
 

@@ -801,9 +801,7 @@ bool KonqMainWindow::openView( QString serviceType, const KURL &_url, KonqView *
   }
   else // We know the child view
   {
-      //childView->stop();
-      if ( !childView->isLockedViewMode() )
-          ok = childView->changeViewMode( serviceType, serviceName );
+      ok = childView->changeViewMode( serviceType, serviceName );
   }
 
   if (ok)
