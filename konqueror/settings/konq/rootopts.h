@@ -17,6 +17,7 @@
 
 #include <kcmodule.h>
 
+class QPushButton;
 class KConfig;
 class QCheckBox;
 class QComboBox;
@@ -46,7 +47,8 @@ private slots:
         void enableChanged();
 	void changed();
 	void enableDevicesBoxChanged();
-
+	void comboBoxChanged();
+	void editButtonPressed();
 
 private:
         KConfig *g_pConfig;
@@ -69,6 +71,10 @@ private:
         QComboBox *leftComboBox;
         QComboBox *middleComboBox;
         QComboBox *rightComboBox;
+        QPushButton *leftEditButton;
+        QPushButton *middleEditButton;
+        QPushButton *rightEditButton;
+        
         typedef enum { NOTHING = 0, WINDOWLISTMENU, DESKTOPMENU, APPMENU } menuChoice;
 };
 

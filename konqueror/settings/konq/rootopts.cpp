@@ -22,6 +22,7 @@
 #include <qlayout.h>
 #include <qvgroupbox.h>
 #include <qwhatsthis.h>
+#include <qpushbutton.h>
 
 #include <kapplication.h>
 #include <kconfig.h>
@@ -37,6 +38,7 @@
 #include <kstandarddirs.h>
 #include <kurlrequester.h>
 #include <kmimetype.h>
+#include <kcustommenueditor.h>
 
 #include <dcopclient.h>
 #include <kio/job.h>
@@ -106,8 +108,6 @@ static const char * s_choices[6] = { "", "WindowListMenu", "DesktopMenu", "AppMe
 KRootOptions::KRootOptions(KConfig *config, QWidget *parent, const char * )
     : KCModule( parent, "kcmkonq" ), g_pConfig(config)
 {
-  QLabel * tmpLabel;
-
 #define RO_LASTROW 3   // 2 GroupBoxes + last row = 3 rows. But it starts at 0 ;)
 #define RO_LASTCOL 2
   int row = 0;
@@ -188,7 +188,7 @@ KRootOptions::KRootOptions(KConfig *config, QWidget *parent, const char * )
   groupBox = new QVGroupBox( i18n("Clicks on the Desktop"), this );
   lay->addMultiCellWidget( groupBox, row, row, 0, RO_LASTCOL );
 
-  QGrid * grid = new QGrid(2, groupBox);
+  QWidget *grid = new QWidget(groupBox);
 
   strMouseButton1 = i18n("Left button:");
   strButtonTxt1 = i18n( "You can choose what happens when"
@@ -204,11 +204,14 @@ KRootOptions::KRootOptions(KConfig *config, QWidget *parent, const char * )
      qSwap(strButtonTxt1, strButtonTxt3);
   }
 
-  tmpLabel = new QLabel( strMouseButton1, grid );
+  QLabel *leftLabel = new QLabel( strMouseButton1, grid );
   leftComboBox = new QComboBox( grid );
-  tmpLabel->setBuddy( leftComboBox );
+  leftEditButton = new QPushButton( i18n("Edit..."), grid);
+  leftLabel->setBuddy( leftComboBox );
   fillMenuCombo( leftComboBox );
+  connect(leftEditButton, SIGNAL(clicked()), this, SLOT(editButtonPressed()));
   connect(leftComboBox, SIGNAL(activated(int)), this, SLOT(changed()));
+  connect(leftComboBox, SIGNAL(activated(int)), this, SLOT(comboBoxChanged()));
   QString wtstr = strButtonTxt1 +
                   i18n(" <ul><li><em>No action:</em> as you might guess, nothing happens!</li>"
                        " <li><em>Window list menu:</em> a menu showing all windows on all"
@@ -223,14 +226,17 @@ KRootOptions::KRootOptions(KConfig *config, QWidget *parent, const char * )
                        " <li><em>Application menu:</em> the \"K\" menu pops up. This might be"
                        " useful for quickly accessing applications if you like to keep the"
                        " panel (also known as \"Kicker\") hidden from view.</li></ul>");
-  QWhatsThis::add( tmpLabel, wtstr );
+  QWhatsThis::add( leftLabel, wtstr );
   QWhatsThis::add( leftComboBox, wtstr );
 
-  tmpLabel = new QLabel( i18n("Middle button:"), grid );
+  QLabel *middleLabel = new QLabel( i18n("Middle button:"), grid );
   middleComboBox = new QComboBox( grid );
-  tmpLabel->setBuddy( middleComboBox );
+  middleEditButton = new QPushButton( i18n("Edit..."), grid);
+  middleLabel->setBuddy( middleComboBox );
   fillMenuCombo( middleComboBox );
+  connect(middleEditButton, SIGNAL(clicked()), this, SLOT(editButtonPressed()));
   connect(middleComboBox, SIGNAL(activated(int)), this, SLOT(changed()));
+  connect(middleComboBox, SIGNAL(activated(int)), this, SLOT(comboBoxChanged()));
   wtstr = i18n("You can choose what happens when"
                " you click the middle button of your pointing device on the desktop:"
                " <ul><li><em>No action:</em> as you might guess, nothing happens!</li>"
@@ -246,14 +252,17 @@ KRootOptions::KRootOptions(KConfig *config, QWidget *parent, const char * )
                " <li><em>Application menu:</em> the \"K\" menu pops up. This might be"
                " useful for quickly accessing applications if you like to keep the"
                " panel (also known as \"Kicker\") hidden from view.</li></ul>");
-  QWhatsThis::add( tmpLabel, wtstr );
+  QWhatsThis::add( middleLabel, wtstr );
   QWhatsThis::add( middleComboBox, wtstr );
 
-  tmpLabel = new QLabel( strMouseButton3, grid );
+  QLabel *rightLabel = new QLabel( strMouseButton3, grid );
   rightComboBox = new QComboBox( grid );
-  tmpLabel->setBuddy( rightComboBox );
+  rightEditButton = new QPushButton( i18n("Edit..."), grid);
+  rightLabel->setBuddy( rightComboBox );
   fillMenuCombo( rightComboBox );
+  connect(rightEditButton, SIGNAL(clicked()), this, SLOT(editButtonPressed()));
   connect(rightComboBox, SIGNAL(activated(int)), this, SLOT(changed()));
+  connect(rightComboBox, SIGNAL(activated(int)), this, SLOT(comboBoxChanged()));
   wtstr = strButtonTxt3 +
           i18n(" <ul><li><em>No action:</em> as you might guess, nothing happens!</li>"
                " <li><em>Window list menu:</em> a menu showing all windows on all"
@@ -268,9 +277,23 @@ KRootOptions::KRootOptions(KConfig *config, QWidget *parent, const char * )
                " <li><em>Application menu:</em> the \"K\" menu pops up. This might be"
                " useful for quickly accessing applications if you like to keep the"
                " panel (also known as \"Kicker\") hidden from view.</li></ul>");
-  QWhatsThis::add( tmpLabel, wtstr );
+  QWhatsThis::add( rightLabel, wtstr );
   QWhatsThis::add( rightComboBox, wtstr );
 
+  QGridLayout *gridLayout = new QGridLayout(grid, 3, 3);
+  gridLayout->setColStretch(0, 0);
+  gridLayout->setColStretch(1, 1);
+  gridLayout->setColStretch(1, 0);
+
+  gridLayout->addWidget(leftLabel, 0, 0, AlignVCenter | AlignLeft);
+  gridLayout->addWidget(leftComboBox, 0, 1, AlignCenter);
+  gridLayout->addWidget(leftEditButton, 0, 2, AlignCenter);
+  gridLayout->addWidget(middleLabel, 1, 0, AlignVCenter | AlignLeft);
+  gridLayout->addWidget(middleComboBox, 1, 1, AlignCenter);
+  gridLayout->addWidget(middleEditButton, 1, 2, AlignCenter);
+  gridLayout->addWidget(rightLabel, 2, 0, AlignVCenter | AlignLeft);
+  gridLayout->addWidget(rightComboBox, 2, 1, AlignCenter);
+  gridLayout->addWidget(rightEditButton, 2, 2, AlignCenter);
   
   //BEGIN devices configuration
   row++;
@@ -380,6 +403,7 @@ void KRootOptions::load()
       if (s == s_choices[c])
       { rightComboBox->setCurrentItem( c ); break; }
 
+    comboBoxChanged();
     fillDevicesListView();
     enableChanged();
 }
@@ -442,6 +466,49 @@ void KRootOptions::changed()
   emit KCModule::changed(true);
 }
 
+void KRootOptions::comboBoxChanged()
+{
+  // 4 - CustomMenu1
+  // 5 - CustomMenu2
+  int i;
+  i = leftComboBox->currentItem();
+  leftEditButton->setEnabled((i == 4) || (i == 5));
+  i = middleComboBox->currentItem();
+  middleEditButton->setEnabled((i == 4) || (i == 5));
+  i = rightComboBox->currentItem();
+  rightEditButton->setEnabled((i == 4) || (i == 5));
+}
+
+void KRootOptions::editButtonPressed()
+{
+   int i = 0;
+   if (sender() == leftEditButton)
+      i = leftComboBox->currentItem();
+   if (sender() == middleEditButton)
+      i = middleComboBox->currentItem();
+   if (sender() == rightEditButton)
+      i = rightComboBox->currentItem();
+   
+   QString cfgFile;
+   if (i == 4) // CustomMenu1
+      cfgFile = "kdesktop_custom_menu1";
+   if (i == 5) // CustomMenu2
+      cfgFile = "kdesktop_custom_menu2";
+   
+   if (cfgFile.isEmpty())
+      return;
+      
+   KCustomMenuEditor editor(this);
+   KConfig cfg(cfgFile);
+   
+   editor.init();
+   editor.load(&cfg);
+   if (editor.exec())
+   {
+      editor.save(&cfg);
+      cfg.sync();
+   }
+}
 
 QString KRootOptions::quickHelp() const
 {
