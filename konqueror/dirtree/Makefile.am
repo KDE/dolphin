@@ -1,5 +1,3 @@
-AM_CPPFLAGS = -DQT_NO_ASCII_CAST
-
 SUBDIRS = init
 
 INCLUDES = -I$(top_srcdir)/libkonq -I$(top_srcdir)/konqueror $(all_includes)

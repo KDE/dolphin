@@ -1,6 +1,4 @@
 
-AM_CPPFLAGS = -DQT_NO_ASCII_CAST
-
 INCLUDES= $(all_includes)
 LDFLAGS = $(all_libraries) $(KDE_RPATH)
 LDADD   = $(LIB_KIO) 
