@@ -32,6 +32,8 @@
 
 #include "konq_baseview.h"
 
+#include <qstrlist.h>
+
 #include <kio_interface.h>
 #include <kurl.h>
 

@@ -50,7 +50,6 @@ void KonqPlugins::installKOMPlugins( KOM::Component_ptr comp )
   QListIterator<KOMPluginEntry> it( s_lstKOMPlugins );
   for (; it.current(); ++it )
   {
-    bool b = true;
     QStrListIterator it2( it.current()->requiredInterfaces );
     for (; it2.current(); ++it2 )
       {
@@ -58,44 +57,40 @@ void KonqPlugins::installKOMPlugins( KOM::Component_ptr comp )
         if ( !comp->supportsInterface( it2.current() ) )
 	{
 	  kdebug(0, 1202, "no, bailing out" );
-          b = false;
+	  return;
 	}
       }	  
 	
-    if ( b )
-    {
-      kdebug(0, 1202, "YES, activating plugin");
-      checkServer( it.current()->iae.serverName );
+    kdebug(0, 1202, "YES, activating plugin");
+    checkServer( it.current()->iae.serverName );
       
-      CORBA::Object_var obj = imr_activate( it.current()->iae.serverName, it.current()->iae.repoID );
-      assert( !CORBA::is_nil( obj ) );
-      KOM::PluginFactory_var factory = KOM::PluginFactory::_narrow( obj );
-      assert( !CORBA::is_nil( factory ) );
+    CORBA::Object_var obj = imr_activate( it.current()->iae.serverName, it.current()->iae.repoID );
+    assert( !CORBA::is_nil( obj ) );
+    KOM::PluginFactory_var factory = KOM::PluginFactory::_narrow( obj );
+    assert( !CORBA::is_nil( factory ) );
       
-      KOM::InterfaceSeq reqIf;
-      KOM::InterfaceSeq reqPlugins;
-      KOM::InterfaceSeq prov;
-      int i;
+    KOM::InterfaceSeq reqIf;
+    KOM::InterfaceSeq reqPlugins;
+    KOM::InterfaceSeq prov;
+    int i;
       
-      reqIf.length( it.current()->requiredInterfaces.count() );
-      i = 0;
-      
-      it2 = QStrListIterator( it.current()->requiredInterfaces );
-      for (; it2.current(); ++it2 )
-        reqIf[ i++ ] = CORBA::string_dup( it2.current() );
+    reqIf.length( it.current()->requiredInterfaces.count() );
+    i = 0;
+  
+    it2 = QStrListIterator( it.current()->requiredInterfaces );
+    for (; it2.current(); ++it2 )
+      reqIf[ i++ ] = CORBA::string_dup( it2.current() );
 	
-      reqPlugins.length( 0 ); //TODO: support plugin dependencies (shouldn't be hard, I'm just too lazy to do it now :-) (Simon)
+    reqPlugins.length( 0 ); //TODO: support plugin dependencies (shouldn't be hard, I'm just too lazy to do it now :-) (Simon)
 
-      prov.length( it.current()->providedInterfaces.count() );
-      i = 0;
+    prov.length( it.current()->providedInterfaces.count() );
+    i = 0;
       
-      it2 = QStrListIterator( it.current()->providedInterfaces );
-      for (; it2.current(); ++it2 )
-        prov[ i++ ] = CORBA::string_dup( it2.current() );
+    it2 = QStrListIterator( it.current()->providedInterfaces );
+    for (; it2.current(); ++it2 )
+      prov[ i++ ] = CORBA::string_dup( it2.current() );
 	
-      comp->addPlugin( factory, reqIf, reqPlugins, prov, true );
-    }
-    
+    comp->addPlugin( factory, reqIf, reqPlugins, prov, true );
   }
 }
  
@@ -166,7 +161,7 @@ void KonqPlugins::parseService( KService *service )
       kdebug(0, 1202, "found view plugin");
             
       QStringList serviceList = service->serviceTypes();
-      QStringList::ConstIterator it2 = serviceList.begin();
+      QStringList::Iterator it2 = serviceList.begin();
       for (; it2 != serviceList.end(); ++it2 )
       {
         if ( !( l = s_dctViewServers[ *it2 ] ) )
