@@ -124,7 +124,7 @@ void KonqPlugins::parseService( KService *service )
   QString activationMode;
   imrCreationEntry *creationEntry;
   
-  config.setGroup( "KDE Desktop Entry" );
+  config.setDesktopGroup();
   
   QStrList serviceTypes;
   config.readListEntry( "ServiceTypes", serviceTypes );
