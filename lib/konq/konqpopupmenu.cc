@@ -161,7 +161,9 @@ KonqPopupMenu::KonqPopupMenu( const KFileItemList &items,
 
   m_paNewView = new KAction( i18n( "New View" ), 0, this, SLOT( slotPopupNewView() ), &m_ownActions, "newview" );
 
-  if ( isCurrentTrash && currentDir )
+  if ( ( isCurrentTrash && currentDir ) ||
+       ( m_lstItems.count() == 1 && m_lstItems.first()->url().isLocalFile() &&
+	 m_lstItems.first()->url().path( 1 ) == KGlobalSettings::trashPath() ) )
   {
     addAction( m_paNewView );
     addSeparator();
@@ -440,7 +442,7 @@ void KonqPopupMenu::slotPopupNewView()
 
 void KonqPopupMenu::slotPopupEmptyTrashBin()
 {
-  KonqOperations::emptyTrash(); 
+  KonqOperations::emptyTrash();
 }
 
 void KonqPopupMenu::slotPopupOpenWith()
