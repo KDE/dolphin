@@ -478,9 +478,9 @@ void KonqFrameContainer::saveConfig( KConfig* config, const QString &prefix, boo
   //write children
   QStringList strlst;
   if( firstChild() )
-    strlst.append( firstChild()->frameType() + QString("%1").arg(idSecond - 1) );
+    strlst.append( firstChild()->frameType() + QString::number(idSecond - 1) );
   if( secondChild() )
-    strlst.append( secondChild()->frameType() + QString("%1").arg( idSecond ) );
+    strlst.append( secondChild()->frameType() + QString::number( idSecond ) );
 
   config->writeEntry( QString::fromLatin1( "Children" ).prepend( prefix ), strlst );
 
@@ -495,13 +495,13 @@ void KonqFrameContainer::saveConfig( KConfig* config, const QString &prefix, boo
 
   //write child configs
   if( firstChild() ) {
-    QString newPrefix = firstChild()->frameType() + QString("%1").arg(idSecond - 1);
+    QString newPrefix = firstChild()->frameType() + QString::number(idSecond - 1);
     newPrefix.append( '_' );
     firstChild()->saveConfig( config, newPrefix, saveURLs, id, depth + 1 );
   }
 
   if( secondChild() ) {
-    QString newPrefix = secondChild()->frameType() + QString("%1").arg( idSecond );
+    QString newPrefix = secondChild()->frameType() + QString::number( idSecond );
     newPrefix.append( '_' );
     secondChild()->saveConfig( config, newPrefix, saveURLs, idSecond, depth + 1 );
   }
