@@ -1,0 +1,1206 @@
+<!DOCTYPE book PUBLIC  "-//KDE//DTD DocBook V3.1-Based Variant V1.0//EN" [
+ <!ENTITY konqueror   "<application>konqueror</application>">
+ <!ENTITY % addindex "IGNORE">
+ <![ %addindex; [ <!ENTITY kdedocindex SYSTEM "docindex.docbook"> ]]>
+]>
+<!-- kdoctemplate v0.8 October 1 1999 -->
+
+<book id="konqueror" lang="en">
+
+<bookinfo>
+
+<title>The Konqueror Handbook</title>
+
+<!--
+<authorgroup>
+<author>
+<firstname>Wim</firstname>
+<surname>Bakker</surname>
+</author>
+<author>
+<firstname>Alex</firstname>
+<surname>Cruz</surname>
+</author>
+<author>
+<firstname>Arjan</firstname>
+<surname>Dronkers</surname>
+</author>
+<author>
+<firstname>Erwan</firstname>
+<surname>Loisant</surname>
+</author>
+<author>
+<firstname>Pam</firstname>
+<surname>Roberts</surname>
+</author>
+</authorgroup>
+-->
+
+<keywordset>
+<keyword>KDE</keyword>
+<keyword>Konqueror</keyword>
+<keyword>Kdebase</keyword>
+<keyword>File Manager</keyword>
+<keyword>Browser</keyword>
+<keyword>Viewer</keyword>
+</keywordset>
+
+<date>11/05/2000</date>
+<releaseinfo>0.0.01</releaseinfo>
+
+
+<!-- Abstract about this handbook -->
+
+<abstract>
+<para>
+<application>Konqueror</application> is KDE's advanced File Manager, Web 
+Browser and 
+Document Viewer.
+</para>
+</abstract>
+
+</bookinfo>
+
+
+<chapter id="introduction">
+<title>Introduction</title>
+<para>
+<application>Konqueror</application> is KDE's advanced File Manager, Web 
+Browser and 
+Document Viewer.
+</para>
+
+<!-- Note that the revhistory tags apply to the documentation version and not 
+to
+the app version. That is why we use an ItemizedList here. -->
+
+
+<sect1 id="konqueror-revhistory">
+<title>Konqueror Revision History</title>
+<para>
+<itemizedlist>
+<listitem><para>1.9.2 - from 10 May snapshots.</para>
+</listitem>
+</itemizedlist>
+</para>
+</sect1>
+</chapter>
+
+
+<chapter id="installation">
+<title>Installation</title>
+<para>
+<application>Konqueror</application> is part of the kdebase package which an 
+essential part of KDE.
+</para>
+<para>
+For instructions on acquiring KDE please see <ulink 
+url="http://www.kde.org">http://www.kde.org</ulink>
+</para>
+<para>
+For further information about <application>Konqueror</application> you might 
+like to visit 
+<ulink url="http://www.konqueror.org">http://www.konqueror.org</ulink>.
+</para>
+</chapter>
+
+<chapter id="using-konqueror">
+<title>Using Konqueror</title>
+
+<!-- This chapter should tell the user how to use your app. You should use as
+many sections (Chapter, Sect1, Sect3, etc...) as is necessary to fully document
+your application. -->
+
+<para></para>
+
+
+<sect1 id="konqueror-parts">
+<title>The Parts of Konqueror</title>
+<!-- Note that all graphics should be in .png format. Use no gifs because of
+patent issues. -->
+<para>
+<screenshot>
+<screeninfo>Here's a screenshot of 
+<application>Konqueror</application></screeninfo>
+<graphic fileref="konq1.png" format="png"></graphic>
+</screenshot>
+</para>
+
+<para>The Title Bar</para>
+
+<para>The Menu Bar</para>
+
+<para>The Tool Bar</para>
+
+<para>The Location Bar</para>
+
+<para>The Bookmark Bar</para>
+
+<para>The Window</para>
+
+<para>The Info Bar</para>
+
+
+</sect1>
+
+
+<sect1 id="konqueror-filemanager">
+<title>Konqueror the File Manager</title>
+<para>
+</para>
+</sect1>
+
+<sect1 id="konqueror-browser">
+<title>Konqueror the Web Browser</title>
+<para>
+</para>
+</sect1>
+
+<sect1 id="konqueror-docviewer">
+<title>Konqueror the Document Viewer</title>
+<para>
+</para>
+</sect1>
+
+<sect1 id="konqueror-config">
+<title>Configuring Konqueror</title>
+<para>
+</para>
+</sect1>
+
+</chapter>
+
+<!-- *********************************************** -->
+
+<chapter id="commands">
+<title>Command Reference</title>
+
+<!-- (OPTIONAL, BUT RECOMMENDED) This chapter should list all of the
+application windows and their menubar and toolbar commands for easy reference.
+Also include any keys that have a special function but have no equivalent in 
+the
+menus or toolbars. This may not be necessary for small apps or apps with no 
+tool
+or menu bars. -->
+
+<para></para>
+
+
+<sect1 id="konqueror-commands-menubar">
+<title>The Menubar</title>
+<para></para>
+
+<!-- The File Menu  -->
+<sect2>
+<title><menuchoice>
+<shortcut>
+<keycombo><keycap>Alt</keycap><keycap>f</keycap></keycombo>
+</shortcut>
+<guimenu>File</guimenu>
+</menuchoice>
+</title>
+
+<para>
+<variablelist>
+<varlistentry>
+<term><menuchoice>
+<!-- <shortcut><keycap>n</keycap></shortcut> -->
+<guimenu>File</guimenu>
+<guimenuitem>New</guimenuitem>
+</menuchoice></term>
+<listitem><para><action>Create a new Text or HTML file, Directory, File System 
+Device, Application or URL</action></para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>File</guimenu>
+<guimenuitem>Edit File Type...</guimenuitem>
+</menuchoice></term>
+<listitem><para><action>Edit type of selected file</action></para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>File</guimenu>
+<guimenuitem>Properties...</guimenuitem>
+</menuchoice></term>
+<listitem><para><action>Edit Properties of selected 
+file</action></para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<shortcut>
+<keycombo><keycap>Ctrl</keycap><keycap>W</keycap></keycombo>
+</shortcut><guimenu>File</guimenu>
+<guimenuitem>Close</guimenuitem>
+</menuchoice></term>
+<listitem><para><action>Close down Konqueror</action></para></listitem>
+</varlistentry>
+
+</variablelist>
+</para>
+</sect2>
+
+
+<!-- The Edit Menu  -->
+<sect2>
+<title><menuchoice>
+<shortcut>
+<keycombo><keycap>Alt</keycap><keycap>e</keycap></keycombo>
+</shortcut>
+<guimenu>Edit</guimenu>
+</menuchoice>
+</title>
+
+<para>
+<variablelist>
+
+<varlistentry>
+<term><menuchoice>
+<shortcut>
+<keycombo><keycap>Ctrl</keycap><keycap>X</keycap></keycombo>
+</shortcut><guimenu>Edit</guimenu>
+<guimenuitem>Cut</guimenuitem>
+</menuchoice></term>
+<listitem><para><action>Cut selected file or folder</action></para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<shortcut>
+<keycombo><keycap>Ctrl</keycap><keycap>C</keycap></keycombo>
+</shortcut><guimenu>Edit</guimenu>
+<guimenuitem>Copy</guimenuitem>
+</menuchoice></term>
+<listitem><para><action>Copy selected file or folder</action></para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<shortcut>
+<keycombo><keycap>Ctrl</keycap><keycap>V</keycap></keycombo>
+</shortcut><guimenu>Edit</guimenu>
+<guimenuitem>Paste</guimenuitem>
+</menuchoice></term>
+<listitem><para><action>Paste file or folder from 
+clipboard</action></para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<shortcut>
+<keycombo><keycap>Ctrl</keycap><keycap>Del</keycap></keycombo>
+</shortcut><guimenu>Edit</guimenu>
+<guimenuitem>Move to Trash</guimenuitem>
+</menuchoice></term>
+<listitem><para><action>Move file or folder to Trash</action></para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>Edit</guimenu>
+<guimenuitem>Delete</guimenuitem>
+</menuchoice></term>
+<listitem><para><action>Delete file or folder</action></para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>Edit</guimenu>
+<guimenuitem>Shred</guimenuitem>
+</menuchoice></term>
+<listitem><para><action>Shred file or folder</action></para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>Edit</guimenu>
+<guimenuitem>Open With Terminal emulator window</guimenuitem>
+</menuchoice></term>
+<listitem><para><action>Open With Terminal emulator window 
+??</action></para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<shortcut>
+<keycombo><keycap>Ctrl</keycap><keycap>+</keycap></keycombo>
+</shortcut><guimenu>Edit</guimenu>
+<guimenuitem>Select</guimenuitem>
+</menuchoice></term>
+<listitem><para><action>Select file or folder</action></para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<shortcut>
+<keycombo><keycap>Ctrl</keycap><keycap>-</keycap></keycombo>
+</shortcut><guimenu>Edit</guimenu>
+<guimenuitem>Unselect</guimenuitem>
+</menuchoice></term>
+<listitem><para><action>Unselect file or folder</action></para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<shortcut>
+<keycombo><keycap>Ctrl</keycap><keycap>U</keycap></keycombo>
+</shortcut><guimenu>Edit</guimenu>
+<guimenuitem>Unselect All</guimenuitem>
+</menuchoice></term>
+<listitem><para><action>Unselect all selected files or 
+folders</action></para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<shortcut>
+<keycombo><keycap>Ctrl</keycap><keycap>*</keycap></keycombo>
+</shortcut><guimenu>Edit</guimenu>
+<guimenuitem>Invert Selection</guimenuitem>
+</menuchoice></term>
+<listitem><para><action>Invert current selection</action></para></listitem>
+</varlistentry>
+
+</variablelist>
+</para>
+</sect2>
+
+<!-- The View Menu  -->
+<sect2>
+<title><menuchoice>
+<shortcut>
+<keycombo><keycap>Alt</keycap><keycap>v</keycap></keycombo>
+</shortcut>
+<guimenu>View</guimenu>
+</menuchoice>
+</title>
+<para>
+<variablelist>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>View</guimenu>
+<guimenuitem>View Mode...</guimenuitem>
+</menuchoice></term>
+<listitem><para><action>Select view mode</action></para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>View</guimenu>
+<guimenuitem>Use index.html</guimenuitem>
+</menuchoice></term>
+<listitem><para><action>Use index.html</action></para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<shortcut><keycap>F5</keycap></shortcut>
+<guimenu>View</guimenu>
+<guimenuitem>Reload</guimenuitem>
+</menuchoice></term>
+<listitem><para><action>Reload</action></para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<shortcut><keycap>Esc</keycap></shortcut>
+<guimenu>View</guimenu>
+<guimenuitem>Stop</guimenuitem>
+</menuchoice></term>
+<listitem><para><action>Stop</action></para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>View</guimenu>
+<guimenuitem>Icon Mode...</guimenuitem>
+</menuchoice></term>
+<listitem><para><action>Icon Mode ??</action></para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>View</guimenu>
+<guimenuitem>View Document Source</guimenuitem>
+</menuchoice></term>
+<listitem><para><action>View Document Source</action></para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>View</guimenu>
+<guimenuitem>View Frame Source</guimenuitem>
+</menuchoice></term>
+<listitem><para><action>View Frame Source</action></para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>View</guimenu>
+<guimenuitem>Save Background Image As...</guimenuitem>
+</menuchoice></term>
+<listitem><para><action>Save Background Image</action></para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>View</guimenu>
+<guimenuitem>Save As...</guimenuitem>
+</menuchoice></term>
+<listitem><para><action>Save</action></para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>View</guimenu>
+<guimenuitem>Save Frame As...</guimenuitem>
+</menuchoice></term>
+<listitem><para><action>Save Frame</action></para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>View</guimenu>
+<guimenuitem>Set Encoding</guimenuitem>
+</menuchoice></term>
+<listitem><para><action>Set encoding</action></para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>View</guimenu>
+<guimenuitem>Sort...</guimenuitem>
+</menuchoice></term>
+<listitem><para><action>Sort ??</action></para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>View</guimenu>
+<guimenuitem>Show Dot Files</guimenuitem>
+</menuchoice></term>
+<listitem><para><action>Show dot files</action></para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>View</guimenu>
+<guimenuitem>Show...</guimenuitem>
+</menuchoice></term>
+<listitem><para><action>Show ??</action></para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>View</guimenu>
+<guimenuitem>Background Color...</guimenuitem>
+</menuchoice></term>
+<listitem><para><action>Select background color</action></para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>View</guimenu>
+<guimenuitem>Background Image...</guimenuitem>
+</menuchoice></term>
+<listitem><para><action>Select background image</action></para></listitem>
+</varlistentry>
+
+</variablelist>
+</para>
+</sect2>
+
+<!-- The Go Menu  -->
+<sect2>
+<title><menuchoice>
+<shortcut>
+<keycombo><keycap>Alt</keycap><keycap>g</keycap></keycombo>
+</shortcut>
+<guimenu>Go</guimenu>
+</menuchoice>
+</title>
+<para>
+<variablelist>
+
+<varlistentry>
+<term><menuchoice>
+<shortcut>
+<keycombo><keycap>Ctrl</keycap><keycap>UpArrow</keycap></keycombo>
+</shortcut><guimenu>Go</guimenu>
+<guimenuitem>Up</guimenuitem>
+</menuchoice></term>
+<listitem><para><action>Go up</action></para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<shortcut>
+<keycombo><keycap>Ctrl</keycap><keycap>LeftArrow</keycap></keycombo>
+</shortcut><guimenu>Go</guimenu>
+<guimenuitem>Back</guimenuitem>
+</menuchoice></term>
+<listitem><para><action>Go back</action></para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<shortcut>
+<keycombo><keycap>Ctrl</keycap><keycap>RightArrow</keycap></keycombo>
+</shortcut><guimenu>Go</guimenu>
+<guimenuitem>Forward</guimenuitem>
+</menuchoice></term>
+<listitem><para><action>Go forward</action></para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<shortcut>
+<keycombo><keycap>Ctrl</keycap><keycap>Home</keycap></keycombo>
+</shortcut><guimenu>Go</guimenu>
+<guimenuitem>Home Directory</guimenuitem>
+</menuchoice></term>
+<listitem><para><action>Go home</action></para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<shortcut>
+<keycombo><keycap>Ctrl</keycap><keycap>O</keycap></keycombo>
+</shortcut><guimenu>Go</guimenu>
+<guimenuitem>Open Location</guimenuitem>
+</menuchoice></term>
+<listitem><para><action>Open Location</action></para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>Go</guimenu>
+<guimenuitem>Applications</guimenuitem>
+</menuchoice></term>
+<listitem><para><action>Open directory holding 
+applications</action></para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>Go</guimenu>
+<guimenuitem>Directory Tree</guimenuitem>
+</menuchoice></term>
+<listitem><para><action>Open directory tree in seperate 
+window</action></para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>Go</guimenu>
+<guimenuitem>Trash</guimenuitem>
+</menuchoice></term>
+<listitem><para><action>Open Trash directory</action></para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>Go</guimenu>
+<guimenuitem>Templates</guimenuitem>
+</menuchoice></term>
+<listitem><para><action>Open Templates directory</action></para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>Go</guimenu>
+<guimenuitem>Autostart</guimenuitem>
+</menuchoice></term>
+<listitem><para><action>Open Autostart directory</action></para></listitem>
+</varlistentry>
+
+</variablelist>
+</para>
+</sect2>
+
+<!-- The Bookmarks Menu  -->
+<sect2>
+<title><menuchoice>
+<shortcut>
+<keycombo><keycap>Alt</keycap><keycap>b</keycap></keycombo>
+</shortcut>
+<guimenu>Bookmarks</guimenu>
+</menuchoice>
+</title>
+<para>
+<variablelist>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>Bookmarks</guimenu>
+<guimenuitem>Edit Bookmarks...</guimenuitem>
+</menuchoice></term>
+<listitem><para><action>Edit bookmarks</action></para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>Bookmarks</guimenu>
+<guimenuitem>Add Bookmark</guimenuitem>
+</menuchoice></term>
+<listitem><para><action>Crash system</action></para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>Bookmarks</guimenu>
+<guimenuitem>Netscape Bookmarks</guimenuitem>
+</menuchoice></term>
+<listitem><para><action>View Netscape bookmarks</action></para></listitem>
+</varlistentry>
+
+</variablelist>
+</para>
+</sect2>
+
+<!-- The Tools Menu  -->
+<sect2>
+<title><menuchoice>
+<shortcut>
+<keycombo><keycap>Alt</keycap><keycap>t</keycap></keycombo>
+</shortcut>
+<guimenu>Tools</guimenu>
+</menuchoice>
+</title>
+
+<para>
+<variablelist>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>Tools</guimenu>
+<guimenuitem>Run Command...</guimenuitem>
+</menuchoice></term>
+<listitem><para><action>Run command</action></para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<shortcut>
+<keycombo><keycap>Ctrl</keycap><keycap>T</keycap></keycombo></shortcut>
+<guimenu>Tools</guimenu>
+<guimenuitem>Open Terminal...</guimenuitem>
+</menuchoice></term>
+<listitem><para><action>Open terminal</action></para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>Tools</guimenu>
+<guimenuitem>Find File...</guimenuitem>
+</menuchoice></term>
+<listitem><para><action>Find File</action></para></listitem>
+</varlistentry>
+
+</variablelist>
+</para>
+</sect2>
+
+<!-- The Settings Menu  -->
+<sect2>
+<title><menuchoice>
+<shortcut>
+<keycombo><keycap>Alt</keycap><keycap>s</keycap></keycombo>
+</shortcut>
+<guimenu>Settings</guimenu>
+</menuchoice>
+</title>
+<para>
+<variablelist>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>Settings</guimenu>
+<guimenuitem>Show Menubar</guimenuitem>
+</menuchoice></term>
+<listitem><para><action>Show Menubar</action></para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>Settings</guimenu>
+<guimenuitem>Show Toolbar</guimenuitem>
+</menuchoice></term>
+<listitem><para><action>Show Toolbar</action></para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>Settings</guimenu>
+<guimenuitem>Show Locationbar</guimenuitem>
+</menuchoice></term>
+<listitem><para><action>Show Locationbar</action></para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>Settings</guimenu>
+<guimenuitem>Show Bookmarkbar</guimenuitem>
+</menuchoice></term>
+<listitem><para><action>Show Bookmarkbar</action></para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>Settings</guimenu>
+<guimenuitem>Show Directory Tree</guimenuitem>
+</menuchoice></term>
+<listitem><para><action>Show Directory Tree></action></para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>Settings</guimenu>
+<guimenuitem>Show Terminal emulator window</guimenuitem>
+</menuchoice></term>
+<listitem><para><action>Show Terminal emulator 
+window</action></para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>Settings</guimenu>
+<guimenuitem>Save View Properties to Directory</guimenuitem>
+</menuchoice></term>
+<listitem><para><action>Save View Properties to 
+Directory</action></para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>Settings</guimenu>
+<guimenuitem>Remove Directory Properties</guimenuitem>
+</menuchoice></term>
+<listitem><para><action>Remove Directory Properties 
+</action></para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>Settings</guimenu>
+<guimenuitem>Configure</guimenuitem>
+</menuchoice></term>
+<listitem><para><action>Configure</action></para></listitem>
+</varlistentry>
+
+</variablelist>
+</para>
+</sect2>
+
+<!-- The Windows Menu  -->
+<sect2>
+<title><menuchoice>
+<shortcut>
+<keycombo><keycap>Alt</keycap><keycap>w</keycap></keycombo>
+</shortcut>
+<guimenu>Windows</guimenu>
+</menuchoice>
+</title>
+
+<para>
+<variablelist>
+
+<varlistentry>
+<term><menuchoice>
+<shortcut>
+<keycombo><keycap>Ctrl</keycap><keycap>N</keycap></keycombo></shortcut>
+<guimenu>Windows</guimenu>
+<guimenuitem>New Window</guimenuitem>
+</menuchoice></term>
+<listitem><para><action>Open new window</action></para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<shortcut>
+<keycombo><keycap>Ctrl</keycap><keycap>Shift</keycap><keycap>L</keycap></keycombo></shortcut>
+<guimenu>Windows</guimenu>
+<guimenuitem>Split View Left/Right</guimenuitem>
+</menuchoice></term>
+<listitem><para><action>Split View Left/Right</action></para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<shortcut>
+<keycombo><keycap>Ctrl</keycap><keycap>Shift</keycap><keycap>T</keycap></keycombo></shortcut>
+<guimenu>Windows</guimenu>
+<guimenuitem>Split View Top/Bottom</guimenuitem>
+</menuchoice></term>
+<listitem><para><action>Split View Top/Bottom</action></para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>Windows</guimenu>
+<guimenuitem>Split Window Left/Right</guimenuitem>
+</menuchoice></term>
+<listitem><para><action>Split Window Left/Right</action></para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>Windows</guimenu>
+<guimenuitem>Split Window Top/Bottom</guimenuitem>
+</menuchoice></term>
+<listitem><para><action>Split Window Top/Bottom</action></para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<shortcut>
+<keycombo><keycap>Ctrl</keycap><keycap>Shift</keycap><keycap>R</keycap></keycombo></shortcut>
+<guimenu>Windows</guimenu>
+<guimenuitem>Remove Active View</guimenuitem>
+</menuchoice></term>
+<listitem><para><action>Remove Active View</action></para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>Windows</guimenu>
+<guimenuitem>Save/Remove View Profile</guimenuitem>
+</menuchoice></term>
+<listitem><para><action>Save/Remove View Profile</action></para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>Windows</guimenu>
+<guimenuitem>Load View Profile</guimenuitem>
+</menuchoice></term>
+<listitem><para><action>Load View Profile</action></para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<shortcut>
+<keycombo><keycap>Ctrl</keycap><keycap>Shift</keycap><keycap>F</keycap></keycombo></shortcut>
+<guimenu>Windows</guimenu>
+<guimenuitem>Fullscreen Mode</guimenuitem>
+</menuchoice></term>
+<listitem><para><action>Fullscreen Mode</action></para></listitem>
+</varlistentry>
+
+</variablelist>
+</para>
+</sect2>
+
+<!-- The Help Menu  -->
+<sect2>
+<title><menuchoice>
+<shortcut>
+<keycombo><keycap>Alt</keycap><keycap>h</keycap></keycombo>
+</shortcut>
+<guimenu>Help</guimenu>
+</menuchoice>
+</title>
+
+<para>
+<variablelist>
+
+<varlistentry>
+<term><menuchoice>
+<shortcut><keycap>F1</keycap></shortcut>
+<guimenu>Help</guimenu>
+<guimenuitem>Contents</guimenuitem>
+</menuchoice></term>
+<listitem><para><action>Contents</action></para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<shortcut>
+<keycombo><keycap>Shift</keycap><keycap>F1</keycap></keycombo></shortcut>
+<guimenu>Help</guimenu>
+<guimenuitem>What's This?</guimenuitem>
+</menuchoice></term>
+<listitem><para><action>Don't know, it doesn't work</action></para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>Help</guimenu>
+<guimenuitem>Report Bug...</guimenuitem>
+</menuchoice></term>
+<listitem><para><action>Report bug</action></para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>Help</guimenu>
+<guimenuitem>About konqueror...</guimenuitem>
+</menuchoice></term>
+<listitem><para><action>About konqueror</action></para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>Help</guimenu>
+<guimenuitem>About KDE...</guimenuitem>
+</menuchoice></term>
+<listitem><para><action>About KDE</action></para></listitem>
+</varlistentry>
+
+</variablelist>
+</para>
+</sect2>
+
+</sect1>
+
+<!-- *********************************************** -->
+
+<sect1 id="konqueror-commands-rmb-titlebar">
+<title>Titlebar RMB Menu</title>
+<para>
+RMB on any free area of the Titlebar to bring up the Titlebar Menu.
+</para>
+</sect1>
+
+
+<!-- *********************************************** -->
+
+<sect1 id="konqueror-commands-rmb-toolbar">
+<title>Toolbar RMB Menu</title>
+<para>
+RMB on any free area of the Toolbar to bring up the Toolbar Menu.
+</para>
+</sect1>
+
+
+
+<!-- *********************************************** -->
+
+<sect1 id="konqueror-commands-rmb-window">
+<title>Window RMB Menu</title>
+<para>
+RMB on any free area of the window to bring up this Menu.
+</para>
+</sect1>
+
+<!-- *********************************************** -->
+
+<sect1 id="konqueror-commands-properties-dialog">
+<title>Properties Dialog</title>
+<para>
+Properties dialog
+</para>
+</sect1>
+
+<!-- *********************************************** -->
+
+<sect1 id="konqueror-commands-properties-saveas">
+<title>Save As Dialog</title>
+<para>
+Save As dialog
+</para>
+</sect1>
+
+<!-- *********************************************** -->
+
+<sect1 id="konqueror-commands-properties-config-fm">
+<title>Configure File Manager Dialog</title>
+<para>
+Configure File Manager dialog
+</para>
+</sect1>
+
+<!-- *********************************************** -->
+
+<sect1 id="konqueror-commands-properties-config-browser">
+<title>Configure Browser Dialog</title>
+<para>
+Configure Browser dialog
+</para>
+</sect1>
+
+<!-- *********************************************** -->
+
+<sect1 id="konqueror-commands-properties-config-fa">
+<title>Configure File Associations Dialog</title>
+<para>
+Configure File Associations dialog
+</para>
+</sect1>
+
+<!-- *********************************************** -->
+
+<sect1 id="konqueror-commands-properties-config-net">
+<title>Configure Network Dialog</title>
+<para>
+Configure Network dialog
+</para>
+</sect1>
+
+<!-- *********************************************** -->
+
+<sect1 id="konqueror-commands-properties-config-keys">
+<title>Configure Key Bindings Dialog</title>
+<para>
+Configure Key Bindings dialog
+</para>
+</sect1>
+
+<!-- *********************************************** -->
+
+<sect1 id="konqueror-commands-properties-config-tool">
+<title>Configure Toolbars Dialog</title>
+<para>
+Configure Toolbars dialog
+</para>
+</sect1>
+
+
+
+</chapter>
+
+<!-- *********************************************** -->
+
+<chapter id="developers">
+<title>Developer's Guide to Konqueror</title>
+
+<!-- (OPTIONAL) A Programming/Scripting reference chapter should be
+used for apps that use plugins or that provide their own scripting hooks
+and/or development libraries. -->
+
+<para>
+Programming <application>Konqueror</application> plugins is a joy (or so I am 
+told)
+</para>
+
+</chapter>
+
+<chapter id="faq">
+<title>Questions and Answers</title>
+
+<!-- (OPTIONAL but recommended) This chapter should include all of the silly
+(and not-so-silly) newbie questions that fill up your mailbox. This chapter
+should be reserved for BRIEF questions and answers! If one question uses more
+than a page or so then it should probably be part of the
+"Using this Application" chapter instead. You should use links to
+cross-reference questions to the parts of your documentation that answer them.
+This is also a great place to provide pointers to other FAQ's if your users
+must do some complicated configuration on other programs in order for your
+application work. -->
+
+<para>What questions ?</para>
+
+</chapter>
+
+<chapter id="credits">
+
+<!-- Include credits for the programmers, documentation writers, and
+contributors here. The license for your software should then be included below
+the credits with a reference to the appropriate license file included in the 
+KDE
+distribution. -->
+
+<title>Credits and License</title>
+
+<para>
+<application>konqueror</application>
+</para>
+<para>
+Program copyright 1997-2000 
+<itemizedlist>
+<listitem><para><emphasis>Author: </emphasis>Torben Weis 
+<email>weis@kde.org</email></para></listitem>
+
+<listitem><para><emphasis>Current maintainer: </emphasis>David Faure 
+<email>faure@kde.org</email></para></listitem>
+
+<listitem><para><emphasis>Current team:</emphasis></para></listitem>
+
+<listitem><para>David Faure <email>faure@kde.org</email></para></listitem>
+
+<listitem><para>Simon Hausmann 
+<email>hausmann@kde.org</email></para></listitem>
+
+<listitem><para>Michael Reiher 
+<email>michael.reiher@gmx.de</email></para></listitem>
+
+<listitem><para>Mattias Welk <email>welk@fokus.gmd.de</email></para></listitem>
+
+<listitem><para><emphasis>HTML rendering engine:</emphasis></para></listitem>
+
+<listitem><para>Lars Knoll <email>knoll@kde.org</email></para></listitem>
+
+<listitem><para>Antti Koivisto 
+<email>koivisto@kde.org</email></para></listitem>
+
+<listitem><para>Waldo Bastian <email>bastian@kde.org</email></para></listitem>
+
+<listitem><para><emphasis>KIO library/slaves:</emphasis></para></listitem>
+
+<listitem><para>Matt Koss <email>koss@napri.sk</email></para></listitem>
+<listitem><para>Alex Zepeda 
+<email>garbanzo@hooked.net</email></para></listitem>
+
+</itemizedlist>
+</para>
+
+<para>
+Documentation copyright 2000 
+<!--
+<itemizedlist>
+<listitem>
+<para>Wim Bakker <email>wim@comned.com</email></para>
+</listitem>
+<listitem>
+<para>Alex Cruz <email>mechtech@home.com</email></para>
+</listitem>
+<listitem>
+<para>Arjan Dronkers <email>arjan@toyland.xs4all.nl</email></para>
+</listitem>
+<listitem>
+<para>Erwan Loisant <email>jadawin@free.fr</email></para>
+</listitem>
+<listitem>
+<para>Pam Roberts <email>pam.roberts@btinternet.com</email></para>
+</listitem>
+</itemizedlist>
+-->
+</para>
+
+<para>
+Translations done by:
+<itemizedlist>
+<listitem>
+<para></para>
+</listitem>
+</itemizedlist>
+</para>
+
+<!-- For URL links to common stuff like the one below,
+always use paths like "common/gpl-licence".
+In this path, "common" will be a symbolic link built at "make install" time.
+This link will normally point to $KDEDIR/share/doc/HTML/en/common,
+where "en" should be replaced with the current language. -->
+
+<para>
+This program is licensed under the terms of the
+<ulink url="common/gpl-licence.html">GNU GPL</ulink>.
+</para>
+</chapter>
+
+<![ %addindex; [ &kdedocindex; ]]>
+</book>
+
+
+
+
+
+
+
+
+
+
