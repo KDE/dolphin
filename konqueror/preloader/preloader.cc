@@ -103,11 +103,13 @@ void KonqyPreloader::updateCount()
 	{
 	if( !check_always_preloaded_timer.isActive())
 	    {
-	    // preload new konqy, without startup notification and without waiting for it
-	    kapp->startServiceByDesktopName( QString::fromLatin1( "konqueror" ),
-		QString::fromLatin1( "--preload" ), NULL, NULL, NULL, "0", true );
-	    kdDebug( 1202 ) << "Preloading Konqueror instance" << endl;
-	    check_always_preloaded_timer.start( 5000, true );
+	    if( kapp->kdeinitExec( QString::fromLatin1( "konqueror" ),
+		QStringList() << QString::fromLatin1( "--preload" )) == 0 )
+		{
+		kdDebug( 1202 ) << "Preloading Konqueror instance" << endl;
+	        check_always_preloaded_timer.start( 5000, true );
+		}
+	    // else do nothing, the launching failed
 	    }
 	}
     }
