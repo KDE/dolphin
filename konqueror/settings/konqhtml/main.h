@@ -25,17 +25,15 @@
 #ifndef __MAIN_H__
 #define __MAIN_H__
 
-#include <qtabwidget.h>
-#include <qlayout.h>
-
 #include <kcmodule.h>
 
 class KAppearanceOptions;
-class KAdvancedOptions;
+class KJavaScriptOptions;
 class KHTTPOptions;
 class KMiscHTMLOptions;
 class KRootOptions;
 
+class QTabWidget;
 
 class KonqHTMLModule : public KCModule
 {
@@ -64,7 +62,7 @@ private:
   QTabWidget   *tab;
 
   KAppearanceOptions *appearance;
-  KAdvancedOptions   *advanced;
+  KJavaScriptOptions *javascript;
   KHTTPOptions       *http;
   KMiscHTMLOptions   *misc;
 

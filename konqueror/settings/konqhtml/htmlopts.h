@@ -10,18 +10,16 @@
 #ifndef __HTML_OPTIONS_H__
 #define __HTML_OPTIONS_H__
 
-#include <qtabdialog.h>
-#include <qcombobox.h>
-#include <qstrlist.h>
-#include <qcheckbox.h>
-#include <qlabel.h>
-#include <kconfig.h>
-#include <kcolorbtn.h>
-#include <qradiobutton.h>
-#include <kcharsets.h>
-#include <kconfig.h>
 #include <kcmodule.h>
 
+class KColorButton;
+class KConfig;
+class KListView;
+class QCheckBox;
+class QComboBox;
+class QLineEdit;
+class QListViewItem;
+class QRadioButton;
 
 //-----------------------------------------------------------------------------
 
@@ -87,40 +85,45 @@ private:
 };
 
 
-class KAdvancedOptions : public KCModule
+class KJavaScriptOptions : public KCModule
 {
   Q_OBJECT
 public:
-  KAdvancedOptions(KConfig *config, QString group, QWidget *parent=0, const char *name=0);
+  KJavaScriptOptions( KConfig* config, QString group, QWidget* parent = 0, const char* name = 0 );
 
   virtual void load();
   virtual void save();
   virtual void defaults();
 
-
 private slots:
-
-  void toggleJavaControls();
   void changed();
-
+  void importPressed(); 
+  void exportPressed();
+  void addPressed();
+  void changePressed();
+  void deletePressed();
+  void toggleJavaControls();
 
 private:
+  void changeJavaEnabled();
+  void changeJavaScriptEnabled();
+  void updateDomainList(const QStringList &domainConfig);
 
   KConfig *m_pConfig;
   QString m_groupname;
 
-  QLabel    *lb_JavaPath;
-  QLineEdit *le_JavaPath;
-  QLabel    *lb_JavaArgs;
-  QLineEdit *le_JavaArgs;
-  QCheckBox *cb_showJavaConsole;
-  QCheckBox *cb_enableJava;
-  QCheckBox *cb_enableJavaScript;
-  QRadioButton *rb_autoDetect;
-  QRadioButton *rb_userDetect;
-
-
+  QCheckBox* enableJavaGloballyCB;
+  QCheckBox* enableJavaScriptGloballyCB;
+  KListView* domainSpecificLV;
+  QCheckBox* javaConsoleCB;
+  QRadioButton* autoDetectRB;
+  QRadioButton* userSpecifiedRB;
+  QLineEdit* pathED;
+  QLineEdit* addArgED;
+  QMap<QListViewItem*, const char *> javaDomainPolicy;
+  QMap<QListViewItem*, const char *> javaScriptDomainPolicy;
 };
+
 
 #endif		// __HTML_OPTIONS_H__
 

@@ -32,7 +32,9 @@
 #include <kstddirs.h>
 #include <kmessagebox.h>
 #include <kconfig.h>
-
+#include <qmessagebox.h>
+#include <qtabwidget.h>
+#include <qlayout.h>
 #include "htmlopts.h"
 #include "khttpoptdlg.h"
 #include "miscopts.h"
@@ -59,9 +61,9 @@ KonqHTMLModule::KonqHTMLModule(QWidget *parent, const char *name)
   tab->addTab(appearance, i18n("&Appearance"));
   connect(appearance, SIGNAL(changed(bool)), this, SLOT(moduleChanged(bool)));
 
-  advanced = new KAdvancedOptions(m_localConfig, "HTML Settings", this);
-  tab->addTab(advanced, i18n("&Advanced"));
-  connect(advanced, SIGNAL(changed(bool)), this, SLOT(moduleChanged(bool)));
+  javascript = new KJavaScriptOptions( m_localConfig, "Java/JavaScript Settings", this );
+  tab->addTab( javascript, i18n( "&Java/JavaScript" ) );
+  connect( javascript, SIGNAL( changed( bool ) ), this, SLOT( moduleChanged( bool ) ) );
 
   http = new KHTTPOptions(m_globalConfig, "HTML Settings", this);
   tab->addTab(http, i18n("H&TTP"));
@@ -78,7 +80,7 @@ KonqHTMLModule::~KonqHTMLModule()
 void KonqHTMLModule::load()
 {
   appearance->load();
-  advanced->load();
+  javascript->load();
   http->load();
   misc->load();
 }
@@ -87,7 +89,7 @@ void KonqHTMLModule::load()
 void KonqHTMLModule::save()
 {
   appearance->save();
-  advanced->save();
+  javascript->save();
   http->save();
   misc->save();
 
@@ -103,7 +105,7 @@ void KonqHTMLModule::save()
 void KonqHTMLModule::defaults()
 {
   appearance->defaults();
-  advanced->defaults();
+  javascript->defaults();
   http->defaults();
   misc->defaults();
 }

@@ -8,6 +8,8 @@
 // (c) Torben Weis 1998
 // End of the KControl port, added 'kfmclient configure' call.
 // (c) David Faure 1998
+// New configuration scheme for Java/JavaScript
+// (C) Kalle Dalheimer 2000
 
 #include <qbuttongroup.h>
 #include <qcheckbox.h>
@@ -16,14 +18,25 @@
 #include <qlayout.h>
 #include <qpushbutton.h>
 #include <qradiobutton.h>
+#include <qmessagebox.h>
 #include <qwhatsthis.h>
 #include <qlineedit.h>
+#include <qvgroupbox.h>
+#include <qhbox.h>
+#include <qvbox.h>
 #include <kglobal.h>
 #include <kglobalsettings.h>
 #include <kconfig.h>
+#include <klistview.h>
+#include <kmessagebox.h>
+#include <qlabel.h>
+#include <kcolorbutton.h>
+#include <kcharsets.h>
+
 #include <X11/Xlib.h>
 
 #include "htmlopts.h"
+#include "policydlg.h"
 
 #include <konqdefaults.h> // include default values directly from konqueror
 #include <klocale.h>
@@ -364,169 +377,403 @@ void KAppearanceOptions::slotVLinkColorChanged( const QColor &col )
 }
 
 
-KAdvancedOptions::KAdvancedOptions(KConfig *config, QString group, QWidget *parent, const char *name )
-    : KCModule( parent, name ), m_pConfig(config), m_groupname(group)
+/*
+* The functions below are utility functions used to
+* properly split and change a Java/JavaScript policy information
+* from a string format to one appropriate. They are bluntly stolen from
+* kcookiespolicies.cpp and modified to fit Java/JavaScript.
+*
+*/
+
+enum KJavaScriptAdvice {
+    KJavaScriptDunno=0,
+    KJavaScriptAccept,
+    KJavaScriptReject
+};
+
+static const char * adviceToStr(KJavaScriptAdvice _advice)
 {
-    QVBoxLayout *lay = new QVBoxLayout(this, 10, 5);
-
-    QGroupBox *javaScript = new QGroupBox(i18n("Java Script"), this);
-    cb_enableJavaScript = new QCheckBox(i18n("Enable Java&Script"), javaScript);
-
-    QVBoxLayout *vbox = new QVBoxLayout(javaScript, 5, 5);
-    vbox->addSpacing(10);
-    vbox->addWidget(cb_enableJavaScript);
-
-    QWhatsThis::add( cb_enableJavaScript, i18n("Enables the execution of scripts written in ECMA-Script "
-        "(as known as JavaScript) that can be contained in HTML pages. Be aware that JavaScript support "
-        "is not yet finished. Note that, as with any browser, enabling scripting languages can be a security problem.") );
-
-    lay->addWidget(javaScript);
-
-    connect(cb_enableJavaScript, SIGNAL(clicked()), this, SLOT(changed()));
-
-    lay->setSpacing(10);
-
-    QGroupBox *java = new QGroupBox(i18n("Java"), this);
-    cb_enableJava = new QCheckBox(i18n("Enable &Java"), java);
-    cb_showJavaConsole = new QCheckBox(i18n("Show Java Console"), java);
-    lb_JavaArgs = new QLabel(i18n("Additional Java arguments"), java);
-    le_JavaArgs = new QLineEdit(java);
-    QButtonGroup *bg = new QButtonGroup();
-    rb_autoDetect = new QRadioButton( i18n("Automatically detect Java"), java );
-    rb_userDetect = new QRadioButton( i18n("Use user-specified Java"), java );
-    bg->insert(rb_autoDetect);
-    bg->insert(rb_userDetect);
-
-    bg->setExclusive( TRUE );
-
-    lb_JavaPath = new QLabel(i18n("Path to JDK"),java);
-    le_JavaPath = new QLineEdit(java);
-
-    QVBoxLayout *vbox2 = new QVBoxLayout(java, 5, 5);
-    vbox2->addSpacing(10);
-    vbox2->addWidget(cb_enableJava);
-    vbox2->addWidget(cb_showJavaConsole);
-
-    QHBoxLayout *hlay3 = new QHBoxLayout(10);
-    hlay3->addWidget(rb_autoDetect);
-    hlay3->addWidget(rb_userDetect);
-    vbox2->addLayout(hlay3);
-
-    QHBoxLayout *hlay = new QHBoxLayout(10);
-    hlay->addWidget(lb_JavaPath, 1);
-    hlay->addWidget(le_JavaPath, 5);
-
-    vbox2->addLayout(hlay);
-
-    QHBoxLayout *hlay2 = new QHBoxLayout(10);
-    hlay2->addWidget(lb_JavaArgs, 1);
-    hlay2->addWidget(le_JavaArgs, 5);
-
-    vbox2->addLayout(hlay2);
-
-    QWhatsThis::add( cb_enableJava, i18n("This option enables konqueror's support for java applets.") );
-    QWhatsThis::add( cb_showJavaConsole, i18n("FIXME: what is this exactly?") );
-    QString wtstr = i18n("If 'Automatically detect Java' is selected, konqueror will try to find "
-       "your java installation on its own (this should normally work, if java is somewhere in your path). "
-       "Select 'Use user-specified Java' if konqueror can't find your Java installation or if you have "
-       "several virtual machines installed and want to use a special one. In this case, enter the full path "
-       "to your java installation in the edit field below.");
-    QWhatsThis::add( rb_autoDetect, wtstr );
-    QWhatsThis::add( rb_userDetect, wtstr );
-    wtstr = i18n("If 'Use user-specified Java' is selected, you'll need to enter the path to "
-       "your Java installation here (i.e. /usr/lib/jdk ).");
-    QWhatsThis::add( lb_JavaPath, wtstr );
-    QWhatsThis::add( le_JavaPath, wtstr );
-    wtstr = i18n("If you want special arguments to be passed to the virtual machine, enter them here.");
-    QWhatsThis::add( lb_JavaArgs, wtstr );
-    QWhatsThis::add( le_JavaArgs, wtstr );
-
-    lay->addWidget(java);
-
-    // Change
-    connect(bg, SIGNAL(clicked(int)), this, SLOT(changed()));
-    connect(cb_enableJava, SIGNAL(clicked()), this, SLOT(changed()));
-    connect(cb_showJavaConsole, SIGNAL(clicked()), this, SLOT(changed()));
-    connect(le_JavaPath, SIGNAL(textChanged(const QString&)), this, SLOT(changed()));
-    connect(le_JavaArgs, SIGNAL(textChanged(const QString&)), this, SLOT(changed()));
-
-    connect(cb_enableJava, SIGNAL(clicked()), this, SLOT(toggleJavaControls()));
-    connect(bg, SIGNAL(clicked(int)), this, SLOT(toggleJavaControls()));
-
-    lay->addStretch(10);
-    lay->activate();
-
-    load();
+    switch( _advice ) {
+    case KJavaScriptAccept: return I18N_NOOP("Accept");
+    case KJavaScriptReject: return I18N_NOOP("Reject");
+    default: return 0;
+    }
 }
 
-void KAdvancedOptions::load()
+static KJavaScriptAdvice strToAdvice(const QString& _str)
+{
+  KJavaScriptAdvice ret = KJavaScriptDunno;
+
+    if (!_str)
+        ret = KJavaScriptDunno;
+
+    if (_str.lower() == QString::fromLatin1("accept"))
+        ret = KJavaScriptAccept;
+    else if (_str.lower() == QString::fromLatin1("reject"))
+        ret = KJavaScriptReject;
+
+    return ret;
+}
+
+static void splitDomainAdvice(const QString& configStr, QString &domain, 
+							  KJavaScriptAdvice &javaAdvice, KJavaScriptAdvice& javaScriptAdvice)
+{
+    QString tmp(configStr);
+    int splitIndex = tmp.find(':');
+    if ( splitIndex == -1)
+    {
+        domain = configStr;
+        javaAdvice = KJavaScriptDunno;
+		javaScriptAdvice = KJavaScriptDunno;
+    }
+    else
+    {
+        domain = tmp.left(splitIndex);
+		QString adviceString = tmp.mid( splitIndex+1, tmp.length() );
+		int splitIndex2 = adviceString.find( ':' );
+		if( splitIndex2 == -1 ) {
+		  // Java advice only
+		  javaAdvice = strToAdvice( adviceString );
+		  javaScriptAdvice = KJavaScriptDunno;
+		} else {
+		  // Java and JavaScript advice
+		  javaAdvice = strToAdvice( adviceString.left( splitIndex2 ) );
+		  javaScriptAdvice = strToAdvice( adviceString.mid( splitIndex2+1,
+															adviceString.length() ) );
+		}
+    }
+}
+
+
+KJavaScriptOptions::KJavaScriptOptions( KConfig* config, QString group, QWidget *parent, 
+										const char *name ) :
+  KCModule( parent, name ), m_pConfig( config ), m_groupname( group )
+{
+  QVBoxLayout* toplevel = new QVBoxLayout( this, 10, 5 );
+
+  // the global checkbox
+  QVGroupBox* globalGB = new QVGroupBox( i18n( "Global Settings" ), this );
+  toplevel->addWidget( globalGB );
+  enableJavaGloballyCB = new QCheckBox( i18n( "Enable &Java globally" ), globalGB );
+  QWhatsThis::add( enableJavaGloballyCB, i18n("Enables the execution of scripts written in Java "
+        "that can be contained in HTML pages. Be aware that Java support "
+        "is not yet finished. Note that, as with any browser, enabling active contents can be a security problem.") );
+  connect( enableJavaGloballyCB, SIGNAL( clicked() ), this, SLOT( changed() ) );
+  connect( enableJavaGloballyCB, SIGNAL( clicked() ), 
+		   this, SLOT( toggleJavaControls() ) );
+  enableJavaScriptGloballyCB = new QCheckBox( i18n( "Enable Java&Script globally" ), 
+											  globalGB );
+  QWhatsThis::add( enableJavaScriptGloballyCB, i18n("Enables the execution of scripts written in ECMA-Script "
+        "(as known as JavaScript) that can be contained in HTML pages. Be aware that JavaScript support "
+        "is not yet finished. Note that, as with any browser, enabling scripting languages can be a security problem.") );
+  connect( enableJavaScriptGloballyCB, SIGNAL( clicked() ), this, SLOT( changed() ) );
+
+  // the domain-specific listview (copied and modified from Cookies configuration)
+  QVGroupBox* domainSpecificGB = new QVGroupBox( i18n( "Domain-specific" ), this );
+  toplevel->addWidget( domainSpecificGB, 2 );
+  QHBox* domainSpecificHB = new QHBox( domainSpecificGB );
+  domainSpecificHB->setSpacing( 10 );
+  domainSpecificLV = new KListView( domainSpecificHB );
+  domainSpecificLV->setMinimumHeight( 0.10 * sizeHint().height() );
+  domainSpecificLV->addColumn(i18n("Hostname"));
+  domainSpecificLV->addColumn(i18n("Java Policy"), 100);
+  domainSpecificLV->addColumn(i18n("JavaScript Policy"), 120);
+  QString wtstr = i18n("This box contains the domains and hosts you have set "
+					   "a specific JavaScript policy for. This policy will be used "
+					   "instead of the default policy for enabling or disabling JavaScript on pages sent by these "
+					   "domains or hosts. <p>Select a policy and use the controls on "
+					   "the right to modify it.");
+  QWhatsThis::add( domainSpecificLV, wtstr );
+  QWhatsThis::add( domainSpecificGB, wtstr );
+  
+  QVBox* domainSpecificVB = new QVBox( domainSpecificHB );
+  domainSpecificVB->setSpacing( 10 );
+  QPushButton* addDomainPB = new QPushButton( i18n("Add..."), domainSpecificVB );
+  QWhatsThis::add( addDomainPB, i18n("Click on this button to manually add a domain-"
+									 "specific policy.") );
+  connect( addDomainPB, SIGNAL(clicked()), SLOT( addPressed() ) );
+  
+  QPushButton* changeDomainPB = new QPushButton( i18n("Change..."), domainSpecificVB );
+  QWhatsThis::add( changeDomainPB, i18n("Click on this button to change the policy for the "
+										"domain selected in the list box.") );
+  connect( changeDomainPB, SIGNAL( clicked() ), this, SLOT( changePressed() ) );
+  
+  QPushButton* deleteDomainPB = new QPushButton( i18n("Delete"), domainSpecificVB );
+  QWhatsThis::add( deleteDomainPB, i18n("Click on this button to change the policy for the "
+										"domain selected in the list box.") );
+  connect( deleteDomainPB, SIGNAL( clicked() ), this, SLOT( deletePressed() ) );
+
+  QPushButton* importDomainPB = new QPushButton( i18n("Import..."), domainSpecificVB );
+  QWhatsThis::add( importDomainPB, i18n("Click this button to choose the file that contains "
+										"the JavaScript policies.  These policies will be merged "
+										"with the exisiting ones.  Duplicate enteries are ignored.") );
+  connect( importDomainPB, SIGNAL( clicked() ), this, SLOT( importPressed() ) );
+  importDomainPB->setEnabled( false );
+  
+  QPushButton* exportDomainPB = new QPushButton( i18n("Export..."), domainSpecificVB );
+  QWhatsThis::add( exportDomainPB, i18n("Click this button to save the JavaScript policy to a zipped "
+										"file.  The file, named <b>javascript_policy.tgz</b>, will be "
+										"saved to a location of your choice." ) );
+  
+  connect( exportDomainPB, SIGNAL( clicked() ), this, SLOT( exportPressed() ) );
+  exportDomainPB->setEnabled( false );
+  
+  QWhatsThis::add( domainSpecificGB, i18n("Here you can set specific JavaScript policies for any particular "
+										  "domain. To add a new policy, simply click the <i>Add...</i> "
+										  "button and supply the necessary information requested by the "
+										  "dialog box. To change an exisiting policy, click on the <i>Change...</i> "
+										  "button and choose the new policy from the policy dialog box.  Clicking "
+										  "on the <i>Delete</i> will remove the selected policy causing the default "
+										  "policy setting to be used for that domain. The <i>Import</i> and <i>Export</i> "
+										  "button allows you to easily share your policies with other people by allowing "
+										  "you to save and retrive them from a zipped file.") );
+
+  // the Java runtime settings
+  QVGroupBox* javartGB = new QVGroupBox( i18n( "Java Runtime Settings" ), this );
+  toplevel->addWidget( javartGB );
+
+  javaConsoleCB = new QCheckBox( i18n( "Show Java Console" ), javartGB );
+  QWhatsThis::add( javaConsoleCB, i18n("FIXME: what is this exactly?") );
+  connect( javaConsoleCB, SIGNAL( toggled( bool ) ),
+		   this, SLOT( changed() ) );
+  QHBox* findJavaHB = new QHBox( javartGB );
+  QButtonGroup* dummy = new QButtonGroup( javartGB );
+  dummy->hide();
+  findJavaHB->setSpacing( 10 );
+  autoDetectRB = new QRadioButton( i18n( "&Automatically detect Java" ),
+								   findJavaHB );
+  connect( autoDetectRB, SIGNAL( toggled( bool ) ),
+		   this, SLOT( changed() ) );
+  connect( autoDetectRB, SIGNAL( toggled( bool ) ),
+		   this, SLOT( toggleJavaControls() ) );
+  dummy->insert( autoDetectRB );
+  userSpecifiedRB = new QRadioButton( i18n( "Use user-specified Java" ),
+									  findJavaHB );
+  connect( userSpecifiedRB, SIGNAL( toggled( bool ) ),
+		   this, SLOT( changed() ) );
+  connect( userSpecifiedRB, SIGNAL( toggled( bool ) ),
+		   this, SLOT( toggleJavaControls() ) );
+  dummy->insert( userSpecifiedRB );
+  wtstr = i18n("If 'Automatically detect Java' is selected, konqueror will try to find "
+       "your java installation on its own (this should normally work, if java is somewhere in your path). "
+					   "Select 'Use user-specified Java' if konqueror can't find your Java installation or if you have "
+					   "several virtual machines installed and want to use a special one. In this case, enter the full path "
+					   "to your java installation in the edit field below.");
+  QWhatsThis::add( autoDetectRB, wtstr );
+  QWhatsThis::add( userSpecifiedRB, wtstr );
+
+  QHBox* pathHB = new QHBox( javartGB );
+  pathHB->setSpacing( 10 );
+  QLabel* pathLA = new QLabel( i18n( "&Path to JDK" ), pathHB );
+  pathED = new QLineEdit( pathHB );
+  connect( pathED, SIGNAL( textChanged( const QString& ) ), 
+		   this, SLOT( changed() ) );
+  pathLA->setBuddy( pathED );
+  QHBox* addArgHB = new QHBox( javartGB );
+  addArgHB->setSpacing( 10 );
+  QLabel* addArgLA = new QLabel( i18n( "Additional Java A&rguments" ), addArgHB  );
+  addArgED = new QLineEdit( javartGB );
+  connect( addArgED, SIGNAL( textChanged( const QString& ) ), 
+		   this, SLOT( changed() ) );
+  addArgLA->setBuddy( addArgED );
+  wtstr = i18n("If 'Use user-specified Java' is selected, you'll need to enter the path to "
+			   "your Java installation here (i.e. /usr/lib/jdk ).");
+  QWhatsThis::add( pathED, wtstr );
+  wtstr = i18n("If you want special arguments to be passed to the virtual machine, enter them here.");
+  QWhatsThis::add( addArgED, wtstr );
+
+  // Finally do the loading
+  load();
+}
+
+
+void KJavaScriptOptions::load()
 {
     // *** load ***
     m_pConfig->setGroup(m_groupname);
-    bool bJavaScript = m_pConfig->readBoolEntry( "EnableJavaScript", false);
-    bool bJava = m_pConfig->readBoolEntry( "EnableJava", false);
-    bool bJavaConsole = m_pConfig->readBoolEntry( "ShowJavaConsole", false);
-    bool bJavaAutoDetect = m_pConfig->readBoolEntry( "JavaAutoDetect", true);
-    QString sJDKArgs = m_pConfig->readEntry( "JavaArgs", "" );
+    bool bJavaGlobal = m_pConfig->readBoolEntry( "EnableJava", false);
+	bool bJavaScriptGlobal = m_pConfig->readBoolEntry( "EnableJavaScript",
+														false );
+	bool bJavaConsole = m_pConfig->readBoolEntry( "ShowJavaConsole", false );
+	bool bJavaAutoDetect = m_pConfig->readBoolEntry( "JavaAutoDetect", true );
+	QString sJDKArgs = m_pConfig->readEntry( "JavaArgs", "" );
     QString sJDK = m_pConfig->readEntry( "JavaPath", "/usr/lib/jdk" );
 
+	updateDomainList(m_pConfig->readListEntry("JavaScriptDomainAdvice"));
+	changeJavaEnabled();
+	changeJavaScriptEnabled();
+
     // *** apply to GUI ***
+    enableJavaGloballyCB->setChecked( bJavaGlobal );
+	enableJavaScriptGloballyCB->setChecked( bJavaScriptGlobal );
+	javaConsoleCB->setChecked( bJavaConsole );
+	if( bJavaAutoDetect )
+	  autoDetectRB->setChecked( true );
+	else
+	  userSpecifiedRB->setChecked( true );
 
-    cb_enableJavaScript->setChecked(bJavaScript);
-    cb_enableJava->setChecked(bJava);
-    cb_showJavaConsole->setChecked(bJavaConsole);
+	addArgED->setText( sJDKArgs );
+	pathED->setText( sJDK );
 
-    if(bJavaAutoDetect)
-      rb_autoDetect->setChecked(true);
-    else
-      rb_userDetect->setChecked(true);
-
-    le_JavaArgs->setText(sJDKArgs);
-    le_JavaPath->setText(sJDK);
-
-    toggleJavaControls();
+	toggleJavaControls();
 }
 
-void KAdvancedOptions::defaults()
+void KJavaScriptOptions::defaults()
 {
-    cb_enableJavaScript->setChecked(false);
-    cb_enableJava->setChecked(false);
-    cb_showJavaConsole->setChecked(false);
-    rb_autoDetect->setChecked(true);
-    le_JavaPath->setText("/usr/lib/jdk");
-    le_JavaArgs->setText("");
+  enableJavaGloballyCB->setChecked( false );
+  enableJavaScriptGloballyCB->setChecked( false );
+  javaConsoleCB->setChecked( false );
+  autoDetectRB->setChecked( true );
+  pathED->setText( "/usr/lib/jdk" );
+  addArgED->setText( "" );
 
-    toggleJavaControls();
+  toggleJavaControls();
 }
 
-void KAdvancedOptions::save()
+void KJavaScriptOptions::save()
 {
     m_pConfig->setGroup(m_groupname);
-    m_pConfig->writeEntry( "EnableJavaScript", cb_enableJavaScript->isChecked());
-    m_pConfig->writeEntry( "EnableJava", cb_enableJava->isChecked());
-    m_pConfig->writeEntry( "ShowJavaConsole", cb_showJavaConsole->isChecked());
-    m_pConfig->writeEntry( "JavaAutoDetect", rb_autoDetect->isChecked());
-    m_pConfig->writeEntry( "JavaArgs", le_JavaArgs->text());
-    m_pConfig->writeEntry( "JavaPath", le_JavaPath->text());
+    m_pConfig->writeEntry( "EnableJava", enableJavaGloballyCB->isChecked());
+    m_pConfig->writeEntry( "EnableJavaScript", enableJavaScriptGloballyCB->isChecked());
+	m_pConfig->writeEntry( "ShowJavaConsole", javaConsoleCB->isChecked() );
+	m_pConfig->writeEntry( "JavaAutoDetect", autoDetectRB->isChecked() );
+	m_pConfig->writeEntry( "JavaArgs", addArgED->text() );
+	m_pConfig->writeEntry( "JavaPath", pathED->text() );
+
+	QStringList domainConfig;
+	QListViewItemIterator it( domainSpecificLV );
+	QListViewItem* current;
+	while( ( current = it.current() ) ) {
+	  ++it;
+	  domainConfig.append(QString::fromLatin1("%1:%2:%3").arg(current->text(0)).arg(javaDomainPolicy[current]).arg(javaScriptDomainPolicy[current]));
+	}
+	m_pConfig->writeEntry("JavaScriptDomainAdvice", domainConfig);
+	
     m_pConfig->sync();
 }
 
-void KAdvancedOptions::changed()
+void KJavaScriptOptions::changed()
 {
   emit KCModule::changed(true);
 }
 
-void KAdvancedOptions::toggleJavaControls()
+
+void KJavaScriptOptions::toggleJavaControls()
 {
-  bool isEnabled = cb_enableJava->isChecked();
-  cb_showJavaConsole->setEnabled(isEnabled);
-  lb_JavaArgs->setEnabled(isEnabled);
-  le_JavaArgs->setEnabled(isEnabled);
-  rb_autoDetect->setEnabled(isEnabled);
-  rb_userDetect->setEnabled(isEnabled);
-  lb_JavaPath->setEnabled(isEnabled && rb_userDetect->isChecked());
-  le_JavaPath->setEnabled(isEnabled && rb_userDetect->isChecked());
+  bool isEnabled = enableJavaGloballyCB->isChecked();
+  javaConsoleCB->setEnabled(isEnabled);
+  addArgED->setEnabled(isEnabled);
+  autoDetectRB->setEnabled(isEnabled);
+  userSpecifiedRB->setEnabled(isEnabled);
+  pathED->setEnabled(isEnabled && userSpecifiedRB->isChecked());
 }
+
+void KJavaScriptOptions::addPressed()
+{
+    PolicyDialog pDlg( this, 0L );
+    // We subtract one from the enum value because
+    // KJavaScriptDunno is not part of the choice list.
+    int def_javapolicy = KJavaScriptReject - 1;
+    int def_javascriptpolicy = KJavaScriptReject - 1;
+    pDlg.setDefaultPolicy( def_javapolicy, def_javascriptpolicy );
+    pDlg.setCaption( i18n( "New Java/JavaScript Policy" ) );
+    if( pDlg.exec() ) {
+	  QListViewItem* index = new QListViewItem( domainSpecificLV, pDlg.domain(),
+												adviceToStr( (KJavaScriptAdvice)
+															 pDlg.javaPolicyAdvice() ),
+												adviceToStr( (KJavaScriptAdvice)
+															 pDlg.javaScriptPolicyAdvice() ) );
+	  javaDomainPolicy.insert( index, adviceToStr( (KJavaScriptAdvice)pDlg.javaPolicyAdvice() ) );
+	  javaScriptDomainPolicy.insert( index, adviceToStr( (KJavaScriptAdvice)pDlg.javaScriptPolicyAdvice() ) );
+	  domainSpecificLV->setCurrentItem( index );
+	  changed();
+    }
+}
+
+void KJavaScriptOptions::changePressed()
+{
+    QListViewItem *index = domainSpecificLV->currentItem();
+    if ( index == 0 )
+    {
+        KMessageBox::information( 0, i18n("You must first select a policy to be changed!" ) );
+        return;
+    }
+
+    KJavaScriptAdvice javaAdvice = strToAdvice(javaDomainPolicy[index]);
+    KJavaScriptAdvice javaScriptAdvice = strToAdvice(javaScriptDomainPolicy[index]);
+
+    PolicyDialog pDlg( this );
+    pDlg.setDisableEdit( false, index->text(0) );
+    pDlg.setCaption( i18n( "Change Java/JavaScript Policy" ) );
+    // We subtract one from the enum value because
+    // KJavaScriptDunno is not part of the choice list.
+    pDlg.setDefaultPolicy( javaAdvice - 1, javaScriptAdvice - 1  );
+    if( pDlg.exec() )
+    {
+      javaDomainPolicy[index] =
+		adviceToStr((KJavaScriptAdvice)pDlg.javaPolicyAdvice());
+	  javaScriptDomainPolicy[index] =
+		adviceToStr((KJavaScriptAdvice)pDlg.javaScriptPolicyAdvice() );
+      index->setText(1, i18n(javaDomainPolicy[index]) );
+	  index->setText(2, i18n(javaScriptDomainPolicy[index] ));
+      changed();
+    }
+}
+
+void KJavaScriptOptions::deletePressed()
+{
+    QListViewItem *index = domainSpecificLV->currentItem();
+    if ( index == 0 )
+    {
+        KMessageBox::information( 0, i18n("You must first select a policy to delete!" ) );
+        return;
+    }
+    javaDomainPolicy.remove(index);
+    javaScriptDomainPolicy.remove(index);
+    delete index;
+    changed();
+}
+
+void KJavaScriptOptions::importPressed()
+{
+  // PENDING(kalle) Implement this.
+}
+
+void KJavaScriptOptions::exportPressed()
+{
+  // PENDING(kalle) Implement this.
+}
+
+void KJavaScriptOptions::changeJavaEnabled()
+{
+  bool enabled = enableJavaGloballyCB->isChecked();
+  enableJavaGloballyCB->setChecked( enabled );
+}
+
+void KJavaScriptOptions::changeJavaScriptEnabled()
+{
+  bool enabled = enableJavaScriptGloballyCB->isChecked();
+  enableJavaScriptGloballyCB->setChecked( enabled );
+}
+
+void KJavaScriptOptions::updateDomainList(const QStringList &domainConfig)
+{
+    for (QStringList::ConstIterator it = domainConfig.begin();
+         it != domainConfig.end(); ++it) {
+      QString domain;
+      KJavaScriptAdvice javaAdvice;
+	  KJavaScriptAdvice javaScriptAdvice;
+      splitDomainAdvice(*it, domain, javaAdvice, javaScriptAdvice);
+      QCString javaAdvStr = adviceToStr(javaAdvice);
+	  QCString javaScriptAdvStr = adviceToStr(javaScriptAdvice);
+      QListViewItem *index =
+        new QListViewItem( domainSpecificLV, domain, i18n(javaAdvStr), 
+						   i18n( javaScriptAdvStr ) );
+      javaDomainPolicy[index] = javaAdvStr;
+      javaScriptDomainPolicy[index] = javaScriptAdvStr;
+    }
+}
+
 
 #include "htmlopts.moc"
 
