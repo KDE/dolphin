@@ -988,7 +988,7 @@ void KonqBaseListViewWidget::paintEmptyArea( QPainter *p, const QRect &r )
     }
 
     if (!hasPixmap)
-        p->fillRect(r, backgroundColor());
+        p->fillRect(r, viewport()->backgroundColor());
     else
     {
         int ax = (r.x() + contentsX()/* + leftMargin()*/) % pm->width();
