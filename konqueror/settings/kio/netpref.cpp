@@ -62,12 +62,12 @@ KIOPreferences::KIOPreferences( QWidget* parent,  const char* name )
     vlay_firstColumnSpinBox->setMargin( 0 );
 
     sb_socketRead = new QSpinBox( gb_Timeout, "sb_socketRead" );
-    sb_socketRead->setSuffix( i18n( "    sec" ) );
+    sb_socketRead->setSuffix( i18n( " sec" ) );
     connect(sb_socketRead, SIGNAL(valueChanged ( int )),this, SLOT(configChanged()));
     vlay_firstColumnSpinBox->addWidget( sb_socketRead );
 
     sb_proxyConnect = new QSpinBox( gb_Timeout, "sb_proxyConnect" );
-    sb_proxyConnect->setSuffix( i18n( "    sec" ) );
+    sb_proxyConnect->setSuffix( i18n( " sec" ) );
     connect(sb_proxyConnect, SIGNAL(valueChanged ( int )),this, SLOT(configChanged()));
     vlay_firstColumnSpinBox->addWidget( sb_proxyConnect );
 
@@ -97,12 +97,12 @@ KIOPreferences::KIOPreferences( QWidget* parent,  const char* name )
     vlay_secondColumnSpinBox->setMargin( 0 );
 
     sb_serverConnect = new QSpinBox( gb_Timeout, "sb_serverConnect" );
-    sb_serverConnect->setSuffix( i18n( "    sec" ) );
+    sb_serverConnect->setSuffix( i18n( " sec" ) );
     vlay_secondColumnSpinBox->addWidget( sb_serverConnect );
     connect(sb_serverConnect, SIGNAL(valueChanged ( int )),this, SLOT(configChanged()));
 
     sb_serverResponse = new QSpinBox( gb_Timeout, "sb_serverResponse" );
-    sb_serverResponse->setSuffix( i18n( "    sec" ) );
+    sb_serverResponse->setSuffix( i18n( " sec" ) );
     vlay_secondColumnSpinBox->addWidget( sb_serverResponse );
     connect(sb_serverResponse, SIGNAL(valueChanged ( int )),this, SLOT(configChanged()));
     grid_secondColumn->addLayout( vlay_secondColumnSpinBox, 0, 2 );
@@ -117,9 +117,9 @@ KIOPreferences::KIOPreferences( QWidget* parent,  const char* name )
     mainLayout->addWidget( gb_Timeout );
 
     gb_Ftp = new QGroupBox( 1, Qt::Vertical, i18n( "FTP Options" ), this, "gb_Ftp" );
-    cb_ftpDisablePasv = new QCheckBox( i18n( "Disable Passive &Mode (PASV)" ), gb_Ftp );
+    cb_ftpEnablePasv = new QCheckBox( i18n( "Enable Passive &Mode (PASV)" ), gb_Ftp );
     mainLayout->addWidget( gb_Ftp );
-    connect(cb_ftpDisablePasv, SIGNAL(toggled ( bool  )),this,SLOT(configChanged()));
+    connect(cb_ftpEnablePasv, SIGNAL(toggled ( bool  )),this,SLOT(configChanged()));
 
     mainLayout->addStretch();
 
@@ -158,7 +158,7 @@ void KIOPreferences::load()
   sb_proxyConnect->setMaxValue( MAX_TIMEOUT_VALUE );
 
   KConfig config( "kio_ftprc", true, false );
-  cb_ftpDisablePasv->setChecked( config.readBoolEntry( "DisablePassiveMode", false ) );
+  cb_ftpEnablePasv->setChecked( !config.readBoolEntry( "DisablePassiveMode", false ) );
 }
 
 void KIOPreferences::save()
@@ -169,7 +169,7 @@ void KIOPreferences::save()
   KSaveIOConfig::setProxyConnectTimeout( sb_proxyConnect->value() );
 
   KConfig config( "kio_ftprc", false, false );
-  config.writeEntry( "DisablePassiveMode", cb_ftpDisablePasv->isChecked() );
+  config.writeEntry( "DisablePassiveMode", !cb_ftpEnablePasv->isChecked() );
   config.sync();
 
   emit changed(true);
@@ -191,7 +191,7 @@ void KIOPreferences::defaults()
   sb_serverConnect->setValue( DEFAULT_CONNECT_TIMEOUT );
   sb_proxyConnect->setValue( DEFAULT_PROXY_CONNECT_TIMEOUT );
 
-  cb_ftpDisablePasv->setChecked( false );
+  cb_ftpEnablePasv->setChecked( true );
 
   emit changed(true);
 }
