@@ -39,6 +39,7 @@
 #include <kurl.h>
 #include <klocale.h>
 #include <kmessagebox.h>
+#include <kfiledialog.h>
 #include <kdebug.h>
 #include <kiconloader.h>
 #include <konqdefaults.h>
@@ -158,12 +159,14 @@ KonqTextView::KonqTextView()
   m_paSelectAll = new KAction( i18n( "Select &All" ), 0, this, SLOT( slotSelectAll() ), this );
   m_paEdit = new KAction( i18n( "Launch &Editor" ), QIconSet( BarIcon( "pencil", KonqFactory::instance() ) ), 0, this, SLOT( slotEdit() ), this );
   m_paSearch = new KAction( i18n( "Search..." ), QIconSet( BarIcon( "search", KonqFactory::instance() ) ), 0, this, SLOT( slotSearch() ), this );
-  m_ptaFixedFont = new QToggleAction( i18n( "Use Fixed Font" ), 0, this, SLOT( slotFixedFont() ), this );
+  m_ptaFixedFont = new KToggleAction( i18n( "Use Fixed Font" ), 0, this, SLOT( slotFixedFont() ), this );
+  m_paSaveDocument = new KAction( i18n( "Save Document As..." ), 0, this, SLOT( slotSaveDocumentAs() ), this ); 
 
   actions()->append( BrowserView::ViewAction( m_paSelectAll, BrowserView::MenuView ) );
   actions()->append( BrowserView::ViewAction( m_paEdit, BrowserView::MenuEdit | BrowserView::ToolBar ) );
   actions()->append( BrowserView::ViewAction( m_paSearch, BrowserView::MenuEdit | BrowserView::ToolBar ) );
   actions()->append( BrowserView::ViewAction( m_ptaFixedFont, BrowserView::MenuView ) );
+  actions()->append( BrowserView::ViewAction( m_paSaveDocument, BrowserView::MenuView ) );
 }
 
 KonqTextView::~KonqTextView()
@@ -352,6 +355,24 @@ void KonqTextView::slotSearch()
   
   delete m_pSearchDialog;
   m_pSearchDialog = 0L;
+}
+
+void KonqTextView::slotSaveDocumentAs()
+{
+  KURL u( m_strURL );
+
+  KFileDialog *dlg = new KFileDialog( QString::null, "*\n*.txt",
+				      this, "filedialog", true, false );
+
+  dlg->setCaption( i18n( "Save as" ) );
+  dlg->setSelection( dlg->dirPath() + u.filename() );
+  if ( dlg->exec() )
+  {
+    KURL dest = dlg->selectedFileURL();
+    KIOJob *job = new KIOJob;
+    job->copy( m_strURL, dest.url() );
+  }
+  delete dlg;
 }
 
 /*

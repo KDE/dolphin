@@ -103,6 +103,7 @@ protected slots:
   void slotEdit();
   void slotFixedFont();
   void slotSearch();
+  void slotSaveDocumentAs();
 
 protected:
 //  virtual void mousePressEvent( QMouseEvent *e );
@@ -128,10 +129,11 @@ private:
   
   long int m_idFixedFont;
   
-  QAction *m_paSelectAll;
-  QAction *m_paEdit;
-  QAction *m_paSearch;
-  QToggleAction *m_ptaFixedFont;
+  KAction *m_paSelectAll;
+  KAction *m_paEdit;
+  KAction *m_paSearch;
+  KToggleAction *m_ptaFixedFont;
+  KAction *m_paSaveDocument;
 };
 
 class KMultiLineEdit : public QMultiLineEdit
