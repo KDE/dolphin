@@ -29,7 +29,6 @@ konq_iconviewwidget.* : the specialisation of QIconView that knows about files.
                   Basic widget for icon views in konqueror and kdesktop.
 konq_drag.*      : the drag object for konqiconviewwidget (adds text/uri-list
                   support to QIconView's drag object).
-konq_imagepreviewjob.* : the KIO::Job that implements the image preview feature
 
 4) configuration
 konq_propsview.* : view properties (global and per-directory)
