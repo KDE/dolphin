@@ -628,3 +628,4 @@ void KXtWidget::resizeEvent( QResizeEvent* )
     XSendEvent( qt_xdisplay(), c.event, TRUE, NoEventMask, (XEvent*)&c );
     XtResizeWidget( xtw, width(), height(), preferred.border_width );
 }
+#include "kxt.moc"
