@@ -7,7 +7,8 @@ plugin_part.cpp: NSPluginClassIface_stub.h
 NSPluginClassIface_stub.h: NSPluginClassIface.h
 
 NSPluginClassIface.h:
-	ln -s viewer/NSPluginClassIface.h .
+	-rm -f ./NSPluginClassIface.h
+	-ln -s $(srcdir)/viewer/NSPluginClassIface.h .
 
 
 lib_LTLIBRARIES = libnsplugin.la

@@ -12,4 +12,5 @@ nspluginviewer_LDFLAGS = -Wl,--export-dynamic
 
 
 NSPluginCallbackIface.h:
-	ln -s ../NSPluginCallbackIface.h .
+	-rm -f ./NSPluginCallbackIface.h
+	-ln -s $(srcdir)/../NSPluginCallbackIface.h .
