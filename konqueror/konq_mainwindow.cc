@@ -411,14 +411,21 @@ QString KonqMainWindow::detectNameFilter( QString & url )
 {
     // Look for wildcard selection
     QString nameFilter;
+
     int pos = url.findRev( '/' );
-    QString lastbit = url.mid( pos + 1 );
-    if ( lastbit.find( '*' ) != -1 )
+
+    if ( pos > -1 )
     {
-      nameFilter = lastbit;
-      url = url.left( pos + 1 );
-      kdDebug(1202) << "Found wildcard. nameFilter=" << nameFilter << "  New url=" << url << endl;
+      QString lastbit = url.mid( pos + 1 );
+
+      if ( lastbit.find( '*' ) != -1 )
+      {
+        nameFilter = lastbit;
+        url = url.left( pos + 1 );
+        kdDebug(1202) << "Found wildcard. nameFilter=" << nameFilter << "  New url=" << url << endl;
+      }
     }
+
     return nameFilter;
 }
 
