@@ -78,7 +78,7 @@ int PasswdProcess::exec(const char *oldpass, const char *newpass,
 
     // Try to set the default locale to make the parsing of the output 
     // of `passwd' easier.
-    putenv("LANG=C");
+    setenv("LANG","C", true /* override */);
 
     QCStringList args;
     if(bOtherUser)
