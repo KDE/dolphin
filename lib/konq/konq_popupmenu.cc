@@ -299,7 +299,7 @@ KonqPopupMenu::KonqPopupMenu( const KFileItemList &items,
   {
       // 3 - Query for applications
       offers = KTrader::self()->query( m_sMimeType,
-                                       "Type == 'Application' and DesktopEntryName != 'kfmclient'" );
+   "Type == 'Application' and DesktopEntryName != 'kfmclient' and DesktopEntryName != 'kfmclient_dir' and DesktopEntryName != 'kfmclient_html'" );
   }
 
   //// Ok, we have everything, now insert
