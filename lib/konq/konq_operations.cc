@@ -462,7 +462,7 @@ void KonqOperations::asyncDrop( const KFileItem * destItem )
         {
             KonqIconViewWidget *iconView = dynamic_cast<KonqIconViewWidget*>(parent());
             bool bSetWallpaper = false;
-            if (iconView && iconView->isDesktop() &&
+            if (iconView && iconView->maySetWallpaper() &&
                 (lst.count() == 1) &&
                 (!KImageIO::type(lst.first().path()).isEmpty()))
             {

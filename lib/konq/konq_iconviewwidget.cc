@@ -227,6 +227,7 @@ struct KonqIconViewWidgetPrivate
         pSoundTimer = 0;
         pPreviewJob = 0;
         updateAfterPreview = false;
+        bAllowSetWallpaper = false;
 
         doAnimations = true;
         m_movie = 0L;
@@ -247,8 +248,8 @@ struct KonqIconViewWidgetPrivate
     QTimer *pSoundTimer;
     bool bSoundPreviews;
     bool bSoundItemClicked;
-
     bool updateAfterPreview;
+    bool bAllowSetWallpaper;
 
     // Animated icons support
     bool doAnimations;
@@ -303,6 +304,16 @@ KonqIconViewWidget::~KonqIconViewWidget()
     stopImagePreview();
     KonqUndoManager::decRef();
     delete d;
+}
+
+bool KonqIconViewWidget::maySetWallpaper()
+{
+    return d->bAllowSetWallpaper;
+}
+
+void KonqIconViewWidget::setMaySetWallpaper(bool b)
+{
+    d->bAllowSetWallpaper = b;
 }
 
 void KonqIconViewWidget::focusOutEvent( QFocusEvent * ev )

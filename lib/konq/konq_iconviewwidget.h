@@ -192,6 +192,9 @@ public:
      * Provided for KDesktop.
      */
     virtual void setWallpaper(const KURL&) { }
+    
+    bool maySetWallpaper();
+    void setMaySetWallpaper(bool b);
 
     void disableIcons( const KURL::List & lst );
 
