@@ -97,8 +97,8 @@ void KonqChildView::show()
 
 void KonqChildView::openURL( const KURL &url )
 {
-  setServiceTypeInExtension(); 
- 
+  setServiceTypeInExtension();
+
   m_pView->openURL( url );
 
   // Shouldn't be necessary (David) setLocationBarURL( url.url() );
@@ -304,6 +304,9 @@ void KonqChildView::slotCompleted()
   setViewStarted( false );
   m_pKonqFrame->statusbar()->slotLoadingProgress( -1 );
 
+  // Success... update history entry (mostly for location bar URL)
+  updateHistoryEntry();
+
   if ( m_pMainView->currentChildView() == this )
   {
     kdDebug() << "updating toolbar actions" << endl;
@@ -408,7 +411,7 @@ void KonqChildView::go( int steps )
   }
 
   setServiceTypeInExtension();
-  
+
   if ( browserExtension() )
   {
     QDataStream stream( h->buffer, IO_ReadOnly );
@@ -574,13 +577,13 @@ void KonqChildView::closeMetaView()
 
 void KonqChildView::setServiceTypeInExtension()
 {
-  KParts::BrowserExtension *ext = browserExtension(); 
+  KParts::BrowserExtension *ext = browserExtension();
   if ( !ext )
     return;
-  
+
   KParts::URLArgs args( ext->urlArgs() );
   args.serviceType = m_serviceType;
   ext->setURLArgs( args );
-} 
+}
 
 #include "konq_childview.moc"
