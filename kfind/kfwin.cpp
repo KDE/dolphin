@@ -77,7 +77,7 @@ KfindWindow::KfindWindow( QWidget *parent, const char *name )
   {
     lbx = new MyQListBox(this,"list_box" );
     topLevelWidget()->installEventFilter(lbx);
-    lbx->setMultiSelection(TRUE);
+    lbx->setMultiSelection(FALSE);
 
     connect(lbx , SIGNAL(highlighted(int)),
             this, SLOT(highlighted()) );

@@ -264,9 +264,9 @@ void KfindTop::enableMenuItems(bool enable)
     for(i=3;i<8;i++)
       _toolBar->setItemEnabled(i,enable);
 
-    _editMenu->setItemEnabled(editSelectAll, TRUE);
-    _editMenu->setItemEnabled(editUnselectAll, TRUE);
-    _editMenu->setItemEnabled(editInvertSelection, TRUE);
+    //    _editMenu->setItemEnabled(editSelectAll, TRUE);
+    //    _editMenu->setItemEnabled(editUnselectAll, TRUE);
+    //    _editMenu->setItemEnabled(editInvertSelection, TRUE);
 
     _editMenu->setItemEnabled( editCopy  , TRUE );
   };                    

@@ -103,6 +103,9 @@ KfindTabDialog::KfindTabDialog( QWidget *parent, const char *name, const char *s
     namedL ->setAlignment(namedL->alignment()|ShowPrefix);
     lookinL->setAlignment(namedL->alignment()|ShowPrefix);
     nameBox->setInsertionPolicy (QComboBox::AtTop);
+    dirBox ->setInsertionPolicy (QComboBox::AtTop);
+    nameBox->setMaxCount(15);
+    dirBox ->setMaxCount(15);
 
 
     subdirsCb->setChecked ( TRUE );
@@ -278,7 +281,10 @@ void KfindTabDialog::loadHistory() {
     nameBox->insertItem("*");
 
   if(conf->readListEntry("Directories", sl))
-    dirBox->insertStrList(&sl);
+    {
+      dirBox ->insertItem( _searchPath.data() );
+      dirBox->insertStrList(&sl);
+    }
   else {
     dirBox ->insertItem( _searchPath.data() );
     dirBox ->insertItem( "/" );
@@ -552,15 +558,14 @@ QString KfindTabDialog::createQuery()
 
     if (enableSearch)
       {
-        dirBox->insertItem( dirBox->currentText(),0 );
-	
-        str += dirBox->text(dirBox->currentItem());
-
-        nameBox->insertItem( nameBox->currentText(),0 );
+	//      str += dirBox->text(dirBox->currentItem());
+	//	printf("Tak co je v tom boxu: %s\n",dirBox->currentText());
+	str += dirBox->currentText();
 
 	QString str1;
 	str1 += " \"(\" -name \"";
-	str1 += nameBox->text(nameBox->currentItem());
+	//	str1 += nameBox->text(nameBox->currentItem());
+	str1 += nameBox->currentText();
 	str1 += "\" \")\"";
 	str1 += " ";
 	
@@ -676,7 +681,7 @@ QString KfindTabDialog::createQuery()
       str += "\"";
     }
 
-    //printf("QUERY=%s\n", str.data());    
+    printf("QUERY=%s\n", str.data());    
 
     return(str);
   };        
