@@ -54,12 +54,15 @@
 
 void KonqCheckBox::paintEvent(QPaintEvent *)
 {
+    static QPixmap anchor_grey(anchor_grey_xpm);
+    static QPixmap lightgrey(lightgrey_xpm);
+
    QPainter p(this);
 
    if (isOn() || isDown())
-      p.drawPixmap(0,0,QPixmap(anchor_grey_xpm));
+      p.drawPixmap(0,0,anchor_grey);
    else
-      p.drawPixmap(0,0,QPixmap(lightgrey_xpm));
+      p.drawPixmap(0,0,lightgrey);
 }
 
 KonqFrameStatusBar::KonqFrameStatusBar( KonqFrame *_parent, const char *_name )
@@ -156,6 +159,9 @@ void KonqFrameStatusBar::hideStuff()
 
 void KonqFrameStatusBar::paintEvent(QPaintEvent* e)
 {
+    static QPixmap green(green_xpm);
+    static QPixmap lightgrey(lightgrey_xpm);
+
    if (!isVisible()) return;
    QWidget::paintEvent(e);
    if (!m_showLed) return;
@@ -164,10 +170,10 @@ void KonqFrameStatusBar::paintEvent(QPaintEvent* e)
       hasFocus = false;
    QPainter p(this);
    if (hasFocus)
-      p.drawPixmap(4,m_yOffset,QPixmap(green_xpm));
+      p.drawPixmap(4,m_yOffset,green);
    else
    {
-      p.drawPixmap(4,m_yOffset,QPixmap(lightgrey_xpm));
+      p.drawPixmap(4,m_yOffset,lightgrey);
    };
 }
 
