@@ -359,8 +359,8 @@ void KonqLogoAction::setIconSet( const QIconSet& iconSet )
 
   for ( int i = 0; i < len; i++ )
       m_logoLabel->setPixmap(iconSet.pixmap());
-
-  KAction::setIconSet( iconSet );
+  //Don't call parent method, it assumes a toolbar _button_ and we handle KToolBar ourself
+  //KAction::setIconSet( iconSet );
 }
 
 int KonqLogoAction::plug( QWidget *widget, int index )
