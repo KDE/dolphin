@@ -76,7 +76,7 @@ KBookmarkMenu::KBookmarkMenu( KBookmarkOwner * _owner, QPopupMenu * _parentMenu,
   m_bNSBookmark = m_parentAddress.isNull();
   if ( !m_bNSBookmark ) // not for the netscape bookmark
   {
-    kdDebug(1203) << "KBookmarkMenu::KBookmarkMenu " << this << " address : " << m_parentAddress << endl;
+    //kdDebug(1203) << "KBookmarkMenu::KBookmarkMenu " << this << " address : " << m_parentAddress << endl;
 
     connect( _parentMenu, SIGNAL( aboutToShow() ),
              SLOT( slotAboutToShow() ) );
@@ -117,7 +117,7 @@ void KBookmarkMenu::slotBookmarksChanged( const QString & groupAddress )
 
   if ( groupAddress == m_parentAddress )
   {
-    kdDebug(1203) << "KBookmarkMenu::slotBookmarksChanged -> setting m_bDirty on " << groupAddress << endl;
+    //kdDebug(1203) << "KBookmarkMenu::slotBookmarksChanged -> setting m_bDirty on " << groupAddress << endl;
     m_bDirty = true;
   }
   else
@@ -133,7 +133,7 @@ void KBookmarkMenu::slotBookmarksChanged( const QString & groupAddress )
 
 void KBookmarkMenu::refill()
 {
-  kdDebug(1203) << "KBookmarkMenu::refill()" << endl;
+  //kdDebug(1203) << "KBookmarkMenu::refill()" << endl;
   m_lstSubMenus.clear();
 
   QListIterator<KAction> it( m_actions );
@@ -236,7 +236,7 @@ void KBookmarkMenu::fillBookmarkMenu()
     }
     else
     {
-      kdDebug(1203) << "Creating bookmark submenu named " << bm.text() << endl;
+      //kdDebug(1203) << "Creating bookmark submenu named " << bm.text() << endl;
       KActionMenu * actionMenu = new KActionMenu( bm.text(), bm.icon(),
                                                   m_actionCollection, 0L );
       actionMenu->plug( m_parentMenu );
@@ -313,7 +313,7 @@ void KBookmarkMenu::slotBookmarkSelected()
 {
   //kdDebug(1203) << "KBookmarkMenu::slotBookmarkSelected()" << endl;
   if ( !m_pOwner ) return; // this view doesn't handle bookmarks...
-  kdDebug(1203) << sender()->name() << endl;
+  //kdDebug(1203) << sender()->name() << endl;
 
   // The name of the action is the URL to open
   m_pOwner->openBookmarkURL( QString::fromUtf8(sender()->name()) );

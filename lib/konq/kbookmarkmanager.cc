@@ -76,7 +76,7 @@ KBookmarkManager::~KBookmarkManager()
 
 void KBookmarkManager::parse()
 {
-    kdDebug(1203) << "KBookmarkManager::parse " << m_bookmarksFile << endl;
+    //kdDebug(1203) << "KBookmarkManager::parse " << m_bookmarksFile << endl;
     QFile file( m_bookmarksFile );
     if ( !file.open( IO_ReadOnly ) )
     {
@@ -184,7 +184,7 @@ void KBookmarkManager::importDesktopFiles()
 
 bool KBookmarkManager::save()
 {
-    kdDebug(1203) << "KBookmarkManager::save " << m_bookmarksFile << endl;
+    //kdDebug(1203) << "KBookmarkManager::save " << m_bookmarksFile << endl;
     KSaveFile file( m_bookmarksFile );
 
     if ( file.status() != 0 )
@@ -240,7 +240,7 @@ void KBookmarkManager::emitChanged( KBookmarkGroup & group )
     save();
 
     // Tell the other processes too
-    kdDebug(1203) << "KBookmarkManager::emitChanged : broadcasting change " << group.address() << endl;
+    //kdDebug(1203) << "KBookmarkManager::emitChanged : broadcasting change " << group.address() << endl;
     QByteArray data;
     QDataStream stream( data, IO_WriteOnly );
     stream << group.address();
@@ -252,7 +252,7 @@ void KBookmarkManager::emitChanged( KBookmarkGroup & group )
 
 void KBookmarkManager::notifyCompleteChange( QString caller )
 {
-    kdDebug(1203) << "KBookmarkManager::notifyCompleteChange" << endl;
+    //kdDebug(1203) << "KBookmarkManager::notifyCompleteChange" << endl;
     // The bk editor tells us we should reload everything
     // Reparse
     parse();
@@ -270,7 +270,7 @@ void KBookmarkManager::notifyChanged( QString groupAddress ) // DCOP call
     // Of course, if we are the emitter this is a bit stupid....
     parse();
 
-    kdDebug(1203) << "KBookmarkManager::notifyChanged " << groupAddress << endl;
+    //kdDebug(1203) << "KBookmarkManager::notifyChanged " << groupAddress << endl;
     //KBookmarkGroup group = findByAddress( groupAddress ).toGroup();
     //ASSERT(!group.isNull());
     emit changed( groupAddress, QString::null );
