@@ -64,7 +64,7 @@ void KonqSidebarDirTreeModule::addTopLevelItem( KonqSidebarTreeTopLevelItem * it
     if ( cfg.hasLinkType() )
     {
         targetURL = cfg.readURL();
-		// some sevices might whant to make their URL confgurable in kcontol
+		// some services might whant to make their URL confgurable in kcontol
 		QString configured = cfg.readEntry("X-KDE-ConfiguredURL","");
 		if (!configured.isEmpty()) {
 			QStringList list = QStringList::split(':', configured);
@@ -137,8 +137,8 @@ void KonqSidebarDirTreeModule::removeSubDir( KonqSidebarTreeItem *item, bool chi
 	while (!(((KonqSidebarDirTreeItem*) item)->alias.isEmpty()))
 	{
 	        b = b|m_dictSubDirs.remove( ((KonqSidebarDirTreeItem*) item)->alias.front() );
-		
-		((KonqSidebarDirTreeItem*) item)->alias.pop_front();	
+
+		((KonqSidebarDirTreeItem*) item)->alias.pop_front();
 	}
         if (!b)
             kdWarning(1201) << this << " KonqSidebarDirTreeModule::removeSubDir item " << item
@@ -190,7 +190,7 @@ void KonqSidebarDirTreeModule::listDirectory( KonqSidebarTreeItem *item )
     KURL url( item->externalURL().url(-1) );
 
     m_dirLister->setShowingDotFiles( showHidden());
-    
+
     if (tree()->isOpeningFirstChild()) m_dirLister->setAutoErrorHandlingEnabled(false,0);
 	else m_dirLister->setAutoErrorHandlingEnabled(true,tree());
     m_dirLister->openURL( url, true /*keep*/ );
