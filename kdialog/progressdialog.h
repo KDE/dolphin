@@ -32,8 +32,8 @@ class ProgressDialog : public KProgressDialog, virtual public ProgressDialogIfac
       void setTotalSteps( int );
       int totalSteps();
     
-      void setValue( int );
-      int value();
+      void setProgress( int );
+      int progress();
       
       void setLabel(const QString&);
       

@@ -36,18 +36,18 @@ void ProgressDialog::setTotalSteps( int totalSteps )
 
 int ProgressDialog::totalSteps()
 {
-    return progressBar()->maxValue();
+    return progressBar()->totalSteps();
 }
     
-void ProgressDialog::setValue( int value )
+void ProgressDialog::setProgress( int value )
 {
-    progressBar()->setValue( value );
+    progressBar()->setProgress( value );
     showCancelButton( false );
 }      
       
-int ProgressDialog::value()
+int ProgressDialog::progress()
 {
-    return progressBar()->value();
+    return progressBar()->progress();
 }
 
 void ProgressDialog::setLabel(const QString& label)

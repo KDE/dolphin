@@ -11,8 +11,8 @@ class ProgressDialogIface : virtual public DCOPObject
     virtual void setTotalSteps( int ) =0;
     virtual int totalSteps() =0;
     
-    virtual void setValue( int ) =0;
-    virtual int value() =0;
+    virtual void setProgress( int ) =0;
+    virtual int progress() =0;
     
     virtual void setLabel( const QString& ) =0;
     
