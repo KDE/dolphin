@@ -384,35 +384,32 @@ QString KonqMainWindow::detectNameFilter( QString & url )
     // Look for wildcard selection
     QString nameFilter;
     int pos = url.findRev( '/' );
-    if ( pos != -1 )
+    QString lastbit = url.mid( pos + 1 );
+    if ( lastbit.find( '*' ) != -1 )
     {
-      QString lastbit = url.mid( pos + 1 );
-      if ( lastbit.find( '*' ) != -1 )
-      {
-        nameFilter = lastbit;
-        url = url.left( pos + 1 );
-        kdDebug(1202) << "Found wildcard. nameFilter=" << nameFilter << "  New url=" << url << endl;
-      }
+      nameFilter = lastbit;
+      url = url.left( pos + 1 );
+      kdDebug(1202) << "Found wildcard. nameFilter=" << nameFilter << "  New url=" << url << endl;
     }
     return nameFilter;
 }
 
 void KonqMainWindow::openFilteredURL( const QString & _url, bool inNewTab )
 {
+    QString url = _url;
+    QString nameFilter = detectNameFilter( url );
+            
     // Filter URL to build a correct one
-    KURL filteredURL = KonqMisc::konqFilteredURL( this, _url, m_currentDir );
+    if (m_currentDir.isEmpty() && m_currentView)
+       m_currentDir = m_currentView->url().path(1);
+    
+    KURL filteredURL = KonqMisc::konqFilteredURL( this, url, m_currentDir );
     kdDebug(1202) << "_url " << _url << " filtered into " << filteredURL.prettyURL() << endl;
     if ( filteredURL.isEmpty() ) // initially empty, or error (e.g. ~unknown_user)
         return;
 
-    QString url = filteredURL.prettyURL();
-    // Detect name filter _after_ doing URL parsing, necessary for urls like file:/path/*.[hc]
-    // The prettyURL above is necessary in such a case, to avoid *.%5Bhc%5D
-    QString nameFilter = detectNameFilter( url );
     if ( !nameFilter.isEmpty() )
     {
-        filteredURL = url; // reparse, without the filter this time
-
         if (!KProtocolInfo::supportsListing(filteredURL.protocol()))
         {
             // Protocol doesn't support listing. Ouch. Revert to full URL, no name-filtering.
