@@ -39,6 +39,11 @@ public:
    */
   ~KonqDirLister();
 
+  /**
+   * @return true if koffice documents were listed since the last clear()
+   */
+  //bool kofficeDocsFound() { return m_bKofficeDocs; }
+
 protected:
   /**
    * Overrides the default KFileItem creation to create a KonqFileItem

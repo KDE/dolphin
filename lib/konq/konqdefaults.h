@@ -69,7 +69,7 @@
 #define DEFAULT_SHOW_HIDDEN_ROOT_ICONS false
 #define DEFAULT_VERT_ALIGN true
 
-// the default size of the main window
+// the default size of the main window (currently unused)
 #define MAINWINDOW_HEIGHT 360
 #define MAINWINDOW_WIDTH 540
 
@@ -78,8 +78,6 @@
 
 // Default UserAgent string (e.g. Konqueror/2.0)
 #define DEFAULT_USERAGENT_STRING QString("Konqueror/")+KDE_VERSION_STRING
-
-#define DEFAULT_TREEFOLLOW true
 
 // Default action on delete :
 // 1 = move to trash, 2 = simple delete, 3 = shred

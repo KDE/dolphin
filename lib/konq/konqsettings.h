@@ -75,7 +75,6 @@ public:
   bool underlineLink() const { return m_underlineLink; }
   bool alwaysNewWin() const { return m_alwaysNewWin; }
   const QString & homeURL() const { return m_homeURL; }
-  bool treeFollow() const { return m_bTreeFollow; }
 
   // Font settings
   const QFont& standardFont() const { return m_standardFont; }

@@ -74,8 +74,6 @@ void KonqFMSettings::init( KConfig * config )
 
   m_homeURL = config->readEntry("HomeURL", "~");
 
-  m_bTreeFollow = config->readBoolEntry( "TreeFollowsNavigation", DEFAULT_TREEFOLLOW );
-
   m_embedText = config->readBoolEntry( "EmbedText", true );
   m_embedImage = config->readBoolEntry( "EmbedImage", true );
   m_embedOther = config->readBoolEntry( "EmbedOther", true );
