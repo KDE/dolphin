@@ -36,6 +36,8 @@
 #include <kservice.h>
 #include <ktrader.h>
 #include <kprocess.h>
+#include <kstddirs.h>
+#include <kdebug.h>
 #include <dcopclient.h>
 
 #include "kfmclient.h"
@@ -117,9 +119,29 @@ bool clientApp::openFileManagerWindow(const char* _url)
   }
   else
   {
-    KProcess proc;
-    proc << "konqueror" << url.url();
-    proc.start( KProcess::DontCare );
+    QCString dcopService;
+    QString error;
+    // We rely on services/konqueror.desktop since the normal konqueror.desktop
+    // uses kfmclient (!!)
+    QString path = locate("services", "konqueror.desktop");
+    if ( !path.isEmpty() )
+    {
+      if ( KApplication::startServiceByDesktopPath( path,
+               url.url(), dcopService, error ) > 0 )
+      {
+        kdError() << "Couldn't start konqueror from services/konqueror.desktop: " << error << endl;
+        path = QString::null; // use KProcess
+      }
+    } else
+    {
+      kdDebug() << "Couldn't find services/konqueror.desktop, using KProcess" << endl;
+    }
+    if ( path.isEmpty() ) // failure or not found
+    {
+      KProcess proc;
+      proc << "konqueror" << url.url();
+      proc.start( KProcess::DontCare );
+    }
   }
 
   return true;
