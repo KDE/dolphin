@@ -50,7 +50,7 @@ void KonqDirPart::slotBackgroundColor()
 	m_pProps->setBgColor( bgndColor );
 	m_pProps->setBgPixmapFile( "" );
         m_pProps->applyColors( widget() );
-	widget()->repaint();
+	scrollWidget()->viewport()->repaint();
     }
 }
 
@@ -59,9 +59,9 @@ void KonqDirPart::slotBackgroundImage()
     KonqBgndDialog dlg( m_pProps->bgPixmapFile(), instance() );
     if ( dlg.exec() == KonqBgndDialog::Accepted )
     {
-	m_pProps->setBgPixmapFile( dlg.pixmapFile() );
+        m_pProps->setBgPixmapFile( dlg.pixmapFile() );
         m_pProps->applyColors( widget() );
-	widget()->repaint();
+	scrollWidget()->viewport()->repaint();
     }
 }
 
