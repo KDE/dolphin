@@ -39,7 +39,7 @@ KonqSettings * KonqSettings::getInstance( int nr )
 {
   if (!s_pSettings[nr])
   {
-    KConfig *config = kapp->getConfig();
+    KConfig *config = kapp->config();
     KConfigGroupSaver cgs(config, s_sGroupName[nr]);
     s_pSettings[nr] = new KonqSettings(config);
   }
@@ -67,7 +67,7 @@ inline KonqSettings * KonqSettings::defaultHTMLSettings()
 //static
 void KonqSettings::reparseConfiguration()
 {
-  KConfig *config = kapp->getConfig();
+  KConfig *config = kapp->config();
   for (int i = 0 ; i < 3 ; i++ )
   {
     if (s_pSettings[i])

@@ -253,7 +253,7 @@ void KfOptions::fillArchiverDetail(int archiversLBoxItem)
 void KfOptions::applyChanges()
   {
     //    printf("Make all changes!\n");
-    KConfig *config = KApplication::getKApplication()->getConfig();
+    KConfig *config = KApplication::kApplication()->config();
     config->setGroup( "Saving" );
   
     saving->setSaveFile( fileE->text() );

@@ -186,7 +186,7 @@ void KonqTxtView::slotSelectAll()
 
 void KonqTxtView::slotEdit()
 {
-  KConfig *config = kapp->getConfig();
+  KConfig *config = kapp->config();
   config->setGroup( "Misc Defaults" );
   QString editor = config->readEntry( "Editor", DEFAULT_EDITOR );
     

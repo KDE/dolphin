@@ -828,7 +828,7 @@ ExecPropsPage::ExecPropsPage( PropertiesDialog *_props ) : PropsPage( _props )
 
     m_sRelativePath = "";
     // now let's make it relative
-    QStringList appsdirs = KGlobal::dirs()->getResourceDirs("apps");
+    QStringList appsdirs = KGlobal::dirs()->resourceDirs("apps");
     QStringList::ConstIterator it = appsdirs.begin();
     for ( ; it != appsdirs.end() && m_sRelativePath.isEmpty(); ++it )
     {

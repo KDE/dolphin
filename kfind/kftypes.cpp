@@ -91,7 +91,7 @@ void KfFileType::init()
 {
   types = new QList<KfFileType>;
   
-  QStringList list = KGlobal::dirs()->getResourceDirs("mime");
+  QStringList list = KGlobal::dirs()->resourceDirs("mime");
   for (QStringList::ConstIterator it = list.begin(); it != list.end(); it++)
     initFileTypes( *it );
 };

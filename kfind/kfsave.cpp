@@ -16,7 +16,7 @@
 KfSaveOptions::KfSaveOptions()
 {
   // Read the configuration
-  KConfig *config = KApplication::getKApplication()->getConfig();
+  KConfig *config = KApplication::kApplication()->config();
   config->setGroup( "Saving" );
   
   saveFormat = QString(config->readEntry( "Format" )).upper();

@@ -119,7 +119,7 @@ void KonqPlugins::reload()
     abort();
   }
 
-  KConfig *config = kapp->getConfig();
+  KConfig *config = kapp->config();
   config->setGroup( "Plugins" );
   QStringList lstEnabledPlugins = config->readListEntry( "EnabledPlugins" );
 
@@ -217,7 +217,7 @@ KonqPluginConfigDialog::KonqPluginConfigDialog( QWidget *parent )
 
   m_mapPlugins.setAutoDelete( true );
 
-  KConfig *config = kapp->getConfig();
+  KConfig *config = kapp->config();
   config->setGroup( "Plugins" );
 
   QStringList lstActivePlugins = config->readListEntry( "EnabledPlugins" );
@@ -262,7 +262,7 @@ KonqPluginConfigDialog::~KonqPluginConfigDialog()
 
 void KonqPluginConfigDialog::accept()
 {
-  KConfig *config = kapp->getConfig();
+  KConfig *config = kapp->config();
 
   config->setGroup( "Plugins" );
 

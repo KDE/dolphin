@@ -156,7 +156,7 @@ void KfindTop::menuInit()
   
   QString tmp = i18n("KFind %1\nFrontend to find utility\nMiroslav Flídr <flidr@kky.zcu.cz>\n\nSpecial thanks to Stephan Kulow\n<coolo@kde.org>")
     .arg(KFIND_VERSION);
-  _helpMenu=kapp->getHelpMenu( true, tmp );    
+  _helpMenu=kapp->helpMenu( true, tmp );    
   
   _mainMenu = new KMenuBar(this, "_mainMenu");
   _mainMenu->insertItem( i18n("&File"), _fileMenu);
@@ -226,7 +226,7 @@ void KfindTop::toolBarInit()
   
   icon = BarIcon("exit");
   _toolBar->insertButton( icon, 10, SIGNAL( clicked() ),
-                          KApplication::getKApplication(), SLOT( quit() ),  
+                          KApplication::kApplication(), SLOT( quit() ),  
 			  TRUE, i18n("Quit"));
 }
 

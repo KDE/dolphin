@@ -32,7 +32,7 @@ void KfArchiver::initArchivers()
 {
   QString name;
 
-  KConfig *config = KApplication::getKApplication()->getConfig();
+  KConfig *config = KApplication::kApplication()->config();
   config->setGroup( "Archiver Types" );
 
   QString arch = config->readEntry( "Archivers" );

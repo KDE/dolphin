@@ -246,7 +246,7 @@ void KonqMainView::cleanUp()
 
   kdebug(0,1202,"void KonqMainView::cleanUp()");
 
-  KConfig *config = kapp->getConfig();
+  KConfig *config = kapp->config();
   config->setGroup( "Settings" );
   config->writeEntry( "ToolBarCombo", locationBarCombo() );
   config->sync();
@@ -1153,7 +1153,7 @@ void KonqMainView::slotRun()
 
 void KonqMainView::slotTerminal()
 {
-    KConfig *config = KApplication::getKApplication()->getConfig();
+    KConfig *config = KApplication::kApplication()->config();
     config->setGroup( "Misc Defaults" );
     QString term = config->readEntry( "Terminal", DEFAULT_TERMINAL );
  
@@ -1462,12 +1462,12 @@ void KonqMainView::slotShowHistory()
 
 void KonqMainView::slotEditMimeTypes()
 {
-    openURL( KGlobal::dirs()->getSaveLocation("mime").prepend( "file:" ) );
+    openURL( KGlobal::dirs()->saveLocation("mime").prepend( "file:" ) );
 }
 
 void KonqMainView::slotEditApplications()
 {
-    openURL( KGlobal::dirs()->getSaveLocation("apps").prepend( "file:" ) );
+    openURL( KGlobal::dirs()->saveLocation("apps").prepend( "file:" ) );
 }
 
 void KonqMainView::slotShowMenubar()
@@ -1499,7 +1499,7 @@ void KonqMainView::slotShowLocationbar()
 
 void KonqMainView::slotSaveSettings()
 {
-  KConfig *config = kapp->getConfig();
+  KConfig *config = kapp->config();
   config->setGroup( "Settings" );
 
   // Update the values in m_Props, if necessary :
@@ -1580,7 +1580,7 @@ void KonqMainView::slotConfigurePlugins()
 
 void KonqMainView::slotSaveDefaultProfile()
 {
-  KConfig *config = kapp->getConfig();
+  KConfig *config = kapp->config();
   config->setGroup( "Default View Profile" );
   m_pViewManager->saveViewProfile( *config );
 }
@@ -1972,7 +1972,7 @@ void KonqMainView::initConfig()
   if (!KonqPropsMainView::m_pDefaultProps)
   {
     kdebug(0,1202,"Reading global config");
-    KConfig *config = kapp->getConfig();
+    KConfig *config = kapp->config();
     config->setGroup( "Settings" );
     KonqPropsMainView::m_pDefaultProps = new KonqPropsMainView(config);
   }
@@ -1990,14 +1990,14 @@ void KonqMainView::initConfig()
 //  else
 //    this->resize(m_Props->m_width,m_Props->m_height);
     
-  KConfig *config = kapp->getConfig();
+  KConfig *config = kapp->config();
   config->setGroup( "Settings" );
   m_lstLocationBarCombo = config->readListEntry( "ToolBarCombo" );
 }
 
 void KonqMainView::initGui()
 {
-  KConfig *config = kapp->getConfig();
+  KConfig *config = kapp->config();
   if ( config->hasGroup( "Default View Profile" ) && m_sInitialURL.isEmpty() )
   {
     config->setGroup( "Default View Profile" );

@@ -26,7 +26,7 @@ EngineCfg *EngineCfg::s_pSelf = 0L;
 
 EngineCfg::EngineCfg()
 {
-  KConfig *config = kapp->getConfig();
+  KConfig *config = kapp->config();
   config->setGroup( "General" );
   
   QStringList engines = config->readListEntry( "SearchEngines" );
@@ -108,7 +108,7 @@ EngineCfg* EngineCfg::self()
 
 void EngineCfg::saveConfig()
 {
-  KConfig *config = kapp->getConfig();
+  KConfig *config = kapp->config();
 
   QStringList engines;
 

@@ -266,7 +266,7 @@ bool isNewRelease()
 {
     bool bNewRelease = false;
  
-    KConfig* config = kapp->getConfig();
+    KConfig* config = kapp->config();
     config->setGroup("Version");
     int versionMajor = config->readNumEntry("KDEVersionMajor", 0);
     int versionMinor = config->readNumEntry("KDEVersionMinor", 0);
@@ -322,7 +322,7 @@ bool checkTemplates( bool bNewRelease )
  */
 void testLocalInstallation()
 {
-  KGlobal::dirs()->getSaveLocation("data", "konqueror", true); // for kfmclient
+  KGlobal::dirs()->saveLocation("data", "konqueror", true); // for kfmclient
 
   bool newRelease = isNewRelease();
   bool copyTemplates = checkTemplates(newRelease);
@@ -404,7 +404,7 @@ int main( int argc, char **argv )
 
   kimgioRegister();
 
-  QString path = KGlobal::dirs()->getSaveLocation("data", "kfm/bookmarks", true);
+  QString path = KGlobal::dirs()->saveLocation("data", "kfm/bookmarks", true);
   KonqBookmarkManager bm ( path );
 
   app.exec();

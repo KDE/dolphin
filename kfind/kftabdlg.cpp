@@ -259,7 +259,7 @@ void KfindTabWidget::saveHistory()
 void KfindTabWidget::loadHistory()
 {
   // Load pattern history
-  KConfig *conf = kapp->getConfig();
+  KConfig *conf = kapp->config();
   QStrList sl;
   conf->setGroup("History");
   if(conf->readListEntry("Patterns", sl, ','))
@@ -642,7 +642,7 @@ static void save_pattern(QComboBox *obj, const QString new_item,
   for(i=0; i<obj->count(); i++)
     sl.append(obj->text(i).ascii());
 
-  KConfig *conf = kapp->getConfig();
+  KConfig *conf = kapp->config();
   conf->setGroup(group);
   conf->writeEntry(entry, sl, ',');
 }

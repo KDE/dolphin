@@ -611,7 +611,7 @@ void KonqHTMLView::openTxtView( const QString &/*url*/ )
   }
   else
   {
-    KConfig *config = kapp->getConfig();
+    KConfig *config = kapp->config();
     config->setGroup( "Misc Defaults" );
     QString editor = config->readEntry( "Editor", DEFAULT_EDITOR );
     
