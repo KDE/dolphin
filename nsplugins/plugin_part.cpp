@@ -8,6 +8,7 @@
 #include <kinstance.h>
 #include <klocale.h>
 #include <kaboutdata.h>
+#include <kdebug.h>
 
 #include <qlabel.h>
 
@@ -30,17 +31,24 @@ extern "C"
  * function
  */
 KInstance *PluginFactory::s_instance = 0L;
+NSPluginLoader *PluginFactory::s_loader = 0L;
 
 PluginFactory::PluginFactory()
 {
+  kDebugInfo("PluginFactory");
 }
 
 
 PluginFactory::~PluginFactory()
 {
+  kDebugInfo("~PluginFactory");
+
+  if (s_loader)
+    delete s_loader;
+
   if (s_instance)
     delete s_instance;
-  
+
   s_instance = 0;
 }
 
@@ -48,6 +56,7 @@ PluginFactory::~PluginFactory()
 QObject *PluginFactory::create(QObject *parent, const char *name, const char*,
 			       const QStringList& )
 {
+  kDebugInfo("PluginFactory::create");
   QObject *obj = new PluginPart((QWidget*)parent, name);
   emit objectCreated(obj);
   return obj;
@@ -56,6 +65,7 @@ QObject *PluginFactory::create(QObject *parent, const char *name, const char*,
 
 KInstance *PluginFactory::instance()
 {
+  kDebugInfo("PluginFactory::instance");
   if ( !s_instance )
     {
       KAboutData about("plugin", I18N_NOOP("plugin"), "1.99");
@@ -65,10 +75,20 @@ KInstance *PluginFactory::instance()
 }
 
 
+NSPluginLoader *PluginFactory::loader()
+{
+  if (!s_loader)
+    s_loader = NSPluginLoader::instance();
+
+  return s_loader;
+}
+
+
 PluginPart::PluginPart(QWidget *parent, const char *name)
   : KParts::ReadOnlyPart(parent, name), widget(0)
 {
   setInstance(PluginFactory::instance());
+  kDebugInfo("PluginPart");
   
   m_extension = new PluginBrowserExtension(this);
  
@@ -83,6 +103,7 @@ PluginPart::PluginPart(QWidget *parent, const char *name)
 
 PluginPart::~PluginPart()
 {
+  kDebugInfo("~PluginPart");
   closeURL();
 }
 
@@ -91,12 +112,12 @@ bool PluginPart::openURL(const KURL &url)
 {
   delete widget;
 
-  NSPluginLoader *loader = NSPluginLoader::instance();
+  kDebugInfo("PluginPart::openURL");
 
   QStringList _argn, _argv;
   _argn << "SRC";
   _argv << url.url();
-  widget = loader->NewInstance(canvas, url.url(), m_extension->urlArgs().serviceType, 1, _argn, _argv);
+  widget =  PluginFactory::loader()->NewInstance(canvas, url.url(), m_extension->urlArgs().serviceType, 1, _argn, _argv);
   
   if (widget)
     {
@@ -110,6 +131,7 @@ bool PluginPart::openURL(const KURL &url)
 
 bool PluginPart::closeURL()
 {
+  kDebugInfo("PluginPart::closeURL");
   delete widget;
   widget = 0;
 

@@ -24,12 +24,12 @@ public:
 			  const QStringList &args = QStringList());
   
   static KInstance *instance();
-
+  static class NSPluginLoader *loader();
 
 private:
 
   static KInstance *s_instance;
-
+  static class NSPluginLoader *s_loader;
 };
 
 
