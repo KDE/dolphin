@@ -330,11 +330,12 @@ void KonqView::slotCompleted()
   emit viewCompleted( this );
 }
 
-void KonqView::slotCanceled( const QString & )
+void KonqView::slotCanceled( const QString & errorMsg )
 {
-#ifdef __GNUC__
-#warning TODO obey errMsg
-#endif
+  // The errorMsg comes from the ReadOnlyPart's job.
+  // It should probably be used in a KMessageBox
+  // Let's use the statusbar for now
+  m_pKonqFrame->statusbar()->message( errorMsg );
   slotCompleted();
   m_bAborted = true;
 }
