@@ -33,6 +33,7 @@
 #include <kmimetype.h>
 #include <kstddirs.h>
 #include <kurldrag.h>
+#include <stdlib.h>
 #include <assert.h>
 
 #include <dirtree_module/dirtree_module.h> // TEMPORARY HACK
@@ -436,7 +437,7 @@ void KonqTree::scanDir( KonqTreeItem *parent, const QString &path, bool isRoot )
                     { // we don't have that one yet -> copy it.
                         QString cp = QString("cp -R %1%2 %3").arg(dirtree_dir).arg(*eIt).arg(path);
                         kdDebug(1201) << "KonqTree::scanDir executing " << cp << endl;
-                        system( cp.local8Bit().data() );
+                        ::system( cp.local8Bit().data() );
                     }
                 }
 
