@@ -26,6 +26,7 @@
 #include <qwhatsthis.h>
 #include <qbuttongroup.h>
 #include <qradiobutton.h>
+#include <qtabwidget.h>
 
 #include <klocale.h>
 #include <klistview.h>
@@ -38,8 +39,46 @@
 #include "kenvvarproxydlg.h"
 #include "kmanualproxydlg.h"
 
+#include "socks.h"
 #include "kproxydlg.h"
 
+KProxyOptions::KProxyOptions( QWidget* parent = 0, const char* /*name*/ )
+{
+  QVBoxLayout *layout = new QVBoxLayout(this);
+  QTabWidget *tab = new QTabWidget(this);
+  layout->addWidget(tab);
+      
+  proxy  = new KProxyDialog(tab);
+  socks = new KSocksConfig(tab);
+
+  tab->addTab(proxy, i18n("&Proxy"));
+  tab->addTab(socks, i18n("&Socks"));
+  
+  connect(proxy, SIGNAL(changed(bool)), this, SIGNAL(changed(bool)));
+  connect(socks, SIGNAL(changed(bool)), this, SIGNAL(changed(bool)));
+}
+
+KProxyOptions::~KProxyOptions()
+{
+}
+
+void KProxyOptions::load()
+{
+  proxy->load();
+  socks->load();
+}
+
+void KProxyOptions::save()
+{
+  proxy->save();
+  socks->save();
+}
+
+void KProxyOptions::defaults()
+{
+  proxy->defaults();
+  socks->defaults();
+}
 
 KProxyDialog::KProxyDialog( QWidget* parent,  const char* name )
              :KCModule( parent, name )
@@ -114,9 +153,6 @@ KProxyDialog::KProxyDialog( QWidget* parent,  const char* name )
                                            "section at http://www.konqueror.org for "
                                            "more information.</qt>") );
     hlay->addWidget( m_rbAutoDiscover );
-    spacer = new QSpacerItem( 210, 16, QSizePolicy::Fixed,
-                              QSizePolicy::Minimum );
-    hlay->addItem( spacer );
     vlay->addLayout( hlay );
 
     hlay = new QHBoxLayout;
@@ -131,9 +167,6 @@ KProxyDialog::KProxyDialog( QWidget* parent,  const char* name )
                                          "You can then enter the address of "
                                          "the location below.") );
     hlay->addWidget( m_rbAutoScript );
-    spacer = new QSpacerItem( 20, 20, QSizePolicy::Expanding,
-                              QSizePolicy::Minimum );
-    hlay->addItem( spacer );
     vlay->addLayout( hlay );
 
     hlay = new QHBoxLayout;
@@ -159,7 +192,7 @@ KProxyDialog::KProxyDialog( QWidget* parent,  const char* name )
     m_location->setFocusPolicy( KURLRequester::StrongFocus );
     label->setBuddy( m_location );
     hlay->addWidget( m_location );
-    spacer = new QSpacerItem( 20, 20, QSizePolicy::Minimum, QSizePolicy::Fixed );
+    spacer = new QSpacerItem( 0, 0, QSizePolicy::Minimum, QSizePolicy::Fixed );
     hlay->addItem( spacer );
     vlay->addLayout( hlay );
 

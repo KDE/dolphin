@@ -35,7 +35,7 @@ extern "C"
 
   KCModule *create_proxy(QWidget *parent, const char /**name*/)
   {
-    return new KProxyDialog(parent, "kcmkio");
+    return new KProxyOptions(parent, "kcmkio");
   };
 
   KCModule *create_cache(QWidget *parent, const char /**name*/)

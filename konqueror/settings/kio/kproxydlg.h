@@ -34,6 +34,21 @@ class QButtonGroup;
 class KProxyData;
 class KURLRequester;
 
+class KProxyOptions : public KCModule
+{
+  Q_OBJECT
+
+public:
+  KProxyOptions( QWidget* parent = 0, const char* name = 0 );
+  ~KProxyOptions();
+
+  virtual void load();
+  virtual void save();
+  virtual void defaults();
+private:
+  KCModule *proxy;
+  KCModule *socks;
+};
 
 class KProxyDialog : public KCModule
 {
