@@ -24,6 +24,7 @@
 #include <konq_frame.h>
 #include <konq_guiclients.h>
 #include <konq_viewmgr.h>
+#include <kiconloader.h>
 
 PopupMenuGUIClient::PopupMenuGUIClient( KonqMainWindow *mainWindow,
                                         const KTrader::OfferList &embeddingServices,

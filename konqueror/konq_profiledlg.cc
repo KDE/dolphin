@@ -33,6 +33,8 @@
 #include <kstandarddirs.h>
 #include <klocale.h>
 #include <ksimpleconfig.h>
+#include <qpushbutton.h>
+#include <qlineedit.h>
 
 QMap<QString,QString> KonqProfileDlg::readAllProfiles()
 {

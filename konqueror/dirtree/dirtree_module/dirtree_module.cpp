@@ -25,6 +25,7 @@
 #include <kdesktopfile.h>
 #include <kmessagebox.h>
 #include <klocale.h>
+#include <kiconloader.h>
 
 KonqDirTreeModule::KonqDirTreeModule( KonqTree * parentTree )
     : KonqTreeModule( parentTree ), m_dirLister(0L), m_topLevelItem(0L), m_pProps(0L)

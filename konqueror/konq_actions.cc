@@ -31,7 +31,10 @@
 #include <kstringhandler.h>
 
 #include <konq_pixmapprovider.h>
-#include "konq_view.h" // HistoryEntry
+#include "konq_view.h"
+#include <kiconloader.h>
+#include <kpopupmenu.h>
+#include <qlabel.h> // HistoryEntry
 
 template class QPtrList<KonqHistoryEntry>;
 

@@ -33,6 +33,8 @@
 #include "konq_viewmgr.h"
 
 #include <assert.h>
+#include <kiconloader.h>
+#include <qpopupmenu.h>
 
 #define DEFAULT_HEADER_HEIGHT 13
 

@@ -32,6 +32,7 @@
 #include <dcopclient.h>
 
 #include <assert.h>
+#include <kpopupmenu.h>
 
 template class QPtrList<KonqView>;
 

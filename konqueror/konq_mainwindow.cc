@@ -80,6 +80,9 @@
 #include <kfiledialog.h>
 
 #include "version.h"
+#include <klocale.h>
+#include <kiconloader.h>
+#include <kpopupmenu.h>
 
 template class QPtrList<QPixmap>;
 template class QPtrList<KToggleAction>;
