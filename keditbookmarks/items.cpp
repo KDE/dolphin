@@ -46,68 +46,69 @@
 
 void KEBListView::rename( QListViewItem *_item, int c )
 {
-    KEBListViewItem * item = static_cast<KEBListViewItem *>(_item);
-    if ( !(item->bookmark().isGroup() && c == 1) 
-      && !item->bookmark().isSeparator() 
-      && ( firstChild() != item) 
-    ) {
-       KListView::rename( _item, c );
-    }
+   KEBListViewItem * item = static_cast<KEBListViewItem *>(_item);
+   if ( !(item->bookmark().isGroup() && c == 1) 
+         && !item->bookmark().isSeparator() 
+         && ( firstChild() != item) 
+   ) {
+      KListView::rename( _item, c );
+   }
 }
 
 bool KEBListView::acceptDrag(QDropEvent * e) const
 {
-    return e->source() == viewport() || KBookmarkDrag::canDecode( e );
+   return e->source() == viewport() || KBookmarkDrag::canDecode( e );
 }
 
 QDragObject *KEBListView::dragObject()
 {
-    if( KEBTopLevel::self()->numSelected() == 0 )
-        return (QDragObject*)0;
+   if( KEBTopLevel::self()->numSelected() == 0 ) {
+      return (QDragObject*)0;
+   }
 
-    /* viewport() - not sure why klistview does it this way*/
-    QValueList<KBookmark> bookmarks = KEBTopLevel::self()->getBookmarkSelection();
-    KBookmarkDrag * drag = KBookmarkDrag::newDrag( bookmarks, viewport() );
-    drag->setPixmap( SmallIcon( (bookmarks.size() > 1) ? ("bookmark") : (bookmarks.first().icon()) ) );
-    return drag;
+   /* viewport() - not sure why klistview does it this way*/
+   QValueList<KBookmark> bookmarks = KEBTopLevel::self()->getBookmarkSelection();
+   KBookmarkDrag * drag = KBookmarkDrag::newDrag( bookmarks, viewport() );
+   drag->setPixmap( SmallIcon( (bookmarks.size() > 1) ? ("bookmark") : (bookmarks.first().icon()) ) );
+   return drag;
 }
 
 // toplevel item (there should be only one!)
 KEBListViewItem::KEBListViewItem(QListView *parent, const KBookmark & group )
-    : QListViewItem(parent, i18n("Bookmarks") ), m_bookmark(group)
+   : QListViewItem(parent, i18n("Bookmarks") ), m_bookmark(group)
 {
-    setPixmap(0, SmallIcon("bookmark"));
-    setExpandable(true); // Didn't know this was necessary :)
+   setPixmap(0, SmallIcon("bookmark"));
+   setExpandable(true); // Didn't know this was necessary :)
 }
 
 // bookmark (first of its group)
 KEBListViewItem::KEBListViewItem(KEBListViewItem *parent, const KBookmark & bk )
-    : QListViewItem(parent, bk.fullText(), bk.url().prettyURL()), m_bookmark(bk)
+   : QListViewItem(parent, bk.fullText(), bk.url().prettyURL()), m_bookmark(bk)
 {
-    init(bk);
+   init(bk);
 }
 
 // bookmark (after another)
 KEBListViewItem::KEBListViewItem(KEBListViewItem *parent, QListViewItem *after, const KBookmark & bk )
-    : QListViewItem(parent, after, bk.fullText(), bk.url().prettyURL()), m_bookmark(bk)
+   : QListViewItem(parent, after, bk.fullText(), bk.url().prettyURL()), m_bookmark(bk)
 {
-    init(bk);
+   init(bk);
 }
 
 // group
 KEBListViewItem::KEBListViewItem(KEBListViewItem *parent, QListViewItem *after, const KBookmarkGroup & gp )
-    : QListViewItem(parent, after, gp.fullText()), m_bookmark(gp)
+   : QListViewItem(parent, after, gp.fullText()), m_bookmark(gp)
 {
-    init(gp);
-    setExpandable(true);
+   init(gp);
+   setExpandable(true);
 }
 
 // empty folder item
 KEBListViewItem::KEBListViewItem(KEBListViewItem *parent, QListViewItem *after )
     : QListViewItem(parent, after, i18n("Empty folder") )
 {
-    m_emptyFolder = true;
-    setPixmap(0, SmallIcon("bookmark"));
+   m_emptyFolder = true;
+   setPixmap(0, SmallIcon("bookmark"));
 }
 
 void KEBListViewItem::paintCell(QPainter *p, const QColorGroup &cg, int column, int width, int alignment)
@@ -120,8 +121,9 @@ void KEBListViewItem::paintCell(QPainter *p, const QColorGroup &cg, int column, 
          col.background().hsv(&h,&s,&v);
          if (v > 180 && v < 220) {
             col.setColor(QColorGroup::Text, Qt::darkGray);
-         } else
+         } else {
             col.setColor(QColorGroup::Text, Qt::gray);
+         }
       } else if (render == 2) {
          QFont font=p->font();
          font.setBold( true );
@@ -269,7 +271,6 @@ void KEBListViewItem::modUpdate()
 
       } else if (nMod && nM == 0) { 
          // no modify time returned
-         // AK - change this to "Okay" ?
          sn = i18n("Ok");
 
       } else if (nMod && nM >= oM) { 
@@ -317,7 +318,7 @@ void KEBListViewItem::restoreStatus(QString oldStatus)
 
 void KEBListViewItem::setOpen( bool open )
 {
-    m_bookmark.internalElement().setAttribute( "folded", open ? "no" : "yes" );
-    QListViewItem::setOpen( open );
+   m_bookmark.internalElement().setAttribute( "folded", open ? "no" : "yes" );
+   QListViewItem::setOpen( open );
 }
 

@@ -1,4 +1,5 @@
 /* This file is part of the KDE project
+   Copyright (C) 2002 Alexander Kellett <lypanov@kde.org>
    Copyright (C) 2000 David Faure <faure@kde.org>
 
    This program is free software; you can redistribute it and/or
@@ -29,15 +30,11 @@
 
 static KCmdLineOptions options[] =
 {
-  { "+[file]", I18N_NOOP("File to edit"), 0 },
-  { 0, 0, 0}
+   {"+[file]", I18N_NOOP("File to edit"), 0},
+   {0, 0, 0}
 };
 
-#define ID_CONT     0
-#define ID_READONLY 2
-#define ID_NORMAL   1
-
-// make generic and move to kdecore???
+// TODO - move to kdecore?
 
 void continueInWindow(QString _wname) {
    DCOPClient* dcop = kapp->dcopClient();
@@ -45,22 +42,23 @@ void continueInWindow(QString _wname) {
    int id = -1;
 
    QCStringList apps = dcop->registeredApplications();
-   for ( QCStringList::Iterator it = apps.begin(); it != apps.end(); ++it )
-   {
+   for (QCStringList::Iterator it = apps.begin(); it != apps.end(); ++it) {
       QCString &clientId = *it;
 
-      // TODO skip me!
-
-      if ( qstrncmp(clientId, wname, wname.length()) != 0 )
+      if (qstrncmp(clientId, wname, wname.length()) != 0) {
          continue;
+      }
 
       QByteArray data, replyData;
       QCString replyType;
       QDataStream arg(data, IO_WriteOnly);
 
-      if ( kapp->dcopClient()->call( clientId.data(), (wname+"-mainwindow#1"), "getWinID()", data, replyType, replyData) ) {
+      if (kapp->dcopClient()->call(
+               clientId.data(), wname + "-mainwindow#1", "getWinID()", 
+               data, replyType, replyData)
+      ) {
          QDataStream reply(replyData, IO_ReadOnly);
-         if ( replyType == "int" ) {
+         if (replyType == "int") {
             int ret;
             reply >> ret;
             id = ret;
@@ -71,6 +69,10 @@ void continueInWindow(QString _wname) {
 
    KWin::setActiveWindow(id);
 }
+
+#define ID_CONT     0
+#define ID_READONLY 2
+#define ID_NORMAL   1
 
 int askUser(KApplication &app, QString extension) {
 
@@ -90,7 +92,7 @@ int askUser(KApplication &app, QString extension) {
   } else {
 
      int response = 
-        KMessageBox::warningYesNo( 0, 
+        KMessageBox::warningYesNo(0, 
               i18n("Another instance of KEditBookmarks is already running, do you really "
                    "want to open another instance or continue work in the same instance?\n"
                    "Please note that, unfortunately, duplicate views are read-only."), 
@@ -111,15 +113,15 @@ int askUser(KApplication &app, QString extension) {
 int main(int argc, char ** argv)
 {
   KLocale::setMainCatalogue("konqueror");
-  KAboutData aboutData( "keditbookmarks", I18N_NOOP("KEditBookmarks"), "1.1",
-                        I18N_NOOP("Konqueror Bookmarks Editor"),
-                        KAboutData::License_GPL,
-                        I18N_NOOP("(c) 2000 - 2002, KDE developers") );
+  KAboutData aboutData("keditbookmarks", I18N_NOOP("KEditBookmarks"), "1.1",
+                       I18N_NOOP("Konqueror Bookmarks Editor"),
+                       KAboutData::License_GPL,
+                       I18N_NOOP("(c) 2000 - 2002, KDE developers") );
   aboutData.addAuthor("David Faure",0, "faure@kde.org");
 
-  KCmdLineArgs::init( argc, argv, &aboutData );
+  KCmdLineArgs::init(argc, argv, &aboutData);
   KApplication::addCmdLineOptions();
-  KCmdLineArgs::addCmdLineOptions( options );
+  KCmdLineArgs::addCmdLineOptions(options);
 
   KApplication::disableAutoDcopRegistration(); 
   KApplication app;
@@ -128,15 +130,17 @@ int main(int argc, char ** argv)
 
   bool gotArg = (args->count() == 1);
 
-  QString filename = (gotArg) ? QString::fromLatin1(args->arg(0))
-                              : locateLocal( "data", QString::fromLatin1("konqueror/bookmarks.xml") );
+  QString filename = 
+     (gotArg) ? QString::fromLatin1(args->arg(0))
+              : locateLocal("data", QString::fromLatin1("konqueror/bookmarks.xml"));
   args->clear();
 
-  int ret = askUser(app, (gotArg ? filename : "") );
-  if (ret == ID_CONT) 
+  int ret = askUser(app, (gotArg ? filename : ""));
+  if (ret == ID_CONT) {
      return 0;
+  }
 
-  KEBTopLevel * toplevel = new KEBTopLevel( filename, (ret==ID_READONLY) );
+  KEBTopLevel *toplevel = new KEBTopLevel(filename, (ret==ID_READONLY));
   toplevel->show();
   app.setMainWidget(toplevel);
 

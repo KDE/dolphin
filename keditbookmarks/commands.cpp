@@ -54,12 +54,11 @@ void MoveCommand::execute()
    Q_ASSERT( !newParentBk.isNull() );
    Q_ASSERT( newParentBk.isGroup() );
 
-   if ( posInNewParent == 0 ) // First child
-   {
+   if ( posInNewParent == 0 ) {
+      // First child
       newParentBk.toGroup().moveItem( bk, QDomElement() );
-   }
-   else
-   {
+
+   } else {
       QString afterAddress = KBookmark::previousAddress( m_to );
       kdDebug() << "MoveCommand::execute afterAddress=" << afterAddress << endl;
       KBookmark afterNow = KEBTopLevel::bookmarkManager()->findByAddress( afterAddress );
@@ -73,10 +72,13 @@ void MoveCommand::execute()
    // Because we moved stuff around, the addresses from/to can have changed
    // So we look into the dom tree to get the new positions, using a reference
    // The reference is :
-   if ( posInOldParent == 0 ) // the old parent, if we were the first child
+   if ( posInOldParent == 0 ) {
+      // the old parent, if we were the first child
       m_from = oldParent.address() + "/0";
-   else // otherwise the previous sibling
+   } else {
+      // otherwise the previous sibling
       m_from = KBookmark::nextAddress( oldPreviousSibling.address() );
+   }
    m_to = bk.address();
    kdDebug() << "MoveCommand::execute : new addresses from=" << m_from << " to=" << m_to << endl;
 }
@@ -112,29 +114,30 @@ void CreateCommand::execute()
 
    // Create
    KBookmark bk = KBookmark(QDomElement());
-   if (m_originalBookmark.isNull())
-      if (m_separator)
+   if (m_originalBookmark.isNull()) {
+      if (m_separator) {
          bk = parentGroup.createNewSeparator();
-      else
-         if (m_group)
-         {
+      } else {
+         if (m_group) {
             Q_ASSERT( !m_text.isEmpty() );
             bk = parentGroup.createNewFolder( KEBTopLevel::bookmarkManager(), m_text, false );
 
             kdDebug() << "CreateCommand::execute " << m_group << " open : " << m_open << endl;
             bk.internalElement().setAttribute( "folded", m_open ? "no" : "yes" );
-            if(!m_iconPath.isEmpty())
+            if(!m_iconPath.isEmpty()) {
                bk.internalElement().setAttribute( "icon",m_iconPath );
-         }
-         else
+            }
+         } else {
             bk = parentGroup.addBookmark( KEBTopLevel::bookmarkManager(), m_text, m_url, m_iconPath, false);
-   else
+         }
+      }
+   } else {
       bk = m_originalBookmark;
+   }
 
    // Move to right position
    parentGroup.moveItem( bk, prev );
-   if ( !name().isEmpty() )
-   {
+   if ( !name().isEmpty() ) {
       kdDebug() << "Opening parent" << endl;
       // Open the parent (useful if it was empty) - only for manual commands
       parentGroup.internalElement().setAttribute( "folded", "no" );
@@ -158,26 +161,26 @@ void CreateCommand::unexecute()
    // but first we need to select a valid item
    KListView * lv = KEBTopLevel::self()->listView();
    KEBListViewItem * item = static_cast<KEBListViewItem*>(lv->selectedItem());
-   if (item && item->bookmark().address() == m_to)
-   {
+   if (item && item->bookmark().address() == m_to) {
       lv->setSelected(item,false);
       // can't use itemBelow here, in case we're deleting a folder
-      if ( item->nextSibling() )
+      if ( item->nextSibling() ) {
          lv->setSelected( item->nextSibling(), true );
-      else // No next sibling ? Go to previous one, then.
-      {
+
+      } else {
+         // No next sibling ? Go to previous one, then.
          QString prevAddr = bk.parentGroup().previousAddress( bk.address() );
-         if ( !prevAddr.isEmpty() )
-         {
+         if ( !prevAddr.isEmpty() ) {
             QListViewItem * prev = KEBTopLevel::self()->findByAddress( prevAddr );
-            if (prev)
+            if (prev) {
                lv->setSelected( prev, true );
-         }
-         else // No previous sibling either ? Go up, then.
-         {
+            }
+         } else {
+            // No previous sibling either ? Go up, then.
             QListViewItem * par = KEBTopLevel::self()->findByAddress( KBookmark::parentAddress( bk.address() ) );
-            if (par)
+            if (par) {
                lv->setSelected( par, true );
+            }
          }
       }
    }
@@ -190,21 +193,20 @@ void DeleteCommand::execute()
    kdDebug() << "DeleteCommand::execute " << m_from << endl;
    KBookmark bk = KEBTopLevel::bookmarkManager()->findByAddress( m_from );
    Q_ASSERT(!bk.isNull());
-   if ( !m_cmd )
-      if ( bk.isGroup() )
-      {
+   if ( !m_cmd ) {
+      if ( bk.isGroup() ) {
          m_cmd = new CreateCommand(QString::null, m_from, bk.fullText(),bk.icon(),
                bk.internalElement().attribute("folded")=="no");
          m_subCmd = deleteAll( bk.toGroup() );
          m_subCmd->execute();
-      }
-      else
-         if ( bk.isSeparator() )
+      } else {
+         if ( bk.isSeparator() ) {
             m_cmd = new CreateCommand(QString::null, m_from );
-         else
-         {
+         } else {
             m_cmd = new CreateCommand(QString::null, m_from, bk.fullText(),bk.icon(),bk.url());
          }
+      }
+   }
 
    m_cmd->unexecute();
 }
@@ -212,8 +214,9 @@ void DeleteCommand::execute()
 void DeleteCommand::unexecute()
 {
    m_cmd->execute();
-   if (m_subCmd)
+   if (m_subCmd) {
       m_subCmd->unexecute();
+   }
 }
 
 KMacroCommand * DeleteCommand::deleteAll( const KBookmarkGroup & parentGroup )
@@ -221,10 +224,10 @@ KMacroCommand * DeleteCommand::deleteAll( const KBookmarkGroup & parentGroup )
    KMacroCommand * cmd = new KMacroCommand( QString::null );
    QStringList lstToDelete;
    // We need to delete from the end, to avoid index shifting
-   for ( KBookmark bk = parentGroup.first() ; !bk.isNull() ; bk = parentGroup.next(bk) )
+   for ( KBookmark bk = parentGroup.first() ; !bk.isNull() ; bk = parentGroup.next(bk) ) {
       lstToDelete.prepend( bk.address() );
-   for ( QStringList::Iterator it = lstToDelete.begin(); it != lstToDelete.end() ; ++it )
-   {
+   }
+   for ( QStringList::Iterator it = lstToDelete.begin(); it != lstToDelete.end() ; ++it ) {
       kdDebug() << "DeleteCommand::deleteAll: deleting " << *it << endl;
       cmd->addCommand( new DeleteCommand( QString::null, *it ) );
    }
@@ -237,8 +240,7 @@ void EditCommand::execute()
    Q_ASSERT( !bk.isNull() );
    m_reverseEditions.clear();
    QValueList<Edition>::Iterator it = m_editions.begin();
-   for ( ; it != m_editions.end() ; ++it )
-   {
+   for ( ; it != m_editions.end() ; ++it ) {
       // backup current value
       m_reverseEditions.append( Edition((*it).attr, bk.internalElement().attribute((*it).attr)) );
       // set new value
@@ -262,8 +264,8 @@ void RenameCommand::execute()
 
    QDomNode titleNode = bk.internalElement().namedItem("title");
    Q_ASSERT( !titleNode.isNull() );
-   if ( titleNode.firstChild().isNull() ) // no text child yet
-   {
+   if ( titleNode.firstChild().isNull() ) {
+      // no text child yet
       QDomText domtext = titleNode.ownerDocument().createTextNode( "" );
       titleNode.appendChild( domtext );
    }
@@ -306,16 +308,16 @@ public:
 
 void SortCommand::execute()
 {
-   if ( m_commands.isEmpty() )
-   {
+   if ( m_commands.isEmpty() ) {
       KBookmarkGroup grp = KEBTopLevel::bookmarkManager()->findByAddress( m_groupAddress ).toGroup();
       Q_ASSERT( !grp.isNull() );
       SortItem firstChild( grp.first() );
       // This will call moveAfter, which will add the subcommands for moving the items
       kInsertionSort<SortItem, SortByName, QString, SortCommand> ( firstChild, *this );
-   } else
+   } else {
       // We've been here before
       KMacroCommand::execute();
+   }
 }
 
 void SortCommand::moveAfter( const SortItem & moveMe, const SortItem & afterMe )
@@ -434,17 +436,18 @@ void ImportCommand::xbelExecute()
    // get the xbel
    QDomNode subDoc = pManager->internalDocument().namedItem("xbel").cloneNode();
 
-   if ( !m_folder.isEmpty() ) 
-   {
+   if ( !m_folder.isEmpty() ) {
       // transform into folder
       subDoc.toElement().setTagName("folder");
 
       // clear attributes
       QStringList tags;
-      for (uint i = 0; i < subDoc.attributes().count(); i++)
+      for (uint i = 0; i < subDoc.attributes().count(); i++) {
          tags << subDoc.attributes().item(i).toAttr().name();
-      for ( QStringList::Iterator it = tags.begin(); it != tags.end(); ++it )
+      }
+      for ( QStringList::Iterator it = tags.begin(); it != tags.end(); ++it ) {
          subDoc.attributes().removeNamedItem( (*it) );
+      }
 
       subDoc.toElement().setAttribute("icon", m_icon);
 
@@ -457,31 +460,28 @@ void ImportCommand::xbelExecute()
    // import and add it
    QDomNode node = doc.importNode( subDoc, true );
 
-   if ( !m_folder.isEmpty() ) 
-   {
+   if ( !m_folder.isEmpty() ) {
       KEBTopLevel::bookmarkManager()->root().internalElement().appendChild(node);
       m_group = KBookmarkGroup(node.toElement()).address();
-
-   } 
-   else 
-   {
+   } else {
       QDomElement root = KEBTopLevel::bookmarkManager()->root().internalElement();
 
       QValueList<QDomElement> childList;
 
       QDomNode n = subDoc.firstChild().toElement();
-      while( !n.isNull() ) 
-      {
+      while( !n.isNull() ) {
          QDomElement e = n.toElement(); // try to convert the node to an element.
-         if( !e.isNull() )
+         if( !e.isNull() ) {
             childList.append( e );
+         }
          n = n.nextSibling();
       }
 
       QValueList<QDomElement>::Iterator it = childList.begin();
       QValueList<QDomElement>::Iterator end = childList.end();
-      for ( ; it!= end ; ++it )
+      for ( ; it!= end ; ++it ) {
          root.appendChild( *it );
+      }
    }
 
 }
@@ -489,14 +489,12 @@ void ImportCommand::xbelExecute()
 
 void ImportCommand::unexecute()
 {
-   if ( !m_folder.isEmpty() )
-   {
+   if ( !m_folder.isEmpty() ) {
       // We created a group -> just delete it
       DeleteCommand cmd(QString::null, m_group);
       cmd.execute();
-   }
-   else
-   {
+
+   } else {
       // We imported at the root -> delete everything
       KBookmarkGroup root = KEBTopLevel::bookmarkManager()->root();
       KCommand * cmd = DeleteCommand::deleteAll( root );
