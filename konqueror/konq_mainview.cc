@@ -231,7 +231,7 @@ void KonqMainView::initConfig()
   // Read application config file if not already done
   if (!KfmGuiProps::m_pDefaultProps)
   {
-    debug("Reading global config");
+    kdebug(0,1202,"Reading global config");
     KConfig *config = kapp->getConfig();
     config->setGroup( "Settings" );
     KfmGuiProps::m_pDefaultProps = new KfmGuiProps(config);
@@ -282,7 +282,7 @@ Row * KonqMainView::newRow( bool append )
     m_pMainSplitter->moveToFirst( row );
   }
   row->show();
-  debug("newRow() done");
+  kdebug(0,1202,"newRow() done");
   return row;
 }
 
@@ -424,7 +424,7 @@ bool KonqMainView::mappingCreateMenubar( OpenPartsUI::MenuBar_ptr menuBar )
 
 bool KonqMainView::mappingCreateToolbar( OpenPartsUI::ToolBarFactory_ptr factory )
 {
-  debug("KonqMainView::mappingCreateToolbar");
+  kdebug(0,1202,"KonqMainView::mappingCreateToolbar");
   OpenPartsUI::Pixmap_var pix;
 
   if ( CORBA::is_nil(factory) )
@@ -512,7 +512,7 @@ bool KonqMainView::mappingCreateToolbar( OpenPartsUI::ToolBarFactory_ptr factory
   if ( !m_Props->m_bShowLocationBar )
     m_vLocationBar->enable( OpenPartsUI::Hide );
 
-  debug("KonqMainView::mappingCreateToolbar : done !");
+  kdebug(0,1202,"KonqMainView::mappingCreateToolbar : done !");
   return true;
 }
 
@@ -560,7 +560,7 @@ void KonqMainView::insertView( Konqueror::View_ptr view,
   if (newViewPosition == Konqueror::above || 
       newViewPosition == Konqueror::below)
   {
-    debug("Creating a new row");
+    kdebug(0,1202,"Creating a new row");
     currentRow = newRow( (newViewPosition == Konqueror::below) ); // append if below
     // Now insert a view, say on the right (doesn't matter)
     newViewPosition = Konqueror::right;
@@ -757,7 +757,7 @@ void KonqMainView::slotSetUpEnabled( QString _url, OpenParts::Id _id )
     u = _url;
     if ( u.hasPath() )
     {
-      debug("u.path() = '%s'",u.path().data());
+      kdebug(0,1202,"u.path() = '%s'",u.path().data());
       bHasUpURL = ( strcmp( u.path(), "/") != 0 );
     }
   }
@@ -1627,7 +1627,7 @@ void KonqMainView::resizeEvent( QResizeEvent *e )
 
 void KonqMainView::openBookmarkURL( const char *url )
 {
-  debug("KonqMainView::openBookmarkURL(%s)",url);
+  kdebug(0,1202,"KonqMainView::openBookmarkURL(%s)",url);
   openURL( url, false );
 }
  

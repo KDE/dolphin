@@ -96,7 +96,7 @@ void KonqChildView::detach()
 
 void KonqChildView::repaint()
 {
-  debug("KonqChildView::repaint()");
+  kdebug(0,1202,"KonqChildView::repaint()");
   assert(m_pFrame);
   m_pFrame->repaint();
 }
@@ -122,19 +122,19 @@ void KonqChildView::emitEventViewMenu( OpenPartsUI::Menu_ptr menu, bool create )
 
 void KonqChildView::switchView( Konqueror::View_ptr _vView )
 {
-  debug("switchView : part->inactive");
+  kdebug(0,1202,"switchView : part->inactive");
   m_vMainWindow->setActivePart( m_vParent->id() );
-  debug("switchView : oldId=");
+  kdebug(0,1202,"switchView : oldId=");
   OpenParts::Id oldId = m_vView->id();
     
   detach();
   Konqueror::View_var vView = Konqueror::View::_duplicate( _vView );
-  debug("switchView : attaching new one");
+  kdebug(0,1202,"switchView : attaching new one");
   attach( vView );
     
-  debug("switchView : emitting sigIdChanged");
+  kdebug(0,1202,"switchView : emitting sigIdChanged");
   emit sigIdChanged( this, oldId, vView->id() );
-  debug("switchView : setActivePart");
+  kdebug(0,1202,"switchView : setActivePart");
   m_vMainWindow->setActivePart( vView->id() ); 
 }
 
@@ -326,7 +326,7 @@ void KonqChildView::goBack()
     m_vView->restoreState( h.entry );
   else
   {
-    debug("restoring %s",h.strURL.data());
+    kdebug(0,1202,"restoring %s",h.strURL.data());
     openURL( h.strURL );
   }
 }

@@ -135,12 +135,12 @@ bool KonqKfmTreeView::mappingCreateViewMenu( Konqueror::View::EventCreateViewMen
   {
     if ( viewMenu.create )
     {
-      debug("Adding reload tree");
+      kdebug(0,1202,"Adding reload tree");
       viewMenu.menu->insertItem4( i18n("Rel&oad Tree"), this, "slotReloadTree", 0, MVIEW_RELOADTREE_ID, -1 );
     }
     else
     {
-      debug("Removing reload tree");
+      kdebug(0,1202,"Removing reload tree");
       viewMenu.menu->removeItem( MVIEW_RELOADTREE_ID );
     }
   }

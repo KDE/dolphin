@@ -31,7 +31,7 @@ KfmViewProps * KfmViewProps::defaultProps()
 {
   if (!m_pDefaultProps)
   {
-    debug("Reading global config for kfmviewprops");
+    kdebug(0,1202,"Reading global config for kfmviewprops");
     KConfig *config = kapp->getConfig();
     KConfigGroupSaver cgs(config, "Settings");
     m_pDefaultProps = new KfmViewProps(config);
@@ -101,7 +101,7 @@ KfmViewSettings * KfmViewSettings::defaultFMSettings()
 {
   if (!m_pDefaultFMSettings)
   {
-    debug("Reading config for defaultFMSettings");
+    kdebug(0,1202,"Reading config for defaultFMSettings");
     KConfig *config = kapp->getConfig();
     KConfigGroupSaver cgs(config, "KFM FM Defaults" );
     m_pDefaultFMSettings = new KfmViewSettings(config);
@@ -114,7 +114,7 @@ KfmViewSettings * KfmViewSettings::defaultHTMLSettings()
 {
   if (!m_pDefaultHTMLSettings)
   {
-    debug("Reading config for defaultHTMLSettings");
+    kdebug(0,1202,"Reading config for defaultHTMLSettings");
     KConfig *config = kapp->getConfig();
     KConfigGroupSaver cgs(config, "KFM HTML Defaults" );
     m_pDefaultHTMLSettings = new KfmViewSettings(config);

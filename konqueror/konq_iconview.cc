@@ -106,13 +106,13 @@ bool KonqKfmIconView::mappingCreateViewMenu( Konqueror::View::EventCreateViewMen
     {
       //    menu->insertItem4( i18n("&Large Icons"), this, "slotLargeIcons", 0, -1, -1 );
       //    menu->insertItem4( i18n("&Small Icons"), this, "slotSmallIcons", 0, -1, -1 );
-      debug("adding image preview and showdotfiles");
+      kdebug(0,1202,"adding image preview and showdotfiles");
       viewMenu.menu->insertItem4( i18n("Image &Preview"), this, "slotShowSchnauzer" , 0, MVIEW_IMAGEPREVIEW_ID, -1 );
       viewMenu.menu->insertItem4( i18n("Show &Dot Files"), this, "slotShowDot" , 0, MVIEW_SHOWDOT_ID, -1 );
     }
     else
     {
-      debug("removing image preview and showdotfiles");
+      kdebug(0,1202,"removing image preview and showdotfiles");
       viewMenu.menu->removeItem( MVIEW_SHOWDOT_ID );
       viewMenu.menu->removeItem( MVIEW_IMAGEPREVIEW_ID );
     }
@@ -564,7 +564,7 @@ void KonqKfmIconView::slotUpdateFinished( int /*_id*/ )
 
     if ( !done )
     {
-      debug("slotUpdateFinished : %s",name.c_str());
+      kdebug(0,1202,"slotUpdateFinished : %s",name.c_str());
       if ( m_isShowingDotFiles || name[0]!='.' )
       {
         KURL u( m_url );
