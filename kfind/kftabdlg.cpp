@@ -227,7 +227,6 @@ void KfindTabDialog::init(const char *searchPath = 0 )
 void KfindTabDialog::resizeEvent( QResizeEvent *ev )
   {
     int w = width();
-    int h = height();
     int   wTmp;
     QRect rTmp;
    
@@ -336,7 +335,7 @@ void KfindTabDialog::enableCheckedEdit()
 
 void KfindTabDialog::isCheckedValid()
   {
-    int match,len;
+    int match, len;
     QRegExp date("[0-9][0-9]?[/][0-9][0-9]?[/][0-9][0-9][0-9][0-9]");
     QRegExp r("[0-9]+");
 
@@ -345,14 +344,14 @@ void KfindTabDialog::isCheckedValid()
         bool rightDates = TRUE;
 
         match = date.match(le[0]->text(), 0,&len);
-        if ( !(match != -1 && len == strlen(le[0]->text())) )
+        if ( !(match != -1 && len == (int)strlen(le[0]->text())) )
             rightDates=FALSE;
 
         if ( string2Date(le[0]->text()).isNull() )
           rightDates=FALSE;
 
         match = date.match(le[1]->text(), 0,&len);
-        if ( !(match != -1 && len == strlen(le[1]->text())) )
+        if ( !(match != -1 && len == (int)strlen(le[1]->text())) )
             rightDates=FALSE;
 
         if ( string2Date(le[1]->text()).isNull() )
@@ -374,7 +373,7 @@ void KfindTabDialog::isCheckedValid()
     if (prevMonth == TRUE)
       {
         match = r.match(le[2]->text(), 0,&len);
-        if ( !(match != -1 && len == strlen(le[2]->text())) )
+        if ( !(match != -1 && len == (int)strlen(le[2]->text())) )
           {
             QMessageBox mb(this,"message box");
             mb.setText( "The month(s) value isn't valid!!");
@@ -386,7 +385,7 @@ void KfindTabDialog::isCheckedValid()
     if (prevDay == TRUE)
       {
         match = r.match(le[3]->text(), 0,&len);
-        if (! (match != -1 && len == strlen(le[3]->text())) )
+        if (! (match != -1 && len == (int)strlen(le[3]->text())) )
           {
             QMessageBox mb(this,"message box");
             mb.setText( "The day(s) value isn't valid!!");
@@ -403,7 +402,7 @@ void KfindTabDialog::checkSize()
     QRegExp r("[0-9]+");
 
     match = r.match(sizeEdit->text(), 0,&len);
-    if ( !(match != -1 && len == strlen(sizeEdit->text())) )
+    if ( !(match != -1 && len == (int)strlen(sizeEdit->text())) )
       {
         QMessageBox mb(this,"message box");
         mb.setText( "The value in size isn't valid number!!");

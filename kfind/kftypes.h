@@ -50,7 +50,7 @@ public:
      The return value may be 0L if there is no comment at all.
      This method does not use _url but some overloading methods do so.
   */
-  virtual QString getComment( const char *_url ) 
+  virtual QString getComment( const char * ) 
     { return QString( comment.data() ); }
 
   /// Sets the comment

@@ -13,6 +13,7 @@
 #include <qapp.h>
 #include <stdio.h>
 #include <qaccel.h>  
+#include <stdlib.h>
 
 #include <kmsgbox.h>
 
@@ -72,7 +73,7 @@ KfindMenu::KfindMenu( QWidget *parent, const char *name )
     CHECK_PTR( options );
     //    options->setFont(menu_font );
 
-    int prefs = options->insertItem("Preferences ...",this,SIGNAL(prefs()));
+    options->insertItem("Preferences ...",this,SIGNAL(prefs()));
     /*
     int saving    = options->insertItem("Saving  "   ,this,SIGNAL(saving()));
     int archives  = options->insertItem("Archives  " ,this,SIGNAL(archives()));

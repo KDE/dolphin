@@ -41,8 +41,10 @@ int main( int argc, char ** argv )
 	break;
       };
 
-    if (i==argc)
-       searchPath = getcwd(searchPath.data(),0);
+    if (i==argc) {
+	char buffer[1000];
+       searchPath = getcwd(buffer, 0);
+    };
 
     if ( searchPath.isNull() )
       searchPath = getenv( "HOME" );

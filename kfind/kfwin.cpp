@@ -160,7 +160,7 @@ void KfindWindow::saveResults()
 	    item=0;  
 	    while(item!=items)
 	      {
-		fprintf(results,"%s\n", lbx->text(item),lbx->text(item));
+		fprintf(results,"%s\n", lbx->text(item));
 		item++;
 	      };
 	    
@@ -209,9 +209,9 @@ void KfindWindow::deleteFiles()
                 else
                   {
                    KFM *PropertiesD= new KFM();
-                   QFileInfo *fileInfo = new QFileInfo(lbx->text(
+                  /* QFileInfo *fileInfo = new QFileInfo(lbx->text(
                                                     lbx->currentItem()));
-		   
+		  */ 
                    PropertiesD->refreshDirectory(lbx->text(lbx->currentItem()));
                    lbx->removeItem(lbx->currentItem());
  		  };
@@ -242,9 +242,9 @@ void KfindWindow::deleteFiles()
                  else
                   {
 		    KFM *PropertiesD= new KFM();
-		    QFileInfo *fileInfo = new QFileInfo(lbx->text(
+		    /* QFileInfo *fileInfo = new QFileInfo(lbx->text(
 					      lbx->currentItem()));
-		   
+		  */ 
 		    PropertiesD->refreshDirectory(lbx->text(lbx->currentItem()));
 		    lbx->removeItem(lbx->currentItem());
                   };
@@ -258,7 +258,7 @@ void KfindWindow::fileProperties()
   {
     KFM *PropertiesD= new KFM();
 
-    QFileInfo *fileInfo = new QFileInfo(lbx->text(lbx->currentItem()));
+    // QFileInfo *fileInfo = new QFileInfo(lbx->text(lbx->currentItem()));
 
     PropertiesD->openProperties(lbx->text(lbx->currentItem()));
   };

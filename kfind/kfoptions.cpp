@@ -39,7 +39,7 @@ extern QList<KfFileType> *types;
 extern KfSaveOptions *saving;
 extern QList<KfArchiver> *archivers;
 
-KfOptions::KfOptions( QWidget *parent=0, const char *name=0 ):QTabDialog() 
+KfOptions::KfOptions( QWidget *parent=0, const char *name=0 ):QTabDialog( parent, name) 
   {
     resize(400,330);
     insertPages();

@@ -26,7 +26,7 @@ void KfFileType::initFileTypes( const char* _path )
         return;
 
     // Loop thru all directory entries
-    while ( ep = readdir( dp ) )
+    while ( ( ep = readdir( dp ) ) != NULL )
     {
         if ( strcmp( ep->d_name, "." ) != 0 && strcmp( ep->d_name, ".." ) != 0 )
         {
