@@ -1053,6 +1053,11 @@ void KonqMainView::slotDelete()
   callExtensionMethod( m_currentView, "del()" );
 }
 
+void KonqMainView::slotShred()
+{
+  callExtensionMethod( m_currentView, "shred()" );
+}
+
 void KonqMainView::slotSetLocationBarURL( const QString &url )
 {
   KParts::ReadOnlyPart *view = (KParts::ReadOnlyPart *)sender()->parent();
@@ -1265,7 +1270,7 @@ void KonqMainView::initActions()
 	m_paNewWindow = new KAction( i18n( "New &Window" ), QIconSet( BarIcon( "filenew",  KonqFactory::instance() ) ), KStdAccel::key(KStdAccel::New), this, SLOT( slotNewWindow() ), actionCollection(), "new_window" );
 
   QPixmap execpix = KGlobal::iconLoader()->loadIcon( "exec", KIconLoader::Small );
-  m_paRun = new KAction( i18n( "&Run command..." ), execpix, 0/*kdesktop has a binding for it*/, this, SLOT( slotRun() ), actionCollection(), "run" );
+  m_paRun = new KAction( i18n( "&Run Command..." ), execpix, 0/*kdesktop has a binding for it*/, this, SLOT( slotRun() ), actionCollection(), "run" );
   QPixmap terminalpix = KGlobal::iconLoader()->loadIcon( "terminal", KIconLoader::Small );
   m_paOpenTerminal = new KAction( i18n( "Open &Terminal..." ), terminalpix, CTRL+Key_T, this, SLOT( slotOpenTerminal() ), actionCollection(), "open_terminal" );
 	m_paOpenLocation = new KAction( i18n( "&Open Location..." ), QIconSet( BarIcon( "fileopen", KonqFactory::instance() ) ), KStdAccel::key(KStdAccel::Open), this, SLOT( slotOpenLocation() ), actionCollection(), "open_location" );
@@ -1342,8 +1347,15 @@ void KonqMainView::initActions()
   m_paPaste = KStdAction::paste( this, SLOT( slotPaste() ), actionCollection(), "paste" );
   m_paStop = new KAction( i18n( "&Stop" ), QIconSet( BarIcon( "stop", KonqFactory::instance() ) ), Key_Escape, this, SLOT( slotStop() ), actionCollection(), "stop" );
 
-  m_paTrash = new KAction( i18n( "&Move to Trash" ), QIconSet( BarIcon( "trash", KonqFactory::instance() ) ), 0, this, SLOT( slotTrash() ), actionCollection(), "trash" );
-  m_paDelete = new KAction( i18n( "&Delete" ), CTRL+Key_Delete, this, SLOT( slotDelete() ), actionCollection(), "del" );
+  // Which is the default
+  KConfig *config = KonqFactory::instance()->config();
+  config->setGroup( "Trash" );
+  int deleteAction = config->readNumEntry("DeleteAction", DEFAULT_DELETEACTION);
+  const int deleteKey = Key_Delete ; // CTRL+Key_Delete
+
+  m_paTrash = new KAction( i18n( "&Move to Trash" ), QIconSet( BarIcon( "trash", KonqFactory::instance() ) ), deleteAction==1 ? deleteKey : 0, this, SLOT( slotTrash() ), actionCollection(), "trash" );
+  m_paDelete = new KAction( i18n( "&Delete" ), deleteAction==2 ? deleteKey : 0, this, SLOT( slotDelete() ), actionCollection(), "del" );
+  m_paShred = new KAction( i18n( "&Shred" ), deleteAction==3 ? deleteKey : 0, this, SLOT( slotShred() ), actionCollection(), "shred" );
 
   m_paAnimatedLogo = new KonqLogoAction( QString::null, QIconSet( *s_plstAnimatedLogo->at( 0 ) ), 0, this, SLOT( slotNewWindow() ), actionCollection(), "animated_logo" );
 

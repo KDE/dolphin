@@ -184,6 +184,7 @@ protected slots:
   void slotPaste();
   void slotTrash();
   void slotDelete();
+  void slotShred();
 
   void slotSetLocationBarURL( const QString &url );
 
@@ -288,6 +289,7 @@ private:
 
   KAction *m_paTrash;
   KAction *m_paDelete;
+  KAction *m_paShred;
 
   KAction *m_paAnimatedLogo;
 
