@@ -80,6 +80,8 @@ private:
   int        openFldrM;
   int        saveSearchM;
   int        quitM;
+
+  int        _width;
 };
 
 #endif

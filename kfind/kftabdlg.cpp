@@ -38,16 +38,17 @@
 extern QList<KfFileType> *types;
 
 KfindTabDialog::KfindTabDialog( QWidget *parent, const char *name, const char *searchPath = 0 )
-    : KTabCtl( parent, name )
+    : QTabDialog( parent, name )
   {
-
     //Page One of KfTAbDialog
     pages[0] = new QWidget( this, "page1" );
 
-    namedL     = new QLabel(trans->translate("&Named:")  ,pages[0],"named");
     nameBox    = new QComboBox(TRUE           ,pages[0],"combo1");
-    lookinL    = new QLabel(trans->translate("&Look in:"),pages[0],"named");
+    namedL     = new QLabel(nameBox,trans->translate("&Named:"),
+			    pages[0],"named");
     dirBox     = new QComboBox(FALSE          ,pages[0],"combo2");
+    lookinL    = new QLabel(dirBox,trans->translate("&Look in:"),
+			    pages[0],"named");
     subdirsCb  = new QCheckBox(                pages[0]);
     browseB    = new QPushButton(trans->translate("&Browse ..."),pages[0]);
 
@@ -91,7 +92,7 @@ KfindTabDialog::KfindTabDialog( QWidget *parent, const char *name, const char *s
     connect( browseB,  SIGNAL(clicked()),
              this, SLOT(getDirectory()) );   
 
-    addTab( pages[0], trans->translate(" Name&Location ") );
+    addTab( pages[0], trans->translate(" Name& Location ") );
                                                       
     //Page Two of KfTAbDialog
     pages[1] = new QWidget( this, "page2" );
@@ -168,12 +169,14 @@ KfindTabDialog::KfindTabDialog( QWidget *parent, const char *name, const char *s
     //Page Tree of KfTAbDialog
     pages[2] = new QWidget( this, "page3" );
 
-    typeL   =new QLabel(trans->translate("Of &type:")        ,pages[2],"type");
-    typeBox =new QComboBox(FALSE                            ,pages[2],"typeBox");
+    typeBox =new QComboBox(FALSE,pages[2],"typeBox");
+    typeL   =new QLabel(typeBox,trans->translate("Of &type:"),
+			pages[2],"type");
     textL   =new QLabel(trans->translate("&Containing Text:"),pages[2],"text");
     textEdit=new QLineEdit(                 pages[2], "textEdit" );
-    sizeL   =new QLabel(trans->translate("&Size is:")        ,pages[2],"size");
     sizeBox =new QComboBox(FALSE           ,pages[2],"sizeBox");
+    sizeL   =new QLabel(sizeBox,trans->translate("&Size is:"),
+			pages[2],"size");
     sizeEdit=new QLineEdit(                 pages[2], "sizeEdit" );
     kbL     =new QLabel("KB"               ,pages[2],"kb");
 
@@ -212,6 +215,7 @@ KfindTabDialog::KfindTabDialog( QWidget *parent, const char *name, const char *s
              this    ,  SLOT(checkSize()) );      
 
     addTab( pages[2], trans->translate(" Advanced ") );  
+    setOkButton(0);
   }
 
 KfindTabDialog::~KfindTabDialog()
@@ -227,7 +231,7 @@ void KfindTabDialog::resizeEvent( QResizeEvent *ev )
     int   wTmp;
     QRect rTmp;
 
-    KTabCtl::resizeEvent(ev);
+    QTabDialog::resizeEvent(ev);
 
     //Page One of KfTAbDialog
     namedL ->move(10,20);
@@ -285,10 +289,10 @@ void KfindTabDialog::resizeEvent( QResizeEvent *ev )
 
 QSize KfindTabDialog::sizeHint()
   {
-    QSize size(320,180);
-
+    QSize size(320,195);
+    
     return (size);   
-  }
+  };
 
 void KfindTabDialog::setDefaults()
   {

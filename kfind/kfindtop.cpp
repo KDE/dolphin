@@ -36,6 +36,10 @@ KfindTop::KfindTop(const char *searchPath) : KTopLevelWidget()
   {
     setCaption(QString("KFind ")+KFIND_VERSION);
 
+    KWM::setIcon(winId(), kapp->getIconLoader()->loadIcon("kfind.xpm"));   
+    //KWM::setMiniIcon(winId(), 
+    //	     kapp->getIconLoader()->loadIcon("mini-kfind.xpm"));   
+
     _toolBar = new KToolBar( this, "_toolBar" );
     _toolBar->setBarPos( KToolBar::Top );      
     _toolBar->show();
@@ -85,13 +89,14 @@ KfindTop::KfindTop(const char *searchPath) : KTopLevelWidget()
     connect(_toolBar ,SIGNAL(moved(BarPosition)),
     	    this,SLOT(resizeOnFloating()));
 
-    int width=(440>_toolBar->width())?440:_toolBar->width();
-    int height=(_kfind->sizeHint()).height()+10;
-    //the main widget  never should be smaller
-    setMinimumSize(width,height+_toolBar->height()+_mainMenu->height());
-    //setMaximumSize(9999,height+_toolBar->height()+_mainMenu->height());
+    _width=(440>_toolBar->width())?440:_toolBar->width();
+    int _height=(_kfind->sizeHint()).height();
 
-    resize(width,height+_toolBar->height()+_mainMenu->height());
+    //the main widget  never should be smaller
+    setMinimumSize(_width,_height+_toolBar->height()+_mainMenu->height());
+    setMaximumSize(9999,_height+_toolBar->height()+_mainMenu->height());
+
+    resize(_width,_height+_toolBar->height()+_mainMenu->height());
    };    
 
 KfindTop::~KfindTop()
@@ -275,30 +280,25 @@ void KfindTop::enableSearchButton(bool enable)
 
 void KfindTop::enableStatusBar(bool enable)
   {
-     int _heightTmp=(_kfind->sizeHint()).height()+10;
+     int _heightTmp=(_kfind->sizeHint()).height();
      int _height=_kfind->height();
 
      if ( enable )
        {
 	 if (_heightTmp==_height)
-	   _height+=200;
-         _statusBar->enable(KStatusBar::Show);
-	 _kfind->setMaximumSize(9999,9999);
-         setMaximumSize(9999,9999);
-         //_kfind->resize(width(),_height);
-	 resize(width(),_mainMenu->height()+_toolBar->height()+_height+_statusBar->height());
-	 resizeOnFloating();
-	 updateRects();
+ 	   _height+=200;
+	 _statusBar->enable(KStatusBar::Show);
+	 setMaximumSize(9999,9999);
+ 	 resize(width(),_mainMenu->height()+_toolBar->height()+_height+_statusBar->height());
+ 	 resizeOnFloating();
+ 	 updateRects();
        }
      else
        {
-         _statusBar->enable(KStatusBar::Hide);
-	 _kfind->setMaximumSize(9999,_height);
-	 //setMaximumSize(9999,_height+_toolBar->height()+_mainMenu->height());
-	 _kfind->resize(width(),_height);
-	 resizeOnFloating();
-	 updateRects();
-       };                                      
+	 _statusBar->enable(KStatusBar::Hide);
+ 	 resizeOnFloating();
+ 	 updateRects();
+       };
   };
 
 void KfindTop::statusChanged(const char *str)
@@ -315,7 +315,8 @@ void KfindTop::prefs()
 
 void KfindTop::resizeOnFloating()
   {
-    int _height=(_kfind->sizeHint()).height()+10;
+    int _height=(_kfind->sizeHint()).height();
+
     if (_mainMenu->menuBarPos()!=KMenuBar::Floating)
       _height+=_mainMenu->height();
     if (_toolBar->barPos()!=KToolBar::Floating)
@@ -323,10 +324,10 @@ void KfindTop::resizeOnFloating()
     if (_statusBar->isVisible())
       _height+=_statusBar->height();
      
-    setMinimumSize(width(),_height);
+    setMinimumSize(_width,_height);
     if ( !_statusBar->isVisible() )
       {
 	resize(width(),_height);
-	//setMaximumSize(9999,_height);
+	setMaximumSize(9999,_height);
       };
   };

@@ -7,7 +7,7 @@
 #ifndef KFTABDLG_H
 #define KFTABDLG_H
 
-#include <ktabctl.h>  
+#include <qtabdlg.h>  
 
 class QButtonGroup;
 class QPushButton;
@@ -21,7 +21,7 @@ class QString;
 class QDate;
 class QSize;
 
-class KfindTabDialog: public KTabCtl
+class KfindTabDialog: public QTabDialog
 {
   Q_OBJECT
 

@@ -60,24 +60,17 @@ Kfind::Kfind( QWidget *parent, const char *name, const char *searchPath = 0 )
 	    this,SLOT(processResults()));
 
     emit haveResults(false);
-    resize(tabDialog->sizeHint()+QSize(0,5));
+    resize(tabDialog->sizeHint());
   };
 
 void Kfind::resizeEvent( QResizeEvent *e)
   {
     QWidget::resizeEvent(e);
 
-    tabDialog->setGeometry(5,5,
-			   width()-10,(tabDialog->sizeHint()).height());
-//     printf("------------------------------\n");
-//     printf("Win height1 = %d\n",win->height());
-//     printf("Kfind height1 = %d\n",height());
-//     printf("tabDialog height1 = %d\n",(tabDialog->sizeHint()).height());
-//     printf("Winsize = %d\n",winsize);
-    win->setGeometry(0,5+(tabDialog->sizeHint()).height()+5,width(),
-                    height()-(tabDialog->sizeHint()).height()-10);
-//     printf("Win height2 = %d\n",win->height());
-//     printf("------------------------------\n");
+    tabDialog->setGeometry(0,0,
+			   width(),(tabDialog->sizeHint()).height());
+    win->setGeometry(0,(tabDialog->sizeHint()).height(),width(),
+    		     height()-(tabDialog->sizeHint()).height());
   };
     
 void Kfind::startSearch()
@@ -102,7 +95,7 @@ void Kfind::startSearch()
         int t = time( 0L ); 
         outFile.sprintf( "/tmp/kfindout%i", t );
 
-       buffer.append(pom.sprintf(" -fprint %s ",outFile.data()));
+	buffer.append(pom.sprintf(" -fprint %s ",outFile.data()));
         buffer=buffer.simplifyWhiteSpace();
 	while( !buffer.isEmpty() )
 	  {
@@ -160,6 +153,6 @@ void Kfind::processResults()
 
 QSize Kfind::sizeHint()
   {
-    return (tabDialog->sizeHint()+QSize(0,winsize-1));
+    return (tabDialog->sizeHint());//+QSize(0,winsize-1));
   };
 
