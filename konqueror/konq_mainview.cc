@@ -1090,35 +1090,6 @@ bool KonqMainView::openView( const QString &serviceType, const QString &url, Kon
 {
   QString indexFile;
   KURL u( url );
-/*
-  if ( !m_sInitialURL.isEmpty() )
-  {
-    Browser::View_var vView;
-    QStringList serviceTypes;
-
-    if ( ( serviceType == "inode/directory" ) &&
-         ( KonqPropsView::defaultProps()->isHTMLAllowed() ) &&
-         ( u.isLocalFile() ) &&
-	 ( ( indexFile = findIndexFile( u.path() ) ) != QString::null ) )
-    {
-      vView = KonqFactory::createView( "text/html", serviceTypes, this );
-      m_sInitialURL = indexFile.prepend( "file:" );
-    }
-    else if ( CORBA::is_nil( ( vView = KonqFactory::createView( serviceType, serviceTypes, this ) ) ) )
-      return false;
-      
-    m_pViewManager->splitView( Qt::Horizontal, vView, serviceTypes );
-
-    MapViews::Iterator it = m_mapViews.find( vView->id() );
-    it.data()->openURL( m_sInitialURL );
-  
-    m_vMainWindow->setActivePart( vView->id() );
-    
-    m_sInitialURL = QString::null;
-    
-    return true;
-  }
-*/  
   //first check whether the current view can display this type directly, then
   //try to change the view mode. if this fails, too, then Konqueror cannot
   //display the data addressed by the URL
