@@ -153,7 +153,11 @@ KonqFrameHeader::mapShade( KonqFrameHeaderLook look)
 void
 KonqFrameHeader::paintEvent( QPaintEvent* )
 {
-  bool hasFocus = m_pParentKonqFrame->view()->hasFocus();
+  bool hasFocus = false;
+  Browser::View_var vView = m_pParentKonqFrame->view();
+  if ( !CORBA::is_nil( vView ) )
+    hasFocus = vView->hasFocus();
+
 //  kdebug(0, 1202, "KonqFrameHeader::paintEvent( QPaintEvent* ) : part()->hasFocus()=%d",hasFocus);
   if (!isVisible())
   {
