@@ -717,7 +717,7 @@ file.</para></listitem>
 <term><guimenuitem>HTML File...</guimenuitem></term>
 <listitem><para>Creates a skeleton <acronym>HTML</acronym> source file. When
 you
-type the new file's name into the dialog box is is probably best to give
+type the new file's name into the dialog box it is probably best to give
 it a <literal role="extension">.html </literal> extension to avoid
 confusion.</para></listitem>
 </varlistentry>
