@@ -663,8 +663,11 @@ void KonqViewManager::loadItem( KConfig &cfg, KonqFrameContainer *parent,
       if ( cfg.hasKey( key ) ) // if it has it, we load it, even if empty
         url = KURL( cfg.readEntry( key ) );
 
-      kdDebug(1202) << "loadItem: calling openURL " << url.prettyURL() << endl;
-      childView->openURL( url, url.prettyURL() );
+      if ( !url.isEmpty() )
+      {
+        kdDebug(1202) << "loadItem: calling openURL " << url.prettyURL() << endl;
+        childView->openURL( url, url.prettyURL() );
+      }
     }
   }
   else if( name.find("Container") != -1 ) {
