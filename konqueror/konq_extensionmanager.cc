@@ -62,14 +62,18 @@ KonqExtensionManager::KonqExtensionManager(QWidget *parent, KonqMainWindow *main
 	d->mainWindow = mainWindow;
 	d->activePart = activePart;
 
+	// There's a limitation of KPluginSelector here... It assumes that all plugins in a given widget (as created by addPlugins)
+	// have their config in the same KConfig[Group]. So we can't show konqueror extensions and khtml extensions in the same tab.
 	d->pluginSelector->addPlugins("konqueror", i18n("Extensions"), "Extensions", KGlobal::config());
-	if ( activePart )
-		d->pluginSelector->addPlugins(activePart->instance()->instanceName(), i18n("Tools"), "Tools", activePart->instance()->config());
+	if ( activePart ) {
+		KInstance* instance = activePart->instance();
+		d->pluginSelector->addPlugins(instance->instanceName(), i18n("Tools"), "Tools", instance->config());
+		d->pluginSelector->addPlugins(instance->instanceName(), i18n("Statusbar"), "Statusbar", instance->config());
+	}
 }
 
 KonqExtensionManager::~KonqExtensionManager()
 {
-	//delete d->khtmlConfig;
 	delete d;
 }
 
