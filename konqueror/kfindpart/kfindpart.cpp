@@ -30,6 +30,10 @@
 #include <kstdaction.h>
 #include <kaction.h>
 
+#include <qdir.h>
+
+class KonqDirPart;
+
 class KFindFactory : public KParts::Factory
 {
 public:
@@ -82,6 +86,10 @@ KFindPart::KFindPart( QWidget * parentWidget, QObject *parent, const char *name 
     kdDebug() << "KFindPart::KFindPart " << this << endl;
     m_kfindWidget = new Kfind( parentWidget, name );
     m_kfindWidget->setMaximumHeight(m_kfindWidget->minimumSizeHint().height());
+  kdDebug()<<QString("\nKfind: currentItem: %1 ").arg( (((KonqDirPart*)parent)->currentItem()->url()).path() );
+  QDir d;
+  	if( d.exists( (((KonqDirPart*)parent)->currentItem()->url()).path() ) )
+	  	m_kfindWidget->setURL( ((KonqDirPart*)parent)->currentItem()->url() );
 
     setWidget( m_kfindWidget );
 

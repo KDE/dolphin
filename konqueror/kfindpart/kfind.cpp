@@ -151,6 +151,7 @@ void Kfind::setFocus()
 
 void Kfind::saveState( QDataStream *stream )
 {
+	query->kill();
   *stream << tabWidget->nameBox->currentText();
   *stream << tabWidget->dirBox->currentText();
   *stream << tabWidget->typeBox->currentItem();

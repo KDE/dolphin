@@ -928,6 +928,7 @@ void KonqMainWindow::slotToolFind()
         KMessageBox::error( this, i18n("Can't create the find part, check your installation.") );
         return;
     }
+kdDebug()<<QString("\nslotToolFind: %1\n").arg((dirPart->currentItem()->url()).path());
     KParts::ReadOnlyPart * findPart = factory.create( m_currentView->frame(), "findPartWidget", dirPart, "findPart" );
     dirPart->setFindPart( findPart );
 
@@ -3100,6 +3101,8 @@ void KonqMainWindow::slotPopupMenu( KXMLGUIClient *client, const QPoint &_global
   popupMenuCollection.insert( m_paForward );
   popupMenuCollection.insert( m_paUp );
   popupMenuCollection.insert( m_paReload );
+
+  popupMenuCollection.insert( m_paFindFiles );
 
   popupMenuCollection.insert( m_paUndo );
   popupMenuCollection.insert( m_paCut );
