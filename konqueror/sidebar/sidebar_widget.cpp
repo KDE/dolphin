@@ -202,7 +202,7 @@ Sidebar_Widget::Sidebar_Widget(QWidget *parent, KParts::ReadOnlyPart *par, const
                                 KDockWidget::DockBottom|KDockWidget::DockDesktop);*/
 
 
-   	ButtonBar=new KMultiVertTabBar(this);
+   	ButtonBar=new KMultiTabBar(this,KMultiTabBar::Vertical);
 	Menu=new QPopupMenu(this,"Sidebar_Widget::Menu");
 	QPopupMenu *addMenu=new QPopupMenu(this,"Sidebar_Widget::addPopup");
 	Menu->insertItem(i18n("Add New"),addMenu,0);
@@ -260,13 +260,13 @@ void Sidebar_Widget::doLayout()
 	{
 		myLayout->add(Area);
 		myLayout->add(ButtonBar);
-		ButtonBar->setPosition(KMultiVertTabBar::Right);
+		ButtonBar->setPosition(KMultiTabBar::Right);
 	}
 	else
 	{
 		myLayout->add(ButtonBar);
 		myLayout->add(Area);
-		ButtonBar->setPosition(KMultiVertTabBar::Left);
+		ButtonBar->setPosition(KMultiTabBar::Left);
 
 	}
 	myLayout->activate();
@@ -597,7 +597,7 @@ bool Sidebar_Widget::addButton(const QString &desktoppath,int pos)
 	{
 	  	ButtonBar->insertTab(SmallIcon(icon), lastbtn,name);
 		/*int id=*/Buttons.insert(lastbtn,new ButtonInfo(desktoppath,0,url,lib,this));
-		KMultiVertTabBarTab *tab=ButtonBar->getTab(lastbtn);
+		KMultiTabBarTab *tab=ButtonBar->getTab(lastbtn);
 		tab->installEventFilter(this);
 		connect(tab,SIGNAL(clicked(int)),this,SLOT(showHidePage(int)));
 	}
@@ -612,7 +612,7 @@ bool Sidebar_Widget::eventFilter(QObject *obj, QEvent *ev)
 
 	if (ev->type()==QEvent::MouseButtonPress && ((QMouseEvent *)ev)->button()==QMouseEvent::RightButton)
 	{
-			KMultiVertTabBarTab *bt=dynamic_cast<KMultiVertTabBarTab*>(obj);
+			KMultiTabBarTab *bt=dynamic_cast<KMultiTabBarTab*>(obj);
 			if (bt)
 			{
 				kdDebug()<<"Request for popup"<<endl;

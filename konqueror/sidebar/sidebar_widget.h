@@ -26,7 +26,7 @@
 #include <qstring.h>
 #include "konqsidebarplugin.h"
 #include <qlayout.h>
-#include "kmultiverttabbar.h"
+#include <kmultiverttabbar.h>
 #include <qguardedptr.h>
 
 class KDockWidget;
@@ -88,7 +88,7 @@ class Sidebar_Widget: public QWidget
   static QString PATH;
   private:
 	class KDockArea *Area;
-	class KMultiVertTabBar *ButtonBar;
+	class KMultiTabBar *ButtonBar;
         QPtrVector<ButtonInfo> Buttons;
 	bool addButton(const QString &desktoppath,int pos=-1);
 	bool createView(ButtonInfo *data);
