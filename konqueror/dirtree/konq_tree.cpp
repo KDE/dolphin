@@ -94,7 +94,7 @@ void KonqTree::clearTree()
     m_topLevelItems.clear();
     m_mapCurrentOpeningFolders.clear();
     clear();
-    setRootIsDecorated( false );
+    setRootIsDecorated( true );
 }
 
 void KonqTree::followURL( const KURL &url )
