@@ -23,6 +23,8 @@
 */                                                                            
 
 
+#include "nsplugin.h"
+
 #include <qmessagebox.h>
 #include <kdebug.h>
 #include <kapp.h>
@@ -34,7 +36,6 @@
 #include <qsocketnotifier.h>
 
 #include "kxt.h"
-#include "nsplugin.h"
 
 #include <X11/Intrinsic.h>
 #include <X11/Shell.h>

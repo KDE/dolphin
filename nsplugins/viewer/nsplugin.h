@@ -27,14 +27,16 @@
 #define __NS_PLUGIN_H__
 
 
+#include <dcopobject.h>
+#include "NSPluginClassIface.h"
+#include "NSPluginCallbackIface_stub.h"
+
+
 #include <qobject.h>
 #include <qstring.h>
 #include <qstringlist.h>
 #include <qdict.h>
 #include <qintdict.h>
-
-#include <dcopobject.h>
-#include "NSPluginClassIface.h"
 
 
 #include <kio/job.h>
@@ -131,7 +133,11 @@ public:
 
   int setWindow(int remove=0);
 
-  virtual void resizePlugin(int w, int h);
+  void resizePlugin(int w, int h);
+
+  void setCallback(QCString app, QCString obj);
+
+  void requestURL(const char *url) { if (callback) callback->requestURL(url); };
 
 
 signals:
@@ -151,6 +157,9 @@ private:
   Widget   _area, _form, _toplevel;
 
   int _width, _height;
+
+  NSPluginCallbackIface_stub *callback;
+
 };
 
 

@@ -20,42 +20,20 @@
 
 
 
-#ifndef __NSPluginClassIface_h__
-#define __NSPluginClassIface_h__
+#ifndef __NSPluginCallbackIface_h__
+#define __NSPluginCallbackIface_h__
 
 
-#include <qstringlist.h>
 #include <dcopobject.h>
-#include <dcopref.h>
 
 
-class NSPluginClassIface : virtual public DCOPObject
+class NSPluginCallbackIface : virtual public DCOPObject
 {
   K_DCOP
 
 k_dcop:
 
-  virtual DCOPRef NewInstance(QString mimeType, int mode, QStringList argn, QStringList argv) = 0;
-  virtual void DestroyInstance(int winid) = 0;
-
-  virtual QString GetMIMEDescription() = 0;
-
-};
-
-
-class NSPluginInstanceIface : virtual public DCOPObject
-{
-  K_DCOP
-
-k_dcop:
-
-  virtual int winId() = 0;
-  
-  virtual int setWindow(int remove=0) = 0;
-
-  virtual void resizePlugin(int w, int h) = 0;
-
-  virtual void setCallback(QCString app, QCString obj) = 0;
+  virtual void requestURL(QCString url) = 0;
 
 };
 

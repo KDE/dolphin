@@ -23,6 +23,9 @@
 */                                                                            
 
 
+#include "NSPluginCallbackIface_stub.h"
+
+
 #include <stream.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -43,13 +46,15 @@
 #include <ktempfile.h>
 #include <dcopclient.h>
 
+
 #include <X11/Intrinsic.h>
 #include <X11/Composite.h>
 #include <Xm/DrawingA.h>
 
 
+
 NSPluginInstance::NSPluginInstance(NPP privateData, NPPluginFuncs *pluginFuncs, KLibrary *handle, int width, int height)
-  : QObject(), DCOPObject(), _handle(handle), _width(width), _height(height)
+  : QObject(), DCOPObject(), _handle(handle), _width(width), _height(height), callback(0)
 {
   _npp = privateData;
   _npp->ndata = this;
@@ -102,7 +107,7 @@ NSPluginInstance::~NSPluginInstance()
   XtDestroyWidget(_form);
   XtDestroyWidget(_toplevel);
 
-  return;
+  delete callback;
 }
 
 
@@ -233,6 +238,13 @@ void NSPluginInstance::URLNotify(const char *url, NPReason reason, void *notifyD
 void NSPluginInstance::addTempFile(KTempFile *tmpFile)
 {
   _tempFiles.append(tmpFile);
+}
+
+
+void NSPluginInstance::setCallback(QCString app, QCString obj)
+{
+  delete callback;
+  callback = new NSPluginCallbackIface_stub(app, obj);
 }
 
 
@@ -558,7 +570,7 @@ NPError NPN_DestroyStream(NPP /*instance*/, NPStream* /*stream*/,
 
 
 // URL functions
-NPError NPN_GetURL(NPP /*instance*/, const char *url, const char *target)
+NPError NPN_GetURL(NPP instance, const char *url, const char *target)
 {
   kdDebug() << "NPN_GetURL: url=" << url << " target=" << target << endl;
 
@@ -567,6 +579,12 @@ NPError NPN_GetURL(NPP /*instance*/, const char *url, const char *target)
   if (!strcmp(target, "_blank") || !strcmp(target, "_new"))
     {
       kapp->invokeBrowser(url);
+      return NPERR_NO_ERROR;
+    }
+
+  if (!strcmp(target, "_top"))
+    {
+      ((NSPluginInstance*)instance->ndata)->requestURL(url);
       return NPERR_NO_ERROR;
     }
 
@@ -582,7 +600,7 @@ NPError NPN_GetURLNotify(NPP instance, const char *url, const char *target,
   if (!instance)
     return error;
 
-  NSPluginInstance *inst = (NSPluginInstance*) instance->pdata;
+  NSPluginInstance *inst = (NSPluginInstance*) instance->ndata;
   if (inst)
     {
       if (error == NPERR_GENERIC_ERROR)
