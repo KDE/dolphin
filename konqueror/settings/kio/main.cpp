@@ -138,7 +138,7 @@ static KCModule *loadModule(QWidget *parent, const QString &module)
 
 
 LanBrowser::LanBrowser(QWidget *parent)
-:KCModule(parent,"kcmlanbrowser")
+:KCModule(parent,"kcmkio")
 ,layout(this)
 ,tabs(this)
 {

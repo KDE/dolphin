@@ -16,8 +16,8 @@
 #include "kcookiespolicies.h"
 #include "kcookiesmanagement.h"
 
-KCookiesMain::KCookiesMain(QWidget *parent, const char *name)
-  : KCModule(parent, name)
+KCookiesMain::KCookiesMain(QWidget *parent)
+  : KCModule(parent, "kcmkio")
 {
     management = 0;
 
