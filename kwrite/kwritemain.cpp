@@ -49,7 +49,6 @@
 #include "kwritemain.moc"
 
 #include "katefiledialog.h"
-#include <klibloader.h>
 
 #include <qtimer.h>
 
@@ -65,11 +64,8 @@ KWrite::KWrite (KTextEditor::Document *doc)
   if (!initialGeometrySet())
      resize(640,400); 
 
-  factory = KLibLoader::self()->factory( "katepart" );
-
   if (!doc) {
-    KTextEditor::Document *tmpDoc = (KTextEditor::Document *) factory->create (0L, "kate", "KTextEditor::Document");
-    doc = (KTextEditor::Document *)tmpDoc; //new doc with default path
+    doc = KTextEditor::createDocument ("katepart");
     docList.append(doc);
   }
   setupEditWidget(doc);
@@ -450,7 +446,6 @@ void restore()
   QString buf;
   KTextEditor::Document *doc;
   KWrite *t;
-  KLibFactory *factory = KLibLoader::self()->factory( "libkatepart" );
 
   config = kapp->sessionConfig();
   if (!config) return;
@@ -462,8 +457,7 @@ void restore()
   for (z = 1; z <= docs; z++) {
      buf = QString("Document%1").arg(z);
      config->setGroup(buf);
-     KTextEditor::Document *tmpDoc = (KTextEditor::Document *) factory->create (0L, "kate", "KTextEditor::Document");
-     doc = (KTextEditor::Document *)tmpDoc; //new doc with default path
+     doc = KTextEditor::createDocument ("katepart");
      KTextEditor::configInterface(doc)->readSessionConfig(config);
      docList.append(doc);
   }
@@ -484,7 +478,7 @@ static KCmdLineOptions options[] =
 
 int main(int argc, char **argv)
 {
-  KLocale::setMainCatalogue("kate");         //lukas: set this to have the kwritepart translated using kate message catalog
+  KLocale::setMainCatalogue("katepart");         //lukas: set this to have the kwritepart translated using kate message catalog
 
   KAboutData aboutData ("kwrite", I18N_NOOP("KWrite"), "4.0",
 	I18N_NOOP( "KWrite - Lightweight Kate" ), KAboutData::License_GPL,

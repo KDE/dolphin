@@ -40,8 +40,6 @@ class KWrite : public KParts::MainWindow
     void loadURL(const KURL &url);
 
   protected:
-    class KLibFactory *factory;
-
     virtual bool queryClose();
     virtual bool queryExit();
 
