@@ -53,7 +53,7 @@ protected:
    * and appends the gzip protocol to the URL. Otherwise @ref #runURL is called to
    * finish the job.
    */
-  virtual void foundMimeType( const char *_type );
+  virtual void foundMimeType( const QString & _type );
 
   KonqMainView* m_pView;
   KonqChildView* m_pChildView;

@@ -39,15 +39,15 @@ KonqRun::~KonqRun()
   cerr << "KonqRun::~KonqRun()" << endl;
 }
 
-void KonqRun::foundMimeType( const char *_type )
+void KonqRun::foundMimeType( const QString & _type )
 {
-  kDebugInfo(1202,"FILTERING %s", _type);
+  kDebugInfo(1202,"FILTERING %s", _type.ascii());
 
   m_bFoundMimeType = true;
 
   assert( m_pView );
 
-  if ( m_pView->openView( QString( _type ), m_strURL, m_pChildView ) )
+  if ( m_pView->openView( _type, m_strURL, m_pChildView ) )
   {
     m_pView = 0L;
     m_bFinished = true;
