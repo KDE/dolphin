@@ -225,6 +225,8 @@ protected slots:
   // Connected to KSycoca
   void slotDatabaseChanged();
 
+  // Connected to KApp
+  void slotReconfigure();
   void slotCut();
   void slotCopy();
   void slotPaste();

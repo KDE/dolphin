@@ -148,6 +148,8 @@ KonqMainView::KonqMainView( const KURL &initialURL, bool openInitialURL, const c
   connect( KSycoca::self(), SIGNAL( databaseChanged() ),
            this, SLOT( slotDatabaseChanged() ) );
 
+  connect( kapp, SIGNAL( kdisplayFontChanged()), SLOT(slotReconfigure()));
+
   setXMLFile( "konqueror.rc" );
 
   createGUI( 0L );
@@ -1809,6 +1811,11 @@ void KonqMainView::slotDatabaseChanged()
   MapViews::ConstIterator end = m_mapViews.end();
   for (; it != end; ++it )
     callExtensionMethod( (*it), "refreshMimeTypes()" );
+}
+
+void KonqMainView::slotReconfigure()
+{
+  reparseConfiguration();
 }
 
 void KonqMainView::reparseConfiguration()

@@ -244,7 +244,7 @@ void KonqBaseListViewWidget::initConfig()
    else
       viewport()->setBackgroundPixmap( m_bgPixmap );
 
-   QFont stdFont( m_pSettings->stdFontName(), m_pSettings->fontSize() );
+   QFont stdFont( m_pSettings->standardFont() );
    setFont( stdFont );
    a.setColor( QColorGroup::Text, Qt::darkGray );
    d.setColor( QColorGroup::Text, Qt::darkGray );
@@ -253,7 +253,7 @@ void KonqBaseListViewWidget::initConfig()
    //setColor( Qt::darkGray );
 
    //TODO: create config GUI
-   QFont itemFont( m_pSettings->stdFontName(), m_pSettings->fontSize() );
+   QFont itemFont( m_pSettings->standardFont() );
    itemFont.setUnderline( m_pSettings->underlineLink() );
    setItemFont( itemFont );
    setItemColor( m_pSettings->normalTextColor() );
