@@ -250,8 +250,15 @@ bool KonqOperations::askDeleteConfirmation( const KURL::List & selectedURLs, int
     {
       KURL::List::ConstIterator it = selectedURLs.begin();
       QStringList prettyList;
-      for ( ; it != selectedURLs.end(); ++it )
-        prettyList.append( (*it).pathOrURL() );
+      for ( ; it != selectedURLs.end(); ++it ) {
+        if ( (*it).protocol() == "trash" ) {
+          QString path = (*it).path();
+          // HACK (#98983): remove "0-foo". Note that it works better than 
+	  // displaying KFileItem::name(), for files under a subdir.
+          prettyList.append( path.remove(QRegExp("^/[0-9]*-")) );
+        } else
+          prettyList.append( (*it).pathOrURL() );
+      }
 
       int result;
       switch(m_method)
