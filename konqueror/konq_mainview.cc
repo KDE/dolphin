@@ -904,7 +904,7 @@ void KonqMainView::insertChildView( KonqChildView *childView )
 
   m_paRemoveView->setEnabled( m_mapViews.count() > 1 );
 
-  if ( childView->view()->inherits( "KonqDirTreeBrowserView" ) )
+  if ( childView->view()->inherits( "KonqDirTreePart" ) )
   {
     m_ptaShowDirTree->blockSignals( true );
     m_ptaShowDirTree->setChecked( true );
@@ -938,7 +938,7 @@ void KonqMainView::removeChildView( KonqChildView *childView )
   MapViews::ConstIterator cIt = m_mapViews.begin();
   MapViews::ConstIterator cEnd = m_mapViews.end();
   for (; cIt != cEnd; ++cIt )
-    if ( (*cIt)->view()->inherits( "KonqDirTreeBrowserView" ) )
+    if ( (*cIt)->view()->inherits( "KonqDirTreePart" ) )
     {
       haveTree = true;
       break;
