@@ -32,6 +32,7 @@
 #include <kdialogbase.h>
 #include <kfontdialog.h>
 #include <klocale.h>
+#include <kmessagebox.h>
 #include <knuminput.h>
 #include <kprotocolinfo.h>
 #include <kstaticdeleter.h>
@@ -88,12 +89,12 @@ KonqHistoryModule::KonqHistoryModule( KonqTree * parentTree, const char *name )
 	     SLOT( slotItemExpanded( QListViewItem * )));
 
     m_collection = new KActionCollection( this, "history actions" );
-//     (void) new KAction( i18n("Open in new &window"), 0, this,
-// 			SLOT( slotNewWindow() ), m_collection, "open_new");
+    (void) new KAction( i18n("Open in new &window"), 0, this,
+ 			SLOT( slotNewWindow() ), m_collection, "open_new");
     (void) new KAction( i18n("&Remove entry"), 0, this,
 			SLOT( slotRemoveEntry() ), m_collection, "remove");
-    (void) new KAction( i18n("C&lear History"), 0, manager,
-			SLOT( emitClear() ), m_collection, "clear");
+    (void) new KAction( i18n("C&lear History"), 0, this,
+			SLOT( slotClearHistory() ), m_collection, "clear");
     (void) new KAction( i18n("&Preferences..."), 0, this,
 			SLOT( slotPreferences()), m_collection, "preferences");
 
@@ -231,8 +232,8 @@ void KonqHistoryModule::showPopupMenu()
     m_collection->action("byDate")->plug( sortMenu );
 
     QPopupMenu *menu = new QPopupMenu;
-//     m_collection->action("open_new")->plug( menu );
-//     menu->insertSeparator();
+    m_collection->action("open_new")->plug( menu );
+    menu->insertSeparator();
     m_collection->action("remove")->plug( menu );
     m_collection->action("clear")->plug( menu );
     menu->insertSeparator();
@@ -365,6 +366,16 @@ KonqHistoryGroupItem * KonqHistoryModule::getGroupItem( const KURL& url )
     }
 
     return group;
+}
+
+void KonqHistoryModule::slotClearHistory()
+{
+    if ( KMessageBox::questionYesNo( tree(), 
+				     i18n("Do you really want to clear\n"
+					  "the entire history?"), 
+				     i18n("Clear History?") )
+	 == KMessageBox::Yes )
+	KonqHistoryManager::kself()->emitClear();
 }
 
 

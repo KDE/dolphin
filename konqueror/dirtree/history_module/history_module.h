@@ -78,6 +78,8 @@ private slots:
     void slotSortByName();
     void slotSortByDate();
 
+    void slotClearHistory();
+    
 private:
     KonqHistoryGroupItem *getGroupItem( const KURL& url );
 
