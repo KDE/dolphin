@@ -170,6 +170,7 @@ protected:
 
   KToggleAction *m_paDotFiles;
   KToggleAction *m_paDirectoryOverlays;
+  KToggleAction *m_paEnablePreviews;
   QPtrList<KIVDirectoryOverlay> m_paOutstandingOverlays;
 /*  KToggleAction *m_paImagePreview;
   KToggleAction *m_paTextPreview;

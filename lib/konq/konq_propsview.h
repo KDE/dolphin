@@ -93,9 +93,10 @@ public:
   bool isShowingDirectoryOverlays() const { return m_bShowDirectoryOverlays; }
 
   void setShowingPreview( const QString &preview, bool show );
-  bool isShowingPreview( const QString &preview ) const { return m_preview.contains(preview); }
-  bool isShowingPreview() const { return m_preview.count() > 0; }
-  const QStringList &previewSettings() const { return m_preview; }
+  void setShowingPreview( bool show );
+  bool isShowingPreview( const QString &preview ) const { return ! m_dontPreview.contains(preview); }
+  bool isShowingPreview();
+  const QStringList &previewSettings();
 
   void setBgColor( const QColor & color );
   const QColor& bgColor(QWidget * widget) const;
@@ -128,7 +129,7 @@ private:
   int m_iItemTextPos;
   bool m_bShowDot;
   bool m_bShowDirectoryOverlays;
-  QStringList m_preview;
+  QStringList m_dontPreview;
   QColor m_textColor;
   QColor m_bgColor;
   QString m_bgPixmapFile;

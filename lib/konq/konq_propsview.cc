@@ -27,6 +27,7 @@
 #include <unistd.h>
 #include <qfile.h>
 #include <iostream>
+#include <ktrader.h>
 #include <kinstance.h>
 #include <assert.h>
 
@@ -62,7 +63,8 @@ static QPixmap wallpaperPixmap( const QString & _wallpaper )
 
 struct KonqPropsView::Private
 {
-    // Move along, nothing to see...
+    QStringList* previewsToShow;
+    bool previewsEnabled;
 };
 
 KonqPropsView::KonqPropsView( KInstance * instance, KonqPropsView * defaultProps )
@@ -72,6 +74,9 @@ KonqPropsView::KonqPropsView( KInstance * instance, KonqPropsView * defaultProps
     m_currentConfig( defaultProps ? 0L : instance->config() ),
     m_defaultProps( defaultProps )
 {
+  d = new Private;
+  d->previewsToShow = 0;    
+
   KConfig *config = instance->config();
   KConfigGroupSaver cgs(config, "Settings");
 
@@ -79,7 +84,8 @@ KonqPropsView::KonqPropsView( KInstance * instance, KonqPropsView * defaultProps
   m_iItemTextPos = config->readNumEntry( "ItemTextPos", QIconView::Bottom );
   m_bShowDot = config->readBoolEntry( "ShowDotFiles", false );
   m_bShowDirectoryOverlays = config->readBoolEntry( "ShowDirectoryOverlays", false );
-  m_preview = config->readListEntry( "Preview" );
+  m_dontPreview = config->readListEntry( "DontPreview" );
+  d->previewsEnabled = config->readBoolEntry( "PreviewsEnabled", true );       
 
   m_textColor = config->readColorEntry( "TextColor" ); // will be set to QColor() if not found
   m_bgColor = config->readColorEntry( "BgColor" ); // will be set to QColor() if not found
@@ -130,6 +136,8 @@ KConfigBase * KonqPropsView::currentColorConfig()
 
 KonqPropsView::~KonqPropsView()
 {
+    delete d->previewsToShow;
+    delete d;
 }
 
 bool KonqPropsView::enterDir( const KURL & dir )
@@ -151,7 +159,7 @@ bool KonqPropsView::enterDir( const KURL & dir )
     m_iIconSize = m_defaultProps->iconSize();
     m_iItemTextPos = m_defaultProps->itemTextPos();
     m_bShowDot = m_defaultProps->isShowingDotFiles();
-    m_preview = m_defaultProps->m_preview;
+    m_dontPreview = m_defaultProps->m_dontPreview;
     m_textColor = m_defaultProps->m_textColor;
     m_bgColor = m_defaultProps->m_bgColor;
     m_bgPixmapFile = m_defaultProps->bgPixmapFile();
@@ -167,13 +175,14 @@ bool KonqPropsView::enterDir( const KURL & dir )
     m_iItemTextPos = config->readNumEntry( "ItemTextPos", m_iItemTextPos );
     m_bShowDot = config->readBoolEntry( "ShowDotFiles", m_bShowDot );
     m_bShowDirectoryOverlays = config->readBoolEntry( "ShowDirectoryOverlays", m_bShowDirectoryOverlays );
-    if (config->hasKey( "Preview" ))
-        m_preview = config->readListEntry( "Preview" );
+    if (config->hasKey( "DontPreview" ))
+        m_dontPreview = config->readListEntry( "DontPreview" );
 
     m_textColor = config->readColorEntry( "TextColor", &m_textColor );
     m_bgColor = config->readColorEntry( "BgColor", &m_bgColor );
     m_bgPixmapFile = config->readEntry( "BgImage", m_bgPixmapFile );
     //kdDebug(1203) << "KonqPropsView::enterDir m_bgPixmapFile=" << m_bgPixmapFile << endl;
+    d->previewsEnabled = config->readBoolEntry( "PreviewsEnabled", d->previewsEnabled );       
     delete config;
   }
   //if there is or was a .directory then the settings probably have changed
@@ -260,20 +269,46 @@ void KonqPropsView::setShowingDirectoryOverlays( bool show )
 
 void KonqPropsView::setShowingPreview( const QString &preview, bool show )
 {
-    if ( m_preview.contains( preview ) == show )
+    if ( m_dontPreview.contains( preview ) != show )
         return;
     else if ( show )
-        m_preview.append( preview );
+        m_dontPreview.remove( preview );
     else
-        m_preview.remove( preview );
+        m_dontPreview.append( preview );
     if ( m_defaultProps && !m_bSaveViewPropertiesLocally )
         m_defaultProps->setShowingPreview( preview, show );
     else if (currentConfig())
     {
         KConfigGroupSaver cgs(currentConfig(), currentGroup());
-        currentConfig()->writeEntry( "Preview", m_preview );
+        currentConfig()->writeEntry( "DontPreview", m_dontPreview );
         currentConfig()->sync();
     }
+    
+    delete d->previewsToShow;
+    d->previewsToShow = 0;
+}
+
+void KonqPropsView::setShowingPreview( bool show )
+{
+    d->previewsEnabled = show;
+    
+    if ( m_defaultProps && !m_bSaveViewPropertiesLocally )
+    {
+        kdDebug(1203) << "Saving in default properties" << endl;
+        m_defaultProps-> setShowingPreview( show );         
+    }
+    else if (currentConfig())
+    {
+        kdDebug(1203) << "Saving in current config" << endl;
+        KConfigGroupSaver cgs(currentConfig(), currentGroup());
+        currentConfig()->writeEntry( "PreviewsEnabled", d->previewsEnabled );
+        currentConfig()->sync();
+    }    
+}
+
+bool KonqPropsView::isShowingPreview()
+{
+    return d->previewsEnabled;
 }
 
 void KonqPropsView::setBgColor( const QColor & color )
@@ -395,4 +430,22 @@ void KonqPropsView::applyColors(QWidget * widget) const
     // This makes us react to the palette-change event accordingly.
     if ( setPaletteNeeded )
         widget->setPalette( QPalette( a, d, i ) );
+}
+
+const QStringList& KonqPropsView::previewSettings()
+{
+    if ( ! d->previewsToShow )
+    {
+        d->previewsToShow = new QStringList;
+    
+        KTrader::OfferList plugins = KTrader::self()->query( "ThumbCreator" );
+        for ( KTrader::OfferList::ConstIterator it = plugins.begin(); it != plugins.end(); ++it )
+        {
+            QString name = (*it)->desktopEntryName();
+            if ( ! m_dontPreview.contains(name) )
+                d->previewsToShow->append( name );
+        }
+    }
+    
+    return *(d->previewsToShow);
 }

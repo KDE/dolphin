@@ -200,6 +200,13 @@ KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const 
                                       actionCollection(), "show_directory_overlays" );
 
     m_pamPreview = new KActionMenu( i18n( "Preview" ), actionCollection(), "iconview_preview" );
+    
+    m_paEnablePreviews = new KToggleAction( i18n("Show Previews"), 0, actionCollection(), "all" );
+    connect( m_paEnablePreviews, SIGNAL( toggled( bool ) ), this, SLOT( slotPreview( bool ) ) );
+    //m_paEnablePreviews->setIcon("thumbnail");
+    m_pamPreview->insert( m_paEnablePreviews );    
+    m_pamPreview->insert( new KActionSeparator );   
+    
     KTrader::OfferList plugins = KTrader::self()->query( "ThumbCreator" );
     for ( KTrader::OfferList::ConstIterator it = plugins.begin(); it != plugins.end(); ++it )
     {
@@ -364,31 +371,54 @@ const KFileItem * KonqKfmIconView::currentItem()
 void KonqKfmIconView::slotPreview( bool toggle )
 {
     QCString name = sender()->name(); // e.g. clipartthumbnail (or audio/, special case)
-    m_pProps->setShowingPreview( name, toggle );
-    if ( !toggle )
+    if (name == "all")
     {
-        kdDebug() << "KonqKfmIconView::slotPreview stopping image preview for " << name << endl;
-        if ( name == "sound/" )
+        m_pProps->setShowingPreview( toggle );
+        if ( !toggle )
+        {
+            kdDebug() << "KonqKfmIconView::slotPreview stopping all previews for " << name << endl;
             m_pIconView->disableSoundPreviews();
+
+            bool previewRunning = m_pIconView->isPreviewRunning();
+            if ( previewRunning )
+                m_pIconView->stopImagePreview();
+            m_pIconView->setIcons( m_pIconView->iconSize(), "*" );
+        }
         else
         {
-            KService::Ptr serv = KService::serviceByDesktopName( name );
-            Q_ASSERT( serv != 0L );
-            if ( serv ) {
-                bool previewRunning = m_pIconView->isPreviewRunning();
-                if ( previewRunning )
-                    m_pIconView->stopImagePreview();
-                QStringList mimeTypes = serv->property("MimeTypes").toStringList();
-                m_pIconView->setIcons( m_pIconView->iconSize(), mimeTypes );
-                if ( previewRunning )
-                    m_pIconView->startImagePreview( m_pProps->previewSettings(), false );
+            m_pIconView->startImagePreview( m_pProps->previewSettings(), true );
+        }
+        for ( m_paPreviewPlugins.first(); m_paPreviewPlugins.current(); m_paPreviewPlugins.next() )
+            m_paPreviewPlugins.current()->setEnabled( toggle );
+    }
+    else 
+    {
+        m_pProps->setShowingPreview( name, toggle );
+        if ( !toggle )
+        {
+            kdDebug() << "KonqKfmIconView::slotPreview stopping image preview for " << name << endl;
+            if ( name == "sound/" )
+                m_pIconView->disableSoundPreviews();
+            else
+            {
+                KService::Ptr serv = KService::serviceByDesktopName( name );
+                Q_ASSERT( serv != 0L );
+                if ( serv ) {
+                    bool previewRunning = m_pIconView->isPreviewRunning();
+                    if ( previewRunning )
+                        m_pIconView->stopImagePreview();
+                    QStringList mimeTypes = serv->property("MimeTypes").toStringList();
+                    m_pIconView->setIcons( m_pIconView->iconSize(), mimeTypes );
+                    if ( previewRunning )
+                        m_pIconView->startImagePreview( m_pProps->previewSettings(), false );
+                }
             }
         }
-    }
-    else
-    {
-        m_pIconView->startImagePreview( m_pProps->previewSettings(), true );
-    }
+        else
+        {
+            m_pIconView->startImagePreview( m_pProps->previewSettings(), true );
+        }
+    }   
 }
 
 void KonqKfmIconView::slotShowDot()
@@ -946,9 +976,13 @@ bool KonqKfmIconView::doOpenURL( const KURL & url )
 
       m_paDotFiles->setChecked( m_pProps->isShowingDotFiles() );
       m_paDirectoryOverlays->setChecked( m_pProps->isShowingDirectoryOverlays() );
+      m_paEnablePreviews->setChecked( m_pProps->isShowingPreview() );
       for ( m_paPreviewPlugins.first(); m_paPreviewPlugins.current(); m_paPreviewPlugins.next() )
+      {
           m_paPreviewPlugins.current()->setChecked( m_pProps->isShowingPreview( m_paPreviewPlugins.current()->name() ) );
-
+          m_paPreviewPlugins.current()->setEnabled( m_pProps->isShowingPreview() );
+      }
+          
       // It has to be "viewport()" - this is what KonqDirPart's slots act upon,
       // and otherwise we get a color/pixmap in the square between the scrollbars.
       m_pProps->applyColors( m_pIconView->viewport() );
