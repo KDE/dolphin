@@ -646,10 +646,15 @@ void KonqKfmIconView::dropStuff( QDropEvent *ev, KFileIVI *item )
     // Use either the root url or the item url (we stored it as the icon "name")
     KURL dest( ( item == 0L ) ? m_dirLister->url() : item->item()->url().url() );
 
-    if ( ev->action() == QDropEvent::Move )
-      job->move( lst, dest.url( 1 ) );
-    else
-      job->copy( lst, dest.url( 1 ) );
+    switch ( ev->action() ) {
+      case QDropEvent::Move : job->move( lst, dest.url( 1 ) ); break;
+      case QDropEvent::Copy : job->copy( lst, dest.url( 1 ) ); break;
+      case QDropEvent::Link : {
+        // TODO link !
+        break;
+      }
+      default : kdebug( KDEBUG_ERROR, 1202, "Unknown action %d", ev->action() ); return;
+    }
   }
   else if ( formats.count() >= 1 )
   {
@@ -672,18 +677,34 @@ void KonqKfmIconView::slotMousePressed( QIconViewItem *item )
 
 void KonqKfmIconView::slotDrop( QDropEvent *e )
 {
+  slotDropItem( 0L, e );
+}
+
+void KonqKfmIconView::slotDropItem( KFileIVI *item, QDropEvent *e )
+{
+  // Check the state of the modifiers key at the time of the drop
   Window root;
   Window child;
   int root_x, root_y, win_x, win_y;
   uint keybstate;
   XQueryPointer( qt_xdisplay(), qt_xrootwin(), &root, &child,
                  &root_x, &root_y, &win_x, &win_y, &keybstate );
- 
-  dropStuff( e );
-}
+  if ( ((keybstate & ControlMask) == 0) && ((keybstate & ShiftMask) == 0) )
+  {
+    // Nor control nor shift are pressed => show popup menu
+    QPopupMenu popup;
+    popup.insertItem( i18n( "Copy" ), 1 );
+    popup.insertItem( i18n( "Move" ), 2 );
+    popup.insertItem( i18n( "Link" ), 3 );
+    int result = popup.exec( QPoint( win_x, win_y ) );
+    switch (result) {
+    case 1 : e->setAction( QDropEvent::Copy ); break;
+    case 2 : e->setAction( QDropEvent::Move ); break;
+    case 3 : e->setAction( QDropEvent::Link ); break;
+    default : return;
+    }
+  }
 
-void KonqKfmIconView::slotDropItem( KFileIVI *item, QDropEvent *e )
-{
   dropStuff( e, item );
 }
 
