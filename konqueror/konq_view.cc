@@ -419,7 +419,7 @@ void KonqView::slotCompleted( bool hasPending )
   }
   m_bLoading = hasPending;
 
-  if (!m_bGotIconURL)
+  if (!m_bGotIconURL && !m_bAborted)
   {
     KConfig *config = KGlobal::config();
     config->setGroup( "HTML Settings" );
