@@ -1318,7 +1318,7 @@ void KonqMainView::slotToggleFullScreen( bool toggle )
     m_ptaFullScreen->setText( i18n( "Fullscreen Mode" ) );
     m_ptaFullScreen->setIcon( "window_fullscreen" );
   }
-} 
+}
 
 void KonqMainView::slotFullScreenStart()
 {
@@ -1371,6 +1371,8 @@ void KonqMainView::attachToolbars( KonqFrame *frame )
     toolbar->show();
   }
   frame->layout()->insertWidget( 0, toolbar );
+  
+  menuBar()->reparent( frame, 0, QPoint( 0, 0 ), false );
 }
 
 void KonqMainView::slotFullScreenStop()
@@ -1393,10 +1395,9 @@ void KonqMainView::slotFullScreenStop()
 
   widget->attachInternal();
 
-  toolbar1->reparent( this, 0, QPoint( 0, 0 ) );
-  toolbar1->show();
-  toolbar2->reparent( this, 0, QPoint( 0, 0 ) );
-  toolbar2->show();
+  toolbar1->reparent( this, 0, QPoint( 0, 0 ), true );
+  toolbar2->reparent( this, 0, QPoint( 0, 0 ), true );
+  menuBar()->reparent( this, 0, QPoint( 0, 0 ), true );
 }
 
 void KonqMainView::setLocationBarURL( const QString &url )
@@ -1520,10 +1521,10 @@ void KonqMainView::initActions()
   m_ptaFullScreen = new KToggleAction( i18n( "Fullscreen Mode" ), "window_fullscreen", 0, actionCollection(), "fullscreen" );
 
   m_ptaFullScreen->setChecked( false );
-  
+
   connect( m_ptaFullScreen, SIGNAL( toggled( bool ) ),
 	   this, SLOT( slotToggleFullScreen( bool ) ) );
-  
+
   /*
   QPixmap konqpix = KGlobal::iconLoader()->loadIcon( "konqueror", KIcon::Small );
   (void) new KAction( i18n( "&About Konqueror..." ), konqpix, 0, this, SLOT( slotAbout() ), actionCollection(), "about" );
