@@ -530,7 +530,7 @@ void KRootOptions::save()
 
         if ( moveDir( KGlobalSettings::desktopPath(), leDesktop->text(), i18n("Desktop") ) )
         {
-            config->writeEntry( "Desktop", leDesktop->text(), true, true );
+            config->writePathEntry( "Desktop", leDesktop->text(), true, true );
             pathChanged = true;
         }
     }
@@ -541,7 +541,7 @@ void KRootOptions::save()
             trashMoved = moveDir( KGlobalSettings::trashPath(), leTrash->text(), i18n("Trash") );
         if (trashMoved)
         {
-            config->writeEntry( "Trash", leTrash->text(), true, true );
+            config->writePathEntry( "Trash", leTrash->text(), true, true );
             pathChanged = true;
         }
     }
@@ -552,14 +552,14 @@ void KRootOptions::save()
             autostartMoved = moveDir( KGlobalSettings::autostartPath(), leAutostart->text(), i18n("Autostart") );
         if (autostartMoved)
         {
-            config->writeEntry( "Autostart", leAutostart->text(), true, true );
+            config->writePathEntry( "Autostart", leAutostart->text(), true, true );
             pathChanged = true;
         }
     }
 
     if ( !newDocumentURL.cmp( documentURL, true ) )
     {
-        config->writeEntry( "Documents", leDocument->text(), true, true );
+        config->writePathEntry( "Documents", leDocument->text(), true, true );
         pathChanged = true;
     }
 
