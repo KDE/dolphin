@@ -99,5 +99,6 @@ void KonqXMLGUIClient::addGroup( const QString &grp )
   m_menuElement.appendChild( group );
   group.setAttribute( "name", grp );
 }
+
 KonqXMLGUIClient::~KonqXMLGUIClient( ){
 }
