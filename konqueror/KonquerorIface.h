@@ -166,7 +166,7 @@ k_dcop:
    * Used by kfmclient when the 'minimize memory usage' setting is set
    * to find out if this konqueror can be used.
    */
-  bool processCanBeReused();
+  bool processCanBeReused( int screen );
 
   /**
    * Called from konqy_preloader to terminate this Konqueror instance,

@@ -32,8 +32,8 @@ class KonqyPreloader
         KonqyPreloader( const QCString& obj );
         virtual ~KonqyPreloader();
     k_dcop:
-        bool registerPreloadedKonqy( QCString id );
-        QCString getPreloadedKonqy();
+        bool registerPreloadedKonqy( QCString id, int screen );
+        QCString getPreloadedKonqy( int screen );
         ASYNC unregisterPreloadedKonqy( QCString id );
         void reconfigure();
         void unloadAllPreloaded();
@@ -47,9 +47,10 @@ class KonqyPreloader
         struct KonqyData
             {
             KonqyData() {}; // for QValueList
-            KonqyData( const QCString& id_P )
-                : id( id_P ) {}
+            KonqyData( const QCString& id_P, int screen_P )
+                : id( id_P ), screen( screen_P ) {}
             QCString id;
+            int screen;
             };
         typedef QValueList< KonqyData > InstancesList;
         InstancesList instances;

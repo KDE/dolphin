@@ -216,6 +216,21 @@ static bool startNewKonqueror( QString url, QString mimetype, const QString& pro
     return serv == NULL || !allowed_parts.contains( serv->desktopEntryName() + QString::fromLatin1(".desktop") );
 }
 
+static int currentScreen()
+{
+    if( qt_xdisplay() != NULL )
+        return qt_xscreen();
+    // case when there's no KApplication instance
+    const char* env = getenv( "DISPLAY" );
+    if( env == NULL )
+        return 0;
+    const char* dotpos = strrchr( env, '.' );
+    const char* colonpos = strrchr( env, ':' );
+    if( dotpos != NULL && colonpos != NULL && dotpos > colonpos )
+        return atoi( dotpos + 1 );
+    return 0;
+}
+
 // when reusing a preloaded konqy, make sure your always use a DCOP call which opens a profile !
 static QCString getPreloadedKonqy()
 {
@@ -225,7 +240,7 @@ static QCString getPreloadedKonqy()
         return "";
     DCOPRef ref( "kded", "konqy_preloader" );
     QCString ret;
-    if( ref.callExt( "getPreloadedKonqy", DCOPRef::NoEventLoop, 3000 ).get( ret ))
+    if( ref.callExt( "getPreloadedKonqy", DCOPRef::NoEventLoop, 3000, currentScreen()).get( ret ))
 	return ret;
     return QCString();
 }
@@ -240,8 +255,10 @@ static QCString konqyToReuse( const QString& url, const QString& mimetype, const
         return "";
     QCString appObj;
     QByteArray data;
+    QDataStream str( data, IO_WriteOnly );
+    str << currentScreen();
     if( !KApplication::dcopClient()->findObject( "konqueror*", "KonquerorIface",
-             "processCanBeReused()", data, ret, appObj, false, 3000 ) )
+             "processCanBeReused( int )", data, ret, appObj, false, 3000 ) )
         return "";
     return ret;
 }

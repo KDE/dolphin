@@ -42,24 +42,33 @@ KonqyPreloader::~KonqyPreloader()
     updateCount();
     }
 
-bool KonqyPreloader::registerPreloadedKonqy( QCString id )
+bool KonqyPreloader::registerPreloadedKonqy( QCString id, int screen )
     {
     if( instances.count() >= max_count )
         return false;
-    instances.append( KonqyData( id ));
+    instances.append( KonqyData( id, screen ));
     return true;
     }
 
-QCString KonqyPreloader::getPreloadedKonqy()
+QCString KonqyPreloader::getPreloadedKonqy( int screen )
     {
     if( instances.count() == 0 )
         return "";
-    KonqyData konqy = instances.first();
-    instances.pop_front();
-    check_always_preloaded_timer.start( 5000, true );
-    return konqy.id;
+    for( InstancesList::Iterator it = instances.begin();
+         it != instances.end();
+         ++it )
+        {
+        if( (*it).screen == screen )
+            {
+            QCString ret = (*it).id;
+            instances.remove( it );
+            check_always_preloaded_timer.start( 5000, true );
+            return ret;
+            }
+        }
+    return "";
     }
-    
+
 void KonqyPreloader::unregisterPreloadedKonqy( QCString id_P )
     {
     for( InstancesList::Iterator it = instances.begin();

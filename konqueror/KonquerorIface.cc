@@ -209,8 +209,10 @@ void KonquerorIface::comboCleared( QCString objId )
 				 QString::null, objId );
 }
 
-bool KonquerorIface::processCanBeReused()
+bool KonquerorIface::processCanBeReused( int screen )
 {
+    if( qt_xscreen() != screen )
+        return false; // this instance run on different screen, and Qt apps can't migrate
     if( KonqMainWindow::isPreloaded())
         return false; // will be handled by preloading related code instead
     QPtrList<KonqMainWindow>* windows = KonqMainWindow::mainWindowList();
