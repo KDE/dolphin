@@ -113,7 +113,7 @@ void KMiscHTMLOptions::save()
     m_pConfig->writeEntry( "ChangeCursor", cbCursor->isChecked() );
     m_pConfig->writeEntry( "UnderlineLinks", cbUnderline->isChecked() );
     m_pConfig->writeEntry( "AutoLoadImages", m_pAutoLoadImagesCheckBox->isChecked() );
-    m_pConfig->writeEntry( "EnableFavicon", m_pEnableFaviconCheckBox->isChecked() );
+//    m_pConfig->writeEntry( "EnableFavicon", m_pEnableFaviconCheckBox->isChecked() );
     m_pConfig->writeEntry( "UserStyleSheetEnabled", userSheet->isChecked() );
     m_pConfig->writeEntry( "UserStyleSheet", userSheetLocation->lineEdit()->text() );
     m_pConfig->sync();
