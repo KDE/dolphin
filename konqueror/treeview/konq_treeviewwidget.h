@@ -78,8 +78,6 @@ public:
 
   virtual bool openURL( const KURL &url );
 
-  void setXYOffset( int x, int y ) { m_iXOffset = x; m_iYOffset = y; }
-
   virtual void openSubFolder( const KURL &_url, KonqTreeViewDir* _dir );
 
   /**
@@ -198,9 +196,6 @@ protected:
   bool m_bSingleClick;
   bool m_bUnderlineLink;
   bool m_bChangeCursor;
-
-  int m_iXOffset;
-  int m_iYOffset;
 
   long int m_idShowDot;
 

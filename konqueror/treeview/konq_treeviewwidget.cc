@@ -625,9 +625,6 @@ bool KonqTreeViewWidget::openURL( const KURL &url )
 
   m_bTopLevelComplete = false;
 
-  m_iXOffset = 0;
-  m_iYOffset = 0;
-
   m_url = url;
 
   if ( m_pProps->enterDir( url ) )
@@ -653,7 +650,7 @@ void KonqTreeViewWidget::setComplete()
   else
   {
     m_bTopLevelComplete = true;
-    setContentsPos( m_iXOffset, m_iYOffset );
+    setContentsPos( m_pBrowserView->extension()->urlArgs().xOffset, m_pBrowserView->extension()->urlArgs().yOffset );
   }
 }
 
@@ -665,9 +662,10 @@ void KonqTreeViewWidget::slotStarted( const QString & /*url*/ )
 
 void KonqTreeViewWidget::slotCompleted()
 {
-  if ( !m_bTopLevelComplete )
-    emit m_pBrowserView->completed();
+  bool complete = m_bTopLevelComplete; 
   setComplete();
+  if ( !complete )
+    emit m_pBrowserView->completed();
 }
 
 void KonqTreeViewWidget::slotCanceled()

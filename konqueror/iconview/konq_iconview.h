@@ -56,9 +56,6 @@ public:
 
   KonqIconViewWidget *iconViewWidget() const { return m_pIconView; }
 
-  /* save those values for slotCompleted() */
-  void setXYOffset( int x, int y ) { m_iXOffset = x; m_iYOffset = y; }
-
   virtual void saveState( QDataStream &stream );
   virtual void restoreState( QDataStream &stream );
 
@@ -142,9 +139,6 @@ protected:
    */
   bool m_bNeedAlign;
 
-  int m_iXOffset;
-  int m_iYOffset;
-
   unsigned long m_ulTotalFiles;
 
   SortCriterion m_eSortCriterion;
@@ -185,10 +179,6 @@ class IconViewBrowserExtension : public KParts::BrowserExtension
 public:
   IconViewBrowserExtension( KonqKfmIconView *iconView );
 
-  virtual void setXYOffset( int x, int y )
-    {
-      m_iconView->setXYOffset( x, y );
-    }
   virtual int xOffset();
   virtual int yOffset();
 

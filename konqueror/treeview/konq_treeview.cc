@@ -83,11 +83,6 @@ TreeViewBrowserExtension::TreeViewBrowserExtension( KonqTreeView *treeView )
   m_treeView = treeView;
 }
 
-void TreeViewBrowserExtension::setXYOffset( int x, int y )
-{
-  m_treeView->treeViewWidget()->setXYOffset( x, y );
-}
-
 int TreeViewBrowserExtension::xOffset()
 {
   return m_treeView->treeViewWidget()->contentsX();

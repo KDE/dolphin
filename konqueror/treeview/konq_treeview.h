@@ -76,7 +76,6 @@ class TreeViewBrowserExtension : public KParts::BrowserExtension
 public:
   TreeViewBrowserExtension( KonqTreeView *treeView );
 
-  virtual void setXYOffset( int x, int y );
   virtual int xOffset();
   virtual int yOffset();
 

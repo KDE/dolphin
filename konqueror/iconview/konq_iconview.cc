@@ -160,8 +160,6 @@ KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const 
     : KParts::ReadOnlyPart( parent, name )
 {
     kDebugInfo( 1202, "+KonqKfmIconView");
-    m_iXOffset = 0;
-    m_iYOffset = 0;
 
     setInstance( KonqFactory::instance() );
 
@@ -690,12 +688,12 @@ void KonqKfmIconView::slotCanceled()
 
 void KonqKfmIconView::slotCompleted()
 {
+    m_pIconView->setContentsPos( m_extension->urlArgs().xOffset, m_extension->urlArgs().yOffset );
     if ( m_bLoading )
     {
 	emit completed();
 	m_bLoading = false;
     }
-    m_pIconView->setContentsPos( m_iXOffset, m_iYOffset );
     //m_paKOfficeMode->setEnabled( m_dirLister->kofficeDocsFound() );
 
     slotOnViewport();
