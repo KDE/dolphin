@@ -340,11 +340,8 @@ void KonqViewManager::loadItem( KConfig &cfg, KonqFrameContainer *parent,
       o = Qt::Horizontal;
     }
 
-    QStringList ssizes =
-	cfg.readListEntry( QString::fromLatin1( "SplitterSizes" ).prepend( prefix ));
-    QValueList<int> sizes;
-    for (QStringList::ConstIterator it = ssizes.begin(); it != ssizes.end(); it++)
-	sizes << (*it).toInt();
+    QValueList<int> sizes =
+	cfg.readIntListEntry( QString::fromLatin1( "SplitterSizes" ).prepend( prefix ));
 
     QStrList childList;
     if( cfg.readListEntry( QString::fromLatin1( "Children" ).prepend( prefix ), childList ) < 2 )
@@ -391,8 +388,6 @@ void KonqViewManager::clear()
 
 KonqChildView *KonqViewManager::chooseNextView( KonqChildView *view )
 {
-
-
   QValueList<KParts::ReadOnlyPart *> viewList = m_pMainView->viewList();
 
   if ( !view )

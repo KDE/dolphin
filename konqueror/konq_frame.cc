@@ -540,15 +540,8 @@ KonqFrameContainer::saveConfig( KConfig* config, const QString &prefix, int id, 
 {
   int idSecond = id + (int)pow( 2, depth );
 
-  //write own config
-
-  QStringList ssizes;
-  QValueList<int> isizes = sizes();
-  for (QValueList<int>::ConstIterator it = isizes.begin(); it != isizes.end(); it++)
-      ssizes << QString::number(*it);
-
   //write children sizes
-  config->writeEntry( QString::fromLatin1( "SplitterSizes" ).prepend( prefix ), ssizes );
+  config->writeEntry( QString::fromLatin1( "SplitterSizes" ).prepend( prefix ), sizes() );
 
   //write children
   QStringList strlst;
