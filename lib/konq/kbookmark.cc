@@ -175,10 +175,9 @@ void KBookmarkManager::scanIntern( KBookmark *_bm, const char * _path )
   {
     if ( strcmp( ep->d_name, "." ) != 0 && strcmp( ep->d_name, ".." ) != 0 )
     {
-      QString path( QString( _path ) + '/' + ep->d_name );
-      KURL::encode( path );
-      KURL file( path );
-
+      KURL file;
+      file.setPath( QString( _path ) + '/' + ep->d_name );
+      
       KMimeType::Ptr res = KMimeType::findByURL( file, 0, true );
 
       if ( res->name() == "inode/directory" )
@@ -321,7 +320,8 @@ KBookmark::KBookmark( KBookmarkManager *_bm, KBookmark *_parent, QString _text, 
   if ( url.isLocalFile() )
   {
     struct stat buff;
-    stat( url.path(), &buff );
+    QCString path = QFile::encodeName( url.path());
+    stat( path.data(), &buff );
     icon = KMimeType::findByURL( url, buff.st_mode, true )->icon( url.path(), true );
   }
   else if ( strcmp( url.protocol(), "ftp" ) == 0 )
@@ -429,12 +429,13 @@ QString KBookmark::pixmapFile( )
 {
   if ( m_sPixmap.isEmpty() )
   {
+    QCString path = QFile::encodeName( m_file );
     struct stat buff;
-    stat( m_file, &buff );
-    QString url = m_file;
-    KURL::encode( url );
+    stat( path.data(), &buff );
+    KURL url;
+    url.setPath( m_file );
     // Get the full path to the Small icon and store it into m_sPixmap
-    KMimeType::pixmapForURL( KURL( url ), buff.st_mode, KIcon::Small,
+    KMimeType::pixmapForURL( url, buff.st_mode, KIcon::Small,
 	    0, KIcon::DefaultState, &m_sPixmap );
   }
   return m_sPixmap;
