@@ -106,6 +106,7 @@ public:
   // Reimplemented from KDirNotify
   void FilesAdded( const KURL & dir );
   void FilesRemoved( const KURL::List & urls );
+  void FilesChanged( const KURL::List & urls );
 
 protected:
   virtual void contentsDragEnterEvent( QDragEnterEvent *e );

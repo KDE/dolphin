@@ -758,6 +758,12 @@ void KonqDirTree::FilesRemoved( const KURL::List & urls )
   }
 }
 
+void KonqDirTree::FilesChanged( const KURL::List & urls )
+{
+  // not same signal, but same implementation
+  FilesRemoved( urls );
+}
+
 void KonqDirTree::scanDir( KonqDirTreeItem *parent, const QString &path, bool isRoot )
 {
   QDir dir( path );
