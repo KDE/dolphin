@@ -99,6 +99,7 @@ private:
   QComboBox *sizeBox;
   QLineEdit *sizeEdit;
   QLabel *kbL;
+  QCheckBox *caseCb;
 
   QString _searchPath;
 };

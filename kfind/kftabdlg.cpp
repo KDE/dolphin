@@ -215,6 +215,9 @@ KfindTabDialog::KfindTabDialog( QWidget *parent, const char *name, const char *s
     sizeEdit=new QLineEdit(                 pages[2], "sizeEdit" );
     appendGUIItem(sizeEdit);
     kbL     =new QLabel(i18n("KB")               ,pages[2],"kb");
+    caseCb  =new QCheckBox(                 pages[2]);
+    caseCb->setText( i18n("Case S&ensitive") );
+    appendGUIItem(caseCb);
 
     typeL->setAlignment(namedL->alignment()|ShowPrefix);
     textL->setAlignment(namedL->alignment()|ShowPrefix);
@@ -396,6 +399,7 @@ void KfindTabDialog::resizeEvent( QResizeEvent *ev )
     sizeBox ->setGeometry(10+sizeL->width(),sizeL->y(),80,25);
     sizeEdit->setGeometry( 10+sizeBox->x()+sizeBox->width(), sizeL->y(),60,25);
     kbL     ->move(10+sizeEdit->x()+sizeEdit->width(),sizeL->y());
+    caseCb  ->setGeometry(15+kbL->x()+kbL->width(), sizeL->y(), 150, 25);
   }
 
 
@@ -567,6 +571,10 @@ QString KfindTabDialog::createQuery()
 	str1 += " \"(\" -name \"";
 	//	str1 += nameBox->text(nameBox->currentItem());
 	str1 += nameBox->currentText();
+	if(nameBox->currentText().isEmpty())
+	  str1 += "*";
+	else
+	  str1 += nameBox->currentText();
 	str1 += "\" \")\"";
 	str1 += " ";
 	
@@ -677,7 +685,11 @@ QString KfindTabDialog::createQuery()
       };
 
     if(strlen(textEdit->text()) > 0) {
-      str += "|xargs egrep -l \"";
+      str += "|xargs egrep -l";
+      if(caseCb->isChecked())
+	str += " \"";
+      else
+	str += " -i \"";
       str += textEdit->text();
       str += "\"";
     }

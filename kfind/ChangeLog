@@ -1,3 +1,9 @@
+1999-04-30  Harri Porten  <porten@kde.org>
+
+	* kftabdlg.cpp: Default to '*' when no filenames are specified and
+	allow case insensitive text search. Patch provided by Dima Rogozin
+	<dima@mercury.co.il>.
+
 1999-04-06  Harri Porten  <porten@kde.org>
 
 	* kfind.cpp: replaced simple delete and free() with delete [] iBuffer
