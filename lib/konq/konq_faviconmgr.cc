@@ -124,6 +124,9 @@ KonqFavIconMgr::KonqFavIconMgr(QObject *parent, const char *name)
     : QObject(parent, name),
       DCOPObject("KonqFavIconMgr")
 {
+    // create our favicons folder so that KIconLoader knows about it
+    (void) KGlobal::dirs()->saveLocation( "icon", "favicons" );
+    
     // If there is a file with the old format, read and convert it
     convertFavIcons();
 }

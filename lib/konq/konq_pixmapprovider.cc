@@ -70,14 +70,8 @@ QPixmap KonqPixmapProvider::pixmapFor( const QString& url, int size )
 	u = url;
 
     icon = KonqFavIconMgr::iconForURL(u.url());
-
-    if (icon.isEmpty())
-    {
-        KMimeType::Ptr mt = KMimeType::findByURL( u, 0, u.isLocalFile() );
-        icon = mt->icon( url, false );
-        if ( icon.isEmpty() || icon == QString::fromLatin1( "unknown" ) )
-            icon = KProtocolInfo::icon( u.protocol() );
-    }
+    if ( icon.isEmpty() )
+	icon = KMimeType::iconForURL( u );
 
     ASSERT( !icon.isEmpty() );
 
@@ -132,7 +126,7 @@ void KonqPixmapProvider::notifyChange( bool isHost, QString hostOrURL,
     // little hack: KonqFavIconMgr would emit changed(), but we want to
     // update our cache before. And we want it to update its configuration
     // before we ask for the new icons...
-    
+
     blockSignals( true );
     KonqFavIconMgr::notifyChange( isHost, hostOrURL, iconURL );
     blockSignals( false );
@@ -142,10 +136,10 @@ void KonqPixmapProvider::notifyChange( bool isHost, QString hostOrURL,
           ++it )
     {
         QString iconName = KonqFavIconMgr::iconForURL( it.key() );
-        if ( ! iconName.isEmpty() )
+        if ( !iconName.isEmpty() )
             *it = iconName;
     }
-    
+
     emit changed();
 }
 
