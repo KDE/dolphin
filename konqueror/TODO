@@ -22,7 +22,6 @@ kio:
 - About mounting : handle warnings differently than errors.
 (After a message on stderr, test if mounted, and if yes -> it was just a
 warning.)
-- Renaming a dir should rename, not copy and delete (Next one for me, David) #3447.
 
 khtml:
 ======
@@ -71,7 +70,7 @@ iconview+listviews:
 ===================
 
 - Add DCOP call to notify new file / deleted file for non-local urls
-(where KDirWatch can't do anything) - waiting for DCOP broadcasts to objects.
+(where KDirWatch can't do anything)  - started design (David)
 
 - Sorting by date, by extension...
 Many bugs (#3220 #2871...)
@@ -101,27 +100,15 @@ listviews:
 
 - crash in double-click mode when double-clicking. #3356
 
-- Tree view: sorting, fixing columns, ...
-In konqueror.rc, add treeview config.
+dirtree:
+========
 
-[TreeView_default]
-Columns = Column Name, Column Name, ...
- (i18n'ed in konqueror -> full list there using i18n_noop)
-UDSEntries = UDSEntry constant (KIO::UDS_...), ...
+- clicking on an item emits an openURLRequest, which calls back openURL,
+which does a followURL, which (used to) open the dir. Huh. #3472
+But opening the dir on followURL is necessary to follow navigation :(
+Solution ? Maybe look into current dir to find item to open to follow
+navigation ? Or make the difference between openURL calls ? Huh.
 
-Some protocols have additionnal fields -> dialog box for
-showing the other fields (list of available fields comes
-from the .desktop entry of the protocol).
-
-Saving layout for the other protocols :
-[TreeView_gopher]
-...
-
-In konqueror/treeview: for the current protocol, create in memory
-the dicts    UDS number -> column number (reversing the config file)
-                  This allows sorting the UDSEntryList in one go.
-
-  + QStringList of headers (i18n'ed).
 
 And more:
 =========
