@@ -17,20 +17,21 @@
    Boston, MA 02111-1307, USA.
 */
 
-#include <qdir.h>
+
+#include <sys/types.h>
+#include <sys/stat.h>
+
+#include <assert.h>
+#include <dirent.h>
+#include <errno.h>
+#include <fcntl.h>
+#include <stddef.h>
+#include <stdlib.h>
+#include <unistd.h>
 
 #include "kbookmarkmenu.h"
 
-#include <fcntl.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <sys/types.h>
-#include <stddef.h>
-#include <dirent.h>
-#include <sys/stat.h>
-#include <errno.h>
-#include <assert.h>
-
+#include <qdir.h>
 #include <qstring.h>
 #include <qpopupmenu.h>
 
