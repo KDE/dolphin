@@ -174,16 +174,15 @@ void KFileTip::reposition()
     // 3: lowerright
     m_corner = 0;
     // should the tooltip be shown to the left or to the right of the ivi ?
-    if ( /*( ( rect.center().x() > width() ) && ( rect.center().x() - off.x() > m_view->width() / 2 ) ) || */
-        ( rect.center().x() + width() > QApplication::desktop()->width() ) )
+    QRect desk = KGlobalSettings::desktopGeometry(rect.center());
+    if (rect.center().x() + width() > desk.right())
     {
         // to the left
         pos.setX( pos.x() - width() );
         m_corner = 1;
     }
     // should the tooltip be shown above or below the ivi ?
-    if ( /*( ( rect.top() > height() ) && ( rect.top() - off.y() > m_view->height() / 2 ) ) || */
-        ( rect.bottom() + height() > QApplication::desktop()->height() ) )
+    if (rect.bottom() + height() > desk.bottom())
     {
         // above
         pos.setY( rect.top() - height() );
