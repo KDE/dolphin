@@ -2,6 +2,7 @@
 <!DOCTYPE book PUBLIC "-//KDE//DTD DocBook XML V4.1-Based Variant V1.0//EN"
  "dtd/kdex.dtd" [
 <!ENTITY kappname "&konsole;">
+<!ENTITY package "kdebase">
 <!ENTITY % English "INCLUDE">
 <!ENTITY % addindex "IGNORE">
 ]>
@@ -36,7 +37,7 @@
 
 <othercredit role="reviewer">
 <firstname>Lauri</firstname><surname>Watts</surname><contrib>Reviewer</contrib>
-<affiliation><address><email>vampyr@atconnex.net</email></address></affiliation>
+<affiliation><address><email>lauri@kde.org</email></address></affiliation>
 </othercredit>
 
 <!-- TRANS:ROLES_OF_TRANSLATORS -->
@@ -44,7 +45,7 @@
 </authorgroup>
 
 <copyright>
-<year>2000</year><year>2001</year>
+<year>2000</year><year>2001</year><year>2002</year>
 <holder>Jonathan Singer</holder>
 </copyright>
 
@@ -71,33 +72,37 @@
 <title>Introduction to &konsole;</title>
 
 <sect1 id="terminal">
-<title>What is a terminal?</title>
-<para>&UNIX; operating systems were originally designed as text-only systems,
-controlled by keyboard commands -- what is known as a command-line
-interface (<acronym>CLI</acronym>). The X Window System and &kde; and other
-projects have since added the graphical interface you are now using. However,
-the underlying <acronym>CLI</acronym> system is still there, and is frequently
-the easiest, fastest and most powerful way to perform many tasks.</para>
-<para>&konsole; is what is known as an X terminal emulator, often referred to
-as a terminal or a shell. It gives you the equivalent of an old-fashioned text
-screen on your desktop, but one which can easily share the screen with your
-graphical applications. Windows users may be familiar with the <application>
-MS-DOS Prompt</application> utility, which has the analogous function of offering
-a DOS command-line under Windows. (Although the UNIX CLIs offer far more power
-and ease of use than does DOS!)</para>
-<para>Explaining the use of the UNIX CLI is beyond the scope of this document, 
-as it would require a lengthy book. Fortunately, many such books are available 
-in every language in any good bookstore or library. There are also tutorials
-available on the Internet. Enjoy &kde;, but don't be shy about learning to use
-the command-line! You will find that even learning just the basics will make your
-computer use much more efficient and enjoyable.</para>
+<title>What is a terminal?</title> <para>&UNIX; operating systems were
+originally designed as text-only systems, controlled by keyboard
+commands -- what is known as a command-line interface
+(<acronym>CLI</acronym>). The &X-Window; and &kde; and other projects
+have since added the graphical interface you are now using. However,
+the underlying <acronym>CLI</acronym> system is still there, and is
+frequently the easiest, fastest and most powerful way to perform many
+tasks.</para> <para>&konsole; is what is known as an X terminal
+emulator, often referred to as a terminal or a shell. It gives you the
+equivalent of an old-fashioned text screen on your desktop, but one
+which can easily share the screen with your graphical
+applications. Windows users may be familiar with the <application>
+MS-DOS Prompt</application> utility, which has the analogous function
+of offering a <trademark>DOS</trademark> command-line under
+&Windows;. (Although the &UNIX; <acronym>CLI</acronym>s offer far more
+power and ease of use than does <acronym>DOS</acronym>!)</para>
+
+<para>Explaining the use of the &UNIX; <acronym>CLI</acronym> is
+beyond the scope of this document, as it would require a lengthy
+book. Fortunately, many such books are available in every language in
+any good bookstore or library. There are also tutorials available on
+the Internet. Enjoy &kde;, but don't be shy about learning to use the
+command-line! You will find that even learning just the basics will
+make your computer use much more efficient and enjoyable.</para>
 </sect1>
 
 <sect1 id="features">
-<title>What makes &konsole; special?</title>
-<para>&konsole;'s advanced features include simple configuration and the ability
-to use multiple terminal shells in a single window, making for a less cluttered
-desktop.</para>
+<title>What makes &konsole; special?</title> <para>&konsole;'s
+advanced features include simple configuration and the ability to use
+multiple terminal shells in a single window, making for a less
+cluttered desktop.</para>
 
 <para>Using &konsole;, a user can open:</para>
 <itemizedlist>
@@ -119,9 +124,10 @@ or signaled (<errorcode>STOP</errorcode>, <errorcode>CONT</errorcode>,
 
 <para>For more control over &konsole;, a user can:</para>
 <itemizedlist>
-<listitem><para>hide/show the menubar, toolbar, scrollbar and/or frame</para></listitem>
-<listitem><para>select the size of a &konsole; window, fonts, color schemes, and
-key mapping</para></listitem>
+<listitem><para>hide/show the menubar, toolbar, scrollbar and/or
+frame</para></listitem>
+<listitem><para>select the size of a &konsole; window, fonts, color
+schemes, and key mapping</para></listitem>
 <listitem><para>change location of the scrollbar or hide the
 scrollbar</para></listitem>
 </itemizedlist>
@@ -129,19 +135,20 @@ scrollbar</para></listitem>
 <para>All chosen settings can be made the default for forthcoming sessions by
 saving them. </para>
 
-
-<para>For those with a deep interest in the taxonomy of free X terminals, there
-are two others of this kind: <application>xterm</application>, the original,
-written even before X itself (a month or two), and
-<application>xvt</application>, a lightweight <application>xterm</application>
-clone, on which most other currently available derivatives (notably
+<para>For those with a deep interest in the taxonomy of free X
+terminals, there are two others of this kind:
+<application>xterm</application>, the original, written even before X
+itself (a month or two), and <application>xvt</application>, a
+lightweight <application>xterm</application> clone, on which most
+other currently available derivatives (notably
 <application>eterm</application>) are based.</para>
 
-<para> After a decade, &konsole; is the first rewrite from the ground up. While
-<application>xterm</application> has definitely been hacked to death (its
-<filename>README</filename> starts with the words <quote>Abandon All Hope, Ye
-Who Enter Here</quote>), &konsole; offers a fresh start using contemporary
-technologies and understanding of X.</para>
+<para> After a decade, &konsole; is the first rewrite from the ground
+up. While <application>xterm</application> has definitely been hacked
+to death (its <filename>README</filename> starts with the words
+<quote>Abandon All Hope, Ye Who Enter Here</quote>), &konsole; offers
+a fresh start using contemporary technologies and understanding of
+X.</para>
 
 </sect1>
 </chapter>
@@ -152,8 +159,8 @@ technologies and understanding of X.</para>
 <sect1 id="startup">
 <title>Startup</title>
 
-<para>When &konsole; is started, an application (typically a Unix shell) runs in
-the window. Simply type at the prompt.</para>
+<para>When &konsole; is started, an application (typically a &UNIX;
+shell) runs in the window. Simply type at the prompt.</para>
 
 <screenshot>
 <screeninfo>&konsole; Screen</screeninfo>
@@ -172,16 +179,16 @@ the window. Simply type at the prompt.</para>
 <sect1 id="history-option">
 <title>History</title>
 
-<para>As lines scroll off the top of the screen, they can be reviewed by moving
-the scroll bar upwards, or through the use of the <keycombo
-action="simul"><keycap>Shift</keycap><keycap>Page Up</keycap></keycombo> (to
-move back a page), <keycombo action="simul"><keycap>Shift</keycap><keycap>Page
+<para>As lines scroll off the top of the screen, they can be reviewed
+by moving the scroll bar upwards, or through the use of the <keycombo
+action="simul">&Shift;<keycap>Page Up</keycap></keycombo> (to move
+back a page), <keycombo action="simul">&Shift;<keycap>Page
 Down</keycap></keycombo> (to move forward a page), <keycombo
-action="simul"><keycap>Shift</keycap><keycap>Up</keycap></keycombo> (to move up
-a line) and <keycombo
-action="simul"><keycap>Shift</keycap><keycap>Down</keycap></keycombo> (to move
-down a line) keys (provided the "<link linkend="settings-menu">History"</link>
-option is on).</para>
+action="simul">&Shift;<keycap>Up</keycap></keycombo> (to move up a
+line) and <keycombo
+action="simul">&Shift;<keycap>Down</keycap></keycombo> (to move down a
+line) keys (provided the "<link
+linkend="settings-menu">History"</link> option is on).</para>
 
 </sect1>
 
@@ -193,38 +200,41 @@ option is on).</para>
 
 <varlistentry>
 <term><mousebutton>Left</mousebutton></term> 
-<listitem><para>Clicking the <mousebutton>left</mousebutton> button is passed as
-an event to the application running in the emulation, if it is mouse-aware.  If
-a program will react on mouse clicks, &konsole; indicates this by showing an
-arrow cursor. If not, an I-beam (bar) cursor is shown.</para>
 
-<para>Holding the <mousebutton>left</mousebutton> button down and dragging the
-mouse over the screen with a mouse-unaware application running will mark a
-region of the text. While dragging, the marked text is displayed reversed for
-visual feedback. When the button is released, the marked text is copied to the
-clipboard for further use within &konsole; or another application.</para>
+<listitem><para>Clicking the <mousebutton>left</mousebutton> button is
+passed as an event to the application running in the emulation, if it
+is mouse-aware.  If a program will react on mouse clicks, &konsole;
+indicates this by showing an arrow cursor. If not, an I-beam (bar)
+cursor is shown.</para>
 
-<para>Normally, new-line characters are inserted at the end of each line
-selected.  This is best for cut and  of source code, or the output of a
-particular command.  For ordinary text, the line breaks are often not important.
-One might prefer, however, for the text to be a stream of characters that will
- be
-automatically re-formatted when pasted into another application.  To select in
-text-stream mode, hold down the <keycap>Ctrl</keycap> key while selecting
-normally.</para>
+<para>Holding the <mousebutton>left</mousebutton> button down and
+dragging the mouse over the screen with a mouse-unaware application
+running will mark a region of the text. While dragging, the marked
+text is displayed reversed for visual feedback. When the button is
+released, the marked text is copied to the clipboard for further use
+within &konsole; or another application.</para>
 
-<para>If the upper or lower edge of the text area is touched while marking,
-&konsole; scrolls up or down, eventually exposing text within the history
-buffer. The scrolling stops when the mouse stops moving.</para>
+<para>Normally, new-line characters are inserted at the end of each
+line selected.  This is best for cut and of source code, or the output
+of a particular command.  For ordinary text, the line breaks are often
+not important.  One might prefer, however, for the text to be a stream
+of characters that will be automatically re-formatted when pasted into
+another application.  To select in text-stream mode, hold down the
+&Ctrl; key while selecting normally.</para>
 
-<para>After the mouse is released, &konsole; attempts to keep the text in the
-clipboard visible by holding the marked area reversed. The marked area reverts
-back to normal as soon as the contents of the clipboard change, the
-text within the marked area is altered or the <mousebutton>left</mousebutton>
-mouse button is clicked.</para>
+<para>If the upper or lower edge of the text area is touched while
+marking, &konsole; scrolls up or down, eventually exposing text within
+the history buffer. The scrolling stops when the mouse stops
+moving.</para>
 
-<para>To mark text on a mouse-aware application the <keycap>Shift</keycap> key
-has to be pressed when clicking.</para>
+<para>After the mouse is released, &konsole; attempts to keep the text
+in the clipboard visible by holding the marked area reversed. The
+marked area reverts back to normal as soon as the contents of the
+clipboard change, the text within the marked area is altered or the
+<mousebutton>left</mousebutton> mouse button is clicked.</para>
+
+<para>To mark text on a mouse-aware application the
+&Shift; key has to be pressed when clicking.</para>
 
 </listitem>
 </varlistentry>
@@ -232,13 +242,14 @@ has to be pressed when clicking.</para>
 <varlistentry>
 <term><mousebutton>Middle</mousebutton></term> 
 
-<listitem><para>Pressing the <mousebutton>middle</mousebutton> button pastes
-text currently in the clipboard.</para>
+<listitem><para>Pressing the <mousebutton>middle</mousebutton> button
+pastes text currently in the clipboard.</para>
 
-<note><para>If you have a mouse with only two buttons, pressing both the
-<mousebutton>left</mousebutton> and <mousebutton>right</mousebutton> buttons
-together emulates the <mousebutton>middle</mousebutton> button 
-of a three button mouse.</para></note>
+<note><para>If you have a mouse with only two buttons, pressing both
+the <mousebutton>left</mousebutton> and
+<mousebutton>right</mousebutton> buttons together emulates the
+<mousebutton>middle</mousebutton> button of a three button
+mouse.</para></note>
 
 </listitem>
 </varlistentry>
@@ -267,11 +278,12 @@ menu items. The <keycombo action="simul">&Ctrl;
 <sect1 id="menubar">
 <title>Menu Bar</title>
 
-<para>The menubar is at the top of the &konsole; window. It can be hidden and
-restored by toggling <guimenuitem>Show Menubar</guimenuitem> in the
-<guimenu>Settings</guimenu> menu. When the menubar is hidden, <guimenuitem>Show
-Menubar</guimenuitem> can be reached by <mousebutton>right</mousebutton>
-clicking in the window.</para>
+<para>The menubar is at the top of the &konsole; window. It can be
+hidden and restored by toggling <guimenuitem>Show
+Menubar</guimenuitem> in the <guimenu>Settings</guimenu> menu. When
+the menubar is hidden, <guimenuitem>Show Menubar</guimenuitem> can be
+reached by <mousebutton>right</mousebutton> clicking in the
+window.</para>
 
 <sect2 id="session-menu">
 <title>The <guimenu>Session</guimenu> Menu</title>
@@ -326,7 +338,7 @@ Commander</application> graphical file browser.</para></listitem>
 <varlistentry>
 <term><menuchoice><guimenu>Session</guimenu><guimenuitem>New Linux
 Console</guimenuitem></menuchoice></term>
-<listitem><para><action> Opens a new session emulating a text-only Linux
+<listitem><para><action> Opens a new session emulating a text-only &Linux;
 system.</action></para>
 <note><para>See the file <filename>README.linux.console</filename> in
 the &konsole; source package for detailed information on how the &Linux;
@@ -347,24 +359,27 @@ Commander</application> graphical file browser, as the <systemitem
 class="username">root</systemitem> user.
 </para>
 <para>
-After being prompted for the root password, the <prompt>#</prompt>
+After being prompted for the <systemitem
+class="username">root</systemitem> password, the <prompt>#</prompt>
 prompt appears under the browser window, indicating that the user is
-working with root privileges. Again, working as root is frequently
-necessary but care should be taken to avoid accidental damage.
+working with <systemitem class="username">root</systemitem>
+privileges. Again, working as <systemitem
+class="username">root</systemitem> is frequently necessary but care
+should be taken to avoid accidental damage.
 </para>
 </listitem>
 </varlistentry>
 
 <varlistentry>
 <term><menuchoice><guimenu>Session</guimenu>
-<guimenuitem><accel>C</accel>lose Session</guimenuitem></menuchoice></term>
+<guimenuitem>Close Session</guimenuitem></menuchoice></term>
 <listitem><para><action>Closes</action> the current session.
 </para></listitem>
 </varlistentry>
 
 <varlistentry>
 <term><menuchoice><guimenu>Session</guimenu>
-<guimenuitem><accel>Q</accel>uit</guimenuitem></menuchoice></term>
+<guimenuitem>Quit</guimenuitem></menuchoice></term>
 <listitem><para><action>Quits</action> &konsole;, closing all sessions and any
 applications launched from them.</para></listitem>
 </varlistentry>
@@ -373,7 +388,7 @@ applications launched from them.</para></listitem>
 
 <para>
 You can also open a new session with a key shortcut. By default, <keycombo
-action="simul"><keycap>Alt</keycap><keycap>Ctrl</keycap><keycap>N</keycap>
+action="simul">&Alt;&Ctrl;<keycap>N</keycap>
 </keycombo>
 is used. You can also define your own key shortcut to launch a new
 terminal session. The files with a <literal role="extension">*.keytab</literal>
@@ -392,8 +407,9 @@ a keytab file. The file <filename>README.KeyTab</filename> contains more
 information on defining shortcuts.
 </para>
 
-<para>Finally, note that the session types can be modified, and new types created,
-by using the &kcontrolcenter; module <menuchoice><guisubmenu>System</guisubmenu>
+<para>Finally, note that the session types can be modified, and new
+types created, by using the &kcontrolcenter; module
+<menuchoice><guisubmenu>System</guisubmenu>
 <guimenuitem>Konsole</guimenuitem></menuchoice>.</para>
 
 </sect2>
@@ -452,20 +468,20 @@ command <userinput><command>man</command> <option>7
 signal</option></userinput>.</para></listitem>
 </varlistentry>
 <varlistentry>
-<term><menuchoice><guimenu>Edit</guimenu><guimenuitem><accel>F</accel>ind
+<term><menuchoice><guimenu>Edit</guimenu><guimenuitem>Find
 in History</guimenuitem></menuchoice></term>
 <listitem><para><action>Finds a word or string of text</action> in the current
 history. Options allow case sensitive or backwards searches.</para></listitem>
 </varlistentry>
 <varlistentry>
-<term><menuchoice><guimenu>Edit</guimenu><guimenuitem>S<accel>a</accel>ve
+<term><menuchoice><guimenu>Edit</guimenu><guimenuitem>Save
 History As</guimenuitem></menuchoice></term>
 <listitem><para><action>Saves the current history</action> as a text
  file.</para></listitem>
 </varlistentry>
 <varlistentry>
 <term><menuchoice><guimenu>Edit</guimenu><guimenuitem>Clear
- <accel>H</accel>istory
+ History
 </guimenuitem></menuchoice></term>
 <listitem><para><action>Clears the history for the current
  session.</action></para></listitem>
@@ -473,7 +489,7 @@ History As</guimenuitem></menuchoice></term>
 
 <varlistentry>
 <term><menuchoice><guimenu>Edit</guimenu><guimenuitem>Clear All
- H<accel>i</accel>stories
+ Histories
 </guimenuitem></menuchoice></term>
 <listitem><para><action>Clears the history for all sessions.</action>
 </para></listitem>
@@ -488,7 +504,7 @@ History As</guimenuitem></menuchoice></term>
 
 <varlistentry>
 <term><menuchoice><guimenu>View</guimenu><guimenuitem>Monitor for 
-<accel>A</accel>ctivity</guimenuitem></menuchoice></term>
+Activity</guimenuitem></menuchoice></term>
 <listitem><para><action>Flags the current session so it will show 
 an alert if activity occurs.</action> An icon of a lit light bulb will
 appear in the session's tab. Use this to alert you if something
@@ -497,7 +513,7 @@ happens while you are working in another session.</para></listitem>
 
 <varlistentry>
 <term><menuchoice><guimenu>View</guimenu><guimenuitem>Monitor for
-<accel>S</accel>ilence</guimenuitem></menuchoice></term>
+Silence</guimenuitem></menuchoice></term>
 <listitem><para><action>Flags the current session so it will show an alert
 if no activity occurs for 10 seconds.</action> An icon of a dark light bulb will
 appear in the session's tab. Use this to alert you if a task stops
@@ -506,7 +522,7 @@ while you are working in another session.</para></listitem>
 
 <varlistentry>
 <term><menuchoice><guimenu>View</guimenu><guimenuitem>Send
-<accel>I</accel>nput to All Sessions</guimenuitem></menuchoice></term>
+Input to All Sessions</guimenuitem></menuchoice></term>
 <listitem><para><action>Flags the current session so any commands entered
 into it will be sent to all sessions.</action> The session will have a small
 icon in its tab to remind you to be careful of what you enter!
@@ -516,14 +532,14 @@ for instance, is probably not a good idea.</para></listitem>
 
 
 <varlistentry>
-<term><menuchoice><guimenu>View</guimenu><guimenuitem><accel>M</accel>ove
+<term><menuchoice><guimenu>View</guimenu><guimenuitem>Move
 Session Left</guimenuitem></menuchoice></term>
 <listitem><para><action>Moves the tab of the current session one tab to the
 left.</action></para></listitem>
 </varlistentry>
 
 <varlistentry>
-<term><menuchoice><guimenu>View</guimenu><guimenuitem>M<accel>o</accel>ve
+<term><menuchoice><guimenu>View</guimenu><guimenuitem>Move
 Session Left</guimenuitem></menuchoice></term>
 <listitem><para><action>Moves the tab of the current session one tab to the
 right.</action></para></listitem>
@@ -536,8 +552,8 @@ right.</action></para></listitem>
 <listitem><para>At the bottom of the menu is a list of the available
 sessions. Selecting one makes that session active.</para><para>You can also use
  the <keycombo
-action="simul"><keycap>Shift</keycap><keycap>Left</keycap></keycombo>/<keycombo
-action="simul"><keycap>Shift</keycap><keycap>Right</keycap></keycombo> keys to
+action="simul">&Shift;<keycap>Left</keycap></keycombo>/<keycombo
+action="simul">&Shift;<keycap>Right</keycap></keycombo> keys to
 cycle through the available sessions.</para>
 </listitem>
 </varlistentry>
@@ -552,19 +568,19 @@ cycle through the available sessions.</para>
 
 <varlistentry>
 <term><menuchoice><guimenu>Settings</guimenu><guimenuitem>Show
-<accel>M</accel>enubar</guimenuitem></menuchoice></term>
+Menubar</guimenuitem></menuchoice></term>
 <listitem><para><action>Shows or hides the menubar.</action></para></listitem>
 </varlistentry>
 
 <varlistentry>
 <term><menuchoice><guimenu>Settings</guimenu><guimenuitem>Show
-<accel>T</accel>oolbar</guimenuitem></menuchoice></term>
+Toolbar</guimenuitem></menuchoice></term>
 <listitem><para><action>Shows or hides the toolbar.</action></para></listitem>
 </varlistentry>
 
 <varlistentry>
 <term><menuchoice><guimenu>Settings</guimenu><guimenuitem>Show
-<accel>F</accel>rame</guimenuitem></menuchoice></term>
+Frame</guimenuitem></menuchoice></term>
 <listitem><para><action>Shows or hides frame at side of
 window.</action></para></listitem>
 </varlistentry>
@@ -579,7 +595,7 @@ window.</action></para></listitem>
 
 <varlistentry>
 <term><menuchoice><guimenu>Settings</guimenu>
-<guimenuitem>F<accel>u</accel>llscreen</guimenuitem></menuchoice></term>
+<guimenuitem>Fullscreen</guimenuitem></menuchoice></term>
 <listitem><para><action>Toggles window between full-screen and normal
 size.</action></para></listitem>
 </varlistentry>
@@ -596,7 +612,7 @@ gives tips on which fonts will work well.</para></listitem>
 
 <varlistentry>
 <term><menuchoice><guimenu>Settings</guimenu>
-<guimenuitem><accel>K</accel>eyboard</guimenuitem></menuchoice></term>
+<guimenuitem>Keyboard</guimenuitem></menuchoice></term>
 <listitem><para><action>Chooses desired keymapping.</action></para>
 <para>The list of these keymappings is taken from
 <filename>$KDEDIR/share/apps/konsole/*.keytab</filename>. The file
@@ -607,7 +623,7 @@ files to match your needs.</para></listitem>
 
 <varlistentry>
 <term><menuchoice><guimenu>Settings</guimenu>
-<guimenuitem><accel>S</accel>chema</guimenuitem></menuchoice></term>
+<guimenuitem>Schema</guimenuitem></menuchoice></term>
 <listitem><para><action>Sets colors of text and background.</action></para>
 <para>The list of these schemata is taken from
 <filename>$KDEDIR/share/apps/konsole/*.schema</filename>. The file
@@ -629,7 +645,7 @@ rows).</action></para></listitem>
 
 <varlistentry>
 <term><menuchoice><guimenu>Settings</guimenu>
-<guimenuitem><accel>H</accel>istory...</guimenuitem></menuchoice></term>
+<guimenuitem>History...</guimenuitem></menuchoice></term>
 <listitem><para><anchor id="configure-history"/><action>Opens a dialog
 where you can configure the history.</action>  The
 <guilabel>Enable</guilabel> checkbox toggles saving of lines that have
@@ -645,7 +661,7 @@ and display the text you're reading right now.</para></listitem>
 
 <varlistentry>
 <term><menuchoice><guimenu>Settings</guimenu>
-<guimenuitem><accel>B</accel>ell</guimenuitem></menuchoice></term>
+<guimenuitem>Bell</guimenuitem></menuchoice></term>
 <listitem><para><action>Sets the system bell to a &kde; System 
 Notification or a visible flash, or turns it off.
 </action></para></listitem>
@@ -653,7 +669,7 @@ Notification or a visible flash, or turns it off.
 
 <varlistentry>
 <term><menuchoice><guimenu>Settings</guimenu>
-<guimenuitem>Li<accel>n</accel>Spacing
+<guimenuitem>LinSpacing
 </guimenuitem></menuchoice></term>
 <listitem><para><action>Sets the number of pixels
 between lines of displayed text.</action></para></listitem>
@@ -661,14 +677,14 @@ between lines of displayed text.</action></para></listitem>
 
 <varlistentry>
 <term><menuchoice><guimenu>Settings</guimenu>
-<guimenuitem>Blinking <accel>C</accel>ursor</guimenuitem></menuchoice></term>
+<guimenuitem>Blinking Cursor</guimenuitem></menuchoice></term>
 <listitem><para><action>Toggles between a blinking cursor and a solid block.
 </action></para></listitem>
 </varlistentry>
 
 <varlistentry>
 <term><menuchoice><guimenu>Settings</guimenu>
-<guimenuitem><accel>W</accel>arn for Open Sessions on
+<guimenuitem>Warn for Open Sessions on
  Quit</guimenuitem></menuchoice></term>
 <listitem><para><action>When set, a warning appears when you try to close a
  &konsole; window with multiple sessions.
@@ -677,7 +693,7 @@ between lines of displayed text.</action></para></listitem>
 
 <varlistentry>
 <term><menuchoice><guimenu>Settings</guimenu>
-<guimenuitem>Wor<accel>d</accel> Separators</guimenuitem></menuchoice></term>
+<guimenuitem>Word Separators</guimenuitem></menuchoice></term>
 <listitem><para><action>Specify characters that will be recognized as
 separators between words.</action></para>
 <para>This affects what text will be selected when you double-click on text. It
@@ -686,7 +702,7 @@ separators between words.</action></para>
 
 <varlistentry>
 <term><menuchoice><guimenu>Settings</guimenu><guimenuitem>Save
-<accel>S</accel>ettings</guimenuitem></menuchoice></term>
+Settings</guimenuitem></menuchoice></term>
 <listitem><para><action>Saves the current settings as the new
 defaults.</action></para></listitem>
 </varlistentry>
@@ -703,20 +719,20 @@ using the &kcontrolcenter; module <menuchoice><guisubmenu>System</guisubmenu>
 <varlistentry>
 <term><menuchoice><shortcut>
 <keycap>F1</keycap></shortcut><guimenu>Help</guimenu>
-<guimenuitem>Konsole <accel>H</accel>andbook</guimenuitem></menuchoice></term>
+<guimenuitem>Konsole Handbook</guimenuitem></menuchoice></term>
 <listitem><para><action>Opens the table of contents of this
 document.</action></para></listitem>
 </varlistentry>
 
 <varlistentry>
-<term><menuchoice><guimenu>Help</guimenu><guimenuitem><accel>R</accel>eport
+<term><menuchoice><guimenu>Help</guimenu><guimenuitem>Report
 Bug...</guimenuitem></menuchoice></term>
 <listitem><para><action>Submit a bug report or a feature request</action> for
 &konsole;.</para></listitem>
 </varlistentry>
 
 <varlistentry>
-<term><menuchoice><guimenu>Help</guimenu><guimenuitem><accel>A</accel>bout
+<term><menuchoice><guimenu>Help</guimenu><guimenuitem>About
 Konsole...</guimenuitem></menuchoice></term>
 <listitem><para><action>Information about</action> &konsole;'s
 author</para></listitem>
@@ -745,19 +761,19 @@ the textured <quote>handle</quote> at the side of the bar. The bar contains a
 <guiicon>New</guiicon> icon and icons for the current sessions. Clicking
 <guiicon>New</guiicon> opens a new <quote>Shell</quote> session.</para>
 
-<para>Clicking an existing session's icon makes that session active.</para>
-<para>When the toolbar is hidden, <keycombo
- action="simul"><keycap>Shift</keycap> <keycap>Left</keycap></keycombo> and
-<keycombo action="simul"><keycap>Shift</keycap>
-<keycap>Right</keycap></keycombo> can be used to move between sessions.</para>
+<para>Clicking an existing session's icon makes that session
+active.</para> <para>When the toolbar is hidden, <keycombo
+action="simul">&Shift; <keycap>Left</keycap></keycombo> and <keycombo
+action="simul">&Shift; <keycap>Right</keycap></keycombo> can be used
+to move between sessions.</para>
 
 </sect1>
 
 <sect1 id="command-line-options">
 <title>Command-line options</title>
 
-<para>When &konsole; is started from the command-line, various options can be
-specified to modify its behavior.</para>
+<para>When &konsole; is started from the command-line, various options
+can be specified to modify its behavior.</para>
 
 <variablelist>
 <varlistentry>
@@ -855,7 +871,7 @@ default.</action></para></listitem>
 history</para>
 </informalexample>
 
-<para>&konsole; also accepts generic &Qt; and KDE options:</para>
+<para>&konsole; also accepts generic &Qt; and &kde; options:</para>
 
 <variablelist>
 <varlistentry>
@@ -940,7 +956,7 @@ url="ftp://ftp.kde.org/pub/">ftp://ftp.kde.org/pub/</ulink></para>
 <para>Information on building &konsole; on platforms other than &Linux;
 is available in the <filename>README.ports</filename> file in the
 &konsole; source package. It provides a list of experts for certain
-platforms (Tru64, Solaris, OpenBSD) and requests volunteers from other
+platforms (Tru64, &Solaris;, OpenBSD) and requests volunteers from other
 &UNIX; platforms.</para>
 
 </appendix>
@@ -957,4 +973,5 @@ sgml-shorttag: t
 sgml-general-insert-case: lower
 End:
 -->
+
 
