@@ -43,7 +43,7 @@ static QString quote(const QString);
 
 #define SPECIAL_TYPES 7
 
-extern QList<KfFileType> *types;
+extern KfFileTypeList *types;
 
 KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name,
 			       const char *searchPath)

@@ -100,7 +100,6 @@ KfindWindow::KfindWindow( QWidget *parent, const char *name )
   : QListView( parent, name )
 {
   //    topLevelWidget()->installEventFilter(lbx);
-  setMultiSelection(TRUE);
   setSelectionMode( QListView::Extended );
 
   addColumn(i18n("Name"));
@@ -473,7 +472,11 @@ void KfindWindow::resetColumns(bool init)
   if(init) {
     QFontMetrics fm = fontMetrics();
     setColumnWidth(2, QMAX(fm.width(columnText(2)), fm.width("0000000")) + 15);
-    setColumnWidth(3, QMAX(fm.width(columnText(3)), fm.width("00/00/00 00:00:00")) + 15);
+    QString sampleDate = 
+      KGlobal::locale()->formatDate(QDate::currentDate(), true) +
+      " " +
+      KGlobal::locale()->formatTime(QTime::currentTime(), true);
+    setColumnWidth(3, QMAX(fm.width(columnText(3)), fm.width(sampleDate)) + 15);
     setColumnWidth(4, QMAX(fm.width(columnText(4)), fm.width(i18n(perm[RO]))) + 15);
   }
 

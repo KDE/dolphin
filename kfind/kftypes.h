@@ -151,5 +151,25 @@ protected:
   /// Default pixmap for folders
   static char folderPixmap[ 1024 ];
 };
-      
+
+class KfFileTypeList: public QList<KfFileType>
+{
+ public:
+  KfFileTypeList() {}
+  ~KfFileTypeList() { clear(); }
+
+ protected:
+  int compareItems( Item s1, Item s2 ) { 
+    QString n1 = ((KfFileType*)s1)->getComment("");
+    if(n1 == "")
+      n1 = ((KfFileType*)s1)->getName();
+    
+    QString n2 = ((KfFileType*)s2)->getComment("");
+    if(n2 == "")
+      n2 = ((KfFileType*)s2)->getName();
+
+    return n1.compare(n2);
+  };
+};
+
 #endif

@@ -18,7 +18,7 @@
 #include <kglobal.h>
 #include <kdesktopfile.h>
 
-QList<KfFileType> *types; 
+KfFileTypeList *types; 
 
 void KfFileType::initFileTypes( const QString& _path )
 {
@@ -89,11 +89,13 @@ void KfFileType::initFileTypes( const QString& _path )
 
 void KfFileType::init()
 {
-  types = new QList<KfFileType>;
+  types = new KfFileTypeList();
   
   QStringList list = KGlobal::dirs()->resourceDirs("mime");
   for (QStringList::ConstIterator it = list.begin(); it != list.end(); it++)
     initFileTypes( *it );
+  
+  types->sort();
 };
 
 KfFileType* KfFileType::findByName( const QString& _name )

@@ -31,13 +31,13 @@
 #include <string.h>
 
 #include <klocale.h>
+#include <kconfig.h>
+#include <kapp.h>
 
-#include "kftypes.h"
 #include "kfarch.h"
 #include "kfoptions.h"
 #include "kfsave.h"
 
-extern QList<KfFileType> *types;
 extern KfSaveOptions *saving;
 extern QList<KfArchiver> *archivers;
 
