@@ -2229,7 +2229,8 @@ void KonqMainWindow::slotMakeCompletion( const QString& text )
       completion = s_pCompletion->makeCompletion( text );
 
       // some special handling necessary for CompletionPopup
-      if ( m_combo->completionMode() == KGlobalSettings::CompletionPopup )
+      if ( m_combo->completionMode() == KGlobalSettings::CompletionPopup ||
+           m_combo->completionMode() == KGlobalSettings::CompletionPopupAuto )
         m_combo->setCompletedItems( historyPopupCompletionItems( text ) );
 
       else if ( !completion.isNull() )
@@ -2292,7 +2293,8 @@ void KonqMainWindow::slotMatch( const QString &match )
     m_urlCompletionStarted = false;
 
     // some special handling necessary for CompletionPopup
-    if ( m_combo->completionMode() == KGlobalSettings::CompletionPopup ) {
+    if ( m_combo->completionMode() == KGlobalSettings::CompletionPopup ||
+         m_combo->completionMode() == KGlobalSettings::CompletionPopupAuto ) {
       QStringList items = m_pURLCompletion->allMatches();
       items += historyPopupCompletionItems( m_combo->currentText() );
       // items.sort(); // should we?
