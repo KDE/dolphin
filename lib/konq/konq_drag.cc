@@ -193,7 +193,7 @@ bool KonqDrag::decodeIsCutSelection( const QMimeSource *e )
   else
   {
     kdDebug(1203) << "KonqDrag::decodeIsCutSelection : a=" << QCString(a.data(), a.size() + 1) << endl;
-    return (a.size() == 1 && a.at(0) == '1'); // true if 1
+    return (a.at(0) == '1'); // true if 1
   }
 }
 
