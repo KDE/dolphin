@@ -214,6 +214,8 @@ KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name,
     // Connect
     connect( textEdit,  SIGNAL(returnPressed()),
     	     parent, SLOT(startSearch()) );
+    connect( sizeEdit,  SIGNAL(returnPressed()),
+    	     parent, SLOT(startSearch()) );
     connect( sizeBox, SIGNAL(highlighted(int)),
 	     this, SLOT(slotSizeBoxChanged(int)));
     
@@ -375,7 +377,8 @@ QString KfindTabWidget::createQuery() {
   // Add the directory we make search in
   str = "find ";
   str += quote(dirBox->currentText());
-  
+  str += " -follow";
+
   // Add different file types
   // default case is for special types we got from file manager
   switch(typeBox->currentItem()) {
@@ -470,21 +473,11 @@ QString KfindTabWidget::createQuery() {
       else
 	if (rb2[2]->isChecked()) // Previous day
 	  str.append(pom = QString(" -daystart -mtime -%1").arg(le[3]->text()));
-    
-    
-    if (sizeBox->currentItem() !=  0) {
-      switch(sizeBox->currentItem()) {
-      case 1: 
-	type=(char *)(sizeEdit->text().toInt()==0 ? "" : "+");
-	break;
-      case 2: 
-	type=(char *)(sizeEdit->text().toInt()==0? "" : "-");
-	break;
-      default: 
-	type=(char *)(sizeEdit->text().toInt()==0? "" : " ");
-      }
-      str.append(pom = QString(" -size  %1%2k ").arg(type).arg(sizeEdit->text()));
-    }
+  }
+
+  if (sizeBox->currentItem() !=  0) {
+    type = (sizeBox->currentItem() == 1) ? "+" : "-";
+    str.append(pom = QString(" -size  %1%2k ").arg(type).arg(sizeEdit->text()));
   }
   
   if(!textEdit->text().isEmpty()) {
