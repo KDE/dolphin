@@ -30,7 +30,7 @@
 #include <kdcopactionproxy.h>
 
 KonqMainWindowIface::KonqMainWindowIface( KonqMainWindow * mainWindow )
-    : m_pMainWindow( mainWindow )
+    : DCOPObject( mainWindow->name() ), m_pMainWindow( mainWindow )
 {
   m_dcopActionProxy = new KDCOPActionProxy( mainWindow->actionCollection(), this );
 }
