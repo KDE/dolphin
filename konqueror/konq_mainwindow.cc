@@ -543,12 +543,14 @@ bool KonqMainWindow::openView( QString serviceType, const KURL &_url, KonqView *
       if ( !url.isEmpty() )
       childView->openURL( url, originalURL, req.nameFilter );
     }
-  kdDebug() << "KonqMainWindow::openView ok=" << ok << " bOthersFollowed=" << bOthersFollowed << " returning " << (ok || bOthersFollowed) << endl;
+  kdDebug(1202) << "KonqMainWindow::openView ok=" << ok << " bOthersFollowed=" << bOthersFollowed << " returning " << (ok || bOthersFollowed) << endl;
   return ok || bOthersFollowed;
 }
 
 void KonqMainWindow::slotOpenURLRequest( const KURL &url, const KParts::URLArgs &args )
 {
+  kdDebug(1202) << "KonqMainWindow::slotOpenURLRequest" << endl;
+
   QString frameName = args.frameName;
 
   if ( !frameName.isEmpty() )
@@ -604,15 +606,13 @@ void KonqMainWindow::slotOpenURLRequest( const KURL &url, const KParts::URLArgs 
 //Called by slotOpenURLRequest
 void KonqMainWindow::openURL( KonqView *childView, const KURL &url, const KParts::URLArgs &args )
 {
-  //TODO: handle post data!
-
   KonqOpenURLRequest req;
   req.args = args;
 
-  //  ### HACK !!
-  if ( args.postData.size() > 0 )
+  if ( args.postData.size() > 0 ) // todo merge in if statement below
   {
-    openURL( childView, url, QString::fromLatin1( "text/html" ), req, args.trustedSource );
+    kdDebug() << "KonqMainWindow::openURL - with postData. serviceType=" << args.serviceType << endl;
+    openURL( childView, url, args.serviceType, req, args.trustedSource );
     return;
   }
 

@@ -33,7 +33,7 @@
 #include <iostream.h>
 
 KonqRun::KonqRun( KonqMainWindow* mainWindow, KonqView *_childView,
-                  const KURL & _url, const KonqOpenURLRequest & req, bool trustedSource )
+                  const KURL & _url, const KonqOpenURLRequest & req, bool trustedSource)
   : KRun( _url, 0 /*mode*/, false/*_is_local_file*/, false /* no GUI */ ),
     m_req( req ), m_bTrustedSource( trustedSource )
 {
@@ -80,6 +80,16 @@ void KonqRun::foundMimeType( const QString & _type )
   if ( m_req.followMode )
       m_bFinished = true;
 
+  // If we were in a POST and we didn't embed a viewer, we MUST save.
+  // We can't fire an external application, that's impossible.
+  if ( !m_bFinished &&
+       m_req.args.postData.size() > 0 )
+  {
+      save( m_strURL );
+      m_bFinished = true;
+      m_bFault = true; // make Konqueror think there was an error, in order to stop the spinning wheel
+  }
+
   // Support for saving remote files.
   if ( !m_bFinished && // couldn't embed
        mimeType != "inode/directory" && // dirs can't be saved
@@ -123,9 +133,9 @@ void KonqRun::scanFile()
   // There is no compelling reason not to do use this with other protocols
   // as well, but only http has been tested so far.
   // David: added support for FTP and SMB... See kde-cvs for comments.
-  if (m_strURL.protocol().left(4) != "http" // http and https
-      && m_strURL.protocol() != "ftp"
-      && m_strURL.protocol() != "smb")
+  if ( (m_strURL.protocol().left(4) != "http" // http and https
+        && m_strURL.protocol() != "ftp"
+        && m_strURL.protocol() != "smb") )
   {
      KRun::scanFile();
      return;
@@ -145,7 +155,15 @@ void KonqRun::scanFile()
     }
   }
 
-  KIO::TransferJob *job = KIO::get(m_strURL, false, false);
+  KIO::TransferJob *job;
+  if ( m_req.args.postData.size() > 0 && m_strURL.protocol().startsWith("http"))
+  {
+      job = KIO::http_post( m_strURL, m_req.args.postData, false );
+      job->addMetaData("content-type", m_req.args.contentType() );
+  }
+  else
+      job = KIO::get(m_strURL, false, false);
+
   job->setWindow((KMainWindow *)m_pMainWindow);
   connect( job, SIGNAL( result( KIO::Job *)),
            this, SLOT( slotKonqScanFinished(KIO::Job *)));
