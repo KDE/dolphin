@@ -230,17 +230,21 @@ KonqPopupMenu::KonqPopupMenu( const KFileItemList &items,
       addAction( "paste" );
     }
 
-    if ( sMoving && !currentDir ) {
-      addAction( "trash" );
-    }
+    if (!currentDir)
+    {
+        addSeparator();
 
-    if ( m_lstItems.count() == 1 && sWriting && !currentDir )
-        addAction("rename");
+        if ( m_lstItems.count() == 1 && sWriting )
+            addAction("rename");
 
-    if ( sDeleting && !currentDir ) {
-      addAction( "del" );
-      if ( m_sViewURL.isLocalFile() )
-       addAction( "shred" );
+        if ( sMoving )
+            addAction( "trash" );
+
+        if ( sDeleting ) {
+            addAction( "del" );
+            if ( m_sViewURL.isLocalFile() )
+                addAction( "shred" );
+        }
     }
   }
 
