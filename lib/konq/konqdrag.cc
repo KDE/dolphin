@@ -40,11 +40,7 @@ QByteArray KonqDrag::encodedData( const char* mime ) const
 	a = QIconDrag::encodedData( mime );
     else if ( QCString( mime ) == "text/uri-list" ) {
         QString s = urls.join( "\r\n" );
-        a = QCString(s.latin1());
-        /*
-        a.resize( s.length() );
-        memcpy( a.data(), s.latin1(), s.length() );
-        */
+        a = QCString(s.latin1()); // perhaps use QUriDrag::unicodeUriToUri here
     }
     return a;
 }
@@ -57,6 +53,7 @@ bool KonqDrag::canDecode( const QMimeSource* e )
 
 bool KonqDrag::decode( const QMimeSource *e, QStringList &uris )
 {
+/*
     QByteArray ba = e->encodedData( "text/uri-list" );
     if ( ba.size() ) {
         QCString s( ba );
@@ -64,6 +61,13 @@ bool KonqDrag::decode( const QMimeSource *e, QStringList &uris )
 	return TRUE;
     }
     return FALSE;
+*/
+   // TODO : return a KURL::List directly
+    QStrList lst;
+    bool ret = QUriDrag::decode( e, lst );
+    for (QStrListIterator it(lst); *it; ++it)
+      uris.append(QString::fromLatin1(*it)); // *it is encoded already
+    return ret;
 }
 
 void KonqDrag::append( const QIconDragItem &item, const QRect &pr,
