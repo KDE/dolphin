@@ -1042,7 +1042,7 @@ void KonqMainWindow::slotSendFile()
         KZip zip( zipFileName );
         if ( !zip.open( IO_WriteOnly ) )
             continue; // TODO error message
-        compressDirectory( zip, (*it).path() );
+        zip.addLocalDirectory( (*it).path(), QString::null );
         zip.close();
         fileNameList += (*it).fileName()+".zip";
         urls.append( zipFileName );
@@ -1062,32 +1062,6 @@ void KonqMainWindow::slotSendFile()
                      QString::null, //body
                      QString::null,
                      urls); // attachments
-}
-
-// TODO after 3.1: move to KArchive, with a wrapper method that takes a list of paths to add into the archive
-void KonqMainWindow::compressDirectory( KZip &zip, const QString & path )
-{
-    QDir dir( path );
-    QStringList files = dir.entryList();
-    files.remove("..");
-    files.remove(".");
-    for ( QStringList::Iterator it = files.begin(); it != files.end(); ++it )
-    {
-        QString fileName = path + "/" + *it;
-        QFileInfo fileInfo( fileName );
-        //kdDebug() << "file :"<<(path + "/" +*it) <<endl;
-
-        if ( fileInfo.isDir() )
-            compressDirectory( zip, fileName );
-        else if ( fileInfo.isFile())
-        {
-            QFile tmp( fileName );
-            tmp.open(IO_ReadOnly);
-            QByteArray buf = tmp.readAll();
-            tmp.close();
-            zip.writeFile( fileName, fileInfo.owner(), fileInfo.group(), buf.size(), buf.data());
-        }
-    }
 }
 
 void KonqMainWindow::slotRun()
@@ -3510,7 +3484,7 @@ void KonqMainWindow::slotPopupMenu( KXMLGUIClient *client, const QPoint &_global
       }
   }
 
-  kdDebug(1202) << "KonqMainWindow::slotPopupMenu( " << client << "...)" << " current view=" << m_currentView << " " << m_currentView->part()->className() << endl;
+  //kdDebug(1202) << "KonqMainWindow::slotPopupMenu( " << client << "...)" << " current view=" << m_currentView << " " << m_currentView->part()->className() << endl;
 
   KActionCollection popupMenuCollection( (QWidget*)0 );
   popupMenuCollection.insert( m_paBack );
@@ -3609,7 +3583,7 @@ void KonqMainWindow::slotPopupMenu( KXMLGUIClient *client, const QPoint &_global
   delete konqyMenuClient;
   m_popupEmbeddingServices.clear();
 
-  kdDebug(1202) << "-------- KonqMainWindow::slotPopupMenu() - m_oldView = " << m_oldView << ", currentView = " << currentView
+  //kdDebug(1202) << "-------- KonqMainWindow::slotPopupMenu() - m_oldView = " << m_oldView << ", currentView = " << currentView
                 << ", m_currentView = " << m_currentView << endl;
 
   if ( m_oldView && (m_oldView != currentView) && (currentView == m_currentView) )

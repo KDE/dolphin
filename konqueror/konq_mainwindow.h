@@ -279,7 +279,6 @@ public:
   bool isMimeTypeAssociatedWithSelf( const QString &mimeType );
   bool isMimeTypeAssociatedWithSelf( const QString &mimeType, const KService::Ptr &offer );
 
-    void compressDirectory( KZip &zip, const QString & path );
 signals:
   void viewAdded( KonqView *view );
   void viewRemoved( KonqView *view );
