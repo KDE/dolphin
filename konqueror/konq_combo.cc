@@ -51,9 +51,12 @@ KonqCombo::KonqCombo( QWidget *parent, const char *name )
     connect( this, SIGNAL( returnPressed()), SLOT( slotReturnPressed() ));
     connect( completionBox(), SIGNAL( activated(const QString&)), 
              this, SLOT( slotReturnPressed() ));
-    connect( completionBox(), SIGNAL( highlighted( const QString& )),
-             this, SLOT( setEditText( const QString& )));
     connect( this, SIGNAL( cleared() ), SLOT( slotCleared() ));
+    // we should also connect the completionBox' highlighted signal to
+    // our setEditText() slot, because we're handling the signals ourselves.
+    // But, setCompletionObject(), telling that we are handling the signals
+    // is called _after_ the completionBox is created -> KComboBox still
+    // thinks it handles the signals alone -> it does the connect(s) itself.
 
     if ( !kapp->dcopClient()->isAttached() )
 	kapp->dcopClient()->attach();
