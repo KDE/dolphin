@@ -334,12 +334,14 @@ struct KonqIconViewWidgetPrivate
         m_movie = 0L;
         m_movieBlocked = 0;
         pFileTip = 0;
+        pActivateDoubleClick = 0L;
     }
     ~KonqIconViewWidgetPrivate() {
         delete pSoundPlayer;
         delete pSoundTimer;
         delete m_movie;
         delete pFileTip;
+        delete pActivateDoubleClick;
         //delete pPreviewJob; done by stopImagePreview
     }
     KFileIVI *pActiveItem;
@@ -365,9 +367,10 @@ struct KonqIconViewWidgetPrivate
     QStringList previewSettings;
     bool renameItem;
     bool firstClick;
+    bool releaseMouseEvent;
     QPoint mousePos;
     int mouseState;
-    bool releaseMouseEvent;
+    QTimer *pActivateDoubleClick;
 };
 
 KonqIconViewWidget::KonqIconViewWidget( QWidget * parent, const char * name, WFlags f, bool kdesktop )
@@ -395,10 +398,9 @@ KonqIconViewWidget::KonqIconViewWidget( QWidget * parent, const char * name, WFl
     // hardcoded settings
     setSelectionMode( QIconView::Extended );
     setItemTextPos( QIconView::Bottom );
-
+    d->releaseMouseEvent = false;
     d->pFileTip = new KFileTip(this);
     d->firstClick = false;
-    d->releaseMouseEvent = false;
     calculateGridX();
     setAutoArrange( true );
     setSorting( true, sortDirection() );
@@ -1352,13 +1354,32 @@ void KonqIconViewWidget::doubleClickTimeout()
     if ( d->releaseMouseEvent )
     {
         QMouseEvent e( QEvent::MouseButtonPress,d->mousePos , 1, d->mouseState);
-        contentsMouseReleaseEvent( &e );
+        QIconViewItem* item = findItem( e.pos() );
+        KURL url;
+        if ( item )
+        {
+            url= ( static_cast<KFileIVI *>( item ) )->item()->url();
+            bool brenameTrash =false;
+            if ( url.isLocalFile() && (url.directory(false) == KGlobalSettings::trashPath() || url.path(1).startsWith(KGlobalSettings::trashPath())))
+                brenameTrash = true;
+
+            if ( !brenameTrash && d->renameItem && m_pSettings->renameIconDirectly() && e.button() == LeftButton && item->textRect( false ).contains(e.pos()))
+            {
+                if( d->pActivateDoubleClick->isActive () )
+                    d->pActivateDoubleClick->stop();
+                item->rename();
+                m_bMousePressed = false;
+            }
+        }
     }
-    else // we don't want to rename it, bug move item. => we don't release mouse.
+    else
     {
         QMouseEvent e( QEvent::MouseMove,d->mousePos , 1, d->mouseState);
         KIconView::contentsMousePressEvent( &e );
     }
+    if( d->pActivateDoubleClick->isActive() )
+        d->pActivateDoubleClick->stop();
+
     d->releaseMouseEvent = false;
     d->renameItem= false;
 }
@@ -1375,6 +1396,8 @@ void KonqIconViewWidget::mousePressChangeValue()
 
 void KonqIconViewWidget::contentsMousePressEvent( QMouseEvent *e )
 {
+    if(d->pActivateDoubleClick && d->pActivateDoubleClick->isActive ())
+        d->pActivateDoubleClick->stop();
      QIconViewItem* item = findItem( e->pos() );
      m_mousePos = e->pos();
      KURL url;
@@ -1389,7 +1412,15 @@ void KonqIconViewWidget::contentsMousePressEvent( QMouseEvent *e )
              d->firstClick = true;
              d->mousePos = e->pos();
              d->mouseState = e->state();
-             QTimer::singleShot(QApplication::doubleClickInterval(),this,SLOT(doubleClickTimeout()));
+             if (!d->pActivateDoubleClick)
+             {
+                 d->pActivateDoubleClick = new QTimer(this);
+                 connect(d->pActivateDoubleClick, SIGNAL(timeout()), this, SLOT(doubleClickTimeout()));
+             }
+             if( d->pActivateDoubleClick->isActive () )
+                 d->pActivateDoubleClick->stop();
+             else
+                 d->pActivateDoubleClick->start(QApplication::doubleClickInterval());
              d->releaseMouseEvent = false;
              return;
          }
@@ -1399,31 +1430,19 @@ void KonqIconViewWidget::contentsMousePressEvent( QMouseEvent *e )
      else
          d->renameItem= false;
     mousePressChangeValue();
+    if(d->pActivateDoubleClick && d->pActivateDoubleClick->isActive())
+        d->pActivateDoubleClick->stop();
     KIconView::contentsMousePressEvent( e );
 
 }
 
 void KonqIconViewWidget::contentsMouseReleaseEvent( QMouseEvent *e )
 {
+    KIconView::contentsMouseReleaseEvent( e );
+    if(d->releaseMouseEvent && d->pActivateDoubleClick && d->pActivateDoubleClick->isActive ())
+        d->pActivateDoubleClick->stop();
     d->releaseMouseEvent = true;
-    QIconViewItem* item = findItem( e->pos() );
-    KURL url;
-    if ( item )
-    {
-        url= ( static_cast<KFileIVI *>( item ) )->item()->url();
-        bool brenameTrash =false;
-        if ( url.isLocalFile() && (url.directory(false) == KGlobalSettings::trashPath() || url.path(1).startsWith(KGlobalSettings::trashPath())))
-         brenameTrash = true;
-
-        if ( !brenameTrash && d->renameItem && m_pSettings->renameIconDirectly() && e->button() == LeftButton && item->textRect( false ).contains(e->pos()))
-        {
-            item->rename();
-            m_bMousePressed = false;
-            return;
-        }
-    }
-  m_bMousePressed = false;
-  KIconView::contentsMouseReleaseEvent( e );
+    m_bMousePressed = false;
 }
 
 void KonqIconViewWidget::slotSaveIconPositions()
