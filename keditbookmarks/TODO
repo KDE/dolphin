@@ -53,3 +53,59 @@ with memcheck
    ==20415==    by 0x402669AA: KEBListView::itemList() (listview.cpp:682)
    ==20415==    by 0x402634EA: ListView::selectedItems() const (qptrlist.h:157)
 
+STUFF:
+
+   Bookmark current tabs as tabset/folder? :-)
+   I just wonder how to unset "Show in Toolbar". Shoudln't it be a toggle action?
+   And the "Cancel" entries in the "Bookmark" menus looks strange too. How about
+   a KMail-like progress bar (in a status bar?) with an "X" button to stop them?
+   And "Advanced Add Bookmark" doesn't work for "Add Bookmark" in context menu?
+
+---
+
+   > > Do you still plan to move those options? And make features like "Quick
+   > > Actions" non-dependent on the "Advanced Add Bookmark" functionality?
+   > yup, for certain. and want to make them all instant apply for 3.2.
+
+   Fine. And any plans to reorder the RMB/"Quick actions" entries to be more
+   logical/synchronious to each other and other Konqueror context menus? :-)
+
+    Folder:                              Bookmark:
+     "Add Bookmark Here"                  "Delete Bookmark"
+     "Delete Folder                       "Copy Link Location"
+     "Open Folder in Bookmarks Editor"    "Open Bookmark"
+     "Properties"                         "Add Bookmark Here"
+     "Open Folder in Tabs"                "Properties"
+                                          "Open in New Tab"
+
+   Like moving "Properties" to last entry as in the Konqueror file manager
+   context menus? And moving destructive actions down from 1st/2nd place?
+
+   "Add Bookmark Here" when pointing at a bookmark looks strange and if you
+   call it you have to close and reopen the menu to see an entry was added?
+
+   And is "Open Bookmark" in context menu necessary? Anyway, my proposal:
+
+    Folder:                              Bookmark:
+     "Add Bookmark Here"                  "Open Bookmark"
+     "Open Folder in Tabs"                "Open in New Tab"
+     "Open Folder in Editor"              "Copy Link Location"
+     "---"                                "---"
+     "Delete Folder"                      "Delete Bookmark"
+     "---"                                "---"
+     "---"                                "---"
+     "Properties"                         "Properties"
+
+   Btw, if you want to "Delete Folder" it wants to confirm "Delete Bookmark?".
+
+----
+
+   Btw, I think when you have no tab and call "Bookmarks Tabs as Folder..."
+   it should not only create a folder but bookmark the current page within
+   the folder unconditional if it's a tab or not. :-)
+
+----
+
+   bookmarkinfo.ui: colons?
+
+   
