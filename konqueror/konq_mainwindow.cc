@@ -1733,9 +1733,7 @@ void KonqMainWindow::slotGoDirTree()
 
 void KonqMainWindow::slotGoTrash()
 {
-  KURL u;
-  u.setPath( KGlobalSettings::trashPath() );
-  openURL( 0L, u );
+  openURL( 0L, KURL( "trash:/" ) );
 }
 
 void KonqMainWindow::slotGoTemplates()
@@ -4316,7 +4314,7 @@ void KonqMainWindow::slotPopupMenu( KXMLGUIClient *client, const QPoint &_global
     //check if current url is trash
   KURL url = viewURL;
   url.cleanPath();
-  bool isIntoTrash = url.isLocalFile() && url.path(1).startsWith(KGlobalSettings::trashPath());
+  bool isIntoTrash = url.protocol() == "trash";
   bool doTabHandling = !openedForViewURL && !isIntoTrash && sReading;
   bool showEmbeddingServices = !isIntoTrash && (itemFlags & KParts::BrowserExtension::ShowTextSelectionItems) == 0;
   PopupMenuGUIClient *konqyMenuClient = new PopupMenuGUIClient( this, m_popupEmbeddingServices,
