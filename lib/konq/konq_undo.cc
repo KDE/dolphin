@@ -317,6 +317,7 @@ void KonqUndoManager::stopUndo( bool step )
 
 void KonqUndoManager::slotResult( KIO::Job *job )
 {
+  d->m_uiserver->jobFinished( d->m_uiserverJobId );
   if ( job->error() )
   {
     job->showErrorDialog( 0L );
