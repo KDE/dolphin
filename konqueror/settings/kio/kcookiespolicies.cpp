@@ -343,10 +343,23 @@ void KCookiesPolicies::save()
   {
      if( !m_dcopClient->send( "kcookiejar", "kcookiejar", "reloadPolicy", QString::null ) )
         kdDebug(7104) << "Can't communicate with the cookiejar!" << endl;
+
+     // Inform http and https slaves about change in cookie policy.
+     {
+        QByteArray data;
+        QDataStream stream( data, IO_WriteOnly ); 
+        stream << QString("http");
+        m_dcopClient->send( "*", "KIO::Scheduler", "reparseSlaveConfiguration(QString)", data );
+     }
+     {
+        QByteArray data;
+        QDataStream stream( data, IO_WriteOnly ); 
+        stream << QString("https");
+        m_dcopClient->send( "*", "KIO::Scheduler", "reparseSlaveConfiguration(QString)", data );
+     }
   }
   else
      kdDebug(7103) << "Can't connect with the DCOP server." << endl;
-
   delete m_dcopClient;
 }
 
