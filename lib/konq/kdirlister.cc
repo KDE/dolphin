@@ -102,14 +102,15 @@ void KDirLister::openURL( const KURL& _url )
   connect( job, SIGNAL( sigError( int, int, const char* ) ),
 	   this, SLOT( slotError( int, int, const char* ) ) );
 
-  m_sWorkingURL = _url.url();
+  m_initialURL = _url; // keep a copy
+  m_bFoundOne = false;
 
   m_buffer.clear();
   
   m_jobId = job->id();
   job->listDir( _url.url() );
 
-  emit started( m_sWorkingURL );
+  emit started( m_initialURL.url() );
 }
 
 void KDirLister::slotError( int /*_id*/, int _errid, const char *_errortext )
@@ -143,13 +144,14 @@ void KDirLister::slotBufferTimeout()
   kdebug(0,1203,"BUFFER TIMEOUT");
 
   //The first entry in the toplevel ?
-  if ( !m_sWorkingURL.isEmpty() ) 
+  if ( !m_bFoundOne )
   { 
     emit clear();
     m_lstFileItems.clear(); // clear our internal list
-    m_sURL = m_sWorkingURL; // store the working url
-    m_sWorkingURL = ""; // remember not to go here again
-    m_bIsLocalURL = KURL(m_sURL).isLocalFile();
+    m_url = m_initialURL; // HACK. How to detect redirects instead ?
+    m_sURL = m_url.url();
+    m_bFoundOne = true; // remember not to go here again
+    m_bIsLocalURL = m_url.isLocalFile();
   }
   
   QValueListIterator<UDSEntry> it = m_buffer.begin();
@@ -176,10 +178,10 @@ void KDirLister::slotBufferTimeout()
     }
   }
 
-  kdebug(0, 1203, "Update !");
+  // kdebug(0, 1203, "Update !");
   // Tell the view to redraw itself
   emit update();
-  kdebug(0, 1203, "Update done");
+  // kdebug(0, 1203, "Update done");
 
   m_buffer.clear();
 }

@@ -73,7 +73,7 @@ public:
    * @return the url passed to openURL.
    * Probably not very useful.
    */
-  virtual const KURL & initialUrl() const { return m_url; }
+  virtual const KURL & initialUrl() const { return m_initialURL; }
     
   /** 
    * Update the currently displayed directory
@@ -126,10 +126,14 @@ protected slots:
 protected:  
 
   /** The url initially given to us by constructor or openURL */
-  KURL m_url;
+  KURL m_initialURL;
   /** The url that we used to list (can be different in case of redirect) */
+  KURL m_url;
   QString m_sURL;
 
+  /** Did we found the first file in the dir ?
+      Set to false by openURL and to true by slotBufferTimeout */
+  bool m_bFoundOne;
   bool m_bIsLocalURL;
   
   int m_jobId;
