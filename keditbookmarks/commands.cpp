@@ -166,9 +166,9 @@ QString NodeEditCommand::name() const {
 
 QString NodeEditCommand::getNodeText(KBookmark bk, const QString &nodename) {
    QDomNode subnode = bk.internalElement().namedItem(nodename);
-   Q_ASSERT(!subnode.isNull());
-   return subnode.firstChild().isNull() ? QString::null
-                                        : subnode.firstChild().toText().data();
+   return subnode.isNull() || subnode.firstChild().isNull() 
+        ? QString::null
+        : subnode.firstChild().toText().data();
 }
 
 void NodeEditCommand::execute() {
@@ -176,10 +176,12 @@ void NodeEditCommand::execute() {
    Q_ASSERT(!bk.isNull());
 
    QDomNode subnode = bk.internalElement().namedItem(m_nodename);
-   Q_ASSERT(!subnode.isNull());
+   if (subnode.isNull()) {
+      subnode = bk.internalElement().ownerDocument().createElement(m_nodename);
+      bk.internalElement().appendChild(subnode);
+   }
 
    if (subnode.firstChild().isNull()) {
-      // no text child yet
       QDomText domtext = subnode.ownerDocument().createTextNode("");
       subnode.appendChild(domtext);
    }
