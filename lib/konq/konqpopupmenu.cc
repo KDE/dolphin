@@ -284,7 +284,7 @@ KonqPopupMenu::KonqPopupMenu( const KFileItemList &items,
 
     // 4 - Query for applications
     KTrader::OfferList offers = KTrader::self()->query( m_sMimeType,
-      "Type == 'Application' and DesktopEntryPath != 'System/kfmclient.desktop'" );
+      "Type == 'Application' and DesktopEntryPath != 'Home.desktop'" );
 
     //// Ok, we have everything, now insert
 
