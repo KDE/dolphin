@@ -46,7 +46,7 @@
 
 extern "C"
 {
-	KCModule *create_khtml_appearance(QWidget *parent, const char *name)
+	KCModule *create_khtml_behavior(QWidget *parent, const char *name)
 	{
 		KConfig *c = new KConfig( "konquerorrc", false, false );
 		return new KMiscHTMLOptions(c, "HTML Settings", parent, name);
