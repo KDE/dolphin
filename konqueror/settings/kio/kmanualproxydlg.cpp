@@ -446,7 +446,7 @@ void KManualProxyDlg::showErrorMsg( const QString& caption,
   
   QString details = i18n("<qt>Make sure none of the addresses or URLs you "
                           "specified contain invalid or wildcard characters "
-                          "such as spaces, asteriks(*) or question marks(?).<p>"
+                          "such as spaces, asterisks (*), or question marks(?).<p>"
                           "<u>Examples of VALID entries:</u><br/>"
                           "<code>http://mycompany.com, 192.168.10.1, "
                           "mycompany,com, localhost, http://localhost</code><p>"

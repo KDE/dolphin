@@ -37,7 +37,7 @@
             <property name="whatsThis" stdset="0">
                 <string>&lt;qt&gt;
 Enter the site or domain name where a fake browser identification should be used.&lt;p&gt;
-&lt;u&gt;NOTE:&lt;/u&gt; Wildcard syntaxes such as \"*,?\" are NOT allowed. Instead use the top level address of a site to make generic matches. For example, if you want all KDE sites to receive a fake browser identification, you would enter &lt;code&gt;.kde.org&lt;/code&gt;. The fake identity would then be sent to any KDE site that ends with &lt;code&gt;.kde.org&lt;/code&gt;.
+&lt;u&gt;NOTE:&lt;/u&gt; Wildcard syntaxes such as \"*,?\" are NOT allowed: instead, use the top level address of a site to make generic matches; for example, if you want all KDE sites to receive a fake browser identification, you would enter &lt;code&gt;.kde.org&lt;/code&gt; - the fake identity would then be sent to any KDE site that ends with &lt;code&gt;.kde.org&lt;/code&gt;.
 &lt;/qt&gt;</string>
             </property>
         </widget>
@@ -48,7 +48,7 @@ Enter the site or domain name where a fake browser identification should be used
             <property name="whatsThis" stdset="0">
                 <string>&lt;qt&gt;
 Enter the site or domain name where a fake browser identification should be used.&lt;p&gt;
-&lt;u&gt;NOTE:&lt;/u&gt; Wildcard syntaxes such as \"*,?\" are NOT allowed. Instead use the top level address of a site to make generic matches. For example, if you want all KDE sites to receive a fake browser identification, you would enter &lt;code&gt;.kde.org&lt;/code&gt;. The fake identity would then be sent to any KDE site that ends with &lt;code&gt;.kde.org&lt;/code&gt;.
+&lt;u&gt;NOTE:&lt;/u&gt; Wildcard syntaxes such as \"*,?\" are NOT allowed: instead, use the top level address of a site to make generic matches; for example, if you want all KDE sites to receive a fake browser identification, you would enter &lt;code&gt;.kde.org&lt;/code&gt; - the fake identity would then be sent to any KDE site that ends with &lt;code&gt;.kde.org&lt;/code&gt;.
 &lt;/qt&gt;</string>
             </property>
         </widget>

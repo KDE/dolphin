@@ -359,8 +359,8 @@ QString KProxyDialog::quickHelp() const
                "web page caching and/or filtering.</p>"
                "<p>Caching proxy servers give you faster access to sites you have "
                "already visited by locally storing or caching the content of those "
-               "pages. Filtering proxy servers on the other hand provide the "
-               "ability to block out requests for ads, spam or anything else you "
+               "pages; filtering proxy servers, on the other hand, provide the "
+               "ability to block out requests for ads, spam, or anything else you "
                "want block.</p>"
                "<p><u>Note:</u> Some proxy servers provide both services.</p>" );
 }
