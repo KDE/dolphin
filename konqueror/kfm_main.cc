@@ -186,7 +186,7 @@ int main( int argc, char **argv )
 
   KMimeMagic::initStatic();
 
-  cerr << "===================== fuck you ==============" << endl;
+  cerr << "===================== mime stuff finished ==============" << endl;
   
   kimgioRegister();
   
