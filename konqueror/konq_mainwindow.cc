@@ -1895,6 +1895,9 @@ void KonqMainWindow::slotToggleFullScreen( bool toggle )
 {
   if ( toggle )
   {
+    m_oldCaption = QWidget::caption();
+    kdDebug() << "old caption is " << m_oldCaption << endl;
+
     // Create toolbar button for exiting from full-screen mode
     QList<KAction> lst;
     lst.append( m_ptaFullScreen );
@@ -1922,6 +1925,10 @@ void KonqMainWindow::slotToggleFullScreen( bool toggle )
     menuBar()->show();
 
     showNormal();
+
+    kdDebug() << "caption is " << m_oldCaption << endl;
+
+    QWidget::setCaption( m_oldCaption );
 
     m_ptaFullScreen->setText( i18n( "Fullscreen Mode" ) );
     m_ptaFullScreen->setIcon( "window_fullscreen" );
