@@ -107,7 +107,7 @@ KCookiesPolicies::KCookiesPolicies(QWidget *parent, const char *name)
     QVBoxLayout *lay = new QVBoxLayout( this, KDialog::marginHint(), KDialog::spacingHint() );
     lay->setAutoAdd( true );
 
-    cb_enableCookies = new QCheckBox( i18n("&Enable Cookies"), this );
+    cb_enableCookies = new QCheckBox( i18n("Enable Coo&kies"), this );
     QWhatsThis::add( cb_enableCookies, i18n("This option turns on cookie support. Normally "
                                             "you will want to have cookie support enabled and "
                                             "customize it to suit your need of privacy.") );
