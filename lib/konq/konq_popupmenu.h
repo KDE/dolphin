@@ -147,7 +147,7 @@ private:
   void setup(bool showPropertiesAndFileType);
   void addPlugins( );
   void insertServices(const ServiceList& list, QDomElement& menu, bool isBuiltin);
-  bool KonqPopupMenu::KIOSKAuthorizedAction(KConfig& cfg);
+  bool KIOSKAuthorizedAction(KConfig& cfg);
 
   class KonqPopupMenuPrivate;
   KonqPopupMenuPrivate *d;
