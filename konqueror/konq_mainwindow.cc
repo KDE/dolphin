@@ -3713,20 +3713,158 @@ void KonqMainWindow::disconnectActionCollection( KActionCollection *coll )
                 this, SLOT( slotClearStatusText() ) );
 }
 
+//
+// the smart popup completion code , <l.lunak@kde.org>
+// 
+
+// prepend http://www. or http:// if there's no protocol in 's'
+// used only when there are no completion matches
+static QString hp_tryPrepend( const QString& s )
+{
+    if( s.isEmpty() || s[ 0 ] == '/' )
+        return QString::null;
+    for( unsigned int pos = 0;
+         pos < s.length() - 2; // 4 = ://x
+         ++pos )
+        {
+        if( s[ pos ] == ':' && s[ pos + 1 ] == '/' && s[ pos + 2 ] == '/' )
+            return QString::null;
+        if( !s[ pos ].isLetter() )
+            break;
+        }
+    return ( s.startsWith( "www." ) ? "http://" : "http://www." ) + s;
+}
+
+
+static void hp_removeDupe( KCompletionMatches& l, const QString& dupe,
+    KCompletionMatches::Iterator it_orig )
+{
+    for( KCompletionMatches::Iterator it = l.begin();
+         it != l.end();
+         ) {
+        if( it == it_orig ) {
+            ++it;
+            continue;
+        }
+        if( (*it).value() == dupe ) {
+            (*it_orig).first = kMax( (*it_orig).first, (*it).index());
+            it = l.remove( it );
+            continue;
+        }
+        ++it;
+    }
+}
+
+// remove duplicates like 'http://www.kde.org' and 'http://www.kde.org/'
+// (i.e. the trailing slash)
+// some duplicates are also created by prepending protocols
+static void hp_removeDuplicates( KCompletionMatches& l )
+{
+    QString http = "http://";
+    QString ftp = "ftp://ftp.";
+    l.removeDuplicates();
+    for( KCompletionMatches::Iterator it = l.begin();
+         it != l.end();
+         ++it ) {
+        QString str = (*it).value();
+        if( str.startsWith( http )) {
+            if( str.find( '/', 7 ) < 0 ) { // http://something<noslash>
+                hp_removeDupe( l, str + '/', it );
+                hp_removeDupe( l, str.mid( 7 ) + '/', it );
+            }
+            hp_removeDupe( l, str.mid( 7 ), it );
+        }
+        if( str.startsWith( ftp )) // ftp://ftp.
+            hp_removeDupe( l, str.mid( 6 ), it ); // remove dupes without ftp://
+    }
+}
+
+static void hp_removeCommonPrefix( KCompletionMatches& l, const QString& prefix )
+{
+    for( KCompletionMatches::Iterator it = l.begin();
+         it != l.end();
+         ) {
+        if( (*it).value().startsWith( prefix )) {
+            it = l.remove( it );
+            continue;
+        }
+        ++it;
+    }
+}
+
+// don't include common prefixes like 'http://', i.e. when s == 'h', include
+// http://hotmail.com but don't include everything just starting with 'http://'
+static void hp_checkCommonPrefixes( KCompletionMatches& matches, const QString& s )
+{
+    static const char* const prefixes[] = {
+        "http://",
+        "https://",
+        "www.", 
+        "ftp://",
+        // http://www. is done in the 'prepend http://' part below
+        // https://www. is done in the 'prepend https://' part below
+        // ftp://ftp. is done in the 'prepend ftp://' part below
+        "file:///",
+        "file:/",
+        NULL };
+    for( const char* const *pos = prefixes;
+         *pos != NULL;
+         ++pos ) {
+        QString prefix = *pos;
+        if( prefix.startsWith( s )) {
+            hp_removeCommonPrefix( matches, prefix );
+        }
+    }
+}
+
 QStringList KonqMainWindow::historyPopupCompletionItems( const QString& s)
 {
     QString http = "http://";
+    QString https = "https://";
     QString www = "http://www.";
-
-    QStringList items = s_pCompletion->allMatches( s );
-    if ( items.isEmpty() && !s.startsWith( http ) ) {
-        items = s_pCompletion->allMatches( http + s );
-
-        if ( items.isEmpty() && !s.startsWith( www ) )
-            items = s_pCompletion->allMatches( www + s );
+    QString wwws = "https://www.";
+    QString ftp = "ftp://";
+    QString ftpftp = "ftp://ftp.";
+    KCompletionMatches matches= s_pCompletion->allWeightedMatches( s );
+    hp_checkCommonPrefixes( matches, s );
+    bool checkDuplicates = false;
+    if ( !s.startsWith( ftp ) ) {
+        matches += s_pCompletion->allWeightedMatches( ftp + s );
+        hp_removeCommonPrefix( matches, ftpftp );
+        checkDuplicates = true;
     }
-
+    if ( !s.startsWith( https ) ) {
+        matches += s_pCompletion->allWeightedMatches( https + s );
+        hp_removeCommonPrefix( matches, wwws );
+        checkDuplicates = true;
+    }
+    if ( !s.startsWith( http ) ) {
+        matches += s_pCompletion->allWeightedMatches( http + s );
+        hp_removeCommonPrefix( matches, www );
+        checkDuplicates = true;
+    }
+    if ( !s.startsWith( www ) ) {
+        matches += s_pCompletion->allWeightedMatches( www + s );
+        checkDuplicates = true;
+    }
+    if ( !s.startsWith( wwws ) ) {
+        matches += s_pCompletion->allWeightedMatches( wwws + s );
+        checkDuplicates = true;
+    }
+    if ( !s.startsWith( ftpftp ) ) {
+        matches += s_pCompletion->allWeightedMatches( ftpftp + s );
+        checkDuplicates = true;
+    }
+    if( checkDuplicates )
+        hp_removeDuplicates( matches );
+    QStringList items = matches.list();
+    if( items.count() == 0 )
+        {
+        QString pre = hp_tryPrepend( s );
+        if( !pre.isNull())
+            items += pre;
+        }
     return items;
 }
-
+ 
 #include "konq_mainwindow.moc"
