@@ -23,6 +23,13 @@
 
 */
 
+#include <config.h>
+
+#include <sys/types.h>
+#include <sys/wait.h>
+
+#include <errno.h>
+#include <signal.h>
 #include <unistd.h>
               
 #include <qdir.h>
@@ -254,13 +261,21 @@ void scanDirectory( QString dir, QStringList &mimeInfoList,
     }
 
     for (unsigned int i=0; i<files.count(); i++) {
+        QString extension;
+        int j = files[i].findRev('.');
+        if (j > 0)
+           extension = files[i].mid(j+1);
 
         // ignore crashing libs
         if ( files[i]=="librvplayer.so" ||      // RealPlayer 5
              files[i]=="libnullplugin.so" ||    // Netscape Default Plugin
              files[i]=="cult3dplugin.so" ||     // Cult 3d plugin
-             files[i].right(4) == ".jar" ||     // Java archive
-             files[i].right(6) == ".class"        // Java class
+             extension == "jar" ||              // Java archive
+             extension == "class" ||            // Java class
+             extension == "png" ||              // PNG Image
+             extension == "jpg" ||              // JPEG image
+             extension == "gif" ||              // GIF image
+             extension.startsWith("htm")        // HTML
             )     
             continue;
 
@@ -460,6 +475,18 @@ void removeExistingExtensions( QString &extension )
     extension = filtered.join( "," );
 }
 
+void sigChildHandler(int)
+{
+   // since waitpid and write change errno, we have to save it and restore it
+   // (Richard Stevens, Advanced programming in the Unix Environment)
+   int saved_errno = errno;
+
+   while (waitpid(-1, 0, WNOHANG) == 0)
+   	;
+     
+   errno = saved_errno;
+}
+
 
 int main( int argc, char **argv )
 {
@@ -471,7 +498,27 @@ int main( int argc, char **argv )
 
     KLocale::setMainCatalogue("nsplugin");
     KCmdLineArgs::init( argc, argv, &aboutData );
-    KApplication app;
+    KApplication app(false, false);
+    
+    // Set up SIGCHLD handler
+    struct sigaction act;
+    act.sa_handler=sigChildHandler;
+    sigemptyset(&(act.sa_mask));
+    sigaddset(&(act.sa_mask), SIGCHLD);
+    // Make sure we don't block this signal. gdb tends to do that :-(
+    sigprocmask(SIG_UNBLOCK, &(act.sa_mask), 0);
+
+    act.sa_flags = SA_NOCLDSTOP;
+
+    // CC: take care of SunOS which automatically restarts interrupted system
+    // calls (and thus does not have SA_RESTART)
+
+#ifdef SA_RESTART
+    act.sa_flags |= SA_RESTART;
+#endif
+
+    sigaction( SIGCHLD, &act, 0 );
+
 
     // set up the paths used to look for plugins
     QStringList searchPaths = getSearchPaths();
