@@ -17,4 +17,4 @@ servicedir = $(kde_servicesdir)
 METASOURCES = AUTO
 
 messages:
-	$(XGETTEXT)  -kaliasLocal *.h *.cc -o $(podir)/konq_searcher.pot
+	$(XGETTEXT) *.h *.cc -o $(podir)/konq_searcher.pot
