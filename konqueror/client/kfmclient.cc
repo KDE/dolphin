@@ -293,8 +293,10 @@ bool clientApp::createNewWindow(const KURL & url, const QString & mimetype)
         {
             DCOPRef ref( foundApp, foundObj );
             DCOPReply reply = ref.call( "newTab", url.url() );
-            if ( reply.isValid() )
+            if ( reply.isValid() ) {
+                KStartupInfo::appStarted();
                 return true;
+            }
       }
     }
 
