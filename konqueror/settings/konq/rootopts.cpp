@@ -667,7 +667,7 @@ void DesktopPathConfig::save()
         kdDebug() << "desktopURL=" << desktopURL.url() << endl;
         kdDebug() << "trashURL=" << trashURL.url() << endl;
         QString urlDesktop = urDesktop->url();
-        if ( urlDesktop.at(urlDesktop.length()-1)!='/')
+        if ( !urlDesktop.endsWith( "/" ))
             urlDesktop+="/";
 
         if ( desktopURL.isParentOf( trashURL ) )
