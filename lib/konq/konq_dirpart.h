@@ -291,6 +291,7 @@ protected:
     KParts::ReadOnlyPart * m_findPart;
     KonqDirPartBrowserExtension * m_extension;
 
+    // Remove in KDE4
     int m_iIconSize[5];
 
     long long m_lDirSize;

@@ -1030,8 +1030,9 @@ void KonqIconViewWidget::calculateGridX()
 int KonqIconViewWidget::gridXValue() const
 {
     int sz = m_size ? m_size : KGlobal::iconLoader()->currentSize( KIcon::Desktop );
-    int newGridX = sz + (!m_bSetGridX ? d->gridXspacing : 50) + (( itemTextPos() == QIconView::Right ) ? 100 : 0);
-    newGridX = QMAX( newGridX, previewIconSize( sz ) + 13 );
+    bool horizontal = (itemTextPos() == QIconView::Right);
+    int newGridX = sz + (!m_bSetGridX ? d->gridXspacing : 50) + ( horizontal ? 100 : 0);
+    newGridX = QMAX( newGridX, (horizontal ? 2 : 1) * previewIconSize( sz ) + 13 );
     //kdDebug(1203) << "gridXValue: " << newGridX << " sz=" << sz << endl;
     return newGridX;
 }
@@ -1956,8 +1957,10 @@ int KonqIconViewWidget::largestPreviewIconSize( int size ) const
         return 64;
     if (iconSize < 60)
         return 96;
+    if (iconSize < 120)
+        return 128;
 
-    return 128;
+    return 192;
 }
 
 int KonqIconViewWidget::previewIconSize( int size ) const

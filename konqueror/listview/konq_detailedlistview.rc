@@ -15,9 +15,11 @@
   <Menu name="iconview_mode"><text>Icon Size</text>
    <Action name="modedefault"/>
    <Separator/>
+   <Action name="modeenormous"/>
    <Action name="modehuge"/>
    <Action name="modelarge"/>
    <Action name="modemedium"/>
+   <Action name="modesmallmedium"/>
    <Action name="modesmall"/>
   </Menu>
   <Separator/>
