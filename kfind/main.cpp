@@ -1,3 +1,5 @@
+#include <signal.h>
+
 #include <kapp.h>
 #include <qfileinf.h>
 
@@ -17,6 +19,8 @@ int main( int argc, char ** argv )
     QApplication::setFont(default_font );
 
     KApplication a( argc, argv, "kfind" );
+
+    (void)signal(SIGCHLD, SIG_DFL);
 
     //Scan for saving options in kfind resource file
      saving = new KfSaveOptions();
