@@ -91,6 +91,15 @@ KPreviewOptions::KPreviewOptions( QWidget *parent, const char *name )
     m_boostSize = new QCheckBox(i18n("Increase size of previews relative to icons"), this);
     lay->addWidget(m_boostSize);
 
+    m_useFileThumbnails = new QCheckBox(i18n("Use thumbnails embedded in files"), this);
+    lay->addWidget(m_useFileThumbnails);
+
+    QWhatsThis::add( m_useFileThumbnails,
+                i18n("Select this to use thumbnails that are found inside some "
+                "file types (e.g. JPEG). This will increase speed and reduce "
+                "disk usage. Deselect it if you have files that have been processed "
+                "by programs which create inaccurate thumbnails, such as ImageMagick.") );    
+    
     lay->addWidget( new QWidget(this), 10 );
 
     load();
@@ -112,6 +121,7 @@ void KPreviewOptions::load()
     m_maxSize->setValue( ((double)group.readNumEntry( "MaximumSize", DEFAULT_MAXSIZE )) / (1024*1024) );
 
     m_boostSize->setChecked( group.readBoolEntry( "BoostSize", true /*default*/ ) );
+    m_useFileThumbnails->setChecked( group.readBoolEntry( "UseFileThumbnails", true /*default*/ ) );
 }
 
 void KPreviewOptions::defaults()
@@ -135,6 +145,7 @@ void KPreviewOptions::save()
     // config key is in bytes, numinput is in MB
     group.writeEntry( "MaximumSize", qRound( m_maxSize->value() *1024*1024 ), true, true );
     group.writeEntry( "BoostSize", m_boostSize->isChecked(), true, true );
+    group.writeEntry( "UseFileThumbnails", m_useFileThumbnails->isChecked(), true, true );
     group.sync();
 }
 

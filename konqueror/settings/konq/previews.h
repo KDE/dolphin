@@ -57,6 +57,7 @@ private:
     QPtrList<QCheckBox> m_boxes;
     KDoubleNumInput *m_maxSize;
     QCheckBox *m_boostSize;
+    QCheckBox *m_useFileThumbnails;
 };
 
 #endif
