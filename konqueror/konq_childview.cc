@@ -346,7 +346,9 @@ void KonqChildView::run( const QString & url )
 
   connect( m_pRun, SIGNAL( finished() ),
 	   mainView(), SLOT( slotRunFinished() ) );
-
+  connect( m_pRun, SIGNAL( error() ),
+	   mainView(), SLOT( slotRunFinished() ) );
+  
   // stop() will get called by KonqMainView::openView or the KonqRun will
   // be destroyed upon completion (autodelete)
 }
@@ -386,7 +388,7 @@ void KonqChildView::setPassiveMode( bool mode )
   // Hide the mode button for the last active view
   //
   KonqChildView *current = m_pMainView->currentChildView();
- 
+
   if (current != 0L) {
     if ( m_pMainView->viewManager()->chooseNextView( current ) == 0L ) {
       current->frame()->header()->passiveModeCheckBox()->hide();
