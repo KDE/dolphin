@@ -10,7 +10,7 @@
 // (c) David Faure 1998
 // New configuration scheme for Java/JavaScript
 // (C) Kalle Dalheimer 2000
-
+#include <kfiledialog.h>
 #include <qbuttongroup.h>
 #include <qcheckbox.h>
 #include <qcolor.h>
@@ -34,8 +34,9 @@
 #include <kcharsets.h>
 #include <qspinbox.h>
 #include <kdebug.h>
-
+#include <kurlrequester.h>
 #include <X11/Xlib.h>
+#include <klineedit.h>
 
 #include "htmlopts.h"
 #include "policydlg.h"
@@ -539,9 +540,10 @@ KJavaScriptOptions::KJavaScriptOptions( KConfig* config, QString group, QWidget 
   QHBox* pathHB = new QHBox( javartGB );
   pathHB->setSpacing( 10 );
   QLabel* pathLA = new QLabel( i18n( "&Path to JDK" ), pathHB );
-  pathED = new QLineEdit( pathHB );
+  pathED=new  KURLRequester( pathHB);
   connect( pathED, SIGNAL( textChanged( const QString& ) ),
-		   this, SLOT( changed() ) );
+                   this, SLOT( changed() ) );
+  pathED->fileDialog()->setMode(KFile::Directory);
   pathLA->setBuddy( pathED );
 
   QHBox* addArgHB = new QHBox( javartGB );
@@ -588,7 +590,7 @@ void KJavaScriptOptions::load()
         userSpecifiedRB->setChecked( true );
 
     addArgED->setText( sJDKArgs );
-    pathED->setText( sJDK );
+    pathED->lineEdit()->setText( sJDK );
 
     toggleJavaControls();
 }
@@ -599,7 +601,7 @@ void KJavaScriptOptions::defaults()
   enableJavaScriptGloballyCB->setChecked( false );
   javaConsoleCB->setChecked( false );
   autoDetectRB->setChecked( true );
-  pathED->setText( "/usr/lib/jdk" );
+  pathED->lineEdit()->setText( "/usr/lib/jdk" );
   addArgED->setText( "" );
 
   toggleJavaControls();
@@ -613,7 +615,7 @@ void KJavaScriptOptions::save()
     m_pConfig->writeEntry( "ShowJavaConsole", javaConsoleCB->isChecked() );
     m_pConfig->writeEntry( "JavaAutoDetect", autoDetectRB->isChecked() );
     m_pConfig->writeEntry( "JavaArgs", addArgED->text() );
-    m_pConfig->writeEntry( "JavaPath", pathED->text() );
+    m_pConfig->writeEntry( "JavaPath", pathED->lineEdit()->text() );
 
     QStringList domainConfig;
     QListViewItemIterator it( domainSpecificLV );

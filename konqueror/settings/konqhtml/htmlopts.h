@@ -11,12 +11,12 @@
 #define __HTML_OPTIONS_H__
 
 #include <kcmodule.h>
-
 #include <qmap.h>
 
 class KColorButton;
 class KConfig;
 class KListView;
+class KURLRequester;
 class QCheckBox;
 class QComboBox;
 class QLineEdit;
@@ -38,7 +38,7 @@ public:
 
 public slots:
   void slotFontSize( int );
-  void slotMinimumFontSize( int ); 
+  void slotMinimumFontSize( int );
   void slotStandardFont(const QString& n);
   void slotFixedFont(const QString& n);
   void slotSerifFont( const QString& n );
@@ -119,8 +119,8 @@ private:
   QCheckBox* javaConsoleCB;
   QRadioButton* autoDetectRB;
   QRadioButton* userSpecifiedRB;
-  QLineEdit* pathED;
   QLineEdit* addArgED;
+  KURLRequester* pathED;
   QMap<QListViewItem*, int> javaDomainPolicy;
   QMap<QListViewItem*, int> javaScriptDomainPolicy;
 };
