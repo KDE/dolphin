@@ -423,12 +423,12 @@ bool KonqUndoManager::initializeFromKDesky()
 
 QDataStream &operator<<( QDataStream &stream, const KonqBasicOperation &op )
 {
-  stream << op.m_valid << op.m_src << op.m_dst;
+  stream << op.m_valid << op.m_directory << op.m_renamed << op.m_src << op.m_dst;
   return stream;
 }
 QDataStream &operator>>( QDataStream &stream, KonqBasicOperation &op )
 {
-  stream >> op.m_valid >> op.m_src >> op.m_dst;
+  stream >> op.m_valid >> op.m_directory >> op.m_renamed >> op.m_src >> op.m_dst;
   return stream;
 }
 
