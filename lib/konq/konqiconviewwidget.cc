@@ -441,8 +441,6 @@ void KonqIconViewWidget::pasteSelection()
       kdDebug(1203) << "move (from clipboard data) = " << move << endl;
     }
 
-    KIO::Job *undoJob = 0;
-
     KURL::List lst = selectedUrls();
     assert ( lst.count() <= 1 );
     KURL pasteURL;
@@ -451,7 +449,7 @@ void KonqIconViewWidget::pasteSelection()
     else
       pasteURL = url();
 
-    undoJob = KIO::pasteClipboard( pasteURL, move );
+    KIO::Job *undoJob = KIO::pasteClipboard( pasteURL, move );
 
     if ( undoJob )
       (void) new KonqCommandRecorder( move ? KonqCommand::MOVE : KonqCommand::COPY, KURL::List(), pasteURL, undoJob );
