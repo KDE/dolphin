@@ -91,8 +91,9 @@ KUserInfoChFaceDlg::KUserInfoChFaceDlg(const QString& picsdir, QWidget *parent, 
   m_FacesWidget->arrangeItemsInGrid();
 
   enableButtonOK( false );
+#if 0
   connect( this, SIGNAL( okClicked() ), SLOT( slotSaveCustomImage() ) );
-
+#endif
   resize( 420, 400 );
 }
 
