@@ -146,7 +146,16 @@ static bool startNewKonqueror( const KURL & url )
     KConfig config( QString::fromLatin1("kfmclientrc") );
     config.setGroup( QString::fromLatin1("Settings") );
     // Current default: reuse an existing process for local urls, create a new one for remote ones
-    return config.readBoolEntry( QString::fromLatin1("StartNewKonqueror"), !url.isLocalFile() );
+    QString val = config.readEntry( QString::fromLatin1("StartNewKonqueror"), QString::fromLatin1("Web only") );
+    if ( (val == QString::fromLatin1("Web only")   && !url.isLocalFile()) ||
+         (val == QString::fromLatin1("Local only") &&  url.isLocalFile()) ||
+         (  val == QString::fromLatin1("Always") ||
+            val == QString::fromLatin1("true") ||
+            val == QString::fromLatin1("TRUE") ||
+            val == QString::fromLatin1("1")))
+        return true;
+    else
+        return false; // means (val == "Never") or one of the two above combinations return false
 }
 
 bool clientApp::createNewWindow(const KURL & url, const QString & mimetype)
