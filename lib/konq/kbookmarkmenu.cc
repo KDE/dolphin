@@ -94,9 +94,7 @@ void KBookmarkMenu::slotBookmarksChanged()
       m_parentMenu->insertSeparator();
   }
 
-  KGlobal::iconLoader()->setIconType( "icon" );
   fillBookmarkMenu( KBookmarkManager::self()->root() );
-  KGlobal::iconLoader()->setIconType( "toolbar" ); // restore default
 }
 
 void KBookmarkMenu::fillBookmarkMenu( KBookmark *parent )
