@@ -24,6 +24,8 @@
 
 - Image Preview : make size configurable for tackat :)
 
+- HTMLView (if local dir) : drop should copy to parent dir (for Antonio :)
+
 - Integrate kdf and kdu ...
 
 - More key bindings. Lots of things are missing key bindings,
