@@ -612,10 +612,12 @@ void KonqKfmIconView::newIconSize( int size )
     if (oldEffSize == 0)
        oldEffSize = IconSize(KIcon::Desktop);
 
+    // Make sure all actions are initialized.
+    KonqDirPart::newIconSize( size );
+    
     if ( effSize == oldEffSize )
         return;
 
-    KonqDirPart::newIconSize( size );
     m_pIconView->setIcons( size );
     if ( m_pProps->isShowingPreview() )
         m_pIconView->startImagePreview( m_pProps->previewSettings(), true );
