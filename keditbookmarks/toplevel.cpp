@@ -41,7 +41,7 @@
 #include <klocale.h>
 #include <kiconloader.h>
 
-#define DEBUG_ADDRESSES
+// #define DEBUG_ADDRESSES
 
 // toplevel item (there should be only one!)
 KEBListViewItem::KEBListViewItem(QListView *parent, const KBookmark & group )
