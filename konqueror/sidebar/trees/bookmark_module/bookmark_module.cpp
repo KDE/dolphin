@@ -238,13 +238,13 @@ void KonqSidebarBookmarkModule::slotDropped(KListView *, QDropEvent *e, QListVie
     } else if (parent) {
         if(KonqSidebarBookmarkItem *p = dynamic_cast<KonqSidebarBookmarkItem*>(parent))
         {
-        if (!p)
-            return;
-        KBookmark bm = p->bookmark();
-        if (bm.isGroup())
-            parentGroup = bm.toGroup();
-        else
-            return;
+            if (!p)
+                return;
+            KBookmark bm = p->bookmark();
+            if (bm.isGroup())
+                parentGroup = bm.toGroup();
+            else
+                return;
         }
         else if(parent == m_topLevelItem)
         {
