@@ -1016,7 +1016,7 @@ void KonqIconViewWidget::slotDropped( QDropEvent *ev, const QValueList<QIconDrag
     KonqOperations::doDrop( m_rootItem /* may be 0L */, url(), ev, this );
 }
 
-void KonqIconViewWidget::slotAboutToCreate(const QPoint &pos, const QValueList<KIO::CopyInfo> &)
+void KonqIconViewWidget::slotAboutToCreate(const QPoint &, const QValueList<KIO::CopyInfo> &)
 {
    // Do nothing :-)
 }
