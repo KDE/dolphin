@@ -27,3 +27,8 @@ Thu Feb 11 16:32:26 1999 Simon Hausmann <tronical@gmx.net>
         * Makefile.am, kfm.idl, kfm_main.cc, kfm_mainwindow.*, kfm_gui.* :
           removed KfmPart and started making KfmGui a full featured          
           part (KfmMainWindow is now the default shell for Konqueror)
+
+Fri Feb 12 00:32:09 1999 Simon Hausmann <tronical@gmx.net>
+
+        * kfm_mainwindow.cc, kfmgui.* : using the new file menu functions of
+          opMenuBar to create proper file menu entries

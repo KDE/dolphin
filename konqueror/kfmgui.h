@@ -168,8 +168,8 @@ protected:
   //fills the properties of the specified view with the current ones
   void saveCurrentView( View _view );
 
-//  OpenPartsUI::Menu_var m_vMenuFile;
-//  OpenPartsUI::Menu_var m_vMenuFileNew;
+  OpenPartsUI::Menu_var m_vMenuFile;
+  OpenPartsUI::Menu_var m_vMenuFileNew;
   OpenPartsUI::Menu_var m_vMenuEdit;
   OpenPartsUI::Menu_var m_vMenuView;
   OpenPartsUI::Menu_var m_vMenuBookmarks;

@@ -107,44 +107,18 @@ void KfmMainWindow::createFileMenu( OPMenuBar* _menubar )
     m_pFileMenu = 0L;
     return;
   }
-  
-  // Usual Qt way of dealing with menus. We dont have to go the
-  // CORBA way here, because the menubar is ours. That means it runs
-  // in the same process.
-  m_pFileMenu = new OPMenu( _menubar );
 
-  QPopupMenu *go = new QPopupMenu;
-  go->insertItem( i18n("&Cache"), m_pPart, SLOT(slotShowCache()) );
-  go->insertItem( i18n("&History"), m_pPart, SLOT(slotShowHistory()) );
-  
-  m_pFileMenu->insertSeparator();
-  m_pFileMenu->insertItem( i18n("New &Window"), m_pPart, SLOT(slotNewWindow()) );
-  m_pFileMenu->insertSeparator();
-  m_pFileMenu->insertItem( i18n("&Run..."), m_pPart, SLOT(slotRun()) );
-  m_pFileMenu->insertItem( i18n("Open &Terminal"), m_pPart, SLOT(slotTerminal()), CTRL+Key_T );
-  m_pFileMenu->insertSeparator();
-  m_pFileMenu->insertItem( i18n("&Goto"), go );
-  m_pFileMenu->insertItem( i18n("&Open Location..."), m_pPart, SLOT(slotOpenLocation()), CTRL+Key_L );
-  m_pFileMenu->insertItem( i18n("&Find"), m_pPart, SLOT(slotToolFind()) );
-  m_pFileMenu->insertSeparator();
-  m_pFileMenu->insertItem( i18n("&Print..."), m_pPart, SLOT(slotPrint()) );
-  m_pFileMenu->insertSeparator();
-  m_pFileMenu->insertItem( i18n("&Close"), m_pPart, SLOT(slotClose()), CTRL+Key_W );
+  m_pFileMenu = _menubar->fileMenu();
+  if ( m_pFileMenu == 0L ) //this should _not_ happen in Konqueror...
+  {
+    m_pFileMenu = new OPMenu( _menubar );
+    
+    _menubar->insertItem( i18n("&File"), m_pFileMenu );
+  }
+  else
+    m_pFileMenu->insertSeparator();
+    
   m_pFileMenu->insertItem( i18n("&Quit..."), this, SLOT(slotQuit()), CTRL+Key_Q );
-  
-/*  
-  m_idMenuFile_OpenURL = m_pFileMenu->insertItem( Icon( "filenew.xpm" ),
-						 i18n( "&Open Location" ), this,
-						 SLOT( slotUpdate() ),
-						 CTRL + Key_O );
-  m_pFileMenu->insertSeparator(-1);
-  
-  m_idMenuFile_Quit = m_pFileMenu->insertItem( i18n( "&Quit" ), this,
-					       SLOT( slotQuit() ),
-					       CTRL + Key_Q );
-*/
-
-  _menubar->insertItem( i18n( "&File" ), m_pFileMenu );
 }
 
 void KfmMainWindow::createHelpMenu( OPMenuBar* _menubar )

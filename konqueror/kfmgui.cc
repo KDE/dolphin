@@ -69,6 +69,8 @@ KfmGui::KfmGui( const char *_url, QWidget *_parent = 0L ) : QWidget( _parent )
 
   m_strTmpURL = _url;
   
+  m_vMenuFile = 0L;
+  m_vMenuFileNew = 0L;
   m_vMenuEdit = 0L;
   m_vMenuView = 0L;
   m_vMenuBookmarks = 0L;
@@ -197,6 +199,8 @@ bool KfmGui::mappingCreateMenubar( OpenPartsUI::MenuBar_ptr menuBar )
 {
   if ( CORBA::is_nil( menuBar ) )
   {
+    m_vMenuFile = 0L;
+    m_vMenuFileNew = 0L;
     m_vMenuEdit = 0L;
     m_vMenuView = 0L;
     m_vMenuBookmarks = 0L;
@@ -205,6 +209,33 @@ bool KfmGui::mappingCreateMenubar( OpenPartsUI::MenuBar_ptr menuBar )
     return true;
   }
 
+  CORBA::Long m_idMenuFile = menuBar->insertMenu( i18n("&File"), m_vMenuFile, -1, -1 );
+  
+  m_vMenuFile->insertItem8( i18n("&New"), m_vMenuFileNew, -1, -1 );
+  //TODO: ...fill 
+  
+  m_vMenuFile->insertItem( i18n("New &Window"), this, "slotNewWindow", 0 );
+  m_vMenuFile->insertSeparator( -1 );
+  m_vMenuFile->insertItem( i18n("&Run..."), this, "slotRun", 0 );
+  m_vMenuFile->insertItem( i18n("Open &Terminal"), this, "slotTerminal", CTRL+Key_T );
+  m_vMenuFile->insertSeparator( -1 );
+  
+  OpenPartsUI::Menu_var m_vMenuFileGoto;
+  
+  m_vMenuFile->insertItem8( i18n("&Goto"), m_vMenuFileGoto, -1, -1 );
+  
+  m_vMenuFileGoto->insertItem( i18n("&Cache"), this, "slotShowCache", 0 );
+  m_vMenuFileGoto->insertItem( i18n("&History"), this, "slotShowHistory", 0 );
+  
+  m_vMenuFile->insertItem( i18n("&Open Location..."), this, "slotOpenLocation", CTRL+Key_L );
+  m_vMenuFile->insertItem( i18n("&Find"), this, "slotToolFind", CTRL+Key_F );
+  m_vMenuFile->insertSeparator( -1 );
+  m_vMenuFile->insertItem( i18n("&Print..."), this, "slotPrint", 0 );
+  m_vMenuFile->insertSeparator( -1 );
+  m_vMenuFile->insertItem( i18n("&Close"), this, "slotClose", CTRL+Key_W );
+  
+  menuBar->setFileMenu( m_idMenuFile );
+  
   menuBar->insertMenu( i18n("&Edit"), m_vMenuEdit, -1, -1 );
 
   m_vMenuEdit->insertItem( i18n("&Copy"), this, "slotCopy", CTRL+Key_C );  
