@@ -20,6 +20,7 @@
 #include "konq_textview.h"
 #include "konq_textviewitems.h"
 #include "konq_textviewwidget.h"
+#include "konq_htmlsettings.h"
 
 #include <stdlib.h>
 
@@ -30,6 +31,7 @@
 #include <kdebug.h>
 #include <kdirlister.h>
 #include <kglobal.h>
+#include <kglobalsettings.h>
 #include <kio/job.h>
 #include <kio/paste.h>
 #include <klocale.h>
@@ -170,9 +172,9 @@ void KonqTextViewWidget::initConfig()
 
    setFont(QFont ( stdFontName, fontSize ));
 
-   m_bSingleClick       = m_pSettings->singleClick();
+   m_bSingleClick       = KGlobalSettings::singleClick();
    m_bUnderlineLink     = m_pSettings->underlineLink();
-   m_bChangeCursor      = m_pSettings->changeCursor();
+   m_bChangeCursor      = KonqHTMLSettings::defaultHTMLSettings()->changeCursor();
 }
 
 void KonqTextViewWidget::viewportDragMoveEvent( QDragMoveEvent *_ev )
@@ -388,7 +390,7 @@ void KonqTextViewWidget::viewportMouseMoveEvent( QMouseEvent *_mouse )
    int y = _mouse->pos().y();
 
    //is it dnd ?
-   if ( abs( x - m_pressedPos.x() ) > KGlobal::dndEventDelay() || abs( y - m_pressedPos.y() ) > KGlobal::dndEventDelay() )
+   if ( abs( x - m_pressedPos.x() ) > KGlobalSettings::dndEventDelay() || abs( y - m_pressedPos.y() ) > KGlobalSettings::dndEventDelay() )
    {
       // Collect all selected items
       QStrList urls;

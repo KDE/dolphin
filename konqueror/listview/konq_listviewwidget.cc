@@ -20,6 +20,7 @@
 #include "konq_listview.h"
 #include "konq_listviewitems.h"
 #include "konq_listviewwidget.h"
+#include "konq_htmlsettings.h"
 
 #include <qdragobject.h>
 #include <qheader.h>
@@ -29,6 +30,7 @@
 #include <kdirlister.h>
 #include <kdirwatch.h>
 #include <kglobal.h>
+#include <kglobalsettings.h>
 #include <kio/job.h>
 #include <kio/paste.h>
 #include <konqoperations.h>
@@ -225,9 +227,9 @@ void KonqListViewWidget::initConfig()
   QFont font( stdFontName, fontSize );
   setFont( font );
 
-  m_bSingleClick       = m_pSettings->singleClick();
+  m_bSingleClick       = KGlobalSettings::singleClick();
   m_bUnderlineLink     = m_pSettings->underlineLink();
-  m_bChangeCursor      = m_pSettings->changeCursor();
+  m_bChangeCursor      = KonqHTMLSettings::defaultHTMLSettings()->changeCursor();
 }
 
 void KonqListViewWidget::viewportDragMoveEvent( QDragMoveEvent *_ev )
@@ -426,7 +428,7 @@ void KonqListViewWidget::viewportMouseMoveEvent( QMouseEvent *_mouse )
     int y = _mouse->pos().y();
 
     //Is it time to start a drag?
-    if ( abs( x - m_pressedPos.x() ) > KGlobal::dndEventDelay() || abs( y - m_pressedPos.y() ) > KGlobal::dndEventDelay() )
+    if ( abs( x - m_pressedPos.x() ) > KGlobalSettings::dndEventDelay() || abs( y - m_pressedPos.y() ) > KGlobalSettings::dndEventDelay() )
     {
       // Collect all selected items
       QStrList urls;

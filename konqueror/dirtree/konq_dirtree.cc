@@ -25,6 +25,7 @@
 #include <konqoperations.h>
 #include <kio/paste.h>
 #include <kglobal.h>
+#include <kglobalsettings.h>
 #include <kdesktopfile.h>
 #include <konqsettings.h>
 #include <kparts/factory.h>
@@ -412,7 +413,7 @@ void KonqDirTree::contentsMousePressEvent( QMouseEvent *e )
 
 void KonqDirTree::contentsMouseMoveEvent( QMouseEvent *e )
 {
-  if ( !m_bDrag || ( e->pos() - m_dragPos ).manhattanLength() <= KGlobal::dndEventDelay() )
+  if ( !m_bDrag || ( e->pos() - m_dragPos ).manhattanLength() <= KGlobalSettings::dndEventDelay() )
     return;
 
   m_bDrag = false;
