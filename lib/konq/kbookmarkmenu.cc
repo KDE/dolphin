@@ -191,7 +191,8 @@ void KBookmarkMenu::fillBookmarkMenu()
     m_parentMenu->insertSeparator();
   }
 
-  if ( m_bIsRoot )
+  if ( m_bIsRoot && KBookmarkManager::self()->showNSBookmarks()
+     && QFile::exists( QDir::homeDirPath() + "/.netscape/bookmarks.html") )
     {
       KActionMenu * actionMenu = new KActionMenu( i18n("Netscape Bookmarks"), "netscape",
                                                   m_actionCollection, 0L );
@@ -333,7 +334,7 @@ void KBookmarkMenu::slotNSLoad()
 void KBookmarkMenuNSImporter::openNSBookmarks()
 {
   mstack.push(m_menu);
-  KNSBookmarkImporter importer;
+  KNSBookmarkImporter importer(QDir::homeDirPath() + "/.netscape/bookmarks.html");
   connect( &importer, SIGNAL( newBookmark( const QString &, const QCString & ) ),
            SLOT( newBookmark( const QString &, const QCString & ) ) );
   connect( &importer, SIGNAL( newFolder( const QString & ) ),

@@ -149,7 +149,7 @@ void KBookmarkImporter::parseBookmark( QDomElement & parentElem, QCString _text,
 
 void KNSBookmarkImporter::parseNSBookmarks()
 {
-    QFile f(QDir::homeDirPath() + "/.netscape/bookmarks.html");
+    QFile f(m_fileName);
     QRegExp amp("&amp;");
     QRegExp lt("&lt;");
     QRegExp gt("&gt;");

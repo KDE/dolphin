@@ -138,6 +138,17 @@ protected:
 class KBookmarkGroup : public KBookmark
 {
 public:
+    /**
+     * Create an invalid group. This is mostly for use in QValueList,
+     * and other places where we need a null group.
+     * Also used as a parent for a bookmark that doesn't have one
+     * (e.g. Netscape bookmarks)
+     */
+    KBookmarkGroup();
+
+    /**
+     * Create a bookmark group as specified by the given element
+     */
     KBookmarkGroup( QDomElement elem );
 
     /**
@@ -189,13 +200,6 @@ public:
      * @internal
      */
     QDomElement findToolbar() const;
-
-    /**
-     * Convenience method for creating a null bookmark group.
-     * Used for instance as a parent for a bookmark that doesn't have one
-     * (e.g. Netscape bookmarks)
-     */
-    static KBookmarkGroup null() { return KBookmarkGroup(QDomElement()); }
 
 private:
     mutable QString m_address;

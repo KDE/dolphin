@@ -29,6 +29,11 @@
 #include <klocale.h>
 #include <assert.h>
 
+KBookmarkGroup::KBookmarkGroup()
+ : KBookmark( QDomElement() )
+{
+}
+
 KBookmarkGroup::KBookmarkGroup( QDomElement elem )
  : KBookmark(elem)
 {
@@ -65,7 +70,7 @@ KBookmarkGroup KBookmarkGroup::createNewFolder( const QString & text )
         if ( l.exec() )
             txt = l.text();
         else
-            return KBookmarkGroup::null();
+            return KBookmarkGroup();
     }
 
     ASSERT(!element.isNull());

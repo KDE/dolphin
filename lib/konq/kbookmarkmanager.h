@@ -84,7 +84,7 @@ public:
      *
      * @return the root (top-level) bookmark
      */
-    KBookmarkGroup root();
+    KBookmarkGroup root() const;
 
     /**
      * This returns the root of the toolbar menu.
@@ -104,6 +104,12 @@ public:
      * @internal (for KBookmarkGroup)
      */
     void emitChanged( KBookmarkGroup & group );
+
+    /**
+     * @return true if the NS bookmarks should be dynamically shown
+     * in the toplevel kactionmenu
+     */
+    bool showNSBookmarks() const;
 
     /**
      * This static function will return an instance of the

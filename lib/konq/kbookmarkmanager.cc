@@ -156,7 +156,7 @@ bool KBookmarkManager::save()
     return true;
 }
 
-KBookmarkGroup KBookmarkManager::root()
+KBookmarkGroup KBookmarkManager::root() const
 {
     return KBookmarkGroup(m_doc.documentElement());
 }
@@ -228,6 +228,12 @@ void KBookmarkManager::notifyChanged( QString groupAddress ) // DCOP call
     //KBookmarkGroup group = findByAddress( groupAddress ).toGroup();
     //ASSERT(!group.isNull());
     emit changed( groupAddress );
+}
+
+bool KBookmarkManager::showNSBookmarks() const
+{
+    // The attr name is HIDE, so that the default is to show them
+    return root().internalElement().attribute("HIDE_NSBK") != "1";
 }
 
 void KBookmarkManager::slotEditBookmarks()

@@ -52,7 +52,7 @@ class KNSBookmarkImporter : public QObject
 {
     Q_OBJECT
 public:
-    KNSBookmarkImporter() {}
+    KNSBookmarkImporter( const QString & fileName ) : m_fileName(fileName) {}
     ~KNSBookmarkImporter() {}
 
     // go for it
@@ -83,6 +83,8 @@ signals:
      */
     void endMenu();
 
+protected:
+    QString m_fileName;
 };
 
 // TODO a NS bookmark export facility
