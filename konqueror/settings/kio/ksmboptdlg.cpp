@@ -336,9 +336,9 @@ KSMBOptions::Item::Item(const QString &e, const QString& h, const QString& l, co
 QString KSMBOptions::build_string(const QString& server, const QString& share, const QString& login, const QString& password)
 {
 	QString text;
-	if (!server.isEmpty()) text += i18n("server") + ": " + server;
-	if (!share.isEmpty()) text += ", " + i18n("share") + ": " + share;
-	if (!login.isEmpty()) text += ", " + i18n("login") + ": " + login;
+	if (!server.isEmpty()) text += i18n("server: ") + server;
+	if (!share.isEmpty()) text += ", " + i18n("share: ") + share;
+	if (!login.isEmpty()) text += ", " + i18n("login: ") + login;
 	if (!password.isEmpty()) text += " (" + i18n("with password") + ")";
 	return text;
 }
