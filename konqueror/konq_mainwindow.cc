@@ -1471,7 +1471,7 @@ void KonqMainWindow::slotConfigureKeys()
 
   dlg.insert( actionCollection() );
   if ( currentPart() )
-    dlg.insert( currentPart()->actionCollection() );
+    dlg.insert( currentPart()->actionCollection(), m_currentView->service()->name() );
 
   dlg.configure();
 }
