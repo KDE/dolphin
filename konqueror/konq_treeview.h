@@ -21,7 +21,6 @@
 #define __konq_treeview_h__
 
 #include "browser.h"
-#include "konq_defs.h"
 
 #include <qvaluelist.h>
 #include <qlistview.h>

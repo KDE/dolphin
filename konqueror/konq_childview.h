@@ -22,7 +22,6 @@
 #ifndef __konq_childview_h__
 #define __konq_childview_h__ "$Id$"
 
-#include "konq_defs.h"
 #include "konq_mainview.h"
 #include "browser.h"
 
@@ -31,6 +30,9 @@
 #include <qobject.h>
 #include <qstringlist.h>
 #include <qguardedptr.h>
+#include <qcstring.h>
+
+#include <ktrader.h>
 
 class KonqRun;
 class KonqFrame;
@@ -56,7 +58,8 @@ public:
   KonqChildView( BrowserView *view,
 		 KonqFrame* viewFrame,
 		 KonqMainView * mainView,
-		 const QStringList &serviceTypes );
+		 const KService::Ptr &service,
+		 const KTrader::OfferList &serviceOffers );
 
   ~KonqChildView();
 
@@ -82,13 +85,10 @@ public:
   /**
    * Replace the current view vith _vView
    */
-  void switchView( BrowserView *pView, const QStringList &serviceTypes );
+  void switchView( BrowserView *pView );
 
   bool changeViewMode( const QString &serviceType, const QString &url = QString::null,
-                       bool useMiscURLData = true, 
-	               Konqueror::DirectoryDisplayMode dirMode = Konqueror::LargeIcons );
-  void changeView( BrowserView *pView, const QStringList &serviceTypes, 
-                   const QString &url = QString::null );
+                       bool useMiscURLData = true, const QString &serviceName = QString::null );
   
   /**
    * Call this to prevent next makeHistory() call from changing history lists
@@ -165,12 +165,14 @@ public:
   void setAllowHTML( bool allow ) { m_bAllowHTML = allow; }
   bool allowHTML() const { return m_bAllowHTML; }
 
+  QString serviceType() { return m_serviceType; }
+
   /**
    * Returns the Servicetypes this view is capable to display
    */
-  QStringList serviceTypes() { return m_lstServiceTypes; }
+  QStringList serviceTypes() { return m_service->serviceTypes(); }
   
-  bool supportsServiceType( const QString &serviceType ) { return m_lstServiceTypes.contains( serviceType ); }
+  bool supportsServiceType( const QString &serviceType ) { return serviceTypes().contains( serviceType ); }
 
   void setMiscURLData( bool reload, int xOffset, int yOffset )
   {
@@ -193,6 +195,10 @@ public:
 
   bool supportsProgressIndication() const { return m_bProgressSignals; }
 
+  KService::Ptr service() { return m_service; }
+
+  KTrader::OfferList serviceOffers() { return m_serviceOffers; }
+  
   KonqMainView *mainView() const { return m_pMainView; }
 
 signals:
@@ -213,10 +219,9 @@ protected:
   struct HistoryEntry
   {
     QString strURL;
-    int xOffset;
-    int yOffset;
+    QByteArray buffer;
     QString strServiceType;
-    Konqueror::DirectoryDisplayMode eDirMode;
+    QString strServiceName;
   };
 
   void go( QList<HistoryEntry> &stack, int steps );
@@ -237,7 +242,6 @@ protected:
   bool m_bHistoryLock;
     
   KonqMainView *m_pMainView;
-  QStringList m_lstServiceTypes;
   bool m_bAllowHTML;
   QGuardedPtr<KonqRun> m_pRun;
   bool m_bReloadURL;
@@ -248,6 +252,9 @@ protected:
   int m_iProgress;
   bool m_bPassiveMode;
   bool m_bProgressSignals;
+  KTrader::OfferList m_serviceOffers;
+  KService::Ptr m_service;
+  QString m_serviceType;
 };
 
 #endif

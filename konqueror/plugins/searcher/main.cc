@@ -118,8 +118,9 @@ KonqSearcherFactory::KonqSearcherFactory(QObject *parent, const char *name) : KL
 KonqSearcherFactory::~KonqSearcherFactory() {
 }
 
-QObject *KonqSearcherFactory::create(QObject *parent, const char *, const char*) {
-    return new KonqSearcher(parent);
+QObject *KonqSearcherFactory::create( QObject *parent, const char *, const char*, const QStringList & )
+{
+  return new KonqSearcher( parent );
 }
 
 KInstance *KonqSearcherFactory::instance() {

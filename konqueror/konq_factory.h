@@ -25,14 +25,14 @@
 #include <qstring.h>
 #include <qstringlist.h>
 
-#include "konq_defs.h"
-
 #include <klibloader.h>
 #include <kinstance.h>
+#include <ktrader.h>
 
 class BrowserView;
 class KonqBookmarkManager;
 class KonqFileManager;
+class KonqMainView;
 
 class KonqFactory : public KLibFactory
 {
@@ -42,10 +42,12 @@ public:
   virtual ~KonqFactory();
 
   static BrowserView *createView( const QString &serviceType,
-			          QStringList &serviceTypes,
-				  Konqueror::DirectoryDisplayMode dirMode = Konqueror::LargeIcons );
+				  const QString &serviceName = QString::null,
+				  KService::Ptr *serviceImpl = 0,
+				  KTrader::OfferList *serviceOffers = 0 );
+				  
 
-  virtual QObject* create( QObject* parent = 0, const char* name = 0, const char* classname = "QObject" );
+  virtual QObject* create( QObject* parent = 0, const char* name = 0, const char* classname = "QObject", const QStringList &args = QStringList() );
 
   static KInstance *instance();				
 

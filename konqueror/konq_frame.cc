@@ -32,7 +32,6 @@
 
 #include "konq_frame.h"
 #include "konq_childview.h"
-#include "konq_iconview.h"
 #include "browser.h"
 
 #include <assert.h>
@@ -431,34 +430,7 @@ KonqFrame::saveConfig( KConfig* config, const QString &prefix, int /*id*/, int /
 {
   config->writeEntry( QString::fromLatin1( "URL" ).prepend( prefix ), childView()->url() );
   config->writeEntry( QString::fromLatin1( "ServiceType" ).prepend( prefix ), childView()->serviceTypes().first() );
-    
-  if ( childView()->supportsServiceType( "inode/directory" ) )
-  {
-    QString strDirMode;
-    
-    BrowserView *pView = childView()->view();
-      
-    if ( pView->inherits( "KonqTreeView" ) )
-      strDirMode = "TreeView";
-    else
-    {
-      switch ( ((KonqKfmIconView *)pView)->viewMode() )
-      {
-        case Konqueror::LargeIcons:
-  	  strDirMode = "LargeIcons";
-	  break;
-        case Konqueror::SmallIcons:
-	  strDirMode = "SmallIcons";
-	  break;
-        case Konqueror::SmallVerticalIcons:
-	  strDirMode = "SmallVerticalIcons";
-	  break;
-        default: assert( 0 );
-      }	
-    }
-      
-    config->writeEntry( QString::fromLatin1( "DirectoryMode" ).prepend( prefix ), strDirMode );
-  }
+  config->writeEntry( QString::fromLatin1( "ServiceName" ).prepend( prefix ), childView()->service()->name() );
 }
 
 void

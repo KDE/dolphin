@@ -1,7 +1,7 @@
 [Desktop Entry]
 Type=Service
 Exec=blahfoo
-Comment=Embeddable Treeview
+Comment=TreeView
 MimeType=inode/directory
 Name=KonqTreeView
 ServiceTypes=Browser/View

@@ -57,7 +57,7 @@ class KonqTreeViewFactory : public KLibFactory
 public:
   KonqTreeViewFactory() {}
   
-  virtual QObject* create( QObject*, const char*, const char* )
+  virtual QObject* create( QObject*, const char*, const char*, const QStringList & )
   {
     QObject *obj = new KonqTreeView;
     emit objectCreated( obj );

@@ -1,7 +1,7 @@
 [Desktop Entry]
 Type=Service
 Exec=blahfoo
-Comment=Embeddable Iconview
+Comment=Iconview
 MimeType=inode/directory
 Name=KonqKfmIconView
 ServiceTypes=Browser/View

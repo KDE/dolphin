@@ -20,7 +20,6 @@
 #define __konq_iconview_h__
 
 #include "browser.h"
-#include "konq_defs.h"
 
 #include <qiconview.h>
 #include <qtimer.h>
@@ -124,6 +123,9 @@ public:
   virtual int yOffset();
   virtual void stop();
 
+  virtual void saveState( QDataStream &stream );
+  virtual void restoreState( QDataStream &stream );
+
   KIconView *iconView() const { return m_pIconView; }
 
 /*
@@ -146,8 +148,12 @@ public slots:
   void slotSortBySize();
   void slotSetSortDirectionDescending();
 
-  virtual void setViewMode( Konqueror::DirectoryDisplayMode mode );
-  virtual Konqueror::DirectoryDisplayMode viewMode();
+  void slotViewLarge( bool b );
+  void slotViewNormal( bool b );
+  void slotViewSmall( bool b );
+  
+  void slotTextBottom( bool b );
+  void slotTextRight( bool b );
 
 protected slots:
   // slots connected to QIconView

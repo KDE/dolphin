@@ -52,7 +52,7 @@ class KonqHTMLViewFactory : public KLibFactory
 public:
   KonqHTMLViewFactory() {}
   
-  virtual QObject* create( QObject*, const char*, const char* )
+  virtual QObject* create( QObject*, const char*, const char*, const QStringList & )
   {
     QObject *obj = new KonqHTMLView;
     emit objectCreated( obj );

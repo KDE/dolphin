@@ -57,10 +57,40 @@ class KonqIconViewFactory : public KLibFactory
 public:
   KonqIconViewFactory() {}
   
-  virtual QObject* create( QObject*, const char*, const char* )
+  virtual QObject* create( QObject*, const char*, const char*, const QStringList &args )
   {
-    QObject *obj = new KonqKfmIconView;
+    KonqKfmIconView *obj = new KonqKfmIconView;
     emit objectCreated( obj );
+    
+    QStringList::ConstIterator it = args.begin();
+    QStringList::ConstIterator end = args.end();
+    uint i = 1;
+    for (; it != end; ++it, ++i )
+      if ( *it == "-viewMode" && i <= args.count() )
+      {
+        ++it;
+	
+	QIconView *iconView = obj->iconView();
+	
+	if ( *it == "LargeIcons" )
+	{
+	  iconView->setViewMode( QIconSet::Large );
+	  iconView->setItemTextPos( QIconView::Bottom );
+	}
+	else if ( *it == "SmallIcons" )
+	{
+	  iconView->setViewMode( QIconSet::Small );
+	  iconView->setItemTextPos( QIconView::Bottom );
+	}
+	else if ( *it == "SmallVerticalIcons" )
+	{
+	  iconView->setViewMode( QIconSet::Small );
+	  iconView->setItemTextPos( QIconView::Right );
+	}
+
+        break;
+      }
+    
     return obj;
   }
 
@@ -360,8 +390,42 @@ KonqKfmIconView::KonqKfmIconView()
   m_paSelectAll = new KAction( i18n( "Select &All" ), 0, this, SLOT( slotSelectAll() ), this );
   m_paUnselectAll = new KAction( i18n( "U&nselect All" ), 0, this, SLOT( slotUnselectAll() ), this );
 
+  KToggleAction *aLargeIcons = new KToggleAction( i18n( "&Large View" ), 0, this );
+  KToggleAction *aNormalIcons = new KToggleAction( i18n( "&Normal View" ), 0, this );
+  KToggleAction *aSmallIcons = new KToggleAction( i18n( "&Small View" ), 0, this );
+ 
+  aLargeIcons->setExclusiveGroup( "ViewMode" );
+  aNormalIcons->setExclusiveGroup( "ViewMode" );
+  aSmallIcons->setExclusiveGroup( "ViewMode" );
+  
+  aLargeIcons->setChecked( true );
+  aNormalIcons->setChecked( false );
+  aSmallIcons->setChecked( false );
+  
+  KToggleAction *aBottomText = new KToggleAction( i18n( "Text at the &bottom" ), 0, this, SLOT( slotTextBottom() ), this );
+  KToggleAction *aRightText = new KToggleAction( i18n( "Text at the &right" ), 0, this, SLOT( slotTextRight() ), this );
+
+  aBottomText->setExclusiveGroup( "TextPos" );
+  aRightText->setExclusiveGroup( "TextPos" );
+  
+  aBottomText->setChecked( true );
+  aRightText->setChecked( false );
+  
+  connect( aLargeIcons, SIGNAL( toggled( bool ) ), this, SLOT( slotViewLarge( bool ) ) );
+  connect( aNormalIcons, SIGNAL( toggled( bool ) ), this, SLOT( slotViewNormal( bool ) ) );
+  connect( aSmallIcons, SIGNAL( toggled( bool ) ), this, SLOT( slotViewSmall( bool ) ) );
+
+  connect( aBottomText, SIGNAL( toggled( bool ) ), this, SLOT( slotTextBottom( bool ) ) );
+  connect( aRightText, SIGNAL( toggled( bool ) ), this, SLOT( slotTextRight( bool ) ) );
+
   actions()->append( BrowserView::ViewAction( m_paDotFiles, BrowserView::MenuView ) );
   actions()->append( BrowserView::ViewAction( m_pamSort, BrowserView::MenuView ) );
+  
+  actions()->append( BrowserView::ViewAction( new QActionSeparator( this ), BrowserView::MenuView ) );
+
+  actions()->append( BrowserView::ViewAction( aLargeIcons, BrowserView::MenuView ) );
+  actions()->append( BrowserView::ViewAction( aNormalIcons, BrowserView::MenuView ) );
+  actions()->append( BrowserView::ViewAction( aSmallIcons, BrowserView::MenuView ) );
 
   actions()->append( BrowserView::ViewAction( m_paSelect, BrowserView::MenuEdit ) );
   actions()->append( BrowserView::ViewAction( m_paUnselect, BrowserView::MenuEdit ) );
@@ -400,6 +464,7 @@ KonqKfmIconView::KonqKfmIconView()
 
   m_pIconView->setSelectionMode( QIconView::Multi );
   m_pIconView->setViewMode( QIconSet::Large );
+  m_pIconView->setItemTextPos( QIconView::Bottom );
   m_pIconView->setResizeMode( QIconView::Adjust );
   m_pIconView->setGridX( 70 );
   m_pIconView->setGridY( 70 );
@@ -582,41 +647,62 @@ void KonqKfmIconView::slotSetSortDirectionDescending()
   m_pIconView->sortItems( m_pIconView->sortOrder() );
 }
 
-void KonqKfmIconView::setViewMode( Konqueror::DirectoryDisplayMode mode )
+void KonqKfmIconView::slotViewLarge( bool b )
 {
-
-  switch ( mode )
-  {
-    case Konqueror::LargeIcons:
-      m_pIconView->setViewMode( QIconSet::Large );
-      m_pIconView->setItemTextPos( QIconView::Bottom );
-      break;
-    case Konqueror::SmallIcons:
-      m_pIconView->setViewMode( QIconSet::Small );
-      m_pIconView->setItemTextPos( QIconView::Bottom );
-      break;
-    case Konqueror::SmallVerticalIcons:
-      m_pIconView->setViewMode( QIconSet::Small );
-      m_pIconView->setItemTextPos( QIconView::Right );
-      break;
-    default: assert( 0 );
-  }
+  if ( b )
+    m_pIconView->setViewMode( QIconSet::Large );
 }
 
-Konqueror::DirectoryDisplayMode KonqKfmIconView::viewMode()
+void KonqKfmIconView::slotViewNormal( bool b )
 {
-  if ( m_pIconView->viewMode() == QIconSet::Large )
-    return Konqueror::LargeIcons;
-  else if ( m_pIconView->itemTextPos() == QIconView::Bottom )
-    return Konqueror::SmallIcons;
-  else
-    return Konqueror::SmallVerticalIcons;
+  if ( b )
+    m_pIconView->setViewMode( QIconSet::Automatic );
+}
+
+void KonqKfmIconView::slotViewSmall( bool b )
+{
+  if ( b )
+    m_pIconView->setViewMode( QIconSet::Small );
+}
+  
+void KonqKfmIconView::slotTextBottom( bool b )
+{
+  if ( b )
+    m_pIconView->setItemTextPos( QIconView::Bottom );
+}
+
+void KonqKfmIconView::slotTextRight( bool b )
+{
+  if ( b )
+    m_pIconView->setItemTextPos( QIconView::Right );
 }
 
 void KonqKfmIconView::stop()
 {
   debug("KonqKfmIconView::stop()");
   if ( m_dirLister ) m_dirLister->stop();
+}
+
+void KonqKfmIconView::saveState( QDataStream &stream )
+{
+  BrowserView::saveState( stream );
+  
+  stream << (Q_INT32)m_pIconView->viewMode() << (Q_INT32)m_pIconView->itemTextPos();
+}
+
+void KonqKfmIconView::restoreState( QDataStream &stream )
+{
+  BrowserView::restoreState( stream );
+  
+  Q_INT32 iIconSize, iTextPos;
+  
+  stream >> iIconSize >> iTextPos;
+
+  QIconSet::Size iconSize = (QIconSet::Size)iIconSize;
+  QIconView::ItemTextPos textPos = (QIconView::ItemTextPos)iTextPos;
+  
+  m_pIconView->setViewMode( iconSize );
+  m_pIconView->setItemTextPos( textPos );
 }
 
 QString KonqKfmIconView::url()

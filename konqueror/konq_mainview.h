@@ -77,10 +77,7 @@ public slots:
   //void slotDelete();
 
   // View menu
-  void slotLargeIcons();
-  void slotSmallIcons();
-  void slotSmallVerticalIcons();
-  void slotTreeView();
+  void slotViewModeToggle( bool toggle );
   void slotShowHTML();
   void slotReload();
   void slotStop();
@@ -260,15 +257,13 @@ private:
 
   KonqComboAction *m_paURLCombo;
 
-  KToggleAction *m_ptaLargeIcons;
-  KToggleAction *m_ptaSmallIcons;
-  KToggleAction *m_ptaSmallVerticalIcons;
-  KToggleAction *m_ptaTreeView;
-  
   KToggleAction *m_ptaUseHTML;
-  
+
   bool m_bMenuEditDirty;
   bool m_bMenuViewDirty;
+
+  QList<KToggleAction> m_viewModeActions;
+  bool m_bViewModeLock;
 
   typedef QMap<BrowserView *, KonqChildView *> MapViews;
   

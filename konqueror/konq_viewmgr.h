@@ -25,7 +25,7 @@
 #include <qmap.h>
 #include <qguardedptr.h>
 
-#include "konq_defs.h"
+#include <ktrader.h>
 
 class QString;
 class QStringList;
@@ -56,7 +56,8 @@ public:
    */
   void splitView( Qt::Orientation orientation,
 		  BrowserView *newView,
-		  const QStringList &newViewServiceTypes );
+		  const KService::Ptr &service,
+		  const KTrader::OfferList &serviceOffers );
 
   /**
    * Guess!:-)
@@ -91,7 +92,10 @@ private:
    * Mainly creates the the backend structure(KonqChildView) for a view and
    * connects it
    */
-  void setupView( KonqFrameContainer *parentContainer, BrowserView *view, const QStringList &serviceTypes );
+  void setupView( KonqFrameContainer *parentContainer, 
+                  BrowserView *view, 
+		  const KService::Ptr &service,
+		  const KTrader::OfferList &serviceOffers );
   
   KonqMainView *m_pMainView;
   

@@ -1,7 +1,7 @@
 [Desktop Entry]
 Type=Service
 Exec=blahfoo
-Comment=Embeddable HTMLView
+Comment=HTMLView
 MimeType=text/html
 Name=KonqHTMLView
 ServiceTypes=Browser/View

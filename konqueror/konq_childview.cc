@@ -22,7 +22,6 @@
 #include "konq_propsview.h"
 #include "konq_factory.h"
 #include "konq_run.h"
-#include "konq_iconview.h"
 
 #include <assert.h>
 
@@ -31,7 +30,8 @@
 KonqChildView::KonqChildView( BrowserView *view, 
 			      KonqFrame* viewFrame,
 			      KonqMainView *mainView,
-			      const QStringList &serviceTypes
+			      const KService::Ptr &service,
+			      const KTrader::OfferList &serviceOffers
                               )
 {
   m_pKonqFrame = viewFrame;
@@ -46,7 +46,23 @@ KonqChildView::KonqChildView( BrowserView *view,
 
   attach( view );
 
-  m_lstServiceTypes = serviceTypes;
+  m_service = service;
+  m_serviceOffers = serviceOffers;
+  
+  QStringList serviceTypes = m_service->serviceTypes();
+  QStringList::ConstIterator serviceTypeIt = serviceTypes.begin();
+  while ( serviceTypeIt != serviceTypes.end() )
+  {
+    if ( *serviceTypeIt != "Browser/View" )
+      break;
+    serviceTypeIt++;
+  }      
+
+  if ( *serviceTypeIt == "Browser/View" )
+    qFatal( "invalid history entry! we're missing a proper servicetype!" );
+  
+  m_serviceType = *serviceTypeIt;
+  
   m_bAllowHTML = KonqPropsView::defaultProps()->isHTMLAllowed();
   m_lstBack.setAutoDelete( true );
   m_lstForward.setAutoDelete( true );
@@ -76,27 +92,16 @@ void KonqChildView::attach( BrowserView *view )
   m_pKonqFrame->show();
   m_pKonqFrame->attach( view );
 
-//  KonqPlugins::installKOMPlugins( view );
 }
 
 void KonqChildView::detach()
 {
-//  m_pKonqFrame->hide();
   m_pKonqFrame->detach();
   
   QObject *obj = m_pView->child( 0L, "EditExtension" );
   if ( obj )
     obj->disconnect( m_pMainView );
 
-/*
-  if ( m_vView->supportsInterface( "IDL:Browser/EditExtension:1.0" ) )
-  {
-    CORBA::Object_var obj = m_vView->getInterface( "IDL:Browser/EditExtension:1.0" );
-    Browser::EditExtension_var editExtension = Browser::EditExtension::_narrow( obj );
-    editExtension->disconnectObject( m_pMainView );
-  }
-*/
-  
   m_pView->disconnect( m_pMainView );
   delete m_pView;
   m_pView = 0L;
@@ -128,19 +133,17 @@ void KonqChildView::openURL( const QString &url, bool useMiscURLData  )
   m_pMainView->setLocationBarURL( this, url );
 }
 
-void KonqChildView::switchView( BrowserView *pView, const QStringList &serviceTypes )
+void KonqChildView::switchView( BrowserView *pView )
 {
   detach();
   attach( pView );
 
-  m_lstServiceTypes = serviceTypes;
-  
   show(); // switchView is never called on startup. We can always show() the view.
 }
 
 bool KonqChildView::changeViewMode( const QString &serviceType, 
                                     const QString &_url, bool useMiscURLData,
-				    Konqueror::DirectoryDisplayMode dirMode )
+				    const QString &serviceName )
 {
   QString url = _url;
   if ( url.isEmpty() )
@@ -149,47 +152,32 @@ bool KonqChildView::changeViewMode( const QString &serviceType,
   if ( m_bLoading )
     stop();
 
-  //no need to change anything if we are able to display this servicetype
-  if ( m_lstServiceTypes.find( serviceType ) != m_lstServiceTypes.end() &&
-       serviceType != "inode/directory" )
-  {
-    makeHistory( false );
-    openURL( url, useMiscURLData );
-    return true;
-  }
-
-  BrowserView *pView;
-  QStringList serviceTypes;
-  if ( !( pView = KonqFactory::createView( serviceType, serviceTypes, dirMode ) ) )
-   return false;
   makeHistory( false );
-  BrowserView *oldView = m_pView;
-  
-  emit sigViewChanged( oldView, pView );
-  
-  switchView( pView, serviceTypes );
+
+  if ( !m_service->serviceTypes().contains( serviceType ) ||
+       ( !serviceName.isEmpty() && serviceName != m_service->name() ) )
+  {
+
+    BrowserView *pView;
+    KTrader::OfferList serviceOffers;
+    KService::Ptr service;
+    if ( !( pView = KonqFactory::createView( serviceType, serviceName, &service, &serviceOffers ) ) )
+     return false;
+
+    BrowserView *oldView = m_pView;
+
+    m_service = service;
+    m_serviceOffers = serviceOffers;
+    m_serviceType = serviceType;
+
+    emit sigViewChanged( oldView, pView );
+
+    switchView( pView );
+  }
   
   openURL( url, useMiscURLData );
-  
+
   return true;
-}
-
-void KonqChildView::changeView( BrowserView *pView, 
-                                const QStringList &serviceTypes, 
-				const QString &_url )
-{
-  QString url = _url;
-  if ( url.isEmpty() )
-    url = KonqChildView::url();
-    
-  BrowserView *oldView = m_pView;
-
-  emit sigViewChanged( oldView, pView );
-  
-  switchView( pView, serviceTypes );
-  
-  
-  openURL( url );
 }
 
 void KonqChildView::connectView(  )
@@ -231,89 +219,6 @@ void KonqChildView::connectView(  )
   connect( m_pView, SIGNAL( speedProgress( int ) ),
            m_pMainView, SLOT( slotSpeedProgress( int ) ) );
 
-/*
-  try
-  {
-    m_vView->connect("openURL", m_pMainView, "openURL");
-  }
-  catch ( ... )
-  {
-    kdebug(KDEBUG_WARN,1202,"WARNING: view does not know signal ""openURL"" ");
-  }
-  try
-  {
-    m_vView->connect("started", m_pMainView, "slotURLStarted");
-  }
-  catch ( ... )
-  {
-    kdebug(KDEBUG_WARN,1202,"WARNING: view does not know signal ""started"" ");
-  }
-  try
-  {
-    m_vView->connect("completed", m_pMainView, "slotURLCompleted");
-  }
-  catch ( ... )
-  {
-    kdebug(KDEBUG_WARN,1202,"WARNING: view does not know signal ""completed"" ");
-  }
-  try
-  {
-    m_vView->connect("setStatusBarText", m_pMainView, "setStatusBarText");
-  }
-  catch ( ... )
-  {
-    kdebug(KDEBUG_WARN,1202,"WARNING: view does not know signal ""setStatusBarText"" ");
-  }
-  try
-  {
-    m_vView->connect("setLocationBarURL", m_pMainView, "setLocationBarURL");
-  }
-  catch ( ... )
-  {
-    kdebug(KDEBUG_WARN,1202,"WARNING: view does not know signal ""setLocationBarURL"" ");
-  }
-  try
-  {
-    m_vView->connect("createNewWindow", m_pMainView, "createNewWindow");
-  }
-  catch ( ... )
-  {
-    kdebug(KDEBUG_WARN,1202,"WARNING: view does not know signal ""createNewWindow"" ");
-  }
-  try
-  {
-    m_vView->connect("loadingProgress", m_pMainView, "slotLoadingProgress");
-  }
-  catch ( ... )
-  {
-    kdebug(KDEBUG_WARN,1202,"WARNING: view does not know signal ""loadingProgress"" ");
-    m_bProgressSignals = false;
-  }
-  try
-  {
-    m_vView->connect("speedProgress", m_pMainView, "slotSpeedProgress");
-  }
-  catch ( ... )
-  {
-    kdebug(KDEBUG_WARN,1202,"WARNING: view does not know signal ""speedProgress"" ");
-    m_bProgressSignals = false;
-  }
-
-  if ( m_vView->supportsInterface( "IDL:Browser/EditExtension:1.0" ) )
-  {
-    CORBA::Object_var obj = m_vView->getInterface( "IDL:Browser/EditExtension:1.0" );
-    Browser::EditExtension_var editExtension = Browser::EditExtension::_narrow( obj );
-    try
-    {
-      editExtension->connect( "selectionChanged", m_pMainView, "slotSelectionChanged" );
-    }
-    catch ( ... )
-    {
-      kdebug(KDEBUG_WARN,1202,"WARNING: edit extension does not know signal ""selectionChanged"" ");
-    }
-    
-  }
-*/
 }
 
 void KonqChildView::makeHistory( bool pushEntry )
@@ -325,19 +230,19 @@ void KonqChildView::makeHistory( bool pushEntry )
       if ( m_bBack ) 
       {
         m_bBack = false;
-        kdebug(0,1202,"pushing into forward history : %s", m_pCurrentHistoryEntry->strURL.ascii() );
+//        kdebug(0,1202,"pushing into forward history : %s", m_pCurrentHistoryEntry->strURL.ascii() );
         m_lstForward.insert( 0, m_pCurrentHistoryEntry );
       }
       else if ( m_bForward ) 
       {
         m_bForward = false;
-        kdebug(0,1202,"pushing into backward history : %s", m_pCurrentHistoryEntry->strURL.ascii() );
+//        kdebug(0,1202,"pushing into backward history : %s", m_pCurrentHistoryEntry->strURL.ascii() );
         m_lstBack.insert( 0, m_pCurrentHistoryEntry );
       } 
       else 
       {
         m_lstForward.clear();
-        kdebug(0,1202,"pushing into backward history : %s", m_pCurrentHistoryEntry->strURL.ascii() );
+//        kdebug(0,1202,"pushing into backward history : %s", m_pCurrentHistoryEntry->strURL.ascii() );
         m_lstBack.insert( 0, m_pCurrentHistoryEntry );
       }
     }
@@ -348,43 +253,13 @@ void KonqChildView::makeHistory( bool pushEntry )
   if ( pushEntry || !m_pCurrentHistoryEntry )
     m_pCurrentHistoryEntry = new HistoryEntry;
 
+  QDataStream stream( m_pCurrentHistoryEntry->buffer, IO_WriteOnly );
+
+  m_pView->saveState( stream );
+
   m_pCurrentHistoryEntry->strURL = m_pView->url();
-  m_pCurrentHistoryEntry->xOffset = m_pView->xOffset();
-  m_pCurrentHistoryEntry->yOffset = m_pView->yOffset();
-  
-  QStringList::ConstIterator serviceTypeIt = m_lstServiceTypes.begin();
-
-  while ( serviceTypeIt != m_lstServiceTypes.end() )
-  {
-    if ( *serviceTypeIt != "Browser/View" )
-      break;
-    serviceTypeIt++;
-  }      
-
-  if ( *serviceTypeIt == "Browser/View" )
-    qFatal( "invalid history entry! we're missing a proper servicetype!" );
-
-  m_pCurrentHistoryEntry->strServiceType = *serviceTypeIt;
-  
-  if ( m_pCurrentHistoryEntry->strServiceType == "inode/directory" )
-  {
-    if ( m_pView->inherits( "KonqTreeView" ) )
-      m_pCurrentHistoryEntry->eDirMode = Konqueror::TreeView;
-    else
-      m_pCurrentHistoryEntry->eDirMode = ((KonqKfmIconView *)m_pView)->viewMode();
-//    if ( m_vView->supportsInterface( "IDL:Konqueror/KfmTreeView:1.0" ) )
-//#warning FIXME (Simon)
-//  m_pCurrentHistoryEntry->eDirMode = Konqueror::LargeIcons;
-//    if ( m_pView->inherits( "KfmTreeView" ) )
-//      m_pCurrentHistoryEntry->eDirMode = Konqueror::TreeView;
-//    else
-//    {
-//      Konqueror::KfmIconView_var iconView = Konqueror::KfmIconView::_narrow( m_vView );
-//      KonqKfmIconView *iconView = (KonqKfmIconView *)m_pView;
-//      
-//      m_pCurrentHistoryEntry->eDirMode = iconView->KonqKfmIconView::viewMode();
-//    }
-  }
+  m_pCurrentHistoryEntry->strServiceType = m_serviceType;
+  m_pCurrentHistoryEntry->strServiceName = m_service->name();
 }
 
 void KonqChildView::go( QList<HistoryEntry> &stack, int steps )
@@ -398,11 +273,42 @@ void KonqChildView::go( QList<HistoryEntry> &stack, int steps )
   
   assert( h );
   
-  m_bReloadURL = false;
-  m_iXOffset = h->xOffset;
-  m_iYOffset = h->yOffset;
-  changeViewMode( h->strServiceType, h->strURL, true, h->eDirMode );
+//  m_bReloadURL = false;
+//  m_iXOffset = h->xOffset;
+//  m_iYOffset = h->yOffset;
+//  changeViewMode( h->strServiceType, h->strURL, true, h->strServiceName );
   
+  if ( m_bLoading )
+    stop();
+
+  makeHistory( false );
+  
+  if ( !m_service->serviceTypes().contains( h->strServiceType ) ||
+       h->strServiceName != m_service->name() )
+  {
+    BrowserView *pView;
+    KTrader::OfferList serviceOffers;
+    KService::Ptr service;
+    if ( !( pView = KonqFactory::createView( h->strServiceType, h->strServiceName, &service, &serviceOffers ) ) )
+     return;
+
+    BrowserView *oldView = m_pView;
+
+    m_service = service;
+    m_serviceOffers = serviceOffers;
+    m_serviceType = h->strServiceType;
+
+    emit sigViewChanged( oldView, pView );
+
+    switchView( pView );
+  }       
+
+  QDataStream stream( h->buffer, IO_ReadOnly );
+       
+  m_pMainView->setLocationBarURL( this, h->strURL );
+  
+  m_pView->restoreState( stream );
+
   stack.removeFirst();
 }
 

@@ -20,8 +20,6 @@
 #ifndef __kfm_viewprops_h__
 #define __kfm_viewprops_h__
 
-#include "konq_defs.h"
-
 #include <qpixmap.h>
 
 #include <kconfig.h>

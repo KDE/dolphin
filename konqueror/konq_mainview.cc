@@ -29,7 +29,6 @@
 #include "konq_viewmgr.h"
 #include "konq_frame.h"
 #include "konq_events.h"
-#include "konq_iconview.h"
 #include "konq_actions.h"
 
 #include <pwd.h>
@@ -80,6 +79,7 @@ KonqMainView::KonqMainView( KonqPart *part, QWidget *parent, const char *name )
 {
   m_currentView = 0L;
   m_pBookmarkMenu = 0L;
+  m_bViewModeLock = false;
 
   if ( !s_plstAnimatedLogo )
     s_plstAnimatedLogo = new QList<QPixmap>;
@@ -100,6 +100,8 @@ KonqMainView::KonqMainView( KonqPart *part, QWidget *parent, const char *name )
            this, SLOT( slotAnimatedLogoTimeout() ) );
 
   m_pViewManager = new KonqViewManager( this );
+
+  m_viewModeActions.setAutoDelete( true );
   
   initActions();
   initPlugins();
@@ -307,67 +309,23 @@ void KonqMainView::slotPrint()
     ((PrintingExtension *)obj)->print();
 }
 
-void KonqMainView::slotLargeIcons()
+void KonqMainView::slotViewModeToggle( bool toggle )
 {
-  if ( m_currentView->view()->inherits( "KonqKfmIconView" ) )
-  {
-    KonqKfmIconView *iconView = (KonqKfmIconView *)m_currentView->view();
-    iconView->setViewMode( Konqueror::LargeIcons );
-  }
-  else
-  {
-    m_currentView->lockHistory();
-    m_currentView->changeViewMode( "inode/directory", QString::null, false,
-                                   Konqueror::LargeIcons );
-  }
-
-  m_bMenuViewDirty = true;
-}
-
-void KonqMainView::slotSmallIcons()
-{
-  if ( m_currentView->view()->inherits( "KonqKfmIconView" ) )
-  {
-    KonqKfmIconView *iconView = (KonqKfmIconView *)m_currentView->view();
-    iconView->setViewMode( Konqueror::SmallIcons );
-  }
-  else
-  {
-    m_currentView->lockHistory();
-    m_currentView->changeViewMode( "inode/directory", QString::null, false,
-                                   Konqueror::SmallIcons );
-  }
-
-  m_bMenuViewDirty = true;
-}
-
-void KonqMainView::slotSmallVerticalIcons()
-{
-  if ( m_currentView->view()->inherits( "KonqKfmIconView" ) )
-  {
-    KonqKfmIconView *iconView = (KonqKfmIconView *)m_currentView->view();
-    iconView->setViewMode( Konqueror::SmallVerticalIcons );
-  }
-  else
-  {
-    m_currentView->lockHistory();
-    m_currentView->changeViewMode( "inode/directory", QString::null, false,
-                                   Konqueror::SmallVerticalIcons );
-  }
-
-  m_bMenuViewDirty = true;
-}
-
-void KonqMainView::slotTreeView()
-{
-  if ( !m_currentView->view()->inherits( "KonqTreeView" ) )
-  {
-    m_currentView->lockHistory();
-    m_currentView->changeViewMode( "inode/directory", QString::null, false,
-                                   Konqueror::TreeView );
-  }
-
-  m_bMenuViewDirty = true;
+  if ( !toggle )
+    return;
+    
+  QString modeName = sender()->name();
+  
+  if ( m_currentView->service()->name() == modeName )
+    return;
+    
+  m_bViewModeLock = true;
+    
+  m_currentView->lockHistory();
+  m_currentView->changeViewMode( m_currentView->serviceType(), QString::null,
+                                 false, modeName );
+				 
+  m_bViewModeLock = false;
 }
 
 void KonqMainView::slotShowHTML()
@@ -570,10 +528,12 @@ bool KonqMainView::openView( const QString &serviceType, const QString &url, Kon
 
   if ( !childView )
     {
-      QStringList serviceTypes;
-      BrowserView *view = KonqFactory::createView( serviceType, serviceTypes );
+      KService::Ptr service;
+      KTrader::OfferList serviceOffers;
+      BrowserView *view = KonqFactory::createView( serviceType, QString::null,
+                                                   &service, &serviceOffers );
       assert(view != 0);
-      m_pViewManager->splitView( Qt::Horizontal, view, serviceTypes );
+      m_pViewManager->splitView( Qt::Horizontal, view, service, serviceOffers );
 
       MapViews::Iterator it = m_mapViews.find( view );
       assert( it != m_mapViews.end() );
@@ -757,49 +717,59 @@ void KonqMainView::slotMenuViewAboutToShow()
   if ( !m_bMenuViewDirty )
     return;
 
-  //eeek! (Simon)
-  m_ptaLargeIcons->blockSignals( true );
-  m_ptaSmallIcons->blockSignals( true );
-  m_ptaSmallVerticalIcons->blockSignals( true );
-  m_ptaTreeView->blockSignals( true );
-  m_ptaUseHTML->blockSignals( true );
+  qDebug( "void KonqMainView::slotMenuViewAboutToShow()" );
 
-  m_ptaLargeIcons->setChecked( false );
-  m_ptaSmallIcons->setChecked( false );
-  m_ptaSmallVerticalIcons->setChecked( false );
-  m_ptaTreeView->setChecked( false );
-
-  m_ptaUseHTML->setChecked( m_currentView->allowHTML() );
-
-  BrowserView *view = m_currentView->view();
-
-  if ( view->inherits( "KonqKfmIconView" ) )
+  if ( !m_bViewModeLock )
   {
-    Konqueror::DirectoryDisplayMode dirMode = ((KonqKfmIconView *) view)->viewMode();
+    qDebug( "no lock!" );
+    m_pamView->popupMenu()->clear(); //remove separators
+    m_pamView->remove( m_ptaUseHTML );
 
-    switch ( dirMode )
+    m_viewModeActions.clear();
+  
+    KTrader::OfferList services = m_currentView->serviceOffers();
+  
+    if ( services.count() > 1 )
     {
-      case Konqueror::LargeIcons:
-        m_ptaLargeIcons->setChecked( true );
-	break;
-      case Konqueror::SmallIcons:
-        m_ptaSmallIcons->setChecked( true );
-	break;
-      case Konqueror::SmallVerticalIcons:
-        m_ptaSmallVerticalIcons->setChecked( true );
-	break;
-      default: assert( 0 );
+      KTrader::OfferList::ConstIterator it = services.begin();
+      KTrader::OfferList::ConstIterator end = services.end();
+
+      for (; it != end; ++it )
+      {
+        KToggleAction *action = new KToggleAction( (*it)->comment(), 0, this, (*it)->name() );
+       
+        m_viewModeActions.append( action );
+        m_pamView->insert( action );
+       
+        if ( (*it)->name() == m_currentView->service()->name() )
+          action->setChecked( true );
+	
+        action->setExclusiveGroup( "KonqMainView_ViewModes" );
+      
+        connect( action, SIGNAL( toggled( bool ) ),
+                 this, SLOT( slotViewModeToggle( bool ) ) );
+      }
+    
+      m_pamView->popupMenu()->insertSeparator();
     }
 
-  }
-  else if ( view->inherits( "KonqTreeView" ) )
-    m_ptaTreeView->setChecked( true );
+    m_pamView->insert( m_ptaUseHTML );
+  
+    // hhhhhmmmmmmmmmmmmmm... (Simon)
+    m_ptaUseHTML->blockSignals( true );
+    m_ptaUseHTML->setChecked( m_currentView->allowHTML() );
+    m_ptaUseHTML->blockSignals( false );
+  
+    m_pamView->popupMenu()->insertSeparator();
 
-  m_ptaLargeIcons->blockSignals( false );
-  m_ptaSmallIcons->blockSignals( false );
-  m_ptaSmallVerticalIcons->blockSignals( false );
-  m_ptaTreeView->blockSignals( false );
-  m_ptaUseHTML->blockSignals( false );
+  }
+
+  const QValueList<BrowserView::ViewAction> *actions = m_currentView->view()->actions();
+  QValueList<BrowserView::ViewAction>::ConstIterator it = actions->begin();
+  QValueList<BrowserView::ViewAction>::ConstIterator end = actions->end();
+  for (; it != end; ++it )
+    if ( ( (*it).m_flags & BrowserView::MenuView ) == BrowserView::MenuView )
+     (*it).m_action->plug( m_pamView->popupMenu() );
 
   m_bMenuViewDirty = false;
 }
@@ -1099,25 +1069,7 @@ void KonqMainView::initActions()
   connect( popup, SIGNAL( aboutToShow() ),
            this, SLOT( slotMenuViewAboutToShow() ) );
 
-  // these actions don't actually need to be children of actioncollection, but
-  // OTOH this deletes them automatically upon destruction (Simon)
-  m_ptaLargeIcons = new KToggleAction( i18n( "&Large Icons" ), 0, this, SLOT( slotLargeIcons() ), actionCollection(), "largeicons" );
-  m_ptaSmallIcons = new KToggleAction( i18n( "&Small Icons" ), 0, this, SLOT( slotSmallIcons() ), actionCollection(), "smallicons" );
-  m_ptaSmallVerticalIcons = new KToggleAction( i18n( "Small Vertical Icons" ), 0, this, SLOT( slotSmallVerticalIcons() ), actionCollection(), "smallverticalicons" );
-  m_ptaTreeView = new KToggleAction( i18n( "&Tree View" ), 0, this, SLOT( slotTreeView() ), actionCollection(), "treeview" );
-
-  m_ptaLargeIcons->plug( popup );
-  m_ptaSmallIcons->plug( popup );
-  m_ptaSmallVerticalIcons->plug( popup );
-  m_ptaTreeView->plug( popup );
-
-  popup->insertSeparator();
-
   m_ptaUseHTML = new KToggleAction( i18n( "&Use HTML" ), 0, this, SLOT( slotShowHTML() ), actionCollection(), "usehtml" );
-
-  m_ptaUseHTML->plug( popup );
-
-  popup->insertSeparator();
 
   m_paUp = new KActionMenu( i18n( "&Up" ), QIconSet( BarIcon( "up", KonqFactory::instance() ) ), actionCollection(), "up" );
 
@@ -1239,8 +1191,7 @@ void KonqMainView::plugInViewGUI( BrowserView *view )
   for (; it != end; ++it )
   {
 
-    if ( ( (*it).m_flags & BrowserView::MenuView ) == BrowserView::MenuView )
-     (*it).m_action->plug( m_pamView->popupMenu() );
+    // The View Menu is handled in the aboutToShow() slot of the view menu
 
     if ( ( (*it).m_flags & BrowserView::MenuEdit ) == BrowserView::MenuEdit )
      (*it).m_action->plug( m_pamEdit->popupMenu() );

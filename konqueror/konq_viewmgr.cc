@@ -23,7 +23,6 @@
 #include "konq_factory.h"
 #include "konq_frame.h"
 #include "konq_profiledlg.h"
-#include "konq_iconview.h"
 #include "browser.h"
 
 #include <qstringlist.h>
@@ -65,38 +64,23 @@ void KonqViewManager::splitView ( Qt::Orientation orientation )
   BrowserView *pView;
   QStringList serviceTypes;
   
-  // KonqFactory::createView() ignores this if the servicetypes is
-  // not inode/directory
-  Konqueror::DirectoryDisplayMode dirMode = Konqueror::LargeIcons;
+  QString serviceName = currentChildView->service()->name();
   
-  if ( currentChildView->supportsServiceType( "inode/directory" ) )
-  {
-//    if ( currentChildView->view()->supportsInterface( "IDL:Konqueror/KfmTreeView:1.0" ) )
-    if ( currentChildView->view()->inherits( "KonqTreeView" ) )
-      dirMode = Konqueror::TreeView;
-    else
-      dirMode = ((KonqKfmIconView *)currentChildView->view())->viewMode();
-//    {
-//      Konqueror::KfmIconView_var iv = Konqueror::KfmIconView::_narrow( currentChildView->view() );
-//      KonqKfmIconView *iconView = (KonqKfmIconView *)(currentChildView->view());
-      
-//      dirMode = iconView->viewMode();
-//#warning FIXME (Simon)
-//        dirMode = Konqueror::LargeIcons;
-//    }
-  }
+  KService::Ptr service;
+  KTrader::OfferList serviceOffers;
   
-  if ( !( pView = KonqFactory::createView( serviceType, serviceTypes, dirMode ) ) )
+  if ( !( pView = KonqFactory::createView( serviceType, serviceName, &service, &serviceOffers ) ) )
     return; //do not split the view at all if we can't clone the current view
 
-  splitView( orientation, pView, serviceTypes );
+  splitView( orientation, pView, service, serviceOffers );
 
   m_pMainView->childView( pView )->openURL( url );
 }
 
 void KonqViewManager::splitView ( Qt::Orientation orientation, 
-			       BrowserView *newView,
-			       const QStringList &newViewServiceTypes )
+			          BrowserView *newView,
+			          const KService::Ptr &service,
+			          const KTrader::OfferList &serviceOffers )
 {
   kdebug(0, 1202, "KonqViewManager::splitview" );
   
@@ -126,7 +110,7 @@ void KonqViewManager::splitView ( Qt::Orientation orientation,
 
     viewFrame->reparent( newContainer, 0, pos, true );
 
-    setupView( newContainer, newView, newViewServiceTypes );
+    setupView( newContainer, newView, service, serviceOffers );
 
     //have to to something about the flickering. Well, actually these 
     //adjustments shouldn't be neccessary. I'm not sure wether this is a 
@@ -146,7 +130,7 @@ void KonqViewManager::splitView ( Qt::Orientation orientation,
     m_pMainContainer->setOpaqueResize();
     m_pMainContainer->setGeometry( 0, 0, m_pMainView->width(), m_pMainView->height() );
 
-    setupView( m_pMainContainer, newView, newViewServiceTypes );
+    setupView( m_pMainContainer, newView, service, serviceOffers );
 
     // exclude the splitter and all child widgets from the part focus handling
     m_pMainContainer->show();
@@ -251,32 +235,17 @@ void KonqViewManager::loadItem( KConfig &cfg, KonqFrameContainer *parent,
     QString serviceType = cfg.readEntry( QString::fromLatin1( "ServiceType" ).prepend( prefix ), "inode/directory");
     kdebug(0, 1202, "ServiceType: %s", serviceType.data());  
 
-    Konqueror::DirectoryDisplayMode dirMode = Konqueror::LargeIcons;
-
-    if ( serviceType == "inode/directory" )
-    {
-      QString strDirMode = cfg.readEntry( QString::fromLatin1( "DirectoryMode" ).prepend( prefix ), "LargeIcons" );
-
-      if ( strDirMode == "LargeIcons" )
-	dirMode = Konqueror::LargeIcons;
-      else if ( strDirMode == "SmallIcons" )
-	dirMode = Konqueror::SmallIcons;
-      else if ( strDirMode == "SmallVerticalIcons" )
-	dirMode = Konqueror::SmallVerticalIcons;
-      else if ( strDirMode == "TreeView" )
-	dirMode = Konqueror::TreeView;
-      else assert( 0 );
-	
-    }
+    QString serviceName = cfg.readEntry( QString::fromLatin1( "ServiceName" ).prepend( prefix ) );
 
     BrowserView *pView;
-    QStringList serviceTypes;
+    KService::Ptr service;
+    KTrader::OfferList serviceOffers;
 
     //Simon TODO: error handling
-    pView = KonqFactory::createView( serviceType, serviceTypes, dirMode);
+    pView = KonqFactory::createView( serviceType, serviceName, &service, &serviceOffers );
     if( pView ) {
       kdebug(0, 1202, "Creating View Stuff");  
-      setupView( parent, pView, serviceTypes);
+      setupView( parent, pView, service, serviceOffers );
 
       m_pMainView->childView( pView )->openURL( url );
     }
@@ -445,12 +414,15 @@ void KonqViewManager::slotProfileDlg()
   m_bProfileListDirty = true;
 }
 
-void KonqViewManager::setupView( KonqFrameContainer *parentContainer, BrowserView *view, const QStringList &serviceTypes )
+void KonqViewManager::setupView( KonqFrameContainer *parentContainer, 
+                                 BrowserView *view, 
+				 const KService::Ptr &service, 
+				 const KTrader::OfferList &serviceOffers )
 {
   KonqFrame* newViewFrame = new KonqFrame( parentContainer );
 
   KonqChildView *v = new KonqChildView( view, newViewFrame, 
-					m_pMainView, serviceTypes );
+					m_pMainView, service, serviceOffers );
 
   QObject::connect( v, SIGNAL( sigViewChanged( BrowserView *, BrowserView * ) ), 
                     m_pMainView, SLOT( slotViewChanged( BrowserView *, BrowserView * ) ) );
