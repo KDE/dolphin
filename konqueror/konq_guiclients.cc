@@ -309,7 +309,7 @@ ToggleViewGUIClient::ToggleViewGUIClient( KonqMainView *mainView )
     KToggleAction *action = new KToggleAction( description, 0, actionCollection(), name.latin1() );
 
     // HACK
-    if ( (*cIt)->icon() != "unknown.png" )
+    if ( (*cIt)->icon() != "unknown" )
       action->setIcon( (*cIt)->icon() );
 
     connect( action, SIGNAL( toggled( bool ) ),
