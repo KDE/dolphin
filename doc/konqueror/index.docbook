@@ -1341,8 +1341,8 @@ action="simul"><keycap>Ctrl</keycap><keycap>N</keycap></keycombo></para></listit
 
 <listitem><para>Change a bookmark's name by selecting an item and using
 <keycap>F2</keycap> or the
-<menuchoice><guimenu>Edit</guimenu><guimenuitem>Rename</guimenuitem></menuchoice
-> option or by <mousebutton>right</mousebutton> clicking on the item and
+<menuchoice><guimenu>Edit</guimenu><guimenuitem>Rename</guimenuitem></menuchoice>
+option or by <mousebutton>right</mousebutton> clicking on the item and
 selecting <guimenuitem>Rename</guimenuitem>.</para></listitem>
 
 <listitem><para>Change a bookmark's <acronym>URL</acronym> by
