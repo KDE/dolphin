@@ -21,6 +21,7 @@
 
 #include <kaction.h>
 #include <kbookmark.h>
+#include <kbookmarkmenu.h>
 
 #include <ktoolbar.h>
 #include <ktoolbarbutton.h>
@@ -72,21 +73,30 @@ void KBookmarkBar::fillBookmarkBar(KBookmark *parent)
     KBookmark *bm;
     for (bm = parent->children()->first(); bm; bm = parent->children()->next())
     {
+        QPixmap pix(KGlobal::iconLoader()->loadApplicationIcon(
+                        bm->pixmapFile(), KIconLoader::Small));
+
         if (bm->type() == KBookmark::URL)
         {
-            // create a normal URL item, with ID as a name
-            QPixmap pix(KGlobal::iconLoader()->loadApplicationIcon(
-                            bm->pixmapFile(), KIconLoader::Small));
-
             KAction *action;
+            // create a normal URL item, with ID as a name
             action = new KAction(bm->text(), QIconSet(pix), 0,
                                  this, SLOT(slotBookmarkSelected()),
                                  m_actionCollection,
                                  QString("bookmark%1").arg(bm->id()));
             action->plug(m_toolBar);
         }
-        // don't handle folders quite yet.. probably the best way
-        // would be to have a pull down button
+        else
+        {
+            KActionMenu *action;
+            action = new KActionMenu(bm->text(), QIconSet(pix), this);
+
+            KBookmarkMenu *menu;
+            menu = new KBookmarkMenu(m_pOwner, action->popupMenu(),
+                                     m_actionCollection, false, false);
+            menu->fillBookmarkMenu( bm );
+            action->plug(m_toolBar);
+        }
     }
 }
 

@@ -71,13 +71,19 @@ public:
                  QActionCollection * _collec,  bool _root, bool _add = true);
   ~KBookmarkMenu();  
 
+  /**
+   * Even if you think you need to use this, you are probably wrong.
+   * It fills a bookmark menu starting a given KBookmark.
+   *
+   * @param _parent a root bookmark that <em>must</em> be defined
+   */
+  void fillBookmarkMenu( KBookmark *_parent );
+
 public slots:
   void slotBookmarksChanged();
   void slotBookmarkSelected();
   
 protected:
-  void fillBookmarkMenu( KBookmark *parent );
-
   bool m_bIsRoot;
   bool m_bAddBookmark;
   KBookmarkOwner *m_pOwner;
