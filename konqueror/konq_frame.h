@@ -47,12 +47,6 @@ namespace KParts
   class ReadOnlyPart;
 };
 
-namespace Konqueror
-{
-  class MetaView;
-};
-
-
 /** A CheckBox with a special paintEvent(). It looks like the
  unchecked radiobutton in b2k style if unchecked and contains a little
  anchor if checked.
