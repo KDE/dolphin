@@ -87,13 +87,13 @@ bool KonqTxtView::mappingOpenURL( Konqueror::EventOpenURL eventURL )
   return true;
 }
 
-bool KonqTxtView::mappingFillMenuView( Konqueror::View::EventFillMenu viewMenu )
+bool KonqTxtView::mappingFillMenuView( Konqueror::View::EventFillMenu /*viewMenu*/ )
 {
   //TODO
   return true;
 }
 
-bool KonqTxtView::mappingFillMenuEdit( Konqueror::View::EventFillMenu editMenu )
+bool KonqTxtView::mappingFillMenuEdit( Konqueror::View::EventFillMenu /*editMenu*/ )
 {
   //TODO : selectall
   return true;

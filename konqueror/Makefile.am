@@ -20,10 +20,10 @@ EXTRA_DIST = $(data_DATA) $(service_DATA) $(servicetype_DATA)
 bin_PROGRAMS = konqueror
 
 # Source files, please keep sorted.
-konqueror_SOURCES =  kbrowser.cc kfmrun.cc \
+konqueror_SOURCES =  konq_mainwindow.cc  kbrowser.cc kfmrun.cc \
 	konq_baseview.cc konq_childview.cc konq_frame.cc \
 	konq_htmlview.cc konq_iconview.cc \
-	konq_main.cc konq_mainview.cc konq_mainwindow.cc \
+	konq_main.cc konq_mainview.cc \
 	konq_partview.cc konq_plugins.cc \
 	konq_propsmainview.cc konq_propsview.cc \
 	konq_topwidget.cc konq_treeview.cc konq_txtview.cc \

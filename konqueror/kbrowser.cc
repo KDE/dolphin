@@ -433,11 +433,11 @@ void KBrowser::slotFormSubmitted( const char *_method, const char *_url, const c
   }
 }
 
-void KBrowser::popupMenu( QStrList& _urls, const QPoint& _global_point, bool _on_background )
+void KBrowser::popupMenu( QStrList& /*_urls*/, const QPoint& /*_global_point*/, bool /*_on_background*/ )
 {
 }
 
-bool KBrowser::mousePressedHook( QString _url, QString _target, QMouseEvent *_mouse, bool _isselected )
+bool KBrowser::mousePressedHook( QString _url, QString , QMouseEvent *_mouse, bool _isselected )
 {
   m_bStartedRubberBand = false;
   m_strSelectedURL = "";

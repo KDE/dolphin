@@ -135,7 +135,7 @@ bool KonqHTMLView::mappingFillMenuView( Konqueror::View::EventFillMenu viewMenu 
   return true;
 }
 
-bool KonqHTMLView::mappingFillMenuEdit( Konqueror::View::EventFillMenu editMenu )
+bool KonqHTMLView::mappingFillMenuEdit( Konqueror::View::EventFillMenu )
 {
   // todo : add "Select All"
   return false;
@@ -216,7 +216,7 @@ void KonqHTMLView::slotURLClicked( const char *url )
   SIGNAL_CALL2( "started", id(), CORBA::Any::from_string( (char *)url, 0 ) );
 }
 
-void KonqHTMLView::slotShowURL( KHTMLView *view, const char *_url )
+void KonqHTMLView::slotShowURL( KHTMLView *, const char *_url )
 {
   if ( !_url )
   {
@@ -334,8 +334,9 @@ void KonqHTMLView::slotCanceled()
 
 // #include "kfmicons.h"
 
-KHTMLEmbededWidget* KonqHTMLView::newEmbededWidget( QWidget* _parent, const char *_name, const char *_src, const char *_type,
-						  int _marginwidth, int _marginheight, int _frameborder, bool _noresize )
+KHTMLEmbededWidget* KonqHTMLView::newEmbededWidget( QWidget* _parent, const char *, const char *, const char *,
+						    int /*_marginwidth */, int /*_marginheight*/, 
+						    int _frameborder, bool _noresize )
 {
   KonqEmbededFrame *e = new KonqEmbededFrame( _parent, _frameborder,
                                             _noresize );
@@ -603,7 +604,7 @@ QWidget* KonqEmbededFrame::child()
   return m_pChild;
 }
 
-void KonqEmbededFrame::resizeEvent( QResizeEvent *_ev )
+void KonqEmbededFrame::resizeEvent( QResizeEvent * )
 {
   if ( m_pChild == 0L )
     return;

@@ -134,7 +134,7 @@ bool KonqKfmTreeView::mappingOpenURL( Konqueror::EventOpenURL eventURL )
 
 bool KonqKfmTreeView::mappingFillMenuView( Konqueror::View::EventFillMenu viewMenu )
 {
-#define MVIEW_RELOADTREE_ID 1483 // temporary
+#define MVIEW_RELOADTREE_ID_2 1483 // temporary
   
   if ( !CORBA::is_nil( viewMenu.menu ) )
   {
@@ -142,12 +142,12 @@ bool KonqKfmTreeView::mappingFillMenuView( Konqueror::View::EventFillMenu viewMe
     {
       kdebug(0,1202,"Adding reload tree");
       CORBA::WString_var text = Q2C( i18n("Rel&oad Tree") );
-      viewMenu.menu->insertItem4( text, this, "slotReloadTree", 0, MVIEW_RELOADTREE_ID, -1 );
+      viewMenu.menu->insertItem4( text, this, "slotReloadTree", 0, MVIEW_RELOADTREE_ID_2, -1 );
     }
     else
     {
       kdebug(0,1202,"Removing reload tree");
-      viewMenu.menu->removeItem( MVIEW_RELOADTREE_ID );
+      viewMenu.menu->removeItem( MVIEW_RELOADTREE_ID_2 );
     }
   }
   
@@ -405,7 +405,7 @@ void KonqKfmTreeView::dragLeaveEvent( QDragLeaveEvent * )
   /** End DEBUG CODE */
 }
 
-void KonqKfmTreeView::dropEvent( QDropEvent * e )
+void KonqKfmTreeView::dropEvent( QDropEvent *  )
 {
   if ( m_dragOverItem != 0L )
     setSelected( m_dragOverItem, false );
@@ -686,7 +686,7 @@ void KonqKfmTreeView::slotReturnPressed( QListViewItem *_item )
     openURLRequest( item->url().ascii() ); //FIXME: obey mode/m_bIsLocalURL (?)  ?? (David)
 }
 
-void KonqKfmTreeView::slotRightButtonPressed( QListViewItem *_item, const QPoint &_global, int _column )
+void KonqKfmTreeView::slotRightButtonPressed( QListViewItem *_item, const QPoint &_global, int )
 {
   if ( _item && !_item->isSelected() )
   {

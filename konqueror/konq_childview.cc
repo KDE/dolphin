@@ -221,7 +221,7 @@ void KonqChildView::changeViewMode( const char *viewName )
   }
 }
 
-Konqueror::View_ptr KonqChildView::createViewByName( const char *viewName, QString *serviceType = 0L )
+Konqueror::View_ptr KonqChildView::createViewByName( const char *viewName, QString *serviceType )
 {
   Konqueror::View_var vView;
   QString sType;

@@ -93,8 +93,8 @@ bool KonqKfmIconView::mappingOpenURL( Konqueror::EventOpenURL eventURL )
 
 bool KonqKfmIconView::mappingFillMenuView( Konqueror::View::EventFillMenu viewMenu )
 {
-#define MVIEW_IMAGEPREVIEW_ID 1594 // temporary
-#define MVIEW_SHOWDOT_ID 1595 // temporary
+#define MVIEW_IMAGEPREVIEW_ID_2 1594 // temporary
+#define MVIEW_SHOWDOT_ID_2 1595 // temporary
 
   if ( !CORBA::is_nil( viewMenu.menu ) )
   {
@@ -105,15 +105,15 @@ bool KonqKfmIconView::mappingFillMenuView( Konqueror::View::EventFillMenu viewMe
       //    menu->insertItem4( i18n("&Small Icons"), this, "slotSmallIcons", 0, -1, -1 );
       kdebug(0,1202,"adding image preview and showdotfiles");
       text = Q2C( i18n("Image &Preview") );
-      viewMenu.menu->insertItem4( text, this, "slotShowSchnauzer" , 0, MVIEW_IMAGEPREVIEW_ID, -1 );
+      viewMenu.menu->insertItem4( text, this, "slotShowSchnauzer" , 0, MVIEW_IMAGEPREVIEW_ID_2, -1 );
       text = Q2C( i18n("Show &Dot Files") );
-      viewMenu.menu->insertItem4( text, this, "slotShowDot" , 0, MVIEW_SHOWDOT_ID, -1 );
+      viewMenu.menu->insertItem4( text, this, "slotShowDot" , 0, MVIEW_SHOWDOT_ID_2, -1 );
     }
     else
     {
       kdebug(0,1202,"removing image preview and showdotfiles");
-      viewMenu.menu->removeItem( MVIEW_SHOWDOT_ID );
-      viewMenu.menu->removeItem( MVIEW_IMAGEPREVIEW_ID );
+      viewMenu.menu->removeItem( MVIEW_SHOWDOT_ID_2 );
+      viewMenu.menu->removeItem( MVIEW_IMAGEPREVIEW_ID_2 );
     }
   }
   
@@ -122,8 +122,8 @@ bool KonqKfmIconView::mappingFillMenuView( Konqueror::View::EventFillMenu viewMe
 
 bool KonqKfmIconView::mappingFillMenuEdit( Konqueror::View::EventFillMenu editMenu )
 {
-#define MEDIT_SELECT_ID 1394 // hmm...
-#define MEDIT_SELECTALL_ID 1395
+#define MEDIT_SELECT_ID_2 1394 // hmm...
+#define MEDIT_SELECTALL_ID_2 1395
 
   if ( !CORBA::is_nil( editMenu.menu ) )
   {
@@ -134,15 +134,15 @@ bool KonqKfmIconView::mappingFillMenuEdit( Konqueror::View::EventFillMenu editMe
       //    menu->insertItem4( i18n("&Small Icons"), this, "slotSmallIcons", 0, -1, -1 );
       kdebug(0,1202,"adding select and selectall");
       text = Q2C( i18n("Select") );
-      editMenu.menu->insertItem4( text, this, "slotSelect" , 0, MEDIT_SELECT_ID, -1 );
+      editMenu.menu->insertItem4( text, this, "slotSelect" , 0, MEDIT_SELECT_ID_2, -1 );
       text = Q2C( i18n("Select &All") );
-      editMenu.menu->insertItem4( text, this, "slotSelectAll" , 0, MEDIT_SELECTALL_ID, -1 );
+      editMenu.menu->insertItem4( text, this, "slotSelectAll" , 0, MEDIT_SELECTALL_ID_2, -1 );
     }
     else
     {
       kdebug(0,1202,"removing select and selectall");
-      editMenu.menu->removeItem( MEDIT_SELECT_ID );
-      editMenu.menu->removeItem( MEDIT_SELECTALL_ID );
+      editMenu.menu->removeItem( MEDIT_SELECT_ID_2 );
+      editMenu.menu->removeItem( MEDIT_SELECTALL_ID_2 );
     }
   }
   
