@@ -5,9 +5,13 @@
 #include <kstandarddirs.h>
 #include <ksimpleconfig.h>
 #include <kinputdialog.h>
+#include <kiconloader.h>
+#include <klistviewsearchline.h>
 
 #include <qclipboard.h>
 #include <qdragobject.h>
+#include <qtoolbutton.h>
+#include <qvbox.h>
 
 KonqSidebar_Tree::KonqSidebar_Tree(KInstance *instance,QObject *parent,QWidget *widgetParent, QString &desktopName_, const char* name):
                    KonqSidebarPlugin(instance,parent,widgetParent,desktopName_,name)
@@ -16,7 +20,24 @@ KonqSidebar_Tree::KonqSidebar_Tree(KInstance *instance,QObject *parent,QWidget *
 		ksc.setGroup("Desktop Entry");
 		int virt= ( (ksc.readEntry("X-KDE-TreeModule","")=="Virtual") ?VIRT_Folder:VIRT_Link);
 		if (virt==1) desktopName_=ksc.readEntry("X-KDE-RelURL","");
-        	tree=new KonqSidebarTree(this,widgetParent,virt,desktopName_);
+		
+		widget = new QVBox(widgetParent);
+                
+		if (ksc.readBoolEntry("X-KDE-SearchableTreeModule",false)) {
+			QHBox* searchline = new QHBox(widget);
+			searchline->setSpacing(KDialog::spacingHint());
+			tree=new KonqSidebarTree(this,widget,virt,desktopName_);
+			QToolButton *clearSearch = new QToolButton(searchline);
+			clearSearch->setTextLabel(i18n("Clear Search"), true);
+			clearSearch->setIconSet(SmallIconSet(QApplication::reverseLayout() ? "clear_left" : "locationbar_erase"));
+			QLabel* slbl = new QLabel(i18n("Se&arch:"), searchline);
+			KListViewSearchLine* listViewSearch = new KListViewSearchLine(searchline,tree);
+			slbl->setBuddy(listViewSearch);
+			connect(clearSearch, SIGNAL(pressed()), listViewSearch, SLOT(clear()));
+		}
+		else
+			tree=new KonqSidebarTree(this,widget,virt,desktopName_);
+
     		connect(tree, SIGNAL( openURLRequest( const KURL &, const KParts::URLArgs &)),
 			this,SIGNAL( openURLRequest( const KURL &, const KParts::URLArgs &)));
 
@@ -41,7 +62,7 @@ void* KonqSidebar_Tree::provides(const QString &) {return 0;}
 
 //void KonqSidebar_Tree::emitStatusBarText (const QString &) {;}
 
-QWidget *KonqSidebar_Tree::getWidget(){return tree;}
+QWidget *KonqSidebar_Tree::getWidget(){return widget;}
 
 void KonqSidebar_Tree::handleURL(const KURL &url)
     {
