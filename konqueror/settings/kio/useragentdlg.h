@@ -11,15 +11,15 @@
 #ifndef _USERAGENTDLG_H
 #define _USERAGENTDLG_H "$Id$"
 
+#include <qmap.h>
 #include <qwidget.h>
-#include <qlineedit.h>
-#include <qlabel.h>
-
 #include <kcmodule.h>
 
 class QPushButton;
 class QComboBox;
+class QLineEdit;
 class QListView;
+class QLabel;
 
 class UserAgentOptions : public KCModule
 {
@@ -34,23 +34,31 @@ public:
   virtual void defaults();
 
   QString quickHelp() const;
+
 private slots:
   void textChanged(const QString&);
+  void activated(const QString&);
   void addClicked();
   void deleteClicked();
+  void resetClicked();
   void bindingsSelected();
 
   void changed();
 
 
 private:
+  bool onlySelectionChange;
+
   QLabel* onserverLA;
   QLineEdit* onserverED;
   QLabel* loginasLA;
   QComboBox* loginasED;
+  QLabel* loginidLA;
+  QLineEdit* loginidED;
 
   QPushButton* addPB;
   QPushButton* deletePB;
+  QPushButton* resetPB;
 
   QLabel* bindingsLA;
   QListView* bindingsLV;
@@ -59,7 +67,7 @@ private:
   QPushButton* cancelPB;
   QPushButton* helpPB;
 
-  QStringList settingsList;
+  QMap<QString, QString> aliasMap;
 };
 
 
