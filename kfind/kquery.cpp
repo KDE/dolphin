@@ -67,8 +67,17 @@ void KQuery::slotListEntries( KIO::Job *, const KIO::UDSEntryList & list)
     if ( file->name() == "." || file->name() == ".." )
       continue;
 
-    if ( !m_regexp.isEmpty() &&
-	 m_regexp.search( file->url().fileName( true ) ) == -1 )
+    
+    QRegExp *filename_match;
+    bool matched=false;
+    
+    for ( filename_match = m_regexps.first(); !matched && filename_match; filename_match = m_regexps.next() )
+      {
+	
+	matched |=  filename_match->isEmpty()  ||
+	  (filename_match->exactMatch( file->url().fileName( true ) ) );
+      }
+    if (!matched)
       continue;
 
     // make sure the files are in the correct range
@@ -204,7 +213,8 @@ void KQuery::setTimeRange(time_t from, time_t to)
 
 void KQuery::setRegExp(const QString &regexp, bool caseSensitive)
 {
-  QStringList strList=QStringList::split( QString(" "), regexp, false);
+  QRegExp sep(";");
+  QStringList strList=QStringList::split( sep, regexp, false);
   m_regexps.clear();
   for ( QStringList::Iterator it = strList.begin(); it != strList.end(); ++it )
      m_regexps.append(new QRegExp((*it),caseSensitive,true));

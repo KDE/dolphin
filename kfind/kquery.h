@@ -48,13 +48,13 @@ class KQuery : public QObject
   KURL m_url;
   time_t m_timeFrom;
   time_t m_timeTo;
-  QRegExp m_regexp;
+  QRegExp m_regexp;// regexp for file content
   bool m_recursive;
   QString m_mimetype;
   QString m_context;
   bool m_casesensitive;
   bool m_regexpForContent;
-  QPtrList<QRegExp> m_regexps;
+  QPtrList<QRegExp> m_regexps;// regexps for file name
   KIO::ListJob *job;
 };
 

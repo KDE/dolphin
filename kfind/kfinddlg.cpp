@@ -43,6 +43,7 @@ KfindDlg::KfindDlg(const KURL & url, QWidget *parent, const char *name)
 
   // create tabwidget
   tabWidget = new KfindTabWidget( frame, "dialog");
+  tabWidget->setURL( url );
 
   // prepare window for find results
   win = new KfindWindow(frame,"window");

@@ -257,6 +257,8 @@ void KfindTabWidget::setURL( const KURL & url )
   conf->setGroup("History");
   m_url = url;
   QStringList sl = conf->readListEntry("Directories", ',');
+  dirBox->clear(); // make sure there is no old Stuff in there
+
   if(!sl.isEmpty()) {
     dirBox->insertStringList(sl);
     // If the _searchPath already exists in the list we do not
