@@ -300,8 +300,8 @@ KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const 
 
     connect( m_pIconView, SIGNAL( mouseButtonPressed(int, QIconViewItem*, const QPoint&)),
              this, SLOT( slotMouseButtonPressed(int, QIconViewItem*, const QPoint&)) );
-    connect( m_pIconView, SIGNAL( rightButtonPressed( QIconViewItem *, const QPoint &) ),
-             this, SLOT( slotViewportRightClicked( QIconViewItem * ) ) );
+    connect( m_pIconView, SIGNAL( mouseButtonClicked(int, QIconViewItem*, const QPoint&)),
+             this, SLOT( slotMouseButtonClicked(int, QIconViewItem*, const QPoint&)) );
 
     // Extract 3 icon sizes from the icon theme. Use 16,32,48 as default.
     int i;
@@ -633,48 +633,45 @@ void KonqKfmIconView::slotOpenURLRequest()
 
 void KonqKfmIconView::slotMouseButtonPressed(int _button, QIconViewItem* _item, const QPoint& _global)
 {
-    if(_item) {
-        switch(_button) {
-        case RightButton:
+    if ( _button == RightButton )
+        if(_item) {
             (static_cast<KFileIVI*>(_item))->setSelected( true, true /* don't touch other items */ );
             emit m_extension->popupMenu( _global, m_pIconView->selectedFileItems() );
-            break;
-        case MidButton:
-            // New window
-            mmbClicked( static_cast<KFileIVI*>(_item)->item() );
-            break;
         }
-    }
+        else
+        {
+            // Right click on viewport
+            KFileItem * item = m_dirLister->rootItem();
+            bool delRootItem = false;
+            if ( ! item )
+            {
+                if ( m_bLoading )
+                {
+                    kdDebug(1202) << "slotViewportRightClicked : still loading and no root item -> dismissed" << endl;
+                    return; // too early, '.' not yet listed
+                }
+                else
+                {
+                    // We didn't get a root item (e.g. over FTP)
+                    // TODO Use KIO::stat (or NetAccess::stat ?) here !
+                    item = new KFileItem( S_IFDIR, (mode_t)-1, url() );
+                    delRootItem = true;
+                }
+            }
+
+            KFileItemList items;
+            items.append( item );
+            emit m_extension->popupMenu( QCursor::pos(), items );
+
+            if ( delRootItem )
+                delete item; // we just created it
+        }
 }
 
-void KonqKfmIconView::slotViewportRightClicked( QIconViewItem *i )
+void KonqKfmIconView::slotMouseButtonClicked(int _button, QIconViewItem* _item, const QPoint& )
 {
-    if ( i )
-        return;
-    KFileItem * item = m_dirLister->rootItem();
-    bool delRootItem = false;
-    if ( ! item )
-    {
-      if ( m_bLoading )
-      {
-        kdDebug(1202) << "slotViewportRightClicked : still loading and no root item -> dismissed" << endl;
-        return; // too early, '.' not yet listed
-      }
-      else
-      {
-        // We didn't get a root item (e.g. over FTP)
-        // TODO Use KIO::stat (or NetAccess::stat ?) here !
-        item = new KFileItem( S_IFDIR, (mode_t)-1, url() );
-        delRootItem = true;
-      }
-    }
-
-    KFileItemList items;
-    items.append( item );
-    emit m_extension->popupMenu( QCursor::pos(), items );
-
-    if ( delRootItem )
-      delete item; // we just created it
+    if( _item && _button == MidButton )
+        mmbClicked( static_cast<KFileIVI*>(_item)->item() );
 }
 
 void KonqKfmIconView::slotStarted( const QString & /*url*/ )

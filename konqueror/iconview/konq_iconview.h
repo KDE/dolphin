@@ -105,7 +105,7 @@ protected slots:
   // slots connected to QIconView
   void slotReturnPressed( QIconViewItem *item );
   void slotMouseButtonPressed(int, QIconViewItem*, const QPoint&);
-  void slotViewportRightClicked( QIconViewItem * );
+  void slotMouseButtonClicked(int, QIconViewItem*, const QPoint&);
   void slotOnItem( QIconViewItem *item );
   void slotOnViewport();
   void slotViewportAdjusted();
