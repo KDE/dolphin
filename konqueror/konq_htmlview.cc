@@ -18,7 +18,6 @@
 */
 
 #include "konq_htmlview.h"
-#include "kbrowser.h"
 #include "konq_propsview.h"
 #include "konq_mainview.h"
 #include "konq_childview.h"
@@ -36,6 +35,7 @@
 #include <kcursor.h>
 #include <khtml.h>
 #include <khtmlsavedpage.h>
+#include <kbrowser.h>
 #include <klocale.h>
 #include <kfiledialog.h>
 #include <kurl.h>

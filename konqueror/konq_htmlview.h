@@ -19,10 +19,10 @@
 #ifndef __konq_htmlview_h__
 #define __konq_htmlview_h__
 
-#include "kbrowser.h"
 #include "konq_baseview.h"
 
 #include <khtmlembed.h>
+#include <kbrowser.h>
 
 #include <qpoint.h>
 
