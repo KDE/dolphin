@@ -1,48 +1,11 @@
 basic plan:
-   do any remaining DESIGN comments
    cleanup importing:
       make all importers do a file selection dlg
-   possible use of guistates for action enabling logic?
-   recursive 404 finder, recursive sort, duplicate finder
-   make an all dirs sort function that uses the bookmarkiterator
+   recursive 404 finder, recursive dirs sort, duplicate finder
 
 general xbel bug:
    http://bugzilla.gnome.org/show_bug.cgi?id=69702
 
-for me:
-   from http://bugs.kde.org/show_bug.cgi?id=45711
-
-   better tabbing stuff 
-      crashes tabset loading
-      bookmark tabset loading/saving
-
-favicons:
-   http://bugs.kde.org/show_bug.cgi?id=39879
-   http://bugs.kde.org/show_bug.cgi?id=23102
-
-system wide bookmark file includes:
-   http://bugs.kde.org/show_bug.cgi?id=28192
-
-LATER
-
-this all needs to be rethought
-pruning should be a layer of processing
-done after the selectedItems call, the
-selected items should be cached based
-on use of slotSelectionChanged, 
-
-TODO
-
-the actual selection should return 
-all possible items, i.e ->selected()
-then pruning should be possible
-number of fuinctions
-pruning / filters should
-
-on top of this, we can't alpha sort
-the root element for some reason
-this needs to be fixed!!!
-
-simple motivation for this:
-currently you can't even ctrl-v paste 
-onto a empty folder item!!!
+general konqi:
+   crashes tabset loading
+   bookmark tabset saving

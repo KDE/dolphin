@@ -46,7 +46,7 @@ QString ImportCommand::folder() const {
 }
 
 ImportCommand* ImportCommand::importerFactory(const QCString &type) {
-   if (type == "Galeon") return new GaleonImportCommand();
+        if (type == "Galeon") return new GaleonImportCommand();
    else if (type == "IE") return new IEImportCommand();
    else if (type == "KDE2") return new KDE2ImportCommand();
    else if (type == "Opera") return new OperaImportCommand();
@@ -80,6 +80,13 @@ ImportCommand* ImportCommand::performImport(const QCString &type, QWidget *top) 
 
    importer->import(mydirname, answer == KMessageBox::Yes);
    return importer;
+}
+
+void ImportCommand::doCreateHoldingFolder(KBookmarkGroup &bkGroup) {
+   bkGroup = CurrentMgr::self()->mgr()
+      ->root().createNewFolder(CurrentMgr::self()->mgr(), folder(), false);
+   bkGroup.internalElement().setAttribute("icon", m_icon);
+   m_group = bkGroup.address();
 }
 
 void ImportCommand::execute() {
@@ -126,32 +133,44 @@ void ImportCommand::unexecute() {
    }
 }
 
-//////////////////////////////
+/* -------------------------------------- */
 
-void ImportCommand::doCreateHoldingFolder(KBookmarkGroup &bkGroup) {
-   bkGroup = CurrentMgr::self()->mgr()
-      ->root().createNewFolder(CurrentMgr::self()->mgr(), folder(), false);
-   bkGroup.internalElement().setAttribute("icon", m_icon);
-   m_group = bkGroup.address();
+QString MozImportCommand::requestFilename() const {
+   return KNSBookmarkImporter::mozillaBookmarksFile();
 }
 
-/* -------------------------------------- */
+QString NSImportCommand::requestFilename() const {
+   return KNSBookmarkImporter::netscapeBookmarksFile();
+}
 
 QString OperaImportCommand::requestFilename() const {
    return KOperaBookmarkImporter::operaBookmarksFile();
 }
+
+QString IEImportCommand::requestFilename() const {
+   return KIEBookmarkImporter::IEBookmarksDir();
+}
+
+QString GaleonImportCommand::requestFilename() const {
+   return KFileDialog::getOpenFileName(
+               QDir::homeDirPath() + "/.galeon",
+               i18n("*.xbel|Galeon bookmark files (*.xbel)"));
+}
+
+QString KDE2ImportCommand::requestFilename() const {
+   // locateLocal on the bookmarks file and get dir?
+   return KFileDialog::getOpenFileName(
+               QDir::homeDirPath() + "/.kde",
+               i18n("*.xml|KDE bookmark files (*.xml)"));
+}
+
+/* -------------------------------------- */
 
 void OperaImportCommand::doExecute(const KBookmarkGroup &bkGroup) {
    KBookmarkDomBuilder builder(bkGroup, CurrentMgr::self()->mgr());
    KOperaBookmarkImporter importer(m_fileName);
    builder.connectImporter(&importer);
    importer.parseOperaBookmarks();
-}
-
-/* -------------------------------------- */
-
-QString IEImportCommand::requestFilename() const {
-   return KIEBookmarkImporter::IEBookmarksDir();
 }
 
 void IEImportCommand::doExecute(const KBookmarkGroup &bkGroup) {
@@ -161,25 +180,11 @@ void IEImportCommand::doExecute(const KBookmarkGroup &bkGroup) {
    importer.parseIEBookmarks();
 }
 
-/* -------------------------------------- */
-
 void HTMLImportCommand::doExecute(const KBookmarkGroup &bkGroup) {
    KBookmarkDomBuilder builder(bkGroup, CurrentMgr::self()->mgr());
    KNSBookmarkImporter importer(m_fileName);
    builder.connectImporter(&importer);
    importer.parseNSBookmarks(m_utf8);
-}
-
-/* -------------------------------------- */
-
-QString MozImportCommand::requestFilename() const {
-   return KNSBookmarkImporter::mozillaBookmarksFile();
-}
-
-/* -------------------------------------- */
-
-QString NSImportCommand::requestFilename() const {
-   return KNSBookmarkImporter::netscapeBookmarksFile();
 }
 
 /* -------------------------------------- */
@@ -257,23 +262,6 @@ void XBELImportCommand::doExecute(const KBookmarkGroup &/*bkGroup*/) {
          root.appendChild((*it));
       }
    }
-}
-
-/* -------------------------------------- */
-
-QString GaleonImportCommand::requestFilename() const {
-   return KFileDialog::getOpenFileName(
-               QDir::homeDirPath() + "/.galeon",
-               i18n("*.xbel|Galeon bookmark files (*.xbel)"));
-}
-
-/* -------------------------------------- */
-
-QString KDE2ImportCommand::requestFilename() const {
-   // locateLocal on the bookmarks file and get dir?
-   return KFileDialog::getOpenFileName(
-               QDir::homeDirPath() + "/.kde",
-               i18n("*.xml|KDE bookmark files (*.xml)"));
 }
 
 #include "importers.moc"
