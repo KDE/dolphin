@@ -5,12 +5,19 @@ kde_module_LTLIBRARIES = konq_listview.la
 
 METASOURCES = AUTO
 
-konq_listview_la_SOURCES = konq_listview.cc konq_listviewitems.cc konq_listviewwidget.cc konq_treeviewwidget.cc konq_textviewwidget.cc konq_textviewitem.cc konq_treeviewitem.cc
+konq_listview_la_SOURCES = konq_listview.cc \
+                          konq_listviewwidget.cc konq_listviewitems.cc \
+                          konq_treeviewwidget.cc konq_treeviewitem.cc \
+                          konq_textviewwidget.cc konq_textviewitem.cc \
+                          konq_infolistviewwidget.cc konq_infolistviewitem.cc
+                             
 konq_listview_la_LDFLAGS = $(all_libraries) $(KDE_PLUGIN) -module
 konq_listview_la_LIBADD = $(top_builddir)/libkonq/libkonq.la
 
-kde_services_DATA = konq_treeview.desktop konq_detailedlistview.desktop konq_textview.desktop
+kde_services_DATA = konq_treeview.desktop konq_detailedlistview.desktop \
+                    konq_textview.desktop konq_infolistview.desktop
 
 rcdir = $(kde_datadir)/konqlistview
-rc_DATA = konq_treeview.rc konq_detailedlistview.rc konq_textview.rc
+rc_DATA = konq_treeview.rc konq_detailedlistview.rc konq_textview.rc \
+          konq_infolistview.rc
 

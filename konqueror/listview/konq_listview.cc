@@ -20,6 +20,7 @@
 #include "konq_listview.h"
 #include "konq_textviewwidget.h"
 #include "konq_treeviewwidget.h"
+#include "konq_infolistviewwidget.h"
 
 #include <kaction.h>
 #include <kdebug.h>
@@ -239,6 +240,12 @@ KonqListView::KonqListView( QWidget *parentWidget, QObject *parent, const char *
       kdDebug(1202) << "Creating KonqTreeViewWidget" << endl;
       setXMLFile( "konq_treeview.rc" );
       m_pListView=new KonqTreeViewWidget(this,parentWidget);
+   }
+   else if (mode=="InfoListView")
+   {
+      kdDebug(1202) << "Creating KonqInfoListViewWidget" << endl;
+      setXMLFile( "konq_infolistview.rc" );
+      m_pListView=new KonqInfoListViewWidget(this,parentWidget);
    }
    else
    {

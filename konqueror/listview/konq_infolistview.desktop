@@ -1,0 +1,12 @@
+[Desktop Entry]
+Encoding=UTF-8
+Type=Service
+Exec=blahfoo
+Name=Info List View
+MimeType=inode/directory
+ServiceTypes=KParts/ReadOnlyPart,Browser/View
+X-KDE-Library=konq_listview
+X-KDE-BrowserView-Args=InfoListView
+X-KDE-BrowserView-HideFromMenus=true
+Icon=view_detailed
+InitialPreference=7
