@@ -204,6 +204,10 @@ KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const 
     connect( m_pIconView, SIGNAL( enableAction( const char *, bool ) ),
              m_extension, SIGNAL( enableAction( const char *, bool ) ) );
 
+    // signals from konqdirpart (for BC reasons)
+    connect( this, SIGNAL( findOpened( KonqDirPart * ) ), SLOT( slotKFindOpened() ) );
+    connect( this, SIGNAL( findClosed( KonqDirPart * ) ), SLOT( slotKFindClosed() ) );
+
     setWidget( m_pIconView );
 
     setInstance( KonqIconViewFactory::instance() );
@@ -865,6 +869,18 @@ bool KonqKfmIconView::openURL( const KURL & url )
     emit setWindowCaption( url.prettyURL() );
 
     return true;
+}
+
+void KonqKfmIconView::slotKFindOpened()
+{
+    if ( m_dirLister )
+        m_dirLister->setAutoUpdate( false );
+}
+
+void KonqKfmIconView::slotKFindClosed()
+{
+    if ( m_dirLister )
+        m_dirLister->setAutoUpdate( true );
 }
 
 void KonqKfmIconView::slotOnItem( QIconViewItem *item )

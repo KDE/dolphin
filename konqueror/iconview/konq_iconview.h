@@ -122,6 +122,10 @@ protected slots:
    */
   void slotRenderingFinished();
 
+  // Connected to KonqDirPart
+  void slotKFindOpened();
+  void slotKFindClosed();
+
 protected:
 
   virtual void newIconSize( int size );
