@@ -211,21 +211,23 @@ void KonqView::switchView( KonqViewFactory &viewFactory )
 
   connectPart();
 
-  if ( !m_pMainWindow->viewManager()->isLoadingProfile() )
-  {
-    // Honour "non-removeable passive mode" (like the dirtree)
-    QVariant prop = m_service->property( "X-KDE-BrowserView-PassiveMode");
-    if ( prop.isValid() && prop.toBool() )
-    {
-      kdDebug(1202) << "KonqView::switchView X-KDE-BrowserView-PassiveMode -> setPassiveMode" << endl;
-      setPassiveMode( true ); // set as passive
-    }
+     QVariant prop;
 
      prop = m_service->property( "X-KDE-BrowserView-FollowActive");
     if (prop.isValid() && prop.toBool())
     {
       kdDebug(1202) << "KonqView::switchView X-KDE-BroswerView-FollowActive -> setFollowActive" <<endl;
       setFollowActive(true);
+    }
+
+  if ( !m_pMainWindow->viewManager()->isLoadingProfile() )
+  {
+    // Honour "non-removeable passive mode" (like the dirtree)
+    prop = m_service->property( "X-KDE-BrowserView-PassiveMode");
+    if ( prop.isValid() && prop.toBool() )
+    {
+      kdDebug(1202) << "KonqView::switchView X-KDE-BrowserView-PassiveMode -> setPassiveMode" << endl;
+      setPassiveMode( true ); // set as passive
     }
 
     // Honour "linked view"

@@ -779,7 +779,7 @@ bool KonqMainWindow::makeViewsFollow( const KURL & url, const KParts::URLArgs &a
   {
     // Views that should follow this URL as views that are linked
     // (we are here only if the view opening a URL initially is linked)
-    if ( (view != senderView) && view->isLinkedView() )
+    if ( (view != senderView) && view->isLinkedView() && (senderView->isLinkedView()))
     {
       kdDebug(1202) << "makeViewsFollow: Sending openURL to view " << view->part()->className() << " url=" << url.url() << endl;
 

@@ -1148,7 +1148,7 @@ void KonqViewManager::loadItem( KConfig &cfg, KonqFrameContainerBase *parent,
     //kdDebug(1202) << "Creating View Stuff" << endl;
     KonqView *childView = setupView( parent, viewFactory, service, partServiceOffers, appServiceOffers, serviceType, passiveMode );
 
-    childView->setLinkedView( cfg.readBoolEntry( QString::fromLatin1( "LinkedView" ).prepend( prefix ), false ) );
+    if (!childView->isFollowActive()) childView->setLinkedView( cfg.readBoolEntry( QString::fromLatin1( "LinkedView" ).prepend( prefix ), false ) );
     childView->setToggleView( cfg.readBoolEntry( QString::fromLatin1( "ToggleView" ).prepend( prefix ), false ) );
     if( !cfg.readBoolEntry( QString::fromLatin1( "ShowStatusBar" ).prepend( prefix ), true ) )
       childView->frame()->statusbar()->hide();
