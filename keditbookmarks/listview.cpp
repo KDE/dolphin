@@ -544,11 +544,7 @@ void ListView::clearSelection() {
    m_listView->clearSelection();
 }
 
-void ListView::startRename(int column, KEBListViewItem *item) {
-   s_myrenamecolumn = column;
-   s_myrenameitem = item;
-}
-
+/*
 void ListView::renameNextCell(bool fwd) {
    // this needs to take special care
    // of the current listview focus!
@@ -585,29 +581,7 @@ void ListView::renameNextCell(bool fwd) {
    }
    lv->rename(s_myrenameitem, s_myrenamecolumn);
 }
-
-/* -------------------------------------- */
-
-class KeyPressEater : public QObject {
-public:
-   KeyPressEater( QWidget *parent = 0, const char *name = 0 ) { ; }
-protected:
-   bool eventFilter(QObject *, QEvent *);
-};
-
-bool KeyPressEater::eventFilter(QObject *, QEvent *pe) {
-   if (pe->type() == QEvent::KeyPress) {
-      QKeyEvent *k = (QKeyEvent *) pe;
-      if ((k->key() == Qt::Key_Backtab || k->key() == Qt::Key_Tab)
-      && !(k->state() & ControlButton || k->state() & AltButton)
-      ) {
-         bool fwd = (k->key() == Key_Tab && !(k->state() & ShiftButton));
-         ListView::self()->renameNextCell(fwd);
-         return true;
-      }
-   }
-   return false;
-}
+*/
 
 /* -------------------------------------- */
 
@@ -685,9 +659,6 @@ void KEBListView::rename(QListViewItem *qitem, int column) {
    ) {
       return;
    }
-   ListView::startRename(column, item);
-   KeyPressEater *keyPressEater = new KeyPressEater(this);
-   renameLineEdit()->installEventFilter(keyPressEater);
    KListView::rename(item, column);
 }
 
