@@ -125,7 +125,7 @@ void KPreviewOptions::load()
     // config key is in bytes (default value 1MB), numinput is in MB
     m_maxSize->setValue( ((double)group.readNumEntry( "MaximumSize", DEFAULT_MAXSIZE )) / (1024*1024) );
 
-    m_boostSize->setChecked( group.readBoolEntry( "BoostSize", true /*default*/ ) );
+    m_boostSize->setChecked( group.readBoolEntry( "BoostSize", false /*default*/ ) );
     m_useFileThumbnails->setChecked( group.readBoolEntry( "UseFileThumbnails", true /*default*/ ) );
 }
 
@@ -136,7 +136,7 @@ void KPreviewOptions::defaults()
         it.current()->setChecked( true /*default*/ );
     }
     m_maxSize->setValue( DEFAULT_MAXSIZE / (1024*1024) );
-    m_boostSize->setChecked( true );
+    m_boostSize->setChecked( false );
 }
 
 void KPreviewOptions::save()
