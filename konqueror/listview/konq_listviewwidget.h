@@ -167,6 +167,10 @@ class KonqBaseListViewWidget : public KListView
       virtual void slotCloseView();
       void slotPopupMenu(KListView* , QListViewItem* );
 
+      // forces a repaint on column size changes / branch expansion
+      // when there is a background pixmap
+      void slotUpdateBackground();
+
    protected:
       //calls KListView::focusInEvent(), otherrwise this is never called,
       //I have no idea why, AleXXX
@@ -246,6 +250,7 @@ class KonqBaseListViewWidget : public KListView
       KURL m_url;
 
       QString m_itemToGoTo;
+      QTimer *m_backgroundTimer;
 };
 
 #endif

@@ -164,6 +164,7 @@ void KonqTextViewWidget::slotNewItems( const KFileItemList & entries )
       setUpdatesEnabled( true );
       triggerUpdate();
    }
+   slotUpdateBackground();
 }
 
 void KonqTextViewWidget::setComplete()

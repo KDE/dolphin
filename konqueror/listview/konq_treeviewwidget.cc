@@ -212,6 +212,7 @@ void KonqTreeViewWidget::slotNewItems( const KFileItemList & entries )
 
     // counts for the statusbar
     m_pBrowserView->newItems( entries );
+    slotUpdateBackground();
 }
 
 void KonqTreeViewWidget::slotDeleteItem( KFileItem *_fileItem )
@@ -237,11 +238,13 @@ void KonqTreeViewWidget::openSubFolder( KonqListViewDir* _dir )
 {
    m_dirLister->setShowingDotFiles( props()->isShowingDotFiles() );
    m_dirLister->openURL( _dir->item()->url(), true /* keep existing data */ );
+   slotUpdateBackground();
 }
 
 void KonqTreeViewWidget::stopListingSubFolder( KonqListViewDir* _dir )
 {
    m_dirLister->stop( _dir->item()->url() );
+   slotUpdateBackground();
 }
 
 #include "konq_treeviewwidget.moc"

@@ -85,6 +85,7 @@ KonqBaseListViewWidget::KonqBaseListViewWidget( KonqListView *parent, QWidget *p
 ,m_yOffset(0)
 ,m_filenameColumn(0)
 ,m_itemToGoTo("")
+,m_backgroundTimer(0)
 {
    kdDebug(1202) << "+KonqBaseListViewWidget" << endl;
 
@@ -150,6 +151,8 @@ KonqBaseListViewWidget::KonqBaseListViewWidget( KonqListView *parent, QWidget *p
             m_pBrowserView->extension(), SIGNAL( loadingProgress( int ) ) );
    connect( m_dirLister, SIGNAL( speed( int ) ),
             m_pBrowserView->extension(), SIGNAL( speedProgress( int ) ) );
+
+   connect( header(), SIGNAL( sizeChange( int, int, int ) ), SLOT( slotUpdateBackground() ) );
 
    viewport()->setMouseTracking( true );
    viewport()->setFocusPolicy( QWidget::WheelFocus );
@@ -1026,6 +1029,7 @@ void KonqBaseListViewWidget::slotNewItems( const KFileItemList & entries )
       setUpdatesEnabled( true );
       triggerUpdate();
    }
+   slotUpdateBackground();
 }
 
 void KonqBaseListViewWidget::slotDeleteItem( KFileItem * _fileitem )
@@ -1141,7 +1145,7 @@ KonqBaseListViewWidget::iterator KonqBaseListViewWidget::iterator::operator++(in
 
 void KonqBaseListViewWidget::paintEmptyArea( QPainter *p, const QRect &r )
 {
-   const QPixmap *pm = viewport()->backgroundPixmap();
+   const QPixmap *pm = viewport()->paletteBackgroundPixmap();
 
    if (!pm || pm->isNull())
       p->fillRect(r, viewport()->backgroundColor());
@@ -1200,6 +1204,20 @@ void KonqBaseListViewWidget::restoreState( QDataStream & ds )
    // (needed for the treeview)
    m_xOffset = m_pBrowserView->extension()->urlArgs().xOffset;
    m_yOffset = m_pBrowserView->extension()->urlArgs().yOffset;
+}
+
+void KonqBaseListViewWidget::slotUpdateBackground()
+{
+   if ( viewport()->paletteBackgroundPixmap() && !viewport()->paletteBackgroundPixmap()->isNull() )
+   {
+	if ( !m_backgroundTimer )
+	{
+	   m_backgroundTimer = new QTimer( this );
+	   connect( m_backgroundTimer, SIGNAL( timeout() ), viewport(), SLOT( update() ) );
+	}
+	else m_backgroundTimer->stop();
+	m_backgroundTimer->start( 50, true );
+   }
 }
 
 #include "konq_listviewwidget.moc"
