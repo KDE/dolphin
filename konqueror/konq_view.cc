@@ -18,6 +18,7 @@
 */
 
 #include "konq_view.h"
+#include "KonqViewIface.h"
 #include "konq_factory.h"
 #include "konq_frame.h"
 #include "konq_mainwindow.h"
@@ -54,6 +55,7 @@ KonqView::KonqView( KonqViewFactory &viewFactory,
   m_pMainWindow = mainWindow;
   m_pRun = 0L;
   m_pPart = 0L;
+  m_dcopObject = 0L;
 
   m_service = service;
   m_partServiceOffers = partServiceOffers;
@@ -683,6 +685,13 @@ void KonqView::callExtensionBoolMethod( const char *methodName, bool value )
   QMetaData * mdata = obj->metaObject()->slot( methodName );
   if( mdata )
     (obj->*((BoolMethod)mdata->ptr))(value);
+}
+
+KonqViewIface * KonqView::dcopObject()
+{
+  if ( !m_dcopObject )
+      m_dcopObject = new KonqViewIface( this );
+  return m_dcopObject;
 }
 
 #include "konq_view.moc"

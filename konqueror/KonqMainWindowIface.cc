@@ -20,6 +20,7 @@
 
 #include "KonqMainWindowIface.h"
 #include "konq_mainwindow.h"
+#include "KonqViewIface.h"
 #include "konq_view.h"
 
 #include <qvariant.h>
@@ -41,40 +42,34 @@ KonqMainWindowIface::~KonqMainWindowIface()
 
 int KonqMainWindowIface::viewCount()
 {
-    return m_pMainWindow->viewCount();
+  return m_pMainWindow->viewCount();
 }
 
 int KonqMainWindowIface::activeViewsCount()
 {
-    return m_pMainWindow->activeViewsCount();
+  return m_pMainWindow->activeViewsCount();
 }
 
 DCOPRef KonqMainWindowIface::currentView()
 {
-    // TODO
-    return DCOPRef("todo","todo");
+  DCOPRef res;
+
+  KonqView *view = m_pMainWindow->currentView();
+  if ( !view )
+    return res;
+
+  return DCOPRef( kapp->dcopClient()->appId(), view->dcopObject()->objId() );
 }
 
 DCOPRef KonqMainWindowIface::currentPart()
 {
-    DCOPRef res; 
-    
-    KonqView *view = m_pMainWindow->currentView();
-    if ( !view )
-      return res;
+  DCOPRef res;
 
-    KParts::ReadOnlyPart *part = view->part();
-    
-    if ( !part )
-      return res;
-    
-    QVariant dcopProperty = part->property( "dcopObjectId" );
-    
-    if ( dcopProperty.type() != QVariant::CString )
-      return res;
-    
-    res.setRef( kapp->dcopClient()->appId(), dcopProperty.toCString() );
+  KonqView *view = m_pMainWindow->currentView();
+  if ( !view )
     return res;
+
+  return view->dcopObject()->part();
 }
 
 DCOPRef KonqMainWindowIface::action( const QString &name )

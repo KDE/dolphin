@@ -2204,7 +2204,7 @@ void KonqMainWindow::updateViewModeActions( const KTrader::OfferList &services )
   }
 }
 
-DCOPObject* KonqMainWindow::dcopObject()
+KonqMainWindowIface* KonqMainWindow::dcopObject()
 {
   if ( !m_dcopObject )
       m_dcopObject = new KonqMainWindowIface( this );

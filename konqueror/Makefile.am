@@ -24,6 +24,7 @@ bin_PROGRAMS = konqueror
 konqueror_la_SOURCES = konq_main.cc \
 	    KonquerorIface.cc KonquerorIface.skel \
 	    KonqMainWindowIface.cc KonqMainWindowIface.skel \
+	    KonqViewIface.cc KonqViewIface.skel \
 	    konq_mainwindow.cc konq_guiclients.cc \
 	    konq_run.cc konq_view.cc konq_viewmgr.cc \
 	    konq_misc.cc \

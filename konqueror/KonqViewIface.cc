@@ -35,8 +35,8 @@ KonqViewIface::~KonqViewIface()
 
 void KonqViewIface::openURL( QString url )
 {
-    KURL u(url);
-    m_pView->openURL( u );
+  KURL u(url);
+  m_pView->openURL( u );
 }
 
 bool KonqViewIface::changeViewMode( const QString &serviceType,
@@ -44,49 +44,54 @@ bool KonqViewIface::changeViewMode( const QString &serviceType,
                                     const QString &url,
                                     const QString &locationBarURL )
 {
-    return m_pView->changeViewMode( serviceType, serviceName, url, locationBarURL );
+  return m_pView->changeViewMode( serviceType, serviceName, url, locationBarURL );
 }
 
 void KonqViewIface::lockHistory()
 
 {
-    m_pView->lockHistory();
+  m_pView->lockHistory();
 }
 
 void KonqViewIface::stop()
 {
-    m_pView->stop();
+  m_pView->stop();
 }
 
 QString KonqViewIface::url()
 {
-    return m_pView->url().url();
+  return m_pView->url().url();
 }
 
 QString KonqViewIface::locationBarURL()
 {
-    return m_pView->locationBarURL();
+  return m_pView->locationBarURL();
+}
+
+QString KonqViewIface::serviceType()
+{
+  return m_pView->serviceType();
 }
 
 QStringList KonqViewIface::serviceTypes()
 {
-    return m_pView->serviceTypes();
+  return m_pView->serviceTypes();
 }
 
 DCOPRef KonqViewIface::part()
 {
-    DCOPRef res;
+  DCOPRef res;
 
-    KParts::ReadOnlyPart *part = m_pView->part();
+  KParts::ReadOnlyPart *part = m_pView->part();
 
-    if ( !part )
-      return res;
-
-    QVariant dcopProperty = part->property( "dcopObjectId" );
-
-    if ( dcopProperty.type() != QVariant::CString )
-      return res;
-
-    res.setRef( kapp->dcopClient()->appId(), dcopProperty.toCString() );
+  if ( !part )
     return res;
+
+  QVariant dcopProperty = part->property( "dcopObjectId" );
+
+  if ( dcopProperty.type() != QVariant::CString )
+    return res;
+
+  res.setRef( kapp->dcopClient()->appId(), dcopProperty.toCString() );
+  return res;
 }

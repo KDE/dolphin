@@ -38,6 +38,7 @@
 
 class KonqRun;
 class KonqFrame;
+class KonqViewIface;
 
 struct HistoryEntry
 {
@@ -151,7 +152,7 @@ public:
 
   /**
    * Get view's location bar URL, i.e. the one that the view signals
-   * It can be different from url(), for instance if we display a index.html (David)
+   * It can be different from url(), for instance if we display a index.html
    */
   const QString locationBarURL() { return m_sLocationBarURL; }
 
@@ -170,17 +171,17 @@ public:
   }
 
   /**
-   * Returns a pointer to the KonqFrame which the view lives in
+   * @return a pointer to the KonqFrame which the view lives in
    */
   KonqFrame* frame() { return m_pKonqFrame; }
 
   /**
-   * Returns the servicetype this view is currently displaying
+   * @return the servicetype this view is currently displaying
    */
   QString serviceType() { return m_serviceType; }
 
   /**
-   * Returns the Servicetypes this view is capable to display
+   * @return the servicetypes this view is capable to display
    */
   QStringList serviceTypes() { return m_service->serviceTypes(); }
 
@@ -223,6 +224,8 @@ public:
   QString viewName() const { return m_name; }
 
   QStringList frameNames() const;
+
+  KonqViewIface * dcopObject();
 
   static QStringList childFrameNames( KParts::ReadOnlyPart *part );
 
@@ -305,6 +308,7 @@ protected:
   bool m_bLockHistory;
   QString m_name;
   bool m_bAborted;
+  KonqViewIface * m_dcopObject;
 };
 
 #endif

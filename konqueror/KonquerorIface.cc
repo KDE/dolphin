@@ -20,6 +20,7 @@
 
 #include "KonquerorIface.h"
 #include "konq_misc.h"
+#include "KonqMainWindowIface.h"
 #include "konq_mainwindow.h"
 #include "konq_viewmgr.h"
 #include <konqsettings.h>

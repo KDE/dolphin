@@ -55,6 +55,7 @@ class KonqViewManager;
 class OpenWithGUIClient;
 class ToggleViewGUIClient;
 class ViewModeGUIClient;
+class KonqMainWindowIface;
 struct HistoryEntry;
 
 namespace KParts {
@@ -150,7 +151,7 @@ signals:
 
 public:
 
-  DCOPObject * dcopObject();
+  KonqMainWindowIface * dcopObject();
 
   void reparseConfiguration();
 
@@ -393,7 +394,7 @@ private:
   KActionMenu *m_viewModeMenu;
   QList<KAction> m_viewModeActions;
 
-  DCOPObject * m_dcopObject;
+  KonqMainWindowIface * m_dcopObject;
 
   static QStringList *s_plstAnimatedLogo;
 
