@@ -109,6 +109,7 @@ void KonqCombo::insertPermanent( const QString& url )
 void KonqCombo::applyPermanent()
 {
     if ( m_permanent && !temporaryItem().isEmpty() ) {
+
 	// remove as many items as needed to honour maxCount()
 	int i = count();
 	while ( count() >= maxCount() )
@@ -141,10 +142,8 @@ void KonqCombo::updateItem(const QPixmap& pix, const QString& t, int index)
     setUpdatesEnabled( false );
     lineEdit()->setUpdatesEnabled( false );
 
-    int current = currentItem();
     removeItem( index );
     insertItem( pix, t, index );
-    setCurrentItem( current );
 
     setUpdatesEnabled( true );
     lineEdit()->setUpdatesEnabled( true );
