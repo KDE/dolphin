@@ -194,23 +194,23 @@ void addBackEnd::activatedAddMenu(int id)
 Sidebar_Widget::Sidebar_Widget(QWidget *parent, KParts::ReadOnlyPart *par, const char *name)
 	:QWidget(parent,name)
 {
-	m_initial=true;
-	deleting=false;
-	connect(this,SIGNAL(destroyed()),this,SLOT(slotDeleted()));
-	noUpdate=false;
-	myLayout=0;
-	activeModule=0;
-        kdDebug()<<"**** Sidebar_Widget:SidebarWidget()"<<endl;
-        PATH=KGlobal::dirs()->saveLocation("data","konqsidebartng/entries/",true);
+	m_initial = true;
+	deleting = false;
+	connect(this, SIGNAL(destroyed()), this, SLOT(slotDeleted()));
+	noUpdate = false;
+	myLayout = 0;
+	activeModule = 0;
+        //kdDebug() << "**** Sidebar_Widget:SidebarWidget()"<<endl;
+        PATH = KGlobal::dirs()->saveLocation("data", "konqsidebartng/entries/", true);
 	Buttons.resize(0);
 	Buttons.setAutoDelete(true);
-	stored_url=false;
-	latestViewed=-1;
-	partParent=par;
-	setSizePolicy(QSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding));
-	Area=new KDockArea(this);
-	Area->setSizePolicy(QSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding));
-	dummyMainW=Area->createDockWidget("free",0);
+	stored_url = false;
+	latestViewed = -1;
+	partParent = par;
+	setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding));
+	Area = new KDockArea(this);
+	Area->setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding));
+	dummyMainW = Area->createDockWidget("free", 0);
 	dummyMainW->setWidget(new QWidget(dummyMainW));
 	Area->setMainDockWidget(dummyMainW);
 	Area->setMinimumWidth(0);
@@ -220,34 +220,40 @@ Sidebar_Widget::Sidebar_Widget(QWidget *parent, KParts::ReadOnlyPart *par, const
                                 KDockWidget::DockBottom|KDockWidget::DockDesktop);*/
 
 
-   	ButtonBar=new KMultiTabBar(this,KMultiTabBar::Vertical);
+   	ButtonBar = new KMultiTabBar(this, KMultiTabBar::Vertical);
 	ButtonBar->showActiveTabTexts(true);
-	Menu=new QPopupMenu(this,"Sidebar_Widget::Menu");
-	QPopupMenu *addMenu=new QPopupMenu(this,"Sidebar_Widget::addPopup");
-	Menu->insertItem(i18n("Add New"),addMenu,0);
+	Menu = new QPopupMenu(this, "Sidebar_Widget::Menu");
+	QPopupMenu *addMenu = new QPopupMenu(this, "Sidebar_Widget::addPopup");
+	Menu->insertItem(i18n("Add New"), addMenu, 0);
 	Menu->insertSeparator();
-	Menu->insertItem(i18n("Multiple Views"),1);
-	Menu->insertItem(i18n("Show Tabs Left"),2);
-	Menu->insertItem(i18n("Show Configuration Button"),3);
+	Menu->insertItem(i18n("Multiple Views"), 1);
+	Menu->insertItem(i18n("Show Tabs Left"), 2);
+	Menu->insertItem(i18n("Show Configuration Button"), 3);
 	Menu->insertSeparator();
-	Menu->insertItem(i18n("Save Opened Views"),this,SLOT(saveOpenViews()));
+	Menu->insertItem(i18n("Save Opened Views"), this, SLOT(saveOpenViews()));
 	Menu->insertSeparator();
-	Menu->insertItem(SmallIconSet("remove"),i18n("Close Navigation Panel"),par,SLOT(deleteLater()));
-        connect(Menu,SIGNAL(aboutToShow()),this,SLOT(aboutToShowConfigMenu()));
-	connect(Menu,SIGNAL(activated(int)),this,SLOT(activatedMenu(int)));
+	Menu->insertItem(SmallIconSet("remove"), i18n("Close Navigation Panel"),
+			par, SLOT(deleteLater()));
+        connect(Menu, SIGNAL(aboutToShow()),
+		this, SLOT(aboutToShowConfigMenu()));
+	connect(Menu, SIGNAL(activated(int)),
+		this, SLOT(activatedMenu(int)));
 
-	buttonPopup=new KPopupMenu(this,"Sidebar_Widget::ButtonPopup");
-	buttonPopup->insertTitle(SmallIcon("unknown"),"",50);
-	buttonPopup->insertItem(SmallIconSet("www"),i18n("URL"),2);
-	buttonPopup->insertItem(SmallIconSet("image"),i18n("Icon"),1);
+	buttonPopup=new KPopupMenu(this, "Sidebar_Widget::ButtonPopup");
+	buttonPopup->insertTitle(SmallIcon("unknown"), "", 50);
+	buttonPopup->insertItem(SmallIconSet("www"), i18n("URL"),2);
+	buttonPopup->insertItem(SmallIconSet("image"), i18n("Icon"),1);
 	buttonPopup->insertSeparator();
-	buttonPopup->insertItem(SmallIconSet("remove"),i18n("Remove"),3);
+	buttonPopup->insertItem(SmallIconSet("remove"), i18n("Remove"),3);
 	buttonPopup->insertSeparator();
-	buttonPopup->insertItem(SmallIconSet("configure"),i18n("Configure Navigation Panel"), Menu, 4);
-	connect(buttonPopup,SIGNAL(activated(int)),this,SLOT(buttonPopupActivate(int)));
-	addBackEnd *ab=new addBackEnd(this,addMenu,"Sidebar_Widget-addBackEnd");
-	connect(ab,SIGNAL(updateNeeded()),this,SLOT(createButtons()));
-	connect(ab,SIGNAL(initialCopyNeeded()),this,SLOT(finishRollBack()));
+	buttonPopup->insertItem(SmallIconSet("configure"), i18n("Configure Navigation Panel"), Menu, 4);
+	connect(buttonPopup, SIGNAL(activated(int)),
+		this, SLOT(buttonPopupActivate(int)));
+	addBackEnd *ab = new addBackEnd(this, addMenu, "Sidebar_Widget-addBackEnd");
+	connect(ab, SIGNAL(updateNeeded()),
+		this, SLOT(createButtons()));
+	connect(ab, SIGNAL(initialCopyNeeded()),
+		this, SLOT(finishRollBack()));
 
 //	ButtonBar->setMinimumHeight(10);
 //	ButtonBar=new QButtonGroup(this);
@@ -257,13 +263,32 @@ Sidebar_Widget::Sidebar_Widget(QWidget *parent, KParts::ReadOnlyPart *par, const
 	initialCopy();
 
 	QTimer::singleShot(0,this,SLOT(createButtons()));
-//	connect(ButtonBar,SIGNAL(toggled(int)),this,SLOT(showHidePage(int)));
-	connect(Area,SIGNAL(dockWidgetHasUndocked(KDockWidget*)),this,SLOT(dockWidgetHasUndocked(KDockWidget*)));
+//	connect(ButtonBar, SIGNAL(toggled(int)), this, SLOT(showHidePage(int)));
+	connect(Area, SIGNAL(dockWidgetHasUndocked(KDockWidget*)),
+		this, SLOT(dockWidgetHasUndocked(KDockWidget*)));
 }
 
 void Sidebar_Widget::addWebSideBar(const KURL& url, const QString& name) {
-	kdDebug() << "Web sidebar entry to be added: " << url.url()
-		<< " [" << name << "]" << endl;
+	//kdDebug() << "Web sidebar entry to be added: " << url.url()
+	//	<< " [" << name << "]" << endl;
+
+	// Look for existing ones with this URL
+	KStandardDirs *dirs = KGlobal::dirs();
+	dirs->saveLocation("data", "konqsidebartng/entries/", true);
+	QString list = locateLocal("data", "/konqsidebartng/entries/");
+
+	// Go through list to see which ones exist.  Check them for the URL
+	QStringList files = QDir(list).entryList("websidebarplugin*.desktop");
+	for (QStringList::Iterator it = files.begin(); it != files.end(); ++it){
+		KSimpleConfig scf(list + *it, false);
+		scf.setGroup("Desktop Entry");
+		if (scf.readEntry("URL", QString::null) == url.url()) {
+			// We already have this one!
+			KMessageBox::information(0L,
+					i18n("This entry already exists."));
+			return;
+		}
+	}
 
 	QString tmpl = "websidebarplugin%1.desktop";
 	QString myFile = findFileName(&tmpl);
@@ -286,14 +311,14 @@ void Sidebar_Widget::addWebSideBar(const KURL& url, const QString& name) {
 
 void Sidebar_Widget::finishRollBack()
 {
-        PATH=KGlobal::dirs()->saveLocation("data","konqsidebartng/entries/",true);
+        PATH = KGlobal::dirs()->saveLocation("data","konqsidebartng/entries/",true);
         initialCopy();
         QTimer::singleShot(0,this,SLOT(createButtons()));
 }
 
 void Sidebar_Widget::slotDeleted()
 {
-	deleting=true;
+	deleting = true;
 }
 
 void Sidebar_Widget::saveOpenViews()
@@ -305,8 +330,10 @@ void Sidebar_Widget::saveOpenViews()
 
 void Sidebar_Widget::doLayout()
 {
-	if (myLayout) delete myLayout;
-	myLayout=new QHBoxLayout(this);
+	if (myLayout)
+		delete myLayout;
+
+	myLayout = new QHBoxLayout(this);
 	if  (showTabsRight)
 	{
 		myLayout->add(Area);
@@ -319,29 +346,33 @@ void Sidebar_Widget::doLayout()
 
 	}
 	myLayout->activate();
-//	savedWidth=((QWidget*)(parent()))->width();
+//	savedWidth = static_cast<QWidget*>(parent())->width();
 }
 
 
 void Sidebar_Widget::aboutToShowConfigMenu()
 {
-	Menu->setItemChecked(1,!singleWidgetMode);
-	Menu->setItemChecked(2,!showTabsRight);
-	Menu->setItemChecked(3,showExtraButtons);
+	Menu->setItemChecked(1, !singleWidgetMode);
+	Menu->setItemChecked(2, !showTabsRight);
+	Menu->setItemChecked(3, showExtraButtons);
 }
 
 
 void Sidebar_Widget::initialCopy()
 {
-	kdDebug()<<"Initial copy"<<endl;
-	   QString dirtree_dir = KGlobal::dirs()->findDirs("data","konqsidebartng/entries/").last();
-	    if (dirtree_dir==PATH) return; // oups?
-            if ( !dirtree_dir.isEmpty() && dirtree_dir != PATH )
-            {
-		   KSimpleConfig gcfg(dirtree_dir+".version");
-		   KSimpleConfig lcfg(PATH+".version");
-		   int gversion=gcfg.readNumEntry("Version",1);
-		   if (lcfg.readNumEntry("Version",0)>=gversion) return;
+	// kdDebug()<<"Initial copy"<<endl;
+	QString dirtree_dir = KGlobal::dirs()->findDirs("data","konqsidebartng/entries/").last();
+
+	if (dirtree_dir == PATH)
+		return; // oups?
+
+        if ( !dirtree_dir.isEmpty() && dirtree_dir != PATH )
+        {
+		KSimpleConfig gcfg(dirtree_dir+".version");
+		KSimpleConfig lcfg(PATH+".version");
+		int gversion = gcfg.readNumEntry("Version", 1);
+		if (lcfg.readNumEntry("Version", 0) >= gversion)
+			return;
 
  	        QDir dir(PATH);
     	        QStringList entries = dir.entryList( QDir::Files );
@@ -357,21 +388,22 @@ void Sidebar_Widget::initialCopy()
                 QStringList::ConstIterator eEnd = globalDirEntries.end();
                 for (; eIt != eEnd; ++eIt )
                 {
-                    //kdDebug(1201) << "KonqSidebarTree::scanDir dirtree_dir contains " << *eIt << endl;
-                    if ( *eIt != "." && *eIt != ".."
-                         && !entries.contains( *eIt ) && !dirEntries.contains( *eIt ) )
-                    { // we don't have that one yet -> copy it.
-                        QString cp("cp -R ");
-                        cp += KProcess::quote(dirtree_dir + *eIt);
-                        cp += " ";
-                        cp += KProcess::quote(PATH);
-                        kdDebug() << "SidebarWidget::intialCopy executing " << cp << endl;
-                        ::system( QFile::encodeName(cp) );
-                    }
-                }
+                	//kdDebug(1201) << "KonqSidebarTree::scanDir dirtree_dir contains " << *eIt << endl;
+                	if ( *eIt != "." && *eIt != ".." &&
+				!entries.contains( *eIt ) &&
+				!dirEntries.contains( *eIt ) )
+			{ // we don't have that one yet -> copy it.
+				QString cp("cp -R ");
+				cp += KProcess::quote(dirtree_dir + *eIt);
+				cp += " ";
+				cp += KProcess::quote(PATH);
+				kdDebug() << "SidebarWidget::intialCopy executing " << cp << endl;
+				::system( QFile::encodeName(cp) );
+			}
+		}
 		lcfg.writeEntry("Version",gversion);
 		lcfg.sync();
-	   }
+	}
 }
 
 void Sidebar_Widget::buttonPopupActivate(int id)
