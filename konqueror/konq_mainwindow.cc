@@ -478,6 +478,7 @@ void KonqMainWindow::openURL( KonqView *_view, const KURL &_url,
                                   openAfterCurrentPage);
     if (view) {
       view->setCaption( _url.host() );
+      view->setLocationBarURL( _url.htmlURL() );
 
       if ( req.newTabInFront )
         m_pViewManager->showTab( view );
