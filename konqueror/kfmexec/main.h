@@ -14,13 +14,12 @@ class KFMExec : public QObject
 public:
     KFMExec();
 
-    QString shellQuote( const QString & _data );
-
 public slots:
     void slotResult( KIO::Job * );
     void slotRunApp();
 
 protected:
+    bool tempfiles;
     int counter;
     int expectedCounter;
     QString command;

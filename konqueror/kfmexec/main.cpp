@@ -38,20 +38,22 @@
 #include <kcmdlineargs.h>
 #include <kaboutdata.h>
 #include <kstartupinfo.h>
+#include <kshell.h>
 
 
 #include "main.h"
 
 
-static const char *description =
+static const char description[] =
         I18N_NOOP("KFM Exec - Opens remote files, watches modifications, asks for upload");
 
-static const char *version = "v0.0.1";
+static const char version[] = "v0.0.2";
 
 static KCmdLineOptions options[] =
 {
-   { "+command", I18N_NOOP("Command to execute."), 0 },
-   { "[URLs]", I18N_NOOP("URL(s) or local file used for 'command'."), 0 },
+   { "tempfiles", I18N_NOOP("Treat URLs as local files and delete them afterwards"), 0 },
+   { "+command", I18N_NOOP("Command to execute"), 0 },
+   { "+[URLs]", I18N_NOOP("URL(s) or local file(s) used for 'command'"), 0 },
    KCmdLineLastOption
 };
 
@@ -67,7 +69,9 @@ KFMExec::KFMExec()
 
     KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
     if (args->count() < 1)
-       KCmdLineArgs::usage(i18n("'command' expected.\n"));
+        KCmdLineArgs::usage(i18n("'command' expected.\n"));
+
+    tempfiles = args->isSet("tempfiles");
 
     expectedCounter = 0;
     command = args->arg(0);
@@ -82,18 +86,18 @@ KFMExec::KFMExec()
         {
             fileInfo file;
             file.path = url.path();
-            file.time = 0;
+            file.url = url;
             fileList.append(file);
         }
         // It is an URL
         else
         {
             if ( url.isMalformed() )
-            {
                 KMessageBox::error( 0L, i18n( "The URL %1\nis malformed" ).arg( url.url() ) );
-            }
-            // We must fetch the file
+            else if ( tempfiles )
+                KMessageBox::error( 0L, i18n( "Remote URL %1\nnot allowed with --tempfiles switch" ).arg( url.url() ) );
             else
+            // We must fetch the file
             {
                 // Build the destination filename, in ~/.kde/share/apps/kfmexec/tmp/
                 // Unlike KDE-1.1, we put the filename at the end so that the extension is kept
@@ -103,7 +107,6 @@ KFMExec::KFMExec()
                 fileInfo file;
                 file.path = tmp;
                 file.url = url;
-                file.time = 0;
                 fileList.append(file);
 
                 expectedCounter++;
@@ -116,6 +119,9 @@ KFMExec::KFMExec()
         }
     }
     args->clear();
+
+    if ( tempfiles )
+        slotRunApp(); // does not return
 
     counter = 0;
     if ( counter == expectedCounter )
@@ -160,8 +166,8 @@ void KFMExec::slotResult( KIO::Job * job )
 
 void KFMExec::slotRunApp()
 {
-    if ( fileList.isEmpty() )  {
-        kdDebug() << k_funcinfo << "No file downloaded -> exiting" << endl;
+    if ( fileList.isEmpty() ) {
+        kdDebug() << k_funcinfo << "No files downloaded -> exiting" << endl;
         exit(1);
     }
 
@@ -173,8 +179,7 @@ void KFMExec::slotRunApp()
     for ( ; it != fileList.end() ; ++it )
     {
         struct stat buff;
-        stat( QFile::encodeName((*it).path), &buff );
-        (*it).time = buff.st_mtime;
+        (*it).time = stat( QFile::encodeName((*it).path), &buff ) ? 0 : buff.st_mtime;
         KURL url;
         url.setPath((*it).path);
         list << url;
@@ -182,7 +187,7 @@ void KFMExec::slotRunApp()
 
     QStringList params = KRun::processDesktopExec(service, list, false /*no shell*/);
 
-    kdDebug() << "EXEC '" << params.join(" ") << "'" << endl;
+    kdDebug() << "EXEC " << KShell::joinArgs( params ) << endl;
 
     // propagate the startup indentification to the started process
     KStartupInfoId id;
@@ -207,22 +212,36 @@ void KFMExec::slotRunApp()
         if ( (stat( QFile::encodeName(src), &buff ) == 0) &&
              ((*it).time != buff.st_mtime) )
         {
-            if ( KMessageBox::questionYesNo( 0L,
-                                             i18n( "The file\n%1\nhas been modified.\nDo you want to upload the changes?" ).arg(dest.prettyURL()),
-                                             i18n("File Changed" ) ) == KMessageBox::Yes )
+            if ( tempfiles )
             {
-                kdDebug() << QString("src='%1'  dest='%2'").arg(src).arg(dest.url()).ascii() << endl;
-                // Do it the synchronous way.
-                if ( !KIO::NetAccess::upload( src, dest ) )
+                if ( KMessageBox::questionYesNo( 0L,
+                                                 i18n( "The supposedly temporary file\n%1\nhas been modified.\nDo you still want to delete it?" ).arg(dest.prettyURL()),
+                                                 i18n( "File Changed" ) ) != KMessageBox::Yes )
+                    continue; // don't delete the temp file
+            }
+            else
+            {
+                if ( KMessageBox::questionYesNo( 0L,
+                                                 i18n( "The file\n%1\nhas been modified.\nDo you want to upload the changes?" ).arg(dest.prettyURL()),
+                                                 i18n( "File Changed" ) ) == KMessageBox::Yes )
                 {
+                    kdDebug() << QString("src='%1'  dest='%2'").arg(src).arg(dest.url()).ascii() << endl;
+                    // Do it the synchronous way.
+                    if ( !KIO::NetAccess::upload( src, dest ) )
+                    {
                         KMessageBox::error( 0L, KIO::NetAccess::lastErrorString() );
+                        continue; // don't delete the temp file
+                    }
                 }
             }
         }
         else
         {
-            unlink( QFile::encodeName(src) );
+            // don't upload (and delete!) local files
+            if (!tempfiles && dest.isLocalFile())
+                continue;
         }
+        unlink( QFile::encodeName(src) );
     }
 
     //kapp->quit(); not efficient enough
@@ -233,22 +252,17 @@ int main( int argc, char **argv )
 {
     KAboutData aboutData( "kfmexec", I18N_NOOP("KFMExec"),
         version, description, KAboutData::License_GPL,
-        "(c) 1998-2000, The KFM/Konqueror Developers");
+        "(c) 1998-2000,2003 The KFM/Konqueror Developers");
     aboutData.addAuthor("David Faure",0, "faure@kde.org");
     aboutData.addAuthor("Stephen Kulow",0, "coolo@kde.org");
-    aboutData.addAuthor("Bernhard Rosenkraenzer",0, "bero@redhat.de");
+    aboutData.addAuthor("Bernhard Rosenkraenzer",0, "bero@arklinux.org");
     aboutData.addAuthor("Waldo Bastian",0, "bastian@kde.org");
+    aboutData.addAuthor("Oswald Buddenhagen",0, "ossi@kde.org");
 
     KCmdLineArgs::init( argc, argv, &aboutData );
     KCmdLineArgs::addCmdLineOptions( options );
 
     KApplication app;
-
-    if ( argc < 2 )
-    {
-        kdError() << i18n( "Syntax Error:\nkfmexec command [URLs ...]" ) << endl;
-        exit(1);
-    }
 
     KFMExec exec;
 
