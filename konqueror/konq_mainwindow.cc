@@ -1137,8 +1137,10 @@ void KonqMainWindow::slotPartActivated( KParts::Part *part )
         act->setEnabled( false );
     }
 
-    m_paCopyFiles->setEnabled( false );
-    m_paMoveFiles->setEnabled( false );
+    if ( m_paCopyFiles )
+      m_paCopyFiles->setEnabled( false );
+    if ( m_paMoveFiles )
+      m_paMoveFiles->setEnabled( false );
 
     createGUI( 0L );
   }
