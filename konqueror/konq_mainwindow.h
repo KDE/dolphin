@@ -30,6 +30,8 @@
 
 #include <kparts/mainwindow.h>
 #include <kbookmark.h>
+#include <kurlcompletion.h>
+#include <kglobalsettings.h>
 #include <dcopobject.h>
 #include <kxmlgui.h>
 #include <kxmlguiclient.h>
@@ -297,6 +299,9 @@ protected slots:
   void slotForwardActivated( int id );
 
   void slotComboPlugged();
+  void slotCompletionModeChanged( KGlobalSettings::Completion );
+  void slotMakeCompletion( const QString& );
+  void slotRotation( KCompletionBase::KeyBindingType );
 
   void slotComboCut();
   void slotComboCopy();
@@ -443,6 +448,7 @@ private:
   QString m_title;
 
   QGuardedPtr<KHistoryCombo> m_combo;
+  KURLCompletion *m_pCompletion;
 
   ToggleViewGUIClient *m_toggleViewGUIClient;
 

@@ -1791,9 +1791,54 @@ void KonqMainWindow::slotComboPlugged()
   m_combo->setCompletionMode( (KGlobalSettings::Completion) mode ); // set the previous completion-mode
   m_combo->completionObject()->setItems( config->readListEntry( "CompletionItems" ) );
   m_combo->setHistoryItems( locationBarCombo );
+  m_combo->setHandleSignals( false );
+  m_pCompletion = new KURLCompletion( KURLCompletion::FileCompletion );
+
+  connect( m_combo, SIGNAL( completion( const QString& )),
+           SLOT( slotMakeCompletion( const QString& )));
+  connect( m_combo, SIGNAL( rotateText( KCompletionBase::KeyBindingType) ),
+           SLOT( slotRotation( KCompletionBase::KeyBindingType )));
 
   m_combo->lineEdit()->installEventFilter(this);
 }
+
+// the user changed the completion mode in the combo
+void KonqMainWindow::slotCompletionModeChanged( KGlobalSettings::Completion m )
+{
+  m_pCompletion->setCompletionMode( m );
+}
+
+// at first, try to find a completion in the current view, then use the global
+// completion (history)
+void KonqMainWindow::slotMakeCompletion( const QString& text )
+{
+  QString completion = m_pCompletion->makeCompletion( text );
+
+  if ( completion.isNull() ) // ask the global one
+    completion = m_combo->completionObject()->makeCompletion( text );
+
+  if ( !completion.isNull() )
+    m_combo->setCompletedText( completion );
+}
+
+void KonqMainWindow::slotRotation( KCompletionBase::KeyBindingType type )
+{
+  bool prev = (type == KCompletionBase::PrevCompletionMatch);
+  if ( prev || type == KCompletionBase::NextCompletionMatch ) {
+    QString completion = prev ? m_pCompletion->previousMatch() :
+                                m_pCompletion->nextMatch();
+
+    if( completion.isNull() ) { // try the history KCompletion object
+      KCompletion *comp = m_combo->completionObject();
+      completion = prev ? comp->previousMatch() : comp->nextMatch();
+    }
+    if ( completion.isNull() || completion == m_combo->currentText() )
+      return;
+
+    m_combo->setCompletedText( completion );
+  }
+}
+
 
 bool KonqMainWindow::eventFilter(QObject*obj,QEvent *ev)
 {
