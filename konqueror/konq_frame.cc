@@ -169,7 +169,7 @@ KonqFrame::KonqFrame( KonqFrameContainer *_parentContainer, const char *_name )
 
 KonqFrame::~KonqFrame()
 {
-  delete m_pLayout;
+  //delete m_pLayout;
 }
 
 KParts::ReadOnlyPart * KonqFrame::view( void )

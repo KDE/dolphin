@@ -77,7 +77,7 @@ KonqChildView::~KonqChildView()
 {
   kDebugInfo(1202,"KonqChildView::~KonqChildView");
   // No! We don't take ownership! (David) delete m_pKonqFrame;
-  //  delete m_pView;
+  delete m_pView;
   delete (KonqRun *)m_pRun;
 }
 
