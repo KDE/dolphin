@@ -567,7 +567,6 @@ int main(int argc, char **argv)
   aboutData.addCredit ("Yury Lebedev",I18N_NOOP("Highlighting for SQL"),"");
   aboutData.addCredit ("Chris Ross",I18N_NOOP("Highlighting for Ferite"),"");
   aboutData.addCredit ("Nick Roux",I18N_NOOP("Highlighting for ILERPG"),"");
-  aboutData.addCredit ("John Firebaugh",I18N_NOOP("Highlighting for Java, and much more"),"");
   aboutData.addCredit ("Carsten Niehaus", I18N_NOOP("Highlighting for LaTeX"),"");
   aboutData.addCredit ("Per Wigren", I18N_NOOP("Highlighting for Makefiles, Python"),"");
   aboutData.addCredit ("Jan Fritz", I18N_NOOP("Highlighting for Python"),"");
