@@ -163,8 +163,9 @@ KonqHTMLView::~KonqHTMLView()
 bool KonqHTMLView::openURL( const KURL &url )
 {
   m_url = url;
+  KParts::URLArgs args = m_extension->urlArgs();
   // don't call our reimplementation as it emits openURLRequest! (Simon)
-  m_pWidget->KHTMLWidget::openURL( url.url() /*,reload, xOffset, yOffset*/ );
+  m_pWidget->KHTMLWidget::openURL( url.url(), args.reload, args.xOffset, args.yOffset );
 
   if ( m_pWidget->job() )
   {
