@@ -23,6 +23,7 @@
 #include "konq_mainview.h"
 #include "konq_propsview.h"
 #include "konq_run.h"
+#include "konq_events.h"
 #include "konq_viewmgr.h"
 #include <kio/job.h>
 
@@ -258,7 +259,7 @@ void KonqChildView::connectView(  )
            m_pKonqFrame->statusbar(), SLOT( slotSpeedProgress( int ) ) );
 
   connect( ext, SIGNAL( selectionInfo( const KonqFileItemList & ) ),
-	   m_pMainView, SLOT( slotSelectionInfo( const KonqFileItemList & ) ) );
+	   this, SLOT( slotSelectionInfo( const KonqFileItemList & ) ) );
 
   connect( ext, SIGNAL( openURLNotify() ),
 	   this, SLOT( createHistoryEntry() ) );
@@ -313,6 +314,12 @@ void KonqChildView::slotCanceled( const QString & )
 #warning TODO obey errMsg
 #endif
   slotCompleted();
+}
+
+void KonqChildView::slotSelectionInfo( const KonqFileItemList &items )
+{
+  KonqFileSelectionEvent ev( items, m_pView );
+  QApplication::sendEvent( m_pMainView, &ev );
 }
 
 void KonqChildView::setLocationBarURL( const QString & locationBarURL )

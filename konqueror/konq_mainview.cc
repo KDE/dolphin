@@ -313,7 +313,8 @@ void KonqMainView::openFilteredURL( KonqChildView * /*_view*/, const QString &_u
 
 void KonqMainView::openURL( KonqChildView *_view, const KURL &url, const QString &serviceType )
 {
-  kdDebug(1202) << "KonqMainView::openURL : _url = '" << url.url() << "'\n";
+  kdDebug(1202) << "KonqMainView::openURL : url = '" << url.url() << "'  "
+                << "serviceType='" << serviceType << "'\n";
 
   if ( url.isMalformed() )
   {
@@ -341,7 +342,7 @@ void KonqMainView::openURL( KonqChildView *_view, const KURL &url, const QString
   setLocationBarURL( url.url() );
 
   kdDebug(1202) << QString("trying openView for %1 (servicetype %2)").arg(url.url()).arg(serviceType) << endl;
-  if ( !serviceType.isEmpty() )
+  if ( !serviceType.isEmpty() && serviceType != "application/octet-stream" )
   {
     // Built-in view ?
     if ( !openView( serviceType, url, view /* can be 0L */) )
@@ -979,6 +980,14 @@ void KonqMainView::customEvent( QCustomEvent *event )
     openURL( 0L, KURL( url ) );
 
     return;
+  }
+  if ( KonqFileSelectionEvent::test( event ) )
+  {
+    // Forward the event to all views
+    MapViews::ConstIterator it = m_mapViews.begin();
+    MapViews::ConstIterator end = m_mapViews.end();
+    for (; it != end; ++it )
+      QApplication::sendEvent( (*it)->view(), event );
   }
 }
 
@@ -1790,22 +1799,6 @@ void KonqMainView::reparseConfiguration()
   MapViews::ConstIterator end = m_mapViews.end();
   for (; it != end; ++it )
     callExtensionMethod( (*it), "reparseConfiguration()" );
-}
-
-void KonqMainView::slotSelectionInfo( const KonqFileItemList &items )
-{
-  const QObject *obj = sender();
-  assert( obj->inherits( "KParts::BrowserExtension" ) );
-  assert( obj->parent() );
-  assert( obj->parent()->inherits( "KParts::ReadOnlyPart" ) );
-
-  KonqFileSelectionEvent ev( items, static_cast<KParts::ReadOnlyPart *>( obj->parent() ) );
-  MapViews::ConstIterator it = m_mapViews.begin();
-  MapViews::ConstIterator end = m_mapViews.end();
-  for (; it != end; ++it )
-    QApplication::sendEvent( (*it)->view(), &ev );
-
-  QApplication::sendEvent( this, &ev );
 }
 
 void KonqMainView::saveProperties( KConfig *config )

@@ -229,6 +229,11 @@ protected slots:
    */
   void createHistoryEntry();
 
+  /**
+   * Connected to the BrowserExtension
+   */
+  void slotSelectionInfo( const KonqFileItemList &items );
+
 protected:
   /**
    * Connects the internal View to the mainview.

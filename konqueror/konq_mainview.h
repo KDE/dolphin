@@ -135,8 +135,6 @@ public slots:
   // reimplement from KParts::MainWindow
   virtual void slotSetStatusBarText( const QString &text );
 
-  void slotSelectionInfo( const KonqFileItemList &items );
-
 public:
 k_dcop:
 
