@@ -1940,7 +1940,8 @@ void KonqMainWindow::initActions()
   connect( m_paURLCombo, SIGNAL( plugged() ),
            this, SLOT( slotComboPlugged() ) );
 
-  (void)new KAction( i18n( "Clear location bar" ), "eraser",
+  // Tackat asked me to force 16x16... (Werner)
+  (void)new KAction( i18n( "Clear location bar" ), BarIcon("eraser", 16),
                      0, this, SLOT( slotClearLocationBar() ), actionCollection(), "clear_location" );
 
   // Bookmarks menu
