@@ -435,8 +435,6 @@ void KonqMainWindow::openURL( KonqView *_view, const KURL &url,
         startAnimation();
       connect( run, SIGNAL( finished() ),
                this, SLOT( slotRunFinished() ) );
-      connect( run, SIGNAL( error() ),
-               this, SLOT( slotRunFinished() ) );
   }
 }
 
