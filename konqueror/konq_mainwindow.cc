@@ -2177,13 +2177,13 @@ void KonqMainWindow::initActions()
   m_paLinkView = new KToggleAction( i18n( "Link view"), 0, this, SLOT( slotLinkView() ), actionCollection(), "link" );
 
   // Go menu
-  m_paUp = new KonqHistoryAction( i18n( "&Up" ), "up", CTRL+Key_Up, actionCollection(), "up" );
+  m_paUp = new KonqHistoryAction( i18n( "&Up" ), "up", ALT+Key_Up, actionCollection(), "up" );
 
   connect( m_paUp, SIGNAL( activated() ), this, SLOT( slotUp() ) );
   connect( m_paUp->popupMenu(), SIGNAL( aboutToShow() ), this, SLOT( slotUpAboutToShow() ) );
   connect( m_paUp->popupMenu(), SIGNAL( activated( int ) ), this, SLOT( slotUpActivated( int ) ) );
 
-  m_paBack = new KonqHistoryAction( i18n( "&Back" ), "back", CTRL+Key_Left, actionCollection(), "back" );
+  m_paBack = new KonqHistoryAction( i18n( "&Back" ), "back", ALT+Key_Left, actionCollection(), "back" );
 
 
   connect( m_paBack, SIGNAL( activated() ), this, SLOT( slotBack() ) );
@@ -2191,7 +2191,7 @@ void KonqMainWindow::initActions()
   connect( m_paBack->popupMenu(), SIGNAL( aboutToShow() ), this, SLOT( slotBackAboutToShow() ) );
   connect( m_paBack->popupMenu(), SIGNAL( activated( int ) ), this, SLOT( slotBackActivated( int ) ) );
 
-  m_paForward = new KonqHistoryAction( i18n( "&Forward" ), "forward", CTRL+Key_Right, actionCollection(), "forward" );
+  m_paForward = new KonqHistoryAction( i18n( "&Forward" ), "forward", ALT+Key_Right, actionCollection(), "forward" );
 
 
   connect( m_paForward, SIGNAL( activated() ), this, SLOT( slotForward() ) );
