@@ -55,7 +55,7 @@ public:
     /**
      * @return the file item held by this instance
      */
-    KonqFileItem * item() { return m_fileitem; }
+    KonqFileItem * item() const { return m_fileitem; }
 
     /**
      * @return true if dropping on this file is allowed
@@ -89,7 +89,7 @@ public:
      * Return the current state of the icon
      * (KIcon::DefaultState, KIcon::ActiveState etc.)
      */
-    int state() { return m_state; }
+    int state() const { return m_state; }
 
     /**
      * Set to true when this icon is 'cut'
