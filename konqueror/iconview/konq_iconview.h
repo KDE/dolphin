@@ -55,7 +55,11 @@ public:
 
   KonqIconViewWidget *iconViewWidget() const { return m_pIconView; }
 
+  /* save those values for slotCompleted() */
   void setXYOffset( int x, int y ) { m_iXOffset = x; m_iYOffset = y; }
+
+  virtual void saveState( QDataStream &stream );
+  virtual void restoreState( QDataStream &stream );
 
 public slots:
   void slotImagePreview( bool toggle );
@@ -171,16 +175,31 @@ protected:
   QList<KFileIVI> m_lstPendingMimeIconItems;
 };
 
-class IconViewBrowserExtension : public BrowserExtension
+class IconViewBrowserExtension : public KParts::BrowserExtension
 {
   Q_OBJECT
     friend class KonqKfmIconView; // so that it can emit our signals
 public:
   IconViewBrowserExtension( KonqKfmIconView *iconView );
 
-  virtual void setXYOffset( int x, int y );
+  virtual void setXYOffset( int x, int y )
+    {
+      m_iconView->setXYOffset( x, y );
+    }
   virtual int xOffset();
   virtual int yOffset();
+
+  virtual void saveState( QDataStream &stream )
+    {
+      KParts::BrowserExtension::saveState( stream );
+      m_iconView->saveState( stream );
+    }
+
+  virtual void restoreState( QDataStream &stream )
+    {
+      KParts::BrowserExtension::restoreState( stream );
+      m_iconView->restoreState( stream );
+    }
 
 public slots:
   // Those slots are automatically connected by the shell

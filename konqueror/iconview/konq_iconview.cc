@@ -117,14 +117,9 @@ extern "C"
 };
 
 IconViewBrowserExtension::IconViewBrowserExtension( KonqKfmIconView *iconView )
- : BrowserExtension( iconView )
+ : KParts::BrowserExtension( iconView )
 {
   m_iconView = iconView;
-}
-
-void IconViewBrowserExtension::setXYOffset( int x, int y )
-{
-  m_iconView->setXYOffset( x, y );
 }
 
 int IconViewBrowserExtension::xOffset()
@@ -160,6 +155,8 @@ KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const 
     : KParts::ReadOnlyPart( parent, name )
 {
     kdebug(0, 1202, "+KonqKfmIconView");
+    m_iXOffset = 0;
+    m_iYOffset = 0;
 
     setInstance( KonqFactory::instance() );
 
@@ -179,8 +176,6 @@ KonqKfmIconView::KonqKfmIconView( QWidget *parentWidget, QObject *parent, const 
              m_extension, SIGNAL( enableAction( const char *, bool ) ) );
 
     setWidget( m_pIconView );
-    //    setFocusProxy( m_pIconView );
-    //    setFocusPolicy( m_pIconView->focusPolicy() );
 
     m_ulTotalFiles = 0;
 
@@ -575,11 +570,9 @@ void KonqKfmIconView::closeURL()
     debug("KonqKfmIconView::stop()");
     if ( m_dirLister ) m_dirLister->stop();
 }
-/*
+
 void KonqKfmIconView::saveState( QDataStream &stream )
 {
-    BrowserView::saveState( stream );
-
     stream << (Q_INT32)m_pIconView->size()
 	   << (Q_INT32)m_pIconView->itemTextPos()
 	   << (Q_INT32)m_pProps->m_bImagePreview
@@ -589,8 +582,6 @@ void KonqKfmIconView::saveState( QDataStream &stream )
 
 void KonqKfmIconView::restoreState( QDataStream &stream )
 {
-    BrowserView::restoreState( stream );
-
     Q_INT32 iIconSize, iTextPos, iImagePreview, iShowDot, iHTMLAllowed;
 
     stream >> iIconSize >> iTextPos >> iImagePreview >> iShowDot >> iHTMLAllowed;
@@ -615,21 +606,6 @@ void KonqKfmIconView::restoreState( QDataStream &stream )
     // TODO apply HTML allowed
 }
 
-QString KonqKfmIconView::url()
-{
-    return m_dirLister ? m_dirLister->url() : QString();
-}
-
-int KonqKfmIconView::xOffset()
-{
-    return m_pIconView->contentsX();
-}
-
-int KonqKfmIconView::yOffset()
-{
-    return m_pIconView->contentsY();
-}
-*/
 void KonqKfmIconView::slotReturnPressed( QIconViewItem *item )
 {
     if ( !item )
@@ -843,7 +819,6 @@ void KonqKfmIconView::slotProcessMimeIcons()
     QTimer::singleShot( 0, this, SLOT( slotProcessMimeIcons() ) );
 }
 
-//void KonqKfmIconView::openURL( const QString &_url, bool /*reload*/, int xOffset, int yOffset )
 bool KonqKfmIconView::openURL( const KURL &_url )
 {
     if ( !m_dirLister )
@@ -862,9 +837,6 @@ bool KonqKfmIconView::openURL( const KURL &_url )
 			  this, SLOT( slotDeleteItem( KFileItem * ) ) );
     }
 
-    //    m_iXOffset = xOffset;
-    //    m_iYOffset = yOffset;
-    m_iXOffset = m_iYOffset = 0;
     m_bLoading = true;
     m_lDirSize = 0;
     m_lFileCount = 0;
