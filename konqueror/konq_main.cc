@@ -91,12 +91,11 @@ OpenParts::Part_ptr KonqApplicationIf::createPart()
   return OpenParts::Part::_duplicate( new KonqMainView );
 }
 
-OpenParts::MainWindow_ptr KonqApplicationIf::createWindow()
+Konqueror::MainWindow_ptr KonqApplicationIf::createMainWindow( const char* url )
 {
-  QString home = "file:";
-  home += QDir::homeDirPath();
-
-  return OpenParts::MainWindow::_duplicate( (new KonqMainWindow( home.data() ))->interface() );
+  KonqMainWindow * mw = new KonqMainWindow( url );
+  mw->show(); // ahah, it won't show up, otherwise !
+  return Konqueror::MainWindow::_duplicate( mw->konqInterface() );
 }
 
 Konqueror::MainView_ptr KonqApplicationIf::createMainView()
@@ -151,6 +150,17 @@ void KonqApp::start()
     QString home = "file:";
     home += QDir::homeDirPath();
     KonqMainWindow *m_pShell = new KonqMainWindow( home.data() );
+
+    // Add a tree view on the right. Probably temporary.
+    Konqueror::View_var vView2 = Konqueror::View::_duplicate( new KonqKfmTreeView );
+    m_pShell->mainView()->insertView( vView2, Konqueror::right );
+    Konqueror::URLRequest req;
+    req.url = CORBA::string_dup( home );
+    req.reload = false;
+    req.xOffset = 0;
+    req.yOffset = 0;
+    m_pShell->mainView()->openURL( req );
+
     m_pShell->show();
   }
 }
@@ -271,6 +281,7 @@ void testLocalInstallation()
   // share and share/config already checked by KApplication
   testLocalDir( "/share/apps/kfm" ); // don't rename this to konqueror !
   testLocalDir( "/share/apps/kfm/bookmarks" ); // we want to keep user's bookmarks !
+  testLocalDir( "/share/apps/konqueror" ); // for kfmclient
   testLocalDir( "/share/icons" );
   testLocalDir( "/share/icons/mini" );
   testLocalDir( "/share/applnk" );
@@ -335,6 +346,16 @@ int main( int argc, char **argv )
 
   testLocalInstallation();
   
+  /* Create an application interface, for kfmclient */
+  KonqApplicationIf * pApp = new KonqApplicationIf();
+  CORBA::String_var s = opapp_orb->object_to_string( pApp );
+  QFile iorFile( kapp->localkdedir() + "/share/apps/konqueror/konqueror.ior" );
+  if ( iorFile.open( IO_WriteOnly ) )
+  {
+    iorFile.writeBlock( s, strlen( s ) );
+    iorFile.close();
+  }
+
   KRegistry registry;
   registry.addFactory( new KMimeTypeFactory );
   registry.addFactory( new KServiceFactory );

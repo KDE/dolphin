@@ -102,21 +102,25 @@ void KBookmarkMenu::fillBookmarkMenu( KBookmark *parent )
   m_vMenu->insertItem7( i18n("&Add Bookmark"), (CORBA::Long)parent->id(), -1 );
   m_vMenu->insertSeparator( -1 );
 
-  for ( bm = parent->children()->first(); bm != NULL;  bm = parent->children()->next() )
+  for ( bm = parent->children()->first(); bm != 0L;  bm = parent->children()->next() )
   {
-    if ( bm->type() == KBookmark::URL )
+    QPixmap * pixmap = bm->pixmap( true );
+    if ( pixmap ) // be on the safe side...
     {
-      OpenPartsUI::Pixmap_var pix = OPUIUtils::convertPixmap( *(bm->pixmap( true )) );
-      m_vMenu->insertItem11( pix, bm->text(), (CORBA::Long)bm->id(), -1 );	
-    }
-    else
-    {	
-      OpenPartsUI::Menu_var subMenuVar;
-      OpenPartsUI::Pixmap_var pix = OPUIUtils::convertPixmap( *(bm->pixmap( true )) );
-      m_vMenu->insertItem12( pix, bm->text(), subMenuVar, -1, -1 );
-      KBookmarkMenu *subMenu = new KBookmarkMenu( m_pOwner, subMenuVar, m_vPart, false );
-      m_lstSubMenus.append( subMenu );
-      subMenu->fillBookmarkMenu( bm );
+      if ( bm->type() == KBookmark::URL )
+      {
+        OpenPartsUI::Pixmap_var pix = OPUIUtils::convertPixmap( *pixmap );
+        m_vMenu->insertItem11( pix, bm->text(), (CORBA::Long)bm->id(), -1 );	
+      }
+      else
+      {	
+        OpenPartsUI::Menu_var subMenuVar;
+        OpenPartsUI::Pixmap_var pix = OPUIUtils::convertPixmap( *pixmap );
+        m_vMenu->insertItem12( pix, bm->text(), subMenuVar, -1, -1 );
+        KBookmarkMenu *subMenu = new KBookmarkMenu( m_pOwner, subMenuVar, m_vPart, false );
+        m_lstSubMenus.append( subMenu );
+        subMenu->fillBookmarkMenu( bm );
+      }
     }
   }
 }

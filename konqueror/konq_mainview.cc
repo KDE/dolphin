@@ -579,7 +579,8 @@ void KonqMainView::slotIdChanged( KonqChildView * childView, OpenParts::Id oldId
 
 void KonqMainView::openURL( const Konqueror::URLRequest &url )
 {
-  openURL( url.url, url.reload );
+  CORBA::String_var u = url.url;
+  openURL( u.in(), url.reload );
 }
 
 void KonqMainView::openURL( const char * _url, CORBA::Boolean _reload )
@@ -1249,7 +1250,8 @@ void KonqMainView::slotStop()
     m_pRun = 0L;
   }
   
-  m_currentView->stop();
+  if ( m_currentView )
+    m_currentView->stop();
 }
 
 void KonqMainView::slotNewWindow()
@@ -1568,15 +1570,8 @@ void KonqMainView::initView()
 {
   Konqueror::View_var vView1 = Konqueror::View::_duplicate( new KonqKfmIconView );
   insertView( vView1, Konqueror::left );
-  //temporary... 
-  Konqueror::View_var vView2 = Konqueror::View::_duplicate( new KonqKfmTreeView );
-  insertView( vView2, Konqueror::right );
 
   map<OpenParts::Id,KonqChildView*>::iterator it = m_mapViews.find( vView1->id() );
-  it->second->lockHistory(); // first URL won't go into history
-  it->second->openURL( m_strTempURL.c_str() );
-
-  it = m_mapViews.find( vView2->id() );
   it->second->lockHistory(); // first URL won't go into history
   it->second->openURL( m_strTempURL.c_str() );
 

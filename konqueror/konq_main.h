@@ -44,8 +44,8 @@ public:
   KonqApplicationIf( CORBA::Object_ptr _obj );
 
   OpenParts::Part_ptr createPart();
-  OpenParts::MainWindow_ptr createWindow();
-  
+
+  Konqueror::MainWindow_ptr createMainWindow( const char* url );
   Konqueror::MainView_ptr createMainView();
   
   Konqueror::KfmIconView_ptr createKfmIconView();
