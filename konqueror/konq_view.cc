@@ -516,6 +516,8 @@ void KonqView::reload()
     browserExtension()->setURLArgs( args );
   }
 
+  // Re-set the location bar URL (in case it was manually edited)
+  setLocationBarURL( m_sLocationBarURL );
   m_pPart->openURL( m_pPart->url() );
 }
 
