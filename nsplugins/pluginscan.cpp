@@ -148,6 +148,11 @@ void scanDirectory( QString dir, QStringList &mimeInfoList,
 
     for (unsigned int i=0; i<files.count(); i++) {
 
+        // ignore crashing libs
+        if ( files[i]=="librvplayer.so" ||      // RealPlayer 5
+             files[i]=="libnullplugin.so" )     // Netscape Default Plugin
+            continue;
+
         // get absolute file path
         QString absFile = files.absFilePath( files[i] );
         kdDebug(1433) << "Checking library " << absFile << endl;
