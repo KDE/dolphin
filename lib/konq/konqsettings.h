@@ -29,7 +29,7 @@ class KConfig;
  * icon/tree views in konqueror/kdesktop.
  * There is no 'local' (per-URL) instance of it.
  * All those settings can only be changed in kcmkonq.
- * 
+ *
  * There is one instance for the tree view, one for the icon view
  * in konqueror and one for the icon view in kdesktop
  * (but currently lacking support in kcontrol)
@@ -74,6 +74,7 @@ public:
   int autoSelect() { return m_iAutoSelect; }
   bool changeCursor() { return m_bChangeCursor; }
   bool underlineLink() { return m_underlineLink; }
+  bool shouldEmbed( const QString & mimetypeGroup );
 
   // Font settings
   const QString& stdFontName() { return m_strStdFontName; }
@@ -86,7 +87,7 @@ public:
 
   // Other appearance settings
   bool wordWrapText() { return m_bWordWrapText; }
-    
+
 protected:
   // The two instances
   static KonqFMSettings * s_pSettings[2];
@@ -96,6 +97,10 @@ protected:
   int m_iAutoSelect;
   bool m_bChangeCursor;
   bool m_underlineLink;
+
+  bool m_embedText;
+  bool m_embedImage;
+  bool m_embedOther;
 
   QString m_strStdFontName;
   QString m_strFixedFontName;

@@ -101,4 +101,17 @@ void KonqFMSettings::init( KConfig * config )
   m_bChangeCursor = config->readBoolEntry( "ChangeCursor", DEFAULT_CHANGECURSOR );
   m_underlineLink = config->readBoolEntry( "UnderlineLinks", DEFAULT_UNDERLINELINKS );
 
+  m_embedText = config->readBoolEntry( "EmbedText", true );
+  m_embedImage = config->readBoolEntry( "EmbedImage", true );
+  m_embedOther = config->readBoolEntry( "EmbedOther", true );
+
+}
+
+bool KonqFMSettings::shouldEmbed( const QString & mimetypeGroup )
+{
+  if ( mimetypeGroup == "text" )
+    return m_embedText;
+  if ( mimetypeGroup == "image" )
+    return m_embedImage;
+  return m_embedOther;
 }
