@@ -17,7 +17,7 @@
 */
 
 #include <qclipboard.h>
-#include <konq_operations.h>
+#include "konq_operations.h"
 #include <klocale.h>
 #include <kmessagebox.h>
 #include <kautomount.h>

@@ -14,14 +14,14 @@
    along with this program; see the file COPYING.  If not, write to
    the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
    Boston, MA 02111-1307, USA.
-   
+
    $Id$
 */
 
 #ifndef __konq_infolistviewitems_h__
 #define __konq_infolistviewitems_h__
 
-#include <konq_listview.h>
+#include "konq_listview.h"
 #include <qstring.h>
 #include <kicontheme.h>
 
@@ -61,13 +61,13 @@ class KonqInfoListViewItem : public KonqBaseListViewItem
                               int column, int width, int alignment );
       virtual void updateContents();
       virtual void setDisabled( bool disabled );
-      
+
       enum ColumnType { FileName, MetaInfo, UDS_Entry };
-      
+
       virtual void gotMetaInfo();
 //      virtual QString MetaInfoKey(int column);
 //      virtual ColumnType type(int column);
-      
+
    protected:
       /** Parent tree view */
       KonqInfoListViewWidget* m_ILVWidget; // the info list view widget

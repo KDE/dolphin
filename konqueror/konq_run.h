@@ -23,7 +23,7 @@
 #include <kparts/browserrun.h>
 #include <qguardedptr.h>
 #include <kservice.h>
-#include <konq_openurlrequest.h>
+#include "konq_openurlrequest.h"
 
 class KonqMainWindow;
 class KonqView;

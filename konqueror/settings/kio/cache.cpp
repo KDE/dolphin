@@ -32,7 +32,7 @@
 #include <kdialog.h>
 #include <klocale.h>
 #include <kprocess.h>
-#include <ksaveioconfig.h>
+#include "ksaveioconfig.h"
 
 #include <dcopclient.h>
 #include <kio/http_slave_defaults.h>
@@ -52,7 +52,7 @@ KCacheConfigDialog::KCacheConfigDialog( QWidget* parent, const char* name )
     cb_useCache->setSizePolicy( QSizePolicy(QSizePolicy::Fixed,
                                             QSizePolicy::Fixed,
                                             cb_useCache->sizePolicy().hasHeightForWidth()) );
-    
+
     QWhatsThis::add( cb_useCache, i18n("Click here if you want the web pages "
                                        "you view to be stored on your hard "
                                        "disk for quicker access. Enabling "
@@ -84,7 +84,7 @@ KCacheConfigDialog::KCacheConfigDialog( QWidget* parent, const char* name )
 
     rb_verify = new QRadioButton( i18n("&Keep cache in sync"), gb_Cache_policy,
                                   "rb_verify" );
-    
+
     QWhatsThis::add( rb_verify, i18n("Select this if you want to verify "
                                      "whether the page cached in your hard "
                                      "disk is still valid.") );
@@ -101,7 +101,7 @@ KCacheConfigDialog::KCacheConfigDialog( QWidget* parent, const char* name )
     rb_cacheIfPossible = new QRadioButton( i18n("Use cache whenever &possible"),
                                            gb_Cache_policy,
                                            "rb_cacheIfPossible" );
-    
+
     QWhatsThis::add( rb_cacheIfPossible, i18n("Enable this to always use documents from "
                                               "the cache when available. You can still "
                                      "use the reload button to synchronize the "
@@ -118,7 +118,7 @@ KCacheConfigDialog::KCacheConfigDialog( QWidget* parent, const char* name )
 
     rb_offlineMode = new QRadioButton( i18n("O&ffline browsing mode"),
                                        gb_Cache_policy, "rb_offlineMode" );
-    
+
     QWhatsThis::add( rb_offlineMode, i18n("Enable this to prevent HTTP "
                                           "requests by KDE applications "
                                           "by default.") );
@@ -243,9 +243,9 @@ void KCacheConfigDialog::save()
     QByteArray data;
     QDataStream stream( data, IO_WriteOnly );
     stream << QString::null;
-    
+
     KSaveIOConfig::updateRunningIOSlaves (this);
-  
+
     emit changed( false );
 }
 
@@ -254,8 +254,8 @@ void KCacheConfigDialog::defaults()
   cb_useCache->setChecked( true );
   rb_verify->setChecked( true );
   sb_max_cache_size->setValue( DEFAULT_MAX_CACHE_SIZE );
-  
-  emit changed( true );  
+
+  emit changed( true );
 }
 
 QString KCacheConfigDialog::quickHelp() const

@@ -40,7 +40,6 @@
 #include <kfiledialog.h>
 #include <kdebug.h>
 #include <dcopclient.h>
-#include <ktrader.h>
 #include <kservice.h>
 #include <qregexp.h>
 
@@ -146,13 +145,13 @@ int main( int argc, char **argv )
 
 /*
  Whether to start a new konqueror or reuse an existing process.
- 
+
  First of all, this concept is actually broken, as the view used to show
  the data may change at any time, and therefore Konqy reused to browse
  "safe" data may eventually browse something completely different.
  Moreover, it's quite difficult to find out when to reuse, and thus this
  function is an ugly hack. You've been warned.
- 
+
  Kfmclient will attempt to find an instance for reusing if either reusing
  is configured to reuse always,
  or it's not configured to never reuse, and the URL to-be-opened is "safe".
@@ -162,7 +161,7 @@ int main( int argc, char **argv )
  URLs, but oh well). Since this function may be running without a KApplication
  instance, I'm actually quite surprised it works, and it may sooner or later break.
  Nice, isn't it?
- 
+
  If a profile is being used, and no url has been explicitly given, it needs to be
  read from the profile. If there's more than one URL listed in the profile, no reusing
  will be done (oh well), if there's no URL, no reusing will be done either (also
