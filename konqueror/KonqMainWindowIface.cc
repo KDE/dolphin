@@ -21,13 +21,19 @@
 #include "KonqMainWindowIface.h"
 #include "konq_mainwindow.h"
 
+#include <dcopclient.h>
+#include <kapp.h>
+#include <kdcopactionproxy.h>
+
 KonqMainWindowIface::KonqMainWindowIface( KonqMainWindow * mainWindow )
     : m_pMainWindow( mainWindow )
 {
+  m_dcopActionProxy = new KDCOPActionProxy( mainWindow->actionCollection(), this ); 
 }
 
 KonqMainWindowIface::~KonqMainWindowIface()
 {
+  delete m_dcopActionProxy; 
 }
 
 int KonqMainWindowIface::viewCount()
@@ -51,3 +57,26 @@ DCOPRef KonqMainWindowIface::currentPart()
     // TODO
     return DCOPRef("todo","todo");
 }
+
+DCOPRef KonqMainWindowIface::action( const QString &name )
+{
+  return DCOPRef( kapp->dcopClient()->appId(), m_dcopActionProxy->action( name ) ); 
+}
+
+QStringList KonqMainWindowIface::actions()
+{
+  QStringList res; 
+  QValueList<KAction *> lst = m_pMainWindow->actionCollection()->actions();
+  QValueList<KAction *>::ConstIterator it = lst.begin();
+  QValueList<KAction *>::ConstIterator end = lst.end();
+  for (; it != end; ++it )
+    res.append( QString::fromLatin1( (*it)->name() ) );
+  
+  return res;
+}
+
+QMap<QString,DCOPRef> KonqMainWindowIface::actionMap()
+{
+  return m_dcopActionProxy->actionMap();
+} 
+

@@ -26,6 +26,7 @@
 #include <dcopref.h>
 
 class KonqMainWindow;
+class KDCOPActionProxy;
 
 /**
  * DCOP interface for a konqueror main window
@@ -53,9 +54,14 @@ k_dcop:
    */
   DCOPRef currentPart();
 
+  DCOPRef action( const QString &name );
+  QStringList actions();
+  QMap<QString,DCOPRef> actionMap();
+
 private:
 
   KonqMainWindow * m_pMainWindow;
+  KDCOPActionProxy *m_dcopActionProxy;
 
 };
 
