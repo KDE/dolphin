@@ -264,7 +264,8 @@ void KonqBaseListViewWidget::createColumns()
 
 void KonqBaseListViewWidget::stop()
 {
-  m_dirLister->stop();
+  if ( m_dirLister )
+    m_dirLister->stop();
 }
 
 const KURL & KonqBaseListViewWidget::url()
@@ -357,6 +358,7 @@ void KonqBaseListViewWidget::viewportDragLeaveEvent( QDragLeaveEvent * )
 
 void KonqBaseListViewWidget::viewportDropEvent( QDropEvent *ev  )
 {
+    if (!m_dirLister) return;
     kdDebug() << "KonqBaseListViewWidget::viewportDropEvent" << endl;
     if ( m_dragOverItem != 0L )
      setSelected( m_dragOverItem, false );
@@ -369,7 +371,10 @@ void KonqBaseListViewWidget::viewportDropEvent( QDropEvent *ev  )
        isExecuteArea( ev->pos() ) ? (KonqBaseListViewItem*)itemAt( ev->pos() ) : 0;
 
    KonqFileItem * destItem = (item) ? item->item() : static_cast<KonqFileItem *>(m_dirLister->rootItem());
-   KonqOperations::doDrop( destItem /*may be 0L*/, destItem ? destItem->url() : url(), ev, this );
+   KURL u = destItem ? destItem->url() : url();
+   if ( u.isEmpty() )
+       return;
+   KonqOperations::doDrop( destItem /*may be 0L*/, u, ev, this );
 }
 
 void KonqBaseListViewWidget::startDrag()
@@ -570,9 +575,12 @@ void KonqBaseListViewWidget::popupMenu( const QPoint& _global, bool alwaysForSel
    {
      clearSelection();
 
+     if (!m_dirLister) return;
      rootItem = m_dirLister->rootItem();
      if ( !rootItem )
      {
+       if ( url().isEmpty() )
+         return;
        // Maybe we want to do a stat to get full info about the root item
        // (when we use permissions). For now create a dummy one.
        rootItem = new KFileItem( S_IFDIR, (mode_t)-1, url() );
