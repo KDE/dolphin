@@ -491,6 +491,7 @@ void KonqBaseListViewWidget::contentsMouseMoveEvent( QMouseEvent *e )
          vp.setY( itemRect( item ).y() );
          QRect rect( viewportToContents( vp ), QSize(20, item->height()) );
          m_fileTip->setItem( item->item(), rect, item->pixmap( 0 ) );
+         m_fileTip->setPreview( KGlobalSettings::showFilePreview( item->item()->url() ) );
       }
       else
       {
