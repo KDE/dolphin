@@ -36,6 +36,7 @@ struct KonqFMSettingsPrivate
     bool showPreviewsInFileTips;
     bool m_renameIconDirectly;
     bool localeAwareCompareIsCaseSensitive;
+    int m_iconTextWidth;
 };
 
 //static
@@ -86,6 +87,7 @@ void KonqFMSettings::init( KConfig * config )
   m_highlightedTextColor = config->readColorEntry( "HighlightedTextColor", &m_highlightedTextColor );
   m_itemTextBackground = config->readColorEntry( "ItemTextBackground" );
   
+  d->m_iconTextWidth = config->readNumEntry( "TextWidth", DEFAULT_TEXTWIDTH );
   m_iconTextHeight = config->readNumEntry( "TextHeight", 0 );
   if ( m_iconTextHeight == 0 ) {
     if ( config->readBoolEntry( "WordWrapText", true ) )
@@ -166,4 +168,9 @@ int KonqFMSettings::caseSensitiveCompare( const QString& a, const QString& b ) c
     }
     else // can't use localeAwareCompare, have to fallback to normal QString compare
         return a.compare( b );
+}
+
+int KonqFMSettings::iconTextWidth() const
+{
+    return d->m_iconTextWidth;
 }

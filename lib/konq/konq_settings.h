@@ -77,6 +77,7 @@ public:
   // Behaviour settings
   bool wordWrapText() const { return m_bWordWrapText; }
   int iconTextHeight() const { return m_iconTextHeight; }
+  int iconTextWidth() const;
   bool underlineLink() const { return m_underlineLink; }
   bool fileSizeInBytes() const { return m_fileSizeInBytes; }
   bool alwaysNewWin() const { return m_alwaysNewWin; }

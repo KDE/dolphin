@@ -65,7 +65,6 @@ struct KonqIconViewWidgetPrivate
         pSoundTimer = 0;
         pPreviewJob = 0;
         bAllowSetWallpaper = false;
-	gridXspacing = 50;
 
         doAnimations = true;
         m_movie = 0L;
@@ -94,8 +93,6 @@ struct KonqIconViewWidgetPrivate
     bool bAllowSetWallpaper;
     bool bCaseInsensitive;
     bool bBoostPreview;
-    QPoint desktopGridSpacing;
-    int gridXspacing;
 
     // Animated icons support
     bool doAnimations;
@@ -134,18 +131,6 @@ KonqIconViewWidget::KonqIconViewWidget( QWidget * parent, const char * name, WFl
     connect( this, SIGNAL(onViewport()), SLOT(slotOnViewport()) );
     connect( this, SIGNAL(itemRenamed(QIconViewItem *, const QString &)), SLOT(slotItemRenamed(QIconViewItem *, const QString &)) );
 
-    if ( m_bDesktop ) {
-        KConfigGroup group( KGlobal::config(), "DesktopIcons" );
-        QPoint defaultSize;
-        d->desktopGridSpacing = group.readPointEntry( "DesktopGridSpacing", &defaultSize );
-        if ( d->desktopGridSpacing.isNull() ) {
-            d->desktopGridSpacing = QPoint( 55, 15 );
-            // read GridXSpacing (for compatibility with old settings)
-            int compat = group.readNumEntry( "GridXSpacing", 0 );
-            if ( compat > 0 )
-                d->desktopGridSpacing.setX( compat );
-        }
-    }
     d->bBoostPreview = boostPreview();
 
     // hardcoded settings
@@ -241,7 +226,6 @@ void KonqIconViewWidget::readAnimatedIconsConfig()
 {
     KConfigGroup cfgGroup( KGlobal::config(), "DesktopIcons" );
     d->doAnimations = cfgGroup.readBoolEntry( "Animated", true /*default*/ );
-    d->gridXspacing = cfgGroup.readNumEntry( "GridXSpacing", 50);
 }
 
 void KonqIconViewWidget::slotOnItem( QIconViewItem *_item )
@@ -615,13 +599,7 @@ bool KonqIconViewWidget::initConfig( bool bInit )
 
 bool KonqIconViewWidget::boostPreview() const
 {
-    if ( m_bDesktop ) {
-        int size = m_size ? m_size : KGlobal::iconLoader()->currentSize( KIcon::Desktop );
-        int mini = spacing() + QMAX( 0, largestPreviewIconSize( size ) - size );
-        if ( d->desktopGridSpacing.x() < mini ||
-             d->desktopGridSpacing.y() < mini )
-            return false;
-    }
+    if ( m_bDesktop ) return false;
 
     KConfigGroup group( KGlobal::config(), "PreviewSettings" );
     return group.readBoolEntry( "BoostSize", false );
@@ -653,7 +631,7 @@ void KonqIconViewWidget::setIcons( int size, const QStringList& stopImagePreview
     if ( sizeChanged || previewSizeChanged )
     {
         int realSize = size ? size : KGlobal::iconLoader()->currentSize( KIcon::Desktop );
-        setSpacing( ( realSize > KIcon::SizeSmall ) ? 5 : 0 );
+        setSpacing( ( m_bDesktop || ( realSize > KIcon::SizeSmall ) ) ? 5 : 0 );
     }
 
     if ( sizeChanged || previewSizeChanged || !stopImagePreviewFor.isEmpty() )
@@ -734,33 +712,34 @@ void KonqIconViewWidget::gridValues( int* x, int* y, int* dx, int* dy,
     int iconSize = m_size ? m_size : KGlobal::iconLoader()->currentSize( KIcon::Desktop );
 
     // Grid size
-    *dx = QMAX( iconSize + d->desktopGridSpacing.x(),
-                   previewSize + spacing() );
-    int textHeight = QMIN( iconTextHeight(), 2 ) * fontMetrics().height();
-    *dy = textHeight + 2 +
-        QMAX( iconSize + d->desktopGridSpacing.y(), previewSize );
+    // as KFileIVI limits to move an icon to x >= 5, y >= 5, we define a grid cell as:
+    // spacing() must be >= 5 (currently set to 5 in setIcons())
+    // horizontal: left spacing() + <width>
+    // vertical  : top spacing(), <height>, bottom spacing()
+    // The doubled space in y-direction gives a better visual separation and makes it clearer
+    // to which item the text belongs
+    *dx = spacing() + QMAX( QMAX( iconSize, previewSize ), m_pSettings->iconTextWidth() );
+    int textHeight = iconTextHeight() * fontMetrics().height();
+    *dy = spacing() + QMAX( iconSize, previewSize ) + 2 + textHeight + spacing();
 
     // Icon Area
-    int x1, x2, y1, y2;
-    int yOffset = QMAX( 0, *dy - ( previewSize + textHeight ) );
+    int w, h;
     if ( m_IconRect.isValid() ) {
-        *x = x1 = m_IconRect.left(); x2 = m_IconRect.right();
-        y1 = m_IconRect.top(); y2 = m_IconRect.bottom();
+        *x = m_IconRect.left(); w = m_IconRect.width();
+        *y = m_IconRect.top();  h = m_IconRect.height();
     }
     else {
-        *x = x1 = 0; x2 = viewport()->width();
-        y1 = 0; y2 = viewport()->height();
+        *x = 0; w = viewport()->width();
+        *y = 0; h = viewport()->height();
     }
-    *y = y1 -= yOffset / 2;
-    y2 -= yOffset / 2;
 
-    *nx = (x2 - x1) / *dx;
-    *ny = (y2 - y1) / *dy;
+    *nx = w / *dx;
+    *ny = h / *dy;
     // TODO: Check that items->count() <= nx * ny
 
     // Let have exactly nx columns and ny rows
-    *dx = (x2 - x1) / *nx;
-    *dy = (y2 - y1) / *ny;
+    *dx = w / *nx;
+    *dy = h / *ny;
     kdDebug(1203) << "dx = " << *dx << ", dy = " << *dy << "\n";
 }
 
@@ -772,9 +751,10 @@ void KonqIconViewWidget::calculateGridX()
 
 int KonqIconViewWidget::gridXValue() const
 {
+    // this method is only used in konqi as filemanager (not desktop)
     int sz = m_size ? m_size : KGlobal::iconLoader()->currentSize( KIcon::Desktop );
     bool horizontal = (itemTextPos() == QIconView::Right);
-    int newGridX = sz + (!m_bSetGridX ? d->gridXspacing : 50) + ( horizontal ? 100 : 0);
+    int newGridX = sz + 50 + ( horizontal ? 100 : 0);
     newGridX = QMAX( newGridX, (horizontal ? 2 : 1) * previewIconSize( sz ) + 13 );
     //kdDebug(1203) << "gridXValue: " << newGridX << " sz=" << sz << endl;
     return newGridX;
@@ -1490,11 +1470,6 @@ void KonqIconViewWidget::lineupIcons()
         return;
     }
 
-    // Make a list of items
-    QValueList<QIconViewItem*> items;
-    for ( QIconViewItem* item = firstItem(); item; item = item->nextItem() )
-        items.append(item);
-
     int iconSize = m_size ? m_size : KGlobal::iconLoader()->currentSize( KIcon::Desktop );
 
     // Create a grid of (ny x nx) bins.
@@ -1511,10 +1486,9 @@ void KonqIconViewWidget::lineupIcons()
     }
 
     // Insert items into grid
-    int textHeight = QMIN( iconTextHeight(), 2 ) * fontMetrics().height();
-    QValueList<QIconViewItem*>::Iterator it;
-    for ( it = items.begin(); it != items.end(); it++ ) {
-        QIconViewItem* item = *it;
+    int textHeight = iconTextHeight() * fontMetrics().height();
+
+    for ( QIconViewItem* item = firstItem(); item; item = item->nextItem() ) {
         int x = item->x() + item->width() / 2 - x0;
         int y = item->pixmapRect( false ).bottom() - iconSize / 2
                 - ( dy - ( iconSize + textHeight ) ) / 2 - y0;
@@ -1648,8 +1622,10 @@ void KonqIconViewWidget::lineupIcons()
                 continue;
             if ( !bin->isEmpty() ) {
                 QIconViewItem* item = bin->first();
-                int newX = x0 + i*dx + ( dx - item->width() ) / 2;
-                int newY = y0 + j*dy + dy - ( item->pixmapRect().bottom() + textHeight + 2 );
+                int newX = x0 + i*dx + spacing() +
+                           QMAX(0, ( (dx-spacing()) - item->width() ) / 2);  // pixmap can be larger as iconsize
+                // align all icons vertically to their text
+                int newY = y0 + j*dy + dy - spacing() - ( item->pixmapRect().bottom() + 2 + textHeight );
                 if ( item->x() != newX || item->y() != newY ) {
                     QRect oldRect = item->rect();
                     movedItems.prepend( item );
@@ -1664,7 +1640,7 @@ void KonqIconViewWidget::lineupIcons()
     }
 
     // repaint
-    int itemWidth = dx - 2 * spacing();
+    int itemWidth = dx - spacing();
     if ( maxItemWidth() != itemWidth ) {
         setMaxItemWidth( itemWidth );
         setFont( font() );  // Force calcRect()
@@ -1695,7 +1671,7 @@ void KonqIconViewWidget::lineupIcons( QIconView::Arrangement arrangement )
 {
     int x0, y0, dx, dy, nxmax, nymax;
     gridValues( &x0, &y0, &dx, &dy, &nxmax, &nymax );
-    int textHeight = QMIN( iconTextHeight(), 2 ) * fontMetrics().height();
+    int textHeight = iconTextHeight() * fontMetrics().height();
 
     QRegion repaintRegion;
     QValueList<QIconViewItem*> movedItems;
@@ -1703,8 +1679,10 @@ void KonqIconViewWidget::lineupIcons( QIconView::Arrangement arrangement )
 
     QIconViewItem* item;
     for ( item = firstItem(); item; item = item->nextItem() ) {
-        int newX = x0 + nx * dx + ( dx - item->width() ) / 2;
-        int newY = y0 + ny * dy + dy - ( item->pixmapRect().bottom() + textHeight + 2 );
+        int newX = x0 + nx*dx + spacing() +
+                   QMAX(0, ( (dx-spacing()) - item->width() ) / 2);  // icon can be larger as defined
+        // align all icons vertically to their text
+        int newY = y0 + ny*dy + dy - spacing() - ( item->pixmapRect().bottom() + 2 + textHeight );
         if ( item->x() != newX || item->y() != newY ) {
             QRect oldRect = item->rect();
             movedItems.prepend( item );
