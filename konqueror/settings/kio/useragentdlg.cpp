@@ -133,7 +133,7 @@ void UserAgentOptions::load()
           QString key;
           key.sprintf( "Entry%d", i );
           QString entry = g_pConfig->readEntry( key, "" );
-          if (entry.left( 12 ) == "*:Konqueror/") // update version number
+          if (entry.left( 13 ) == "*:Mozilla/4.0") // update version number
             settingsList.append( "*:"+DEFAULT_USERAGENT_STRING );
           else
             settingsList.append( entry );
