@@ -1823,6 +1823,11 @@ void KonqMainWindow::slotGoMedia()
   openURL( 0L, KURL( "media:/" ) );
 }
 
+void KonqMainWindow::slotGoNetworkFolders()
+{
+    openURL( 0L, KURL( "remote:/" ) );
+}
+
 void KonqMainWindow::slotGoSettings()
 {
   openURL( 0L, KURL( "settings:/" ) );
@@ -3717,6 +3722,7 @@ void KonqMainWindow::initActions()
 
   (void) new KAction( i18n( "App&lications" ), 0, this, SLOT( slotGoApplications() ), actionCollection(), "go_applications" );
   (void) new KAction( i18n( "&Storage Media" ), 0, this, SLOT( slotGoMedia() ), actionCollection(), "go_media" );
+  (void) new KAction( i18n( "&Network Folders" ), 0, this, SLOT( slotGoNetworkFolders() ), actionCollection(), "go_network_folders" );
   (void) new KAction( i18n( "Sett&ings" ), 0, this, SLOT( slotGoSettings() ), actionCollection(), "go_settings" );
   //(void) new KAction( i18n( "Sidebar Configuration" ), 0, this, SLOT( slotGoDirTree() ), actionCollection(), "go_dirtree" );
   (void) new KAction( i18n( "Trash" ), 0, this, SLOT( slotGoTrash() ), actionCollection(), "go_trash" );
@@ -4344,8 +4350,8 @@ void KonqMainWindow::disableActionsNoView()
     static const char* const s_enActions[] = { "new_window", "duplicate_window", "open_location",
                                          "toolbar_url_combo", "clear_location", "animated_logo",
                                          "konqintro", "go_most_often", "go_applications", "go_dirtree",
-                                         "go_trash", "go_autostart", "go_url",
-                                         "options_configure_extensions", 0 };
+                                         "go_trash", "go_settings", "go_network_folders", "go_autostart",
+                                         "go_url", "go_media", "options_configure_extensions", 0 };
     for ( int i = 0 ; s_enActions[i] ; ++i )
     {
         KAction * act = action(s_enActions[i]);

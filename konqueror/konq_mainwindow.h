@@ -385,6 +385,7 @@ public slots:
   void slotHome(KAction::ActivationReason, Qt::ButtonState state);
   void slotGoApplications();
   void slotGoMedia();
+  void slotGoNetworkFolders();
   void slotGoSettings();
   void slotGoDirTree();
   void slotGoTrash();
