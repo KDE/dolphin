@@ -9,12 +9,12 @@ kde_module_LTLIBRARIES = kcm_kio.la
 
 kcm_kio_la_SOURCES = policydlg.cpp kcookiesmain.cpp kcookiespolicies.cpp \
       main.cpp smbrodlg.cpp useragentdlg.cpp kproxydlgbase.cpp \
-      kproxyexceptiondlg.cpp kmanualproxydlg.cpp kenvvarproxydlg.cpp \
-      kproxydlg.cpp kcookiesmanagement.cpp fakeuaprovider.cpp \
-      uagentproviderdlg.cpp netpref.cpp cache.cpp ksaveioconfig.cpp \
-      socks.cpp socksbase.ui kproxydlg_ui.ui kcookiesmanagementdlg_ui.ui \
-      kcookiespoliciesdlg_ui.ui policydlg_ui.ui useragentdlg_ui.ui \
-      uagentproviderdlg_ui.ui
+      kmanualproxydlg.cpp kenvvarproxydlg.cpp kproxydlg.cpp \
+      kcookiesmanagement.cpp fakeuaprovider.cpp uagentproviderdlg.cpp \
+      netpref.cpp cache.cpp ksaveioconfig.cpp socks.cpp socksbase.ui \
+      kproxydlg_ui.ui kcookiesmanagementdlg_ui.ui kcookiespoliciesdlg_ui.ui \
+      policydlg_ui.ui useragentdlg_ui.ui uagentproviderdlg_ui.ui \
+      manualproxy_ui.ui envvarproxy_ui.ui
 
 kcm_kio_la_LDFLAGS  = $(all_libraries) -module -avoid-version -no-undefined
 kcm_kio_la_LIBADD = $(LIB_KSYCOCA) $(LIB_KIO) -lkutils
@@ -31,7 +31,7 @@ servicetypesdir = $(kde_servicetypesdir)
 kcmkio_data_DATA = cookies.desktop useragent.desktop cache.desktop
 kcmkio_datadir = $(kde_appsdir)/Settings/Network/WebBrowsing
 
-kcmkio_data2_DATA = lanbrowser.desktop netpref.desktop proxy.desktop 
+kcmkio_data2_DATA = lanbrowser.desktop netpref.desktop proxy.desktop
 kcmkio_data2dir = $(kde_appsdir)/Settings/Network
 
 smb_DATA = smb.desktop
