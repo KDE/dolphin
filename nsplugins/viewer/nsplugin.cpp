@@ -731,6 +731,7 @@ QString NSPluginInstance::normalizedURL(const QString& url) const {
 
     if (inURL.protocol() == "http" ||
         inURL.protocol() == "https" ||
+        inURL.protocol() == "file" ||
         inURL.protocol() == "javascript") {
         return inURL.url();
     }
