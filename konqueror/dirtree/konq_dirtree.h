@@ -66,6 +66,16 @@ public:
   void addSubDir( KonqDirTreeItem *item, KonqDirTreeItem *topLevel, const QString &url );
   void removeSubDir( KonqDirTreeItem *item, KonqDirTreeItem *topLevel, const QString &url );
 
+protected:
+  virtual void contentsDragEnterEvent( QDragEnterEvent *e );
+  virtual void contentsDragMoveEvent( QDragMoveEvent *e );
+  virtual void contentsDragLeaveEvent( QDragLeaveEvent *e );
+  virtual void contentsDropEvent( QDropEvent *ev );  
+
+  virtual void contentsMousePressEvent( QMouseEvent *e );
+  virtual void contentsMouseMoveEvent( QMouseEvent *e );
+  virtual void contentsMouseReleaseEvent( QMouseEvent *e );
+
 private slots:
   void slotNewItem( KFileItem *item );
   void slotDeleteItem( KFileItem *item );
@@ -101,7 +111,7 @@ private:
     TopLevelItem( KonqDirTreeItem *item, KDirLister *lister, QDict<KonqDirTreeItem> *subDirMap, QStringList *pendingURLList )
     { m_item = item; m_dirLister = lister; m_mapSubDirs = subDirMap; m_lstPendingURLs = pendingURLList; }
     TopLevelItem() { m_item = 0; m_dirLister = 0; m_mapSubDirs = 0; }
-    
+
     KonqDirTreeItem *m_item;
     KDirLister *m_dirLister;
     QDict<KonqDirTreeItem> *m_mapSubDirs;
@@ -124,8 +134,11 @@ private:
   QMap<QString, QListViewItem *> m_mapCurrentOpeningFolders;
 
   QTimer *m_animationTimer;
-  
+
   int m_animationCounter;
+
+  QPoint m_dragPos;
+  bool m_bDrag;
 };
 
 #endif

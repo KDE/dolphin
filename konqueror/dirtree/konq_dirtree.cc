@@ -7,6 +7,7 @@
 #include <qcursor.h>
 #include <qfileinfo.h>
 #include <qtimer.h>
+#include <qdragobject.h>
 
 #include <ksimpleconfig.h>
 #include <kstddirs.h>
@@ -21,6 +22,9 @@
 #include <klineeditdlg.h>
 #include <kpropsdlg.h>
 #include <kuserpaths.h>
+#include <kdebug.h>
+#include <kio_paste.h>
+#include <kglobal.h>
 
 #include <assert.h>
 
@@ -69,7 +73,7 @@ KonqDirTreeBrowserView::~KonqDirTreeBrowserView()
 {
 }
 
-void KonqDirTreeBrowserView::openURL( const QString &url, bool reload, int xOffset, int yOffset )
+void KonqDirTreeBrowserView::openURL( const QString &, bool, int, int )
 {
 }
 
@@ -129,6 +133,9 @@ KonqDirTree::KonqDirTree( KonqDirTreeBrowserView *parent )
   : QListView( parent )
 {
 
+  setAcceptDrops( true );
+  viewport()->setAcceptDrops( true );
+ 
   m_view = parent;
 
   m_animationCounter = 1;
@@ -213,6 +220,108 @@ void KonqDirTree::removeSubDir( KonqDirTreeItem *item, KonqDirTreeItem *topLevel
 
   bool bRemoved = topLevelItem.m_mapSubDirs->remove( url );
   assert( bRemoved );
+}
+
+void KonqDirTree::contentsDragEnterEvent( QDragEnterEvent * )
+{
+}
+
+void KonqDirTree::contentsDragMoveEvent( QDragMoveEvent *e )
+{
+  QListViewItem *item = itemAt( contentsToViewport( e->pos() ) );
+
+  if ( !item || !item->isSelectable() )
+  {
+    e->ignore();
+    return;
+  }
+  
+  e->acceptAction();
+ 
+  setSelected( item, true );
+}
+
+void KonqDirTree::contentsDragLeaveEvent( QDragLeaveEvent * )
+{
+} 
+
+void KonqDirTree::contentsDropEvent( QDropEvent *ev )
+{
+  QList<KonqDirTreeItem> selection = selectedItems();
+  
+  assert( selection.count() == 1 );
+  
+  KonqDirTreeItem *item = selection.first();
+  
+  QStringList lst;
+
+  QStringList formats;
+
+  for ( int i = 0; ev->format( i ); i++ )
+    if ( *( ev->format( i ) ) )
+      formats.append( ev->format( i ) );
+
+  // Try to decode to the data you understand...
+  if ( QUrlDrag::decodeToUnicodeUris( ev, lst ) )
+  {
+    if( lst.count() == 0 )
+    {
+      kdebug(KDEBUG_WARN,1202,"Oooops, no data ....");
+      return;
+    }
+    KIOJob* job = new KIOJob;
+    
+    KURL dest( item->fileItem()->url() );
+
+    switch ( ev->action() ) {
+      case QDropEvent::Move : job->move( lst, dest.url( 1 ) ); break;
+      case QDropEvent::Copy : job->copy( lst, dest.url( 1 ) ); break;
+      //      case QDropEvent::Link : {
+      //        link( lst, dest );
+      //        break;
+      //      }
+      default : kdebug( KDEBUG_ERROR, 1202, "Unknown action %d", ev->action() ); return;
+    }
+  }
+  else if ( formats.count() >= 1 )
+  {
+    kdebug(0,1202,"Pasting to %s", item->fileItem()->url().url().ascii() /* item's url */);
+    pasteData( item->fileItem()->url().url()/* item's url */, ev->data( formats.first() ) );
+  }
+
+} 
+
+void KonqDirTree::contentsMousePressEvent( QMouseEvent *e )
+{
+  QListView::contentsMousePressEvent( e );
+  m_dragPos = e->pos();
+  m_bDrag = true;
+}
+
+void KonqDirTree::contentsMouseMoveEvent( QMouseEvent *e )
+{ 
+  if ( !m_bDrag || ( e->pos() - m_dragPos ).manhattanLength() <= KGlobal::dndEventDelay() )
+    return;
+
+  m_bDrag = false;
+  
+  QListViewItem *item = itemAt( contentsToViewport( m_dragPos ) );
+
+  if ( !item || !item->isSelectable() )
+    return;
+  
+  QStringList lst;
+  lst << ((KonqDirTreeItem *)item)->fileItem()->url().url();
+  
+  QUriDrag *drag = new QUriDrag( viewport() );
+  drag->setUnicodeUris( lst );
+  drag->drag();
+}
+
+void KonqDirTree::contentsMouseReleaseEvent( QMouseEvent *e )
+{
+  QListView::contentsMouseReleaseEvent( e );
+  m_bDrag = false; 
 }
 
 void KonqDirTree::slotNewItem( KFileItem *item )
@@ -318,7 +427,7 @@ void KonqDirTree::slotClicked( QListViewItem *item )
 
   if ( m_unselectableItems.findRef( item ) != -1 )
     return;
-  
+
   emit m_view->openURLRequest( ((KonqDirTreeItem *)item)->fileItem()->url().url(), false, 0, 0 );
 }
 
