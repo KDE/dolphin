@@ -1222,7 +1222,7 @@ language. The font/color information is not stored with the document.
 <listitem>  
 <para>This opens a sub-menu from which the user can select the type of <quote>end of  
 line</quote> code for &kwrite; to use, <abbrev>i.e.</abbrev>, the accepted standard  
-used by Unix, &Mac; or MSDOS/&Windows; systems.</para>
+used by &UNIX;, &Mac; or MSDOS/&Windows; systems.</para>
 </listitem>  
 </varlistentry>  
   
