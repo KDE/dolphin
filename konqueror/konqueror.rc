@@ -1,4 +1,4 @@
-<!DOCTYPE kpartgui SYSTEM "kpartgui.dtd"><kpartgui name="Konqueror" version="18">
+<!DOCTYPE kpartgui SYSTEM "kpartgui.dtd"><kpartgui name="Konqueror" version="19">
 <MenuBar>
  <Menu name="file" noMerge="1"><text>&amp;Location</text>
   <Action name="new_window"/>
@@ -103,7 +103,7 @@
  </Menu>
  <Merge/>
 </MenuBar>
-<ToolBar fullWidth="true" name="mainToolBar" newline="true">
+<ToolBar fullWidth="true" name="mainToolBar" newline="true"><text>Main Toolbar</text>
  <Action name="up"/>
  <Action name="back"/>
  <Action name="forward"/>
