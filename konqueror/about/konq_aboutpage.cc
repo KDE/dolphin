@@ -1,7 +1,4 @@
 #include "konq_aboutpage.h"
-#include "konq_mainwindow.h"
-#include "konq_frame.h"
-#include "konq_view.h"
 
 #include <qfile.h>
 #include <qtextcodec.h>
@@ -17,6 +14,7 @@
 #include <kmessagebox.h>
 #include <ksavefile.h>
 #include <kstddirs.h>
+#include <kaction.h>
 
 #include <assert.h>
 
