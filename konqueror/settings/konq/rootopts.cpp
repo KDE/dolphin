@@ -45,7 +45,7 @@ KRootOptions::KRootOptions(KConfig *config, QWidget *parent, const char *name )
     : KCModule( parent, name ), g_pConfig(config)
 {
   QLabel * tmpLabel;
-#define RO_LASTROW 12   // 2 cb, 1 line, 2 combo, 1 line, 4 paths and 1 label + last row
+#define RO_LASTROW 11   // 2 cb, 1 line, 2 combo, 1 line, 3 paths and 1 label + last row
 #define RO_LASTCOL 2
   int row = 0;
   QGridLayout *lay = new QGridLayout(this, RO_LASTROW+1, RO_LASTCOL+1, 10);
@@ -123,13 +123,6 @@ KRootOptions::KRootOptions(KConfig *config, QWidget *parent, const char *name )
   connect(leTrash, SIGNAL(textChanged(const QString &)), this, SLOT(changed()));
 
   row++;
-  tmpLabel = new QLabel(i18n("Templates path:"), this);
-  lay->addWidget(tmpLabel, row, 0);
-  leTemplates = new QLineEdit(this);
-  lay->addMultiCellWidget(leTemplates, row, row, 1, RO_LASTCOL);
-  connect(leTemplates, SIGNAL(textChanged(const QString &)), this, SLOT(changed()));
-
-  row++;
   tmpLabel = new QLabel(i18n("Autostart path:"), this);
   lay->addWidget(tmpLabel, row, 0);
   leAutostart = new QLineEdit(this);
@@ -183,7 +176,6 @@ void KRootOptions::load()
     // Desktop Paths
     leDesktop->setText( KGlobalSettings::desktopPath() );
     leTrash->setText( KGlobalSettings::trashPath() );
-    leTemplates->setText( KGlobalSettings::templatesPath() );
     leAutostart->setText( KGlobalSettings::autostartPath() );
 }
 
@@ -198,7 +190,6 @@ void KRootOptions::defaults()
     // Desktop Paths
     leDesktop->setText( QDir::homeDirPath() + "/Desktop/" );
     leTrash->setText( QDir::homeDirPath() + "/Desktop/Trash/" );
-    leTemplates->setText( QDir::homeDirPath() + "/Desktop/Templates/" );
     leAutostart->setText( QDir::homeDirPath() + "/Desktop/Autostart/" );
 }
 
@@ -235,13 +226,6 @@ void KRootOptions::save()
     {
         moveDir( KGlobalSettings::trashPath(), leTrash->text() );
         config->writeEntry( "Trash", leTrash->text(), true, true );
-        pathChanged = true;
-    }
-
-    if ( leTemplates->text() != KGlobalSettings::templatesPath() )
-    {
-        moveDir( KGlobalSettings::templatesPath(), leTemplates->text() );
-        config->writeEntry( "Templates", leTemplates->text(), true, true );
         pathChanged = true;
     }
 

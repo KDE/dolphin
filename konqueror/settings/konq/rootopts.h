@@ -27,7 +27,7 @@ namespace KIO { class Job; }
 // The "Desktop Icons Options" Tab contains :
 // Show Hidden Files on Desktop
 // Which menus for which mouse clicks on the desktop
-// The paths for Desktop, Trash, Templates and Autostart
+// The paths for Desktop, Trash and Autostart
 
 class KRootOptions : public KCModule
 {
@@ -60,7 +60,6 @@ private:
         // Desktop Paths
         QLineEdit *leDesktop;
         QLineEdit *leTrash;
-        QLineEdit *leTemplates;
         QLineEdit *leAutostart;
         void moveDir( QString src, QString dest );
 private slots:
