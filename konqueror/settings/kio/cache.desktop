@@ -1,7 +1,7 @@
 [Desktop Entry]
 Encoding=UTF-8
 Type=Application
-DocPath=kcontrol/cache.html
+DocPath=kcontrol/cache/index.html
 Icon=cache
 Exec=kcmshell cache
 
@@ -64,6 +64,7 @@ Comment[ja]=ここでキャッシュを設定します
 Comment[ko]=이 곳에서 캐시를 설정할 수 있습니다
 Comment[lt]=Čia galite keisti krepšio parametrus
 Comment[lv]=Šeit jūs varat konfigurēt keša uzstādījumus
+Comment[mt]=Hawn tista' tikkonfigura s-setings tal-cache
 Comment[nl]=Hier kunt u uw cache-instellingen aanpassen
 Comment[nn]=Du kan setja opp innstillingane for mellomlageret her
 Comment[pl]=Konfiguracja ustawień bufora (cache'a)

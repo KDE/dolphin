@@ -1,7 +1,7 @@
 [Desktop Entry]
 Encoding=UTF-8
 Type=Application
-DocPath=kcontrol/windows-shares/index.html
+DocPath=kcontrol/smb/index.html
 Icon=samba
 Exec=kcmshell smb
 
@@ -35,6 +35,7 @@ Name[ja]=ウィンドウズ共有
 Name[ko]=윈도우즈와 함께쓰기
 Name[lt]=Windows bendro naudojimo diskai
 Name[lv]=Windows Šāres
+Name[mt]=Shares tal-Windows
 Name[nb]=Windows Delte Kataloger
 Name[nl]=Windows-netwerken
 Name[nn]=Delte Windows-ressursar

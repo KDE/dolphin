@@ -1,7 +1,7 @@
 [Desktop Entry]
 Encoding=UTF-8
 Type=Application
-DocPath=kcontrol/cookie.html
+DocPath=kcontrol/cookies/index.html
 Icon=cookie
 Exec=kcmshell cookies
 

@@ -1,7 +1,7 @@
 [Desktop Entry]
 Encoding=UTF-8
 Type=Application
-DocPath=kcontrol/file-manager.html
+DocPath=kcontrol/filemanager/index.html
 Icon=desktop
 Exec=kcmshell desktopappearance
 
@@ -21,7 +21,9 @@ Name[fi]=Ulkonäkö
 Name[he]=מראה
 Name[hu]=Megjelenés
 Name[ja]=外観
+Name[mt]=Apparenza
 Name[pt_BR]=Aparência
+Name[sk]=Vzhľad
 Name[sv]=Utseende
 Name[tr]=Görünüm
 
@@ -35,7 +37,9 @@ Comment[fi]=Tässä voit asettaa työpöydän ulkonäköä
 Comment[he]=שינוי הגדרות המראה של שולחן העבודה שלך
 Comment[hu]=Itt lehet beállítani a munkaasztal megjelenési tulajdonságait
 Comment[ja]=ここでデスクトップの外観を設定します
+Comment[mt]=Tista' tissettja d-dehra tad-desktop minn hawn
 Comment[pt_BR]=Você pode configurar aqui a aparência da área de trabalho
+Comment[sk]=Nastavenie vzhľadu plochy
 Comment[sv]=Anpassa panelens utseende
 Comment[tr]=Masaüstü görünümünü buradan yapılandırabilirsiniz
 Keywords=konqueror,filemanager,desktop,fonts,colors,colours,color,colour
@@ -45,6 +49,7 @@ Keywords[fi]=konqueror,tiedostonhallinta,työpöytä,kirjasimet,värit,väri
 Keywords[he]=konqueror,מנהל קבצים,שולחן עבודה,צבעים
 Keywords[hu]=Konqueror,fájlkezelő,munkaasztal,betűtípusok,színek,szín
 Keywords[ja]=konqueror,ファイルマネージャ,デスクトップ,フォント,color,色
+Keywords[mt]=konqueror,filemanager,desktop,fonts,colors,colours,color,colour,kulur,kuluri
 Keywords[pt_BR]=konqueror,gerenciador de arquivos,área de trabalho,fontes,cores,cores,cor,cor
 Keywords[sv]=konqueror,filhanterare,skrivbort,teckensnitt,färger,färg
 Keywords[tr]=konqueror,dosya yöneticisi,masaüstü,yazıtipleri,renkler,renk

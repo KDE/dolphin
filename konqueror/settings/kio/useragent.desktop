@@ -3,7 +3,7 @@ Encoding=UTF-8
 Type=Application
 Icon=agent
 Exec=kcmshell useragent
-DocPath=kcontrol/user-agent/index.html
+DocPath=kcontrol/useragent/index.html
 
 X-KDE-ModuleType=Library
 X-KDE-Library=kio
@@ -58,6 +58,7 @@ Name[zh_TW]=使用者代理
 Name[zu]=Ummeli womsebenzisi
 
 Comment=You can control what your Browser's "User Agent" is reported as here
+Comment[af]=jy kan kontrole wat jou blaaier se "gebruiker agent" is raporteer as hier
 Comment[ar]=تستطيع من هنا أن تتحكم في عميل المستخدم "المتصفح" الخاص بك
 Comment[az]=Səyyahınızın "İstifadəçi Vasitəsi"nın nə şəkildə bildiriləcəyini buradan idarə edə bilərsiniz
 Comment[bg]=Вие тук може да контролирате как вашия браузер (потребителски агент) се представя

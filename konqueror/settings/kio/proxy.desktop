@@ -1,7 +1,7 @@
 [Desktop Entry]
 Encoding=UTF-8
 Type=Application
-DocPath=kcontrol/proxies.html
+DocPath=kcontrol/proxy/index.html
 Icon=proxy
 Exec=kcmshell proxy
 
@@ -59,6 +59,7 @@ Comment[hr]=Podesi proxy poslužitelje
 Comment[hu]=a proxy kiszolgálók beállítása
 Comment[ja]=プロキシサーバの設定
 Comment[lt]=Konfigūruoti proxy serverius
+Comment[mt]=Ikkonfigura servers proxy
 Comment[nl]=Proxyservers instellen
 Comment[pl]=Konfiguracja serwerów pośredniczących (proxy)
 Comment[pt]=Configurar os Servidores 'Proxy'

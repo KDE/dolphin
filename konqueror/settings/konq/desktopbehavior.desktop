@@ -1,7 +1,7 @@
 [Desktop Entry]
 Encoding=UTF-8
 Type=Application
-DocPath=kcontrol/file-manager.html
+DocPath=kcontrol/filemanager/index.html
 Icon=desktop
 Exec=kcmshell desktopbehavior
 
@@ -22,7 +22,9 @@ Name[fi]=Käytös
 Name[he]=התנהגות
 Name[hu]=Ablakbeállítások
 Name[ja]=動作
+Name[mt]=Imġieba
 Name[pt_BR]=Comportamento
+Name[sk]=Chovanie
 Name[sv]=Beteende
 Name[tr]=Davranış
 
@@ -36,7 +38,9 @@ Comment[fi]=Voit asettaa tässä työpöydän käytöstä
 Comment[he]=שינוי הגדרות ההתנהגות של שולחן העבודה
 Comment[hu]=A munkaasztal viselkedésének beállítása
 Comment[ja]=ここでデスクトップの動作の設定をします
+Comment[mt]=Hawn tista' tissettja l-imġieba tad-desktop minn hawn
 Comment[pt_BR]=Você pode configurar aqui como o ambiente de trabalho se comporta
+Comment[sk]=Nastavenie chovania plochy
 Comment[sv]=Anpassa hur skrivbordet beter sig
 Comment[tr]=Masaüstü davranışını buradan yapılandırabilirsiniz
 Keywords=konqueror,filemanager,kfm,tips,file tips,separate window,spawn windows,behavior,behaviour,memory usage,Home URL,
@@ -45,6 +49,7 @@ Keywords[es]=konqueror,administrador de archivos,kfm,sugerencias,ventana separad
 Keywords[fi]=konqueror,tiedostonhallinta,kfm,vinkit,tiedostovinkit,erillinen ikkuna,käytös,muistinkäyttö,Koti-URL
 Keywords[hu]=konqueror,fájlkezelő,kfm,tippek,fájltippek,külön ablak,ablakgenerálás,viselkedés,memóriahasználat,saját URL,
 Keywords[ja]=konqueror,ファイルマネージャ,kfm,チップ,ファイルチップ,ウィンドウ分離,spawn windows,振舞い,動作,メモリ使用量,ホーム URL,
+Keywords[mt]=konqueror,filemanager,kfm,tips,file tips,separate window,spawn windows,behavior,behaviour,memory usage,Home URL,ħjilijiet,pariri,imġieba
 Keywords[pt_BR]=konqueror,gerenciador de arquivos,kfm,dicas,arquivos de dicas,janelas separadas,janelas unidas,comportamento,comportamento,uso de memória,URL local,
 Keywords[sv]=konqueror,filhanterare,kfm,tips,filtips,särskilt fönster,visa fönster,beteende,minnesanvändning,hemadress
 Keywords[tr]=konqueror,dosya yöneticisi,kfm,ipuçları,dosya,pencere,davranış,bellek kullanımı,başlangıç
