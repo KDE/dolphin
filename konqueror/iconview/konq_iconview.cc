@@ -883,10 +883,14 @@ void KonqKfmIconView::slotCompleted()
     // Root item ? Store root item in konqiconviewwidget (whether 0L or not)
     m_pIconView->setRootItem( m_dirLister->rootItem() );
 
-    if ( m_bNeedSetCurrentItem ) // only after initial listing, not after updates
-        // If we don't set a current item, the iconview has none (one more keypress needed)
-        // but it appears on focusin... qiconview bug, Reggie acknowledged it LONG ago (07-2000).
+    // only after initial listing, not after updates
+    // If we don't set a current item, the iconview has none (one more keypress needed)
+    // but it appears on focusin... qiconview bug, Reggie acknowledged it LONG ago (07-2000).
+    if ( m_bNeedSetCurrentItem )
+    {
         m_pIconView->setCurrentItem( m_pIconView->firstItem() );
+        m_bNeedSetCurrentItem = false;
+    }
 
     if ( m_bUpdateContentsPosAfterListing ) {
          m_pIconView->setContentsPos( extension()->urlArgs().xOffset,
@@ -1095,7 +1099,7 @@ void KonqKfmIconView::slotRefreshItems( const KFileItemList& entries )
                 ivi->setMouseOverAnimation( rit.current()->iconName() );
             if ( !bNeedRepaint && oldSize != ivi->pixmap()->size() )
                 bNeedRepaint = true;
-        }
+        }        
     }
 
     if ( bNeedPreviewJob && m_pProps->isShowingPreview() )
@@ -1203,7 +1207,7 @@ void KonqKfmIconView::slotRenderingFinished()
     if ( m_bNeedAlign )
     {
         m_bNeedAlign = false;
-	kdDebug(1202) << "arrangeItemsInGrid" << endl;
+        kdDebug(1202) << "arrangeItemsInGrid" << endl;
         m_pIconView->arrangeItemsInGrid();
     }
 }
