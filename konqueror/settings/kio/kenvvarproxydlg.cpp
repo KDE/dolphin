@@ -598,7 +598,7 @@ void KEnvVarProxyDlg::accept()
                        "invalid \nenvironment variable!");
         QString details = i18n("<qt>Make sure you entered the actual "
                                "environment variable name rather than the "
-                               "adrdress of the proxy server.  For example, "
+                               "address of the proxy server.  For example, "
                                "if the set variable name used to specify the "
                                "HTTP proxy server is <b>HTTP_PROXY</b>, then "
                                "you need to enter <b>HTTP_PROXY</b> instead "
