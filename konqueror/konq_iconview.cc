@@ -268,7 +268,7 @@ void KonqKfmIconView::initConfig()
 void KonqKfmIconView::selectedItems( list<KonqKfmIconViewItem*>& _list )
 {
   iterator it = KIconContainer::begin();
-  for( ; it != KIconContainer::end(); it++ )
+  for( ; it != KIconContainer::end(); ++it )
     if ( (*it)->isSelected() )
       _list.push_back( (KonqKfmIconViewItem*)&**it );
 }
@@ -600,15 +600,15 @@ void KonqKfmIconView::slotUpdateFinished( int /*_id*/ )
   list<UDSEntry>::iterator it = m_buffer.begin();
   for( ; it != m_buffer.end(); it++ )
   {
-    string name;
+    QString name;
 
     // Find out about the name
     UDSEntry::iterator it2 = it->begin();
     for( ; it2 != it->end(); it2++ )
       if ( it2->m_uds == UDS_NAME )
-	name = it2->m_str;
+	name = it2->m_str.c_str();
 
-    assert( !name.empty() );
+    assert( !name.isEmpty() );
 
     // Find this icon
     bool done = false;
@@ -624,15 +624,15 @@ void KonqKfmIconView::slotUpdateFinished( int /*_id*/ )
 
     if ( !done )
     {
-      kdebug(0,1202,"slotUpdateFinished : %s",name.c_str());
+      kdebug(0,1202,"slotUpdateFinished : %s",name.ascii());
       if ( m_isShowingDotFiles || name[0]!='.' )
       {
         KURL u( m_url );
-        u.addPath( name.c_str() );
+        u.addPath( name );
         KonqKfmIconViewItem* item = new KonqKfmIconViewItem( this, *it, u );
         item->mark();
         insert( item );
-        kdebug(0,1202,"Inserting %s", name.c_str());
+        kdebug(0,1202,"Inserting %s", name.ascii());
       }
     }
   }
@@ -644,7 +644,7 @@ void KonqKfmIconView::slotUpdateFinished( int /*_id*/ )
   {
     if ( !((KonqKfmIconViewItem&)**kit).isMarked() )
     {
-      kdebug(0,1202,"Removing %s", (*kit)->text());
+      kdebug(0,1202,"Removing %s", (*kit)->text().ascii());
       lst.append( &**kit );
     }
   }
@@ -742,7 +742,7 @@ void KonqKfmIconViewItem::returnPressed()
 }
 */
 
-void KonqKfmIconViewItem::paint( QPainter* _painter, const QColorGroup _grp )
+void KonqKfmIconViewItem::paint( QPainter* _painter, bool _drag )
 {
   mode_t mode = 0;
 
@@ -761,7 +761,7 @@ void KonqKfmIconViewItem::paint( QPainter* _painter, const QColorGroup _grp )
     _painter->setFont( f );
   }
 
-  KIconContainerItem::paint( _painter, _grp);
+  KIconContainerItem::paint( _painter, _drag );
 }
 
 /*

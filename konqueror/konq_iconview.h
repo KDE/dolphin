@@ -41,7 +41,7 @@ public:
 
 protected:
   void init( UDSEntry& _entry );
-  virtual void paint( QPainter* _painter, const QColorGroup _grp );
+  virtual void paint( QPainter* _painter, bool _drag );
   virtual void refresh();
   
   KonqKfmIconView* m_pIconView;
