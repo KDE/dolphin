@@ -5,21 +5,21 @@
 //
 // Port to KControl
 // (c) David Faure <faure@kde.org> 1998
+//
+// (C) Dirk Mueller <mueller@kde.org> 2000
 
 #ifndef _USERAGENTDLG_H
 #define _USERAGENTDLG_H "$Id$"
 
-#include <qdialog.h>
-#include <qstring.h>
 #include <qwidget.h>
 #include <qlineedit.h>
 #include <qlabel.h>
-#include <qpushbutton.h>
-#include <qlistbox.h>
 
 #include <kcmodule.h>
 
+class QPushButton;
 class QComboBox;
+class QListView;
 
 class UserAgentOptions : public KCModule
 {
@@ -36,11 +36,10 @@ public:
   QString quickHelp() const;
 private slots:
   void textChanged(const QString&);
-//  void returnPressed();
   void addClicked();
   void deleteClicked();
-  void listboxHighlighted( const QString& );
-  
+  void bindingsSelected();
+
   void changed();
 
 
@@ -52,17 +51,15 @@ private:
 
   QPushButton* addPB;
   QPushButton* deletePB;
-  
+
   QLabel* bindingsLA;
-  QListBox* bindingsLB;
+  QListView* bindingsLV;
 
   QPushButton* okPB;
   QPushButton* cancelPB;
   QPushButton* helpPB;
 
   QStringList settingsList;
-
-  int highlighted_item;
 };
 
 

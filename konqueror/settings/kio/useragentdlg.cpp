@@ -5,6 +5,9 @@
 //
 // Port to KControl
 // (c) David Faure <faure@kde.org> 1998
+//
+// (C) Dirk Mueller <mueller@kde.org> 2000
+
 
 #include "useragentdlg.h"
 
@@ -12,9 +15,11 @@
 #include <kapp.h>
 #include <klocale.h>
 
+#include <qpushbutton.h>
 #include <qlayout.h>
 #include <qwhatsthis.h>
 #include <qcombobox.h>
+#include <qlistview.h>
 
 #include <dcopclient.h>
 #include <kprotocolmanager.h>
@@ -69,9 +74,31 @@ UserAgentOptions::UserAgentOptions( QWidget * parent, const char * name ) :
   loginasED->setInsertionPolicy( QComboBox::AtTop );
   lay->addWidget(loginasED,2,2);
   loginasLA->setBuddy( loginasED );
-  loginasED->insertItem( "Mozilla/4.74 (X11; U; Linux 2.2.14 i686)" );
+  loginasED->insertItem( DEFAULT_USERAGENT_STRING );
+  // this is the one that proofed to fool many "clever" browser detections
+  // to detect the IE 5.0 which is most of the time the best for khtml (Dirk)
+  loginasED->insertItem( QString("Mozilla/5.0 (Konqueror/") + QString(KDE_VERSION_STRING)
+                         + QString("; compatible: MSIE 5.0)") );
+
+  // MSIE strings
   loginasED->insertItem( "Mozilla/4.0 (compatible; MSIE 4.01; Windows NT)" );
-  loginasED->insertItem( "Mozilla/5.0 (X11; U; Linux 2.2.14 i686; en-US; m18) Gecko/20000816" );
+  loginasED->insertItem( "Mozilla/4.0 (compatible; MSIE 5.01; Windows NT 5.0)" );
+  loginasED->insertItem( "Mozilla/4.0 (compatible; MSIE 5.0; Win32)" );
+  loginasED->insertItem( "Mozilla/4.0 (compatible; MSIE 5.5; Windows NT 5.0)" );
+  loginasED->insertItem( "Mozilla/4.0 (compatible; MSIE 5.5; Windows 98)" );
+
+  // NS stuff
+  loginasED->insertItem( "Mozilla/3.01 (X11; I; Linux 2.2.14 i686)" );
+  loginasED->insertItem( "Mozilla/4.75 (X11; U; Linux 2.2.14 i686)" );
+  loginasED->insertItem( "Mozilla/5.0 (Windows; U; WinNT4.0; en-US; m18) Gecko/20001010" );
+
+  // misc
+  loginasED->insertItem( "Opera/4.03 (Windows NT 4.0; U)" );
+  loginasED->insertItem( "Konqueror/1.1.2" );
+  loginasED->insertItem( "Wget/1.5.3" );
+  loginasED->insertItem( "Lynx/2.8.3dev.6 libwww-FM/2.14" );
+  loginasED->insertItem( "w3m/0.1.9" );
+
   loginasED->setEditText( "" );
 
   wtstr = i18n( "Here you can enter the identification Konqueror should use for the given server."
@@ -103,8 +130,16 @@ UserAgentOptions::UserAgentOptions( QWidget * parent, const char * name ) :
   bindingsLA = new QLabel( i18n( "Configured agent bindings:" ), this );
   lay->addMultiCellWidget(bindingsLA,4,4,2,3);
 
-  bindingsLB = new QListBox( this );
-  lay->addMultiCellWidget(bindingsLB,5,5,2,3);
+  bindingsLV = new QListView( this );
+  bindingsLV->setShowSortIndicator(true);
+  bindingsLV->setAllColumnsShowFocus(true);
+  bindingsLV->addColumn( i18n( "Server Mask" ));
+  bindingsLV->addColumn( i18n( "User Agent" ));
+  bindingsLV->setColumnAlignment(0, Qt::AlignRight);
+  bindingsLV->setColumnAlignment(1, Qt::AlignLeft);
+  bindingsLV->setTreeStepSize(0);
+  bindingsLV->setSorting(0);
+  lay->addMultiCellWidget(bindingsLV,5,5,2,3);
 
   wtstr = i18n( "This box contains a list of agent bindings, i.e. information on how"
     " Konqueror will identify itself to a server. You might want to set up bindings"
@@ -112,13 +147,12 @@ UserAgentOptions::UserAgentOptions( QWidget * parent, const char * name ) :
     " will identify itself as 'Mozilla/4.0'.<p>"
     " Select a binding to change or delete it." );
   QWhatsThis::add( bindingsLA, wtstr );
-  QWhatsThis::add( bindingsLB, wtstr );
+  QWhatsThis::add( bindingsLV, wtstr );
 
   lay->activate();
 
-  bindingsLB->setMultiSelection( false );
-  connect( bindingsLB, SIGNAL( highlighted( const QString&) ),
-           SLOT( listboxHighlighted( const QString& ) ) );
+  connect( bindingsLV, SIGNAL( selectionChanged() ),
+           SLOT( bindingsSelected() ) );
 
   load();
 }
@@ -130,34 +164,36 @@ UserAgentOptions::~UserAgentOptions()
 
 void UserAgentOptions::load()
 {
-  QStringList list = KProtocolManager::userAgentList();
-  uint entries = list.count();
-  if( entries == 0 )
-    defaults();
-  else
-  {
-    bindingsLB->clear();
-    bindingsLB->insertStringList( list );
-  }
+    QStringList list = KProtocolManager::userAgentList();
+    uint entries = list.count();
+    if( entries == 0 )
+        defaults();
+    else
+    {
+        bindingsLV->clear();
+        for ( QStringList::Iterator it = list.begin(); it != list.end(); ++it )
+            (void) new QListViewItem(bindingsLV, (*it).left((*it).find(':')), (*it).mid((*it).find(':')+1));
+    }
 }
 
 void UserAgentOptions::defaults()
 {
-  bindingsLB->clear();
-  bindingsLB->insertItem( QString("*:"+DEFAULT_USERAGENT_STRING) );
+    bindingsLV->clear();
+    (void) new QListViewItem(bindingsLV, "*", DEFAULT_USERAGENT_STRING);
 }
 
 
 void UserAgentOptions::save()
 {
-    if(!bindingsLB->count())
+    if(!bindingsLV->childCount())
         defaults();
 
     QStringList list;
-    uint count = bindingsLB->count();
-    for( uint i = 0; i < count; i++ )
+    QListViewItem* it = bindingsLV->firstChild();
+    while(it)
     {
-        list.append( bindingsLB->text(i) );
+        list.append(QString(it->text(0) + ":" + it->text(1)).stripWhiteSpace());
+        it = it->nextSibling();
     }
     KProtocolManager::setUserAgentList( list );
 
@@ -169,54 +205,68 @@ void UserAgentOptions::save()
 
 void UserAgentOptions::textChanged( const QString& )
 {
-  if( !loginasED->currentText().isEmpty() && !onserverED->text().isEmpty() )
-    addPB->setEnabled( true );
-  else
-    addPB->setEnabled( false );
+    if( !loginasED->currentText().isEmpty() && !onserverED->text().isEmpty() )
+        addPB->setEnabled( true );
+    else
+        addPB->setEnabled( false );
 
-  deletePB->setEnabled( false );
+    deletePB->setEnabled( false );
 }
 
 void UserAgentOptions::addClicked()
 {
-  // no need to check if the fields contain text, the add button is only
-  // enabled if they do
+    // no need to check if the fields contain text, the add button is only
+    // enabled if they do
 
-  QString text = onserverED->text();
-  text += ':';
-  text += loginasED->currentText();
-  bindingsLB->insertItem( new QListBoxText( text ), 0);
-  onserverED->setText( "" );
-  loginasED->setEditText( "" );
-  onserverED->setFocus();
+    bool found=false;
+    // scan for duplicates
+    QListViewItem* it = bindingsLV->firstChild();
+    while(it)
+    {
+        if(it->text(0) == onserverED->text().stripWhiteSpace())
+        {
+            it->setText(1, loginasED->currentText().stripWhiteSpace());
+            found = true;
+            break;
+        }
+        it = it->nextSibling();
+    }
+
+    if(!found)
+        (void) new QListViewItem(bindingsLV, onserverED->text().stripWhiteSpace(), loginasED->currentText().stripWhiteSpace());
+
+    bindingsLV->sort();
+    onserverED->setText( "" );
+    loginasED->setEditText( "" );
+    onserverED->setFocus();
 }
-
 
 void UserAgentOptions::deleteClicked()
 {
-  if( bindingsLB->count() )
-    bindingsLB->removeItem( highlighted_item );
-  if( !bindingsLB->count() ) // no more items
-    listboxHighlighted("");
+    delete bindingsLV->selectedItem();
+
+    addPB->setEnabled(true);
+    deletePB->setEnabled(bindingsLV->selectedItem());
+
+    if(!bindingsLV->childCount() ) // no more items
+        defaults();
 }
 
-
-void UserAgentOptions::listboxHighlighted( const QString& _itemtext )
+void UserAgentOptions::bindingsSelected()
 {
-  QString itemtext( _itemtext );
-  int colonpos = itemtext.find( ':' );
-  onserverED->setText( itemtext.left( colonpos ) );
-  loginasED->setEditText( itemtext.right( itemtext.length() - colonpos - 1) );
-  deletePB->setEnabled( true );
-  addPB->setEnabled( false );
+    QListViewItem* it = bindingsLV->selectedItem();
+    if(!it) return;
 
-  highlighted_item = bindingsLB->currentItem();
+    onserverED->setText( it->text(0) );
+    loginasED->setEditText( it->text(1) );
+    textChanged(QString());
+    deletePB->setEnabled(bindingsLV->selectedItem());
 }
 
 
 void UserAgentOptions::changed()
 {
-  emit KCModule::changed(true);
+    emit KCModule::changed(true);
 }
 
 QString UserAgentOptions::quickHelp() const
