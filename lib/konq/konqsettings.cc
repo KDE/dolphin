@@ -32,10 +32,11 @@ static const char * s_sGroupName[] = { "Icon Settings", "Tree Settings" };
 
 #define KS_ICON 0
 #define KS_TREE 1
+#define MAXINSTANCE KS_TREE  // last one
 
 KonqFMSettings * KonqFMSettings::getInstance( int nr )
 {
-  assert( nr >= 0 && nr <= 1 );
+  assert( nr >= 0 && nr <= MAXINSTANCE );
   if (!s_pSettings[nr])
   {
     KConfig *config = kapp->config();
@@ -61,7 +62,7 @@ KonqFMSettings * KonqFMSettings::defaultIconSettings()
 void KonqFMSettings::reparseConfiguration()
 {
   KConfig *config = kapp->config();
-  for (int i = 0 ; i < 3 ; i++ )
+  for (int i = 0 ; i < MAXINSTANCE ; i++ )
   {
     if (s_pSettings[i])
     {
