@@ -417,6 +417,7 @@ void KonqPopupMenu::setup(bool showPropertiesAndFileType)
         if (actNewView)
             addAction( actNewView );
         addGroup( "tabhandling" );
+        addSeparator();
 
         if ( !bIsLink )
         {
@@ -735,13 +736,6 @@ void KonqPopupMenu::setup(bool showPropertiesAndFileType)
 
     if ( !isCurrentTrash && !isIntoTrash && !devicesFile)
         addPlugins( ); // now it's time to add plugins
-
-    if ( !m_sMimeType.isEmpty() && showPropertiesAndFileType && !isCurrentTrash && !isIntoTrash &&!devicesFile)
-    {
-        act = new KAction( i18n( "&Edit File Type..." ), 0, this, SLOT( slotPopupMimeType() ),
-                           &m_ownActions, "editfiletype" );
-        addAction( act );
-    }
 
     if ( KPropertiesDialog::canDisplay( m_lstItems ) && showPropertiesAndFileType )
     {
