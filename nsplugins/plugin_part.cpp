@@ -106,9 +106,9 @@ PluginPart::PluginPart(QWidget *parent, const char *name)
 {
   setInstance(PluginFactory::instance());
   kDebugInfo("PluginPart");
-  
+
   m_extension = new PluginBrowserExtension(this);
- 
+
   // create a canvas to insert our widget
   canvas = new PluginCanvasWidget(parent);
   canvas->setFocusPolicy(QWidget::ClickFocus);
@@ -135,7 +135,7 @@ bool PluginPart::openURL(const KURL &url)
   _argn << "SRC" << "TYPE";
   _argv << url.url() << m_extension->urlArgs().serviceType;
   widget =  PluginFactory::loader()->NewInstance(canvas, url.url(), m_extension->urlArgs().serviceType, 1, _argn, _argv);
-  
+
   if (widget)
     {
       widget->resize(canvas->width(), canvas->height());
@@ -162,7 +162,7 @@ bool PluginPart::closeURL()
 
 void PluginPart::requestURL(QCString url)
 {
-  emit openURLRequest(url);
+  emit m_extension->openURLRequest( KURL( QString::fromLatin1( url ) ) );
 }
 
 
