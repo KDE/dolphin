@@ -58,6 +58,10 @@ QPtrList<Kate::Document> docList; //documents
 TopLevel::TopLevel (Kate::Document *doc)
 {
   setMinimumSize(200,200);
+  
+  if (!initialGeometrySet())
+     resize(640,400); 
+
   factory = KLibLoader::self()->factory( "libkatepart" );
 
   if (!doc) {
@@ -79,7 +83,6 @@ TopLevel::TopLevel (Kate::Document *doc)
 
   // Read basic main-view settings, and set to autosave
   setAutoSaveSettings( "General Options" );
-
 }
 
 
