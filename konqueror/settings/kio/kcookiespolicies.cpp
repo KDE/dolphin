@@ -577,7 +577,6 @@ void KCookiesPolicies::save()
   QListViewItem *at = m_lvDomainPolicy->firstChild();
   while( at )
   {
-qWarning("Saving %s [%s]", KIDNA::toAscii(at->text(0)).latin1(), at->text(0).latin1());
     domainConfig.append(QString::fromLatin1("%1:%2").arg(KIDNA::toAscii(at->text(0))).arg(m_pDomainPolicy[at]));
     at = at->nextSibling();
   }
