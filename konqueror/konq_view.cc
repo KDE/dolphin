@@ -104,7 +104,7 @@ KonqView::KonqView( KonqViewFactory &viewFactory,
 
 KonqView::~KonqView()
 {
-  kdDebug(1202) << "KonqView::~KonqView : part = " << m_pPart << endl;
+  //kdDebug(1202) << "KonqView::~KonqView : part = " << m_pPart << endl;
 
   if (KonqMainWindow::s_crashlog_file) {
      QString part_url;
@@ -128,7 +128,7 @@ KonqView::~KonqView()
   }
 
   setRun( 0L );
-  kdDebug(1202) << "KonqView::~KonqView " << this << " done" << endl;
+  //kdDebug(1202) << "KonqView::~KonqView " << this << " done" << endl;
 }
 
 void KonqView::openURL( const KURL &url, const QString & locationBarURL, const QString & nameFilter )
@@ -345,7 +345,7 @@ bool KonqView::changeViewMode( const QString &serviceType,
     // each time we change the view mode.
     // We don't do it in switchView either because it's called from the constructor too,
     // where the location bar url isn't set yet.
-    kdDebug(1202) << "Giving focus to new part " << m_pPart << endl;
+    //kdDebug(1202) << "Giving focus to new part " << m_pPart << endl;
     m_pMainWindow->viewManager()->setActivePart( m_pPart );
   }
   return true;
@@ -505,7 +505,7 @@ void KonqView::slotStarted( KIO::Job * job )
 
 void KonqView::setLoading( bool loading, bool hasPending /*= false*/)
 {
-    kdDebug(1202) << k_funcinfo << "loading=" << loading << " hasPending=" << hasPending << endl;
+    //kdDebug(1202) << "KonqView::setLoading loading=" << loading << " hasPending=" << hasPending << endl;
     m_bLoading = loading;
     m_bPendingRedirection = hasPending;
     if ( m_pMainWindow->currentView() == this )
@@ -536,7 +536,7 @@ void KonqView::slotCompleted()
 
 void KonqView::slotCompleted( bool hasPending )
 {
-  kdDebug(1202) << "KonqView::slotCompleted hasPending=" << hasPending << endl;
+  //kdDebug(1202) << "KonqView::slotCompleted hasPending=" << hasPending << endl;
   m_pKonqFrame->statusbar()->slotLoadingProgress( -1 );
 
   if ( ! m_bLockHistory )
@@ -593,7 +593,7 @@ void KonqView::slotMouseOverInfo( const KFileItem *item )
 
 void KonqView::setLocationBarURL( const QString & locationBarURL )
 {
-  kdDebug(1202) << "KonqView::setLocationBarURL " << locationBarURL << " this=" << this << endl;
+  //kdDebug(1202) << "KonqView::setLocationBarURL " << locationBarURL << " this=" << this << endl;
 
   m_sLocationBarURL = locationBarURL;
   if ( m_pMainWindow->currentView() == this )

@@ -82,8 +82,7 @@ void KonqCombo::init( KCompletion *completion )
 
 void KonqCombo::setURL( const QString& url )
 {
-    kdDebug(1202) << "*** KonqCombo::setURL: " << url 
-                  << ", returnPressed ? " << m_returnPressed << endl;
+    //kdDebug(1202) << "KonqCombo::setURL: " << url << ", returnPressed ? " << m_returnPressed << endl;
     setTemporary( url );
     
     if ( m_returnPressed ) { // Really insert...
@@ -103,8 +102,7 @@ void KonqCombo::setTemporary( const QString& text )
 
 void KonqCombo::setTemporary( const QString& url, const QPixmap& pix )
 {
-    kdDebug(1202) << "*** KonqCombo::setTemporary: " << url << ", temporary = " 
-                  << temporary << endl;
+    //kdDebug(1202) << "KonqCombo::setTemporary: " << url << ", temporary = " << temporary << endl;
     
     // Insert a temporary item when we don't have one yet
     if ( count() == 0 )
@@ -122,8 +120,7 @@ void KonqCombo::setTemporary( const QString& url, const QPixmap& pix )
 
 void KonqCombo::removeDuplicates( int index )
 {
-    kdDebug(1202) << "*** KonqCombo::removeDuplicates: Starting index =  "
-                  << index << endl;
+    //kdDebug(1202) << "KonqCombo::removeDuplicates: Starting index =  " << index << endl;
     
     QString url (temporaryItem());
     if (url.endsWith("/"))
@@ -144,7 +141,7 @@ void KonqCombo::removeDuplicates( int index )
 // called via DCOP in all instances
 void KonqCombo::insertPermanent( const QString& url )
 {
-    kdDebug(1202) << "*** KonqCombo::insertPermanent: URL = " << url << endl;
+    //kdDebug(1202) << "KonqCombo::insertPermanent: URL = " << url << endl;
     saveState();
     setTemporary( url );
     m_permanent = true;
@@ -164,7 +161,7 @@ void KonqCombo::applyPermanent()
         
         QString url (temporaryItem());
         insertItem( KonqPixmapProvider::self()->pixmapFor( url ), url, 1 );
-        kdDebug(1202) << "*** KonqCombo::applyPermanent: " << url << endl;
+        //kdDebug(1202) << "KonqCombo::applyPermanent: " << url << endl;
         
         // Remove all duplicates starting from index = 2
         removeDuplicates( 2 );       
@@ -180,7 +177,7 @@ void KonqCombo::updateItem(const QPixmap& pix, const QString& t, int index)
         (pixmap(index) && pixmap(index)->serialNumber() == pix.serialNumber()))
         return;
         
-    // kdDebug(1202) << "*** KonqCombo::updateItem: item='" << t << "', index='"
+    // kdDebug(1202) << "KonqCombo::updateItem: item='" << t << "', index='"
     //               << index << "'" << endl;
     
     // QComboBox::changeItem() doesn't honour the pixmap when
@@ -486,7 +483,7 @@ void KonqCombo::mouseMoveEvent( QMouseEvent *e )
 
 void KonqCombo::slotActivated( const QString& text )
 {
-    kdDebug(1202) << "*** KonqCombo::slotActivated: " << text << endl;
+    //kdDebug(1202) << "KonqCombo::slotActivated: " << text << endl;
     applyPermanent();
     m_returnPressed = true;
     emit activated( text, m_modifier );
