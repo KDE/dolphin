@@ -273,6 +273,9 @@ int KonqBidiHistoryAction::plug( QWidget *widget, int index )
 
 void KonqBidiHistoryAction::fillGoMenu( const QList<HistoryEntry> & history )
 {
+    if (history.isEmpty())
+        return; // nothing to do
+
     kdDebug(1202) << "fillGoMenu position: " << history.at() << endl;
     if ( m_firstIndex == 0 ) // should never happen since done in plug
         m_firstIndex = m_goMenu->count();
