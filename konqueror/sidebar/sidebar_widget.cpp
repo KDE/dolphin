@@ -963,6 +963,9 @@ void Sidebar_Widget::showHidePage(int page)
 
 void Sidebar_Widget::collapseExpandSidebar()
 {
+	if (!parentWidget())
+		return; // Can happen during destruction
+		
 	if (m_visibleViews.count()==0)
 	{
 		m_somethingVisible = false;
