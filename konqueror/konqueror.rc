@@ -104,7 +104,7 @@
  </Menu>
  <Merge/>
 </MenuBar>
-<ToolBar fullWidth="true" name="mainToolBar" newline="true"><text>Main Toolbar</text>
+<ToolBar fullWidth="true" name="mainToolBar" newline="true"><text>&amp;Main Toolbar</text>
  <Action name="up"/>
  <Action name="back"/>
  <Action name="forward"/>
@@ -125,7 +125,7 @@
  <WeakSeparator/>
  <Action name="animated_logo"/>
 </ToolBar>
-<ToolBar hidden="true" name="extraToolBar" newline="false" index="1"><text>Extra Toolbar</text>
+<ToolBar hidden="true" name="extraToolBar" newline="false" index="1"><text>&amp;Extra Toolbar</text>
   <Action name="konq_sidebartng" />
   <Action name="findfile" />
   <Action name="splitviewv" />
@@ -134,13 +134,13 @@
   <Action name="newtab"/>
   <Action name="removecurrenttab"/>
 </ToolBar>
-<ToolBar fullWidth="true" name="locationToolBar" newline="true"><text>Location Toolbar</text>
+<ToolBar fullWidth="true" name="locationToolBar" newline="true"><text>&amp;Location Toolbar</text>
   <Action name="clear_location" />
   <Action name="location_label" />
   <Action name="toolbar_url_combo" />
   <Action name="go_url" />
 </ToolBar>
-<ToolBar noEdit="true" iconText="icontextright" fullWidth="true" name="bookmarkToolBar" newline="true"><text>Bookmark Toolbar</text>
+<ToolBar noEdit="true" iconText="icontextright" fullWidth="true" name="bookmarkToolBar" newline="true"><text>&amp;Bookmark Toolbar</text>
 </ToolBar>
 <ActionProperties>
   <Action shortcut="F9" name="konq_sidebartng" />

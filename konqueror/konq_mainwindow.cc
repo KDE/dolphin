@@ -2917,14 +2917,6 @@ void KonqMainWindow::initActions()
   m_pBookmarkMenu = new KBookmarkMenu( KonqBookmarkManager::self(), this, m_pamBookmarks->popupMenu(), m_bookmarksActionCollection, true );
 
   m_paShowMenuBar = KStdAction::showMenubar( this, SLOT( slotShowMenuBar() ), actionCollection(), "showmenubar" );
-  m_paShowToolBar = KStdAction::showToolbar( "mainToolBar", actionCollection(), "showtoolbar" );
-  connect( m_paShowToolBar, SIGNAL(toggled(bool)), this, SLOT(slotForceSaveMainWindowSettings()) );
-  m_paShowExtraToolBar = new KToggleToolBarAction( "extraToolBar", i18n("Show &Extra Toolbar"), actionCollection(), "showextratoolbar" );
-  connect( m_paShowExtraToolBar, SIGNAL(toggled(bool)), this, SLOT(slotForceSaveMainWindowSettings()) );
-  m_paShowLocationBar = new KToggleToolBarAction( "locationToolBar", i18n("Show &Location Toolbar"), actionCollection(), "showlocationbar" );
-  connect( m_paShowLocationBar, SIGNAL(toggled(bool)), this, SLOT(slotForceSaveMainWindowSettings()) );
-  m_paShowBookmarkBar = new KToggleToolBarAction( "bookmarkToolBar", i18n("Show &Bookmark Toolbar"), actionCollection(), "showbookmarkbar" );
-  connect( m_paShowBookmarkBar, SIGNAL(toggled(bool)), this, SLOT(slotForceSaveMainWindowSettings()) );
 
   connect(toolBarMenuAction(),SIGNAL(activated()),this,SLOT(slotForceSaveMainWindowSettings()) );
 
@@ -3276,11 +3268,6 @@ void KonqMainWindow::disableActionsNoView()
     m_paSaveViewProfile->setEnabled( true );
     m_paSaveRemoveViewProfile->setEnabled( true );
     m_combo->clearTemporary();
-    m_paShowMenuBar->setEnabled( true );
-    m_paShowToolBar->setEnabled( true );
-    m_paShowExtraToolBar->setEnabled( true );
-    m_paShowLocationBar->setEnabled( true );
-    m_paShowBookmarkBar->setEnabled( true );
     updateLocalPropsActions();
 }
 

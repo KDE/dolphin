@@ -563,10 +563,6 @@ private:
 
   KToggleAction *m_paShowMenuBar;
   KToggleAction *m_paShowStatusBar;
-  KToggleAction *m_paShowToolBar;
-  KToggleAction *m_paShowExtraToolBar;
-  KToggleAction *m_paShowLocationBar;
-  KToggleAction *m_paShowBookmarkBar;
 
   KAction *m_ptaFullScreen;
 
