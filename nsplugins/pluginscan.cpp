@@ -63,6 +63,7 @@ void generateMimeType(QString mime, QString extensions, QString description)
       QTextStream ts(&f);
 
       ts << "[Desktop Entry]" << endl;
+      ts << "Name=Netscape plugin mimeinfo" << endl;
       ts << "Type=MimeType" << endl;
       ts << "MimeType=" << mime << endl;
       
@@ -211,10 +212,12 @@ int main(int argc, char *argv[])
       QTextStream ts(&f);
 
       ts << "[Desktop Entry]" << endl;
+      ts << "Name=Netscape plugin viewer" << endl;
       ts << "Type=Service" << endl;
       ts << "Icon=netscape" << endl;
       ts << "Comment=Netscape plugin viewer" << endl;
       ts << "X-KDE-Library=libplugin" << endl;
+      ts << "ServiceTypes=KParts/ReadOnlyPart,Browser/View" << endl;
 
       if (mimeTypes.count() > 0)
 	{
