@@ -54,12 +54,15 @@ include_HEADERS = konq_popupmenu.h knewmenu.h \
     kivdirectoryoverlay.h \
     konq_faviconmgr.h konq_xmlguiclient.h konqbookmarkmanager.h
 
+
 if include_ARTS
-kde_module_LTLIBRARIES = konq_sound.la
+ARTS_MODULE = konq_sound.la
+endif
+
+kde_module_LTLIBRARIES = $(ARTS_MODULE)
 konq_sound_la_SOURCES = konq_sound.cc
 konq_sound_la_LDFLAGS = $(all_libraries) -module $(KDE_PLUGIN)
 konq_sound_la_LIBADD = -lsoundserver_idl -lartskde
-endif
 
 noinst_HEADERS = konq_sound.h
 
