@@ -53,6 +53,7 @@
 #include <qtextstream.h>
 #include <qpainter.h>
 #include <qlayout.h>
+#include <qcombobox.h>
 
 #include <kdialog.h>
 #include <kdirwatch.h>
@@ -641,6 +642,8 @@ void FilePropsPage::slotRenameFinished( KIO::Job * job )
 FilePermissionsPropsPage::FilePermissionsPropsPage( PropertiesDialog *_props )
   : PropsPage( _props )
 {
+  grpCombo = 0L; grpEdit = 0;
+  usrEdit = 0L;
   QString path = properties->kurl().path(-1);
   QString fname = properties->kurl().filename();
   bool isLocal = properties->kurl().isLocalFile();
@@ -681,7 +684,7 @@ FilePermissionsPropsPage::FilePermissionsPropsPage( PropertiesDialog *_props )
 
   QBoxLayout *box = new QVBoxLayout( this, KDialog::spacingHint() );
 
-  QLabel *l;
+  QLabel *l, *cl[3];
   QGroupBox *gb;
   QGridLayout *gl;
 
@@ -689,154 +692,198 @@ FilePermissionsPropsPage::FilePermissionsPropsPage( PropertiesDialog *_props )
   gb = new QGroupBox ( i18n("Access permissions"), this );
   box->addWidget (gb);
 
-  gl = new QGridLayout (gb, 4, 6, 15);
+  gl = new QGridLayout (gb, 6, 6, 15);
+  gl->addRowSpacing(0, 10);
+
+  l = new QLabel(i18n("Class"), gb);
+  gl->addWidget(l, 1, 0);
 
   if (isDir)
     l = new QLabel( i18n("Show\nEntries"), gb );
   else
     l = new QLabel( i18n("Read"), gb );
-  gl->addWidget (l, 0, 1);
+  gl->addWidget (l, 1, 1);
 
   if (isDir)
     l = new QLabel( i18n("Write\nEntries"), gb );
   else
     l = new QLabel( i18n("Write"), gb );
-  gl->addWidget (l, 0, 2);
+  gl->addWidget (l, 1, 2);
 
   if (isDir)
     l = new QLabel( i18n("Enter"), gb );
   else
     l = new QLabel( i18n("Exec"), gb );
-  gl->addWidget (l, 0, 3);
+  // GJ: Add space between normal and special modes
+  QSize size = l->sizeHint();
+  size.setWidth(size.width() + 15);
+  l->setFixedSize(size);
+  gl->addWidget (l, 1, 3);
 
   l = new QLabel( i18n("Special"), gb );
-  gl->addWidget (l, 0, 4);
+  gl->addMultiCellWidget(l, 1, 1, 4, 5);
 
-  l = new QLabel( i18n("User"), gb );
-  l->setEnabled (IamRoot || isMyFile);
-  gl->addWidget (l, 1, 0);
+  cl[0] = new QLabel( i18n("User"), gb );
+  //l->setEnabled (IamRoot || isMyFile);
+  gl->addWidget (cl[0], 2, 0);
 
-  l = new QLabel( i18n("Group"), gb );
-  gl->addWidget (l, 2, 0);
+  cl[1] = new QLabel( i18n("Group"), gb );
+  gl->addWidget (cl[1], 3, 0);
 
-  l = new QLabel( i18n("Others"), gb );
-  gl->addWidget (l, 3, 0);
+  cl[2] = new QLabel( i18n("Others"), gb );
+  gl->addWidget (cl[2], 4, 0);
+
+  l = new QLabel(i18n("Set UID"), gb);
+  gl->addWidget(l, 2, 5);
+
+  l = new QLabel(i18n("Set GID"), gb);
+  gl->addWidget(l, 3, 5);
+
+  l = new QLabel(i18n("Sticky"), gb);
+  gl->addWidget(l, 4, 5);
 
     /* Draw Checkboxes */
   for (int row = 0; row < 3 ; ++row) {
     for (int col = 0; col < 4; ++col) {
-      QCheckBox *cb;
-      QString desc;
-	
-      /* some boxes need further description .. */
-      switch (fperm[row][col]) {
-	case S_ISUID : desc = i18n("Set UID"); break;
-	case S_ISGID : desc = i18n("Set GID"); break;
-	case S_ISVTX : desc = i18n("Sticky"); break;
-	default      : desc = "";
-      }
-	
-      cb = new QCheckBox (desc, gb);
-      cb->setChecked ((permissions & fperm[row][col])
-                      == fperm[row][col]);
+      QCheckBox *cb = new QCheckBox(gb);
+      cb->setChecked(permissions & fperm[row][col]);
       cb->setEnabled ((isMyFile || IamRoot) && (!isLink));
       permBox[row][col] = cb;
-      gl->addWidget (permBox[row][col], row+1, col+1);
+      gl->addWidget (permBox[row][col], row+2, col+1);
     }
   }
-  gl->setColStretch(5, 10);
+  gl->setColStretch(6, 10);
 
     /**** Group: Ownership ****/
   gb = new QGroupBox ( i18n("Ownership"), this );
   box->addWidget (gb);
 
   gl = new QGridLayout (gb, 4, 3, 15);
+  gl->addRowSpacing(0, 10);
 
   /*** Set Owner ***/
-  l = new QLabel( i18n("Owner"), gb );
+  l = new QLabel( i18n("User:"), gb );
   gl->addWidget (l, 1, 0);
 
-    /* maybe this should be a combo-box, but this isn't handy
-     * if there are 2000 Users (tiny scrollbar!)
-     * anyone developing a combo-box with incremental search .. ?
-     */
-  owner = new KLineEdit( gb );
-  gl->addWidget (owner, 1, 1);
-  owner->setText( strOwner );
-  owner->setEnabled ( IamRoot && isLocal ); // we can just change the user if we're root
+  /* GJ: Don't autocomplete more than 1000 users. This is a kind of random 
+   * value. Huge sites having 10.000+ user have a fair chance of using NIS, 
+   * (possibly) making this unacceptably slow.
+   * OTOH, it is nice to offer this functionality for the standard user.
+   */
+  int i, maxEntries = 1000;
 
-    /*** Set Group ***/
-    /* get possible groups .. */
-  QStrList *groupList = new QStrList (true);
+   /* File owner: For root, offer a KLineEdit with autocompletion. 
+    * For a user, who can never chown() a file, offer a QLabel.
+    */
+  if (IamRoot && isLocal) 
+  {
+    usrEdit = new KLineEdit( gb );
+    KCompletion *compl = usrEdit->completionObject();
+    compl->setSorted(true);
+    setpwent();
+    for (i=0; ((user = getpwent()) != 0L) && (i < maxEntries); i++)
+      compl->addItem(user->pw_name);
+    endpwent();
+    usrEdit->setCompletionMode((i < maxEntries) ? KGlobalSettings::CompletionAuto :
+	  KGlobalSettings::CompletionNone);
+    usrEdit->setText(strOwner);
+    gl->addWidget(usrEdit, 1, 1);
+  } 
+  else 
+  {
+    l = new QLabel(strOwner, gb);
+    gl->addWidget(l, 1, 1);
+  }
 
-  if (isMyFile || IamRoot) {  // build list just if we have to
+  /*** Set Group ***/
+
+  QStringList groupList;
+  QCString strUser;
+  user = getpwuid(geteuid());
+  if (user != 0L)
+    strUser = user->pw_name;
+
+  if (IamRoot || isMyFile) 
+  {
     setgrent();
-    while ((ge = getgrent()) != 0L) {
+    for (i=0; ((ge = getgrent()) != 0L) && (i < maxEntries); i++)
+    {
       if (IamRoot)
-        groupList->inSort (ge->gr_name);
-      else {
-        /* pick just the groups the user can change the file to */
-        char ** members = ge->gr_mem;
-        char * member;
-        while ((member = *members) != 0L) {
-          if (member == strOwner) {
-            groupList->inSort (ge->gr_name);
-            break;
-          }
-          ++members;
-        }
+	groupList += QString::fromLatin1(ge->gr_name);
+      else
+      {
+	/* pick just the groups the user can change the file to */
+	char ** members = ge->gr_mem;
+	char * member;
+	while ((member = *members) != 0L) {
+	  if (strUser == member) {
+	    groupList += QString::fromLatin1(ge->gr_name);
+	    break;
+	  }
+	  ++members;
+	}
       }
     }
     endgrent();
+  }
 
-    /* add the effective Group to the list .. */
-    ge = getgrgid (getegid());
-    if (ge) {
-      QString name = ge->gr_name;
-      if (name.isEmpty())
-        name.sprintf("%d",ge->gr_gid);
-      if (groupList->find (name) < 0)
-        groupList->inSort (name);
-    }
+  /* add the effective Group to the list .. */
+  ge = getgrgid (getegid());
+  if (ge) {
+    QString name = QString::fromLatin1(ge->gr_name);
+    if (name.isEmpty())
+      name.setNum(ge->gr_gid);
+    if (groupList.find(name) == groupList.end())
+      groupList += name;
   }
 
   /* add the group the file currently belongs to ..
-     * .. if its not there already
-     */
-  if (groupList->find (strGroup) < 0)
-    groupList->inSort (strGroup);
+   * .. if its not there already
+   */
+  if (groupList.find(strGroup) == groupList.end())
+    groupList += strGroup;
 
-  l = new QLabel( i18n("Group"), gb );
+  l = new QLabel( i18n("Group:"), gb );
   gl->addWidget (l, 2, 0);
 
-  if (groupList->count() > 1 &&
-      (IamRoot || isMyFile)) {
-    /* Combo-Box .. if there is anything to change */
-    if (groupList->count() <= 10)
-      /* Motif-Style looks _much_ nicer for few items */
-      grp = new QComboBox( gb );
-    else
-      grp = new QComboBox( false, gb );
-
-    grp->insertStrList ( groupList );
-    grp->setCurrentItem (groupList->find ( strGroup ));
-    gl->addWidget (grp, 2, 1);
-    grp->setEnabled (IamRoot || isMyFile);
+  /* Set group: if possible to change: 
+   * - Offer a KLineEdit for root, since he can change to any group.
+   * - Offer a QComboBox for a normal user, since he can change to a fixed
+   *   (small) set of groups only.
+   * If not changable: offer a QLabel.
+   */
+  if (IamRoot && isLocal) 
+  {
+    grpEdit = new KLineEdit(gb);
+    KCompletion *compl = new KCompletion;
+    compl->setItems(groupList);
+    grpEdit->setCompletionObject(compl, true);
+    grpEdit->setCompletionMode(KGlobalSettings::CompletionAuto);
+    grpEdit->setText(strGroup);
+    gl->addWidget(grpEdit, 2, 1);
+  } 
+  else if ((groupList.count() > 1) && isMyFile && isLocal) 
+  {
+    grpCombo = new QComboBox(gb);
+    grpCombo->insertStringList(groupList);
+    grpCombo->setCurrentItem(groupList.findIndex(strGroup));
+    gl->addWidget(grpCombo, 2, 1);
   }
-  else {
-    // no choice; just present the group in a disabled edit-field
-    QLineEdit *e = new KLineEdit ( gb );
-    e->setText ( strGroup );
-    e->setEnabled (false);
-    gl->addWidget (e, 2, 1);
-    grp = 0L;
+  else
+  {
+    l = new QLabel(strGroup, gb);
+    gl->addWidget(l, 2, 1);
   }
-
-  delete groupList;
 
   gl->setColStretch(2, 10);
-
   box->addStretch (10);
+
+  if (isMyFile)
+    cl[0]->setText(i18n("<b>User</b>"));
+  else if (groupList.contains(strGroup))
+    cl[1]->setText(i18n("<b>Group</b>"));
+  else
+    cl[2]->setText(i18n("<b>Others</b>"));
 }
 
 bool FilePermissionsPropsPage::supports( KonqFileItemList /*_items*/ )
@@ -855,24 +902,30 @@ void FilePermissionsPropsPage::applyChanges()
       if (permBox[row][col]->isChecked())
 	p |= fperm[row][col];
 
+  QString owner, group;
+  if (usrEdit)
+    owner = usrEdit->text();
+  else
+    owner = strOwner;
+  if (grpEdit)
+    group = grpEdit->text();
+  else if (grpCombo)
+    group = grpCombo->currentText();
+  else
+    group = strGroup;
+
   // First update group / owner
   // (permissions have to set after, in case of suid and sgid)
-  if ( owner->text() != strOwner ||
-       (grp && grp->text(grp->currentItem()) != strGroup )) {
-    struct passwd* pw = getpwnam( owner->text() );
-    struct group* g;
-    if (grp)
-      g = getgrnam( grp->text(grp->currentItem()) );
-    else
-      g = 0L;
-
+  if ((owner != strOwner) || (group != strGroup))
+  {
+    struct passwd* pw = getpwnam(owner.latin1());
+    struct group* g = getgrnam(group.latin1());
     if ( pw == 0L ) {
-      kDebugError(1202," ERROR: No user %s",(const char*)owner->text());
+      kDebugError(1202," ERROR: No user %s", owner.latin1());
       return;
     }
     if ( g == 0L ) {
-      kDebugError(1202," ERROR: No group %s",
-             (const char*)grp->text(grp->currentItem()) ); // should never happen
+      kDebugError(1202," ERROR: No group %s", group.latin1());
       return;
     }
     if ( chown( path, pw->pw_uid, g->gr_gid ) != 0 )
@@ -895,7 +948,6 @@ void FilePermissionsPropsPage::slotChmodResult( KIO::Job * job )
 {
   if (job->error())
     job->showErrorDialog();
-  // KMessageBox::sorry( 0, i18n("Could not change permissions. \nYou most likely do not have access to write to %1.").arg(path));
   else
   {
     // Force refreshing information about that file if displayed.
@@ -1039,16 +1091,24 @@ ExecPropsPage::ExecPropsPage( PropertiesDialog *_props )
   suidEdit->setText( suidUserStr );
   enableSuidEdit();
 
-  // Provide username completion
-  KCompletion *compl = suidEdit->completionObject();
+  // Provide username completion up to 1000 users.
+  KCompletion *compl = new KCompletion;
   compl->setSorted(true);
   struct passwd *pw;
+  int i, maxEntries = 1000;
   setpwent();
-  while ((pw = getpwent()) != 0L)
-    compl->addItem(pw->pw_name);
+  for (i=0; ((pw = getpwent()) != 0L) && (i < maxEntries); i++)
+    compl->addItem(QString::fromLatin1(pw->pw_name));
   endpwent();
-  suidEdit->setCompletionObject(compl);
-  suidEdit->setCompletionMode(KGlobalSettings::CompletionAuto);
+  if (i < maxEntries)
+  {
+    suidEdit->setCompletionObject(compl, true);
+    suidEdit->setCompletionMode(KGlobalSettings::CompletionAuto);
+  }
+  else
+  {
+    delete compl;
+  }
 
   connect( execBrowse, SIGNAL( clicked() ), this, SLOT( slotBrowseExec() ) );
   connect( terminalCheck, SIGNAL( clicked() ), this,  SLOT( enableCheckedEdit() ) );

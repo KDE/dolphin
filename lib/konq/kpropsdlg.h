@@ -334,8 +334,9 @@ protected slots:
 
 protected:
   QCheckBox *permBox[3][4];
-  QComboBox *grp;
-  QLineEdit *owner;
+
+  QComboBox *grpCombo;
+  KLineEdit *usrEdit, *grpEdit;
 
   /**
    * Old permissions
