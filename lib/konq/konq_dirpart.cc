@@ -174,7 +174,7 @@ void KonqDirPart::mmbClicked( KFileItem * fileItem )
 
 void KonqDirPart::saveNameFilter( QDataStream &stream )
 {
-    stream << m_nameFilter;
+    stream << m_nameFilter << d->mimeFilterList;
 }
 
 void KonqDirPart::saveState( QDataStream &stream )
@@ -203,7 +203,7 @@ void KonqDirPart::saveState( QDataStream &stream )
 
 void KonqDirPart::restoreNameFilter( QDataStream &stream )
 {
-    stream >> m_nameFilter;
+    stream >> m_nameFilter >> d->mimeFilterList;
     //kdDebug(1203) << "KonqDirPart::restoreNameFilter " << m_nameFilter << endl;
 }
 

@@ -172,8 +172,8 @@ signals:
     void itemRemoved( const KFileItem* );
 
     /**
-     * Emitted with the list of filtered-out items when
-     * a specific named or mime-based filter is set.
+     * Emitted with the list of filtered-out items whenever
+     * a mime-based filter(s) is set.
      */
     void itemsFilteredByMime( const KFileItemList& );
 
