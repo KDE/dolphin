@@ -56,8 +56,7 @@ KFileIVI::KFileIVI( KonqIconViewWidget *iconview, KFileItem* fileitem, int size 
     d->m_animated = false;
 
     // iconName() requires the mimetype to be known
-    if ( fileitem->isMimeTypeKnown() )
-        setMouseOverAnimation( fileitem->iconName() );
+    setMouseOverAnimation( fileitem->isMimeTypeKnown() ? fileitem->iconName() : QString::null );
 }
 
 KFileIVI::~KFileIVI()
@@ -319,10 +318,9 @@ bool KFileIVI::hasAnimation() const
 void KFileIVI::setMouseOverAnimation( const QString& movieFileName )
 {
     if ( !movieFileName.isEmpty() )
-    {
-        //kdDebug(1203) << "KIconViewItem::setMouseOverAnimation " << movieFileName << endl;
         d->m_animatedIcon = movieFileName;
-    }
+    else
+        d->m_animatedIcon = "unknown";
 }
 
 QString KFileIVI::mouseOverAnimation() const
