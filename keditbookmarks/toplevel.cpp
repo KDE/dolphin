@@ -126,14 +126,14 @@ void KEBTopLevel::createActions() {
 
     // Create the actions
 
-    KAction * act = new KAction( i18n( "Import Netscape Bookmarks" ), "netscape", 0, this, SLOT( slotImportNS() ), actionCollection(), "importNS" );
-    (void) new KAction( i18n( "Import Opera Bookmarks..." ), "opera", 0, this, SLOT( slotImportOpera() ), actionCollection(), "importOpera" );
-    (void) new KAction( i18n( "Import Galeon Bookmarks..." ), "galeon", 0, this, SLOT( slotImportGaleon() ), actionCollection(), "importGaleon" );
-    (void) new KAction( i18n( "Import KDE Bookmarks..." ), "bookmarks", 0, this, SLOT( slotImportKDE() ), actionCollection(), "importKDE" );
-    (void) new KAction( i18n( "Import IE Bookmarks..." ), "ie", 0, this, SLOT( slotImportIE() ), actionCollection(), "importIE" );
-    (void) new KAction( i18n( "Export to Netscape Bookmarks" ), "netscape", 0, this, SLOT( slotExportNS() ), actionCollection(), "exportNS" );
-    act = new KAction( i18n( "Import Mozilla Bookmarks..." ), "mozilla", 0, this, SLOT( slotImportMoz() ), actionCollection(), "importMoz" );
-    (void) new KAction( i18n( "Export to Mozilla Bookmarks..." ), "mozilla", 0, this, SLOT( slotExportMoz() ), actionCollection(), "exportMoz" );
+    KAction * act = new KAction( i18n( "Import &Netscape Bookmarks" ), "netscape", 0, this, SLOT( slotImportNS() ), actionCollection(), "importNS" );
+    (void) new KAction( i18n( "Import &Opera Bookmarks..." ), "opera", 0, this, SLOT( slotImportOpera() ), actionCollection(), "importOpera" );
+    (void) new KAction( i18n( "Import &Galeon Bookmarks..." ), "galeon", 0, this, SLOT( slotImportGaleon() ), actionCollection(), "importGaleon" );
+    (void) new KAction( i18n( "Import &KDE Bookmarks..." ), "bookmarks", 0, this, SLOT( slotImportKDE() ), actionCollection(), "importKDE" );
+    (void) new KAction( i18n( "&Import IE Bookmarks..." ), "ie", 0, this, SLOT( slotImportIE() ), actionCollection(), "importIE" );
+    (void) new KAction( i18n( "&Export to Netscape Bookmarks" ), "netscape", 0, this, SLOT( slotExportNS() ), actionCollection(), "exportNS" );
+    act = new KAction( i18n( "Import &Mozilla Bookmarks..." ), "mozilla", 0, this, SLOT( slotImportMoz() ), actionCollection(), "importMoz" );
+    (void) new KAction( i18n( "Export to &Mozilla Bookmarks..." ), "mozilla", 0, this, SLOT( slotExportMoz() ), actionCollection(), "exportMoz" );
     (void) KStdAction::open( this, SLOT( slotLoad() ), actionCollection() );
     (void) KStdAction::save( this, SLOT( slotSave() ), actionCollection() );
     (void) KStdAction::saveAs( this, SLOT( slotSaveAs() ), actionCollection() );
@@ -144,25 +144,25 @@ void KEBTopLevel::createActions() {
     (void) KStdAction::keyBindings( this, SLOT( slotConfigureKeyBindings() ), actionCollection() );
     (void) KStdAction::configureToolbars( this, SLOT( slotConfigureToolbars() ), actionCollection() );
     (void) new KAction( i18n( "&Delete" ), "editdelete", Key_Delete, this, SLOT( slotDelete() ), actionCollection(), "delete" );
-    (void) new KAction( i18n( "&Rename" ), "text", Key_F2, this, SLOT( slotRename() ), actionCollection(), "rename" );
-    (void) new KAction( i18n( "Change &URL" ), "text", Key_F3, this, SLOT( slotChangeURL() ), actionCollection(), "changeurl" );
+    (void) new KAction( i18n( "Rename" ), "text", Key_F2, this, SLOT( slotRename() ), actionCollection(), "rename" );
+    (void) new KAction( i18n( "C&hange URL" ), "text", Key_F3, this, SLOT( slotChangeURL() ), actionCollection(), "changeurl" );
     (void) new KAction( i18n( "Chan&ge Icon..." ), 0, this, SLOT( slotChangeIcon() ), actionCollection(), "changeicon" );
     // (void) new KAction( i18n( "Update Favicon" ), 0, this, SLOT( slotUpdateFavicon() ), actionCollection(), "updatefavicon" );
     (void) new KAction( i18n( "&Create New Folder..." ), "folder_new", CTRL+Key_N, this, SLOT( slotNewFolder() ), actionCollection(), "newfolder" );
-    (void) new KAction( i18n( "&Create New Bookmark" ), "www", 0, this, SLOT( slotNewBookmark() ), actionCollection(), "newbookmark" );
+    (void) new KAction( i18n( "Create &New Bookmark" ), "www", 0, this, SLOT( slotNewBookmark() ), actionCollection(), "newbookmark" );
     (void) new KAction( i18n( "&Insert Separator" ), CTRL+Key_I, this, SLOT( slotInsertSeparator() ), actionCollection(), "insertseparator" );
     (void) new KAction( i18n( "&Sort Alphabetically" ), 0, this, SLOT( slotSort() ), actionCollection(), "sort" );
-    (void) new KAction( i18n( "Set as &Toolbar Folder" ), "bookmark_toolbar", 0, this, SLOT( slotSetAsToolbar() ), actionCollection(), "setastoolbar" );
+    (void) new KAction( i18n( "Set as T&oolbar Folder" ), "bookmark_toolbar", 0, this, SLOT( slotSetAsToolbar() ), actionCollection(), "setastoolbar" );
     (void) new KAction( i18n( "&Expand All Folders" ), 0, this, SLOT( slotExpandAll() ), actionCollection(), "expandall" );
-    (void) new KAction( i18n( "&Collapse All Folders" ), 0, this, SLOT( slotCollapseAll() ), actionCollection(), "collapseall" );
+    (void) new KAction( i18n( "Collapse &All Folders" ), 0, this, SLOT( slotCollapseAll() ), actionCollection(), "collapseall" );
     (void) new KAction( i18n( "&Open in Konqueror" ), "fileopen", 0, this, SLOT( slotOpenLink() ), actionCollection(), "openlink" );
     (void) new KAction( i18n( "Check &Status" ), "bookmark", 0, this, SLOT( slotTestLink() ), actionCollection(), "testlink" );
     (void) new KAction( i18n( "Check Status: &All" ), 0, this, SLOT( slotTestAllLinks() ), actionCollection(), "testall" );
     (void) new KAction( i18n( "Cancel &Checks" ), 0, this, SLOT( slotCancelAllTests() ), actionCollection(), "canceltests" );
-    m_taShowNS = new KToggleAction( i18n( "Show Netscape Bookmarks in Konqueror Windows" ), 0, this, SLOT( slotShowNS() ), actionCollection(), "settings_showNS" );
+    m_taShowNS = new KToggleAction( i18n( "&Show Netscape Bookmarks in Konqueror Windows" ), 0, this, SLOT( slotShowNS() ), actionCollection(), "settings_showNS" );
 }
 
-// TODO - add a few default place to the file dialog somehow?, 
+// TODO - add a few default place to the file dialog somehow?,
 //      - e.g kfile bookmarks +  normal bookmarks file dir
 
 void KEBTopLevel::slotLoad()
@@ -174,7 +174,7 @@ void KEBTopLevel::slotLoad()
     construct(false);
 }
 
-void KEBTopLevel::resetActions() 
+void KEBTopLevel::resetActions()
 {
     m_taShowNS->setChecked( s_pManager->showNSBookmarks() );
 
@@ -263,10 +263,10 @@ void KEBTopLevel::disconnectSignals() {
         disconnect( m_pListView, SIGNAL( itemRenamed(QListViewItem *, const QString &, int) ), 0, 0 );
         disconnect( m_pListView, SIGNAL( dropped(QDropEvent* , QListViewItem* , QListViewItem* ) ), 0, 0 );
         disconnect( m_pListView, SIGNAL( dataChanged() ), 0, 0 );
-       
+
         disconnect( &m_commandHistory, SIGNAL( commandExecuted() ), 0, 0 );
         disconnect( &m_commandHistory, SIGNAL( documentRestored() ), 0, 0 );
-       
+
         disconnect( m_dcopIface, SIGNAL( addedBookmark(QString,QString,QString,QString) ), 0, 0 );
         disconnect( m_dcopIface, SIGNAL( createdNewFolder(QString,QString) ), 0, 0 );
     }
@@ -387,7 +387,7 @@ KBookmark KEBTopLevel::rootBookmark() const
    return ITEM_TO_BK(m_pListView->firstChild());
 }
 
-QValueList<KBookmark> KEBTopLevel::getBookmarkSelection() 
+QValueList<KBookmark> KEBTopLevel::getBookmarkSelection()
 {
     QValueList<KBookmark> bookmarks;
     QPtrList<QListViewItem>* items = KEBTopLevel::self()->selectedItems();
@@ -559,7 +559,7 @@ void KEBTopLevel::slotChangeURL()
       m_pListView->rename( item, 1 );
 }
 
-void KEBTopLevel::deleteSelection(QString commandName) 
+void KEBTopLevel::deleteSelection(QString commandName)
 {
     QPtrList<QListViewItem>* items = selectedItems();
     QPtrListIterator<QListViewItem> it(*items);
@@ -661,7 +661,7 @@ void KEBTopLevel::slotInsertSeparator()
     m_commandHistory.addCommand( cmd );
 }
 
-void KEBTopLevel::selectImport(ImportCommand *cmd) 
+void KEBTopLevel::selectImport(ImportCommand *cmd)
 {
     // TODO  - usability study - is select needed when replacing ???
     KEBListViewItem *item = findByAddress(cmd->groupAddress());
@@ -689,12 +689,12 @@ void KEBTopLevel::slotImportIE()
 
 QString kdeBookmarksFile() {
    // locateLocal on the bookmarks file and get dir?
-   return KFileDialog::getOpenFileName( QDir::homeDirPath() + "/.kde", 
+   return KFileDialog::getOpenFileName( QDir::homeDirPath() + "/.kde",
                                         i18n("*.xml|KDE bookmark files (*.xml)") );
 }
 
 QString galeonBookmarksFile() {
-   return KFileDialog::getOpenFileName( QDir::homeDirPath() + "/.galeon", 
+   return KFileDialog::getOpenFileName( QDir::homeDirPath() + "/.galeon",
                                         i18n("*.xbel|Galeon bookmark files (*.xbel)") );
 }
 
@@ -896,7 +896,7 @@ void KEBTopLevel::slotTestLink()
     testBookmarks(selectedBookmarks());
 }
 
-void KEBTopLevel::testBookmarks(QPtrList<KBookmark>* bks) 
+void KEBTopLevel::testBookmarks(QPtrList<KBookmark>* bks)
 {
     QPtrListIterator<KBookmark> it(*bks);
     for ( ; it.current() != 0; ++it ) {
@@ -950,7 +950,7 @@ void KEBTopLevel::slotShowNS()
 
     // one will need to save, to get konq to notice the change
     // if that's bad, then we need to put this flag in a KConfig.
-    setModified(); 
+    setModified();
 }
 
 void KEBTopLevel::setModified( bool modified )
@@ -1093,7 +1093,7 @@ void FavIconUpdater::downloadIconComplex(const KBookmark &bk) {
 
    part->widget()->resize(1,1);
    part->hide();
-   
+
    part->setPluginsEnabled(false);
    part->setJScriptEnabled(false);
    part->setJavaEnabled(false);
@@ -1137,7 +1137,7 @@ void FavIconUpdater::setIconURL( const KURL & iconURL )
    //      not really sure why we don't just call it directly...
 }
 
-void FavIconUpdater::notifyChange( bool isHost, QString hostOrURL, QString iconName ) 
+void FavIconUpdater::notifyChange( bool isHost, QString hostOrURL, QString iconName )
 {
 // 1. here - add (store link to bk <-> qstring url) map
 // 2. add a new class for faviconmgr
@@ -1148,7 +1148,7 @@ void FavIconUpdater::notifyChange( bool isHost, QString hostOrURL, QString iconN
    m_bk.internalElement().setAttribute("icon",iconName);
    /*
    kdDebug(26000) << "!!!- " << isHost << endl;;
-   kdDebug() << "!!!- " << hostOrURL << "==" << m_bk.url().url() << "-> " 
+   kdDebug() << "!!!- " << hostOrURL << "==" << m_bk.url().url() << "-> "
                         << iconName << endl;
    */
 
@@ -1247,8 +1247,8 @@ void KEBTopLevel::itemMoved(QPtrList<QListViewItem> *_items, const QString & new
              || destAddress.startsWith(oldAddress) )  // duplicate code??? // duplicate code???
            {
                continue;
-           } 
-           else 
+           }
+           else
            {
                MoveCommand * cmd = new MoveCommand( i18n("Move %1").arg(item->bookmark().text()),
                                                     oldAddress, destAddress );
@@ -1308,8 +1308,8 @@ void KEBTopLevel::update()
             KEBListViewItem* item = static_cast<KEBListViewItem*>(it.current());
             QString address = ITEM_TO_BK(item).address();
             // AK - hacky, FIXME
-            if ( address != "ERROR" )  
-                addressList << address; 
+            if ( address != "ERROR" )
+                addressList << address;
         }
         fillListView();
         KEBListViewItem * newItem = NULL;
@@ -1363,7 +1363,7 @@ void KEBTopLevel::fillGroup( KEBListViewItem * parentItem, KBookmarkGroup group 
                 new KEBListViewItem( item, item );
             }
             lastItem = item;
-                
+
         }
         else
         {
