@@ -545,9 +545,13 @@ action="simul">&Ctrl;<keycap>Z</keycap></keycombo></shortcut>
 <guimenuitem>Undo</guimenuitem></menuchoice></term>
 <listitem>  
 <para>This is used to eliminate or reverse the most recent user action
-or operation. Just what constitutes such an action may be better
+or operation.
+<!--
+Just what constitutes such an action may be better
 understood by referring to the <link linkend="group-undos">Group
-Undos</link> portion of this help file.</para>   
+Undos</link> portion of this help file.
+-->
+</para>   
 </listitem>  
 </varlistentry>  
   
@@ -770,8 +774,8 @@ To be written
   
 <sect1 id="go">  
 <title>The <guimenu>Bookmarks</guimenu> Menu</title>  
-<!--
 <variablelist>  
+<!--
 <varlistentry>
 <term id="toggle-bookmarks">
 <menuchoice>
@@ -1474,8 +1478,8 @@ This sets the character encoding for your file.
 </para>
 </listitem>
 </varlistentry>
-</variablelist>
 -->
+</variablelist>
 </sect1>
 
 <sect1 id="prefspellchecker">
