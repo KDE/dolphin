@@ -539,7 +539,9 @@ void KonqOperations::doFileCopy()
         bool bSetWallpaper = false;
         if (iconView && iconView->maySetWallpaper() &&
             (lst.count() == 1) &&
-            (!KImageIO::type(lst.first().path()).isEmpty()))
+            ((!KImageIO::type(lst.first().path()).isEmpty()) ||
+             (KImageIO::isSupported(KMimeType::findByURL(lst.first())->name(),
+                                    KImageIO::Reading))))
         {
             bSetWallpaper = true;
         }
