@@ -9,6 +9,7 @@ class QGridLayout;
 class QGroupBox;
 class QLabel;
 class QSpinBox;
+class QCheckBox;
 
 class KIOPreferences : public KCModule
 {
@@ -35,6 +36,8 @@ private:
     QSpinBox* sb_proxyConnect;
     QSpinBox* sb_serverConnect;
     QSpinBox* sb_serverResponse;
+    QGroupBox* gb_Ftp;
+    QCheckBox* cb_ftpDisablePasv;
 };
 
 #endif // KIOPREFERENCES_H

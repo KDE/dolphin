@@ -2,6 +2,7 @@
 #include <qlayout.h>
 #include <qspinbox.h>
 #include <qgroupbox.h>
+#include <qcheckbox.h>
 #include <qwhatsthis.h>
 
 #include <kio/ioslave_defaults.h>
@@ -9,6 +10,7 @@
 #include <dcopclient.h>
 #include <klocale.h>
 #include <kdialog.h>
+#include <kconfig.h>
 
 #include "netpref.h"
 
@@ -111,6 +113,10 @@ KIOPreferences::KIOPreferences( QWidget* parent,  const char* name )
     gb_TimeoutLayout->addLayout( grid_topLevel );
     mainLayout->addWidget( gb_Timeout );
 
+    gb_Ftp = new QGroupBox( 1, Qt::Vertical, i18n( "FTP Options" ), this, "gb_Ftp" );
+    cb_ftpDisablePasv = new QCheckBox( i18n( "Disable Passive Mode (PASV)" ), gb_Ftp );
+    mainLayout->addWidget( gb_Ftp );
+
     mainLayout->addStretch();
 
     lbl_socket->setBuddy( sb_socketRead );
@@ -146,6 +152,9 @@ void KIOPreferences::load()
   sb_serverResponse->setMaxValue( MAX_TIMEOUT_VALUE );
   sb_serverConnect->setMaxValue( MAX_TIMEOUT_VALUE );
   sb_proxyConnect->setMaxValue( MAX_TIMEOUT_VALUE );
+
+  KConfig config( "kio_ftprc", true, false );
+  cb_ftpDisablePasv->setChecked( config.readBoolEntry( "DisablePassiveMode", false ) );
 }
 
 void KIOPreferences::save()
@@ -154,6 +163,11 @@ void KIOPreferences::save()
   KSaveIOConfig::setResponseTimeout( sb_serverResponse->value() );
   KSaveIOConfig::setConnectTimeout( sb_serverConnect->value() );
   KSaveIOConfig::setProxyConnectTimeout( sb_proxyConnect->value() );
+
+  KConfig config( "kio_ftprc", false, false );
+  config.writeEntry( "DisablePassiveMode", cb_ftpDisablePasv->isChecked() );
+  config.sync();
+
   emit changed(true);
 
   // Inform running io-slaves about change...
@@ -172,6 +186,9 @@ void KIOPreferences::defaults()
   sb_serverResponse->setValue( DEFAULT_RESPONSE_TIMEOUT );
   sb_serverConnect->setValue( DEFAULT_CONNECT_TIMEOUT );
   sb_proxyConnect->setValue( DEFAULT_PROXY_CONNECT_TIMEOUT );
+
+  cb_ftpDisablePasv->setChecked( false );
+
   emit changed(true);
 }
 
