@@ -822,10 +822,14 @@ void KonqMainWindow::slotCreateNewWindow( const KURL &url, const KParts::URLArgs
     if ( !windowArgs.toolBarsVisible )
     {
         // Maybe we could get all KToolBar children at once ?
-        static_cast<KToolBar *>( mainWindow->child( "mainToolBar", "KToolBar" ) )->hide();
-        static_cast<KToolBar *>( mainWindow->child( "extraToolBar", "KToolBar" ) )->hide();
-        static_cast<KToolBar *>( mainWindow->child( "locationToolBar", "KToolBar" ) )->hide();
-        static_cast<KToolBar *>( mainWindow->child( "bookmarkToolBar", "KToolBar" ) )->hide();
+        KToolBar * tb = static_cast<KToolBar *>( mainWindow->child( "mainToolBar", "KToolBar" ) );
+        if (tb) tb->hide();
+        tb = static_cast<KToolBar *>( mainWindow->child( "extraToolBar", "KToolBar" ) );
+        if (tb) tb->hide();
+        tb = static_cast<KToolBar *>( mainWindow->child( "locationToolBar", "KToolBar" ) );
+        if (tb) tb->hide();
+        tb = static_cast<KToolBar *>( mainWindow->child( "bookmarkToolBar", "KToolBar" ) );
+        if (tb) tb->hide();
 
         mainWindow->m_paShowToolBar->setChecked( false );
         mainWindow->m_paShowLocationBar->setChecked( false );
