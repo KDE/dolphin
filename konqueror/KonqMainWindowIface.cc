@@ -109,6 +109,9 @@ bool KonqMainWindowIface::processDynamic( const QCString &fun, const QByteArray 
 
 bool KonqMainWindowIface::windowCanBeUsedForTab( int screen )
 {
+    KGlobal::config()->setGroup("BonusFeatures");
+    if( !KGlobal::config()->readBoolEntry("MakeLifeInteresting", false) )
+        return false; // don't make the tab appear in a random location
     if( qt_xscreen() != screen )
         return false; // this window shows on different screen
     if( KonqMainWindow::isPreloaded() )
