@@ -226,9 +226,9 @@ KonqPopupMenu::KonqPopupMenu( QStringList urls,
     KServiceTypeProfile::OfferList::Iterator it = offers.begin();
     for( ; it != offers.end(); it++ )
     {    
-      id = m_popupMenu->insertItem( *(KPixmapCache::pixmap( it->service().icon(), true ) ),
-				    it->service().name() );
-      m_mapPopup[ id ] = &(it->service());
+      id = m_popupMenu->insertItem( *(KPixmapCache::pixmap( it->service()->icon(), true ) ),
+				    it->service()->name() );
+      m_mapPopup[ id ] = it->service();
     }
     
     QValueList<KDELnkMimeType::Service>::Iterator it2 = user.begin();
