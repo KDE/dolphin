@@ -453,7 +453,7 @@ void Sidebar_Widget::readConfig()
 	KConfig conf("konqsidebartng.rc");
 	singleWidgetMode=(conf.readEntry("SingleWidgetMode","true")=="true");
 	showExtraButtons=(conf.readEntry("ShowExtraButtons","true")=="true");
-	showTabsRight=(conf.readEntry("ShowTabsLeft","false")=="false");
+	showTabsRight=(conf.readEntry("ShowTabsLeft","true")=="false");
 	QStringList list=conf.readListEntry("OpenViews");
 	kdDebug()<<"readConfig: "<<conf.readEntry("OpenViews")<<endl;
 	doLayout();

@@ -2599,6 +2599,7 @@ void KonqMainWindow::slotClearLocationBar()
 
 void KonqMainWindow::slotForceSaveMainWindowSettings()
 {
+//  kdDebug(1202)<<"slotForceSaveMainWindowSettings()"<<endl;
   saveMainWindowSettings( KGlobal::config(), "KonqMainWindow" );
   KGlobal::config()->sync();
 }
@@ -2903,6 +2904,8 @@ void KonqMainWindow::initActions()
   connect( m_paShowLocationBar, SIGNAL(toggled(bool)), this, SLOT(slotForceSaveMainWindowSettings()) );
   m_paShowBookmarkBar = new KToggleToolBarAction( "bookmarkToolBar", i18n("Show &Bookmark Toolbar"), actionCollection(), "showbookmarkbar" );
   connect( m_paShowBookmarkBar, SIGNAL(toggled(bool)), this, SLOT(slotForceSaveMainWindowSettings()) );
+
+  connect(toolBarMenuAction(),SIGNAL(activated()),this,SLOT(slotForceSaveMainWindowSettings()) );
 
   (void) new KAction( i18n( "Kon&queror Introduction" ), 0, this, SLOT( slotIntro() ), actionCollection(), "konqintro" );
 
