@@ -33,6 +33,7 @@
 #include <qpalette.h>
 
 #include <ctype.h>
+#include <assert.h>
 
 class KDCOPPropertyProxy::KDCOPPropertyProxyPrivate
 {
@@ -88,20 +89,26 @@ bool KDCOPPropertyProxy::isPropertyRequest( const QCString &fun, QObject *object
 
 QCString KDCOPPropertyProxy::functions( QObject *object )
 {
-  QCString res = "property(QCString);setProperty(QCString,QVariant);propertyNames();";
+  QCString res = "property(QCString);setProperty(QCString,QVariant);propertyNames(bool);";
 
-  QStrList properties = object->metaObject()->propertyNames( true );
+  QMetaObject *metaObj = object->metaObject();
+  QStrList properties = metaObj->propertyNames( true );
   QStrListIterator it( properties );
   for (; it.current(); ++it )
   {
     QCString name = it.current();
     name.append( "();" );
-    QCString setName = name.copy();
-    setName[ 0 ] = toupper( setName[ 0 ] );
-    setName.prepend( "set" );
-
     res += name;
-    res += setName;
+
+    const QMetaProperty *metaProp = metaObj->property( it.current(), true );
+    assert( metaProp );
+    if ( metaProp->writeable() )
+    {
+      QCString setName = name.copy();
+      setName[ 0 ] = toupper( setName[ 0 ] );
+      setName.prepend( "set" );
+      res += setName;
+    }
   }
 
   return res;
