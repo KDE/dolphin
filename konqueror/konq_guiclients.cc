@@ -113,11 +113,6 @@ PopupMenuGUIClient::PopupMenuGUIClient( KonqMainWindow *mainWindow,
     openInTabElement.setAttribute( "group", "tabhandling" );
     menu.appendChild( openInTabElement );
 
-    QDomElement openInTabFrontElement = m_doc.createElement( "action" );
-    openInTabFrontElement.setAttribute( "name", "openintabfront" );
-    openInTabFrontElement.setAttribute( "group", "tabhandling" );
-    menu.appendChild( openInTabFrontElement );
-
     setDOMDocument( m_doc );
 }
 

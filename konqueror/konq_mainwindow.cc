@@ -2267,21 +2267,14 @@ void KonqMainWindow::slotPopupNewWindow()
     }
 }
 
-void KonqMainWindow::slotPopupNewTabAtFront()
-{
-    KConfig *config = KGlobal::config();
-    KConfigGroupSaver cs( config, QString::fromLatin1("FMSettings") );
-    bool openAfterCurrentPage = config->readBoolEntry( "OpenAfterCurrentPage", false );
-    popupNewTab(true , openAfterCurrentPage);
-}
-
 void KonqMainWindow::slotPopupNewTab()
 {
     KConfig *config = KGlobal::config();
     KConfigGroupSaver cs( config, QString::fromLatin1("FMSettings") );
     bool openAfterCurrentPage = config->readBoolEntry( "OpenAfterCurrentPage", false );
+    bool newTabsInFront = config->readBoolEntry( "NewTabsInFront", false );
 
-    popupNewTab(false,  openAfterCurrentPage);
+    popupNewTab(newTabsInFront, openAfterCurrentPage);
 }
 
 void KonqMainWindow::popupNewTab(bool infront, bool openAfterCurrentPage)
@@ -2291,12 +2284,16 @@ void KonqMainWindow::popupNewTab(bool infront, bool openAfterCurrentPage)
   KFileItemListIterator it ( popupItems );
   KonqOpenURLRequest req;
   req.newTab = true;
-  req.newTabInFront = infront;
+  req.newTabInFront = false;
   req.openAfterCurrentPage = openAfterCurrentPage;
   req.args = popupUrlArgs;
 
   for ( ; it.current(); ++it )
   {
+    if ( infront && it.atLast() )
+    {
+      req.newTabInFront = true;
+    }
     openURL( 0L, (*it)->url(), QString::null, req );
   }
 }
@@ -3852,10 +3849,8 @@ void KonqMainWindow::slotPopupMenu( KXMLGUIClient *client, const QPoint &_global
   KAction *actNewWindow = new KAction( i18n( "Open in New &Window" ), "window_new", 0, this, SLOT( slotPopupNewWindow() ), actionCollection(), "newview" );
   actNewWindow->setStatusText( i18n( "Open the document in a new window" ) );
   popupMenuCollection.insert( actNewWindow );
-  KAction *actNewTab = new KAction( i18n( "Open in &Background Tab" ), "tab_new_bg", 0, this, SLOT( slotPopupNewTab() ), actionCollection(), "openintab" );
-  actNewTab->setStatusText( i18n( "Open the document in a new background tab" ) );
-  KAction *actNewTabFront = new KAction( i18n( "Open in &New Tab" ), "tab_new", 0, this, SLOT( slotPopupNewTabAtFront() ), actionCollection(), "openintabfront" );
-  actNewTabFront->setStatusText( i18n( "Open the document in a new foreground tab" ) );
+  KAction *actNewTab = new KAction( i18n( "Open in &New Tab" ), "tab_new", 0, this, SLOT( slotPopupNewTab() ), actionCollection(), "openintab" );
+  actNewTab->setStatusText( i18n( "Open the document in a new tab" ) );
 
   if ( _items.count() == 1 )
     m_popupEmbeddingServices = KTrader::self()->query( _items.getFirst()->mimetype(),
@@ -3935,7 +3930,6 @@ void KonqMainWindow::slotPopupMenu( KXMLGUIClient *client, const QPoint &_global
   popupItems.clear();
 
   delete actNewTab;
-  delete actNewTabFront;
   delete actNewWindow;
 
   //kdDebug(1202) << "-------- KonqMainWindow::slotPopupMenu() - m_oldView = " << m_oldView << ", currentView = " << currentView
