@@ -45,11 +45,10 @@ static KCmdLineOptions options[] = {
 };
 
 static void continueInWindow(QString _wname) {
-   DCOPClient* dcop = kapp->dcopClient();
    QCString wname = _wname.latin1();
    int id = -1;
 
-   QCStringList apps = dcop->registeredApplications();
+   QCStringList apps = kapp->dcopClient()->registeredApplications();
    for (QCStringList::Iterator it = apps.begin(); it != apps.end(); ++it) {
       QCString &clientId = *it;
 
