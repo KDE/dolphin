@@ -66,6 +66,7 @@ KonqFrameStatusBar::KonqFrameStatusBar( KonqFrame *_parent, const char *_name )
 
     m_led = new QLabel( this );
     m_led->setAlignment( Qt::AlignCenter );
+    m_led->setSizePolicy(QSizePolicy( QSizePolicy::Fixed, QSizePolicy::Fixed ));
     addWidget( m_led, 0, false ); // led (active view indicator)
     m_led->hide();
 
@@ -77,6 +78,7 @@ KonqFrameStatusBar::KonqFrameStatusBar( KonqFrame *_parent, const char *_name )
 
     m_pLinkedViewCheckBox = new KonqCheckBox( this, "m_pLinkedViewCheckBox" );
     m_pLinkedViewCheckBox->setFocusPolicy(NoFocus);
+    m_pLinkedViewCheckBox->setSizePolicy(QSizePolicy( QSizePolicy::Fixed, QSizePolicy::Fixed ));
     QWhatsThis::add( m_pLinkedViewCheckBox,
                      i18n("Checking this box on at least two views sets those views as 'linked'. "
                           "Then, when you change directories in one view, the other views "
@@ -90,6 +92,7 @@ KonqFrameStatusBar::KonqFrameStatusBar( KonqFrame *_parent, const char *_name )
 
     m_progressBar = new KProgress( this );
     m_progressBar->hide();
+    m_progressBar->setSizePolicy(QSizePolicy( QSizePolicy::Fixed, QSizePolicy::Fixed ));
     addWidget( m_progressBar, 0, true /*permanent->right align*/ );
 
     // Set height based on font metrics, so that all items have the same height
@@ -98,6 +101,8 @@ KonqFrameStatusBar::KonqFrameStatusBar( KonqFrame *_parent, const char *_name )
     if ( h < DEFAULT_HEADER_HEIGHT ) h = DEFAULT_HEADER_HEIGHT;
     m_led->setFixedHeight( h );
     m_progressBar->setFixedHeight( h );
+    // This one is important. Otherwise richtext messages make it grow in height.
+    m_pStatusLabel->setFixedHeight( h + 2 );
 }
 
 KonqFrameStatusBar::~KonqFrameStatusBar()
@@ -287,6 +292,7 @@ KonqFrame::KonqFrame( QWidget* parent, KonqFrameContainerBase *parentContainer, 
 
    // the frame statusbar
    m_pStatusBar = new KonqFrameStatusBar( this, "KonquerorFrameStatusBar");
+   m_pStatusBar->setSizePolicy(QSizePolicy( QSizePolicy::Expanding, QSizePolicy::Fixed ));
    connect(m_pStatusBar, SIGNAL(clicked()), this, SLOT(slotStatusBarClicked()));
    connect( m_pStatusBar, SIGNAL( linkedViewClicked( bool ) ), this, SLOT( slotLinkedViewClicked( bool ) ) );
    m_separator = 0;
@@ -365,9 +371,9 @@ void KonqFrame::attachInternal()
 
    m_pLayout = new QVBoxLayout( this, 0, -1, "KonqFrame's QVBoxLayout" );
 
-   m_pLayout->addWidget( m_pPart->widget() );
+   m_pLayout->addWidget( m_pPart->widget(), 1 );
 
-   m_pLayout->addWidget( m_pStatusBar );
+   m_pLayout->addWidget( m_pStatusBar, 0 );
    m_pPart->widget()->show();
    m_pStatusBar->show();
 

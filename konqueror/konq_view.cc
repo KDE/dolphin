@@ -26,6 +26,8 @@
 #include "konq_events.h"
 #include "konq_viewmgr.h"
 #include "konq_browseriface.h"
+#include <kparts/statusbarextension.h>
+#include <kparts/browserextension.h>
 
 #include <konq_historymgr.h>
 #include <konq_pixmapprovider.h>
@@ -336,61 +338,65 @@ void KonqView::connectPart(  )
   connect( m_pPart, SIGNAL( setWindowCaption( const QString & ) ),
            this, SLOT( setCaption( const QString & ) ) );
 
+  KParts::StatusBarExtension* sbext = statusBarExtension();
+  if ( sbext )
+      sbext->setStatusBar( frame()->statusbar() );
+
   KParts::BrowserExtension *ext = browserExtension();
 
-  if ( !ext )
-    return;
-
-  ext->setBrowserInterface( m_browserIface );
-
-  connect( ext, SIGNAL( openURLRequestDelayed( const KURL &, const KParts::URLArgs &) ),
-           m_pMainWindow, SLOT( slotOpenURLRequest( const KURL &, const KParts::URLArgs & ) ) );
-
-  if ( m_bPopupMenuEnabled )
+  if ( ext )
   {
-    m_bPopupMenuEnabled = false; // force
-    enablePopupMenu( true );
+      ext->setBrowserInterface( m_browserIface );
+
+      connect( ext, SIGNAL( openURLRequestDelayed( const KURL &, const KParts::URLArgs &) ),
+               m_pMainWindow, SLOT( slotOpenURLRequest( const KURL &, const KParts::URLArgs & ) ) );
+
+      if ( m_bPopupMenuEnabled )
+      {
+          m_bPopupMenuEnabled = false; // force
+          enablePopupMenu( true );
+      }
+
+      connect( ext, SIGNAL( setLocationBarURL( const QString & ) ),
+               this, SLOT( setLocationBarURL( const QString & ) ) );
+
+      connect( ext, SIGNAL( setIconURL( const KURL & ) ),
+               this, SLOT( setIconURL( const KURL & ) ) );
+
+      connect( ext, SIGNAL( createNewWindow( const KURL &, const KParts::URLArgs & ) ),
+               m_pMainWindow, SLOT( slotCreateNewWindow( const KURL &, const KParts::URLArgs & ) ) );
+
+      connect( ext, SIGNAL( createNewWindow( const KURL &, const KParts::URLArgs &, const KParts::WindowArgs &, KParts::ReadOnlyPart *& ) ),
+               m_pMainWindow, SLOT( slotCreateNewWindow( const KURL &, const KParts::URLArgs &, const KParts::WindowArgs &, KParts::ReadOnlyPart *& ) ) );
+
+      connect( ext, SIGNAL( loadingProgress( int ) ),
+               m_pKonqFrame->statusbar(), SLOT( slotLoadingProgress( int ) ) );
+
+      connect( ext, SIGNAL( speedProgress( int ) ),
+               m_pKonqFrame->statusbar(), SLOT( slotSpeedProgress( int ) ) );
+
+      connect( ext, SIGNAL( infoMessage( const QString & ) ),
+               m_pKonqFrame->statusbar(), SLOT( message( const QString & ) ) );
+
+      connect( ext, SIGNAL( selectionInfo( const KFileItemList & ) ),
+               this, SLOT( slotSelectionInfo( const KFileItemList & ) ) );
+
+      connect( ext, SIGNAL( mouseOverInfo( const KFileItem * ) ),
+               this, SLOT( slotMouseOverInfo( const KFileItem * ) ) );
+
+      connect( ext, SIGNAL( openURLNotify() ),
+               this, SLOT( slotOpenURLNotify() ) );
+
+      connect( ext, SIGNAL( enableAction( const char *, bool ) ),
+               this, SLOT( slotEnableAction( const char *, bool ) ) );
+
+      callExtensionBoolMethod( "setSaveViewPropertiesLocally(bool)", m_pMainWindow->saveViewPropertiesLocally() );
   }
-
-  connect( ext, SIGNAL( setLocationBarURL( const QString & ) ),
-           this, SLOT( setLocationBarURL( const QString & ) ) );
-
-  connect( ext, SIGNAL( setIconURL( const KURL & ) ),
-           this, SLOT( setIconURL( const KURL & ) ) );
-
-  connect( ext, SIGNAL( createNewWindow( const KURL &, const KParts::URLArgs & ) ),
-           m_pMainWindow, SLOT( slotCreateNewWindow( const KURL &, const KParts::URLArgs & ) ) );
-
-  connect( ext, SIGNAL( createNewWindow( const KURL &, const KParts::URLArgs &, const KParts::WindowArgs &, KParts::ReadOnlyPart *& ) ),
-           m_pMainWindow, SLOT( slotCreateNewWindow( const KURL &, const KParts::URLArgs &, const KParts::WindowArgs &, KParts::ReadOnlyPart *& ) ) );
-
-  connect( ext, SIGNAL( loadingProgress( int ) ),
-           m_pKonqFrame->statusbar(), SLOT( slotLoadingProgress( int ) ) );
-
-  connect( ext, SIGNAL( speedProgress( int ) ),
-           m_pKonqFrame->statusbar(), SLOT( slotSpeedProgress( int ) ) );
-
-  connect( ext, SIGNAL( infoMessage( const QString & ) ),
-           m_pKonqFrame->statusbar(), SLOT( message( const QString & ) ) );
-
-  connect( ext, SIGNAL( selectionInfo( const KFileItemList & ) ),
-           this, SLOT( slotSelectionInfo( const KFileItemList & ) ) );
-
-  connect( ext, SIGNAL( mouseOverInfo( const KFileItem * ) ),
-           this, SLOT( slotMouseOverInfo( const KFileItem * ) ) );
-
-  connect( ext, SIGNAL( openURLNotify() ),
-           this, SLOT( slotOpenURLNotify() ) );
-
-  connect( ext, SIGNAL( enableAction( const char *, bool ) ),
-           this, SLOT( slotEnableAction( const char *, bool ) ) );
-
-  callExtensionBoolMethod( "setSaveViewPropertiesLocally(bool)", m_pMainWindow->saveViewPropertiesLocally() );
 
   QVariant urlDropHandling;
 
-  if ( browserExtension() )
-      urlDropHandling = browserExtension()->property( "urlDropHandling" );
+  if ( ext )
+      urlDropHandling = ext->property( "urlDropHandling" );
   else
       urlDropHandling = QVariant( true, 0 );
 
@@ -1137,6 +1143,16 @@ bool KonqView::prepareReload( KParts::URLArgs& args )
             return false;
     }
     return true;
+}
+
+KParts::BrowserExtension * KonqView::browserExtension() const
+{
+    return KParts::BrowserExtension::childObject( m_pPart );
+}
+
+KParts::StatusBarExtension * KonqView::statusBarExtension() const
+{
+    return KParts::StatusBarExtension::childObject( m_pPart );
 }
 
 #include "konq_view.moc"

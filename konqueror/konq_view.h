@@ -25,8 +25,6 @@
 #include "konq_mainwindow.h"
 #include "konq_factory.h"
 
-#include <kparts/browserextension.h>
-
 #include <qptrlist.h>
 #include <qstring.h>
 #include <qobject.h>
@@ -40,6 +38,11 @@ class KonqRun;
 class KonqFrame;
 class KonqViewIface;
 class KonqBrowserInterface;
+namespace KParts
+{
+  class BrowserExtension;
+  class StatusBarExtension;
+}
 
 struct HistoryEntry
 {
@@ -188,9 +191,9 @@ public:
    */
   void partDeleted() { m_pPart = 0L; }
 
-  KParts::BrowserExtension *browserExtension() const {
-      return KParts::BrowserExtension::childObject( m_pPart );
-  }
+  KParts::BrowserExtension *browserExtension() const;
+
+  KParts::StatusBarExtension *statusBarExtension() const;
 
   /**
    * @return a pointer to the KonqFrame which the view lives in
