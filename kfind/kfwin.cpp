@@ -228,10 +228,11 @@ void KfindWindow::saveResults()
       item = firstChild();
       while(item != NULL)
 	{
-	  QString path=((KfFileLVI*)item)->fileitem.url().prettyURL();
+	  QString path=((KfFileLVI*)item)->fileitem.url().url();
 	  QString pretty=((KfFileLVI*)item)->fileitem.url().prettyURL();
-	  stream << QString::fromLatin1("<DT><A HREF=\"%1\">%2</A>\n")
-	    .arg(path).arg(pretty);
+	  stream << QString::fromLatin1("<DT><A HREF=\"") << path
+		 << QString::fromLatin1("\">") << pretty
+		 << QString::fromLatin1("</A>\n");
 
 	  item = item->nextSibling();
 	}
@@ -241,7 +242,7 @@ void KfindWindow::saveResults()
       item = firstChild();
       while(item != NULL)
       {
-	QString path=((KfFileLVI*)item)->fileitem.url().prettyURL();
+	QString path=((KfFileLVI*)item)->fileitem.url().url();
 	stream << path << endl;
 	item = item->nextSibling();
       }
