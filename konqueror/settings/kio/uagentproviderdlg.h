@@ -21,10 +21,8 @@
 
 #include <qgroupbox.h>
 
-#include <kdialog.h>
+#include <kdialogbase.h>
 #include <klineedit.h>
-
-class QPushButton;
 
 class KComboBox;
 class FakeUASProvider;
@@ -40,7 +38,7 @@ protected:
   virtual void keyPressEvent( QKeyEvent * );
 };
 
-class UAProviderDlg : public KDialog
+class UAProviderDlg : public KDialogBase
 {
   Q_OBJECT
 

@@ -16,11 +16,9 @@
  *  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
-#include <qaccel.h>
-#include <qlayout.h>
 #include <qlistbox.h>
 #include <qwhatsthis.h>
-#include <qpushbutton.h>
+#include <qvbox.h>
 
 #include <kdebug.h>
 #include <klocale.h>
@@ -56,15 +54,16 @@ void UALineEdit::keyPressEvent( QKeyEvent* e )
 
 UAProviderDlg::UAProviderDlg( const QString& caption, QWidget *parent,
                               const char *name, FakeUASProvider* provider )
-              :KDialog(parent, name, true), m_provider(provider)
+              :KDialogBase(parent, name, true, caption, Ok|Cancel|User1,
+               Ok, true, KGuiItem( i18n( "&Update List" ), "reload" ) ), 
+               m_provider(provider)
 {
   setIcon( SmallIcon("agent") );
-  QVBoxLayout *lay = new QVBoxLayout( this, KDialog::marginHint(), KDialog::spacingHint() );
-  lay->setAutoAdd( true );
 
-  setCaption( caption );
-  QLabel* label = new QLabel( i18n( "When connecting &to the following site:" ), this );
-  m_leSite = new UALineEdit( this );
+  QVBox *vbox = makeVBoxMainWidget();
+
+  QLabel* label = new QLabel( i18n( "When connecting &to the following site:" ), vbox );
+  m_leSite = new UALineEdit( vbox );
   label->setBuddy( m_leSite );
   connect( m_leSite, SIGNAL( textChanged(const QString&)), SLOT(slotTextChanged(const QString&)) );
   QString wtstr = i18n( "Enter the site or domain name where a fake identity should be used. "
@@ -76,8 +75,8 @@ UAProviderDlg::UAProviderDlg( const QString& caption, QWidget *parent,
   QWhatsThis::add( label, wtstr );
   QWhatsThis::add( m_leSite, wtstr );
 
-  label = new QLabel( i18n("Use the following &identity:"), this );
-  m_cbIdentity = new KComboBox( false, this );
+  label = new QLabel( i18n("Use the following &identity:"), vbox );
+  m_cbIdentity = new KComboBox( false, vbox );
   m_cbIdentity->setInsertionPolicy( QComboBox::AtBottom );
   label->setBuddy( m_cbIdentity );
   m_cbIdentity->setMinimumWidth( m_cbIdentity->fontMetrics().width('W') * 30 );
@@ -89,8 +88,8 @@ UAProviderDlg::UAProviderDlg( const QString& caption, QWidget *parent,
   QWhatsThis::add( label, wtstr );
   QWhatsThis::add( m_cbIdentity, wtstr );
 
-  label = new QLabel( i18n("Alias (description):"), this );
-  m_leAlias = new KLineEdit( this );
+  label = new QLabel( i18n("Alias (description):"), vbox );
+  m_leAlias = new KLineEdit( vbox );
   m_leAlias->setReadOnly( true );
   label->setBuddy( m_leAlias );
   wtstr = i18n( "A plain (friendlier) description of the above "
@@ -98,37 +97,17 @@ UAProviderDlg::UAProviderDlg( const QString& caption, QWidget *parent,
   QWhatsThis::add( label, wtstr );
   QWhatsThis::add( m_leAlias, wtstr );
 
-  // Organize the buttons in a button box...
-  QWidget* btnBox = new QWidget( this );
-  QBoxLayout *btnLay = new QHBoxLayout( btnBox );
-  btnLay->setSpacing( KDialog::spacingHint() );
-
-  // Update Button
-  QPushButton* btn = new QPushButton( i18n("&Update List"), btnBox );
+  // Update button
   wtstr = i18n( "Updates the browser identification list shown above."
                 "<p>\n<u>NOTE:</u> There is no need to press this button "
                 "unless a new browser-identfication description "
                 "file was added after this configuration box was already "
                 "displayed!" );
-  QWhatsThis::add( btn, wtstr );
-  connect( btn, SIGNAL(clicked()), SLOT(updateInfo()) );
-  btnLay->addWidget( btn );
-  btnLay->addStretch( 1 );
+  setButtonWhatsThis( User1, wtstr );
+  connect( this, SIGNAL(user1Clicked()), SLOT(updateInfo()) );
 
-  // OK button
-  m_btnOK = new QPushButton( i18n("&OK"), btnBox );
-  btnLay->addWidget( m_btnOK );
-  m_btnOK->setDefault( true );
-  m_btnOK->setEnabled( false );
-  connect( m_btnOK, SIGNAL(clicked()), SLOT(accept()) );
+  enableButtonOK( false );
 
-  // Cancel Button
-  btn = new QPushButton( i18n("&Cancel"), btnBox );
-  btnLay->addWidget( btn );
-  connect( btn, SIGNAL(clicked()), SLOT(reject()) );
-  QAccel* a = new QAccel( this );
-  a->connectItem( a->insertItem(Qt::Key_Escape), btn, SLOT(animateClick()) );
-  setBaseSize( minimumSizeHint() );
   init();
   m_leSite->setFocus();
 }
@@ -142,19 +121,19 @@ void UAProviderDlg::slotActivated( const QString& text )
   if ( text.isEmpty() )
   {
     m_leAlias->setText( "" );
-    m_btnOK->setEnabled( false );
+    enableButtonOK( false );
   }
   else
   {
     m_leAlias->setText( m_provider->aliasFor(text) );
     if ( !m_leSite->text().isEmpty() && !text.isEmpty()  )
-      m_btnOK->setEnabled( true );
+      enableButtonOK( true );
   }
 }
 
 void UAProviderDlg::slotTextChanged( const QString& text )
 {
-  m_btnOK->setEnabled( !(text.isEmpty() || m_cbIdentity->currentText().isEmpty()) );
+  enableButtonOK( !(text.isEmpty() || m_cbIdentity->currentText().isEmpty()) );
 }
 
 void UAProviderDlg::init()
