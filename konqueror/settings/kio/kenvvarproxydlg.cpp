@@ -180,7 +180,7 @@ KEnvVarProxyDlg::KEnvVarProxyDlg( QWidget* parent, const char* name )
   
   QWhatsThis::add( m_pbShowValue, i18n("<qt>Click on this button to see "
                                    "the actual values associated with the "
-                                   "environment variables "));
+                                   "environment variables.</qt>"));
   vlay->addWidget( m_pbShowValue );
 
   spacer = new QSpacerItem( 10, 10, QSizePolicy::Minimum,
