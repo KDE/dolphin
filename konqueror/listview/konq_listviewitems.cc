@@ -42,7 +42,7 @@ KonqListViewItem::KonqListViewItem( KonqBaseListViewWidget *_listViewWidget, Kon
 KonqListViewItem::KonqListViewItem( KonqBaseListViewWidget *_listViewWidget, KFileItem* _fileitem )
    : KonqBaseListViewItem(_listViewWidget,_fileitem),
      m_pixmaps(listView()->columns())
-   
+
 {
    updateContents();
 }
@@ -161,7 +161,7 @@ void KonqListViewItem::setPixmap( int column, const QPixmap& pm )
       return;
 
    const QPixmap *current = pixmap( column );
-   
+
    if ( ( pm.isNull() && !current ) ||
         ( current && pm.serialNumber() == current->serialNumber() ) )
       return;
@@ -190,7 +190,7 @@ void KonqListViewItem::setPixmap( int column, const QPixmap& pm )
       return;
    }
 
-   // If we're just replacing the icon with another one its size -- i.e. a 
+   // If we're just replacing the icon with another one its size -- i.e. a
    // "highlighted" icon, don't bother repainting the whole widget.
 
    QListView *lv = m_pListViewWidget;
@@ -277,9 +277,10 @@ int KonqListViewItem::compare( QListViewItem* item, int col, bool ascending ) co
       }
    }
    if ( m_pListViewWidget->caseInsensitiveSort() )
-      return text( col ).lower().localeAwareCompare( k->text( col ).lower() );
-   else
-      return text( col ).localeAwareCompare( k->text( col ) );
+       return text( col ).lower().localeAwareCompare( k->text( col ).lower() );
+   else {
+       return m_pListViewWidget->m_pSettings->caseSensitiveCompare( text( col ), k->text( col ) );
+   }
 }
 
 void KonqListViewItem::paintCell( QPainter *_painter, const QColorGroup & _cg, int _column, int _width, int _alignment )

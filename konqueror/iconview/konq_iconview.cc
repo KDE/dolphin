@@ -1170,14 +1170,15 @@ void KonqKfmIconView::setViewMode( const QString &mode )
 
 void KonqKfmIconView::setupSortKeys()
 {
-
     switch ( m_eSortCriterion )
     {
     case NameCaseSensitive:
+        m_pIconView->setCaseInsensitiveSort( false );
         for ( QIconViewItem *it = m_pIconView->firstItem(); it; it = it->nextItem() )
             it->setKey( it->text() );
         break;
     case NameCaseInsensitive:
+        m_pIconView->setCaseInsensitiveSort( true );
         for ( QIconViewItem *it = m_pIconView->firstItem(); it; it = it->nextItem() )
             it->setKey( it->text().lower() );
         break;

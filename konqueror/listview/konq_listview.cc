@@ -105,13 +105,13 @@ ListViewBrowserExtension::ListViewBrowserExtension( KonqListView *listView )
 
 int ListViewBrowserExtension::xOffset()
 {
-  kdDebug(1202) << k_funcinfo << endl;
+  //kdDebug(1202) << k_funcinfo << endl;
   return m_listView->listViewWidget()->contentsX();
 }
 
 int ListViewBrowserExtension::yOffset()
 {
-  kdDebug(1202) << k_funcinfo << endl;
+  //kdDebug(1202) << k_funcinfo << endl;
   return m_listView->listViewWidget()->contentsY();
 }
 
@@ -314,14 +314,14 @@ void KonqListView::determineIcon( KonqBaseListViewItem * item )
 
 void KonqListView::saveState( QDataStream &stream )
 {
-    kdDebug(1202) << k_funcinfo << endl;
+    //kdDebug(1202) << k_funcinfo << endl;
     KonqDirPart::saveState( stream );
     m_pListView->saveState( stream );
 }
 
 void KonqListView::restoreState( QDataStream &stream )
 {
-    kdDebug(1202) << k_funcinfo << endl;
+    //kdDebug(1202) << k_funcinfo << endl;
     KonqDirPart::restoreState( stream );
     m_pListView->restoreState( stream );
 }
@@ -428,7 +428,6 @@ void KonqListView::slotShowDot()
 void KonqListView::slotCaseInsensitive()
 {
    m_pProps->setCaseInsensitiveSort( m_paCaseInsensitive->isChecked() );
-   m_pListView->setCaseInsensitiveSort( m_paCaseInsensitive->isChecked() );
    m_pListView->sort();
 }
 

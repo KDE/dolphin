@@ -129,8 +129,7 @@ class KonqBaseListViewWidget : public KListView
 
       void setAscending( bool b ) { m_bAscending = b; }
       bool ascending() const { return m_bAscending; }
-      void setCaseInsensitiveSort( bool b ) { m_bCaseInsensitive = b; }
-      bool caseInsensitiveSort() const { return m_bCaseInsensitive; }
+      bool caseInsensitiveSort() const;
 
       virtual void paintEmptyArea( QPainter *p, const QRect &r );
 

@@ -41,6 +41,7 @@
 #include <assert.h>
 #include <kiconloader.h>
 #include <qfile.h>
+#include "konq_listviewwidget.h"
 
 ColumnInfo::ColumnInfo()
    :displayInColumn(-1)
@@ -894,7 +895,11 @@ bool KonqBaseListViewWidget::openURL( const KURL &url )
    {
       m_pBrowserView->newIconSize( m_pBrowserView->m_pProps->iconSize() );
       m_pBrowserView->m_paShowDot->setChecked( m_pBrowserView->m_pProps->isShowingDotFiles() );
-      m_pBrowserView->m_paCaseInsensitive->setChecked( m_pBrowserView->m_pProps->isCaseInsensitiveSort() );
+      if ( m_pBrowserView->m_paCaseInsensitive->isChecked() != m_pBrowserView->m_pProps->isCaseInsensitiveSort() ) {
+          m_pBrowserView->m_paCaseInsensitive->setChecked( m_pBrowserView->m_pProps->isCaseInsensitiveSort() );
+          // This is in case openURL returned all items synchronously.
+          sort();
+      }
 
       // It has to be "viewport()" - this is what KonqDirPart's slots act upon,
       // and otherwise we get a color/pixmap in the square between the scrollbars.
@@ -976,7 +981,7 @@ void KonqBaseListViewWidget::slotCanceled()
 
 void KonqBaseListViewWidget::slotClear()
 {
-   kdDebug(1202) << k_funcinfo << endl;
+   //kdDebug(1202) << k_funcinfo << endl;
 
    m_activeItem = 0;
    delete m_selected; m_selected = 0;
@@ -1214,6 +1219,11 @@ void KonqBaseListViewWidget::slotUpdateBackground()
 
       m_backgroundTimer->start( 50, true );
    }
+}
+
+bool KonqBaseListViewWidget::caseInsensitiveSort() const
+{
+    return m_pBrowserView->m_pProps->isCaseInsensitiveSort();
 }
 
 #include "konq_listviewwidget.moc"
