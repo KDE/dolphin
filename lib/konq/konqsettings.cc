@@ -97,16 +97,16 @@ bool KonqFMSettings::shouldEmbed( const QString & serviceType )
 
     if ( serviceTypePtr )
     {
-        kdDebug(1202) << serviceTypePtr->desktopEntryPath() << endl;
+        kdDebug(1203) << serviceTypePtr->desktopEntryPath() << endl;
         KDesktopFile deFile( serviceTypePtr->desktopEntryPath(),
                              true /*readonly*/, "mime");
         if ( deFile.hasKey( "X-KDE-AutoEmbed" ) )
         {
             bool autoEmbed = deFile.readBoolEntry( "X-KDE-AutoEmbed" );
-            kdDebug(1202) << "X-KDE-AutoEmbed set to " << (autoEmbed ? "true" : "false") << endl;
+            kdDebug(1203) << "X-KDE-AutoEmbed set to " << (autoEmbed ? "true" : "false") << endl;
             return autoEmbed;
         } else
-            kdDebug(1202) << "No X-KDE-AutoEmbed, looking for group" << endl;
+            kdDebug(1203) << "No X-KDE-AutoEmbed, looking for group" << endl;
     }
     // 2 - in the configuration for the group if nothing was found in the mimetype
     QString serviceTypeGroup = serviceType.left(serviceType.find("/"));

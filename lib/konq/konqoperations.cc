@@ -121,7 +121,7 @@ void KonqOperations::doDrop( const KonqFileItem * destItem, QDropEvent * ev, QOb
     {
 	if( lst.count() == 0 )
 	{
-	    kdWarning(1202) << "Oooops, no data ...." << endl;
+	    kdWarning(1203) << "Oooops, no data ...." << endl;
 	    return;
 	}
         // Check if we dropped something on itself
@@ -168,7 +168,7 @@ void KonqOperations::doDrop( const KonqFileItem * destItem, QDropEvent * ev, QOb
                 case QDropEvent::Move : job = KIO::move( lst, dest ); break;
                 case QDropEvent::Copy : job = KIO::copy( lst, dest ); break;
                 case QDropEvent::Link : KIO::link( lst, dest ); break;
-                default : kdError(1202) << "Unknown action " << ev->action() << endl; return;
+                default : kdError(1203) << "Unknown action " << ev->action() << endl; return;
             }
             if ( job )
                 connect( job, SIGNAL( result( KIO::Job * ) ),
@@ -220,7 +220,7 @@ void KonqOperations::doDrop( const KonqFileItem * destItem, QDropEvent * ev, QOb
                 formats.append( ev->format( i ) );
         if ( formats.count() >= 1 )
         {
-            kdDebug(1202) << "Pasting to " << dest.url() << endl;
+            kdDebug(1203) << "Pasting to " << dest.url() << endl;
             KIO::pasteData( dest, ev->data( formats.first() ) );
         }
     }
