@@ -1,0 +1,177 @@
+<?xml version="1.0" ?>
+<!-- vim:set ts=4 noet syntax=xml: -->
+<!DOCTYPE refentry PUBLIC "-//KDE//DTD DocBook XML V4.1-Based Variant V1.0//EN" "dtd/kdex.dtd" [
+  <!ENTITY kappname "kbookmarkmerger">
+  <!ENTITY % English "INCLUDE" >
+  <!ENTITY kbookmarkmerger "<application>KBookmarkMerger</application>">
+  <!ENTITY XBEL "<acronym>XBEL</acronym>">
+]>
+
+<refentry>
+<refentryinfo>
+	<title>KDE User's Manual</title>
+	<author>
+		<firstname>Frerich</firstname><surname>Raabe</surname>
+		<affiliation><address><email>raabe@kde.org</email></address></affiliation>
+	</author>
+	<copyright><year>2005</year><holder>Frerich Raabe</holder></copyright>
+	<date>January 31, 2005</date>
+	<productname>K Desktop Environment</productname>
+</refentryinfo>
+
+<refmeta>
+	<refentrytitle>KBOOKMARKMERGER</refentrytitle>
+	<manvolnum>1</manvolnum>
+</refmeta>
+
+<refnamediv>
+	<refname>&kbookmarkmerger;</refname>
+	<refpurpose>A program for merging a given set of bookmarks into the
+	user's list of bookmarks.</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv>
+	<cmdsynopsis>
+		<command>kbookmarkmerger</command>
+		<arg choice="opt" rep="repeat">Qt-option</arg>
+		<arg choice="opt" rep="repeat">&kde;-option</arg>
+		<arg choice="req">directory</arg>
+	</cmdsynopsis>
+</refsynopsisdiv>
+
+<refsect1>
+<title>DESCRIPTION</title>
+<para>&kbookmarkmerger; is a program for merging a given set of bookmarks into
+the user's set of bookmarks; if the user doesn't have any bookmarks created
+yet, a new bookmark list is created and the given bookmarks are inserted into
+it. While doing this, &kbookmarkmerger; keeps track of which files were
+merged in a previous run already, so no bookmark will get installed to the
+user's bookmarks more than once. In case &kde; is running while
+&kbookmarkmerger; is executed, the &kde; bookmark subsystem will be informed
+of any changes to the user's bookmarks, so that all applications accessing
+that information (&ie; &konqueror;) will pick the changes up instantly.</para>
+
+<para>The traditionally used approach to achieve something like this was to
+use carefully crafted skeleton home directories when creating a new user
+account, to provide the user with a standard set of bookmarks. The problem
+with this approach is that after the user account has been created, no new
+bookmarks can be propagated.</para>
+
+<para>This mechanism is useful for system administrators who want to propagate
+a bookmark pointing to a certain document (for instance, important notes about
+the system) to all users. Distributors might find it useful as well, for
+instance by augmenting the software packages they supply with bookmark files
+which &kbookmarkmerger; merges into the user's bookmark list when the
+package is installed. That way, documentation shipped with a software package
+is easily and visibly accessible right after the package has been
+installed.</para>
+
+<para>The only parameter required by &kbookmarkmerger; is the name of a
+directory which shall be scanned for bookmark files. All files in the given
+directory will be considered for being merged into the user's setup. The
+files in the given directory should be valid &XBEL; files.</para>
+</refsect1>
+
+<refsect1>
+<title>OPTIONS</title>
+<para>This program follows the usual GNU command line syntax, with long options
+starting with two dashes (<quote>--</quote>). A summary of the options
+supported by &kbookmarkmerger; follows.</para>
+
+<refsect2 id="generic-options">
+<title>Generic Options</title>
+<variablelist>
+<varlistentry>
+	<term><option>--author</option></term>
+	<listitem><para>Show author information.</para></listitem>
+</varlistentry>
+<varlistentry>
+	<term><option>--help</option></term>
+	<listitem><para>Show help about options specific to &kbookmarkmerger;.</para></listitem>
+</varlistentry>
+<varlistentry>
+	<term><option>--help-qt</option></term>
+	<listitem><para>Show help about Qt specific options.</para></listitem>
+</varlistentry>
+<varlistentry>
+	<term><option>--help-kde</option></term>
+	<listitem><para>Show help about &kde; specific options.</para></listitem>
+</varlistentry>
+<varlistentry>
+	<term><option>--help-all</option></term>
+	<listitem><para>Show help about all options.</para></listitem>
+</varlistentry>
+<varlistentry>
+	<term><option>--license</option></term>
+	<listitem><para>Show information about license terms under which &kbookmarkmerger; is distributed.</para></listitem>
+</varlistentry>
+<varlistentry>
+	<term><option>-v</option></term>
+	<term><option>--version</option></term>
+	<listitem><para>Show version information.</para></listitem>
+</varlistentry>
+</variablelist>
+</refsect2>
+
+<refsect2>
+<title>Qt Options</title>
+<para>None Qt specific options which &kbookmarkmerger; provides have any
+effect since &kbookmarkmerger; is a console application and does not provide
+any &GUI;.</para>
+</refsect2>
+
+<refsect2>
+<title>&kde; Options</title>
+<para>Only the following &kde; specific parameters will show any effect when
+running &kbookmarkmerger;, since it's a console application and hence does
+not provide any &GUI;.</para>
+
+<variablelist>
+<varlistentry>
+<term><option>--dcopserver <replaceable>server</replaceable></option></term>
+	<listitem><para>Use the &DCOP; server specified by <replaceable>server</replaceable>.</para></listitem>
+</varlistentry>
+<varlistentry>
+	<term><option>--nocrashhandler</option></term>
+	<listitem><para>Disable crash handler, generate core dumps.</para></listitem>
+</varlistentry>
+</variablelist>
+</refsect2>
+</refsect1>
+
+<refsect1>
+<title>EXAMPLES</title>
+<screen>joe@hal9000:~> <command>kbookmarkmerger <filename>/usr/local/extra-bookmarks</filename></command></screen>
+<para>
+Merges all bookmark files stored in
+<filename>/usr/local/extra-bookmarks</filename> into joe's list of bookmark.
+</para>
+</refsect1>
+
+<refsect1>
+<title>NOTES</title>
+<para>When determining whether a given bookmark file has been merged into the
+user's bookmarks already or not, &kbookmarkmerger; merely looks at the
+filename of the bookmark file - the contents are not checked at all. This means
+that changing a bookmark file which was already merged into a user's bookmarks
+will not trigger merging it once again.</para>
+
+<para>Also note that in case a user modifies a bookmark which was merged into
+his setup, the original bookmark file will be left unmodified.</para>
+</refsect1>
+
+<refsect1>
+<title>SEE ALSO</title>
+<variablelist>
+	<varlistentry><term/><listitem><para>
+	<ulink url="http://pyxml.sourceforge.net/topics/xbel/">&XBEL; specification</ulink>
+	</para></listitem></varlistentry>
+	<varlistentry><term/><listitem><para>
+	<ulink url="http://docs.kde.org/keditbookmarks/index.html"><application>KEditBookmarks</application> manual</ulink>
+	</para></listitem></varlistentry>
+	<varlistentry><term/><listitem><para>
+	<ulink url="http://docs.kde.org/konqueror/index.html">&konqueror; manual</ulink>
+	</para></listitem></varlistentry>
+</variablelist>
+</refsect1>
+</refentry>
