@@ -28,7 +28,7 @@ class KBookmarkManager;
 class KToggleAction;
 class KBookmarkEditorIface;
 class ImportCommand;
-class KLineEdit;
+class MagicKLineEdit;
 
 struct SelcAbilities {
    bool itemSelected:1;
@@ -160,7 +160,7 @@ private:
    bool m_readOnly;
 
    CmdHistory *m_cmdHistory;
-   KLineEdit *m_iSearchLineEdit;
+   MagicKLineEdit *m_iSearchLineEdit;
    KBookmarkEditorIface *m_dcopIface;
    QString m_bookmarksFilename;
    bool m_saveOnClose;

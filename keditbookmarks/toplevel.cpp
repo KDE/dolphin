@@ -279,6 +279,43 @@ BookmarkInfoWidget::BookmarkInfoWidget(QWidget * parent, const char * name)
    grid->addWidget( new QLabel( m_credate_le, i18n( "Viewed last:" ), this ), 1, 2 );
 }
 
+class MagicKLineEdit : public KLineEdit {
+public:
+   MagicKLineEdit(QWidget * parent = 0, const char * name = 0);
+   void focusOutEvent(QFocusEvent *ev);
+   void mousePressEvent(QMouseEvent *ev);
+   void focusInEvent(QFocusEvent *ev);
+   void setGrayedText(QString grayedText) { m_grayedText = grayedText; }
+   void grayedText() { return m_grayedText; }
+private:
+   QString m_grayedText;
+};
+
+MagicKLineEdit::MagicKLineEdit(QWidget * parent, const char * name)
+   : KLineEdit (parent, name) {
+   setText(m_grayedText);
+   setPaletteForegroundColor(gray);
+}
+
+void MagicKLineEdit::focusInEvent(QFocusEvent *ev) {
+   if (text() == m_grayedText)
+      setText(QString::null);
+   QLineEdit::focusInEvent(ev);
+}
+
+void MagicKLineEdit::focusOutEvent(QFocusEvent *ev) {
+   if (text().isEmpty()) {
+      setText(m_grayedText);
+      setPaletteForegroundColor(gray); 
+   }
+   QLineEdit::focusOutEvent(ev);
+}
+
+void MagicKLineEdit::mousePressEvent(QMouseEvent *ev) {
+   setPaletteForegroundColor(parentWidget()->paletteForegroundColor()); 
+   QLineEdit::mousePressEvent(ev);
+}
+
 KEBApp::KEBApp(const QString & bookmarksFile, bool readonly, const QString &address)
    : KMainWindow(), m_dcopIface(0) {
 
@@ -291,9 +328,10 @@ KEBApp::KEBApp(const QString & bookmarksFile, bool readonly, const QString &addr
    int h = 20;
 
    QSplitter *vsplitter = new QSplitter(this);
-   m_iSearchLineEdit = new KLineEdit(vsplitter);
+   m_iSearchLineEdit = new MagicKLineEdit(vsplitter);
    m_iSearchLineEdit->setMinimumHeight(h);
    m_iSearchLineEdit->setMaximumHeight(h);
+   m_iSearchLineEdit->setGrayedText(i18n("Type here to search..."));
 
    QSplitter *splitter = new QSplitter(vsplitter);
    ListView::createListViews(splitter);
