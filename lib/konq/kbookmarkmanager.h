@@ -69,10 +69,16 @@ public:
     ~KBookmarkManager();
 
     /**
-     * Save the bookmarks to the XML file on disk.
+     * Save the bookmarks to the default konqueror XML file on disk.
      * @return true if saving was successful
      */
     bool save();
+
+    /**
+     * Save the bookmarks to the given XML file on disk.
+     * @return true if saving was successful
+     */
+    bool saveAs( const QString & filename );
 
     /**
      * This will return the path that this manager is using to read

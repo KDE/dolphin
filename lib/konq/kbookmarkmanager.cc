@@ -184,19 +184,24 @@ void KBookmarkManager::importDesktopFiles()
 
 bool KBookmarkManager::save()
 {
-    //kdDebug(1203) << "KBookmarkManager::save " << m_bookmarksFile << endl;
-    KSaveFile file( m_bookmarksFile );
+    return saveAs( m_bookmarksFile );
+}
+
+bool KBookmarkManager::saveAs( const QString & filename )
+{
+    //kdDebug(1203) << "KBookmarkManager::save " << filename << endl;
+    KSaveFile file( filename );
 
     if ( file.status() != 0 )
     {
-        KMessageBox::error( 0L, i18n("Couldn't save bookmarks in %1. %2").arg(m_bookmarksFile).arg(strerror(file.status())) );
+        KMessageBox::error( 0L, i18n("Couldn't save bookmarks in %1. %2").arg(filename).arg(strerror(file.status())) );
         return false;
     }
     QCString cstr = m_doc.toCString(); // is in UTF8
     file.file()->writeBlock( cstr.data(), cstr.length() );
     if (!file.close())
     {
-        KMessageBox::error( 0L, i18n("Couldn't save bookmarks in %1. %2").arg(m_bookmarksFile).arg(strerror(file.status())) );
+        KMessageBox::error( 0L, i18n("Couldn't save bookmarks in %1. %2").arg(filename).arg(strerror(file.status())) );
         return false;
     }
     return true;
