@@ -184,7 +184,7 @@ public:
   /// Overloaded functions of KBookmarkOwner
   virtual void openBookmarkURL( const QString & _url );
   virtual QString currentTitle() const { return m_title; }
-  virtual QString currentURL();
+  virtual QString currentURL() const;
 
   /**
    * Change URL displayed in the location bar
@@ -392,7 +392,7 @@ private:
   QString m_sViewModeForDirectory; // is actually the name of the service
 
   QList<KAction> m_openWithActions;
-  KActionMenu *m_viewModeMenu;  
+  KActionMenu *m_viewModeMenu;
   QList<KAction> m_viewModeActions;
 
   static QStringList *s_plstAnimatedLogo;

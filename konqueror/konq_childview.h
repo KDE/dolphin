@@ -159,7 +159,7 @@ public:
    * Get view object (should never be needed, except for IDL methods
    * like activeView() and viewList())
    */
-  KParts::ReadOnlyPart *view() { return m_pView; }
+  KParts::ReadOnlyPart *view() const { return m_pView; }
 
   /**
    * see KonqViewManager::removePart

@@ -1969,7 +1969,7 @@ void KonqMainView::setCaption( const QString &caption )
   KParts::MainWindow::setCaption( caption );
 }
 
-QString KonqMainView::currentURL()
+QString KonqMainView::currentURL() const
 {
   assert( m_currentView );
   return m_currentView->view()->url().url();
