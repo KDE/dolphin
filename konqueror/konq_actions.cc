@@ -306,7 +306,8 @@ int KonqViewModeAction::plug( QWidget *widget, int index )
 
         KToolBarButton *button = toolBar->getButton( itemId( res ) );
 
-        button->setDelayedPopup( m_menu, false );
+        if ( m_menu->count() > 1 )
+            button->setDelayedPopup( m_menu, false );
     }
 
     return res;
