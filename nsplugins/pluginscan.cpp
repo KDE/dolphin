@@ -190,11 +190,13 @@ int main(int argc, char *argv[])
       kdDebug() << "MIME=" << *it << endl;
 
       QStringList info = QStringList::split(":", *it, true);
-      if ((info.count() == 3) && !mimeExists(info[0]))
+      if (info.count() == 3)
 	{
-	  generateMimeType(info[0],info[1],info[2]);
 	  if (!mimeTypes.contains(info[0]))
 	    mimeTypes.append(info[0]);
+
+	  if (!mimeExists(info[0]))
+	    generateMimeType(info[0],info[1],info[2]);
 	}
     }
   
