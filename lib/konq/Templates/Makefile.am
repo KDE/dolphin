@@ -6,7 +6,7 @@ templ_DATA = linkProgram.desktop \
 
 templdir = $(kde_templatesdir)
 
-# The source files (the actual _templates)
+# The source files (the actual templates)
 sources_DATA = Program.desktop \
         URL.desktop Floppy.desktop CDROM-Device.desktop \
 	TextFile.txt HTMLFile.html
@@ -17,6 +17,4 @@ install-data-local:
 	@if test ! -d $(DESTDIR)/$(sourcesdir)/emptydir; then \
 	  mkdir $(DESTDIR)/$(sourcesdir)/emptydir; \
 	fi
-	-rm -f $(DESTDIR)/$(kde_templatesdir)/linkFtpURL.desktop
-	-rm -f $(DESTDIR)/$(kde_templatesdir)/linkWWWURL.desktop
 
