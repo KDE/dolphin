@@ -208,6 +208,10 @@ bool KonqChildView::changeViewMode( const QString &serviceType,
   if ( !locationBarURL.isEmpty() )
       setLocationBarURL( locationBarURL );
 
+  kdDebug(1202) << "changeViewMode: serviceType is " << serviceType
+                << " serviceName is " << serviceName
+                << " current service name is " << m_service->name() << endl;
+
   if ( !m_service->serviceTypes().contains( serviceType ) ||
        ( !serviceName.isEmpty() && serviceName != m_service->name() ) )
   {
@@ -235,19 +239,7 @@ bool KonqChildView::changeViewMode( const QString &serviceType,
   {
     openURL( url );
 
-    show();
-    // Give focus to the view
-    // m_pView->widget()->setFocus(); // No! [changes active view]
-
-    /*
-      completed() does it now
-    // openURL is the one that changes the history
-    if ( m_pMainView->currentChildView() == this )
-    {
-      //kdDebug() << "updating toolbar actions" << endl;
-      m_pMainView->updateToolBarActions();
-    }
-    */
+    show(); // is this necessary ?
   }
   return true;
 }
@@ -698,6 +690,6 @@ void KonqChildView::callExtensionBoolMethod( const char *methodName, bool value 
   QMetaData * mdata = obj->metaObject()->slot( methodName );
   if( mdata )
     (obj->*((BoolMethod)mdata->ptr))(value);
-} 
+}
 
 #include "konq_childview.moc"

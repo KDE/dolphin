@@ -118,7 +118,9 @@ KonqViewFactory KonqFactory::createView( const QString &serviceType,
     }
   }
 
+  KService::Ptr service = 0L;
   KTrader::OfferList::Iterator it = offers.begin();
+  // Remove irrelevant entries (non parts) and while we're at it, check for serviceName
   while ( it != offers.end() )
   {
     QStringList serviceTypes = (*it)->serviceTypes();
@@ -128,59 +130,39 @@ KonqViewFactory KonqFactory::createView( const QString &serviceType,
       it = offers.begin();
       continue;
     }
+    if ( !service && !serviceName.isEmpty() )
+    {
+      if ( (*it)->name() == serviceName )
+        service = *it;
+    }
     ++it;
   }
-
-  KService::Ptr service;
-  KLibFactory *factory = 0L;
-
-  while ( 42 )
-  {
-
-    if ( offers.count() == 0 )
-      return KonqViewFactory();
-
-    service = offers.first();
-
-    if ( !serviceName.isEmpty() )
-    {
-      KTrader::OfferList::ConstIterator it = offers.begin();
-      KTrader::OfferList::ConstIterator end = offers.end();
-      for (; it != end; ++it )
-        if ( (*it)->name() == serviceName )
-        {
-          service = *it;
-          break;
-        }
-    }
-    else
-    {
-      KTrader::OfferList::ConstIterator it = offers.begin();
-      KTrader::OfferList::ConstIterator end = offers.end();
-      for (; it != end; ++it )
-      {
-        QVariant prop = (*it)->property( "X-KDE-BrowserView-AllowAsDefault" );
-        if ( prop.isValid() && prop.toBool() )
-        {
-          service = *it;
-          break;
-        }
-      }
-    }
-
-    factory = KLibLoader::self()->factory( service->library() );
-
-    if ( factory )
-      break;
-
-    offers.remove( offers.begin() );
-  }
-
   if ( partServiceOffers )
     (*partServiceOffers) = offers;
 
+  KLibFactory *factory = 0L;
+
+  if ( service )
+    factory = KLibLoader::self()->factory( service->library() );
+
+  it = offers.begin();
+  for ( ; !factory && it != offers.end() ; ++it )
+  {
+    service = (*it);
+    // Allowed as default ?
+    QVariant prop = service->property( "X-KDE-BrowserView-AllowAsDefault" );
+    if ( prop.isValid() && prop.toBool() )
+    {
+      // Try loading factory
+      factory = KLibLoader::self()->factory( service->library() );
+    }
+  }
+
   if ( serviceImpl )
     (*serviceImpl) = service;
+
+  if ( !factory )
+    return KonqViewFactory();
 
   QStringList args;
 

@@ -124,7 +124,7 @@ KonqMainView::KonqMainView( const KURL &initialURL, bool openInitialURL, const c
 	   this, SLOT( slotPartActivated( KParts::Part * ) ) );
 
   m_toggleViewGUIClient = new ToggleViewGUIClient( this );
-  
+
   m_openWithActions.setAutoDelete( true );
   m_viewModeActions.setAutoDelete( true );
   m_viewModeMenu = 0;
@@ -802,14 +802,18 @@ bool KonqMainView::openView( QString serviceType, const KURL &_url, KonqChildVie
   QString serviceName; // default: none provided
   m_paRemoveLocalProperties->setEnabled( false ); // default: no local props
 
-  // Look for which view mode to use, if a directory - not if view locked to 
+  // Look for which view mode to use, if a directory - not if view locked to
   // its current mode or passive.
   if ( ( !childView ||
          (!childView->lockedViewMode() && !childView->passiveMode())
        )
      && serviceType == "inode/directory" )
   { // Phew !
-    serviceName = m_sViewModeForDirectory;
+
+    // Set view mode if necessary (current view doesn't support directories)
+    if ( !childView || !childView->supportsServiceType( serviceType ) )
+      serviceName = m_sViewModeForDirectory;
+
     if ( url.isLocalFile() ) // local, we can do better (.directory)
     {
       // Ok, there is an index.html. But does the user want to see it ?
@@ -2119,7 +2123,7 @@ void KonqMainView::updateOpenWithActions( const KTrader::OfferList &services )
 
     m_openWithActions.append( action );
   }
-} 
+}
 
 void KonqMainView::updateViewModeActions( const KTrader::OfferList &services )
 {
@@ -2160,6 +2164,6 @@ void KonqMainView::updateViewModeActions( const KTrader::OfferList &services )
 	  action->plug( m_viewModeMenu->popupMenu() );
       }
   }
-} 
+}
 
 #include "konq_mainview.moc"
