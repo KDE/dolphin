@@ -1323,6 +1323,8 @@ void KonqMainView::slotReloadPlugins()
 
 void KonqMainView::slotSaveViewProfile()
 {
+  OpenParts::Id id = m_currentId;
+
   KLineEditDlg *dlg = new KLineEditDlg( i18n( "Enter Name for Profile" ),
                                        QString::null, this, false );
   
@@ -1345,6 +1347,8 @@ void KonqMainView::slotSaveViewProfile()
     if ( !CORBA::is_nil( m_vMenuOptionsProfiles ) )
       fillProfileMenu();
   }
+  
+  m_vMainWindow->setActivePart( id );
 }
 
 void KonqMainView::slotViewProfileActivated( CORBA::Long id )
