@@ -207,7 +207,7 @@ void KonqIconViewWidget::initConfig( bool bInit )
 
 void KonqIconViewWidget::setIcons( int size, const char * stopImagePreviewFor )
 {
-    //kdDebug(1203) << "KonqIconViewWidget::setIcons( " << size << " , " << stopImagePreviewFor << ")" << endl;
+    kdDebug(1203) << "KonqIconViewWidget::setIcons( " << size << " , " << stopImagePreviewFor << ")" << endl;
     bool sizeChanged = (m_size != size);
     int oldGridX = gridX();
     m_size = size;
@@ -219,6 +219,7 @@ void KonqIconViewWidget::setIcons( int size, const char * stopImagePreviewFor )
     for ( QIconViewItem *it = firstItem(); it; it = it->nextItem() ) {
         KFileIVI * ivi = static_cast<KFileIVI *>( it );
         if ( !ivi->isThumbnail() ||
+             ( stopImagePreviewFor && strlen(stopImagePreviewFor) == 0) ||
              ( stopImagePreviewFor && ivi->thumbnailName() == stopImagePreviewFor ) )
             ivi->setIcon( size, ivi->state(),
                           true, true /* perhaps we should do one big redraw instead ? */);
