@@ -354,7 +354,7 @@ void KonqPopupMenu::slotPopupOpenWith()
   OpenWithDlg l( m_lstPopupURLs, i18n("Open With:"), "", (QWidget*)0L);
   if ( l.exec() )
   {
-    KSharedPtr<KService> service = l.service();
+    KService::Ptr service = l.service();
     if ( service )
     {
       KRun::run( *service, m_lstPopupURLs );
