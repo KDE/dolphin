@@ -97,6 +97,8 @@ KonqPopupMenu::KonqPopupMenu( const KFileItemList &items,
 
   setFont(KGlobalSettings::menuFont());
 
+  m_ownActions.setHighlightingEnabled( true );
+
   attrName = QString::fromLatin1( "name" );
 
   prepareXMLGUIStuff();
@@ -171,6 +173,7 @@ KonqPopupMenu::KonqPopupMenu( const KFileItemList &items,
   addMerge( "konqueror" );
 
   m_paNewView = new KAction( i18n( "New Window" ), "window_new", 0, this, SLOT( slotPopupNewView() ), &m_ownActions, "newview" );
+  m_paNewView->setStatusText( i18n( "Open the document in a new window" ) );
 
   if ( ( isCurrentTrash && currentDir ) ||
        ( m_lstItems.count() == 1 && bTrashIncluded ) )
@@ -538,6 +541,11 @@ KAction *KonqPopupMenu::action( const QDomElement &element ) const
 QDomDocument KonqPopupMenu::domDocument() const
 {
   return m_doc;
+}
+
+KActionCollection *KonqPopupMenu::actionCollection() const
+{
+  return const_cast<KActionCollection *>( &m_ownActions );
 }
 
 void KonqPopupMenu::addAction( KAction *act, const QDomElement &menu )

@@ -78,6 +78,8 @@ public:
    */
   virtual QDomDocument domDocument() const;
 
+  virtual KActionCollection *actionCollection() const;
+
 public slots:
   void slotPopupNewView();
   void slotPopupEmptyTrashBin();
