@@ -34,8 +34,8 @@
 #endif
 
 
-SMBRoOptions::SMBRoOptions(QWidget *parent, const char *name)
-  : KCModule(parent, name)
+SMBRoOptions::SMBRoOptions(QWidget *parent, const char *)
+  : KCModule(parent, "kcmkio")
 {
    QGridLayout *layout = new QGridLayout(this,2,-1,10,10);
    QLabel *label=new QLabel(i18n("This is the configuration for the samba client only, not the server."),this);

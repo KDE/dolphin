@@ -98,7 +98,7 @@ QString KProxyOptions::quickHelp() const
 
 
 KProxyDialog::KProxyDialog( QWidget* parent,  const char* name )
-             :KCModule( parent, name )
+             :KCModule( parent, "kcmkio" )
 {
     QVBoxLayout* mainLayout = new QVBoxLayout( this,
                                                KDialog::marginHint(),

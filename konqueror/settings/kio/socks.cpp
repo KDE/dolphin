@@ -37,8 +37,8 @@
 #include "socks.h"
 #include <kaboutdata.h>
 
-KSocksConfig::KSocksConfig(QWidget *parent, const char *name, const QStringList &)
-  : KCModule(parent, name)
+KSocksConfig::KSocksConfig(QWidget *parent, const char *, const QStringList &)
+  : KCModule(parent, "kcmkio")
 {
 
   QVBoxLayout *layout = new QVBoxLayout(this, KDialog::marginHint(), KDialog::spacingHint());
