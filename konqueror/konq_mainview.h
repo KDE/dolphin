@@ -106,6 +106,8 @@ public slots:
   // MenuBar
   /////////////////////////
   virtual void slotSplitView();
+  virtual void slotRowAbove();
+  virtual void slotRowBelow();
   virtual void slotShowDot();
   virtual void slotLargeIcons();
   virtual void slotSmallIcons();
@@ -165,7 +167,19 @@ public slots:
   void slotPopupProperties();
   
 protected:
+
+  ///////////// protected methods ///////////
+
   virtual void resizeEvent( QResizeEvent *e );
+
+  void initConfig();
+  void initGui();
+  void initPanner();
+  void initView();
+
+  void splitView ( Konqueror::NewViewPosition newViewPosition );
+
+  ///////// protected members //////////////
 
   struct History
   {
@@ -174,13 +188,6 @@ protected:
     int m_iYOffset;
   };
   
-  void initConfig();
-  void initGui();
-  void initPanner();
-  void initView();
-  
-//  void setViewModeMenu( KonqView::ViewMode _viewMode );
-
   OpenPartsUI::Menu_var m_vMenuFile;
   OpenPartsUI::Menu_var m_vMenuFileNew;
   OpenPartsUI::Menu_var m_vMenuEdit;
@@ -196,6 +203,8 @@ protected:
   KBookmarkMenu* m_pBookmarkMenu;
 
   //////// View storage //////////////
+
+  struct Row;
   
   struct View
   {
@@ -205,6 +214,7 @@ protected:
     QString m_strUpURL;
     list<History> m_lstBack;
     list<History> m_lstForward;
+    Row * row;
   };
 
   /* A row of views */
@@ -221,9 +231,9 @@ protected:
   map<OpenParts::Id,View*> m_mapViews;
   
   View *m_currentView;
-  Row *m_pCurrentRow;
+  // current row is currentView->row, no need for a member
 
-  Row * newRow();
+  Row * newRow( bool append );
 
   ////////////////////
     

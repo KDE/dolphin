@@ -176,6 +176,8 @@ module Konqueror
     string currentURL();
         
     slot void slotSplitView();
+    slot void slotRowAbove();
+    slot void slotRowBelow();
     slot void slotShowDot();
     slot void slotLargeIcons();
     slot void slotSmallIcons();

@@ -75,7 +75,8 @@ enum _ids {
     MEDIT_MIMETYPES_ID, MEDIT_APPLICATIONS_ID, // later, add global mimetypes and apps here
     MEDIT_SAVEGEOMETRY_ID,
 
-    MVIEW_SPLITWINDOW_ID, MVIEW_SHOWDOT_ID, MVIEW_IMAGEPREVIEW_ID, MVIEW_LARGEICONS_ID,
+    MVIEW_SPLITWINDOW_ID, MVIEW_ROWABOVE_ID, MVIEW_ROWBELOW_ID,
+    MVIEW_SHOWDOT_ID, MVIEW_IMAGEPREVIEW_ID, MVIEW_LARGEICONS_ID,
     MVIEW_SMALLICONS_ID, MVIEW_TREEVIEW_ID, MVIEW_HTMLVIEW_ID, MVIEW_RELOADTREE_ID,
     MVIEW_RELOAD_ID // + view frame source, view document source, document encoding
 
@@ -330,6 +331,8 @@ bool KonqMainView::mappingCreateMenubar( OpenPartsUI::MenuBar_ptr menuBar )
   m_vMenuView->setCheckable( true );
   //  m_vMenuView->insertItem4( i18n("Show Directory Tr&ee"), this, "slotShowTree" , 0 );
   m_vMenuView->insertItem4( i18n("Split &window"), this, "slotSplitView" , 0, MVIEW_SPLITWINDOW_ID, -1 );
+  m_vMenuView->insertItem4( i18n("Add row &above"), this, "slotRowAbove" , 0, MVIEW_ROWABOVE_ID, -1 );
+  m_vMenuView->insertItem4( i18n("Add row &below"), this, "slotRowBelow" , 0, MVIEW_ROWBELOW_ID, -1 );
   m_vMenuView->insertItem4( i18n("Show &Dot Files"), this, "slotShowDot" , 0, MVIEW_SHOWDOT_ID, -1 );
   m_vMenuView->insertItem4( i18n("Image &Preview"), this, "slotShowSchnauzer" , 0, MVIEW_IMAGEPREVIEW_ID, -1 );
   //m_vMenuView->insertItem4( i18n("&Always Show index.html"), this, "slotShowHTML" , 0 );
@@ -501,35 +504,46 @@ void KonqMainView::insertView( Konqueror::View_ptr view,
   m_vView->setParent( this );
 
   View *v = new View;
+  Row * currentRow;
+  if (m_currentView)
+    currentRow = m_currentView->row;
+  else // complete beginning, we don't even have a view
+    currentRow = m_lstRows.first();
 
   m_mapViews[ view->id() ] = v;
   v->m_vView = Konqueror::View::_duplicate( m_vView );
 
+  m_currentView = v;
+
   if (newViewPosition == Konqueror::above || 
       newViewPosition == Konqueror::below)
   {
-    fatal("TODO : create a new row and put the view in it");
+    currentRow = newRow( (newViewPosition == Konqueror::below) ); // append if below
+    v->m_pFrame = new OPFrame( currentRow->pRowSplitter );
+    if (newViewPosition == Konqueror::above)
+      currentRow->pRowSplitter->moveToFirst( v->m_pFrame );
+    currentRow->lstViews.append( v );
   }
   else // left or right, in the current row
   {
-    assert(m_pCurrentRow);
-    int n = m_pCurrentRow->lstViews.count();
+    int n = currentRow->lstViews.count();
     debug("insertView : I already have %d views",n);
 
-    v->m_pFrame = new OPFrame( m_pCurrentRow->pRowSplitter );
+    v->m_pFrame = new OPFrame( currentRow->pRowSplitter );
 
     if (newViewPosition == Konqueror::left) {
-      // this is broken !
-      m_pCurrentRow->lstViews.insert( 0, v );
-      m_pCurrentRow->pRowSplitter->moveToFirst( v->m_pFrame );
+      // FIXME this is TERRIBLY broken ! - but not called anymore, at the moment :)
+      currentRow->lstViews.insert( 0, v );
+      currentRow->pRowSplitter->moveToFirst( v->m_pFrame );
     }
     else {
-      m_pCurrentRow->lstViews.append( v );
+      currentRow->lstViews.append( v );
     }
   }
   
   v->m_pFrame->attach( m_vView );
   v->m_pFrame->show();
+  v->row = currentRow;
 
   try
   {
@@ -632,7 +646,6 @@ void KonqMainView::setActiveView( OpenParts::Id id )
   map<OpenParts::Id,View*>::iterator it = m_mapViews.find( id );
 
   m_currentView = it->second;
-  // TODO update m_pCurrentRow here
 }
 
 Konqueror::View_ptr KonqMainView::activeView()
@@ -1229,46 +1242,40 @@ void KonqMainView::openHTML( const char *url )
   EMIT_EVENT( m_currentView->m_vView, Konqueror::eventOpenURL, eventURL );
 }
 
+// protected
+void KonqMainView::splitView ( Konqueror::NewViewPosition newViewPosition )
+{
+  char * url = m_currentView->m_vView->url();
+
+  // HACK - could be something else than icon view - has to be the same
+  // view mode as current view
+  insertView( new KonqKfmIconView, newViewPosition );
+
+  Konqueror::EventOpenURL eventURL;
+  eventURL.url = CORBA::string_dup( url );
+  eventURL.reload = (CORBA::Boolean)false;
+  eventURL.xOffset = 0;
+  eventURL.yOffset = 0;
+  EMIT_EVENT( m_currentView->m_vView, Konqueror::eventOpenURL, eventURL );
+
+}
+
 void KonqMainView::slotSplitView()
 {
-  // JUST FOR TESTING
-  insertView( new KonqKfmIconView, Konqueror::right );
-/*
-  if ( m_Props->m_bSplitView )
-  {
-    m_currentView->m_pView->fetchFocus();
+  // Create new view, same URL as current view, on its right.
+  splitView( Konqueror::right );
+}
 
-    m_Props->m_bSplitView = false;
+void KonqMainView::slotRowAbove()
+{
+  // Create new row above, with a view, same URL as current view.
+  splitView( Konqueror::above );
+}
 
-    m_pPanner->setSeparator( 0 );
-
-    View * todel = m_views.at(1);
-    delete todel->m_pPannerChildGM;
-    cerr << "!!!!!!!!! Layout done !!!!!!!!!" << endl;
-    delete todel->m_pView;
-    todel->m_lstBack.clear();
-    todel->m_lstForward.clear();
-    m_views.remove(1);
-  } else
-  {
-    m_Props->m_bSplitView = true;
-
-    QString url = m_views.at(0)->m_pView->currentURL();
-
-    m_views.at(0)->m_pView->clearFocus();
-
-    createView( );
-
-    m_pPanner->setSeparator( 50 );
-
-    cerr << "########## Opening " << url << endl;
-
-    m_views.at(1)->m_pView->openURL( url );
-
-  }
-  if ( !CORBA::is_nil( m_vMenuView ) )
-    m_vMenuView->setItemChecked( MVIEW_SPLITWINDOW_ID, m_Props->m_bSplitView );
-*/
+void KonqMainView::slotRowBelow()
+{
+  // Create new row below, with a view, same URL as current view.
+  splitView( Konqueror::below );
 }
 
 void KonqMainView::slotShowDot()
@@ -1734,41 +1741,31 @@ void KonqMainView::initGui()
   QObject::connect( &m_animatedLogoTimer, SIGNAL( timeout() ), this, SLOT( slotAnimatedLogoTimeout() ) );
 }
 
-KonqMainView::Row * KonqMainView::newRow()
+KonqMainView::Row * KonqMainView::newRow( bool append )
 {
   Row * row = new Row;
   row->pRowSplitter = new QSplitter ( QSplitter::Horizontal, m_pMainSplitter );
   //row->pRowSplitter->setOpaqueResize( TRUE );
-  m_lstRows.insert( 0 /* HACK */, row );
+  if (append)
+    m_lstRows.append( row );
+  else
+    m_lstRows.insert( 0, row );
   debug("newRow() done");
   return row;
 }
 
 void KonqMainView::initPanner()
 {
-/*  if ( m_Props->isShowingDirTree() )
-    m_pPanner = new KPanner( this, "_panner", KPanner::O_VERTICAL, 30 );
-  else if ( m_Props->isSplitView() )
-    m_pPanner = new KPanner( this, "_panner", KPanner::O_VERTICAL, 50 );
-  else
-    m_pPanner = new KPanner( this, "_panner", KPanner::O_VERTICAL, 0 );
-
-  QObject::connect( m_pPanner, SIGNAL( positionChanged() ), this, SLOT( slotPannerChanged() ) );
-*/
-//setView( m_pPanner );
-
   // Create the main splitter
   m_pMainSplitter = new QSplitter ( QSplitter::Vertical, this, "mainsplitter" );
+  //m_pMainSplitter->setOpaqueResize( TRUE ); 
   QGridLayout * GM = new QGridLayout( this, 1, 1 );
   GM->addWidget( m_pMainSplitter, 0, 0 );
 
-  //m_pMainSplitter->setOpaqueResize( TRUE ); 
   // Create a row, and its splitter
   m_lstRows.clear();
-  Row * row = newRow();
-  m_pCurrentRow = row;
+  (void) newRow(true);
   m_pMainSplitter->show();
-  debug("initpanner() done");
 }
 
 void KonqMainView::initView()
@@ -1791,7 +1788,6 @@ void KonqMainView::initView()
   eventURL.yOffset = 0;
 
   EMIT_EVENT( vView, Konqueror::eventOpenURL, eventURL );
-//  m_pPanner->setSeparator( 50 );
 
 }
 /*
