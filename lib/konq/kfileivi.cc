@@ -80,9 +80,9 @@ void KFileIVI::setKey( const QString &key )
     QVariant sortDirProp = iconView()->property( "sortDirectoriesFirst" );
 
     if ( S_ISDIR( m_fileitem->mode() ) && ( !sortDirProp.isValid() || ( sortDirProp.type() == QVariant::Bool && sortDirProp.toBool() ) ) )
-      theKey.prepend( '0' );
+      theKey.prepend( iconView()->sortDirection() ? '0' : '1' );
     else
-      theKey.prepend( '1' );
+      theKey.prepend( iconView()->sortDirection() ? '1' : '0' );
 
     QIconViewItem::setKey( theKey );
 }
