@@ -401,7 +401,7 @@ void KonqPopupMenu::setup(bool showPropertiesAndFileType)
 
         if (d->m_itemFlags & KParts::BrowserExtension::ShowNavigationItems)
         {
-            if (!currentDir && (d->m_itemFlags & KParts::BrowserExtension::ShowUp))
+            if (d->m_itemFlags & KParts::BrowserExtension::ShowUp)
                 addAction( "up" );
             addAction( "back" );
             addAction( "forward" );
