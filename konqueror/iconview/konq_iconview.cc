@@ -84,7 +84,7 @@ public:
       s_defaultViewProps = 0;
    }
 
-    virtual KParts::Part* createPart( QWidget *parentWidget, const char *, 
+    virtual KParts::Part* createPart( QWidget *parentWidget, const char *,
                                       QObject *parent, const char *name, const char*, const QStringList &args )
    {
       if( args.count() < 1 )
@@ -1026,6 +1026,7 @@ void KonqKfmIconView::slotProcessMimeIcons()
     KMimeType::Ptr dummy = item->item()->determineMimeType();
 
     QPixmap newIcon = item->item()->pixmap( m_pIconView->iconSize(),
+                                            item->state(),
                                             m_pProps->isShowingImagePreview() );
 
     if ( currentIcon->serialNumber() != newIcon.serialNumber() )
