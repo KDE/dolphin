@@ -1,22 +1,13 @@
-(from kfm)
+
 - Nice ftp dialog for users who do not know how to put their
   user name in a URL.
-- Sorting by date, ... 
 
-- Move all the release checks (copying templates, creating dirs, ...)
-  to kdesktop, since konqueror isn't in startkde anymore. And make it
-  call convert_kdelnk.sh as well.
+- Sorting by date, ...
 
-- Confirmation box before deleting :)
-  A nice one would contain the list of files to be deleted, if few of them
-  otherwise the number (or simply "...")
+- A confirmation box before deleting would contain the list of files to be 
+  deleted, if few of them otherwise the number (or simply "...")
 
-- The ability to edit the binding for a mime type by
-  selecting a file of that type.
-
-- drop events on an icon / URL should be handled in a central place
-  (e.g. konq_kfmviewitem). In any case it should be moved out
-  of kiconcontainer !!
+- drop events on an icon / URL should be handled in a central place.
   + take code from kfm, for special cases (trash, ....)
 
 - implement search functionality in KonqHTMLView -> wait until khtml catched
@@ -41,7 +32,7 @@
 
 - Configurable toplevel items in the treeview
 
-- see grep TODO *.cc *.h *.idl
+- see grep TODO *.cc *.h
 
 - see http://bugs.kde.org/db/pa/lkfm.html !
 
