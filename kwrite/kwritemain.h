@@ -19,9 +19,8 @@
 #define __KWRITE_MAIN_H__
 
 #include <kparts/mainwindow.h>
-#include "../part/kateview.h"
-#include "../part/katedocument.h"
-#include "../part/katefactory.h"
+#include "../interfaces/view.h"
+#include "../interfaces/document.h"
 
 class KAction;
 class KToggleAction;
@@ -33,7 +32,7 @@ class TopLevel : public KParts::MainWindow
   Q_OBJECT
 
   public:
-    TopLevel(KateDocument * = 0L);
+    TopLevel(Kate::Document * = 0L);
     ~TopLevel();
 
     void init(); //initialize caption, status and show
@@ -41,17 +40,19 @@ class TopLevel : public KParts::MainWindow
     void loadURL(const KURL &url);
 
   protected:
+    class KLibFactory *factory;
+
     virtual bool queryClose();
     virtual bool queryExit();
 
-    void setupEditWidget(KateDocument *);
+    void setupEditWidget(Kate::Document *);
     void setupActions();
     void setupStatusBar();
 
     virtual void dragEnterEvent( QDragEnterEvent * );
     virtual void dropEvent( QDropEvent * );
 
-    KateView *kateView;
+    Kate::View *kateView;
 
     KRecentFilesAction * m_recentFiles;
     KToggleAction * m_paShowPath;
