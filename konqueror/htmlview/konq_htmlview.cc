@@ -107,8 +107,15 @@ KonqBrowser::KonqBrowser( KonqHTMLView *htmlView, const char *name )
   m_pHTMLView = htmlView;
 }
 
-void KonqBrowser::openURL( const QString &url, bool reload, int xOffset, int yOffset, const char * )
+void KonqBrowser::openURL( const QString &url, bool reload, int xOffset, int yOffset, const char *post_data )
 {
+#warning remove this hack after krash (lars)
+    if(post_data)
+    {
+	KHTMLWidget::openURL(url, reload, xOffset, yOffset, post_data);
+	return;
+    }
+
   emit m_pHTMLView->openURLRequest( url, reload, xOffset, yOffset );
 }
 
