@@ -320,8 +320,8 @@ void ToggleViewGUIClient::slotViewAdded( KonqView *view )
         view->frame()->header()->setText(view->service()->name());
         view->frame()->header()->setAction(action);
     }
-  }
 #endif
+  }
 }
 
 void ToggleViewGUIClient::slotViewRemoved( KonqView *view )
