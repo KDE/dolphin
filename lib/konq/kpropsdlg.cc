@@ -1,5 +1,6 @@
 /* This file is part of the KDE project
    Copyright (C) 1998, 1999 Torben Weis <weis@kde.org>
+   Copyright (c) 1999 Preston Brown <pbrown@kde.org>
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Library General Public
@@ -28,6 +29,8 @@
  * the rest of the layout management, bug fixes, adaptation to libkio,
  * template feature by
  *  David Faure <faure@kde.org>
+ * More layout and cleanups by 
+ *  Preston Brown <pbrown@kde.org>
  */
 
 #include <pwd.h>
@@ -45,16 +48,16 @@
 #include <qlabel.h>
 #include <qpushbutton.h>
 #include <qcheckbox.h>
-#include <qlist.h>
 #include <qstrlist.h>
 #include <qstringlist.h>
 #include <qpainter.h>
+#include <qlayout.h>
 
+#include <kdialog.h>
 #include <kdirwatch.h>
 #include <kdebug.h>
 #include <kdesktopfile.h>
 #include <kiconloaderdialog.h>
-#include <kiconloader.h>
 #include <kurl.h>
 #include <klocale.h>
 #include <kglobal.h>
@@ -70,8 +73,6 @@
 
 #include <X11/Xlib.h> // for XSetTransientForHint
 
-#define SEPARATION 10
-
 mode_t FilePermissionsPropsPage::fperm[3][4] = {
         {S_IRUSR, S_IWUSR, S_IXUSR, S_ISUID},
         {S_IRGRP, S_IWGRP, S_IXGRP, S_ISGID},
@@ -79,7 +80,8 @@ mode_t FilePermissionsPropsPage::fperm[3][4] = {
     };
 
 PropertiesDialog::PropertiesDialog( KFileItemList _items ) :
-  m_singleUrl( _items.first()->url() ), m_items( _items ), m_bMustDestroyItems( false )
+  m_singleUrl( _items.first()->url() ), m_items( _items ), 
+  m_bMustDestroyItems( false )
 {
   init();
 }
@@ -88,7 +90,8 @@ PropertiesDialog::PropertiesDialog( const QString& _url, mode_t _mode ) :
   m_singleUrl( _url ), m_bMustDestroyItems( true )
 {
   // Create a KFileItem from the information we have
-  m_items.append( new KFileItem( "unknown" /*whatever*/, _mode, m_singleUrl ) );
+  m_items.append( new KFileItem( "unknown" /*whatever*/, 
+				 _mode, m_singleUrl ) );
   init();
 }
 
@@ -132,6 +135,12 @@ PropertiesDialog::~PropertiesDialog()
   pageList.clear();
   // HACK
   if ( m_bMustDestroyItems ) delete m_items.first();
+}
+
+void PropertiesDialog::addPage(PropsPage *page)
+{
+  tab->addTab( page, page->tabName() );
+  pageList.append( page );
 }
 
 bool PropertiesDialog::canDisplay( KFileItemList _items )
@@ -280,134 +289,120 @@ bool PropsPage::isDesktopFile( KFileItem * _item )
   return ( _item->mimetype() == "application/x-desktop" );
 }
 
-FilePropsPage::FilePropsPage( PropertiesDialog *_props ) : PropsPage( _props )
+///////////////////////////////////////////////////////////////////////////////
+
+FilePropsPage::FilePropsPage( PropertiesDialog *_props ) 
+  : PropsPage( _props )
 {
-    m_bFromTemplate = false;
-    // Extract the file name only
-    QString filename = properties->defaultName();
-    if ( filename.isEmpty() ) // no template
-      filename = properties->kurl().filename();
+  m_bFromTemplate = false;
+  // Extract the file name only
+  QString filename = properties->defaultName();
+  if ( filename.isEmpty() ) // no template
+    filename = properties->kurl().filename();
+  else
+    m_bFromTemplate = true;
+  
+  // Make it human-readable (%2F => '/', ...)
+  filename = KFileItem::decodeFileName( filename );
+  
+  bool isTrash = false;
+  QString path;
+  if ( !m_bFromTemplate ) {
+    QString tmp = properties->kurl().path( 1 );
+    // is it the trash bin ?
+    if ( properties->kurl().isLocalFile() && tmp == KUserPaths::trashPath())
+      isTrash = true;
+    
+    // Extract the full name, but without file: for local files
+    if ( properties->kurl().isLocalFile() )
+      path = properties->kurl().path();
     else
-      m_bFromTemplate = true;
+      path = properties->kurl().url();
+  } else
+    path = properties->currentDir() + properties->defaultName();
 
-    // Make it human-readable (%2F => '/', ...)
-    filename = KFileItem::decodeFileName( filename );
+  QVBoxLayout *vbl = new QVBoxLayout(this, KDialog::marginHint(),
+				     KDialog::spacingHint(), "vbl");
+  QGridLayout *grid = new QGridLayout(0, 2); // unknown rows
+  vbl->addLayout(grid);
 
-    bool isTrash = false;
-    QString path;
-    if ( !m_bFromTemplate )
-    {
-      QString tmp = properties->kurl().path( 1 );
-      // is it the trash bin ?
-      if ( properties->kurl().isLocalFile() && tmp == KUserPaths::trashPath())
-        isTrash = true;
+  iconButton = new KIconLoaderButton(KGlobal::iconLoader(), this);
+  iconButton->setFixedSize(50, 50);
+  iconButton->setIconType("icon"); // chose from application icons
+  grid->addWidget(iconButton, 0, 0, AlignLeft);
 
-      // Extract the full name, but without file: for local files
-      if ( properties->kurl().isLocalFile() )
-        path = properties->kurl().path();
-      else
-        path = properties->kurl().url();
+  QLabel *l = new QLabel(properties->kurl().filename(), this);
+  grid->addWidget(l, 0, 1);
+
+  l = new QLabel(this);
+  l->setFrameStyle(QFrame::HLine|QFrame::Sunken);
+  grid->addMultiCellWidget(l, 1, 1, 0, 1);
+
+  l = new QLabel( i18n("File Name"), this);
+  grid->addWidget(l, 2, 0);
+  
+  name = new QLineEdit(this);
+  name->setText( filename );
+  grid->addWidget(name, 2, 1);
+  // Dont rename trash or root directory
+  if ( isTrash || filename == "/" )
+    name->setEnabled( false );
+  oldName = filename;
+  
+  l = new QLabel( i18n("Full Name:"), this);
+  grid->addWidget(l, 3, 0);
+  
+  l = new QLabel(this);
+  l->setText( path );
+  grid->addWidget(l, 3, 1);
+
+  if ( isTrash ) {
+    l = new QLabel( i18n( "Is the Trash Bin"), this);
+  } else if ( S_ISDIR( properties->item()->mode() ) ) {
+    l = new QLabel( i18n("Is a Directory"), this);
+  }
+  grid->addWidget(l, 4, 0);
+  
+  if ( properties->item()->isLink() ) {
+    l = new QLabel( i18n( "Points to" ), this);
+    grid->addWidget(l, 5, 0);
+    
+    QLabel *lname = new QLabel(this);
+    lname->setLineWidth(1);
+    lname->setFrameStyle(QFrame::Box | QFrame::Raised);
+    grid->addWidget(lname, 5, 1);
+    
+    QString linkDest = properties->item()->linkDest();
+    if ( linkDest.isNull() && properties->kurl().isLocalFile() ) {
+      char buffer[1024];
+      int n = readlink( path.ascii(), buffer, 1022 );
+      if ( n > 0 ) {
+	buffer[ n ] = 0;
+	linkDest = buffer;
+      }
     }
-    else
-      path = properties->currentDir() + properties->defaultName();
+    lname->setText( linkDest );
+  } else if ( S_ISREG( properties->item()->mode() ) ) {
+    QString tempstr = i18n("Size: %1").arg( properties->item()->size() );
+    l = new QLabel( tempstr, this);
+    vbl->addWidget(l);
+  }
+  
+  QString tempstr = i18n("Mimetype: %1").arg( properties->item()->mimetype() );
+  l = new QLabel( tempstr, this);
+  vbl->addWidget(l);
+  
+  QString buffer = 
+    i18n("Last Access: %1").arg(properties->item()->time(KIO::UDS_ACCESS_TIME));
+  l = new QLabel( buffer, this);
+  vbl->addWidget(l);
+  
+  buffer = 
+    i18n("Last Modified: %1").arg(properties->item()->time(KIO::UDS_MODIFICATION_TIME));
+  l = new QLabel( buffer, this);
+  vbl->addWidget(l);
 
-    QLabel *l;
-
-    layout = new QBoxLayout(this, QBoxLayout::TopToBottom, SEPARATION);
-
-    l = new QLabel( i18n("File Name"), this );
-    l->setFixedSize(l->sizeHint());
-    layout->addWidget(l, 0, AlignLeft);
-
-    name = new QLineEdit( this );
-    name->setMinimumSize(200, fontHeight);
-    name->setMaximumSize(QLayout::unlimited, fontHeight);
-    layout->addWidget(name, 0, AlignLeft);
-    name->setText( filename );
-    // Dont rename trash or root directory
-    if ( isTrash || filename == "/" )
-	name->setEnabled( false );
-    oldName = filename;
-
-    l = new QLabel( i18n("Full Name"), this );
-    l->setFixedSize(l->sizeHint());
-    layout->addWidget(l, 0, AlignLeft);
-
-    QLabel *fname = new QLabel( this );
-    fname->setText( path );
-    fname->setMinimumSize(200, fontHeight);
-    fname->setMaximumSize(QLayout::unlimited, fontHeight);
-    fname->setLineWidth(1);
-    fname->setFrameStyle(QFrame::Box | QFrame::Raised);
-    layout->addWidget(fname, 0, AlignLeft);
-
-    layout->addSpacing(SEPARATION);
-
-    if ( isTrash )
-    {
-	l = new QLabel( i18n( "Is the Trash Bin"), this );
-	l->setFixedSize(l->sizeHint());
-	layout->addWidget(l, 0, AlignLeft);
-    }
-    else if ( S_ISDIR( properties->item()->mode() ) )
-    {
-	l = new QLabel( i18n("Is a Directory"), this );
-	l->setFixedSize(l->sizeHint());
-	layout->addWidget(l, 0, AlignLeft);
-    }
-    if ( properties->item()->isLink() )
-    {
-	l = new QLabel( i18n( "Points to" ), this );
-	l->setFixedSize(l->sizeHint());
-	layout->addWidget(l, 0, AlignLeft);
-
-        QLabel *lname = new QLabel( this );
-        lname->setMinimumSize(200, fontHeight);
-        lname->setMaximumSize(QLayout::unlimited, fontHeight);
-        lname->setLineWidth(1);
-        lname->setFrameStyle(QFrame::Box | QFrame::Raised);
-        layout->addWidget(lname, 0, AlignLeft);
-
-        QString linkDest = properties->item()->linkDest();
-        if ( linkDest.isNull() && properties->kurl().isLocalFile() )
-        {
-          char buffer[1024];
-          int n = readlink( path.ascii(), buffer, 1022 );
-          if ( n > 0 )
-          {
-	    buffer[ n ] = 0;
-	    linkDest = buffer;
-          }
-        }
-        lname->setText( linkDest );
-    }
-    else if ( S_ISREG( properties->item()->mode() ) )
-    {
-        QString tempstr = i18n("Size: %1").arg( properties->item()->size() );
-	l = new QLabel( tempstr, this );
-	l->setFixedSize(l->sizeHint());
-	layout->addWidget(l, 0, AlignLeft);
-    }
-
-    QString tempstr = i18n("Mimetype: %1").arg( properties->item()->mimetype() );
-    l = new QLabel( tempstr, this );
-    l->setFixedSize(l->sizeHint());
-    layout->addWidget(l, 0, AlignLeft);
-
-    QString buffer = i18n("Last Access: %1").arg(
-      properties->item()->time( KIO::UDS_ACCESS_TIME ) );
-    l = new QLabel( buffer, this );
-    l->setFixedSize(l->sizeHint());
-    layout->addWidget(l, 0, AlignLeft);
-
-    buffer = i18n("Last Modified: %1").arg(
-      properties->item()->time( KIO::UDS_MODIFICATION_TIME ) );
-    l = new QLabel( buffer, this );
-    l->setFixedSize(l->sizeHint());
-    layout->addWidget(l, 0, AlignLeft);
-
-    layout->addStretch(10);
-    layout->activate();
+  vbl->addStretch(2);
 }
 
 bool FilePropsPage::supports( KFileItemList /*_items*/ )
@@ -478,7 +473,7 @@ FilePermissionsPropsPage::FilePermissionsPropsPage( PropertiesDialog *_props )
     } else
 	strGroup.sprintf("%d",buff.st_gid);
 
-    QBoxLayout *box = new QVBoxLayout( this, SEPARATION );
+    QBoxLayout *box = new QVBoxLayout( this, KDialog::spacingHint() );
 
     QLabel *l;
     QGroupBox *gb;
@@ -713,7 +708,7 @@ void FilePermissionsPropsPage::applyChanges()
 
 ExecPropsPage::ExecPropsPage( PropertiesDialog *_props ) : PropsPage( _props )
 {
-    QVBoxLayout * mainlayout = new QVBoxLayout(this, SEPARATION);
+    QVBoxLayout * mainlayout = new QVBoxLayout(this, KDialog::spacingHint());
 
     // Now the widgets in the top layout
 
@@ -724,7 +719,7 @@ ExecPropsPage::ExecPropsPage( PropertiesDialog *_props ) : PropsPage( _props )
     mainlayout->addWidget(tmpQLabel, 1);
 
     QHBoxLayout * hlayout;
-    hlayout = new QHBoxLayout(SEPARATION);
+    hlayout = new QHBoxLayout(KDialog::spacingHint());
     mainlayout->addLayout(hlayout, 1);
 
     execEdit = new QLineEdit( this, "LineEdit_1" );
@@ -739,7 +734,7 @@ ExecPropsPage::ExecPropsPage( PropertiesDialog *_props ) : PropsPage( _props )
     execBrowse->setFixedSize(execBrowse->sizeHint());
     hlayout->addWidget(execBrowse, 0);
 
-    hlayout = new QHBoxLayout(SEPARATION);
+    hlayout = new QHBoxLayout(KDialog::spacingHint());
     mainlayout->addLayout(hlayout, 2); // double stretch, because two items
 
     /* instead, a label */
@@ -759,11 +754,11 @@ ExecPropsPage::ExecPropsPage( PropertiesDialog *_props ) : PropsPage( _props )
     mainlayout->addWidget(tmpQGroupBox, 3); // 3 vertical items -> stretch = 3
 
     QVBoxLayout * grouplayout;
-    grouplayout = new QVBoxLayout(tmpQGroupBox, SEPARATION);
+    grouplayout = new QVBoxLayout(tmpQGroupBox, KDialog::spacingHint());
 
     grouplayout->addSpacing( fontMetrics().height() );
 
-    hlayout = new QHBoxLayout(SEPARATION);
+    hlayout = new QHBoxLayout(KDialog::spacingHint());
     grouplayout->addLayout(hlayout, 0);
 
     tmpQLabel = new QLabel( tmpQGroupBox, "Label_6" );
@@ -777,7 +772,7 @@ ExecPropsPage::ExecPropsPage( PropertiesDialog *_props ) : PropsPage( _props )
     swallowExecEdit->setMinimumSize( swallowExecEdit->sizeHint() );
     hlayout->addWidget(swallowExecEdit, 1);
 
-    hlayout = new QHBoxLayout(SEPARATION);
+    hlayout = new QHBoxLayout(KDialog::spacingHint());
     grouplayout->addLayout(hlayout, 0);
 
     tmpQLabel = new QLabel( tmpQGroupBox, "Label_7" );
@@ -798,14 +793,14 @@ ExecPropsPage::ExecPropsPage( PropertiesDialog *_props ) : PropsPage( _props )
     tmpQGroupBox->setAlignment( 1 );
     mainlayout->addWidget(tmpQGroupBox, 2);  // 2 vertical items -> stretch = 2
 
-    grouplayout = new QVBoxLayout(tmpQGroupBox, SEPARATION);
+    grouplayout = new QVBoxLayout(tmpQGroupBox, KDialog::spacingHint());
 
     terminalCheck = new QCheckBox( tmpQGroupBox, "RadioButton_3" );
     terminalCheck->setText( i18n("Run in terminal") );
     terminalCheck->setMinimumSize( terminalCheck->sizeHint() );
     grouplayout->addWidget(terminalCheck, 0);
 
-    hlayout = new QHBoxLayout(SEPARATION);
+    hlayout = new QHBoxLayout(KDialog::spacingHint());
     grouplayout->addLayout(hlayout, 1);
 
     tmpQLabel = new QLabel( tmpQGroupBox, "Label_5" );
@@ -942,7 +937,7 @@ void ExecPropsPage::slotBrowseExec()
 
 URLPropsPage::URLPropsPage( PropertiesDialog *_props ) : PropsPage( _props )
 {
-    QVBoxLayout * layout = new QVBoxLayout(this, SEPARATION);
+    QVBoxLayout * layout = new QVBoxLayout(this, KDialog::spacingHint());
     URLEdit = new QLineEdit( this, "LineEdit_1" );
     iconBox = new KIconLoaderButton( KGlobal::iconLoader(), this );
     iconBox->setIconType("icon"); // Choose from app icons
@@ -1210,16 +1205,16 @@ void DirPropsPage::resizeEvent ( QResizeEvent *)
 {
     iconBox->setGeometry( 10, 20, 50, 50 );
     wallBox->move( 90, 10 + fontHeight );
-    browseButton->move( 90, wallBox->y()+wallBox->height()+SEPARATION ); // under wallBox
+    browseButton->move( 90, wallBox->y()+wallBox->height()+KDialog::spacingHint() ); // under wallBox
 
     imageX = 10;
-    imageY = browseButton->y()+browseButton->height()+SEPARATION; // under the browse button
-    imageW = width() - imageX - SEPARATION;
-    imageH = height() - imageY - applyButton->height() - SEPARATION*2;
+    imageY = browseButton->y()+browseButton->height()+KDialog::spacingHint(); // under the browse button
+    imageW = width() - imageX - KDialog::spacingHint();
+    imageH = height() - imageY - applyButton->height() - KDialog::spacingHint()*2;
 
     wallWidget->setGeometry( imageX, imageY, imageW, imageH );
-    applyButton->move( 10, imageY+imageH+SEPARATION );
-    globalButton->move( applyButton->x() + applyButton->width() + SEPARATION, applyButton->y() );
+    applyButton->move( 10, imageY+imageH+KDialog::spacingHint() );
+    globalButton->move( applyButton->x() + applyButton->width() + KDialog::spacingHint(), applyButton->y() );
 }
 
 void DirPropsPage::slotApply()
@@ -1255,7 +1250,7 @@ void DirPropsPage::slotApplyGlobal()
 
 ApplicationPropsPage::ApplicationPropsPage( PropertiesDialog *_props ) : PropsPage( _props )
 {
-    layout = new QBoxLayout(this, QBoxLayout::TopToBottom, SEPARATION);
+    layout = new QBoxLayout(this, QBoxLayout::TopToBottom, KDialog::spacingHint());
     binaryPatternEdit = new QLineEdit( this, "LineEdit_1" );
     commentEdit = new QLineEdit( this, "LineEdit_2" );
     nameEdit = new QLineEdit( this, "LineEdit_3" );
@@ -1477,7 +1472,7 @@ BindingPropsPage::BindingPropsPage( PropertiesDialog *_props ) : PropsPage( _pro
     iconBox->setIconType("icon"); // Choose from app icons
     appBox = new QComboBox( false, this, "ComboBox_2" );
 
-    QBoxLayout * mainlayout = new QVBoxLayout(this, SEPARATION);
+    QBoxLayout * mainlayout = new QVBoxLayout(this, KDialog::spacingHint());
     QLabel* tmpQLabel;
 
     tmpQLabel = new QLabel( this, "Label_1" );
@@ -1514,11 +1509,11 @@ BindingPropsPage::BindingPropsPage( PropertiesDialog *_props ) : PropsPage( _pro
     commentEdit->setFixedHeight( fontHeight );
     mainlayout->addWidget(commentEdit, 1);
 
-    QHBoxLayout * hlayout = new QHBoxLayout(SEPARATION);
+    QHBoxLayout * hlayout = new QHBoxLayout(KDialog::spacingHint());
     mainlayout->addLayout(hlayout, 2); // double stretch, because two items
 
     QVBoxLayout * vlayout; // a vertical layout for the two following items
-    vlayout = new QVBoxLayout(SEPARATION);
+    vlayout = new QVBoxLayout(KDialog::spacingHint());
     hlayout->addLayout(vlayout, 1);
 
     tmpQLabel = new QLabel( this, "Label_2" );

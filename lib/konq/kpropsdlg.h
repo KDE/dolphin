@@ -1,5 +1,6 @@
 /* This file is part of the KDE project
    Copyright (C) 1998, 1999 Torben Weis <weis@kde.org>
+   Copyright (c) 1999 Preston Brown <pbrown@kde.org>
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Library General Public
@@ -70,27 +71,31 @@ public:
   static bool canDisplay( KFileItemList _items );
 
   /**
-   * Bring up a Properties dialog. Normal constructor for file-manager-like applications.
-   * @param _items list of file items whose properties should be displayed
-   * NOTE : the current limitations of PropertiesDialog makes it use only
-   * the FIRST item in the list
+   * Bring up a Properties dialog. Normal constructor for
+   * file-manager-like applications.  
+   * 
+   * @param _items list of file items whose properties should be
+   * displayed. NOTE : the current limitations of PropertiesDialog
+   * makes it use only the FIRST item in the list 
+   * 
    */
   PropertiesDialog( KFileItemList _items );
-  /**
-   * Bring up a Properties dialog. Convenience constructor for non-file-manager applications.
+  /** 
+   * Bring up a Properties dialog. Convenience constructor for
+   * non-file-manager applications.
+   * 
    * @param _url the URL whose properties should be displayed
-   * @param _mode the mode, as returned by stat(). Don't set if unknown.
-   */
+   * @param _mode the mode, as returned by stat(). Don't set if unknown.  */
   PropertiesDialog( const QString& _url, mode_t _mode = (mode_t) -1 );
 
-  /**
-   * Create a properties dialog for a new .desktop file (whose name is not known
-   * yet), based on a template. Special constructor for "File / New" in file-manager
-   * applications
+  /** 
+   * Create a properties dialog for a new .desktop file (whose name
+   * is not known yet), based on a template. Special constructor for
+   * "File / New" in file-manager applications.
+   * 
    * @param _templUrl template used for reading only
    * @param _currentDir directory where the file will be written to
-   * @param _defaultName something to put in the name field, like mimetype.desktop
-   */
+   * @param _defaultName something to put in the name field, like mimetype.desktop */
   PropertiesDialog( const QString& _tempUrl, const QString& _currentDir,
                     const QString& _defaultName );
 
@@ -99,38 +104,59 @@ public:
    */
   ~PropertiesDialog();
 
+
+  /**
+   * Adds a "3rd party" properties page to the dialog.  Useful
+   * for extending the properties mechanism.
+   *
+   * To create a new page type, inherit from the base class PropsPage
+   * and implement all the methods.
+   * 
+   * @param page is a pointer to the PropsPage widget.  The Properties
+   *        dialog will do destruction for you.  The PropsPage MUST
+   *        have been created with the Properties Dialog as its parent.
+   * @see PropsPage
+   */
+  void addPage(PropsPage *page);
+
   /**
    * @return a parsed URL.
    * Valid only if dialog shown for one file/url.
    */
   const KURL& kurl() const { return m_singleUrl; }
+
   /**
    * @return the file item for which the dialog is shown
    * HACK : returns the first item of the list
    */
   KFileItem * item() { return m_items.first(); }
+
   /**
    * @return a pointer to the dialog
    */
   QTabDialog* tabDialog() const { return tab; }
+
   /**
    * If we are building this dialog from a template,
    * @return the current directory
    * QString::null means no template used
    */
   const QString& currentDir() const { return m_currentDir; }
+
   /**
    * If we are building this dialog from a template,
    * @return the default name (see 3rd constructor)
    * QString::null means no template used
    */
   const QString& defaultName() const { return m_defaultName; }
+
   /**
    * Updates the item url (either called by rename or because
    * a global apps/mimelnk desktop file is being saved)
    * @param _name new URL
    */
   void updateUrl( const KURL& _newUrl ) { m_singleUrl = _newUrl; }
+
   /**
    * #see FilePropsPage::applyChanges
    * @param _name new filename, encoded.
@@ -167,6 +193,7 @@ protected:
    * The URL of the props dialog (when shown for only one file)
    */
   KURL m_singleUrl;
+
   /**
    * List of items this props dialog is shown for
    */
@@ -176,10 +203,12 @@ protected:
   /** For templates */
   QString m_defaultName;
   QString m_currentDir;
+
   /**
    * List of all pages inserted ( first one first )
    */
   QList<PropsPage> pageList;
+
   /**
    * The dialog
    */
@@ -204,6 +233,7 @@ public:
    * @return the name that should appear in the tab.
    */
   virtual QString tabName() const { return ""; }
+
   /**
    * Apply all changes to the file.
    * This function is called when the user presses 'Ok'. The last page inserted
@@ -242,11 +272,11 @@ public:
   virtual QString tabName() const { return i18n("&General"); }
 
   /**
-   * Applies all changes made
-   * 'General' must be always the first page in the dialog, since this
-   * function may rename the file which may confuse other applyChanges
-   * functions. When this page is the first one this means that this applyChanges
-   * function is the last one called.
+   * Applies all changes made.  'General' must be always the first
+   * page in the dialog, since this function may rename the file which
+   * may confuse other applyChanges functions. When this page is the
+   * first one this means that this applyChanges function is the last
+   * one called.  
    */
   virtual void applyChanges();
 
@@ -256,11 +286,11 @@ public:
   static bool supports( KFileItemList _items );
 
 protected:
+  KIconLoaderButton *iconButton;
   QLineEdit *name;
 
-  QBoxLayout *layout;
-
   bool m_bFromTemplate;
+
   /**
    * The initial filename
    */
