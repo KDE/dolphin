@@ -20,6 +20,7 @@
 #include "konq_listview.h"
 #include "konq_treeviewwidget.h"
 
+#include <kdirlister.h>
 #include <kdebug.h>
 
 

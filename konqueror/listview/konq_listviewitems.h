@@ -24,7 +24,10 @@
 #include <qstring.h>
 #include <kicontheme.h>
 
-#include <sys/types.h> // for mode_t
+// for mode_t
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <unistd.h>
 
 class QPainter;
 class KFileItem;
