@@ -3837,6 +3837,23 @@ void KonqMainWindow::closeEvent( QCloseEvent *e )
   // so let's do this only when closed by the user.
   if ( static_cast<KonquerorApplication *>(kapp)->closedByUser() )
   {
+    kdDebug(1202) << "viewManager()->docContainer()=" << viewManager()->docContainer() << " viewManager()->docContainer()->frameType()=" << viewManager()->docContainer()->frameType() << endl;
+    if ( viewManager()->docContainer() && viewManager()->docContainer()->frameType()=="Tabs" )
+    {
+      KConfig *config = KGlobal::config();
+      KConfigGroupSaver cs( config, QString::fromLatin1("Notification Messages") );
+      
+      if ( !config->hasKey( "MultipleTabConfirm" ) )
+      {
+        if ( KMessageBox::warningYesNo( 0L, "You have multiple tabs open in this window, are you sure you wish to close it?", "Confirmation",
+                                        KStdGuiItem::yes(), KStdGuiItem::no(), "MultipleTabConfirm" ) == KMessageBox::No )
+        {
+          e->ignore();
+          return;
+        }
+      }
+    }
+    
     hide();
     qApp->flushX();
   }

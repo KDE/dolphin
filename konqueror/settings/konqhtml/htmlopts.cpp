@@ -72,6 +72,13 @@ KMiscHTMLOptions::KMiscHTMLOptions(KConfig *config, QString group, QWidget *pare
     row++;
     connect(m_pShowMMBInTabs, SIGNAL(clicked()), this, SLOT(changed()));
 
+    m_pTabConfirm = new QCheckBox( i18n( "Confirm when closing windows with multiple tabs" ), this );
+    QWhatsThis::add( m_pTabConfirm, i18n("This will ask you whether you are sure you want to close "
+                          "a window when it has multiple tabs opened in it.") );
+    lay->addMultiCellWidget( m_pTabConfirm, row, row, 0, 1);
+    row++;
+    connect(m_pTabConfirm, SIGNAL(clicked()), this, SLOT(changed()));
+    
     m_pBackRightClick = new QCheckBox( i18n( "Right click goes &back in history" ), this );
     QWhatsThis::add( m_pBackRightClick, i18n(
       "If this box is checked, you can go back in history by right clicking on a Konqueror view. "
@@ -193,6 +200,9 @@ void KMiscHTMLOptions::load()
     
     m_pConfig->setGroup("FMSettings");
     m_pShowMMBInTabs->setChecked( m_pConfig->readBoolEntry( "MMBOpensTab", false ) );
+    
+    m_pConfig->setGroup("Notification Messages");
+    m_pTabConfirm->setChecked( !m_pConfig->hasKey("MultipleTabConfirm") );
 }
 
 void KMiscHTMLOptions::defaults()
@@ -205,6 +215,7 @@ void KMiscHTMLOptions::defaults()
     m_pFormCompletionCheckBox->setChecked(true);
     m_pMaxFormCompletionItems->setEnabled( true );
     m_pShowMMBInTabs->setChecked( false );
+    m_pTabConfirm->setChecked( true );
     m_pBackRightClick->setChecked( false );
     m_pMaxFormCompletionItems->setValue( 10 );
 }
@@ -250,6 +261,11 @@ void KMiscHTMLOptions::save()
 
     m_pConfig->setGroup("FMSettings");
     m_pConfig->writeEntry( "MMBOpensTab", m_pShowMMBInTabs->isChecked() );
+    
+    // It only matters wether the key is present, its value has no meaning
+    m_pConfig->setGroup("Notification Messages");
+    if ( m_pTabConfirm->isChecked() ) m_pConfig->deleteEntry( "MultipleTabConfirm" );
+    else m_pConfig->writeEntry( "MultipleTabConfirm", true );
 
     m_pConfig->sync();
 
