@@ -518,7 +518,7 @@ int main(int argc, char **argv)
   aboutData.addCredit ("Chris Ross",I18N_NOOP("Highlighting for Ferite"),"");
   aboutData.addCredit ("Nick Roux",I18N_NOOP("Highlighting for ILERPG"),"");
   aboutData.addCredit ("John Firebaugh",I18N_NOOP("Highlighting for Java, and much more"),"");
-  aboutData.addCredit ("Carsten Niehaus", I18N_NOOP("Highlighing for LaTeX"),"");
+  aboutData.addCredit ("Carsten Niehaus", I18N_NOOP("Highlighting for LaTeX"),"");
   aboutData.addCredit ("Per Wigren", I18N_NOOP("Highlighting for Makefiles, Python"),"");
   aboutData.addCredit ("Jan Fritz", I18N_NOOP("Highlighting for Python"),"");
   aboutData.addCredit ("Daniel Naber","","");
@@ -528,7 +528,7 @@ int main(int argc, char **argv)
   aboutData.addCredit ("Jens Haupert", I18N_NOOP("Betatest"), "al_all@gmx.de");
   aboutData.addCredit ("Carsten Pfeiffer", I18N_NOOP("Very nice help"), "");
   aboutData.addCredit ("Mr. Doerr", I18N_NOOP("For absolutely nothing"), "");
-  aboutData.addCredit (I18N_NOOP("All people, who have contributed and I have forgotten to mention"),"","");
+  aboutData.addCredit (I18N_NOOP("All people who have contributed and I have forgotten to mention"),"","");
 
   aboutData.setTranslator(I18N_NOOP("_: NAME OF TRANSLATORS\nYour names"), I18N_NOOP("_: EMAIL OF TRANSLATORS\nYour emails"));
 
