@@ -259,13 +259,9 @@ uint KonqFrameTabs::tabBarWidthForMaxChars( uint maxLength )
 
     if ( newTitle.length() > maxLength )
       newTitle = newTitle.left( maxLength-3 ) + "...";
-    newTitle.replace( '&' , "&&" );
-
-    int lw = fm.width( newTitle );
-    lw -= newTitle.contains( '&' ) * fm.width( '&' );
-    lw += newTitle.contains( "&&" ) * fm.width( '&' );
 
     QTab* tab = tabBar()->tabAt( i );
+    int lw = fm.width( newTitle );
     int iw = 0;
     if ( tab->iconSet() )
       iw = tab->iconSet()->pixmap( QIconSet::Small, QIconSet::Normal ).width() + 4;
