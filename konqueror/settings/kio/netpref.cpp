@@ -62,7 +62,7 @@ KIOPreferences::KIOPreferences( QWidget* parent,  const char* name )
     cb_ftpMarkPartial = new QCheckBox( i18n( "Mark &partially uploaded files" ), gb_Ftp );
     QWhatsThis::add(cb_ftpMarkPartial, i18n( "<p>Marks partially uploaded FTP files.</p>"
                                              "<p>When this option is enabled, partially uploaded files "
-                                             "will have a \".part\" extention. This extension will be removed "
+                                             "will have a \".part\" extension. This extension will be removed "
                                              "once the transfer is complete.</p>"));
 
     mainLayout->addWidget( gb_Ftp );
