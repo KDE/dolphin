@@ -21,7 +21,6 @@
 
 #include <kaction.h>
 #include <klocale.h>
-#include <kmimetype.h>
 #include <kprotocolinfo.h>
 
 #include <konq_drag.h>
@@ -30,13 +29,13 @@
 
 #include "history_module.h"
 
-class KonqHistoryItem;
-
 KonqHistoryModule::KonqHistoryModule( KonqTree * parentTree, const char *name )
     : QObject( 0L, name ), KonqTreeModule( parentTree ),
       m_dict( 3001 ),
-      m_topLevelItem( 0L )
+      m_topLevelItem( 0L ),
+      m_initialized( false )
 {
+    m_currentTime = QDateTime::currentDateTime();
     m_dict.setAutoDelete( true );
     KonqHistoryManager *manager = KonqHistoryManager::self();
 
@@ -48,6 +47,9 @@ KonqHistoryModule::KonqHistoryModule( KonqTree * parentTree, const char *name )
     connect( manager, SIGNAL( entryRemoved( const KonqHistoryEntry *) ),
 	     SLOT( slotEntryRemoved( const KonqHistoryEntry *) ));
 
+    connect( parentTree, SIGNAL( expanded( QListViewItem * )),
+	     SLOT( slotItemExpanded( QListViewItem * )));
+
     m_collection = new KActionCollection( this, "history actions" );
     (void) new KAction( i18n("&Remove entry"), 0, this,
 			SLOT( slotRemoveEntry() ), m_collection, "remove");
@@ -56,26 +58,28 @@ KonqHistoryModule::KonqHistoryModule( KonqTree * parentTree, const char *name )
     (void) new KAction( i18n("&Preferences..."), 0, this,
 			SLOT( slotPreferences()), m_collection, "preferences");
 
-    m_folderPixmap = KMimeType::mimeType( "inode/directory" )->pixmap( KIcon::NoGroup, KIcon::SizeSmall );
+    m_folderClosed = SmallIcon( "folder" );
+    m_folderOpen = SmallIcon( "folder_open" );
 }
 
 void KonqHistoryModule::slotCreateItems()
 {
     clearAll();
 
-    KonqHistoryEntry *entry;
     KonqHistoryItem *item;
+    KonqHistoryEntry *entry;
     KonqHistoryList entries( KonqHistoryManager::self()->entries() );
     KonqHistoryIterator it( entries );
-
+    m_currentTime = QDateTime::currentDateTime();
+    
     QString host;
 
     while ( (entry = it.current()) ) {
-	QString host( entry->url.host() );
+	host = entry->url.host();
 	KonqHistoryGroupItem *group = m_dict.find( host );
 	if ( !group ) {
 	    group = new KonqHistoryGroupItem( host, m_topLevelItem );
-	    group->setPixmap( 0, m_folderPixmap );
+	    group->setPixmap( 0, m_folderClosed );
 	    m_dict.insert( host, group );
 	}
 
@@ -84,6 +88,9 @@ void KonqHistoryModule::slotCreateItems()
 	
 	++it;
     }
+
+    m_topLevelItem->sortChildItems( 0, false );
+    m_initialized = true;
 }
 
 // deletes the listview items but does not affect the history backend
@@ -94,11 +101,15 @@ void KonqHistoryModule::clearAll()
 
 void KonqHistoryModule::slotEntryAdded( const KonqHistoryEntry *entry )
 {
+    if ( !m_initialized )
+	return;
+
+    m_currentTime = QDateTime::currentDateTime();
     QString host( entry->url.host() );
     KonqHistoryGroupItem *group = m_dict.find( host );
     if ( !group ) {
 	group = new KonqHistoryGroupItem( host, m_topLevelItem );
-	group->setPixmap( 0, m_folderPixmap );
+	group->setPixmap( 0, m_folderClosed );
 	m_dict.insert( host, group );
     }
 
@@ -109,10 +120,15 @@ void KonqHistoryModule::slotEntryAdded( const KonqHistoryEntry *entry )
     }
     else
 	item->update( entry );
+
+    m_topLevelItem->sortChildItems( 0, false /*descending*/);
 }
 
 void KonqHistoryModule::slotEntryRemoved( const KonqHistoryEntry *entry )
 {
+    if ( !m_initialized )
+	return;
+
     QString host( entry->url.host() );
     KonqHistoryGroupItem *group = m_dict.find( host );
     if ( !group )
@@ -127,7 +143,6 @@ void KonqHistoryModule::slotEntryRemoved( const KonqHistoryEntry *entry )
 void KonqHistoryModule::addTopLevelItem( KonqTreeTopLevelItem * item )
 {
     m_topLevelItem = item;
-    slotCreateItems(); // hope this is correct here, but it should
 }
 
 void KonqHistoryModule::showPopupMenu()
@@ -146,10 +161,10 @@ void KonqHistoryModule::slotRemoveEntry()
 {
     QListViewItem *item = tree()->selectedItem();
     KonqHistoryItem *hi = dynamic_cast<KonqHistoryItem*>( item );
-    if ( hi )
+    if ( hi ) // remove a single entry
 	KonqHistoryManager::self()->emitRemoveFromHistory( hi->externalURL());
 
-    else {
+    else { // remove a group of entries
 	KonqHistoryGroupItem *gi = dynamic_cast<KonqHistoryGroupItem*>( item );
 	if ( gi )
 	    gi->remove();
@@ -159,6 +174,20 @@ void KonqHistoryModule::slotRemoveEntry()
 void KonqHistoryModule::slotPreferences()
 {
     // ### TODO
+}
+
+void KonqHistoryModule::slotItemExpanded( QListViewItem *item )
+{
+    if ( item == m_topLevelItem && !m_initialized )
+	slotCreateItems();
+}
+
+void KonqHistoryModule::groupOpened( KonqHistoryGroupItem *item, bool open )
+{
+    if ( open )
+	item->setPixmap( 0, m_folderOpen );
+    else
+	item->setPixmap( 0, m_folderClosed );
 }
 
 #include "history_module.moc"

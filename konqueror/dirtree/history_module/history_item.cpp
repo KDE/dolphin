@@ -24,6 +24,7 @@
 #include "history_module.h"
 
 #define MYMODULE static_cast<KonqHistoryModule*>(module())
+#define MYGROUP static_cast<KonqHistoryGroupItem*>(parent())
 
 KonqHistoryItem::KonqHistoryItem( const KonqHistoryEntry *entry,
 				  KonqTreeItem * parentItem,
@@ -33,19 +34,20 @@ KonqHistoryItem::KonqHistoryItem( const KonqHistoryEntry *entry,
 {
     setExpandable( false );
     update( entry );
+    MYGROUP->itemInserted( this );
 }
 
 KonqHistoryItem::~KonqHistoryItem()
 {
 }
 
-void KonqHistoryItem::update( const KonqHistoryEntry */*entry*/ )
+void KonqHistoryItem::update( const KonqHistoryEntry *entry )
 {
-    QString title( m_entry->title );
-    if ( !title.isEmpty() && title != m_entry->url.url() )
+    QString title( entry->title );
+    if ( !title.isEmpty() && title != entry->url.url() )
 	setText( 0, title );
     else {
-	QString path( m_entry->url.path() );
+	QString path( entry->url.path() );
 	if ( path.isEmpty() )
 	    path += '/';
 	setText( 0, path );
@@ -56,13 +58,6 @@ void KonqHistoryItem::itemSelected()
 {
     tree()->part()->extension()->enableActions( true, true, false,
                                                 false, false, false );
-}
-
-
-void KonqHistoryItem::setOpen( bool open )
-{
-    // ### TODO: lazy filling?
-    KonqTreeItem::setOpen( open );
 }
 
 void KonqHistoryItem::rightButtonPressed()
@@ -89,9 +84,18 @@ QDragObject * KonqHistoryItem::dragObject( QWidget * parent, bool move )
     return drag;
 }
 
+// new items go on top
+QString KonqHistoryItem::key( int /*column*/, bool /*ascending*/ ) const
+{
+    QString tmp;
+    tmp.sprintf( "%08d", m_entry->lastVisited.secsTo(MYMODULE->currentTime()));
+    return tmp;
+}
+
 
 ///////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////
+
 
 KonqHistoryGroupItem::KonqHistoryGroupItem( const QString& host,
 					    KonqTreeTopLevelItem *topLevelItem )
@@ -129,13 +133,35 @@ KonqHistoryItem * KonqHistoryGroupItem::findChild(const KonqHistoryEntry *entry)
 
 void KonqHistoryGroupItem::itemSelected()
 {
-    KParts::BrowserExtension * ext = tree()->part()->extension();
-    emit ext->enableAction( "copy", false );
-    emit ext->enableAction( "cut", false );
-    emit ext->enableAction( "paste", false );
+    tree()->part()->extension()->enableActions( false, false, false,
+                                                false, false, false );
 }
 
 void KonqHistoryGroupItem::rightButtonPressed()
 {
     MYMODULE->showPopupMenu();
+}
+
+// let the module change our pixmap (opened/closed)
+void KonqHistoryGroupItem::setOpen( bool open )
+{
+    MYMODULE->groupOpened( this, open );
+    KonqTreeItem::setOpen( open );
+}
+
+// new items go on top
+QString KonqHistoryGroupItem::key( int column, bool ascending ) const
+{
+    if ( !m_lastVisited.isValid() )
+	return KonqTreeItem::key( column, ascending );
+
+    QString tmp;
+    tmp.sprintf( "%08d", m_lastVisited.secsTo( MYMODULE->currentTime() ));
+    return tmp;
+}
+
+void KonqHistoryGroupItem::itemInserted( KonqHistoryItem *item )
+{
+    if ( !m_lastVisited.isValid() || m_lastVisited < item->lastVisited() )
+	m_lastVisited = item->lastVisited();
 }

@@ -34,8 +34,6 @@ public:
 		     KonqTreeTopLevelItem *topLevelItem );
     ~KonqHistoryItem();
 
-    virtual void setOpen( bool open );
-
     // just to make the baseclass happy (pure-virtual methods we don't support)
     virtual bool acceptsDrops( const QStrList & /*formats*/ ) { return false; }
     virtual void drop( QDropEvent * ) {}
@@ -51,9 +49,13 @@ public:
     QString host() const { return m_entry->url.host(); }
     QString path() const { return m_entry->url.path(); }
 
+    const QDateTime& lastVisited() const { return m_entry->lastVisited; }
+
     void update( const KonqHistoryEntry *entry );
 
     virtual QDragObject * dragObject( QWidget * parent, bool move = false );
+
+    virtual QString key( int column, bool ascending ) const;
 
 private:
     const KonqHistoryEntry *m_entry;
@@ -75,6 +77,11 @@ public:
 
     virtual void rightButtonPressed();
 
+    virtual void setOpen( bool open );
+
+    virtual QString key( int column, bool ascending ) const;
+
+    void itemInserted( KonqHistoryItem *item );
 
     // we don't support the following
     bool acceptsDrops( const QStrList& ) { return false; }
@@ -85,6 +92,7 @@ public:
 
 private:
     QString m_host;
+    QDateTime m_lastVisited;
 
 };
 

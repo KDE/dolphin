@@ -19,6 +19,7 @@
 #ifndef HISTORY_MODULE_H
 #define HISTORY_MODULE_H
 
+#include <qdatetime.h>
 #include <qobject.h>
 #include <qdict.h>
 #include <qpixmap.h>
@@ -41,7 +42,10 @@ public:
 
     virtual void addTopLevelItem( KonqTreeTopLevelItem * item );
 
+    // called by the items
     void showPopupMenu();
+    void groupOpened( KonqHistoryGroupItem *item, bool open );
+    const QDateTime& currentTime() const { return m_currentTime; }
 
 public slots:
     virtual void clearAll();
@@ -54,6 +58,8 @@ private slots:
     void slotRemoveEntry();
     void slotPreferences();
 
+    void slotItemExpanded( QListViewItem * );
+
 private:
     typedef QDictIterator<KonqHistoryItem> HistoryItemIterator;
     QDict<KonqHistoryGroupItem> m_dict;
@@ -61,8 +67,11 @@ private:
     KonqTreeTopLevelItem * m_topLevelItem;
 
     KActionCollection *m_collection;
-    
-    QPixmap m_folderPixmap;
+
+    QPixmap m_folderClosed;
+    QPixmap m_folderOpen;
+    bool m_initialized;
+    QDateTime m_currentTime; // used for sorting the items by date
 };
 
 
