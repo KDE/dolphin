@@ -300,6 +300,7 @@ KonqKfmIconView::KonqKfmIconView()
 
   m_dirLister = 0L;
   m_bLoading = false;
+  m_bNeedAlign = false;
 
   m_pIconView->setSelectionMode( QIconView::Multi );
   m_pIconView->setViewMode( QIconSet::Large );
@@ -327,10 +328,7 @@ void KonqKfmIconView::slotShowDot()
   m_pProps->m_bShowDot = !m_pProps->m_bShowDot;
   m_dirLister->setShowingDotFiles( m_pProps->m_bShowDot );
   //we don't want the non-dot files to remain where they are
-  m_pIconView->alignItemsInGrid();
-  m_pIconView->repaintContents( m_pIconView->contentsX(), m_pIconView->contentsY(),
-				m_pIconView->viewport()->width(), m_pIconView->viewport()->height(),
-				FALSE );
+  m_bNeedAlign = true;
 }
 
 void KonqKfmIconView::slotSelect()
@@ -666,6 +664,14 @@ void KonqKfmIconView::slotCompleted()
   }
   m_pIconView->setContentsPos( m_iXOffset, m_iYOffset );
   m_paKOfficeMode->setEnabled( m_dirLister->kofficeDocsFound() );
+
+  if ( m_bNeedAlign )
+  {
+    m_pIconView->alignItemsInGrid();
+    m_pIconView->repaintContents( m_pIconView->contentsX(), m_pIconView->contentsY(),
+                                  m_pIconView->viewport()->width(), m_pIconView->viewport()->height(),
+                                  FALSE );
+  }
 }
 
 void KonqKfmIconView::slotNewItem( KFileItem * _fileitem )
@@ -758,6 +764,7 @@ void KonqKfmIconView::openURL( const QString &_url, bool /*reload*/, int xOffset
   }
 
   m_ulTotalFiles = 0;
+  m_bNeedAlign = false;
 
 #warning FIXME (Simon)
 //  setCaptionFromURL( _url );

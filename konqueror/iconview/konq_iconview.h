@@ -149,6 +149,10 @@ protected:
   bool m_bInit;
 
   bool m_bLoading;
+  /**
+   * Set to true if slotCompleted needs to realign the icons
+   */
+  bool m_bNeedAlign;
 
   int m_iXOffset;
   int m_iYOffset;
