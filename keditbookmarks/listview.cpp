@@ -348,9 +348,8 @@ void ListView::updateListView() {
    QPtrList<KEBListViewItem> *selcItems = selectedItems();
    if (selcItems->count() != 0) {
       for (QPtrListIterator<KEBListViewItem> it(*selcItems); it.current() != 0; ++it) {
-         QString address = qitemToBookmark(static_cast<KEBListViewItem*>(it.current())).address();
-         if (address != "ERROR") {
-            addressList << address;
+         if (it.current()->bookmark().hasParent()) {
+            addressList << it.current()->bookmark().address();
          }
       }
    }

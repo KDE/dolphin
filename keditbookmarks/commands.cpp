@@ -169,7 +169,7 @@ void CreateCommand::unexecute() {
    KEBListViewItem *item = 
       static_cast<KEBListViewItem*>(listview->firstSelected());
 
-   if (item && item->bookmark().address() == m_to) {
+   if (item && item->bookmark().hasParent() && item->bookmark().address() == m_to) {
       item->setSelected(false);
 
       QListViewItem *selectItem = 0;
