@@ -91,13 +91,11 @@ void KBookmarkBar::fillBookmarkBar(KBookmarkGroup & parent)
 
     for (KBookmark bm = parent.first(); !bm.isNull(); bm = parent.next(bm))
     {
-        QString pix = bm.pixmapFile();
-
         if (!bm.isGroup())
         {
             KAction *action;
             // create a normal URL item, with ID as a name
-            action = new KAction(bm.text(), pix, 0,
+            action = new KAction(bm.text(), bm.icon(), 0,
                                  this, SLOT(slotBookmarkSelected()),
                                  m_actionCollection,
                                  bm.url().utf8());
@@ -107,7 +105,7 @@ void KBookmarkBar::fillBookmarkBar(KBookmarkGroup & parent)
         else
         {
             KActionMenu *action;
-            action = new KActionMenu(bm.text(), pix, this);
+            action = new KActionMenu(bm.text(), bm.icon(), this);
             action->setDelayed(false);
 
             KBookmarkMenu *menu;

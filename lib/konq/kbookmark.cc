@@ -257,7 +257,7 @@ QString KBookmark::url() const
     return element.attribute("URL");
 }
 
-QString KBookmark::pixmapFile() const
+QString KBookmark::icon() const
 {
     QString icon = element.attribute("ICON");
     if ( icon.isEmpty() )

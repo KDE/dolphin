@@ -207,7 +207,7 @@ void KBookmarkMenu::fillBookmarkMenu()
     {
       kdDebug(1203) << "Creating URL bookmark menu item for " << bm.text() << endl;
       // create a normal URL item, with ID as a name
-      KAction * action = new KAction( bm.text(), bm.pixmapFile(), 0,
+      KAction * action = new KAction( bm.text(), bm.icon(), 0,
                                       this, SLOT( slotBookmarkSelected() ),
                                       m_actionCollection, bm.url().utf8() );
 
@@ -219,7 +219,7 @@ void KBookmarkMenu::fillBookmarkMenu()
     else
     {
       kdDebug(1203) << "Creating bookmark submenu named " << bm.text() << endl;
-      KActionMenu * actionMenu = new KActionMenu( bm.text(), bm.pixmapFile(),
+      KActionMenu * actionMenu = new KActionMenu( bm.text(), bm.icon(),
                                                   m_actionCollection, 0L );
       actionMenu->plug( m_parentMenu );
       m_actions.append( actionMenu );

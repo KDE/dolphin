@@ -49,7 +49,7 @@ public:
      * @return the pixmap file for this bookmark
      * (i.e. the name of the icon)
      */
-    QString pixmapFile() const;
+    QString icon() const;
 
     // TODO move up, move down, etc.
 
