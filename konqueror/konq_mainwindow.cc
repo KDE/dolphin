@@ -1929,8 +1929,9 @@ void KonqMainWindow::initActions()
 
   // Please proof-read those (David)
 
+  m_ptaUseHTML->setShortText( i18n("Open index.html when entering a directory, if present") );
   m_paLockView->setShortText( i18n("A locked view can't change directories. Use in combination with 'link view' to explore many files from one directory") );
-
+  m_paUnlockAll->setShortText( i18n("Removes locking for all views. Unlock a single view is not possible since it can't be activated.") );
   m_paLinkView->setShortText( i18n("Sets the view as 'linked'. A linked view follows directory changes done in other linked views") );
 
 }
