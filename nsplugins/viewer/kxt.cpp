@@ -1,19 +1,25 @@
-/***************************************************************************
-   kxt.h  -  Xt enabled Qt classed (derived from Qt Extension QXt)
-                             -------------------
-    begin                : Wed Apr 5 2000
-    copyright            : (C) 2000 by Stefan Schimanski
-    email                : 1Stein@gmx.de
- ***************************************************************************/
+/*
 
-/***************************************************************************
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- ***************************************************************************/
+  kxt.cpp  -  Xt enabled Qt classed (derived from Qt Extension QXt)
+  
+  Copyright (c) 2000 Stefan Schimanski <1Stein@gmx.de>
+
+  This program is free software; you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation; either version 2 of the License, or
+  (at your option) any later version.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with this program; if not, write to the Free Software
+  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+
+*/
+
 /****************************************************************************
 ** $Id$
 **
@@ -33,9 +39,9 @@
 ** file in accordance with the Qt Professional Edition License Agreement
 ** provided with the Qt Professional Edition.
 **
-** See http://www.troll.no/pricing.html or email sales@troll.no for
+** See http://www.trolltech.com/pricing.html or email sales@trolltech.com for
 ** information about the Professional Edition licensing, or see
-** http://www.troll.no/qpl/ for QPL licensing information.
+** http://www.trolltech.com/qpl/ for QPL licensing information. 
 **
 *****************************************************************************/
 
@@ -223,8 +229,8 @@ void installXtEventFilters()
     if (filters_installed) return;
     // Get Xt out of our face - install filter on every event type
     for (int et=2; et < LASTEvent; et++) {
-	qt_np_cascade_event_handler[et] =
-		XtSetEventDispatcher( qt_xdisplay(), et, qt_event_handler_wrapper );
+        qt_np_cascade_event_handler[et] = XtSetEventDispatcher(
+            qt_xdisplay(), et, qt_event_handler_wrapper );
     }
     filters_installed = TRUE;
 }
@@ -235,7 +241,8 @@ void removeXtEventFilters()
     if (!filters_installed) return;
     // We aren't needed any more... slink back into the shadows.
     for (int et=2; et < LASTEvent; et++) {
-	XtSetEventDispatcher( qt_xdisplay(), et, qt_np_cascade_event_handler[et] );
+        XtSetEventDispatcher(
+            qt_xdisplay(), et, qt_np_cascade_event_handler[et] );  	
     }
     filters_installed = FALSE;
 }
@@ -252,13 +259,6 @@ void np_event_proc( XEvent* e )
     }
 }
 
-
-static void timerCallback(void *client_data, XtIntervalId *id)
-{
-  ((XtTimerCallbackProc)qt_np_timeout)(client_data, id);
-}
-
-
 static void np_set_timer( int interval )
 {
     // Ensure we only have one timeout in progress - QApplication is
@@ -267,8 +267,7 @@ static void np_set_timer( int interval )
 	XtRemoveTimeOut( qt_np_timerid );
     }
     qt_np_timerid = XtAppAddTimeOut(appcon, interval,
-    	(XtTimerCallbackProc)timerCallback, 0);
-//	(XtTimerCallbackProc)qt_np_timeout, 0);
+	(XtTimerCallbackProc)qt_np_timeout, 0);
 }
 
 static void np_do_timers( void*, void* )
@@ -365,16 +364,9 @@ void KXtApplication::init()
     qt_np_add_timer_setter(np_set_timer);
     qt_np_add_event_proc(np_event_proc);
     qt_np_count++;
-    QTimer *timer = new QTimer( this );
-    timer->start(500);
+/*    QTimer *timer = new QTimer( this );
+      timer->start(500);*/
 }
-
-
-/* without this timer the timer handling seems to fail */
-void KXtApplication::timeout()
-{
-}
-
 
 /*!
   \class KXtWidget qxt.h
@@ -550,7 +542,7 @@ void KXtWidget::setActiveWindow()
 	    e.type = FocusIn;
 	    e.window = winId();
 	    e.mode = NotifyNormal;
-	    e.detail = NotifyPointerRoot;
+	    e.detail = NotifyInferior;
 	    XSendEvent( qt_xdisplay(), e.window, TRUE, NoEventMask, (XEvent*)&e );
 	}
     } else {

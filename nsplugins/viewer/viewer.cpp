@@ -115,6 +115,7 @@ void socketCallback(void *client_data, int */*source*/, XtInputId */*id*/)
 
   QEvent event( QEvent::SockAct );
   SocketNot *socknot = (SocketNot *)client_data;
+  kdDebug() << "obj=" << (void*)socknot->obj << endl;
   QApplication::sendEvent( socknot->obj, &event );
 
   kdDebug() << "<- socketCallback" << endl;
@@ -130,7 +131,12 @@ void socketCallback(void *client_data, int */*source*/, XtInputId */*id*/)
 extern bool qt_set_socket_handler( int, int, QObject *, bool );
 bool qt_set_socket_handler( int sockfd, int type, QObject *obj, bool enable )
 {
-  kdDebug() << "qt_set_socket_handler( sockfd=" << sockfd << ", type=" << type << ", obj=" << obj << ", enable=" << enable << " )" << endl;
+  kdDebug() << "-> qt_set_socket_handler( sockfd=" << sockfd << ", type=" << type << ", obj=" << obj << ", enable=" << enable << " )" << endl;
+
+  if ( sockfd < 0 || type < 0 || type > 2 || obj == 0 )
+  {
+     return FALSE;
+  }
 
   SocketNot *socknot = 0;
   QIntDict<SocketNot> *notifiers;
@@ -158,70 +164,82 @@ bool qt_set_socket_handler( int sockfd, int type, QObject *obj, bool enable )
   {
     if (!socknot)
     {
-      socknot = new SocketNot;
-      notifiers->insert( sockfd, socknot );
+      socknot = new SocketNot;      
     } else
+    {
         XtRemoveInput( socknot->id );
+	notifiers->remove( socknot->sock );
+    }
   	
     socknot->sock = sockfd;
     socknot->type = type;
     socknot->obj = obj;  	
     socknot->id = XtAppAddInput( appcon, sockfd, inpMask, socketCallback, socknot );
+    notifiers->insert( sockfd, socknot );
   } else
       if (socknot)
       {
     	XtRemoveInput( socknot->id );
-    	notifiers->remove( socknot->sock );
+	notifiers->remove( socknot->sock );    	
     	delete socknot;
       }
 
+  kdDebug() << "<- qt_set_socket_handler" << endl;
   return TRUE;
 }
 
 
 int main(int argc, char** argv)
 {
-  // trap X errors
-  XSetErrorHandler(x_errhandler);
-  setvbuf( stderr, NULL, _IONBF, 0 );
+   // trap X errors
+   kdDebug() << "1 - XSetErrorHandler" << endl;
+   XSetErrorHandler(x_errhandler);
+   setvbuf( stderr, NULL, _IONBF, 0 );
 
-  // Create application
-  XtToolkitInitialize();
-  appcon = XtCreateApplicationContext();
-  Display *dpy = XtOpenDisplay(appcon, NULL, "nspluginviewer", "nspluginviewer", 0, 0, &argc, argv);
+   // Create application
+   kdDebug() << "2 - XtToolkitInitialize" << endl;
+   XtToolkitInitialize();
+   appcon = XtCreateApplicationContext();
+   Display *dpy = XtOpenDisplay(appcon, NULL, "nspluginviewer", "nspluginviewer", 0, 0, &argc, argv);
 
-  parseCommandLine(argc, argv);
-  KXtApplication app(dpy, argc, argv, "nspluginviewer");
+   kdDebug() << "3 - parseCommandLine" << endl;
+   parseCommandLine(argc, argv);
+   kdDebug() << "4 - KXtApplication app" << endl;
+   KXtApplication app(dpy, argc, argv, "nspluginviewer");
 
-  // initialize the dcop client
-  DCOPClient *dcop = app.dcopClient();
-  if (!dcop->attach())
-    {
+   // initialize the dcop client
+   kdDebug() << "5 - app.dcopClient" << endl;
+   DCOPClient *dcop = app.dcopClient();
+   if (!dcop->attach())
+   {
       QMessageBox::critical(NULL,
-        i18n("Error connecting to DCOP server"),
-        i18n("There was an error connecting to the Desktop\n"
-             "communications server.  Please make sure that\n"
-             "the 'dcopserver' process has been started, and\n"
-             "then try again.\n"));
+			    i18n("Error connecting to DCOP server"),
+			    i18n("There was an error connecting to the Desktop\n"
+				 "communications server.  Please make sure that\n"
+				 "the 'dcopserver' process has been started, and\n"
+				 "then try again.\n"));
       exit(1);
-    }
+   }
 
-  if (dcopId)
-    dcopId = dcop->registerAs(dcopId, false);
-  else
-    dcopId = dcop->registerAs("nspluginviewer");
+   kdDebug() << "6 - dcop->registerAs" << endl;
+   if (dcopId)
+      dcopId = dcop->registerAs(dcopId, false);
+   else
+      dcopId = dcop->registerAs("nspluginviewer");
 
-  // create dcop interface
-  NSPluginViewer *viewer = new NSPluginViewer( "viewer", 0 );
+   // create dcop interface
+   kdDebug() << "7 - new NSPluginViewer" << endl;
+   NSPluginViewer *viewer = new NSPluginViewer( "viewer", 0 );
 
-  // start main loop
-  XEvent xe;
-  while (!quit)
-  {
-     XtAppNextEvent( appcon, &xe );
-     XtDispatchEvent( &xe );
-  }
+   // start main loop
+   kdDebug() << "8 - XtAppNextEvent" << endl;
+   XEvent xe;
+   while (!quit)
+   {
+      XtAppNextEvent( appcon, &xe );
+      XtDispatchEvent( &xe );
+   }
 
-  // delete viewer
-  delete viewer;
+   // delete viewer
+   delete viewer;
 }

@@ -247,12 +247,19 @@ bool NSPluginLoader::loadViewer()
       //kapp->processEvents(); // would lead to recursive calls in khtml
       sleep(1); kdDebug() << "sleep" << endl;
       cnt++;
-      if (cnt >= 100)
+      if (cnt >= 5)
       {
 	 kdDebug() << "timeout" << endl;
 	 delete _process;      
 	 return false;
       } 
+
+      if (!_process->isRunning())
+      {
+	 kdDebug() << "nspluginviewer terminated" << endl;
+	 delete _process;
+	 return false;
+      }      
    }      
 
    // get viewer dcop interface
