@@ -214,12 +214,14 @@ void KEBTopLevel::slotSelectionChanged()
     bool group = false;
     bool root = false;
     bool separator = false;
+    bool urlIsEmpty = false;
     if ( itemSelected )
     {
         KEBListViewItem * kebItem = static_cast<KEBListViewItem *>(item);
         group = kebItem->bookmark().isGroup();
         separator = kebItem->bookmark().isSeparator();
         root = (m_pListView->firstChild() == item);
+        urlIsEmpty= kebItem->bookmark().url().isEmpty();
     }
 
     KActionCollection * coll = actionCollection();
@@ -236,7 +238,7 @@ void KEBTopLevel::slotSelectionChanged()
     coll->action("newbookmark")->setEnabled(itemSelected);
     coll->action("sort")->setEnabled(group);
     coll->action("setastoolbar")->setEnabled(group);
-    coll->action("openlink")->setEnabled(itemSelected && !group && !separator);
+    coll->action("openlink")->setEnabled(itemSelected && !group && !separator && !urlIsEmpty);
     //coll->action("testlink")->setEnabled(itemSelected && !group && !separator); // not implemented
 }
 
