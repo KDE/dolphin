@@ -9,6 +9,11 @@ filename but would only use it to write, not read at startup.
 This involves making New/Mimetype and New/Application built-in
 templates, just like New/Folder, since the file would be not used at all.
 
+- drop events on an icon / URL should be handled in a central place
+  (e.g. konq_kfmviewitem). In any case it should be moved out
+  of kiconcontainer !!
+  + take code from kfm, for special cases (trash, ....)
+  
 - see grep TODO *.cc *.h *.idl
 
 - see http://bugs.kde.org/db/pa/lkfm.html !
