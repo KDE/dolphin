@@ -240,8 +240,7 @@ public slots:
 
   void cut() { m_iconView->iconViewWidget()->cutSelection(); }
   void copy() { m_iconView->iconViewWidget()->copySelection(); }
-  void pastecopy() { m_iconView->iconViewWidget()->pasteSelection(false); }
-  void pastecut() { m_iconView->iconViewWidget()->pasteSelection(true); }
+  void paste() { m_iconView->iconViewWidget()->pasteSelection(); }
 
   void trash() { KonqOperations::del(m_iconView->iconViewWidget(),
                                      KonqOperations::TRASH,

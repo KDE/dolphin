@@ -159,8 +159,7 @@ void ListViewBrowserExtension::updateActions()
   bool paste = ( bKIOClipboard || data->encodedData( data->format() ).size() != 0 ) &&
     (selection.count() == 1); // Let's allow pasting only on an item, not on the background
 
-  emit enableAction( "pastecut", paste );
-  emit enableAction( "pastecopy", paste );
+  emit enableAction( "paste", paste );
 
   KFileItemList lstItems;
   if ( firstSelectedItem )
@@ -189,17 +188,18 @@ void ListViewBrowserExtension::copySelection( bool move )
   QApplication::clipboard()->setData( urlData );
 }
 
-void ListViewBrowserExtension::pasteSelection( bool move )
+void ListViewBrowserExtension::paste()
 {
   QValueList<KonqBaseListViewItem*> selection;
   m_listView->listViewWidget()->selectedItems( selection );
   assert ( selection.count() == 1 );
 
   // move or not move ?
+  bool move = false;
   QMimeSource *data = QApplication::clipboard()->data();
   if ( data->provides( "application/x-kde-cutselection" ) ) {
-    bool bMove = KonqDrag::decodeIsCutSelection( data );
-    kdDebug() << " CHECK: move (from dcop hack) = " << move << "  bMove (from clipboard data) = " << bMove << endl;
+    move = KonqDrag::decodeIsCutSelection( data );
+    kdDebug() << "move (from clipboard data) = " << move << endl;
   }
   KIO::pasteClipboard( selection.first()->item()->url(), move );
 }

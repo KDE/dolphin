@@ -154,8 +154,7 @@ class ListViewBrowserExtension : public KParts::BrowserExtension
 
       void copy() { copySelection( true ); }
       void cut() { copySelection( false ); }
-      void pastecut() { pasteSelection( true ); }
-      void pastecopy() { pasteSelection( false ); }
+      void paste();
       void trash() { KonqOperations::del(m_listView->listViewWidget(),
                                          KonqOperations::TRASH,
                                          m_listView->listViewWidget()->selectedUrls()); }
@@ -176,7 +175,6 @@ class ListViewBrowserExtension : public KParts::BrowserExtension
 
    private:
       void copySelection( bool move );
-      void pasteSelection( bool move );
 
       KonqListView *m_listView;
 };

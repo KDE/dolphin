@@ -41,6 +41,8 @@ even in this box the cursor icon is "forbidden" (_sometimes_). And add Cancel.
 konqueror framework:
 ====================
 
+- Remove highlighted text color and text color from kcmkonq, and settings.
+
 - Action for enabling/disabling javascript, in Settings.
 
 - the 'shared lib' or interface problem for plugins.

@@ -73,7 +73,7 @@ public:
   KonqMainWindow( const KURL &initialURL = KURL(), bool openInitialURL = true, const char *name = 0 );
   ~KonqMainWindow();
 
-  void openFilteredURL( KonqView *_view, const QString &_url );
+  void openFilteredURL( const QString &_url );
 
   void openURL( KonqView *_view, const KURL &_url, const QString &serviceType = QString::null );
 
@@ -194,8 +194,6 @@ public:
 
   void enableAllActions( bool enable );
 
-  static void setMoveSelection( bool b ) { s_bMoveSelection = b; }
-
   void updateStatusBar() {} // to remove if we confirm we don't want that anymore
   void updateToolBarActions();
 
@@ -240,9 +238,6 @@ protected slots:
 
   // Connected to KApp
   void slotReconfigure();
-  void slotCut();
-  void slotCopy();
-  void slotPaste();
 
   void slotOpenWith();
 
@@ -404,8 +399,6 @@ private:
   KonqMainWindowIface * m_dcopObject;
 
   static QStringList *s_plstAnimatedLogo;
-
-  static bool s_bMoveSelection;
 
   static QList<KonqMainWindow> *s_lstViews;
 

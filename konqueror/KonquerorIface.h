@@ -49,12 +49,6 @@ k_dcop:
   ASYNC createBrowserWindowFromProfile( const QString &filename );
 
   /**
-   * This is for the "cut" feature - we tell all konqueror/kdesktop instances that
-   * after paste we should remove the original
-   */
-  ASYNC setMoveSelection( int move );
-
-  /**
    * Called by kcontrol when the global configuration changes
    */
   ASYNC reparseConfiguration();

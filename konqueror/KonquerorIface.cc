@@ -59,12 +59,6 @@ void KonquerorIface::createBrowserWindowFromProfile( const QString &filename )
   mainWindow->show();
 }
 
-void KonquerorIface::setMoveSelection( int move )
-{
-  kdDebug(1202) << "setMoveSelection: " << move << endl;
-  KonqMainWindow::setMoveSelection( (bool)move );
-}
-
 void KonquerorIface::reparseConfiguration()
 {
   KGlobal::config()->reparseConfiguration();

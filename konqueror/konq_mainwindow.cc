@@ -96,7 +96,6 @@ template class QList<QPixmap>;
 template class QList<KToggleAction>;
 
 QStringList *KonqMainWindow::s_plstAnimatedLogo = 0L;
-bool KonqMainWindow::s_bMoveSelection = false;
 QList<KonqMainWindow> *KonqMainWindow::s_lstViews = 0;
 KonqMainWindow::ActionSlotMap *KonqMainWindow::s_actionSlotMap = 0;
 
@@ -160,7 +159,7 @@ KonqMainWindow::KonqMainWindow( const KURL &initialURL, bool openInitialURL, con
   m_bNeedApplyMainWindowSettings = true;
   if ( !initialURL.isEmpty() )
   {
-    openFilteredURL( 0L, initialURL.url() );
+    openFilteredURL( initialURL.url() );
   }
   else if ( openInitialURL )
   {
@@ -249,7 +248,7 @@ QWidget *KonqMainWindow::createContainer( QWidget *parent, int index, const QDom
   return res;
 }
 
-void KonqMainWindow::openFilteredURL( KonqView * /*_view*/, const QString &_url )
+void KonqMainWindow::openFilteredURL( const QString &_url )
 {
   KonqURLEnterEvent ev( konqFilteredURL( this, _url ) );
   QApplication::sendEvent( this, &ev );
@@ -467,7 +466,7 @@ void KonqMainWindow::slotOpenLocation()
 
   url = KURLRequesterDlg::getURL( u, this, i18n("Open Location") );
   if (!url.isEmpty())
-     openFilteredURL( 0L, url.url().stripWhiteSpace() );
+     openFilteredURL( url.url().stripWhiteSpace() );
 }
 
 void KonqMainWindow::slotToolFind()
@@ -966,12 +965,10 @@ void KonqMainWindow::slotPartActivated( KParts::Part *part )
 
     for ( ; it != itEnd ; ++it )
     {
-      QCString actionName = it.key();
-      if (actionName == "pastecut" || actionName == "pastecopy")
-        actionName = "paste";
-      KAction * act = actionCollection()->action( actionName );
-      assert(act);
-      act->setEnabled( false );
+      KAction * act = actionCollection()->action( it.key() );
+      ASSERT(act);
+      if (act)
+        act->setEnabled( false );
     }
 
     createGUI( 0L );
@@ -997,7 +994,7 @@ void KonqMainWindow::slotPartActivated( KParts::Part *part )
     plugActionList( "openwith", m_openWithActions );
 
   setUpdatesEnabled( true );
-  
+
   m_currentView->frame()->statusbar()->repaint();
 
   if ( oldView )
@@ -1219,7 +1216,7 @@ void KonqMainWindow::slotURLEntered( const QString &text )
 
   m_bURLEnterLock = true;
 
-  openFilteredURL( 0L, text.stripWhiteSpace() );
+  openFilteredURL( text.stripWhiteSpace() );
 
   m_bURLEnterLock = false;
 }
@@ -1316,43 +1313,6 @@ void KonqMainWindow::slotSaveDefaultProfile()
   m_pViewManager->saveViewProfile( *config );
 }
 */
-
-void KonqMainWindow::slotCut()
-{
-  kdDebug(1202) << "slotCut - sending cut to konqueror* and kdesktop, with true" << endl;
-  // Call cut on the child object
-  m_currentView->callExtensionMethod( "cut()" );
-
-  QByteArray data;
-  QDataStream stream( data, IO_WriteOnly );
-  stream << (int)true;
-  kapp->dcopClient()->send( "konqueror*", "KonquerorIface", "setMoveSelection(int)", data );
-  kapp->dcopClient()->send( "kdesktop", "KDesktopIface", "setMoveSelection(int)", data );
-  s_bMoveSelection = true;
-}
-
-void KonqMainWindow::slotCopy()
-{
-  kdDebug(1202) << "slotCopy - sending cut to konqueror* and kdesktop, with false" << endl;
-  // Call copy on the child object
-  m_currentView->callExtensionMethod( "copy()" );
-
-  QByteArray data;
-  QDataStream stream( data, IO_WriteOnly );
-  stream << (int)false;
-  kapp->dcopClient()->send( "konqueror*", "KonquerorIface", "setMoveSelection(int)", data );
-  kapp->dcopClient()->send( "kdesktop", "KDesktopIface", "setMoveSelection(int)", data );
-  s_bMoveSelection = false;
-}
-
-void KonqMainWindow::slotPaste()
-{
-  kdDebug(1202) << "slotPaste() - moveselection is " << s_bMoveSelection << endl;
-  if ( s_bMoveSelection )
-    m_currentView->callExtensionMethod( "pastecut()" );
-  else
-    m_currentView->callExtensionMethod( "pastecopy()" );
-}
 
 /*
   Now uses KAboutData and the standard about box
@@ -1782,9 +1742,10 @@ void KonqMainWindow::initActions()
 
   m_paReload = new KAction( i18n( "&Reload" ), "reload", KStdAccel::key(KStdAccel::Reload), this, SLOT( slotReload() ), actionCollection(), "reload" );
 
-  m_paCut = KStdAction::cut( this, SLOT( slotCut() ), actionCollection(), "cut" );
-  m_paCopy = KStdAction::copy( this, SLOT( slotCopy() ), actionCollection(), "copy" );
-  m_paPaste = KStdAction::paste( this, SLOT( slotPaste() ), actionCollection(), "paste" );
+  // Those are connected to the browserextension directly
+  m_paCut = KStdAction::cut( 0, 0, actionCollection(), "cut" );
+  m_paCopy = KStdAction::copy( 0, 0, actionCollection(), "copy" );
+  m_paPaste = KStdAction::paste( 0, 0, actionCollection(), "paste" );
   m_paStop = new KAction( i18n( "&Stop" ), "stop", Key_Escape, this, SLOT( slotStop() ), actionCollection(), "stop" );
 
   // Which is the default
@@ -1922,22 +1883,6 @@ void KonqMainWindow::connectExtension( KParts::BrowserExtension *ext )
 {
   //kdDebug(1202) << "Connecting extension " << ext << endl;
   typedef QValueList<QCString> QCStringList;
-  static QCStringList * s_dontConnect = 0L;
-  // The actions in s_dontConnect are not directly connected to the BrowserExtension.
-  // The slots in this class are connected
-  // instead and call in turn the ones in the view...
-
-  if ( !s_dontConnect )
-  {
-      s_dontConnect = new QCStringList;
-      // The ones below have an intermediate slot because we do
-      // some konqy stuff before calling the view
-      s_dontConnect->append( "cut" );
-      s_dontConnect->append( "copy" );
-      s_dontConnect->append( "pastecut" );
-      s_dontConnect->append( "pastecopy" );
-  }
-
   ActionSlotMap::ConstIterator it = s_actionSlotMap->begin();
   ActionSlotMap::ConstIterator itEnd = s_actionSlotMap->end();
 
@@ -1945,23 +1890,20 @@ void KonqMainWindow::connectExtension( KParts::BrowserExtension *ext )
 
   for ( ; it != itEnd ; ++it )
   {
-    QCString actionName = it.key();
-    if (actionName == "pastecut" || actionName == "pastecopy")
-      actionName = "paste";
-    KAction * act = actionCollection()->action( actionName );
-    //kdDebug(1202) << actionName << endl;
+    KAction * act = actionCollection()->action( it.key() );
+    //kdDebug(1202) << it.key() << endl;
     if ( act )
     {
       bool enable = false;
       // Does the extension have a slot with the name of this action ?
       if ( slotNames.contains( it.key()+"()" ) )
       {
-        if ( ! s_dontConnect->contains( it.key() ) )
+        //if ( ! s_dontConnect->contains( it.key() ) )
           connect( act, SIGNAL( activated() ), ext, it.data() /* SLOT(slot name) */ );
         enable = true;
       }
       act->setEnabled( enable );
-    } else kdError(1202) << "Error in BrowserExtension::actionSlotMap(), unknown action : " << actionName << endl;
+    } else kdError(1202) << "Error in BrowserExtension::actionSlotMap(), unknown action : " << it.key() << endl;
   }
 
   connect( ext, SIGNAL( enableAction( const char *, bool ) ),
@@ -1982,14 +1924,9 @@ void KonqMainWindow::disconnectExtension( KParts::BrowserExtension *ext )
 
 void KonqMainWindow::slotEnableAction( const char * name, bool enabled )
 {
-  // Hmm, we have one action for paste, not two...
-  QCString actionName( name );
-  if ( actionName == "pastecopy" || actionName == "pastecut" )
-    actionName = "paste";
-
-  KAction * act = actionCollection()->action( actionName.data() );
+  KAction * act = actionCollection()->action( name );
   if (!act)
-    kdWarning(1202) << "Unknown action " << actionName.data() << " - can't enable" << endl;
+    kdWarning(1202) << "Unknown action " << name << " - can't enable" << endl;
   else
     act->setEnabled( enabled );
 }
@@ -2252,7 +2189,7 @@ void KonqMainWindow::updateViewModeActions( const KTrader::OfferList &services )
       if ( !prop.isValid() || !prop.toBool() ) // No toggable views in view mode
       {
           KRadioAction *action;
-	  
+	
 	  QString icon = (*it)->icon();
           if ( icon != QString::fromLatin1( "unknown" ) )
 	    action = new KRadioAction( (*it)->comment(), icon, 0, 0, (*it)->name() );
@@ -2278,14 +2215,14 @@ void KonqMainWindow::plugViewModeActions()
   QList<KAction> lst;
   lst.append( m_viewModeMenu );
   plugActionList( "viewmode", lst );
-  plugActionList( "viewmode_toolbar", m_viewModeActions );  
+  plugActionList( "viewmode_toolbar", m_viewModeActions );
 }
 
 void KonqMainWindow::unplugViewModeActions()
 {
-  unplugActionList( "viewmode" ); 
+  unplugActionList( "viewmode" );
   unplugActionList( "viewmode_toolbar" );
-} 
+}
 
 KonqMainWindowIface* KonqMainWindow::dcopObject()
 {

@@ -24,13 +24,10 @@
 #include <qdragobject.h>
 #include <qheader.h>
 
-#include <kcursor.h>
 #include <kdebug.h>
 #include <konqdirlister.h>
 #include <kglobal.h>
 #include <kio/job.h>
-#include <kio/paste.h>
-#include <konqoperations.h>
 #include <klocale.h>
 #include <kmessagebox.h>
 #include <kprotocolmanager.h>

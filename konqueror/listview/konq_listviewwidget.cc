@@ -31,7 +31,6 @@
 #include <kglobal.h>
 #include <kglobalsettings.h>
 #include <kio/job.h>
-#include <kio/paste.h>
 #include <konqoperations.h>
 #include <klocale.h>
 #include <kmessagebox.h>
