@@ -63,13 +63,7 @@ private:
     // URL -> item
     QDict<KonqSidebarTreeItem> m_dictSubDirs;
 
-    // The dirlister - having only one prevents opening two subdirs at the same time,
-    // but it's necessary for the update feature.... if we want two openings on the
-    // same tree, it requires a major kdirlister improvement (rather as a subclass).
-    // Michael B.: haha, it's done already! ### FIXME for KDE 3.0
     KDirLister * m_dirLister;
-
-    QPtrList<KonqSidebarTreeItem> m_lstPendingOpenings;
 
     KURL m_selectAfterOpening;
 

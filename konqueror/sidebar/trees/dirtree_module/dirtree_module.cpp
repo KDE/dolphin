@@ -1,5 +1,6 @@
 /* This file is part of the KDE project
    Copyright (C) 2000 David Faure <faure@kde.org>
+                 2002 Michael Brade <brade@kde.org>
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Library General Public
@@ -160,15 +161,11 @@ void KonqSidebarDirTreeModule::openSubFolder( KonqSidebarTreeItem *item )
     if ( !m_pProps ) // created on demand
     {
         // Create a properties instance for this view
-//        m_pProps = new KonqPropsView( KonqSidebarTreeFactory::instance(), s_defaultViewProps );
-          m_pProps = new KonqPropsView( (dynamic_cast<KonqSidebar_PluginInterface*>(((KonqSidebar_Tree*)(tree()->part()))->getInterfaces()))->getInstance(), s_defaultViewProps
-);
+        //m_pProps = new KonqPropsView( KonqSidebarTreeFactory::instance(), s_defaultViewProps );
+        m_pProps = new KonqPropsView( (dynamic_cast<KonqSidebar_PluginInterface*>(((KonqSidebar_Tree*)(tree()->part()))->getInterfaces()))->getInstance(), s_defaultViewProps );
     }
 
-    if ( m_dirLister->job() == 0 )
-        listDirectory( item );
-    else if ( ! m_lstPendingOpenings.contains( item ) )
-        m_lstPendingOpenings.append( item );
+    listDirectory( item );
 
     if ( !item->isTopLevelItem() &&
          static_cast<KonqSidebarDirTreeItem *>(item)->hasStandardIcon() )
@@ -190,8 +187,8 @@ void KonqSidebarDirTreeModule::listDirectory( KonqSidebarTreeItem *item )
     // newProps returns true the first time, and any time something might
     // have changed.
     /*bool newProps = */m_pProps->enterDir( url );
-
-    m_dirLister->openURL( url, m_pProps->isShowingDotFiles(), true /*keep*/ );
+    m_dirLister->setShowingDotFiles( m_pProps->isShowingDotFiles() );
+    m_dirLister->openURL( url, true /*keep*/ );
 
 #if 0
     if ( newProps )
@@ -327,16 +324,11 @@ void KonqSidebarDirTreeModule::slotListingStopped( const KURL & url )
 
     kdDebug(1201) << "KonqSidebarDirTree::slotListingStopped " << url.prettyURL() << endl;
 
-    if ( item && item->childCount() == 0 )
+    if ( item->childCount() == 0 )
     {
         item->setExpandable( false );
         item->repaint();
     }
-
-    m_lstPendingOpenings.removeRef( item );
-
-    if ( m_lstPendingOpenings.count() > 0 )
-        listDirectory( m_lstPendingOpenings.first() );
 
     kdDebug(1201) << "m_selectAfterOpening " << m_selectAfterOpening.prettyURL() << endl;
     if ( !m_selectAfterOpening.isEmpty() && url.isParentOf( m_selectAfterOpening ) )
