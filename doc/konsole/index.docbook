@@ -167,7 +167,7 @@ box.</para>
 <title>History</title>
 
 <para>As lines scroll off the top of the screen, they can be reviewed
-by moving the scroll bar upwards, scrolling with a mouse wheel or through 
+by moving the scroll bar upwards, scrolling with a mouse wheel or through
 the use of the <keycombo
 action="simul">&Shift;<keycap>Page Up</keycap></keycombo> (to move
 back a page), <keycombo action="simul">&Shift;<keycap>Page
@@ -194,7 +194,7 @@ Arrow</keycap>.</para>
 <variablelist>
 
 <varlistentry>
-<term><mousebutton>Left</mousebutton></term> 
+<term><mousebutton>Left</mousebutton></term>
 
 <listitem><para>Clicking the <mousebutton>left</mousebutton> button is
 passed as an event to the application running in the emulation, if it
@@ -205,11 +205,11 @@ cursor is shown.</para>
 <para>Holding the <mousebutton>left</mousebutton> button down and
 dragging the mouse over the screen with a mouse-unaware application
 running will mark a region of the text. While dragging, the marked
-text is displayed reversed for visual feedback. Select <guimenuitem>Copy</guimenuitem> 
+text is displayed reversed for visual feedback. Select <guimenuitem>Copy</guimenuitem>
 from the <guimenu>Edit</guimenu> menu to copy the marked text to the clipboard for further use
-within &konsole; or another application. The selected text can also be 
-dragged and dropped into compatible applications. Click on the selected 
-text and drag it to the desired location. (Depending on your &kde; settings, 
+within &konsole; or another application. The selected text can also be
+dragged and dropped into compatible applications. Click on the selected
+text and drag it to the desired location. (Depending on your &kde; settings,
 you may need to hold the &Ctrl; key while dragging.</para>
 
 <para>Normally, new-line characters are inserted at the end of each
@@ -220,8 +220,8 @@ of characters that will be automatically re-formatted when pasted into
 another application.  To select in text-stream mode, hold down the
 &Ctrl; key while selecting normally.</para>
 
-<para>Double-click with the <mousebutton>left</mousebutton> button to select a word; 
-triple-click to select an entire line.</para> 
+<para>Double-click with the <mousebutton>left</mousebutton> button to select a word;
+triple-click to select an entire line.</para>
 
 <para>If the upper or lower edge of the text area is touched while
 marking, &konsole; scrolls up or down, eventually exposing text within
@@ -234,18 +234,18 @@ marked area reverts back to normal as soon as the contents of the
 clipboard change, the text within the marked area is altered or the
 <mousebutton>left</mousebutton> mouse button is clicked.</para>
 
-<para>To mark text on a mouse-aware application (Midnight Commander, for example) 
+<para>To mark text on a mouse-aware application (Midnight Commander, for example)
 the &Shift; key has to be pressed when clicking.</para>
 
 </listitem>
 </varlistentry>
 
 <varlistentry>
-<term><mousebutton>Middle</mousebutton></term> 
+<term><mousebutton>Middle</mousebutton></term>
 
 <listitem><para>Pressing the <mousebutton>middle</mousebutton> button
-pastes text currently in the clipboard. Holding down the &Ctrl; key as you 
-press the <mousebutton>middle</mousebutton> button pastes the text and sends 
+pastes text currently in the clipboard. Holding down the &Ctrl; key as you
+press the <mousebutton>middle</mousebutton> button pastes the text and sends
 it to &konsole;.</para>
 
 <note><para>If you have a mouse with only two buttons, pressing both
@@ -262,7 +262,7 @@ mouse.</para></note>
 <listitem>
 <para>
 The <mousebutton>right</mousebutton> button brings up a menu with the
-<guimenuitem>Show Menubar</guimenuitem>, 
+<guimenuitem>Show Menubar</guimenuitem>,
 <guimenuitem>Copy</guimenuitem>,
 <guimenuitem>Paste</guimenuitem>,
 <guimenuitem>Send Signal</guimenuitem>,
@@ -299,7 +299,7 @@ window or by <keycombo action="simul">&Alt;&Ctrl;<keycap>M</keycap>
 <varlistentry>
 <term><menuchoice><guimenu>Session</guimenu><guimenuitem>New
 Shell</guimenuitem></menuchoice></term>
-<listitem><para><action>Open a new session</action> with a terminal 
+<listitem><para><action>Open a new session</action> with a terminal
 shell. <keycombo action="simul">&Alt;&Ctrl;<keycap>N</keycap>
 </keycombo> can also be used, as described in more detail below.
 </para></listitem></varlistentry>
@@ -373,15 +373,15 @@ should be taken to avoid accidental damage.
 <term><menuchoice><guimenu>Session</guimenu><guimenuitem>New
 Screen Session</guimenuitem></menuchoice></term>
 <listitem><para><action>Open a new session</action> with the
- <application>Screen</application> virtual terminal manager. 
-See <userinput><command>man</command> <option>screen</option> 
+ <application>Screen</application> virtual terminal manager.
+See <userinput><command>man</command> <option>screen</option>
 </userinput>for more information.
 </para></listitem></varlistentry>
 
 <varlistentry>
 <term><menuchoice><guimenu>Session</guimenu>
 <guimenuitem>New Shell at Bookmark</guimenuitem></menuchoice></term>
-<listitem><para><action>Start</action> a new terminal shell, in a directory 
+<listitem><para><action>Start</action> a new terminal shell, in a directory
 chosen from the bookmark list.</para></listitem>
 </varlistentry>
 
@@ -405,7 +405,7 @@ applications launched from them.</para></listitem>
 You can also open a new session with a key shortcut. By default, <keycombo
 action="simul">&Alt;&Ctrl;<keycap>N</keycap>
 </keycombo>
-is used. You can also define your own key shortcuts through the 
+is used. You can also define your own key shortcuts through the
 <menuchoice><guimenu>Settings</guimenu>
 <guimenuitem>Configure Shortcuts...</guimenuitem></menuchoice> menu command.</para>
 
@@ -420,16 +420,15 @@ a keytab file. The file <filename>README.KeyTab</filename> contains more
 information on defining shortcuts.
 </para>
 
-<para>The list of available sessions may differ from those listed here. &konsole; 
-detects your installed programs and customizes the list to reflect the 
+<para>The list of available sessions may differ from those listed here. &konsole;
+detects your installed programs and customizes the list to reflect the
 available options.</para>
 
-
-
 <para>Finally, note that the session types can be modified, and new
-types created, by using the &kcontrolcenter; module
-<menuchoice><guisubmenu>System</guisubmenu>
-<guimenuitem>Konsole</guimenuitem></menuchoice>.</para>
+types created, by using the configuration dialog, reached from the
+<menuchoice><guimenu>Settings</guimenu>
+<guimenuitem>Configure Konsole...</guimenuitem></menuchoice>
+menu entry.</para>
 
 </sect2>
 <sect2 id="edit-menu">
@@ -517,7 +516,7 @@ signal</option></userinput>.</para></listitem>
 <term><menuchoice><guimenu>Edit</guimenu><guimenuitem>Find
 in History...</guimenuitem></menuchoice></term>
 <listitem><para><action>Find a word or string of text</action> in the current
-history. Options allow case sensitive or backwards searches, and the use of regular 
+history. Options allow case sensitive or backwards searches, and the use of regular
 expressions in searches. Press the <guibutton>Edit</guibutton> button to use the &kde;
 graphical editor to create a regular expression.</para></listitem>
 </varlistentry>
@@ -572,9 +571,9 @@ History As...</guimenuitem></menuchoice></term>
 <varlistentry>
 <term><menuchoice><guimenu>View</guimenu><guimenuitem>Detach
 Session</guimenuitem></menuchoice></term>
-<listitem><para><action>Open the current session in a separate window.</action> 
-The name of the session is displayed on the titlebar of the new window. Close 
-the new window to restore the session to its original place, 
+<listitem><para><action>Open the current session in a separate window.</action>
+The name of the session is displayed on the titlebar of the new window. Close
+the new window to restore the session to its original place,
 or <mousebutton>right</mousebutton>-click on the new window and select <guimenuitem>Attach Session</guimenuitem>.
 Note that if the main window is closed, any detached sessions will be closed with it.
 </para></listitem>
@@ -595,7 +594,7 @@ Activity</guimenuitem></menuchoice></term>
 <listitem><para><action>Flag the current session so it will show
 an alert if activity occurs.</action> An icon of a lit light bulb will
 appear in the session's tab. Use this to alert you if something
-happens while you are working in another session. The time before an alert can be 
+happens while you are working in another session. The time before an alert can be
 mdified in the &konsole; preferences.</para></listitem>
 </varlistentry>
 
@@ -605,7 +604,7 @@ Silence</guimenuitem></menuchoice></term>
 <listitem><para><action>Flag the current session so it will show an alert
 if no activity occurs for 10 seconds.</action> An icon of a dark light bulb will
 appear in the session's tab. Use this to alert you if a task stops
-while you are working in another session. The time before an alert can be 
+while you are working in another session. The time before an alert can be
 mdified in the &konsole; preferences.</para></listitem>
 </varlistentry>
 
@@ -675,10 +674,10 @@ cycle through the available sessions.</para>
 
 </variablelist>
 
-<para>The bookmark list is displayed at the bottom of the menu. Select a bookmark to change to 
-that location.</para> 
+<para>The bookmark list is displayed at the bottom of the menu. Select a bookmark to change to
+that location.</para>
 
-<note><para>You can use the bookmark editor to manually add URLs 
+<note><para>You can use the bookmark editor to manually add URLs
 like ssh://user@host or telnet://host to open remote connections.</para></note>
 
 
@@ -755,7 +754,7 @@ files to match your needs.</para></listitem>
 <filename>$KDEDIR/share/apps/konsole/*.schema</filename>. The file
 <filename>$KDEDIR/share/apps/konsole/README.Schema</filename>
 describes the schema format in more detail. Add to or modify these
-files to match your needs.  You can also create custom schema through the 
+files to match your needs.  You can also create custom schema through the
 preferences dialog at <menuchoice><guisubmenu>Settings</guisubmenu>
 <guimenuitem>Configure Konsole...</guimenuitem></menuchoice>.
 </para>
@@ -779,7 +778,7 @@ scrolled off the top of the window.  You can enter the <guilabel>Number
 of lines</guilabel> to remember in the text field, or use the spinner
 buttons to increase or decrease the number in steps of 100 lines.  The
 <guibutton>Defaults</guibutton> button will reset the history to 1000
-lines. Setting this value to 0 will cause all history to be saved. 
+lines. Setting this value to 0 will cause all history to be saved.
 Press <guibutton>OK</guibutton> to save your changes, or
 <guibutton>Cancel</guibutton> to close the dialog without saving your
 settings.  The <guibutton>Help</guibutton> button will open this manual,
@@ -795,8 +794,8 @@ defaults.</action></para></listitem>
 
 <varlistentry>
 <term><menuchoice><guimenu>Settings</guimenu><guimenuitem>Save Sessions Profile...</guimenuitem></menuchoice></term>
-<listitem><para><action>Save the current set of sessions </action>under a name you choose. 
-The profile can then be used by starting &konsole; from the command-line with the 
+<listitem><para><action>Save the current set of sessions </action>under a name you choose.
+The profile can then be used by starting &konsole; from the command-line with the
 <parameter>--profile</parameter> and the name of the profile.</para>
 </listitem>
 </varlistentry>
@@ -812,7 +811,7 @@ Shortcuts...</guimenuitem></menuchoice></term>
 <term><menuchoice><guimenu>Settings</guimenu><guimenuitem>Configure
 &konsole;...</guimenuitem></menuchoice></term>
 <listitem><para><action>Open the &kcontrolcenter; module, allowing
-many additional changes to &konsole;'s interface and behavior, including the creation 
+many additional changes to &konsole;'s interface and behavior, including the creation
 of custom schemas and mdification of the available sessions.</action></para>
 </listitem>
 </varlistentry>
@@ -934,8 +933,8 @@ value.</action> Read <userinput><command>man</command> <option>xterm</option>
 
 <varlistentry>
 <term><option>--noclose</option></term>
-<listitem><para><action>Prevent &konsole; from closing</action> when an 
-<userinput><command>exit</command></userinput> 
+<listitem><para><action>Prevent &konsole; from closing</action> when an
+<userinput><command>exit</command></userinput>
 command is issued in the only session window.</para></listitem>
 </varlistentry>
 
@@ -971,7 +970,7 @@ the window</action></para></listitem>
 
 <varlistentry>
 <term><option>--noxft</option></term>
-<listitem><para><action>Start &konsole; without Xft antialiasing.</action> 
+<listitem><para><action>Start &konsole; without Xft antialiasing.</action>
 Antialiasing of a small font may be difficult to read.</para></listitem>
 </varlistentry>
 
@@ -989,7 +988,7 @@ default.</action></para></listitem>
 
 <varlistentry>
 <term><option>--keytab</option> <parameter>file</parameter></term>
-<listitem><para><action>Start &konsole; using a specified .keytab 
+<listitem><para><action>Start &konsole; using a specified .keytab
 file</action> to customize key bindings.</para></listitem>
 </varlistentry>
 
