@@ -388,7 +388,7 @@ void NSPluginLoader::processTerminated(KProcess *proc)
 NSPluginInstance *NSPluginLoader::newInstance(QWidget *parent, QString url,
                                               QString mimeType, bool embed,
                                               QStringList argn, QStringList argv,
-                                              QString appId, QString callbackId )
+                                              QString appId, QString callbackId, bool reload )
 {
    kdDebug() << "-> NSPluginLoader::NewInstance( parent=" << (void*)parent << ", url=" << url << ", mime=" << mimeType << ", ...)" << endl;
 
@@ -418,18 +418,6 @@ NSPluginInstance *NSPluginLoader::newInstance(QWidget *parent, QString url,
       return 0;
    }
 
-#if 0
-   // get requested size
-   unsigned int width = 0;
-   unsigned int height = 0;
-   int argc = argn.count();
-   for (int i=0; i<argc; i++)
-   {
-      if (argn[i].lower() == "width") width = argv[i].toUInt();
-      if (argn[i].lower() == "height") height = argv[i].toUInt();
-   }
-#endif
-
    // lookup plugin for mime type
    QString plugin_name = lookup(mime);
    if (plugin_name.isEmpty())
@@ -453,7 +441,7 @@ NSPluginInstance *NSPluginLoader::newInstance(QWidget *parent, QString url,
 
 
    // get plugin instance
-   DCOPRef inst_ref = cls->newInstance( url, mime, embed, argn, argv, appId, callbackId );
+   DCOPRef inst_ref = cls->newInstance( url, mime, embed, argn, argv, appId, callbackId, reload );
    if ( inst_ref.isNull() )
    {
       kdDebug() << "Couldn't create plugin instance" << endl;

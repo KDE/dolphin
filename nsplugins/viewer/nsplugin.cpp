@@ -822,7 +822,7 @@ void NSPluginInstance::timer()
                     kdDebug() << "getting " << url << endl;
 
                     emitStatus( i18n("Requesting %1").arg(url) );
-                    s->get( url, req.mime, req.notify );
+                    s->get( url, req.mime, req.notify, req.reload );
                 }
 
                 //break;
@@ -852,7 +852,7 @@ QString NSPluginInstance::normalizedURL(const QString& url) const {
 
 
 void NSPluginInstance::requestURL( const QString &url, const QString &mime,
-                                   const QString &target, void *notify, bool forceNotify )
+                                   const QString &target, void *notify, bool forceNotify, bool reload )
 {
     // Generally this should already be done, but let's be safe for now.
     QString nurl = normalizedURL(url);
@@ -861,7 +861,7 @@ void NSPluginInstance::requestURL( const QString &url, const QString &mime,
     }
 
     kdDebug(1431) << "NSPluginInstance::requestURL url=" << nurl << " target=" << target << " notify=" << notify << endl;
-    _waitingRequests.enqueue( new Request( nurl, mime, target, notify, forceNotify ) );
+    _waitingRequests.enqueue( new Request( nurl, mime, target, notify, forceNotify, reload ) );
     _timer->start( 100, true );
 }
 
@@ -1398,7 +1398,7 @@ void NSPluginClass::shutdown()
 
 DCOPRef NSPluginClass::newInstance( QString url, QString mimeType, bool embed,
                                     QStringList argn, QStringList argv,
-                                    QString appId, QString callbackId )
+                                    QString appId, QString callbackId, bool reload )
 {
    kdDebug(1431) << "-> NSPluginClass::NewInstance" << endl;
 
@@ -1464,7 +1464,7 @@ DCOPRef NSPluginClass::newInstance( QString url, QString mimeType, bool embed,
 
    // create source stream
    if ( !src.isEmpty() )
-      inst->requestURL( src, mimeType, QString::null, 0 );
+      inst->requestURL( src, mimeType, QString::null, 0, false, reload );
 
    _instances.append( inst );
    return DCOPRef(kapp->dcopClient()->appId(), inst->objId());
@@ -1784,7 +1784,7 @@ NSPluginStream::~NSPluginStream()
 
 
 bool NSPluginStream::get( const QString& url, const QString& mimeType,
-                          void *notify )
+                          void *notify, bool reload )
 {
     // create new stream
     if ( create( url, mimeType, notify ) ) {
@@ -1792,6 +1792,9 @@ bool NSPluginStream::get( const QString& url, const QString& mimeType,
         _job = KIO::get(KURL( url ), false, false);
         _job->addMetaData("errorPage", "false");
         _job->addMetaData("AllowCompressedPage", "false");
+        if (reload) {
+            _job->addMetaData("cache", "reload");
+        }
         connect(_job, SIGNAL(data(KIO::Job *, const QByteArray &)),
                 SLOT(data(KIO::Job *, const QByteArray &)));
         connect(_job, SIGNAL(result(KIO::Job *)), SLOT(result(KIO::Job *)));

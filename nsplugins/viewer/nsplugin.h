@@ -118,7 +118,7 @@ public:
   NSPluginStream( class NSPluginInstance *instance );
   ~NSPluginStream();
 
-  bool get(const QString& url, const QString& mimeType, void *notifyData);
+  bool get(const QString& url, const QString& mimeType, void *notifyData, bool reload = false);
   bool post(const QString& url, const QByteArray& data, const QString& mimeType, void *notifyData, const KParts::URLArgs& args);
 
 protected slots:
@@ -197,7 +197,7 @@ public:
   // signal emitters
   void emitStatus( const QString &message);
   void requestURL( const QString &url, const QString &mime,
-		   const QString &target, void *notify, bool forceNotify = false );
+		   const QString &target, void *notify, bool forceNotify = false, bool reload = false );
   void postURL( const QString &url, const QByteArray& data, const QString &mime,
              const QString &target, void *notify, const KParts::URLArgs& args, bool forceNotify = false );
 
@@ -236,15 +236,17 @@ private:
   {
       // A GET request
       Request( const QString &_url, const QString &_mime,
-	       const QString &_target, void *_notify, bool _forceNotify = false)
-	  { url=_url; mime=_mime; target=_target; notify=_notify; post=false; forceNotify = _forceNotify; }
+	       const QString &_target, void *_notify, bool _forceNotify = false,
+               bool _reload = false)
+	  { url=_url; mime=_mime; target=_target; notify=_notify; post=false; forceNotify = _forceNotify; reload = _reload; }
 
       // A POST request
       Request( const QString &_url, const QByteArray& _data,
                const QString &_mime, const QString &_target, void *_notify,
                const KParts::URLArgs& _args, bool _forceNotify = false)
 	  { url=_url; mime=_mime; target=_target;
-            notify=_notify; post=true; data=_data; args=_args; forceNotify = _forceNotify; }
+            notify=_notify; post=true; data=_data; args=_args;
+            forceNotify = _forceNotify; }
 
       QString url;
       QString mime;
@@ -252,6 +254,7 @@ private:
       QByteArray data;
       bool post;
       bool forceNotify;
+      bool reload;
       void *notify;
       KParts::URLArgs args;
   };
@@ -274,7 +277,7 @@ public:
   QString getMIMEDescription();
   DCOPRef newInstance(QString url, QString mimeType, bool embed,
 		      QStringList argn, QStringList argv,
-                      QString appId, QString callbackId );
+                      QString appId, QString callbackId, bool reload );
   void destroyInstance( NSPluginInstance* inst );
   bool error() { return _error; }
 

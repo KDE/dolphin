@@ -49,7 +49,7 @@ k_dcop:
 
   virtual DCOPRef newInstance(QString url, QString mimeType, bool embed,
 			      QStringList argn, QStringList argv,
-                              QString appId, QString callbackId ) = 0;
+                              QString appId, QString callbackId, bool reload ) = 0;
   virtual QString getMIMEDescription() = 0;
 
 };

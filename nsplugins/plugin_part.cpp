@@ -256,6 +256,7 @@ bool PluginPart::openURL(const KURL &url)
     m_url = url;
     QString surl = url.url();
     QString smime = _extension->urlArgs().serviceType;
+    bool reload = _extension->urlArgs().reload;
     bool embed = false;
 
     // handle arguments
@@ -302,7 +303,7 @@ bool PluginPart::openURL(const KURL &url)
     NSPluginInstance *inst = _loader->newInstance( _canvas, surl, smime, embed,
                                                    argn, argv,
                                                    kapp->dcopClient()->appId(),
-                                                   _callback->objId());
+                                                   _callback->objId(), reload);
 
     if ( inst ) {
         _widget = inst;
