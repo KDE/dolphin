@@ -19,6 +19,7 @@
   <Action name="paste"/>
   <Action name="trash"/>
   <Action name="del"/>
+  <Action name="shred"/>
   <Separator/>
   <Merge/>
  </Menu>

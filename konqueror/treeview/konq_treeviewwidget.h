@@ -81,6 +81,7 @@ public:
   virtual void openSubFolder( const KURL &_url, KonqTreeViewDir* _dir );
 
   virtual void selectedItems( QValueList<KonqTreeViewItem*>& _list );
+  virtual KURL::List selectedUrls();
 
   /** @return the KonqTreeViewDir which handles the directory _url */
   virtual KonqTreeViewDir * findDir ( const QString & _url );

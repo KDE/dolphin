@@ -5,6 +5,7 @@
 #include <kparts/browserextension.h>
 #include <kurl.h>
 #include <kuserpaths.h>
+#include <konqoperations.h>
 
 #include <klistview.h>
 #include <qdict.h>
@@ -24,16 +25,21 @@ public:
 protected slots:
   void copy();
   void cut();
-  void del() { moveSelection( QString::null ); }
   void pastecut() { pasteSelection( true ); }
   void pastecopy() { pasteSelection( false ); }
-  void trash() { moveSelection( KUserPaths::trashPath() ); }
+  void trash() { KonqOperations::del(KonqOperations::TRASH,
+                                     selectedUrls()); }
+  void del() { KonqOperations::del(KonqOperations::DEL,
+                                   selectedUrls()); }
+  void shred() { KonqOperations::del(KonqOperations::SHRED,
+                                     selectedUrls()); }
+
+  KURL::List selectedUrls();
 
   void slotSelectionChanged();
   void slotResult( KIO::Job * );
 private:
   void pasteSelection( bool move );
-  void moveSelection( const QString &destinationURL );
 
   KonqDirTree *m_tree;
 };

@@ -158,35 +158,7 @@ void TreeViewBrowserExtension::pasteSelection( bool move )
   QValueList<KonqTreeViewItem*> selection;
   m_treeView->treeViewWidget()->selectedItems( selection );
   assert ( selection.count() == 1 );
-  KIO::pasteClipboard( selection.first()->item()->url().url(), move );
-}
-
-void TreeViewBrowserExtension::moveSelection( const QString &destinationURL )
-{
-  QValueList<KonqTreeViewItem*> selection;
-  m_treeView->treeViewWidget()->selectedItems( selection );
-
-  QStringList lstURLs;
-  QValueList<KonqTreeViewItem*>::ConstIterator it = selection.begin();
-  QValueList<KonqTreeViewItem*>::ConstIterator end = selection.end();
-  for (; it != end; ++it )
-    lstURLs.append( (*it)->item()->url().url() );
-
-  KIO::Job *job;
-
-  if ( !destinationURL.isEmpty() )
-    job = KIO::move( lstURLs, destinationURL );
-  else
-    job = KIO::del( lstURLs );
-
-  connect( job, SIGNAL( result( KIO::Job * ) ),
-                 SLOT( slotResult( KIO::Job * ) ) );
-}
-
-void TreeViewBrowserExtension::slotResult( KIO::Job * job )
-{
-    if (job->error())
-        job->showErrorDialog();
+  KIO::pasteClipboard( selection.first()->item()->url(), move );
 }
 
 void TreeViewBrowserExtension::reparseConfiguration()

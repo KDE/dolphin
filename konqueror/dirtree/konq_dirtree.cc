@@ -22,7 +22,7 @@
 #include <kio/job.h>
 #include <kuserpaths.h>
 #include <kdebug.h>
-#include <konqdrag.h> // doDrop
+#include <konqoperations.h>
 #include <kio/paste.h>
 #include <kglobal.h>
 #include <kdesktopfile.h>
@@ -80,15 +80,15 @@ void KonqDirTreeBrowserExtension::slotSelectionChanged()
 {
   bool bInTrash = false;
 
-  bool cutcopy, move;
+  bool cutcopy, del;
 
   KonqDirTreeItem *selection = (KonqDirTreeItem *)m_tree->selectedItem();
 
   if ( selection && selection->fileItem()->url().directory(false) == KUserPaths::trashPath() )
     bInTrash = true;
 
-  cutcopy = move = selection;
-  move = move && !bInTrash;
+  cutcopy = del = selection;
+  del = del && !bInTrash;
 
   bool bKIOClipboard = !KIO::isClipboardEmpty();
   QMimeSource *data = QApplication::clipboard()->data();
@@ -97,8 +97,9 @@ void KonqDirTreeBrowserExtension::slotSelectionChanged()
 
   emit enableAction( "copy", cutcopy );
   emit enableAction( "cut", cutcopy );
-  emit enableAction( "del", move );
-  emit enableAction( "trash", move );
+  emit enableAction( "del", del );
+  emit enableAction( "trash", del );
+  emit enableAction( "shred", del );
   emit enableAction( "pastecut", paste );
   emit enableAction( "pastecopy", paste );
 }
@@ -128,28 +129,17 @@ void KonqDirTreeBrowserExtension::copy()
 void KonqDirTreeBrowserExtension::pasteSelection( bool move )
 {
   KonqDirTreeItem *selection = (KonqDirTreeItem *)m_tree->selectedItem();
-
   assert( selection );
-
-  KIO::pasteClipboard( selection->fileItem()->url().url(), move );
+  KIO::pasteClipboard( selection->fileItem()->url(), move );
 }
 
-void KonqDirTreeBrowserExtension::moveSelection( const QString &destinationURL )
+KURL::List KonqDirTreeBrowserExtension::selectedUrls()
 {
   KonqDirTreeItem *selection = (KonqDirTreeItem *)m_tree->selectedItem();
-
-  if ( !selection )
-    return;
-
-  KIO::Job * job = 0L;
-
-  if ( !destinationURL.isEmpty() )
-    job = KIO::move( selection->fileItem()->url(), destinationURL );
-  else
-    job = KIO::del( selection->fileItem()->url() );
-
-  connect( job, SIGNAL( result( KIO::Job * ) ),
-           SLOT( slotResult( KIO::Job * ) ) );
+  assert( selection );
+  KURL::List lst;
+  lst.append(selection->fileItem()->url());
+  return lst;
 }
 
 void KonqDirTreeBrowserExtension::slotResult( KIO::Job * job )
@@ -408,7 +398,7 @@ void KonqDirTree::contentsDropEvent( QDropEvent *ev )
 
   assert( selection );
 
-  KonqDrag::doDrop( selection->fileItem()->url(), ev, this );
+  KonqOperations::doDrop( selection->fileItem()->url(), ev, this );
 }
 
 void KonqDirTree::contentsMousePressEvent( QMouseEvent *e )

@@ -21,6 +21,7 @@
 
 #include <kparts/browserextension.h>
 #include <konqiconviewwidget.h>
+#include <konqoperations.h>
 
 class KonqPropsView;
 class KDirLister;
@@ -214,8 +215,13 @@ public slots:
   void copy() { m_iconView->iconViewWidget()->copySelection(); }
   void pastecopy() { m_iconView->iconViewWidget()->pasteSelection(false); }
   void pastecut() { m_iconView->iconViewWidget()->pasteSelection(true); }
-  void del() { m_iconView->iconViewWidget()->deleteSelection(); }
-  void trash() { m_iconView->iconViewWidget()->trashSelection(); }
+
+  void trash() { KonqOperations::del(KonqOperations::TRASH,
+                                     m_iconView->iconViewWidget()->selectedUrls()); }
+  void del() { KonqOperations::del(KonqOperations::DEL,
+                                   m_iconView->iconViewWidget()->selectedUrls()); }
+  void shred() { KonqOperations::del(KonqOperations::SHRED,
+                                     m_iconView->iconViewWidget()->selectedUrls()); }
   // void print();
 
 private:

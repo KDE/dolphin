@@ -22,82 +22,15 @@
 
 #include <kparts/browserextension.h>
 #include <kuserpaths.h>
+#include <konqoperations.h>
+#include <konq_treeviewwidget.h>
 
 #include <qvaluelist.h>
 #include <qlistview.h>
 #include <qstringlist.h>
 
-class KonqTreeViewWidget;
-class KonqTreeView;
 class KToggleAction;
-
-/*
-class TreeViewPropertiesExtension : public ViewPropertiesExtension
-{
-  Q_OBJECT
-public:
-  TreeViewPropertiesExtension( KonqTreeView *treeView );
-
-  virtual void reparseConfiguration();
-  virtual void saveLocalProperties();
-  virtual void savePropertiesAsDefault();
-
-private:
-  KonqTreeView *m_treeView;
-};
-
-class TreeViewEditExtension : public EditExtension
-{
-  Q_OBJECT
-public:
-  TreeViewEditExtension( KonqTreeView *treeView );
-
-  virtual void can( bool &cut, bool &copy, bool &paste, bool &move );
-
-  virtual void cutSelection();
-  virtual void copySelection();
-  virtual void pasteSelection( bool move );
-  virtual void moveSelection( const QString &destinationURL = QString::null );
-  virtual QStringList selectedUrls();
-
-private:
-  KonqTreeView *m_treeView;
-};
-*/
-class TreeViewBrowserExtension : public KParts::BrowserExtension
-{
-  Q_OBJECT
-  friend class KonqTreeView;
-  friend class KonqTreeViewWidget;
-public:
-  TreeViewBrowserExtension( KonqTreeView *treeView );
-
-  virtual void setXYOffset( int x, int y );
-  virtual int xOffset();
-  virtual int yOffset();
-
-protected slots:
-  void updateActions();
-
-  void copy();
-  void cut();
-  void del() { moveSelection( QString::null ); }
-  void pastecut() { pasteSelection( true ); }
-  void pastecopy() { pasteSelection( false ); }
-  void trash() { moveSelection( KUserPaths::trashPath() ); }
-
-  void reparseConfiguration();
-  void saveLocalProperties();
-  void savePropertiesAsDefault();
-
-  void slotResult( KIO::Job * );
-
-private:
-  void pasteSelection( bool move );
-  void moveSelection( const QString &destinationURL );
-
-  KonqTreeView *m_treeView;
-};
+class TreeViewBrowserExtension;
 
 class KonqTreeView : public KParts::ReadOnlyPart
 {
@@ -128,6 +61,42 @@ private:
   KonqTreeViewWidget *m_pTreeView;
   KToggleAction *m_paShowDot;
   TreeViewBrowserExtension *m_browser;
+};
+
+class TreeViewBrowserExtension : public KParts::BrowserExtension
+{
+  Q_OBJECT
+  friend class KonqTreeView;
+  friend class KonqTreeViewWidget;
+public:
+  TreeViewBrowserExtension( KonqTreeView *treeView );
+
+  virtual void setXYOffset( int x, int y );
+  virtual int xOffset();
+  virtual int yOffset();
+
+protected slots:
+  void updateActions();
+
+  void copy();
+  void cut();
+  void pastecut() { pasteSelection( true ); }
+  void pastecopy() { pasteSelection( false ); }
+  void trash() { KonqOperations::del(KonqOperations::TRASH,
+                                     m_treeView->treeViewWidget()->selectedUrls()); }
+  void del() { KonqOperations::del(KonqOperations::DEL,
+                                   m_treeView->treeViewWidget()->selectedUrls()); }
+  void shred() { KonqOperations::del(KonqOperations::SHRED,
+                                     m_treeView->treeViewWidget()->selectedUrls()); }
+
+  void reparseConfiguration();
+  void saveLocalProperties();
+  void savePropertiesAsDefault();
+
+private:
+  void pasteSelection( bool move );
+
+  KonqTreeView *m_treeView;
 };
 
 #endif

@@ -31,7 +31,7 @@
 #include <kglobal.h>
 #include <kio/job.h>
 #include <kio/paste.h>
-#include <konqdrag.h> // doDrop
+#include <konqoperations.h>
 #include <klocale.h>
 #include <stdlib.h>
 #include <kmessagebox.h>
@@ -219,7 +219,7 @@ void KonqTreeViewWidget::viewportDropEvent( QDropEvent *ev  )
 
   KURL dest = ( item ) ? item->item()->url() : m_url;
 
-  KonqDrag::doDrop( dest, ev, this );
+  KonqOperations::doDrop( dest, ev, this );
 }
 
 void KonqTreeViewWidget::addSubDir( const KURL & _url, KonqTreeViewDir* _dir )
@@ -442,6 +442,16 @@ void KonqTreeViewWidget::selectedItems( QValueList<KonqTreeViewItem*>& _list )
   for( ; it != end(); it++ )
     if ( it->isSelected() )
       _list.append( &*it );
+}
+
+KURL::List KonqTreeViewWidget::selectedUrls()
+{
+  KURL::List list;
+  iterator it = begin();
+  for( ; it != end(); it++ )
+    if ( it->isSelected() )
+      list.append( it->item()->url() );
+  return list;
 }
 
 void KonqTreeViewWidget::slotReturnPressed( QListViewItem *_item )

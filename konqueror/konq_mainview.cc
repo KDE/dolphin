@@ -796,6 +796,7 @@ void KonqMainView::slotPartActivated( KParts::Part *part )
     m_paPaste->setEnabled( false );
     m_paDelete->setEnabled( false );
     m_paTrash->setEnabled( false );
+    m_paShred->setEnabled( false );
     m_paPrint->setEnabled( false );
 
     createGUI( 0L );
@@ -1004,7 +1005,7 @@ void KonqMainView::callExtensionMethod( KonqChildView * childView, const char * 
 
   QMetaData * mdata = obj->metaObject()->slot( methodName );
   if( !mdata )
-    kDebugFatal("No such method %s", methodName);
+    kDebugError("@@@@@@ No such method %s", methodName);
   else
     (obj->*(mdata->ptr))();
 }
@@ -1351,7 +1352,7 @@ void KonqMainView::initActions()
   KConfig *config = KonqFactory::instance()->config();
   config->setGroup( "Trash" );
   int deleteAction = config->readNumEntry("DeleteAction", DEFAULT_DELETEACTION);
-  const int deleteKey = Key_Delete ; // CTRL+Key_Delete
+  const int deleteKey = CTRL+Key_Delete ; // Key_Delete conflict with the location bar
 
   m_paTrash = new KAction( i18n( "&Move to Trash" ), QIconSet( BarIcon( "trash", KonqFactory::instance() ) ), deleteAction==1 ? deleteKey : 0, this, SLOT( slotTrash() ), actionCollection(), "trash" );
   m_paDelete = new KAction( i18n( "&Delete" ), deleteAction==2 ? deleteKey : 0, this, SLOT( slotDelete() ), actionCollection(), "del" );
@@ -1468,7 +1469,7 @@ QString KonqMainView::findIndexFile( const QString &dir )
 void KonqMainView::connectExtension( KParts::BrowserExtension *ext )
 {
   kDebugInfo( 1202, "connectExtension" );
-  // "cut", "copy", "pastecut", "pastecopy", "del", "trash"
+  // "cut", "copy", "pastecut", "pastecopy", "del", "trash", "shred"
   // "reparseConfiguration", "refreshMimeTypes"
   // are not directly connected. The slots in this class are connected instead and
   // call in turn the ones in the view...
@@ -1581,6 +1582,7 @@ void KonqMainView::slotPopupMenu( const QPoint &_global, const KFileItemList &_i
   popupMenuCollection.insert( m_paPaste );
   popupMenuCollection.insert( m_paTrash );
   popupMenuCollection.insert( m_paDelete );
+  popupMenuCollection.insert( m_paShred );
 
   KonqPopupMenu * pPopupMenu;
   pPopupMenu = new KonqPopupMenu( _items,
