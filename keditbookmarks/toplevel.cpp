@@ -490,7 +490,7 @@ KEBTopLevel::~KEBTopLevel()
 
 void KEBTopLevel::slotConfigureKeyBindings()
 {
-    KKeyDialog::configureKeys(actionCollection(), xmlFile());
+    KKeyDialog::configure(actionCollection());
 }
 
 void KEBTopLevel::slotConfigureToolbars()
