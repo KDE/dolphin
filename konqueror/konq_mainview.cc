@@ -80,6 +80,7 @@ KonqMainView::KonqMainView( KonqPart *part, QWidget *parent, const char *name )
   m_currentView = 0L;
   m_pBookmarkMenu = 0L;
   m_bViewModeLock = false;
+  m_bURLEnterLock = false;
 
   if ( !s_plstAnimatedLogo )
     s_plstAnimatedLogo = new QList<QPixmap>;
@@ -126,7 +127,7 @@ KonqMainView::~KonqMainView()
 
   KConfig *config = KonqFactory::instance()->config();
   config->setGroup( "Settings" );
-  config->writeEntry( "ToolBarCombo", m_paURLCombo->comboItems() );
+  config->writeEntry( "ToolBarCombo", m_paURLCombo->items() );
   config->sync();
 
   m_animatedLogoTimer.stop();
@@ -593,7 +594,7 @@ void KonqMainView::setActiveView( BrowserView *view )
 
   plugInViewGUI( view );
 
-  m_paURLCombo->changeItem( m_currentView->locationBarURL(), 0 );
+  m_paURLCombo->QSelectAction::changeItem( 0, m_currentView->locationBarURL() );
 
   updateStatusBar();
   
@@ -667,7 +668,7 @@ void KonqMainView::customEvent( QCustomEvent *event )
     openURL( 0L, url );
 
     m_paURLCombo->setCurrentItem( 0 );
-    m_paURLCombo->changeItem( url, 0 );
+    m_paURLCombo->QSelectAction::changeItem( 0, url );
     return;
   }
 }
@@ -688,10 +689,19 @@ void KonqMainView::slotAnimatedLogoTimeout()
 
 void KonqMainView::slotURLEntered( const QString &text )
 {
+  if ( m_bURLEnterLock )
+    return;
+
+  m_bURLEnterLock = true;
+
   m_paURLCombo->blockSignals( true );
+
   KonqURLEnterEvent ev( text );
   QApplication::sendEvent( this, &ev );
+  
   m_paURLCombo->blockSignals( false );
+  
+  m_bURLEnterLock = false;
 }
 
 void KonqMainView::slotFileNewAboutToShow()
@@ -984,7 +994,7 @@ void KonqMainView::setLocationBarURL( KonqChildView *childView, const QString &u
   childView->setLocationBarURL( url );
   
   if ( childView == (KonqChildView *)m_currentView )
-    m_paURLCombo->changeItem( url, 0 );
+    m_paURLCombo->QSelectAction::changeItem( 0, url );
 
 }
 

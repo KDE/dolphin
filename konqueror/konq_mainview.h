@@ -281,7 +281,9 @@ private:
 
   QTimer m_animatedLogoTimer;
   unsigned int m_animatedLogoCounter;
-  
+
+  bool m_bURLEnterLock;
+
   static QList<QPixmap> *s_plstAnimatedLogo;
   
 };

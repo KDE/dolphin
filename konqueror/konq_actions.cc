@@ -92,61 +92,13 @@ void KonqComboAction::unplug( QWidget *w )
   KSelectAction::unplug( w );
 }
 
-void KonqComboAction::changeItem( const QString &text, int index )
+void KonqComboAction::changeItem( int id, int index, const QString &text )
 {
-#warning Torben, please read :-) (Simon)
-  // Hey Torben, if you ever read this :-) , then please consider implemeting
-  // QSelectAction::changeItem() in Qt, as this "hack" breaks m_list !!
-  // (Simon)
+  KSelectAction::changeItem( id, index, text );
 
-  if ( index == -1 )
-    index = currentItem();
-
-  // this *always* creates a QPopupMenu, even if we don't use it :-( , but
-  // the problem is that QSelectAction doesn't allow us to check for m_menu..
-  QPopupMenu *popup = popupMenu();
-
-  popup->changeItem( index, text );
-  
-  int len = containerCount();
-  for ( int i = 0; i < len; i++ )
-  {
-    QWidget *w = container( i );
-    
-    if ( w->inherits( "QToolBar" ) )
-    {
-      QWidget *r = representative( i );
-      
-      if ( !r->inherits( "QComboBox" ) )
-        continue;
-	
-      ((QComboBox *)r)->changeItem( text, index );
-    }
-    else if ( w->inherits( "KToolBar" ) )
-    {
-      ((KToolBar *)w)->getCombo( menuId( i ) )->changeItem( text, index );
-    }
-    else if ( w->inherits( "QActionWidget" ) )
-      ((QActionWidget *)w)->updateAction( this );
-  }
-}
-
-QStringList KonqComboAction::comboItems()
-{
-  QWidget *w;
-  int len = containerCount();
-  for ( int i = 0; i < len; i++ )
-   if ( ( w = container( i ) )->inherits( "KToolBar" ) )
-   {
-     QComboBox *combo = ((KToolBar *)w)->getCombo( menuId( i ) );
-     QStringList res;
-     
-     for ( int j = 0; j < combo->count(); j++ )
-       res.append( combo->text( j ) );
-
-     return res;
-   }
- return QStringList();
+  QWidget* w = container( id );
+  if ( w->inherits( "KToolBar" ) )
+    ((KToolBar *)w)->getCombo( menuId( id ) )->changeItem( text, index );
 }
 
 #include "konq_actions.moc"

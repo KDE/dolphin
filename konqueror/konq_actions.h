@@ -39,12 +39,9 @@ public:
 
     virtual void unplug( QWidget *w );
 
-    //Konqueror Extension
-    void changeItem( const QString &text, int index = -1 );
-    
-    //HACK, until QSelectAction::changeItem() exists (Simon)
-    QStringList comboItems();
-  
+protected:
+    virtual void changeItem( int id, int index, const QString &text );
+
 };
 
 #endif
