@@ -91,6 +91,10 @@ void KonqRun::foundMimeType( const QString & _type )
     m_bFinished = ( res == KParts::BrowserRun::Handled );
   }
 
+  // make Konqueror think there was an error, in order to stop the spinning wheel
+  // (we saved, canceled, or we're starting another app... in any case the current view should stop loading).
+  m_bFault = true;
+
   if ( !m_bFinished ) // only if we're going to open
   {
     // Prevention against user stupidity : if the associated app for this mimetype
@@ -105,10 +109,6 @@ void KonqRun::foundMimeType( const QString & _type )
   }
 
   if ( m_bFinished ) {
-    // make Konqueror think there was an error, in order to stop the spinning wheel
-    // (we are starting another app, so the current view should stop loading).
-    m_bFault = true;
-
     m_pMainWindow = 0L;
     m_timer.start( 0, true );
     return;
