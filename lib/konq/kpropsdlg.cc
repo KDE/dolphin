@@ -1031,7 +1031,7 @@ void URLPropsPage::applyChanges()
 
   KSimpleConfig config( path );
   config.setDesktopGroup();
-  config.writeEntry( "Type", "URL");
+  config.writeEntry( "Type", "Link");
   config.writeEntry( "URL", URLEdit->text() );
 }
 
