@@ -418,6 +418,9 @@ void KEBApp::createActions() {
                       this, SLOT( slotAdvancedAddBookmark() ), actionCollection(), 
                       "settings_advancedaddbookmark");
    (void) new KToggleAction(
+                      i18n("&Split View"), 0,
+                      this, SLOT( slotSplitView() ), actionCollection(), "settings_splitview");
+   (void) new KToggleAction(
                       i18n("&Show Netscape Bookmarks in Konqueror Windows"), 0,
                       actn, SLOT( slotShowNS() ), actionCollection(), "settings_showNS");
    (void) new KAction(i18n("&Delete"), "editdelete", Key_Delete,
@@ -499,6 +502,7 @@ void KEBApp::resetActions() {
 
    getToggleAction("settings_saveonclose")->setChecked(m_saveOnClose);
    getToggleAction("settings_advancedaddbookmark")->setChecked(m_advancedAddBookmark);
+   getToggleAction("settings_splitview")->setChecked(m_splitView);
    getToggleAction("settings_showNS")->setChecked(CurrentMgr::self()->showNSBookmarks());
 }
 
@@ -513,6 +517,7 @@ void KEBApp::readConfig() {
    KConfig appconfig("keditbookmarksrc", false, false);
    appconfig.setGroup("General");
    m_saveOnClose = appconfig.readBoolEntry("Save On Close", false);
+   m_splitView = appconfig.readBoolEntry("Split View", false);
 }
 
 void KEBApp::slotAdvancedAddBookmark() {
@@ -523,6 +528,13 @@ void KEBApp::slotAdvancedAddBookmark() {
       config.setGroup("Bookmarks");
       config.writeEntry("AdvancedAddBookmark", m_advancedAddBookmark);
    }
+}
+
+void KEBApp::slotSplitView() {
+   m_splitView = getToggleAction("settings_splitview")->isChecked();
+   KConfig appconfig("keditbookmarksrc", false, false);
+   appconfig.setGroup("General");
+   appconfig.writeEntry("Split View", m_splitView);
 }
 
 void KEBApp::slotSaveOnClose() {

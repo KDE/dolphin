@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="keditbookmarks" version="22">
+<kpartgui name="keditbookmarks" version="23">
 
 <MenuBar>
 
@@ -63,6 +63,7 @@
   <Action name="settings_showNS" append="save_merge"/>
   <Action name="settings_saveonclose" append="save_merge"/>
   <Action name="settings_advancedaddbookmark" append="save_merge"/>
+  <Action name="settings_splitview" append="save_merge"/>
 </Menu>
 
 </MenuBar>

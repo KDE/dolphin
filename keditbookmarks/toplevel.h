@@ -140,6 +140,7 @@ public slots:
    void slotSaveAs();
    void slotSaveOnClose();
    void slotAdvancedAddBookmark();
+   void slotSplitView();
    void slotConfigureKeyBindings();
    void slotConfigureToolbars();
 
@@ -166,6 +167,7 @@ private:
    bool m_saveOnClose;
    bool m_advancedAddBookmark;
    bool m_browser;
+   bool m_splitView;
 
    static KEBApp *s_topLevel;
 
