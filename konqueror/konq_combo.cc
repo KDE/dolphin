@@ -672,8 +672,16 @@ KonqComboListBoxPixmap::KonqComboListBoxPixmap( const QPixmap & pix, const QStri
 void KonqComboListBoxPixmap::paint( QPainter *painter )
 {
     if ( lookup_pending ) {
-        pm = KonqPixmapProvider::self()->pixmapFor( text(), KIcon::SizeSmall );
         title = titleOfURL( text() );
+        if ( !title.isEmpty() )
+            pm = KonqPixmapProvider::self()->pixmapFor( text(), KIcon::SizeSmall );
+        else if ( text().find( "://" ) == -1 ) {
+            title = titleOfURL( "http://"+text() );
+            if ( !title.isEmpty() )
+                pm = KonqPixmapProvider::self()->pixmapFor( "http://"+text(), KIcon::SizeSmall );
+            else
+                pm = KonqPixmapProvider::self()->pixmapFor( text(), KIcon::SizeSmall );
+        }
         lookup_pending = false;
     }
 
