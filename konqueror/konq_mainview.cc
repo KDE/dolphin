@@ -1098,7 +1098,7 @@ void KonqMainView::slotDelete()
   config->setGroup( "Misc Defaults" );
   bool confirm = config->readBoolEntry( "ConfirmDestructive", true );
   if (confirm)
-    if ( KMessageBox::questionYesNo(0, i18n( "Do you really want to delete the file(s) ?" ),
+    if ( KMessageBox::questionYesNoList(0, i18n( "Do you really want to delete the file(s) ?" ),
          obj ? ((EditExtension *)obj)->selectedUrls() : 0L)
 	 == KMessageBox::No)
       return;
