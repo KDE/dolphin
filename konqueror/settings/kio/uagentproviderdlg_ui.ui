@@ -20,9 +20,6 @@
             <verstretch>0</verstretch>
         </sizepolicy>
     </property>
-    <property name="caption">
-        <string>UAProviderDlgUI</string>
-    </property>
     <grid>
         <property name="name">
             <cstring>unnamed</cstring>
@@ -169,9 +166,6 @@ The actual browser identification text that will be sent to the remote machine.
                     </property>
                     <property name="text">
                         <string>&amp;Cancel</string>
-                    </property>
-                    <property name="accel">
-                        <string>Alt+C</string>
                     </property>
                 </widget>
             </hbox>
