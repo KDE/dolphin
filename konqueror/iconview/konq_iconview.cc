@@ -641,17 +641,19 @@ void KonqKfmIconView::slotReturnPressed( QIconViewItem *item )
     if (m_pSettings->alwaysNewWin() && fileItem->mode() & S_IFDIR) {
 	fileItem->run();
     } else {
-	//QString serviceType = QString::null;
-
-	KURL u( fileItem->url() );
-
-	//if ( u.isLocalFile() )
-	//    serviceType = fileItem->mimetype();
-
-	KParts::URLArgs args;
-	args.serviceType = fileItem->mimetype();
-        emit m_extension->openURLRequest( u, args );
+        // We want to emit openURLRequest, but not right now, because
+        // the iconview is going to emit other signals.
+        // Let's not destroy it while it isn't finished emitting.
+        openURLRequestFileItem = fileItem;
+        QTimer::singleShot( 0, this, SLOT(slotOpenURLRequest()) );
     }
+}
+
+void KonqKfmIconView::slotOpenURLRequest()
+{
+    KParts::URLArgs args;
+    args.serviceType = openURLRequestFileItem->mimetype();
+    emit m_extension->openURLRequest( openURLRequestFileItem->url(), args );
 }
 
 void KonqKfmIconView::slotMouseButtonPressed(int _button, QIconViewItem* _item, const QPoint& _global)

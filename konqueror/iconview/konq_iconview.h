@@ -108,6 +108,8 @@ protected slots:
 
   void slotProcessMimeIcons();
 
+  void slotOpenURLRequest();
+
 protected:
 
   virtual void guiActivateEvent( KParts::GUIActivateEvent *event );
@@ -169,6 +171,9 @@ protected:
   long m_lDirCount;
 
   IconViewBrowserExtension *m_extension;
+
+  // used by slotOpenURLRequest
+  KFileItem * openURLRequestFileItem;
 
   KonqIconViewWidget *m_pIconView;
 
