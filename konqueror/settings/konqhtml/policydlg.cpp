@@ -2,14 +2,11 @@
 // (C) 2002 Leo Savernik <l.savernik@aon.at>
 //	Generalizing the policy dialog
 
-#include <qstringlist.h>
 #include <qlayout.h>
 #include <qlabel.h>
 #include <qwhatsthis.h>
-#include <qlineedit.h>
 #include <qcombobox.h>
 
-#include <kglobal.h>
 #include <klocale.h>
 #include <kbuttonbox.h>
 #include <kmessagebox.h>

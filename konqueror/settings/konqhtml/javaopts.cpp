@@ -12,36 +12,17 @@
 // (c) Leo Savernik 2002
 
 #include <config.h>
-#include <kfiledialog.h>
-#include <kglobal.h>
-#include <kglobalsettings.h>
-#include <kconfig.h>
 #include <klistview.h>
-#include <kmessagebox.h>
-#include <kcolorbutton.h>
-#include <kcharsets.h>
 #include <kurlrequester.h>
 #include <kdebug.h>
 #include <klineedit.h>
-#include <konq_defaults.h> // include default values directly from konqueror
 #include <klocale.h>
 #include <khtml_settings.h>
-#include <khtmldefaults.h>
 #include <knuminput.h>
 
-#include <qbuttongroup.h>
-#include <qcheckbox.h>
-#include <qcolor.h>
-#include <qcombobox.h>
 #include <qlayout.h>
-#include <qpushbutton.h>
-#include <qradiobutton.h>
-#include <qmessagebox.h>
 #include <qwhatsthis.h>
-#include <qlineedit.h>
 #include <qvgroupbox.h>
-#include <qhbox.h>
-#include <qvbox.h>
 #include <qlabel.h>
 
 #include "htmlopts.h"

@@ -11,10 +11,7 @@
 #include <kfontcombo.h>
 #include <knuminput.h>
 
-#include "htmlopts.h"
-#include "policydlg.h"
 
-#include <konq_defaults.h> // include default values directly from konqueror
 #include <klocale.h>
 #include <khtmldefaults.h>
 

@@ -8,22 +8,12 @@
 
 #include <qregexp.h>
 #include <qlayout.h>
-#include <qvbox.h>
-#include <qgroupbox.h>
-#include <qcheckbox.h>
-#include <qpushbutton.h>
-#include <kconfig.h>
-#include <kglobal.h>
 #include <kstandarddirs.h>
 #include <klocale.h>
-#include <kdialog.h>
-#include <qtextstream.h>
 #include <kiconloader.h>
-#include <qlineedit.h>
 #include <kfiledialog.h>
 #include <kurlrequester.h>
 
-#include <qtoolbutton.h>
 #include <qwhatsthis.h>
 #include <qvgroupbox.h>
 #include <kdebug.h>
@@ -35,15 +25,11 @@
 #include <qprogressdialog.h>
 #include <kmessagebox.h>
 #include <klistview.h>
-#include <qlistbox.h>
-#include <kfile.h>
-#include <kdialogbase.h>
 
 #include "htmlopts.h"
 #include "pluginopts.h"
 #include "policydlg.h"
 
-#include <konq_defaults.h> // include default values directly from konqueror
 
 #include "pluginopts.moc"
 

@@ -21,7 +21,6 @@
 
 #include <kconfig.h>
 #include <kdebug.h>
-#include <khtml_settings.h>
 
 #include "policies.h"
 

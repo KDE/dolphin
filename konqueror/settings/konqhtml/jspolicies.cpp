@@ -27,10 +27,7 @@
 
 #include <kconfig.h>
 #include <kdebug.h>
-#include <khtmldefaults.h>
-#include <khtml_settings.h>
 #include <klocale.h>
-#include <konq_defaults.h> // include default values directly from konqueror
 
 #include "jspolicies.h"
 

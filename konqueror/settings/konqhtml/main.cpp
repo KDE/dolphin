@@ -25,12 +25,8 @@
 
 #include <unistd.h>
 
-#include <kconfig.h>
 #include <kapplication.h>
 #include <dcopclient.h>
-#include <klocale.h>
-#include <kstandarddirs.h>
-#include <kgenericfactory.h>
 #include <qtabwidget.h>
 #include <qlayout.h>
 
