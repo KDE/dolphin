@@ -43,9 +43,9 @@ void KfDirDialog::init()
 {
     pathBox    = new QComboBox(		     this, "pathBox"	  );
     dirs       = new QListBox(		     this, "dirList"	  );
-    dirL       = new QLabel( klocale->translate("Directories:"), this, "dirLabel"	  );
-    okB	       = new QPushButton( klocale->translate("OK"), this, "okButton"	  );
-    cancelB    = new QPushButton( klocale->translate("Cancel") , this, "cancelButton" );
+    dirL       = new QLabel( i18n("Directories:"), this, "dirLabel"	  );
+    okB	       = new QPushButton( i18n("OK"), this, "okButton"	  );
+    cancelB    = new QPushButton( i18n("Cancel") , this, "cancelButton" );
 
     pathBox->setAutoResize( TRUE );
     dirL   ->setAutoResize( TRUE );
@@ -164,8 +164,8 @@ void KfDirDialog::rereadDir()
 	}
     } else {
 	qApp->restoreOverrideCursor();
-	QMessageBox::message( klocale->translate("Sorry"), 
-			      klocale->translate("Cannot open or read directory.") );
+	QMessageBox::message( i18n("Sorry"), 
+			      i18n("Cannot open or read directory.") );
 	qApp ->setOverrideCursor( waitCursor );
     }
     dirs ->setAutoUpdate( TRUE );
@@ -189,8 +189,8 @@ void KfDirDialog::dirHighlighted( int index )
 	 emit dirEntered( d.path() );
 	 rereadDir();
        } else {
-	 QMessageBox::message( klocale->translate("Sorry"), 
-			       klocale->translate("Cannot open or read directory.") );
+	 QMessageBox::message( i18n("Sorry"), 
+			       i18n("Cannot open or read directory.") );
 	 d = tmp;
      };
 }
@@ -207,8 +207,8 @@ void KfDirDialog::dirSelected( int index )
 	emit dirEntered( d.path() );
 	rereadDir();
     } else {
-	QMessageBox::message( klocale->translate("Sorry"), 
-			      klocale->translate("Cannot open or read directory.") );
+	QMessageBox::message( i18n("Sorry"), 
+			      i18n("Cannot open or read directory.") );
 	d = tmp;
     }
 }

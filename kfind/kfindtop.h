@@ -29,9 +29,6 @@ public:
   void toolBarInit();
 
 public slots:
-  void help();
-  void about();
-  void aboutQt(); 
   void enableSaveResults(bool enable);
   void enableMenuItems(bool enable);
   void prefs();

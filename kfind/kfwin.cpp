@@ -75,7 +75,7 @@ void KfindWindow::updateResults(const char *file )
     FILE *f = fopen(file,"rb");
     if (f==0)
       {
-	sprintf(str,klocale->translate("%d file(s) found"),0);
+	sprintf(str,i18n("%d file(s) found"),0);
 	emit statusChanged(str);
 	return;
       };
@@ -102,7 +102,7 @@ void KfindWindow::updateResults(const char *file )
       strl->removeLast();
 
     lbx->insertStrList(strl,-1);
-    sprintf(str,klocale->translate("%d file(s) found"),count);
+    sprintf(str,i18n("%d file(s) found"),count);
     emit statusChanged(str);
 
     unlink(file);
@@ -139,20 +139,20 @@ void KfindWindow::saveResults()
 
     items=lbx->count();
     if (results==0L)
-      QMessageBox::warning(parentWidget(),klocale->translate("Error"),
-		     klocale->translate("It wasn't possible to save results!"),
-		     klocale->translate("OK"));
+      QMessageBox::warning(parentWidget(),i18n("Error"),
+		     i18n("It wasn't possible to save results!"),
+		     i18n("OK"));
     else
       {
 	if ( strcmp(saving->getSaveFormat(),"HTML")==0)
 	  {
 	    fprintf(results,"<HTML><HEAD>\n");
 	    fprintf(results,"<!DOCTYPE %s>\n",
-		    klocale->translate("KFind Results File"));
+		    i18n("KFind Results File"));
 	    fprintf(results,"<TITLE>%sKFind Results File</TITLE></HEAD>\n",
-		    klocale->translate("KFind Results File"));
+		    i18n("KFind Results File"));
 	    fprintf(results,"<BODY><H1>%s</H1>\n",
-		    klocale->translate("KFind Results File"));
+		    i18n("KFind Results File"));
 	    fprintf(results,"<DL><p>\n"); 
 	
 	    item=0;  
@@ -176,10 +176,10 @@ void KfindWindow::saveResults()
 	  };
 	fclose(results); 
  	QMessageBox::information(parentWidget(),
-			 klocale->translate("Information"),
- 			 klocale->translate("Results were saved to file\n")+
+			 i18n("Information"),
+ 			 i18n("Results were saved to file\n")+
 			 filename,
- 			 klocale->translate("OK"));
+ 			 i18n("OK"));
       };
   };
 
@@ -192,11 +192,11 @@ void KfindWindow::deleteFiles()
   {
     QString tmp;
 
-    tmp.sprintf(klocale->translate("Do you really want to delete file:\n%s"),
+    tmp.sprintf(i18n("Do you really want to delete file:\n%s"),
                 lbx->text(lbx->currentItem()));
-    if(QMessageBox::warning(parentWidget(),klocale->translate("Delete File"),
-                      tmp,klocale->translate("OK"),
-		      klocale->translate("Cancel")) == 0)
+    if(QMessageBox::warning(parentWidget(),i18n("Delete File"),
+                      tmp,i18n("OK"),
+		      i18n("Cancel")) == 0)
       {
         QFileInfo *file = new QFileInfo(lbx->text(lbx->currentItem()));
 	if (file->isFile()||file->isSymLink())
@@ -206,15 +206,15 @@ void KfindWindow::deleteFiles()
                     {
     	              case EACCES: 
 			QMessageBox::warning(parentWidget(),
-					   klocale->translate("Error"),
-					   klocale->translate("You have no permission\n to delete this file"),
-					   klocale->translate("OK"));
+					   i18n("Error"),
+					   i18n("You have no permission\n to delete this file"),
+					   i18n("OK"));
                                    break;
                       default: 
 			QMessageBox::warning(parentWidget(),
-					     klocale->translate("Error"),
-					     klocale->translate("It isn't possible to delete\nselected file"),
-					     klocale->translate("OK"));
+					     i18n("Error"),
+					     i18n("It isn't possible to delete\nselected file"),
+					     i18n("OK"));
                     }
                 else
                   {
@@ -230,19 +230,19 @@ void KfindWindow::deleteFiles()
 		  switch(errno)
                     {
 		    case EACCES: QMessageBox::warning(parentWidget(),
-				              klocale->translate("Error"),
-		                              klocale->translate("You have no permission\n to delete this directory"),
-					      klocale->translate("OK"));
+				              i18n("Error"),
+		                              i18n("You have no permission\n to delete this directory"),
+					      i18n("OK"));
                                   break;
       	             case ENOTEMPTY: QMessageBox::warning(parentWidget(),
-					    klocale->translate("Error"),
-					    klocale->translate("Specified directory\nis not empty!"),
-					    klocale->translate("OK"));
+					    i18n("Error"),
+					    i18n("Specified directory\nis not empty!"),
+					    i18n("OK"));
                                      break;
      	             default: QMessageBox::warning(parentWidget(),
-					 klocale->translate("Error"),
-                                         klocale->translate("It isn't possible to delete\nselected directory"),
-                                         klocale->translate("OK"));
+					 i18n("Error"),
+                                         i18n("It isn't possible to delete\nselected directory"),
+                                         i18n("OK"));
                    }
                  else
                   {
@@ -332,9 +332,9 @@ void KfindWindow::addToArchive()
     if ( (arch = KfArchiver::findByPattern("*"+pattern1))!=0L)
       execAddToArchive(arch,filename);
     else
-      QMessageBox::warning(parentWidget(),klocale->translate("Error"),
-		       klocale->translate("Couldn't recognize archive type!"),
-		       klocale->translate("OK")); 
+      QMessageBox::warning(parentWidget(),i18n("Error"),
+		       i18n("Couldn't recognize archive type!"),
+		       i18n("OK")); 
 
 };
 
@@ -392,7 +392,7 @@ void KfindWindow::execAddToArchive(KfArchiver *arch,QString archname)
     };
 
   if ( !archProcess.start(KProcess::DontCare) )
-    warning(klocale->translate("Error while creating child process!"));
+    warning(i18n("Error while creating child process!"));
 };
 
 
