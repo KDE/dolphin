@@ -147,6 +147,7 @@ KCookiesPolicies::KCookiesPolicies(QWidget *parent, const char *name)
     lv_domainPolicy->addColumn(i18n("Policy"), 100);
     ds_lay->addMultiCellWidget( lv_domainPolicy, 1, 2, 0, 0 );
     connect( lv_domainPolicy, SIGNAL(selectionChanged()), SLOT(updateButtons()) );
+    connect( lv_domainPolicy, SIGNAL(doubleClicked ( QListViewItem * )),SLOT(changePressed() ) );
     QString wtstr = i18n("This box contains the domains and hosts you have set "
                          "a specific cookie policy for. This policy will be used "
                          "instead of the default policy for any cookie sent by these "
@@ -249,6 +250,8 @@ void KCookiesPolicies::addPressed()
 void KCookiesPolicies::changePressed()
 {
     QListViewItem *index = lv_domainPolicy->currentItem();
+    if(!index)
+        return;
     KCookieAdvice advice = strToAdvice(domainPolicy[index]);
     PolicyDialog* dlg = new PolicyDialog( i18n("Change Cookie Policy"), this );
     QString old_domain = index->text(0);
