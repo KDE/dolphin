@@ -24,9 +24,6 @@ public:
     Kfind(QWidget * parent = 0, const char * name = 0);
     ~Kfind();
 
-    void setStatusMsg(const QString &);
-    void setProgressMsg(const QString &);
-
     void setURL( const KURL &url );
 
     void setQuery(KQuery * q) { query = q; }
@@ -52,7 +49,6 @@ private:
     QPushButton *mSearch;
     QPushButton *mStop;
     QPushButton *mSave;
-    //bool isResultReported;
     KQuery *query;
 };
 

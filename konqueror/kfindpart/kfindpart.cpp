@@ -24,7 +24,6 @@
 #include <kparts/factory.h>
 #include <kinstance.h>
 #include <kdebug.h>
-
 #include <kglobal.h>
 #include <klocale.h>
 
@@ -93,6 +92,7 @@ KFindPart::KFindPart( QWidget * parentWidget, QObject *parent, const char *name 
             SLOT(slotResult(int)));
 
     m_kfindWidget->setQuery(query);
+    m_bShowsResult = false;
 
     m_lstFileItems.setAutoDelete( true );
 }
@@ -109,6 +109,8 @@ bool KFindPart::openURL( const KURL &url )
 
 void KFindPart::slotStarted()
 {
+    kdDebug() << "KFindPart::slotStarted" << endl;
+    m_bShowsResult = true;
     m_lstFileItems.clear(); // clear our internal list
     emit started();
     emit clear();
@@ -131,14 +133,6 @@ void KFindPart::addFile(const KFileItem *item)
     isResultReported = true;
   }
 
-  int count = win->childCount();
-  QString str;
-  if (count == 1)
-    str = i18n("1 file found");
-  else
-    str = i18n("%1 files found")
-      .arg(KGlobal::locale()->formatNumber(count, 0));
-  setProgressMsg(str);
   */
 }
 

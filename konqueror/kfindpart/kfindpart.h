@@ -28,12 +28,15 @@ class KQuery;
 class KFindPart : public KParts::ReadOnlyPart
 {
     Q_OBJECT
+    Q_PROPERTY( bool showsResult READ showsResult )
 public:
     KFindPart( QWidget * parentWidget, QObject *parent, const char *name );
     virtual ~KFindPart();
 
     virtual bool openURL( const KURL &url );
     virtual bool openFile() { return false; }
+
+    bool showsResult() const { return m_bShowsResult; }
 
 signals:
     // Konqueror connects directly to those signals
@@ -53,6 +56,7 @@ protected slots:
 private:
     Kfind * m_kfindWidget;
     KQuery *query;
+    bool m_bShowsResult; // whether the dirpart shows the results of a search or not
     /**
      * The internal storage of file items
      */

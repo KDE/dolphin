@@ -69,7 +69,6 @@ Kfind::Kfind(QWidget *parent, const char *name)
   connect( mStop, SIGNAL(clicked()), this, SLOT( stopSearch() ) );
   mSave = new QPushButton( i18n("Save..."), mButtonBox );
   connect( mSave, SIGNAL(clicked()), this, SLOT( saveResults() ) );
-  // TODO button for load results ?
 
   QPushButton * mClose = new QPushButton( i18n("&Close"), mButtonBox );
   connect( mClose, SIGNAL(clicked()), this, SIGNAL( destroyMe() ) );
@@ -77,13 +76,6 @@ Kfind::Kfind(QWidget *parent, const char *name)
   mSearch->setEnabled(true); // Enable "Search"
   mStop->setEnabled(false);  // Disable "Stop"
   mSave->setEnabled(false);  // Disable "Save..."
-
-  //isResultReported = false;
-
-//TODO
-//  connect(win ,SIGNAL(resultSelected(bool)),
-//	  this,SIGNAL(resultSelected(bool)));
-
 }
 
 Kfind::~Kfind()
@@ -96,31 +88,13 @@ void Kfind::setURL( const KURL &url )
   tabWidget->setURL( url );
 }
 
-void Kfind::setProgressMsg(const QString &msg)
-{
-  //Redirect to konqui's statusbar ?
-   //mStatusBar->changeItem(msg, 1);
-}
-
-void Kfind::setStatusMsg(const QString &msg)
-{
-  //Redirect to konqui's statusbar ?
-   //mStatusBar->changeItem(msg, 0);
-}
-
 void Kfind::startSearch()
 {
   tabWidget->setQuery(query);
   emit started();
 
-  //isResultReported = false;
-
-  // Reset count
-  setProgressMsg(i18n("%1 files found").arg(0));
-  setStatusMsg(i18n("Searching..."));
-
-  emit resultSelected(false);
-  emit haveResults(false);
+  //emit resultSelected(false);
+  //emit haveResults(false);
 
   mSearch->setEnabled(false); // Disable "Search"
   mStop->setEnabled(true);  // Enable "Stop"
@@ -133,6 +107,7 @@ void Kfind::startSearch()
 
 void Kfind::stopSearch()
 {
+  // will call KFindPart::slotResult, which calls searchFinished here
   query->kill();
 }
 
@@ -155,7 +130,7 @@ void Kfind::searchFinished()
 {
   mSearch->setEnabled(true); // Enable "Search"
   mStop->setEnabled(false);  // Disable "Stop"
-  mSave->setEnabled(true);  // Enable "Save..."
+  // ## TODO mSave->setEnabled(true);  // Enable "Save..."
 
   tabWidget->endSearch();
   setFocus();
