@@ -1,14 +1,6 @@
 SUBDIRS = viewer wrapper
-
 INCLUDES = $(all_includes) -I$(top_srcdir)/libltdl
-
-
 METASOURCES = AUTO
-
-check_PROGRAMS = test
-test_SOURCES = main.cpp
-test_LDFLAGS = $(all_libraries)
-test_LDADD = $(LIB_KDEUI) -lplugin
 
 plugin_part.cpp: NSPluginClassIface_stub.h
 
@@ -30,3 +22,8 @@ bin_PROGRAMS = pluginscan
 pluginscan_SOURCES = pluginscan.cpp
 pluginscan_LDFLAGS = $(all_libraries)
 pluginscan_LDADD = $(LIB_KDEUI) -lXt
+
+check_PROGRAMS = test
+test_SOURCES = main.cpp
+test_LDFLAGS = $(all_libraries)
+test_LDADD = $(LIB_KDEUI) -lplugin
