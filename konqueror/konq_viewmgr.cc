@@ -84,7 +84,7 @@ KParts::ReadOnlyPart* KonqViewManager::splitView ( Qt::Orientation orientation,
 
 KParts::ReadOnlyPart* KonqViewManager::splitWindow( Qt::Orientation orientation )
 {
-  kdebug(0, 1202, "KonqViewManager::splitWindow(default)" );
+  kDebugInfo( 1202, "KonqViewManager::splitWindow(default)" );
 
   KURL url = m_pMainView->currentChildView()->url();
 
@@ -105,7 +105,7 @@ KParts::ReadOnlyPart* KonqViewManager::split (KonqFrameBase* splitFrame,
 					      const QString &serviceType, const QString &serviceName,
 					      KonqFrameContainer **newFrameContainer )
 {
-  kdebug(0, 1202, "KonqViewManager::split" );
+  kDebugInfo( 1202, "KonqViewManager::split" );
 
   KService::Ptr service;
   KTrader::OfferList serviceOffers;
@@ -226,7 +226,7 @@ void KonqViewManager::removeView( KonqChildView *view )
 
 void KonqViewManager::saveViewProfile( KConfig &cfg )
 {
-  kdebug(0, 1202, "KonqViewManager::saveViewProfile");
+  kDebugInfo( 1202, "KonqViewManager::saveViewProfile");
   if( m_pMainContainer->firstChild() ) {
     cfg.writeEntry( "RootItem", m_pMainContainer->firstChild()->frameType() + QString("%1").arg( 0 ) );
     QString prefix = m_pMainContainer->firstChild()->frameType() + QString("%1").arg( 0 );
@@ -239,7 +239,7 @@ void KonqViewManager::saveViewProfile( KConfig &cfg )
 
 void KonqViewManager::loadViewProfile( KConfig &cfg )
 {
-  kdebug(0, 1202, "KonqViewManager::loadViewProfile");
+  kDebugInfo( 1202, "KonqViewManager::loadViewProfile");
   clear();
 
   QString rootItem = cfg.readEntry( "RootItem" );
@@ -249,7 +249,7 @@ void KonqViewManager::loadViewProfile( KConfig &cfg )
     rootItem = "InitialView";
   }
 
-  kdebug(0, 1202, "Load RootItem %s", debugString(rootItem));
+  kDebugInfo( 1202, "Load RootItem %s", debugString(rootItem));
 
   m_pMainContainer = new KonqFrameContainer( Qt::Horizontal, m_pMainView );
   m_pMainView->setView( m_pMainContainer );
@@ -285,19 +285,19 @@ void KonqViewManager::loadItem( KConfig &cfg, KonqFrameContainer *parent,
   if( name != "InitialView" )
     prefix = name + '_';
 
-  kdebug(0, 1202, "begin loadItem: %s", debugString(name) );
+  kDebugInfo( 1202, "begin loadItem: %s", debugString(name) );
 
   if( name.find("View") != -1 ) {
-    kdebug(0, 1202, "Item is View");
+    kDebugInfo( 1202, "Item is View");
     //load view config
     QString url = cfg.readEntry( QString::fromLatin1( "URL" ).prepend( prefix ), QDir::homeDirPath() );
 
     if ( url == "file:$HOME" ) // HACK
       url = QDir::homeDirPath().prepend( "file:" );
 
-    kdebug(0, 1202, "URL: %s", debugString(url));
+    kDebugInfo( 1202, "URL: %s", debugString(url));
     QString serviceType = cfg.readEntry( QString::fromLatin1( "ServiceType" ).prepend( prefix ), "inode/directory");
-    kdebug(0, 1202, "ServiceType: %s", debugString(serviceType));
+    kDebugInfo( 1202, "ServiceType: %s", debugString(serviceType));
 
     QString serviceName = cfg.readEntry( QString::fromLatin1( "ServiceName" ).prepend( prefix ) );
 
@@ -313,7 +313,7 @@ void KonqViewManager::loadItem( KConfig &cfg, KonqFrameContainer *parent,
       return; //ugh..
     }
 
-    kdebug(0, 1202, "Creating View Stuff");
+    kDebugInfo( 1202, "Creating View Stuff");
     KonqChildView *childView = setupView( parent, viewFactory, service, serviceOffers, serviceType );
 
     childView->setPassiveMode( passiveMode );
@@ -325,11 +325,11 @@ void KonqViewManager::loadItem( KConfig &cfg, KonqFrameContainer *parent,
     childView->openURL( KURL( url ) );
   }
   else if( name.find("Container") != -1 ) {
-    kdebug(0, 1202, "Item is Container");
+    kDebugInfo( 1202, "Item is Container");
 
     //load container config
     QString ostr = cfg.readEntry( QString::fromLatin1( "Orientation" ).prepend( prefix ) );
-    kdebug(0, 1202, "Orientation: ", debugString(ostr));
+    kDebugInfo( 1202, "Orientation: ", debugString(ostr));
     Qt::Orientation o;
     if( ostr == "Vertical" )
       o = Qt::Vertical;
@@ -365,7 +365,7 @@ void KonqViewManager::loadItem( KConfig &cfg, KonqFrameContainer *parent,
   else
     warning("Profile Loading Error: Unknown item %s", debugString(name));
 
-  kdebug(0, 1202, "end loadItem: %s", debugString(name));
+  kDebugInfo( 1202, "end loadItem: %s", debugString(name));
 }
 
 void KonqViewManager::clear()
@@ -452,7 +452,7 @@ KonqViewFactory KonqViewManager::createView( const QString &serviceType,
 					  KService::Ptr &service,
 					  KTrader::OfferList &serviceOffers )
 {
-  kdebug(0, 1202, "KonqViewManager::createView" );
+  kDebugInfo( 1202, "KonqViewManager::createView" );
   KonqViewFactory viewFactory;
 
   if( serviceType.isEmpty() ) {
@@ -477,7 +477,7 @@ KonqChildView *KonqViewManager::setupView( KonqFrameContainer *parentContainer,
 				           const KTrader::OfferList &serviceOffers,
 					   const QString &serviceType )
 {
-  kdebug(0, 1202, "KonqViewManager::setupView" );
+  kDebugInfo( 1202, "KonqViewManager::setupView" );
 
   QString sType = serviceType;
 

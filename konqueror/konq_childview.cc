@@ -83,15 +83,15 @@ KonqChildView::~KonqChildView()
 
 void KonqChildView::repaint()
 {
-//  kdebug(0,1202,"KonqChildView::repaint()");
+//  kDebugInfo(1202,"KonqChildView::repaint()");
   if (m_pKonqFrame != 0L)
     m_pKonqFrame->repaint();
-//  kdebug(0,1202,"KonqChildView::repaint() : done");
+//  kDebugInfo(1202,"KonqChildView::repaint() : done");
 }
 
 void KonqChildView::show()
 {
-  kdebug(0,1202,"KonqChildView::show()");
+  kDebugInfo(1202,"KonqChildView::show()");
   if ( m_pKonqFrame )
     m_pKonqFrame->show();
 }
@@ -278,19 +278,19 @@ void KonqChildView::makeHistory( bool pushEntry )
       if ( m_bBack )
       {
         m_bBack = false;
-//        kdebug(0,1202,"pushing into forward history : %s", m_pCurrentHistoryEntry->strURL.ascii() );
+//        kDebugInfo(1202,"pushing into forward history : %s", m_pCurrentHistoryEntry->strURL.ascii() );
         m_lstForward.insert( 0, m_pCurrentHistoryEntry );
       }
       else if ( m_bForward )
       {
         m_bForward = false;
-//        kdebug(0,1202,"pushing into backward history : %s", m_pCurrentHistoryEntry->strURL.ascii() );
+//        kDebugInfo(1202,"pushing into backward history : %s", m_pCurrentHistoryEntry->strURL.ascii() );
         m_lstBack.insert( 0, m_pCurrentHistoryEntry );
       }
       else
       {
         m_lstForward.clear();
-//        kdebug(0,1202,"pushing into backward history : %s", m_pCurrentHistoryEntry->strURL.ascii() );
+//        kDebugInfo(1202,"pushing into backward history : %s", m_pCurrentHistoryEntry->strURL.ascii() );
         m_lstBack.insert( 0, m_pCurrentHistoryEntry );
       }
     }
@@ -301,17 +301,17 @@ void KonqChildView::makeHistory( bool pushEntry )
   if ( pushEntry || !m_pCurrentHistoryEntry )
     m_pCurrentHistoryEntry = new HistoryEntry;
 
-  kDebug("looking for extension");
+  kDebugInfo("looking for extension");
   if ( browserExtension() )
   {
-    kDebug("creating stream");
+    kDebugInfo("creating stream");
     QDataStream stream( m_pCurrentHistoryEntry->buffer, IO_WriteOnly );
 
-    kDebug("saving");
+    kDebugInfo("saving");
     browserExtension()->saveState( stream );
   }
 
-  kDebug("storing stuff");
+  kDebugInfo("storing stuff");
   m_pCurrentHistoryEntry->url = m_pView->url();
   m_pCurrentHistoryEntry->strServiceType = m_serviceType;
   m_pCurrentHistoryEntry->strServiceName = m_service->name();

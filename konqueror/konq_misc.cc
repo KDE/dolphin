@@ -27,14 +27,14 @@
  *
  **********************************************/
 
-bool KonqFileManager::openFileManagerWindow( const QString & _url )
+bool KonqFileManager::openFileManagerWindow( const KURL & _url )
 {
   // If _url is 0L, open $HOME
-  QString url = !_url.isEmpty() ? _url : QDir::homeDirPath().prepend( "file:" );
- 
+  KURL url = !_url.isEmpty() ? _url : KURL(QDir::homeDirPath().prepend( "file:" ));
+
   KonqMainView *win = new KonqMainView( url );
   win->show();
- 
+
   return true; // why would it fail ? :)
 }
 
@@ -43,8 +43,8 @@ bool KonqFileManager::openFileManagerWindow( const QString & _url )
  * KonqBookmarkManager
  *
  **********************************************/
- 
-void KonqBookmarkManager::editBookmarks( const char *_url )
+
+void KonqBookmarkManager::editBookmarks( const KURL & _url )
 {
   // Will call the KonqFileManager re-implementation
   KFileManager::getFileManager()->openFileManagerWindow( _url );

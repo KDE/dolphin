@@ -194,10 +194,10 @@ KonqFrameHeader::mapShade( KonqFrameHeaderLook look)
 void
 KonqFrameHeader::paintEvent( QPaintEvent* )
 {
-//  kdebug(0, 1202, "KonqFrameHeader::paintEvent( QPaintEvent* ) : part()->hasFocus()=%d",hasFocus);
+//  kDebugInfo( 1202, "KonqFrameHeader::paintEvent( QPaintEvent* ) : part()->hasFocus()=%d",hasFocus);
   if (!isVisible())
   {
-//    kdebug(0, 1202, "paintEvent aborted : not visible !");
+//    kDebugInfo( 1202, "paintEvent aborted : not visible !");
     return;
   }
 
@@ -399,7 +399,7 @@ KonqFrameHeader::paintEvent( QPaintEvent* )
     delete buffer;
   }*/
   p.end();
-//  kdebug(0, 1202, "paintEvent done !");
+//  kDebugInfo( 1202, "paintEvent done !");
 
 }
 

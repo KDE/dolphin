@@ -119,7 +119,7 @@ bool KonqPropsView::enterDir( const KURL & dir )
   u.addPath(".directory");
   if (u.isLocalFile() && QFile::exists( u.path() ))
   {
-    //kdebug( KDEBUG_INFO, 1202, "Found .directory file" );
+    //kDebugInfo( 1202, "Found .directory file" );
     KSimpleConfig config( u.path(), true);
     config.setGroup("URL properties");
     m_bgColor = config.readColorEntry( "BgColor", &m_bgColor );
@@ -154,7 +154,7 @@ void KonqPropsView::saveLocal( const KURL & dir )
     return;
   }
 
-  //kdebug( KDEBUG_INFO, 1202, "Found .directory file" );
+  //kDebugInfo( 1202, "Found .directory file" );
   KSimpleConfig config( u.path());
   config.setGroup("URL properties");
   saveProps( & config );
