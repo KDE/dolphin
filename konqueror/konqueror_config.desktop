@@ -1,7 +1,7 @@
 [Desktop Entry]
 Encoding=UTF-8
 Type=Service
-Exec=kcmshell filebehavior fileappearance filepreviews filetypes khtml_behavior khtml_java_js khtml_fonts ebrowsing kcmhistory cookies cache proxy kcmcss crypto useragent khtml_plugins kcmkonqyperformance
+Exec=kcmshell --caption %c filebehavior fileappearance filepreviews filetypes khtml_behavior khtml_java_js khtml_fonts ebrowsing kcmhistory cookies cache proxy kcmcss crypto useragent khtml_plugins kcmkonqyperformance
 Icon=konqueror
 DocPath=konqueror/index.html
 Name=Configure Konqueror
@@ -30,6 +30,7 @@ Name[is]=Stilla Konqueror
 Name[it]=Configura Konqueror
 Name[ja]=Konquerorの設定
 Name[ko]=컹커러 설정
+Name[lo]=ປັບແຕ່ງ Konqueror
 Name[lt]=Konfigūruoti Konqueror
 Name[lv]=Konfigurēt Iekarotāju
 Name[mt]=Ikkonfigura Konqueror
