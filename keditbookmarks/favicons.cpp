@@ -33,8 +33,8 @@ FavIconsItrHolder *FavIconsItrHolder::s_self = 0;
 
 FavIconsItrHolder::FavIconsItrHolder() 
     : BookmarkIteratorHolder() {
-        // do stuff
-    }
+    // do stuff
+}
 
 void FavIconsItrHolder::doItrListChanged() {
     KEBApp::self()->setCancelFavIconUpdatesEnabled(count() > 0);
@@ -44,16 +44,14 @@ void FavIconsItrHolder::doItrListChanged() {
 
 FavIconsItr::FavIconsItr(QValueList<KBookmark> bks)
     : BookmarkIterator(bks) {
-
-        m_updater = 0;
-        m_done = true;
-    }
+    m_updater = 0;
+    m_done = true;
+}
 
 FavIconsItr::~FavIconsItr() {
     delete m_updater;
-    if (curItem()) {
+    if (curItem())
         curItem()->restoreStatus();
-    }
 }
 
 void FavIconsItr::slotDone(bool succeeded) {
@@ -63,10 +61,10 @@ void FavIconsItr::slotDone(bool succeeded) {
     delayedEmitNextOne();
 }
 
-    bool FavIconsItr::isApplicable(const KBookmark &bk) const {
-        return (!bk.isGroup() && !bk.isSeparator() 
-                && (bk.url().protocol().startsWith("http")) );
-    }
+bool FavIconsItr::isApplicable(const KBookmark &bk) const {
+    return (!bk.isGroup() && !bk.isSeparator() 
+            && (bk.url().protocol().startsWith("http")) );
+}
 
 void FavIconsItr::doAction() {
     kdDebug() << "FavIconsItr::doAction()" << endl;
