@@ -279,7 +279,9 @@ void KonqMainView::slotOpenLocation()
     // Exit if the user did not enter an URL
     if ( u.isEmpty() )
       return;
-    openURL( (KonqChildView *)m_currentView, u.ascii() );
+
+    KonqURLEnterEvent ev( u );
+    QApplication::sendEvent( this, &ev );
   }
 }
 
