@@ -24,13 +24,12 @@ KBehaviourOptions::KBehaviourOptions(KConfig *config, QString group, bool showFi
     QLabel * label;
     int row = 0;
 
-#define N_COLS 2
-#define N_ROWS 8
-    QGridLayout *lay = new QGridLayout(this,N_ROWS,N_COLS, // rows, cols
+    QGridLayout *lay = new QGridLayout(this,9,4, // rows, cols
                                        KDialog::marginHint(),
 				       KDialog::spacingHint());     // border, space
-    lay->setRowStretch(N_ROWS-1,1);
-    lay->setColStretch(N_COLS-1,1);
+    lay->setRowStretch(6,1);
+    lay->setColStretch(1,1);
+    lay->setColStretch(3,1);
 
     // - only for konqueror, not for kdesktop --
     if (m_bFileManager)
@@ -39,14 +38,14 @@ KBehaviourOptions::KBehaviourOptions(KConfig *config, QString group, bool showFi
       cbNewWin = new QCheckBox(i18n("&Open directories in separate windows"), this);
       QWhatsThis::add( cbNewWin, i18n("If this option is checked, Konqueror will open a new window when "
          "you open a directory, rather than showing that directory's contents in the current window."));
-      lay->addMultiCellWidget(cbNewWin, row, row, 0, N_COLS-1, Qt::AlignLeft);
+      lay->addMultiCellWidget(cbNewWin, row, row, 0, 1, Qt::AlignLeft);
       connect(cbNewWin, SIGNAL(clicked()), this, SLOT(changed()));
 
 
       winPixmap = new QLabel(this);
       winPixmap->setPixmap(QPixmap(locate("data",
 					"kcontrol/pics/onlyone.png")));
-      lay->addWidget(winPixmap, row, N_COLS);
+      lay->addWidget(winPixmap, row, 2);
       connect(cbNewWin, SIGNAL(toggled(bool)), SLOT(updateWinPixmap(bool)));
 
       // ----
@@ -55,7 +54,7 @@ KBehaviourOptions::KBehaviourOptions(KConfig *config, QString group, bool showFi
       lay->addWidget(label, row, 0);
 
       homeURL = new QLineEdit(this);
-      lay->addWidget(homeURL, row, 1);
+      lay->addMultiCellWidget(homeURL, row, row, 1, 3);
       connect(homeURL, SIGNAL(textChanged(const QString &)), this, SLOT(changed()));
 
       QString homestr = i18n("This is the URL (e.g. a directory or a web page) where "
@@ -66,7 +65,7 @@ KBehaviourOptions::KBehaviourOptions(KConfig *config, QString group, bool showFi
       // ----
       row++;
       QGroupBox *gbox = new QGroupBox(i18n("Use builtin viewer for"), this);
-      lay->addMultiCellWidget(gbox,row,row,0,N_COLS,Qt::AlignLeft);
+      lay->addMultiCellWidget(gbox,row,row,0,2,Qt::AlignLeft);
       QWhatsThis::add( gbox, i18n("These options determine whether certain types of content "
          "should be displayed in Konqueror itself. If unchecked, Konqueror will launch the "
          "application associated with the file type.") );
