@@ -232,6 +232,9 @@
                         <property name="name">
                             <cstring>pluginList</cstring>
                         </property>
+                        <property name="allColumnsShowFocus">
+                            <bool>true</bool>
+                        </property>
                         <property name="whatsThis" stdset="0">
                             <string>Here you can see a list of the Netscape plugins KDE has found.</string>
                         </property>
