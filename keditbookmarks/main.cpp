@@ -17,13 +17,11 @@
 */
 
 #include <dcopclient.h>
-#include <kuniqueapp.h>
+#include <kuniqueapplication.h>
 #include <kaboutdata.h>
-#include <kdebug.h>
 #include <kcmdlineargs.h>
 #include <klocale.h>
-#include <qfile.h>
-#include <kstddirs.h>
+#include <kstandarddirs.h>
 #include "toplevel.h"
 
 static KCmdLineOptions options[] =

@@ -28,16 +28,11 @@
 #include <kfiledialog.h>
 #include <kkeydialog.h>
 #include <kstdaction.h>
-#include <klocale.h>
-#include <kglobal.h>
 #include <kmessagebox.h>
 #include <krun.h>
-#include <kiconloader.h>
 #include <kicondialog.h>
-#include <kapp.h>
-#include <krfcdate.h>
+#include <kapplication.h>
 #include <qclipboard.h>
-#include <qfile.h>
 #include <qpainter.h>
 #include <dcopclient.h>
 #include <assert.h>

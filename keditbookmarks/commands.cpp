@@ -22,7 +22,6 @@
 #include <kbookmarkmanager.h>
 #include <kbookmarkimporter.h>
 #include <kdebug.h>
-#include <klistview.h>
 #include <klocale.h>
 #include <krfcdate.h>
 #include "kinsertionsort.h"
