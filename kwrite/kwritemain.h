@@ -19,8 +19,8 @@
 #define __KWRITE_MAIN_H__
 
 #include <kparts/mainwindow.h>
-#include "../interfaces/view.h"
-#include "../interfaces/document.h"
+#include <kate/view.h>
+#include <kate/document.h>
 
 class KAction;
 class KToggleAction;
