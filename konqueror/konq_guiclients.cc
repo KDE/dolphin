@@ -28,95 +28,97 @@
 
 PopupMenuGUIClient::PopupMenuGUIClient( KonqMainWindow *mainWindow,
                                         const KTrader::OfferList &embeddingServices,
-                                        bool /* dirsSelected */ )
+                                        bool /* dirsSelected */, bool isIntoTrash )
 {
-  m_mainWindow = mainWindow;
+    m_mainWindow = mainWindow;
 
-  m_doc = QDomDocument( "kpartgui" );
-  QDomElement root = m_doc.createElement( "kpartgui" );
-  root.setAttribute( "name", "konqueror" );
-  m_doc.appendChild( root );
+    m_doc = QDomDocument( "kpartgui" );
+    QDomElement root = m_doc.createElement( "kpartgui" );
+    root.setAttribute( "name", "konqueror" );
+    m_doc.appendChild( root );
 
-  QDomElement menu = m_doc.createElement( "Menu" );
-  root.appendChild( menu );
-  menu.setAttribute( "name", "popupmenu" );
+    QDomElement menu = m_doc.createElement( "Menu" );
+    root.appendChild( menu );
+    menu.setAttribute( "name", "popupmenu" );
 
-  if ( !mainWindow->menuBar()->isVisible() )
-  {
-    QDomElement showMenuBarElement = m_doc.createElement( "action" );
-    showMenuBarElement.setAttribute( "name", "options_show_menubar" );
-    menu.appendChild( showMenuBarElement );
-
-    menu.appendChild( m_doc.createElement( "separator" ) );
-  }
-
-  if ( mainWindow->fullScreenMode() )
-  {
-    QDomElement stopFullScreenElement = m_doc.createElement( "action" );
-    stopFullScreenElement.setAttribute( "name", "fullscreen" );
-    menu.appendChild( stopFullScreenElement );
-
-    menu.appendChild( m_doc.createElement( "separator" ) );
-  }
-
-  QString currentServiceName = mainWindow->currentView()->service()->desktopEntryName();
-
-  KTrader::OfferList::ConstIterator it = embeddingServices.begin();
-  KTrader::OfferList::ConstIterator end = embeddingServices.end();
-
-  QVariant builtin;
-  if ( embeddingServices.count() == 1 )
-  {
-    KService::Ptr service = *embeddingServices.begin();
-    builtin = service->property( "X-KDE-BrowserView-HideFromMenus" );
-    if ( ( !builtin.isValid() || !builtin.toBool() ) &&
-         service->desktopEntryName() != currentServiceName )
-      addEmbeddingService( menu, 0, i18n( "Preview in %1" ).arg( service->name() ), service );
-  }
-  else if ( embeddingServices.count() > 1 )
-  {
-    int idx = 0;
-    QDomElement subMenu = m_doc.createElement( "menu" );
-    menu.appendChild( subMenu );
-    QDomElement text = m_doc.createElement( "text" );
-    subMenu.appendChild( text );
-    text.appendChild( m_doc.createTextNode( i18n( "Preview In" ) ) );
-    subMenu.setAttribute( "group", "preview" );
-    subMenu.setAttribute( "name", "preview submenu" );
-
-    bool inserted = false;
-
-    for (; it != end; ++it )
+    if ( !mainWindow->menuBar()->isVisible() )
     {
-      builtin = (*it)->property( "X-KDE-BrowserView-HideFromMenus" );
-      if ( ( !builtin.isValid() || !builtin.toBool() ) &&
-       (*it)->desktopEntryName() != currentServiceName )
-      {
-        addEmbeddingService( subMenu, idx++, (*it)->name(), *it );
-        inserted = true;
-      }
+        QDomElement showMenuBarElement = m_doc.createElement( "action" );
+        showMenuBarElement.setAttribute( "name", "options_show_menubar" );
+        menu.appendChild( showMenuBarElement );
+
+        menu.appendChild( m_doc.createElement( "separator" ) );
     }
 
-    if ( !inserted ) // oops, if empty then remove the menu :-]
-      menu.removeChild( menu.namedItem( "menu" ) );
-  }
+    if ( mainWindow->fullScreenMode() )
+    {
+        QDomElement stopFullScreenElement = m_doc.createElement( "action" );
+        stopFullScreenElement.setAttribute( "name", "fullscreen" );
+        menu.appendChild( stopFullScreenElement );
 
-  QDomElement openInWindow = m_doc.createElement( "action" );
-  openInWindow.setAttribute( "name", "newview" );
-  openInWindow.setAttribute( "group", "tabhandling" );
-  menu.appendChild( openInWindow );
+        menu.appendChild( m_doc.createElement( "separator" ) );
+    }
 
-  QDomElement openInTabElement = m_doc.createElement( "action" );
-  openInTabElement.setAttribute( "name", "openintab" );
-  openInTabElement.setAttribute( "group", "tabhandling" );
-  menu.appendChild( openInTabElement );
+    QString currentServiceName = mainWindow->currentView()->service()->desktopEntryName();
 
-  QDomElement openInTabFrontElement = m_doc.createElement( "action" );
-  openInTabFrontElement.setAttribute( "name", "openintabfront" );
-  openInTabFrontElement.setAttribute( "group", "tabhandling" );
-  menu.appendChild( openInTabFrontElement );
+    if ( !isIntoTrash )
+    {
+        KTrader::OfferList::ConstIterator it = embeddingServices.begin();
+        KTrader::OfferList::ConstIterator end = embeddingServices.end();
 
-  setDOMDocument( m_doc );
+        QVariant builtin;
+        if ( embeddingServices.count() == 1 )
+        {
+            KService::Ptr service = *embeddingServices.begin();
+            builtin = service->property( "X-KDE-BrowserView-HideFromMenus" );
+            if ( ( !builtin.isValid() || !builtin.toBool() ) &&
+                 service->desktopEntryName() != currentServiceName )
+                addEmbeddingService( menu, 0, i18n( "Preview in %1" ).arg( service->name() ), service );
+        }
+        else if ( embeddingServices.count() > 1 )
+        {
+            int idx = 0;
+            QDomElement subMenu = m_doc.createElement( "menu" );
+            menu.appendChild( subMenu );
+            QDomElement text = m_doc.createElement( "text" );
+            subMenu.appendChild( text );
+            text.appendChild( m_doc.createTextNode( i18n( "Preview In" ) ) );
+            subMenu.setAttribute( "group", "preview" );
+            subMenu.setAttribute( "name", "preview submenu" );
+
+            bool inserted = false;
+
+            for (; it != end; ++it )
+            {
+                builtin = (*it)->property( "X-KDE-BrowserView-HideFromMenus" );
+                if ( ( !builtin.isValid() || !builtin.toBool() ) &&
+                     (*it)->desktopEntryName() != currentServiceName )
+                {
+                    addEmbeddingService( subMenu, idx++, (*it)->name(), *it );
+                    inserted = true;
+                }
+            }
+
+            if ( !inserted ) // oops, if empty then remove the menu :-]
+                menu.removeChild( menu.namedItem( "menu" ) );
+        }
+    }
+    QDomElement openInWindow = m_doc.createElement( "action" );
+    openInWindow.setAttribute( "name", "newview" );
+    openInWindow.setAttribute( "group", "tabhandling" );
+    menu.appendChild( openInWindow );
+
+    QDomElement openInTabElement = m_doc.createElement( "action" );
+    openInTabElement.setAttribute( "name", "openintab" );
+    openInTabElement.setAttribute( "group", "tabhandling" );
+    menu.appendChild( openInTabElement );
+
+    QDomElement openInTabFrontElement = m_doc.createElement( "action" );
+    openInTabFrontElement.setAttribute( "name", "openintabfront" );
+    openInTabFrontElement.setAttribute( "group", "tabhandling" );
+    menu.appendChild( openInTabFrontElement );
+
+    setDOMDocument( m_doc );
 }
 
 PopupMenuGUIClient::~PopupMenuGUIClient()

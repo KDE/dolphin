@@ -3877,9 +3877,12 @@ void KonqMainWindow::slotPopupMenu( KXMLGUIClient *client, const QPoint &_global
       }
       dirsSelected = S_ISDIR( _items.getFirst()->mode() );
   }
-
+    //check if current url is trash
+  KURL url = viewURL;
+  url.cleanPath();
+  bool isIntoTrash =  url.isLocalFile() && url.path(1).startsWith(KGlobalSettings::trashPath());
   PopupMenuGUIClient *konqyMenuClient = new PopupMenuGUIClient( this, m_popupEmbeddingServices,
-                                                                dirsSelected );
+                                                                dirsSelected, isIntoTrash );
 
   //kdDebug(1202) << "KonqMainWindow::slotPopupMenu " << viewURL.prettyURL() << endl;
 
