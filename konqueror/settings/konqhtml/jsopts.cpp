@@ -175,7 +175,7 @@ void KJavaScriptOptions::load()
         updateDomainList(m_pConfig->readListEntry("JavaScriptDomainAdvice") );
 
     // *** apply to GUI ***
-    enableJavaScriptGloballyCB->setChecked( m_pConfig->readBoolEntry("EnableJavaScript") );
+    enableJavaScriptGloballyCB->setChecked( m_pConfig->readBoolEntry("EnableJavaScript"), true );
     js_popup->setButton( m_pConfig->readUnsignedNumEntry("WindowOpenPolicy", 0) );
 
   // enableDebugOutputCB->setChecked( m_pConfig->readBoolEntry("EnableJSDebugOutput") );
@@ -183,7 +183,7 @@ void KJavaScriptOptions::load()
 
 void KJavaScriptOptions::defaults()
 {
-  enableJavaScriptGloballyCB->setChecked( false );
+  enableJavaScriptGloballyCB->setChecked( true );
   js_popup->setButton(0);
  // enableDebugOutputCB->setChecked( false );
 }
