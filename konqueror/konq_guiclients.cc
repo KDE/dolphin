@@ -258,8 +258,9 @@ void ToggleViewGUIClient::slotToggleView( bool toggle )
     if (!childView->isPassiveMode())
       viewManager->setActivePart( childView->part() );
 
+    kdDebug() << "ToggleViewGUIClient::slotToggleView setToggleView(true) on " << childView << endl;
     childView->setToggleView( true );
-
+    m_mainWindow->viewCountChanged();
   }
   else
   {
