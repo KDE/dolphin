@@ -351,11 +351,9 @@ void KonqMainWindow::initBookmarkBar()
   if (m_paBookmarkBar) return;
 
   m_paBookmarkBar = new KBookmarkBar( KonqBookmarkManager::self(), this, bar, m_bookmarkBarActionCollection, this );
-/*
   connect( m_paBookmarkBar,
            SIGNAL( aboutToShowContextMenu(const KBookmark &, QPopupMenu*) ),
            this, SLOT( slotFillContextMenu(const KBookmark &, QPopupMenu*) ));
-*/
 
   // hide if empty
   if (bar->count() == 0 )
