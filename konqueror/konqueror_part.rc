@@ -59,6 +59,7 @@
   <Separator/>
   <Action name="reload"/>
   <Separator/>
+  <Action name="cut"/>
   <Action name="copy"/>
   <Action name="paste"/>
   <Action name="print"/>
