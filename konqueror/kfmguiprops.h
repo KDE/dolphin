@@ -66,7 +66,6 @@ public:
 
   //////// The read-only access methods. Order is to be kept. See below. /////
 
-  // bool isShowingDirTree() { return m_bDirTree; } ?
   bool isSplitView() { return m_bSplitView; }
   
   // No *bar access methods (all done from KfmGui)
@@ -80,7 +79,6 @@ protected:
   // The static instance. Only KfmGui can change its value.
   static KfmGuiProps * m_pDefaultProps;
 
-  // bool m_bDirTree; ?
   bool m_bSplitView;
 
   bool m_bShowToolBar;

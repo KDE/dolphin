@@ -25,7 +25,6 @@ KfmGuiProps * KfmGuiProps::m_pDefaultProps = 0L;
 KfmGuiProps::KfmGuiProps( const KConfig * config )
 {
   QString entry;
-  // m_bDirTree = config->readBoolEntry( "DirTree", false ); ??
   m_bSplitView = config->readBoolEntry( "SplitView", false );
 
   entry = config->readEntry("Toolbar", "top");
@@ -40,6 +39,8 @@ KfmGuiProps::KfmGuiProps( const KConfig * config )
     m_toolBarPos = KToolBar::Bottom;    
   else if ( entry == "floating" )
     m_toolBarPos = KToolBar::Floating;    
+  else if ( entry == "flat" )
+    m_toolBarPos = KToolBar::Flat;    
   else
     m_bShowToolBar = false;
 
@@ -51,6 +52,8 @@ KfmGuiProps::KfmGuiProps( const KConfig * config )
     m_locationBarPos = KToolBar::Bottom;    
   else if ( entry == "floating" )
     m_locationBarPos = KToolBar::Floating;    
+  else if ( entry == "flat" )
+    m_locationBarPos = KToolBar::Flat;    
   else
     m_bShowLocationBar = false;
 
@@ -62,6 +65,8 @@ KfmGuiProps::KfmGuiProps( const KConfig * config )
     m_menuBarPos = KMenuBar::Bottom;    
   else if ( entry == "floating" )
     m_menuBarPos = KMenuBar::Floating;    
+  else if ( entry == "flat" )
+    m_menuBarPos = KMenuBar::Flat;    
   else
     m_bShowMenuBar = false;
 
@@ -87,31 +92,30 @@ KfmGuiProps::~KfmGuiProps()
 
 void KfmGuiProps::saveProps( KConfig * config )
 {
-  // config->writeEntry( "DirTree", m_bDirTree );
   config->writeEntry( "SplitView", m_bSplitView );
   
   if ( !m_bShowToolBar )
       config->writeEntry( "Toolbar", "hide" );
-  else // why not a switch here ? David. 
-      if ( m_toolBarPos == KToolBar::Top )
-      config->writeEntry( "Toolbar", "top" );
-  else if ( m_toolBarPos == KToolBar::Bottom )
-      config->writeEntry( "Toolbar", "bottom" );
-  else if ( m_toolBarPos == KToolBar::Left )
-      config->writeEntry( "Toolbar", "left" );
-  else if ( m_toolBarPos == KToolBar::Right )
-      config->writeEntry( "Toolbar", "right" );
-  else if ( m_toolBarPos == KToolBar::Floating )
-      config->writeEntry( "Toolbar", "floating" );
+  else
+    switch( m_toolBarPos ) {
+      case KToolBar::Top : config->writeEntry( "Toolbar", "top" ); break;
+      case KToolBar::Bottom : config->writeEntry( "Toolbar", "bottom" ); break;
+      case KToolBar::Left : config->writeEntry( "Toolbar", "left" ); break;
+      case KToolBar::Right : config->writeEntry( "Toolbar", "right" ); break;
+      case KToolBar::Floating : config->writeEntry( "Toolbar", "floating" ); break;
+      case KToolBar::Flat : config->writeEntry( "Toolbar", "flat" ); break;
+    }
 
   if ( !m_bShowLocationBar )
       config->writeEntry( "LocationBar", "hide" );
-  else if ( m_locationBarPos == KToolBar::Top )
-      config->writeEntry( "LocationBar", "top" );
-  else if ( m_locationBarPos == KToolBar::Bottom )
-      config->writeEntry( "LocationBar", "bottom" );
-  else if ( m_locationBarPos == KToolBar::Floating )
-      config->writeEntry( "LocationBar", "floating" );
+  else
+    switch (m_locationBarPos) {
+      case KToolBar::Top : config->writeEntry( "LocationBar", "top" ); break;
+      case KToolBar::Bottom : config->writeEntry( "LocationBar", "bottom" ); break;
+      case KToolBar::Floating : config->writeEntry( "LocationBar", "floating" ); break;
+      case KToolBar::Flat : config->writeEntry( "LocationBar", "flat" ); break;
+      default : assert(0);
+    }
 
   if ( !m_bShowStatusBar )
       config->writeEntry( "Statusbar", "hide" );
@@ -120,17 +124,17 @@ void KfmGuiProps::saveProps( KConfig * config )
 
   if ( !m_bShowMenuBar )
       config->writeEntry( "Menubar", "hide" );
-  else if ( m_menuBarPos == KMenuBar::Top )
-      config->writeEntry( "Menubar", "top" );
-  else if ( m_menuBarPos == KMenuBar::Bottom )
-      config->writeEntry( "Menubar", "bottom" );
-  else if ( m_menuBarPos == KMenuBar::Floating )
-      config->writeEntry( "Menubar", "floating" );
+  else
+    switch (m_menuBarPos) {
+      case KMenuBar::Top : config->writeEntry( "Menubar", "top" ); break;
+      case KMenuBar::Bottom : config->writeEntry( "Menubar", "bottom" ); break;
+      case KMenuBar::Floating : config->writeEntry( "Menubar", "floating" ); break;
+      case KMenuBar::Flat : config->writeEntry( "Menubar", "flat" ); break;
+      default : assert(0);
+    }
 
   config->writeEntry( "WindowWidth", m_width );
   config->writeEntry( "WindowHeight", m_height );
-
-  // FIXME pixmap missing
 
   config->sync();
 }

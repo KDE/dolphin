@@ -885,13 +885,6 @@ void KfmGui::slotSplitView()
     return;
   }
   
-/*if ( m_Props->m_bDirTree )
-  {
-    if ( !CORBA::is_nil( m_vMenuView ) )
-      m_vMenuView->setItemChecked( m_vMenuView->idAt( 0 ), false );
-    // TODO: Delete dir tree
-  }
-*/
   if ( !CORBA::is_nil( m_vMenuView ) )  
     m_vMenuView->setItemChecked( m_vMenuView->idAt( 1 ), true );
     
