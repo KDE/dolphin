@@ -47,7 +47,6 @@ signals:
 
 protected: 
   virtual void paintEvent( QPaintEvent* );
-  virtual void mouseReleaseEvent( QMouseEvent* );
   virtual void mousePressEvent( QMouseEvent* );
 
   void gradientFill(KPixmap &pm, QColor ca, QColor cb,bool vertShaded);
@@ -69,7 +68,7 @@ private:
 
 };
 
-class KonqFrame : public QWidget
+class KonqFrame : public OPFrame
 {
   Q_OBJECT
 
@@ -77,42 +76,18 @@ public:
   KonqFrame( QWidget *_parent = 0L, const char *_name = 0L );
   ~KonqFrame() {}
  
-  /**
-   * OPFrame wrapper function
-   * If 'attach' is called twice, then the first control attached
-   * becomes detached automatically. The controls reference becomes
-   * increased.
-   */
-  virtual bool attach( OpenParts::Part_ptr _part );
-
-  /**
-   * OPFrame wrapper function
-   * The controls reference becomes decreased.
-   */
-  virtual void detach();
-
-  /**
-   * OPFrame wrapper function
-   * Returns the embedded Part
-   */
-  virtual OpenParts::Part_ptr part();
-
-  /**
-   * Tell wether the embedded Part has the focus or not
-   */
-  bool partHasFocus( void );
-
 public slots:  
+
   /**
-   * Is Called when the frame header has been clicked
+   * Is called when the frame header has been clicked
    */
   void slotHeaderClicked();
 
-  KonqFrameHeader* m_pHeader;
 protected:
+  virtual void resizeEvent( QResizeEvent* );
+  virtual void paintEvent( QPaintEvent* );
 
-  OPFrame* m_pOPFrame;
-  QVBoxLayout* m_pLayout;
+  KonqFrameHeader* m_pHeader;
 };
 
 #endif

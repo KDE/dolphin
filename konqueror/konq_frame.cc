@@ -24,6 +24,8 @@
 
 #include "konq_frame.h"
 
+#define DEFAULT_HEADER_HEIGHT 9
+
 KonqFrameHeader::KonqFrameHeader( KonqFrame *_parent = 0L, const char *_name = 0L ) : QWidget( _parent, _name ), m_pParentKonqFrame( _parent )
 {
   KConfig* config;
@@ -36,7 +38,7 @@ KonqFrameHeader::KonqFrameHeader( KonqFrame *_parent = 0L, const char *_name = 0
   //config = getKApplication()->getConfig();
   //QString global = kapp->kde_configdir() + "kwmrc";
   //QString local = kapp->localconfigdir() + "kwmrc";
-  config = new KConfig( kapp->kde_configdir() + "kwmrc" , kapp->localconfigdir() + "kwmrc" );
+  config = new KConfig( kapp->kde_configdir() + "/kwmrc" , kapp->localconfigdir() + "/kwmrc" );
 
   // this belongs in kapp....
   config->setGroup("WM");
@@ -127,7 +129,7 @@ KonqFrameHeader::KonqFrameHeader( KonqFrame *_parent = 0L, const char *_name = 0
 void
 KonqFrameHeader::paintEvent( QPaintEvent* )
 {
-  bool hasFocus = m_pParentKonqFrame->partHasFocus();
+  bool hasFocus = m_pParentKonqFrame->part()->hasFocus();
 
   QRect r = rect();
   //bool double_buffering = false;
@@ -322,15 +324,6 @@ KonqFrameHeader::paintEvent( QPaintEvent* )
 }
 
 void
-KonqFrameHeader::mouseReleaseEvent( QMouseEvent* event )
-{
-  QWidget::mouseReleaseEvent( event );
-  cout << "KonqFrameHeader::mouseReleaseEvent" << endl;
-  emit headerClicked();
-  update();
-}
-
-void
 KonqFrameHeader::mousePressEvent( QMouseEvent* event )
 {
   QWidget::mousePressEvent( event );
@@ -384,52 +377,36 @@ KonqFrameHeader::gradientFill(KPixmap &pm, QColor ca, QColor cb,bool vertShaded)
 }
 
 KonqFrame::KonqFrame( QWidget *_parent = 0L, const char *_name = 0L )
-                    : QWidget( _parent, _name)
+                    : OPFrame( _parent, _name)
 {
-  m_pOPFrame = new OPFrame( this, "KonquerorFrame" );
   m_pHeader = new KonqFrameHeader( this, "KonquerorFrameHeader");
-  m_pHeader->setFixedHeight( 9 );
+  m_pHeader->setFixedHeight( DEFAULT_HEADER_HEIGHT );
   QObject::connect(m_pHeader, SIGNAL(headerClicked()), this, SLOT(slotHeaderClicked()));
-
-  m_pLayout = new QVBoxLayout( this, 0, 1, "KonquerorFrameLayout" );
-  m_pLayout->addWidget(m_pHeader);
-  m_pLayout->addWidget(m_pOPFrame);
-
-  m_pLayout->activate();
-}
-
-bool
-KonqFrame::attach( OpenParts::Part_ptr _part )
-{
- return m_pOPFrame->attach( _part );
-}
-
-void 
-KonqFrame::detach()
-{
-  m_pOPFrame->detach();
-}
-
-OpenParts::Part_ptr 
-KonqFrame::part()
-{
-  return m_pOPFrame->part();
-}
-
-bool
-KonqFrame::partHasFocus( void )
-{
-  return m_pOPFrame->part()->hasFocus();
 }
 
 void
 KonqFrame::slotHeaderClicked()
 {
-  cout << "Header clicked" << endl;
-  OpenParts::MainWindow_ptr w = m_pOPFrame->part()->parent()->mainWindow();
-  OpenParts::Id i = m_pOPFrame->part()->id();
-  w->setActivePart( i );
-  m_pOPFrame->part()->setFocus( true );
+  part()->parent()->mainWindow()->setActivePart( part()->id() );
+  part()->setFocus( true );
 }
+
+void 
+KonqFrame::paintEvent( QPaintEvent* event )
+{
+  OPFrame::paintEvent( event );
+  m_pHeader->repaint();
+}
+
+void 
+KonqFrame::resizeEvent( QResizeEvent* )
+{
+  m_pHeader->setGeometry( 0, 0, width(), DEFAULT_HEADER_HEIGHT);
+
+  Window win = (Window)part()->window();
+  if ( win != 0)
+    XMoveResizeWindow(qt_xdisplay(), win, 0, m_pHeader->height() , width(), height() - m_pHeader->height() );
+}
+
 
 #include "konq_frame.moc"

@@ -448,8 +448,8 @@ bool KonqMainView::mappingChildGotFocus( OpenParts::Part_ptr child )
 
   setActiveView( child->id() );
 
-  previousView->m_pFrame->m_pHeader->repaint();
-  m_currentView->m_pFrame->m_pHeader->repaint();
+  previousView->m_pFrame->repaint();
+  m_currentView->m_pFrame->repaint();
 
   assert( m_currentView );
   cerr << "current view is a " << m_currentView->m_vView->viewName() 
@@ -506,13 +506,6 @@ void KonqMainView::insertView( Konqueror::View_ptr view,
 
   m_mapViews[ view->id() ] = v;
   v->m_vView = Konqueror::View::_duplicate( m_vView );
-
-  //m_currentView = v; 
-  //why do we automatically activate a view when inserting? (Simon)
-  //because the loading of the initial url somehow depends on it, but the 
-  //problem is that the focus is still at the original view, where it should 
-  //stay IMHO, needs to be investigated. I uncommented it because it causes 
-  //problems when showing which view is active (Michael)
 
   if (newViewPosition == Konqueror::above || 
       newViewPosition == Konqueror::below)
