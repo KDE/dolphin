@@ -45,11 +45,9 @@ public:
 
 protected:
     bool event( QEvent * );
-
     void focusInEvent( QFocusEvent * );
     void focusOutEvent( QFocusEvent * );
     void resizeEvent(QResizeEvent *);
-
     //void showEvent( QShowEvent * );
 
     bool x11Event( XEvent* );
@@ -59,6 +57,7 @@ protected:
 private:
     WId window;
     KNSPluginEmbedPrivate* d;
+    void sendSyntheticConfigureNotifyEvent();
 };
 
 
