@@ -197,12 +197,12 @@ void KfindTop::toolBarInit()
 			  TRUE, i18n("Start"));
 
   icon = BarIcon("stop");
-  _toolBar->insertButton( icon, 2, SIGNAL(clicked()),
+  _toolBar->insertButton( icon, 1, SIGNAL(clicked()),
 			  _kfind, SLOT(stopSearch()),
 			  FALSE, i18n("Stop"));
 
   icon = BarIcon("reload");
-  _toolBar->insertButton( icon, 1, SIGNAL(clicked()),
+  _toolBar->insertButton( icon, 2, SIGNAL(clicked()),
 			  _kfind, SLOT(newSearch()),
 			  TRUE, i18n("New"));
 

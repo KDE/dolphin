@@ -69,7 +69,6 @@ KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name,
 
     subdirsCb->setChecked(true);
     
-
     // Layout
 
     QGridLayout *grid = new QGridLayout( pages[0], 3, 3, 
@@ -80,9 +79,9 @@ KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name,
     grid->addWidget( lookinL, 1, 0 );
     grid->addWidget( dirBox, 1, 1 );
     grid->addWidget( browseB, 1, 2);
-    grid->addWidget( subdirsCb, 3, 1);
+    grid->addWidget( subdirsCb, 2, 1);
     grid->setColStretch(1,1);
-
+    
     // Signals
 
     connect( browseB, SIGNAL(clicked()),
@@ -343,7 +342,7 @@ QString KfindTabWidget::createQuery() {
   if(!isDateValid())
     return NULL;
 
-  QString str, pom, type = "", name="";
+  QString str, pom, type = "", name="", typesFilter = "";
   int month;
 
   // is locate/slocate available?
@@ -362,6 +361,7 @@ QString KfindTabWidget::createQuery() {
 
   // Add different file types
   // default case is for special types we got from file manager
+  
   switch(typeBox->currentItem()) {
   case 0: // all files
     type = "";
@@ -402,51 +402,49 @@ QString KfindTabWidget::createQuery() {
     KfFileType *typ = types->first();
     int i;
     QString pattern;
-
+    
+    // If user have selected a mime type create additional filter 
+    
     for (i=SPECIAL_TYPES; i<typeBox->currentItem(); i++ )
       typ = types->next();
-
-    // If a string in the name box doesn't contain neither '*' nor '.'
-    // we use it as a prefix for custom file types. Otherwise it is ignored.
-    // The idea is to make search for files with given extensiona
-    // and the prefix.
-    QString prefix = nameBox->text(nameBox->currentItem());
-    if(!(prefix.find('*') < 0 && prefix.find('.') < 0))
-      prefix = "";
-
+    
     QStrList& pats = typ->getPattern();
     for (pattern = pats.first(), i=0;
 	 pattern != 0L;
 	 pattern = pats.next(), i++) {
       if (i == 0)
-	name += " -name ";
+	typesFilter += " -name \"" + pattern + "\" ";
       else
-	name += " -o -name ";
-
-      name += prefix + pattern;
+	typesFilter += " -o -name \"" + pattern + "\" ";
     }
+    
     // If we have more then one predicate we need "(" ... ")"
-    if(i > 0)
-      name = "\"(\"" + name + "\")\"";
+    if(i > 1)
+      typesFilter = " \"(\"" + typesFilter + " \")\" ";
   }
 
-  // If name is empty after the switch no special type was provided.
-  // We fill it with content of name box.
-  if(name.isEmpty()) {
-    if(nameBox->currentText().isEmpty())
-      name = "*";
-    else
-      name = nameBox->currentText();
-    name = " -name " + quote(name);
-  }
-
+  // If name is empty replace it with "*"
+  if(nameBox->currentText().isEmpty())
+    name = "*";
+  else
+    name = nameBox->currentText();
+  
+  name = " -name " + quote(name);
+  
+  // Add filters if we have them
+  if(!typesFilter.isEmpty())
+    name += " -and " + typesFilter;
+  
+  // Add type (can be empty)
   str += name + type;
-
+  
+  // Add sub-dir check
   if (!subdirsCb->isChecked()) {
     okToUseLocate = false;
     str.append(" -maxdepth 1 ");
   }
-
+  
+  // Add date predicate 
   if (rb1[1]->isChecked()) { // Modified
     okToUseLocate = false;
     if (rb2[0]->isChecked()) { // Between dates
@@ -465,13 +463,15 @@ QString KfindTabWidget::createQuery() {
 	if (rb2[2]->isChecked()) // Previous day
 	  str.append(pom = QString(" -daystart -mtime -%1").arg(le[3]->text()));
   }
-
+  
+  // Add size predicate
   if (sizeBox->currentItem() !=  0) {
     okToUseLocate = false;
     type = (sizeBox->currentItem() == 1) ? "+" : "-";
     str.append(pom = QString(" -size  %1%2k ").arg(type).arg(sizeEdit->text()));
   }
-
+  
+  // Add sub-string predicate
   if(!textEdit->text().isEmpty()) {
     okToUseLocate = false;
     str += " | xargs egrep -l ";
@@ -480,7 +480,18 @@ QString KfindTabWidget::createQuery() {
     str += quote(textEdit->text());
   }
 
-  if (okToUseLocate) {
+  // Locate search is currently disabled
+  // Reasons:
+  //  1. If locate database doesn't exist locate dies and we can not
+  //     check it.
+  //  2. The reg expression below is broken. What is the correct one?
+  //  3. Most important: lets don't make assumption what user wants to use.
+  //     locate is dangerous because it requires up-to-data database. If 
+  //     user doesn't have a propper cron the results are unpredictable.
+  //     This must be a configuration option for experienced users. 
+  // Whoever wants to enable it please let me know. Dima.
+
+  if (false /*okToUseLocate*/) {
     // ok they aren't using fancy options, they just want to do a simple
     // search.  We can use the locate/slocate database.
     str = locateBin + "-r ";
