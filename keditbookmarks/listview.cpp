@@ -113,7 +113,7 @@ void KEBListView::readonlyFlagInit(bool readonly) {
 void ListView::setInitialAddress(QString address) {
    KEBListViewItem *item = getItemAtAddress(address);
    if (!item) {
-      item = typ->getFirstChild();
+      item = typ->rootItem();
    }
    setCurrent(item);
    item->setSelected(true);
@@ -231,7 +231,7 @@ QValueList<KBookmark> ListView::selectedBookmarksExpanded() {
    for (QPtrListIterator<KEBListViewItem> it(*(typ->itemList())); it.current() != 0; ++it) {
       if (!it.current()->isSelected() 
        || it.current()->isEmptyFolder()
-       || it.current() == typ->getFirstChild()) {
+       || it.current() == typ->rootItem()) {
          continue;
       }
       if (it.current()->childCount() > 0) {
@@ -311,7 +311,7 @@ void ListView::setCurrent(KEBListViewItem *item) {
 }
 
 KEBListViewItem* ListView::getItemAtAddress(const QString &address) {
-   QListViewItem *item = typ->getFirstChild();
+   QListViewItem *item = typ->rootItem();
 
    QStringList addresses = QStringList::split('/',address); // e.g /5/10/2
 
@@ -348,13 +348,13 @@ SelcAbilities ListView::getSelectionAbilities() {
       sa.separator      = nbk.isSeparator();
       sa.urlIsEmpty     = nbk.url().isEmpty();
       sa.singleSelect   = (!sa.multiSelect && sa.itemSelected); // oops, TODO, FIXME!
-      sa.root           = (typ->getFirstChild() == item);
+      sa.root           = (typ->rootItem() == item);
       sa.multiSelect    = (selectedItems()->count() > 1);
    } else {
       // kdDebug() << "no item" << endl;
    }
 
-   sa.notEmpty = (typ->getFirstChild()->childCount() > 0);
+   sa.notEmpty = (typ->rootItem()->childCount() > 0);
 
    return sa;
 }
@@ -482,7 +482,7 @@ void ListView::handleContextMenu(KEBListView *lv, KListView *, QListViewItem *qi
       return;
    }
    const char *type = 
-      (item == typ->getFirstChild()) || (item->bookmark().isGroup()) 
+      (item == typ->rootItem()) || (item->bookmark().isGroup()) 
     ? "popup_folder" : "popup_bookmark";
    QWidget* popup = KEBApp::self()->popupMenuFactory(type);
    if (popup) {
@@ -568,7 +568,7 @@ void ListView::renameNextCell(bool fwd) {
                   : KEBListView::CommentColumn;
       }
       if (!myrenameitem 
-        || myrenameitem == typ->getFirstChild() 
+        || myrenameitem == typ->rootItem() 
         || myrenameitem->isEmptyFolder()
         || myrenameitem->bookmark().isSeparator()
         || (myrenamecolumn == KEBListView::UrlColumn 
@@ -615,7 +615,7 @@ bool KeyPressEater::eventFilter(QObject *, QEvent *pe) {
    return false;
 }
 
-KEBListViewItem* KEBListView::getFirstChild() {
+KEBListViewItem* KEBListView::rootItem() {
    return static_cast<KEBListViewItem *>(firstChild());
 }
 

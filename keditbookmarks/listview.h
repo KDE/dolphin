@@ -84,7 +84,7 @@ public:
 
    bool isFolderList() { return m_folderList; }
 
-   KEBListViewItem* getFirstChild();
+   KEBListViewItem* rootItem();
    QPtrList<KEBListViewItem>* itemList();
 
 public slots:
