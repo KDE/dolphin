@@ -68,6 +68,14 @@ KonqListViewItem::KonqListViewItem( KonqBaseListViewWidget *_listViewWidget, KFi
    updateContents();
 }
 
+KonqListViewItem::~KonqListViewItem()
+{
+   for ( QValueVector<QPixmap*>::iterator
+            it = m_pixmaps.begin(), itEnd = m_pixmaps.end();
+         it != itEnd; ++it )
+      delete *it;
+}
+
 void KonqListViewItem::updateContents()
 {
    // Set the pixmap

@@ -101,7 +101,7 @@ class KonqListViewItem : public KonqBaseListViewItem
       KonqListViewItem( KonqBaseListViewWidget *_treeview, 
                         KonqListViewItem *_parent, KFileItem *_fileitem );
 
-      virtual ~KonqListViewItem() {}
+      virtual ~KonqListViewItem();
 
       virtual void paintCell( QPainter *_painter, const QColorGroup & cg,
                               int column, int width, int alignment );
