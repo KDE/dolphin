@@ -68,7 +68,12 @@ KDCOPActionProxy::~KDCOPActionProxy()
   delete d;
 }
 
-QCString KDCOPActionProxy::action( const QString &name ) const
+KAction *KDCOPActionProxy::action( const char *name ) const
+{
+  return d->m_actionCollection->action( name ); 
+}
+
+QCString KDCOPActionProxy::actionObjectId( const QString &name ) const
 {
   return d->m_prefix + name.latin1();
 }
@@ -87,7 +92,7 @@ QMap<QString,DCOPRef> KDCOPActionProxy::actionMap( const QCString &appId ) const
   for (; it != end; ++it )
   {
     QString name = QString::fromLatin1( (*it)->name() );
-    res.insert( name, DCOPRef( id, action( name ) ) );
+    res.insert( name, DCOPRef( id, actionObjectId( name ) ) );
   }
 
   return res;
@@ -99,11 +104,11 @@ bool KDCOPActionProxy::process( const QCString &obj, const QCString &fun, const 
   if ( obj.left( d->m_pos ) != d->m_prefix )
     return false;
 
-  KAction *action = d->m_actionCollection->action( obj.mid( d->m_pos ) );
-  if ( !action )
+  KAction *act = action( obj.mid( d->m_pos ) );
+  if ( !act )
     return false;
 
-  return processAction( obj, fun, data, replyType, replyData, action );
+  return processAction( obj, fun, data, replyType, replyData, act );
 }
 
 bool KDCOPActionProxy::processAction( const QCString &, const QCString &fun, const QByteArray &data,

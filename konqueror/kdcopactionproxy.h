@@ -35,9 +35,11 @@ public:
   KDCOPActionProxy( KActionCollection *actionCollection, DCOPObject *parent );
   ~KDCOPActionProxy();
 
-  QCString action( const QString &name ) const;
+  virtual KAction *action( const char *name ) const;
 
-  QMap<QString,DCOPRef> actionMap( const QCString &appId = QCString() ) const;
+  virtual QCString actionObjectId( const QString &name ) const;
+
+  virtual QMap<QString,DCOPRef> actionMap( const QCString &appId = QCString() ) const;
 
   virtual bool process( const QCString &obj, const QCString &fun, const QByteArray &data,
 			QCString &replyType, QByteArray &replyData );

@@ -74,7 +74,7 @@ DCOPRef KonqMainWindowIface::currentPart()
 
 DCOPRef KonqMainWindowIface::action( const QString &name )
 {
-  return DCOPRef( kapp->dcopClient()->appId(), m_dcopActionProxy->action( name ) );
+  return DCOPRef( kapp->dcopClient()->appId(), m_dcopActionProxy->actionObjectId( name ) );
 }
 
 QStringList KonqMainWindowIface::actions()
