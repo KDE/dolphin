@@ -645,8 +645,8 @@ void KonqMainView::slotConfigureNetwork()
 void KonqMainView::slotConfigureKeys()
 {
   //just testing Torben's widget :-) -- to be replaced by kdelibs config widget (Simon)
-  QActionDialog *actionDia = new QActionDialog( actionCollection(), this, 0 );
-  actionDia->show();
+  //QActionDialog *actionDia = new QActionDialog( actionCollection(), this, 0 );
+  //actionDia->show();
 }
 
 void KonqMainView::slotViewChanged( KParts::ReadOnlyPart *oldView, KParts::ReadOnlyPart *newView )
