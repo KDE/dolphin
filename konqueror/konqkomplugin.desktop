@@ -1,11 +1,11 @@
 [Desktop Entry]
 X-KDE-ServiceType=Konqueror/KOMPlugin
 
-[PropertyDef::RequiredInterfaces]
+[PropertyDef::X-KDE-KonqKOM-RequiredInterfaces]
 Type=QStringList
 
-[PropertyDef::ProvidedInterfaces]
+[PropertyDef::X-KDE-KonqKOM-ProvidedInterfaces]
 Type=QStringList
 
-[PropertyDef::KNamingServiceName]
+[PropertyDef::X-KDE-KonqKOM-KNamingServiceName]
 Type=QString

@@ -18,9 +18,9 @@ void KonqPlugins::installKOMPlugins( KOM::Component_ptr comp )
   KTrader::OfferList::ConstIterator it = offers.begin();
   for (; it != offers.end(); ++it )
   {
-    QStringList requiredInterfaces = (*it)->property( "RequiredInterfaces" )->stringListValue();
-    QStringList providedInterfaces = (*it)->property( "ProvidedInterfaces" )->stringListValue();
-    QString KNamingName = (*it)->property( "KNamingServiceName" )->stringValue();
+    QStringList requiredInterfaces = (*it)->property( "X-KDE-KonqKOM-RequiredInterfaces" )->stringListValue();
+    QStringList providedInterfaces = (*it)->property( "X-KDE-KonqKOM-ProvidedInterfaces" )->stringListValue();
+    QString KNamingName = (*it)->property( "X-KDE-KonqKOM-KNamingServiceName" )->stringValue();
     
     QStringList::ConstIterator it2 = requiredInterfaces.begin();
     for (; it2 != requiredInterfaces.end(); ++it2 )

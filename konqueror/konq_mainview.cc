@@ -194,7 +194,7 @@ void KonqMainView::init()
 
   initGui();
 
-//  KonqPlugins::installKOMPlugins( this ); <<--- enable this only if you want to fire up mainview plugins
+  KonqPlugins::installKOMPlugins( this );
   m_bInit = false;
 }
 
