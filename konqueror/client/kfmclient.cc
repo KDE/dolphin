@@ -141,7 +141,7 @@ void clientApp::initRegistry()
   {
     KRegistry * registry = new KRegistry;
     registry->addFactory( new KServiceTypeFactory );
-    registry->addFactory( new KServiceFactory );
+    //registry->addFactory( new KServiceFactory ); we don't need that one do we ? (David)
     registry->load( );
   }    
 }
@@ -235,6 +235,7 @@ int clientApp::doIt( int argc, char **argv )
   }
   else if ( strcmp( argv[1], "exec" ) == 0 )
   {
+    initRegistry(); // needed by KRun
     if ( argc == 3 )
     {
       KRun * run = new KRun( argv[2] );
