@@ -1,7 +1,7 @@
 [Desktop Entry]
 Encoding=UTF-8
 Type=Application
-Exec=kfmclient openProfile filemanagement $HOME
+Exec=kfmclient openProfile filemanagement
 Icon=folder_home
 Terminal=0
 
