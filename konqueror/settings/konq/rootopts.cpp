@@ -332,7 +332,7 @@ KRootOptions::KRootOptions(KConfig *config, QWidget *parent, const char *name )
 
 void KRootOptions::fillMenuCombo( QComboBox * combo )
 {
-  combo->insertItem( i18n("No action") );
+  combo->insertItem( i18n("No Action") );
   combo->insertItem( i18n("Window List Menu") );
   combo->insertItem( i18n("Desktop Menu") );
   combo->insertItem( i18n("Application Menu") );
