@@ -167,9 +167,10 @@ shell) runs in the window. Simply type at the prompt.</para>
 </textobject>
 </mediaobject>
 </screenshot>
-<para>A "Tip of the Day" window may also appear on startup, offering 
-hints on the use of &konsole;. If you do not wish to receive tips, 
-uncheck the <guilabel>Show tips on startup</guilabel> box.</para>
+<para>A <quote>Tip of the Day</quote> window may also appear on
+startup, offering hints on the use of &konsole;. If you do not wish to
+receive tips, uncheck the <guilabel>Show tips on startup</guilabel>
+box.</para>
 </sect1>
 
 <sect1 id="history-option">
@@ -184,8 +185,15 @@ Down</keycap></keycombo> (to move forward a page), <keycombo
 action="simul">&Shift;<keycap>Up</keycap></keycombo> (to move up a
 line) and <keycombo
 action="simul">&Shift;<keycap>Down</keycap></keycombo> (to move down a
-line) keys (provided the "<link
-linkend="settings-menu">History"</link> option is on).</para>
+line) keys (provided the <link
+linkend="settings-menu">History</link> option is on).</para>
+
+<para>In addition, &konsole; mimics the FreeBSD console when
+<keycap>scroll lock</keycap> is pressed. When scroll lock is on,
+ordinary in- and output from the shell is suspended, and you can
+scroll through the history with <keycap>Page Up</keycap>, <keycap>Page
+down</keycap>, and <keycap>Up Arrow</keycap> and <keycap>Down
+Arrow</keycap>.</para>
 
 </sect1>
 
