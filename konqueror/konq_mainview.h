@@ -180,6 +180,7 @@ protected slots:
   void slotSetLocationBarURL( const QString &url );
 
   void slotAbout();
+  void slotReportBug();
 
   void slotUpAboutToShow();
   void slotBackAboutToShow();
@@ -265,6 +266,7 @@ private:
   KActionMenu *m_pamLoadViewProfile;
 
   KAction *m_paAbout;
+  KAction *m_paReportBug;
 
   KAction *m_paReload;
   KAction *m_paCut;

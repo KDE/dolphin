@@ -49,6 +49,7 @@
  <Separator/>
  <Menu name="Help">
   <Action name="about"/>
+  <Action name="reportbug"/>
  </Menu>
 </MenuBar>
 <ToolBars>

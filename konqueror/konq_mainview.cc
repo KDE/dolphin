@@ -71,6 +71,9 @@
 #include <klibloader.h>
 #include <part.h>
 
+#include <kbugreport.h>
+#include "version.h"
+
 #define STATUSBAR_LOAD_ID 1
 #define STATUSBAR_SPEED_ID 2
 #define STATUSBAR_MSG_ID 3
@@ -130,21 +133,21 @@ KonqMainView::~KonqMainView()
 
   if ( m_combo )
   {
- 
+
     QStringList comboItems;
-  
+
     for ( int i = 0; i < m_combo->count(); i++ )
       comboItems.append( m_combo->text( i ) );
-  
+
     while ( comboItems.count() > 10 )
       comboItems.remove( comboItems.fromLast() );
- 
+
     KConfig *config = KonqFactory::instance()->config();
     config->setGroup( "Settings" );
     config->writeEntry( "ToolBarCombo", comboItems );
     config->sync();
   }
-    
+
   m_animatedLogoTimer.stop();
   delete m_pViewManager;
 
@@ -271,7 +274,7 @@ void KonqMainView::openURL( KonqChildView *_view, const QString &_url, bool relo
     //kdebug( KDEBUG_INFO, 1202, "%s", QString("Creating new konqrun for %1").arg(url).latin1() );
     if ( m_combo )
       m_combo->setEditText( url );
-    
+
     (void) new KonqRun( this, 0L, url, 0, false, true );
   }
 
@@ -1108,7 +1111,7 @@ void KonqMainView::slotSetLocationBarURL( const QString &url )
 void KonqMainView::slotAbout()
 {
   KMessageBox::about( 0, i18n(
-"Konqueror Version 0.1\n"
+"Konqueror Version " KONQUEROR_VERSION "\n"
 "Author: Torben Weis <weis@kde.org>\n"
 "Current maintainer: David Faure <faure@kde.org>\n\n"
 "Current team:\n"
@@ -1124,6 +1127,12 @@ void KonqMainView::slotAbout()
 "  Matt Koss <koss@napri.sk>\n"
 "  Alex Zepeda <garbanzo@hooked.net>\n"
   ));
+}
+
+void KonqMainView::slotReportBug()
+{
+  KBugReport dlg;
+  dlg.exec();
 }
 
 void KonqMainView::slotUpAboutToShow()
@@ -1180,21 +1189,21 @@ void KonqMainView::slotComboPlugged()
   m_combo = m_paURLCombo->combo();
   connect( (QComboBox *)m_combo, SIGNAL( activated( const QString & ) ),
 	   this, SLOT( slotURLEntered( const QString & ) ) );
-  
+
   KConfig *config = KonqFactory::instance()->config();
   config->setGroup( "Settings" );
   QStringList locationBarCombo = config->readListEntry( "ToolBarCombo" );
-  
+
   while ( locationBarCombo.count() > 10 )
     locationBarCombo.remove( locationBarCombo.fromLast() );
-  
+
   if ( locationBarCombo.count() == 0 )
     locationBarCombo << QString();
 
   m_combo->clear();
   m_combo->insertStringList( locationBarCombo );
   m_combo->setCurrentItem( 0 );
-} 
+}
 
 void KonqMainView::fillHistoryPopup( QPopupMenu *menu, const QList<HistoryEntry> &history )
 {
@@ -1362,7 +1371,9 @@ void KonqMainView::initActions()
 
   m_pViewManager->setProfiles( m_pamLoadViewProfile );
 
-  m_paAbout = new KAction( i18n( "&About Konqueror" ), 0, this, SLOT( slotAbout() ), actionCollection(), "about" );
+  QPixmap konqpix = KGlobal::iconLoader()->loadApplicationIcon( "konqueror", KIconLoader::Small );
+  m_paAbout = new KAction( i18n( "&About Konqueror..." ), konqpix, 0, this, SLOT( slotAbout() ), actionCollection(), "about" );
+  m_paReportBug = new KAction( i18n( "&Report bug..." ), QIconSet( BarIcon( "pencil", KonqFactory::instance() ) ), 0, this, SLOT( slotReportBug() ), actionCollection(), "reportbug" );
 
   m_paReload = new KAction( i18n( "&Reload" ), QIconSet( BarIcon( "reload", KonqFactory::instance() ) ), Key_F5, this, SLOT( slotReload() ), actionCollection(), "reload" );
 
