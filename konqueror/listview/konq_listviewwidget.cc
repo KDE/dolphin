@@ -19,6 +19,7 @@
 */
 
 #include "konq_listview.h"
+#include "konq_listviewsettings.h"
 
 #include <qtimer.h>
 #include <qevent.h>
@@ -193,23 +194,17 @@ KonqBaseListViewWidget::~KonqBaseListViewWidget()
 void KonqBaseListViewWidget::readProtocolConfig( const KURL & url )
 {
    const QString protocol = url.protocol();
-   KConfig *config = KGlobal::config();
-   if ( config->hasGroup( "ListView_" + protocol ) )
-      config->setGroup( "ListView_" + protocol );
-   else
-      config->setGroup( "ListView_default" );
+   KonqListViewSettings config( protocol );
+   config.readConfig();
+   sortedByColumn = config.sortBy();
+   m_bAscending = config.sortOrder();
 
-   sortedByColumn = config->readEntry( "SortBy", "FileName" );
-   m_bAscending = config->readBoolEntry( "SortOrder", true );
+   m_filenameColumnWidth = config.fileNameColumnWidth();
 
-   // width of filename column
-   m_filenameColumnWidth = config->readNumEntry(
-         "FileNameColumnWidth", 25 * fontMetrics().width( "m" )
-   );
-
-   QStringList lstColumns = config->readListEntry( "Columns" );
-   QValueList<int> lstColumnWidths = config->readIntListEntry( "ColumnWidths" );
-   if ( lstColumns.isEmpty() )
+   bool defaultColumns = false;
+   QStringList lstColumns = config.columns();
+   QValueList<int> lstColumnWidths = config.columnWidths();
+   if (lstColumns.isEmpty())
    {
       // Default column selection
       lstColumns.append( "Size" );

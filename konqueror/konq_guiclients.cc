@@ -21,6 +21,7 @@
 #include <klocale.h>
 #include <kmenubar.h>
 #include "konq_view.h"
+#include "konq_settingsxt.h"
 #include "konq_frame.h"
 #include "konq_guiclients.h"
 #include "konq_viewmgr.h"
@@ -301,9 +302,7 @@ void ToggleViewGUIClient::saveConfig( bool add, const QString &serviceName )
   // the K menu only contains calls to kfmclient......
   // Well, it could be useful again in the future.
   // Currently, the profiles save this info.
-  KConfig *config = KGlobal::config();
-  KConfigGroupSaver cgs( config, "MainView Settings" );
-  QStringList toggableViewsShown = config->readListEntry( "ToggableViewsShown" );
+  QStringList toggableViewsShown = KonqSettings::toggableViewsShown();
   if (add)
   {
       if ( !toggableViewsShown.contains( serviceName ) )
@@ -311,7 +310,7 @@ void ToggleViewGUIClient::saveConfig( bool add, const QString &serviceName )
   }
   else
       toggableViewsShown.remove(serviceName);
-  config->writeEntry( "ToggableViewsShown", toggableViewsShown );
+  KonqSettings::setToggableViewsShown( toggableViewsShown );
 }
 
 void ToggleViewGUIClient::slotViewAdded( KonqView *view )

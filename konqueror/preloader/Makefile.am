@@ -16,3 +16,6 @@ services_DATA = konqy_preloader.desktop
 
 autostartdir = $(datadir)/autostart
 autostart_DATA = konqy_preload.desktop
+
+####### Build rules
+preloader.lo: ../konq_settingsxt.h

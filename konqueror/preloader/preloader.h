@@ -42,8 +42,6 @@ class KonqyPreloader
 	void checkAlwaysPreloaded();
     private:
         void updateCount();
-        unsigned int max_count;
-	bool always_have_preloaded;
         struct KonqyData
             {
             KonqyData() {}; // for QValueList

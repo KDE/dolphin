@@ -21,6 +21,7 @@
 #include "konq_textviewwidget.h"
 #include "konq_treeviewwidget.h"
 #include "konq_infolistviewwidget.h"
+#include "konq_listviewsettings.h"
 
 #include <kaction.h>
 #include <kapplication.h>
@@ -492,9 +493,6 @@ void KonqListView::slotColumnToggled()
    m_pListView->updateListContents();
 
    //save the config
-   KConfig * config = KGlobal::config();
-   QString groupName="ListView_" + m_pListView->url().protocol();
-   config->setGroup( groupName );
    QStringList lstColumns;
    int currentColumn(m_pListView->m_filenameColumn+1);
    for (int i=0; i<(int)m_pListView->NumberOfAtoms; i++)
@@ -508,8 +506,10 @@ void KonqListView::slotColumnToggled()
           i=-1;
       }
    }
-   config->writeEntry("Columns",lstColumns);
-   config->sync();
+   KonqListViewSettings config( m_pListView->url().protocol() );
+   config.readConfig();
+   config.setColumns( lstColumns );
+   config.writeConfig();
 
    // Update column sizes
    slotHeaderSizeChanged();
@@ -537,12 +537,11 @@ void KonqListView::slotHeaderClicked(int sec)
    else
       m_pListView->setAscending(!m_pListView->ascending());
 
-   KConfig * config = KGlobal::config();
-   QString groupName="ListView_" + m_pListView->url().protocol();
-   config->setGroup( groupName );
-   config->writeEntry("SortBy",nameOfSortColumn);
-   config->writeEntry("SortOrder",m_pListView->ascending());
-   config->sync();
+   KonqListViewSettings config( m_pListView->url().protocol() );
+   config.readConfig();
+   config.setSortBy( nameOfSortColumn );
+   config.setSortOrder( m_pListView->ascending() );
+   config.writeConfig();
 }
 
 void KonqListView::headerDragged(int sec, int from, int to)
@@ -562,9 +561,6 @@ const KFileItem * KonqListView::currentItem()
 
 void KonqListView::slotSaveAfterHeaderDrag()
 {
-   KConfig * config = KGlobal::config();
-   QString groupName="ListView_" + m_pListView->url().protocol();
-   config->setGroup( groupName );
    QStringList lstColumns;
 
    for ( int i=0; i < m_pListView->columns(); i++ )
@@ -581,8 +577,10 @@ void KonqListView::slotSaveAfterHeaderDrag()
          }
       }
    }
-   config->writeEntry("Columns",lstColumns);
-   config->sync();
+   KonqListViewSettings config( m_pListView->url().protocol() );
+   config.readConfig();
+   config.setColumns( lstColumns );
+   config.writeConfig();
 
    // Update column sizes
    slotHeaderSizeChanged();
@@ -590,10 +588,6 @@ void KonqListView::slotSaveAfterHeaderDrag()
 
 void KonqListView::slotSaveColumnWidths()
 {
-   QString protocol = url().protocol();
-   KConfig * config = KGlobal::config();
-   config->setGroup( "ListView_" + protocol );
-
    QValueList<int> lstColumnWidths;
 
    for ( int i=0; i < m_pListView->columns(); i++ )
@@ -612,12 +606,13 @@ void KonqListView::slotSaveColumnWidths()
          }
       }
    }
-   config->writeEntry( "ColumnWidths", lstColumnWidths );
+   KonqListViewSettings config( m_pListView->url().protocol() );
+   config.readConfig();
+   config.setColumnWidths( lstColumnWidths );
 
    // size of current filename column
-   config->writeEntry( "FileNameColumnWidth", m_pListView->columnWidth(0) );
-
-   config->sync();
+   config.setFileNameColumnWidth( m_pListView->columnWidth(0) );
+   config.writeConfig();
 }
 
 void KonqListView::slotHeaderSizeChanged()

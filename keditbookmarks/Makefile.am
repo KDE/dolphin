@@ -12,7 +12,7 @@ kbookmarkmerger_LDADD = $(LIB_KIO)
 
 dcop_DCOPIDLNG = true
 keditbookmarks_la_SOURCES = main.cpp listview.cpp toplevel.cpp actionsimpl.cpp commands.cpp importers.cpp dcop.skel dcop.cpp bookmarkiterator.cpp  \
-                            testlink.cpp favicons.cpp updater.cpp exporters.cpp kbookmarknotifier.stub bookmarkinfo.cpp
+                            testlink.cpp favicons.cpp updater.cpp exporters.cpp kbookmarknotifier.stub bookmarkinfo.cpp settings.kcfgc
 kbookmarknotifier_DIR = $(includedir)
 keditbookmarks_la_LIBADD  = $(top_builddir)/libkonq/libkonq.la
 keditbookmarks_la_LDFLAGS = $(all_libraries) -module -avoid-version
@@ -26,3 +26,9 @@ install-data-local: uninstall.desktop
 
 KDE_ICON = AUTO
 
+kde_kcfg_DATA = keditbookmarks.kcfg
+
+####### Build rules
+listview.lo: settings.h
+settings.lo: settings.h
+toplevel.lo: settings.h

@@ -243,8 +243,6 @@ public:
    */
   bool isHTMLAllowed() const { return m_bHTMLAllowed; }
 
-  bool isBackRightClickEnabled() const { return m_bBackRightClick; }
-
   bool saveViewPropertiesLocally() const { return m_bSaveViewPropertiesLocally; }
 
   static QPtrList<KonqMainWindow> *mainWindowList() { return s_lstViews; }
@@ -732,8 +730,6 @@ private:
 
   QString m_initialFrameName;
 
-  QString m_sViewModeForDirectory; // is actually the name of the service
-
   QPtrList<KAction> m_openWithActions;
   KActionMenu *m_viewModeMenu;
   QPtrList<KAction> m_toolBarViewModeActions; // basically holds two KonqViewActions, one of
@@ -752,8 +748,6 @@ private:
   QString m_currentDir; // stores current dir for relative URLs whenever applicable
 
   bool m_urlCompletionStarted;
-
-  bool m_bBackRightClick;
 
   static bool s_preloaded;
   static KonqMainWindow* s_preloadedWindow;

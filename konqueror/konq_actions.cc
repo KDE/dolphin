@@ -32,6 +32,7 @@
 #include <kapplication.h>
 
 #include "konq_view.h"
+#include "konq_settingsxt.h"
 
 template class QPtrList<KonqHistoryEntry>;
 
@@ -368,9 +369,7 @@ KonqMostOftenURLSAction::~KonqMostOftenURLSAction()
 
 void KonqMostOftenURLSAction::init()
 {
-    KConfig *kc = KGlobal::config();
-    KConfigGroupSaver cs( kc, "Settings" );
-    s_maxEntries = kc->readNumEntry( "Number of most visited URLs", 10 );
+    s_maxEntries = KonqSettings::numberofmostvisitedURLs();
 
     KonqHistoryManager *mgr = KonqHistoryManager::kself();
     setEnabled( !mgr->entries().isEmpty() && s_maxEntries > 0 );

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kcfg xmlns="http://www.kde.org/standards/kcfg/1.0"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.kde.org/standards/kcfg/1.0 
+                          http://www.kde.org/standards/kcfg/1.0/kcfg.xsd" >
+  <kcfgfile name="keditbookmarksrc" />
+  
+  <group name="Columns">
+    <entry key="Name" type="Int">
+      <default>300</default>
+      <label></label>
+      <whatsthis></whatsthis>
+    </entry>
+    <entry key="URL" type="Int">
+      <default>300</default>
+      <label></label>
+      <whatsthis></whatsthis>
+    </entry>
+    <entry key="Comment" type="Int">
+      <default>300</default>
+      <label></label>
+      <whatsthis></whatsthis>
+    </entry>
+    <entry key="Status" type="Int">
+      <default>300</default>
+      <label></label>
+      <whatsthis></whatsthis>
+    </entry>
+    <entry key="Address" type="Int">
+      <default>300</default>
+      <label></label>
+      <whatsthis></whatsthis>
+    </entry>
+  </group>
+  <group name="General">
+    <entry name="SaveOnClose" key="Save On Close" type="Bool">
+      <label></label>
+      <whatsthis></whatsthis>
+    </entry>
+  </group> 
+
+</kcfg>

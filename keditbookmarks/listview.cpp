@@ -25,6 +25,7 @@
 #include "bookmarkinfo.h"
 #include "commands.h"
 #include "testlink.h"
+#include "settings.h"
 
 #include <stdlib.h>
 
@@ -621,14 +622,12 @@ bool KeyPressEater::eventFilter(QObject *, QEvent *pe) {
 
 void KEBListView::loadColumnSetting() 
 {
-    KConfig config("keditbookmarksrc", false, false);
-    config.setGroup("Columns");
-    header()->resizeSection(KEBListView::NameColumn, config.readNumEntry("Name", 300));
-    header()->resizeSection(KEBListView::UrlColumn, config.readNumEntry("URL", 300));
-    header()->resizeSection(KEBListView::CommentColumn, config.readNumEntry("Comment", 300));
-    header()->resizeSection(KEBListView::StatusColumn, config.readNumEntry("Status", 300));
+    header()->resizeSection(KEBListView::NameColumn, KEBSettings::name());
+    header()->resizeSection(KEBListView::UrlColumn, KEBSettings::uRL());
+    header()->resizeSection(KEBListView::CommentColumn, KEBSettings::comment());
+    header()->resizeSection(KEBListView::StatusColumn, KEBSettings::status());
 #ifdef DEBUG_ADDRESSES
-    header()->resizeSection(KEBListView::AddressColumn, config.readNumEntry("Address", 300));
+    header()->resizeSection(KEBListView::AddressColumn, KEBSettings::address());
 #endif
     m_widthsDirty = false;
 }
@@ -636,15 +635,14 @@ void KEBListView::loadColumnSetting()
 void KEBListView::saveColumnSetting () 
 {
     if (m_widthsDirty) {
-        KConfig config("keditbookmarksrc", false, false);
-        config.setGroup("Columns");
-        config.writeEntry("Name", header()->sectionSize(KEBListView::NameColumn));
-        config.writeEntry("URL", header()->sectionSize(KEBListView::UrlColumn));
-        config.writeEntry("Comment", header()->sectionSize(KEBListView::CommentColumn));
-        config.writeEntry("Status", header()->sectionSize(KEBListView::StatusColumn));
+        KEBSettings::setName( header()->sectionSize(KEBListView::NameColumn));
+        KEBSettings::setURL( header()->sectionSize(KEBListView::UrlColumn));
+        KEBSettings::setComment( header()->sectionSize(KEBListView::CommentColumn));
+        KEBSettings::setStatus( header()->sectionSize(KEBListView::StatusColumn));
 #ifdef DEBUG_ADDRESSES
-        config.writeEntry("Address", header()->sectionSize(KEBListView::AddressColumn));
+        KEBSettings::setAddress( header()->sectionSize(KEBListView::AddressColumn));
 #endif
+        KEBSettings::writeConfig();
     }
 }
 

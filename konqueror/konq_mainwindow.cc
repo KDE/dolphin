@@ -30,6 +30,7 @@
 #include "konq_tabs.h"
 #include "konq_events.h"
 #include "konq_actions.h"
+#include "konq_settingsxt.h"
 #include "konq_extensionmanager.h"
 #include "delayedinitializer.h"
 #include <konq_pixmapprovider.h>
@@ -188,8 +189,6 @@ KonqMainWindow::KonqMainWindow( const KURL &initialURL, bool openInitialURL, con
            extOwner,
            SLOT( slotFillBookmarksList(KExtendedBookmarkOwner::QStringPairList &) ) );
 
-  KConfig *config = KGlobal::config();
-
   // init history-manager, load history, get completion object
   if ( !s_pCompletion ) {
     KonqHistoryManager *mgr = new KonqHistoryManager( kapp, "history mgr" );
@@ -198,8 +197,7 @@ KonqMainWindow::KonqMainWindow( const KURL &initialURL, bool openInitialURL, con
 
     // setup the completion object before createGUI(), so that the combo
     // picks up the correct mode from the HistoryManager (in slotComboPlugged)
-    KConfigGroupSaver cs( config, QString::fromLatin1("Settings") );
-    int mode = config->readNumEntry( "CompletionMode", KGlobalSettings::completionMode() );
+    int mode = KonqSettings::settingsCompletionMode();
     s_pCompletion->setCompletionMode( (KGlobalSettings::Completion) mode );
   }
   connect(KParts::HistoryProvider::self(), SIGNAL(cleared()), SLOT(slotClearComboHistory()));
@@ -248,11 +246,8 @@ KonqMainWindow::KonqMainWindow( const KURL &initialURL, bool openInitialURL, con
   if (popup)
     KAcceleratorManager::manage(popup);
 
-  KConfigGroupSaver cgs(config,"MainView Settings");
-  m_bSaveViewPropertiesLocally = config->readBoolEntry( "SaveViewPropertiesLocally", false );
-  m_bHTMLAllowed = config->readBoolEntry( "HTMLAllowed", false );
-  m_sViewModeForDirectory = config->readEntry( "ViewMode" );
-  m_bBackRightClick = config->readBoolEntry( "BackRightClick", false );
+  m_bSaveViewPropertiesLocally = KonqSettings::saveViewPropertiesLocally();
+  m_bHTMLAllowed = KonqSettings::htmlAllowed();
 
   m_ptaUseHTML->setChecked( m_bHTMLAllowed );
   m_paSaveViewPropertiesLocally->setChecked( m_bSaveViewPropertiesLocally );
@@ -743,8 +738,7 @@ bool KonqMainWindow::openView( QString serviceType, const KURL &_url, KonqView *
 
       // Set view mode if necessary (current view doesn't support directories)
       if ( !childView || !childView->supportsServiceType( serviceType ) )
-        serviceName = m_sViewModeForDirectory;
-      //kdDebug(1202) << "serviceName=" << serviceName << " m_sViewModeForDirectory=" << m_sViewModeForDirectory << endl;
+        serviceName = KonqSettings::mainViewViewMode();
 
       if ( url.isLocalFile() ) // local, we can do better (.directory)
         {
@@ -959,10 +953,8 @@ void KonqMainWindow::openURL( KonqView *childView, const KURL &url, const KParts
 
     childView->stop();
     req.forceAutoEmbed = true;
-    KConfig *config = KGlobal::config();
-    KConfigGroupSaver cs( config, QString::fromLatin1("FMSettings") );
 
-    req.openAfterCurrentPage = config->readBoolEntry( "OpenAfterCurrentPage", false ) ;
+    req.openAfterCurrentPage = KonqSettings::openAfterCurrentPage();
     openView( serviceType, url, childView, req );
     return;
   }
@@ -1069,15 +1061,13 @@ void KonqMainWindow::slotCreateNewWindow( const KURL &url, const KParts::URLArgs
 {
     kdDebug(1202) << "KonqMainWindow::slotCreateNewWindow url=" << url.prettyURL() << endl;
 
-    KConfig *config = KGlobal::config();
-    KConfigGroupSaver cs( config, QString::fromLatin1("FMSettings") );
-    if ( args.newTab() || (config->readBoolEntry( "MMBOpensTab", false ) &&
+    if ( args.newTab() || ( KonqSettings::mmbOpensTab() &&
          (const_cast<KParts::URLArgs*>(&args)->metaData()["forcenewwindow"]).isEmpty()) ) {
       KonqOpenURLRequest req;
       req.newTab = true;
-      req.newTabInFront = config->readBoolEntry( "NewTabsInFront", false );
+      req.newTabInFront = KonqSettings::newTabsInFront();
+      req.openAfterCurrentPage = KonqSettings::openAfterCurrentPage();
 
-      req.openAfterCurrentPage = config->readBoolEntry( "OpenAfterCurrentPage", false );
       if (KApplication::keyboardMouseState() & Qt::ShiftButton)
         req.newTabInFront = !req.newTabInFront;
       req.args = args;
@@ -1116,11 +1106,9 @@ void KonqMainWindow::slotCreateNewWindow( const KURL &url, const KParts::URLArgs
         }
     }
 
-    KConfig *config = KGlobal::config();
-    KConfigGroupSaver cs( config, QString::fromLatin1("FMSettings") );
-    if ( config->readBoolEntry( "PopupsWithinTabs", false ) || (config->readBoolEntry( "MMBOpensTab", false ) && windowArgs.lowerWindow ) ) {
-        bool aftercurrentpage = config->readBoolEntry( "OpenAfterCurrentPage", false );
-        bool newtabsinfront = config->readBoolEntry( "NewTabsInFront", false );
+    if ( KonqSettings::popupsWithinTabs() || ( KonqSettings::mmbOpensTab() && windowArgs.lowerWindow ) ) {
+      bool aftercurrentpage = KonqSettings::openAfterCurrentPage();
+      bool newtabsinfront = KonqSettings::newTabsInFront();
         if ( windowArgs.lowerWindow )
            newtabsinfront =! newtabsinfront;
 
@@ -1363,9 +1351,7 @@ void KonqMainWindow::slotSendFile()
 
 void KonqMainWindow::slotOpenTerminal()
 {
-  KConfig *config = KGlobal::config();
-  config->setGroup( "General" );
-  QString term = config->readPathEntry( "TerminalApplication", DEFAULT_TERMINAL );
+  QString term = KonqSettings::terminalApplication();
 
   QString dir ( QDir::homeDirPath() );
 
@@ -1625,12 +1611,8 @@ void KonqMainWindow::slotViewModeToggle( bool toggle )
       // We save the global view mode only if the view is a built-in view
       if ( m_currentView->isBuiltinView() )
       {
-          KConfig *config = KGlobal::config();
-          KConfigGroupSaver cgs( config, "MainView Settings" );
-          config->writeEntry( "ViewMode", modeName );
-          config->sync();
-          m_sViewModeForDirectory = modeName;
-          //kdDebug(1202) << "m_sViewModeForDirectory=" << m_sViewModeForDirectory << endl;
+          KonqSettings::setMainViewViewMode( modeName );
+          KonqSettings::writeConfig();
       }
   }
 }
@@ -1652,10 +1634,8 @@ void KonqMainWindow::showHTML( KonqView * _view, bool b, bool _activateView )
       }
   } else
   {
-      KConfig *config = KGlobal::config();
-      KConfigGroupSaver cgs( config, "MainView Settings" );
-      config->writeEntry( "HTMLAllowed", b );
-      config->sync();
+      KonqSettings::setHtmlAllowed( b );
+      KonqSettings::writeConfig();
       if ( _activateView )
           m_bHTMLAllowed = b;
   }
@@ -1772,13 +1752,9 @@ void KonqMainWindow::slotHome(KAction::ActivationReason, Qt::ButtonState state)
     if (homeURL.isEmpty())
 	homeURL = KonqFMSettings::settings()->homeURL();
 
-    KConfig *config = KGlobal::config();
-    KConfigGroupSaver cs( config, QString::fromLatin1("FMSettings") );
-    bool mmbOpensTab = config->readBoolEntry( "MMBOpensTab", false );
-
     KonqOpenURLRequest req;
     req.newTab = true;
-    req.newTabInFront = config->readBoolEntry( "NewTabsInFront", false ) ;
+    req.newTabInFront = KonqSettings::newTabsInFront();
 
     if (state & Qt::ShiftButton)
         req.newTabInFront = !req.newTabInFront;
@@ -1787,7 +1763,7 @@ void KonqMainWindow::slotHome(KAction::ActivationReason, Qt::ButtonState state)
 	openFilteredURL( homeURL, req);    
     else if( state & Qt::MidButton )
     {
-	if(mmbOpensTab)	
+        if(KonqSettings::mmbOpensTab())	
 	    openFilteredURL( homeURL, req);	
 	else
 	{
@@ -1995,9 +1971,7 @@ void KonqMainWindow::slotRunFinished()
 
 void KonqMainWindow::applyKonqMainWindowSettings()
 {
-  KConfig *config = KGlobal::config();
-  KConfigGroupSaver cgs( config, "MainView Settings" );
-  QStringList toggableViewsShown = config->readListEntry( "ToggableViewsShown" );
+  QStringList toggableViewsShown = KonqSettings::toggableViewsShown();
   QStringList::ConstIterator togIt = toggableViewsShown.begin();
   QStringList::ConstIterator togEnd = toggableViewsShown.end();
   for ( ; togIt != togEnd ; ++togIt )
@@ -2518,16 +2492,12 @@ void KonqMainWindow::slotAddTab()
 
 void KonqMainWindow::slotDuplicateTab()
 {
-  KConfig *config = KGlobal::config();
-  KConfigGroupSaver cs( config, QString::fromLatin1("FMSettings") );
-  m_pViewManager->duplicateTab( 0, config->readBoolEntry( "OpenAfterCurrentPage", false ) );
+  m_pViewManager->duplicateTab( 0, KonqSettings::openAfterCurrentPage() );
 }
 
 void KonqMainWindow::slotDuplicateTabPopup()
 {
-  KConfig *config = KGlobal::config();
-  KConfigGroupSaver cs( config, QString::fromLatin1("FMSettings") );
-  m_pViewManager->duplicateTab( m_pWorkingTab, config->readBoolEntry( "OpenAfterCurrentPage", false ) );
+  m_pViewManager->duplicateTab( m_pWorkingTab, KonqSettings::openAfterCurrentPage() );
 }
 
 void KonqMainWindow::slotBreakOffTab()
@@ -2596,10 +2566,8 @@ void KonqMainWindow::slotPopupThisWindow()
 
 void KonqMainWindow::slotPopupNewTab()
 {
-    KConfig *config = KGlobal::config();
-    KConfigGroupSaver cs( config, QString::fromLatin1("FMSettings") );
-    bool openAfterCurrentPage = config->readBoolEntry( "OpenAfterCurrentPage", false );
-    bool newTabsInFront = config->readBoolEntry( "NewTabsInFront", false );
+    bool openAfterCurrentPage = KonqSettings::openAfterCurrentPage();
+    bool newTabsInFront = KonqSettings::newTabsInFront();
 
     if (KApplication::keyboardMouseState() & Qt::ShiftButton)
       newTabsInFront = !newTabsInFront;
@@ -2609,9 +2577,7 @@ void KonqMainWindow::slotPopupNewTab()
 
 void KonqMainWindow::slotPopupNewTabRight()
 {
-    KConfig *config = KGlobal::config();
-    KConfigGroupSaver cs( config, QString::fromLatin1("FMSettings") );
-    bool newTabsInFront = config->readBoolEntry( "NewTabsInFront", false );
+    bool newTabsInFront = KonqSettings::newTabsInFront();
 
     if (KApplication::keyboardMouseState() & ShiftButton)
       newTabsInFront = !newTabsInFront;
@@ -2809,10 +2775,8 @@ void KonqMainWindow::slotSaveViewPropertiesLocally()
 {
   m_bSaveViewPropertiesLocally = !m_bSaveViewPropertiesLocally;
   // And this is a main-view setting, so save it
-  KConfig *config = KGlobal::config();
-  KConfigGroupSaver cgs( config, "MainView Settings" );
-  config->writeEntry( "SaveViewPropertiesLocally", m_bSaveViewPropertiesLocally );
-  config->sync();
+  KonqSettings::setSaveViewPropertiesLocally( m_bSaveViewPropertiesLocally );
+  KonqSettings::writeConfig();
   // Now tell the views
   MapViews::ConstIterator it = m_mapViews.begin();
   MapViews::ConstIterator end = m_mapViews.end();
@@ -2990,15 +2954,11 @@ void KonqMainWindow::slotUp()
 
 void KonqMainWindow::slotUpDelayed()
 {
-    KConfig *config = KGlobal::config();
-    KConfigGroupSaver cs( config, QString::fromLatin1("FMSettings") );
-    bool mmbOpensTab = config->readBoolEntry( "MMBOpensTab", false );
-
     KonqOpenURLRequest req;
     req.newTab = true;
 
-    req.openAfterCurrentPage = config->readBoolEntry( "OpenAfterCurrentPage", false );
-    req.newTabInFront = config->readBoolEntry( "NewTabsInFront", false ) ;
+    req.openAfterCurrentPage = KonqSettings::openAfterCurrentPage();
+    req.newTabInFront = KonqSettings::newTabsInFront();
 
     if (m_goState & Qt::ShiftButton)
         req.newTabInFront = !req.newTabInFront;
@@ -3008,7 +2968,7 @@ void KonqMainWindow::slotUpDelayed()
 	openFilteredURL(url, req );    
     else if(m_goState & Qt::MidButton)
     {
-	if(mmbOpensTab)	
+        if(KonqSettings::mmbOpensTab())	
 	    openFilteredURL( url, req);	
 	else
 	    KonqMisc::createNewWindow( url );
@@ -3055,11 +3015,9 @@ void KonqMainWindow::slotGoHistoryDelayed()
 {
   if (!m_currentView) return;
 
-  KConfig *config = KGlobal::config();
-  KConfigGroupSaver cs( config, QString::fromLatin1("FMSettings") );
-  bool openAfterCurrentPage = config->readBoolEntry( "OpenAfterCurrentPage", false );
-  bool mmbOpensTab = config->readBoolEntry( "MMBOpensTab", false );
-  bool inFront = config->readBoolEntry( "NewTabsInFront", false );
+  bool openAfterCurrentPage = KonqSettings::openAfterCurrentPage();
+  bool mmbOpensTab = KonqSettings::mmbOpensTab();
+  bool inFront = KonqSettings::newTabsInFront();
   if(m_goState & Qt::ShiftButton)
       inFront = !inFront;
 
@@ -3185,15 +3143,9 @@ void KonqMainWindow::bookmarksIntoCompletion()
 void KonqMainWindow::slotCompletionModeChanged( KGlobalSettings::Completion m )
 {
   s_pCompletion->setCompletionMode( m );
-  KConfig *config = KGlobal::config();
-  config->setGroup( "Settings" );
 
-  if (m_combo->completionMode() == KGlobalSettings::completionMode())
-    config->deleteEntry("CompletionMode");
-  else
-  config->writeEntry( "CompletionMode", (int)m_combo->completionMode() );
-
-  config->sync();
+  KonqSettings::setSettingsCompletionMode( (int)m_combo->completionMode() );
+  KonqSettings::writeConfig();
 
   // tell the other windows too (only this instance currently)
   KonqMainWindow *window = s_lstViews->first();
@@ -3957,13 +3909,10 @@ void KonqMainWindow::slotFillContextMenu( const KBookmark &bk, QPopupMenu * pm )
 void KonqMainWindow::slotOpenBookmarkURL( const QString & url, Qt::ButtonState state)
 {
     kdDebug(1202) << "KonqMainWindow::slotOpenBookmarkURL(" << url << ", " << state << ")" << endl;
-    KConfig *config = KGlobal::config();
-    KConfigGroupSaver cs( config, QString::fromLatin1("FMSettings") );
-    bool mmbOpensTab = config->readBoolEntry( "MMBOpensTab", false );
 
     KonqOpenURLRequest req;
     req.newTab = true;
-    req.newTabInFront = config->readBoolEntry( "NewTabsInFront", false ) ;
+    req.newTabInFront = KonqSettings::newTabsInFront();
 
     if (state & Qt::ShiftButton)
         req.newTabInFront = !req.newTabInFront;
@@ -3972,7 +3921,7 @@ void KonqMainWindow::slotOpenBookmarkURL( const QString & url, Qt::ButtonState s
 	openFilteredURL( url, req);    
     else if( state & Qt::MidButton )
     {
-	if(mmbOpensTab)	
+        if(KonqSettings::mmbOpensTab())	
 	    openFilteredURL( url, req);	
 	else
 	{
@@ -4745,12 +4694,10 @@ void KonqMainWindow::reparseConfiguration()
 {
   kdDebug(1202) << "KonqMainWindow::reparseConfiguration() !" << endl;
 
-  KConfig *config = KGlobal::config();
-  KConfigGroupSaver cgs(config,"MainView Settings");
-  m_bBackRightClick = config->readBoolEntry( "BackRightClick", false );
-  m_bSaveViewPropertiesLocally = config->readBoolEntry( "SaveViewPropertiesLocally", false );
-  m_bHTMLAllowed = config->readBoolEntry( "HTMLAllowed", false );
-  m_sViewModeForDirectory = config->readEntry( "ViewMode" );
+  KonqSettings::self()->readConfig();
+
+  m_bSaveViewPropertiesLocally = KonqSettings::saveViewPropertiesLocally();
+  m_bHTMLAllowed = KonqSettings::htmlAllowed();
 
   MapViews::ConstIterator it = m_mapViews.begin();
   MapViews::ConstIterator end = m_mapViews.end();
@@ -5641,8 +5588,7 @@ bool KonqMainWindow::stayPreloaded()
     // not running in full KDE environment?
     if( getenv( "KDE_FULL_SESSION" ) == NULL || getenv( "KDE_FULL_SESSION" )[ 0 ] == '\0' )
         return false;
-    KConfigGroupSaver group( KGlobal::config(), "Reusing" );
-    if( KGlobal::config()->readNumEntry( "MaxPreloadCount", 1 ) == 0 )
+    if( KonqSettings::maxPreloadCount() == 0 )
         return false;
     viewManager()->clear(); // reduce resource usage before checking it
     if( !checkPreloadResourceUsage())

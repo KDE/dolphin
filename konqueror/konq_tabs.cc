@@ -38,6 +38,7 @@
 #include "konq_view.h"
 #include "konq_viewmgr.h"
 #include "konq_misc.h"
+#include "konq_settingsxt.h"
 
 #include <kaccelmanager.h>
 #include <konq_pixmapprovider.h>
@@ -119,26 +120,23 @@ KonqFrameTabs::KonqFrameTabs(QWidget* parent, KonqFrameContainerBase* parentCont
   connect( this, SIGNAL( contextMenu( const QPoint & ) ),
            SLOT(slotContextMenu( const QPoint & ) ) );
 
-  KConfig *config = KGlobal::config();
-  KConfigGroupSaver cs( config, QString::fromLatin1("FMSettings") );
+  m_MouseMiddleClickClosesTab = KonqSettings::mouseMiddleClickClosesTab();
 
-  m_MouseMiddleClickClosesTab = config->readBoolEntry( "MouseMiddleClickClosesTab", false );
-
-  m_permanentCloseButtons = config->readBoolEntry( "PermanentCloseButton", false );
+  m_permanentCloseButtons = KonqSettings::permanentCloseButton();
   if (m_permanentCloseButtons) {
     setHoverCloseButton( true );
     setHoverCloseButtonDelayed( false );
   }
   else
-    setHoverCloseButton( config->readBoolEntry( "HoverCloseButton", false ) );
-  setTabCloseActivatePrevious( config->readBoolEntry("TabCloseActivatePrevious", false) );
-  if (config->readEntry("TabPosition")=="Bottom")
+    setHoverCloseButton( KonqSettings::hoverCloseButton() );
+  setTabCloseActivatePrevious( KonqSettings::tabCloseActivatePrevious() );
+  if (KonqSettings::tabPosition()=="Bottom")
     setTabPosition(QTabWidget::Bottom);
   connect( this, SIGNAL( closeRequest( QWidget * )), SLOT(slotCloseRequest( QWidget * )));
   connect( this, SIGNAL( removeTabPopup() ),
            m_pViewManager->mainWindow(), SLOT( slotRemoveTabPopup() ) );
 
-  if ( config->readBoolEntry( "AddTabButton", true ) ) {
+  if ( KonqSettings::addTabButton() ) {
     m_leftWidget = new QToolButton( this );
     connect( m_leftWidget, SIGNAL( clicked() ),
              m_pViewManager->mainWindow(), SLOT( slotAddTab() ) );
@@ -147,7 +145,7 @@ KonqFrameTabs::KonqFrameTabs(QWidget* parent, KonqFrameContainerBase* parentCont
     QToolTip::add(m_leftWidget, i18n("Open a new tab"));
     setCornerWidget( m_leftWidget, TopLeft );
   }
-  if ( config->readBoolEntry( "CloseTabButton", true ) ) {
+  if ( KonqSettings::closeTabButton() ) {
     m_rightWidget = new QToolButton( this );
     connect( m_rightWidget, SIGNAL( clicked() ),
              m_pViewManager->mainWindow(), SLOT( slotRemoveTab() ) );

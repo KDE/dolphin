@@ -36,7 +36,8 @@ konqueror_la_SOURCES = konq_main.cc \
 	    konq_browseriface.cc \
 	    delayedinitializer.cc \
 	    konq_mainwindow.cc  \
-	    konq_extensionmanager.cc
+	    konq_extensionmanager.cc \
+	    konq_settingsxt.kcfgc 
 
 konqueror_la_PCH = AUTO
 
@@ -73,6 +74,18 @@ konq_data4_DATA = konqfilemgr.desktop
 konq_data4dir = $(kde_appsdir)/.hidden
 
 kde_kcfg_DATA = konqueror.kcfg
+
+####### Build rules
+KonquerorIface.lo: konq_settingsxt.h
+konq_actions.lo: konq_settingsxt.h
+konq_guiclients.lo: konq_settingsxt.h
+konq_main.lo: konq_settingsxt.h
+konq_mainwindow.lo: konq_settingsxt.h
+konq_profiledlg.lo: konq_settingsxt.h
+konq_settingsxt.lo: konq_settingsxt.h
+konq_tabs.lo: konq_settingsxt.h
+konq_view.lo: konq_settingsxt.h
+konq_viewmgr.lo: konq_settingsxt.h
 
 # Use a hand-made rule for profiles because they are renamed upon installation
 profiledir = $(kde_datadir)/konqueror/profiles

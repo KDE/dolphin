@@ -29,6 +29,7 @@
 #include <dcopclient.h>
 #include <kdebug.h>
 #include <qfile.h>
+#include "konq_settingsxt.h"
 
 // these DCOP calls come from outside, so any windows created by these
 // calls would have old user timestamps (for KWin's no-focus-stealing),
@@ -248,21 +249,21 @@ bool KonquerorIface::processCanBeReused( int screen )
     QPtrList<KonqMainWindow>* windows = KonqMainWindow::mainWindowList();
     if( windows == NULL )
         return true;
-    KConfig* cfg = kapp->config();
-    KConfigGroupSaver saver( cfg, "Reusing" );
-    QStringList allowed_parts;
-    // is duplicated in client/kfmclient.cc
-    allowed_parts << QString::fromLatin1( "konq_iconview.desktop" )
-                  << QString::fromLatin1( "konq_multicolumnview.desktop" )
-                  << QString::fromLatin1( "konq_sidebartng.desktop" )
-                  << QString::fromLatin1( "konq_infolistview.desktop" )
-                  << QString::fromLatin1( "konq_treeview.desktop" )
-                  << QString::fromLatin1( "konq_detailedlistview.desktop" );
+    QStringList allowed_parts = KonqSettings::safeParts();
     bool all_parts_allowed = false;
-    if( cfg->hasKey( "SafeParts" )
-        && cfg->readEntry( "SafeParts" ) != QString::fromLatin1( "SAFE" ))
-        allowed_parts = cfg->readListEntry( "SafeParts" );
-    if( allowed_parts.count() == 1 && allowed_parts.first() == QString::fromLatin1( "ALL" ))
+    
+    if( allowed_parts.count() == 1 && allowed_parts.first() == QString::fromLatin1( "SAFE" ))
+    {
+        allowed_parts.clear();
+        // is duplicated in client/kfmclient.cc
+        allowed_parts << QString::fromLatin1( "konq_iconview.desktop" )
+                      << QString::fromLatin1( "konq_multicolumnview.desktop" )
+                      << QString::fromLatin1( "konq_sidebartng.desktop" )
+                      << QString::fromLatin1( "konq_infolistview.desktop" )
+                      << QString::fromLatin1( "konq_treeview.desktop" )
+                      << QString::fromLatin1( "konq_detailedlistview.desktop" );
+    }
+    else if( allowed_parts.count() == 1 && allowed_parts.first() == QString::fromLatin1( "ALL" ))
     {
         allowed_parts.clear();
         all_parts_allowed = true;

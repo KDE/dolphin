@@ -18,6 +18,7 @@
 */
 
 #include "preloader.h"
+#include "konq_settingsxt.h"
 
 #include <kconfig.h>
 #include <dcopref.h>
@@ -37,14 +38,12 @@ KonqyPreloader::KonqyPreloader( const QCString& obj )
 
 KonqyPreloader::~KonqyPreloader()
     {
-    max_count = 0;
-    always_have_preloaded = false;
     updateCount();
     }
 
 bool KonqyPreloader::registerPreloadedKonqy( QCString id, int screen )
     {
-    if( instances.count() >= max_count )
+    if( instances.count() >= (uint)KonqSettings::maxPreloadCount() )
         return false;
     instances.append( KonqyData( id, screen ));
     return true;
@@ -88,11 +87,7 @@ void KonqyPreloader::appRemoved( const QCString& id )
     
 void KonqyPreloader::reconfigure()
     {
-    KConfig cfg( QString::fromLatin1( "konquerorrc" ), true );
-    KConfigGroupSaver group( &cfg, "Reusing" );
-    max_count = cfg.readNumEntry( "MaxPreloadCount", 1 );
-    always_have_preloaded = cfg.readBoolEntry( "AlwaysHavePreloaded", false )
-	&& max_count > 0;
+    KonqSettings::self()->readConfig();
     updateCount();
     // Ignore "PreloadOnStartup" here, it's used by the .desktop file
     // in the autostart folder, which will do 'konqueror --preload' in autostart
@@ -101,14 +96,16 @@ void KonqyPreloader::reconfigure()
 
 void KonqyPreloader::updateCount()
     {
-    while( instances.count() > max_count )
+    while( instances.count() > (uint)KonqSettings::maxPreloadCount() )
         {
         KonqyData konqy = instances.first();
         instances.pop_front();
         DCOPRef ref( konqy.id, "KonquerorIface" );
         ref.send( "terminatePreloaded" );
         }
-    if( always_have_preloaded && instances.count() == 0 )
+    if( KonqSettings::alwaysHavePreloaded() &&
+        KonqSettings::maxPreloadCount() > 0 &&
+        instances.count() == 0 )
 	{
 	if( !check_always_preloaded_timer.isActive())
 	    {

@@ -22,6 +22,7 @@
 #include "konq_factory.h"
 #include "konq_mainwindow.h"
 #include "konq_view.h"
+#include "konq_settingsxt.h"
 #include "KonquerorIface.h"
 
 #include <ktempfile.h>
@@ -128,8 +129,7 @@ extern "C" KDE_EXPORT int kdemain( int argc, char **argv )
          {
              if (args->isSet("preload"))
              {
-                 KConfigGroupSaver group( app.config(), "Reusing" );
-                 if( app.config()->readNumEntry( "MaxPreloadCount", 1 ) > 0 )
+                 if( KonqSettings::maxPreloadCount() > 0 )
                  {
                      DCOPRef ref( "kded", "konqy_preloader" );
                      if( !ref.callExt( "registerPreloadedKonqy", DCOPRef::NoEventLoop, 5000,

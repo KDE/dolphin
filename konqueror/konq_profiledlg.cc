@@ -19,6 +19,7 @@
 
 #include "konq_profiledlg.h"
 #include "konq_viewmgr.h"
+#include "konq_settingsxt.h"
 
 #include <qcheckbox.h>
 #include <qdir.h>
@@ -100,13 +101,12 @@ KonqProfileDlg::KonqProfileDlg( KonqViewManager *manager, const QString & presel
   loadAllProfiles(preselectProfile);
   m_pListView->setMinimumSize( m_pListView->sizeHint() );
 
-  KGlobal::config()->setGroup("Settings");
   m_cbSaveURLs = new QCheckBox( i18n("Save &URLs in profile"), this );
-  m_cbSaveURLs->setChecked( KGlobal::config()->readBoolEntry("SaveURLInProfile",true) );
+  m_cbSaveURLs->setChecked( KonqSettings::saveURLInProfile() );
   m_pGrid->addMultiCellWidget( m_cbSaveURLs, 7, 7, 0, N_BUTTONS-1 );
 
   m_cbSaveSize = new QCheckBox( i18n("Save &window size in profile"), this );
-  m_cbSaveSize->setChecked( KGlobal::config()->readBoolEntry("SaveWindowSizeInProfile",false) );
+  m_cbSaveSize->setChecked( KonqSettings::saveWindowSizeInProfile() );
   m_pGrid->addMultiCellWidget( m_cbSaveSize, 8, 8, 0, N_BUTTONS-1 );
 
   m_pSaveButton = new KPushButton( KStdGuiItem::save(), this );
@@ -153,10 +153,8 @@ KonqProfileDlg::KonqProfileDlg( KonqViewManager *manager, const QString & presel
 
 KonqProfileDlg::~KonqProfileDlg()
 {
-  KConfig * config = KGlobal::config();
-  config->setGroup("Settings");
-  config->writeEntry("SaveURLInProfile", m_cbSaveURLs->isChecked());
-  config->writeEntry("SaveWindowSizeInProfile", m_cbSaveSize->isChecked());
+  KonqSettings::setSaveURLInProfile( m_cbSaveURLs->isChecked() );
+  KonqSettings::setSaveWindowSizeInProfile( m_cbSaveSize->isChecked() );
 }
 
 void KonqProfileDlg::loadAllProfiles(const QString & preselectProfile)

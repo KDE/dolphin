@@ -21,6 +21,7 @@
 #include "konq_view.h"
 #include "kapplication.h"
 #include "KonqViewIface.h"
+#include "konq_settingsxt.h"
 #include "konq_frame.h"
 #include "konq_run.h"
 #include "konq_events.h"
@@ -95,7 +96,7 @@ KonqView::KonqView( KonqViewFactory &viewFactory,
   m_bGotIconURL = false;
   m_bPopupMenuEnabled = true;
   m_browserIface = new KonqBrowserInterface( this, "browseriface" );
-  m_bBackRightClick = m_pMainWindow->isBackRightClickEnabled();
+  m_bBackRightClick = KonqSettings::backRightClick();
   m_bFollowActive = false;
   m_bBuiltinView = false;
   m_bURLDropHandling = false;
@@ -580,10 +581,7 @@ void KonqView::slotCompleted( bool hasPending )
 
   if (!m_bGotIconURL && !m_bAborted)
   {
-    KConfig *config = KGlobal::config();
-    config->setGroup( "HTML Settings" );
-
-    if ( config->readBoolEntry( "EnableFavicon", true ) == true )
+    if ( KonqSettings::enableFavicon() == true )
     {
       // Try to get /favicon.ico
       if ( m_serviceType == "text/html" && url().protocol().startsWith( "http" ) )
@@ -1196,7 +1194,7 @@ void KonqView::enableBackRightClick( bool b )
 void KonqView::reparseConfiguration()
 {
     callExtensionMethod( "reparseConfiguration()" );
-    bool b = m_pMainWindow->isBackRightClickEnabled();
+    bool b = KonqSettings::backRightClick();
     if ( m_bBackRightClick != b )
     {
         if (m_bBackRightClick && m_pPart->widget()->inherits("QScrollView") )

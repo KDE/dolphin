@@ -1,0 +1,4 @@
+File=konqueror.kcfg 
+ClassName=KonqSettings
+Singleton=true 
+Mutators=true

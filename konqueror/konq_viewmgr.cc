@@ -24,6 +24,7 @@
 #include "konq_tabs.h"
 #include "konq_profiledlg.h"
 #include "konq_events.h"
+#include "konq_settingsxt.h"
 
 #include <qfileinfo.h>
 #include <qptrlist.h>
@@ -75,12 +76,9 @@ KonqView* KonqViewManager::Initialize( const QString &serviceType, const QString
   setActivePart( childView->part() );
   m_pDocContainer = childView->frame();
 
-  KConfig *config = KGlobal::config();
-  KConfigGroupSaver cs( config, QString::fromLatin1("FMSettings") );
-
     convertDocContainer();
   static_cast<KonqFrameTabs*>( m_pDocContainer )->setAlwaysTabbedMode(
-    config->readBoolEntry( "AlwaysTabbedMode", false ) );
+      KonqSettings::alwaysTabbedMode() );
 
   m_pDocContainer->widget()->show();
   return childView;
@@ -1185,9 +1183,7 @@ void KonqViewManager::loadViewProfile( KConfig &cfg, const QString & filename,
       }
   }
 
-  KConfig *config = KGlobal::config();
-  KConfigGroupSaver cs( config, QString::fromLatin1("FMSettings") );
-  bool alwaysTabbedMode = config->readBoolEntry( "AlwaysTabbedMode", false );
+  bool alwaysTabbedMode = KonqSettings::alwaysTabbedMode();
 
   m_currentProfile = filename;
   m_currentProfileText = cfg.readPathEntry("Name",filename);
@@ -1259,9 +1255,7 @@ void KonqViewManager::loadViewProfile( KConfig &cfg, const QString & filename,
   if ( openURL && !forcedURL.isEmpty())
   {
       KonqOpenURLRequest _req(req);
-      KConfig *config = KGlobal::config();
-      KConfigGroupSaver cs( config, QString::fromLatin1("FMSettings") );
-      _req.openAfterCurrentPage = config->readBoolEntry( "OpenAfterCurrentPage", false );
+      _req.openAfterCurrentPage = KonqSettings::openAfterCurrentPage();
       _req.forceAutoEmbed = true; // it's a new window, let's use it
 
       m_pMainWindow->openURL( nextChildView /* can be 0 for an empty profile */,

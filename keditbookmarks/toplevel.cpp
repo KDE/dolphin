@@ -26,6 +26,7 @@
 #include "actionsimpl.h"
 #include "dcop.h"
 #include "exporters.h"
+#include "settings.h"
 
 #include <stdlib.h>
 
@@ -281,9 +282,7 @@ void KEBApp::resetActions() {
 }
 
 void KEBApp::readConfig() {
-    KConfig appconfig("keditbookmarksrc", false, false);
-    appconfig.setGroup("General");
-    m_saveOnClose = appconfig.readBoolEntry("Save On Close", false);
+    m_saveOnClose = KEBSettings::saveOnClose();
     m_splitView = false; // appconfig.readBoolEntry("Split View", false);
 }
 
@@ -310,8 +309,8 @@ void KEBApp::slotSplitView() {
 
 void KEBApp::slotSaveOnClose() {
     m_saveOnClose = getToggleAction("settings_saveonclose")->isChecked();
-    writeConfigBool("keditbookmarksrc", "General",
-                    "Save On Close", m_saveOnClose);
+    KEBSettings::setSaveOnClose( m_saveOnClose );
+    KEBSettings::writeConfig();
 }
 
 bool KEBApp::nsShown() const {

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kcfg xmlns="http://www.kde.org/standards/kcfg/1.0"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.kde.org/standards/kcfg/1.0 
+                          http://www.kde.org/standards/kcfg/1.0/kcfg.xsd" >
+  <kcfgfile name="konquerorrc">
+    <parameter name="Protocol" />      
+  </kcfgfile>
+  <include>kapplication.h</include> 
+  
+  <group name="ListView_$(Protocol)">
+    <entry key="SortBy" type="String">
+      <default>FileName</default> 
+      <label>List is sorted by this item</label>
+      <whatsthis></whatsthis>
+    </entry>
+    <entry key="SortOrder" type="Bool">
+      <default>true</default> 
+      <label>Sort Order</label>
+      <whatsthis></whatsthis>
+    </entry>
+    <entry key="FileNameColumnWidth" type="Int">
+      <default code="true">25 * KApplication::kApplication()->fontMetrics().width( "m" )</default>
+      <label>Width of the FileName Column</label>
+      <whatsthis></whatsthis>
+    </entry>
+    <entry key="Columns" type="StringList">
+      <label>Columns</label>
+      <whatsthis></whatsthis>
+    </entry>
+    <entry key="ColumnWidths" type="IntList">
+      <label>Widths of the Columns</label>
+      <whatsthis></whatsthis>
+    </entry>
+  </group> 
+
+</kcfg>
