@@ -74,6 +74,7 @@ private:
   JSPolicies js_global_policies;
   QCheckBox *enableJavaScriptGloballyCB;
   QCheckBox *reportErrorsCB;
+  QCheckBox *jsDebugWindow;
   JSPoliciesFrame *js_policies_frame;
   bool _removeECMADomainSettings;
 

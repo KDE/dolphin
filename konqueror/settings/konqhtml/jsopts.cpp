@@ -42,7 +42,7 @@ KJavaScriptOptions::KJavaScriptOptions( KConfig* config, QString group, QWidget 
   QVBoxLayout* toplevel = new QVBoxLayout( this, 10, 5 );
 
   // the global checkbox
-  QVGroupBox* globalGB = new QVGroupBox( i18n( "Global Settings" ), this );
+  QGroupBox* globalGB = new QGroupBox( 2, Vertical, i18n( "Global Settings" ), this );
   toplevel->addWidget( globalGB );
 
   enableJavaScriptGloballyCB = new QCheckBox( i18n( "Ena&ble JavaScript globally" ), globalGB );
@@ -56,6 +56,10 @@ KJavaScriptOptions::KJavaScriptOptions( KConfig* config, QString group, QWidget 
   QWhatsThis::add( reportErrorsCB, i18n("Enables the reporting of errors that occur when JavaScript "
 	"code is executed.") );
   connect( reportErrorsCB, SIGNAL( clicked() ), this, SLOT( slotChanged() ) );
+
+  jsDebugWindow = new QCheckBox( i18n( "Enable debu&gger" ), globalGB );
+  QWhatsThis::add( jsDebugWindow, i18n( "Enables builtin JavaScript debugger." ) );
+  connect( jsDebugWindow, SIGNAL( clicked() ), SLOT( slotChanged() ) );
 
   // the domain-specific listview
   domainSpecific = new JSDomainListView(m_pConfig,m_groupname,this);
@@ -117,6 +121,7 @@ void KJavaScriptOptions::load()
     enableJavaScriptGloballyCB->setChecked(
     		js_global_policies.isFeatureEnabled());
     reportErrorsCB->setChecked( m_pConfig->readBoolEntry("ReportJavaScriptErrors",false));
+    jsDebugWindow->setChecked( m_pConfig->readBoolEntry( "EnableJavaScriptDebug",false ) );
 //    js_popup->setButton( m_pConfig->readUnsignedNumEntry("WindowOpenPolicy", 0) );
     setChanged(false);
 }
@@ -127,6 +132,7 @@ void KJavaScriptOptions::defaults()
   enableJavaScriptGloballyCB->setChecked(
     		js_global_policies.isFeatureEnabled());
   reportErrorsCB->setChecked( false );
+  jsDebugWindow->setChecked( false );
   setChanged(true);
 }
 
@@ -134,6 +140,7 @@ void KJavaScriptOptions::save()
 {
     m_pConfig->setGroup(m_groupname);
     m_pConfig->writeEntry( "ReportJavaScriptErrors", reportErrorsCB->isChecked() );
+    m_pConfig->writeEntry( "EnableJavaScriptDebug", jsDebugWindow->isChecked() );
 
     domainSpecific->save(m_groupname,"ECMADomains");
     js_policies_frame->save();
