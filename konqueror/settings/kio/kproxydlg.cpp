@@ -129,7 +129,7 @@ KProxyDialog::KProxyDialog( QWidget* parent)
                                            "file. Instead it will be automatically "
                                            "downloaded using the <b>Web Proxy"
                                            "Auto-Discovery Protocol (WPAD)</b>.<p>"
-                                           "<u>NOTE:</u>  If you have problem on "
+                                           "<u>NOTE:</u>  If you have a problem "
                                            "using this setup, please consult the FAQ "
                                            "section at http://www.konqueror.org for "
                                            "more information.</qt>") );

@@ -147,7 +147,7 @@ void KCookiesManagement::save()
     else
     {
       QString caption = i18n ("DCOP Communication Error");
-      QString message = i18n ("Was not able to delete all the cookies as requested.");
+      QString message = i18n ("Unable to delete all the cookies as requested.");
       KMessageBox::sorry (this, caption, message);
       return;
     }
@@ -170,7 +170,7 @@ void KCookiesManagement::save()
     else
     {
       QString caption = i18n ("DCOP Communication Error");
-      QString message = i18n ("Was not able to delete cookies as requested.");
+      QString message = i18n ("Unable to delete cookies as requested.");
       KMessageBox::sorry (this, caption, message);
       return;
     }
@@ -263,7 +263,7 @@ void KCookiesManagement::getDomains()
   else
   {
     QString caption = i18n ("Information Lookup Failure");
-    QString message = i18n ("Could not to retreive information about the "
+    QString message = i18n ("Unable to retreive information about the "
                             "cookies stored on your computer.");
     KMessageBox::sorry (this, caption, message);
     return;

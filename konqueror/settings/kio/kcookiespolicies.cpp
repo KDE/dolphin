@@ -56,7 +56,7 @@ KCookiesPolicies::KCookiesPolicies(QWidget *parent)
                                             "enabled and customize it to suit your "
                                             "privacy needs.<p>Please note that "
                                             "disabling cookie support makes many "
-                                            "of web today's web sites unbrowsable.") );
+                                            "of today's web sites unbrowsable.") );
 
     QWhatsThis::add( dlg->cbRejectCrossDomainCookies,
                      i18n("Reject the so called third-party cookies. These "
@@ -70,7 +70,7 @@ KCookiesPolicies::KCookiesPolicies(QWidget *parent)
                           "your daily browsing habits.") );
 
     QWhatsThis::add( dlg->cbAutoAcceptSessionCookies,
-                     i18n("Automatically accept temporary cookies mean to "
+                     i18n("Automatically accept temporary cookies meant to "
                           "expire at the end of the current session. Such "
                           "cookies will not be stored in your computer's "
                           "hard drive or storage device. Instead, they are "
@@ -87,7 +87,7 @@ KCookiesPolicies::KCookiesPolicies(QWidget *parent)
                           "cookies are small pieces of data that are temporarily "
                           "stored in your computer's memory until you quit or "
                           "close all applications (e.g. your browser) that "
-                          "use use them. Unlike regular cookies, session "
+                          "use them. Unlike regular cookies, session "
                           "cookies are never stored on your hard drive or"
                           "other storage medium."
                           "<P>NOTE: checking this option along with the "
