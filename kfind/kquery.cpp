@@ -199,7 +199,7 @@ void KQuery::processQuery( KFileItem* file)
           return;
         break;
       default:
-        if (!m_mimetype.isEmpty() && m_mimetype != file->mimetype())
+        if (!m_mimetype.isEmpty() && !m_mimetype.contains(file->mimetype()))
           return;
     }
 
@@ -383,7 +383,7 @@ void KQuery::setMetaInfo(const QString &metainfo, const QString &metainfokey)
   m_metainfokey=metainfokey;
 }
 
-void KQuery::setMimeType(const QString &mimetype)
+void KQuery::setMimeType(const QStringList &mimetype)
 {
   m_mimetype = mimetype;
 }

@@ -28,7 +28,7 @@ class KQuery : public QObject
   void setRecursive( bool recursive );
   void setPath(const KURL & url );
   void setFileType( int filetype );
-  void setMimeType( const QString & mimetype );
+  void setMimeType( const QStringList & mimetype );
   void setContext( const QString & context, bool casesensitive, 
     bool search_binary, bool useRegexp );
   void setUsername( QString username );
@@ -71,7 +71,7 @@ class KQuery : public QObject
   time_t m_timeTo;
   QRegExp m_regexp;// regexp for file content
   bool m_recursive;
-  QString m_mimetype;
+  QStringList m_mimetype;
   QString m_context;
   QString m_username;
   QString m_groupname;

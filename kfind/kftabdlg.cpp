@@ -285,9 +285,13 @@ KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name)
     typeBox->insertItem(i18n("Special Files (Sockets, Device Files...)"));
     typeBox->insertItem(i18n("Executable Files"));
     typeBox->insertItem(i18n("SUID Executable Files"));
+    typeBox->insertItem(i18n("All images"));
+    typeBox->insertItem(i18n("All video"));
+    typeBox->insertItem(i18n("All sounds"));
 
     initMimeTypes();
-
+    initSpecialMimeTypes();
+    
     for ( KMimeType::List::ConstIterator it = m_types.begin();
           it != m_types.end(); ++it )
     {
@@ -419,6 +423,25 @@ void KfindTabWidget::initMimeTypes()
     for ( KMimeType *type = sortedList.first(); type; type = sortedList.next())
     {
        m_types.append(type);
+    }
+}
+
+void KfindTabWidget::initSpecialMimeTypes()
+{
+    KMimeType::List tmp = KMimeType::allMimeTypes();
+
+    for ( KMimeType::List::ConstIterator it = tmp.begin(); it != tmp.end(); ++it )
+    {
+      KMimeType * type = *it;
+
+      if(!type->comment().isEmpty()) {
+        if(type->name().startsWith("image/"))
+           m_ImageTypes.append(type->name());
+        else if(type->name().startsWith("video/"))
+          m_VideoTypes.append(type->name());
+        else if(type->name().startsWith("audio/"))
+          m_AudioTypes.append(type->name());
+      }
     }
 }
 
@@ -665,10 +688,24 @@ void KfindTabWidget::setQuery(KQuery *query)
 
   query->setFileType(typeBox->currentItem());
 
-  int id = typeBox->currentItem()-7;
-  if ((id >= 0) && (id < (int) m_types.count()))
+  int id = typeBox->currentItem()-10;
+
+  if ((id >= -3) && (id < (int) m_types.count()))
   {
-     query->setMimeType( m_types[id]->name() );
+    switch(id)
+    {
+      case -3:
+        query->setMimeType( m_ImageTypes );
+        break;
+      case -2:
+        query->setMimeType( m_VideoTypes );
+        break;
+      case -1:
+        query->setMimeType( m_AudioTypes );
+        break;
+      default: 
+        query->setMimeType( m_types[id]->name() );
+     }
   }
   else
   {

@@ -37,6 +37,7 @@ public:
   KfindTabWidget(QWidget * parent = 0, const char *name=0);
   virtual ~KfindTabWidget();
   void initMimeTypes();
+  void initSpecialMimeTypes();
   void setQuery(class KQuery * query);
   void setDefaults();
 
@@ -111,6 +112,9 @@ private:
   KURL m_url;
 
   KMimeType::List m_types;
+  QStringList m_ImageTypes;
+  QStringList m_VideoTypes;
+  QStringList m_AudioTypes;
 };
 
 class KDigitValidator : public QValidator
