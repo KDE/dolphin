@@ -248,7 +248,7 @@ KonqLogoAction::KonqLogoAction( const QString& text, const QIconSet& pix,int acc
 KonqLogoAction::KonqLogoAction( const QStringList& icons, QObject* receiver,
                                 const char* slot, QObject* parent,
                                 const char* name )
-    : KAction( 0L, 0L, receiver, slot, parent, name ) // text missing !
+    : KAction( 0L, 0, receiver, slot, parent, name ) // text missing !
 {
   iconList = icons;
 }
