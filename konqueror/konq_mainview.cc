@@ -1343,12 +1343,12 @@ void KonqMainView::initActions()
 
   m_paAbout = new KAction( i18n( "&About Konqueror" ), 0, this, SLOT( slotAbout() ), actionCollection(), "about" );
 
-  m_paReload = new KAction( i18n( "&Reload Document" ), QIconSet( BarIcon( "reload", KonqFactory::instance() ) ), Key_F5, this, SLOT( slotReload() ), actionCollection(), "reload" );
+  m_paReload = new KAction( i18n( "&Reload" ), QIconSet( BarIcon( "reload", KonqFactory::instance() ) ), Key_F5, this, SLOT( slotReload() ), actionCollection(), "reload" );
 
   m_paCut = new KAction( i18n( "&Cut" ), QIconSet( BarIcon( "editcut", KonqFactory::instance() ) ), stdAccel.cut(), this, SLOT( slotCut() ), actionCollection(), "cut" );
   m_paCopy = new KAction( i18n( "C&opy" ), QIconSet( BarIcon( "editcopy", KonqFactory::instance() ) ), stdAccel.copy(), this, SLOT( slotCopy() ), actionCollection(), "copy" );
   m_paPaste = new KAction( i18n( "&Paste" ), QIconSet( BarIcon( "editpaste", KonqFactory::instance() ) ), stdAccel.paste(), this, SLOT( slotPaste() ), actionCollection(), "paste" );
-  m_paStop = new KAction( i18n( "&Stop loading" ), QIconSet( BarIcon( "stop", KonqFactory::instance() ) ), Key_Escape, this, SLOT( slotStop() ), actionCollection(), "stop" );
+  m_paStop = new KAction( i18n( "&Stop" ), QIconSet( BarIcon( "stop", KonqFactory::instance() ) ), Key_Escape, this, SLOT( slotStop() ), actionCollection(), "stop" );
 
   m_paTrash = new KAction( i18n( "&Move to Trash" ), QIconSet( BarIcon( "trash", KonqFactory::instance() ) ), 0, this, SLOT( slotTrash() ), actionCollection(), "trash" );
   m_paDelete = new KAction( i18n( "&Delete" ), CTRL+Key_Delete, this, SLOT( slotDelete() ), actionCollection(), "delete" );
