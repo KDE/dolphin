@@ -37,6 +37,13 @@
 #include <kimgio.h>
 #include <ksimpleconfig.h>
 
+static KCmdLineOptions options[] =
+{
+  { "silent", I18N_NOOP("Start without a default window."), 0 },
+  { "+[URL]",   I18N_NOOP("Location to open."), 0 },
+  { 0, 0, 0}
+};
+
 class KonquerorIfaceImpl : virtual public KonquerorIface
 {
 public:
@@ -103,11 +110,17 @@ void KonquerorIfaceImpl::setMoveSelection( int move )
 
 int main( int argc, char **argv )
 {
-  KAboutData aboutData( "Konqueror", KONQUEROR_VERSION, I18N_NOOP("Web browser, file manager, ..."),
-              KAboutData::GPL, "(c) 1999-2000, The Konqueror developers" );
-  KCmdLineArgs::init( argc, argv, "konqueror", "this description isn't necessary anymore !", "this neither" );
-  KApplication::addCmdLineOptions(); // ?
-  KApplication app( &aboutData );
+  KAboutData aboutData( "konqueror", I18N_NOOP("Konqueror"), 
+                        KONQUEROR_VERSION, 
+                        I18N_NOOP("Web browser, file manager, ..."),
+                        KAboutData::GPL, 
+                        "(c) 1999-2000, The Konqueror developers" );
+
+  KCmdLineArgs::init( argc, argv, &aboutData );
+
+  KCmdLineArgs::addCmdLineOptions( options ); // Add our own options.
+
+  KApplication app;
 
   app.dcopClient()->registerAs( "konqueror" );
 
@@ -128,17 +141,21 @@ int main( int argc, char **argv )
   }
   delete kioConfig;
 
-  if ( argc == 1 )
+  KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
+
+  if (args->count() == 0)
   {
-    fm.openFileManagerWindow( 0L );
+     if (!args->isSet("silent"))
+     {
+        fm.openFileManagerWindow( 0L );
+     }
   }
-  else if ( argc == 2 && strncmp( "--silent", argv[1], 8 ) == 0 )
-  { /* do nothing ;) */ }
   else
   {
-    for ( int i = 1; i < argc; i++ )
-      fm.openFileManagerWindow( argv[ i ] );
+     for ( int i = 0; i < args->count(); i++ )
+        fm.openFileManagerWindow( args->arg(i) );
   }
+  delete args;
 
   QObject::connect( &app, SIGNAL( lastWindowClosed() ), &app, SLOT( quit() ) );
 
