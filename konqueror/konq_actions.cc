@@ -337,8 +337,39 @@ KonqLogoAction::KonqLogoAction( QObject* parent, const char* name )
 {
 }
 
+void KonqLogoAction::setIconSet( const QIconSet& iconSet )
+{
+  int len = containerCount();
+
+  for ( int i = 0; i < len; i++ )
+  {
+    QWidget *w = container( i );
+
+    if ( w->inherits( "KTMainWindow" ) )
+      m_logoLabel->setPixmap(iconSet.pixmap());
+
+    if ( w->inherits( "KToolBar" ) )
+      ((KToolBar *)w)->setButtonPixmap( menuId( i ), iconSet.pixmap() );
+  }
+
+  KAction::setIconSet( iconSet );
+}
+
 int KonqLogoAction::plug( QWidget *widget, int index )
 {
+  if ( widget->inherits( "KTMainWindow" ) )
+  {
+    if (!m_logoLabel)
+      m_logoLabel = new QLabel(widget);
+    m_logoLabel->setPixmap(iconSet().pixmap());
+    m_logoLabel->adjustSize();
+    ((KTMainWindow*)widget)->setIndicatorWidget(m_logoLabel);
+
+    addContainer( widget, -1 );
+
+    return containerCount() - 1;
+  }
+
   int containerId = KAction::plug( widget, index );
 
   if ( widget->inherits( "KToolBar" ) )
@@ -346,8 +377,6 @@ int KonqLogoAction::plug( QWidget *widget, int index )
     ((KToolBar *)widget)->alignItemRight( menuId( containerId ) );
     ((KToolBar *)widget)->setItemNoStyle( menuId( containerId ) );
   }
-
-  return containerId;
 }
 
 KonqLabelAction::KonqLabelAction( const QString &text, QObject *parent, const char *name )

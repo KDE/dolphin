@@ -9,7 +9,7 @@
    This program is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-    General Public License for more details.
+   General Public License for more details.
 
    You should have received a copy of the GNU General Public License
    along with this program; see the file COPYING.  If not, write to
@@ -27,6 +27,7 @@
 class KBookmarkOwner;
 class QComboBox;
 class HistoryEntry;
+class QLabel;
 
 class KonqComboAction : public QAction
 {
@@ -117,6 +118,11 @@ public:
     KonqLogoAction( QObject* parent = 0, const char* name = 0 );
 
     virtual int plug( QWidget *widget, int index = -1 );
+
+    virtual void setIconSet( const QIconSet& iconSet );
+
+private:
+    QLabel *m_logoLabel;
 };
 
 class KonqLabelAction : public QAction
