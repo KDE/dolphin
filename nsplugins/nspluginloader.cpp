@@ -201,7 +201,9 @@ QString NSPluginLoader::lookupMimeType(const QString &url)
 
 QString NSPluginLoader::lookup(const QString &mimeType)
 {
-  QString plugin = *_mapping[mimeType];
+    QString plugin;
+    if (  _mapping[mimeType] )
+        plugin = *_mapping[mimeType];
 
   kdDebug() << "Looking up plugin for mimetype " << mimeType << ": " << plugin << endl;
 
