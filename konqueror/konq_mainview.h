@@ -371,8 +371,6 @@ private:
 
   bool m_bURLEnterLock;
 
-  KonqChildView *m_oldView;
-
   QGuardedPtr<QComboBox> m_combo;
 
   ViewModeGUIClient *m_viewModeGUIClient;

@@ -309,18 +309,29 @@ void KonqMainView::openURL( KonqChildView *_view, const KURL &url, const QString
   if ( view )
   {
     if ( view == m_currentView )
+    {
       //will do all the stuff below plus GUI stuff
       slotStop();
+      // Show it for now in the location bar, but we'll need to store it in the view
+      // later on (can't do it yet since either view == 0 or updateHistoryEntry will be called).
+      //kdDebug(1202) << "setLocationBarURL : url = " << url.url() << endl;
+      setLocationBarURL( url.url() );
+    }
     else
+    {
       view->stop();
+      // Don't change location bar if not current view
+    }
+    if ( view->passiveMode() )
+    {
+      // Passive views are handled differently. No view-mode change allowed,
+      // no need to use the serviceType argument. We just force an openURL on the
+      // view and hope it can cope with it. If not, it should just ignore it.
+      // In all theory we should call updateHistoryEntry here. Bah.
+      view->openURL( url );
+      return;
+    }
   }
-
-  // Show it for now in the location bar, but we'll need to store it in the view
-  // later on (can't do it yet since either view == 0 or updateHistoryEntry will be called).
-  //kdDebug(1202) << "setLocationBarURL : url = " << url.url() << endl;
-  setLocationBarURL( url.url() );
-
-  bool emitEvent = false;
 
   kdDebug(1202) << QString("trying openView for %1 (servicetype %2)").arg(url.url()).arg(serviceType) << endl;
   if ( !serviceType.isEmpty() && serviceType != "application/octet-stream" )
@@ -328,8 +339,6 @@ void KonqMainView::openURL( KonqChildView *_view, const KURL &url, const QString
     // Built-in view ?
     if ( !openView( serviceType, url, view /* can be 0L */) )
     {
-      if ( !view || !view->passiveMode() )
-      {
         // We know the servicetype, let's try its preferred service
         KService::Ptr offer = KServiceTypeProfile::preferredService(serviceType);
         KURL::List lst;
@@ -338,15 +347,10 @@ void KonqMainView::openURL( KonqChildView *_view, const KURL &url, const QString
         {
           (void)new KRun( url );
         }
-      } else // passive view
-          emitEvent = true;
     }
   }
   else // no known serviceType, use KonqRun
   {
-    if ( !view || !view->passiveMode() ) // Do nothing if passive view (we'll have a
-        // linked active one to take care of this...)
-    {
       kdDebug(1202) << QString("Creating new konqrun for %1").arg(url.url()) << endl;
       KonqRun * run = new KonqRun( this, view /* can be 0L */, url, 0, false, true );
       if ( view )
@@ -362,15 +366,6 @@ void KonqMainView::openURL( KonqChildView *_view, const KURL &url, const QString
                this, SLOT( slotRunFinished() ) );
       connect( run, SIGNAL( error() ),
                this, SLOT( slotRunFinished() ) );
-    } else emitEvent = true;
-  }
-
-  // A passive view doesn't change its view mode. But it still emits the event !
-  if ( emitEvent )
-  {
-    kdDebug(1202) << "Passive view - mimetype mismatch - emitting event" << endl;
-    KParts::OpenURLEvent ev( view->view(), url );
-    QApplication::sendEvent( this, &ev ); // or customEvent(&ev) directly ?
   }
 }
 
@@ -1041,7 +1036,7 @@ void KonqMainView::customEvent( QCustomEvent *event )
          if ( (*it)->supportsServiceType( senderChildView->serviceType() )
               || senderChildView->passiveMode() )
          {
-           kdDebug(1202) << "Sending openURL to view, url:" << ev->url().url() << endl;
+           kdDebug(1202) << "Sending openURL to view " << it.key()->className() << " url:" << ev->url().url() << endl;
            kdDebug(1202) << "Current view url:" << (*it)->url().url() << endl;
            openURL( (*it), ev->url() );
          } else
@@ -1841,9 +1836,18 @@ void KonqMainView::slotPopupMenu( const QPoint &_global, const KFileItemList &_i
 
 void KonqMainView::slotPopupMenu( KXMLGUIClient *client, const QPoint &_global, const KFileItemList &_items )
 {
-  m_oldView = m_currentView;
+  KonqChildView * m_oldView = m_currentView;
 
+  // Make this view active temporarily, if not the current one (e.g. because it's passive)
   m_currentView = childView( (KParts::ReadOnlyPart *)sender()->parent() );
+
+  if ( m_oldView && m_oldView != m_currentView )
+  {
+    if ( m_oldView->browserExtension() )
+      disconnectExtension( m_oldView->browserExtension() );
+    if ( m_currentView->browserExtension() )
+      connectExtension( m_currentView->browserExtension() );
+  }
 
   kdDebug(1202) << "KonqMainView::slotPopupMenu( " << client << "...)" << " current view=" << m_currentView << " " << m_currentView->view()->className() << endl;
 
@@ -1893,6 +1897,14 @@ void KonqMainView::slotPopupMenu( KXMLGUIClient *client, const QPoint &_global, 
 
   delete konqyMenuClient;
   m_popupEmbeddingServices.clear();
+
+  if ( m_oldView && m_oldView != m_currentView )
+  {
+    if ( m_currentView->browserExtension() )
+      disconnectExtension( m_currentView->browserExtension() );
+    if ( m_oldView->browserExtension() )
+      connectExtension( m_oldView->browserExtension() );
+  }
 
   m_currentView = m_oldView;
 }
