@@ -283,7 +283,9 @@ void KfindTabDialog::loadHistory() {
     dirBox ->insertItem( _searchPath.data() );
     dirBox ->insertItem( "/" );
     dirBox ->insertItem( "/usr" );
+#ifndef __FreeBSD__
     dirBox ->insertItem( "/lib" );
+#endif
     dirBox ->insertItem( "/home" );
     dirBox ->insertItem( "/etc" );
     dirBox ->insertItem( "/var" );
