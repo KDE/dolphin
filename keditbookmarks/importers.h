@@ -52,23 +52,24 @@ class ImportCommand : public QObject, public KCommand
 {
    Q_OBJECT
 public:
+   ImportCommand()
+      : KCommand(), m_fileName(QString::null), m_folder(false),
+                    m_icon(QString::null), m_cleanUpCmd(0L), m_utf8(false)
+   { ; }
+
    /**
-    * @param name name of the command
     * @param fileName HTML file to import
     * @param folder name of the folder to create. Empty for no creation (root()).
     * @param icon icon for the new folder, if @p folder isn't empty
     * @param utf8 true if the HTML is in utf-8 encoding
     */
-   ImportCommand(const QString &fileName,
-                 bool folder, const QString &icon, bool utf8)
-      : KCommand(), m_fileName(fileName), m_folder(folder),
-                    m_icon(icon), m_cleanUpCmd(0L), m_utf8(utf8)
-   { ; }
-
-   ImportCommand()
-      : KCommand(), m_fileName(QString::null), m_folder(false),
-                    m_icon(QString::null), m_cleanUpCmd(0L), m_utf8(false)
-   { ; }
+   void init(const QString &fileName, bool folder, const QString &icon, bool utf8)
+   {
+      m_fileName = fileName;
+      m_folder = folder;
+      m_icon = icon;
+      m_utf8 = utf8;
+   }
 
    virtual QString name() const;
    virtual QString visibleName() const = 0;
@@ -82,8 +83,8 @@ public:
    virtual void execute();
    virtual void unexecute();
 
-   QString groupAddress()const { return m_group; }
-   QString folder()const;
+   QString groupAddress() const { return m_group; }
+   QString folder() const;
 
 protected slots:
    void newBookmark(const QString &text, const QCString &url, const QString &additionnalInfo);
@@ -113,11 +114,11 @@ protected:
 class XBELImportCommand : public ImportCommand
 {
 public:
-   XBELImportCommand(const QString &fileName, bool folder, const QString &icon)
-      : ImportCommand(fileName, folder, icon, false) {
-      ;
-   }
    XBELImportCommand() { ; }
+   XBELImportCommand(const QString &fileName, bool folder, const QString &icon)
+      : ImportCommand() {
+      init(fileName, folder, icon, false);
+   }
    virtual QString visibleName() const = 0;
    virtual QString requestFilename() const = 0;
 private:
@@ -129,11 +130,11 @@ private:
 class GaleonImportCommand : public XBELImportCommand
 {
 public:
+   GaleonImportCommand() { ; }
    GaleonImportCommand(const QString &fileName, bool folder)
       : XBELImportCommand(fileName, folder, "") {
       ;
    }
-   GaleonImportCommand() { ; }
    virtual QString visibleName() const;
    virtual QString requestFilename() const;
 private:
@@ -142,11 +143,11 @@ private:
 class KDE2ImportCommand : public XBELImportCommand
 {
 public:
+   KDE2ImportCommand() { ; }
    KDE2ImportCommand(const QString &fileName, bool folder)
       : XBELImportCommand(fileName, folder, "") {
       ;
    }
-   KDE2ImportCommand() { ; }
    virtual QString visibleName() const;
    virtual QString requestFilename() const;
 private:
@@ -158,8 +159,8 @@ class HTMLImportCommand : public ImportCommand
 public:
    HTMLImportCommand(const QString &fileName, bool folder,
                      const QString &icon, bool utf8)
-      : ImportCommand(fileName, folder, icon, utf8) {
-      ;
+      : ImportCommand() {
+      init(fileName, folder, icon, utf8);
    }
    HTMLImportCommand() { ; }
    virtual QString visibleName() const = 0;
@@ -198,8 +199,8 @@ class IEImportCommand : public ImportCommand
 {
 public:
    IEImportCommand(const QString &fileName, bool folder)
-      : ImportCommand(fileName, folder, "", false) {
-      ;
+      : ImportCommand() {
+      init(fileName, folder, "", false);
    }
    IEImportCommand() { ; }
    virtual QString visibleName() const;
@@ -212,8 +213,8 @@ class OperaImportCommand : public ImportCommand
 {
 public:
    OperaImportCommand(const QString &fileName, bool folder)
-      : ImportCommand(fileName, folder, "opera", false) {
-      ;
+      : ImportCommand() {
+      init(fileName, folder, "opera", false);
    }
    OperaImportCommand() { ; }
    virtual QString visibleName() const;
