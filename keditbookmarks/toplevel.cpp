@@ -237,35 +237,34 @@ void KEBTopLevel::setActionsEnabled(SelcAbilities sa) {
    bool t4 = !m_readOnly && sa.singleSelect && !sa.root && !sa.separator;
    bool t5 = !m_readOnly && !sa.multiSelect;
 
-#define ea(a,b) coll->action(a)->setEnabled(b)
-   ea("edit_copy",         sa.itemSelected);
-   ea("delete",            t2 && !sa.root);
-   ea("edit_cut",          t2 && !sa.root);
-   ea("edit_paste",        t2 && m_canPaste);
+   coll->action("edit_copy")        ->setEnabled(sa.itemSelected);
+   coll->action("delete")           ->setEnabled(t2 && !sa.root);
+   coll->action("edit_cut")         ->setEnabled(t2 && !sa.root);
+   coll->action("edit_paste")       ->setEnabled(t2 && m_canPaste);
+                                   
+   coll->action("rename")           ->setEnabled(t4);
+   coll->action("changeicon")       ->setEnabled(t4);
+   coll->action("changeurl")        ->setEnabled(t4 && !sa.group);
+                                   
+   coll->action("newfolder")        ->setEnabled(t5);
+   coll->action("newbookmark")      ->setEnabled(t5);
+   coll->action("insertseparator")  ->setEnabled(t5);
+                                   
+   coll->action("expandall")        ->setEnabled(true);
+   coll->action("collapseall")      ->setEnabled(true);
+   coll->action("openlink")         ->setEnabled(sa.itemSelected && !sa.urlIsEmpty 
+                                              && !sa.group && !sa.separator);
 
-   ea("rename",            t4);
-   ea("changeicon",        t4);
-   ea("changeurl",         t4 && !sa.group);
+   coll->action("search")           ->setEnabled(!sa.multiSelect);
 
-   ea("newfolder",         t5);
-   ea("newbookmark",       t5);
-   ea("insertseparator",   t5);
+   coll->action("testall")          ->setEnabled(!m_readOnly && sa.notEmpty);
+   coll->action("testlink")         ->setEnabled(t2 && !sa.separator);
 
-   ea("expandall",         true);
-   ea("collapseall",       true);
-   ea("openlink",          sa.itemSelected && !sa.urlIsEmpty && !sa.group && !sa.separator);
+   coll->action("updateallfavicons")->setEnabled(!m_readOnly && sa.notEmpty);
+   coll->action("updatefavicon")    ->setEnabled(t2 && !sa.separator);
 
-   ea("search",            !sa.multiSelect);
-
-   ea("testall",           !m_readOnly && sa.notEmpty);
-   ea("testlink",          t2 && !sa.separator);
-
-   ea("updateallfavicons", !m_readOnly && sa.notEmpty);
-   ea("updatefavicon",     t2 && !sa.separator);
-
-   ea("sort",              t5 && sa.group);
-   ea("setastoolbar",      t5 && sa.group);
-#undef ea
+   coll->action("sort")             ->setEnabled(t5 && sa.group);
+   coll->action("setastoolbar")     ->setEnabled(t5 && sa.group);
 }
 
 // DESIGN clean up this sh*t
