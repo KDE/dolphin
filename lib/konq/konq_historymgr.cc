@@ -71,6 +71,11 @@ KonqHistoryManager::~KonqHistoryManager()
     clearPending();
 }
 
+bool KonqHistoryManager::isSenderOfBroadcast()
+{
+    DCOPClient *dc = callingDcopClient();
+    return !dc || (dc->senderId() == dc->appId());
+}
 
 // loads the entire history
 bool KonqHistoryManager::loadHistory()
@@ -424,7 +429,7 @@ void KonqHistoryManager::emitSetMaxAge( Q_UINT32 days )
 // DCOP called methods
 
 void KonqHistoryManager::notifyHistoryEntry( KonqHistoryEntry e,
-					     QCString saveId )
+					     QCString  )
 {
     //kdDebug(1203) << "Got new entry from Broadcast: " << e.url.prettyURL() << endl;
 
@@ -458,7 +463,7 @@ void KonqHistoryManager::notifyHistoryEntry( KonqHistoryEntry e,
     // the history object itself keeps the data consistant.
     KonqBookmarkManager::self()->updateAccessMetadata( urlString );
 
-    if ( saveId == objId() ) {
+    if ( isSenderOfBroadcast() ) {
 	// we are the sender of the broadcast, so we save
 	saveHistory();
 	// note, bk save does not notify, and we don't want to!
@@ -469,7 +474,7 @@ void KonqHistoryManager::notifyHistoryEntry( KonqHistoryEntry e,
     emit entryAdded( entry );
 }
 
-void KonqHistoryManager::notifyMaxCount( Q_UINT32 count, QCString saveId )
+void KonqHistoryManager::notifyMaxCount( Q_UINT32 count, QCString )
 {
     m_maxCount = count;
     clearPending();
@@ -479,13 +484,13 @@ void KonqHistoryManager::notifyMaxCount( Q_UINT32 count, QCString saveId )
     KConfigGroupSaver cs( config, "HistorySettings" );
     config->writeEntry( "Maximum of History entries", m_maxCount );
 
-    if ( saveId == objId() ) { // we are the sender of the broadcast
+    if ( isSenderOfBroadcast() ) { 
 	saveHistory();
 	config->sync();
     }
 }
 
-void KonqHistoryManager::notifyMaxAge( Q_UINT32 days, QCString saveId )
+void KonqHistoryManager::notifyMaxAge( Q_UINT32 days, QCString  )
 {
     m_maxAgeDays = days;
     clearPending();
@@ -495,25 +500,25 @@ void KonqHistoryManager::notifyMaxAge( Q_UINT32 days, QCString saveId )
     KConfigGroupSaver cs( config, "HistorySettings" );
     config->writeEntry( "Maximum age of History entries", m_maxAgeDays );
 
-    if ( saveId == objId() ) { // we are the sender of the broadcast
+    if ( isSenderOfBroadcast() ) { 
 	saveHistory();
 	config->sync();
     }
 }
 
-void KonqHistoryManager::notifyClear( QCString saveId )
+void KonqHistoryManager::notifyClear( QCString )
 {
     clearPending();
     m_history.clear();
     m_pCompletion->clear();
 
-    if ( saveId == objId() ) // we are the sender of the broadcast
+    if ( isSenderOfBroadcast() )
 	saveHistory();
 
     KParts::HistoryProvider::clear(); // also emits the cleared() signal
 }
 
-void KonqHistoryManager::notifyRemove( KURL url, QCString saveId )
+void KonqHistoryManager::notifyRemove( KURL url, QCString )
 {
     kdDebug(1203) << "#### Broadcast: remove entry:: " << url.prettyURL() << endl;
     
@@ -532,13 +537,12 @@ void KonqHistoryManager::notifyRemove( KURL url, QCString saveId )
 	emit entryRemoved( entry );
 	delete entry;
 
-
-	if ( saveId == objId() )
+	if ( isSenderOfBroadcast() )
 	    saveHistory();
     }
 }
 
-void KonqHistoryManager::notifyRemove( KURL::List urls, QCString saveId )
+void KonqHistoryManager::notifyRemove( KURL::List urls, QCString )
 {
     kdDebug(1203) << "#### Broadcast: removing list!" << endl;
 
@@ -564,8 +568,8 @@ void KonqHistoryManager::notifyRemove( KURL::List urls, QCString saveId )
 	++it;
     }
 
-    if ( saveId == objId() && doSave )
-	saveHistory();
+    if (doSave && isSenderOfBroadcast())
+        saveHistory();
 }
 
 

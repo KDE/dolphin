@@ -329,6 +329,11 @@ private slots:
     void slotEmitUpdated();
 
 private:
+    /**
+     * Returns whether the DCOP call we are handling was a call from us self
+     */
+    bool isSenderOfBroadcast();
+
     void clearPending();
     /**
      * a little optimization for KonqHistoryList::findEntry(),
