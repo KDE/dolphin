@@ -274,6 +274,8 @@ protected:
   void applyMainWindowSettings();
 
 private:
+  void updateBookmarkBar(); //takes care of hiding the bookmarkbar and calling setChecked( false ) on the
+                            // corresponding action
 
   void startAnimation();
   void stopAnimation();

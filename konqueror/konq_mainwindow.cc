@@ -156,14 +156,8 @@ KonqMainWindow::KonqMainWindow( const KURL &initialURL, bool openInitialURL, con
     m_toggleViewGUIClient = 0;
   }
 
-  // hide if empty
-  KToolBar * bar = static_cast<KToolBar *>( child( "bookmarkToolBar", "KToolBar" ) );
-  if ( bar && bar->count() <= 1 ) // there is always a separator
-  {
-    m_paShowBookmarkBar->setChecked( false );
-    bar->hide();
-  }
-
+  updateBookmarkBar();
+  
   m_bNeedApplyMainWindowSettings = true;
   if ( !initialURL.isEmpty() )
   {
@@ -720,6 +714,7 @@ void KonqMainWindow::slotConfigureToolbars()
     if ( m_currentView->appServiceOffers().count() > 0 )
       plugActionList( "openwith", m_openWithActions );
 
+    updateBookmarkBar();
   }
 }
 
@@ -2247,5 +2242,18 @@ KonqMainWindowIface* KonqMainWindow::dcopObject()
       m_dcopObject = new KonqMainWindowIface( this );
   return m_dcopObject;
 }
+
+void KonqMainWindow::updateBookmarkBar()
+{
+  // hide if empty
+  KToolBar * bar = static_cast<KToolBar *>( child( "bookmarkToolBar", "KToolBar" ) );
+  if ( bar && bar->count() <= 1 ) // there is always a separator
+  {
+    m_paShowBookmarkBar->setChecked( false );
+    bar->hide();
+  }
+  else if ( bar )
+    m_paShowBookmarkBar->setChecked( true );
+} 
 
 #include "konq_mainwindow.moc"
