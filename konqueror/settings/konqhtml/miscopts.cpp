@@ -82,7 +82,7 @@ void KMiscHTMLOptions::load()
     bool changeCursor = m_pConfig->readBoolEntry("ChangeCursor", KDE_DEFAULT_CHANGECURSOR);
     bool underlineLinks = m_pConfig->readBoolEntry("UnderlineLinks", DEFAULT_UNDERLINELINKS);
     bool bAutoLoadImages = m_pConfig->readBoolEntry( "AutoLoadImages", true );
-    
+    bool favIcon = m_pConfig->readBoolEntry( "EnableFavicon", true );
     bool sheetEnabled = m_pConfig->readBoolEntry("UserStyleSheetEnabled", false);
     QString sheet = m_pConfig->readEntry("UserStyleSheet", "");
 
@@ -95,6 +95,8 @@ void KMiscHTMLOptions::load()
     cbCursor->setChecked( changeCursor );
     cbUnderline->setChecked( underlineLinks );
     m_pAutoLoadImagesCheckBox->setChecked( bAutoLoadImages );
+
+    m_pEnableFaviconCheckBox->setChecked( favIcon );
 }
 
 void KMiscHTMLOptions::defaults()
@@ -102,6 +104,8 @@ void KMiscHTMLOptions::defaults()
     cbCursor->setChecked( false );
     cbUnderline->setChecked( true );
     m_pAutoLoadImagesCheckBox->setChecked( true );
+
+    m_pEnableFaviconCheckBox->setChecked( true );
 }
 
 void KMiscHTMLOptions::save()
