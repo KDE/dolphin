@@ -58,12 +58,13 @@ KBehaviourOptions::KBehaviourOptions(KConfig *config, QString group, bool showFi
 
       // ----
       row++;
-      label = new QLabel(i18n("&Home URL:"), this);
+      label = new QLabel(i18n("Home &URL:"), this);
       lay->addWidget(label, row, 0);
 
       homeURL = new QLineEdit(this);
       lay->addMultiCellWidget(homeURL, row, row, 1, 3);
       connect(homeURL, SIGNAL(textChanged(const QString &)), this, SLOT(changed()));
+	  label->setBuddy(homeURL);
 
       QString homestr = i18n("This is the URL (e.g. a directory or a web page) where "
          "konqueror will jump to when the \"Home\" button is pressed. Usually a 'tilde' (~).");
