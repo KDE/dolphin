@@ -10,7 +10,7 @@ kcm_konq_la_SOURCES = behaviour.cpp desktop.cpp rootopts.cpp \
 		uiserver.stub main.cpp
 
 kcm_konq_la_LDFLAGS  = $(all_libraries) -module -avoid-version -no-undefined
-kcm_konq_la_LIBADD = $(LIB_KIO) $(LIB_KDEUI) $(LIB_KSYCOCA) -lkutils
+kcm_konq_la_LIBADD = $(LIB_KIO) $(LIB_KDEUI) $(LIB_KSYCOCA) $(LIB_KUTILS)
 
 kcm_konq_la_DATA = overlapping.png onlyone.png
 kcm_konq_ladir = $(kde_datadir)/kcontrol/pics
