@@ -363,9 +363,11 @@ void KonqMainWindow::openURL( KonqView *_view, const KURL &url,
     // Built-in view ?
     if ( !openView( serviceType, url, view /* can be 0L */, req ) )
     {
+        //kdDebug() << "KonqMainWindow::openURL : openView returned false" << endl;
         // Are we following another view ? Then forget about this URL. Otherwise fire app.
         if ( !req.followMode )
         {
+            //kdDebug() << "KonqMainWindow::openURL : we were not following. Fire app." << endl;
             // We know the servicetype, let's try its preferred service
             KService::Ptr offer = KServiceTypeProfile::preferredService(serviceType, true);
             // Remote URL: save or open ?
@@ -416,7 +418,7 @@ bool KonqMainWindow::openView( QString serviceType, const KURL &_url, KonqView *
     bOthersFollowed = makeViewsFollow( _url, req.args, serviceType, childView );
 
   if ( childView && childView->isLockedLocation() )
-    return false;
+    return bOthersFollowed;
 
   QString indexFile;
 
@@ -521,6 +523,7 @@ bool KonqMainWindow::openView( QString serviceType, const KURL &_url, KonqView *
       if ( !url.isEmpty() )
       childView->openURL( url, originalURL, req.nameFilter );
     }
+  kdDebug() << "KonqMainWindow::openView ok=" << ok << " bOthersFollowed=" << bOthersFollowed << " returning " << (ok || bOthersFollowed) << endl;
   return ok || bOthersFollowed;
 }
 
