@@ -235,7 +235,9 @@ void KonqIconViewWidget::slotOnItem( QIconViewItem *item )
             d->pActiveItem = static_cast<KFileIVI *>(item);
             if ( d->doAnimations && d->pActiveItem && d->pActiveItem->hasAnimation() )
             {
+                kdDebug(1203) << "Playing animation for: " << d->pActiveItem->mouseOverAnimation() << endl;
                 // Check if cached movie can be used
+#if 0 // Qt-mng bug, reusing the movie doesn't work currently.
                 if ( d->m_movie && d->movieFileName == d->pActiveItem->mouseOverAnimation() )
                 {
                     d->pActiveItem->setAnimated( true );
@@ -252,15 +254,14 @@ void KonqIconViewWidget::slotOnItem( QIconViewItem *item )
                     }
                 }
                 else
+#endif
                 {
-                    // If the file can't be loaded (e.g. no mng support), the movie will
-                    // simply never call updatePixmap, so no problem.
                     QMovie movie = KGlobal::iconLoader()->loadMovie( d->pActiveItem->mouseOverAnimation(), KIcon::Desktop, d->pActiveItem->iconSize() );
                     if ( !movie.isNull() )
                     {
                         delete d->m_movie;
                         d->m_movie = new QMovie( movie ); // shallow copy, don't worry
-                        d->m_movie->connectUpdate( this, SLOT( slotMovieUpdate() ) );
+                        d->m_movie->connectUpdate( this, SLOT( slotMovieUpdate(const QRect &) ) );
                         d->m_movie->connectStatus( this, SLOT( slotMovieStatus(int) ) );
                         d->movieFileName = d->pActiveItem->mouseOverAnimation();
                         d->pActiveItem->setAnimated( true );
@@ -385,14 +386,17 @@ void KonqIconViewWidget::slotPreviewResult()
     emit imagePreviewFinished();
 }
 
-void KonqIconViewWidget::slotMovieUpdate()
+void KonqIconViewWidget::slotMovieUpdate( const QRect& rect )
 {
-    //kdDebug(1203) << "KonqIconViewWidget::slotMovieUpdate" << endl;
+    //kdDebug(1203) << "KonqIconViewWidget::slotMovieUpdate " << rect.x() << "," << rect.y() << " " << rect.width() << "x" << rect.height() << endl;
     Q_ASSERT( d );
     Q_ASSERT( d->m_movie );
     // seems stopAnimation triggers one last update
-    if ( d->pActiveItem && d->m_movie && d->pActiveItem->isAnimated() )
-        d->pActiveItem->setPixmapDirect( d->m_movie->framePixmap(), false, true );
+    if ( d->pActiveItem && d->m_movie && d->pActiveItem->isAnimated() ) {
+        d->pActiveItem->setPixmapDirect( d->m_movie->framePixmap(), false, false /*no redraw*/ );
+	QRect pixRect = d->pActiveItem->pixmapRect(false);
+	repaintContents( pixRect.x() + rect.x(), pixRect.y() + rect.y(), rect.width(), rect.height() );
+    }
 }
 
 void KonqIconViewWidget::slotMovieStatus( int status )

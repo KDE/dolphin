@@ -231,7 +231,7 @@ protected slots:
     void slotPreview(const KFileItem *, const QPixmap &);
     void slotPreviewResult();
 
-    void slotMovieUpdate();
+    void slotMovieUpdate( const QRect& rect );
     void slotMovieStatus( int status );
     void slotReenableAnimation();
 protected:
