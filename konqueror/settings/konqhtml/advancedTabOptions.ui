@@ -95,6 +95,17 @@
                 </widget>
                 <widget class="QCheckBox">
                     <property name="name">
+                       <cstring>m_pPopupsWithinTabs</cstring>
+                    </property>
+                   <property name="text">
+                       <string>Open pop&amp;ups in new tab instead of in new window</string>
+                   </property>
+                   <property name="whatsThis" stdset="0">
+                       <string>Whether or not JavaScript popups if allowed shall open in a new tab or in a new window.</string>
+                   </property>
+                </widget>
+                <widget class="QCheckBox">
+                    <property name="name">
                         <cstring>m_pKonquerorTabforExternalURL</cstring>
                     </property>
                     <property name="text">

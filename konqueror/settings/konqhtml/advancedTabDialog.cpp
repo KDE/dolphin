@@ -63,6 +63,7 @@ advancedTabDialog::advancedTabDialog(QWidget* parent, KConfig* config, const cha
     connect(m_advancedWidget->m_pTabConfirm, SIGNAL(clicked()), this, SLOT(changed()));
     connect(m_advancedWidget->m_pPermanentCloseButton, SIGNAL(clicked()), this, SLOT(changed()));
     connect(m_advancedWidget->m_pKonquerorTabforExternalURL, SIGNAL(clicked()), this, SLOT(changed()));
+    connect(m_advancedWidget->m_pPopupsWithinTabs, SIGNAL(clicked()), this, SLOT(changed()));
 
     load();
 }
@@ -78,6 +79,7 @@ void advancedTabDialog::load()
     m_advancedWidget->m_pOpenAfterCurrentPage->setChecked( m_pConfig->readBoolEntry( "OpenAfterCurrentPage", false ) );
     m_advancedWidget->m_pPermanentCloseButton->setChecked( m_pConfig->readBoolEntry( "PermanentCloseButton", false ) );
     m_advancedWidget->m_pKonquerorTabforExternalURL->setChecked( m_pConfig->readBoolEntry( "KonquerorTabforExternalURL", false ) );
+    m_advancedWidget->m_pPopupsWithinTabs->setChecked( m_pConfig->readBoolEntry( "PopupsWithinTabs", false ) );
 
     m_pConfig->setGroup("Notification Messages");
     m_advancedWidget->m_pTabConfirm->setChecked( !m_pConfig->hasKey("MultipleTabConfirm") );
@@ -92,6 +94,7 @@ void advancedTabDialog::save()
     m_pConfig->writeEntry( "OpenAfterCurrentPage", m_advancedWidget->m_pOpenAfterCurrentPage->isChecked() );
     m_pConfig->writeEntry( "PermanentCloseButton", m_advancedWidget->m_pPermanentCloseButton->isChecked() );
     m_pConfig->writeEntry( "KonquerorTabforExternalURL", m_advancedWidget->m_pKonquerorTabforExternalURL->isChecked() );
+    m_pConfig->writeEntry( "PopupsWithinTabs", m_advancedWidget->m_pPopupsWithinTabs->isChecked() );
     m_pConfig->sync();
 
     // It only matters wether the key is present, its value has no meaning
