@@ -189,7 +189,7 @@ public:
   void partDeleted() { m_pPart = 0L; }
 
   KParts::BrowserExtension *browserExtension() {
-      return m_pPart ? static_cast<KParts::BrowserExtension *>(m_pPart->child( 0L, "KParts::BrowserExtension" )) : 0L ;
+      return KParts::BrowserExtension::childObject( m_pPart );
   }
 
   /**

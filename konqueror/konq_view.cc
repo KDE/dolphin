@@ -611,7 +611,7 @@ QStringList KonqView::childFrameNames( KParts::ReadOnlyPart *part )
 {
   QStringList res;
 
-  KParts::BrowserHostExtension *hostExtension = static_cast<KParts::BrowserHostExtension *>( part->child( 0L, "KParts::BrowserHostExtension" ) );
+  KParts::BrowserHostExtension *hostExtension = KParts::BrowserHostExtension::childObject( part );
 
   if ( !hostExtension )
     return res;
@@ -628,7 +628,7 @@ QStringList KonqView::childFrameNames( KParts::ReadOnlyPart *part )
 
 KParts::BrowserHostExtension* KonqView::hostExtension( KParts::ReadOnlyPart *part, const QString &name )
 {
-  KParts::BrowserHostExtension *ext = static_cast<KParts::BrowserHostExtension *>( part->child( 0L, "KParts::BrowserHostExtension" ) );
+    KParts::BrowserHostExtension *ext = KParts::BrowserHostExtension::childObject( part );
 
   if ( !ext )
     return 0;
@@ -650,7 +650,7 @@ KParts::BrowserHostExtension* KonqView::hostExtension( KParts::ReadOnlyPart *par
 
 void KonqView::callExtensionMethod( const char *methodName )
 {
-  QObject *obj = m_pPart->child( 0L, "KParts::BrowserExtension" );
+  QObject *obj = KParts::BrowserExtension::childObject( m_pPart );
   // assert(obj); Hmm, not all views have a browser extension !
   if ( !obj )
     return;
@@ -662,7 +662,7 @@ void KonqView::callExtensionMethod( const char *methodName )
 
 void KonqView::callExtensionBoolMethod( const char *methodName, bool value )
 {
-  QObject *obj = m_pPart->child( 0L, "KParts::BrowserExtension" );
+  QObject *obj = KParts::BrowserExtension::childObject( m_pPart );
   // assert(obj); Hmm, not all views have a browser extension !
   if ( !obj )
     return;
@@ -675,7 +675,7 @@ void KonqView::callExtensionBoolMethod( const char *methodName, bool value )
 
 void KonqView::callExtensionStringMethod( const char *methodName, QString value )
 {
-  QObject *obj = m_pPart->child( 0L, "KParts::BrowserExtension" );
+  QObject *obj = KParts::BrowserExtension::childObject( m_pPart );
   // assert(obj); Hmm, not all views have a browser extension !
   if ( !obj )
     return;

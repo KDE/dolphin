@@ -1,3 +1,8 @@
+2000-10-22  Simon Hausmann  <simon@kde.org>
+
+	* konq_view.{cc,h} : changed part->child( 0, "KParts::BE" ) calls to
+	  use the new childObject method in BrowserExtension
+
 2000-10-22  David Faure  <faure@kde.org>
 
 	* listview/konq_textviewwidget.cc: Only the Name column is now
