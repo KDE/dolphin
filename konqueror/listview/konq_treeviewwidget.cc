@@ -171,7 +171,7 @@ void KonqTreeViewWidget::openSubFolder(const KURL &_url, KonqListViewDir* _dir)
 
    m_bSubFolderComplete = false;
    m_pWorkingDir = _dir;
-   m_dirLister->openURL( _url, m_pProps->isShowingDotFiles(), true /* keep existing data */ );
+   m_dirLister->openURL( _url, props()->isShowingDotFiles(), true /* keep existing data */ );
 }
 
 KonqListViewDir * KonqTreeViewWidget::findDir( const QString &_url )

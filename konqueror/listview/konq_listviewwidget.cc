@@ -89,10 +89,6 @@ KonqBaseListViewWidget::KonqBaseListViewWidget( KonqListView *parent, QWidget *p
 
    m_bTopLevelComplete  = true;
 
-   // Create a properties instance for this view
-   // All the listview view modes inherit the same properties defaults...
-   m_pProps = new KonqPropsView( KonqListViewFactory::instance(), KonqListViewFactory::defaultViewProps() );
-
    //Adjust KListView behaviour
    setMultiSelection(TRUE);
    //maybe these two calls should be merged in KListView::setSelectionModeExt() ?
@@ -128,7 +124,6 @@ KonqBaseListViewWidget::~KonqBaseListViewWidget()
   kdDebug(1202) << "-KonqBaseListViewWidget" << endl;
 
   if ( m_dirLister ) delete m_dirLister;
-  delete m_pProps;
 }
 
 void KonqBaseListViewWidget::readProtocolConfig( const QString & protocol )
@@ -592,6 +587,11 @@ KURL::List KonqBaseListViewWidget::selectedUrls()
    return list;
 }
 
+KonqPropsView * KonqBaseListViewWidget::props() const
+{
+  return m_pBrowserView->m_pProps;
+}
+
 void KonqBaseListViewWidget::emitCompleted()
 {
    emit m_pBrowserView->completed();
@@ -769,18 +769,18 @@ bool KonqBaseListViewWidget::openURL( const KURL &url )
    // Check for new properties in the new dir
    // newProps returns true the first time, and any time something might
    // have changed.
-   bool newProps = m_pProps->enterDir( url );
+   bool newProps = m_pBrowserView->m_pProps->enterDir( url );
 
-   m_dirLister->setNameFilter( m_nameFilter );
+   m_dirLister->setNameFilter( m_pBrowserView->nameFilter() );
    // Start the directory lister !
-   m_dirLister->openURL( url, m_pProps->isShowingDotFiles(), false /* new url */ );
+   m_dirLister->openURL( url, m_pBrowserView->m_pProps->isShowingDotFiles(), false /* new url */ );
 
    // Apply properties and reflect them on the actions
    // do it after starting the dir lister to avoid changing the properties
    // of the old view
    if ( newProps )
    {
-      switch (m_pProps->iconSize())
+      switch (m_pBrowserView->m_pProps->iconSize())
       {
       case KIcon::SizeSmall:
          m_pBrowserView->m_paSmallIcons->setChecked(TRUE);
@@ -794,9 +794,9 @@ bool KonqBaseListViewWidget::openURL( const KURL &url )
       default:
          break;
       }
-      m_pBrowserView->m_paShowDot->setChecked( m_pProps->isShowingDotFiles() );
+      m_pBrowserView->m_paShowDot->setChecked( m_pBrowserView->m_pProps->isShowingDotFiles() );
 
-      m_pProps->applyColors( this );
+      m_pBrowserView->m_pProps->applyColors( this );
    }
 
    return true;

@@ -24,6 +24,7 @@
 #include <kglobalsettings.h>
 #include <konqoperations.h>
 #include <kparts/factory.h>
+#include <konq_dirpart.h>
 
 #include <qvaluelist.h>
 #include <qlistview.h>
@@ -57,7 +58,7 @@ private:
  * konqueror interface. Most of the functionality is in the
  * widget, KonqListViewWidget.
  */
-class KonqListView : public KParts::ReadOnlyPart
+class KonqListView : public KonqDirPart
 {
   friend class KonqBaseListViewWidget;
   Q_OBJECT
@@ -69,9 +70,6 @@ public:
   virtual bool openURL( const KURL &url );
   virtual bool closeURL();
   virtual bool openFile() { return true; }
-
-  void saveState( QDataStream &stream );
-  void restoreState( QDataStream &stream );
 
   KonqBaseListViewWidget *listViewWidget() const { return m_pListView; }
 
@@ -108,13 +106,9 @@ protected slots:
   void slotSaveAfterHeaderDrag();
   void slotHeaderClicked(int sec);
 
-  void slotBackgroundColor();
-  void slotBackgroundImage();
+private:
 
-  private:
-
-
-   KonqBaseListViewWidget *m_pListView;
+  KonqBaseListViewWidget *m_pListView;
   ListViewBrowserExtension *m_browser;
 
   KAction *m_paSelect;

@@ -97,7 +97,7 @@ class KonqBaseListViewWidget : public KListView
       /**
        * @return the Properties instance for this view. Used by the items.
        */
-      KonqPropsView * props() { return m_pProps; }
+      KonqPropsView * props() const;
 
       //QList<ColumnInfo> *columnConfigInfo() {return &confColumns;};
       ColumnInfo * columnConfigInfo() {return confColumns;};
@@ -117,7 +117,7 @@ class KonqBaseListViewWidget : public KListView
       QColor itemColor() const { return m_itemColor; }
       void setColor( const QColor &c ) { m_color = c; }
       QColor color() const { return m_color; }
-      int iconSize() const {return m_pProps->iconSize();};
+      int iconSize() const {return props()->iconSize(); }
 
    public slots:
       //virtual void slotOnItem( KonqBaseListViewItem* _item );
@@ -194,9 +194,6 @@ class KonqBaseListViewWidget : public KListView
       /** The directory lister for this URL */
       KonqDirLister* m_dirLister;
 
-      /** View properties */
-      KonqPropsView * m_pProps;
-
       //QList<ColumnInfo> confColumns;
       // IMO there is really no need for an advanced data structure
       //we have a fixed number of members,
@@ -223,7 +220,6 @@ class KonqBaseListViewWidget : public KListView
       bool m_bTopLevelComplete;
 
       long int m_idShowDot;
-      QString m_nameFilter;
 
       bool m_filesSelected;
       bool m_showIcons;

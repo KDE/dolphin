@@ -224,12 +224,12 @@ void ListViewBrowserExtension::reparseConfiguration()
 
 void ListViewBrowserExtension::setSaveViewPropertiesLocally(bool value)
 {
-   m_listView->listViewWidget()->m_pProps->setSaveViewPropertiesLocally( value );
+   m_listView->m_pProps->setSaveViewPropertiesLocally( value );
 }
 
 void ListViewBrowserExtension::setNameFilter( QString nameFilter )
 {
-  m_listView->listViewWidget()->m_nameFilter = nameFilter;
+  m_listView->m_nameFilter = nameFilter;
 }
 
 void ListViewBrowserExtension::properties()
@@ -249,9 +249,13 @@ void ListViewBrowserExtension::editMimeType()
 }
 
 KonqListView::KonqListView( QWidget *parentWidget, QObject *parent, const char *name, const QString& mode )
- : KParts::ReadOnlyPart( parent, name )
+ : KonqDirPart( parent, name )
 {
    setInstance( KonqListViewFactory::instance() );
+
+   // Create a properties instance for this view
+   // All the listview view modes inherit the same properties defaults...
+   m_pProps = new KonqPropsView( KonqListViewFactory::instance(), KonqListViewFactory::defaultViewProps() );
 
    m_browser = new ListViewBrowserExtension( this );
 
@@ -297,7 +301,9 @@ KonqListView::KonqListView( QWidget *parentWidget, QObject *parent, const char *
 }
 
 KonqListView::~KonqListView()
-{}
+{
+  delete m_pProps;
+}
 
 bool KonqListView::openURL( const KURL &url )
 {
@@ -314,17 +320,6 @@ bool KonqListView::closeURL()
 {
   m_pListView->stop();
   return true;
-}
-
-void KonqListView::saveState( QDataStream &stream )
-{
-  stream << listViewWidget()->m_nameFilter;
-}
-
-void KonqListView::restoreState( QDataStream &stream )
-{
-  // Warning: see comment in ListViewBrowserExtension::restoreState about order
-  stream >> listViewWidget()->m_nameFilter;
 }
 
 void KonqListView::guiActivateEvent( KParts::GUIActivateEvent *event )
@@ -418,16 +413,16 @@ void KonqListView::slotInvertSelection()
 
 void KonqListView::slotIconSizeToggled( bool)
 {
-   if (m_paLargeIcons->isChecked()) m_pListView->m_pProps->setIconSize(KIcon::SizeLarge);
-   else if (m_paMediumIcons->isChecked()) m_pListView->m_pProps->setIconSize(KIcon::SizeMedium);
-   else m_pListView->m_pProps->setIconSize(KIcon::SizeSmall);
+   if (m_paLargeIcons->isChecked()) m_pProps->setIconSize(KIcon::SizeLarge);
+   else if (m_paMediumIcons->isChecked()) m_pProps->setIconSize(KIcon::SizeMedium);
+   else m_pProps->setIconSize(KIcon::SizeSmall);
    m_pListView->updateListContents();
 }
 
 void KonqListView::slotShowDot()
 {
-   m_pListView->m_pProps->setShowingDotFiles( m_paShowDot->isChecked() );
-   m_pListView->m_dirLister->setShowingDotFiles( m_pListView->m_pProps->isShowingDotFiles() );
+   m_pProps->setShowingDotFiles( m_paShowDot->isChecked() );
+   m_pListView->m_dirLister->setShowingDotFiles( m_pProps->isShowingDotFiles() );
 }
 
 void KonqListView::slotColumnToggled()
@@ -547,29 +542,6 @@ void KonqListView::slotSaveAfterHeaderDrag()
    config->sync();
 }
 
-
-void KonqListView::slotBackgroundColor()
-{
-   QColor bgndColor = m_pListView->m_pProps->bgColor(m_pListView);
-   if ( KColorDialog::getColor( bgndColor ) == KColorDialog::Accepted )
-   {
-      m_pListView->m_pProps->setBgColor( bgndColor );
-      m_pListView->m_pProps->setBgPixmapFile( "" );
-      m_pListView->m_pProps->applyColors( m_pListView );
-      m_pListView->repaint();
-   }
-}
-
-void KonqListView::slotBackgroundImage()
-{
-   KonqBgndDialog dlg( m_pListView->m_pProps->bgPixmapFile(), KonqListViewFactory::instance() );
-   if ( dlg.exec() == KonqBgndDialog::Accepted )
-   {
-      m_pListView->m_pProps->setBgPixmapFile( dlg.pixmapFile() );
-      m_pListView->m_pProps->applyColors( m_pListView );
-      m_pListView->updateContents();
-   }
-}
 
 void KonqListView::setupActions()
 {
