@@ -153,6 +153,37 @@ void KonqOperations::doPaste( QWidget * parent, const KURL & destURL )
     }
 }
 
+void KonqOperations::copy( QWidget * parent, int method, const KURL::List & selectedURLs, const KURL& destUrl )
+{
+  kdDebug(1203) << "KonqOperations::copy() " << parent->className() << endl;
+  if ((method!=COPY) && (method!=MOVE) && (method!=LINK))
+  {
+    kdWarning(1203) << "Illegal copy method !" << endl;
+    return;
+  }
+  if ( selectedURLs.isEmpty() )
+  {
+    kdWarning(1203) << "Empty URL list !" << endl;
+    return;
+  }
+
+  KonqOperations * op = new KonqOperations( parent );
+  KIO::Job* job(0);
+  if (method==LINK)
+     job= KIO::link( selectedURLs, destUrl);
+  else if (method==MOVE)
+     job= KIO::move( selectedURLs, destUrl);
+  else
+     job= KIO::copy( selectedURLs, destUrl);
+
+  op->setOperation( job, method,selectedURLs ,destUrl );
+
+  if (method==COPY)
+     (void) new KonqCommandRecorder( KonqCommand::COPY, selectedURLs, destUrl, job );
+  else
+     (void) new KonqCommandRecorder( method==MOVE?KonqCommand::MOVE:KonqCommand::LINK, selectedURLs, destUrl, job );
+};
+
 void KonqOperations::_del( int method, const KURL::List & selectedURLs, int confirmation )
 {
   m_method = method;

@@ -34,7 +34,6 @@ class KonqMainWindow;
  */
 class KonqOperations : public QObject
 {
-   friend class KonqMainWindow;
     Q_OBJECT
 protected:
     KonqOperations( QWidget * parent );
@@ -51,6 +50,11 @@ public:
      * @param method should be TRASH, DEL or SHRED
      */
     static void del( QWidget * parent, int method, const KURL::List & selectedURLs );
+
+    /**
+     * @param method should be COPY, MOVE or LINK
+     */
+    static void copy( QWidget * parent, int method, const KURL::List & selectedURLs, const KURL& destUrl );
     /**
      * Drop
      * @param destItem destination KonqFileItem for the drop (background or item)
