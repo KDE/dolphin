@@ -124,7 +124,10 @@ void KonqTreeViewWidget::slotClear()
 {
    kdDebug(1202) << "KonqTreeViewWidget::slotClear()" << endl;
    if ( !m_pWorkingDir )
+   {
       KonqBaseListViewWidget::slotClear();
+      m_dictSubDirs.clear();
+   }
 }
 
 void KonqTreeViewWidget::slotNewItems( const KFileItemList & entries )
