@@ -302,6 +302,8 @@ QStringList getSearchPaths()
         paths.append("/opt/netscape/plugins");
         paths.append("/opt/netscape/communicator/plugins");
         paths.append("/usr/lib/netscape/plugins");
+        paths.append("/usr/lib/netscape/plugins-libc5");
+        paths.append("/usr/lib/netscape/plugins-libc6");
         paths.append("$MOZILLA_HOME/plugins");
         config->writeEntry( "scanPaths", paths );
     }
