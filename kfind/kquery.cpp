@@ -57,11 +57,9 @@ void KQuery::slotCanceled( KIO::Job * _job )
 
 void KQuery::slotListEntries( KIO::Job *, const KIO::UDSEntryList & list)
 {
-  QString matchingLine;
-	int matchingLineNumber;
-
   KFileItem * file = 0;
   QRegExp *filename_match;
+  QRegExp metaKeyRx(m_metainfokey,true,true);
 
   KIO::UDSEntryListConstIterator it = list.begin();
   KIO::UDSEntryListConstIterator end = list.end();
@@ -140,95 +138,85 @@ void KQuery::slotListEntries( KIO::Job *, const KIO::UDSEntryList & list)
       }
 
     // match datas in metainfo...
-    if (!m_metainfo.isEmpty())
-      {
-	matchingLineNumber=0;
-		bool foundmeta=false;
+    if ((!m_metainfo.isEmpty())  && (!m_metainfokey.isEmpty()))
+    {
+       bool foundmeta=false;
 
-	QString filename = file->url().path();
-	if(filename.startsWith("/dev/"))
-	  continue;
-	
-	KFileMetaInfo metadatas(filename);
-	KFileMetaInfoItem metaitem;
-	QStringList metakeys;
-	QString strmetakeycontent;
+       QString filename = file->url().path();
+       if(filename.startsWith("/dev/"))
+          continue;
 
-	if(metadatas.isEmpty())
-		continue;
+       KFileMetaInfo metadatas(filename);
+       KFileMetaInfoItem metaitem;
+       QStringList metakeys;
+       QString strmetakeycontent;
 
-	if(m_metainfokey.isEmpty())
-  {
-     metakeys=metadatas.supportedKeys();
-    for ( QStringList::Iterator it = metakeys.begin(); it != metakeys.end(); ++it ) {
-        metaitem=metadatas.item(*it);
-        strmetakeycontent=metaitem.string();
-        if(strmetakeycontent.find(m_metainfo)!=-1)
-        {
-          foundmeta=true;
-          break;
-        }
+       if(metadatas.isEmpty())
+          continue;
+
+       metakeys=metadatas.supportedKeys();
+       for ( QStringList::Iterator it = metakeys.begin(); it != metakeys.end(); ++it )
+       {
+          if (!metaKeyRx.exactMatch(*it))
+             continue;
+          metaitem=metadatas.item(*it);
+          strmetakeycontent=metaitem.string();
+          if(strmetakeycontent.find(m_metainfo)!=-1)
+          {
+             foundmeta=true;
+             break;
+          }
+       }
+       if (!foundmeta)
+          continue;
     }
-   }
-   else
-   {
-      metaitem=metadatas.item(m_metainfokey);
-      strmetakeycontent=metaitem.string();
-      if(strmetakeycontent.find(m_metainfo)!=-1)
-      {
-        foundmeta=true;
-        break;
-      }
-   }
-   if(!foundmeta)
-   	continue;
-	}
 
     // match contents...
+    QString matchingLine;
     if (!m_context.isEmpty())
-      {
-	bool found = false;
+    {
+       bool found = false;
+       int matchingLineNumber=0;
 
-	// FIXME: doesn't work with non local files
-	QString filename = file->url().path();
-	if(filename.startsWith("/dev/"))
-	  continue;
-	QFile qf(filename);
-	qf.open(IO_ReadOnly);
-	QTextStream stream(&qf);
-	stream.setEncoding(QTextStream::Locale);
-	matchingLineNumber=0;
-	while ( ! stream.atEnd() )
-	  {
-	    QString str = stream.readLine();
-	  	  matchingLineNumber++;
-
-	    if (str.isNull()) break;
-       if (m_regexpForContent)
+       // FIXME: doesn't work with non local files
+       QString filename = file->url().path();
+       if(filename.startsWith("/dev/"))
+          continue;
+       QFile qf(filename);
+       qf.open(IO_ReadOnly);
+       QTextStream stream(&qf);
+       stream.setEncoding(QTextStream::Locale);
+       while ( ! stream.atEnd() )
        {
-	       if (m_regexp.search(str)>=0)
-	      {
-					matchingLine=QString::number(matchingLineNumber)+": "+str;
-					found = true;
-					break;
-	      }
+          QString str = stream.readLine();
+          matchingLineNumber++;
+
+          if (str.isNull()) break;
+          if (m_regexpForContent)
+          {
+             if (m_regexp.search(str)>=0)
+             {
+                matchingLine=QString::number(matchingLineNumber)+": "+str;
+                found = true;
+                break;
+             }
+          }
+          else
+          {
+             if (str.find(m_context, 0, m_casesensitive) != -1)
+             {
+                matchingLine=QString::number(matchingLineNumber)+": "+str;
+                found = true;
+                break;
+             }
+          };
+          //            kapp->processEvents();
        }
-       else
-       {
-	    if (str.find(m_context, 0, m_casesensitive) != -1)
-	      {
-					matchingLine=QString::number(matchingLineNumber)+": "+str;
-				found = true;
-				break;
-	      }
-       };
-//            kapp->processEvents();
-	  }
 
 
-	if (!found)
-	  continue;
-      }
+       if (!found)
+          continue;
+    }
     emit addFile(file,matchingLine);
   }
 

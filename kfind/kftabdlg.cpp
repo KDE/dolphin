@@ -119,8 +119,6 @@ KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name)
     connect( browseB, SIGNAL(clicked()),
              this, SLOT(getDirectory()) );
 
-    addTab( pages[0], i18n(" Name/&Location ") );
-
     // ************ Page Two
 
     pages[1] = new QWidget( this, "page2" );
@@ -142,91 +140,16 @@ KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name)
     toDate = new KDateCombo(pages[1], "toDate");
     timeBox = new QSpinBox(1, 60, 1, pages[1], "timeBox");
 
-    rb[0]->setChecked(true);
-
-    // Setup
-    timeBox->setButtonSymbols(QSpinBox::PlusMinus);
-    bg->insert( rb[0] );
-    bg->insert( rb[1] );
-
-    // Layout
-
-    QGridLayout *grid1 = new QGridLayout( pages[1], 6,  4,
-					  KDialog::marginHint(),
-					  KDialog::spacingHint() );
-    grid1->addMultiCellWidget(findCreated, 0, 0, 0, 6 );
-    grid1->addColSpacing(0, KDialog::spacingHint());
-    grid1->addWidget(rb[0], 2, 1 );
-    grid1->addWidget(fromDate, 2, 2 );
-    grid1->addWidget(andL, 2, 3, AlignHCenter );
-    grid1->addWidget(toDate, 2, 4 );
-    grid1->addWidget(rb[1], 3, 1 );
-    grid1->addMultiCellWidget(timeBox, 3, 3, 2, 3);
-    grid1->addWidget(betweenType, 3, 4 );
-    for (int c=1; c<=4; c++)
-       grid1->setColStretch(c,1);
-//    grid1->setColStretch(5,1);
-    grid1->setRowStretch(4,1);
-
-    // Connect
-    connect( findCreated,  SIGNAL(toggled(bool)), this,   SLOT(fixLayout()) );
-    connect( bg,  SIGNAL(clicked(int)), this,   SLOT(fixLayout()) );
-
-    addTab( pages[1], i18n(" &Date Range ") );
-
-    // ************ Page Three
-
-    pages[2] = new QWidget( this, "page3" );
-
-    typeBox =new KComboBox(FALSE, pages[2], "typeBox");
-    QLabel * typeL   =new QLabel(typeBox, i18n("Of &type:"), pages[2], "type");
-    textEdit=new KLineEdit(pages[2], "textEdit" );
-    QLabel * textL   =new QLabel(textEdit, i18n("&Containing text:"), pages[2], "text");
-
-    caseContextCb  =new QCheckBox(i18n("Case s&ensitive"), pages[2]);
-    regexpContentCb  =new QCheckBox(i18n("&Regular expression"), pages[2]);
-
-    QPushButton* editRegExp = 0;
-    if ( !KTrader::self()->query("KRegExpEditor/KRegExpEditor").isEmpty() ) {
-      // The editor is available, so lets use it.
-      editRegExp = new QPushButton(i18n("&Edit..."), pages[2], "editRegExp");
-    }
-
-    sizeBox =new KComboBox(FALSE, pages[2], "sizeBox");
-    QLabel * sizeL   =new QLabel(sizeBox,i18n("&Size is:"), pages[2],"size");
-    sizeEdit=new QSpinBox(0, INT_MAX, 1, pages[2], "sizeEdit" );
+    sizeBox =new KComboBox(FALSE, pages[1], "sizeBox");
+    QLabel * sizeL   =new QLabel(sizeBox,i18n("File &size is:"), pages[1],"size");
+    sizeEdit=new QSpinBox(0, INT_MAX, 1, pages[1], "sizeEdit" );
     sizeEdit->setValue(1);
-    sizeUnitBox =new KComboBox(FALSE, pages[2], "sizeUnitBox");
+    sizeUnitBox =new KComboBox(FALSE, pages[1], "sizeUnitBox");
 
-    m_usernameBox = new KComboBox( true, pages[2], "m_combo1");
-    QLabel *m_usernameLabel= new QLabel(m_usernameBox,i18n("Owned by &user:"),pages[2]);
-    m_groupBox = new KComboBox( true, pages[2], "m_combo2");
-    QLabel *m_groupLabel= new QLabel(m_groupBox,i18n("Owned by &group:"),pages[2]);
-
-    // Setup
-
-    typeBox->insertItem(i18n("All Files and Directories"));
-    typeBox->insertItem(i18n("Files"));
-    typeBox->insertItem(i18n("Directories"));
-    typeBox->insertItem(i18n("Symbolic Links"));
-    typeBox->insertItem(i18n("Special Files (Sockets, Device Files...)"));
-    typeBox->insertItem(i18n("Executable Files"));
-    typeBox->insertItem(i18n("SUID Executable Files"));
-
-    m_usernameBox->setDuplicatesEnabled(FALSE);
-    m_groupBox->setDuplicatesEnabled(FALSE);
-    m_usernameBox->setInsertionPolicy(QComboBox::AtTop);
-    m_groupBox->setInsertionPolicy(QComboBox::AtTop);
-
-
-    initMimeTypes();
-
-    for ( KMimeType::List::ConstIterator it = m_types.begin();
-          it != m_types.end(); ++it )
-    {
-      KMimeType::Ptr typ = *it;
-      typeBox->insertItem(typ->comment());
-    }
+    m_usernameBox = new KComboBox( true, pages[1], "m_combo1");
+    QLabel *usernameLabel= new QLabel(m_usernameBox,i18n("Files owned by &user:"),pages[1]);
+    m_groupBox = new KComboBox( true, pages[1], "m_combo2");
+    QLabel *groupLabel= new QLabel(m_groupBox,i18n("Owned by &group:"),pages[1]);
 
     sizeBox ->insertItem( i18n("(none)") );
     sizeBox ->insertItem( i18n("At Least") );
@@ -242,9 +165,99 @@ KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name)
     int tmp = sizeEdit->fontMetrics().width(" 000000000 ");
     sizeEdit->setMinimumSize(tmp, sizeEdit->sizeHint().height());
 
+    m_usernameBox->setDuplicatesEnabled(FALSE);
+    m_groupBox->setDuplicatesEnabled(FALSE);
+    m_usernameBox->setInsertionPolicy(QComboBox::AtTop);
+    m_groupBox->setInsertionPolicy(QComboBox::AtTop);
     // Connect
     connect( sizeBox, SIGNAL(highlighted(int)),
 	     this, SLOT(slotSizeBoxChanged(int)));
+
+
+    rb[0]->setChecked(true);
+
+    // Setup
+    timeBox->setButtonSymbols(QSpinBox::PlusMinus);
+    bg->insert( rb[0] );
+    bg->insert( rb[1] );
+
+    // Layout
+
+    QGridLayout *grid1 = new QGridLayout( pages[1], 5,  6,
+					  KDialog::marginHint(),
+					  KDialog::spacingHint() );
+
+    grid1->addMultiCellWidget(findCreated, 0, 0, 0, 3 );
+    grid1->addColSpacing(0, KDialog::spacingHint());
+
+    grid1->addWidget(rb[0], 1, 1 );
+    grid1->addWidget(fromDate, 1, 2 );
+    grid1->addWidget(andL, 1, 3, AlignHCenter );
+    grid1->addWidget(toDate, 1, 4 );
+
+    grid1->addWidget(rb[1], 2, 1 );
+    grid1->addMultiCellWidget(timeBox, 2, 2, 2, 3);
+    grid1->addWidget(betweenType, 2, 4 );
+
+    grid1->addMultiCellWidget(sizeL,3,3,0,1);
+    grid1->addWidget(sizeBox,3,2);
+    grid1->addWidget(sizeEdit,3,3);
+    grid1->addWidget(sizeUnitBox,3,4);
+
+    grid1->addMultiCellWidget(usernameLabel,4,4,0,1);
+    grid1->addWidget(m_usernameBox,4,2);
+    grid1->addWidget(groupLabel,4,3);
+    grid1->addWidget(m_groupBox,4,4);
+
+    for (int c=1; c<=4; c++)
+       grid1->setColStretch(c,1);
+
+    grid1->setRowStretch(6,1);
+
+    // Connect
+    connect( findCreated,  SIGNAL(toggled(bool)), this,   SLOT(fixLayout()) );
+    connect( bg,  SIGNAL(clicked(int)), this,   SLOT(fixLayout()) );
+
+    // ************ Page Three
+
+    pages[2] = new QWidget( this, "page3" );
+
+    typeBox =new KComboBox(FALSE, pages[2], "typeBox");
+    QLabel * typeL   =new QLabel(typeBox, i18n("File &type:"), pages[2], "type");
+    textEdit=new KLineEdit(pages[2], "textEdit" );
+    QLabel * textL   =new QLabel(textEdit, i18n("&Containing text:"), pages[2], "text");
+
+    caseContextCb  =new QCheckBox(i18n("Case s&ensitive"), pages[2]);
+    regexpContentCb  =new QCheckBox(i18n("Regular e&xpression"), pages[2]);
+
+    QPushButton* editRegExp = 0;
+    if ( !KTrader::self()->query("KRegExpEditor/KRegExpEditor").isEmpty() ) {
+      // The editor is available, so lets use it.
+      editRegExp = new QPushButton(i18n("&Edit..."), pages[2], "editRegExp");
+    }
+
+    metainfokeyEdit=new KLineEdit(pages[2], "textEdit" );
+    metainfoEdit=new KLineEdit(pages[2], "textEdit" );
+    QLabel * textMetaInfo = new QLabel(metainfoEdit, i18n("fo&r:"), pages[2], "text");
+    QLabel * textMetaKey = new QLabel(metainfokeyEdit, i18n("Search &metainfo sections:"), pages[2], "text");
+
+    // Setup
+    typeBox->insertItem(i18n("All Files and Directories"));
+    typeBox->insertItem(i18n("Files"));
+    typeBox->insertItem(i18n("Directories"));
+    typeBox->insertItem(i18n("Symbolic Links"));
+    typeBox->insertItem(i18n("Special Files (Sockets, Device Files...)"));
+    typeBox->insertItem(i18n("Executable Files"));
+    typeBox->insertItem(i18n("SUID Executable Files"));
+
+    initMimeTypes();
+
+    for ( KMimeType::List::ConstIterator it = m_types.begin();
+          it != m_types.end(); ++it )
+    {
+      KMimeType::Ptr typ = *it;
+      typeBox->insertItem(typ->comment());
+    }
 
     if ( editRegExp ) {
       // The editor was available, so lets use it.
@@ -266,32 +279,23 @@ KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name)
     grid2->addMultiCellWidget( textEdit, 1, 1, 1, 3 );
     grid2->addWidget( regexpContentCb, 2, 2);
     grid2->addWidget( caseContextCb, 2, 1 );
-    grid2->addWidget( sizeL, 3, 0 );
-    grid2->addWidget( sizeBox, 3, 1 );
-    grid2->addWidget( sizeEdit, 3, 2 );
-    grid2->addWidget( sizeUnitBox, 3, 3 );
 
-    grid2->addWidget(m_usernameLabel, 4, 0);
-    grid2->addWidget(m_usernameBox, 4, 1);
-    grid2->addWidget(m_groupLabel, 4, 2);
-    grid2->addWidget(m_groupBox, 4, 3);
+    grid2->addWidget( textMetaKey, 3, 0 );
+    grid2->addWidget( metainfokeyEdit, 3, 1 );
+    grid2->addWidget( textMetaInfo, 3, 2, AlignHCenter  );
+    grid2->addWidget( metainfoEdit, 3, 3 );
+
+    metainfokeyEdit->setText("*");
 
     if ( editRegExp ) {
       // The editor was available, so lets use it.
       grid2->addWidget( editRegExp, 2, 3 );
     }
     
-    addTab( pages[2], i18n(" Ad&vanced ") );
+    addTab( pages[0], i18n(" Name/&Location ") );
+    addTab( pages[2], i18n(" C&ontents ") );
+    addTab( pages[1], i18n(" &Properties") );
 
-
-    // ************ Page Four
-
-    pages[3] = new QWidget( this, "page4" );
-
-    metainfoEdit=new KLineEdit(pages[3], "textEdit" );
-    metainfokeyEdit=new KLineEdit(pages[3], "textEdit" );
-    QLabel * textMetaInfo = new QLabel(textEdit, i18n("Search in files' metainfo:"), pages[3], "text");
-    QLabel * textMetaKey = new QLabel(textEdit, i18n("But only in this section:"), pages[3], "text");
 
     // Setup
     const QString whatsmetainfo
@@ -313,17 +317,6 @@ KfindTabWidget::KfindTabWidget(QWidget *parent, const char *name)
     QToolTip::add(metainfoEdit,whatsmetainfo);
     QWhatsThis::add(textMetaKey,whatsmetainfokey);
     QToolTip::add(metainfokeyEdit,whatsmetainfokey);
-
-    // Layout
-    QGridLayout *grid3 = new QGridLayout( pages[3], 5, 4,
-					  KDialog::marginHint(),
-					  KDialog::spacingHint() );
-    grid3->addWidget( textMetaInfo, 0, 0 );
-    grid3->addWidget( textMetaKey, 1, 0 );
-    grid3->addMultiCellWidget( metainfoEdit, 0, 0, 1, 3 );
-    grid3->addMultiCellWidget( metainfokeyEdit, 1, 1, 1, 3 );
-
-    addTab( pages[3], i18n(" &Metainfo ") );
 
 
     fixLayout();
@@ -369,8 +362,7 @@ void KfindTabWidget::setURL( const KURL & url )
   }
 }
 
-void
-KfindTabWidget::initMimeTypes()
+void KfindTabWidget::initMimeTypes()
 {
     KMimeType::List tmp = KMimeType::allMimeTypes();
     KSortedMimeTypeList sortedList;
@@ -378,7 +370,7 @@ KfindTabWidget::initMimeTypes()
           it != tmp.end(); ++it )
     {
       KMimeType * type = *it;
-      if ( !type->comment().isEmpty() )
+      if ((!type->comment().isEmpty()) && (!type->name().startsWith("kdedevice/")))
         sortedList.append(type);
     }
     sortedList.sort();
