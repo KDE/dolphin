@@ -688,7 +688,6 @@ void KonqKfmTreeView::popupMenu( const QPoint& _global )
   mode_t mode = 0;
   bool first = true;
   QValueList<KfmTreeViewItem*>::Iterator it = items.begin();
-  int i = 0;
   for( ; it != items.end(); ++it ) {
     lstPopupURLs.append( (*it)->item()->url().url() );
 

@@ -1074,7 +1074,7 @@ void KonqMainView::saveViewProfile( KConfig &cfg )
   QList<KonqChildView> viewList;
   
 //  cfg.setGroup( "MainSplitter" );
-  cfg.writeEntry( "MainSplitterSizes", QProperty( m_pMainSplitter->sizes() ) );
+  cfg.writeEntry( "MainSplitterSizes", QVariant( m_pMainSplitter->sizes() ) );
 
   cfg.writeEntry( "NumberOfRows", m_lstRows.count() );
  
@@ -1085,7 +1085,7 @@ void KonqMainView::saveViewProfile( KConfig &cfg )
 
     QString rowStr = QString::fromLatin1( "Row%1" ).arg( i );    
 
-    cfg.writeEntry( QString::fromLatin1( "SplitterSizes" ).prepend( rowStr ), QProperty( rowIt.current()->splitter->sizes() ) );
+    cfg.writeEntry( QString::fromLatin1( "SplitterSizes" ).prepend( rowStr ), QVariant( rowIt.current()->splitter->sizes() ) );
 
     QStringList strlst;
     QListIterator<KonqChildView> viewIt( rowIt.current()->children );
@@ -1121,7 +1121,7 @@ void KonqMainView::loadViewProfile( KConfig &cfg )
   clearMainView();
 
   QValueList<int> mainSplitterSizes = 
-    QProperty( cfg.readPropertyEntry( "MainSplitterSizes", QProperty::IntListType ) )
+    QVariant( cfg.readPropertyEntry( "MainSplitterSizes", QVariant::IntList ) )
     .intListValue();
   
   int rowCount = cfg.readNumEntry( "NumberOfRows" );
@@ -1131,8 +1131,8 @@ void KonqMainView::loadViewProfile( KConfig &cfg )
     QString rowStr = QString::fromLatin1( "Row%1" ).arg( i );    
 
     QValueList<int> rowSplitterSizes = 
-      QProperty( cfg.readPropertyEntry( 
-       QString::fromLatin1( "SplitterSizes" ).prepend( rowStr ), QProperty::IntListType ) )
+      QVariant( cfg.readPropertyEntry( 
+       QString::fromLatin1( "SplitterSizes" ).prepend( rowStr ), QVariant::IntList ) )
       .intListValue();
 
     RowInfo *rowInfo = new RowInfo;
