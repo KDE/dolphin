@@ -43,7 +43,7 @@ KonqCombo::KonqCombo( QWidget *parent, const char *name )
     ASSERT( s_config );
 
     KConfigGroupSaver cs( s_config, "Location Bar" );
-    setMaxCount( s_config->readNumEntry("Maximum of URLs in combo", 10 ));
+    setMaxCount( s_config->readNumEntry("Maximum of URLs in combo", 20 ));
 
     loadItems();
 
