@@ -237,6 +237,7 @@ KMacroCommand* DeleteCommand::deleteAll(const KBookmarkGroup & parentGroup) {
    for (QStringList::Iterator it = lstToDelete.begin(); it != lstToDelete.end(); ++it) {
       cmd->addCommand(new DeleteCommand((*it)));
    }
+   // TODO - remove all metadata here???
    return cmd;
 }
 

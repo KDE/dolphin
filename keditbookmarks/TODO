@@ -3,6 +3,7 @@ basic plan:       cleanup importing:
                   recursive 404 finder
                   recursive dirs sort
                   duplicate finder
+                  metadata removal at root
 
 general xbel bug: http://bugzilla.gnome.org/show_bug.cgi?id=69702
 
