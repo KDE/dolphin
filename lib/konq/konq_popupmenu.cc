@@ -400,7 +400,7 @@ void KonqPopupMenu::setup(bool showPropertiesAndFileType)
 
         if ( currentDir || httpPage ) // rmb on background or html frame
         {
-            if (currentDir)
+            if (!httpPage)
                 addAction( "up" ); // don't show when viewing html
             addAction( "back" );
             addAction( "forward" );
@@ -792,7 +792,7 @@ void KonqPopupMenu::slotPopupNewDir()
 {
   if (m_lstPopupURLs.empty())
     return;
-       
+
   KonqOperations::newDir(d->m_parentWidget, m_lstPopupURLs.first());
 }
 
