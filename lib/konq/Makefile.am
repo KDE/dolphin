@@ -20,7 +20,7 @@ INCLUDES = -I$(idldir) $(all_includes) $(MICO_INCLUDES)
 
 lib_LTLIBRARIES = libkonq.la
 libkonq_la_LDFLAGS = $(all_libraries) -version-info 3:0
-libkonq_la_LIBADD = $(LIB_KFILE) -lkpartsui -lkparts
+libkonq_la_LIBADD = -lkded $(LIB_KFILE) -lkpartsui -lkparts
 
 libkonq_la_SOURCES = kbookmark.cc kbookmarkmenu.cc knewmenu.cc kpopupmenu.cc \
 	kpropsdlg.cc \
@@ -28,7 +28,7 @@ libkonq_la_SOURCES = kbookmark.cc kbookmarkmenu.cc knewmenu.cc kpopupmenu.cc \
 
 METASOURCES = kbookmark.moc kbookmarkmenu.moc knewmenu.moc kpopupmenu.moc \
 	kpropsdlg.moc \
-	kfileicon.moc kiconcontainer.moc kicondrag.moc
+	kiconcontainer.moc kicondrag.moc
 
 include_HEADERS = kbookmark.h kbookmarkmenu.h knewmenu.h kpopupmenu.h \
 	kpropsdlg.h \
