@@ -21,8 +21,21 @@
 
 #include <qobject.h>
 #include <kbookmark.h>
+#include <klineedit.h>
 
 class KBookmarkTextMap;
+
+class MagicKLineEdit : public KLineEdit {
+public:
+   MagicKLineEdit(const QString &text, QWidget *parent, const char *name = 0);
+   virtual void focusOutEvent(QFocusEvent *ev);
+   virtual void mousePressEvent(QMouseEvent *ev);
+   virtual void focusInEvent(QFocusEvent *ev);
+   void setGrayedText(const QString &text) { m_grayedText = text; }
+   QString grayedText() const { return m_grayedText; }
+private:
+   QString m_grayedText;
+};
 
 class Searcher : public QObject {
    Q_OBJECT

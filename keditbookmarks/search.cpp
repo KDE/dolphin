@@ -29,6 +29,31 @@
 #include "listview.h"
 #include "search.h"
 
+MagicKLineEdit::MagicKLineEdit(
+   const QString &text, QWidget *parent, const char *name
+) : KLineEdit(text, parent, name), m_grayedText(text) {
+   setPaletteForegroundColor(gray);
+}
+
+void MagicKLineEdit::focusInEvent(QFocusEvent *ev) {
+   if (text() == m_grayedText)
+      setText(QString::null);
+   QLineEdit::focusInEvent(ev);
+}
+
+void MagicKLineEdit::focusOutEvent(QFocusEvent *ev) {
+   if (text().isEmpty()) {
+      setText(m_grayedText);
+      setPaletteForegroundColor(gray); 
+   }
+   QLineEdit::focusOutEvent(ev);
+}
+
+void MagicKLineEdit::mousePressEvent(QMouseEvent *ev) {
+   setPaletteForegroundColor(parentWidget()->paletteForegroundColor()); 
+   QLineEdit::mousePressEvent(ev);
+}
+
 class KBookmarkTextMap : private KBookmarkGroupTraverser {
 public:
    KBookmarkTextMap(KBookmarkManager *);
