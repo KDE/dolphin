@@ -74,7 +74,6 @@ public:
 
   /**
    * Reparse the configuration to update the already-created instances
-   * TODO : will have to be called on slotConfigure
    */
   static void reparseConfiguration();
 
