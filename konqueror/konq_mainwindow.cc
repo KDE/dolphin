@@ -2184,6 +2184,9 @@ void KonqMainWindow::slotToggleFullScreen()
     showNormal();  // (calls setCaption, i.e. the one in this class!)
     setCaption( m_oldTitle );
 
+    // Qt bug, the flags aren't restored. They know about it.
+    setWFlags( WType_TopLevel | WDestructiveClose );
+
     m_ptaFullScreen->setText( i18n( "Fullscreen Mode" ) );
     m_ptaFullScreen->setIcon( "window_fullscreen" );
   }
