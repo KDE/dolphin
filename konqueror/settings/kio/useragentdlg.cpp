@@ -188,6 +188,7 @@ UserAgentOptions::UserAgentOptions( QWidget * parent, const char * name )
                */
   QWhatsThis::add( gb_siteSpecific, wtstr );
   m_config = new KConfig("kio_httprc", false, false);
+  m_provider = new FakeUASProvider();
   load();
 }
 
@@ -229,7 +230,6 @@ void UserAgentOptions::load()
   cb_showMachine->setChecked( m_ua_keys.contains('m') );
   cb_showLanguage->setChecked( m_ua_keys.contains('l') );
   changeSendUAString();
-  m_provider = new FakeUASProvider();
 }
 
 void UserAgentOptions::updateButtons()
