@@ -106,7 +106,7 @@ void CmdHistory::clearHistory() {
 
 CurrentMgr *CurrentMgr::s_mgr = 0;
 
-KBookmark CurrentMgr::bookmarkAt(const QString & a) { 
+KBookmark CurrentMgr::bookmarkAt(const QString &a) { 
    return self()->mgr()->findByAddress(a); 
 }
 
@@ -148,58 +148,61 @@ void CurrentMgr::notifyManagers() {
 
 class HTMLExporter : private KBookmarkGroupTraverser {
 public:
-    HTMLExporter();
-    void write( const KBookmarkGroup &, QString );
+   HTMLExporter();
+   void write(const KBookmarkGroup &, const QString &);
 private:
-    virtual void visit( const KBookmark & );
-    virtual void visitEnter( const KBookmarkGroup & );
-    virtual void visitLeave( const KBookmarkGroup & );
+   virtual void visit(const KBookmark &);
+   virtual void visitEnter(const KBookmarkGroup &);
+   virtual void visitLeave(const KBookmarkGroup &);
 private:
-    QString m_string;
-    QTextStream m_out;
-    int m_level;
+   QString m_string;
+   QTextStream m_out;
+   int m_level;
 };
 
-HTMLExporter::HTMLExporter() : m_out(&m_string, IO_WriteOnly) {
-    m_level = 0;
+HTMLExporter::HTMLExporter() 
+   : m_out(&m_string, IO_WriteOnly) {
+   m_level = 0;
 }
 
-void HTMLExporter::write( const KBookmarkGroup &grp, QString filename ) {
-    HTMLExporter exporter;
-    QFile file(filename);
-    if (!file.open(IO_WriteOnly)) {
-       kdError(7043) << "Can't write to file " << filename << endl;
-       return;
-    }
-    QTextStream fstream(&file);
-    fstream.setEncoding(QTextStream::UnicodeUTF8);
-    traverse(grp);
-    fstream << "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\">" << endl;
-    fstream << "<HTML><HEAD><TITLE>My Bookmarks</TITLE></HEAD>" << endl;
-    fstream << "<BODY>" << endl;
-    fstream << m_string;
-    fstream << "</BODY></HTML>" << endl;
+void HTMLExporter::write(const KBookmarkGroup &grp, const QString &filename) {
+   HTMLExporter exporter;
+   QFile file(filename);
+   if (!file.open(IO_WriteOnly)) {
+      kdError(7043) << "Can't write to file " << filename << endl;
+      return;
+   }
+   QTextStream fstream(&file);
+   fstream.setEncoding(QTextStream::UnicodeUTF8);
+   traverse(grp);
+   fstream << "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\">" << endl;
+   fstream << "<HTML><HEAD><TITLE>My Bookmarks</TITLE></HEAD>" << endl;
+   fstream << "<BODY>" << endl;
+   fstream << m_string;
+   fstream << "</BODY></HTML>" << endl;
 }
 
-void HTMLExporter::visit( const KBookmark &bk ) {
-    // kdDebug() << "visit(" << bk.text() << ")" << endl;
-    m_out << "<A href=\"" << bk.url().url().utf8() << "\">";
-    m_out << bk.fullText() << "</A><BR>" << endl;
+void HTMLExporter::visit(const KBookmark &bk) {
+   // kdDebug() << "visit(" << bk.text() << ")" << endl;
+   m_out << "<A href=\"" << bk.url().url().utf8() << "\">";
+   m_out << bk.fullText() << "</A><BR>" << endl;
 }
 
-void HTMLExporter::visitEnter( const KBookmarkGroup &grp ) {
-    // kdDebug() << "visitEnter(" << grp.text() << ")" << endl;
-    m_out << "<H3>" << grp.fullText() << "</H3>" << endl;
-    m_out << "<P style=\"margin-left: " << (m_level * 3) << "em\">" << endl;
-    m_level++;
+void HTMLExporter::visitEnter(const KBookmarkGroup &grp) {
+   // kdDebug() << "visitEnter(" << grp.text() << ")" << endl;
+   m_out << "<H3>" << grp.fullText() << "</H3>" << endl;
+   m_out << "<P style=\"margin-left: " 
+         << (m_level * 3) << "em\">" << endl;
+   m_level++;
 } 
 
-void HTMLExporter::visitLeave( const KBookmarkGroup & ) {
-    // kdDebug() << "visitLeave()" << endl;
-    m_out << "</P>" << endl;
-    m_level--;
-    if (m_level != 0)
-      m_out << "<P style=\"left-margin: " << (m_level * 3) << "em\">" << endl;
+void HTMLExporter::visitLeave(const KBookmarkGroup &) {
+   // kdDebug() << "visitLeave()" << endl;
+   m_out << "</P>" << endl;
+   m_level--;
+   if (m_level != 0)
+      m_out << "<P style=\"left-margin: " 
+            << (m_level * 3) << "em\">" << endl;
 }
 
 void CurrentMgr::doExport(ExportType type) {
@@ -222,10 +225,9 @@ void CurrentMgr::doExport(ExportType type) {
       return;
    }
    bool moz = (type == MozillaExport);
-   QString path = 
-          (moz)
-        ? KNSBookmarkImporter::mozillaBookmarksFile(true)
-        : KNSBookmarkImporter::netscapeBookmarksFile(true);
+   QString path = (moz)
+                ? KNSBookmarkImporter::mozillaBookmarksFile(true)
+                : KNSBookmarkImporter::netscapeBookmarksFile(true);
    if (!path.isEmpty()) {
       KNSBookmarkExporter exporter(mgr(), path);
       exporter.write(moz);
@@ -248,35 +250,46 @@ void BookmarkInfoWidget::showBookmark(const KBookmark &bk) {
    m_credate_le->setText("the creation date");
 }
 
-BookmarkInfoWidget::BookmarkInfoWidget(QWidget * parent, const char * name)
- : QWidget (parent, name) {
+BookmarkInfoWidget::BookmarkInfoWidget(
+   QWidget * parent, const char * name
+) : QWidget (parent, name) {
    QBoxLayout *vbox = new QVBoxLayout(this);
-   QGridLayout *grid = new QGridLayout( vbox, 3, 4 );
+   QGridLayout *grid = new QGridLayout(vbox, 3, 4);
 
-   m_title_le = new KLineEdit( this );
+   m_title_le = new KLineEdit(this);
    m_title_le->setReadOnly(true);
-   grid->addWidget( m_title_le, 0, 1 );
-   grid->addWidget( new QLabel( m_title_le, i18n( "Name:" ), this ), 0, 0 );
+   grid->addWidget(m_title_le, 0, 1);
+   grid->addWidget(
+            new QLabel(m_title_le, i18n("Name:"), this), 
+            0, 0);
 
-   m_url_le = new KLineEdit( this );
+   m_url_le = new KLineEdit(this);
    m_url_le->setReadOnly(true);
-   grid->addWidget( m_url_le, 1, 1 );
-   grid->addWidget( new QLabel( m_url_le, i18n( "Location:" ), this ), 1, 0 );
+   grid->addWidget(m_url_le, 1, 1);
+   grid->addWidget(
+            new QLabel(m_url_le, i18n("Location:"), this), 
+            1, 0);
 
-   m_comment_le = new KLineEdit( this );
+   m_comment_le = new KLineEdit(this);
    m_comment_le->setReadOnly(true);
-   grid->addWidget( m_comment_le, 2, 1 );
-   grid->addWidget( new QLabel( m_comment_le, i18n( "Comment:" ), this ), 2, 0 );
+   grid->addWidget(m_comment_le, 2, 1);
+   grid->addWidget(
+            new QLabel(m_comment_le, i18n("Comment:"), this), 
+            2, 0);
 
-   m_moddate_le = new KLineEdit( this );
+   m_moddate_le = new KLineEdit(this);
    m_moddate_le->setReadOnly(true);
-   grid->addWidget( m_moddate_le, 0, 3 );
-   grid->addWidget( new QLabel( m_moddate_le, i18n( "First viewed:" ), this ), 0, 2 );
+   grid->addWidget(m_moddate_le, 0, 3);
+   grid->addWidget(
+            new QLabel(m_moddate_le, i18n("First viewed:"), this), 
+            0, 2 );
 
-   m_credate_le = new KLineEdit( this );
+   m_credate_le = new KLineEdit(this);
    m_credate_le->setReadOnly(true);
-   grid->addWidget( m_credate_le, 1, 3 );
-   grid->addWidget( new QLabel( m_credate_le, i18n( "Viewed last:" ), this ), 1, 2 );
+   grid->addWidget(m_credate_le, 1, 3);
+   grid->addWidget(
+            new QLabel(m_credate_le, i18n("Viewed last:"), this), 
+            1, 2);
 }
 
 class MagicKLineEdit : public KLineEdit {
@@ -285,7 +298,7 @@ public:
    void focusOutEvent(QFocusEvent *ev);
    void mousePressEvent(QMouseEvent *ev);
    void focusInEvent(QFocusEvent *ev);
-   void setGrayedText(const QString& text) { m_grayedText = text; }
+   void setGrayedText(const QString &text) { m_grayedText = text; }
    QString grayedText() const { return m_grayedText; }
 private:
    QString m_grayedText;
@@ -316,7 +329,7 @@ void MagicKLineEdit::mousePressEvent(QMouseEvent *ev) {
    QLineEdit::mousePressEvent(ev);
 }
 
-KEBApp::KEBApp(const QString & bookmarksFile, bool readonly, const QString &address, bool browser)
+KEBApp::KEBApp(const QString &bookmarksFile, bool readonly, const QString &address, bool browser)
    : KMainWindow(), m_dcopIface(0), m_browser(browser) {
 
    m_bookmarksFilename = bookmarksFile;
@@ -398,11 +411,11 @@ void KEBApp::createActions() {
 
    ActionsImpl *actn = ActionsImpl::self();
 
-   if (m_browser)
-   {
+   if (m_browser) {
       (void) KStdAction::open(this, SLOT( slotLoad() ), actionCollection());
       (void) KStdAction::saveAs(this, SLOT( slotSaveAs() ), actionCollection());
    }
+
    (void) KStdAction::save(this, SLOT( slotSave() ), actionCollection());
    (void) KStdAction::quit(this, SLOT( close() ), actionCollection());
    (void) KStdAction::keyBindings(this, SLOT( slotConfigureKeyBindings() ), actionCollection());
@@ -497,9 +510,8 @@ void KEBApp::resetActions() {
    stateChanged("disablestuff");
    stateChanged("normal");
 
-   if (!m_readOnly) {
+   if (!m_readOnly)
       stateChanged("notreadonly");
-   }
 
    getToggleAction("settings_saveonclose")->setChecked(m_saveOnClose);
    getToggleAction("settings_advancedaddbookmark")->setChecked(m_advancedAddBookmark);
@@ -508,8 +520,7 @@ void KEBApp::resetActions() {
 }
 
 void KEBApp::readConfig() {
-   if (m_browser)
-   {
+   if (m_browser) {
       KConfig config("kbookmarkrc", false, false);
       config.setGroup("Bookmarks");
       m_advancedAddBookmark = config.readBoolEntry("AdvancedAddBookmark", false);
@@ -522,8 +533,7 @@ void KEBApp::readConfig() {
 }
 
 void KEBApp::slotAdvancedAddBookmark() {
-   if (m_browser)
-   {
+   if (m_browser) {
       m_advancedAddBookmark = getToggleAction("settings_advancedaddbookmark")->isChecked();
       KConfig config("kbookmarkrc", false, false);
       config.setGroup("Bookmarks");
@@ -609,9 +619,8 @@ void KEBApp::setModifiedFlag(bool modified) {
 
    QString caption;
 
-   if (m_bookmarksFilename != KBookmarkManager::userBookmarksManager()->path()) {
+   if (m_bookmarksFilename != KBookmarkManager::userBookmarksManager()->path())
       caption += m_bookmarksFilename;
-   }
 
    if (m_readOnly) {
       m_modified = false;
@@ -674,9 +683,8 @@ void KEBApp::slotNewToolbarConfig() {
 /* -------------------------- */
 
 bool KEBApp::save() {
-   if (!CurrentMgr::self()->managerSave()) {
+   if (!CurrentMgr::self()->managerSave())
       return false;
-   }
    CurrentMgr::self()->notifyManagers();
    setModifiedFlag(false);
    m_cmdHistory->notifyDocSaved();
@@ -684,13 +692,10 @@ bool KEBApp::save() {
 }
 
 bool KEBApp::queryClose() {
-   if (!m_modified) {
+   if (!m_modified)
       return true;
-   }
-
-   if (m_saveOnClose) {
+   if (m_saveOnClose)
       return save();
-   }
 
    switch (
       KMessageBox::warningYesNoCancel(
@@ -706,14 +711,13 @@ bool KEBApp::queryClose() {
 }
 
 void KEBApp::slotLoad() {
-   if (!queryClose()) {
+   if (!queryClose())
       return;
-   }
    QString bookmarksFile = KFileDialog::getOpenFileName(QString::null, "*.xml", this);
-   if (!bookmarksFile.isNull()) {
-      m_bookmarksFilename = bookmarksFile;
-      construct();
-   }
+   if (bookmarksFile.isNull())
+      return;
+   m_bookmarksFilename = bookmarksFile;
+   construct();
 }
 
 void KEBApp::slotSave() {
@@ -722,9 +726,8 @@ void KEBApp::slotSave() {
 
 void KEBApp::slotSaveAs() {
    QString saveFilename = KFileDialog::getSaveFileName(QString::null, "*.xml", this);
-   if(!saveFilename.isEmpty()) {
+   if (!saveFilename.isEmpty())
       CurrentMgr::self()->saveAs(saveFilename);
-   }
 }
 
 #include "toplevel.moc"
