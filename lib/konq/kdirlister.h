@@ -63,7 +63,12 @@ public:
    * @param _showDotFiles whether to return the "hidden" files
    */
   virtual void openURL( const KURL& _url, bool _showDotFiles );
-  
+
+  /**
+   * Stop listing the current directory
+   */
+  virtual void stop() { slotCloseURL( 0 ); }
+
   /**
    * @return the url used by this instance to list the files
    * It might be different from the one we gave, if there was a redirection.

@@ -53,9 +53,14 @@ KDirLister::~KDirLister()
       job->kill();
     m_jobId = 0;
   }
-  KURL u( m_sURL );
-  if ( u.isLocalFile() && kdirwatch->contains( u.path() ) )
-    kdirwatch->removeDir( u.path() );
+  QString previousPath = m_initialURL.path();
+  if ( !previousPath.isEmpty() )
+    // Forget about previous url
+    if ( m_initialURL.isLocalFile() )
+    {
+      kdirwatch->removeDir( previousPath );
+      kdirwatch->disconnect( this );
+    }
 }
 
 void KDirLister::slotDirectoryDirty( const QString& _dir )
@@ -91,13 +96,26 @@ void KDirLister::openURL( const KURL& _url, bool _showDotFiles )
     m_jobId = 0;
   }
   
+  QString previousPath = m_initialURL.path();
+  //kdebug(0, 1202, "previousPath = %s", previousPath.ascii() );
+  if ( !previousPath.isEmpty() )
+    // Forget about previous url
+    if ( m_initialURL.isLocalFile() )
+    {
+      //kdebug(0, 1202, "removing %s", previousPath.ascii() );
+      kdirwatch->removeDir( previousPath );
+      kdirwatch->disconnect( this );
+    }
+
   // Automatic updating of directories ?
   if ( _url.isLocalFile() )
   {
+    //kdebug(0, 1202, "adding %s", _url.path().ascii() );
     kdirwatch->addDir( _url.path() );
     connect( kdirwatch, SIGNAL( dirty( const QString& ) ), 
 	     this, SLOT( slotDirectoryDirty( const QString& ) ) );
   }
+  m_initialURL = _url; // keep a copy
 
   m_bComplete = false;
 
@@ -107,7 +125,6 @@ void KDirLister::openURL( const KURL& _url, bool _showDotFiles )
   connect( job, SIGNAL( sigError( int, int, const char* ) ),
 	   this, SLOT( slotError( int, int, const char* ) ) );
 
-  m_initialURL = _url; // keep a copy
   m_sURL = _url.url(); // filled in now, in case somebody calls url(). Will be updated later in case of redirection
   m_bFoundOne = false;
 
@@ -257,27 +274,27 @@ void KDirLister::slotUpdateFinished( int /*_id*/ )
   
     assert( !name.isEmpty() );
 
-    // Form the complete url
-    KURL u( m_url );
-    u.addPath( name.data() );
-    kdebug(KDEBUG_INFO, 1203, "slotUpdateFinished : found %s",name.ascii() );
+    if ( m_isShowingDotFiles || name[0]!='.' )
+    {
+      // Form the complete url
+      KURL u( m_url );
+      u.addPath( name.data() );
+      //kdebug(KDEBUG_INFO, 1203, "slotUpdateFinished : found %s",name.ascii() );
 
-    // Find this icon
-    bool done = false;
-    QListIterator<KFileItem> kit ( m_lstFileItems );
-    for( ; kit.current() && !done; ++kit )
-    {
-      if ( u == (*kit)->url() )
-      {  
-        kdebug(KDEBUG_INFO, 1203, "slotUpdateFinished : keeping %s",name.ascii() );
-	(*kit)->mark();
-	done = true;
+      // Find this icon
+      bool done = false;
+      QListIterator<KFileItem> kit ( m_lstFileItems );
+      for( ; kit.current() && !done; ++kit )
+      {
+        if ( u == (*kit)->url() )
+        {  
+          kdebug(KDEBUG_INFO, 1203, "slotUpdateFinished : keeping %s",name.ascii() );
+          (*kit)->mark();
+          done = true;
+        }
       }
-    }
-    
-    if ( !done )
-    {
-      if ( m_isShowingDotFiles || name[0]!='.' )
+      
+      if ( !done )
       {
         kdebug(KDEBUG_INFO, 1203,"slotUpdateFinished : inserting %s", name.ascii());
         KFileItem* item = new KFileItem( *it, u );
