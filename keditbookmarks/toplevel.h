@@ -22,7 +22,6 @@
 #include <time.h>
 #include <kmainwindow.h>
 #include <kbookmark.h>
-#include <kbookmarklistener.h>
 #include <qlistview.h>
 #include <klistview.h>
 #include <kcommand.h>
