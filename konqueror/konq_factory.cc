@@ -89,7 +89,7 @@ KonqViewFactory KonqFactory::createView( const QString &serviceType,
 				         KTrader::OfferList *partServiceOffers,
 					 KTrader::OfferList *appServiceOffers )
 {
-  kdDebug(1202) << QString("trying to create view for \"%1\"").arg(serviceType) << endl;
+  kdDebug(1202) << "Trying to create view for \"" << serviceType << "\"" << endl;
 
   // We ask ourselves whether to do it or not only if no service was specified.
   // If it was (from the View menu or from RMB + Embedding service), just do it.
@@ -97,7 +97,10 @@ KonqViewFactory KonqFactory::createView( const QString &serviceType,
   if ( ! forceAutoEmbed )
   {
     if ( ! KonqFMSettings::settings()->shouldEmbed( serviceType ) )
+    {
+      kdDebug(1202) << "KonqFMSettings says: don't embed this servicetype" << endl;
       return KonqViewFactory();
+    }
   }
 
   KTrader::OfferList offers = KTrader::self()->query( serviceType );
@@ -126,12 +129,14 @@ KonqViewFactory KonqFactory::createView( const QString &serviceType,
     QStringList serviceTypes = (*it)->serviceTypes();
     if ( !serviceTypes.contains( "KParts/ReadOnlyPart" ) && !serviceTypes.contains( "Browser/View" ) )
     {
+      kdDebug(1202) << "Service " << (*it)->name() << " not embeddable" << endl;
       offers.remove( it );
       it = offers.begin();
       continue;
     }
     if ( !service && !serviceName.isEmpty() )
     {
+      kdDebug(1202) << "Found requested service " << serviceName << endl;
       if ( (*it)->name() == serviceName )
         service = *it;
     }
@@ -143,7 +148,10 @@ KonqViewFactory KonqFactory::createView( const QString &serviceType,
   KLibFactory *factory = 0L;
 
   if ( service )
+  {
+    kdDebug(1202) << "Trying to open lib for requested service " << service->name() << endl;
     factory = KLibLoader::self()->factory( service->library() );
+  }
 
   it = offers.begin();
   for ( ; !factory && it != offers.end() ; ++it )
@@ -151,11 +159,15 @@ KonqViewFactory KonqFactory::createView( const QString &serviceType,
     service = (*it);
     // Allowed as default ?
     QVariant prop = service->property( "X-KDE-BrowserView-AllowAsDefault" );
-    if ( prop.isValid() && prop.toBool() )
+    kdDebug() << service->name() << " : X-KDE-BrowserView-AllowAsDefault is valid : " << prop.isValid() << endl;
+    if ( !prop.isValid() || prop.toBool() ) // defaults to true
     {
+      kdDebug(1202) << "Trying to open lib for service " << service->name() << endl;
       // Try loading factory
       factory = KLibLoader::self()->factory( service->library() );
-    }
+      // If this works, we exit the loop.
+    } else
+      kdDebug(1202) << "Not allowed as default " << service->name() << endl;
   }
 
   if ( serviceImpl )

@@ -1346,7 +1346,8 @@ void KonqMainView::slotUpActivated( int id )
 void KonqMainView::slotGoMenuAboutToShow()
 {
   kdDebug(1202) << "KonqMainView::slotGoMenuAboutToShow" << endl;
-  m_paHistory->fillGoMenu( m_currentView->history() );
+  if ( m_paHistory && m_currentView ) // (maybe this is before initialisation)
+      m_paHistory->fillGoMenu( m_currentView->history() );
 }
 
 void KonqMainView::slotGoHistoryActivated( int steps )
@@ -1357,7 +1358,8 @@ void KonqMainView::slotGoHistoryActivated( int steps )
 void KonqMainView::slotBackAboutToShow()
 {
   m_paBack->popupMenu()->clear();
-  KonqHistoryAction::fillHistoryPopup( m_currentView->history(), m_paBack->popupMenu(), true, false );
+  if ( m_currentView )
+      KonqHistoryAction::fillHistoryPopup( m_currentView->history(), m_paBack->popupMenu(), true, false );
 }
 
 void KonqMainView::slotBack()
@@ -1373,7 +1375,8 @@ void KonqMainView::slotBackActivated( int id )
 void KonqMainView::slotForwardAboutToShow()
 {
   m_paForward->popupMenu()->clear();
-  KonqHistoryAction::fillHistoryPopup( m_currentView->history(), m_paForward->popupMenu(), false, true );
+  if ( m_currentView )
+      KonqHistoryAction::fillHistoryPopup( m_currentView->history(), m_paForward->popupMenu(), false, true );
 }
 
 void KonqMainView::slotForward()
